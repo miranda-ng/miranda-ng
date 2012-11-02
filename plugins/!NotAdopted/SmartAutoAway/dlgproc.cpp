@@ -75,7 +75,7 @@ BOOL CALLBACK DlgProcAutoAwayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			tci.lParam = (LPARAM)theDialogAA;
 			tci.pszText = TranslateT("Statuses");
 			GetClientRect(theDialogAA,&rcClient);
-			SendMessage(GetDlgItem(hwndDlg, IDC_OPT_SAA_TAB), TCM_INSERTITEM, (WPARAM)0, (LPARAM)&tci);
+			SendMessage(GetDlgItem(hwndDlg, IDC_OPT_SAA_TAB), TCM_INSERTITEM, 0, (LPARAM)&tci);
 			MoveWindow((HWND)theDialogAA,theTabSpace.left+(theTabSpace.right-rcClient.right)/2,
 				theTabSpace.top+(theTabSpace.bottom-rcClient.bottom)/2,
 				rcClient.right,rcClient.bottom,1);

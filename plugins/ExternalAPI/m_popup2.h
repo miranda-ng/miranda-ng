@@ -352,7 +352,7 @@ typedef struct
 } POPUPNOTIFICATION, *LPPOPUPNOTIFICATION;
 
 static HANDLE __inline PURegisterNotification(LPPOPUPNOTIFICATION notification) {
-	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, (LPARAM)0);
+	return (HANDLE)CallService(MS_POPUP_REGISTERNOTIFICATION, (WPARAM)notification, 0);
 }
 
 /* PopUp/UnhookEventAsync

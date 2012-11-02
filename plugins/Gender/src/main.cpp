@@ -141,9 +141,9 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 	{
 		if(hIcoLibIconsChanged)
 		{
-			g_IECMale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_hIconMale), (LPARAM)0);
-			g_IECFemale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_hIconFemale), (LPARAM)0);
-			g_IECUndef.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_hIconMenu), (LPARAM)0);
+			g_IECMale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconMale), 0);
+			g_IECFemale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconFemale), 0);
+			g_IECUndef.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconMenu), 0);
 		}
 	}
 	
@@ -156,10 +156,11 @@ INT_PTR GetIcon(WPARAM wParam, LPARAM lParam)
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 	unsigned short gender = DBGetContactSettingByte((HANDLE)wParam, "UserInfo", "Gender", DBGetContactSettingByte((HANDLE)wParam, proto, "Gender", 0));
 	
-	if (gender > 0)
-	{
-		if (gender == 77) return CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_hIconMale); 
-		else if (gender == 70) return CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_hIconFemale);
+	if (gender > 0) {
+		if (gender == 77)
+			return (INT_PTR)Skin_GetIconByHandle(g_hIconMale); 
+		if (gender == 70)
+			return (INT_PTR)Skin_GetIconByHandle(g_hIconFemale);
 	}
 	
 	return 0;
@@ -376,19 +377,18 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 	UnhookEvent(hHookPrebuildContactMenu);
 	UnhookEvent(hOptInitialise);
 	UnhookEvent(hSystemOKToExit);
-	if (hIcoLibIconsChanged) UnhookEvent(hIcoLibIconsChanged);
-	
+	if (hIcoLibIconsChanged)
+		UnhookEvent(hIcoLibIconsChanged);
 
 	DestroyServiceFunction(hSetMale);
 	DestroyServiceFunction(hSetFemale);
 	DestroyServiceFunction(hSetUndef);
 	DestroyServiceFunction(hGenderGetIcon);
 	
-	if (hIcoLibIconsChanged)
-	{
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)"menu_icon");
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)"male_icon");
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)"female_icon");
+	if (hIcoLibIconsChanged) {
+		Skin_ReleaseIcon("menu_icon");
+		Skin_ReleaseIcon("male_icon");
+		Skin_ReleaseIcon("female_icon");
 	}
 	
 	return 0;

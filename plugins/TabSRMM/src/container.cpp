@@ -778,7 +778,7 @@ static INT_PTR CALLBACK DlgProcContainer(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				GetWindowRect(pContainer->hwndStatus, &rcs);
 
 				pContainer->statusBarHeight = (rcs.bottom - rcs.top) + 1;
-				SendMessage(pContainer->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, (LPARAM)0);
+				SendMessage(pContainer->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
 
 			}
 			else
@@ -2615,7 +2615,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 			continue;
 
 		tzProtoName = dbv.pszVal;
-		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)tzProtoName);
+		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)tzProtoName);
 
 		if (acc && acc->tszAccountName) {
 			mir_snprintf(szTemp, sizeof(szTemp), "Handle%d", i);

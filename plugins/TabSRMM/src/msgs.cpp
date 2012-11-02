@@ -1102,26 +1102,26 @@ static int TSAPI LoadFromIconLib()
 	while (ICONBLOCKS[n].szSection) {
 		i = 0;
 		while (ICONBLOCKS[n].idesc[i].szDesc) {
-			*(ICONBLOCKS[n].idesc[i].phIcon) = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)ICONBLOCKS[n].idesc[i].szName);
+			*(ICONBLOCKS[n].idesc[i].phIcon) = Skin_GetIcon(ICONBLOCKS[n].idesc[i].szName);
 			i++;
 		}
 		n++;
 	}
-	PluginConfig.g_buttonBarIcons[0] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_8");
-	PluginConfig.g_buttonBarIcons[1] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_10");
-	PluginConfig.g_buttonBarIconHandles[0] = (HICON)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)"core_main_10");
-	PluginConfig.g_buttonBarIconHandles[1] = (HICON)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)"core_main_8");
-	PluginConfig.g_buttonBarIconHandles[20] = (HICON)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)"core_main_9");
+	PluginConfig.g_buttonBarIcons[0] = Skin_GetIcon("core_main_8");
+	PluginConfig.g_buttonBarIcons[1] = Skin_GetIcon("core_main_10");
+	PluginConfig.g_buttonBarIconHandles[0] = Skin_GetIconHandle("core_main_10");
+	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle("core_main_8");
+	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle("core_main_9");
 
-	PluginConfig.g_buttonBarIcons[5] = PluginConfig.g_buttonBarIcons[12] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_23");
-	PluginConfig.g_IconChecked = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_19");
-	PluginConfig.g_IconUnchecked = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_20");
-	PluginConfig.g_IconFolder = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_5");
+	PluginConfig.g_buttonBarIcons[5] = PluginConfig.g_buttonBarIcons[12] = Skin_GetIcon("core_main_23");
+	PluginConfig.g_IconChecked = Skin_GetIcon("core_main_19");
+	PluginConfig.g_IconUnchecked = Skin_GetIcon("core_main_20");
+	PluginConfig.g_IconFolder = Skin_GetIcon("core_main_5");
 
-	PluginConfig.g_iconOverlayEnabled = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"tabSRMM_overlay_enabled");
-	PluginConfig.g_iconOverlayDisabled = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"tabSRMM_overlay_disabled");
+	PluginConfig.g_iconOverlayEnabled = Skin_GetIcon("tabSRMM_overlay_enabled");
+	PluginConfig.g_iconOverlayDisabled = Skin_GetIcon("tabSRMM_overlay_disabled");
 
-	PluginConfig.g_iconClock = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"tabSRMM_clock_symbol");
+	PluginConfig.g_iconClock = Skin_GetIcon("tabSRMM_clock_symbol");
 
 	CacheMsgLogIcons();
 	M->BroadcastMessage(DM_LOADBUTTONBARICONS, 0, 0);

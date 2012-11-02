@@ -167,12 +167,12 @@ unsigned __stdcall sttGenerateRSA( LPVOID param ) {
 	cws.szSetting = "rsa_priv";
 	cws.value.pbVal = (PBYTE)&priv_key;
 	cws.value.cpbVal = priv_len;
-	CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)0, (LPARAM)&cws);
+	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 
 	cws.szSetting = "rsa_pub";
 	cws.value.pbVal = (PBYTE)&pub_key;
 	cws.value.cpbVal = pub_len;
-	CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)0, (LPARAM)&cws);
+	CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 
 	rsa_4096=1;
 

@@ -60,7 +60,7 @@ typedef struct
 
 //
 //  Send file(s) or folder in selected mode to the FTP server
-//	wParam = (WPARAM)0; not used
+//	wParam = 0; not used
 //	lParam = (LPARAM)(FTPUPLOAD*)&ftpu; pointer to FTPUPLOAD
 //  returns 0 if upload started with no errors, nonzero otherwise
 //
@@ -75,7 +75,7 @@ __inline static INT_PTR FTPFileUploadA(HANDLE hContact, BYTE ftpNum, BYTE mode, 
 	ftpu.mode = mode;
 	ftpu.pszObjects = pszObjects;
 	ftpu.objectCount = objCount;
-	return CallService(MS_FTPFILE_UPLOAD, (WPARAM)0, (LPARAM)&ftpu);
+	return CallService(MS_FTPFILE_UPLOAD, 0, (LPARAM)&ftpu);
 }
 
 __inline static INT_PTR FTPFileUploadW(HANDLE hContact, BYTE ftpNum, BYTE mode, wchar_t **pswzObjects, int objCount)
@@ -88,7 +88,7 @@ __inline static INT_PTR FTPFileUploadW(HANDLE hContact, BYTE ftpNum, BYTE mode, 
 	ftpu.flags = FUPL_UNICODE;
 	ftpu.pswzObjects = pswzObjects;
 	ftpu.objectCount = objCount;
-	return CallService(MS_FTPFILE_UPLOAD, (WPARAM)0, (LPARAM)&ftpu);
+	return CallService(MS_FTPFILE_UPLOAD, 0, (LPARAM)&ftpu);
 }
 
 #if defined _UNICODE || defined UNICODE
@@ -99,15 +99,15 @@ __inline static INT_PTR FTPFileUploadW(HANDLE hContact, BYTE ftpNum, BYTE mode, 
 
 //
 //  Show a simple file manager
-//  wParam = (WPARAM)0; not used
-//  lParam = (LPARAM)0; not used
+//  wParam = 0; not used
+//  lParam = 0; not used
 //  returns 0 always
 //
 #define MS_FTPFILE_SHOWMANAGER	"FTPFile/ShowManager"
 
 __inline static INT_PTR FTPFileShowManager()
 {	
-	return CallService(MS_FTPFILE_SHOWMANAGER, (WPARAM)0, (LPARAM)0);
+	return CallService(MS_FTPFILE_SHOWMANAGER, 0, 0);
 }
 
 //

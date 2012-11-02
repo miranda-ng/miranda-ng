@@ -55,7 +55,7 @@ void MText_InitFormatting1(TextObject *text) {
 	bbCodeParse(text->ftd);
 
 	// smilies
-//	HWND hwnd = (HWND)CallServiceSync(MS_TEXT_CREATEPROXY, (WPARAM)text, (LPARAM)0);
+//	HWND hwnd = (HWND)CallServiceSync(MS_TEXT_CREATEPROXY, (WPARAM)text, 0);
 	HWND hwnd = CreateProxyWindow(text->ftd->getTextService());
 	SMADD_RICHEDIT3 sm = {0};
 	sm.cbSize = sizeof(sm);
@@ -281,7 +281,7 @@ MTI_MTextSendMessage (HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, LPARAM lP
 
 	if (hwnd && (msg == WM_MOUSEMOVE)) {
 		HDC hdc = GetDC(hwnd);
-		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, NULL, NULL, hdc, NULL, NULL, LOWORD((LPARAM)0), HIWORD((LPARAM)0));
+		((TextObject *)text)->ftd->getTextService()->OnTxSetCursor(DVASPECT_CONTENT, 0, NULL, NULL, hdc, NULL, NULL, LOWORD(0), HIWORD(0));
 		ReleaseDC(hwnd, hdc);
 	}
 

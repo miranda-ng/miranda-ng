@@ -1030,7 +1030,7 @@ void Log_StreamInEvent(HWND hwndDlg,  LOGINFO* lin, SESSION_INFO* si, BOOL bRedr
 		SendMessage(hwndRich, EM_STREAMIN, wp, (LPARAM) & stream);
 
 
-		//SendMessage(hwndRich, EM_EXGETSEL, (WPARAM)0, (LPARAM)&newsel);
+		//SendMessage(hwndRich, EM_EXGETSEL, 0, (LPARAM)&newsel);
 		/*
 		* for new added events, only replace in message or action events.
 		* no need to replace smileys or math formulas elsewhere

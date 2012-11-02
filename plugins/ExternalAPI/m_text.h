@@ -263,7 +263,7 @@ __inline int MTextMeasure(HDC dc, SIZE *sz, HANDLE text)
 	displayInfo.pos.x = displayInfo.pos.y = 0;
 	displayInfo.sz = *sz;
 	displayInfo.text = text;
-	int result = (int)CallService(MS_TEXT_MEASURE, (WPARAM)&displayInfo, (LPARAM)0);
+	int result = (int)CallService(MS_TEXT_MEASURE, (WPARAM)&displayInfo, 0);
 	*sz = displayInfo.sz;
 	return result;
 }
@@ -287,7 +287,7 @@ __inline int MTextDisplay(HDC dc, POINT pos, SIZE sz, HANDLE text)
 	displayInfo.pos = pos;
 	displayInfo.sz = sz;
 	displayInfo.text = text;
-	return (int)CallService(MS_TEXT_DISPLAY, (WPARAM)&displayInfo, (LPARAM)0);
+	return (int)CallService(MS_TEXT_DISPLAY, (WPARAM)&displayInfo, 0);
 }
 #endif // MTEXT_NOHELPERS
 
@@ -303,7 +303,7 @@ __inline int MTextSetParent(HANDLE text, HWND hwnd, RECT rect)
 	info.text = text;
 	info.hwnd = hwnd;
 	info.rc = rect;
-	return (int)CallService(MS_TEXT_SETPARENT, (WPARAM)&info, (LPARAM)0);
+	return (int)CallService(MS_TEXT_SETPARENT, (WPARAM)&info, 0);
 }
 #endif // MTEXT_NOHELPERS
 
@@ -325,7 +325,7 @@ __inline int MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, L
 	message.msg = msg;
 	message.wParam = wParam;
 	message.lParam = lParam;
-	return (int)CallService(MS_TEXT_SENDMESSAGE, (WPARAM)&message, (LPARAM)0);
+	return (int)CallService(MS_TEXT_SENDMESSAGE, (WPARAM)&message, 0);
 }
 #endif // MTEXT_NOHELPERS
 
@@ -336,7 +336,7 @@ __inline int MTextSendMessage(HWND hwnd, HANDLE text, UINT msg, WPARAM wParam, L
 #ifndef MTEXT_NOHELPERS
 __inline HWND MTextCreateProxy(HANDLE text)
 {
-	return (HWND)CallService(MS_TEXT_CREATEPROXY, (WPARAM)text, (LPARAM)0);
+	return (HWND)CallService(MS_TEXT_CREATEPROXY, (WPARAM)text, 0);
 }
 #endif // MTEXT_NOHELPERS
 
@@ -347,7 +347,7 @@ __inline HWND MTextCreateProxy(HANDLE text)
 #ifndef MTEXT_NOHELPERS
 __inline int MTextDestroy(HANDLE text)
 {
-	return (int)CallService(MS_TEXT_DESTROY, (WPARAM)text, (LPARAM)0);
+	return (int)CallService(MS_TEXT_DESTROY, (WPARAM)text, 0);
 }
 #endif // MTEXT_NOHELPERS
 

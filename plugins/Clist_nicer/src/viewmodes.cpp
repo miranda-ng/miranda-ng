@@ -621,10 +621,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
             tci.mask = TCIF_PARAM|TCIF_TEXT;
             tci.lParam = 0;
             tci.pszText = Translate("Sticky contacts");
-            SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, (WPARAM)0, (LPARAM)&tci);
+            SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, 0, (LPARAM)&tci);
 
             tci.pszText = Translate("Filtering");
-            SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, (WPARAM)0, (LPARAM)&tci);
+            SendMessageA(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEMA, 0, (LPARAM)&tci);
 
             TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TAB), 0);
 
@@ -940,9 +940,9 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			break;
 		}
 	case WM_USER + 100:
-		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"CLN_CLVM_reset"));
-		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"CLN_CLVM_options"));
-		SendMessage(GetDlgItem(hwnd, IDC_SELECTMODE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"CLN_CLVM_select"));
+		SendMessage(GetDlgItem(hwnd, IDC_RESETMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_reset"));
+		SendMessage(GetDlgItem(hwnd, IDC_CONFIGUREMODES), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_options"));
+		SendMessage(GetDlgItem(hwnd, IDC_SELECTMODE), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("CLN_CLVM_select"));
 		{
 			bool bSkinned = cfg::getByte("CLCExt", "bskinned", 0) != 0;
 			for (int i = 0; _buttons[i] != 0; i++ )
@@ -1097,7 +1097,7 @@ void CreateViewModeFrame()
     frame.align = alBottom;
     frame.hWnd = CreateWindowEx(0, _T("CLVMFrameWindow"), _T("CLVM"), WS_VISIBLE | WS_CHILD | WS_TABSTOP | WS_CLIPCHILDREN, 0, 0, 20, 20, pcli->hwndContactList, (HMENU) 0, g_hInst, NULL);
     g_hwndViewModeFrame = frame.hWnd;
-    hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,(LPARAM)0);
+    hCLVMFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
     CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hCLVMFrame, FU_FMPOS);
 }
 
@@ -1245,5 +1245,3 @@ void ApplyViewMode(const char *name)
 
     cfg::writeString(NULL, "CList", "LastViewMode", cfg::dat.current_viewmode);
 }
-
-

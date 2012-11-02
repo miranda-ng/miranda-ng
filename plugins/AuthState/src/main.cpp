@@ -140,9 +140,9 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 	g_IECAuthGrant.ColumnType = clistIcon;
 
 	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"auth_icon"), (LPARAM)0);
-		g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"grant_icon"), (LPARAM)0);
-		g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"authgrant_icon"), (LPARAM)0);
+		g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("auth_icon"), 0);
+		g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("grant_icon"), 0);
+		g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("authgrant_icon"), 0);
 	}
 
 	return 0;

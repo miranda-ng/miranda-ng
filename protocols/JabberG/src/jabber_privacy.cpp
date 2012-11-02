@@ -924,7 +924,7 @@ void CJabberDlgPrivacyLists::OnProtoRefresh(WPARAM, LPARAM)
 	SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_RESETCONTENT, 0, 0 );
 
 	LRESULT nItemId = SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_ADDSTRING, 0, (LPARAM)TranslateT( "<none>" ));
-	SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nItemId, (LPARAM)NULL );
+	SendDlgItemMessage( m_hwnd, IDC_LB_LISTS, LB_SETITEMDATA, nItemId, 0 );
 
 	m_proto->m_privacyListManager.Lock();
 	CPrivacyList* pList = m_proto->m_privacyListManager.GetFirstList();

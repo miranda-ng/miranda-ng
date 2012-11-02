@@ -47,16 +47,19 @@ void DeinitIcons() {
 }
 
 HICON LoadIcon(const char* name, int big) {
-	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)name );
+	return Skin_GetIcon(name, big);
 }
 
 HANDLE GetIconHandle(const char* name) {
-	return ( HANDLE )CallService( MS_SKIN2_GETICONHANDLE, 0, (LPARAM)name );
+	return Skin_GetIconHandle(name);
 }
 
-void ReleaseIcon(const char* name, int big) {
-	CallService( big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)name );
+void ReleaseIcon(const char* name, int big)
+{
+	Skin_ReleaseIcon(name, big);
 }
-void ReleaseIcon(HICON handle, int big) {
-	CallService( big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, (WPARAM)handle, 0 );
+
+void ReleaseIcon(HICON handle, int big)
+{
+	Skin_ReleaseIcon(handle);
 }

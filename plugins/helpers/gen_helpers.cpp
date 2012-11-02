@@ -107,7 +107,7 @@ static int WriteToDebugLogA(const char *szMsg) {
 
 	int res = 0;
 	if (ServiceExists(MS_NETLIB_LOG))
-		res = CallService(MS_NETLIB_LOG, (WPARAM)NULL, (LPARAM)szMsg);
+		res = CallService(MS_NETLIB_LOG, 0, (LPARAM)szMsg);
 	else {
 		OutputDebugStringA(szMsg);
 		OutputDebugStringA("\r\n");

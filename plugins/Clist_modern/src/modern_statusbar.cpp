@@ -543,13 +543,13 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 						HICON hLockOverlay = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 						if (hLockOverlay != NULL) {
 							mod_DrawIconEx_helper(hDC, x, iconY, hLockOverlay, GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL | dim);
-							CallService(MS_SKIN2_RELEASEICON, (WPARAM)hLockOverlay, 0);
+							Skin_ReleaseIcon(hLockOverlay);
 						}
 					}
 				}
 				if (hxIcon) DestroyIcon_protect(hxIcon);
 				if (NeedDestroy) DestroyIcon_protect(hIcon);
-				else CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+				else Skin_ReleaseIcon(hIcon);
 				x += GetSystemMetrics(SM_CXSMICON)+1;
 			}
 

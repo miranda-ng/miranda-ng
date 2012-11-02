@@ -490,25 +490,25 @@ void GetExtendedInfo(struct ClcContact *contact, struct ClcData *dat)
 	ci.szProto	= contact->proto;
 
 	ci.dwFlag	= CNF_EMAIL;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 		cfg::eCache[index].iExtraImage[EXTRA_ICON_EMAIL] = 0;
 		mir_free(ci.pszVal);
 	}
 
 	ci.dwFlag	= CNF_HOMEPAGE;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 		cfg::eCache[index].iExtraImage[EXTRA_ICON_WEB] = 1;
 		mir_free(ci.pszVal);
 	}
 
 	ci.dwFlag	= CNF_CELLULAR;
-	if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+	if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 		cfg::eCache[index].iExtraImage[EXTRA_ICON_SMS] = 2;
 		mir_free(ci.pszVal);
 	}
 	else {
 		ci.dwFlag	= CNF_PHONE;
-		if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+		if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 			cfg::eCache[index].iExtraImage[EXTRA_ICON_SMS] = 2;
 			mir_free(ci.pszVal);
 		}

@@ -314,7 +314,7 @@ INT_PTR CALLBACK CMUCHighlight::dlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				return 0;
 
 			::SendMessage(hwndDlg, WM_USER + 100, 0, 0);
-			if (lParam != (LPARAM)NULL)
+			if (lParam != 0)
 				::SendMessage(::GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 

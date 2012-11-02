@@ -165,7 +165,7 @@ bool AddContactDlgAccounts(HWND hdlg, ADDCONTACTSTRUCT* acs)
 			cbei.iImage = cbei.iSelectedImage = ImageList_AddIcon(hIml, hIcon);
 			DestroyIcon(hIcon);
 			cbei.lParam = (LPARAM)pAccounts[i]->szModuleName;
-			SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei); 
+			SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_INSERTITEM, 0, (LPARAM)&cbei);
 			if (acs->szProto && cbei.lParam && !strcmp(acs->szProto, pAccounts[i]->szModuleName))
 				iIndex = cbei.iItem;
 			cbei.iItem++;
@@ -197,11 +197,11 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 			Utils_RestoreWindowPositionNoSize(hdlg, NULL, "AddContact", "");
 			TranslateDialogDefault(hdlg);
-			SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)CallService(MS_SKIN2_GETICON, 1, (LPARAM)ICON_ADD));
-			SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)ICON_ADD));
+			SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICON_ADD,1));
+			SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICON_ADD));
 			HookEventMessage(ME_SKIN2_ICONSCHANGED, hdlg, DM_ADDCONTACT_CHANGEICONS);
 			HookEventMessage(ME_PROTO_ACCLISTCHANGED, hdlg, DM_ADDCONTACT_CHANGEACCLIST);
-			
+
 			{
 				for (int groupId = 0; groupId < 999; groupId++)
 				{
@@ -371,7 +371,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						if (IsDlgButtonChecked(hdlg, IDC_ADDED))
 							CallContactService(hContact, PSS_ADDED, 0, 0);
 
-						if (IsDlgButtonChecked(hdlg, IDC_AUTH)) 
+						if (IsDlgButtonChecked(hdlg, IDC_AUTH))
 						{
 							DWORD flags = CallProtoService(acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 							if (flags & PF4_NOCUSTOMAUTH)
@@ -407,8 +407,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			break;
 
 		case DM_ADDCONTACT_CHANGEICONS:
-			CallService(MS_SKIN2_RELEASEICONBIG, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)CallService(MS_SKIN2_GETICON, 1, (LPARAM)ICON_ADD)), 0);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)CallService(MS_SKIN2_GETICON, 0, (LPARAM)ICON_ADD)), 0);
+			Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIcon(ICON_ADD, 1)));
+			Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)Skin_GetIcon(ICON_ADD)));
 			break;
 
 		case DM_ADDCONTACT_CHANGEACCLIST:
@@ -420,8 +420,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 		case WM_DESTROY:
 			hAddDlg = NULL;
-			CallService(MS_SKIN2_RELEASEICONBIG, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_BIG, (LPARAM)NULL), 0);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hdlg, WM_SETICON, ICON_SMALL, (LPARAM)NULL), 0);
+			Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_BIG, 0));
+			Skin_ReleaseIcon((HICON)SendMessage(hdlg, WM_SETICON, ICON_SMALL, 0));
 			ImageList_Destroy((HIMAGELIST)SendDlgItemMessage(hdlg, IDC_PROTO, CBEM_GETIMAGELIST, 0, 0));
 			acs = (ADDCONTACTSTRUCT*)GetWindowLongPtr(hdlg, GWLP_USERDATA);
 			if (acs)

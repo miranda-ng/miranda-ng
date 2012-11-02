@@ -691,7 +691,7 @@ LBL_Def:
 
 						if (column == 0) {
 							ci.dwFlag	= CNF_EMAIL;
-							if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+							if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 								char buf[4096];
 								mir_snprintf(buf, sizeof(buf), "mailto:%s", (LPCSTR)ci.pszVal);
 								mir_free(ci.pszVal);
@@ -701,7 +701,7 @@ LBL_Def:
 						}
 						if (column == 1) {
 							ci.dwFlag	= CNF_HOMEPAGE;
-							if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)) {
+							if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)) {
 								ShellExecuteA(hwnd, "open", (LPCSTR)ci.pszVal, NULL, NULL, SW_SHOW);
 								mir_free(ci.pszVal);
 							}

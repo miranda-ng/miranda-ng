@@ -177,8 +177,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			g_opHdlg=hdlg;
 			bOptionsInit=TRUE;
 			TranslateDialogDefault(hdlg); 
-			hMarked=(HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hibChecked);
-			hNotMarked=(HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hibNotChecked);
+			hMarked = Skin_GetIconByHandle(hibChecked);
+			hNotMarked = Skin_GetIconByHandle(hibNotChecked);
 			
 			hIcon=(bChecked=IsMarkedUserDefSession(opses_count))?hMarked:hNotMarked;
 
@@ -234,10 +234,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			else if (exitmode==2) CheckDlgButton(hdlg,IDC_REXSAVE,BST_CHECKED);
 
 			LoadSessionToCombobox (hdlg,1,255,"UserSessionDsc",0);
-			if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, (WPARAM)0, 0))
+			if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
 			{
 				EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 				if (!OpLoadSessionContacts(0,opses_count))
 					EnableWindow(GetDlgItem(hdlg,IDC_DEL),FALSE);
 			}
@@ -451,10 +451,10 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 				opses_count=0;
 
-				if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, (WPARAM)0, 0))
+				if(SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
 				{
 					EnableWindow(GetDlgItem(hdlg,IDC_EDIT),TRUE);
-					SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+					SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 					if (!OpLoadSessionContacts(0,opses_count))
 						EnableWindow(GetDlgItem(hdlg,IDC_DEL),FALSE);
 				}

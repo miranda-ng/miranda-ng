@@ -110,7 +110,7 @@ int CSarLuaScript::SendMessage(CLuaBridge & luaBridge)
 int CSarLuaScript::GetMyStatus(CLuaBridge & luaBridge)
 {
 	lua_State *pFunctionContext = (lua_State*)luaBridge;
-	int nStatusMode = CallService(MS_CLIST_GETSTATUSMODE, (WPARAM)0, (LPARAM)0);
+	int nStatusMode = CallService(MS_CLIST_GETSTATUSMODE, 0, 0);
 
 	nStatusMode = g_nCurrentMode;
 
@@ -217,7 +217,7 @@ int CSarLuaScript::SetMyStatus(CLuaBridge & luaBridge)
 		nNewStatus = ID_STATUS_OUTTOLUNCH;
 	}
 
-	CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)nNewStatus, (LPARAM)0);
+	CallService(MS_CLIST_SETSTATUSMODE, (WPARAM)nNewStatus, 0);
 
 	return FALSE;
 }

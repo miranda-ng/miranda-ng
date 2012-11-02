@@ -1025,19 +1025,19 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		if (flag&F_NOBORDER) {style &= (~WS_BORDER);}
 			SetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE,(LONG)style);
 		ulockfrm();
-		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		return 0;
 	}
 
 	case FO_NAME:
-		if (lParam == (LPARAM)NULL) {ulockfrm(); return -1;}
+		if (lParam == 0) {ulockfrm(); return -1;}
 		mir_free(Frames[pos].name);
 		Frames[pos].name = mir_tstrdup((LPTSTR)lParam);
 		ulockfrm();
 		return 0;
 
 	case FO_TBNAME:
-		if (lParam == (LPARAM)NULL) {ulockfrm(); return(-1);}
+		if (lParam == 0) {ulockfrm(); return(-1);}
 		mir_free(Frames[pos].TitleBar.tbname);
 		Frames[pos].TitleBar.tbname = mir_tstrdup((LPTSTR)lParam);
 		ulockfrm();
@@ -1045,7 +1045,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	case FO_TBTIPNAME:
-		if (lParam == (LPARAM)NULL) {ulockfrm(); return(-1);}
+		if (lParam == 0) {ulockfrm(); return(-1);}
 		mir_free(Frames[pos].TitleBar.tooltip);
 		Frames[pos].TitleBar.tooltip = mir_tstrdup((LPTSTR)lParam);
 		UpdateTBToolTip(pos);
@@ -1106,7 +1106,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 	}
 	ulockfrm();
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return -1;
 }
 
@@ -1115,7 +1115,7 @@ static INT_PTR CLUIFramesShowAll(WPARAM wParam,LPARAM lParam)
 {
 	for (int i = 0;i<nFramescount;i++)
 		Frames[i].visible = TRUE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1124,7 +1124,7 @@ INT_PTR CLUIFramesShowAllTitleBars(WPARAM wParam,LPARAM lParam)
 {
 	for (int i = 0;i<nFramescount;i++)
 		Frames[i].TitleBar.ShowTitleBar = TRUE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1133,7 +1133,7 @@ INT_PTR CLUIFramesHideAllTitleBars(WPARAM wParam,LPARAM lParam)
 {
 	for (int i = 0;i<nFramescount;i++)
 		Frames[i].TitleBar.ShowTitleBar = FALSE;
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1149,7 +1149,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM wParam,LPARAM lParam)
 	ulockfrm();
 
 	if (!Frames[pos].floating)
-		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1163,7 +1163,7 @@ INT_PTR CLUIFramesShowHideFrameTitleBar(WPARAM wParam,LPARAM lParam)
 
 	ulockfrm();
 
-	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
 
@@ -1614,7 +1614,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	ti.hinst = g_hInst;
 	ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
 	ti.uId = (UINT_PTR)Frames[nFramescount].TitleBar.hwnd;
-	SendMessage(Frames[nFramescount].TitleBar.hwndTip,TTM_ADDTOOL,(WPARAM)0,(LPARAM)&ti);
+	SendMessage(Frames[nFramescount].TitleBar.hwndTip,TTM_ADDTOOL,0,(LPARAM)&ti);
 
 	SendMessage(Frames[nFramescount].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)Frames[nFramescount].TitleBar.ShowTitleBarTip,0);
 
@@ -1916,7 +1916,7 @@ int CLUIFramesResize(const RECT newsize)
 INT_PTR CLUIFramesUpdateFrame(WPARAM wParam,LPARAM lParam)
 {
 	if (FramesSysNotStarted) return -1;
-	if (wParam == -1) { CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0); return 0;}
+	if (wParam == -1) { CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0); return 0;}
 	if (lParam&FU_FMPOS)	CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,1);
 	lockfrm();
 	wParam = id2pos(wParam);
@@ -2246,7 +2246,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 				CLUIFrameSetFloat(Frameid,0);
 				break;
 			}
-			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,(LPARAM)0);
+			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		}
 		break;
 
@@ -2361,7 +2361,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					Frames[pos].FloatingSize.x,Frames[pos].FloatingSize.y,
 					Frames[pos].order);
 
-				oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,Frames[pos].id),(LPARAM)0);
+				oldflags = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLAGS,Frames[pos].id),0);
 				if ( !(oldflags & F_SHOWTBTIP))
 					oldflags |= F_SHOWTBTIP;
 			}
@@ -2664,7 +2664,7 @@ LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			}
 
 			memset(&minmax,0,sizeof(minmax));
-			if (SendMessage(Frames[framepos].hWnd,WM_GETMINMAXINFO,(WPARAM)0,(LPARAM)&minmax) == 0) {
+			if (SendMessage(Frames[framepos].hWnd,WM_GETMINMAXINFO,0,(LPARAM)&minmax) == 0) {
 				RECT border;
 				int tbh = TitleBarH*btoint(Frames[framepos].TitleBar.ShowTitleBar);
 				GetBorderSize(hwnd,&border);

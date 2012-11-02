@@ -143,7 +143,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	case TYPE_JABBER_ACTIVITY:
 		mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity", "icon");
 		if (!DBGetContactSettingString(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
-			ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)dbv.pszVal);
+			ppd.lchIcon = Skin_GetIcon(dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 		break;

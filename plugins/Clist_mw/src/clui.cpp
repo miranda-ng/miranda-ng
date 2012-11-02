@@ -1,21 +1,21 @@
 /*
 
   Miranda IM: the free IM client for Microsoft* Windows*
-  
-  Copyright 2000-2003 Miranda ICQ/IM project, 
-  all portions of this codebase are copyrighted to the people 
+
+  Copyright 2000-2003 Miranda ICQ/IM project,
+  all portions of this codebase are copyrighted to the people
   listed in contributors.txt.
-  
+
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License
   as published by the Free Software Foundation; either version 2
   of the License, or (at your option) any later version.
-  
+
   This program is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
-  
+
   You should have received a copy of the GNU General Public License
   along with this program; if not, write to the Free Software
   Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
@@ -52,7 +52,7 @@ int n;
 int TimerCreated;
 } ProtoTicks,*pProtoTicks;
 
-ProtoTicks CycleStartTick[64];//max 64 protocols 
+ProtoTicks CycleStartTick[64];//max 64 protocols
 
 int CycleTimeInterval = 2000;
 int CycleIconCount = 8;
@@ -103,8 +103,8 @@ static int CluiModulesLoaded(WPARAM wParam,LPARAM lParam)
 	CluiProtocolStatusChanged(0,0);
 	Sleep(0);
 	PostMessage(pcli->hwndContactList,M_CREATECLC,0,0);
-	
-	OnModulesLoadedCalled = TRUE;	
+
+	OnModulesLoadedCalled = TRUE;
 	pcli->pfnInvalidateDisplayNameCacheEntry(INVALID_HANDLE_VALUE);
 	InitGroupMenus();
 	RegisterProtoIconsForAllProtoIconLib();
@@ -145,7 +145,7 @@ int GetConnectingIconForProtoCount(char *szProto)
 	str = strrchr(szPath,'\\');
 	if (str != NULL) *str = 0;
 	_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\proto_conn_%s.dll", szPath, szProto);
-		
+
 	lstrcpynA(file,szFullPath,SIZEOF(file));
 	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
 	ret = ExtractIconExA(fileFull,-1,NULL,NULL,1);
@@ -169,7 +169,7 @@ static HICON ExtractIconFromPath(const char *path)
 	if (comma == NULL) n = 0;
 	else {n = atoi(comma+1); *comma = 0;}
    CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
-	
+
 #ifdef _DEBUG
 	{
 //		char buf[512];
@@ -201,7 +201,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 		_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	}
 
-	if (!UseLibrary) {		
+	if (!UseLibrary) {
 		hIcon = ExtractIconFromPath(szFullPath);
 		if (hIcon) return hIcon;
 	}
@@ -218,12 +218,8 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 			sid.hDefaultIcon = DefIcon;
 
 			Skin_AddIcon(&sid);
-			
-			char buf[256];
-			sprintf(buf,"Registring Icon %s/%s hDefaultIcon: %p\r\n",SectName,IconName,DefIcon);
-			OutputDebugStringA(buf);
 		}
-		return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
+		return Skin_GetIcon(IconName);
 	}
 
 	return (HICON)0;
@@ -231,7 +227,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 
 void RegisterProtoIcons (char *protoname)
 {
-	if (ServiceExists(MS_SKIN2_GETICON)&&DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1))
+	if ( DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1))
 	{
 		int i;
 		char buf[256];
@@ -240,7 +236,7 @@ void RegisterProtoIcons (char *protoname)
 		{
 			sprintf(buf,"%s #%d",protoname,i);
 			sprintf(buf2,"Contact List/Connection Icons %s",protoname);
-			
+
 			LoadIconFromExternalFile(NULL,i,TRUE,TRUE,buf,buf2,buf,0,GetConnectingIconForProto_DLL(protoname,i));
 		}
 	}
@@ -250,11 +246,11 @@ void RegisterProtoIconsForAllProtoIconLib()
 {
 	int protoCount,i;
 	PROTOACCOUNT **accs;
-	
+
 	ProtoEnumAccounts( &protoCount, &accs );
 	for ( i = 0; i < protoCount; i++ )
 		if ( IsAccountEnabled( accs[i] ) && CallProtoService( accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0 ))
-			RegisterProtoIcons( accs[i]->szModuleName ); 
+			RegisterProtoIcons( accs[i]->szModuleName );
 }
 
 HICON GetConnectingIconForProto_DLL(char *szProto,int b)
@@ -294,7 +290,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 
 HICON GetConnectingIconForProto(char *szProto,int b)
 {
-	if (ServiceExists(MS_SKIN2_GETICON)&&DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1)) {
+	if ( DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1)) {
 		HICON hIcon = 0;
 		char buf[256];
 		sprintf(buf,"%s #%d",szProto,b);
@@ -303,14 +299,14 @@ HICON GetConnectingIconForProto(char *szProto,int b)
 		if (hIcon == NULL) return (GetConnectingIconForProto_DLL(szProto,b));
 		return (CopyIcon(hIcon));
 	}
-	
+
 	return GetConnectingIconForProto_DLL(szProto, b);
 }
 
 //wParam == szProto
 INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 {
-	int b;						
+	int b;
 	ProtoTicks *pt = NULL;
 	HICON hIcon = NULL;
 
@@ -320,7 +316,7 @@ INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 	pt = GetProtoTicksByProto(szProto);
 
 	if (pt != NULL) {
-		if (pt->CycleStartTick != 0&&pt->IconsCount != 0) {					
+		if (pt->CycleStartTick != 0&&pt->IconsCount != 0) {
 			b = ((GetTickCount()-pt->CycleStartTick)/(DefaultStep))%pt->IconsCount;
 			hIcon = GetConnectingIconForProto(szProto,b);
 		}
@@ -332,20 +328,20 @@ INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 {
 	int status = (int)wParam;
-	char *szProto = (char *)lParam;					
+	char *szProto = (char *)lParam;
 	if (!szProto) return 0;
 	if (!status) return 0;
-				
+
 	if (( DBGetContactSettingByte(NULL,"CLUI","UseConnectingIcon",1) == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 		ProtoTicks *pt = NULL;
 		int cnt;
 
 		pt = GetProtoTicksByProto(szProto);
 		if (pt != NULL) {
-			if (pt->CycleStartTick == 0) {					
+			if (pt->CycleStartTick == 0) {
 				KillTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->n);
 				cnt = GetConnectingIconForProtoCount(szProto);
-				if (ServiceExists(MS_SKIN2_GETICON)&&DBGetContactSettingByte(NULL,"Clist","UseProtoIconFromIcoLib",1))
+				if ( DBGetContactSettingByte(NULL,"Clist","UseProtoIconFromIcoLib",1))
 					cnt = 8;
 
 				if (cnt != 0) {
@@ -369,13 +365,13 @@ int OnSettingChanging(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
 	if (wParam == 0) {
 		if ((dbcws->value.type == DBVT_BYTE)&&!strcmp(dbcws->szModule,"CLUI")) {
-			if (!strcmp(dbcws->szSetting,"SBarShow")) {	
-				showOpts = dbcws->value.bVal;	
+			if (!strcmp(dbcws->szSetting,"SBarShow")) {
+				showOpts = dbcws->value.bVal;
 				return 0;
 			}
 		}
 	}
-	else {		
+	else {
 		if (dbcws == NULL)
 			return 0;
 
@@ -384,25 +380,25 @@ int OnSettingChanging(WPARAM wParam,LPARAM lParam)
 				SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 				return 0;
 			}
-			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szSetting,"Cellular")) {		
+			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szSetting,"Cellular")) {
 				SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 				return 0;
 			}
 
 			if (dbcws->value.type == DBVT_ASCIIZ&&strstr(dbcws->szModule,"ICQ")) {
-				if ( !strcmp(dbcws->szSetting, "MirVer")) {		
+				if ( !strcmp(dbcws->szSetting, "MirVer")) {
 					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 					return 0;
 				}
 			}
-			
+
 			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szModule,"UserInfo")) {
-				if ( !strcmp(dbcws->szSetting, "MyPhone0")) {		
+				if ( !strcmp(dbcws->szSetting, "MyPhone0")) {
 					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 					return 0;
 				}
-				if (!strcmp(dbcws->szSetting, "Mye-mail0")) {	
-					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);	
+				if (!strcmp(dbcws->szSetting, "Mye-mail0")) {
+					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
 					return 0;
 				}
 			}
@@ -430,7 +426,7 @@ HWND PreCreateCLC(HWND parent)
 int CreateCLC(HWND parent)
 {
 	Sleep(0);
-	{		
+	{
 	   // create contact list frame
 		CLISTFrame Frame;
 		memset(&Frame,0,sizeof(Frame));
@@ -442,11 +438,11 @@ int CreateCLC(HWND parent)
 		Frame.Flags = F_VISIBLE|F_SHOWTB|F_SHOWTBTIP|F_TCHAR;
 		Frame.tname = _T("My Contacts");
 		Frame.TBtname = TranslateT("My Contacts");
-		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
+		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 		//free(Frame.name);
-		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)TranslateT("My Contacts"));	
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)TranslateT("My Contacts"));
 	}
-	
+
 	ReloadExtraIcons();
 	{
 		lastreqh = 0;
@@ -458,10 +454,10 @@ int CreateCLC(HWND parent)
 			if (state == SETTING_STATE_NORMAL) ShowWindow(pcli->hwndContactList, SW_SHOW);
 			else if (state == SETTING_STATE_MINIMIZED) ShowWindow(pcli->hwndContactList, SW_SHOWMINIMIZED);
 		}
-		
+
 		lastreqh = 0;
 		disableautoupd = 0;
-	
+
 	}
 	hSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging);
 	return 0;
@@ -472,7 +468,7 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 	int nParts,nPanel;
 	ProtocolData *PD;
 	int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
-	
+
 	if (!UseOwnerDrawStatusBar) startoffset = 0;
 
 	nParts = SendMessage(hwnd,SB_GETPARTS,0,0);
@@ -480,10 +476,10 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 
 	for (nPanel = 0;nPanel<nParts;nPanel++)
 	{
-		PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,(LPARAM)0);
+		PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 		if ( PD == NULL )
 			return 0;
-	
+
 		if (!strcmp(szProto,PD->RealName))
 		{
 			SendMessage(hwnd,SB_GETRECT,(WPARAM)nPanel,(LPARAM)rc);
@@ -498,15 +494,15 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 extern LRESULT ( CALLBACK *saveContactListWndProc )(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{     
+{
 	/*
 	This registers a window message with RegisterWindowMessage() and then waits for such a message,
 	if it gets it, it tries to open a file mapping object and then maps it to this process space,
 	it expects 256 bytes of data (incl. NULL) it will then write back the profile it is using the DB to fill in the answer.
-	
-	  The caller is expected to create this mapping object and tell us the ID we need to open ours.	
+
+	  The caller is expected to create this mapping object and tell us the ID we need to open ours.
 	*/
-	
+
 	if (msg == hMsgGetProfile && wParam != 0) { /* got IPC message */
 		HANDLE hMap;
 		char szName[MAX_PATH];
@@ -533,14 +529,14 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_CREATE:
 		TranslateMenu(GetMenu(hwnd));
 		DrawMenuBar(hwnd);
-		showOpts = DBGetContactSettingByte(NULL,"CLUI","SBarShow",1);		
+		showOpts = DBGetContactSettingByte(NULL,"CLUI","SBarShow",1);
 
 		//create the status wnd
-		//pcli->hwndStatus == CreateStatusWindow(WS_CHILD | (DBGetContactSettingByte(NULL,"CLUI","ShowSBar",1)?WS_VISIBLE:0), "", hwnd, 0);	
+		//pcli->hwndStatus == CreateStatusWindow(WS_CHILD | (DBGetContactSettingByte(NULL,"CLUI","ShowSBar",1)?WS_VISIBLE:0), "", hwnd, 0);
 		CluiProtocolStatusChanged(0,0);
-		
+
 		hMsgGetProfile = RegisterWindowMessageA( "Miranda::GetProfile" ); // don't localise
-		
+
 		if ( DBGetContactSettingByte( NULL, "CList", "Transparent", 0 )) {
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 			if ( MySetLayeredWindowAttributes )
@@ -561,16 +557,16 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		RECT rc;
 		if ( wParam != SIZE_MINIMIZED ) {
 			if ( pcli->hwndContactList != NULL )
-				CLUIFramesOnClistResize((WPARAM)hwnd,(LPARAM)0);
+				CLUIFramesOnClistResize((WPARAM)hwnd,0);
 
-			GetWindowRect(hwnd, &rc);		
+			GetWindowRect(hwnd, &rc);
 			if (!CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
 				//if docked, dont remember pos (except for width)
 				DBWriteContactSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
 				DBWriteContactSettingDword(NULL,"CList","x",(DWORD)rc.left);
 				DBWriteContactSettingDword(NULL,"CList","y",(DWORD)rc.top);
 			}
-			DBWriteContactSettingDword(NULL,"CList","Width",(DWORD)(rc.right - rc.left));		
+			DBWriteContactSettingDword(NULL,"CList","Width",(DWORD)(rc.right - rc.left));
 		}
 		if ( wParam == SIZE_MINIMIZED ) {
 			if ( DBGetContactSettingByte(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT )) {
@@ -581,11 +577,11 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		}
 		return 0;
 	}
-			
+
 	case WM_SETFOCUS:
-	{	
+	{
 		boolean isfloating;
-		if ( hFrameContactTree ) {					
+		if ( hFrameContactTree ) {
 			isfloating = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS,MAKEWPARAM(FO_FLOATING,hFrameContactTree),0);
 			if ( isfloating == FALSE)
 				SetFocus(pcli->hwndContactTree);
@@ -602,7 +598,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				if (pt->szProto != NULL&&pt->TimerCreated == 1) {
 					status = CallProtoService(pt->szProto,PS_GETSTATUS,0,0);
 					if (!(status>=ID_STATUS_CONNECTING&&status<=ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES))
-					{													
+					{
 						pt->CycleStartTick = 0;
 						KillTimer(hwnd,TM_STATUSBARUPDATE+pt->n);
 						pt->TimerCreated = 0;
@@ -640,13 +636,13 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		if (wParam == VK_F5)
 			SendMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0);
 		return TRUE;
-				
+
 	case WM_GETMINMAXINFO:
 		DefWindowProc(hwnd,msg,wParam,lParam);
 		((LPMINMAXINFO)lParam)->ptMinTrackSize.x = 18;
 		if (requr == 0){((LPMINMAXINFO)lParam)->ptMinTrackSize.y = CLUIFramesGetMinHeight();}
 		return 0;
-				
+
 	//MSG FROM CHILD CONTROL
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->hwndFrom == pcli->hwndContactTree) {
@@ -689,9 +685,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 									rcWindow.bottom = rcWindow.top+newHeight;
 									if (rcWindow.bottom>rcWorkArea.bottom) rcWindow.bottom = rcWorkArea.bottom;
 								}
-								
+
 								if (requr == 0) {
-									requr = 1;					
+									requr = 1;
 									SetWindowPos(hwnd,0,rcWindow.left,rcWindow.top,rcWindow.right-rcWindow.left,rcWindow.bottom-rcWindow.top,SWP_NOZORDER|SWP_NOACTIVATE);
 									GetWindowRect(hwnd,&rcWindow);
 									requr = 0;
@@ -699,16 +695,16 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					return TRUE;
 				}
 			case NM_CLICK:
-				{	
+				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
 					DWORD hitFlags;
 					HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
 
-					if (hitFlags&CLCHT_ONITEMEXTRA) {					
+					if (hitFlags&CLCHT_ONITEMEXTRA) {
 						if (!IsHContactGroup(hItem)&&!IsHContactInfo(hItem))
 						{
 							int extra;
-							pClcCacheEntry pdnce; 
+							pClcCacheEntry pdnce;
 
 							pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
 							if (pdnce == NULL) return 0;
@@ -733,8 +729,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 									if (email) {
 										sprintf(buf,"mailto:%s",email);
 										ShellExecuteA(hwnd,"open",buf,NULL,NULL,SW_SHOW);
-									}											
-								}	
+									}
+								}
 								if (nm->iColumn == w) {
 									char *homepage;
 									homepage = DBGetStringA(pdnce->hContact,pdnce->szProto, "Homepage");
@@ -767,19 +763,19 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
 				int extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
 				boolean UseOwnerDrawStatusBar = DBGetContactSettingByte(NULL,"CLUI","UseOwnerDrawStatusBar",0);
-					
+
 				hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 				nParts = SendMessage(pcli->hwndStatus,SB_GETPARTS,0,0);
-						
+
 				if (nm->dwItemSpec == 0xFFFFFFFE) {
 					nPanel = nParts-1;
 					SendMessage(pcli->hwndStatus,SB_GETRECT,nPanel,(LPARAM)&rc);
 					if (nm->pt.x < rc.left) return FALSE;
-				} 
-				else { 
+				}
+				else {
 					if (!((startoffset) != 0&&UseOwnerDrawStatusBar))
-					{								
-						nPanel = nm->dwItemSpec; 
+					{
+						nPanel = nm->dwItemSpec;
 						SendMessage(pcli->hwndStatus,SB_GETRECT,nPanel,(LPARAM)&rc);
 					}
 					else {
@@ -793,7 +789,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						sectwidth = clrc.right/nParts;
 
 						for (nPanel = 0;nPanel<nParts;nPanel++) {
-							PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,(LPARAM)0);
+							PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 							if (PD == NULL)
 								continue;
 
@@ -807,10 +803,10 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				}	}	}
 
 				totcount = DBGetContactSettingDword(0,"Protocols","ProtoCount",0);
-				PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,(LPARAM)0);
+				PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 				if (PD == NULL){return 0;}
 				menuid = nPanel;
-						
+
 				if (menuid<0){break;}
 				hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 				{
@@ -819,9 +815,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					int mcnt = GetMenuItemCount(hMenu);
 					for (i = 0; i<mcnt; ++i) {
 						HMENU hMenus = GetSubMenu(hMenu, i);
-						if (hMenus && cpnl++ == menuid) { 
-							hMenu = hMenus; 
-							break; 
+						if (hMenus && cpnl++ == menuid) {
+							hMenu = hMenus;
+							break;
 						}
 					}
 				}
@@ -831,7 +827,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					OutputDebugStringA(buf);
 				}
 
-				if (hMenu != NULL) {						
+				if (hMenu != NULL) {
 					GetCursorPos(&pt);
 					TrackPopupMenu(hMenu,TPM_BOTTOMALIGN|TPM_LEFTALIGN,pt.x,pt.y,0,hwnd,NULL);
 			}	}
@@ -843,19 +839,19 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		{
 			//saving state
 			int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
-			
+
 			FreeProtocolData();
 			if ( hSettingChangedHook != 0 )
 				UnhookEvent(hSettingChangedHook);
-			
+
 			if ( state == SETTING_STATE_NORMAL )
 				ShowWindow(hwnd,SW_HIDE);
 
-			CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,(LPARAM)0);
+			CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,0);
 			DestroyWindow(pcli->hwndContactTree);
 			pcli->hwndContactList = NULL;
 
-			UnLoadCLUIFramesModule();		
+			UnLoadCLUIFramesModule();
 			DBWriteContactSettingByte(NULL,"CList","State",(BYTE)state);
        		PostQuitMessage(0);
 		}
@@ -900,7 +896,7 @@ int LoadCLUIModule(void)
 	PreCreateCLC(pcli->hwndContactList);
 
 	// create status bar frame
-	CreateStatusBarhWnd(pcli->hwndContactList);				
+	CreateStatusBarhWnd(pcli->hwndContactList);
 
 	{	//int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
 		hMenuMain = GetMenu(pcli->hwndContactList);

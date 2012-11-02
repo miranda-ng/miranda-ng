@@ -719,7 +719,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 				hIcon = LoadSkinnedProtoIcon(NULL, i);
 				ImageList_AddIcon(himlViewModes, hIcon);
-				CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+				Skin_ReleaseIcon(hIcon);
 			}
 
 			hIcon = (HICON)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_SMALLDOT), IMAGE_ICON, 16, 16, 0);
@@ -730,10 +730,10 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			tci.mask = TCIF_PARAM|TCIF_TEXT;
 			tci.lParam = 0;
 			tci.pszText = TranslateT("Sticky contacts");
-			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, (WPARAM)0, (LPARAM)&tci);
+			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, 0, (LPARAM)&tci);
 
 			tci.pszText = TranslateT("Filtering");
-			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, (WPARAM)0, (LPARAM)&tci);
+			SendMessage(GetDlgItem(hwndDlg, IDC_TAB), TCM_INSERTITEM, 0, (LPARAM)&tci);
 
 			TabCtrl_SetCurSel(GetDlgItem(hwndDlg, IDC_TAB), 0);
 

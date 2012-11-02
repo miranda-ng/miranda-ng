@@ -49,7 +49,7 @@ TCHAR **oldStatusMsg;
 BYTE g_bOldSetting;
 int hLangpack;
 
-PWTSRegisterSessionNotification wtsRegisterSessionNotification ; 
+PWTSRegisterSessionNotification wtsRegisterSessionNotification ;
 PWTSUnRegisterSessionNotification wtsUnRegisterSessionNotification;
 PFNDwmIsCompositionEnabled dwmIsCompositionEnabled;
 
@@ -90,7 +90,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
 	static DWORD dwOldIcon = 0;
 	HICON hIcon = 0;
-	
+
 	switch(uMsg)
 	{
 	case WM_INITDIALOG:
@@ -103,11 +103,11 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			if (IsAeroMode())
 			{
 				SetWindowLongPtr(hDlg, GWL_STYLE, GetWindowLongPtr(hDlg, GWL_STYLE) | WS_DLGFRAME | WS_SYSMENU);
-				
+
 				RECT rect;
 				GetClientRect(hDlg, &rect);
 				SetWindowPos(hDlg, 0, 0, 0, rect.right, rect.bottom +
-					GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME), 
+					GetSystemMetrics(SM_CYCAPTION) + GetSystemMetrics(SM_CXSIZEFRAME),
 					SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER);
 			}
 			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
@@ -117,8 +117,8 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			oldLangID = 0;
 			SetTimer(hDlg,1,200,NULL);
 
-			oldLayout = GetKeyboardLayout(0);		
-			if (MAKELCID((WORD)oldLayout & 0xffffffff,  SORT_DEFAULT) != (LCID)0x00000409) 
+			oldLayout = GetKeyboardLayout(0);
+			if (MAKELCID((WORD)oldLayout & 0xffffffff,  SORT_DEFAULT) != (LCID)0x00000409)
 				ActivateKeyboardLayout((HKL)0x00000409, 0);
 			LanguageChanged(hDlg);
 			return TRUE;
@@ -167,7 +167,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 	case WM_DESTROY:
 		{
 			KillTimer(hDlg, 1);
-			if (GetKeyboardLayout(0) != oldLayout) 
+			if (GetKeyboardLayout(0) != oldLayout)
 				ActivateKeyboardLayout(oldLayout, 0);
 			SetClassLongPtr(hDlg, GCLP_HICON, (long)dwOldIcon);
 			DestroyIcon(hIcon);
@@ -209,7 +209,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM lParam)
 		else
 		if (lstrcmpA(szTemp,"PopupWnd2") == 0 || lstrcmpA(szTemp,"YAPPWinClass") == 0) // destroy opened popups
 			SendMessage(hWnd, UM_DESTROYPOPUP,0,0);
-//		else 
+//		else
 //		if (lstrcmpA(szTemp,"#32770") == 0)
 //			SendMessage(hWnd, WM_CLOSE,0,0);
 		else
@@ -220,7 +220,7 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM lParam)
 			node->next = g_pMirWnds;
 			g_pMirWnds = node;
 			ShowWindow(hWnd,SW_HIDE);
-		}			
+		}
 	}
 	return(true);
 }
@@ -228,11 +228,11 @@ BOOL CALLBACK EnumWindowsProc(HWND hWnd,LPARAM lParam)
 TCHAR* GetDefStatusMsg(unsigned uStatus, const char* szProto)
 {
 	TCHAR *ret = (TCHAR *)CallService ( MS_AWAYMSG_GETSTATUSMSGT, (WPARAM)uStatus, (LPARAM)szProto );
-	if ( (int)ret == CALLSERVICE_NOTFOUND ) 
+	if ( (int)ret == CALLSERVICE_NOTFOUND )
 	{
 		char* tmp = ( char* )CallService( MS_AWAYMSG_GETSTATUSMSG, (WPARAM)uStatus, (LPARAM)szProto );
 		ret = mir_a2t( tmp );
-		mir_free( tmp ); 
+		mir_free( tmp );
 	}
 	return ret;
 }
@@ -257,11 +257,11 @@ static int ChangeAllProtoStatuses(unsigned statusMode, TCHAR *msg)
 	{
 		unsigned status = CallProtoService(proto[i]->szModuleName,PS_GETSTATUS,0,0);
 		if (
-			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option 
+			(g_wMask & OPT_ONLINEONLY) ? // check "Change only if current status is Online" option
 			((status == ID_STATUS_ONLINE) || (status == ID_STATUS_FREECHAT)) // process only "online" and "free for chat"
-			: 
+			:
 			((status > ID_STATUS_OFFLINE) && (status < ID_STATUS_IDLE) && (status != ID_STATUS_INVISIBLE)) // process all existing statuses except for "invisible" & "offline"
-			) 
+			)
 		{
 			if (g_wMask & OPT_SETONLINEBACK){ // need to save old statuses & status messages
 				oldStatus[i] = status;
@@ -294,7 +294,7 @@ static int BackAllProtoStatuses(void)
 	{
 		if ( oldStatus[i] )
 		{
-			SetStatus(proto[i]->szModuleName, oldStatus[i], oldStatusMsg[i]); 
+			SetStatus(proto[i]->szModuleName, oldStatus[i], oldStatusMsg[i]);
 			if (oldStatusMsg[i])
 			{
 				mir_free(oldStatusMsg[i]);
@@ -322,7 +322,7 @@ static void CreateTrayIcon(bool create)
     nim.hWnd = g_hListenWindow;
     nim.uID = 100;
     nim.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
-    nim.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"hidemim" );
+    nim.hIcon = Skin_GetIcon("hidemim");
     nim.uCallbackMessage = WM_USER + 24;
 	Shell_NotifyIcon(create ? NIM_ADD : NIM_DELETE, &nim);
 	g_TrayIcon = create;
@@ -394,11 +394,11 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 				}
 				else
 				{
-					if (ServiceExists(MS_VARS_FORMATSTRING)) 
+					if (ServiceExists(MS_VARS_FORMATSTRING))
 					{
 						FORMATINFO fi;
 						TCHAR *ptszParsed;
-						
+
 						ZeroMemory(&fi, sizeof(fi));
 						fi.cbSize = sizeof(fi);
 						fi.flags = FIF_TCHAR;
@@ -443,7 +443,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 		} break;
 		case WM_USER+52: // back
 		{
-			if (!g_bWindowHidden || g_fPassRequested) 
+			if (!g_bWindowHidden || g_fPassRequested)
 				break;
 
 			if (g_wMask & OPT_REQPASS){  //password request
@@ -455,7 +455,7 @@ LRESULT CALLBACK ListenWndProc(HWND hWnd,UINT uMsg,WPARAM wParam,LPARAM lParam)
 					strncpy(g_password, dbVar.pszVal, MAXPASSLEN);
 					DBFreeVariant(&dbVar);
 					CallService( MS_DB_CRYPT_DECODESTRING, MAXPASSLEN+1, ( LPARAM )g_password );
-		
+
 					int res = DialogBox(g_hInstance,(MAKEINTRESOURCE(IDD_PASSDIALOGNEW)),GetForegroundWindow(),(DLGPROC)DlgStdInProc);
 
 					g_fPassRequested = false;
@@ -639,7 +639,7 @@ void BossKeyMenuItemInit(void) // Add menu item
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
 	mi.pszPopupName = 0;
-	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"hidemim" );
+	mi.hIcon = Skin_GetIcon("hidemim");
 	mi.ptszName = _T("Hide");
 	mi.pszService = MS_BOSSKEY_HIDE;
 
@@ -652,7 +652,7 @@ void BossKeyMenuItemUnInit(void) // Remove menu item
 {
 	CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)g_hMenuItem, 0);
 	g_hMenuItem = 0;
-	if(g_hmGenMenuInit) 
+	if(g_hmGenMenuInit)
 		UnhookEvent(g_hmGenMenuInit);
 	g_hmGenMenuInit = 0;
 }
@@ -696,7 +696,7 @@ static int TabsrmmButtonPressed(WPARAM wParam, LPARAM lParam)
 static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 {
 	BBButton bbd = {0};
- 
+
 	bbd.cbSize = sizeof(BBButton);
 	bbd.pszModuleName = MOD_NAME;
 	bbd.dwDefPos = 5000;
@@ -706,7 +706,7 @@ static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 	return 0;
-} 
+}
 
 static TCHAR *VariablesBossKey(ARGUMENTSINFO *ai) {
 	if (ai->cbSize < sizeof(ARGUMENTSINFO))	return NULL;
@@ -740,7 +740,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 
 	RegisterCoreHotKeys();
 
-	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW, 
+	g_hWinHook = SetWinEventHook(EVENT_OBJECT_CREATE, EVENT_OBJECT_SHOW,
 		NULL, WinEventProc, GetCurrentProcessId(), 0, 0);
 
 	HookEvent(ME_TTB_MODULELOADED, ModernToolbarInit);
@@ -756,7 +756,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	{
 		MessageBox(NULL,_T("Can't get CLIST_INTERFACE!"),_T("BossKey+"),MB_ICONERROR);
 		return 1;
-	}else 
+	}else
 #endif
 		GetWindowThreadProcessId(pcli->hwndContactList,&g_dwMirandaPID);
 
@@ -780,7 +780,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 		hWTS = LoadLibrary(_T("wtsapi32.dll"));
 
 		g_hListenWindow = CreateWindow(BOSSKEY_LISTEN_INFO,BOSSKEY_LISTEN_INFO,WS_POPUP,0,0,5,5,pcli->hwndContactList,NULL,g_hInstance,NULL);
-		
+
 		if (hWTS)
 		{
 			wtsRegisterSessionNotification = (PWTSRegisterSessionNotification)GetProcAddress(hWTS, "WTSRegisterSessionNotification");
@@ -826,7 +826,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	if (g_bOldSetting && !(g_wMaskAdv & OPT_RESTORE)) // Restore settings if Miranda was crushed or killed in hidden mode and "Restore hiding on startup after failure" option is disabled
 		RestoreOldSettings();
 
-	if (g_wMaskAdv & OPT_HIDEONSTART || 
+	if (g_wMaskAdv & OPT_HIDEONSTART ||
 		(g_wMaskAdv & OPT_RESTORE && g_bOldSetting))
 		BossKeyHideMiranda(0, 0);
 
@@ -867,7 +867,7 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitIdleTimer();
 
-	if(g_hmGenMenuInit) 
+	if(g_hmGenMenuInit)
 		UnhookEvent(g_hmGenMenuInit);
 
 	if (g_hWinHook != 0)

@@ -83,7 +83,7 @@ int ProtoServiceExists(const char *szModule, const char *szService)
 BOOL StatusHasAwayMessage(char *szProto, int status) 
 {
 	if (szProto != NULL) {
-		unsigned long iSupportsSM = (unsigned long)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAGNUM_3, (LPARAM)0);
+		unsigned long iSupportsSM = (unsigned long)CallProtoService(szProto, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0);
 		return (iSupportsSM & Proto_Status2Flag(status)) ? TRUE : FALSE;
 	}
 

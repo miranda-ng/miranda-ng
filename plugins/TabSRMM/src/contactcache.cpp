@@ -75,7 +75,7 @@ void CContactCache::initPhaseTwo()
 
 	m_szAccount = 0;
 	if (m_szProto) {
-		acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)m_szProto));
+		acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szProto));
 		if (acc && acc->tszAccountName)
 			m_szAccount = acc->tszAccountName;
 	}
@@ -173,7 +173,7 @@ void CContactCache::updateMeta(bool fForce)
 			m_hSubContact = hSubContact;
 			m_szMetaProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)m_hSubContact, 0);
 			if (m_szMetaProto) {
-				PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)m_szMetaProto));
+				PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szMetaProto));
 				if (acc && acc->tszAccountName)
 					m_szAccount = acc->tszAccountName;
 				m_wMetaStatus = DBGetContactSettingWord(m_hSubContact, m_szMetaProto, "Status", ID_STATUS_OFFLINE);

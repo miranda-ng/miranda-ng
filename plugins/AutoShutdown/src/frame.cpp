@@ -234,8 +234,8 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			UnhookEvent(dat->hHookIconsChanged);
 			/* other childs are destroyed automatically */
 			if(dat->hwndToolTip!=NULL) DestroyWindow(dat->hwndToolTip); 
-			hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,(LPARAM)NULL);
-			IcoLib_ReleaseIcon(hIcon); /* does NULL check */
+			hIcon=(HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,0);
+			Skin_ReleaseIcon(hIcon); /* does NULL check */
 			break;
 		}
 		case WM_NCDESTROY:
@@ -281,9 +281,9 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 		}
 		case M_REFRESH_ICONS:
 			if(dat->hwndIcon!=NULL)
-				IcoLib_ReleaseIcon((HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,(LPARAM)IcoLib_GetIcon("AutoShutdown_Header")));
+				Skin_ReleaseIcon((HICON)SendMessage(dat->hwndIcon,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header")));
 			if(hFrame) /* refresh frame title icon */
-				IcoLib_ReleaseIcon(SetFrameTitleIcon(hFrame,IcoLib_GetIcon("AutoShutdown_Active")));
+				Skin_ReleaseIcon(SetFrameTitleIcon(hFrame,Skin_GetIcon("AutoShutdown_Active")));
 			return 0;
 		case M_REFRESH_FONTS:
 		{	LOGFONT lf;
@@ -343,7 +343,7 @@ static LRESULT CALLBACK FrameWndProc(HWND hwndFrame,UINT msg,WPARAM wParam,LPARA
 			}
 			dat->flags&=~FWPDF_COUNTDOWNINVALID;
 			/* commctl 4.70+, Win95: 1-100 will work fine (wrap around) */
-			SendMessage(dat->hwndProgress,PBM_SETRANGE32,(WPARAM)0,(LPARAM)dat->countdown);
+			SendMessage(dat->hwndProgress,PBM_SETRANGE32,0,(LPARAM)dat->countdown);
 			return 0;
 		case WM_TIMER:
 			if(dat==NULL) return 0;
@@ -537,7 +537,7 @@ void ShowCountdownFrame(WORD fTimeFlags)
 		CLISTFrame clf;
 		ZeroMemory(&clf,sizeof(clf));
 		clf.cbSize=sizeof(clf);
-		clf.hIcon=IcoLib_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
+		clf.hIcon=Skin_GetIcon("AutoShutdown_Active"); /* CListFrames does not make a copy */
 		clf.align=alBottom;
 		clf.height=GetSystemMetrics(SM_CYICON);
 		clf.Flags=F_VISIBLE|F_SHOWTBTIP|F_NOBORDER|F_SKINNED;
@@ -570,7 +570,7 @@ void CloseCountdownFrame(void)
 	if(hwndCountdownFrame!=NULL) {
 		SendMessage(hwndCountdownFrame,M_CLOSE_COUNTDOWN,0,0);
 		if(hFrame) {
-			IcoLib_ReleaseIcon(SetFrameTitleIcon(hFrame,NULL));
+			Skin_ReleaseIcon(SetFrameTitleIcon(hFrame,NULL));
 			/* HACKS TO FIX CLUIFrames:
 			 * workaround #6: MS_CLIST_FRAMES_REMOVEFRAME does not finish with
 			 * destroy cycle (clist_modern, clist_nicer crashes) */

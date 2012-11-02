@@ -210,7 +210,7 @@ void CB_ChangeButton(HWND hwndDlg, struct TWindowData *dat, CustomButtonData* cb
 	HWND hwndBtn = GetDlgItem(hwndDlg, cbd->dwButtonCID);
 	if (hwndBtn) {
 		if (cbd->hIcon)
-			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		if (cbd->ptszTooltip)
 			SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
 		SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
@@ -264,7 +264,7 @@ void CB_HardReInit()
 	dwSepCount = 0;
 
 	CB_InitDefaultButtons();
-	NotifyEventHooks(hHookToolBarLoadedEvt, (WPARAM)0, (LPARAM)0);
+	NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 }
 
 static INT_PTR CB_AddButton(WPARAM wParam, LPARAM lParam)
@@ -385,7 +385,7 @@ static INT_PTR CB_SetButtonState(WPARAM wParam, LPARAM lParam)
 
 	hwndDlg = M->FindWindow((HANDLE)wParam);
 	if (hwndDlg && realbutton && bbdi->hIcon)
-		SendMessage(GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)bbdi->hIcon));
+		SendMessage(GetDlgItem(hwndDlg, tempCID), BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(bbdi->hIcon));
 	if (hwndDlg && realbutton && bbdi->pszTooltip) {
 		if (bbdi->bbbFlags&BBBF_ANSITOOLTIP)
 			SendMessage(GetDlgItem(hwndDlg, tempCID), BUTTONADDTOOLTIP, (WPARAM)mir_a2u(bbdi->pszTooltip), 0);
@@ -504,7 +504,7 @@ void BB_UpdateIcons(HWND hdlg, struct TWindowData *dat)
 				hwndBtn = GetDlgItem(hdlg, cbd->dwButtonCID);
 
 			if (hwndBtn && cbd->hIcon)
-				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		}
 	}
 
@@ -517,7 +517,7 @@ void BB_UpdateIcons(HWND hdlg, struct TWindowData *dat)
 				hwndBtn = GetDlgItem(hdlg, cbd->dwButtonCID);
 
 			if (hwndBtn && cbd->hIcon)
-				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+				SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 		}
 
 	}
@@ -569,7 +569,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
 				SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, isThemed != 0, 0);
 				if (cbd->hIcon)
-					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 				if (cbd->ptszTooltip)
 					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
 				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
@@ -607,7 +607,7 @@ void TSAPI BB_InitDlgButtons(TWindowData *dat)
 				SendMessage(hwndBtn, BUTTONSETASFLATBTN, TRUE, 0);
 				SendMessage(hwndBtn, BUTTONSETASTHEMEDBTN, isThemed != 0, 0);
 				if (cbd->hIcon)
-					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+					SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(cbd->hIcon));
 				if (cbd->ptszTooltip)
 					SendMessage(hwndBtn, BUTTONADDTOOLTIP, (WPARAM)TranslateTS(cbd->ptszTooltip), 0);
 				SendMessage(hwndBtn, BUTTONSETCONTAINER, (LPARAM)dat->pContainer, 0);
@@ -1219,7 +1219,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 	TreeView_DeleteAllItems(hToolBarTree);
 
 	himgl = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), ILC_COLOR32 | ILC_MASK, 2, 2);
-	ImageList_AddIcon(himgl, reinterpret_cast<HICON>(CallService(MS_SKIN2_GETICON, 0, (LPARAM)"core_main_24")));
+	ImageList_AddIcon(himgl, Skin_GetIcon("core_main_24"));
 	HIMAGELIST himl = TreeView_GetImageList(hToolBarTree, TVSIL_NORMAL);
 	ImageList_Destroy(himl);
 	TreeView_SetImageList(hToolBarTree, himgl, TVSIL_NORMAL);
@@ -1239,7 +1239,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 			tvis.item.iImage  = tvis.item.iSelectedImage = 0;
 		} else {
 			tvis.item.pszText = TranslateTS(cbd->ptszTooltip);
-			iImage = ImageList_AddIcon(himgl, (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+			iImage = ImageList_AddIcon(himgl, Skin_GetIconByHandle(cbd->hIcon));
 			tvis.item.iImage  = tvis.item.iSelectedImage = iImage;
 		}
 		cbd->opFlags = 0;
@@ -1269,7 +1269,7 @@ static int BuildMenuObjectsTree(HWND hToolBarTree)
 			tvis.item.iImage  = tvis.item.iSelectedImage = -1;
 		} else {
 			tvis.item.pszText = TranslateTS(cbd->ptszTooltip);
-			iImage = ImageList_AddIcon(himgl, (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)cbd->hIcon));
+			iImage = ImageList_AddIcon(himgl, Skin_GetIconByHandle(cbd->hIcon));
 			tvis.item.iImage  = tvis.item.iSelectedImage = iImage;
 		}
 		tvis.item.state = 0;

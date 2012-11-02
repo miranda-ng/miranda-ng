@@ -171,9 +171,9 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 
   if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
   {
-      g_IECIgnoreMess.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ignore_mess"), (LPARAM)0);
-      g_IECIgnorePart.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ignore_part"), (LPARAM)0);
-      g_IECIgnoreFull.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ignore_full"), (LPARAM)0);
+      g_IECIgnoreMess.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_mess"), 0);
+      g_IECIgnorePart.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_part"), 0);
+      g_IECIgnoreFull.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_full"), 0);
   }
   return 0;
 }

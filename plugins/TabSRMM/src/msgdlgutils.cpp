@@ -490,7 +490,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 			}
 
 			case ID_MESSAGELOGSETTINGS_FORTHISCONTACT:
-				CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, (LPARAM)0);
+				CallService(MS_TABMSG_SETUSERPREFS, (WPARAM)dat->hContact, 0);
 				return 1;
 
 			default:
@@ -690,14 +690,14 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, struct TWindowData *dat)
 			/** panel and contact is shown, reloads contact's avatar -> panel
 			*  user avatar -> bottom picture
 			*/
-			SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, (WPARAM)0, (LPARAM)dat->hContact);
+			SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
 			if (dat->hwndContactPic)
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, (WPARAM)0, (LPARAM)dat->szProto);
+				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		}
 		else {
 			//show only user picture(contact is unaccessible)
 			if (dat->hwndContactPic)
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, (WPARAM)0, (LPARAM)dat->szProto);
+				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		}
 //Bolshevik_
 	} else {
@@ -746,9 +746,9 @@ int TSAPI GetAvatarVisibility(HWND hwndDlg, struct TWindowData *dat)
 		if (dat->showPic)
 			//shows contact or user picture, depending on panel visibility
 			if (dat->hwndPanelPic)
-				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, (WPARAM)0, (LPARAM)dat->szProto);
+				SendMessage(dat->hwndContactPic, AVATAR_SETPROTOCOL, 0, (LPARAM)dat->szProto);
 		if (dat->hwndContactPic)
-			SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, (WPARAM)0, (LPARAM)dat->hContact);
+			SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
 
 	}
 	return dat->showPic;
@@ -1826,7 +1826,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					}
 					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndPanelPic == 0) {
 						dat->hwndPanelPic = CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, dat->hwndPanelPicParent, (HMENU)7000, NULL, NULL);
-						SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, (WPARAM)0, (LPARAM)dat->hContact);
+						SendMessage(dat->hwndPanelPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
 					}
 				} else {
 					if (fa.hWindow != NULL && dat->hwndContactPic) {
@@ -1835,7 +1835,7 @@ int TSAPI MsgWindowDrawHandler(WPARAM wParam, LPARAM lParam, TWindowData *dat)
 					}
 					if (!PluginConfig.g_bDisableAniAvatars && fa.hWindow == 0 && dat->hwndContactPic == 0) {
 						dat->hwndContactPic =CreateWindowEx(WS_EX_TOPMOST, AVATAR_CONTROL_CLASS, _T(""), WS_VISIBLE | WS_CHILD, 1, 1, 1, 1, GetDlgItem(hwndDlg, IDC_CONTACTPIC), (HMENU)0, NULL, NULL);
-						SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, (WPARAM)0, (LPARAM)dat->hContact);
+						SendMessage(dat->hwndContactPic, AVATAR_SETCONTACT, 0, (LPARAM)dat->hContact);
 					}
 				}
 				dat->hwndFlash = fa.hWindow;

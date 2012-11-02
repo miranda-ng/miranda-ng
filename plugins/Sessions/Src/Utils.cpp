@@ -441,7 +441,7 @@ int LoadSessionToCombobox (HWND hdlg,BOOL mode,int iLimit,char* pszSetting,int i
 			else
 			{
 				SendDlgItemMessage(hdlg, IDC_LIST, CB_INSERTSTRING, 0, (LPARAM)pszBuffer);
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, (WPARAM)0, (LPARAM) (DWORD)i+iFirstNum);
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETITEMDATA, 0, (LPARAM) (DWORD)i+iFirstNum);
 			}
 			mir_free(pszBuffer);
 			pszBuffer=NULL;

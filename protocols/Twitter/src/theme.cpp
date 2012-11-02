@@ -78,8 +78,7 @@ void InitIcons(void)
 		}
 		else // External icons
 		{
-			hIconLibItem[i] = (HANDLE)CallService(MS_SKIN2_GETICONHANDLE,0,
-				(LPARAM)icons[i].section);
+			hIconLibItem[i] = Skin_GetIconHandle(icons[i].section);
 		}
 	}	
 }

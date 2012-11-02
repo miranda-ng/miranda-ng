@@ -569,7 +569,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			pshn.hdr.code = PSN_INFOCHANGED;
 			pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
 			pshn.hdr.idFrom = 0;
-			pshn.lParam = (LPARAM)0;
+			pshn.lParam = 0;
 			SendMessage(dat->opd[dat->currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 
 			// service mode combobox
@@ -609,7 +609,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			PSHNOTIFY pshn;
 			pshn.hdr.code = PSN_INFOCHANGED;
 			pshn.hdr.idFrom = 0;
-			pshn.lParam = (LPARAM)0;
+			pshn.lParam = 0;
 			for (int i=0; i < dat->pageCount; i++) {
 				pshn.hdr.hwndFrom = dat->opd[i].hwnd;
 				if (dat->opd[i].hwnd != NULL)
@@ -652,7 +652,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 						pshn.hdr.code = PSN_INFOCHANGED;
 						pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;
 						pshn.hdr.idFrom = 0;
-						pshn.lParam = (LPARAM)0;
+						pshn.lParam = 0;
 						SendMessage(dat->opd[dat->currentPage].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 					}
 					ShowWindow(dat->opd[dat->currentPage].hwnd, SW_SHOW);
@@ -693,7 +693,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			{
 				PSHNOTIFY pshn;
 				pshn.hdr.idFrom = 0;
-				pshn.lParam = (LPARAM)0;
+				pshn.lParam = 0;
 				if (dat->currentPage != -1) {
 					pshn.hdr.code = PSN_KILLACTIVE;
 					pshn.hdr.hwndFrom = dat->opd[dat->currentPage].hwnd;

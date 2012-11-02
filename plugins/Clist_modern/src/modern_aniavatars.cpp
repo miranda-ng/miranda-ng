@@ -420,7 +420,7 @@ int AniAva_SetAvatarPos(HANDLE hContact, RECT * rc, int overlayIdx, BYTE bAlpha)
 			api->bAlpha = bAlpha;
 			api->idxOverlay = overlayIdx;
 			api->rcPos = *rc;
-			SendNotifyMessage(pai->hWindow, AAM_SETPOSITION, (WPARAM)0, (LPARAM) api);
+			SendNotifyMessage(pai->hWindow, AAM_SETPOSITION, 0, (LPARAM) api);
 			// the AAM_SETPOSITION is responsible to destroy memory under api
 			pai->bInvalidPos = FALSE;
 			pai->bToBeDeleted = FALSE;

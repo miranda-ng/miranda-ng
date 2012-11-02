@@ -276,8 +276,8 @@ static void SetupStatusBar(ParentWindowData *dat)
 	statwidths[2] = rc.right - rc.left - SB_UNICODE_WIDTH;
 	statwidths[3] = -1;
 	SendMessage(dat->hwndStatus, SB_SETPARTS, 4, (LPARAM) statwidths);
-	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, (LPARAM)0);
-	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_NOBORDERS) | 3, (LPARAM)0);
+	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
+	SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_NOBORDERS) | 3, 0);
 }
 
 static int AddOrReplaceIcon(HIMAGELIST hList, int prevIndex, HICON hIcon) {
@@ -1056,7 +1056,7 @@ INT_PTR CALLBACK DlgProcParentWindow(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			break;
 		}
 	case DM_STATUSICONCHANGE:
-		SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, (LPARAM)0);
+		SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW) | 2, 0);
 		SetupStatusBar(dat);
 		RedrawWindow(dat->hwndStatus, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_UPDATENOW);
 		break;

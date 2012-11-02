@@ -298,7 +298,7 @@ static void Chat_UpdateWindowState(TWindowData *dat, UINT msg)
 	if (dat->iTabID >= 0) {
 		if (DBGetContactSettingWord(si->hContact, si->pszModule , "ApparentMode", 0) != 0)
 			DBWriteContactSettingWord(si->hContact, si->pszModule , "ApparentMode", (LPARAM) 0);
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
 
 		SendMessage(hwndDlg, GC_UPDATETITLE, 0, 1);
@@ -886,7 +886,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				BOOL 		isRoom = FALSE;
 				wchar_t*	pszText = NULL;
 				GETTEXTEX	gt = {0};
-				LRESULT		lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, (WPARAM)NULL, (LPARAM)NULL);
+				LRESULT		lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
 				bool		fCompleted = false;
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
@@ -897,7 +897,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				gt.codepage = 1200;
 				gt.flags = GTL_DEFAULT | GTL_PRECISE;
 
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gt, (LPARAM)0);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gt, 0);
 				if (iLen > 0) {
 					wchar_t*	pszName = NULL;
 					pszText = reinterpret_cast<wchar_t*>(Utils::safeMirCalloc((iLen + 10) * sizeof(wchar_t)));
@@ -1017,7 +1017,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM) & gtl, (LPARAM)NULL);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM) & gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -1043,7 +1043,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM) & gtl, (LPARAM)NULL);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM) & gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0, 0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -1768,7 +1768,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					}
 
 					case ID_MESS:
-						DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, (LPARAM)NULL);
+						DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 						break;
 
 					default: {
@@ -2435,7 +2435,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						if (g_Settings.ShowContactStatus && g_Settings.ContactStatusFirst && ui->ContactStatus) {
 							HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 							DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-							CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+							Skin_ReleaseIcon(hIcon);
 							x_offset += 18;
 						}
 
@@ -2458,7 +2458,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 						if (g_Settings.ShowContactStatus && !g_Settings.ContactStatusFirst && ui->ContactStatus) {
 							HICON hIcon = LoadSkinnedProtoIcon(si->pszModule, ui->ContactStatus);
 							DrawIconEx(dis->hDC, x_offset, dis->rcItem.top + offset - 8, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-							CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+							Skin_ReleaseIcon(hIcon);
 							x_offset += 18;
 						}
 
@@ -2504,7 +2504,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			switch (wParam) {
 				case SESSION_OFFLINE:
 					SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
-					SendMessage(si->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+					SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 					return TRUE;
 
 				case SESSION_ONLINE:
@@ -2520,7 +2520,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 					return TRUE;
 
 				case SESSION_TERMINATE:
-					if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+					if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 						CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
 
 					si->wState &= ~STATE_TALK;
@@ -2766,7 +2766,7 @@ LABEL_SHOWWINDOW:
 								return(_dlgReturn(hwndDlg, 1));
 							case TABSRMM_HK_MUC_SHOWSERVER:
 								if (si->iType != GCW_SERVER)
-									DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", (LPARAM)NULL);
+									DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, L"/servershow", 0);
 								return(_dlgReturn(hwndDlg, 1));
 							default:
 								break;
@@ -2998,7 +2998,7 @@ LABEL_SHOWWINDOW:
 														break;
 
 													case ID_MESS:
-														DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, (LPARAM)NULL);
+														DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 														break;
 
 													default:
@@ -3126,7 +3126,7 @@ LABEL_SHOWWINDOW:
 						//ui = SM_GetUserFromIndex(si->pszID, si->pszModule, item);
 						if (ui) {
 							if (g_Settings.DoubleClick4Privat ? GetKeyState(VK_SHIFT) & 0x8000 : !(GetKeyState(VK_SHIFT) & 0x8000)) {
-								LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, (WPARAM)NULL, (LPARAM)NULL);
+								LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_GETSEL, 0, 0);
 								int start = LOWORD(lResult);
 								TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR) * (lstrlen(ui->pszUID) + 3));
 								if (start == 0)
@@ -3137,7 +3137,7 @@ LABEL_SHOWWINDOW:
 								SendMessage(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM) pszName);
 								PostMessage(hwndDlg, WM_MOUSEACTIVATE, 0, 0);
 								SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-							} else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, (LPARAM)NULL);
+							} else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 						}
 
 						return TRUE;
@@ -3178,7 +3178,7 @@ LABEL_SHOWWINDOW:
 
 					if (ptszText[0] == '/' || si->iType == GCW_SERVER)
 						fSound = false;
-					DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, (LPARAM)NULL);
+					DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
 					mi->idleTimeStamp = time(0);
 					mi->lastIdleCheck = 0;
 					SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
@@ -3268,7 +3268,7 @@ LABEL_SHOWWINDOW:
 				case IDC_CHANMGR:
 					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHANMGR)))
 						break;
-					DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, (LPARAM)NULL);
+					DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 					break;
 
 				case IDC_FILTER:
@@ -3770,7 +3770,7 @@ LABEL_SHOWWINDOW:
 		case WM_DESTROY: {
 			int i;
 
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
 			si->wState &= ~STATE_TALK;
 			si->hWnd = NULL;

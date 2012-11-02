@@ -145,7 +145,7 @@ HICON FacebookProto::GetIcon(int index)
 {
 	if (LOWORD(index) == PLI_PROTOCOL)
 	{
-		HICON ico = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)"Facebook_facebook");
+		HICON ico = Skin_GetIcon("Facebook_facebook");
 		return CopyIcon(ico);
 	} else {
 		return 0;

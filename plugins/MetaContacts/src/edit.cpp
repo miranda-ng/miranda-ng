@@ -91,11 +91,11 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 				}				
 
 				LvItemW.pszText = swzContactDisplayName;
-				SendMessageW(hList, LVM_INSERTITEMW, (WPARAM)0, (LPARAM)&LvItemW);
+				SendMessageW(hList, LVM_INSERTITEMW, 0, (LPARAM)&LvItemW);
 			} else {
 				LvItem.iSubItem = 0; // clist display name
 				LvItem.pszText = szCDN;
-				SendMessage(hList, LVM_INSERTITEM, (WPARAM)0, (LPARAM)&LvItem);
+				SendMessage(hList, LVM_INSERTITEM, 0, (LPARAM)&LvItem);
 			}
 		}
 		
@@ -426,7 +426,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 									return TRUE;
 								else
 								{
-									Meta_Delete((WPARAM)changes.hMeta,(LPARAM)NULL);
+									Meta_Delete((WPARAM)changes.hMeta,0);
 									DestroyWindow(hwndDlg);
 									return TRUE;
 								}
@@ -446,7 +446,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 									{
 										return TRUE;
 									} else {
-										Meta_Delete((WPARAM)changes.hMeta,(LPARAM)NULL);
+										Meta_Delete((WPARAM)changes.hMeta,0);
 										DestroyWindow(hwndDlg);
 										return TRUE;
 									}

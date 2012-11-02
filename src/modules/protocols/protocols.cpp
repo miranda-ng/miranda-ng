@@ -201,7 +201,7 @@ static INT_PTR Proto_AuthRecv(WPARAM wParam, LPARAM lParam)
 	dbei.eventType = EVENTTYPE_AUTHREQUEST;
 	dbei.cbBlob = pre->lParam;
 	dbei.pBlob = (PBYTE)pre->szMessage;
-	return CallService(MS_DB_EVENT_ADD,(WPARAM)NULL,(LPARAM)&dbei);
+	return CallService(MS_DB_EVENT_ADD,0,(LPARAM)&dbei);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

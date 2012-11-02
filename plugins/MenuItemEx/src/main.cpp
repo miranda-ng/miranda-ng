@@ -602,9 +602,7 @@ void ModifyInvisSet(CLISTMENUITEM *cli,int mode,BOOL alpha)
 void ModifyHidden(CLISTMENUITEM *cli,int mode)
 {
 	cli->flags |= CMIM_ICON | CMIM_NAME;
-	cli->hIcon = (mode) ? 
-		(HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_showil") :
-		(HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_hidefl");
+	cli->hIcon = Skin_GetIcon((mode) ? "miex_showil" : "miex_hidefl");
 	cli->ptszName = mode ? LPGENT("Show in list") : LPGENT("Hide from list");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmenuHide, (LPARAM)cli);
 }
@@ -1103,7 +1101,7 @@ static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 	bbd.dwDefPos = 1000;
 	bbd.ptszTooltip = _T("Browse Received Files");
 	bbd.bbbFlags = BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
-	bbd.hIcon = (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)"miex_recfiles");
+	bbd.hIcon = Skin_GetIconHandle("miex_recfiles");
 	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 	return 0;
@@ -1250,7 +1248,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	mi.ptszName = LPGENT("Ignore");
 	mi.pszService = 0;
 	mi.flags |= CMIF_ROOTHANDLE;
-	mi.hIcon = (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_ignore" );
+	mi.hIcon = Skin_GetIcon("miex_ignore");
 	hmenuIgnore = Menu_AddContactMenuItem(&mi);
 
 	hIgnoreItem[0] = AddSubmenuItem(hmenuIgnore, ii[0].name, LoadSkinnedIcon(ii[0].icon), 0, MS_IGNORE, pos, ii[0].type );
@@ -1262,13 +1260,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	ood.cbSize = sizeof(ood);
 	ood.pszGroup = "Events";
 	ood.pszPage = "Ignore";
-	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood );
+	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), Skin_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood );
 
 	mi.pszPopupName = 0;
 	mi.position++;
 	mi.ptszName = LPGENT("Copy to Account");
 	mi.pszService = MS_PROTO;
-	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_protocol");
+	mi.hIcon = Skin_GetIcon("miex_protocol");
 	hmenuProto = Menu_AddContactMenuItem(&mi);
 
 	EnumProtoSubmenu(0, 0);
@@ -1278,13 +1276,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	mi.position++;
 	mi.ptszName = LPGENT("Send 'You were added'");
 	mi.pszService = MS_ADDED;
-	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_added");
+	mi.hIcon = Skin_GetIcon("miex_added");
 	hmenuAdded = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.ptszName = LPGENT("Request authorization");
 	mi.pszService = MS_AUTHREQ;
-	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_authorization");
+	mi.hIcon = Skin_GetIcon("miex_authorization");
 	hmenuAuthReq = Menu_AddContactMenuItem(&mi);
 	
 	mi.position++;
@@ -1295,13 +1293,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	mi.position++;
 	mi.ptszName = LPGENT("Browse Received Files");
 	mi.pszService = MS_RECVFILES;
-	mi.hIcon = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_recfiles");
+	mi.hIcon = Skin_GetIcon("miex_recfiles");
 	hmenuRecvFiles = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
 	mi.ptszName = LPGENT("Copy Status Message");
 	mi.pszService = MS_STATUSMSG;
-	mi.hIcon = NULL;//LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ICON5));
+	mi.hIcon = NULL;
 	hmenuStatusMsg = Menu_AddContactMenuItem(&mi);
 
 	mi.position++;
@@ -1314,9 +1312,9 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	mi.pszService = MS_COPYMIRVER;
 	hmenuCopyMirVer = Menu_AddContactMenuItem(&mi);
 
-	hIcon[0] = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_copymver");
-	hIcon[1] = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_vis");
-	hIcon[2] = ( HICON )CallService( MS_SKIN2_GETICON, 0, (LPARAM)"miex_invis");
+	hIcon[0] = Skin_GetIcon("miex_copymver");
+	hIcon[1] = Skin_GetIcon("miex_vis");
+	hIcon[2] = Skin_GetIcon("miex_invis");
 	hIcon[3] = MakeHalfAlphaIcon(hIcon[1]);
 	hIcon[4] = MakeHalfAlphaIcon(hIcon[2]);
 

@@ -223,13 +223,8 @@ void CGlobals::reloadSystemModulesChanged()
 
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000090000;
-	if (ServiceExists(MS_SKIN2_GETICONBYHANDLE)) {
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
-		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
-	} else {
-		mi.flags = CMIF_DEFAULT;
-		mi.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	}
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
+	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	PluginConfig.m_hMenuItem = Menu_AddContactMenuItem(&mi);
@@ -399,7 +394,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	::CB_InitDefaultButtons();
 	::ModPlus_Init(wParam, lParam);
-	::NotifyEventHooks(hHookToolBarLoadedEvt, (WPARAM)0, (LPARAM)0);
+	::NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
 	//
 
 	if (M->GetByte("avatarmode", -1) == -1)

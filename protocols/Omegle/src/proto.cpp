@@ -114,7 +114,7 @@ HICON OmegleProto::GetIcon(int index)
 {
 	if(LOWORD(index) == PLI_PROTOCOL)
 	{
-		HICON ico = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)"Omegle_omegle");
+		HICON ico = Skin_GetIcon("Omegle_omegle");
 		return CopyIcon(ico);
 	} else {
 		return 0;

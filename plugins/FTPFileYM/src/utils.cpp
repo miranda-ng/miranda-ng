@@ -20,11 +20,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 extern Options &opt;
 extern UploadDialog *uDlg;
-extern LibCurl &curl; 
+extern LibCurl &curl;
 
 int Utils::getDeleteTimeMin()
 {
-	switch (opt.timeRange) 
+	switch (opt.timeRange)
 	{
 		case (Options::TR_MINUTES):	return (opt.iDeleteTime);
 		case (Options::TR_HOURS):	return (opt.iDeleteTime * 60);
@@ -50,7 +50,7 @@ HICON Utils::loadIconEx(char *szName)
 {
 	char buff[100];
 	mir_snprintf(buff, sizeof(buff), "%s_%s", MODULE, szName);
-	return (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)buff);
+	return Skin_GetIcon(buff);
 }
 
 TCHAR *Utils::getFileNameFromPath(TCHAR *stzPath)
@@ -75,16 +75,16 @@ TCHAR *Utils::getTextFragment(TCHAR *stzText, size_t length, TCHAR *buff)
 
 void Utils::copyToClipboard(char *szText)
 {
-	if (szText) 
+	if (szText)
 	{
-		if (OpenClipboard(NULL)) 
+		if (OpenClipboard(NULL))
 		{
 			EmptyClipboard();
 			HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, 1024);
 			char *pchData = (char *)GlobalLock(hClipboardData);
 			strcpy(pchData, szText);
 			GlobalUnlock(hClipboardData);
-			SetClipboardData(CF_TEXT, hClipboardData);		
+			SetClipboardData(CF_TEXT, hClipboardData);
 			CloseClipboard();
 		}
 	}
@@ -98,11 +98,11 @@ char* Utils::makeSafeString(TCHAR *input, char *output)
 	char *buff = mir_t2a(input);
 	size_t length = strlen(buff);
 
-	for (UINT i = 0; i < length; i++) 
+	for (UINT i = 0; i < length; i++)
 	{
-		for (int j = 0; from_chars[j] != 0; j++) 
+		for (int j = 0; from_chars[j] != 0; j++)
 		{
-			if (buff[i] == from_chars[j]) 
+			if (buff[i] == from_chars[j])
 			{
 				buff[i] = to_chars[j];
 				break;
@@ -133,7 +133,7 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 	curl.easy_setopt(hCurl, CURLOPT_FTP_USE_EPRT, 0);
 	curl.easy_setopt(hCurl, CURLOPT_FTP_USE_EPSV, 0);
 
-	if (ftp->bPassive) 
+	if (ftp->bPassive)
 		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, 0);
 	else if (!DB::getAString(0, MODULE, "LocalIP", buff))
 		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, buff);
@@ -141,7 +141,7 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 		curl.easy_setopt(hCurl, CURLOPT_FTPPORT, "-");
 
 	mir_snprintf(buff, sizeof(buff), "%s:%s", ftp->szUser, ftp->szPass);
-	curl.easy_setopt(hCurl, CURLOPT_USERPWD, buff); 
+	curl.easy_setopt(hCurl, CURLOPT_USERPWD, buff);
 
 	if (ftp->ftpProto == ServerList::FTP::FT_SSL_EXPLICIT || ftp->ftpProto == ServerList::FTP::FT_SSL_IMPLICIT)
 	{
@@ -149,18 +149,18 @@ void Utils::curlSetOpt(CURL *hCurl, ServerList::FTP *ftp, char *url, struct curl
 		curl.easy_setopt(hCurl, CURLOPT_FTPSSLAUTH, CURLFTPAUTH_DEFAULT);
 		curl.easy_setopt(hCurl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl.easy_setopt(hCurl, CURLOPT_SSL_VERIFYHOST, 2);
-	} 
+	}
 	else if (ftp->ftpProto == ServerList::FTP::FT_SSH)
 	{
 		curl.easy_setopt(hCurl, CURLOPT_SSH_AUTH_TYPES, CURLSSH_AUTH_PASSWORD);
 	}
 }
 
-INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
+INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TCHAR *fileName = (TCHAR *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	switch (msg) 
+	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -169,7 +169,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)fileName);
 			SetDlgItemText(hwndDlg, IDC_NAME, fileName);
 
-			if (GetDlgCtrlID((HWND)wParam) != IDC_NAME) 
+			if (GetDlgCtrlID((HWND)wParam) != IDC_NAME)
 			{
 				SetFocus(GetDlgItem(hwndDlg, IDC_NAME));
 				SendDlgItemMessage(hwndDlg, IDC_NAME, EM_SETSEL, 0, _tcslen(fileName) - 4);
@@ -180,7 +180,7 @@ INT_PTR CALLBACK Utils::DlgProcSetFileName(HWND hwndDlg, UINT msg, WPARAM wParam
 		}
 		case WM_COMMAND:
 		{
-			if (HIWORD(wParam) == BN_CLICKED) 
+			if (HIWORD(wParam) == BN_CLICKED)
 			{
 				if (LOWORD(wParam) == IDOK)
 				{

@@ -321,7 +321,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 		if (WindowType == WTYPE_Unknown)
 		{
 			SendMessage(hTextWnd, EM_GETSEL, (WPARAM)&crSelection.cpMin, (LPARAM)&crSelection.cpMax);
-			if ((SendMessage(hTextWnd, WM_GETDLGCODE, (WPARAM)NULL, (LPARAM)NULL)&(DLGC_HASSETSEL)) && (crSelection.cpMin>=0))
+			if ((SendMessage(hTextWnd, WM_GETDLGCODE, 0, 0)&(DLGC_HASSETSEL)) && (crSelection.cpMin>=0))
 				WindowType = WTYPE_Edit;
 		}
 
@@ -606,7 +606,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 					SendMessage(hTextWnd, WM_GETTEXT, (WPARAM)MaxTextSize, (LPARAM)ptszTemp);
 					for (i = crTemp.cpMin;i<crTemp.cpMax;i++)
 						ptszTemp[i] = ptszOutText[i-crTemp.cpMin];
-					SendMessage(hTextWnd, WM_SETTEXT, (WPARAM)NULL, (LPARAM)ptszTemp);
+					SendMessage(hTextWnd, WM_SETTEXT, 0, (LPARAM)ptszTemp);
 					SendMessage(hTextWnd, EM_SETSEL, crSelection.cpMin, crSelection.cpMax);
 					mir_free(ptszTemp);
 				}

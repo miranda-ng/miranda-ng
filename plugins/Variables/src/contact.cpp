@@ -195,7 +195,7 @@ TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
 	ci.cbSize = sizeof(CONTACTINFO);
 	ci.hContact = hContact;
 	ci.dwFlag = type | CNF_UNICODE;
-	CallService(MS_CONTACT_GETCONTACTINFO, (WPARAM)0, (LPARAM)&ci);
+	CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci);
 
 	memset(szVal, '\0', sizeof(szVal));
 	switch(ci.type)

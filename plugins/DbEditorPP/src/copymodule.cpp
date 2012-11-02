@@ -131,7 +131,7 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		}
 
 		index = (int)SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_INSERTSTRING, 0, (LPARAM)(char*)Translate("Settings"));
-		SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)0);
+		SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, 0);
 		SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETCURSEL, index, 0);
 
 		SetWindowLongPtr(hwnd,GWLP_USERDATA,lParam);

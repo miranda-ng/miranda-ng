@@ -499,7 +499,7 @@ HICON LoadIconEx( char* pszIcoLibName, BOOL big )
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, SIZEOF(szTemp), "chat_%s", pszIcoLibName);
-	return (HICON) CallService(MS_SKIN2_GETICON, big, (LPARAM)szTemp);
+	return Skin_GetIcon(szTemp, big);
 }
 
 static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
@@ -742,7 +742,7 @@ static INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPA
 			break;
 		}
 
-		if (lParam != (LPARAM)NULL)
+		if (lParam != 0)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
@@ -879,7 +879,7 @@ static INT_PTR CALLBACK DlgProcOptionsPopup(HWND hwndDlg,UINT uMsg,WPARAM wParam
 		if ((LOWORD(wParam) == IDC_TIMEOUT) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam != GetFocus()))
 			return 0;
 
-		if (lParam != (LPARAM)NULL)
+		if (lParam != 0)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
 		switch (LOWORD(wParam)) {

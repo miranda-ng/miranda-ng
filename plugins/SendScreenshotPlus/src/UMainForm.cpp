@@ -562,7 +562,7 @@ LRESULT TfrmMain::wmTimer(WPARAM wParam, LPARAM lParam) {
 			#ifdef _DEBUG
 				OutputDebugStringA("SS Bitmap Timer Stop (CaptureDone)\r\n" );
 			#endif
-			SendMessage(m_hWnd,UM_EVENT, (WPARAM)0, (LPARAM)EVT_CaptureDone);
+			SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 		}
 	}
 	return FALSE;
@@ -809,7 +809,7 @@ void TfrmMain::btnCaptureClick() {
 	}
 	else {
 		m_Screenshot = CaptureWindow(m_hTargetWindow, (BOOL)(m_opt_chkClientArea));
-		SendMessage(m_hWnd,UM_EVENT, (WPARAM)0, (LPARAM)EVT_CaptureDone);
+		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CaptureDone);
 	}
 }
 
@@ -1148,10 +1148,10 @@ void TfrmMain::FormClose() {
 		m_cSend->Send();
 		if (m_cSend->m_bFreeOnExit) cboxSendByChange();
 //		Not finish delete this if events from m_opt_cboxSendBy implementet
-		SendMessage(m_hWnd,UM_EVENT, (WPARAM)0, (LPARAM)EVT_CheckOpenAgain);
+		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
 	}
 	else {
-		SendMessage(m_hWnd,UM_EVENT, (WPARAM)0, (LPARAM)EVT_CheckOpenAgain);
+		SendMessage(m_hWnd,UM_EVENT, 0, (LPARAM)EVT_CheckOpenAgain);
 	}
 }
 

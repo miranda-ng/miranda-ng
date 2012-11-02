@@ -94,8 +94,8 @@ void RegPopupActions()
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	hPopupIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_popup_icon");
-	hCopyIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ckl_copy_icon");
+	hPopupIcon = Skin_GetIcon("ckl_popup_icon");
+	hCopyIcon = Skin_GetIcon("ckl_copy_icon");
 	RegPopupActions();
 	return 0;
 }
@@ -127,26 +127,26 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				ptszLayStrings[i] = ptszCurrLayout;
 				mir_free(dbv.ptszVal);
 			}
-			else 
+			else
 			{
 				ptszLayStrings[i] = dbv.ptszVal;
 				if(_tcscmp(ptszCurrLayout, ptszLayStrings[i]) == 0)
 					DBDeleteContactSetting(NULL, ModuleName, ptszTemp);
 				mir_free(ptszCurrLayout);
-			}		
+			}
 			mir_free(ptszTemp);
 	}
 
 	// Прочитаем основные настройки
 	ReadMainOptions();
-	
+
 	// Прочитаем настройки попапов
 	ReadPopupOptions();
-	
+
 	// Зарегим звук
 	SkinAddNewSoundEx(SND_ChangeLayout, ModuleName, LPGEN("Changing Layout"));
 	SkinAddNewSoundEx(SND_ChangeCase, ModuleName, LPGEN("Changing Case"));
-	
+
 	// Хук на нажатие клавиши
 	kbHook_All = SetWindowsHookEx(WH_KEYBOARD, (HOOKPROC)Keyboard_Hook, NULL, GetCurrentThreadId());
 
@@ -176,7 +176,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	OnIconsChanged(0, 0);
 	RegPopupActions();
-	
+
 	DBWriteContactSettingDword(NULL, ModuleName, "CurrentVer", PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 	return 0;
 }
@@ -192,13 +192,13 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszGroup = LPGEN("Plugins");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgMainProcOptions;
-	Options_AddPage(wParam, &odp);	
-	
+	Options_AddPage(wParam, &odp);
+
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUP_OPTION_FORM);
 		odp.pszGroup = LPGEN("PopUps");
 		odp.pfnDlgProc = DlgPopupsProcOptions;
-		Options_AddPage(wParam, &odp);	
+		Options_AddPage(wParam, &odp);
 	}
 	return 0;
 }
@@ -217,7 +217,7 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 		if ((GetKeyState(VK_MENU)&0x8000)) lcode |= HOTKEYF_ALT;
 		if ((GetKeyState(VK_LWIN)&0x8000)||(GetKeyState(VK_RWIN)&0x8000)) lcode |= HOTKEYF_EXT;
 		lcode = lcode<<8;
-		
+
 		if ((wParam != VK_SHIFT) && (wParam != VK_MENU) && (wParam != VK_CONTROL) && (wParam != VK_LWIN) && (wParam != VK_RWIN))
 			lcode += wParam;
 
@@ -237,7 +237,7 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 			else
 			if ((lcode == moOptions.dwHotkey_Case) && (!(lParam&0x40000000)))
 			{
-				ChangeLayout(NULL, TOT_Case, moOptions.CurrentWordCase); 
+				ChangeLayout(NULL, TOT_Case, moOptions.CurrentWordCase);
 				return 1;
 			}
 	}
@@ -247,28 +247,28 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lParam)
 {
 	LPTSTR ptszPopupText;
-	
+
 	ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
 	switch(uiMessage)
 	{
 		case WM_COMMAND:
 			{
 				if (HIWORD(wParam) == STN_CLICKED)
-				{   					
+				{
 					if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
-						CopyTextToClipboard(ptszPopupText);					
+						CopyTextToClipboard(ptszPopupText);
 					PUDeletePopUp(hWnd);
-					
+
 				}
 				break;
 			}
-			
+
 		case WM_CONTEXTMENU:
 			{
 				PUDeletePopUp(hWnd);
 				break;
 			}
-		
+
 		case UM_POPUPACTION:
 			{
 				if ((lParam == 0) && (!IsBadStringPtr(ptszPopupText, MaxTextSize)))
@@ -277,13 +277,13 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 				}
 				break;
 			}
-	
+
 		case UM_FREEPLUGINDATA:
 			{
 				mir_free(ptszPopupText);
 				return TRUE;
-			}			
-		
+			}
+
 		default:
 			break;
 	}

@@ -163,7 +163,7 @@ static VOID IcoLib_CheckIconPackVersion(LPTSTR szIconPack)
  **/
 HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
 {
-	return (pszIcon) ? (HICON)CallService(MS_SKIN2_GETICON, (WPARAM)big, (LPARAM) pszIcon) : NULL;
+	return (pszIcon) ? Skin_GetIcon(pszIcon, big) : NULL;
 }
 
 /**
@@ -175,7 +175,7 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
  **/
 HICON IcoLib_GetIconByHandle(HANDLE hIconItem, bool big)
 {
-	return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, (WPARAM)big, (LPARAM) hIconItem);
+	return Skin_GetIconByHandle(hIconItem, big);
 }
 
 /**

@@ -538,7 +538,7 @@ INT_PTR __cdecl CJabberProto::JabberServiceParseXmppURI( WPARAM wParam, LPARAM l
 			acs.handleType = HANDLE_SEARCHRESULT;
 			acs.szProto = m_szModuleName;
 			acs.psr = &jsr.hdr;
-			CallService( MS_ADDCONTACT_SHOW, (WPARAM)NULL, (LPARAM)&acs );
+			CallService( MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs );
 		}
 		return 0;
 	}

@@ -649,7 +649,7 @@ LRESULT CALLBACK EditProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 					sztext[1]=0;
 				}
 
-				SendMessage(hdlg,EM_REPLACESEL,(WPARAM)0,(LPARAM)sztext);
+				SendMessage(hdlg,EM_REPLACESEL,0,(LPARAM)sztext);
 				SendMessage(hdlg,WM_GETTEXT,(WPARAM)MAX_REGS(sztext),(LPARAM)sztext);
 			}
 
@@ -834,9 +834,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			FillButton(hwndDlg, IDC_MESSAGE, LPGENT("Send message"), NULL, LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 
 			if (ServiceExists(MS_VOICESERVICE_CAN_CALL))
-			{
-				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+V"), (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "vca_call"));
-			}
+				FillButton(hwndDlg, IDC_VOICE, LPGENT("Make a voice call"), hasNewHotkeyModule ? NULL : LPGENT("Ctrl+V"), Skin_GetIcon("vca_call"));
 			else
 			{
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_VOICE), &rc);
@@ -1066,8 +1064,8 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					HWND hEdit = GetWindow(GetWindow(hwndDlg,GW_CHILD),GW_CHILD);
 					TCHAR sztext[120] = _T("");
 
-					if (SendMessage(hEdit, EM_GETSEL, (WPARAM)NULL, (LPARAM)NULL) != -1)
-						SendMessage(hEdit, EM_REPLACESEL, (WPARAM)0, (LPARAM)_T(""));
+					if (SendMessage(hEdit, EM_GETSEL, 0, 0) != -1)
+						SendMessage(hEdit, EM_REPLACESEL, 0, (LPARAM)_T(""));
 
 					SendMessage(hEdit, WM_GETTEXT, (WPARAM)MAX_REGS(sztext), (LPARAM)sztext);
 

@@ -220,7 +220,7 @@ void InitMirOTRMenu(void)
 		tmp.CheckService="MirOTRMenuCheckService";
 		tmp.ExecService="MirOTRMenuExecService";
 		tmp.name="MirOTRMenu";
-		hMirOTRMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
+		hMirOTRMenuObject=(HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 	}
 
 	OptParam params;

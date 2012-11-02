@@ -92,7 +92,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam
 			break;
 
 		case IDC_CANCEL:
-			SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, (WPARAM)0, 0);
+			SendMessage(GetParent(hwndDlg), UM_STSMSGDLGCLOSED, 0, 0);
 			EndDialog(hwndDlg, IDC_CANCEL);
 			break;
 		}
@@ -351,7 +351,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 									
 					flags = CallProtoService(proto->szName, PS_GETCAPS,PFLAGNUM_2,0)&~CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0);
 					// clear box and add new status, loop status and check if compatible with proto
-					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
+					SendDlgItemMessage(hwndDlg, IDC_STATUS, CB_RESETCONTENT, 0, 0);
 					actualStatus = proto->status;
 
 					// last

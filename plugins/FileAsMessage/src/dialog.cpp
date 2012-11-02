@@ -193,7 +193,7 @@ static int CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		case WM_COMMAND:
 		{
 			PUDeletePopUp(hWnd);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)0);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
 
 			if(IsWindow(hDlg))
 			{
@@ -665,7 +665,7 @@ void FILEECHO::onRecvTimer()
 		if(DBGetContactSettingByte(NULL,"SRFile","AutoClose",0))
 		{
 			PostMessage(hDlg, WM_CLOSE, 0,0);
-			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)0);
+			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)hContact, 0);
 		}
 		SkinPlaySound("FileDone");
 		destroyTransfer();

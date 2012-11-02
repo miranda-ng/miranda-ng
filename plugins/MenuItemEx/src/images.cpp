@@ -27,7 +27,7 @@ void HalfBitmap32Alpha(HBITMAP hBitmap)
 	for (y = 0; y < bmp.bmHeight; ++y) {
         BYTE *px = p + bmp.bmWidth * 4 * y;
 
-        for (x = 0; x < bmp.bmWidth; ++x) 
+        for (x = 0; x < bmp.bmWidth; ++x)
 		{
 			px[3]>>=1;
 			px += 4;
@@ -90,9 +90,9 @@ void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 	for (y = 0; fixIt && y < bmp.bmHeight; ++y) {
         BYTE *px = p + bmp.bmWidth * 4 * y;
 
-        for (x = 0; fixIt && x < bmp.bmWidth; ++x) 
+        for (x = 0; fixIt && x < bmp.bmWidth; ++x)
 		{
-			if (px[3] != 0 && !force) 
+			if (px[3] != 0 && !force)
 			{
 				fixIt = FALSE;
 			}
@@ -115,7 +115,7 @@ void CorrectBitmap32Alpha(HBITMAP hBitmap, BOOL force)
 
 HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 {
-	BITMAPINFO RGB32BitsBITMAPINFO; 
+	BITMAPINFO RGB32BitsBITMAPINFO;
 	BYTE * ptPixels;
 	HBITMAP hDirectBitmap;
 
@@ -138,10 +138,10 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	RGB32BitsBITMAPINFO.bmiHeader.biPlanes = 1;
 	RGB32BitsBITMAPINFO.bmiHeader.biBitCount = 32;
 
-	hDirectBitmap = CreateDIBSection(NULL, 
-									(BITMAPINFO *)&RGB32BitsBITMAPINFO, 
+	hDirectBitmap = CreateDIBSection(NULL,
+									(BITMAPINFO *)&RGB32BitsBITMAPINFO,
 									DIB_RGB_COLORS,
-									(void **)&ptPixels, 
+									(void **)&ptPixels,
 									NULL, 0);
 
 	// Copy data
@@ -149,7 +149,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 	{
 		HDC hdcOrig, hdcDest;
 		HBITMAP oldOrig, oldDest;
-		
+
 		hdcOrig = CreateCompatibleDC(NULL);
 		oldOrig = (HBITMAP) SelectObject(hdcOrig, hBitmap);
 
@@ -180,7 +180,7 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 
 //HBITMAP CreateBitmap32(int cx, int cy)
 //{
-//	BITMAPINFO RGB32BitsBITMAPINFO; 
+//	BITMAPINFO RGB32BitsBITMAPINFO;
 //	UINT * ptPixels;
 //	HBITMAP DirectBitmap;
 //
@@ -191,10 +191,10 @@ HBITMAP CopyBitmapTo32(HBITMAP hBitmap)
 //	RGB32BitsBITMAPINFO.bmiHeader.biPlanes=1;
 //	RGB32BitsBITMAPINFO.bmiHeader.biBitCount=32;
 //
-//	DirectBitmap = CreateDIBSection(NULL, 
-//									(BITMAPINFO *)&RGB32BitsBITMAPINFO, 
+//	DirectBitmap = CreateDIBSection(NULL,
+//									(BITMAPINFO *)&RGB32BitsBITMAPINFO,
 //									DIB_RGB_COLORS,
-//									(void **)&ptPixels, 
+//									(void **)&ptPixels,
 //									NULL, 0);
 //	return DirectBitmap;
 //}
@@ -211,7 +211,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 		HBITMAP hBmpTmp = CopyBitmapTo32(*hBitmap);
 		DeleteObject(*hBitmap);
 		*hBitmap = hBmpTmp;
-	} 
+	}
 
 	return TRUE;
 }
@@ -233,7 +233,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 //
 //	dwLen = width * height * 4;
 //	p = (BYTE *)malloc(dwLen);
-//    if (p == NULL) 
+//    if (p == NULL)
 //	{
 //		return FALSE;
 //	}
@@ -244,7 +244,7 @@ BOOL MakeBitmap32(HBITMAP *hBitmap)
 //		HBITMAP hBmpTmp = CopyBitmapTo32(*hBitmap);
 //		DeleteObject(*hBitmap);
 //		*hBitmap = hBmpTmp;
-//	} 
+//	}
 //	GetBitmapBits(*hBitmap, dwLen, p);
 //
 //	// Make grayscale
@@ -323,7 +323,7 @@ HICON BindOverlayIcon(HICON SourceIcon,LPCSTR OverlayIconName)
 	CorrectBitmap32Alpha(TargetIconInfo.hbmColor, FALSE);
 	GetObject(TargetIconInfo.hbmColor, sizeof(BITMAP), &TargetBitmapInfo);
 
-	OverlayIcon = (HICON)CallService( MS_SKIN2_GETICON, 0, (LPARAM)OverlayIconName);
+	OverlayIcon = Skin_GetIcon(OverlayIconName);
 	if ( !GetIconInfo(OverlayIcon, &OverlayIconInfo) || !GetObject(OverlayIconInfo.hbmColor, sizeof(BITMAP), &OverlayBitmapInfo))
 		return NULL;
 

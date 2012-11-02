@@ -42,7 +42,5 @@ int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COL
 
 /* Skin */
 HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDesc,HINSTANCE hInst,WORD idRes,BOOL fLarge);
-HICON IcoLib_GetIcon(const char *pszDbName);
-int IcoLib_ReleaseIcon(HICON hIcon);
 int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const char *pszDesc,const char *pszSubDir,const char *pszDefaultFile);
 void AddHotkey();

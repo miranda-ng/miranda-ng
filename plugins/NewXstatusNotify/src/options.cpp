@@ -389,7 +389,7 @@ INT_PTR CALLBACK DlgProcPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							WORD status = i <= ID_STATUS_MAX2 ? i : ID_STATUS_MIN;
 							ppd.lchIcon = LoadSkinnedIcon(StatusList[Index(status)].icon);
 
-							_tcscpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)NULL, GSMDF_TCHAR));
+							_tcscpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, 0, GSMDF_TCHAR));
 							_tcscpy(ppd.lptzText, _T(""));
 
 							if (opt.ShowStatus)

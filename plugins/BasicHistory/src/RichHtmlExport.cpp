@@ -318,18 +318,21 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 		ExtractFile(IDR_CSS, css);
 	ExtractFile(IDR_JS, folder + _T("\\history.js"));
 
-	HICON ico = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hPlusExIcon);
+	HICON ico = Skin_GetIconByHandle(hPlusExIcon);
 	IcoSave(folder + _T("\\pnode.ico"), ico);
-	CallService(MS_SKIN2_RELEASEICON, (LPARAM)ico, 0);
-	ico = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hMinusExIcon);
+	Skin_ReleaseIcon(ico);
+
+	ico = Skin_GetIconByHandle(hMinusExIcon);
 	IcoSave(folder + _T("\\mnode.ico"), ico);
-	CallService(MS_SKIN2_RELEASEICON, (LPARAM)ico, 0);
-	ico = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hEventIcons[0]);
+	Skin_ReleaseIcon(ico);
+
+	ico = Skin_GetIconByHandle(hEventIcons[0]);
 	IcoSave(folder + _T("\\event0.ico"), ico);
-	CallService(MS_SKIN2_RELEASEICON, (LPARAM)ico, 0);
-	ico = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hEventIcons[1]);
+	Skin_ReleaseIcon(ico);
+
+	ico = Skin_GetIconByHandle(hEventIcons[1]);
 	IcoSave(folder + _T("\\event1.ico"), ico);
-	CallService(MS_SKIN2_RELEASEICON, (LPARAM)ico, 0);
+	Skin_ReleaseIcon(ico);
 
 	EXP_FILE << _T("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">\n");
 	EXP_FILE << _T("<html><head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=") << encoding << _T("\">\n");

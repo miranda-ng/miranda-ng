@@ -437,14 +437,14 @@ void ChangeStatusIcons() {
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_UNICODEOFF"));
 	sid.flags = 0;
 	sid.szTooltip = NULL;
-	ModifyStatusIcon((WPARAM)NULL, (LPARAM) &sid);
+	ModifyStatusIcon(0, (LPARAM) &sid);
 
 	sid.dwId = 1;
 	sid.hIcon = CopyIcon(GetCachedIcon("scriver_TYPING"));
 	sid.hIconDisabled = CopyIcon(GetCachedIcon("scriver_TYPINGOFF"));
 	sid.flags = MBF_HIDDEN;
 	sid.szTooltip = NULL;
-	ModifyStatusIcon((WPARAM)NULL, (LPARAM) &sid);
+	ModifyStatusIcon(0, (LPARAM) &sid);
 }
 
 int StatusIconPressed(WPARAM wParam, LPARAM lParam) {
@@ -498,18 +498,12 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -2000090000;
-	if ( ServiceExists( MS_SKIN2_GETICONBYHANDLE )) {
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
-		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
-	}
-	else {
-		mi.flags = CMIF_DEFAULT;
-		mi.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	}
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
+	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
 	mi.pszName = LPGEN("&Message");
 	mi.pszService = MS_MSG_SENDMESSAGE;
 	hMsgMenuItem = Menu_AddContactMenuItem(&mi);
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)mi.hIcon, 0);
+	Skin_ReleaseIcon(mi.hIcon);
 
 	HookEvent_Ex(ME_SMILEYADD_OPTIONSCHANGED, SmileySettingsChanged);
 	HookEvent_Ex(ME_IEVIEW_OPTIONSCHANGED, SmileySettingsChanged);

@@ -222,8 +222,8 @@ typedef void (WINAPI *YAMN_GETSTATUSFCN)(HACCOUNT,TCHAR *);
 //
 //then you have to fill this structure with pointers...
 //
-//	pYAMNFcn->SetStatusFcn=(YAMN_SETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_SETSTATUSID,(LPARAM)0);
-//	pYAMNFcn->GetStatusFcn=(YAMN_GETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_GETSTATUSID,(LPARAM)0);
+//	pYAMNFcn->SetStatusFcn=(YAMN_SETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_SETSTATUSID,0);
+//	pYAMNFcn->GetStatusFcn=(YAMN_GETSTATUSFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_GETSTATUSID,0);
 //
 //and in your plugin just simply use e.g.:
 //

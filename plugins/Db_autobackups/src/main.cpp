@@ -47,7 +47,7 @@ INT_PTR BackupServiceTrgr(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam) 
+static int FoldersGetBackupPath(WPARAM wParam, LPARAM lParam)
 {
 	FoldersGetCustomPathT(hFolder, options.folder, MAX_PATH, DIR SUB_DIR);
 	return 0;
@@ -85,7 +85,7 @@ static void MenuInit(void)
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"backup");
+	mi.hIcon = Skin_GetIcon("backup");
 	mi.ptszPopupName = LPGENT("Database");
 
 	mi.ptszName = LPGENT("Backup Profile");
@@ -93,7 +93,7 @@ static void MenuInit(void)
 	mi.position = 500100000;
 	Menu_AddMainMenuItem(&mi);
 
-	mi.hIcon=(HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"saveas");
+	mi.hIcon = Skin_GetIcon("saveas");
 	mi.ptszName = LPGENT("Save Profile As...");
 	mi.pszService = MS_AB_SAVEAS;
 	mi.position = 500100001;
@@ -115,7 +115,7 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
 	IcoLibInit();
-	if(ServiceExists(MS_FOLDERS_REGISTER_PATH)) 
+	if(ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		FoldersInit();
 	LoadOptions();
 	MenuInit();
@@ -145,7 +145,7 @@ void SysInit()
 {
 	mir_getLP( &pluginInfo );
 	OleInitialize(0);
-	
+
 	hServices[0] = CreateServiceFunction(MS_AB_BACKUP, ABService);
 	hServices[1] = CreateServiceFunction(MS_AB_BACKUPTRGR, BackupServiceTrgr);
 	hServices[2] = CreateServiceFunction(MS_AB_SAVEAS, DBSaveAs);
@@ -180,12 +180,12 @@ extern "C" __declspec(dllexport) int Unload(void)
 
 	for (i=0; i<SIZEOF(hHooks); ++i)
 	{
-		if (hHooks[i]) 
+		if (hHooks[i])
 			UnhookEvent(hHooks[i]);
 	}
 	for (i=0; i<SIZEOF(hServices); ++i)
 	{
-		if (hServices[i]) 
+		if (hServices[i])
 			DestroyServiceFunction(hServices[i]);
 	}
 
@@ -198,7 +198,7 @@ void ShowPopup(TCHAR* text, TCHAR* header)
 
 	lstrcpy(ppd.lptzText, text);
 	lstrcpy(ppd.lptzContactName, header);
-	ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"backup");
+	ppd.lchIcon = Skin_GetIcon("backup");
 
 	PUAddPopUpT(&ppd);
 }
@@ -224,7 +224,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 	HWND hwndTT;
     hwndTT = CreateWindowEx(WS_EX_TOPMOST,
         TOOLTIPS_CLASS, NULL,
-        WS_POPUP | TTS_NOPREFIX,		
+        WS_POPUP | TTS_NOPREFIX,
         CW_USEDEFAULT, CW_USEDEFAULT,
         CW_USEDEFAULT, CW_USEDEFAULT,
         hwndParent, NULL, hInst, NULL);

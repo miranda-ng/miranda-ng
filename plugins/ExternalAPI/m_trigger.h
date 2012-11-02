@@ -28,7 +28,7 @@
 
 // Parameters:
 // ------------------------
-// wParam = (WPARAM)0
+// wParam = 0
 // lParam = (LPARAM)(TRIGGERREGISTER *)&tr
 //   Pointer to a structure describing the trigger to add (see below).
 
@@ -219,7 +219,7 @@ typedef struct {
 
 // Parameters:
 // ------------------------
-// wParam = (WPARAM)0
+// wParam = 0
 // lParam = (LPARAM)(ACTIONREGISTER *)&ar
 //   Pointer to a structure describing the action to add (see below).
 
@@ -343,7 +343,7 @@ typedef struct {
 
 // Parameters:
 // ------------------------
-// wParam = (WPARAM)0
+// wParam = 0
 // lParam = (LPARAM)(CONDITIONREGISTER *)&cr
 //   Pointer to a structure describing the condition to add (see below).
 
@@ -503,7 +503,7 @@ typedef struct {
 
 // Parameters:
 // ------------------------
-// wParam = (WPARAM)0
+// wParam = 0
 // lParam = (LPARAM)(REMOVETRIGGERSETTINGS *)&rts
 //   Pointer to a structure describing the settings to remove (see below).
 

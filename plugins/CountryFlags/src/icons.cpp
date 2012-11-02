@@ -83,7 +83,7 @@ static int FASTCALL CountryNumberToBitmapIndex(int countryNumber)
 				return i;
 
 			if (countryNumber  >BitmapIndexMap[i])
-				low=i+1;      
+				low=i+1;
 			else
 				high=i-1;
 		}
@@ -152,7 +152,7 @@ HICON FASTCALL LoadFlagIcon(int countryNumber)
 
 	char szId[20];
 	wsprintfA(szId, (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber); /* buffer safe */
-	return (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szId);
+	return Skin_GetIcon(szId);
 }
 
 int FASTCALL CountryNumberToIndex(int countryNumber)
@@ -175,7 +175,7 @@ static INT_PTR ServiceLoadFlagIcon(WPARAM wParam,LPARAM lParam)
 	if ((BOOL)lParam) {
 		if (phIconHandles == NULL)
 			return 0;
-		
+
 		return (INT_PTR)phIconHandles[CountryNumberToIndex((int)wParam)];
 	}
 	/* return icon */
@@ -235,7 +235,7 @@ void InitIcons(void)
 	/* register icons */
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszName = szId;
-	sid.cx = GetSystemMetrics(SM_CXSMICON); 
+	sid.cx = GetSystemMetrics(SM_CXSMICON);
 	sid.cy = GetSystemMetrics(SM_CYSMICON);
 	sid.flags = SIDF_SORTED;
 	sid.pszSection = "Country Flags";

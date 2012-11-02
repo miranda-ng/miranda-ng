@@ -1284,61 +1284,61 @@ static INT_PTR ChangeStatusMsg(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR SetOfflineStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_OFFLINE, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_OFFLINE, 0);
 	return 0;
 }
 
 static INT_PTR SetOnlineStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_ONLINE, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_ONLINE, 0);
 	return 0;
 }
 
 static INT_PTR SetAwayStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_AWAY, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_AWAY, 0);
 	return 0;
 }
 
 static INT_PTR SetDNDStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_DND, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_DND, 0);
 	return 0;
 }
 
 static INT_PTR SetNAStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_NA, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_NA, 0);
 	return 0;
 }
 
 static INT_PTR SetOccupiedStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_OCCUPIED, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_OCCUPIED, 0);
 	return 0;
 }
 
 static INT_PTR SetFreeChatStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_FREECHAT, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_FREECHAT, 0);
 	return 0;
 }
 
 static INT_PTR SetInvisibleStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_INVISIBLE, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_INVISIBLE, 0);
 	return 0;
 }
 
 static INT_PTR SetOnThePhoneStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_ONTHEPHONE, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_ONTHEPHONE, 0);
 	return 0;
 }
 
 static INT_PTR SetOutToLunchStatus(WPARAM wParam, LPARAM lParam)
 {
-	ChangeStatusMessage((WPARAM)ID_STATUS_OUTTOLUNCH, (LPARAM)NULL);
+	ChangeStatusMessage((WPARAM)ID_STATUS_OUTTOLUNCH, 0);
 	return 0;
 }
 

@@ -173,7 +173,7 @@ void CJabberProto::OnIqResultGetSearchFields( HXML iqNode )
 		const TCHAR* szFrom = xmlGetAttrValue( iqNode, _T("from"));
 		if (szFrom)
 			SearchAddToRecent(szFrom,searchHandleDlg);
-		PostMessage(searchHandleDlg,WM_USER+10,(WPARAM)0,(LPARAM)0);
+		PostMessage(searchHandleDlg,WM_USER+10,0,0);
 		ShowWindow(searchHandleDlg,SW_SHOW);
 	}
 	else if ( !lstrcmp( type, _T("error"))) {

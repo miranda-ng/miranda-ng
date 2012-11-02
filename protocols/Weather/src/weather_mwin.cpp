@@ -238,7 +238,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					DeleteObject(hfnt);
 				}
 				EndPaint(hwnd, &ps);
-				CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+				Skin_ReleaseIcon(hIcon);
 				DBFreeVariant(&dbv);
 			}
 			break;

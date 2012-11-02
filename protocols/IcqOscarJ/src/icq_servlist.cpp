@@ -940,12 +940,12 @@ static int GroupReserveIdsEnumProc(const char *szSetting,LPARAM lParam)
 		cgs.szModule = param->szModule;
 		cgs.szSetting = szSetting;
 		cgs.pValue = &dbv;
-		if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)NULL,(LPARAM)&cgs))
+		if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
 		{ // we failed to read setting, try also utf8 - DB bug
 			dbv.type = DBVT_UTF8;
 			dbv.pszVal = val;
 			dbv.cchVal = MAX_PATH;
-			if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)NULL,(LPARAM)&cgs))
+			if (CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
 				return 0; // we failed also, invalid setting
 		}
 		if (dbv.type != DBVT_ASCIIZ)
@@ -989,7 +989,7 @@ void CIcqProto::LoadServerIDs()
 	dbces.pfnEnumProc = &GroupReserveIdsEnumProc;
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)&param;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL, (LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
 	nGroups = nServerIDListCount - nStart;
 
@@ -1472,7 +1472,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)pars;
 
-	if (!CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL, (LPARAM)&dbces))
+	if (!CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces))
 	{ // we found some links, remove them
 		char** list = (char**)pars[0];
 		while (list)
@@ -1838,7 +1838,7 @@ char* CIcqProto::getServListUniqueGroupName(const char *szGroupName, int bAlloce
 		dbces.szModule = szModule;
 		dbces.lParam = (LPARAM)pars;
 
-		CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL, (LPARAM)&dbces);
+		CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 
 		if (pars[1])
 		{ // the groupname already exists, create another

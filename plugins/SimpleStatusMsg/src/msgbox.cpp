@@ -78,7 +78,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 	HIMAGELIST himlIcons = ImageList_Create(16, 16, (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16) | ILC_MASK, num_icons, 0);
 	HICON hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_OFFLINE);
 	ImageList_AddIcon(himlIcons, hicon);
-	CallService(MS_SKIN2_RELEASEICON, (LPARAM)hicon, (WPARAM)0);
+	Skin_ReleaseIcon(hicon);
 	statusicon_nr[0] = 0;
 
 	int j = 1;
@@ -88,7 +88,7 @@ HIMAGELIST AddStatusIconsToImageList(const char *szProto, int status_flags)
 		{
 			hicon = LoadSkinnedProtoIcon(szProto, ID_STATUS_ONLINE + i);
 			ImageList_AddIcon(himlIcons, hicon);
-			CallService(MS_SKIN2_RELEASEICON, (LPARAM)hicon, (WPARAM)0);
+			Skin_ReleaseIcon(hicon);
 			statusicon_nr[i + 1] = j;
 			j++;
 		}
@@ -208,10 +208,10 @@ HWND WINAPI CreateStatusComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 	}
 
 	if (!(data->m_iDlgFlags & DLG_SHOW_STATUS_ICONS))
-		SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)0, (LPARAM)16);
+		SendMessage(handle, CB_SETITEMHEIGHT, 0, (LPARAM)16);
 	else
 	{
-		SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)0, (LPARAM)18);
+		SendMessage(handle, CB_SETITEMHEIGHT, 0, (LPARAM)18);
 		SendMessage(handle, CBEM_SETIMAGELIST, 0, (LPARAM)data->status_icons);
 	}
 	SetWindowPos(handle, NULL, 11, 11, 112, 20, SWP_NOACTIVATE);
@@ -424,7 +424,7 @@ HWND WINAPI CreateRecentComboBoxEx(HWND hwndDlg, struct MsgBoxData *data)
 		SendMessage(handle, CB_SETDROPPEDWIDTH, (WPARAM)250, 0);
 	}
 	SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)-1, (LPARAM)16);
-	SendMessage(handle, CB_SETITEMHEIGHT, (WPARAM)0, (LPARAM)16);
+	SendMessage(handle, CB_SETITEMHEIGHT, 0, (LPARAM)16);
 
 	if (((data->m_iDlgFlags & DLG_SHOW_BUTTONS) || (data->m_iDlgFlags & DLG_SHOW_BUTTONS_FLAT)) && !found && !data->num_def_msgs)
 		EnableWindow(handle, FALSE);
@@ -888,8 +888,8 @@ void ChangeDlgStatus(HWND hwndDlg, struct MsgBoxData *msgbox_data, int iStatus)
 	else if (iStatus > ID_STATUS_CURRENT)
 		iStatus = GetCurrentStatus(NULL);
 
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)), 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)) , 0);
+	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
+	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(msgbox_data->m_szProto, iStatus)));
 
 	if (!bDisabled && ((Proto_Status2Flag(iStatus) & msgbox_data->m_iStatusMsgModes)
 		|| (iStatus == ID_STATUS_OFFLINE && (Proto_Status2Flag(ID_STATUS_INVISIBLE) & msgbox_data->m_iStatusMsgModes))))
@@ -1784,8 +1784,8 @@ INT_PTR CALLBACK AwayMsgBoxDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			ReleaseIconEx("predef");
 			ReleaseIconEx("add");
 			ReleaseIconEx("clear");
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)NULL), 0);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)NULL), 0);
+			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_EDIT1), GWLP_WNDPROC, (LONG_PTR)MainDlgProc);
 			if (msgbox_data)

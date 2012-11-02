@@ -204,7 +204,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 			cle.ptszTooltip = szTip;
 			CallServiceSync(MS_CLIST_REMOVEEVENT, wParam, (LPARAM) 1);
 			CallServiceSync(MS_CLIST_ADDEVENT, wParam, (LPARAM) & cle);
-			CallService(MS_SKIN2_RELEASEICON,(WPARAM)cle.hIcon, 0);
+			Skin_ReleaseIcon(cle.hIcon);
 		}
 	}
 	return 0;

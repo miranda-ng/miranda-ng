@@ -265,7 +265,7 @@ void TSAPI AddContactToFavorites(HANDLE hContact, const TCHAR *szNickname, const
 	if (hIcon == 0)
 		hIcon = LoadSkinnedProtoIcon(szProto, wStatus);
 
-	PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)szProto);
+	PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
 
 	if (acc && acc->tszAccountName) {
 		mii.cbSize = sizeof(mii);

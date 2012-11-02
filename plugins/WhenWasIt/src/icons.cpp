@@ -95,12 +95,11 @@ int AddIcons()
 	AddIcon(hiImportBirthdays, "ImportBirthdays", "Import birthdays");
 	AddIcon(hiExportBirthdays, "ExportBirthdays", "Export birthdays");
 
-	int i;
 	char name[1024];
 	char description[1024];
 	AddIcon(hiDTB[0], "DTB0", "Birthday today");
 	AddIcon(hiDTB[1], "DTB1", "1 day to birthday");
-	for (i = 2; i < cDTB; i++) {
+	for (int i = 2; i < cDTB; i++) {
 		sprintf(name, "DTB%d", i);
 		sprintf(description, "%d days to birthday", i);
 		AddIcon(hiDTB[i], name, description);
@@ -112,7 +111,7 @@ int AddIcons()
 
 HICON GetIcon(char *name)
 {
-	return (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) name);	
+	return Skin_GetIcon(name);	
 }
 
 void FreeIcon(HICON &icon)
@@ -125,58 +124,50 @@ void FreeIcons()
 {
 	static int bFreed = 0;
 	if (!bFreed)
+	{
+		FreeIcon(hiCheckMenu);
+		FreeIcon(hiListMenu);
+		FreeIcon(hiAddBirthdayContact);
+		FreeIcon(hiRefreshUserDetails);
+
+		FreeIcon(hiImportBirthdays);
+		FreeIcon(hiExportBirthdays);
+
+		int i;
+		for (i = 0; i < cDTB; i++)
 		{
-//			FreeIcon(hiDlg);
-			FreeIcon(hiCheckMenu);
-			FreeIcon(hiListMenu);
-			FreeIcon(hiAddBirthdayContact);
-			FreeIcon(hiRefreshUserDetails);
-			
-			FreeIcon(hiImportBirthdays);
-			FreeIcon(hiExportBirthdays);
-			
-			int i;
-			for (i = 0; i < cDTB; i++)
-				{
-					FreeIcon(hiDTB[i]);
-				}
-			FreeIcon(hiDTBMore);
+			FreeIcon(hiDTB[i]);
 		}
+		FreeIcon(hiDTBMore);
+	}
 	bFreed = 1; //only free them once (ours).
 }
 
 int GetIcons()
 {
-	if (ServiceExists(MS_SKIN2_GETICON))
-		{
-			//FreeIcons();
-//			hiDlgIcon = Get("Dlg");
-			hiCheckMenu = GetIcon("MenuCheck");
-			hiListMenu = GetIcon("MenuList");
-			hiAddBirthdayContact = GetIcon("AddBirthday");
-			hiRefreshUserDetails = GetIcon("RefreshUserDetails");
-			
-			hiImportBirthdays = GetIcon("ImportBirthdays");
-			hiExportBirthdays = GetIcon("ExportBirthdays");
-			
-			int i;
-			char buffer[1024];
-			for (i = 0; i < cDTB; i++)
-				{
-					sprintf(buffer, "DTB%d", i);
-					hiDTB[i] = GetIcon(buffer);
-				}
-			hiDTBMore = GetIcon("DTBMore");
-		}
+	hiCheckMenu = GetIcon("MenuCheck");
+	hiListMenu = GetIcon("MenuList");
+	hiAddBirthdayContact = GetIcon("AddBirthday");
+	hiRefreshUserDetails = GetIcon("RefreshUserDetails");
+
+	hiImportBirthdays = GetIcon("ImportBirthdays");
+	hiExportBirthdays = GetIcon("ExportBirthdays");
+
+	char buffer[1024];
+	for (int i = 0; i < cDTB; i++)
+	{
+		sprintf(buffer, "DTB%d", i);
+		hiDTB[i] = GetIcon(buffer);
+	}
+	hiDTBMore = GetIcon("DTBMore");
 	return 0;
 }
 
 HICON GetDTBIcon(int dtb)
 {
 	if ((dtb >= cDTB) || (dtb < 0))
-		{
-			return hiDTBMore;
-		}
+		return hiDTBMore;
+
 	return hiDTB[dtb];
 }
 
@@ -188,9 +179,8 @@ HICON GetDABIcon(int dab)
 HANDLE GetClistIcon(int dtb)
 {
 	if (dtb >= cDTB)
-		{
-			return hClistImages[cDTB];
-		}
+		return hClistImages[cDTB];
+
 	return hClistImages[dtb];
 }
 
@@ -198,19 +188,16 @@ HANDLE RebuildCListIcon(HICON icon)
 {
 	INT_PTR tmp = CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) icon, 0);
 	if (tmp != CALLSERVICE_NOTFOUND)
-		{
-			return (HANDLE) tmp;
-		}
+		return (HANDLE) tmp;
+
 	return (HANDLE) -1;
 }
 
 int RebuildAdvIconList()
 {
-	int i;
-	for (i = 0; i < cDTB; i++)
-		{
-			hClistImages[i] = RebuildCListIcon(hiDTB[i]);
-		}
+	for (int i = 0; i < cDTB; i++)
+		hClistImages[i] = RebuildCListIcon(hiDTB[i]);
+
 	hClistImages[cDTB] = RebuildCListIcon(hiDTBMore);
 	return 0;
 }

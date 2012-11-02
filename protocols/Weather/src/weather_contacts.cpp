@@ -409,10 +409,10 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 	case WM_DESTROY:
 		wndData = (CntSetWndDataType*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)wndData->hFile, 0);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)wndData->hRename, 0);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)wndData->hSrchAll, 0);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)wndData->hUserDetail, 0);
+		Skin_ReleaseIcon(wndData->hFile);
+		Skin_ReleaseIcon(wndData->hRename);
+		Skin_ReleaseIcon(wndData->hSrchAll);
+		Skin_ReleaseIcon(wndData->hUserDetail);
 		mir_free(wndData);
 		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 

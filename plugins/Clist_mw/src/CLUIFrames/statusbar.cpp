@@ -265,7 +265,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 
 		for (nPanel = 0;nPanel<nParts;nPanel++)
 		{
-			PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,(LPARAM)0);
+			PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 			if (PD == NULL){
 				continue;
 			}
@@ -408,7 +408,7 @@ LRESULT CALLBACK StatusHelperProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						for (i = 0;i<nParts;i++) {
 							SendMessage(pcli->hwndStatus,SB_GETRECT,i,(LPARAM)&rc);
 							if (PtInRect(&rc,pt)) {							
-								PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,i,(LPARAM)0);
+								PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,i,0);
 								if (PD == NULL){return 0;}
 								
 								NotifyEventHooks(hStatusBarShowToolTipEvent,(WPARAM)PD->RealName,0);
@@ -553,7 +553,7 @@ HANDLE CreateStatusBarFrame()
 
 	Frame.tname = _T("Status");
 	Frame.TBtname = TranslateT("Status Bar");
-	hFrameHelperStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,(LPARAM)0);
+	hFrameHelperStatusBar = (HANDLE)CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&Frame,0);
 
 
 	return hFrameHelperStatusBar;

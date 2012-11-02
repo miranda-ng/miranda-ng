@@ -7,11 +7,11 @@ HICON hIconMenuSet, hIconList1, hIconList2, hIconMenuShowHide, hIconSystray;
 
 int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
-	hIconMenuSet = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_set");
-	hIconList1 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list1");
-	hIconList2 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list2");
+	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
+	hIconList1 = Skin_GetIcon("alarms_list1");
+	hIconList2 = Skin_GetIcon("alarms_list2");
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
-		hIconMenuShowHide = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_showhide");
+		hIconMenuShowHide = Skin_GetIcon("alarms_menu_showhide");
 
 	RefreshReminderFrame();
 	return 0;
@@ -59,13 +59,13 @@ void InitIcons()
 		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_MAINMENU), IMAGE_ICON, 16, 16, 0);
 		Skin_AddIcon(&sid);
 
-		hIconMenuShowHide = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_showhide");
+		hIconMenuShowHide = Skin_GetIcon("alarms_menu_showhide");
 	}
 
-	hIconMenuSet = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_menu_set");
-	hIconList1 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list1");
-	hIconList2 = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_list2");
-	hIconSystray = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"alarms_systray");
+	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
+	hIconList1 = Skin_GetIcon("alarms_list1");
+	hIconList2 = Skin_GetIcon("alarms_list2");
+	hIconSystray = Skin_GetIcon("alarms_systray");
 
 	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 }

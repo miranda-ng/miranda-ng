@@ -40,7 +40,7 @@ void SetNewExtraColumnCount()
 void ExtraImage_ReloadExtraIcons()
 {
 	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNSSPACE,db_get_b(NULL,"CLUI","ExtraColumnSpace",18),0);
-	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,0,(LPARAM)NULL);
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,0,0);
 	if (hExtraImageList)
 		ImageList_Destroy(hExtraImageList);
 	if (hWideExtraImageList)

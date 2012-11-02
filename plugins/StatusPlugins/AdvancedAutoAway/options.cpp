@@ -207,8 +207,8 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 						flags = 0;
 
 					// clear box and add new status, loop status and check if compatible with proto
-					SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
-					SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, (WPARAM)0, (LPARAM)0);
+					SendDlgItemMessage(hwndDlg, IDC_LV1STATUS, CB_RESETCONTENT, 0, 0);
+					SendDlgItemMessage(hwndDlg, IDC_LV2STATUS, CB_RESETCONTENT, 0, 0);
 					for ( i=0; i < SIZEOF(statusModeList); i++ ) {
 						if ( (flags & statusModePf2List[i]) || statusModePf2List[i] == PF2_OFFLINE || bSettingSame ) {
 							TCHAR *statusMode = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR );

@@ -1084,7 +1084,7 @@ INT_PTR DeleteAccountSvc(WPARAM wParam,LPARAM lParam)
 
 //1. set stop signal 
 	StopSignalFcn(Which);
-	WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_STOPACCOUNT,(WPARAM)Which,(LPARAM)0);
+	WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_STOPACCOUNT,(WPARAM)Which,0);
 	if (Plugin->Fcn->StopAccountFcnPtr!=NULL)
 		Plugin->Fcn->StopAccountFcnPtr(Which);
 
@@ -1141,7 +1141,7 @@ DWORD WINAPI DeleteAccountInBackground(LPVOID Value)
 {
 	HACCOUNT Which=(HACCOUNT)Value;
 	WaitForSingleObject(Which->UsingThreads->Event,INFINITE);
-	CallService(MS_YAMN_DELETEPLUGINACCOUNT,(WPARAM)Which,(LPARAM)0);
+	CallService(MS_YAMN_DELETEPLUGINACCOUNT,(WPARAM)Which,0);
 	return 0;
 }
 
@@ -1161,7 +1161,7 @@ int StopAccounts(HYAMNPROTOPLUGIN Plugin)
 	{
 //2. set stop signal 
 		StopSignalFcn(Finder);
-		WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_STOPACCOUNT,(WPARAM)Finder,(LPARAM)0);
+		WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_STOPACCOUNT,(WPARAM)Finder,0);
 		if (Plugin->Fcn->StopAccountFcnPtr!=NULL)
 			Plugin->Fcn->StopAccountFcnPtr(Finder);
 	}
@@ -1233,7 +1233,7 @@ int DeleteAccounts(HYAMNPROTOPLUGIN Plugin)
 	for (Finder=Plugin->FirstAccount;Finder!=NULL;)
 	{
 		HACCOUNT Next = Finder->Next;
-		DeletePluginAccountSvc((WPARAM)Finder,(LPARAM)0);
+		DeletePluginAccountSvc((WPARAM)Finder,0);
 		Finder = Next;
 	}
 
@@ -1279,7 +1279,7 @@ void WINAPI SetStatusFcn(HACCOUNT Which,TCHAR *Value)
 	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs enter\n");
 #endif
 	lstrcpy(Which->Status,Value);
-	WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_CHANGESTATUS,(WPARAM)Which,(LPARAM)0);
+	WindowList_BroadcastAsync(YAMNVar.MessageWnds,WM_YAMN_CHANGESTATUS,(WPARAM)Which,0);
 #ifdef DEBUG_SYNCHRO
 	DebugLog(SynchroFile,"\tSetStatus:AccountStatusCS-cs done\n");
 #endif

@@ -29,7 +29,7 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	if (ptszDllName!=NULL)
 		ptszDllName=ptszDllName + 1;
 	
-	CallService(MS_PROTO_SHOWACCMGR, (WPARAM) NULL, (LPARAM)NULL);
+	CallService(MS_PROTO_SHOWACCMGR, (WPARAM) NULL, 0);
 
 	DBWriteContactSettingByte(NULL, "PluginDisable", _T2A(ptszDllName), 1);
 	

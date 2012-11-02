@@ -338,7 +338,7 @@ static void RefreshProtoIcons() {
 		if (hIcon == NULL) {
 			hIcon=(HICON)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 			ImageList_AddIcon(hProtocolImageList, hIcon);
-			CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+			Skin_ReleaseIcon(hIcon);
 		}
 	}
 }
@@ -505,7 +505,7 @@ static INT_PTR CALLBACK IEViewGeneralOptDlgProc(HWND hwndDlg, UINT msg, WPARAM w
 			TCHAR* size[] = {  LPGENT("320 x 205"), LPGENT("480 x 385") , LPGENT("560 x 349"), LPGENT("640 x 390")};
 			for (i = 0; i < SIZEOF(size); ++i){
 				int item=SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_ADDSTRING,0,(LPARAM)TranslateTS(size[i]));
-				SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETITEMDATA,item,(LPARAM)0);
+				SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETITEMDATA,item,0);
 			}
 			SendDlgItemMessage(hwndDlg,IDC_EMBED_SIZE,CB_SETCURSEL,Options::getEmbedsize(),0);	
 			return TRUE;

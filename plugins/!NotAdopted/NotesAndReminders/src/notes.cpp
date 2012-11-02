@@ -248,7 +248,7 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 		TWC.lpszClassName = NOTE_WND_CLASS;
 		TWC.cbSize = sizeof(WNDCLASSEX);
 		TWC.lpfnWndProc = (WNDPROC)StickyNoteWndProc;
-		if (!RegisterClassEx(&TWC)) return NULL; 
+		if (!RegisterClassEx(&TWC)) return NULL;
 	}
 
 	if (!TData || Aw < 0 || Ah < 0)
@@ -276,12 +276,12 @@ STICKYNOTE* NewNoteEx(int Ax,int Ay,int Aw,int Ah,char *Data,ULARGE_INTEGER *ID,
 
 	TreeAdd(&g_Stickies,TSN);
 
-	if (!TData) 
+	if (!TData)
 	{
 		TData = _strdup("");
 		TSN->data = TData;
 	}
-	else 
+	else
 		TSN->data = TData;
 
 	// init note title (time-stamp)
@@ -552,7 +552,7 @@ void LoadNotes(BOOL bIsStartup)
 			ULARGE_INTEGER newid;
 
 			OT = 1; TV = 1;
-			Tx = 100; Ty = 100; 
+			Tx = 100; Ty = 100;
 			Tw = 179; Th = 35;
 			Data = NULL; ID = NULL;
 
@@ -869,7 +869,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 			bDeleteTData = FALSE;
 		}
 
-		if (!tData) 
+		if (!tData)
 			// empty note
 			SzT = 0;
 		else
@@ -1192,7 +1192,7 @@ int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 {
 	switch (message)
 	{
-	case WM_CLOSE: 
+	case WM_CLOSE:
 		return TRUE;
 
 	case WM_SIZE:
@@ -1330,7 +1330,7 @@ int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 				HICON hcIcon;
 				if (SN->OnTop)
 					hcIcon = Skin_GetIconByHandle(hIconLibItem[4]);
-				else 
+				else
 					hcIcon = Skin_GetIconByHandle(hIconLibItem[7]);
 				DrawIcon(hdc, wr.right - wr.left - 16, 0 + 3, hcIcon);
 				Skin_ReleaseIcon(hcIcon);
@@ -1366,17 +1366,17 @@ int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 		RedrawWindow(hdlg, NULL, NULL, RDW_UPDATENOW);
 		return TRUE;
     case WM_NOTIFY:
-        if (LOWORD(wParam) == 1) 
+        if (LOWORD(wParam) == 1)
 		{
 		    char *Buff;
 			PENLINK PEnLnk = (PENLINK)lParam;
 
-			if (PEnLnk->msg == WM_LBUTTONDOWN) 
+			if (PEnLnk->msg == WM_LBUTTONDOWN)
 			{
 				SendDlgItemMessage(hdlg,1,EM_EXSETSEL,0,(LPARAM)&(PEnLnk->chrg));
 				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg,1,EM_GETSELTEXT,0,(LPARAM)Buff);
-				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0) 
+				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
 					ShellExecute(hdlg,"open","iexplore",Buff,"",SW_SHOWNORMAL);
 				else if (g_lpszAltBrowser && *g_lpszAltBrowser)
 					ShellExecute(hdlg,"open",g_lpszAltBrowser,Buff,"",SW_SHOWNORMAL);
@@ -1712,7 +1712,7 @@ int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPara
 			RemoveProp(hdlg, "ctrldata");
 		}
 		break;
-    case WM_CONTEXTMENU: 
+    case WM_CONTEXTMENU:
 		if (DoContextMenu(hdlg,wParam,lParam)) return FALSE;
 
 	default:
@@ -1941,7 +1941,7 @@ int CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lPar
 			InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
 			return TRUE;
 		}
-	case WM_CONTEXTMENU: 
+	case WM_CONTEXTMENU:
 		{
 			HWND H;
 			STICKYNOTE *pNote = NULL;
@@ -2023,24 +2023,24 @@ int CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lPar
 			return TRUE;
 		}
 	case WM_CLOSE:
-		{
-			DestroyWindow(Dialog);
-			ListNotesVisible = FALSE;
-			return TRUE;
-		}
+		DestroyWindow(Dialog);
+		ListNotesVisible = FALSE;
+		return TRUE;
+
 	case WM_DESTROY:
-			ListNotesVisible = FALSE;
-			CallService(MS_SKIN2_RELEASEICONBIG, (WPARAM)SendMessage(Dialog, WM_SETICON, ICON_BIG, (LPARAM)NULL), 0);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(Dialog, WM_SETICON, ICON_SMALL, (LPARAM)NULL), 0);
-			return TRUE;
+		ListNotesVisible = FALSE;
+		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(Dialog, WM_SETICON, ICON_SMALL, 0));
+		return TRUE;
+
 	case WM_NOTIFY:
 		{
 			if (wParam == IDC_LISTREMINDERS)
 			{
 				NM = (NMLISTVIEW *)lParam;
-				switch (NM->hdr.code) 
+				switch (NM->hdr.code)
 				{
-				case LVN_ITEMCHANGED: 
+				case LVN_ITEMCHANGED:
 					{
 						S = ((STICKYNOTE*)TreeGetAt(g_Stickies,NM->iItem))->data;
 					    SetDlgItemText(Dialog,IDC_REMINDERDATA,S);

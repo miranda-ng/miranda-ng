@@ -57,7 +57,7 @@ CSendHTTPServer::~CSendHTTPServer(){
 //---------------------------------------------------------------------------
 void	CSendHTTPServer::Send() {
 
-	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, (WPARAM)true, (LPARAM)0) != 0) {
+	if (CallService(MS_HTTP_ACCEPT_CONNECTIONS, (WPARAM)true, 0) != 0) {
 		Error(NULL, _T("Could not start the HTTP Server plugin."));
 		return;
 	}

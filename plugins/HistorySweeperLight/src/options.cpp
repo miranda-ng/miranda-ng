@@ -22,7 +22,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "historysweeperlight.h"
 
 // Time Stamps strings
-const char* time_stamp_strings[] = 
+const char* time_stamp_strings[] =
 {
 	"Delete older than 1 day",
 	"Delete older than 3 days",
@@ -34,7 +34,7 @@ const char* time_stamp_strings[] =
 	"Delete older than 1 year (365 days)"
 };
 
-const char* keep_strings[] = 
+const char* keep_strings[] =
 {
 	"Keep 1 last event",
 	"Keep 2 last events",
@@ -73,21 +73,21 @@ void InitIcons(void)
 	sid.flags = SIDF_PATH_TCHAR;
 
 	for (int i=0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100]; 
+		char szSettingName[100];
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, iconList[i].szName);
 		sid.pszName = szSettingName;
 
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}	
+	}
 }
 
 HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", ModuleName, name);
-	return (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName);
 }
 
 HANDLE GetIconHandle(const char* name)
@@ -105,10 +105,10 @@ void  ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", ModuleName, name);
-	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	Skin_ReleaseIcon(szSettingName);
 }
 
-HANDLE hAllContacts, hSystemHistory; 
+HANDLE hAllContacts, hSystemHistory;
 
 void ResetListOptions(HWND hwndList)
 {
@@ -127,17 +127,17 @@ void ResetListOptions(HWND hwndList)
 static void ShowAllContactIcons(HWND hwndList)
 {
 	HANDLE hContact, hItem;
-	
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts, 
+
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hAllContacts,
 											MAKELPARAM(0, DBGetContactSettingByte(NULL, ModuleName, "SweepHistory", 0)));
-	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory, 
+	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hSystemHistory,
 											MAKELPARAM(0, DBGetContactSettingByte(NULL, ModuleName, "SweepSHistory", 0)));
-	
+
 	for (hContact=db_find_first(); hContact;
 											hContact=db_find_next(hContact))
 	{
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, 
+		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem,
 											MAKELPARAM(0, DBGetContactSettingByte(hContact, ModuleName, "SweepHistory", 0)));
 	}
 }//ShowAllContactIcons
@@ -160,20 +160,20 @@ void LoadSettings(HWND hwndDlg)
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_RESETCONTENT, 0, 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_RESETCONTENT, 0, 0);
 
-	for (i = 0; i < SIZEOF(time_stamp_strings); i++) 
+	for (i = 0; i < SIZEOF(time_stamp_strings); i++)
 	{
 		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)time_stamp_strings[i]);
 		SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 		mir_free(ptszTimeStr);
 	}
 
-	for (i = 0; i < SIZEOF(keep_strings); i++) 
+	for (i = 0; i < SIZEOF(keep_strings); i++)
 	{
 		TCHAR* ptszTimeStr = (TCHAR*)CallService(MS_LANGPACK_PCHARTOTCHAR, 0, (LPARAM)keep_strings[i]);
 		SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_ADDSTRING, 0, (LPARAM)ptszTimeStr);
 		mir_free(ptszTimeStr);
 	}
-	
+
 	SendDlgItemMessage(hwndDlg, IDC_SSOLDER, CB_SETCURSEL, DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownOlder", 0), 0);
 	SendDlgItemMessage(hwndDlg, IDC_SSKEEP, CB_SETCURSEL, DBGetContactSettingByte(NULL, ModuleName, "StartupShutdownKeep", 0), 0);
 
@@ -196,11 +196,11 @@ void SaveSettings(HWND hwndDlg)
 	sid.cbSize = sizeof(sid);
 	sid.szModule = ModuleName;
 
-	DBWriteContactSettingByte(NULL, ModuleName, "SweepHistory", 
+	DBWriteContactSettingByte(NULL, ModuleName, "SweepHistory",
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hAllContacts, 0));
-	DBWriteContactSettingByte(NULL, ModuleName, "SweepSHistory", 
+	DBWriteContactSettingByte(NULL, ModuleName, "SweepSHistory",
 											(BYTE)SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hSystemHistory, 0));
-	
+
 	for (hContact=db_find_first(); hContact;
 											hContact=db_find_next(hContact))
 	{
@@ -246,25 +246,25 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		{
 			HIMAGELIST hIml = ImageList_Create( GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON),
 												ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16 ), 2, 2 );
-			
+
 			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_SMALLDOT);
 			ImageList_AddIcon(hIml, hIcon);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+			Skin_ReleaseIcon(hIcon);
 
-			hIcon =  LoadIconEx("act1");
+			hIcon = LoadIconEx("act1");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ACT1, STM_SETICON, (WPARAM)hIcon, 0);
 
-			hIcon =  LoadIconEx("act2");
+			hIcon = LoadIconEx("act2");
 			ImageList_AddIcon(hIml, hIcon);
 			SendDlgItemMessage(hwndDlg, IDC_ACT2, STM_SETICON, (WPARAM)hIcon, 0);
-			
-			hIcon =  LoadIconEx("actDel");
+
+			hIcon = LoadIconEx("actDel");
 			ImageList_AddIcon(hIml, hIcon);
 
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 			SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRACOLUMNS, 1, 0);
-			
+
 			TranslateDialogDefault(hwndDlg);
 			ResetListOptions(GetDlgItem(hwndDlg, IDC_LIST));
 			LoadSettings(hwndDlg);
@@ -294,7 +294,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 			else if (nmc->hdr.idFrom == IDC_LIST)
 			{
-				switch (nmc->hdr.code) 
+				switch (nmc->hdr.code)
 				{
 				case CLN_NEWCONTACT:
 				case CLN_LISTREBUILT:
@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcHSOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 					break;
-				} 
+				}
 			}
 		}
 		break;

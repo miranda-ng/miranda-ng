@@ -163,7 +163,7 @@ char *CIconPool::GetIcolibName(const char *name)
 HICON CIconPool::GetIcon(const char *name, bool big)
 {
 	if (CPoolItem *item = FindItemByName(name))
-		return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, big, (LPARAM)item->m_hIcolibItem);
+		return Skin_GetIconByHandle(item->m_hIcolibItem, big);
 
 	return NULL;
 }
@@ -188,7 +188,7 @@ HANDLE CIconPool::GetClistHandle(const char *name)
 		if (item->m_hClistItem)
 			return item->m_hClistItem;
 
-		HICON hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)item->m_hIcolibItem);
+		HICON hIcon = Skin_GetIconByHandle(item->m_hIcolibItem);
 		item->m_hClistItem = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
 		g_ReleaseIcon(hIcon);
 		return item->m_hClistItem;
@@ -310,7 +310,7 @@ HICON CJabberProto::LoadIconEx( const char* name, bool big )
 
 	char szSettingName[100];
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", m_szModuleName, name );
-	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
+	return Skin_GetIcon(szSettingName, big);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -408,7 +408,7 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (hi && nf) DestroyIcon(hi);
 	if ( IconName != NULL && SectName != NULL)  {
 		sid.cbSize = sizeof(sid);
-		sid.hDefaultIcon = (has_proto_icon)?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,(WPARAM)NULL,(LPARAM)(-internalidx));
+		sid.hDefaultIcon = (has_proto_icon)?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,0,(LPARAM)(-internalidx));
 		sid.ptszSection = SectName;
 		sid.pszName = IconName;
 		sid.ptszDescription = Description;
@@ -417,7 +417,7 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 		sid.flags = SIDF_TCHAR;
 		Skin_AddIcon(&sid);
 	}
-	return ((HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IconName));
+	return Skin_GetIcon(IconName);
 }
 
 static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
@@ -706,12 +706,13 @@ HICON g_LoadIconEx( const char* name, bool big )
 {
 	char szSettingName[100];
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", GLOBAL_SETTING_PREFIX, name );
-	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
+	return Skin_GetIcon(szSettingName, big);
 }
 
 void g_ReleaseIcon( HICON hIcon )
 {
-	if ( hIcon ) CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	if (hIcon)
+		Skin_ReleaseIcon(hIcon);
 }
 
 void ImageList_AddIcon_Icolib( HIMAGELIST hIml, HICON hIcon )

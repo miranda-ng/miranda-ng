@@ -187,7 +187,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			char *strptr;
 			int i = 0;
 			for (; i < 10; i++) {
-				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_OFFLINE + i), (LPARAM)0);
+				strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)(ID_STATUS_OFFLINE + i), 0);
 				lvI.pszText = mir_a2t(strptr);
 				lvI.iItem = i;
 				ListView_InsertItem(hwndList, &lvI);

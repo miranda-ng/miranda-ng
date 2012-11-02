@@ -493,7 +493,6 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
 				DestroyIcon(mi.hIcon);
-				//CallService(MS_SKIN2_RELEASEICON, (WPARAM)mi.hIcon, 0);
 			} else {
 				mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);

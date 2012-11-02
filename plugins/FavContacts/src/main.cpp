@@ -175,8 +175,8 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
 		sid.szTooltip = "Favourite Contacts";
-		sid.hIcon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoFavourite);
-		sid.hIconDisabled = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoRegular);
+		sid.hIcon = Skin_GetIconByHandle(g_icoFavourite);
+		sid.hIconDisabled = Skin_GetIconByHandle(g_icoRegular);
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 
 		HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
@@ -731,7 +731,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	if (options->wMaxRecent && DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 	{
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			(HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)g_icoFavourite), 16, 16, 0, NULL, DI_NORMAL);
+			Skin_GetIconByHandle(g_icoFavourite), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 

@@ -487,7 +487,7 @@ VOID SwitchLayout(BOOL lastword)
 					ZeroMemory(&pd, sizeof(pd));
 					pd.cbSize = sizeof(POPUPDATAT_V2);
 					pd.lchContact = NULL; //(HANDLE)wParam;
-					pd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM) "SwitchLayout and Send");
+					pd.lchIcon = Skin_GetIcon("SwitchLayout and Send");
 					lstrcpyn(pd.lptzText, buf, SIZEOF(pd.lptzText));
 					lstrcpyn(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
 					pd.colorBack = pd.colorText = 0;

@@ -1085,7 +1085,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		pmi->hIcolibItem = IcoLib_AddNewIcon(0, &sid);
 
 		Safe_DestroyIcon(hIcon);
-		if (hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconame)) {
+		if (hIcon = Skin_GetIcon(iconame)) {
 			ImageList_ReplaceIcon(pmi->parent->m_hMenuIcons, pmi->iconId, hIcon);
 			IcoLib_ReleaseIcon(hIcon, 0);
 		}

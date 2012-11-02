@@ -1299,7 +1299,7 @@ bool isTabsrmmUsed()
 	enm.lParam = (LPARAM)&found;
 	enm.pfnEnumProc = (DBSETTINGENUMPROC)&handleEnum;
 	enm.szModule = "PluginDisable";
-	if(CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL, (LPARAM)&enm) == -1)
+	if(CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&enm) == -1)
 		return false;
 
 	return found;

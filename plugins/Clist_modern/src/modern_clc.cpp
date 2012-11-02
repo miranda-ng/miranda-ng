@@ -168,16 +168,16 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 	hAvatarOverlays = ImageList_Create(16,16,ILC_MASK|ILC_COLOR32,MAX_REGS(g_pAvatarOverlayIcons)*2,1);
 	for (i=0 ; i < MAX_REGS(g_pAvatarOverlayIcons) ; i++)
 	{
-		HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)g_pAvatarOverlayIcons[i].name);
+		HICON hIcon = Skin_GetIcon(g_pAvatarOverlayIcons[i].name);
 		g_pAvatarOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)g_pAvatarOverlayIcons[i].name);
+		Skin_ReleaseIcon(g_pAvatarOverlayIcons[i].name);
 
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)g_pStatusOverlayIcons[i].name);
+		hIcon = Skin_GetIcon(g_pStatusOverlayIcons[i].name);
 		g_pStatusOverlayIcons[i].listID = ImageList_AddIcon(hAvatarOverlays,hIcon);
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)g_pStatusOverlayIcons[i].name);
+		Skin_ReleaseIcon(g_pStatusOverlayIcons[i].name);
 	}
 
-	g_hListeningToIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"LISTENING_TO_ICON");
+	g_hListeningToIcon = Skin_GetIcon("LISTENING_TO_ICON");
 
 	pcli->pfnClcBroadcast( INTM_INVALIDATE,0,0);
 	AniAva_UpdateOptions();
@@ -1388,7 +1388,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 								handle = (HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hdest,0);
 								if ( !handle) return 0;
 
-								CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);
+								CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 							}
 						}
@@ -1449,7 +1449,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 
 									if ( !handle) return 0;
 
-									CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);
+									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
 									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 								}
 							}
@@ -1497,7 +1497,7 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 
 									if ( !handle) return 0;
 
-									CallService(MS_MC_REMOVEFROMMETA,(WPARAM)0,(LPARAM)hcontact);
+									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
 									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 								}
 							}

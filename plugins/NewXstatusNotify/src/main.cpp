@@ -89,7 +89,7 @@ HANDLE GetIconHandle(char *szIcon)
 {
 	char szSettingName[64];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, szIcon);
-	return (HANDLE)CallService(MS_SKIN2_GETICONHANDLE, 0, (LPARAM)szSettingName);
+	return Skin_GetIconHandle(szSettingName);
 }
 
 bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
@@ -633,7 +633,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD newStatus)
 {
 	TCHAR stzStatusText[MAX_SECONDLINE] = {0};
-	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, (WPARAM)0, (LPARAM)0);
+	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = hContact;
@@ -781,7 +781,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	strcpy(szProto, hlpProto);
-	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, (WPARAM)0, (LPARAM)0);
+	WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);

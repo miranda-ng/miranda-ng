@@ -57,7 +57,7 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
 
 HICON GetDefaultIcon(bool copy)
 {
-	HICON resIco = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"SmileyAdd_ButtonSmiley");
+	HICON resIco = Skin_GetIcon("SmileyAdd_ButtonSmiley");
 	if ( resIco == NULL || resIco == (HICON)CALLSERVICE_NOTFOUND )	
 	{
 		resIco = (HICON)LoadImage(g_hInst, MAKEINTRESOURCE(IDI_SMILINGICON), 
@@ -68,7 +68,7 @@ HICON GetDefaultIcon(bool copy)
 		if (copy)
 		{
 			resIco = (HICON)CopyImage(resIco, IMAGE_ICON, 0, 0, 0);
-			CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)"SmileyAdd_ButtonSmiley");
+			Skin_ReleaseIcon("SmileyAdd_ButtonSmiley");
 		}
 	}
 

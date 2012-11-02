@@ -68,7 +68,7 @@ HICON  LoadIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", WEATHERPROTONAME, name);
-	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName, big);
 }
 
 HANDLE  GetIconHandle(const char* name)
@@ -82,5 +82,5 @@ HANDLE  GetIconHandle(const char* name)
 
 void  ReleaseIconEx(HICON hIcon)
 {
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 }

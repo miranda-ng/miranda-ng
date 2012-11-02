@@ -610,7 +610,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 							mir_free(caps);
 							if(str.find(_T("GPG_Key_Auto_Exchange:0")) != string::npos)
 							{
-								CallContactService(ccs->hContact, PSS_MESSAGE, (WPARAM)0, (LPARAM)"-----PGP KEY REQUEST-----");
+								CallContactService(ccs->hContact, PSS_MESSAGE, 0, (LPARAM)"-----PGP KEY REQUEST-----");
 								return 0;
 							}
 						}

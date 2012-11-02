@@ -113,7 +113,7 @@ typedef struct tagLVSETINFOTIP
 #define LVN_MARQUEEBEGIN (LVN_FIRST-56)
 #define LVM_MAPINDEXTOID (LVM_FIRST + 180)
 #define ListView_MapIndexToID(hwnd, index) \
-	(UINT)SendMessage((hwnd), LVM_MAPINDEXTOID, (WPARAM)index, (LPARAM)0)
+	(UINT)SendMessage((hwnd), LVM_MAPINDEXTOID, (WPARAM)index, 0)
 #define TreeView_GetLineColor(hwnd) \
 	(COLORREF)SendMessage((hwnd), TVM_GETLINECOLOR, 0, 0)
 #define TreeView_SetLineColor(hwnd, clr) \

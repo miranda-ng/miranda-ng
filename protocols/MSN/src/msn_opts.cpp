@@ -80,7 +80,7 @@ HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
-	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -96,7 +96,7 @@ void  ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", name);
-	CallService(big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	Skin_ReleaseIcon(szSettingName, big);
 }
 
 INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

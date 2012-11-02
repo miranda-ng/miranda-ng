@@ -116,7 +116,7 @@ char* GetWinErrorDescription(DWORD dwLastError)
 	char *buf=NULL;
 	DWORD flags=FORMAT_MESSAGE_ALLOCATE_BUFFER|FORMAT_MESSAGE_FROM_SYSTEM;
 	if(!FormatMessageA(flags,NULL,dwLastError,LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0)),(char*)&buf,0,NULL))
-		if(GetLastError()==ERROR_RESOURCE_LANG_NOT_FOUND) 
+		if(GetLastError()==ERROR_RESOURCE_LANG_NOT_FOUND)
 			FormatMessageA(flags,NULL,dwLastError,0,(char*)&buf,0,NULL);
 	return buf;
 }
@@ -155,11 +155,11 @@ BOOL TimeStampToSystemTime(time_t timestamp,SYSTEMTIME *st)
 	return TRUE;
 }
 
-BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown) 
+BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 {
 	static BOOL fInited=FALSE;
 	static int (WINAPI *pfnStrFromTimeInterval)(TCHAR*,UINT,DWORD,int);
-	static int (WINAPI *pfnGetDurationFormat)(LCID,DWORD,const SYSTEMTIME*,double,WCHAR*,WCHAR*,int); 
+	static int (WINAPI *pfnGetDurationFormat)(LCID,DWORD,const SYSTEMTIME*,double,WCHAR*,WCHAR*,int);
 	/* Init */
 	if(!fInited) {
 		*(PROC*)&pfnGetDurationFormat=GetProcAddress(GetModuleHandleA("KERNEL32"),"GetDurationFormat");
@@ -185,7 +185,7 @@ BOOL GetFormatedCountdown(TCHAR *pszOut,int nSize,time_t countdown)
 	return FALSE;
 }
 
-BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday) 
+BOOL GetFormatedDateTime(TCHAR *pszOut,int nSize,time_t timestamp,BOOL fShowDateEvenToday)
 {
 	SYSTEMTIME st,stNow;
 	LCID locale;
@@ -250,7 +250,7 @@ int FontService_RegisterColor(const char *pszDbModule,const char *pszDbName,cons
 	ColourIDT cid;
 	ZeroMemory(&cid,sizeof(cid));
 	cid.cbSize=sizeof(cid);
-	cid.defcolour=clrDefault; 
+	cid.defcolour=clrDefault;
 	lstrcpynA(cid.dbSettingsGroup,pszDbModule,sizeof(cid.dbSettingsGroup)); /* buffer safe */
 	lstrcpynA(cid.setting,pszDbName,sizeof(cid.setting)); /* buffer safe */
 	lstrcpyn(cid.group,pszSection,SIZEOF(cid.group)); /* buffer safe */
@@ -289,16 +289,6 @@ HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCH
 	if(!GetModuleFileName(hInst,szFileName,SIZEOF(szFileName)))
 		return NULL;
 	return Skin_AddIcon(&sid);
-}
-
-HICON IcoLib_GetIcon(const char *pszDbName)
-{
-	return (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)pszDbName);
-}
-
-int IcoLib_ReleaseIcon(HICON hIcon)
-{
-	return CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0);
 }
 
 int SkinAddNewSoundBundled(const char *pszDbName,const char *pszSection,const char *pszDesc,const char *pszSubDir,const char *pszDefaultFile)

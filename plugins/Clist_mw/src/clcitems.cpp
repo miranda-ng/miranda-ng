@@ -140,7 +140,7 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	_snprintf(AdvancedService,sizeof(AdvancedService),"%s%s",cacheEntry->szProto,"/GetAdvancedStatusIcon");
 
 	if (ServiceExists(AdvancedService))
-		img = CallService(AdvancedService,(WPARAM)hContact, (LPARAM)0);
+		img = CallService(AdvancedService,(WPARAM)hContact, 0);
 
 	if (img == -1 || !(LOWORD(img)))
 		img = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)hContact,0);

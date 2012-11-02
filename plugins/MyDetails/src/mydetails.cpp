@@ -200,9 +200,8 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	InitFrames();
 
-	if (CallService(MS_SKIN2_GETICON, 0, (LPARAM) "LISTENING_TO_ICON") == NULL) {
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(SKINICONDESC);
+	if ( Skin_GetIcon("LISTENING_TO_ICON") == NULL) {
+		SKINICONDESC sid = { sizeof(SKINICONDESC) };
 		sid.flags = SIDF_TCHAR;
 		sid.ptszSection = LPGENT("Contact List");
 		sid.ptszDescription = LPGENT("Listening to");
@@ -211,8 +210,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 		Skin_AddIcon(&sid);
 	}
 	{
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(SKINICONDESC);
+		SKINICONDESC sid = { sizeof(SKINICONDESC) };
 		sid.flags = SIDF_TCHAR;
 		sid.ptszSection = LPGENT("My Details");
 		sid.ptszDescription = LPGENT("Previous protocol");
@@ -221,8 +219,7 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 		Skin_AddIcon(&sid);
 	}
 	{
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(SKINICONDESC);
+		SKINICONDESC sid = { sizeof(SKINICONDESC) };
 		sid.flags = SIDF_TCHAR;
 		sid.ptszSection = LPGENT("My Details");
 		sid.ptszDescription = LPGENT("Next protocol");

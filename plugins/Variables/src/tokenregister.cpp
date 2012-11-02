@@ -209,7 +209,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunction( &cAi );
 		else if (thisVr->szService != NULL)
-			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)&cAi );
+			callRes = CallService( thisVr->szService, 0, (LPARAM)&cAi );
 
 		for ( j=0; j < cAi.argc; j++ )
 			if (cAi.argv[j] != NULL)
@@ -223,7 +223,7 @@ TCHAR *parseFromRegister(ARGUMENTSINFO *ai)
 		if (thisVr->flags & TRF_PARSEFUNC )
 			callRes = (INT_PTR)thisVr->parseFunctionT( ai );
 		else if (thisVr->szService != NULL)
-			callRes = CallService( thisVr->szService, (WPARAM)0, (LPARAM)ai );
+			callRes = CallService( thisVr->szService, 0, (LPARAM)ai );
 
 		if ((TCHAR*)callRes != NULL)
 			res = mir_tstrdup((TCHAR*)callRes );

@@ -616,7 +616,7 @@ void LoadMsgLogIcons(void)
 		hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
 		FillRect(hdcMem, &rc, hBkgBrush);
 		DrawIconEx(hdcMem, 0, 0, hIcon, bih.biWidth, bih.biHeight, 0, NULL, DI_NORMAL);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+		Skin_ReleaseIcon(hIcon);
 
 		SelectObject(hdcMem, hoBmp);
 		GetDIBits(hdc, hBmp, 0, bih.biHeight, pBmpBits, (BITMAPINFO *) & bih, DIB_RGB_COLORS);

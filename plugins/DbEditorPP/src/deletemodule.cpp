@@ -142,7 +142,7 @@ INT_PTR CALLBACK DeleteModuleDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 void deleteModuleGui()
 {
     if (!hwnd2Delete)
-		hwnd2Delete = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc, (LPARAM)0);
+		hwnd2Delete = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), hwnd2mainWindow, DeleteModuleDlgProc, 0);
 	else
 		SetForegroundWindow(hwnd2Delete);
 }

@@ -74,7 +74,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"check_update");
+	mi.hIcon = Skin_GetIcon("check_update");
 	mi.ptszName = _T("Check for pack updates");
 	mi.pszService = MODNAME"/CheckUpdates";
 	Menu_AddMainMenuItem(&mi);
@@ -84,7 +84,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.cbSize = sizeof(mi);
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
-	mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"empty_folder");
+	mi.hIcon = Skin_GetIcon("empty_folder");
 	mi.ptszName = _T("Clear pack updates folder");
 	mi.pszService = MODNAME"/EmptyFolder";
 	Menu_AddMainMenuItem(&mi);

@@ -95,7 +95,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 {
     switch (uMsg)
 	{
-		case WM_INITDIALOG:	
+		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 
             if (!ServiceExists(MS_POPUP_ADDPOPUP))
@@ -104,84 +104,84 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
             }
 
             //iAbsencePeriod
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_RESETCONTENT, 0, 0); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_RESETCONTENT, 0, 0);
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
             if (options.iAbsencePeriod % 365 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/365, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 3, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 3, 0);
             }
 			else if (options.iAbsencePeriod % 30 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/30, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 2, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 2, 0);
             }
 			else if (options.iAbsencePeriod % 7 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod/7, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 1, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 1, 0);
             }
 			else
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE, options.iAbsencePeriod, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 0, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD), CB_SETCURSEL, 0, 0);
             }
 
             //iAbsencePeriod2
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_RESETCONTENT, 0, 0); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
-            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_RESETCONTENT, 0, 0);
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+            SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
             if (options.iAbsencePeriod2 % 365 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/365, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 3, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 3, 0);
             }
 			else if (options.iAbsencePeriod2 % 30 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/30, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 2, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 2, 0);
             }
 			else if (options.iAbsencePeriod2 % 7 == 0)
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2, options.iAbsencePeriod2/7, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 1, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 1, 0);
             }
 			else
 			{
                 SetDlgItemInt(hwndDlg, IDC_EDIT_ABSENCE2,options.iAbsencePeriod2, FALSE);
-                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 0, 0); 
+                SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD2), CB_SETCURSEL, 0, 0);
             }
 
 			//iSilencePeriod
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_RESETCONTENT, 0, 0); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("days")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("months")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("years")); 
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_RESETCONTENT, 0, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("days"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("weeks"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("months"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_ADDSTRING, 0, (LPARAM) TranslateT("years"));
 			if (options.iSilencePeriod % 365 == 0)
 			{
 				SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/365, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 3, 0); 
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 3, 0);
 			}
 			else if (options.iSilencePeriod % 30 == 0)
 			{
 				SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/30, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 2, 0); 
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 2, 0);
 			}
 			else if (options.iSilencePeriod % 7 == 0)
 			{
 				SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR, options.iSilencePeriod/7, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 1, 0); 
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 1, 0);
 			}
 			else
 			{
 				SetDlgItemInt(hwndDlg, IDC_EDIT_SILENTFOR,options.iSilencePeriod, FALSE);
-				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 0, 0); 
+				SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_PERIOD3), CB_SETCURSEL, 0, 0);
 			}
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP), BM_SETCHECK, options.iShowPopUp > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
@@ -194,18 +194,18 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_SETCHECK, options.iShowPopUp2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
 			SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_SETCHECK, options.iShowEvent2 > 0 ? BST_CHECKED : BST_UNCHECKED, 0);
-			
-			
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_RESETCONTENT, 0, 0); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Delete the contact")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open User Details")); 
-			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open message window")); 
+
+
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_RESETCONTENT, 0, 0);
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Do nothing"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Delete the contact"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open User Details"));
+			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_ADDSTRING, 0, (LPARAM) TranslateT("Open message window"));
 			SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_SETCURSEL, options.action2, 0);
 
 			return TRUE;
         case WM_COMMAND:
-	        if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE) 
+	        if ((HIWORD(wParam) == BN_CLICKED) || (HIWORD(wParam) == CBN_SELCHANGE)
 				|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_ABSENCE), EM_GETMODIFY, 0, 0)))
 				|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_ABSENCE2), EM_GETMODIFY, 0, 0)))
 				|| ((HIWORD(wParam) == EN_CHANGE) && (SendMessage(GetDlgItem(hwndDlg, IDC_EDIT_SILENTFOR), EM_GETMODIFY, 0, 0))))
@@ -260,7 +260,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 
                     options.iShowPopUp2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_POPUP2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
                     options.iShowEvent2 = SendMessage(GetDlgItem(hwndDlg, IDC_CHECK_FLASHICON2), BM_GETCHECK, 0, 0) == BST_CHECKED ? 1:0;
-					
+
 					options.action2 = (GoneContactAction)SendMessage(GetDlgItem(hwndDlg, IDC_COMBO_ACTIONS), CB_GETCURSEL, 0, 0);
 
                     // save values to the DB
@@ -281,7 +281,7 @@ static INT_PTR CALLBACK OptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wParam,
 					timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
 					TimerProc(0, 0, 0, 0);
 					return TRUE;
-			}			
+			}
 			break;
 		}
 	}
@@ -296,8 +296,8 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 	static int ChangeLock = 0;
 	switch (uMsg)
 	{
-		case WM_INITDIALOG:	
-			
+		case WM_INITDIALOG:
+
 			ChangeLock++;
 			TranslateDialogDefault(hwndDlg);
 
@@ -340,7 +340,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
                 SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_CUST), BM_SETCHECK, BST_CHECKED, 0);
                 SetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, options.iPopUpDelay, FALSE);
             }
-			
+
 			ChangeLock--;
 			return TRUE;
         case WM_COMMAND:
@@ -348,7 +348,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 			{
 				POPUPDATAT ppd;
 				ZeroMemory(&ppd, sizeof(ppd));
-        
+
                 //iPopUpDelay
                 options.iPopUpDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
                 if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
@@ -365,7 +365,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				TCHAR szPreviewText[50];
 				mir_sntprintf(szPreviewText,50,TranslateT("has returned after being absent since %d days"),rand() % 30);
 				_tcsncpy(ppd.lptzText, szPreviewText, MAX_SECONDLINE);
-				
+
 				// Get current popups colors options
 				if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_POPUP))
 				{
@@ -385,10 +385,10 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 				ppd.iSeconds = options.iPopUpDelay;
 
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NO_HISTORY);
-				
+
 				_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
-				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");;
-				
+				ppd.lchIcon = Skin_GetIcon("enabled_icon");;
+
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NO_HISTORY);
 			}
 			else
@@ -435,21 +435,21 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 					EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT_POPUPDELAY), true);
 				}
 			}
-					
+
             break;
 		case WM_NOTIFY:{
 			NMHDR* nmhdr = (NMHDR*)lParam;
 			switch (nmhdr->code)
 			{
 				case PSN_APPLY:
-					
+
 					if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_POPUP))
-					{				
+					{
 						options.iUsePopupColors = 1;
 						options.iUseWinColors = 0;
 					}
 					else if (IsDlgButtonChecked(hwndDlg, IDC_COLORS_WIN))
-					{						
+					{
 						options.iUseWinColors = 1;
 						options.iUsePopupColors = 0;
 						options.iPopUpColorBack = GetSysColor(COLOR_BTNFACE);
@@ -461,7 +461,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 						options.iPopUpColorBack = SendDlgItemMessage(hwndDlg, IDC_COLOR_BGR, CPM_GETCOLOUR, 0, 0);
 						options.iPopUpColorFore = SendDlgItemMessage(hwndDlg, IDC_COLOR_FRG, CPM_GETCOLOUR, 0, 0);
 					}
-                              
+
                     //iPopUpDelay
                     options.iPopUpDelay = GetDlgItemInt(hwndDlg, IDC_EDIT_POPUPDELAY, 0, FALSE);
                     if (SendMessage(GetDlgItem(hwndDlg, IDC_DELAY_PERM), BM_GETCHECK, 0, 0) == BST_CHECKED)
@@ -477,7 +477,7 @@ static INT_PTR CALLBACK PopUpOptionsFrameProc(HWND hwndDlg, UINT uMsg, WPARAM wP
 					SavePopupOptions();
 
 					return TRUE;
-			}			
+			}
 			break;
 		}
 	}
@@ -525,7 +525,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lpar
 			{
 				/*
 				int status = DBGetContactSettingWord((HANDLE)lparam, MODULE_NAME, "LastStatus", ID_STATUS_OFFLINE);
-				char *strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, (LPARAM)0);
+				char *strptr = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)status, 0);
 				*/
 				_tcsftime(tmpBuf, 50, _T("%#x"), gmtime(&tmpTime));
 				SetDlgItemText(hdlg, IDC_EDIT_LASTSEEN, tmpBuf);

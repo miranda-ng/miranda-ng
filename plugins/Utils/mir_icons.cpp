@@ -32,22 +32,22 @@ HICON IcoLib_LoadIcon(const char *iconName, BOOL copy)
 	if (iconName == NULL || iconName[0] == 0)
 		return NULL;
 	
-	HICON hIcon = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) iconName);
+	HICON hIcon = Skin_GetIcon(iconName);
 	if (copy && hIcon != NULL) {
 		hIcon = CopyIcon(hIcon);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
+		Skin_ReleaseIcon(hIcon);
 	}
 	return hIcon;
 }
 
 void IcoLib_ReleaseIcon(const char *iconName)
 {
-	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM) iconName);
+	Skin_ReleaseIcon(iconName);
 }
 
 void IcoLib_ReleaseIcon(HICON hIcon)
 {
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM) hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 }
 
 HANDLE IcoLib_Register(char *name, char *section, char *description, int id)

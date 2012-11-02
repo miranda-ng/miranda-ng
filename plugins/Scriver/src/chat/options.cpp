@@ -284,7 +284,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 		if ((LOWORD(wParam) == IDC_CHAT_NICKROW || LOWORD(wParam) == IDC_CHAT_GROUP) && (HIWORD(wParam)!=EN_CHANGE || (HWND)lParam!=GetFocus()))
 			return 0;
 
-		if (lParam != (LPARAM)NULL)
+		if (lParam != 0)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
@@ -500,7 +500,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg,UINT uMsg,WPARAM wParam,LPARAM lPa
 			break;
 		}
 
-		if (lParam != (LPARAM)NULL)
+		if (lParam != 0)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 

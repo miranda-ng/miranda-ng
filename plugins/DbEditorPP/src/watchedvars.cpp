@@ -227,7 +227,7 @@ INT_PTR CALLBACK WatchDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                urd.cbSize=sizeof(urd);
                urd.hInstance=hInst;
                urd.hwndDlg=hwnd;
-               urd.lParam=(LPARAM)0;
+               urd.lParam=0;
                urd.lpTemplate=MAKEINTRESOURCE(IDD_WATCH_DIAG);
                urd.pfnResizer=WatchDialogResize;
                CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd);

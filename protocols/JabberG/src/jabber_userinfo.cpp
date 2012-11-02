@@ -327,8 +327,7 @@ static void sttFillAdvStatusInfo( CJabberProto* ppro, HWND hwndTree, HTREEITEM h
 			mir_sntprintf(szText, 2047, _T("%s (%s)"), TranslateTS(szAdvStatusTitle), szAdvStatusText);
 		else
 			mir_sntprintf(szText, 2047, _T("%s"), TranslateTS(szAdvStatusTitle));
-		sttFillInfoLine( hwndTree, htiRoot, (HICON)CallService(MS_SKIN2_GETICON, 0,
-			(LPARAM)szAdvStatusIcon), szTitle, szText, dwInfoLine);
+		sttFillInfoLine( hwndTree, htiRoot, Skin_GetIcon(szAdvStatusIcon), szTitle, szText, dwInfoLine);
 	}
 
 	mir_free(szAdvStatusIcon);

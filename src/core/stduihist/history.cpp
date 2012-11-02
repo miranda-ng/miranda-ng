@@ -249,7 +249,7 @@ static INT_PTR CALLBACK DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			urd.hwndDlg = hwndDlg;
 			urd.hInstance = hInst;
 			urd.lpTemplate = MAKEINTRESOURCEA(IDD_HISTORY);
-			urd.lParam = (LPARAM)NULL;
+			urd.lParam = 0;
 			urd.pfnResizer = HistoryDlgResizer;
 			CallService(MS_UTILS_RESIZEDIALOG, 0, (LPARAM)&urd);
 			return TRUE;

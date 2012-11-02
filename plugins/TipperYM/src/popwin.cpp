@@ -441,9 +441,9 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								iGender = DBGetContactSettingByte(pwd->hContact, szProto, "Gender", 0);
 
 							if (iGender == GEN_FEMALE)
-								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_SKIN2_GETICON, NULL, (LPARAM)"UserInfoEx_common_female");
+								pwd->extraIcons[i].hIcon = Skin_GetIcon("UserInfoEx_common_female");
 							else if (iGender == GEN_MALE)
-								pwd->extraIcons[i].hIcon = (HICON)CallService(MS_SKIN2_GETICON, NULL, (LPARAM)"UserInfoEx_common_male");
+								pwd->extraIcons[i].hIcon = Skin_GetIcon("UserInfoEx_common_male");
 						}
 						pwd->extraIcons[i].bDestroy = false;
 					}

@@ -194,8 +194,8 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			if (dat->hAwayMsgEvent) UnhookEvent(dat->hAwayMsgEvent);
 			Utils_SaveWindowPosition(hwndDlg, dat->hContact, "SRAway", "AwayMsgDlg");
 			WindowList_Remove(hWindowList, hwndDlg);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)NULL), 0);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)NULL), 0);
+			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, NULL));
+			Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, NULL));
 			mir_free(dat);
 			break;
 	}
@@ -399,7 +399,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 		}
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&clmi);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)clmi.hIcon, (LPARAM)0);
+	Skin_ReleaseIcon(clmi.hIcon);
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (!iHidden)

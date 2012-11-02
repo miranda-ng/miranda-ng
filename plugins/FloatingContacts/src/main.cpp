@@ -573,7 +573,7 @@ static void ShowContactMenu( HWND hwnd, POINT pt )
 
 	if ( pThumb != NULL )
 	{
-		hContactMenu = (HMENU)CallService( MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, (LPARAM)0 );
+		hContactMenu = (HMENU)CallService( MS_CLIST_MENUBUILDCONTACT, (WPARAM)pThumb->hContact, 0 );
 
 		if ( hContactMenu == NULL ) return;
 

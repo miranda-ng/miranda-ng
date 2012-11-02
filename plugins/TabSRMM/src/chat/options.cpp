@@ -497,7 +497,7 @@ HICON LoadIconEx(int iIndex, char * pszIcoLibName, int iX, int iY)
 {
 	char szTemp[256];
 	mir_snprintf(szTemp, sizeof(szTemp), "chat_%s", pszIcoLibName);
-	return (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)szTemp);
+	return Skin_GetIcon(szTemp);
 }
 
 static void InitSetting(TCHAR** ppPointer, char* pszSetting, TCHAR* pszDefault)
@@ -582,7 +582,7 @@ INT_PTR CALLBACK DlgProcOptions1(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			if ((LOWORD(wParam) == IDC_GROUP)
 					&& (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()))	return 0;
 
-			if (lParam != (LPARAM)NULL)
+			if (lParam != 0)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -1086,7 +1086,7 @@ INT_PTR CALLBACK DlgProcOptions2(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 					break;
 			}
 
-			if (lParam != (LPARAM)NULL)
+			if (lParam != 0)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
@@ -1266,7 +1266,7 @@ INT_PTR CALLBACK DlgProcOptions3(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM 
 			break;
 		}
 		case WM_COMMAND:
-			if (lParam != (LPARAM)NULL)
+			if (lParam != 0)
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 

@@ -249,7 +249,7 @@ static INT_PTR CALLBACK InfobarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 						adr.rcDraw.right = avatarWidth - 1;
 						adr.rcDraw.bottom = avatarHeight - 1;
 						adr.dwFlags = AVDRQ_DRAWBORDER | AVDRQ_HIDEBORDERONTRANSPARENCY;
-						CallService(MS_AV_DRAWAVATAR, (WPARAM)0, (LPARAM)&adr);
+						CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 					}
 				}
 				BitBlt(dis->hDC, 0, 0, itemWidth, itemHeight, hdcMem, 0, 0, SRCCOPY);

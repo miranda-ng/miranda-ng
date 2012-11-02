@@ -272,7 +272,7 @@ void CDdxMmapSA::EncryptDB()
 	
 	bEncProcess = 1;
 
-	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, (LPARAM)NULL);
+	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, 0);
 	if (action != IDOK || !strlen(encryptKey)) {
 		bEncProcess = 0;		
 		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);		

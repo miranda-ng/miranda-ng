@@ -340,7 +340,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 		#ifdef DEBUG_SYNCHRO
 		DebugLog(SynchroFile,"UpdateMails:ActualAccountSO-read wait failed\n");
 		#endif
-		PostMessage(hDlg,WM_DESTROY,(WPARAM)0,(LPARAM)0);
+		PostMessage(hDlg,WM_DESTROY,0,0);
 
 		return UPDATE_FAIL;
 	}
@@ -359,7 +359,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 		#endif
 		ReadDoneFcn(ActualAccount->AccountAccessSO);
 
-		PostMessage(hDlg,WM_DESTROY,(WPARAM)0,(LPARAM)0);
+		PostMessage(hDlg,WM_DESTROY,0,0);
 		return UPDATE_FAIL;
 	}
 	#ifdef DEBUG_SYNCHRO
@@ -422,7 +422,7 @@ int UpdateMails(HWND hDlg,HACCOUNT ActualAccount,DWORD nflags,DWORD nnflags)
 
 		sprintf(TitleStrA,Translate(MAILBROWSERTITLE),ActualAccount->Name,MN.Real.DisplayUC+MN.Virtual.DisplayUC,MN.Real.Display+MN.Virtual.Display);
 		MultiByteToWideChar(CP_ACP,MB_USEGLYPHCHARS,TitleStrA,-1,TitleStrW,(int)strlen(TitleStrA)+1);
-		SendMessageW(hDlg,WM_SETTEXT,(WPARAM)0,(LPARAM)TitleStrW);
+		SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)TitleStrW);
 		delete[] TitleStrA;
 		delete[] TitleStrW;
 	}
@@ -588,7 +588,7 @@ int AddNewMailsToListView(HWND hListView,HACCOUNT ActualAccount,struct CMailNumb
 		{
 			item.iSubItem=0;
 			item.pszText=FromStr;
-			item.iItem=SendMessageW(hListView,LVM_INSERTITEMW,(WPARAM)0,(LPARAM)&item);
+			item.iItem=SendMessageW(hListView,LVM_INSERTITEMW,0,(LPARAM)&item);
 
 			item.iSubItem=1;
 			item.pszText=(NULL!=UnicodeHeader.Subject ? UnicodeHeader.Subject : (WCHAR*)L"");
@@ -723,7 +723,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	if ((MN->Real.BrowserUC+MN->Virtual.BrowserUC==0) && (hDlg!=NULL))
 	{
 		if (!IsWindowVisible(hDlg) && !(nflags & YAMN_ACC_MSG))
-			PostMessage(hDlg,WM_DESTROY,(WPARAM)0,(LPARAM)0);				//destroy window if no new mail and window is not visible
+			PostMessage(hDlg,WM_DESTROY,0,0);				//destroy window if no new mail and window is not visible
 		if (nnflags & YAMN_ACC_MSG)											//if no new mail and msg should be executed
 		{
 			SetForegroundWindow(hDlg);
@@ -733,7 +733,7 @@ void DoMailActions(HWND hDlg,HACCOUNT ActualAccount,struct CMailNumbers *MN,DWOR
 	else 
 		if (hDlg!=NULL)								//else insert icon and set window if new mails
 		{
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_SCROLL,(WPARAM)0,(LPARAM)0x7ffffff);
+			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_SCROLL,0,(LPARAM)0x7ffffff);
 
 			if ((nflags & YAMN_ACC_ICO) && (MN->Real.SysTrayUC+MN->Virtual.SysTrayUC))
 			{
@@ -864,7 +864,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 				} else {
 					DBVARIANT dbv;
 
-					hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,(LPARAM)0);
+					hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
 					if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 					{
@@ -932,7 +932,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 			HANDLE hContact;
 			DBVARIANT dbv;
 
-			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,(LPARAM)0);
+			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
 			if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
@@ -965,7 +965,7 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 				HANDLE hContact;
 				DBVARIANT dbv;
 
-				hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,(LPARAM)0);
+				hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
 				if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 				{
@@ -1032,7 +1032,7 @@ LRESULT CALLBACK NoNewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPar
 			HANDLE hContact;
 			DBVARIANT dbv;
 
-			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,(LPARAM)0);
+			hContact=(HANDLE)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 
 			if (!DBGetContactSetting((HANDLE) hContact,YAMN_DBMODULE,"Id",&dbv)) 
 			{
@@ -1343,7 +1343,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 
 			LVCOLUMNW lvc0={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,130,iHeaderW,0,0};
 			LVCOLUMNW lvc1={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,400,iValueW,0,0};
-			SendMessageW(hListView,LVM_INSERTCOLUMNW,(WPARAM)0,(LPARAM)&lvc0);
+			SendMessageW(hListView,LVM_INSERTCOLUMNW,0,(LPARAM)&lvc0);
 			SendMessageW(hListView,LVM_INSERTCOLUMNW,(WPARAM)1,(LPARAM)&lvc1);
 			if (NULL!=iHeaderW)
 				delete[] iHeaderW;
@@ -1430,7 +1430,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 						item.iItem++;
 						item.pszText=0;
 					}
-					item.iItem=SendMessageW(hListView,LVM_INSERTITEMW,(WPARAM)0,(LPARAM)&item);
+					item.iItem=SendMessageW(hListView,LVM_INSERTITEMW,0,(LPARAM)&item);
 					item.iSubItem=1;
 					item.pszText=str2?split[i]:0;
 					SendMessageW(hListView,LVM_SETITEMTEXTW,(WPARAM)item.iItem,(LPARAM)&item);
@@ -1466,7 +1466,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 					}
 				}
 				if (!bodyDecoded)ConvertStringToUnicode(localBody?localBody:body,MailParam->mail->MailData->CP,&bodyDecoded);
-				SendMessageW(hEdit,WM_SETTEXT,(WPARAM)0,(LPARAM)bodyDecoded);
+				SendMessageW(hEdit,WM_SETTEXT,0,(LPARAM)bodyDecoded);
 				delete[] bodyDecoded;
 				if (localBody) delete[] localBody;
 				SetFocus(hEdit);
@@ -1496,7 +1496,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			else wsprintfW(title,L"none");
 			if (Subj) delete[] Subj;
 			if (From) delete[] From;
-			SendMessageW(hDlg,WM_SETTEXT,(WPARAM)0,(LPARAM)title);
+			SendMessageW(hDlg,WM_SETTEXT,0,(LPARAM)title);
 			delete[] title;
 			// turn on redrawing
 			SendMessage(hListView, WM_SETREDRAW, 1, 0);
@@ -1725,16 +1725,16 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 			DebugLog(SynchroFile,"MailBrowser:INIT:ActualAccountSO-read enter\n");
 			#endif
 
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNAPP),WM_SETTEXT,(WPARAM)0,(LPARAM)TranslateW(L"Run application"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNDEL),WM_SETTEXT,(WPARAM)0,(LPARAM)TranslateW(L"Delete selected"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNCHECKALL),WM_SETTEXT,(WPARAM)0,(LPARAM)TranslateW(L"Select All"));
-			SendMessageW(GetDlgItem(hDlg,IDC_BTNOK),WM_SETTEXT,(WPARAM)0,(LPARAM)TranslateW(L"OK"));
+			SendMessageW(GetDlgItem(hDlg,IDC_BTNAPP),WM_SETTEXT,0,(LPARAM)TranslateW(L"Run application"));
+			SendMessageW(GetDlgItem(hDlg,IDC_BTNDEL),WM_SETTEXT,0,(LPARAM)TranslateW(L"Delete selected"));
+			SendMessageW(GetDlgItem(hDlg,IDC_BTNCHECKALL),WM_SETTEXT,0,(LPARAM)TranslateW(L"Select All"));
+			SendMessageW(GetDlgItem(hDlg,IDC_BTNOK),WM_SETTEXT,0,(LPARAM)TranslateW(L"OK"));
 
 			LVCOLUMNW lvc0={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,FromWidth,TranslateW(L"From"),0,0};
 			LVCOLUMNW lvc1={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SubjectWidth,TranslateW(L"Subject"),0,0};
 			LVCOLUMNW lvc2={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeWidth,TranslateW(L"Size"),0,0};
 			LVCOLUMNW lvc3={LVCF_FMT | LVCF_TEXT | LVCF_WIDTH,LVCFMT_LEFT,SizeDate,TranslateW(L"Date"),0,0};
-			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)0,(LPARAM)&lvc0);
+			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,0,(LPARAM)&lvc0);
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)1,(LPARAM)&lvc1);
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)2,(LPARAM)&lvc2);
 			SendMessageW(GetDlgItem(hDlg,IDC_LISTMAILS),LVM_INSERTCOLUMNW,(WPARAM)3,(LPARAM)&lvc3);

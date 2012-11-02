@@ -404,7 +404,7 @@ BOOL SM_RemoveUser(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 				dw = UM_RemoveUser(&pTemp->pUsers, pszUID);
 
 				if (pTemp->hWnd)
-					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
 
 				if (pszID)
 					return TRUE;
@@ -470,7 +470,7 @@ BOOL SM_GiveStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 			if (ui) {
 				SM_MoveUser( pTemp->ptszID, pTemp->pszModule, ui->pszUID );
 				if ( pTemp->hWnd )
-					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
 			}
 			return TRUE;
 		}
@@ -494,7 +494,7 @@ BOOL SM_SetContactStatus(const TCHAR* pszID, const char* pszModule, const TCHAR*
 			if (ui) {
 				SM_MoveUser( pTemp->ptszID, pTemp->pszModule, ui->pszUID );
 				if ( pTemp->hWnd )
-					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
 			}
 			return TRUE;
 		}
@@ -518,7 +518,7 @@ BOOL SM_TakeStatus(const TCHAR* pszID, const char* pszModule, const TCHAR* pszUI
 			if ( ui ) {
 				SM_MoveUser(pTemp->ptszID, pTemp->pszModule, ui->pszUID);
 				if ( pTemp->hWnd )
-					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+					SendMessage(pTemp->hWnd, GC_UPDATENICKLIST, 0, 0);
 			}
 			return TRUE;
 		}
@@ -633,7 +633,7 @@ BOOL SM_SendUserMessage(const TCHAR* pszID, const char* pszModule, const TCHAR* 
 	while ( pTemp != NULL ) {
 		if (( !pszID || !lstrcmpi( pTemp->ptszID, pszID )) && !lstrcmpiA( pTemp->pszModule, pszModule )) {
 			if ( pTemp->iType == GCW_CHATROOM )
-				DoEventHook( pTemp->ptszID, pTemp->pszModule, GC_USER_MESSAGE, NULL, pszText, (LPARAM)NULL);
+				DoEventHook( pTemp->ptszID, pTemp->pszModule, GC_USER_MESSAGE, NULL, pszText, 0);
 			if (pszID)
 				return TRUE;
 		}

@@ -403,10 +403,7 @@ void CSList::addProtoStatusMenuItem( char* protoName, void* arg )
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIF_TCHAR;
-	if (ServiceExists(MS_SKIN2_GETICON))
-		mi.icolibItem = (HANDLE)LoadIconExEx("icon", IDI_CSLIST);
-	else
-		mi.hIcon = LoadIconExEx("icon", IDI_CSLIST);
+	mi.icolibItem = (HANDLE)LoadIconExEx("icon", IDI_CSLIST);
 	mi.ptszName = _T(MODULENAME);
 	mi.position = 2000040000;
 	mi.pszService = buf;
@@ -527,7 +524,7 @@ void CSWindow::initIcons()
 				{
 					char szTemp[MAX_PATH];
 					mir_snprintf(szTemp, SIZEOF(szTemp), "%s_xstatus%d", protoName, i);
-					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ));
+					ImageList_AddIcon( this->icons, Skin_GetIcon(szTemp));
 				}
 			}
 		}
@@ -545,7 +542,7 @@ void CSWindow::initIcons()
 				{
 					char szTemp[MAX_PATH];
 					mir_snprintf(szTemp, SIZEOF(szTemp), "%s_%s", protoName, moods_names[i].szTag);
-					ImageList_AddIcon( this->icons, ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szTemp ));
+					ImageList_AddIcon( this->icons, Skin_GetIcon(szTemp));
 				}
 			}
 		}
@@ -1332,11 +1329,7 @@ INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 
 HICON LoadIconExEx( const char* IcoLibName, int NonIcoLibIcon )
 {
-	if ( ServiceExists( MS_SKIN2_GETICON )) {
-		char szSettingName[64];
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, IcoLibName);
-		return ( HICON )CallService( MS_SKIN2_GETICON, 0, ( LPARAM )szSettingName );
-	}
-	else
-		return ( HICON )LoadImage( cslist->handle, MAKEINTRESOURCE( NonIcoLibIcon ), IMAGE_ICON, 0, 0, 0 );
+	char szSettingName[64];
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, IcoLibName);
+	return Skin_GetIcon(szSettingName );
 }

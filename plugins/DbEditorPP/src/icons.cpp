@@ -72,7 +72,7 @@ HICON LoadSkinnedDBEIcon(int icon)
 {
 	char name[32];
 	mir_snprintf(name, SIZEOF(name), "DBE++_%d", icon);
-	HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)name);
+	HICON hIcon = Skin_GetIcon(name);
 	return (hIcon) ? hIcon : LoadIcon(hInst, MAKEINTRESOURCE(icon));
 }
 

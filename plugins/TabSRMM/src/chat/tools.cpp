@@ -158,7 +158,7 @@ static void TSAPI Chat_OpenPopup(SESSION_INFO* si, HWND hwndPopup)
 static void TSAPI Chat_DismissPopup(const SESSION_INFO* si, HWND hwndPopup)
 {
 	if (si->hContact)
-		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+		if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 			CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)szChatIconString);
 
 	if (si->hWnd && KillTimer(si->hWnd, TIMERID_FLASHWND))
@@ -172,7 +172,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	switch (message) {
 		case WM_COMMAND:
 			if (HIWORD(wParam) == STN_CLICKED) {
-				SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)0);;
+				SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);;
 
 				if (si) {
 					if (nen_options.maskActL & MASK_OPEN)
@@ -184,7 +184,7 @@ static INT_PTR CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			}
 			break;
 		case WM_CONTEXTMENU: {
-			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)0);
+			SESSION_INFO* si = (SESSION_INFO*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, 0);
 
 			if (si && si->hContact) {
 				if (nen_options.maskActR & MASK_OPEN)

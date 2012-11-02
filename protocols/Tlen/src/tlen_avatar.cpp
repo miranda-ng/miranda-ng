@@ -337,7 +337,7 @@ static void TlenRemoveAvatarRequestThread(void *ptr) {
 	mir_free(req->pData);
 	mir_free(req);
 	if (resp != NULL) {
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)resp);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		RemoveAvatar(data->proto, NULL);
 	}
 	mir_free(data);
@@ -357,7 +357,7 @@ static void TlenUploadAvatarRequestThread(void *ptr) {
 	NETLIBHTTPREQUEST *req = data->req;
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)data->proto->hNetlibUser, (LPARAM)req);
 	if (resp != NULL) {
-		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, (WPARAM)0, (LPARAM)resp);
+		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		SetAvatar(data->proto, NULL, NULL, data->data, data->length, PA_FORMAT_PNG);
 	}
 	mir_free(req->szUrl);

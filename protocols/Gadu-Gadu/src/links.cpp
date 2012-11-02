@@ -84,7 +84,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)gginst->hInstanceMenuItem, (LPARAM)&mi);
 		if (mi.hIcon)
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)mi.hIcon, 0);
+			Skin_ReleaseIcon(mi.hIcon);
 	}
 
 	if (items > 1)

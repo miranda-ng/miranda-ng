@@ -291,12 +291,12 @@ HICON WINAPI g_LoadIconEx( int idx, bool big )
 {
 	if ( idx >= SIZEOF(iconList))
 		return NULL;
-	return ( HICON )CallService(MS_SKIN2_GETICON, big, (LPARAM)iconList[idx].szName);
+	return Skin_GetIcon(iconList[idx].szName, big);
 }
 
 void WINAPI g_ReleaseIcon( HICON hIcon )
 {
-	if ( hIcon ) CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	if ( hIcon ) Skin_ReleaseIcon(hIcon);
 }
 
 static void LoadPlugins()

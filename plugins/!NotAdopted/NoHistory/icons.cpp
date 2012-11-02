@@ -6,9 +6,9 @@ HICON hIconRemove, hIconKeep, hIconClear;
 HANDLE hIcoLibIconsChanged = 0;
 
 int ReloadIcons(WPARAM wParam, LPARAM lParam) {
-	hIconRemove = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)MODULE "_remove");
-	hIconKeep = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)MODULE "_keep");
-	hIconClear = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)MODULE "_clear");
+	hIconRemove = Skin_GetIcon(MODULE "_remove");
+	hIconKeep = Skin_GetIcon(MODULE "_keep");
+	hIconClear = Skin_GetIcon(MODULE "_clear");
 
 	return 0;
 }
@@ -26,7 +26,7 @@ void InitIcons() {
 		sid.pszDefaultFile = MODULE ".dll";															\
 		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(z), IMAGE_ICON, 0, 0, 0);		\
 		CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);												\
-		sid.iDefaultIndex++;																		
+		sid.iDefaultIndex++;
 
 		AddIcon("Disable", MODULE "_remove", IDI_HREMOVE);
 		AddIcon("Enable", MODULE "_keep", IDI_HKEEP);

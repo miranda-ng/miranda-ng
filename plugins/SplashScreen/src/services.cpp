@@ -67,7 +67,7 @@ INT_PTR TestService(WPARAM wParam,LPARAM lParam)
 	ofn.lpstrDefExt = _T("");
 
 	if (GetOpenFileName(&ofn))
-		CallService(MS_SHOWSPLASH,(WPARAM)szTempPath,(LPARAM)0);
+		CallService(MS_SHOWSPLASH,(WPARAM)szTempPath,0);
 
 	return 0;
 }

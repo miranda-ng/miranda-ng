@@ -844,7 +844,7 @@ void ThumbInfo::UpdateContent()
 
 void ThumbInfo::PopUpMessageDialog( )
 {
-	CallService( MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, (LPARAM)0 );
+	CallService( MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)hContact, 0 );
 }
 
 void ThumbInfo::OnTimer(BYTE idTimer)

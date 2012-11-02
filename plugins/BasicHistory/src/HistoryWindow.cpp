@@ -83,48 +83,35 @@ HistoryWindow::~HistoryWindow()
 	if(eventIcoms != NULL)
 	{
 		for(int i = 0; i < iconsNum; ++i)
-		{
 			if(eventIcoms[i] != NULL)
-			{
-				CallService(MS_SKIN2_RELEASEICON, (LPARAM)eventIcoms[i], 0);
-			}
-		}
+				Skin_ReleaseIcon(eventIcoms[i]);
 
 		delete[] eventIcoms;
 	}
 
 	if(plusIco != NULL)
-	{
-		CallService(MS_SKIN2_RELEASEICON, (LPARAM)plusIco, 0);
-	}
+		Skin_ReleaseIcon(plusIco);
+
 	if(minusIco != NULL)
-	{
-		CallService(MS_SKIN2_RELEASEICON, (LPARAM)minusIco, 0);
-	}
+		Skin_ReleaseIcon(minusIco);
+
 	if(findNextIco != NULL)
-	{
-		CallService(MS_SKIN2_RELEASEICON, (LPARAM)findNextIco, 0);
-	}
+		Skin_ReleaseIcon(findNextIco);
+
 	if(findPrevIco != NULL)
-	{
-		CallService(MS_SKIN2_RELEASEICON, (LPARAM)findPrevIco, 0);
-	}
+		Skin_ReleaseIcon(findPrevIco);
+
 	if(himlSmall != NULL)
-	{
 		ImageList_Destroy(himlSmall);
-	}
+
 	if(himlNone != NULL)
-	{
 		ImageList_Destroy(himlNone);
-	}
+
 	if(bkBrush != NULL)
-	{
 		DeleteObject(bkBrush);
-	}
+
 	if(bkFindBrush != NULL)
-	{
 		DeleteObject(bkFindBrush);
-	}
 }
 
 std::map<HANDLE, HistoryWindow*> HistoryWindow::windows;
@@ -643,7 +630,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			urd.hwndDlg=hwndDlg;
 			urd.hInstance=hInst;
 			urd.lpTemplate=MAKEINTRESOURCEA(IDD_HISTORY);
-			urd.lParam=(LPARAM)NULL;
+			urd.lParam=0;
 			urd.pfnResizer=HistoryWindow::HistoryDlgResizer;
 			CallService(MS_UTILS_RESIZEDIALOG,0,(LPARAM)&urd);
 			ListView_SetColumnWidth(GetDlgItem(hwndDlg,IDC_LIST), 0, LVSCW_AUTOSIZE_USEHEADER);
@@ -1216,8 +1203,8 @@ void HistoryWindow::Initialise()
 	ScreenToClient(hWnd, &pt);
 	listOryginalPos = pt.x;
 
-	plusIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 1, (LPARAM)hPlusIcon);
-	minusIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 1, (LPARAM)hMinusIcon);
+	plusIco = Skin_GetIconByHandle(hPlusIcon, 1);
+	minusIco = Skin_GetIconByHandle(hMinusIcon, 1);
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASPUSHBTN, TRUE, 0 );
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0 );
 	if(hContact == NULL || Options::instance->showContacts)
@@ -1257,7 +1244,7 @@ void HistoryWindow::Initialise()
 		eventIcoms = new HICON[allIconNumber];
 		for(int i = 0; i < iconsNum; ++i)
 		{
-			eventIcoms[i] = hEventIcons[i] == NULL ? NULL : (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hEventIcons[i]);
+			eventIcoms[i] = hEventIcons[i] == NULL ? NULL : Skin_GetIconByHandle(hEventIcons[i]);
 			ImageList_AddIcon(himlSmall, eventIcoms[i]);
 		}
 
@@ -1297,9 +1284,9 @@ void HistoryWindow::Initialise()
 	HIMAGELIST himlButtons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 3);
 	if(himlButtons)
 	{
-		findNextIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hFindNextIcon);
+		findNextIco = Skin_GetIconByHandle(hFindNextIcon);
 		ImageList_AddIcon(himlButtons, findNextIco);
-		findPrevIco = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)hFindPrevIcon);
+		findPrevIco = Skin_GetIconByHandle(hFindPrevIcon);
 		ImageList_AddIcon(himlButtons, findPrevIco);
 		configIco = LoadSkinnedIcon(SKINICON_OTHER_OPTIONS);
 		ImageList_AddIcon(himlButtons, configIco);
@@ -1307,7 +1294,7 @@ void HistoryWindow::Initialise()
 		ImageList_AddIcon(himlButtons, deleteIco);
 				
 		// Set the image list.
-		SendMessage(toolbarWindow, TB_SETIMAGELIST, (WPARAM)0, (LPARAM)himlButtons);
+		SendMessage(toolbarWindow, TB_SETIMAGELIST, 0, (LPARAM)himlButtons);
 
 		// Load the button images.
 		SendMessage(toolbarWindow, TB_LOADIMAGES, (WPARAM)IDB_STD_SMALL_COLOR, (LPARAM)HINST_COMMCTRL);
@@ -1338,10 +1325,10 @@ void HistoryWindow::Initialise()
 void HistoryWindow::Destroy()
 {
 	HICON hIcon = (HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 	
 	hIcon = (HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 			
 	UnregisterHotkeyControl(GetDlgItem(hWnd, IDC_SHOWHIDE));
 	UnregisterHotkeyControl(GetDlgItem(hWnd, IDC_LIST_CONTACTS));

@@ -27,7 +27,7 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
 	HICON hIcon;
 	for (int i=0; icons[i].key; i++) {
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)icons[i].name);
+		hIcon = Skin_GetIcon(icons[i].name);
 		if(icons[i].tbl == TBL_IEC)
 			g_hIEC[icons[i].idx]=hIcon;
 		else
@@ -78,7 +78,7 @@ void InitIcons(void)
 		sid.iDefaultIndex = icons[i].key;
 		sid.hDefaultIcon = (HICON)LoadImage(g_hIconInst, MAKEINTRESOURCE(icons[i].key), IMAGE_ICON, 16, 16, LR_SHARED);
 		Skin_AddIcon(&sid);
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)icons[i].name);
+		hIcon = Skin_GetIcon(icons[i].name);
 
 		if(icons[i].tbl == TBL_IEC)
 			g_hIEC[icons[i].idx]=hIcon;

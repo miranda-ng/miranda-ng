@@ -251,7 +251,7 @@ HICON LoadIconEx( int iconId, bool big )
 {
 	for ( int i=0; i < SIZEOF(iconList); i++ )
 		if ( iconList[i].defIconID == iconId )
-			return ( HICON )CallService( MS_SKIN2_GETICONBYHANDLE, big, (LPARAM)hIconLibItems[i] );
+			return Skin_GetIconByHandle(hIconLibItems[i], big);
 
 	return NULL;
 }
@@ -267,7 +267,8 @@ HANDLE GetIconHandle( int iconId )
 
 void ReleaseIconEx( HICON hIcon )
 {
-	if ( hIcon ) CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	if (hIcon)
+		Skin_ReleaseIcon(hIcon);
 }
 
 void WindowSetIcon( HWND hWnd, int iconId )

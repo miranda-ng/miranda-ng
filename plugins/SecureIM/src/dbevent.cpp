@@ -14,7 +14,7 @@ void HistoryLog(HANDLE hContact, LPCSTR szText) {
 	dbei.cbBlob = (int)strlen(szText) + 1;
 	dbei.pBlob = (PBYTE)szText;
 
-	CallService(MS_DB_EVENT_ADD, (WPARAM)0, (LPARAM)&dbei);
+	CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
 }
 
 

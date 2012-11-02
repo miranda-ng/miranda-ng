@@ -19,7 +19,7 @@
 */
 #define MS_AUTOREPLACER_ADDWINHANDLE "AutoReplacer/AddWinHandle"
 static int __inline autoreplacer_AddWinHandle(HWND hwnd) {
-	return (int)CallService(MS_AUTOREPLACER_ADDWINHANDLE, (WPARAM)0, (LPARAM)hwnd);
+	return (int)CallService(MS_AUTOREPLACER_ADDWINHANDLE, 0, (LPARAM)hwnd);
 }
 
 /*
@@ -33,7 +33,7 @@ static int __inline autoreplacer_AddWinHandle(HWND hwnd) {
 */
 #define MS_AUTOREPLACER_REMWINHANDLE "AutoReplacer/RemWinHandle"
 static int __inline autoreplacer_RemWinHandle(HWND hwnd) {
-	return (int)CallService(MS_AUTOREPLACER_REMWINHANDLE, (WPARAM)0, (LPARAM)hwnd);
+	return (int)CallService(MS_AUTOREPLACER_REMWINHANDLE, 0, (LPARAM)hwnd);
 }
 
 #endif

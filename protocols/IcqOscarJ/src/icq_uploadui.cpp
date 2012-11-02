@@ -169,7 +169,7 @@ static int GroupEnumIdsEnumProc(const char *szSetting,LPARAM lParam)
 		cgs.szModule=(char*)lParam;
 		cgs.szSetting=szSetting;
 		cgs.pValue=&dbv;
-		if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,(WPARAM)NULL,(LPARAM)&cgs))
+		if(CallService(MS_DB_CONTACT_GETSETTINGSTATIC,0,(LPARAM)&cgs))
 			return 0; // this converts all string types to DBVT_ASCIIZ
 		if(dbv.type!=DBVT_ASCIIZ)
 		{ // it is not a cached server-group name
@@ -195,7 +195,7 @@ static void enumServerGroups(CIcqProto* ppro)
 	dbces.szModule = szModule;
 	dbces.lParam = (LPARAM)szModule;
 
-	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL, (LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS, 0, (LPARAM)&dbces);
 }
 
 static DWORD sendUploadGroup(CIcqProto* ppro, WORD wAction, WORD wGroupId, char* szItemName)

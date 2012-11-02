@@ -62,21 +62,8 @@ int iIconId[5] = {3,2,4,1,0};
 //
 int OnSkinIconsChanged(WPARAM wParam,LPARAM lParam)
 {
-	int indx;
-/*
-	if(lParam == NULL)
-		return 0;
-	for(indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-	{
-		if(strcmp((char*)lParam, szIconId[indx]) == 0)
-		{
-			hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
-			break;
-		}
-	}
-*/
-	for(indx = 0; indx < SIZEOF(hIcons); indx++)
-		hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
+	for(int indx = 0; indx < SIZEOF(hIcons); indx++)
+		hIcons[indx] = Skin_GetIcon(szIconId[indx]);
 
 	WindowList_Broadcast(hFileList, WM_FE_SKINCHANGE, 0,0);
 
@@ -234,7 +221,7 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 		Skin_AddIcon(&sid);
 	}
 	for(indx = 0; indx < SIZEOF(hIcons); indx++)
-		hIcons[indx] = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szIconId[indx]);
+		hIcons[indx] = Skin_GetIcon(szIconId[indx]);
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
@@ -261,7 +248,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 //	for(int indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
 //		hIcons[indx] = (HICON)LoadImage(hInst,MAKEINTRESOURCE(idIcons[indx]),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);
-		
+
 	hFileList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	//CreateServiceFunction( SERVICE_NAME PS_GETCAPS, FEGetCaps );

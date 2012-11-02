@@ -79,7 +79,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 		if (pdata) {
 			// do MS_MSG_SENDMESSAGE instead if wanted to reply and not read!
 			if (pdata->pluginOptions->bMsgReplyWindow && pdata->eventType == EVENTTYPE_MESSAGE)
-				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pdata->hContact, (LPARAM)NULL); // JK, use core (since 0.3.3+)
+				CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)pdata->hContact, 0); // JK, use core (since 0.3.3+)
 			else {
 				CLISTEVENT* cle;
 				int idx = 0;
@@ -92,7 +92,7 @@ int PopupAct(HWND hWnd, UINT mask, PLUGIN_DATA* pdata)
 						if (cle && cle->hDbEvent == eventData->hEvent)
 						{
 							if (ServiceExists(cle->pszService))
-								CallServiceSync(cle->pszService, (WPARAM)NULL, (LPARAM)cle); // JK, use core (since 0.3.3+)
+								CallServiceSync(cle->pszService, 0, (LPARAM)cle); // JK, use core (since 0.3.3+)
 							break;
 						}
 						idx++;

@@ -248,7 +248,7 @@ typedef struct {
 //
 //  Add a icon into options UI
 //
-//  wParam = (WPARAM)0
+//  wParam = 0
 //  lParam = (LPARAM)(SKINICONDESC*)sid;
 //
 #define MS_SKIN2_ADDICON "Skin2/Icons/AddIcon"

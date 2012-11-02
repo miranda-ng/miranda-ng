@@ -788,7 +788,7 @@ private:
 		}
 
 		if ( bIsError )
-			SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)NULL);
+			SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
 	}
 };
 
@@ -2273,7 +2273,7 @@ void CJabberDlgAccMgrUI::QueryServerListThread(void *arg)
 	if ( result )
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)result);
 	if ( bIsError )
-		SendMessage(hwnd, WM_JABBER_REFRESH, 0, (LPARAM)NULL);
+		SendMessage(hwnd, WM_JABBER_REFRESH, 0, 0);
 }
 
 INT_PTR CJabberProto::SvcCreateAccMgrUI(WPARAM, LPARAM lParam)

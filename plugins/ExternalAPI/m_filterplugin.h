@@ -121,11 +121,11 @@ typedef int (WINAPI *YAMN_SETFILTERPLUGINFCNIMPORTFCN)(HYAMNFILTERPLUGIN Plugin,
 //
 //then you have to fill this structure with pointers... If you use Miranda services, you will do it like this
 //
-//	pYAMNFcn->SetFilterPluginFcnImportFcn=(YAMN_SETFILTERPLUGINFCNIMPORTFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_SETFILTERPLUGINFCNIMPORTID,(LPARAM)0);
+//	pYAMNFcn->SetFilterPluginFcnImportFcn=(YAMN_SETFILTERPLUGINFCNIMPORTFCN)CallService(MS_YAMN_GETFCNPTR,(WPARAM)YAMN_SETFILTERPLUGINFCNIMPORTID,0);
 //
 //If you do not use Miranda services, call service MS_YAMN_GETFCNPTR directly. The address to the MS_YAMN_GETFCNPTR is sent to you in LoadFilter function:
 //
-//	pYAMNFcn->SetFilterPluginFcnImportFcn=(YAMN_SETFILTERPLUGINFCNIMPORTFCN)YAMN_GetFcnPtr((WPARAM)YAMN_SETFILTERPLUGINFCNIMPORTID,(LPARAM)0);
+//	pYAMNFcn->SetFilterPluginFcnImportFcn=(YAMN_SETFILTERPLUGINFCNIMPORTFCN)YAMN_GetFcnPtr((WPARAM)YAMN_SETFILTERPLUGINFCNIMPORTID,0);
 //
 //and in your plugin just simply use e.g.:
 //

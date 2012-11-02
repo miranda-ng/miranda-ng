@@ -207,7 +207,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 	{
 		HANDLE hContact = NULL;
 		if ((uin = atoi(gch->pszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
-			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)0);
+			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	}
 	char* pszText = mir_t2a(gch->ptszText);
 	netlog("gg_gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, pszText);

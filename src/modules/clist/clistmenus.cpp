@@ -201,10 +201,10 @@ static INT_PTR BuildMainMenu(WPARAM, LPARAM)
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hMainMenuObject;
 
-	NotifyEventHooks(hPreBuildMainMenuEvent, (WPARAM)0, (LPARAM)0);
+	NotifyEventHooks(hPreBuildMainMenuEvent, 0, 0);
 
 	CallService(MO_BUILDMENU, (WPARAM)hMainMenu, (LPARAM)&param);
-	DrawMenuBar((HWND)CallService("CLUI/GetHwnd", (WPARAM)0, (LPARAM)0));
+	DrawMenuBar((HWND)CallService("CLUI/GetHwnd", 0, 0));
 	return (INT_PTR)hMainMenu;
 }
 
@@ -842,7 +842,7 @@ void RebuildMenuOrder(void)
 	tmp.CheckService = "StatusMenuCheckService";
 	tmp.name = "StatusMenu";
 
-	hStatusMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, (WPARAM)0, (LPARAM)&tmp);
+	hStatusMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
 	MO_SetOptionsMenuObject(hStatusMenuObject, OPT_MENUOBJECT_SET_FREE_SERVICE, (INT_PTR)"CLISTMENUS/FreeOwnerDataStatusMenu");
 
 	hStatusMainMenuHandles = (PMO_IntMenuItem*)mir_calloc(SIZEOF(statusModeList) * sizeof(PMO_IntMenuItem*));
@@ -1324,7 +1324,7 @@ void InitCustomMenus(void)
 		tmp.CheckService = NULL;
 		tmp.ExecService = "MainMenuExecService";
 		tmp.name = "MainMenu";
-		hMainMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, (WPARAM)0, (LPARAM)&tmp);
+		hMainMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
 	}
 
 	MO_SetOptionsMenuObject(hMainMenuObject, OPT_USERDEFINEDITEMS, TRUE);
@@ -1337,7 +1337,7 @@ void InitCustomMenus(void)
 		tmp.CheckService = "ContactMenuCheckService";
 		tmp.ExecService = "ContactMenuExecService";
 		tmp.name = "ContactMenu";
-		hContactMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, (WPARAM)0, (LPARAM)&tmp);
+		hContactMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT, 0, (LPARAM)&tmp);
 	}
 
 	MO_SetOptionsMenuObject(hContactMenuObject, OPT_USERDEFINEDITEMS, TRUE);

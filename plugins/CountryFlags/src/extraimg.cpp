@@ -76,7 +76,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 			HICON hIcon = LoadFlagIcon(countryNumber);
 			if (hIcon != NULL)
 				phExtraImages[index]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)hIcon,0);
-			CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0); /* does NULL check */
+			Skin_ReleaseIcon(hIcon); /* does NULL check */
 		}
 		iec.hImage=phExtraImages[index];
 	}
@@ -170,7 +170,7 @@ static void FASTCALL SetStatusIcon(HANDLE hContact,int countryNumber)
 		/* copy icon as status icon API will call DestroyIcon() on it */
 		hIcon = LoadFlagIcon(countryNumber);
 		sid.hIcon = (hIcon != NULL) ? CopyIcon(hIcon) : NULL;
-		CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon,0); /* does NULL check */
+		Skin_ReleaseIcon(hIcon); /* does NULL check */
 		hIcon = sid.hIcon;
 		/* ensure status icon is registered */
 		sid.dwId = countryNumber;

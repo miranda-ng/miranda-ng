@@ -124,9 +124,7 @@ void CreateImageList(HWND hWnd)
 	{
 		INT_PTR res = CallProtoService(n->item.ProtocolName, PS_LOADICON,PLI_PROTOCOL | PLIF_SMALL | PLIF_ICOLIB, 0);
 		if(res==CALLSERVICE_NOTFOUND)
-		{
-			res = CallService(MS_SKIN2_GETICONBYHANDLE,0,(LPARAM)n->item.hIcoLibItem);
-		}
+			res = (INT_PTR)Skin_GetIconByHandle(n->item.hIcoLibItem);
 
 		HICON hIcon = (HICON) res;
 		ImageList_AddIcon(hImList, hIcon);

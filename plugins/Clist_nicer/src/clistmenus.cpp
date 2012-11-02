@@ -48,7 +48,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 {
 	int k;
 	cfg::shutDown = 1;
-	k=CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,(LPARAM)0);
+	k=CallService(MS_SYSTEM_OKTOEXIT,0,0);
 	if (k) {
 		DestroyWindow(pcli->hwndContactList);
 		PostQuitMessage(0);
@@ -218,7 +218,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, (LPARAM)0xffffffff);
 			return 0;
 		case IDC_IGN_NONE:
-			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, (LPARAM)0);
+			SendMessage(hWnd, WM_USER + 100, (WPARAM)hContact, 0);
 		  	return 0;
 		case IDC_IGN_ALWAYSONLINE:
 			if (IsDlgButtonChecked(hWnd, IDC_IGN_ALWAYSONLINE))

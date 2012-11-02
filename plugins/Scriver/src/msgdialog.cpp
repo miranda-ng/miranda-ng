@@ -271,10 +271,10 @@ void SetStatusIcon(struct SrmmWindowData *dat) {
 			}
 		}
 
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)dat->statusIcon, 0);
+		Skin_ReleaseIcon(dat->statusIcon);
 		dat->statusIcon = LoadSkinnedProtoIcon(szProto, dat->wStatus);
 
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)dat->statusIconBig, 0);
+		Skin_ReleaseIcon(dat->statusIconBig);
 		dat->statusIconBig = LoadSkinnedProtoIconBig(szProto, dat->wStatus);
         if ((int)dat->statusIconBig == CALLSERVICE_NOTFOUND) {
             dat->statusIconBig = NULL;
@@ -1754,7 +1754,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 							adr.rcDraw.bottom = avatarHeight - 1;
 							adr.dwFlags = AVDRQ_DRAWBORDER | AVDRQ_HIDEBORDERONTRANSPARENCY;
 
-							CallService(MS_AV_DRAWAVATAR, (WPARAM)0, (LPARAM)&adr);
+							CallService(MS_AV_DRAWAVATAR, 0, (LPARAM)&adr);
 						}
 					}
 					BitBlt(dis->hDC, 0, 0, itemWidth, itemHeight, hdcMem, 0, 0, SRCCOPY);
@@ -2071,8 +2071,8 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		if (dat->nTypeMode == PROTOTYPE_SELFTYPING_ON) {
 			NotifyTyping(dat, PROTOTYPE_SELFTYPING_OFF);
 		}
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)dat->statusIcon, 0);
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)dat->statusIconBig , 0);
+		Skin_ReleaseIcon(dat->statusIcon);
+		Skin_ReleaseIcon(dat->statusIconBig);
 		if (dat->statusIconOverlay != NULL) DestroyIcon(dat->statusIconOverlay);
 		dat->statusIcon = NULL;
 		dat->statusIconOverlay = NULL;

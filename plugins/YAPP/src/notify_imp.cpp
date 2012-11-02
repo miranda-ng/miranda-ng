@@ -16,7 +16,7 @@ int Popup2Show(WPARAM wParam, LPARAM lParam) {
 	memset(pd_out, 0, sizeof(PopupData));
 
 	PostMPMessage(MUM_CREATEPOPUP, (WPARAM)hNotify, (LPARAM)pd_out);
-	PostMPMessage(MUM_NMUPDATE, (WPARAM)hNotify, (LPARAM)0);
+	PostMPMessage(MUM_NMUPDATE, (WPARAM)hNotify, 0);
 	return 0;
 }
 
@@ -26,12 +26,12 @@ INT_PTR svcPopup2Show(WPARAM wParam, LPARAM lParam) {
 
 int Popup2Update(WPARAM wParam, LPARAM lParam) {
 	HANDLE hNotify = (HANDLE)lParam;
-	PostMPMessage(MUM_NMUPDATE, (WPARAM)hNotify, (LPARAM)0);
+	PostMPMessage(MUM_NMUPDATE, (WPARAM)hNotify, 0);
 	return 0;
 }
 
 int AvatarChanged(WPARAM wParam, LPARAM lParam) {
-	PostMPMessage(MUM_NMAVATAR, (WPARAM)0, (LPARAM)0);
+	PostMPMessage(MUM_NMAVATAR, 0, 0);
 	return 0;
 }
 
@@ -42,7 +42,7 @@ INT_PTR svcPopup2Update(WPARAM wParam, LPARAM lParam) {
 
 int Popup2Remove(WPARAM wParam, LPARAM lParam) {
 	HANDLE hNotify = (HANDLE)lParam;
-	PostMPMessage(MUM_NMREMOVE, (WPARAM)hNotify, (LPARAM)0);
+	PostMPMessage(MUM_NMREMOVE, (WPARAM)hNotify, 0);
 	return 0;
 }
 

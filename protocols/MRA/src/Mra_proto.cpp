@@ -669,7 +669,7 @@ DWORD CMraProto::MraCommandDispatcher(mrim_packet_header_t *pmaHeader, DWORD *pd
 				dbei.cbBlob = dwStringSize;
 				dbei.pBlob = btBuff;
 
-				CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);
+				CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
 			}
 
 			GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwTemp, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
@@ -2014,7 +2014,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						dbei.pBlob = (PBYTE)btBuff;
 
 						CreateBlobFromContact(ccs.hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&dbei.cbBlob);
-						CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);
+						CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
 						MraAuthorize(plpsFrom->lpszData, plpsFrom->dwSize);
 					}
 					else {

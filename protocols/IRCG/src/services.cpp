@@ -813,7 +813,7 @@ int __cdecl CIrcProto::GCEventHook(WPARAM wParam,LPARAM lParam)
 							acs.handleType = HANDLE_SEARCHRESULT;
 							acs.szProto = m_szModuleName;
 							acs.psr = &psr;
-							CallService( MS_ADDCONTACT_SHOW, (WPARAM)NULL, (LPARAM)&acs);
+							CallService( MS_ADDCONTACT_SHOW, 0, (LPARAM)&acs);
 						}
 						break;
 					case 31:	//slap

@@ -251,20 +251,20 @@ bool isContactGoneFor(HANDLE hContact, int days)
 
     int daysSinceMessage = -1;
 	if (lastInputMsg != -1) daysSinceMessage = (int)((currentTime - lastInputMsg)/(60*60*24));
-	
+
 	if (options.hideInactive)
 	{
 		if (daysSinceMessage >= options.iSilencePeriod)
 			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0) && !DBGetContactSettingByte(hContact, MODULE_NAME, "NeverHide", 0))
 			{
 				TCHAR szInfo[200];
-				
+
 				POPUPDATAT_V2 ppd = {0};
 				ppd.cbSize = sizeof(POPUPDATAT_V2);
-		
+
 				ppd.lchContact = hContact;
-				ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");
-				
+				ppd.lchIcon = Skin_GetIcon("enabled_icon");
+
 				mir_sntprintf(szInfo, 200, TranslateT("Hiding %s (%S)"), (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
 				_tcsncpy(ppd.lptzContactName, szInfo, MAX_CONTACTNAME);
 				mir_sntprintf(szInfo, 200, TranslateT("%d days since last message"), daysSinceMessage);
@@ -277,11 +277,11 @@ bool isContactGoneFor(HANDLE hContact, int days)
 				ppd.PluginWindowProc = HidePopupDlgProc;
 				ppd.PluginData = NULL;
 				ppd.iSeconds = -1;
-				
+
 				hideactions[0].flags = hideactions[1].flags = PAF_ENABLED;
 				ppd.lpActions = hideactions;
 				ppd.actionCount = 2;
-				
+
 				CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NEWDATA);
 
 				SkinPlaySound("buddyExpectatorHide");
@@ -295,7 +295,7 @@ void ReturnNotify(HANDLE hContact, TCHAR *message)
 {
 	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1 || DBGetContactSettingByte(hContact, "CList", "Hidden", 0) == 1)
 		return;
-	
+
 	SkinPlaySound("buddyExpectatorReturn");
 
 	if (options.iShowPopUp > 0)
@@ -362,7 +362,7 @@ void GoneNotify(HANDLE hContact, TCHAR *message)
 		ppd.PluginWindowProc = PopupDlgProcNoSet;
 		ppd.PluginData = NULL;
 		ppd.iSeconds = options.iPopUpDelay;
-	
+
 		PUAddPopUpT(&ppd);
 	}
 
@@ -473,7 +473,7 @@ INT_PTR ContactStillAbsentAction(WPARAM wParam, LPARAM lParam)
  */
 int onIconsChanged(WPARAM wParam, LPARAM lParam)
 {
-	hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"main_icon");
+	hIcon = Skin_GetIcon("main_icon");
 	return 0;
 }
 
@@ -506,7 +506,7 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
    CLISTMENUITEM mi = {0};
    mi.cbSize = sizeof(CLISTMENUITEM);
-	
+
    if (DBGetContactSettingByte((HANDLE)wParam, proto, "ChatRoom", 0) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
    else
@@ -524,7 +524,7 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 		mi.ptszName = LPGENT("Enable Miss You");
 		mi.icolibItem = hDisabledIcon;
    }
-   
+
    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
 
    return 0;
@@ -534,17 +534,17 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 {
 	if (DBGetContactSettingByte((HANDLE)wParam,MODULE_NAME,"MissYou",0))
 		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECMissYou);
-   
+
    return 0;
 }
 
-int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam) 
+int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 {
 	g_IECMissYou.cbSize = sizeof(IconExtraColumn);
 	g_IECMissYou.ColumnType = options.MissYouIcon;
 
 	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-		g_IECMissYou.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon"), (LPARAM)0);
+		g_IECMissYou.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("enabled_icon"), 0);
 
 	return 0;
 }
@@ -557,7 +557,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE) wParam;
 	DBCONTACTWRITESETTING *inf = (DBCONTACTWRITESETTING *) lParam;
 
-	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0) 
+	if (hContact == NULL || inf->value.type == DBVT_DELETED || strcmp(inf->szSetting, "Status") != 0)
 		return 0;
 
 	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1)
@@ -570,15 +570,15 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	int currentStatus = inf->value.wVal;
 	int prevStatus = DBGetContactSettingWord(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
-	
+
 	if (currentStatus == prevStatus)
 	{
         return 0;
 	}
-	
+
 	// Last status
 	DBWriteContactSettingDword(hContact, MODULE_NAME, "LastStatus", prevStatus);
-	
+
 	if (prevStatus == ID_STATUS_OFFLINE)
 	{
 		if (DBGetContactSettingByte(hContact, MODULE_NAME, "MissYou", 0))
@@ -586,9 +586,9 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			// Display PopUp
 			POPUPDATAT_V2 ppd = {0};
 			ppd.cbSize = sizeof(POPUPDATAT_V2);
-			
+
 			ppd.lchContact = hContact;
-			ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"enabled_icon");
+			ppd.lchIcon = Skin_GetIcon("enabled_icon");
 			_tcsncpy(ppd.lptzContactName, (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), MAX_CONTACTNAME);
 			_tcsncpy(ppd.lptzText, TranslateT("You awaited this contact!"), MAX_SECONDLINE);
 			if (!options.iUsePopupColors)
@@ -599,14 +599,14 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 			ppd.PluginWindowProc = MissYouPopupDlgProc;
 			ppd.PluginData = NULL;
 			ppd.iSeconds = -1;
-			
+
 			missyouactions[0].flags = PAF_ENABLED;
 			ppd.lpActions = missyouactions;
 			ppd.actionCount = 1;
 
 			CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &ppd, APF_NEWDATA);
-			
-			SkinPlaySound("buddyExpectatorMissYou");			
+
+			SkinPlaySound("buddyExpectatorMissYou");
 		}
 	}
 
@@ -615,7 +615,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		setLastSeen(hContact);
         return 0;
     }
-	
+
 	/*
 	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM) hContact, (LPARAM) IGNOREEVENT_USERONLINE))
 	{
@@ -630,7 +630,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 		setLastSeen(hContact);
 	}
-	
+
 	unsigned int AbsencePeriod = DBGetContactSettingDword(hContact, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
     if (isContactGoneFor(hContact, AbsencePeriod))
 	{
@@ -652,7 +652,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
                 message = tmpBuf;
             }
         }
-		
+
 		ReturnNotify(hContact, message);
 
         if ((options.iShowMessageWindow == 0 && options.iShowUDetails == 0) || (options.iShowEvent == 0 && options.iShowPopUp == 0))
@@ -666,7 +666,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 }
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
-{	
+{
 	HANDLE hContact = db_find_first();
 	char *proto;
 	while (hContact != 0)
@@ -719,15 +719,15 @@ int ModulesLoaded2(WPARAM wParam, LPARAM lParam)
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	hEventUserInfoInit = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
-	
+
 	// add sounds support
 	SkinAddNewSoundExT("buddyExpectatorReturn", LPGENT("BuddyExpectator"), LPGENT("Contact returned"));
 	SkinAddNewSoundExT("buddyExpectatorStillAbsent", LPGENT("BuddyExpectator"), LPGENT("Contact still absent"));
 	SkinAddNewSoundExT("buddyExpectatorMissYou", LPGENT("BuddyExpectator"), LPGENT("Miss you event"));
 	SkinAddNewSoundExT("buddyExpectatorHide", LPGENT("BuddyExpectator"), LPGENT("Hide contact event"));
-	
+
 	timer_id = SetTimer(0, 0, 1000 * 60 * 60 * 4, TimerProc); // check every 4 hours
-	
+
 	hModulesLoaded2 = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded2);
 	if (options.MissYouIcon)
 	{
@@ -737,7 +737,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	    g_IECClear.ColumnType = options.MissYouIcon;
 	    g_IECClear.hImage = (HANDLE) -1;
 	}
-	
+
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
@@ -747,32 +747,32 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("BuddyExpectator");
-		
+
 	sid.ptszDescription = LPGENT("Tray/popup icon");
 	sid.pszName = "main_icon";
 	sid.iDefaultIndex = -IDI_MAINICON;
 	Skin_AddIcon(&sid);
-		
+
 	sid.ptszDescription = LPGENT("Enabled");
 	sid.pszName = "enabled_icon";
 	sid.iDefaultIndex = -IDI_ENABLED;
 	hEnabledIcon = Skin_AddIcon(&sid);
-		
+
 	sid.ptszDescription = LPGENT("Disabled");
 	sid.pszName = "disabled_icon";
 	sid.iDefaultIndex = -IDI_DISABLED;
 	hDisabledIcon = Skin_AddIcon(&sid);
-		
+
 	sid.ptszDescription = LPGENT("Hide");
 	sid.pszName = "hide_icon";
 	sid.iDefaultIndex = -IDI_HIDE;
 	Skin_AddIcon(&sid);
-		
+
 	sid.ptszDescription = LPGENT("NeverHide");
 	sid.pszName = "neverhide_icon";
 	sid.iDefaultIndex = -IDI_NEVERHIDE;
 	Skin_AddIcon(&sid);
-		
+
 	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 
 	onIconsChanged(0,0);
@@ -791,17 +791,17 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	missyouactions[0].cbSize = sizeof(POPUPACTION);
-	missyouactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"disabled_icon");
+	missyouactions[0].lchIcon = Skin_GetIcon("disabled_icon");
 	lstrcpyA(missyouactions[0].lpzTitle, LPGEN("Disable Miss You"));
 	missyouactions[0].wParam = missyouactions[0].lParam = 1;
 
 	hideactions[0].cbSize = sizeof(POPUPACTION);
-	hideactions[0].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"hide_icon");
+	hideactions[0].lchIcon = Skin_GetIcon("hide_icon");
 	lstrcpyA(hideactions[0].lpzTitle, LPGEN("Hide contact"));
 	hideactions[0].wParam = hideactions[0].lParam = 2;
 
 	hideactions[1].cbSize = sizeof(POPUPACTION);
-	hideactions[1].lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"neverhide_icon");
+	hideactions[1].lchIcon = Skin_GetIcon("neverhide_icon");
 	lstrcpyA(hideactions[1].lpzTitle, LPGEN("Never hide this contact"));
 	hideactions[1].wParam = hideactions[1].lParam = 3;
 
@@ -840,11 +840,11 @@ int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 	DeinitOptions();
 
 	if (hIcoLibIconsChanged)
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+		Skin_ReleaseIcon(hIcon);
 	else
 		DestroyIcon(hIcon);
 
-	return 0;	
+	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)

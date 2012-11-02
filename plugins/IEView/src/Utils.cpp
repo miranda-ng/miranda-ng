@@ -408,7 +408,7 @@ wchar_t *Utils::urlEncode(const wchar_t *text) {
 }
 
 wchar_t *Utils::urlEncode(const char *text) {
-	char *pszReturnString = (char *)CallService(MS_NETLIB_URLENCODE, (WPARAM)0, (LPARAM)text);
+	char *pszReturnString = (char *)CallService(MS_NETLIB_URLENCODE, 0, (LPARAM)text);
 	wchar_t *result = convertToWCS(pszReturnString);
 	HeapFree(GetProcessHeap(), 0, pszReturnString);
 	return result;

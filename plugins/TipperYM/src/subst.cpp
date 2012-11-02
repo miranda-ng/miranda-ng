@@ -1003,7 +1003,7 @@ HICON GetJabberActivityIcon(HANDLE hContact, char *szProto)
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, "activity", "icon");
 	if (!DBGetContactSettingString(hContact, "AdvStatus", szSetting, &dbv)) 
 	{
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)dbv.pszVal);
+		hIcon = Skin_GetIcon(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
 

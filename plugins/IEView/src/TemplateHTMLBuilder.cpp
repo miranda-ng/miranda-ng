@@ -49,9 +49,9 @@ char *TemplateHTMLBuilder::getAvatar(HANDLE hContact, const char * szProto) {
 	if (Options::getAvatarServiceFlags() == Options::AVATARSERVICE_PRESENT) {
 		struct avatarCacheEntry *ace = NULL;
 		if (hContact == NULL) {
-			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, (WPARAM)0, (LPARAM)szProto);
+			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETMYAVATAR, 0, (LPARAM)szProto);
 		} else {
-			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, (LPARAM)0);
+			ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
 		}
 		if (ace!=NULL) {
 			if ( ace->cbSize == sizeof(avatarCacheEntry))

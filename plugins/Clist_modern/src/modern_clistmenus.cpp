@@ -36,7 +36,7 @@ INT_PTR CloseAction(WPARAM wParam,LPARAM lParam)
 	int k;
 	g_CluiData.bSTATE = STATE_PREPEARETOEXIT;  // workaround for avatar service and other wich destroys service on OK_TOEXIT
 	do
-	{	k = CallService(MS_SYSTEM_OKTOEXIT,(WPARAM)0,0);
+	{	k = CallService(MS_SYSTEM_OKTOEXIT,0,0);
 	}
 	while (!k);
 
@@ -132,11 +132,12 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		op.Handle	 = hFavoriteContactMenu;
 		op.Setting	 = OPT_MENUITEMSETUNIQNAME;
 		op.Value	 = (INT_PTR)"ModernClistMenu_ContactRate";
-		CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
+		CallService(MO_SETOPTIONSMENUITEM,0,(LPARAM)&op);
 	}
 
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)mi.hIcon,0);
-	if (mi.hIcon && NeedFree) DestroyIcon(mi.hIcon);
+	Skin_ReleaseIcon(mi.hIcon);
+	if (mi.hIcon && NeedFree)
+		DestroyIcon(mi.hIcon);
 
 	mi.pszPopupName = (char*)hFavoriteContactMenu;
 	if ( !hFavoriteContactMenuItems) {
@@ -155,8 +156,9 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hFavoriteContactMenuItems[i], (LPARAM)&mi);
 		}
 		else hFavoriteContactMenuItems[i] = Menu_AddContactMenuItem(&mi);
-		CallService(MS_SKIN2_RELEASEICON,(WPARAM)mi.hIcon,0);
-		if (mi.hIcon && NeedFree) DestroyIcon(mi.hIcon);
+		Skin_ReleaseIcon(mi.hIcon);
+		if (mi.hIcon && NeedFree)
+			DestroyIcon(mi.hIcon);
 	}
 		
 	mi.hIcon = NULL;

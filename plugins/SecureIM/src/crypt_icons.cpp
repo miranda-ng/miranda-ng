@@ -66,9 +66,9 @@ IconExtraColumn mode2iec(int mode) {
 	int i=1+m*IEC_CNT+IEC_CL_DIS+s;
 	if ( g_IEC[i].hImage==(HANDLE)-1 ) {
 /*		g_hIEC[i] = mode2icon(mode,1);
-		g_IEC[i].hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)g_hIEC[i], (LPARAM)0);*/
+		g_IEC[i].hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)g_hIEC[i], 0);*/
 		HICON icon = mode2icon(mode,1);
-		g_IEC[i].hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icon, (LPARAM)0);
+		g_IEC[i].hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icon, 0);
 	}
 	return g_IEC[i];
 }

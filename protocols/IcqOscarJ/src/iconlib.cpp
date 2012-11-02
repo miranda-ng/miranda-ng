@@ -80,13 +80,13 @@ HANDLE IcqIconHandle_s::Handle()
 HICON IcqIconHandle_s::GetIcon(bool big)
 {
 	if (this)
-		return (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, big, (LPARAM)hIcoLib);
+		return Skin_GetIconByHandle(hIcoLib, big);
 
 	return NULL;
 }
 
 void IcqIconHandle_s::ReleaseIcon(bool big)
 {
-	CallService(big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szName);
+	Skin_ReleaseIcon(szName, big);
 }
 

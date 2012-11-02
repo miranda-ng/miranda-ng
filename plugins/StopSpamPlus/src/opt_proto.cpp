@@ -60,10 +60,10 @@ INT_PTR CALLBACK ProtoDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			HICON Icon;
 			Icon=(HICON)LoadSkinnedIcon(SKINICON_OTHER_NOTICK);
 			ImageList_AddIcon(himlCheckBoxes, Icon);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)Icon, 0);
+			Skin_ReleaseIcon(Icon);
 			Icon=(HICON)LoadSkinnedIcon(SKINICON_OTHER_TICK);
 			ImageList_AddIcon(himlCheckBoxes, Icon);
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)Icon, 0);
+			Skin_ReleaseIcon(Icon);
 
 			TreeView_SetImageList(hwndProto, himlCheckBoxes, TVSIL_NORMAL);
 		}

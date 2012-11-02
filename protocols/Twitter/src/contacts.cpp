@@ -175,7 +175,7 @@ void TwitterProto::GetAwayMsgWorker(void *hContact)
 		ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_SUCCESS, (HANDLE)1,(LPARAM)dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	else ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,(LPARAM)0);
+	else ProtoBroadcastAck(m_szModuleName,hContact,ACKTYPE_AWAYMSG,ACKRESULT_FAILED, (HANDLE)1,0);
 }
 
 HANDLE TwitterProto::GetAwayMsg(HANDLE hContact)

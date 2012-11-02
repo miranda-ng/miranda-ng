@@ -101,7 +101,7 @@ HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "AIM_%s", name);
-	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(const char* name)
@@ -116,7 +116,7 @@ void ReleaseIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName ), "%s_%s", "AIM", name);
-	CallService(big ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	Skin_ReleaseIcon(szSettingName, big);
 }
 
 void WindowSetIcon(HWND hWnd, const char* name)
@@ -127,8 +127,8 @@ void WindowSetIcon(HWND hWnd, const char* name)
 
 void WindowFreeIcon(HWND hWnd)
 {
-	CallService(MS_SKIN2_RELEASEICON, SendMessage(hWnd, WM_SETICON, ICON_BIG, 0), 0);
-	CallService(MS_SKIN2_RELEASEICON, SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0), 0);
+	Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
+	Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

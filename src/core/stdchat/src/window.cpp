@@ -382,7 +382,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				int iLen;
 				GETTEXTLENGTHEX gtl = {0};
 				GETTEXTEX gt = {0};
-				LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, (WPARAM)NULL, (LPARAM)NULL);
+				LRESULT lResult = (LRESULT)SendMessage(hwnd, EM_GETSEL, 0, 0);
 
 				SendMessage(hwnd, WM_SETREDRAW, FALSE, 0);
 				start = LOWORD(lResult);
@@ -390,7 +390,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 				SendMessage(hwnd, EM_SETSEL, end, end);
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, (LPARAM)NULL);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				if (iLen >0) {
 					TCHAR *pszName = NULL;
 					TCHAR *pszSelName = NULL;
@@ -550,7 +550,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, (LPARAM)NULL);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0,0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -576,7 +576,7 @@ static LRESULT CALLBACK MessageSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, 
 
 				gtl.flags = GTL_PRECISE;
 				gtl.codepage = CP_ACP;
-				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, (LPARAM)NULL);
+				iLen = SendMessage(hwnd, EM_GETTEXTLENGTHEX, (WPARAM)&gtl, 0);
 				SendMessage(hwnd, EM_SCROLLCARET, 0,0);
 				SendMessage(hwnd, WM_SETREDRAW, TRUE, 0);
 				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE);
@@ -1084,7 +1084,7 @@ static LRESULT CALLBACK NicklistSubclassProc(HWND hwnd, UINT msg, WPARAM wParam,
 					break;
 
 				case ID_MESS:
-					DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, (LPARAM)NULL);
+					DoEventHookAsync(GetParent(hwnd), parentdat->ptszID, parentdat->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 					break;
 
 				default:
@@ -1755,7 +1755,7 @@ END_REMOVETAB:
 					if (s->wState&GC_EVENT_HIGHLIGHT) {
 						s->wState &= ~GC_EVENT_HIGHLIGHT;
 
-						if (CallService(MS_CLIST_GETEVENT, (WPARAM)s->hContact, (LPARAM)0))
+						if (CallService(MS_CLIST_GETEVENT, (WPARAM)s->hContact, 0))
 							CallService(MS_CLIST_REMOVEEVENT, (WPARAM)s->hContact, (LPARAM)"chaticon");
 					}
 
@@ -1923,7 +1923,7 @@ END_REMOVETAB:
 			switch(wParam) {
 			case SESSION_OFFLINE:
 				SendMessage(hwndDlg, GC_UPDATESTATUSBAR, 0, 0);
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 				return TRUE;
 
 			case SESSION_ONLINE:
@@ -1946,7 +1946,7 @@ END_REMOVETAB:
 					DBWriteContactSettingDword(si->hContact, "Chat", "roomwidth" , si->iWidth);
 					DBWriteContactSettingDword(si->hContact, "Chat", "roomheight", si->iHeight);
 				}
-				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+				if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
 				si->wState &= ~STATE_TALK;
 				DBWriteContactSettingWord(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
@@ -2135,7 +2135,7 @@ LABEL_SHOWWINDOW:
 				FlashWindow(hwndDlg, FALSE);
 			if (DBGetContactSettingWord(si->hContact, si->pszModule ,"ApparentMode", 0) != 0)
 				DBWriteContactSettingWord(si->hContact, si->pszModule ,"ApparentMode",(LPARAM) 0);
-			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, (LPARAM)0))
+			if (CallService(MS_CLIST_GETEVENT, (WPARAM)si->hContact, 0))
 				CallService(MS_CLIST_REMOVEEVENT, (WPARAM)si->hContact, (LPARAM)"chaticon");
 		}
 		break;
@@ -2425,7 +2425,7 @@ LABEL_SHOWWINDOW:
 				ui = SM_GetUserFromIndex(si->ptszID, si->pszModule, item);
 				if (ui) {
 					if (GetKeyState(VK_SHIFT) & 0x8000) {
-						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_GETSEL, (WPARAM)NULL, (LPARAM)NULL);
+						LRESULT lResult = (LRESULT)SendMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_GETSEL, 0, 0);
 						int start = LOWORD(lResult);
 						TCHAR* pszName = (TCHAR*)alloca(sizeof(TCHAR)*(lstrlen(ui->pszUID) + 3));
 						if (start == 0)
@@ -2436,7 +2436,7 @@ LABEL_SHOWWINDOW:
 						SendMessage( GetDlgItem(hwndDlg, IDC_MESSAGE), EM_REPLACESEL, FALSE, (LPARAM) pszName );
 						PostMessage( hwndDlg, WM_MOUSEACTIVATE, 0, 0 );
 					}
-					else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, (LPARAM)NULL);
+					else DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_PRIVMESS, ui->pszUID, NULL, 0);
 				}
 
 				return TRUE;
@@ -2472,7 +2472,7 @@ LABEL_SHOWWINDOW:
 
 				EnableWindow(GetDlgItem(hwndDlg,IDOK),FALSE);
 
-				DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, (LPARAM)NULL);
+				DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
 				mir_free(pszRtf);
 				mir_free(ptszText);
 				SetFocus(GetDlgItem(hwndDlg, IDC_MESSAGE));
@@ -2549,7 +2549,7 @@ LABEL_SHOWWINDOW:
 		case IDC_CHANMGR:
 			if (!IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHANMGR)))
 				break;
-			DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, (LPARAM)NULL);
+			DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_CHANMGR, NULL, NULL, 0);
 			break;
 
 		case IDC_FILTER:

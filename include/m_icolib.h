@@ -150,20 +150,23 @@ __forceinline HICON Skin_GetIconByHandle(HANDLE hIcolibIcon, int size)
 //  lParam = (LPARAM)(char*)pszName (optional)  // at least one needs to be specified
 //
 #define MS_SKIN2_RELEASEICON "Skin2/Icons/ReleaseIcon"
+#define MS_SKIN2_RELEASEICONBIG "Skin2/Icons/ReleaseIconBig"
 
 __forceinline void Skin_ReleaseIcon(const char* szIconName)
 {	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
 }
 
 #ifdef __cplusplus
+__forceinline void Skin_ReleaseIcon(const char* szIconName, int big)
+{	CallService((big) ? MS_SKIN2_RELEASEICONBIG : MS_SKIN2_RELEASEICON, 0, (LPARAM)szIconName);
+}
+
 __forceinline void Skin_ReleaseIcon(HICON hIcon)
 #else
 __forceinline void Skin_ReleaseIcon2(HICON hIcon)
 #endif
 {	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
 }
-
-#define MS_SKIN2_RELEASEICONBIG "Skin2/Icons/ReleaseIconBig"
 
 //
 //  Check whether HICON is managed by IcoLib

@@ -66,7 +66,7 @@ HICON LoadIconEx(const char* name, BOOL big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, name);
-	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName, big);
 }
 
 HANDLE  GetIconHandle(const char* name)

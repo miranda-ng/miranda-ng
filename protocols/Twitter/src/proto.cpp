@@ -136,7 +136,7 @@ HICON TwitterProto::GetIcon(int index)
 {
 	if(LOWORD(index) == PLI_PROTOCOL)
 	{
-		HICON ico = (HICON)CallService(MS_SKIN2_GETICON,0,(LPARAM)"Twitter_twitter");
+		HICON ico = Skin_GetIcon("Twitter_twitter");
 		return CopyIcon(ico);
 	}
 	else

@@ -118,37 +118,34 @@ BOOL IsStaticIcon(HICON hIcon) {
 }
 
 void ReleaseIconSmart(HICON hIcon) {
-	if (!IsStaticIcon(hIcon)) {
-		DWORD result = CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
-		if ( result == 1 || result == CALLSERVICE_NOTFOUND)
-			DestroyIcon(hIcon);
-	}
+	if (!IsStaticIcon(hIcon))
+		Skin_ReleaseIcon(hIcon);
 }
 
 int ImageList_AddIcon_Ex(HIMAGELIST hIml, int id) {
 	HICON hIcon = LoadSkinnedIcon(id);
  	int res = ImageList_AddIcon(hIml, hIcon);
- 	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+ 	Skin_ReleaseIcon(hIcon);
  	return res;
 }
 
 int ImageList_AddIcon_Ex2(HIMAGELIST hIml, HICON hIcon) {
  	int res = ImageList_AddIcon(hIml, hIcon);
- 	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+ 	Skin_ReleaseIcon(hIcon);
  	return res;
 }
 
 int ImageList_ReplaceIcon_Ex(HIMAGELIST hIml, int nIndex, int id) {
 	HICON hIcon = LoadSkinnedIcon(id);
 	int res = ImageList_ReplaceIcon(hIml, nIndex, hIcon);
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 	return res;
 }
 
 int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status) {
 	HICON hIcon = LoadSkinnedProtoIcon(szProto, status);
  	int res = ImageList_AddIcon(hIml, hIcon);
-	CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
  	return res;
 }
 
@@ -177,15 +174,13 @@ void RegisterIcons(void)
 
 void ReleaseIcons()
 {
-	int i;
-	for (i = 0; i < SIZEOF(hIconList); i++) {
-		if (hIconList[i] != NULL) {
-			CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIconList[i], 0);
-		}
-	}
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)g_dat->hMsgIcon, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)g_dat->hMsgIconBig, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)g_dat->hIconChatBig, 0);
+	for (int i = 0; i < SIZEOF(hIconList); i++)
+		if (hIconList[i] != NULL)
+			Skin_ReleaseIcon(hIconList[i]);
+
+	Skin_ReleaseIcon(g_dat->hMsgIcon);
+	Skin_ReleaseIcon(g_dat->hMsgIconBig);
+	Skin_ReleaseIcon(g_dat->hIconChatBig);
 }
 
 HICON GetCachedIcon(const char *name)
@@ -202,13 +197,12 @@ HICON GetCachedIcon(const char *name)
 void LoadGlobalIcons() {
 	int i;
 	int overlayIcon;
-	for (i = 0; i < SIZEOF(iconList); i++) {
-		hIconList[i] = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconList[i].name);
-	}
+	for (i = 0; i < SIZEOF(iconList); i++)
+		hIconList[i] = Skin_GetIcon(iconList[i].name);
 
 	g_dat->hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	g_dat->hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
-	g_dat->hIconChatBig = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"chat_window");
+	g_dat->hIconChatBig = Skin_GetIcon("chat_window");
 
 	ImageList_RemoveAll(g_dat->hButtonIconList);
 	ImageList_RemoveAll(g_dat->hChatButtonIconList);

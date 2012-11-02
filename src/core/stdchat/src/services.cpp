@@ -586,7 +586,7 @@ static void AddUser(GCEVENT * gce)
 
 			if (si->hWnd) {
 				g_TabSession.pUsers = si->pUsers;
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 }	}	}	}
 
 static INT_PTR Service_AddEvent(WPARAM wParam, LPARAM lParam)

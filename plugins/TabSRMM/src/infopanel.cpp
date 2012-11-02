@@ -1473,7 +1473,7 @@ void CTip::show(const RECT& rc, POINT& pt, const HICON hIcon, const TCHAR *szTit
 	m_rcRich.right = m_rcRich.left + m_szRich.cx;
 	m_rcRich.bottom = m_rcRich.top + m_szRich.cy;
 
-	::SendMessage(m_hRich, EM_FORMATRANGE, 0, (LPARAM)NULL);			// required, clear cached painting data in the richedit
+	::SendMessage(m_hRich, EM_FORMATRANGE, 0, 0);			// required, clear cached painting data in the richedit
 
 	::SetWindowPos(m_hwnd, HWND_TOP, pt.x - 5, pt.y - 5, m_szRich.cx + m_leftWidth + LEFT_BORDER + RIGHT_BORDER + 2 * xBorder,
 				   m_szRich.cy + TOP_BORDER + BOTTOM_BORDER + 2 * yBorder, SWP_NOACTIVATE|SWP_SHOWWINDOW);

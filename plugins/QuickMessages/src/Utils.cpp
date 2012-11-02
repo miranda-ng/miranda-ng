@@ -540,7 +540,7 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					ci.dwFlag =CNF_FIRSTNAME|CNF_UNICODE;
 
 					ci.szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)&&ci.pszVal){
+					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
 						}
@@ -577,7 +577,7 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 
 					ci.dwFlag =CNF_LASTNAME|CNF_UNICODE;
 
-					if (!CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci)&&ci.pszVal){
+					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
 						}

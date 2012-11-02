@@ -156,9 +156,9 @@ int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
 
   if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
   {
-      g_IECRateHigh.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"rate_high"), (LPARAM)0);
-      g_IECRateMedium.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"rate_medium"), (LPARAM)0);
-      g_IECRateLow.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)(HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM)"rate_low"), (LPARAM)0);
+      g_IECRateHigh.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_high"), 0);
+      g_IECRateMedium.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_medium"), 0);
+      g_IECRateLow.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_low"), 0);
   }
   return 0;
 }

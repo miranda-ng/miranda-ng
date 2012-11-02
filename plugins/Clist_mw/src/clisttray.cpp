@@ -43,7 +43,7 @@ INT_PTR TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 		if (msg->lParam == WM_RBUTTONUP)
 		{
 			POINT pt;
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,(WPARAM)0,(LPARAM)0);
+			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDTRAY,0,0);
 
 			SetForegroundWindow(msg->hwnd);
 			SetFocus(msg->hwnd);
@@ -123,7 +123,7 @@ static INT_PTR AddTrayMenuItem(WPARAM wParam,LPARAM lParam)
 	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hTrayMenuObject,(LPARAM)&tmi);
 	op.Setting = OPT_MENUITEMSETUNIQNAME;
 	op.Value = (INT_PTR)mi->pszService;
-	CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUITEM,0,(LPARAM)&op);
 	return (INT_PTR)op.Handle;
 }
 
@@ -197,7 +197,7 @@ void InitTrayMenus(void)
 	tmp.CheckService = NULL;
 	tmp.ExecService = "CLISTMENUSTRAY/ExecService";
 	tmp.name = "TrayMenu";
-	hTrayMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
+	hTrayMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 
 	CreateServiceFunction("CLISTMENUSTRAY/ExecService",TrayMenuExecService);
 	CreateServiceFunction("CLISTMENUSTRAY/FreeOwnerDataTrayMenu",FreeOwnerDataTrayMenu);
@@ -211,17 +211,17 @@ void InitTrayMenus(void)
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_USERDEFINEDITEMS;
 	op.Value = TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/FreeOwnerDataTrayMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hTrayMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_ONADD_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSTRAY/TrayMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	{
 		//add  exit command to menu
@@ -232,14 +232,14 @@ void InitTrayMenus(void)
 		mi.position = 900000;
 		mi.pszService = "CloseAction";
 		mi.pszName = LPGEN("E&xit");
-		AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 100000;
 		mi.pszService = MS_CLIST_SHOWHIDE;
 		mi.pszName = LPGEN("&Hide/Show");
-		hHideShowMainMenuItem = (HANDLE)AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		hHideShowMainMenuItem = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -247,21 +247,21 @@ void InitTrayMenus(void)
 		mi.hIcon = LoadIcon(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_FINDUSER));
 		mi.pszService = "FindAdd/FindAddCommand";
 		mi.pszName = LPGEN("&Find/Add Contacts...");
-		AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 300000;
 		mi.pszService = "";
 		mi.pszName = LPGEN("&Main Menu");
-		hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		hTrayMainMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
 		mi.position = 300100;
 		mi.pszService = "";
 		mi.pszName = LPGEN("&Status");
-		hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		hTrayStatusMenuItemProxy = (HANDLE)AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -269,7 +269,7 @@ void InitTrayMenus(void)
 		mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_OPTIONS));
 		mi.pszService = "Options/OptionsCommand";
 		mi.pszName = LPGEN("&Options...");
-		AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		AddTrayMenuItem(0,(LPARAM)&mi);
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);
@@ -277,5 +277,5 @@ void InitTrayMenus(void)
 		mi.hIcon = LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_CLIENTMIRANDA));
 		mi.pszService = "Help/AboutCommand";
 		mi.pszName = LPGEN("&About");
-		AddTrayMenuItem((WPARAM)0,(LPARAM)&mi);
+		AddTrayMenuItem(0,(LPARAM)&mi);
 }	}

@@ -170,11 +170,11 @@ static INT_PTR DbEventGetIcon(WPARAM wParam, LPARAM lParam)
 			return (INT_PTR)icon;
 	}
 	if (et && et->eventIcon)
-		icon = (HICON)CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)et->eventIcon);
+		icon = Skin_GetIconByHandle(et->eventIcon);
 	if ( !icon) {
 		char szName[100];
 		mir_snprintf(szName, sizeof(szName), "eventicon_%s%d", dbei->szModule, dbei->eventType);
-		icon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szName);
+		icon = Skin_GetIcon(szName);
 	}
 
 	if ( !icon) {

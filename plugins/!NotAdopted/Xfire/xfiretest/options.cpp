@@ -642,7 +642,7 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			dbces.pfnEnumProc = enumSettingsProc;
 			dbces.szModule = "XFireBlock";
 			dbces.lParam = (LPARAM)hwndDlg; 
-			CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)NULL,(LPARAM)&dbces);
+			CallService(MS_DB_CONTACT_ENUMSETTINGS, 0,(LPARAM)&dbces);
 
 			SendMessage(GetDlgItem(hwndDlg,IDC_REMUSER),BM_SETIMAGE,IMAGE_ICON,(WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 
@@ -669,9 +669,9 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				if(sel!=LB_ERR) //nur wenn was ausgewählt wurde
 				{
 					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETTEXT, sel, (LPARAM)temp); 
-					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_DELETESTRING, sel, (LPARAM)0);
+					SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_DELETESTRING, sel, 0);
 					DBDeleteContactSetting(NULL,"XFireBlock",temp);
-					if(SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, (WPARAM)0, (LPARAM)0)==0)
+					if(SendDlgItemMessage(hwndDlg, IDC_BLOCKUSER, LB_GETCOUNT, 0, 0)==0)
 						EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);
 				}
 			}
@@ -996,7 +996,7 @@ static BOOL CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					if(hicon)
 						SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,(WPARAM)hicon,0);
 					else
-						SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,(WPARAM)NULL,0);
+						SendMessage(GetDlgItem(hwndDlg,IDC_GAMEICO),STM_SETICON,0,0);
 
 					//elemente aktivieren
 					EnableDlgItem(hwndDlg, IDC_DONTDETECT, TRUE);

@@ -71,7 +71,7 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 			hwndSettingsDlg=hwndDlg;
 			TranslateDialogDefault(hwndDlg);
 			locale=CallService(MS_LANGPACK_GETLOCALE,0,0);
-			SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)IcoLib_GetIcon("AutoShutdown_Header"));
+			SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)Skin_GetIcon("AutoShutdown_Header"));
 			{	HFONT hBoldFont;
 				LOGFONT lf;
 				if(GetObject((HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0),sizeof(lf),&lf)) {
@@ -191,10 +191,10 @@ static INT_PTR CALLBACK SettingsDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				CallService(MS_AUTOREPLACER_REMWINHANDLE,0,(LPARAM)GetDlgItem(hwndDlg,IDC_EDIT_MESSAGE));
 			Utils_SaveWindowPosition(hwndDlg,NULL,"AutoShutdown","SettingsDlg_");
 			MagneticWindows_RemoveWindow(hwndDlg);
-			hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,(LPARAM)NULL);
-			IcoLib_ReleaseIcon(hIcon); /* does NULL check */
+			hIcon=(HICON)SendDlgItemMessage(hwndDlg,IDC_ICON_HEADER,STM_SETIMAGE,IMAGE_ICON,0);
+			Skin_ReleaseIcon(hIcon); /* does NULL check */
 			hFont=(HFONT)SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_GETFONT,0,0);
-			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,(WPARAM)NULL,FALSE); /* no return value */
+			SendDlgItemMessage(hwndDlg,IDC_TEXT_HEADER,WM_SETFONT,0,FALSE); /* no return value */
 			if(hFont!=NULL) DeleteObject(hFont);
 			hwndSettingsDlg=NULL;
 			return TRUE;
@@ -463,7 +463,7 @@ void SetShutdownMenuItem(BOOL fActive)
 	}
 	else hTrayMenuItem = Menu_AddTrayMenuItem(&cmi);
 
-	IcoLib_ReleaseIcon(cmi.hIcon);
+	Skin_ReleaseIcon(cmi.hIcon);
 }
 
 static INT_PTR MenuItemCommand(WPARAM wParam,LPARAM lParam)

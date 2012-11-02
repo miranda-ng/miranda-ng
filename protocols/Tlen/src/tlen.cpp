@@ -111,14 +111,14 @@ static HANDLE GetIconHandle(int iconId) {
 
 HICON GetIcolibIcon(int iconId) {
 	HANDLE handle = GetIconHandle(iconId);
-	if (handle != NULL) {
-		return (HICON) CallService(MS_SKIN2_GETICONBYHANDLE, 0, (LPARAM)handle);
-	}
+	if (handle != NULL)
+		return Skin_GetIconByHandle(handle);
+
 	return NULL;
 }
 
 void ReleaseIcolibIcon(HICON hIcon) {
-	CallService( MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0 );
+	Skin_ReleaseIcon(hIcon);
 }
 
 /*

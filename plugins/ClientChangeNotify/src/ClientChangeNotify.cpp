@@ -140,7 +140,7 @@ static LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 	if (pdata) {
 		switch (message) {
 		case WM_COMMAND:
-			if (HIWORD(wParam) == STN_CLICKED) { // left mouse button 
+			if (HIWORD(wParam) == STN_CLICKED) { // left mouse button
 				Popup_DoAction(hWnd, pdata->PopupLClickAction, pdata);
 				return true;
 			}
@@ -169,12 +169,12 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	if (sd->PopupOptPage->GetValue(IDC_POPUPOPTDLG_SHOWPREVCLIENT)) {
 		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s (was %s)"), (const TCHAR*)sd->MirVer, (const TCHAR*)sd->OldMirVer);
 		PopupText.ReleaseBuffer();
-	} 
+	}
 	else {
 		mir_sntprintf(PopupText.GetBuffer(MAX_MSG_LEN), MAX_MSG_LEN, TranslateT("changed client to %s"), (const TCHAR*)sd->MirVer);
 		PopupText.ReleaseBuffer();
 	}
-	
+
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = sd->hContact;
@@ -232,7 +232,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			PopupOptPage = g_PopupOptPage;
 			PopupOptPage.DBToMem();
 		}
-		
+
 		HANDLE hContactOrMeta = (hContact && ServiceExists(MS_MC_GETMETACONTACT)) ? (HANDLE)CallService(MS_MC_GETMETACONTACT, (WPARAM)hContact, 0) : hContact;
 		if (!hContactOrMeta)
 			hContactOrMeta = hContact;
@@ -281,7 +281,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			}
 			else ClientName = sd.MirVer;
 
-			if (ServiceExists(MS_VARS_FORMATSTRING)) 
+			if (ServiceExists(MS_VARS_FORMATSTRING))
 				logservice_log(LOG_ID, hContact, ClientName);
 			else {
 				_ASSERT(szProto);
@@ -342,11 +342,11 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 		mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY)) {
 			mi.ptszName = LPGENT("Disable c&lient change notification");
-			mi.hIcon = ServiceExists(MS_SKIN2_GETICON) ? (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_enabled") : NULL;
+			mi.hIcon = Skin_GetIcon("popup_enabled");
 		}
 		else {
 			mi.ptszName = LPGENT("Enable c&lient change notification");
-			mi.hIcon = ServiceExists(MS_SKIN2_GETICON) ? (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_disabled") : NULL;
+			mi.hIcon = Skin_GetIcon("popup_disabled");
 		}
 		mi.ptszPopupName = LPGENT("PopUps");
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)g_hTogglePopupsMenuItem, (LPARAM)&mi);

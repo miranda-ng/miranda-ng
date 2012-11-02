@@ -110,7 +110,7 @@ typedef struct tagLVSETINFOTIP
 #define LVGF_HEADER 0x00000001
 #define LVGF_GROUPID 0x00000010
 #define ListView_MapIndexToID(hwnd, index) \
-	(UINT)SendMessage((hwnd), LVM_MAPINDEXTOID, (WPARAM)index, (LPARAM)0)
+	(UINT)SendMessage((hwnd), LVM_MAPINDEXTOID, (WPARAM)index, 0)
 #define TreeView_GetLineColor(hwnd) \
 	(COLORREF)SendMessage((hwnd), TVM_GETLINECOLOR, 0, 0)
 #define TreeView_SetLineColor(hwnd, clr) \

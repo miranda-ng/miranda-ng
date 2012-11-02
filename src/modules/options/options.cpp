@@ -496,9 +496,9 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 	HINSTANCE* KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_RESETCONTENT, 0, 0);
-	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
-	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)NULL);
-	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
+	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
+	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, 0);
+	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	TCHAR* tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
 	for (int i=0; i < dat->arOpd.getCount(); i++) {		
@@ -526,7 +526,7 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 		if ( !dllName) dllName = mir_tstrdup(tszModuleName);
 		
 		if (dllName) {
-			index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, (WPARAM)0, (LPARAM)dllName);
+			index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)dllName);
 			SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)inst);
 			mir_free(dllName);
 		}	

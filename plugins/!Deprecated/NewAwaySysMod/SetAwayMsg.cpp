@@ -70,17 +70,17 @@ static LRESULT CALLBACK MsgEditSubclassProc(HWND hWnd, UINT Msg, WPARAM wParam, 
 					PostMessage(GetParent(hWnd), WM_COMMAND, IDC_OK, 0);
 					return 0;
 				}
-				if (wParam == 1) 
+				if (wParam == 1)
 				{ // ctrl-a
 					SendMessage(hWnd, EM_SETSEL, 0, -1);
 					return 0;
 				}
-				if (wParam == 23) 
+				if (wParam == 23)
 				{ // ctrl-w
 					SendMessage(GetParent(hWnd), WM_CLOSE, 0, 0);
 					return 0;
 				}
-				if (wParam == 127) 
+				if (wParam == 127)
 				{ // ctrl-backspace
 					DWORD start, end;
 					SendMessage(hWnd, EM_GETSEL, (WPARAM)&end, NULL);
@@ -249,7 +249,7 @@ static int SetAwayMsgDlgResize(HWND hwndDlg, LPARAM lParam, UTILRESIZECONTROL *u
 			return RD_ANCHORX_RIGHT | RD_ANCHORY_HEIGHT;
 		}
 	}
-	
+
 
 	return RD_ANCHORX_LEFT | RD_ANCHORY_BOTTOM;
 }
@@ -533,7 +533,7 @@ HICON g_LoadIconEx( const char* name, bool big )
 {
 	char szSettingName[100];
 	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", "", name );
-	return ( HICON )CallService( MS_SKIN2_GETICON, big, (LPARAM)szSettingName );
+	return Skin_GetIcon(szSettingName, big);
 }
 INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -555,7 +555,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 		IDC_SAWAYMSG_VARS, ILI_NOICON, LPGENT("Open Variables help dialog"),
 		IDC_SAWAYMSG_OPTIONS, ILI_SETTINGS, LPGENT("Show settings menu")
 	};
-	
+
 
 	switch (uMsg)
 	{
@@ -565,7 +565,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 			g_SetAwayMsgPage.SetWnd(hwndDlg);
 			g_SetAwayMsgPage.DBToMemToPage();
-/*			
+/*
 			HICON hTitleIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 			HICON hTitleIconBig = LoadSkinnedIconBig(SKINICON_OTHER_MIRANDA);
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBig);
@@ -578,24 +578,24 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			Status = g_ProtoStates[dat->szProtocol].Status;
 			HICON hTitleIcon = LoadSkinnedProtoIcon(szProto, Status);
 			HICON hTitleIconBig = LoadSkinnedProtoIconBig(szProto, Status);
-			
 
-			
-			
+
+
+
 			if(hTitleIconBig == NULL || (HICON)CALLSERVICE_NOTFOUND == hTitleIconBig) {
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBigElse);
 			} else {
 				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)hTitleIconBig);
 			}
-			
+
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTitleIcon);
 
-	
+
 			SendDlgItemMessage(hwndDlg, IDC_SAWAYMSG_MSGDATA, EM_LIMITTEXT, AWAY_MSGDATA_MAX, 0);
 
-			
-		
-			
+
+
+
 		// init window size variables / resize the window
 			RECT rc;
 			POINT pt;
@@ -618,7 +618,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			//MinMsgEditSize = rc.right - rc.left + rcContactSplitter.right - rcVars.left + 3;
 			MinMsgEditSize = rcOK.right - rc.left + rcContactSplitter.right - rcVars.left + 3;
 			rc.left = MINSPLITTERPOS;
-			
+
 			//NightFox: use MINSPLITTERPOS as min size ;
 //			GetWindowRect(GetDlgItem(hwndDlg, IDC_SAWAYMSG_SAVEMSG), &rc);
 //			GetWindowRect(GetDlgItem(hwndDlg, IDC_SAWAYMSG_DELETE), &rc);
@@ -632,17 +632,17 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			MinMsgSplitterX = pt.x;
 			GetWindowRect(GetDlgItem(hwndDlg, IDC_SAWAYMSG_IGNOREREQ), &rc);
 			MinContactSplitterX = rcMsgDlg.right - rc.left + 1;
-			
+
 			/*
-			
+
 			//NightFox: add status bar
-			
+
 			PROTOACCOUNT * acc = ProtoGetAccount(szProto);
-	
+
 			//HWND hWndStatusBar = CreateStatusWindow(WS_CHILD | WS_VISIBLE | WS_CLIPCHILDREN | SBARS_SIZEGRIP, NULL, hwndDlg, 999);//IDC_STATUSBAR);
 			SetWindowPos(hWndStatusBar, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE|SWP_NOSIZE);
-			
-			
+
+
 			SIZE sz;
 
 			HDC hdc = GetDC(hWndStatusBar);
@@ -658,16 +658,16 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 			SendMessage(hWndStatusBar, SB_SETICON, 1, (LPARAM)LoadSkinnedProtoIcon(szProto, Status));
 			SendMessage(hWndStatusBar, SB_SETTEXT, 1, (LPARAM)acc->tszAccountName);
 			*/
-			
 
-			
-			
-			
-			
-			
-			
-			
-			
+
+
+
+
+
+
+
+
+
 		// [try] getting dialog position
 			int DlgPosX = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSX, -1);
 			int DlgPosY = DBGetContactSettingDword(NULL, MOD_NAME, SAM_DB_DLGPOSY, -1);
@@ -999,7 +999,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 								}
 								if (hContact)
 								{
-									
+
 									if (IsAnICQProto((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0))) {
 										WindowTitle += TranslateT("message for");
 										WindowTitle += _T(" ");
@@ -1007,8 +1007,8 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 										WindowTitle += TranslateT("for");
 										WindowTitle += _T(" ");
 									}
-								
-								
+
+
 									WindowTitle += (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 									if (!IsAnICQProto((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)))
 									{
@@ -1033,12 +1033,12 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 										/*if (CallProtoService(szProto, PS_GETNAME, 256, (LPARAM)ProtoTitle.GetBuffer(256)))
 										{ // on a failure, set ProtoTitle to an empty string
 											//ProtoTitle[0] = '\0';
-										}*/										
+										}*/
 										//ProtoTitle.ReleaseBuffer();
 										//WindowTitle += ANSI2TCHAR(ProtoTitle) + TranslateT(" protocol");
-										
+
 										PROTOACCOUNT * acc = ProtoGetAccount(szProto);
-									
+
 										WindowTitle += acc->tszAccountName;
 										//WindowTitle += _T(" ");
 										//WindowTitle += TranslateT("account");
@@ -1122,7 +1122,7 @@ INT_PTR CALLBACK SetAwayMsgDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARA
 					//CString ProtoTitle;
 					//CallProtoService(proto[I]->szName, PS_GETNAME, 256, (LPARAM)ProtoTitle.GetBuffer(256));
 					//ProtoTitle.ReleaseBuffer();
-					
+
 					PROTOACCOUNT * acc = ProtoGetAccount(proto[I]->szName);
 					//NightFox: protocols -> accounts
 					//hItem = CList->AddInfo(TCString(_T("* ")) + ANSI2TCHAR(ProtoTitle) + TranslateT(" contacts *"), CLC_ROOT, hItem, (LPARAM)proto[I]->szName, LoadSkinnedProtoIcon(proto[I]->szName, g_ProtoStates[proto[I]->szName].Status));

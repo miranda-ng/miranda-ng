@@ -558,7 +558,7 @@ void LoadPopupClass()
 		ppc.flags = PCF_TCHAR;
 		ppc.pszName = "Nudge";
 		ppc.ptszDescription = LPGENT("Show Nudge");
-		ppc.hIcon = (HICON) CallService(MS_SKIN2_GETICONBYHANDLE,0,(LPARAM)g_hIcon);
+		ppc.hIcon = Skin_GetIconByHandle(g_hIcon);
 		ppc.colorBack = NULL;
 		ppc.colorText = NULL;
 		ppc.iSeconds = 0;
@@ -628,9 +628,8 @@ void Nudge_ShowPopup(CNudgeElement n, HANDLE hContact, TCHAR * Message)
 	else if(ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		POPUPDATAT NudgePopUp = {0};
-
 		NudgePopUp.lchContact = hContact;
-		NudgePopUp.lchIcon = (HICON) CallService(MS_SKIN2_GETICON,0,(LPARAM) n.hIcoLibItem );
+		NudgePopUp.lchIcon = Skin_GetIconByHandle(n.hIcoLibItem);
 		NudgePopUp.colorBack = 0;
 		NudgePopUp.colorText = 0;
 		NudgePopUp.iSeconds = 0;

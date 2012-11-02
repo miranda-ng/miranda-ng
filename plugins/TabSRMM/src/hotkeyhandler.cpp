@@ -178,7 +178,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case WM_HOTKEY: {
 			CLISTEVENT *cli = 0;
 
-			cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, (LPARAM)0);
+			cli = (CLISTEVENT *)CallService(MS_CLIST_GETEVENT, (WPARAM)INVALID_HANDLE_VALUE, 0);
 			if (cli != NULL) {
 				if (strncmp(cli->pszService, "SRMsg/TypingMessage", strlen(cli->pszService))) {
 					CallService(cli->pszService, 0, (LPARAM)cli);
@@ -405,7 +405,7 @@ LONG_PTR CALLBACK HotkeyHandlerDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			 */
 			if (cle) {
 				if (ServiceExists(cle->pszService)) {
-					CallService(cle->pszService, (WPARAM)NULL, (LPARAM)cle);
+					CallService(cle->pszService, 0, (LPARAM)cle);
 					CallService(MS_CLIST_REMOVEEVENT, (WPARAM)cle->hContact, (LPARAM)cle->hDbEvent);
 				}
 			} else {             // still, we got that message posted.. the event may be waiting in tabSRMMs tray...

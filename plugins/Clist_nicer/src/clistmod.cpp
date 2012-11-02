@@ -75,7 +75,7 @@ int IconFromStatusMode(const char *szProto, int status, HANDLE hContact, HICON *
 		if (szProto) {
 			char szBuf[128];
 			mir_snprintf(szBuf, 128, "%s_conn", szProto);
-			*phIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuf);
+			*phIcon = Skin_GetIcon(szBuf);
 		}
 	}
 	return saveIconFromStatusMode(szFinalProto, finalStatus, hContact);
@@ -263,7 +263,7 @@ int ShowHide(WPARAM wParam, LPARAM lParam)
 		GetWindowRect(pcli->hwndContactList, &rcWindow);
 		if (Utils_AssertInsideScreen(&rcWindow) == 1)
 		{
-			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top, 
+			MoveWindow(pcli->hwndContactList, rcWindow.left, rcWindow.top,
 				rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, TRUE);
 		}
 	}

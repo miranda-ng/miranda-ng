@@ -7000,7 +7000,7 @@ public:
 	int GetRangeLimit(BOOL bLowLimit) const
 	{
 		ATLASSERT(::IsWindow(m_hWnd));
-		return (int)::SendMessage(m_hWnd, PBM_GETRANGE, bLowLimit, (LPARAM)NULL);
+		return (int)::SendMessage(m_hWnd, PBM_GETRANGE, bLowLimit, 0);
 	}
 
 	DWORD SetRange32(int nMin, int nMax)

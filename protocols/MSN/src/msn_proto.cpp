@@ -696,7 +696,7 @@ void __cdecl CMsnProto::MsnGetAwayMsgThread(void* arg)
 		SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)dbv.ptszVal);
 		MSN_FreeVariant(&dbv);
 	}
-	else SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, (LPARAM)0);
+	else SendBroadcast(inf->hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)inf->id, 0);
 
 	mir_free(inf);
 }

@@ -477,8 +477,8 @@ INT_PTR CALLBACK DlgProcPopSkinsOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 								hwndDlg,
 								IDC_SKINLIST,
 								LB_GETITEMDATA,
-								(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL,(WPARAM)0,(LPARAM)0),
-								(LPARAM)0));
+								(WPARAM)SendDlgItemMessage(hwndDlg, IDC_SKINLIST, LB_GETCURSEL,0,0),
+								0));
 							const PopupSkin *skin = 0;
 							if (skin = skins.getSkin(PopUpOptions.SkinPack)) {
 								mir_free(PopUpOptions.SkinPack);

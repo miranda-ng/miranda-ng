@@ -843,7 +843,7 @@ void CJabberProto::MenuInit()
 	mir_snprintf(srvFce, sizeof(srvFce), "%s/menuSetPriority/0", m_szModuleName);
 	bool needServices = !ServiceExists(srvFce);
 	if ( needServices )
-		JCreateServiceParam(svcName, &CJabberProto::OnMenuSetPriority, (LPARAM)0);
+		JCreateServiceParam(svcName, &CJabberProto::OnMenuSetPriority, 0);
 
 	int steps[] = { 10, 5, 1, 0, -1, -5, -10 };
 	for (int i = 0; i < SIZEOF(steps); ++i) {

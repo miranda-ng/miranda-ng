@@ -212,12 +212,12 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 			cws.szSetting = "rsa_priv";
 			cws.value.pbVal = (PBYTE)&priv_key;
 			cws.value.cpbVal = priv_len;
-			CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)0, (LPARAM)&cws);
+			CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 
 			cws.szSetting = "rsa_pub";
 			cws.value.pbVal = (PBYTE)&pub_key;
 			cws.value.cpbVal = pub_len;
-			CallService(MS_DB_CONTACT_WRITESETTING, (WPARAM)0, (LPARAM)&cws);
+			CallService(MS_DB_CONTACT_WRITESETTING, 0, (LPARAM)&cws);
 
 			DBDeleteContactSetting(0, szModuleName, "rsa_priv_2048");
 			DBDeleteContactSetting(0, szModuleName, "rsa_pub_2048");

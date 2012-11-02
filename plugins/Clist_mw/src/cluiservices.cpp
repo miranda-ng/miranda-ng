@@ -34,9 +34,9 @@ void FreeProtocolData( void )
 	for (nPanel = 0;nPanel<nParts;nPanel++)
 	{
 		ProtocolData *PD;
-		PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,(LPARAM)0);
+		PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
 		if (PD != NULL && !IsBadCodePtr(( FARPROC )PD)) {
-			SendMessage(pcli->hwndStatus,SB_SETTEXT,(WPARAM)nPanel|SBT_OWNERDRAW,(LPARAM)0);
+			SendMessage(pcli->hwndStatus,SB_SETTEXT,(WPARAM)nPanel|SBT_OWNERDRAW,0);
 			if (PD->RealName) mir_free(PD->RealName);
 			if (PD) mir_free(PD);
 }	}	}

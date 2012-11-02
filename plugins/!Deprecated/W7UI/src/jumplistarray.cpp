@@ -151,7 +151,7 @@ bool CJumpListArray::LoadMirandaIcon(char *mir_icon, TCHAR *icon, int *id)
 	mir_free(name);
 	mir_free(path);
 
-	HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)mir_icon);
+	HICON hIcon = Skin_GetIcon(mir_icon);
 	SaveIconToFile(hIcon, icon);
 
 	return true;
@@ -201,7 +201,7 @@ IShellLink *CJumpListArray::NewShellLink(TCHAR *icon, int iIcon, TCHAR *title, T
 	if (SUCCEEDED(pShellLink->QueryInterface(IID_IPropertyStore, (void **)&pPropStore)))
 	{
 		PROPVARIANT pv;
-	
+
 		InitPropVariantFromString(title, &pv);
 		pPropStore->SetValue(PKEY_Title, pv);
 		PropVariantClear(&pv);

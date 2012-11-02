@@ -212,7 +212,7 @@ int InitFramesMenus(void)
 			op.Handle = hFrameMenuObject;
 			op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
 			op.Value = (INT_PTR)"FrameMenuFreeService";
-			CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+			CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 		}
 	}
 	return 0;

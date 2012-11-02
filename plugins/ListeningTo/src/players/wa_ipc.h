@@ -429,7 +429,7 @@ do not use :)
 
 #define IPC_GET_HMENU 281
 /* (requires Winamp 2.9+)
-** HMENU hMenu=SendMessage(hwnd_winamp,WM_WA_IPC,(WPARAM)0,IPC_GET_HMENU);
+** HMENU hMenu=SendMessage(hwnd_winamp,WM_WA_IPC,0,IPC_GET_HMENU);
 ** values for data:
 ** 0 : main popup menu 
 ** 1 : main menubar file menu

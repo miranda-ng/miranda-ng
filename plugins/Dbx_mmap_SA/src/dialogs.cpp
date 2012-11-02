@@ -127,7 +127,7 @@ int InitDialogs()
 
 int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, char* name)
 {
-	HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON, (WPARAM)NULL, (LPARAM)name);
+	HICON hIcon = Skin_GetIcon(name);
 	int res = ImageList_AddIcon(hIml, hIcon);
 	return res;
 }

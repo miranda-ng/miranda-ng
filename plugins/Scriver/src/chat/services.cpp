@@ -414,7 +414,7 @@ static void AddUser(GCEVENT * gce)
 			ui->Status |= si->pStatuses->Status;
 
 			if (si->hWnd) {
-				SendMessage(si->hWnd, GC_UPDATENICKLIST, (WPARAM)0, (LPARAM)0);
+				SendMessage(si->hWnd, GC_UPDATENICKLIST, 0, 0);
 			}
 		}
 	}

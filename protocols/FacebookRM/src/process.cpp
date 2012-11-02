@@ -608,7 +608,7 @@ void FacebookProto::ProcessFriendRequests( void* )
 				*pCurBlob = '\0'; pCurBlob++;                                        // E-mail
 				*pCurBlob = '\0';                                                    // Reason
 
-				CallService(MS_DB_EVENT_ADD, (WPARAM)NULL, (LPARAM)&dbei);				
+				CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);				
 
 				LOG("      (New) Friendship request from: %s (%s) [%s]", fbu->real_name.c_str(), fbu->user_id.c_str(), time.c_str());
 			} else {

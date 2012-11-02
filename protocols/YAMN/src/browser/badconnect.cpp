@@ -26,7 +26,7 @@ LRESULT CALLBACK BadConnectPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lPa
 
 				ZeroMemory(&si,sizeof(si));
 				si.cb=sizeof(si);
-				ActualAccount=(HACCOUNT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,(LPARAM)0);
+				ActualAccount=(HACCOUNT)CallService(MS_POPUP_GETCONTACT,(WPARAM)hWnd,0);
 #ifdef DEBUG_SYNCHRO
 				DebugLog(SynchroFile,"PopUpProc:LEFTCLICK:ActualAccountSO-read wait\n");
 #endif

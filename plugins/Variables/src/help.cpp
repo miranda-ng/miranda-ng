@@ -1188,7 +1188,7 @@ static INT_PTR CALLBACK helpDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM l
 		urd.cbSize = sizeof(urd);
 		urd.hInstance = hInst;
 		urd.hwndDlg = hwndDlg;
-		urd.lParam = (LPARAM)0;
+		urd.lParam = 0;
 		// ! uses ANSI version !
 		urd.lpTemplate = MAKEINTRESOURCEA(IDD_HELP_DIALOG);
 		urd.pfnResizer = helpDialogResize;
@@ -1315,14 +1315,8 @@ INT_PTR getSkinItemService(WPARAM wParam, LPARAM lParam)
 
 	switch (item) {
 	case VSI_HELPICON:
-		if (hHelpIcon == NULL) {
-			if (ServiceExists(MS_SKIN2_GETICON))
-				hHelpIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"vars_help");
-
-			if (hHelpIcon == NULL)
-				hHelpIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_V), IMAGE_ICON, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
-		}
-
+		if (hHelpIcon == NULL)
+			hHelpIcon = Skin_GetIcon("vars_help");
 		return (INT_PTR)hHelpIcon;
 
 	case VSI_HELPTIPTEXT:

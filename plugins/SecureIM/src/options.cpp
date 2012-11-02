@@ -1180,7 +1180,7 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 		}
 		hContact = db_find_next(hContact);
 	}
-	ListView_Sort(hLV,(LPARAM)0);
+	ListView_Sort(hLV,0);
 }
 
 

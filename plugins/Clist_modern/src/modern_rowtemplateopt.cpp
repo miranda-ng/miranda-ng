@@ -294,7 +294,7 @@ void rowOptDelContainer(HWND htree, HTREEITEM hti)
 		else
 		{
 			
-			tvpi.lParam = (LPARAM)NULL; 
+			tvpi.lParam = 0; 
 			rowOptTmplRoot = (pROWCELL)tvpi.lParam;
 		}
 		

@@ -120,7 +120,7 @@ static int ServiceParseAimLink(WPARAM wParam,LPARAM lParam)
             ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=sn;
-            CallService(MS_ADDCONTACT_SHOW,(WPARAM)NULL,(LPARAM)&acs);
+            CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
     }
@@ -295,7 +295,7 @@ static void AddIcqUser(ICQFILEINFO *info)
 			psr.uin=uin;
 			psr.auth=1; /* authentication needed flag */
 			psr.uid=NULL; /* icq contact */
-			CallService(MS_ADDCONTACT_SHOW,(WPARAM)NULL,(LPARAM)&acs);
+			CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
 		}
 	}
 }
@@ -306,7 +306,7 @@ static void MessageIcqUser(ICQFILEINFO *info)
 	if(ServiceExists(MS_MSG_SENDMESSAGE)) {
 		hContact=HContactFromUIN(atoi(info->uin),NULL); /* adds the contact if needed */
 		if(hContact!=NULL)
-			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)NULL);
+			CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 	}
 }
 
@@ -441,7 +441,7 @@ static int ServiceParseYmsgrLink(WPARAM wParam,LPARAM lParam)
             ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=id;
-            CallService(MS_ADDCONTACT_SHOW,(WPARAM)NULL,(LPARAM)&acs);
+            CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
     }
@@ -558,7 +558,7 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=email;
 			psr.email=email;
-            CallService(MS_ADDCONTACT_SHOW,(WPARAM)NULL,(LPARAM)&acs);
+            CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
     }
@@ -579,7 +579,7 @@ static int ServiceParseMsnimLink(WPARAM wParam,LPARAM lParam)
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
             hContact=MSN_HContactFromEmail(email,email,TRUE,TRUE); /* does not yet check if email is current user */
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)NULL);
+                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 		}
 		return 0;
     }
@@ -646,7 +646,7 @@ static int ServiceParseLink(WPARAM wParam,LPARAM lParam)
 		if(ServiceExists(MS_MSG_SENDMESSAGE)) {
             hContact=gg_getcontact(atoi(arg),TRUE,FALSE,arg);
             if(hContact!=NULL)
-                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,(LPARAM)NULL);
+                CallService(MS_MSG_SENDMESSAGE,(WPARAM)hContact,0);
 		}
     }
     return 0;
@@ -754,7 +754,7 @@ static int ServiceParseXmppURI(WPARAM wParam,LPARAM lParam)
             ZeroMemory(&psr,sizeof(PROTOSEARCHRESULT));
             psr.cbSize=sizeof(PROTOSEARCHRESULT);
             psr.nick=jid;
-            CallService(MS_ADDCONTACT_SHOW,(WPARAM)NULL,(LPARAM)&acs);
+            CallService(MS_ADDCONTACT_SHOW,0,(LPARAM)&acs);
         }
 		return 0;
     }

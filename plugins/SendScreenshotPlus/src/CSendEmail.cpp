@@ -71,11 +71,11 @@ void	CSendEmail::Send() {
 	//ci.dwFlag = CNF_TCHAR;
 
 	ci.dwFlag = CNF_EMAIL | CNF_TCHAR;
-	CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci);
+	CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci);
 	m_Email = mir_t2a(ci.pszVal);
 
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
-	CallService(MS_CONTACT_GETCONTACTINFO,(WPARAM)0,(LPARAM)&ci);
+	CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci);
 	m_FriendlyName = mir_t2a(ci.pszVal);
 
 	mir_free(ci.pszVal);

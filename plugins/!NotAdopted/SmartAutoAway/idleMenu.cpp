@@ -2,8 +2,8 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2006 Miranda ICQ/IM project, 
-all portions of this codebase are copyrighted to the people 
+Copyright 2000-2006 Miranda ICQ/IM project,
+all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
 This program is free software; you can redistribute it and/or
@@ -59,38 +59,37 @@ static int IconLibIconsChanged(WPARAM wParam, LPARAM lParam)
 	int i;
 	for (i=0;i<4;i++)
 	{
-		HICON hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IdleServices[i]);
+		HICON hIcon = Skin_GetIcon(IdleServices[i]);
 		CListSetMenuItemIcon(hIdleMenu[i], hIcon);
-		CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)IdleServices[i]);
+		Skin_ReleaseIcon(IdleServices[i]);
 	}
 	return 0;
 }
 
-void AddIdleMenu(){	
+void AddIdleMenu(){
 	CLISTMENUITEM mi;
 	int i;
-	if (ServiceExists(MS_SKIN2_GETICON)){
-		SKINICONDESC sid = {0};
-		hHookIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, IconLibIconsChanged);
-		hasIcoLib = 1;
-		sid.cbSize = SKINICONDESC_SIZE_V2;
-		sid.pszSection = SECTIONNAME;
-		sid.pszDefaultFile = NULL;
-		sid.iDefaultIndex = 0;
-		for (i=0;i<4;i++){
-			sid.pszDescription = iconDescs[i];
-			sid.pszName = IdleServices[i];
-			sid.iDefaultIndex = iconInd[i];
-			sid.hDefaultIcon = (HICON)LoadImage( 
-									#ifdef SAA_PLUGIN
-										g_hInst,
-									#else
-										GetModuleHandle(NULL),
-									#endif
-										MAKEINTRESOURCE( iconInd[i] ), IMAGE_ICON, 0, 0, 0);
-			CallService(MS_SKIN2_ADDICON, 0, (LPARAM)&sid);
-			DestroyIcon(sid.hDefaultIcon);
-		}
+
+	SKINICONDESC sid = {0};
+	hHookIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, IconLibIconsChanged);
+	hasIcoLib = 1;
+	sid.cbSize = SKINICONDESC_SIZE_V2;
+	sid.pszSection = SECTIONNAME;
+	sid.pszDefaultFile = NULL;
+	sid.iDefaultIndex = 0;
+	for (i=0;i<4;i++){
+		sid.pszDescription = iconDescs[i];
+		sid.pszName = IdleServices[i];
+		sid.iDefaultIndex = iconInd[i];
+		sid.hDefaultIcon = (HICON)LoadImage(
+			#ifdef SAA_PLUGIN
+				g_hInst,
+			#else
+				GetModuleHandle(NULL),
+			#endif
+			MAKEINTRESOURCE( iconInd[i] ), IMAGE_ICON, 0, 0, 0);
+		Skin_AddIcon(&sid);
+		DestroyIcon(sid.hDefaultIcon);
 	}
 
  	ZeroMemory(&mi,sizeof(mi));
@@ -99,41 +98,27 @@ void AddIdleMenu(){
 	mi.popupPosition=1000090000;
 	for (i=0;i<4;i++)
 	{
-		if (hasIcoLib)
-			mi.hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)IdleServices[i]);
-		else
-			mi.hIcon = (HICON)LoadImage(
-			#ifdef SAA_PLUGIN
-				g_hInst,
-			#else
-				GetModuleHandle(NULL),
-			#endif
-				MAKEINTRESOURCE(iconInd[i]), IMAGE_ICON, 0, 0, 0);
+		mi.hIcon = Skin_GetIcon(IdleServices[i]);
+		mi.position = i+1;
+		mi.pszName = iconDescs[i];
+		mi.pszService = IdleServices[i];
+		if (i==3) mi.position = 1000000;
+		hIdleMenu[i] = (HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
 
-		mi.position=i+1;
-		mi.pszName=iconDescs[i];
-		mi.pszService=IdleServices[i];
-		if (i==3) mi.position=1000000;
-		hIdleMenu[i]=(HANDLE)CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
-
-		if (hasIcoLib)
-			CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)IdleServices[i]);
-		else
-			DestroyIcon(mi.hIcon);
+		Skin_ReleaseIcon(IdleServices[i]);
 	}
-//	return 0; 
 }
 
 MIRANDASERVICE idleServiceNotIdle(WPARAM w, LPARAM l){
-	SimulateIdle(0); 
+	SimulateIdle(0);
 	return 0;
 };
 MIRANDASERVICE idleServiceShortIdle(WPARAM w, LPARAM l){
-	SimulateIdle(1); 
+	SimulateIdle(1);
 	return 0;
 };
 MIRANDASERVICE idleServiceLongIdle(WPARAM w, LPARAM l){
-	SimulateIdle(2); 
+	SimulateIdle(2);
 	return 0;
 };
 MIRANDASERVICE reconnectService(WPARAM w, LPARAM l){

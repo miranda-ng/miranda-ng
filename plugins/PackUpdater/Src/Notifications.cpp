@@ -115,19 +115,14 @@ static VOID MakePopupAction(POPUPACTION &pa, INT id)
 	pa.flags = PAF_ENABLED;
 	pa.wParam = MAKEWORD(id, BN_CLICKED);
 	pa.lParam = 0;
-	switch (id)
-	{
+	switch (id) {
 	case IDYES:
-		{
-			pa.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"btn_ok");
-			strncpy_s(pa.lpzTitle, MODNAME"/Yes", SIZEOF(pa.lpzTitle));
-		}
+		pa.lchIcon = Skin_GetIcon("btn_ok");
+		strncpy_s(pa.lpzTitle, MODNAME"/Yes", SIZEOF(pa.lpzTitle));
 		break;
 	case IDNO:
-		{
-			pa.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"btn_cancel");
-			strncpy_s(pa.lpzTitle, MODNAME"/No", SIZEOF(pa.lpzTitle));
-		}
+		pa.lchIcon = Skin_GetIcon("btn_cancel");
+		strncpy_s(pa.lpzTitle, MODNAME"/No", SIZEOF(pa.lpzTitle));
 		break;
 	}
 }

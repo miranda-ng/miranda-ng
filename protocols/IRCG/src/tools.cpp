@@ -608,7 +608,7 @@ INT_PTR CIrcProto::DoEvent(int iEvent, const TCHAR* pszWindow, const TCHAR* pszN
 	else
 		gce.time = timestamp;
 	gce.bIsMe = bIsMe;
-	return CallChatEvent((WPARAM)0, (LPARAM)&gce);
+	return CallChatEvent(0, (LPARAM)&gce);
 }
 
 CMString CIrcProto::ModeToStatus(int sMode) 

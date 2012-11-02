@@ -49,21 +49,21 @@ void InitIcons(void)
 
 	GetModuleFileNameA(hInst, szFile, MAX_PATH);
 
-	for (unsigned i = 0; i < SIZEOF(iconList); i++) 
+	for (unsigned i = 0; i < SIZEOF(iconList); i++)
 	{
 		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, iconList[i].szName);
 
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}	
+	}
 }
 
 HICON LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, name);
-	return (HICON)CallService(MS_SKIN2_GETICON, big, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName, big);
 }
 
 HANDLE GetIconHandle(const char* name)
@@ -79,10 +79,10 @@ void ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, name);
-	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	Skin_ReleaseIcon(szSettingName);
 }
 
 void ReleaseIconEx(HICON hIcon)
 {
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon(hIcon);
 }

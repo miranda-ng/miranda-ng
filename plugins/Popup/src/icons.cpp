@@ -89,7 +89,7 @@ static ICODESC icoDesc[] =
  **/
 HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
 {
-	return (pszIcon) ? (HICON)CallService(MS_SKIN2_GETICON, (WPARAM)big, (LPARAM) pszIcon) : NULL;
+	return (pszIcon) ? Skin_GetIcon(pszIcon, big) : NULL;
 }
 
 void InitIcons()
@@ -108,7 +108,7 @@ void InitIcons()
 
 		if(icoDesc[i].idResource==0){
 			//use icon from icon lib
-			sid.hDefaultIcon = (HICON)CallService(MS_SKIN2_GETICON,0 , (LPARAM)icoDesc[i].pszIcon);
+			sid.hDefaultIcon = Skin_GetIcon(icoDesc[i].pszIcon);
 			sid.ptszDefaultFile = NULL;
 			sid.iDefaultIndex = 0;
 		}else{

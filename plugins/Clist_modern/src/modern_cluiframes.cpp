@@ -1236,7 +1236,7 @@ static int UpdateTBToolTip(int framepos)
 		ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
 		ti.uId = (UINT_PTR)g_pfwFrames[framepos].TitleBar.hwnd;
 
-		return(SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip,TTM_UPDATETIPTEXT ,(WPARAM)0,(LPARAM)&ti));
+		return(SendMessage(g_pfwFrames[framepos].TitleBar.hwndTip,TTM_UPDATETIPTEXT ,0,(LPARAM)&ti));
 	}
 
 };
@@ -1292,7 +1292,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	case FO_NAME:
-		if (lParam == (LPARAM)NULL)
+		if (lParam == 0)
 			return -1;
 
 		mir_free(fw.Name);
@@ -1308,7 +1308,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	case FO_TBNAME:
-		if (lParam == (LPARAM)NULL) { return(-1);}
+		if (lParam == 0) { return(-1);}
 
 		mir_free(fw.TitleBar.tbname);
 		mir_free(fw.TitleBar.sztbname);
@@ -1326,7 +1326,7 @@ static int _us_DoSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	case FO_TBTIPNAME:
-		if (lParam == (LPARAM)NULL) { return(-1);}
+		if (lParam == 0) { return(-1);}
 		if (fw.TitleBar.tooltip != NULL) mir_free_and_nil(fw.TitleBar.tooltip);
 		if (fw.TitleBar.sztooltip != NULL) mir_free_and_nil(fw.TitleBar.sztooltip);
 		if (bUnicodeText)
@@ -1966,7 +1966,7 @@ static int _us_DoAddFrame(WPARAM wParam,LPARAM lParam)
 		ti.hinst = g_hInst;
 		ti.uFlags = TTF_IDISHWND|TTF_SUBCLASS ;
 		ti.uId = (UINT_PTR)g_pfwFrames[g_nFramesCount].TitleBar.hwnd;
-		res = SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ADDTOOL,(WPARAM)0,(LPARAM)&ti);
+		res = SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ADDTOOL,0,(LPARAM)&ti);
 	}
 
 	SendMessageA(g_pfwFrames[g_nFramesCount].TitleBar.hwndTip,TTM_ACTIVATE,(WPARAM)g_pfwFrames[g_nFramesCount].TitleBar.ShowTitleBarTip,0);
@@ -3700,7 +3700,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 
 
 			memset(&minmax,0,sizeof(minmax));
-			if (SendMessage(g_pfwFrames[framepos].hWnd,WM_GETMINMAXINFO,(WPARAM)0,(LPARAM)&minmax) == 0)
+			if (SendMessage(g_pfwFrames[framepos].hWnd,WM_GETMINMAXINFO,0,(LPARAM)&minmax) == 0)
 			{
 				RECT border;
 				int tbh = g_nTitleBarHeight*btoint(g_pfwFrames[framepos].TitleBar.ShowTitleBar);

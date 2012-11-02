@@ -835,7 +835,7 @@ int TSAPI UpdateTrayMenu(const TWindowData *dat, WORD wStatus, const char *szPro
 		if (szProto == NULL)
 			return 0;                                     // should never happen...
 
-		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, (WPARAM)0, (LPARAM)szProto);
+		PROTOACCOUNT *acc = (PROTOACCOUNT *)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szProto);
 
 		tszFinalProto = (acc && acc->tszAccountName ? acc->tszAccountName : 0);
 

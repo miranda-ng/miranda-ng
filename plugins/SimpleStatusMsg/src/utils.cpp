@@ -72,7 +72,7 @@ HICON LoadIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s", name);
-	return (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szSettingName);
+	return Skin_GetIcon(szSettingName);
 }
 
 HANDLE GetIconHandle(int iconId)
@@ -86,7 +86,7 @@ void ReleaseIconEx(const char* name)
 {
 	char szSettingName[100];
 	mir_snprintf(szSettingName, sizeof(szSettingName), "SimpleStatusMsg_%s",  name);
-	CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)szSettingName);
+	Skin_ReleaseIcon(szSettingName);
 }
 
 HANDLE HookEventEx(const char *szEvent, MIRANDAHOOK hookProc)

@@ -78,7 +78,7 @@ BOOL CIrcProto::CList_AddDCCChat(const CMString& name, const CMString& hostmask,
 		cle.ptszTooltip = szNick;
 		cle.lParam = (LPARAM)pdci;
 
-		if ( CallService( MS_CLIST_GETEVENT, (WPARAM)hContact, (LPARAM)0))
+		if ( CallService( MS_CLIST_GETEVENT, (WPARAM)hContact, 0))
 			CallService( MS_CLIST_REMOVEEVENT, (WPARAM)hContact, (LPARAM)"dccchat");
 		CallService( MS_CLIST_ADDEVENT,(WPARAM) hContact,(LPARAM) &cle);
 	}

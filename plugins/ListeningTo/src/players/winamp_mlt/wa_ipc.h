@@ -588,7 +588,7 @@ typedef struct {
 
 #define IPC_GET_HMENU 281
 /* (requires Winamp 2.9+)
-** HMENU hMenu=SendMessage(hwnd_winamp,WM_WA_IPC,(WPARAM)0,IPC_GET_HMENU);
+** HMENU hMenu=SendMessage(hwnd_winamp,WM_WA_IPC,0,IPC_GET_HMENU);
 ** values for data:
 ** 0 : main popup menu 
 ** 1 : main menubar file menu
@@ -974,7 +974,7 @@ typedef struct _prefsDlgRecW {
 
 #define IPC_GETDIALOGBOXPARENT 365
 /* (requires Winamp 5.51+)
-** HWND hwndParent = SendMessage(hwnd_winamp,WM_WA_IPC,(WPARAM)0, IPC_GETDIALOGBOXPARENT);
+** HWND hwndParent = SendMessage(hwnd_winamp,WM_WA_IPC,0, IPC_GETDIALOGBOXPARENT);
 ** hwndParent can/must be passed to all modal dialogs (including MessageBox) thats uses winamp as a parent
 */
 

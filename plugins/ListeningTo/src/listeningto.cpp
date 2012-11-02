@@ -893,7 +893,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 		if (fr) info = mir_t2a(fr);
 	}
 
-	NotifyEventHooks(hListeningInfoChangedEvent, (WPARAM)info, (LPARAM)NULL);
+	NotifyEventHooks(hListeningInfoChangedEvent, (WPARAM)info, 0);
 
 	if (lti) {
 		if (fr) mir_free(fr);

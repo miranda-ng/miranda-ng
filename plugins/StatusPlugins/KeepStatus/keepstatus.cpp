@@ -888,8 +888,8 @@ static void CheckContinueslyFunction(void *arg)
 			return;
 		}
 		log_infoA("KeepStatus: connection lost! (continuesly check)");
-		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, (LPARAM)NULL);
-		ProcessPopup(KS_CONN_STATE_LOST, (LPARAM)NULL);
+		NotifyEventHooks(hConnectionEvent, (WPARAM)KS_CONN_STATE_LOST, 0);
+		ProcessPopup(KS_CONN_STATE_LOST, 0);
 		maxRetries = DBGetContactSettingByte(NULL, MODULENAME, SETTING_MAXRETRIES, 0);
 		if (maxRetries == 0) 
 			maxRetries = -1;
@@ -989,8 +989,8 @@ static int ProcessPopup(int reason, LPARAM lParam)
 					}
 					if (DBGetContactSettingByte(NULL, MODULENAME, SETTING_PUSHOWEXTRA, TRUE)) {
 						CallProtoService(ps[i]->szName, PS_GETNAME, sizeof(protoName), (LPARAM)protoName);
-						//_snprintf(protoInfoLine, sizeof(protoInfoLine), Translate("%s\t(will be set to %s)\r\n"), protoName, (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, (LPARAM)0));
-						_snprintf(protoInfoLine, sizeof(protoInfoLine), "%s\t(%s %s)\r\n", protoName, Translate("will be set to"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, (LPARAM)0));
+						//_snprintf(protoInfoLine, sizeof(protoInfoLine), Translate("%s\t(will be set to %s)\r\n"), protoName, (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
+						_snprintf(protoInfoLine, sizeof(protoInfoLine), "%s\t(%s %s)\r\n", protoName, Translate("will be set to"), (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)ps[i]->status, 0));
 						strncat(protoInfo, protoInfoLine, sizeof(protoInfo)-strlen(protoInfo)-1);
 					}
 				}

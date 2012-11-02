@@ -758,7 +758,7 @@ void __cdecl CAimProto::get_online_msg_thread(void* arg)
 		sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		DBFreeVariant(&dbv);
 	}
-	else sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)0);
+	else sendBroadcast(hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, 0);
 }
 
 HANDLE __cdecl CAimProto::GetAwayMsg(HANDLE hContact)

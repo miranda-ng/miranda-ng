@@ -148,7 +148,7 @@ static char* GetLinkDescription(TSettingsList& protoSettings)
 		else if ( protoSettings[i].status == ID_STATUS_CURRENT )
 			status = Translate("<current>");
 		else if ( protoSettings[i].status >= MIN_STATUS && protoSettings[i].status <= MAX_STATUS )
-			status = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)protoSettings[i].status, (LPARAM)0);
+			status = (char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)protoSettings[i].status, 0);
 		if (status == NULL)
 			status = "<unknown>";
 
@@ -967,12 +967,12 @@ static int ClearDatabase(char* filter)
 	dbces.szModule = MODULENAME;
 	dbces.lParam = (LPARAM)&settingCount;
 	dbces.pfnEnumProc = CountSettings;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)NULL,(LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 
 	settings = ( char** )malloc(settingCount*sizeof(char*));
 	dbces.lParam = (LPARAM)&settings;
 	dbces.pfnEnumProc = DeleteSetting;
-	CallService(MS_DB_CONTACT_ENUMSETTINGS,(WPARAM)NULL,(LPARAM)&dbces);
+	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 	for (i=0; i < settingCount; i++) {
 		if ((filter == NULL) || (!strncmp(filter, settings[i], strlen(filter))))
 			DBDeleteContactSetting(NULL, MODULENAME, settings[i]);

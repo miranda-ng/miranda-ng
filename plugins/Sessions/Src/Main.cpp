@@ -298,7 +298,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 				if(session_list_recovered[0])
 					ses_count=256;
 
-				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+				SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 				LoadPosition(hdlg, "LoadDlg");
 				if(StartUp)
 					SetTimer(hdlg, TIMERID_SHOW, iDelay, NULL);
@@ -369,7 +369,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 						if(LoadSessionToCombobox(hdlg,1,255,"UserSessionDsc",ses_limit)==0 && ses_count!=0)
 							ses_count=0;
 
-						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 
 					}
 					else if (ses_count>=ses_limit)
@@ -387,7 +387,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 
 						if(session_list_recovered[0]) ses_count=256;
 
-						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 					}
 					else
 					{
@@ -402,7 +402,7 @@ INT_PTR CALLBACK LoadSessionDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lpar
 
 						if(session_list_recovered[0]) ses_count=256;
 
-						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, (WPARAM)0, 0);
+						SendDlgItemMessage(hdlg, IDC_LIST, CB_SETCURSEL, 0, 0);
 					}
 					if (SendDlgItemMessage(hdlg, IDC_LIST, CB_GETCOUNT, 0, 0))
 						EnableWindow(GetDlgItem(hdlg,IDC_SESSDEL),TRUE);

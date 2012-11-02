@@ -27,9 +27,9 @@ static HICON LoadIconEx(IconIndex i)
 	HICON hIcon;
 
 	if (hHooks[4])
-		hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)iconList[(int)i].szName);
+		hIcon = Skin_GetIcon(iconList[(int)i].szName);
 	else
-		hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(iconList[(int)i].defIconID), 
+		hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(iconList[(int)i].defIconID),
 			IMAGE_ICON, 0, 0, 0);
 
 	return hIcon;
@@ -39,7 +39,7 @@ static HICON LoadIconEx(IconIndex i)
 static void ReleaseIconEx(HICON hIcon)
 {
 	if (hHooks[4])
-		CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+		Skin_ReleaseIcon(hIcon);
 	else
 		DestroyIcon(hIcon);
 }
@@ -75,7 +75,7 @@ void SetupIcoLib()
 		sid.ptszDefaultFile = path;
 		sid.flags = SIDF_ALL_TCHAR;
 
-		for (unsigned i = 0; i < MAX_REGS(iconList); i++) 
+		for (unsigned i = 0; i < MAX_REGS(iconList); i++)
 		{
 			if (!iconList[i].core)
 			{
@@ -129,7 +129,6 @@ HICON createProtoOverlayedIcon(HANDLE hContact)
 	HICON resIcon = getOverlayedIcon(icon0, icon1, FALSE);
 
 	ReleaseIconEx(icon1);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)icon0, 0);
-
+	Skin_ReleaseIcon(icon0);
 	return resIcon;
 }

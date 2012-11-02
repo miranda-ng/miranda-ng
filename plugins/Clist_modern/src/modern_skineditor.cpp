@@ -100,7 +100,7 @@ int TreeAddObject(HWND hwndDlg, int ID, OPT_OBJECT_DATA * data)
 					tvis.hInsertAfter = TVI_SORT;
 					tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_PARAM;
 					tvis.item.pszText = ptr;
-					tvis.item.lParam = (LPARAM)NULL;
+					tvis.item.lParam = 0;
 					cItem = TreeView_InsertItemA(GetDlgItem(hwndDlg,ID),&tvis);
 					
 				}	
@@ -256,8 +256,8 @@ void SetControls(HWND hwndDlg, char * str)
 			g = atoi(GetParamN(str,buf,SIZEOF(buf),3,',',TRUE));
 			b = atoi(GetParamN(str,buf,SIZEOF(buf),4,',',TRUE));
 			a = atoi(GetParamN(str,buf,SIZEOF(buf),5,',',TRUE));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR,(WPARAM)0,(LPARAM)RGB(r,g,b));
-			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR,(WPARAM)0,(LPARAM)RGB(r,g,b));
+			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETCOLOUR,0,(LPARAM)RGB(r,g,b));
+			SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_SETDEFAULTCOLOUR,0,(LPARAM)RGB(r,g,b));
 			SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_SETPOS,0,MAKELONG(a,0));
 		}
 		break;
@@ -369,7 +369,7 @@ int GetShortFileName(char * FullFile)
 char * MadeString(HWND hwndDlg)
 {
 	char buf[MAX_PATH*2] = {0};
-	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,0);
+	int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,0,0);
 	switch (i)
 	{
 	case 0:
@@ -380,7 +380,7 @@ char * MadeString(HWND hwndDlg)
 			BYTE a;
 			DWORD col;
 			a = (BYTE)SendDlgItemMessage(hwndDlg,IDC_SPIN_ALPHA,UDM_GETPOS,0,0);
-			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR,(WPARAM)0,0);
+			col = (DWORD)SendDlgItemMessage(hwndDlg,IDC_COLOR,CPM_GETCOLOUR,0,0);
 			mir_snprintf(buf,SIZEOF(buf),"Glyph,Solid,%d,%d,%d,%d",GetRValue(col),GetGValue(col),GetBValue(col),a);
 		}
 		break;
@@ -591,7 +591,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			{
 				if (HIWORD(wParam) == CBN_SELCHANGE)
 				{
-					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,(WPARAM)0,0);
+					int i = SendDlgItemMessage(hwndDlg,IDC_TYPE,CB_GETCURSEL,0,0);
 					//if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_TYPE)))
 					SetAppropriateGroups(hwndDlg,i);
 					if (GetFocus() == GetDlgItem(hwndDlg,IDC_TYPE))
@@ -671,7 +671,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						res = GetOpenFileNameA(&ofn);
 						if (res) {
 							GetShortFileName(ofn.lpstrFile);
-							SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT,(WPARAM)0,(LPARAM)ofn.lpstrFile);
+							SendDlgItemMessageA(hwndDlg,IDC_FILE,WM_SETTEXT,0,(LPARAM)ofn.lpstrFile);
 							SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 							UpdateInfo(hwndDlg);						
 						}
@@ -785,7 +785,7 @@ INT_PTR CALLBACK DlgSkinEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					pcli->pfnClcBroadcast( INTM_RELOADOPTIONS,0,0);
 					Sync(CLUIFrames_OnClistResize_mod,0,0);
 					ske_RedrawCompleteWindow();        
-					Sync(CLUIFrames_OnClistResize_mod, (WPARAM)0, 0);
+					Sync(CLUIFrames_OnClistResize_mod, 0, 0);
 					{
 						HWND hwnd = pcli->hwndContactList;
 						RECT rc = {0};

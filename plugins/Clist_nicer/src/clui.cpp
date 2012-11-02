@@ -217,7 +217,7 @@ static int CreateCLC(HWND parent)
 		frame.align = alBottom;
 		frame.hWnd = CreateWindowExA(0, "EventAreaClass", "evt", WS_VISIBLE | WS_CHILD | WS_TABSTOP, 0, 0, 20, 20, pcli->hwndContactList, (HMENU) 0, g_hInst, NULL);
 		g_hwndEventArea = frame.hWnd;
-		hNotifyFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & frame, (LPARAM)0);
+		hNotifyFrame = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & frame, 0);
 		CallService(MS_CLIST_FRAMES_UPDATEFRAME, (WPARAM)hNotifyFrame, FU_FMPOS);
 		HideShowNotifyFrame();
 		CreateViewModeFrame();
@@ -236,7 +236,7 @@ static int CreateCLC(HWND parent)
 		Frame.tname = _T("My Contacts");
 		Frame.TBtname = TranslateT("My Contacts");
 		Frame.height = 200;
-		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & Frame, (LPARAM)0);
+		hFrameContactTree = (HWND)CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM) & Frame, 0);
 		//free(Frame.name);
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_TBTIPNAME, hFrameContactTree), (LPARAM)Translate("My Contacts"));
 
@@ -292,17 +292,17 @@ static void CacheClientIcons()
 
 	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
-		overlayicons[i - IDI_OVL_OFFLINE] = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) szBuffer);
+		overlayicons[i - IDI_OVL_OFFLINE] = Skin_GetIcon(szBuffer);
 	}
-	ImageList_AddIcon(himlExtraImages, (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM) "core_main_14"));
+	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_14"));
 	ImageList_AddIcon(himlExtraImages, (HICON)LoadSkinnedIcon(SKINICON_EVENT_URL));
-	ImageList_AddIcon(himlExtraImages, (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM) "core_main_17"));
+	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
 	if (hIconSaved != 0) {
 		ImageList_AddIcon(himlExtraImages, hIconSaved);
 		DestroyIcon(hIconSaved);
 		hIconSaved = 0;
 	} else
-		ImageList_AddIcon(himlExtraImages, (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM) "core_main_17"));
+		ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
 }
 
 static void InitIcoLib()
@@ -324,7 +324,7 @@ static void InitIcoLib()
 		sid.iDefaultIndex = myIcons[i].uId;
 		Skin_AddIcon(&sid);
 	}
-	
+
 	sid.pszName = "CLN_visible";
 	sid.pszDescription = LPGEN("Contact on visible list");
 	sid.iDefaultIndex = -IDI_CLVISIBLE;
@@ -397,9 +397,9 @@ void CLN_LoadAllIcons(BOOL mode)
 	if (mode) {
 		InitIcoLib();
 		hIcoLibChanged = HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibChanged);
-		cfg::dat.hIconVisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_visible");
-		cfg::dat.hIconInvisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_invisible");
-		cfg::dat.hIconChatactive = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_chatactive");
+		cfg::dat.hIconVisible = Skin_GetIcon("CLN_visible");
+		cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
+		cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	}
 	CacheClientIcons();
 }
@@ -433,9 +433,9 @@ void ConfigureFrame()
 void IcoLibReloadIcons()
 {
 
-	cfg::dat.hIconVisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_visible");
-	cfg::dat.hIconInvisible = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_invisible");
-	cfg::dat.hIconChatactive = (HICON) CallService(MS_SKIN2_GETICON, 0, (LPARAM) "CLN_chatactive");
+	cfg::dat.hIconVisible = Skin_GetIcon("CLN_visible");
+	cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
+	cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	CacheClientIcons();
 	ReloadExtraIcons();
 
@@ -925,7 +925,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			//NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
 			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
 			{
-				LONG style; 
+				LONG style;
 				BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
 				ShowWindow(pcli->hwndContactList, SW_HIDE);
 				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
@@ -1808,7 +1808,7 @@ buttons_done:
 					if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_OFFLINE) {
 						char szBuffer[128];
 						mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
-						hIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)szBuffer);
+						hIcon = Skin_GetIcon(szBuffer);
 					} else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
 						ICQ_CUSTOM_STATUS cst = {0};
 						char szServiceName[128];
@@ -1832,14 +1832,14 @@ buttons_done:
 					else if (pd->statusbarpos == nParts - 1)
 						x -= (cfg::dat.bCRight / 2);
 					DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-					CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+					Skin_ReleaseIcon(hIcon);
 
 					if (cfg::getByte("CLUI", "sbar_showlocked", 1)) {
 						if (cfg::getByte(szProto, "LockMainStatus", 0)) {
 							hIcon = LoadSkinnedIcon(SKINICON_OTHER_STATUS_LOCKED);
 							if (hIcon != NULL) {
 								DrawIconEx(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - 16) >> 1, hIcon, 16, 16, 0, NULL, DI_NORMAL);
-								CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+								Skin_ReleaseIcon(hIcon);
 							}
 						}
 					}
@@ -1928,7 +1928,7 @@ buttons_done:
 			 */
 			if (!cfg::shutDown)
 				cfg::shutDown = 1;
-			CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, (LPARAM)0);
+			CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
 			break;
 	}
 	return saveContactListWndProc(hwnd, msg, wParam, lParam);

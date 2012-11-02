@@ -534,7 +534,7 @@ __inline static int variables_showhelp(HWND hwndDlg, UINT uIDEdit, int flags, ch
 
 // Parameters:
 // ------------------------
-// wParam = (WPARAM)0
+// wParam = 0
 // lParam = (LPARAM)VSI_* (see below)
 
 // Return Value:

@@ -193,7 +193,7 @@ void ReloadExtraIcons()
 	HICON hicon;
 
 	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNSSPACE,DBGetContactSettingByte(NULL,"CLUI","ExtraColumnSpace",18),0);					
-	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,0,(LPARAM)NULL);		
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,0,0);		
 	if (hExtraImageList){ImageList_Destroy(hExtraImageList);};
 	hExtraImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,1,256);
 

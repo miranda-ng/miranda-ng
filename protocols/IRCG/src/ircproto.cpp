@@ -928,7 +928,7 @@ int CIrcProto::SetStatusInternal( int iNewStatus, bool bIsInternal )
 		msn.tszInfo = TranslateT( "Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name)." );
 		msn.dwInfoFlags = NIIF_ERROR | NIIF_INTERN_UNICODE;
 		msn.uTimeout = 15000;
-		CallService( MS_CLIST_SYSTRAY_NOTIFY, (WPARAM)NULL,(LPARAM) &msn);
+		CallService( MS_CLIST_SYSTRAY_NOTIFY, 0,(LPARAM) &msn);
 		return 0;
 	}
 

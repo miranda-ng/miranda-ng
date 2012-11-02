@@ -681,17 +681,13 @@ void Button_SetIcon_IcoLib(HWND hwndDlg, int itemId, int iconId, const char* too
 
 void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 {
-	HICON hIcon = ( HICON )SendDlgItemMessage(hwndDlg, itemId, BM_SETIMAGE, IMAGE_ICON, 0 );
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon((HICON)SendDlgItemMessage(hwndDlg, itemId, BM_SETIMAGE, IMAGE_ICON, 0));
 }
 
 void Window_FreeIcon_IcoLib(HWND hwndDlg)
 {
-	HICON hIcon = (HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
-
-	hIcon = (HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0);
-	CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+	Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 }
 
 INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -1489,7 +1485,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if ((g_dat->flags & SMF_SHOWTYPINGWIN) && GetForegroundWindow() != hwndDlg) {
 						HICON hIcon = (HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0);
 						SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hTyping );
-						CallService(MS_SKIN2_RELEASEICON, (WPARAM)hIcon, 0);
+						Skin_ReleaseIcon(hIcon);
 					}
 					dat->showTyping = 1;
 				}	
@@ -1532,7 +1528,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						}
 						else DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 
-						CallService(MS_SKIN2_RELEASEICON,(WPARAM)hIcon, 0);
+						Skin_ReleaseIcon(hIcon);
 						return TRUE;
 					}	
 				}
@@ -1820,7 +1816,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		break;
 
 	case DM_STATUSICONCHANGE:
-		SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW | (SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 1)), (LPARAM)0);
+		SendMessage(dat->hwndStatus, SB_SETTEXT, (WPARAM)(SBT_OWNERDRAW | (SendMessage(dat->hwndStatus, SB_GETPARTS, 0, 0) - 1)), 0);
 		break;
 
 	case WM_CLOSE:

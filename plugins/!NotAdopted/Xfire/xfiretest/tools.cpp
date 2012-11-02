@@ -1,5 +1,5 @@
 /*
- *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network. 
+ *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
  *  Copyright (C) 2010 by
  *          dufte <dufte@justmail.de>
@@ -21,7 +21,7 @@
  *  Based on J. Lawler              - BaseProtocol
  *			 Herbert Poul/Beat Wolf - xfirelib
  *
- *  Miranda ICQ: the free icq client for MS Windows 
+ *  Miranda ICQ: the free icq client for MS Windows
  *  Copyright (C) 2000-2008  Richard Hughes, Roland Rabien & Tristan Van de Vreede
  *
  */
@@ -96,15 +96,9 @@ int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hi
 
 		if (bIconsNotLoaded)
 		{
-			if (ServiceExists(MS_SKIN2_GETICON))
-			{
-				hicNotify  = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_notify");
-				hicWarning = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_warning");
-				hicError   = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"popup_error");
-			}
-			if (!hicNotify)  hicNotify  = LoadIcon(NULL, IDI_INFORMATION);
-			if (!hicWarning) hicWarning = LoadIcon(NULL, IDI_WARNING);
-			if (!hicError)   hicError   = LoadIcon(NULL, IDI_ERROR);
+			hicNotify = Skin_GetIcon("popup_notify");
+			hicWarning = Skin_GetIcon("popup_warning");
+			hicError = Skin_GetIcon("popup_error");
 			bIconsNotLoaded = FALSE;
 		}
 
@@ -201,7 +195,7 @@ void MessageE(LPVOID msg)
 	switch(DBGetContactSettingByte(NULL,protocolname,"nomsgbox",0))
 	{
 	case 0:
-		if(!already) 
+		if(!already)
 		{
 			already=TRUE; //keine doppelte fehlernachrichten
 			Message(msg);
@@ -250,7 +244,7 @@ char* GetLaunchPath(char*launch)
 	{
 		*(strrchr(temp,'\\'))=0;
 	}
-	
+
 	return temp;
 }
 //roll bits, vllt ein tickschneller als die funktionen von winsock
@@ -408,7 +402,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 
 
 	//socker erstellen
-	SOCKET s; 
+	SOCKET s;
 	s = socket(AF_INET, SOCK_RAW, IPPROTO_UDP);
 	if(s==INVALID_SOCKET)
 	{
@@ -417,13 +411,13 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 		closesocket(s);
 		return FALSE;
 	}
-	
+
 	static struct sockaddr_in msockaddr;
 	memset(&msockaddr,0,sizeof(msockaddr));
 	msockaddr.sin_addr.s_addr = localaddr;
 	msockaddr.sin_family = AF_INET;
 	msockaddr.sin_port = 0;
-	
+
 	//socket an nw binden
 	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR)
 	{
@@ -432,7 +426,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 		closesocket(s);
 		return FALSE;
 	}
-	
+
 	//wir wollen alles was da reinkommt haben
 	static int I = 1;
 	static DWORD b;
@@ -501,7 +495,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 			DUMP("Dump Full packet##############","");
 
 			DUMP("Headersize: %d",(temp.ipv & 0x0f)*4);*/
-			
+
 			temp3=(char*)&temp;
 			temp3+=(temp.ipv & 0x0f)*4;
 			temp2=(udp*)temp3;
@@ -512,7 +506,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 			DUMP("Dump Udp##############","");*/
 
 
-			for(unsigned int i = 0 ; i < localport.size() ; i++) 
+			for(unsigned int i = 0 ; i < localport.size() ; i++)
 			{
 				//DUMP("destport %d ==",temp2->dstport);
 				//DUMP("== %d",localport.at(i));
@@ -536,7 +530,7 @@ BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,
 						XFireLog("got ip!");
 						return TRUE;
 					}
-					
+
 					XFireLog("no serverip found!");
 					return FALSE;
 				}
@@ -621,22 +615,22 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 
 
 	//socker erstellen
-	SOCKET s; 
+	SOCKET s;
 	s = socket(AF_INET, SOCK_RAW, IPPROTO_UDP);
-	
+
 	static struct sockaddr_in msockaddr;
 	memset(&msockaddr,0,sizeof(msockaddr));
 	msockaddr.sin_addr.s_addr = localaddr;
 	msockaddr.sin_family = AF_INET;
 	msockaddr.sin_port = 0;
-	
+
 	//socket an nw binden
 	if (bind(s, (sockaddr *)&msockaddr, sizeof(msockaddr)) == SOCKET_ERROR)
 	{
 		closesocket(s);
 		return FALSE;
 	}
-	
+
 	//wir wollen alles was da reinkommt haben
 	static int I = 1;
 	DWORD b;
@@ -699,7 +693,7 @@ BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1
 			temp2=(udp*)temp3;
 			temp4=(mpacket2*)&temp;
 
-			for(unsigned int i = 0 ; i < localport.size() ; i++) 
+			for(unsigned int i = 0 ; i < localport.size() ; i++)
 				if(temp2->dstport==localport.at(i)/*FIX: für XP SP3 ->*/&&temp4->srcip!=localaddr) //ist das ziel des packets, gleich dem port des spiels
 				{
 					*port=r(temp2->srcport); //ja dann serverdaten an gamethread übermitteln
@@ -816,7 +810,7 @@ BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain)
 
 	//commandline bekommen, siehe link oben
 	ULONG rc = _ZwQueryInformationProcess(hProcess,ProcessBasicInformation,&ProcessInfo,sizeof(ProcessInfo),NULL);
-	
+
 	rc = _ZwReadVirtualMemory(hProcess,ProcessInfo.PebBaseAddress, UserPool, sizeof(PEB), NULL);
 
 	peb = (PPEB)UserPool;
@@ -839,7 +833,7 @@ BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain)
 	buffer=(WCHAR*)new char[uSize];
 
 	rc = _ZwReadVirtualMemory(hProcess, pBaseAddress, buffer, uSize, NULL);
-	
+
 	//in ansi umwandeln
 	int correctsize=WideCharToMultiByte(CP_OEMCP, 0, buffer, -1, NULL, 0, NULL, NULL);
 
@@ -951,7 +945,7 @@ BOOL GetWWWContent2(char*address,char*filename,BOOL dontoverwrite,char**tobuf,un
 		if(GetFileAttributes(filename)!=0xFFFFFFFF)
 		{
 			Netlib_Logf(hNetlib,"%s already exists, no overwrite.",filename);
-			return TRUE;				
+			return TRUE;
 		}
 	}
 	Netlib_Logf(hNetlib,"Download Url %s ...",address);
@@ -964,7 +958,7 @@ BOOL GetWWWContent2(char*address,char*filename,BOOL dontoverwrite,char**tobuf,un
 	nlhr.szUrl		= address;
 
 	nlhrReply=(NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,(WPARAM)hNetlib,(LPARAM)&nlhr);
-	
+
 	if(nlhrReply) {
 		//nicht auf dem server
 		if (nlhrReply->resultCode != 200) {

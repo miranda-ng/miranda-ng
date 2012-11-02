@@ -281,7 +281,7 @@ void FillNotificationData(POPUPDATA2 *ppd, DWORD *disableWhen)
 
 	char setting[MAXMODULELABELLENGTH];
 	mir_snprintf(setting, sizeof(setting), "%s_%s_%s", MODULNAME, ptd->notification.lpzGroup, ptd->notification.lpzName);
-	ppd->lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)setting);
+	ppd->lchIcon = Skin_GetIcon(setting);
 }
 
 bool IsValidNotification(HANDLE hNotification)

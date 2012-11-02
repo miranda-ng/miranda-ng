@@ -44,8 +44,8 @@ HANDLE IconLibDefine(TCHAR* desc, TCHAR* section, char* ident, HICON icon, char*
 void InitIconLib()
 {
 	extern HINSTANCE hInst;
-    char lib[MAX_PATH];
-    GetModuleFileNameA(hInst, lib, MAX_PATH);
+	char lib[MAX_PATH];
+	GetModuleFileNameA(hInst, lib, MAX_PATH);
 	TCHAR *module = mir_a2t(szGPGModuleName);
 
 	IconLibDefine(_T("Secured"), module, "secured", NULL, lib, -IDI_SECURED,0);
@@ -53,29 +53,20 @@ void InitIconLib()
 	mir_free(module);
 }
 
-
-
-
-
 HICON IconLibGetIcon(const char* ident)
 {
-  return (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)ident);
+	return Skin_GetIcon(ident);
 }
-
-
 
 void IconLibReleaseIcon(const char* ident)
 {
-  CallService(MS_SKIN2_RELEASEICON, 0, (LPARAM)ident);
+	Skin_ReleaseIcon(ident);
 }
-
-
 
 HANDLE IconLibHookIconsChanged(MIRANDAHOOK hook)
 {
-  return HookEvent(ME_SKIN2_ICONSCHANGED, hook);
+	return HookEvent(ME_SKIN2_ICONSCHANGED, hook);
 }
-
 
 void setClistIcon(HANDLE hContact)
 {
@@ -91,7 +82,7 @@ void setClistIcon(HANDLE hContact)
 		HICON icon = IconLibGetIcon("secured");
 		IconExtraColumn iec = {0};
 		iec.cbSize = sizeof(iec);
-		iec.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icon, (LPARAM)0);
+		iec.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icon, 0);
 		ExtraIcon_SetIcon(g_hCLIcon, hContact, iec.hImage);
 		if(hMC)
 			ExtraIcon_SetIcon(g_hCLIcon, hMC, iec.hImage);

@@ -106,7 +106,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hGroupMenuObject,(LPARAM)&tmi);
 	op.Setting = OPT_MENUITEMSETUNIQNAME;	
 	op.Value = (INT_PTR)buf;
-	CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUITEM,0,(LPARAM)&op);
 	return (INT_PTR)op.Handle;
 }
 
@@ -291,23 +291,23 @@ void GroupMenus_Init(void)
 	tmp.CheckService = NULL;
 	tmp.ExecService = "CLISTMENUSGroup/ExecService";
 	tmp.name = LPGEN("GroupMenu");
-	hGroupMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
+	hGroupMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 	
 	
 	op.Handle = hGroupMenuObject;
 	op.Setting = OPT_USERDEFINEDITEMS;
 	op.Value = TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 	
 	op.Handle = hGroupMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSGroup/FreeOwnerDataGroupMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hGroupMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_ONADD_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSGroup/GroupMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	{	
 	//add  exit command to menu
@@ -321,7 +321,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_EXIT);
 	mi.pszName = LPGEN("E&xit");
 	mi.flags = CMIF_ICONFROMICOLIB;
-	AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	memset(&mi,0,sizeof(mi));
@@ -331,7 +331,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_SHOWHIDE);
 	mi.pszName = LPGEN("&Hide/Show");
 	mi.flags = CMIF_ICONFROMICOLIB;
-	hHideShowMainMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hHideShowMainMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	memset(&mi,0,sizeof(mi));
@@ -341,7 +341,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_FINDUSER);
 	mi.pszService = "FindAdd/FindAddCommand";
 	mi.pszName = LPGEN("&Find/Add Contacts...");
-	AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 	
 	
@@ -352,7 +352,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MAINMENU); // eternity #004
 	mi.pszName = LPGEN("&Main Menu");
 	mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
-	hGroupMainMenuItemProxy = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hGroupMainMenuItemProxy = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon); // eternity #004
 
 	memset(&mi,0,sizeof(mi));
@@ -362,7 +362,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_STATUS); // eternity #004
 	mi.pszName = LPGEN("&Status");
 	mi.flags = CMIF_ICONFROMICOLIB; // eternity #004
-	hGroupStatusMenuItemProxy = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hGroupStatusMenuItemProxy = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon); // eternity #004
 
 	memset(&mi,0,sizeof(mi));
@@ -372,7 +372,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.pszService = "Options/OptionsCommand";
 	mi.pszName = LPGEN("&Options...");
-	AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	memset(&mi,0,sizeof(mi));
@@ -382,7 +382,7 @@ void GroupMenus_Init(void)
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszService = "Help/AboutCommand";
 	mi.pszName = LPGEN("&About");
-	AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	memset(&mi,0,sizeof(mi));
@@ -391,7 +391,7 @@ void GroupMenus_Init(void)
 	mi.hIcon = ske_ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
 	mi.pszService = "CLISTMENUSGroup/CreateGroupHelper";
 	mi.pszName = LPGEN("&New Group");	
-	hNewGroupMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hNewGroupMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	DestroyIcon_protect(mi.hIcon);
 
 	memset(&mi,0,sizeof(mi));
@@ -409,7 +409,7 @@ void GroupMenus_Init(void)
 	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/HideOfflineRootHelper";
 	mi.pszName = LPGEN("Hide &Offline Users out here");	
-	hHideOfflineUsersOutHereMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hHideOfflineUsersOutHereMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 
 
 	memset(&mi,0,sizeof(mi));
@@ -418,7 +418,7 @@ void GroupMenus_Init(void)
 	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/HideGroupsHelper";
 	mi.pszName = LPGEN("Hide &Empty Groups");	
-	hHideEmptyGroupsMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hHideEmptyGroupsMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 
 
 
@@ -428,7 +428,7 @@ void GroupMenus_Init(void)
 	mi.hIcon = NULL;
 	mi.pszService = "CLISTMENUSGroup/UseGroupsHelper";
 	mi.pszName = LPGEN("Disable &Groups");	
-	hDisableGroupsMenuItem = (HANDLE)AddGroupMenuItem((WPARAM)0,(LPARAM)&mi);
+	hDisableGroupsMenuItem = (HANDLE)AddGroupMenuItem(0,(LPARAM)&mi);
 	
 	
 	HookEvent(ME_SKIN2_ICONSCHANGED,OnIconLibIconChanged);
@@ -551,7 +551,7 @@ static INT_PTR AddSubGroupMenuItem(WPARAM wParam,LPARAM lParam)
 	op.Handle = (HANDLE)CallService(MO_ADDNEWMENUITEM,(WPARAM)hSubGroupMenuObject,(LPARAM)&tmi);
 	op.Setting = OPT_MENUITEMSETUNIQNAME;
 	op.Value = (INT_PTR)buf;
-	CallService(MO_SETOPTIONSMENUITEM,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUITEM,0,(LPARAM)&op);
 	return (INT_PTR)op.Handle;
 }
 
@@ -672,27 +672,27 @@ void InitSubGroupMenus(void)
 	tmp.CheckService = NULL;
 	tmp.ExecService = "CLISTMENUSSubGroup/ExecService";
 	tmp.name = LPGEN("SubGroupMenu");
-	hSubGroupMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,(WPARAM)0,(LPARAM)&tmp);
+	hSubGroupMenuObject = (HANDLE)CallService(MO_CREATENEWMENUOBJECT,0,(LPARAM)&tmp);
 
 	op.Handle = hSubGroupMenuObject;
 	op.Setting = OPT_USERDEFINEDITEMS;
 	op.Value = TRUE;
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hSubGroupMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_FREE_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSSubGroup/FreeOwnerDataSubGroupMenu";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hSubGroupMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_ONADD_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSSubGroup/SubGroupMenuonAddService";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	op.Handle = hSubGroupMenuObject;
 	op.Setting = OPT_MENUOBJECT_SET_CHECK_SERVICE;
 	op.Value = (INT_PTR)"CLISTMENUSSubGroup/SubGroupMenuCheckService";
-	CallService(MO_SETOPTIONSMENUOBJECT,(WPARAM)0,(LPARAM)&op);
+	CallService(MO_SETOPTIONSMENUOBJECT,0,(LPARAM)&op);
 
 	//add  exit command to menu
 	CLISTMENUITEM mi;
