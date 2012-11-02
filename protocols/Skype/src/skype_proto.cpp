@@ -164,7 +164,7 @@ HICON  __cdecl CSkypeProto::GetIcon( int iconIndex )
 {
 	if (LOWORD(iconIndex) == PLI_PROTOCOL)
 	{
-		HICON ico = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"Skype_main");
+		HICON ico = Skin_GetIcon("Skype_main");
 		return CopyIcon(ico);
 	} else
 		return 0;

@@ -438,7 +438,7 @@ void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, i
 		ppd.lchContact = NULL;
 		lstrcpyn(ppd.lpwzContactName, sid, MAX_CONTACTNAME);
 		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"Skype_main");
+		ppd.lchIcon = Skin_GetIcon("Skype_main");
 		ppd.colorBack = ppd.colorText = 0;
 		ppd.iSeconds = 0;
 

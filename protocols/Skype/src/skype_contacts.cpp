@@ -547,7 +547,7 @@ bool CSkypeProto::IsProtoContact(HANDLE hContact)
 
 HANDLE CSkypeProto::GetContactBySid(const wchar_t* sid)
 {
-	HANDLE hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDFIRST, 0, (LPARAM)this->m_szModuleName);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if  (this->IsProtoContact(hContact))
@@ -556,7 +556,7 @@ HANDLE CSkypeProto::GetContactBySid(const wchar_t* sid)
 				return hContact;
 		}
 
-		hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
+		hContact = db_find_next(hContact);
 	}
 
 	return 0;
@@ -764,13 +764,13 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 
 void CSkypeProto::SetAllContactStatus(int status)
 {
-	HANDLE hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDFIRST, 0, (LPARAM)this->m_szModuleName);
+	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
 		if  (this->IsProtoContact(hContact))
 			//if ( !this->GetSettingWord(hContact, SKYPE_SETTINGS_STATUS, ID_STATUS_OFFLINE) == status)
 				this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, status);
-		hContact = (HANDLE)::CallService(MS_DB_CONTACT_FINDNEXT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
+		hContact = db_find_next(hContact);
 	}
 }
 
