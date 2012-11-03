@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "src/resource.h"
+#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -13,7 +13,7 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
+// Russian (Russia) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
 LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
@@ -298,12 +298,12 @@ BEGIN
     END
 END
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -334,7 +334,7 @@ BEGIN
     PUSHBUTTON      "Copy own key",IDC_COPY_KEY,127,193,74,14
 END
 
-IDD_OPT_GPG_BIN DIALOGEX 0, 0, 282, 214
+IDD_OPT_GPG_BIN DIALOGEX 0, 0, 282, 71
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -346,7 +346,7 @@ BEGIN
     LTEXT           "Home directory:",IDC_STATIC,9,34,144,8
 END
 
-IDD_OPT_GPG_MESSAGES DIALOGEX 0, 0, 302, 241
+IDD_OPT_GPG_MESSAGES DIALOGEX 0, 0, 302, 100
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -366,7 +366,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,3,76,233,10
 END
 
-IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 214
+IDD_OPT_GPG_ADVANCED DIALOGEX 0, 0, 286, 32
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x0
 BEGIN
@@ -402,7 +402,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский (США) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
