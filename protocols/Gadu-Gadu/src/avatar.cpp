@@ -234,6 +234,8 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			PROTO_AVATAR_INFORMATIONT pai = {0};
 			int result = 0;
 
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
+
 			pai.cbSize = sizeof(pai);
 			pai.hContact = data->hContact;
 			pai.format = db_get_b(pai.hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE);
@@ -266,12 +268,18 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			if (!pai.hContact)
 				CallService(MS_AV_REPORTMYAVATARCHANGED, (WPARAM)m_szModuleName, 0);
 
+			gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 80, "avatar_mutex", 1);
 			list_remove(&avatar_transfers, data, 0);
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 80, 1, "avatar_mutex", 1);
+
 			mir_free(data->AvatarURL);
 			mir_free(data);
+		} else {
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 2, "avatar_mutex", 1);
 		}
-		gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
+
 		gg_sleep(100, FALSE, "avatarrequestthread", 101, 1);
+
 	}
 
 	for (l = avatar_requests; l; l = l->next) {
