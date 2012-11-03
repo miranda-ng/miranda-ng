@@ -252,13 +252,9 @@ void FacebookProto::ProcessUnreadMessages( void* )
 
 	std::string get_data = "sk=inbox&query=is%3Aunread";
 
-	std::string data = "post_form_id=";
-	data += ( facy.post_form_id_.length( )) ? facy.post_form_id_ : "0";
-	data += "&fb_dtsg=" + facy.dtsg_;
-	data += "&post_form_id_source=AsyncRequest&lsd=&phstamp=";
-	data += utils::time::mili_timestamp();
-	data += "&__user=";
-	data += facy.self_.user_id;
+	std::string data = "&fb_dtsg=" + facy.dtsg_;
+	data += "&lsd=&phstamp=" + utils::time::mili_timestamp();
+	data += "&__user=" + facy.self_.user_id;
 
 	// Get unread inbox threads
 	http::response resp = facy.flap( FACEBOOK_REQUEST_ASYNC, &data, &get_data );
@@ -654,8 +650,8 @@ void FacebookProto::ProcessFeeds( void* data )
 		std::string post = resp->substr( pos, pos2 - pos );
 		pos += 5;
 
-		std::string post_header = utils::text::source_get_value(&post, 4, "<h6 class=", "uiStreamHeadline", ">", "<\\/h6>");
-		std::string post_message = utils::text::source_get_value(&post, 3, "<h6 class=\\\"uiStreamMessage\\\"", ">", "<\\/h6>");
+		std::string post_header = utils::text::source_get_value(&post, 4, "<h5 class=", "uiStreamHeadline", ">", "<\\/h5>");
+		std::string post_message = utils::text::source_get_value(&post, 3, "<h5 class=\"uiStreamMessage userContentWrapper", ">", "<\\/h5>");
 		std::string post_link = utils::text::source_get_value(&post, 3, "<span class=\\\"uiStreamSource\\\"", ">", "<\\/span>");
 		std::string post_attach = utils::text::source_get_value(&post, 4, "<div class=", "uiStreamAttachments", ">", "<form");
 
