@@ -92,19 +92,19 @@ BEGIN
     CONTROL         "",IDC_T11,"Button",BS_AUTO3STATE | WS_TABSTOP,173,113,21,10
 END
 
-IDD_OPTIONS1 DIALOGEX 0, 0, 306, 236
+IDD_OPTIONS1 DIALOGEX 0, 0, 306, 234
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,3,0,300,229
-    CONTROL         "",IDC_CHECKBOXES,"SysTreeView32",TVS_HASBUTTONS | TVS_DISABLEDRAGDROP | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,6,9,294,177
-    LTEXT           "Add new rooms to group:",IDC_STATIC_ADD,10,213,132,8
-    EDITTEXT        IDC_GROUP,152,210,50,14,ES_AUTOHSCROLL
+    CONTROL         "",IDC_CHECKBOXES,"SysTreeView32",TVS_HASBUTTONS | TVS_DISABLEDRAGDROP | TVS_FULLROWSELECT | WS_BORDER | WS_HSCROLL | WS_TABSTOP,6,9,286,192
+    LTEXT           "Add new rooms to group:",IDC_STATIC_ADD,10,208,133,8
+    EDITTEXT        IDC_GROUP,152,208,142,14,ES_AUTOHSCROLL
     LTEXT           "Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.",IDC_STATIC_MESSAGE,21,52,256,74
 END
 
-IDD_OPTIONS2 DIALOGEX 0, 0, 306, 239
+IDD_OPTIONS2 DIALOGEX 0, 0, 306, 189
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -129,13 +129,13 @@ BEGIN
     LTEXT           "Maximum number of events in the message window",IDC_STATIC,10,142,225,11
     EDITTEXT        IDC_LOGLIMIT,248,139,38,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Spin1",IDC_CHAT_SPIN2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,281,138,11,14
-    LTEXT           "Groupchat userlist row height (pixels)",IDC_STATIC_ULIST,10,212,221,8
-    EDITTEXT        IDC_NICKROW2,247,209,29,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_CHAT_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,275,215,11,14
+    LTEXT           "Groupchat userlist row height (pixels)",IDC_STATIC_ULIST,10,167,221,8
+    EDITTEXT        IDC_NICKROW2,247,164,29,14,ES_RIGHT | ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "",IDC_CHAT_SPIN3,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS | UDS_NOTHOUSANDS | UDS_HOTTRACK,275,167,11,14
     PUSHBUTTON      "Open log file base folder",IDC_MUC_OPENLOGBASEDIR,16,76,155,14
 END
 
-IDD_OPTIONS3 DIALOGEX 0, 0, 306, 239
+IDD_OPTIONS3 DIALOGEX 0, 0, 306, 224
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -196,11 +196,11 @@ BEGIN
     CONTROL         "Do not show popups when the channel window is not open",IDC_NOPOPUPSFORCLOSEDWINDOWS,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,176,282,10
     LTEXT           "Highlight event",IDC_STATIC,44,139,68,12
-    COMBOBOX        IDC_LOGICONTYPE,12,212,171,38,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "Line markers in the message log",IDC_STATIC,14,201,257,10
+    COMBOBOX        IDC_LOGICONTYPE,12,204,171,38,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Line markers in the message log",IDC_STATIC,14,193,257,10
 END
 
-IDD_OPTIONS4 DIALOGEX 0, 0, 306, 239
+IDD_OPTIONS4 DIALOGEX 0, 0, 306, 230
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
@@ -211,13 +211,13 @@ BEGIN
     CONTROL         "Also look in user ids",IDC_HIGHLIGHTNICKUID,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,13,34,278,11
     EDITTEXT        IDC_HIGHLIGHTNICKPATTERN,11,69,283,35,ES_AUTOHSCROLL
     LTEXT           "Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces",IDC_STATIC,10,49,284,19
-    GROUPBOX        "Highlight message text",IDC_STATIC,3,113,300,122
+    GROUPBOX        "Highlight message text",IDC_STATIC,3,113,300,115
     CONTROL         "Enable highlighting for message text",IDC_HIGHLIGHTTEXTENABLE,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,125,278,11
-    EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,11,172,283,35,ES_AUTOHSCROLL
+    EDITTEXT        IDC_HIGHLIGHTTEXTPATTERN,11,170,283,35,ES_AUTOHSCROLL
     LTEXT           "Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.",IDC_STATIC,10,141,284,23
     CONTROL         "Highlight messages containing my own nick name",IDC_HIGHLIGHTME,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,216,278,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,211,278,11
 END
 
 IDD_COLORCHOOSER DIALOGEX 0, 0, 198, 150
@@ -266,9 +266,6 @@ BEGIN
     BEGIN
         RIGHTMARGIN, 300
         VERTGUIDE, 10
-        VERTGUIDE, 152
-        VERTGUIDE, 181
-        VERTGUIDE, 202
         VERTGUIDE, 290
         HORZGUIDE, 12
         HORZGUIDE, 174
@@ -282,10 +279,6 @@ BEGIN
         RIGHTMARGIN, 295
         VERTGUIDE, 10
         VERTGUIDE, 60
-        VERTGUIDE, 144
-        VERTGUIDE, 158
-        VERTGUIDE, 183
-        VERTGUIDE, 221
         VERTGUIDE, 286
         TOPMARGIN, 1
         HORZGUIDE, 107
@@ -293,7 +286,6 @@ BEGIN
         HORZGUIDE, 146
         HORZGUIDE, 150
         HORZGUIDE, 174
-        HORZGUIDE, 212
     END
 END
 #endif    // APSTUDIO_INVOKED

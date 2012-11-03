@@ -400,38 +400,38 @@ BEGIN
     PUSHBUTTON      "Insert Separator",IDC_SEPARATOR,144,142,125,14
 END
 
-IDD_OPT_CONTAINERS DIALOGEX 0, 0, 303, 226
+IDD_OPT_CONTAINERS DIALOGEX 0, 0, 303, 221
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "To set container options, please use the container settings dialog. It is available by:\n1. choosing ""container settings"" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.",IDC_STATIC,7,2,298,25
-    GROUPBOX        "Tabs should be used in the following way",IDC_STATIC,3,30,300,60
+    LTEXT           "To set container options, please use the container settings dialog. It is available by:\n1. choosing ""container settings"" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.",IDC_STATIC,8,2,290,25
+    GROUPBOX        "Tabs should be used in the following way",IDC_STATIC,4,30,294,61
     CONTROL         "Use contact list groups for organizing tabs (one window per group)",IDC_CONTAINERGROUPMODE,
-                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,6,40,296,10
+                    "Button",BS_AUTORADIOBUTTON | WS_GROUP,8,40,284,10
     CONTROL         "Tabbed interface, limit the maximum number of tabs per window to:",IDC_LIMITTABS,
-                    "Button",BS_AUTORADIOBUTTON,6,52,237,9
+                    "Button",BS_AUTORADIOBUTTON,8,52,235,9
     EDITTEXT        IDC_TABLIMIT,252,51,33,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "",IDC_TABLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,285,54,9,10
+    CONTROL         "",IDC_TABLIMITSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,283,54,9,10
     CONTROL         "No tabs at all, each session has its own top level window",IDC_SINGLEWINDOWMODE,
-                    "Button",BS_AUTORADIOBUTTON,6,63,290,11
+                    "Button",BS_AUTORADIOBUTTON,8,65,284,11
     CONTROL         "Default mode (tabbed interface, manual assignments)",IDC_DEFAULTCONTAINERMODE,
-                    "Button",BS_AUTORADIOBUTTON,6,75,293,12
-    GROUPBOX        "Container flashing",IDC_STATIC,3,90,300,39
-    LTEXT           "Flash containers",IDC_STATIC,6,101,135,11
-    EDITTEXT        IDC_NRFLASH,150,99,34,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_NRFLASHSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,182,100,14,11
-    LTEXT           "times",IDC_STATIC,205,101,83,11
-    LTEXT           "Flash interval",IDC_STATIC,6,114,137,11
-    EDITTEXT        IDC_FLASHINTERVAL,150,112,34,12,ES_AUTOHSCROLL
-    CONTROL         "",IDC_FLASHINTERVALSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,185,115,10,10
-    LTEXT           "milliseconds",IDC_STATIC,205,113,81,12
-    CONTROL         "Help on containers",IDC_HELP_CONTAINERS,"Hyperlink",WS_TABSTOP | 0x1,21,210,262,9
-    GROUPBOX        "Windows Aero settings",IDC_STATIC,3,150,300,42
+                    "Button",BS_AUTORADIOBUTTON,8,76,284,12
+    GROUPBOX        "Container flashing",IDC_STATIC,4,96,294,39
+    LTEXT           "Flash containers",IDC_STATIC,8,107,133,11
+    EDITTEXT        IDC_NRFLASH,150,106,34,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_NRFLASHSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,182,107,11,11
+    LTEXT           "times",IDC_STATIC,213,108,79,11
+    LTEXT           "Flash interval",IDC_STATIC,8,120,135,11
+    EDITTEXT        IDC_FLASHINTERVAL,150,119,34,12,ES_AUTOHSCROLL
+    CONTROL         "",IDC_FLASHINTERVALSPIN,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,185,122,11,10
+    LTEXT           "milliseconds",IDC_STATIC,213,121,79,12
+    CONTROL         "Help on containers",IDC_HELP_CONTAINERS,"Hyperlink",WS_TABSTOP | 0x1,21,200,262,9
+    GROUPBOX        "Windows Aero settings",IDC_STATIC,4,140,294,42
     CONTROL         "Use Aero UI elements(only when not using a custom skin)",IDC_USEAERO,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,160,281,11
-    COMBOBOX        IDC_AEROEFFECT,9,175,158,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,150,284,11
+    COMBOBOX        IDC_AEROEFFECT,8,165,194,36,CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use Windows 7 task bar enhancements (restart required)",IDC_USEAEROPEEK,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,195,281,11
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,185,284,11
 END
 
 IDD_OPT_TYPINGNOTIFYPOPUP DIALOGEX 0, 0, 318, 174
