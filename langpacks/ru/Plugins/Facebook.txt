@@ -109,6 +109,8 @@
 Фотографии
 [Links]
 Ссылки
+[Request friendship]
+Запросить добавление в друзья
 [Approve friendship]
 Подтвердить добавление в друзья
 [Cancel friendship]
