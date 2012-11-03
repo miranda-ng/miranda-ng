@@ -561,20 +561,18 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) == 1)
-        return 0;
+		return 0;
 
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	if (proto == 0 || (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) == 1)
-	   || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
+		|| !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
 
 	int currentStatus = inf->value.wVal;
 	int prevStatus = DBGetContactSettingWord(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE);
 
 	if (currentStatus == prevStatus)
-	{
-        return 0;
-	}
+		return 0;
 
 	// Last status
 	DBWriteContactSettingDword(hContact, MODULE_NAME, "LastStatus", prevStatus);
@@ -610,19 +608,11 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 		}
 	}
 
-    if (currentStatus == ID_STATUS_OFFLINE)
+	if (currentStatus == ID_STATUS_OFFLINE)
 	{
 		setLastSeen(hContact);
-        return 0;
-    }
-
-	/*
-	if (CallService(MS_IGNORE_ISIGNORED, (WPARAM) hContact, (LPARAM) IGNOREEVENT_USERONLINE))
-	{
-		setLastSeen(hContact);
-        return 0;
+		return 0;
 	}
-	*/
 
 	if (DBGetContactSettingDword(hContact, MODULE_NAME, "LastSeen", (DWORD)-1) == (DWORD)-1 && options.notifyFirstOnline)
 	{
@@ -632,35 +622,33 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	unsigned int AbsencePeriod = DBGetContactSettingDword(hContact, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
-    if (isContactGoneFor(hContact, AbsencePeriod))
+	if (isContactGoneFor(hContact, AbsencePeriod))
 	{
-        TCHAR* message = TranslateT("has returned after a long absence.");
-        time_t tmpTime;
+		TCHAR* message = TranslateT("has returned after a long absence.");
+		time_t tmpTime;
 		TCHAR tmpBuf[251] = {0};
-        tmpTime = getLastSeen(hContact);
-        if (tmpTime != -1)
+		tmpTime = getLastSeen(hContact);
+		if (tmpTime != -1)
 		{
-            _tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
-            message = tmpBuf;
-        }
+			_tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
+			message = tmpBuf;
+		}
 		else
 		{
-            tmpTime = getLastInputMsg(hContact);
-            if (tmpTime != -1)
+			tmpTime = getLastInputMsg(hContact);
+			if (tmpTime != -1)
 			{
-                _tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
-                message = tmpBuf;
-            }
-        }
+				_tcsftime(tmpBuf, 250, TranslateT("has returned after being absent since %#x"), gmtime(&tmpTime));
+				message = tmpBuf;
+			}
+		}
 
 		ReturnNotify(hContact, message);
 
-        if ((options.iShowMessageWindow == 0 && options.iShowUDetails == 0) || (options.iShowEvent == 0 && options.iShowPopUp == 0))
-		{
+		if ((options.iShowMessageWindow == 0 && options.iShowUDetails == 0) || (options.iShowEvent == 0 && options.iShowPopUp == 0))
 			setLastSeen(hContact);
-		}
-    } else
-		setLastSeen(hContact);
+	}
+	else setLastSeen(hContact);
 
 	return 0;
 }

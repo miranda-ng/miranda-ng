@@ -100,14 +100,6 @@ static INT_PTR MenuCommand(WPARAM wParam, LPARAM lParam)
  * Event Handler functions
  ***********************************************************************************************************/
 
-static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
-{
-	HICON hIcon		= IcoLib_GetIcon(ICO_BTN_GOTO);
-	ghExtraIconDef	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	return 0;
-}
-
 /**
  * Notification handler for clist extra icons to be applied for a contact.
  *
@@ -117,27 +109,12 @@ static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
 static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	LPSTR val = Get(hContact);
-
-	if (myGlobals.ExtraIconsServiceExist && (ghExtraIconSvc != INVALID_HANDLE_VALUE))
-	{
-		EXTRAICON ico;
-
-		ZeroMemory(&ico, sizeof(ico));
-		ico.cbSize = sizeof(ico);
+	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
+		EXTRAICON ico = { sizeof(ico) };
 		ico.hContact = hContact;
 		ico.hExtraIcon = ghExtraIconSvc;
 		ico.icoName = (val) ? ICO_BTN_GOTO : NULL;
 		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-	}
-	else
-	{
-		IconExtraColumn iec;
-
-		ZeroMemory(&iec, sizeof(iec));
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.ColumnType = EXTRA_ICON_WEB;
-		iec.hImage = (val) ? ghExtraIconDef : INVALID_HANDLE_VALUE;
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
 	}
 	MIR_FREE(val);
 	return 0;
@@ -257,32 +234,18 @@ VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 		{
 			// hook events
 			if (hChangedHook == NULL) 
-			{
 				hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-			}
+
 			if (hApplyIconHook == NULL) 
-			{
 				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
-			}
-			if (myGlobals.ExtraIconsServiceExist)
-			{
-				if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-				{
-					EXTRAICON_INFO ico;
-					
-					ZeroMemory(&ico, sizeof(ico));
-					ico.cbSize = sizeof(ico);
-					ico.type = EXTRAICON_TYPE_ICOLIB;
-					ico.name = "homepage";	//must be the same as the group name in extraicon
-					ico.description = "Homepage (uinfoex)";
-					ico.descIcon = ICO_BTN_GOTO;
-					ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-				}
-			}
-			else if (hRebuildIconsHook == NULL) 
-			{
-				hRebuildIconsHook = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnCListRebuildIcons);
-				OnCListRebuildIcons(0, 0);
+
+			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+				EXTRAICON_INFO ico = { sizeof(ico) };
+				ico.type = EXTRAICON_TYPE_ICOLIB;
+				ico.name = "homepage";	//must be the same as the group name in extraicon
+				ico.description = "Homepage (uinfoex)";
+				ico.descIcon = ICO_BTN_GOTO;
+				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 			}
 		}
 		else 
@@ -317,7 +280,6 @@ VOID SvcHomepageLoadModule()
 {
 	CreateServiceFunction(MS_USERINFO_HOMEPAGE_OPENURL, MenuCommand);
 	SvcHomepageEnableExtraIcons(
-		myGlobals.ExtraIconsServiceExist ||
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_HOMEPAGE, DEFVAL_CLIST_EXTRAICON_HOMEPAGE), FALSE);
 }
 

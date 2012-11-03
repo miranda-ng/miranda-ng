@@ -268,58 +268,32 @@ static HANDLE GetCListExtraIcon(const CEvent &evt)
  **/
 static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 {
-	if (myGlobals.HaveCListExtraIcons && gRemindOpts.bCListExtraIcon)
-	{
-		if (!myGlobals.ExtraIconsServiceExist)
-		{
-			IconExtraColumn iec;
+	if (gRemindOpts.bCListExtraIcon) {
+		CHAR szIcon[MAXSETTING];
 
-			iec.cbSize = sizeof(IconExtraColumn);
-			iec.ColumnType = gRemindOpts.bCListExtraIcon;
-			iec.hImage = GetCListExtraIcon(evt);
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-		}
-		else
-		{
-			CHAR szIcon[MAXSETTING];
-			EXTRAICON ico;
-
-			ico.cbSize=sizeof(ico);
-			ico.hContact=hContact;
-			ico.hExtraIcon=ExtraIcon;
-			switch (evt._eType)
-			{
-			case CEvent::BIRTHDAY:
-				{
-					if (evt._wDaysLeft > 9)
-					{
-						ico.icoName=ICO_RMD_DTAX;
-					}
-					else
-					{
-						mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
-						ico.icoName=szIcon;
-					}
-					break;
-				}
-			case CEvent::ANNIVERSARY:
-				{
-					if (evt._wDaysLeft > 9)
-					{
-						ico.icoName=ICO_RMD_DTAX;
-					}
-					else
-					{
-						mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
-						ico.icoName=szIcon;
-					}
-					break;
-				}
-			default:
-				ico.icoName=(char *)0;
+		EXTRAICON ico = { sizeof(ico) };
+		ico.hContact = hContact;
+		ico.hExtraIcon = ExtraIcon;
+		switch (evt._eType) {
+		case CEvent::BIRTHDAY:
+			if (evt._wDaysLeft > 9)
+				ico.icoName = ICO_RMD_DTAX;
+			else {
+				mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
+				ico.icoName = szIcon;
 			}
-			CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+			break;
+
+		case CEvent::ANNIVERSARY:
+			if (evt._wDaysLeft > 9)
+				ico.icoName = ICO_RMD_DTAX;
+			else {
+				mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
+				ico.icoName = szIcon;
+			}
+			break;
 		}
+		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 	}
 }
 
@@ -1081,15 +1055,13 @@ VOID SvcReminderEnable(BOOLEAN bEnable)
 {
 	if (bEnable)	// Reminder is on
 	{
-		if (myGlobals.ExtraIconsServiceExist && (ExtraIcon == INVALID_HANDLE_VALUE))
-		{
-			EXTRAICON_INFO ico = {0};
+		if (ExtraIcon == INVALID_HANDLE_VALUE) {
+			EXTRAICON_INFO ico = { sizeof(ico) };
 			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.cbSize=sizeof(ico);
-			ico.name="Reminder";
-			ico.description="Reminder (uinfoex)";
-			ico.descIcon=ICO_COMMON_ANNIVERSARY;
-			ExtraIcon=(HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
+			ico.name = "Reminder";
+			ico.description = "Reminder (uinfoex)";
+			ico.descIcon = ICO_COMMON_ANNIVERSARY;
+			ExtraIcon = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 			ZeroMemory(&ico,sizeof(ico));
 		}
 		// init hooks

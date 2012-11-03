@@ -27,21 +27,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "metacontacts.h"
 
-#define NB_SERVICES		62	//!< Number of services registered in Miranda (see Meta_CloseHandles()).
-#define NB_HOOKS		17	//!< Number of hooks set up (see Meta_CloseHandles()).
-
 #define PREF_METANODB	0x2000	//!< Flag to indicate message should not be added to db by filter when sending
 
 char *pendingACK = 0;		//!< Name of the protocol in which an ACK is about to come.
 
 int previousMode,			//!< Previous status of the MetaContacts Protocol
 	mcStatus;				//!< Current status of the MetaContacts Protocol
-
-HANDLE	hServices[NB_SERVICES] = {0},	//!< list of all the services registered (see Meta_CloseHandles()).
-hHooks[NB_HOOKS] = {0};		//!< list of all hooks set up (see Meta_CloseHandles()).
-
-HANDLE *hNudgeEvents = 0;
-int iNudgeProtos = 0;
 
 HGENMENU	
 	hMenuConvert,      //!< \c HANDLE to the convert menu item.
@@ -65,7 +56,6 @@ DWORD nextMetaID;	//!< Global variable specifying the ID value the next MetaCont
 BOOL message_window_api_enabled = FALSE; //!< Global variable specifying whether the message window api ver 0.0.0.1+ is available
 
 // stuff for mw_clist extra icon
-int proto_count = 0;
 HANDLE hExtraImage[MAX_PROTOCOLS * 2]; // online and offline icons
 char proto_names[MAX_PROTOCOLS * 128];
 HANDLE hProtoIcons[MAX_PROTOCOLS * 2]; // online and offline icons
@@ -1167,7 +1157,6 @@ int NudgeRecieved(WPARAM wParam, LPARAM lParam) {
 */
 int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi = {0};
 	char buffer[512], buffer2[512], buffer3[512];
 	int i;
 
@@ -1185,16 +1174,11 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)META_PROTO,0);
 
-	hHooks[11] = (HANDLE)HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
-	hHooks[12] = (HANDLE)HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked );
-	//hHooks[13] = (HANDLE)HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, Meta_CListMW_ExtraIconsRebuild);
-	//hHooks[14] = (HANDLE)HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, Meta_CListMW_ExtraIconsApply);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
+	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked );
 
-	// icons are erased on this event...
-	// (BUT, the me_clist_extra_list_rebuild is send FIRST...so, we ignore this one...)
-	hHooks[15] = 0;//(HANDLE)HookEvent(ME_SKIN_ICONSCHANGED, Meta_LoadIcons);
-
-	mi.cbSize = sizeof(mi);
+	////////////////////////////////////////////////////////////////////////////
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL;
 
 	// main menu item
@@ -1284,8 +1268,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 
 	// hook srmm window close/open events - message api ver 0.0.0.1+
-	hHooks[16] = (HANDLE)HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent);
-	if (hHooks[16]) // message api available
+	if (HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent))
 		message_window_api_enabled = TRUE;
 
 	// hook protocol nudge events to forward to subcontacts
@@ -1301,15 +1284,9 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			{
 				if (strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
 					sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szModuleName);
-					hNudgeEvent = HookEvent(str, NudgeRecieved);
-					if (hNudgeEvent != NULL) {
-						++iNudgeProtos;
-						hNudgeEvents = (HANDLE *)realloc(hNudgeEvents, sizeof(HANDLE) * iNudgeProtos);
-						hNudgeEvents[iNudgeProtos - 1] = hNudgeEvent;
-					}						
+					HookEvent(str, NudgeRecieved);
 				}
 			}
-			
 		}
 	}
 	return 0;
@@ -1378,192 +1355,6 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam) {
 ////////////////////
 // file transfer support - mostly not required, since subcontacts do the receiving
 ////////////////////
-/*
-INT_PTR Meta_FileResume(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv;
-    CCSDATA *ccs = (CCSDATA *) lParam;
-	char *proto = 0;
-
-	if (DBGetContactSetting(ccs->hContact,META_PROTO,"Default",&dbv))
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return 1;
-	}
-	else
-	{
-		HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILERESUME);
-        //DBEVENTINFO dbei;
-		char szServiceName[100];  
-
-		DBFreeVariant(&dbv);
-
-		if (!most_online)
-			return 0;
-
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-
-		ccs->hContact = most_online;
-		Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PS_FILERESUME); 
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PS_FILERESUME, sizeof(szServiceName)); 
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-	return 1; // fail
-}
-
-INT_PTR Meta_FileAllow(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv;
-    CCSDATA *ccs = (CCSDATA *) lParam;
-	char *proto = 0;
-
-	if (DBGetContactSetting(ccs->hContact,META_PROTO,"Default",&dbv))
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return 0;
-	}
-	else
-	{
-		HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILE);
-		char szServiceName[100];  
-
-		DBFreeVariant(&dbv);
-
-		if (!most_online)
-			return 0;
-
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-
-		ccs->hContact = most_online;
-		Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSS_FILEALLOW); 
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PSS_FILEALLOW, sizeof(szServiceName)); 
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-	return 0; // fail
-}
-
-INT_PTR Meta_FileDeny(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv;
-    CCSDATA *ccs = (CCSDATA *) lParam;
-	char *proto = 0;
-
-	if (DBGetContactSetting(ccs->hContact,META_PROTO,"Default",&dbv))
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return 1;
-	}
-	else
-	{
-		HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILE);
-        //DBEVENTINFO dbei;
-		char szServiceName[100];  
-
-		DBFreeVariant(&dbv);
-
-		if (!most_online)
-			return 1;
-
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-
-		ccs->hContact = most_online;
-		Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSS_FILEDENY); 
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PSS_FILEDENY, sizeof(szServiceName)); 
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-	return 1; // fail
-}
-
-INT_PTR Meta_FileRecv(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv;
-    CCSDATA *ccs = (CCSDATA *) lParam;
-	char *proto = 0;
-
-	if (DBGetContactSetting(ccs->hContact,META_PROTO,"Default",&dbv))
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return 0;
-	}
-	else
-	{
-		HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILE);
-        //DBEVENTINFO dbei;
-		char szServiceName[100];  
-
-		DBFreeVariant(&dbv);
-
-		if (!most_online)
-			return 0;
-
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-
-		ccs->hContact = most_online;
-		Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSR_FILE); 
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PSR_FILE, sizeof(szServiceName)); 
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-
-	return 0;
-}
-
-int Meta_FileCancel(WPARAM wParam, LPARAM lParam)
-{
-	DBVARIANT dbv;
-    CCSDATA *ccs = (CCSDATA *) lParam;
-	char *proto = 0;
-
-	if (DBGetContactSetting(ccs->hContact,META_PROTO,"Default",&dbv))
-	{
-		// This is a simple contact
-		// (this should normally not happen, since linked contacts do not appear on the list.)
-		return 0;
-	}
-	else
-	{
-		HANDLE most_online = Meta_GetMostOnlineSupporting(ccs->hContact, PFLAGNUM_1, PF1_FILE);
-        //DBEVENTINFO dbei;
-		char szServiceName[100];  
-
-		DBFreeVariant(&dbv);
-
-		if (!most_online)
-			return 0;
-
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
-
-		ccs->hContact = most_online;
-		Meta_SetNick(proto);
-
-		_snprintf(szServiceName, sizeof(szServiceName), "%s%s", proto, PSS_FILECANCEL); 
-		if (ServiceExists(szServiceName)) {
-			strncpy(szServiceName, PSS_FILECANCEL, sizeof(szServiceName)); 
-			return (int)(CallContactService(ccs->hContact, szServiceName, ccs->wParam, ccs->lParam));
-		}
-	}
-	return 0;
-}
-*/
 
 INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 {
@@ -1828,103 +1619,89 @@ int Meta_OnIdleChanged(WPARAM wParam, LPARAM lParam) {
 */
 void Meta_InitServices()
 {
-	int i;
-
 	previousMode = mcStatus = ID_STATUS_OFFLINE;
 
-	// set hooks pointers and services pointers to zero - in case we do not initialize them all correctly
-	for (i=0;i<NB_HOOKS;i++)
-		hHooks[i] = 0;
-	for (i=0;i<NB_SERVICES;i++)
-		hServices[i] = 0;
-	
-	hServices[0] = CreateServiceFunction("MetaContacts/Convert",Meta_Convert);
-	hServices[1] = CreateServiceFunction("MetaContacts/AddTo",Meta_AddTo);
-	hServices[2] = CreateServiceFunction("MetaContacts/Edit",Meta_Edit);
-	hServices[3] = CreateServiceFunction("MetaContacts/Delete",Meta_Delete);
-	hServices[4] = CreateServiceFunction("MetaContacts/Default",Meta_Default);
-	hServices[5] = CreateServiceFunction("MetaContacts/ForceDefault",Meta_ForceDefault);
+	CreateServiceFunction("MetaContacts/Convert",Meta_Convert);
+	CreateServiceFunction("MetaContacts/AddTo",Meta_AddTo);
+	CreateServiceFunction("MetaContacts/Edit",Meta_Edit);
+	CreateServiceFunction("MetaContacts/Delete",Meta_Delete);
+	CreateServiceFunction("MetaContacts/Default",Meta_Default);
+	CreateServiceFunction("MetaContacts/ForceDefault",Meta_ForceDefault);
 
 	// hidden contact menu items...ho hum
-	hServices[6 + 0] = CreateServiceFunction("MetaContacts/MenuFunc0",MenuFunc0);
-	hServices[6 + 1] = CreateServiceFunction("MetaContacts/MenuFunc1",MenuFunc1);
-	hServices[6 + 2] = CreateServiceFunction("MetaContacts/MenuFunc2",MenuFunc2);
-	hServices[6 + 3] = CreateServiceFunction("MetaContacts/MenuFunc3",MenuFunc3);
-	hServices[6 + 4] = CreateServiceFunction("MetaContacts/MenuFunc4",MenuFunc4);
-	hServices[6 + 5] = CreateServiceFunction("MetaContacts/MenuFunc5",MenuFunc5);
-	hServices[6 + 6] = CreateServiceFunction("MetaContacts/MenuFunc6",MenuFunc6);
-	hServices[6 + 7] = CreateServiceFunction("MetaContacts/MenuFunc7",MenuFunc7);
-	hServices[6 + 8] = CreateServiceFunction("MetaContacts/MenuFunc8",MenuFunc8);
-	hServices[6 + 9] = CreateServiceFunction("MetaContacts/MenuFunc9",MenuFunc9);
-	hServices[6 + 10] = CreateServiceFunction("MetaContacts/MenuFunc10",MenuFunc10);
-	hServices[6 + 11] = CreateServiceFunction("MetaContacts/MenuFunc11",MenuFunc11);
-	hServices[6 + 12] = CreateServiceFunction("MetaContacts/MenuFunc12",MenuFunc12);
-	hServices[6 + 13] = CreateServiceFunction("MetaContacts/MenuFunc13",MenuFunc13);
-	hServices[6 + 14] = CreateServiceFunction("MetaContacts/MenuFunc14",MenuFunc14);
-	hServices[6 + 15] = CreateServiceFunction("MetaContacts/MenuFunc15",MenuFunc15);
-	hServices[6 + 16] = CreateServiceFunction("MetaContacts/MenuFunc16",MenuFunc16);
-	hServices[6 + 17] = CreateServiceFunction("MetaContacts/MenuFunc17",MenuFunc17);
-	hServices[6 + 18] = CreateServiceFunction("MetaContacts/MenuFunc18",MenuFunc18);
-	hServices[6 + 19] = CreateServiceFunction("MetaContacts/MenuFunc19",MenuFunc19);
+	CreateServiceFunction("MetaContacts/MenuFunc0",MenuFunc0);
+	CreateServiceFunction("MetaContacts/MenuFunc1",MenuFunc1);
+	CreateServiceFunction("MetaContacts/MenuFunc2",MenuFunc2);
+	CreateServiceFunction("MetaContacts/MenuFunc3",MenuFunc3);
+	CreateServiceFunction("MetaContacts/MenuFunc4",MenuFunc4);
+	CreateServiceFunction("MetaContacts/MenuFunc5",MenuFunc5);
+	CreateServiceFunction("MetaContacts/MenuFunc6",MenuFunc6);
+	CreateServiceFunction("MetaContacts/MenuFunc7",MenuFunc7);
+	CreateServiceFunction("MetaContacts/MenuFunc8",MenuFunc8);
+	CreateServiceFunction("MetaContacts/MenuFunc9",MenuFunc9);
+	CreateServiceFunction("MetaContacts/MenuFunc10",MenuFunc10);
+	CreateServiceFunction("MetaContacts/MenuFunc11",MenuFunc11);
+	CreateServiceFunction("MetaContacts/MenuFunc12",MenuFunc12);
+	CreateServiceFunction("MetaContacts/MenuFunc13",MenuFunc13);
+	CreateServiceFunction("MetaContacts/MenuFunc14",MenuFunc14);
+	CreateServiceFunction("MetaContacts/MenuFunc15",MenuFunc15);
+	CreateServiceFunction("MetaContacts/MenuFunc16",MenuFunc16);
+	CreateServiceFunction("MetaContacts/MenuFunc17",MenuFunc17);
+	CreateServiceFunction("MetaContacts/MenuFunc18",MenuFunc18);
+	CreateServiceFunction("MetaContacts/MenuFunc19",MenuFunc19);
 
-	hServices[26] = CreateProtoServiceFunction(META_PROTO,PS_GETCAPS,Meta_GetCaps);
-	hServices[27] = CreateProtoServiceFunction(META_PROTO,PS_GETNAME,Meta_GetName);
-	hServices[28] = CreateProtoServiceFunction(META_PROTO,PS_LOADICON,Meta_LoadIcon);
+	CreateProtoServiceFunction(META_PROTO,PS_GETCAPS,Meta_GetCaps);
+	CreateProtoServiceFunction(META_PROTO,PS_GETNAME,Meta_GetName);
+	CreateProtoServiceFunction(META_PROTO,PS_LOADICON,Meta_LoadIcon);
 
-	hServices[29] = CreateProtoServiceFunction(META_PROTO,PS_SETSTATUS,Meta_SetStatus);
+	CreateProtoServiceFunction(META_PROTO,PS_SETSTATUS,Meta_SetStatus);
 
-	hServices[30] = CreateProtoServiceFunction(META_PROTO,PS_GETSTATUS,Meta_GetStatus);
-	hServices[31] = CreateProtoServiceFunction(META_PROTO,PSS_MESSAGE,Meta_SendMessage);
-	hServices[32] = CreateProtoServiceFunction(META_PROTO,PSS_MESSAGE"W",Meta_SendMessage); // unicode send (same send func as above line, checks for PREF_UNICODE)
+	CreateProtoServiceFunction(META_PROTO,PS_GETSTATUS,Meta_GetStatus);
+	CreateProtoServiceFunction(META_PROTO,PSS_MESSAGE,Meta_SendMessage);
+	CreateProtoServiceFunction(META_PROTO,PSS_MESSAGE"W",Meta_SendMessage); // unicode send (same send func as above line, checks for PREF_UNICODE)
 
-	hServices[33] = CreateProtoServiceFunction(META_PROTO,PSS_USERISTYPING,Meta_UserIsTyping );
+	CreateProtoServiceFunction(META_PROTO,PSS_USERISTYPING,Meta_UserIsTyping );
 
-	hServices[34] = CreateProtoServiceFunction(META_PROTO,PSR_MESSAGE,Meta_RecvMessage);
+	CreateProtoServiceFunction(META_PROTO,PSR_MESSAGE,Meta_RecvMessage);
 
 	// file recv is done by subcontacts
-	//hServices[] = CreateProtoServiceFunction(META_PROTO,PS_FILERESUME,Meta_FileResume);
-	//hServices[] = CreateProtoServiceFunction(META_PROTO,PSS_FILEALLOW,Meta_FileAllow);
-	//hServices[] = CreateProtoServiceFunction(META_PROTO,PSS_FILEDENY,Meta_FileDeny);
-	//hServices[] = CreateProtoServiceFunction(META_PROTO,PSS_FILECANCEL,Meta_FileCancel);
-	//hServices[] = CreateProtoServiceFunction(META_PROTO,PSR_FILE,Meta_FileRecv);
-	hServices[35] = CreateProtoServiceFunction(META_PROTO,PSS_FILE,Meta_FileSend);
+	CreateProtoServiceFunction(META_PROTO,PSS_FILE, Meta_FileSend);
 
-	hServices[36] = CreateProtoServiceFunction(META_PROTO,PSS_GETAWAYMSG,Meta_GetAwayMsg);
+	CreateProtoServiceFunction(META_PROTO,PSS_GETAWAYMSG,Meta_GetAwayMsg);
 
-	hServices[37] = CreateProtoServiceFunction(META_PROTO,PS_GETAVATARINFOT,Meta_GetAvatarInfo);
+	CreateProtoServiceFunction(META_PROTO,PS_GETAVATARINFOT,Meta_GetAvatarInfo);
 
-	hServices[38] = CreateProtoServiceFunction(META_PROTO,PSS_GETINFO,Meta_GetInfo);
+	CreateProtoServiceFunction(META_PROTO,PSS_GETINFO,Meta_GetInfo);
 
-	hServices[39] = CreateProtoServiceFunction(META_FILTER,PSR_MESSAGE,MetaFilter_RecvMessage);
-	hServices[40] = CreateProtoServiceFunction(META_FILTER,PSS_MESSAGE,MetaFilter_SendMessage);
-	hServices[41] = CreateProtoServiceFunction(META_FILTER,PSS_MESSAGE"W",MetaFilter_SendMessage);
+	CreateProtoServiceFunction(META_FILTER,PSR_MESSAGE,MetaFilter_RecvMessage);
+	CreateProtoServiceFunction(META_FILTER,PSS_MESSAGE,MetaFilter_SendMessage);
+	CreateProtoServiceFunction(META_FILTER,PSS_MESSAGE"W",MetaFilter_SendMessage);
 
 	// API services and events
+	CreateServiceFunction(MS_MC_GETMETACONTACT, MetaAPI_GetMeta);
+	CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
+	CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
+	CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
+	CreateServiceFunction(MS_MC_GETNUMCONTACTS, MetaAPI_GetNumContacts);
+	CreateServiceFunction(MS_MC_GETSUBCONTACT, MetaAPI_GetContact);
+	CreateServiceFunction(MS_MC_SETDEFAULTCONTACTNUM, MetaAPI_SetDefaultContactNum);
+	CreateServiceFunction(MS_MC_SETDEFAULTCONTACT, MetaAPI_SetDefaultContact);
+	CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
+	CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
+	CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);
+	CreateServiceFunction(MS_MC_GETPROTOCOLNAME, MetaAPI_GetProtoName);
+	CreateServiceFunction(MS_MC_GETFORCESTATE, MetaAPI_GetForceState);
 
-	hServices[42] = CreateServiceFunction(MS_MC_GETMETACONTACT, MetaAPI_GetMeta);
-	hServices[43] = CreateServiceFunction(MS_MC_GETDEFAULTCONTACT, MetaAPI_GetDefault);
-	hServices[44] = CreateServiceFunction(MS_MC_GETDEFAULTCONTACTNUM, MetaAPI_GetDefaultNum);
-	hServices[45] = CreateServiceFunction(MS_MC_GETMOSTONLINECONTACT, MetaAPI_GetMostOnline);
-	hServices[46] = CreateServiceFunction(MS_MC_GETNUMCONTACTS, MetaAPI_GetNumContacts);
-	hServices[47] = CreateServiceFunction(MS_MC_GETSUBCONTACT, MetaAPI_GetContact);
-	hServices[48] = CreateServiceFunction(MS_MC_SETDEFAULTCONTACTNUM, MetaAPI_SetDefaultContactNum);
-	hServices[49] = CreateServiceFunction(MS_MC_SETDEFAULTCONTACT, MetaAPI_SetDefaultContact);
-	hServices[50] = CreateServiceFunction(MS_MC_FORCESENDCONTACTNUM, MetaAPI_ForceSendContactNum);
-	hServices[51] = CreateServiceFunction(MS_MC_FORCESENDCONTACT, MetaAPI_ForceSendContact);
-	hServices[52] = CreateServiceFunction(MS_MC_UNFORCESENDCONTACT, MetaAPI_UnforceSendContact);
-	hServices[53] = CreateServiceFunction(MS_MC_GETPROTOCOLNAME, MetaAPI_GetProtoName);
-	hServices[54] = CreateServiceFunction(MS_MC_GETFORCESTATE, MetaAPI_GetForceState);
+	CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);
+	CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
+	CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
 
-	hServices[55] = CreateServiceFunction(MS_MC_CONVERTTOMETA, MetaAPI_ConvertToMeta);
-	hServices[56] = CreateServiceFunction(MS_MC_ADDTOMETA, MetaAPI_AddToMeta);
-	hServices[57] = CreateServiceFunction(MS_MC_REMOVEFROMMETA, MetaAPI_RemoveFromMeta);
+	CreateServiceFunction(MS_MC_DISABLEHIDDENGROUP, MetaAPI_DisableHiddenGroup);
 
-	hServices[58] = CreateServiceFunction(MS_MC_DISABLEHIDDENGROUP, MetaAPI_DisableHiddenGroup);
+	CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
+	CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);
 
-	hServices[59] = CreateServiceFunction("MetaContacts/OnOff", Meta_OnOff);
-	hServices[60] = CreateServiceFunction("MetaContacts/CListMessageEvent", Meta_ClistMessageEventClicked);
-
-	hServices[61] = CreateProtoServiceFunction(META_PROTO, "/SendNudge", Meta_SendNudge);
+	CreateProtoServiceFunction(META_PROTO, "/SendNudge", Meta_SendNudge);
 
 	// create our hookable events
 	hEventDefaultChanged = CreateHookableEvent(ME_MC_DEFAULTTCHANGED);
@@ -1933,24 +1710,20 @@ void Meta_InitServices()
 	hSubcontactsChanged = CreateHookableEvent(ME_MC_SUBCONTACTSCHANGED);
 
 	// hook other module events we need
-	hHooks[0] = (HANDLE)HookEvent(ME_PROTO_ACK, Meta_HandleACK);
-	hHooks[1] = (HANDLE)HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
-	hHooks[2] = (HANDLE)HookEvent(ME_SYSTEM_MODULESLOADED, Meta_ModulesLoaded);
-	hHooks[3] = (HANDLE)HookEvent(ME_PROTO_CONTACTISTYPING, Meta_ContactIsTyping);
-	hHooks[4] = (HANDLE)HookEvent(ME_DB_CONTACT_DELETED, Meta_ContactDeleted);
-	hHooks[5] = (HANDLE)HookEvent(ME_OPT_INITIALISE, Meta_OptInit );
+	HookEvent(ME_PROTO_ACK, Meta_HandleACK);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, Meta_SettingChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, Meta_ModulesLoaded);
+	HookEvent(ME_PROTO_CONTACTISTYPING, Meta_ContactIsTyping);
+	HookEvent(ME_DB_CONTACT_DELETED, Meta_ContactDeleted);
+	HookEvent(ME_OPT_INITIALISE, Meta_OptInit );
 
-	hHooks[6] = (HANDLE)HookEvent(ME_SYSTEM_PRESHUTDOWN, Meta_PreShutdown);
-	hHooks[7] = (HANDLE)HookEvent(ME_SYSTEM_OKTOEXIT, Meta_OkToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, Meta_PreShutdown);
+	HookEvent(ME_SYSTEM_OKTOEXIT, Meta_OkToExit);
 
 	// hook our own events, used to call Meta_GetMostOnline which sets nick for metacontact
-	hHooks[8] = (HANDLE)HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline );
-	hHooks[9] = (HANDLE)HookEvent(ME_MC_FORCESEND, Meta_CallMostOnline );
-	hHooks[10] = (HANDLE)HookEvent(ME_MC_UNFORCESEND, Meta_CallMostOnline );
-
-	/// more hooks in modules loaded event handler - for services that are not created
-
-	//hHooks[] = (HANDLE)HookEvent(ME_IDLE_CHANGED, Meta_OnIdleChanged); // what can we do with idle?
+	HookEvent(ME_MC_DEFAULTTCHANGED, Meta_CallMostOnline );
+	HookEvent(ME_MC_FORCESEND, Meta_CallMostOnline );
+	HookEvent(ME_MC_UNFORCESEND, Meta_CallMostOnline );
 
 	// redirect nudge events
 	hEventNudge = CreateHookableEvent(META_PROTO "/Nudge");
@@ -1959,30 +1732,10 @@ void Meta_InitServices()
 //! Unregister all hooks and services from Miranda
 void Meta_CloseHandles()
 {
-	int i;
-
-	for (i=0;i<iNudgeProtos;i++)		// Idem for the hooks.
-	{
-		UnhookEvent(hNudgeEvents[i]);
-	}
-	free(hNudgeEvents);
-	iNudgeProtos = 0;
-
-	for (i=0;i<NB_HOOKS;i++)		// Idem for the hooks.
-		if (hHooks[i]) UnhookEvent(hHooks[i]);
-
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		proto_count = 0;
-	}
-
 	// destroy our hookable events
 	DestroyHookableEvent(hEventDefaultChanged);
 	DestroyHookableEvent(hEventForceSend);
 	DestroyHookableEvent(hEventUnforceSend);
 	DestroyHookableEvent(hSubcontactsChanged);
 	DestroyHookableEvent(hEventNudge);
-
-	// lets leave them, hey? (why?)
-	for (i=0;i<NB_SERVICES;i++)	// Scan each 'HANDLE' and Destroy the service attached to it.
-		if (hServices[i]) DestroyServiceFunction(hServices[i]);
 }

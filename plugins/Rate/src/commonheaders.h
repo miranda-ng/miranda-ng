@@ -44,28 +44,11 @@
 #include "resource.h"
 
 //external SDK headers
-#include <m_cluiframes.h>
 #include <m_extraicons.h>
 
-static const int DefaultSlot = EXTRA_ICON_PROTO;
 #define MODULENAME "Rate"
 
 /* 0e2866a8-6f4c-4132-98ae-6afdb8766c48 */
 #define MIID_CONTACTSRATE {0x0e2866a8, 0x6f4c, 0x4132, {0x98, 0xae, 0x6a, 0xfd, 0xb8, 0x76, 0x6c, 0x48}}
-
-static struct
-{
-	TCHAR*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-} iconList[] =
-{
-  { LPGENT( "Rate high" ), "rate_high", IDI_RATEHI },
-  { LPGENT( "Rate medium" ), "rate_medium", IDI_RATEME },
-  { LPGENT( "Rate low" ), "rate_low", IDI_RATELO },
-};
-
-
 
 #endif //COMMHEADERS_H

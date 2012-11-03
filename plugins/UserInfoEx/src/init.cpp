@@ -103,10 +103,9 @@ static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  **/
 static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	myGlobals.HaveCListExtraIcons		= ServiceExists(MS_CLIST_EXTRA_SET_ICON);
-	myGlobals.ExtraIconsServiceExist	= ServiceExists(MS_EXTRAICON_REGISTER);
-	myGlobals.PopUpActionsExist			= ServiceExists(MS_POPUP_REGISTERACTIONS);
-	myGlobals.MsgAddIconExist			= ServiceExists(MS_MSG_ADDICON);
+	myGlobals.HaveCListExtraIcons = ServiceExists(MS_CLIST_EXTRA_SET_ICON);
+	myGlobals.PopUpActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
+	myGlobals.MsgAddIconExist = ServiceExists(MS_MSG_ADDICON);
 
 	// init meta contacts
 	INT_PTR ptr = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);

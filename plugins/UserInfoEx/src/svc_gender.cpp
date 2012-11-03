@@ -71,35 +71,20 @@ BYTE GenderOf(HANDLE hContact)
  * Event Handler functions
  ***********************************************************************************************************/
 
-static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
-{
-	HICON hIcon		= IcoLib_GetIcon(ICO_COMMON_FEMALE);
-	ghExtraIconF	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	hIcon			= IcoLib_GetIcon(ICO_COMMON_MALE);
-	ghExtraIconM	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	return 0;
-}
-
 /**
  * Notification handler for clist extra icons to be applied for a contact.
  *
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
+
 static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
-	if (myGlobals.ExtraIconsServiceExist && (ghExtraIconSvc != INVALID_HANDLE_VALUE))
-	{
-		EXTRAICON ico;
-
-		ZeroMemory(&ico, sizeof(ico));
-		ico.cbSize = sizeof(ico);
+	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
+		EXTRAICON ico = { sizeof(ico) };
 		ico.hContact = hContact;
 		ico.hExtraIcon = ghExtraIconSvc;
-		switch (GenderOf(hContact)) 
-		{
+		switch (GenderOf(hContact)) {
 		case 'M': 
 			ico.icoName = ICO_COMMON_MALE;
 			break;
@@ -110,28 +95,6 @@ static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 			ico.icoName = NULL;
 		}
 		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-	}
-	else
-	{
-		IconExtraColumn iec;
-
-		iec.ColumnType = DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER, DEFVAL_CLIST_EXTRAICON_GENDER);
-		if ((BYTE)iec.ColumnType != -1) 
-		{
-			iec.cbSize = sizeof(IconExtraColumn);
-			switch (GenderOf(hContact)) 
-			{
-			case 'M': 
-				iec.hImage = ghExtraIconM; 
-				break;
-			case 'F': 
-				iec.hImage = ghExtraIconF; 
-				break;
-			default:
-				iec.hImage = INVALID_HANDLE_VALUE;
-			}
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-		}
 	}
 	return 0;
 }
@@ -184,51 +147,25 @@ VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 	if (myGlobals.HaveCListExtraIcons)
 	{
 		if (bUpdateDB)
-		{
-			if (myGlobals.ExtraIconsServiceExist)
-			{
-				DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
-			}
-			else
-			{
-				DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER, bColumn);
-			}
-		}
+			DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
 		if (bEnable)	// Gender checkt or dropdown select
 		{
-			if (myGlobals.ExtraIconsServiceExist)
-			{
-				if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-				{
-					EXTRAICON_INFO ico;
-					
-					ZeroMemory(&ico, sizeof(ico));
-					ico.cbSize = sizeof(ico);
-					ico.type = EXTRAICON_TYPE_ICOLIB;
-					ico.name = "gender";	//must be the same as the group name in extraicon
-					ico.description="Gender (uinfoex)";
-					ico.descIcon = ICO_COMMON_MALE;
-					ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-				}
+			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+				EXTRAICON_INFO ico = { sizeof(ico) };
+				ico.type = EXTRAICON_TYPE_ICOLIB;
+				ico.name = "gender";	//must be the same as the group name in extraicon
+				ico.description="Gender (uinfoex)";
+				ico.descIcon = ICO_COMMON_MALE;
+				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 			}
-			else
-			{
-				if (hRebuildIconsHook == NULL) 
-				{
-					hRebuildIconsHook = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnCListRebuildIcons);
-					OnCListRebuildIcons(0, 0);
-				}
-			}
+
 			// hook events
 			if (hChangedHook == NULL) 
-			{
 				hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-			}
+
 			if (hApplyIconHook == NULL) 
-			{
 				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
-			}
 		}
 		else
 		{
@@ -257,14 +194,7 @@ VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
  **/
 VOID SvcGenderLoadModule()
 {
-	if ( myGlobals.ExtraIconsServiceExist)
-	{
-		SvcGenderEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
-	}
-	else
-	{
-		SvcGenderEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER, DEFVAL_CLIST_EXTRAICON_GENDER), FALSE);
-	}
+	SvcGenderEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER2, 0), FALSE);
 }
 
 /**

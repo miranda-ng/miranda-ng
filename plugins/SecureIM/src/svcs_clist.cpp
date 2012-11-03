@@ -71,38 +71,26 @@ int __cdecl onContactAdded(WPARAM wParam,LPARAM lParam) {
 
 //  wParam=(WPARAM)(HANDLE)hContact
 //  lParam=0
-int __cdecl onContactDeleted(WPARAM wParam,LPARAM lParam) {
+int __cdecl onContactDeleted(WPARAM wParam,LPARAM lParam)
+{
 	delContact((HANDLE)wParam);
 	return 0;
 }
 
 
-int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM) {
-
-#if defined(_DEBUG) || defined(NETLIB_LOG)
-	Sent_NetLog("onExtraImageListRebuilding");
-#endif
-	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		RefreshContactListIcons();
-	}
+int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM)
+{
+	RefreshContactListIcons();
 	return 0;
 }
 
+int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM)
+{
+	if ( isSecureProtocol((HANDLE)wParam))
+		ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, mode2icon( isContactSecured((HANDLE)wParam), 1));
 
-int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM) {
-
-	if ( (bADV || g_hCLIcon) && ServiceExists(MS_CLIST_EXTRA_SET_ICON) && isSecureProtocol((HANDLE)wParam)) {
-		IconExtraColumn iec = mode2iec(isContactSecured((HANDLE)wParam));
-		if ( g_hCLIcon ) {
-			ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, iec.hImage);
-		}
-		else {
-			CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM)&iec);
-		}
-	}
 	return 0;
 }
-
 
 int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 

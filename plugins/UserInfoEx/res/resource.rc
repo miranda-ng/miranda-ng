@@ -7,7 +7,8 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
+#include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
@@ -190,8 +191,6 @@ BEGIN
     EDITTEXT        EDIT_REMIND2,144,154,44,13,ES_AUTOHSCROLL | ES_NUMBER,WS_EX_RIGHT
     CONTROL         "",SPIN_REMIND2,"msctls_updown32",UDS_SETBUDDYINT | UDS_ALIGNRIGHT | UDS_AUTOBUDDY | UDS_ARROWKEYS,186,152,11,14
     LTEXT           "hours",TXT_REMIND4,198,155,92,8
-    LTEXT           "CList extra icon:",TXT_REMIND5,16,190,120,8,0,WS_EX_RIGHT
-    COMBOBOX        EDIT_EXTRAICON,144,189,132,123,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Icon flashing on event",CHECK_REMIND_FLASHICON,"Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,18,41,273,10
     COMBOBOX        EDIT_REMIND_ENABLED,90,18,98,108,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Enabled",IDC_STATIC,38,20,47,8,0,WS_EX_RIGHT
@@ -445,10 +444,7 @@ BEGIN
     CONTROL         "Off",RADIO_OPT_MI_ACCOUNT_NONE,"Button",BS_AUTORADIOBUTTON,161,84,31,10
     CONTROL         "Ex-/Import items",RADIO_OPT_MI_ACCOUNT_EXIMPORT,"Button",BS_AUTORADIOBUTTON,222,84,80,10
     GROUPBOX        "Extra Icons",GROUP_OPT_EXTRAICONS,6,105,144,117
-    LTEXT           "This options require a contact list which supports extra icons.",TXT_OPT_DEFAULTICONS2,12,117,131,24
-    LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",TXT_OPT_EXTRAICONS,12,148,131,24,NOT WS_VISIBLE
     LTEXT           "Gender:",TXT_OPT_GENDER,12,148,40,8
-    COMBOBOX        COMBO_OPT_GENDER,12,158,131,137,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Replace the following default icons:",TXT_OPT_DEFAULTICONS,12,180,132,8
     CONTROL         "Homepage",CHECK_OPT_HOMEPAGEICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,12,192,68,10
     CONTROL         "Phone",CHECK_OPT_PHONEICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,84,192,59,10
@@ -458,7 +454,6 @@ BEGIN
     CONTROL         "Show 'Restart' menu item",CHECK_OPT_MI_RESTART,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,161,117,131,10
     CONTROL         "Use Zodiac as default avatar",CHECK_OPT_ZODIACAVATAR,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,161,129,131,10
-    COMBOBOX        COMBO_OPT_FLAGS,161,158,131,137,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Country Flags",TXT_OPT_FLAGS,161,148,131,8
     CONTROL         "Use &unknown flag if country can not be determined",CHECK_OPT_FLAGSUNKNOWN,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_GROUP | WS_TABSTOP,161,180,131,15
@@ -632,6 +627,7 @@ IDB_FLAGSPNG            PNG                     "flags.png"
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
+
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED

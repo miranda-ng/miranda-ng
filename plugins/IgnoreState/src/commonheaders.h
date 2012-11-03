@@ -58,57 +58,34 @@
 #include "Version.h"
 
 //external SDK headers
-#include <m_cluiframes.h>
 #include <m_extraicons.h>
 
-static const int DefaultSlot = EXTRA_ICON_PROTO;
 #define MODULENAME "IgnoreState"
 
 /* 3f6acec5-df0e-4d33-a272-e3630addb6c8 */
 #define MIID_IGNORESRATE {0x3f6acec5, 0xdf0e, 0x4d33, {0xa2, 0x72, 0xe3, 0x63, 0x0a, 0xdd, 0xb6, 0xc8}}
 
-static struct
+struct IGNOREITEMS
 {
-	TCHAR*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-} iconList[] =
-{
-  { LPGENT( "Full Ignore" ),    "ignore_full", IDI_IFULL  },
-  { LPGENT( "Partial Ignore" ), "ignore_part", IDI_IPART  },
-  { LPGENT( "Message Ignore" ), "ignore_mess", IDI_IMESS  },
-};
-
-typedef struct {
 	TCHAR* name;
 	int   type;
 	int   icon;
 	bool  filtered;
-} IGNOREITEMS;
-
-static IGNOREITEMS ii[] = {
-	{ LPGENT("All"),            IGNOREEVENT_ALL,           SKINICON_OTHER_FILLEDBLOB },
-	{ LPGENT("Messages"),       IGNOREEVENT_MESSAGE,       SKINICON_EVENT_MESSAGE    },
-	{ LPGENT("URL"),            IGNOREEVENT_URL,           SKINICON_EVENT_URL        },
-	{ LPGENT("Files"),          IGNOREEVENT_FILE,          SKINICON_EVENT_FILE       },
-	{ LPGENT("User Online"),    IGNOREEVENT_USERONLINE,    SKINICON_OTHER_USERONLINE },
-	{ LPGENT("Authorization"),  IGNOREEVENT_AUTHORIZATION, SKINICON_OTHER_MIRANDA    },
-	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED,  SKINICON_OTHER_ADDCONTACT },
-	{ LPGENT("Typing Notify"),  IGNOREEVENT_TYPINGNOTIFY,  SKINICON_OTHER_TYPING     }
 };
 
-static int isExtraiconsUsed = 0;
+extern IGNOREITEMS ii[];
+extern int nII;
+
 static byte bUseMirandaSettings;
 
 extern HINSTANCE g_hInst;
-extern int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
-extern int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam);
-extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
-extern BOOL checkState(int type);
-extern VOID fill_filter();
+
+void applyExtraImage(HANDLE hContact);
+
+int onOptInitialise(WPARAM wParam, LPARAM lParam);
+BOOL checkState(int type);
+VOID fill_filter();
+
 extern HANDLE hExtraIcon;
-extern IconExtraColumn g_IECAuth, g_IECGrant, g_IECAuthGrant, g_IECClear;
-extern INT clistIcon;
 
 #endif //COMMHEADERS_H

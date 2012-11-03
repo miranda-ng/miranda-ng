@@ -31,9 +31,6 @@
 #include "m_extraicons.h"
 #include "..\icons_pack\src\resource.h"
 
-
-extern HANDLE hExtraXStatus;
-
 void CListShowMenuItem(HANDLE hMenuItem, BYTE bShow);
 
 BYTE CIcqProto::getContactXStatus(HANDLE hContact)
@@ -187,79 +184,15 @@ void CIcqProto::releaseXStatusIcon(int bStatus, UINT flags)
 
 void CIcqProto::setContactExtraIcon(HANDLE hContact, int xstatus)
 {
-	HANDLE hIcon;
-
-	if (hExtraXStatus == NULL)
-	{
-		if (xstatus > 0 && bXStatusExtraIconsReady < 2)
-			CListMW_ExtraIconsRebuild(0, 0);
-
-		hIcon = (xstatus <= 0 ? (HANDLE)-1 : hXStatusExtraIcons[xstatus-1]);
-
-		IconExtraColumn iec;
-
-		iec.cbSize = sizeof(iec);
-		iec.hImage = hIcon;
-		iec.ColumnType = EXTRA_ICON_ADV1;
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-	}
-	else
-	{
-		hIcon = (HANDLE) -1;
-
-		if (xstatus <= 0)
-		{
-			ExtraIcon_SetIcon(hExtraXStatus, hContact, (char *) NULL);
-		}
-		else
-		{
-			char szTemp[MAX_PATH];
-			null_snprintf(szTemp, sizeof(szTemp), "%s_xstatus%d", m_szModuleName, xstatus-1);
-			ExtraIcon_SetIcon(hExtraXStatus, hContact, szTemp);
-		}
+	if (xstatus <= 0)
+		ExtraIcon_SetIcon(hExtraXStatus, hContact, (char *) NULL);
+	else {
+		char szTemp[MAX_PATH];
+		null_snprintf(szTemp, sizeof(szTemp), "%s_xstatus%d", m_szModuleName, xstatus-1);
+		ExtraIcon_SetIcon(hExtraXStatus, hContact, szTemp);
 	}
 
-	NotifyEventHooks(hxstatusiconchanged, (WPARAM)hContact, (LPARAM)hIcon);
-}
-
-
-int CIcqProto::CListMW_ExtraIconsRebuild(WPARAM wParam, LPARAM lParam) 
-{
-	if ((m_bXStatusEnabled || m_bMoodsEnabled) && ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-  {
-		for (int i = 0; i < XSTATUS_COUNT; i++) 
-		{
-			hXStatusExtraIcons[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)getXStatusIcon(i + 1, LR_SHARED), 0);
-			releaseXStatusIcon(i + 1, 0);
-		}
-
-    if (!bXStatusExtraIconsReady)
-    { // try to hook the events again if they did not existed during init
-	    HookProtoEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CIcqProto::CListMW_ExtraIconsRebuild);
-      HookProtoEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CIcqProto::CListMW_ExtraIconsApply);
-    }
-
-    bXStatusExtraIconsReady = 2;
-  }
-	return 0;
-}
-
-
-int CIcqProto::CListMW_ExtraIconsApply(WPARAM wParam, LPARAM lParam) 
-{
-	if ((m_bXStatusEnabled || m_bMoodsEnabled) && ServiceExists(MS_CLIST_EXTRA_SET_ICON)) 
-	{
-		if (IsICQContact((HANDLE)wParam))
-		{
-			// only apply icons to our contacts, do not mess others
-			DWORD bXStatus = getContactXStatus((HANDLE)wParam);
-
-      if ((m_bXStatusEnabled && CheckContactCapabilities((HANDLE)wParam, CAPF_XSTATUS)) ||
-          (m_bMoodsEnabled && CheckContactCapabilities((HANDLE)wParam, CAPF_STATUS_MOOD)))
-			setContactExtraIcon((HANDLE)wParam, bXStatus);
-		}
-	}
-	return 0;
+	NotifyEventHooks(hxstatusiconchanged, (WPARAM)hContact, (LPARAM)INVALID_HANDLE_VALUE);
 }
 
 #define NULLCAP {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}

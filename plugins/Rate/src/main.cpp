@@ -32,32 +32,14 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
-/*--------------------------------------------------------------------------*/
-/*
-    FILE ID: $Id$
 
-    CHANGE LOG:
-
-    $Log$
-*/
 #include "commonheaders.h"
 
 HINSTANCE g_hInst;
 
-static HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
-static HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSettingChanged = NULL;
-static HANDLE hPrebuildContactMenu = NULL;
 static HANDLE hExtraIcon = NULL;
-IconExtraColumn g_IECRateHigh = {0};
-IconExtraColumn g_IECRateMedium = {0};
-IconExtraColumn g_IECRateLow = {0};
-IconExtraColumn g_IECClear = {0};
-int clistIcon = 0; //Icon slot to use
 byte bRate = 0;
 int hLangpack;
-
-extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
-
 
 PLUGININFOEX pluginInfo={
    sizeof(PLUGININFOEX),
@@ -85,84 +67,21 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_CONTACTSRATE, MIID_LAST};
+///////////////////////////////////////////////////////////////////////////////
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
+struct
 {
-   UnhookEvent(hHookModulesLoaded);
-   UnhookEvent(hHookExtraIconsRebuild);
-   UnhookEvent(hHookExtraIconsApply);
-   UnhookEvent(hOptInitialise);
-   UnhookEvent(hSystemOKToExit);
-   if (hIcoLibIconsChanged) UnhookEvent(hIcoLibIconsChanged);
-	if (hContactSettingChanged)
-		UnhookEvent(hContactSettingChanged);
-
-   return 0;
+	TCHAR*  szDescr;
+	char*  szName;
+	int    defIconID;
+	HANDLE hIconLibItem;
 }
-
-void setExtaIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
+static iconList[] =
 {
-	if (hContact == NULL)
-		return;
-
-	if (bRate < 0)
-		bRate = DBGetContactSettingByte(hContact, "CList", "Rate", 0);
-
-	if (hExtraIcon != NULL)
-	{
-		const char *icon;
-		switch(bRate)
-		{
-			case 3: icon = "rate_high";  break;
-			case 2: icon = "rate_medium";  break;
-			case 1: icon = "rate_low";  break;
-			default: icon = NULL;  break;
-		}
-
-		if (icon == NULL && !clear)
-			return;
-
-		ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
-	}
-	else
-	{
-		switch(bRate)
-		{
-			case 3: CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &g_IECRateHigh); break;
-			case 2: CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &g_IECRateMedium); break;
-			case 1: CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &g_IECRateLow); break;
-			default: CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &g_IECClear); break;
-		}
-	}
-}
-
-
-int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
-{
-	setExtaIcon((HANDLE) wParam);
-	return 0;
-}
-
-
-int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
-{
-  g_IECRateHigh.cbSize = sizeof(IconExtraColumn);
-  g_IECRateHigh.ColumnType = clistIcon;
-  g_IECRateMedium.cbSize = sizeof(IconExtraColumn);
-  g_IECRateMedium.ColumnType = clistIcon;
-  g_IECRateLow.cbSize = sizeof(IconExtraColumn);
-  g_IECRateLow.ColumnType = clistIcon;
-
-  if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-  {
-      g_IECRateHigh.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_high"), 0);
-      g_IECRateMedium.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_medium"), 0);
-      g_IECRateLow.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("rate_low"), 0);
-  }
-  return 0;
-}
-
+	{ LPGENT( "Rate high" ), "rate_high", IDI_RATEHI },
+	{ LPGENT( "Rate medium" ), "rate_medium", IDI_RATEME },
+	{ LPGENT( "Rate low" ), "rate_low", IDI_RATELO },
+};
 
 static void init_icolib (void)
 {
@@ -183,65 +102,61 @@ static void init_icolib (void)
 	}
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+static void setExtraIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
+{
+	if (hContact == NULL)
+		return;
+
+	if (bRate < 0)
+		bRate = DBGetContactSettingByte(hContact, "CList", "Rate", 0);
+
+	const char *icon = NULL;
+	switch(bRate) {
+		case 1: icon = "rate_low";  break;
+		case 2: icon = "rate_medium";  break;
+		case 3: icon = "rate_high";  break;
+	}
+
+	if (icon != NULL || clear)
+		ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
+}
 
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-   //IcoLib support
+   // IcoLib support
    init_icolib();
-
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register("contact_rate", "Contact rate", "rate_high");
 
-	if (hExtraIcon != NULL)
-	{
-		// Set initial value for all contacts
-		HANDLE hContact = db_find_first();
-		while (hContact != NULL)
-		{
-			setExtaIcon(hContact, -1, FALSE);
-			hContact = db_find_next(hContact);
-		}
-	}
-	else
-	{
-		hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-		hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
-		hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-		onExtraImageListRebuild(0,0);
+	// Set initial value for all contacts
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		setExtraIcon(hContact, -1, FALSE);
+		hContact = db_find_next(hContact);
 	}
 
 	return 0;
 }
-
 
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
 
 	if (wParam != NULL && !lstrcmpA(cws->szModule,"CList") && !lstrcmpA(cws->szSetting,"Rate"))
-		setExtaIcon((HANDLE)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
+		setExtraIcon((HANDLE)wParam, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal);
 
 	return 0;
 }
 
-
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
-   hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-   hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
-   hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
-
-   clistIcon = DBGetContactSettingByte(NULL, MODULENAME, "AdvancedIcon", DefaultSlot);
-
-   g_IECClear.cbSize = sizeof(IconExtraColumn);
-   g_IECClear.ColumnType = clistIcon;
-   g_IECClear.hImage = (HANDLE) -1;
-
+   HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+   HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
    return 0;
 }
 

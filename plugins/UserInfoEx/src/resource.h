@@ -71,7 +71,6 @@
 #define TXT_NUMCONTACT                  1124
 #define TXT_NUMBIRTH                    1125
 #define TXT_REMIND4                     1125
-#define TXT_REMIND5                     1126
 #define TXT_MESSAGE                     1126
 #define TXT_OPT_CLR_NORMAL              1127
 #define TXT_REMIND6                     1127
@@ -154,7 +153,6 @@
 #define IDC_TREE                        1504
 #define IDC_COMBO1                      1506
 #define EDIT_SORT                       1506
-#define EDIT_EXTRAICON                  1506
 #define EDIT_METASUBCONTACTS            1506
 #define EDIT_HISTORY_GROUPING           1506
 #define COMBO_VIEW                      1506
@@ -201,8 +199,6 @@
 #define CHECK_POPUP                     1572
 #define GROUP_FILTER                    1573
 #define GROUP_REMINDER                  1574
-#define COMBO_OPT_GENDER                1575
-#define COMBO_OPT_FLAGS                 1576
 #define TXT_OPT_GENDER                  1577
 #define GROUP_OPT_EXTRAICONS            1578
 #define TXT_OPT_DEFAULTICONS            1579

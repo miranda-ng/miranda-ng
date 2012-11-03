@@ -93,80 +93,29 @@ static INT_PTR Get(HANDLE hContact)
  * Event Handler functions
  ***********************************************************************************************************/
 
-static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
-{
-	HICON hIcon			= IcoLib_GetIcon(ICO_BTN_PHONE);
-	ghExtraIconDef[0]	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	hIcon				= IcoLib_GetIcon(ICO_BTN_CELLULAR);
-	ghExtraIconDef[1]	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	return 0;
-}
-
 /**
  * Notification handler for clist extra icons to be applied for a contact.
  *
  * @param	wParam			- handle to the contact whose extra icon is to apply
  * @param	lParam			- not used
  **/
+
 static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
-	if (!myGlobals.ExtraIconsServiceExist)
-	{
-		IconExtraColumn iec;
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.ColumnType = EXTRA_ICON_SMS;
-		switch (Get(hContact)) 
-		{
-		case PHONE_NORMAL:
-			{
-				iec.hImage = ghExtraIconDef[0];
-			}
-			break;
-
-		case PHONE_SMS:
-			{
-				iec.hImage = ghExtraIconDef[1];
-			}
-			break;
-
-		default:
-			{
-				iec.hImage = INVALID_HANDLE_VALUE;
-			}
-		}
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
+	EXTRAICON ico = { sizeof(ico) };
+	ico.hContact = hContact;
+	ico.hExtraIcon = ghExtraIconSvc;
+	switch (Get(hContact)) {
+	case PHONE_NORMAL:
+		ico.icoName = ICO_BTN_PHONE;
+		break;
+	case PHONE_SMS:
+		ico.icoName = ICO_BTN_CELLULAR;
+		break;
+	default:
+		ico.icoName = NULL;
 	}
-	else
-	{
-		EXTRAICON ico;
-
-		ZeroMemory(&ico, sizeof(ico));
-		ico.cbSize = sizeof(ico);
-		ico.hContact = hContact;
-		ico.hExtraIcon = ghExtraIconSvc;
-		switch (Get(hContact)) 
-		{
-		case PHONE_NORMAL:
-			{
-				ico.icoName = ICO_BTN_PHONE;
-			}
-			break;
-
-		case PHONE_SMS:
-			{
-				ico.icoName = ICO_BTN_CELLULAR;
-			}
-			break;
-
-		default:
-			{
-				ico.icoName = (char *)0;
-			}
-		}
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-	}
+	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 	return 0;
 }
 
@@ -232,32 +181,18 @@ VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 		{
 			// hook events
 			if (hChangedHook == NULL) 
-			{
 				hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-			}
+
 			if (hApplyIconHook == NULL) 
-			{
 				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
-			}
-			if (myGlobals.ExtraIconsServiceExist)
-			{
-				if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-				{
-					EXTRAICON_INFO ico;
-					
-					ZeroMemory(&ico, sizeof(ico));
-					ico.cbSize = sizeof(ico);
-					ico.type = EXTRAICON_TYPE_ICOLIB;
-					ico.name = "sms";	//must be the same as the group name in extraicon
-					ico.description = "(uinfoex)";
-					ico.descIcon = ICO_BTN_CELLULAR;
-					ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-				}
-			}
-			else if (hRebuildIconsHook == NULL) 
-			{
-				hRebuildIconsHook = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, (MIRANDAHOOK)OnCListRebuildIcons);
-				OnCListRebuildIcons(0, 0);
+
+			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+				EXTRAICON_INFO ico = { sizeof(ico) };
+				ico.type = EXTRAICON_TYPE_ICOLIB;
+				ico.name = "sms";	//must be the same as the group name in extraicon
+				ico.description = "(uinfoex)";
+				ico.descIcon = ICO_BTN_CELLULAR;
+				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 			}
 		}
 		else 
@@ -288,7 +223,6 @@ VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 VOID SvcPhoneLoadModule()
 {
 	SvcPhoneEnableExtraIcons(
-		myGlobals.ExtraIconsServiceExist || 
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_PHONE, DEFVAL_CLIST_EXTRAICON_PHONE), FALSE);
 }
 

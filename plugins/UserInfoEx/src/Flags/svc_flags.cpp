@@ -52,7 +52,6 @@ static HANDLE hMsgWndEventHook		= NULL;
 static HANDLE hIconsChangedHook		= NULL;
 static HANDLE hSettingChangedHook	= NULL;
 
-static HANDLE hExtraIconSvcHook		= NULL;
 static HANDLE hOptInitHook			= NULL;
 
 static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam);
@@ -233,136 +232,58 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
  * Clist Extra Image functions
  ***********************************************************************************************************/
 
-static void CALLBACK SetExtraImage(LPARAM lParam) {
+static void CALLBACK SetExtraImage(LPARAM lParam)
+{
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);;
-	//use ExtraIconsService ?
-	if (myGlobals.ExtraIconsServiceExist) {
-		EXTRAICON ico;
-		ico.cbSize		= sizeof(ico);
-		ico.hContact	= (HANDLE)lParam;
-		ico.hExtraIcon	= hExtraIconSvc;
-		ico.icoName		= (char*)0;		//preset
-		if(countryNumber!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
-			char szId[20];
-			mir_snprintf(szId, SIZEOF(szId), (countryNumber==0xFFFF)?"%s_0x%X":"%s_%i","flags",countryNumber); /* buffer safe */
-			ico.icoName	= szId;
-		}
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+
+	EXTRAICON ico = { sizeof(ico) };
+	ico.hContact = (HANDLE)lParam;
+	ico.hExtraIcon	= hExtraIconSvc;
+	ico.icoName = (char*)0;		//preset
+	if (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
+		char szId[20];
+		mir_snprintf(szId, SIZEOF(szId), (countryNumber==0xFFFF)?"%s_0x%X":"%s_%i","flags",countryNumber); /* buffer safe */
+		ico.icoName	= szId;
 	}
-	//use Clist ExtraImageService
-	else if(gFlagsOpts.bShowExtraImgFlag) {
-		int index;
-		IconExtraColumn iec;
-		iec.cbSize		= sizeof(iec);
-		iec.ColumnType	= gFlagsOpts.idExtraColumn;
-		iec.hImage		= INVALID_HANDLE_VALUE;		//preset
-		/* get icon for contact */
-		if(phExtraImageList!=NULL) { /* too early? */
-			if(countryNumber!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
-				index = CountryNumberToIndex(countryNumber);
-				/* icon not add to clist extra image list? */
-				if(phExtraImageList[index]==INVALID_HANDLE_VALUE) {
-					HICON hIcon=LoadFlag(countryNumber);	// Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
-					if(hIcon!=NULL) {
-						phExtraImageList[index]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)hIcon,0);
-						Skin_ReleaseIcon(hIcon); /* does NULL check */
-					}
-				}
-				iec.hImage=phExtraImageList[index];
-			}
-		}
-		//Set icon for contact at needed column
-		CallService(MS_CLIST_EXTRA_SET_ICON,(WPARAM)lParam,(LPARAM)&iec);
-	}
+	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 }
 
-static void CALLBACK RemoveExtraImages(LPARAM lParam) {
-	register HANDLE hContact;
-	//use ExtraIconsService ?
-	if (myGlobals.ExtraIconsServiceExist) {
-		EXTRAICON ico;
-		ico.cbSize			= sizeof(ico);
-		ico.hExtraIcon		= hExtraIconSvc;
-		ico.icoName			= (char *)0;		/* invalidate icon for contact*/
-		/* enum all contacts */
-		for (hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
-			ico.hContact	= hContact;
-			CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-		}
-	}
-	//use Clist ExtraImageService
-	else {
-		IconExtraColumn iec;
-		iec.cbSize		= sizeof(iec);
-		iec.ColumnType	= gFlagsOpts.idExtraColumn;
-		iec.hImage		= INVALID_HANDLE_VALUE;
-		/* enum all contacts */
-		for (hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
-			/* invalidate icon for contact*/
-			CallService(MS_CLIST_EXTRA_SET_ICON,(WPARAM)hContact,(LPARAM)&iec);
-		}
+static void CALLBACK RemoveExtraImages(LPARAM lParam)
+{
+	EXTRAICON ico = { sizeof(ico) };
+	ico.hExtraIcon	= hExtraIconSvc;
+	ico.icoName = 0; /* invalidate icon for contact*/
+	/* enum all contacts */
+	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
+		ico.hContact = hContact;
+		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 	}
 }
 
 // always call in context of main thread
-void EnsureExtraImages()		 //garantieren - sicherstellen - updaten
+void EnsureExtraImages()
 {
-	register HANDLE hContact;
-	//use Clist ExtraImageService?
-	if (!myGlobals.ExtraIconsServiceExist) {
-		BYTE idExtraColumnNew = DB::Setting::GetByte(MODNAMEFLAGS,"ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT);
-		if(idExtraColumnNew != gFlagsOpts.idExtraColumn) {
-			/* clear previous column */
-			RemoveExtraImages(0);
-			gFlagsOpts.idExtraColumn = idExtraColumnNew;
-			/* clear new column */
-			RemoveExtraImages(0);
-		}
-	}
-	/* enum all contacts */
-	for (hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
-		/* update icon */
+	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact))
 		CallFunctionBuffered(SetExtraImage,(LPARAM)hContact,TRUE,EXTRAIMAGE_REFRESHDELAY);
-	}
 }
 
 static void CALLBACK UpdateExtraImages(LPARAM lParam) {
 	if (!lParam)
-		 RemoveExtraImages(0);
-	else EnsureExtraImages();
-
-/*	if (!myGlobals.ExtraIconsServiceExist && !gFlagsOpts.bShowExtraImgFlag)
-		 RemoveExtraImages();
-	else EnsureExtraImages();  */
+		RemoveExtraImages(0);
+	else
+		EnsureExtraImages();
 }
 
-//hookProc ME_CLIST_EXTRA_LIST_REBUILD
-static int OnCListRebuildIcons(WPARAM wParam,LPARAM lParam) {
-	OutputDebugStringA("REBUILD EXTRA\n");
-	//use ExtraIconsService ?
-	if(myGlobals.ExtraIconsServiceExist) return 0;			//delete ?
-	//use Clist ExtraImageService
-	if(phExtraImageList!=NULL) {
-		/* invalidate icons */
-		for(int i=0;i<nCountriesCount;++i)
-			phExtraImageList[i]=INVALID_HANDLE_VALUE;
-	}
-	/* update column */
-	gFlagsOpts.idExtraColumn = DB::Setting::GetByte(MODNAMEFLAGS,"ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT);
-	return 0;
-}
-
-//hookProc ME_CLIST_EXTRA_IMAGE_APPLY
-static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam) {
-	//OutputDebugStringA("APPLY EXTRA\n");
-	if(myGlobals.ExtraIconsServiceExist || gFlagsOpts.bShowExtraImgFlag) 
-		SetExtraImage((LPARAM)wParam); /* unbuffered */
+static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam)
+{
+	SetExtraImage((LPARAM)wParam); /* unbuffered */
 	return 0;
 }
 
 //hookProc (ME_DB_CONTACT_SETTINGCHANGED) - workaround for missing event from ExtraIconSvc
-static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam) {
+static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
+{
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
 	if ((HANDLE)wParam!=NULL)return 0;
 	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") &&
@@ -396,8 +317,8 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) {
-	if (!myGlobals.HaveCListExtraIcons) return;
+VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
+{
 	gFlagsOpts.bShowExtraImgFlag = (bColumn!=((BYTE)-1));
 	if (bUpdateDB) {
 		if(gFlagsOpts.bShowExtraImgFlag) DB::Setting::WriteByte(MODNAMEFLAGS,"ExtraImgFlagColumn", bColumn);
@@ -406,73 +327,33 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) {
 
 	// Flags is on
 	if (gFlagsOpts.bShowExtraImgFlag) {
-		//use ExtraIconsService ?
-		if(myGlobals.ExtraIconsServiceExist) {
-			if(hExtraIconSvc == INVALID_HANDLE_VALUE) {
-				char  szId[20];
-				//get local langID for descIcon (try to use user local Flag as icon)
-				DWORD langid = 0;
-				int r = GetLocaleInfo(
-					LOCALE_USER_DEFAULT,
-					LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER ,
-					(LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
-				if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
+		if(hExtraIconSvc == INVALID_HANDLE_VALUE) {
+			char  szId[20];
+			//get local langID for descIcon (try to use user local Flag as icon)
+			DWORD langid = 0;
+			int r = GetLocaleInfo(
+				LOCALE_USER_DEFAULT,
+				LOCALE_ICOUNTRY | LOCALE_RETURN_NUMBER ,
+				(LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
+			if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
 
-				EXTRAICON_INFO ico = {0};
-				ico.cbSize		= sizeof(ico);
-				ico.type		= EXTRAICON_TYPE_ICOLIB;
-				ico.name		= "Flags";
-				ico.description	= "Flags (uinfoex)";
-				mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
-				ico.descIcon	= szId;
-				hExtraIconSvc=(HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-				if(hExtraIconSvc)
-					hExtraIconSvcHook	= HookEvent(ME_DB_CONTACT_SETTINGCHANGED,		OnExtraIconSvcChanged);
+			EXTRAICON_INFO ico = { sizeof(ico) };
+			ico.type = EXTRAICON_TYPE_ICOLIB;
+			ico.name = "Flags";
+			ico.description = "Flags (uinfoex)";
+			mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
+			ico.descIcon = szId;
+			hExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
+			if(hExtraIconSvc)
+				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
+		}
 
-			}
-		}
-		//use Clist ExtraImageService
-		else {
-			if(phExtraImageList == NULL){
-				phExtraImageList = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
-				/* invalidate icons */
-				if(phExtraImageList!=NULL)
-					for(int i=0;i<nCountriesCount;++i)
-						phExtraImageList[i]=INVALID_HANDLE_VALUE;
-			}
-			if (!hRebuildIconsHook) {
-				hRebuildIconsHook	= HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,	OnCListRebuildIcons);
-			}
-		}
 		//init hooks
-		if (!hApplyIconHook) {
-			hApplyIconHook		= HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,		OnCListApplyIcons);
-		}
-		if (!hSettingChangedHook) {
-			hSettingChangedHook	= HookEvent(ME_DB_CONTACT_SETTINGCHANGED,	OnContactSettingChanged);
-		}
-	}
-	// Flags is off
-	else {
-		//use ExtraIconsService ?
-		if (myGlobals.ExtraIconsServiceExist) {
-			//nothing to do, until plugin has a hookable event for status
-			return;
-		}
-		//use Clist ExtraImageService
-		//unhook
-		if (hRebuildIconsHook) {
-			UnhookEvent(hRebuildIconsHook);		hRebuildIconsHook = NULL;
-		}
-		if (hApplyIconHook) {
-			UnhookEvent(hApplyIconHook);		hApplyIconHook = NULL;
-		}
-		if (hSettingChangedHook && !gFlagsOpts.bShowStatusIconFlag) {
-			UnhookEvent(hSettingChangedHook);	hSettingChangedHook = NULL;
-		}
-			//SvcFlagsApplyCListIcons();
-			//RemoveExtraImages();
-			CallFunctionBuffered(RemoveExtraImages,0,FALSE,EXTRAIMAGE_REFRESHDELAY);
+		if (!hApplyIconHook)
+			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,		OnCListApplyIcons);
+
+		if (!hSettingChangedHook)
+			hSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,	OnContactSettingChanged);
 	}
 }
 
@@ -717,15 +598,10 @@ void SvcFlagsLoadModule()
  *
  * @return	nothing
  **/
-void SvcFlagsOnModulesLoaded() {
-	//use ExtraIconsService ?
-	if ( myGlobals.ExtraIconsServiceExist) {
-		SvcFlagsEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
-	}
-	//use Clist ExtraImageService
-	else {
-		SvcFlagsEnableExtraIcons(gFlagsOpts.bShowExtraImgFlag? gFlagsOpts.idExtraColumn : -1, FALSE);
-	}
+void SvcFlagsOnModulesLoaded() 
+{
+	SvcFlagsEnableExtraIcons(DB::Setting::GetByte(SET_CLIST_EXTRAICON_FLAGS2, 0), FALSE);
+
 	/* Status Icon */
 	if(myGlobals.MsgAddIconExist)
 		hMsgWndEventHook = HookEvent(ME_MSG_WINDOWEVENT, OnMsgWndEvent);
@@ -744,7 +620,6 @@ void SvcFlagsUnloadModule() {
 	UnhookEvent(hRebuildIconsHook);
 	UnhookEvent(hApplyIconHook);
 	UnhookEvent(hIconsChangedHook);
-	UnhookEvent(hExtraIconSvcHook);
 	mir_free(phExtraImageList);		/* does NULL check */
 	//Uninit message winsow
 	UnhookEvent(hMsgWndEventHook);

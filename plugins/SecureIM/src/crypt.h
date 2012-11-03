@@ -139,8 +139,6 @@ BOOL isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM=FALSE);
 
 // crypt_icons.cpp
 HICON mode2icon(int,int);
-HICON mode2icon2(int,int); // создает КОПИЮ иконки, которую надо разрушить
-IconExtraColumn mode2iec(int);
 void RefreshContactListIcons(void);
 void ShowStatusIcon(HANDLE,UINT);
 void ShowStatusIcon(HANDLE);

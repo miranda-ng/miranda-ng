@@ -21,10 +21,6 @@
     <Filter Include="Miranda Bits">
       <UniqueIdentifier>{33754d1e-5911-4ebf-bbb2-f7f9ac930bb5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Documentation">
-      <UniqueIdentifier>{a21400e8-a7db-41a3-9bae-b2f9e0bde49a}</UniqueIdentifier>
-      <Extensions>.txt</Extensions>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{b50a315e-0455-4a42-8aa6-e73618237ff3}</UniqueIdentifier>
     </Filter>

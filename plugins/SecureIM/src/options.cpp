@@ -4,8 +4,6 @@
 #define RSASIZE (4096+1)
 
 BOOL bChangeSortOrder = false;
-const char *szAdvancedIcons[] = {"None", "Email", "Protocol", "SMS", "Advanced 1", "Advanced 2", "Web", "Client", "VisMode", "Advanced 6", "Advanced 7", 0};
-
 
 BOOL hasKey(pUinKey ptr) {
 	BOOL ret = 0;
@@ -24,7 +22,6 @@ BOOL hasKey(pUinKey ptr) {
 	}
 	return ret;
 }
-
 
 void TC_InsertItem(HWND hwnd, WPARAM wparam, TCITEM *tci) {
 	if ( bCoreUnicode ) {
@@ -268,9 +265,6 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 			  lvc.cx = iColWidth[i];
 			  LV_InsertColumn(hLV, i, &lvc);
 		  }
-		  for (i = 0; szAdvancedIcons[i]; i++) {
-			SendMessage(GetDlgItem(hDlg, IDC_ADVICON), CB_ADDSTRING, 0, (LPARAM) Translate(szAdvancedIcons[i]));
-		  }
 
 		  RefreshGeneralDlg(hDlg,TRUE);
 		  EnableWindow(hLV, true);
@@ -442,7 +436,6 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case IDC_SCM:
 		  	case IDC_DGP:
 		  	case IDC_OKT:
-		  	case IDC_ADVICON:
 				break;
 
 			default:
@@ -1131,12 +1124,6 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 	SendMessage(GetDlgItem(hDlg,IDC_AAK),BM_SETCHECK,(bAAK)?BST_CHECKED:BST_UNCHECKED,0L);
 	SendMessage(GetDlgItem(hDlg,IDC_MCM),BM_SETCHECK,(bMCM)?BST_CHECKED:BST_UNCHECKED,0L);
 
-	// Advanced
-	SendMessage(GetDlgItem(hDlg, IDC_ADVICON), CB_SETCURSEL, bADV, 0);
-	if ( g_hCLIcon ) {
-		EnableWindow(GetDlgItem(hDlg, IDC_ADVICON), false);
-	}
-
 	// Select {OFF,PGP,GPG}
 	SendMessage(GetDlgItem(hDlg,IDC_PGP),BM_SETCHECK,bPGP?BST_CHECKED:BST_UNCHECKED,0L);
 	SendMessage(GetDlgItem(hDlg,IDC_GPG),BM_SETCHECK,bGPG?BST_CHECKED:BST_UNCHECKED,0L);
@@ -1376,10 +1363,6 @@ void ResetGeneralDlg(HWND hDlg) {
 	SendMessage(GetDlgItem(hDlg,IDC_AIP),BM_SETCHECK,BST_UNCHECKED,0L);
 	SendMessage(GetDlgItem(hDlg,IDC_MCM),BM_SETCHECK,BST_UNCHECKED,0L);
 
-//	for(int i=0;i<ADV_CNT;i++)
-//		SendMessage(GetDlgItem(hDlg,IDC_ADV1+i),BM_SETCHECK,(i==0)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg, IDC_ADVICON), CB_SETCURSEL, 0, 0);
-
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg,IDC_STD_USERLIST);
 	ListView_DeleteAllItems(hLV);
@@ -1461,7 +1444,6 @@ void ApplyGeneralSettings(HWND hDlg) {
 	bNOL = (SendMessage(GetDlgItem(hDlg, IDC_NOL),BM_GETCHECK,0L,0L)==BST_CHECKED);
 	bAAK = (SendMessage(GetDlgItem(hDlg, IDC_AAK),BM_GETCHECK,0L,0L)==BST_CHECKED);
 	bMCM = (SendMessage(GetDlgItem(hDlg, IDC_MCM),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	bADV = (BYTE)SendMessage(GetDlgItem(hDlg, IDC_ADVICON), CB_GETCURSEL, 0, 0);
 
 	SetFlags();
 

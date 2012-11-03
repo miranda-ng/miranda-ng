@@ -152,8 +152,6 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	void __cdecl OnRenameGroup( DBCONTACTWRITESETTING* cws, HANDLE hContact );
 	int  __cdecl OnUserInfoInit( WPARAM, LPARAM );
 
-	int  __cdecl CListMW_ExtraIconsRebuild( WPARAM, LPARAM );
-	int  __cdecl CListMW_ExtraIconsApply( WPARAM, LPARAM );
 	int  __cdecl OnPreBuildStatusMenu( WPARAM, LPARAM );
 
 	//====| Data |========================================================================

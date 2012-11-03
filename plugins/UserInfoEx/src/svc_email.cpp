@@ -137,14 +137,6 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
  * Event Handler functions
  ***********************************************************************************************************/
 
-static INT OnCListRebuildIcons(WPARAM wParam, LPARAM lParam)
-{
-	HICON hIcon		= IcoLib_GetIcon(ICO_BTN_EMAIL);
-	ghExtraIconDef	= (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-	Skin_ReleaseIcon(hIcon);
-	return 0;
-}
-
 /**
  * Notification handler for clist extra icons to be applied for a contact.
  *
@@ -155,34 +147,12 @@ static INT OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
 
-	if (!myGlobals.ExtraIconsServiceExist)
-	{
-		IconExtraColumn iec;
-
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.ColumnType = EXTRA_ICON_EMAIL;
-		if (val) 
-		{
-			iec.hImage = ghExtraIconDef;
-			mir_free(val);
-		}
-		else 
-		{
-			iec.hImage = INVALID_HANDLE_VALUE;
-			mir_free(val);
-		}
-		CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM)&iec);
-	}
-	else
-	{
-		EXTRAICON ico;
-		ico.cbSize=sizeof(ico);
-		ico.hContact=(HANDLE)wParam;
-		ico.hExtraIcon=ghExtraIconSvc;
-		ico.icoName=val?ICO_BTN_EMAIL:(char *)0;
-		mir_free(val);
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-	}
+	EXTRAICON ico = { sizeof(ico) };
+	ico.hContact=(HANDLE)wParam;
+	ico.hExtraIcon=ghExtraIconSvc;
+	ico.icoName=val?ICO_BTN_EMAIL:(char *)0;
+	mir_free(val);
+	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 	return 0;
 }
 
@@ -325,26 +295,15 @@ VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 			{
 				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 			}
-			if (myGlobals.ExtraIconsServiceExist)
-			{
-				if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
-				{
-					EXTRAICON_INFO ico;
-					
-					ZeroMemory(&ico, sizeof(ico));
-					ico.cbSize = sizeof(ico);
-					ico.type = EXTRAICON_TYPE_ICOLIB;
-					ico.name = "email";	//must be the same as the group name in extraicon
-					ico.description= "E-mail (uinfoex)";
-					ico.descIcon = ICO_BTN_EMAIL;
-					ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-					ZeroMemory(&ico,sizeof(ico));
-				}
-			}
-			else if (hRebuildIconsHook == NULL) 
-			{
-				hRebuildIconsHook = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnCListRebuildIcons);
-				OnCListRebuildIcons(0, 0);
+
+			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+				EXTRAICON_INFO ico = { sizeof(ico) };
+				ico.type = EXTRAICON_TYPE_ICOLIB;
+				ico.name = "email";	//must be the same as the group name in extraicon
+				ico.description= "E-mail (uinfoex)";
+				ico.descIcon = ICO_BTN_EMAIL;
+				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
+				ZeroMemory(&ico,sizeof(ico));
 			}
 		}
 		else	// E-mail uncheckt
@@ -375,7 +334,6 @@ VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 VOID SvcEMailOnModulesLoaded()
 {
 	SvcEMailEnableExtraIcons(
-		myGlobals.ExtraIconsServiceExist || 
 		DB::Setting::GetByte(SET_CLIST_EXTRAICON_EMAIL, 
 		DEFVAL_CLIST_EXTRAICON_EMAIL), FALSE);
 }

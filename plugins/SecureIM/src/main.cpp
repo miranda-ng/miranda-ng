@@ -355,35 +355,20 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	Sent_NetLog("init extra icons");
 #endif
 	// init extra icons
-	for(int i=0;i<1+MODE_CNT*IEC_CNT;i++) {
-		g_IEC[i].cbSize = sizeof(g_IEC[i]);
-		g_IEC[i].ColumnType = bADV;
-		g_IEC[i].hImage = (HANDLE)-1;
-	}
-
-	// build extra imagelist
-	//onExtraImageListRebuilding(0,0);
+	for(int i=0;i<1+MODE_CNT*IEC_CNT;i++)
+		g_IEC[i] = (HANDLE)-1;
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("hook events");
 #endif
 	AddHookFunction(ME_CLIST_PREBUILDCONTACTMENU, onRebuildContactMenu);
-//	g_hMC = HookEvent(ME_MC_SUBCONTACTSCHANGED, onMC);
 
-	if ( ServiceExists(MS_EXTRAICON_REGISTER)) {
-		g_hCLIcon = ExtraIcon_Register(szModuleName, Translate("SecureIM status"), "sim_cm_est",
-						onExtraImageListRebuilding,
-						onExtraImageApplying);
-	}
-	else {
-		AddHookFunction(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuilding);
-		AddHookFunction(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-	}
+	g_hCLIcon = ExtraIcon_Register(szModuleName, Translate("SecureIM status"), "sim_cm_est", onExtraImageListRebuilding, onExtraImageApplying);
 
 	// hook init options
 	AddHookFunction(ME_OPT_INITIALISE, onRegisterOptions);
 	if(bPopupExists)
-	AddHookFunction(ME_OPT_INITIALISE, onRegisterPopOptions);
+		AddHookFunction(ME_OPT_INITIALISE, onRegisterPopOptions);
 	AddHookFunction(ME_PROTO_ACK, onProtoAck);
 	AddHookFunction(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	AddHookFunction(ME_DB_CONTACT_ADDED, onContactAdded);

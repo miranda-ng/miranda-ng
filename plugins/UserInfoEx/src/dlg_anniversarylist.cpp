@@ -507,7 +507,6 @@ class CAnnivList
 
 								EnableWindow(GetDlgItem(hDlg, EDIT_REMIND), checkState == BST_CHECKED);
 								EnableWindow(GetDlgItem(hDlg, SPIN_REMIND), checkState == BST_CHECKED);
-								EnableWindow(GetDlgItem(hDlg, TXT_REMIND5), checkState == BST_CHECKED);
 								if (pid && pid->_wReminderState != checkState) {
 									pid->_wReminderState = checkState;
 								}

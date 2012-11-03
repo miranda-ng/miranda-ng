@@ -32,7 +32,6 @@
 #include "m_icolib.h"
 
 extern PLUGININFOEX pluginInfo;
-extern HANDLE hExtraXStatus;
 
 #pragma warning(disable:4355)
 
@@ -340,25 +339,14 @@ int CIcqProto::OnModulesLoaded( WPARAM wParam, LPARAM lParam )
 	InitPopUps();
 	InitXStatusItems(FALSE);
 
-	if (hExtraXStatus == NULL)
+	HANDLE hContact = FindFirstContact();
+	while (hContact != NULL)
 	{
-		if (HookProtoEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CIcqProto::CListMW_ExtraIconsRebuild))
-		{ // note if the Hook was successful (e.g. clist_nicer creates them too late)
-			HookProtoEvent(ME_CLIST_EXTRA_IMAGE_APPLY, &CIcqProto::CListMW_ExtraIconsApply);
-			bXStatusExtraIconsReady = 1;
-		}
-	}
-	else
-	{
-		HANDLE hContact = FindFirstContact();
-		while (hContact != NULL)
-		{
-			DWORD bXStatus = getContactXStatus(hContact);
-			if (bXStatus > 0)
-				setContactExtraIcon(hContact, bXStatus);
+		DWORD bXStatus = getContactXStatus(hContact);
+		if (bXStatus > 0)
+			setContactExtraIcon(hContact, bXStatus);
 
-			hContact = FindNextContact(hContact);
-		}
+		hContact = FindNextContact(hContact);
 	}
 
 	return 0;

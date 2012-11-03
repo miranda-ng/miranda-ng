@@ -50,18 +50,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -69,43 +69,6 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_RATE_OPT DIALOGEX 0, 0, 314, 240
-STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
-FONT 8, "MS Shell Dlg", 0, 0, 0x0
-BEGIN
-    COMBOBOX        IDC_ADVICON,95,102,78,81,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP,WS_EX_CLIENTEDGE
-    GROUPBOX        "Plugin settings",IDC_STATIC,46,46,222,118
-    RTEXT           "Use",IDC_STATIC,56,104,33,12
-    LTEXT           "slot to draw the icon",IDC_STATIC,179,104,76,17
-    LTEXT           "Warning: classic contact list plugin doesn`t have ability to use extraicons",
-                    IDC_NOTMODERN_WARNING,77,126,171,18,NOT WS_VISIBLE
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
-BEGIN
-    IDD_RATE_OPT, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 307
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 233
-    END
-END
-#endif    // APSTUDIO_INVOKED
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -121,4 +84,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

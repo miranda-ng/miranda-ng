@@ -22,27 +22,30 @@
 
 HINSTANCE g_hInst;
 
-HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
+HANDLE hIcoLibIconsChanged = NULL;
 HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactSettingChanged = NULL;
 HANDLE hPrebuildContactMenu = NULL;
 HANDLE hExtraIcon = NULL;
 int hLangpack;
 
 INT currentFilter = 0;
-//static int bUseMirandaSettings = 0;
-
-IconExtraColumn g_IECIgnoreFull = {0};
-IconExtraColumn g_IECIgnorePart = {0};
-IconExtraColumn g_IECIgnoreMess = {0};
-IconExtraColumn g_IECClear = {0};
-
-
-
 
 INT clistIcon = 0; //Icon slot to use
-//DWORD dMask = IGNOREEVENT_USERONLINE; // by default hide online notification
 
-//DWORD dIgnore = 0x0;
+IGNOREITEMS ii[] = {
+	{ LPGENT("All"),            IGNOREEVENT_ALL,           SKINICON_OTHER_FILLEDBLOB },
+	{ LPGENT("Messages"),       IGNOREEVENT_MESSAGE,       SKINICON_EVENT_MESSAGE    },
+	{ LPGENT("URL"),            IGNOREEVENT_URL,           SKINICON_EVENT_URL        },
+	{ LPGENT("Files"),          IGNOREEVENT_FILE,          SKINICON_EVENT_FILE       },
+	{ LPGENT("User Online"),    IGNOREEVENT_USERONLINE,    SKINICON_OTHER_USERONLINE },
+	{ LPGENT("Authorization"),  IGNOREEVENT_AUTHORIZATION, SKINICON_OTHER_MIRANDA    },
+	{ LPGENT("You Were Added"), IGNOREEVENT_YOUWEREADDED,  SKINICON_OTHER_ADDCONTACT },
+	{ LPGENT("Typing Notify"),  IGNOREEVENT_TYPINGNOTIFY,  SKINICON_OTHER_TYPING     }
+};
+
+int nII = SIZEOF(ii);
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -64,7 +67,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRese
    return TRUE;
 }
 
-// плагининфо
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	return &pluginInfo;
@@ -72,126 +74,67 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_IGNORESRATE, MIID_LAST};
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
-{
-   UnhookEvent(hHookModulesLoaded);
-   UnhookEvent(hHookExtraIconsRebuild);
-   UnhookEvent(hHookExtraIconsApply);
-   UnhookEvent(hOptInitialise);
-   UnhookEvent(hSystemOKToExit);
-   if (hIcoLibIconsChanged) UnhookEvent(hIcoLibIconsChanged);
-	if (hContactSettingChanged)
-		UnhookEvent(hContactSettingChanged);
-
-   return 0;
-}
-
+/////////////////////////////////////////////////////////////////////////////////////////
 
 inline BOOL checkState(int type)
 {
 	return ((currentFilter>>(type-1))&1);
 }
 
-
 INT_PTR isIgnored(HANDLE hContact, int type)
 {
-	int i = 0, all = 0, filtered = 0;
+	int all = 0, filtered = 0;
 
-	if (type == IGNOREEVENT_ALL)
-	{
-		int cii = SIZEOF(ii);
-		for (i = 1; i < cii; i++)
-		{
-			if (isIgnored(hContact, ii[i].type))
-			{
-//				checkState(ii[i].type) ? filtered++ : all++;
-				ii[i].filtered ? filtered++ : all++;
-			}
-		}
-		return (all+filtered == cii-1) ? 1 : (all > 0 ? -1 : 0) ;
-	}
-	else
+	if (type != IGNOREEVENT_ALL)
 		return CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, (LPARAM)type);
+
+	for (int i = 1; i < nII; i++)
+		if (isIgnored(hContact, ii[i].type))
+			ii[i].filtered ? filtered++ : all++;
+
+	return (all+filtered == SIZEOF(ii)-1) ? 1 : (all > 0 ? -1 : 0) ;
 }
 
-int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
+void applyExtraImage(HANDLE hContact)
 {
-	HANDLE hContact = (HANDLE)wParam;
 	int ignore = isIgnored(hContact, IGNOREEVENT_ALL);
-	if (hExtraIcon != NULL)
-	{
-		if (ignore == 1)
-		{
+	if (ignore == 1)
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "ignore_full");
-		}
-  	else if (ignore == 0)
-	  {
+	else if (ignore == 0)
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "");
-  	}
-  	else if (isIgnored((HANDLE)wParam, IGNOREEVENT_MESSAGE))
-  	{
+	else if (isIgnored(hContact, IGNOREEVENT_MESSAGE))
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "ignore_mess");
-	  }
-  	else
-	  {
+	else
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "ignore_part");
-  	}
-  }
-  else
-  {
-		if (ignore == 1)
-		{
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECIgnoreFull);
-		}
-		else if (ignore == 0)
-	  {
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECClear);
-	 	}
-		else if (isIgnored((HANDLE)wParam, IGNOREEVENT_MESSAGE))
-		{
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECIgnoreMess);
-		}
-		else
-		{
-			CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECIgnorePart);
-		}
-	}
-  return 0;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
 
-int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
+static struct
 {
-  g_IECIgnoreMess.cbSize = sizeof(IconExtraColumn);
-  g_IECIgnoreMess.ColumnType = clistIcon;
-  g_IECIgnorePart.cbSize = sizeof(IconExtraColumn);
-  g_IECIgnorePart.ColumnType = clistIcon;
-  g_IECIgnoreFull.cbSize = sizeof(IconExtraColumn);
-  g_IECIgnoreFull.ColumnType = clistIcon;
-
-  if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-  {
-      g_IECIgnoreMess.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_mess"), 0);
-      g_IECIgnorePart.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_part"), 0);
-      g_IECIgnoreFull.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("ignore_full"), 0);
-  }
-  return 0;
+	TCHAR*  szDescr;
+	char*  szName;
+	int    defIconID;
+	HANDLE hIconLibItem;
 }
+iconList[] =
+{
+	{ LPGENT( "Full Ignore" ),    "ignore_full", IDI_IFULL  },
+	{ LPGENT( "Partial Ignore" ), "ignore_part", IDI_IPART  },
+	{ LPGENT( "Message Ignore" ), "ignore_mess", IDI_IMESS  },
+};
 
 static VOID init_icolib (void)
 {
-	SKINICONDESC sid = {0};
-	ZeroMemory(&sid, sizeof(sid));
 	TCHAR tszFile[MAX_PATH];
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
-	int i = 0;
-
-	sid.ptszSection = _T(MODULENAME);
 	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszSection = _T(MODULENAME);
 	sid.ptszDefaultFile = tszFile;
 
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		sid.pszName = iconList[i].szName;
 		sid.ptszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
@@ -205,20 +148,17 @@ VOID fill_filter(void)
 
 	currentFilter = bUseMirandaSettings ? DBGetContactSettingDword(NULL, "Ignore", "Default1", 0) : DBGetContactSettingDword(NULL, MODULENAME, "Filter", 0x8);
 
-	int i = 0, cii = SIZEOF(ii);
-
-	for (; i< cii; i++)
-  {
-	  if (checkState((ii[i].type)))
-  		ii[i].filtered =  true;
-  	else
-  		ii[i].filtered =  false;
-  }
+	for (int i=0; i < SIZEOF(ii); i++) {
+		if (checkState((ii[i].type)))
+			ii[i].filtered =  true;
+		else
+			ii[i].filtered =  false;
+	}
 }
 
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
+	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
 	//IcoLib support
 	init_icolib();
@@ -226,59 +166,40 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	hExtraIcon = ExtraIcon_Register("ignore", "IgnoreState", "ignore_full");
 
-	if (hExtraIcon != NULL)
-	{
-		// Set initial value for all contacts
-		HANDLE hContact = db_find_first();
-		while (hContact != NULL)
-		{
-			onExtraImageApplying((WPARAM)hContact, NULL);
-			hContact = db_find_next(hContact);
-		}
-	}
-	else
-	{
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-		hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
-		hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-		onExtraImageListRebuild(0,0);
+	// Set initial value for all contacts
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		applyExtraImage(hContact);
+		hContact = db_find_next(hContact);
 	}
 
 	return 0;
 }
 
-
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
-	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	if (!lstrcmpA(cws->szModule,"Ignore") & !lstrcmpA(cws->szSetting,"Mask1")) {
-		onExtraImageApplying(wParam, lParam);
-	}
-	if ((HANDLE)wParam ==0)
-		if (!lstrcmpA(cws->szModule,MODULENAME) & !lstrcmpA(cws->szSetting,"Filter") ||
-			bUseMirandaSettings && (!lstrcmpA(cws->szModule,"Ignore") & !lstrcmpA(cws->szSetting,"Default1"))
-			) {
+	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
+	HANDLE hContact = (HANDLE)wParam;
+
+	if ( !lstrcmpA(cws->szModule,"Ignore") && !lstrcmpA(cws->szSetting,"Mask1"))
+		applyExtraImage(hContact);
+	else if (hContact == 0) {
+		if (( !lstrcmpA(cws->szModule,MODULENAME) && !lstrcmpA(cws->szSetting,"Filter")) ||
+			(bUseMirandaSettings && !lstrcmpA(cws->szModule,"Ignore") && !lstrcmpA(cws->szSetting,"Default1")))
+		{
 			fill_filter();
 		}
+	}
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
-
-	clistIcon = DBGetContactSettingByte(NULL, MODULENAME, "AdvancedIcon", DefaultSlot);
-
-	g_IECClear.cbSize = sizeof(IconExtraColumn);
-	g_IECClear.ColumnType = clistIcon;
-	g_IECClear.hImage = (HANDLE) -1;
-
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 	return 0;
 }
 

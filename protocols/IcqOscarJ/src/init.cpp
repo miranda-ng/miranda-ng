@@ -33,10 +33,8 @@
 HINSTANCE hInst;
 int hLangpack;
 
-HANDLE hStaticServices[1];
 IcqIconHandle hStaticIcons[4];
-HANDLE hStaticHooks[1];;
-HANDLE hExtraXStatus = NULL;
+HANDLE hExtraXStatus;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
@@ -73,21 +71,12 @@ static PROTO_INTERFACE* icqProtoInit( const char* pszProtoName, const TCHAR* tsz
 	return ppro;
 }
 
-
 static int icqProtoUninit( PROTO_INTERFACE* ppro )
 {
 	g_Instances.remove(( CIcqProto* )ppro);
 	delete ( CIcqProto* )ppro;
 	return 0;
 }
-
-
-static int OnModulesLoaded( WPARAM, LPARAM )
-{
-	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus");
-	return 0;
-}
-
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -109,22 +98,20 @@ extern "C" int __declspec(dllexport) Load(void)
 	InitI18N();
 
 	// Register static services
-	hStaticServices[0] = CreateServiceFunction(ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE, icq_getEventTextMissedMessage);
+	CreateServiceFunction(ICQ_DB_GETEVENTTEXT_MISSEDMESSAGE, icq_getEventTextMissedMessage);
 
-	{
-		// Define global icons
-		char szSectionName[MAX_PATH];
-		null_snprintf(szSectionName, sizeof(szSectionName), "Protocols/%s", ICQ_PROTOCOL_NAME);
+	// Define global icons
+	char szSectionName[MAX_PATH];
+	null_snprintf(szSectionName, sizeof(szSectionName), "Protocols/%s", ICQ_PROTOCOL_NAME);
 
-		TCHAR lib[MAX_PATH];
-		GetModuleFileName(hInst, lib, MAX_PATH);
-		hStaticIcons[ISI_AUTH_REQUEST] = IconLibDefine(LPGEN("Request authorization"), szSectionName, NULL, "req_auth", lib, -IDI_AUTH_ASK);
-		hStaticIcons[ISI_AUTH_GRANT] = IconLibDefine(LPGEN("Grant authorization"), szSectionName, NULL, "grant_auth", lib, -IDI_AUTH_GRANT);
-		hStaticIcons[ISI_AUTH_REVOKE] = IconLibDefine(LPGEN("Revoke authorization"), szSectionName, NULL, "revoke_auth", lib, -IDI_AUTH_REVOKE);
-		hStaticIcons[ISI_ADD_TO_SERVLIST] = IconLibDefine(LPGEN("Add to server list"), szSectionName, NULL, "add_to_server", lib, -IDI_SERVLIST_ADD);
-	}
+	TCHAR lib[MAX_PATH];
+	GetModuleFileName(hInst, lib, MAX_PATH);
+	hStaticIcons[ISI_AUTH_REQUEST] = IconLibDefine(LPGEN("Request authorization"), szSectionName, NULL, "req_auth", lib, -IDI_AUTH_ASK);
+	hStaticIcons[ISI_AUTH_GRANT] = IconLibDefine(LPGEN("Grant authorization"), szSectionName, NULL, "grant_auth", lib, -IDI_AUTH_GRANT);
+	hStaticIcons[ISI_AUTH_REVOKE] = IconLibDefine(LPGEN("Revoke authorization"), szSectionName, NULL, "revoke_auth", lib, -IDI_AUTH_REVOKE);
+	hStaticIcons[ISI_ADD_TO_SERVLIST] = IconLibDefine(LPGEN("Add to server list"), szSectionName, NULL, "add_to_server", lib, -IDI_SERVLIST_ADD);
 
-	hStaticHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus");
 
 	g_MenuInit();
 	return 0;
@@ -139,21 +126,10 @@ extern "C" int __declspec(dllexport) Unload(void)
 	for (i = 0; i < SIZEOF(hStaticIcons); i++)
 		IconLibRemove(&hStaticIcons[i]);
 
-	// Release static event hooks
-	for (i = 0; i < SIZEOF(hStaticHooks); i++)
-		if (hStaticHooks[i])
-			UnhookEvent(hStaticHooks[i]);
-
 	// destroying contact menu
 	g_MenuUninit();
 
-	// Destroy static service functions
-	for (i = 0; i < SIZEOF(hStaticServices); i++)
-		if (hStaticServices[i])
-			DestroyServiceFunction(hStaticServices[i]);
-
 	g_Instances.destroy();
-
 	return 0;
 }
 

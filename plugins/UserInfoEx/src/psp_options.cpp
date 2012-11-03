@@ -138,92 +138,6 @@ static VOID FORCEINLINE ComboBox_AddItemWithData(HWND hCombo, LPTSTR ptszText, L
 }
 
 /**
- * This function fills a combobox with the advanced column names for clist extra icons.
- *
- * @param	hCombo					- the combobox's window handle
- *
- * @return	nothing
- **/
-static VOID ComboBox_FillExtraIcons(HWND hCombo)
-{
-	if (hCombo)
-	{
-		ComboBox_AddItemWithData(hCombo, LPGENT("<none>"), -1);
-
-		/* check if Clist Nicer */
-		if (ServiceExists("CListFrame/SetSkinnedFrame"))
-		{
-			const struct CComboList {
-				INT			nColumn;
-				LPTSTR	ptszName;
-			} ExtraIcons[] = {
-				{ EXTRA_ICON_ADV1, LPGENT("Advanced #1 (ICQ X-Status)")},
-				{ EXTRA_ICON_ADV2, LPGENT("Advanced #2")},
-				{ EXTRA_ICON_ADV3, LPGENT("Advanced #3")},
-				{ EXTRA_ICON_ADV4, LPGENT("Advanced #4")},
-				{ EXTRA_ICON_RES0, LPGENT("Reserved, unused")},
-				{ EXTRA_ICON_RES1, LPGENT("Reserved #1")},
-				{ EXTRA_ICON_RES2, LPGENT("Reserved #2")},
-				{ EXTRA_ICON_CLIENT, LPGENT("Client (fingerprint required)")},
-			};
-
-			for (BYTE i = 0; i < SIZEOF(ExtraIcons); i++)
-			{
-				ComboBox_AddItemWithData(hCombo,
-					TranslateTS(ExtraIcons[i].ptszName), 
-					ExtraIcons[i].nColumn );
-			}
-		}
-		/* check if Clist modern*/
-		else if (ServiceExists("CList/HideContactAvatar")) 
-		{
-			const struct CComboList {
-				INT			nColumn;
-				LPTSTR	ptszName;
-			} ExtraIcons[] = {
-				{ EXTRA_ICON_ADV1, LPGENT("Advanced #1")},
-				{ EXTRA_ICON_ADV2, LPGENT("Advanced #2")},
-				{ EXTRA_ICON_ADV3, LPGENT("Advanced #3")},
-				{ EXTRA_ICON_ADV4, LPGENT("Advanced #4")},
-				{ EXTRA_ICON_CLIENT, LPGENT("Client (fingerprint required)")},
-				{ EXTRA_ICON_PROTO, LPGENT("Protocol")},
-				{ EXTRA_ICON_VISMODE, LPGENT("Visibility/Chat activity")},
-			};
-
-			for (BYTE i = 0; i < SIZEOF(ExtraIcons); i++)
-			{
-				ComboBox_AddItemWithData(hCombo,
-					TranslateTS(ExtraIcons[i].ptszName), 
-					ExtraIcons[i].nColumn );
-			}
-		}
-		/*check if Clist MW*/
-		else if (ServiceExists("CLUI/GetConnectingIconForProtocol"))
-		{
-			const struct CComboList {
-				INT			nColumn;
-				LPTSTR	ptszName;
-			} ExtraIcons[] = {
-				{ EXTRA_ICON_ADV1, LPGENT("Advanced #1")},
-				{ EXTRA_ICON_ADV2, LPGENT("Advanced #2")},
-				{ EXTRA_ICON_ADV3, LPGENT("Advanced #3")},
-				{ EXTRA_ICON_ADV4, LPGENT("Advanced #4")},
-				{ EXTRA_ICON_CLIENT, LPGENT("Client (fingerprint required)")},
-				{ EXTRA_ICON_PROTO, LPGENT("Protocol Type")},
-			};
-
-			for (BYTE i = 0; i < SIZEOF(ExtraIcons); i++)
-			{
-				ComboBox_AddItemWithData(hCombo,
-					TranslateTS(ExtraIcons[i].ptszName), 
-					ExtraIcons[i].nColumn );
-			}
-		}
-		ComboBox_SetCurSel(hCombo, NULL);
-	}
-}
-
-/**
  * This function enables a dialog item
  *
  * @param	hWnd			- the dialog's window handle
@@ -435,9 +349,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 				//enable control if myGlobals.ExtraIconsServiceExist else disable
 				const int idExtraIcons[] = {
 					GROUP_OPT_EXTRAICONS,
-					TXT_OPT_GENDER,			COMBO_OPT_GENDER,
-					/*TXT_OPT_FLAGS,*/			COMBO_OPT_FLAGS,
-//					CHECK_OPT_FLAGSUNKNOWN,	CHECK_OPT_FLAGSMSGSTATUS,
+					TXT_OPT_GENDER,
 					TXT_OPT_DEFAULTICONS,
 					CHECK_OPT_HOMEPAGEICON,	CHECK_OPT_PHONEICON, CHECK_OPT_EMAILICON,
 					CHECK_OPT_ZODIACAVATAR
@@ -450,20 +362,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 #else
 				ShowWindow(GetDlgItem(hDlg, CHECK_OPT_ZODIACAVATAR),SW_HIDE);
 #endif
-
-				// init extra icons options
-				ShowWindow(GetDlgItem(hDlg, TXT_OPT_EXTRAICONS),myGlobals.ExtraIconsServiceExist?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hDlg, TXT_OPT_GENDER),	myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
-				ShowWindow(GetDlgItem(hDlg, COMBO_OPT_GENDER),	myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
-				ShowWindow(GetDlgItem(hDlg, CHECK_OPT_GENDER),	myGlobals.ExtraIconsServiceExist?SW_SHOW:SW_HIDE);
-				ShowWindow(GetDlgItem(hDlg, TXT_OPT_FLAGS),		myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
-				ShowWindow(GetDlgItem(hDlg, COMBO_OPT_FLAGS),	myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
-				if (InitialEnableControls(hDlg, idExtraIcons, SIZEOF(idExtraIcons), myGlobals.HaveCListExtraIcons) && !myGlobals.ExtraIconsServiceExist) 
-				{
-					ComboBox_FillExtraIcons(GetDlgItem(hDlg, COMBO_OPT_GENDER));
-					ComboBox_FillExtraIcons(GetDlgItem(hDlg, COMBO_OPT_FLAGS));
-				}
-
 				SendNotify_InfoChanged(hDlg);
 			}
 			return TRUE;
@@ -489,20 +387,10 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 						}
 
 						// extra icon settings
-						if (!myGlobals.ExtraIconsServiceExist)
-						{
-							ComboBox_SetCurSelByItemDataPtr(GetDlgItem(hDlg, COMBO_OPT_GENDER),
-								(LPARAM)DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER, DEFVAL_CLIST_EXTRAICON_GENDER));
-							ComboBox_SetCurSelByItemDataPtr(GetDlgItem(hDlg, COMBO_OPT_FLAGS),
-								(LPARAM)DB::Setting::GetByte(MODNAMEFLAGS,"ExtraImgFlagColumn", SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT));
-						}
-						else
-						{
-							DBGetCheckBtn(hDlg, CHECK_OPT_GENDER,	SET_CLIST_EXTRAICON_GENDER2, 0);
-						}
-						DBGetCheckBtn (hDlg, CHECK_OPT_HOMEPAGEICON,	SET_CLIST_EXTRAICON_HOMEPAGE,	DEFVAL_CLIST_EXTRAICON_HOMEPAGE);
-						DBGetCheckBtn (hDlg, CHECK_OPT_EMAILICON,		SET_CLIST_EXTRAICON_EMAIL,		DEFVAL_CLIST_EXTRAICON_EMAIL);
-						DBGetCheckBtn (hDlg, CHECK_OPT_PHONEICON,		SET_CLIST_EXTRAICON_PHONE,		DEFVAL_CLIST_EXTRAICON_PHONE);
+						DBGetCheckBtn(hDlg, CHECK_OPT_GENDER,        SET_CLIST_EXTRAICON_GENDER2, 0);
+						DBGetCheckBtn(hDlg, CHECK_OPT_HOMEPAGEICON,  SET_CLIST_EXTRAICON_HOMEPAGE,	DEFVAL_CLIST_EXTRAICON_HOMEPAGE);
+						DBGetCheckBtn(hDlg, CHECK_OPT_EMAILICON,     SET_CLIST_EXTRAICON_EMAIL,		DEFVAL_CLIST_EXTRAICON_EMAIL);
+						DBGetCheckBtn(hDlg, CHECK_OPT_PHONEICON,     SET_CLIST_EXTRAICON_PHONE,		DEFVAL_CLIST_EXTRAICON_PHONE);
 						CheckDlgButton(hDlg, CHECK_OPT_FLAGSUNKNOWN,	gFlagsOpts.bUseUnknownFlag);
 						CheckDlgButton(hDlg, CHECK_OPT_FLAGSMSGSTATUS,	gFlagsOpts.bShowStatusIconFlag);
 
@@ -546,32 +434,7 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 							FlagsMsgWndChange++;
 						}
 
-						if (!myGlobals.ExtraIconsServiceExist)
-						{
-							// Enable/Disable extra icon gender modules and write new values to database
-							BYTE bOldColumn = DB::Setting::GetByte(SET_CLIST_EXTRAICON_GENDER, DEFVAL_CLIST_EXTRAICON_GENDER);
-							BYTE bNewColumn = (BYTE)ComboBox_GetItemData(
-								GetDlgItem(hDlg,COMBO_OPT_GENDER),
-								SendDlgItemMessage(hDlg, COMBO_OPT_GENDER, CB_GETCURSEL, NULL, NULL));
-							if (bOldColumn != bNewColumn) {
-								ClearAllExtraIcons(bOldColumn);
-								SvcGenderEnableExtraIcons(bNewColumn, TRUE);
-							}
-
-							// Enable/Disable extra icon Flags and write new values to database
-							bNewColumn = (BYTE)ComboBox_GetItemData(
-								GetDlgItem(hDlg,COMBO_OPT_FLAGS),
-								SendDlgItemMessage(hDlg, COMBO_OPT_FLAGS, CB_GETCURSEL, NULL, NULL));
-							if (gFlagsOpts.idExtraColumn != bNewColumn ||
-								gFlagsOpts.bShowExtraImgFlag!=(bNewColumn!=((BYTE)-1))) {
-								SvcFlagsEnableExtraIcons(bNewColumn, TRUE);
-								FlagsClistChange++;
-							}
-						}
-						else
-						{
-							SvcGenderEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER)? 1:-1, TRUE);
-						}
+						SvcGenderEnableExtraIcons(IsDlgButtonChecked(hDlg, CHECK_OPT_GENDER)? 1:-1, TRUE);
 
 						if(FlagsClistChange)  EnsureExtraImages();
 						if(FlagsMsgWndChange) UpdateStatusIcons(NULL);
@@ -593,15 +456,6 @@ static INT_PTR CALLBACK DlgProc_CommonOpts(HWND hDlg, UINT uMsg, WPARAM wParam, 
 			{
 				switch (LOWORD(wParam)) 
 				{
-					case COMBO_OPT_GENDER:
-					case COMBO_OPT_FLAGS:
-						{
-							if (HIWORD(wParam) == CBN_SELCHANGE && bInitialized) 
-							{
-								NotifyParentOfChange(hDlg);
-							}
-						}
-						break;
 					case CHECK_OPT_MI_MAIN:
 					case CHECK_OPT_MI_CONTACT:
 					case CHECK_OPT_MI_GROUP:
@@ -900,8 +754,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 				TranslateDialogDefault(hDlg);
 
-				ShowWindow(GetDlgItem(hDlg, TXT_REMIND5), myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
-				ShowWindow(GetDlgItem(hDlg, EDIT_EXTRAICON), myGlobals.ExtraIconsServiceExist?SW_HIDE:SW_SHOW);
 				ShowWindow(GetDlgItem(hDlg, CHECK_REMIND_SECURED), myGlobals.UseDbxTree?SW_HIDE:SW_SHOW);
 
 				SendDlgItemMessage(hDlg, ICO_BIRTHDAY, STM_SETIMAGE, IMAGE_ICON, (LPARAM)IcoLib_GetIcon(ICO_DLG_ANNIVERSARY));
@@ -913,8 +765,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 				SendDlgItemMessage(hDlg, SPIN_REMIND2, UDM_SETRANGE32, 1, 8760);
 				SendDlgItemMessage(hDlg, EDIT_REMIND_SOUNDOFFSET, EM_LIMITTEXT, 2, 0);
 				SendDlgItemMessage(hDlg, SPIN_REMIND_SOUNDOFFSET, UDM_SETRANGE32, 0, 50);
-
-				ComboBox_FillExtraIcons(GetDlgItem(hDlg, EDIT_EXTRAICON));
 
 				if (hCtrl = GetDlgItem(hDlg, EDIT_REMIND_ENABLED)) 
 				{
@@ -955,16 +805,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 						SetDlgItemInt(hDlg, EDIT_REMIND, DB::Setting::GetWord(NULL, MODNAME, SET_REMIND_OFFSET, DEFVAL_REMIND_OFFSET), FALSE);
 						SetDlgItemInt(hDlg, EDIT_REMIND_SOUNDOFFSET, DB::Setting::GetByte(SET_REMIND_SOUNDOFFSET, DEFVAL_REMIND_SOUNDOFFSET), FALSE);
 						SetDlgItemInt(hDlg, EDIT_REMIND2, DB::Setting::GetWord(NULL, MODNAME, SET_REMIND_NOTIFYINTERVAL, DEFVAL_REMIND_NOTIFYINTERVAL), FALSE);
-						if (!myGlobals.ExtraIconsServiceExist) {
-							for (int i = 0; i < ComboBox_GetCount(GetDlgItem(hDlg, EDIT_EXTRAICON)); i++)
-							{
-								if ((BYTE)ComboBox_GetItemData(GetDlgItem(hDlg,EDIT_EXTRAICON),i) == DB::Setting::GetByte(SET_REMIND_EXTRAICON, 1))
-								{
-									SendDlgItemMessage(hDlg, EDIT_EXTRAICON, CB_SETCURSEL, i, NULL);
-									break;
-								}
-							}
-						}
+
 						SendDlgItemMessage(hDlg, EDIT_BIRTHMODULE, CB_SETCURSEL, DB::Setting::GetByte(SET_REMIND_BIRTHMODULE, DEFVAL_REMIND_BIRTHMODULE), NULL);
 						{
 							MTime mtLast;
@@ -983,7 +824,7 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 
 				case PSN_APPLY:
 					{
-						BYTE bColumn, bNewVal;
+						BYTE bNewVal;
 						BOOLEAN bReminderCheck = FALSE;
 
 						// save checkbox options
@@ -1014,18 +855,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							}
 						}
 
-						// save new clist extra icon
-						bColumn = DB::Setting::GetByte(SET_REMIND_EXTRAICON, 1);
-						bNewVal = (BYTE)ComboBox_GetItemData(
-							GetDlgItem(hDlg,EDIT_EXTRAICON),
-							SendDlgItemMessage(hDlg, EDIT_EXTRAICON, CB_GETCURSEL, NULL, NULL));
-						if (bColumn != bNewVal) 
-						{
-							ClearAllExtraIcons(bColumn);
-							DB::Setting::WriteByte(SET_REMIND_EXTRAICON, bNewVal);
-							bReminderCheck = TRUE;
-						}
-
 						// update current reminder state
 						bNewVal = (BYTE)SendDlgItemMessage(hDlg, EDIT_REMIND_ENABLED, CB_GETCURSEL, NULL, NULL);
 						if (DB::Setting::GetByte(SET_REMIND_ENABLED, 1) != bNewVal) 
@@ -1033,7 +862,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 							DB::Setting::WriteByte(SET_REMIND_ENABLED, bNewVal);
 							if (bNewVal == REMIND_OFF) 
 							{
-								ClearAllExtraIcons(bColumn);
 								SvcReminderEnable(FALSE);
 								bReminderCheck = FALSE;
 							}
@@ -1070,20 +898,12 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 								
 								EnableControls(hDlg, idCtrl, SIZEOF(idCtrl), bEnabled);
 								bEnabled &= myGlobals.HaveCListExtraIcons;
-
-								EnableDlgItem(hDlg, TXT_REMIND5, bEnabled);
-								EnableDlgItem(hDlg, EDIT_EXTRAICON, bEnabled);
 							}
 						}
 
-					case EDIT_EXTRAICON:
 					case EDIT_BIRTHMODULE:
-						{
-							if (bInitialized && HIWORD(wParam) == CBN_SELCHANGE) 
-							{
-								NotifyParentOfChange(hDlg);
-							}
-						}
+						if (bInitialized && HIWORD(wParam) == CBN_SELCHANGE) 
+							NotifyParentOfChange(hDlg);
 						break;
 
 					case CHECK_REMIND_MI:
@@ -1091,12 +911,8 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 					case CHECK_REMIND_VISIBLEONLY:
 					case CHECK_REMIND_STARTUP:
 					case CHECK_REMIND_SECURED:
-						{
-							if (bInitialized && HIWORD(wParam) == BN_CLICKED) 
-							{
-								NotifyParentOfChange(hDlg);
-							}
-						}
+						if (bInitialized && HIWORD(wParam) == BN_CLICKED) 
+							NotifyParentOfChange(hDlg);
 						break;
 
 					/*

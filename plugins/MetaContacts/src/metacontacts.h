@@ -237,7 +237,6 @@ extern POINT menuMousePoint;
 extern BOOL message_window_api_enabled;
 
 #define MAX_PROTOCOLS	20
-extern int proto_count;
 extern char proto_names[MAX_PROTOCOLS * 128];
 
 // used for the 'jabber' hack - i.e. hide contacts instead of moving them to the hidden group
