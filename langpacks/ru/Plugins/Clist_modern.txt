@@ -87,6 +87,8 @@
 После заголовка
 [Client area margins]
 Границы списка контактов
+[Translucency options (Windows 2000/XP+)]
+Настройки прозрачности списка контактов
 [Enable drop shadow (restart required)]
 Включить тень (нужен перезапуск)
 [Enable Aero Glass (Vista)]
@@ -240,7 +242,7 @@
 Выравнивать значки слева
 [Align right items to right]
 Выравнивать значки справа
-[Compact mode\n(Show avatars and additional text\non selected contacts only)]
+[Compact mode\n(Show avatars and additional text on selected contacts only)]
 Компактный режим\n(Показывать аватары и дополнительный текст только на выбранных контактах)
 
 ;Аватар

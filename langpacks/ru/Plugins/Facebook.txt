@@ -121,7 +121,7 @@
 Проверить запросы дружбы
 [Check Newsfeeds]
 Проверить новости
-[Refresh buddy list]
+[Refresh Buddy List]
 Обновить список друзей
 [Checking friend requests...]
 Проверка запросов дружбы...
