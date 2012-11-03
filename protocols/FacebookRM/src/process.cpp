@@ -755,7 +755,6 @@ void FacebookProto::SearchAckThread(void *targ)
 
 			std::string::size_type pos = 0;
 			std::string::size_type pos2 = 0;
-			bool last = false;
 
 			while ((pos = items.find("<td class=\"pic\">", pos)) != std::string::npos) {
 				std::string item = items.substr(pos, items.find("</tr>", pos) - pos);
