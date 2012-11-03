@@ -82,20 +82,19 @@ void FacebookProto::ChangeStatus(void*)
 
 		ResetEvent(update_loop_lock_);
 
-		if ( NegotiateConnection( ))
-		{			
-			facy.last_feeds_update_ = ::time( NULL );
-
-			facy.home();
+		if (NegotiateConnection() && facy.home())
+		{		
 			facy.reconnect();
-
 			facy.load_friends();
 
 			// Process Friends requests
 			ForkThread( &FacebookProto::ProcessFriendRequests, this, NULL );
 
-			if (getByte(FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
-				ForkThread( &FacebookProto::ProcessUnreadMessages, this );
+			// Get unread messages
+			ForkThread( &FacebookProto::ProcessUnreadMessages, this );
+
+			// Get notifications
+			ForkThread( &FacebookProto::ProcessNotifications, this );
 
 			setDword( "LogonTS", (DWORD)time(NULL));
 			ForkThread( &FacebookProto::UpdateLoop,  this );
@@ -179,6 +178,9 @@ bool FacebookProto::NegotiateConnection( )
 		facy.cookies["datr"] = dbv.pszVal;
 		DBFreeVariant(&dbv);
 	}
+
+	// Refresh last time of feeds update
+	facy.last_feeds_update_ = ::time(NULL);
 
 	// Get info about secured connection
 	facy.https_ = DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_FORCE_HTTPS, DEFAULT_FORCE_HTTPS ) != 0;

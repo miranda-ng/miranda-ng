@@ -227,6 +227,7 @@ DWORD facebook_client::choose_security_level( int request_type )
 
 //	case FACEBOOK_REQUEST_LOGOUT:
 //	case FACEBOOK_REQUEST_HOME:
+//	case FACEBOOK_REQUEST_DTSG:
 //	case FACEBOOK_REQUEST_BUDDY_LIST:
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:
 //	case FACEBOOK_REQUEST_LOAD_REQUESTS:
@@ -275,6 +276,7 @@ int facebook_client::choose_method( int request_type )
 		return REQUEST_POST;
 
 //	case FACEBOOK_REQUEST_HOME:
+//	case FACEBOOK_REQUEST_DTSG:
 //	case FACEBOOK_REQUEST_MESSAGES_RECEIVE:
 //	case FACEBOOK_REQUEST_FEEDS:
 //	case FACEBOOK_REQUEST_NOTIFICATIONS:
@@ -310,13 +312,14 @@ std::string facebook_client::choose_server( int request_type, std::string* data,
 		return server;
 	}
 
+	case FACEBOOK_REQUEST_HOME:
+	case FACEBOOK_REQUEST_DTSG:
 	case FACEBOOK_REQUEST_APPROVE_FRIEND:
 	case FACEBOOK_REQUEST_LOAD_REQUESTS:
 	case FACEBOOK_REQUEST_SEARCH:
 		return FACEBOOK_SERVER_MOBILE;
 
 //	case FACEBOOK_REQUEST_LOGOUT:
-//	case FACEBOOK_REQUEST_HOME:
 //	case FACEBOOK_REQUEST_BUDDY_LIST:
 //	case FACEBOOK_REQUEST_LOAD_FRIENDS:
 //	case FACEBOOK_REQUEST_FEEDS:
@@ -353,7 +356,10 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 		return "/logout.php";
 
 	case FACEBOOK_REQUEST_HOME:
-		return "/home.php?_fb_noscript=1";
+		return "/profile.php?v=edit";
+
+	case FACEBOOK_REQUEST_DTSG:
+		return "/editprofile.php?edit=current_city&type=basic";
 
 	case FACEBOOK_REQUEST_BUDDY_LIST:
 		return "/ajax/chat/buddy_list.php?__a=1";
@@ -754,7 +760,17 @@ bool facebook_client::home( )
 {
 	handle_entry( "home" );
 
-	http::response resp = flap( FACEBOOK_REQUEST_HOME );
+
+	// get fb_dtsg
+	http::response resp = flap( FACEBOOK_REQUEST_DTSG );
+
+	this->dtsg_ = utils::text::source_get_value( &resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"" );
+	parent->Log("      Got self dtsg: %s", this->dtsg_.c_str());
+
+	if (this->dtsg_.empty())
+		return false;
+		
+	resp = flap( FACEBOOK_REQUEST_HOME );
 
 	// Process result data
 	validate_response(&resp);
@@ -763,18 +779,11 @@ bool facebook_client::home( )
 	{
 	case HTTP_CODE_OK:
 	{		
-		if ( resp.data.find( "id=\"navAccountName\"" ) != std::string::npos )
-		{ // Backup for old fb version
-			// Get real_name
-			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 2, " id=\"navAccountName\">", "</a" )) );
-			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NAME,this->self_.real_name.c_str());
-			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NICK,this->self_.real_name.c_str());
-			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
-		} else if ( resp.data.find("id=\"pageNav\"") != std::string::npos ) {
-			// Get real_name
-			this->self_.real_name = utils::text::remove_html( utils::text::special_expressions_decode( utils::text::source_get_value( &resp.data, 3, " class=\"headerTinymanName\"", ">", "</a" )) );
-			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NAME,this->self_.real_name.c_str());
-			DBWriteContactSettingUTF8String(NULL,parent->m_szModuleName,FACEBOOK_KEY_NICK,this->self_.real_name.c_str());
+		// Get real_name
+		this->self_.real_name = utils::text::source_get_value( &resp.data, 2, "<strong class=\"profileName\">", "</strong>" );
+		if (!this->self_.real_name.empty()) {
+			DBWriteContactSettingUTF8String(NULL, parent->m_szModuleName, FACEBOOK_KEY_NAME, this->self_.real_name.c_str());
+			DBWriteContactSettingUTF8String(NULL, parent->m_szModuleName, FACEBOOK_KEY_NICK, this->self_.real_name.c_str());
 			parent->Log("      Got self real name: %s", this->self_.real_name.c_str());
 		} else {
 			client_notify(TranslateT("Something happened to Facebook. Maybe there was some major update so you should wait for an update."));
@@ -782,67 +791,14 @@ bool facebook_client::home( )
 		}
 
 		// Get avatar
-		std::string avatar = utils::text::source_get_value( &resp.data, 4, "fbxWelcomeBoxImg", "src=", "\"", "\"" );
-		if (avatar[avatar.length()-1] == '\\')
-			avatar = avatar.substr(0, avatar.length()-1);
-
-		this->self_.image_url = utils::text::trim( utils::text::special_expressions_decode( avatar ));
+		this->self_.image_url = utils::text::source_get_value( &resp.data, 4, "<i class=", "profpic", "<img src=\"", "\"" );
 		parent->Log("      Got self avatar: %s", this->self_.image_url.c_str());
 		parent->CheckAvatarChange(NULL, this->self_.image_url);
 
-		// Get post_form_id
-		this->post_form_id_ = utils::text::source_get_value( &resp.data, 3, "name=\"post_form_id\"", "value=\"", "\"" );
-		parent->Log("      Got self post form id: %s", this->post_form_id_.c_str());
-
-		// Get dtsg
-		this->dtsg_ = utils::text::source_get_value( &resp.data, 3, "name=\"fb_dtsg\"", "value=\"", "\"" );
-		parent->Log("      Got self dtsg: %s", this->dtsg_.c_str());
-
 		// Get logout hash
-		this->logout_hash_ = utils::text::source_get_value( &resp.data, 2, "<input type=\"hidden\" autocomplete=\"off\" name=\"h\" value=\"", "\"" );
+		this->logout_hash_ = utils::text::source_get_value2( &resp.data, "/logout.php?h=", "&\"" );
 		parent->Log("      Got self logout hash: %s", this->logout_hash_.c_str());
 
-		std::string str_count;
-
-		if (!DBGetContactSettingByte(NULL,parent->m_szModuleName,FACEBOOK_KEY_PARSE_MESSAGES, DEFAULT_PARSE_MESSAGES))
-		{
-			str_count = utils::text::source_get_value( &resp.data, 2, "<span id=\"messagesCountValue\">", "</span>" );
-			if ( str_count.length() && str_count != std::string( "0" ))
-			{
-				std::string message = Translate("Got new messages: ") + str_count;
-
-				TCHAR* tmessage = mir_a2t(message.c_str());
-				parent->NotifyEvent( parent->m_tszUserName, tmessage, NULL, FACEBOOK_EVENT_OTHER, TEXT(FACEBOOK_URL_MESSAGES));
-				mir_free( tmessage );
-			}
-		}
-			
-		str_count = utils::text::source_get_value( &resp.data, 2, "<span id=\"notificationsCountValue\">", "</span>" );
-		if ( str_count.length() && str_count != std::string( "0" ))
-		{
-			// Parse notifications directly to popups
-			ForkThread( &FacebookProto::ProcessNotifications, this->parent, NULL );
-		}
-
-		if (DBGetContactSettingByte(NULL, parent->m_szModuleName, FACEBOOK_KEY_ENABLE_GROUPCHATS, DEFAULT_ENABLE_GROUPCHATS)) {
-			// Get group chats
-			std::string favorites = utils::text::source_get_value( &resp.data, 2, "<div id=\"leftCol\"", "<div id=\"contentCol\"" );
-
-			std::string::size_type pos = 0;
-			while ((pos = favorites.find("href=\"/groups/",pos)) != std::string::npos) {
-				pos += 14;
-				std::string item = favorites.substr(pos, favorites.find("</a>", pos) - pos);
-				std::string id = item.substr(0, item.find("/"));
-		
-				if (!id.empty()) {
-					std::string name = utils::text::source_get_value( &item, 3, "class=\"linkWrap", ">", "</div>" );
-					name = utils::text::special_expressions_decode(utils::text::slashu_to_utf8( name ));
-					parent->Log("      Got new group chat: %s (id: %s)", name.c_str(), id.c_str());
-					if (!name.empty())
-						parent->AddChat(id.c_str(), name.c_str());
-				}
-			}
-		}
 
 		return handle_success( "home" );
 

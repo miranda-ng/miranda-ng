@@ -281,6 +281,15 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.icolibItem = NULL;
 	m_hMenuServicesRoot = Menu_AddProtoMenuItem(&mi);
 
+	CreateProtoService(m_szModuleName,"/RefreshBuddyList",&FacebookProto::RefreshBuddyList,this);
+	strcpy(tDest,"/RefreshBuddyList");
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.pszName = LPGEN("Refresh Buddy List");
+	mi.pszPopupName = LPGEN("Services");
+	mi.icolibItem = NULL;
+	mi.hParentMenu = m_hMenuServicesRoot;
+	Menu_AddProtoMenuItem(&mi);
+
 	CreateProtoService(m_szModuleName,"/CheckFriendRequests",&FacebookProto::CheckFriendRequests,this);
 	strcpy(tDest,"/CheckFriendRequests");
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
@@ -293,15 +302,6 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	strcpy(tDest,"/CheckNewsfeeds");
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
 	mi.pszName = LPGEN("Check Newsfeeds");
-	mi.pszPopupName = LPGEN("Services");
-	mi.icolibItem = NULL;
-	mi.hParentMenu = m_hMenuServicesRoot;
-	Menu_AddProtoMenuItem(&mi);
-
-	CreateProtoService(m_szModuleName,"/RefreshBuddyList",&FacebookProto::RefreshBuddyList,this);
-	strcpy(tDest,"/RefreshBuddyList");
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
-	mi.pszName = LPGEN("Refresh buddy list");
 	mi.pszPopupName = LPGEN("Services");
 	mi.icolibItem = NULL;
 	mi.hParentMenu = m_hMenuServicesRoot;
