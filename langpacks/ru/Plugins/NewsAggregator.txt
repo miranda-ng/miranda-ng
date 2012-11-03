@@ -5,6 +5,8 @@
 ;  Versions: 0.0.3.5 - 0.0.3.23
 ;  URL: http://nightly.miranda.im/x32/newsaggregator.zip
 ;============================================================
+[News Aggregator]
+Каналы новостей
 [Adding new feed]
 Добавить канал
 [Manage feed]
@@ -27,8 +29,6 @@
 &Принимать новости при старте
 [E&xport...]
 &Экспорт
-[RSSNews - Import]
-RSSNews - Импорт
 [Import from:]
 Импорт из:
 [&Go]
@@ -37,8 +37,6 @@ RSSNews - Импорт
 Имеющиеся каналы:
 [Feeds to be imported:]
 Каналы для импорта:
-[RSSNews - Export]
-RSSNews - Экспорт
 [Feeds to be exported:]
 Каналы для экспорта:
 [Export to file:]
@@ -63,8 +61,6 @@ RSSNews - Экспорт
 Экспорт выполнен успешно.
 [There are no items to be exported.]
 Нет новостей для экспорта.
-[RSSNews plugin did not find any feed.]
-Модуль RSSNews не нашел каналов.
 [Importing sucessfully completed.]
 Импорт выполнен успешно.
 [There are no items to be imported.]
@@ -73,8 +69,6 @@ RSSNews - Экспорт
 Ждите...
 [%s\nis a valid feed's address.]
 %s\nдействительно существует.
-[RSSNews found a new feed's address]
-RSSNews нашел новый адрес канала
 [Do you want to use it?]
 Хотите использовать его?
 [is no longer available at the server and no forwarding address is known.]
@@ -87,12 +81,8 @@ RSSNews нашел новый адрес канала
 Запрещённый адрес
 [Authorization will not help and the request should not be repeated.]
 Авторизация не поможет и запрос не будет повторен.
-[RSSNews plugin requires Miranda IM 0.4.0.0 or above. This plugin will be disabled.]
-Модуль RSSnews требует Miranda IM 0.4.0.0 или выше. Этот модуль будет отключён.
 [Feed sucessfully added.]
 Канал успешно добавлен.
-[RSSNews]
-Новости RSS
 [Retrieve &news]
 Принять &новости
 [&Check all feeds]
@@ -119,8 +109,6 @@ ID канала
 Продолжить проверку этого канала
 [&Delete this feed]
 Удалить этот канал
-[RSSNews - Idle feed]
-RSSNews - Канал не обновляется
 [RSS/Atom reader.]
 Модуль для чтения RSS/Atom.
 [&Do not ask again for this feed]
@@ -169,7 +157,15 @@ RSS не смог найти IP-адрес, соответствующий им�
 Максимум новостей:
 [Store news using the following format:]
 Сохранять новости в формате:
-[RSSNews connection]
-Подключение RSSNews
 [Do not &warn me again for this feed]
 Не &предупреждать меня больше для этого канала
+[Check All Feeds]
+Проверить все каналы
+[Add Feed]
+Добавить канал
+[Import Feeds]
+Импорт каналов
+[Export Feeds]
+Экспорт каналов
+[Check Feed]
+Проверить
