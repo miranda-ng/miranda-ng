@@ -115,3 +115,17 @@
 Удалить из друзей
 [Cancel friendship request]
 Отозвать запрос дружбы
+[Check Friends Requests]
+Проверить запросы дружбы
+[Check Newsfeeds]
+Проверить новости
+[Refresh buddy list]
+Обновить список друзей
+[Checking friend requests...]
+Проверка запросов дружбы...
+[Loading newsfeeds...]
+Загрузка новостей...
+[Refreshing buddy list...]
+Обновление списка друзей...
+[Services]
+Службы
