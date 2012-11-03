@@ -147,7 +147,7 @@ BEGIN
     PUSHBUTTON      "Apply",IDC_APPLY,374,283,50,14
     CONTROL         "Tree1",IDC_PAGETREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_NOHSCROLL | WS_BORDER | WS_TABSTOP,4,30,102,249
     CONTROL         "",IDC_TAB,"SysTabControl32",NOT WS_VISIBLE | WS_TABSTOP,111,30,313,249
-	CONTROL         "Switch to simple options",IDC_MODERN,"Hyperlink",WS_TABSTOP,5,284,102,10
+    CONTROL         "Switch to simple options",IDC_MODERN,"Hyperlink",WS_TABSTOP,5,284,102,10
     CTEXT           "Please select a subentry from the list",IDC_STNOPAGE,111,30,313,251,SS_CENTERIMAGE
 END
 
@@ -164,7 +164,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,212,283,50,14
     PUSHBUTTON      "Apply",IDC_APPLY,267,283,50,14
     CONTROL         "",IDC_TAB,"SysTabControl32",NOT WS_VISIBLE | WS_TABSTOP,4,32,313,249
-	CONTROL         "Switch to simple options",IDC_MODERN,"Hyperlink",WS_TABSTOP,347,254,62,10
+    CONTROL         "Switch to simple options",IDC_MODERN,"Hyperlink",WS_TABSTOP,347,254,62,10
     CTEXT           "Please select a subentry from the list",IDC_STNOPAGE,4,30,313,251,SS_CENTERIMAGE
     CONTROL         "",IDC_PAGETREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_DISABLEDRAGDROP | TVS_SHOWSELALWAYS | TVS_TRACKSELECT | TVS_NOHSCROLL | NOT WS_VISIBLE | WS_BORDER | WS_TABSTOP,347,86,52,137
 END
@@ -513,8 +513,8 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Menu Objects",IDC_STATIC,5,2,140,99
-    CONTROL         "Tree2",IDC_MENUOBJECTS,"SysTreeView32",TVS_SHOWSELALWAYS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,13,128,82
+    GROUPBOX        "Menu Objects",IDC_STATIC,5,2,140,94
+    CONTROL         "Tree2",IDC_MENUOBJECTS,"SysTreeView32",TVS_SHOWSELALWAYS | WS_BORDER | WS_HSCROLL | WS_TABSTOP,11,13,128,79
     GROUPBOX        "Menu Items",IDC_STATIC,149,2,161,248
     CONTROL         "Tree1",IDC_MENUITEMS,"SysTreeView32",TVS_SHOWSELALWAYS | WS_DISABLED | WS_BORDER | WS_HSCROLL | WS_TABSTOP,156,13,148,212
     GROUPBOX        "Protocol menus",IDC_STATIC,5,100,140,37
@@ -722,19 +722,14 @@ BEGIN
 END
 
 IDD_EI_OPTIONS DIALOGEX 0, 0, 276, 229
-STYLE DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    LTEXT           "Select the extra icons to be shown in the contact list:",
-                    IDC_STATIC,1,9,274,13
-    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS |
-                    TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER |
-                    WS_TABSTOP,1,24,274,160
-    LTEXT           "* only the first %d icons will be shown",
-                    IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
-    LTEXT           "You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)",
-                    IDC_STATIC,1,208,274,20
+    LTEXT           "Select the extra icons to be shown in the contact list:",IDC_STATIC,1,9,274,13
+    CONTROL         "",IDC_EXTRAORDER,"SysTreeView32",TVS_NOTOOLTIPS | TVS_CHECKBOXES | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP,1,24,274,160
+    LTEXT           "* only the first %d icons will be shown",IDC_MAX_ICONS_L,1,190,274,13,NOT WS_VISIBLE
+    LTEXT           "You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)",IDC_STATIC,1,208,274,20
 END
 
 
@@ -796,29 +791,6 @@ BEGIN
         LEFTMARGIN, 4
         TOPMARGIN, 4
         BOTTOMMARGIN, 297
-    END
-
-    IDD_DETAILS, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 233
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 205
-    END
-
-    IDD_INFO_SUMMARY, DIALOG
-    BEGIN
-        LEFTMARGIN, 5
-        RIGHTMARGIN, 217
-        VERTGUIDE, 51
-        VERTGUIDE, 126
-        VERTGUIDE, 170
-        TOPMARGIN, 5
-        BOTTOMMARGIN, 127
-        HORZGUIDE, 22
-        HORZGUIDE, 35
-        HORZGUIDE, 48
-        HORZGUIDE, 62
     END
 
     IDD_INSTALLINI, DIALOG
@@ -921,6 +893,10 @@ BEGIN
         TOPMARGIN, 4
     END
 
+    IDD_OPT_GENMENU, DIALOG
+    BEGIN
+    END
+
     IDD_ACCMGR, DIALOG
     BEGIN
         VERTGUIDE, 7
@@ -961,14 +937,6 @@ BEGIN
         HORZGUIDE, 49
     END
 
-    IDD_FTMGR, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 269
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 248
-    END
-
     IDD_MODERNOPT_FONTS, DIALOG
     BEGIN
         VERTGUIDE, 10
@@ -1001,16 +969,6 @@ BEGIN
         VERTGUIDE, 65
     END
 
-    IDD_MODERNOPT_IDLE, DIALOG
-    BEGIN
-        VERTGUIDE, 10
-        VERTGUIDE, 181
-        HORZGUIDE, 8
-        HORZGUIDE, 22
-        HORZGUIDE, 34
-        HORZGUIDE, 46
-    END
-
     IDD_CHOOSE_FONT_EFFECT, DIALOG
     BEGIN
         HORZGUIDE, 18
@@ -1033,12 +991,12 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include <windows.h>\r\n"
     "#include <winres.h>\r\n"
@@ -1046,7 +1004,7 @@ BEGIN
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -1219,6 +1177,7 @@ BEGIN
     END
 END
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
@@ -1240,3 +1199,4 @@ IDB_SORTCOLDOWN         BITMAP                  "res/arrow_sort_column_down.bmp"
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
