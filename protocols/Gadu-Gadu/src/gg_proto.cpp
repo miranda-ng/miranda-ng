@@ -86,7 +86,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 GGPROTO::~GGPROTO()
 {
 #ifdef DEBUGMODE
-	netlog("gg_proto_uninit(): destroying protocol interface");
+	netlog("~GGPROTO(): destroying protocol interface");
 #endif
 
 	// Destroy modules
@@ -108,6 +108,9 @@ GGPROTO::~GGPROTO()
 	DeleteCriticalSection(&modemsg_mutex);
 	DeleteCriticalSection(&avatar_mutex);
 	DeleteCriticalSection(&sessions_mutex);
+#ifdef DEBUGMODE
+	netlog("~GGPROTO(): DeleteCriticalSections. OK");
+#endif
 
 	// Free status messages
 	if (modemsg.online)    mir_free(modemsg.online);
@@ -144,6 +147,9 @@ int    GGPROTO::SendAwayMsg(HANDLE hContact, HANDLE hProcess, const char *msg) {
 
 HANDLE GGPROTO::AddToList(int flags, PROTOSEARCHRESULT *psr)
 {
+#ifdef DEBUGMODE
+	netlog("AddToList(): id=%s");
+#endif
 	GGSEARCHRESULT *sr = (GGSEARCHRESULT *)psr;
 	uin_t uin;
 
@@ -210,9 +216,10 @@ HICON GGPROTO::GetIcon(int iconIndex)
 
 void __cdecl GGPROTO::cmdgetinfothread(void *hContact)
 {
-	SleepEx(100, FALSE);
-	netlog("gg_cmdgetinfothread(): Failed info retreival.");
+	netlog("cmdgetinfothread(): started. Failed info retreival.");
+	gg_sleep(100, FALSE, "cmdgetinfothread", 103, 1);
 	ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_GETINFO, ACKRESULT_FAILED, (HANDLE) 1, 0);
+	netlog("cmdgetinfothread(): end.");
 }
 
 int GGPROTO::GetInfo(HANDLE hContact, int infoType)
@@ -224,6 +231,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 	{
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 		{
+#ifdef DEBUGMODE
+			netlog("GetInfo(): forkthread 6 GGPROTO::cmdgetinfothread");
+#endif
 			forkthread(&GGPROTO::cmdgetinfothread, hContact);
 			return 1;
 		}
@@ -232,17 +242,20 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		gg_pubdir50_add(req, GG_PUBDIR50_UIN, ditoa((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)));
 		gg_pubdir50_seq_set(req, GG_SEQ_INFO);
 
-		netlog("gg_getinfo(): Requesting user info.", req->seq);
+		netlog("GetInfo(): Requesting user info.", req->seq);
 		if (isonline())
 		{
-			EnterCriticalSection(&sess_mutex);
+			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 48, "sess_mutex", 1);
 			if (!gg_pubdir50(sess, req))
 			{
-				LeaveCriticalSection(&sess_mutex);
+				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 1, "sess_mutex", 1);
+#ifdef DEBUGMODE
+				netlog("GetInfo(): forkthread 7 GGPROTO::cmdgetinfothread");
+#endif
 				forkthread(&GGPROTO::cmdgetinfothread, hContact);
 				return 1;
 			}
-			LeaveCriticalSection(&sess_mutex);
+			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 48, 2, "sess_mutex", 1);
 		}
 	}
 	// Own contact info
@@ -250,6 +263,9 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 	{
 		if (!(req = gg_pubdir50_new(GG_PUBDIR50_READ)))
 		{
+#ifdef DEBUGMODE
+			netlog("GetInfo(): forkthread 8 GGPROTO::cmdgetinfothread");
+#endif
 			forkthread(&GGPROTO::cmdgetinfothread, hContact);
 			return 1;
 		}
@@ -257,20 +273,23 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 		// Add seq
 		gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
 
-		netlog("gg_getinfo(): Requesting owner info.", req->seq);
+		netlog("GetInfo(): Requesting owner info.", req->seq);
 		if (isonline())
 		{
-			EnterCriticalSection(&sess_mutex);
+			gg_EnterCriticalSection(&sess_mutex, "GetInfo", 49, "sess_mutex", 1);
 			if (!gg_pubdir50(sess, req))
 			{
-				LeaveCriticalSection(&sess_mutex);
+				gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 1, "sess_mutex", 1);
+#ifdef DEBUGMODE
+				netlog("GetInfo(): forkthread 9 GGPROTO::cmdgetinfothread");
+#endif
 				forkthread(&GGPROTO::cmdgetinfothread, hContact);
 				return 1;
 			}
-			LeaveCriticalSection(&sess_mutex);
+			gg_LeaveCriticalSection(&sess_mutex, "GetInfo", 49, 2, "sess_mutex", 1);
 		}
 	}
-	netlog("gg_getinfo(): Seq %d.", req->seq);
+	netlog("GetInfo(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
 
 	return 1;
@@ -281,9 +300,12 @@ int GGPROTO::GetInfo(HANDLE hContact, int infoType)
 
 void __cdecl GGPROTO::searchthread(void *)
 {
-	SleepEx(100, FALSE);
-	netlog("gg_searchthread(): Failed search.");
+	netlog("searchthread(): started. Failed search.");
+	gg_sleep(100, FALSE, "searchthread", 104, 1);
 	ProtoBroadcastAck(m_szModuleName, NULL, ACKTYPE_SEARCH, ACKRESULT_FAILED, (HANDLE)1, 0);
+#ifdef DEBUGMODE
+	netlog("searchthread(): end.");
+#endif
 }
 
 HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
@@ -293,6 +315,9 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 
 	gg_pubdir50_t req;
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH))) {
+#ifdef DEBUGMODE
+		netlog("SearchBasic(): forkthread 10 GGPROTO::searchthread");
+#endif
 		forkthread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
@@ -305,15 +330,18 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 
 	mir_free(ida);
 
-	EnterCriticalSection(&sess_mutex);
+	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req))
 	{
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 1, "sess_mutex", 1);
+#ifdef DEBUGMODE
+		netlog("SearchBasic(): forkthread 11 GGPROTO::searchthread");
+#endif
 		forkthread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
-	LeaveCriticalSection(&sess_mutex);
-	netlog("gg_basicsearch(): Seq %d.", req->seq);
+	gg_LeaveCriticalSection(&sess_mutex, "SearchBasic", 50, 2, "sess_mutex", 1);
+	netlog("SearchBasic(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
 
 	return (HANDLE)1;
@@ -337,6 +365,9 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
+#ifdef DEBUGMODE
+		netlog("SearchByName(): forkthread 12 GGPROTO::searchthread");
+#endif
 		forkthread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
@@ -378,16 +409,18 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 		last_crc = crc;
 
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
-
-	EnterCriticalSection(&sess_mutex);
+	gg_EnterCriticalSection(&sess_mutex, "SearchByName", 51, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req))
 	{
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 1, "sess_mutex", 1);
+#ifdef DEBUGMODE
+		netlog("SearchByName(): forkthread 13 GGPROTO::searchthread");
+#endif
 		forkthread(&GGPROTO::searchthread, NULL);
 		return (HANDLE)1;
 	}
-	LeaveCriticalSection(&sess_mutex);
-	netlog("gg_searchbyname(): Seq %d.", req->seq);
+	gg_LeaveCriticalSection(&sess_mutex, "SearchByName", 51, 2, "sess_mutex", 1);
+	netlog("SearchByName(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
 
 	return (HANDLE)1;
@@ -407,6 +440,9 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	if (!(req = gg_pubdir50_new(GG_PUBDIR50_SEARCH)))
 	{
+#ifdef DEBUGMODE
+		netlog("SearchAdvanced(): forkthread 14 GGPROTO::searchthread");
+#endif
 		forkthread(&GGPROTO::searchthread, NULL);
 		return (HWND)1;
 	}
@@ -508,16 +544,19 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 
 	if (isonline())
 	{
-		EnterCriticalSection(&sess_mutex);
+		gg_EnterCriticalSection(&sess_mutex, "SearchAdvanced", 52, "sess_mutex", 1);
 		if (!gg_pubdir50(sess, req))
 		{
-			LeaveCriticalSection(&sess_mutex);
+			gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 1, "sess_mutex", 1);
+#ifdef DEBUGMODE
+			netlog("SearchAdvanced(): forkthread 15 GGPROTO::searchthread");
+#endif
 			forkthread(&GGPROTO::searchthread, NULL);
 			return (HWND)1;
 		}
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SearchAdvanced", 52, 2, "sess_mutex", 1);
 	}
-	netlog("gg_searchbyadvanced(): Seq %d.", req->seq);
+	netlog("SearchAdvanced(): Seq %d.", req->seq);
 	gg_pubdir50_free(req);
 
 	return (HWND)1;
@@ -572,7 +611,7 @@ typedef struct
 
 void __cdecl GGPROTO::sendackthread(void *ack)
 {
-	SleepEx(100, FALSE);
+	gg_sleep(100, FALSE, "sendackthread", 105, 1);
 	ProtoBroadcastAck(m_szModuleName, ((GG_SEQ_ACK *)ack)->hContact,
 		ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE) ((GG_SEQ_ACK *)ack)->seq, 0);
 	mir_free(ack);
@@ -585,9 +624,9 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 	if (msg && isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		int seq;
-		EnterCriticalSection(&sess_mutex);
+		gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
 		seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 		if (!db_get_b(NULL, m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
 		{
 			// Auto-ack message without waiting for server ack
@@ -596,6 +635,9 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 			{
 				ack->seq = seq;
 				ack->hContact = hContact;
+#ifdef DEBUGMODE
+				netlog("SendMsg(): forkthread 16 GGPROTO::sendackthread");
+#endif
 				forkthread(&GGPROTO::sendackthread, ack);
 			}
 		}
@@ -621,15 +663,15 @@ int GGPROTO::SetStatus(int iNewStatus)
 {
 	int nNewStatus = gg_normalizestatus(iNewStatus);
 
-	EnterCriticalSection(&modemsg_mutex);
+	gg_EnterCriticalSection(&modemsg_mutex, "SetStatus", 54, "modemsg_mutex", 1);
 	m_iDesiredStatus = nNewStatus;
-	LeaveCriticalSection(&modemsg_mutex);
+	gg_LeaveCriticalSection(&modemsg_mutex, "SetStatus", 54, 1, "modemsg_mutex", 1);
 
 	// If waiting for connection retry attempt then signal to stop that
 	if (hConnStopEvent) SetEvent(hConnStopEvent);
 
 	if (m_iStatus == nNewStatus) return 0;
-	netlog("gg_setstatus(): PS_SETSTATUS(%d) normalized to %d.", iNewStatus, nNewStatus);
+	netlog("SetStatus(): PS_SETSTATUS(%d) normalized to %d.", iNewStatus, nNewStatus);
 	refreshstatus(nNewStatus);
 
 	return 0;
@@ -642,19 +684,24 @@ void __cdecl GGPROTO::getawaymsgthread(void *hContact)
 {
 	DBVARIANT dbv;
 
-	SleepEx(100, FALSE);
+	netlog("getawaymsgthread(): started");
+	gg_sleep(100, FALSE, "getawaymsgthread", 106, 1);
 	if (!db_get_s(hContact, "CList", GG_KEY_STATUSDESCR, &dbv, DBVT_TCHAR))
 	{
 		ProtoBroadcastAck(m_szProtoName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) dbv.ptszVal);
-		netlog("gg_getawaymsg(): Reading away msg <" TCHAR_STR_PARAM ">.", dbv.ptszVal);
+		netlog("getawaymsgthread(): Reading away msg <" TCHAR_STR_PARAM ">.", dbv.ptszVal);
 		DBFreeVariant(&dbv);
-	}
-	else
+	} else {
 		ProtoBroadcastAck(m_szProtoName, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, (LPARAM) NULL);
+	}
+	netlog("getawaymsgthread(): end");
 }
 
 HANDLE GGPROTO::GetAwayMsg(HANDLE hContact)
 {
+#ifdef DEBUGMODE
+	netlog("GetAwayMsg(): forkthread 17 GGPROTO::getawaymsgthread");
+#endif
 	forkthread(&GGPROTO::getawaymsgthread, hContact);
 	return (HANDLE)1;
 }
@@ -668,9 +715,9 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 	char **szMsg;
 	char *msg = mir_t2a(msgt);
 
-	netlog("gg_setawaymsg(): PS_SETAWAYMSG(%d, \"%s\").", iStatus, msg);
+	netlog("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\").", iStatus, msg);
 
-	EnterCriticalSection(&modemsg_mutex);
+	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
 	// Select proper msg
 	switch(status)
 	{
@@ -690,7 +737,7 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 			szMsg = &modemsg.invisible;
 			break;
 		default:
-			LeaveCriticalSection(&modemsg_mutex);
+			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 1, "modemsg_mutex", 1);
 			mir_free(msg);
 			return 1;
 	}
@@ -701,8 +748,8 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 	{
 		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus)
 		{
-			netlog("gg_setawaymsg(): Message hasn't been changed, return.");
-			LeaveCriticalSection(&modemsg_mutex);
+			netlog("SetAwayMsg(): Message hasn't been changed, return.");
+			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 2, "modemsg_mutex", 1);
 			mir_free(msg);
 			return 0;
 		}
@@ -713,10 +760,10 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 			mir_free(*szMsg);
 		*szMsg = msg && *msg ? mir_strdup(msg) : NULL;
 #ifdef DEBUGMODE
-		netlog("gg_setawaymsg(): Message changed.");
+		netlog("SetAwayMsg(): Message changed.");
 #endif
 	}
-	LeaveCriticalSection(&modemsg_mutex);
+	gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 3, "modemsg_mutex", 1);
 
 	// Change the status if it was desired by PS_SETSTATUS
 	if (status == m_iDesiredStatus)
@@ -736,9 +783,9 @@ int GGPROTO::UserIsTyping(HANDLE hContact, int type)
 	if (!uin || !isonline()) return 0;
 
 	if (type == PROTOTYPE_SELFTYPING_ON || type == PROTOTYPE_SELFTYPING_OFF) {
-		EnterCriticalSection(&sess_mutex);
+		gg_EnterCriticalSection(&sess_mutex, "UserIsTyping", 56, "sess_mutex", 1);
 		gg_typing_notification(sess, uin, (type == PROTOTYPE_SELFTYPING_ON));
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "UserIsTyping", 56, 1, "sess_mutex", 1);
 	}
 
 	return 0;
@@ -772,7 +819,14 @@ int GGPROTO::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 		uninitavatarrequestthread();
 
 		// Stop main connection session thread
+#ifdef DEBUGMODE
+	netlog("OnEvent(): EV_PROTO_ONEXIT: Waiting pth_sess thread.");
+#endif
 		threadwait(&pth_sess);
+#ifdef DEBUGMODE
+	netlog("OnEvent(): EV_PROTO_ONEXIT: Waiting pth_sess thread - OK");
+#endif
+
 		img_shutdown();
 		sessions_closedlg();
 		break;

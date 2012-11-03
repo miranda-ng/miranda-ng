@@ -36,36 +36,42 @@ void __cdecl GGPROTO::remindpasswordthread(void *param)
 	GG_REMIND_PASS *rp = (GG_REMIND_PASS *)param;
 	GGTOKEN token;
 
-#ifdef DEBUGMODE
-	netlog("gg_remindpasswordthread(): Starting.");
-#endif
+	netlog("remindpasswordthread(): Started.");
 	if (!rp || !rp->email || !rp->uin || !strlen(rp->email))
 	{
 		if (rp) free(rp);
+#ifdef DEBUGMODE
+		netlog("remindpasswordthread(): End. err1");
+#endif
 		return;
 	}
 
 	// Get token
-	if (!gettoken(&token)) return;
+	if (!gettoken(&token)){
+#ifdef DEBUGMODE
+		netlog("remindpasswordthread(): End. err2");
+#endif
+		return;
+	}
 
 	if (!(h = gg_remind_passwd3(rp->uin, rp->email, token.id, token.val, 0)))
 	{
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Password could not be reminded because of error:\n\t%s"), _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_remindpasswordthread(): Password could not be reminded because of \"%s\".", strerror(errno));
+		netlog("remindpasswordthread(): Password could not be reminded because of \"%s\".", strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
-		netlog("gg_remindpasswordthread(): Password remind successful.");
+		netlog("remindpasswordthread(): Password remind successful.");
 		MessageBox(NULL, TranslateT("Password was sent to your e-mail."), m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
-#ifdef DEBUGMODE
-	netlog("gg_remindpasswordthread(): End.");
-#endif
 	if (rp) free(rp);
+#ifdef DEBUGMODE
+	netlog("remindpasswordthread(): End.");
+#endif
 }
 
 void GGPROTO::remindpassword(uin_t uin, const char *email)
@@ -74,5 +80,8 @@ void GGPROTO::remindpassword(uin_t uin, const char *email)
 
 	rp->uin = uin;
 	rp->email = email;
+#ifdef DEBUGMODE
+	netlog("remindpassword(): forkthreadex 20 GGPROTO::remindpasswordthread");
+#endif
 	forkthread(&GGPROTO::remindpasswordthread, rp);
 }

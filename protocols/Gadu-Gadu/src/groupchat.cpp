@@ -48,10 +48,10 @@ int GGPROTO::gc_init()
 		gc_enabled = TRUE;
 		// create & hook event
 		mir_snprintf(service, 64, GG_GC_GETCHAT, m_szModuleName);
-		netlog("gg_gc_init(): Registered with groupchat plugin.");
+		netlog("gc_init(): Registered with groupchat plugin.");
 	}
 	else
-		netlog("gg_gc_init(): Cannot register with groupchat plugin !!!");
+		netlog("gc_init(): Cannot register with groupchat plugin !!!");
 
 	return 1;
 }
@@ -140,7 +140,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 	if (gch->pDest->iType == SESSION_TERMINATE)
 	{
 		HANDLE hContact = NULL;
-		netlog("gg_gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->pDest->pszID);
+		netlog("gc_event(): Terminating chat %x, id %s from chat window...", chat, gch->pDest->pszID);
 		// Destroy chat entry
 		free(chat->recipients);
 		list_remove(&chats, chat, 1);
@@ -190,13 +190,13 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		gcevent.time = time(NULL);
 		gcevent.bIsMe = 1;
 		gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-		netlog("gg_gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->pszID, pszText);
+		netlog("gc_event(): Sending conference message to room %s, \"%s\".", gch->pDest->pszID, pszText);
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 		if (pszValT != NULL) mir_free(pszValT);;
 		
-		EnterCriticalSection(&sess_mutex);
+		gg_EnterCriticalSection(&sess_mutex, "gc_event", 57, "sess_mutex", 1);
 		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)pszText);
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "gc_event", 57, 1, "sess_mutex", 1);
 		mir_free(pszText);
 		
 		return 1;
@@ -210,7 +210,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	}
 	char* pszText = mir_t2a(gch->ptszText);
-	netlog("gg_gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, pszText);
+	netlog("gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, pszText);
 	mir_free(pszText);
 
 	return 0;
@@ -236,7 +236,7 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 	GCDEST gcdest = {m_szModuleName, 0, GC_EVENT_ADDGROUP};
 	GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 
-	netlog("gg_gc_getchat(): Count %d.", recipients_count);
+	netlog("gc_getchat(): Count %d.", recipients_count);
 	if (!recipients) return NULL;
 
 	// Look for existing chat
@@ -262,9 +262,9 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 			if (found == recipients_count)
 			{
 				if (chat->ignore)
-					netlog("gg_gc_getchat(): Ignoring existing id %s, size %d.", chat->id, chat->recipients_count);
+					netlog("gc_getchat(): Ignoring existing id %s, size %d.", chat->id, chat->recipients_count);
 				else
-					netlog("gg_gc_getchat(): Returning existing id %s, size %d.", chat->id, chat->recipients_count);
+					netlog("gc_getchat(): Returning existing id %s, size %d.", chat->id, chat->recipients_count);
 				return !(chat->ignore) ? chat->id : NULL;
 			}
 		}
@@ -309,7 +309,7 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 			for(i = 0; i < recipients_count; i++)
 				chat->recipients[i] = recipients[i];
 			if (sender) chat->recipients[i] = sender;
-			netlog("gg_gc_getchat(): Ignoring new chat %s, count %d.", chat->id, chat->recipients_count);
+			netlog("gc_getchat(): Ignoring new chat %s, count %d.", chat->id, chat->recipients_count);
 			list_add(&chats, chat, 0);
 			return NULL;
 		}
@@ -336,7 +336,7 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 	// Create new room
 	if (CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM) &gcwindow))
 	{
-		netlog("gg_gc_getchat(): Cannot create new chat window %s.", chat->id);
+		netlog("gc_getchat(): Cannot create new chat window %s.", chat->id);
 		free(name);
 		free(chat);
 		return NULL;
@@ -364,9 +364,9 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 		else gcevent.ptszNick = TranslateT("Me");
 		gcevent.bIsMe = 1;
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
-		netlog("gg_gc_getchat(): Myself %s: %S (%S) to the list...", gcevent.pszUID, gcevent.ptszNick, gcevent.ptszStatus);
+		netlog("gc_getchat(): Myself %s: %S (%S) to the list...", gcevent.pszUID, gcevent.ptszNick, gcevent.ptszStatus);
 	}
-	else netlog("gg_gc_getchat(): Myself adding failed with uin %d !!!", uin);
+	else netlog("gc_getchat(): Myself adding failed with uin %d !!!", uin);
 
 	// Copy recipient list
 	chat->recipients_count = recipients_count + (sender ? 1 : 0);
@@ -385,14 +385,14 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 			gcevent.ptszNick = TranslateT("'Unknown'");
 		gcevent.bIsMe = 0;
 		gcevent.dwFlags = GC_TCHAR;
-		netlog("gg_gc_getchat(): Added %s: %S (%S) to the list...", gcevent.pszUID, gcevent.ptszNick, gcevent.pszStatus);
+		netlog("gc_getchat(): Added %s: %S (%S) to the list...", gcevent.pszUID, gcevent.ptszNick, gcevent.pszStatus);
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 	}
 	gcdest.iType = GC_EVENT_CONTROL;
 	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gcevent);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gcevent);
 
-	netlog("gg_gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
+	netlog("gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
 	list_add(&chats, chat, 0);
 	return chat->id;
 }
@@ -488,7 +488,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 						char* chat;
 						uin_t* participants = (uin_t*)calloc(count, sizeof(uin_t));
 						HANDLE hItem, hContact = db_find_first();
-						gg->netlog("gg_gc_getchat(): Opening new conference for %d contacts.", count);
+						gg->netlog("gg_gc_openconfdlg(): WM_COMMAND IDOK Opening new conference for %d contacts.", count);
 						while (hContact && i < count)
 						{
 							hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
@@ -649,7 +649,7 @@ int GGPROTO::gc_changenick(HANDLE hContact, char *pszNick)
 	uin_t uin = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
 	if (!uin || !pszNick) return 0;
 
-	netlog("gg_gc_changenick(): Nickname for uin %d changed to %s.", uin, pszNick);
+	netlog("gc_changenick(): Nickname for uin %d changed to %s.", uin, pszNick);
 	// Lookup for chats having this nick
 	for(l = chats; l; l = l->next) {
 		GGGC *chat = (GGGC *)l->data;
@@ -669,7 +669,7 @@ int GGPROTO::gc_changenick(HANDLE hContact, char *pszNick)
 					gcd.pszID = chat->id;
 					gce.pszUID = id;
 					gce.pszText = pszNick;
-					netlog("gg_gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->id, uin, id);
+					netlog("gc_changenick(): Found room %s with uin %d, sending nick change %s.", chat->id, uin, id);
 					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 					break;

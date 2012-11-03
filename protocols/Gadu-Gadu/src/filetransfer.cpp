@@ -35,7 +35,7 @@ void GGPROTO::dccstart()
 	if (exitCode == STILL_ACTIVE)
 	{
 #ifdef DEBUGMODE
-		netlog("gg_dccstart(): DCC thread still active. Exiting...");
+		netlog("dccstart(): DCC thread still active. Exiting...");
 #endif
 		// Signalize mainthread it's started
 		if (hEvent) SetEvent(hEvent);
@@ -45,12 +45,15 @@ void GGPROTO::dccstart()
 	// Check if we wan't direct connections
 	if (!db_get_b(NULL, m_szModuleName, GG_KEY_DIRECTCONNS, GG_KEYDEF_DIRECTCONNS))
 	{
-		netlog("gg_dccstart(): No direct connections setup.");
+		netlog("dccstart(): No direct connections setup.");
 		if (hEvent) SetEvent(hEvent);
 		return;
 	}
 
 	// Start thread
+#ifdef DEBUGMODE
+	netlog("dccstart(): forkthreadex 4 GGPROTO::dccmainthread");
+#endif
 	pth_dcc.hThread = forkthreadex(&GGPROTO::dccmainthread, NULL, &pth_dcc.dwThreadId);
 }
 
@@ -60,7 +63,7 @@ void GGPROTO::dccconnect(uin_t uin)
 	HANDLE hContact = getcontact(uin, 0, 0, NULL);
 	DWORD ip, myuin; WORD port;
 
-	netlog("gg_dccconnect(): Connecting to uin %d.", uin);
+	netlog("dccconnect(): Connecting to uin %d.", uin);
 
 	// If unknown user or not on list ignore
 	if (!hContact) return;
@@ -77,9 +80,9 @@ void GGPROTO::dccconnect(uin_t uin)
 		return;
 
 	// Add client dcc to watches
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dccconnect", 36, "ft_mutex", 1);
 	list_add(&watches, dcc, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dccconnect", 36, 1, "ft_mutex", 1);
 }
 
 //////////////////////////////////////////////////////////
@@ -93,21 +96,25 @@ struct ftfaildata
 void __cdecl GGPROTO::ftfailthread(void *param)
 {
 	struct ftfaildata *ft = (struct ftfaildata *)param;
-	SleepEx(100, FALSE);
-	netlog("gg_ftfailthread(): Sending failed file transfer.");
+	netlog("ftfailthread(): started. Sending failed file transfer.");
+	gg_sleep(100, FALSE, "ftfailthread", 102, 1);
 	ProtoBroadcastAck(m_szModuleName, ft->hContact, ACKTYPE_FILE, ACKRESULT_FAILED, ft->hProcess, 0);
 	free(ft);
+	netlog("ftfailthread(): end.");
 }
 
 HANDLE ftfail(GGPROTO *gg, HANDLE hContact)
 {
 	ftfaildata *ft = (ftfaildata*)malloc(sizeof(struct ftfaildata));
 #ifdef DEBUGMODE
-	gg->netlog("gg_ftfail(): Failing file transfer...");
+	gg->netlog("ftfail(): Failing file transfer...");
 #endif
 	srand(time(NULL));
 	ft->hProcess = (HANDLE)rand();
 	ft->hContact = hContact;
+#ifdef DEBUGMODE
+	gg->netlog("ftfail(): forkthread 5 GGPROTO::ftfailthread");
+#endif
 	gg->forkthread(&GGPROTO::ftfailthread, ft);
 	return ft->hProcess;
 }
@@ -133,28 +140,34 @@ void __cdecl GGPROTO::dccmainthread(void*)
 	// Zero up lists
 	watches = transfers = requests = l = NULL;
 
-	netlog("gg_dccmainthread(): DCC Server Thread Starting");
+	netlog("dccmainthread(): started. DCC Server Thread Starting");
 
 	// Readup number
 	if (!(uin = db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)))
 	{
-		netlog("gg_dccmainthread(): No Gadu-Gadu number specified. Exiting.");
+		netlog("dccmainthread(): No Gadu-Gadu number specified. Exiting.");
 		if (hEvent) SetEvent(hEvent);
+#ifdef DEBUGMODE
+		netlog("dccmainthread(): end 1.");
+#endif
 		return;
 	}
 
 	// Create listen socket on config direct port
 	if (!(dcc = gg_dcc_socket_create(uin, (uint16_t)db_get_w(NULL, m_szModuleName, GG_KEY_DIRECTPORT, GG_KEYDEF_DIRECTPORT))))
 	{
-		netlog("gg_dccmainthread(): Cannot create DCC listen socket. Exiting.");
+		netlog("dccmainthread(): Cannot create DCC listen socket. Exiting.");
 		// Signalize mainthread we haven't start
 		if (hEvent) SetEvent(hEvent);
+#ifdef DEBUGMODE
+		netlog("dccmainthread(): end 2.");
+#endif
 		return;
 	}
 
 	gg_dcc_port = dcc->port;
 	gg_dcc_ip = inet_addr("255.255.255.255");
-	netlog("gg_dccmainthread(): Listening on port %d.", gg_dcc_port);
+	netlog("dccmainthread(): Listening on port %d.", gg_dcc_port);
 
 	// Signalize mainthread we started
 	if (hEvent) SetEvent(hEvent);
@@ -198,15 +211,15 @@ void __cdecl GGPROTO::dccmainthread(void*)
 		if (ret == -1)
 		{
 			if (errno == EBADF)
-				netlog("gg_dccmainthread(): Bad descriptor on select().");
+				netlog("dccmainthread(): Bad descriptor on select().");
 			else if (errno != EINTR)
-				netlog("gg_dccmainthread(): Unknown error on select().");
+				netlog("dccmainthread(): Unknown error on select().");
 			continue;
 		}
 
 		// Process watches (carefull with l)
 		l = watches;
-		EnterCriticalSection(&ft_mutex);
+		gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 		while (l)
 		{
 			struct gg_common *c = (gg_common*)l->data;
@@ -226,7 +239,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 					// Connection broken/closed
 					if (!(e = gg_dcc_socket_watch_fd(dcc)))
 					{
-						netlog("gg_dccmainthread(): Socket closed.");
+						netlog("dccmainthread(): Socket closed.");
 						// Remove socket and _close
 						list_remove(&watches, dcc, 0);
 						gg_dcc_socket_free(dcc);
@@ -235,7 +248,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 						if (dcc == dcc) dcc = NULL;
 						continue;
 					}
-					else netlog("gg_dccmainthread(): Event: %s", ggdebug_eventtype(e));
+					else netlog("dccmainthread(): Event: %s", ggdebug_eventtype(e));
 
 					switch(e->type)
 					{
@@ -274,7 +287,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 						// Connection was successfuly ended
 						case GG_EVENT_DCC_DONE:
-							netlog("gg_dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+							netlog("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
 							// Remove from watches
 							list_remove(&watches, dcc, 0);
 							// Close file & success
@@ -310,22 +323,22 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							switch (e->event.dcc_error)
 							{
 								case GG_ERROR_DCC_HANDSHAKE:
-									netlog("gg_dccmainthread(): Client: %d, Handshake error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, Handshake error.", dcc->peer_uin);
 									break;
 								case GG_ERROR_DCC_NET:
-									netlog("gg_dccmainthread(): Client: %d, Network error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, Network error.", dcc->peer_uin);
 									break;
 								case GG_ERROR_DCC_FILE:
-									netlog("gg_dccmainthread(): Client: %d, File read/write error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, File read/write error.", dcc->peer_uin);
 									break;
 								case GG_ERROR_DCC_EOF:
-									netlog("gg_dccmainthread(): Client: %d, End of file/connection error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, End of file/connection error.", dcc->peer_uin);
 									break;
 								case GG_ERROR_DCC_REFUSED:
-									netlog("gg_dccmainthread(): Client: %d, Connection refused error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, Connection refused error.", dcc->peer_uin);
 									break;
 								default:
-									netlog("gg_dccmainthread(): Client: %d, Unknown error.", dcc->peer_uin);
+									netlog("dccmainthread(): Client: %d, Unknown error.", dcc->peer_uin);
 							}
 							// Don't do anything if it's main socket
 							if (dcc == dcc) break;
@@ -345,7 +358,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 						// Need file acknowledgement
 						case GG_EVENT_DCC_NEED_FILE_ACK:
-							netlog("gg_dccmainthread(): Client: %d, File ack filename \"%s\" size %d.", dcc->peer_uin,
+							netlog("dccmainthread(): Client: %d, File ack filename \"%s\" size %d.", dcc->peer_uin,
 								dcc->file_info.filename, dcc->file_info.size);
 							// Do not watch for transfer until user accept it
 							list_remove(&watches, dcc, 0);
@@ -376,7 +389,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 						// Need client accept
 						case GG_EVENT_DCC_CLIENT_ACCEPT:
-							netlog("gg_dccmainthread(): Client: %d, Client accept.", dcc->peer_uin);
+							netlog("dccmainthread(): Client: %d, Client accept.", dcc->peer_uin);
 							// Check if user is on the list and if it is my uin
 							if (getcontact(dcc->peer_uin, 0, 0, NULL) &&
 								db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, -1) == dcc->uin)
@@ -391,7 +404,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 						case GG_EVENT_DCC_CALLBACK:
 						{
 							int found = 0;
-							netlog("gg_dccmainthread(): Callback from client %d.", dcc->peer_uin);
+							netlog("dccmainthread(): Callback from client %d.", dcc->peer_uin);
 							// Seek for stored callback request
 							for (l = requests; l; l = l->next)
 							{
@@ -418,7 +431,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 									list_add(&watches, req, 0);
 									// Free old dat
 									gg_free_dcc(dcc);
-									netlog("gg_dccmainthread(): Found stored request to client %d, filename \"%s\" size %d, folder \"%s\".",
+									netlog("dccmainthread(): Found stored request to client %d, filename \"%s\" size %d, folder \"%s\".",
 										req->peer_uin, req->file_info.filename, req->file_info.size, req->folder);
 									break;
 								}
@@ -426,7 +439,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 							if (!found)
 							{
-								netlog("gg_dccmainthread(): Unknown request to client %d.", dcc->peer_uin);
+								netlog("dccmainthread(): Unknown request to client %d.", dcc->peer_uin);
 								// Kill unauthorized dcc
 								list_remove(&watches, dcc, 0);
 								gg_free_dcc(dcc); if (dcc == dcc) dcc = NULL;
@@ -452,13 +465,13 @@ void __cdecl GGPROTO::dccmainthread(void*)
 					// Connection broken/closed
 					if (!(e = gg_dcc7_watch_fd(dcc7)))
 					{
-						netlog("gg_dccmainthread(): Socket closed.");
+						netlog("dccmainthread(): Socket closed.");
 						// Remove socket and _close
 						list_remove(&watches, dcc7, 0);
 						gg_dcc7_free(dcc7);
 						continue;
 					}
-					else netlog("gg_dccmainthread(): Event: %s", ggdebug_eventtype(e));
+					else netlog("dccmainthread(): Event: %s", ggdebug_eventtype(e));
 
 					switch(e->type)
 					{
@@ -491,7 +504,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 						// Connection was successfuly ended
 						case GG_EVENT_DCC7_DONE:
-							netlog("gg_dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
+							netlog("dccmainthread(): Client: %d, Transfer done ! Closing connection.", dcc->peer_uin);
 							// Remove from watches
 							list_remove(&watches, dcc7, 0);
 							// Close file & success
@@ -527,25 +540,25 @@ void __cdecl GGPROTO::dccmainthread(void*)
 							switch (e->event.dcc7_error)
 							{
 								case GG_ERROR_DCC7_HANDSHAKE:
-									netlog("gg_dccmainthread(): Client: %d, Handshake error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, Handshake error.", dcc7->peer_uin);
 									break;
 								case GG_ERROR_DCC7_NET:
-									netlog("gg_dccmainthread(): Client: %d, Network error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, Network error.", dcc7->peer_uin);
 									break;
 								case GG_ERROR_DCC7_FILE:
-									netlog("gg_dccmainthread(): Client: %d, File read/write error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, File read/write error.", dcc7->peer_uin);
 									break;
 								case GG_ERROR_DCC7_EOF:
-									netlog("gg_dccmainthread(): Client: %d, End of file/connection error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, End of file/connection error.", dcc7->peer_uin);
 									break;
 								case GG_ERROR_DCC7_REFUSED:
-									netlog("gg_dccmainthread(): Client: %d, Connection refused error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, Connection refused error.", dcc7->peer_uin);
 									break;
 								case GG_ERROR_DCC7_RELAY:
-									netlog("gg_dccmainthread(): Client: %d, Relay connection error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, Relay connection error.", dcc7->peer_uin);
 									break;
 								default:
-									netlog("gg_dccmainthread(): Client: %d, Unknown error.", dcc7->peer_uin);
+									netlog("dccmainthread(): Client: %d, Unknown error.", dcc7->peer_uin);
 							}
 							// Remove from watches
 							list_remove(&watches, dcc7, 0);
@@ -570,7 +583,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 					break;
 			}
 		}
-		LeaveCriticalSection(&ft_mutex);
+		gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 1, "ft_mutex", 1);
 	}
 
 	// Close all dcc client sockets
@@ -620,7 +633,7 @@ void __cdecl GGPROTO::dccmainthread(void*)
 
 	gg_dcc_port = 0;
 	gg_dcc_ip = 0;
-	netlog("gg_dccmainthread(): DCC Server Thread Ending");
+	netlog("dccmainthread(): end. DCC Server Thread Ending");
 }
 
 HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
@@ -634,14 +647,14 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	mir_free(path);
 
 	// Remove transfer from waiting list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dccfileallow", 38, "ft_mutex", 1);
 	list_remove(&transfers, dcc, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dccfileallow", 38, 1, "ft_mutex", 1);
 
 	// Open file for appending and check if ok
 	if ((dcc->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
-		netlog("gg_dccfileallow(): Failed to create file \"%s\".", fileName);
+		netlog("dccfileallow(): Failed to create file \"%s\".", fileName);
 		ProtoBroadcastAck(m_szModuleName, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
 		gg_free_dcc(dcc);
@@ -652,11 +665,11 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	dcc->offset = _lseek(dcc->file_fd, 0, SEEK_END);
 
 	// Add to watches and start transfer
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dccfileallow", 39, "ft_mutex", 1);
 	list_add(&watches, dcc, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dccfileallow", 39, 1, "ft_mutex", 1);
 
-	netlog("gg_dccfileallow(): Receiving file \"%s\" from %d.", dcc->file_info.filename, dcc->peer_uin);
+	netlog("dccfileallow(): Receiving file \"%s\" from %d.", dcc->file_info.filename, dcc->peer_uin);
 
 	return hTransfer;
 }
@@ -673,13 +686,13 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	mir_free(path);
 
 	// Remove transfer from waiting list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dcc7fileallow", 40, "ft_mutex", 1);
 	iFtRemoveRes = list_remove(&transfers, dcc7, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dcc7fileallow", 40, 1, "ft_mutex", 1);
 
 	if (iFtRemoveRes == -1)
 	{
-		netlog("gg_dcc7fileallow(): File transfer denied.");
+		netlog("dcc7fileallow(): File transfer denied.");
 		ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_DENIED, dcc7, 0);
 		// Free transfer
 		gg_dcc7_free(dcc7);
@@ -689,7 +702,7 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	// Open file for appending and check if ok
 	if ((dcc7->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
-		netlog("gg_dcc7fileallow(): Failed to create file \"%s\".", fileName);
+		netlog("dcc7fileallow(): Failed to create file \"%s\".", fileName);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 		ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 		// Free transfer
@@ -702,11 +715,11 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	gg_dcc7_accept(dcc7, dcc7->offset);
 
 	// Add to watches and start transfer
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dcc7fileallow", 41, "ft_mutex", 1);
 	list_add(&watches, dcc7, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dcc7fileallow", 41, 1, "ft_mutex", 1);
 
-	netlog("gg_dcc7fileallow(): Receiving file \"%s\" from %d.", dcc7->filename, dcc7->peer_uin);
+	netlog("dcc7fileallow(): Receiving file \"%s\" from %d.", dcc7->filename, dcc7->peer_uin);
 
 	return hTransfer;
 }
@@ -716,13 +729,13 @@ int GGPROTO::dccfiledeny(HANDLE hTransfer)
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 
 	// Remove transfer from any list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dccfiledeny", 42, "ft_mutex", 1);
 	if (watches) list_remove(&watches, dcc, 0);
 	if (requests) list_remove(&requests, dcc, 0);
 	if (transfers) list_remove(&transfers, dcc, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dccfiledeny", 42, 1, "ft_mutex", 1);
 
-	netlog("gg_dccfiledeny(): Rejected file \"%s\" from/to %d.", dcc->file_info.filename, dcc->peer_uin);
+	netlog("dccfiledeny(): Rejected file \"%s\" from/to %d.", dcc->file_info.filename, dcc->peer_uin);
 
 	// Free transfer
 	gg_free_dcc(dcc);
@@ -737,12 +750,12 @@ int GGPROTO::dcc7filedeny(HANDLE hTransfer)
 	gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 
 	// Remove transfer from any list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dcc7filedeny", 43, "ft_mutex", 1);
 	if (watches) list_remove(&watches, dcc7, 0);
 	if (transfers) list_remove(&transfers, dcc7, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dcc7filedeny", 43, 1, "ft_mutex", 1);
 
-	netlog("gg_dcc7filedeny(): Rejected file \"%s\" from/to %d.", dcc7->filename, dcc7->peer_uin);
+	netlog("dcc7filedeny(): Rejected file \"%s\" from/to %d.", dcc7->filename, dcc7->peer_uin);
 
 	// Free transfer
 	gg_dcc7_free(dcc7);
@@ -755,11 +768,11 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 	struct gg_dcc *dcc = (struct gg_dcc *) hTransfer;
 
 	// Remove transfer from any list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dccfilecancel", 44, "ft_mutex", 1);
 	if (watches) list_remove(&watches, dcc, 0);
 	if (requests) list_remove(&requests, dcc, 0);
 	if (transfers) list_remove(&transfers, dcc, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dccfilecancel", 44, 1, "ft_mutex", 1);
 
 	// Send failed info
 	ProtoBroadcastAck(m_szModuleName, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
@@ -770,7 +783,7 @@ int GGPROTO::dccfilecancel(HANDLE hTransfer)
 		dcc->file_fd = -1;
 	}
 
-	netlog("gg_dccfilecancel(): Canceled file \"%s\" from/to %d.", dcc->file_info.filename, dcc->peer_uin);
+	netlog("dccfilecancel(): Canceled file \"%s\" from/to %d.", dcc->file_info.filename, dcc->peer_uin);
 
 	// Free transfer
 	gg_free_dcc(dcc);
@@ -786,10 +799,10 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 		gg_dcc7_abort(dcc7);
 
 	// Remove transfer from any list
-	EnterCriticalSection(&ft_mutex);
+	gg_EnterCriticalSection(&ft_mutex, "dcc7filecancel", 45, "ft_mutex", 1);
 	if (watches) list_remove(&watches, dcc7, 0);
 	if (transfers) list_remove(&transfers, dcc7, 0);
-	LeaveCriticalSection(&ft_mutex);
+	gg_LeaveCriticalSection(&ft_mutex, "dcc7filecancel", 45, 1, "ft_mutex", 1);
 
 	// Send failed info
 	ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
@@ -800,7 +813,7 @@ int GGPROTO::dcc7filecancel(HANDLE hTransfer)
 		dcc7->file_fd = -1;
 	}
 
-	netlog("gg_dcc7filecancel(): Canceled file \"%s\" from/to %d.", dcc7->filename, dcc7->peer_uin);
+	netlog("dcc7filecancel(): Canceled file \"%s\" from/to %d.", dcc7->filename, dcc7->peer_uin);
 
 	// Free transfer
 	gg_dcc7_free(dcc7);
@@ -892,16 +905,16 @@ HANDLE GGPROTO::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOC
 	if ((ver & 0x00ffffff) >= 0x29 || !ver) {
 		struct gg_dcc7 *dcc7;
 
-		EnterCriticalSection(&sess_mutex);
+		gg_EnterCriticalSection(&sess_mutex, "SendFile", 46, "sess_mutex", 1);
 		if (!(dcc7 = gg_dcc7_send_file(sess, uin, filename, NULL, NULL))) {
-			LeaveCriticalSection(&sess_mutex);
-			netlog("gg_sendfile(): Failed to send file \"%s\".", filename);
+			gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 1, "sess_mutex", 1);
+			netlog("SendFile(): Failed to send file \"%s\".", filename);
 			mir_free(filename);
 			return ftfail(this, hContact);
 		}
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SendFile", 46, 2, "sess_mutex", 1);
 
-		netlog("gg_sendfile(): Sending file \"%s\" to %d.", filename, uin);
+		netlog("SendFile(): Sending file \"%s\" to %d.", filename, uin);
 
 		// Add dcc to watches
 		list_add(&watches, dcc7, 0);
@@ -923,7 +936,7 @@ HANDLE GGPROTO::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOC
 	// Return if bad connection info
 	if (!port || !uin || !myuin)
 	{
-		netlog("gg_sendfile(): Bad contact uin or my uin. Exit.");
+		netlog("SendFile(): Bad contact uin or my uin. Exit.");
 		mir_free(filename);
 		return ftfail(this, hContact);
 	}
@@ -939,23 +952,23 @@ HANDLE GGPROTO::SendFile(HANDLE hContact, const PROTOCHAR* szDescription, PROTOC
 		dcc->peer_uin = uin;
 		dcc->fd = -1;
 		dcc->type = GG_SESSION_DCC_SEND;
-		netlog("gg_sendfile(): Requesting user to connect us and scheduling gg_dcc struct for a later use.");
-		EnterCriticalSection(&sess_mutex);
+		netlog("SendFile(): Requesting user to connect us and scheduling gg_dcc struct for a later use.");
+		gg_EnterCriticalSection(&sess_mutex, "SendFile", 47, "sess_mutex", 1);
 		gg_dcc_request(sess, uin);
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "SendFile", 47, 1, "sess_mutex", 1);
 		list_add(&requests, dcc, 0);
 	}
 
 	// Write filename
 	if (gg_dcc_fill_file_info(dcc, filename) == -1)
 	{
-		netlog("gg_sendfile(): Cannot open and file fileinfo \"%s\".", filename);
+		netlog("SendFile(): Cannot open and file fileinfo \"%s\".", filename);
 		gg_free_dcc(dcc);
 		mir_free(filename);
 		return ftfail(this, hContact);
 	}
 
-	netlog("gg_sendfile(): Sending file \"%s\" to %d in %s mode.", filename, uin, (dcc->fd != -1) ? "active" : "passive");
+	netlog("SendFile(): Sending file \"%s\" to %d in %s mode.", filename, uin, (dcc->fd != -1) ? "active" : "passive");
 
 	// Add dcc to watches if not passive
 	if (dcc->fd != -1) list_add(&watches, dcc, 0);

@@ -458,9 +458,9 @@ static INT_PTR CALLBACK gg_genoptsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					db_set_b(NULL, gg->m_szModuleName, GG_KEY_SHOWLINKS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS));
 					if (IsDlgButtonChecked(hwndDlg, IDC_SHOWLINKS))
 						status_flags |= GG_STATUS_FLAG_SPAM;
-					EnterCriticalSection(&gg->sess_mutex);
+					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, "sess_mutex", 1);
 					gg_change_status_flags(gg->sess, status_flags);
-					LeaveCriticalSection(&gg->sess_mutex);
+					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 34, 1, "sess_mutex", 1);
 					db_set_b(NULL, gg->m_szModuleName, GG_KEY_ENABLEAVATARS, (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLEAVATARS));
 
 					db_set_b(NULL, gg->m_szModuleName, GG_KEY_IMGMETHOD,
@@ -847,9 +847,9 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			// Run update
 			gg_pubdir50_seq_set(req, GG_SEQ_CHINFO);
-			EnterCriticalSection(&gg->sess_mutex);
+			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_detailsdlgproc", 35, "sess_mutex", 1);
 			gg_pubdir50(gg->sess, req);
-			LeaveCriticalSection(&gg->sess_mutex);
+			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_genoptsdlgproc", 35, 1, "sess_mutex", 1);
 			dat->updating = TRUE;
 
 			gg_pubdir50_free(req);

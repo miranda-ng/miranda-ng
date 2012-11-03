@@ -91,7 +91,7 @@ static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
 
 	if (!hList)	return;
 
-	EnterCriticalSection(&gg->sessions_mutex);
+	gg->gg_EnterCriticalSection(&gg->sessions_mutex, "gg_listsessions", 73, "sessions_mutex", 1);
 	for (l = gg->sessions; l; l = l->next)
 	{
 		struct gg_multilogon_session* sess = (struct gg_multilogon_session*)l->data;
@@ -103,7 +103,7 @@ static void gg_listsessions(GGPROTO* gg, HWND hwndDlg)
 		strftime(loginTime, sizeof(loginTime), "%d-%m-%Y %H:%M:%S", localtime(&sess->logon_time));
 		gg_insertlistitem(hList, &sess->id, sess->name, ip, loginTime);
 	}
-	LeaveCriticalSection(&gg->sessions_mutex);
+	gg->gg_LeaveCriticalSection(&gg->sessions_mutex, "gg_listsessions", 73, 1, "sessions_mutex", 1);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_SIGNOUTALL), ListView_GetItemCount(hList) > 0);
 }
 
@@ -214,9 +214,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 				{
 					lvi.iItem = i;
 					ListView_GetItem(hList, &lvi);
-					EnterCriticalSection(&gg->sess_mutex);
+					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 74, "sess_mutex", 1);
 					gg_multilogon_disconnect(gg->sess, *((gg_multilogon_id_t*)lvi.lParam));
-					LeaveCriticalSection(&gg->sess_mutex);
+					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 74, 1, "sess_mutex", 1);
 				}
 				break;
 			}
@@ -289,9 +289,9 @@ static INT_PTR CALLBACK gg_sessions_viewdlg(HWND hwndDlg, UINT message, WPARAM w
 					lvi.mask = LVIF_PARAM;
 					lvi.iItem = nm->iItem;
 					ListView_GetItem(nm->hdr.hwndFrom, &lvi);
-					EnterCriticalSection(&gg->sess_mutex);
+					gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 75, "sess_mutex", 1);
 					gg_multilogon_disconnect(gg->sess, *((gg_multilogon_id_t*)lvi.lParam));
-					LeaveCriticalSection(&gg->sess_mutex);
+					gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_sessions_viewdlg", 75, 1, "sess_mutex", 1);
 				}
 				break;
 			}

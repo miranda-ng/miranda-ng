@@ -154,7 +154,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 	if (version < PLUGIN_MAKE_VERSION(0, 0, 1, 4))
 	{
 #ifdef DEBUGMODE
-		netlog("gg_cleanuplastplugin(%d): Cleaning junk Phone settings from < 0.0.1.4 ...", version);
+		netlog("cleanuplastplugin() version=%d Cleaning junk Phone settings from < 0.0.1.4 ...", version);
 #endif
 		// Look for contact in DB
 		hContact = db_find_first();
@@ -175,7 +175,7 @@ void GGPROTO::cleanuplastplugin(DWORD version)
 	if (version < PLUGIN_MAKE_VERSION(0, 0, 3, 5))
 	{
 #ifdef DEBUGMODE
-		netlog("gg_cleanuplastplugin(%d): Cleaning junk Nick settings from < 0.0.3.5 ...", version);
+		netlog("cleanuplastplugin(): version=%d Cleaning junk Nick settings from < 0.0.3.5 ...", version);
 #endif
 		// Look for contact in DB
 		hContact = db_find_first();
@@ -479,6 +479,10 @@ const char *ggdebug_eventtype(gg_event *e)
 	return ggdebug_eventype2string[i].text;
 }
 
+//////////////////////////////////////////////////////////
+// Log funcion
+#define PREFIXLEN	6	//prefix present in DEBUGMODE contains GetCurrentThreadId()
+
 #ifdef DEBUGMODE
 void gg_debughandler(int level, const char *format, va_list ap)
 {
@@ -487,7 +491,13 @@ void gg_debughandler(int level, const char *format, va_list ap)
 	char *nl = strrchr(szFormat, '\n');
 	if (nl) *nl = 0;
 
-	strncpy(szText, "[libgadu] \0", sizeof(szText));
+	strncpy(szText + PREFIXLEN, "[libgadu] \0", sizeof(szText) - PREFIXLEN);
+
+	char prefix[6];
+	mir_snprintf(prefix, PREFIXLEN, "%lu", GetCurrentThreadId());
+	size_t prefixLen = strlen(prefix);
+	if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
+	memcpy(szText, prefix, PREFIXLEN);
 
 	mir_vsnprintf(szText + strlen(szText), sizeof(szText) - strlen(szText), szFormat, ap);
 	CallService(MS_NETLIB_LOG, (WPARAM) NULL, (LPARAM) szText);
@@ -495,17 +505,25 @@ void gg_debughandler(int level, const char *format, va_list ap)
 }
 #endif
 
-//////////////////////////////////////////////////////////
-// Log funcion
 
 int GGPROTO::netlog(const char *fmt, ...)
 {
 	va_list va;
 	char szText[1024];
+	memset(szText, '\0', PREFIXLEN + 1);
+
+#ifdef DEBUGMODE
+	char prefix[6];
+	mir_snprintf(prefix, PREFIXLEN, "%lu", GetCurrentThreadId());
+	size_t prefixLen = strlen(prefix);
+	if (prefixLen < PREFIXLEN) memset(prefix + prefixLen, ' ', PREFIXLEN - prefixLen);
+	memcpy(szText, prefix, PREFIXLEN);
+#endif
 
 	va_start(va, fmt);
-	mir_vsnprintf(szText, sizeof(szText), fmt, va);
+	mir_vsnprintf(szText + strlen(szText), sizeof(szText) - strlen(szText), fmt, va);
 	va_end(va);
+
 	return CallService(MS_NETLIB_LOG, (WPARAM)netlib, (LPARAM) szText);
 }
 
@@ -517,6 +535,7 @@ BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD reason, LPVOID reserved)
 	crc_gentable();
 	hInstance = hInst;
 #ifdef DEBUGMODE
+	gg_debug_level = GG_DEBUG_FUNCTION;
 	gg_debug_handler = gg_debughandler;
 #endif
 	return TRUE;

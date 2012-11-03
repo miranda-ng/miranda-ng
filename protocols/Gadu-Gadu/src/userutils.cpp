@@ -178,7 +178,7 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 	GGTOKEN token;
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_doemail(): Starting.");
+	gg->netlog("gg_dochemail(): Starting.");
 #endif
 	if (!uin || !email || !newEmail) return NULL;
 
@@ -191,18 +191,18 @@ void *gg_dochemail(GGPROTO *gg, uin_t uin, char *password, char *email, char *ne
 		mir_sntprintf(error, SIZEOF(error), TranslateT("Your e-mail cannot be changed because of error:\n\t%s"),
 			(h && !s) ? http_error_string(h ? h->error : 0) : (s ? TranslateT("Bad old e-mail or password") : _tcserror(errno)));
 		MessageBox(NULL, error, gg->m_tszUserName, MB_OK | MB_ICONSTOP);
-		gg->netlog("gg_dochpass(): Cannot change e-mail because of \"%s\".", strerror(errno));
+		gg->netlog("gg_dochemail(): Cannot change e-mail because of \"%s\".", strerror(errno));
 	}
 	else
 	{
 		gg_pubdir_free(h);
 		db_set_s(NULL, gg->m_szModuleName, GG_KEY_EMAIL, newEmail);
-		gg->netlog("gg_doemail(): E-mail change succesful.");
+		gg->netlog("gg_dochemail(): E-mail change succesful.");
 		MessageBox(NULL, TranslateT("Your e-mail has been changed."), gg->m_tszUserName, MB_OK | MB_ICONINFORMATION);
 	}
 
 #ifdef DEBUGMODE
-	gg->netlog("gg_doemail(): End.");
+	gg->netlog("gg_dochemail(): End.");
 #endif
 
 	return NULL;

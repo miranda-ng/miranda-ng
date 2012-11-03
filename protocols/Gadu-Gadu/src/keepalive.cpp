@@ -41,11 +41,11 @@ static VOID CALLBACK gg_keepalive(HWND hwnd, UINT message, UINT_PTR idEvent, DWO
 		if (gg->isonline())
 		{
 	#ifdef DEBUGMODE
-			gg->netlog("Sending keep-alive");
+			gg->netlog("gg_keepalive(): Sending keep-alive");
 	#endif
-			EnterCriticalSection(&gg->sess_mutex);
+			gg->gg_EnterCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, "sess_mutex", 1);
 			gg_ping(gg->sess);
-			LeaveCriticalSection(&gg->sess_mutex);
+			gg->gg_LeaveCriticalSection(&gg->sess_mutex, "gg_keepalive", 68, 1, "sess_mutex", 1);
 		}
 	}
 }
@@ -59,7 +59,7 @@ void GGPROTO::keepalive_init()
 		if (i < MAX_TIMERS)
 		{
 	#ifdef DEBUGMODE
-			netlog("gg_keepalive_init(): Initializing Timer %d", i);
+			netlog("keepalive_init(): Initializing Timer %d", i);
 	#endif
 			timer = SetTimer(NULL, 0, 1000 * 30, gg_keepalive);
 			g_timers[i] = this;
@@ -70,7 +70,7 @@ void GGPROTO::keepalive_init()
 void GGPROTO::keepalive_destroy()
 {
 #ifdef DEBUGMODE
-	netlog("gg_destroykeepalive(): Killing Timer");
+	netlog("keepalive_destroy(): Killing Timer");
 #endif
 	if (timer)
 	{
@@ -83,10 +83,10 @@ void GGPROTO::keepalive_destroy()
 			}
 		timer = 0;
 #ifdef DEBUGMODE
-		netlog("gg_destroykeepalive(): Killed Timer %d", i);
+		netlog("keepalive_destroy(): Killed Timer %d", i);
 #endif
 	}
 #ifdef DEBUGMODE
-	netlog("gg_destroykeepalive(): End");
+	netlog("keepalive_destroy(): End");
 #endif
 }

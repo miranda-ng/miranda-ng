@@ -129,11 +129,6 @@ typedef struct
 	char val[256];
 } GGTOKEN;
 
-#if 0 /* #ifdef DEBUGMODE */
-#define EnterCriticalSection(lpCS)	{netlog(gg,"EnterCriticalSection @ %s:%d", __FILE__, __LINE__); EnterCriticalSection(lpCS);}
-#define LeaveCriticalSection(lpCS)	{netlog(gg,"LeaveCriticalSection @ %s:%d", __FILE__, __LINE__); LeaveCriticalSection(lpCS);}
-#endif
-
 
 // Wrappers of the old interface
 #define GGDEF_PROTO 	 "GG"        // Default Proto

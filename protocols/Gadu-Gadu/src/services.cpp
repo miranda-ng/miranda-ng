@@ -89,31 +89,35 @@ int GGPROTO::refreshstatus(int status)
 		if (exitCode == STILL_ACTIVE)
 			return TRUE;
 #ifdef DEBUGMODE
-		netlog("gg_refreshstatus(): Going to connect...");
+		netlog("refreshstatus(): Waiting pth_sess thread. Going to connect...");
 #endif
 		threadwait(&pth_sess);
+#ifdef DEBUGMODE
+		netlog("refreshstatus(): Waiting pth_sess thread - OK");
+		netlog("refreshstatus(): forkthreadex 21 GGPROTO::mainthread");
+#endif
 		pth_sess.hThread = forkthreadex(&GGPROTO::mainthread, NULL, &pth_sess.dwThreadId);
 	}
 	else
 	{
 		char *szMsg = NULL;
 		// Select proper msg
-		EnterCriticalSection(&modemsg_mutex);
+		gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 69, "modemsg_mutex", 1);
 		szMsg = mir_strdup(getstatusmsg(status));
-		LeaveCriticalSection(&modemsg_mutex);
+		gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 69, 1, "modemsg_mutex", 1);
 		if (szMsg)
 		{
-			netlog("gg_refreshstatus(): Setting status and away message.");
-			EnterCriticalSection(&sess_mutex);
+			netlog("refreshstatus(): Setting status and away message.");
+			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 70, "sess_mutex", 1);
 			gg_change_status_descr(sess, status_m2gg(status, szMsg != NULL), szMsg);
-			LeaveCriticalSection(&sess_mutex);
+			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 70, 1, "sess_mutex", 1);
 		}
 		else
 		{
-			netlog("gg_refreshstatus(): Setting just status.");
-			EnterCriticalSection(&sess_mutex);
+			netlog("refreshstatus(): Setting just status.");
+			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 71, "sess_mutex", 1);
 			gg_change_status(sess, status_m2gg(status, 0));
-			LeaveCriticalSection(&sess_mutex);
+			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 71, 1, "sess_mutex", 1);
 		}
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		changecontactstatus( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
@@ -174,7 +178,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	DBVARIANT dbv;
 	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
 
-	netlog("gg_getavatarinfo(): Requesting avatar information for %d.", uin);
+	netlog("getavatarinfo(): Requesting avatar information for %d.", uin);
 
 	pai->filename[0] = 0;
 	pai->format = PA_FORMAT_UNKNOWN;
@@ -212,7 +216,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			result = GAIR_SUCCESS;
 		}
 		else if ((wParam & GAIF_FORCE) != 0) {
-			netlog("gg_getavatarinfo(): Contact %d changed avatar.", uin);
+			netlog("getavatarinfo(): Contact %d changed avatar.", uin);
 			_tremove(pai->filename);
 			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
 			getAvatar(pai->hContact, AvatarURL);
@@ -221,7 +225,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	}
 	else if ((wParam & GAIF_FORCE) != 0) {
 		if (AvatarHash == NULL && AvatarSavedHash != NULL) {
-			netlog("gg_getavatarinfo(): Contact %d deleted avatar.", uin);
+			netlog("getavatarinfo(): Contact %d deleted avatar.", uin);
 			getAvatarFilename(pai->hContact, pai->filename, sizeof(pai->filename));
 			_tremove(pai->filename);
 			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH);
@@ -229,7 +233,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 			db_unset(pai->hContact, m_szModuleName, GG_KEY_AVATARTYPE);
 		}
 		else if (AvatarHash != NULL && AvatarSavedHash == NULL) {
-			netlog("gg_getavatarinfo(): Contact %d set avatar.", uin);
+			netlog("getavatarinfo(): Contact %d set avatar.", uin);
 			db_set_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, AvatarHash);
 			getAvatar(pai->hContact, AvatarURL);
 			result = GAIR_WAITFOR;
@@ -251,7 +255,7 @@ INT_PTR GGPROTO::getmyavatar(WPARAM wParam, LPARAM lParam)
 	TCHAR *szFilename = (TCHAR*)wParam;
 	int len = (int)lParam;
 
-	netlog("gg_getmyavatar(): Requesting user avatar.");
+	netlog("getmyavatar(): Requesting user avatar.");
 
 	if (szFilename == NULL || len <= 0)
 		return -1;
@@ -283,7 +287,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 	TCHAR szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, SIZEOF(szMyFilename));
 	if ( _tcscmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
-		netlog("gg_setmyavatar(): Failed to set user avatar. File %s could not be created/overwritten.", szMyFilename);
+		netlog("setmyavatar(): Failed to set user avatar. File %s could not be created/overwritten.", szMyFilename);
 		return -1;
 	}
 
@@ -299,11 +303,11 @@ INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 	INT_PTR res = 0;
 	char *szMsg;
 
-	EnterCriticalSection(&modemsg_mutex);
+	gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 72, "modemsg_mutex", 1);
 	szMsg = getstatusmsg(wParam ? gg_normalizestatus(wParam) : m_iStatus);
 	if (isonline() && szMsg)
 		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_a2u(szMsg) : (INT_PTR)mir_strdup(szMsg);
-	LeaveCriticalSection(&modemsg_mutex);
+	gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 72, 1, "modemsg_mutex", 1);
 	return res;
 }
 

@@ -403,7 +403,7 @@ int GGPROTO::oauth_receivetoken()
 	}
 
 	// 1. Obtaining an Unauthorized Request Token
-	netlog("gg_oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
+	netlog("oauth_receivetoken(): Obtaining an Unauthorized Request Token...");
 	strcpy(szUrl, "http://api.gadu-gadu.pl/request_token");
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, NULL, NULL);
 
@@ -447,13 +447,13 @@ int GGPROTO::oauth_receivetoken()
 			mir_free(tag);
 			mir_free(xmlAction);
 		}
-		else netlog("gg_oauth_receivetoken(): Invalid response code from HTTP request");
+		else netlog("oauth_receivetoken(): Invalid response code from HTTP request");
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("oauth_receivetoken(): No response from HTTP request");
 
 	// 2. Obtaining User Authorization
-	netlog("gg_oauth_receivetoken(): Obtaining User Authorization...");
+	netlog("oauth_receivetoken(): Obtaining User Authorization...");
 	mir_free(str);
 	str = oauth_uri_escape("http://www.mojageneracja.pl");
 
@@ -477,10 +477,10 @@ int GGPROTO::oauth_receivetoken()
 
 	resp = (NETLIBHTTPREQUEST *)CallService(MS_NETLIB_HTTPTRANSACTION, (WPARAM)netlib, (LPARAM)&req);
 	if (resp) CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
-	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("oauth_receivetoken(): No response from HTTP request");
 
 	// 3. Obtaining an Access Token
-	netlog("gg_oauth_receivetoken(): Obtaining an Access Token...");
+	netlog("oauth_receivetoken(): Obtaining an Access Token...");
 	strcpy(szUrl, "http://api.gadu-gadu.pl/access_token");
 	mir_free(str);
 	str = oauth_auth_header("POST", szUrl, HMACSHA1, uin, password, token, token_secret);
@@ -526,11 +526,11 @@ int GGPROTO::oauth_receivetoken()
 			mir_free(tag);
 			mir_free(xmlAction);
 		}
-		else netlog("gg_oauth_receivetoken(): Invalid response code from HTTP request");
+		else netlog("oauth_receivetoken(): Invalid response code from HTTP request");
 		Netlib_CloseHandle(resp->nlc);
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else netlog("gg_oauth_receivetoken(): No response from HTTP request");
+	else netlog("oauth_receivetoken(): No response from HTTP request");
 
 	mir_free(password);
 	mir_free(str);
@@ -539,13 +539,13 @@ int GGPROTO::oauth_receivetoken()
 		db_set_s(NULL, m_szModuleName, GG_KEY_TOKEN, token);
 		CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)(int)strlen(token_secret) + 1, (LPARAM) token_secret);
 		db_set_s(NULL, m_szModuleName, GG_KEY_TOKENSECRET, token_secret);
-		netlog("gg_oauth_receivetoken(): Access Token obtained successfully.");
+		netlog("oauth_receivetoken(): Access Token obtained successfully.");
 		res = 1;
 	}
 	else {
 		db_unset(NULL, m_szModuleName, GG_KEY_TOKEN);
 		db_unset(NULL, m_szModuleName, GG_KEY_TOKENSECRET);
-		netlog("gg_oauth_receivetoken(): Failed to obtain Access Token.");
+		netlog("oauth_receivetoken(): Failed to obtain Access Token.");
 	}
 	mir_free(token);
 	mir_free(token_secret);

@@ -111,6 +111,10 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	HANDLE forkthreadex(GGThreadFunc pFunc, void *param, UINT *threadId);
 	void threadwait(GGTHREAD *thread);
 
+	void gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging);
+	void gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging);
+	void gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging);
+
 	/* Global GG functions */
 	void notifyuser(HANDLE hContact, int refresh);
 	void setalloffline();
@@ -291,5 +295,37 @@ typedef struct
 	char *email;
 	GGPROTO *gg;
 } GGUSERUTILDLGDATA;
+
+
+inline void GGPROTO::gg_EnterCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, char* mutexName, int logging)
+{
+#ifdef DEBUGMODE
+	int logAfter = 0;
+	if(logging == 1 && mutex->LockCount != -1) {
+		logAfter = 1;
+		netlog("%s(): %i before EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
+	}
+#endif
+	EnterCriticalSection(mutex);
+#ifdef DEBUGMODE
+	if(logging == 1 && logAfter == 1) netlog("%s(): %i after EnterCriticalSection %s LockCount=%ld RecursionCount=%ld OwningThread=%ld", callingFunction, sectionNumber, mutexName, mutex->LockCount, mutex->RecursionCount, mutex->OwningThread);
+#endif
+}
+
+inline void GGPROTO::gg_LeaveCriticalSection(CRITICAL_SECTION* mutex, char* callingFunction, int sectionNumber, int returnNumber, char* mutexName, int logging) /*0-never, 1-debug, 2-all*/
+{
+#ifdef DEBUGMODE
+	if(logging == 1) netlog("%s(): %i.%i LeaveCriticalSection %s", callingFunction, sectionNumber, returnNumber, mutexName);
+#endif
+	LeaveCriticalSection(mutex);
+}
+
+inline void GGPROTO::gg_sleep(DWORD miliseconds, BOOL alterable, char* callingFunction, int sleepNumber, int logging){
+	SleepEx(miliseconds, alterable);
+#ifdef DEBUGMODE
+	if(logging == 1) netlog("%s(): %i after SleepEx(%ld,%u)", callingFunction, sleepNumber, miliseconds, alterable);
+#endif
+}
+
 
 #endif

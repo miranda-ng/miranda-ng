@@ -52,14 +52,14 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	if (hContact != NULL) {
 		DBVARIANT dbv;
 		if (!db_get_s(hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
-            TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
+			TCHAR* avatarHashT = mir_a2t(dbv.pszVal);
 			mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s.%s"), avatarHashT, avatartype);
-            mir_free(avatarHashT);
+			mir_free(avatarHashT);
 			DBFreeVariant(&dbv);
 		}
 	} else {
-        mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_tszUserName, avatartype);
-    }
+		mir_sntprintf(pszDest + tPathLen, cbLen - tPathLen, _T("\\%s avatar.%s"), m_tszUserName, avatartype);
+	}
 }
 
 void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, int *type)
@@ -122,10 +122,10 @@ void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, int *type)
 			mir_free(tag);
 			mir_free(xmlAction);
 		}
-		else netlog("gg_getavatarfileinfo(): Invalid response code from HTTP request");
+		else netlog("getAvatarFileInfo(): Invalid response code from HTTP request");
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else netlog("gg_getavatarfileinfo(): No response from HTTP request");
+	else netlog("getAvatarFileInfo(): No response from HTTP request");
 }
 
 char *gg_avatarhash(char *param)
@@ -152,13 +152,16 @@ typedef struct
 
 void GGPROTO::getAvatar(HANDLE hContact, char *szAvatarURL)
 {
+#ifdef DEBUGMODE
+	netlog("getAvatar(): start");
+#endif
 	if (pth_avatar.dwThreadId) {
 		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA));
 		data->hContact = hContact;
 		data->AvatarURL = mir_strdup(szAvatarURL);
-		EnterCriticalSection(&avatar_mutex);
+		gg_EnterCriticalSection(&avatar_mutex, "getAvatar", 1, "avatar_mutex", 1);
 		list_add(&avatar_transfers, data, 0);
-		LeaveCriticalSection(&avatar_mutex);
+		gg_LeaveCriticalSection(&avatar_mutex, "getAvatar", 1, 1, "avatar_mutex", 1);
 	}
 }
 
@@ -170,14 +173,18 @@ typedef struct
 
 void GGPROTO::requestAvatar(HANDLE hContact, int iWaitFor)
 {
+#ifdef DEBUGMODE
+	netlog("requestAvatar(): start");
+#endif
+
 	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
 		&& pth_avatar.dwThreadId) {
 		GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
 		data->hContact = hContact;
 		data->iWaitFor = iWaitFor;
-		EnterCriticalSection(&avatar_mutex);
+		gg_EnterCriticalSection(&avatar_mutex, "requestAvatar", 2, "avatar_mutex", 1);
 		list_add(&avatar_requests, data, 0);
-		LeaveCriticalSection(&avatar_mutex);
+		gg_LeaveCriticalSection(&avatar_mutex, "requestAvatar", 2, 1, "avatar_mutex", 1);
 	}
 }
 
@@ -185,10 +192,10 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 {
 	list_t l;
 
-	netlog("gg_avatarrequestthread(): Avatar Request Thread Starting");
+	netlog("avatarrequestthread() started. Avatar Request Thread Starting");
 	while (pth_avatar.dwThreadId)
 	{
-		EnterCriticalSection(&avatar_mutex);
+		gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 3, "avatar_mutex", 1);
 		if (avatar_requests) {
 			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA *)avatar_requests->data;
 			char *AvatarURL;
@@ -197,7 +204,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 
 			list_remove(&avatar_requests, data, 0);
 			mir_free(data);
-			LeaveCriticalSection(&avatar_mutex);
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
 
 			getAvatarFileInfo( db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
 			if (AvatarURL != NULL && strlen(AvatarURL) > 0)
@@ -215,10 +222,11 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 					ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 			}
 			else ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
+		} else {
+			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 2, "avatar_mutex", 1);
 		}
-		else LeaveCriticalSection(&avatar_mutex);
 
-		EnterCriticalSection(&avatar_mutex);
+		gg_EnterCriticalSection(&avatar_mutex, "avatarrequestthread", 4, "avatar_mutex", 1);
 		if (avatar_transfers) {
 			GGGETAVATARDATA *data = (GGGETAVATARDATA *)avatar_transfers->data;
 			NETLIBHTTPREQUEST req = {0};
@@ -247,10 +255,10 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						result = 1;
 					}
 				}
-				else netlog("gg_avatarrequestthread(): Invalid response code from HTTP request");
+				else netlog("avatarrequestthread(): Invalid response code from HTTP request");
 				CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 			}
-			else netlog("gg_avatarrequestthread(): No response from HTTP request");
+			else netlog("avatarrequestthread(): No response from HTTP request");
 
 			ProtoBroadcastAck(m_szModuleName, pai.hContact, ACKTYPE_AVATAR,
 				result ? ACKRESULT_SUCCESS : ACKRESULT_FAILED, (HANDLE)&pai, 0);
@@ -262,8 +270,8 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			mir_free(data->AvatarURL);
 			mir_free(data);
 		}
-		LeaveCriticalSection(&avatar_mutex);
-		SleepEx(100, FALSE);
+		gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
+		gg_sleep(100, FALSE, "avatarrequestthread", 101, 1);
 	}
 
 	for (l = avatar_requests; l; l = l->next) {
@@ -277,7 +285,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 	}
 	list_destroy(avatar_requests, 0);
 	list_destroy(avatar_transfers, 0);
-	netlog("gg_avatarrequestthread(): Avatar Request Thread Ending");
+	netlog("avatarrequestthread(): end. Avatar Request Thread Ending");
 }
 
 void GGPROTO::initavatarrequestthread()
@@ -287,6 +295,9 @@ void GGPROTO::initavatarrequestthread()
 	GetExitCodeThread(pth_avatar.hThread, &exitCode);
 	if (exitCode != STILL_ACTIVE) {
 		avatar_requests = avatar_transfers = NULL;
+#ifdef DEBUGMODE
+		netlog("initavatarrequestthread(): forkthreadex 1 GGPROTO::avatarrequestthread");
+#endif
 		pth_avatar.hThread = forkthreadex(&GGPROTO::avatarrequestthread, NULL, &pth_avatar.dwThreadId);
 	}
 }
@@ -295,15 +306,20 @@ void GGPROTO::uninitavatarrequestthread()
 {
 	pth_avatar.dwThreadId = 0;
 #ifdef DEBUGMODE
-	netlog("gg_uninitavatarrequestthread(): Waiting until Avatar Request Thread finished, if needed.");
+	netlog("initavatarrequestthread() Waiting pth_avatar thread. Waiting until Avatar Request Thread finished, if needed.");
 #endif
 	threadwait(&pth_avatar);
+#ifdef DEBUGMODE
+	netlog("initavatarrequestthread() Waiting pth_avatar thread - OK");
+#endif
 }
 
 void __cdecl GGPROTO::getuseravatarthread(void*)
 {
 	char *AvatarURL;
 	int AvatarType;
+
+	netlog("getuseravatarthread() started");
 
 	getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
 	if (AvatarURL != NULL && strlen(AvatarURL) > 0)
@@ -317,13 +333,20 @@ void __cdecl GGPROTO::getuseravatarthread(void*)
 	PROTO_AVATAR_INFORMATIONT pai = {0};
 	pai.cbSize = sizeof(pai);
 	getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+#ifdef DEBUGMODE
+	netlog("getuseravatarthread(): end");
+#endif
 }
 
 void GGPROTO::getUserAvatar()
 {
 	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
-		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0))
+		&& db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0)){
+#ifdef DEBUGMODE
+		netlog("getUserAvatar(): forkthread 2 GGPROTO::getuseravatarthread");
+#endif
 		forkthread(&GGPROTO::getuseravatarthread, NULL);
+	}
 }
 
 void __cdecl GGPROTO::setavatarthread(void *param)
@@ -336,14 +359,17 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	char szUrl[128], uin[32], *authHeader, *data, *avatardata, content[256], image_ext[4], image_type[11];
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
-	netlog("gg_setavatar(): Trying to set user avatar using %s...", szFilename);
+	netlog("setavatarthread(): started. Trying to set user avatar using %s...", szFilename);
 	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
-		netlog("gg_setavatar(): Failed to open avatar file (%s).", strerror(errno));
+		netlog("setavatarthread(): Failed to open avatar file (%s).", strerror(errno));
 		mir_free(szFilename);
 		getUserAvatar();
+#ifdef DEBUGMODE
+		netlog("setavatarthread(): end. err1");
+#endif
 		return;
 	}
 	avatardatalen = _filelength(file_fd);
@@ -403,16 +429,16 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	if (resp) {
 		if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 #ifdef DEBUGMODE
-			netlog("%s", resp->pData);
+			netlog("setavatarthread(): 1 resp.data= %s", resp->pData);
 #endif
 			res = 1;
 		}
-		else netlog("gg_setavatar(): Invalid response code from HTTP request");
+		else netlog("setavatarthread() Invalid response code from HTTP request");
 		if (resp->resultCode == 403 || resp->resultCode == 401)
 			repeat = 1;
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 	}
-	else netlog("gg_setavatar(): No response from HTTP request");
+	else netlog("setavatarthread(): No response from HTTP request");
 
 	if (repeat) { // Access Token expired - we need to obtain new
 		mir_free(authHeader);
@@ -433,14 +459,14 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 		if (resp) {
 			if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 #ifdef DEBUGMODE
-				netlog("%s", resp->pData);
+				netlog("setavatarthread(): 2 resp.data= %s", resp->pData);
 #endif
 				res = 1;
 			}
-			else netlog("gg_setavatar(): Invalid response code from HTTP request");
+			else netlog("setavatarthread(): Invalid response code from HTTP request");
 			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT, 0, (LPARAM)resp);
 		}
-		else netlog("gg_setavatar(): No response from HTTP request");
+		else netlog("setavatarthread(): No response from HTTP request");
 	}
 
 	mir_free(authHeader);
@@ -448,15 +474,21 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	mir_free(data);
 
 	if (res)
-		netlog("gg_setavatar(): User avatar set successfully.");
+		netlog("setavatarthread(): User avatar set successfully.");
 	else
-		netlog("gg_setavatar(): Failed to set user avatar.");
+		netlog("setavatarthread(): Failed to set user avatar.");
 
 	mir_free(szFilename);
 	getUserAvatar();
+#ifdef DEBUGMODE
+	netlog("setavatarthread(): end.");
+#endif
 }
 
 void GGPROTO::setAvatar(const TCHAR *szFilename)
 {
+#ifdef DEBUGMODE
+		netlog("setAvatar(): forkthread 3 GGPROTO::setavatarthread");
+#endif
 	forkthread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
 }

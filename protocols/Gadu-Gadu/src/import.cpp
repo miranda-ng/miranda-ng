@@ -284,7 +284,7 @@ void GGPROTO::parsecontacts(char *contacts)
 		{
 			HANDLE hContact = getcontact(uin, 1, 1, _A2T(strNick));
 #ifdef DEBUGMODE
-			netlog("gg_parsecontacts(): Found contact %d with nickname \"%s\".", uin, strNick);
+			netlog("parsecontacts(): Found contact %d with nickname \"%s\".", uin, strNick);
 #endif
 			// Write group
 			if (hContact && strGroup)
@@ -341,16 +341,16 @@ INT_PTR GGPROTO::import_server(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// Making contacts list
-	EnterCriticalSection(&sess_mutex);
+	gg_EnterCriticalSection(&sess_mutex, "import_server", 65, "sess_mutex", 1);
 	if (gg_userlist_request(sess, GG_USERLIST_GET, NULL) == -1)
 	{
 		TCHAR error[128];
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 1, "sess_mutex", 1);
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be imported because of error:\n\t%s"), _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_import_server(): Cannot import list because of \"%s\".", strerror(errno));
+		netlog("import_server(): Cannot import list because of \"%s\".", strerror(errno));
 	}
-	LeaveCriticalSection(&sess_mutex);
+	gg_LeaveCriticalSection(&sess_mutex, "import_server", 65, 2, "sess_mutex", 1);
 	free(password);
 
 	return 0;
@@ -388,16 +388,16 @@ INT_PTR GGPROTO::remove_server(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	// Making contacts list
-	EnterCriticalSection(&sess_mutex);
+	gg_EnterCriticalSection(&sess_mutex, "remove_server", 66, "sess_mutex", 1);
 	if (gg_userlist_request(sess, GG_USERLIST_PUT, NULL) == -1)
 	{
 		TCHAR error[128];
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 1, "sess_mutex", 1);
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be removeed because of error:\n\t%s"), _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_remove_server(): Cannot remove list because of \"%s\".", strerror(errno));
+		netlog("remove_server(): Cannot remove list because of \"%s\".", strerror(errno));
 	}
-	LeaveCriticalSection(&sess_mutex);
+	gg_LeaveCriticalSection(&sess_mutex, "remove_server", 66, 2, "sess_mutex", 1);
 
 	// Set list removal
 	is_list_remove = TRUE;
@@ -446,7 +446,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrDefExt = _T("txt");
 
 #ifdef DEBUGMODE
-	netlog("gg_import_text()");
+	netlog("import_text()");
 #endif
 	if (!GetOpenFileName(&ofn)) return 0;
 
@@ -468,7 +468,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be imported from file \"%s\" because of error:\n\t%s"), str, _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_import_text(): Cannot import list from file \"%S\" because of \"%s\".", str, strerror(errno));
+		netlog("import_text(): Cannot import list from file \"%S\" because of \"%s\".", str, strerror(errno));
 	}
 
 	return 0;
@@ -512,7 +512,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrDefExt = _T("txt");
 
 #ifdef DEBUGMODE
-	netlog("gg_export_text(%s).", str);
+	netlog("export_text(%s).", str);
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 
@@ -529,7 +529,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 		TCHAR error[128];
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be exported to file \"%s\" because of error:\n\t%s"), str, _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_import_text(): Cannot export list to file \"%s\" because of \"%s\".", str, strerror(errno));
+		netlog("export_text(): Cannot export list to file \"%s\" because of \"%s\".", str, strerror(errno));
 	}
 
 	return 0;
@@ -570,19 +570,19 @@ INT_PTR GGPROTO::export_server(WPARAM wParam, LPARAM lParam)
 	contacts = gg_makecontacts(this, 1);
 
 #ifdef DEBUGMODE
-		netlog("gg_userlist_request(%s).", contacts);
+		netlog("export_server(): gg_userlist_request(%s).", contacts);
 #endif
 
-	EnterCriticalSection(&sess_mutex);
+	gg_EnterCriticalSection(&sess_mutex, "export_server", 67, "sess_mutex", 1);
 	if (gg_userlist_request(sess, GG_USERLIST_PUT, contacts) == -1)
 	{
 		TCHAR error[128];
-		LeaveCriticalSection(&sess_mutex);
+		gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 1, "sess_mutex", 1);
 		mir_sntprintf(error, SIZEOF(error), TranslateT("List cannot be exported because of error:\n\t%s"), _tcserror(errno));
 		MessageBox(NULL, error, m_tszUserName, MB_OK | MB_ICONSTOP);
-		netlog("gg_export_server(): Cannot export list because of \"%s\".", strerror(errno));
+		netlog("export_server(): Cannot export list because of \"%s\".", strerror(errno));
 	}
-	LeaveCriticalSection(&sess_mutex);
+	gg_LeaveCriticalSection(&sess_mutex, "export_server", 67, 2, "sess_mutex", 1);
 
 	// Set list removal
 	is_list_remove = FALSE;
