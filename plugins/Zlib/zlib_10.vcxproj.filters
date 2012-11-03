@@ -86,11 +86,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\zlib.def">
-      <Filter>Source Files</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\zlib.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>

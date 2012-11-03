@@ -38,22 +38,22 @@ Options options;
 
 void LoadOptions()
 {
-    options.iAbsencePeriod      = DBGetContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod", 14);
-    options.iAbsencePeriod2		= DBGetContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod2", 30 * 3);
+	options.iAbsencePeriod      = DBGetContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod", 14);
+	options.iAbsencePeriod2		= DBGetContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod2", 30 * 3);
 	options.iSilencePeriod		= DBGetContactSettingDword(NULL, MODULE_NAME, "iSilencePeriod", 30);
-    options.iShowPopUp          = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowPopUp", 1);
-    options.iShowEvent          = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowEvent", 0);
-    options.iShowUDetails       = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowUDetails", 0);
-    options.iShowMessageWindow  = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowMessageWindow", 1);
-    options.iPopUpColorBack     = DBGetContactSettingDword(NULL, MODULE_NAME, "iPopUpColorBack", DEF_COLOR_BACK);
-    options.iPopUpColorFore     = DBGetContactSettingDword(NULL, MODULE_NAME, "iPopUpColorFore", DEF_COLOR_FORE);
+	options.iShowPopUp          = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowPopUp", 1);
+	options.iShowEvent          = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowEvent", 0);
+	options.iShowUDetails       = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowUDetails", 0);
+	options.iShowMessageWindow  = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowMessageWindow", 1);
+	options.iPopUpColorBack     = DBGetContactSettingDword(NULL, MODULE_NAME, "iPopUpColorBack", DEF_COLOR_BACK);
+	options.iPopUpColorFore     = DBGetContactSettingDword(NULL, MODULE_NAME, "iPopUpColorFore", DEF_COLOR_FORE);
 	options.iUsePopupColors     = DBGetContactSettingByte(NULL, MODULE_NAME, "iUsePopupColors", 0);
 	options.iUseWinColors       = DBGetContactSettingByte(NULL, MODULE_NAME, "iUseWinColors", 0);
-    options.iPopUpDelay         = DBGetContactSettingByte(NULL, MODULE_NAME, "iPopUpDelay", 0);
+	options.iPopUpDelay         = DBGetContactSettingByte(NULL, MODULE_NAME, "iPopUpDelay", 0);
 
-    options.iShowPopUp2         = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowPopUp2", 1);
-    options.iShowEvent2         = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowEvent2", 0);
-    options.action2		        = (GoneContactAction)DBGetContactSettingByte(NULL, MODULE_NAME, "Action2", (BYTE)GCA_NOACTION);
+	options.iShowPopUp2         = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowPopUp2", 1);
+	options.iShowEvent2         = DBGetContactSettingByte(NULL, MODULE_NAME, "iShowEvent2", 0);
+	options.action2		        = (GoneContactAction)DBGetContactSettingByte(NULL, MODULE_NAME, "Action2", (BYTE)GCA_NOACTION);
 	options.notifyFirstOnline	= DBGetContactSettingByte(NULL, MODULE_NAME, "bShowFirstSight", 0) ? true : false;
 	options.hideInactive		= DBGetContactSettingByte(NULL, MODULE_NAME, "bHideInactive", 0) ? true : false;
 	options.enableMissYou		= DBGetContactSettingByte(NULL, MODULE_NAME, "bMissYouEnabled", 1) ? true : false;
@@ -62,17 +62,17 @@ void LoadOptions()
 
 void SaveOptions()
 {
-    DBWriteContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
-    DBWriteContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod2", options.iAbsencePeriod2);
+	DBWriteContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod", options.iAbsencePeriod);
+	DBWriteContactSettingDword(NULL, MODULE_NAME, "iAbsencePeriod2", options.iAbsencePeriod2);
 	DBWriteContactSettingDword(NULL, MODULE_NAME, "iSilencePeriod", options.iSilencePeriod);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowPopUp", options.iShowPopUp);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowEvent", options.iShowEvent);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowUDetails", options.iShowUDetails);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowMessageWindow", options.iShowMessageWindow);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowPopUp", options.iShowPopUp);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowEvent", options.iShowEvent);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowUDetails", options.iShowUDetails);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowMessageWindow", options.iShowMessageWindow);
 
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowPopUp2", options.iShowPopUp2);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowEvent2", options.iShowEvent2);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "Action2", (BYTE)options.action2);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowPopUp2", options.iShowPopUp2);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iShowEvent2", options.iShowEvent2);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "Action2", (BYTE)options.action2);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "bShowFirstSight", options.notifyFirstOnline ? 1 : 0);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "bHideInactive", options.hideInactive ? 1 : 0);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "bMissYouEnabled", options.enableMissYou ? 1 : 0);
@@ -81,11 +81,11 @@ void SaveOptions()
 
 void SavePopupOptions()
 {
-    DBWriteContactSettingDword(NULL, MODULE_NAME, "iPopUpColorBack", options.iPopUpColorBack);
-    DBWriteContactSettingDword(NULL, MODULE_NAME, "iPopUpColorFore", options.iPopUpColorFore);
+	DBWriteContactSettingDword(NULL, MODULE_NAME, "iPopUpColorBack", options.iPopUpColorBack);
+	DBWriteContactSettingDword(NULL, MODULE_NAME, "iPopUpColorFore", options.iPopUpColorFore);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "iUsePopupColors", options.iUsePopupColors);
 	DBWriteContactSettingByte(NULL, MODULE_NAME, "iUseWinColors", options.iUseWinColors);
-    DBWriteContactSettingByte(NULL, MODULE_NAME, "iPopUpDelay", options.iPopUpDelay);
+	DBWriteContactSettingByte(NULL, MODULE_NAME, "iPopUpDelay", options.iPopUpDelay);
 }
 
 /**

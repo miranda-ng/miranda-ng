@@ -195,7 +195,6 @@ static int OnModulesLoaded( WPARAM, LPARAM )
 	// Init extra icons
 	hExtraActivity = ExtraIcon_Register("activity", "Jabber Activity" /* No icons registered, "working" */);
 	hExtraMood = ExtraIcon_Register("mood", "Jabber Mood" /* No icons registered, "amazed" */);
-
 	return 0;
 }
 

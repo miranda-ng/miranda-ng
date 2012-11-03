@@ -59,7 +59,6 @@
 #include "m_metacontacts.h"
 #include "m_extraicons.h"
 
-static const int DefaultSlot = EXTRA_ICON_ADV2;
 #define MODULENAME "Gender"
 
 #endif //COMMHEADERS_H

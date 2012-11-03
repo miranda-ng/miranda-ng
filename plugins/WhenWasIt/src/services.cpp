@@ -47,7 +47,6 @@ int InitServices()
 	commonData.bUsePopups = DBGetContactSettingByte(NULL, ModuleName, "UsePopups", TRUE);
 	commonData.bUseClistIcon = DBGetContactSettingByte(NULL, ModuleName, "UseClistIcon", TRUE);
 	commonData.bUseDialog = DBGetContactSettingByte(NULL, ModuleName, "UseDialog", TRUE);
-	commonData.clistIcon= DBGetContactSettingByte(NULL, ModuleName, "AdvancedIcon", CLIST_ICON);
 	commonData.bIgnoreSubcontacts = DBGetContactSettingByte(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	commonData.cShowAgeMode = DBGetContactSettingByte(NULL, ModuleName, "ShowCurrentAge", FALSE);
 	commonData.bNoBirthdaysPopup = DBGetContactSettingByte(NULL, ModuleName, "NoBirthdaysPopup", FALSE);

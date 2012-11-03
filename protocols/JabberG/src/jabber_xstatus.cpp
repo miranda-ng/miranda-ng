@@ -713,18 +713,7 @@ void CPepMood::ResetExtraIcon(HANDLE hContact)
 
 void CPepMood::SetExtraIcon(HANDLE hContact, char *szMood)
 {
-	if (hExtraMood != NULL)
-	{
-		ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : m_icons.GetIcolibName(szMood));
-	}
-	else
-	{
-		IconExtraColumn iec;
-		iec.cbSize = sizeof(iec);
-		iec.hImage = m_icons.GetClistHandle(szMood);
-		iec.ColumnType = EXTRA_ICON_ADV1;
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-	}
+	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : m_icons.GetIcolibName(szMood));
 }
 
 void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText)
@@ -1145,19 +1134,7 @@ void CPepActivity::ResetExtraIcon(HANDLE hContact)
 
 void CPepActivity::SetExtraIcon(HANDLE hContact, char *szActivity)
 {
-	if (hExtraActivity != NULL)
-	{
-		ExtraIcon_SetIcon(hExtraActivity, hContact,
-						  szActivity == NULL ? NULL : m_icons.GetIcolibName(szActivity));
-	}
-	else
-	{
-		IconExtraColumn iec;
-		iec.cbSize = sizeof(iec);
-		iec.hImage = m_icons.GetClistHandle(szActivity);
-		iec.ColumnType = EXTRA_ICON_ADV2;
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-	}
+	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : m_icons.GetIcolibName(szActivity));
 }
 
 void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
@@ -1243,19 +1220,6 @@ HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
 	HICON icon = pepMood->m_icons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
 	return ( flags & LR_SHARED ) ? icon : CopyIcon( icon );
-}
-
-int CJabberProto::CListMW_ExtraIconsApply( WPARAM wParam, LPARAM )
-{
-	if (m_bJabberOnline && m_bPepSupported && ServiceExists(MS_CLIST_EXTRA_SET_ICON))
-	{
-		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, wParam, 0 );
-		if ( szProto==NULL || strcmp( szProto, m_szModuleName ))
-			return 0; // only apply icons to our contacts, do not mess others
-
-		m_pepServices.ResetExtraIcon((HANDLE)wParam);
-	}
-	return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -1465,12 +1429,9 @@ void CJabberProto::InfoFrame_OnUserActivity(CJabberInfoFrame_Event*)
 
 void CJabberProto::XStatusInit()
 {
-	if (hExtraMood == NULL)
-		JHookEvent( ME_CLIST_EXTRA_IMAGE_APPLY,  &CJabberProto::CListMW_ExtraIconsApply );
-
-	RegisterAdvStatusSlot( ADVSTATUS_MOOD );
-	RegisterAdvStatusSlot( ADVSTATUS_TUNE );
-	RegisterAdvStatusSlot( ADVSTATUS_ACTIVITY );
+	RegisterAdvStatusSlot(ADVSTATUS_MOOD);
+	RegisterAdvStatusSlot(ADVSTATUS_TUNE);
+	RegisterAdvStatusSlot(ADVSTATUS_ACTIVITY);
 }
 
 void CJabberProto::XStatusUninit()

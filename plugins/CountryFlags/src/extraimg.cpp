@@ -21,17 +21,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Services */
 static HANDLE hServiceDetectContactOrigin;
-/* Extra Image */
-static HANDLE hHookExtraRebuild,hHookExtraApply;
-/* Status Icon */
-static HANDLE hHookMsgWndEvent,hHookIconsChanged;
-/* Options */
-static HANDLE hHookOptInit,hHookSettingChanged;
+
 /* Misc */
 extern HINSTANCE hInst;
 extern int nCountriesCount;
 extern struct CountryListEntry *countries;
-static HANDLE hHookModulesLoaded;
 
 /************************* Services *******************************/
 
@@ -55,50 +49,25 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 
 #define EXTRAIMAGE_REFRESHDELAY  100  /* time for which setting changes are buffered */
 
-static HANDLE *phExtraImages;
-static BYTE idExtraColumn;
+static HANDLE hExtraIcon;
 
-static void CALLBACK SetExtraImage(LPARAM lParam)
+static void CALLBACK SetExtraImage(HANDLE hContact)
 {
 	if ( !db_get_b(NULL, "Flags", "ShowExtraImgFlag", SETTING_SHOWEXTRAIMGFLAG_DEFAULT))
 		return;
 		
-	/* get contact's country */
-	IconExtraColumn iec;
-	iec.hImage = INVALID_HANDLE_VALUE;
-	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);
-	/* get icon */
-	if (phExtraImages != NULL) /* too early? */
-	if (countryNumber != 0xFFFF || db_get_b(NULL,"Flags","UseUnknownFlag",SETTING_USEUNKNOWNFLAG_DEFAULT)) {
-		int index=CountryNumberToIndex(countryNumber);
-		/* icon not yet loaded? */
-		if (phExtraImages[index] == INVALID_HANDLE_VALUE) {
-			HICON hIcon = LoadFlagIcon(countryNumber);
-			if (hIcon != NULL)
-				phExtraImages[index]=(HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON,(WPARAM)hIcon,0);
-			Skin_ReleaseIcon(hIcon); /* does NULL check */
-		}
-		iec.hImage=phExtraImages[index];
-	}
-	/* choose column */
-	iec.cbSize=sizeof(iec);
-	iec.ColumnType=idExtraColumn;
-	CallService(MS_CLIST_EXTRA_SET_ICON,(WPARAM)lParam,(LPARAM)&iec);
+	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)hContact, 0);
+	char szId[20];
+	wsprintfA(szId, (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber);
+	ExtraIcon_SetIcon(hExtraIcon, hContact, szId);
 }
 
 // always call in context of main thread
 static void RemoveExtraImages(void)
 {
-	/* choose column */
-	IconExtraColumn iec;
-	iec.cbSize = sizeof(iec);
-	iec.ColumnType = idExtraColumn;
-	iec.hImage = INVALID_HANDLE_VALUE;
-	/* enum all contacts */
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		/* invalidate icon */
-		CallService(MS_CLIST_EXTRA_SET_ICON,(WPARAM)hContact,(LPARAM)&iec);
+		ExtraIcon_SetIcon(hExtraIcon, hContact, (HANDLE)0);
 		hContact = db_find_next(hContact);
 	}
 }
@@ -106,19 +75,9 @@ static void RemoveExtraImages(void)
 // always call in context of main thread
 static void EnsureExtraImages(void)
 {
-	BYTE idMaxExtraCol,idExtraColumnNew;
-	/* choose column */
-	idMaxExtraCol=(BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_EXTRACOLUMNCOUNT); /* 1-based count */
-	if (idMaxExtraCol == (BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_USEREXTRASTART)) /* same flags if not present */
-		idMaxExtraCol=EXTRA_ICON_ADV2; /* zero if not present */
-	idExtraColumnNew=DBGetContactSettingRangedByte(NULL,"Flags","ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT,1,idMaxExtraCol);
-	/* clear previous column */
-	if (idExtraColumnNew != idExtraColumn) RemoveExtraImages();
-	idExtraColumn=idExtraColumnNew;
-	/* enum all contacts */
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		CallFunctionBuffered(SetExtraImage,(LPARAM)hContact,TRUE,EXTRAIMAGE_REFRESHDELAY);
+		SetExtraImage(hContact);
 		hContact = db_find_next(hContact);
 	}
 }
@@ -131,26 +90,10 @@ static void CALLBACK UpdateExtraImages(LPARAM lParam)
 		RemoveExtraImages();
 }
 
-static int ExtraListRebuild(WPARAM wParam,LPARAM lParam)
-{
-	OutputDebugStringA("REBUILD EXTRA\n");
-	/* invalidate icons */
-	if (phExtraImages != NULL)
-		for(int i=0; i < nCountriesCount; ++i)
-			phExtraImages[i] = INVALID_HANDLE_VALUE;
-	/* choose column */
-	BYTE idMaxExtraCol = (BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_EXTRACOLUMNCOUNT); /* 1-based count */
-	if (idMaxExtraCol == (BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_USEREXTRASTART)) /* same flags if not present */
-		idMaxExtraCol=EXTRA_ICON_ADV2; /* zero if not present */
-	idExtraColumn = DBGetContactSettingRangedByte(NULL,"Flags","ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT,1,idMaxExtraCol);
-	return 0;
-}
-
 static int ExtraImageApply(WPARAM wParam,LPARAM lParam)
 {
-	OutputDebugStringA("APPLY EXTRA\n");
 	if ( db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT)) 
-		SetExtraImage((LPARAM)wParam); /* unbuffered */
+		SetExtraImage((HANDLE)wParam); /* unbuffered */
 	return 0;
 }
 
@@ -267,93 +210,58 @@ static int StatusIconsChanged(WPARAM wParam,LPARAM lParam)
 static INT_PTR CALLBACK ExtraImgOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			/* init checkboxes */
-			{	BOOL val;
-				/* Status Icon */
-				if (ServiceExists(MS_MSG_ADDICON)) val=db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
-				else EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG),val=FALSE);
-				CheckDlgButton(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG,val);
-				/* Extra Image */
-				if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) val=db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
-				else EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG),val=FALSE);
-				CheckDlgButton(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG,val);
-				/* Unknown Flag */
-				val=db_get_b(NULL,"Flags","UseUnknownFlag",SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
-				CheckDlgButton(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG,val);
-				/* IP-to-country */
-				val=db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
-				CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY,val);
-			}
-			/* init combobox */
-			{	HWND hwndCombo;
-				TCHAR szItem[64];
-				BYTE idColumn,idSavedColumn;
-				BYTE idMaxExtraCol,idAdvExtraColStart;
-				int index;
-				hwndCombo=GetDlgItem(hwndDlg,IDC_COMBO_EXTRAIMGFLAGCOLUMN);
-				idSavedColumn=db_get_b(NULL,"Flags","ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT);
-				idMaxExtraCol=(BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_EXTRACOLUMNCOUNT); /* 1-based count */
-				idAdvExtraColStart=(BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_USEREXTRASTART); /* 1-based id */
-				/* init */
-				SendMessage(hwndCombo,CB_SETLOCALE,(LCID)CallService(MS_LANGPACK_GETLOCALE,0,0),0); /* for sort order */
-				SendMessage(hwndCombo,CB_INITSTORAGE,idMaxExtraCol-idAdvExtraColStart+3,(idMaxExtraCol-idAdvExtraColStart+3)*SIZEOF(szItem));
-				/* Advanced #1,#2 */
-				{	const BYTE columnIds[]={EXTRA_ICON_ADV1,EXTRA_ICON_ADV2};
-					for(idColumn=0;idColumn<SIZEOF(columnIds);++idColumn) {
-						mir_sntprintf(szItem,SIZEOF(szItem),TranslateT("Advanced #%u"),idColumn+1); /* buffer safe */
-						index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)szItem);
-						if (index != LB_ERR) {
-							SendMessage(hwndCombo,CB_SETITEMDATA,index,columnIds[idColumn]);
-							if (idColumn == 0 || columnIds[idColumn] == idSavedColumn) SendMessage(hwndCombo,CB_SETCURSEL,index,0);
-						}
-					}
-				}
-				/* Advanced #3+: clist_modern */
-				if (idMaxExtraCol != idAdvExtraColStart) /* same flags if not present */
-					for(idColumn=idAdvExtraColStart;idColumn<=idMaxExtraCol;++idColumn) {
-						mir_sntprintf(szItem,SIZEOF(szItem),TranslateT("Advanced #%u"),idColumn-idAdvExtraColStart+3); /* buffer safe */
-						index=SendMessage(hwndCombo,CB_ADDSTRING,0,(LPARAM)szItem);
-						if (index != LB_ERR) {
-							SendMessage(hwndCombo,CB_SETITEMDATA,index,idColumn);
-							if (idColumn == idSavedColumn) SendMessage(hwndCombo,CB_SETCURSEL,index,0);
-						}
-					}
-			}
-			SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
-			return TRUE; /* default focus */
-		case M_ENABLE_SUBCTLS:
-		{	BOOL checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG);
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		/* init checkboxes */
+		{
+			BOOL val;
+			/* Status Icon */
+			if (ServiceExists(MS_MSG_ADDICON)) val=db_get_b(NULL,"Flags","ShowStatusIconFlag",SETTING_SHOWSTATUSICONFLAG_DEFAULT) != 0;
+			else EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG),val=FALSE);
+			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG,val);
+			/* Extra Image */
+			val=db_get_b(NULL,"Flags","ShowExtraImgFlag",SETTING_SHOWEXTRAIMGFLAG_DEFAULT) != 0;
+			CheckDlgButton(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG,val);
+			/* Unknown Flag */
+			val=db_get_b(NULL,"Flags","UseUnknownFlag",SETTING_USEUNKNOWNFLAG_DEFAULT) != 0;
+			CheckDlgButton(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG,val);
+			/* IP-to-country */
+			val=db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT) != 0;
+			CheckDlgButton(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY,val);
+		}
+		SendMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
+		return TRUE; /* default focus */
+
+	case M_ENABLE_SUBCTLS:
+		{
+			BOOL checked = IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_TEXT_EXTRAIMGFLAGCOLUMN),checked);
-			EnableWindow(GetDlgItem(hwndDlg,IDC_COMBO_EXTRAIMGFLAGCOLUMN),checked);
-			if (!checked) checked=IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG);
+			if (!checked)
+				checked = IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG),checked);
 			EnableWindow(GetDlgItem(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY),checked);
 			return TRUE;
 		}
- 		case WM_COMMAND:
-			PostMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
-			PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0); /* enable apply */
-			return FALSE;
-		case WM_NOTIFY:
-			switch(((NMHDR*)lParam)->code) {
-				case PSN_APPLY: /* setting change hook will pick these up  */
-					DBWriteContactSettingByte(NULL,"Flags","UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
-					DBWriteContactSettingByte(NULL,"Flags","UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
-					/* Status Icon */
-					if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG)))
-						DBWriteContactSettingByte(NULL,"Flags","ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
-					/* Extra Image */
-					if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG)))
-						DBWriteContactSettingByte(NULL,"Flags","ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
-					{	int index;
-						index=SendDlgItemMessage(hwndDlg,IDC_COMBO_EXTRAIMGFLAGCOLUMN,CB_GETCURSEL,0,0);
-						if (index != LB_ERR) DBWriteContactSettingByte(NULL,"Flags","ExtraImgFlagColumn",(BYTE)SendDlgItemMessage(hwndDlg,IDC_COMBO_EXTRAIMGFLAGCOLUMN,CB_GETITEMDATA,index,0));
-					}
-					return TRUE;
-			}
-			break;
+
+	case WM_COMMAND:
+		PostMessage(hwndDlg,M_ENABLE_SUBCTLS,0,0);
+		PostMessage(GetParent(hwndDlg),PSM_CHANGED,0,0); /* enable apply */
+		return FALSE;
+
+	case WM_NOTIFY:
+		switch(((NMHDR*)lParam)->code) {
+		case PSN_APPLY: /* setting change hook will pick these up  */
+			DBWriteContactSettingByte(NULL,"Flags","UseUnknownFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEUNKNOWNFLAG) != 0));
+			DBWriteContactSettingByte(NULL,"Flags","UseIpToCountry",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_USEIPTOCOUNTRY) != 0));
+			/* Status Icon */
+			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG)))
+				DBWriteContactSettingByte(NULL,"Flags","ShowStatusIconFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWSTATUSICONFLAG) != 0));
+			/* Extra Image */
+			if (IsWindowEnabled(GetDlgItem(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG)))
+				DBWriteContactSettingByte(NULL,"Flags","ShowExtraImgFlag",(BYTE)(IsDlgButtonChecked(hwndDlg,IDC_CHECK_SHOWEXTRAIMGFLAG) != 0));
+			return TRUE;
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -399,8 +307,7 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 	        !lstrcmpA(dbcws->szSetting,"Country") ||
 	        !lstrcmpA(dbcws->szSetting,"CompanyCountry")) {
 		/* Extra Image */
-		if (ServiceExists(MS_CLIST_EXTRA_SET_ICON))
-		   CallFunctionBuffered(SetExtraImage,(LPARAM)wParam,TRUE,EXTRAIMAGE_REFRESHDELAY);
+	   SetExtraImage((HANDLE)wParam);
 		/* Status Icon */
 		if (ServiceExists(MS_MSG_ADDICON))
 		   CallFunctionBuffered(UpdateStatusIcons,0,FALSE,STATUSICON_REFRESHDELAY);
@@ -415,26 +322,13 @@ static int ExtraImgModulesLoaded(WPARAM wParam,LPARAM lParam)
 	/* Options */
 	if (ServiceExists("DBEditorpp/RegisterSingleModule"))
 		CallService("DBEditorpp/RegisterSingleModule",(WPARAM)"Flags",0);
+
 	/* Extra Image */
-	if (ServiceExists(MS_CLIST_EXTRA_SET_ICON)) {
-		int i;
-		BYTE idMaxExtraCol;
-		phExtraImages=(HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
-		/* invalidate icons */
-		if (phExtraImages != NULL)
-			for(i=0;i<nCountriesCount;++i)
-				phExtraImages[i]=INVALID_HANDLE_VALUE;
-		/* choose column */
-		idMaxExtraCol=(BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_EXTRACOLUMNCOUNT); /* 1-based count */
-		if (idMaxExtraCol == (BYTE)CallService(MS_CLUI_GETCAPS,0,CLUIF2_USEREXTRASTART)) /* same flags if not present */
-			idMaxExtraCol=EXTRA_ICON_ADV2; /* zero if not present */
-		idExtraColumn=DBGetContactSettingRangedByte(NULL,"Flags","ExtraImgFlagColumn",SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT,1,idMaxExtraCol);
-		/* hook */
-		hHookExtraRebuild=HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,ExtraListRebuild);
-		hHookExtraApply=HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,ExtraImageApply);
-	}
+	hExtraIcon = ExtraIcon_Register("flags_extra", "Country flag");
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,ExtraImageApply);
+
 	/* Status Icon */
-	hHookMsgWndEvent=HookEvent(ME_MSG_WINDOWEVENT,MsgWndEvent);
+	HookEvent(ME_MSG_WINDOWEVENT,MsgWndEvent);
 	return 0;
 }
 
@@ -443,33 +337,16 @@ void InitExtraImg(void)
 	/* Services */
 	hServiceDetectContactOrigin=CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	/* Misc */
-	hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,ExtraImgModulesLoaded);
-	/* Extra Image */
-	phExtraImages=NULL;
-	hHookExtraRebuild=hHookExtraApply=NULL;
+	HookEvent(ME_SYSTEM_MODULESLOADED,ExtraImgModulesLoaded);
 	/* Status icon */
-	hHookMsgWndEvent=NULL;
-	hHookIconsChanged=HookEvent(ME_SKIN2_ICONSCHANGED,StatusIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED,StatusIconsChanged);
 	/* Options */
-	hHookOptInit=HookEvent(ME_OPT_INITIALISE,ExtraImgOptInit);
-	hHookSettingChanged=HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ExtraImgSettingChanged);
+	HookEvent(ME_OPT_INITIALISE,ExtraImgOptInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ExtraImgSettingChanged);
 }
 
 void UninitExtraImg(void)
 {
 	/* Services */
 	DestroyServiceFunction(hServiceDetectContactOrigin);
-	/* Misc */
-	UnhookEvent(hHookModulesLoaded);
-	/* Extra Image */
-	UnhookEvent(hHookSettingChanged);
-	UnhookEvent(hHookExtraRebuild);
-	UnhookEvent(hHookExtraApply);
-	mir_free(phExtraImages); /* does NULL check */
-	/* Status icon */
-	UnhookEvent(hHookMsgWndEvent);
-	UnhookEvent(hHookIconsChanged);
-	/* Options */
-	UnhookEvent(hHookOptInit);
-	UnhookEvent(hHookSettingChanged);
 }

@@ -28,8 +28,6 @@ void InitThemeSupport(void);
 void InitIcons(void);
 void InitExtraIcons(void);
 
-void DestroyExtraIcons(void);
-
 HICON  LoadIconEx(const char* name, bool big = false);
 HANDLE GetIconHandle(const char* name);
 void   ReleaseIconEx(const char* name, bool big = false);

@@ -23,8 +23,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 void FillPopupData(POPUPDATAT &pd, int dtb)
 {
-	//DWORD foreground = DBGetContactSettingDword(NULL, ModuleName, "Foreground", FOREGROUND_COLOR);
-	//DWORD background = DBGetContactSettingDword(NULL, ModuleName, "Background", BACKGROUND_COLOR);
 	int popupTimeout = (dtb == 0) ? commonData.popupTimeoutToday : commonData.popupTimeout;
 
 	pd.colorBack = commonData.background;
@@ -40,26 +38,17 @@ int PopupNotifyNoBirthdays()
 
 	_tcscpy(pd.lptzContactName, TranslateT("WhenWasIt"));
 	_tcscpy(pd.lptzText, TranslateT("No upcoming birthdays."));
-
-	
 	return PUAddPopUpT(&pd);
 }
 
 TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
 {
 	if (dtb > 1)
-	{
 		mir_sntprintf(text, size, TranslateT("%s has birthday in %d days."), name, dtb);
-	}
-	else{
-		if (dtb == 1)
-		{
-			mir_sntprintf(text, size, TranslateT("%s has birthday tomorrow."), name);
-		}
-		else{
-			mir_sntprintf(text, size, TranslateT("%s has birthday today."), name);
-		}
-	}
+	else if (dtb == 1)
+		mir_sntprintf(text, size, TranslateT("%s has birthday tomorrow."), name);
+	else
+		mir_sntprintf(text, size, TranslateT("%s has birthday today."), name);
 		
 	return text;
 }
@@ -67,18 +56,11 @@ TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
 TCHAR *BuildDABText(int dab, TCHAR *name, TCHAR *text, int size)
 {
 	if (dab > 1)
-	{
 		mir_sntprintf(text, size, TranslateT("%s had birthday %d days ago."), name, dab);
-	}
-	else{
-		if (dab == 1)
-		{
-			mir_sntprintf(text, size, TranslateT("%s had birthday yesterday."), name);
-		}
-		else{
-			mir_sntprintf(text, size, TranslateT("%s has birthday today (Should not happen, please report)."), name);
-		}
-	}
+	else if (dab == 1)
+		mir_sntprintf(text, size, TranslateT("%s had birthday yesterday."), name);
+	else
+		mir_sntprintf(text, size, TranslateT("%s has birthday today (Should not happen, please report)."), name);
 	
 	return text;
 }
@@ -113,32 +95,22 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	//strcpy(pd.lpzContactName, text);
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
-	switch (toupper(gender))
-		{
-			case _T('M'):
-				{
-					sex = TranslateT("He");
-					break;
-				}
-			case _T('F'):
-				{
-					sex = TranslateT("She");
-					break;
-				}
-			default:
-				{
-					sex = TranslateT("He/She");
-					break;
-				}
-		}
+	switch (toupper(gender)) {
+	case _T('M'):
+		sex = TranslateT("He");
+		break;
+	case _T('F'):
+		sex = TranslateT("She");
+		break;
+	default:
+		sex = TranslateT("He/She");
+		break;
+	}
 	if (dtb > 0)
-		{
-			_stprintf(pd.lptzText, TranslateT("%s\n%s will be %d years old."), text, sex, age);
-		}
-		else{
-			_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
-		}
-	
+		_stprintf(pd.lptzText, TranslateT("%s\n%s will be %d years old."), text, sex, age);
+	else
+		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
+
 	PUAddPopUpT(&pd);
 	free(name);
 	
@@ -151,14 +123,11 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
 	//int bIgnoreSubcontacts = DBGetContactSettingByte(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
-	if (commonData.bIgnoreSubcontacts)
-		{
-			HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
-			if ((hMetacontact) && (hMetacontact != hContact)) //not main metacontact
-				{
-					return 0;
-				}
-		}
+	if (commonData.bIgnoreSubcontacts) {
+		HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
+		if (hMetacontact && hMetacontact != hContact) //not main metacontact
+			return 0;
+	}
 	BuildDABText(dab, name, text, MAX_SIZE);
 	int gender = GetContactGender(hContact);
 	
@@ -166,40 +135,25 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	FillPopupData(pd, dab);
 	pd.lchContact = hContact;
 	pd.PluginWindowProc = (WNDPROC) DlgProcPopup;
-	//pd.PluginData = (void *) hContact;
-	//pd.colorBack = background;
-	//pd.colorText = foreground;
-	//pd.iSeconds = popupTimeout;
 	pd.lchIcon = GetDABIcon(dab);
 	
-	//strcpy(pd.lpzContactName, text);
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
-	switch (toupper(gender))
-		{
-			case _T('M'):
-				{
-					sex = TranslateT("He");
-					break;
-				}
-			case _T('F'):
-				{
-					sex = TranslateT("She");
-					break;
-				}
-			default:
-				{
-					sex = TranslateT("He/She");
-					break;
-				}
-		}
+	switch (toupper(gender)) {
+	case _T('M'): 
+		sex = TranslateT("He");
+		break;
+	case _T('F'):
+		sex = TranslateT("She");
+		break;
+	default:
+		sex = TranslateT("He/She");
+		break;
+	}
 	if (dab > 0)
-		{
-			_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
-		}
-		else{
-			_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
-		}
+		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
+	else
+		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	
 	PUAddPopUpT(&pd);
 	free(name);
@@ -207,20 +161,9 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	return 0;
 }
 
-int ClistIconNotifyBirthday(HANDLE hContact, int dtb, int advancedIcon)
+int ClistIconNotifyBirthday(HANDLE hContact, int dtb)
 {
-	if (ServiceExists(MS_EXTRAICON_SET_ICON))
-	{
-		ExtraIcon_SetIcon(hWWIExtraIcons, hContact, GetClistIcon(dtb));
-	}
-	else {
-		IconExtraColumn iec = {0};
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.ColumnType = advancedIcon;
-		iec.hImage = GetClistIcon(dtb);
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &iec);
-	}
-	
+	ExtraIcon_SetIcon(hWWIExtraIcons, hContact, GetClistIcon(dtb));
 	return 0;
 }
 
@@ -231,8 +174,7 @@ int DialogNotifyBirthday(HANDLE hContact, int dtb, int age)
 	TCHAR text[MAX_SIZE];
 	
 	BuildDTBText(dtb, name, text, MAX_SIZE);
-	if (!hUpcomingDlg)
-	{
+	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
@@ -258,8 +200,7 @@ int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	TCHAR text[MAX_SIZE];
 	
 	BuildDABText(dab, name, text, MAX_SIZE);
-	if (!hUpcomingDlg)
-	{
+	if (!hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
@@ -280,48 +221,22 @@ int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 
 int SoundNotifyBirthday(int dtb)
 {
-	//int daysToPlay = DBGetContactSettingByte(NULL, ModuleName, "SoundNearDays", BIRTHDAY_NEAR_DEFAULT_DAYS);
 	if (dtb == 0)
-		{
-			SkinPlaySound(BIRTHDAY_TODAY_SOUND);
-		}
-		else{
-			if (dtb <= commonData.cSoundNearDays)
-				{
-					SkinPlaySound(BIRTHDAY_NEAR_SOUND);
-				}
-		}
-	
+		SkinPlaySound(BIRTHDAY_TODAY_SOUND);
+	else if (dtb <= commonData.cSoundNearDays)
+		SkinPlaySound(BIRTHDAY_NEAR_SOUND);
+
 	return 0;
 }
 
-int ClearClistIcon(HANDLE hContact, int advancedIcon)
+int ClearClistIcon(HANDLE hContact)
 {
-	if (ServiceExists(MS_EXTRAICON_SET_ICON))
-	{
-		return ExtraIcon_SetIcon(hWWIExtraIcons, hContact, (HANDLE) -1);
-	}
-	else {
-		IconExtraColumn iec = {0};
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.ColumnType = advancedIcon;
-		iec.hImage = (HANDLE) -1;
-	
-		return CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) hContact, (LPARAM) &iec);
-	}
+	return ExtraIcon_SetIcon(hWWIExtraIcons, hContact, INVALID_HANDLE_VALUE);
 }
 
 int RefreshContactListIcons(HANDLE hContact)
 {
-	//if (DBGetContactSettingWord(hContact, DUMMY_MODULE, DUMMY_SETTING, 0) != 0)
-	//	{
-	//		DBDeleteContactSetting(hContact, DUMMY_MODULE, DUMMY_SETTING);
-	//	}
-	//	else{
-	//		DBWriteContactSettingWord(hContact, DUMMY_MODULE, DUMMY_SETTING, 101);
-	//	}
 	OnExtraImageApply((WPARAM) hContact, 0);
-			
 	return 0;
 }
 
@@ -330,14 +245,12 @@ int RefreshContactListIcons(HANDLE hContact)
 int RefreshAllContactListIcons(int oldClistIcon)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-		{
-			if (oldClistIcon != -1)
-				{
-					ClearClistIcon(hContact, oldClistIcon);
-				}
-			RefreshContactListIcons(hContact); //will change bBirthdayFound if needed
-			hContact = db_find_next(hContact);
-		}
+	while (hContact != NULL) {
+		if (oldClistIcon != -1)
+			ClearClistIcon(hContact);
+
+		RefreshContactListIcons(hContact); //will change bBirthdayFound if needed
+		hContact = db_find_next(hContact);
+	}
 	return 0;
 }

@@ -33,7 +33,6 @@ private:
 	int m_nSlot;
 };
 
-int QuotesEventFunc_onExtraImageListRebuild(WPARAM wp,LPARAM lp);
 int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp);
 
 #endif //__9d0dac0c_12e4_46ce_809a_db6dc7d6f269_ExtraImages_h__

@@ -148,114 +148,32 @@ BOOLEAN CEvent::operator << (const CEvent& evt)
  *
  * @return	The function returns icolib's icon if found or NULL otherwise.
  **/
+
 static HICON GetAnnivIcon(const CEvent &evt)
 {
 	HICON hIcon = NULL;
 
 	CHAR szIcon[MAXSETTING];
 
-	switch (evt._eType)
-	{
-		case CEvent::BIRTHDAY:
-			{
-				if (evt._wDaysLeft > 9)
-				{
-					hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
-				}
-				else
-				{
-					mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
-					hIcon = IcoLib_GetIcon(szIcon);
-				}
-			}
-			break;
+	switch (evt._eType) {
+	case CEvent::BIRTHDAY:
+		if (evt._wDaysLeft > 9)
+			hIcon = IcoLib_GetIcon(ICO_RMD_DTBX);
+		else {
+			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
+			hIcon = IcoLib_GetIcon(szIcon);
+		}
+		break;
 
-		case CEvent::ANNIVERSARY:
-			{
-				if (evt._wDaysLeft > 9)
-				{
-					hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
-				}
-				else
-				{
-					mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
-					hIcon = IcoLib_GetIcon(szIcon);
-				}
-			}
-	}
-	return hIcon;
-}
-
-/**
- * This function adds the icon for the given anniversary, which is the given number of days
- * in advance to the contact list's imagelist.
- *
- * @param	evt				- structure specifying the next anniversary
- *
- * @return	The function returns the clist's extra icon handle if found and successfully added.
- **/
-static HANDLE AddCListExtraIcon(const CEvent &evt)
-{
-	HANDLE hClistIcon;
-	HICON hIco = GetAnnivIcon(evt);
-	if (hIco)
-	{
-		hClistIcon = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIco, 0);
-		if (hClistIcon == (HANDLE)CALLSERVICE_NOTFOUND)
-			hClistIcon = INVALID_HANDLE_VALUE;
-
-		Skin_ReleaseIcon(hIco);
-	}
-	else hClistIcon = INVALID_HANDLE_VALUE;
-
-	return hClistIcon;
-}
-
-/**
- * This function returns the clist extra icon handle for the given anniversary.
- *
- * @param	evt				- structure specifying the next anniversary
- *
- * @return	The function returns the clist extra icon handle for the given anniversary.
- **/
-static HANDLE GetCListExtraIcon(const CEvent &evt)
-{
-	if (gRemindOpts.bCListExtraIcon)
-	{
-		WORD wIndex = evt._wDaysLeft;
-
-		switch (evt._eType)
-		{
-		case CEvent::BIRTHDAY:
-			{
-				if (wIndex >= SIZEOF(ghCListBirthdayIcons))
-				{
-					wIndex = SIZEOF(ghCListBirthdayIcons) - 1;
-				}
-				// add the icon to clists imagelist if required
-				if (ghCListBirthdayIcons[wIndex] == INVALID_HANDLE_VALUE)
-				{
-					ghCListBirthdayIcons[wIndex] = AddCListExtraIcon(evt);
-				}
-			}
-			return ghCListBirthdayIcons[wIndex];
-
-		case CEvent::ANNIVERSARY:
-			{
-				if (wIndex >= SIZEOF(ghCListAnnivIcons))
-				{
-					wIndex = SIZEOF(ghCListAnnivIcons) - 1;
-				}
-				// add the icon to clists imagelist if required
-				if (ghCListAnnivIcons[wIndex] == INVALID_HANDLE_VALUE)
-				{
-					ghCListAnnivIcons[wIndex] = AddCListExtraIcon(evt);
-				}
-			}
-			return ghCListAnnivIcons[wIndex];
+	case CEvent::ANNIVERSARY:
+		if (evt._wDaysLeft > 9)
+			hIcon = IcoLib_GetIcon(ICO_RMD_DTAX);
+		else {
+			mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
+			hIcon = IcoLib_GetIcon(szIcon);
 		}
 	}
-	return INVALID_HANDLE_VALUE;
+	return hIcon;
 }
 
 /**

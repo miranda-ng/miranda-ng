@@ -84,20 +84,20 @@ static int skinStatusToJabberStatus[] = {0,1,2,3,4,4,6,7,2,2};
 
 ///////////////////////////////////////////////////////////////////////////////
 // CIconPool class
+
 int CIconPool::CPoolItem::cmp(const CPoolItem *p1, const CPoolItem *p2)
 {
 	return lstrcmpA(p1->m_name, p2->m_name);
 }
 
 CIconPool::CPoolItem::CPoolItem():
-	m_name(NULL), m_szIcolibName(NULL), m_hIcolibItem(NULL), m_hClistItem(NULL)
+	m_name(NULL), m_szIcolibName(NULL), m_hIcolibItem(NULL)
 {
 }
 
 CIconPool::CPoolItem::~CPoolItem()
 {
-	if (m_hIcolibItem && m_szIcolibName)
-	{
+	if (m_hIcolibItem && m_szIcolibName) {
 		CallService(MS_SKIN2_REMOVEICON, 0, (LPARAM)m_szIcolibName);
 		mir_free(m_szIcolibName);
 	}
@@ -114,8 +114,7 @@ CIconPool::CIconPool(CJabberProto *proto):
 
 CIconPool::~CIconPool()
 {
-	if (m_hOnExtraIconsRebuild)
-	{
+	if (m_hOnExtraIconsRebuild) {
 		UnhookEvent(m_hOnExtraIconsRebuild);
 		m_hOnExtraIconsRebuild = NULL;
 	}
@@ -129,7 +128,6 @@ void CIconPool::RegisterIcon(const char *name, const char *filename, int iconid,
 	CPoolItem *item = new CPoolItem;
 	item->m_name = mir_strdup(name);
 	item->m_szIcolibName = mir_strdup(szSettingName);
-	item->m_hClistItem = NULL;
 
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
@@ -168,55 +166,11 @@ HICON CIconPool::GetIcon(const char *name, bool big)
 	return NULL;
 }
 
-HANDLE CIconPool::GetClistHandle(const char *name)
-{
-	if (!name)
-		return (HANDLE)-1;
-
-	if (!ExtraIconsSupported())
-		return (HANDLE)-1;
-
-	if (!m_hOnExtraIconsRebuild)
-	{
-		int (__cdecl CIconPool::*hookProc)(WPARAM, LPARAM);
-		hookProc = &CIconPool::OnExtraIconsRebuild;
-		m_hOnExtraIconsRebuild = HookEventObj(ME_CLIST_EXTRA_LIST_REBUILD, (MIRANDAHOOKOBJ)*(void **)&hookProc, this);
-	}
-
-	if (CPoolItem *item = FindItemByName(name))
-	{
-		if (item->m_hClistItem)
-			return item->m_hClistItem;
-
-		HICON hIcon = Skin_GetIconByHandle(item->m_hIcolibItem);
-		item->m_hClistItem = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)hIcon, 0);
-		g_ReleaseIcon(hIcon);
-		return item->m_hClistItem;
-	}
-
-	return (HANDLE)-1;
-}
-
 CIconPool::CPoolItem *CIconPool::FindItemByName(const char *name)
 {
 	CPoolItem item;
 	item.m_name = mir_strdup(name);
 	return m_items.find(&item);
-}
-
-int CIconPool::OnExtraIconsRebuild(WPARAM, LPARAM)
-{
-	for (int i = 0; i < m_items.getCount(); ++i)
-		m_items[i].m_hClistItem = NULL;
-
-	return 0;
-}
-
-bool CIconPool::ExtraIconsSupported()
-{
-	static int res = -1;
-	if (res < 0) res = ServiceExists(MS_CLIST_EXTRA_ADD_ICON) ? 1 : 0;
-	return res ? true : false;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

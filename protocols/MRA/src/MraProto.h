@@ -193,7 +193,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	int __cdecl MraChatGcEventHook(WPARAM, LPARAM);
 
 	int __cdecl MraExtraIconsApply(WPARAM, LPARAM);
-	int __cdecl MraExtraIconsRebuild(WPARAM, LPARAM);
 
 	int __cdecl MraContactDeleted(WPARAM, LPARAM);
 	int __cdecl MraDbSettingChanged(WPARAM, LPARAM);

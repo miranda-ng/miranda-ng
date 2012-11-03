@@ -67,9 +67,7 @@ int LoadIcons()
 	AddIcons();
 	GetIcons();
 	
-	if (ServiceExists(MS_EXTRAICON_REGISTER))
-		hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", Translate("WhenWasIt birthday reminder"), "MenuCheck", OnExtraIconListRebuild, OnExtraImageApply);
-	
+	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", Translate("WhenWasIt birthday reminder"), "MenuCheck");
 	return 0;
 }
 
@@ -123,8 +121,7 @@ void FreeIcon(HICON &icon)
 void FreeIcons()
 {
 	static int bFreed = 0;
-	if (!bFreed)
-	{
+	if (!bFreed) {
 		FreeIcon(hiCheckMenu);
 		FreeIcon(hiListMenu);
 		FreeIcon(hiAddBirthdayContact);
@@ -133,11 +130,9 @@ void FreeIcons()
 		FreeIcon(hiImportBirthdays);
 		FreeIcon(hiExportBirthdays);
 
-		int i;
-		for (i = 0; i < cDTB; i++)
-		{
+		for (int i = 0; i < cDTB; i++)
 			FreeIcon(hiDTB[i]);
-		}
+
 		FreeIcon(hiDTBMore);
 	}
 	bFreed = 1; //only free them once (ours).
@@ -182,22 +177,4 @@ HANDLE GetClistIcon(int dtb)
 		return hClistImages[cDTB];
 
 	return hClistImages[dtb];
-}
-
-HANDLE RebuildCListIcon(HICON icon)
-{
-	INT_PTR tmp = CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) icon, 0);
-	if (tmp != CALLSERVICE_NOTFOUND)
-		return (HANDLE) tmp;
-
-	return (HANDLE) -1;
-}
-
-int RebuildAdvIconList()
-{
-	for (int i = 0; i < cDTB; i++)
-		hClistImages[i] = RebuildCListIcon(hiDTB[i]);
-
-	hClistImages[cDTB] = RebuildCListIcon(hiDTBMore);
-	return 0;
 }

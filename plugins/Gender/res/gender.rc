@@ -79,15 +79,9 @@ IDD_GENDER_OPT DIALOGEX 0, 0, 314, 240
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    COMBOBOX        IDC_ADVICON,95,102,78,81,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP,WS_EX_CLIENTEDGE
     GROUPBOX        "Plugin settings",IDC_STATIC,46,78,222,100
-    RTEXT           "Use",IDC_USE_L,56,104,33,12
-    LTEXT           "slot to draw the icon",IDC_SLOT_L,179,104,76,17
     CONTROL         "Enable menu items",IDC_MENUITEMS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,76,122,167,12
-    LTEXT           "Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.",
-                    IDC_NOTE_L,53,152,200,18
     CONTROL         "Draw an icon when gender info not found",
                     IDC_DRAWUNDEFICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     76,138,167,12

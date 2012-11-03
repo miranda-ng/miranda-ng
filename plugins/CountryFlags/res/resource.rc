@@ -74,8 +74,6 @@ BEGIN
                     WS_GROUP | WS_TABSTOP,12,27,206,10
     LTEXT           "In following contact list &column:",
                     IDC_TEXT_EXTRAIMGFLAGCOLUMN,24,42,110,8
-    COMBOBOX        IDC_COMBO_EXTRAIMGFLAGCOLUMN,135,40,77,117,
-                    CBS_DROPDOWNLIST | CBS_SORT | WS_VSCROLL | WS_TABSTOP
     CONTROL         "Use &unknown flag if the country can not be determined",
                     IDC_CHECK_USEUNKNOWNFLAG,"Button",BS_AUTOCHECKBOX | 
                     WS_GROUP | WS_TABSTOP,12,77,206,10

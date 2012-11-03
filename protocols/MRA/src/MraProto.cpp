@@ -7,13 +7,6 @@ static int MraExtraIconsApplyAll(WPARAM, LPARAM)
 	return 0;
 }
 
-static int MraExtraIconsRebuildAll(WPARAM, LPARAM)
-{
-	for (int i=0; i < g_Instances.getCount(); i++)
-		g_Instances[i]->MraExtraIconsRebuild(0, 0);
-	return 0;
-}
-
 CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	m_bLoggedIn(false)
 {
@@ -58,7 +51,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, &CMraProto::OnPreShutdown);
-	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, &CMraProto::MraExtraIconsRebuild);
 
 	InitContactMenu();
 
@@ -75,10 +67,9 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
 	MraRebuildStatusMenu(0, 0);
-	MraExtraIconsRebuild(0, 0);
 
-	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", "Mail.ru Xstatus", "MRA_xstatus25", MraExtraIconsRebuildAll, MraExtraIconsApplyAll, NULL, NULL);
-	hExtraInfo = ExtraIcon_Register("MRAStatus", "Mail.ru extra info", "MRA_xstatus49", MraExtraIconsRebuildAll, MraExtraIconsApplyAll, NULL, NULL);
+	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", "Mail.ru Xstatus", "MRA_xstatus25");
+	hExtraInfo = ExtraIcon_Register("MRAStatus", "Mail.ru extra info", "MRA_xstatus49");
 
 	bHideXStatusUI = FALSE;
 	m_iXStatus = mraGetByte(NULL, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);

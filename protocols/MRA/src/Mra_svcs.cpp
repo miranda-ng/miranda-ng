@@ -157,8 +157,8 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 		if (dwBlogStatusMsgSize) dwIconID = ADV_ICON_BLOGSTATUS;
 	}
 
-	ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL), EXTRA_ICON_ADV1);
-	ExtraSetIcon(hExtraInfo, hContact, ((dwIconID != -1) ? hAdvancedStatusItems[dwIconID]:NULL), EXTRA_ICON_ADV2);
+	ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL));
+	ExtraSetIcon(hExtraInfo, hContact, ((dwIconID != -1) ? hAdvancedStatusItems[dwIconID]:NULL));
 }
 
 INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)
@@ -646,17 +646,6 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 int CMraProto::MraExtraIconsApply(WPARAM wParam, LPARAM lParam)
 {
 	SetExtraIcons((HANDLE)wParam);
-	return 0;
-}
-
-int CMraProto::MraExtraIconsRebuild(WPARAM wParam, LPARAM lParam)
-{
-	for (size_t i = 0; i < ADV_ICON_MAX; i++)
-		hAdvancedStatusItems[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)IconLibGetIcon(gdiExtraStatusIconsItems[i].hIconHandle), 0);
-	
-	for (size_t i = 0; i < MRA_XSTATUS_COUNT+1; i++)
-		hXStatusAdvancedStatusItems[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)IconLibGetIcon(hXStatusAdvancedStatusIcons[i]), 0);
-
 	return 0;
 }
 

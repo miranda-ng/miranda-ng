@@ -43,7 +43,6 @@ FLAGSOPTIONS	gFlagsOpts;
 /* Misc */
 int		nCountriesCount;
 struct	CountryListEntry *countries;
-static	HANDLE *phExtraImageList	= NULL;		//return value(s) from MS_CLIST_EXTRA_ADD_ICON
 static	HANDLE hExtraIconSvc		= INVALID_HANDLE_VALUE;
 /* hook */
 static HANDLE hRebuildIconsHook		= NULL;
@@ -344,7 +343,7 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 			mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
 			ico.descIcon = szId;
 			hExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-			if(hExtraIconSvc)
+			if (hExtraIconSvc)
 				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
 		}
 
@@ -620,7 +619,6 @@ void SvcFlagsUnloadModule() {
 	UnhookEvent(hRebuildIconsHook);
 	UnhookEvent(hApplyIconHook);
 	UnhookEvent(hIconsChangedHook);
-	mir_free(phExtraImageList);		/* does NULL check */
 	//Uninit message winsow
 	UnhookEvent(hMsgWndEventHook);
 	for(int i = 0; i < gMsgWndList.getCount(); i++) {

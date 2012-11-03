@@ -6,12 +6,8 @@
 #define IDI_MALE                        101
 #define IDI_FEMALE                      102
 #define IDI_UNDEF                       103
-#define IDC_ADVICON                     1001
 #define IDC_MENUITEMS                   1002
 #define IDC_DRAWUNDEFICON               1003
-#define IDC_USE_L                       1004
-#define IDC_SLOT_L                      1005
-#define IDC_NOTE_L                      1006
 
 // Next default values for new objects
 // 

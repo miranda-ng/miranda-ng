@@ -6,12 +6,10 @@
 #define IDI_GRANT                       102
 #define IDI_AUTHGRANT                   103
 #define IDD_AUTHSTATE_OPT               103
-#define IDC_ADVICON                     1001
 #define IDC_AUTHICON                    1002
 #define IDC_GRANTICON                   1003
 #define IDC_ENABLEMENUITEM              1005
 #define IDC_ICONSFORRECENT              1006
-#define IDC_NOTICE                      1009
 
 // Next default values for new objects
 // 

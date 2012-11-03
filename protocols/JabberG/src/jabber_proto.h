@@ -228,8 +228,6 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 	int  __cdecl JabberGcMenuHook( WPARAM, LPARAM );
 	int  __cdecl JabberGcInit( WPARAM, LPARAM );
 
-	int  __cdecl CListMW_ExtraIconsApply( WPARAM, LPARAM );
-
 	// Google Shared Status
 	BOOL m_bGoogleSharedStatus;
 	BOOL m_bGoogleSharedStatusLock;

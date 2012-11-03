@@ -41,8 +41,6 @@ int LoadIcons();
 int AddIcons();
 int GetIcons();
 
-int RebuildAdvIconList();
-
 HICON GetDTBIcon(int dtb);
 HICON GetDABIcon(int dtb);
 HANDLE GetClistIcon(int dtb);

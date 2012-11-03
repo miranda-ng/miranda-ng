@@ -1153,19 +1153,11 @@ void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
 }
 
-int ExtraSetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage, int iColumnType)
+int ExtraSetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)
 {
 	if (hImage == NULL)
 		hImage = INVALID_HANDLE_VALUE;
-
-	if (hExtraIcon)
-		return ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
-
-	IconExtraColumn iec;
-	iec.cbSize = sizeof(iec);
-	iec.ColumnType = iColumnType;
-	iec.hImage = hImage;
-	return CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
+	return ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
 }
 
 size_t CopyNumber(LPCVOID lpcOutBuff, LPCVOID lpcBuff, size_t dwLen)

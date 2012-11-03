@@ -53,13 +53,10 @@
 static const int DefaultSlot = EXTRA_ICON_ADV2;
 #define MODULENAME "AuthState"
 
-extern int onOptInitialise(WPARAM wParam, LPARAM lParam);
-extern int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
-extern int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam);
+int onOptInitialise(WPARAM wParam, LPARAM lParam);
+int onExtraImageApplying(WPARAM wParam, LPARAM lParam);
 
 extern HINSTANCE g_hInst;
-extern IconExtraColumn g_IECAuth, g_IECGrant, g_IECAuthGrant, g_IECClear;
-extern INT clistIcon;
 extern byte bUseAuthIcon, bUseGrantIcon, bContactMenuItem, bIconsForRecentContacts;
 extern HANDLE hExtraIcon;
 

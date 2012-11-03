@@ -242,7 +242,7 @@ BOOL   IsEMailMR                       (LPSTR lpszEMail, size_t dwEMailSize);
 BOOL   GetEMailFromString              (LPSTR lpszBuff, size_t dwBuffSize, LPSTR *plpszEMail, size_t *pdwEMailSize);
 
 DWORD  CreateBlobFromContact           (HANDLE hContact, LPWSTR lpwszRequestReason, size_t dwRequestReasonSize, LPBYTE lpbBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
-int    ExtraSetIcon                    (HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage, int iColumnType);
+int    ExtraSetIcon                    (HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage);
 size_t CopyNumber                      (LPCVOID lpcOutBuff, LPCVOID lpcBuff, size_t dwLen);
 BOOL   IsPhone                         (LPSTR lpszString, size_t dwStringSize);
 BOOL   IsContactPhone                  (HANDLE hContact, LPSTR lpszPhone, size_t dwPhoneSize);

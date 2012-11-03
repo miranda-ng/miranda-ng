@@ -228,10 +228,7 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_MSG_WINDOWEVENT, onWindowEvent);
 	HookEvent(ME_MSG_ICONPRESSED, onIconPressed);
 
-	if(ServiceExists(MS_EXTRAICON_REGISTER)) 
-		g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", (MIRANDAHOOK)onExtraImageListRebuilding, (MIRANDAHOOK)onExtraImageApplying);
-
-
+	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", (MIRANDAHOOK)onExtraImageListRebuilding, (MIRANDAHOOK)onExtraImageApplying);
 
 	PROTOCOLDESCRIPTOR pd = {0};
 	pd.cbSize=sizeof(PROTOCOLDESCRIPTOR);

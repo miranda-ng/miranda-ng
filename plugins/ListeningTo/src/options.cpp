@@ -26,7 +26,7 @@ HANDLE hOptHook = NULL;
 
 Options opts;
 
-extern std::vector<ProtocolInfo> proto_itens;
+extern std::vector<ProtocolInfo> proto_items;
 extern HANDLE hExtraIcon;
 
 BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);

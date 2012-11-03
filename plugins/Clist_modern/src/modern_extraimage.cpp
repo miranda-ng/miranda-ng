@@ -31,12 +31,6 @@ INT_PTR AddIconToExtraImageList(WPARAM wParam,LPARAM lParam)
 	return (res > 254) ? -1 : res;
 }
 
-void SetNewExtraColumnCount()
-{
-	db_set_b(NULL, CLUIFrameModule, "EnabledColumnCount", (BYTE)EXTRACOLUMNCOUNT);
-	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
-}
-
 void ExtraImage_ReloadExtraIcons()
 {
 	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNSSPACE,db_get_b(NULL,"CLUI","ExtraColumnSpace",18),0);
@@ -50,7 +44,7 @@ void ExtraImage_ReloadExtraIcons()
 	hWideExtraImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,1,256);
 
 	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,(WPARAM)hWideExtraImageList,(LPARAM)hExtraImageList);
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
 	NotifyEventHooks(g_CluiData.hEventExtraImageListRebuilding,0,0);
 	ImageCreated = TRUE;
 }
@@ -66,7 +60,7 @@ void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 	if (ImageCreated == FALSE)
 		ExtraImage_ReloadExtraIcons();
 
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
 
 	if (hContact == NULL)
 		hContact = db_find_first();

@@ -22,7 +22,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 char *normalize_name(const char *s);
 char* trim_str(char* s);
 void create_group(const char *group);
-void set_extra_icon(HANDLE hContact, HANDLE hImage, int column_type);
 unsigned int aim_oft_checksum_file(TCHAR *filename, unsigned __int64 size = -1);
 char* long_ip_to_char_ip(unsigned long host, char* ip);
 unsigned long char_ip_to_long_ip(char* ip);

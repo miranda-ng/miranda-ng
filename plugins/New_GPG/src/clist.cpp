@@ -16,26 +16,17 @@
 
 #include "commonheaders.h"
 
-extern HANDLE g_hCLIcon;
 void RefreshContactListIcons(void);
+void setClistIcon(HANDLE);
 
 int onExtraImageListRebuilding(WPARAM, LPARAM) 
 {
-	if(g_hCLIcon && ServiceExists(MS_CLIST_EXTRA_ADD_ICON) ) 
-		RefreshContactListIcons();
+	RefreshContactListIcons();
 	return 0;
 }
 
-
 int onExtraImageApplying(WPARAM wParam, LPARAM) 
 {
-	void setClistIcon(HANDLE);
-	if(g_hCLIcon && ServiceExists(MS_CLIST_EXTRA_SET_ICON)) 
-	{
-//		IconExtraColumn iec = {0}; //need to init this
-		if( g_hCLIcon ) 
-			setClistIcon((HANDLE)wParam);
-//			ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, iec.hImage);
-	}
+	setClistIcon((HANDLE)wParam);
 	return 0;
 }

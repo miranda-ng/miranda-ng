@@ -159,17 +159,6 @@ INT_PTR AddIconToExtraImageList(WPARAM wParam,LPARAM lParam)
 	return((int)ImageList_AddIcon(hExtraImageList,(HICON)wParam));
 }
 
-void SetNewExtraColumnCount()
-{
-	int newcount;
-
-	GetVisColumns();
-	newcount = colsum(0,EXTRACOLUMNCOUNT-1);
-	DBWriteContactSettingByte(NULL,CLUIFrameModule,"EnabledColumnCount",(BYTE)newcount);
-	EnabledColumnCount = newcount;
-	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS,EnabledColumnCount,0);
-}
-
 int OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 {
 	HICON hicon;
@@ -221,9 +210,7 @@ void ReloadExtraIcons()
 	}
 
 	SendMessage(pcli->hwndContactTree,CLM_SETEXTRAIMAGELIST,0,(LPARAM)hExtraImageList);		
-
-	//SetAllExtraIcons(hImgList);
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS,EnabledColumnCount,0);
 	NotifyEventHooks(hExtraImageListRebuilding,0,0);
 	ImageCreated = TRUE;
 }
@@ -233,7 +220,7 @@ void ClearExtraIcons();
 void ReAssignExtraIcons()
 {
 	ClearExtraIcons();
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
 	SetAllExtraIcons(pcli->hwndContactTree,0);
 	SendMessage(pcli->hwndContactTree,CLM_AUTOREBUILD,0,0);
 }
@@ -243,9 +230,7 @@ void ClearExtraIcons()
 	int i;
 	HANDLE hContact,hItem;
 
-	//EnabledColumnCount = DBGetContactSettingByte(NULL,CLUIFrameModule,"EnabledColumnCount",5);
-	//SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS,EnabledColumnCount,0);
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
 
 	hContact = db_find_first();
 	do {
@@ -278,7 +263,7 @@ void SetAllExtraIcons(HWND hwndList,HANDLE hContact)
 	tick = GetTickCount();
 	if (ImageCreated == FALSE) ReloadExtraIcons();
 
-	SetNewExtraColumnCount();
+	SendMessage(pcli->hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRACOLUMNCOUNT, 0);
 
 	hasExtraIconsService = HasExtraIconsService();
 	if (!hasExtraIconsService) {

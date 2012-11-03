@@ -47,12 +47,12 @@ typedef TUpcomingBirthday *PUpcomingBirthday;
 int PopupNotifyNoBirthdays();
 int PopupNotifyBirthday(HANDLE hContact, int dtb, int age);
 int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age);
-int ClistIconNotifyBirthday(HANDLE hContact, int dtb, int advancedIcon);
 int DialogNotifyBirthday(HANDLE hContact, int dtb, int age);
 int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age);
 int SoundNotifyBirthday(int dtb);
 
-int ClearClistIcon(HANDLE hContact, int advancedIcon);
+int ClistIconNotifyBirthday(HANDLE hContact, int dtb);
+int ClearClistIcon(HANDLE hContact);
 
 int RefreshContactListIcons(HANDLE hContact);
 int RefreshAllContactListIcons(int oldClistIcon = -1);

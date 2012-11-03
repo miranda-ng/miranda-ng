@@ -204,9 +204,6 @@
     <ClInclude Include="src\zutil.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\zlib.def" />
-  </ItemGroup>
-  <ItemGroup>
     <ResourceCompile Include="res\zlib.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

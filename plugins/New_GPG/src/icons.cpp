@@ -77,22 +77,10 @@ void setClistIcon(HANDLE hContact)
 		hMC = metaGetContact(hContact);
 	else if(metaIsProtoMetaContacts(hContact))
 		hMC = metaGetContact(hContact);
-	if(g_hCLIcon && enabled)
-	{
-		HICON icon = IconLibGetIcon("secured");
-		IconExtraColumn iec = {0};
-		iec.cbSize = sizeof(iec);
-		iec.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)icon, 0);
-		ExtraIcon_SetIcon(g_hCLIcon, hContact, iec.hImage);
-		if(hMC)
-			ExtraIcon_SetIcon(g_hCLIcon, hMC, iec.hImage);
-	}
-	else
-	{
-		ExtraIcon_SetIcon(g_hCLIcon, hContact, (HANDLE)0); // is it right ? hmm.., at least working....
-		if(hMC)
-			ExtraIcon_SetIcon(g_hCLIcon, hMC, (HANDLE)0);
-	}
+	const char *szIconId = (enabled) ? "secured" : NULL;
+	ExtraIcon_SetIcon(g_hCLIcon, hContact, szIconId);
+	if(hMC)
+		ExtraIcon_SetIcon(g_hCLIcon, hMC, szIconId);
 }
 
 void setSrmmIcon(HANDLE h)
@@ -130,7 +118,6 @@ void setSrmmIcon(HANDLE h)
 
 void RefreshContactListIcons() 
 {
-	extern HANDLE g_hCLIcon;
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
 	HANDLE hContact = db_find_first();
 	while (hContact) 

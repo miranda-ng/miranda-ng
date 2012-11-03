@@ -93,15 +93,11 @@ int UnhookEvents()
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	hIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	hExtraIconListRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnExtraIconListRebuild);
-	hExtraImageApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnExtraImageApply);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	hTopToolBarModuleLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 	
 	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday near"));
 	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday today"));
-	
-	RebuildAdvIconList();
 	
 	UpdateTimers();
 	CLISTMENUITEM cl = {0};
@@ -224,20 +220,9 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
-	//static HANDLE oldContact = NULL;
 	DBVARIANT dv = dw->value;
 	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
-		{
-			OnExtraImageApply(wParam, 0);
-		}
-	//oldContact = (HANDLE) wParam;
-	
-	return 0;
-}
-
-int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam)
-{
-	RebuildAdvIconList();
+		OnExtraImageApply(wParam, 0);
 	
 	return 0;
 }
@@ -245,109 +230,71 @@ int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam)
 int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE) wParam;
-	if ((hContact))
+	if (hContact == 0)
+		return 0;
+
+	int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
+	int hidden = DBGetContactSettingByte(hContact, "CList", "Hidden", 0);
+	int ignored = DBGetContactSettingDword(hContact, "Ignore", "Mask1", 0);
+	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
+	int ok = 1;
+	if (commonData.notifyFor & EXCLUDE_HIDDEN)
+		ok &= (hidden == 0);
+
+	if (commonData.notifyFor & EXCLUDE_IGNORED)
+		ok &= (ignored == 0);
+
+	time_t today = Today();
+
+	int dtb = NotifyContactBirthday(hContact, today, commonData.daysInAdvance);
+	int dab = NotifyMissedContactBirthday(hContact, today, commonData.daysAfter);
+
+	if (ok && (dtb >= 0 || dab > 0)) {
+		int age = GetContactAge(hContact);
+		DBWriteContactSettingByte(hContact, "UserInfo", "Age", age);
+
+		if ((bShouldCheckBirthdays) && (commonData.bUsePopups))
 		{
-			int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
-			//int daysInAdvance = DBGetContactSettingWord(NULL, ModuleName, "DaysInAdvance", DAYS_TO_NOTIFY);
-			//int popupTimeout = DBGetContactSettingWord(NULL, ModuleName, "PopupTimeout", POPUP_TIMEOUT);
-			//DWORD foreground = DBGetContactSettingDword(NULL, ModuleName, "Foreground", FOREGROUND_COLOR);
-			//DWORD background = DBGetContactSettingDword(NULL, ModuleName, "Background", BACKGROUND_COLOR);
-			//int bUsePopups = DBGetContactSettingByte(NULL, ModuleName, "UsePopups", TRUE);
-			//int bUseClistIcon = DBGetContactSettingByte(NULL, ModuleName, "UseClistIcon", TRUE);
-			//int bUseDialog = DBGetContactSettingByte(NULL, ModuleName, "UseDialog", TRUE);
-			//int clistIcon = DBGetContactSettingByte(NULL, ModuleName, "AdvancedIcon", CLIST_ICON);
-			//int notifyFor = DBGetContactSettingByte(NULL, ModuleName, "NotifyFor", 0);
-			int hidden = DBGetContactSettingByte(hContact, "CList", "Hidden", 0);
-			int ignored = DBGetContactSettingDword(hContact, "Ignore", "Mask1", 0);
-			ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
-			int ok = 1;
-			if (commonData.notifyFor & EXCLUDE_HIDDEN)
-			{
-				ok &= (hidden == 0);
+			if (dtb >= 0) {
+				bBirthdayFound = 1; //only set it if we're called from our CheckBirthdays service
+				PopupNotifyBirthday(hContact, dtb, age);
 			}
-			if (commonData.notifyFor & EXCLUDE_IGNORED)
-			{
-				ok &= (ignored == 0);
-			}
-		
-			int dtb;
-			int dab;
-			int caps = ServiceExists(MS_CLIST_EXTRA_ADD_ICON); // CallService(MS_CLUI_GETCAPS, 0, 0);
-			
-			time_t today = Today();
-			
-			if ((ok) && (((dtb = NotifyContactBirthday(hContact, today, commonData.daysInAdvance)) >= 0) || ((dab = NotifyMissedContactBirthday(hContact, today, commonData.daysAfter)) > 0)))
-			{
-				int age = GetContactAge(hContact);
-				DBWriteContactSettingByte(hContact, "UserInfo", "Age", age);
-				
-				if ((bShouldCheckBirthdays) && (commonData.bUsePopups))
-				{
-					if (dtb >= 0)
-					{
-						bBirthdayFound = 1; //only set it if we're called from our CheckBirthdays service
-						PopupNotifyBirthday(hContact, dtb, age);
-					}
-					else if (dab > 0)
-					{
-						PopupNotifyMissedBirthday(hContact, dab, age);
-					}
-				}
-					
-				if (bShouldCheckBirthdays)
-				{
-					if (dtb >= 0)
-					{
-						SoundNotifyBirthday(dtb);
-					}
-				}
-					
-				if ((bShouldCheckBirthdays) && (commonData.bUseDialog))
-				{
-					if (dtb >= 0)
-					{
-						DialogNotifyBirthday(hContact, dtb, age);
-					}
-					else if (dab > 0)
-					{
-						DialogNotifyMissedBirthday(hContact, dab, age);
-					}
-				}
-				
-				if ((caps > 0) && (commonData.bUseClistIcon)) //TODO
-				{
-					if (dtb >= 0)
-					{
-						ClistIconNotifyBirthday(hContact, dtb, commonData.clistIcon);
-					}
-				}
-			}
-			else{
-				if (caps > 0) //TODO
-				{ //clear the icon
-					ClearClistIcon(hContact, commonData.clistIcon);
-				}
-			}
+			else if (dab > 0)
+				PopupNotifyMissedBirthday(hContact, dab, age);
 		}
-		
+
+		if (bShouldCheckBirthdays)
+			if (dtb >= 0)
+				SoundNotifyBirthday(dtb);
+
+		if ((bShouldCheckBirthdays) && (commonData.bUseDialog)) {
+			if (dtb >= 0)
+				DialogNotifyBirthday(hContact, dtb, age);
+			else if (dab > 0)
+				DialogNotifyMissedBirthday(hContact, dab, age);
+		}
+
+		if (commonData.bUseClistIcon)  //TODO
+			if (dtb >= 0)
+				ClistIconNotifyBirthday(hContact, dtb);
+	}
+	else ClearClistIcon(hContact);
+
 	return 0;
 }
 
 int UpdateTimers()
 {
-	if (hCheckTimer)
-		{
-			KillTimer(NULL, hCheckTimer);
-			hCheckTimer = NULL;
-		}
-	long interval;
-	interval = DBGetContactSettingDword(NULL, ModuleName, "Interval", CHECK_INTERVAL);
+	if (hCheckTimer) {
+		KillTimer(NULL, hCheckTimer);
+		hCheckTimer = NULL;
+	}
+
+	long interval = DBGetContactSettingDword(NULL, ModuleName, "Interval", CHECK_INTERVAL);
 	interval *= 1000 * 60 * 60; //go from miliseconds to hours
 	hCheckTimer = SetTimer(NULL, 0, interval, (TIMERPROC) OnCheckTimer);
 	if (!hDateChangeTimer)
-		{
-			hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, (TIMERPROC) OnDateChangeTimer);
-		}
+		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, (TIMERPROC) OnDateChangeTimer);
 		
 	return 0;
 }
@@ -355,18 +302,17 @@ int UpdateTimers()
 int KillTimers()
 {
 	Log("%s", "Entering function " __FUNCTION__);
-	if (hCheckTimer)
-		{
-			KillTimer(NULL, hCheckTimer);
-			hCheckTimer = NULL;
-		}
-	if (hDateChangeTimer)
-		{
-			KillTimer(NULL, hDateChangeTimer);
-			hDateChangeTimer = NULL;
-		}
+	if (hCheckTimer) {
+		KillTimer(NULL, hCheckTimer);
+		hCheckTimer = NULL;
+	}
+
+	if (hDateChangeTimer) {
+		KillTimer(NULL, hDateChangeTimer);
+		hDateChangeTimer = NULL;
+	}
+
 	Log("%s", "Leaving function " __FUNCTION__);
-			
 	return 0;
 }
 

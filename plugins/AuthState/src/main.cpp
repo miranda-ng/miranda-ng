@@ -33,11 +33,6 @@ static HANDLE hUserMenu = NULL;
 HANDLE hExtraIcon = NULL;
 int hLangpack;
 
-IconExtraColumn g_IECAuth = {0};
-IconExtraColumn g_IECGrant = {0};
-IconExtraColumn g_IECAuthGrant = {0};
-IconExtraColumn g_IECClear = {0};
-INT clistIcon = 0; //Icon slot to use
 BYTE bUseAuthIcon = 0, bUseGrantIcon = 0, bContactMenuItem = 0, bIconsForRecentContacts = 0, bUseAuthGroup = 0;
 
 enum {
@@ -101,50 +96,16 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 	if (wParam == NULL)
 		return 0;
 
-	int usedIcon;
-	usedIcon = getIconToUse((HANDLE) wParam, lParam);
+	int usedIcon = getIconToUse((HANDLE) wParam, lParam);
 
-	if (hExtraIcon != NULL)
-	{
-		const char *icon;
-		switch (usedIcon)
-		{
-			case icon_both:   icon = "authgrant_icon";  break;
-			case icon_grant:  icon = "grant_icon";  break;
-			case icon_auth:   icon = "auth_icon";  break;
-			default:          icon = NULL;  break;
-		}
-		ExtraIcon_SetIcon(hExtraIcon, (HANDLE)wParam, icon);
+	const char *icon;
+	switch (usedIcon) {
+		case icon_both:   icon = "authgrant_icon";  break;
+		case icon_grant:  icon = "grant_icon";  break;
+		case icon_auth:   icon = "auth_icon";  break;
+		default:          icon = NULL;  break;
 	}
-	else
-	{
-		switch (usedIcon)
-		{
-			case icon_both:   CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM) &g_IECAuthGrant); break;
-			case icon_grant:  CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM) &g_IECGrant); break;
-			case icon_auth:   CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM) &g_IECAuth); break;
-			default:          CallService(MS_CLIST_EXTRA_SET_ICON, wParam, (LPARAM) &g_IECClear); break;
-		}
-	}
-
-	return 0;
-}
-
-int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam)
-{
-	g_IECAuth.cbSize = sizeof(IconExtraColumn);
-	g_IECAuth.ColumnType = clistIcon;
-	g_IECGrant.cbSize = sizeof(IconExtraColumn);
-	g_IECGrant.ColumnType = clistIcon;
-	g_IECAuthGrant.cbSize = sizeof(IconExtraColumn);
-	g_IECAuthGrant.ColumnType = clistIcon;
-
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) {
-		g_IECAuth.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("auth_icon"), 0);
-		g_IECGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("grant_icon"), 0);
-		g_IECAuthGrant.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIcon("authgrant_icon"), 0);
-	}
-
+	ExtraIcon_SetIcon(hExtraIcon, (HANDLE)wParam, icon);
 	return 0;
 }
 
@@ -175,11 +136,7 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 	byte enabled = DBGetContactSettingByte((HANDLE)wParam,"AuthState","ShowIcons",1);
 	DBWriteContactSettingByte((HANDLE)wParam, MODULENAME, "ShowIcons", !enabled);
 
-	if (enabled)
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) wParam, (LPARAM) &g_IECClear);
-	else
-		onExtraImageApplying(wParam, 0);
-
+	onExtraImageApplying(wParam, 0);
 	return 0;
 }
 
@@ -242,20 +199,14 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	// extra icons
 	hExtraIcon = ExtraIcon_Register("authstate", "Auth State", "authgrant_icon");
-	if (hExtraIcon != NULL) {
-		// Set initial value for all contacts
-		HANDLE hContact = db_find_first();
-		while (hContact != NULL) {
-			onExtraImageApplying((WPARAM)hContact, 1);
-			hContact = db_find_next(hContact);
-		}
+
+	// Set initial value for all contacts
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		onExtraImageApplying((WPARAM)hContact, 1);
+		hContact = db_find_next(hContact);
 	}
-	else {
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-		hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
-		hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-		onExtraImageListRebuild(0,0);
-	}
+
 	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	if (bContactMenuItem) hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
@@ -290,7 +241,6 @@ extern "C" int __declspec(dllexport) Load(void)
 	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
 
-	clistIcon = DBGetContactSettingByte(NULL, MODULENAME, "AdvancedIcon", DefaultSlot);
 	bUseAuthIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableAuthIcon", 1);
 	bUseGrantIcon = DBGetContactSettingByte(NULL, MODULENAME, "EnableGrantIcon", 1);
 	bContactMenuItem = DBGetContactSettingByte(NULL, MODULENAME, "MenuItem", 0);
@@ -310,10 +260,6 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.pszService = "AuthState/MenuItem";
 		hUserMenu = Menu_AddContactMenuItem(&mi);
 	}
-
-	g_IECClear.cbSize = sizeof(IconExtraColumn);
-	g_IECClear.ColumnType = clistIcon;
-	g_IECClear.hImage = (HANDLE) -1;
 
 	return 0;
 }

@@ -70,11 +70,10 @@ class MsgWndData {
 
 class IconList {
 	public:
-		int				m_ID;
-		HANDLE			m_hIcon;		//register
-		HANDLE			m_hImage;		//return value from MS_CLIST_EXTRA_ADD_ICON	   -INVALID_HANDLE_VALUE;		//preset
-		BYTE			m_TypeFlag;
-		StatusIconData	m_StatusIconData;
+		int            m_ID;
+		HANDLE         m_hIcon;		//register
+		BYTE           m_TypeFlag;
+		StatusIconData m_StatusIconData;
 
 		IconList(StatusIconData* sid);
 //		IconList(HWND hwnd, HANDLE hContact);

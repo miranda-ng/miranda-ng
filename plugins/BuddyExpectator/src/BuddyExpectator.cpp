@@ -160,7 +160,8 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 				if (!DBGetContactSettingByte(PUGetContact(hWnd), MODULE_NAME, "MissYouNotifyAlways", 0))
 				{
 					DBWriteContactSettingByte(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
-					if (options.MissYouIcon) CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) PUGetContact(hWnd), (LPARAM) &g_IECClear);
+					if (options.MissYouIcon)
+						CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) PUGetContact(hWnd), (LPARAM) &g_IECClear);
 				}
 				PUDeletePopUp(hWnd);
 			}
@@ -172,7 +173,8 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if (wParam == 1)
 			{
 				DBWriteContactSettingByte(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
-				if (options.MissYouIcon) CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) PUGetContact(hWnd), (LPARAM) &g_IECClear);
+				if (options.MissYouIcon)
+					CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM) PUGetContact(hWnd), (LPARAM) &g_IECClear);
 				PUDeletePopUp(hWnd);
 			}
 			break;

@@ -139,7 +139,6 @@ extern OBJLIST<CAimProto> g_Instances;
 static HANDLE bot_icon, icq_icon, aol_icon, hiptop_icon;
 static HANDLE admin_icon, confirmed_icon, unconfirmed_icon;
 
-static HANDLE hListRebuld, hIconApply;
 static HANDLE hExtraAT, hExtraES;
 
 static const char* extra_AT_icon_name[5] =
@@ -160,48 +159,14 @@ static const char* extra_ES_icon_name[2] =
 static HANDLE extra_AT_icon_handle[5];
 static HANDLE extra_ES_icon_handle[2];
 
-static void load_extra_icons(void)
-{
-	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
-
-	unsigned i;
-
-	for (i = 0; i < SIZEOF(extra_AT_icon_handle); ++i)
-	{
-		extra_AT_icon_handle[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadIconEx(extra_AT_icon_name[i]), 0);
-		ReleaseIconEx(extra_AT_icon_name[i]);
-	}
-
-	for (i = 0; i < SIZEOF(extra_ES_icon_handle); ++i)
-	{
-		extra_ES_icon_handle[i] = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)LoadIconEx(extra_ES_icon_name[i]), 0);
-		ReleaseIconEx(extra_ES_icon_name[i]);
-	}
-}
-
-static void set_extra_icon(HANDLE hContact, HANDLE hImage, int column_type)
-{
-	IconExtraColumn iec;
-	iec.cbSize = sizeof(iec);
-	iec.hImage = hImage;
-	iec.ColumnType = column_type;
-	CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-}
-
 static void clear_AT_icon(HANDLE hContact)
 {
-	if (hExtraAT)
-		ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
-	else
-		set_extra_icon(hContact, (HANDLE)-1, EXTRA_ICON_ADV2);
+	ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
 }
 
 static void clear_ES_icon(HANDLE hContact)
 {
-	if (hExtraES)
-		ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
-	else
-		set_extra_icon(hContact, (HANDLE)-1, EXTRA_ICON_ADV3);
+	ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
 }
 
 static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
@@ -210,19 +175,12 @@ static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_AC, 0) - 1;
 
-	if (hExtraAT)
-	{
-		if (i < 5)
-		{
-			char name[64];
-			mir_snprintf(name, sizeof(name), "AIM_%s", extra_AT_icon_name[i]);
-			ExtraIcon_SetIcon(hExtraAT, hContact, name);
-		}
-		else
-			ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
+	if (i < 5) {
+		char name[64];
+		mir_snprintf(name, sizeof(name), "AIM_%s", extra_AT_icon_name[i]);
+		ExtraIcon_SetIcon(hExtraAT, hContact, name);
 	}
-	else
-		set_extra_icon(hContact, i < 5 ? extra_AT_icon_handle[i] : (HANDLE)-1, EXTRA_ICON_ADV2);
+	else ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
 }
 
 static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
@@ -231,19 +189,12 @@ static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_ET, 0) - 1;
 
-	if (hExtraES)
-	{
-		if (i < 2)
-		{
-			char name[64];
-			mir_snprintf(name, sizeof(name), "AIM_%s", extra_ES_icon_name[i]);
-			ExtraIcon_SetIcon(hExtraES, hContact, name);
-		}
-		else
-			ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
+	if (i < 2) {
+		char name[64];
+		mir_snprintf(name, sizeof(name), "AIM_%s", extra_ES_icon_name[i]);
+		ExtraIcon_SetIcon(hExtraES, hContact, name);
 	}
-	else
-		set_extra_icon(hContact, i < 2 ? extra_ES_icon_handle[i] : (HANDLE)-1, EXTRA_ICON_ADV3);
+	else ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
 }
 
 void set_contact_icon(CAimProto* ppro, HANDLE hContact)
@@ -252,37 +203,8 @@ void set_contact_icon(CAimProto* ppro, HANDLE hContact)
 	if (!ppro->getByte(AIM_KEY_ES, 0)) set_ES_icon(ppro, hContact);
 }
 
-static int OnExtraIconsRebuild(WPARAM /*wParam*/, LPARAM /*lParam*/)
-{
-	load_extra_icons();
-	return 0;
-}
-
-static int OnExtraIconsApply(WPARAM wParam, LPARAM /*lParam*/)
-{
-	if (!ServiceExists(MS_CLIST_EXTRA_SET_ICON)) return 0;
-
-	HANDLE hContact = (HANDLE)wParam;
-
-	CAimProto *ppro = NULL;
-	for (int i = 0; i < g_Instances.getCount(); ++i)
-	{
-		if (g_Instances[i].is_my_contact(hContact))
-		{
-			ppro = &g_Instances[i];
-			break;
-		}
-	}
-
-	if (ppro) set_contact_icon(ppro, hContact);
-
-	return 0;
-}
-
 void remove_AT_icons(CAimProto* ppro)
 {
-	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
-	
 	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
@@ -295,8 +217,6 @@ void remove_AT_icons(CAimProto* ppro)
 
 void remove_ES_icons(CAimProto* ppro)
 {
-	if (!ServiceExists(MS_CLIST_EXTRA_ADD_ICON)) return;
-
 	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
@@ -334,18 +254,6 @@ void InitExtraIcons(void)
 {
 	hExtraAT = ExtraIcon_Register("aimaccounttype", LPGEN("AIM Account Type"), "AIM_aol");
 	hExtraES = ExtraIcon_Register("aimextstatus", LPGEN("AIM Extended Status"), "AIM_hiptop");
-
-	if (hExtraAT == NULL)
-	{
-		hListRebuld = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnExtraIconsRebuild);
-		hIconApply  = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,  OnExtraIconsApply);
-	}
-}
-
-void DestroyExtraIcons(void)
-{
-	UnhookEvent(hIconApply);
-	UnhookEvent(hListRebuld);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -369,11 +277,6 @@ void InitThemeSupport(void)
 		MyCloseThemeData = (HRESULT (WINAPI *)(HANDLE))MGPROC("CloseThemeData");
 		MyDrawThemeBackground = (HRESULT (WINAPI *)(HANDLE,HDC,int,int,const RECT *,const RECT *))MGPROC("DrawThemeBackground");
 	}
-}
-
-void DestroyThemeSupport(void)
-{
-	DestroyExtraIcons();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

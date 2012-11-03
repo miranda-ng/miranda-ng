@@ -81,7 +81,6 @@ struct CommonData{
 	int daysInAdvance;
 	int popupTimeout;
 	int popupTimeoutToday;
-	int clistIcon;
 	int bUsePopups;
 	int bUseClistIcon;
 	int bUseDialog;

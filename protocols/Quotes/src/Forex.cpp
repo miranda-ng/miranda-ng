@@ -206,17 +206,12 @@ namespace
 	{
 		CHTTPSession::Init();
 
-		HANDLE h = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD,QuotesEventFunc_onExtraImageListRebuild);
-		g_ahEvents.push_back(h);
-// 		QuotesEventFunc_onExtraImageListRebuild(0,0);
-
-		h = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
+		HANDLE h = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,QuotesEventFunc_onExtraImageApply);
 		g_ahEvents.push_back(h);
 
 		g_hEventWorkThreadStop = ::CreateEvent(NULL,TRUE,FALSE,NULL);
 		h = (ME_USERINFO_INITIALISE,QuotesEventFunc_OnUserInfoInit);
 		g_ahEvents.push_back(h);
-
 		
 		h = HookEvent(ME_CLIST_DOUBLECLICKED,Quotes_OnContactDoubleClick);
 		g_ahEvents.push_back(h);

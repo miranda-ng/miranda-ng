@@ -38,7 +38,6 @@ public:
 	HANDLE GetIcolibHandle(const char *name);
 	char *GetIcolibName(const char *name);
 	HICON GetIcon(const char *name, bool big = false);
-	HANDLE GetClistHandle(const char *name);
 
 private:
 	struct CPoolItem
@@ -46,7 +45,6 @@ private:
 		char *m_name;
 		char *m_szIcolibName;
 		HANDLE m_hIcolibItem;
-		HANDLE m_hClistItem;
 
 		static int cmp(const CPoolItem *p1, const CPoolItem *p2);
 
@@ -59,9 +57,6 @@ private:
 	HANDLE m_hOnExtraIconsRebuild;
 
 	CPoolItem *FindItemByName(const char *name);
-
-	int __cdecl OnExtraIconsRebuild(WPARAM, LPARAM);
-	static bool ExtraIconsSupported();
 };
 
 #endif // _JABBER_ICOLIB_H_

@@ -27,19 +27,12 @@
 
 HINSTANCE g_hInst;
 
-static HANDLE hHookModulesLoaded = NULL, hSystemOKToExit = NULL, hOptInitialise = NULL, hIcoLibIconsChanged = NULL;
-static HANDLE hHookExtraIconsRebuild = NULL, hHookExtraIconsApply = NULL, hContactMenu = NULL;
-static HANDLE hContactMenuMale = NULL, hContactMenuFemale = NULL, hContactMenuNotDef = NULL, hHookPrebuildContactMenu = NULL;
+static HANDLE hContactMenu = NULL, hContactMenuMale = NULL, hContactMenuFemale = NULL, hContactMenuNotDef = NULL;
 static HANDLE hSetMale = NULL, hSetFemale = NULL, hSetUndef = NULL, hGenderGetIcon = NULL;
 
 HANDLE g_hExtraIcon = NULL;
 HANDLE g_hIconMale, g_hIconFemale, g_hIconMenu;
-IconExtraColumn g_IECMale = {0};
-IconExtraColumn g_IECFemale = {0};
-IconExtraColumn g_IECUndef = {0};
-IconExtraColumn g_IECClear = {0};
 
-int clistIcon = 0; // Icon slot to use
 byte bEnableClistIcon = 1; // do we need clist icon?
 byte bDrawNoGenderIcon = 0; // enable icon when no info?
 byte bContactMenuItems = 1; // do we need a contact menu items?
@@ -79,74 +72,35 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 void setIcon(HANDLE hContact, unsigned int gender)
 {
-	if (g_hExtraIcon != NULL)
-	{
-		char *ico;
-		switch (gender)
-		{
-			case 77: ico = "male_icon"; break;
-			case 70: ico = "female_icon"; break;
-			default: ico = (bDrawNoGenderIcon ? "menu_icon" : NULL); break;
-		}
-		ExtraIcon_SetIcon(g_hExtraIcon, hContact, ico);
+	char *ico;
+	switch (gender) {
+		case 77: ico = "male_icon"; break;
+		case 70: ico = "female_icon"; break;
+		default: ico = (bDrawNoGenderIcon ? "menu_icon" : NULL); break;
 	}
-	else
-	{
-		IconExtraColumn *col;
-		switch (gender)
-		{
-			case 77: col = &g_IECMale; break;
-			case 70: col = &g_IECFemale; break;
-			default: col = (bDrawNoGenderIcon ? &g_IECUndef : &g_IECClear); break;
-		}
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)col);
-	}
+	ExtraIcon_SetIcon(g_hExtraIcon, hContact, ico);
 }
 
-int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
+int applyExtraImage(HANDLE hContact)
 {
-	if (g_hExtraIcon == NULL && !bEnableClistIcon) return 0;
+	if (!bEnableClistIcon) return 0;
 
-	HANDLE hContact = (HANDLE)wParam;
-	if (bMetaAvail)
-	{
-		HANDLE hMetacontact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
-		if (hMetacontact != NULL) hContact = hMetacontact;
+	if (bMetaAvail) {
+		HANDLE hMetacontact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
+		if (hMetacontact != NULL)
+			hContact = hMetacontact;
 	}
 		
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if (!proto) return 0;
+	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	if (!proto)
+		return 0;
 
-	if (DBGetContactSettingByte((HANDLE)wParam, proto, "ChatRoom", 0)) return 0;
+	if ( DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
+		return 0;
 	
 	unsigned int gender = DBGetContactSettingByte(hContact, "UserInfo", "Gender", DBGetContactSettingByte(hContact, proto, "Gender", 0));
 
 	setIcon(hContact, gender);
-	if ((HANDLE)wParam != hContact)
-		setIcon((HANDLE)wParam, gender);
-	
-	return 0;
-}
-
-int onExtraImageListRebuild(WPARAM wParam, LPARAM lParam) 
-{	
-	g_IECMale.cbSize = sizeof(IconExtraColumn);
-	g_IECMale.ColumnType = clistIcon;
-	g_IECFemale.cbSize = sizeof(IconExtraColumn);
-	g_IECFemale.ColumnType = clistIcon;
-	g_IECUndef.cbSize = sizeof(IconExtraColumn);
-	g_IECUndef.ColumnType = clistIcon;
-	
-	if (ServiceExists(MS_CLIST_EXTRA_ADD_ICON))
-	{
-		if(hIcoLibIconsChanged)
-		{
-			g_IECMale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconMale), 0);
-			g_IECFemale.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconFemale), 0);
-			g_IECUndef.hImage = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)Skin_GetIconByHandle(g_hIconMenu), 0);
-		}
-	}
-	
 	return 0;
 }
 
@@ -240,14 +194,14 @@ INT_PTR onSetFemale(WPARAM wParam,LPARAM lParam)
 INT_PTR onSetUndef(WPARAM wParam,LPARAM lParam)
 {
 	DBDeleteContactSetting((HANDLE)wParam, "UserInfo", "Gender");
-	onExtraImageApplying(wParam, 0);
+	applyExtraImage((HANDLE)wParam);
 
 	int metasnum = (bMetaAvail ? CallService(MS_MC_GETNUMCONTACTS,wParam,0) : 0);
 	for(int i=0; i<metasnum; i++)
 	{
 		HANDLE hContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, wParam, i);
 		DBDeleteContactSetting(hContact, "UserInfo", "Gender");
-		onExtraImageApplying((WPARAM)hContact, 0);
+		applyExtraImage(hContact);
 	}
 	
 	return 0;
@@ -255,8 +209,9 @@ INT_PTR onSetUndef(WPARAM wParam,LPARAM lParam)
 
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	hOptInitialise = HookEvent(ME_OPT_INITIALISE, onOptInitialise);
-	if (bContactMenuItems) hHookPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
+	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
+	if (bContactMenuItems)
+		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 	bMetaAvail = (ServiceExists(MS_MC_GETMETACONTACT) != 0); 
 	
 	TCHAR szFile[MAX_PATH];
@@ -284,25 +239,13 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	sid.iDefaultIndex = -IDI_UNDEF;
 	g_hIconMenu = Skin_AddIcon(&sid);
 		
-	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onExtraImageListRebuild);
-	
+	// Adding clist extra icon
 	g_hExtraIcon = ExtraIcon_Register("gender", "Gender", "menu_icon");
-	if (g_hExtraIcon != NULL)
-	{
-		HANDLE hContact = db_find_first();
-		while (hContact != NULL)
-		{
-			onExtraImageApplying((WPARAM) hContact, 0);
 
-			hContact = db_find_next(hContact);
-		}
-	}
-	else
-	{
-		hHookExtraIconsRebuild = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, onExtraImageListRebuild);
-		hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, onExtraImageApplying);
-
-		onExtraImageListRebuild(0,0);
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		applyExtraImage(hContact);
+		hContact = db_find_next(hContact);
 	}
 	
 	// Adding menu items, submenu even if clist supports that
@@ -371,53 +314,29 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
 {
-	UnhookEvent(hHookModulesLoaded);
-	UnhookEvent(hHookExtraIconsRebuild);
-	UnhookEvent(hHookExtraIconsApply);
-	UnhookEvent(hHookPrebuildContactMenu);
-	UnhookEvent(hOptInitialise);
-	UnhookEvent(hSystemOKToExit);
-	if (hIcoLibIconsChanged)
-		UnhookEvent(hIcoLibIconsChanged);
-
 	DestroyServiceFunction(hSetMale);
 	DestroyServiceFunction(hSetFemale);
 	DestroyServiceFunction(hSetUndef);
 	DestroyServiceFunction(hGenderGetIcon);
-	
-	if (hIcoLibIconsChanged) {
-		Skin_ReleaseIcon("menu_icon");
-		Skin_ReleaseIcon("male_icon");
-		Skin_ReleaseIcon("female_icon");
-	}
-	
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 	
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	hSystemOKToExit = HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_SYSTEM_OKTOEXIT,onSystemOKToExit);
 	
 	bEnableClistIcon  = DBGetContactSettingByte(NULL, MODULENAME, "ClistIcon", 1);
 	bContactMenuItems = DBGetContactSettingByte(NULL, MODULENAME, "MenuItems", 1);
 	bDrawNoGenderIcon = DBGetContactSettingByte(NULL, MODULENAME, "NoGenderIcon", 0);
-	
 
 	hSetMale    = CreateServiceFunction("Gender/MenuItemSetMale", onSetMale);
 	hSetFemale  = CreateServiceFunction("Gender/MenuItemSetFemale", onSetFemale);
 	hSetUndef   = CreateServiceFunction("Gender/MenuItemSetUndef", onSetUndef);
 	
-	clistIcon = DBGetContactSettingByte(NULL, MODULENAME, "AdvancedIcon", DefaultSlot);
-	g_IECClear.cbSize = sizeof(IconExtraColumn);
-	g_IECClear.ColumnType = clistIcon;
-	g_IECClear.hImage = (HANDLE) -1;
-	
 	hGenderGetIcon = CreateServiceFunction(MS_GENDER_GETICON, GetIcon);
-	
 	return 0;
 }
 

@@ -21,12 +21,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 char AIM_CAP_MIRANDA[16] = "MirandaA";
 
-
 int hLangpack;
 
 HINSTANCE hInstance;
-
-static HANDLE hMooduleLoaded;
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances
@@ -108,7 +105,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	mir_getLP(&pluginInfo);
 
-	hMooduleLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
 	PROTOCOLDESCRIPTOR pd = {0};
 	pd.cbSize = sizeof(pd);
@@ -130,8 +127,5 @@ extern "C" int __declspec(dllexport) Load(void)
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	aim_links_destroy();
-	UnhookEvent(hMooduleLoaded);
-
-	DestroyExtraIcons();
 	return 0;
 }
