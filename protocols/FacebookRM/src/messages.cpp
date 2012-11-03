@@ -159,7 +159,7 @@ void FacebookProto::SendTypingWorker(void *p)
 		data += "&to=" + std::string(dbv.pszVal);
 		data += "&fb_dtsg=" + facy.dtsg_;
 		data += "&lsd=&phstamp=0&__user=" + facy.self_.user_id;
-
+		
 		http::response resp = facy.flap( FACEBOOK_REQUEST_TYPING_SEND, &data );
 
 		DBFreeVariant(&dbv);
@@ -177,9 +177,6 @@ void FacebookProto::MessagingWorker(void *p)
 
 	if (data->type == FACEBOOK_RECV_MESSAGE)
 		facy.chat_mark_read( data->user_id );
-
-//	if ( DBGetContactSettingByte(NULL, m_szModuleName, FACEBOOK_KEY_CLOSE_WINDOWS_ENABLE, DEFAULT_CLOSE_WINDOWS_ENABLE ))
-//		facy.close_chat( data->user_id );
 
 	delete data;
 }

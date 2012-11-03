@@ -87,7 +87,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,159,44,50,14
 END
 
-IDD_OPTIONS DIALOGEX 0, 0, 305, 238
+IDD_OPTIONS DIALOGEX 0, 0, 305, 210
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -109,7 +109,7 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,127,271,10
 END
 
-IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 217
+IDD_OPTIONS_EVENTS DIALOGEX 0, 0, 305, 210
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
@@ -151,12 +151,12 @@ BEGIN
     COMBOBOX        IDC_FEED_TYPE,169,153,90,59,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 238
+IDD_OPTIONS_ADVANCED DIALOGEX 0, 0, 305, 210
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,126
+    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,93
     CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,32,267,10
     CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,56,267,10
     CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
@@ -165,14 +165,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,32,44,252,10
     CONTROL         "Also disconnect chat when going to offline",IDC_DISCONNECT_CHAT,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,68,267,10
-    CONTROL         "Get unread messages on login (EXPERIMENTAL)",IDC_PARSE_UNREAD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,104,267,10
-    CONTROL         "Automatically close chat windows (on website) (NOT WORKING)",IDC_CLOSE_WINDOWS,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,17,80,267,10
     CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,92,267,10
-    CONTROL         "Enable groupchats support (EXPERIMENTAL)",IDC_GROUPCHATS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,116,267,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,81,267,10
 END
 
 
@@ -184,6 +178,10 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO
 BEGIN
+    IDD_FACEBOOKACCOUNT, DIALOG
+    BEGIN
+    END
+
     IDD_MIND, DIALOG
     BEGIN
         LEFTMARGIN, 4
@@ -206,7 +204,7 @@ BEGIN
         VERTGUIDE, 288
         VERTGUIDE, 298
         TOPMARGIN, 7
-        BOTTOMMARGIN, 231
+        BOTTOMMARGIN, 203
     END
 
     IDD_OPTIONS_EVENTS, DIALOG
@@ -223,7 +221,7 @@ BEGIN
         VERTGUIDE, 237
         VERTGUIDE, 277
         TOPMARGIN, 7
-        BOTTOMMARGIN, 210
+        BOTTOMMARGIN, 203
         HORZGUIDE, 35
         HORZGUIDE, 37
         HORZGUIDE, 55
@@ -244,11 +242,10 @@ BEGIN
         VERTGUIDE, 122
         VERTGUIDE, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 231
+        BOTTOMMARGIN, 203
     END
 END
 #endif    // APSTUDIO_INVOKED
-
 
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////

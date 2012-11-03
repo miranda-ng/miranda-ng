@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by facebook.rc
+// Used by Z:\Myranda\trunk\protocols\FacebookRM\res\facebook.rc
 //
 #define IDI_FACEBOOK                    101
 #define IDI_MIND                        102
@@ -23,12 +23,9 @@
 #define IDC_SECURE_CHANNEL              1026
 #define IDC_LOGGING                     1027
 #define IDC_DISCONNECT_CHAT             1028
-#define IDC_PARSE_UNREAD                1029
 #define IDC_BIGGER_AVATARS              1030
-#define IDC_CLOSE_WINDOWS               1031
 #define IDC_MAP_STATUSES                1032
 #define IDC_LOAD_MOBILE                 1033
-#define IDC_GROUPCHATS                  1034
 #define IDC_NOTIFICATIONS_ENABLE        1041
 #define IDC_FEEDS_ENABLE                1042
 #define IDC_OTHER_ENABLE                1043

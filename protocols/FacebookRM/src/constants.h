@@ -53,17 +53,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #define DEFAULT_FORCE_HTTPS             0
 #define DEFAULT_FORCE_HTTPS_CHANNEL     0
-#define DEFAULT_CLOSE_WINDOWS_ENABLE    0
 #define DEFAULT_SET_MIRANDA_STATUS      0
 #define DEFAULT_LOGGING_ENABLE          0
 #define DEFAULT_SYSTRAY_NOTIFY          0
 #define DEFAULT_DISABLE_STATUS_NOTIFY	0
 #define DEFAULT_BIG_AVATARS				0
 #define DEFAULT_DISCONNECT_CHAT			0
-#define DEFAULT_PARSE_MESSAGES			0
 #define DEFAULT_MAP_STATUSES			0
 #define DEFAULT_LOAD_MOBILE				0
-#define DEFAULT_ENABLE_GROUPCHATS		0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE  1
 #define DEFAULT_EVENT_FEEDS_ENABLE          1

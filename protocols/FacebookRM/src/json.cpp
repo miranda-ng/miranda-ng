@@ -391,40 +391,6 @@ int facebook_json_parser::parse_messages( void* data, std::vector< facebook_mess
 					}
 				}
 			}
-			else if ( type.Value( ) == "group_msg" ) // chat message
-			{
-				if (!DBGetContactSettingByte(NULL,proto->m_szModuleName,FACEBOOK_KEY_ENABLE_GROUPCHATS, DEFAULT_ENABLE_GROUPCHATS))
-					continue;
-				
-				const String& from_name = objMember["from_name"];
-
-				const Number& to = objMember["to"];
-				char group_id[32];
-				lltoa( to.Value(), group_id, 10 );
-	
-				const Number& from = objMember["from"];
-				char was_id[32];
-				lltoa( from.Value(), was_id, 10 );
-
-				const Object& messageContent = objMember["msg"];
-  				const String& text = messageContent["text"];
-
-				std::string msg = utils::text::special_expressions_decode(
-						utils::text::slashu_to_utf8( text.Value( )) );
-
-				std::string name = utils::text::special_expressions_decode(
-						utils::text::slashu_to_utf8( from_name.Value( )) );				
-
-				// Add contact into chat, if isn't there already
-				if (!proto->IsChatContact(group_id, was_id))
-					proto->AddChatContact(group_id, was_id, name.c_str());
-
-				const Number& time_sent = messageContent["time"];
-				DWORD timestamp = utils::time::fix_timestamp( time_sent.Value());
-
-				// Add message into chat
-				proto->UpdateChat(group_id, was_id, name.c_str(), msg.c_str(), timestamp);
-			}
 			else if ( type.Value( ) == "thread_msg" ) // multiuser message
 			{
 				const String& from_name = objMember["from_name"];

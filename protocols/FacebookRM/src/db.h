@@ -52,17 +52,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_DEF_GROUP				"DefaultGroup"
 #define FACEBOOK_KEY_FORCE_HTTPS			"ForceHTTPS"
 #define FACEBOOK_KEY_FORCE_HTTPS_CHANNEL    "ForceHTTPSChannel"
-#define FACEBOOK_KEY_CLOSE_WINDOWS_ENABLE   "CloseChatEnable"
 #define FACEBOOK_KEY_SET_MIRANDA_STATUS		"SetMirandaStatus"
 #define FACEBOOK_KEY_LOGGING_ENABLE			"LoggingEnable"
 #define FACEBOOK_KEY_SYSTRAY_NOTIFY			"UseSystrayNotify"
 #define FACEBOOK_KEY_DISABLE_STATUS_NOTIFY	"DisableStatusNotify"
-#define FACEBOOK_KEY_PARSE_MESSAGES			"ParseUnreadMessages"
 #define FACEBOOK_KEY_BIG_AVATARS			"UseBigAvatars"
 #define FACEBOOK_KEY_DISCONNECT_CHAT		"DisconnectChatEnable"
 #define FACEBOOK_KEY_MAP_STATUSES			"MapStatuses"
 #define FACEBOOK_KEY_LOAD_MOBILE			"LoadMobile"
-#define FACEBOOK_KEY_ENABLE_GROUPCHATS		"GroupchatsEnable"
 
 #define FACEBOOK_KEY_POLL_RATE				"PollRate" // [HIDDEN]
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit" // [HIDDEN]
