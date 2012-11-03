@@ -65,7 +65,7 @@
 Сохранять историю в истории Miranda и историю аватаров в папке контакта, используя ярлыки
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Все аватары сохраняются как <Профиль>\\Avatars History\\<Протокол>\\<Хэш аватара> и имеют ярлык в истории <Профиль>\\Avatars History\\<Протокол>\\<ID контакта>\\<Время>
-[Store history avatars in per contact folders using shortcut]
+[Store history avatars in per contact folders using shortcuts]
 Сохранять историю для каждого контакта, используя ярлыки
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 История сохраняется только на диск. Её можно просмотреть встроенным просмотрщиком.
