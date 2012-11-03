@@ -111,6 +111,9 @@ public:
 	int  __cdecl RequestFriendship(WPARAM, LPARAM );
 	int  __cdecl ApproveFriendship(WPARAM, LPARAM );
 	int  __cdecl OnCancelFriendshipRequest(WPARAM, LPARAM );
+	int  __cdecl CheckNewsfeeds(WPARAM, LPARAM );
+	int  __cdecl CheckFriendRequests(WPARAM, LPARAM );
+	int  __cdecl RefreshBuddyList(WPARAM, LPARAM );
 
 	// Events
 	int  __cdecl OnModulesLoaded(WPARAM, LPARAM);
@@ -183,7 +186,8 @@ public:
 	void ToggleStatusMenuItems( BOOL bEnable );
 
 	// Handles, Locks
-	HGENMENU    m_hMenuRoot;
+	HGENMENU m_hMenuRoot;
+	HGENMENU m_hMenuServicesRoot;
 	HANDLE  m_hStatusMind;
 
 	HANDLE  signon_lock_;

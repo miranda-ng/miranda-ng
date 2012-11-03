@@ -451,6 +451,34 @@ int FacebookProto::OnMind(WPARAM,LPARAM)
 	return FALSE;
 }
 
+int FacebookProto::CheckNewsfeeds(WPARAM, LPARAM)
+{
+	if (!isOffline()) {
+		facy.client_notify( TranslateT("Loading newsfeeds..."));
+		facy.feeds();
+	}
+	return 0;
+}
+
+int FacebookProto::CheckFriendRequests(WPARAM, LPARAM)
+{
+	if (!isOffline()) {
+		facy.client_notify( TranslateT("Checking friend requests..."));
+		ProcessFriendRequests(NULL);
+	}
+	return 0;
+}
+
+int FacebookProto::RefreshBuddyList(WPARAM, LPARAM)
+{
+	if (!isOffline()) {
+		facy.client_notify( TranslateT("Refreshing buddy list..."));
+		facy.buddy_list();
+	}
+	return 0;
+}
+
+
 int FacebookProto::VisitProfile(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = reinterpret_cast<HANDLE>(wParam);
