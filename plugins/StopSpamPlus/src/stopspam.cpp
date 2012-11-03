@@ -60,7 +60,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-	mi.ptszName = _T("Remove Temporary Contacts");
+	mi.ptszName = LPGENT("Remove Temporary Contacts");
 	mi.pszService = pluginName"/RemoveTempContacts";
 	Menu_AddMainMenuItem(&mi);
 

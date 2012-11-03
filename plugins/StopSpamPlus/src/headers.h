@@ -35,7 +35,7 @@
 
 #define pluginName "StopSpam"
 
-extern char * pluginDescription;
+extern TCHAR * pluginDescription;
 extern TCHAR const * infTalkProtPrefix;
 extern char const * answeredSetting;
 extern char const * questCountSetting;

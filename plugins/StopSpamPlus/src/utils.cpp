@@ -46,7 +46,6 @@ void SetDlgItemString(HWND hwndDlg, UINT idItem, std::wstring const &str)
 tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 	if (ServiceExists(MS_VARS_FORMATSTRING)) {
 		FORMATINFO fi;
-		TCHAR *tszParsed;
 		tstring tstrResult;
 
 		ZeroMemory(&fi, sizeof(fi));
@@ -54,7 +53,7 @@ tstring variables_parse(tstring const &tstrFormat, HANDLE hContact){
 		fi.tszFormat = _tcsdup(tstrFormat.c_str());
 		fi.hContact = hContact;
 		fi.flags |= FIF_TCHAR;
-		tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
+		TCHAR *tszParsed = (TCHAR *)CallService(MS_VARS_FORMATSTRING, (WPARAM)&fi, 0);
 		free(fi.tszFormat);
 		if (tszParsed) {
 			tstrResult = tszParsed;

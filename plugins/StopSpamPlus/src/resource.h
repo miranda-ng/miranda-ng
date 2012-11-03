@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by stopspam.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\StopSpamPlus\res\stopspam.rc
 //
 #define IDD_MESSAGES                    101
 #define IDD_MAIN                        102
@@ -16,11 +16,12 @@
 #define ID_INFTALKPROT                  1010
 #define ID_ADDPERMANENT                 1011
 #define ID_HANDLEAUTHREQ                1012
-#define ID_NOTCASESENS					1013
-#define ID_DIVIDER						1014
+#define ID_NOTCASESENS                  1013
+#define ID_DIVIDER                      1014
 #define IDC_VARS                        1015
-#define ID_REMOVE_TMP_ALL				1016
-#define ID_HISTORY_LOG					1017
+#define ID_REMOVE_TMP_ALL               1016
+#define ID_HISTORY_LOG                  1017
+
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
