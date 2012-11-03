@@ -167,14 +167,10 @@ void FacebookProto::DeleteContactFromServer(void *data)
 	std::string id = (*(std::string*)data);
 	delete data;
 	
-	std::string query = "norefresh=false&post_form_id_source=AsyncRequest&lsd=&fb_dtsg=";
-	query += facy.dtsg_;
-	query += "&post_form_id=";
-	query += facy.post_form_id_;
-	query += "&uid=";
-	query += id;
-	query += "&__user=";
-	query += facy.self_.user_id;	
+	std::string query = "norefresh=false&lsd=";
+	query += "&fb_dtsg=" + facy.dtsg_;
+	query += "&uid=" + id;
+	query += "&__user=" + facy.self_.user_id;	
 
 	// Get unread inbox threads
 	http::response resp = facy.flap( FACEBOOK_REQUEST_DELETE_FRIEND, &query );
@@ -217,14 +213,10 @@ void FacebookProto::AddContactToServer(void *data)
 	std::string id = (*(std::string*)data);
 	delete data;
 	
-	std::string query = "action=add_friend&how_found=profile_button&ref_param=ts&outgoing_id=&unwanted=&logging_location=&no_flyout_on_click=false&ego_log_data=&post_form_id_source=AsyncRequest&lsd=&fb_dtsg=";
-	query += facy.dtsg_;
-	query += "&post_form_id=";
-	query += facy.post_form_id_;	
-	query += "&to_friend=";
-	query += id;
-	query += "&__user=";
-	query += facy.self_.user_id;
+	std::string query = "action=add_friend&how_found=profile_button&ref_param=ts&outgoing_id=&unwanted=&logging_location=&no_flyout_on_click=false&ego_log_data=&lsd=";
+	query += "&fb_dtsg=" + facy.dtsg_;
+	query += "&to_friend=" + id;
+	query += "&__user=" + facy.self_.user_id;
 
 	// Get unread inbox threads
 	http::response resp = facy.flap( FACEBOOK_REQUEST_REQUEST_FRIEND, &query );

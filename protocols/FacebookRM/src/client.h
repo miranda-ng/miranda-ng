@@ -35,9 +35,8 @@ public:
 	facebook_client( )
 	{
 		username_ = password_ = \
-		post_form_id_ = dtsg_ = \
 		chat_sequence_num_ = chat_channel_host_ = chat_channel_partition_ = \
-		logout_hash_ = "";
+		dtsg_ = logout_hash_ = "";
 
 		msgid_ = error_count_ = last_feeds_update_ = last_notification_time_ = 0;
 
@@ -64,7 +63,6 @@ public:
 	std::string username_;
 	std::string password_;
 
-	std::string post_form_id_;
 	std::string dtsg_;
 	std::string logout_hash_;
 	std::string chat_channel_;

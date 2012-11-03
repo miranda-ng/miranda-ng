@@ -429,14 +429,13 @@ std::string facebook_client::choose_action( int request_type, std::string* data,
 	
 	case FACEBOOK_REQUEST_RECONNECT:
 	{
-		std::string action = "/ajax/presence/reconnect.php?__a=1&reason=%s&fb_dtsg=%s&post_form_id=%s&__user=%s";
+		std::string action = "/ajax/presence/reconnect.php?__a=1&reason=%s&fb_dtsg=%s&__user=%s";
 		
 		if (this->chat_reconnect_reason_.empty())
 			this->chat_reconnect_reason_ = "6";
 
 		utils::text::replace_first( &action, "%s", this->chat_reconnect_reason_ );
 		utils::text::replace_first( &action, "%s", this->dtsg_ );
-		utils::text::replace_first( &action, "%s", this->post_form_id_ );
 		utils::text::replace_first( &action, "%s", this->self_.user_id );
 		return action;
 	}
@@ -732,8 +731,7 @@ bool facebook_client::logout( )
 
 	handle_entry( "logout" );
 
-	std::string data = "post_form_id=" + (this->post_form_id_.length() ? this->post_form_id_ : "0");
-	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	std::string data = "fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&ref=mb&h=" + this->logout_hash_;
 
 	http::response resp = flap( FACEBOOK_REQUEST_LOGOUT, &data );
@@ -817,10 +815,9 @@ bool facebook_client::chat_state( bool online )
 {
 	handle_entry( "chat_state" );
   
-	std::string data = "visibility=";
-	data += ( online ) ? "1" : "0";
-	data += "&window_id=0&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
-	data += "&post_form_id_source=AsyncRequest&fb_dtsg=" + this->dtsg_;
+	std::string data = (online ? "visibility=1" : "visibility=0");
+	data += "&window_id=0";
+	data += "&fb_dtsg=" + this->dtsg_;
 	data += "&lsd=&phstamp=0&__user=" + self_.user_id;
 	http::response resp = flap( FACEBOOK_REQUEST_VISIBILITY, &data );
   
@@ -866,7 +863,7 @@ bool facebook_client::buddy_list( )
 	handle_entry( "buddy_list" );
 
 	// Prepare update data
-	std::string data = "user=" + this->self_.user_id + "&fetch_mobile=true&post_form_id=" + this->post_form_id_ + "&fb_dtsg=" + this->dtsg_ + "&lsd=&post_form_id_source=AsyncRequest&__user=" + this->self_.user_id;
+	std::string data = "user=" + this->self_.user_id + "&fetch_mobile=true&fb_dtsg=" + this->dtsg_ + "&lsd=&__user=" + this->self_.user_id;
 
 	{
 		ScopedLock s(buddies_lock_);
@@ -1106,7 +1103,6 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
 			data += "&recipients[0]=" + message_recipient;
 			data += "&lsd=";
 			data += "&fb_dtsg=" + (dtsg_.length() ? dtsg_ : "0");
-			data += "&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
 
 			resp = flap( FACEBOOK_REQUEST_ASYNC, &data );
 			break;
@@ -1134,17 +1130,6 @@ bool facebook_client::send_message( std::string message_recipient, std::string m
   	case 1356026: // Contact has alternative client
 	{
 		client_notify(TranslateT("Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!"));
-      /*
-          post na url http://www.facebook.com/ajax/chat/post_application_settings.php?__a=1
-
-          enable_and_send      Povolit a odeslat                                                                                                                                                                                                                                                                                                                                                                                                                               
-          to_send              AQCoweMPeszBoKpd4iahcOyhmh0kiTYIhv1b5wCtuBiD0AaPVZIdEp3Pf5JMBmQ-9wf0ju-xdi-VRuk0ERk_I7XzI5dVJCs6-B0FExTZhspD-4-kTZLmZI-_M6fIuF2328yMyT3R3UEUmMV8P9MHcZwu-_pS3mOhsaHf6rIVcQ2rocSqLKi03wLKCfg0m8VsptPADWpOI-UNcIo-xl1PAoC1yVnL2wEXEtnF1qI_xFcmlJZ40AOONfIF_LS_lBrGYA-oCWLUK-GLHtQAHjO8aDeNXDU8Jk7Z_ES-_oAHee2PVLHcG_ACHXpasE7Iu3XFLMrdN2hjM96AjPRIf0Vk8gBZzfW_lUspakZmXxMI7iSNQE8lourK_6B3Z1s4UHxDZCNXYuc9gh70nm_xnaxnF9K1bR00s4MltnFjUT_3ypThzA  
-          __d                  1                                                                                                                                                                                                                                                                                                                                                                                                                                               
-          post_form_id         c73ebd9d94b7449c40e6965410fcdcf6                                                                                                                                                                                                                                                                                                                                                                                                                
-          fb_dtsg              Tb-T9                                                                                                                                                                                                                                                                                                                                                                                                                                           
-          lsd                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
-          post_form_id_source  AsyncRequest                                                                                                                                                                                                                                                                                                                                                                                                                                    
-          */
 		return false;
 	} break;
  
@@ -1181,8 +1166,8 @@ void facebook_client::close_chat( std::string message_recipient )
 	Sleep(300); 
 
 	std::string data = "close_chat=" + message_recipient;
-	data += "&window_id=0&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
-	data += "&post_form_id_source=AsyncRequest&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	data += "&window_id=0";
+	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&__user=" + self_.user_id;
 	
 	http::response resp = flap( FACEBOOK_REQUEST_TABS, &data );
@@ -1194,9 +1179,8 @@ void facebook_client::chat_mark_read( std::string message_recipient )
 
 	std::string data = "action=chatMarkRead";
 	data += "&other_user=" + message_recipient;
-	data += "&post_form_id=" + (post_form_id_.length() ? post_form_id_ : "0");
 	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
-	data += "&post_form_id_source=AsyncRequest&lsd=&__user=" + self_.user_id;
+	data += "&lsd=&__user=" + self_.user_id;
 	
 	http::response resp = flap( FACEBOOK_REQUEST_ASYNC, &data );
 }
@@ -1205,9 +1189,7 @@ bool facebook_client::set_status(const std::string &status_text)
 {
 	handle_entry( "set_status" );
 
-	std::string data = "post_form_id_source=AsyncRequest";
-	data += "&post_form_id=" + (this->post_form_id_.length() ? this->post_form_id_ : "0");
-	data += "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
+	std::string data = "&fb_dtsg=" + (this->dtsg_.length() ? this->dtsg_ : "0");
 	data += "&target_id=" + this->self_.user_id;
 
 	if ( status_text.length( ))
