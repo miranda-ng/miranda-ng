@@ -2701,7 +2701,6 @@ LRESULT CLUI::OnListRebuildNotify(NMCLISTCONTROL *pnmc)
 
 LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 {
-
 	// TODO: Check and refactor possible problem of clist resized to full screen problem
 	static RECT rcWindow,rcTree,rcTree2,rcWorkArea,rcOld;
 	int maxHeight, minHeight,newHeight;

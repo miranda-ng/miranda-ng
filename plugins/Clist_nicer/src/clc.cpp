@@ -47,7 +47,6 @@ extern int during_sizing;
 extern StatusItems_t *StatusItems;
 
 HIMAGELIST hCListImages;
-extern HIMAGELIST himlExtraImages;
 
 HANDLE hIcoLibChanged = 0, hSvc_GetContactStatusMsg = 0;
 
@@ -289,7 +288,6 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			RowHeight::Init(dat);
 			dat->forceScroll = 0;
 			dat->lastRepaint = 0;
-			dat->himlExtraColumns = himlExtraImages;
 			dat->hwndParent = GetParent(hwnd);
 			dat->lastSort = GetTickCount();
 			dat->needsResort = FALSE;
@@ -324,12 +322,12 @@ LBL_Def:
 			return FrameNCPaint(hwnd, DefWindowProc, wParam, lParam, frameHasTitlebar);
 		case INTM_GROUPCHANGED: {
 			ClcContact *contact;
-			BYTE iExtraImage[MAXEXTRACOLUMNS];
+			WORD iExtraImage[EXTRA_ICON_COUNT];
 			BYTE flags = 0;
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
-				CopyMemory(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
+				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 				flags = contact->flags;
 			}
 			pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
@@ -337,7 +335,7 @@ LBL_Def:
 				NMCLISTCONTROL nm;
 				pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 				if (FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
-					CopyMemory(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
+					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
 						contact->flags |= CONTACTF_CHECKED;
 				}
@@ -417,19 +415,23 @@ LBL_Def:
 		}
 		case INTM_METACHANGED: {
 			ClcContact *contact;
-			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+			if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
+
 			if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 				contact->hSubContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) contact->hContact, 0);
 				contact->metaProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hSubContact, 0);
 				contact->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) contact->hSubContact, 0);
 				if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
 					int subIndex = cfg::getCache(contact->hSubContact, contact->metaProto);
+					ClcContact *subContact;
+					if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE)contact->hSubContact, &subContact, NULL, NULL))
+						break;
+
 					cfg::eCache[contact->extraCacheEntry].proto_status_item = GetProtocolStatusItem(contact->metaProto);
 					if (subIndex >= 0 && subIndex <= cfg::nextCacheEntry) {
 						cfg::eCache[contact->extraCacheEntry].status_item = cfg::eCache[subIndex].status_item;
-						CopyMemory(cfg::eCache[contact->extraCacheEntry].iExtraImage, cfg::eCache[subIndex].iExtraImage, MAXEXTRACOLUMNS);
-						cfg::eCache[contact->extraCacheEntry].iExtraValid = cfg::eCache[subIndex].iExtraValid;
+						memcpy(contact->iExtraImage, subContact->iExtraImage, sizeof(contact->iExtraImage));
 					}
 				}
 			}

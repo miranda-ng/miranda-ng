@@ -31,7 +31,7 @@ int fnAddItemToGroup(ClcGroup *group, int iAboveItem)
 	newItem->type = CLCIT_DIVIDER;
 	newItem->flags = 0;
 	newItem->szText[0] = '\0';
-	memset(newItem->iExtraImage, 0xFF, SIZEOF(newItem->iExtraImage));
+	memset(newItem->iExtraImage, 0xFF, sizeof(newItem->iExtraImage));
 
 	List_Insert((SortedList*)&group->cl, newItem, iAboveItem);
 	return iAboveItem;
@@ -580,7 +580,7 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 struct SavedContactState_t
 {
 	HANDLE hContact;
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
+	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
 
@@ -633,8 +633,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			SavedContactState_t* p = new SavedContactState_t;
 			p->hContact = group->cl.items[group->scanIndex]->hContact;
-			CopyMemory(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, 
-				sizeof(group->cl.items[group->scanIndex]->iExtraImage));
+			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
 			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
 			saveContact.insert(p);
 		}
@@ -672,8 +671,7 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 			SavedContactState_t tmp, *p;
 			tmp.hContact = group->cl.items[group->scanIndex]->hContact;
 			if ((p = saveContact.find(&tmp)) != NULL) {
-				CopyMemory(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage, 
-						SIZEOF(group->cl.items[group->scanIndex]->iExtraImage));
+				memcpy(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage, sizeof(p->iExtraImage));
 				if (p->checked)
 					group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
 		}	}

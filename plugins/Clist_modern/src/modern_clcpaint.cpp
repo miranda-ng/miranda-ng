@@ -814,15 +814,12 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 				{
 					COLORREF colourFg = dat->selBkColour;
 					int mode = BlendedInActiveState?BlendValue:ILD_NORMAL;
-					if ( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
-					{
-						{
-							x += ( x>0 )?dat->extraColumnSpacing:ICON_HEIGHT;
-							SetRect( &rc, fr_rc.right-x, p_rect.top, fr_rc.right-x+ICON_HEIGHT, p_rect.bottom );
-							if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, 0 );
-							Drawing->pos_extra[iImage] = rc;
-							count++;
-						}
+					if (Drawing->iExtraImage[iImage] == 0xFFFF) {
+						x += ( x>0 )?dat->extraColumnSpacing:ICON_HEIGHT;
+						SetRect( &rc, fr_rc.right-x, p_rect.top, fr_rc.right-x+ICON_HEIGHT, p_rect.bottom );
+						if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, 0 );
+						Drawing->pos_extra[iImage] = rc;
+						count++;
 						continue;
 					}
 
@@ -843,13 +840,9 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 					if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, dx );
 					Drawing->pos_extra[iImage] = rc;
 					Drawing->pos_extra[iImage] = rc;
-					if ( Drawing->iExtraImage[iImage] != 0xFF )
+					if (Drawing->iExtraImage[iImage] != 0xFFFF)
 						ske_ImageList_DrawEx( dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem, 
-						rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
-					else if ( Drawing->iWideExtraImage[iImage] != 0xFFFF )
-						ske_ImageList_DrawEx( dat->himlWideExtraColumns, Drawing->iWideExtraImage[iImage], hdcMem, 
-						rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
-
+							rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
 				}
 				fr_rc.right -= x;
 			}
@@ -1581,14 +1574,11 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 						int count = 0;
 						RECT rc;
 						int x = 0;
-						for ( iImage = 0; iImage < dat->extraColumnsCount ; iImage++ )
-						{
+						for ( iImage = 0; iImage < dat->extraColumnsCount ; iImage++ ) {
 							COLORREF colourFg = dat->selBkColour;
 							int mode = BlendedInActiveState?BlendValue:ILD_NORMAL;
-							if ( Drawing->iExtraImage[iImage] == 0xFF && Drawing->iWideExtraImage[iImage] == 0xFFFF )
-							{
-								if ( !dat->MetaIgnoreEmptyExtra )
-								{
+							if (Drawing->iExtraImage[iImage] == 0xFFFF) {
+								if ( !dat->MetaIgnoreEmptyExtra) {
 									SetRect( &rc, p_rect.left+x, p_rect.top, p_rect.left+x+ICON_HEIGHT, p_rect.bottom );
 									x += dat->extraColumnSpacing;
 									if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, 0 );
@@ -1598,14 +1588,13 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 								continue;
 							}
 
-							if ( selected ) mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
-							else if ( hottrack )
-							{
+							if ( selected )
+								mode = BlendedInActiveState?ILD_NORMAL:ILD_SELECTED;
+							else if (hottrack) {
 								mode = BlendedInActiveState?ILD_NORMAL:ILD_FOCUS;
 								colourFg = dat->hotTextColour;
 							}
-							else if ( Drawing->type == CLCIT_CONTACT && Drawing->flags&CONTACTF_NOTONLIST )
-							{
+							else if (Drawing->type == CLCIT_CONTACT && (Drawing->flags & CONTACTF_NOTONLIST)) {
 								colourFg = dat->fontModernInfo[FONTID_NOTONLIST].colour;
 								mode = BlendValue;
 							}
@@ -1615,12 +1604,9 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 							count++;
 							if ( dat->text_rtl != 0 ) _RTLRect( &rc, free_row_rc.right, 0 );
 							Drawing->pos_extra[iImage] = rc;
-							if ( Drawing->iExtraImage[iImage] != 0xFF )
+							if (Drawing->iExtraImage[iImage] != 0xFFFF)
 								ske_ImageList_DrawEx( dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem, 
-								rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
-							else if ( Drawing->iWideExtraImage[iImage] != 0xFFFF )
-								ske_ImageList_DrawEx( dat->himlWideExtraColumns, Drawing->iWideExtraImage[iImage], hdcMem, 
-								rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
+									rc.left, rc.top, 0, 0, CLR_NONE, colourFg, mode );
 						}
 					}
 					break;
@@ -1640,8 +1626,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 					{
 						int eNum = gl_RowTabAccess[i]->type-TC_EXTRA1;
 						if ( eNum < dat->extraColumnsCount )
-							if ( Drawing->iExtraImage[eNum] != 0xFF || Drawing->iWideExtraImage[eNum] != 0xFFFF )
-							{
+							if (Drawing->iExtraImage[eNum] != 0xFFFF) {
 								int mode = 0;
 								int BlendedInActiveState = dat->dbbBlendInActiveState;
 								int BlendValue = dat->dbbBlend25 ? ILD_BLEND25 : ILD_BLEND50;
@@ -1663,12 +1648,9 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, struct ClcData *dat, Clc
 								}
 								if ( dat->text_rtl != 0 ) _RTLRect( &p_rect, free_row_rc.right, 0 );
 								Drawing->pos_extra[eNum] = p_rect;
-								if ( Drawing->iExtraImage[eNum] != 0xFF )
+								if (Drawing->iExtraImage[eNum] != 0xFFFF)
 									ske_ImageList_DrawEx( dat->himlExtraColumns, Drawing->iExtraImage[eNum], hdcMem, 
-									p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode );
-								else if ( Drawing->iWideExtraImage[eNum] != 0xFFFF )
-									ske_ImageList_DrawEx( dat->himlWideExtraColumns, Drawing->iWideExtraImage[eNum], hdcMem, 
-									p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode );
+										p_rect.left, p_rect.top, 0, 0, CLR_NONE, colourFg, mode );
 							}
 					}
 				}
@@ -2558,14 +2540,11 @@ void CLCPaint::_CalcItemsPos( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcCon
 					int count = 0;
 					RECT rc;
 
-					for ( iImage = dat->extraColumnsCount-1 ; iImage >= 0 ; iImage -- )
-					{
-						if ( Drawing->iExtraImage[iImage] != 0xFF || Drawing->iWideExtraImage[iImage] != 0xFFFF || !dat->MetaIgnoreEmptyExtra )
-						{
+					for ( iImage = dat->extraColumnsCount-1 ; iImage >= 0 ; iImage-- ) {
+						if ( Drawing->iExtraImage[iImage] != 0xFFFF || !dat->MetaIgnoreEmptyExtra ) {
 							rc = _GetRectangle( dat, &row_rc, &free_row_rc, &left_pos, &right_pos, 
 								left, dat->extraColumnSpacing, dat->extraColumnSpacing, ICON_HEIGHT, 0 );
-							if ( rc.left < rc.right )
-							{
+							if (rc.left < rc.right) {
 								// Store position
 								_StoreItemPos( Drawing, CIT_EXTRA|( iImage&0x3F ), &rc );
 								//Drawing->pos_extra[iImage] = rc;
@@ -3261,17 +3240,13 @@ void CLCPaint::_DrawContactSelection( HDC hdcMem, struct ClcData *dat, ClcContac
 void CLCPaint::_DrawContactExtraIcon( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * rc, int iImage )
 {
 	//Draw extra icon
-	COLORREF colourFg;
-	int mode;
-	if ( iImage != -1 )
-	{
+	if ( iImage != -1 ) {
+		int mode;
+		COLORREF colourFg;
 		_GetBlendMode( dat, Drawing, selected, hottrack, GIM_EXTRAICON_AFFECT, &colourFg, &mode );
-		if ( Drawing->iExtraImage[iImage] != 0xFF )
+		if (Drawing->iExtraImage[iImage] != 0xFFFF)
 			ske_ImageList_DrawEx( dat->himlExtraColumns, Drawing->iExtraImage[iImage], hdcMem, 
-			rc->left, rc->top, 0, 0, CLR_NONE, colourFg, mode );
-		else if ( Drawing->iWideExtraImage[iImage] != 0xFFFF )
-			ske_ImageList_DrawEx( dat->himlWideExtraColumns, Drawing->iWideExtraImage[iImage], hdcMem, 
-			rc->left, rc->top, 0, 0, CLR_NONE, colourFg, mode );
+				rc->left, rc->top, 0, 0, CLR_NONE, colourFg, mode );
 	}
 }
 

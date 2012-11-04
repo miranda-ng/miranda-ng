@@ -46,7 +46,6 @@ extern int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam);
 extern int SetHideOffline(WPARAM wParam, LPARAM lParam);
 
 extern DWORD g_gdiplusToken;
-extern HIMAGELIST himlExtraImages;
 
 TIME_API tmi;
 
@@ -212,11 +211,6 @@ static int fnIconFromStatusMode( const char* szProto, int status, HANDLE hContac
 
 extern "C" int __declspec(dllexport) CListInitialise()
 {
-	int rc = 0;
-	DBVARIANT dbv;
-	int       i;
-	char	    szProfilePath[MAX_PATH];
-
 	mir_getTMI(&tmi);
 	mir_getLP( &pluginInfo );
 
@@ -278,52 +272,22 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	if (cfg::dat.bFirstRun)
 		cfg::writeByte("CLUI", "firstrun", 0);
 
-	if (!cfg::getString(NULL, "CLUI", "exIconOrder", &dbv)) {
-		if (lstrlenA(dbv.pszVal) < EXICON_COUNT) {
-			for (i = 1; i <= EXICON_COUNT; i++)
-				cfg::dat.exIconOrder[i - 1] = i;
-		} else {
-			for (i = 0; i < EXICON_COUNT; i++)
-				if (dbv.pszVal[i] < EXICON_COUNT+1 && dbv.pszVal[i] >0)
-					cfg::dat.exIconOrder[i] = dbv.pszVal[i];
-				else
-					cfg::dat.exIconOrder[i] = i+1;
-		}
-		DBFreeVariant(&dbv);
-	} else {
-		for (i = 1; i <= EXICON_COUNT; i++)
-			cfg::dat.exIconOrder[i - 1] = i;
-	}
 	ReloadThemedOptions();
 	FLT_ReadOptions();
 	Reload3dBevelColors();
-	himlExtraImages = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 30, 2);
-	ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
 
 	cfg::dat.dwFlags = cfg::getDword("CLUI", "Frameflags", CLUI_FRAME_STATUSICONS | CLUI_FRAME_SHOWBOTTOMBUTTONS |
 	                                                       CLUI_FRAME_BUTTONSFLAT | CLUI_FRAME_CLISTSUNKEN);
 	cfg::dat.dwFlags |= (cfg::getByte("CLUI", "ShowSBar", 1) ? CLUI_FRAME_SBARSHOW : 0);
 	cfg::dat.soundsOff = cfg::getByte("CLUI", "NoSounds", 0);
 
-	CallService(MS_DB_GETPROFILEPATH, MAX_PATH, (LPARAM)szProfilePath);
-
-	MultiByteToWideChar(CP_ACP, 0, szProfilePath, MAX_PATH, cfg::dat.tszProfilePath, MAX_PATH);
-	cfg::dat.tszProfilePath[MAX_PATH - 1] = 0;
-
+	CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)cfg::dat.tszProfilePath);
 	_tcslwr(cfg::dat.tszProfilePath);
 
 	PreloadContactListModule();
 
 	// get the clist interface
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
-	if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
-LBL_Error:
-		MessageBoxA( NULL, "This plugin requires Miranda IM 0.8.0.9 or later", "Fatal error", MB_OK );
-		return 1;
-	}
-	if ( pcli->version < 6 ) // don't join it with the previous if ()
-		goto LBL_Error;
-
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCluiProtocolStatusChanged = CluiProtocolStatusChanged;
 	pcli->pfnCompareContacts = CompareContacts;
@@ -363,7 +327,7 @@ LBL_Error:
 	saveRecalcScrollBar = pcli->pfnRecalcScrollBar; pcli->pfnRecalcScrollBar = RecalcScrollBar;
 	saveTrayIconProcessMessage = pcli->pfnTrayIconProcessMessage; pcli->pfnTrayIconProcessMessage = TrayIconProcessMessage;
 
-	rc = LoadContactListModule();
+	int rc = LoadContactListModule();
 	if (rc == 0)
 		rc = LoadCLCModule();
 	LoadCLUIModule();
@@ -382,7 +346,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 {
 	if (IsWindow(pcli->hwndContactList))
 		DestroyWindow(pcli->hwndContactList);
-	ImageList_Destroy(himlExtraImages);
 	ClcShutdown(0, 0);
 	UnLoadCLUIFramesModule();
 	return 0;

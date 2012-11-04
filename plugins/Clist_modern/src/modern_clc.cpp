@@ -1560,12 +1560,14 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	dat->iInsertionMark = -1;
 	return 0;
 }
+
 static LRESULT clcOnLButtonDblClick(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	KillTimer(hwnd,TIMERID_SUBEXPAND);
 	hitcontact = NULL;
 	return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 }
+
 static LRESULT clcOnDestroy(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	int i=0;
@@ -1597,20 +1599,16 @@ static LRESULT clcOnDestroy(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	xpt_FreeThemeForWindow(hwnd);
 	return 0;
 }
+
 static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
-	WORD iWideExtraImage[MAXEXTRACOLUMNS];
+	WORD iExtraImage[EXTRA_ICON_COUNT];
 	BYTE flags = 0;
-	if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-	{
-		memset(iExtraImage, 0xFF, SIZEOF(iExtraImage));
-		memset((void*)iWideExtraImage, 0xFF, sizeof(iWideExtraImage));
-	}
+	if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
+		memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 	else {
-		CopyMemory(iExtraImage, contact->iExtraImage, SIZEOF(iExtraImage));
-		CopyMemory((void*)iWideExtraImage, (void*)contact->iWideExtraImage, sizeof(iWideExtraImage));
+		memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 		flags = contact->flags;
 	}
 	pcli->pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
@@ -1618,8 +1616,7 @@ static LRESULT clcOnIntmGroupChanged(struct ClcData *dat, HWND hwnd, UINT msg, W
 		NMCLISTCONTROL nm;
 		pcli->pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 		if (pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
-			CopyMemory(contact->iExtraImage, iExtraImage, SIZEOF(iExtraImage));
-			CopyMemory((void*)contact->iWideExtraImage, (void*)iWideExtraImage, sizeof(iWideExtraImage));
+			memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 			if (flags & CONTACTF_CHECKED)
 				contact->flags |= CONTACTF_CHECKED;
 		}

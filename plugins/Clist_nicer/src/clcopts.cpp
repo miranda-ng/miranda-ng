@@ -41,9 +41,6 @@ extern INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 extern INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 extern INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
-extern void ReloadExtraIcons( void );
-
-extern HIMAGELIST himlExtraImages;
 
 struct CheckBoxToStyleEx_t {
     int id;
@@ -314,7 +311,6 @@ static void DSP_LoadFromDefaults(DISPLAYPROFILE *p)
 	p->bGroupIndent = cfg::getByte("CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
 	p->bRowHeight = cfg::getByte("CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
 	p->bGroupRowHeight = cfg::getByte("CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT);
-	CopyMemory(p->exIconOrder, cfg::dat.exIconOrder, EXICON_COUNT);
 }
 
 /*
@@ -327,7 +323,7 @@ void DSP_Apply(DISPLAYPROFILE *p)
 	DWORD oldMask = cfg::dat.dwExtraImageMask;
 	int   i;
 	DWORD exStyle;
-	char  temp[EXICON_COUNT + 1];
+	char  temp[EXTRA_ICON_COUNT + 1];
 	/*
 	* icons page
 	*/
@@ -340,10 +336,6 @@ void DSP_Apply(DISPLAYPROFILE *p)
 	cfg::writeByte("CLC", "ExIconScale", (BYTE)cfg::dat.exIconScale);
 	cfg::writeByte("CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
 	cfg::writeByte("CLC", "ShowIdle", (BYTE)p->bDimIdle);
-
-	CopyMemory(cfg::dat.exIconOrder, p->exIconOrder, EXICON_COUNT);
-	CopyMemory(temp, p->exIconOrder, EXICON_COUNT);
-	temp[EXICON_COUNT] = 0;
 	cfg::writeString(NULL, "CLUI", "exIconOrder", temp);
 
 	/*
@@ -438,11 +430,9 @@ void DSP_Apply(DISPLAYPROFILE *p)
 	for (i = 0; i < cfg::nextCacheEntry; i++)
 		cfg::eCache[i].dwXMask = CalcXMask(cfg::eCache[i].hContact);
 
-	if (oldexIconScale != cfg::dat.exIconScale) {
-		ImageList_RemoveAll(himlExtraImages);
-		ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
+	if (oldexIconScale != cfg::dat.exIconScale)
 		IcoLibReloadIcons();
-	}
+
 	pcli->pfnClcOptionsChanged();
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 }
@@ -1373,7 +1363,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			if (!GetOpenFileNameA(&ofn))
 				break;
 			SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
-		} 
+		}
 		else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE)
 			break;
 

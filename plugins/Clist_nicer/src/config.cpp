@@ -220,8 +220,6 @@ int cfg::getCache(const HANDLE hContact, const char *szProto)
 		}
 		memset(&cfg::eCache[nextCacheEntry], 0, sizeof(TExtraCache));
 		cfg::eCache[nextCacheEntry].hContact = hContact;
-		memset(cfg::eCache[nextCacheEntry].iExtraImage, 0xffff, MAXEXTRACOLUMNS);
-		cfg::eCache[nextCacheEntry].iExtraValid = 0;
 		cfg::eCache[nextCacheEntry].valid = FALSE;
 		cfg::eCache[nextCacheEntry].bStatusMsgValid = 0;
 		cfg::eCache[nextCacheEntry].statusMsg = NULL;

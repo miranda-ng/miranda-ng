@@ -476,9 +476,6 @@ void GetExtendedInfo(ClcContact *contact, struct ClcData *dat)
 		return;
 
 	cfg::eCache[index].isChatRoom = cfg::getByte(contact->hContact, contact->proto, "ChatRoom", 0);
-
-	cfg::eCache[index].iExtraValid &= ~(EIMG_SHOW_EMAIL | EIMG_SHOW_SMS | EIMG_SHOW_WEB);
-	memset(cfg::eCache[index].iExtraImage, 0xFF, sizeof(cfg::eCache[index].iExtraImage));
 }
 
 void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto)

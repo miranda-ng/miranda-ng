@@ -226,7 +226,8 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		DrawText(hDC, szName, -1, rc, DT_VCENTER | DT_SINGLELINE);
 		ImageList_DrawEx(hCListImages, (int)cfg::dat.hIconNotify, hDC, 4, (rc->bottom + rc->top - 16) / 2, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		ev_lastIcon = cfg::dat.hIconNotify;
-	} else if (iCount > 0) {
+	}
+	else if (iCount > 0) {
 		MENUITEMINFO mii = {0};
 		struct NotifyMenuItemExData *nmi;
 		TCHAR *szName;
@@ -243,7 +244,8 @@ void PaintNotifyArea(HDC hDC, RECT *rc)
 		ImageList_DrawEx(hCListImages, nmi->iIcon, hDC, 4, (rc->bottom + rc->top) / 2 - 8, 16, 16, CLR_NONE, CLR_NONE, ILD_NORMAL);
 		DrawText(hDC, szName, -1, rc, DT_VCENTER | DT_SINGLELINE);
 		ev_lastIcon = (int)nmi->hIcon;
-	} else {
+	}
+	else {
 		HICON hIcon = reinterpret_cast<HICON>(LoadImage(g_hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, 16, 16, 0));
 		DrawText(hDC, cfg::dat.szNoEvents, lstrlen(cfg::dat.szNoEvents), rc, DT_VCENTER | DT_SINGLELINE);
 		DrawIconEx(hDC, 4, (rc->bottom + rc->top - 16) / 2, hIcon, 16, 16, 0, 0, DI_NORMAL | DI_COMPAT);
@@ -478,7 +480,6 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 	else
 		cEntry = cfg::eCache;
 
-
 	if (dat->bisEmbedded)
 		goto set_bg_l;
 
@@ -491,23 +492,18 @@ void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int in
 			bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 			dt_nickflags = DT_RTLREADING | DT_RIGHT;
 		}
-		else
-			bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
+		else bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 	}
 	else if (type == CLCIT_GROUP && API::pfnSetLayout != NULL) {
 		if ((contact->isRtl && cfg::dat.bGroupAlign == CLC_GROUPALIGN_AUTO) || cfg::dat.bGroupAlign == CLC_GROUPALIGN_RIGHT) {
 			g_RTL = TRUE;
 			bg_indent_r = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 		}
-		else
-			bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
+		else bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 	}
-	else
-		bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
+	else bg_indent_l = cfg::dat.bApplyIndentToBg ? indent * dat->groupIndent : 0;
 
 set_bg_l:
-
-
 	g_hottrack = dat->exStyle & CLS_EX_TRACKSELECT && type == CLCIT_CONTACT && dat->iHotTrack == index;
 	if (g_hottrack == selected)
 		g_hottrack = 0;
@@ -522,7 +518,8 @@ set_bg_l:
 			ChangeToFont(hdcMem, dat, FONTID_GROUPS, &fontHeight);
 		else
 			ChangeToFont(hdcMem, dat, FONTID_CONTACTS, &fontHeight);
-	} else if (type == CLCIT_DIVIDER) {
+	}
+	else if (type == CLCIT_DIVIDER) {
 		ChangeToFont(hdcMem, dat, FONTID_DIVIDERS, &fontHeight);
 		GetTextExtentPoint32(hdcMem, contact->szText, lstrlen(contact->szText), &textSize);
 	}
@@ -857,18 +854,16 @@ set_bg_l:
 		SetHotTrackColour(hdcMem,dat);
 		if (ht->IGNORED == 0)
 			SetTextColor(hdcMem, ht->TEXTCOLOR);
-		if (!g_hottrack_done) {
-			if (ht->IGNORED == 0) {
+		if (!g_hottrack_done)
+			if (ht->IGNORED == 0)
 				DrawAlpha(hdcMem, &rc, ht->COLOR, ht->ALPHA, ht->COLOR2, ht->COLOR2_TRANSPARENT, ht->GRADIENT,
 					ht->CORNER, ht->BORDERSTYLE, ht->imageItem);
-			}
-		}
 	}
 
 	if (g_RTL)
 		API::pfnSetLayout(hdcMem, LAYOUT_RTL | LAYOUT_BITMAPORIENTATIONPRESERVED);
-bgskipped:
 
+bgskipped:
 	rcContent.top = y + g_padding_y;
 	rcContent.bottom = y + rowHeight - (2 * g_padding_y);
 	rcContent.left = leftX;
@@ -904,7 +899,6 @@ bgskipped:
 		iImage = (contact->group->expanded) ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 	else if (type == CLCIT_CONTACT)
 		iImage = contact->iImage;
-
 
 	if (pi_avatar && (av_left || av_right)) {
 		RECT rc;
@@ -976,23 +970,19 @@ bgskipped:
 		if (type == CLCIT_CONTACT && !dat->bisEmbedded) {
 			BYTE bApparentModeDontCare = !((flags & CONTACTF_VISTO) ^ (flags & CONTACTF_INVISTO));
 			contact->extraIconRightBegin = 0;
-			if (cEntry && (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry && cEntry->iExtraValid)) {
-				int i, iIndex;
+			if (cEntry && (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)) {
 				DWORD dwOldMask = cEntry->dwXMask;
-				if (dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS)
-					cEntry->dwXMask &= ~EIMG_SHOW_ADV1;
+//!!!!!!		if (dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS)
+//!!!!!!			cEntry->dwXMask &= ~EIMG_SHOW_ADV1;
 
-				for (i = EXICON_COUNT - 1; i >= 0; i--) {
-					iIndex = cfg::dat.exIconOrder[i] - 1;
-					if (iIndex >= 0 && iIndex < EXICON_COUNT) {
-						if (cEntry->iExtraImage[i] != 0xffff && ((1 << i) & cEntry->dwXMask)) {
-							if (contact->extraIconRightBegin == 0 && i != (EXICON_COUNT - 1))
-								contact->extraIconRightBegin = rcContent.right;
-							ImageList_DrawEx(dat->himlExtraColumns, cEntry->iExtraImage[i], hdcMem, rcContent.right - cfg::dat.exIconScale, twoRows ? rcContent.bottom - g_exIconSpacing : y + ((rowHeight - cfg::dat.exIconScale) >> 1),
-								0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-							rcContent.right -= g_exIconSpacing;
-							rightIcons++;
-						}
+				for (int i = EXTRA_ICON_COUNT - 1; i >= 0; i--) {
+					if (contact->iExtraImage[i] != 0xffff && ((1 << i) & cEntry->dwXMask)) {
+						if (contact->extraIconRightBegin == 0 && i != (EXTRA_ICON_COUNT - 1))
+							contact->extraIconRightBegin = rcContent.right;
+						ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, rcContent.right - cfg::dat.exIconScale, twoRows ? rcContent.bottom - g_exIconSpacing : y + ((rowHeight - cfg::dat.exIconScale) >> 1),
+							0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
+						rcContent.right -= g_exIconSpacing;
+						rightIcons++;
 					}
 				}
 				cEntry->dwXMask = dwOldMask;
@@ -1030,7 +1020,8 @@ text:
 		rc.left = rc.right + 6 + textSize.cx;
 		rc.right = clRect->right - dat->rightMargin;
 		DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
-	} else if (type == CLCIT_GROUP) {
+	}
+	else if (type == CLCIT_GROUP) {
 		RECT rc;
 		int leftMargin = 0, countStart = 0, leftLineEnd, rightLineStart;
 		fontHeight = dat->fontInfo[FONTID_GROUPS].fontHeight;
@@ -1118,7 +1109,8 @@ text:
 					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 			}
 		}
-	} else {
+	}
+	else {
 		TCHAR *szText = contact->szText;
 
 		rcContent.top = y + ((rowHeight - fontHeight) >> 1);
@@ -1142,12 +1134,8 @@ text:
 		}
 
 		// nickname
-		if (!twoRows) {
-			if (dt_nickflags)
-				DrawText(hdcMem, szText, -1, &rcContent, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE | dt_nickflags);
-			else
-				DrawText(hdcMem, szText, -1, &rcContent, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
-		}
+		if (!twoRows)
+			DrawText(hdcMem, szText, -1, &rcContent, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE | dt_nickflags);
 		else {
 			int statusFontHeight;
 			DWORD dtFlags = DT_WORD_ELLIPSIS | DT_NOPREFIX | DT_NOCLIP | DT_SINGLELINE;
@@ -1308,20 +1296,23 @@ nodisplay:
 				DrawText(hdcMem, szText, qlen, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 		}
 	}
+
 	//extra icons
-	for (iImage = 0; iImage< dat->extraColumnsCount; iImage++) {
+	for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 		COLORREF colourFg = dat->selBkColour;
 		int mode = ILD_NORMAL;
-		if (contact->iExtraImage[iImage] == 0xFF)
+		if (contact->iExtraImage[i] == 0xFFFF)
 			continue;
+
 		if (selected)
 			mode = ILD_SELECTED;
-		else if (g_hottrack) {
-			mode = ILD_FOCUS; colourFg = dat->hotTextColour;
-		} else if (type == CLCIT_CONTACT && flags & CONTACTF_NOTONLIST) {
-			colourFg = dat->fontInfo[FONTID_NOTONLIST].colour; mode = ILD_BLEND50;
-		}
-		ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[iImage], hdcMem, clRect->right - rightOffset - dat->extraColumnSpacing * (dat->extraColumnsCount - iImage), y + ((rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
+		else if (g_hottrack)
+			mode = ILD_FOCUS, colourFg = dat->hotTextColour;
+		else if (type == CLCIT_CONTACT && flags & CONTACTF_NOTONLIST)
+			colourFg = dat->fontInfo[FONTID_NOTONLIST].colour, mode = ILD_BLEND50;
+
+		rightOffset += dat->extraColumnSpacing;
+		ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, clRect->right - rightOffset, y + ((rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
 	}
 	if (g_RTL)
 		API::pfnSetLayout(hdcMem, 0);

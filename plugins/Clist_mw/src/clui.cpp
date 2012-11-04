@@ -64,7 +64,6 @@ int SortList(WPARAM wParam,LPARAM lParam);
 
 void CluiProtocolStatusChanged(int parStatus, const char* szProto);
 
-extern void SetAllExtraIcons(HWND hwndList,HANDLE hContact);
 extern void ReloadExtraIcons();
 extern HWND CreateStatusBarhWnd(HWND parent);
 extern HANDLE CreateStatusBarFrame();
@@ -72,7 +71,6 @@ extern int CLUIFramesUpdateFrame(WPARAM wParam,LPARAM lParam);
 extern void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis);
 extern void InitGroupMenus();
 extern int UseOwnerDrawStatusBar;
-extern HANDLE hExtraImageClick;
 
 HICON GetConnectingIconForProto(char *szProto,int b);
 HICON GetConnectingIconForProto_DLL(char *szProto,int b);
@@ -607,11 +605,12 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
 					if (nm != NULL)
-						SetAllExtraIcons(pcli->hwndContactTree,nm->hItem );
+						pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, nm->hItem);
 					return TRUE;
 				}
+
 			case CLN_LISTREBUILT:
-				SetAllExtraIcons(pcli->hwndContactTree,0);
+				pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
 				return(FALSE);
 
 			case CLN_LISTSIZECHANGE:
@@ -660,8 +659,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					if (hitFlags & CLCHT_ONITEMEXTRA)
 						if (!IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
 							pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
-							if (pdnce)
-								NotifyEventHooks(hExtraImageClick, (WPARAM)nm->hItem, nm->iColumn+1);
+//							if (pdnce)
+//								NotifyEventHooks(hExtraImageClick, (WPARAM)nm->hItem, nm->iColumn+1);
 						}
 
 					if (hItem) break;

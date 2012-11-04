@@ -500,7 +500,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			for (iImage = 0; iImage < dat->extraColumnsCount; iImage++) {
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
-				if (group->cl.items[group->scanIndex]->iExtraImage[iImage] == 0xFF)
+				if (group->cl.items[group->scanIndex]->iExtraImage[iImage] == 0xFFFF)
 					continue;
 				if (selected)
 					mode = ILD_SELECTED;

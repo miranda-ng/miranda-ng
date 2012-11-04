@@ -35,7 +35,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define IsHContactGroup(h)  (((UINT_PTR)(h)^HCONTACT_ISGROUP)<(HCONTACT_ISGROUP^HCONTACT_ISINFO))
 #define IsHContactInfo(h)   (((UINT_PTR)(h)&HCONTACT_ISINFO) == HCONTACT_ISINFO)
 #define IsHContactContact(h) (((UINT_PTR)(h)&HCONTACT_ISGROUP) == 0)
-#define MAXEXTRACOLUMNS     16
+
+#ifndef EXTRA_ICON_COUNT
+#define EXTRA_ICON_COUNT 10
+#endif
 
 #define MAX_TIP_SIZE 2048
 
@@ -110,8 +113,8 @@ struct ClcContactBase
 			ClcGroup *group;
 		};
 	};
-	BYTE  iExtraImage[MAXEXTRACOLUMNS];
-	TCHAR szText[120-MAXEXTRACOLUMNS];
+	WORD  iExtraImage[EXTRA_ICON_COUNT];
+	TCHAR szText[120-EXTRA_ICON_COUNT];
 	char *proto; // MS_PROTO_GETBASEPROTO
 };
 
@@ -121,7 +124,7 @@ struct ClcDataBase
 	int rowHeight;
 	int yScroll;
 	int selection;
-	struct ClcFontInfo fontInfo[FONTID_MAX + 1];
+	ClcFontInfo fontInfo[FONTID_MAX + 1];
 	int scrollTime;
 	HIMAGELIST himlHighlight;
 	int groupIndent;
@@ -471,7 +474,6 @@ typedef struct
 	/*************************************************************************************
 	 * version 7 additions (0.11.0.x) - extra images
 	 *************************************************************************************/
-	HIMAGELIST hExtraImageList;
 	void   (*pfnReloadExtraIcons)(void);
 	void   (*pfnSetAllExtraIcons)(HWND hwndList,HANDLE hContact);
 }

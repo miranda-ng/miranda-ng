@@ -59,7 +59,7 @@ void AddSubcontacts(struct ClcContact * cont)
 		{
 			cont->subcontacts[i].hContact = cacheEntry->hContact;
 			cont->subcontacts[i].iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->hContact,0);
-			memset(cont->subcontacts[i].iExtraImage,0xFF,SIZEOF(cont->subcontacts[i].iExtraImage));
+			memset(cont->subcontacts[i].iExtraImage, 0xFF, sizeof(cont->subcontacts[i].iExtraImage));
 			cont->subcontacts[i].proto = cacheEntry->szProto;
 			lstrcpyn(cont->subcontacts[i].szText,cacheEntry->tszName,SIZEOF(cont->subcontacts[i].szText));
 			cont->subcontacts[i].type = CLCIT_CONTACT;
@@ -525,7 +525,7 @@ void SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort)
 struct SavedContactState_t
 {
 	HANDLE hContact;
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
+	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
 
@@ -585,7 +585,7 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 				savedContact = (struct SavedContactState_t*)mir_realloc(savedContact,sizeof(struct SavedContactState_t)*savedContactAlloced);
 			}
 			savedContact[savedContactCount-1].hContact = group->cl.items[group->scanIndex]->hContact;
-			CopyMemory(savedContact[savedContactCount-1].iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, MAXEXTRACOLUMNS);
+			memcpy(savedContact[savedContactCount-1].iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(contact->iExtraImage));
 			savedContact[savedContactCount-1].checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
 			if (group->cl.items[group->scanIndex]->SubAllocated>0)
 			{
@@ -597,7 +597,7 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 						savedContact = (struct SavedContactState_t*)mir_realloc(savedContact,sizeof(struct SavedContactState_t)*savedContactAlloced);
 					}
 					savedContact[savedContactCount-1].hContact = group->cl.items[group->scanIndex]->subcontacts[l].hContact;
-					CopyMemory(savedContact[savedContactCount-1].iExtraImage ,group->cl.items[group->scanIndex]->subcontacts[l].iExtraImage,MAXEXTRACOLUMNS);
+					memcpy(savedContact[savedContactCount-1].iExtraImage, group->cl.items[group->scanIndex]->subcontacts[l].iExtraImage, sizeof(contact->iExtraImage));
 					savedContact[savedContactCount-1].checked = group->cl.items[group->scanIndex]->subcontacts[l].flags&CONTACTF_CHECKED;
 				}
 			}
@@ -640,18 +640,19 @@ void SaveStateAndRebuildList(HWND hwnd,struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			for (i = 0;i<savedContactCount;i++)
 				if (savedContact[i].hContact == group->cl.items[group->scanIndex]->hContact) {
-					CopyMemory(group->cl.items[group->scanIndex]->iExtraImage,savedContact[i].iExtraImage,MAXEXTRACOLUMNS);
-					if (savedContact[i].checked) group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
+					memcpy(group->cl.items[group->scanIndex]->iExtraImage, savedContact[i].iExtraImage, sizeof(contact->iExtraImage));
+					if (savedContact[i].checked)
+						group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
 					break;	
 				}
 			if (group->cl.items[group->scanIndex]->SubAllocated>0)
 			{
-				int l;
-				for (l = 0; l<group->cl.items[group->scanIndex]->SubAllocated; l++)
+				for (int l = 0; l<group->cl.items[group->scanIndex]->SubAllocated; l++)
 					for (i = 0;i<savedContactCount;i++)
 						if (savedContact[i].hContact == group->cl.items[group->scanIndex]->subcontacts[l].hContact) {
-							CopyMemory(group->cl.items[group->scanIndex]->subcontacts[l].iExtraImage,savedContact[i].iExtraImage,MAXEXTRACOLUMNS);
-							if (savedContact[i].checked) group->cl.items[group->scanIndex]->subcontacts[l].flags |= CONTACTF_CHECKED;
+							memcpy(group->cl.items[group->scanIndex]->subcontacts[l].iExtraImage, savedContact[i].iExtraImage, sizeof(contact->iExtraImage));
+							if (savedContact[i].checked)
+								group->cl.items[group->scanIndex]->subcontacts[l].flags |= CONTACTF_CHECKED;
 							break;	
 						}	
 			}

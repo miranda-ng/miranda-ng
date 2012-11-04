@@ -61,8 +61,7 @@ void AddSubcontacts(ClcData *dat, ClcContact *cont, BOOL showOfflineHereGroup)
 			Cache_GetAvatar(dat, &p);
 
 			p.iImage = CallService(MS_CLIST_GETCONTACTICON,(WPARAM)cacheEntry->hContact,1);
-			memset(p.iExtraImage,0xFF,sizeof(p.iExtraImage));
-			memset((void*)p.iWideExtraImage,0xFF,sizeof(p.iWideExtraImage));
+			memset(p.iExtraImage, 0xFF, sizeof(p.iExtraImage));
 			p.proto = cacheEntry->m_cache_cszProto;		
 			p.type = CLCIT_CONTACT;
 			p.flags = 0;//CONTACTF_ONLINE;
@@ -485,8 +484,7 @@ int GetNewSelection(ClcGroup *group, int selection, int direction)
 
 struct SavedContactState_t {
 	HANDLE hContact;
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
-	WORD iWideExtraImage[MAXEXTRACOLUMNS];
+	WORD iExtraImage[EXTRA_ICON_COUNT];
 	int checked;
 };
 
@@ -540,12 +538,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			SavedContactState_t* p = new SavedContactState_t;
 			p->hContact = group->cl.items[group->scanIndex]->hContact;
-			CopyMemory(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage,
-				sizeof(group->cl.items[group->scanIndex]->iExtraImage));
-			
-			CopyMemory((void*)p->iWideExtraImage, (void*)group->cl.items[group->scanIndex]->iWideExtraImage,
-				sizeof(group->cl.items[group->scanIndex]->iWideExtraImage));
-			
+			memcpy(p->iExtraImage, group->cl.items[group->scanIndex]->iExtraImage, sizeof(p->iExtraImage));
 			p->checked = group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED;
 			savedContact.insert( p );
 		}
@@ -586,12 +579,7 @@ void cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 		else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT) {
 			for (i=0; i < savedContact.getCount(); i++)
 				if (savedContact[i].hContact == group->cl.items[group->scanIndex]->hContact) {
-					CopyMemory(group->cl.items[group->scanIndex]->iExtraImage, savedContact[i].iExtraImage,
-						sizeof(group->cl.items[group->scanIndex]->iExtraImage));
-					
-					CopyMemory((void*)group->cl.items[group->scanIndex]->iWideExtraImage, (void*)savedContact[i].iWideExtraImage,
-						sizeof(group->cl.items[group->scanIndex]->iWideExtraImage));
-					
+					memcpy(group->cl.items[group->scanIndex]->iExtraImage, savedContact[i].iExtraImage, sizeof(contact->iExtraImage));
 					if (savedContact[i].checked)
 						group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
 					break;
@@ -632,26 +620,19 @@ WORD pdnce___GetStatus(pClcCacheEntry pdnce)
 		return ID_STATUS_OFFLINE;
 	else
 		return pdnce->m_cache_nStatus;
-	/*
-	// this stub will replace direct usage of m_cache_nStatus and will be substituted by getting info from DB directrly
-	if ( !pdnce) return ID_STATUS_OFFLINE;
-	if ( !pdnce->m_cache_cszProto) return ID_STATUS_OFFLINE;
-	if ( !pdnce->hContact) return ID_STATUS_OFFLINE;
-	return DBGetContactSettingWord( pdnce->hContact, pdnce->m_cache_cszProto, "Status" , ID_STATUS_OFFLINE );
-	*/
 }
-
 
 void pdnce___SetStatus( pClcCacheEntry pdnce, WORD wStatus )
 {
-	if (pdnce) pdnce->m_cache_nStatus = wStatus;
+	if (pdnce)
+		pdnce->m_cache_nStatus = wStatus;
 }
 
 ClcContact* cliCreateClcContact()
 {
-	 ClcContact* contact = (ClcContact*)mir_calloc(sizeof( ClcContact ));
-	 memset((void*)contact->iWideExtraImage,0xFF,sizeof(contact->iWideExtraImage));
-	 return contact;
+	ClcContact* contact = (ClcContact*)mir_calloc(sizeof( ClcContact ));
+	memset(contact->iExtraImage, 0xFF, sizeof(contact->iExtraImage));
+	return contact;
 }
 
 ClcCacheEntry* cliCreateCacheItem( HANDLE hContact )

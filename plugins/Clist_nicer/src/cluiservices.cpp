@@ -27,7 +27,7 @@ UNICODE done
 #include "../cluiframes/cluiframes.h"
 #include <m_icq.h>
 
-extern HIMAGELIST hCListImages, himlExtraImages;;
+extern HIMAGELIST hCListImages;
 extern ButtonItem *g_ButtonItems;
 extern PLUGININFOEX pluginInfo;
 

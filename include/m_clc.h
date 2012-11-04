@@ -86,6 +86,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLM_GETITEMTEXT       (CLM_FIRST+21)   //wParam = hItem, lParam = (TCHAR*)pszStr, max 120 bytes
 #define CLM_GETSCROLLTIME     (CLM_FIRST+22)   //returns time in ms
 #define CLM_GETSELECTION      (CLM_FIRST+23)   //returns hItem
+#define CLM_SETEXTRASPACE     (CLM_FIRST+24)   //wParam=extra space between icons
+
 #define CLCHT_ABOVE        0x0001  //above client area
 #define CLCHT_BELOW        0x0002  //below client area
 #define CLCHT_TOLEFT       0x0004  //left of client area
@@ -113,9 +115,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define CLM_SETBKBITMAP       (CLM_FIRST+27)   //wParam = mode, lParam = hBitmap (don't delete it), NULL for none
 #define CLM_SETBKCOLOR        (CLM_FIRST+28)   //wParam = a COLORREF, default is GetSysColor(COLOR_3DFACE)
 #define CLM_SETCHECKMARK      (CLM_FIRST+29)   //wParam = hItem, lParam = 1 or 0
-#define CLM_SETEXTRACOLUMNS   (CLM_FIRST+30)   //wParam = number of extra columns (zero to MAXEXTRACOLUMNS from clc.h, currently 16)
+#define CLM_SETEXTRACOLUMNS   (CLM_FIRST+30)   //wParam = number of extra columns (zero to EXTRA_ICON_COUNT from clc.h, currently 16)
 #define CLM_SETEXTRAIMAGE     (CLM_FIRST+31)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based),iImage). iImage = 0xFF is a blank
-#define CLM_SETEXTRAIMAGELIST (CLM_FIRST+32)   //lParam = HIMAGELIST, wParam = WideImageList
+#define CLM_SETEXTRAIMAGELIST (CLM_FIRST+32)   //lParam = HIMAGELIST
 
 #define FONTID_CONTACTS    0
 #define FONTID_INVIS       1
@@ -189,11 +191,6 @@ typedef struct {
 #define CLM_GETNEXTITEM    (CLM_FIRST+50)   //wParam = flag, lParam = hItem, returns an hItem
 #define CLM_GETTEXTCOLOR   (CLM_FIRST+51)   //wParam = FONTID_, returns COLORREF
 #define CLM_SETTEXTCOLOR   (CLM_FIRST+52)   //wParam = FONTID_, lParam = COLORREF
-
-#define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), iImage). iImage = 0xFFFF is a blank
-#define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), 0), returns iImage or 0xFF
-#define CLM_GETWIDEEXTRAIMAGELIST (CLM_FIRST+62)   //returns HWIDEIMAGELIST
-#define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+63)   //wParam=extra space between icons
 
 //notifications  (most are omitted because the control processes everything)
 #define CLNF_ISGROUP   1

@@ -68,8 +68,6 @@ extern ButtonItem *g_ButtonItems;
 extern COLORREF g_CLUISkinnedBkColorRGB;
 extern wndFrame *wndFrameCLC;
 
-HIMAGELIST himlExtraImages = 0;
-
 static BYTE old_cliststate, show_on_first_autosize = FALSE;
 
 RECT cluiPos;
@@ -82,7 +80,6 @@ extern HANDLE hNotifyFrame;
 int SortList(WPARAM wParam, LPARAM lParam);
 int LoadCluiServices(void);
 void InitGroupMenus();
-void ReloadExtraIcons();
 void FS_RegisterFonts();
 void LoadExtraIconModule();
 int MTG_OnmodulesLoad(WPARAM wParam, LPARAM lParam);
@@ -202,7 +199,7 @@ static HWND PreCreateCLC(HWND parent)
 
 static int CreateCLC(HWND parent)
 {
-	ReloadExtraIcons();
+	pcli->pfnReloadExtraIcons();
 	CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)oldhideoffline, 0);
 	disableautoupd = 0;
 
@@ -270,39 +267,31 @@ static HICON hIconSaved = 0;
 
 void ClearIcons(int mode)
 {
-	int i;
-
-	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
 		if (overlayicons[i - IDI_OVL_OFFLINE] != 0) {
 			if (mode)
 				DestroyIcon(overlayicons[i - IDI_OVL_OFFLINE]);
 			overlayicons[i - IDI_OVL_OFFLINE] = 0;
 		}
 	}
-	hIconSaved = ImageList_GetIcon(himlExtraImages, 3, ILD_NORMAL);
-	ImageList_RemoveAll(himlExtraImages);
 }
 
 static void CacheClientIcons()
 {
-	int i = 0;
-	char szBuffer[128];
-
 	ClearIcons(0);
 
-	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+		char szBuffer[128];
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		overlayicons[i - IDI_OVL_OFFLINE] = Skin_GetIcon(szBuffer);
 	}
+
+	/* !!!!!!!!!!!!!!!!!!!!!!
 	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_14"));
 	ImageList_AddIcon(himlExtraImages, (HICON)LoadSkinnedIcon(SKINICON_EVENT_URL));
 	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
-	if (hIconSaved != 0) {
-		ImageList_AddIcon(himlExtraImages, hIconSaved);
-		DestroyIcon(hIconSaved);
-		hIconSaved = 0;
-	} else
-		ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
+	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
+	*/
 }
 
 static void InitIcoLib()
@@ -437,7 +426,7 @@ void IcoLibReloadIcons()
 	cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
 	cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	CacheClientIcons();
-	ReloadExtraIcons();
+	pcli->pfnReloadExtraIcons();
 
 	// force client icons reload
 	{

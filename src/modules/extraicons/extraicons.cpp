@@ -96,7 +96,7 @@ int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage)
 	if (hItem == 0)
 		return -1;
 
-	SendMessage(cli.hwndContactTree, CLM_SETWIDEEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol,hImage));
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(icol,hImage));
 	return 0;
 }
 
@@ -276,33 +276,34 @@ int ClistExtraClick(WPARAM wParam, LPARAM lParam)
 static HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClick;
 static bool bImageCreated = false;
 static int g_mutex_bSetAllExtraIconsCycle = 0;
+static HIMAGELIST hExtraImageList;
 
 HANDLE ExtraIcon_Add(HICON hIcon)
 {
-	if (cli.hExtraImageList == 0 || hIcon == 0)
+	if (hExtraImageList == 0 || hIcon == 0)
 		return INVALID_HANDLE_VALUE;
 
-	int res = ImageList_AddIcon(cli.hExtraImageList, hIcon);
+	int res = ImageList_AddIcon(hExtraImageList, hIcon);
 	return (res > 0xFFFE) ? INVALID_HANDLE_VALUE : (HANDLE)res;
 }
 
 void fnReloadExtraIcons()
 {
-	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNSSPACE, db_get_b(NULL,"CLUI","ExtraColumnSpace",18), 0);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRASPACE, db_get_b(NULL,"CLUI","ExtraColumnSpace",18), 0);
 	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, 0);
 
-	if (cli.hExtraImageList)
-		ImageList_Destroy(cli.hExtraImageList);
+	if (hExtraImageList)
+		ImageList_Destroy(hExtraImageList);
 
-	cli.hExtraImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,1,256);
+	hExtraImageList = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,1,256);
 
-	SendMessage(cli.hwndContactTree,CLM_SETEXTRAIMAGELIST,(WPARAM)cli.hExtraImageList,0);
-	SendMessage(cli.hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hExtraImageList);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 	NotifyEventHooks(hEventExtraImageListRebuilding,0,0);
 	bImageCreated = true;
 }
 
-void fnSetAllExtraIcons(HWND hwndList,HANDLE hContact)
+void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
 {
 	if (cli.hwndContactTree == 0)
 		return;
@@ -313,7 +314,7 @@ void fnSetAllExtraIcons(HWND hwndList,HANDLE hContact)
 	if (!bImageCreated)
 		cli.pfnReloadExtraIcons();
 
-	SendMessage(cli.hwndContactTree,CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
+	SendMessage(cli.hwndContactTree, CLM_SETEXTRACOLUMNS, EXTRA_ICON_COUNT, 0);
 
 	if (hContact == NULL)
 		hContact = db_find_first();

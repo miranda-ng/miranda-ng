@@ -30,8 +30,6 @@
  *
  */
 
-#define MAXEXTRACOLUMNS     16
-
 #define INTM_XSTATUSCHANGED  (WM_USER+26)
 #define INTM_METACHANGEDEVENT (WM_USER+27)
 #define INTM_CODEPAGECHANGED (WM_USER+28)
@@ -54,7 +52,6 @@
 #define TIMERID_SORT           15
 #define TIMERID_REFRESH        18
 #define TIMERID_PAINT          19
-ClcGroup;
 
 #define CONTACTF_ONLINE    1
 #define CONTACTF_INVISTO   2
@@ -115,8 +112,6 @@ typedef ContactFloater CONTACTFLOATER;
 #define DSPF_DONTSEPARATEOFFLINE 32
 #define DSPF_CENTERGROUPNAMES 64
 
-#define EXICON_COUNT 11
-
 /* Extra icons settings */
 typedef struct _OrderTreeData
 {
@@ -129,12 +124,12 @@ typedef struct _OrderTreeData
 
 struct DisplayProfile
 {
-	DWORD   dwFlags;
-	DWORD   dwExtraImageMask;
-	int     exIconScale;
-	BOOL    bCenterStatusIcons;
-	BOOL    bDimIdle, bNoOfflineAvatars, bShowLocalTime, bShowLocalTimeSelective, bDontSeparateOffline, bCenterGroupNames;
-	BYTE    dualRowMode;
+	DWORD    dwFlags;
+	DWORD    dwExtraImageMask;
+	int      exIconScale;
+	BOOL     bCenterStatusIcons;
+	BOOL     bDimIdle, bNoOfflineAvatars, bShowLocalTime, bShowLocalTimeSelective, bDontSeparateOffline, bCenterGroupNames;
+	BYTE     dualRowMode;
 	COLORREF avatarBorder;
 	DWORD    avatarRadius;
 	int      avatarSize;
@@ -143,7 +138,6 @@ struct DisplayProfile
 	BYTE     sortOrder[3], bUseDCMirroring, bGroupAlign;
 	BYTE     avatarPadding;
 	BYTE     bLeftMargin, bRightMargin, bRowSpacing, bGroupIndent, bRowHeight, bGroupRowHeight;
-	BYTE     exIconOrder[EXICON_COUNT];
 };
 typedef struct DisplayProfile DISPLAYPROFILE;
 
@@ -162,10 +156,8 @@ typedef struct DisplayProfileSet DISPLAYPROFILESET;
 
 struct TExtraCache
 {
-	WORD   iExtraImage[MAXEXTRACOLUMNS];
 	HANDLE hContact;
 	HANDLE hTimeZone;
-	DWORD  iExtraValid;
 	BYTE   valid;
 	TCHAR *statusMsg;
 	BYTE   bStatusMsgValid;
@@ -377,7 +369,6 @@ struct TCluiData {
 	BOOL fOnDesktop;
 	int  group_padding;
 	DWORD t_now;
-	BYTE exIconOrder[EXICON_COUNT];
 	BOOL realTimeSaving;
 	TCHAR tszProfilePath[MAX_PATH];
 	FILETIME ft;
@@ -565,18 +556,6 @@ int CoolSB_SetupScrollBar();
 #define SETTING_WINDOWSTYLE_TOOLWINDOW 1
 #define SETTING_WINDOWSTYLE_THINBORDER 2
 #define SETTING_WINDOWSTYLE_NOBORDER 3
-
-#define EIMG_SHOW_RES0 8
-#define EIMG_SHOW_EMAIL 1
-#define EIMG_SHOW_WEB 2
-#define EIMG_SHOW_SMS 4
-#define EIMG_SHOW_ADV1 16
-#define EIMG_SHOW_ADV2 32
-#define EIMG_SHOW_ADV3 512
-#define EIMG_SHOW_CLIENT 64
-#define EIMG_SHOW_ADV4 1024
-#define EIMG_SHOW_RES1 128
-#define EIMG_SHOW_RES2 256
 
 #define CLCHT_ONITEMEXTRAEX  0x1000  //on an extra icon, HIBYTE(HIWORD()) says which
 #define CLCHT_ONAVATAR       0x2000

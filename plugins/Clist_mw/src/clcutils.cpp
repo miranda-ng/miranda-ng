@@ -92,38 +92,37 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 
 	for (i = 0;i<dat->extraColumnsCount;i++) {
 		int x;
-		if (hitcontact->iExtraImage[i] == 0xFF) continue;
+		if (hitcontact->iExtraImage[i] == 0xFFFF)
+			continue;
 
-			if ((style&CLS_EX_MULTICOLUMNALIGNLEFT))
-			{							
-				x = (dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace-2+width);
-				x += 16;
-				x = x+dat->extraColumnSpacing*(ic);
-				if (i == dat->extraColumnsCount-1) {x = clRect.right-18;}
-			}else
-			{
-				int ir;
-				if (dat->MetaIgnoreEmptyExtra)
-				{
-					int j;
-					ir = 0;
-					for (j = i;j<dat->extraColumnsCount;j++) 
-						if (hitcontact->iExtraImage[j] != 0xFF)
-							ir++;
-				}else
-					ir = dat->extraColumnsCount-i;
-
-				x = clRect.right-dat->extraColumnSpacing*ir;
+		if ((style & CLS_EX_MULTICOLUMNALIGNLEFT)) {							
+			x = (dat->leftMargin+indent*dat->groupIndent+checkboxWidth+dat->iconXSpace-2+width);
+			x += 16;
+			x = x+dat->extraColumnSpacing*(ic);
+			if (i == dat->extraColumnsCount-1) {x = clRect.right-18;}
+		}
+		else {
+			int ir;
+			if (dat->MetaIgnoreEmptyExtra) {
+				ir = 0;
+				for (int j = i;j<dat->extraColumnsCount;j++) 
+					if (hitcontact->iExtraImage[j] != 0xFFFF)
+						ir++;
 			}
+			else ir = dat->extraColumnsCount-i;
+
+			x = clRect.right-dat->extraColumnSpacing*ir;
+		}
 		ic++;
 
-		if (testx>=x &&
-		   testx<x+cxSmIcon) {
-			if (flags) *flags |= CLCHT_ONITEMEXTRA|(i<<24);
-			
+		if (testx >= x && testx < x + cxSmIcon) {
+			if (flags)
+				*flags |= CLCHT_ONITEMEXTRA|(i<<24);
+
 			ReleaseDC(hwnd,hdc);
 			return hit;
-	}	}
+		}	
+	}
 
 	if (hitcontact->type == CLCIT_GROUP) 
 		oldfont = (HFONT)SelectObject(hdc,dat->fontInfo[FONTID_GROUPS].hFont);

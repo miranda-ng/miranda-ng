@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "cluiframes.h"
 HFONT __fastcall ChangeToFont(HDC hdc, struct ClcData *dat, int id, int *fontHeight);
 
-extern HIMAGELIST himlExtraImages;
 extern HWND g_hwndViewModeFrame, g_hwndEventArea;
 extern StatusItems_t *StatusItems;
 extern int mf_updatethread_running;
@@ -3386,75 +3385,9 @@ static int CLUIFrameOnModulesUnload(WPARAM wParam, LPARAM lParam)
 }
 
 /*
-static INT_PTR SetIconForExtraColumn(WPARAM wParam, LPARAM lParam)
-{
-	pIconExtraColumn piec;
-
-	if (pcli->hwndContactTree == 0)
-		return -1;
-
-	if (wParam == 0 || lParam == 0 || IsBadCodePtr((FARPROC)lParam))
-		return -1;
-
-	piec = (pIconExtraColumn)lParam;
-
-	if (piec->cbSize != sizeof(IconExtraColumn))
-		return -1;
-
-	if (cfg::dat.bMetaAvail && cfg::dat.bMetaEnabled && cfg::getByte((HANDLE)wParam, cfg::dat.szMetaName, "IsSubcontact", 0))
-		PostMessage(pcli->hwndContactTree, CLM_SETEXTRAIMAGEINTMETA, wParam, MAKELONG((WORD)piec->ColumnType, (WORD)piec->hImage));
-	else
-		PostMessage(pcli->hwndContactTree, CLM_SETEXTRAIMAGEINT, wParam, MAKELONG((WORD)piec->ColumnType, (WORD)piec->hImage));
-	return 0;
-}
-*/
-/*
  * wparam=hIcon
  * return hImage on success,-1 on failure
  */
-static INT_PTR AddIconToExtraImageList(WPARAM wParam, LPARAM lParam)
-{
-	if (himlExtraImages == 0 || wParam == 0)
-		return -1;
-
-	return((int)ImageList_AddIcon(himlExtraImages, (HICON)wParam));
-}
-
-/*
-static INT_PTR SkinDrawBgService(WPARAM wParam, LPARAM lParam)
-{
-    StatusItems_t item;
-    HWND hwnd;
-    RECT rc;
-
-    SKINDRAWREQUEST *sdrq = (SKINDRAWREQUEST *)wParam;
-
-    if (wParam == 0 || IsBadCodePtr((FARPROC)wParam) || pDrawAlpha == NULL)
-        return 0;
-
-    hwnd = WindowFromDC(sdrq->hDC);
-    GetClientRect(hwnd, &rc);
-    if (strstr(sdrq->szObjectID, "/Background") && EqualRect(&sdrq->rcClipRect, &sdrq->rcDestRect)) {
-        SkinDrawBg(hwnd, sdrq->hDC);
-        GetItemByStatus(ID_EXTBKEVTAREA, &item);
-        if (item.IGNORED)
-            FillRect(sdrq->hDC, &(sdrq->rcClipRect), GetSysColorBrush(COLOR_3DFACE));
-        else {
-            DrawAlpha(sdrq->hDC, &(sdrq->rcClipRect), item.COLOR, item.ALPHA, item.COLOR2, item.COLOR2_TRANSPARENT,
-                      item.GRADIENT, item.CORNER, item.BORDERSTYLE, item.imageItem);
-        }
-    }
-    else {
-        GetItemByStatus(ID_EXTBKEVTAREA, &item);
-        if (item.IGNORED)
-            FillRect(sdrq->hDC, &(sdrq->rcClipRect), GetSysColorBrush(COLOR_3DFACE));
-        else {
-            DrawAlpha(sdrq->hDC, &(sdrq->rcClipRect), item.COLOR, item.ALPHA, item.COLOR2, item.COLOR2_TRANSPARENT,
-                      item.GRADIENT, item.CORNER, item.BORDERSTYLE, item.imageItem);
-        }
-    }
-}
-*/
 
 void RegisterCLUIFrameClasses()
 {
@@ -3571,9 +3504,4 @@ int UnLoadCLUIFramesModule(void)
 	DeleteCriticalSection(&csFrameHook);
 	UnitFramesMenu();
 	return 0;
-}
-
-void ReloadExtraIcons()
-{
-	NotifyEventHooks(hExtraImageListRebuilding, 0, 0);
 }

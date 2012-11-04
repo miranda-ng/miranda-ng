@@ -151,16 +151,23 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		return contact->group->expanded;
 	}
 
+	case CLM_SETEXTRASPACE:
+		dat->extraColumnSpacing = (int)wParam;
+		cli.pfnInvalidateRect(hwnd,NULL,FALSE);
+		return 0;
+
 	case CLM_GETEXTRACOLUMNS:
 		return dat->extraColumnsCount;
 
 	case CLM_GETEXTRAIMAGE:
 	{
-		ClcContact *contact;
 		if (LOWORD(lParam) >= dat->extraColumnsCount)
-			return 0xFF;
+			return 0xFFFF;
+
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			return 0xFF;
+			return 0xFFFF;
+
 		return contact->iExtraImage[LOWORD(lParam)];
 	}
 
@@ -361,7 +368,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	}
 
 	case CLM_SETEXTRACOLUMNS:
-		if (wParam > MAXEXTRACOLUMNS)
+		if (wParam > EXTRA_ICON_COUNT)
 			return 0;
 		dat->extraColumnsCount = wParam;
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
@@ -369,12 +376,14 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 
 	case CLM_SETEXTRAIMAGE:
 	{
-		ClcContact *contact;
 		if (LOWORD(lParam) >= dat->extraColumnsCount)
 			return 0;
+
+		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			return 0;
-		contact->iExtraImage[LOWORD(lParam)] = (BYTE) HIWORD(lParam);
+
+		contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;
 	}

@@ -50,7 +50,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define HCONTACT_ISGROUP    0x80000000
 #define HCONTACT_ISINFO     0xFFFF0000
 
-#define MAXEXTRACOLUMNS     16
 #define MAXSTATUSMSGLEN		256
 
 #define INTM_NAMECHANGED     (WM_USER+10)
@@ -225,16 +224,14 @@ struct ClcContact : public ClcContactBase
 	RECT pos_label;
 	RECT pos_rename_rect;
 	RECT pos_contact_time;
-	RECT pos_extra[MAXEXTRACOLUMNS];
+	RECT pos_extra[EXTRA_ICON_COUNT];
 	DWORD lastPaintCounter;
 	BYTE bContactRate;
 
 	// For extended layout
 	BYTE ext_nItemsNum;
 	BOOL ext_fItemsValid;
-	tContactItems ext_mpItemsDesc[MAXEXTRACOLUMNS+10];  //up to 10 items
-
-	WORD iWideExtraImage[MAXEXTRACOLUMNS];
+	tContactItems ext_mpItemsDesc[EXTRA_ICON_COUNT+10];  //up to 10 items
 };
 
 struct ClcModernFontInfo {
@@ -355,8 +352,6 @@ struct ClcData : public ClcDataBase
 
 	XPTHANDLE hCheckBoxTheme;
 	BYTE bCompactMode;
-
-	HIMAGELIST himlWideExtraColumns;
 };
 
 struct SHORTDATA

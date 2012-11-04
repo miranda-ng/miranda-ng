@@ -49,11 +49,6 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 		}
 		return 0;
 
-	case CLM_SETEXTRACOLUMNSSPACE:
-		dat->extraColumnSpacing = (int)wParam;
-		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-		return 0;
-
 	case CLM_SETFONT:
 		if (HIWORD(lParam) < 0 || HIWORD(lParam)>FONTID_MODERN_MAX) return 0;
 
@@ -226,37 +221,9 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 		if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			return 0;
 
-		contact->iExtraImage[LOWORD(lParam)] = (BYTE)  HIWORD(lParam); //set oldstyle icon
-		contact->iWideExtraImage[LOWORD(lParam)] = (WORD) 0xFFFF; //reset wide icon
+		contact->iExtraImage[LOWORD(lParam)] = HIWORD(lParam);
 		pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
 		return 0;
-
-	case CLM_SETWIDEEXTRAIMAGE:
-		if (LOWORD(lParam) >= dat->extraColumnsCount)
-			return 0;
-
-		if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			return 0;
-
-		contact->iExtraImage[LOWORD(lParam)] = (BYTE) 0xFF; //reset oldstyle icon
-		contact->iWideExtraImage[LOWORD(lParam)] = (WORD) HIWORD(lParam); //set wide icon
-		pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-		return 0;
-
-	case CLM_SETEXTRAIMAGELIST:
-		dat->himlExtraColumns = (HIMAGELIST) lParam;
-		dat->himlWideExtraColumns = (HIMAGELIST) wParam;
-		pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-		return 0;
-
-	case CLM_GETWIDEEXTRAIMAGE:
-		if (LOWORD(lParam) >= dat->extraColumnsCount)
-			return 0xFFFF;
-
-		if ( !pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			return 0xFFFF;
-
-		return contact->iWideExtraImage[LOWORD(lParam)];
 	}
 	return corecli.pfnProcessExternalMessages(hwnd, dat, msg, wParam, lParam);
 }

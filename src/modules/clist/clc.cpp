@@ -476,12 +476,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case INTM_GROUPCHANGED:
 	{
 		ClcContact *contact;
-		BYTE iExtraImage[MAXEXTRACOLUMNS];
+		WORD iExtraImage[EXTRA_ICON_COUNT];
 		BYTE flags = 0;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			memset(iExtraImage, 0xFF, SIZEOF(iExtraImage));
+			memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 		else {
-			CopyMemory(iExtraImage, contact->iExtraImage, SIZEOF(iExtraImage));
+			memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 			flags = contact->flags;
 		}
 		cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
@@ -489,7 +489,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			NMCLISTCONTROL nm;
 			cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
 			if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
-				CopyMemory(contact->iExtraImage, iExtraImage, SIZEOF(iExtraImage));
+				memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 				if (flags & CONTACTF_CHECKED)
 					contact->flags |= CONTACTF_CHECKED;
 			}

@@ -259,7 +259,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact
 					BOOL hasExtra = FALSE;
 					int width = 0;
 					for (int k = 0; k < dat->extraColumnsCount; k++)
-						if (contact->iExtraImage[k] != 0xFF || contact->iWideExtraImage[k] != 0xFFFF || !dat->MetaIgnoreEmptyExtra) {
+						if (contact->iExtraImage[k] != 0xFFFF || !dat->MetaIgnoreEmptyExtra) {
 							hasExtra = TRUE;
 							if (item != -1) break;
 							width += (width>0)?dat->extraColumnSpacing:(dat->extraColumnSpacing-2);
@@ -285,7 +285,7 @@ int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact
 				{
 					int eNum = gl_RowTabAccess[i]->type-TC_EXTRA1;
 					if (eNum < dat->extraColumnsCount)
-						if (contact->iExtraImage[eNum] != 255 || contact->iWideExtraImage[eNum] != 0xFFFF || !dat->MetaIgnoreEmptyExtra) {
+						if (contact->iExtraImage[eNum] != 0xFFFF || !dat->MetaIgnoreEmptyExtra) {
 							gl_RowTabAccess[i]->h = ICON_HEIGHT;
 							gl_RowTabAccess[i]->w = ICON_HEIGHT;
 						}

@@ -53,77 +53,19 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			break;
 		}
 
-	case CLM_SETEXTRAIMAGEINT:
-		{
-			ClcContact *contact = NULL;
-			int index = -1;
-
-			if (LOWORD(lParam) >= MAXEXTRACOLUMNS || wParam == 0)
-				return 0;
-
-			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-				return 0;
-
-			index = contact->extraCacheEntry;
-
-			if (contact->type != CLCIT_CONTACT) // || contact->bIsMeta)
-				return 0;
-
-			//if (contact->bIsMeta && LOWORD(lParam) != EIMG_EXTRA && LOWORD(lParam) != EIMG_CLIENT)
-			//	return 0;
-
-			/*
-			if (contact->hContact == 5846286) {
-			_DebugTraceA("set extra image %d", LOWORD(lParam));
-			}
-			*/
-			if (index >= 0 && index < cfg::nextCacheEntry) {
-				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
-				PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
-			}
-		}
-		return 0;
-	case CLM_SETEXTRAIMAGEINTMETA:
-		{
-			HANDLE hMasterContact = 0;
-			int index = -1;
-
-			if (LOWORD(lParam) >= MAXEXTRACOLUMNS)
-				return 0;
-
-			index = cfg::getCache((HANDLE)wParam, NULL);
-			if (index >= 0 && index < cfg::nextCacheEntry) {
-				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
-			}
-
-			hMasterContact = (HANDLE)cfg::getDword((HANDLE)wParam, cfg::dat.szMetaName, "Handle", 0);
-
-			index = cfg::getCache(hMasterContact, NULL);
-			if (index >= 0 && index < cfg::nextCacheEntry) {
-				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
-				PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
-			}	
-		}
-		return 0;
-
 	case CLM_GETSTATUSMSG:
-		{
+		if (wParam) {
 			ClcContact *contact = NULL;
-
-			if (wParam == 0)
-				return 0;
-
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
+
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
-			if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
+
+			if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry)
 				if (cfg::eCache[contact->extraCacheEntry].bStatusMsgValid != STATUSMSG_NOTFOUND)
 					return((INT_PTR)cfg::eCache[contact->extraCacheEntry].statusMsg);
-			}	}
+		}
 		return 0;
 
 	case CLM_SETHIDESUBCONTACTS:
@@ -131,12 +73,8 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		return 0;
 
 	case CLM_TOGGLEPRIORITYCONTACT:
-		{
+		if (wParam) {
 			ClcContact *contact = NULL;
-
-			if (wParam == 0)
-				return 0;
-
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
@@ -144,39 +82,32 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			contact->flags ^= CONTACTF_PRIORITY;
 			cfg::writeByte(contact->hContact, "CList", "Priority", (BYTE)(contact->flags & CONTACTF_PRIORITY ? 1 : 0));
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-			return 0;
 		}
+		return 0;
+
 	case CLM_QUERYPRIORITYCONTACT:
-		{
+		if (wParam) {
 			ClcContact *contact = NULL;
-
-			if (wParam == 0)
-				return 0;
-
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
 			return(contact->flags & CONTACTF_PRIORITY ? 1 : 0);
 		}
+		return 0;
+
 	case CLM_TOGGLEFLOATINGCONTACT:
-		{
+		if (wParam) {
 			ClcContact *contact = NULL;
-			BYTE state;
-			int iEntry;
-
-			if (wParam == 0)
-				return 0;
-
 			if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				return 0;
 			if (contact->type != CLCIT_CONTACT)
 				return 0;
 
-			iEntry = contact->extraCacheEntry;
+			int iEntry = contact->extraCacheEntry;
 
 			if (iEntry >= 0 && iEntry <= cfg::nextCacheEntry) {
-				state = !cfg::getByte(contact->hContact, "CList", "floating", 0);
+				BYTE state = !cfg::getByte(contact->hContact, "CList", "floating", 0);
 				if (state) {
 					if (cfg::eCache[iEntry].floater == NULL)
 						FLT_Create(iEntry);
@@ -190,16 +121,11 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 				}
 				cfg::writeByte(contact->hContact, "CList", "floating", state);
 			}
-			return 0;
 		}
-	case CLM_QUERYFLOATINGCONTACT:
-		{
-			return(cfg::getByte((HANDLE)wParam, "CList", "floating", 0));
-		}
-	case CLM_SETEXTRAIMAGELIST:
-		dat->himlExtraColumns = (HIMAGELIST) lParam;
-		InvalidateRect(hwnd, NULL, FALSE);
 		return 0;
+
+	case CLM_QUERYFLOATINGCONTACT:
+		return cfg::getByte((HANDLE)wParam, "CList", "floating", 0);
 
 	case CLM_SETFONT:
 		if (HIWORD(lParam)<0 || HIWORD(lParam)>FONTID_LAST) 

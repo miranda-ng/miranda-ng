@@ -219,9 +219,6 @@
     <ClCompile Include="src\CLUIFrames\cluiframes.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\CLUIFrames\extraimage.cpp">
-      <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
-    </ClCompile>
     <ClCompile Include="src\CLUIFrames\framesmenu.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

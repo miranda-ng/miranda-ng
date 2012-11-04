@@ -27,7 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 extern int g_hottrack;
 
 extern HWND g_hwndViewModeFrame;
-extern HIMAGELIST himlExtraImages;
 
 StatusItems_t *StatusItems = NULL;
 ImageItem *g_ImageItems = NULL, *g_glyphItem = NULL;
@@ -40,7 +39,6 @@ int ID_EXTBK_LAST = ID_EXTBK_LAST_D;
 
 //void SetTBSKinned(int mode);
 void ReloadThemedOptions();
-void ReloadExtraIcons();
 static void SaveCompleteStructToDB(void);
 
 static StatusItems_t _StatusItems[] = {
@@ -1503,7 +1501,6 @@ void extbk_import(char *file, HWND hwndDlg)
 	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
 	if (oldexIconScale != cfg::dat.exIconScale) {
-		ImageList_SetIconSize(himlExtraImages, cfg::dat.exIconScale, cfg::dat.exIconScale);
 		IcoLibReloadIcons();
 		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	}
@@ -1849,7 +1846,7 @@ int CoolSB_SetupScrollBar()
 		UninitializeCoolSB(pcli->hwndContactTree);
 		return 0;
 	}
-	
+
 	if (cfg::dat.bSkinnedScrollbar) {
 		InitializeCoolSB(pcli->hwndContactTree);
 		CoolSB_SetStyle(pcli->hwndContactTree, SB_VERT, CSBS_HOTTRACKED);
