@@ -70,6 +70,9 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, void *icon)
 	if (hContact == NULL || id != this->id)
 		return -1;
 
+	if (icon == INVALID_HANDLE_VALUE)
+		icon = NULL;
+
 	if (isEnabled())
 	{
 		DBVARIANT dbv = { 0 };
