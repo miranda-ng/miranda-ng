@@ -13,11 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Нейтральный resources
+// Neutral resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
 LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
-#pragma code_page(1251)
+#pragma code_page(1252)
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -84,7 +84,14 @@ BEGIN
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 296
+        VERTGUIDE, 1
+        VERTGUIDE, 11
+        VERTGUIDE, 14
+        VERTGUIDE, 288
         TOPMARGIN, 7
+        BOTTOMMARGIN, 214
+        HORZGUIDE, 156
+        HORZGUIDE, 208
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -323,20 +330,20 @@ BEGIN
     CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,180,16,14
 END
 
-IDD_OPT_SMPOPUP DIALOGEX 0, 0, 305, 194
+IDD_OPT_SMPOPUP DIALOGEX 0, 0, 305, 226
 STYLE DS_SETFONT | DS_SETFOREGROUND | DS_FIXEDSYS | DS_CONTROL | DS_CENTER | WS_CHILD
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "General",IDC_STATIC,0,0,296,39
-    CONTROL         "Show PopUps when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,11,202,8
-    CONTROL         "Ignore empty status messages",IDC_PUIGNOREREMOVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,6,25,202,8
-    GROUPBOX        "Protocols",IDC_STATIC,0,41,296,94
-    CTEXT           "Enable/Disable protocols which you don't wish to be notified for:",IDC_STATIC,10,52,280,10
-    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,100,66,110,64
-    GROUPBOX        "Text",IDC_STATIC,0,135,152,34
-    EDITTEXT        IDC_POPUPTEXT,6,145,140,20,ES_MULTILINE | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
-    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,11,174,16,14
-    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,29,174,16,14
+    GROUPBOX        "General",IDC_STATIC,7,0,289,39
+    CONTROL         "Show PopUps when I connect",IDC_ONCONNECT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,11,274,8
+    CONTROL         "Ignore empty status messages",IDC_PUIGNOREREMOVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,14,25,274,8
+    GROUPBOX        "Protocols",IDC_STATIC,7,41,289,124
+    CTEXT           "Enable/Disable protocols which you don't wish to be notified for:",IDC_STATIC,14,52,274,10
+    CONTROL         "",IDC_PROTOCOLLIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,51,66,201,90
+    GROUPBOX        "Text",IDC_STATIC,7,170,289,38
+    EDITTEXT        IDC_POPUPTEXT,14,182,222,20,ES_MULTILINE | ES_AUTOHSCROLL | NOT WS_BORDER,WS_EX_STATICEDGE
+    CONTROL         "Variables",IDC_BT_VARIABLES,"MButtonClass",WS_TABSTOP,241,185,16,14
+    CONTROL         "Reset",IDC_BT_RESET,"MButtonClass",WS_TABSTOP,262,185,16,14
 END
 
 
@@ -358,12 +365,12 @@ IDI_DISABLEALL          ICON                    "disable_all.ico"
 IDI_ENABLEALL           ICON                    "enable_all.ico"
 IDI_VARIABLES           ICON                    "variables.ico"
 IDI_STATUS_MESSAGE      ICON                    "status_message.ico"
-#endif    // Нейтральный resources
+#endif    // Neutral resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Немецкий (Германия) resources
+// German (Germany) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
@@ -394,7 +401,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Немецкий (Германия) resources
+#endif    // German (Germany) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

@@ -789,7 +789,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case BN_CLICKED:
 			switch (LOWORD(wParam)) {
 				case IDC_BT_VARIABLES:
-					MessageBox(0, VARIABLES_SM_HELP_TEXT, TranslateT("Variables"), MB_OK | MB_ICONINFORMATION);
+					MessageBox(hwndDlg, VARIABLES_SM_HELP_TEXT, TranslateT("Variables"), MB_OK | MB_ICONINFORMATION);
 					break;				
 
 				case IDC_BT_RESET:
