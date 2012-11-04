@@ -127,6 +127,10 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		PostMessage(hwnd, TTB_UPDATEFRAMEVISIBILITY, 1, 0);
 		return FALSE;
 
+	case WM_DESTROY:
+		g_ctrl->hWnd = NULL;
+		break;
+
 	case WM_MOVE:
 		return 0;
 
@@ -247,7 +251,7 @@ LRESULT CALLBACK TopToolBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 	default:
 		return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
-	return(TRUE);
+	return TRUE;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

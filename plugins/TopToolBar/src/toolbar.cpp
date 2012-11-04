@@ -622,7 +622,7 @@ static int OnShutdown(WPARAM wParam, LPARAM lParam)
 			CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)g_ctrl->hFrame, 0);
 			g_ctrl->hFrame = 0;
 		}
-		else if (g_ctrl->hWnd) {
+		if (g_ctrl->hWnd) {
 			DestroyWindow(g_ctrl->hWnd);
 			g_ctrl->hWnd = NULL;
 		}
