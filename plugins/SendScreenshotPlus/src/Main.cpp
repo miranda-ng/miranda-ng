@@ -354,12 +354,18 @@ LPTSTR GetCustomPath() {
 		mir_freeAndNil(pszPath);
 		pszPath = mir_tstrdup(szPath);
 	}
+	if(pszPath == NULL)
+	{
+		MessageBox(NULL, _T("Can not retrieve Screenshot path."), _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		return 0;
+	}
 	INT_PTR result = CallService(MS_UTILS_CREATEDIRTREET,0,(LPARAM) pszPath);
 	if(result != NULL)
 	{
 		TCHAR szError[MAX_PATH];
 		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
 		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		mir_free(pszPath);
 		return 0;
 	}
 	return pszPath;
