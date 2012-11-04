@@ -360,6 +360,7 @@ LPTSTR GetCustomPath() {
 		TCHAR szError[MAX_PATH];
 		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
 		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+		return 0;
 	}
 	return pszPath;
 }

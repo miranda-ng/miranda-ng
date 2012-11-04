@@ -774,17 +774,20 @@ void TfrmMain::SaveOptions(void) {
 
 //---------------------------------------------------------------------------
 void TfrmMain::Init(LPTSTR DestFolder, HANDLE Contact) {
-	m_FDestFolder = mir_tstrdup(DestFolder);
-	m_hContact = Contact;
-	if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
+	if(DestFolder)
+	{
+		m_FDestFolder = mir_tstrdup(DestFolder);
+		m_hContact = Contact;
+		if(!m_hContact) m_opt_cboxSendBy = SS_JUSTSAVE;
 
-	// create window
-	m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0, (DLGPROC)DlgTfrmMain,(LPARAM)this);
-	//register object
-	_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
+		// create window
+		m_hWnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_UMainForm),0, (DLGPROC)DlgTfrmMain,(LPARAM)this);
+		//register object
+		_HandleMapping.insert(CHandleMapping::value_type(m_hWnd, this));
 
-	//check Contact
-	if(m_cSend) m_cSend->SetContact(Contact);
+		//check Contact
+		if(m_cSend) m_cSend->SetContact(Contact);
+	}
 }
 
 //---------------------------------------------------------------------------
