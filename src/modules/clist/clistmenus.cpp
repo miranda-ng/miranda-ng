@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2010 Miranda ICQ/IM project, 
+Copyright 2000-2010 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -60,19 +60,19 @@ static HANDLE hAckHook;
 static HMENU hMainMenu, hStatusMenu = 0;
 static const int statusModeList[ MAX_STATUS_COUNT ] =
 {
-	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED, 
+	ID_STATUS_OFFLINE, ID_STATUS_ONLINE, ID_STATUS_AWAY, ID_STATUS_NA, ID_STATUS_OCCUPIED,
 	ID_STATUS_DND, ID_STATUS_FREECHAT, ID_STATUS_INVISIBLE, ID_STATUS_ONTHEPHONE, ID_STATUS_OUTTOLUNCH
 };
 
 static const int skinIconStatusList[ MAX_STATUS_COUNT ] =
 {
-	SKINICON_STATUS_OFFLINE, SKINICON_STATUS_ONLINE, SKINICON_STATUS_AWAY, SKINICON_STATUS_NA, SKINICON_STATUS_OCCUPIED, 
+	SKINICON_STATUS_OFFLINE, SKINICON_STATUS_ONLINE, SKINICON_STATUS_AWAY, SKINICON_STATUS_NA, SKINICON_STATUS_OCCUPIED,
 	SKINICON_STATUS_DND, SKINICON_STATUS_FREE4CHAT, SKINICON_STATUS_INVISIBLE, SKINICON_STATUS_ONTHEPHONE, SKINICON_STATUS_OUTTOLUNCH
 };
 
 static const int statusModePf2List[ MAX_STATUS_COUNT ] =
 {
-	0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND, 
+	0xFFFFFFFF, PF2_ONLINE, PF2_SHORTAWAY, PF2_LONGAWAY, PF2_LIGHTDND,
 	PF2_HEAVYDND, PF2_FREECHAT, PF2_INVISIBLE, PF2_ONTHEPHONE, PF2_OUTTOLUNCH
 };
 
@@ -175,7 +175,7 @@ int GetAverageMode(int* pNetProtoCount = NULL)
 		else if (averageMode > 0 && averageMode != CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0)) {
 			averageMode = -1;
             if (pNetProtoCount == NULL) break;
-	    }	
+	    }
     }
 
     if (pNetProtoCount) *pNetProtoCount = netProtoCount;
@@ -587,7 +587,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 						pimi->mi.ptszName = mir_tstrdup(buf);
 						root->mi.ptszName = mir_tstrdup(buf);
 					}
-					else { 
+					else {
 						pimi->mi.ptszName = mir_tstrdup(acc->tszAccountName);
 						root->mi.ptszName = mir_tstrdup(acc->tszAccountName);
 					}
@@ -716,8 +716,8 @@ static INT_PTR MenuProcessHotkey(WPARAM vKey, LPARAM)
 {
     prochotkey = true;
 
-    bool res = 
-        MO_ProcessHotKeys(hStatusMenuObject, vKey)  || 
+    bool res =
+        MO_ProcessHotKeys(hStatusMenuObject, vKey)  ||
         MO_ProcessHotKeys(hMainMenuObject, vKey);
 
     prochotkey = false;
@@ -783,7 +783,7 @@ int fnGetProtocolVisibility(const char* accName)
 {
 	if (accName) {
 		PROTOACCOUNT* pa = Proto_GetAccount(accName);
-		return pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) && 
+		return pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) &&
             pa->ppro && (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
 	}
 
@@ -823,7 +823,7 @@ void RebuildMenuOrder(void)
 {
 	int i, j, s;
 	DWORD flags;
-	
+
 	BYTE bHideStatusMenu = db_get_b(NULL, "CLUI", "DontHideStatusMenu", 0); // cool perversion, though
 
 	//clear statusmenu
@@ -876,7 +876,7 @@ void RebuildMenuOrder(void)
 		tmi.hIcon = ic = (HICON)CallProtoServiceInt(NULL,pa->szModuleName, PS_LOADICON, PLI_PROTOCOL | PLIF_SMALL, 0);
 
 		if (Proto_IsAccountLocked(pa) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, SIZEOF(tbuf), LPGENT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -907,7 +907,7 @@ void RebuildMenuOrder(void)
 			tmi.flags |= CMIF_CHECKED;
 
 		if ((tmi.flags & CMIF_CHECKED) && cli.bDisplayLocked) {
-			mir_sntprintf(tbuf, SIZEOF(tbuf), LPGENT("%s (locked)"), pa->tszAccountName);
+			mir_sntprintf(tbuf, SIZEOF(tbuf), TranslateT("%s (locked)"), pa->tszAccountName);
 			tmi.ptszName = tbuf;
 		}
 		else tmi.ptszName = pa->tszAccountName;
@@ -1000,7 +1000,7 @@ void RebuildMenuOrder(void)
 				TCHAR buf[ 256 ], hotkeyName[ 100 ];
 				WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 				HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-				mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"), 
+				mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"),
 					cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 				tmi.ptszName = buf;
 				tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1030,7 +1030,7 @@ static int sttRebuildHotkeys(WPARAM, LPARAM)
 		TCHAR buf[ 256 ], hotkeyName[ 100 ];
 		WORD hotKey = GetHotkeyValue(statusHotkeys[j]);
 		HotkeyToName(hotkeyName, SIZEOF(hotkeyName), HIBYTE(hotKey), LOBYTE(hotKey));
-		mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"), 
+		mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s\t%s"),
 			cli.pfnGetStatusModeDescription(statusModeList[j], 0), hotkeyName);
 		tmi.ptszName = buf;
 		tmi.hotKey = MAKELONG(HIBYTE(hotKey), LOBYTE(hotKey));
@@ -1066,7 +1066,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 	tmi.cbSize = sizeof(tmi);
 	if (overallStatus >= ID_STATUS_OFFLINE) {
 		int pos = statustopos(cli.currentStatusMenuItem);
-		if (pos == -1) 
+		if (pos == -1)
 			pos = 0;
 
 		// reset all current possible checked statuses
@@ -1111,7 +1111,7 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				if (pos >= 0 && pos < SIZEOF(statusModeList)) {
 					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE | CMIF_CHECKED;
 					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
-				}	
+				}
 			}
 			break;
 	}	}
@@ -1189,7 +1189,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 			if (mp->pMenu) {
 				TCHAR* ptszName = (mi->flags & CMIF_UNICODE) ? mir_tstrdup(mi->ptszPopupName) : mir_a2t(mi->pszPopupName);
 				pRoot = MO_RecursiveWalkMenu(mp->pMenu->submenu.first, FindRoot, ptszName);
-				mir_free(ptszName);	
+				mir_free(ptszName);
 			}
 			if (pRoot == NULL) {
 				TMO_MenuItem tmi = { 0 };
@@ -1235,7 +1235,7 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 	char* p = (pRoot) ? mir_t2a(pRoot->mi.ptszName) : NULL;
 	mir_snprintf(buf, SIZEOF(buf), "%s/%s", (p) ? p : "", mi->pszService ? mi->pszService : "");
 	mir_free(p);
-	
+
 	MO_SetOptionsMenuItem(menuHandle, OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 
 	return (INT_PTR)menuHandle;
