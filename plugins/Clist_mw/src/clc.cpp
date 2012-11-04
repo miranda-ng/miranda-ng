@@ -35,9 +35,7 @@ int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam);
 
 void InitDisplayNameCache(SortedList *list);
 void FreeDisplayNameCache(SortedList *list);
-void LoadExtraImageFunc( void );
 
-void LoadExtraImageFunc( void );
 void UnloadCLUIModule( void );
 
 extern int sortByStatus;
@@ -282,7 +280,6 @@ LBL_Exit:
 int LoadCLCModule(void)
 {
 	LoadCLUIFramesModule();
-	LoadExtraImageFunc();	
 
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 	

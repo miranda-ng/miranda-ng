@@ -44,6 +44,11 @@ int ConvertToClistSlot(int slot);
 
 int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage);
 
+HANDLE ExtraIcon_Add(HICON hIcon);
+
+void fnReloadExtraIcons();
+void fnSetAllExtraIcons(HWND hwndList,HANDLE hContact);
+
 static inline BOOL IsEmpty(const char *str)
 {
 	return str == NULL || str[0] == 0;

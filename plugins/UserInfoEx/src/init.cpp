@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -103,7 +103,6 @@ static INT OnTopToolBarLoaded(WPARAM wParam, LPARAM lParam)
  **/
 static INT OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	myGlobals.HaveCListExtraIcons = ServiceExists(MS_CLIST_EXTRA_SET_ICON);
 	myGlobals.PopUpActionsExist = ServiceExists(MS_POPUP_REGISTERACTIONS);
 	myGlobals.MsgAddIconExist = ServiceExists(MS_MSG_ADDICON);
 

@@ -28,7 +28,6 @@
 int applyExtraImage(HANDLE hContact);
 
 extern HINSTANCE g_hInst;
-extern IconExtraColumn g_IECClear;
 extern int clistIcon;
 extern HANDLE g_hExtraIcon;
 extern byte bContactMenuItems, bEnableClistIcon, bDrawNoGenderIcon;

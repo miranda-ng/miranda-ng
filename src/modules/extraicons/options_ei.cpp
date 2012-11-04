@@ -271,7 +271,7 @@ static HTREEITEM Tree_AddExtraIconGroup(HWND tree, vector<int> &group, bool sele
 	vector<int> *ids = new vector<int> ;
 	tstring desc;
 	int img = 0;
-	for (unsigned int i = 0; i < group.size(); ++i) {
+	for (unsigned int i = 0; i < group.size(); i++) {
 		BaseExtraIcon *extra = registeredExtraIcons[group[i] - 1];
 		ids->push_back(extra->getID());
 
@@ -338,7 +338,7 @@ static void GroupSelectedItems(HWND tree)
 
 
 	// Remove old
-	for (unsigned int i = 0; i < toRemove.size(); ++i) {
+	for (unsigned int i = 0; i < toRemove.size(); i++) {
 		delete Tree_GetIDs(tree, toRemove[i]);
 		TreeView_DeleteItem(tree, toRemove[i]);
 	}
@@ -443,7 +443,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			DestroyIcon(hDefaultIcon);
 
 			unsigned int i;
-			for (i = 0; i < registeredExtraIcons.size(); ++i) {
+			for (i = 0; i < registeredExtraIcons.size(); i++) {
 				ExtraIcon *extra = registeredExtraIcons[i];
 
 				HICON hIcon = Skin_GetIcon(extra->getDescIcon());
@@ -460,13 +460,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 			TreeView_SetImageList(tree, hImageList, TVSIL_NORMAL);
 
-			for (i = 0; i < extraIconsBySlot.size(); ++i) {
+			for (i = 0; i < extraIconsBySlot.size(); i++) {
 				ExtraIcon *extra = extraIconsBySlot[i];
 
 				if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 					ExtraIconGroup *group = (ExtraIconGroup *) extra;
 					vector<int> ids;
-					for (unsigned int j = 0; j < group->items.size(); ++j)
+					for (unsigned int j = 0; j < group->items.size(); j++)
 						ids.push_back(group->items[j]->getID());
 					Tree_AddExtraIconGroup(tree, ids, extra->isEnabled());
 				}
@@ -496,7 +496,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					// Store old slots
 					int *oldSlots = new int[registeredExtraIcons.size()];
 					int lastUsedSlot = -1;
-					for (i = 0; i < registeredExtraIcons.size(); ++i) {
+					for (i = 0; i < registeredExtraIcons.size(); i++) {
 						if (extraIconsByHandle[i] == registeredExtraIcons[i])
 							oldSlots[i] = registeredExtraIcons[i]->getSlot();
 						else
@@ -539,7 +539,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 							ExtraIconGroup *group = new ExtraIconGroup(name);
 
-							for (i = 0; i < ids->size(); ++i) {
+							for (i = 0; i < ids->size(); i++) {
 								BaseExtraIcon *extra = registeredExtraIcons[ids->at(i) - 1];
 								extra->setPosition(pos++);
 
@@ -554,7 +554,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// Store data
-					for (i = 0; i < registeredExtraIcons.size(); ++i) {
+					for (i = 0; i < registeredExtraIcons.size(); i++) {
 						BaseExtraIcon *extra = registeredExtraIcons[i];
 
 						char setting[512];
@@ -567,14 +567,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					CallService(MS_DB_MODULE_DELETE, 0, (LPARAM) MODULE_NAME "Groups");
 					DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", "Count", (WORD)groups.size());
-					for (i = 0; i < groups.size(); ++i) {
+					for (i = 0; i < groups.size(); i++) {
 						ExtraIconGroup *group = groups[i];
 
 						char setting[512];
 						mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
 						DBWriteContactSettingWord(NULL, MODULE_NAME "Groups", setting, (WORD)group->items.size());
 
-						for (unsigned int j = 0; j < group->items.size(); ++j) {
+						for (unsigned int j = 0; j < group->items.size(); j++) {
 							BaseExtraIcon *extra = group->items[j];
 
 							mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
@@ -583,12 +583,12 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// Clean removed slots
-					for (int j = firstEmptySlot; j <= lastUsedSlot; ++j)
+					for (int j = firstEmptySlot; j <= lastUsedSlot; j++)
 						RemoveExtraIcons(j);
 
 					// Apply icons to new slots
 					RebuildListsBasedOnGroups(groups);
-					for (i = 0; i < extraIconsBySlot.size(); ++i) {
+					for (i = 0; i < extraIconsBySlot.size(); i++) {
 						ExtraIcon *extra = extraIconsBySlot[i];
 
 						if (extra->getType() != EXTRAICON_TYPE_GROUP)

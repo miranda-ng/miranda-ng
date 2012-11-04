@@ -323,7 +323,7 @@ LBL_Def:
 		case WM_NCPAINT:
 			return FrameNCPaint(hwnd, DefWindowProc, wParam, lParam, frameHasTitlebar);
 		case INTM_GROUPCHANGED: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			BYTE iExtraImage[MAXEXTRACOLUMNS];
 			BYTE flags = 0;
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
@@ -354,14 +354,14 @@ LBL_Def:
 		}
 
 		case INTM_ICONCHANGED: {
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			ClcGroup *group = NULL;
 			int recalcScrollBar = 0, shouldShow;
 			WORD status = ID_STATUS_OFFLINE;
 			char *szProto;
 			int  contactRemoved = 0;
 			HANDLE hSelItem = NULL;
-			struct ClcContact *selcontact = NULL;
+			ClcContact *selcontact = NULL;
 
 			szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			if (szProto == NULL)
@@ -416,7 +416,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_METACHANGED: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			if (!pcli->pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
@@ -437,7 +437,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_METACHANGEDEVENT: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			if (lParam == 0)
@@ -445,7 +445,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_NAMECHANGED: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
@@ -458,7 +458,7 @@ LBL_Def:
 		}
 
 		case INTM_CODEPAGECHANGED: {
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
 			contact->codePage = cfg::getDword((HANDLE) wParam, "Tab_SRMsg", "ANSIcodepage", cfg::getDword((HANDLE)wParam, "UserInfo", "ANSIcodepage", CP_ACP));
@@ -467,7 +467,7 @@ LBL_Def:
 		}
 		case INTM_AVATARCHANGED: {
 			struct avatarCacheEntry *cEntry = (struct avatarCacheEntry *)lParam;
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (wParam == 0) {
 				//RemoveFromImgCache(0, cEntry);
@@ -498,7 +498,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_STATUSMSGCHANGED: {
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			int index = -1;
 			char *szProto = NULL;
 
@@ -513,7 +513,7 @@ LBL_Def:
 			goto LBL_Def;
 		}
 		case INTM_STATUSCHANGED: {
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			WORD wStatus;
 
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
@@ -530,7 +530,7 @@ LBL_Def:
 		}
 		case INTM_PROTOCHANGED: {
 			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
@@ -553,7 +553,7 @@ LBL_Def:
 			}
 
 			if (lParam && !dat->bisEmbedded) {
-				struct ClcContact *contact = NULL;
+				ClcContact *contact = NULL;
 
 				if (FindItem(hwnd, dat, (HANDLE)lParam, &contact, NULL, 0)) {
 					if (contact && contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry && cfg::eCache[contact->extraCacheEntry].floater)
@@ -563,7 +563,7 @@ LBL_Def:
 			goto LBL_Def;
 
 		case INTM_INVALIDATECONTACT: {
-			struct ClcContact *contact = 0;
+			ClcContact *contact = 0;
 			ClcGroup *group = 0;
 			int iItem;
 
@@ -592,7 +592,7 @@ LBL_Def:
 		case INTM_IDLECHANGED: {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto;
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (!FindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 				break;
@@ -609,7 +609,7 @@ LBL_Def:
 		case INTM_XSTATUSCHANGED: {
 			DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 			char *szProto;
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			int index;
 
 			szProto = (char *)cws->szModule;
@@ -670,7 +670,7 @@ LBL_Def:
 			break;
 
 		case WM_LBUTTONDBLCLK: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			DWORD hitFlags;
 			ReleaseCapture();
 			dat->iHotTrack = -1;
@@ -724,7 +724,7 @@ LBL_Def:
 			return TRUE;
 		}
 		case WM_CONTEXTMENU: {
-			struct ClcContact *contact;
+			ClcContact *contact;
 			HMENU hMenu = NULL;
 			POINT pt;
 			DWORD hitFlags;

@@ -24,64 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_genmenu.h"
 #endif
 
-//Extra columns type.
-//column arranged in this way
-//
-//	[statusicon] ContactName	[WEB][ADV1][ADV2][SMS][EMAIL][PROTO][CLIENT]
-//
-#define  EXTRA_ICON_RES0	0	// only used by nicer
-#define  EXTRA_ICON_EMAIL	1
-#define  EXTRA_ICON_PROTO	2	// used by mwclist and modern
-#define  EXTRA_ICON_RES1	2	// only used by nicer
-#define  EXTRA_ICON_SMS		3
-#define  EXTRA_ICON_ADV1	4
-#define  EXTRA_ICON_ADV2	5
-#define  EXTRA_ICON_WEB		6
-#define  EXTRA_ICON_CLIENT	7
-#define  EXTRA_ICON_VISMODE	8	// only used by modern
-#define  EXTRA_ICON_RES2	8	// only used by nicer
-#define  EXTRA_ICON_ADV3	9
-#define  EXTRA_ICON_ADV4	10
-
-#ifndef EXTRA_ICON_COUNT
-#define  EXTRA_ICON_COUNT	10	// define this inside clist-plugin depending on used icon slots
-#endif
-
-typedef struct
-{
-	int cbSize;			//must be sizeof(IconExtraColumn)
-	int ColumnType;
-	HANDLE hImage;		//return value from MS_CLIST_EXTRA_ADD_ICON
-}IconExtraColumn,*pIconExtraColumn;
-
-//Set icon for contact at needed column
-//wparam=hContact
-//lparam=pIconExtraColumn
-//return 0 on success,-1 on failure
-//
-//See above for supported columns
-#define MS_CLIST_EXTRA_SET_ICON			"CListFrames/SetIconForExraColumn"
-
-//Adding icon to extra image list.
-//Call this in ME_CLIST_EXTRA_LIST_REBUILD event
-//
-//wparam=hIcon
-//lparam=0
-//return hImage on success,-1 on failure
-#define MS_CLIST_EXTRA_ADD_ICON			"CListFrames/AddIconToExtraImageList"
-
-#define ME_CLIST_EXTRA_LIST_REBUILD			"CListFrames/OnExtraListRebuild"
-
-//called with wparam=hContact
-#define ME_CLIST_EXTRA_IMAGE_APPLY			"CListFrames/OnExtraImageApply"
-
-//called with wparam=hContact lparam=extra
-#define ME_CLIST_EXTRA_CLICK				"CListFrames/OnExtraClick"
-
-//End of extra images header. TODO move it to separate m_extraimages.h file
-//Cause it has not any relationship to cluiframes engine
-
-
 /************************************************************************/
 /*               CLUI Frames Support				                    */
 /************************************************************************/

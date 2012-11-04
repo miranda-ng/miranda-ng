@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -159,7 +159,6 @@ typedef struct _MGLOBAL
 {
 	DWORD		mirandaVersion;					// mirandaVersion
 	BOOLEAN		CanChangeDetails : 1;			// is service to upload own contact information for icq present?
-	BOOLEAN		HaveCListExtraIcons : 1;		// are extra icons supported by current clist
 	BOOLEAN		MsgAddIconExist : 1;			// Messsage Window support status Icon
 	BOOLEAN		TzIndexExist : 1;				// Win Reg has Timzone Index Info
 	BOOLEAN		PopUpActionsExist : 1;			// Popup++ or MS_POPUP_REGISTERACTIONS exist

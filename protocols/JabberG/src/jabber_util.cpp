@@ -1199,20 +1199,17 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc( void* param )
 		return;
 
 	ppro->m_pInfoFrame->LockUpdates();
-	if (!ppro->m_bJabberOnline)
-	{
+	if (!ppro->m_bJabberOnline) {
 		ppro->m_pInfoFrame->RemoveInfoItem("$/PEP");
 		ppro->m_pInfoFrame->RemoveInfoItem("$/Transports");
 		ppro->m_pInfoFrame->UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), TranslateT("Offline"));
-	} else
-	{
+	}
+	else {
 		ppro->m_pInfoFrame->UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), ppro->m_szJabberJID);
 
 		if (!ppro->m_bPepSupported)
-		{
 			ppro->m_pInfoFrame->RemoveInfoItem("$/PEP");
-		} else
-		{
+		else {
 			ppro->m_pInfoFrame->RemoveInfoItem("$/PEP/");
 			ppro->m_pInfoFrame->CreateInfoItem("$/PEP", false);
 			ppro->m_pInfoFrame->UpdateInfoItem("$/PEP", ppro->GetIconHandle(IDI_PL_LIST_ANY), TranslateT("Advanced Status"));

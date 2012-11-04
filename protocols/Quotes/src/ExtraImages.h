@@ -30,7 +30,6 @@ private:
 	HANDLE m_ahExtraImages[ImageCount];
 	HANDLE m_hExtraIcons;
 	bool m_bExtraImagesInit;
-	int m_nSlot;
 };
 
 int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp);

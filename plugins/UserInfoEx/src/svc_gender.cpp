@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -144,49 +144,42 @@ VOID SvcGenderApplyCListIcons()
 VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB) 
 {
 	bool bEnable = (bColumn!=((BYTE)-1));
-	if (myGlobals.HaveCListExtraIcons)
-	{
-		if (bUpdateDB)
-			DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
-		if (bEnable)	// Gender checkt or dropdown select
-		{
-			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
-				EXTRAICON_INFO ico = { sizeof(ico) };
-				ico.type = EXTRAICON_TYPE_ICOLIB;
-				ico.name = "gender";	//must be the same as the group name in extraicon
-				ico.description="Gender (uinfoex)";
-				ico.descIcon = ICO_COMMON_MALE;
-				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-			}
+	if (bUpdateDB)
+		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
-			// hook events
-			if (hChangedHook == NULL) 
-				hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-
-			if (hApplyIconHook == NULL) 
-				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
+	if (bEnable) { // Gender checkt or dropdown select
+		if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+			EXTRAICON_INFO ico = { sizeof(ico) };
+			ico.type = EXTRAICON_TYPE_ICOLIB;
+			ico.name = "gender";	//must be the same as the group name in extraicon
+			ico.description="Gender (uinfoex)";
+			ico.descIcon = ICO_COMMON_MALE;
+			ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 		}
-		else
-		{
-			if (hChangedHook)
-			{
-				UnhookEvent(hChangedHook); 
-				hChangedHook = NULL;
-			}
-			if (hApplyIconHook)
-			{
-				UnhookEvent(hApplyIconHook); 
-				hApplyIconHook = NULL;
-			}
-			if (hRebuildIconsHook)
-			{
-				UnhookEvent(hRebuildIconsHook); 
-				hRebuildIconsHook = NULL;
-			}
-		}
-		SvcGenderApplyCListIcons();
+
+		// hook events
+		if (hChangedHook == NULL) 
+			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
+
+		if (hApplyIconHook == NULL) 
+			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 	}
+	else {
+		if (hChangedHook) {
+			UnhookEvent(hChangedHook); 
+			hChangedHook = NULL;
+		}
+		if (hApplyIconHook) {
+			UnhookEvent(hApplyIconHook); 
+			hApplyIconHook = NULL;
+		}
+		if (hRebuildIconsHook) {
+			UnhookEvent(hRebuildIconsHook); 
+			hRebuildIconsHook = NULL;
+		}
+	}
+	SvcGenderApplyCListIcons();
 }
 
 /**

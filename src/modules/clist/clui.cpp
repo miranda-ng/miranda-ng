@@ -948,7 +948,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
                 {
                     unsigned int cpnl = 0;
                     int mcnt = GetMenuItemCount(hMenu);
-                    for (int i=0; i<mcnt; ++i) {
+                    for (int i=0; i<mcnt; i++) {
 					    HMENU hMenus = GetSubMenu(hMenu, i);
                         if (hMenus && cpnl++ == nPanel) {
                             hMenu = hMenus;

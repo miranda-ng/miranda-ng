@@ -65,35 +65,6 @@ static HANDLE hWindowListIGN = 0;
  * menu
  */
 
-static const UINT xImgCtrlIds[] = {
-	IDC_EXTRA_ICON_RES0,
-	IDC_EXTRA_ICON_EMAIL,
-	IDC_EXTRA_ICON_RES1,
-	IDC_EXTRA_ICON_SMS,
-	IDC_EXTRA_ICON_ADV1,
-	IDC_EXTRA_ICON_ADV2,
-	IDC_EXTRA_ICON_WEB,
-	IDC_EXTRA_ICON_CLIENT,
-	IDC_EXTRA_ICON_RES2,
-	IDC_EXTRA_ICON_ADV3,
-	IDC_EXTRA_ICON_ADV4
-};
-
-// static UINT xImgCtrlBits[] = {6, 4, 0, 1, 2, 3, 5, 7, 8, 9, 10};
-static const UINT xImgCtrlBits[] = {
-	EXTRA_ICON_RES0,
-	EXTRA_ICON_EMAIL,
-	EXTRA_ICON_RES1,
-	EXTRA_ICON_SMS,
-	EXTRA_ICON_ADV1,
-	EXTRA_ICON_ADV2,
-	EXTRA_ICON_WEB,
-	EXTRA_ICON_CLIENT,
-	EXTRA_ICON_RES2,
-	EXTRA_ICON_ADV3,
-	EXTRA_ICON_ADV4
-};
-
 static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)GetWindowLongPtr(hWnd, GWLP_USERDATA);
@@ -102,7 +73,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		{
 			DWORD dwMask;
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			int pCaps;
 			HWND hwndAdd;
 
@@ -188,16 +159,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					else
 						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_INDETERMINATE, 0);
 
-					while(xImgCtrlIds[i] != 0) {
-						if (dwXMask & (1 << (2 * xImgCtrlBits[i])))
-							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_CHECKED, 0);
-						else if (dwXMask & (1 << (2 * xImgCtrlBits[i] + 1)))
-							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_UNCHECKED, 0);
-						else
-							SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_SETCHECK, BST_INDETERMINATE, 0);
-						i++;
-					}
-
 					if (bSecondLine == 0xff)
 						SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
 					else
@@ -248,9 +209,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 
 				SendDlgItemMessage(hWnd, IDC_AVATARDISPMODE, CB_SETCURSEL, 0, 0);
 				SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
-				while(xImgCtrlIds[i] != 0)
-					SendDlgItemMessage(hWnd, xImgCtrlIds[i++], BM_SETCHECK, BST_INDETERMINATE, 0);
-
 				SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
 				SendDlgItemMessage(hWnd, IDC_LOCALTIME, BM_SETCHECK, BST_INDETERMINATE, 0);
 				SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_INDETERMINATE, 0);
@@ -259,7 +217,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		case IDOK:
 			{
 				DWORD newMask = 0;
-				struct ClcContact *contact = NULL;
+				ClcContact *contact = NULL;
 
 				SendMessage(hWnd, WM_USER + 110, 0, (LPARAM)&newMask);
 				cfg::writeDword(hContact, "Ignore", "Mask1", newMask);
@@ -318,14 +276,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 								contact->bSecondLine = (BYTE)(iSel - 1);
 						}
 					}
-					while(xImgCtrlIds[i] != 0) {
-						checked = SendDlgItemMessage(hWnd, xImgCtrlIds[i], BM_GETCHECK, 0, 0);
-						if (checked == BST_CHECKED)
-							dwXMask |= (1 << (2 * xImgCtrlBits[i]));
-						else if (checked == BST_UNCHECKED)
-							dwXMask |= (1 << (2 * xImgCtrlBits[i] + 1));
-						i++;
-					}
 					cfg::writeDword(hContact, "CList", "CLN_xmask", dwXMask);
 					if (contact) {
 						if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
@@ -376,7 +326,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		}
 	case WM_USER + 120:                                         // set visibility status
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
 				if (contact) {
@@ -390,7 +340,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 		}
 	case WM_USER + 130:                                         // update apparent mode
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (FindItem(pcli->hwndContactTree, cfg::clcdat, hContact, &contact, NULL, NULL)) {
 				if (contact) {

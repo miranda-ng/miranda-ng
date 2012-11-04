@@ -382,7 +382,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 		if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 		{
 			unsigned hash = mir_hashstrT(dbv.ptszVal);
-			for (int i=0; i < g_timezonesBias.getCount(); ++i)
+			for (int i=0; i < g_timezonesBias.getCount(); i++)
 			{
 				if (hash == g_timezonesBias[i]->hash)
 				{
@@ -409,7 +409,7 @@ static int timeapiPrepareList(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 
 	SendMessage(hWnd, lstMsg->addStr, 0, (LPARAM)TranslateT("<unspecified>"));
 
-	for (int i=0; i < g_timezonesBias.getCount(); ++i)
+	for (int i=0; i < g_timezonesBias.getCount(); i++)
 	{
 		MIM_TIMEZONE *tz = g_timezonesBias[i];
 
@@ -537,7 +537,7 @@ extern "C" __declspec(dllexport) void RecalculateTime(void)
 		found = true;
 	}
 
-	for (int i=0; i < g_timezones.getCount(); ++i)
+	for (int i=0; i < g_timezones.getCount(); i++)
 	{
 		MIM_TIMEZONE &tz = g_timezones[i];
 		if (tz.offset != INT_MIN) tz.offset = INT_MIN;

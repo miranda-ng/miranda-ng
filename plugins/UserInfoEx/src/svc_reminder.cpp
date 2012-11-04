@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -983,19 +983,11 @@ VOID SvcReminderEnable(BOOLEAN bEnable)
 			ZeroMemory(&ico,sizeof(ico));
 		}
 		// init hooks
-		if (!ghCListIR)
-		{
-			ghCListIR = HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, (MIRANDAHOOK)OnCListRebuildIcons);
-		}
-
 		if (!ghCListIA)
-		{
 			ghCListIA = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcon);
-		}
+
 		if (!ghSettingsChanged && !myGlobals.UseDbxTree)
-		{
 			ghSettingsChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
-		}
 
 		// reinit reminder options
 		gRemindOpts.RemindState	= DB::Setting::GetByte(SET_REMIND_ENABLED, DEFVAL_REMIND_ENABLED);

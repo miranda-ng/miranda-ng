@@ -44,7 +44,7 @@ BYTE __forceinline percent_to_byte(UINT32 percent)
     return(BYTE) ((FLOAT) (((FLOAT) percent) / 100) * 255);
 }
 
-void FLT_Update(struct ClcData *dat, struct ClcContact *contact);
+void FLT_Update(struct ClcData *dat, ClcContact *contact);
 void FLT_ShowHideAll(int showCmd);
 void FLT_SnapToEdges(HWND hwnd);
 void FLT_SnapToFloater(HWND hwnd);
@@ -52,7 +52,7 @@ void FLT_SnapToFloater(HWND hwnd);
 HWND g_hwndSFL = 0;
 HDC g_SFLCachedDC = 0;
 HBITMAP g_SFLhbmOld = 0, g_SFLhbm = 0;
-struct ContactFloater *pFirstFloater = 0;
+ContactFloater *pFirstFloater = 0;
 BOOL hover = FALSE;
 BOOL tooltip = FALSE;
 UINT_PTR hTooltipTimer = 0;
@@ -78,8 +78,8 @@ static UINT padctrlIDs[] = { IDC_FLT_PADLEFTSPIN, IDC_FLT_PADRIGHTSPIN, IDC_FLT_
  * simple linked list of allocated ContactFloater* structs
  */
 
-static struct ContactFloater *FLT_AddToList(struct ContactFloater *pFloater) {
-    struct ContactFloater *pCurrent = pFirstFloater;
+static ContactFloater *FLT_AddToList(ContactFloater *pFloater) {
+    ContactFloater *pCurrent = pFirstFloater;
 
     if (!pFirstFloater) {
         pFirstFloater = pFloater;
@@ -94,8 +94,8 @@ static struct ContactFloater *FLT_AddToList(struct ContactFloater *pFloater) {
     }
 }
 
-static struct ContactFloater *FLT_RemoveFromList(struct ContactFloater *pFloater) {
-    struct ContactFloater *pCurrent = pFirstFloater;
+static ContactFloater *FLT_RemoveFromList(ContactFloater *pFloater) {
+    ContactFloater *pCurrent = pFirstFloater;
 
     if (pFloater == pFirstFloater) {
         if (pFloater->pNextFloater != NULL)
@@ -152,7 +152,7 @@ void FLT_SnapToEdges(HWND hwnd)
 
 void FLT_SnapToFloater(HWND hwnd)
 {
-	struct ContactFloater *pCurrent = pFirstFloater;
+	ContactFloater *pCurrent = pFirstFloater;
 	RECT rcWindow, rcBase;
 	int minTop = 0xFFFFFF, minBottom = 0xFFFFFF, minRight = 0xFFFFFF, minLeft = 0xFFFFFF;
 	int posTop = 0, posBottom = 0, posRight = 0, posLeft = 0;
@@ -554,7 +554,7 @@ LRESULT CALLBACK StatusFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 }
 
 void CALLBACK ShowTooltip(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime){
-	struct ContactFloater *pCurrent = pFirstFloater;
+	ContactFloater *pCurrent = pFirstFloater;
 	POINT pt;
 	CLCINFOTIP ti = {0};
 
@@ -657,8 +657,8 @@ LRESULT CALLBACK ContactFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 
 		case WM_MOUSEHOVER:
 			{
-				struct ClcContact *contact = NULL;
-				struct ContactFloater *pCurrent = pFirstFloater;
+				ClcContact *contact = NULL;
+				ContactFloater *pCurrent = pFirstFloater;
 				int oldTrans = g_floatoptions.trans;
 
 				while(pCurrent->hwnd != hwnd)
@@ -674,8 +674,8 @@ LRESULT CALLBACK ContactFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 			}
 		case WM_MOUSELEAVE:
 			{
-				struct ClcContact *contact = NULL;
-				struct ContactFloater *pCurrent = pFirstFloater;
+				ClcContact *contact = NULL;
+				ContactFloater *pCurrent = pFirstFloater;
 
 				while(pCurrent->hwnd != hwnd)
 					pCurrent = pCurrent->pNextFloater;
@@ -971,13 +971,13 @@ void FLT_Create(int iEntry)
 	struct TExtraCache *centry = NULL;
 
 	if (iEntry >= 0 && iEntry < cfg::nextCacheEntry) {
-		struct ClcContact *contact = NULL;
+		ClcContact *contact = NULL;
 		ClcGroup *group = NULL;
 
         centry = &cfg::eCache[iEntry];
 		if (centry->floater == 0 && API::pfnUpdateLayeredWindow != NULL) {
 
-			centry->floater = (struct ContactFloater *)malloc(sizeof(struct ContactFloater));
+			centry->floater = (ContactFloater *)malloc(sizeof(ContactFloater));
 			if (centry->floater == NULL)
 				return;
 			FLT_AddToList(centry->floater);
@@ -1009,7 +1009,7 @@ extern HDC hdcTempAV;
 extern HBITMAP hbmTempAV, hbmTempOldAV;
 extern LONG g_maxAV_X, g_maxAV_Y;
 
-void FLT_Update(struct ClcData *dat, struct ClcContact *contact)
+void FLT_Update(struct ClcData *dat, ClcContact *contact)
 {
 	RECT rcClient, rcWindow;
 	POINT ptDest, ptSrc = {0};
@@ -1019,7 +1019,7 @@ void FLT_Update(struct ClcData *dat, struct ClcContact *contact)
 	HDC hdc;
 	BOOL firstDrawn = TRUE;
 	ClcGroup *group = NULL;
-	struct ClcContact *newContact = NULL;
+	ClcContact *newContact = NULL;
 	HRGN rgn;
 	HBRUSH hbrBorder;
     COLORREF clrKey;
@@ -1170,8 +1170,8 @@ void FLT_Update(struct ClcData *dat, struct ClcContact *contact)
 
 void FLT_SyncWithClist()
 {
-	struct ClcContact *contact;
-	struct ContactFloater *pCurrent = pFirstFloater;
+	ClcContact *contact;
+	ContactFloater *pCurrent = pFirstFloater;
 	HWND hwnd;
     int iVis = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
 
@@ -1201,8 +1201,8 @@ void FLT_SyncWithClist()
 
 void FLT_ShowHideAll(int showCmd)
 {
-	struct ClcContact *contact;
-	struct ContactFloater *pCurrent = pFirstFloater;
+	ClcContact *contact;
+	ContactFloater *pCurrent = pFirstFloater;
 	HWND hwnd;
 
 	if (g_floatoptions.dwFlags & FLT_AUTOHIDE){
@@ -1225,8 +1225,8 @@ void FLT_ShowHideAll(int showCmd)
 
 void FLT_RefreshAll()
 {
-	struct ClcContact *contact = NULL;
-	struct ContactFloater *pCurrent = pFirstFloater;
+	ClcContact *contact = NULL;
+	ContactFloater *pCurrent = pFirstFloater;
 
 	while(pCurrent) {
 		if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {

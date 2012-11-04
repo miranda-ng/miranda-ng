@@ -10,8 +10,7 @@
 
 CExtraImages::CExtraImages() :
 	m_hExtraIcons(ExtraIcon_Register(ICON_STR_QUOTE,QUOTES_PROTOCOL_NAME,Quotes_MakeIconName(ICON_STR_MAIN).c_str())),
-	m_bExtraImagesInit(false),
-	m_nSlot(DBGetContactSettingWord(NULL,QUOTES_PROTOCOL_NAME,DB_STR_QUOTE_EXTRA_IMAGE_SLOT,EXTRA_ICON_ADV1))
+	m_bExtraImagesInit(false)
 {
 	m_ahExtraImages[eiUp] = INVALID_HANDLE_VALUE;
 	m_ahExtraImages[eiDown] = INVALID_HANDLE_VALUE;

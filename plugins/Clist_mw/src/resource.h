@@ -240,16 +240,10 @@
 #define IDC_ALWAYSSTATUS                1103
 #define IDC_NETSEARCH                   1104
 #define IDC_CONFIRMDELETE               1104
-#define IDC_EXTRA_PROTO                 1104
 #define IDC_SORTBYPROTO                 1105
 #define IDC_SHOWOPTIONS                 1105
-#define IDC_EXTRA_EMAIL                 1105
 #define IDC_SEARCHURL                   1106
-#define IDC_EXTRA_CELLULAR              1106
-#define IDC_EXTRA_ADV2                  1107
 #define IDC_BUILDTIME                   1108
-#define IDC_EXTRA_ADV1                  1108
-#define IDC_EXTRA_WEB                   1109
 #define IDC_NUMBER                      1113
 #define IDC_UIN                         1123
 #define IDC_TRANSPARENT                 1124
@@ -599,7 +593,6 @@
 #define IDC_CHECK1                      1761
 #define IDC_USECONNECTINGICON           1761
 #define IDC_BKGRLIST                    1762
-#define IDC_EXTRA_FRAME                 1762
 #define IDC_BC_STATIC                   1763
 #define IDC_SC_STATIC                   1764
 #define IDD_OPT_GENMENU                 11267

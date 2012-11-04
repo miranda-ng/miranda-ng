@@ -886,7 +886,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 							else if (param->uNewState>>12 == 2) {
 								int i, nItems = ListView_GetItemCount(lpnmhdr->hwndFrom);
 								initialized = FALSE;
-								for (i=0; i < hotkeys.getCount(); ++i) {
+								for (i=0; i < hotkeys.getCount(); i++) {
 									LVITEM lvi = {0};
 									THotkeyItem *item = hotkeys[i];
 

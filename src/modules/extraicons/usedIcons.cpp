@@ -19,7 +19,7 @@
 
 #include "..\..\core\commonheaders.h"
 
-#include "m_cluiframes.h"
+#include "extraicons.h"
 
 struct Icon
 {
@@ -39,7 +39,7 @@ static Icon * FindIcon(const char *icolibName)
 {
 	Icon *icon = NULL;
 
-	for (unsigned int i = 0; i < usedIcons.size(); ++i)
+	for (unsigned int i = 0; i < usedIcons.size(); i++)
 	{
 		Icon *tmp = &usedIcons[i];
 		if (tmp->name != icolibName)
@@ -60,7 +60,7 @@ static Icon * FindIcon(const char *icolibName)
 		HICON hIcon = Skin_GetIcon(icon->name.c_str());
 		if (hIcon != NULL)
 		{
-			icon->hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) hIcon, 0);
+			icon->hImage = ExtraIcon_Add(hIcon);
 			Skin_ReleaseIcon(hIcon);
 		}
 	}
@@ -82,7 +82,7 @@ HANDLE AddIcon(const char *icolibName)
 
 void RemoveIcon(const char *icolibName)
 {
-	for (unsigned int i = 0; i < usedIcons.size(); ++i)
+	for (unsigned int i = 0; i < usedIcons.size(); i++)
 	{
 		Icon *icon = &usedIcons[i];
 
@@ -103,6 +103,6 @@ void ResetIcons()
 {
 	usedIcons.erase(std::remove_if(usedIcons.begin(), usedIcons.end(), NotUsedIcon), usedIcons.end());
 
-	for (unsigned int i = 0; i < usedIcons.size(); ++i)
+	for (unsigned int i = 0; i < usedIcons.size(); i++)
 		usedIcons[i].hImage = INVALID_HANDLE_VALUE;
 }

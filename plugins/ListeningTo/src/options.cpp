@@ -196,10 +196,8 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		else {
 			// Init combo
 			int total = 0, first = 0;
-			if (ServiceExists(MS_CLUI_GETCAPS)) {
+			if (ServiceExists(MS_CLUI_GETCAPS))
 				total = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_EXTRACOLUMNCOUNT);
-				first = CallService(MS_CLUI_GETCAPS, 0, CLUIF2_USEREXTRASTART);
-			}
 
 			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("1"));
 			SendDlgItemMessage(hwndDlg, IDC_ADV_ICON, CB_ADDSTRING, 0, (LPARAM) _T("2"));

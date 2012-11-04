@@ -39,23 +39,23 @@ extern LRESULT ( *saveProcessExternalMessages )(HWND hwnd, struct ClcData *dat, 
 LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-        case CLM_SETSTICKY:
-            {
-                struct ClcContact *contact;
-				ClcGroup *group;
+	case CLM_SETSTICKY:
+		{
+			ClcContact *contact;
+			ClcGroup *group;
+			if (wParam == 0 || !FindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
+				return 0;
 
-                if (wParam == 0 || !FindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL))
-                    return 0;
-				if (lParam)
-                    contact->flags |= CONTACTF_STICKY;
-				else
-                    contact->flags &= ~CONTACTF_STICKY;
-                break;
-            }
+			if (lParam)
+				contact->flags |= CONTACTF_STICKY;
+			else
+				contact->flags &= ~CONTACTF_STICKY;
+			break;
+		}
 
 	case CLM_SETEXTRAIMAGEINT:
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			int index = -1;
 
 			if (LOWORD(lParam) >= MAXEXTRACOLUMNS || wParam == 0)
@@ -72,14 +72,14 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			//if (contact->bIsMeta && LOWORD(lParam) != EIMG_EXTRA && LOWORD(lParam) != EIMG_CLIENT)
 			//	return 0;
 
-            /*
-            if (contact->hContact == 5846286) {
-                _DebugTraceA("set extra image %d", LOWORD(lParam));
-            }
-            */
+			/*
+			if (contact->hContact == 5846286) {
+			_DebugTraceA("set extra image %d", LOWORD(lParam));
+			}
+			*/
 			if (index >= 0 && index < cfg::nextCacheEntry) {
 				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != (BYTE)0xff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
+				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
 				PostMessage(hwnd, INTM_INVALIDATE, 0, (LPARAM)(contact ? contact->hContact : 0));
 			}
 		}
@@ -92,26 +92,26 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			if (LOWORD(lParam) >= MAXEXTRACOLUMNS)
 				return 0;
 
-            index = cfg::getCache((HANDLE)wParam, NULL);
-            if (index >= 0 && index < cfg::nextCacheEntry) {
-                cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-                cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != (BYTE)0xff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
-            }
+			index = cfg::getCache((HANDLE)wParam, NULL);
+			if (index >= 0 && index < cfg::nextCacheEntry) {
+				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
+				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
+			}
 
 			hMasterContact = (HANDLE)cfg::getDword((HANDLE)wParam, cfg::dat.szMetaName, "Handle", 0);
 
 			index = cfg::getCache(hMasterContact, NULL);
 			if (index >= 0 && index < cfg::nextCacheEntry) {
 				cfg::eCache[index].iExtraImage[LOWORD(lParam)] = (BYTE)HIWORD(lParam);
-				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != (BYTE)0xff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
+				cfg::eCache[index].iExtraValid = cfg::eCache[index].iExtraImage[LOWORD(lParam)] != 0xffff ? (cfg::eCache[index].iExtraValid | (1 << LOWORD(lParam))) : (cfg::eCache[index].iExtraValid & ~(1 << LOWORD(lParam)));
 				PostMessage(hwnd, INTM_INVALIDATE, 0, 0);
-            }	
-        }
+			}	
+		}
 		return 0;
 
 	case CLM_GETSTATUSMSG:
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (wParam == 0)
 				return 0;
@@ -123,7 +123,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 			if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
 				if (cfg::eCache[contact->extraCacheEntry].bStatusMsgValid != STATUSMSG_NOTFOUND)
 					return((INT_PTR)cfg::eCache[contact->extraCacheEntry].statusMsg);
-		}	}
+			}	}
 		return 0;
 
 	case CLM_SETHIDESUBCONTACTS:
@@ -132,7 +132,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 
 	case CLM_TOGGLEPRIORITYCONTACT:
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (wParam == 0)
 				return 0;
@@ -148,7 +148,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		}
 	case CLM_QUERYPRIORITYCONTACT:
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 
 			if (wParam == 0)
 				return 0;
@@ -161,7 +161,7 @@ LRESULT ProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPARAM
 		}
 	case CLM_TOGGLEFLOATINGCONTACT:
 		{
-			struct ClcContact *contact = NULL;
+			ClcContact *contact = NULL;
 			BYTE state;
 			int iEntry;
 

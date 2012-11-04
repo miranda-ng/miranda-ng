@@ -67,29 +67,6 @@ static FORCEINLINE VOID NotifyParentOfChange(HWND hDlg)
 }
 
 /**
- * This function clears all CList extra icons from the given column.
- *
- * @param	ExtraIconColumnType		- the clist column to clear
- *
- * @return	nothing
- **/
-static VOID ClearAllExtraIcons(INT ExtraIconColumnType)
-{
-	IconExtraColumn iec;
-	HANDLE hContact;
-
-	iec.cbSize = sizeof(IconExtraColumn);
-	iec.hImage = INVALID_HANDLE_VALUE;
-	iec.ColumnType = ExtraIconColumnType;
-	
-	//walk through all the contacts stored in the DB
-	for (hContact = DB::Contact::FindFirst();	hContact != NULL;	hContact = DB::Contact::FindNext(hContact))
-	{
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-	}
-}
-
-/**
  * Sends a PSN_INFOCHANGED notify to the handle.
  *
  * @param	hWnd					- the dialog's window handle
@@ -897,7 +874,6 @@ static INT_PTR CALLBACK DlgProc_ReminderOpts(HWND hDlg, UINT uMsg, WPARAM wParam
 								};
 								
 								EnableControls(hDlg, idCtrl, SIZEOF(idCtrl), bEnabled);
-								bEnabled &= myGlobals.HaveCListExtraIcons;
 							}
 						}
 

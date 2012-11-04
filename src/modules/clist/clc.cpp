@@ -123,13 +123,13 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ClcAccountsChanged(WPARAM, LPARAM)
 {
 	int i, cnt;
-	for (i=0, cnt=0; i < accounts.getCount(); ++i)
+	for (i=0, cnt=0; i < accounts.getCount(); i++)
 		if (Proto_IsAccountEnabled(accounts[i])) ++cnt;
 
 	cli.hClcProtoCount = cnt;
 	cli.clcProto = (ClcProtoStatus *) mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
 
-	for (i=0, cnt=0; i < accounts.getCount(); ++i) {
+	for (i=0, cnt=0; i < accounts.getCount(); i++) {
 		if (Proto_IsAccountEnabled(accounts[i])) {
 			cli.clcProto[cnt].szProto = accounts[i]->szModuleName;
 			cli.clcProto[cnt].dwStatus = CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETSTATUS, 0, 0);

@@ -2,7 +2,7 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -223,51 +223,41 @@ VOID SvcHomepageApplyCListIcons()
  **/
 VOID SvcHomepageEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB) 
 {
-	if (myGlobals.HaveCListExtraIcons)
-	{
-		if (bUpdateDB)
-		{
-			DB::Setting::WriteByte(SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
-		}
+	if (bUpdateDB)
+		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_HOMEPAGE, bEnable);
 
-		if (bEnable) 
-		{
-			// hook events
-			if (hChangedHook == NULL) 
-				hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
+	if (bEnable) {
+		// hook events
+		if (hChangedHook == NULL) 
+			hChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, (MIRANDAHOOK)OnContactSettingChanged);
 
-			if (hApplyIconHook == NULL) 
-				hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
+		if (hApplyIconHook == NULL) 
+			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
-			if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
-				EXTRAICON_INFO ico = { sizeof(ico) };
-				ico.type = EXTRAICON_TYPE_ICOLIB;
-				ico.name = "homepage";	//must be the same as the group name in extraicon
-				ico.description = "Homepage (uinfoex)";
-				ico.descIcon = ICO_BTN_GOTO;
-				ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-			}
+		if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
+			EXTRAICON_INFO ico = { sizeof(ico) };
+			ico.type = EXTRAICON_TYPE_ICOLIB;
+			ico.name = "homepage";	//must be the same as the group name in extraicon
+			ico.description = "Homepage (uinfoex)";
+			ico.descIcon = ICO_BTN_GOTO;
+			ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
 		}
-		else 
-		{
-			if (hChangedHook)
-			{
-				UnhookEvent(hChangedHook); 
-				hChangedHook = NULL;
-			}			
-			if (hApplyIconHook)
-			{
-				UnhookEvent(hApplyIconHook); 
-				hApplyIconHook = NULL;
-			}			
-			if (hRebuildIconsHook)
-			{
-				UnhookEvent(hRebuildIconsHook); 
-				hRebuildIconsHook = NULL;
-			}
-		}
-		SvcHomepageApplyCListIcons();
 	}
+	else {
+		if (hChangedHook) {
+			UnhookEvent(hChangedHook); 
+			hChangedHook = NULL;
+		}			
+		if (hApplyIconHook) {
+			UnhookEvent(hApplyIconHook); 
+			hApplyIconHook = NULL;
+		}			
+		if (hRebuildIconsHook) {
+			UnhookEvent(hRebuildIconsHook); 
+			hRebuildIconsHook = NULL;
+		}
+	}
+	SvcHomepageApplyCListIcons();
 }
 
 /**

@@ -414,7 +414,7 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 
 	// Fix alpha channel
 	GdiFlush();
-	for (int i=0; i < rc.right*rc.bottom; ++i, pBits += 4)
+	for (int i=0; i < rc.right*rc.bottom; i++, pBits += 4)
 		if ( !pBits[3]) pBits[3] = 255;
 
 	//Copy to output

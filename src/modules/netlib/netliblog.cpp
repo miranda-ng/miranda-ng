@@ -107,7 +107,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_STATE;
 			tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 
-			for (i=0; i < netlibUser.getCount(); ++i)
+			for (i=0; i < netlibUser.getCount(); i++)
 			{
 				tvis.item.pszText = netlibUser[i]->user.ptszDescriptiveName;
 				tvis.item.lParam = i;

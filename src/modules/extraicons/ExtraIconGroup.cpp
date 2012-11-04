@@ -41,7 +41,7 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 	items.push_back(extra);
 
 	description.clear();
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 	{
 		if (i > 0)
 			description += _T(" / ");
@@ -51,7 +51,7 @@ void ExtraIconGroup::addExtraIcon(BaseExtraIcon *extra)
 
 void ExtraIconGroup::rebuildIcons()
 {
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 		items[i]->rebuildIcons();
 }
 
@@ -65,7 +65,7 @@ void ExtraIconGroup::applyIcon(HANDLE hContact)
 	insideApply = true;
 
 	unsigned int i;
-	for (i = 0; i < items.size(); ++i)
+	for (i = 0; i < items.size(); i++)
 	{
 		items[i]->applyIcon(hContact);
 
@@ -81,7 +81,7 @@ void ExtraIconGroup::applyIcon(HANDLE hContact)
 int ExtraIconGroup::getPosition() const
 {
 	int pos = INT_MAX;
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 		pos = MIN(pos, items[i]->getPosition());
 	return pos;
 }
@@ -90,7 +90,7 @@ void ExtraIconGroup::setSlot(int slot)
 {
 	ExtraIcon::setSlot(slot);
 
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 		items[i]->setSlot(slot);
 }
 
@@ -100,7 +100,7 @@ ExtraIcon * ExtraIconGroup::getCurrentItem(HANDLE hContact) const
 	if (id < 1)
 		return NULL;
 
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 		if (id == items[i]->getID())
 			return items[i];
 
@@ -118,7 +118,7 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 {
 	if (insideApply)
 	{
-		for (unsigned int i = 0; i < items.size(); ++i)
+		for (unsigned int i = 0; i < items.size(); i++)
 			if (items[i]->getID() == id)
 				return items[i]->setIcon(id, hContact, icon);
 
@@ -128,7 +128,7 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 	ExtraIcon *current = getCurrentItem(hContact);
 	int currentPos = (int)items.size();
 	int storePos = (int)items.size();
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 	{
 		if (items[i]->getID() == id)
 			storePos = i;
@@ -194,7 +194,7 @@ const TCHAR *ExtraIconGroup::getDescription() const
 
 const char *ExtraIconGroup::getDescIcon() const
 {
-	for (unsigned int i = 0; i < items.size(); ++i)
+	for (unsigned int i = 0; i < items.size(); i++)
 		if (!IsEmpty(items[i]->getDescIcon()))
 			return items[i]->getDescIcon();
 

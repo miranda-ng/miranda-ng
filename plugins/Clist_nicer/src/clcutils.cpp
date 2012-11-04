@@ -84,7 +84,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
  * shares all the init stuff with HitTest()
  */
 
-int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact *hitcontact, DWORD *flags, int indent, int hit)
+int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *hitcontact, DWORD *flags, int indent, int hit)
 {
     RECT clRect;
     int right, checkboxWidth, cxSmIcon, i, width;
@@ -188,9 +188,9 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct Clc
     return -1;
 }
 
-int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, ClcGroup **group, DWORD *flags)
+int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags)
 {
-    struct ClcContact *hitcontact;
+    ClcContact *hitcontact;
     ClcGroup *hitgroup;
     int hit, indent, width, i, cxSmIcon;
     int checkboxWidth;
@@ -515,7 +515,7 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 
 void BeginRenameSelection(HWND hwnd, struct ClcData *dat)
 {
-    struct ClcContact *contact;
+    ClcContact *contact;
     ClcGroup *group;
     int indent, x, y, h;
     RECT clRect;

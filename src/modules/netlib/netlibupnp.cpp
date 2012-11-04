@@ -626,7 +626,7 @@ static void discoverUPnP(void)
 
 		ips = (unsigned*)mir_alloc(nip * sizeof(unsigned));
 
-		for (j = 0; j < nip; ++j)
+		for (j = 0; j < nip; j++)
 			ips[j] = *(unsigned*)he->h_addr_list[j];
 	}
 
@@ -634,7 +634,7 @@ static void discoverUPnP(void)
 
 	for (i = 3;  --i && szUrl[0] == 0;)
 	{
-		for (j = 0; j < nip; ++j)
+		for (j = 0; j < nip; j++)
 		{
 			if (ips)
 				setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, (char *)&ips[j], sizeof(unsigned));
@@ -784,7 +784,7 @@ void NetlibUPnPDeletePortMapping(WORD extport, char* proto)
 		mir_snprintf(szData, 4096, delete_port_mapping, extport, proto);
 		httpTransact(szCtlUrl, szData, 4096, "DeletePortMapping", ControlAction);
 
-		for (i=0; i < numports; ++i)
+		for (i=0; i < numports; i++)
 			if (portList[i] == extport && --numports > 0)
 				memmove(&portList[i], &portList[i+1], (numports - i) * sizeof(WORD));
 
@@ -802,7 +802,7 @@ void NetlibUPnPCleanup(void*)
 	{
 		int incoming = 0;
 		mir_cslock lck(csNetlibUser);
-		for (int i=0; i < netlibUser.getCount(); ++i)
+		for (int i=0; i < netlibUser.getCount(); i++)
 			if (netlibUser[i]->user.flags & NUF_INCOMING) {
 				incoming = 1;
 				break;
@@ -828,7 +828,7 @@ void NetlibUPnPCleanup(void*)
 			txtParseParam(szData, "QueryStateVariableResponse", "<return>", "<", buf, sizeof(buf)))
 			num = atol(buf);
 
-		for (i=0; i<num && !Miranda_Terminated(); ++i)
+		for (i=0; i<num && !Miranda_Terminated(); i++)
 		{
 			mir_snprintf(szData, 4096, get_port_mapping, i);
 
@@ -862,7 +862,7 @@ void NetlibUPnPCleanup(void*)
 
 		ReleaseMutex(portListMutex);
 
-		for (i=0; i<j && !Miranda_Terminated(); ++i)
+		for (i=0; i<j && !Miranda_Terminated(); i++)
 			NetlibUPnPDeletePortMapping(ports[i], "TCP");
 	}
 }

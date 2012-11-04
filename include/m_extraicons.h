@@ -20,6 +20,26 @@
 #ifndef __M_EXTRAICONS_H__
 #define __M_EXTRAICONS_H__
 
+#ifndef EXTRA_ICON_COUNT
+#define EXTRA_ICON_COUNT 10
+#endif
+
+// Adding icon to extra image list.
+// Used for EXTRAICON_TYPE_CALLBACK extra icons
+//
+// wparam = (HICON)hIcon
+// lparam = 0 (unused)
+// return HANDLE hImage on success or INVALID_HANDLE_VALUE on failure
+#define MS_CLIST_EXTRA_ADD_ICON     "CListFrames/AddIconToExtraImageList"
+
+//called with wparam=hContact
+#define ME_CLIST_EXTRA_IMAGE_APPLY  "CListFrames/OnExtraImageApply"
+
+//called with wparam=hContact lparam=extra
+#define ME_CLIST_EXTRA_CLICK        "CListFrames/OnExtraClick"
+
+//called with wparam=lparam=0
+#define ME_CLIST_EXTRA_LIST_REBUILD "CListFrames/OnExtraListRebuild"
 
 /*
 
@@ -27,17 +47,17 @@ There is 2 ways of registering with Extra Icons service:
 
 1. Using callbacks
     This works similar to clist API. When you register you provide 2 callbacks, one to rebuild the icons
-and one to apply the icons for a contact. 
-    In the RebuildIcons callback, all icons that will be used have to be registered calling 
+and one to apply the icons for a contact.
+    In the RebuildIcons callback, all icons that will be used have to be registered calling
 MS_CLIST_EXTRA_ADD_ICON service. The value returned by this service has to be stored and used in the
 apply icons.
-    The ApplyIcons callback will be called for all the needed contacts. Inside it, you must call 
+    The ApplyIcons callback will be called for all the needed contacts. Inside it, you must call
 MS_EXTRAICON_SET_ICON to set the icon for the contact, sending the value returned by MS_CLIST_EXTRA_ADD_ICON
 as the hImage.
 
 2. Using icolib
-    In this case no callback is needed and the plugin just need to call MS_EXTRAICON_SET_ICON passing the 
-icolib name in icoName when needed. If your plugin can have extra icons on startup, remember to do a loop 
+    In this case no callback is needed and the plugin just need to call MS_EXTRAICON_SET_ICON passing the
+icolib name in icoName when needed. If your plugin can have extra icons on startup, remember to do a loop
 over all contacts to set the initial icon.
 
 
@@ -121,8 +141,7 @@ static HANDLE ExtraIcon_Register(const char *name, const char *description, cons
 	if (!ServiceExists(MS_EXTRAICON_REGISTER))
 		return NULL;
 
-	EXTRAICON_INFO ei = {0};
-	ei.cbSize = sizeof(ei);
+	EXTRAICON_INFO ei = { sizeof(ei) };
 	ei.type = EXTRAICON_TYPE_CALLBACK;
 	ei.name = name;
 	ei.description = description;
@@ -141,8 +160,7 @@ static HANDLE ExtraIcon_Register(const char *name, const char *description, cons
 	if (!ServiceExists(MS_EXTRAICON_REGISTER))
 		return NULL;
 
-	EXTRAICON_INFO ei = {0};
-	ei.cbSize = sizeof(ei);
+	EXTRAICON_INFO ei = { sizeof(ei) };
 	ei.type = EXTRAICON_TYPE_ICOLIB;
 	ei.name = name;
 	ei.description = description;
@@ -155,7 +173,7 @@ static HANDLE ExtraIcon_Register(const char *name, const char *description, cons
 
 static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)
 {
-	EXTRAICON ei = {0};
+	EXTRAICON ei = { sizeof(ei) };
 	ei.cbSize = sizeof(ei);
 	ei.hExtraIcon = hExtraIcon;
 	ei.hContact = hContact;
@@ -166,8 +184,7 @@ static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)
 
 static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, const char *icoName)
 {
-	EXTRAICON ei = {0};
-	ei.cbSize = sizeof(ei);
+	EXTRAICON ei = { sizeof(ei) };
 	ei.hExtraIcon = hExtraIcon;
 	ei.hContact = hContact;
 	ei.icoName = icoName;

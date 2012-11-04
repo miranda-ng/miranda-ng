@@ -204,38 +204,38 @@ INT_PTR cfg::writeString(const HANDLE hContact, const char *szModule = 0, const 
 
 int cfg::getCache(const HANDLE hContact, const char *szProto)
 {
-    int i, iFound = -1;
+	int i, iFound = -1;
 
-    for (i = 0; i < nextCacheEntry; i++) {
-        if (eCache[i].hContact == hContact) {
-            iFound = i;
-            break;
-        }
-    }
-    if (iFound == -1) {
+	for (i = 0; i < nextCacheEntry; i++) {
+		if (eCache[i].hContact == hContact) {
+			iFound = i;
+			break;
+		}
+	}
+	if (iFound == -1) {
 		EnterCriticalSection(&cachecs);
-        if (nextCacheEntry == maxCacheEntry) {
-            maxCacheEntry += 100;
-            cfg::eCache = (TExtraCache *)realloc(cfg::eCache, maxCacheEntry * sizeof(TExtraCache));
-        }
-        memset(&cfg::eCache[nextCacheEntry], 0, sizeof(TExtraCache));
+		if (nextCacheEntry == maxCacheEntry) {
+			maxCacheEntry += 100;
+			cfg::eCache = (TExtraCache *)realloc(cfg::eCache, maxCacheEntry * sizeof(TExtraCache));
+		}
+		memset(&cfg::eCache[nextCacheEntry], 0, sizeof(TExtraCache));
 		cfg::eCache[nextCacheEntry].hContact = hContact;
-        memset(cfg::eCache[nextCacheEntry].iExtraImage, 0xff, MAXEXTRACOLUMNS);
-        cfg::eCache[nextCacheEntry].iExtraValid = 0;
-        cfg::eCache[nextCacheEntry].valid = FALSE;
-        cfg::eCache[nextCacheEntry].bStatusMsgValid = 0;
-        cfg::eCache[nextCacheEntry].statusMsg = NULL;
-        cfg::eCache[nextCacheEntry].status_item = NULL;
-        LoadSkinItemToCache(&cfg::eCache[nextCacheEntry], szProto);
-        cfg::eCache[nextCacheEntry].dwCFlags = 0;
-        cfg::eCache[nextCacheEntry].dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
-        cfg::eCache[nextCacheEntry].dwXMask = CalcXMask(hContact);
-        GetCachedStatusMsg(nextCacheEntry, const_cast<char *>(szProto));
+		memset(cfg::eCache[nextCacheEntry].iExtraImage, 0xffff, MAXEXTRACOLUMNS);
+		cfg::eCache[nextCacheEntry].iExtraValid = 0;
+		cfg::eCache[nextCacheEntry].valid = FALSE;
+		cfg::eCache[nextCacheEntry].bStatusMsgValid = 0;
+		cfg::eCache[nextCacheEntry].statusMsg = NULL;
+		cfg::eCache[nextCacheEntry].status_item = NULL;
+		LoadSkinItemToCache(&cfg::eCache[nextCacheEntry], szProto);
+		cfg::eCache[nextCacheEntry].dwCFlags = 0;
+		cfg::eCache[nextCacheEntry].dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
+		cfg::eCache[nextCacheEntry].dwXMask = CalcXMask(hContact);
+		GetCachedStatusMsg(nextCacheEntry, const_cast<char *>(szProto));
 		cfg::eCache[nextCacheEntry].dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
-        iFound = nextCacheEntry++;
+		iFound = nextCacheEntry++;
 		LeaveCriticalSection(&cachecs);
-    }
-    return iFound;
+	}
+	return iFound;
 }
 
 void API::onInit()

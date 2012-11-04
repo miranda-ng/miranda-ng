@@ -50,7 +50,6 @@
 // Third party SDK headers
 #include "m_extraicons.h"
 
-static const int DefaultSlot = EXTRA_ICON_ADV2;
 #define MODULENAME "AuthState"
 
 int onOptInitialise(WPARAM wParam, LPARAM lParam);

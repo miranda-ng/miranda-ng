@@ -51,7 +51,7 @@ extern HIMAGELIST himlExtraImages;
 TIME_API tmi;
 
 HMENU  BuildGroupPopupMenu( ClcGroup* group );
-struct ClcContact* CreateClcContact( void );
+ClcContact* CreateClcContact( void );
 struct CListEvent* fnCreateEvent( void );
 void   ReloadThemedOptions();
 void   TrayIconUpdateBase(const char *szChangedProto);
@@ -69,8 +69,8 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat);
 int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 
-ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
-ClcGroup* RemoveItemFromGroup(HWND hwnd, ClcGroup *group, struct ClcContact *contact, int updateTotalCount);
+ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
+ClcGroup* RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
 
 struct CListEvent* ( *saveAddEvent )(CLISTEVENT *cle);
 struct CListEvent* AddEvent(CLISTEVENT *cle);

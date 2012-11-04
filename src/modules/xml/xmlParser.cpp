@@ -2540,10 +2540,10 @@ XMLNode XMLNode::getNextNode() const
 	XMLNodeDataTag *par = d->pParent;
 	if ( !par) return emptyXMLNode;
 	int i, n = par->nChild;
-	for (i=0; i<n; ++i)
-	{
-		if (par->pChild[i].d == d) break;
-	}
+	for (i=0; i<n; i++)
+		if (par->pChild[i].d == d)
+			break;
+
 	return XMLNode(par).getChildNode(d->lpszName, &++i);
 }
 
@@ -2705,7 +2705,7 @@ XMLCSTR XMLNode::getInnerText() const
 
 	int count = nElement();
 	int i, length = 1;
-	for (i=0; i < count; ++i)
+	for (i=0; i < count; i++)
 	{
 		XMLNodeContents c = enumContents(i);
 		switch (c.etype)
@@ -2720,7 +2720,7 @@ XMLCSTR XMLNode::getInnerText() const
 	}
 	XMLCHAR *buf = (XMLCHAR *)malloc(sizeof(XMLCHAR) * length);
 	XMLCHAR *pos = buf;
-	for (i=0; i < count; ++i)
+	for (i=0; i < count; i++)
 	{
 		XMLNodeContents c = enumContents(i);
 		switch (c.etype)

@@ -604,7 +604,6 @@
 //##############################################################################################################
 //resources
 #define IDD_DIALOG						10000
-#define IDC_ADVICON						10001
 #define IDC_OVERLAY1					10002
 #define IDC_OVERLAY2					10003
 #define IDC_OVERLAY3					10004

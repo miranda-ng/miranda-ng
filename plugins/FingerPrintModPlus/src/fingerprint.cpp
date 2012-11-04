@@ -21,7 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 //Start of header
 #include "global.h"
 
-static BYTE bColumn = EXTRA_ICON_CLIENT;
 static UINT g_LPCodePage;
 static TCHAR g_szSkinLib[MAX_PATH];
 static HANDLE hExtraIcon = NULL;
@@ -104,12 +103,12 @@ void RegisterIcons()
 	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
 		Prepare(&def_kn_fp_mask[i], true);
 
-	bool bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay1", 1) != 0;
+	bool bEnable = db_get_b(NULL, "Finger", "Overlay1", 1) != 0;
 	for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
 		Prepare(&def_kn_fp_overlays_mask[i], bEnable);
 
-	bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay2", 1) != 0;
-	if (DBGetContactSettingByte(NULL, "Finger", "ShowVersion", 0)) {
+	bEnable = db_get_b(NULL, "Finger", "Overlay2", 1) != 0;
+	if ( db_get_b(NULL, "Finger", "ShowVersion", 0)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], bEnable);
 	}
@@ -120,7 +119,7 @@ void RegisterIcons()
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	bEnable = DBGetContactSettingByte(NULL, "Finger", "Overlay3", 1) != 0;
+	bEnable = db_get_b(NULL, "Finger", "Overlay3", 1) != 0;
 	for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
 		Prepare(&def_kn_fp_overlays3_mask[i], bEnable);
 }
@@ -166,13 +165,11 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 	if (szMirVer)
 		hImage = GetIconIndexFromFI(szMirVer);
 
-	if (hExtraIcon != INVALID_HANDLE_VALUE && hExtraIcon != NULL)
-		ExtraIcon_SetIcon(hExtraIcon,hContact,hImage);
-	
+	ExtraIcon_SetIcon(hExtraIcon,hContact,hImage);
 	return 0;
 }
 
-int OnExtraIconClick(WPARAM wParam, LPARAM lParam,LPARAM)
+int OnExtraIconClick(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
 	return 0;
@@ -1020,8 +1017,7 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 		DeleteObject(iciTop.hbmMask);
 	}
 
-	if (!drawn)
-	{
+	if (!drawn) {
 		DrawIconEx(tempDC, 0, 0, hBottom, 16, 16, 0, NULL, DI_NORMAL);
 		DrawIconEx(tempDC, 0, 0, hTop, 16, 16, 0, NULL, DI_NORMAL);
 	}
@@ -1098,11 +1094,10 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 	return hFoundImage;
 }
 
-VOID FASTCALL ClearFI()
+VOID ClearFI()
 {
 	if (fiList != NULL)
 		mir_free(fiList);
 	fiList = NULL;
 	nFICount = 0;
-	return;
 }

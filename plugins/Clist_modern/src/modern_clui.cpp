@@ -260,7 +260,6 @@ m_hDwmapiDll( NULL )
 	nLastRequiredHeight = 0;
 
 	LoadCLUIFramesModule();
-	ExtraImage_LoadModule();
 
 	g_CluiData.boldHideOffline = -1;
 	bOldHideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
@@ -411,7 +410,7 @@ HRESULT CLUI::CreateCLC()
 	CallService(MS_SKINENG_REGISTERPAINTSUB,(WPARAM)Frame.hWnd,(LPARAM)CLCPaint::PaintCallbackProc);
 	CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)Translate("My Contacts"));
 
-	ExtraImage_ReloadExtraIcons();
+	pcli->pfnReloadExtraIcons();
 
 	nLastRequiredHeight = 0;
 	if ( g_CluiData.current_viewmode[0] == '\0' )
@@ -1455,8 +1454,8 @@ int CLUI_IconsChanged(WPARAM wParam,LPARAM lParam)
 {
 	if (MirandaExiting()) return 0;
 	DrawMenuBar(pcli->hwndContactList);
-	ExtraImage_ReloadExtraIcons();
-	ExtraImage_SetAllExtraIcons(pcli->hwndContactTree,0);
+	pcli->pfnReloadExtraIcons();
+	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree,0);
 	// need to update tray cause it use combined icons
 	pcli->pfnTrayIconIconsChanged();  //TODO: remove as soon as core will include icolib
 	ske_RedrawCompleteWindow();
@@ -1778,21 +1777,15 @@ int CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam)
 
 BOOL CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase )
 {
-	if (g_mutex_bSetAllExtraIconsCycle)
-		return FALSE;
-	if (CLUI_IsInMainWindow(hWnd) && g_CluiData.fLayered)// && IsWindowVisible(hWnd))
-	{
-		if (IsWindowVisible(hWnd))
+	if ( CLUI_IsInMainWindow(hWnd) && g_CluiData.fLayered) {
+		if ( IsWindowVisible(hWnd))
 			return SkinInvalidateFrame( hWnd, lpRect );
-		else
-		{
-			g_flag_bFullRepaint = 1;
-			return 0;
-		}
+
+		g_flag_bFullRepaint = 1;
+		return 0;
 	}
-	else
-		return InvalidateRect(hWnd,lpRect,bErase);
-	return 1;
+	
+	return InvalidateRect(hWnd,lpRect,bErase);
 }
 
 static BOOL FileExists(TCHAR * tszFilename)
@@ -2684,7 +2677,7 @@ LRESULT CLUI::OnGetMinMaxInfo( UINT msg, WPARAM wParam, LPARAM lParam )
 	return FALSE;
 }
 
-LRESULT CLUI::OnMoving( UINT msg, WPARAM wParam, LPARAM lParam )
+LRESULT CLUI::OnMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CallWindowProc( DefWindowProc, m_hWnd, msg, wParam, lParam );
 	if ( FALSE )  //showcontents is turned on
@@ -2694,17 +2687,18 @@ LRESULT CLUI::OnMoving( UINT msg, WPARAM wParam, LPARAM lParam )
 	return TRUE;
 }
 
-LRESULT CLUI::OnNewContactNotify( NMCLISTCONTROL * pnmc )
+LRESULT CLUI::OnNewContactNotify(NMCLISTCONTROL *pnmc)
 {
-	ExtraImage_SetAllExtraIcons( pcli->hwndContactTree, pnmc->hItem );
+	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, pnmc->hItem);
 	return FALSE;
 }
 
-LRESULT CLUI::OnListRebuildNotify( NMCLISTCONTROL * pnmc )
+LRESULT CLUI::OnListRebuildNotify(NMCLISTCONTROL *pnmc)
 {
-	ExtraImage_SetAllExtraIcons( pcli->hwndContactTree, 0 );
+	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
 	return FALSE;
 }
+
 LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 {
 

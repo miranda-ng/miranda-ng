@@ -493,7 +493,7 @@ void SetDBButtonStates(HANDLE hPassedContact)
 	HANDLE hContact = 0, hFinalContact = 0;
 	char *szModule, *szSetting;
 	int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
-	struct ClcContact *contact = 0;
+	ClcContact *contact = 0;
 
 	if (sel != -1 && hPassedContact == 0) {
 		sel = pcli->pfnGetRowByIndex(cfg::clcdat, cfg::clcdat->selection, &contact, NULL);
@@ -1456,7 +1456,7 @@ skipbg:
 					WPARAM wwParam = 0;
 					LPARAM llParam = 0;
 					HANDLE hContact = 0;
-					struct ClcContact *contact = 0;
+					ClcContact *contact = 0;
 					int sel = cfg::clcdat ? cfg::clcdat->selection : -1;
 					int serviceFailure = FALSE;
 

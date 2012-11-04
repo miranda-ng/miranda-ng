@@ -93,7 +93,7 @@ static INT_PTR CreateGroup(WPARAM wParam, LPARAM lParam)
 	else {
 		i = 1;
 		while (GroupNameExists(newName + 1, -1))
-			mir_sntprintf(newName + 1, SIZEOF(newName) - 1, _T("%s (%d)"), newBaseName, ++i);
+			mir_sntprintf(newName + 1, SIZEOF(newName) - 1, _T("%s (%d)"), newBaseName, i++);
 	}
 	if (i) {
 		const CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, newName };

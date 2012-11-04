@@ -185,14 +185,15 @@ typedef struct {
 #define CLGN_PREVIOUSCONTACT 6
 #define CLGN_NEXTGROUP 7
 #define CLGN_PREVIOUSGROUP 8
+
 #define CLM_GETNEXTITEM    (CLM_FIRST+50)   //wParam = flag, lParam = hItem, returns an hItem
 #define CLM_GETTEXTCOLOR   (CLM_FIRST+51)   //wParam = FONTID_, returns COLORREF
 #define CLM_SETTEXTCOLOR   (CLM_FIRST+52)   //wParam = FONTID_, lParam = COLORREF
 
-//DO NOT USE IT EXTERNALLY CAN BE NOT SUPPORTED BY CLIST
 #define CLM_SETWIDEEXTRAIMAGE	  (CLM_FIRST+60)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), iImage). iImage = 0xFFFF is a blank
 #define CLM_GETWIDEEXTRAIMAGE     (CLM_FIRST+61)   //wParam = hItem, lParam = MAKELPARAM(iColumn (0 based), 0), returns iImage or 0xFF
 #define CLM_GETWIDEEXTRAIMAGELIST (CLM_FIRST+62)   //returns HWIDEIMAGELIST
+#define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+63)   //wParam=extra space between icons
 
 //notifications  (most are omitted because the control processes everything)
 #define CLNF_ISGROUP   1
@@ -278,4 +279,3 @@ typedef struct {
 #define MS_CLC_GETINFOTIPHOVERTIME    "CLC/GetInfoTipHoverTime"
 
 #endif // M_CLC_H__
-

@@ -36,8 +36,6 @@ UINT hMsgGetProfile = 0;
 extern boolean canloadstatusbar;
 boolean OnModulesLoadedCalled = FALSE;
 
-HANDLE hSettingChangedHook = 0;
-
 static int transparentFocus = 1;
 static byte oldhideoffline;
 static int lastreqh = 0,requr = 0,disableautoupd = 1;
@@ -68,12 +66,9 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto);
 
 extern void SetAllExtraIcons(HWND hwndList,HANDLE hContact);
 extern void ReloadExtraIcons();
-extern void LoadExtraImageFunc();
 extern HWND CreateStatusBarhWnd(HWND parent);
 extern HANDLE CreateStatusBarFrame();
 extern int CLUIFramesUpdateFrame(WPARAM wParam,LPARAM lParam);
-extern int ExtraToColumnNum(int extra);
-extern int ColumnNumToExtra(int column);
 extern void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis);
 extern void InitGroupMenus();
 extern int UseOwnerDrawStatusBar;
@@ -371,39 +366,6 @@ int OnSettingChanging(WPARAM wParam,LPARAM lParam)
 			}
 		}
 	}
-	else {
-		if (dbcws == NULL)
-			return 0;
-
-		if ( !ServiceExists("ExtraIcon/Register")) {
-			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szSetting,"e-mail")) {
-				SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-				return 0;
-			}
-			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szSetting,"Cellular")) {
-				SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-				return 0;
-			}
-
-			if (dbcws->value.type == DBVT_ASCIIZ&&strstr(dbcws->szModule,"ICQ")) {
-				if ( !strcmp(dbcws->szSetting, "MirVer")) {
-					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-					return 0;
-				}
-			}
-
-			if (dbcws->value.type == DBVT_ASCIIZ&&!strcmp(dbcws->szModule,"UserInfo")) {
-				if ( !strcmp(dbcws->szSetting, "MyPhone0")) {
-					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-					return 0;
-				}
-				if (!strcmp(dbcws->szSetting, "Mye-mail0")) {
-					SetAllExtraIcons(pcli->hwndContactTree,(HANDLE)wParam);
-					return 0;
-				}
-			}
-		}
-	}
 	return 0;
 }
 
@@ -443,23 +405,17 @@ int CreateCLC(HWND parent)
 		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,hFrameContactTree),(LPARAM)TranslateT("My Contacts"));
 	}
 
-	ReloadExtraIcons();
-	{
-		lastreqh = 0;
-		{
-			CallService(MS_CLIST_SETHIDEOFFLINE,(WPARAM)oldhideoffline,0);
-		}
+	lastreqh = 0;
+	CallService(MS_CLIST_SETHIDEOFFLINE,(WPARAM)oldhideoffline,0);
 
-		{	int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
-			if (state == SETTING_STATE_NORMAL) ShowWindow(pcli->hwndContactList, SW_SHOW);
-			else if (state == SETTING_STATE_MINIMIZED) ShowWindow(pcli->hwndContactList, SW_SHOWMINIMIZED);
-		}
+	int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
+	if (state == SETTING_STATE_NORMAL) ShowWindow(pcli->hwndContactList, SW_SHOW);
+	else if (state == SETTING_STATE_MINIMIZED) ShowWindow(pcli->hwndContactList, SW_SHOWMINIMIZED);
 
-		lastreqh = 0;
-		disableautoupd = 0;
+	lastreqh = 0;
+	disableautoupd = 0;
 
-	}
-	hSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,OnSettingChanging);
 	return 0;
 }
 
@@ -650,7 +606,8 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			case CLN_NEWCONTACT:
 				{
 					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-					if (nm != NULL) SetAllExtraIcons(pcli->hwndContactTree,nm->hItem );
+					if (nm != NULL)
+						SetAllExtraIcons(pcli->hwndContactTree,nm->hItem );
 					return TRUE;
 				}
 			case CLN_LISTREBUILT:
@@ -700,43 +657,12 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					DWORD hitFlags;
 					HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
 
-					if (hitFlags&CLCHT_ONITEMEXTRA) {
-						if (!IsHContactGroup(hItem)&&!IsHContactInfo(hItem))
-						{
-							int extra;
-							pClcCacheEntry pdnce;
-
-							pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
-							if (pdnce == NULL) return 0;
-
-							extra = ColumnNumToExtra(nm->iColumn);
-							NotifyEventHooks(hExtraImageClick, (WPARAM)nm->hItem, extra);
-
-							if (!ServiceExists("ExtraIcon/Register"))
-							{
-								int v,e,w;
-								v = ExtraToColumnNum(EXTRA_ICON_PROTO);
-								e = ExtraToColumnNum(EXTRA_ICON_EMAIL);
-								w = ExtraToColumnNum(EXTRA_ICON_ADV1);
-
-								if (nm->iColumn == v)
-									CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)nm->hItem,0);
-
-								if (nm->iColumn == e) {
-									//CallService(MS_USERINFO_SHOWDIALOG,(WPARAM)nm->hItem,0);
-									char *email,buf[4096];
-									email = DBGetStringA(nm->hItem,"UserInfo", "Mye-mail0");
-									if (email) {
-										sprintf(buf,"mailto:%s",email);
-										ShellExecuteA(hwnd,"open",buf,NULL,NULL,SW_SHOW);
-									}
-								}
-								if (nm->iColumn == w) {
-									char *homepage;
-									homepage = DBGetStringA(pdnce->hContact,pdnce->szProto, "Homepage");
-									if (homepage != NULL)
-										ShellExecuteA(hwnd,"open",homepage,NULL,NULL,SW_SHOW);
-					}	}	}	}
+					if (hitFlags & CLCHT_ONITEMEXTRA)
+						if (!IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
+							pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
+							if (pdnce)
+								NotifyEventHooks(hExtraImageClick, (WPARAM)nm->hItem, nm->iColumn+1);
+						}
 
 					if (hItem) break;
 					if ((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS)) == 0) break;
@@ -841,9 +767,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
 
 			FreeProtocolData();
-			if ( hSettingChangedHook != 0 )
-				UnhookEvent(hSettingChangedHook);
-
 			if ( state == SETTING_STATE_NORMAL )
 				ShowWindow(hwnd,SW_HIDE);
 

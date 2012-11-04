@@ -24,6 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "clc.h"
 #include "genmenu.h"
+#include "..\extraicons\extraicons.h"
 
 CLIST_INTERFACE cli = { 0 };
 
@@ -206,6 +207,9 @@ static INT_PTR srvRetrieveInterface(WPARAM, LPARAM lParam)
 		cli.pfnGetAccountIndexByPos            = fnGetAccountIndexByPos;
 		cli.pfnGetProtocolMenu                 = fnGetProtocolMenu;
 		cli.pfnConvertMenu                     = fnConvertMenu;
+
+		cli.pfnReloadExtraIcons                = fnReloadExtraIcons;
+		cli.pfnSetAllExtraIcons                = fnSetAllExtraIcons;
 
 		cli.hInst = (HMODULE)lParam;
 

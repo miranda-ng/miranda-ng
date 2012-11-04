@@ -26,7 +26,6 @@
 #define IDC_HYPERLINKHAND               214
 #define IDC_DROPUSER                    215
 #define IDD_OPT_CLUI                    218
-#define IDD_OPT_XICONS                  219
 #define IDD_OPT_ICONS                   220
 #define IDD_OPT_CLC                     228
 #define IDD_OPT_CLCBKG                  230
@@ -74,17 +73,8 @@
 #define IDC_SETALLBUTTONSKINNED         1043
 #define IDC_EVENTSONTOP                 1044
 #define IDC_FASTGRADIENT                1044
-#define IDC_EXTRA_ICON_EMAIL            1045
 #define IDC_DONTSEPARATE                1045
-#define IDC_EXTRA_ICON_SMS              1047
-#define IDC_EXTRA_ICON_RES0             1054
-#define IDC_EXTRA_ICON_WEB              1055
 #define IDC_FADEINOUT                   1056
-#define IDC_EXTRA_ICON_ADV2             1057
-#define IDC_EXTRA_ICON_RES1             1058
-#define IDC_EXTRA_ICON_RES2             1059
-#define IDC_EXTRA_ICON_ADV3             1060
-#define IDC_EXTRAORDER                  1061
 #define IDC_FRAMEGAP                    1064
 #define IDC_FRAMEGAPSPIN                1065
 #define IDC_CLIPBORDER                  1066
@@ -108,7 +98,6 @@
 #define IDC_HIDEOFFLINE                 1081
 #define IDC_CRIGHTSPIN                  1081
 #define IDC_HIDEOFFLINEOPTS             1082
-#define IDC_EXTRA_ICON_ADV4             1085
 #define IDC_LEFTMARGINSPIN              1092
 #define IDC_NOGROUPICON                 1102
 #define IDC_ONECLK                      1105
@@ -130,8 +119,6 @@
 #define IDC_STATIC22                    1157
 #define IDC_STATIC14                    1157
 #define IDC_STATIC15                    1158
-#define IDC_EXTRA_ICON_CLIENT           1164
-#define IDC_EXTRA_ICON_ADV1             1166
 #define IDC_SHOWGRIP                    1169
 #define IDC_SKINBACKGROUND              1170
 #define IDC_FILLWALLPAPER               1171

@@ -74,8 +74,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define INTM_AVATARCHANGED	(WM_USER+28)
 #define INTM_TIMEZONECHANGED	(WM_USER+29)
 
-#define CLM_SETEXTRACOLUMNSSPACE   (CLM_FIRST+73)   //wParam=extra space between icons
-
 #define CLBF_TILEVTOROWHEIGHT        0x0100
 
 #define TIMERID_RENAME				10
@@ -391,7 +389,7 @@ struct SHORTDATA
 };
 
 
-typedef struct tagOVERLAYICONINFO 
+typedef struct tagOVERLAYICONINFO
 {
 	char *name;
 	char *description;

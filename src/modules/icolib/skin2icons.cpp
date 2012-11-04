@@ -366,7 +366,7 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 
 	int i=0;
 	do { // find new unique name
-		mir_sntprintf(sourceName, SIZEOF(sourceName), _T("*StaticIcon_%d"), ++i);
+		mir_sntprintf(sourceName, SIZEOF(sourceName), _T("*StaticIcon_%d"), i++);
 	} while (iconSourceFileList.getIndex(&key) != -1);
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));

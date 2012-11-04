@@ -124,7 +124,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 					GetDlgItemTextA(hwndDlg, IDC_ACCINTERNALNAME, buf, SIZEOF(buf));
 					rtrim(buf);
 					if (buf[0]) {
-						for (int i=0; i < accounts.getCount(); ++i)
+						for (int i=0; i < accounts.getCount(); i++)
 							if (_stricmp(buf, accounts[i]->szModuleName) == 0)
 								return FALSE;
 				}	}
@@ -659,7 +659,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 
 			dat->iSelected = -1;
 			SendMessage(hList, LB_RESETCONTENT, 0, 0);
-			for (i=0; i < accounts.getCount(); ++i) {
+			for (i=0; i < accounts.getCount(); i++) {
 				int iItem = SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)accounts[i]->tszAccountName);
 				SendMessage(hList, LB_SETITEMDATA, iItem, (LPARAM)accounts[i]);
 
@@ -966,7 +966,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_APPLY;
-					for (i=0; i < accounts.getCount(); ++i) {
+					for (i=0; i < accounts.getCount(); i++) {
 						if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -979,7 +979,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 					int i;
 					PSHNOTIFY pshn = {0};
 					pshn.hdr.code = PSN_RESET;
-					for (i=0; i < accounts.getCount(); ++i) {
+					for (i=0; i < accounts.getCount(); i++) {
 						if (accounts[i]->hwndAccMgrUI && accounts[i]->bAccMgrUIChanged) {
 							pshn.hdr.hwndFrom = accounts[i]->hwndAccMgrUI;
 							SendMessage(accounts[i]->hwndAccMgrUI, WM_NOTIFY, 0, (LPARAM)&pshn);
@@ -993,7 +993,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 		break;
 	case WM_DESTROY:
 		{
-			for (int i=0; i < accounts.getCount(); ++i) {
+			for (int i=0; i < accounts.getCount(); i++) {
 				accounts[i]->bAccMgrUIChanged = FALSE;
 				if (accounts[i]->hwndAccMgrUI) {
 					DestroyWindow(accounts[i]->hwndAccMgrUI);

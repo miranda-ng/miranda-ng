@@ -202,8 +202,6 @@ INT_PTR GetCapsService(WPARAM wParam,LPARAM lParam)
 			return 0x0107;
 		case CLUIF2_EXTRACOLUMNCOUNT:
 			return EXTRA_ICON_COUNT;
-		case CLUIF2_USEREXTRASTART:
-			return EXTRA_ICON_ADV3;
 		}
 	}
 	else {

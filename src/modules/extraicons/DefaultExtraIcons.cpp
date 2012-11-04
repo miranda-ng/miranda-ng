@@ -177,7 +177,7 @@ static void SetExtraIcons(HANDLE hContact)
 	if (IsEmpty(proto))
 		return;
 
-	for (unsigned int i = 0; i < SIZEOF(infos); ++i)
+	for (unsigned int i = 0; i < SIZEOF(infos); i++)
 	{
 		Info &info = infos[i];
 
@@ -227,7 +227,7 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	for (unsigned int i = 0; i < SIZEOF(infos); ++i)
+	for (unsigned int i = 0; i < SIZEOF(infos); i++)
 	{
 		Info &info = infos[i];
 
@@ -293,7 +293,7 @@ static void DBExtraIconsInit()
 	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
 	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", "AlwaysVis");
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
-	for (unsigned int i = 0; i < SIZEOF(infos); ++i)
+	for (unsigned int i = 0; i < SIZEOF(infos); i++)
 	{
 		Info &info = infos[i];
 		if (info.OnClick)
@@ -335,7 +335,7 @@ static int ProtocolRebuildIcons(WPARAM wParam, LPARAM lParam)
 
 static ProtoInfo *FindProto(const char * proto)
 {
-	for (unsigned int i = 0; i < protos.size(); ++i)
+	for (unsigned int i = 0; i < protos.size(); i++)
 	{
 		ProtoInfo *pi = &protos[i];
 		if (strcmp(pi->proto.c_str(), proto) == 0)
@@ -346,7 +346,7 @@ static ProtoInfo *FindProto(const char * proto)
 	if (hIcon == NULL)
 		return NULL;
 
-	HANDLE hImage = (HANDLE) CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM) hIcon, 0);
+	HANDLE hImage = ExtraIcon_Add(hIcon);
 	if (hImage == INVALID_HANDLE_VALUE)
 		return NULL;
 

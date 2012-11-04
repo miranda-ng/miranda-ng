@@ -279,7 +279,7 @@ char** __fastcall Proto_FilesMatrixA(wchar_t **files)
 	while (files[ count++ ]);
 
 	char** filesA = (char**)mir_alloc(count * sizeof(char*));
-	for (int i=0; i < count; ++i)
+	for (int i=0; i < count; i++)
 		filesA[ i ] = mir_u2a(files[ i ]);
 
 	return filesA;
@@ -293,7 +293,7 @@ static wchar_t** __fastcall Proto_FilesMatrixU(char **files)
 	while (files[ count++ ]);
 
 	wchar_t** filesU = (wchar_t**)mir_alloc(count * sizeof(wchar_t*));
-	for (int i=0; i < count; ++i)
+	for (int i=0; i < count; i++)
 		filesU[ i ] = mir_a2u(files[ i ]);
 
 	return filesU;

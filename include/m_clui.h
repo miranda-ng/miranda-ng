@@ -152,7 +152,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // modern layered return 0x07 (assuming classic, mw, meta, nicer1, modern1, nicer++, modernLayered)
 // +0x0100 for unicode
 #define CLUIF2_EXTRACOLUMNCOUNT		3   // return max number of extra icon available to be set in main window
-#define CLUIF2_USEREXTRASTART		4   // return index of first 'advanced' image except Adv1 and Adv2
 
 #define MS_CLUI_GETCAPS         "CLUI/GetCaps"
 

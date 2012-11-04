@@ -77,9 +77,6 @@ void Docking_GetMonitorRectFromWindow(HWND hWnd,RECT *rc);
 int EventArea_Create(HWND hCluiWnd);
 
 int ExtraImage_ExtraIDToColumnNum(int extra);
-void ExtraImage_LoadModule();
-void ExtraImage_ReloadExtraIcons();
-void ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact);
 
 void GroupMenus_Init();
 

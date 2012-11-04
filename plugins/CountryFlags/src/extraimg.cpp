@@ -289,11 +289,10 @@ static int ExtraImgSettingChanged(WPARAM wParam,LPARAM lParam)
 		if (!lstrcmpA(dbcws->szModule,"Flags")) {
 			/* Extra Image */
 			if (!lstrcmpA(dbcws->szSetting,"ShowExtraImgFlag") ||
-			   !lstrcmpA(dbcws->szSetting,"ExtraImgFlagColumn") ||
-			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
-			   !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
-				if (ServiceExists(MS_CLIST_EXTRA_SET_ICON))
-					CallFunctionBuffered(UpdateExtraImages,0,FALSE,EXTRAIMAGE_REFRESHDELAY);
+			    !lstrcmpA(dbcws->szSetting,"ExtraImgFlagColumn") ||
+			    !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||
+			    !lstrcmpA(dbcws->szSetting,"UseIpToCountry"))
+				CallFunctionBuffered(UpdateExtraImages,0,FALSE,EXTRAIMAGE_REFRESHDELAY);
 			/* Status Icon */
 			if (!lstrcmpA(dbcws->szSetting,"ShowStatusIconFlag") ||
 			   !lstrcmpA(dbcws->szSetting,"UseUnknownFlag") ||

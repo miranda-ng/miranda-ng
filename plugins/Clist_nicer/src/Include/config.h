@@ -40,7 +40,7 @@
 #define IS_THEMED (API::sysState.isThemed)
 #define IS_AERO (API::sysState.isAero)
 
-typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, struct ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
+typedef  int  (__cdecl *pfnDrawAvatar)(HDC hdcOrig, HDC hdcMem, RECT *rc, ClcContact *contact, int y, struct ClcData *dat, int selected, WORD cstatus, int rowHeight);
 typedef BOOL 		(WINAPI *pfnSetLayeredWindowAttributes_t)(HWND, COLORREF, BYTE, DWORD);
 typedef BOOL 		(WINAPI *pfnUpdateLayeredWindow_t)(HWND, HDC, POINT *, SIZE *, HDC, POINT *, COLORREF, BLENDFUNCTION *, DWORD);
 typedef HMONITOR 	(WINAPI *pfnMonitorFromPoint_t)(POINT,DWORD);

@@ -131,7 +131,7 @@ typedef struct _foundInfo
 
 #define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_ClientIcons")
 
-void FASTCALL ClearFI();
+void ClearFI();
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam);
 int OnExtraIconClick(WPARAM wParam, LPARAM lParam,LPARAM);

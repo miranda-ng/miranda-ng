@@ -98,14 +98,14 @@ ClcGroup;
 #define ECF_SECONDLINE 2
 
 struct ContactFloater {
-	struct ContactFloater *pNextFloater;
+	ContactFloater *pNextFloater;
 	HWND hwnd;
 	HDC hdc;
 	HBITMAP hbm, hbmOld;
 	HANDLE hContact;
 };
 
-typedef struct ContactFloater CONTACTFLOATER;
+typedef ContactFloater CONTACTFLOATER;
 
 #define DSPF_CENTERSTATUSICON 1
 #define DSPF_DIMIDLE 2
@@ -162,21 +162,21 @@ typedef struct DisplayProfileSet DISPLAYPROFILESET;
 
 struct TExtraCache
 {
-	BYTE iExtraImage[MAXEXTRACOLUMNS];
+	WORD   iExtraImage[MAXEXTRACOLUMNS];
 	HANDLE hContact;
 	HANDLE hTimeZone;
-	DWORD iExtraValid;
-	BYTE valid;
+	DWORD  iExtraValid;
+	BYTE   valid;
 	TCHAR *statusMsg;
-	BYTE bStatusMsgValid;
-	DWORD dwCFlags;
-	DWORD dwDFlags;     // display flags for caching only
-	DWORD dwXMask;      // local extra icon mask, calculated from CLN_xmask
+	BYTE   bStatusMsgValid;
+	DWORD  dwCFlags;
+	DWORD  dwDFlags;     // display flags for caching only
+	DWORD  dwXMask;      // local extra icon mask, calculated from CLN_xmask
 	StatusItems_t *status_item, *proto_status_item;
 	CONTACTFLOATER *floater;
-	DWORD dwLastMsgTime;
-	DWORD msgFrequency;
-	BOOL  isChatRoom;
+	DWORD  dwLastMsgTime;
+	DWORD  msgFrequency;
+	BOOL   isChatRoom;
 };
 
 struct ClcContact : public ClcContactBase
@@ -421,8 +421,8 @@ typedef struct {
 } protoMenu;
 
 //clcidents.c
-int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, struct ClcContact **contact, ClcGroup **subgroup, int *isVisible);
-HANDLE ContactToItemHandle(struct ClcContact *contact, DWORD *nmFlags);
+int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact, ClcGroup **subgroup, int *isVisible);
+HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
@@ -437,7 +437,7 @@ void 	SetGroupExpand(HWND hwnd, struct ClcData *dat, ClcGroup *group, int newSta
 void 	DoSelectionDefaultAction(HWND hwnd, struct ClcData *dat);
 int 	FindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
 void 	BeginRenameSelection(HWND hwnd, struct ClcData *dat);
-int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, struct ClcContact **contact, ClcGroup **group, DWORD *flags);
+int 	HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **contact, ClcGroup **group, DWORD *flags);
 void 	ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth);
 void 	RecalcScrollBar(HWND hwnd, struct ClcData *dat);
 size_t 	MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut);
@@ -455,7 +455,7 @@ void RecalculateGroupCheckboxes(HWND hwnd, struct ClcData *dat);
 void SetGroupChildCheckboxes(ClcGroup *group, int checked);
 BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto);
 int __fastcall GetStatusOnlineness(int status);
-void GetExtendedInfo(struct ClcContact *contact, struct ClcData *dat);
+void GetExtendedInfo(ClcContact *contact, struct ClcData *dat);
 extern LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void HideShowNotifyFrame();
 DWORD GetCLUIWindowStyle(BYTE style);
@@ -466,24 +466,24 @@ int FrameNCPaint(HWND hwnd, WNDPROC oldWndProc, WPARAM wParam, LPARAM lParam, BO
 
 void FreeProtocolData( void );
 
-void GetClientID(struct ClcContact *contact, char *client);
+void GetClientID(ClcContact *contact, char *client);
 int LoadCLCButtonModule(void);
 void SetButtonStates(HWND hwnd);
 void ConfigureCLUIGeometry(int mode);
 void IcoLibReloadIcons();
-int CompareContacts(const struct ClcContact* p1, const struct ClcContact* p2);
+int CompareContacts(const ClcContact* p1, const ClcContact* p2);
 void PaintNotifyArea(HDC hDC, RECT *rc);
 int AvatarChanged(WPARAM wParam, LPARAM lParam);
 void ConfigureFrame();
 void ConfigureEventArea(HWND hwnd);
 void ClearIcons(int mode);
 void SkinDrawBg(HWND hwnd, HDC hdc);
-int GetBasicFontID(struct ClcContact * contact);
+int GetBasicFontID(ClcContact * contact);
 extern int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szStatus, struct ClcData *dat);
 void CreateViewModeFrame();
 int GetExtraCache(HANDLE hContact, char *szProto);
 void ReloadExtraInfo(HANDLE hContact);
-void LoadAvatarForContact(struct ClcContact *p);
+void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);
 DWORD CalcXMask(HANDLE hContact);
 
@@ -492,12 +492,12 @@ HWND ClcGetButtonWindow(int ctrlid);
 
 //clcpaint.c
 void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint);
-void __inline PaintItem(HDC hdcMem, ClcGroup *group, struct ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
+void __inline PaintItem(HDC hdcMem, ClcGroup *group, ClcContact *contact, int indent, int y, struct ClcData *dat, int index, HWND hwnd, DWORD style, RECT *clRect, BOOL *bFirstNGdrawn, int groupCountsFontTopShift, int rowHeight);
 void Reload3dBevelColors();
 void ReloadThemedOptions();
 void SetButtonToSkinned();
-void RTL_DetectAndSet(struct ClcContact *contact, HANDLE hContact);
-void RTL_DetectGroupName(struct ClcContact *group);
+void RTL_DetectAndSet(ClcContact *contact, HANDLE hContact);
+void RTL_DetectGroupName(ClcContact *group);
 void CLN_LoadAllIcons(BOOL mode);
 void ReloadSkinItemsToCache();
 void SFL_RegisterWindowClass(), SFL_UnregisterWindowClass();
@@ -508,7 +508,7 @@ void SFL_SetSize();
 void SFL_PaintNotifyArea();
 void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BOOL refresh);
 
-void FLT_Update(struct ClcData *dat, struct ClcContact *contact);
+void FLT_Update(struct ClcData *dat, ClcContact *contact);
 int FLT_CheckAvail();
 void FLT_Create(int iEntry);
 void FLT_SetSize(struct TExtraCache *centry, LONG width, LONG height);
@@ -625,10 +625,8 @@ typedef struct _floatopts {
 	BYTE trans, act_trans;
 	BYTE radius;
 	BYTE enabled;
-    BYTE def_hover_time;
-    WORD hover_time;
+	BYTE def_hover_time;
+	WORD hover_time;
 } FLOATINGOPTIONS;
 
 extern FLOATINGOPTIONS g_floatoptions;
-
-

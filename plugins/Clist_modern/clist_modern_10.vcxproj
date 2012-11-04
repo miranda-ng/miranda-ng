@@ -220,7 +220,6 @@
     </ClCompile>
     <ClCompile Include="src\modern_contact.cpp" />
     <ClCompile Include="src\modern_docking.cpp" />
-    <ClCompile Include="src\modern_extraimage.cpp" />
     <ClCompile Include="src\modern_framesmenu.cpp" />
     <ClCompile Include="src\modern_gdiplus.cpp" />
     <ClCompile Include="src\modern_gettextasync.cpp" />

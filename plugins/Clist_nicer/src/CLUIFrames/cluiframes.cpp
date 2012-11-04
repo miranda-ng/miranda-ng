@@ -3385,6 +3385,7 @@ static int CLUIFrameOnModulesUnload(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+/*
 static INT_PTR SetIconForExtraColumn(WPARAM wParam, LPARAM lParam)
 {
 	pIconExtraColumn piec;
@@ -3406,7 +3407,7 @@ static INT_PTR SetIconForExtraColumn(WPARAM wParam, LPARAM lParam)
 		PostMessage(pcli->hwndContactTree, CLM_SETEXTRAIMAGEINT, wParam, MAKELONG((WORD)piec->ColumnType, (WORD)piec->hImage));
 	return 0;
 }
-
+*/
 /*
  * wparam=hIcon
  * return hImage on success,-1 on failure
@@ -3535,12 +3536,6 @@ int LoadCLUIFramesModule(void)
 
 void LoadExtraIconModule()
 {
-	CreateServiceFunction(MS_CLIST_EXTRA_SET_ICON, SetIconForExtraColumn);
-	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, AddIconToExtraImageList);
-
-	hExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
-	hExtraImageApplying = CreateHookableEvent(ME_CLIST_EXTRA_IMAGE_APPLY);
-
 	hStatusBarShowToolTipEvent = CreateHookableEvent(ME_CLIST_FRAMES_SB_SHOW_TOOLTIP);
 	hStatusBarHideToolTipEvent = CreateHookableEvent(ME_CLIST_FRAMES_SB_HIDE_TOOLTIP);
 }

@@ -288,7 +288,7 @@ int fnTrayIconInit(HWND hwnd)
 	         (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
         {
 			cli.trayIconCount = netProtoCount;
-		    for (int i=0; i < accounts.getCount(); ++i) 
+		    for (int i=0; i < accounts.getCount(); i++) 
             {
 			    int j = cli.pfnGetAccountIndexByPos(i);
 			    if (j >= 0) 
@@ -748,14 +748,14 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 				POINT pt;
 				HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 
-				for (int i=0; i < cli.trayIconCount; ++i)
+				for (int i=0; i < cli.trayIconCount; i++)
 				{
 					if ((unsigned)cli.trayIcon[i].id == msg->wParam)
 					{
 						if ( !cli.trayIcon[i].szProto) break;
 
 						int ind = 0;
-						for (int j = 0; j < accounts.getCount(); ++j)
+						for (int j = 0; j < accounts.getCount(); j++)
 						{
 							int k = cli.pfnGetAccountIndexByPos(j);
 							if (k >= 0) 

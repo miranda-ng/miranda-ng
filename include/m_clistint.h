@@ -467,6 +467,13 @@ typedef struct
 	 *************************************************************************************/
 	int    (*pfnGetAccountIndexByPos)(int pos);
 	int    (*pfnConvertMenu)(CLISTMENUITEM*, TMO_MenuItem*);
+
+	/*************************************************************************************
+	 * version 7 additions (0.11.0.x) - extra images
+	 *************************************************************************************/
+	HIMAGELIST hExtraImageList;
+	void   (*pfnReloadExtraIcons)(void);
+	void   (*pfnSetAllExtraIcons)(HWND hwndList,HANDLE hContact);
 }
 	CLIST_INTERFACE;
 

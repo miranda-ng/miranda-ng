@@ -336,7 +336,7 @@ static NETLIBIPLIST* GetMyIpv4(void)
 	NETLIBIPLIST *addr = (NETLIBIPLIST*)mir_calloc(n * 64 + 4);
 	addr->cbNum = n;
 
-	for (unsigned i=0; i < n; ++i) 
+	for (unsigned i=0; i < n; i++) 
 		strcpy(addr->szIp[i], inet_ntoa(*(PIN_ADDR)he->h_addr_list[i]));
 
 	return addr;

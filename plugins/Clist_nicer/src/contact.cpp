@@ -211,7 +211,7 @@ int __forceinline GetProtoIndex(char * szName)
 	}
 }
 
-int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const struct ClcContact* c2, UINT bywhat)
+int __forceinline INTSORT_CompareContacts(const ClcContact* c1, const ClcContact* c2, UINT bywhat)
 {
 	TCHAR *namea, *nameb;
 	int statusa, statusb;
@@ -290,7 +290,7 @@ int __forceinline INTSORT_CompareContacts(const struct ClcContact* c1, const str
 	return 0;
 }
 
-int CompareContacts(const struct ClcContact* c1, const struct ClcContact* c2)
+int CompareContacts(const ClcContact* c1, const ClcContact* c2)
 {
 	int i, result;
 

@@ -2,10 +2,10 @@
 UserinfoEx plugin for Miranda IM
 
 Copyright:
-© 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+ï¿½ 2006-2010 DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
 
 part of this code based on:
-Miranda IM Country Flags Plugin Copyright ©2006-2007 H. Herkenrath
+Miranda IM Country Flags Plugin Copyright ï¿½2006-2007 H. Herkenrath
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -319,10 +319,8 @@ static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
 VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 {
 	gFlagsOpts.bShowExtraImgFlag = (bColumn!=((BYTE)-1));
-	if (bUpdateDB) {
-		if(gFlagsOpts.bShowExtraImgFlag) DB::Setting::WriteByte(MODNAMEFLAGS,"ExtraImgFlagColumn", bColumn);
+	if (bUpdateDB)
 		DB::Setting::WriteByte(MODNAMEFLAGS,"ShowExtraImgFlag", bColumn!=(BYTE)-1);
-	}
 
 	// Flags is on
 	if (gFlagsOpts.bShowExtraImgFlag) {
@@ -545,8 +543,7 @@ static int OnContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 	    !lstrcmpA(dbcws->szSetting,SET_CONTACT_COMPANY_COUNTRY))
 		{
 		/* Extra Image */
-		if(myGlobals.HaveCListExtraIcons)
-			CallFunctionBuffered(SetExtraImage,(LPARAM)wParam,TRUE,EXTRAIMAGE_REFRESHDELAY);
+		CallFunctionBuffered(SetExtraImage,(LPARAM)wParam,TRUE,EXTRAIMAGE_REFRESHDELAY);
 		/* Status Icon */
 		if(hMsgWndEventHook) {
 			int i = gMsgWndList.getIndex((MsgWndData*)&wParam);
@@ -581,10 +578,9 @@ void SvcFlagsLoadModule()
 	//InitIpToCountry();	/* not implementet */
 	CreateServiceFunction(MS_FLAGS_DETECTCONTACTORIGINCOUNTRY,ServiceDetectContactOriginCountry);
 	//init settings
-	gFlagsOpts.bShowExtraImgFlag	= DB::Setting::GetByte(MODNAMEFLAGS,"ShowExtraImgFlag",		SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
-	gFlagsOpts.bUseUnknownFlag		= DB::Setting::GetByte(MODNAMEFLAGS,"UseUnknownFlag",		SETTING_USEUNKNOWNFLAG_DEFAULT);
-	gFlagsOpts.idExtraColumn		= DB::Setting::GetByte(MODNAMEFLAGS,"ExtraImgFlagColumn",	SETTING_EXTRAIMGFLAGCOLUMN_DEFAULT);
-	gFlagsOpts.bShowStatusIconFlag	= DB::Setting::GetByte(MODNAMEFLAGS,"ShowStatusIconFlag",	SETTING_SHOWSTATUSICONFLAG_DEFAULT);
+	gFlagsOpts.bShowExtraImgFlag   = DB::Setting::GetByte(MODNAMEFLAGS,"ShowExtraImgFlag",	  SETTING_SHOWEXTRAIMGFLAG_DEFAULT);
+	gFlagsOpts.bUseUnknownFlag     = DB::Setting::GetByte(MODNAMEFLAGS,"UseUnknownFlag",     SETTING_USEUNKNOWNFLAG_DEFAULT);
+	gFlagsOpts.bShowStatusIconFlag = DB::Setting::GetByte(MODNAMEFLAGS,"ShowStatusIconFlag", SETTING_SHOWSTATUSICONFLAG_DEFAULT);
 
 	hOptInitHook		= HookEvent(ME_OPT_INITIALISE,ExtraImgOptInit);
 	hIconsChangedHook	= HookEvent(ME_SKIN2_ICONSCHANGED,OnStatusIconsChanged);

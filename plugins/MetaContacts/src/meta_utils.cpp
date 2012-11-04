@@ -1691,17 +1691,10 @@ void Meta_FixStatus(HANDLE hMeta) {
 		if (proto) {
 			WORD status = (WORD)DBGetContactSettingWord(most_online, proto, "Status", (WORD)ID_STATUS_OFFLINE);
 			DBWriteContactSettingWord(hMeta, META_PROTO, "Status", status);
-		} else 
-			DBWriteContactSettingWord(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
-	} else
-		DBWriteContactSettingWord(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
-
-	// trigger setting changed in mw_clist to reset extra icons
-	if (ServiceExists(MS_CLIST_EXTRA_SET_ICON)) {
-		DBWriteContactSettingString(hMeta, "DummyModule", "e-mail", "blah");
-		//DBDeleteContactSetting(hMeta, "DummyModule", "e-mail"); // causes 'empty settings group' error in dbtool
+		}
+		else DBWriteContactSettingWord(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
 	}
-
+	else DBWriteContactSettingWord(hMeta, META_PROTO, "Status", (WORD)ID_STATUS_OFFLINE);
 }
 
 INT_PTR Meta_IsEnabled() {

@@ -260,7 +260,7 @@ static LRESULT MHeaderbar_OnPaint(HWND hwndDlg, MHeaderbarCtrl *mit, UINT  msg, 
 		temprc.bottom = mit->width;
 		HRGN hRgn = CreateRectRgnIndirect(&temprc);
 
-		for (int i=0; i < mit->nControlsToRedraw; ++i)
+		for (int i=0; i < mit->nControlsToRedraw; i++)
 		{
 			GetWindowRect(mit->controlsToRedraw[i], &temprc);
 			MapWindowPoints(NULL, hwndDlg, (LPPOINT)&temprc, 2);

@@ -63,12 +63,12 @@ static void OptDlgChanged(HWND hwndDlg, BOOL show)
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, DBGetContactSettingByte(NULL, "Finger", szSetting, bDef));
+	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL, "Finger", szSetting, bDef));
 }
 
 static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
 {
-	DBWriteContactSettingByte(NULL, "Finger", szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
+	db_set_b(NULL, "Finger", szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -90,11 +90,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
-		case IDC_ADVICON:
-			if (HIWORD(wParam) == CBN_SELCHANGE)
-				OptDlgChanged(hwndDlg, true);
-			break;
-
 		case IDC_OVERLAY1:
 		case IDC_OVERLAY2:
 		case IDC_OVERLAY3:
@@ -122,6 +117,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUPYAHOO:
 			OptDlgChanged(hwndDlg, false);
 			break;
+
 		default:
 			return 0;
 		}

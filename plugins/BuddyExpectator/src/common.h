@@ -51,7 +51,7 @@
 #include <m_userinfo.h>
 #include <m_icolib.h>
 #include <m_popup.h>
-#include <m_cluiframes.h>
+#include <m_extraicons.h>
 
 #include "m_popup2.h"
 
@@ -62,6 +62,7 @@
 #define MODULE_NAME     "BuddyExpectator"
 
 extern HINSTANCE hInst;
+extern HANDLE hExtraIcon;
 
 void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD);
 extern DWORD timer_id;

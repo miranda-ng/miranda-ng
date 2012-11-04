@@ -53,7 +53,6 @@ extern SKINOBJECTSLIST g_SkinObjectList;
 extern CURRWNDIMAGEDATA * g_pCachedWindow;
 extern char * g_szConnectingProto;
 extern BOOL g_mutex_bLockUpdating;
-extern BOOL g_mutex_bSetAllExtraIconsCycle;
 extern int  g_mutex_nCalcRowHeightLock;
 extern int  g_mutex_bOnTrayRightClick;
 extern BOOL g_flag_bPostWasCanceled;
@@ -126,9 +125,6 @@ HBITMAP GDIPlus_LoadGlyphImage(char *szFileName);
 
 /* EventArea */
 void    EventArea_ConfigureEventArea();
-
-/* ExtraImage */
-void    ExtraImage_SetAllExtraIcons(HWND hwndList,HANDLE hContact);
 
 /* ModernSkinButton */
 int     ModernSkinButton_AddButton(HWND parent,char * ID,char * CommandService,char * StateDefService,char * HandeService,             int Left, int Top, int Right, int Bottom, DWORD AlignedTo,TCHAR * Hint,char * DBkey,char * TypeDef,int MinWidth, int MinHeight);

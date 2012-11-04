@@ -220,7 +220,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	mir_snprintf(pszNamePrefix, SIZEOF(pszNamePrefix), "%s$", pszName);
 	cbNamePrefix = strlen(pszNamePrefix);
 
-	for (i=0; i < hotkeys.getCount(); ++i)
+	for (i=0; i < hotkeys.getCount(); i++)
 	{
 		char *pszCurrentName = hotkeys[i]->rootHotkey ?
 			hotkeys[i]->rootHotkey->pszName :
@@ -235,7 +235,7 @@ static INT_PTR svcHotkeyUnregister(WPARAM, LPARAM lParam)
 	if (g_hwndHkOptions)
 		SendMessage(g_hwndHkOptions, WM_HOTKEYUNREGISTERED, 0, 0);
 
-	for (i=0; i < hotkeys.getCount(); ++i)
+	for (i=0; i < hotkeys.getCount(); i++)
 		if (hotkeys[i]->UnregisterHotkey) {
 			FreeHotkey(hotkeys[i]);
 			List_Remove((SortedList *)&hotkeys, i);
