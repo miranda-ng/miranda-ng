@@ -174,7 +174,6 @@ static HANDLE ExtraIcon_Register(const char *name, const char *description, cons
 static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)
 {
 	EXTRAICON ei = { sizeof(ei) };
-	ei.cbSize = sizeof(ei);
 	ei.hExtraIcon = hExtraIcon;
 	ei.hContact = hContact;
 	ei.hImage = hImage;
