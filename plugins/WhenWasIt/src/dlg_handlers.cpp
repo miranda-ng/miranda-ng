@@ -31,9 +31,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static WNDPROC OldBirthdaysListProc = NULL;
 
-const TCHAR *szAdvancedIcons[] = {_T("RES0"), _T("Email"), _T("Web"), _T("SMS"), _T("Advanced 1"), _T("Advanced 2"), _T("Advanced 3"), _T("Client"), _T("Advanced 4"), _T("Protocol"), _T("RES2/VisMode")};
-const int cAdvancedIcons = sizeof(szAdvancedIcons) / sizeof(szAdvancedIcons[0]); //don't forget to modify icons.cpp
-
 const TCHAR *szShowAgeMode[] = {_T("Upcoming age"), _T("Current age")};
 const int cShowAgeMode = sizeof(szShowAgeMode) / sizeof(szShowAgeMode[0]);
 
@@ -102,11 +99,6 @@ int EnableDialogGroup(HWND hWnd, int enable)
 int AddInfoToComboBoxes(HWND hWnd)
 {
 	int i;
-	TCHAR *buffer;
-	for (i = 0; i < cAdvancedIcons; i++) {
-		buffer = TranslateTS(szAdvancedIcons[i]);
-		SendMessage(GetDlgItem(hWnd, IDC_ADVANCED_ICON), CB_ADDSTRING, 0, (LPARAM) buffer);
-	}
 
 	for (i = 0; i < cShowAgeMode; i++)
 		SendMessage(GetDlgItem(hWnd, IDC_AGE_COMBOBOX), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szShowAgeMode[i]));
@@ -143,10 +135,9 @@ SIZE GetControlTextSize(HWND hCtrl)
 int EnlargeControl(HWND hCtrl, HWND hGroup, SIZE oldSize)
 {
 	SIZE size = GetControlTextSize(hCtrl);
-	int offset = 0;
 	RECT rect;
 	GetWindowRect(hCtrl, &rect);
-	offset = (rect.right - rect.left) - oldSize.cx;
+	int offset = (rect.right - rect.left) - oldSize.cx;
 	SetWindowPos(hCtrl, HWND_TOP, 0, 0, size.cx + offset, oldSize.cy, SWP_NOMOVE);
 	SetWindowPos(hCtrl, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 	//RedrawWindow(hCtrl, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASENOW);

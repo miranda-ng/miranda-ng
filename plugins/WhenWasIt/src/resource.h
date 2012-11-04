@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by WhenWasIt.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\WhenWasIt\res\WhenWasIt.rc
 //
 #define IDD_OPT_WWI                     101
 #define IDI_BIRTHDAYS                   102
@@ -68,7 +68,7 @@
 #define IDC_OPENINBACKGROUND            1047
 
 // Next default values for new objects
-//
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        129

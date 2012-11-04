@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -27,18 +25,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -52,12 +50,12 @@ END
 // Dialog
 //
 
-IDD_OPT_WWI DIALOGEX 0, 0, 275, 240
+IDD_OPT_WWI DIALOGEX 0, 0, 275, 219
 STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | DS_CONTROL | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "`"
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Notify of birthdays using:",IDC_STATIC,4,3,267,161
+    GROUPBOX        "Notify of birthdays using:",IDC_STATIC,4,3,267,135
     GROUPBOX        "  ",IDC_POPUPS_STATIC,12,36,255,72
     CONTROL         "Popups",IDC_USE_POPUPS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,36,36,8
     LTEXT           "Popup timeout:",IDC_STATIC,18,47,93,8
@@ -74,37 +72,32 @@ BEGIN
     COMBOBOX        IDC_LEFT_CLICK,61,90,69,43,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     LTEXT           "Right",IDC_STATIC,145,92,43,8
     COMBOBOX        IDC_RIGHT_CLICK,191,89,69,46,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    GROUPBOX        "  ",IDC_CLIST_STATIC,12,109,255,29
-    CONTROL         "Contact list icon",IDC_USE_CLISTICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,109,64,8
-    LTEXT           "Use slot",IDC_STATIC,18,123,45,8
-    COMBOBOX        IDC_ADVANCED_ICON,64,120,107,79,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "to draw icon.",IDC_STATIC,178,123,86,8
-    GROUPBOX        "Sounds",IDC_STATIC,12,138,255,24
-    LTEXT           "Play sounds when there are",IDC_STATIC,18,148,92,8
-    EDITTEXT        IDC_SOUND_NEAR_DAYS_EDIT,111,145,19,14,ES_AUTOHSCROLL
-    LTEXT           "days or less to birthday.",IDC_STATIC,136,148,128,8
-    LTEXT           "Start notifying ",IDC_STATIC,12,167,52,8
-    EDITTEXT        IDC_DAYS_IN_ADVANCE,65,165,15,14,ES_AUTOHSCROLL
-    LTEXT           "days in advance and",IDC_STATIC,83,167,91,8
-    LTEXT           "Check every",IDC_STATIC,12,183,52,8
-    EDITTEXT        IDC_CHECK_INTERVAL,65,180,15,14,ES_AUTOHSCROLL
-    LTEXT           "hours.",IDC_STATIC,83,183,74,8
-    CONTROL         "Only notify once per day.",IDC_ONCE_PER_DAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,182,112,10
-    LTEXT           "By default use",IDC_STATIC,12,198,47,8
-    COMBOBOX        IDC_DEFAULT_MODULE,61,196,81,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "to save birthday data.",IDC_STATIC,145,198,126,8
-    LTEXT           "Show",IDC_STATIC,12,212,47,8
-    COMBOBOX        IDC_AGE_COMBOBOX,61,210,81,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    LTEXT           "in birthday list window",IDC_STATIC,146,212,125,8
+    GROUPBOX        "Sounds",IDC_STATIC,12,110,255,24
+    LTEXT           "Play sounds when there are",IDC_STATIC,18,121,92,8
+    EDITTEXT        IDC_SOUND_NEAR_DAYS_EDIT,111,118,19,14,ES_AUTOHSCROLL
+    LTEXT           "days or less to birthday.",IDC_STATIC,136,121,128,8
+    LTEXT           "Start notifying ",IDC_STATIC,12,140,52,8
+    EDITTEXT        IDC_DAYS_IN_ADVANCE,65,138,15,14,ES_AUTOHSCROLL
+    LTEXT           "days in advance and",IDC_STATIC,83,140,91,8
+    LTEXT           "Check every",IDC_STATIC,12,156,52,8
+    EDITTEXT        IDC_CHECK_INTERVAL,65,153,15,14,ES_AUTOHSCROLL
+    LTEXT           "hours.",IDC_STATIC,83,156,74,8
+    CONTROL         "Only notify once per day.",IDC_ONCE_PER_DAY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,159,155,112,10
+    LTEXT           "By default use",IDC_STATIC,12,171,47,8
+    COMBOBOX        IDC_DEFAULT_MODULE,61,169,81,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "to save birthday data.",IDC_STATIC,145,171,126,8
+    LTEXT           "Show",IDC_STATIC,12,185,47,8
+    COMBOBOX        IDC_AGE_COMBOBOX,61,183,81,48,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "in birthday list window",IDC_STATIC,146,185,125,8
     GROUPBOX        "  ",IDC_DIALOG_STATIC,12,11,255,24
     CONTROL         "Dialog",IDC_USE_DIALOG,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,11,32,8
     LTEXT           "Timeout:",IDC_STATIC,18,21,56,8
     EDITTEXT        IDC_DLG_TIMEOUT,77,18,16,14,ES_AUTOHSCROLL
     LTEXT           "seconds.",IDC_STATIC,97,21,58,8
-    LTEXT           "Notify for",IDC_STATIC,12,227,86,8
-    COMBOBOX        IDC_NOTIFYFOR,97,225,174,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-    EDITTEXT        IDC_DAYS_AFTER,173,165,15,14,ES_AUTOHSCROLL
-    LTEXT           "afterwards",IDC_STATIC,191,167,80,8
+    LTEXT           "Notify for",IDC_STATIC,12,200,86,8
+    COMBOBOX        IDC_NOTIFYFOR,97,198,174,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_DAYS_AFTER,173,138,15,14,ES_AUTOHSCROLL
+    LTEXT           "afterwards",IDC_STATIC,191,140,80,8
     CONTROL         "In background",IDC_OPENINBACKGROUND,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,157,20,106,10
 END
 
@@ -169,10 +162,7 @@ BEGIN
         VERTGUIDE, 18
         VERTGUIDE, 271
         TOPMARGIN, 3
-        BOTTOMMARGIN, 237
-        HORZGUIDE, 220
-        HORZGUIDE, 222
-        HORZGUIDE, 235
+        BOTTOMMARGIN, 216
     END
 
     IDD_BIRTHDAYS, DIALOG
@@ -249,16 +239,16 @@ IDI_EXPORT_BIRTHDAYS    ICON                    "export.ico"
 IDD_ADD_BIRTHDAY DLGINIT
 BEGIN
     IDC_COMPATIBILITY, 0x403, 16, 0
-0x7250, 0x746f, 0x636f, 0x6c6f, 0x6d20, 0x646f, 0x6c75, 0x0065,
+0x7250, 0x746f, 0x636f, 0x6c6f, 0x6d20, 0x646f, 0x6c75, 0x0065, 
     IDC_COMPATIBILITY, 0x403, 19, 0
-0x7355, 0x7265, 0x6544, 0x6174, 0x6c69, 0x2073, 0x6f6d, 0x7564, 0x656c,
-"\000"
+0x7355, 0x7265, 0x6544, 0x6174, 0x6c69, 0x2073, 0x6f6d, 0x7564, 0x656c, 
+"\000" 
     IDC_COMPATIBILITY, 0x403, 17, 0
-0x426d, 0x7269, 0x6874, 0x6164, 0x2079, 0x6f6d, 0x7564, 0x656c, "\000"
+0x426d, 0x7269, 0x6874, 0x6164, 0x2079, 0x6f6d, 0x7564, 0x656c, "\000" 
     0
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -272,3 +262,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
