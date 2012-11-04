@@ -109,22 +109,22 @@ static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 		mi.position = 2000100000 + mcount;
 		mir_snprintf(servicename, sizeof(servicename), "%s%d", MS_SS_MENUSETPROFILEPREFIX, mcount);
 		switch(mcount) {
-		case 0:		
+		case 0:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService0);
 			break;
-		case 1:		
+		case 1:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService1);
 			break;
-		case 2:		
+		case 2:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService2);
 			break;
-		case 3:		
+		case 3:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService3);
 			break;
-		case 4:		
+		case 4:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService4);
 			break;
-		case 5:		
+		case 5:
 			hProfileServices[mcount] = CreateServiceFunction(servicename, profileService5);
 			break;
 		default:
@@ -173,7 +173,7 @@ INT_PTR GetProfileName(WPARAM wParam, LPARAM lParam)
 INT_PTR GetProfileCount(WPARAM wParam, LPARAM lParam)
 {
 	int* def = (int *)wParam;
-	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 1); 
+	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 1);
 	if ( def != 0) {
 		*def = DBGetContactSettingWord(NULL, MODULENAME, SETTING_DEFAULTPROFILE, 0);
 		if (*def >= count)
@@ -220,7 +220,7 @@ TCHAR *GetStatusMessage(int profile, char *szProto)
 		DBFreeVariant(&dbv);
 	}
 	pceCount += 1;
-	
+
 	return pce[pceCount-1].msg;
 }
 
@@ -232,7 +232,7 @@ int GetProfile( int profile, TSettingsList& arSettings )
 	int count = DBGetContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, 0);
 	if ( profile >= count && count > 0 )
 		return -1;
-	
+
 	arSettings.destroy();
 
 	// if count == 0, continue so the default profile will be returned
@@ -374,13 +374,14 @@ int LoadMainOptions()
 int LoadProfileModule()
 {
 	hLoadAndSetProfileService = CreateServiceFunction(MS_SS_LOADANDSETPROFILE, LoadAndSetProfile);
-	RegisterButtons();
 	return 0;
 }
 
 int InitProfileModule()
 {
-	hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons);
+	if ((hTTBModuleLoadedHook = HookEvent(ME_TTB_MODULELOADED, CreateTopToolbarButtons)) != NULL)
+		RegisterButtons();
+
 	HookEvent( ME_CLIST_PREBUILDSTATUSMENU,  CreateMainMenuItems);
 
 	CreateMainMenuItems(0,0);
