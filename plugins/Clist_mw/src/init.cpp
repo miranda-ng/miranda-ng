@@ -157,14 +157,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	PreloadCLCModule();
 
 	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInst);
-	if ( (INT_PTR)pcli == CALLSERVICE_NOTFOUND ) {
-LBL_Error:
-		MessageBoxA( NULL, "This version of plugin requires Miranda IM 0.8.0.9 or later", "Fatal error", MB_OK );
-		return 1;
-	}
-	if ( pcli->version < 6 )
-		goto LBL_Error;
-
 	pcli->pfnBuildGroupPopupMenu = BuildGroupPopupMenu;
 	pcli->pfnCalcEipPosition = CalcEipPosition;
 	pcli->pfnCheckCacheItem = CheckPDNCE;

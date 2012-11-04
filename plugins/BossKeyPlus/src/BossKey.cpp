@@ -751,14 +751,7 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 
 	pcli = (CLIST_INTERFACE *)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)g_hInstance);
-#if defined _DEBUG
-	if (pcli == 0)
-	{
-		MessageBox(NULL,_T("Can't get CLIST_INTERFACE!"),_T("BossKey+"),MB_ICONERROR);
-		return 1;
-	}else
-#endif
-		GetWindowThreadProcessId(pcli->hwndContactList,&g_dwMirandaPID);
+	GetWindowThreadProcessId(pcli->hwndContactList, &g_dwMirandaPID);
 
 	// let's create our secret window
 	// this is a cheap, cheap hack...
@@ -766,12 +759,10 @@ int MirandaLoaded(WPARAM wParam,LPARAM lParam)
 	// if the calls aren't made from this context, they won't work
 	// using the window is a workaround to make this process do its work :)
 	// see notes
-	WNDCLASS winclass = {0};
 
+	WNDCLASS winclass = {0};
 	winclass.lpfnWndProc = ListenWndProc;
 	winclass.hInstance = g_hInstance;
-	//winclass.hIcon = LoadIcon(NULL,IDI_APPLICATION);
-	//winclass.hCursor = LoadCursor(NULL,IDC_ARROW);
 	winclass.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	winclass.lpszClassName = BOSSKEY_LISTEN_INFO;
 

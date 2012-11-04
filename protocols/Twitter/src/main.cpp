@@ -87,7 +87,6 @@ static HANDLE g_hEvents[1];
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
