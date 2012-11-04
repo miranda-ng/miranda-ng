@@ -169,7 +169,7 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 	return 0;
 }
 
-int OnExtraIconClick(WPARAM wParam, LPARAM lParam)
+int OnExtraIconClick(WPARAM wParam, LPARAM lParam, LPARAM)
 {
 	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
 	return 0;
