@@ -31,6 +31,7 @@ static HANDLE
 HINSTANCE hInst;
 
 int hLangpack = 0;
+CLIST_INTERFACE* pcli;
 
 int CSModuleLoaded( WPARAM, LPARAM );
 
@@ -74,6 +75,7 @@ static INT_PTR SrvGetProfile( WPARAM wParam, LPARAM lParam )
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP( &pluginInfoEx );
+	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
 
 	if ( DBGetContactSettingByte(NULL, MODULENAME, SETTING_SETPROFILE, 1) ||
 		  DBGetContactSettingByte(NULL, MODULENAME, SETTING_OFFLINECLOSE, 0))

@@ -858,12 +858,10 @@ static INT_PTR CALLBACK StatusProfilesOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wP
 			}
 			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_PROFILECOUNT, (WORD)arProfiles.getCount());
 
-			if (bNeedRebuildMenu) {
-				// Rebuild status menu
-				CLIST_INTERFACE* pcli = ( CLIST_INTERFACE* )CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0 );
-				if ( pcli && pcli->version > 4 )
-					pcli->pfnReloadProtoMenus();
-			}
+			// Rebuild status menu
+			if (bNeedRebuildMenu)
+				pcli->pfnReloadProtoMenus();
+
 			LoadMainOptions();
 		}
 		break;
