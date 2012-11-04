@@ -88,7 +88,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 * @param mirandaVersion The version of the application calling this function
 */
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	myGlobals.mirandaVersion = mirandaVersion;
 	return &pluginInfo;
 }
@@ -101,10 +100,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PLUGIN
 */
 extern "C" int __declspec(dllexport) Load(void) {
 	mir_getLP(&pluginInfo);
-	INT_PTR result = CALLSERVICE_NOTFOUND;
-
-	if(ServiceExists(MS_IMG_GETINTERFACE))
-		result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
+	INT_PTR result = CallService(MS_IMG_GETINTERFACE, FI_IF_VERSION, (LPARAM)&FIP);
 
 	if(FIP == NULL || result != S_OK) {
 		MessageBoxEx(NULL, TranslateT("Fatal error, image services not found. Send Screenshot will be disabled."), _T("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
@@ -145,7 +141,7 @@ int hook_ModulesLoaded(WPARAM, LPARAM) {
 
 	// Folders plugin support
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hFolderScreenshot = (HANDLE) FoldersRegisterCustomPathT("SendSS", "Screenshots",
+		hFolderScreenshot = FoldersRegisterCustomPathT("SendSS", "Screenshots",
 							_T(PROFILE_PATH)_T("\\")_T(CURRENT_PROFILE)_T("\\Screenshots"));
 	}
 
@@ -183,9 +179,9 @@ int hook_SystemPShutdown(WPARAM wParam, LPARAM lParam) {
 HANDLE NetlibInit(void) {
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
-	nlu.szSettingsModule = (char*)PLUGNAME;
-	nlu.szDescriptiveName = Translate("SendSS HTTP connections");
-	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS;			//|NUF_NOHTTPSOPTION;
+	nlu.szSettingsModule = PLUGNAME;
+	nlu.ptszDescriptiveName = TranslateT("SendSS HTTP connections");
+	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_TCHAR;			//|NUF_NOHTTPSOPTION;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 	return hNetlibUser;
 }
@@ -204,27 +200,25 @@ void NetlibClose(void) {
 // wParam = 0
 // lParam = anything but 0
 INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
-	LPTSTR pszPath = NULL;
-	LPSTR  pszProto = NULL;
-	bool   bChatRoom;
-
 	TfrmMain *frmMain=new TfrmMain();
 	if (!frmMain) {
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
-	pszPath = GetCustomPath();
-	
-	pszProto		= (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
-	bChatRoom		= DBGetContactSettingByte((HANDLE)wParam, pszProto, "ChatRoom", 0) != 0;
-	frmMain->m_opt_chkTimed			= false;
-	frmMain->m_opt_tabCapture		= 1;
-	frmMain->m_opt_cboxDesktop		= 0;
-	frmMain->m_opt_chkEditor		= false;
-	frmMain->m_opt_cboxSendBy		= bChatRoom ? SS_IMAGESHACK:SS_FILESEND;
-	frmMain->Init(pszPath, (HANDLE)wParam);		// this method create the window hidden.
-	frmMain->btnCaptureClick();					// this method will call Close()
-	mir_free(pszPath);
+	LPTSTR pszPath = GetCustomPath();
+	if(pszPath)
+	{
+		LPSTR  pszProto		= (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+		bool bChatRoom		= DBGetContactSettingByte((HANDLE)wParam, pszProto, "ChatRoom", 0) != 0;
+		frmMain->m_opt_chkTimed			= false;
+		frmMain->m_opt_tabCapture		= 1;
+		frmMain->m_opt_cboxDesktop		= 0;
+		frmMain->m_opt_chkEditor		= false;
+		frmMain->m_opt_cboxSendBy		= bChatRoom ? SS_IMAGESHACK:SS_FILESEND;
+		frmMain->Init(pszPath, (HANDLE)wParam);		// this method create the window hidden.
+		frmMain->btnCaptureClick();					// this method will call Close()
+		mir_free(pszPath);
+	}
 	return 0;
 }
 
@@ -233,17 +227,18 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 // wParam = contact handle
 // lParam = 0
 INT_PTR service_OpenCaptureDialog(WPARAM wParam, LPARAM lParam) {
-	LPTSTR pszPath = NULL;
-
 	TfrmMain *frmMain=new TfrmMain();
 	if (!frmMain) {
 		MessageBoxEx(NULL, TranslateT("Could not create main dialog."), TranslateT("Error"), MB_OK | MB_ICONERROR | MB_APPLMODAL, 0);
 		return -1;
 	}
 
-	pszPath = GetCustomPath();
-	frmMain->Init(pszPath, (HANDLE)wParam);
-	mir_free(pszPath);
+	LPTSTR pszPath = GetCustomPath();
+	if(pszPath)
+	{
+		frmMain->Init(pszPath, (HANDLE)wParam);
+		mir_free(pszPath);
+	}
 	frmMain->Show();
 	return 0;
 }
@@ -352,13 +347,19 @@ int RegisterServices(void) {
 
 //---------------------------------------------------------------------------
 LPTSTR GetCustomPath() {
-	LPTSTR pszPath = NULL;
-	pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
+	LPTSTR pszPath = Utils_ReplaceVarsT(_T("%miranda_userdata%\\Screenshots"));
 	if (hFolderScreenshot) {
 		TCHAR szPath[1024] = {'\0'};
 		FoldersGetCustomPathT(hFolderScreenshot, szPath, 1024, pszPath);
 		mir_freeAndNil(pszPath);
 		pszPath = mir_tstrdup(szPath);
+	}
+	INT_PTR result = CallService(MS_UTILS_CREATEDIRTREET,0,(LPARAM) pszPath);
+	if(result != NULL)
+	{
+		TCHAR szError[MAX_PATH];
+		mir_sntprintf(szError,MAX_PATH,TranslateT("Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?"),result,pszPath);
+		MessageBox(NULL, szError, _T("Send Screenshot"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
 	}
 	return pszPath;
 }
