@@ -1664,7 +1664,6 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	for (i = 0; i < count; ++i)
 	{
 		char szSetting[80];
-		TCHAR szBuffer[256];
 		int iProtoFlags;
 
 		if (!IsAccountEnabled(pa[i]))
@@ -1684,9 +1683,9 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 		if (iProtoFlags & PROTO_NO_MSG || iProtoFlags & PROTO_THIS_MSG)
 			continue;
 
-		if (DBGetContactSettingByte(NULL, pa[i]->szModuleName, "LockMainStatus", 0) &&
-			CallService(MS_SYSTEM_GETVERSION, 0, 0) >= PLUGIN_MAKE_VERSION(0, 9, 0, 10))
+		if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pa[i]->szModuleName))
 		{
+			TCHAR szBuffer[256];
 			mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s (locked)"), pa[i]->tszAccountName);
 			mi.ptszPopupName = szBuffer;
 		}
