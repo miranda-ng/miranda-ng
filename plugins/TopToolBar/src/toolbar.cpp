@@ -596,7 +596,7 @@ int OnPluginUnload(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-int OnModulesLoad(WPARAM wParam, LPARAM lParam)
+static int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 {
 	LoadAllSeparators();
 	LoadAllLButs();
@@ -612,6 +612,16 @@ int OnModulesLoad(WPARAM wParam, LPARAM lParam)
 		sprintf(buf, "TopToolBar Background/%s", TTB_OPTDIR);
 		CallService(MS_BACKGROUNDCONFIG_REGISTER, (WPARAM)buf, 0);
 	}	
+	return 0;
+}
+
+static int OnShutdown(WPARAM wParam, LPARAM lParam)
+{
+	if (g_ctrl && g_ctrl->hWnd) {
+		DestroyWindow(g_ctrl->hWnd);
+		g_ctrl->hWnd = NULL;
+	}
+
 	return 0;
 }
 
@@ -657,6 +667,7 @@ int LoadToolbarModule()
 	HookEvent(ME_SYSTEM_MODULELOAD, OnPluginLoad);
 	HookEvent(ME_SYSTEM_MODULEUNLOAD, OnPluginUnload);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoad);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnShutdown);
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconChange);
 	HookEvent(ME_OPT_INITIALISE, TTBOptInit);
 
