@@ -266,6 +266,7 @@ static LRESULT CALLBACK toolbarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 	case WM_DESTROY:
 		xpt_FreeThemeForWindow(hwnd);
+		CallService(MS_SKINENG_REGISTERPAINTSUB, (WPARAM)hwnd, 0);
 
 	default:
 		return 0;
