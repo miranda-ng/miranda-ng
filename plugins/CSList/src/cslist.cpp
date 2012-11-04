@@ -93,15 +93,6 @@ extern "C" __declspec( dllexport ) int Load(  )
 		InitCommonControlsEx( &icc );
 	}
 
-	// set global variables
-	// we need 0.8.0.9 core which introduced accounts support for protocols
-	CSList::bAccountsSupported = ( CSList::dwMirandaVersion >= PLUGIN_MAKE_VERSION( 0, 8, 0, 9 ));
-
-	// are we running under Unicode core?
-	CSList::bUnicodeCore = true;
-
-	// TODO: Alerts with wrong combination of ANSI/Unicode Windows/core/plugin
-
 	// create handler
 	cslist = new CSList( );
 
@@ -407,7 +398,13 @@ void CSList::addProtoStatusMenuItem( char* protoName, void* arg )
 	mi.ptszName = _T(MODULENAME);
 	mi.position = 2000040000;
 	mi.pszService = buf;
-	mi.ptszPopupName = pdescr->tszAccountName;
+	if (CallService(MS_PROTO_ISACCOUNTLOCKED,0,(LPARAM)pdescr->szModuleName))
+	{
+		TCHAR szBuffer[256];
+		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s (locked)"), pdescr->tszAccountName);
+		mi.ptszPopupName = szBuffer;
+	}
+	else mi.ptszPopupName = pdescr->tszAccountName;
 	Menu_AddStatusMenuItem(&mi);
 
 	cslist->registerHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);
@@ -571,29 +568,10 @@ void CSWindow::initButtons( )
 
 void CSWindow::loadWindowPosition( )
 {
-	RECT rect = { 0 };
-	int width = GetSystemMetrics( SM_CXSCREEN );
-	int height = GetSystemMetrics( SM_CYSCREEN );
-	GetWindowRect( this->handle, &rect );
-	int x, y, defX, defY;
-	defX = x = ( width  + 1 - ( rect.right  - rect.left )) >> 1;
-	defY = y = ( height + 1 - ( rect.bottom - rect.top  )) >> 1;
 	if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ))
 	{
-		x = getWord( "PositionX", defX );
-		y = getWord( "PositionY", defY );
+		Utils_RestoreWindowPosition(this->handle,NULL,__INTERNAL_NAME,"Position");
 	}
-	if ( x > width || y > height || x < 0 || y < 0 )
-	{
-		x = defX;
-		y = defY;
-  }
-
-	MoveWindow( this->handle,
-	            x, y,
-	            ( rect.right - rect.left ),
-	            ( rect.bottom - rect.top ),
-	            TRUE );
 }
 
 

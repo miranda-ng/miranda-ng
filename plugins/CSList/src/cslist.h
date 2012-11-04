@@ -556,10 +556,7 @@ struct CSWindow
 	{
 		if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ) == TRUE )
 		{
-			RECT rect = { 0 };
-			GetWindowRect( hwnd, &rect );
-			setWord( "PositionX", rect.left );
-			setWord( "PositionY", rect.top );
+			Utils_SaveWindowPosition(hwnd,NULL,__INTERNAL_NAME,"Position");
 		}
 	}
 };
@@ -570,8 +567,6 @@ struct CSList
 	// global variables
 	static HINSTANCE    handle;
 	static DWORD        dwMirandaVersion;
-	static BOOL         bUnicodeCore;
-	static BOOL         bAccountsSupported;
 
 	// class components
 	CSWindow*   mainWindow;
@@ -614,8 +609,6 @@ struct CSList
 
 HINSTANCE CSList::handle = NULL;
 DWORD CSList::dwMirandaVersion = 0x00000000;
-BOOL CSList::bUnicodeCore = FALSE;
-BOOL CSList::bAccountsSupported = FALSE;
 
 // ====[ GLOBALS ]============================================================
 
