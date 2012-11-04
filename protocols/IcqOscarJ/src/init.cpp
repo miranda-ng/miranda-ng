@@ -32,6 +32,7 @@
 
 HINSTANCE hInst;
 int hLangpack;
+CLIST_INTERFACE *pcli;
 
 IcqIconHandle hStaticIcons[4];
 HANDLE hExtraXStatus;
@@ -84,6 +85,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	srand(time(NULL));
 	_tzset();
+
+	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
 	// Register the module
 	PROTOCOLDESCRIPTOR pd = {0};

@@ -1609,53 +1609,25 @@ int CIcqProto::getCListGroupHandle(const char *szGroup)
 //!! this function is not thread-safe due to the use of cli->pfnGetGroupName()
 int CIcqProto::getCListGroupExists(const char *szGroup)
 {
+	if (!szGroup)
+		return 0;
+
 	int hGroup = 0;
-	CLIST_INTERFACE *clint = NULL;
+	int size = strlennull(szGroup) + 2;
+	TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
 
-	if (!szGroup) return 0;
+	if (utf8_to_tchar_static(szGroup, tszGroup, size))
+		for (int i = 1; TRUE; i++) {
+			TCHAR *tszGroupName = (TCHAR*)pcli->pfnGetGroupName(i, NULL);
+			if (!tszGroupName)
+				break;
 
-	if (ServiceExists(MS_CLIST_RETRIEVE_INTERFACE))
-		clint = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
-
-	if (clint && clint->version >= 1)
-	{ // we've got clist interface, use it
-		int size = strlennull(szGroup) + 2;
-		TCHAR *tszGroup = (TCHAR*)_alloca(size * sizeof(TCHAR));
-
-		if (utf8_to_tchar_static(szGroup, tszGroup, size))
-			for (int i = 1; TRUE; i++)
-			{
-				TCHAR *tszGroupName = (TCHAR*)clint->pfnGetGroupName(i, NULL);
-
-				if (!tszGroupName) break;
-
-				if (!_tcscmp(tszGroup, tszGroupName))
-				{ // we have found the group
-					hGroup = i;
-					break;
-				}
-			}
-	}
-	else
-	{ // old ansi version - no other way
-		int size = strlennull(szGroup) + 2;
-		char *aszGroup = (char*)_alloca(size);
-
-		utf8_decode_static(szGroup, aszGroup, size);
-
-		for (int i = 1; TRUE; i++)
-		{
-			char *paszGroup = (char*)CallService(MS_CLIST_GROUPGETNAME, i, 0);
-
-			if (!paszGroup) break;
-
-			if (!strcmpnull(aszGroup, paszGroup))
-			{ // we found the group
+			if (!_tcscmp(tszGroup, tszGroupName)) {
+				// we have found the group
 				hGroup = i;
 				break;
 			}
 		}
-	}
 
 	return hGroup;
 }
