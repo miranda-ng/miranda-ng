@@ -131,11 +131,10 @@ typedef struct _foundInfo
 
 #define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_ClientIcons")
 
-void InitFingerEvents();
 void FASTCALL ClearFI();
 
 int OnIconsChanged(WPARAM wParam, LPARAM lParam);
-int OnExtraIconClick(WPARAM wParam, LPARAM lParam);
+int OnExtraIconClick(WPARAM wParam, LPARAM lParam,LPARAM);
 int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam);
 int OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam);
@@ -164,7 +163,6 @@ void RegisterIcons();
 #define WildCompare		WildCompareW
 #define GetIconsIndexes	GetIconsIndexesW
 
-extern int g_bExtraIcon_Register_ServiceExist, g_bCList_Extra_Set_Icon_ServiceExist;
 extern HINSTANCE g_hInst;
 extern HANDLE hHeap;
 extern LPSTR g_szClientDescription;

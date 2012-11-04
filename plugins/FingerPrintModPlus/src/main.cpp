@@ -24,15 +24,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LIB_REG		2
 #define LIB_USE		3
 
-#define REGISTER_BETA
-
 HINSTANCE g_hInst;
 int       hLangpack;
 
 HANDLE hHeap					= NULL;
-HANDLE hExtraImageListRebuild	= NULL;		// hook event handle for ME_CLIST_EXTRA_LIST_REBUILD
-HANDLE hExtraImageApply			= NULL;		// hook event handle for ME_CLIST_EXTRA_IMAGE_APPLY
-HANDLE hExtraIconClick			= NULL;		// hook event handle for ME_CLIST_EXTRA_CLICK
 
 HANDLE compClientServA			= NULL;
 HANDLE getClientIconA			= NULL;
@@ -42,8 +37,6 @@ HANDLE getClientIconW			= NULL;
 LPSTR  g_szClientDescription	= NULL;
 
 HANDLE hStaticHooks[1]			= { NULL };
-
-int g_bExtraIcon_Register_ServiceExist = FALSE, g_bCList_Extra_Set_Icon_ServiceExist = FALSE;
 
 //End of header
 

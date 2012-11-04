@@ -83,26 +83,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);
 			}
-			LPTSTR CIdComboBox[] =
-			{
-				_T("Email"),
-				_T("Protocol"),
-				_T("SMS"),
-				_T("Advanced 1"),
-				_T("Advanced 2"),
-				_T("Web"),
-				_T("Client (default)"),
-				_T("VisMode"),
-				_T("Advanced 3"),
-				_T("Advanced 4")
-			};
-
-			for(int i = 0; i < SIZEOF(CIdComboBox); i++)
-				ComboBoxAddString(GetDlgItem(hwndDlg, IDC_ADVICON), CIdComboBox[i], i);
-
-			SendDlgItemMessage(hwndDlg, IDC_ADVICON, CB_SETCURSEL, (DBGetContactSettingWord(NULL, "Finger", "Column", EXTRA_ICON_CLIENT)) - 1, 0);
-			if (g_bExtraIcon_Register_ServiceExist)
-				EnableWindow(GetDlgItem(hwndDlg, IDC_ADVICON), FALSE);
 
 			ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_HIDE);
 		}
@@ -151,9 +131,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			NMHDR *hdr = (NMHDR *)lParam;
 			if (hdr && hdr->code == PSN_APPLY) {
-				int i = SendDlgItemMessage(hwndDlg, IDC_ADVICON, CB_GETCURSEL, 0, 0) + 1;
-				DBWriteContactSettingWord(NULL, "Finger", "Column", (WORD)i);
-
 				for (int i = 0; i < SIZEOF(settings); i++)
 					StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
 
@@ -171,11 +148,11 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Customize");
+	odp.ptszGroup = LPGENT("Customize");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
-	odp.pszTitle = LPGEN("Fingerprint");
+	odp.ptszTitle = LPGENT("Fingerprint");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_BOLDGROUPS;
+	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

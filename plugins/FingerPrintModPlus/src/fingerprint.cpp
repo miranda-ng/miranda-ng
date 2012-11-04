@@ -133,28 +133,13 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	g_LPCodePage = CallService(MS_LANGPACK_GETCODEPAGE, 0, 0);
 
-	g_bExtraIcon_Register_ServiceExist		= ServiceExists(MS_EXTRAICON_REGISTER);
-	g_bCList_Extra_Set_Icon_ServiceExist	= ServiceExists(MS_CLIST_EXTRA_SET_ICON);
-
 	//Hook necessary events
 	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	if (g_bExtraIcon_Register_ServiceExist) {
-		EXTRAICON_INFO ico = { 0 };
-
-		ico.cbSize = sizeof(ico);
-		ico.type = EXTRAICON_TYPE_CALLBACK;
-		ico.RebuildIcons = OnExtraIconListRebuild;
-		ico.ApplyIcon = OnExtraImageApply;
-		ico.OnClick = (MIRANDAHOOKPARAM)OnExtraIconClick;
-		ico.name = "Client";
-		ico.description= "Fingerprint";
-		ico.descIcon = "client_Miranda_Unknown";
-		hExtraIcon = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-	}
-	else InitFingerEvents();
+	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Miranda_Unknown",
+		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hIconFolder = FoldersRegisterCustomPathT("Fingerprint", "Icons", _T(MIRANDA_PATH) _T("\\") DEFAULT_SKIN_FOLDER);
@@ -163,13 +148,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
 
 	RegisterIcons();
-	return 0;
-}
-
-int OnExtraIconClicked(WPARAM wParam, LPARAM lParam)
-{
-	if (lParam == bColumn)
-		CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
 	return 0;
 }
 
@@ -188,38 +166,13 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 	if (szMirVer)
 		hImage = GetIconIndexFromFI(szMirVer);
 
-	if (g_bCList_Extra_Set_Icon_ServiceExist && !g_bExtraIcon_Register_ServiceExist) {
-		IconExtraColumn iec;
-		WORD bColumn = DBGetContactSettingWord(NULL, "Finger", "Column", EXTRA_ICON_CLIENT);
-
-		if (bColumn <= 0 || bColumn > EXTRA_ICON_COUNT)
-			bColumn = EXTRA_ICON_CLIENT;
-
-		iec.cbSize = sizeof(IconExtraColumn);
-		iec.hImage = hImage;
-		iec.ColumnType = bColumn;
-
-		CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hContact, (LPARAM)&iec);
-	}
-	else if (g_bExtraIcon_Register_ServiceExist && hExtraIcon != INVALID_HANDLE_VALUE && hExtraIcon != NULL) {
-		EXTRAICON ei = { 0 };
-		ei.cbSize = sizeof(ei);
-		ei.hExtraIcon = hExtraIcon;
-		ei.hContact = hContact;
-		ei.hImage = hImage;
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ei, 0);
-	}
+	if (hExtraIcon != INVALID_HANDLE_VALUE && hExtraIcon != NULL)
+		ExtraIcon_SetIcon(hExtraIcon,hContact,hImage);
+	
 	return 0;
 }
 
-void InitFingerEvents()
-{
-	HookEvent(ME_CLIST_EXTRA_CLICK, OnExtraIconClicked);
-	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, OnExtraIconListRebuild);
-	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnExtraImageApply);
-}
-
-int OnExtraIconClick(WPARAM wParam, LPARAM lParam)
+int OnExtraIconClick(WPARAM wParam, LPARAM lParam,LPARAM)
 {
 	CallService(MS_USERINFO_SHOWDIALOG, wParam, NULL);
 	return 0;

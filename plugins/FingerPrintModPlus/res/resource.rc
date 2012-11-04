@@ -8,37 +8,35 @@
 // Generated from the TEXTINCLUDE 2 resource.
 //
 #include "afxres.h"
+
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -46,24 +44,28 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
 IDD_DIALOG DIALOGEX 0, 0, 314, 254
 STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Fingerprint icons",IDC_STATIC,0,0,156,238
-    LTEXT           "icon slot",IDC_STATIC,6,206,144,10
-    COMBOBOX        IDC_ADVICON,6,220,144,83,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP,WS_EX_CLIENTEDGE
     CONTROL         "Overlay#1",IDC_OVERLAY1,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,6,13,144,10
     CONTROL         "Overlay#2",IDC_OVERLAY2,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,6,23,144,10
     CONTROL         "Overlay#3",IDC_OVERLAY3,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,6,33,144,10
-	CONTROL         "Show Version as Overlay#2",IDC_VERSION,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,6,43,144,10
+    CONTROL         "Show Version as Overlay#2",IDC_VERSION,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,6,43,144,10
     GROUPBOX        "Showing groups",IDC_STATIC,158,0,155,238
-	CONTROL         "Miranda",IDC_GROUPMIRANDA,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,13,144,10
+    CONTROL         "Miranda",IDC_GROUPMIRANDA,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,13,144,10
     CONTROL         "Multi-Protocol",IDC_GROUPMULTI,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,23,144,10
     CONTROL         "Pack overlays",IDC_GROUPPACKS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,33,144,10
-	CONTROL         "Others",IDC_GROUPOTHERS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,43,144,10
-	CONTROL         "AIM",IDC_GROUPAIM,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,63,144,10
+    CONTROL         "Others",IDC_GROUPOTHERS,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,43,144,10
+    CONTROL         "AIM",IDC_GROUPAIM,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,63,144,10
     CONTROL         "Gadu-Gadu",IDC_GROUPGADU,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,73,144,10
     CONTROL         "ICQ",IDC_GROUPICQ,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,83,144,10
     CONTROL         "IRC",IDC_GROUPIRC,"Button",BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,164,93,144,10
@@ -80,13 +82,14 @@ BEGIN
     LTEXT           "Note: Miranda NG will have to be restarted for changes to take effect.",IDC_OPTCHANGENOTE,0,240,302,10
 END
 
-///////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////
 //
 // DESIGNINFO
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_DIALOG, DIALOG
     BEGIN
@@ -98,7 +101,7 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -112,3 +115,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
