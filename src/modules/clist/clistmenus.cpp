@@ -581,9 +581,9 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				mir_free(root->mi.pszName);
 				if (i) {
 					TCHAR buf[256];
-					pimi->mi.flags|=CMIF_CHECKED;
+					pimi->mi.flags |= CMIF_CHECKED;
 					if (cli.bDisplayLocked) {
-						mir_sntprintf(buf, SIZEOF(buf), LPGENT("%s (locked)"), acc->tszAccountName);
+						mir_sntprintf(buf, SIZEOF(buf), TranslateT("%s (locked)"), acc->tszAccountName);
 						pimi->mi.ptszName = mir_tstrdup(buf);
 						root->mi.ptszName = mir_tstrdup(buf);
 					}
