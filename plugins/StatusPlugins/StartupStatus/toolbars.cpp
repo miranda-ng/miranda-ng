@@ -79,7 +79,7 @@ void RegisterButtons()
 	SKINICONDESC sid = {0};
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = szFile;
-	sid.pszSection = "StartupStatus";
+	sid.pszSection = "Toolbar/StartupStatus";
 	sid.pszName = "StartupStatus/TtbDown";
 	sid.pszDescription = "Pressed toolbar icon";
 	sid.iDefaultIndex = -IDI_TTBDOWN;
