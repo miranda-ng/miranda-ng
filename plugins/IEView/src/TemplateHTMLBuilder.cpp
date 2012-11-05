@@ -118,16 +118,16 @@ int TemplateHTMLBuilder::getFlags(ProtocolSettings * protoSettings) {
 
 char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mode) {
 	static char szResult[512];
-	char str[80];
-	DBTIMETOSTRING dbtts;
+	TCHAR str[300];
+	DBTIMETOSTRINGT dbtts;
 	dbtts.cbDest = 70;
 	dbtts.szDest = str;
 	szResult[0] = '\0';
 	if (mode) { //time
-		dbtts.szFormat = (dwFlags & Options::LOG_SHOW_SECONDS) ? (char *)"s" : (char *)"t";
-		CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
-		strncat(szResult, str, 500);
-	} else {//date
+		dbtts.szFormat = (dwFlags & Options::LOG_SHOW_SECONDS) ? _T("s") : _T("t");
+		CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM)&dbtts);
+	}
+	else {//date
 		struct tm tm_now, tm_today;
 		time_t now = time(NULL);
 		time_t today;
@@ -135,17 +135,16 @@ char *TemplateHTMLBuilder::timestampToString(DWORD dwFlags, time_t check, int mo
 		tm_today = tm_now;
 		tm_today.tm_hour = tm_today.tm_min = tm_today.tm_sec = 0;
 		today = mktime(&tm_today);
-		if (dwFlags & Options::LOG_RELATIVE_DATE && check >= today) {
-			strcpy(szResult, Translate("Today"));
-		} else if(dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400)) {
-			strcpy(szResult, Translate("Yesterday"));
-		} else {
-			dbtts.szFormat = (dwFlags & Options::LOG_LONG_DATE) ? (char *)"D" : (char *)"d";
-			CallService(MS_DB_TIME_TIMESTAMPTOSTRING, check, (LPARAM) & dbtts);
-			strncat(szResult, str, 500);
+		if (dwFlags & Options::LOG_RELATIVE_DATE && check >= today)
+			_tcsncpy(str, TranslateT("Today"), SIZEOF(str));
+		else if(dwFlags & Options::LOG_RELATIVE_DATE && check > (today - 86400))
+			_tcsncpy(str, TranslateT("Yesterday"), SIZEOF(str));
+		else {
+			dbtts.szFormat = (dwFlags & Options::LOG_LONG_DATE) ? _T("D") : _T("d");
+			CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, check, (LPARAM) & dbtts);
 		}
 	}
-	Utils::UTF8Encode(szResult, szResult, 500);
+	Utils::UTF8Encode(str, szResult, 500);
 	return szResult;
 }
 
