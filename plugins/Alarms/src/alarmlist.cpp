@@ -18,10 +18,10 @@ bool startup = true;
 bool is_idle = false;
 
 void free_alarm_data(ALARM *alarm) {
-	if (alarm->szTitle) {free(alarm->szTitle); alarm->szTitle = 0;}
-	if (alarm->szDesc) {free(alarm->szDesc); alarm->szDesc = 0;}
-	if (alarm->szCommand) {free(alarm->szCommand); alarm->szCommand = 0;}
-	if (alarm->szCommandParams) {free(alarm->szCommandParams); alarm->szCommandParams = 0;}
+	mir_free(alarm->szTitle); alarm->szTitle = 0;
+	mir_free(alarm->szDesc); alarm->szDesc = 0;
+	mir_free(alarm->szCommand); alarm->szCommand = 0;
+	mir_free(alarm->szCommandParams); alarm->szCommandParams = 0;
 }
 
 void copy_alarm_data(ALARM *dest, ALARM *src) {
