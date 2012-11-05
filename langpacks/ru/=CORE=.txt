@@ -1426,7 +1426,7 @@ URL от %s
 [Andorra]
 Андорра
 [Angola]
-Анголла
+Ангола
 [Anguilla]
 Ангуилья
 [Antigua and Barbuda]
@@ -1710,7 +1710,7 @@ URL от %s
 [Mozambique]
 Мозамбик
 [Myanmar]
-Мьянмар
+Мьянма
 [Namibia]
 Намибия
 [Nauru]
@@ -2034,7 +2034,7 @@ Cвернуть
 [Fatal error]
 Фатальная ошибка
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
-Модуль ядра '%s' не может быть загружен или отсутсвует. Программа вынуждена завершить работу
+Модуль ядра '%s' не может быть загружен или отсутствует. Программа вынуждена завершить работу
 [Switch to simple options]
 Упрощённый вид настроек
 

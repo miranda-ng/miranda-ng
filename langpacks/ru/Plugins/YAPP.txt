@@ -1,4 +1,4 @@
-﻿#muuid {563780ef-ac7e-40ba-a80a-0dcd4fd20f09}
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
 ;  File: yapp.dll
 ;  Module: Yet Another Popup Plugin

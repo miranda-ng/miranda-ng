@@ -19,7 +19,7 @@
 [An error occured while downloading the update.]
 Во время загрузки обновления произошла ошибка.
 [URL for checking updates not found.]
-Ссылка для проверки обновлений не нейдена.
+Ссылка для проверки обновлений не найдена.
 [Downloading version info...]
 Загрузка информации о версиях...
 [Name of Update's file is not supported.]
