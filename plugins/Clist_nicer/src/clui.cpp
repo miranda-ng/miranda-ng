@@ -38,7 +38,7 @@
 
 #define TM_AUTOALPHA  1
 #define TIMERID_AUTOSIZE 100
-#define MENU_MIRANDAMENU         0xFFFF1234
+#define MENU_MIRANDAMENU 0xFFFF1234
 
 int g_fading_active = 0;
 
@@ -90,7 +90,6 @@ void DestroyTrayMenu(HMENU hMenu);
 
 extern LONG g_cxsmIcon, g_cysmIcon;
 extern HANDLE hIcoLibChanged;
-extern HANDLE hExtraImageListRebuilding, hExtraImageApplying;
 
 SIZE g_oldSize = {0};
 POINT g_oldPos = {0};
@@ -421,23 +420,13 @@ void ConfigureFrame()
 
 void IcoLibReloadIcons()
 {
-
 	cfg::dat.hIconVisible = Skin_GetIcon("CLN_visible");
 	cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
 	cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	CacheClientIcons();
 	pcli->pfnReloadExtraIcons();
+	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
 
-	// force client icons reload
-	{
-		int i;
-
-		for (i = 0; i < cfg::nextCacheEntry; i++) {
-			if (cfg::eCache[i].hContact)
-				NotifyEventHooks(hExtraImageApplying, (WPARAM)cfg::eCache[i].hContact, 0);
-		}
-	}
-	//
 	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 	SendMessage(g_hwndViewModeFrame, WM_USER + 100, 0, 0);
 }
@@ -721,7 +710,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 
 			switch (nmcsbcd->dwDrawStage) {
 				case CDDS_PREPAINT:
-					if (cfg::dat.bSkinnedScrollbar)                                             // XXX fix (verify skin items to be complete, otherwise don't draw
+					if (cfg::dat.bSkinnedScrollbar) // XXX fix (verify skin items to be complete, otherwise don't draw
 						return CDRF_SKIPDEFAULT;
 					else
 						return CDRF_DODEFAULT;
@@ -741,7 +730,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 					ScreenToClient(pcli->hwndContactList, &pt);
 					hdcScroll = hdc;
 					BitBlt(hdcScroll, nmcsbcd->rect.left, nmcsbcd->rect.top, nmcsbcd->rect.right - nmcsbcd->rect.left,
-						   nmcsbcd->rect.bottom - nmcsbcd->rect.top, cfg::dat.hdcBg, pt.x + nmcsbcd->rect.left, pt.y + nmcsbcd->rect.top, SRCCOPY);
+						nmcsbcd->rect.bottom - nmcsbcd->rect.top, cfg::dat.hdcBg, pt.x + nmcsbcd->rect.left, pt.y + nmcsbcd->rect.top, SRCCOPY);
 
 					switch (nmcsbcd->uItem) {
 						case HTSCROLL_UP:
@@ -805,14 +794,15 @@ static int ServiceParamsOK(ButtonItem *item, WPARAM *wParam, LPARAM *lParam, HAN
 	if (item->dwFlags & BUTTON_PASSHCONTACTW || item->dwFlags & BUTTON_PASSHCONTACTL || item->dwFlags & BUTTON_ISCONTACTDBACTION) {
 		if (hContact == 0)
 			return 0;
+
 		if (item->dwFlags & BUTTON_PASSHCONTACTW)
 			*wParam = (WPARAM)hContact;
 		else if (item->dwFlags & BUTTON_PASSHCONTACTL)
 			*lParam = (LPARAM)hContact;
-		return 1;
 	}
-	return 1;                                       // doesn't need a paramter
+	return 1;
 }
+
 static void ShowCLUI(HWND hwnd)
 {
 	int state = old_cliststate;
@@ -1062,14 +1052,10 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 			rcFrame.left += (cfg::dat.bCLeft - 1);
 			rcFrame.right -= (cfg::dat.bCRight - 1);
-			//if (!g_CluiData.bSkinnedButtonMode)
-			//	rcFrame.bottom -= (g_CluiData.bottomOffset);
 			rcFrame.bottom++;
 			rcFrame.bottom -= cfg::dat.statusBarHeight;
 			rcFrame.top += (cfg::dat.topOffset - 1);
 
-			//if (g_CluiData.neeedSnap)
-			//    goto skipbg;
 			if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
 				if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
 					InflateRect(&rcFrame, -1, -1);
@@ -1223,7 +1209,8 @@ skipbg:
 					RECT rc;
 					GetWindowRect(hwnd, &rc);
 
-					if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
+					// if docked, dont remember pos (except for width)
+					if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 						cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
 						cfg::writeDword("CList", "x", (DWORD) rc.left);
 						cfg::writeDword("CList", "y", (DWORD) rc.top);
@@ -1440,7 +1427,7 @@ skipbg:
 			if (HIWORD(wParam) == BN_CLICKED && lParam != 0) {
 				if (LOWORD(wParam) == IDC_TBFIRSTUID - 1)
 					break;
-				else if (LOWORD(wParam) >= IDC_TBFIRSTUID) {                    // skinnable buttons handling
+				else if (LOWORD(wParam) >= IDC_TBFIRSTUID) { // skinnable buttons handling
 					ButtonItem *item = g_ButtonItems;
 					WPARAM wwParam = 0;
 					LPARAM llParam = 0;
@@ -1692,7 +1679,7 @@ buttons_done:
 			break;
 		}
 		case WM_DISPLAYCHANGE:
-			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0);   //forces it to send a cln_listsizechanged
+			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0); //forces it to send a cln_listsizechanged
 			break;
 		case WM_NOTIFY:
 			if (((LPNMHDR) lParam)->hwndFrom == pcli->hwndContactTree) {
@@ -1742,7 +1729,7 @@ buttons_done:
 				HMENU hMenu;
 				hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDGROUP, 0, 0);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-                DestroyTrayMenu(hMenu);
+				DestroyTrayMenu(hMenu);
 				return 0;
 			}
 			GetWindowRect(pcli->hwndStatus, &rc);
@@ -2044,8 +2031,8 @@ static INT_PTR CLN_ShowStatusMenu(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-#define MS_CLUI_SHOWMAINMENU    "CList/ShowMainMenu"
-#define MS_CLUI_SHOWSTATUSMENU  "CList/ShowStatusMenu"
+#define MS_CLUI_SHOWMAINMENU   "CList/ShowMainMenu"
+#define MS_CLUI_SHOWSTATUSMENU "CList/ShowStatusMenu"
 
 void LoadCLUIModule(void)
 {

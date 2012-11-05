@@ -417,7 +417,6 @@ HANDLE ContactToItemHandle(ClcContact *contact, DWORD *nmFlags);
 
 //clcitems.c
 void RebuildEntireList(HWND hwnd, struct ClcData *dat);
-void SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
 DWORD INTSORT_GetLastMsgTime(HANDLE hContact);
 
 //clcmsgs.c

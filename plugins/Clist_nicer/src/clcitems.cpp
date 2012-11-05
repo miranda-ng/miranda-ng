@@ -33,8 +33,6 @@
 #include <commonheaders.h>
 #include <m_icq.h>
 
-extern HANDLE hExtraImageListRebuilding, hExtraImageApplying;
-
 extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 extern int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
 extern ClcGroup* ( *saveRemoveItemFromGroup )(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount);
@@ -75,47 +73,45 @@ int AddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 ClcGroup *AddGroup(HWND hwnd, struct ClcData *dat, const TCHAR *szName, DWORD flags, int groupId, int calcTotalMembers)
 {
 	ClcGroup *p = saveAddGroup( hwnd, dat, szName, flags, groupId, calcTotalMembers);
+	if ( p && p->parent )
+		RTL_DetectGroupName( p->parent->cl.items[ p->parent->cl.count-1] );
 
-	
-		if ( p && p->parent )
-			RTL_DetectGroupName( p->parent->cl.items[ p->parent->cl.count-1] );
-	
 	return p;
 }
 
 ClcGroup *RemoveItemFromGroup(HWND hwnd, ClcGroup *group, ClcContact *contact, int updateTotalCount)
 {
-	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
+	if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)
 		if (cfg::eCache[contact->extraCacheEntry].floater && cfg::eCache[contact->extraCacheEntry].floater->hwnd)
 			ShowWindow(cfg::eCache[contact->extraCacheEntry].floater->hwnd, SW_HIDE);
-	}
+
 	return(saveRemoveItemFromGroup(hwnd, group, contact, updateTotalCount));
 }
 
 void LoadAvatarForContact(ClcContact *p)
 {
-    DWORD dwFlags;
+	DWORD dwFlags;
 
-    if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry)
-        dwFlags = cfg::eCache[p->extraCacheEntry].dwDFlags;
-    else
-        dwFlags = cfg::getDword(p->hContact, "CList", "CLN_Flags", 0);
+	if (p->extraCacheEntry >= 0 && p->extraCacheEntry < cfg::nextCacheEntry)
+		dwFlags = cfg::eCache[p->extraCacheEntry].dwDFlags;
+	else
+		dwFlags = cfg::getDword(p->hContact, "CList", "CLN_Flags", 0);
 
-    if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
-        p->cFlags = (dwFlags & ECF_HIDEAVATAR ? p->cFlags & ~ECF_AVATAR : p->cFlags | ECF_AVATAR);
-    else
-        p->cFlags = (dwFlags & ECF_FORCEAVATAR ? p->cFlags | ECF_AVATAR : p->cFlags & ~ECF_AVATAR);
+	if (cfg::dat.dwFlags & CLUI_FRAME_AVATARS)
+		p->cFlags = (dwFlags & ECF_HIDEAVATAR ? p->cFlags & ~ECF_AVATAR : p->cFlags | ECF_AVATAR);
+	else
+		p->cFlags = (dwFlags & ECF_FORCEAVATAR ? p->cFlags | ECF_AVATAR : p->cFlags & ~ECF_AVATAR);
 
-    p->ace = NULL;
-    if (cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
-        p->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
-        if (p->ace != NULL && p->ace->cbSize != sizeof(struct avatarCacheEntry))
-            p->ace = NULL;
-        if (p->ace != NULL)
-            p->ace->t_lastAccess = cfg::dat.t_now;
-    }
-    if (p->ace == NULL)
-        p->cFlags &= ~ECF_AVATAR;
+	p->ace = NULL;
+	if (cfg::dat.bAvatarServiceAvail && (p->cFlags & ECF_AVATAR) && (!cfg::dat.bNoOfflineAvatars || p->wStatus != ID_STATUS_OFFLINE)) {
+		p->ace = (struct avatarCacheEntry *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)p->hContact, 0);
+		if (p->ace != NULL && p->ace->cbSize != sizeof(struct avatarCacheEntry))
+			p->ace = NULL;
+		if (p->ace != NULL)
+			p->ace->t_lastAccess = cfg::dat.t_now;
+	}
+	if (p->ace == NULL)
+		 p->cFlags &= ~ECF_AVATAR;
 }
 
 int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
@@ -125,7 +121,6 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 
 	p->wStatus = cfg::getWord(hContact, p->proto, "Status", ID_STATUS_OFFLINE);
 	p->xStatus = cfg::getByte(hContact, p->proto, "XStatusId", 0);
-    //p->iRowHeight = -1;
 
 	if (p->proto)
 		p->bIsMeta = !strcmp(p->proto, cfg::dat.szMetaName);
@@ -135,13 +130,14 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 		p->hSubContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 		p->metaProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) p->hSubContact, 0);
 		p->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) p->hSubContact, 0);
-	} else {
+	}
+	else {
 		p->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) hContact, 0);
 		p->metaProto = NULL;
 	}
 
 	p->codePage = cfg::getDword(hContact, "Tab_SRMsg", "ANSIcodepage", cfg::getDword(hContact, "UserInfo", "ANSIcodepage", CP_ACP));
-    p->bSecondLine = cfg::getByte(hContact, "CList", "CLN_2ndline", cfg::dat.dualRowMode);
+	p->bSecondLine = cfg::getByte(hContact, "CList", "CLN_2ndline", cfg::dat.dualRowMode);
 
 	if (dat->bisEmbedded)
 		p->extraCacheEntry = -1;
@@ -159,9 +155,9 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 				}
 			}
 		}
-        LoadAvatarForContact(p);
-        // notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
-        NotifyEventHooks(hExtraImageApplying, (WPARAM)hContact, 0);
+		LoadAvatarForContact(p);
+		// notify other plugins to re-supply their extra images (icq for xstatus, mBirthday etc...)
+		pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, hContact);
 	}
 
 	RTL_DetectAndSet( p, p->hContact);
@@ -174,9 +170,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 
 void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 {
-	char *szProto;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-	HANDLE hContact;
 	ClcGroup *group;
 	DBVARIANT dbv = {0};
 
@@ -188,20 +182,18 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	dat->list.cl.count = 0;
 	dat->list.totalMembers = 0;
 	dat->selection = -1;
-	dat->SelectMode = cfg::getByte("CLC", "SelectMode", 0); {
-		int i;
-		TCHAR *szGroupName;
-		DWORD groupFlags;
-
-		for (i = 1; ; i++) {
-			szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
+	dat->SelectMode = cfg::getByte("CLC", "SelectMode", 0);
+	{
+		for (int i = 1; ; i++) {
+			DWORD groupFlags;
+			TCHAR *szGroupName = pcli->pfnGetGroupName(i, &groupFlags);
 			if (szGroupName == NULL)
 				break;
 			pcli->pfnAddGroup(hwnd, dat, szGroupName, groupFlags, i, 0);
 		}
 	}
 
-	hContact = db_find_first();
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		if (style & CLS_SHOWHIDDEN || !CLVM_GetContactHiddenStatus(hContact, NULL, dat)) {
 			ZeroMemory((void *)&dbv, sizeof(dbv));
@@ -215,14 +207,15 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 			if (group != NULL) {
 				group->totalMembers++;
 				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-					szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+					char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 					if (szProto == NULL) {
 						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							AddContactToGroup(dat, group, hContact);
-					} else if (!pcli->pfnIsHiddenMode(dat, (WORD) cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+					}
+					else if (!pcli->pfnIsHiddenMode(dat, (WORD) cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 						AddContactToGroup(dat, group, hContact);
-				} else
-					AddContactToGroup(dat, group, hContact);
+				}
+				else AddContactToGroup(dat, group, hContact);
 			}
 		}
 		hContact = db_find_next(hContact);
@@ -236,10 +229,11 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 				group = group->parent;
 				if (group == NULL)
 					break;
-			} else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
-				if (group->cl.items[group->scanIndex]->group->cl.count == 0) {
+			}
+			else if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP) {
+				if (group->cl.items[group->scanIndex]->group->cl.count == 0)
 					group = pcli->pfnRemoveItemFromGroup(hwnd, group, group->cl.items[group->scanIndex], 0);
-				} else {
+				else {
 					group = group->cl.items[group->scanIndex]->group;
 					group->scanIndex = 0;
 				}
@@ -248,7 +242,10 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 			group->scanIndex++;
 		}
 	}
+
 	pcli->pfnSortCLC(hwnd, dat, 0);
+	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
+
 	if (!dat->bisEmbedded)
 		FLT_SyncWithClist();
 }
@@ -261,19 +258,16 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 {
 	DBVARIANT dbv = {0};
-	HANDLE hContact;
-	struct TExtraCache *cEntry;
-	int result;
 
 	if (iExtraCacheEntry < 0 || iExtraCacheEntry > cfg::nextCacheEntry)
 		return 0;
 
-	cEntry = &cfg::eCache[iExtraCacheEntry];
+	TExtraCache *cEntry = &cfg::eCache[iExtraCacheEntry];
 
 	cEntry->bStatusMsgValid = STATUSMSG_NOTFOUND;
-	hContact = cEntry->hContact;
+	HANDLE hContact = cEntry->hContact;
 
-	result = cfg::getTString(hContact, "CList", "StatusMsg", &dbv);
+	int result = cfg::getTString(hContact, "CList", "StatusMsg", &dbv);
 	if ( !result && lstrlen(dbv.ptszVal) > 1)
 		cEntry->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
@@ -288,9 +282,10 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 				cEntry->bStatusMsgValid = STATUSMSG_GG;
 			else if ( !(result = cfg::getTString(hContact, szProto, "XStatusMsg", &dbv)) && lstrlen(dbv.ptszVal) > 1)
 				cEntry->bStatusMsgValid = STATUSMSG_XSTATUS;
-	}	}
+		}
+	}
 
-	if (cEntry->bStatusMsgValid == STATUSMSG_NOTFOUND) {      // no status msg, consider xstatus name (if available)
+	if (cEntry->bStatusMsgValid == STATUSMSG_NOTFOUND) { // no status msg, consider xstatus name (if available)
 		if ( !result )
 			DBFreeVariant( &dbv );
 		result = cfg::getTString(hContact, szProto, "XStatusName", &dbv);
@@ -301,7 +296,6 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			_tcsncpy(cEntry->statusMsg, dbv.ptszVal, iLen + 1);
 		}
 		else {
-			ICQ_CUSTOM_STATUS cst = {0};
 			int xStatus;
 			WPARAM xStatus2;
 			TCHAR xStatusName[128];
@@ -309,6 +303,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 
 			mir_snprintf(szServiceName, 128, "%s%s", szProto, PS_ICQ_GETCUSTOMSTATUSEX);
 
+			ICQ_CUSTOM_STATUS cst = {0};
 			cst.cbSize = sizeof(ICQ_CUSTOM_STATUS);
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
@@ -325,6 +320,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			}
 		}
 	}
+
 	if (cEntry->bStatusMsgValid > STATUSMSG_XSTATUSNAME) {
 		int j = 0, i;
 		cEntry->statusMsg = (TCHAR *)realloc(cEntry->statusMsg, (lstrlen(dbv.ptszVal) + 2) * sizeof(TCHAR));
@@ -339,16 +335,13 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	if ( !result )
 		DBFreeVariant( &dbv );
 
-
 	if (cEntry->bStatusMsgValid != STATUSMSG_NOTFOUND) {
 		WORD infoTypeC2[12];
-		int iLen, i
-			;
 		ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
-		iLen = min(lstrlenW(cEntry->statusMsg), 10);
+		int iLen = min(lstrlenW(cEntry->statusMsg), 10);
 		GetStringTypeW(CT_CTYPE2, cEntry->statusMsg, iLen, infoTypeC2);
 		cEntry->dwCFlags &= ~ECF_RTLSTATUSMSG;
-		for (i = 0; i < 10; i++) {
+		for (int i = 0; i < 10; i++) {
 			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
 				cEntry->dwCFlags |= ECF_RTLSTATUSMSG;
 				break;
@@ -397,52 +390,52 @@ void ReloadExtraInfo(HANDLE hContact)
 
 void RTL_DetectAndSet(ClcContact *contact, HANDLE hContact)
 {
-    WORD infoTypeC2[12];
-    int i, index;
-    TCHAR *szText = NULL;
-    DWORD iLen;
+	WORD infoTypeC2[12];
+	int i, index;
+	TCHAR *szText = NULL;
+	DWORD iLen;
 
-    ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
+	ZeroMemory(infoTypeC2, sizeof(WORD) * 12);
 
-    if (contact == NULL) {
-        szText = pcli->pfnGetContactDisplayName(hContact, 0);
-        index = cfg::getCache(hContact, NULL);
-    }
-    else {
-        szText = contact->szText;
-        index = contact->extraCacheEntry;
-    }
-    if (index >= 0 && index < cfg::nextCacheEntry) {
-        iLen = min(lstrlenW(szText), 10);
-        GetStringTypeW(CT_CTYPE2, szText, iLen, infoTypeC2);
-        cfg::eCache[index].dwCFlags &= ~ECF_RTLNICK;
-        for (i = 0; i < 10; i++) {
-            if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
-                cfg::eCache[index].dwCFlags |= ECF_RTLNICK;
-                return;
-            }
-        }
-    }
+	if (contact == NULL) {
+		szText = pcli->pfnGetContactDisplayName(hContact, 0);
+		index = cfg::getCache(hContact, NULL);
+	}
+	else {
+		szText = contact->szText;
+		index = contact->extraCacheEntry;
+	}
+	if (index >= 0 && index < cfg::nextCacheEntry) {
+		iLen = min(lstrlenW(szText), 10);
+		GetStringTypeW(CT_CTYPE2, szText, iLen, infoTypeC2);
+		cfg::eCache[index].dwCFlags &= ~ECF_RTLNICK;
+		for (i = 0; i < 10; i++) {
+			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
+				cfg::eCache[index].dwCFlags |= ECF_RTLNICK;
+				return;
+			}
+		}
+	}
 }
 
 void RTL_DetectGroupName(ClcContact *group)
 {
-    WORD infoTypeC2[12];
-    int i;
-    DWORD iLen;
+	WORD infoTypeC2[12];
+	int i;
+	DWORD iLen;
 
-    group->isRtl = 0;
+	group->isRtl = 0;
 
-    if (group->szText) {
-        iLen = min(lstrlenW(group->szText), 10);
-        GetStringTypeW(CT_CTYPE2, group->szText, iLen, infoTypeC2);
-        for (i = 0; i < 10; i++) {
-            if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
-                group->isRtl = 1;
-                return;
-            }
-        }
-    }
+	if (group->szText) {
+		iLen = min(lstrlenW(group->szText), 10);
+		GetStringTypeW(CT_CTYPE2, group->szText, iLen, infoTypeC2);
+		for (i = 0; i < 10; i++) {
+			if (infoTypeC2[i] == C2_RIGHTTOLEFT) {
+				group->isRtl = 1;
+				return;
+			}
+		}
+	}
 }
 
 /*
@@ -460,12 +453,7 @@ void GetExtendedInfo(ClcContact *contact, struct ClcData *dat)
 
 	int index = contact->extraCacheEntry;
 
-	//firstTime = DBGetContactSettingDword(contact->hContact, "CList", "mf_firstEvent", 0);
-	//count = DBGetContactSettingDword(contact->hContact, "CList", "mf_count", 0);
-	//new_freq = count ? (g_CluiData.t_now - firstTime) / count : 0x7fffffff;
 	cfg::eCache[index].msgFrequency = cfg::getDword(contact->hContact, "CList", "mf_freq", 0x7fffffff);
-	//g_ExtraCache[index].msgFrequency = new_freq;
-	//DBWriteContactSettingDword(contact->hContact, "CList", "mf_freq", new_freq);
 
 	if (index >= 0 && index < cfg::nextCacheEntry) {
 		if (cfg::eCache[index].valid)
@@ -486,7 +474,7 @@ void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto)
 		if (cEntry->status_item == NULL)
 			cEntry->status_item = reinterpret_cast<StatusItems_t *>(malloc(sizeof(StatusItems_t)));
 		ZeroMemory(cEntry->status_item, sizeof(StatusItems_t));
-		strcpy(cEntry->status_item->szName, "{--CONTACT--}");           // mark as "per contact" item
+		strcpy(cEntry->status_item->szName, "{--CONTACT--}"); // mark as "per contact" item
 		cEntry->status_item->IGNORED = 0;
 
 		cEntry->status_item->TEXTCOLOR = cfg::getDword(hContact, "EXTBK", "TEXT", RGB(20, 20, 20));
@@ -560,7 +548,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 
 	if (!cfg::dat.bFilterEffective)
 		return dbHidden;
-		
+
 	if (szProto == NULL)
 		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).

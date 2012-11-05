@@ -39,7 +39,6 @@
 int DefaultImageListColorDepth = ILC_COLOR32;
 
 extern HPEN g_hPenCLUIFrames;
-extern HANDLE hExtraImageApplying;
 extern wndFrame *wndFrameCLC;
 extern ButtonItem *g_ButtonItems;
 
@@ -163,8 +162,6 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 					SendMessage(pcli->hwndContactTree, INTM_XSTATUSCHANGED, wParam, lParam);
 				else if (!__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 					ReloadExtraInfo((HANDLE)wParam);
-				else if (!__strcmp(cws->szSetting, "MirVer"))
-					NotifyEventHooks(hExtraImageApplying, wParam, 0);
 
 				if (cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS) && !__strcmp(szProto, cfg::dat.szMetaName)) {
 					if ((lstrlenA(cws->szSetting) > 6 && !strncmp(cws->szSetting, "Status", 6)) || strstr("Default,ForceSend,Nick", cws->szSetting))

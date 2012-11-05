@@ -34,7 +34,6 @@ extern int mf_updatethread_running;
 extern DWORD WINAPI MF_UpdateThread(LPVOID p);
 extern HANDLE hThreadMFUpdate;;
 
-HANDLE hExtraImageListRebuilding, hExtraImageApplying;
 HANDLE hStatusBarShowToolTipEvent, hStatusBarHideToolTipEvent;
 HANDLE g_hEventThread = 0;
 
