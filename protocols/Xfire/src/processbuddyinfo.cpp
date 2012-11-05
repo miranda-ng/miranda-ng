@@ -28,8 +28,8 @@ extern HANDLE	 XFireAvatarFolder;
 }*/
 
 void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char* username) {
-	char temp[512]="";
-	char filename[512];
+	char temp[255]="";
+	char filename[255];
 	BOOL dl=FALSE;
 	int type;
 
@@ -50,7 +50,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 		DBDeleteContactSetting(NULL,protocolname, "MyAvatarFile");
 	}
 
-	FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, "" );
+	FoldersGetCustomPath( XFireAvatarFolder, filename, 255, "" );
 	strcat(filename,"\\");
 	
 	switch(buddyinfo->avatarmode) {
