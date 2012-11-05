@@ -699,7 +699,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			case SB_PAGEDOWN:   desty += clRect.bottom - dat->rowHeight; break;
 			case SB_BOTTOM:     desty = 0x7FFFFFFF;        break;
 			case SB_TOP:        desty = 0;                 break;
-			case SB_THUMBTRACK: desty = HIWORD(wParam); noSmooth = 1; break;      //noone has more than 4000 contacts, right?
+			case SB_THUMBTRACK: desty = HIWORD(wParam); noSmooth = 1; break; //noone has more than 4000 contacts, right?
 			default:            return 0;
 		}
 		cli.pfnScrollTo(hwnd, dat, desty, noSmooth);
@@ -802,7 +802,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
-		if (wParam == 27)   //escape
+		if (wParam == 27) //escape
 			dat->szQuickSearch[0] = 0;
 		else if (wParam == '\b' && dat->szQuickSearch[0])
 			dat->szQuickSearch[lstrlen(dat->szQuickSearch) - 1] = '\0';
@@ -1203,10 +1203,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 					ClcGroup *group;
 					ClcContact *contact;
 					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-					if (group->parent) {    //move to root
+					if (group->parent) { //move to root
 						if (contact->type == CLCIT_CONTACT) //dropee is a contact
 							CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contact->hContact, 0);
-						else if (contact->type == CLCIT_GROUP) {    //dropee is a group
+						else if (contact->type == CLCIT_GROUP) { //dropee is a group
 							TCHAR szNewName[120];
 							lstrcpyn(szNewName, contact->szText, SIZEOF(szNewName));
 							cli.pfnRenameGroup(contact->groupId, szNewName);

@@ -449,7 +449,11 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 	return;
 }
 
-#define M_CREATECLC  (WM_USER+1)
+static void CreateCLC()
+{
+	cli.pfnReloadExtraIcons();
+}
+
 LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	if (msg == uMsgProcessProfile)
@@ -532,6 +536,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ?
 					CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
+
+		CreateCLC();
 		break;
 
 	case M_RESTORESTATUS:

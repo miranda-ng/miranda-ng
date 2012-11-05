@@ -2233,7 +2233,7 @@ LRESULT CLUI::OnCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 	DrawMenuBar(m_hWnd);
 	CLUIServices_ProtocolStatusChanged(0,0);
 
-	{	MENUITEMINFO mii;
+	MENUITEMINFO mii;
 	ZeroMemory(&mii,sizeof(mii));
 	mii.cbSize = MENUITEMINFO_V4_SIZE;
 	mii.fMask = MIIM_TYPE|MIIM_DATA;
@@ -2251,9 +2251,7 @@ LRESULT CLUI::OnCreate( UINT msg, WPARAM wParam, LPARAM lParam )
 	mii.fType = MFT_OWNERDRAW;
 	mii.dwItemData = MENU_MINIMIZE;
 	SetMenuItemInfo(GetMenu(m_hWnd),2,TRUE,&mii);
-	}
-	//PostMessage(m_hWnd, M_CREATECLC, 0, 0);
-	//pcli->hwndContactList = m_hWnd;
+
 	uMsgGetProfile = RegisterWindowMessage(_T("Miranda::GetProfile")); // don't localise
 	bTransparentFocus = 1;
 	return FALSE;

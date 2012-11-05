@@ -844,491 +844,496 @@ static void GetButtonRect(HWND hwnd, RECT *rc)
 	}
 }
 
-#define M_CREATECLC  (WM_USER+1)
 LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
-		case WM_CREATE: {
-			int i;
-			{
-				int flags = WS_CHILD | CCS_BOTTOM;
-				flags |= cfg::getByte("CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
-				flags |= cfg::getByte("CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
-				pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, NULL, flags, 0, 0, 0, 0, hwnd, NULL, g_hInst, NULL);
-				if (flags & WS_VISIBLE) {
-					ShowWindow(pcli->hwndStatus, SW_SHOW);
-					SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
-				}
-				OldStatusBarProc = (WNDPROC)SetWindowLongPtr(pcli->hwndStatus, GWLP_WNDPROC, (LONG_PTR)NewStatusBarWndProc);
-				SetClassLong(pcli->hwndStatus, GCL_STYLE, GetClassLong(pcli->hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
+	case WM_CREATE: {
+		int i;
+		{
+			int flags = WS_CHILD | CCS_BOTTOM;
+			flags |= cfg::getByte("CLUI", "ShowSBar", 1) ? WS_VISIBLE : 0;
+			flags |= cfg::getByte("CLUI", "ShowGrip", 1) ? SBARS_SIZEGRIP : 0;
+			pcli->hwndStatus = CreateWindow(STATUSCLASSNAME, NULL, flags, 0, 0, 0, 0, hwnd, NULL, g_hInst, NULL);
+			if (flags & WS_VISIBLE) {
+				ShowWindow(pcli->hwndStatus, SW_SHOW);
+				SendMessage(pcli->hwndStatus, WM_SIZE, 0, 0);
 			}
-			g_oldSize.cx = g_oldSize.cy = 0;
-			old_cliststate = cfg::getByte("CList", "State", SETTING_STATE_NORMAL);
-			cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
-			SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
-			if (!cfg::dat.bFirstRun)
-				ConfigureEventArea(hwnd);
-			CluiProtocolStatusChanged(0, 0);
-			ConfigureCLUIGeometry(0);
-
-			for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
-				statusNames[i - ID_STATUS_OFFLINE] = reinterpret_cast<TCHAR *>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
-
-			//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
-			if (cfg::dat.bLayeredHack) {
-				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | (WS_EX_LAYERED));
-				API::SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
-			}
-
-			if (cfg::dat.isTransparent) {
-				SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
-				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-			}
-			transparentFocus = 1;
-
-			TranslateMenu(GetMenu(hwnd));
-			PostMessage(hwnd, M_CREATECLC, 0, 0);
-			return FALSE;
+			OldStatusBarProc = (WNDPROC)SetWindowLongPtr(pcli->hwndStatus, GWLP_WNDPROC, (LONG_PTR)NewStatusBarWndProc);
+			SetClassLong(pcli->hwndStatus, GCL_STYLE, GetClassLong(pcli->hwndStatus, GCL_STYLE) & ~(CS_VREDRAW | CS_HREDRAW));
 		}
-		case WM_NCCREATE: {
+		g_oldSize.cx = g_oldSize.cy = 0;
+		old_cliststate = cfg::getByte("CList", "State", SETTING_STATE_NORMAL);
+		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
+		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
+		if (!cfg::dat.bFirstRun)
+			ConfigureEventArea(hwnd);
+		CluiProtocolStatusChanged(0, 0);
+		ConfigureCLUIGeometry(0);
+
+		for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++)
+			statusNames[i - ID_STATUS_OFFLINE] = reinterpret_cast<TCHAR *>(CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, (WPARAM)i, GSMDF_TCHAR));
+
+		//delay creation of CLC so that it can get the status icons right the first time (needs protocol modules loaded)
+		if (cfg::dat.bLayeredHack) {
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | (WS_EX_LAYERED));
+			API::SetLayeredWindowAttributes(hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
+		}
+
+		if (cfg::dat.isTransparent) {
+			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+			API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+		}
+		transparentFocus = 1;
+
+		TranslateMenu(GetMenu(hwnd));
+		PostMessage(hwnd, M_CREATECLC, 0, 0);
+		return FALSE;
+						 }
+	case WM_NCCREATE:
+		{
 			LPCREATESTRUCT p = (LPCREATESTRUCT)lParam;
 			p->style &= ~(CS_HREDRAW | CS_VREDRAW);
 		}
 		break;
-		case M_CREATECLC: {
-			if (cfg::getByte("CLUI", "useskin", 0))
-				IMG_LoadItems();
-			CreateButtonBar(hwnd);
-			//FYR: to be checked: otherwise it raises double xStatus items
-			//NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
-			SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
+
+	case M_CREATECLC: {
+		if (cfg::getByte("CLUI", "useskin", 0))
+			IMG_LoadItems();
+		CreateButtonBar(hwnd);
+		//FYR: to be checked: otherwise it raises double xStatus items
+		//NotifyEventHooks(pcli->hPreBuildStatusMenuEvent, 0, 0);
+		SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
+		{
+			LONG style;
+			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
+			ShowWindow(pcli->hwndContactList, SW_HIDE);
+			style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
+			if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT)
 			{
-				LONG style;
-				BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_TOOLWINDOW);
-				ShowWindow(pcli->hwndContactList, SW_HIDE);
-				style = GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE);
-				if (windowStyle != SETTING_WINDOWSTYLE_DEFAULT)
-				{
-					style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
+				style |= WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE;
+				style &= ~WS_EX_APPWINDOW;
+			}
+			else
+			{
+				style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
+				if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
 					style &= ~WS_EX_APPWINDOW;
-				}
 				else
-				{
-					style &= ~(WS_EX_TOOLWINDOW | WS_EX_WINDOWEDGE);
-					if (cfg::getByte("CList", "AlwaysHideOnTB", 1))
-						style &= ~WS_EX_APPWINDOW;
-					else
-						style |= WS_EX_APPWINDOW;
+					style |= WS_EX_APPWINDOW;
+			}
+
+			SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
+			ApplyCLUIBorderStyle(pcli->hwndContactList);
+
+			SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
+		}
+
+		ConfigureFrame();
+
+		CreateCLC(hwnd);
+		cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
+
+		if (API::sysConfig.isWin2KPlus && cfg::dat.bFullTransparent) {
+			if (g_CLUISkinnedBkColorRGB)
+				Tweak_It(g_CLUISkinnedBkColorRGB);
+			else if (cfg::dat.bClipBorder || (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME))
+				Tweak_It(RGB(255, 0, 255));
+			else
+				Tweak_It(cfg::clcdat->bkColour);
+		}
+
+		cfg::writeByte("CList", "State", old_cliststate);
+
+		if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
+			DBVARIANT dbv = {0};
+			if (!DBGetContactSetting(NULL, "CList", "LastViewMode", &dbv)) {
+				if (lstrlenA(dbv.pszVal) > 2) {
+					if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
+						ApplyViewMode((char *)dbv.pszVal);
 				}
+				DBFreeVariant(&dbv);
+			}
+		}
+		if (!cfg::dat.autosize)
+			ShowCLUI(hwnd);
+		else {
+			show_on_first_autosize = TRUE;
+			RecalcScrollBar(pcli->hwndContactTree, cfg::clcdat);
+		}
+		return 0;
+							}
+	case WM_ERASEBKGND:
+		return TRUE;
+		if (cfg::dat.bSkinnedButtonMode)
+			return TRUE;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	case WM_PAINT: {
+		PAINTSTRUCT ps;
+		RECT rc, rcFrame, rcClient;
+		HDC hdc;
+		HRGN rgn = 0;
+		HDC hdcReal = BeginPaint(hwnd, &ps);
 
-				SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, style);
-				ApplyCLUIBorderStyle(pcli->hwndContactList);
+		if (during_sizing)
+			rcClient = rcWPC;
+		else
+			GetClientRect(hwnd, &rcClient);
+		CopyRect(&rc, &rcClient);
 
-				SetWindowPos(pcli->hwndContactList, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED | SWP_NOACTIVATE);
+		if (!cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
+			RECT rcWorkArea;
+
+			SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
+			if (API::pfnMonitorFromWindow)
+			{
+				HMONITOR hMon = API::pfnMonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
+				MONITORINFO mi;
+				mi.cbSize = sizeof(mi);
+				if (API::pfnGetMonitorInfo(hMon, &mi))
+					rcWorkArea = mi.rcWork;
 			}
 
-			ConfigureFrame();
+			cfg::dat.dcSize.cy = max(rc.bottom + cfg::dat.statusBarHeight, rcWorkArea.bottom - rcWorkArea.top);
+			cfg::dat.dcSize.cx = max(rc.right, (rcWorkArea.right - rcWorkArea.left) / 2);
 
-			CreateCLC(hwnd);
-			cfg::clcdat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree, 0);
-
-			if (API::sysConfig.isWin2KPlus && cfg::dat.bFullTransparent) {
-				if (g_CLUISkinnedBkColorRGB)
-					Tweak_It(g_CLUISkinnedBkColorRGB);
-				else if (cfg::dat.bClipBorder || (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME))
-					Tweak_It(RGB(255, 0, 255));
-				else
-					Tweak_It(cfg::clcdat->bkColour);
+			if (cfg::dat.hdcBg) {
+				SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
+				DeleteObject(cfg::dat.hbmBg);
+				DeleteDC(cfg::dat.hdcBg);
 			}
+			cfg::dat.hdcBg = CreateCompatibleDC(hdcReal);
+			cfg::dat.hbmBg = CreateCompatibleBitmap(hdcReal, cfg::dat.dcSize.cx, cfg::dat.dcSize.cy);
+			cfg::dat.hbmBgOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBg));
+		}
 
-			cfg::writeByte("CList", "State", old_cliststate);
-
-			if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
-				DBVARIANT dbv = {0};
-				if (!DBGetContactSetting(NULL, "CList", "LastViewMode", &dbv)) {
-					if (lstrlenA(dbv.pszVal) > 2) {
-						if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
-							ApplyViewMode((char *)dbv.pszVal);
-					}
-					DBFreeVariant(&dbv);
-				}
-			}
-			if (!cfg::dat.autosize)
-				ShowCLUI(hwnd);
-			else {
-				show_on_first_autosize = TRUE;
-				RecalcScrollBar(pcli->hwndContactTree, cfg::clcdat);
-			}
+		if (cfg::shutDown) {
+			EndPaint(hwnd, &ps);
 			return 0;
 		}
-		case WM_ERASEBKGND:
-			return TRUE;
-			if (cfg::dat.bSkinnedButtonMode)
-				return TRUE;
-			return DefWindowProc(hwnd, msg, wParam, lParam);
-		case WM_PAINT: {
-			PAINTSTRUCT ps;
-			RECT rc, rcFrame, rcClient;
-			HDC hdc;
-			HRGN rgn = 0;
-			HDC hdcReal = BeginPaint(hwnd, &ps);
 
-			if (during_sizing)
-				rcClient = rcWPC;
+		hdc = cfg::dat.hdcBg;
+
+		CopyRect(&rcFrame, &rcClient);
+		if (g_CLUISkinnedBkColor) {
+			if (cfg::dat.fOnDesktop) {
+				HDC dc = GetDC(0);
+				RECT rcWin;
+
+				GetWindowRect(hwnd, &rcWin);
+				BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
+			} else
+				FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
+		}
+
+		if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
+			int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
+			int clip = cfg::dat.bClipBorder;
+
+			if (!g_CLUISkinnedBkColor)
+				FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
+			if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
+				rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
 			else
-				GetClientRect(hwnd, &rcClient);
-			CopyRect(&rc, &rcClient);
+				rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
+			SelectClipRgn(hdc, rgn);
+		}
 
-			if (!cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
-				RECT rcWorkArea;
+		if (g_CLUIImageItem) {
+			IMG_RenderImageItem(hdc, g_CLUIImageItem, &rcFrame);
+			cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
+			ClientToScreen(hwnd, &cfg::dat.ptW);
+			goto skipbg;
+		}
 
-				SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
-				if (API::pfnMonitorFromWindow)
-				{
- 					HMONITOR hMon = API::pfnMonitorFromWindow(hwnd, MONITOR_DEFAULTTONEAREST);
-					MONITORINFO mi;
-					mi.cbSize = sizeof(mi);
-					if (API::pfnGetMonitorInfo(hMon, &mi))
- 						rcWorkArea = mi.rcWork;
-				}
+		if (cfg::dat.bWallpaperMode)
+			FillRect(hdc, &rcClient, cfg::dat.hBrushCLCBk);
+		else
+			FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
 
-				cfg::dat.dcSize.cy = max(rc.bottom + cfg::dat.statusBarHeight, rcWorkArea.bottom - rcWorkArea.top);
-				cfg::dat.dcSize.cx = max(rc.right, (rcWorkArea.right - rcWorkArea.left) / 2);
+		rcFrame.left += (cfg::dat.bCLeft - 1);
+		rcFrame.right -= (cfg::dat.bCRight - 1);
+		rcFrame.bottom++;
+		rcFrame.bottom -= cfg::dat.statusBarHeight;
+		rcFrame.top += (cfg::dat.topOffset - 1);
 
-				if (cfg::dat.hdcBg) {
-					SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
-					DeleteObject(cfg::dat.hbmBg);
-					DeleteDC(cfg::dat.hdcBg);
-				}
-				cfg::dat.hdcBg = CreateCompatibleDC(hdcReal);
-				cfg::dat.hbmBg = CreateCompatibleBitmap(hdcReal, cfg::dat.dcSize.cx, cfg::dat.dcSize.cy);
-				cfg::dat.hbmBgOld = reinterpret_cast<HBITMAP>(SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBg));
-			}
-
-			if (cfg::shutDown) {
-				EndPaint(hwnd, &ps);
-				return 0;
-			}
-
-			hdc = cfg::dat.hdcBg;
-
-			CopyRect(&rcFrame, &rcClient);
-			if (g_CLUISkinnedBkColor) {
-				if (cfg::dat.fOnDesktop) {
-					HDC dc = GetDC(0);
-					RECT rcWin;
-
-					GetWindowRect(hwnd, &rcWin);
-					BitBlt(hdc, 0, 0, rcClient.right, rcClient.bottom, dc, rcWin.left, rcWin.top, SRCCOPY);
-				} else
-					FillRect(hdc, &rcClient, g_CLUISkinnedBkColor);
-			}
-
-			if (cfg::dat.bClipBorder != 0 || cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME) {
-				int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
-				int clip = cfg::dat.bClipBorder;
-
-				if (!g_CLUISkinnedBkColor)
-					FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
-				if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
-					rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
-				else
-					rgn = CreateRectRgn(clip, docked ? 0 : clip, rcClient.right - clip, rcClient.bottom - (docked ? 0 : clip));
-				SelectClipRgn(hdc, rgn);
-			}
-
-			if (g_CLUIImageItem) {
-				IMG_RenderImageItem(hdc, g_CLUIImageItem, &rcFrame);
-				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
-				ClientToScreen(hwnd, &cfg::dat.ptW);
-				goto skipbg;
-			}
-
-			if (cfg::dat.bWallpaperMode)
-				FillRect(hdc, &rcClient, cfg::dat.hBrushCLCBk);
-			else
-				FillRect(hdc, &rcClient, GetSysColorBrush(COLOR_3DFACE));
-
-			rcFrame.left += (cfg::dat.bCLeft - 1);
-			rcFrame.right -= (cfg::dat.bCRight - 1);
-			rcFrame.bottom++;
-			rcFrame.bottom -= cfg::dat.statusBarHeight;
-			rcFrame.top += (cfg::dat.topOffset - 1);
-
-			if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
-				if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
-					InflateRect(&rcFrame, -1, -1);
-					if (cfg::dat.bmpBackground)
-						BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
-					cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
-					ClientToScreen(hwnd, &cfg::dat.ptW);
-				}
-				InflateRect(&rcFrame, 1, 1);
-				if (cfg::dat.bSkinnedButtonMode)
-					rcFrame.bottom -= (cfg::dat.bottomOffset);
-				DrawEdge(hdc, &rcFrame, BDR_SUNKENOUTER, BF_RECT);
-			} else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
+		if (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN) {
+			if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
+				InflateRect(&rcFrame, -1, -1);
 				if (cfg::dat.bmpBackground)
 					BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
 				cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
 				ClientToScreen(hwnd, &cfg::dat.ptW);
 			}
+			InflateRect(&rcFrame, 1, 1);
+			if (cfg::dat.bSkinnedButtonMode)
+				rcFrame.bottom -= (cfg::dat.bottomOffset);
+			DrawEdge(hdc, &rcFrame, BDR_SUNKENOUTER, BF_RECT);
+		} else if (cfg::dat.bWallpaperMode && cfg::clcdat != NULL) {
+			if (cfg::dat.bmpBackground)
+				BlitWallpaper(hdc, &rcFrame, &ps.rcPaint, cfg::clcdat);
+			cfg::dat.ptW.x = cfg::dat.ptW.y = 0;
+			ClientToScreen(hwnd, &cfg::dat.ptW);
+		}
 skipbg:
-			BitBlt(hdcReal, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdc, 0, 0, SRCCOPY);
-			if (rgn) {
-				SelectClipRgn(hdc, NULL);
-				DeleteObject(rgn);
-			}
-			EndPaint(hwnd, &ps);
-			return 0;
+		BitBlt(hdcReal, 0, 0, rcClient.right - rcClient.left, rcClient.bottom - rcClient.top, hdc, 0, 0, SRCCOPY);
+		if (rgn) {
+			SelectClipRgn(hdc, NULL);
+			DeleteObject(rgn);
 		}
-		case WM_ENTERSIZEMOVE: {
-			RECT rc;
-			POINT pt = {0};
+		EndPaint(hwnd, &ps);
+		return 0;
+						}
+	case WM_ENTERSIZEMOVE: {
+		RECT rc;
+		POINT pt = {0};
 
-			GetWindowRect(hwnd, &g_PreSizeRect);
-			GetClientRect(hwnd, &rc);
-			ClientToScreen(hwnd, &pt);
-			g_CLUI_x_off = pt.x - g_PreSizeRect.left;
-			g_CLUI_y_off = pt.y - g_PreSizeRect.top;
-			pt.x = rc.right;
-			ClientToScreen(hwnd, &pt);
-			g_CLUI_x1_off = g_PreSizeRect.right - pt.x;
-			pt.x = 0;
-			pt.y = rc.bottom;
-			ClientToScreen(hwnd, &pt);
-			g_CLUI_y1_off = g_PreSizeRect.bottom - pt.y;
-			//g_CluiData.neeedSnap = TRUE;
+		GetWindowRect(hwnd, &g_PreSizeRect);
+		GetClientRect(hwnd, &rc);
+		ClientToScreen(hwnd, &pt);
+		g_CLUI_x_off = pt.x - g_PreSizeRect.left;
+		g_CLUI_y_off = pt.y - g_PreSizeRect.top;
+		pt.x = rc.right;
+		ClientToScreen(hwnd, &pt);
+		g_CLUI_x1_off = g_PreSizeRect.right - pt.x;
+		pt.x = 0;
+		pt.y = rc.bottom;
+		ClientToScreen(hwnd, &pt);
+		g_CLUI_y1_off = g_PreSizeRect.bottom - pt.y;
+		//g_CluiData.neeedSnap = TRUE;
+		break;
+								  }
+	case WM_EXITSIZEMOVE:
+		//g_CluiData.neeedSnap = FALSE;
+		PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
+		//RedrawWindow(hwnd,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
+		break;
+	case WM_SIZING: {
+		RECT *szrect = (RECT *)lParam;
+
+		break;
+		if (Docking_IsDocked(0, 0))
 			break;
-		}
-		case WM_EXITSIZEMOVE:
-			//g_CluiData.neeedSnap = FALSE;
-			PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
-			//RedrawWindow(hwnd,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
-			break;
-		case WM_SIZING: {
-			RECT *szrect = (RECT *)lParam;
+		g_SizingRect = *((RECT *)lParam);
+		if (wParam != WMSZ_BOTTOM && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_BOTTOMLEFT)
+			szrect->bottom = g_PreSizeRect.bottom;
+		if (wParam != WMSZ_RIGHT && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_TOPRIGHT)
+			szrect->right = g_PreSizeRect.right;
+		return TRUE;
+						 }
 
-			break;
-			if (Docking_IsDocked(0, 0))
-				break;
-			g_SizingRect = *((RECT *)lParam);
-			if (wParam != WMSZ_BOTTOM && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_BOTTOMLEFT)
-				szrect->bottom = g_PreSizeRect.bottom;
-			if (wParam != WMSZ_RIGHT && wParam != WMSZ_BOTTOMRIGHT && wParam != WMSZ_TOPRIGHT)
-				szrect->right = g_PreSizeRect.right;
-			return TRUE;
-		}
-
-		case WM_WINDOWPOSCHANGED:
-			if (!Docking_IsDocked(0, 0))
-				return(0);
-			else
-				break;
-
-		case WM_WINDOWPOSCHANGING: {
-			WINDOWPOS *wp = (WINDOWPOS *)lParam;
-
-			if (wp && wp->flags & SWP_NOSIZE)
-				return FALSE;
-
-			//if (Docking_IsDocked(0, 0))
-			//	break;
-
-			if (pcli->hwndContactList != NULL) {
-				RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-				during_sizing = true;
-
-				new_window_rect.left = 0;
-				new_window_rect.right = wp->cx - (g_CLUI_x_off + g_CLUI_x1_off);
-				new_window_rect.top = 0;
-				new_window_rect.bottom = wp->cy - g_CLUI_y_off - g_CLUI_y1_off;
-
-				if (cfg::dat.dwFlags & CLUI_FRAME_SBARSHOW) {
-					RECT rcStatus;
-					SetWindowPos(pcli->hwndStatus, 0, 0, new_window_rect.bottom - 20, new_window_rect.right, 20, SWP_NOZORDER);
-					GetWindowRect(pcli->hwndStatus, &rcStatus);
-					cfg::dat.statusBarHeight = (rcStatus.bottom - rcStatus.top);
-					if (wp->cx != g_oldSize.cx)
-						SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
-					RedrawWindow(pcli->hwndStatus, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
-				} else
-					cfg::dat.statusBarHeight = 0;
-
-				SizeFramesByWindowRect(&new_window_rect);
-				dock_prevent_moving = 0;
-				LayoutButtons(hwnd, &new_window_rect);
-				dock_prevent_moving = 1;
-				g_oldPos.x = wp->x;
-				g_oldPos.y = wp->y;
-				g_oldSize.cx = wp->cx;
-				g_oldSize.cy = wp->cy;
-				rcWPC = new_window_rect;
-
-				during_sizing = false;
-			}
-			during_sizing = false;
+	case WM_WINDOWPOSCHANGED:
+		if (!Docking_IsDocked(0, 0))
 			return(0);
+		else
+			break;
+
+	case WM_WINDOWPOSCHANGING: {
+		WINDOWPOS *wp = (WINDOWPOS *)lParam;
+
+		if (wp && wp->flags & SWP_NOSIZE)
+			return FALSE;
+
+		//if (Docking_IsDocked(0, 0))
+		//	break;
+
+		if (pcli->hwndContactList != NULL) {
+			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+			during_sizing = true;
+
+			new_window_rect.left = 0;
+			new_window_rect.right = wp->cx - (g_CLUI_x_off + g_CLUI_x1_off);
+			new_window_rect.top = 0;
+			new_window_rect.bottom = wp->cy - g_CLUI_y_off - g_CLUI_y1_off;
+
+			if (cfg::dat.dwFlags & CLUI_FRAME_SBARSHOW) {
+				RECT rcStatus;
+				SetWindowPos(pcli->hwndStatus, 0, 0, new_window_rect.bottom - 20, new_window_rect.right, 20, SWP_NOZORDER);
+				GetWindowRect(pcli->hwndStatus, &rcStatus);
+				cfg::dat.statusBarHeight = (rcStatus.bottom - rcStatus.top);
+				if (wp->cx != g_oldSize.cx)
+					SendMessage(hwnd, CLUIINTM_STATUSBARUPDATE, 0, 0);
+				RedrawWindow(pcli->hwndStatus, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+			} else
+				cfg::dat.statusBarHeight = 0;
+
+			SizeFramesByWindowRect(&new_window_rect);
+			dock_prevent_moving = 0;
+			LayoutButtons(hwnd, &new_window_rect);
+			dock_prevent_moving = 1;
+			g_oldPos.x = wp->x;
+			g_oldPos.y = wp->y;
+			g_oldSize.cx = wp->cx;
+			g_oldSize.cy = wp->cy;
+			rcWPC = new_window_rect;
+
+			during_sizing = false;
 		}
+		during_sizing = false;
+		return(0);
+										}
 
-		case WM_SIZE: {
-			RECT rc;
+	case WM_SIZE: {
+		RECT rc;
 
-			if ((wParam == 0 && lParam == 0) || Docking_IsDocked(0, 0)) {
+		if ((wParam == 0 && lParam == 0) || Docking_IsDocked(0, 0)) {
 
-				if (IsZoomed(hwnd))
-					ShowWindow(hwnd, SW_SHOWNORMAL);
+			if (IsZoomed(hwnd))
+				ShowWindow(hwnd, SW_SHOWNORMAL);
 
-				if (pcli->hwndContactList != 0) {
-					SendMessage(hwnd, WM_ENTERSIZEMOVE, 0, 0);
-					GetWindowRect(hwnd, &rc);
-					WINDOWPOS	wp = {0};
-					wp.cx = rc.right - rc.left;
-					wp.cy = rc.bottom - rc.top;
-					wp.x = rc.left;
-					wp.y = rc.top;
-					wp.flags = 0;
-					SendMessage(hwnd, WM_WINDOWPOSCHANGING, 0, (LPARAM)&wp);
-					SendMessage(hwnd, WM_EXITSIZEMOVE, 0, 0);
-				}
+			if (pcli->hwndContactList != 0) {
+				SendMessage(hwnd, WM_ENTERSIZEMOVE, 0, 0);
+				GetWindowRect(hwnd, &rc);
+				WINDOWPOS	wp = {0};
+				wp.cx = rc.right - rc.left;
+				wp.cy = rc.bottom - rc.top;
+				wp.x = rc.left;
+				wp.y = rc.top;
+				wp.flags = 0;
+				SendMessage(hwnd, WM_WINDOWPOSCHANGING, 0, (LPARAM)&wp);
+				SendMessage(hwnd, WM_EXITSIZEMOVE, 0, 0);
 			}
 		}
-		case WM_MOVE:
-			if (!IsIconic(hwnd)) {
+					  }
+	case WM_MOVE:
+		if (!IsIconic(hwnd)) {
+			RECT rc;
+			GetWindowRect(hwnd, &rc);
+
+			if (!Docking_IsDocked(0, 0)) {
+				cluiPos.bottom = (DWORD)(rc.bottom - rc.top);
+				cluiPos.left = rc.left;
+				cluiPos.top = rc.top;
+			}
+			cluiPos.right = rc.right - rc.left;
+			if (cfg::dat.realTimeSaving) {
 				RECT rc;
 				GetWindowRect(hwnd, &rc);
 
-				if (!Docking_IsDocked(0, 0)) {
-					cluiPos.bottom = (DWORD)(rc.bottom - rc.top);
-					cluiPos.left = rc.left;
-					cluiPos.top = rc.top;
+				// if docked, dont remember pos (except for width)
+				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+					cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
+					cfg::writeDword("CList", "x", (DWORD) rc.left);
+					cfg::writeDword("CList", "y", (DWORD) rc.top);
 				}
-				cluiPos.right = rc.right - rc.left;
-				if (cfg::dat.realTimeSaving) {
-					RECT rc;
-					GetWindowRect(hwnd, &rc);
-
-					// if docked, dont remember pos (except for width)
-					if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
-						cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
-						cfg::writeDword("CList", "x", (DWORD) rc.left);
-						cfg::writeDword("CList", "y", (DWORD) rc.top);
-					}
-					cfg::writeDword("CList", "Width", (DWORD)(rc.right - rc.left));
-				}
+				cfg::writeDword("CList", "Width", (DWORD)(rc.right - rc.left));
 			}
-			return TRUE;
-
-		case WM_SETFOCUS:
-			SetFocus(pcli->hwndContactTree);
-			return 0;
-		case CLUIINTM_REMOVEFROMTASKBAR: {
-			BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
-			if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && cfg::getByte("CList", "AlwaysHideOnTB", 0))
-				RemoveFromTaskBar(hwnd);
-			return 0;
 		}
-		case WM_ACTIVATE:
-			if (g_fading_active) {
-				if (wParam != WA_INACTIVE && cfg::dat.isTransparent)
-					transparentFocus = 1;
-				return DefWindowProc(hwnd, msg, wParam, lParam);
-			}
-			if (wParam == WA_INACTIVE) {
-				if ((HWND) wParam != hwnd)
-					if (cfg::dat.isTransparent)
-						if (transparentFocus)
-							SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
-			} else {
-				if (cfg::dat.isTransparent) {
-					KillTimer(hwnd, TM_AUTOALPHA);
-					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-					transparentFocus = 1;
-				}
-				SetWindowPos(pcli->hwndContactList, cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
-			}
-			PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
+		return TRUE;
+
+	case WM_SETFOCUS:
+		SetFocus(pcli->hwndContactTree);
+		return 0;
+
+	case CLUIINTM_REMOVEFROMTASKBAR: {
+		BYTE windowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
+		if (windowStyle == SETTING_WINDOWSTYLE_DEFAULT && cfg::getByte("CList", "AlwaysHideOnTB", 0))
+			RemoveFromTaskBar(hwnd);
+		return 0;
+												}
+	case WM_ACTIVATE:
+		if (g_fading_active) {
+			if (wParam != WA_INACTIVE && cfg::dat.isTransparent)
+				transparentFocus = 1;
 			return DefWindowProc(hwnd, msg, wParam, lParam);
-
-		case WM_SETCURSOR:
-			if (cfg::dat.isTransparent) {
-				if (!transparentFocus && GetForegroundWindow() != hwnd) {
-					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-					transparentFocus = 1;
-					SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
-				}
-			}
-			return DefWindowProc(hwnd, msg, wParam, lParam);
-		case WM_NCHITTEST: {
-			LRESULT result;
-			RECT r;
-			POINT pt;
-			int k = 0;
-			int clip = cfg::dat.bClipBorder;
-
-			GetWindowRect(hwnd, &r);
-			GetCursorPos(&pt);
-			if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !cfg::getByte("CLUI", "AutoSize", 0)) {
-				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-					return HTBOTTOM;
-				if (pt.x < r.left + clip + 10)
-					return HTBOTTOMLEFT;
-				if (pt.x > r.right - clip - 10)
-					return HTBOTTOMRIGHT;
-
-			} else if (pt.y >= r.top && pt.y <= r.top + 3 && !cfg::getByte("CLUI", "AutoSize", 0)) {
-				if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
-					return HTTOP;
-				if (pt.x < r.left + clip + 10)
-					return HTTOPLEFT;
-				if (pt.x > r.right - clip - 10)
-					return HTTOPRIGHT;
-			} else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
-				return HTLEFT;
-			else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
-				return HTRIGHT;
-
-			result = DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
-			if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT || result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
-				if (cfg::dat.autosize)
-					return HTCLIENT;
-			return result;
 		}
-
-		case WM_TIMER:
-			if ((int) wParam == TM_AUTOALPHA) {
-				int inwnd;
-
-				if (GetForegroundWindow() == hwnd) {
-					KillTimer(hwnd, TM_AUTOALPHA);
-					inwnd = 1;
-				} else {
-					POINT pt;
-					HWND hwndPt;
-					pt.x = (short) LOWORD(GetMessagePos());
-					pt.y = (short) HIWORD(GetMessagePos());
-					hwndPt = WindowFromPoint(pt);
-					inwnd = (hwndPt == hwnd || GetParent(hwndPt) == hwnd);
-				}
-				if (inwnd != transparentFocus) {
-					//change
-					transparentFocus = inwnd;
+		if (wParam == WA_INACTIVE) {
+			if ((HWND) wParam != hwnd)
+				if (cfg::dat.isTransparent)
 					if (transparentFocus)
-						API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-					else
-						API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.autoalpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-				}
-				if (!transparentFocus)
-					KillTimer(hwnd, TM_AUTOALPHA);
-			} else if (wParam == TIMERID_AUTOSIZE) {
-				KillTimer(hwnd, wParam);
-				SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
-				PostMessage(hwnd, WM_SIZE, 0, 0);
-				PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
+						SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
+		} else {
+			if (cfg::dat.isTransparent) {
+				KillTimer(hwnd, TM_AUTOALPHA);
+				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+				transparentFocus = 1;
 			}
-			return TRUE;
-		case WM_SHOWWINDOW: {
+			SetWindowPos(pcli->hwndContactList, cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING);
+		}
+		PostMessage(hwnd, CLUIINTM_REMOVEFROMTASKBAR, 0, 0);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_SETCURSOR:
+		if (cfg::dat.isTransparent) {
+			if (!transparentFocus && GetForegroundWindow() != hwnd) {
+				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+				transparentFocus = 1;
+				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
+			}
+		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_NCHITTEST: {
+		LRESULT result;
+		RECT r;
+		POINT pt;
+		int k = 0;
+		int clip = cfg::dat.bClipBorder;
+
+		GetWindowRect(hwnd, &r);
+		GetCursorPos(&pt);
+		if (pt.y <= r.bottom && pt.y >= r.bottom - clip - 6 && !cfg::getByte("CLUI", "AutoSize", 0)) {
+			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+				return HTBOTTOM;
+			if (pt.x < r.left + clip + 10)
+				return HTBOTTOMLEFT;
+			if (pt.x > r.right - clip - 10)
+				return HTBOTTOMRIGHT;
+
+		} else if (pt.y >= r.top && pt.y <= r.top + 3 && !cfg::getByte("CLUI", "AutoSize", 0)) {
+			if (pt.x > r.left + clip + 10 && pt.x < r.right - clip - 10)
+				return HTTOP;
+			if (pt.x < r.left + clip + 10)
+				return HTTOPLEFT;
+			if (pt.x > r.right - clip - 10)
+				return HTTOPRIGHT;
+		} else if (pt.x >= r.left && pt.x <= r.left + clip + 6)
+			return HTLEFT;
+		else if (pt.x >= r.right - clip - 6 && pt.x <= r.right)
+			return HTRIGHT;
+
+		result = DefWindowProc(hwnd, WM_NCHITTEST, wParam, lParam);
+		if (result == HTSIZE || result == HTTOP || result == HTTOPLEFT || result == HTTOPRIGHT || result == HTBOTTOM || result == HTBOTTOMRIGHT || result == HTBOTTOMLEFT)
+			if (cfg::dat.autosize)
+				return HTCLIENT;
+		return result;
+							 }
+
+	case WM_TIMER:
+		if ((int) wParam == TM_AUTOALPHA) {
+			int inwnd;
+
+			if (GetForegroundWindow() == hwnd) {
+				KillTimer(hwnd, TM_AUTOALPHA);
+				inwnd = 1;
+			}
+			else {
+				POINT pt;
+				HWND hwndPt;
+				pt.x = (short) LOWORD(GetMessagePos());
+				pt.y = (short) HIWORD(GetMessagePos());
+				hwndPt = WindowFromPoint(pt);
+				inwnd = (hwndPt == hwnd || GetParent(hwndPt) == hwnd);
+			}
+			if (inwnd != transparentFocus) {
+				//change
+				transparentFocus = inwnd;
+				if (transparentFocus)
+					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+				else
+					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.autoalpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
+			}
+			if (!transparentFocus)
+				KillTimer(hwnd, TM_AUTOALPHA);
+		} else if (wParam == TIMERID_AUTOSIZE) {
+			KillTimer(hwnd, wParam);
+			SetWindowPos(hwnd, 0, rcWindow.left, rcWindow.top, rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSENDCHANGING);
+			PostMessage(hwnd, WM_SIZE, 0, 0);
+			PostMessage(hwnd, CLUIINTM_REDRAW, 0, 0);
+		}
+		return TRUE;
+	case WM_SHOWWINDOW:
+		{
 			static int noRecurse = 0;
 			DWORD thisTick, startTick;
 			int sourceAlpha, destAlpha;
@@ -1389,10 +1394,11 @@ skipbg:
 				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)(sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
 			API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), (BYTE)(destAlpha), LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
-			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
-		case WM_SYSCOMMAND: {
+	case WM_SYSCOMMAND:
+		{
 			BYTE	bWindowStyle = cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT);
 			if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle) {
 				if (wParam == SC_RESTORE) {
@@ -1407,7 +1413,8 @@ skipbg:
 
 			if (wParam == SC_MAXIMIZE)
 				return 0;
-			else if (wParam == SC_MINIMIZE) {
+
+			if (wParam == SC_MINIMIZE) {
 				if (SETTING_WINDOWSTYLE_DEFAULT == bWindowStyle && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
 					cfg::writeByte("CList", "State", SETTING_STATE_MINIMIZED);
 					break;
@@ -1415,18 +1422,20 @@ skipbg:
 				pcli->pfnShowHide(0, 0);
 				return 0;
 			}
-			else if (wParam == SC_RESTORE) {
+			if (wParam == SC_RESTORE) {
 				pcli->pfnShowHide(0, 0);
-				return(0);
+				return 0;
 			}
-			return DefWindowProc(hwnd, msg, wParam, lParam);
 		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
-		case WM_COMMAND: {
+	case WM_COMMAND:
+		{
 			DWORD dwOldFlags = cfg::dat.dwFlags;
 			if (HIWORD(wParam) == BN_CLICKED && lParam != 0) {
 				if (LOWORD(wParam) == IDC_TBFIRSTUID - 1)
 					break;
+
 				else if (LOWORD(wParam) >= IDC_TBFIRSTUID) { // skinnable buttons handling
 					ButtonItem *item = g_ButtonItems;
 					WPARAM wwParam = 0;
@@ -1451,7 +1460,8 @@ skipbg:
 									CallService(item->szService, wwParam, llParam);
 								else if (contactOK)
 									serviceFailure = TRUE;
-							} else if (item->dwFlags & BUTTON_ISPROTOSERVICE && cfg::clcdat) {
+							}
+							else if (item->dwFlags & BUTTON_ISPROTOSERVICE && cfg::clcdat) {
 								if (contactOK) {
 									char szFinalService[512];
 
@@ -1461,7 +1471,8 @@ skipbg:
 									else
 										serviceFailure = TRUE;
 								}
-							} else if (item->dwFlags & BUTTON_ISDBACTION) {
+							}
+							else if (item->dwFlags & BUTTON_ISDBACTION) {
 								BYTE *pValue;
 								char *szModule = item->szModule;
 								char *szSetting = item->szSetting;
@@ -1472,8 +1483,8 @@ skipbg:
 									if (contactOK && item->dwFlags & BUTTON_ISCONTACTDBACTION)
 										szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 									finalhContact = hContact;
-								} else
-									contactOK = 1;
+								}
+								else contactOK = 1;
 
 								if (contactOK) {
 									BOOL fDelete = FALSE;
@@ -1492,19 +1503,19 @@ skipbg:
 										DBDeleteContactSetting(finalhContact, szModule, szSetting);
 									} else {
 										switch (item->type) {
-											case DBVT_BYTE:
-												cfg::writeByte(finalhContact, szModule, szSetting, pValue[0]);
-												break;
-											case DBVT_WORD:
-												cfg::writeWord(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
-												//_DebugTraceA("set WORD value: %s, %s, %d ON %d", szModule, item->szSetting, *((WORD *)&pValue[0]), finalhContact);
-												break;
-											case DBVT_DWORD:
-												cfg::writeDword(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));
-												break;
-											case DBVT_ASCIIZ:
-												cfg::writeString(finalhContact, szModule, szSetting, (char *)pValue);
-												break;
+										case DBVT_BYTE:
+											cfg::writeByte(finalhContact, szModule, szSetting, pValue[0]);
+											break;
+										case DBVT_WORD:
+											cfg::writeWord(finalhContact, szModule, szSetting, *((WORD *)&pValue[0]));
+											//_DebugTraceA("set WORD value: %s, %s, %d ON %d", szModule, item->szSetting, *((WORD *)&pValue[0]), finalhContact);
+											break;
+										case DBVT_DWORD:
+											cfg::writeDword(finalhContact, szModule, szSetting, *((DWORD *)&pValue[0]));
+											break;
+										case DBVT_ASCIIZ:
+											cfg::writeString(finalhContact, szModule, szSetting, (char *)pValue);
+											break;
 										}
 									}
 								} else if (item->dwFlags & BUTTON_ISTOGGLE)
@@ -1524,54 +1535,58 @@ skipbg:
 					}
 					goto buttons_done;
 				}
+
 				switch (LOWORD(wParam)) {
-					case IDC_TBMENU:
-					case IDC_TBTOPMENU: {
+				case IDC_TBMENU:
+				case IDC_TBTOPMENU:
+					{
 						RECT rc;
 						HMENU hMenu = (HMENU) CallService(MS_CLIST_MENUGETMAIN, 0, 0);
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, LOWORD(wParam) == IDC_TBMENU ? rc.top : rc.bottom, 0, hwnd, NULL);
-						return 0;
 					}
-					case IDC_TBTOPSTATUS:
-					case IDC_TBGLOBALSTATUS: {
+					return 0;
+
+				case IDC_TBTOPSTATUS:
+				case IDC_TBGLOBALSTATUS:
+					{
 						RECT rc;
 						HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 						GetButtonRect(GetDlgItem(hwnd, LOWORD(wParam)), &rc);
 						TrackPopupMenu(hmenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, rc.left, rc.top, 0, hwnd, NULL);
-						return 0;
 					}
+					return 0;
 
-					case IDC_TABSRMMSLIST:
-					case IDC_TABSRMMMENU:
-						if (ServiceExists("SRMsg_MOD/GetWindowFlags"))
-							CallService("SRMsg_MOD/Show_TrayMenu", 0, LOWORD(wParam) == IDC_TABSRMMSLIST ? 0 : 1);
-						return 0;
+				case IDC_TABSRMMSLIST:
+				case IDC_TABSRMMMENU:
+					if (ServiceExists("SRMsg_MOD/GetWindowFlags"))
+						CallService("SRMsg_MOD/Show_TrayMenu", 0, LOWORD(wParam) == IDC_TABSRMMSLIST ? 0 : 1);
+					return 0;
 
-					case IDC_TBSOUND:
-						cfg::dat.soundsOff = !cfg::dat.soundsOff;
-						cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
-						cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
-						return 0;
+				case IDC_TBSOUND:
+					cfg::dat.soundsOff = !cfg::dat.soundsOff;
+					cfg::writeByte("CLUI", "NoSounds", (BYTE)cfg::dat.soundsOff);
+					cfg::writeByte("Skin", "UseSound", (BYTE)(cfg::dat.soundsOff ? 0 : 1));
+					return 0;
 
-					case IDC_TBSELECTVIEWMODE:
-						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_SELECTMODE, lParam);
-						break;
-					case IDC_TBCLEARVIEWMODE:
-						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_RESETMODES, lParam);
-						break;
-					case IDC_TBCONFIGUREVIEWMODE:
-						SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_CONFIGUREMODES, lParam);
-						break;
-					case IDC_TBFINDANDADD:
-						CallService(MS_FINDADD_FINDADD, 0, 0);
-						return 0;
-					case IDC_TBACCOUNTS:
-						CallService(MS_PROTO_SHOWACCMGR, 0, 0);
-						break;
-					case IDC_TBOPTIONS:
-						CallService("Options/OptionsCommand", 0, 0);
-						return 0;
+				case IDC_TBSELECTVIEWMODE:
+					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_SELECTMODE, lParam);
+					break;
+				case IDC_TBCLEARVIEWMODE:
+					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_RESETMODES, lParam);
+					break;
+				case IDC_TBCONFIGUREVIEWMODE:
+					SendMessage(g_hwndViewModeFrame, WM_COMMAND, IDC_CONFIGUREMODES, lParam);
+					break;
+				case IDC_TBFINDANDADD:
+					CallService(MS_FINDADD_FINDADD, 0, 0);
+					return 0;
+				case IDC_TBACCOUNTS:
+					CallService(MS_PROTO_SHOWACCMGR, 0, 0);
+					break;
+				case IDC_TBOPTIONS:
+					CallService("Options/OptionsCommand", 0, 0);
+					return 0;
 				}
 			}
 			else if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM)(HANDLE) NULL))
@@ -1579,81 +1594,81 @@ skipbg:
 
 buttons_done:
 			switch (LOWORD(wParam)) {
-				case ID_TRAY_EXIT:
-				case ID_ICQ_EXIT:
-					cfg::shutDown = 1;
-					if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
-						DestroyWindow(hwnd);
-					break;
-				case ID_TRAY_HIDE:
-				case IDC_TBMINIMIZE:
-					pcli->pfnShowHide(0, 0);
-					break;
-				case POPUP_NEWGROUP:
-					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
-					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
-					CallService(MS_CLIST_GROUPCREATE, 0, 0);
-					break;
-				case POPUP_HIDEOFFLINE:
-				case IDC_TBHIDEOFFLINE:
-					CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
-					break;
-				case POPUP_HIDEOFFLINEROOT:
-					SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
-					break;
-				case POPUP_HIDEEMPTYGROUPS: {
-					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-					cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
-					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
-					break;
-				}
-				case IDC_TBHIDEGROUPS:
-				case POPUP_DISABLEGROUPS: {
-					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
-					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
-					break;
-				}
-				case POPUP_HIDEMIRANDA:
-					pcli->pfnShowHide(0, 0);
-					break;
-				case POPUP_VISIBILITY:
-					cfg::dat.dwFlags ^= CLUI_SHOWVISI;
-					break;
-				case POPUP_SHOWMETAICONS:
-					cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
-					SendMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0);
-					break;
-				case POPUP_FRAME:
-					cfg::dat.dwFlags ^= CLUI_FRAME_CLISTSUNKEN;
-					break;
-				case POPUP_BUTTONS:
-					cfg::dat.dwFlags ^= CLUI_FRAME_SHOWBOTTOMBUTTONS;
-					break;
-				case POPUP_SHOWSTATUSICONS:
-					cfg::dat.dwFlags ^= CLUI_FRAME_STATUSICONS;
-					break;
-				case POPUP_FLOATER:
-					cfg::dat.bUseFloater ^= CLUI_USE_FLOATER;
-					if (cfg::dat.bUseFloater & CLUI_USE_FLOATER) {
-						SFL_Create();
-						SFL_SetState(-1);
-					} else
-						SFL_Destroy();
-					cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
-					break;
-				case POPUP_FLOATER_AUTOHIDE:
-					cfg::dat.bUseFloater ^= CLUI_FLOATER_AUTOHIDE;
-					SFL_SetState(cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? (cfg::getByte("CList", "State", SETTING_STATE_NORMAL) == SETTING_STATE_NORMAL ? 0 : 1) : 1);
-					cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
-					break;
-				case POPUP_FLOATER_EVENTS:
-					cfg::dat.bUseFloater ^= CLUI_FLOATER_EVENTS;
-					SFL_SetSize();
-					SFL_Update(0, 0, 0, NULL, FALSE);
-					cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
-					break;
+			case ID_TRAY_EXIT:
+			case ID_ICQ_EXIT:
+				cfg::shutDown = 1;
+				if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
+					DestroyWindow(hwnd);
+				break;
+			case ID_TRAY_HIDE:
+			case IDC_TBMINIMIZE:
+				pcli->pfnShowHide(0, 0);
+				break;
+			case POPUP_NEWGROUP:
+				SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
+				SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, 1, 0);
+				CallService(MS_CLIST_GROUPCREATE, 0, 0);
+				break;
+			case POPUP_HIDEOFFLINE:
+			case IDC_TBHIDEOFFLINE:
+				CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM)(-1), 0);
+				break;
+			case POPUP_HIDEOFFLINEROOT:
+				SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
+				break;
+			case POPUP_HIDEEMPTYGROUPS: {
+				int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
+				cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
+				SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
+				break;
+												 }
+			case IDC_TBHIDEGROUPS:
+			case POPUP_DISABLEGROUPS: {
+				int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
+				cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
+				SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
+				CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
+				break;
+											  }
+			case POPUP_HIDEMIRANDA:
+				pcli->pfnShowHide(0, 0);
+				break;
+			case POPUP_VISIBILITY:
+				cfg::dat.dwFlags ^= CLUI_SHOWVISI;
+				break;
+			case POPUP_SHOWMETAICONS:
+				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
+				SendMessage(pcli->hwndContactTree, CLM_AUTOREBUILD, 0, 0);
+				break;
+			case POPUP_FRAME:
+				cfg::dat.dwFlags ^= CLUI_FRAME_CLISTSUNKEN;
+				break;
+			case POPUP_BUTTONS:
+				cfg::dat.dwFlags ^= CLUI_FRAME_SHOWBOTTOMBUTTONS;
+				break;
+			case POPUP_SHOWSTATUSICONS:
+				cfg::dat.dwFlags ^= CLUI_FRAME_STATUSICONS;
+				break;
+			case POPUP_FLOATER:
+				cfg::dat.bUseFloater ^= CLUI_USE_FLOATER;
+				if (cfg::dat.bUseFloater & CLUI_USE_FLOATER) {
+					SFL_Create();
+					SFL_SetState(-1);
+				} else
+					SFL_Destroy();
+				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
+				break;
+			case POPUP_FLOATER_AUTOHIDE:
+				cfg::dat.bUseFloater ^= CLUI_FLOATER_AUTOHIDE;
+				SFL_SetState(cfg::dat.bUseFloater & CLUI_FLOATER_AUTOHIDE ? (cfg::getByte("CList", "State", SETTING_STATE_NORMAL) == SETTING_STATE_NORMAL ? 0 : 1) : 1);
+				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
+				break;
+			case POPUP_FLOATER_EVENTS:
+				cfg::dat.bUseFloater ^= CLUI_FLOATER_EVENTS;
+				SFL_SetSize();
+				SFL_Update(0, 0, 0, NULL, FALSE);
+				cfg::writeByte("CLUI", "FloaterMode", cfg::dat.bUseFloater);
+				break;
 			}
 			if (dwOldFlags != cfg::dat.dwFlags) {
 				InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
@@ -1666,49 +1681,54 @@ buttons_done:
 				PostMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 				PostMessage(pcli->hwndContactList, CLUIINTM_REDRAW, 0, 0);
 			}
-			return FALSE;
 		}
-		case WM_LBUTTONDOWN: {
-			if (g_ButtonItems) {
-				POINT ptMouse, pt;
+		return FALSE;
 
-				GetCursorPos(&ptMouse);
-				pt = ptMouse;
-				return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
-			}
-			break;
+	case WM_LBUTTONDOWN:
+		if (g_ButtonItems) {
+			POINT ptMouse, pt;
+
+			GetCursorPos(&ptMouse);
+			pt = ptMouse;
+			return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 		}
-		case WM_DISPLAYCHANGE:
-			SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0); //forces it to send a cln_listsizechanged
-			break;
-		case WM_NOTIFY:
-			if (((LPNMHDR) lParam)->hwndFrom == pcli->hwndContactTree) {
-				switch (((LPNMHDR) lParam)->code) {
-					case CLN_LISTSIZECHANGE:
-						sttProcessResize(hwnd, (NMCLISTCONTROL*)lParam);
-						return FALSE;
+		break;
 
-					case NM_CLICK: {
-						NMCLISTCONTROL *nm = (NMCLISTCONTROL *) lParam;
-						DWORD hitFlags;
-						HANDLE hItem;
+	case WM_DISPLAYCHANGE:
+		SendMessage(pcli->hwndContactTree, WM_SIZE, 0, 0); //forces it to send a cln_listsizechanged
+		break;
 
-						hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_HITTEST, (WPARAM) & hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->hwndFrom == pcli->hwndContactTree) {
+			switch (((LPNMHDR) lParam)->code) {
+			case CLN_LISTSIZECHANGE:
+				sttProcessResize(hwnd, (NMCLISTCONTROL*)lParam);
+				return FALSE;
 
-						if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
-							break;
-						if (cfg::getByte("CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
-							POINT pt;
-							pt = nm->pt;
-							ClientToScreen(pcli->hwndContactTree, &pt);
-							return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
-						}
+			case NM_CLICK:
+				{
+					NMCLISTCONTROL *nm = (NMCLISTCONTROL *) lParam;
+					DWORD hitFlags;
+					HANDLE hItem;
+
+					hItem = (HANDLE)SendMessage(pcli->hwndContactTree, CLM_HITTEST, (WPARAM) & hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y));
+
+					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
+						break;
+					if (cfg::getByte("CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
+						POINT pt;
+						pt = nm->pt;
+						ClientToScreen(pcli->hwndContactTree, &pt);
+						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 					}
-					return FALSE;
 				}
+				return FALSE;
 			}
-			break;
-		case WM_CONTEXTMENU: {
+		}
+		break;
+
+	case WM_CONTEXTMENU:
+		{
 			RECT rc;
 			POINT pt;
 
@@ -1745,14 +1765,16 @@ buttons_done:
 		}
 		break;
 
-		case WM_MEASUREITEM:
-			if (((LPMEASUREITEMSTRUCT) lParam)->itemData == MENU_MIRANDAMENU) {
-				((LPMEASUREITEMSTRUCT) lParam)->itemWidth = g_cxsmIcon * 4 / 3;
-				((LPMEASUREITEMSTRUCT) lParam)->itemHeight = 0;
-				return TRUE;
-			}
-			return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
-		case WM_DRAWITEM: {
+	case WM_MEASUREITEM:
+		if (((LPMEASUREITEMSTRUCT) lParam)->itemData == MENU_MIRANDAMENU) {
+			((LPMEASUREITEMSTRUCT) lParam)->itemWidth = g_cxsmIcon * 4 / 3;
+			((LPMEASUREITEMSTRUCT) lParam)->itemHeight = 0;
+			return TRUE;
+		}
+		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+
+	case WM_DRAWITEM:
+		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;
 
 			if (hbmLockedPoint == 0) {
@@ -1820,13 +1842,15 @@ buttons_done:
 						}
 					}
 					x += 18;
-				} else {
+				}
+				else {
 					x += 2;
 					if (pd->statusbarpos == 0)
 						x += (cfg::dat.bEqualSections ? (cfg::dat.bCLeft / 2) : cfg::dat.bCLeft);
 					else if (pd->statusbarpos == nParts - 1)
 						x -= (cfg::dat.bCRight / 2);
 				}
+				
 				if (showOpts & 2) {
 					TCHAR szName[64];
 					PROTOACCOUNT* pa = ProtoGetAccount( szProto );
@@ -1847,66 +1871,69 @@ buttons_done:
 					GetTextExtentPoint32(dis->hDC, szStatus, lstrlen(szStatus), &textSize);
 					TextOut(dis->hDC, x, (dis->rcItem.top + dis->rcItem.bottom - textSize.cy) >> 1, szStatus, lstrlen(szStatus));
 				}
-			} else if (dis->CtlType == ODT_MENU) {
+			}
+			else if (dis->CtlType == ODT_MENU) {
 				if (dis->itemData == MENU_MIRANDAMENU)
 					break;
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 			}
-			return 0;
 		}
+		return 0;
 
-		case WM_CLOSE:
-			if (SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
-				PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
-				return(0);
-			}
-			pcli->pfnShowHide(0, 0);
+	case WM_CLOSE:
+		if (SETTING_WINDOWSTYLE_DEFAULT == cfg::getByte("CLUI", "WindowStyle", SETTING_WINDOWSTYLE_DEFAULT) && !cfg::getByte("CList", "AlwaysHideOnTB", 0)) {
+			PostMessage(hwnd, WM_SYSCOMMAND, SC_MINIMIZE, 0);
 			return(0);
+		}
+		pcli->pfnShowHide(0, 0);
+		return(0);
 
-		case CLUIINTM_REDRAW:
-			if (show_on_first_autosize) {
-				show_on_first_autosize = FALSE;
-				ShowCLUI(hwnd);
-			}
-			RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
-			return 0;
-		case CLUIINTM_STATUSBARUPDATE:
-			CluiProtocolStatusChanged(0, 0);
-			return 0;
+	case CLUIINTM_REDRAW:
+		if (show_on_first_autosize) {
+			show_on_first_autosize = FALSE;
+			ShowCLUI(hwnd);
+		}
+		RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_ERASE | RDW_FRAME | RDW_UPDATENOW | RDW_ALLCHILDREN);
+		return 0;
 
-		case WM_THEMECHANGED:
-			API::updateState();
-			break;
+	case CLUIINTM_STATUSBARUPDATE:
+		CluiProtocolStatusChanged(0, 0);
+		return 0;
 
-		case WM_DESTROY:
-			if (cfg::dat.hdcBg) {
-				SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
-				DeleteObject(cfg::dat.hbmBg);
-				DeleteDC(cfg::dat.hdcBg);
-				cfg::dat.hdcBg = NULL;
-			}
-			if (cfg::dat.bmpBackground) {
-				SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
-				DeleteDC(cfg::dat.hdcPic);
-				DeleteObject(cfg::dat.bmpBackground);
-				cfg::dat.bmpBackground = NULL;
-			}
-			FreeProtocolData();
-			if (hdcLockedPoint) {
-				SelectObject(hdcLockedPoint, hbmOldLockedPoint);
-				DeleteObject(hbmLockedPoint);
-				DeleteDC(hdcLockedPoint);
-			}
-			/*
-			 * if this has not yet been set, do it now.
-			 * indicates that clist is shutting down and prevents various things
-			 * from happening at shutdown.
-			 */
-			if (!cfg::shutDown)
-				cfg::shutDown = 1;
-			CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
-			break;
+	case WM_THEMECHANGED:
+		API::updateState();
+		break;
+
+	case WM_DESTROY:
+		if (cfg::dat.hdcBg) {
+			SelectObject(cfg::dat.hdcBg, cfg::dat.hbmBgOld);
+			DeleteObject(cfg::dat.hbmBg);
+			DeleteDC(cfg::dat.hdcBg);
+			cfg::dat.hdcBg = NULL;
+		}
+		if (cfg::dat.bmpBackground) {
+			SelectObject(cfg::dat.hdcPic, cfg::dat.hbmPicOld);
+			DeleteDC(cfg::dat.hdcPic);
+			DeleteObject(cfg::dat.bmpBackground);
+			cfg::dat.bmpBackground = NULL;
+		}
+		FreeProtocolData();
+		if (hdcLockedPoint) {
+			SelectObject(hdcLockedPoint, hbmOldLockedPoint);
+			DeleteObject(hbmLockedPoint);
+			DeleteDC(hdcLockedPoint);
+		}
+		/*
+		* if this has not yet been set, do it now.
+		* indicates that clist is shutting down and prevents various things
+		* from happening at shutdown.
+		*/
+		if (!cfg::shutDown)
+			cfg::shutDown = 1;
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
+		break;
 	}
+
 	return saveContactListWndProc(hwnd, msg, wParam, lParam);
 }
 
@@ -1924,71 +1951,77 @@ static BOOL g_AboutDlgActive = 0;
 
 INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HICON hIcon;
 	COLORREF url_visited = RGB(128, 0, 128);
 	COLORREF url_unvisited = RGB(0, 0, 255);
 
 	switch (msg) {
-		case WM_INITDIALOG:
-			TranslateDialogDefault(hwndDlg);
-			{
-				int h;
-				HFONT hFont;
-				LOGFONT lf;
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		{
+			int h;
+			HFONT hFont;
+			LOGFONT lf;
 
-				g_AboutDlgActive = TRUE;
-				hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_GETFONT, 0, 0);
-				GetObject(hFont, sizeof(lf), &lf);
-				h = lf.lfHeight;
-				lf.lfHeight = (int)(lf.lfHeight * 1.5);
-				lf.lfWeight = FW_BOLD;
-				hFont = CreateFontIndirect(&lf);
-				SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_SETFONT, (WPARAM)hFont, 0);
-				lf.lfHeight = h;
-				hFont = CreateFontIndirect(&lf);
-				SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, (WPARAM)hFont, 0);
-			}
-			{
-				char str[64];
-				DWORD v = pluginInfo.version;
-				mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
-				SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
-			}
-			hIcon = LoadIcon(GetModuleHandleA("miranda32.exe"), MAKEINTRESOURCE(102));
+			g_AboutDlgActive = TRUE;
+			hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_GETFONT, 0, 0);
+			GetObject(hFont, sizeof(lf), &lf);
+			h = lf.lfHeight;
+			lf.lfHeight = (int)(lf.lfHeight * 1.5);
+			lf.lfWeight = FW_BOLD;
+			hFont = CreateFontIndirect(&lf);
+			SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_SETFONT, (WPARAM)hFont, 0);
+			lf.lfHeight = h;
+			hFont = CreateFontIndirect(&lf);
+			SendDlgItemMessage(hwndDlg, IDC_VERSION, WM_SETFONT, (WPARAM)hFont, 0);
+		}
+		{
+			char str[64];
+			DWORD v = pluginInfo.version;
+			mir_snprintf(str, sizeof(str), "%s %d.%d.%d.%d", Translate("Version"), HIBYTE(HIWORD(v)), LOBYTE(HIWORD(v)), HIBYTE(LOWORD(v)), LOBYTE(LOWORD(v)));
+			SetDlgItemTextA(hwndDlg, IDC_VERSION, str);
+		}
+		{
+			HICON hIcon = LoadIcon(GetModuleHandleA("miranda32.exe"), MAKEINTRESOURCE(102));
 			SendDlgItemMessage(hwndDlg, IDC_LOGO, STM_SETICON, (WPARAM)hIcon, 0);
 			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 			DestroyIcon(hIcon);
+		}
+		return TRUE;
+
+	case WM_COMMAND:
+		switch (LOWORD(wParam)) {
+		case IDOK:
+		case IDCANCEL:
+			DestroyWindow(hwndDlg);
 			return TRUE;
-		case WM_COMMAND:
-			switch (LOWORD(wParam)) {
-				case IDOK:
-				case IDCANCEL:
-					DestroyWindow(hwndDlg);
-					return TRUE;
-				case IDC_SUPPORT:
-					CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
-					break;
-			}
+		case IDC_SUPPORT:
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM)"http://miranda-ng.org/");
 			break;
-		case WM_CTLCOLOREDIT:
-		case WM_CTLCOLORSTATIC:
-			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_WHITERECT)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_COPYRIGHT)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_SUPPORT)
-					|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_LOGO)) {
-				if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER))
-					SetTextColor((HDC)wParam, RGB(180, 10, 10));
-				else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION))
-					SetTextColor((HDC)wParam, RGB(70, 70, 70));
-				else
-					SetTextColor((HDC)wParam, RGB(0, 0, 0));
-				SetBkColor((HDC)wParam, RGB(255, 255, 255));
-				return (INT_PTR)GetStockObject(WHITE_BRUSH);
-			}
-			break;
-		case WM_DESTROY: {
+		}
+		break;
+
+	case WM_CTLCOLOREDIT:
+	case WM_CTLCOLORSTATIC:
+		if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_WHITERECT)
+			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER)
+			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION)
+			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_COPYRIGHT)
+			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_SUPPORT)
+			|| (HWND)lParam == GetDlgItem(hwndDlg, IDC_LOGO))
+		{
+			if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_CLNICER))
+				SetTextColor((HDC)wParam, RGB(180, 10, 10));
+			else if ((HWND)lParam == GetDlgItem(hwndDlg, IDC_VERSION))
+				SetTextColor((HDC)wParam, RGB(70, 70, 70));
+			else
+				SetTextColor((HDC)wParam, RGB(0, 0, 0));
+			SetBkColor((HDC)wParam, RGB(255, 255, 255));
+			return (INT_PTR)GetStockObject(WHITE_BRUSH);
+		}
+		break;
+
+	case WM_DESTROY:
+		{
 			HFONT hFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_GETFONT, 0, 0);
 			SendDlgItemMessage(hwndDlg, IDC_CLNICER, WM_SETFONT, SendDlgItemMessage(hwndDlg, IDOK, WM_GETFONT, 0, 0), 0);
 			DeleteObject(hFont);

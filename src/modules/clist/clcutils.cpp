@@ -562,7 +562,7 @@ int fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt)
 		}
 		if (ok) {
 			ok = 0;
-			if (bottomItem == -1 || bottomcontact->type != CLCIT_GROUP) {       //need to special-case moving to end
+			if (bottomItem == -1 || bottomcontact->type != CLCIT_GROUP) { //need to special-case moving to end
 				if (topItem != dat->iDragItem) {
 					for (; topgroup; topgroup = topgroup->parent) {
 						if (topgroup == movecontact->group)
@@ -589,7 +589,7 @@ int fnGetDropTargetInformation(HWND hwnd, struct ClcData *dat, POINT pt)
 	}
 	if (contact->type == CLCIT_GROUP) {
 		if (dat->iInsertionMark == -1) {
-			if (movecontact->type == CLCIT_GROUP) {     //check not moving onto its own subgroup
+			if (movecontact->type == CLCIT_GROUP) { //check not moving onto its own subgroup
 				for (; group; group = group->parent)
 					if (group == movecontact->group)
 						return DROPTARGET_ONSELF;

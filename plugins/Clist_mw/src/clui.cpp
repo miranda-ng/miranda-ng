@@ -42,13 +42,15 @@ static int lastreqh = 0,requr = 0,disableautoupd = 1;
 HANDLE hFrameContactTree;
 BYTE showOpts;//for statusbar
 
-typedef struct{
-int IconsCount;
-int CycleStartTick;
-char *szProto;
-int n;
-int TimerCreated;
-} ProtoTicks,*pProtoTicks;
+typedef struct
+{
+	int IconsCount;
+	int CycleStartTick;
+	char *szProto;
+	int n;
+	int TimerCreated;
+}
+	ProtoTicks,*pProtoTicks;
 
 ProtoTicks CycleStartTick[64];//max 64 protocols
 
@@ -76,9 +78,6 @@ HICON GetConnectingIconForProto(char *szProto,int b);
 HICON GetConnectingIconForProto_DLL(char *szProto,int b);
 
 void RegisterProtoIconsForAllProtoIconLib();
-
-#define M_CREATECLC  (WM_USER+1)
-#define M_SETALLEXTRAICONS (WM_USER+2)
 
 static int CluiModulesLoaded(WPARAM wParam,LPARAM lParam)
 {

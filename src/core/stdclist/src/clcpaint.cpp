@@ -497,10 +497,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			}
 
 			//extra icons
-			for (iImage = 0; iImage < dat->extraColumnsCount; iImage++) {
+			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
-				if (group->cl.items[group->scanIndex]->iExtraImage[iImage] == 0xFFFF)
+				if (group->cl.items[group->scanIndex]->iExtraImage[i] == 0xFFFF)
 					continue;
 				if (selected)
 					mode = ILD_SELECTED;
@@ -512,8 +512,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
-				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[iImage], hdcMem,
-					clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - iImage), y + ((dat->rowHeight - 16) >> 1), 0, 0,
+				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[i], hdcMem,
+					clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i), y + ((dat->rowHeight - 16) >> 1), 0, 0,
 					CLR_NONE, colourFg, mode);
 			}
 		}

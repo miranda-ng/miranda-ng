@@ -396,6 +396,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 	case CLM_SETFONT:
 		if (HIWORD(lParam) < 0 || HIWORD(lParam) > FONTID_MAX)
 			return 0;
+
 		dat->fontInfo[HIWORD(lParam)].hFont = (HFONT) wParam;
 		dat->fontInfo[HIWORD(lParam)].changed = 1;
 		{

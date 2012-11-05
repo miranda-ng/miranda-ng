@@ -365,7 +365,6 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 			return 0;
 
 		// Found one, now merge it
-
 		if ( _tcsicmp(extra->getDescription(), desc)) {
 			tstring newDesc = extra->getDescription();
 			newDesc += _T(" / ");
@@ -489,7 +488,7 @@ void LoadExtraIconsModule()
 
 	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, &svcExtraIcon_Add);
 
-	hEventExtraClick = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);      
+	hEventExtraClick = CreateHookableEvent(ME_CLIST_EXTRA_CLICK);
 	hEventExtraImageApplying = CreateHookableEvent(ME_CLIST_EXTRA_IMAGE_APPLY);
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
 

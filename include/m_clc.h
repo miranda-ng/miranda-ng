@@ -218,6 +218,10 @@ typedef struct {
 //NM_CLICK        							//hItem, iColumn, pt, flags valid
 //NM_KEYDOWN                                //NMKEY structure, only sent when key is not already processed, return nonzero to prevent further processing
 
+// clist window tree messages
+#define M_CREATECLC  (WM_USER+1)
+#define M_SETALLEXTRAICONS (WM_USER+2)
+
 //an infotip for an item should be shown now
 //wParam = 0
 //lParam = (LPARAM)(CLCINFOTIP*)&it

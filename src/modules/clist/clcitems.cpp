@@ -244,7 +244,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 					if (szGroupName == NULL) {
 						mir_free(dbv.ptszVal);
 						return;
-					}           //never happens
+					}
 					if ( !lstrcmp(szGroupName, dbv.ptszVal))
 						break;
 				}
@@ -258,7 +258,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 				if (szGroupName == NULL) {
 					mir_free(dbv.ptszVal);
 					return;
-				}               //never happens
+				}
 				if ( !lstrcmp(szGroupName, dbv.ptszVal))
 					break;
 				len = lstrlen(szGroupName);
@@ -429,6 +429,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 	}
 
 	cli.pfnSortCLC(hwnd, dat, 0);
+	cli.pfnSetAllExtraIcons(cli.hwndContactTree, 0);
 }
 
 int fnGetGroupContentsCount(ClcGroup *group, int visibleOnly)
