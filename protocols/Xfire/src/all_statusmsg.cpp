@@ -57,7 +57,8 @@ BOOL BackupStatusMsg() {
 	oltostatus=new vector<unsigned int>;
 
 	//alle protokolle durchgehen und den status in den vector sichern
-	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&anz,(LPARAM)&temp);
+	// TODO: was enumprotocols, is enumprotos okay?
+	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
 		statusid=CallProtoService(temp[i]->szName,PS_GETSTATUS,0,0);
@@ -280,7 +281,8 @@ BOOL SetGameStatusMsg()
 		}
 	}
 
-	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&anz,(LPARAM)&temp);
+	// TODO: MS_PROTO_ENUMPROTOCOLS was original... is enumprotos okay?
+	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
 		if(olstatus->at(i)!=-1)
@@ -348,7 +350,8 @@ BOOL SetOldStatusMsg()
 	if(olstatusmsg==NULL)
 		return FALSE;
 
-	CallService(MS_PROTO_ENUMPROTOCOLS,(WPARAM)&anz,(LPARAM)&temp);
+	// TODO: was enumprotocols, is enumprotos okay?
+	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
 		if(olstatus->at(i)!=-1)

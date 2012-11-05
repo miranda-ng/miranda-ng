@@ -255,7 +255,7 @@ void Xfire_gamelist::createDummyMenuItem()
 	midummy.popupPosition = 500084000;
 	midummy.pszPopupName = Translate("Start game");
 	midummy.pszContactOwner=protocolname;
-	dummymenuitem=(HANDLE)CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&midummy );
+	dummymenuitem=Menu_AddMainMenuItem(&midummy);
 }
 
 //entfernt dummymenueintrag

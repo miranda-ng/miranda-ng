@@ -16,8 +16,8 @@
 #include <iostream>
 
 /*NETLIB*****************/
-#include "newpluginapi.h"
-#include "m_netlib.h"
+#include <newpluginapi.h>
+#include <m_netlib.h>
 extern HANDLE hNetlib;
 /*NETLIB*****************/
 

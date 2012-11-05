@@ -454,7 +454,7 @@ void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 	mi.position = 500090002+pos;
 	mi.hIcon = this->hicon?this->hicon:LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszName = menuitemtext(this->name);
-	this->menuhandle=(HANDLE)CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi );
+	this->menuhandle=Menu_AddMainMenuItem(&mi);
 
 	//menu aktualisieren ob hidden
 	this->refreshMenuitem();

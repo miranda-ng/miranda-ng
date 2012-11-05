@@ -443,7 +443,7 @@ int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 	odp.pszTitle = Translate("XFire");
 	odp.pszGroup = NULL;
 
-	CallService(MS_USERINFO_ADDPAGE,wParam,(LPARAM)&odp);	
+	UserInfo_AddPage(wParam, &odp);
 
 	return 0;
 }

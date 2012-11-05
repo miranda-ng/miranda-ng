@@ -53,7 +53,7 @@ void UpdateMyXFireIni(LPVOID dummy) {
 	char file3[1024];
 
 	//ini pfad rausbekommen
-	FoldersGetCustomPath( XFireWorkingFolder, file, 1024, 'W' );
+	FoldersGetCustomPath( XFireWorkingFolder, file, 1024, "" );
 	strcat(file,"\\");
 	strcpy(file2,file);
 	strcpy(file3,file);
@@ -94,7 +94,7 @@ void UpdateMyIcons(LPVOID dummy) {
 	char file3[1024];
 
 	//ini pfad rausbekommen
-	FoldersGetCustomPath( XFireIconFolder, file, 1024, 'W' );
+	FoldersGetCustomPath( XFireIconFolder, file, 1024, "" );
 	strcat(file,"\\");
 	strcpy(file2,file);
 	strcpy(file3,file);

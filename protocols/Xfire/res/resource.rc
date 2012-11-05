@@ -42,7 +42,7 @@
 #define IDC_STC44 1006
 #define IDC_IMG1 1002
 
-#include "resource.h"
+#include "..\src\resource.h"
 #include "windows.h"
 
 ID_OP ICON DISCARDABLE "x_fire16x16.ico"

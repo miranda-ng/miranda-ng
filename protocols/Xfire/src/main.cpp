@@ -1,7 +1,5 @@
 #include "stdafx.h"
 
-//#define MIRANDA_VER    0x801
-
 /*
  *  Plugin of miranda IM(ICQ) for Communicating with users of the XFire Network.
  *
@@ -76,7 +74,6 @@
 
 //miranda stuff
 #include "baseProtocol.h"
-#include "m_updater.h"
 #include "Xfire_gamelist.h"
 #include "Xfire_proxy.h"
 #include "Xfire_avatar_loader.h"
@@ -94,13 +91,13 @@ int OptInit(WPARAM wParam,LPARAM lParam);
 int OnDetailsInit(WPARAM wParam,LPARAM lParam);
 HANDLE hFillListEvent = 0;
 CONTACT user;
-HINSTANCE hinstance;
+HINSTANCE hinstance = NULL;
+int hLangpack;
 HANDLE heventXStatusIconChanged;
 HANDLE copyipport,gotoclansite,vipport,joingame,startthisgame,removefriend,blockfriend;
 int foundgames=0;
 Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 ULONG_PTR           gdiplusToken;
-BOOL miranda8 = FALSE;
 
 //xfire preferences, wichtige variablen
 xfire_prefitem xfireconfig[XFIRE_RECVPREFSPACKET_MAXCONFIGS];
@@ -127,14 +124,7 @@ extern LPtsrGetServerInfo tsrGetServerInfo;
 HANDLE hGameDetection = CreateEvent(NULL,FALSE,FALSE,NULL);
 HANDLE hConnectionClose = CreateEvent(NULL,TRUE,FALSE,NULL);
 
-//extraicon handles
-HANDLE extraiconGAME=NULL;
-HANDLE extraiconVOICE=NULL;
-
-int EXTRA_ICON_ADV1 = 4;
-int EXTRA_ICON_ADV2 = 5;
-
-PLUGININFOEX pluginInfo={
+PLUGININFOEX pluginInfoEx={
 		sizeof(PLUGININFOEX),
 		"Xfire protocol",
 		PLUGIN_MAKE_VERSION(0,1,8,4),
@@ -142,12 +132,10 @@ PLUGININFOEX pluginInfo={
 		"dufte",
 		"dufte@justmail.de",
 		"(c) 2012 Xfirelib by Herbert Poul, Xfire Miranda protocol plugin by dufte",
-		"",
-		0,
+		"http://miranda-ng.org",
 		0,
 		// {9B8E1735-970D-4ce0-930C-A561956BDCA2}
 		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } }
-
 };
 
 int FillList(WPARAM wParam, LPARAM lParam);
@@ -790,29 +778,12 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 //=====================================================
 
-/*extern "C" __declspec(dllexport) PLUGININFO*  MirandaPluginInfo(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}*/
-
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	if (mirandaVersion < PLUGIN_MAKE_VERSION(0, 8, 0, 0))
-	{
-		miranda8 = FALSE;
-	}
-	else
-		miranda8 = TRUE;
-
-	return &pluginInfo;
+	return &pluginInfoEx;
 }
 
-static const MUUID interfaces[] = {MIID_PROTOCOL,MIID_LAST};
-
-extern "C" __declspec(dllexport) const MUUID * MirandaPluginInterfaces(void)
-{
-	return interfaces;
-}
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_LAST};
 
 //=====================================================
 // Unloads plugin
@@ -858,7 +829,7 @@ void __stdcall XFireLog( const char* fmt, ... )
 
 BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hinstance=hinst;
+	hinstance = hinst;
 	//AtlAxWinInit();
 	return TRUE;
 }
@@ -971,8 +942,6 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PS_SETAWAYMSG);
 	CreateServiceFunction(servicefunction, SetAwayMsg);
-
-	CallService(MS_UPDATE_REGISTERFL, 3701, (WPARAM)&pluginInfo);
 
 	/*NETLIBUSER nlu;
 	ZeroMemory(&nlu, sizeof(nlu));
@@ -1088,22 +1057,20 @@ int ExtraListRebuild(WPARAM wparam, LPARAM lparam)
 int ExtraImageApply(WPARAM wparam, LPARAM lparam)
 {
 	HANDLE hContact=(HANDLE)wparam;
-	if(ServiceExists(MS_CLIST_EXTRA_SET_ICON))
-	{
-		char *szProto;
-		szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-		if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ) && DBGetContactSettingWord(hContact, protocolname, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) {
-			int gameid=DBGetContactSettingWord(hContact, protocolname, "GameId", 0);
-			int gameid2=DBGetContactSettingWord(hContact, protocolname, "VoiceId", 0);
+	// TODO: maybe need to fix extra icons
+	char *szProto;
+	szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	if ( szProto != NULL && !lstrcmpiA( szProto, protocolname ) && DBGetContactSettingWord(hContact, protocolname, "Status", ID_STATUS_OFFLINE)!=ID_STATUS_OFFLINE) {
+		int gameid=DBGetContactSettingWord(hContact, protocolname, "GameId", 0);
+		int gameid2=DBGetContactSettingWord(hContact, protocolname, "VoiceId", 0);
 
-			if(gameid!=0)
-			{
-				SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid));
-			}
-			if(gameid2!=0)
-			{
-				SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid2),EXTRA_ICON_ADV2);
-			}
+		if(gameid!=0)
+		{
+			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid));
+		}
+		if(gameid2!=0)
+		{
+			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid2),EXTRA_ICON_ADV2);
 		}
 	}
 	return 0;
@@ -1111,9 +1078,9 @@ int ExtraImageApply(WPARAM wparam, LPARAM lparam)
 
 
 
-extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
+extern "C" __declspec(dllexport) int  Load(void)
 {
-	pluginLink=link;
+	mir_getLP(&pluginInfoEx);
 
 	InitializeCriticalSection(&modeMsgsMutex);
 	InitializeCriticalSection(&connectingMutex);
@@ -1147,25 +1114,23 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	//statusmessages setzen
 	strcpy(statusmessage[0],"");
 	strcpy(statusmessage[1],"(AFK) Away from Keyboard");
-
-	PROTOCOLDESCRIPTOR pd;
+	
 	char servicefunction[100];
-
+	
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
-	ZeroMemory(&pd,sizeof(pd));
-	pd.cbSize=sizeof(pd);
-	pd.szName=protocolname;
-	pd.type=PROTOTYPE_PROTOCOL;
+	PROTOCOLDESCRIPTOR pd = {0};
+	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
+	pd.szName = protocolname;
+	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+
+
 	hLogEvent=CreateHookableEvent("XFireProtocol/Log");
 
-	mir_getMMI( &mmi );
-	mir_getUTFI( &utfi );
-
 	CList_MakeAllOffline();
-
+	
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PS_GETCAPS);
 	CreateServiceFunction(servicefunction, GetCaps);
@@ -1194,15 +1159,11 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	strcat(servicefunction, PS_GETMYAVATAR);
 	CreateServiceFunction(servicefunction, GetMyAvatar);
 
-	//nur bei miranda8 den iconrefresh machen
-	if(miranda8) {
-		HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraImageApply);
-		HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ExtraListRebuild);
-	}
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraImageApply);
+	HookEvent(ME_CLIST_EXTRA_LIST_REBUILD, ExtraListRebuild);
 
 	//erstell eine hook für andere plugins damit diese nachprüfen können, ab wann jemand ingame ist oer nicht
 	hookgamestart = CreateHookableEvent(XFIRE_INGAMESTATUSHOOK);
-
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PS_BASICSEARCH);
@@ -1232,7 +1193,6 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 
 	strcpy(servicefunction, XFIRE_SEND_PREFS);
 	CreateServiceFunction( servicefunction,	SendPrefs );
-
 
 	//für mtipper, damit man das statusico übertragen kann
 	strcpy(servicefunction, protocolname);
@@ -1269,7 +1229,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.pszContactOwner=protocolname;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszName = LPGEN("&XFire Online Profile");
-	CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	Menu_AddContactMenuItem(&mi);
 
 	//gotoxfireclansitemenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1280,7 +1240,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.pszContactOwner=protocolname;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszName = LPGEN("XFire &Clan Site");
-	gotoclansite=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	gotoclansite=Menu_AddContactMenuItem(&mi);
 
 	//kopiermenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1291,7 +1251,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("C&opy Server Address and Port");
-	copyipport=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	copyipport=Menu_AddContactMenuItem(&mi);
 
 	//kopiermenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1302,7 +1262,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Cop&y Voice Server Address and Port");
-	vipport=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	vipport=Menu_AddContactMenuItem(&mi);
 
 	//joinmenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1313,7 +1273,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Join &Game ...");
-	joingame=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	joingame=Menu_AddContactMenuItem(&mi);
 
 	//joinmenüpunkt
 	strcpy(servicefunction, protocolname);
@@ -1324,7 +1284,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Play this Game ...");
-	startthisgame=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	startthisgame=Menu_AddContactMenuItem(&mi);
 
 	//remove friend
 	strcpy(servicefunction, protocolname);
@@ -1335,7 +1295,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Remove F&riend ...");
-	removefriend=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	removefriend=Menu_AddContactMenuItem(&mi);
 
 	//block user
 	strcpy(servicefunction, protocolname);
@@ -1346,7 +1306,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Block U&ser ...");
-	blockfriend=(HANDLE)CallService( MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi );
+	blockfriend=Menu_AddContactMenuItem(&mi);
 
 	//my fire profile
 	strcpy(servicefunction, protocolname);
@@ -1357,7 +1317,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("&My XFire Online Profile");
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi );
+	Menu_AddMainMenuItem(&mi);
 
 	//my activity protocol
 	strcpy(servicefunction, protocolname);
@@ -1368,7 +1328,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("&Activity Report");
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi );
+	Menu_AddMainMenuItem(&mi);
 
 	//rescan my games
 	strcpy(servicefunction, protocolname);
@@ -1379,7 +1339,7 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("&Rescan my Games ...");
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi );
+	Menu_AddMainMenuItem(&mi);
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, "SetNick");
@@ -1389,12 +1349,9 @@ extern "C" __declspec(dllexport) int  Load(PLUGINLINK *link)
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
 	mi.pszName = LPGEN("Set &Nickname");
-	CallService( MS_CLIST_ADDMAINMENUITEM, 0, (LPARAM)&mi );
+	Menu_AddMainMenuItem(&mi);
 
 	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu );
-
-	EXTRA_ICON_ADV1=icoslot[DBGetContactSettingByte(NULL,protocolname,"gameico",-1)];
-	EXTRA_ICON_ADV2=icoslot[DBGetContactSettingByte(NULL,protocolname,"voiceico",-1)];
 
 	//lade GetExtendedUdpTable Funktion
 	HMODULE hmod=LoadLibraryA("IpHlpApi.dll");
@@ -1572,7 +1529,7 @@ int TMLoadIcon(WPARAM wParam,LPARAM lParam)
 {
 	if(LOWORD( wParam ) == PLI_PROTOCOL) {
 		if(wParam & PLIF_ICOLIB)
-			return Skin_GetIcon("XFIRE_main");
+			return (int)Skin_GetIcon("XFIRE_main");
 		return (int)CopyIcon( Skin_GetIcon("XFIRE_main"));
 	}
 	return NULL;
@@ -2118,7 +2075,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 					if(pos)
 					{
 						char filename[512];
-						FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, 'A' );
+						FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, "" );
 						strcat(filename,"\\");
 						strcat(filename,username);
 

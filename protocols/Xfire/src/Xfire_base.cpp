@@ -421,7 +421,7 @@ BOOL Xfire_base::getIniPath(char*path) {
 	if(!path)
 		return FALSE;
 
-	FoldersGetCustomPath( XFireWorkingFolder, path, MAX_PATH, 'W' );
+	FoldersGetCustomPath( XFireWorkingFolder, path, MAX_PATH, "" );
 	strcat_s(path,MAX_PATH,"\\");
 	strcat_s(path,MAX_PATH,"xfire_games.ini");
 
@@ -433,7 +433,7 @@ BOOL Xfire_base::getIconPath(char*path) {
 	if(!path)
 		return FALSE;
 
-	FoldersGetCustomPath( XFireIconFolder, path, MAX_PATH, 'I' );
+	FoldersGetCustomPath( XFireIconFolder, path, MAX_PATH, "" );
 	strcat_s(path,MAX_PATH,"\\");
 
 	return TRUE;

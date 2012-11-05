@@ -50,7 +50,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 		DBDeleteContactSetting(NULL,protocolname, "MyAvatarFile");
 	}
 
-	FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, 'A' );
+	FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, "" );
 	strcat(filename,"\\");
 	
 	switch(buddyinfo->avatarmode) {

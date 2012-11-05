@@ -139,7 +139,7 @@ static BOOL CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SetWindowLong(hwndTree,GWL_STYLE,GetWindowLong(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 			SendMessage(hwndDlg, DM_REBUILD_TREE, 0, 0);
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, 'W' );
+			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
 			strcat(inipath,"\\");
 			strcat(inipath,"xfire_games.ini");
 			
@@ -156,7 +156,7 @@ static BOOL CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				inifound = FALSE;
 			}
 
-			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, 'W' );
+			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, "" );
 			strcat(inipath,"\\");
 			strcat(inipath,"icons.dll");
 			
@@ -604,7 +604,7 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			//addgamedia auf 0 setzen
 			TranslateDialogDefault(hwndDlg);
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, 'W' );
+			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
 			strcat(inipath,"\\");
 			strcat(inipath,"xfire_games.ini");
 			
@@ -621,7 +621,7 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				inifound = FALSE;
 			}
 
-			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, 'W' );
+			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, "" );
 			strcat(inipath,"\\");
 			strcat(inipath,"icons.dll");
 			
@@ -646,7 +646,7 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			SendMessage(GetDlgItem(hwndDlg,IDC_REMUSER),BM_SETIMAGE,IMAGE_ICON,(WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, 'W' );
+			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
 			SetDlgItemText(hwndDlg,IDC_FILESSHOULDBE,inipath);
 
 			EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);
@@ -1264,7 +1264,7 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	odp.flags=ODPF_BOLDGROUPS;
 	//odp.nIDBottomSimpleControl=IDC_GROUPMAIN;
 	odp.pfnDlgProc=DlgProcOpts;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
+	Options_AddPage(wParam, &odp);
 
 	return 0;
 }

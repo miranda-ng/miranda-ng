@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Ressourcendateien">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
-    </Filter>
     <Filter Include="Miranda Plugin">
       <UniqueIdentifier>{429b4466-b5e0-4103-b9a3-79d9329ed56b}</UniqueIdentifier>
     </Filter>
@@ -43,515 +39,510 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="resource.rc">
-      <Filter>Ressourcendateien</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Export.def">
-      <Filter>Miranda Plugin</Filter>
-    </None>
-    <None Include="xfiretest.cpp.old">
-      <Filter>XFirelib\sources</Filter>
-    </None>
-    <None Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Xfire_avatar_loader.cpp">
+    <ClCompile Include="src\Xfire_avatar_loader.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_base.cpp">
+    <ClCompile Include="src\Xfire_base.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_game.cpp">
+    <ClCompile Include="src\Xfire_game.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_gamelist.cpp">
+    <ClCompile Include="src\Xfire_gamelist.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_icon_mng.cpp">
+    <ClCompile Include="src\Xfire_icon_mng.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_voicechat.cpp">
+    <ClCompile Include="src\Xfire_voicechat.cpp">
       <Filter>Miranda Plugin\Xfire_class\source</Filter>
     </ClCompile>
-    <ClCompile Include="addgamedialog.cpp">
+    <ClCompile Include="src\addgamedialog.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="all_statusmsg.cpp">
+    <ClCompile Include="src\all_statusmsg.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="iniupdater.cpp">
+    <ClCompile Include="src\iniupdater.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="options.cpp">
+    <ClCompile Include="src\options.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="passworddialog.cpp">
+    <ClCompile Include="src\passworddialog.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="processbuddyinfo.cpp">
+    <ClCompile Include="src\processbuddyinfo.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="pwd_dlg.cpp">
+    <ClCompile Include="src\pwd_dlg.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="searching4games.cpp">
+    <ClCompile Include="src\searching4games.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="services.cpp">
+    <ClCompile Include="src\services.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="setnickname.cpp">
+    <ClCompile Include="src\setnickname.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="tools.cpp">
+    <ClCompile Include="src\tools.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="userdetails.cpp">
+    <ClCompile Include="src\userdetails.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="variables.cpp">
+    <ClCompile Include="src\variables.cpp">
       <Filter>Miranda Plugin\plugin\sources</Filter>
     </ClCompile>
-    <ClCompile Include="Xfire_proxy.cpp">
+    <ClCompile Include="src\Xfire_proxy.cpp">
       <Filter>Miranda Plugin\proxy</Filter>
     </ClCompile>
-    <ClCompile Include="authpacket.cpp">
+    <ClCompile Include="src\authpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddyinfo.cpp">
+    <ClCompile Include="src\buddyinfo.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddylist.cpp">
+    <ClCompile Include="src\buddylist.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddylistgames2packet.cpp">
+    <ClCompile Include="src\buddylistgames2packet.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddylistgamespacket.cpp">
+    <ClCompile Include="src\buddylistgamespacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddylistnamespacket.cpp">
+    <ClCompile Include="src\buddylistnamespacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="buddylistonlinepacket.cpp">
+    <ClCompile Include="src\buddylistonlinepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="clanbuddylistnamespacket.cpp">
+    <ClCompile Include="src\clanbuddylistnamespacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="claninvitationpacket.cpp">
+    <ClCompile Include="src\claninvitationpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="client.cpp">
+    <ClCompile Include="src\client.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="clientinformationpacket.cpp">
+    <ClCompile Include="src\clientinformationpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="clientloginpacket.cpp">
+    <ClCompile Include="src\clientloginpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="clientversionpacket.cpp">
+    <ClCompile Include="src\clientversionpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="dummyxfiregameresolver.cpp">
+    <ClCompile Include="src\dummyxfiregameresolver.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="friendsoffriendlist.cpp">
+    <ClCompile Include="src\friendsoffriendlist.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="gameinfopacket.cpp">
+    <ClCompile Include="src\gameinfopacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="getbuddyinfo.cpp">
+    <ClCompile Include="src\getbuddyinfo.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="invitebuddypacket.cpp">
+    <ClCompile Include="src\invitebuddypacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="inviterequestpacket.cpp">
+    <ClCompile Include="src\inviterequestpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="loginfailedpacket.cpp">
+    <ClCompile Include="src\loginfailedpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="loginsuccesspacket.cpp">
+    <ClCompile Include="src\loginsuccesspacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="messageackpacket.cpp">
+    <ClCompile Include="src\messageackpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="messagepacket.cpp">
+    <ClCompile Include="src\messagepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="monitoredobj.cpp">
+    <ClCompile Include="src\monitoredobj.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="otherloginpacket.cpp">
+    <ClCompile Include="src\otherloginpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="packetreader.cpp">
+    <ClCompile Include="src\packetreader.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvbuddychangednick.cpp">
+    <ClCompile Include="src\recvbuddychangednick.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvdidpacket.cpp">
+    <ClCompile Include="src\recvdidpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvoldversionpacket.cpp">
+    <ClCompile Include="src\recvoldversionpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvprefspacket.cpp">
+    <ClCompile Include="src\recvprefspacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvremovebuddypacket.cpp">
+    <ClCompile Include="src\recvremovebuddypacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="recvstatusmessagepacket.cpp">
+    <ClCompile Include="src\recvstatusmessagepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="searchbuddy.cpp">
+    <ClCompile Include="src\searchbuddy.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendacceptinvitationpacket.cpp">
+    <ClCompile Include="src\sendacceptinvitationpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="senddenyinvitationpacket.cpp">
+    <ClCompile Include="src\senddenyinvitationpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendgameserverpacket.cpp">
+    <ClCompile Include="src\sendgameserverpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendgamestatus2packet.cpp">
+    <ClCompile Include="src\sendgamestatus2packet.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendgamestatuspacket.cpp">
+    <ClCompile Include="src\sendgamestatuspacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendkeepalivepacket.cpp">
+    <ClCompile Include="src\sendkeepalivepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendmessagepacket.cpp">
+    <ClCompile Include="src\sendmessagepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendnickchangepacket.cpp">
+    <ClCompile Include="src\sendnickchangepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendremovebuddypacket.cpp">
+    <ClCompile Include="src\sendremovebuddypacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendsidpacket.cpp">
+    <ClCompile Include="src\sendsidpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendstatusmessagepacket.cpp">
+    <ClCompile Include="src\sendstatusmessagepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="sendtypingpacket.cpp">
+    <ClCompile Include="src\sendtypingpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="SHA1.cpp">
+    <ClCompile Include="src\SHA1.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="socket.cpp">
+    <ClCompile Include="src\socket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="variablevalue.cpp">
+    <ClCompile Include="src\variablevalue.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfireclanpacket.cpp">
+    <ClCompile Include="src\xfireclanpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfirefoundbuddys.cpp">
+    <ClCompile Include="src\xfirefoundbuddys.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfiregame.cpp">
+    <ClCompile Include="src\xfiregame.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfiregameresolver.cpp">
+    <ClCompile Include="src\xfiregameresolver.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfirepacket.cpp">
+    <ClCompile Include="src\xfirepacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfirepacketcontent.cpp">
+    <ClCompile Include="src\xfirepacketcontent.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfireparse.cpp">
+    <ClCompile Include="src\xfireparse.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfireprefpacket.cpp">
+    <ClCompile Include="src\xfireprefpacket.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfirerecvpacketcontent.cpp">
+    <ClCompile Include="src\xfirerecvpacketcontent.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfiresendpacketcontent.cpp">
+    <ClCompile Include="src\xfiresendpacketcontent.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
-    <ClCompile Include="xfireutils.cpp">
+    <ClCompile Include="src\xfireutils.cpp">
       <Filter>XFirelib\sources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Xfire_avatar_loader.h">
+    <ClInclude Include="src\Xfire_avatar_loader.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_base.h">
+    <ClInclude Include="src\Xfire_base.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_game.h">
+    <ClInclude Include="src\Xfire_game.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_gamelist.h">
+    <ClInclude Include="src\Xfire_gamelist.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_icon_mng.h">
+    <ClInclude Include="src\Xfire_icon_mng.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_voicechat.h">
+    <ClInclude Include="src\Xfire_voicechat.h">
       <Filter>Miranda Plugin\Xfire_class\headers</Filter>
     </ClInclude>
-    <ClInclude Include="addgamedialog.h">
+    <ClInclude Include="src\addgamedialog.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="all_statusmsg.h">
+    <ClInclude Include="src\all_statusmsg.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="baseProtocol.h">
+    <ClInclude Include="src\baseProtocol.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="iniupdater.h">
+    <ClInclude Include="src\iniupdater.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="passworddialog.h">
+    <ClInclude Include="src\passworddialog.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="processbuddyinfo.h">
+    <ClInclude Include="src\processbuddyinfo.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="pwd_dlg.h">
+    <ClInclude Include="src\pwd_dlg.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="src\resource.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="services.h">
+    <ClInclude Include="src\services.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="setnickname.h">
+    <ClInclude Include="src\setnickname.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
+    <ClInclude Include="src\stdafx.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="tools.h">
+    <ClInclude Include="src\tools.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="variables.h">
+    <ClInclude Include="src\variables.h">
       <Filter>Miranda Plugin\plugin\headers</Filter>
     </ClInclude>
-    <ClInclude Include="m8.h">
+    <ClInclude Include="src\m8.h">
       <Filter>Miranda Plugin\m8</Filter>
     </ClInclude>
-    <ClInclude Include="Xfire_proxy.h">
+    <ClInclude Include="src\Xfire_proxy.h">
       <Filter>Miranda Plugin\proxy</Filter>
     </ClInclude>
-    <ClInclude Include="authpacket.h">
+    <ClInclude Include="src\authpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddyinfo.h">
+    <ClInclude Include="src\buddyinfo.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddylist.h">
+    <ClInclude Include="src\buddylist.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddylistgames2packet.h">
+    <ClInclude Include="src\buddylistgames2packet.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddylistgamespacket.h">
+    <ClInclude Include="src\buddylistgamespacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddylistnamespacket.h">
+    <ClInclude Include="src\buddylistnamespacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="buddylistonlinepacket.h">
+    <ClInclude Include="src\buddylistonlinepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="clanbuddylistnamespacket.h">
+    <ClInclude Include="src\clanbuddylistnamespacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="claninvitationpacket.h">
+    <ClInclude Include="src\claninvitationpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="client.h">
+    <ClInclude Include="src\client.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="clientinformationpacket.h">
+    <ClInclude Include="src\clientinformationpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="clientloginpacket.h">
+    <ClInclude Include="src\clientloginpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="clientversionpacket.h">
+    <ClInclude Include="src\clientversionpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="dummyxfiregameresolver.h">
+    <ClInclude Include="src\dummyxfiregameresolver.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="friendsoffriendlist.h">
+    <ClInclude Include="src\friendsoffriendlist.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="gameinfopacket.h">
+    <ClInclude Include="src\gameinfopacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="getbuddyinfo.h">
+    <ClInclude Include="src\getbuddyinfo.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="invitebuddypacket.h">
+    <ClInclude Include="src\invitebuddypacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="inviterequestpacket.h">
+    <ClInclude Include="src\inviterequestpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="loginfailedpacket.h">
+    <ClInclude Include="src\loginfailedpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="loginsuccesspacket.h">
+    <ClInclude Include="src\loginsuccesspacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="messageackpacket.h">
+    <ClInclude Include="src\messageackpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="messagepacket.h">
+    <ClInclude Include="src\messagepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="monitoredobj.h">
+    <ClInclude Include="src\monitoredobj.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="otherloginpacket.h">
+    <ClInclude Include="src\otherloginpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="packetlistener.h">
+    <ClInclude Include="src\packetlistener.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="packetreader.h">
+    <ClInclude Include="src\packetreader.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvbuddychangednick.h">
+    <ClInclude Include="src\recvbuddychangednick.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvdidpacket.h">
+    <ClInclude Include="src\recvdidpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvoldversionpacket.h">
+    <ClInclude Include="src\recvoldversionpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvprefspacket.h">
+    <ClInclude Include="src\recvprefspacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvremovebuddypacket.h">
+    <ClInclude Include="src\recvremovebuddypacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="recvstatusmessagepacket.h">
+    <ClInclude Include="src\recvstatusmessagepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="searchbuddy.h">
+    <ClInclude Include="src\searchbuddy.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendacceptinvitationpacket.h">
+    <ClInclude Include="src\sendacceptinvitationpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="senddenyinvitationpacket.h">
+    <ClInclude Include="src\senddenyinvitationpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendgameserverpacket.h">
+    <ClInclude Include="src\sendgameserverpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendgamestatus2packet.h">
+    <ClInclude Include="src\sendgamestatus2packet.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendgamestatuspacket.h">
+    <ClInclude Include="src\sendgamestatuspacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendkeepalivepacket.h">
+    <ClInclude Include="src\sendkeepalivepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendmessagepacket.h">
+    <ClInclude Include="src\sendmessagepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendnickchangepacket.h">
+    <ClInclude Include="src\sendnickchangepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendremovebuddypacket.h">
+    <ClInclude Include="src\sendremovebuddypacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendsidpacket.h">
+    <ClInclude Include="src\sendsidpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendstatusmessagepacket.h">
+    <ClInclude Include="src\sendstatusmessagepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="sendtypingpacket.h">
+    <ClInclude Include="src\sendtypingpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="SHA1.h">
+    <ClInclude Include="src\SHA1.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="socket.h">
+    <ClInclude Include="src\socket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="socketexception.h">
+    <ClInclude Include="src\socketexception.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="variablevalue.h">
+    <ClInclude Include="src\variablevalue.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xdebug.h">
+    <ClInclude Include="src\xdebug.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfireclanpacket.h">
+    <ClInclude Include="src\xfireclanpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfirefoundbuddys.h">
+    <ClInclude Include="src\xfirefoundbuddys.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfiregame.h">
+    <ClInclude Include="src\xfiregame.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfiregameresolver.h">
+    <ClInclude Include="src\xfiregameresolver.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfirepacket.h">
+    <ClInclude Include="src\xfirepacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfirepacketcontent.h">
+    <ClInclude Include="src\xfirepacketcontent.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfireparse.h">
+    <ClInclude Include="src\xfireparse.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfireprefpacket.h">
+    <ClInclude Include="src\xfireprefpacket.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfirerecvpacketcontent.h">
+    <ClInclude Include="src\xfirerecvpacketcontent.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfiresendpacketcontent.h">
+    <ClInclude Include="src\xfiresendpacketcontent.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
-    <ClInclude Include="xfireutils.h">
+    <ClInclude Include="src\xfireutils.h">
       <Filter>XFirelib\headers</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

@@ -244,7 +244,7 @@ void Scan4Games( LPVOID lparam  )
 		mir_forkthread(ShowSearchDialog,&hwnd);
 	}
 
-	FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, 'W' );
+	FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
 	strcat(inipath,"\\");
 	strcat(inipath,"xfire_games.ini");
 

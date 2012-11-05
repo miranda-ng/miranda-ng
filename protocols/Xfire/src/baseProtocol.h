@@ -26,6 +26,8 @@
  *
  */
 
+#define MIRANDA_VER    0x0A00
+
 //=====================================================
 //	Includes (yea why not include lots of stuff :D )
 //=====================================================
@@ -61,7 +63,6 @@
 #include <m_protoint.h>
 #include <m_userinfo.h>
 #include <m_options.h>
-#include <m_protosvc.h>
 #include <m_utils.h>
 #include <m_ignore.h>
 #include <m_clc.h>
@@ -69,8 +70,13 @@
 #include <m_avatars.h>
 #include <m_folders.h>
 #include <m_assocmgr.h>
-#include <services.h>
-#include <m_extraicons.h>
+#include <m_icolib.h>
+#include <m_genmenu.h>
+#include <m_cluiframes.h>
+#include <m_account.h>
+#include <m_protoplugin.h>
+
+#include "services.h"
 
 /*#pragma comment(lib, "atl.lib")
 #include <atldef.h>
@@ -159,114 +165,6 @@ struct CONTACT // Contains info about users
 
 #define MSGBOX(msg) mir_forkthread(Message,(LPVOID)msg)
 #define MSGBOXE(msg)  mir_forkthread(MessageE,(LPVOID)msg)
-
-/*#define  EXTRA_ICON_EMAIL  1
-#define  EXTRA_ICON_PROTO  2
-#define  EXTRA_ICON_SMS    3
-#define  EXTRA_ICON_ADV1  4
-#define  EXTRA_ICON_ADV2  9 //5
-#define  EXTRA_ICON_ADV3        9
-#define  EXTRA_ICON_ADV4        10 */
-
-static int icoslot[] = { 4, 5, 9, 10 };
-
-
-typedef struct
-{
-int cbSize;      //must be sizeof(IconExtraColumn)
-int ColumnType;
-HANDLE hImage;    //return value from MS_CLIST_EXTRA_ADD_ICON
-}IconExtraColumn,*pIconExtraColumn;
-
-
-//Set icon for contact at needed column
-//wparam=hContact
-//lparam=pIconExtraColumn
-//return 0 on success,-1 on failure
-//
-//See above for supported columns
-#define MS_CLIST_EXTRA_SET_ICON      "CListFrames/SetIconForExraColumn"
-
-//Adding icon to extra image list. 
-//Call this in ME_CLIST_EXTRA_LIST_REBUILD event
-//
-//wparam=hIcon
-//lparam=0
-//return hImage on success,-1 on failure
-#define MS_CLIST_EXTRA_ADD_ICON      "CListFrames/AddIconToExtraImageList"
-
-
-
-#define ME_CLIST_EXTRA_LIST_REBUILD      "CListFrames/OnExtraListRebuild"
-
-#define PS_GETAWAYMSG  "/GetAwayMsg"
-
-//called with wparam=hContact
-#define ME_CLIST_EXTRA_IMAGE_APPLY      "CListFrames/OnExtraImageApply"
-
-#define FU_TBREDRAW      1 //redraw titlebar
-#define FU_FMREDRAW      2 //redraw Frame
-#define FU_FMPOS      4 //update Frame position
-#define MS_CLIST_FRAMES_UPDATEFRAME      "CListFrame/UpdateFrame"
-
-#define SKINICONDESC_SIZE     sizeof(SKINICONDESC)
-#define SKINICONDESC_SIZE_V1  0x18
-#define SKINICONDESC_SIZE_V2  0x1C
-#define SKINICONDESC_SIZE_V3  0x24
-
-typedef struct {
-  int cbSize;
-  union {
-    char *pszSection;         // section name used to group icons
-    TCHAR *ptszSection;
-    wchar_t *pwszSection;
-  };
-  union {
-    char *pszDescription;     // description for options dialog
-    TCHAR *ptszDescription;
-    wchar_t *pwszDescription;
-  };
-  char *pszName;              // name to refer to icon when playing and in db
-  char *pszDefaultFile;       // default icon file to use
-  int  iDefaultIndex;         // index of icon in default file
-  HICON hDefaultIcon;         // handle to default icon
-  int cx,cy;                  // dimensions of icon
-  int flags; 
-} SKINICONDESC;
-
-#define SIDF_UNICODE  0x100   // Section and Description are in UCS-2
-
-#if defined(_UNICODE)
-  #define SIDF_TCHAR  SIDF_UNICODE
-#else
-  #define SIDF_TCHAR  0
-#endif
-
-// entfernt menuitems
-#define MS_CLIST_REMOVEMAINMENUITEM					"CList/RemoveMainMenuItem"
-
-//
-//  Add a icon into options UI
-//
-//  wParam = 0
-//  lParam = (LPARAM)(SKINICONDESC*)sid;
-//
-#define MS_SKIN2_ADDICON "Skin2/Icons/AddIcon"
-
-//
-//  Retrieve HICON with name specified in lParam
-//  Returned HICON SHOULDN'T be destroyed, it is managed by IcoLib
-//
-
-#define MS_SKIN2_GETICON "Skin2/Icons/GetIcon"
-
-//
-//  Icons change notification
-//
-#define ME_SKIN2_ICONSCHANGED "Skin2/IconsChanged"
-
-#define MS_SKIN2_GETICONBYHANDLE "Skin2/Icons/GetIconByHandle"
-
 
 #pragma comment(lib,"Advapi32.lib")
 #pragma comment(lib,"Psapi.lib")

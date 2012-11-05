@@ -42,7 +42,7 @@ static void FillGameList( LPVOID hwndDlg ) {
 		//vector für doppelfilter
 		vector<DWORD> dublBuffer;
 		//Cache ist leer, Cache füllen
-		FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, 'W' );
+		FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
 		strcat_s(inipath,MAX_PATH,"\\");
 		strcat_s(inipath,MAX_PATH,"xfire_games.ini");
 
