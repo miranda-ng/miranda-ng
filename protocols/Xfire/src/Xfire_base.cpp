@@ -100,7 +100,7 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,char**to)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	if(!DBGetContactSettingTString(NULL, protocolname, temp,&dbv))
+	if(!DBGetContactSettingString(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);
@@ -118,7 +118,7 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,int id,char**to)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	if(!DBGetContactSettingTString(NULL, protocolname, temp,&dbv))
+	if(!DBGetContactSettingString(NULL, protocolname, temp,&dbv))
 	{
 		//string setzen
 		setString(dbv.pszVal,to);

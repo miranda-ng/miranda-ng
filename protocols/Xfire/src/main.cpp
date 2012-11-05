@@ -1445,7 +1445,7 @@ static int UserIsTyping(WPARAM wParam, LPARAM lParam)
 		{
 			if(myClient!=NULL)
 				if(myClient->client->connected)
-					if(!DBGetContactSettingTString(hContact, protocolname, "Username",&dbv))
+					if(!DBGetContactSettingString(hContact, protocolname, "Username",&dbv))
 					{
 						SendTypingPacket typing;
 						typing.init(myClient->client, dbv.pszVal);
@@ -1469,7 +1469,7 @@ int SendMessage(WPARAM wParam, LPARAM lParam)
     DBVARIANT dbv;
 	int sended=0;
 
-	DBGetContactSettingTString(ccs->hContact, protocolname, "Username",&dbv);
+	DBGetContactSettingString(ccs->hContact, protocolname, "Username",&dbv);
 	if(myClient!=NULL)
 		if(myClient->client->connected&&DBGetContactSettingWord(ccs->hContact, protocolname, "Status", -1)!=ID_STATUS_OFFLINE)
 		{
@@ -1891,7 +1891,7 @@ void CList_MakeAllOffline()
 			{
 				//prüf ob der avatar noch existiert
 				DBVARIANT dbv;
-				if(!DBGetContactSettingTString(hContact, "ContactPhoto", "File",&dbv))
+				if(!DBGetContactSettingString(hContact, "ContactPhoto", "File",&dbv))
 				{
 					FILE*f=fopen(dbv.pszVal,"r");
 					if(f==NULL)
@@ -2120,7 +2120,7 @@ static int GetIPPort(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		return 0;
 
 	sprintf(temp,"%s:%d",dbv.pszVal,DBGetContactSettingWord((HANDLE)wParam, protocolname, "Port", -1));
@@ -2153,7 +2153,7 @@ static int GetVIPPort(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	DBVARIANT dbv;
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, "VServerIP",&dbv))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, "VServerIP",&dbv))
 		return 0;
 
 	sprintf(temp,"%s:%d",dbv.pszVal,DBGetContactSettingWord((HANDLE)wParam, protocolname, "VPort", -1));
@@ -2181,7 +2181,7 @@ static int GotoProfile(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, "Username",&dbv))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, "Username",&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/profile/");
@@ -2200,7 +2200,7 @@ static int GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	int clanid=DBGetContactSettingDword((HANDLE)wParam, protocolname, "Clan",-1);
 	sprintf(temp,"ClanUrl_%d",clanid);
 
-	if(DBGetContactSettingTString(NULL, protocolname, temp,&dbv))
+	if(DBGetContactSettingString(NULL, protocolname, temp,&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/clans/");
@@ -2217,7 +2217,7 @@ static int GotoProfile2(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(DBGetContactSettingTString(NULL, protocolname, "login",&dbv))
+	if(DBGetContactSettingString(NULL, protocolname, "login",&dbv))
 		return 0;
 
 	strcpy(temp,"http://xfire.com/profile/");
@@ -2239,7 +2239,7 @@ static int GotoProfileAct(WPARAM wParam,LPARAM lParam)
 	DBVARIANT dbv;
 	char temp[64]="";
 
-	if(DBGetContactSettingTString(NULL, protocolname, "login",&dbv))
+	if(DBGetContactSettingString(NULL, protocolname, "login",&dbv))
 		return 0;
 
 	strcpy(temp,"http://www.xfire.com/?username=");
@@ -2286,7 +2286,7 @@ int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 	clmi8.flags = CMIM_FLAGS;
 
 	DBVARIANT dbv;
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		clmi.flags|= CMIF_HIDDEN;
 	else
 		DBFreeVariant(&dbv);
@@ -2295,7 +2295,7 @@ int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 
 	//kopieren von voice port und ip nur erlauben, wenn verfügbar
 	DBVARIANT dbv2;
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, "VServerIP",&dbv2))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, "VServerIP",&dbv2))
 	{
 		clmi2.flags|= CMIF_HIDDEN;
 	}
@@ -2868,7 +2868,7 @@ void setBuddyStatusMsg(BuddyListEntry *entry,string statusmsg)
 		temp2[0]=0;
 
 		DBVARIANT dbv;
-		if(!DBGetContactSettingTString(entry->hcontact,protocolname, "RGame",&dbv))
+		if(!DBGetContactSettingString(entry->hcontact,protocolname, "RGame",&dbv))
 		{
 			strcat(temp2,dbv.pszVal);
 			strcat(temp2," ");
@@ -2877,14 +2877,14 @@ void setBuddyStatusMsg(BuddyListEntry *entry,string statusmsg)
 
 		if(DBGetContactSettingByte(NULL,protocolname,"noipportinstatus",0)==0)
 		{
-			if(!DBGetContactSettingTString(entry->hcontact,protocolname, "ServerName",&dbv))
+			if(!DBGetContactSettingString(entry->hcontact,protocolname, "ServerName",&dbv))
 			{
 				strcat(temp2,dbv.pszVal);
 				DBFreeVariant(&dbv);
 			}
 			else
 			{
-				if(!DBGetContactSettingTString(entry->hcontact,protocolname, "ServerIP",&dbv))
+				if(!DBGetContactSettingString(entry->hcontact,protocolname, "ServerIP",&dbv))
 				{
 					strcat(temp2,"(");
 					strcat(temp2,dbv.pszVal);
@@ -3498,7 +3498,7 @@ static void SendAMAck( LPVOID param )
 {
 	DBVARIANT dbv;
 
-	if(!DBGetContactSettingTString((HANDLE)param, protocolname, "XStatusMsg",&dbv))
+	if(!DBGetContactSettingString((HANDLE)param, protocolname, "XStatusMsg",&dbv))
 	{
 		ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, LPARAM(dbv.pszVal));
 	}
@@ -3588,7 +3588,7 @@ int RemoveFriend(WPARAM wParam,LPARAM lParam) {
 	char temp[256];
 	DBVARIANT dbv;
 
-	if(!DBGetContactSettingTString((HANDLE)wParam, protocolname, "Username",&dbv))
+	if(!DBGetContactSettingString((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
 		sprintf(temp,Translate("Do you really want delete your friend %s?"),dbv.pszVal);
 		if(MessageBoxA(NULL,temp,Translate("Confirm Delete"),MB_YESNO|MB_ICONQUESTION)==IDYES)
@@ -3616,7 +3616,7 @@ int RemoveFriend(WPARAM wParam,LPARAM lParam) {
 int BlockFriend(WPARAM wParam,LPARAM lParam) {
 	DBVARIANT dbv;
 
-	if(!DBGetContactSettingTString((HANDLE)wParam, protocolname, "Username",&dbv))
+	if(!DBGetContactSettingString((HANDLE)wParam, protocolname, "Username",&dbv))
 	{
 		if(MessageBoxA(NULL,Translate("Block this user from ever contacting you again?"),Translate("Block Confirmation"),MB_YESNO|MB_ICONQUESTION)==IDYES)
 		{
@@ -3673,7 +3673,7 @@ int JoinGame(WPARAM wParam,LPARAM lParam) {
 	{
 		DBVARIANT dbv; //dbv.pszVal
 		int port=DBGetContactSettingWord((HANDLE)wParam, protocolname, "Port",0);
-		if(!DBGetContactSettingTString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
+		if(!DBGetContactSettingString((HANDLE)wParam, protocolname, "ServerIP",&dbv))
 		{
 			//starte spiel mit netzwerk parametern
 			game->start_game(dbv.pszVal,port);

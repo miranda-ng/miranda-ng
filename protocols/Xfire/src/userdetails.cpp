@@ -95,7 +95,7 @@ static int GetIPPortUDetails(HANDLE wParam,char* feld1,char* feld2)
 		return 0;
 
 	DBVARIANT dbv;
-	if(DBGetContactSettingTString((HANDLE)wParam, protocolname, feld1,&dbv))
+	if(DBGetContactSettingString((HANDLE)wParam, protocolname, feld1,&dbv))
 		return 0;
 
 	sprintf(temp,"%s:%d",dbv.pszVal,DBGetContactSettingWord((HANDLE)wParam, protocolname, feld2, -1));
