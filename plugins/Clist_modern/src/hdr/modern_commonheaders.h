@@ -454,7 +454,4 @@ public:
 	};
 };
 
-#define EXTRACOLUMNCOUNT 10
-
-
 #endif // commonheaders_h__

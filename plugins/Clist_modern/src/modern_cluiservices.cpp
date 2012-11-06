@@ -146,17 +146,6 @@ static INT_PTR ListEndRebuild(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static int GetCaps(WPARAM wParam, LPARAM lParam)
-{
-	switch (wParam) {
-	case CLUICAPS_FLAGS1:
-		return CLUIF_HIDEEMPTYGROUPS | CLUIF_DISABLEGROUPS | CLUIF_HASONTOPOPTION | CLUIF_HASAUTOHIDEOPTION;
-	}
-	return 0;
-}
-
-
-
 int CLUIServices_LoadModule(void)
 {
 	CreateServiceFunction(MS_CLUI_METASUPPORT,MetaSupportCheck);
