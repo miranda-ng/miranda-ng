@@ -126,11 +126,11 @@ static int GetGeneralisedStatus(void)
 
 static int GetRealStatus(struct ClcContact *contact, int status)
 {
-	int i;
 	char *szProto = contact->proto;
 	if (!szProto)
 		return status;
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
+
+	for (int i = 0; i < pcli->hClcProtoCount; i++) {
 		if (!lstrcmpA(pcli->clcProto[i].szProto, szProto)) {
 			return pcli->clcProto[i].dwStatus;
 		}
@@ -138,7 +138,7 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 	return status;
 }
 
-static HMODULE themeAPIHandle = NULL;   // handle to uxtheme.dll
+static HMODULE themeAPIHandle = NULL; // handle to uxtheme.dll
 static HANDLE(WINAPI * MyOpenThemeData) (HWND, LPCWSTR);
 static HRESULT(WINAPI * MyCloseThemeData) (HANDLE);
 static HRESULT(WINAPI * MyDrawThemeBackground) (HANDLE, HDC, int, int, const RECT *, const RECT *);
@@ -164,9 +164,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			minHeight = dat->fontInfo[i].fontHeight;
 		}
 	}
-	if (dat->rowHeight < minHeight) {
+	if (dat->rowHeight < minHeight)
 		dat->rowHeight = minHeight;
-	}
 
 	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(status) || style & WS_DISABLED)
 		grey = 1;
@@ -255,7 +254,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					desth = clRect.bottom;
 				}
 				break;
-			default:       //clb_topleft
+			default: //clb_topleft
 				destw = bmp.bmWidth;
 				desth = bmp.bmHeight;
 				break;
@@ -317,13 +316,12 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				((group->cl.items[group->scanIndex]->flags & CONTACTF_INVISTO
 				&& GetRealStatus(group->cl.items[group->scanIndex], status) != ID_STATUS_INVISIBLE)
 				|| (group->cl.items[group->scanIndex]->flags & CONTACTF_VISTO
-				&& GetRealStatus(group->cl.items[group->scanIndex], status) == ID_STATUS_INVISIBLE)
-				)
-				) {
-					// the contact is in the always visible list and the proto is invisible
-					// the contact is in the always invisible and the proto is in any other mode
-					ChangeToFont(hdcMem, dat, group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
-				}
+				&& GetRealStatus(group->cl.items[group->scanIndex], status) == ID_STATUS_INVISIBLE)))
+			{
+				// the contact is in the always visible list and the proto is invisible
+				// the contact is in the always invisible and the proto is in any other mode
+				ChangeToFont(hdcMem, dat, group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE ? FONTID_INVIS : FONTID_OFFINVIS, &fontHeight);
+			}
 			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && !(group->cl.items[group->scanIndex]->flags & CONTACTF_ONLINE))
 				ChangeToFont(hdcMem, dat, FONTID_OFFLINE, &fontHeight);
 			else
@@ -382,11 +380,11 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				rc.right = rc.left + dat->checkboxSize;
 				rc.top = y + ((dat->rowHeight - dat->checkboxSize) >> 1);
 				rc.bottom = rc.top + dat->checkboxSize;
-				if (hTheme) {
+				if (hTheme)
 					MyDrawThemeBackground(hTheme, hdcMem, BP_CHECKBOX, group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? (hottrack ? CBS_CHECKEDHOT : CBS_CHECKEDNORMAL) : (hottrack ? CBS_UNCHECKEDHOT : CBS_UNCHECKEDNORMAL), &rc, &rc);
-				}
 				else
 					DrawFrameControl(hdcMem, &rc, DFC_BUTTON, DFCS_BUTTONCHECK | DFCS_FLAT | (group->cl.items[group->scanIndex]->flags & CONTACTF_CHECKED ? DFCS_CHECKED : 0) | (hottrack ? DFCS_HOT : 0));
+
 				if (hTheme && MyCloseThemeData) {
 					MyCloseThemeData(hTheme);
 					hTheme = NULL;
@@ -398,20 +396,13 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				iImage = group->cl.items[group->scanIndex]->group->expanded ? IMAGE_GROUPOPEN : IMAGE_GROUPSHUT;
 			else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT)
 				iImage = group->cl.items[group->scanIndex]->iImage;
+
 			if (iImage != -1) {
-				/*COLORREF colourFg=dat->selBkColour;
-				int mode=ILD_NORMAL;
-				if(selected) mode=ILD_SELECTED;
-				else if(hottrack) {mode=ILD_FOCUS; colourFg=dat->hotTextColour;}
-				else if(group->cl.items[group->scanIndex]->type==CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags&CONTACTF_NOTONLIST) {colourFg=dat->fontInfo[FONTID_NOTONLIST].colour; mode=ILD_BLEND50;}
-				ImageList_DrawEx(himlCListClc,iImage,hdcMem,dat->leftMargin+indent*dat->groupIndent+checkboxWidth,y+((dat->rowHeight-16)>>1),0,0,CLR_NONE,colourFg,mode);
-				*/
 				// this doesnt use CLS_CONTACTLIST since the colour prolly wont match anyway
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
-				if (hottrack) {
+				if (hottrack)
 					colourFg = dat->hotTextColour;
-				}
 				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST) {
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
@@ -481,6 +472,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 				rc.bottom = rc.top;
 				DrawText(hdcMem, szText, lstrlen(szText), &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 			}
+
 			if (selected) {
 				if (group->cl.items[group->scanIndex]->type != CLCIT_DIVIDER) {
 					TCHAR *szText = group->cl.items[group->scanIndex]->szText;
@@ -497,11 +489,13 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			}
 
 			//extra icons
+			int rightOffset = 0;
 			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
 				if (group->cl.items[group->scanIndex]->iExtraImage[i] == 0xFFFF)
 					continue;
+
 				if (selected)
 					mode = ILD_SELECTED;
 				else if (hottrack) {
@@ -512,8 +506,9 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
 					mode = ILD_BLEND50;
 				}
+				rightOffset += dat->extraColumnSpacing;
 				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[i], hdcMem,
-					clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i), y + ((dat->rowHeight - 16) >> 1), 0, 0,
+					clRect.right - rightOffset, y + ((dat->rowHeight - 16) >> 1), 0, 0,
 					CLR_NONE, colourFg, mode);
 			}
 		}
@@ -527,7 +522,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 		}
 		group->scanIndex++;
 	}
-	if (dat->iInsertionMark != -1) {    //insertion mark
+	if (dat->iInsertionMark != -1) { //insertion mark
 		HBRUSH hBrush;
 		POINT pts[8];
 		HRGN hRgn;
