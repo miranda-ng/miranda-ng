@@ -6,7 +6,7 @@ George Hazan
 Ekaterina Gritsenko
 Alexey Koulakov
 Michael Kunz
-Dmitry Kuz'kin
+Dmitry Kuzkin
 Eugene Lishnevsky
 Tobias Weimer
 Vlad Mironov
