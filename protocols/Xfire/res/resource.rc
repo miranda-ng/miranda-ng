@@ -28,11 +28,9 @@
 #define IDC_GRP10 1001
 #define IDC_STC27 1002
 #define IDC_GRP11 1005
-#define IDC_STC15 1003
 #define IDC_STC34 1001
 #define IDC_IMG2 1002
 #define IDC_STC35 1003
-#define IDC_STC14 1001
 #define IDC_STC36 1001
 #define IDC_STC37 1003
 #define IDC_STC38 1005

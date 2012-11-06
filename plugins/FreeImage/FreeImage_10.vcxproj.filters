@@ -439,10 +439,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="FreeImage.rc">
+    <ResourceCompile Include="res\FreeImage.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
-    <ResourceCompile Include="Version.rc">
+    <ResourceCompile Include="res\Version.rc">
       <Filter>Source Files</Filter>
     </ResourceCompile>
   </ItemGroup>

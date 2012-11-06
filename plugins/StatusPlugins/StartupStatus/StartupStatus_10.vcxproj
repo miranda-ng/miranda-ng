@@ -93,7 +93,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <BaseAddress>0x11bd0000</BaseAddress>
       <AdditionalDependencies>wininet.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin10\lib</AdditionalLibraryDirectories>
       <DelayLoadDLLs>wininet.dll</DelayLoadDLLs>
     </Link>
   </ItemDefinitionGroup>
@@ -127,7 +127,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin10\lib</AdditionalLibraryDirectories>
       <DelayLoadDLLs>wininet.dll</DelayLoadDLLs>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
@@ -158,7 +158,7 @@
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <BaseAddress>0x11bd0000</BaseAddress>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin10\lib</AdditionalLibraryDirectories>
       <DelayLoadDLLs>wininet.dll</DelayLoadDLLs>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
@@ -186,7 +186,7 @@
       <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <BaseAddress>0x11bd0000</BaseAddress>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\..\bin10\lib</AdditionalLibraryDirectories>
       <DelayLoadDLLs>wininet.dll</DelayLoadDLLs>
     </Link>
     <ResourceCompile>

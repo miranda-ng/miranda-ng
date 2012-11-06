@@ -18,7 +18,7 @@
 
 #define _CRT_SECURE_NO_WARNINGS
 
-#define MIRANDA_VER 0x0901
+#define MIRANDA_VER  0x0A00
 //windows
 #include <windows.h>
 #include <shlobj.h>
