@@ -35,7 +35,6 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_3x.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap_SA.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Db_autobackups.txt
-https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Extraicons.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Facebook.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FavContacts.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FileAsMessage.txt
@@ -127,6 +126,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Watrack.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Weather.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/WhenWasIt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/WUMF.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/XFire.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Yahoo.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/YAMN.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/YAPP.txt
