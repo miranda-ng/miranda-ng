@@ -49,7 +49,7 @@ void UnloadSecurity()
 {
 	if (CryptoEngine)
 		CryptoEngine->FreeKey(key);
-	
+
 	for (int i = 0; i < arCryptors.getCount(); i++) {
 		FreeLibrary(arCryptors[i]->hLib);
 		free(arCryptors[i]);
@@ -60,7 +60,7 @@ void UnloadSecurity()
 void CDdxMmapSA::EncoderInit()
 {
 	if (!m_bEncoding) return;
-	
+
 	encryptKey[encryptKeyLength] = 0;
 	key = CryptoEngine->GenerateKey(encryptKey);
 }
@@ -68,17 +68,17 @@ void CDdxMmapSA::EncoderInit()
 void CDdxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
-	
+
 	if (!m_bEncoding)
 		return;
-	
+
 	CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
 void CDdxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
-	
+
 	if (!m_bEncoding)
 		return;
 
@@ -86,11 +86,11 @@ void CDdxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 }
 
 void CDdxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
-{	
+{
 	if (m_bEncoding)
 	{
 		BYTE * buf;
-		
+
 		buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
 		EncodeCopyMemory(buf, src, size);
 		DBWrite(ofs, buf, (int)size);
@@ -145,9 +145,9 @@ int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 		}
 		if (encryptKeyLength < 1)
 			continue;
-		
+
 		EncoderInit();
-	
+
 		WORD ver;
 		DecodeCopyMemory(&ver, &checkWord, sizeof(checkWord));
 		if (ver == 0x5195) {
@@ -165,14 +165,14 @@ int SelectEncoder()
 {
 	WORD uid;
 	int i;
-	
+
 	if (arCryptors.getCount() == 0){
 		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK);
 		return 1;
 	}
 
 	uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
-	
+
 	if (uid == 0){
 		MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
 		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
@@ -193,7 +193,7 @@ int SelectEncoder()
 			CryptoEngine = arCryptors[0]->cryptor;
 		}
 	}
-	
+
 	return 0;
 }
 
@@ -210,14 +210,14 @@ void CDdxMmapSA::EncodeAll()
 			while(hContact = FindNextContact(hContact));
 	}
 
-	EncodeContactEvents(NULL);	
+	EncodeContactEvents(NULL);
 	EncodeContactSettings(NULL);
 }
 
 void CDdxMmapSA::DecodeAll()
 {
-	HANDLE hContact;	
-	
+	HANDLE hContact;
+
 	hContact = db_find_first();
 	if (hContact){
 		do{
@@ -259,23 +259,23 @@ void CDdxMmapSA::EncryptDB()
 {
 	int action = 0;
 	if (bEncProcess)
-		return;		
+		return;
 
 	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0){
 		MessageBox(0, TranslateT("DB is already secured!"), TranslateT("Error"), MB_OK);
 		return;
 	}
 
-	if (SelectEncoder()) {		
+	if (SelectEncoder()) {
 		return;
 	}
-	
+
 	bEncProcess = 1;
 
 	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, 0);
 	if (action != IDOK || !strlen(encryptKey)) {
-		bEncProcess = 0;		
-		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);		
+		bEncProcess = 0;
+		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);
 		return;
 	}
 
@@ -286,7 +286,7 @@ void CDdxMmapSA::EncryptDB()
 
 	EncodeAll();
 
-	LeaveCriticalSection(&m_csDbAccess);		
+	LeaveCriticalSection(&m_csDbAccess);
 
 	WriteCryptHeader();
 
@@ -300,14 +300,14 @@ void CDdxMmapSA::DecryptDB()
 	char oldKey[255];
 	strcpy(oldKey, encryptKey);
 
-	if ( !CheckPassword( HIWORD(m_dbHeader.version), TranslateT("current database"))) {
+	if ( !CheckPassword( LOWORD(m_dbHeader.version), TranslateT("current database"))) {
 		strcpy(encryptKey, oldKey);
 		encryptKeyLength = strlen(oldKey);
 		return;
 	}
 
 	WritePlainHeader();
-	
+
 	EnterCriticalSection(&m_csDbAccess);
 	DecodeAll();
 	LeaveCriticalSection(&m_csDbAccess);
@@ -330,16 +330,16 @@ void CDdxMmapSA::RecryptDB()
 	EnterCriticalSection(&m_csDbAccess);
 
 	DecodeAll();
-	
+
 	CryptoEngine->FreeKey(key);
 
 	SelectEncoder();
 
 	m_bEncoding = 1;
 
-	EncoderInit();	
+	EncoderInit();
 
-	EncodeAll();	
+	EncodeAll();
 
 	WriteCryptHeader();
 
@@ -349,9 +349,9 @@ void CDdxMmapSA::RecryptDB()
 void CDdxMmapSA::ChangePwd()
 {
 	char newpass[255] = {0};
-	
-	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)newpass);	
-	
+
+	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)newpass);
+
 	if (action == IDCANCEL || (action == IDOK && !strlen(newpass)))
 		return;
 
@@ -375,13 +375,13 @@ void CDdxMmapSA::ChangePwd()
 
 	if (action == IDOK){
 		strcpy(encryptKey, newpass);
-		encryptKeyLength = strlen(newpass);		
-		
+		encryptKeyLength = strlen(newpass);
+
 		m_bEncoding = 1;
 
-		EncoderInit();	
+		EncoderInit();
 
-		EncodeAll();		
+		EncodeAll();
 
 		WriteCryptHeader();
 	}
