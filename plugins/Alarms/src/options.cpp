@@ -533,12 +533,10 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					TCHAR buff[MAX_PATH];
 					GetDlgItemText(hwndDlg, IDC_TITLE, buff, MAX_PATH);
-					if (add_edit_alarm->szTitle) free(add_edit_alarm->szTitle);
-					add_edit_alarm->szTitle = mir_tstrdup(buff);
+					replaceStrT(add_edit_alarm->szTitle, buff);
 
 					GetDlgItemText(hwndDlg, IDC_DESC, buff, MAX_PATH);
-					if (add_edit_alarm->szDesc) free(add_edit_alarm->szDesc);
-					add_edit_alarm->szDesc = mir_tstrdup(buff);
+					replaceStrT(add_edit_alarm->szDesc, buff);
 
 					if (add_edit_alarm->szTitle == 0 || _tcslen(add_edit_alarm->szTitle) == 0) {
 						MessageBox(hwndDlg, TranslateT("Please enter a title for this alarm."), TranslateT("Error"), MB_OK | MB_ICONERROR);
@@ -565,11 +563,9 @@ static INT_PTR CALLBACK DlgProcAddEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 					if (add_edit_alarm->action & AAF_COMMAND) {
 						GetDlgItemText(hwndDlg, IDC_ED_COMMAND, buff, MAX_PATH);
-						if (add_edit_alarm->szCommand) free(add_edit_alarm->szCommand);
-						add_edit_alarm->szCommand = mir_tstrdup(buff);
+						replaceStrT(add_edit_alarm->szCommand, buff);
 						GetDlgItemText(hwndDlg, IDC_ED_PARAMS, buff, MAX_PATH);
-						if (add_edit_alarm->szCommandParams) free(add_edit_alarm->szCommandParams);
-						add_edit_alarm->szCommandParams = mir_tstrdup(buff);
+						replaceStrT(add_edit_alarm->szCommandParams, buff);
 					}
 
 					if (add_edit_alarm->action & AAF_SOUND) {
@@ -1162,35 +1158,35 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 
 void LoadOptions()
 {
-	options.use_popup_module = (DBGetContactSettingByte(0, MODULE, "UsePopupModule", 0) == 1);
-	options.snooze_minutes = (int)DBGetContactSettingDword(0, MODULE, "SnoozeMinutes", 10);
-	options.row_height = (int)DBGetContactSettingDword(0, MODULE, "RowHeight", 20);
-	options.indent = (int)DBGetContactSettingDword(0, MODULE, "Indent", 5);
-	options.aw_trans = (int)DBGetContactSettingByte(0, MODULE, "Transparency", 0);
-	options.aw_roundcorners = (DBGetContactSettingByte(0, MODULE, "RoundCorners", 1) == 1);
-	options.aw_dontstealfocus = (DBGetContactSettingByte(0, MODULE, "DontStealFocus", 1) == 1);
-	options.auto_showhide = (DBGetContactSettingByte(0, MODULE, "AutoShowHide", 0) == 1);
-	options.hide_with_clist = (DBGetContactSettingByte(0, MODULE, "HideWithClist", 0) == 1);
-	options.loop_sound = (DBGetContactSettingByte(0, MODULE, "LoopSound", 1) == 1);
-	options.auto_size_vert = (DBGetContactSettingByte(0, MODULE, "AutoSize", 0) == 1);
-	options.reminder_period = (int)DBGetContactSettingDword(0, MODULE, "ReminderPeriod", 8);
+	options.use_popup_module = (db_get_b(0, MODULE, "UsePopupModule", 0) == 1);
+	options.snooze_minutes = (int)db_get_dw(0, MODULE, "SnoozeMinutes", 10);
+	options.row_height = (int)db_get_dw(0, MODULE, "RowHeight", 20);
+	options.indent = (int)db_get_dw(0, MODULE, "Indent", 5);
+	options.aw_trans = (int)db_get_b(0, MODULE, "Transparency", 0);
+	options.aw_roundcorners = (db_get_b(0, MODULE, "RoundCorners", 1) == 1);
+	options.aw_dontstealfocus = (db_get_b(0, MODULE, "DontStealFocus", 1) == 1);
+	options.auto_showhide = (db_get_b(0, MODULE, "AutoShowHide", 0) == 1);
+	options.hide_with_clist = (db_get_b(0, MODULE, "HideWithClist", 0) == 1);
+	options.loop_sound = (db_get_b(0, MODULE, "LoopSound", 1) == 1);
+	options.auto_size_vert = (db_get_b(0, MODULE, "AutoSize", 0) == 1);
+	options.reminder_period = (int)db_get_dw(0, MODULE, "ReminderPeriod", 8);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptionsModulesLoaded);
 }
 
 void SaveOptions()
 {
-	DBWriteContactSettingByte(0, MODULE, "UsePopupModule", options.use_popup_module ? 1 : 0);
+	db_set_b(0, MODULE, "UsePopupModule", options.use_popup_module ? 1 : 0);
 	DBWriteContactSettingDword(0, MODULE, "SnoozeMinutes", options.snooze_minutes);
 	DBWriteContactSettingDword(0, MODULE, "RowHeight", options.row_height);
 	DBWriteContactSettingDword(0, MODULE, "Indent", options.indent);
-	DBWriteContactSettingByte(0, MODULE, "Transparency", options.aw_trans);
-	DBWriteContactSettingByte(0, MODULE, "RoundCorners", options.aw_roundcorners ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "DontStealFocus", options.aw_dontstealfocus ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "AutoShowHide", options.auto_showhide ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "HideWithClist", options.hide_with_clist ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "LoopSound", options.loop_sound ? 1 : 0);
-	DBWriteContactSettingByte(0, MODULE, "AutoSize", options.auto_size_vert ? 1 : 0);
+	db_set_b(0, MODULE, "Transparency", options.aw_trans);
+	db_set_b(0, MODULE, "RoundCorners", options.aw_roundcorners ? 1 : 0);
+	db_set_b(0, MODULE, "DontStealFocus", options.aw_dontstealfocus ? 1 : 0);
+	db_set_b(0, MODULE, "AutoShowHide", options.auto_showhide ? 1 : 0);
+	db_set_b(0, MODULE, "HideWithClist", options.hide_with_clist ? 1 : 0);
+	db_set_b(0, MODULE, "LoopSound", options.loop_sound ? 1 : 0);
+	db_set_b(0, MODULE, "AutoSize", options.auto_size_vert ? 1 : 0);
 	DBWriteContactSettingDword(0, MODULE, "ReminderPeriod", options.reminder_period);
 }
 

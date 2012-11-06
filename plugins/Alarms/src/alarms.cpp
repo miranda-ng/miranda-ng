@@ -59,34 +59,26 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ALARMS,
 static LRESULT CALLBACK PopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
-		case WM_COMMAND:
-			if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
-				PUDeletePopUp(hWnd);
-				return TRUE;
-			}
-			break;
-		case UM_FREEPLUGINDATA: {
-			//MY_PLUGIN_DATA * mpd = NULL;
-			//mpd = (MY_PLUGIN_DATA*)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd,(LPARAM)mpd);
-			//if (mdp > 0) free(mpd);
-			return TRUE; //TRUE or FALSE is the same, it gets ignored.
+	case WM_COMMAND:
+		if (HIWORD(wParam) == STN_CLICKED) { //It was a click on the Popup.
+			PUDeletePopUp(hWnd);
+			return TRUE;
 		}
-		default:
-			break;
+		break;
+	case UM_FREEPLUGINDATA:
+		return TRUE;
 	}
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
-void ShowPopup(HANDLE hContact, const TCHAR *msg) {
+void ShowPopup(HANDLE hContact, const TCHAR *msg)
+{
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
-		POPUPDATAT ppd;
-
-		ZeroMemory(&ppd, sizeof(ppd)); //This is always a good thing to do.
-		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
-		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-
 		TCHAR *lpzContactName = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 
+		POPUPDATAT ppd = { 0 };
+		ppd.lchContact = hContact; //Be sure to use a GOOD handle, since this will not be checked.
+		ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 		lstrcpy(ppd.lptzContactName, lpzContactName);
 		lstrcpy(ppd.lptzText, msg);
 		ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -100,7 +92,8 @@ void ShowPopup(HANDLE hContact, const TCHAR *msg) {
 	}
 }
 
-static int PluginSendMessage(WPARAM wParam,LPARAM lParam) {
+static int PluginSendMessage(WPARAM wParam,LPARAM lParam)
+{
 	CallContactService((HANDLE)wParam,PSS_MESSAGE,0,lParam);
 	return 0;
 }
@@ -127,9 +120,8 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 
 		hWnd = FindWindow(0, _T("Windows Media Player"));
 		PostMessage(hWnd, WM_COMMAND, WMP_NEXT, 0);
-	} else {
-		mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
 	}
+	else mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
 
 	/*
 	ppre->szMessage = (char *)Translate(buff);
@@ -148,36 +140,36 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 HBITMAP LoadBmpFromIcon(int IdRes)
 {
 	HBITMAP hBmp, hoBmp;
-    HDC hdc, hdcMem;
-    HBRUSH hBkgBrush;
+	HDC hdc, hdcMem;
+	HBRUSH hBkgBrush;
 	HICON hIcon;
 
 	hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IdRes));
 
-    RECT rc;
-    BITMAPINFOHEADER bih = {0};
-    int widthBytes;
+	RECT rc;
+	BITMAPINFOHEADER bih = {0};
+	int widthBytes;
 
-    hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
-    bih.biSize = sizeof(bih);
-    bih.biBitCount = 24;
-    bih.biPlanes = 1;
-    bih.biCompression = BI_RGB;
-    bih.biHeight = 16;
-    bih.biWidth = 20;
-    widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
-    rc.top = rc.left = 0;
-    rc.right = bih.biWidth;
-    rc.bottom = bih.biHeight;
-    hdc = GetDC(NULL);
-    hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
-    hdcMem = CreateCompatibleDC(hdc);
-    hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
-    FillRect(hdcMem, &rc, hBkgBrush);
-    DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
+	hBkgBrush = CreateSolidBrush(GetSysColor(COLOR_3DFACE));
+	bih.biSize = sizeof(bih);
+	bih.biBitCount = 24;
+	bih.biPlanes = 1;
+	bih.biCompression = BI_RGB;
+	bih.biHeight = 16;
+	bih.biWidth = 20;
+	widthBytes = ((bih.biWidth*bih.biBitCount + 31) >> 5) * 4;
+	rc.top = rc.left = 0;
+	rc.right = bih.biWidth;
+	rc.bottom = bih.biHeight;
+	hdc = GetDC(NULL);
+	hBmp = CreateCompatibleBitmap(hdc, bih.biWidth, bih.biHeight);
+	hdcMem = CreateCompatibleDC(hdc);
+	hoBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
+	FillRect(hdcMem, &rc, hBkgBrush);
+	DrawIconEx(hdcMem, 2, 0, hIcon, 16, 16, 0, NULL, DI_NORMAL);
 
 
-    SelectObject(hdcMem, hoBmp);
+	SelectObject(hdcMem, hoBmp);
 	DeleteDC(hdcMem);
 	ReleaseDC(NULL, hdc);
 	DeleteObject(hBkgBrush);
@@ -206,18 +198,6 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 {
 	// initialize icons
 	InitIcons();
-
-	// Hotkey
-	/*
-	SKINHOTKEYDESCEX hk;
-	hk.cbSize = sizeof(hk);
-	hk.pszName = Translate("Set Alarm");
-	hk.pszDescription = Translate("Set a new alarm");
-	hk.pszSection = Translate("Alarms");
-	hk.pszService = MODULE "/NewAlarm";
-	hk.DefHotKey = (WORD)'A' + HOTKEYF_ALT * 256;
-	CallService(MS_SKIN_ADDHOTKEY, 0, (LPARAM)&hk);
-	*/
 
 	// TopToolbar support
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbarButton);

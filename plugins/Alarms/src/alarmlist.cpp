@@ -178,7 +178,7 @@ bool UpdateAlarm(SYSTEMTIME &time, Occurrence occ) {
 }
 
 void LoadAlarms() {
-	int num_alarms = DBGetContactSettingWord(0, MODULE, "Count", 0);
+	int num_alarms = db_get_w(0, MODULE, "Count", 0);
 	char buff[256];
 	DBVARIANT dbv;
 	ALARM alarm;
@@ -192,40 +192,38 @@ void LoadAlarms() {
 		memset(&alarm, 0, sizeof(ALARM));
 
 		sprintf(buff, "Title%d", i);
-		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if (dbv.ptszVal && _tcslen(dbv.ptszVal))
-				alarm.szTitle = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+		if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+			alarm.szTitle = mir_tstrdup(dbv.ptszVal);
+			db_free(&dbv);
 		}
 		sprintf(buff, "Desc%d", i);
-		if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-			if (dbv.ptszVal && _tcslen(dbv.ptszVal))
-				alarm.szDesc = mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+		if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+			alarm.szDesc = mir_tstrdup(dbv.ptszVal);
+			db_free(&dbv);
 		}
 		sprintf(buff, "Occ%d", i);
-		alarm.occurrence = (Occurrence)DBGetContactSettingWord(0, MODULE, buff, 0);
+		alarm.occurrence = (Occurrence)db_get_w(0, MODULE, buff, 0);
 
 		sprintf(buff, "STHour%d", i);
-		alarm.time.wHour = DBGetContactSettingWord(0, MODULE, buff, 0);
+		alarm.time.wHour = db_get_w(0, MODULE, buff, 0);
 		sprintf(buff, "STMinute%d", i);
-		alarm.time.wMinute = DBGetContactSettingWord(0, MODULE, buff, 0);
+		alarm.time.wMinute = db_get_w(0, MODULE, buff, 0);
 		sprintf(buff, "STSecond%d", i);
-		alarm.time.wSecond = DBGetContactSettingWord(0, MODULE, buff, 0);
+		alarm.time.wSecond = db_get_w(0, MODULE, buff, 0);
 
 		switch(alarm.occurrence) {
 
 		case OC_ONCE:
 			sprintf(buff, "STYear%d", i);
-			alarm.time.wYear = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wYear = db_get_w(0, MODULE, buff, 0);
 			sprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wMonth = db_get_w(0, MODULE, buff, 0);
 			sprintf(buff, "STDay%d", i);
-			alarm.time.wDay = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_WEEKLY:
 			sprintf(buff, "STDayOfWeek%d", i);
-			alarm.time.wDayOfWeek = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wDayOfWeek = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_WEEKDAYS:
 			break;
@@ -233,54 +231,52 @@ void LoadAlarms() {
 			break;
 		case OC_MONTHLY:
 			sprintf(buff, "STDay%d", i);
-			alarm.time.wDay = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		case OC_YEARLY:
 			sprintf(buff, "STMonth%d", i);
-			alarm.time.wMonth = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wMonth = db_get_w(0, MODULE, buff, 0);
 			sprintf(buff, "STDay%d", i);
-			alarm.time.wDay = DBGetContactSettingWord(0, MODULE, buff, 0);
+			alarm.time.wDay = db_get_w(0, MODULE, buff, 0);
 			break;
 		}
 
 		sprintf(buff, "TriggerID%d", i);
-		alarm.trigger_id = DBGetContactSettingDword(0, MODULE, buff, 0);
+		alarm.trigger_id = db_get_dw(0, MODULE, buff, 0);
 
 		if (UpdateAlarm(alarm.time, alarm.occurrence)) {
 			sprintf(buff, "ActionFlags%d", i);
-			alarm.action = (unsigned short)DBGetContactSettingDword(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
+			alarm.action = (unsigned short)db_get_dw(0, MODULE, buff, AAF_POPUP | AAF_SOUND);
 			if (alarm.action & AAF_COMMAND) {
 				sprintf(buff, "ActionCommand%d", i);
-				if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-					if (dbv.ptszVal && _tcslen(dbv.ptszVal))
-						alarm.szCommand = mir_tstrdup(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+				if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+					alarm.szCommand = mir_tstrdup(dbv.ptszVal);
+					db_free(&dbv);
 					sprintf(buff, "ActionParams%d", i);
-					if (!DBGetContactSetting(0, MODULE, buff, &dbv)) {
-						if (dbv.ptszVal && _tcslen(dbv.ptszVal))
-							alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+					if (!DBGetContactSettingTString(0, MODULE, buff, &dbv)) {
+						alarm.szCommandParams = mir_tstrdup(dbv.ptszVal);
+						db_free(&dbv);
 					}
 				}
 			}
 
 			sprintf(buff, "SoundNum%d", i);
-			alarm.sound_num = (int)DBGetContactSettingByte(0, MODULE, buff, 1);
+			alarm.sound_num = (int)db_get_b(0, MODULE, buff, 1);
 
 			sprintf(buff, "Snoozer%d", i);
-			alarm.snoozer = DBGetContactSettingByte(0, MODULE, buff, 0) == 1;
+			alarm.snoozer = db_get_b(0, MODULE, buff, 0) == 1;
 
 			sprintf(buff, "Hidden%d", i);
-			alarm.flags |= (DBGetContactSettingByte(0, MODULE, buff, 0) == 1 ? ALF_HIDDEN : 0);
+			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_HIDDEN : 0);
 
 			sprintf(buff, "Suspended%d", i);
-			alarm.flags |= (DBGetContactSettingByte(0, MODULE, buff, 0) == 1 ? ALF_SUSPENDED : 0);
+			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_SUSPENDED : 0);
 
 			sprintf(buff, "NoStartup%d", i);
-			alarm.flags |= (DBGetContactSettingByte(0, MODULE, buff, 0) == 1 ? ALF_NOSTARTUP : 0);
+			alarm.flags |= (db_get_b(0, MODULE, buff, 0) == 1 ? ALF_NOSTARTUP : 0);
 
 			sprintf(buff, "Flags%d", i);
-			alarm.flags = DBGetContactSettingDword(0, MODULE, buff, alarm.flags);
+			alarm.flags = db_get_dw(0, MODULE, buff, alarm.flags);
 
 			alarm.id = next_alarm_id++;
 			alarms.push_back(&alarm);
@@ -308,9 +304,9 @@ void SaveAlarms() {
 	ALARM *i;
 	for(alarms.reset(); i = alarms.current(); alarms.next(), index++) {
 		sprintf(buff, "Title%d", index);
-		DBWriteContactSettingTString(0, MODULE, buff, i->szTitle);
+		db_set_ts(0, MODULE, buff, i->szTitle);
 		sprintf(buff, "Desc%d", index);
-		DBWriteContactSettingTString(0, MODULE, buff, i->szDesc);
+		db_set_ts(0, MODULE, buff, i->szDesc);
 		sprintf(buff, "Occ%d", index);
 		DBWriteContactSettingWord(0, MODULE, buff, i->occurrence);
 
@@ -347,19 +343,19 @@ void SaveAlarms() {
 		if (i->action & AAF_COMMAND) {
 			if (_tcslen(i->szCommand)) {
 				sprintf(buff, "ActionCommand%d", index);
-				DBWriteContactSettingTString(0, MODULE, buff, i->szCommand);
+				db_set_ts(0, MODULE, buff, i->szCommand);
 				if (_tcslen(i->szCommandParams)) {
 					sprintf(buff, "ActionParams%d", index);
-					DBWriteContactSettingTString(0, MODULE, buff, i->szCommandParams);
+					db_set_ts(0, MODULE, buff, i->szCommandParams);
 				}
 			}
 		}
 		
 		sprintf(buff, "SoundNum%d", index);
-		DBWriteContactSettingByte(0, MODULE, buff, i->sound_num);
+		db_set_b(0, MODULE, buff, i->sound_num);
 
 		sprintf(buff, "Snoozer%d", index);
-		DBWriteContactSettingByte(0, MODULE, buff, i->snoozer ? 1 : 0);
+		db_set_b(0, MODULE, buff, i->snoozer ? 1 : 0);
 
 		sprintf(buff, "Flags%d", index);
 		DBWriteContactSettingDword(0, MODULE, buff, i->flags);
@@ -376,9 +372,9 @@ void copy_list(AlarmList &copy) {
 	copy.clear();
 	ALARM *i;
 	EnterCriticalSection(&alarm_cs);
-	for(alarms.reset(); i = alarms.current(); alarms.next()) {
+	for(alarms.reset(); i = alarms.current(); alarms.next())
 		copy.push_back(i);
-	}
+
 	LeaveCriticalSection(&alarm_cs);
 }
 
@@ -386,10 +382,10 @@ void copy_list(AlarmList &copy, SYSTEMTIME &start, SYSTEMTIME &end) {
 	copy.clear();
 	ALARM *i;
 	EnterCriticalSection(&alarm_cs);
-	for(alarms.reset(); i = alarms.current(); alarms.next()) {
+	for(alarms.reset(); i = alarms.current(); alarms.next())
 		if (IsBetween(i->time, start, end))
 			copy.push_back(i);
-	}
+
 	LeaveCriticalSection(&alarm_cs);
 }
 
@@ -397,9 +393,9 @@ void set_list(AlarmList &copy) {
 	EnterCriticalSection(&alarm_cs);
 	alarms.clear();
 	ALARM *i;
-	for(copy.reset(); i = copy.current(); copy.next()) {
+	for(copy.reset(); i = copy.current(); copy.next())
 		alarms.push_back(i);
-	}
+
 	LeaveCriticalSection(&alarm_cs);
 
 	SaveAlarms();
@@ -741,7 +737,7 @@ void InitList()
 
 	if (!CallService(MS_DB_CONTACT_GETSETTING, 0, (LPARAM)&dbcgs)) {
 		memcpy(&last_check, dbv.pbVal, sizeof(SYSTEMTIME));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	} else {
 		GetLocalTime(&last_check);
 	}

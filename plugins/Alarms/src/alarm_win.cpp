@@ -28,11 +28,13 @@ typedef struct WindowData_tag {
 	int win_num;
 } WindowData;
 
-void SetAlarmWinOptions() {
+void SetAlarmWinOptions()
+{
 	WindowList_Broadcast(hAlarmWindowList, WMU_SETOPT, IDC_SNOOZE, 0);
 }
 
-bool TransparencyEnabled() {
+bool TransparencyEnabled()
+{
 	return MySetLayeredWindowAttributes != 0;
 }
 
@@ -125,7 +127,8 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 				h=(h<v)?h:v;
 				hRgn1=CreateRoundRectRgn(0,0,(r.right-r.left+1),(r.bottom-r.top+1),h,h);
 				SetWindowRgn(hwndDlg,hRgn1,1);
-			} else {
+			}
+			else {
 				HRGN hRgn1;
 				RECT r;
 				int v,h;
@@ -175,28 +178,26 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	case WMU_FAKEALARM:
 		{
 			SetWindowText(hwndDlg, TranslateT("Example Alarm"));
-			HWND hw = GetDlgItem(hwndDlg, IDC_TITLE);
-			SetWindowText(hw, TranslateT("Example Alarm"));
+			SetWindowText(GetDlgItem(hwndDlg, IDC_TITLE), TranslateT("Example Alarm"));
 			SetDlgItemText(hwndDlg, IDC_ED_DESC, TranslateT("Some example text. Example, example, example."));
 		}
 		return TRUE;
 
 	case WM_TIMER: 
-		{
-			if (wParam == ID_TIMER_SOUND) {
-				WindowData *dw = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				if (dw) {
-					ALARM *data = dw->alarm;
-					if (data && data->action & AAF_SOUND) {
-						if (data->sound_num <= 3) {
-							char buff[128];
-							sprintf(buff, "Triggered%d", data->sound_num);
-							SkinPlaySound(buff);
-						} else if (data->sound_num == 4) {
-							if (data->szTitle != NULL && data->szTitle[0] != '\0') {
-								if (ServiceExists("Speak/Say")) {
-									CallService("Speak/Say", 0, (LPARAM)data->szTitle);
-								}
+		if (wParam == ID_TIMER_SOUND) {
+			WindowData *dw = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+			if (dw) {
+				ALARM *data = dw->alarm;
+				if (data && data->action & AAF_SOUND) {
+					if (data->sound_num <= 3) {
+						char buff[128];
+						sprintf(buff, "Triggered%d", data->sound_num);
+						SkinPlaySound(buff);
+					}
+					else if (data->sound_num == 4) {
+						if (data->szTitle != NULL && data->szTitle[0] != '\0') {
+							if (ServiceExists("Speak/Say")) {
+								CallService("Speak/Say", 0, (LPARAM)data->szTitle);
 							}
 						}
 					}
@@ -204,11 +205,9 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 		}
 		return TRUE;
+
 	case WM_MOVE:
-		{
-			//WindowData *wd = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
-		}
+		Utils_SaveWindowPosition(hwndDlg, 0, MODULE, "Notify");
 		break;
 
 	case WMU_ADDSNOOZER:
@@ -243,9 +242,9 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 					append_to_list(data);
 				}
 			}
-
 		}
 		return TRUE;
+
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
@@ -331,9 +330,9 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			ClientToScreen(hwndDlg, &newp);
 
 			WindowData *window_data = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-			if (!window_data->moving) {
+			if (!window_data->moving)
 				window_data->moving = true;
-			} else {
+			else {
 				RECT r;
 				GetWindowRect(hwndDlg, &r);
 				
@@ -341,7 +340,8 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 			}
 			window_data->p.x = newp.x;
 			window_data->p.y = newp.y;			
-		} else {
+		}
+		else {
 			ReleaseCapture();
 			WindowData *window_data = (WindowData *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 			window_data->moving = false;
@@ -352,7 +352,8 @@ INT_PTR CALLBACK DlgProcAlarm(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 	return FALSE;
 }
 
-int ReloadFonts(WPARAM wParam, LPARAM lParam) {
+int ReloadFonts(WPARAM wParam, LPARAM lParam)
+{
 	LOGFONT log_font;
 	title_font_colour = CallService(MS_FONT_GETT, (WPARAM)&title_font_id, (LPARAM)&log_font);
 	DeleteObject(hTitleFont);
@@ -410,20 +411,19 @@ int AlarmWinModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void InitAlarmWin() {
+void InitAlarmWin()
+{
 	hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll) {
+	if (hUserDll)
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
-		//MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
-	}
 
 	hAlarmWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, AlarmWinModulesLoaded);
 }
 
-void DeinitAlarmWin() {
-	
+void DeinitAlarmWin()
+{	
 	WindowList_Broadcast(hAlarmWindowList, WM_COMMAND, IDC_SNOOZE, 0);
 
 	FreeLibrary(hUserDll);
