@@ -134,7 +134,7 @@ type
     authorEmail:PAnsiChar;
     copyright  :PAnsiChar;
     homepage   :PAnsiChar;
-    flags      :Byte;  // right now the only flag, UNICODE_AWARE, is recognized here
+    flags      :Integer;  // right now the only flag, UNICODE_AWARE, is recognized here
     uuid       :MUUID; // plugin's unique identifier
   end;
 
