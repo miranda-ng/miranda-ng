@@ -93,6 +93,7 @@ HANDLE hFillListEvent = 0;
 CONTACT user;
 HINSTANCE hinstance = NULL;
 int hLangpack;
+HANDLE hExtraIcon1, hExtraIcon2;
 HANDLE heventXStatusIconChanged;
 HANDLE copyipport,gotoclansite,vipport,joingame,startthisgame,removefriend,blockfriend;
 int foundgames=0;
@@ -146,7 +147,7 @@ int RecvMessage(WPARAM wParam, LPARAM lParam);
 int SendMessage(WPARAM wParam, LPARAM lParam);
 static int UserIsTyping(WPARAM wParam, LPARAM lParam);
 HANDLE LoadGameIcon(char* g, int id, HICON* ico,BOOL onyico=FALSE,char * gamename=NULL,int*uu=NULL);
-void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype=EXTRA_ICON_ADV1);
+void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype=1);
 BOOL GetAvatar(char* username,XFireAvatar* av);
 //void SetAvatar(HANDLE hContact, char* username);
 static void SetAvatar(LPVOID lparam);
@@ -1070,7 +1071,7 @@ int ExtraImageApply(WPARAM wparam, LPARAM lparam)
 		}
 		if(gameid2!=0)
 		{
-			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid2),EXTRA_ICON_ADV2);
+			SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(gameid2),2);
 		}
 	}
 	return 0;
@@ -1375,6 +1376,9 @@ extern "C" __declspec(dllexport) int  Load(void)
 	sid.pszDescription = (char*)Translate("Protocol icon");
 	sid.iDefaultIndex = -IDI_TM;
 	Skin_AddIcon(&sid);
+
+	hExtraIcon1 = ExtraIcon_Register("xfire_game", "XFire game icon", "", ExtraListRebuild, ExtraImageApply);
+	hExtraIcon2 = ExtraIcon_Register("xfire_voice", "XFire voice icon", "", ExtraListRebuild, ExtraImageApply);
 	return 0;
 }
 
@@ -1924,11 +1928,7 @@ void CList_MakeAllOffline()
 
 void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype)
 {
-	IconExtraColumn iec;
-	iec.cbSize = sizeof(iec);
-	iec.hImage = hicon;
-	iec.ColumnType = ctype;
-	CallService(MS_CLIST_EXTRA_SET_ICON, (WPARAM)hcontact, (LPARAM)&iec);
+	ExtraIcon_SetIcon((ctype == 1) ? hExtraIcon1 : hExtraIcon2, hcontact, hicon);
 }
 
 void SetAvatar2(LPVOID lparam) {
@@ -3068,7 +3068,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 
 					DBWriteContactSettingWord(hContact, protocolname, "VoiceId", entry->game2);
 
-					SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(entry->game2),EXTRA_ICON_ADV2);	//icon seperat setzen
+					SetIcon(hContact,xgamelist.iconmngr.getGameIconHandle(entry->game2),2);	//icon seperat setzen
 				}
 				else
 				{
@@ -3076,7 +3076,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 					DBDeleteContactSetting(hContact, protocolname, "VPort");
 					DBDeleteContactSetting(hContact, protocolname, "RVoice");
 					DBDeleteContactSetting(hContact, protocolname, "VoiceId");
-					SetIcon(hContact,(HANDLE)-1,EXTRA_ICON_ADV2);
+					SetIcon(hContact,(HANDLE)-1,2);
 				}
 
 				//beim game folgendes machen
@@ -3216,7 +3216,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				setBuddyStatusMsg(entry,entry->statusmsg);
 
 				SetIcon(hContact,(HANDLE)-1);
-				SetIcon(hContact,(HANDLE)-1,EXTRA_ICON_ADV2);
+				SetIcon(hContact,(HANDLE)-1,2);
 				DBDeleteContactSetting(hContact, protocolname, "ServerIP");
 				DBDeleteContactSetting(hContact, protocolname, "Port");
 				DBDeleteContactSetting(hContact, protocolname, "VServerIP");
@@ -3237,7 +3237,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 				}
 
 				SetIcon(hContact,(HANDLE)-1);
-				SetIcon(hContact,(HANDLE)-1,EXTRA_ICON_ADV2);
+				SetIcon(hContact,(HANDLE)-1,2);
 				DBWriteContactSettingWord(hContact, protocolname, "Status", ID_STATUS_ONLINE);
 				DBWriteContactSettingString(entry->hcontact, protocolname, "MirVer", "xfire");
 				if(clan>0) DBWriteContactSettingDword(hContact, protocolname, "Clan", clan);
