@@ -497,10 +497,10 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 
 				int mode = ILD_NORMAL;
 				if (selected)
-					mode = ILD_SELECTED;
+					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_SELECTED;
 				else if (hottrack) {
 					colourFg = dat->hotTextColour;
-					mode = dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND50;
+					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_BLEND50;
 				}
 				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
