@@ -492,20 +492,19 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			int rightOffset = 0;
 			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 				COLORREF colourFg = dat->selBkColour;
-				int mode = ILD_NORMAL;
 				if (group->cl.items[group->scanIndex]->iExtraImage[i] == EMPTY_EXTRA_ICON)
 					continue;
 
+				int mode = ILD_NORMAL;
 				if (selected)
 					mode = ILD_SELECTED;
 				else if (hottrack) {
-					mode = ILD_FOCUS;
 					colourFg = dat->hotTextColour;
+					mode = dat->exStyle & CLS_EX_NOTRANSLUCENTSEL ? ILD_NORMAL : ILD_BLEND50;
 				}
-				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST) {
+				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST)
 					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
-					mode = ILD_BLEND50;
-				}
+
 				rightOffset += dat->extraColumnSpacing;
 				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[i], hdcMem,
 					clRect.right - rightOffset, y + ((dat->rowHeight - 16) >> 1), 0, 0,
