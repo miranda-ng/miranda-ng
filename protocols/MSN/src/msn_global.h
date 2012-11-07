@@ -64,6 +64,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_chat.h>
 #include <m_avatars.h>
 #include <m_timezones.h>
+#include <m_extraicons.h>
 
 #include "m_proto_listeningto.h"
 #include "m_folders.h"
