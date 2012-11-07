@@ -65,9 +65,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 {
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
-	int hit, indent, width, i;
-	int checkboxWidth;
-	SIZE textSize;
+	int indent, i;
 	HFONT hFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 
@@ -117,7 +115,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 			*flags |= CLCHT_INLEFTMARGIN | CLCHT_NOWHERE;
 		return -1;
 	}
-	hit = cli.pfnRowHitTest(dat, dat->yScroll + testy);
+	int hit = cli.pfnRowHitTest(dat, dat->yScroll + testy);
 	if (hit != -1)
 		hit = cli.pfnGetRowByIndex(dat, hit, &hitcontact, &hitgroup);
 	if (hit == -1) {
@@ -135,7 +133,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 			*flags |= CLCHT_ONITEMINDENT;
 		return hit;
 	}
-	checkboxWidth = 0;
+	int checkboxWidth = 0;
 	if (style & CLS_CHECKBOXES && hitcontact->type == CLCIT_CONTACT)
 		checkboxWidth = dat->checkboxSize + 2;
 	if (style & CLS_GROUPCHECKBOXES && hitcontact->type == CLCIT_GROUP)
@@ -153,23 +151,27 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 		return hit;
 	}
 
+	int eiOffset = 0;
 	for (i=0; i < dat->extraColumnsCount; i++) {
 		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
-		if (testx >= clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) &&
-			testx < clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) + g_IconWidth) {
-				if (flags)
-					*flags |= CLCHT_ONITEMEXTRA | (i << 24);
-				return hit;
-			}
+
+		eiOffset += dat->extraColumnSpacing;
+		if (testx >= clRect.right - eiOffset && testx < clRect.right - eiOffset + g_IconWidth) {
+			if (flags)
+				*flags |= CLCHT_ONITEMEXTRA | (i << 24);
+			return hit;
+		}
 	}
 	HDC hdc = GetDC(hwnd);
 	if (hitcontact->type == CLCIT_GROUP)
 		hFont = (HFONT)SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont);
 	else
 		hFont = (HFONT)SelectObject(hdc, dat->fontInfo[FONTID_CONTACTS].hFont);
+
+	SIZE textSize;
 	GetTextExtentPoint32(hdc, hitcontact->szText, lstrlen(hitcontact->szText), &textSize);
-	width = textSize.cx;
+	int width = textSize.cx;
 	if (hitcontact->type == CLCIT_GROUP) {
 		char *szCounts;
 		szCounts = cli.pfnGetGroupCountsText(dat, hitcontact);
