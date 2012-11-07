@@ -458,7 +458,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					rc.top = y + (dat->rowHeight >> 1);
 					rc.bottom = rc.top + 2;
 					rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace + width + 3;
-					rc.right = clRect.right - 1 - dat->extraColumnSpacing * dat->extraColumnsCount;
+					rc.right = clRect.right - 1;
 					if (rc.right - rc.left > 1)
 						DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 				}
