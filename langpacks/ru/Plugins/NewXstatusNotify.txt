@@ -34,7 +34,7 @@
 [Do you want to reset all templates to default?]
 Вы хотите сбросить все шаблоны на стандартные?
 [Disable for extra status 'Music']
-Отключить для доп. статуса "Музыка"
+Отключить для хСтатуса "Музыка"
 [New status:]
 Новый статус:
 [New message:]
@@ -48,7 +48,7 @@
 [removed %N]
 удалил(а) %N
 [These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
-Доступные переменные:\r\n\r\n\%N\tназвание доп. статуса (хСтатус, Настроение, Занятие)\r\n\%T\tзаголовок доп. статуса\r\n\%I\tтекст доп. статуса\r\n\%D\tразделитель\r\n\%B\tразрыв строки (может использоваться как разделитель)
+Доступные переменные:\r\n\r\n\%N\tназвание xСтатуса (хСтатус, Настроение, Занятие)\r\n\%T\tзаголовок xСтатуса\r\n\%I\tтекст xСтатуса\r\n\%D\tразделитель\r\n\%B\tразрыв строки (может использоваться как разделитель)
 [Automatically turn off Popups and Sounds on status change]
 Выключать вспл. окна и звуки при изменении статуса
 [Notify me for people not in my Contact List]
@@ -60,6 +60,8 @@
 [Disable only if I change global status]
 Отключать, только при изменении глобального статуса
 [Extra status notify]
+xСтатус
+[Extra status]
 xСтатус
 [Extra status logging]
 Запись xСтатусов
@@ -96,7 +98,7 @@ xСтатус удален
 [Use alternative descriptions]
 Использовать альтернативное описание
 [Extra status log]
-Запись доп. статусов
+Запись xСтатусов
 [Enable logging extra status to message window]
 Включить запись xСтатусов в окно сообщений
 [Toggle status notification]

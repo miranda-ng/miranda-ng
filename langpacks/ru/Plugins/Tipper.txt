@@ -134,7 +134,7 @@
 [Use item]
 Использовать
 [Extra status]
-Доп. статус
+xСтатус
 [Tooltip skin]
 Скин подсказки
 [Smileys support]
