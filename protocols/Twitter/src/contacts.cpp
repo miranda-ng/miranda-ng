@@ -114,7 +114,7 @@ void TwitterProto::DoSearch(void *p)
 	twitter_user info;
 	PROTOSEARCHRESULT psr = {sizeof(psr)};
 
-	bool found;
+	bool found = false;
 	try
 	{
 		char* p = mir_utf8encodeT( query->query.c_str());
@@ -131,6 +131,7 @@ void TwitterProto::DoSearch(void *p)
 		ShowPopup( (std::string("While searching for contacts, an error occurred: ")
 			+e.what()).c_str());
 		LOG( _T("***** Error searching for contacts: %s"), e.what());
+		found = false;
 	}
 
 	if(found) {

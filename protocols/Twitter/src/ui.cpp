@@ -414,7 +414,7 @@ namespace popup_options
 		popup.colorText  = get_text_color(hwndDlg,false);
 		popup.colorBack  = get_back_color(hwndDlg,false);
 
-		CallService(MS_POPUP_ADDPOPUPT,reinterpret_cast<WPARAM>(&popup),0);
+		PUAddPopUpT(&popup);
 	}
 }
 

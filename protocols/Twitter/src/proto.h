@@ -174,10 +174,7 @@ private:
 	wstring ConsumerSecret;
 
 	// various twitter api URLs
-	wstring AccessUrl;
 	wstring AuthorizeUrl;
-	wstring RequestUrl;
-	wstring UserTimelineUrl;
 };
 
 // TODO: remove this

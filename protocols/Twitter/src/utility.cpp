@@ -38,7 +38,6 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	 OAuthParameters postParams)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
-	NETLIBHTTPREQUEST *resp;
 	req.requestType = (meth == http::get) ? REQUEST_GET:REQUEST_POST;
 	req.szUrl = const_cast<char*>(url.c_str());
 
@@ -131,7 +130,7 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	req.nlc = httpPOST_;
 	http::response resp_data;
 	LOG("**SLURP - just before calling HTTPTRANSACTION");
-	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
+	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(handle_), reinterpret_cast<LPARAM>(&req)));
 	LOG("**SLURP - HTTPTRANSACTION complete.");
 	if(resp)
@@ -151,7 +150,7 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 	return resp_data;
 }
 
-int mir_twitter::LOG(const char *fmt,...)
+INT_PTR mir_twitter::LOG(const char *fmt,...)
 {
 	va_list va;
 	char text[1024];
@@ -162,10 +161,10 @@ int mir_twitter::LOG(const char *fmt,...)
 	mir_vsnprintf(text,sizeof(text),fmt,va);
 	va_end(va);
 
-	return (int)CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
+	return CallService(MS_NETLIB_LOG,(WPARAM)handle_,(LPARAM)text);
 }
 
-int mir_twitter::WLOG(const char* first, const std::wstring last)
+INT_PTR mir_twitter::WLOG(const char* first, const std::wstring last)
 {
 	char *str1 = new char[1024*96];
 	sprintf(str1,"%ls", last.c_str());
@@ -176,17 +175,17 @@ int mir_twitter::WLOG(const char* first, const std::wstring last)
 bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename)
 {
 	NETLIBHTTPREQUEST req = {sizeof(req)};
-	NETLIBHTTPREQUEST *resp;
 	req.requestType = REQUEST_GET;
 	req.flags = NLHRF_HTTP11 | NLHRF_REDIRECT;
 	req.szUrl = const_cast<char*>(url.c_str());
 
-	resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
+	NETLIBHTTPREQUEST *resp = reinterpret_cast<NETLIBHTTPREQUEST*>(CallService( MS_NETLIB_HTTPTRANSACTION,
 		reinterpret_cast<WPARAM>(hNetlib), reinterpret_cast<LPARAM>(&req)));
 
 	if (resp)
 	{
-		if (resp->resultCode == 200)
+		bool success = (resp->resultCode == 200);
+		if (success)
 		{
 			// Create folder if necessary
 			std::tstring dir = filename.substr(0,filename.rfind('\\'));
@@ -200,7 +199,7 @@ bool save_url(HANDLE hNetlib,const std::string &url,const std::tstring &filename
 		}
 
 		CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)resp);
-		return resp->resultCode == 200;
+		return success;
 	}
 	else
 		return false;

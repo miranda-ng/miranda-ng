@@ -349,53 +349,42 @@ std::vector<twitter_user> twitter::get_statuses(int count,twitter_id id)
 		{
 			const js::object &one  = boost::any_cast<js::object>(**i);
 			const js::object &user = retrieve<js::object>(one,"user");
-			//size_t RTcount = retrieve<size_t>(one,"retweet_count", true); // why doesn't this work?? it can't cast the output into an int even though twitter api says it's an int
 
 			twitter_user u;
 			u.username = retrieve<std::string>(user,"screen_name");
+			u.profile_image_url = retrieve<std::string>(user,"profile_image_url");
 
-			std::string rawText = retrieve<std::string>(one,"text");
-			bool foundTruncatedRT = false;
-			if (rawText.length() == 140) { // might be a truncated tweet
-				if (rawText.substr(0, 4) == "RT @") { // starting to look like a RT...
-					if (rawText.substr(136, 4) == " ...") { // ok this is the best I can do.  it starts with "RT @", ends with " ...", and is the full 140 chars
+			// the tweet will be truncated unless we take action.  i hate you twitter API
+			if(one.find("retweeted_status") != one.end())
+			{ 
+				//MessageBox(NULL, L"retweeted: TRUE", L"long tweets", MB_OK);
+				// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
+				// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
+				// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
+				// the retweet_count variable to work :(
+				const js::object &Retweet = retrieve<js::object>(one,"retweeted_status");
+				const js::object &RTUser = retrieve<js::object>(Retweet,"user");
 
+				std::string retweeteesName = retrieve<std::string>(RTUser,"screen_name"); // the user that is being retweeted
+				std::string retweetText = retrieve<std::string>(Retweet,"text"); // their tweet in all it's untruncated glory
 
-			//if (RTcount > 0) { // the tweet will be truncated unless we take action.  i hate you twitter API
-						//MessageBox(NULL, L"retweeted: TRUE", L"long tweets", MB_OK);
-						// here we grab the "retweeted_status" um.. section?  it's in here that all the info we need is
-						// at this point the user will get no tweets and an error popup if the tweet happens to be exactly 140 chars, start with
-						// "RT @", end in " ...", and notactually be a real retweet.  it's possible but unlikely, wish i knew how to get
-						// the retweet_count variable to work :(
-						const js::object &Retweet = retrieve<js::object>(one,"retweeted_status");
-						const js::object &RTUser = retrieve<js::object>(Retweet,"user");
-
-						std::string retweeteesName = retrieve<std::string>(RTUser,"screen_name"); // the user that is being retweeted
-						std::string retweetText = retrieve<std::string>(Retweet,"text"); // their tweet in all it's untruncated glory
-						
-						// fix "&amp;" in the tweets :(
-						size_t pos = 0;
-						while((pos = retweetText.find("&amp;", pos)) != std::string::npos) {
-							retweetText.replace(pos, 5, "&");
-							pos += 1;
-						}
-						
-						u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
-						foundTruncatedRT = true;
-					}
+				// fix "&amp;" in the tweets :(
+				for(size_t pos = 0;(pos = retweetText.find("&amp;", pos)) != std::string::npos;pos++)
+				{
+					retweetText.replace(pos, 5, "&");
 				}
+
+				u.status.text = "RT @" + retweeteesName + " " + retweetText; // mash it together in some format people will understand
 			}
-			
-			if (foundTruncatedRT == false) { // if it's not truncated, then the twitter API returns the native RT correctly anyway,
-
-				//std::string twt = retrieve<std::string>(one,"text"); // no need to do this anymore, we already grabbed it above in rawText
-
+            else
+			{
+				// if it's not truncated, then the twitter API returns the native RT correctly anyway,        
+				std::string rawText = retrieve<std::string>(one,"text");
 				// ok here i'm trying some way to fix all the "&amp;" things that are showing up
 				// i dunno why it's happening, so i'll just find and replace each occurance :/
-				size_t pos = 0;
-				while((pos = rawText.find("&amp;", pos)) != std::string::npos) {
+				for(size_t pos = 0;(pos = rawText.find("&amp;", pos)) != std::string::npos;pos++)
+				{
 					rawText.replace(pos, 5, "&");
-					pos += 1;
 				}
 
 				u.status.text = rawText;

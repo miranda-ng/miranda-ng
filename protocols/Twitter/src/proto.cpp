@@ -79,14 +79,7 @@ TwitterProto::TwitterProto(const char *proto_name,const TCHAR *username)
 	ConsumerKey = OAUTH_CONSUMER_KEY;
 	ConsumerSecret = OAUTH_CONSUMER_SECRET;
 
-	//codebrook's keys
-	//wstring ConsumerKey = L"T6XLGzrkfsJAgU59dbIjSA";
-	//wstring ConsumerSecret = L"xsvm2NAksjsJGw63RMWAtec3Lz5uiBusfVt48gbdKLg";
-
-	AccessUrl = _T("http://api.twitter.com/oauth/access_token");
 	AuthorizeUrl = _T("http://api.twitter.com/oauth/authorize?oauth_token=%s");
-	RequestUrl = _T("http://api.twitter.com/oauth/request_token?some_other_parameter=hello&another_one=goodbye#meep"); // threw in some parameters for fun, and to test UrlGetQuery
-	UserTimelineUrl = _T("http://twitter.com/statuses/user_timeline.json");
 }
 
 TwitterProto::~TwitterProto()
@@ -147,7 +140,8 @@ HICON TwitterProto::GetIcon(int index)
 
 int TwitterProto::RecvMsg(HANDLE hContact,PROTORECVEVENT *pre)
 {
-	return Proto_RecvMessage(hContact, pre);
+	Proto_RecvMessage(hContact, pre);
+	return 0;
 }
 
 // *************************
@@ -336,7 +330,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	mi.pszService = text;
 
 	mi.hParentMenu = hRoot;
-	mi.flags = CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE|CMIF_TCHAR;
 	mi.position = 1001;
 
 	HANDLE m_hMenuRoot = Menu_AddStatusMenuItem(&mi);
@@ -345,7 +339,7 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	// "Send Tweet..."
 	CreateProtoService(m_szModuleName,"/Tweet",&TwitterProto::OnTweet,this);
 	strcpy(tDest,"/Tweet");
-	mi.pszName = LPGEN("Send Tweet...");
+	mi.ptszName = LPGENT("Send Tweet...");
 	mi.popupPosition = 200001;
 	mi.icolibItem = GetIconHandle("tweet");
 	HANDLE m_hMenuBookmarks = Menu_AddStatusMenuItem(&mi);
@@ -384,7 +378,7 @@ int TwitterProto::OnTweet(WPARAM wParam,LPARAM lParam)
 		return 1;
 
 	HWND hDlg = CreateDialogParam(g_hInstance,MAKEINTRESOURCE(IDD_TWEET),
-		 (HWND)0,tweet_proc,reinterpret_cast<LPARAM>(this));
+		 0,tweet_proc,reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg,SW_SHOW);
 	return 0;
 }
@@ -401,7 +395,7 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nlu.ptszDescriptiveName = descr;
 	hNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 	if(hNetlib_ == 0)
-		MessageBoxA(0,"Unable to get Netlib connection for Twitter","",0);
+		MessageBox(0,_T("Unable to get Netlib connection for Twitter"),_T("Twitter"),0);
 
 	// Create avatar network connection (TODO: probably remove this)
 	char module[512];
@@ -411,7 +405,7 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nlu.ptszDescriptiveName = descr;
 	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 	if(hAvatarNetlib_ == 0)
-		MessageBoxA(0,"Unable to get avatar Netlib connection for Twitter","",0);
+		MessageBox(0,_T("Unable to get avatar Netlib connection for Twitter"),_T("Twitter"),0);
 
 	twit_.set_handle(hNetlib_);
 
@@ -468,7 +462,7 @@ int TwitterProto::OnPrebuildContactMenu(WPARAM wParam,LPARAM lParam)
 int TwitterProto::ShowPinDialog()
 {
 	HWND hDlg = (HWND)DialogBoxParam(g_hInstance,MAKEINTRESOURCE(IDD_TWITTERPIN),
-		 (HWND)0,pin_proc,reinterpret_cast<LPARAM>(this));
+		 0,pin_proc,reinterpret_cast<LPARAM>(this));
 	ShowWindow(hDlg,SW_SHOW);
 	return 0;
 }
@@ -486,7 +480,7 @@ void TwitterProto::ShowPopup(const wchar_t *text, int Error)
 	}
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
-		CallService(MS_POPUP_ADDPOPUPT,reinterpret_cast<WPARAM>(&popup),0);
+		PUAddPopUpT(&popup);
 	else
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }
@@ -503,7 +497,7 @@ void TwitterProto::ShowPopup(const char *text, int Error)
 	}
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT))
-		CallService(MS_POPUP_ADDPOPUPT,reinterpret_cast<WPARAM>(&popup),0);
+		PUAddPopUpT(&popup);
 	else
 		MessageBox(0,popup.lptzText,popup.lptzContactName,0);
 }

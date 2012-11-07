@@ -111,8 +111,8 @@ public:
 
 protected:
 	http::response slurp(const std::string &,http::method, OAuthParameters );
-	int LOG(const char *fmt,...);
-	int WLOG(const char* first, const std::wstring last);
+	INT_PTR LOG(const char *fmt,...);
+	INT_PTR WLOG(const char* first, const std::wstring last);
 
 	HANDLE httpPOST_;
 	HANDLE handle_;

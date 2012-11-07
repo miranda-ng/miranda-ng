@@ -137,7 +137,10 @@ bool TwitterProto::NegotiateConnection()
  	// twitter changed the base URL in v1.1 of the API, I don't think users will need to modify it, so
 	// i'll be forcing it to the new API URL here. After a while I can get rid of this as users will
 	// have either had this run at least once, or have reset their miranda profile. 14/10/2012
-	DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/");
+	if(DBGetContactSettingByte(0,m_szModuleName,"UpgradeBaseURL",1)) {
+		DBWriteContactSettingString(0,m_szModuleName,TWITTER_KEY_BASEURL,"https://api.twitter.com/");
+		DBWriteContactSettingByte(0,m_szModuleName,"UpgradeBaseURL",0);
+	}
 
 	if((oauthToken.size() <= 1) || (oauthTokenSecret.size() <= 1)) {
 		// first, reset all the keys so we can start fresh
@@ -380,16 +383,16 @@ void TwitterProto::MessageLoop(void*)
 	{
 
 		if(m_iStatus != ID_STATUS_ONLINE)
-			goto exit;
-		if(i%10 == 0)
-			UpdateFriends();
+			break;
+//		if(i%10 == 0)
+//			UpdateFriends();
 
 		if(m_iStatus != ID_STATUS_ONLINE)
-			goto exit;
+			break;
 		UpdateStatuses(new_account,popups, tweetToMsg);
 
 		if(m_iStatus != ID_STATUS_ONLINE)
-			goto exit;
+			break;
 		
 		if(i%10 == 0)
 			UpdateMessages(new_account);
@@ -401,16 +404,15 @@ void TwitterProto::MessageLoop(void*)
 		}
 
 		if(m_iStatus != ID_STATUS_ONLINE)
-			goto exit;
+			break;
 		LOG( _T("***** TwitterProto::MessageLoop going to sleep..."));
 		if(SleepEx(poll_rate*1000,true) == WAIT_IO_COMPLETION)
-			goto exit;
+			break;
 		LOG( _T("***** TwitterProto::MessageLoop waking up..."));
 
 		popups = true;
 	}
 
-exit:
 	{
 		ScopedLock s(twitter_lock_);
 		twit_.set_credentials("",L"",L"",L"",L"",L"", false);
@@ -431,7 +433,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 	if(p == 0)
 		return;
 	std::auto_ptr<update_avatar> data( static_cast<update_avatar*>(p));
-	DBVARIANT dbv;
+	DBVARIANT dbv = {0};
 
 	// DBGetContactSettingString returns 0 when it suceeds, so if this suceeds it will return 0, or false.
 	// therefore if it returns 1, or true, we want to return as there is no such user.
@@ -478,7 +480,7 @@ void TwitterProto::UpdateAvatarWorker(void *p)
 
 void TwitterProto::UpdateAvatar(HANDLE hContact,const std::string &url,bool force)
 {
-	DBVARIANT dbv;
+	DBVARIANT dbv = {0};
 
 	if( !force &&
 	  ( !DBGetContactSettingString(hContact,m_szModuleName,TWITTER_KEY_AV_URL,&dbv) &&
@@ -571,7 +573,7 @@ void TwitterProto::ShowContactPopup(HANDLE hContact,const std::string &text)
 	}
 
 	mbcs_to_tcs(CP_UTF8,text.c_str(),popup.lptzText,MAX_SECONDLINE);
-	CallService(MS_POPUP_ADDPOPUPT,reinterpret_cast<WPARAM>(&popup),0);
+	PUAddPopUpT(&popup);
 }
 
 void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
@@ -595,6 +597,7 @@ void TwitterProto::UpdateStatuses(bool pre_read, bool popups, bool tweetToMsg)
 				continue;
 
 			HANDLE hContact = AddToClientList(i->username.c_str(),"");
+			UpdateAvatar(hContact,i->profile_image_url); // as UpdateFriends() doesn't work at the moment, i'm going to update the avatars here
 
 			// i think we maybe should just do that DBEF_READ line instead of stopping ALL this code.  have to test.
 			if (tweetToMsg) {
