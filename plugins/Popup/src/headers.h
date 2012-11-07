@@ -116,6 +116,7 @@ Last change by : $Author: Merlin_de $
 	#include <m_fontservice.h>
 	#include <m_avatars.h>
 	#include <m_metacontacts.h>
+	#include <m_extraicons.h>
 
 	#include <m_system_cpp.h>
 
