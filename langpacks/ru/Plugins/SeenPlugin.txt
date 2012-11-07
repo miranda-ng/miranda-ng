@@ -74,7 +74,7 @@
 Протоколы для наблюдения:
 [Alert when user status changes]
 Предупреждать при изменении статуса
-[Log when a user was last seen online and which users were online while you were away]
+[Log when a user was last seen online and which users were online while you were away.]
 Запоминает, когда пользователь последний раз появлялся в сети и кто был в сети, пока вы отсутствовали.
 [User Logged In]
 Пользователь Подключён

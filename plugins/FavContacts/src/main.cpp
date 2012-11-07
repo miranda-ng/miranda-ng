@@ -30,7 +30,7 @@ int hLangpack;
 
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	"Favourite Contacts",
+	"Favourite Contacts.",
 	PLUGIN_MAKE_VERSION(0, 0, 0, 6),
 	"Favourite contacts menu",
 	"code by Victor Pavlychko, icons by Angeli-Ka",

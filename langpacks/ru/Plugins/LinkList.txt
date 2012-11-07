@@ -4,6 +4,8 @@
 ;  Module: History Linklist Plugin for Miranda NG
 ;  Versions: 0.1.1.1-0.1.1.2
 ;============================================================
+[Generates a list of extracted URIs from the history.]
+Создаёт и показывает список ссылок из истории контакта.
 [&Clear Search Results]
 &Очистить результаты поиска
 [&Incoming Messages Only]

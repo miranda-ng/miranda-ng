@@ -7,8 +7,8 @@
 ;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/avatarhistory/
 ;  Authors: Pescuma
 ;============================================================
-[This plugin keeps backups of all your contacts' avatar changes and/or shows popups]
-Модуль сохраняет историю изменения аватаров контактов и показывает всплывающие окна
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups.]
+Модуль сохраняет историю изменения аватаров контактов и показывает всплывающие окна.
 [Avatar History]
 История аватаров
 [View Avatar History]

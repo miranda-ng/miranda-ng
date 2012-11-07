@@ -7,8 +7,8 @@
 ;============================================================
 [xStatus: empty xStatus name to default name]
 хСтатус: пустое имя в имя по умолчанию
-[Tool Tip notification windows]
-Модуль всплывающих подсказок для списка контактов
+[Tool Tip notification windows.]
+Модуль всплывающих подсказок для списка контактов.
 [Min width:]
 Мин. ширина:
 [Min height:]

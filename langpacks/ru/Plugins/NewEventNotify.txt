@@ -6,8 +6,8 @@
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=341
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3637
 ;============================================================
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk]
-Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим PopUp от Luca Santarelli или аналогичный. Перевод Denn
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Уведомляет о получении сообщения, URL, файла или другого события, отображая информацию во всплывающих окнах. Для работы необходим PopUp от Luca Santarelli или аналогичный.
 [You were added!]
 Вас добавили
 [Requests your authorisation]

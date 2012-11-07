@@ -5,6 +5,8 @@
 ;  Versions: 1.0.5.8, 1.8.0.0
 ;  URL: http://mtlen.berlios.de
 ;============================================================
+[Tlen protocol plugin for Miranda NG.]
+Поддержка протокола Tlen в Miranda NG.
 [%s Web Messages]
 %s Web сообщений
 [...Connecting...]

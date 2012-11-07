@@ -11,8 +11,8 @@
 Добавить контакт\nДобавить контакт в контактный лист
 [&Add Contact...]
 &Добавить контакт...
-[Provides the ability to quickly add new contacts]
-Предоставляет возможность быстро добавить контакт
+[Provides the ability to quickly add new contacts.]
+Предоставляет возможность быстро добавить контакт.
 [The contact cannot be added to your contact list. If you are not connected to that network, try to connect. Also, make sure the User ID is entered properly.]
 Контакт не может быть добавлен в ваш контакт лист. Если вы не подключены к этой сети, попробуйте подключиться. Также, убедитесь, что вы вписали правильный ID пользователя.
 [Add temporarily]

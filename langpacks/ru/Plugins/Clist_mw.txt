@@ -7,6 +7,8 @@
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/mwclist/
 ;  Authors: Bethoven
 ;============================================================
+[Display contacts, event notifications, protocol status with MW modifications.]
+Показывает контакты, события, статусы протоколов. Мультиоконная модификация.
 [Backgrounds]
 Фоны
 [TitleBarFont]

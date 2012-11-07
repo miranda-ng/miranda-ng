@@ -6,7 +6,7 @@
 ;  URL: http://miranda.radicaled.ru/index.php?plugin=3
 ;============================================================
 [Plugin for quick insert pre-defined messages in message input area.]
-Позволяет вставлять предварительно заготовленные фразы в окно сообщений
+Позволяет вставлять предварительно заготовленные фразы в окно сообщений.
 [Quick Messages]
 Быстрые сообщения
 [Button Left-Click menu]

@@ -7,6 +7,8 @@
 ;  Source: 
 ;  Authors: Deathdemon
 ;============================================================
+[ClientChangeNotify plugin for Miranda NG.]
+Уведомление о смене IM клиента.
 [%s (was %s)]
 %s (был %s)
 [) changed client to ]

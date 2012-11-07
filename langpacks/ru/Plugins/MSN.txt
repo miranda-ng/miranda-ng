@@ -4,6 +4,8 @@
 ;  Module: MSN Protocol
 ;  Versions: 0.1.6.9, 0.7.0.2, 0.8.1.0, 0.8.4.0, 0.9.0.0
 ;============================================================
+[Adds support for communicating with users of the MSN Messenger network.]
+Поддержка протокола MSN для Miranda NG.
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для сети MSN таймаут отправления сообщения должен быть не менее, чем 60 секунд. Пожалуйста, настройте ваш модуль сообщений.
 [The MSN protocol plugin cannot be loaded. It requires Miranda IM 0.10.0.2 or later.]

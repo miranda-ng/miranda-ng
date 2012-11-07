@@ -23,5 +23,5 @@
 Значок, когда нет информации о поле
 [Show Contact Gender]
 Пол контакта
-[Shows contacts gender as an icon in contact list]
-Показывает значок пола контактов
+[Shows contacts gender as an icon in contact list.]
+Показывает значок информации о поле контакта.

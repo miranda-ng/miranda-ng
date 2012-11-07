@@ -29,7 +29,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Quick Contacts",
 	PLUGIN_MAKE_VERSION(1,0,0,0),
-	"Open contact-specific windows by hotkey",
+	"Open contact-specific windows by hotkey.",
 	"Ricardo Pescuma Domenecci, Heiko Schillinger",
 	"pescuma@miranda-im.org",
 	"© 2007-2009 Ricardo Pescuma Domenecci",

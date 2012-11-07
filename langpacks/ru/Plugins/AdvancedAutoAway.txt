@@ -33,8 +33,8 @@ AAA: правила
 Восстановить статус при возвращении
 [Only set if current status is]
 Только если статус:
-[AdvancedAutoAway, an Auto Away module with some more options than the original.]
-AdvancedAutoAway - модуль с расширенным набором функций
+[An Auto Away module with some more options than the original.]
+Модуль управления режимом ожидания с расширенным набором функций.
 [Auto Away]
 Отсутствие
 [minutes of %s mode]

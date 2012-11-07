@@ -54,7 +54,7 @@ PLUGININFOEX pluginInfo = {
 	"Message export (mod by ring0)",
 	PLUGIN_MAKE_VERSION(3,1,0,3),
 	"Exports every message, URL or File you receive to a text file.\r\n"
-	"Messages are exported to one file per user, users may be set to use the same file",
+	"Messages are exported to one file per user, users may be set to use the same file.",
 	"Kennet Nielsen, mod by ring0",
 	"Kennet_N@ofir.dk",
 	"© 2002 Kennet Nielsen",

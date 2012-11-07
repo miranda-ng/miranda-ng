@@ -9,7 +9,7 @@
 ;============================================================
 [Custom Status List]
 Пользовательский список статусов
-[Keep your ICQ Custom statuses in an integrated, easy to use manager. This plugin offers simple management functions to keep your extra statuses on one place.]
+[This plugin offers simple management functions to keep your extra statuses on one place.]
 Этот модуль предоставляет простой в использовании менеджер хСтатусов ICQ и возможность хранения хСтатусов в одном месте.
 [List settings]
 Настройки

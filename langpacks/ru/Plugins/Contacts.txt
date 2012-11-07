@@ -27,8 +27,8 @@
 &Добавить
 [Choose contacts to be send:]
 Выбрать контакты для отправки:
-[Allows you to send and receive contacts]
-Позволяет вам посылать и получать контакты
+[Allows you to send and receive contacts.]
+Позволяет вам посылать и получать контакты.
 [Send Contacts to]
 Отправить контакты
 [Contacts from]

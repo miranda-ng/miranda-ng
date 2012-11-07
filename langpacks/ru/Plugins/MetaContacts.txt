@@ -4,7 +4,7 @@
 ;  Module: MetaContacts
 ;  Versions: 0.9.13.4-0.14.0.13
 ;============================================================
-[Merges contacts from the same or different protocols into one]
+[Merges contacts from the same or different protocols into one.]
 Объединяет контакты одинаковых и/или разных протоколов в один.
 [Toggle Off]
 Выключить

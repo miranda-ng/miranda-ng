@@ -54,7 +54,7 @@ PLUGININFOEX pluginInfo = {
   sizeof(PLUGININFOEX),
   "Send/Receive Contacts+",
    PLUGIN_MAKE_VERSION(1,5,2,0),
-  "Allows you to send and receive contacts",
+  "Allows you to send and receive contacts.",
   "Joe Kucera, Todor Totev",
   "jokusoftware@miranda-im.org",
   "(C) 2004-2008 Joe Kucera, Original Code (C) 2002 Dominus Procellarum",

@@ -4,8 +4,8 @@
 ;  Module: Yet Another Popup Plugin
 ;  Versions: 0.5.0.10
 ;============================================================
-[Yet Another Popup Plugin - Provides popup notification window services (unicode and ansi) to other plugins]
-Yet Another Popup Plugin - Предоставляет службу всплывающих сообщений (unicode и ansi) другим модулям
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+Предоставляет службу всплывающих сообщений другим модулям.
 ;  Настройки - Всплывающие окна
 [Set timeout:]
 Длительность:

@@ -79,7 +79,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"MultiWindow Contact List",
 	PLUGIN_MAKE_VERSION(0,9,0,0),
-	"Display contacts, event notifications, protocol status with MW modifications",
+	"Display contacts, event notifications, protocol status with MW modifications.",
 	"",
 	"bethoven@mailgate.ru" ,
 	"Copyright 2000-2010 Miranda IM project, 2012 Miranda NG project.",

@@ -5,6 +5,8 @@
 ;  Versions: 1.0.0.6-1.0.6.6
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=534
 ;============================================================
+[Click 'n' send support from Explorer/Common dialogs/Desktop, Right click on a file/folder to be presented with all your Miranda contact lists and then select the profile/contact you want to send to.]
+Интеграция Miranda NG в контекстное меню оболочки ОС.
 [Problem, registration missing/deleted.]
 Проблема! Интеграция в оболочку отсутствует!
 [Successfully created shell registration.]

@@ -5,7 +5,7 @@ PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	SERVICE_TITLE,
 	PLUGIN_MAKE_VERSION( 0,0,2,4 ),
-	"File tranfer by using the messaging services - as plain text",
+	"File tranfer by using the messaging services - as plain text.",
 	"Denis Stanishevskiy // StDenis",
 	"stdenformiranda(at)fromru(dot)com",
 	"Copyright (c) 2004, Denis Stanishevskiy",

@@ -11,7 +11,7 @@
 #define __STRINGIFY(x)			#x
 #define __VERSION_STRING		__STRINGIFY(__FILEVERSION_STRING_DOTS)
 
-#define __DESC				"Yet Another Popup Plugin - Provides popup notification window services (unicode and ansi) to other plugins"
+#define __DESC				"Yet Another Popup Plugin - Provides popup notification window services to other plugins."
 #define __AUTHOR			"Scott Ellis"
 #define __AUTHOREMAIL		"mail@scottellis.com.au"
 #define __COPYRIGHT			"© 2005,2006 Scott Ellis"

@@ -4,6 +4,8 @@
 ;  Module: Sessions.dll
 ;  Versions: 0.1.3.0
 ;============================================================
+[Sessions Manager for Miranda NG.]
+Менеджер сессий Miranda NG.
 [Sessions]
 Сессии
 [Action on Startup]

@@ -5,7 +5,7 @@
 ;  Versions: 0.0.0.1
 ;  URL:http://code.google.com/p/alfamar/
 ;============================================================
-[This plug-in adds the main menu item used to view miranda-im pack user guide]
+[This plug-in adds the main menu item used to view miranda-im pack user guide.]
 Этот плагин добавляет пункт в главное меню для просмотра руководства пользователя по сборке Miranda NG.
 [User Guide]
 Руководство

@@ -6,8 +6,8 @@
 ;============================================================
 
 ;  Описание на странице модулей
-[Scriver - send and receive instant messages]
-Scriver - отправка и получение мгновенных сообщений
+[Scriver - send and receive instant messages.]
+Модуль личных и групповых чатов для Miranda NG.
 
 ;  Беседы — общее
 [Automatically pop up the window when]

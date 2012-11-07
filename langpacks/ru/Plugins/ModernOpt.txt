@@ -5,7 +5,7 @@
 ;  Versions: 0.1.0.0
 ;============================================================
 [Support for new options design.]
-Поддержка нового дизайна окна настроек Miranda NG
+Поддержка нового дизайна окна настроек Miranda NG.
 [Visit official Miranda NG website]
 Официальный сайт Miranda NG
 [Switch to classic options]

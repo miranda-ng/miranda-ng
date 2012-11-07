@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfo={
 sizeof(PLUGININFOEX),
 	"Show Contact Gender",
 	PLUGIN_MAKE_VERSION(0,0,2,1),
-	"Shows contacts gender as an icon in contact list",
+	"Shows contacts gender as an icon in contact list.",
 	"Thief, idea by nile, icons by a0x",
 	"thief@miranda.im",
 	"2006-2011 Alexander Turyak",

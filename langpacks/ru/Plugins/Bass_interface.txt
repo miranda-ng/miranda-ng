@@ -7,8 +7,8 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/Bass_interface/
 ;  Authors: tico-tico
 ;============================================================
-[un4seen's bass interface Miranda NG plugin.]
-Поддержка библиотеки bass для Miranda NG.
+[un4seen's BASS interface Miranda NG plugin.]
+Поддержка библиотеки BASS для Miranda NG.
 [un4seen's bass version: %d.%d.%d.%d]
 Версия библиотеки BASS: %d.%d.%d.%d
 [Volume:]

@@ -5,6 +5,8 @@
 ;  Versions: 0.0.3.5 - 0.0.3.23
 ;  URL: http://nightly.miranda.im/x32/newsaggregator.zip
 ;============================================================
+[RSS/Atom news aggregator.]
+Каналы новостей RSS/Atom.
 [News Aggregator]
 Каналы новостей
 [Adding new feed]

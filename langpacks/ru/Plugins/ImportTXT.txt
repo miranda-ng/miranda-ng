@@ -7,8 +7,8 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/importtxt/
 ;  Authors: Abyss
 ;============================================================
-[Imports history saved in TXT files from other clients]
-Импортирует историю из текстовых файлов
+[Imports history saved in TXT files from other clients.]
+Импортирует историю из текстовых файлов.
 [Import history to ]
 Импортировать историю в
 [Import history]

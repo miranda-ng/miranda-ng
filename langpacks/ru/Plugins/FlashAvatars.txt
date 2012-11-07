@@ -9,7 +9,7 @@
 ;============================================================
 [Load and manage flash avatars]
 Загружает и показывает Flash аватары
-[Load and display flash avatars]
-Загружает и показывает Flash аватары
+[Load and display flash avatars.]
+Загружает и показывает Flash аватары.
 [Flash Avatars]
 Подключение Flash Avatars

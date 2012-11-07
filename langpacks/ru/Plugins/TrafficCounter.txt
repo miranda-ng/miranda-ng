@@ -5,8 +5,8 @@
 ;  Versions: 0.0.3.6 - 0.0.3.9, 0.1.1.8
 ;  URL: http://code.google.com/p/tcounter/
 ;============================================================
-[Adding traffic and time counters]
-Счётчик трафика
+[Adding traffic and time counters.]
+Счётчик трафика.
 [Traffic Counter]
 Счётчик трафика
 [Show/Hide frame]

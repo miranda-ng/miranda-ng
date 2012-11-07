@@ -7,8 +7,8 @@
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/Gadu-Gadu/
 ;  Authors: dezred
 ;============================================================
-[Provides support for Gadu-Gadu protocol]
-Модуль протокола Gadu-Gadu
+[Provides support for Gadu-Gadu protocol.]
+Модуль протокола Gadu-Gadu.
 [Public Info]
 Общий каталог
 [Family name:]

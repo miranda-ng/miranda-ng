@@ -5,7 +5,7 @@
 ;  Versions: 0.0.7.0
 ;  URL: http://miranda-twitter.googlecode.com/files/twitter-0.0.7.0.zip
 ;============================================================
-[[Twitter protocol plugin for Miranda NG.]]
+[Twitter protocol plugin for Miranda NG.]
 Поддержка протокола Twitter в Miranda NG.
 [Base URL:]
 URL:

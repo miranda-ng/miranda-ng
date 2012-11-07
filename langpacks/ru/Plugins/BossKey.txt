@@ -17,8 +17,8 @@
 Windows не активен
 [Miranda is inactive]
 Программа неактивна
-[Anti-Boss plugin]
-Позволяет по нажатию "горячей клавиши" прятать Miranda NG от посторонних глаз
+[Anti-Boss plugin.]
+Позволяет по нажатию "горячей клавиши" прятать Miranda NG от посторонних глаз.
 [BossKey]
 АнтиБосс
 [(Previous Status)]

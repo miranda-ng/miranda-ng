@@ -16,7 +16,7 @@
 
 #define __PLUGIN_NAME				"Floating Contacts"
 #define __FILENAME					"FltContacts.dll"
-#define __DESC						"Floating Contacts plugin for Miranda"
+#define __DESC						"Floating Contacts plugin for Miranda."
 #define __AUTHOR					"Iavor Vajarov, Kosh&chka, Victor Pavlychko"
 #define __AUTHOREMAIL				"ell-6@ya.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/"

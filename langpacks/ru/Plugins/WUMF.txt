@@ -5,6 +5,8 @@
 ;  Versions: 0.1.0.2
 ;  URL: http://miranda-im.org/download/feed.php?dlfile=831
 ;============================================================
+[Scans for network users of your shared files and notify you with popups. Uses PopUps Interoperability by Luca Santarelli. PopUps plugin must be activated!]
+Сканирует сеть в поисках пользователей, использующих ваши файлы, открытые для доступа по сети и уведомляет всплывающими окнами.
 [WUMF: Who Use My Files?]
 Кто использует мои файлы?
 [WUMF: Show connections]

@@ -5,6 +5,8 @@
 ;  Versions: 1.7.0-2.09.00, 3.00.00, 3.1.0.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=254
 ;============================================================
+[Exports every message, URL or File you receive to a text file.\r\nMessages are exported to one file per user, users may be set to use the same file.]
+Экспорт сообщений, ссылок или принятых файлов в текстовый файл.\r\nСообщения могут экспортироваться как поконтактно, так и в один общий файл.
 [Open E&xported History]
 Экспортированная история
 [Message export]

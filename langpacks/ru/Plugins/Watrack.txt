@@ -12,7 +12,7 @@
 [xStatus will cleared before text changing and restored with new text later.]
 хСтатус будет очищен перед изменением текста и восстановлен с новым текстом позже
 [Paste played music info into message window or status text]
-Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение
+Вставляет информацию о проигрываемой музыке в окно сообщения или в статусное сообщение.
 [Use XStatus]
 Использовать хСтатус
 [If this option is "ON", XStatus doesn't depend of protocol status.]

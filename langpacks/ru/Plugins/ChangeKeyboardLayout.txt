@@ -7,6 +7,8 @@
 ;  Source: 
 ;  Authors: yasnovidyashii
 ;============================================================
+[Plugin for change keyboard layout of text (multilayout).]
+Модуль управления сменой раскладки по горячим клавишам.
 [Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
 Установите конфигурационные строки для неизвестных раскладок(Модули->ChangeKeyboardLayout)!
 [Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]

@@ -101,7 +101,7 @@ PLUGININFOEX pluginInfoEx =
 	sizeof(PLUGININFOEX),
 	"Traffic Counter",
 	0, // Начиная с версии ядра 0.92.1.0 поле с версией не используется.
-	"Adding traffic and time counters",
+	"Adding traffic and time counters.",
 	"Ghost, Mironych",
 	"",
 	"© 2002-2006 Ghost, © 2007-2012 Mironych",

@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo = {
 	PLUGIN_MAKE_VERSION(0, VER_MAJOR, VER_MINOR, VER_BUILD),
 	"Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. "
 	"Original plugin was written by icebreaker, modified by Prezes and some "
-	"bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale",
+	"bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.",
 	"icebreaker, Prezes, vj, vlko, Joe @ Whale",
 	"jokusoftware@miranda-im.org",
 	"GNU GPL",

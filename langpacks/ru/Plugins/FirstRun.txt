@@ -6,5 +6,5 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FirstRun/
 ;  Authors: Yasnovidyashii
 ;============================================================
-[Displays the Accounts window at the first start]
+[Displays the Accounts window at the first start.]
 Показывает окно управления аккаунтами при первом запуске.

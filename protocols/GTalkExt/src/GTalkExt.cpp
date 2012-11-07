@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	PLUGIN_DESCRIPTION,
 	PLUGIN_VERSION_DWORD,
-	"Currently only mail notifications implemented",
+	"GTalk mail notification extensions for Jabber protocol.",
 	"bems",
 	"bems@vingrad.ru",
 	COPYRIGHT_STRING,

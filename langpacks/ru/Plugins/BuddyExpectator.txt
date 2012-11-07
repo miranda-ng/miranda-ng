@@ -7,8 +7,8 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/buddyexpectator/
 ;  Authors: Anar Ibragimoff, sje, Thief
 ;============================================================
-[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions]
-Модуль уведомляет о возвращении контакта или его длительном отсутствии
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
+Модуль уведомляет о возвращении контакта или его длительном отсутствии.
 [Buddy Expectator]
 Жду тебя
 [has gone online for the first time.]

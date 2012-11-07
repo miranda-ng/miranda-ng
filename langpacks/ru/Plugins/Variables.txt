@@ -5,8 +5,8 @@
 ;  Versions: 0.2.2.0-0.2.3.4
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3822
 ;============================================================
-[Adds support for dynamic variables in strings for plugins]
-Поддержка динамических переменных для других модулей
+[Adds support for dynamic variables in strings for plugins.]
+Поддержка динамических переменных для других модулей.
 [Parse]
 Анализ
 [Auto parse]

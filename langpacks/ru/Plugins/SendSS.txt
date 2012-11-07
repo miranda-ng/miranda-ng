@@ -4,6 +4,8 @@
 ;  Module: Send ScreenShot
 ;  Versions: 0.2.2.3, 0.2.9.5, 0.2.6.3 - 0.2.6.5
 ;============================================================
+[Take a screenshot and send it to a contact.]
+Создание и отсылка снимков экрана контакту.
 [SendSS]
 Отправить скриншот
 [Send using:]
