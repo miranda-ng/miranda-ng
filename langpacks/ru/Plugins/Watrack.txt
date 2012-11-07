@@ -1,4 +1,4 @@
-﻿#muuid {30837efc-9644-a001-aa43-177ae3000000}
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
 ;============================================================
 ;  File: watrack.dll
 ;  Module: Winamp Track |Unicode aware|
