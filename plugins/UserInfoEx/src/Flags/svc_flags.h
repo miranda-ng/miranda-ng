@@ -51,7 +51,7 @@ class MsgWndData {
 	public:
 		HANDLE	m_hContact;
 		HWND	m_hwnd;
-		int		m_contryID;
+		int		m_countryID;
 		
 		MsgWndData(HWND hwnd, HANDLE hContact);
 		~MsgWndData();
@@ -62,7 +62,7 @@ class MsgWndData {
 			gFlagsOpts.bShowStatusIconFlag ? FlagsIconSet():FlagsIconUnset();
 		};
 		void ContryIDchange(int ID) {
-			m_contryID = ID; FlagsIconUpdate();
+			m_countryID = ID; FlagsIconUpdate();
 		};
 };
 

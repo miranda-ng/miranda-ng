@@ -55,6 +55,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clc.h>
 #include <m_skin.h>
 #include <win2k.h>
+#include <m_extraicons.h>
 
 #include "m_kbdnotify.h"
 #include <m_metacontacts.h>

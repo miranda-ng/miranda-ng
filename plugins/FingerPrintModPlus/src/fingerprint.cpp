@@ -152,7 +152,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 /*	ApplyFingerprintImage
 *	 1)Try to find appropriate mask
-*	 2)Register icon in extraimage list if not yet registered (0xFF)
+*	 2)Register icon in extraimage list if not yet registered (EMPTY_EXTRA_ICON)
 *	 3)Set ExtraImage for contact
 */
 
@@ -177,7 +177,7 @@ int OnExtraIconClick(WPARAM wParam, LPARAM lParam, LPARAM)
 
 /*
 *	OnExtraIconListRebuild
-*	Set all registered indexes in array to 0xFF (unregistered icon)
+*	Set all registered indexes in array to EMPTY_EXTRA_ICON (unregistered icon)
 */
 int OnExtraIconListRebuild(WPARAM wParam, LPARAM lParam)
 {
@@ -1060,7 +1060,7 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 {
 	short base, overlay, overlay2, overlay3;
 	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3);
-	if (base == -1 || nFICount == 0xFF)
+	if (base == -1 || nFICount == 0xFFFF)
 		return INVALID_HANDLE_VALUE;
 
 	// MAX: 1024 + 256 + 128 + 128

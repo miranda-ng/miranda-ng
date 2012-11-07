@@ -90,9 +90,9 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 
 	cxSmIcon = GetSystemMetrics(SM_CXSMICON);
 
-	for (i = 0;i<dat->extraColumnsCount;i++) {
+	for (i=0; i < dat->extraColumnsCount; i++) {
 		int x;
-		if (hitcontact->iExtraImage[i] == 0xFFFF)
+		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 
 		if ((style & CLS_EX_MULTICOLUMNALIGNLEFT)) {							
@@ -106,7 +106,7 @@ int HitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,struct ClcContact 
 			if (dat->MetaIgnoreEmptyExtra) {
 				ir = 0;
 				for (int j = i;j<dat->extraColumnsCount;j++) 
-					if (hitcontact->iExtraImage[j] != 0xFFFF)
+					if (hitcontact->iExtraImage[j] != EMPTY_EXTRA_ICON)
 						ir++;
 			}
 			else ir = dat->extraColumnsCount-i;

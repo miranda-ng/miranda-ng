@@ -260,55 +260,58 @@ static int FillDialog(HWND hwnd)
 
 static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iImage)
 {
-	int typeOfFirst,iOldIcon;
+	int iOldIcon;
 	HANDLE hItem,hChildItem;
 
-	typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
+	int typeOfFirst = SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
 	//check groups
-	if (typeOfFirst==CLCIT_GROUP) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_GROUP)
+		hItem = hFirstItem;
+	else
+		hItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
 	while(hItem) {
-		hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
+		hChildItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if (hChildItem)
-			SetAllChildIcons(hwndList,hChildItem,iColumn,iImage);
-		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
+			SetAllChildIcons(hwndList, hChildItem, iColumn, iImage);
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTGROUP, (LPARAM)hItem);
 	}
 	//check contacts
-	if (typeOfFirst==CLCIT_CONTACT) hItem=hFirstItem;
-	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hFirstItem);
+	if (typeOfFirst == CLCIT_CONTACT)
+		hItem = hFirstItem;
+	else
+		hItem = (HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hFirstItem);
 	while(hItem) {
-		iOldIcon=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (iOldIcon!=0xFF && iOldIcon!=iImage) SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
-		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hItem);
+		iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+		if (iOldIcon != EMPTY_EXTRA_ICON && iOldIcon != iImage)
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage));
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 }
 
 static void SetIconsForColumn(HWND hwndList,HANDLE hItem,HANDLE hItemAll,int iColumn,int iImage)
 {
-	int itemType;
-
-	itemType=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hItem,0);
-	if (itemType==CLCIT_CONTACT) {
-		int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (oldiImage!=0xFF&&oldiImage!=iImage)
-			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
+	int itemType = SendMessage(hwndList, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
+	if (itemType == CLCIT_CONTACT) {
+		int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
+		if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage));
 	}
-	else if (itemType==CLCIT_INFO) {
+	else if (itemType == CLCIT_INFO) {
 		int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (oldiImage!=0xFF&&oldiImage!=iImage)
-			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
+		if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage));
 		if (hItem == hItemAll)
-			SetAllChildIcons(hwndList,hItem,iColumn,iImage);
+			SetAllChildIcons(hwndList, hItem, iColumn, iImage);
 		else
-			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage)); //hItemUnknown
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage)); //hItemUnknown
 	}
-	else if (itemType==CLCIT_GROUP) {
+	else if (itemType == CLCIT_GROUP) {
 		int oldiImage = SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
-		if (oldiImage!=0xFF&&oldiImage!=iImage)
-			SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
-		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
+		if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
+			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn,iImage));
+		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_CHILD, (LPARAM)hItem);
 		if (hItem)
-			SetAllChildIcons(hwndList,hItem,iColumn,iImage);
+			SetAllChildIcons(hwndList, hItem, iColumn, iImage);
 	}
 }
 
@@ -802,7 +805,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						int iImage = SendDlgItemMessage(hwndDlg,IDC_CLIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nm->iColumn,0));
 						if (iImage == nullImage)
 							iImage = nm->iColumn;
-						else if (iImage!=0xFF)
+						else if (iImage != EMPTY_EXTRA_ICON)
 							iImage = nullImage;
 						SetIconsForColumn(GetDlgItem(hwndDlg,IDC_CLIST),hItem,hInfoItem,nm->iColumn,iImage);
 						break;

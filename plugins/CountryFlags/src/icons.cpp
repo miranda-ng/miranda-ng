@@ -148,7 +148,7 @@ HICON FASTCALL LoadFlagIcon(int countryNumber)
 	/* create identifier */
 	char *szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber, 0);
 	if (szCountry == NULL)
-		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber=0xFFFF, 0);
+		szCountry = (char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, countryNumber = 0xFFFF, 0);
 
 	char szId[20];
 	wsprintfA(szId, (countryNumber == 0xFFFF) ? "%s0x%X" : "%s%i", "flags_", countryNumber); /* buffer safe */

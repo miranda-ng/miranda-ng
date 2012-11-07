@@ -493,7 +493,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 				COLORREF colourFg = dat->selBkColour;
 				int mode = ILD_NORMAL;
-				if (group->cl.items[group->scanIndex]->iExtraImage[i] == 0xFFFF)
+				if (group->cl.items[group->scanIndex]->iExtraImage[i] == EMPTY_EXTRA_ICON)
 					continue;
 
 				if (selected)

@@ -698,7 +698,7 @@ INT_PTR CALLBACK DlgProcMsnServLists(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				iImage = iImage ? 0 : nmc->iColumn + 1;
 
 				SendMessage(nmc->hdr.hwndFrom, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn, iImage));
-				if (iImage && SendMessage(nmc->hdr.hwndFrom,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(nmc->iColumn ^ 1, 0)) != 0xFF)
+				if (iImage && SendMessage(nmc->hdr.hwndFrom, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn ^ 1, 0)) != EMPTY_EXTRA_ICON)
 					if (nmc->iColumn == 2 || nmc->iColumn == 3)
 						SendMessage(nmc->hdr.hwndFrom, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nmc->iColumn ^ 1, 0));
 

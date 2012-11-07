@@ -888,10 +888,10 @@ static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL
 			{
 				// if overlay - draw overlay icon
 				// position - on avatar
-				int x = szWnd.cx-ICON_WIDTH;
-				int y = szWnd.cy-ICON_HEIGHT;
+				int x = szWnd.cx - ICON_WIDTH;
+				int y = szWnd.cy - ICON_HEIGHT;
 				ske_ImageList_DrawEx(AniAva.overlayIconImageList,
-					dat->overlayIconIdx&0xFFFF,
+					dat->overlayIconIdx & 0xFFFF,
 					tempDC, x, y, ICON_WIDTH, ICON_HEIGHT,
 					CLR_NONE, CLR_NONE, ILD_NORMAL);
 			}

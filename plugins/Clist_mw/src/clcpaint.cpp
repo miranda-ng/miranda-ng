@@ -487,7 +487,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 					//calc if extra icons present
 					int enabledextraicons = 0;
 					for (iImage = 0;iImage<dat->extraColumnsCount;iImage++) {
-						if (Drawing->iExtraImage[iImage] == 0xFFFF)
+						if (Drawing->iExtraImage[iImage] == EMPTY_EXTRA_ICON)
 							continue;
 						enabledextraicons++;
 					}
@@ -543,7 +543,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 						COLORREF colourFg = dat->selBkColour;
 						int mode = ILD_NORMAL;
 
-						if (Drawing->iExtraImage[iImage] == 0xFFFF)
+						if (Drawing->iExtraImage[iImage] == EMPTY_EXTRA_ICON)
 							continue;
 
 						if (selected) mode = ILD_SELECTED;
@@ -571,7 +571,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 						int mode = ILD_NORMAL;
 						int x;
 
-						if (Drawing->iExtraImage[iImage] == 0xFFFF)
+						if (Drawing->iExtraImage[iImage] == EMPTY_EXTRA_ICON)
 							continue;
 
 						if (hottrack) {

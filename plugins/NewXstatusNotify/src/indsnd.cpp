@@ -441,7 +441,7 @@ void SetGroupsIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *g
 			if (iconOn[i] && image == EXTRA_IMAGE_DOT) 
 				iconOn[i] = 0;
 
-			if (image != EXTRA_IMAGE_BLANK) 
+			if (image != EMPTY_EXTRA_ICON) 
 				childCount[i]++;
 		}
 
@@ -451,7 +451,7 @@ void SetGroupsIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentItem, int *g
 	//set icons
 	for(int i = 0; i < SIZEOF(iconOn); i++) 
 	{
-		SetExtraImage(hwndList, hParentItem, i, childCount[i] ? (iconOn[i] ? i : EXTRA_IMAGE_DOT) : EXTRA_IMAGE_BLANK);
+		SetExtraImage(hwndList, hParentItem, i, childCount[i] ? (iconOn[i] ? i : EXTRA_IMAGE_DOT) : EMPTY_EXTRA_ICON);
 		if (groupChildCount) 
 			groupChildCount[i] += childCount[i];
 	}
@@ -484,7 +484,7 @@ void SetAllChildrenIcons(HWND hwndList, HANDLE hFirstItem, int column, int image
 	while(hItem) 
 	{
 		int oldIcon = GetExtraImage(hwndList, hItem, column);
-		if (oldIcon != EXTRA_IMAGE_BLANK && oldIcon != image) 
+		if (oldIcon != EMPTY_EXTRA_ICON && oldIcon != image) 
 			SetExtraImage(hwndList, hItem, column, image);
 
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);

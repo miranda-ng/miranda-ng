@@ -31,9 +31,8 @@ extern struct CountryListEntry *countries;
 
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
-	int countryNumber=0xFFFF;
-	char *pszProto;
-	pszProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	int countryNumber = 0xFFFF;
+	char *pszProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
 	/* ip detect */
 	if ( db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT))
 		countryNumber=ServiceIpToCountry(DBGetContactSettingDword((HANDLE)wParam,pszProto,"RealIP",0),0);
@@ -42,7 +41,7 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 		countryNumber=DBGetContactSettingWord((HANDLE)wParam,pszProto,"Country",0);
 	if (countryNumber == 0 || countryNumber == 0xFFFF)
 		countryNumber=DBGetContactSettingWord((HANDLE)wParam,pszProto,"CompanyCountry",0);
-	return (countryNumber == 0)?0xFFFF:countryNumber;
+	return (countryNumber == 0) ? 0xFFFF : countryNumber;
 }
 
 /************************* Extra Image ****************************/

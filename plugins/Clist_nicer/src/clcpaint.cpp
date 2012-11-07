@@ -1301,7 +1301,7 @@ nodisplay:
 	for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 		COLORREF colourFg = dat->selBkColour;
 		int mode = ILD_NORMAL;
-		if (contact->iExtraImage[i] == 0xFFFF)
+		if (contact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 
 		if (selected)

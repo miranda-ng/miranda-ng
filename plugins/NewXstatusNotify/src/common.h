@@ -68,6 +68,7 @@
 #include "m_userinfo.h"
 #include "m_utils.h"
 #include "m_icq.h"
+#include "m_extraicons.h"
 
 #include "m_metacontacts.h"
 #include "m_toptoolbar.h"

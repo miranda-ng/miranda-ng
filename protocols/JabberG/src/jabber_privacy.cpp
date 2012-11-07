@@ -1418,7 +1418,7 @@ HANDLE CJabberDlgPrivacyLists::CListFindGroupByName(TCHAR *name)
 void CJabberDlgPrivacyLists::CListResetIcons(HWND, HANDLE hItem, bool hide)
 {
 	for (int i = 0; i < 4; ++i)
-		m_clcClist.SetExtraImage(hItem, i, hide ? 0xFF : 0);
+		m_clcClist.SetExtraImage(hItem, i, hide ? EMPTY_EXTRA_ICON : 0);
 }
 
 void CJabberDlgPrivacyLists::CListSetupIcons(HWND, HANDLE hItem, int iSlot, DWORD dwProcess, BOOL bAction)
@@ -2152,8 +2152,7 @@ void CJabberDlgPrivacyLists::clcClist_OnClick(CCtrlClc::TEventInfo *evt)
 	if (!(hitFlags&CLCHT_ONITEMEXTRA)) return;
 
 	iImage = m_clcClist.GetExtraImage(hItem, evt->info->iColumn);
-	if (iImage != 0xFF)
-	{
+	if (iImage != EMPTY_EXTRA_ICON) {
 		if (iImage == 0)
 			iImage = evt->info->iColumn * 2 + 2;
 		else if (iImage == evt->info->iColumn * 2 + 2)

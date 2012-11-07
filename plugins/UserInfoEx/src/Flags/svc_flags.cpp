@@ -361,7 +361,7 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 MsgWndData::MsgWndData(HWND hwnd, HANDLE hContact) {
 	m_hwnd		= hwnd;
 	m_hContact	= hContact;
-	m_contryID	= (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact,0);
+	m_countryID	= (int)ServiceDetectContactOriginCountry((WPARAM)m_hContact,0);
 	FlagsIconUpdate();
 }
 
@@ -376,15 +376,15 @@ MsgWndData::FlagsIconSet() {
 	sid.cbSize				= sizeof(sid);
 	sid.szModule			= MODNAMEFLAGS;
 	/* ensure status icon is registered */
-	if (	m_contryID!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
+	if (	m_countryID!=0xFFFF || gFlagsOpts.bUseUnknownFlag) {
 		/* copy icon as status icon API will call DestroyIcon() on it */
-		hIcon = LoadFlagIcon(m_contryID);
+		hIcon = LoadFlagIcon(m_countryID);
 		sid.hIcon			= (hIcon!=NULL)?CopyIcon(hIcon):NULL;
 		Skin_ReleaseIcon(hIcon); /* does NULL check */
 		hIcon = sid.hIcon;
-		sid.dwId			= (DWORD)m_contryID;
+		sid.dwId			= (DWORD)m_countryID;
 		sid.hIconDisabled	= sid.hIcon/*NULL*/;
-		sid.szTooltip		= Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_contryID,0));
+		sid.szTooltip		= Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER,m_countryID,0));
 		sid.flags			= 0;
 		if(CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid) !=0) /* not yet registered? */
 			CallService(MS_MSG_ADDICON,0,(LPARAM)&sid);
@@ -394,7 +394,7 @@ MsgWndData::FlagsIconSet() {
 	sid.hIconDisabled		= NULL;
 	for(int i=0;i<nCountriesCount;++i) {
 		sid.dwId			= (DWORD)countries[i].id;
-		sid.flags			= (m_contryID==countries[i].id && hIcon!=NULL)? 0:MBF_HIDDEN;
+		sid.flags			= (m_countryID==countries[i].id && hIcon!=NULL)? 0:MBF_HIDDEN;
 		CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid);
 	}
 }
@@ -404,7 +404,7 @@ MsgWndData::FlagsIconUnset() {
 	StatusIconData sid		= {0};
 	sid.cbSize				= sizeof(sid);
 	sid.szModule			= MODNAMEFLAGS;
-	sid.dwId				= (DWORD)m_contryID;
+	sid.dwId				= (DWORD)m_countryID;
 	sid.flags				= MBF_HIDDEN;
 	CallService(MS_MSG_MODIFYICON,(WPARAM)m_hContact,(LPARAM)&sid);
 	/* can't call MS_MSG_REMOVEICON here as the icon might be

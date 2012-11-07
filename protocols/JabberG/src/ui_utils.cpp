@@ -702,7 +702,7 @@ int CCtrlClc::GetExtraColumns()
 }
 
 BYTE CCtrlClc::GetExtraImage(HANDLE hItem, int iColumn)
-{	return (BYTE)(SendMessage(m_hwnd, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, 0)) & 0xFF);
+{	return (BYTE)(SendMessage(m_hwnd, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, 0)) & EMPTY_EXTRA_ICON);
 }
 
 HIMAGELIST CCtrlClc::GetExtraImageList()

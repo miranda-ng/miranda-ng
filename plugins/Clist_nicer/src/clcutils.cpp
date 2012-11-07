@@ -130,7 +130,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 	}
 	cxSmIcon = GetSystemMetrics(SM_CXSMICON);
 	for (i = 0; i< dat->extraColumnsCount; i++) {
-		if (hitcontact->iExtraImage[i] == 0xFFFF)
+		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 		if (testx >= dat->extraColumnSpacing * (dat->extraColumnsCount - i) && testx < dat->extraColumnSpacing * (dat->extraColumnsCount - i) + cxSmIcon) {
 			if (flags)
@@ -143,7 +143,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 		int images_present = 0;
 
 		for (i = EXTRA_ICON_COUNT-1; i >= 0; i--) {
-			if (hitcontact->iExtraImage[i] == 0xFFFF)
+			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 			if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
 				continue;
@@ -285,7 +285,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	}
 	cxSmIcon = GetSystemMetrics(SM_CXSMICON);
 	for (i = 0; i< dat->extraColumnsCount; i++) {
-		if (hitcontact->iExtraImage[i] == 0xFFFF)
+		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 		if (testx >= clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) && testx< clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) + cxSmIcon) {
 			if (flags)
@@ -299,7 +299,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		int images_present = 0;
 
 		for (i = EXTRA_ICON_COUNT; i >= 0; i--) {
-			if (hitcontact->iExtraImage[i] == 0xFFFF)
+			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 			if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
 				continue;

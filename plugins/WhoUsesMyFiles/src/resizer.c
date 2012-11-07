@@ -40,10 +40,12 @@ int ResizeDialog(WPARAM wParam,LPARAM lParam)
 	int procResult;
 	int extendedDlg,itemCount;
 
-	if(urd->cbSize!=sizeof(UTILRESIZEDIALOG)) return 1;
-	pTemplate=(DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance,FindResource(urd->hInstance,urd->lpTemplate,RT_DIALOG)));
-	pTemplateEx=(START_OF_DLGTEMPLATEEX*)pTemplate;
-	extendedDlg=pTemplateEx->signature==0xFFFF;
+	if(urd->cbSize != sizeof(UTILRESIZEDIALOG))
+		return 1;
+
+	pTemplate = (DLGTEMPLATE*)LockResource(LoadResource(urd->hInstance,FindResource(urd->hInstance,urd->lpTemplate,RT_DIALOG)));
+	pTemplateEx = (START_OF_DLGTEMPLATEEX*)pTemplate;
+	extendedDlg = pTemplateEx->signature == 0xFFFF;
 	if(extendedDlg && pTemplateEx->dlgVer!=1)
 		return 1;
 
