@@ -160,16 +160,12 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		return dat->extraColumnsCount;
 
 	case CLM_GETEXTRAIMAGE:
-	{
-		if (LOWORD(lParam) >= dat->extraColumnsCount)
-			return 0xFFFF;
-
-		ClcContact *contact;
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			return 0xFFFF;
-
-		return contact->iExtraImage[LOWORD(lParam)];
-	}
+		if (LOWORD(lParam) < dat->extraColumnsCount) {
+			ClcContact *contact;
+			if ( cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+				return contact->iExtraImage[LOWORD(lParam)];
+		}
+		return EMPTY_EXTRA_ICON;
 
 	case CLM_GETEXTRAIMAGELIST:
 		return (LRESULT) dat->himlExtraColumns;

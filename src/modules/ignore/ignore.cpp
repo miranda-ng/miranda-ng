@@ -67,13 +67,14 @@ static void SetListGroupIcons(HWND hwndList, HANDLE hFirstItem, HANDLE hParentIt
 		for (i=0; i < SIZEOF(iconOn); i++) {
 			iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, i);
 			if (iconOn[i] && iImage == 0) iconOn[i] = 0;
-			if (iImage != 0xFF) childCount[i]++;
+			if (iImage != EMPTY_EXTRA_ICON)
+				childCount[i]++;
 		}
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
 	//set icons
 	for (i=0; i < SIZEOF(iconOn); i++) {
-		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0):0xFF));
+		SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(i, childCount[i]?(iconOn[i]?i+3:0) : EMPTY_EXTRA_ICON));
 		if (groupChildCount) groupChildCount[i]+=childCount[i];
 	}
 	SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hParentItem, MAKELPARAM(IGNOREEVENT_MAX, 1));
@@ -99,7 +100,7 @@ static void SetAllChildIcons(HWND hwndList, HANDLE hFirstItem, int iColumn, int 
 	else hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hFirstItem);
 	while (hItem) {
 		int iOldIcon = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-		if (iOldIcon != 0xFF && iOldIcon != iImage)
+		if (iOldIcon != EMPTY_EXTRA_ICON && iOldIcon != iImage)
 			SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
 		hItem = (HANDLE)SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXTCONTACT, (LPARAM)hItem);
 	}
@@ -124,7 +125,7 @@ static void SetIconsForColumn(HWND hwndList, HANDLE hItem, HANDLE hItemAll, int 
 	case CLCIT_CONTACT:
 		{
 			int oldiImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, iColumn);
-			if (oldiImage != 0xFF && oldiImage != iImage)
+			if (oldiImage != EMPTY_EXTRA_ICON && oldiImage != iImage)
 				SendMessage(hwndList, CLM_SETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(iColumn, iImage));
 		}
 		break;
@@ -158,7 +159,7 @@ static void SaveItemMask(HWND hwndList, HANDLE hContact, HANDLE hItem, const cha
 	DWORD mask = 0;
 	for (int i=0; i < IGNOREEVENT_MAX; i++) {
 		int iImage = SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(i, 0));
-		if (iImage && iImage != 0xFF)
+		if (iImage && iImage != EMPTY_EXTRA_ICON)
 			mask |= 1 << i;
 	}
 	db_set_dw(hContact, "Ignore", pszSetting, mask);
@@ -169,7 +170,7 @@ static void SetAllContactIcons(HWND hwndList)
 	HANDLE hContact = db_find_first();
 	do {
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
-		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == 0xFF) {
+		if (hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
 			DWORD proto1Caps, proto4Caps;
 			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 			if (szProto) {
@@ -282,7 +283,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 						int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 						if (iImage == 0)
 							iImage = nm->iColumn+3;
-						else if (iImage != 0xFF)
+						else if (iImage != EMPTY_EXTRA_ICON)
 							iImage = 0;
 						SetIconsForColumn( GetDlgItem(hwndDlg, IDC_LIST), hItem, hItemAll, nm->iColumn, iImage);
 					}

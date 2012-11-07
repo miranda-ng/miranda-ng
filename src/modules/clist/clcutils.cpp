@@ -154,7 +154,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	}
 
 	for (i=0; i < dat->extraColumnsCount; i++) {
-		if (hitcontact->iExtraImage[i] == 0xFFFF)
+		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 		if (testx >= clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) &&
 			testx < clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) + g_IconWidth) {

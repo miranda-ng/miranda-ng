@@ -158,7 +158,7 @@ int fnAddInfoItemToGroup(ClcGroup *group, int flags, const TCHAR *pszText)
 			if (group->cl.items[i]->type != CLCIT_INFO)
 				break;
 	i = cli.pfnAddItemToGroup(group, i);
-	iInfoItemUniqueHandle = (iInfoItemUniqueHandle + 1) & 0xFFFF;
+	iInfoItemUniqueHandle = LOWORD(iInfoItemUniqueHandle+1);
 	if (iInfoItemUniqueHandle == 0)
 		++iInfoItemUniqueHandle;
 	group->cl.items[i]->type = CLCIT_INFO;
