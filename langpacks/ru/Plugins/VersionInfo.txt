@@ -80,3 +80,5 @@ UUID модулей
 Версии модулей
 [&Version Informations]
 &Версии модулей
+[Output Debug String]
+Вывод отладочных строк
