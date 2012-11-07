@@ -60,9 +60,9 @@
 [Disable only if I change global status]
 Отключать, только при изменении глобального статуса
 [Extra status notify]
-Доп. статусы
+xСтатус
 [Extra status logging]
-Запись доп. статусов
+Запись xСтатусов
 [Prevent identical logs]
 Предотвращать одинаковые записи
 [Keep events in history]
@@ -80,11 +80,11 @@
 [Reset all templates to default]
 Сбросить все шаблоны на стандартные
 [Extra status changed]
-Доп. статус изменен
+xСтатус изменен
 [Extra status message changed]
-Изменено сообщение доп. статуса
+Изменено сообщение xСтатуса
 [Extra status removed]
-Доп. статус удален
+xСтатус удален
 [Popup text]
 Текст всплывающих окон
 [Use Popup colours]
@@ -98,7 +98,7 @@
 [Extra status log]
 Запись доп. статусов
 [Enable logging extra status to message window]
-Включить запись доп. статусов в окно сообщений
+Включить запись xСтатусов в окно сообщений
 [Toggle status notification]
 Вкл/Выкл уведомления о смене статуса
 [Status notification enabled]
