@@ -24,6 +24,8 @@
 #define EXTRA_ICON_COUNT 10
 #endif
 
+#define EMPTY_EXTRA_ICON  0xFFFF
+
 // Adding icon to extra image list.
 // Used for EXTRAICON_TYPE_CALLBACK extra icons
 //
