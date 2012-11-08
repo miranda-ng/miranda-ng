@@ -28,6 +28,7 @@
 #define MENU_MIRANDAMENU         0xFFFF1234
 
 extern BOOL(WINAPI * MySetProcessWorkingSetSize) (HANDLE, SIZE_T, SIZE_T);
+extern HANDLE hEventExtraClick;
 
 static HMODULE hUserDll;
 static HANDLE hContactDraggingEvent, hContactDroppedEvent, hContactDragStopEvent;
@@ -143,9 +144,10 @@ static INT_PTR CALLBACK AskForConfirmationDlgProc(HWND hWnd, UINT msg, WPARAM wP
 			mir_sntprintf(szFinal, SIZEOF(szFinal), szFormat, cli.pfnGetContactDisplayName((HANDLE)lParam, 0));
 			SetDlgItemText(hWnd, IDC_TOPLINE, szFinal);
 		}
-        SetFocus( GetDlgItem(hWnd, IDNO));
+		SetFocus( GetDlgItem(hWnd, IDNO));
 		SetWindowPos(hWnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 		break;
+
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
 		case IDYES:
@@ -519,13 +521,13 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case M_RESTORESTATUS:
-        #ifndef _DEBUG
-        {
-	        int nStatus = DBGetContactSettingWord(NULL, "CList", "Status", ID_STATUS_OFFLINE);
-	        if (nStatus != ID_STATUS_OFFLINE) CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
-        }
-        #endif
-        break;
+		#ifndef _DEBUG
+		{
+			int nStatus = DBGetContactSettingWord(NULL, "CList", "Status", ID_STATUS_OFFLINE);
+			if (nStatus != ID_STATUS_OFFLINE) CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
+		}
+		#endif
+		break;
 
 	// Power management
 	case WM_POWERBROADCAST:
@@ -581,7 +583,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
-			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
+			//if docked, dont remember pos (except for width)
+			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 				db_set_dw(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
 				db_set_dw(NULL, "CList", "x", (DWORD) rc.left);
 				db_set_dw(NULL, "CList", "y", (DWORD) rc.top);
@@ -805,7 +808,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_DISPLAYCHANGE:
 		DefWindowProc(hwnd, msg, wParam, lParam);
-		SendMessage(cli.hwndContactTree, WM_SIZE, 0, 0);        //forces it to send a cln_listsizechanged
+		SendMessage(cli.hwndContactTree, WM_SIZE, 0, 0); //forces it to send a cln_listsizechanged
 		break;
 
 		//MSG FROM CHILD CONTROL
@@ -895,15 +898,21 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			case NM_CLICK:
 				{
 					DWORD hitFlags;
-					if (SendMessage(cli.hwndContactTree, CLM_HITTEST, (WPARAM) & hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y)))
+					HANDLE hItem = (HANDLE)SendMessage(cli.hwndContactTree, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y));
+					if (hItem) {
+						if (hitFlags & CLCHT_ONITEMEXTRA) {
+							if ( !IsHContactGroup(hItem) && !IsHContactInfo(hItem))
+								if ( cli.pfnGetCacheEntry(nmc->hItem))
+									NotifyEventHooks(hEventExtraClick, (WPARAM)nmc->hItem, nmc->iColumn+1);
+						}
 						break;
+					}
 
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
 
 					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
-						POINT pt;
-						pt = nmc->pt;
+						POINT pt = nmc->pt;
 						ClientToScreen(cli.hwndContactTree, &pt);
 						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 					}
@@ -954,10 +963,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			int pos = LOWORD(wParam);
 			POINT pt;
 			GetCursorPos(&pt);
-			if ((pos == 0 || pos == 1) && (HIWORD(wParam) & MF_POPUP) &&
-                ( !(HIWORD(wParam) & MF_MOUSESELECT) || MenuItemFromPoint(hwnd, cli.hMenuMain, pt) != -1)) {
-				MENUITEMINFO mii = { 0 };
-				mii.cbSize = MENUITEMINFO_V4_SIZE;
+			if ((pos == 0 || pos == 1) && (HIWORD(wParam) & MF_POPUP) && ( !(HIWORD(wParam) & MF_MOUSESELECT) || MenuItemFromPoint(hwnd, cli.hMenuMain, pt) != -1)) {
+				MENUITEMINFO mii = { MENUITEMINFO_V4_SIZE };
 				mii.fMask = MIIM_SUBMENU;
 				mii.hSubMenu = (HMENU)CallService((pos == 0) ? MS_CLIST_MENUGETMAIN : MS_CLIST_MENUGETSTATUS, 0, 0);
 				SetMenuItemInfo(cli.hMenuMain, pos, TRUE, &mii);
@@ -1089,7 +1096,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
-			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {     //if docked, dont remember pos (except for width)
+			//if docked, dont remember pos (except for width)
+			if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 				db_set_dw(NULL, "CList", "Height", (DWORD) (rc.bottom - rc.top));
 				db_set_dw(NULL, "CList", "x", (DWORD) rc.left);
 				db_set_dw(NULL, "CList", "y", (DWORD) rc.top);

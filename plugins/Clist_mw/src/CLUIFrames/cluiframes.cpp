@@ -486,11 +486,11 @@ int DBLoadFrameSettingsAtPos(int pos,int Frameid)
 	_itoa(pos,sadd,10);
 
 	//boolean
-	Frames[Frameid].collapsed = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"Collapse",sadd),Frames[Frameid].collapsed);
+	Frames[Frameid].collapsed = db_get_b(0,CLUIFrameModule,AS(buf,"Collapse",sadd),Frames[Frameid].collapsed);
 
-	Frames[Frameid].Locked					 = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"Locked",sadd),Frames[Frameid].Locked);
-	Frames[Frameid].visible					 = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"Visible",sadd),Frames[Frameid].visible);
-	Frames[Frameid].TitleBar.ShowTitleBar	 = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),Frames[Frameid].TitleBar.ShowTitleBar);
+	Frames[Frameid].Locked					 = db_get_b(0,CLUIFrameModule,AS(buf,"Locked",sadd),Frames[Frameid].Locked);
+	Frames[Frameid].visible					 = db_get_b(0,CLUIFrameModule,AS(buf,"Visible",sadd),Frames[Frameid].visible);
+	Frames[Frameid].TitleBar.ShowTitleBar	 = db_get_b(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),Frames[Frameid].TitleBar.ShowTitleBar);
 
 	Frames[Frameid].height					 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"Height",sadd),Frames[Frameid].height);
 	Frames[Frameid].HeightWhenCollapsed		 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),0);
@@ -501,10 +501,10 @@ int DBLoadFrameSettingsAtPos(int pos,int Frameid)
 	Frames[Frameid].FloatingSize.x		 = DBGetContactSettingRangedWord(0,CLUIFrameModule,AS(buf,"FloatW",sadd),100,0,1024);
 	Frames[Frameid].FloatingSize.y		 = DBGetContactSettingRangedWord(0,CLUIFrameModule,AS(buf,"FloatH",sadd),100,0,1024);
 
-	Frames[Frameid].floating			 = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"Floating",sadd),0);
+	Frames[Frameid].floating			 = db_get_b(0,CLUIFrameModule,AS(buf,"Floating",sadd),0);
 	Frames[Frameid].order				 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"Order",sadd),0);
 
-	Frames[Frameid].UseBorder			 = DBGetContactSettingByte(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),Frames[Frameid].UseBorder);
+	Frames[Frameid].UseBorder			 = db_get_b(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),Frames[Frameid].UseBorder);
 
 	return 0;
 }
@@ -1310,7 +1310,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam,LPARAM lParam)
 				ulockfrm();
 				return 0;
 			}
-			if (DBGetContactSettingByte(NULL,"CLUI","AutoSize",0)) {
+			if ( db_get_b(NULL,"CLUI","AutoSize",0)) {
 				ulockfrm();
 				return 0;
 			}
@@ -1567,7 +1567,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	//override tbbtip
 	//clfrm->Flags != F_SHOWTBTIP;
 	//
-	if (DBGetContactSettingByte(0,CLUIFrameModule,"RemoveAllBorders",0) == 1)
+	if ( db_get_b(0,CLUIFrameModule,"RemoveAllBorders",0) == 1)
 		clfrm->Flags |= F_NOBORDER;
 
 	Frames[nFramescount].dwFlags = clfrm->Flags;
@@ -1595,7 +1595,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 
 	// create frame
 	Frames[nFramescount].TitleBar.hwnd = CreateWindow(CLUIFrameTitleBarClassName,Frames[nFramescount].name,
-		(DBGetContactSettingByte(0,CLUIFrameModule,"RemoveAllTitleBarBorders",0)?0:WS_BORDER) |WS_CHILD|WS_CLIPCHILDREN|
+		( db_get_b(0,CLUIFrameModule,"RemoveAllTitleBarBorders",0)?0:WS_BORDER) |WS_CHILD|WS_CLIPCHILDREN|
 		(Frames[nFramescount].TitleBar.ShowTitleBar?WS_VISIBLE:0)| WS_CLIPCHILDREN,
 		0,0,0,0,pcli->hwndContactList,NULL,g_hInst,NULL);
 	SetWindowLongPtr(Frames[nFramescount].TitleBar.hwnd,GWLP_USERDATA,Frames[nFramescount].id);
@@ -1984,13 +1984,13 @@ int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 
-	AlignCOLLIconToLeft = DBGetContactSettingByte(NULL,"FrameTitleBar","AlignCOLLIconToLeft",0);
+	AlignCOLLIconToLeft = db_get_b(NULL,"FrameTitleBar","AlignCOLLIconToLeft",0);
 
 	bkColour = DBGetContactSettingDword(NULL,"FrameTitleBar","BkColour",CLCDEFAULT_BKCOLOUR);
 	//SelBkColour = DBGetContactSettingDword(NULL,"FrameTitleBar","SelBkColour",0);
 
 	if (hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground = NULL;}
-	if (DBGetContactSettingByte(NULL,"FrameTitleBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
+	if ( db_get_b(NULL,"FrameTitleBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
 		if (!DBGetContactSetting(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
@@ -2320,7 +2320,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 			}
 
 			if (( !(wParam & MK_CONTROL)) && Frames[framepos].Locked && (!(Frames[framepos].floating))) {
-				if (DBGetContactSettingByte(NULL,"CLUI","ClientAreaDrag",0)) {
+				if ( db_get_b(NULL,"CLUI","ClientAreaDrag",0)) {
 					POINT pt;
 					//pt = nm->pt;
 					GetCursorPos(&pt);

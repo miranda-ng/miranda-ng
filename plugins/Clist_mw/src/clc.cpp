@@ -52,13 +52,13 @@ void StatusUpdaterThread(void*)
 	SetThreadPriority(GetCurrentThread(),THREAD_PRIORITY_LOWEST);
 
 	while (!stopStatusUpdater) {
-		curdelay = DBGetContactSettingByte(hContact,"CList","StatusMsgAutoDelay",15000);
+		curdelay = db_get_b(hContact,"CList","StatusMsgAutoDelay",15000);
 		if (curdelay<5000) curdelay = 5000;
 
 		if ((int)(GetTickCount()-lastcheck)>curdelay)
 		{
 			lastcheck = GetTickCount();
-			if (DBGetContactSettingByte(hContact,"CList","StatusMsgAuto",0)) {
+			if ( db_get_b(hContact,"CList","StatusMsgAuto",0)) {
 				for (i = 0; i<5; i++) {
 					if (hContact != NULL) {
 						pClcCacheEntry pdnce  = (pClcCacheEntry)pcli->pfnGetCacheEntry((HANDLE)hContact);
@@ -76,7 +76,7 @@ void StatusUpdaterThread(void*)
 				}
 			}
 		}
-		//Sleep(DBGetContactSettingByte(hContact,"CList","StatusMsgAutoDelay",100));
+		//Sleep( db_get_b(hContact,"CList","StatusMsgAutoDelay",100));
 		Sleep(200);
 	}
 }
@@ -89,7 +89,7 @@ HMENU BuildGroupPopupMenu( ClcGroup* group )
 void SortClcByTimer (HWND hwnd)
 {
 	KillTimer(hwnd,TIMERID_DELAYEDRESORTCLC);
-	SetTimer(hwnd,TIMERID_DELAYEDRESORTCLC,DBGetContactSettingByte(NULL,"CLUI","DELAYEDTIMER",200),NULL);
+	SetTimer(hwnd,TIMERID_DELAYEDRESORTCLC,db_get_b(NULL,"CLUI","DELAYEDTIMER",200),NULL);
 }
 
 static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)

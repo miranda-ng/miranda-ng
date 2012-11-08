@@ -219,7 +219,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 
 void RegisterProtoIcons (char *protoname)
 {
-	if ( DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1))
+	if ( db_get_b(NULL,"CList","UseProtoIconFromIcoLib",1))
 	{
 		int i;
 		char buf[256];
@@ -282,7 +282,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 
 HICON GetConnectingIconForProto(char *szProto,int b)
 {
-	if ( DBGetContactSettingByte(NULL,"CList","UseProtoIconFromIcoLib",1)) {
+	if ( db_get_b(NULL,"CList","UseProtoIconFromIcoLib",1)) {
 		HICON hIcon = 0;
 		char buf[256];
 		sprintf(buf,"%s #%d",szProto,b);
@@ -324,7 +324,7 @@ int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 	if (!szProto) return 0;
 	if (!status) return 0;
 
-	if (( DBGetContactSettingByte(NULL,"CLUI","UseConnectingIcon",1) == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
+	if (( db_get_b(NULL,"CLUI","UseConnectingIcon",1) == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 		ProtoTicks *pt = NULL;
 		int cnt;
 
@@ -333,7 +333,7 @@ int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 			if (pt->CycleStartTick == 0) {
 				KillTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->n);
 				cnt = GetConnectingIconForProtoCount(szProto);
-				if ( DBGetContactSettingByte(NULL,"Clist","UseProtoIconFromIcoLib",1))
+				if ( db_get_b(NULL,"Clist","UseProtoIconFromIcoLib",1))
 					cnt = 8;
 
 				if (cnt != 0) {
@@ -370,13 +370,13 @@ HWND PreCreateCLC(HWND parent)
 {
 	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASS,_T(""),
 		WS_CHILD|WS_CLIPCHILDREN|CLS_CONTACTLIST
-		|(DBGetContactSettingByte(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
+		|( db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
 		|CLS_HIDEOFFLINE
-		//|(DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
-		|(DBGetContactSettingByte(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT)?CLS_HIDEEMPTYGROUPS:0)
-		|(DBGetContactSettingByte(NULL,"CList","ShowStatusMessages",1)?CLS_SHOWSTATUSMESSAGES:0)
+		//|( db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
+		|( db_get_b(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT)?CLS_HIDEEMPTYGROUPS:0)
+		|( db_get_b(NULL,"CList","ShowStatusMessages",1)?CLS_SHOWSTATUSMESSAGES:0)
 		|CLS_MULTICOLUMN
-		//|DBGetContactSettingByte(NULL,"CLUI","ExtraIconsAlignToLeft",1)?CLS_EX_MULTICOLUMNALIGNLEFT:0
+		//|db_get_b(NULL,"CLUI","ExtraIconsAlignToLeft",1)?CLS_EX_MULTICOLUMNALIGNLEFT:0
 		,0,0,0,0,parent,NULL,g_hInst,NULL);
 
 	return pcli->hwndContactTree;
@@ -405,7 +405,7 @@ int CreateCLC(HWND parent)
 	lastreqh = 0;
 	CallService(MS_CLIST_SETHIDEOFFLINE,(WPARAM)oldhideoffline,0);
 
-	int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
+	int state = db_get_b(NULL,"CList","State",SETTING_STATE_NORMAL);
 	if (state == SETTING_STATE_NORMAL) ShowWindow(pcli->hwndContactList, SW_SHOW);
 	else if (state == SETTING_STATE_MINIMIZED) ShowWindow(pcli->hwndContactList, SW_SHOWMINIMIZED);
 
@@ -482,18 +482,18 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_CREATE:
 		TranslateMenu(GetMenu(hwnd));
 		DrawMenuBar(hwnd);
-		showOpts = DBGetContactSettingByte(NULL,"CLUI","SBarShow",1);
+		showOpts = db_get_b(NULL,"CLUI","SBarShow",1);
 
 		//create the status wnd
-		//pcli->hwndStatus == CreateStatusWindow(WS_CHILD | (DBGetContactSettingByte(NULL,"CLUI","ShowSBar",1)?WS_VISIBLE:0), "", hwnd, 0);
+		//pcli->hwndStatus == CreateStatusWindow(WS_CHILD | ( db_get_b(NULL,"CLUI","ShowSBar",1)?WS_VISIBLE:0), "", hwnd, 0);
 		CluiProtocolStatusChanged(0,0);
 
 		hMsgGetProfile = RegisterWindowMessageA( "Miranda::GetProfile" ); // don't localise
 
-		if ( DBGetContactSettingByte( NULL, "CList", "Transparent", 0 )) {
+		if ( db_get_b( NULL, "CList", "Transparent", 0 )) {
 			SetWindowLongPtr(hwnd, GWL_EXSTYLE, GetWindowLongPtr(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
 			if ( MySetLayeredWindowAttributes )
-				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)db_get_b(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
 		}
 		transparentFocus = 1;
 		return FALSE;
@@ -522,7 +522,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			DBWriteContactSettingDword(NULL,"CList","Width",(DWORD)(rc.right - rc.left));
 		}
 		if ( wParam == SIZE_MINIMIZED ) {
-			if ( DBGetContactSettingByte(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT )) {
+			if ( db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT )) {
 				ShowWindow(hwnd, SW_HIDE);
 				DBWriteContactSettingByte(NULL,"CList","State",SETTING_STATE_HIDDEN);
 			}
@@ -607,9 +607,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					int maxHeight,newHeight;
 					int winstyle;
 
-					if ( !disableautoupd && DBGetContactSettingByte( NULL, "CLUI", "AutoSize", 0 )) {
+					if ( !disableautoupd && db_get_b( NULL, "CLUI", "AutoSize", 0 )) {
 						if ( !CallService(MS_CLIST_DOCKINGISDOCKED,0,0) && hFrameContactTree != 0 ) {
-							maxHeight = DBGetContactSettingByte(NULL,"CLUI","MaxSizeHeight",75);
+							maxHeight = db_get_b(NULL,"CLUI","MaxSizeHeight",75);
 							GetWindowRect(hwnd,&rcWindow);
 							GetWindowRect(pcli->hwndContactTree,&rcTree);
 							winstyle = GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE);
@@ -620,7 +620,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							if (newHeight != rcWindow.bottom - rcWindow.top ) {
 								if (newHeight>(rcWorkArea.bottom-rcWorkArea.top)*maxHeight/100)
 									newHeight = (rcWorkArea.bottom-rcWorkArea.top)*maxHeight/100;
-								if (DBGetContactSettingByte(NULL,"CLUI","AutoSizeUpward",0)) {
+								if ( db_get_b(NULL,"CLUI","AutoSizeUpward",0)) {
 									rcWindow.top = rcWindow.bottom-newHeight;
 									if (rcWindow.top<rcWorkArea.top) rcWindow.top = rcWorkArea.top;
 								}
@@ -637,29 +637,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					}	}	}	}
 					return TRUE;
 				}
-			case NM_CLICK:
-				{
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-					DWORD hitFlags;
-					HANDLE hItem = (HANDLE)SendMessage(pcli->hwndContactTree,CLM_HITTEST,(WPARAM)&hitFlags,MAKELPARAM(nm->pt.x,nm->pt.y));
-
-					if (hitFlags & CLCHT_ONITEMEXTRA)
-						if (!IsHContactGroup(hItem) && !IsHContactInfo(hItem)) {
-							pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry(nm->hItem);
-//							if (pdnce)
-//								NotifyEventHooks(hExtraImageClick, (WPARAM)nm->hItem, nm->iColumn+1);
-						}
-
-					if (hItem) break;
-					if ((hitFlags&(CLCHT_NOWHERE|CLCHT_INLEFTMARGIN|CLCHT_BELOWITEMS)) == 0) break;
-					if (DBGetContactSettingByte(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT)) {
-						POINT pt;
-						pt = nm->pt;
-						ClientToScreen(pcli->hwndContactTree,&pt);
-						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE|HTCAPTION,MAKELPARAM(pt.x,pt.y));
-					}
-					return TRUE;
-				}
 			}
 		}
 		else if (((LPNMHDR)lParam)->hwndFrom == pcli->hwndStatus) {
@@ -674,7 +651,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				int menuid;
 				int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
 				int extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
-				boolean UseOwnerDrawStatusBar = DBGetContactSettingByte(NULL,"CLUI","UseOwnerDrawStatusBar",0);
+				boolean UseOwnerDrawStatusBar = db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0);
 
 				hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 				nParts = SendMessage(pcli->hwndStatus,SB_GETPARTS,0,0);
@@ -685,20 +662,16 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					if (nm->pt.x < rc.left) return FALSE;
 				}
 				else {
-					if (!((startoffset) != 0&&UseOwnerDrawStatusBar))
-					{
+					if ( !((startoffset) != 0 && UseOwnerDrawStatusBar)) {
 						nPanel = nm->dwItemSpec;
 						SendMessage(pcli->hwndStatus,SB_GETRECT,nPanel,(LPARAM)&rc);
 					}
 					else {
-						RECT clrc;
-						int sectwidth;
-
-						memset(&rc,0,sizeof(RECT));
+						RECT clrc = { 0 };
 						GetClientRect(pcli->hwndStatus,&clrc);
 						clrc.right -= clrc.left;
 						clrc.right -= startoffset;
-						sectwidth = clrc.right/nParts;
+						int sectwidth = clrc.right/nParts;
 
 						for (nPanel = 0;nPanel<nParts;nPanel++) {
 							PD = (ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
@@ -722,10 +695,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				if (menuid<0){break;}
 				hMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 				{
-					int i;
 					unsigned int cpnl = 0;
 					int mcnt = GetMenuItemCount(hMenu);
-					for (i = 0; i<mcnt; ++i) {
+					for (int i = 0; i<mcnt; ++i) {
 						HMENU hMenus = GetSubMenu(hMenu, i);
 						if (hMenus && cpnl++ == menuid) {
 							hMenu = hMenus;
@@ -733,37 +705,31 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 						}
 					}
 				}
-				{
-					char buf[256];
-					sprintf(buf,"nPanel: %d, PD->protopos: %d,PD->RealName %s\r\n",nPanel,PD->protopos,PD->RealName);
-					OutputDebugStringA(buf);
-				}
 
 				if (hMenu != NULL) {
 					GetCursorPos(&pt);
 					TrackPopupMenu(hMenu,TPM_BOTTOMALIGN|TPM_LEFTALIGN,pt.x,pt.y,0,hwnd,NULL);
-			}	}
+				}
+			}
 			return TRUE;
 		}
 		break;
 
 	case WM_DESTROY:
-		{
-			//saving state
-			int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
+		//saving state
+		int state = db_get_b(NULL,"CList","State",SETTING_STATE_NORMAL);
 
-			FreeProtocolData();
-			if ( state == SETTING_STATE_NORMAL )
-				ShowWindow(hwnd,SW_HIDE);
+		FreeProtocolData();
+		if (state == SETTING_STATE_NORMAL)
+			ShowWindow(hwnd,SW_HIDE);
 
-			CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,0);
-			DestroyWindow(pcli->hwndContactTree);
-			pcli->hwndContactList = NULL;
+		CallService(MS_CLIST_FRAMES_REMOVEFRAME,(WPARAM)hFrameContactTree,0);
+		DestroyWindow(pcli->hwndContactTree);
+		pcli->hwndContactList = NULL;
 
-			UnLoadCLUIFramesModule();
-			DBWriteContactSettingByte(NULL,"CList","State",(BYTE)state);
-       		PostQuitMessage(0);
-		}
+		UnLoadCLUIFramesModule();
+		DBWriteContactSettingByte(NULL, "CList", "State", (BYTE)state);
+		PostQuitMessage(0);
 		break;
 	}
 
@@ -774,7 +740,6 @@ int LoadCLUIModule(void)
 {
 	DBVARIANT dbv;
 	TCHAR titleText[256];
-	int laster;
 	canloadstatusbar = FALSE;
 	hFrameContactTree = 0;
 
@@ -799,19 +764,18 @@ int LoadCLUIModule(void)
 		DBFreeVariant(&dbv);
 	}
 
-	oldhideoffline = DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
+	oldhideoffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
 
-	laster = GetLastError();
+	int laster = GetLastError();
 	PreCreateCLC(pcli->hwndContactList);
 
 	// create status bar frame
 	CreateStatusBarhWnd(pcli->hwndContactList);
 
-	{	//int state = DBGetContactSettingByte(NULL,"CList","State",SETTING_STATE_NORMAL);
-		hMenuMain = GetMenu(pcli->hwndContactList);
-		if (!DBGetContactSettingByte(NULL,"CLUI","ShowMainMenu",SETTING_SHOWMAINMENU_DEFAULT)) SetMenu(pcli->hwndContactList,NULL);
-		SetWindowPos(pcli->hwndContactList, DBGetContactSettingByte(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
-	}
+	hMenuMain = GetMenu(pcli->hwndContactList);
+	if ( !db_get_b(NULL, "CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+		SetMenu(pcli->hwndContactList, NULL);
+	SetWindowPos(pcli->hwndContactList, db_get_b(NULL,"CList","OnTop",SETTING_ONTOP_DEFAULT) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 
 	lastreqh = 0;
 	return 0;
@@ -819,9 +783,7 @@ int LoadCLUIModule(void)
 
 void UnloadCLUIModule()
 {
-	int i;
-
-	for ( i = 0; i < SIZEOF(CycleStartTick); i++ )
-		if ( CycleStartTick[i].szProto != NULL )
+	for (int i = 0; i < SIZEOF(CycleStartTick); i++)
+		if ( CycleStartTick[i].szProto != NULL)
 			mir_free(CycleStartTick[i].szProto);
 }

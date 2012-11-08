@@ -48,7 +48,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		char AdvancedService[255] = {0};
 		int  nActStatus = nStatus;
 		HANDLE hActContact = hContact;
-		if (!DBGetContactSettingByte(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
+		if (!db_get_b(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
 			// substitute params by mostonline contact datas
 			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact && hMostOnlineContact != (HANDLE)CALLSERVICE_NOTFOUND) {
@@ -78,7 +78,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 ////////// By FYR/////////////
 int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 {
-/*	if ( DBGetContactSettingByte( NULL, "CLC", "Meta", 0 ) == 1 )
+/*	if ( db_get_b( NULL, "CLC", "Meta", 0 ) == 1 )
 		return pcli->pfnIconFromStatusMode(szProto,status,hContact);
 
 	if ( szProto != NULL ) {
@@ -108,7 +108,7 @@ static int ProtocolAck(WPARAM wParam,LPARAM lParam)
 			}
 			DBFreeVariant(&dbv);
 		}
-		if ( DBGetContactSettingByte(NULL,"CList","ShowStatusMsg",0) || DBGetContactSettingByte(ack->hContact,"CList","StatusMsgAuto",0))
+		if ( db_get_b(NULL,"CList","ShowStatusMsg",0) || db_get_b(ack->hContact,"CList","StatusMsgAuto",0))
          DBWriteContactSettingTString(ack->hContact, "CList", "StatusMsg", (TCHAR *)ack->lParam);
 	}
 

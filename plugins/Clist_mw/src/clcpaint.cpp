@@ -534,7 +534,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				}		
 			}
 
-			if (!Drawing->isSubcontact || (DBGetContactSettingByte(NULL,"CLC","MetaHideExtra",0) == 0)) {
+			if (!Drawing->isSubcontact || ( db_get_b(NULL,"CLC","MetaHideExtra",0) == 0)) {
 
 				//extra icons
 				if ( !(style & CLS_EX_MULTICOLUMNALIGNLEFT)) {

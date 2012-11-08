@@ -68,7 +68,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	SendMessage(pcli->hwndStatus,SB_SETBKCOLOR,0,DBGetContactSettingDword(0,"CLUI","SBarBKColor",CLR_DEFAULT));
 	partWidths = (int*)alloca((protoCount+1)*sizeof(int));
 	//partWidths[0] = FirstIconOffset;
-	if (DBGetContactSettingByte(NULL,"CLUI","UseOwnerDrawStatusBar",0)||DBGetContactSettingByte(NULL,"CLUI","EqualSections",1)) 
+	if ( db_get_b(NULL,"CLUI","UseOwnerDrawStatusBar",0)||db_get_b(NULL,"CLUI","EqualSections",1)) 
     {
 		RECT rc;
 		int toshow, part;
@@ -104,7 +104,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	else {
 		HDC hdc;
 		SIZE textSize;
-		BYTE showOpts = DBGetContactSettingByte(NULL,"CLUI","SBarShow",5);
+		BYTE showOpts = db_get_b(NULL,"CLUI","SBarShow",5);
 		DWORD extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
 		DWORD startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
 		int x;
@@ -153,7 +153,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 	SendMessage(pcli->hwndStatus,SB_SETPARTS,partCount,(LPARAM)partWidths);
 
 	flags = SBT_OWNERDRAW;
-	if ( !DBGetContactSettingByte(NULL, "CLUI", "SBarBevel", 1))
+	if ( !db_get_b(NULL, "CLUI", "SBarBevel", 1))
 		flags |= SBT_NOBORDERS;
 
 	for (partCount = 0, i = 0; i<protoCount; i++) {    //count down since built in ones tend to go at the end

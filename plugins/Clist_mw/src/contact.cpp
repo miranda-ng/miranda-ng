@@ -88,7 +88,7 @@ void LoadContactTree(void)
 		CallService(MS_CLUI_GROUPADDED,i,0);
 	}
 
-	hideOffline = DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
+	hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
 	hContact = db_find_first();
 
 	while(hContact != NULL) {
@@ -103,9 +103,9 @@ void LoadContactTree(void)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
 		hContact = db_find_next(hContact);
 	}
-	sortByStatus = DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto = DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
-	sortNoOfflineBottom = DBGetContactSettingByte(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
+	sortByStatus = db_get_b(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
+	sortNoOfflineBottom = db_get_b(NULL,"CList","NoOfflineBottom",SETTING_NOOFFLINEBOTTOM_DEFAULT);
 
 	CallService(MS_CLUI_SORTLIST,0,0);
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
@@ -179,8 +179,8 @@ static VOID CALLBACK SortContactsTimer(HWND hwnd,UINT message,UINT_PTR idEvent,D
 void SortContacts(void)
 {
 	//avoid doing lots of resorts in quick succession
-	sortByStatus = DBGetContactSettingByte(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
-	sortByProto = DBGetContactSettingByte(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
+	sortByStatus = db_get_b(NULL,"CList","SortByStatus",SETTING_SORTBYSTATUS_DEFAULT);
+	sortByProto = db_get_b(NULL,"CList","SortByProto",SETTING_SORTBYPROTO_DEFAULT);
 	if (resortTimerId) KillTimer(NULL,resortTimerId);
 	resortTimerId = SetTimer(NULL,0,50,SortContactsTimer);
 }

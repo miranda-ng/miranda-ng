@@ -45,7 +45,7 @@ void AddSubcontacts(struct ClcContact * cont)
 	cacheEntry = GetContactFullCacheEntry(cont->hContact);
 	OutputDebugStringA("Proceed AddSubcontacts\r\n");
 	subcount = (int)CallService(MS_MC_GETNUMCONTACTS,(WPARAM)cont->hContact,0);
-	cont->SubExpanded = DBGetContactSettingByte(cont->hContact,"CList","Expanded",0);
+	cont->SubExpanded = db_get_b(cont->hContact,"CList","Expanded",0);
 	cont->isSubcontact = 0;
 	cont->subcontacts = (struct ClcContact *) mir_realloc(cont->subcontacts, sizeof(struct ClcContact)*subcount);
 	cont->SubAllocated = subcount;
@@ -54,7 +54,7 @@ void AddSubcontacts(struct ClcContact * cont)
 	{
 		hsub = (HANDLE)CallService(MS_MC_GETSUBCONTACT,(WPARAM)cont->hContact,j);
 		cacheEntry = GetContactFullCacheEntry(hsub);		
-		if (!(DBGetContactSettingByte(NULL,"CLC","MetaHideOfflineSub",1) && DBGetContactSettingByte(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))||
+		if (!( db_get_b(NULL,"CLC","MetaHideOfflineSub",1) && db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT))||
 			cacheEntry->status != ID_STATUS_OFFLINE )
 		{
 			cont->subcontacts[i].hContact = cacheEntry->hContact;
@@ -335,7 +335,7 @@ void RebuildEntireList(HWND hwnd,struct ClcData *dat)
 	ClearClcContactCache(dat,INVALID_HANDLE_VALUE);
 
 	dat->list.expanded = 1;
-	dat->list.hideOffline = DBGetContactSettingByte(NULL,"CLC","HideOfflineRoot",0);
+	dat->list.hideOffline = db_get_b(NULL,"CLC","HideOfflineRoot",0);
 	memset( &dat->list.cl, 0, sizeof( dat->list.cl ));
 	dat->list.cl.increment = 30;
 	dat->needsResort = 1;

@@ -279,7 +279,7 @@ void LoadClcOptions(HWND hwnd,struct ClcData *dat)
 	int i;
 
 	dat->style = GetWindowLongPtr(hwnd,GWL_STYLE);
-	dat->MetaIgnoreEmptyExtra = DBGetContactSettingByte(NULL,"CLC","MetaIgnoreEmptyExtra",1);
+	dat->MetaIgnoreEmptyExtra = db_get_b(NULL,"CLC","MetaIgnoreEmptyExtra",1);
 	saveLoadClcOptions( hwnd, dat );
 
 	for (i = 0; i <= FONTID_MAX; i++)

@@ -273,7 +273,8 @@ int ClistExtraClick(WPARAM wParam, LPARAM lParam)
 ///////////////////////////////////////////////////////////////////////////////
 // Extra image list functions
 
-static HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClick;
+HANDLE hEventExtraImageListRebuilding, hEventExtraImageApplying, hEventExtraClick;
+
 static bool bImageCreated = false;
 static int g_mutex_bSetAllExtraIconsCycle = 0;
 static HIMAGELIST hExtraImageList;

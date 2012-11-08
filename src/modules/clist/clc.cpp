@@ -389,7 +389,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_GETFONT:
-		return (LRESULT) dat->fontInfo[FONTID_CONTACTS].hFont;
+		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
 
 	case INTM_GROUPSCHANGED:
 	{

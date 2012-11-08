@@ -88,7 +88,7 @@ int LoadDescButtonModule();
 
 int LoadDefaultModules(void)
 {
-    //load order is very important for these
+	//load order is very important for these
 	if ( LoadSystemModule()) return 1;
 	if ( LoadLangpackModule()) return 1;		// langpack will be a system module in the new order so this is moved here
 	CheckRestart();
@@ -97,7 +97,7 @@ int LoadDefaultModules(void)
 	if ( LoadHeaderbarModule()) return 1;
 	if ( LoadDbintfModule()) return 1;
 	if ( LoadEventsModule()) return 1;
-	
+
 	// load database drivers & service plugins without executing their Load()
 	if ( LoadNewPluginsModuleInfos()) return 1;
 
@@ -152,7 +152,7 @@ int LoadDefaultModules(void)
 
 	if ( LoadAccountsModule()) return 1;
 
-    //order becomes less important below here
+	//order becomes less important below here
 	if ( LoadFindAddModule()) return 1;
 	if ( LoadIgnoreModule()) return 1;
 	if ( LoadVisibilityModule()) return 1;

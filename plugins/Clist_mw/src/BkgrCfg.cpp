@@ -64,7 +64,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				int jndx;
 
 				dat->item[indx].changed = FALSE;
-				dat->item[indx].useBitmap = DBGetContactSettingByte(NULL,module, "UseBitmap", DEFAULT_USEBITMAP);
+				dat->item[indx].useBitmap = db_get_b(NULL,module, "UseBitmap", DEFAULT_USEBITMAP);
 				dat->item[indx].bkColor = DBGetContactSettingDword(NULL,module, "BkColour", DEFAULT_BKCOLOUR);
 				dat->item[indx].selColor = DBGetContactSettingDword(NULL,module, "SelBkColour", DEFAULT_SELBKCOLOUR);
 				{	

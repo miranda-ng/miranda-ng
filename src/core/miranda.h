@@ -140,9 +140,9 @@ int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
 
 __forceinline char* Utf8DecodeA(const char* src)
 {
-    char* tmp = mir_strdup(src);
-    Utf8Decode(tmp, NULL);
-    return tmp;
+	char* tmp = mir_strdup(src);
+	Utf8Decode(tmp, NULL);
+	return tmp;
 }
 
 #pragma optimize("", on)

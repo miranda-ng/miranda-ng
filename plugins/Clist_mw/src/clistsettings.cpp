@@ -129,10 +129,10 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 	}
 
 	if (pdnce->bIsHidden == -1)
-		pdnce->bIsHidden = DBGetContactSettingByte(pdnce->hContact,"CList","bIsHidden",0);
+		pdnce->bIsHidden = db_get_b(pdnce->hContact,"CList","bIsHidden",0);
 	
 	if (pdnce->noHiddenOffline == -1)
-		pdnce->noHiddenOffline = DBGetContactSettingByte(pdnce->hContact,"CList","noOffline",0);
+		pdnce->noHiddenOffline = db_get_b(pdnce->hContact,"CList","noOffline",0);
 
 	if ( pdnce->IdleTS == -1 )
 		pdnce->IdleTS = DBGetContactSettingDword(pdnce->hContact,pdnce->szProto,"IdleTS",0);
@@ -141,10 +141,10 @@ void CheckPDNCE(ClcCacheEntry *_pdnce)
 		pdnce->ApparentMode = DBGetContactSettingWord(pdnce->hContact,pdnce->szProto,"ApparentMode",0);
 	
 	if (pdnce->NotOnList == -1)
-		pdnce->NotOnList = DBGetContactSettingByte(pdnce->hContact,"CList","NotOnList",0);
+		pdnce->NotOnList = db_get_b(pdnce->hContact,"CList","NotOnList",0);
 
 	if (pdnce->IsExpanded == -1)
-		pdnce->IsExpanded = DBGetContactSettingByte(pdnce->hContact,"CList","Expanded",0);
+		pdnce->IsExpanded = db_get_b(pdnce->hContact,"CList","Expanded",0);
 }
 
 void InvalidateDisplayNameCacheEntryByPDNE(HANDLE hContact,pClcCacheEntry pdnce,int SettingType)
@@ -299,10 +299,10 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 				if (cws->value.type == DBVT_WORD&&!strcmp(cws->szSetting, "Status")) {				
 					if (!(pdnce->bIsHidden == 1)) {
 
-						if (DBGetContactSettingByte((HANDLE)NULL,"CList","ShowStatusMsg",0)||DBGetContactSettingByte((HANDLE)wParam,"CList","StatusMsgAuto",0))
+						if ( db_get_b((HANDLE)NULL,"CList","ShowStatusMsg",0)||db_get_b((HANDLE)wParam,"CList","StatusMsgAuto",0))
 							DBWriteContactSettingString((HANDLE)wParam, "CList", "StatusMsg", "");	
 
-						if (DBGetContactSettingByte(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))	{
+						if ( db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT))	{
 							// User's state is changing, and we are hideOffline-ing
 
 							if (cws->value.wVal == ID_STATUS_OFFLINE) {
