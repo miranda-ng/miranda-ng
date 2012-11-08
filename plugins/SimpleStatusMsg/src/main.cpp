@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Simple Status Message",
 	 PLUGIN_MAKE_VERSION(1, 9, 0, 4),
-	"Provides a simple way to set status and away messages",
+	"Provides a simple way to set status and away messages.",
 	"Bartosz 'Dezeath' Bia³ek, Harven",
 	"dezred"/*antispam*/"@"/*antispam*/"gmail"/*antispam*/"."/*antispam*/"com",
 	"© 2006-2011 Bartosz Bia³ek, © 2005 Harven",

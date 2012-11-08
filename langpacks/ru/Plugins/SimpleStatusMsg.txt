@@ -7,8 +7,8 @@
 ;  Source: http://dezeath.googlecode.com/svn/trunk/AddContactPlus/
 ;  Authors: Dezeath
 ;============================================================
-[Provides a simple way to set status and away messages]
-Быстрая смена статусов и предустановленных сообщений статуса
+[Provides a simple way to set status and away messages.]
+Быстрая смена статусов и предустановленных сообщений статуса.
 [Behaviour on status change]
 Поведение при изменении статуса
 [Global status change]

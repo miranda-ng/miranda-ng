@@ -5,7 +5,7 @@
 #define __PLUGIN_NAME            "Database Checker"
 #define __INTERNAL_NAME          "dbchecker"
 #define __FILENAME               "dbchecker.dll"
-#define __DESCRIPTION            "Miranda NG Database Checker"
+#define __DESCRIPTION            "Miranda NG Database Checker."
 #define __AUTHOR                 "George Hazan"
 #define __AUTHOREMAIL            "ghazan@miranda-ng.org"
 #define __AUTHORWEB              "http://www.miranda-ng.org/"

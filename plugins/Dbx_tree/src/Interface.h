@@ -49,7 +49,7 @@ extern DATABASELINK gDBLink;
 #define gResVersionString "0.0.0.18"
 #define gInternalName "dbx_tree"
 #define gInternalNameLong "Miranda dbx_tree database driver"
-#define gDescription "Provides extended Miranda database support"
+#define gDescription "Provides extended Miranda database support."
 #define gAutor "Michael 'Protogenes' Kunz"
 #define gAutorEmail "Michael.Kunz@s2005.TU-Chemnitz.de"
 #define gCopyright "2007 - 2010 Michael 'Protogenes' Kunz"

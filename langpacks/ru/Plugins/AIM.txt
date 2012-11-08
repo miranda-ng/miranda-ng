@@ -12,8 +12,8 @@
 (секунды)
 [*Aim must be reconnected  for some option to take effect.]
 *AIM должен быть переподключён, чтобы изменения вступили в силу.
-[Provides support for AOL® Instant Messenger (AIM) protocol]
-Модуль протокола AIM
+[Provides support for AOL Instant Messenger (AIM) protocol.]
+Поддержка протокола AIM в Miranda NG.
 [AIM Account Setup]
 Настройки учётной записи AIM
 [AIM Instant Idler]

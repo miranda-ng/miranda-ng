@@ -1,0 +1,11 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;============================================================
+;  File: AutoShutdown.dll
+;  Plugin: Adds the possibility to shutdown the computer when a specified event occurs
+;  Versions: 1.4.0.2
+;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=1086
+;  Source: http://addons.miranda-im.org/download.php?dlsource=1086
+;  Authors: H. Herkenrath
+;============================================================
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Модуль добвавляет возможность управления выключением компьютера через Miranda NG.

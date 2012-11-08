@@ -52,7 +52,7 @@ static const PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	"AIM Protocol",
 	__VERSION_DWORD,
-	"Provides support for AOL® Instant Messenger (AIM) protocol",
+	"Provides support for AOL Instant Messenger (AIM) protocol.",
 	"Boris Krasnovskiy, Aaron Myles Landwehr",
 	"borkra@miranda-im.org",
 	"© 2008-2011 Boris Krasnovskiy, 2005-2006 Aaron Myles Landwehr",
