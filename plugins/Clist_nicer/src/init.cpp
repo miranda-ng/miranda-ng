@@ -105,7 +105,7 @@ PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	"CList Nicer+", 
 	PLUGIN_MAKE_VERSION(0, 9, 2, 1),
-	"Display contacts, event notifications, protocol status",
+	"Displays contacts, event notifications, protocol status.",
 	"Pixel, egoDust, cyreve, Nightwish",
 	"", 
 	"Copyright 2000-2010 Miranda-IM project", 

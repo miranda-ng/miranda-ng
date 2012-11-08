@@ -1,0 +1,11 @@
+﻿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;============================================================
+;  File: Omegle.dll
+;  Plugin: Provides basic support for Omegle Chat protocol
+;  Versions: 0.1.0.1
+;  URL: http://www.robyer.cz/en/miranda-im/omegle/
+;  Source: http://robyer.googlecode.com/svn/trunk/omegle/
+;  Authors: Robert Posel
+;============================================================
+[Provides basic support for Omegle Chat protocol.]
+Поддержка протокола Omegle в Miranda NG.

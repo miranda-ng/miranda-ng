@@ -1,0 +1,11 @@
+﻿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Allow inline skin item editing for clist nicer+
+;  Versions: 0.0.0.1
+;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Cln_skinedit
+;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/Clist_nicer/skineditor/
+;  Authors: Nightwish, Pixel
+;============================================================
+[Allows inline skin item editing for clist nicer+.]
+Редактор скинов для CList Nicer+.

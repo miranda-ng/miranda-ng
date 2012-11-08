@@ -1,0 +1,11 @@
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================
+;  File: New_GPG.dll
+;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM
+;  Versions: 0.9.0.0
+;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:New_GPG/en
+;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/New_GPG/
+;  Authors: sss
+;============================================================
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+Модуль шифрования GPG, основанный на исходных кодах старого GPG модуля и SecureIM.

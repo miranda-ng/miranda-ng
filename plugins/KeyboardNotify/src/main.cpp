@@ -281,7 +281,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Keyboard Notify Ext.",
 	PLUGIN_MAKE_VERSION(1,5,7,7),
-	"Flashes your keyboard LEDs when a message has arrived",
+	"Flashes your keyboard LEDs when a message has arrived.",
 	"TioDuke",
 	"tioduke@yahoo.ca",
 	"© 2002-2003 M.Öberg, 2004 Std, 2005-2008 TioDuke",

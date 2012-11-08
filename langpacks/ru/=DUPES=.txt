@@ -2353,8 +2353,6 @@ ID пользователя:
 Индикатор изм. размера
 [Hide vertical scroll bar]
 Скрыть полосу прокрутки
-[Display contacts, event notifications, protocol status]
-Показывает контакты, события, статусы протоколов
 [Tool style main window]
 Стиль панели у заголовка
 [Rate]

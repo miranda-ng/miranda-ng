@@ -29,7 +29,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(0,0,0,4),
-	"Music Player Daemon support for watrack",
+	"Music Player Daemon support for Watrack.",
 	"sss, others..",
 	"sss123next@list.ru",
 	"© 2009 sss, others...",

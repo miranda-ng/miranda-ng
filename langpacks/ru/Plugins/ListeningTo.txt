@@ -7,7 +7,7 @@
 ;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/listeningto/
 ;  Authors: Ricardo Pescuma Domenecci
 ;============================================================
-[Handle listening information to/for contacts]
+[Handles listening information to/for contacts.]
 Отправляет информацию о прослушиваемой музыке Вашим контактам.
 [Send to all protocols]
 Отправлять всем протоколам

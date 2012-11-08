@@ -7,7 +7,7 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/KeyboardNotify/
 ;  Authors: TioDuke
 ;============================================================
-[Flashes your keyboard LEDs when a message has arrived]
+[Flashes your keyboard LEDs when a message has arrived.]
 Добавляет мигание светодиодов клавиатуры при прибывших сообщениях.
 [Keyboard Notify]
 Уведомление клавиатуры

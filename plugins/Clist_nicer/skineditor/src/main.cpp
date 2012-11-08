@@ -30,7 +30,7 @@ PLUGININFOEX pluginInfo = {
 		sizeof(PLUGININFOEX),
 		"Skin editor for clist_nicer+",
 		PLUGIN_MAKE_VERSION(0, 0, 0, 4),
-		"Allow inline skin item editing for clist nicer+.",
+		"Allows inline skin item editing for clist nicer+.",
 		"Nightwish, Pixel",
 		"",
 		"Copyright 2000-2006 Miranda-IM project",

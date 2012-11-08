@@ -40,7 +40,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"ListeningTo",
 	PLUGIN_MAKE_VERSION(0,3,0,0),
-	"Handle listening information to/for contacts",
+	"Handles listening information to/for contacts.",
 	"Ricardo Pescuma Domenecci",
 	"",
 	"© 2006-2009 Ricardo Pescuma Domenecci",

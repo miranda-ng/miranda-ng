@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfo={
    sizeof(PLUGININFOEX),
    "Contact`s Rate",
    PLUGIN_MAKE_VERSION(0,0,2,1),
-   "Show rating of contact in contact list (if presents).",
+   "Shows rating of contact in contact list (if presents).",
    "Kildor, Thief",
    "kostia@ngs.ru",
    "© 2006-2009 Kostia Romanov, based on AuthState by Alexander Turyak",

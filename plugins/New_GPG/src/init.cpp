@@ -38,7 +38,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"GPG",
 	PLUGIN_MAKE_VERSION(0,0,0,11),
-	"new GPG encryption support plugin, based on code from old gpg plugin and secureim",
+	"New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.",
 	"sss",
 	"sss123next@list.ru",
 	"© 2010-2012 sss",

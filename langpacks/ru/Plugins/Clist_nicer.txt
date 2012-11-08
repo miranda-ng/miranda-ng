@@ -7,6 +7,8 @@
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/clist_nicer/
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
+[Displays contacts, event notifications, protocol status.]
+Показывает контакты, события, статусы протоколов.
 [&Skinned frame]
 Скин фрейма
 [Skinned frame]
