@@ -449,20 +449,15 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 	return;
 }
 
-static void CreateCLC()
-{
-	cli.pfnReloadExtraIcons();
-}
-
 LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (msg == uMsgProcessProfile)
-	{
+	static int noRecurse = 0;
+
+	if (msg == uMsgProcessProfile) {
 		TCHAR profile[MAX_PATH];
 		int rc;
 		// wParam = (ATOM)hProfileAtom, lParam = 0
-		if (GlobalGetAtomName((ATOM) wParam, profile, SIZEOF(profile)))
-		{
+		if (GlobalGetAtomName((ATOM) wParam, profile, SIZEOF(profile))) {
 			TCHAR *pfd = Utils_ReplaceVarsT(_T("%miranda_userdata%\\%miranda_profilename%.dat"));
 			rc = lstrcmpi(profile, pfd) == 0;
 			mir_free(pfd);
@@ -479,30 +474,15 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 	switch (msg) {
 	case WM_NCCREATE:
-	{
-		MENUITEMINFO mii = { 0 };
-/*
-		if (IsWinVerVistaPlus() && isThemeActive())
 		{
-			HICON hIcon = LoadSkinnedIcon(SKINICON_OTHER_MAINMENU);
-			HBITMAP hBmp = ConvertIconToBitmap(hIcon, NULL, 0);
-			IcoLib_ReleaseIcon(hIcon, NULL);
-
-			mii.cbSize = sizeof(mii);
-			mii.fMask = MIIM_BITMAP | MIIM_STRING | MIIM_DATA;
-			mii.hbmpItem = hBmp;
-		}
-		else
-*/
-		{
-			mii.cbSize = MENUITEMINFO_V4_SIZE;
+			MENUITEMINFO mii = { MENUITEMINFO_V4_SIZE };
 			mii.fMask = MIIM_TYPE | MIIM_DATA;
 			mii.dwItemData = MENU_MIRANDAMENU;
 			mii.fType = MFT_OWNERDRAW;
+			SetMenuItemInfo(GetMenu(hwnd), 0, TRUE, &mii);
 		}
-		SetMenuItemInfo(GetMenu(hwnd), 0, TRUE, &mii);
 		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
+
 	case WM_CREATE:
 		TranslateMenu(GetMenu(hwnd));
 		DrawMenuBar(hwnd);
@@ -536,8 +516,6 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			| (db_get_b(NULL, "CList", "HideEmptyGroups", SETTING_HIDEEMPTYGROUPS_DEFAULT) ?
 					CLS_HIDEEMPTYGROUPS : 0), 0, 0, 0, 0, hwnd, NULL, cli.hInst, NULL);
 		SendMessage(hwnd, WM_SIZE, 0, 0);
-
-		CreateCLC();
 		break;
 
 	case M_RESTORESTATUS:
@@ -587,16 +565,12 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				rcStatus.top = rcStatus.bottom = 0;
 			SetWindowPos(cli.hwndContactTree, NULL, 0, 0, rect.right, rect.bottom - (rcStatus.bottom - rcStatus.top), SWP_NOZORDER);
 		}
-		if (wParam == SIZE_MINIMIZED)
-		{
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
-				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
-			{
+		if (wParam == SIZE_MINIMIZED) {
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 				ShowWindow(hwnd, SW_HIDE);
 				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 			}
-			else
-				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
+			else DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 
 			if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 				MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
@@ -687,8 +661,6 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_SHOWWINDOW:
-	{
-		static int noRecurse = 0;
 		if (lParam)
 			break;
 		if (noRecurse)
@@ -726,19 +698,19 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			SetWindowPos(cli.hwndContactTree, 0, 0, 0, 0, 0, SWP_NOZORDER | SWP_NOMOVE | SWP_NOSIZE | SWP_FRAMECHANGED);
 		}
 		break;
-	}
-	case WM_MENURBUTTONUP: /* this API is so badly documented at MSDN!! */
-	{
-		UINT id = 0;
 
-		id = GetMenuItemID((HMENU) lParam, LOWORD(wParam)); /* LOWORD(wParam) contains the menu pos in its parent menu */
-		if (id != (-1))
-			SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(id, 0), 0);
-		return DefWindowProc(hwnd, msg, wParam, lParam);
-	}
-	case WM_SYSCOMMAND:
-		switch (wParam)
+	case WM_MENURBUTTONUP: /* this API is so badly documented at MSDN!! */
 		{
+			UINT id = 0;
+
+			id = GetMenuItemID((HMENU) lParam, LOWORD(wParam)); /* LOWORD(wParam) contains the menu pos in its parent menu */
+			if (id != (-1))
+				SendMessage(hwnd, WM_COMMAND, MAKEWPARAM(id, 0), 0);
+		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_SYSCOMMAND:
+		switch (wParam) {
 		case SC_MAXIMIZE:
 			return 0;
 
@@ -763,45 +735,53 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	case WM_COMMAND:
 		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam), MPCF_MAINMENU), (LPARAM) (HANDLE) NULL))
 			break;
+
 		switch (LOWORD(wParam)) {
 		case ID_TRAY_EXIT:
 		case ID_ICQ_EXIT:
 			if (CallService(MS_SYSTEM_OKTOEXIT, 0, 0))
 				DestroyWindow(hwnd);
 			break;
+
 		case ID_TRAY_HIDE:
 			CallService(MS_CLIST_SHOWHIDE, 0, 0);
 			break;
+
 		case POPUP_NEWGROUP:
 			SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, 0, 0);
 			CallService(MS_CLIST_GROUPCREATE, 0, 0);
 			break;
+
 		case POPUP_HIDEOFFLINE:
 			CallService(MS_CLIST_SETHIDEOFFLINE, (WPARAM) (-1), 0);
 			break;
+
 		case POPUP_HIDEOFFLINEROOT:
 			SendMessage(cli.hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(cli.hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
 			break;
+
 		case POPUP_HIDEEMPTYGROUPS:
 			{
 				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
 				DBWriteContactSettingByte(NULL, "CList", "HideEmptyGroups", (BYTE) newVal);
 				SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
-				break;
 			}
+			break;
+
 		case POPUP_DISABLEGROUPS:
 			{
 				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
 				DBWriteContactSettingByte(NULL, "CList", "UseGroups", (BYTE) newVal);
 				SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-				break;
 			}
+			break;
+
 		case POPUP_HIDEMIRANDA:
-			{
-				CallService(MS_CLIST_SHOWHIDE, 0, 0);
-				break;
-		}	}
+			CallService(MS_CLIST_SHOWHIDE, 0, 0);
+			break;
+		}
 		return FALSE;
+
 	case WM_KEYDOWN:
 		CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_MAINMENU | MPCF_CONTACTMENU);
 		break;
@@ -831,50 +811,49 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		//MSG FROM CHILD CONTROL
 	case WM_NOTIFY:
 		if (((LPNMHDR) lParam)->hwndFrom == cli.hwndContactTree) {
+			NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;
 			switch (((LPNMHDR) lParam)->code) {
 			case CLN_EXPANDED:
-				{
-					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
-					CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM) nmc->hItem, nmc->action);
-					return FALSE;
-				}
+				CallService(MS_CLIST_GROUPSETEXPANDED, (WPARAM) nmc->hItem, nmc->action);
+				return FALSE;
+
 			case CLN_DRAGGING:
-				{
-					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
-					ClientToScreen(hwnd, &nmc->pt);
-					if ( !(nmc->flags & CLNF_ISGROUP))
-						if (NotifyEventHooks(hContactDraggingEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
-							SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
-							return TRUE;
-						}
-						break;
-				}
+				ClientToScreen(hwnd, &nmc->pt);
+				if ( !(nmc->flags & CLNF_ISGROUP))
+					if (NotifyEventHooks(hContactDraggingEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
+						SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
+						return TRUE;
+					}
+				break;
+
 			case CLN_DRAGSTOP:
-				{
-					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
-					if ( !(nmc->flags & CLNF_ISGROUP))
-						NotifyEventHooks(hContactDragStopEvent, (WPARAM) nmc->hItem, 0);
-					break;
-				}
+				if ( !(nmc->flags & CLNF_ISGROUP))
+					NotifyEventHooks(hContactDragStopEvent, (WPARAM) nmc->hItem, 0);
+				break;
+
 			case CLN_DROPPED:
-				{
-					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
-					ClientToScreen(hwnd, &nmc->pt);
-					if ( !(nmc->flags & CLNF_ISGROUP))
-						if (NotifyEventHooks(hContactDroppedEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
-							SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
-							return TRUE;
-						}
-						break;
-				}
+				ClientToScreen(hwnd, &nmc->pt);
+				if ( !(nmc->flags & CLNF_ISGROUP))
+					if (NotifyEventHooks(hContactDroppedEvent, (WPARAM) nmc->hItem, MAKELPARAM(nmc->pt.x, nmc->pt.y))) {
+						SetCursor(LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER)));
+						return TRUE;
+					}
+				break;
+
+			case CLN_NEWCONTACT:
+				if (nmc != NULL)
+					cli.pfnSetAllExtraIcons(cli.hwndContactTree, nmc->hItem);
+				return TRUE;
+
+			case CLN_LISTREBUILT:
+				cli.pfnSetAllExtraIcons(cli.hwndContactTree, 0);
+				return(FALSE);
+
 			case NM_KEYDOWN:
-				{
-					NMKEY *nmkey = (NMKEY *) lParam;
-					return CallService(MS_CLIST_MENUPROCESSHOTKEY, nmkey->nVKey, MPCF_MAINMENU | MPCF_CONTACTMENU);
-				}
+				return CallService(MS_CLIST_MENUPROCESSHOTKEY, ((NMKEY*)lParam)->nVKey, MPCF_MAINMENU | MPCF_CONTACTMENU);
+
 			case CLN_LISTSIZECHANGE:
 				{
-					NMCLISTCONTROL *nmc = (NMCLISTCONTROL *) lParam;
 					RECT rcWindow, rcTree, rcWorkArea;
 					int maxHeight, newHeight;
 
@@ -915,25 +894,25 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 			case NM_CLICK:
 				{
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL *) lParam;
 					DWORD hitFlags;
-
-					if (SendMessage(cli.hwndContactTree, CLM_HITTEST, (WPARAM) & hitFlags, MAKELPARAM(nm->pt.x, nm->pt.y)))
+					if (SendMessage(cli.hwndContactTree, CLM_HITTEST, (WPARAM) & hitFlags, MAKELPARAM(nmc->pt.x, nmc->pt.y)))
 						break;
+
 					if ((hitFlags & (CLCHT_NOWHERE | CLCHT_INLEFTMARGIN | CLCHT_BELOWITEMS)) == 0)
 						break;
+
 					if (db_get_b(NULL, "CLUI", "ClientAreaDrag", SETTING_CLIENTDRAG_DEFAULT)) {
 						POINT pt;
-						pt = nm->pt;
+						pt = nmc->pt;
 						ClientToScreen(cli.hwndContactTree, &pt);
 						return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(pt.x, pt.y));
 					}
-					break;
-			}	}
+				}
+				break;
+			}
 		}
 		else if (((LPNMHDR) lParam)->hwndFrom == cli.hwndStatus) {
-			if (((LPNMHDR) lParam)->code == NM_CLICK)
-			{
+			if (((LPNMHDR) lParam)->code == NM_CLICK) {
 				unsigned int nParts, nPanel;
 				NMMOUSE *nm = (NMMOUSE *) lParam;
 				HMENU hMenu;
@@ -950,24 +929,24 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				}
 				else nPanel = nm->dwItemSpec;
 
-				if (nParts > 0)
-                {
-                    unsigned int cpnl = 0;
-                    int mcnt = GetMenuItemCount(hMenu);
-                    for (int i=0; i<mcnt; i++) {
-					    HMENU hMenus = GetSubMenu(hMenu, i);
-                        if (hMenus && cpnl++ == nPanel) {
-                            hMenu = hMenus;
-                            break;
-                        }
-                    }
-                }
+				if (nParts > 0) {
+					unsigned int cpnl = 0;
+					int mcnt = GetMenuItemCount(hMenu);
+					for (int i=0; i<mcnt; i++) {
+						HMENU hMenus = GetSubMenu(hMenu, i);
+						if (hMenus && cpnl++ == nPanel) {
+							hMenu = hMenus;
+							break;
+						}
+					}
+				}
 				SendMessage(cli.hwndStatus, SB_GETRECT, nPanel, (LPARAM) & rc);
 				pt.x = rc.left;
 				pt.y = rc.top;
 				ClientToScreen(cli.hwndStatus, &pt);
 				TrackPopupMenu(hMenu, TPM_BOTTOMALIGN | TPM_LEFTALIGN, pt.x, pt.y, 0, hwnd, NULL);
-		}	}
+			}
+		}
 		return FALSE;
 
 	case WM_MENUSELECT:
@@ -982,17 +961,18 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				mii.fMask = MIIM_SUBMENU;
 				mii.hSubMenu = (HMENU)CallService((pos == 0) ? MS_CLIST_MENUGETMAIN : MS_CLIST_MENUGETSTATUS, 0, 0);
 				SetMenuItemInfo(cli.hMenuMain, pos, TRUE, &mii);
-		}	}
+			}
+		}
 		break;
 
 	case WM_CONTEXTMENU:
 		{
-			RECT rc;
+			// x/y might be -1 if it was generated by a kb click
 			POINT pt;
-
 			pt.x = (short) LOWORD(lParam);
 			pt.y = (short) HIWORD(lParam);
-			// x/y might be -1 if it was generated by a kb click
+
+			RECT rc;
 			GetWindowRect(cli.hwndContactTree, &rc);
 			if (pt.x == -1 && pt.y == -1) {
 				// all this is done in screen-coords!
@@ -1026,7 +1006,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					hMenu = (HMENU) CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				return 0;
-		}	}
+			}
+		}
 		break;
 
 	case WM_MEASUREITEM:
@@ -1036,6 +1017,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			return TRUE;
 		}
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
+
 	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT) lParam;

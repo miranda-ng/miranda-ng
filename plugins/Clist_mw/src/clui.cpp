@@ -600,18 +600,6 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->hwndFrom == pcli->hwndContactTree) {
 			switch (((LPNMHDR)lParam)->code) {
-			case CLN_NEWCONTACT:
-				{
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL *)lParam;
-					if (nm != NULL)
-						pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, nm->hItem);
-					return TRUE;
-				}
-
-			case CLN_LISTREBUILT:
-				pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
-				return(FALSE);
-
 			case CLN_LISTSIZECHANGE:
 				{
 					NMCLISTCONTROL *nmc = (NMCLISTCONTROL*)lParam;

@@ -712,7 +712,7 @@ INT_PTR CALLBACK HistoryWindow::DlgProcHistory(HWND hwndDlg, UINT msg, WPARAM wP
 			switch(pNmhdr->idFrom)
 			{
 				case IDC_LIST_CONTACTS:
-					if(pNmhdr->code == CLN_LISTREBUILT)// || pNmhdr->code == CLN_CONTACTMOVED || pNmhdr->code == CLN_NEWCONTACT)
+					if(pNmhdr->code == CLN_LISTREBUILT)
 					{
 						HistoryWindow* historyWindow =(HistoryWindow*)GetWindowLongPtr(hwndDlg,GWLP_USERDATA);
 						if(historyWindow != NULL)

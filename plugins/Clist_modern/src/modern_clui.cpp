@@ -2685,18 +2685,6 @@ LRESULT CLUI::OnMoving(UINT msg, WPARAM wParam, LPARAM lParam)
 	return TRUE;
 }
 
-LRESULT CLUI::OnNewContactNotify(NMCLISTCONTROL *pnmc)
-{
-	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, pnmc->hItem);
-	return FALSE;
-}
-
-LRESULT CLUI::OnListRebuildNotify(NMCLISTCONTROL *pnmc)
-{
-	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
-	return FALSE;
-}
-
 LRESULT CLUI::OnListSizeChangeNotify( NMCLISTCONTROL * pnmc )
 {
 	// TODO: Check and refactor possible problem of clist resized to full screen problem
@@ -2827,13 +2815,9 @@ LRESULT CLUI::OnNotify( UINT msg, WPARAM wParam, LPARAM lParam )
 	if ( pnmhdr->hwndFrom != pcli->hwndContactTree )
 		return DefCluiWndProc( msg, wParam, lParam );
 
-	switch ( pnmhdr->code)
-	{
-	case CLN_NEWCONTACT:     return OnNewContactNotify((NMCLISTCONTROL *)pnmhdr );
-	case CLN_LISTREBUILT:    return OnListRebuildNotify((NMCLISTCONTROL *)pnmhdr );
-	case CLN_LISTSIZECHANGE: return OnListSizeChangeNotify((NMCLISTCONTROL *)pnmhdr );
-	case NM_CLICK:           return OnClickNotify((NMCLISTCONTROL *)pnmhdr );
-
+	switch ( pnmhdr->code) {
+		case CLN_LISTSIZECHANGE: return OnListSizeChangeNotify((NMCLISTCONTROL *)pnmhdr );
+		case NM_CLICK:           return OnClickNotify((NMCLISTCONTROL *)pnmhdr );
 	}
 	return DefCluiWndProc( msg, wParam, lParam );
 }

@@ -173,8 +173,6 @@ private:
 	LRESULT OnGetMinMaxInfo( UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT OnMoving( UINT msg, WPARAM wParam, LPARAM lParam );
 	LRESULT OnNotify( UINT msg, WPARAM wParam, LPARAM lParam );
-	LRESULT OnNewContactNotify( NMCLISTCONTROL * pnmc );
-	LRESULT OnListRebuildNotify( NMCLISTCONTROL * pnmc );
 	LRESULT OnListSizeChangeNotify( NMCLISTCONTROL * pnmc );
 	LRESULT OnClickNotify( NMCLISTCONTROL * pnmc );
 	LRESULT OnContextMenu( UINT msg, WPARAM wParam, LPARAM lParam );

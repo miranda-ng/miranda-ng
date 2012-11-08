@@ -789,8 +789,6 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					Utils::enableDlgControl(hwndDlg, IDC_APPLY, TRUE);
 
 				switch (((LPNMHDR)lParam)->code) {
-				case CLN_NEWCONTACT:
-				case CLN_LISTREBUILT:
 				case NM_CLICK:
 					{
 						NMCLISTCONTROL *nm=(NMCLISTCONTROL*)lParam;

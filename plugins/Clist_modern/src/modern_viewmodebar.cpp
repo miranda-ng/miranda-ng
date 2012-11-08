@@ -935,26 +935,8 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			case IDC_CLIST:
 				if (((LPNMHDR) lParam)->code == NM_CLICK || ((LPNMHDR) lParam)->code == CLN_CHECKCHANGED)
 					EnableWindow(GetDlgItem(hwndDlg, IDC_APPLY), TRUE);
-				switch (((LPNMHDR)lParam)->code)
-				{
-				case CLN_NEWCONTACT:
-				case CLN_LISTREBUILT:
-					//SetAllContactIcons(GetDlgItem(hwndDlg,IDC_CLIST));
-					//fall through
-					/*
-					case CLN_CONTACTMOVED:
-					SetListGroupIcons(GetDlgItem(hwndDlg,IDC_LIST),(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETNEXTITEM,CLGN_ROOT,0),hItemAll,NULL);
-					break;
-					case CLN_OPTIONSCHANGED:
-					ResetListOptions(GetDlgItem(hwndDlg,IDC_LIST));
-					break;
-					case CLN_CHECKCHANGED:
-					{
-					HANDLE hItem;
-					NMCLISTCONTROL *nm = (NMCLISTCONTROL*)lParam;
-					int typeOfItem = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE,(WPARAM)nm->hItem, 0);
-					break;
-					}*/
+
+				switch (((LPNMHDR)lParam)->code) {
 				case NM_CLICK:
 					{
 						HANDLE hItem;
@@ -980,6 +962,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 				}
 				break;
+
 			case IDC_TAB:
 				if (((LPNMHDR) lParam)->code == TCN_SELCHANGE) {
 					int id = TabCtrl_GetCurSel(GetDlgItem(hwndDlg, IDC_TAB));

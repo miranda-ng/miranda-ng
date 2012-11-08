@@ -226,7 +226,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 		if (szProto != NULL)
 			status = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-	if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+	if ( DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 		group = &dat->list;
 	else {
 		group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
