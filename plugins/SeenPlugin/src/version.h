@@ -34,7 +34,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __PLUGIN_NAME				"Last Seen Mod"
 #define __INTERNAL_NAME				"Last Seen"
 #define __FILENAME					"SeenPlugin.dll"
-#define __DESCRIPTION 				"Log when a user was last seen online and which users were online while you were away."
+#define __DESCRIPTION 				"Logs when a user was last seen online and which users were online while you were away."
 #define __AUTHOR					"Heiko Schillinger, YB"
 #define __AUTHOREMAIL				"y_b@saaplugin.no-ip.info"
 #define __AUTHORWEB					"http://miranda-ng.org/"

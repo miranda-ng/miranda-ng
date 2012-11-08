@@ -99,7 +99,7 @@
 Напоминания/Фон выбранного
 [Snooze time:]
 Отложить
-[Set once-off, daily, weekly and weekday alarms.]
+[Sets once-off, daily, weekly and weekday alarms.]
 Установка ежедневных, еженедельных и разовых уведомлений.
 [5 mins]
 5 минут

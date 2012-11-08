@@ -29,7 +29,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"My Details",
 	PLUGIN_MAKE_VERSION(0,0,1,11),
-	"Show and allows you to edit your details for all protocols.",
+	"Shows and allows you to edit your details for all protocols.",
 	"Ricardo Pescuma Domenecci, Drugwash",
 	"",
 	"© 2005-2008 Ricardo Pescuma Domenecci, Drugwash",

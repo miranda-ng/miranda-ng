@@ -37,7 +37,7 @@ PLUGININFOEX pluginInfo = {
   sizeof(PLUGININFOEX),
 	"Flash Avatars",
 	PLUGIN_MAKE_VERSION(0, 0, 1, 14),
-	"Load and display flash avatars.",
+	"Loads and displays flash avatars.",
 	"Big Muscle",
 	"",
 	"Copyright 2000-2009 Miranda-IM project",

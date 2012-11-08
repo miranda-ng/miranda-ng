@@ -7,9 +7,7 @@
 ;============================================================
 [Weather Protocol]
 Протокол погоды
-[Retrieve weather information and display them in your contact list]
-Запрос и отображение информации о погоде в вашем списке контактов
-[Retrieve weather information and display them in your contact list.]
+[Retrieves weather information and displays it in your contact list.]
 Запрос и отображение информации о погоде в вашем списке контактов.
 [Disable support for automatic station icon assignment]
 Отменить поддержку автоназначения значков станций

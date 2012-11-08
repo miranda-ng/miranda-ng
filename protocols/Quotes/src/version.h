@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Quotes"
 #define __INTERNAL_NAME				"Quotes"
 #define __FILENAME					"Quotes.dll"
-#define __DESCRIPTION 				"Show currency rates and economic quotes."
+#define __DESCRIPTION 				"Shows currency rates and economic quotes."
 #define __AUTHOR					"Dioksin"
 #define __AUTHOREMAIL				"dioksin@ua.fm"
 #define __AUTHORWEB					"http://miranda-ng.org/"

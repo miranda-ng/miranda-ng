@@ -67,7 +67,7 @@ static const PLUGININFOEX pluginInfoEx =
 	sizeof(PLUGININFOEX),
 	"Weather Protocol",
 	__VERSION_DWORD,
-	"Retrieve weather information and display them in your contact list.",
+	"Retrieves weather information and displays it in your contact list.",
 	AUTH,
 	"borkra@miranda-im.org",
 	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy",

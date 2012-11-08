@@ -25,7 +25,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Nudge",
 	 PLUGIN_MAKE_VERSION(0,0,2,0),
-	"Plugin to shake the clist and chat window",
+	"Plugin to shake the clist and chat window.",
 	"Tweety/GouZ, FREAK_THEMIGHTY",
 	"francois.mean@skynet.be, Sylvain.gougouzian@gmail.com, wishmaster51@googlemail.com",
 	"copyright to the miranda community",

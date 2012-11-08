@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Alarms"
 #define __INTERNAL_NAME				"Alarms"
 #define __FILENAME					"Alarms.dll"
-#define __DESCRIPTION 				"Set once-off, daily, weekly and weekday alarms."
+#define __DESCRIPTION 				"Sets once-off, daily, weekly and weekday alarms."
 #define __AUTHOR					"Scott Ellis"
 #define __AUTHOREMAIL				"mail@scottellis.com.au"
 #define __AUTHORWEB					"http://miranda-ng.org/"

@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Change Keyboard Layout"
 #define __INTERNAL_NAME				"ChangeKeyboardLayout"
 #define __FILENAME					"ChangeKeyboardLayout.dll"
-#define __DESCRIPTION 				"Plugin for change keyboard layout of text (multilayout)."
+#define __DESCRIPTION 				"Plugin for changing keyboard layout of text (multilayout)."
 #define __AUTHOR					"Yasnovidyashii"
 #define __AUTHOREMAIL				"Yasnovidyashii@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"

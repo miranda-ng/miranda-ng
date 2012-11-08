@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Avatar service"
 #define __INTERNAL_NAME				"AVS"
 #define __FILENAME					"AVS.dll"
-#define __DESCRIPTION 				"Load and manage contact pictures for other plugins."
+#define __DESCRIPTION 				"Loads and manages contact pictures for other plugins."
 #define __AUTHOR					"Nightwish, Pescuma"
 #define __AUTHOREMAIL				"http://miranda-ng.org/"
 #define __AUTHORWEB					"http://miranda-ng.org/"

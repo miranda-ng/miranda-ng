@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"IgnoreState"
 #define __INTERNAL_NAME				"IgnoreState"
 #define __FILENAME					"IgnoreState.dll"
-#define __DESCRIPTION 				"Show ignore state of contact in contacts list."
+#define __DESCRIPTION 				"Shows ignore state of contact in contacts list."
 #define __AUTHOR					"Kildor"
 #define __AUTHOREMAIL				"kostia@ngs.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/"

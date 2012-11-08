@@ -6,8 +6,8 @@
 ;============================================================
 [Nudge for MetaContacts]
 Встряхнуть (метаконтакты)
-[Plugin to shake the clist and chat window]
-Модуль тряски контакт листа и окна сообщений
+[Plugin to shake the clist and chat window.]
+Модуль тряски контакт листа и окна сообщений.
 [Send &Nudge]
 Встряхнуть
 [Nudge]

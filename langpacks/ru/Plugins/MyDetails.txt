@@ -99,7 +99,7 @@
 Включить Сейчас слушаю
 [Enable Listening To for %s]
 Включить Сейчас слушаю для %s
-[Show and allows you to edit your details for all protocols.]
+[Shows and allows you to edit your details for all protocols.]
 Модуль позволяет показывать и редактировать ваши детали для всех протоколов.
 ;0.0.1.10
 [Show protocol cycle button]
