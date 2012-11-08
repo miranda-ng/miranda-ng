@@ -199,8 +199,8 @@
 Удалить статусное сообщение, если контакт оффлайн
 [Use improved search method in contactlist]
 Поиск по списку с фильтрацией результатов
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://nightly.miranda.im]
-Для дополнительных возможностей загрузите модуль MetaContacts.\nhttp://nightly.miranda.im
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+Для дополнительных возможностей загрузите модуль MetaContacts.\nhttp://miranda-ng.org
 [MetaContacts stuff]
 Метаконтакты
 [Use 'Meta' protocol icons for Metacontacts]
