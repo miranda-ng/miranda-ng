@@ -2308,3 +2308,5 @@ Miranda не смогла загрузить встроенную систему
 *будут отображаться только первые %d значков
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 Вы можете группировать/разгруппировывать значки, выделяя их (CTRL+клик левой кнопкой мыши) и вызывая меню с помощью правой кнопки мыши.
+[Mobile State]
+Мобильность

@@ -11,6 +11,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Alarms.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/AssocMgr.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/AuthState.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Autorun.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/AutoShutdown.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/AvatarHist.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/AVS.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/BasicHistory.txt
@@ -23,17 +24,20 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ClientChangeNotify.tx
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Clist_modern.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Clist_mw.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Clist_nicer.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Cln_skinedit.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/CmdLine.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Console.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Contacts.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/CrashDumper.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/CryptoPP.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Cslist.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/CyrTranslit.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/DbChecker.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/DbEditorPP.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_3x.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap_SA.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_tree.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Db_autobackups.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Facebook.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FavContacts.txt
@@ -54,7 +58,6 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ICQ.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ICQ_Plus.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/IEView.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/IgnoreState.txt
-https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ImoProxy.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Import.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ImportTXT.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/IRC.txt
@@ -78,7 +81,10 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewAwaySys.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewEventNotify.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewsAggregator.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewXstatusNotify.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/New_GPG.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Nudge.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Omegle.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/OpenFolder.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PackUpdater.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PasteIt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PluginUpdater.txt
@@ -102,7 +108,6 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Sessions.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ShlExt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SimpleAR.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SimpleStatusMsg.txt
-https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Skype.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SMCN.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SmileyAdd.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SpellChecker.txt
@@ -123,6 +128,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Variables.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/VersionInfo.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/W7UI.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Watrack.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Watrack_MPD.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Weather.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/WhenWasIt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/WUMF.txt
