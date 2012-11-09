@@ -121,38 +121,6 @@ typedef struct _OrderTreeData
 	BOOL  fReserved;
 } *PORDERTREEDATA, ORDERTREEDATA;
 
-struct DisplayProfile
-{
-	DWORD    dwFlags;
-	DWORD    dwExtraImageMask;
-	int      exIconScale;
-	BOOL     bCenterStatusIcons;
-	BOOL     bDimIdle, bNoOfflineAvatars, bShowLocalTime, bShowLocalTimeSelective, bDontSeparateOffline, bCenterGroupNames;
-	BYTE     dualRowMode;
-	COLORREF avatarBorder;
-	DWORD    avatarRadius;
-	int      avatarSize;
-	DWORD    clcExStyle;
-	DWORD    clcOfflineModes;
-	BYTE     sortOrder[3], bUseDCMirroring, bGroupAlign;
-	BYTE     avatarPadding;
-	BYTE     bLeftMargin, bRightMargin, bRowSpacing, bGroupIndent, bRowHeight, bGroupRowHeight;
-};
-typedef struct DisplayProfile DISPLAYPROFILE;
-
-/*
- * a set of 4 (online, offline, selected, hottracked) display profiles
- */
-
-struct DisplayProfileSet {
-	UINT    uID;
-	TCHAR   tszName[60];
-	DISPLAYPROFILE dp[4];
-};
-typedef struct DisplayProfileSet DISPLAYPROFILESET;
-
-#define DSP_PROFILES_MODULE "CLN_DspProfiles"           // db module for display profiles
-
 struct TExtraCache
 {
 	HANDLE hContact;

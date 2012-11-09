@@ -42,12 +42,12 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			HANDLE hContact = (HANDLE) wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
-			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg)) {
+			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
 				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);
-		  }
-		  break;
 	  }
-  case WM_DESTROY:
+	  break;
+
+	case WM_DESTROY:
 		UnhookEvent((HANDLE) GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 		break;
 	
@@ -122,7 +122,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		}
 		if (-1 == (int) SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_GETCURSEL, 0, 0))
 			SendDlgItemMessage(hwndDlg, IDC_PRIMARYSTATUS, CB_SETCURSEL, 0, 0);
-		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM) GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);       // set buddy            
+		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETBUDDY, (WPARAM) GetDlgItem(hwndDlg, IDC_BLINKTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETRANGE, 0, MAKELONG(0x3FFF, 250));
 		SendDlgItemMessage(hwndDlg, IDC_BLINKSPIN, UDM_SETPOS, 0, MAKELONG(cfg::getWord("CList", "IconFlashTime", 550), 0));
 		CheckDlgButton(hwndDlg, IDC_NOTRAYINFOTIPS, cfg::dat.bNoTrayTips ? 1 : 0);
@@ -166,8 +166,6 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 					if (!(caps & CLUIF_HASONTOPOPTION)) {
 						cfg::writeByte("CList", "OnTop", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
 						SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-					}
-					if (!(caps & CLUIF_HASAUTOHIDEOPTION)) {
 					}
 				}
 				cfg::writeByte("CList", "ConfirmDelete", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_CONFIRMDELETE));

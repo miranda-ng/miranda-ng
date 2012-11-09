@@ -31,7 +31,6 @@
 #define IDD_OPT_CLCBKG                  230
 #define IDD_OPT_SBAR                    234
 #define IDD_DELETECONTACT               254
-#define IDD_OPT_DSPPROFILES             300
 #define IDD_OPT_DSPADVANCED             301
 #define IDD_OPT_DSPITEMS                302
 #define IDD_OPT_DSPGROUPS               303

@@ -127,314 +127,13 @@ static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
     return flags;
 }
 
-/*
- * write a display profile to the db
- * p->uID must contain the (valid) identifier
- */
-
-static void DSP_Write(DISPLAYPROFILESET *p)
+static void cfgSetFlag(HWND hwndDlg, int ctrlId, DWORD dwMask)
 {
-	char szBuf[256], szKey[256];
-	int  i = 0, j;
-	DWORD dwFlags = 0;
-	DISPLAYPROFILE  *dp;
-
-	_snprintf(szKey, 256, "[%u]", p->uID);
-	cfg::writeTString(NULL, DSP_PROFILES_MODULE, szKey, p->tszName);
-
-	for (j = 0; j < 4; j++) {
-
-		dp = &p->dp[i];
-		i = 0;
-
-		/*
-		* dword values
-		*/
-
-		_snprintf(szBuf, 256, "%u,%u,%d,%u,%u", dp->dwFlags, dp->dwExtraImageMask, dp->avatarBorder, dp->clcExStyle, dp->clcOfflineModes);
-		szBuf[255] = 0;
-		_snprintf(szKey, 256, "{dw_%u_%u}", p->uID, j);
-		cfg::writeString(NULL, DSP_PROFILES_MODULE, szKey, szBuf);
-
-		_snprintf(szKey, 256, "{b_%u_%u}", p->uID, j);
-
-		/*
-		* byte values
-		*/
-
-		szBuf[i++] = (BYTE)dp->exIconScale;
-		szBuf[i++] = (BYTE)dp->dualRowMode;
-		szBuf[i++] = (BYTE)dp->avatarRadius;
-		szBuf[i++] = (BYTE)dp->avatarSize;
-		szBuf[i++] = (BYTE)dp->sortOrder[0];szBuf[i++] = (BYTE)dp->sortOrder[1];szBuf[i++] = (BYTE)dp->sortOrder[2];
-		szBuf[i++] = dp->bUseDCMirroring;
-		szBuf[i++] = dp->bGroupAlign;
-		szBuf[i++] = dp->avatarPadding;
-		szBuf[i++] = dp->bLeftMargin; szBuf[i++] = dp->bRightMargin; szBuf[i++] = dp->bRowSpacing;
-		szBuf[i++] = dp->bGroupIndent; szBuf[i++] = dp->bRowHeight; szBuf[i++] = dp->bGroupRowHeight;
-		szBuf[i++] = 0;
-
-		cfg::writeString(NULL, DSP_PROFILES_MODULE, szKey, szBuf);
-
-		/*
-		* bool values (convert to bitflags
-		*/
-
-		_snprintf(szKey, 256, "{f_%u_%u}", p->uID, j);
-		dwFlags = ((dp->bCenterStatusIcons ? DSPF_CENTERSTATUSICON : 0) |
-			(dp->bDimIdle ? DSPF_DIMIDLE : 0) |
-			(dp->bNoOfflineAvatars ? DSPF_NOFFLINEAVATARS : 0) |
-			(dp->bShowLocalTime ? DSPF_SHOWLOCALTIME : 0) |
-			(dp->bShowLocalTimeSelective ? DSPF_LOCALTIMESELECTIVE : 0) |
-			(dp->bDontSeparateOffline ? DSPF_DONTSEPARATEOFFLINE : 0) |
-			(dp->bCenterGroupNames ? DSPF_CENTERGROUPNAMES : 0));
-
-		cfg::writeDword(NULL, DSP_PROFILES_MODULE, szKey, dwFlags);
-	}
-}
-
-/*
- * read a profile from the DB
- * p->uID must contain the (valid) identifier
- */
-
-static int DSP_Read(DISPLAYPROFILESET *p)
-{
-	char szBuf[256], szKey[256];
-	int  i = 0, j;
-	DWORD dwFlags = 0;
-	DBVARIANT dbv = {0};
-	DISPLAYPROFILE  *dp;
-
-	_snprintf(szKey, 256, "[%u]", p->uID);
-
-	if (cfg::getTString(NULL, DSP_PROFILES_MODULE, szKey, &dbv))
-		return 0;
-
-	mir_sntprintf(p->tszName, 60, dbv.ptszVal);
-	DBFreeVariant(&dbv);
-
-	for (j = 0; j < 4; j++) {
-
-		dp = &p->dp[j];
-		i = 0;
-		/*
-		* dword values
-		*/
-
-		mir_snprintf(szKey, 256, "{dw_%u_%u}", p->uID, j);
-		if (!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
-			sscanf(dbv.pszVal, "%u,%u,%u,%u,%u", dp->dwFlags, dp->dwExtraImageMask, dp->avatarBorder, dp->clcExStyle, dp->clcOfflineModes);
-			DBFreeVariant(&dbv);
-		}
-		else
-			return 0;
-
-		/*
-		* byte values
-		*/
-
-		_snprintf(szKey, 256, "{b_%u_%u}", p->uID, j);
-		if (!cfg::getString(NULL, DSP_PROFILES_MODULE, szKey, &dbv)) {
-			if (lstrlenA(dbv.pszVal) >= 16) {
-				dp->exIconScale = (int)szBuf[i++];
-				dp->dualRowMode = szBuf[i++];
-				dp->avatarRadius = szBuf[i++];
-				dp->avatarSize = szBuf[i++];
-				dp->sortOrder[0] = szBuf[i++]; dp->sortOrder[1] = szBuf[i++];  dp->sortOrder[2] = szBuf[i++];
-				dp->bUseDCMirroring = szBuf[i++];
-				dp->bGroupAlign = szBuf[i++];
-				dp->avatarPadding = szBuf[i++];
-				dp->bLeftMargin = szBuf[i++]; dp->bRightMargin = szBuf[i++]; dp->bRowSpacing = szBuf[i++];
-				dp->bGroupIndent = szBuf[i++]; dp->bRowHeight = szBuf[i++];  dp->bGroupRowHeight = szBuf[i++];
-			}
-			else {
-				DBFreeVariant(&dbv);
-				return 0;
-			}
-			DBFreeVariant(&dbv);
-		}
-		else
-			return 0;
-
-		/*
-		* bool values (convert to bitflags
-		*/
-
-		_snprintf(szKey, 256, "{f_%u_%u}", p->uID, j);
-		dwFlags = cfg::getDword(DSP_PROFILES_MODULE, szKey, 0);
-
-		dp->bCenterStatusIcons = dwFlags & DSPF_CENTERSTATUSICON ? 1 : 0;
-		dp->bDimIdle = dwFlags & DSPF_DIMIDLE ? 1 : 0;
-		dp->bNoOfflineAvatars = dwFlags & DSPF_NOFFLINEAVATARS ? 1 : 0;
-		dp->bShowLocalTime = dwFlags & DSPF_SHOWLOCALTIME ? 1 : 0;
-		dp->bShowLocalTimeSelective = dwFlags & DSPF_LOCALTIMESELECTIVE ? 1 : 0;
-		dp->bDontSeparateOffline = dwFlags & DSPF_DONTSEPARATEOFFLINE ? 1 : 0;
-		dp->bCenterGroupNames = dwFlags & DSPF_CENTERGROUPNAMES ? 1 : 0;
-	}
-
-	return 1;
-}
-
-/*
- * load current values into the given profile
- */
-
-static void DSP_LoadFromDefaults(DISPLAYPROFILE *p)
-{
-	p->dwExtraImageMask = cfg::dat.dwExtraImageMask;
-	p->exIconScale = cfg::dat.exIconScale;
-	p->bCenterStatusIcons = cfg::dat.bCenterStatusIcons;
-	p->dwFlags = cfg::dat.dwFlags;
-	p->bDimIdle = cfg::getByte("CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
-	p->avatarBorder = cfg::dat.avatarBorder;
-	p->avatarSize = cfg::dat.avatarSize;
-	p->avatarRadius = cfg::dat.avatarRadius;
-	p->dualRowMode = cfg::dat.dualRowMode;
-	p->bNoOfflineAvatars = cfg::dat.bNoOfflineAvatars;
-	p->bShowLocalTime = cfg::dat.bShowLocalTime;
-	p->bShowLocalTimeSelective = cfg::dat.bShowLocalTimeSelective;
-	p->clcExStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
-	p->clcOfflineModes = cfg::getDword("CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);
-	p->bDontSeparateOffline = cfg::dat.bDontSeparateOffline;
-	p->sortOrder[0] = cfg::dat.sortOrder[0];
-	p->sortOrder[1] = cfg::dat.sortOrder[1];
-	p->sortOrder[2] = cfg::dat.sortOrder[2];
-	p->bUseDCMirroring = cfg::dat.bUseDCMirroring;
-	p->bCenterGroupNames = cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0);
-	p->bGroupAlign = cfg::dat.bGroupAlign;
-	p->avatarPadding = cfg::dat.avatarPadding;
-
-	p->bLeftMargin = cfg::getByte("CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
-	p->bRightMargin =  cfg::getByte("CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN);
-	p->bRowSpacing = cfg::dat.bRowSpacing;
-	p->bGroupIndent = cfg::getByte("CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
-	p->bRowHeight = cfg::getByte("CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-	p->bGroupRowHeight = cfg::getByte("CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT);
-}
-
-/*
- * apply a display profile
- */
-
-void DSP_Apply(DISPLAYPROFILE *p)
-{
-	int   oldexIconScale = cfg::dat.exIconScale;
-	DWORD oldMask = cfg::dat.dwExtraImageMask;
-	int   i;
-	DWORD exStyle;
-	char  temp[EXTRA_ICON_COUNT + 1];
-	/*
-	* icons page
-	*/
-	cfg::dat.dwFlags &= ~(CLUI_FRAME_STATUSICONS | CLUI_SHOWVISI | CLUI_USEMETAICONS | CLUI_FRAME_USEXSTATUSASSTATUS | CLUI_FRAME_OVERLAYICONS | CLUI_FRAME_SELECTIVEICONS);
-	cfg::dat.dwExtraImageMask = p->dwExtraImageMask;
-	cfg::dat.exIconScale = p->exIconScale;
-	cfg::dat.bCenterStatusIcons = p->bCenterStatusIcons;
-
-	cfg::writeDword("CLUI", "ximgmask", cfg::dat.dwExtraImageMask);
-	cfg::writeByte("CLC", "ExIconScale", (BYTE)cfg::dat.exIconScale);
-	cfg::writeByte("CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
-	cfg::writeByte("CLC", "ShowIdle", (BYTE)p->bDimIdle);
-	cfg::writeString(NULL, "CLUI", "exIconOrder", temp);
-
-	/*
-	* advanced (avatars & 2nd row)
-	*/
-
-	cfg::dat.dwFlags &= ~(CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK |
-		CLUI_FRAME_AVATARS | CLUI_FRAME_AVATARBORDER | CLUI_FRAME_ROUNDAVATAR |
-		CLUI_FRAME_ALWAYSALIGNNICK | CLUI_FRAME_SHOWSTATUSMSG | CLUI_FRAME_GDIPLUS);
-
-	cfg::dat.avatarSize = p->avatarSize;
-	cfg::dat.avatarBorder = p->avatarBorder;
-	cfg::dat.avatarRadius = p->avatarRadius;
-	cfg::dat.dualRowMode = p->dualRowMode;
-	cfg::dat.bNoOfflineAvatars = p->bNoOfflineAvatars;
-	cfg::dat.bShowLocalTime = p->bShowLocalTime;
-	cfg::dat.bShowLocalTimeSelective = p->bShowLocalTimeSelective;
-
-	if (cfg::dat.hBrushAvatarBorder)
-		DeleteObject(cfg::dat.hBrushAvatarBorder);
-	cfg::dat.hBrushAvatarBorder = CreateSolidBrush(cfg::dat.avatarBorder);
-
-	/*
-	* items page
-	*/
-
-	cfg::dat.dwFlags &= ~CLUI_STICKYEVENTS;
-
-	cfg::dat.sortOrder[0] = p->sortOrder[0];
-	cfg::dat.sortOrder[1] = p->sortOrder[1];
-	cfg::dat.sortOrder[2] = p->sortOrder[2];
-	cfg::dat.bDontSeparateOffline = p->bDontSeparateOffline;
-	cfg::writeByte("CList", "DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
-	cfg::writeDword("CLC", "OfflineModes", p->clcOfflineModes);
-
-	cfg::writeDword("CList", "SortOrder",
-		MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]),
-		MAKEWORD(cfg::dat.sortOrder[2], 0)));
-
-	cfg::dat.bUseDCMirroring = p->bUseDCMirroring;
-	cfg::writeByte("CLC", "MirrorDC", cfg::dat.bUseDCMirroring);
-
-	/*
-	* groups page
-	*/
-
-	cfg::dat.dwFlags &= ~CLUI_FRAME_NOGROUPICON;
-	cfg::dat.bGroupAlign = p->bGroupAlign;
-	cfg::writeByte("CLC", "GroupAlign", cfg::dat.bGroupAlign);
-	cfg::writeByte("CLCExt", "EXBK_CenterGroupnames", (BYTE)p->bCenterGroupNames);
-
-	exStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
-	for (i = 0; i < sizeof(checkBoxToGroupStyleEx) / sizeof(checkBoxToGroupStyleEx[0]); i++)
-		exStyle &= ~(checkBoxToGroupStyleEx[i].flag);
-
-	exStyle |= p->clcExStyle;
-	cfg::writeDword("CLC", "ExStyle", exStyle);
-	cfg::dat.avatarPadding = p->avatarPadding;
-	cfg::writeByte("CList", "AvatarPadding", cfg::dat.avatarPadding);
-
-	cfg::dat.bRowSpacing = p->bRowSpacing;
-	cfg::writeByte("CLC", "RowGap", cfg::dat.bRowSpacing);
-
-	cfg::writeByte("CLC", "LeftMargin", (BYTE)p->bLeftMargin);
-	cfg::writeByte("CLC", "RightMargin", (BYTE)p->bRightMargin);
-	cfg::writeByte("CLC", "GroupIndent", (BYTE)p->bGroupIndent);
-	cfg::writeByte("CLC", "RowHeight", (BYTE)p->bRowHeight);
-	cfg::writeByte("CLC", "GRowHeight", (BYTE)p->bGroupRowHeight);
-
-	if (cfg::dat.sortOrder[0] == SORTBY_LASTMSG || cfg::dat.sortOrder[1] == SORTBY_LASTMSG || cfg::dat.sortOrder[2] == SORTBY_LASTMSG) {
-		int i;
-
-		for (i = 0; i < cfg::nextCacheEntry; i++)
-			cfg::eCache[i].dwLastMsgTime = INTSORT_GetLastMsgTime(cfg::eCache[i].hContact);
-	}
-
-	cfg::writeByte("CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
-	cfg::writeByte("CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
-	cfg::writeDword("CLC", "avatarborder", cfg::dat.avatarBorder);
-	cfg::writeDword("CLC", "avatarradius", cfg::dat.avatarRadius);
-	cfg::writeWord(NULL, "CList", "AvatarSize", (WORD)cfg::dat.avatarSize);
-	cfg::writeByte("CLC", "DualRowMode", cfg::dat.dualRowMode);
-	cfg::writeByte("CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
-
-	KillTimer(pcli->hwndContactTree, TIMERID_REFRESH);
-	if (cfg::dat.bShowLocalTime)
-		SetTimer(pcli->hwndContactTree, TIMERID_REFRESH, 65000, NULL);
-
-	cfg::dat.dwFlags |= p->dwFlags;
+	if ( IsDlgButtonChecked(hwndDlg, ctrlId))
+		cfg::dat.dwFlags |= dwMask;
+	else
+		cfg::dat.dwFlags &= ~dwMask;
 	cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
-
-	for (i = 0; i < cfg::nextCacheEntry; i++)
-		cfg::eCache[i].dwXMask = CalcXMask(cfg::eCache[i].hContact);
-
-	if (oldexIconScale != cfg::dat.exIconScale)
-		IcoLibReloadIcons();
-
-	pcli->pfnClcOptionsChanged();
-	pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 }
 
 void GetDefaultFontSetting(int i, LOGFONT *lf, COLORREF *colour)
@@ -465,12 +164,34 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			int i = 0;
-			TranslateDialogDefault(hwndDlg);
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always Left"));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always Right"));
 			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Automatic (RTL)"));
+
+			DWORD exStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+			for (int i = 0; i < SIZEOF(checkBoxToGroupStyleEx); i++)
+				CheckDlgButton(hwndDlg, checkBoxToGroupStyleEx[i].id, (exStyle & checkBoxToGroupStyleEx[i].flag) ^ (checkBoxToGroupStyleEx[i].flag * checkBoxToGroupStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
+
+			CheckDlgButton(hwndDlg, IDC_NOGROUPICON, (cfg::dat.dwFlags & CLUI_FRAME_NOGROUPICON) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_SETCURSEL, cfg::dat.bGroupAlign, 0);
+			SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETPOS, 0, cfg::dat.avatarPadding);
+
+			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
+			SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, cfg::getByte("CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN));
+			SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
+			SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, cfg::getByte("CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN));
+			SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
+			SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETPOS, 0, cfg::dat.bRowSpacing);
+			SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, cfg::getByte("CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT));
+			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
+			SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, cfg::getByte("CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
+			SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETPOS, 0, cfg::getByte("CLC", "GRowHeight", CLCDEFAULT_ROWHEIGHT));
 		}
 		return TRUE;
 
@@ -481,73 +202,42 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
-	case WM_USER + 100:
-		{
-			DISPLAYPROFILE *p = (DISPLAYPROFILE *)lParam;
-			if (p) {
-				DWORD exStyle = p->clcExStyle;
-				int   i;
-				for (i = 0; i < sizeof(checkBoxToGroupStyleEx) / sizeof(checkBoxToGroupStyleEx[0]); i++)
-					CheckDlgButton(hwndDlg, checkBoxToGroupStyleEx[i].id, (exStyle & checkBoxToGroupStyleEx[i].flag) ^ (checkBoxToGroupStyleEx[i].flag * checkBoxToGroupStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
-
-				CheckDlgButton(hwndDlg, IDC_NOGROUPICON, (p->dwFlags & CLUI_FRAME_NOGROUPICON) ? BST_CHECKED : BST_UNCHECKED);
-				CheckDlgButton(hwndDlg, IDC_CENTERGROUPNAMES, p->bCenterGroupNames);
-				SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_SETCURSEL, p->bGroupAlign, 0);
-				SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
-				SendDlgItemMessage(hwndDlg, IDC_AVATARPADDINGSPIN, UDM_SETPOS, 0, p->avatarPadding);
-
-				SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
-				SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_SETPOS, 0, p->bLeftMargin);
-				SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETRANGE, 0, MAKELONG(64, 0));
-				SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_SETPOS, 0, p->bRightMargin);
-				SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETRANGE, 0, MAKELONG(10, 0));
-				SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_SETPOS, 0, p->bRowSpacing);
-				SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETRANGE, 0, MAKELONG(50, 0));
-				SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_SETPOS, 0, p->bGroupIndent);
-				SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
-				SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_SETPOS, 0, p->bRowHeight);
-				SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETRANGE, 0, MAKELONG(255, 8));
-				SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_SETPOS, 0, p->bGroupRowHeight);
-			}
-		}
-		return 0;
-
-	case WM_USER + 200:
-		{
-			DISPLAYPROFILE *p = (DISPLAYPROFILE *)lParam;
-			if (p) {
-				int i;
-				DWORD exStyle = 0;
-				LRESULT curSel;
-				BOOL    translated;
-
-				for (i = 0; i < sizeof(checkBoxToGroupStyleEx) / sizeof(checkBoxToGroupStyleEx[0]); i++) {
-					if ((IsDlgButtonChecked(hwndDlg, checkBoxToGroupStyleEx[i].id) == 0) == checkBoxToGroupStyleEx[i].not_t)
-						exStyle |= checkBoxToGroupStyleEx[i].flag;
-				}
-				p->clcExStyle = exStyle;
-				p->dwFlags |= (IsDlgButtonChecked(hwndDlg, IDC_NOGROUPICON) ? CLUI_FRAME_NOGROUPICON : 0);
-				p->bCenterGroupNames = IsDlgButtonChecked(hwndDlg, IDC_CENTERGROUPNAMES) ? 1 : 0;
-				curSel = SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_GETCURSEL, 0, 0);
-				if (curSel != CB_ERR)
-					p->bGroupAlign = (BYTE)curSel;
-
-				p->avatarPadding = (BYTE)GetDlgItemInt(hwndDlg, IDC_AVATARPADDING, &translated, FALSE);
-				p->bLeftMargin = (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0);
-				p->bRightMargin = (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0);
-				p->bRowSpacing = (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_GETPOS, 0, 0);
-				p->bGroupIndent = (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0);
-				p->bRowHeight = (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0);
-				p->bGroupRowHeight = (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0);
-			}
-			return 0;
-		}
-
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->idFrom) {
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
+			if (((LPNMHDR) lParam)->code == PSN_APPLY) {
+				DWORD exStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
+
+				for (int i = 0; i < SIZEOF(checkBoxToGroupStyleEx); i++) {
+					if ((IsDlgButtonChecked(hwndDlg, checkBoxToGroupStyleEx[i].id) == 0) == checkBoxToGroupStyleEx[i].not_t)
+						exStyle |= checkBoxToGroupStyleEx[i].flag;
+					else
+						exStyle &= ~(checkBoxToGroupStyleEx[i].flag);
+				}
+				cfg::writeDword("CLC", "ExStyle", exStyle);
+
+				cfgSetFlag(hwndDlg, IDC_NOGROUPICON, CLUI_FRAME_NOGROUPICON);
+
+				cfg::writeByte("CLCExt", "EXBK_CenterGroupnames", IsDlgButtonChecked(hwndDlg, IDC_CENTERGROUPNAMES) ? 1 : 0);
+
+				LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_GROUPALIGN, CB_GETCURSEL, 0, 0);
+				if (curSel != CB_ERR) {
+					cfg::dat.bGroupAlign = (BYTE)curSel; 
+					cfg::writeByte("CLC", "GroupAlign", cfg::dat.bGroupAlign);
+				}
+
+				cfg::dat.bRowSpacing = (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWGAPSPIN, UDM_GETPOS, 0, 0);
+				cfg::writeByte("CLC", "RowGap", cfg::dat.bRowSpacing);
+
+				BOOL translated;
+				cfg::dat.avatarPadding = (BYTE)GetDlgItemInt(hwndDlg, IDC_AVATARPADDING, &translated, FALSE);
+				cfg::writeByte("CList", "AvatarPadding", cfg::dat.avatarPadding);
+
+				cfg::writeByte("CLC", "LeftMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_LEFTMARGINSPIN, UDM_GETPOS, 0, 0));
+				cfg::writeByte("CLC", "RightMargin", (BYTE)SendDlgItemMessage(hwndDlg, IDC_RIGHTMARGINSPIN, UDM_GETPOS, 0, 0));
+				cfg::writeByte("CLC", "GroupIndent", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPINDENTSPIN, UDM_GETPOS, 0, 0));
+				cfg::writeByte("CLC", "RowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_ROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
+				cfg::writeByte("CLC", "GRowHeight", (BYTE)SendDlgItemMessage(hwndDlg, IDC_GROUPROWHEIGHTSPIN, UDM_GETPOS, 0, 0));
 				return TRUE;
 			}
 			break;
@@ -559,22 +249,17 @@ static INT_PTR CALLBACK DlgProcDspGroups(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DISPLAYPROFILE *p;
-
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			int i = 0;
-			HIMAGELIST himlOld;
-
-			TranslateDialogDefault(hwndDlg);
 			if (himlCheckBoxes == 0)
 				CreateStateImageList();
 
-			himlOld = TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), himlCheckBoxes, TVSIL_STATE);
+			HIMAGELIST himlOld = TreeView_SetImageList(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), himlCheckBoxes, TVSIL_STATE);
 			ImageList_Destroy(himlOld);
 
-			for (i = 0; sortCtrlIDs[i] != 0; i++) {
+			for (int i = 0; sortCtrlIDs[i] != 0; i++) {
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Nothing"));
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Name"));
 				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_INSERTSTRING, -1, (LPARAM)TranslateT("Protocol"));
@@ -586,42 +271,20 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("For RTL only"));
 			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_INSERTSTRING, -1, (LPARAM)TranslateT("RTL TEXT only"));
+
+			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, SIZEOF(offlineValues), cfg::getDword("CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES));
+			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (cfg::dat.dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, cfg::dat.bDontSeparateOffline);
+			for (int i = 0; sortCtrlIDs[i] != 0; i++)
+				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_SETCURSEL, cfg::dat.sortOrder[i], 0);
+
+			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_SETCURSEL, cfg::dat.bUseDCMirroring, 0);
 		}
 		return TRUE;
 
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
-
-	case WM_USER + 100:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS), offlineValues, sizeof(offlineValues) / sizeof(offlineValues[0]), p->clcOfflineModes);
-			CheckDlgButton(hwndDlg, IDC_EVENTSONTOP, (p->dwFlags & CLUI_STICKYEVENTS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DONTSEPARATE, p->bDontSeparateOffline);
-			for (int i = 0; sortCtrlIDs[i] != 0; i++)
-				SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_SETCURSEL, p->sortOrder[i], 0);
-
-			SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_SETCURSEL, p->bUseDCMirroring, 0);
-		}
-		return 0;
-
-	case WM_USER + 200:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			for (int i = 0; sortCtrlIDs[i] != 0; i++) {
-				LRESULT curSel = SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_GETCURSEL, 0, 0);
-				if (curSel == 0 || curSel == CB_ERR)
-					p->sortOrder[i] = 0;
-				else
-					p->sortOrder[i] = (BYTE)curSel;
-			}
-			p->bDontSeparateOffline = IsDlgButtonChecked(hwndDlg, IDC_DONTSEPARATE) ? 1 : 0;
-			p->dwFlags |= IsDlgButtonChecked(hwndDlg, IDC_EVENTSONTOP) ? CLUI_STICKYEVENTS : 0;
-			p->clcOfflineModes = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS));
-			p->bUseDCMirroring = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_GETCURSEL, 0, 0);
-		}
-		return 0;
 
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->idFrom) {
@@ -643,9 +306,27 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					}
 			}
 			break;
+
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
+			if (((LPNMHDR) lParam)->code == PSN_APPLY) {
+				for (int i = 0; sortCtrlIDs[i] != 0; i++) {
+					LRESULT curSel = SendDlgItemMessage(hwndDlg, sortCtrlIDs[i], CB_GETCURSEL, 0, 0);
+					if (curSel == 0 || curSel == CB_ERR)
+						cfg::dat.sortOrder[i] = 0;
+					else
+						cfg::dat.sortOrder[i] = (BYTE)curSel;
+				}
+				cfg::writeDword("CList", "SortOrder", MAKELONG(MAKEWORD(cfg::dat.sortOrder[0], cfg::dat.sortOrder[1]), MAKEWORD(cfg::dat.sortOrder[2], 0)));
+
+				cfg::dat.bDontSeparateOffline = IsDlgButtonChecked(hwndDlg, IDC_DONTSEPARATE) ? 1 : 0;
+				cfg::writeByte("CList", "DontSeparateOffline", (BYTE)cfg::dat.bDontSeparateOffline);
+
+				cfg::writeDword("CLC", "OfflineModes", MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_HIDEOFFLINEOPTS)));
+
+				cfgSetFlag(hwndDlg, IDC_EVENTSONTOP, CLUI_STICKYEVENTS);
+
+				cfg::dat.bUseDCMirroring = (BYTE)SendDlgItemMessage(hwndDlg, IDC_CLISTALIGN, CB_GETCURSEL, 0, 0);
+				cfg::writeByte("CLC", "MirrorDC", cfg::dat.bUseDCMirroring);
 				return TRUE;
 			}
 			break;
@@ -654,11 +335,12 @@ static INT_PTR CALLBACK DlgProcDspItems(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	return FALSE;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 static UINT avatar_controls[] = { IDC_ALIGNMENT, IDC_AVATARSBORDER, IDC_AVATARSROUNDED, IDC_AVATARBORDERCLR, IDC_ALWAYSALIGNNICK, IDC_AVATARHEIGHT, IDC_AVATARSIZESPIN, 0 };
+
 static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DISPLAYPROFILE *p;
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		{
@@ -685,8 +367,43 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 				while(avatar_controls[i] != 0)
 					Utils::enableDlgControl(hwndDlg, avatar_controls[i++], FALSE);
 			}
-			return TRUE;
+
+			CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars);
+			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_SETCURSEL, cfg::dat.dualRowMode, 0);
+			CheckDlgButton(hwndDlg, IDC_CLISTAVATARS, (cfg::dat.dwFlags & CLUI_FRAME_AVATARS) ? BST_CHECKED : BST_UNCHECKED);
+
+			CheckDlgButton(hwndDlg, IDC_AVATARSBORDER, (cfg::dat.dwFlags & CLUI_FRAME_AVATARBORDER) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_AVATARSROUNDED, (cfg::dat.dwFlags & CLUI_FRAME_ROUNDAVATAR) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_ALWAYSALIGNNICK, (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSMSG, (cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
+
+			SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_SETCOLOUR, 0, cfg::dat.avatarBorder);
+
+			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(10, 2));
+			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETPOS, 0, cfg::dat.avatarRadius);
+
+			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 16));
+			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETPOS, 0, cfg::dat.avatarSize);
+
+			Utils::enableDlgControl(hwndDlg, IDC_RADIUS, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
+			Utils::enableDlgControl(hwndDlg, IDC_RADIUSSPIN, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
+			Utils::enableDlgControl(hwndDlg, IDC_AVATARBORDERCLR, IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? TRUE : FALSE);
+
+			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, cfg::dat.bShowLocalTime ? 1 : 0);
+			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? 1 : 0);
+			Utils::enableDlgControl(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME));
+
+			if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
+				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 1, 0);
+			else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT)
+				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 2, 0);
+			else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHTWITHNICK)
+				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 3, 0);
+			else
+				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 0, 0);
 		}
+		return TRUE;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDC_CLISTAVATARS:
@@ -712,82 +429,52 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
-	case WM_USER + 100:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, p->bNoOfflineAvatars);
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_SETCURSEL, (WPARAM)p->dualRowMode, 0);
-			CheckDlgButton(hwndDlg, IDC_CLISTAVATARS, (p->dwFlags & CLUI_FRAME_AVATARS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_AVATARSBORDER, (p->dwFlags & CLUI_FRAME_AVATARBORDER) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AVATARSROUNDED, (p->dwFlags & CLUI_FRAME_ROUNDAVATAR) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSALIGNNICK, (p->dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSMSG, (p->dwFlags & CLUI_FRAME_SHOWSTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_SETCOLOUR, 0, p->avatarBorder);
-
-			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(10, 2));
-			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETPOS, 0, p->avatarRadius);
-
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 16));
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETPOS, 0, p->avatarSize);
-
-			Utils::enableDlgControl(hwndDlg, IDC_RADIUS, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_RADIUSSPIN, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_AVATARBORDERCLR, IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? TRUE : FALSE);
-
-			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, p->bShowLocalTime ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, p->bShowLocalTimeSelective ? 1 : 0);
-			Utils::enableDlgControl(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME));
-
-			if (p->dwFlags & CLUI_FRAME_AVATARSLEFT)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 1, 0);
-			else if (p->dwFlags & CLUI_FRAME_AVATARSRIGHT)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 2, 0);
-			else if (p->dwFlags & CLUI_FRAME_AVATARSRIGHTWITHNICK)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 3, 0);
-			else
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 0, 0);
-		}
-		return 0;
-
-	case WM_USER + 200:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
+	case WM_NOTIFY:
+		if (((LPNMHDR) lParam)->code == PSN_APPLY) {
 			LRESULT sel = SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_GETCURSEL, 0, 0);
-			BOOL    translated;
-
+			DWORD flags = 0;
 			if (sel != CB_ERR) {
+				cfg::dat.dwFlags &= (CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK);
 				if (sel == 1)
-					p->dwFlags |= CLUI_FRAME_AVATARSLEFT;
+					cfg::dat.dwFlags |= CLUI_FRAME_AVATARSLEFT;
 				else if (sel == 2)
-					p->dwFlags |= CLUI_FRAME_AVATARSRIGHT;
+					cfg::dat.dwFlags |= CLUI_FRAME_AVATARSRIGHT;
 				else if (sel == 3)
-					p->dwFlags |= CLUI_FRAME_AVATARSRIGHTWITHNICK;
+					cfg::dat.dwFlags |= CLUI_FRAME_AVATARSRIGHTWITHNICK;
 			}
 
-			p->dwFlags |= ((IsDlgButtonChecked(hwndDlg, IDC_CLISTAVATARS) ? CLUI_FRAME_AVATARS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? CLUI_FRAME_AVATARBORDER : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? CLUI_FRAME_ROUNDAVATAR : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_ALWAYSALIGNNICK) ? CLUI_FRAME_ALWAYSALIGNNICK : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSMSG) ? CLUI_FRAME_SHOWSTATUSMSG : 0));
+			cfgSetFlag(hwndDlg, IDC_CLISTAVATARS, CLUI_FRAME_AVATARS);
+			cfgSetFlag(hwndDlg, IDC_AVATARSBORDER, CLUI_FRAME_AVATARBORDER);
+			cfgSetFlag(hwndDlg, IDC_AVATARSROUNDED, CLUI_FRAME_ROUNDAVATAR);
+			cfgSetFlag(hwndDlg, IDC_ALWAYSALIGNNICK, CLUI_FRAME_ALWAYSALIGNNICK);
+			cfgSetFlag(hwndDlg, IDC_SHOWSTATUSMSG, CLUI_FRAME_SHOWSTATUSMSG);
 
-			p->avatarBorder = SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_GETCOLOUR, 0, 0);
-			p->avatarRadius = GetDlgItemInt(hwndDlg, IDC_RADIUS, &translated, FALSE);
-			p->avatarSize = GetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, &translated, FALSE);
-			p->bNoOfflineAvatars = IsDlgButtonChecked(hwndDlg, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
-			p->bShowLocalTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME) ? 1 : 0;
-			p->bShowLocalTimeSelective = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
+			cfg::dat.avatarBorder = SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_GETCOLOUR, 0, 0);
+			cfg::writeDword("CLC", "avatarborder", cfg::dat.avatarBorder);
 
-			p->dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
-			if (p->dualRowMode == CB_ERR)
-				p->dualRowMode = 0;
-		}
-		return 0;
+			BOOL translated;
+			cfg::dat.avatarRadius = GetDlgItemInt(hwndDlg, IDC_RADIUS, &translated, FALSE);
+			cfg::writeDword("CLC", "avatarradius", cfg::dat.avatarRadius);
 
-	case WM_NOTIFY:
-		switch (((LPNMHDR) lParam)->code) {
-		case PSN_APPLY:
+			cfg::dat.avatarSize = GetDlgItemInt(hwndDlg, IDC_AVATARHEIGHT, &translated, FALSE);
+			cfg::writeWord(NULL, "CList", "AvatarSize", (WORD)cfg::dat.avatarSize);
+
+			cfg::dat.bNoOfflineAvatars = IsDlgButtonChecked(hwndDlg, IDC_NOAVATARSOFFLINE) ? TRUE : FALSE;
+			cfg::writeByte("CList", "NoOfflineAV", (BYTE)cfg::dat.bNoOfflineAvatars);
+			
+			cfg::dat.bShowLocalTime = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME) ? 1 : 0;
+			cfg::writeByte("CLC", "ShowLocalTime", (BYTE)cfg::dat.bShowLocalTime);
+			
+			cfg::dat.bShowLocalTimeSelective = IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT) ? 1 : 0;
+			cfg::writeByte("CLC", "SelectiveLocalTime", (BYTE)cfg::dat.bShowLocalTimeSelective);
+
+			KillTimer(pcli->hwndContactTree, TIMERID_REFRESH);
+			if (cfg::dat.bShowLocalTime)
+				SetTimer(pcli->hwndContactTree, TIMERID_REFRESH, 65000, NULL);
+
+			cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
+			if (cfg::dat.dualRowMode == CB_ERR)
+				cfg::dat.dualRowMode = 0;
 			return TRUE;
 		}
 		break;
@@ -797,336 +484,41 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 
 static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	DISPLAYPROFILE *p;
-
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
+		CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, cfg::dat.dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
+
+		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (cfg::dat.dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWVISIBILITY, (cfg::dat.dwFlags & CLUI_SHOWVISI) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWMETA, (cfg::dat.dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (cfg::dat.dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (cfg::dat.dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, cfg::dat.bCenterStatusIcons ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_IDLE, cfg::getByte("CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
 
-	case WM_USER + 100:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, p->dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
-
-			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (p->dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWVISIBILITY, (p->dwFlags & CLUI_SHOWVISI) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWMETA, (p->dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (p->dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (p->dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, p->bCenterStatusIcons ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_IDLE, p->bDimIdle ? BST_CHECKED : BST_UNCHECKED);
-		}
-		return 0;
-
-	case WM_USER + 200:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			p->dwFlags |= ((IsDlgButtonChecked(hwndDlg, IDC_SHOWSTATUSICONS) ? CLUI_FRAME_STATUSICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SHOWVISIBILITY) ? CLUI_SHOWVISI : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SHOWMETA) ? CLUI_USEMETAICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_OVERLAYICONS) ? CLUI_FRAME_OVERLAYICONS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_XSTATUSASSTATUS) ? CLUI_FRAME_USEXSTATUSASSTATUS : 0) |
-				(IsDlgButtonChecked(hwndDlg, IDC_SELECTIVEICONS) ? CLUI_FRAME_SELECTIVEICONS : 0));
-
-			p->bDimIdle = IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0;
-			p->bCenterStatusIcons = IsDlgButtonChecked(hwndDlg, IDC_STATUSICONSCENTERED) ? 1 : 0;
-		}
-		return 0;
-
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
+			cfgSetFlag(hwndDlg, IDC_SHOWSTATUSICONS, CLUI_FRAME_STATUSICONS);
+			cfgSetFlag(hwndDlg, IDC_SHOWVISIBILITY, CLUI_SHOWVISI);
+			cfgSetFlag(hwndDlg, IDC_SHOWMETA, CLUI_USEMETAICONS);
+			cfgSetFlag(hwndDlg, IDC_OVERLAYICONS, CLUI_FRAME_OVERLAYICONS);
+			cfgSetFlag(hwndDlg, IDC_XSTATUSASSTATUS, CLUI_FRAME_USEXSTATUSASSTATUS);
+			cfgSetFlag(hwndDlg, IDC_SELECTIVEICONS, CLUI_FRAME_SELECTIVEICONS);
+
+			cfg::writeByte("CLC", "ShowIdle", IsDlgButtonChecked(hwndDlg, IDC_IDLE) ? 1 : 0);
+
+			cfg::dat.bCenterStatusIcons = IsDlgButtonChecked(hwndDlg, IDC_STATUSICONSCENTERED) ? 1 : 0;
+			cfg::writeByte("CLC", "si_centered", (BYTE)cfg::dat.bCenterStatusIcons);
 			return TRUE;
-		}
-		break;
-	}
-	return FALSE;
-}
-
-static HWND hwndList;
-static DISPLAYPROFILE dsp_current;
-
-static INT_PTR CALLBACK DlgProcDspProfiles(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	static int iInit = TRUE;
-	static HWND hwndTab;
-	static int iTabCount;
-
-	DISPLAYPROFILE *p;
-	TCITEM tci;
-
-	switch(msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hwnd);
-		{
-			hwndList = GetDlgItem(hwnd, IDC_PROFILELIST);
-
-			HWND hwndBtn = GetDlgItem(hwnd, IDC_DSP_ADD);
-			CustomizeButton(hwndBtn, false,true, false);
-			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_ADDCONTACT), IMAGE_ICON, 16, 16, LR_SHARED));
-			SetWindowText(hwndBtn, TranslateT("Add New..."));
-
-			hwndBtn = GetDlgItem(hwnd, IDC_DSP_DELETE);
-			CustomizeButton(hwndBtn, false,true, false);
-			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_DELETE), IMAGE_ICON, 16, 16, LR_SHARED));
-			SetWindowText(hwndBtn, TranslateT("Delete"));
-
-			hwndBtn = GetDlgItem(hwnd, IDC_DSP_RENAME);
-			CustomizeButton(hwndBtn, false,true, false);
-			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_RENAME), IMAGE_ICON, 16, 16, LR_SHARED));
-			SetWindowText(hwndBtn, TranslateT("Rename..."));
-
-			hwndBtn = GetDlgItem(hwnd, IDC_DSP_APPLY);
-			CustomizeButton(hwndBtn, false,true, false);
-			SendMessage(hwndBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM)LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_OPTIONS), IMAGE_ICON, 16, 16, LR_SHARED));
-			SetWindowText(hwndBtn, TranslateT("Apply this profile"));
-
-			RECT rcClient;
-			GetClientRect(hwnd, &rcClient);
-
-			hwndTab = GetDlgItem(hwnd, IDC_OPTIONSTAB);
-			iInit = TRUE;
-			int iOrder = 0;
-
-			TCITEM tci;
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPITEMS), hwnd, DlgProcDspItems);
-			tci.pszText = TranslateT("Contacts");
-			TabCtrl_InsertItem(hwndTab, iOrder, &tci);
-
-			int oPage = cfg::getByte("CLUI", "opage_d", 0);
-			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPGROUPS), hwnd, DlgProcDspGroups);
-			tci.pszText = TranslateT("Groups and layout");
-			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
-			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_ICONS), hwnd, DlgProcIcons);
-			tci.pszText = TranslateT("Icons");
-			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
-			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_DSPADVANCED), hwnd, DlgProcDspAdvanced);
-			tci.pszText = TranslateT("Advanced");
-			TabCtrl_InsertItem(hwndTab, ++iOrder, &tci);
-			MoveWindow((HWND)tci.lParam,64,25,rcClient.right-128,rcClient.bottom-67,1);
-			ShowWindow((HWND)tci.lParam, oPage == iOrder ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			TabCtrl_SetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB), oPage);
-
-			DISPLAYPROFILE dsp_default;
-			DSP_LoadFromDefaults(&dsp_default);
-			CopyMemory(&dsp_current, &dsp_default, sizeof(DISPLAYPROFILE));
-
-			iTabCount =  TabCtrl_GetItemCount(hwndTab);
-
-			SendMessage(hwnd, WM_USER + 100, 0, (LPARAM)&dsp_default);
-			SendMessage(hwndList, LB_INSERTSTRING, 0, (LPARAM)TranslateT("<current>"));
-
-			hwndList = GetDlgItem(hwnd, IDC_CLASSLIST);
-			SendMessage(hwndList, LB_INSERTSTRING, 0, (LPARAM)TranslateT("Default"));
-			SendMessage(hwndList, LB_INSERTSTRING, 1, (LPARAM)TranslateT("Offline contact"));
-			SendMessage(hwndList, LB_INSERTSTRING, 2, (LPARAM)TranslateT("Selected contact"));
-			SendMessage(hwndList, LB_INSERTSTRING, 3, (LPARAM)TranslateT("Hottracked contact"));
-
-			iInit = FALSE;
-			return FALSE;
-		}
-
-		/*
-		* distribute a WM_USER message to all child windows so they can update their pages from the
-		* display profile structure
-		* LPARAM = DISPLAYPROFILE *
-		*/
-
-	case WM_USER + 100:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			int i;
-			TCITEM item = {0};
-			item.mask = TCIF_PARAM;
-
-			for (i = 0; i < iTabCount; i++) {
-				TabCtrl_GetItem(hwndTab, i, &item);
-				if (item.lParam && IsWindow((HWND)item.lParam))
-					SendMessage((HWND)item.lParam, WM_USER + 100, 0, (LPARAM)p);
-			}
-		}
-		return 0;
-
-		/*
-		* collect the settings from the pages into a DISPLAYPROFILE struct
-		*/
-	case WM_USER + 200:
-		p = (DISPLAYPROFILE *)lParam;
-		if (p) {
-			TCITEM item = {0};
-			item.mask = TCIF_PARAM;
-
-			for (int i = 0; i < iTabCount; i++) {
-				TabCtrl_GetItem(hwndTab, i, &item);
-				if (item.lParam && IsWindow((HWND)item.lParam))
-					SendMessage((HWND)item.lParam, WM_USER + 200, 0, (LPARAM)p);
-			}
-			return 0;
-		}
-
-	case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-		if (!iInit)
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				{
-					DISPLAYPROFILE p;
-					ZeroMemory(&p, sizeof(DISPLAYPROFILE));
-					SendMessage(hwnd, WM_USER + 200, 0, (LPARAM)&p);
-					DSP_Apply(&p);
-				}
-				break;
-			}
-			break;
-
-		case IDC_OPTIONSTAB:
-			switch (((LPNMHDR)lParam)->code) {
-			case TCN_SELCHANGING:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-				ShowWindow((HWND)tci.lParam,SW_HIDE);
-				break;
-
-			case TCN_SELCHANGE:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-				ShowWindow((HWND)tci.lParam,SW_SHOW);
-				cfg::writeByte("CLUI", "opage_d", (BYTE)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
-				break;
-			}
-			break;
-		}
-		break;
-	}
-	return FALSE;
-}
-
-static INT_PTR CALLBACK TabOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	TCITEM tci;
-	static int iInit = TRUE;
-
-	switch(msg) {
-	case WM_INITDIALOG:
-		{
-			RECT rcClient;
-			int oPage = cfg::getByte("CLUI", "opage_m", 0);
-
-			GetClientRect(hwnd, &rcClient);
-			iInit = TRUE;
-			tci.mask = TCIF_PARAM|TCIF_TEXT;
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_CLIST), hwnd, DlgProcGenOpts);
-			tci.pszText = TranslateT("General");
-			TabCtrl_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 0, &tci);
-			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-30,1);
-			ShowWindow((HWND)tci.lParam, oPage == 0 ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_CLC), hwnd, DlgProcClcMainOpts);
-			tci.pszText = TranslateT("List layout");
-			TabCtrl_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 1, &tci);
-			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-30,1);
-			ShowWindow((HWND)tci.lParam, oPage == 1 ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_CLUI), hwnd, DlgProcCluiOpts);
-			tci.pszText = TranslateT("Window");
-			TabCtrl_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 2, &tci);
-			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-30,1);
-			ShowWindow((HWND)tci.lParam, oPage == 2 ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_CLCBKG), hwnd, DlgProcClcBkgOpts);
-			tci.pszText = TranslateT("Background");
-			TabCtrl_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
-			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-30,1);
-			ShowWindow((HWND)tci.lParam, oPage == 3 ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_OPT_SBAR), hwnd, DlgProcSBarOpts);
-			tci.pszText = TranslateT("Status Bar");
-			TabCtrl_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
-			MoveWindow((HWND)tci.lParam,5,25,rcClient.right-9,rcClient.bottom-30,1);
-			ShowWindow((HWND)tci.lParam, oPage == 4 ? SW_SHOW : SW_HIDE);
-			if (IS_THEMED)
-				API::pfnEnableThemeDialogTexture((HWND)tci.lParam, ETDT_ENABLETAB);
-
-			TabCtrl_SetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB), oPage);
-			iInit = FALSE;
-		}
-		return FALSE;
-
-	case PSM_CHANGED: // used so tabs dont have to call SendMessage(GetParent(GetParent(hwnd)), PSM_CHANGED, 0, 0);
-		if (!iInit)
-			SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-		break;
-
-	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				tci.mask = TCIF_PARAM;
-				int count = TabCtrl_GetItemCount(GetDlgItem(hwnd,IDC_OPTIONSTAB));
-				for (int i=0; i < count; i++) {
-					TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),i,&tci);
-					SendMessage((HWND)tci.lParam,WM_NOTIFY,0,lParam);
-				}
-				break;
-			}
-			break;
-
-		case IDC_OPTIONSTAB:
-			switch (((LPNMHDR)lParam)->code) {
-			case TCN_SELCHANGING:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-				ShowWindow((HWND)tci.lParam,SW_HIDE);
-				break;
-
-			case TCN_SELCHANGE:
-				tci.mask = TCIF_PARAM;
-				TabCtrl_GetItem(GetDlgItem(hwnd,IDC_OPTIONSTAB),TabCtrl_GetCurSel(GetDlgItem(hwnd,IDC_OPTIONSTAB)),&tci);
-				ShowWindow((HWND)tci.lParam,SW_SHOW);
-				cfg::writeByte("CLUI", "opage_m", (BYTE)TabCtrl_GetCurSel(GetDlgItem(hwnd, IDC_OPTIONSTAB)));
-				break;
-			}
-			break;
 		}
 		break;
 	}
@@ -1136,38 +528,80 @@ static INT_PTR CALLBACK TabOptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LP
 int ClcOptInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
-
-	ZeroMemory(&odp, sizeof(odp));
 	odp.cbSize = sizeof(odp);
 	odp.position = 0;
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact List");
 
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPPROFILES);
+	////////////////////////////////////////////////////////////////////////////
+	// Main options tabs
+
+	odp.position = -1000000000;
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszGroup = NULL;
+	odp.pszTitle = LPGEN("Contact List");
+	odp.pszTab = LPGEN("General");
+	odp.pfnDlgProc = DlgProcGenOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLIST);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("List layout");
+	odp.pfnDlgProc = DlgProcClcMainOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLC);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Window");
+	odp.pfnDlgProc = DlgProcCluiOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLUI);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Background");
+	odp.pfnDlgProc = DlgProcClcBkgOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_CLCBKG);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Status Bar");
+	odp.pfnDlgProc = DlgProcSBarOpts;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SBAR);
+	Options_AddPage(wParam, &odp);
+
+	////////////////////////////////////////////////////////////////////////////
+	// Contact rows tabs
+
+	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTitle = LPGEN("Contact rows");
-	odp.pfnDlgProc = DlgProcDspProfiles;
+	odp.pszTab = LPGEN("Contacts");
+	odp.pfnDlgProc = DlgProcDspItems;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPITEMS);
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Groups and layout");
+	odp.pfnDlgProc = DlgProcDspGroups;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPGROUPS);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Advanced");
+	odp.pfnDlgProc = DlgProcDspAdvanced;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPADVANCED);
+	Options_AddPage(wParam, &odp);
+
+	////////////////////////////////////////////////////////////////////////////
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_FLOATING);
 	odp.pszTitle = LPGEN("Floating contacts");
+	odp.pszTab = NULL;
 	odp.pfnDlgProc = DlgProcFloatingContacts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
+
+	////////////////////////////////////////////////////////////////////////////
+	// Other options
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT);
 	odp.pszGroup = LPGEN("Skins");
 	odp.pszTitle = LPGEN("Contact list");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = OptionsDlgProc;
-	Options_AddPage(wParam, &odp);
-
-	odp.position = -1000000000;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSDIALOG);
-	odp.pszGroup = NULL;
-	odp.pszTitle = LPGEN("Contact List");
-	odp.pfnDlgProc = TabOptionsDlgProc;
-	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
@@ -1182,16 +616,15 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		opt_clc_main_changed = 0;
 		SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE, GetWindowLongPtr(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), GWL_STYLE) | TVS_NOHSCROLL | TVS_CHECKBOXES);
 		{
-			int i;
 			DWORD exStyle = cfg::getDword("CLC", "ExStyle", pcli->pfnGetDefaultExStyle());
 			UDACCEL accel[2] = {
 				{0,10}, {2,50}
 			};
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETRANGE, 0, MAKELONG(999, 0));
-			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, sizeof(accel) / sizeof(accel[0]), (LPARAM) &accel);
+			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETACCEL, SIZEOF(accel), (LPARAM) &accel);
 			SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_SETPOS, 0, MAKELONG(cfg::getWord("CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME), 0));
 
-			for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++)
+			for (int i = 0; i < SIZEOF(checkBoxToStyleEx); i++)
 				CheckDlgButton(hwndDlg, checkBoxToStyleEx[i].id, (exStyle & checkBoxToStyleEx[i].flag) ^ (checkBoxToStyleEx[i].flag * checkBoxToStyleEx[i].not_t) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		CheckDlgButton(hwndDlg, IDC_FULLROWSELECT, (cfg::dat.dwFlags & CLUI_FULLROWSELECT) ? BST_CHECKED : BST_UNCHECKED);
@@ -1263,12 +696,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					else
 						cfg::writeDword("CLC", "GreyoutFlags", 0);
 				}
+
+				cfgSetFlag(hwndDlg, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
+
 				cfg::writeWord("CLC", "ScrollTime", (WORD) SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
 				cfg::writeByte("CLC", "NoVScrollBar", (BYTE) (IsDlgButtonChecked(hwndDlg, IDC_NOSCROLLBAR) ? 1 : 0));
-				cfg::dat.dwFlags = IsDlgButtonChecked(hwndDlg, IDC_FULLROWSELECT) ? cfg::dat.dwFlags | CLUI_FULLROWSELECT : cfg::dat.dwFlags & ~CLUI_FULLROWSELECT;
 				cfg::dat.bDblClkAvatars = IsDlgButtonChecked(hwndDlg, IDC_DBLCLKAVATARS) ? TRUE : FALSE;
 				cfg::writeByte("CLC", "dblclkav", (BYTE)cfg::dat.bDblClkAvatars);
-				cfg::writeDword("CLUI", "Frameflags", cfg::dat.dwFlags);
 
 				pcli->pfnClcOptionsChanged();
 				CoolSB_SetupScrollBar();
