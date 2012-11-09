@@ -490,3 +490,5 @@
 Снег, 20% вероятность осадков
 [Chance Rain 80% Chance Of Precipitation]
 Возможен дождь, 80% вероятность осадков
+[Heavy Rain Showers]
+Проливной дождь
