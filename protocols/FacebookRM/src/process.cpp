@@ -65,7 +65,7 @@ void FacebookProto::ProcessBuddyList( void* data )
 		}
 		LOG("      Now %s: %s", status, i->data->real_name.c_str());
 
-		if (!fbu->deleted && on_mobile && !fbu->handle)
+		if (!fbu->deleted)
 		{
 			HANDLE hContact = fbu->handle;
 			if (!hContact)
