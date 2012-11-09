@@ -70,19 +70,17 @@ ULONG CDropTarget::Release(void)
 
 static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, int *hitLine)
 {
-	int hit;
-	ClcContact *contact;
 	DWORD hitFlags;
-	char *szProto;
-	DWORD protoCaps;
-
-	hit = cli.pfnHitTest(hwnd, dat, x, y, &contact, NULL, &hitFlags);
+	ClcContact *contact;
+	int hit = cli.pfnHitTest(hwnd, dat, x, y, &contact, NULL, &hitFlags);
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
 		return NULL;
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hContact, 0);
+
+	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hContact, 0);
 	if (szProto == NULL)
 		return NULL;
-	protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
+	
+	DWORD protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if ( !(protoCaps & PF1_FILESEND))
 		return NULL;
 	if (ID_STATUS_OFFLINE == DBGetContactSettingWord(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))

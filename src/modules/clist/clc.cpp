@@ -124,7 +124,8 @@ static int ClcAccountsChanged(WPARAM, LPARAM)
 {
 	int i, cnt;
 	for (i=0, cnt=0; i < accounts.getCount(); i++)
-		if (Proto_IsAccountEnabled(accounts[i])) ++cnt;
+		if (Proto_IsAccountEnabled(accounts[i]))
+			cnt++;
 
 	cli.hClcProtoCount = cnt;
 	cli.clcProto = (ClcProtoStatus *) mir_realloc(cli.clcProto, sizeof(ClcProtoStatus) * cli.hClcProtoCount);
@@ -149,12 +150,10 @@ static int ClcModulesLoaded(WPARAM, LPARAM)
 static int ClcProtoAck(WPARAM, LPARAM lParam)
 {
 	ACKDATA *ack = (ACKDATA *) lParam;
-	int i;
-
 	if (ack->type == ACKTYPE_STATUS) {
 		WindowList_BroadcastAsync(hClcWindowList, INTM_INVALIDATE, 0, 0);
 		if (ack->result == ACKRESULT_SUCCESS) {
-			for (i=0; i < cli.hClcProtoCount; i++) {
+			for (int i=0; i < cli.hClcProtoCount; i++) {
 				if ( !lstrcmpA(cli.clcProto[i].szProto, ack->szModule)) {
 					cli.clcProto[i].dwStatus = (WORD) ack->lParam;
 					break;
@@ -255,7 +254,11 @@ void UnloadClcModule()
 
 LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct ClcData *dat;
+	ClcData *dat;
+	ClcGroup *group;
+	ClcContact *contact;
+	DWORD hitFlags;
+	int hit;
 
 	dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
 	if (msg >= CLM_FIRST && msg < CLM_LAST)
@@ -270,8 +273,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			SetWindowLongPtr(hwnd, 0, (LONG_PTR) dat);
 		}
 		{
-			int i;
-			for (i=0; i <= FONTID_MAX; i++)
+			for (int i=0; i <= FONTID_MAX; i++)
 				dat->fontInfo[i].changed = 1;
 		}
 		dat->selection = -1;
@@ -289,8 +291,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnLoadClcOptions(hwnd, dat);
 		if ( !IsWindowVisible(hwnd))
 			SetTimer(hwnd, TIMERID_REBUILDAFTER, 10, NULL);
-		else
-		{
+		else {
 			cli.pfnRebuildEntireList(hwnd, dat);
 			NMCLISTCONTROL nm;
 			nm.hdr.code = CLN_LISTREBUILT;
@@ -299,6 +300,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 		}
 		break;
+
 	case INTM_SCROLLBARCHANGED:
 		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CONTACTLIST) {
 			if (dat->noVScrollbar)
@@ -312,38 +314,37 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		cli.pfnLoadClcOptions(hwnd, dat);
 		cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
+
 	case WM_THEMECHANGED:
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;
+
 	case WM_SIZE:
 		cli.pfnEndRename(hwnd, dat, 1);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
 		cli.pfnRecalcScrollBar(hwnd, dat);
-		{ // creating imagelist containing blue line for highlight
-			HBITMAP hBmp, hBmpMask, hoBmp, hoMaskBmp;
-			HDC hdc, hdcMem;
+		{
+			// creating imagelist containing blue line for highlight
 			RECT rc;
-			int depth;
-			HBRUSH hBrush;
-
 			GetClientRect(hwnd, &rc);
 			if (rc.right == 0)
 				break;
+
 			rc.bottom = dat->rowHeight;
-			hdc = GetDC(hwnd);
-			depth = GetDeviceCaps(hdc, BITSPIXEL);
+			HDC hdc = GetDC(hwnd);
+			int depth = GetDeviceCaps(hdc, BITSPIXEL);
 			if (depth < 16)
 				depth = 16;
-			hBmp = CreateBitmap(rc.right, rc.bottom, 1, depth, NULL);
-			hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
-			hdcMem = CreateCompatibleDC(hdc);
-			hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
-			hBrush = CreateSolidBrush(dat->useWindowsColours ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
+			HBITMAP hBmp = CreateBitmap(rc.right, rc.bottom, 1, depth, NULL);
+			HBITMAP hBmpMask = CreateBitmap(rc.right, rc.bottom, 1, 1, NULL);
+			HDC hdcMem = CreateCompatibleDC(hdc);
+			HBITMAP hoBmp = (HBITMAP) SelectObject(hdcMem, hBmp);
+			HBRUSH hBrush = CreateSolidBrush(dat->useWindowsColours ? GetSysColor(COLOR_HIGHLIGHT) : dat->selBkColour);
 			FillRect(hdcMem, &rc, hBrush);
 			DeleteObject(hBrush);
 
-			hoMaskBmp = (HBITMAP)SelectObject(hdcMem, hBmpMask);
+			HBITMAP hoMaskBmp = (HBITMAP)SelectObject(hdcMem, hBmpMask);
 			FillRect(hdcMem, &rc, (HBRUSH)GetStockObject(BLACK_BRUSH));
 				SelectObject(hdcMem, hoMaskBmp);
 			SelectObject(hdcMem, hoBmp);
@@ -392,55 +393,54 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return (LRESULT)dat->fontInfo[FONTID_CONTACTS].hFont;
 
 	case INTM_GROUPSCHANGED:
-	{
-		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
-		if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
-			int groupId = atoi(dbcws->szSetting) + 1;
-			ClcContact *contact;
-			ClcGroup *group;
-			TCHAR szFullName[512];
-			int i, nameLen, eq;
-			//check name of group and ignore message if just being expanded/collapsed
-			if (cli.pfnFindItem(hwnd, dat, (HANDLE) (groupId | HCONTACT_ISGROUP), &contact, &group, NULL)) {
-				lstrcpy(szFullName, contact->szText);
-				while (group->parent) {
-					for (i=0; i < group->parent->cl.count; i++)
-						if (group->parent->cl.items[i]->group == group)
+		{
+			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
+			if (dbcws->value.type == DBVT_ASCIIZ || dbcws->value.type == DBVT_UTF8) {
+				int groupId = atoi(dbcws->szSetting) + 1;
+				TCHAR szFullName[512];
+				int i, nameLen, eq;
+				//check name of group and ignore message if just being expanded/collapsed
+				if (cli.pfnFindItem(hwnd, dat, (HANDLE) (groupId | HCONTACT_ISGROUP), &contact, &group, NULL)) {
+					lstrcpy(szFullName, contact->szText);
+					while (group->parent) {
+						for (i=0; i < group->parent->cl.count; i++)
+							if (group->parent->cl.items[i]->group == group)
+								break;
+						if (i == group->parent->cl.count) {
+							szFullName[0] = '\0';
 							break;
-					if (i == group->parent->cl.count) {
-						szFullName[0] = '\0';
-						break;
+						}
+						group = group->parent;
+						nameLen = lstrlen(group->cl.items[i]->szText);
+						if (lstrlen(szFullName) + 1 + nameLen > SIZEOF(szFullName)) {
+							szFullName[0] = '\0';
+							break;
+						}
+						memmove(szFullName + 1 + nameLen, szFullName, sizeof(TCHAR)*(lstrlen(szFullName) + 1));
+						memcpy(szFullName, group->cl.items[i]->szText, sizeof(TCHAR)*nameLen);
+						szFullName[nameLen] = '\\';
 					}
-					group = group->parent;
-					nameLen = lstrlen(group->cl.items[i]->szText);
-					if (lstrlen(szFullName) + 1 + nameLen > SIZEOF(szFullName)) {
-						szFullName[0] = '\0';
-						break;
-					}
-					memmove(szFullName + 1 + nameLen, szFullName, sizeof(TCHAR)*(lstrlen(szFullName) + 1));
-					memcpy(szFullName, group->cl.items[i]->szText, sizeof(TCHAR)*nameLen);
-					szFullName[nameLen] = '\\';
-				}
 
-				if (dbcws->value.type == DBVT_ASCIIZ) {
-					WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal+1);
-					eq = !lstrcmp(szFullName, wszGrpName);
-					mir_free(wszGrpName);
+					if (dbcws->value.type == DBVT_ASCIIZ) {
+						WCHAR* wszGrpName = mir_a2u(dbcws->value.pszVal+1);
+						eq = !lstrcmp(szFullName, wszGrpName);
+						mir_free(wszGrpName);
+					}
+					else {
+						char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal+1);
+						WCHAR* wszGrpName;
+						Utf8Decode(szGrpName, &wszGrpName);
+						eq = !lstrcmp(szFullName, wszGrpName);
+						mir_free(wszGrpName);
+					}
+					if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
+						break;  //only expanded has changed: no action reqd
 				}
-				else {
-					char* szGrpName = NEWSTR_ALLOCA(dbcws->value.pszVal+1);
-					WCHAR* wszGrpName;
-					Utf8Decode(szGrpName, &wszGrpName);
-					eq = !lstrcmp(szFullName, wszGrpName);
-					mir_free(wszGrpName);
-				}
-				if (eq && (contact->group->hideOffline != 0) == ((dbcws->value.pszVal[0] & GROUPF_HIDEOFFLINE) != 0))
-					break;  //only expanded has changed: no action reqd
 			}
+			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		}
-		cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
-	}
+
 	case INTM_NAMEORDERCHANGED:
 		PostMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
 		break;
@@ -457,117 +457,118 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_HIDDENCHANGED:
-	{
-		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN)
-			break;
-		if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0) {
-			if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, NULL, NULL, NULL))
+		{
+			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN)
 				break;
-			cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-			cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
-		}
-		else cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-
-		dat->needsResort = 1;
-		SortClcByTimer(hwnd);
-		break;
-	}
-	case INTM_GROUPCHANGED:
-	{
-		ClcContact *contact;
-		WORD iExtraImage[EXTRA_ICON_COUNT];
-		BYTE flags = 0;
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			memset(iExtraImage, 0xFF, sizeof(iExtraImage));
-		else {
-			memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
-			flags = contact->flags;
-		}
-		cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-		if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
-			NMCLISTCONTROL nm;
-			cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-			if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
-				memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
-				if (flags & CONTACTF_CHECKED)
-					contact->flags |= CONTACTF_CHECKED;
+			if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0) {
+				if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, NULL, NULL, NULL))
+					break;
+				cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
+				cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
 			}
-			nm.hdr.code = CLN_CONTACTMOVED;
-			nm.hdr.hwndFrom = hwnd;
-			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-			nm.flags = 0;
-			nm.hItem = (HANDLE) wParam;
-			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+			else cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
+
 			dat->needsResort = 1;
+			SortClcByTimer(hwnd);
+		}
+		break;
+
+	case INTM_GROUPCHANGED:
+		{
+			WORD iExtraImage[EXTRA_ICON_COUNT];
+			BYTE flags = 0;
+			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
+			else {
+				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
+				flags = contact->flags;
+			}
+			cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
+				NMCLISTCONTROL nm;
+				cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
+				if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
+					if (flags & CONTACTF_CHECKED)
+						contact->flags |= CONTACTF_CHECKED;
+				}
+				nm.hdr.code = CLN_CONTACTMOVED;
+				nm.hdr.hwndFrom = hwnd;
+				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+				nm.flags = 0;
+				nm.hItem = (HANDLE) wParam;
+				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+				dat->needsResort = 1;
+			}
 		}
 		SetTimer(hwnd, TIMERID_REBUILDAFTER, 1, NULL);
 		break;
-	}
+
 	case INTM_ICONCHANGED:
-	{
-		ClcContact *contact = NULL;
-		ClcGroup *group = NULL;
-		int recalcScrollBar = 0, shouldShow;
-		WORD status;
-		char *szProto;
-		HANDLE hSelItem = NULL;
-		ClcContact *selcontact = NULL;
+		{
+			int recalcScrollBar = 0, shouldShow;
+			WORD status;
+			HANDLE hSelItem = NULL;
+			ClcContact *selcontact = NULL;
 
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-		if (szProto == NULL)
-			status = ID_STATUS_OFFLINE;
-		else
-			status = DBGetContactSettingWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
-
-		// this means an offline msg is flashing, so the contact should be shown
-		DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-		shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0))
-			&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); 
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
-			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
-				if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-					hSelItem = cli.pfnContactToHItem(selcontact);
-				cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, (style & CLS_CONTACTLIST) == 0, 0);
-				recalcScrollBar = 1;
-				cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL);
-				if (contact) {
-					contact->iImage = (WORD) lParam;
-					cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
-					dat->needsResort = 1;
-			}	}
-		}
-		else { // item in list already
-			if (contact->iImage == (WORD) lParam)
-				break;
-			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-				if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
-					hSelItem = cli.pfnContactToHItem(selcontact);
-				cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
-				recalcScrollBar = 1;
-			}
-			else {
-				contact->iImage = (WORD) lParam;
-				if ( !cli.pfnIsHiddenMode(dat, status))
-					contact->flags |= CONTACTF_ONLINE;
-				else
-					contact->flags &= ~CONTACTF_ONLINE;
-			}
-			dat->needsResort = 1;
-		}
-		if (hSelItem) {
-			ClcGroup *selgroup;
-			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
-				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			if (szProto == NULL)
+				status = ID_STATUS_OFFLINE;
 			else
-				dat->selection = -1;
+				status = DBGetContactSettingWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
+
+			// this means an offline msg is flashing, so the contact should be shown
+			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
+			shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0))
+				&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); 
+
+			contact = NULL;
+			group = NULL;
+			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
+				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
+					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
+						hSelItem = cli.pfnContactToHItem(selcontact);
+					cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, (style & CLS_CONTACTLIST) == 0, 0);
+					recalcScrollBar = 1;
+					cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL);
+					if (contact) {
+						contact->iImage = (WORD) lParam;
+						cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
+						dat->needsResort = 1;
+					}
+				}
+			}
+			else { // item in list already
+				if (contact->iImage == (WORD) lParam)
+					break;
+				if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
+						hSelItem = cli.pfnContactToHItem(selcontact);
+					cli.pfnRemoveItemFromGroup(hwnd, group, contact, (style & CLS_CONTACTLIST) == 0);
+					recalcScrollBar = 1;
+				}
+				else {
+					contact->iImage = (WORD) lParam;
+					if ( !cli.pfnIsHiddenMode(dat, status))
+						contact->flags |= CONTACTF_ONLINE;
+					else
+						contact->flags &= ~CONTACTF_ONLINE;
+				}
+				dat->needsResort = 1;
+			}
+			if (hSelItem) {
+				ClcGroup *selgroup;
+				if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
+					dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
+				else
+					dat->selection = -1;
+			}
+			SortClcByTimer(hwnd);
 		}
-		SortClcByTimer(hwnd);
 		break;
-	}
+
 	case INTM_NAMECHANGED:
-	{
-		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
 
@@ -575,86 +576,76 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->needsResort = 1;
 		SortClcByTimer(hwnd);
 		break;
-	}
+
 	case INTM_PROTOCHANGED:
-	{
-		ClcContact *contact = NULL;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
+
 		contact->proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 		cli.pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
 		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 		SortClcByTimer(hwnd);
 		break;
-	}
+
 	case INTM_NOTONLISTCHANGED:
-	{
-		DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
-		ClcContact *contact;
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
 			break;
-		if (contact->type != CLCIT_CONTACT)
-			break;
-		if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0)
-			contact->flags &= ~CONTACTF_NOTONLIST;
-		else
-			contact->flags |= CONTACTF_NOTONLIST;
-		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+		
+		if (contact->type == CLCIT_CONTACT) {
+			DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *) lParam;
+			if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0)
+				contact->flags &= ~CONTACTF_NOTONLIST;
+			else
+				contact->flags |= CONTACTF_NOTONLIST;
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+		}
 		break;
-	}
+
 	case INTM_INVALIDATE:
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;
 
 	case INTM_APPARENTMODECHANGED:
-	{
-		WORD apparentMode;
-		char *szProto;
-		ClcContact *contact;
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			break;
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-		if (szProto == NULL)
-			break;
-		apparentMode = DBGetContactSettingWord((HANDLE) wParam, szProto, "ApparentMode", 0);
-		contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
-		if (apparentMode == ID_STATUS_OFFLINE)
-			contact->flags |= CONTACTF_INVISTO;
-		else if (apparentMode == ID_STATUS_ONLINE)
-			contact->flags |= CONTACTF_VISTO;
-		else if (apparentMode)
-			contact->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
-		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+		if ( cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			if (szProto == NULL)
+				break;
+		
+			WORD apparentMode = DBGetContactSettingWord((HANDLE) wParam, szProto, "ApparentMode", 0);
+			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
+			if (apparentMode == ID_STATUS_OFFLINE)
+				contact->flags |= CONTACTF_INVISTO;
+			else if (apparentMode == ID_STATUS_ONLINE)
+				contact->flags |= CONTACTF_VISTO;
+			else if (apparentMode)
+				contact->flags |= CONTACTF_VISTO | CONTACTF_INVISTO;
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+		}
 		break;
-	}
+
 	case INTM_SETINFOTIPHOVERTIME:
 		dat->infoTipTimeout = wParam;
 		break;
 
 	case INTM_IDLECHANGED:
-	{
-		char *szProto;
-		ClcContact *contact;
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
-			break;
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-		if (szProto == NULL)
-			break;
-		contact->flags &= ~CONTACTF_IDLE;
-		if (db_get_dw((HANDLE) wParam, szProto, "IdleTS", 0)) {
-			contact->flags |= CONTACTF_IDLE;
+		if ( cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			if (szProto == NULL)
+				break;
+			contact->flags &= ~CONTACTF_IDLE;
+			if (db_get_dw((HANDLE) wParam, szProto, "IdleTS", 0))
+				contact->flags |= CONTACTF_IDLE;
+			
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		}
-		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		break;
-	}
+
 	case WM_PRINTCLIENT:
 		cli.pfnPaintClc(hwnd, dat, (HDC) wParam, NULL);
 		break;
 
 	case WM_NCPAINT:
-		if (wParam == 1)
-			break;
-		{
+		if (wParam != 1) {
 			POINT ptTopLeft = { 0, 0 };
 			HRGN hClientRgn;
 			ClientToScreen(hwnd, &ptTopLeft);
@@ -668,136 +659,134 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_PAINT:
-	{
-		HDC hdc;
-		PAINTSTRUCT ps;
-		hdc = BeginPaint(hwnd, &ps);
-		/* we get so many cli.pfnInvalidateRect()'s that there is no point painting, 
-		Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
-		we'll just ignore them */
-		if (IsWindowVisible(hwnd))
-			cli.pfnPaintClc(hwnd, dat, hdc, &ps.rcPaint);
-		EndPaint(hwnd, &ps);
-		break;
-	}
-	case WM_VSCROLL:
-	{
-		int desty;
-		RECT clRect;
-		int noSmooth = 0;
-
-		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		KillTimer(hwnd, TIMERID_RENAME);
-		desty = dat->yScroll;
-		GetClientRect(hwnd, &clRect);
-		switch (LOWORD(wParam)) {
-			case SB_LINEUP:     desty -= dat->rowHeight;   break;
-			case SB_LINEDOWN:   desty += dat->rowHeight;   break;
-			case SB_PAGEUP:     desty -= clRect.bottom - dat->rowHeight; break;
-			case SB_PAGEDOWN:   desty += clRect.bottom - dat->rowHeight; break;
-			case SB_BOTTOM:     desty = 0x7FFFFFFF;        break;
-			case SB_TOP:        desty = 0;                 break;
-			case SB_THUMBTRACK: desty = HIWORD(wParam); noSmooth = 1; break; //noone has more than 4000 contacts, right?
-			default:            return 0;
-		}
-		cli.pfnScrollTo(hwnd, dat, desty, noSmooth);
-		break;
-	}
-	case WM_MOUSEWHEEL:
-	{
-		UINT scrollLines;
-		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		KillTimer(hwnd, TIMERID_RENAME);
-		if ( !SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
-			scrollLines = 3;
-		cli.pfnScrollTo(hwnd, dat, dat->yScroll - (short) HIWORD(wParam) * dat->rowHeight * (signed) scrollLines / WHEEL_DELTA, 0);
-		return 0;
-	}
-	case WM_KEYDOWN:
-	{
-		int selMoved = 0;
-		int changeGroupExpand = 0;
-		int pageSize;
-		cli.pfnHideInfoTip(hwnd, dat);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		KillTimer(hwnd, TIMERID_RENAME);
-		if (CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU))
-			break;
 		{
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd, &ps);
+			/* we get so many cli.pfnInvalidateRect()'s that there is no point painting, 
+			Windows in theory shouldn't queue up WM_PAINTs in this case but it does so
+			we'll just ignore them */
+			if (IsWindowVisible(hwnd))
+				cli.pfnPaintClc(hwnd, dat, hdc, &ps.rcPaint);
+			EndPaint(hwnd, &ps);
+		}
+		break;
+
+	case WM_VSCROLL:
+		cli.pfnEndRename(hwnd, dat, 1);
+		cli.pfnHideInfoTip(hwnd, dat);
+		KillTimer(hwnd, TIMERID_INFOTIP);
+		KillTimer(hwnd, TIMERID_RENAME);
+		{
+			int desty = dat->yScroll, noSmooth = 0;
+
 			RECT clRect;
 			GetClientRect(hwnd, &clRect);
-			pageSize = clRect.bottom / dat->rowHeight;
-		}
-		switch (wParam) {
-		case VK_DOWN:   dat->selection++; selMoved = 1; break;
-		case VK_UP:     dat->selection--; selMoved = 1; break;
-		case VK_PRIOR:  dat->selection -= pageSize; selMoved = 1; break;
-		case VK_NEXT:   dat->selection += pageSize; selMoved = 1; break;
-		case VK_HOME:   dat->selection = 0; selMoved = 1; break;
-		case VK_END:    dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
-		case VK_LEFT:   changeGroupExpand = 1; break;
-		case VK_RIGHT:  changeGroupExpand = 2; break;
-		case VK_RETURN:
-			cli.pfnDoSelectionDefaultAction(hwnd, dat);
-			dat->szQuickSearch[0] = 0;
-			if (dat->filterSearch)
-				cli.pfnSaveStateAndRebuildList(hwnd, dat);
-			return 0;
-		case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
-		case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
-		default:
-			{
-				NMKEY nmkey;
-				nmkey.hdr.hwndFrom = hwnd;
-				nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nmkey.hdr.code = NM_KEYDOWN;
-				nmkey.nVKey = wParam;
-				nmkey.uFlags = HIWORD(lParam);
-				if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nmkey))
-					return 0;
+			switch (LOWORD(wParam)) {
+				case SB_LINEUP:     desty -= dat->rowHeight;   break;
+				case SB_LINEDOWN:   desty += dat->rowHeight;   break;
+				case SB_PAGEUP:     desty -= clRect.bottom - dat->rowHeight; break;
+				case SB_PAGEDOWN:   desty += clRect.bottom - dat->rowHeight; break;
+				case SB_BOTTOM:     desty = 0x7FFFFFFF;        break;
+				case SB_TOP:        desty = 0;                 break;
+				case SB_THUMBTRACK: desty = HIWORD(wParam); noSmooth = 1; break; //noone has more than 4000 contacts, right?
+				default:            return 0;
 			}
-		}
-		if (changeGroupExpand) {
-			int hit;
-			ClcContact *contact;
-			ClcGroup *group;
-			if (!dat->filterSearch)
-				dat->szQuickSearch[0] = 0;
-			hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
-			if (hit != -1) {
-				if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
-					if (group == &dat->list)
-						return 0;
-					dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, -1);
-					selMoved = 1;
-				}
-				else {
-					if (contact->type == CLCIT_GROUP)
-						cli.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
-					return 0;
-				}
-			}
-			else
-				return 0;
-		}
-		if (selMoved) {
-			if ( !dat->filterSearch)
-				dat->szQuickSearch[0] = 0;
-			if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
-				dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
-			if (dat->selection < 0)
-				dat->selection = 0;
-			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
-			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-			UpdateWindow(hwnd);
-			return 0;
+			cli.pfnScrollTo(hwnd, dat, desty, noSmooth);
 		}
 		break;
-	}
+
+	case WM_MOUSEWHEEL:
+		cli.pfnEndRename(hwnd, dat, 1);
+		cli.pfnHideInfoTip(hwnd, dat);
+		KillTimer(hwnd, TIMERID_INFOTIP);
+		KillTimer(hwnd, TIMERID_RENAME);
+		{
+			UINT scrollLines;
+			if ( !SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0, &scrollLines, FALSE))
+				scrollLines = 3;
+			cli.pfnScrollTo(hwnd, dat, dat->yScroll - (short) HIWORD(wParam) * dat->rowHeight * (signed) scrollLines / WHEEL_DELTA, 0);
+		}
+		return 0;
+
+	case WM_KEYDOWN:
+		{
+			int selMoved = 0;
+			int changeGroupExpand = 0;
+			int pageSize;
+			cli.pfnHideInfoTip(hwnd, dat);
+			KillTimer(hwnd, TIMERID_INFOTIP);
+			KillTimer(hwnd, TIMERID_RENAME);
+			if (CallService(MS_CLIST_MENUPROCESSHOTKEY, wParam, MPCF_CONTACTMENU))
+				break;
+			{
+				RECT clRect;
+				GetClientRect(hwnd, &clRect);
+				pageSize = clRect.bottom / dat->rowHeight;
+			}
+			switch (wParam) {
+			case VK_DOWN:   dat->selection++; selMoved = 1; break;
+			case VK_UP:     dat->selection--; selMoved = 1; break;
+			case VK_PRIOR:  dat->selection -= pageSize; selMoved = 1; break;
+			case VK_NEXT:   dat->selection += pageSize; selMoved = 1; break;
+			case VK_HOME:   dat->selection = 0; selMoved = 1; break;
+			case VK_END:    dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1; selMoved = 1; break;
+			case VK_LEFT:   changeGroupExpand = 1; break;
+			case VK_RIGHT:  changeGroupExpand = 2; break;
+			case VK_RETURN:
+				cli.pfnDoSelectionDefaultAction(hwnd, dat);
+				dat->szQuickSearch[0] = 0;
+				if (dat->filterSearch)
+					cli.pfnSaveStateAndRebuildList(hwnd, dat);
+				return 0;
+			case VK_F2:     cli.pfnBeginRenameSelection(hwnd, dat); return 0;
+			case VK_DELETE: cli.pfnDeleteFromContactList(hwnd, dat); return 0;
+			default:
+				{
+					NMKEY nmkey;
+					nmkey.hdr.hwndFrom = hwnd;
+					nmkey.hdr.idFrom = GetDlgCtrlID(hwnd);
+					nmkey.hdr.code = NM_KEYDOWN;
+					nmkey.nVKey = wParam;
+					nmkey.uFlags = HIWORD(lParam);
+					if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nmkey))
+						return 0;
+				}
+			}
+			if (changeGroupExpand) {
+				if (!dat->filterSearch)
+					dat->szQuickSearch[0] = 0;
+				hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, &group);
+				if (hit != -1) {
+					if (changeGroupExpand == 1 && contact->type == CLCIT_CONTACT) {
+						if (group == &dat->list)
+							return 0;
+						dat->selection = cli.pfnGetRowsPriorTo(&dat->list, group, -1);
+						selMoved = 1;
+					}
+					else {
+						if (contact->type == CLCIT_GROUP)
+							cli.pfnSetGroupExpand(hwnd, dat, contact->group, changeGroupExpand == 2);
+						return 0;
+					}
+				}
+				else
+					return 0;
+			}
+			if (selMoved) {
+				if ( !dat->filterSearch)
+					dat->szQuickSearch[0] = 0;
+				if (dat->selection >= cli.pfnGetGroupContentsCount(&dat->list, 1))
+					dat->selection = cli.pfnGetGroupContentsCount(&dat->list, 1) - 1;
+				if (dat->selection < 0)
+					dat->selection = 0;
+				cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+				UpdateWindow(hwnd);
+				return 0;
+			}
+		}
+		break;
+
 	case WM_CHAR:
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
@@ -809,7 +798,6 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		else if (wParam < ' ')
 			break;
 		else if (wParam == ' ' && dat->szQuickSearch[0] == '\0' && GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_CHECKBOXES) {
-			ClcContact *contact;
 			NMCLISTCONTROL nm;
 			if (cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL) == -1)
 				break;
@@ -880,38 +868,37 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			cli.pfnScrollTo(hwnd, dat, dat->yScroll + dat->dragAutoScrolling * dat->rowHeight * 2, 0);
 			break;
 		case TIMERID_INFOTIP:
-		{	CLCINFOTIP it;
-			ClcContact *contact;
-			int hit;
-			RECT clRect;
-			POINT ptClientOffset = { 0 };
+			{	
+				CLCINFOTIP it;
+				RECT clRect;
+				POINT ptClientOffset = { 0 };
 
-			KillTimer(hwnd, wParam);
-			GetCursorPos(&it.ptCursor);
-			ScreenToClient(hwnd, &it.ptCursor);
-			if (it.ptCursor.x != dat->ptInfoTip.x || it.ptCursor.y != dat->ptInfoTip.y)
+				KillTimer(hwnd, wParam);
+				GetCursorPos(&it.ptCursor);
+				ScreenToClient(hwnd, &it.ptCursor);
+				if (it.ptCursor.x != dat->ptInfoTip.x || it.ptCursor.y != dat->ptInfoTip.y)
+					break;
+				GetClientRect(hwnd, &clRect);
+				it.rcItem.left = 0;
+				it.rcItem.right = clRect.right;
+				hit = cli.pfnHitTest(hwnd, dat, it.ptCursor.x, it.ptCursor.y, &contact, NULL, NULL);
+				if (hit == -1)
+					break;
+				if (contact->type != CLCIT_GROUP && contact->type != CLCIT_CONTACT)
+					break;
+				ClientToScreen(hwnd, &it.ptCursor);
+				ClientToScreen(hwnd, &ptClientOffset);
+				it.isTreeFocused = GetFocus() == hwnd;
+				it.rcItem.top = cli.pfnGetRowTopY(dat, hit) - dat->yScroll;
+				it.rcItem.bottom = it.rcItem.top + cli.pfnGetRowHeight(dat, hit);
+				OffsetRect(&it.rcItem, ptClientOffset.x, ptClientOffset.y);
+				it.isGroup = contact->type == CLCIT_GROUP;
+				it.hItem = contact->type == CLCIT_GROUP ? (HANDLE) contact->groupId : contact->hContact;
+				it.cbSize = sizeof(it);
+				dat->hInfoTipItem = cli.pfnContactToHItem(contact);
+				NotifyEventHooks(hShowInfoTipEvent, 0, (LPARAM) & it);
 				break;
-			GetClientRect(hwnd, &clRect);
-			it.rcItem.left = 0;
-			it.rcItem.right = clRect.right;
-			hit = cli.pfnHitTest(hwnd, dat, it.ptCursor.x, it.ptCursor.y, &contact, NULL, NULL);
-			if (hit == -1)
-				break;
-			if (contact->type != CLCIT_GROUP && contact->type != CLCIT_CONTACT)
-				break;
-			ClientToScreen(hwnd, &it.ptCursor);
-			ClientToScreen(hwnd, &ptClientOffset);
-			it.isTreeFocused = GetFocus() == hwnd;
-			it.rcItem.top = cli.pfnGetRowTopY(dat, hit) - dat->yScroll;
-			it.rcItem.bottom = it.rcItem.top + cli.pfnGetRowHeight(dat, hit);
-			OffsetRect(&it.rcItem, ptClientOffset.x, ptClientOffset.y);
-			it.isGroup = contact->type == CLCIT_GROUP;
-			it.hItem = contact->type == CLCIT_GROUP ? (HANDLE) contact->groupId : contact->hContact;
-			it.cbSize = sizeof(it);
-			dat->hInfoTipItem = cli.pfnContactToHItem(contact);
-			NotifyEventHooks(hShowInfoTipEvent, 0, (LPARAM) & it);
-			break;
-		}
+			}
 		case TIMERID_REBUILDAFTER:
 			KillTimer(hwnd, TIMERID_REBUILDAFTER);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
@@ -929,14 +916,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case WM_MBUTTONDOWN:
 	case WM_LBUTTONDOWN:
-	{
-		ClcContact *contact;
-		ClcGroup *group;
-		int hit;
-		DWORD hitFlags;
-
 		if (GetFocus() != hwnd)
 			SetFocus(hwnd);
+
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_INFOTIP);
 		KillTimer(hwnd, TIMERID_RENAME);
@@ -945,6 +927,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->ptDragStart.y = (short) HIWORD(lParam);
 		if ( !dat->filterSearch)
 			dat->szQuickSearch[0] = 0;
+
 		hit = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, &group, &hitFlags);
 		if (hit != -1) {
 			if (hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
@@ -953,9 +936,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				dat->dragStage = DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME;
 				dat->dragAutoScrolling = 0;
 				break;
-		}	}
+			}	}
 
-		if (hit != -1 && contact->type == CLCIT_GROUP)
+		if (hit != -1 && contact->type == CLCIT_GROUP) {
 			if (hitFlags & CLCHT_ONITEMICON) {
 				ClcGroup *selgroup;
 				ClcContact *selcontact;
@@ -971,50 +954,51 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				UpdateWindow(hwnd);
 				break;
 			}
-			if (hit != -1 && hitFlags & CLCHT_ONITEMCHECK) {
-				NMCLISTCONTROL nm;
-				contact->flags ^= CONTACTF_CHECKED;
-				if (contact->type == CLCIT_GROUP)
-					cli.pfnSetGroupChildCheckboxes(contact->group, contact->flags & CONTACTF_CHECKED);
-				cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
-				cli.pfnInvalidateRect(hwnd, NULL, FALSE);
-				nm.hdr.code = CLN_CHECKCHANGED;
-				nm.hdr.hwndFrom = hwnd;
-				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nm.flags = 0;
-				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
-				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
-			}
-			if ( !(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMCHECK))) {
-				NMCLISTCONTROL nm;
-				nm.hdr.code = NM_CLICK;
-				nm.hdr.hwndFrom = hwnd;
-				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nm.flags = 0;
-				if (hit == -1)
-					nm.hItem = NULL;
-				else
-					nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
-				nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
-				nm.pt = dat->ptDragStart;
-				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
-			}
-			if (hitFlags & (CLCHT_ONITEMCHECK | CLCHT_ONITEMEXTRA))
-				break;
-			dat->selection = hit;
+		}
+		if (hit != -1 && hitFlags & CLCHT_ONITEMCHECK) {
+			NMCLISTCONTROL nm;
+			contact->flags ^= CONTACTF_CHECKED;
+			if (contact->type == CLCIT_GROUP)
+				cli.pfnSetGroupChildCheckboxes(contact->group, contact->flags & CONTACTF_CHECKED);
+			cli.pfnRecalculateGroupCheckboxes(hwnd, dat);
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
-			if (dat->selection != -1)
-				cli.pfnEnsureVisible(hwnd, dat, hit, 0);
-			UpdateWindow(hwnd);
-			if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP)
-				&& !(hitFlags & (CLCHT_ONITEMEXTRA | CLCHT_ONITEMCHECK))) {
-					SetCapture(hwnd);
-					dat->iDragItem = dat->selection;
-					dat->dragStage = DRAGSTAGE_NOTMOVED;
-					dat->dragAutoScrolling = 0;
-				}
-				break;
-	}
+			nm.hdr.code = CLN_CHECKCHANGED;
+			nm.hdr.hwndFrom = hwnd;
+			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+			nm.flags = 0;
+			nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+		}
+		if ( !(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL | CLCHT_ONITEMCHECK))) {
+			NMCLISTCONTROL nm;
+			nm.hdr.code = NM_CLICK;
+			nm.hdr.hwndFrom = hwnd;
+			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+			nm.flags = 0;
+			if (hit == -1)
+				nm.hItem = NULL;
+			else
+				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+			nm.iColumn = hitFlags & CLCHT_ONITEMEXTRA ? HIBYTE(HIWORD(hitFlags)) : -1;
+			nm.pt = dat->ptDragStart;
+			SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+		}
+		if (hitFlags & (CLCHT_ONITEMCHECK | CLCHT_ONITEMEXTRA))
+			break;
+		dat->selection = hit;
+		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
+		if (dat->selection != -1)
+			cli.pfnEnsureVisible(hwnd, dat, hit, 0);
+		UpdateWindow(hwnd);
+		if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP)
+			&& !(hitFlags & (CLCHT_ONITEMEXTRA | CLCHT_ONITEMCHECK))) {
+				SetCapture(hwnd);
+				dat->iDragItem = dat->selection;
+				dat->dragStage = DRAGSTAGE_NOTMOVED;
+				dat->dragAutoScrolling = 0;
+		}
+		break;
+
 	case WM_MOUSEMOVE:
 		if (dat->iDragItem == -1) {
 			int iOldHotTrack = dat->iHotTrack;
@@ -1064,9 +1048,9 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			}
 			target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
 			if (dat->dragStage & DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
-				NMCLISTCONTROL nm;
-				ClcContact *contact;
+
 				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+				NMCLISTCONTROL nm;
 				nm.hdr.code = CLN_DRAGSTOP;
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
@@ -1088,11 +1072,10 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			case DROPTARGET_OUTSIDE:
 				{
 					NMCLISTCONTROL nm;
-					ClcContact *contact;
 
 					if (pt.x >= 0 && pt.x < clRect.right
 						&& ((pt.y < 0 && pt.y > -dat->dragAutoScrollHeight)
-						 ||  (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
+						||  (pt.y >= clRect.bottom && pt.y < clRect.bottom + dat->dragAutoScrollHeight))) {
 							if ( !dat->dragAutoScrolling) {
 								if (pt.y < 0)
 									dat->dragAutoScrolling = -1;
@@ -1101,28 +1084,26 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 								SetTimer(hwnd, TIMERID_DRAGAUTOSCROLL, dat->scrollTime, NULL);
 							}
 							SendMessage(hwnd, WM_TIMER, TIMERID_DRAGAUTOSCROLL, 0);
-						}
+					}
 
-						dat->dragStage |= DRAGSTAGEF_OUTSIDE;
-						cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
-						nm.hdr.code = CLN_DRAGGING;
-						nm.hdr.hwndFrom = hwnd;
-						nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-						nm.flags = 0;
-						nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
-						nm.pt = pt;
-						if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm))
-							return 0;
-						break;
+					dat->dragStage |= DRAGSTAGEF_OUTSIDE;
+					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+					nm.hdr.code = CLN_DRAGGING;
+					nm.hdr.hwndFrom = hwnd;
+					nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+					nm.flags = 0;
+					nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+					nm.pt = pt;
+					if (SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm))
+						return 0;
 				}
+				break;
+
 			default:
-				{
-					ClcGroup *group;
-					cli.pfnGetRowByIndex(dat, dat->iDragItem, NULL, &group);
-					if (group->parent)
-						hNewCursor = LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
-					break;
-				}
+				cli.pfnGetRowByIndex(dat, dat->iDragItem, NULL, &group);
+				if (group->parent)
+					hNewCursor = LoadCursor(cli.hInst, MAKEINTRESOURCE(IDC_DROPUSER));
+				break;
 			}
 			SetCursor(hNewCursor);
 		}
@@ -1131,6 +1112,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 	case WM_LBUTTONUP:
 		if (dat->iDragItem == -1)
 			break;
+
 		SetCursor((HCURSOR) GetClassLongPtr(hwnd, GCLP_HCURSOR));
 		if (dat->exStyle & CLS_EX_TRACKSELECT) {
 			dat->iHotTrack = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), NULL, NULL, NULL);
@@ -1142,75 +1124,72 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 			SetTimer(hwnd, TIMERID_RENAME, GetDoubleClickTime(), NULL);
 		else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
-			POINT pt;
-			int target;
-
-			pt.x = (short) LOWORD(lParam);
-			pt.y = (short) HIWORD(lParam);
-			target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
+			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			int target = cli.pfnGetDropTargetInformation(hwnd, dat, pt);
 			switch (target) {
 			case DROPTARGET_ONSELF:
-				break;
 			case DROPTARGET_ONCONTACT:
 				break;
+
 			case DROPTARGET_ONGROUP:
-			{
-				ClcContact *contactn, *contacto;
-				cli.pfnGetRowByIndex(dat, dat->selection, &contactn, NULL);
-				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contacto, NULL);
-				if (contacto->type == CLCIT_CONTACT) //dropee is a contact
-					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
-				else if (contacto->type == CLCIT_GROUP) { //dropee is a group
-					TCHAR szNewName[120];
-					TCHAR* szGroup = cli.pfnGetGroupName(contactn->groupId, NULL);
-					mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szGroup, contacto->szText);
-					cli.pfnRenameGroup(contacto->groupId, szNewName);
-				}
-				break;
-			}
-			case DROPTARGET_INSERTION:
-			{
-				ClcContact *contact, *destcontact;
-				ClcGroup *destgroup;
-				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
-				if (cli.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup) == -1 || destgroup != contact->group->parent)
-					CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, 0);
-				else {
-					if (destcontact->type == CLCIT_GROUP)
-						destgroup = destcontact->group;
-					else
-						destgroup = destgroup;
-					CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, destgroup->groupId);
-				}
-				break;
-			}
-			case DROPTARGET_OUTSIDE:
-			{
-				NMCLISTCONTROL nm;
-				ClcContact *contact;
-				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
-				nm.hdr.code = CLN_DROPPED;
-				nm.hdr.hwndFrom = hwnd;
-				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nm.flags = 0;
-				nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
-				nm.pt = pt;
-				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
-				break;
-			}
-			default:
 				{
-					ClcGroup *group;
-					ClcContact *contact;
-					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
-					if (group->parent) { //move to root
-						if (contact->type == CLCIT_CONTACT) //dropee is a contact
-							CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contact->hContact, 0);
-						else if (contact->type == CLCIT_GROUP) { //dropee is a group
-							TCHAR szNewName[120];
-							lstrcpyn(szNewName, contact->szText, SIZEOF(szNewName));
-							cli.pfnRenameGroup(contact->groupId, szNewName);
-		}	}	}	}	}
+					ClcContact *contactn, *contacto;
+					cli.pfnGetRowByIndex(dat, dat->selection, &contactn, NULL);
+					cli.pfnGetRowByIndex(dat, dat->iDragItem, &contacto, NULL);
+					if (contacto->type == CLCIT_CONTACT) //dropee is a contact
+						CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contacto->hContact, contactn->groupId);
+					else if (contacto->type == CLCIT_GROUP) { //dropee is a group
+						TCHAR szNewName[120];
+						TCHAR* szGroup = cli.pfnGetGroupName(contactn->groupId, NULL);
+						mir_sntprintf(szNewName, SIZEOF(szNewName), _T("%s\\%s"), szGroup, contacto->szText);
+						cli.pfnRenameGroup(contacto->groupId, szNewName);
+					}
+				}
+				break;
+
+			case DROPTARGET_INSERTION:
+				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+				{
+					ClcContact *destcontact;
+					ClcGroup *destgroup;
+					if (cli.pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup) == -1 || destgroup != contact->group->parent)
+						CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, 0);
+					else {
+						if (destcontact->type == CLCIT_GROUP)
+							destgroup = destcontact->group;
+						else
+							destgroup = destgroup;
+						CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, destgroup->groupId);
+					}
+				}
+				break;
+			case DROPTARGET_OUTSIDE:
+				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, NULL);
+				{
+
+					NMCLISTCONTROL nm;
+					nm.hdr.code = CLN_DROPPED;
+					nm.hdr.hwndFrom = hwnd;
+					nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+					nm.flags = 0;
+					nm.hItem = cli.pfnContactToItemHandle(contact, &nm.flags);
+					nm.pt = pt;
+					SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
+				}
+				break;
+			default:
+				cli.pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
+				if (!group->parent)
+					break;
+				if (contact->type == CLCIT_GROUP) { //dropee is a group
+					TCHAR szNewName[120];
+					lstrcpyn(szNewName, contact->szText, SIZEOF(szNewName));
+					cli.pfnRenameGroup(contact->groupId, szNewName);
+				}
+				else if (contact->type == CLCIT_CONTACT) //dropee is a contact
+					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)contact->hContact, 0);
+			}
+		}
 
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		dat->iDragItem = -1;
@@ -1218,84 +1197,81 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_LBUTTONDBLCLK:
-	{
-		ClcContact *contact;
-		DWORD hitFlags;
 		ReleaseCapture();
 		dat->iHotTrack = -1;
 		cli.pfnHideInfoTip(hwnd, dat);
 		KillTimer(hwnd, TIMERID_RENAME);
 		KillTimer(hwnd, TIMERID_INFOTIP);
+
 		dat->selection = cli.pfnHitTest(hwnd, dat, (short) LOWORD(lParam), (short) HIWORD(lParam), &contact, NULL, &hitFlags);
 		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		if (dat->selection != -1)
 			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
 		if ( !(hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMLABEL)))
 			break;
+
 		UpdateWindow(hwnd);
 		cli.pfnDoSelectionDefaultAction(hwnd, dat);
 		dat->szQuickSearch[0] = 0;
 		if (dat->filterSearch)
 			cli.pfnSaveStateAndRebuildList(hwnd, dat);
 		break;
-	}
-	case WM_CONTEXTMENU:
-	{
-		ClcContact *contact;
-		HMENU hMenu = NULL;
-		POINT pt;
-		DWORD hitFlags;
 
-		cli.pfnEndRename(hwnd, dat, 1);
-		cli.pfnHideInfoTip(hwnd, dat);
-		KillTimer(hwnd, TIMERID_RENAME);
-		KillTimer(hwnd, TIMERID_INFOTIP);
-		if (GetFocus() != hwnd)
-			SetFocus(hwnd);
-		dat->iHotTrack = -1;
-		if (!dat->filterSearch)
-			dat->szQuickSearch[0] = 0;
-		pt.x = (short) LOWORD(lParam);
-		pt.y = (short) HIWORD(lParam);
-		if (pt.x == -1 && pt.y == -1) {
-			dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
+	case WM_CONTEXTMENU:
+		{
+			HMENU hMenu = NULL;
+
+			cli.pfnEndRename(hwnd, dat, 1);
+			cli.pfnHideInfoTip(hwnd, dat);
+			KillTimer(hwnd, TIMERID_RENAME);
+			KillTimer(hwnd, TIMERID_INFOTIP);
+			if (GetFocus() != hwnd)
+				SetFocus(hwnd);
+			dat->iHotTrack = -1;
+			if (!dat->filterSearch)
+				dat->szQuickSearch[0] = 0;
+
+			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
+			if (pt.x == -1 && pt.y == -1) {
+				dat->selection = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
+				if (dat->selection != -1)
+					cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+				pt.x = dat->iconXSpace + 15;
+				pt.y = cli.pfnGetRowTopY(dat, dat->selection) - dat->yScroll + (int)(cli.pfnGetRowHeight(dat, dat->selection) * .7);
+				hitFlags = (dat->selection == -1) ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
+			}
+			else {
+				ScreenToClient(hwnd, &pt);
+				dat->selection = cli.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, NULL, &hitFlags);
+			}
+			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 			if (dat->selection != -1)
 				cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-			pt.x = dat->iconXSpace + 15;
-			pt.y = cli.pfnGetRowTopY(dat, dat->selection) - dat->yScroll + (int)(cli.pfnGetRowHeight(dat, dat->selection) * .7);
-			hitFlags = dat->selection == -1 ? CLCHT_NOWHERE : CLCHT_ONITEMLABEL;
-		}
-		else {
-			ScreenToClient(hwnd, &pt);
-			dat->selection = cli.pfnHitTest(hwnd, dat, pt.x, pt.y, &contact, NULL, &hitFlags);
-		}
-		cli.pfnInvalidateRect(hwnd, NULL, FALSE);
-		if (dat->selection != -1)
-			cli.pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-		UpdateWindow(hwnd);
+			UpdateWindow(hwnd);
 
-		if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
-			if (contact->type == CLCIT_GROUP) {
-				hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
+			if (dat->selection != -1 && hitFlags & (CLCHT_ONITEMICON | CLCHT_ONITEMCHECK | CLCHT_ONITEMLABEL)) {
+				if (contact->type == CLCIT_GROUP) {
+					hMenu = cli.pfnBuildGroupPopupMenu(contact->group);
+					ClientToScreen(hwnd, &pt);
+					TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
+					DestroyMenu(hMenu);
+					return 0;
+				}
+				if (contact->type == CLCIT_CONTACT)
+					hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) contact->hContact, 0);
+			}
+			else {
+				//call parent for new group/hide offline menu
+				SendMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
+			}
+			if (hMenu != NULL) {
 				ClientToScreen(hwnd, &pt);
 				TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
 				DestroyMenu(hMenu);
-				return 0;
 			}
-			if (contact->type == CLCIT_CONTACT)
-				hMenu = (HMENU) CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM) contact->hContact, 0);
-		}
-		else {
-			//call parent for new group/hide offline menu
-			SendMessage(GetParent(hwnd), WM_CONTEXTMENU, wParam, lParam);
-		}
-		if (hMenu != NULL) {
-			ClientToScreen(hwnd, &pt);
-			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN | TPM_RIGHTBUTTON, pt.x, pt.y, 0, hwnd, NULL);
-			DestroyMenu(hMenu);
 		}
 		return 0;
-	}
+
 	case WM_MEASUREITEM:
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 
@@ -1303,9 +1279,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
 
 	case WM_COMMAND:
-		{
-		ClcContact *contact;
-		int hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
+		hit = cli.pfnGetRowByIndex(dat, dat->selection, &contact, NULL);
 		if (hit == -1)
 			break;
 		if (contact->type == CLCIT_CONTACT)
@@ -1334,12 +1308,11 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			break;
 		}
 		break;
-	}
+
 	case WM_DESTROY:
 		cli.pfnHideInfoTip(hwnd, dat);
 		{
-			int i;
-			for (i=0; i <= FONTID_MAX; i++)
+			for (int i=0; i <= FONTID_MAX; i++)
 				if ( !dat->fontInfo[i].changed)
 					DeleteObject(dat->fontInfo[i].hFont);
 		}
