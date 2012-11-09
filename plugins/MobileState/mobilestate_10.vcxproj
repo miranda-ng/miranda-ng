@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>MobileState</ProjectName>
-    <ProjectGuid>{DB315D7D-00BB-43B2-93A6-0430CA2B9F28}</ProjectGuid>
+    <ProjectGuid>{AE677E3A-DAC5-42FD-8762-47370C57639B}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
