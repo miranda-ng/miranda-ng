@@ -24,6 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 // Product management
 #define FACEBOOK_NAME               "Facebook"
+#define FACEBOOK_MOBILE             "Facebook (Mobile)"
 #define FACEBOOK_URL_HOMEPAGE       "http://www.facebook.com"
 #define FACEBOOK_URL_REQUESTS       "http://www.facebook.com/n/?reqs.php"
 #define FACEBOOK_URL_MESSAGES       "http://www.facebook.com/n/?inbox"

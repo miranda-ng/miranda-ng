@@ -56,28 +56,25 @@ int facebook_json_parser::parse_buddy_list( void* data, List::List< facebook_use
 		for ( List::Item< facebook_user >* i = buddy_list->begin( ); i != NULL; i = i->next ) {
 			i->data->status_id = ID_STATUS_OFFLINE;
 		}
-
+		
+		const Array& mobileFriends = objRoot["payload"]["buddy_list"]["mobile_friends"];
 		// Find mobile friends
-		if (DBGetContactSettingByte(NULL,proto->m_szModuleName,FACEBOOK_KEY_LOAD_MOBILE, DEFAULT_LOAD_MOBILE)) {
-			const Array& mobileFriends = objRoot["payload"]["buddy_list"]["mobile_friends"];
+		for ( Array::const_iterator buddy( mobileFriends.Begin());	buddy != mobileFriends.End(); ++buddy) {
+			const Number& member = *buddy;
+			char was_id[32];
+			lltoa( member.Value(), was_id, 10 );
 
-			for ( Array::const_iterator buddy( mobileFriends.Begin());	buddy != mobileFriends.End(); ++buddy) {
-				const Number& member = *buddy;
-				char was_id[32];
-				lltoa( member.Value(), was_id, 10 );
-
-				std::string id = was_id;
-				if (!id.empty()) {
-					current = buddy_list->find( id );
+			std::string id = was_id;
+			if (!id.empty()) {
+				current = buddy_list->find( id );
 									
-					if ( current == NULL) {
-						buddy_list->insert( std::make_pair( id, new facebook_user( )) );
-						current = buddy_list->find( id );
-						current->user_id = id;
-					}
-					
-					current->status_id = ID_STATUS_ONTHEPHONE;
+				if ( current == NULL) {
+					buddy_list->insert( std::make_pair( id, new facebook_user( )) );
+					current = buddy_list->find( id );
+					current->user_id = id;
 				}
+					
+				current->status_id = ID_STATUS_ONTHEPHONE;
 			}
 		}
 

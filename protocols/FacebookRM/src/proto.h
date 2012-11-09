@@ -164,7 +164,7 @@ public:
 	HANDLE  ContactIDToHContact(std::string);
 	HANDLE  ChatIDToHContact(std::string);
 	HANDLE  AddToContactList(facebook_user*, BYTE type, bool dont_check = false, const char *new_name = "");
-	void    SetAllContactStatuses(int);
+	void    SetAllContactStatuses(int status, bool reset_client = false);
 	HANDLE  HContactFromAuthEvent(HANDLE hEvent);
 
 	// Chats handling

@@ -42,16 +42,48 @@ void FacebookProto::ProcessBuddyList( void* data )
 	p->parse_buddy_list( data, &facy.buddies );
 	delete p;
 
+	bool use_mobile_status = DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_LOAD_MOBILE, DEFAULT_LOAD_MOBILE) != 0;
+
 	for ( List::Item< facebook_user >* i = facy.buddies.begin( ); i != NULL; )
-	{
-		LOG("      Now %s: %s", (i->data->status_id == ID_STATUS_OFFLINE ? "offline" : "online"), i->data->real_name.c_str());
+	{		
+		facebook_user* fbu = i->data;
+		bool on_mobile = false;
 
-		facebook_user* fbu;
+		char *status;
+		switch (fbu->status_id) {
+			case ID_STATUS_OFFLINE:
+				status = "offline"; break;				
+			case ID_STATUS_ONLINE:
+				status = "online"; break;				
+			case ID_STATUS_ONTHEPHONE:
+				on_mobile = true;				
+				status = "onthephone";
 
-		if ( i->data->status_id == ID_STATUS_OFFLINE || i->data->deleted )
+				if (!use_mobile_status)
+					fbu->status_id = ID_STATUS_OFFLINE;
+				break;
+		}
+		LOG("      Now %s: %s", status, i->data->real_name.c_str());
+
+		if (!fbu->deleted && on_mobile && !fbu->handle)
 		{
-			fbu = i->data;
+			HANDLE hContact = fbu->handle;
+			if (!hContact)
+				hContact = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
+			
+			DBVARIANT dbv;
+			TCHAR* client = on_mobile ? _T(FACEBOOK_MOBILE) : _T(FACEBOOK_NAME);
+			if (!DBGetContactSettingTString(hContact,m_szModuleName,"MirVer",&dbv)) {
+				if (_tcscmp(dbv.ptszVal, client))
+					DBWriteContactSettingTString(hContact,m_szModuleName,"MirVer",client);
+				DBFreeVariant(&dbv);
+			} else {
+				DBWriteContactSettingTString(hContact,m_szModuleName,"MirVer",client);
+			}
+		}
 
+		if (fbu->status_id == ID_STATUS_OFFLINE || fbu->deleted)
+		{
 			if (fbu->handle)
 				DBWriteContactSettingWord(fbu->handle, m_szModuleName, "Status", ID_STATUS_OFFLINE);
 
@@ -59,12 +91,11 @@ void FacebookProto::ProcessBuddyList( void* data )
 			i = i->next;
 			facy.buddies.erase( to_delete );
 		} else {
-			fbu = i->data;
 			i = i->next;
 
 			if (!fbu->handle) { // just been added
-				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);				
-
+				fbu->handle = AddToContactList(fbu, FACEBOOK_CONTACT_FRIEND);
+	
 				if (!fbu->real_name.empty()) {
 					DBWriteContactSettingUTF8String(fbu->handle,m_szModuleName,FACEBOOK_KEY_NAME,fbu->real_name.c_str());
 					DBWriteContactSettingUTF8String(fbu->handle,m_szModuleName,FACEBOOK_KEY_NICK,fbu->real_name.c_str());

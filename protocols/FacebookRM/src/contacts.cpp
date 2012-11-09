@@ -108,9 +108,8 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 			DBWriteContactSettingString(hContact,m_szModuleName,FACEBOOK_KEY_ID,fbu->user_id.c_str());
       
 			std::string homepage = FACEBOOK_URL_PROFILE + fbu->user_id;
-			DBWriteContactSettingString(hContact, m_szModuleName,"Homepage", homepage.c_str());
-
-			DBWriteContactSettingString(hContact, m_szModuleName, "MirVer", FACEBOOK_NAME);
+			DBWriteContactSettingString(hContact, m_szModuleName,"Homepage", homepage.c_str());			
+			DBWriteContactSettingString(hContact, m_szModuleName, "MirVer", fbu->status_id == ID_STATUS_ONTHEPHONE ? FACEBOOK_MOBILE : FACEBOOK_NAME);
 
 			DBDeleteContactSetting(hContact, "CList", "MyHandle");
 
@@ -141,7 +140,7 @@ HANDLE FacebookProto::AddToContactList(facebook_user* fbu, BYTE type, bool dont_
 	return 0;
 }
 
-void FacebookProto::SetAllContactStatuses(int status)
+void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 {
 	for (HANDLE hContact = db_find_first();
 	    hContact;
@@ -149,11 +148,18 @@ void FacebookProto::SetAllContactStatuses(int status)
 	{
 		if (!IsMyContact(hContact))
 			continue;
+		
+		if (reset_client) {
+			DBVARIANT dbv;
+			if (!DBGetContactSettingTString(hContact,m_szModuleName,"MirVer",&dbv)) {
+				if (_tcscmp(dbv.ptszVal, _T(FACEBOOK_NAME)))
+					DBWriteContactSettingTString(hContact,m_szModuleName,"MirVer", _T(FACEBOOK_NAME));
+				DBFreeVariant(&dbv);
+			}
+		}
 
-		if (DBGetContactSettingWord(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) == status)
-			continue;
-
-		DBWriteContactSettingWord(hContact,m_szModuleName,"Status",status);
+		if (DBGetContactSettingWord(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)
+			DBWriteContactSettingWord(hContact,m_szModuleName,"Status",status);
 	}
 }
 

@@ -79,7 +79,7 @@ FacebookProto::FacebookProto(const char* proto_name,const TCHAR* username)
 	hAvatarFolder_ = FoldersRegisterCustomPathT(m_szModuleName, "Avatars", def_avatar_folder_.c_str());
 
 	// Set all contacts offline -- in case we crashed
-	SetAllContactStatuses( ID_STATUS_OFFLINE );
+	SetAllContactStatuses( ID_STATUS_OFFLINE, true );
 }
 
 FacebookProto::~FacebookProto( )
