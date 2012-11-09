@@ -257,7 +257,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 						DeleteObject(hbr);
 					}
 				}
-				if (!ctl->bIsSkinned && ctl->buttonItem == 0) {
+				if ( !ctl->bIsSkinned && ctl->buttonItem == 0) {
 					if (ctl->stateId == PBS_HOT || ctl->focus) {
 						if (ctl->bIsPushed)
 							DrawEdge(hdcMem, &rc, EDGE_ETCHED, BF_RECT | BF_SOFT);
@@ -345,7 +345,7 @@ static void PaintWorker(MButtonExtension *ctl, HDC hdcPaint)
 			CopyRect(&rcText, &rcClient);
 			SetBkMode(hdcMem, TRANSPARENT);
 			// XP w/themes doesn't used the glossy disabled text.  Is it always using COLOR_GRAYTEXT?  Seems so.
-			if (!ctl->bIsSkinned)
+			if ( !ctl->bIsSkinned)
 				SetTextColor(hdcMem, IsWindowEnabled(ctl->hwnd) || !ctl->hThemeButton ? GetSysColor(COLOR_BTNTEXT) : GetSysColor(COLOR_GRAYTEXT));
 			if (ctl->arrow)
 				DrawState(hdcMem, NULL, NULL, (LPARAM) ctl->arrow, 0, rcClient.right - rcClient.left - 5 - g_cxsmIcon + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), (rcClient.bottom - rcClient.top) / 2 - g_cysmIcon / 2 + (!ctl->hThemeButton && ctl->stateId == PBS_PRESSED ? 1 : 0), g_cxsmIcon, g_cysmIcon, IsWindowEnabled(ctl->hwnd) ? DST_ICON : DST_ICON | DSS_DISABLED);
@@ -378,7 +378,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 
 	case WM_SYSKEYUP:
 		if (bct->stateId != PBS_DISABLED && bct->cHot && bct->cHot == tolower((int) wParam)) {
-			if (!bct->bSendOnDown)
+			if ( !bct->bSendOnDown)
 				SendMessage(pcli->hwndContactList, WM_COMMAND, MAKELONG(bct->iCtrlID, BN_CLICKED), (LPARAM) hwnd);
 			bct->lResult = 0;
 			return 1;
@@ -393,7 +393,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case BM_SETIMAGE:
-		if (!lParam)
+		if ( !lParam)
 			break;
 
 		bct->hIml = 0;
@@ -460,7 +460,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		break;
 
 	case WM_LBUTTONDOWN:
-		if (!bct->iCtrlID) return 0;
+		if ( !bct->iCtrlID) return 0;
 		if (bct->stateId != PBS_DISABLED && bct->stateId != PBS_PRESSED) {
 			bct->stateId = PBS_PRESSED;
 			InvalidateRect(bct->hwnd, NULL, TRUE);
@@ -473,7 +473,7 @@ static LRESULT CALLBACK TSButtonWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 		return 1;
 
 	case WM_LBUTTONUP:
-		if (!bct->iCtrlID) return 0;
+		if ( !bct->iCtrlID) return 0;
 		if (bct->bIsPushBtn)
 			bct->bIsPushed = !bct->bIsPushed;
 
@@ -532,7 +532,7 @@ static void CustomizeToolbar(HANDLE hButton, HWND hWnd, LPARAM)
 		bct->iCtrlID = BTNS[idx].ctrlid;
 		if (BTNS[idx].isAction) 
 			bct->bSendOnDown = TRUE;
-		if (!BTNS[idx].isPush)
+		if ( !BTNS[idx].isPush)
 			bct->bIsPushBtn = TRUE;
 	}
 }

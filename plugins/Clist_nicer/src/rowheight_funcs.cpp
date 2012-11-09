@@ -269,8 +269,8 @@ int RowHeight::getFloatingRowHeight(const ClcData *dat, HWND hwnd, ClcContact *c
 
     height = dat->fontInfo[GetBasicFontID(contact)].fontHeight;
 
-    if (!dat->bisEmbedded) {
-		if (!(dwFlags & FLT_SIMPLE)) {
+    if ( !dat->bisEmbedded) {
+		if ( !(dwFlags & FLT_SIMPLE)) {
 			if (dwFlags & FLT_DUALROW) {
 				height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);
 			}

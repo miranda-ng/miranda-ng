@@ -100,7 +100,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
     if (msg->message == WM_DESTROY)
         cfg::writeByte("CList", "Docked", (BYTE) docked);
-    if (!docked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE)
+    if ( !docked && msg->message != WM_CREATE && msg->message != WM_MOVING && msg->message != WM_CREATEDOCKED && msg->message != WM_MOVE)
         return 0;
     switch (msg->message) {
         case WM_CREATE:
@@ -152,7 +152,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
                 Docking_GetMonitorRectFromPoint(ptCursor, &rcMonitor);
 
                 if ((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || (ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) {
-					if (!(GetWindowLongPtr(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
+					if ( !(GetWindowLongPtr(msg->hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)) {
 						SendMessage(msg->hwnd, CLUIINTM_REDRAW, 0, 0);
 						MessageBox(0, TranslateT("The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead."), 
 								   TranslateT("Clist docking"), MB_OK);
@@ -241,7 +241,7 @@ int Docking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
             *((LRESULT *) lParam) = 0;
             return TRUE;
         case WM_MOUSEMOVE:
-            if (!draggingTitle)
+            if ( !draggingTitle)
                 return 0; {
                 RECT rc;
                 POINT pt;

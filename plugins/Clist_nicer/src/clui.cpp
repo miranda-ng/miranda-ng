@@ -313,19 +313,6 @@ static void InitIcoLib()
 		Skin_AddIcon(&sid);
 	}
 
-	sid.pszName = "CLN_visible";
-	sid.pszDescription = LPGEN("Contact on visible list");
-	sid.iDefaultIndex = -IDI_CLVISIBLE;
-	Skin_AddIcon(&sid);
-	sid.pszName = "CLN_invisible";
-	sid.pszDescription = LPGEN("Contact on invisible list or blocked");
-	sid.iDefaultIndex = -IDI_CLINVISIBLE;
-	Skin_AddIcon(&sid);
-	sid.pszName = "CLN_chatactive";
-	sid.pszDescription = LPGEN("Chat room/IRC channel activity");
-	sid.iDefaultIndex = -IDI_OVL_FREEFORCHAT;
-	Skin_AddIcon(&sid);
-
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("CList - Nicer/Overlay Icons");
 	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
@@ -385,9 +372,6 @@ void CLN_LoadAllIcons(BOOL mode)
 	if (mode) {
 		InitIcoLib();
 		hIcoLibChanged = HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibChanged);
-		cfg::dat.hIconVisible = Skin_GetIcon("CLN_visible");
-		cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
-		cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	}
 	CacheClientIcons();
 }
@@ -420,9 +404,6 @@ void ConfigureFrame()
 
 void IcoLibReloadIcons()
 {
-	cfg::dat.hIconVisible = Skin_GetIcon("CLN_visible");
-	cfg::dat.hIconInvisible = Skin_GetIcon("CLN_invisible");
-	cfg::dat.hIconChatactive = Skin_GetIcon("CLN_chatactive");
 	CacheClientIcons();
 	pcli->pfnReloadExtraIcons();
 	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
@@ -483,7 +464,7 @@ void SetDBButtonStates(HANDLE hPassedContact)
 	while (buttonItem) {
 		BOOL result = FALSE;
 
-		if (!(buttonItem->dwFlags & BUTTON_ISTOGGLE && buttonItem->dwFlags & BUTTON_ISDBACTION)) {
+		if ( !(buttonItem->dwFlags & BUTTON_ISTOGGLE && buttonItem->dwFlags & BUTTON_ISDBACTION)) {
 			buttonItem = buttonItem->nextItem;
 			continue;
 		}
@@ -504,7 +485,7 @@ void SetDBButtonStates(HANDLE hPassedContact)
 		if (buttonItem->type == DBVT_ASCIIZ) {
 			DBVARIANT dbv = {0};
 
-			if (!cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
+			if ( !cfg::getString(hFinalContact, szModule, szSetting, &dbv)) {
 				result = !strcmp((char *)buttonItem->bValuePush, dbv.pszVal);
 				DBFreeVariant(&dbv);
 			}
@@ -644,7 +625,7 @@ static void sttProcessResize(HWND hwnd, NMCLISTCONTROL *nmc)
 	if (disableautoupd)
 		return;
 
-	if (!cfg::getByte("CLUI", "AutoSize", 0))
+	if ( !cfg::getByte("CLUI", "AutoSize", 0))
 		return;
 
 	if (Docking_IsDocked(0, 0))
@@ -754,7 +735,7 @@ int CustomDrawScrollBars(NMCSBCUSTOMDRAW *nmcsbcd)
 
 					uItemID -= ID_STATUS_OFFLINE;
 					item = &StatusItems[uItemID];
-					if (!item->IGNORED) {
+					if ( !item->IGNORED) {
 						int alpha = nmcsbcd->uState == CDIS_DISABLED ? item->ALPHA - 50 : item->ALPHA;
 						DrawAlpha(hdcScroll, &nmcsbcd->rect, item->COLOR, alpha, item->COLOR2, item->COLOR2_TRANSPARENT,
 								  item->GRADIENT, item->CORNER, item->BORDERSTYLE, item->imageItem);
@@ -809,7 +790,7 @@ static void ShowCLUI(HWND hwnd)
 	int onTop = cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT);
 
 	SendMessage(hwnd, WM_SETREDRAW, FALSE, FALSE);
-	if (!cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
+	if ( !cfg::getByte("CLUI", "ShowMainMenu", SETTING_SHOWMAINMENU_DEFAULT))
 		SetMenu(pcli->hwndContactList, NULL);
 	if (state == SETTING_STATE_NORMAL) {
 		SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
@@ -866,7 +847,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		cfg::writeByte("CList", "State", SETTING_STATE_HIDDEN);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) & ~WS_VISIBLE);
 		SetWindowLongPtr(hwnd, GWL_STYLE, GetWindowLongPtr(hwnd, GWL_STYLE) | WS_CLIPCHILDREN);
-		if (!cfg::dat.bFirstRun)
+		if ( !cfg::dat.bFirstRun)
 			ConfigureEventArea(hwnd);
 		CluiProtocolStatusChanged(0, 0);
 		ConfigureCLUIGeometry(0);
@@ -947,7 +928,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 		if (cfg::getByte("CList", "AutoApplyLastViewMode", 0)) {
 			DBVARIANT dbv = {0};
-			if (!DBGetContactSetting(NULL, "CList", "LastViewMode", &dbv)) {
+			if ( !DBGetContactSetting(NULL, "CList", "LastViewMode", &dbv)) {
 				if (lstrlenA(dbv.pszVal) > 2) {
 					if (cfg::getDword(NULL, CLVM_MODULE, dbv.pszVal, -1) != 0xffffffff)
 						ApplyViewMode((char *)dbv.pszVal);
@@ -955,7 +936,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				DBFreeVariant(&dbv);
 			}
 		}
-		if (!cfg::dat.autosize)
+		if ( !cfg::dat.autosize)
 			ShowCLUI(hwnd);
 		else {
 			show_on_first_autosize = TRUE;
@@ -981,7 +962,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			GetClientRect(hwnd, &rcClient);
 		CopyRect(&rc, &rcClient);
 
-		if (!cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
+		if ( !cfg::dat.hdcBg || rc.right > cfg::dat.dcSize.cx || rc.bottom + cfg::dat.statusBarHeight > cfg::dat.dcSize.cy) {
 			RECT rcWorkArea;
 
 			SystemParametersInfo(SPI_GETWORKAREA, 0, &rcWorkArea, FALSE);
@@ -1030,7 +1011,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 			int docked = CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0);
 			int clip = cfg::dat.bClipBorder;
 
-			if (!g_CLUISkinnedBkColor)
+			if ( !g_CLUISkinnedBkColor)
 				FillRect(hdc, &rcClient, cfg::dat.hBrushColorKey);
 			if (cfg::dat.dwFlags & CLUI_FRAME_ROUNDEDFRAME)
 				rgn = CreateRoundRectRgn(clip, docked ? 0 : clip, rcClient.right - clip + 1, rcClient.bottom - (docked ? 0 : clip - 1), 8 + clip, 8 + clip);
@@ -1123,7 +1104,7 @@ skipbg:
 						 }
 
 	case WM_WINDOWPOSCHANGED:
-		if (!Docking_IsDocked(0, 0))
+		if ( !Docking_IsDocked(0, 0))
 			return(0);
 		else
 			break;
@@ -1196,11 +1177,11 @@ skipbg:
 		}
 					  }
 	case WM_MOVE:
-		if (!IsIconic(hwnd)) {
+		if ( !IsIconic(hwnd)) {
 			RECT rc;
 			GetWindowRect(hwnd, &rc);
 
-			if (!Docking_IsDocked(0, 0)) {
+			if ( !Docking_IsDocked(0, 0)) {
 				cluiPos.bottom = (DWORD)(rc.bottom - rc.top);
 				cluiPos.left = rc.left;
 				cluiPos.top = rc.top;
@@ -1211,7 +1192,7 @@ skipbg:
 				GetWindowRect(hwnd, &rc);
 
 				// if docked, dont remember pos (except for width)
-				if (!CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
+				if ( !CallService(MS_CLIST_DOCKINGISDOCKED, 0, 0)) {
 					cfg::writeDword("CList", "Height", (DWORD)(rc.bottom - rc.top));
 					cfg::writeDword("CList", "x", (DWORD) rc.left);
 					cfg::writeDword("CList", "y", (DWORD) rc.top);
@@ -1255,7 +1236,7 @@ skipbg:
 
 	case WM_SETCURSOR:
 		if (cfg::dat.isTransparent) {
-			if (!transparentFocus && GetForegroundWindow() != hwnd) {
+			if ( !transparentFocus && GetForegroundWindow() != hwnd) {
 				API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.alpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 				transparentFocus = 1;
 				SetTimer(hwnd, TM_AUTOALPHA, 250, NULL);
@@ -1323,7 +1304,7 @@ skipbg:
 				else
 					API::SetLayeredWindowAttributes(hwnd, cfg::dat.bFullTransparent ? cfg::dat.colorkey : RGB(0, 0, 0), cfg::dat.autoalpha, LWA_ALPHA | (cfg::dat.bFullTransparent ? LWA_COLORKEY : 0));
 			}
-			if (!transparentFocus)
+			if ( !transparentFocus)
 				KillTimer(hwnd, TM_AUTOALPHA);
 		} else if (wParam == TIMERID_AUTOSIZE) {
 			KillTimer(hwnd, wParam);
@@ -1360,13 +1341,13 @@ skipbg:
 					FLT_ShowHideAll(SW_SHOWNOACTIVATE);
 			}
 
-			if (!cfg::dat.fadeinout)
+			if ( !cfg::dat.fadeinout)
 				SFL_SetState(-1);
 			if (lParam)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 			if (noRecurse)
 				return DefWindowProc(hwnd, msg, wParam, lParam);
-			if (!cfg::dat.fadeinout || !IsWinVer2000Plus())
+			if ( !cfg::dat.fadeinout || !IsWinVer2000Plus())
 				return DefWindowProc(hwnd, msg, wParam, lParam);
 
 			g_fading_active = 1;
@@ -1521,7 +1502,7 @@ skipbg:
 								} else if (item->dwFlags & BUTTON_ISTOGGLE)
 									SendMessage(item->hWnd, BM_SETCHECK, 0, 0);
 							}
-							if (!contactOK)
+							if ( !contactOK)
 								MessageBox(0, _T("The requested action requires a valid contact selection. Please select a contact from the contact list and repeat"), _T("Parameter mismatch"), MB_OK);
 							if (serviceFailure) {
 								char szError[512];
@@ -1616,25 +1597,24 @@ buttons_done:
 			case POPUP_HIDEOFFLINEROOT:
 				SendMessage(pcli->hwndContactTree, CLM_SETHIDEOFFLINEROOT, !SendMessage(pcli->hwndContactTree, CLM_GETHIDEOFFLINEROOT, 0, 0), 0);
 				break;
-			case POPUP_HIDEEMPTYGROUPS: {
-				int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-				cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
-				SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
+			case POPUP_HIDEEMPTYGROUPS:
+				{
+					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
+					cfg::writeByte("CList", "HideEmptyGroups", (BYTE) newVal);
+					SendMessage(pcli->hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
+				}
 				break;
-												 }
 			case IDC_TBHIDEGROUPS:
-			case POPUP_DISABLEGROUPS: {
-				int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-				cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
-				SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
-				CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
+			case POPUP_DISABLEGROUPS:
+				{
+					int newVal = !(GetWindowLongPtr(pcli->hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
+					cfg::writeByte("CList", "UseGroups", (BYTE) newVal);
+					SendMessage(pcli->hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
+					CheckDlgButton(hwnd, IDC_TBHIDEGROUPS, newVal ? BST_CHECKED : BST_UNCHECKED);
+				}
 				break;
-											  }
 			case POPUP_HIDEMIRANDA:
 				pcli->pfnShowHide(0, 0);
-				break;
-			case POPUP_VISIBILITY:
-				cfg::dat.dwFlags ^= CLUI_SHOWVISI;
 				break;
 			case POPUP_SHOWMETAICONS:
 				cfg::dat.dwFlags ^= CLUI_USEMETAICONS;
@@ -1740,7 +1720,7 @@ buttons_done:
 				// all this is done in screen-coords!
 				GetCursorPos(&pt);
 				// the mouse isnt near the window, so put it in the middle of the window
-				if (!PtInRect(&rc, pt)) {
+				if ( !PtInRect(&rc, pt)) {
 					pt.x = rc.left + (rc.right - rc.left) / 2;
 					pt.y = rc.top + (rc.bottom - rc.top) / 2;
 				}
@@ -1823,7 +1803,7 @@ buttons_done:
 					} else
 						hIcon = LoadSkinnedProtoIcon(szProto, status);
 
-					if (!(showOpts & 6) && cfg::dat.bEqualSections)
+					if ( !(showOpts & 6) && cfg::dat.bEqualSections)
 						x = (dis->rcItem.left + dis->rcItem.right - 16) >> 1;
 					if (pd->statusbarpos == 0)
 						x += (cfg::dat.bEqualSections ? (cfg::dat.bCLeft / 2) : cfg::dat.bCLeft);
@@ -1928,7 +1908,7 @@ buttons_done:
 		* indicates that clist is shutting down and prevents various things
 		* from happening at shutdown.
 		*/
-		if (!cfg::shutDown)
+		if ( !cfg::shutDown)
 			cfg::shutDown = 1;
 		CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)hFrameContactTree, 0);
 		break;
@@ -2037,7 +2017,7 @@ INT_PTR CALLBACK DlgProcAbout(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 
 static INT_PTR CLN_ShowAbout(WPARAM wParam, LPARAM lParam)
 {
-	if (!g_AboutDlgActive)
+	if ( !g_AboutDlgActive)
 		CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CLNABOUT), 0, DlgProcAbout, 0);
 	return 0;
 }

@@ -40,7 +40,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	switch (msg) {
 	case WM_USER+1:
 		{
-			HANDLE hContact = (HANDLE) wParam;
+			HANDLE hContact = (HANDLE)wParam;
 			DBCONTACTWRITESETTING *ws = (DBCONTACTWRITESETTING *) lParam;
 			if (hContact == NULL && ws != NULL && ws->szModule != NULL && ws->szSetting != NULL && lstrcmpiA(ws->szModule, "CList") == 0 && lstrcmpiA(ws->szSetting, "UseGroups") == 0 && IsWindowVisible(hwndDlg))
 				CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, ws->value.bVal == 0);
@@ -62,9 +62,9 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		CheckDlgButton(hwndDlg, IDC_CONFIRMDELETE, cfg::getByte("CList", "ConfirmDelete", SETTING_CONFIRMDELETE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		{
 			DWORD caps = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS1, 0);
-			if (!(caps & CLUIF_HIDEEMPTYGROUPS))
+			if ( !(caps & CLUIF_HIDEEMPTYGROUPS))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_HIDEEMPTYGROUPS), SW_HIDE);
-			if (!(caps & CLUIF_DISABLEGROUPS))
+			if ( !(caps & CLUIF_DISABLEGROUPS))
 				ShowWindow(GetDlgItem(hwndDlg, IDC_DISABLEGROUPS), SW_HIDE);
 			if (caps & CLUIF_HASONTOPOPTION)
 				ShowWindow(GetDlgItem(hwndDlg, IDC_ONTOP), SW_HIDE);
@@ -153,7 +153,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				if (!opt_gen_opts_changed)
+				if ( !opt_gen_opts_changed)
 					return TRUE;
 
 				cfg::writeByte("CList", "HideOffline", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_HIDEOFFLINE));
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcGenOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 						cfg::writeByte("CList", "HideEmptyGroups", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_HIDEEMPTYGROUPS));
 					if (caps & CLUIF_DISABLEGROUPS)
 						cfg::writeByte("CList", "UseGroups", (BYTE) ! IsDlgButtonChecked(hwndDlg, IDC_DISABLEGROUPS));
-					if (!(caps & CLUIF_HASONTOPOPTION)) {
+					if ( !(caps & CLUIF_HASONTOPOPTION)) {
 						cfg::writeByte("CList", "OnTop", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ONTOP));
 						SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg, IDC_ONTOP) ? HWND_TOPMOST : HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 					}

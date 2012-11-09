@@ -75,7 +75,7 @@ void HideShowNotifyFrame()
         desired = dwVisible;
 
     if (desired) {
-		if (!dwVisible)
+		if ( !dwVisible)
 			CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)hNotifyFrame, 0);
 	}
 	else {

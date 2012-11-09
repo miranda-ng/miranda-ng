@@ -489,7 +489,6 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, cfg::dat.dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
 
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (cfg::dat.dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SHOWVISIBILITY, (cfg::dat.dwFlags & CLUI_SHOWVISI) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWMETA, (cfg::dat.dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (cfg::dat.dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
@@ -507,7 +506,6 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
 			cfgSetFlag(hwndDlg, IDC_SHOWSTATUSICONS, CLUI_FRAME_STATUSICONS);
-			cfgSetFlag(hwndDlg, IDC_SHOWVISIBILITY, CLUI_SHOWVISI);
 			cfgSetFlag(hwndDlg, IDC_SHOWMETA, CLUI_USEMETAICONS);
 			cfgSetFlag(hwndDlg, IDC_OVERLAYICONS, CLUI_FRAME_OVERLAYICONS);
 			cfgSetFlag(hwndDlg, IDC_XSTATUSASSTATUS, CLUI_FRAME_USEXSTATUSASSTATUS);
@@ -675,7 +673,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 
 		case 0:
 			if (((LPNMHDR) lParam)->code == PSN_APPLY) {
-				if (!opt_clc_main_changed)
+				if ( !opt_clc_main_changed)
 					return TRUE;
 
 				int i;
@@ -738,7 +736,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			DBVARIANT dbv;
 
-			if (!cfg::getTString(NULL, "CLC", "BkBitmap", &dbv)) {
+			if ( !cfg::getTString(NULL, "CLC", "BkBitmap", &dbv)) {
 				TCHAR szPath[MAX_PATH];
 				if (CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM) dbv.ptszVal, (LPARAM)szPath))
 					SetDlgItemText(hwndDlg, IDC_FILENAME, szPath);
@@ -794,7 +792,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			ofn.nMaxFile = sizeof(str);
 			ofn.nMaxFileTitle = MAX_PATH;
 			ofn.lpstrDefExt = "bmp";
-			if (!GetOpenFileNameA(&ofn))
+			if ( !GetOpenFileNameA(&ofn))
 				break;
 			SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 		}
@@ -817,7 +815,7 @@ static INT_PTR CALLBACK DlgProcClcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case 0:
 			switch (((LPNMHDR) lParam)->code) {
 			case PSN_APPLY:
-				if (!opt_clc_bkg_changed)
+				if ( !opt_clc_bkg_changed)
 					return TRUE;
 
 				cfg::writeByte("CLC", "UseBitmap", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_BITMAP)); {

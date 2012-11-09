@@ -50,7 +50,7 @@ void TrayIconUpdateBase(const char *szChangedProto)
 		if ( !pcli->pfnGetProtocolVisibility( accs[i]->szModuleName ))
 			continue;
 		netProtoCount++;
-		if (!lstrcmpA(szChangedProto, accs[i]->szModuleName ))
+		if ( !lstrcmpA(szChangedProto, accs[i]->szModuleName ))
 			pcli->cycleStep = i;
 		if (averageMode == 0)
 			averageMode = CallProtoService( accs[i]->szModuleName, PS_GETSTATUS, 0, 0);

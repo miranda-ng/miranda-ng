@@ -53,7 +53,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		ptMouse = pt;
 		if (tooltip_active){
 			KillTimer(hwnd, TIMERID_HOVER);				
-			if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+			if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 				CallService("mToolTip/HideTip", 0, 0);
 			tooltip_active = FALSE;		
 			}
@@ -77,7 +77,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 	case WM_LBUTTONDOWN:
 	case WM_RBUTTONDOWN:
 		KillTimer(hwnd, TIMERID_HOVER);				
-		if (!NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+		if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
 			CallService("mToolTip/HideTip", 0, 0);
 		tooltip_active = FALSE;		
 		break;
@@ -113,7 +113,7 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 			hOldFont = reinterpret_cast<HFONT>(SelectObject(hdcMem, GetStockObject(DEFAULT_GUI_FONT)));
 			BitBlt(hdcMem, 0, 0, rcClient.right, rcClient.bottom, cfg::dat.hdcBg, pt.x, pt.y, SRCCOPY);
 			item = &StatusItems[ID_EXTBKSTATUSBAR - ID_STATUS_OFFLINE];
-			if (!item->IGNORED) {
+			if ( !item->IGNORED) {
 				RECT rc = rcClient;
 				rc.left += item->MARGIN_LEFT;
 				rc.right -= item->MARGIN_RIGHT;

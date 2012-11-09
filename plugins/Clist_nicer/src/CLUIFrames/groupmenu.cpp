@@ -122,8 +122,8 @@ INT_PTR GroupMenuCheckService(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
-
+INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam)
+{
 	MENUITEMINFO *mii=(MENUITEMINFO* )wParam;
 	if (mii==NULL) return 0;
 
@@ -147,7 +147,6 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 		hMenuOldContext = GetSubMenu(LoadMenu(g_hInst, MAKEINTRESOURCE(IDR_CONTEXT)), 3);
 		TranslateMenu(hMenuOldContext);
 
-		CheckMenuItem(hMenuOldContext, POPUP_VISIBILITY, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_SHOWVISI ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_FRAME, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_CLISTSUNKEN ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_BUTTONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_FRAME_SHOWBOTTOMBUTTONS ? MF_CHECKED : MF_UNCHECKED));
 		CheckMenuItem(hMenuOldContext, POPUP_SHOWMETAICONS, MF_BYCOMMAND | (cfg::dat.dwFlags & CLUI_USEMETAICONS ? MF_CHECKED : MF_UNCHECKED));
@@ -175,7 +174,7 @@ INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam!=0) {
 		lpGroupMenuExecParam mmep=(lpGroupMenuExecParam)wParam;
-		if (!strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1=0;
 			CallService(mmep->szServiceName,mmep->Param1,lParam);
@@ -580,7 +579,7 @@ INT_PTR SubGroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
 INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam!=0) {
 		lpSubGroupMenuExecParam mmep=(lpSubGroupMenuExecParam)wParam;
-		if (!strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1=0;
 			CallService(mmep->szServiceName,mmep->Param1,lParam);

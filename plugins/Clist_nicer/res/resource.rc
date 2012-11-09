@@ -275,16 +275,15 @@ FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Icons",IDC_STATIC,1,0,224,99
     CONTROL         "Show status icons",IDC_SHOWSTATUSICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,106,10
-    CONTROL         "Show visibility icons",IDC_SHOWVISIBILITY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,214,10
-    CONTROL         "When possible, draw status icons in avatar space",IDC_SELECTIVEICONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,214,10
     CONTROL         "Centered when possible",IDC_STATUSICONSCENTERED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,10,100,11
+    CONTROL         "When possible, draw status icons in avatar space",IDC_SELECTIVEICONS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,214,10
     CONTROL         "Use metacontact protocol icons instead of subcontacts",IDC_SHOWMETA,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,46,214,10
-    CONTROL         "Use Overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,58,214,10
-    CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,70,214,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,214,10
+    CONTROL         "Use Overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,46,214,10
+    CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,58,214,10
     CONTROL         "Replace status icons with xStatus",IDC_XSTATUSASSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,82,214,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,70,214,10
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 305, 226
@@ -554,7 +553,6 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,284,228,65,14
     CONTROL         "Draw overlay icon on avatar",IDC_OVERLAYICON,"Button",BS_AUTO3STATE | WS_TABSTOP,219,82,127,10
     CONTROL         "Show local time",IDC_SHOWLOCALTIME1,"Button",BS_AUTO3STATE | WS_TABSTOP,219,94,127,10
-    CONTROL         "Show visibility icon",IDC_SHOWVISIBILITY,"Button",BS_AUTO3STATE | WS_TABSTOP,219,107,127,10
     CONTROL         "",IDC_DSP_LOADDEFAULT,"MButtonClass",WS_TABSTOP,213,202,135,15,WS_EX_NOACTIVATE | 0x10000000L
 END
 
@@ -606,7 +604,6 @@ IDI_OVL_AWAY            ICON                    "overlay/away.ico"
 IDI_OVL_DND             ICON                    "overlay/dnd.ico"
 IDI_OVL_NA              ICON                    "overlay/na.ico"
 IDI_OVL_OCCUPIED        ICON                    "overlay/occupied.ico"
-IDI_OVL_FREEFORCHAT     ICON                    "overlay/chat.ico"
 IDI_OVL_INVISIBLE       ICON                    "overlay/invisible.ico"
 IDI_OVL_ONTHEPHONE      ICON                    "overlay/phone.ico"
 IDI_OVL_OUTTOLUNCH      ICON                    "overlay/lunch.ico"
@@ -619,8 +616,6 @@ IDI_MINIMIZE            ICON                    "minimize.ico"
 IDI_SOUNDSOFF           ICON                    "sounds_off.ico"
 IDI_TABSRMMSESSIONLIST  ICON                    "slist.ico"
 IDI_TABSRMMMENU         ICON                    "tabsrmm_menu.ico"
-IDI_CLVISIBLE           ICON                    "visible.ico"
-IDI_CLINVISIBLE         ICON                    "invisible.ico"
 IDI_PROTOCONNECTING     ICON                    "connecting.ico"
 IDI_TBTOPMENU           ICON                    "menu.ico"
 IDI_TBACCOUNTS          ICON                    "accounts.ico"
@@ -694,7 +689,6 @@ BEGIN
     POPUP "Appearance"
     BEGIN
         MENUITEM "Show Status Icons",           POPUP_SHOWSTATUSICONS
-        MENUITEM "Show Visibility Icons",       POPUP_VISIBILITY
         MENUITEM "Show Metacontact proto Icons", POPUP_SHOWMETAICONS
         MENUITEM SEPARATOR
         MENUITEM "Show additional Buttons",     POPUP_BUTTONS

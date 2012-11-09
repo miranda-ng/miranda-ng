@@ -152,13 +152,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					else
 						SendDlgItemMessage(hWnd, IDC_SHOWLOCALTIME1, BM_SETCHECK, BST_INDETERMINATE, 0);
 
-					if (dwFlags & ECF_FORCEVISIBILITY)
-						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_CHECKED, 0);
-					else if (dwFlags & ECF_HIDEVISIBILITY)
-						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_UNCHECKED, 0);
-					else
-						SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_INDETERMINATE, 0);
-
 					if (bSecondLine == 0xff)
 						SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
 					else
@@ -211,7 +204,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				SendDlgItemMessage(hWnd, IDC_SECONDLINEMODE, CB_SETCURSEL, 0, 0);
 				SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_SETCHECK, BST_INDETERMINATE, 0);
 				SendDlgItemMessage(hWnd, IDC_LOCALTIME, BM_SETCHECK, BST_INDETERMINATE, 0);
-				SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_SETCHECK, BST_INDETERMINATE, 0);
 				break;
 			}
 		case IDOK:
@@ -241,8 +233,7 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 							LoadAvatarForContact(contact);
 					}
 
-					dwFlags &= ~(ECF_FORCEOVERLAY | ECF_HIDEOVERLAY | ECF_FORCELOCALTIME | ECF_HIDELOCALTIME | 
-						ECF_FORCEVISIBILITY | ECF_HIDEVISIBILITY);
+					dwFlags &= ~(ECF_FORCEOVERLAY | ECF_HIDEOVERLAY | ECF_FORCELOCALTIME | ECF_HIDELOCALTIME);
 
 					checked = SendDlgItemMessage(hWnd, IDC_OVERLAYICON, BM_GETCHECK, 0, 0);
 					if (checked == BST_CHECKED)
@@ -255,12 +246,6 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 						dwFlags |= ECF_FORCELOCALTIME;
 					else if (checked == BST_UNCHECKED)
 						dwFlags |= ECF_HIDELOCALTIME;
-
-					checked = SendDlgItemMessage(hWnd, IDC_SHOWVISIBILITY, BM_GETCHECK, 0, 0);
-					if (checked == BST_CHECKED)
-						dwFlags |= ECF_FORCEVISIBILITY;
-					else if (checked == BST_UNCHECKED)
-						dwFlags |= ECF_HIDEVISIBILITY;
 
 					cfg::writeDword(hContact, "CList", "CLN_Flags", dwFlags);
 

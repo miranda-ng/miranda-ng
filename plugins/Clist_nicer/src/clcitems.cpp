@@ -206,13 +206,13 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 
 			if (group != NULL) {
 				group->totalMembers++;
-				if (!(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
+				if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 					char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 					if (szProto == NULL) {
-						if (!pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
+						if ( !pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							AddContactToGroup(dat, group, hContact);
 					}
-					else if (!pcli->pfnIsHiddenMode(dat, (WORD) cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+					else if ( !pcli->pfnIsHiddenMode(dat, (WORD) cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 						AddContactToGroup(dat, group, hContact);
 				}
 				else AddContactToGroup(dat, group, hContact);
@@ -246,7 +246,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 	pcli->pfnSortCLC(hwnd, dat, 0);
 	pcli->pfnSetAllExtraIcons(pcli->hwndContactTree, 0);
 
-	if (!dat->bisEmbedded)
+	if ( !dat->bisEmbedded)
 		FLT_SyncWithClist();
 }
 
@@ -271,7 +271,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 	if ( !result && lstrlen(dbv.ptszVal) > 1)
 		cEntry->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
-		if (!szProto)
+		if ( !szProto)
 			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto) {
 			if ( !result )
@@ -311,7 +311,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 				cst.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
  				cst.wParam = &xStatus2;
 				cst.ptszName = xStatusName;
-				if (!CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst)) {
+				if ( !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst)) {
 					TCHAR *szwXstatusName = TranslateTS(xStatusName);
 					cEntry->statusMsg = (TCHAR *)realloc(cEntry->statusMsg, (lstrlen(szwXstatusName) + 2) * sizeof(TCHAR));
 					_tcsncpy(cEntry->statusMsg, szwXstatusName, lstrlen(szwXstatusName) + 1);
@@ -528,7 +528,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 	if (cfg::dat.bMetaAvail && dat != NULL && dat->bHideSubcontacts && cfg::dat.bMetaEnabled && cfg::getByte(hContact, cfg::dat.szMetaName, "IsSubcontact", 0))
 		return 1;
 
-	if (!cfg::dat.bFilterEffective)
+	if ( !cfg::dat.bFilterEffective)
 		return dbHidden;
 
 	if (szProto == NULL)
@@ -549,7 +549,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 		filterResult = strstr(cfg::dat.protoFilter, szTemp) ? 1 : 0;
 	}
 	if (cfg::dat.bFilterEffective & CLVM_FILTER_GROUPS) {
-		if (!cfg::getTString(hContact, "CList", "Group", &dbv)) {
+		if ( !cfg::getTString(hContact, "CList", "Group", &dbv)) {
 			_sntprintf(szGroupMask, safe_sizeof(szGroupMask), _T("%s|"), &dbv.ptszVal[1]);
 			filterResult = (cfg::dat.filterFlags & CLVM_PROTOGROUP_OP) ? (filterResult | (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0)) : (filterResult & (_tcsstr(cfg::dat.groupFilter, szGroupMask) ? 1 : 0));
 			mir_free(dbv.ptszVal);

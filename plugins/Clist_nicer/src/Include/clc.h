@@ -53,8 +53,8 @@
 #define TIMERID_PAINT          19
 
 #define CONTACTF_ONLINE    1
-#define CONTACTF_INVISTO   2
-#define CONTACTF_VISTO     4
+//#define CONTACTF_INVISTO   2
+//#define CONTACTF_VISTO     4
 #define CONTACTF_NOTONLIST 8
 #define CONTACTF_CHECKED   16
 #define CONTACTF_IDLE      32
@@ -84,8 +84,6 @@
 #define ECF_HIDEOVERLAY 32
 #define ECF_FORCELOCALTIME 64
 #define ECF_HIDELOCALTIME 128
-#define ECF_FORCEVISIBILITY 256
-#define ECF_HIDEVISIBILITY  512
 #define ECF_HASREALTIMEZONE 1024
 
 // other contact flags (struct ClCContact;
@@ -197,7 +195,7 @@ struct ClcData : public ClcDataBase
 //#define CLUI_FRAME_SHOWTOPBUTTONS 1
 #define CLUI_FRAME_SHOWBOTTOMBUTTONS 2
 #define CLUI_SHOWCLIENTICONS 4
-#define CLUI_SHOWVISI 8
+//#define CLUI_SHOWVISI 8
 #define CLUI_FRAME_CLISTSUNKEN 16
 #define CLUI_SHOWXSTATUS 32
 #define CLUI_FRAME_BUTTONSFLAT 64
@@ -248,7 +246,7 @@ struct TCluiData {
 	BYTE tabSRMM_Avail;
 	BYTE bMetaAvail;
 	BYTE bAvatarServiceAvail;
-	HICON hIconVisible, hIconInvisible, hIconChatactive, hIconConnecting;
+	HICON hIconConnecting;
 	DWORD winFlags;
 	DWORD winFlagsEx;
 	int notifyActive;
@@ -520,7 +518,6 @@ int CoolSB_SetupScrollBar();
 #define SETTING_WINDOWSTYLE_THINBORDER 2
 #define SETTING_WINDOWSTYLE_NOBORDER 3
 
-#define CLCHT_ONITEMEXTRAEX  0x1000  //on an extra icon, HIBYTE(HIWORD()) says which
 #define CLCHT_ONAVATAR       0x2000
 #define CLCHT_ONITEMSPACE     0x4000
 

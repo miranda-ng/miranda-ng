@@ -25,12 +25,12 @@ public:
 	    //if (contact->iRowHeight == item)
 	    //    return(dat->row_heights[item]);
 
-	    if (!Alloc(dat, item + 1))
+	    if ( !Alloc(dat, item + 1))
 			return -1;
 
 	    height = dat->fontInfo[GetBasicFontID(contact)].fontHeight;
 
-	    if (!dat->bisEmbedded) {
+	    if ( !dat->bisEmbedded) {
 	        if (contact->bSecondLine != MULTIROW_NEVER && contact->bSecondLine != MULTIROW_IFSPACE && contact->type == CLCIT_CONTACT) {
 	            if ((contact->bSecondLine == MULTIROW_ALWAYS || ((cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG && contact->bSecondLine == MULTIROW_IFNEEDED) && (contact->xStatus > 0 || cfg::eCache[contact->extraCacheEntry].bStatusMsgValid > STATUSMSG_XSTATUSID))))
 	                height += (dat->fontInfo[FONTID_STATUS].fontHeight + cfg::dat.avatarPadding);

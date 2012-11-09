@@ -54,7 +54,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact,
 				break;
 			nowVisible = 1;
 			for (tgroup = group; tgroup; tgroup = tgroup->parent) {
-				if (!(group->expanded)) {
+				if ( !(group->expanded)) {
 					nowVisible = 0; break;
 				}
 			}
@@ -65,7 +65,7 @@ int FindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contact,
 			index++;
 		if ((IsHContactGroup(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_GROUP && ((UINT_PTR) hItem & ~HCONTACT_ISGROUP) == group->cl.items[group->scanIndex]->groupId) || (IsHContactContact(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->hContact == hItem) || (IsHContactInfo(hItem) && group->cl.items[group->scanIndex]->type == CLCIT_INFO && group->cl.items[group->scanIndex]->hContact == (HANDLE) ((UINT_PTR) hItem & ~HCONTACT_ISINFO))) {
 			if (isVisible) {
-				if (!nowVisible)
+				if ( !nowVisible)
 					*isVisible = 0;
 				else {
 					int posy = RowHeight::getItemTopY(dat,index+1);

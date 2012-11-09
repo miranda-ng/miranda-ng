@@ -82,7 +82,7 @@ static ContactFloater *FLT_AddToList(ContactFloater *pFloater)
 {
 	ContactFloater *pCurrent = pFirstFloater;
 
-	if (!pFirstFloater) {
+	if ( !pFirstFloater) {
 		pFirstFloater = pFloater;
 		pFirstFloater->pNextFloater = NULL;
 		return pFirstFloater;
@@ -428,13 +428,11 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 
 void FLT_ReadOptions()
 {
-	DWORD dwPad;
-
 	ZeroMemory(&g_floatoptions, sizeof(FLOATINGOPTIONS));
 
 	g_floatoptions.enabled = cfg::getByte("CList", "flt_enabled", 0);
 	g_floatoptions.dwFlags = cfg::getDword("CList", "flt_flags", FLT_SIMPLE);
-	dwPad = cfg::getDword("CList", "flt_padding", 0);
+	DWORD dwPad = cfg::getDword("CList", "flt_padding", 0);
 	
 	g_floatoptions.pad_top = LOBYTE(LOWORD(dwPad));
 	g_floatoptions.pad_right = HIBYTE(LOWORD(dwPad));
@@ -446,23 +444,20 @@ void FLT_ReadOptions()
 	g_floatoptions.trans = cfg::getByte("CList", "flt_trans", 255);
 	g_floatoptions.radius = cfg::getByte("CList", "flt_radius", 3);
 	g_floatoptions.border_colour = cfg::getDword("CList", "flt_bordercolour", 0);
-    g_floatoptions.def_hover_time = cfg::getByte("CList", "flt_defhovertime", 1);
+	g_floatoptions.def_hover_time = cfg::getByte("CList", "flt_defhovertime", 1);
 
-    if (g_floatoptions.def_hover_time)
-        g_floatoptions.hover_time = cfg::getWord("CLC", "InfoTipHoverTime", 200);
-    else
-        g_floatoptions.hover_time = cfg::getWord("CList", "flt_hovertime", 200);
-
+	if (g_floatoptions.def_hover_time)
+		g_floatoptions.hover_time = cfg::getWord("CLC", "InfoTipHoverTime", 200);
+	else
+		g_floatoptions.hover_time = cfg::getWord("CList", "flt_hovertime", 200);
 }
 
 void FLT_WriteOptions()
 {
-	DWORD dwPad;
-
 	cfg::writeByte("CList", "flt_enabled", g_floatoptions.enabled);
 	cfg::writeDword("CList", "flt_flags", g_floatoptions.dwFlags);
-	dwPad = MAKELONG(MAKEWORD(g_floatoptions.pad_top, g_floatoptions.pad_right), 
-					 MAKEWORD(g_floatoptions.pad_bottom, g_floatoptions.pad_left));
+	DWORD dwPad = MAKELONG(MAKEWORD(g_floatoptions.pad_top, g_floatoptions.pad_right), 
+		MAKEWORD(g_floatoptions.pad_bottom, g_floatoptions.pad_left));
 	cfg::writeDword("CList", "flt_padding", dwPad);
 	cfg::writeDword("CList", "flt_width", g_floatoptions.width);
 	cfg::writeByte("CList", "flt_acttrans", g_floatoptions.act_trans);
@@ -470,80 +465,83 @@ void FLT_WriteOptions()
 	cfg::writeByte("CList", "flt_radius", g_floatoptions.radius);
 	cfg::writeDword("CList", "flt_bordercolour", g_floatoptions.border_colour);
 	cfg::writeByte("CList", "flt_defhovertime", g_floatoptions.def_hover_time);
-    if (!g_floatoptions.def_hover_time)
-    	cfg::writeWord("CList", "flt_hovertime", g_floatoptions.hover_time);
-
+	if ( !g_floatoptions.def_hover_time)
+		cfg::writeWord("CList", "flt_hovertime", g_floatoptions.hover_time);
 }
 
 LRESULT CALLBACK StatusFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_DESTROY:
-			Utils_SaveWindowPosition(hwnd, 0, "CLUI", "sfl");
-			if (g_SFLCachedDC) {
-				SelectObject(g_SFLCachedDC, g_SFLhbmOld);
-				DeleteObject(g_SFLhbm);
-				DeleteDC(g_SFLCachedDC);
-				g_SFLCachedDC = 0;
-			}
-			break;
-		case WM_ERASEBKGND:
-			return TRUE;
-		case WM_PAINT:
-			{
-				HDC hdc;
-				PAINTSTRUCT ps;
+	case WM_DESTROY:
+		Utils_SaveWindowPosition(hwnd, 0, "CLUI", "sfl");
+		if (g_SFLCachedDC) {
+			SelectObject(g_SFLCachedDC, g_SFLhbmOld);
+			DeleteObject(g_SFLhbm);
+			DeleteDC(g_SFLCachedDC);
+			g_SFLCachedDC = 0;
+		}
+		break;
 
-				hdc = BeginPaint(hwnd, &ps);
-				ps.fErase = FALSE;
-				EndPaint(hwnd, &ps);
-				return TRUE;
-			}
-        case WM_LBUTTONDOWN:
-            {
-                POINT ptMouse;
-				RECT rcWindow;
+	case WM_ERASEBKGND:
+		return TRUE;
 
-				GetCursorPos(&ptMouse);
-				GetWindowRect(hwnd, &rcWindow);
-				rcWindow.right = rcWindow.left + 25;
-				if (!PtInRect(&rcWindow, ptMouse))
-					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
-				break;
-			}
-		case WM_LBUTTONUP:
-			{
-                HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
-				RECT rcWindow;
-				POINT pt;
+	case WM_PAINT:
+		{
+			HDC hdc;
+			PAINTSTRUCT ps;
 
-				GetCursorPos(&pt);
-				GetWindowRect(hwnd, &rcWindow);
-				if (cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS) {
-					if (pt.y > rcWindow.top + ((rcWindow.bottom - rcWindow.top) / 2))
-						SendMessage(g_hwndEventArea, WM_COMMAND, MAKEWPARAM(IDC_NOTIFYBUTTON, 0), 0);
-					else
-						TrackPopupMenu(hmenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, pcli->hwndContactList, NULL);
-				}
+			hdc = BeginPaint(hwnd, &ps);
+			ps.fErase = FALSE;
+			EndPaint(hwnd, &ps);
+		}
+		return TRUE;
+
+	case WM_LBUTTONDOWN:
+		{
+			POINT ptMouse;
+			RECT rcWindow;
+
+			GetCursorPos(&ptMouse);
+			GetWindowRect(hwnd, &rcWindow);
+			rcWindow.right = rcWindow.left + 25;
+			if ( !PtInRect(&rcWindow, ptMouse))
+				return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
+		}
+		break;
+
+	case WM_LBUTTONUP:
+		{
+			HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS, 0, 0);
+			RECT rcWindow;
+			POINT pt;
+
+			GetCursorPos(&pt);
+			GetWindowRect(hwnd, &rcWindow);
+			if (cfg::dat.bUseFloater & CLUI_FLOATER_EVENTS) {
+				if (pt.y > rcWindow.top + ((rcWindow.bottom - rcWindow.top) / 2))
+					SendMessage(g_hwndEventArea, WM_COMMAND, MAKEWPARAM(IDC_NOTIFYBUTTON, 0), 0);
 				else
 					TrackPopupMenu(hmenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, pcli->hwndContactList, NULL);
-				return 0;
 			}
-		case WM_CONTEXTMENU:
-			{
-                HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
-				RECT rcWindow;
+			else TrackPopupMenu(hmenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, pcli->hwndContactList, NULL);
+		}
+		return 0;
 
-				GetWindowRect(hwnd, &rcWindow);
-                TrackPopupMenu(hmenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, pcli->hwndContactList, NULL);
-				return 0;
-			}
+	case WM_CONTEXTMENU:
+		{
+			HMENU hmenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN, 0, 0);
+			RECT rcWindow;
 
+			GetWindowRect(hwnd, &rcWindow);
+			TrackPopupMenu(hmenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, pcli->hwndContactList, NULL);
+		}
+		return 0;
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
 
-void CALLBACK ShowTooltip(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime){
+void CALLBACK ShowTooltip(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
+{
 	ContactFloater *pCurrent = pFirstFloater;
 	POINT pt;
 	CLCINFOTIP ti = {0};
@@ -553,10 +551,10 @@ void CALLBACK ShowTooltip(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime){
 
 	GetCursorPos(&pt);
 	if ((abs(pt.x - start_pos.x) > 3) && (abs(pt.y - start_pos.y) > 3)) return;
-					
+
 	while(pCurrent->hwnd != hwnd)
 		pCurrent = pCurrent->pNextFloater;
-	
+
 	ti.cbSize = sizeof(ti);
 	ti.isGroup = 0;
 	ti.isTreeFocused = 0;
@@ -575,148 +573,148 @@ LRESULT CALLBACK ContactFloaterClassProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		centry = &cfg::eCache[iEntry];
 
 	switch(msg) {
-		case WM_NCCREATE:
-			{
-				CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
-				SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
-				iEntry = (int)cs->lpCreateParams;
-				if (iEntry >= 0 && iEntry < cfg::nextCacheEntry)
-					centry = &cfg::eCache[iEntry];
-				return TRUE;
-			}
-		case WM_DESTROY:
-			if (centry) {
-                WINDOWPLACEMENT wp = {0};
-
-				SelectObject(centry->floater->hdc, centry->floater->hbmOld);
-				DeleteObject(centry->floater->hbm);
-				DeleteDC(centry->floater->hdc);
-				FLT_RemoveFromList(centry->floater);
-				free(centry->floater);
-				centry->floater = 0;
-				Utils_SaveWindowPosition(hwnd, centry->hContact, "CList", "flt");
-				break;
-			}
-		case WM_ERASEBKGND:
+	case WM_NCCREATE:
+		{
+			CREATESTRUCT *cs = (CREATESTRUCT *)lParam;
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)cs->lpCreateParams);
+			iEntry = (int)cs->lpCreateParams;
+			if (iEntry >= 0 && iEntry < cfg::nextCacheEntry)
+				centry = &cfg::eCache[iEntry];
 			return TRUE;
-		case WM_PAINT:
-			{
-				HDC hdc;
-				PAINTSTRUCT ps;
+		}
+	case WM_DESTROY:
+		if (centry) {
+			WINDOWPLACEMENT wp = {0};
 
-				hdc = BeginPaint(hwnd, &ps);
-				ps.fErase = FALSE;
-				EndPaint(hwnd, &ps);
-				return TRUE;
+			SelectObject(centry->floater->hdc, centry->floater->hbmOld);
+			DeleteObject(centry->floater->hbm);
+			DeleteDC(centry->floater->hdc);
+			FLT_RemoveFromList(centry->floater);
+			free(centry->floater);
+			centry->floater = 0;
+			Utils_SaveWindowPosition(hwnd, centry->hContact, "CList", "flt");
+			break;
+		}
+	case WM_ERASEBKGND:
+		return TRUE;
+	case WM_PAINT:
+		{
+			HDC hdc;
+			PAINTSTRUCT ps;
+
+			hdc = BeginPaint(hwnd, &ps);
+			ps.fErase = FALSE;
+			EndPaint(hwnd, &ps);
+			return TRUE;
+		}
+	case WM_LBUTTONDBLCLK:
+		if (centry)
+			CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)centry->hContact, 0);
+		return 0;
+	case WM_LBUTTONDOWN:
+		{
+			POINT ptMouse;
+			RECT rcWindow;
+
+			GetCursorPos(&ptMouse);
+			GetWindowRect(hwnd, &rcWindow);
+			rcWindow.right = rcWindow.left + 25;
+			if ( !PtInRect(&rcWindow, ptMouse))
+				return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
+			break;
+		}
+	case WM_MOUSEMOVE:
+		if ( API::pfnTrackMouseEvent && !hover ) {
+			TRACKMOUSEEVENT tme;
+			tme.cbSize = sizeof(TRACKMOUSEEVENT);
+			tme.dwFlags = TME_HOVER | TME_LEAVE;
+			tme.hwndTrack = hwnd;
+			tme.dwHoverTime = 5;
+			API::pfnTrackMouseEvent(&tme);
+			hover = TRUE;
+		}
+		if ( ServiceExists( MS_TOOLTIP_SHOWTIP )) {
+			if ((g_floatoptions.dwFlags & FLT_SHOWTOOLTIPS) && !tooltip) {
+				GetCursorPos(&start_pos);
+				if (hTooltipTimer) KillTimer(hwnd, TOOLTIP_TIMER);
+				hTooltipTimer = SetTimer(hwnd, TOOLTIP_TIMER, g_floatoptions.hover_time, ShowTooltip);					
 			}
-		case WM_LBUTTONDBLCLK:
-			if (centry)
-				CallService(MS_CLIST_CONTACTDOUBLECLICKED, (WPARAM)centry->hContact, 0);
-			return 0;
-		case WM_LBUTTONDOWN:
-			{
-				POINT ptMouse;
+		}
+
+		return FALSE;
+
+	case WM_MOUSEHOVER:
+		{
+			ClcContact *contact = NULL;
+			ContactFloater *pCurrent = pFirstFloater;
+			int oldTrans = g_floatoptions.trans;
+
+			while(pCurrent->hwnd != hwnd)
+				pCurrent = pCurrent->pNextFloater;
+
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
+				g_floatoptions.trans = g_floatoptions.act_trans;
+				FLT_Update(cfg::clcdat, contact);
+				g_floatoptions.trans = oldTrans;
+			}
+
+			break;
+		}
+	case WM_MOUSELEAVE:
+		{
+			ClcContact *contact = NULL;
+			ContactFloater *pCurrent = pFirstFloater;
+
+			while(pCurrent->hwnd != hwnd)
+				pCurrent = pCurrent->pNextFloater;
+
+			if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0))
+				FLT_Update(cfg::clcdat, contact);
+
+			if (hTooltipTimer)
+			{ 
+				KillTimer(hwnd, TOOLTIP_TIMER);
+				hTooltipTimer = 0;		
+			}
+
+			if (tooltip) CallService(MS_TOOLTIP_HIDETIP, 0, 0);
+
+			hover = FALSE;
+			tooltip = FALSE;
+
+
+			break;
+		}
+
+	case WM_MOVE:
+		{
+			if (g_floatoptions.dwFlags & FLT_SNAP)
+				FLT_SnapToEdges(hwnd);
+
+			if (GetKeyState(VK_CONTROL) < 0)
+				FLT_SnapToFloater(hwnd);
+
+			break;
+		}
+	case WM_MEASUREITEM:
+		return(CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam));
+	case WM_DRAWITEM:
+		return(CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam));
+	case WM_COMMAND:
+		return(CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKELONG(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)centry->hContact));
+	case WM_CONTEXTMENU:
+		{
+			if (centry) {
+				HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)centry->hContact, 0);
 				RECT rcWindow;
 
-				GetCursorPos(&ptMouse);
 				GetWindowRect(hwnd, &rcWindow);
-				rcWindow.right = rcWindow.left + 25;
-				if (!PtInRect(&rcWindow, ptMouse))
-					return SendMessage(hwnd, WM_SYSCOMMAND, SC_MOVE | HTCAPTION, MAKELPARAM(ptMouse.x, ptMouse.y));
-				break;
+				TrackPopupMenu(hContactMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, hwnd, NULL);
+				DestroyMenu(hContactMenu);
+				return 0;
 			}
-		case WM_MOUSEMOVE:
-			if ( API::pfnTrackMouseEvent && !hover ) {
-				TRACKMOUSEEVENT tme;
-				tme.cbSize = sizeof(TRACKMOUSEEVENT);
-				tme.dwFlags = TME_HOVER | TME_LEAVE;
-				tme.hwndTrack = hwnd;
-				tme.dwHoverTime = 5;
-				API::pfnTrackMouseEvent(&tme);
-				hover = TRUE;
-			}
-			if ( ServiceExists( MS_TOOLTIP_SHOWTIP )) {
-				if ((g_floatoptions.dwFlags & FLT_SHOWTOOLTIPS) && !tooltip) {
-					GetCursorPos(&start_pos);
-					if (hTooltipTimer) KillTimer(hwnd, TOOLTIP_TIMER);
-					hTooltipTimer = SetTimer(hwnd, TOOLTIP_TIMER, g_floatoptions.hover_time, ShowTooltip);					
-				}
-			}
-
-			return FALSE;
-
-		case WM_MOUSEHOVER:
-			{
-				ClcContact *contact = NULL;
-				ContactFloater *pCurrent = pFirstFloater;
-				int oldTrans = g_floatoptions.trans;
-
-				while(pCurrent->hwnd != hwnd)
-					pCurrent = pCurrent->pNextFloater;
-
-				if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
-					g_floatoptions.trans = g_floatoptions.act_trans;
-					FLT_Update(cfg::clcdat, contact);
-					g_floatoptions.trans = oldTrans;
-				}
-
-				break;
-			}
-		case WM_MOUSELEAVE:
-			{
-				ClcContact *contact = NULL;
-				ContactFloater *pCurrent = pFirstFloater;
-
-				while(pCurrent->hwnd != hwnd)
-					pCurrent = pCurrent->pNextFloater;
-
-				if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0))
-					FLT_Update(cfg::clcdat, contact);
-
-                if (hTooltipTimer)
-                { 
-                    KillTimer(hwnd, TOOLTIP_TIMER);
-                    hTooltipTimer = 0;		
-                }
-
-                if (tooltip) CallService(MS_TOOLTIP_HIDETIP, 0, 0);
-
-                hover = FALSE;
-                tooltip = FALSE;
-
-
-				break;
-			}
-
-		case WM_MOVE:
-			{
-				if (g_floatoptions.dwFlags & FLT_SNAP)
-					FLT_SnapToEdges(hwnd);
-
-				if (GetKeyState(VK_CONTROL) < 0)
-					FLT_SnapToFloater(hwnd);
-
-				break;
-			}
-		case WM_MEASUREITEM:
-			return(CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam));
-		case WM_DRAWITEM:
-			return(CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam));
-		case WM_COMMAND:
-			return(CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKELONG(LOWORD(wParam), MPCF_CONTACTMENU), (LPARAM)centry->hContact));
-		case WM_CONTEXTMENU:
-			{
-				if (centry) {
-					HMENU hContactMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)centry->hContact, 0);
-					RECT rcWindow;
-
-					GetWindowRect(hwnd, &rcWindow);
-			        TrackPopupMenu(hContactMenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON, rcWindow.left, rcWindow.bottom, 0, hwnd, NULL);
-					DestroyMenu(hContactMenu);
-					return 0;
-				}
-				break;
-			}
+			break;
+		}
 	}
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }
@@ -725,22 +723,22 @@ void SFL_RegisterWindowClass()
 {
 	WNDCLASS wndclass;
 
-    wndclass.style = 0;
-    wndclass.lpfnWndProc = StatusFloaterClassProc;
-    wndclass.cbClsExtra = 0;
-    wndclass.cbWndExtra = 0;
-    wndclass.hInstance = g_hInst;
-    wndclass.hIcon = 0;
-    wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
-    wndclass.hbrBackground = (HBRUSH) (COLOR_3DFACE);
-    wndclass.lpszMenuName = 0;
-    wndclass.lpszClassName = _T("StatusFloaterClass");
-    RegisterClass(&wndclass);
+	wndclass.style = 0;
+	wndclass.lpfnWndProc = StatusFloaterClassProc;
+	wndclass.cbClsExtra = 0;
+	wndclass.cbWndExtra = 0;
+	wndclass.hInstance = g_hInst;
+	wndclass.hIcon = 0;
+	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hbrBackground = (HBRUSH) (COLOR_3DFACE);
+	wndclass.lpszMenuName = 0;
+	wndclass.lpszClassName = _T("StatusFloaterClass");
+	RegisterClass(&wndclass);
 
-    wndclass.style = CS_DBLCLKS;
+	wndclass.style = CS_DBLCLKS;
 	wndclass.lpszClassName = _T("ContactFloaterClass");
-    wndclass.lpfnWndProc = ContactFloaterClassProc;
-    RegisterClass(&wndclass);
+	wndclass.lpfnWndProc = ContactFloaterClassProc;
+	RegisterClass(&wndclass);
 }
 
 void SFL_UnregisterWindowClass()
@@ -808,7 +806,7 @@ void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BO
 		sfl_statustext[99] = 0;
 	}
 
-	if (!hIcon) {
+	if ( !hIcon) {
 		HICON p_hIcon;
 
 		if (refresh)
@@ -845,11 +843,11 @@ void SFL_Update(HICON hIcon, int iIcon, HIMAGELIST hIml, const TCHAR *szText, BO
 }
 
 /*
- * set the floater
- * mode = 0/1 forced hide/show
- * OR -1 to set it depending on the clist state (visible/hidden) (this is actually reversed, because the function
- * is called *before* the clist is shown or hidden)
- */
+* set the floater
+* mode = 0/1 forced hide/show
+* OR -1 to set it depending on the clist state (visible/hidden) (this is actually reversed, because the function
+* is called *before* the clist is shown or hidden)
+*/
 
 void SFL_SetState(int uMode)
 {
@@ -964,7 +962,7 @@ void FLT_Create(int iEntry)
 		ClcContact *contact = NULL;
 		ClcGroup *group = NULL;
 
-        centry = &cfg::eCache[iEntry];
+		centry = &cfg::eCache[iEntry];
 		if (centry->floater == 0 && API::pfnUpdateLayeredWindow != NULL) {
 
 			centry->floater = (ContactFloater *)malloc(sizeof(ContactFloater));
@@ -981,7 +979,7 @@ void FLT_Create(int iEntry)
 
 		SetWindowLongPtr(centry->floater->hwnd, GWL_STYLE, GetWindowLongPtr(centry->floater->hwnd, GWL_STYLE) & ~(WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_OVERLAPPEDWINDOW | WS_POPUPWINDOW));
 
-        if (Utils_RestoreWindowPosition(centry->floater->hwnd, centry->hContact, "CList", "flt"))
+		if (Utils_RestoreWindowPosition(centry->floater->hwnd, centry->hContact, "CList", "flt"))
 			if (Utils_RestoreWindowPositionNoMove(centry->floater->hwnd, centry->hContact, "CList", "flt"))
 				SetWindowPos(centry->floater->hwnd, 0, 50, 50, 150, 30, SWP_NOZORDER | SWP_NOACTIVATE);
 
@@ -1002,19 +1000,10 @@ extern LONG g_maxAV_X, g_maxAV_Y;
 void FLT_Update(struct ClcData *dat, ClcContact *contact)
 {
 	RECT rcClient, rcWindow;
-	POINT ptDest, ptSrc = {0};
-	SIZE szDest;
-	BLENDFUNCTION bf = {0};
-	HWND hwnd;
-	HDC hdc;
-	BOOL firstDrawn = TRUE;
+	POINT ptSrc = {0};
 	ClcGroup *group = NULL;
 	ClcContact *newContact = NULL;
 	HRGN rgn;
-	HBRUSH hbrBorder;
-    COLORREF clrKey;
-    HBRUSH   brKey;
-    float    greyLevel;
 
 	if (contact == NULL || dat == NULL)
 		return;
@@ -1027,8 +1016,8 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 
 	FLT_SetSize(&cfg::eCache[contact->extraCacheEntry], g_floatoptions.width, RowHeight::getFloatingRowHeight(dat, pcli->hwndContactTree, contact, g_floatoptions.dwFlags) + (2*g_floatoptions.pad_top));
 
-	hwnd = cfg::eCache[contact->extraCacheEntry].floater->hwnd;
-	hdc = cfg::eCache[contact->extraCacheEntry].floater->hdc;
+	HWND hwnd = cfg::eCache[contact->extraCacheEntry].floater->hwnd;
+	HDC hdc = cfg::eCache[contact->extraCacheEntry].floater->hdc;
 
 	if (hwnd == 0)
 		return;
@@ -1036,34 +1025,32 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 	GetClientRect(hwnd, &rcClient);
 	GetWindowRect(hwnd, &rcWindow);
 
-	ptDest.x = rcWindow.left;
-	ptDest.y = rcWindow.top;
-	szDest.cx = rcWindow.right - rcWindow.left;
-	szDest.cy = rcWindow.bottom - rcWindow.top;
+	POINT ptDest = {rcWindow.left, rcWindow.top };
+	SIZE szDest = {rcWindow.right - rcWindow.left, rcWindow.bottom - rcWindow.top};
 
-    /*
-     * fill with a DESATURATED representation of the clist bg color and use this later as a color key 
-     */
+	/*
+	* fill with a DESATURATED representation of the clist bg color and use this later as a color key 
+	*/
 
-    greyLevel = (float)(GetRValue(cfg::clcdat->bkColour) * 0.299 + GetGValue(cfg::clcdat->bkColour) * 0.587 + GetBValue(cfg::clcdat->bkColour) * 0.144);
-    if (greyLevel > 255)
-        greyLevel = 255;
+	float greyLevel = (float)(GetRValue(cfg::clcdat->bkColour) * 0.299 + GetGValue(cfg::clcdat->bkColour) * 0.587 + GetBValue(cfg::clcdat->bkColour) * 0.144);
+	if (greyLevel > 255)
+		greyLevel = 255;
 
-    clrKey = RGB((BYTE)greyLevel, (BYTE)greyLevel, (BYTE)greyLevel);
-    brKey = CreateSolidBrush(clrKey);
+	COLORREF clrKey = RGB((BYTE)greyLevel, (BYTE)greyLevel, (BYTE)greyLevel);
+	HBRUSH brKey = CreateSolidBrush(clrKey);
 	FillRect(hdc, &rcClient, brKey);
-    DeleteObject(brKey);
+	DeleteObject(brKey);
 
 	SetBkMode(hdc, TRANSPARENT);
 
 	if (g_floatoptions.dwFlags & FLT_ROUNDED){
 		rgn = CreateRoundRectRgn(0, 0, rcClient.right, rcClient.bottom, g_floatoptions.radius, g_floatoptions.radius);
 		SelectClipRgn(hdc, rgn);
-        if (g_floatoptions.dwFlags & FLT_FILLSTDCOLOR) {
-            HBRUSH br = CreateSolidBrush(cfg::clcdat->bkColour);
-            FillRect(hdc, &rcClient, br);
-            DeleteObject(br);
-        }
+		if (g_floatoptions.dwFlags & FLT_FILLSTDCOLOR) {
+			HBRUSH br = CreateSolidBrush(cfg::clcdat->bkColour);
+			FillRect(hdc, &rcClient, br);
+			DeleteObject(br);
+		}
 	}
 
 	if (FindItem(pcli->hwndContactTree, dat, contact->hContact, &newContact, &group, 0)) {
@@ -1078,23 +1065,22 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 		if (g_floatoptions.dwFlags & FLT_SIMPLE) {
 			contact->ace = 0;
 			contact->bSecondLine = MULTIROW_NEVER;
-			cfg::dat.dwFlags &= ~(CLUI_SHOWCLIENTICONS | CLUI_SHOWVISI);
+			cfg::dat.dwFlags &= ~CLUI_SHOWCLIENTICONS;
 		}
 		else {
-			if (!(g_floatoptions.dwFlags & FLT_AVATARS)) {
+			if ( !(g_floatoptions.dwFlags & FLT_AVATARS)) {
 				contact->ace = 0;
 				g_list_avatars = 0;
 			}
-			else
-				g_list_avatars = 1;
+			else g_list_avatars = 1;
 
-			if (!(g_floatoptions.dwFlags & FLT_DUALROW))
+			if ( !(g_floatoptions.dwFlags & FLT_DUALROW))
 				contact->bSecondLine = MULTIROW_NEVER;
 			else
 				contact->bSecondLine = MULTIROW_ALWAYS;
 
-			if (!(g_floatoptions.dwFlags & FLT_EXTRAICONS))
-				cfg::dat.dwFlags &= ~(CLUI_SHOWCLIENTICONS | CLUI_SHOWVISI);
+			if ( !(g_floatoptions.dwFlags & FLT_EXTRAICONS))
+				cfg::dat.dwFlags &= ~CLUI_SHOWCLIENTICONS;
 		}
 
 		dat->leftMargin = g_floatoptions.pad_left;
@@ -1108,6 +1094,7 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 		hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
 
 		g_padding_y = g_floatoptions.pad_top;
+		BOOL firstDrawn = TRUE;
 		PaintItem(hdc, group, contact, 0, 0, dat, -4, pcli->hwndContactTree, 0, &rcClient, &firstDrawn, 0, rcClient.bottom - rcClient.top);
 		g_padding_y = 0;
 
@@ -1124,9 +1111,9 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 		dat->leftMargin = oldLeftMargin;
 		dat->rightMargin = oldRightMargin;
 	}
- 
+
 	if (g_floatoptions.dwFlags & FLT_BORDER){
-		hbrBorder = CreateSolidBrush(g_floatoptions.border_colour);
+		HBRUSH hbrBorder = CreateSolidBrush(g_floatoptions.border_colour);
 		if (g_floatoptions.dwFlags & FLT_ROUNDED)
 			FrameRgn(hdc, rgn, hbrBorder, 1, 1);
 		else
@@ -1134,10 +1121,11 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 
 		DeleteObject(hbrBorder);
 	}
-	
+
 	if (g_floatoptions.dwFlags & FLT_ROUNDED)
 		DeleteObject(rgn);
 
+	BLENDFUNCTION bf = {0};
 	bf.BlendOp = AC_SRC_OVER;
 	bf.AlphaFormat = 0;
 	bf.SourceConstantAlpha = g_floatoptions.trans;
@@ -1147,22 +1135,21 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 }
 
 /*
- * syncs the floating contacts with clist contact visibility.
- * will hide all floating contacts which are not visible on the list
- * needed after a list rebuild
- */
+* syncs the floating contacts with clist contact visibility.
+* will hide all floating contacts which are not visible on the list
+* needed after a list rebuild
+*/
 
 void FLT_SyncWithClist()
 {
-	ClcContact *contact;
 	ContactFloater *pCurrent = pFirstFloater;
-	HWND hwnd;
 	int iVis = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
 
 	if (g_floatoptions.dwFlags & FLT_SYNCWITHCLIST){
 		while(pCurrent) {
-			hwnd = pCurrent->hwnd;
+			HWND hwnd = pCurrent->hwnd;
 			if (hwnd && IsWindow(hwnd)) {
+				ClcContact *contact;
 				if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
 					FLT_Update(cfg::clcdat, contact);
 					if (((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) || !(g_floatoptions.dwFlags & FLT_AUTOHIDE))
@@ -1170,8 +1157,7 @@ void FLT_SyncWithClist()
 					else
 						ShowWindow(hwnd, SW_HIDE);
 				}
-				else
-					ShowWindow(hwnd, SW_HIDE);
+				else ShowWindow(hwnd, SW_HIDE);
 			}
 			pCurrent = pCurrent->pNextFloater;
 		}
@@ -1179,9 +1165,9 @@ void FLT_SyncWithClist()
 }
 
 /*
- * quickly show or hide all floating contacts
- * used by autohide/show feature
- */
+* quickly show or hide all floating contacts
+* used by autohide/show feature
+*/
 
 void FLT_ShowHideAll(int showCmd)
 {
@@ -1189,7 +1175,7 @@ void FLT_ShowHideAll(int showCmd)
 	ContactFloater *pCurrent = pFirstFloater;
 	HWND hwnd;
 
-	if (g_floatoptions.dwFlags & FLT_AUTOHIDE){
+	if (g_floatoptions.dwFlags & FLT_AUTOHIDE) {
 		while(pCurrent) {
 			hwnd = pCurrent->hwnd;
 			if (hwnd && IsWindow(hwnd)) {
@@ -1204,8 +1190,8 @@ void FLT_ShowHideAll(int showCmd)
 }
 
 /*
- * update/repaint all contact floaters
- */
+* update/repaint all contact floaters
+*/
 
 void FLT_RefreshAll()
 {

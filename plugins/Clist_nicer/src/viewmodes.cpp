@@ -695,7 +695,7 @@ INT_PTR CALLBACK DlgProcViewModesSetup(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							mir_snprintf(szSetting, 256, "%c%s_SSM", 246, szBuf);
 							DBDeleteContactSetting(NULL, CLVM_MODULE, szSetting);
 							DBDeleteContactSetting(NULL, CLVM_MODULE, szBuf);
-							if (!strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
+							if ( !strcmp(cfg::dat.current_viewmode, szBuf) && lstrlenA(szBuf) == lstrlenA(cfg::dat.current_viewmode)) {
 								cfg::dat.bFilterEffective = 0;
 								pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
 								SetWindowTextA(hwndSelector, Translate("No view mode"));
@@ -964,7 +964,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 						break;
 
 					KillTimer(hwnd, wParam);
-					if (!cfg::dat.old_viewmode[0])
+					if ( !cfg::dat.old_viewmode[0])
 						SendMessage(hwnd, WM_COMMAND, IDC_RESETMODES, 0);
 					else
 						ApplyViewMode((const char *)cfg::dat.old_viewmode);
@@ -1018,7 +1018,7 @@ clvm_reset_command:
 				break;
 			case IDC_CONFIGUREMODES:
 clvm_config_command:
-				if (!g_ViewModeOptDlg)
+				if ( !g_ViewModeOptDlg)
 					CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_OPT_VIEWMODES), 0, DlgProcViewModesSetup, 0);
 				break;
 			}
@@ -1076,7 +1076,7 @@ void ApplyViewMode(const char *name)
 	cfg::dat.bFilterEffective = 0;
 
 	mir_snprintf(szSetting, 256, "%c%s_PF", 246, name);
-	if (!cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+	if ( !cfg::getString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (lstrlenA(dbv.pszVal) >= 2) {
 			strncpy(cfg::dat.protoFilter, dbv.pszVal, sizeof(cfg::dat.protoFilter));
 			cfg::dat.protoFilter[sizeof(cfg::dat.protoFilter) - 1] = 0;
@@ -1085,7 +1085,7 @@ void ApplyViewMode(const char *name)
 		mir_free(dbv.pszVal);
 	}
 	mir_snprintf(szSetting, 256, "%c%s_GF", 246, name);
-	if (!cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
+	if ( !cfg::getTString(NULL, CLVM_MODULE, szSetting, &dbv)) {
 		if (lstrlen(dbv.ptszVal) >= 2) {
 			_tcsncpy(cfg::dat.groupFilter, dbv.ptszVal, safe_sizeof(cfg::dat.groupFilter));
 			cfg::dat.groupFilter[safe_sizeof(cfg::dat.groupFilter) - 1] = 0;

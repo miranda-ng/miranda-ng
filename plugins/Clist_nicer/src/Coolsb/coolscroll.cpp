@@ -832,7 +832,7 @@ static LRESULT NCDrawHScrollbar(SCROLLBAR *sb, HWND hwnd, HDC hdc, const RECT *r
 	if (sb->fScrollFlags & ESB_DISABLE_RIGHT)	uRightButFlags |= DFCS_INACTIVE;
 
 	//if we need to grey the arrows because there is no data to scroll
-	if (!IsScrollInfoActive(si) && !(sb->fScrollFlags & CSBS_THUMBALWAYS))
+	if ( !IsScrollInfoActive(si) && !(sb->fScrollFlags & CSBS_THUMBALWAYS))
 	{
 		uLeftButFlags  |= DFCS_INACTIVE;
 		uRightButFlags |= DFCS_INACTIVE;
@@ -954,7 +954,7 @@ static LRESULT NCDrawHScrollbar(SCROLLBAR *sb, HWND hwnd, HDC hdc, const RECT *r
 
 			//if we always show the thumb covering the whole scrollbar,
 			//then draw it that way
-			if (!IsScrollInfoActive(si)	&& (sb->fScrollFlags & CSBS_THUMBALWAYS) 
+			if ( !IsScrollInfoActive(si)	&& (sb->fScrollFlags & CSBS_THUMBALWAYS) 
 				&& ctrl.right - ctrl.left > sb->nMinThumbSize)
 			{
 				//leave a 1-pixel gap between the thumb + right button
@@ -1603,7 +1603,7 @@ static LRESULT NCPaint(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lParam)
 			CopyRect(&rect2, &rect);
 			OffsetRect(&rect2, winrect.left, winrect.top);
 
-			if (!sw->fLeftScrollbar && parent.right == rect2.right+sw->cxRightEdge && parent.bottom == rect2.bottom+sw->cyBottomEdge
+			if ( !sw->fLeftScrollbar && parent.right == rect2.right+sw->cxRightEdge && parent.bottom == rect2.bottom+sw->cyBottomEdge
 			 || sw->fLeftScrollbar && parent.left  == rect2.left -sw->cxLeftEdge  && parent.bottom == rect2.bottom+sw->cyBottomEdge)
 				DrawFrameControl(hdc, &rect, DFC_SCROLL, sw->fLeftScrollbar ? DFCS_SCROLLSIZEGRIPRIGHT : DFCS_SCROLLSIZEGRIP );
 			else
@@ -1770,7 +1770,7 @@ static UINT GetHorzButtonFromPt(SCROLLBAR *sb, RECT *rect, POINT pt, BOOL fRetur
 	int butwidth;
 	SCROLLBUT *sbut = sb->sbButtons;
 
-	if (!PtInRect(rect, pt))
+	if ( !PtInRect(rect, pt))
 		return -1;
 
 	if (sb->fButVisibleAfter)
@@ -2007,7 +2007,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 	case HTSCROLL_THUMB: 
 
 		//if the scrollbar is disabled, then do no further processing
-		if (!IsScrollbarActive(sb))
+		if ( !IsScrollbarActive(sb))
 			return 0;
 		
 		GetRealScrollRect(sb, &rect);
@@ -2056,7 +2056,7 @@ static LRESULT NCLButtonDown(SCROLLWND *sw, HWND hwnd, WPARAM wParam, LPARAM lPa
 		target1:
 
 		//if the scrollbar is disabled, then do no further processing
-		if (!IsScrollbarActive(sb))
+		if ( !IsScrollbarActive(sb))
 			break;
 
 		//ajust the horizontal rectangle to NOT include
@@ -2274,7 +2274,7 @@ static LRESULT ThumbTrackHorz(SCROLLBAR *sbar, HWND hwnd, int x, int y)
 	//if the mouse is not in a suitable distance of the scrollbar,
 	//then "snap" the thumb back to its initial position
 #ifdef SNAP_THUMB_BACK
-	if (!PtInRect(&rc2, pt))
+	if ( !PtInRect(&rc2, pt))
 	{
 		thumbpos = nThumbPos0;
 	}
@@ -2822,7 +2822,7 @@ static LRESULT CoolSB_Timer(SCROLLWND *swnd, HWND hwnd, WPARAM wTimerId, LPARAM 
 		//then kill the timer..
 		GetCursorPos(&pt);
 
-		if (!PtInRect(&MouseOverRect, pt))
+		if ( !PtInRect(&MouseOverRect, pt))
 		{
 			KillTimer(hwnd, uMouseOverId);
 			uMouseOverId = 0;

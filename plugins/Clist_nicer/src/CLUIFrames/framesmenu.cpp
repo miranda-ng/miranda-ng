@@ -20,7 +20,7 @@ void FreeAndNil( void **p )
 	{
 		if (*p!=NULL)
 		{
-			if (!IsBadCodePtr((FARPROC)*p))
+			if ( !IsBadCodePtr((FARPROC)*p))
 			{
 				mir_free(*p);
 			}
@@ -188,7 +188,7 @@ int InitFramesMenus(void)
 {
 	TMenuParam tmp;
 
-	if (!ServiceExists(MO_REMOVEMENUOBJECT))
+	if ( !ServiceExists(MO_REMOVEMENUOBJECT))
 		InternalGenMenuModule=TRUE;
 
 	if (ServiceExists(MO_REMOVEMENUOBJECT))

@@ -194,7 +194,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 				/*if (rgn) {
 					ptTest.x = j;
 					ptTest.y = i;
-					if (!PtInRegion(rgn, ptTest.x, ptTest.y)) {
+					if ( !PtInRegion(rgn, ptTest.x, ptTest.y)) {
 						continue;
 					}
 				}*/
@@ -235,7 +235,7 @@ int ShowHide(WPARAM wParam, LPARAM lParam)
 		switch (iVisibleState) {
 			case GWVS_PARTIALLY_COVERED:
 				//If we don't want to bring it to top, we can use a simple break. This goes against readability ;-) but the comment explains it.
-				if (!cfg::getByte("CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
+				if ( !cfg::getByte("CList", "BringToFront", SETTING_BRINGTOFRONT_DEFAULT))
 					break;
 			case GWVS_COVERED:     //Fall through (and we're already falling)
 			case GWVS_HIDDEN:
@@ -253,7 +253,7 @@ int ShowHide(WPARAM wParam, LPARAM lParam)
 		RECT rcWindow;
 
 		SetWindowPos(pcli->hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
-		if (!cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT))
+		if ( !cfg::getByte("CList", "OnTop", SETTING_ONTOP_DEFAULT))
 			SetWindowPos(pcli->hwndContactList, HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOREDRAW | SWP_NOSENDCHANGING | SWP_NOCOPYBITS);
 		SetForegroundWindow(pcli->hwndContactList);
 		//SetActiveWindow(pcli->hwndContactList);

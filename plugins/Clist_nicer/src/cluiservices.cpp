@@ -36,7 +36,7 @@ static INT_PTR GetClistVersion(WPARAM wParam, LPARAM lParam)
 	static char g_szVersionString[256];
 
 	mir_snprintf(g_szVersionString, 256, "%s, %d.%d.%d.%d", pluginInfo.shortName, HIBYTE(HIWORD(pluginInfo.version)), LOBYTE(HIWORD(pluginInfo.version)), HIBYTE(LOWORD(pluginInfo.version)), LOBYTE(LOBYTE(pluginInfo.version)));
-	if (!IsBadWritePtr((LPVOID)lParam, 4))
+	if ( !IsBadWritePtr((LPVOID)lParam, 4))
 		*((DWORD *)lParam) = pluginInfo.version;
 
 	return (INT_PTR)g_szVersionString;
@@ -211,7 +211,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	}
 	// update the clui button
 
-	if (!DBGetContactSetting(NULL, "CList", "PrimaryStatus", &dbv)) {
+	if ( !DBGetContactSetting(NULL, "CList", "PrimaryStatus", &dbv)) {
 		if (dbv.type == DBVT_ASCIIZ && lstrlenA(dbv.pszVal) > 1) {
 			wStatus = (WORD) CallProtoService(dbv.pszVal, PS_GETSTATUS, 0, 0);
 			iIcon = IconFromStatusMode(dbv.pszVal, (int) wStatus, 0, &hIcon);
@@ -244,7 +244,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		HWND hwndClistBtn = GetDlgItem(pcli->hwndContactList, IDC_TBGLOBALSTATUS);
 		if ( IsWindow(hwndClistBtn)) {
 			SendMessage(hwndClistBtn, WM_SETTEXT, 0, (LPARAM) szStatus);
-			if (!hIcon)
+			if ( !hIcon)
 				SendMessage(hwndClistBtn, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
 			else
 				SendMessage(hwndClistBtn, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);
@@ -254,7 +254,7 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		HWND hwndTtbStatus = ClcGetButtonWindow(IDC_TBTOPSTATUS);
 		if ( IsWindow(hwndTtbStatus)) {
 			if (g_ButtonItems == NULL) {
-				if (!hIcon)
+				if ( !hIcon)
 					SendMessage(hwndTtbStatus, BUTTONSETIMLICON, (WPARAM) hCListImages, (LPARAM) iIcon);
 				else
 					SendMessage(hwndTtbStatus, BM_SETIMAGE, IMAGE_ICON, (LPARAM) hIcon);

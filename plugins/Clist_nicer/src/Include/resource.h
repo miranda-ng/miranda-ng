@@ -131,7 +131,6 @@
 #define IDC_INACTIVEPERC                1187
 #define IDC_SHOWSTATUSMSG               1188
 #define IDC_SHOWLOCALTIME               1189
-#define IDC_SHOWVISIBILITY              1190
 #define IDC_SHOWLOCALTIMEONLYWHENDIFFERENT 1191
 #define IDC_TITLETEXT                   1196
 #define IDC_EXCEPTION_DETAILS           1200
@@ -275,7 +274,6 @@
 #define IDI_OVL_DND                     2053
 #define IDI_OVL_NA                      2054
 #define IDI_OVL_OCCUPIED                2055
-#define IDI_OVL_FREEFORCHAT             2056
 #define IDI_OVL_INVISIBLE               2057
 #define IDI_OVL_ONTHEPHONE              2058
 #define IDI_OVL_OUTTOLUNCH              2059
@@ -288,8 +286,6 @@
 #define IDI_SOUNDSOFF                   2106
 #define IDI_TABSRMMSESSIONLIST          2107
 #define IDI_TABSRMMMENU                 2108
-#define IDI_CLVISIBLE                   2109
-#define IDI_CLINVISIBLE                 2110
 #define IDI_PROTOCONNECTING             2111
 #define IDI_TBTOPMENU                   2112
 #define IDI_TBACCOUNTS                  2113
@@ -318,7 +314,7 @@
 #define IDC_STATIC1                     40018
 #define IDC_STATIC2                     40019
 #define IDC_STATIC3                     40020
-#define POPUP_VISIBILITY                40021
+//#define POPUP_VISIBILITY                40021
 #define IDC_STATIC16                    40021
 #define IDC_STATIC4                     40022
 #define IDC_STATIC5                     40023

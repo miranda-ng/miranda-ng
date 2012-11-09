@@ -84,7 +84,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIME, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_HIDETIMESPIN, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
 			Utils::enableDlgControl(hwndDlg, IDC_STATIC01, IsDlgButtonChecked(hwndDlg, IDC_AUTOHIDE));
-			if (!IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
+			if ( !IsDlgButtonChecked(hwndDlg, IDC_AUTOSIZE)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC21, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC22, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_MAXSIZEHEIGHT, FALSE);
@@ -92,14 +92,14 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				Utils::enableDlgControl(hwndDlg, IDC_AUTOSIZEUPWARD, FALSE);
 			} {
 				DBVARIANT dbv;
-				if (!cfg::getTString(NULL, "CList", "TitleText", &dbv)) {
+				if ( !cfg::getTString(NULL, "CList", "TitleText", &dbv)) {
 					SetDlgItemText(hwndDlg, IDC_TITLETEXT, dbv.ptszVal);
 					DBFreeVariant(&dbv);
 				} else
 					SetDlgItemTextA(hwndDlg, IDC_TITLETEXT, MIRANDANAME);
 			}
 
-			if (!API::sysConfig.isWin2KPlus) {
+			if ( !API::sysConfig.isWin2KPlus) {
 				Utils::enableDlgControl(hwndDlg, IDC_FADEINOUT, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSPARENT, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_DROPSHADOW, FALSE);
@@ -109,7 +109,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				CheckDlgButton(hwndDlg, IDC_TRANSPARENT, cfg::dat.isTransparent ? BST_CHECKED : BST_UNCHECKED);
 				CheckDlgButton(hwndDlg, IDC_FULLTRANSPARENT, cfg::dat.bFullTransparent ? BST_CHECKED : BST_UNCHECKED);
 			}
-			if (!IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
+			if ( !IsDlgButtonChecked(hwndDlg, IDC_TRANSPARENT)) {
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC11, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_STATIC12, FALSE);
 				Utils::enableDlgControl(hwndDlg, IDC_TRANSACTIVE, FALSE);
@@ -182,7 +182,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			BYTE windowStyle = (BYTE)SendDlgItemMessage(hwndDlg, IDC_BORDERSTYLE, CB_GETCURSEL, 0, 0);
 			COLORREF clr_cluiframes;
 
-			if (!opt_clui_changed)
+			if ( !opt_clui_changed)
 				return TRUE;
 
 			cfg::writeByte("CLUI", "FadeInOut", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_FADEINOUT));
@@ -256,7 +256,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 			ApplyCLUIBorderStyle(pcli->hwndContactList);
 
-			if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
+			if ( !IsDlgButtonChecked(hwndDlg, IDC_SHOWMAINMENU))
 				SetMenu(pcli->hwndContactList, NULL);
 			else
 				SetMenu(pcli->hwndContactList, pcli->hMenuMain);
@@ -323,7 +323,7 @@ INT_PTR CALLBACK DlgProcCluiOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 				}
 			} else {
 				API::SetLayeredWindowAttributes(pcli->hwndContactList, RGB(0, 0, 0), (BYTE)255, LWA_ALPHA);
-				if (!cfg::dat.bLayeredHack)
+				if ( !cfg::dat.bLayeredHack)
 					SetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE, GetWindowLongPtr(pcli->hwndContactList, GWL_EXSTYLE) & ~WS_EX_LAYERED);
 			}
 
@@ -371,7 +371,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		CheckDlgButton(hwndDlg, IDC_SHOWXSTATUS, cfg::dat.bShowXStatusOnSbar);
 		CheckDlgButton(hwndDlg, IDC_MARKLOCKED, cfg::getByte("CLUI", "sbar_showlocked", 1));
 
-		if (!IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
+		if ( !IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR)) {
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWICON, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWPROTO, FALSE);
 			Utils::enableDlgControl(hwndDlg, IDC_SHOWSTATUS, FALSE);
@@ -401,7 +401,7 @@ INT_PTR CALLBACK DlgProcSBarOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->code) {
 		case PSN_APPLY:
-			if (!opt_sbar_changed)
+			if ( !opt_sbar_changed)
 				return TRUE;
 
 			cfg::writeByte("CLUI", "ShowSBar", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_SHOWSBAR));

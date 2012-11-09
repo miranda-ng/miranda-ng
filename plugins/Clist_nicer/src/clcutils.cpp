@@ -38,7 +38,7 @@ extern void ( *saveRecalcScrollBar )(HWND hwnd, struct ClcData *dat);
 
 static int MY_pathIsAbsolute(const TCHAR *path)
 {
-	if (!path || !(lstrlen(path) > 2))
+	if ( !path || !(lstrlen(path) > 2))
 		return 0;
 
 	if ((path[1] == ':' && path[2] == '\\') || (path[0] == '\\' && path[1] == '\\'))
@@ -49,7 +49,7 @@ static int MY_pathIsAbsolute(const TCHAR *path)
 
 size_t MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
 {
-	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
+	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
 		return 0;
 
 	if ( !MY_pathIsAbsolute(pSrc)) {
@@ -72,7 +72,7 @@ size_t MY_pathToRelative(const TCHAR *pSrc, TCHAR *pOut)
 
 size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 {
-	if (!pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
+	if ( !pSrc || !lstrlen(pSrc) || lstrlen(pSrc) > MAX_PATH)
 		return 0;
 
 	if (MY_pathIsAbsolute(pSrc)&&pSrc[0]!='.')
@@ -91,7 +91,7 @@ size_t MY_pathToAbsolute(const TCHAR *pSrc, TCHAR *pOut)
 int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *hitcontact, DWORD *flags, int indent, int hit)
 {
 	RECT clRect;
-	int right, checkboxWidth, cxSmIcon, i, width;
+	int right, checkboxWidth, width;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	SIZE textSize;
 	HDC hdc;
@@ -101,11 +101,11 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 	right = clRect.right;
 
 	// avatar check
-	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1) {
+	if (hitcontact->type == CLCIT_CONTACT && cfg::dat.dwFlags & CLUI_FRAME_AVATARS && hitcontact->ace != NULL && hitcontact->avatarLeft != -1)
 		if (testx < right - hitcontact->avatarLeft && testx > right - hitcontact->avatarLeft - cfg::dat.avatarSize)
 			if (flags)
 				*flags |= CLCHT_ONAVATAR;
-	}
+
 	if (testx > right - (dat->leftMargin + indent * dat->groupIndent)) {
 		if (flags)
 			*flags |= CLCHT_ONITEMINDENT;
@@ -123,33 +123,23 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 			*flags |= CLCHT_ONITEMCHECK;
 		return hit;
 	}
+
 	if (testx > right - (dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace)) {
 		if (flags)
 			*flags |= CLCHT_ONITEMICON;
 		return hit;
 	}
-	cxSmIcon = GetSystemMetrics(SM_CXSMICON);
-	for (i = 0; i< dat->extraColumnsCount; i++) {
-		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
-			continue;
-		if (testx >= dat->extraColumnSpacing * (dat->extraColumnsCount - i) && testx < dat->extraColumnSpacing * (dat->extraColumnsCount - i) + cxSmIcon) {
-			if (flags)
-				*flags |= CLCHT_ONITEMEXTRA | (i << 24);
-			return hit;
-		}
-	}
-	if (hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry) {
-		int rightOffset = hitcontact->extraIconRightBegin;
-		int images_present = 0;
 
-		for (i = EXTRA_ICON_COUNT-1; i >= 0; i--) {
+	int rightOffset = hitcontact->extraIconRightBegin;
+	if (rightOffset) {
+		for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
-			images_present++;
-			if (testx < right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx > right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
+			rightOffset -= cfg::dat.exIconScale + 2;
+			if (testx > rightOffset && testx < rightOffset + cfg::dat.exIconScale ) {
 				if (flags)
-					*flags |= (CLCHT_ONITEMEXTRAEX | ((i + 1) << 24));
+					*flags |= (CLCHT_ONITEMEXTRA | (i << 24));
 				return hit;
 			}
 		}
@@ -194,10 +184,9 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 {
 	ClcContact *hitcontact;
 	ClcGroup *hitgroup;
-	int hit, indent, width, i, cxSmIcon;
+	int hit, indent, width, i;
 	int checkboxWidth;
 	SIZE textSize;
-	HDC hdc;
 	RECT clRect;
 	HFONT hFont;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -219,7 +208,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		}
 		return -1;
 	}
-	if (testx< dat->leftMargin) {
+	if (testx < dat->leftMargin) {
 		if (flags)
 			*flags |= CLCHT_INLEFTMARGIN | CLCHT_NOWHERE;
 		return -1;
@@ -238,11 +227,10 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 	if (group)
 		*group = hitgroup;
 
-	for (indent = 0; hitgroup->parent; indent++,hitgroup = hitgroup->parent) {
+	for (indent = 0; hitgroup->parent; indent++,hitgroup = hitgroup->parent)
 		;
-	}
 
-	if (!dat->bisEmbedded) {
+	if ( !dat->bisEmbedded) {
 		if (hitcontact->type == CLCIT_CONTACT) {
 			if (mirror_mode == 1 || (mirror_mode == 2 && cfg::eCache[hitcontact->extraCacheEntry].dwCFlags & ECF_RTLNICK))
 				return RTL_HitTest(hwnd, dat, testx, testy, hitcontact, flags, indent, hit);
@@ -260,7 +248,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 				*flags |= CLCHT_ONAVATAR;
 		}
 	}
-	if (testx< dat->leftMargin + indent * dat->groupIndent) {
+	if (testx < dat->leftMargin + indent * dat->groupIndent) {
 		if (flags)
 			*flags |= CLCHT_ONITEMINDENT;
 		return hit;
@@ -272,44 +260,33 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		checkboxWidth = dat->checkboxSize + 2;
 	if (hitcontact->type == CLCIT_INFO && hitcontact->flags & CLCIIF_CHECKBOX)
 		checkboxWidth = dat->checkboxSize + 2;
-	if (testx< dat->leftMargin + indent * dat->groupIndent + checkboxWidth) {
+	if (testx < dat->leftMargin + indent * dat->groupIndent + checkboxWidth) {
 		if (flags)
 			*flags |= CLCHT_ONITEMCHECK;
 		return hit;
 	}
-	if (testx< dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace) {
+	if (testx < dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace) {
 		if (flags)
 			*flags |= CLCHT_ONITEMICON;
 		return hit;
 	}
-	cxSmIcon = GetSystemMetrics(SM_CXSMICON);
-	for (i = 0; i< dat->extraColumnsCount; i++) {
-		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
-			continue;
-		if (testx >= clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) && testx< clRect.right - dat->extraColumnSpacing * (dat->extraColumnsCount - i) + cxSmIcon) {
-			if (flags)
-				*flags |= CLCHT_ONITEMEXTRA | (i << 24);
-			return hit;
-		}
-	}
-	if (hitcontact->extraCacheEntry >= 0 && hitcontact->extraCacheEntry < cfg::nextCacheEntry) {
-		//int rightOffset = clRect.right;
-		int rightOffset = hitcontact->extraIconRightBegin;
-		int images_present = 0;
 
-		for (i = EXTRA_ICON_COUNT; i >= 0; i--) {
+	int rightOffset = hitcontact->extraIconRightBegin;
+	if (rightOffset) {
+		for (i = dat->extraColumnsCount-1; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
-			images_present++;
-			if (testx > (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx < (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
+			rightOffset -= cfg::dat.exIconScale+2;
+			if (testx > rightOffset && testx < rightOffset + cfg::dat.exIconScale) {
 				if (flags)
-					*flags |= (CLCHT_ONITEMEXTRAEX | ((i + 1) << 24));
+					*flags |= (CLCHT_ONITEMEXTRA | (i << 24));
 				return hit;
 			}
 		}
 	}
-	hdc = GetDC(hwnd);
+
+	HDC hdc = GetDC(hwnd);
 	if (hitcontact->type == CLCIT_GROUP)
 		hFont = reinterpret_cast<HFONT>(SelectObject(hdc, dat->fontInfo[FONTID_GROUPS].hFont));
 	else
@@ -334,7 +311,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 			*flags |= CLCHT_ONITEMSPACE;
 		return hit;
 	}
-	if (testx< dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace + width + 4 + (cfg::dat.dwFlags & CLUI_FRAME_AVATARS ? cfg::dat.avatarSize : 0)) {
+	if (testx < dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace + width + 4 + (cfg::dat.dwFlags & CLUI_FRAME_AVATARS ? cfg::dat.avatarSize : 0)) {
 		if (flags)
 			*flags |= CLCHT_ONITEMLABEL;
 		return hit;
@@ -366,10 +343,10 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 		desty = 0;
 	if (abs(desty - dat->yScroll) < 4)
 		noSmooth = 1;
-	if (!noSmooth && dat->exStyle & CLS_EX_NOSMOOTHSCROLLING)
+	if ( !noSmooth && dat->exStyle & CLS_EX_NOSMOOTHSCROLLING)
 		noSmooth = 1;
 	previousy = dat->yScroll;
-	if (!noSmooth) {
+	if ( !noSmooth) {
 		startTick = GetTickCount();
 		for (; ;) {
 			nowTick = GetTickCount();
@@ -390,7 +367,7 @@ void ScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 	}
 	dat->yScroll = desty;
 	if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL) {
-		if (!noSmooth)
+		if ( !noSmooth)
 			ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 		else
 			InvalidateRect(hwnd, NULL, FALSE);
@@ -581,7 +558,7 @@ void LoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->rightMargin = cfg::getByte("CLC", "RightMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->bkColour =  cfg::getByte("CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS) ?
 		GetSysColor(COLOR_3DFACE) : cfg::getDword("CLC", "BkColour", CLCDEFAULT_BKCOLOUR);
-	if (!dat->bkChanged) {
+	if ( !dat->bkChanged) {
 		if (cfg::dat.hBrushCLCBk)
 			DeleteObject(cfg::dat.hBrushCLCBk);
 		cfg::dat.hBrushCLCBk = CreateSolidBrush(dat->bkColour);

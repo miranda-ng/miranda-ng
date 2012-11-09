@@ -25,7 +25,7 @@ static int OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 		}
 		hFloatingItem = Menu_AddContactMenuItem(&mi);
 	}
-	else if (!bSetting && hFloatingItem)
+	else if ( !bSetting && hFloatingItem)
 	{
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)hFloatingItem, 0);
 		hFloatingItem = 0;
