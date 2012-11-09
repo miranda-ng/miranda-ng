@@ -8,7 +8,7 @@
 ;  Authors: Krzysztof Kral
 ;============================================================
 [History viewer for Miranda NG.]
-Просмотрщик истории для Miranda NG
+Просмотрщик истории для Miranda NG.
 ;Error messages
 ;----------------
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
