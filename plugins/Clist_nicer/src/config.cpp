@@ -227,7 +227,6 @@ int cfg::getCache(const HANDLE hContact, const char *szProto)
 		LoadSkinItemToCache(&cfg::eCache[nextCacheEntry], szProto);
 		cfg::eCache[nextCacheEntry].dwCFlags = 0;
 		cfg::eCache[nextCacheEntry].dwDFlags = DBGetContactSettingDword(hContact, "CList", "CLN_Flags", 0);
-		cfg::eCache[nextCacheEntry].dwXMask = CalcXMask(hContact);
 		GetCachedStatusMsg(nextCacheEntry, const_cast<char *>(szProto));
 		cfg::eCache[nextCacheEntry].dwLastMsgTime = INTSORT_GetLastMsgTime(hContact);
 		iFound = nextCacheEntry++;

@@ -41,7 +41,7 @@ Also implementes floating contacts (FLT_*() functions)
 
 BYTE __forceinline percent_to_byte(UINT32 percent)
 {
-    return(BYTE) ((FLOAT) (((FLOAT) percent) / 100) * 255);
+	return(BYTE) ((FLOAT) (((FLOAT) percent) / 100) * 255);
 }
 
 void FLT_Update(struct ClcData *dat, ClcContact *contact);
@@ -78,41 +78,43 @@ static UINT padctrlIDs[] = { IDC_FLT_PADLEFTSPIN, IDC_FLT_PADRIGHTSPIN, IDC_FLT_
  * simple linked list of allocated ContactFloater* structs
  */
 
-static ContactFloater *FLT_AddToList(ContactFloater *pFloater) {
-    ContactFloater *pCurrent = pFirstFloater;
+static ContactFloater *FLT_AddToList(ContactFloater *pFloater)
+{
+	ContactFloater *pCurrent = pFirstFloater;
 
-    if (!pFirstFloater) {
-        pFirstFloater = pFloater;
-        pFirstFloater->pNextFloater = NULL;
-        return pFirstFloater;
-    } else {
-        while (pCurrent->pNextFloater != 0)
-            pCurrent = pCurrent->pNextFloater;
-        pCurrent->pNextFloater = pFloater;
-        pFloater->pNextFloater = NULL;
-        return pCurrent;
-    }
+	if (!pFirstFloater) {
+		pFirstFloater = pFloater;
+		pFirstFloater->pNextFloater = NULL;
+		return pFirstFloater;
+	} else {
+		while (pCurrent->pNextFloater != 0)
+			pCurrent = pCurrent->pNextFloater;
+		pCurrent->pNextFloater = pFloater;
+		pFloater->pNextFloater = NULL;
+		return pCurrent;
+	}
 }
 
-static ContactFloater *FLT_RemoveFromList(ContactFloater *pFloater) {
-    ContactFloater *pCurrent = pFirstFloater;
+static ContactFloater *FLT_RemoveFromList(ContactFloater *pFloater)
+{
+	ContactFloater *pCurrent = pFirstFloater;
 
-    if (pFloater == pFirstFloater) {
-        if (pFloater->pNextFloater != NULL)
-            pFirstFloater = pFloater->pNextFloater;
-        else
-            pFirstFloater = NULL;
-        return pFirstFloater;
-    }
+	if (pFloater == pFirstFloater) {
+		if (pFloater->pNextFloater != NULL)
+			pFirstFloater = pFloater->pNextFloater;
+		else
+			pFirstFloater = NULL;
+		return pFirstFloater;
+	}
 
-    do {
-        if (pCurrent->pNextFloater == pFloater) {
-            pCurrent->pNextFloater = pCurrent->pNextFloater->pNextFloater;
-            return 0;
-        }
-    } while (pCurrent = pCurrent->pNextFloater);
+	do {
+		if (pCurrent->pNextFloater == pFloater) {
+			pCurrent->pNextFloater = pCurrent->pNextFloater->pNextFloater;
+			return 0;
+		}
+	} while (pCurrent = pCurrent->pNextFloater);
 
-    return NULL;
+	return NULL;
 }
 
 void FLT_SnapToEdges(HWND hwnd)
@@ -226,29 +228,26 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				CheckDlgButton(hwndDlg, IDC_FLT_BORDER, dwFlags & FLT_BORDER);
 				SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_BORDER, 0);
 				CheckDlgButton(hwndDlg, IDC_FLT_ROUNDED, dwFlags & FLT_ROUNDED);
-                CheckDlgButton(hwndDlg, IDC_FLT_FILLSTD, dwFlags & FLT_FILLSTDCOLOR);
+				CheckDlgButton(hwndDlg, IDC_FLT_FILLSTD, dwFlags & FLT_FILLSTDCOLOR);
 
 				SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_ROUNDED, 0);
 
-                if (ServiceExists(MS_TOOLTIP_SHOWTIP))
-                {
-                    CheckDlgButton(hwndDlg, IDC_FLT_SHOWTOOLTIPS, dwFlags & FLT_SHOWTOOLTIPS);
-                    SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_SHOWTOOLTIPS, 0);
-                    CheckDlgButton(hwndDlg, IDC_FLT_DEFHOVERTIME, g_floatoptions.def_hover_time);
-                    SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_DEFHOVERTIME, 0);
-                } 
-                else
-                {
-                    CheckDlgButton(hwndDlg, IDC_FLT_SHOWTOOLTIPS, 0);
-                    Utils::enableDlgControl(hwndDlg, IDC_FLT_SHOWTOOLTIPS, 0);
-                }
+				if (ServiceExists(MS_TOOLTIP_SHOWTIP)) {
+					CheckDlgButton(hwndDlg, IDC_FLT_SHOWTOOLTIPS, dwFlags & FLT_SHOWTOOLTIPS);
+					SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_SHOWTOOLTIPS, 0);
+					CheckDlgButton(hwndDlg, IDC_FLT_DEFHOVERTIME, g_floatoptions.def_hover_time);
+					SendMessage(hwndDlg, WM_COMMAND, (WPARAM)IDC_FLT_DEFHOVERTIME, 0);
+				} 
+				else {
+					CheckDlgButton(hwndDlg, IDC_FLT_SHOWTOOLTIPS, 0);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_SHOWTOOLTIPS, 0);
+				}
 
 				for (i = 0; padctrlIDs[i] != 0; i++)
 					SendDlgItemMessage(hwndDlg, padctrlIDs[i], UDM_SETRANGE, 0, MAKELONG(20, 0));
 				SendDlgItemMessage(hwndDlg, IDC_FLT_WIDTHSPIN, UDM_SETRANGE, 0, MAKELONG(200, 50));
 				SendDlgItemMessage(hwndDlg, IDC_FLT_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(20, 1));
-                SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_SETRANGE, 0, MAKELONG(5000, 1));
-
+				SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_SETRANGE, 0, MAKELONG(5000, 1));
 
 				SendDlgItemMessage(hwndDlg, IDC_FLT_PADLEFTSPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.pad_left);
 				SendDlgItemMessage(hwndDlg, IDC_FLT_PADRIGHTSPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.pad_right);
@@ -256,7 +255,7 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_FLT_PADBOTTOMSPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.pad_top);
 				SendDlgItemMessage(hwndDlg, IDC_FLT_WIDTHSPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.width);
 				SendDlgItemMessage(hwndDlg, IDC_FLT_RADIUSSPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.radius);
-                SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.hover_time);
+				SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_SETPOS, 0, (LPARAM)g_floatoptions.hover_time);
 
 				SendDlgItemMessage(hwndDlg, IDC_FLT_ACTIVEOPACITY, TBM_SETRANGE, FALSE, MAKELONG(1, 255));
 				SendDlgItemMessage(hwndDlg, IDC_FLT_ACTIVEOPACITY, TBM_SETPOS, TRUE, g_floatoptions.act_trans);
@@ -268,111 +267,104 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 				SendDlgItemMessage(hwndDlg, IDC_FLT_BORDERCOLOUR, CPM_SETCOLOUR, 0, g_floatoptions.border_colour);  
 
 				FLT_ShowHideAll(SW_SHOWNOACTIVATE);
-
-				return TRUE;
 			}
+			return TRUE;
+
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
-				case IDC_FLT_ENABLED:
-					{
-						int isEnabled = IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED);
-						int isSimple = IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT);
-						int isBorder = IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER);
-						int isRounded = IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED);
-                        int isTooltip = IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS);
-                        int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
+			case IDC_FLT_ENABLED:
+				{
+					int isEnabled = IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED);
+					int isSimple = IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT);
+					int isBorder = IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER);
+					int isRounded = IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED);
+					int isTooltip = IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS);
+					int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
 
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_SIMPLELAYOUT, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_SYNCED, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_AUTOHIDE, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_SNAP, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_ACTIVEOPACITY, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_OPACITY, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADLEFTSPIN, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADRIGHTSPIN, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADTOPSPIN, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADLEFT, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADRIGHT, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADTOP, isEnabled);
-						//EnableWindow(GetDlgItem(hwndDlg, IDC_FLT_PADBOTTOMSPIN), isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_PADBOTTOM, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_WIDTHSPIN, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_WIDTH, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDER, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_ROUNDED, isEnabled);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDERCOLOUR, isEnabled & isBorder);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUS, isEnabled & isRounded);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUSSPIN, isEnabled & isRounded);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_SHOWTOOLTIPS, isEnabled & ServiceExists(MS_TOOLTIP_SHOWTIP));
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_DEFHOVERTIME, isEnabled & isTooltip);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, isEnabled & isTooltip & !isDefHoverTime);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, isEnabled & isTooltip & !isDefHoverTime);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_SIMPLELAYOUT, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_SYNCED, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_AUTOHIDE, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_SNAP, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_ACTIVEOPACITY, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_OPACITY, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADLEFTSPIN, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADRIGHTSPIN, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADTOPSPIN, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADLEFT, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADRIGHT, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADTOP, isEnabled);
+					//EnableWindow(GetDlgItem(hwndDlg, IDC_FLT_PADBOTTOMSPIN), isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_PADBOTTOM, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_WIDTHSPIN, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_WIDTH, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDER, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_ROUNDED, isEnabled);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDERCOLOUR, isEnabled & isBorder);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUS, isEnabled & isRounded);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUSSPIN, isEnabled & isRounded);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_SHOWTOOLTIPS, isEnabled & ServiceExists(MS_TOOLTIP_SHOWTIP));
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_DEFHOVERTIME, isEnabled & isTooltip);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, isEnabled & isTooltip & !isDefHoverTime);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, isEnabled & isTooltip & !isDefHoverTime);
 
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_AVATARS, isEnabled & !isSimple);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_EXTRAICONS, isEnabled & !isSimple);
-                        Utils::enableDlgControl(hwndDlg, IDC_FLT_DUALROWS, isEnabled & !isSimple);
-					}
-					break;
-				case IDC_FLT_SIMPLELAYOUT:
-					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
-							int isSimple = IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_AVATARS, !isSimple);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_EXTRAICONS, !isSimple);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_DUALROWS, !isSimple);
-						}
-					}
-					break;
-				case IDC_FLT_BORDER:
-					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
-							int isBorder = IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDERCOLOUR, isBorder);
-						}
-					}
-					break;
-				case IDC_FLT_ROUNDED:
-					{
-						if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
-							int isRounded = IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUS, isRounded);
-							Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUSSPIN, isRounded);
-						}
-					}
-					break;
-                case IDC_FLT_SHOWTOOLTIPS:
-                    {
-                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
-                            int isTooltip = IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS);
-                            int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
-                            Utils::enableDlgControl(hwndDlg, IDC_FLT_DEFHOVERTIME, isTooltip);
-                            Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, isTooltip & !isDefHoverTime);
-                            Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, isTooltip & !isDefHoverTime);
-                        }
-                    }
-                    break;
-                case IDC_FLT_DEFHOVERTIME:
-                    {
-                        if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) && IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS)) {
-                            int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
-                            Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, !isDefHoverTime);
-                            Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, !isDefHoverTime);
-                        }
-                    }
-                    break;
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_AVATARS, isEnabled & !isSimple);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_EXTRAICONS, isEnabled & !isSimple);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_DUALROWS, isEnabled & !isSimple);
+				}
+				break;
 
-				case IDC_FLT_PADTOP:
-					{
-						if (HIWORD(wParam) == EN_CHANGE){
-							int value = SendDlgItemMessage(hwndDlg, IDC_FLT_PADTOPSPIN, UDM_GETPOS, 0, 0);
-							SendDlgItemMessage(hwndDlg, IDC_FLT_PADBOTTOMSPIN, UDM_SETPOS, 0, (LPARAM)value);
-						}
-					}
-					break;
-			break;
+			case IDC_FLT_SIMPLELAYOUT:
+				if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
+					int isSimple = IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_AVATARS, !isSimple);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_EXTRAICONS, !isSimple);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_DUALROWS, !isSimple);
+				}
+				break;
+
+			case IDC_FLT_BORDER:
+				if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
+					int isBorder = IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_BORDERCOLOUR, isBorder);
+				}
+				break;
+
+			case IDC_FLT_ROUNDED:
+				if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
+					int isRounded = IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUS, isRounded);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_RADIUSSPIN, isRounded);
+				}
+				break;
+
+			case IDC_FLT_SHOWTOOLTIPS:
+				if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED)) {
+					int isTooltip = IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS);
+					int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_DEFHOVERTIME, isTooltip);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, isTooltip & !isDefHoverTime);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, isTooltip & !isDefHoverTime);
+				}
+				break;
+
+			case IDC_FLT_DEFHOVERTIME:
+				if (IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) && IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS)) {
+					int isDefHoverTime = IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIME, !isDefHoverTime);
+					Utils::enableDlgControl(hwndDlg, IDC_FLT_HOVERTIMESPIN, !isDefHoverTime);
+				}
+				break;
+
+			case IDC_FLT_PADTOP:
+				if (HIWORD(wParam) == EN_CHANGE){
+					int value = SendDlgItemMessage(hwndDlg, IDC_FLT_PADTOPSPIN, UDM_GETPOS, 0, 0);
+					SendDlgItemMessage(hwndDlg, IDC_FLT_PADBOTTOMSPIN, UDM_SETPOS, 0, (LPARAM)value);
+				}
+				break;
 			}
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
+
 		case WM_HSCROLL:
 			{
 				char str[10];
@@ -385,53 +377,51 @@ INT_PTR CALLBACK DlgProcFloatingContacts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 			break;
+
 		case WM_NOTIFY:
-            switch (((LPNMHDR) lParam)->idFrom) {
-                case 0:
-                    switch (((LPNMHDR) lParam)->code) {
-                        case PSN_APPLY:
-                            {
-								g_floatoptions.enabled = IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) ? 1 : 0;
-								g_floatoptions.dwFlags = 0;
+			switch (((LPNMHDR) lParam)->idFrom) {
+			case 0:
+				if (((LPNMHDR) lParam)->code == PSN_APPLY) {
+					g_floatoptions.enabled = IsDlgButtonChecked(hwndDlg, IDC_FLT_ENABLED) ? 1 : 0;
+					g_floatoptions.dwFlags = 0;
 
-								if (IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT))
-									g_floatoptions.dwFlags = FLT_SIMPLE;
+					if (IsDlgButtonChecked(hwndDlg, IDC_FLT_SIMPLELAYOUT))
+						g_floatoptions.dwFlags = FLT_SIMPLE;
 
-								g_floatoptions.dwFlags |= (IsDlgButtonChecked(hwndDlg, IDC_FLT_AVATARS) ? FLT_AVATARS : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_DUALROWS) ? FLT_DUALROW : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_EXTRAICONS) ? FLT_EXTRAICONS : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_SYNCED) ? FLT_SYNCWITHCLIST : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_AUTOHIDE) ? FLT_AUTOHIDE : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_SNAP) ? FLT_SNAP : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER) ? FLT_BORDER : 0) |
-                                                          (IsDlgButtonChecked(hwndDlg, IDC_FLT_FILLSTD) ? FLT_FILLSTDCOLOR : 0) |
-                                                          (IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS) ? FLT_SHOWTOOLTIPS : 0) |
-														  (IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED) ? FLT_ROUNDED : 0);
-								
-								g_floatoptions.act_trans = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_ACTIVEOPACITY, TBM_GETPOS, 0, 0);
-								g_floatoptions.trans = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_OPACITY, TBM_GETPOS, 0, 0);
-								g_floatoptions.pad_left = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADLEFTSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.pad_right = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADRIGHTSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.pad_top = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADTOPSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.pad_bottom = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADBOTTOMSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.width = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_WIDTHSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.radius = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_RADIUSSPIN, UDM_GETPOS, 0, 0);
-								g_floatoptions.border_colour = SendDlgItemMessage(hwndDlg, IDC_FLT_BORDERCOLOUR, CPM_GETCOLOUR, 0, 0);
+					g_floatoptions.dwFlags |= (IsDlgButtonChecked(hwndDlg, IDC_FLT_AVATARS) ? FLT_AVATARS : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_DUALROWS) ? FLT_DUALROW : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_EXTRAICONS) ? FLT_EXTRAICONS : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_SYNCED) ? FLT_SYNCWITHCLIST : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_AUTOHIDE) ? FLT_AUTOHIDE : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_SNAP) ? FLT_SNAP : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_BORDER) ? FLT_BORDER : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_FILLSTD) ? FLT_FILLSTDCOLOR : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_SHOWTOOLTIPS) ? FLT_SHOWTOOLTIPS : 0) |
+						(IsDlgButtonChecked(hwndDlg, IDC_FLT_ROUNDED) ? FLT_ROUNDED : 0);
 
-                                g_floatoptions.def_hover_time= IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME) ? 1 : 0;
-                                if (g_floatoptions.def_hover_time)
-                                    g_floatoptions.hover_time = cfg::getWord("CLC", "InfoTipHoverTime", 200);
-                                else
-                                    g_floatoptions.hover_time = (WORD)SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.act_trans = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_ACTIVEOPACITY, TBM_GETPOS, 0, 0);
+					g_floatoptions.trans = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_OPACITY, TBM_GETPOS, 0, 0);
+					g_floatoptions.pad_left = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADLEFTSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.pad_right = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADRIGHTSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.pad_top = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADTOPSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.pad_bottom = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_PADBOTTOMSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.width = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_WIDTHSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.radius = (BYTE)SendDlgItemMessage(hwndDlg, IDC_FLT_RADIUSSPIN, UDM_GETPOS, 0, 0);
+					g_floatoptions.border_colour = SendDlgItemMessage(hwndDlg, IDC_FLT_BORDERCOLOUR, CPM_GETCOLOUR, 0, 0);
 
-								FLT_WriteOptions();
-								FLT_RefreshAll();
-								return TRUE;
-							}
-                    }
-                    break;
-            }
-            break;
+					g_floatoptions.def_hover_time= IsDlgButtonChecked(hwndDlg, IDC_FLT_DEFHOVERTIME) ? 1 : 0;
+					if (g_floatoptions.def_hover_time)
+						g_floatoptions.hover_time = cfg::getWord("CLC", "InfoTipHoverTime", 200);
+					else
+						g_floatoptions.hover_time = (WORD)SendDlgItemMessage(hwndDlg, IDC_FLT_HOVERTIMESPIN, UDM_GETPOS, 0, 0);
+
+					FLT_WriteOptions();
+					FLT_RefreshAll();
+					return TRUE;
+				}
+				break;
+			}
+			break;
 	}
 	return FALSE;
 }
@@ -1079,7 +1069,6 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 	if (FindItem(pcli->hwndContactTree, dat, contact->hContact, &newContact, &group, 0)) {
 		DWORD oldFlags = cfg::dat.dwFlags;
 		BYTE oldPadding = cfg::dat.avatarPadding;
-		DWORD oldExtraImageMask = cfg::eCache[contact->extraCacheEntry].dwXMask;
 		struct avatarCacheEntry *ace_old = contact->ace;
 		BYTE oldDualRow = contact->bSecondLine;
 
@@ -1090,52 +1079,47 @@ void FLT_Update(struct ClcData *dat, ClcContact *contact)
 			contact->ace = 0;
 			contact->bSecondLine = MULTIROW_NEVER;
 			cfg::dat.dwFlags &= ~(CLUI_SHOWCLIENTICONS | CLUI_SHOWVISI);
-			cfg::eCache[contact->extraCacheEntry].dwXMask = 0;
 		}
-		else{
+		else {
 			if (!(g_floatoptions.dwFlags & FLT_AVATARS)) {
-                contact->ace = 0;
-                g_list_avatars = 0;
-            }
-            else
-                g_list_avatars = 1;
+				contact->ace = 0;
+				g_list_avatars = 0;
+			}
+			else
+				g_list_avatars = 1;
 
-            if (!(g_floatoptions.dwFlags & FLT_DUALROW))
-                contact->bSecondLine = MULTIROW_NEVER;
+			if (!(g_floatoptions.dwFlags & FLT_DUALROW))
+				contact->bSecondLine = MULTIROW_NEVER;
 			else
 				contact->bSecondLine = MULTIROW_ALWAYS;
 
-			if (!(g_floatoptions.dwFlags & FLT_EXTRAICONS)) {
+			if (!(g_floatoptions.dwFlags & FLT_EXTRAICONS))
 				cfg::dat.dwFlags &= ~(CLUI_SHOWCLIENTICONS | CLUI_SHOWVISI);
-				cfg::eCache[contact->extraCacheEntry].dwXMask = 0;
-			}
 		}
 
-		//g_CluiData.avatarPadding = g_floatoptions.pad_top;
 		dat->leftMargin = g_floatoptions.pad_left;
 		dat->rightMargin = g_floatoptions.pad_right;
 
 		g_HDC = hdc;
 
-        hdcTempAV = CreateCompatibleDC(g_HDC);
-        hdcAV = CreateCompatibleDC(g_HDC);
-        hbmTempAV = CreateCompatibleBitmap(g_HDC, g_maxAV_X, g_maxAV_Y);
-        hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
+		hdcTempAV = CreateCompatibleDC(g_HDC);
+		hdcAV = CreateCompatibleDC(g_HDC);
+		hbmTempAV = CreateCompatibleBitmap(g_HDC, g_maxAV_X, g_maxAV_Y);
+		hbmTempOldAV = reinterpret_cast<HBITMAP>(SelectObject(hdcTempAV, hbmTempAV));
 
-        g_padding_y = g_floatoptions.pad_top;
+		g_padding_y = g_floatoptions.pad_top;
 		PaintItem(hdc, group, contact, 0, 0, dat, -4, pcli->hwndContactTree, 0, &rcClient, &firstDrawn, 0, rcClient.bottom - rcClient.top);
-        g_padding_y = 0;
+		g_padding_y = 0;
 
-        SelectObject(hdcTempAV, hbmTempOldAV);
-        DeleteObject(hbmTempAV);
-        DeleteDC(hdcTempAV);
-        DeleteDC(hdcAV);
+		SelectObject(hdcTempAV, hbmTempOldAV);
+		DeleteObject(hbmTempAV);
+		DeleteDC(hdcTempAV);
+		DeleteDC(hdcAV);
 
 		cfg::dat.dwFlags = oldFlags;
 		cfg::dat.avatarPadding = oldPadding;
 		contact->ace = ace_old;
 		contact->bSecondLine = oldDualRow;
-		cfg::eCache[contact->extraCacheEntry].dwXMask = oldExtraImageMask;
 
 		dat->leftMargin = oldLeftMargin;
 		dat->rightMargin = oldRightMargin;
@@ -1173,19 +1157,19 @@ void FLT_SyncWithClist()
 	ClcContact *contact;
 	ContactFloater *pCurrent = pFirstFloater;
 	HWND hwnd;
-    int iVis = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
+	int iVis = pcli->pfnGetWindowVisibleState(pcli->hwndContactList, 0, 0);
 
 	if (g_floatoptions.dwFlags & FLT_SYNCWITHCLIST){
 		while(pCurrent) {
 			hwnd = pCurrent->hwnd;
 			if (hwnd && IsWindow(hwnd)) {
 				if (FindItem(pcli->hwndContactTree, cfg::clcdat, pCurrent->hContact, &contact, NULL, 0)) {
-                    FLT_Update(cfg::clcdat, contact);
-                    if (((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) || !(g_floatoptions.dwFlags & FLT_AUTOHIDE))
-                        ShowWindow(hwnd, SW_SHOWNOACTIVATE);
-                    else
-                        ShowWindow(hwnd, SW_HIDE);
-                }
+					FLT_Update(cfg::clcdat, contact);
+					if (((g_floatoptions.dwFlags & FLT_AUTOHIDE) && (iVis == 2 || iVis == 4)) || !(g_floatoptions.dwFlags & FLT_AUTOHIDE))
+						ShowWindow(hwnd, SW_SHOWNOACTIVATE);
+					else
+						ShowWindow(hwnd, SW_HIDE);
+				}
 				else
 					ShowWindow(hwnd, SW_HIDE);
 			}

@@ -130,7 +130,6 @@ struct TExtraCache
 	BYTE   bStatusMsgValid;
 	DWORD  dwCFlags;
 	DWORD  dwDFlags;     // display flags for caching only
-	DWORD  dwXMask;      // local extra icon mask, calculated from CLN_xmask
 	StatusItems_t *status_item, *proto_status_item;
 	CONTACTFLOATER *floater;
 	DWORD  dwLastMsgTime;
@@ -277,7 +276,6 @@ struct TCluiData {
 	BYTE autosize;
 	BYTE gapBetweenFrames;
 	BYTE titleBarHeight;
-	DWORD dwExtraImageMask;
 	BYTE bClipBorder, bRowSpacing;
 	HBITMAP bmpBackground, hbmBgOld, hbmBg;
 	HDC hdcBg;
@@ -442,7 +440,6 @@ int GetExtraCache(HANDLE hContact, char *szProto);
 void ReloadExtraInfo(HANDLE hContact);
 void LoadAvatarForContact(ClcContact *p);
 void ApplyViewMode(const char *name);
-DWORD CalcXMask(HANDLE hContact);
 
 void ClcSetButtonState(int ctrlId, int status);
 HWND ClcGetButtonWindow(int ctrlid);

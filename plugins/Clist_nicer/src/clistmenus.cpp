@@ -278,17 +278,13 @@ static INT_PTR CALLBACK IgnoreDialogProc(HWND hWnd, UINT msg, WPARAM wParam, LPA
 					}
 					cfg::writeDword(hContact, "CList", "CLN_xmask", dwXMask);
 					if (contact) {
-						if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry) {
+						if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry <= cfg::nextCacheEntry)
 							cfg::eCache[contact->extraCacheEntry].dwDFlags = dwFlags;
-							cfg::eCache[contact->extraCacheEntry].dwXMask = CalcXMask(hContact);
-						}
 					}
 					else {
 						int iIndex = cfg::getCache(hContact, NULL);
-						if (iIndex >= 0 && iIndex <= cfg::nextCacheEntry) {
+						if (iIndex >= 0 && iIndex <= cfg::nextCacheEntry)
 							cfg::eCache[iIndex].dwDFlags = dwFlags;
-							cfg::eCache[iIndex].dwXMask = CalcXMask(hContact);
-						}
 					}
 					cfg::writeByte(hContact, "CList", "Priority", (BYTE)(IsDlgButtonChecked(hWnd, IDC_IGN_PRIORITY) ? 1 : 0));
 					pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);

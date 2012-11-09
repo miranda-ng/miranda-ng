@@ -145,8 +145,7 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 		for (i = EXTRA_ICON_COUNT-1; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
-			if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
-				continue;
+
 			images_present++;
 			if (testx < right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx > right - (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
 				if (flags)
@@ -301,8 +300,7 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 		for (i = EXTRA_ICON_COUNT; i >= 0; i--) {
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
-			if (!((1 << i) & cfg::eCache[hitcontact->extraCacheEntry].dwXMask))
-				continue;
+
 			images_present++;
 			if (testx > (rightOffset - (cfg::dat.exIconScale + 2) * images_present) && testx < (rightOffset - (cfg::dat.exIconScale + 2) * images_present + (cfg::dat.exIconScale))) {
 				if (flags)

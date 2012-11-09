@@ -971,12 +971,8 @@ bgskipped:
 			BYTE bApparentModeDontCare = !((flags & CONTACTF_VISTO) ^ (flags & CONTACTF_INVISTO));
 			contact->extraIconRightBegin = 0;
 			if (cEntry && (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)) {
-				DWORD dwOldMask = cEntry->dwXMask;
-//!!!!!!		if (dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS)
-//!!!!!!			cEntry->dwXMask &= ~EIMG_SHOW_ADV1;
-
 				for (int i = EXTRA_ICON_COUNT - 1; i >= 0; i--) {
-					if (contact->iExtraImage[i] != 0xffff && ((1 << i) & cEntry->dwXMask)) {
+					if (contact->iExtraImage[i] != EMPTY_EXTRA_ICON) {
 						if (contact->extraIconRightBegin == 0 && i != (EXTRA_ICON_COUNT - 1))
 							contact->extraIconRightBegin = rcContent.right;
 						ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, rcContent.right - cfg::dat.exIconScale, twoRows ? rcContent.bottom - g_exIconSpacing : y + ((rowHeight - cfg::dat.exIconScale) >> 1),
@@ -985,7 +981,6 @@ bgskipped:
 						rightIcons++;
 					}
 				}
-				cEntry->dwXMask = dwOldMask;
 			}
 			if (!bApparentModeDontCare && (dwFlags & CLUI_SHOWVISI) && contact->proto) {
 				BOOL fVisi;
@@ -1093,7 +1088,7 @@ text:
 			if (!g_center) {
 				rc.top = y + ((rowHeight) >> 1); rc.bottom = rc.top + 2;
 				rc.left = rightLineStart;
-				rc.right = clRect->right - 1 - dat->extraColumnSpacing * dat->extraColumnsCount - dat->rightMargin;
+				rc.right = clRect->right - 1 - dat->rightMargin;
 				if (rc.right - rc.left > 1)
 					DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 			}

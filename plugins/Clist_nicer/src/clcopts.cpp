@@ -343,20 +343,19 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never"));
+		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
+		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When space allows it"));
+		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed"));
+
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - left"));
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far left"));
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far right"));
+		SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - right"));
 		{
 			int i = 0;
-
-			TranslateDialogDefault(hwndDlg);
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Never"));
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Always"));
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When space allows it"));
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_INSERTSTRING, -1, (LPARAM)TranslateT("When needed"));
-
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - left"));
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far left"));
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("Far right"));
-			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_INSERTSTRING, -1, (LPARAM)TranslateT("With Nickname - right"));
-
 			if (cfg::dat.bAvatarServiceAvail) {
 				Utils::enableDlgControl(hwndDlg, IDC_CLISTAVATARS, TRUE);
 				while(avatar_controls[i] != 0)
@@ -367,41 +366,41 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 				while(avatar_controls[i] != 0)
 					Utils::enableDlgControl(hwndDlg, avatar_controls[i++], FALSE);
 			}
-
-			CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars);
-			SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_SETCURSEL, cfg::dat.dualRowMode, 0);
-			CheckDlgButton(hwndDlg, IDC_CLISTAVATARS, (cfg::dat.dwFlags & CLUI_FRAME_AVATARS) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg, IDC_AVATARSBORDER, (cfg::dat.dwFlags & CLUI_FRAME_AVATARBORDER) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_AVATARSROUNDED, (cfg::dat.dwFlags & CLUI_FRAME_ROUNDAVATAR) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_ALWAYSALIGNNICK, (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_SHOWSTATUSMSG, (cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
-
-			SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_SETCOLOUR, 0, cfg::dat.avatarBorder);
-
-			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(10, 2));
-			SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETPOS, 0, cfg::dat.avatarRadius);
-
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 16));
-			SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETPOS, 0, cfg::dat.avatarSize);
-
-			Utils::enableDlgControl(hwndDlg, IDC_RADIUS, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_RADIUSSPIN, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
-			Utils::enableDlgControl(hwndDlg, IDC_AVATARBORDERCLR, IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? TRUE : FALSE);
-
-			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, cfg::dat.bShowLocalTime ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? 1 : 0);
-			Utils::enableDlgControl(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME));
-
-			if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 1, 0);
-			else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 2, 0);
-			else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHTWITHNICK)
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 3, 0);
-			else
-				SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 0, 0);
 		}
+
+		CheckDlgButton(hwndDlg, IDC_NOAVATARSOFFLINE, cfg::dat.bNoOfflineAvatars);
+		SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_SETCURSEL, cfg::dat.dualRowMode, 0);
+		CheckDlgButton(hwndDlg, IDC_CLISTAVATARS, (cfg::dat.dwFlags & CLUI_FRAME_AVATARS) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg, IDC_AVATARSBORDER, (cfg::dat.dwFlags & CLUI_FRAME_AVATARBORDER) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AVATARSROUNDED, (cfg::dat.dwFlags & CLUI_FRAME_ROUNDAVATAR) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_ALWAYSALIGNNICK, (cfg::dat.dwFlags & CLUI_FRAME_ALWAYSALIGNNICK) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSMSG, (cfg::dat.dwFlags & CLUI_FRAME_SHOWSTATUSMSG) ? BST_CHECKED : BST_UNCHECKED);
+
+		SendDlgItemMessage(hwndDlg, IDC_AVATARBORDERCLR, CPM_SETCOLOUR, 0, cfg::dat.avatarBorder);
+
+		SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETRANGE, 0, MAKELONG(10, 2));
+		SendDlgItemMessage(hwndDlg, IDC_RADIUSSPIN, UDM_SETPOS, 0, cfg::dat.avatarRadius);
+
+		SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETRANGE, 0, MAKELONG(100, 16));
+		SendDlgItemMessage(hwndDlg, IDC_AVATARSIZESPIN, UDM_SETPOS, 0, cfg::dat.avatarSize);
+
+		Utils::enableDlgControl(hwndDlg, IDC_RADIUS, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_RADIUSSPIN, IsDlgButtonChecked(hwndDlg, IDC_AVATARSROUNDED) ? TRUE : FALSE);
+		Utils::enableDlgControl(hwndDlg, IDC_AVATARBORDERCLR, IsDlgButtonChecked(hwndDlg, IDC_AVATARSBORDER) ? TRUE : FALSE);
+
+		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIME, cfg::dat.bShowLocalTime ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, cfg::dat.bShowLocalTimeSelective ? 1 : 0);
+		Utils::enableDlgControl(hwndDlg, IDC_SHOWLOCALTIMEONLYWHENDIFFERENT, IsDlgButtonChecked(hwndDlg, IDC_SHOWLOCALTIME));
+
+		if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSLEFT)
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 1, 0);
+		else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHT)
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 2, 0);
+		else if (cfg::dat.dwFlags & CLUI_FRAME_AVATARSRIGHTWITHNICK)
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 3, 0);
+		else
+			SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_SETCURSEL, 0, 0);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -434,7 +433,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			LRESULT sel = SendDlgItemMessage(hwndDlg, IDC_ALIGNMENT, CB_GETCURSEL, 0, 0);
 			DWORD flags = 0;
 			if (sel != CB_ERR) {
-				cfg::dat.dwFlags &= (CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK);
+				cfg::dat.dwFlags &= ~(CLUI_FRAME_AVATARSLEFT | CLUI_FRAME_AVATARSRIGHT | CLUI_FRAME_AVATARSRIGHTWITHNICK);
 				if (sel == 1)
 					cfg::dat.dwFlags |= CLUI_FRAME_AVATARSLEFT;
 				else if (sel == 2)
@@ -567,6 +566,7 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	////////////////////////////////////////////////////////////////////////////
 	// Contact rows tabs
 
+	odp.position = 0;
 	odp.pszGroup = LPGEN("Contact List");
 	odp.pszTitle = LPGEN("Contact rows");
 	odp.pszTab = LPGEN("Contacts");
@@ -635,12 +635,13 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		Utils::enableDlgControl(hwndDlg, IDC_GREYOUTOPTS, IsDlgButtonChecked(hwndDlg, IDC_GREYOUT));
 		FillCheckBoxTree(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), greyoutValues, sizeof(greyoutValues) / sizeof(greyoutValues[0]), cfg::getDword("CLC", "FullGreyoutFlags", CLCDEFAULT_FULLGREYOUTFLAGS));
 		CheckDlgButton(hwndDlg, IDC_NOSCROLLBAR, cfg::getByte("CLC", "NoVScrollBar", 0) ? BST_CHECKED : BST_UNCHECKED);
-
 		return TRUE;
+
 	case WM_VSCROLL:
 		opt_clc_main_changed = 1;
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
+
 	case WM_COMMAND:
 		if (LOWORD(wParam) == IDC_NOTNOSMOOTHSCROLLING)
 			Utils::enableDlgControl(hwndDlg, IDC_SMOOTHTIME, IsDlgButtonChecked(hwndDlg, IDC_NOTNOSMOOTHSCROLLING));
@@ -649,6 +650,7 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		opt_clc_main_changed = 1;
 		break;
+
 	case WM_NOTIFY:
 		switch (((LPNMHDR) lParam)->idFrom) {
 		case IDC_GREYOUTOPTS:
@@ -670,33 +672,31 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 					}
 			}
 			break;
+
 		case 0:
-			switch (((LPNMHDR) lParam)->code) {
-			case PSN_APPLY:
-				{
-					int i;
-					DWORD exStyle = cfg::getDword("CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
+			if (((LPNMHDR) lParam)->code == PSN_APPLY) {
+				if (!opt_clc_main_changed)
+					return TRUE;
 
-					if (!opt_clc_main_changed)
-						return TRUE;
+				int i;
+				DWORD exStyle = cfg::getDword("CLC", "ExStyle", CLCDEFAULT_EXSTYLE);
 
-					for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++)
-						exStyle &= ~(checkBoxToStyleEx[i].flag);
+				for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++)
+					exStyle &= ~(checkBoxToStyleEx[i].flag);
 
-					for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++) {
-						if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not_t)
-							exStyle |= checkBoxToStyleEx[i].flag;
-					}
-					cfg::writeDword("CLC", "ExStyle", exStyle);
-				} {
-					DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
-					cfg::writeDword("CLC", "FullGreyoutFlags", fullGreyoutFlags);
-					if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
-						cfg::writeDword("CLC", "GreyoutFlags", fullGreyoutFlags);
-					else
-						cfg::writeDword("CLC", "GreyoutFlags", 0);
+				for (i = 0; i < sizeof(checkBoxToStyleEx) / sizeof(checkBoxToStyleEx[0]); i++) {
+					if ((IsDlgButtonChecked(hwndDlg, checkBoxToStyleEx[i].id) == 0) == checkBoxToStyleEx[i].not_t)
+						exStyle |= checkBoxToStyleEx[i].flag;
 				}
-
+				cfg::writeDword("CLC", "ExStyle", exStyle);
+			
+				DWORD fullGreyoutFlags = MakeCheckBoxTreeFlags(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS));
+				cfg::writeDword("CLC", "FullGreyoutFlags", fullGreyoutFlags);
+				if (IsDlgButtonChecked(hwndDlg, IDC_GREYOUT))
+					cfg::writeDword("CLC", "GreyoutFlags", fullGreyoutFlags);
+				else
+					cfg::writeDword("CLC", "GreyoutFlags", 0);
+			
 				cfgSetFlag(hwndDlg, IDC_FULLROWSELECT, CLUI_FULLROWSELECT);
 
 				cfg::writeWord("CLC", "ScrollTime", (WORD) SendDlgItemMessage(hwndDlg, IDC_SMOOTHTIMESPIN, UDM_GETPOS, 0, 0));
@@ -710,9 +710,9 @@ static INT_PTR CALLBACK DlgProcClcMainOpts(HWND hwndDlg, UINT msg, WPARAM wParam
 				opt_clc_main_changed = 0;
 				return TRUE;
 			}
-			break;
 		}
 		break;
+
 	case WM_DESTROY:
 		ImageList_Destroy(TreeView_GetImageList(GetDlgItem(hwndDlg, IDC_GREYOUTOPTS), TVSIL_STATE));
 		break;

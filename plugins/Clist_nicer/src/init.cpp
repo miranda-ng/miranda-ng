@@ -246,7 +246,6 @@ extern "C" int __declspec(dllexport) CListInitialise()
 	cfg::dat.autoalpha =               cfg::getByte("CList", "AutoAlpha", SETTING_ALPHA_DEFAULT);
 	cfg::dat.fadeinout =               cfg::getByte("CLUI", "FadeInOut", 0);
 	cfg::dat.autosize =                cfg::getByte("CLUI", "AutoSize", 0);
-	cfg::dat.dwExtraImageMask =        cfg::getDword("CLUI", "ximgmask", 0);
 	cfg::dat.bNoOfflineAvatars =       cfg::getByte("CList", "NoOfflineAV", 1);
 	cfg::dat.bFullTransparent =        cfg::getByte("CLUI", "fulltransparent", 0);
 	cfg::dat.bDblClkAvatars =          cfg::getByte("CLC", "dblclkav", 0);

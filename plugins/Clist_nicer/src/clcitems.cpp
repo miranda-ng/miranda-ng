@@ -508,24 +508,6 @@ void ReloadSkinItemsToCache()
 	}
 }
 
-DWORD CalcXMask(HANDLE hContact)
-{
-	DWORD dwXMask = cfg::getDword(hContact, "CList", "CLN_xmask", 0);
-	DWORD dwResult = cfg::dat.dwExtraImageMask, bForced, bHidden;
-
-	for (int i = 0; i <= 10; i++) {
-		bForced = (dwXMask & (1 << (2 * i)));
-		bHidden = (dwXMask & (1 << (2 * i + 1)));
-		if (bForced == 0 && bHidden == 0)
-			continue;
-		else if (bForced)
-			dwResult |= (1 << i);
-		else if (bHidden)
-			dwResult &= ~(1 << i);
-	}
-	return(dwResult);
-}
-
 /*
 * checks the currently active view mode filter and returns true, if the contact should be hidden
 * if no view mode is active, it returns the CList/Hidden setting
