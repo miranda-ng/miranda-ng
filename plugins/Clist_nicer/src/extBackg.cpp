@@ -1391,7 +1391,6 @@ void extbk_import(char *file, HWND hwndDlg)
 	char buffer[255];
 	char szKey[255], szSection[255];
 	DWORD data, version = 0;
-	int oldexIconScale = cfg::dat.exIconScale;
 
 	for (n = 0; n <= ID_EXTBK_LAST - ID_STATUS_OFFLINE; n++) {
 		if (StatusItems[n].statusID != ID_EXTBKSEPARATOR) {
@@ -1500,10 +1499,6 @@ void extbk_import(char *file, HWND hwndDlg)
 	ConfigureCLUIGeometry(1);
 	SendMessage(pcli->hwndContactList, WM_SIZE, 0, 0);
 	RedrawWindow(pcli->hwndContactList,NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_FRAME|RDW_UPDATENOW|RDW_ALLCHILDREN);
-	if (oldexIconScale != cfg::dat.exIconScale) {
-		IcoLibReloadIcons();
-		pcli->pfnClcBroadcast(CLM_AUTOREBUILD, 0, 0);
-	}
 }
 
 static void ApplyCLUISkin()

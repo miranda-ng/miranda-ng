@@ -597,7 +597,6 @@ void ReloadThemedOptions()
 	cfg::dat.bUsePerProto = 		cfg::getByte("CLCExt", "useperproto", 0);
 	cfg::dat.bOverridePerStatusColors = cfg::getByte("CLCExt", "override_status", 0);
 	cfg::dat.bRowSpacing = 			cfg::getByte("CLC", "RowGap", 0);
-	cfg::dat.exIconScale = 			cfg::getByte("CLC", "ExIconScale", 16);
 	cfg::dat.bApplyIndentToBg = 	cfg::getByte("CLCExt", "applyindentbg", 0);
 	cfg::dat.bWallpaperMode = 		cfg::getByte("CLUI", "UseBkSkin", 1);
 	cfg::dat.bClipBorder = 			cfg::getByte("CLUI", "clipborder", 0);

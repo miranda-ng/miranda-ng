@@ -47,7 +47,7 @@ extern TCHAR *statusNames[];
 extern LONG g_cxsmIcon, g_cysmIcon;
 extern StatusItems_t *StatusItems;
 
-int g_hottrack, g_center, g_ignoreselforgroups, g_selectiveIcon, g_exIconSpacing, g_hottrack_done;
+int g_hottrack, g_center, g_ignoreselforgroups, g_selectiveIcon, g_hottrack_done;
 HWND g_focusWnd;
 BYTE selBlend;
 BYTE saved_alpha;
@@ -964,12 +964,12 @@ bgskipped:
 
 					if (contact->extraIconRightBegin == 0)
 						contact->extraIconRightBegin = rcContent.right;
-					ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, 
-						rcContent.right - cfg::dat.exIconScale, 
-						y + ((rowHeight - cfg::dat.exIconScale) >> 1),
-						0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-					rcContent.right -= dat->extraColumnSpacing;
+
 					rightIcons++;
+					ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, 
+						rcContent.right - dat->extraColumnSpacing * rightIcons, 
+						y + (rowHeight - g_cysmIcon)/2,
+						0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 				}
 			}
 		}
@@ -1131,16 +1131,16 @@ text:
 				idOldFont = dat->currentFontID;
 				ChangeToFont(hdcMem, dat, FONTID_TIMESTAMP, &fHeight);
 				GetTextExtentPoint32(hdcMem, szResult, lstrlen(szResult), &szTime);
-				verticalfit = (rowHeight - fHeight >= cfg::dat.exIconScale + 1);
+				verticalfit = (rowHeight - fHeight >= g_cysmIcon+1);
 
 				if (av_right) {
 					if (verticalfit)
-						rc.left = rcContent.right + (rightIcons * g_exIconSpacing) - szTime.cx - 2;
+						rc.left = rcContent.right + (rightIcons * dat->extraColumnSpacing) - szTime.cx - 2;
 					else
 						rc.left = rcContent.right - szTime.cx - 2;
 				}
 				else if (av_rightwithnick) {
-					if (verticalfit && rightIcons * g_exIconSpacing >= szTime.cx)
+					if (verticalfit && rightIcons * dat->extraColumnSpacing >= szTime.cx)
 						rc.left = clRect->right - dat->rightMargin - szTime.cx;
 					else if (verticalfit && !avatar_done)
 						rc.left = clRect->right - dat->rightMargin - szTime.cx;
@@ -1159,7 +1159,7 @@ text:
 				ChangeToFont(hdcMem, dat, idOldFont, 0);
 				SetTextColor(hdcMem, oldColor);
 
-				verticalfit = (rowHeight - fontHeight >= cfg::dat.exIconScale + 1);
+				verticalfit = (rowHeight - fontHeight >= g_cysmIcon+1);
 				if (verticalfit && av_right)
 					rcContent.right = min(clRect->right - cfg::dat.avatarSize - 2, rc.left - 2);
 				else if (verticalfit && !av_rightwithnick)
@@ -1167,7 +1167,7 @@ text:
 			}
 			else {
 nodisplay:
-				verticalfit = (rowHeight - fontHeight >= cfg::dat.exIconScale + 1);
+				verticalfit = (rowHeight - fontHeight >= g_cysmIcon+1);
 				if (avatar_done) {
 					if (verticalfit && av_right)
 						rcContent.right = clRect->right - cfg::dat.avatarSize - 2;
@@ -1209,7 +1209,7 @@ nodisplay:
 						DrawText(hdcMem, szText, -1, &rcContent, dtFlags | dt_2ndrowflags);
 					else {
 						DRAWTEXTPARAMS dtp = {0};
-						LONG rightIconsTop = rcContent.bottom - g_exIconSpacing;
+						LONG rightIconsTop = rcContent.bottom - g_cysmIcon;
 						LONG old_right = rcContent.right;
 						ULONG textCounter = 0;
 						ULONG ulLen = lstrlen(szText);
@@ -1323,7 +1323,6 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint)
 
 	g_center = cfg::getByte("CLCExt", "EXBK_CenterGroupnames", 0) && !dat->bisEmbedded;
 	g_ignoreselforgroups = cfg::getByte("CLC", "IgnoreSelforGroups", 0);
-	g_exIconSpacing = cfg::dat.exIconScale + 2;
 
 	if (dat->greyoutFlags & pcli->pfnClcStatusToPf2(my_status) || style & WS_DISABLED)
 		grey = 1;

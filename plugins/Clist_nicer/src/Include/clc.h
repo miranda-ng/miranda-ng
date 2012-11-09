@@ -310,7 +310,6 @@ struct TCluiData {
 	BOOL bMetaEnabled;
 	BOOL bSecIMAvail;
 	BOOL bNoTrayTips;
-	int exIconScale;
 	BOOL bShowLocalTime;
 	BOOL bShowLocalTimeSelective;
 	BOOL bShowXStatusOnSbar;

@@ -80,8 +80,6 @@
 #define IDC_FULLROWSELECT               1067
 #define IDC_CLIPBORDERSPIN              1067
 #define IDC_LOCALTIME                   1068
-#define IDC_EXICONSCALE                 1068
-#define IDC_EXICONSCALESPIN             1069
 #define IDC_CLEFT                       1070
 #define IDC_CLEFTSPIN                   1071
 #define IDC_GREYOUT                     1072

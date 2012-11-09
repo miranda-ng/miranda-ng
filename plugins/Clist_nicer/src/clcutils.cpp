@@ -136,8 +136,8 @@ int RTL_HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
-			rightOffset -= cfg::dat.exIconScale + 2;
-			if (testx > rightOffset && testx < rightOffset + cfg::dat.exIconScale ) {
+			rightOffset -= dat->extraColumnSpacing;
+			if (testx > rightOffset && testx < rightOffset + dat->extraColumnSpacing ) {
 				if (flags)
 					*flags |= (CLCHT_ONITEMEXTRA | (i << 24));
 				return hit;
@@ -277,8 +277,8 @@ int HitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact **c
 			if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 				continue;
 
-			rightOffset -= cfg::dat.exIconScale+2;
-			if (testx > rightOffset && testx < rightOffset + cfg::dat.exIconScale) {
+			rightOffset -= dat->extraColumnSpacing;
+			if (testx > rightOffset && testx < rightOffset + dat->extraColumnSpacing) {
 				if (flags)
 					*flags |= (CLCHT_ONITEMEXTRA | (i << 24));
 				return hit;
