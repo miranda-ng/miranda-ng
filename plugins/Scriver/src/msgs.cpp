@@ -284,9 +284,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 {
    DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-   char *szProto;
-
-   szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+   char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
    if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
       return 0;
    WindowList_Broadcast(g_dat->hMessageWindowList, DM_CLISTSETTINGSCHANGED, wParam, lParam);

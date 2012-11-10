@@ -215,24 +215,20 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	bool isProto = (strcmp(cws->szModule, proto) == 0);
 
-	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0)
-	{
+	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0) {
 		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, TRUE);
 		return 0;
 	}
 
-	if (strcmp(cws->szSetting, "Gender") == 0 && (isProto || strcmp(cws->szModule, "UserInfo") == 0))
-	{
+	if (strcmp(cws->szSetting, "Gender") == 0 && (isProto || strcmp(cws->szModule, "UserInfo") == 0)) {
 		SetGender(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal, TRUE);
 		return 0;
 	}
 
-	for (unsigned int i = 0; i < SIZEOF(infos); i++)
-	{
+	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
 		Info &info = infos[i];
 
-		for (unsigned int j = 0; j < SIZEOF(info.db); j += 2)
-		{
+		for (unsigned int j = 0; j < SIZEOF(info.db); j += 2) {
 			if (info.db[j + 1] == NULL)
 				break;
 			if (info.db[j] == NULL && !isProto)
@@ -267,16 +263,13 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 		return 0;
 
 	bool found = false;
-	for (unsigned int j = 0; !found && j < SIZEOF(info->db); j += 2)
-	{
+	for (unsigned int j = 0; !found && j < SIZEOF(info->db); j += 2) {
 		if (info->db[j + 1] == NULL)
 			break;
 
 		DBVARIANT dbv = { 0 };
-		if (!DBGetContactSettingString(hContact, info->db[j] == NULL ? proto : info->db[j], info->db[j+1], &dbv))
-		{
-			if (!IsEmpty(dbv.pszVal))
-			{
+		if (!DBGetContactSettingString(hContact, info->db[j] == NULL ? proto : info->db[j], info->db[j+1], &dbv)) {
+			if (!IsEmpty(dbv.pszVal)) {
 				info->OnClick(info, dbv.pszVal);
 				found = true;
 			}
@@ -293,8 +286,7 @@ static void DBExtraIconsInit()
 	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
 	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", "AlwaysVis");
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
-	for (unsigned int i = 0; i < SIZEOF(infos); i++)
-	{
+	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
 		Info &info = infos[i];
 		if (info.OnClick)
 			info.hExtraIcon = ExtraIcon_Register(info.name, info.desc, info.icon, DefaultOnClick, (LPARAM) &info);
@@ -303,8 +295,7 @@ static void DBExtraIconsInit()
 	}
 
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL)
-	{
+	while (hContact != NULL) {
 		SetExtraIcons(hContact);
 		SetVisibility(hContact, -1, FALSE);
 		SetGender(hContact, -1, FALSE);
@@ -335,8 +326,7 @@ static int ProtocolRebuildIcons(WPARAM wParam, LPARAM lParam)
 
 static ProtoInfo *FindProto(const char * proto)
 {
-	for (unsigned int i = 0; i < protos.size(); i++)
-	{
+	for (unsigned int i = 0; i < protos.size(); i++) {
 		ProtoInfo *pi = &protos[i];
 		if (strcmp(pi->proto.c_str(), proto) == 0)
 			return pi;

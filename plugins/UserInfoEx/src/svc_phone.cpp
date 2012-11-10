@@ -134,9 +134,8 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 			 !strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_PHONE) ||
 			 !strcmp(pdbcws->szSetting, SET_CONTACT_COMPANY_CELLULAR) ||
 			 !strncmp(pdbcws->szSetting, "MyPhone0", 8)))
-	{
 		OnCListApplyIcons(hContact, 0);
-	}
+
 	return 0;
 }
 

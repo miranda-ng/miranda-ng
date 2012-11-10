@@ -95,15 +95,14 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 	else {
 		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 		if (szProto != NULL) {
-			char *id = NULL;
 			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
 
 			// something is being written to a protocol module
 			if ( !strcmp(szProto, cws->szModule)) {
 				// was a unique setting key written?
-				id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if ((INT_PTR) id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
+				char *id = (char *) CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
+				if ((INT_PTR)id != CALLSERVICE_NOTFOUND && id != NULL && !strcmp(id, cws->szSetting))
 					cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
 			}
 		}

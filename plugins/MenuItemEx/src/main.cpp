@@ -1162,8 +1162,7 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 	if (DBGetContactSettingByte(hContact, lpzProto, "ChatRoom", 0))
 		return 0;
 
-	if (oldStatus == ID_STATUS_OFFLINE)
-	{ 
+	if (oldStatus == ID_STATUS_OFFLINE) { 
 		// set logon timestamp for this contact, only when not set already
 		if (!DBGetContactSettingDword(hContact, lpzProto, "LogonTS", FALSE))
 			DBWriteContactSettingDword(hContact, lpzProto, "LogonTS", ( DWORD )time(NULL));
@@ -1172,15 +1171,13 @@ static int ContactSettingChanged( WPARAM wParam, LPARAM lParam )
 		DBDeleteContactSetting(hContact, lpzProto, "LogoffTS");
 	
 		// TESTING: updating user's details
-		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH)
-		{	
+		if (DBGetContactSettingDword(NULL, VISPLG, "flags", vf_default) & VF_REFRESH) {	
 			// don't refresh Hidden or NotOnList contact's details
 			if (!DBGetContactSettingByte(hContact, "CList", "Hidden", 0) && !DBGetContactSettingByte((HANDLE)wParam, "CList", "NotOnList", 0))
 				CallContactService(hContact, PSS_GETINFO, 0, 0 );
 		}
 	}
-	if (newStatus == ID_STATUS_OFFLINE)
-	{
+	if (newStatus == ID_STATUS_OFFLINE) {
 		// set logoff timestamp for this contact
 		DBWriteContactSettingDword(hContact, lpzProto, "LogoffTS", ( DWORD )time(NULL));
 		// reset logon timestamp

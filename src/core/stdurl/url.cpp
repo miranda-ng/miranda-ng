@@ -105,10 +105,10 @@ static void RestoreUnreadUrlAlerts(void)
 static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto;
+	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
+		return 0;
 
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto))) return 0;
 	WindowList_Broadcast(hUrlWindowList, DM_UPDATETITLE, 0, 0);
 	return 0;
 }

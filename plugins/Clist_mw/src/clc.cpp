@@ -99,7 +99,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"MetaContacts") && !strcmp(cws->szSetting,"Handle"))
 		pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, 0, 0 );
 	
-	if ((HANDLE)wParam != NULL&&!strcmp(cws->szModule,"CList")) {
+	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"CList")) {
 		if ( !strcmp( cws->szSetting, "noOffline" ))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, wParam, lParam );
 		else if (!strcmp(cws->szSetting,"StatusMsg")) 
@@ -289,7 +289,7 @@ int LoadCLCModule(void)
 	himlCListClc = (HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 	
 	HookEvent(ME_SYSTEM_MODULESLOADED,ClcModulesLoaded);
-	hSettingChanged1 = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ClcSettingChanged);
+	hSettingChanged1 = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, ClcSettingChanged);
 	HookEvent(ME_OPT_INITIALISE,ClcOptInit);
 	HookEvent(ME_SYSTEM_SHUTDOWN,ClcShutdown);
 	return 0;

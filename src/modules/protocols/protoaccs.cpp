@@ -196,11 +196,9 @@ void WriteDbAccounts()
 /////////////////////////////////////////////////////////////////////////////////////////
 static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	const HANDLE hContact = (HANDLE)wParam;
-	if (hContact)
-	{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
-
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
 			pa->ppro->OnEvent(EV_PROTO_ONCONTACTDELETED, wParam, lParam);
 	}
@@ -209,9 +207,8 @@ static int OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 static int OnDbSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	const HANDLE hContact = (HANDLE)wParam;
-	if (hContact)
-	{
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact) {
 		PROTOACCOUNT* pa = Proto_GetAccount(hContact);
 		if (Proto_IsAccountEnabled(pa) && pa->ppro)
 			pa->ppro->OnEvent(EV_PROTO_DBSETTINGSCHANGED, wParam, lParam);

@@ -132,9 +132,8 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 			((pdbcws->value.type & DBVTF_VARIABLELENGTH) || (pdbcws->value.type == DBVT_DELETED)) &&
 			(!strncmp(pdbcws->szSetting, SET_CONTACT_HOMEPAGE, 8) ||
 			 !strncmp(pdbcws->szSetting, SET_CONTACT_COMPANY_HOMEPAGE, 15)))
-	{
 		OnCListApplyIcons(hContact, 0);
-	}
+
 	return 0;
 }
 

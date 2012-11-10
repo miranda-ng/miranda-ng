@@ -503,10 +503,9 @@ int CGlobals::DBSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 
-	if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName)) {
+	if (PluginConfig.g_MetaContactsAvail && !lstrcmpA(cws->szModule, PluginConfig.szMetaName))
 		if (wParam != 0 && !lstrcmpA(setting, "Nick"))      // filter out this setting to avoid infinite loops while trying to obtain the most online contact
 			return 0;
-	}
 
 	if (hwnd) {
 		if (c) {

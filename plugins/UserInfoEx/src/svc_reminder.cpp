@@ -766,18 +766,13 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
 
 		// check metacontact instead of subcontact
 		if (hMeta)
-		{
 			hContact = hMeta;
-		}
+
 		now.GetLocalTime();
 		if (!strcmp(pdbcws->szModule, SvcReminderGetMyBirthdayModule()))
-		{
 			CheckContact(hContact, now, evt, FALSE, &LastAnswer);
-		}
 		else
-		{
 			CheckContact(hContact, now, evt, FALSE, 0);
-		}
 	}
 	return 0;
 }

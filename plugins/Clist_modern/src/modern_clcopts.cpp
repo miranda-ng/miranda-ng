@@ -737,21 +737,19 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_HIDEEMPTYGROUPS, db_get_b(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT) ? BST_UNCHECKED : BST_CHECKED);
+		CheckDlgButton(hwndDlg, IDC_CONFIRMDELETE, db_get_b(NULL,"CList","ConfirmDelete",SETTING_CONFIRMDELETE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
+
+		CheckDlgButton(hwndDlg,IDC_GAMMACORRECT,db_get_b(NULL,"CLC","GammaCorrect",CLCDEFAULT_GAMMACORRECT)?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_HILIGHTMODE,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 0?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_HILIGHTMODE1,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 1?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_HILIGHTMODE2,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 2?BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg,IDC_HILIGHTMODE3,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 3?BST_CHECKED:BST_UNCHECKED);
 		{
-			TranslateDialogDefault(hwndDlg);
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)HookEventMessage(ME_DB_CONTACT_SETTINGCHANGED,hwndDlg,WM_USER+1));
-
-			CheckDlgButton(hwndDlg, IDC_HIDEOFFLINE, db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_HIDEEMPTYGROUPS, db_get_b(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_DISABLEGROUPS, db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT) ? BST_UNCHECKED : BST_CHECKED);
-			CheckDlgButton(hwndDlg, IDC_CONFIRMDELETE, db_get_b(NULL,"CList","ConfirmDelete",SETTING_CONFIRMDELETE_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
-
-			CheckDlgButton(hwndDlg,IDC_GAMMACORRECT,db_get_b(NULL,"CLC","GammaCorrect",CLCDEFAULT_GAMMACORRECT)?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg,IDC_HILIGHTMODE,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 0?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg,IDC_HILIGHTMODE1,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 1?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg,IDC_HILIGHTMODE2,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 2?BST_CHECKED:BST_UNCHECKED);
-			CheckDlgButton(hwndDlg,IDC_HILIGHTMODE3,db_get_b(NULL,"CLC","HiLightMode",SETTING_HILIGHTMODE_DEFAULT) == 3?BST_CHECKED:BST_UNCHECKED);
-
 			int i, item;
 			int s1, s2, s3;
 			for (i=0; i < SIZEOF(sortby); i++)
@@ -782,6 +780,7 @@ static INT_PTR CALLBACK DlgProcClistOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			CheckDlgButton(hwndDlg, IDC_OFFLINETOROOT, db_get_b(NULL,"CList","PlaceOfflineToRoot",SETTING_PLACEOFFLINETOROOT_DEFAULT) ? BST_CHECKED : BST_UNCHECKED);
 		}
 		return TRUE;
+
 	case WM_COMMAND:
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		break;

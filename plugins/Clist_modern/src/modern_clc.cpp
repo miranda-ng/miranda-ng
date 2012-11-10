@@ -186,10 +186,11 @@ static int clcHookIconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int clcHookSettingChanged(WPARAM wParam,LPARAM lParam)
 {
+	if (MirandaExiting())
+		return 0;
+
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	if (MirandaExiting()) return 0;
-	if ((HANDLE)wParam == NULL)
-	{
+	if ((HANDLE)wParam == NULL) {
 		if (g_szMetaModuleName && !mir_strcmp(cws->szModule, g_szMetaModuleName))
 		{
 			if ( !mir_strcmp(cws->szSetting, "Enabled"))

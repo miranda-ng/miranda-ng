@@ -284,34 +284,34 @@ static int OnCListApplyIcons(WPARAM wParam,LPARAM lParam)
 static int OnExtraIconSvcChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
-	if ((HANDLE)wParam!=NULL)return 0;
-	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") &&
-	   !lstrcmpA(dbcws->szSetting,"Slot_Flags")) {
-			BOOL bEnable;
-			switch (dbcws->value.type) {
-				case DBVT_BYTE:
-					bEnable = dbcws->value.bVal != (BYTE)-1;
-					break;
-				case DBVT_WORD:
-					bEnable = dbcws->value.wVal != (WORD)-1;
-					break;
-				case DBVT_DWORD:
-					bEnable = dbcws->value.dVal != (DWORD)-1;
-					break;
-				default:
-					bEnable = -1;
-					break;
-			}
-			if(bEnable == -1) {
-				return 0;
-			}
-			else if(bEnable && !hApplyIconHook) {
-					hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
-			}
-			else if (!bEnable && hApplyIconHook) {
-				UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
-			}
-			CallFunctionBuffered(UpdateExtraImages,(LPARAM)bEnable,FALSE,EXTRAIMAGE_REFRESHDELAY);
+	if ((HANDLE)wParam != NULL)
+		return 0;
+
+	if (!lstrcmpA(dbcws->szModule, "ExtraIcons") && !lstrcmpA(dbcws->szSetting,"Slot_Flags")) {
+		BOOL bEnable;
+		switch (dbcws->value.type) {
+		case DBVT_BYTE:
+			bEnable = dbcws->value.bVal != (BYTE)-1;
+			break;
+		case DBVT_WORD:
+			bEnable = dbcws->value.wVal != (WORD)-1;
+			break;
+		case DBVT_DWORD:
+			bEnable = dbcws->value.dVal != (DWORD)-1;
+			break;
+		default:
+			bEnable = -1;
+			break;
+		}
+		if(bEnable == -1)
+			return 0;
+
+		if(bEnable && !hApplyIconHook)
+			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
+		else if (!bEnable && hApplyIconHook)
+			UnhookEvent(hApplyIconHook); hApplyIconHook = NULL;
+
+		CallFunctionBuffered(UpdateExtraImages,(LPARAM)bEnable,FALSE,EXTRAIMAGE_REFRESHDELAY);
 	}
 	return 0;
 }
@@ -347,10 +347,10 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 
 		//init hooks
 		if (!hApplyIconHook)
-			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY,		OnCListApplyIcons);
+			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
 		if (!hSettingChangedHook)
-			hSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,	OnContactSettingChanged);
+			hSettingChangedHook = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	}
 }
 
