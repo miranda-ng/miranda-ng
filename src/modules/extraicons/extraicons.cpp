@@ -503,16 +503,6 @@ void LoadExtraIconsModule()
 	sid.ptszDefaultFile = tszFile;
 	sid.pszSection = "Contact List";
 
-	sid.pszName = "AlwaysVis";
-	sid.pszDescription = LPGEN("Always Visible");
-	sid.iDefaultIndex = -IDI_ALWAYSVIS;
-	Skin_AddIcon(&sid);
-
-	sid.pszName = "NeverVis";
-	sid.pszDescription = LPGEN("Never Visible");
-	sid.iDefaultIndex = -IDI_NEVERVIS;
-	Skin_AddIcon(&sid);
-
 	sid.pszName = "ChatActivity";
 	sid.pszDescription = LPGEN("Chat Activity");
 	sid.iDefaultIndex = -IDI_CHAT;

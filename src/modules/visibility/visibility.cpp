@@ -146,8 +146,8 @@ static INT_PTR CALLBACK DlgProcVisibilityOpts(HWND hwndDlg, UINT msg, WPARAM, LP
 
 		hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), (IsWinVerXPPlus()?ILC_COLOR32:ILC_COLOR16)|ILC_MASK, 3, 3);
 		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_SMALLDOT);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_STATUS_INVISIBLE);
-		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_STATUS_OFFLINE);
+		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_VISIBLE_ALL);
+		ImageList_AddIcon_IconLibLoaded(hIml, SKINICON_OTHER_INVISIBLE_ALL);
 		SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_SETEXTRAIMAGELIST, 0, (LPARAM)hIml);
 		hVisibleIcon = ImageList_GetIcon(hIml, 1, ILD_NORMAL);
 		SendDlgItemMessage(hwndDlg, IDC_VISIBLEICON, STM_SETICON, (WPARAM)hVisibleIcon, 0);

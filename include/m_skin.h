@@ -81,12 +81,14 @@ __forceinline HICON LoadSkinnedIconBig(int id) {return (HICON)CallService(MS_SKI
 #define SKINICON_OTHER_STATUS        235     //v0.8.0.12+
 #define SKINICON_CHAT_JOIN           236     //v0.8.0.27+
 #define SKINICON_CHAT_LEAVE          237     //v0.8.0.27+
-#define SKINICON_OTHER_STATUS_LOCKED 238    //v0.8.0.28+
+#define SKINICON_OTHER_STATUS_LOCKED 238     //v0.8.0.28+
 #define SKINICON_OTHER_GROUP         239     //v0.8.0.29+
 #define SKINICON_OTHER_ON            240     //v0.9.0.9+
 #define SKINICON_OTHER_OFF           241     //v0.9.0.9+
 #define SKINICON_OTHER_LOADEDGRAY    242     //v0.10.3.1+
 #define SKINICON_OTHER_NOTLOADEDGRAY 243     //v0.10.3.1+
+#define SKINICON_OTHER_VISIBLE_ALL   244     //v0.93.4+
+#define SKINICON_OTHER_INVISIBLE_ALL 245     //v0.93.4+
 
 //menu icons are owned by the module that uses them so are not and should not
 //be skinnable. Except exit and show/hide
