@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by D:\Develop\miranda\plugins\miranda\miranda\plugins\clist_nicer\resource.rc
+// Used by .\plugins\clist_nicer\res\resource.rc
 //
 #define IDD_OPT_VIEWMODES               1
 #define IDD_OPT_FLOATING                3
@@ -312,7 +312,6 @@
 #define IDC_STATIC1                     40018
 #define IDC_STATIC2                     40019
 #define IDC_STATIC3                     40020
-//#define POPUP_VISIBILITY                40021
 #define IDC_STATIC16                    40021
 #define IDC_STATIC4                     40022
 #define IDC_STATIC5                     40023

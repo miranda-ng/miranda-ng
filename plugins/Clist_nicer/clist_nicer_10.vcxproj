@@ -246,6 +246,39 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="res\accounts.ico" />
+    <None Include="res\arrow-down.ico" />
+    <None Include="res\blank.ico" />
+    <None Include="res\connecting.ico" />
+    <None Include="res\delete.ico" />
+    <None Include="res\DRAGCOPY.CUR" />
+    <None Include="res\dropuser.cur" />
+    <None Include="res\find.ico" />
+    <None Include="res\groups.ico" />
+    <None Include="res\hyperlin.cur" />
+    <None Include="res\menu.ico" />
+    <None Include="res\minimize.ico" />
+    <None Include="res\notick.ico" />
+    <None Include="res\notick1.ico" />
+    <None Include="res\online.ico" />
+    <None Include="res\options.ico" />
+    <None Include="res\options_clvm.ico" />
+    <None Include="res\overlay\away.ico" />
+    <None Include="res\overlay\dnd.ico" />
+    <None Include="res\overlay\invisible.ico" />
+    <None Include="res\overlay\lunch.ico" />
+    <None Include="res\overlay\na.ico" />
+    <None Include="res\overlay\occupied.ico" />
+    <None Include="res\overlay\offline.ico" />
+    <None Include="res\overlay\online.ico" />
+    <None Include="res\overlay\phone.ico" />
+    <None Include="res\rename.ico" />
+    <None Include="res\slist.ico" />
+    <None Include="res\sounds_off.ico" />
+    <None Include="res\sounds_on.ico" />
+    <None Include="res\tabsrmm_menu.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
