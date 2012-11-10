@@ -134,9 +134,9 @@ DWORD_PTR FacebookProto::GetCaps( int type, HANDLE hContact )
 	case PFLAG_MAXLENOFMESSAGE:
 		return FACEBOOK_MESSAGE_LIMIT;
 	case PFLAG_UNIQUEIDTEXT:
-		return (int) "Facebook ID";
+		return (DWORD_PTR) "Facebook ID";
 	case PFLAG_UNIQUEIDSETTING:
-		return (int) FACEBOOK_KEY_ID;
+		return (DWORD_PTR) FACEBOOK_KEY_ID;
 	}
 	return 0;
 }
