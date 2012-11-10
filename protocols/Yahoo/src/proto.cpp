@@ -323,38 +323,31 @@ HANDLE __cdecl CYahooProto::ChangeInfo( int /*iInfoType*/, void* )
 
 DWORD_PTR __cdecl CYahooProto::GetCaps( int type, HANDLE /*hContact*/ )
 {
-	int ret = 0;
 	switch ( type ) {
 	case PFLAGNUM_1:
-		ret = PF1_IM  | PF1_ADDED | PF1_AUTHREQ | PF1_MODEMSGRECV | PF1_MODEMSGSEND |  PF1_BASICSEARCH |
-			PF1_EXTSEARCH | PF1_FILESEND  | PF1_FILERECV| PF1_VISLIST | PF1_SERVERCLIST ;
-		break;
+		return PF1_IM  | PF1_ADDED | PF1_AUTHREQ | PF1_MODEMSGRECV | PF1_MODEMSGSEND |  PF1_BASICSEARCH |
+			PF1_EXTSEARCH | PF1_FILESEND  | PF1_FILERECV| PF1_VISLIST | PF1_SERVERCLIST;
 
 	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
 			PF2_OUTTOLUNCH | PF2_INVISIBLE | PF2_LIGHTDND /*| PF2_HEAVYDND*/;
-		break;
 
 	case PFLAGNUM_3:
-		ret = PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
+		return PF2_ONLINE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_ONTHEPHONE |
 			PF2_OUTTOLUNCH | PF2_LIGHTDND ;
-		break;
 
 	case PFLAGNUM_4:
-		ret = PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE
+		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_SUPPORTIDLE
 			|PF4_AVATARS | PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE /* for Meta plugin*/;
-		break;
 	case PFLAG_UNIQUEIDTEXT:
-		ret = (DWORD_PTR) Translate("ID");
-		break;
+		return (DWORD_PTR) Translate("ID");
 	case PFLAG_UNIQUEIDSETTING:
-		ret = (DWORD_PTR) YAHOO_LOGINID;
-		break;
+		return (DWORD_PTR) YAHOO_LOGINID;
 	case PFLAG_MAXLENOFMESSAGE:
-		ret = 800; /* STUPID YAHOO!!! */
-		break;
+		return 800; /* STUPID YAHOO!!! */
+	default:
+		return 0;
 	}
-	return ret;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
