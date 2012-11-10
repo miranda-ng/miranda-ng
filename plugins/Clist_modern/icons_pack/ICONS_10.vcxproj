@@ -116,26 +116,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="icon_resource.h" />
+    <ClInclude Include="src\icon_resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="ICONS.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="icos\icon_accmgr.ico" />
-    <None Include="icos\icon_bookmarks.ico" />
-    <None Include="icos\icon_dbeditor.ico" />
-    <None Include="icos\icon_find_user.ico" />
-    <None Include="icos\icon_groups_off.ico" />
-    <None Include="icos\icon_groups_on.ico" />
-    <None Include="icos\icon_hideoffline.ico" />
-    <None Include="icos\icon_mainmenu.ico" />
-    <None Include="icos\icon_minimize.ico" />
-    <None Include="icos\icon_options.ico" />
-    <None Include="icos\icon_showoffline.ico" />
-    <None Include="icos\icon_sounds_off.ico" />
-    <None Include="icos\icon_sounds_on.ico" />
-    <None Include="icos\icon_statusmenu.ico" />
+    <ResourceCompile Include="res\ICONS.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
