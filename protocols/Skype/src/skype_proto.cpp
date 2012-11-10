@@ -152,9 +152,9 @@ DWORD_PTR __cdecl CSkypeProto:: GetCaps(int type, HANDLE hContact)
 		return PF4_FORCEAUTH | PF4_FORCEADDED | PF4_SUPPORTTYPING | PF4_AVATARS | 
 			PF4_OFFLINEFILES | PF4_IMSENDUTF | PF4_IMSENDOFFLINE;
 	case PFLAG_UNIQUEIDTEXT:
-		return (INT_PTR)Translate("Skype Name");
+		return (DWORD_PTR)Translate("Skype Name");
 	case PFLAG_UNIQUEIDSETTING:
-		return (INT_PTR) "sid";
+		return (DWORD_PTR) "sid";
 	default:
 		return 0;
 	}
