@@ -118,9 +118,9 @@ DWORD_PTR TwitterProto::GetCaps(int type,HANDLE hContact)
 	case PFLAG_MAXLENOFMESSAGE:
 		return 159; // 140 + <max length of a users name (15 apparently)> + 4 ("RT @").  this allows for the new style retweets
 	case PFLAG_UNIQUEIDTEXT:
-		return (int) "Username";
+		return (DWORD_PTR) "Username";
 	case PFLAG_UNIQUEIDSETTING:
-		return (int) TWITTER_KEY_UN;
+		return (DWORD_PTR) TWITTER_KEY_UN;
 	}
 	return 0;
 }
