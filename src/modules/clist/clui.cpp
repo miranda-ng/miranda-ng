@@ -204,7 +204,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 					status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
-						DBWriteContactSettingByte((HANDLE) wParam, "CList", "Delete", 1);
+						DBWriteContactSettingByte((HANDLE)wParam, "CList", "Delete", 1);
 						MessageBox(NULL,
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 							TranslateT("Delete Contact"), MB_OK);
@@ -217,7 +217,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	// Archive contact
 	case IDC_HIDE:
-		DBWriteContactSettingByte((HANDLE) wParam, "CList", "Hidden", 1);
+		DBWriteContactSettingByte((HANDLE)wParam, "CList", "Hidden", 1);
 		break;
 	}
 
@@ -228,7 +228,7 @@ static INT_PTR MenuItem_AddContactToList(WPARAM wParam, LPARAM)
 {
 	ADDCONTACTSTRUCT acs = { 0 };
 
-	acs.handle = (HANDLE) wParam;
+	acs.handle = (HANDLE)wParam;
 	acs.handleType = HANDLE_CONTACT;
 	acs.szProto = "";
 

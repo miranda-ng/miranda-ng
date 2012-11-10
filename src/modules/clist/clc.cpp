@@ -78,7 +78,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if ( !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "MyHandle")) {
-			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE) wParam);
+			cli.pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
 			cli.pfnClcBroadcast(INTM_NAMECHANGED, wParam, lParam);
 		}
 		else if ( !strcmp(cws->szSetting, "Group"))
@@ -446,13 +446,13 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_CONTACTADDED:
-		cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-		cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
+		cli.pfnAddContactToTree(hwnd, dat, (HANDLE)wParam, 1, 1);
+		cli.pfnNotifyNewContact(hwnd, (HANDLE)wParam);
 		SortClcByTimer(hwnd);
 		break;
 
 	case INTM_CONTACTDELETED:
-		cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
+		cli.pfnDeleteItemFromTree(hwnd, (HANDLE)wParam);
 		SortClcByTimer(hwnd);
 		break;
 
@@ -462,12 +462,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN)
 				break;
 			if (dbcws->value.type == DBVT_DELETED || dbcws->value.bVal == 0) {
-				if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, NULL, NULL, NULL))
+				if (cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, NULL, NULL, NULL))
 					break;
-				cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-				cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
+				cli.pfnAddContactToTree(hwnd, dat, (HANDLE)wParam, 1, 1);
+				cli.pfnNotifyNewContact(hwnd, (HANDLE)wParam);
 			}
-			else cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
+			else cli.pfnDeleteItemFromTree(hwnd, (HANDLE)wParam);
 
 			dat->needsResort = 1;
 			SortClcByTimer(hwnd);
@@ -478,17 +478,17 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		{
 			WORD iExtraImage[EXTRA_ICON_COUNT];
 			BYTE flags = 0;
-			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				memset(iExtraImage, 0xFF, sizeof(iExtraImage));
 			else {
 				memcpy(iExtraImage, contact->iExtraImage, sizeof(iExtraImage));
 				flags = contact->flags;
 			}
-			cli.pfnDeleteItemFromTree(hwnd, (HANDLE) wParam);
-			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0)) {
+			cli.pfnDeleteItemFromTree(hwnd, (HANDLE)wParam);
+			if (GetWindowLongPtr(hwnd, GWL_STYLE) & CLS_SHOWHIDDEN || !db_get_b((HANDLE)wParam, "CList", "Hidden", 0)) {
 				NMCLISTCONTROL nm;
-				cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, 1, 1);
-				if (cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+				cli.pfnAddContactToTree(hwnd, dat, (HANDLE)wParam, 1, 1);
+				if (cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 					memcpy(contact->iExtraImage, iExtraImage, sizeof(iExtraImage));
 					if (flags & CONTACTF_CHECKED)
 						contact->flags |= CONTACTF_CHECKED;
@@ -497,7 +497,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				nm.hdr.hwndFrom = hwnd;
 				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
 				nm.flags = 0;
-				nm.hItem = (HANDLE) wParam;
+				nm.hItem = (HANDLE)wParam;
 				SendMessage(GetParent(hwnd), WM_NOTIFY, 0, (LPARAM) & nm);
 				dat->needsResort = 1;
 			}
@@ -516,25 +516,25 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (szProto == NULL)
 				status = ID_STATUS_OFFLINE;
 			else
-				status = DBGetContactSettingWord((HANDLE) wParam, szProto, "Status", ID_STATUS_OFFLINE);
+				status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
-			shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE) wParam, "CList", "Hidden", 0))
+			shouldShow = (style & CLS_SHOWHIDDEN || !db_get_b((HANDLE)wParam, "CList", "Hidden", 0))
 				&& ( !cli.pfnIsHiddenMode(dat, status) || CallService(MS_CLIST_GETCONTACTICON, wParam, 0) != lParam); 
 
 			contact = NULL;
 			group = NULL;
-			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, &group, NULL)) {
+			if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {
 				if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 					if (dat->selection >= 0 && cli.pfnGetRowByIndex(dat, dat->selection, &selcontact, NULL) != -1)
 						hSelItem = cli.pfnContactToHItem(selcontact);
-					cli.pfnAddContactToTree(hwnd, dat, (HANDLE) wParam, (style & CLS_CONTACTLIST) == 0, 0);
+					cli.pfnAddContactToTree(hwnd, dat, (HANDLE)wParam, (style & CLS_CONTACTLIST) == 0, 0);
 					recalcScrollBar = 1;
-					cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL);
+					cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL);
 					if (contact) {
 						contact->iImage = (WORD) lParam;
-						cli.pfnNotifyNewContact(hwnd, (HANDLE) wParam);
+						cli.pfnNotifyNewContact(hwnd, (HANDLE)wParam);
 						dat->needsResort = 1;
 					}
 				}
@@ -569,7 +569,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_NAMECHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
@@ -578,7 +578,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_PROTOCHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
 		contact->proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
@@ -588,7 +588,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_NOTONLISTCHANGED:
-		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL))
+		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 		
 		if (contact->type == CLCIT_CONTACT) {
@@ -606,12 +606,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_APPARENTMODECHANGED:
-		if ( cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+		if ( cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			if (szProto == NULL)
 				break;
 		
-			WORD apparentMode = DBGetContactSettingWord((HANDLE) wParam, szProto, "ApparentMode", 0);
+			WORD apparentMode = DBGetContactSettingWord((HANDLE)wParam, szProto, "ApparentMode", 0);
 			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
 			if (apparentMode == ID_STATUS_OFFLINE)
 				contact->flags |= CONTACTF_INVISTO;
@@ -628,12 +628,12 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		break;
 
 	case INTM_IDLECHANGED:
-		if ( cli.pfnFindItem(hwnd, dat, (HANDLE) wParam, &contact, NULL, NULL)) {
+		if ( cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
 			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			if (szProto == NULL)
 				break;
 			contact->flags &= ~CONTACTF_IDLE;
-			if (db_get_dw((HANDLE) wParam, szProto, "IdleTS", 0))
+			if (db_get_dw((HANDLE)wParam, szProto, "IdleTS", 0))
 				contact->flags |= CONTACTF_IDLE;
 			
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);

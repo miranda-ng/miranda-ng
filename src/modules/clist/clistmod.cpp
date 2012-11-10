@@ -438,7 +438,7 @@ extern int sortByStatus, sortByProto;
 
 static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE a = (HANDLE) wParam, b = (HANDLE) lParam;
+	HANDLE a = (HANDLE)wParam, b = (HANDLE) lParam;
 	TCHAR namea[128], *nameb;
 	int statusa, statusb;
 	char *szProto1, *szProto2;

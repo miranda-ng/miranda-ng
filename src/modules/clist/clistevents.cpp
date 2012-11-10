@@ -360,7 +360,7 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 
 	for (; cli.events.count > 0;) {
 		for (hit = 0, j = 0; j < cli.events.count; j++) {
-			if (cli.events.items[j]->cle.hContact == (HANDLE) wParam) {
+			if (cli.events.items[j]->cle.hContact == (HANDLE)wParam) {
 				cli.pfnRemoveEvent((HANDLE)wParam, cli.events.items[j]->cle.hDbEvent);
 				hit = 1;
 			}
@@ -374,7 +374,7 @@ static int RemoveEventsForContact(WPARAM wParam, LPARAM)
 
 static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
 		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)

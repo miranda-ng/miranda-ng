@@ -203,7 +203,7 @@ static void SetExtraIcons(HANDLE hContact)
 
 static int SettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*) lParam;
 
 	if (hContact == NULL)
@@ -258,7 +258,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	if (info == NULL)
 		return 0;
 
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL)
 		return 0;
 
@@ -360,7 +360,7 @@ static ProtoInfo *FindProto(const char * proto)
 
 static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 
 	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if (IsEmpty(proto))
@@ -379,7 +379,7 @@ static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 
 static int ProtocolOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	HANDLE hContact = (HANDLE) wParam;
+	HANDLE hContact = (HANDLE)wParam;
 	if (hContact == NULL)
 		return 0;
 

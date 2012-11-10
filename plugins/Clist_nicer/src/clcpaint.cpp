@@ -955,22 +955,20 @@ bgskipped:
 		}
 		else iconXSpace = 0;
 
-		if (type == CLCIT_CONTACT && !dat->bisEmbedded) {
+		if (type == CLCIT_CONTACT) {
 			contact->extraIconRightBegin = 0;
-			if (cEntry && (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry)) {
-				for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
-					if (contact->iExtraImage[i] == EMPTY_EXTRA_ICON)
-						continue;
+			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
+				if (contact->iExtraImage[i] == EMPTY_EXTRA_ICON)
+					continue;
 
-					if (contact->extraIconRightBegin == 0)
-						contact->extraIconRightBegin = rcContent.right;
+				if (contact->extraIconRightBegin == 0)
+					contact->extraIconRightBegin = rcContent.right;
 
-					rightIcons++;
-					ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, 
-						rcContent.right - dat->extraColumnSpacing * rightIcons, 
-						y + (rowHeight - g_cysmIcon)/2,
-						0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
-				}
+				rightIcons++;
+				ImageList_DrawEx(dat->himlExtraColumns, contact->iExtraImage[i], hdcMem, 
+					rcContent.right - dat->extraColumnSpacing * rightIcons, 
+					y + (rowHeight - g_cysmIcon)/2,
+					0, 0, CLR_NONE, CLR_NONE, ILD_NORMAL);
 			}
 		}
 	}

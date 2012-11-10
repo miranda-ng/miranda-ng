@@ -162,13 +162,13 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 
 	CallService(MS_CLUI_CONTACTDELETED, wParam, 0);
 	if ((HANDLE) lParam == NULL)
-		DBDeleteContactSetting((HANDLE) wParam, "CList", "Group");
+		DBDeleteContactSetting((HANDLE)wParam, "CList", "Group");
 	else {
 		grpChg.pszNewName = cli.pfnGetGroupName(lParam, NULL);
-		db_set_ts((HANDLE) wParam, "CList", "Group", grpChg.pszNewName);
+		db_set_ts((HANDLE)wParam, "CList", "Group", grpChg.pszNewName);
 	}
 	CallService(MS_CLUI_CONTACTADDED, wParam, 
-		cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0), GetContactStatus((HANDLE) wParam), (HANDLE) wParam));
+		cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0), GetContactStatus((HANDLE)wParam), (HANDLE)wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
 	return 0;
