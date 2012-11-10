@@ -140,8 +140,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		break;
 
 	case INTM_ICONCHANGED:
-	{	struct ClcContact *contact = NULL;
-		ClcGroup *group = NULL;
+	{	
 		int recalcScrollBar = 0,shouldShow;
 		HANDLE hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
@@ -157,7 +156,10 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			status = cacheEntry->status;
 		
 		shouldShow = (GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_SHOWHIDDEN || !cacheEntry->bIsHidden) && (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline || CallService(MS_CLIST_GETCONTACTICON,wParam,0) != LOWORD(lParam));	//this means an offline msg is flashing, so the contact should be shown
-		if (!FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL)) {				
+
+		ClcContact *contact;
+		ClcGroup *group;
+		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {				
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
@@ -196,7 +198,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		}	}
 		if (hSelItem) {
 			ClcGroup *selgroup;
-			if (FindItem(hwnd,dat,hSelItem,&selcontact,&selgroup,NULL))
+			if ( FindItem(hwnd,dat,hSelItem,&selcontact,&selgroup,NULL))
 				dat->selection = GetRowsPriorTo(&dat->list,selgroup,List_IndexOf((SortedList*)&selgroup->cl, selcontact));
 			else
 				dat->selection = -1;
@@ -207,12 +209,15 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		goto LBL_Exit;
 	}
 	case INTM_STATUSMSGCHANGED:
-	{	struct ClcContact *contact = NULL;
-		ClcGroup *group = NULL;
+	{	
 		DBVARIANT dbv;
 
-		if (!(dat->style&CLS_SHOWSTATUSMESSAGES)) break;
-		if (FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL) && contact != NULL) {
+		if (!(dat->style & CLS_SHOWSTATUSMESSAGES))
+			break;
+
+		ClcContact *contact;
+		ClcGroup *group;
+		if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
 			if (!DBGetContactSettingTString((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
@@ -237,6 +242,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		RecalcScrollBar(hwnd,dat);
 		goto LBL_Exit;
 	}
+
 	case WM_TIMER:
 		if (wParam == TIMERID_DELAYEDREPAINT) {
 			KillTimer(hwnd,TIMERID_DELAYEDREPAINT);
@@ -263,15 +269,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		stopStatusUpdater = 1;
 		break;
 	}
-	{
-		LRESULT res = saveContactListControlWndProc(hwnd, msg, wParam, lParam);
-		switch (msg) {
-			case WM_CREATE:
-				mir_forkthread(StatusUpdaterThread,0);
-				break;
-		}
-		return res;
+
+	LRESULT res = saveContactListControlWndProc(hwnd, msg, wParam, lParam);
+	switch (msg) {
+	case WM_CREATE:
+		mir_forkthread(StatusUpdaterThread,0);
+		break;
 	}
+	return res;
 
 LBL_Exit:
 	return DefWindowProc(hwnd, msg, wParam, lParam);

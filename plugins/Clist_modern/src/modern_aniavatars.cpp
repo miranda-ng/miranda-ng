@@ -194,7 +194,7 @@ int AniAva_InitModule()
 {
 	memset(&AniAva,0,sizeof(AniAva));
 	if (g_CluiData.fGDIPlusFail) return 0;
-	if ( !( db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
+	if ( !( db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
 		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT))) return 0;
 	{
 		WNDCLASSEX wc;
@@ -262,7 +262,7 @@ int AniAva_UpdateOptions()
 {
 	BOOL bReloadAvatars = FALSE;
 	BOOL bBeEnabled = (!g_CluiData.fGDIPlusFail
-		 &&  db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
+		 &&  db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail))
 		 &&  db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT));
 	if (bBeEnabled && !AniAva.bModuleStarted)
 	{

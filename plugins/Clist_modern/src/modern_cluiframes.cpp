@@ -3057,7 +3057,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 	case WM_COMMAND:
 
 
-		if (ServiceExists(MO_CREATENEWMENUOBJECT))
+		if ( ServiceExists(MO_CREATENEWMENUOBJECT))
 		{
 			//if ( CallService(MS_CLIST_MENUPROCESSCOMMAND,MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)){break;};
 			if (ProcessCommandProxy(MAKEWPARAM(LOWORD(wParam),0),(LPARAM)Frameid)) break;
@@ -3097,7 +3097,7 @@ static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam
 			POINT pt;
 			GetCursorPos(&pt);
 
-			if (ServiceExists(MS_CLIST_MENUBUILDFRAMECONTEXT))
+			if ( ServiceExists(MS_CLIST_MENUBUILDFRAMECONTEXT))
 			{
 				hmenu = (HMENU)CallService(MS_CLIST_MENUBUILDFRAMECONTEXT,Frameid,0);
 			}
@@ -3550,7 +3550,7 @@ static LRESULT CALLBACK CLUIFrameSubContainerProc(HWND hwnd, UINT msg, WPARAM wP
 	/*
 	if ((msg == WM_MOVE) || (msg == WM_MOVING) || (msg == WM_NCLBUTTONDOWN) || (msg == WM_SYSCOMMAND)  )
 	{
-	if (ServiceExists("Utils/SnapWindowProc"))
+	if ( ServiceExists("Utils/SnapWindowProc"))
 	{
 	SnapWindowProc_t SnapInfo;
 	memset(&SnapInfo,0,sizeof(SnapInfo));
@@ -3649,7 +3649,7 @@ static LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wP
 	/*
 	if ((msg == WM_MOVE) || (msg == WM_MOVING) || (msg == WM_NCLBUTTONDOWN) || (msg == WM_SYSCOMMAND)  )
 	{
-	if (ServiceExists("Utils/SnapWindowProc"))
+	if ( ServiceExists("Utils/SnapWindowProc"))
 	{
 	SnapWindowProc_t SnapInfo;
 	memset(&SnapInfo,0,sizeof(SnapInfo));

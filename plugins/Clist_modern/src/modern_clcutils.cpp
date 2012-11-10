@@ -462,8 +462,8 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 	}
 	dat->selection = hit;
 
-	if (g_szMetaModuleName && !mir_strcmp(contact->proto,g_szMetaModuleName) &&  (ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONMETACONTACT;
-	if (contact->isSubcontact && (ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONSUBCONTACT;
+	if (g_szMetaModuleName && !mir_strcmp(contact->proto,g_szMetaModuleName) &&  ( ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONMETACONTACT;
+	if (contact->isSubcontact && ( ServiceExists(MS_MC_ADDTOMETA))) return DROPTARGET_ONSUBCONTACT;
 	return DROPTARGET_ONCONTACT;
 }
 COLORREF sttGetColor(char * module, char * color, COLORREF defColor)

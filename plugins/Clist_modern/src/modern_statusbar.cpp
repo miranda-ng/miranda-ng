@@ -373,7 +373,7 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 				if ((p.xStatusMode & 8) && p.ProtoStatus > ID_STATUS_OFFLINE) {
 					char str[MAXMODULELABELLENGTH];
 					mir_snprintf(str, SIZEOF(str), "%s/GetXStatus", p.AccountName);
-					if (ServiceExists(str)) {
+					if ( ServiceExists(str)) {
 						char *dbTitle = "XStatusName";
 						char *dbTitle2 = NULL;
 						xstatus = CallProtoService(p.AccountName,"/GetXStatus",(WPARAM)&dbTitle,(LPARAM)&dbTitle2);

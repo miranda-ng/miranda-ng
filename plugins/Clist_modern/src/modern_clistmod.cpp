@@ -75,7 +75,7 @@ HICON cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 		char str[MAXMODULELABELLENGTH];
 		strcpy(str,szProto);
 		strcat(str,"/GetXStatusIcon");
-		if (ServiceExists(str))
+		if ( ServiceExists(str))
 		{
 			// check status is online
 			if (status>ID_STATUS_OFFLINE)
@@ -138,7 +138,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		mir_snprintf(AdvancedService,SIZEOF(AdvancedService),"%s%s",szActProto,"/GetAdvancedStatusIcon");
 
 		int result = -1;
-		if (ServiceExists(AdvancedService))
+		if ( ServiceExists(AdvancedService))
 			result = CallService(AdvancedService,(WPARAM)hActContact, 0);
 
 		if (result == -1 || !(LOWORD(result))) {

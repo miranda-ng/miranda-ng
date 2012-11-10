@@ -187,9 +187,9 @@ static struct ClcContact * AddContactToGroup(struct ClcData *dat,ClcGroup *group
 	return group->cl.items[i];
 }
 
-void AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline)
+void AddContactToTree(HWND hwnd, ClcData *dat, HANDLE hContact, int updateTotalCount, int checkHideOffline)
 {
-	if (FindItem(hwnd,dat,hContact,NULL,NULL,NULL) == 1)
+	if ( FindItem(hwnd,dat,hContact,NULL,NULL,NULL) == 1)
 		return;
 
 	pClcCacheEntry cacheEntry = GetContactFullCacheEntry(hContact);

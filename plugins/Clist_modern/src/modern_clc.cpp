@@ -72,9 +72,9 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_MODERNOPT_INITIALIZE,ModernOptInit);
 	HookEvent(ME_MODERNOPT_INITIALIZE,ModernSkinOptInit);
 
-	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
+	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
+	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	// Get icons
@@ -117,7 +117,7 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	hIconChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, clcHookIconsChanged);
 
 	// Register smiley category
-	if (ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
+	if ( ServiceExists(MS_SMILEYADD_REGISTERCATEGORY)) {
 		SMADD_REGCAT rc;
 
 		rc.cbSize = sizeof(rc);
@@ -443,12 +443,11 @@ static LRESULT clcOnCreate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPar
 	return 0;
 }
 
-
-
 static LRESULT clcOnHitTest(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	return DefWindowProc(hwnd,WM_NCHITTEST,wParam,lParam);
 }
+
 static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
@@ -487,9 +486,11 @@ static LRESULT clcOnCommand(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 			MAKELPARAM(contact->group->hideOffline ? 0 : GROUPF_HIDEOFFLINE, GROUPF_HIDEOFFLINE));
 		return 0;
 	}
+
 	if (contact->type == CLCIT_GROUP)
 		if (CallService(MO_PROCESSCOMMANDBYMENUIDENT,LOWORD(wParam),(LPARAM)hwnd))
 			return 0;
+
 	return 0;
 }
 
@@ -500,8 +501,7 @@ static LRESULT clcOnSize(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 	KillTimer(hwnd,TIMERID_INFOTIP);
 	KillTimer(hwnd,TIMERID_RENAME);
 	cliRecalcScrollBar(hwnd,dat);
-	if ( g_CluiData.fDisableSkinEngine || dat->force_in_dialog )
-	{
+	if ( g_CluiData.fDisableSkinEngine || dat->force_in_dialog ) {
 		HBITMAP hBmp, hBmpMask, hoBmp, hoMaskBmp;
 		HDC hdc,hdcMem;
 		RECT rc = {0};
@@ -540,8 +540,7 @@ static LRESULT clcOnSize(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 		DeleteObject(hBmpMask);
 		DeleteObject(hBmp);
 	}
-	else if (dat->himlHighlight)
-	{
+	else if (dat->himlHighlight) {
 		ImageList_Destroy(dat->himlHighlight);
 		dat->himlHighlight = NULL;
 	}
@@ -550,8 +549,7 @@ static LRESULT clcOnSize(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 
 static LRESULT clcOnChar(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if (wParam == 27 && dat->szQuickSearch[0] == '\0') //escape and not quick search
-	{
+	if (wParam == 27 && dat->szQuickSearch[0] == '\0') { //escape and not quick search
 		// minimize clist
 		CListMod_HideWindow(pcli->hwndContactList, SW_HIDE);
 	}
@@ -559,13 +557,10 @@ static LRESULT clcOnChar(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam
 }
 static LRESULT clcOnPaint(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	HDC hdc;
-	PAINTSTRUCT ps;
-	if (IsWindowVisible(hwnd))
-	{
-		if ( !g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList)
-		{
-			hdc = BeginPaint(hwnd,&ps);
+	if ( IsWindowVisible(hwnd)) {
+		if ( !g_CluiData.fLayered || GetParent(hwnd) != pcli->hwndContactList) {
+			PAINTSTRUCT ps;
+			HDC hdc = BeginPaint(hwnd,&ps);
 			g_clcPainter.cliPaintClc(hwnd,dat,hdc,&ps.rcPaint);
 			EndPaint(hwnd,&ps);
 		}
@@ -586,8 +581,8 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	int pageSize;
 	if (wParam == VK_CONTROL)
 		return 0;
-	pcli->pfnHideInfoTip(hwnd,dat);
 
+	pcli->pfnHideInfoTip(hwnd,dat);
 	KillTimer(hwnd,TIMERID_INFOTIP);
 	KillTimer(hwnd,TIMERID_RENAME);
 
@@ -601,32 +596,25 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	switch(wParam) {
 	case VK_DOWN:
 	case VK_UP:
-		{
-			if (dat->szQuickSearch[0] != '\0' && dat->selection != -1) //get next contact
-			{
-				//get next contact
-				int index = clcSearchNextContact(hwnd,dat,dat->selection,dat->szQuickSearch,1,(wParam == VK_UP));
-				if (index == -1)
-				{
-					MessageBeep(MB_OK);
-					return 0;
-				}
-				else
-				{
-					dat->selection = index;
-					pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
-					pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
-					return 0;
-				}
+		if (dat->szQuickSearch[0] != '\0' && dat->selection != -1) { //get next contact
+			//get next contact
+			int index = clcSearchNextContact(hwnd,dat,dat->selection,dat->szQuickSearch,1,(wParam == VK_UP));
+			if (index == -1) {
+				MessageBeep(MB_OK);
+				return 0;
+			}
 
-			}
-			else
-			{
-				if (wParam == VK_DOWN) dat->selection++;
-				if (wParam == VK_UP) dat->selection--;
-				selMoved = 1; break;
-			}
+			dat->selection = index;
+			pcli->pfnInvalidateRect(hwnd, NULL, FALSE);
+			pcli->pfnEnsureVisible(hwnd, dat, dat->selection, 0);
+			return 0;
 		}
+
+		if (wParam == VK_DOWN) dat->selection++;
+		if (wParam == VK_UP) dat->selection--;
+		selMoved = 1;
+		break;
+
 	case VK_PRIOR: dat->selection -= pageSize; selMoved = 1; break;
 	case VK_NEXT: dat->selection += pageSize; selMoved = 1; break;
 	case VK_HOME: dat->selection = 0; selMoved = 1; break;
@@ -643,16 +631,14 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 	case VK_F2: cliBeginRenameSelection(hwnd,dat); /*SetCapture(hwnd);*/ return 0;
 	case VK_DELETE: pcli->pfnDeleteFromContactList(hwnd,dat); SetCapture(hwnd);return 0;
 	case VK_ESCAPE:
-		{
-			if ((dat->dragStage&DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE)
-			{
-				dat->iDragItem = -1;
-				dat->iInsertionMark = -1;
-				dat->dragStage = 0;
-				ReleaseCapture();
-			}
-			return 0;
+		if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
+			dat->iDragItem = -1;
+			dat->iInsertionMark = -1;
+			dat->dragStage = 0;
+			ReleaseCapture();
 		}
+		return 0;
+
 	default:
 		{
 			NMKEY nmkey;
@@ -662,38 +648,30 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 			nmkey.nVKey = wParam;
 			nmkey.uFlags = HIWORD(lParam);
 
-			if (SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nmkey))
-			{
+			if (SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nmkey)) {
 				SetCapture(hwnd);
 				return 0;
 			}
 		}
 	}
-	if (changeGroupExpand)
-	{
+	if (changeGroupExpand) {
 		int hit;
 		ClcContact *contact;
 		ClcGroup *group;
 		//dat->szQuickSearch[0] = 0;
 		hit = cliGetRowByIndex(dat,dat->selection,&contact,&group);
-		if (hit != -1)
-		{
-			if (contact->type == CLCIT_CONTACT  && (contact->isSubcontact || contact->SubAllocated>0))
-			{
-				if (contact->isSubcontact && changeGroupExpand == 1)
-				{
+		if (hit != -1) {
+			if (contact->type == CLCIT_CONTACT  && (contact->isSubcontact || contact->SubAllocated > 0)) {
+				if (contact->isSubcontact && changeGroupExpand == 1) {
 					dat->selection -= contact->isSubcontact;
 					selMoved = 1;
 				}
-				else if ( !contact->isSubcontact && contact->SubAllocated>0)
-				{
-					if (changeGroupExpand == 1 && !contact->SubExpanded)
-					{
+				else if ( !contact->isSubcontact && contact->SubAllocated > 0) {
+					if (changeGroupExpand == 1 && !contact->SubExpanded) {
 						dat->selection = cliGetRowsPriorTo(&dat->list,group,-1);
 						selMoved = 1;
 					}
-					else if (changeGroupExpand == 1 && contact->SubExpanded)
-					{
+					else if (changeGroupExpand == 1 && contact->SubExpanded) {
 						//Contract
 						ClcContact * ht = NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
@@ -705,13 +683,11 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						cliRecalcScrollBar(hwnd,dat);
 						hitcontact = NULL;
 					}
-					else if (changeGroupExpand == 2 && contact->SubExpanded)
-					{
+					else if (changeGroupExpand == 2 && contact->SubExpanded) {
 						dat->selection++;
 						selMoved = 1;
 					}
-					else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta)
-					{
+					else if (changeGroupExpand == 2 && !contact->SubExpanded && dat->expandMeta) {
 						ClcContact * ht = NULL;
 						KillTimer(hwnd,TIMERID_SUBEXPAND);
 						contact->SubExpanded = 1;
@@ -720,13 +696,11 @@ static LRESULT clcOnKeyDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPa
 						dat->needsResort = 1;
 						pcli->pfnSortCLC(hwnd,dat,1);
 						cliRecalcScrollBar(hwnd,dat);
-						if (ht)
-						{
+						if (ht) {
 							int i=0;
 							ClcContact *contact2;
 							ClcGroup *group2;
-							if (FindItem(hwnd,dat,contact->hContact,&contact2,&group2,NULL,FALSE))
-							{
+							if ( FindItem(hwnd,dat,contact->hContact,&contact2,&group2,NULL,FALSE)) {
 								i = cliGetRowsPriorTo(&dat->list,group2,GetContactIndex(group2,contact2));
 								pcli->pfnEnsureVisible(hwnd,dat,i+contact->SubAllocated,0);
 							}
@@ -796,14 +770,12 @@ void clcSetDelayTimer( UINT_PTR uIDEvent, HWND hwnd, int nDelay)
 {
 	KillTimer( hwnd, uIDEvent );
 	int delay = nDelay;
-	if ( delay == -1)
-	{
-		switch ( uIDEvent )
-		{
-		case TIMERID_DELAYEDRESORTCLC:	delay = 10;		break;
-		case TIMERID_RECALCSCROLLBAR:	delay = 10;		break;
-		case TIMERID_REBUILDAFTER:		delay = 50;		break;
-		default:						delay = 100;	break;
+	if (delay == -1) {
+		switch ( uIDEvent ) {
+			case TIMERID_DELAYEDRESORTCLC: delay = 10;  break;
+			case TIMERID_RECALCSCROLLBAR:  delay = 10;  break;
+			case TIMERID_REBUILDAFTER:     delay = 50;  break;
+			default:                       delay = 100; break;
 		}
 	}
 	CLUI_SafeSetTimer( hwnd, uIDEvent, delay, NULL );
@@ -830,10 +802,9 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 		}
 	case TIMERID_SUBEXPAND:
 		{
-			ClcContact * ht = NULL;
+			ClcContact *ht = NULL;
 			KillTimer(hwnd,TIMERID_SUBEXPAND);
-			if (hitcontact && dat->expandMeta)
-			{
+			if (hitcontact && dat->expandMeta) {
 				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
 				db_set_b(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
 				if (hitcontact->SubExpanded)
@@ -847,15 +818,15 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 				int i=0;
 				ClcContact *contact;
 				ClcGroup *group;
-				if (FindItem(hwnd,dat,hitcontact->hContact,&contact,&group,NULL,FALSE))
-				{
+				if ( FindItem(hwnd, dat, hitcontact->hContact, &contact, &group, NULL, FALSE)) {
 					i = cliGetRowsPriorTo(&dat->list,group,GetContactIndex(group,contact));
-					pcli->pfnEnsureVisible(hwnd,dat,i+hitcontact->SubAllocated,0);
+					pcli->pfnEnsureVisible(hwnd, dat, i+hitcontact->SubAllocated, 0);
 				}
 			}
 			hitcontact = NULL;
-			return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 		}
+		return corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
+
 	case TIMERID_DELAYEDRESORTCLC:
 		TRACE("Do sort on Timer\n");
 		KillTimer(hwnd,TIMERID_DELAYEDRESORTCLC);
@@ -878,8 +849,7 @@ static LRESULT clcOnTimer(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wPara
 static LRESULT clcOnActivate(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	TRACE ("clcOnActivate\n");
-	if (dat->bCompactMode)
-	{
+	if (dat->bCompactMode) {
 		cliRecalcScrollBar(hwnd,dat);
 		if ( dat->hwndRenameEdit == NULL )
 			PostMessage( hwnd, WM_SIZE, 0, 0);
@@ -892,7 +862,7 @@ static LRESULT clcOnSetCursor(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	int lResult;
 
 	if ( !CLUI_IsInMainWindow(hwnd))
-		return DefWindowProc(hwnd,msg,wParam,lParam);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	if (g_CluiData.nBehindEdgeState>0)
 		CLUI_ShowFromBehindEdge();
@@ -901,7 +871,7 @@ static LRESULT clcOnSetCursor(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		CLUI_UpdateTimer(0);
 
 	lResult = CLUI_TestCursorOnBorders();
-	return lResult ? lResult : DefWindowProc(hwnd,msg,wParam,lParam);
+	return lResult ? lResult : DefWindowProc(hwnd, msg, wParam, lParam);
 }
 static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -912,18 +882,14 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		pt.y = HIWORD(lParam);
 		ClientToScreen(hwnd,&pt);
 		k = CLUI_SizingOnBorder(pt,0);
-		if (k)
-		{
+		if (k) {
 			int io = dat->iHotTrack;
 			dat->iHotTrack = 0;
-			if (dat->exStyle&CLS_EX_TRACKSELECT)
-			{
+			if (dat->exStyle & CLS_EX_TRACKSELECT)
 				pcli->pfnInvalidateItem(hwnd,dat,io);
-			}
+
 			if (k && GetCapture() == hwnd)
-			{
 				SendMessage(GetParent(hwnd),WM_PARENTNOTIFY,WM_LBUTTONDOWN,lParam);
-			}
 			return FALSE;
 		}
 	}
@@ -944,127 +910,116 @@ static LRESULT clcOnLButtonDown(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM
 		//dat->szQuickSearch[0] = 0;
 		hit = cliHitTest(hwnd,dat,(short)LOWORD(lParam),(short)HIWORD(lParam),&contact,&group,&hitFlags);
 		if (GetFocus() != hwnd) SetFocus(hwnd);
-		if (hit != -1 && !(hitFlags&CLCHT_NOWHERE))
-		{
-			if ( hit == dat->selection && hitFlags&CLCHT_ONITEMLABEL && dat->exStyle&CLS_EX_EDITLABELS)
-			{
-				if ( !(dat->dragStage&DRAGSTAGEF_SKIPRENAME))
-				{
+		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE)) {
+			if ( hit == dat->selection && hitFlags & CLCHT_ONITEMLABEL && dat->exStyle & CLS_EX_EDITLABELS) {
+				if ( !(dat->dragStage & DRAGSTAGEF_SKIPRENAME)) {
 					SetCapture(hwnd);
 					dat->iDragItem = dat->selection;
 					dat->dragStage = DRAGSTAGE_NOTMOVED|DRAGSTAGEF_MAYBERENAME;
 					dat->dragAutoScrolling = 0;
 					return TRUE;
 				}
-				else
-				{
+				else {
 					dat->dragStage &= ~DRAGSTAGEF_SKIPRENAME;
 					return TRUE;
 				}
-
 			}
 		}
-		if (hit != -1 && !(hitFlags&CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact)
-			if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta)
-			{
-				BYTE doubleClickExpand = db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
 
+		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_CONTACT && contact->SubAllocated && !contact->isSubcontact) 
+		if (hitFlags&CLCHT_ONITEMICON && dat->expandMeta)
+		{
+			BYTE doubleClickExpand = db_get_b(NULL,"CLC","MetaDoubleClick",SETTING_METAAVOIDDBLCLICK_DEFAULT);
+
+			hitcontact = contact;
+			HitPoint.x = (short)LOWORD(lParam);
+			HitPoint.y = (short)HIWORD(lParam);
+			fMouseUpped = FALSE;
+			if ((GetKeyState(VK_SHIFT)&0x8000) || (GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
+			{
+				fMouseUpped = TRUE;
 				hitcontact = contact;
-				HitPoint.x = (short)LOWORD(lParam);
-				HitPoint.y = (short)HIWORD(lParam);
-				fMouseUpped = FALSE;
-				if ((GetKeyState(VK_SHIFT)&0x8000) || (GetKeyState(VK_CONTROL)&0x8000) || (GetKeyState(VK_MENU)&0x8000))
-				{
-					fMouseUpped = TRUE;
-					hitcontact = contact;
-					KillTimer(hwnd,TIMERID_SUBEXPAND);
-					CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND,0,NULL);
-				}
+				KillTimer(hwnd,TIMERID_SUBEXPAND);
+				CLUI_SafeSetTimer(hwnd,TIMERID_SUBEXPAND,0,NULL);
 			}
-			else
-				hitcontact = NULL;
+		}
+		else hitcontact = NULL;
 
-		if (hit != -1 && !(hitFlags&CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
-			if (hitFlags&CLCHT_ONITEMICON)
-			{
-				ClcGroup *selgroup;
-				ClcContact *selcontact;
-				dat->selection = cliGetRowByIndex(dat,dat->selection,&selcontact,&selgroup);
-				pcli->pfnSetGroupExpand(hwnd,dat,contact->group,-1);
-				if (dat->selection != -1)
-				{
-					dat->selection = cliGetRowsPriorTo(&dat->list,selgroup,GetContactIndex(selgroup,selcontact));
-					if (dat->selection == -1) dat->selection = cliGetRowsPriorTo(&dat->list,contact->group,-1);
-				}
-				if (dat->bCompactMode)
-				{
-					SendMessage(hwnd,WM_SIZE,0,0);
-				}
-				else
-				{
-					CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-					UpdateWindow(hwnd);
-				}
-				return TRUE;
+		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && contact->type == CLCIT_GROUP)
+		if (hitFlags & CLCHT_ONITEMICON) {
+			ClcGroup *selgroup;
+			ClcContact *selcontact;
+			dat->selection = cliGetRowByIndex(dat,dat->selection,&selcontact,&selgroup);
+			pcli->pfnSetGroupExpand(hwnd,dat,contact->group,-1);
+			if (dat->selection != -1) {
+				dat->selection = cliGetRowsPriorTo(&dat->list,selgroup,GetContactIndex(selgroup,selcontact));
+				if (dat->selection == -1) dat->selection = cliGetRowsPriorTo(&dat->list,contact->group,-1);
 			}
-			if (hit != -1 && !(hitFlags&CLCHT_NOWHERE) && hitFlags&CLCHT_ONITEMCHECK)
-			{
-				NMCLISTCONTROL nm;
-				contact->flags ^= CONTACTF_CHECKED;
-				if (contact->type == CLCIT_GROUP) pcli->pfnSetGroupChildCheckboxes(contact->group,contact->flags&CONTACTF_CHECKED);
-				pcli->pfnRecalculateGroupCheckboxes(hwnd,dat);
+
+			if (dat->bCompactMode)
+				SendMessage(hwnd,WM_SIZE,0,0);
+			else {
 				CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-				nm.hdr.code = CLN_CHECKCHANGED;
-				nm.hdr.hwndFrom = hwnd;
-				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nm.flags = 0;
-				nm.hItem = ContactToItemHandle(contact,&nm.flags);
-				SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+				UpdateWindow(hwnd);
 			}
-			if ( !(hitFlags&(CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK)))
-			{
-				NMCLISTCONTROL nm;
-				nm.hdr.code = NM_CLICK;
-				nm.hdr.hwndFrom = hwnd;
-				nm.hdr.idFrom = GetDlgCtrlID(hwnd);
-				nm.flags = 0;
-				if (hit == -1 || hitFlags&CLCHT_NOWHERE) nm.hItem = NULL;
-				else nm.hItem = ContactToItemHandle(contact,&nm.flags);
-				nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA?HIBYTE(HIWORD(hitFlags)):-1;
-				nm.pt = dat->ptDragStart;
-				SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
-			}
-			if (hitFlags&(CLCHT_ONITEMCHECK|CLCHT_ONITEMEXTRA))
-				return FALSE;
+			return TRUE;
+		}
 
-			dat->selection = (hitFlags&CLCHT_NOWHERE)?-1:hit;
+		if (hit != -1 && !(hitFlags & CLCHT_NOWHERE) && (hitFlags & CLCHT_ONITEMCHECK)) {
+			contact->flags ^= CONTACTF_CHECKED;
+			if (contact->type == CLCIT_GROUP) pcli->pfnSetGroupChildCheckboxes(contact->group,contact->flags&CONTACTF_CHECKED);
+			pcli->pfnRecalculateGroupCheckboxes(hwnd,dat);
 			CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
 
-			UpdateWindow(hwnd);
-			if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags&(CLCHT_ONITEMEXTRA|CLCHT_ONITEMCHECK|CLCHT_NOWHERE)))
-			{
-				SetCapture(hwnd);
-				dat->iDragItem = dat->selection;
-				dat->dragStage = DRAGSTAGE_NOTMOVED;
-				dat->dragAutoScrolling = 0;
-			}
-			if (dat->bCompactMode)
-			{
-				SendMessage(hwnd,WM_SIZE,0,0);
-			}
-			if (dat->selection != -1)	pcli->pfnEnsureVisible(hwnd,dat,hit,0);
-			return TRUE;
+			NMCLISTCONTROL nm;
+			nm.hdr.code = CLN_CHECKCHANGED;
+			nm.hdr.hwndFrom = hwnd;
+			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+			nm.flags = 0;
+			nm.hItem = ContactToItemHandle(contact,&nm.flags);
+			SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+		}
+
+		if ( !(hitFlags & (CLCHT_ONITEMICON|CLCHT_ONITEMLABEL|CLCHT_ONITEMCHECK))) {
+			NMCLISTCONTROL nm;
+			nm.hdr.code = NM_CLICK;
+			nm.hdr.hwndFrom = hwnd;
+			nm.hdr.idFrom = GetDlgCtrlID(hwnd);
+			nm.flags = 0;
+			if (hit == -1 || hitFlags&CLCHT_NOWHERE) nm.hItem = NULL;
+			else nm.hItem = ContactToItemHandle(contact,&nm.flags);
+			nm.iColumn = hitFlags&CLCHT_ONITEMEXTRA?HIBYTE(HIWORD(hitFlags)):-1;
+			nm.pt = dat->ptDragStart;
+			SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm);
+		}
+
+		if (hitFlags & (CLCHT_ONITEMCHECK|CLCHT_ONITEMEXTRA))
+			return FALSE;
+
+		dat->selection = (hitFlags&CLCHT_NOWHERE)?-1:hit;
+		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
+
+		UpdateWindow(hwnd);
+		if (dat->selection != -1 && (contact->type == CLCIT_CONTACT || contact->type == CLCIT_GROUP) && !(hitFlags & (CLCHT_ONITEMEXTRA|CLCHT_ONITEMCHECK|CLCHT_NOWHERE))) {
+			SetCapture(hwnd);
+			dat->iDragItem = dat->selection;
+			dat->dragStage = DRAGSTAGE_NOTMOVED;
+			dat->dragAutoScrolling = 0;
+		}
+
+		if (dat->bCompactMode)
+			SendMessage(hwnd,WM_SIZE,0,0);
+
+		if (dat->selection != -1)
+			pcli->pfnEnsureVisible(hwnd,dat,hit,0);
+		return TRUE;
 	}
 }
 
-
-
 static LRESULT clcOnCaptureChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	if ((HWND)lParam != hwnd)
-	{
-		if (dat->iHotTrack != -1)
-		{
+	if ((HWND)lParam != hwnd) {
+		if (dat->iHotTrack != -1) {
 			int i;
 			i = dat->iHotTrack;
 			dat->iHotTrack = -1;
@@ -1078,29 +1033,26 @@ static LRESULT clcOnCaptureChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPA
 static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	BOOL isOutside = FALSE;
-	if (CLUI_IsInMainWindow(hwnd))
-	{
-		if (g_CluiData.bBehindEdgeSettings) CLUI_UpdateTimer(0);
+	if ( CLUI_IsInMainWindow(hwnd)) {
+		if (g_CluiData.bBehindEdgeSettings)
+			CLUI_UpdateTimer(0);
 		CLUI_TestCursorOnBorders();
 	}
+
 	if (clcProceedDragToScroll(hwnd, (short)HIWORD(lParam)))
 		return 0;
 
-	if ( dat->dragStage&DRAGSTAGEF_MAYBERENAME )
-	{
+	if (dat->dragStage & DRAGSTAGEF_MAYBERENAME) {
 		POINT pt;
 		pt.x = (short)LOWORD(lParam);
 		pt.y = (short)HIWORD(lParam);
-		if (  abs(pt.x-dat->ptDragStart.x)>GetSystemMetrics(SM_CXDOUBLECLK)
-			 || abs(pt.y-dat->ptDragStart.y)>GetSystemMetrics(SM_CYDOUBLECLK))
-		{
+		if ( abs(pt.x-dat->ptDragStart.x) > GetSystemMetrics(SM_CXDOUBLECLK) || abs(pt.y-dat->ptDragStart.y) > GetSystemMetrics(SM_CYDOUBLECLK)) {
 			KillTimer( hwnd, TIMERID_RENAME );
 			dat->dragStage &= (~DRAGSTAGEF_MAYBERENAME);
 		}
 	}
 
-	if (dat->iDragItem == -1)
-	{
+	if (dat->iDragItem == -1) {
 		POINT pt;
 		HWND window;
 		pt.x = (short)LOWORD(lParam);
@@ -1148,19 +1100,17 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			if (dat->iHotTrack == -1 || isOutside)
 				ReleaseCapture();
 
-			if (dat->exStyle&CLS_EX_TRACKSELECT)
-			{
+			if (dat->exStyle & CLS_EX_TRACKSELECT) {
 				pcli->pfnInvalidateItem(hwnd,dat,iOldHotTrack);
 				pcli->pfnInvalidateItem(hwnd,dat,dat->iHotTrack);
 			}
 
-			pcli->pfnHideInfoTip(hwnd,dat);
+			pcli->pfnHideInfoTip(hwnd, dat);
 		}
 
-		KillTimer(hwnd,TIMERID_INFOTIP);
+		KillTimer(hwnd, TIMERID_INFOTIP);
 
-		if (wParam == 0 && dat->hInfoTipItem == NULL)
-		{
+		if (wParam == 0 && dat->hInfoTipItem == NULL) {
 			dat->ptInfoTip.x = (short)LOWORD(lParam);
 			dat->ptInfoTip.y = (short)HIWORD(lParam);
 			CLUI_SafeSetTimer(hwnd,TIMERID_INFOTIP,dat->infoTipTimeout,NULL);
@@ -1180,8 +1130,10 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
 		HCURSOR hNewCursor = LoadCursor(NULL, IDC_NO);
 		CLUI__cliInvalidateRect(hwnd,NULL,FALSE);
-		if (dat->dragAutoScrolling)
-		{KillTimer(hwnd,TIMERID_DRAGAUTOSCROLL); dat->dragAutoScrolling = 0;}
+		if (dat->dragAutoScrolling) {
+			KillTimer(hwnd,TIMERID_DRAGAUTOSCROLL);
+			dat->dragAutoScrolling = 0;
+		}
 		int target = GetDropTargetInformation(hwnd,dat,pt);
 		if (dat->dragStage&DRAGSTAGEF_OUTSIDE && target != DROPTARGET_OUTSIDE) {
 			NMCLISTCONTROL nm;
@@ -1201,54 +1153,46 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 			break;
 
 		case DROPTARGET_ONCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA))
-			{
+			if ( ServiceExists(MS_MC_ADDTOMETA)) {
 				ClcContact *contSour;
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
-				{
+				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName)) {
 					if ( !contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
 					else
 						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DROPMETA));
 				}
-
 			}
 			break;
 
 		case DROPTARGET_ONMETACONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA))
-			{
-				ClcContact *contSour,*contDest;
+			if ( ServiceExists(MS_MC_ADDTOMETA)) {
+				ClcContact *contSour, *contDest;
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
-				{
+				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName)) {
 					if ( !contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
+					else if (contSour->subcontacts == contDest)
+						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
 					else
-						if  (contSour->subcontacts == contDest)
-							hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_DEFAULTSUB)); ///MakeDefault
-						else
-							hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
+						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
 				}
 			}
 			break;
+
 		case DROPTARGET_ONSUBCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA))
-			{
+			if ( ServiceExists(MS_MC_ADDTOMETA)) {
 				ClcContact *contSour,*contDest;
-				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
-				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
-				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
-				{
+				cliGetRowByIndex(dat, dat->selection, &contDest, NULL);
+				cliGetRowByIndex(dat, dat->iDragItem, &contSour, NULL);
+				if (contSour->type == CLCIT_CONTACT && g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName)) {
 					if ( !contSour->isSubcontact)
 						hNewCursor = LoadCursor(GetModuleHandle(NULL), MAKEINTRESOURCE(IDC_DROPUSER));  /// Add to meta
+					else if (contDest->subcontacts == contSour->subcontacts)
+						break;
 					else
-						if (contDest->subcontacts == contSour->subcontacts)
-							break;
-						else
-							hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
+						hNewCursor = LoadCursor(g_hInst, MAKEINTRESOURCE(IDC_REGROUP));
 				}
 			}
 			break;
@@ -1266,12 +1210,9 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 				NMCLISTCONTROL nm;
 				ClcContact *contact;
 
-				if (pt.x >= 0 && pt.x < clRect.right && ((pt.y < 0 && pt.y>-dat->dragAutoScrollHeight) || (pt.y >= clRect.bottom && pt.y < clRect.bottom+dat->dragAutoScrollHeight)))
-				{
-					if ( !dat->dragAutoScrolling)
-					{
-						if (pt.y < 0) dat->dragAutoScrolling = -1;
-						else dat->dragAutoScrolling = 1;
+				if (pt.x >= 0 && pt.x < clRect.right && ((pt.y < 0 && pt.y>-dat->dragAutoScrollHeight) || (pt.y >= clRect.bottom && pt.y < clRect.bottom+dat->dragAutoScrollHeight))) {
+					if ( !dat->dragAutoScrolling) {
+						dat->dragAutoScrolling = (pt.y < 0) ? -1 : 1;
 						CLUI_SafeSetTimer(hwnd,TIMERID_DRAGAUTOSCROLL,dat->scrollTime,NULL);
 					}
 					SendMessage(hwnd,WM_TIMER,TIMERID_DRAGAUTOSCROLL,0);
@@ -1287,8 +1228,9 @@ static LRESULT clcOnMouseMove(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 				nm.pt = pt;
 				if (SendMessage(GetParent(hwnd),WM_NOTIFY,0,(LPARAM)&nm))
 					return 0;
-				break;
 			}
+			break;
+
 		default:
 			{
 				ClcGroup *group = NULL;
@@ -1321,10 +1263,12 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	}
 	else if (dat->iHotTrack == -1 && dat->iDragItem == -1)
 		ReleaseCapture();
-	if (dat->iDragItem == -1) return 0;
+
+	if (dat->iDragItem == -1)
+		return 0;
+
 	SetCursor((HCURSOR)GetClassLongPtr(hwnd,GCLP_HCURSOR));
-	if (dat->exStyle & CLS_EX_TRACKSELECT)
-	{
+	if (dat->exStyle & CLS_EX_TRACKSELECT) {
 		DWORD flags;
 		dat->iHotTrack = cliHitTest(hwnd,dat,(short)LOWORD(lParam),(short)HIWORD(lParam),NULL,NULL,&flags);
 		if (dat->iHotTrack == -1)
@@ -1333,23 +1277,21 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 	else if (hitcontact == NULL)
 		ReleaseCapture();
 	KillTimer(hwnd,TIMERID_DRAGAUTOSCROLL);
-	if (dat->dragStage == (DRAGSTAGE_NOTMOVED|DRAGSTAGEF_MAYBERENAME))
+	if (dat->dragStage == (DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME))
 		CLUI_SafeSetTimer(hwnd,TIMERID_RENAME,GetDoubleClickTime(),NULL);
-	else if ((dat->dragStage&DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE)
-	{
+	else if ((dat->dragStage & DRAGSTAGEM_STAGE) == DRAGSTAGE_ACTIVE) {
 		POINT pt;
 		int target;
 		TCHAR Wording[500];
 		int res = 0;
 		pt.x = (short)LOWORD(lParam); pt.y = (short)HIWORD(lParam);
 		target = GetDropTargetInformation(hwnd,dat,pt);
-		switch(target)
-		{
+		switch(target) {
 		case DROPTARGET_ONSELF:
 			break;
+		
 		case DROPTARGET_ONCONTACT:
-			if (ServiceExists(MS_MC_ADDTOMETA))
-			{
+			if ( ServiceExists(MS_MC_ADDTOMETA)) {
 				ClcContact *contDest, *contSour;
 				int res;
 				HANDLE handle,hcontact;
@@ -1357,35 +1299,111 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
 				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
 				hcontact = contSour->hContact;
-				if (contSour->type == CLCIT_CONTACT)
-				{
-
-					if (g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName))
-					{
-						if ( !contSour->isSubcontact)
-						{
+				if (contSour->type == CLCIT_CONTACT) {
+					if (g_szMetaModuleName && mir_strcmp(contSour->proto,g_szMetaModuleName)) {
+						if ( !contSour->isSubcontact) {
 							HANDLE hDest = contDest->hContact;
 							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?"),contDest->szText, contSour->szText);
 							res = MessageBox(hwnd,Wording,TranslateT("Converting to MetaContact"),MB_OKCANCEL|MB_ICONQUESTION);
-							if (res == 1)
-							{
+							if (res == 1) {
 								handle = (HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hDest,0);
 								if ( !handle) return 0;
 								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
 							}
 						}
-						else
-						{
-							HANDLE handle,hcontact,hfrom,hdest;
-							hcontact = contSour->hContact;
-							hfrom = contSour->subcontacts->hContact;
-							hdest = contDest->hContact;
+						else {
+							HANDLE hcontact = contSour->hContact;
+							HANDLE hfrom = contSour->subcontacts->hContact;
+							HANDLE hdest = contDest->hContact;
 							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s')?"), contDest->szText,contSour->szText,contSour->subcontacts->szText);
 							res = MessageBox(hwnd,Wording,TranslateT("Converting to MetaContact (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
-							if (res == 1)
-							{
+							if (res == 1) {
+								HANDLE handle = (HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hdest,0);
+								if ( !handle)
+									return 0;
 
-								handle = (HANDLE)CallService(MS_MC_CONVERTTOMETA,(WPARAM)hdest,0);
+								CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
+								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
+							}
+						}
+					}
+				}
+			}
+			break;
+
+		case DROPTARGET_ONMETACONTACT:
+			{
+				ClcContact *contDest, *contSour;
+				int res;
+				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
+				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
+				if (contSour->type == CLCIT_CONTACT) {
+					if (g_szMetaModuleName && strcmp(contSour->proto,g_szMetaModuleName)) {
+						if ( !contSour->isSubcontact) {
+							HANDLE handle,hcontact;
+							hcontact = contSour->hContact;
+							handle = contDest->hContact;
+							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do you want to contact '%s' be added to metacontact '%s'?"),contSour->szText, contDest->szText);
+							res = MessageBox(hwnd,Wording,TranslateT("Adding contact to MetaContact"),MB_OKCANCEL|MB_ICONQUESTION);
+							if (res == 1) {
+								if ( !handle) return 0;
+								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
+							}
+						}
+						else {
+							if (contSour->subcontacts == contDest) {
+								HANDLE hsour;
+								hsour = contSour->hContact;
+								mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be default ?"),contSour->szText);
+								res = MessageBox(hwnd,Wording,TranslateT("Set default contact"),MB_OKCANCEL|MB_ICONQUESTION);
+								if (res == 1)
+									CallService(MS_MC_SETDEFAULTCONTACT,(WPARAM)contDest->hContact,(LPARAM)hsour);
+							}
+							else {
+								HANDLE hcontact = contSour->hContact;
+								HANDLE hfrom = contSour->subcontacts->hContact;
+								HANDLE handle = contDest->hContact;
+								mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?"), contSour->szText,contSour->subcontacts->szText,contDest->szText);
+								res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
+								if (res == 1) {
+									if ( !handle) return 0;
+
+									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
+									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
+								}
+							}
+						}
+					}
+				}
+			}
+			break;
+
+		case DROPTARGET_ONSUBCONTACT:
+			{
+				ClcContact *contDest, *contSour;
+				int res;
+				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
+				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
+				if (contSour->type == CLCIT_CONTACT) {
+					if (g_szMetaModuleName && strcmp(contSour->proto,g_szMetaModuleName)) {
+						if ( !contSour->isSubcontact) {
+							HANDLE hcontact = contSour->hContact;
+							HANDLE handle = contDest->subcontacts->hContact;
+							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be added to MetaContact '%s'?"), contSour->szText,contDest->subcontacts->szText);
+							res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
+							if (res == 1) {
+								if ( !handle) return 0;
+								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
+							}
+						}
+						else if (contSour->subcontacts != contDest->subcontacts) {
+							HANDLE handle,hcontact,hfrom;
+							hcontact = contSour->hContact;
+							hfrom = contSour->subcontacts->hContact;
+							handle = contDest->subcontacts->hContact;
+							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?"), contSour->szText,contSour->subcontacts->szText,contDest->subcontacts->szText);
+							res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
+							if (res == 1) {
 								if ( !handle) return 0;
 
 								CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
@@ -1393,122 +1411,14 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 							}
 						}
 					}
-
 				}
 			}
 			break;
-		case DROPTARGET_ONMETACONTACT:
-			{
-				ClcContact *contDest, *contSour;
-				int res;
-				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
-				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
-				if (contSour->type == CLCIT_CONTACT)
-				{
 
-					if (g_szMetaModuleName && strcmp(contSour->proto,g_szMetaModuleName))
-					{
-						if ( !contSour->isSubcontact)
-						{
-							HANDLE handle,hcontact;
-							hcontact = contSour->hContact;
-							handle = contDest->hContact;
-							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do you want to contact '%s' be added to metacontact '%s'?"),contSour->szText, contDest->szText);
-							res = MessageBox(hwnd,Wording,TranslateT("Adding contact to MetaContact"),MB_OKCANCEL|MB_ICONQUESTION);
-							if (res == 1)
-							{
-
-								if ( !handle) return 0;
-								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
-							}
-						}
-						else
-						{
-							if (contSour->subcontacts == contDest)
-							{
-								HANDLE hsour;
-								hsour = contSour->hContact;
-								mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be default ?"),contSour->szText);
-								res = MessageBox(hwnd,Wording,TranslateT("Set default contact"),MB_OKCANCEL|MB_ICONQUESTION);
-
-								if (res == 1)
-								{
-									CallService(MS_MC_SETDEFAULTCONTACT,(WPARAM)contDest->hContact,(LPARAM)hsour);
-								}
-							}
-							else
-							{
-								HANDLE handle,hcontact,hfrom;
-								hcontact = contSour->hContact;
-								hfrom = contSour->subcontacts->hContact;
-								handle = contDest->hContact;
-								mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?"), contSour->szText,contSour->subcontacts->szText,contDest->szText);
-								res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
-								if (res == 1)
-								{
-
-									if ( !handle) return 0;
-
-									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
-									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
-								}
-							}
-						}
-					}
-				}
-			}
-			break;
-		case DROPTARGET_ONSUBCONTACT:
-			{
-				ClcContact *contDest, *contSour;
-				int res;
-				cliGetRowByIndex(dat,dat->iDragItem,&contSour,NULL);
-				cliGetRowByIndex(dat,dat->selection,&contDest,NULL);
-				if (contSour->type == CLCIT_CONTACT)
-				{
-					if (g_szMetaModuleName && strcmp(contSour->proto,g_szMetaModuleName))
-					{
-						if ( !contSour->isSubcontact)
-						{
-							HANDLE handle,hcontact;
-							hcontact = contSour->hContact;
-							handle = contDest->subcontacts->hContact;
-							mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be added to MetaContact '%s'?"), contSour->szText,contDest->subcontacts->szText);
-							res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
-							if (res == 1)
-							{
-
-								if ( !handle) return 0;
-								CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
-							}
-						}
-						else
-						{
-							if (contSour->subcontacts != contDest->subcontacts)
-							{
-								HANDLE handle,hcontact,hfrom;
-								hcontact = contSour->hContact;
-								hfrom = contSour->subcontacts->hContact;
-								handle = contDest->subcontacts->hContact;
-								mir_sntprintf(Wording,SIZEOF(Wording),TranslateT("Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?"), contSour->szText,contSour->subcontacts->szText,contDest->subcontacts->szText);
-								res = MessageBox(hwnd,Wording,TranslateT("Changing MetaContacts (Moving)"),MB_OKCANCEL|MB_ICONQUESTION);
-								if (res == 1)
-								{
-
-									if ( !handle) return 0;
-
-									CallService(MS_MC_REMOVEFROMMETA,0,(LPARAM)hcontact);
-									CallService(MS_MC_ADDTOMETA,(WPARAM)hcontact,(LPARAM)handle);
-								}
-							}
-						}
-					}
-				}
-			}
-			break;
 		case DROPTARGET_ONGROUP:
 			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 			break;
+
 		case DROPTARGET_INSERTION:
 			{
 				ClcContact *contact, *destcontact;
@@ -1518,19 +1428,17 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 				int newIndex,i;
 				pcli->pfnGetRowByIndex(dat, dat->iDragItem, &contact, &group);
 				i = pcli->pfnGetRowByIndex(dat, dat->iInsertionMark, &destcontact, &destgroup);
-				if (i != -1 && group->groupId != destgroup->groupId)
-				{
-					TCHAR * groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId,0));
-					TCHAR * shortGroup = NULL;
-					TCHAR * sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId,0));
+				if (i != -1 && group->groupId != destgroup->groupId) {
+					TCHAR *groupName = mir_tstrdup(pcli->pfnGetGroupName(contact->groupId,0));
+					TCHAR *shortGroup = NULL;
+					TCHAR *sourceGrName = mir_tstrdup(pcli->pfnGetGroupName(destgroup->groupId,0));
 					if (groupName) {
 						int len = (int)_tcslen(groupName);
 						do {len--;}while(len >= 0 && groupName[len] != '\\');
 						if (len >= 0) shortGroup = groupName+len+1;
 						else shortGroup = groupName;
 					}
-					if (shortGroup)
-					{
+					if (shortGroup) {
 						NeedRename = TRUE;
 						if (sourceGrName)
 							mir_sntprintf(newName,SIZEOF(newName),_T("%s\\%s"),sourceGrName,shortGroup);
@@ -1543,15 +1451,16 @@ static LRESULT clcOnLButtonUp(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM w
 				newIndex = CallService(MS_CLIST_GROUPMOVEBEFORE, contact->groupId, (destcontact && i != -1)?destcontact->groupId:0);
 				newIndex = newIndex?newIndex:contact->groupId;
 				if (NeedRename) pcli->pfnRenameGroup(newIndex,newName);
-				break;
 			}
+			break;
+
 		case DROPTARGET_OUTSIDE:
 			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 			break;
+
 		default:
 			corecli.pfnContactListControlWndProc(hwnd, msg, wParam, lParam);
 			break;
-
 		}
 	}
 
@@ -1736,7 +1645,7 @@ static LRESULT clcOnIntmIconChanged(struct ClcData *dat, HWND hwnd, UINT msg, WP
 static LRESULT clcOnIntmAvatarChanged(struct ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	ClcContact *contact;
-	if (FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
+	if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,FALSE))
 		Cache_GetAvatar(dat, contact);
 	else if (dat->use_avatar_service && !wParam)
 		UpdateAllAvatars(dat);
@@ -1837,12 +1746,13 @@ static LRESULT clcOnIntmStatusChanged(struct ClcData *dat, HWND hwnd, UINT msg, 
 	if (wParam != 0) {
 		pClcCacheEntry pdnce = (pClcCacheEntry)pcli->pfnGetCacheEntry((HANDLE)wParam);
 		if (pdnce && pdnce->m_cache_cszProto) {
-			ClcContact *contact = NULL;
 			pdnce___SetStatus( pdnce, GetStatusForContact(pdnce->hContact,pdnce->m_cache_cszProto));
 			if ( !dat->force_in_dialog && (dat->second_line_show || dat->third_line_show))
 				gtaRenewText(pdnce->hContact);
 			SendMessage(hwnd,INTM_ICONCHANGED, wParam, (LPARAM) CallService(MS_CLIST_GETCONTACTICON, wParam, 1));
-			if (FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE)) {
+
+			ClcContact *contact;
+			if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,NULL,NULL,TRUE)) {
 				if (contact && contact->type == CLCIT_CONTACT) {
 					if ( !contact->image_is_special && pdnce___GetStatus( pdnce ) > ID_STATUS_OFFLINE)
 						contact->iImage = CallService(MS_CLIST_GETCONTACTICON, wParam, 1);

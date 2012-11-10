@@ -179,7 +179,7 @@ int InitFramesMenus(void)
 		InternalGenMenuModule = TRUE;
 	};
 
-	if (ServiceExists(MO_REMOVEMENUOBJECT))
+	if ( ServiceExists(MO_REMOVEMENUOBJECT))
 	{
 		CreateServiceFunction("FrameMenuExecService",FrameMenuExecService);
 		CreateServiceFunction("FrameMenuCheckService",FrameMenuCheckService);
@@ -204,7 +204,7 @@ int UnitFramesMenu()
 {
 
 	/*
-	if (ServiceExists(MO_REMOVEMENUOBJECT)) 
+	if ( ServiceExists(MO_REMOVEMENUOBJECT)) 
 	{
 	CallService(MO_REMOVEMENUOBJECT,hFrameMenuObject,0);
 	if (InternalGenMenuModule){UnitGenMenu();};

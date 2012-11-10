@@ -132,6 +132,10 @@ int fnFindItem(HWND hwnd, struct ClcData *dat, HANDLE hItem, ClcContact **contac
 		}
 		group->scanIndex++;
 	}
+
+	if (isVisible) *isVisible = FALSE;
+	if (contact)   *contact = NULL;
+	if (subgroup)  *subgroup = NULL;
 	return 0;
 }
 

@@ -590,7 +590,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 			DBVARIANT dbv = {0};
 			if ( !DBGetContactSettingString(NULL,"StatusBar","BkBitmap",&dbv)) {
 				SetDlgItemTextA(hwndDlg,IDC_FILENAME,dbv.pszVal);
-				if (ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
+				if ( ServiceExists(MS_UTILS_PATHTOABSOLUTE)) {
 					char szPath[MAX_PATH];
 
 					if (CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)szPath))
@@ -677,7 +677,7 @@ static INT_PTR CALLBACK DlgProcStatusBarBkgOpts(HWND hwndDlg, UINT msg, WPARAM w
 				{
 					char str[MAX_PATH],strrel[MAX_PATH];
 					GetDlgItemTextA(hwndDlg,IDC_FILENAME,str,SIZEOF(str));
-					if (ServiceExists(MS_UTILS_PATHTORELATIVE)) {
+					if ( ServiceExists(MS_UTILS_PATHTORELATIVE)) {
 						if (CallService(MS_UTILS_PATHTORELATIVE, (WPARAM)str, (LPARAM)strrel))
 							db_set_s(NULL,"StatusBar","BkBitmap",strrel);
 						else db_set_s(NULL,"StatusBar","BkBitmap",str);
@@ -856,7 +856,7 @@ static INT_PTR CALLBACK DlgProcTrayOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			CheckDlgButton(hwndDlg, IDC_MULTITRAY, db_get_b(NULL,"CList","TrayIcon",SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_DISABLEBLINK, db_get_b(NULL,"CList","DisableTrayFlash",SETTING_DISABLETRAYFLASH_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_SHOW_AVATARS, db_get_b(NULL,"CList","AvatarsShow",SETTINGS_SHOWAVATARS_DEFAULT) == 1 ? BST_CHECKED : BST_UNCHECKED );
-			CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL,"CList","AvatarsAnimated",(ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail)) == 1 ? BST_CHECKED : BST_UNCHECKED );
+			CheckDlgButton(hwndDlg, IDC_SHOW_ANIAVATARS, db_get_b(NULL,"CList","AvatarsAnimated",( ServiceExists(MS_AV_GETAVATARBITMAP) && !g_CluiData.fGDIPlusFail)) == 1 ? BST_CHECKED : BST_UNCHECKED );
 
 			if (IsDlgButtonChecked(hwndDlg,IDC_DONTCYCLE)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_CYCLETIMESPIN),FALSE);

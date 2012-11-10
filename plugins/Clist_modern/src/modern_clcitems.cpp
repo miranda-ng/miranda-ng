@@ -265,20 +265,25 @@ void * AddTempGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flag
 
 void cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline)
 {
-	ClcGroup *group;
-	ClcContact * cont;
 	pClcCacheEntry cacheEntry = (pClcCacheEntry)pcli->pfnGetCacheEntry(hContact);
-	if (dat->IsMetaContactsEnabled && cacheEntry && cacheEntry->m_cache_nHiddenSubcontact) return;		//contact should not be added
-	if ( !dat->IsMetaContactsEnabled && cacheEntry && g_szMetaModuleName && !mir_strcmp(cacheEntry->m_cache_cszProto,g_szMetaModuleName)) return;
+	if (dat->IsMetaContactsEnabled && cacheEntry && cacheEntry->m_cache_nHiddenSubcontact)
+		return;		//contact should not be added
+
+	if ( !dat->IsMetaContactsEnabled && cacheEntry && g_szMetaModuleName && !mir_strcmp(cacheEntry->m_cache_cszProto,g_szMetaModuleName))
+		return;
+
 	corecli.pfnAddContactToTree(hwnd,dat,hContact,updateTotalCount,checkHideOffline);
-	if (FindItem(hwnd,dat,hContact,&cont,&group,NULL,FALSE))
+
+	ClcGroup *group;
+	ClcContact *cont;
+	if ( FindItem(hwnd,dat,hContact,&cont,&group,NULL,FALSE))
 		_LoadDataToContact(cont, group, dat, hContact);
 	return;
 }
 
 void cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem)
 {
-	struct ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
+	ClcData *dat = (struct ClcData *) GetWindowLongPtr(hwnd, 0);
 	ClearRowByIndexCache();
 	corecli.pfnDeleteItemFromTree(hwnd, hItem);
 

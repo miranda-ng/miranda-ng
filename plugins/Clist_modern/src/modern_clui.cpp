@@ -66,10 +66,10 @@ int CLUI::OnEvent_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	g_CluiData.bMetaAvail = ServiceExists(MS_MC_GETDEFAULTCONTACT) ? TRUE : FALSE;
 	setlocale(LC_ALL, "");  //fix for case insensitive comparing
 
-	if (ServiceExists(MS_MC_DISABLEHIDDENGROUP))
+	if ( ServiceExists(MS_MC_DISABLEHIDDENGROUP))
 		CallService(MS_MC_DISABLEHIDDENGROUP, (WPARAM)TRUE, 0);
 
-	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
+	if ( ServiceExists(MS_MC_GETPROTOCOLNAME))
 		g_szMetaModuleName = (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	CLUIServices_ProtocolStatusChanged(0,0);
@@ -121,7 +121,7 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	else {
 		int has_avatar;
 
-		if (ServiceExists(MS_AV_GETAVATARBITMAP))
+		if ( ServiceExists(MS_AV_GETAVATARBITMAP))
 			has_avatar = CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hItem, 0);
 		else {
 			DBVARIANT dbv = {0};

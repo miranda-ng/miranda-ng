@@ -2028,7 +2028,7 @@ static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
 		hBitmap = ske_LoadGlyphImage_TGA(szFileName);
 		f = 1;
 	}
-	else if (ServiceExists("Image/Png2Dib") && mir_bool_strcmpi(ext,".png"))
+	else if ( ServiceExists("Image/Png2Dib") && mir_bool_strcmpi(ext,".png"))
 	{
 		hBitmap = ske_LoadGlyphImage_Png2Dib(szFileName);
 		GetObject(hBitmap, sizeof(BITMAP), &bmpInfo);

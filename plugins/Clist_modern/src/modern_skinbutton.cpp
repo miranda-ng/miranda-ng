@@ -362,7 +362,7 @@ static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM 
 
 	if (bct)
 		if (bct->HandleService)
-			if (ServiceExists(bct->HandleService))
+			if ( ServiceExists(bct->HandleService))
 			{
 				int t;
 				HandleServiceParams MSG = {0};

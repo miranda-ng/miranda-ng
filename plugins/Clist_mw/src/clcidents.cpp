@@ -231,6 +231,10 @@ int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,struct ClcContact **cont
 		}
 		group->scanIndex++;
 	}
+
+	if (isVisible) *isVisible = FALSE;
+	if (contact)   *contact = NULL;
+	if (subgroup)  *subgroup = NULL;
 	return 0;
 }
 #define CacheArrSize 255
