@@ -119,72 +119,72 @@ private:
 	 void _GetBlendMode( IN struct ClcData *dat, IN ClcContact * Drawing, IN BOOL selected, IN BOOL hottrack, IN BOOL bFlag, OUT COLORREF * OutColourFg, OUT int * OutMode );
 	 void _DrawContactItems( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *row_rc, RECT *free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint );
 	 void _PaintRowItems ( HWND hwnd, HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT row_rc, RECT free_row_rc, int left_pos, int right_pos, int selected, int hottrack, RECT *rcPaint );
-	 
-     void _DrawContactAvatar    ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );
-     void _DrawContactIcon      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );
-     void _DrawContactText      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat );
-     void _DrawContactSubText   ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat, BYTE itemType );
-     void _DrawContactTime      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );     
-     void _DrawContactExtraIcon ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * rc, int iImage );
-     void _DrawContactSelection ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *rcPaint, RECT * prcItem );
-     void _DrawContactLine      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *free_row_rc, RECT *rcPaint, RECT& text_rc );
 
-     int _rcWidth( RECT *rc ) { return rc->right-rc->left; }
-     int _rcHeight( RECT *rc ) { return rc->bottom-rc->top; }
+	 void _DrawContactAvatar    ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *row_rc, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );
+	 void _DrawContactIcon      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );
+	 void _DrawContactText      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat );
+	 void _DrawContactSubText   ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem, UINT uTextFormat, BYTE itemType );
+	 void _DrawContactTime      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * prcItem );     
+	 void _DrawContactExtraIcon ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT& text_rc, RECT * rc, int iImage );
+	 void _DrawContactSelection ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, int& selected, int& hottrack, RECT *rcPaint, RECT * prcItem );
+	 void _DrawContactLine      ( HDC hdcMem, struct ClcData *dat, ClcContact *Drawing, RECT *free_row_rc, RECT *rcPaint, RECT& text_rc );
+
+	 int _rcWidth( RECT *rc ) { return rc->right-rc->left; }
+	 int _rcHeight( RECT *rc ) { return rc->bottom-rc->top; }
 
 private:
-    enum enDrawMode 
-    {   
-        DM_LAYERED          = 1,        // Draw normal skin on 32 bit with alpha layer
-        DM_NON_LAYERED      = 2,        // Draw skinnable, but does not take care about alpha       
-        DM_CLASSIC          = 4,        // Old style draw for classic
-        DM_CONTROL          = 8,        // Draw as control according to windows color scheme
-        DM_FLOAT            = 16,       // Float mode 
-        DM_GRAY             = 32,       // Grayed mode
-        DM_GREYALTERNATE    = 64,       // Gray odd lines
+	enum enDrawMode 
+	{   
+		DM_LAYERED          = 1,        // Draw normal skin on 32 bit with alpha layer
+		DM_NON_LAYERED      = 2,        // Draw skinnable, but does not take care about alpha       
+		DM_CLASSIC          = 4,        // Old style draw for classic
+		DM_CONTROL          = 8,        // Draw as control according to windows color scheme
+		DM_FLOAT            = 16,       // Float mode 
+		DM_GRAY             = 32,       // Grayed mode
+		DM_GREYALTERNATE    = 64,       // Gray odd lines
 		DM_DRAW_OFFSCREEN	= DM_FLOAT | DM_CONTROL | DM_NON_LAYERED | DM_CLASSIC, 
+	};
 
-    };
+	inline int _DetermineDrawMode( HWND hWnd, struct ClcData *dat );
 
-    inline int _DetermineDrawMode( HWND hWnd, struct ClcData *dat );
+	struct _PaintContext
+	{
+		enum 
+		{   release_none    = 0,
+		release_hdcmem2 = 1, 
+		release_hdcmem  = 2
+		};
+		HDC hdcMem;
+		HDC hdcMem2;
 
-    struct _PaintContext
-    {
-        enum 
-        {   release_none    = 0,
-            release_hdcmem2 = 1, 
-            release_hdcmem  = 2
-        };
-        HDC hdcMem;
-        HDC hdcMem2;
+		HBITMAP hBmpOsb2;
+		HBITMAP oldbmp2;
 
-        HBITMAP hBmpOsb2;
-        HBITMAP oldbmp2;
+		HBITMAP hBmpOsb;
+		HBITMAP oldbmp;
 
-        HBITMAP hBmpOsb;
-        HBITMAP oldbmp;
+		HBRUSH   hBrushAlternateGrey;
+		COLORREF tmpbkcolour;
+		COLORREF tmpforecolour;
 
-        HBRUSH   hBrushAlternateGrey;
-        COLORREF tmpbkcolour;
-        COLORREF tmpforecolour;
+		DWORD fRelease;
+		_PaintContext( HDC _hdcMem = NULL) :
+		hdcMem ( _hdcMem ), hdcMem2( NULL ),
+			hBmpOsb2( NULL ), oldbmp2( NULL ),
+			hBmpOsb( NULL ), oldbmp( NULL ),
+			hBrushAlternateGrey ( NULL ),
+			tmpbkcolour( 0 ), tmpforecolour( 0 ),
+			fRelease ( release_none ) {};
+	};
 
-        DWORD fRelease;
-        _PaintContext( HDC _hdcMem = NULL) :
-            hdcMem ( _hdcMem ), hdcMem2( NULL ),
-            hBmpOsb2( NULL ), oldbmp2( NULL ),
-            hBmpOsb( NULL ), oldbmp( NULL ),
-            hBrushAlternateGrey ( NULL ),
-            tmpbkcolour( 0 ), tmpforecolour( 0 ),
-            fRelease ( release_none ) {};
-    };
-    inline void _PreparePaintContext( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT& clRect, _PaintContext& pc );
-    inline void _DrawBackground( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc );
-    inline void _DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc );
-    inline void _DrawInsertionMark( struct ClcData * dat, RECT& clRect, _PaintContext& pc );
-    inline void _CopyPaintToDest( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint,  RECT& clRect, _PaintContext& pc );
-    inline void _FreePaintContext( _PaintContext& pc );
-    
-    // void _PaintClcOld( HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint );
+	inline void _PreparePaintContext( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT& clRect, _PaintContext& pc );
+	inline void _DrawBackground( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc );
+	inline void _DrawLines( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint, RECT& clRect, _PaintContext& pc );
+	inline void _DrawInsertionMark( struct ClcData * dat, RECT& clRect, _PaintContext& pc );
+	inline void _CopyPaintToDest( HWND hWnd, struct ClcData * dat, HDC hdc, int paintMode, RECT* rcPaint,  RECT& clRect, _PaintContext& pc );
+	inline void _FreePaintContext( _PaintContext& pc );
+
+	// void _PaintClcOld( HWND hwnd, struct ClcData *dat, HDC hdc, RECT *rcPaint );
 };
 
 

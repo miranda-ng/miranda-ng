@@ -2426,11 +2426,11 @@ int ske_LoadSkinFromIniFile(TCHAR * szFileName, BOOL bOnlyObjects)
 static int ske_enumdb_SkinSectionDeletionProc (const char *szSetting,LPARAM lParam)
 {
 
-	if (szSetting == NULL){return(0);};
+	if (szSetting == NULL){return 0;};
 	nArrayLen++;
 	pszSettingName = (char **)realloc(pszSettingName,nArrayLen*sizeof(char *));
 	pszSettingName[nArrayLen-1] = _strdup(szSetting);
-	return(0);
+	return 0;
 };
 static int ske_DeleteAllSettingInSection(char * SectionName)
 {
@@ -2444,7 +2444,7 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 	CallService(MS_DB_CONTACT_ENUMSETTINGS,0,(LPARAM)&dbces);
 
 	//delete all settings
-	if (nArrayLen == 0){return(0);};
+	if (nArrayLen == 0){return 0;};
 	{
 		int i;
 		for (i=0;i < nArrayLen;i++)
@@ -2456,7 +2456,7 @@ static int ske_DeleteAllSettingInSection(char * SectionName)
 		pszSettingName = NULL;
 		nArrayLen = 0;
 	};
-	return(0);
+	return 0;
 };
 
 

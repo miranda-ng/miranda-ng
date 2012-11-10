@@ -2708,7 +2708,7 @@ LRESULT CLUI::OnContextMenu( UINT msg, WPARAM wParam, LPARAM lParam )
 		HMENU hMenu;
 		hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDGROUP,0,0);
 		TrackPopupMenu(hMenu,TPM_TOPALIGN|TPM_LEFTALIGN|TPM_LEFTBUTTON,pt.x,pt.y,0,m_hWnd,NULL);
-        DestroyTrayMenu(hMenu);
+		DestroyTrayMenu(hMenu);
 	}
 	return FALSE;
 

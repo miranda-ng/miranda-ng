@@ -192,15 +192,15 @@ int CListSettings_GetCopyFromCache(pClcCacheEntry pDest, DWORD flag)
 
 int CListSettings_SetToCache(pClcCacheEntry pSrc, DWORD flag)
 {
-    if ( !pSrc || !pSrc->hContact)
-		 return -1;
+	if ( !pSrc || !pSrc->hContact)
+		return -1;
 
-	 pClcCacheEntry pDst = (pClcCacheEntry)pcli->pfnGetCacheEntry(pSrc->hContact);
-    if ( !pDst)
-		 return -1;
+	pClcCacheEntry pDst = (pClcCacheEntry)pcli->pfnGetCacheEntry(pSrc->hContact);
+	if ( !pDst)
+		return -1;
 
-	 CListSettings_CopyCacheItems(pDst, pSrc, flag);
-    return 0;
+	CListSettings_CopyCacheItems(pDst, pSrc, flag);
+	return 0;
 }
 
 void cliFreeCacheItem( pClcCacheEntry p )

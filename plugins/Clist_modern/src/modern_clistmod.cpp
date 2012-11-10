@@ -296,12 +296,7 @@ int GetWindowVisibleState(HWND hWnd, int iStepX, int iStepY)
 
 	RECT rc = { 0 };
 	POINT pt = { 0 };
-	register int    i=0,
-                    j = 0,
-                    width = 0,
-                    height = 0,
-                    iCountedDots = 0,
-                    iNotCoveredDots = 0;
+	int i = 0, j = 0, width = 0, height = 0, iCountedDots = 0, iNotCoveredDots = 0;
 	HWND hAux = 0;
 
 	//Some defaults now. The routine is designed for thin and tall windows.

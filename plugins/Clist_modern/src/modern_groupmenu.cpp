@@ -112,7 +112,7 @@ static INT_PTR AddGroupMenuItem(WPARAM wParam,LPARAM lParam)
 
 int GroupMenuCheckService(WPARAM wParam,LPARAM lParam) {
 //not used
-	return(0);
+	return 0;
 };
 
 INT_PTR GroupMenuonAddService(WPARAM wParam,LPARAM lParam) {
@@ -174,7 +174,7 @@ INT_PTR FreeOwnerDataGroupMenu (WPARAM wParam,LPARAM lParam)
 		FreeAndNil((void **)&mmep);
 	}
 
-return(0);
+return 0;
 };
 
 INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
@@ -634,7 +634,7 @@ INT_PTR FreeOwnerDataSubGroupMenu (WPARAM wParam,LPARAM lParam)
 		FreeAndNil((void **)&mmep);
 	}
 
-return(0);
+return 0;
 };
 
 //wparam menu handle to pass to clc.c

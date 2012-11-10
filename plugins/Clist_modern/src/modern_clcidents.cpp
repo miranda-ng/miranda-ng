@@ -48,9 +48,9 @@ exclusively externally
 
 int GetContactIndex(ClcGroup *group,ClcContact *contact)
 {
-  for (int i=0; i < group->cl.count; i++)
-    if (group->cl.items[i]->hContact == contact->hContact)  return i;
-  return -1;
+	for (int i=0; i < group->cl.count; i++)
+		if (group->cl.items[i]->hContact == contact->hContact)  return i;
+	return -1;
 }
 
 int cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)

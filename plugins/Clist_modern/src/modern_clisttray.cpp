@@ -383,14 +383,13 @@ INT_PTR TrayIconPauseAutoHide(WPARAM wParam,LPARAM lParam)
 
 void DestroyTrayMenu(HMENU hMenu)
 {
-    int cnt = GetMenuItemCount(hMenu);
-    for (int i=0; i < cnt; ++i)
-    {
-        HMENU hSubMenu = GetSubMenu(hMenu, i);
-        if (hSubMenu == hStatusMenu || hSubMenu == hMainMenu)
-            RemoveMenu(hMenu, i--, MF_BYPOSITION);
-    }
-    DestroyMenu(hMenu);
+	int cnt = GetMenuItemCount(hMenu);
+	for (int i=0; i < cnt; ++i) {
+		HMENU hSubMenu = GetSubMenu(hMenu, i);
+		if (hSubMenu == hStatusMenu || hSubMenu == hMainMenu)
+			RemoveMenu(hMenu, i--, MF_BYPOSITION);
+	}
+	DestroyMenu(hMenu);
 }
 
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
@@ -462,7 +461,7 @@ INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam)
 			GetCursorPos(&pt);
 			pcli->bTrayMenuOnScreen = TRUE;
 			TrackPopupMenu(hMenu, TPM_TOPALIGN | TPM_LEFTALIGN|TPM_LEFTBUTTON, pt.x, pt.y, 0, msg->hwnd, NULL);
-            DestroyTrayMenu(hMenu);
+			DestroyTrayMenu(hMenu);
 			PostMessage(msg->hwnd, WM_NULL, 0, 0);
 		}
 		else break;
@@ -599,7 +598,7 @@ INT_PTR FreeOwnerDataTrayMenu (WPARAM wParam,LPARAM lParam)
 		FreeAndNil((void**)&mmep);
 	}
 
-	return(0);
+	return 0;
 }
 
 void InitTrayMenus(void)
@@ -716,15 +715,15 @@ void InitTrayMenus(void)
 		DestroyIcon_protect(mi.hIcon);
 	}
 
-    hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
-    hStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
+	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
+	hStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
 }
 
 void UninitTrayMenu()
 {
-    if (hTrayMenuObject && ServiceExists(MO_REMOVEMENUOBJECT))
-        CallService(MO_REMOVEMENUOBJECT,(WPARAM)hTrayMenuObject,0);
-    hTrayMenuObject = NULL;
+	if (hTrayMenuObject && ServiceExists(MO_REMOVEMENUOBJECT))
+		CallService(MO_REMOVEMENUOBJECT,(WPARAM)hTrayMenuObject,0);
+	hTrayMenuObject = NULL;
 }
 
 void InitTray(void)

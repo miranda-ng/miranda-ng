@@ -68,7 +68,7 @@ INT_PTR FrameMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (fmep == NULL){return(-1);};
 	CallService(fmep->szServiceName,lParam,fmep->param1);	
 
-	return(0);
+	return 0;
 };
 
 //true - ok,false ignore
@@ -95,7 +95,7 @@ INT_PTR FrameMenuCheckService(WPARAM wParam,LPARAM lParam) {
 static INT_PTR ContextFrameMenuNotify(WPARAM wParam,LPARAM lParam)
 {
 	NotifyEventHooks(g_CluiData.hEventPreBuildFrameMenu,wParam,lParam);
-	return(0);
+	return 0;
 };
 
 static INT_PTR BuildContextFrameMenu(WPARAM wParam,LPARAM lParam)
@@ -210,5 +210,5 @@ int UnitFramesMenu()
 	if (InternalGenMenuModule){UnitGenMenu();};
 	};
 	*/
-	return(0);
+	return 0;
 };

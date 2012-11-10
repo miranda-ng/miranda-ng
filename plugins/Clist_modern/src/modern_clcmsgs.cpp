@@ -187,13 +187,11 @@ LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARA
 			for (tgroup = group; tgroup; tgroup = tgroup->parent)
 				pcli->pfnSetGroupExpand(hwnd, dat, tgroup, 1);
 
-			if ( !contact->isSubcontact)
-			{
+			if ( !contact->isSubcontact) {
 				index = List_IndexOf((SortedList*)&group->cl,contact);
 				mainindex = index;
 			}
-			else
-			{
+			else {
 				index = List_IndexOf((SortedList*)&group->cl,contact->subcontacts);
 				mainindex = index;
 				index += contact->isSubcontact;				

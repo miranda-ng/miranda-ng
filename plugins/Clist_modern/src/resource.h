@@ -80,7 +80,6 @@
 #define IDI_NEWGROUP                    282
 #define IDI_NEWGROUP2                   283
 #define IDD_MODERNOPTS                  288
-#define IDI_ICON1                       290
 #define IDC_DEFAULTSUB                  293
 #define IDC_DROPMETA                    295
 #define IDC_CURSOR1                     296
@@ -92,12 +91,10 @@
 #define IDI_AVATAR_OVERLAY_OFFLINE      359
 #define IDI_AVATAR_OVERLAY_ONLINE       360
 #define IDI_AVATAR_OVERLAY_PHONE        361
-#define IDI_ICON9                       362
 #define IDI_AVATAR_OVERLAY_AWAY         362
 #define IDI_AVATAR_OVERLAY_DND          363
 #define IDI_AVATAR_OVERLAY_INVISIBLE    364
 #define IDI_AVATAR_OVERLAY_LUNCH        365
-#define IDI_ICON4                       366
 #define IDI_AVATAR_OVERLAY_CHAT         366
 #define IDI_ICQC1                       367
 #define IDI_ICQC2                       368
@@ -114,8 +111,6 @@
 #define IDD_OPT_ITEM_TEXT               389
 #define IDD_OPT_ITEM_SECOND_LINE        390
 #define IDD_OPT_ITEM_THIRD_LINE         391
-#define IDI_ICON2                       396
-#define IDI_ICON3                       397
 #define IDD_OPT_SKINEDITOR              398
 #define IDI_STATUS_OVERLAY_NA           400
 #define IDI_STATUS_OVERLAY_OCCUPIED     401
@@ -135,11 +130,7 @@
 #define IDI_ROWCONT3                    418
 #define IDD_TAB                         450
 #define IDD_OPT_CLUI_2                  451
-#define IDI_ALWAYSVIS                   453
 #define IDI_ICON6                       454
-#define IDI_NEVERVIS                    454
-#define IDI_ICON5                       455
-#define IDI_CHAT                        455
 #define IDI_LISTENING_TO                456
 #define IDD_OPT_CLCBKG                  462
 #define IDI_FAVORITE_0                  500

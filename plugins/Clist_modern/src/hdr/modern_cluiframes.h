@@ -57,17 +57,18 @@ typedef struct
 #define CLUIFRAMESMOVEUP			"CLUIFramesMoveUp"
 #define CLUIFRAMESMOVEDOWN			"CLUIFramesMoveDown"
 
-typedef struct tagMenuHandles
+struct FrameMenuHandles
 {
 	HANDLE MainMenuItem;
 	HANDLE MIVisible,MITitle,MITBVisible,MILock,MIColl,MIFloating,MIAlignRoot;
 	HANDLE MIAlignTop,MIAlignClient,MIAlignBottom;
 	HANDLE MIBorder;
 	HANDLE MIPosRoot;
-    HANDLE MIPosUp,MIPosDown;
-} FrameMenuHandles;
+	HANDLE MIPosUp,MIPosDown;
+};
 
-typedef struct tagFrameTitleBar{
+struct FrameTitleBar
+{
 	HWND hwnd;
 	HWND TitleBarbutt;
 	HWND hwndTip;
@@ -88,15 +89,16 @@ typedef struct tagFrameTitleBar{
 	int oldstyles;
 	POINT oldpos;
 	RECT wndSize;
-} FrameTitleBar;
+};
 
-typedef struct _DockOpt
+struct DockOpt
 {
 	HWND	hwndLeft;
 	HWND	hwndRight;
-}
-DockOpt;
-typedef struct _tagFrameWnd{
+};
+
+struct FRAMEWND
+{
 	int id;
 	HWND hWnd ;
 	RECT wndSize;
@@ -122,13 +124,12 @@ typedef struct _tagFrameWnd{
 	BOOLEAN UseBorder;
 	int order;
 	DockOpt dockOpt;
-    HWND OwnerWindow;
-    tPaintCallbackProc PaintCallbackProc;
-    sPaintRequest * PaintData;
-    BOOLEAN bQueued;
-    HRGN UpdateRgn;
-
-} FRAMEWND;
+	HWND OwnerWindow;
+	tPaintCallbackProc PaintCallbackProc;
+	sPaintRequest * PaintData;
+	BOOLEAN bQueued;
+	HRGN UpdateRgn;
+};
 
 #define OFFSET_PROTOPOS 200
 #define OFFSET_VISIBLE 400

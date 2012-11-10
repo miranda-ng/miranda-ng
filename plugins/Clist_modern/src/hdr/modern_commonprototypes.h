@@ -328,10 +328,10 @@ extern BOOL (WINAPI *g_proc_SetLayeredWindowAttributesNew)(HWND,COLORREF,BYTE,DW
 #define DWM_BB_TRANSITIONONMAXIMIZED   0x00000004
 struct DWM_BLURBEHIND
 {
-   DWORD dwFlags;
-   BOOL fEnable;
-   HRGN hRgnBlur;
-   BOOL fTransitionOnMaximized;
+	DWORD dwFlags;
+	BOOL fEnable;
+	HRGN hRgnBlur;
+	BOOL fTransitionOnMaximized;
 };
 extern HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 

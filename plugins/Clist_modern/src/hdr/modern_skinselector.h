@@ -35,34 +35,33 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MPF_NOT_EQUAL	( MPF_DIFF|MPF_EQUAL )
 #define MPF_HASHED		4
 
-typedef struct tagMASKPARAM
+struct MASKPARAM
 {
-    DWORD	dwId;
-    BYTE	bMaskParamFlag;
-    char*	szName;
-    DWORD	dwValueHash;
-    char*	szValue;
-} MASKPARAM;
+	DWORD	dwId;
+	BYTE	bMaskParamFlag;
+	char*	szName;
+	DWORD	dwValueHash;
+	char*	szValue;
+};
 
-
-typedef struct tagMODERNMASK
+struct MODERNMASK
 {
-  MASKPARAM*	    pl_Params;
-  DWORD				dwParamCnt;
-  union
-  {
-	void*			pObject;
-	char*			szObjectName;
-  };
-  DWORD				dwMaskId;
-  BOOL				bObjectFound;
-} MODERNMASK;
+	MASKPARAM*	    pl_Params;
+	DWORD				dwParamCnt;
+	union
+	{
+		void*			pObject;
+		char*			szObjectName;
+	};
+	DWORD				dwMaskId;
+	BOOL				bObjectFound;
+};
 
-typedef struct tagLISTMODERNMASK
+struct LISTMODERNMASK
 {
-  MODERNMASK*	pl_Masks;
-  DWORD			dwMaskCnt;
-} LISTMODERNMASK;
+	MODERNMASK*	pl_Masks;
+	DWORD			dwMaskCnt;
+};
 
 /// PROTOTYPES
 int AddModernMaskToList(MODERNMASK * mm,  LISTMODERNMASK * mmTemplateList);
