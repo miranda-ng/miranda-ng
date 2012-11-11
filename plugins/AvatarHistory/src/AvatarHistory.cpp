@@ -546,15 +546,14 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 				DBEVENTINFO AvatarEvent = { 0 };
 				AvatarEvent.cbSize = sizeof(AvatarEvent);
 				AvatarEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-				char *blob = mir_utf8encodeT(rel_path);
-				AvatarEvent.flags = DBEF_SENT | DBEF_UTF;
+				AvatarEvent.flags = flags;
 				AvatarEvent.timestamp = (DWORD) time(NULL);
 				AvatarEvent.eventType = EVENTTYPE_AVATAR_CHANGE;
 				AvatarEvent.cbBlob = (DWORD) strlen(blob) + 1;
 				AvatarEvent.pBlob = (PBYTE) blob;
 				CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&AvatarEvent);
-				mir_free(blob);
 			}
+			mir_free(blob);
 		}
 	}
 
