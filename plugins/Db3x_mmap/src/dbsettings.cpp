@@ -435,8 +435,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		}
 		if ( szCachedSettingName[-1] != 0 ) {
 			lck.unlock();
-			if ( NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp))
-				DebugBreak();
+			NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 			return 0;
 		}
 	}
@@ -527,8 +526,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 				DBFlush(1);
 				lck.unlock();
 				//notify
-				if ( NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp))
-					DebugBreak();
+				NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 				return 0;
 			}
 		}
@@ -614,8 +612,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	lck.unlock();
 
 	//notify
-	if ( NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp ))
-		DebugBreak();
+	NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp );
 	return 0;
 }
 
@@ -707,8 +704,7 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 	dbcws.szModule = dbcgs->szModule;
 	dbcws.szSetting = dbcgs->szSetting;
 	dbcws.value.type = DBVT_DELETED;
-	if ( NotifyEventHooks(hSettingChangeEvent,saveWparam,(LPARAM)&dbcws))
-		DebugBreak();
+	NotifyEventHooks(hSettingChangeEvent,saveWparam,(LPARAM)&dbcws);
 	return 0;
 }
 
