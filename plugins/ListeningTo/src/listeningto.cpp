@@ -114,7 +114,6 @@ extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvRe
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
-	pluginInfo.cbSize = sizeof(PLUGININFOEX);
 	return &pluginInfo;
 }
 
@@ -723,22 +722,18 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			mir_free(fr[1]);
 		}
 	}
-	else if (ProtoServiceExists(proto, PS_SETAWAYMSG))
+	else if (ProtoServiceExists(proto, PS_SETAWAYMSGT))
 	{
+		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 		if (lti == NULL)
 		{
-			int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
-			CallProtoService(proto, PS_SETAWAYMSG, (WPARAM) status, 0);
+			CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM) status, 0);
 		}
 		else
 		{
 			TCHAR *fr = (TCHAR *)GetParsedFormat(0, (WPARAM) lti);
-			char *info = mir_t2a(fr);
-			int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
-			CallProtoService(proto, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)info);
-
+			CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM)status, (LPARAM)fr);
 			mir_free(fr);
-			mir_free(info);
 		}
 	}
 }
@@ -762,7 +757,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	{
 		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
 			!ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX) &&
-			!ProtoServiceExists(proto, PS_SETAWAYMSG)) // by yaho
+			!ProtoServiceExists(proto, PS_SETAWAYMSGT)) // by yaho
 			return 0;
 
 		char setting[256];
