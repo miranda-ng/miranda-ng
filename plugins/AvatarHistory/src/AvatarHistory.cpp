@@ -535,14 +535,26 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		{
 			TCHAR rel_path[MAX_PATH] = _T("");
 			CallService(MS_UTILS_PATHTORELATIVET,(WPARAM)history_filename,(LPARAM)rel_path);
-#ifdef _UNICODE
 			char *blob = mir_utf8encodeT(rel_path);
 			int flags = DBEF_READ | DBEF_UTF;
-#else
-			char *blob = mir_strdup(rel_path);
-			int flags = DBEF_READ;
-#endif
-			HistoryEvents_AddToHistoryEx(hContact, EVENTTYPE_AVATAR_CHANGE, 0, NULL, 0, (PBYTE) blob, (int) strlen(blob) + 1, flags);
+			if(ServiceExists(MS_HISTORYEVENTS_ADD_TO_HISTORY))
+			{
+				HistoryEvents_AddToHistoryEx(hContact, EVENTTYPE_AVATAR_CHANGE, 0, NULL, 0, (PBYTE) blob, (int) strlen(blob) + 1, flags);
+			}
+			else
+			{
+				DBEVENTINFO AvatarEvent = { 0 };
+				AvatarEvent.cbSize = sizeof(AvatarEvent);
+				AvatarEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *blob = mir_utf8encodeT(rel_path);
+				AvatarEvent.flags = DBEF_SENT | DBEF_UTF;
+				AvatarEvent.timestamp = (DWORD) time(NULL);
+				AvatarEvent.eventType = EVENTTYPE_AVATAR_CHANGE;
+				AvatarEvent.cbBlob = (DWORD) strlen(blob) + 1;
+				AvatarEvent.pBlob = (PBYTE) blob;
+				CallService(MS_DB_EVENT_ADD,(WPARAM)hContact,(LPARAM)&AvatarEvent);
+				mir_free(blob);
+			}
 		}
 	}
 
