@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Ukrainian resources
+// Ukrainian (Ukraine) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_UKR)
-#ifdef _WIN32
 LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -31,18 +29,16 @@ LANGUAGE LANG_UKRAINIAN, SUBLANG_DEFAULT
 IDI_AUTH                ICON                    "auth.ico"
 IDI_GRANT               ICON                    "grant.ico"
 IDI_AUTHGRANT           ICON                    "authgrant.ico"
-#endif    // Ukrainian resources
+#endif    // Ukrainian (Ukraine) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -75,22 +71,16 @@ END
 // Dialog
 //
 
-IDD_AUTHSTATE_OPT DIALOGEX 0, 0, 314, 240
+IDD_AUTHSTATE_OPT DIALOGEX 0, 0, 314, 130
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    CONTROL         "Show Auth icon",IDC_AUTHICON,"Button",BS_AUTOCHECKBOX | 
-                    BS_LEFTTEXT | WS_TABSTOP,76,93,167,18
-    CONTROL         "Show Grant icon",IDC_GRANTICON,"Button",BS_AUTOCHECKBOX | 
-                    BS_LEFTTEXT | WS_TABSTOP,76,109,167,18
-    GROUPBOX        "Plugin settings",IDC_STATIC,19,46,276,118
-    RTEXT           "Use",IDC_STATIC,40,129,49,12
-    LTEXT           "slot to draw the icon",IDC_STATIC,179,129,86,17
-    CONTROL         "Enable Menu Item (*)",IDC_ENABLEMENUITEM,"Button",
-                    BS_AUTOCHECKBOX | BS_LEFTTEXT | WS_TABSTOP,76,65,167,13
-    CONTROL         "Show icons only for recently added contacts",
-                    IDC_ICONSFORRECENT,"Button",BS_AUTOCHECKBOX | 
-                    BS_LEFTTEXT | WS_TABSTOP,76,78,167,17
+    CONTROL         "Show Auth icon",IDC_AUTHICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,70,246,18
+    CONTROL         "Show Grant icon",IDC_GRANTICON,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,86,246,18
+    GROUPBOX        "Plugin settings",IDC_STATIC,19,23,276,90
+    CONTROL         "Enable Menu Item (*)",IDC_ENABLEMENUITEM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,42,246,13
+    CONTROL         "Show icons only for recently added contacts",IDC_ICONSFORRECENT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,30,55,246,17
 END
 
 
@@ -100,20 +90,24 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_AUTHSTATE_OPT, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 307
+        VERTGUIDE, 30
+        VERTGUIDE, 276
         TOPMARGIN, 7
-        BOTTOMMARGIN, 233
+        BOTTOMMARGIN, 123
     END
 END
 #endif    // APSTUDIO_INVOKED
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
