@@ -233,10 +233,30 @@ namespace Langpack_Suite
                         s = ReadFile.ReadLine().Trim();
                         while (s != "")
                         {
-                            if (s.StartsWith("¤") || s.StartsWith(" ") || s.Contains(".dll"))
+                            if (s.StartsWith(" ") || s.Contains(".dll"))
                             {
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith("¤") || s.StartsWith(" "))
+                                if (s.StartsWith(" "))
+                                    s = s.Substring(2, l - 2);
+                                else
+                                    s = s.Substring(0, l);
+                                if (InclPlug == "Plugins-included: ")
+                                    InclPlug = InclPlug + s;
+                                else
+                                    InclPlug = InclPlug + ", " + s;
+                            }
+                            s = ReadFile.ReadLine().Trim();
+                        }
+                    }
+                    if (s.StartsWith("Unloadable Plugins"))
+                    {
+                        s = ReadFile.ReadLine().Trim();
+                        while (s != "")
+                        {
+                            if (s.StartsWith(" ") || s.Contains("DbChecker.dll"))
+                            {
+                                int l = s.IndexOf(".");
+                                if (s.StartsWith(" "))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
@@ -328,11 +348,11 @@ namespace Langpack_Suite
                         while (s != "")
                         {
                             StreamReader plug_in;
-                            if (s.StartsWith("¤") || s.StartsWith(" ") || s.Contains(".dll"))
+                            if (s.StartsWith(" ") || s.Contains(".dll"))
                             {
                                 string back_s = s;
                                 int l = s.IndexOf(".");
-                                if (s.StartsWith("¤") || s.StartsWith(" "))
+                                if (s.StartsWith(" "))
                                     s = s.Substring(2, l - 2);
                                 else
                                     s = s.Substring(0, l);
@@ -392,6 +412,40 @@ namespace Langpack_Suite
                                     plug_in.Close();
                                     continue;
                                 }
+                                LangPack.WriteLine("");
+                                if (File.Exists(FolderName + "\\plugins\\" + s + ".txt"))
+                                {
+                                    plug_in = new StreamReader(FolderName + "\\plugins\\" + s + ".txt");
+                                    while ((st = plug_in.ReadLine()) != null)
+                                    {
+                                        LangPack.WriteLine(st);
+                                    }
+                                    plug_in.Close();
+                                }
+                                else
+                                {
+                                    LocaleText = rm.GetString("FileText", culture);
+                                    string LocaleText2 = rm.GetString("File2NotFound", culture);
+                                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + s + LocaleText2 + "\r\n";
+                                }
+                            }
+                            s = ReadFile.ReadLine().Trim();
+                        }
+                    }
+                    if (s.StartsWith("Unloadable Plugins"))
+                    {
+                        s = ReadFile.ReadLine().Trim();
+                        while (s != "")
+                        {
+                            StreamReader plug_in;
+                            if (s.StartsWith(" ") || s.Contains(".dll"))
+                            {
+                                string back_s = s;
+                                int l = s.IndexOf(".");
+                                if (s.StartsWith(" "))
+                                    s = s.Substring(2, l - 2);
+                                else
+                                    s = s.Substring(0, l);
                                 LangPack.WriteLine("");
                                 if (File.Exists(FolderName + "\\plugins\\" + s + ".txt"))
                                 {
