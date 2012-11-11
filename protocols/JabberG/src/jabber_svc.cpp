@@ -425,7 +425,7 @@ INT_PTR __cdecl CJabberProto::JabberGCGetToolTipText( WPARAM wParam, LPARAM lPar
 	TCHAR outBuf[2048];
 	outBuf[0]=_T('\0');
 
-	bool bIsTipper = DBGetContactSettingByte(NULL, "Tab_SRMsg", "adv_TipperTooltip", 1) && ServiceExists("mToolTip/HideTip");
+	bool bIsTipper = DBGetContactSettingByte(NULL, "Tab_SRMsg", "adv_TipperTooltip", 0) && ServiceExists("mToolTip/HideTip");
 
 	//JID:
 	if ( _tcschr(info->resourceName, _T('@')) != NULL )
