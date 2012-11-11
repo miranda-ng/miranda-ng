@@ -141,7 +141,14 @@ char* LoadKeyPair()
 		HGLOBAL hResource = LoadResource(g_hInstance, hRes);
 		if (hResource) {
 			aes_context ctx;
-			aes_set_key( &ctx, (BYTE*)MY_KEY, 128);
+
+			int basedecodedkey = decodeSize((char*)MY_KEY);
+			unsigned char *tmpK = (unsigned char*)malloc(basedecodedkey + 1);
+			decode((char*)MY_KEY, tmpK, basedecodedkey);
+			tmpK[basedecodedkey] = 0;
+
+
+			aes_set_key( &ctx, tmpK, 128);
 			int dwResSize = SizeofResource(g_hInstance, hRes);
 			char *pData = (char*)GlobalLock(hResource);
 			pData[dwResSize] = 0;

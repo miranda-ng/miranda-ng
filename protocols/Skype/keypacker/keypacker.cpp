@@ -147,6 +147,21 @@ int main()
 	aes_context ctx;
 	FILE *fin, *fout;
 
+	int t = strlen(MY_KEY);
+	int basecodedkey = encodeLength(strlen(MY_KEY), false);
+	buf = malloc(basecodedkey + 1);
+	unsigned char *tmpk = (unsigned char *)malloc(basecodedkey + 1);
+	tmpk = (unsigned char *)encode((unsigned char*)MY_KEY, strlen(MY_KEY), false);
+	tmpk[basecodedkey] = 0;
+	char *output = (char*)malloc(basecodedkey + 17);
+	strcpy(output, "#define MY_KEY \"");
+	strcat(output, (const char*)tmpk);
+	strcat(output, "\"");
+	fout = fopen("..\\..\\..\\..\\SkypeKit\\key.h", "wb");
+	fputs((const char*)output, fout);
+	fclose(fout);
+	free(buf);
+
 	aes_set_key( &ctx, (BYTE*)MY_KEY, 128);
 
 	//encrypt

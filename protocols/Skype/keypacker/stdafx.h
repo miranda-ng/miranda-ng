@@ -5,4 +5,4 @@ extern "C"
 {
 #include "..\src\aes\aes.h"
 }
-#include "..\..\..\..\SkypeKit\key.h"
+#include "..\..\..\..\SkypeKit\original_key.h"
