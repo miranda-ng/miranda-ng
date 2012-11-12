@@ -53,6 +53,7 @@ DBHeader
 //#define DBLOGGING
 #endif
 #ifdef DBLOGGING
+char* printVariant(DBVARIANT* p);
 void DBLog(const char *file,int line,const char *fmt,...);
 #define logg()  DBLog(__FILE__,__LINE__,"")
 #define log0(s)  DBLog(__FILE__,__LINE__,s)
