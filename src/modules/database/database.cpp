@@ -28,6 +28,7 @@ extern TCHAR mirandabootini[MAX_PATH];
 bool dbCreated;
 TCHAR g_profileDir[MAX_PATH], g_profileName[MAX_PATH];
 TCHAR* g_defaultProfile;
+void EnsureCheckerLoaded(bool);
 
 bool fileExist(TCHAR* fname)
 {
@@ -486,6 +487,8 @@ int LoadDatabaseModule(void)
 	// find out which profile to load
 	if ( !getProfile(szProfile, SIZEOF(szProfile)))
 		return 1;
+
+	EnsureCheckerLoaded(false); // unload dbchecker
 
 	if ( arDbPlugins.getCount() == 0) {
 		TCHAR buf[256];

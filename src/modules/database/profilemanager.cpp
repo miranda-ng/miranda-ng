@@ -724,7 +724,6 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
-		EnsureCheckerLoaded(false); // unload dbchecker
 		{
 			LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETCURSEL, 0, 0);
 			if (curSel != CB_ERR) {
