@@ -69,9 +69,8 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 
 	mir_cslock lck(m_csDbAccess);
 
-	log3("get [%08p] %s/%s",hContact,dbcgs->szModule,dbcgs->szSetting);
-
 	szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
+	log3("get [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 	{
 		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 0);
 		if ( pCachedValue != NULL ) {
@@ -99,7 +98,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			else
 				memcpy( dbcgs->pValue, pCachedValue, sizeof( DBVARIANT ));
 
-			log1("get cached %s", printVariant(dbcgs->pValue));
+			log2("get cached %s (%p)", printVariant(dbcgs->pValue), pCachedValue);
 			return ( pCachedValue->type == DBVT_DELETED ) ? 1 : 0;
 	}	}
 
@@ -408,10 +407,10 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	mir_cslockfull lck(m_csDbAccess);
 
 	char* szCachedSettingName = m_cache->GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
-	log2("[%08x] write setting '%s'", hContact, szCachedSettingName);
+	log3("set [%08p] %s (%p)", hContact, szCachedSettingName, szCachedSettingName);
 
 	if ( tmp.value.type != DBVT_BLOB ) {
-		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
+		DBVARIANT *pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 		if ( pCachedValue != NULL ) {
 			bool bIsIdentical = false;
 			if ( pCachedValue->type == tmp.value.type ) {
@@ -429,7 +428,7 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		}
 		if ( szCachedSettingName[-1] != 0 ) {
 			lck.unlock();
-			log1(" set resident as %s", printVariant(&tmp.value));
+			log2(" set resident as %s (%p)", printVariant(&tmp.value), pCachedValue);
 			NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 			return 0;
 		}
