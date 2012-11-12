@@ -67,7 +67,7 @@ void CDb3Mmap::ReMap(DWORD needed)
 void CDb3Mmap::DBMoveChunk(DWORD ofsDest,DWORD ofsSource,int bytes)
 {
 	int x = 0;
-	log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
+	//log3("move %d %08x->%08x",bytes,ofsSource,ofsDest);
 	if (ofsDest+bytes > m_dwFileSize) ReMap(ofsDest+bytes-m_dwFileSize);
 	if (ofsSource+bytes > m_dwFileSize) {
 		x = ofsSource+bytes-m_dwFileSize;
@@ -86,11 +86,11 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 {
 	// buggy read
 	if (ofs>= m_dwFileSize) {
-		log2("read from outside %d@%08x",bytesRequired,ofs);
+		//log2("read from outside %d@%08x",bytesRequired,ofs);
 		if (bytesAvail != NULL) *bytesAvail = m_ChunkSize;
 		return m_pNull;
 	}
-	log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
+	//log3((ofs+bytesRequired > m_dwFileSize)?"read %d@%08x, only %d avaliable":"read %d@%08x",bytesRequired,ofs,m_dwFileSize-ofs);
 	if (bytesAvail != NULL) *bytesAvail = m_dwFileSize - ofs;
 	return m_pDbCache+ofs;
 }
@@ -98,7 +98,7 @@ PBYTE CDb3Mmap::DBRead(DWORD ofs,int bytesRequired,int *bytesAvail)
 //we are assumed to be in a mutex here
 void CDb3Mmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 {
-	log2("write %d@%08x",bytes,ofs);
+	//log2("write %d@%08x",bytes,ofs);
 	if (ofs+bytes > m_dwFileSize) ReMap(ofs+bytes-m_dwFileSize);
 	MoveMemory(m_pDbCache+ofs,pData,bytes);
 	logg();
@@ -107,7 +107,7 @@ void CDb3Mmap::DBWrite(DWORD ofs,PVOID pData,int bytes)
 //we are assumed to be in a mutex here
 void CDb3Mmap::DBFill(DWORD ofs,int bytes)
 {
-	log2("zerofill %d@%08x",bytes,ofs);
+	//log2("zerofill %d@%08x",bytes,ofs);
 	if (ofs+bytes <= m_dwFileSize)
 		ZeroMemory(m_pDbCache+ofs,bytes);
 	logg();

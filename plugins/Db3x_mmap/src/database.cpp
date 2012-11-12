@@ -123,6 +123,21 @@ void CDb3Base::DatabaseCorruption(TCHAR *text)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 #ifdef DBLOGGING
+char* printVariant(DBVARIANT* p)
+{
+	static char boo[1000];
+
+	switch (p->type) {
+		case DBVT_BYTE:	mir_snprintf(boo, sizeof(boo), "byte: %d", p->bVal ); break;
+		case DBVT_WORD:	mir_snprintf(boo, sizeof(boo), "word: %d", p->wVal ); break;
+		case DBVT_DWORD:	mir_snprintf(boo, sizeof(boo), "dword: %d", p->dVal ); break;
+		case DBVT_UTF8:
+		case DBVT_ASCIIZ: mir_snprintf(boo, sizeof(boo), "string: '%s'", p->pszVal); break;
+		default:				mir_snprintf(boo, sizeof(boo), "crap: %d", p->type ); break;
+	}
+	return boo;
+}
+
 void DBLog(const char *file,int line,const char *fmt,...)
 {
 	FILE *fp;

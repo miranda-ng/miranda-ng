@@ -99,15 +99,7 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			else
 				memcpy( dbcgs->pValue, pCachedValue, sizeof( DBVARIANT ));
 
-			switch( dbcgs->pValue->type ) {
-				case DBVT_BYTE:	log1( "get cached byte: %d", dbcgs->pValue->bVal ); break;
-				case DBVT_WORD:	log1( "get cached word: %d", dbcgs->pValue->wVal ); break;
-				case DBVT_DWORD:	log1( "get cached dword: %d", dbcgs->pValue->dVal ); break;
-				case DBVT_UTF8:
-				case DBVT_ASCIIZ: log1( "get cached string: '%s'", dbcgs->pValue->pszVal); break;
-				default:				log1( "get cached crap: %d", dbcgs->pValue->type ); break;
-			}
-
+			log1("get cached %s", printVariant(dbcgs->pValue));
 			return ( pCachedValue->type == DBVT_DELETED ) ? 1 : 0;
 	}	}
 
@@ -416,10 +408,12 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	mir_cslockfull lck(m_csDbAccess);
 
 	char* szCachedSettingName = m_cache->GetCachedSetting(tmp.szModule, tmp.szSetting, moduleNameLen, settingNameLen);
+	log2("[%08x] write setting '%s'", hContact, szCachedSettingName);
+
 	if ( tmp.value.type != DBVT_BLOB ) {
 		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr(hContact, szCachedSettingName, 1);
 		if ( pCachedValue != NULL ) {
-			BOOL bIsIdentical = FALSE;
+			bool bIsIdentical = false;
 			if ( pCachedValue->type == tmp.value.type ) {
 				switch(tmp.value.type) {
 					case DBVT_BYTE:   bIsIdentical = pCachedValue->bVal == tmp.value.bVal;  break;
@@ -435,11 +429,14 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 		}
 		if ( szCachedSettingName[-1] != 0 ) {
 			lck.unlock();
+			log1(" set resident as %s", printVariant(&tmp.value));
 			NotifyEventHooks(hSettingChangeEvent, (WPARAM)hContact, (LPARAM)&tmp);
 			return 0;
 		}
 	}
 	else m_cache->GetCachedValuePtr(hContact, szCachedSettingName, -1);
+
+	log1(" write database as %s", printVariant(&tmp.value));
 
 	ofsModuleName = GetModuleNameOfs(tmp.szModule);
  	if (hContact == 0) ofsContact = m_dbHeader.ofsUser;
@@ -449,7 +446,6 @@ STDMETHODIMP_(BOOL) CDb3Base::WriteContactSetting(HANDLE hContact, DBCONTACTWRIT
 	if (dbc.signature != DBCONTACT_SIGNATURE)
 		return 1;
 
-	log0("write setting");
 	//make sure the module group exists
 	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(&dbc,ofsContact,ofsModuleName);
 	if (ofsSettingsGroup == 0) {  //module group didn't exist - make it

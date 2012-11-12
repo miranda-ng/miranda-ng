@@ -269,7 +269,7 @@ STDMETHODIMP_(BOOL) CDb3Base::MarkEventRead(HANDLE hContact, HANDLE hDbEvent)
 	if ((dbe->flags & DBEF_READ) || (dbe->flags & DBEF_SENT))
 		return (INT_PTR)dbe->flags;
 
-	log1("mark read @ %08x", hContact);
+	//log1("mark read @ %08x", hContact);
 	dbe->flags |= DBEF_READ;
 	DBWrite((DWORD)hDbEvent,dbe,sizeof(DBEvent));
 	BOOL ret = dbe->flags;
