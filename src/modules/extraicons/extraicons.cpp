@@ -305,7 +305,7 @@ void fnReloadExtraIcons()
 }
 
 void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
-{
+ {
 	if (cli.hwndContactTree == 0)
 		return;
 
