@@ -95,12 +95,16 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 					strcpy(dbcgs->pValue->pszVal,pCachedValue->pszVal);
 				}
 			}
-			else
-				memcpy( dbcgs->pValue, pCachedValue, sizeof( DBVARIANT ));
+			else memcpy( dbcgs->pValue, pCachedValue, sizeof( DBVARIANT ));
 
 			log2("get cached %s (%p)", printVariant(dbcgs->pValue), pCachedValue);
 			return ( pCachedValue->type == DBVT_DELETED ) ? 1 : 0;
-	}	}
+		}
+
+		// never look db for the resident variable
+		if (szCachedSettingName[-1] != 0)
+			return 1;
+	}
 
 	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
 	if (hContact == NULL) ofsContact = m_dbHeader.ofsUser;
@@ -164,11 +168,11 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 				/**** add to cache **********************/
 				if ( dbcgs->pValue->type != DBVT_BLOB ) {
 					DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
-					if ( pCachedValue != NULL )
+					if ( pCachedValue != NULL ) {
 						m_cache->SetCachedVariant(dbcgs->pValue, pCachedValue);
+						log3("set cached [%08p] %s (%p)", hContact, szCachedSettingName, pCachedValue);
+					}
 				}
-
-				logg();
 				return 0;
 			}
 			NeedBytes(1);
@@ -195,8 +199,10 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 	if ( dbcgs->pValue->type != DBVT_BLOB )
 	{
 		DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
-		if ( pCachedValue != NULL )
+		if ( pCachedValue != NULL ) {
 			pCachedValue->type = DBVT_DELETED;
+			log3("set missing [%08p] %s (%p)", hContact, szCachedSettingName, pCachedValue);
+		}
 	}
 
 	logg();
