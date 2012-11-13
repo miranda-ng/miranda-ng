@@ -192,7 +192,6 @@ void parseURL(char* szUrl, char* szHost, unsigned short* sPort, char* szPath)
 	}
 }
 
-
 static void LongLog(char* szData)
 {
 	CallService(MS_NETLIB_LOG, 0, (LPARAM)szData);
@@ -212,7 +211,7 @@ static void validateSocket(void)
 	static const TIMEVAL tv = { 0, 0 };
 	fd_set rfd;
 	char buf[4];
-	bool opened;  
+	bool opened;
 
 	if (sock == INVALID_SOCKET)
 		return;
@@ -261,7 +260,7 @@ static int httpTransact(char* szUrl, char* szResult, int resSize, char* szAction
 	for (;;)
 	{
 		retryCount = 0;
-		switch(reqtype) 
+		switch(reqtype)
 		{
 		case DeviceGetReq:
 			sz = mir_snprintf (szData, 4096, xml_get_hdr, szPath, szHost, sPort);
@@ -594,7 +593,6 @@ static bool getUPnPURLs(char* szUrl, size_t sizeUrl)
 	return gatewayFound;
 }
 
-
 static void discoverUPnP(void)
 {
 	char* buf;
@@ -699,7 +697,6 @@ static void discoverUPnP(void)
 	setsockopt(sock, IPPROTO_IP, IP_MULTICAST_IF, (char *)&any, sizeof(unsigned));
 	closesocket(sock);
 }
-
 
 static bool findUPnPGateway(void)
 {

@@ -25,7 +25,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static BOOL bModuleInitialized = FALSE;
 
-HANDLE hConnectionHeaderMutex, hConnectionOpenMutex; 
+HANDLE hConnectionHeaderMutex, hConnectionOpenMutex;
 DWORD g_LastConnectionTick;
 int connectionTimeout;
 HANDLE hSendEvent = NULL, hRecvEvent = NULL;
@@ -157,7 +157,7 @@ static INT_PTR NetlibRegisterUser(WPARAM, LPARAM lParam)
 	}
 	if ((thisUser->user.szSettingsModule = mir_strdup(nlu->szSettingsModule)) == NULL
 	   || (nlu->szDescriptiveName && thisUser->user.ptszDescriptiveName == NULL)
-	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL)) 
+	   || (nlu->szHttpGatewayUserAgent && (thisUser->user.szHttpGatewayUserAgent = mir_strdup(nlu->szHttpGatewayUserAgent)) == NULL))
 	{
 		mir_free(thisUser);
 		SetLastError(ERROR_OUTOFMEMORY);
@@ -243,7 +243,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 	switch(GetNetlibHandleType(wParam))
 	{
 		case NLH_USER:
-		{	
+		{
 			struct NetlibUser *nlu = (struct NetlibUser*)wParam;
 			{
 				mir_cslock lck(csNetlibUser);
@@ -261,7 +261,8 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			break;
 		}
 		case NLH_CONNECTION:
-		{	struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
+		{
+			struct NetlibConnection *nlc = (struct NetlibConnection*)wParam;
 			HANDLE waitHandles[4];
 			DWORD waitResult;
 
@@ -287,7 +288,7 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 			waitResult = WaitForMultipleObjects(SIZEOF(waitHandles), waitHandles, TRUE, INFINITE);
 			if (waitResult<WAIT_OBJECT_0 || waitResult >= WAIT_OBJECT_0 + SIZEOF(waitHandles)) {
 				ReleaseMutex(hConnectionHeaderMutex);
-				SetLastError(ERROR_INVALID_PARAMETER);	  //already been closed
+				SetLastError(ERROR_INVALID_PARAMETER);  //already been closed
 				return 0;
 			}
 			nlc->handleType = 0;
@@ -308,7 +309,8 @@ INT_PTR NetlibCloseHandle(WPARAM wParam, LPARAM)
 		case NLH_BOUNDPORT:
 			return NetlibFreeBoundPort((struct NetlibBoundPort*)wParam);
 		case NLH_PACKETRECVER:
-		{	struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
+		{
+			struct NetlibPacketRecver *nlpr = (struct NetlibPacketRecver*)wParam;
 			mir_free(nlpr->packetRecver.buffer);
 			break;
 		}
@@ -380,7 +382,7 @@ INT_PTR NetlibGetMyIp(WPARAM wParam, LPARAM)
 
 INT_PTR NetlibShutdown(WPARAM wParam, LPARAM)
 {
-	if (wParam) 
+	if (wParam)
 	{
 		WaitForSingleObject(hConnectionHeaderMutex, INFINITE);
 		switch(GetNetlibHandleType(wParam)) {
@@ -560,7 +562,7 @@ void UnloadNetlibModule(void)
 		if (hConnectionOpenMutex) CloseHandle(hConnectionOpenMutex);
 		DeleteCriticalSection(&csNetlibUser);
 		WSACleanup();
-	}	
+	}
 }
 
 int LoadNetlibModule(void)
@@ -568,7 +570,7 @@ int LoadNetlibModule(void)
 	WSADATA wsadata;
 
 	bModuleInitialized = TRUE;
-	
+
 	WSAStartup(MAKEWORD(2, 2), &wsadata);
 
 	HookEvent(ME_OPT_INITIALISE, NetlibOptInitialise);
@@ -584,7 +586,7 @@ int LoadNetlibModule(void)
 	if (GetVersionEx((LPOSVERSIONINFO)&osvi))
 	{
 		// Connection limiting was introduced in Windows XP SP2 and later and set to 10 / sec
-		if (osvi.dwMajorVersion == 5 && ((osvi.dwMinorVersion == 1 && osvi.wServicePackMajor >= 2) || osvi.dwMinorVersion > 1)) 
+		if (osvi.dwMajorVersion == 5 && ((osvi.dwMinorVersion == 1 && osvi.wServicePackMajor >= 2) || osvi.dwMinorVersion > 1))
 			connectionTimeout = 150;
 		// Connection limiting has limits based on addition Windows Vista pre SP2
 		else if (osvi.dwMajorVersion == 6 && osvi.wServicePackMajor < 2)
@@ -596,12 +598,12 @@ int LoadNetlibModule(void)
 			{
 			case 0x01:  // Vista Ultimate edition have connection limit of 25 / sec - plenty for Miranda
 			case 0x1c:
-			   break;
+				break;
 
 			case 0x02:  // Vista Home Basic edition have connection limit of 2 / sec 
 			case 0x05:
-			   connectionTimeout = 1000;
-			   break;
+				connectionTimeout = 1000;
+				break;
 			
 			default:    // all other editions have connection limit of 10 / sec
 				connectionTimeout = 150;

@@ -153,13 +153,13 @@ static bool SSL_library_init(void)
 		{
 			INIT_SECURITY_INTERFACE_A pInitSecurityInterface;
 			pInitSecurityInterface = (INIT_SECURITY_INTERFACE_A)GetProcAddress(g_hSchannel, SECURITY_ENTRYPOINT_ANSIA);
-			if (pInitSecurityInterface != NULL) 
+			if (pInitSecurityInterface != NULL)
 				g_pSSPI = pInitSecurityInterface();
 
-			if (g_pSSPI) 
+			if (g_pSSPI)
 			{
 				HINSTANCE hCrypt = LoadLibraryA("crypt32.dll");
-				if (hCrypt) 
+				if (hCrypt)
 				{
 					fnCertGetCertificateChain = (pfnCertGetCertificateChain)GetProcAddress(hCrypt, "CertGetCertificateChain");
 					fnCertFreeCertificateChain = (pfnCertFreeCertificateChain)GetProcAddress(hCrypt, "CertFreeCertificateChain");
@@ -206,7 +206,7 @@ static bool VerifyCertificate(SslHandle *ssl, PCSTR pszServerName, DWORD dwCertF
 		return true;
 
 	static LPSTR rgszUsages[] = 
-	{  
+	{	
 		szOID_PKIX_KP_SERVER_AUTH, 
 		szOID_SERVER_GATED_CRYPTO, 
 		szOID_SGC_NETSCAPE 
@@ -313,15 +313,15 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 	while (scRet == SEC_I_CONTINUE_NEEDED || scRet == SEC_E_INCOMPLETE_MESSAGE || scRet == SEC_I_INCOMPLETE_CREDENTIALS) 
 	{
 		// Read server data
-		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE) 
+		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE)
 		{
-			if (fDoRead) 
+			if (fDoRead)
 			{
 				static const TIMEVAL tv = {6, 0};
 				fd_set fd;
 
 				// If buffer not large enough reallocate buffer
-				if (ssl->sbIoBuffer <= ssl->cbIoBuffer) 
+				if (ssl->sbIoBuffer <= ssl->cbIoBuffer)
 				{
 					ssl->sbIoBuffer += 4096;
 					ssl->pbIoBuffer = (PUCHAR)mir_realloc(ssl->pbIoBuffer, ssl->sbIoBuffer);
@@ -337,13 +337,13 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 				}
 
 				cbData = recv(ssl->s, (char*)ssl->pbIoBuffer + ssl->cbIoBuffer, ssl->sbIoBuffer - ssl->cbIoBuffer, 0);
-				if (cbData == SOCKET_ERROR) 
+				if (cbData == SOCKET_ERROR)
 				{
 					NetlibLogf(NULL, "SSL Negotiation failure recieving data (%d)", WSAGetLastError());
 					scRet = ERROR_NOT_READY;
 					break;
 				}
-				if (cbData == 0) 
+				if (cbData == 0)
 				{
 					NetlibLogf(NULL, "SSL Negotiation connection gracefully closed");
 					scRet = ERROR_NOT_READY;
@@ -405,11 +405,11 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 			scRet == SEC_I_CONTINUE_NEEDED    || 
 			(FAILED(scRet) && (dwSSPIOutFlags & ISC_RET_EXTENDED_ERROR)))
 		{
-			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL) 
+			if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL)
 			{
 				NetlibDumpData(NULL, (unsigned char*)(OutBuffers[0].pvBuffer), OutBuffers[0].cbBuffer, 1, MSG_DUMPSSL);
 				cbData = send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
-				if (cbData == SOCKET_ERROR || cbData == 0) 
+				if (cbData == SOCKET_ERROR || cbData == 0)
 				{
 					NetlibLogf(NULL, "SSL Negotiation failure sending data (%d)", WSAGetLastError());
 					g_pSSPI->FreeContextBuffer(OutBuffers[0].pvBuffer);
@@ -426,10 +426,10 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		if (scRet == SEC_E_INCOMPLETE_MESSAGE) continue;
 
 		// handshake completed successfully.
-		if (scRet == SEC_E_OK) 
+		if (scRet == SEC_E_OK)
 		{
 			// Store remaining data for further use
-			if (InBuffers[1].BufferType == SECBUFFER_EXTRA) 
+			if (InBuffers[1].BufferType == SECBUFFER_EXTRA)
 			{
 				memmove(ssl->pbIoBuffer, 
 					ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
@@ -445,10 +445,10 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 		if (FAILED(scRet)) break;
 
 		// server just requested client authentication. 
-		if (scRet == SEC_I_INCOMPLETE_CREDENTIALS) 
+		if (scRet == SEC_I_INCOMPLETE_CREDENTIALS)
 		{
 			// Server has requested client authentication and
-			//			GetNewClientCredentials(ssl);
+			// GetNewClientCredentials(ssl);
 
 			// Go around again.
 			fDoRead = FALSE;
@@ -456,9 +456,8 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 			continue;
 		}
 
-
 		// Copy any leftover data from the buffer, and go around again.
-		if (InBuffers[1].BufferType == SECBUFFER_EXTRA) 
+		if (InBuffers[1].BufferType == SECBUFFER_EXTRA)
 		{
 			memmove(ssl->pbIoBuffer, 
 				ssl->pbIoBuffer + (ssl->cbIoBuffer - InBuffers[1].cbBuffer), 
@@ -472,7 +471,7 @@ static SECURITY_STATUS ClientHandshakeLoop(SslHandle *ssl, BOOL fDoInitialRead)
 	// Delete the security context in the case of a fatal error.
 	ReportSslError(scRet, __LINE__);
 
-	if (ssl->cbIoBuffer == 0) 
+	if (ssl->cbIoBuffer == 0)
 	{
 		mir_free(ssl->pbIoBuffer);
 		ssl->pbIoBuffer = NULL;
@@ -492,7 +491,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	SECURITY_STATUS scRet;
 	DWORD           cbData;
 
-	if (SecIsValidHandle(&ssl->hContext)) 
+	if (SecIsValidHandle(&ssl->hContext))
 	{
 		g_pSSPI->DeleteSecurityContext(&ssl->hContext);
 		SecInvalidateHandle(&ssl->hContext);
@@ -538,7 +537,7 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	}
 
 	// Send response to server if there is one.
-	if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL) 
+	if (OutBuffers[0].cbBuffer != 0 && OutBuffers[0].pvBuffer != NULL)
 	{
 		NetlibDumpData(NULL, (unsigned char*)(OutBuffers[0].pvBuffer), OutBuffers[0].cbBuffer, 1, MSG_DUMPSSL);
 		cbData = send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
@@ -557,7 +556,6 @@ static bool ClientConnect(SslHandle *ssl, const char *host)
 	return ClientHandshakeLoop(ssl, TRUE) == SEC_E_OK;
 }
 
-
 SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 {
 	SslHandle *ssl = (SslHandle*)mir_calloc(sizeof(SslHandle));
@@ -566,23 +564,22 @@ SslHandle *NetlibSslConnect(SOCKET s, const char* host, int verify)
 	SecInvalidateHandle(&ssl->hContext);
 
 	DWORD dwFlags = 0;
-	
-	if ( !host || inet_addr(host) != INADDR_NONE) 
+
+	if ( !host || inet_addr(host) != INADDR_NONE)
 		dwFlags |= 0x00001000;
 
 	bool res = SSL_library_init();
 
 	if (res) res = ClientConnect(ssl, host);
-    if (res && verify) res = VerifyCertificate(ssl, host, dwFlags);
+	if (res && verify) res = VerifyCertificate(ssl, host, dwFlags);
 
-	if ( !res) 
+	if ( !res)
 	{
-		NetlibSslFree(ssl); 
+		NetlibSslFree(ssl);
 		ssl = NULL;
 	}
 	return ssl;
 }
-
 
 void NetlibSslShutdown(SslHandle *ssl)
 {
@@ -647,7 +644,7 @@ void NetlibSslShutdown(SslHandle *ssl)
 	if (FAILED(scRet)) return;
 
 	// Send the close notify message to the server.
-	if (OutBuffers[0].pvBuffer != NULL && OutBuffers[0].cbBuffer != 0) 
+	if (OutBuffers[0].pvBuffer != NULL && OutBuffers[0].cbBuffer != 0)
 	{
 		NetlibDumpData(NULL, (unsigned char*)(OutBuffers[0].pvBuffer), OutBuffers[0].cbBuffer, 1, MSG_DUMPSSL);
 		send(ssl->s, (char*)OutBuffers[0].pvBuffer, OutBuffers[0].cbBuffer, 0);
@@ -655,7 +652,7 @@ void NetlibSslShutdown(SslHandle *ssl)
 	}
 }
 
-static int NetlibSslReadSetResult(SslHandle *ssl, char *buf, int num, int peek) 
+static int NetlibSslReadSetResult(SslHandle *ssl, char *buf, int num, int peek)
 {
 	if (ssl->cbRecDataBuf == 0)
 	{
@@ -666,7 +663,7 @@ static int NetlibSslReadSetResult(SslHandle *ssl, char *buf, int num, int peek)
 	int rbytes = ssl->cbRecDataBuf - bytes;
 
 	memcpy(buf, ssl->pbRecDataBuf, bytes);
-	if ( !peek) 
+	if ( !peek)
 	{
 		memmove(ssl->pbRecDataBuf, ssl->pbRecDataBuf + bytes, rbytes);
 		ssl->cbRecDataBuf = rbytes;
@@ -698,17 +695,17 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 
 	scRet = SEC_E_OK;
 
-	for (;;) 
+	for (;;)
 	{
-		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE) 
+		if (0 == ssl->cbIoBuffer || scRet == SEC_E_INCOMPLETE_MESSAGE)
 		{
-			if (ssl->sbIoBuffer <= ssl->cbIoBuffer) 
+			if (ssl->sbIoBuffer <= ssl->cbIoBuffer)
 			{
 				ssl->sbIoBuffer += 2048;
 				ssl->pbIoBuffer = (PUCHAR)mir_realloc(ssl->pbIoBuffer, ssl->sbIoBuffer);
 			}
 
-			if (peek) 
+			if (peek)
 			{
 				static const TIMEVAL tv = {0};
 				fd_set fd;
@@ -716,13 +713,13 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 				FD_SET(ssl->s, &fd);
 
 				cbData = select(1, &fd, NULL, NULL, &tv);
-				if (cbData == SOCKET_ERROR) 
+				if (cbData == SOCKET_ERROR)
 				{
 					ssl->state = sockError;
 					return NetlibSslReadSetResult(ssl, buf, num, peek);
 				}
-				
-				if (cbData == 0 && ssl->cbRecDataBuf) 
+
+				if (cbData == 0 && ssl->cbRecDataBuf)
 					return NetlibSslReadSetResult(ssl, buf, num, peek);
 			}
 
@@ -733,8 +730,8 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 				ssl->state = sockError;
 				return NetlibSslReadSetResult(ssl, buf, num, peek);
 			}
-			
-			if (cbData == 0) 
+
+			if (cbData == 0)
 			{
 				NetlibLogf(NULL, "SSL connection gracefully closed");
 				if (peek && ssl->cbRecDataBuf)
@@ -744,12 +741,12 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 				}
 
 				// Server disconnected.
-				if (ssl->cbIoBuffer) 
+				if (ssl->cbIoBuffer)
 				{
 					ssl->state = sockError;
 					return NetlibSslReadSetResult(ssl, buf, num, peek);
 				}
-				
+
 				return 0;
 			}
 			else
@@ -793,7 +790,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		// Locate data and (optional) extra buffers.
 		pDataBuffer = NULL;
 		pExtraBuffer = NULL;
-		for (i = 1; i < 4; i++) 
+		for (i = 1; i < 4; i++)
 		{
 			if (pDataBuffer == NULL && Buffers[i].BufferType == SECBUFFER_DATA)
 				pDataBuffer = &Buffers[i];
@@ -803,7 +800,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		}
 
 		// Return decrypted data.
-		if (pDataBuffer) 
+		if (pDataBuffer)
 		{
 			DWORD bytes, rbytes;
 
@@ -811,11 +808,11 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 			rbytes = pDataBuffer->cbBuffer - bytes;
 
 			NetlibDumpData(NULL, (PBYTE)pDataBuffer->pvBuffer, pDataBuffer->cbBuffer, 0, MSG_DUMPSSL);
-			
-			if (rbytes > 0) 
+
+			if (rbytes > 0)
 			{
 				int nbytes = ssl->cbRecDataBuf + rbytes;
-				if (ssl->sbRecDataBuf < nbytes) 
+				if (ssl->sbRecDataBuf < nbytes)
 				{
 					ssl->sbRecDataBuf = nbytes;
 					ssl->pbRecDataBuf = (PUCHAR)mir_realloc(ssl->pbRecDataBuf, nbytes);
@@ -837,7 +834,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 		}
 
 		// Move any "extra" data to the input buffer.
-		if (pExtraBuffer) 
+		if (pExtraBuffer)
 		{
 			memmove(ssl->pbIoBuffer, pExtraBuffer->pvBuffer, pExtraBuffer->cbBuffer);
 			ssl->cbIoBuffer = pExtraBuffer->cbBuffer;
@@ -848,7 +845,7 @@ int NetlibSslRead(SslHandle *ssl, char *buf, int num, int peek)
 			return resNum;
 
 		// Server signaled end of session
-		if (scRet == SEC_I_CONTEXT_EXPIRED) 
+		if (scRet == SEC_I_CONTEXT_EXPIRED)
 		{
 			NetlibLogf(NULL, "SSL Server signaled SSL Shutdown");
 			ssl->state = sockClosed;

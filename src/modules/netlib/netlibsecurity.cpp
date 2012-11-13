@@ -92,7 +92,7 @@ static void LoadSecurityLibrary(void)
 		g_pSSPI = pInitSecurityInterface();
 	}
 
-	if (g_pSSPI == NULL) 
+	if (g_pSSPI == NULL)
 	{
 		FreeLibrary(g_hSecurity);
 		g_hSecurity = NULL;
@@ -130,7 +130,7 @@ HANDLE NetlibInitSecurityProvider(const TCHAR* szProvider, const TCHAR* szPrinci
 	}
 	else secCnt++;
 
-	if (g_pSSPI != NULL) 
+	if (g_pSSPI != NULL)
 	{
 		PSecPkgInfo ntlmSecurityPackageInfo;
 		bool isGSSAPI = _tcsicmp(szProvider, _T("GSSAPI")) == 0;
@@ -167,7 +167,7 @@ void NetlibDestroySecurityProvider(HANDLE hSecurity)
 
 	WaitForSingleObject(hSecMutex, INFINITE);
 
-	if (ntlmCnt != 0) 
+	if (ntlmCnt != 0)
 	{
 		NtlmHandleType* hNtlm = (NtlmHandleType*)hSecurity;
 		if (SecIsValidHandle(&hNtlm->hClientContext)) g_pSSPI->DeleteSecurityContext(&hNtlm->hClientContext);
@@ -214,7 +214,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 
 	SecPkgContext_Sizes sizes;
 	sc = g_pSSPI->QueryContextAttributes(&hNtlm->hClientContext, SECPKG_ATTR_SIZES, &sizes);
-	if (sc != SEC_E_OK) 
+	if (sc != SEC_E_OK)
 	{
 		ReportSecError(sc, __LINE__);
 		return NULL;
@@ -234,16 +234,15 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	SecBufferDesc outBuffersDesc = { SECBUFFER_VERSION, 3, outBuffers };
 
 	sc = g_pSSPI->EncryptMessage(&hNtlm->hClientContext, SECQOP_WRAP_NO_ENCRYPT, &outBuffersDesc, 0);
-	if (sc != SEC_E_OK) 
+	if (sc != SEC_E_OK)
 	{
 		ReportSecError(sc, __LINE__);
 		return NULL;
 	}
 
 	unsigned i, ressz = 0;
-	for (i=0; i < outBuffersDesc.cBuffers; i++) 
+	for (i=0; i < outBuffersDesc.cBuffers; i++)
 		ressz += outBuffersDesc.pBuffers[i].cbBuffer;
-
 
 	unsigned char *response = (unsigned char*)alloca(ressz), *p = response;
 	for (i=0; i < outBuffersDesc.cBuffers; i++) 
@@ -262,8 +261,7 @@ char* CompleteGssapi(HANDLE hSecurity, unsigned char *szChallenge, unsigned chls
 	return mir_strdup(nlb64.pszEncoded);
 } 
 
-char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, 
-									  bool http, unsigned& complete)
+char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge, const TCHAR* login, const TCHAR* psw, bool http, unsigned& complete)
 {
 	SECURITY_STATUS sc;
 	SecBufferDesc outputBufferDescriptor, inputBufferDescriptor;
@@ -276,12 +274,12 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 	if (hSecurity == NULL || ntlmCnt == 0) return NULL;
 
- 	if (_tcsicmp(hNtlm->szProvider, _T("Basic")))
+	if (_tcsicmp(hNtlm->szProvider, _T("Basic")))
 	{
 		bool isGSSAPI = _tcsicmp(hNtlm->szProvider, _T("GSSAPI")) == 0;
 		TCHAR *szProvider = isGSSAPI ? _T("Kerberos") : hNtlm->szProvider;
 		bool hasChallenge = szChallenge != NULL && szChallenge[0] != '\0';
-		if (hasChallenge) 
+		if (hasChallenge)
 		{
 			nlb64.cchEncoded = lstrlenA(szChallenge);
 			nlb64.pszEncoded = (char*)szChallenge;
@@ -300,17 +298,17 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 			inputSecurityToken.pvBuffer = nlb64.pbDecoded;
 
 			// try to decode the domain name from the NTLM challenge
-			if (login != NULL && login[0] != '\0' && !hNtlm->hasDomain) 
+			if (login != NULL && login[0] != '\0' && !hNtlm->hasDomain)
 			{
 				NtlmType2packet* pkt = (NtlmType2packet*)nlb64.pbDecoded;
-				if ( !strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2) 
+				if ( !strncmp(pkt->sign, "NTLMSSP", 8) && pkt->type == 2)
 				{
 
 					wchar_t* domainName = (wchar_t*)&nlb64.pbDecoded[pkt->targetName.offset];
 					int domainLen = pkt->targetName.len;
 
 					// Negotiate ANSI? if yes, convert the ANSI name to unicode
-					if ((pkt->flags & 1) == 0) 
+					if ((pkt->flags & 1) == 0)
 					{
 						int bufsz = MultiByteToWideChar(CP_ACP, 0, (char*)domainName, domainLen, NULL, 0);
 						wchar_t* buf = (wchar_t*)alloca(bufsz * sizeof(wchar_t));
@@ -320,7 +318,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					else
 						domainLen /= sizeof(wchar_t);
 
-					if (domainLen) 
+					if (domainLen)
 					{
 						size_t newLoginLen = _tcslen(login) + domainLen + 1;
 						TCHAR *newLogin = (TCHAR*)alloca(newLoginLen * sizeof(TCHAR));
@@ -348,12 +346,11 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 				NetlibLogf(NULL, "Security login requested, user: %S pssw: %s", login, psw ? "(exist)" : "(no psw)");
 
-
 				const TCHAR* loginName = login;
 				const TCHAR* domainName = _tcschr(login, '\\');
 				int domainLen = 0;
 				int loginLen = lstrlen(loginName);
-				if (domainName != NULL) 
+				if (domainName != NULL)
 				{
 					loginName = domainName + 1;
 					loginLen = lstrlen(loginName);
@@ -367,7 +364,6 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 					domainLen = lstrlen(++domainName);
 				}
 
-
 				auth.User = (PWORD)loginName;
 				auth.UserLength = loginLen;
 				auth.Password = (PWORD)psw;
@@ -376,14 +372,13 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 				auth.DomainLength = domainLen;
 				auth.Flags = SEC_WINNT_AUTH_IDENTITY_UNICODE;
 
-
 				hNtlm->hasDomain = domainLen != 0;
 			}
 
 			sc = g_pSSPI->AcquireCredentialsHandle(NULL, szProvider, 
 				SECPKG_CRED_OUTBOUND, NULL, hNtlm->hasDomain ? &auth : NULL, NULL, NULL, 
 				&hNtlm->hClientCredential, &tokenExpiration);
-			if (sc != SEC_E_OK) 
+			if (sc != SEC_E_OK)
 			{
 				ReportSecError(sc, __LINE__);
 				return NULL;
@@ -428,7 +423,7 @@ char* NtlmCreateResponseFromChallenge(HANDLE hSecurity, const char *szChallenge,
 
 		size_t authLen = strlen(szLogin) + strlen(szPassw) + 5;
 		char *szAuth = (char*)alloca(authLen);
-		
+
 		nlb64.cbDecoded = mir_snprintf(szAuth, authLen, "%s:%s", szLogin, szPassw);
 		nlb64.pbDecoded = (PBYTE)szAuth;
 		complete = true;
@@ -471,7 +466,6 @@ static INT_PTR InitSecurityProviderService2(WPARAM, LPARAM lParam)
 
 	HANDLE hSecurity;
 
-
 	if (req->flags & NNR_UNICODE)
 		hSecurity = NetlibInitSecurityProvider(req->szProviderName, req->szPrincipal);
 	else
@@ -505,7 +499,6 @@ static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 
 	char* response;
 
-
 	if (req->flags & NNR_UNICODE)
 	{
 		response = NtlmCreateResponseFromChallenge((HANDLE)wParam, req->szChallenge, 
@@ -520,7 +513,6 @@ static INT_PTR NtlmCreateResponseService2(WPARAM wParam, LPARAM lParam)
 		mir_free(szLogin);
 		mir_free(szPassw);
 	}
-
 
 	return (INT_PTR)response;
 }

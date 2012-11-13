@@ -32,8 +32,7 @@ typedef enum
 } 
 RequestType;
 
-
-static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, int peek) 
+static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, int peek)
 {
 	if (nlc->dataBufferLen == 0) return 0;
 
@@ -41,7 +40,7 @@ static int HttpGatewayReadSetResult(NetlibConnection *nlc, char *buf, int num, i
 	int rbytes = nlc->dataBufferLen - bytes;
 
 	memcpy(buf, nlc->dataBuffer, bytes);
-	if ( !peek) 
+	if ( !peek)
 	{
 		memmove(nlc->dataBuffer, nlc->dataBuffer + bytes, rbytes);
 		nlc->dataBufferLen = rbytes;
@@ -56,12 +55,11 @@ void HttpGatewayRemovePacket(NetlibConnection *nlc, int pck)
 	while (pck-- && nlc->pHttpProxyPacketQueue != NULL) {
 		NetlibHTTPProxyPacketQueue *p = nlc->pHttpProxyPacketQueue;
 		nlc->pHttpProxyPacketQueue = nlc->pHttpProxyPacketQueue->next;
-		
+
 		mir_free(p->dataBuffer);
 		mir_free(p);
 	}
 }
-
 
 static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqType, const char *buf, int len)
 {
@@ -104,14 +102,14 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 			mir_snprintf(szUrl, SIZEOF(szUrl), "%s%u", nlc->nlhpi.szHttpPostUrl, nlc->nlhpi.firstPostSequence);
 			nlhrSend.szUrl = szUrl;
 		}
-		else 
+		else
 			nlhrSend.szUrl = nlc->nlhpi.szHttpPostUrl;
 		break;
 
 	case reqNewPost:
 		nlhrSend.requestType = REQUEST_POST;
 		nlhrSend.szUrl = nlc->nlhpi.szHttpPostUrl;
- 		break;
+		break;
 	}
 
 	if (nlc->usingDirectHttpGateway)
@@ -127,7 +125,7 @@ static bool NetlibHttpGatewaySend(struct NetlibConnection *nlc, RequestType reqT
 
 			mir_free((char*)nlc->nloc.szHost);
 			nlc->nloc = nloc;
-			if ( !NetlibDoConnect(nlc)) 
+			if ( !NetlibDoConnect(nlc))
 				return false;
 		}
 		else
@@ -159,7 +157,7 @@ static bool NetlibHttpGatewayStdPost(NetlibConnection *nlc, int& numPackets)
 		while (p != NULL && np < nlc->nlhpi.combinePackets) { ++np; len += p->dataBufferLen;  p = p->next;}
 
 		buf = (char*)alloca(len);
-	
+
 		numPackets = np;
 		int dlen = 0;
 
@@ -217,7 +215,7 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 
 	mir_cslock lck(nlc->csHttpSequenceNums);
 	nlc->nlhpi.firstPostSequence++;
-	if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE) 
+	if (nlc->nlhpi.flags & NLHPIF_GETPOSTSAMESEQUENCE)
 		nlc->nlhpi.firstGetSequence++;
 
 	return res;
@@ -239,18 +237,18 @@ static bool NetlibHttpGatewayOscarPost(NetlibConnection *nlc, const char *buf, i
 	 *         with the new plugins that use this code.
 	 */
 
-	 NetlibHTTPProxyPacketQueue *p = (NetlibHTTPProxyPacketQueue*)mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
-	 p->dataBuffer = (PBYTE)mir_alloc(len);
-	 memcpy(p->dataBuffer, buf, len);
-	 p->dataBufferLen = len;
-	 p->next = NULL;
+	NetlibHTTPProxyPacketQueue *p = (NetlibHTTPProxyPacketQueue*)mir_alloc(sizeof(struct NetlibHTTPProxyPacketQueue));
+	p->dataBuffer = (PBYTE)mir_alloc(len);
+	memcpy(p->dataBuffer, buf, len);
+	p->dataBufferLen = len;
+	p->next = NULL;
 
-	 /*
-	  * Now check to see where to insert this in our queue
-	  */
+	/*
+	 * Now check to see where to insert this in our queue
+	 */
 
 	mir_cslock lck(nlc->csHttpSequenceNums);
-	if (nlc->pHttpProxyPacketQueue == NULL) 
+	if (nlc->pHttpProxyPacketQueue == NULL)
 		nlc->pHttpProxyPacketQueue = p;
 	else {
 		NetlibHTTPProxyPacketQueue *t = nlc->pHttpProxyPacketQueue;
@@ -315,7 +313,7 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 		}
 		else
 		{
-			if ( !NetlibHttpGatewayStdPost(nlc, numPackets)) 
+			if ( !NetlibHttpGatewayStdPost(nlc, numPackets))
 			{
 				if (GetLastError() == ERROR_ACCESS_DENIED || nlc->termRequested)
 					break;
@@ -327,7 +325,7 @@ int NetlibHttpGatewayRecv(struct NetlibConnection *nlc, char *buf, int len, int 
 		NETLIBHTTPREQUEST *nlhrReply = NetlibHttpRecv(nlc, flags | MSG_RAW | MSG_DUMPPROXY, MSG_RAW | MSG_DUMPPROXY);
 		if (nlhrReply == NULL) return SOCKET_ERROR;
 
-		if (nlc->nlu->user.pfnHttpGatewayUnwrapRecv && !(flags & MSG_NOHTTPGATEWAYWRAP)) 
+		if (nlc->nlu->user.pfnHttpGatewayUnwrapRecv && !(flags & MSG_NOHTTPGATEWAYWRAP))
 		{
 			nlhrReply->pData = (char*)nlc->nlu->user.pfnHttpGatewayUnwrapRecv(nlhrReply, 
 				(PBYTE)nlhrReply->pData, nlhrReply->dataLength, &nlhrReply->dataLength, mir_realloc);
@@ -404,10 +402,10 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 {
 	NETLIBHTTPREQUEST *nlhrReply = NULL;
 
-	nlc->nlhpi.firstGetSequence = 1; 
+	nlc->nlhpi.firstGetSequence = 1;
 	nlc->nlhpi.firstPostSequence = 1;
 
-	if (nlu->user.szHttpGatewayHello != NULL) 
+	if (nlu->user.szHttpGatewayHello != NULL)
 	{
 		nlc->usingHttpGateway = true;
 		if (NetlibHttpGatewaySend(nlc, reqHelloGet, NULL, 0))
@@ -415,14 +413,14 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 		nlc->usingHttpGateway = false;
 		if (nlhrReply == NULL) return 0;
 
-		if (nlhrReply->resultCode != 200) 
+		if (nlhrReply->resultCode != 200)
 		{
 			NetlibHttpSetLastErrorUsingHttpResult(nlhrReply->resultCode);
 			NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 			return 0;
 		}
 	}
-	if ( !nlu->user.pfnHttpGatewayInit(nlc, nloc, nlhrReply)) 
+	if ( !nlu->user.pfnHttpGatewayInit(nlc, nloc, nlhrReply))
 	{
 		NetlibHttpFreeRequestStruct(0, (LPARAM)nlhrReply);
 		return 0;
@@ -432,7 +430,7 @@ int NetlibInitHttpConnection(struct NetlibConnection *nlc, struct NetlibUser *nl
 	/*
 	 * Gena01 - Ok, we should be able to use just POST. Needed for Yahoo, NO GET requests
 	 */
-	if (nlc->nlhpi.szHttpPostUrl == NULL) 
+	if (nlc->nlhpi.szHttpPostUrl == NULL)
 	{
 		SetLastError(ERROR_BAD_FORMAT);
 		return 0;
@@ -477,7 +475,7 @@ INT_PTR NetlibHttpSetSticky(WPARAM wParam, LPARAM lParam)
 {
 	struct NetlibUser * nu = (struct NetlibUser*)wParam;
 	if (GetNetlibHandleType(nu) != NLH_USER) return ERROR_INVALID_PARAMETER;
-	mir_free(nu->szStickyHeaders); 
+	mir_free(nu->szStickyHeaders);
 	nu->szStickyHeaders = mir_strdup((char*)lParam); // pointer is ours
 	return 0;
 }

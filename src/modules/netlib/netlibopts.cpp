@@ -36,31 +36,31 @@ static const UINT outgoingConnectionsControls[] =
 {
 	IDC_STATIC12, 
 	IDC_USEPROXY, 
-	  IDC_STATIC21, IDC_PROXYTYPE, 
-	  IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT, 
-	  IDC_PROXYAUTH, 
-	    IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
-	  IDC_PROXYDNS, 
+	IDC_STATIC21, IDC_PROXYTYPE, 
+	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT, 
+	IDC_PROXYAUTH, 
+	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
+	IDC_PROXYDNS, 
 	IDC_SPECIFYPORTSO, 
-	  IDC_PORTSRANGEO, 
-	  IDC_STATIC54, 
-    IDC_VALIDATESSL};
+	IDC_PORTSRANGEO, 
+	IDC_STATIC54, 
+	IDC_VALIDATESSL};
 static const UINT useProxyControls[] = {
 	IDC_STATIC21, IDC_PROXYTYPE, 
 	IDC_STATIC22, IDC_PROXYHOST, IDC_STATIC23, IDC_PROXYPORT, IDC_STOFTENPORT, 
 	IDC_PROXYAUTH, 
-	  IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
+	IDC_STATIC31, IDC_PROXYUSER, IDC_STATIC32, IDC_PROXYPASS, 
 	IDC_PROXYDNS};
 static const UINT specifyOPortsControls[] = {
 	IDC_PORTSRANGEO, 
-	  IDC_STATIC54
+	IDC_STATIC54
 };
 static const UINT incomingConnectionsControls[] = {
 	IDC_STATIC43, 
 	IDC_SPECIFYPORTS, 
 	IDC_PORTSRANGE, 
 	IDC_STATIC52, 
-    IDC_ENABLEUPNP};
+	IDC_ENABLEUPNP};
 static const UINT specifyPortsControls[] = {
 	IDC_PORTSRANGE, 
 	IDC_STATIC52};
@@ -142,7 +142,7 @@ static void CombineSettingsStructs(NETLIBUSERSETTINGS *dest, DWORD *destFlags, N
 	}
 	if (sourceFlags&NUF_INCOMING) {
 		if (*destFlags&NUF_INCOMING) {
-            if (dest->enableUPnP != source->enableUPnP) dest->enableUPnP = 2;
+			if (dest->enableUPnP != source->enableUPnP) dest->enableUPnP = 2;
 			if (dest->specifyIncomingPorts != source->specifyIncomingPorts) dest->specifyIncomingPorts = 2;
 			CombineSettingsStrings(&dest->szIncomingPorts, &source->szIncomingPorts);
 		}
@@ -258,7 +258,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{	
+		{
 			int iItem = SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_ADDSTRING, 0, (LPARAM)TranslateT("<All connections>"));
 			SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETITEMDATA, iItem, (LPARAM)-1);
 			SendDlgItemMessage(hwndDlg, IDC_NETLIBUSERS, CB_SETCURSEL, iItem, 0);
@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 		}
-			
+
 		SendMessage(hwndDlg, M_REFRESHALL, 0, 0);
 		return TRUE;
 
@@ -308,7 +308,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			AddProxyTypeItem(hwndDlg, PROXYTYPE_SOCKS5, settings.proxyType);
 			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTP, settings.proxyType);
 			if ( !(flags & NUF_NOHTTPSOPTION)) AddProxyTypeItem(hwndDlg, PROXYTYPE_HTTPS, settings.proxyType);
-			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY) || !(flags & NUF_NOHTTPSOPTION)) 
+			if (flags & (NUF_HTTPCONNS | NUF_HTTPGATEWAY) || !(flags & NUF_NOHTTPSOPTION))
 				AddProxyTypeItem(hwndDlg, PROXYTYPE_IE, settings.proxyType);
 			SetDlgItemTextA(hwndDlg, IDC_PROXYHOST, settings.szProxyServer?settings.szProxyServer:"");
 			if (settings.wProxyPort) SetDlgItemInt(hwndDlg, IDC_PROXYPORT, settings.wProxyPort, FALSE);
@@ -393,7 +393,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 		case IDC_PROXYTYPE:
 			if (HIWORD(wParam) != CBN_SELCHANGE) return 0;
-			{	
+			{
 				int newValue = SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROXYTYPE, CB_GETCURSEL, 0, 0), 0);
 				if (iUser == -1) {
 					if (newValue == 0) return 0;
@@ -407,7 +407,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					}
 					SendMessage(hwndDlg, M_REFRESHALL, 0, 0);
 				}
-				else 
+				else
 				{
 					tempSettings[iUser]->settings.proxyType = newValue;
 					SendMessage(hwndDlg, M_REFRESHENABLING, 0, 0);
@@ -429,19 +429,19 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		case IDC_SPECIFYPORTSO:
 			ChangeSettingIntByCheckbox(hwndDlg, LOWORD(wParam), iUser, offsetof(NETLIBUSERSETTINGS, specifyOutgoingPorts));
 			break;
-            case IDC_ENABLEUPNP:
+		case IDC_ENABLEUPNP:
 			ChangeSettingIntByCheckbox(hwndDlg, LOWORD(wParam), iUser, offsetof(NETLIBUSERSETTINGS, enableUPnP));
-               break;
-            case IDC_VALIDATESSL:
+			break;
+		case IDC_VALIDATESSL:
 			ChangeSettingIntByCheckbox(hwndDlg, LOWORD(wParam), iUser, offsetof(NETLIBUSERSETTINGS, validateSSL));
-               break;
-            case IDC_PROXYHOST:
+			break;
+		case IDC_PROXYHOST:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0;
 			ChangeSettingStringByEdit(hwndDlg, LOWORD(wParam), iUser, offsetof(NETLIBUSERSETTINGS, szProxyServer));
 			break;
 		case IDC_PROXYPORT:
 			if (HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus()) return 0;
-			{	
+			{
 				int newValue = GetDlgItemInt(hwndDlg, LOWORD(wParam), NULL, FALSE);
 				if (iUser == -1) {
 					for (int i=0; i < tempSettings.getCount(); i++)
@@ -471,7 +471,7 @@ static INT_PTR CALLBACK DlgProcNetlibOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		ShowWindow( GetDlgItem(hwndDlg, IDC_RECONNECTREQD), SW_SHOW);
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		break;
-	
+
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:

@@ -123,7 +123,7 @@ static pfnInternetGetProxyInfo pInternetGetProxyInfo;
 
 static bool bEnabled, bOneProxy;
 
-static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf) 
+static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 {
 	NetlibUser nlu = {0};
 	NETLIBHTTPREQUEST nlhr = {0};
@@ -142,7 +142,7 @@ static void GetFile(char* szUrl, AUTO_PROXY_SCRIPT_BUFFER &buf)
 	// download the page
 	NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)NetlibHttpTransaction((WPARAM)&nlu, (LPARAM)&nlhr);
 
-	if (nlhrReply) 
+	if (nlhrReply)
 	{
 		if (nlhrReply->resultCode == 200)
 		{
@@ -181,7 +181,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 	nlc->proxyType = 0;
 
 	char *mt = NetlibGetIeProxy(szUrl);
-	char *m = NEWSTR_ALLOCA(mt); 
+	char *m = NEWSTR_ALLOCA(mt);
 	mir_free(mt);
 
 	if (m == NULL) return false;
@@ -190,7 +190,7 @@ bool NetlibGetIeProxyConn(NetlibConnection *nlc, bool forceHttps)
 	char *c = strchr(m, ';'); if (c) *c = 0;
 
 	// if 'direct' no proxy
-	if (_stricmp(lrtrim(m), "direct") == 0) return false; 
+	if (_stricmp(lrtrim(m), "direct") == 0) return false;
 
 	// find proxy address
 	char *h = strchr(m, ' ');
@@ -249,7 +249,7 @@ static void NetlibInitAutoProxy(void)
 			GetProcAddress(hModJS, "InternetGetProxyInfo");
 	}
 
-	if (strstr(szAutoUrlStr, "file://") == NULL && strstr(szAutoUrlStr, "://") != NULL) 
+	if (strstr(szAutoUrlStr, "file://") == NULL && strstr(szAutoUrlStr, "://") != NULL)
 	{
 		abuf.dwStructSize = sizeof(abuf);
 		GetFile(szAutoUrlStr, abuf);
@@ -278,7 +278,7 @@ static unsigned __stdcall NetlibIeProxyThread(void * arg)
 
 	BOOL res;
 	char *loc = strstr(szAutoUrlStr, "file://");
-	if (loc || strstr(szAutoUrlStr, "://") == NULL) 
+	if (loc || strstr(szAutoUrlStr, "://") == NULL)
 	{
 		NetlibLogf(NULL, "Autoproxy Init file: %s", loc);
 		loc = loc ? loc + 7 : szAutoUrlStr;
@@ -335,7 +335,7 @@ char* NetlibGetIeProxy(char *szUrl)
 		}
 
 		int ind = -1;
-		if (strstr(szUrl, "http://")) 
+		if (strstr(szUrl, "http://"))
 			ind = szProxyHost[0] ? 0 : 2;
 		else if (strstr(szUrl, "https://")) 
 			ind = bOneProxy ? 0 : (szProxyHost[1] ? 1 : 2);
@@ -410,13 +410,13 @@ void NetlibLoadIeProxy(void)
 
 				lrtrim(szProxy);
 
-				if (strchr(szProxy, ':')) 
+				if (strchr(szProxy, ':'))
 					szProxyHost[ind] = mir_strdup(szProxy);
 				else
 				{
 					size_t len = strlen(szProxy) + 10;
 					szProxyHost[ind] = (char*)mir_alloc(len);
-					mir_snprintf(szProxyHost[ind], len, "%s:%u", szProxy, ind == 2 ? 1080 : 8080); 
+					mir_snprintf(szProxyHost[ind], len, "%s:%u", szProxy, ind == 2 ? 1080 : 8080);
 				}
 				if (bOneProxy) break;
 			}

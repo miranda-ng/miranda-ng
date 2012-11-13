@@ -34,8 +34,8 @@ struct NetlibUser
 	NETLIBUSERSETTINGS settings;
 	char * szStickyHeaders;
 	int toLog;
-    int inportnum;
-    int outportnum;
+	int inportnum;
+	int outportnum;
 };
 
 struct NetlibNestedCriticalSection
@@ -53,9 +53,9 @@ struct NetlibHTTPProxyPacketQueue
 };
 
 typedef union _SOCKADDR_INET_M {
-    SOCKADDR_IN Ipv4;
-    SOCKADDR_IN6 Ipv6;
-    USHORT si_family;    
+	SOCKADDR_IN Ipv4;
+	SOCKADDR_IN6 Ipv6;
+	USHORT si_family;    
 } SOCKADDR_INET_M, *PSOCKADDR_INET_M;
 
 struct NetlibConnection 

@@ -49,7 +49,7 @@ bool BindSocketToPort(const char *szPorts, SOCKET s, SOCKET s6, int* portn)
 		char *pszEnd;
 		int portMin, portMax, port, portnum = 0;
 
-		for (psz = szPorts;*psz;)  {
+		for (psz = szPorts;*psz;) {
 			while (*psz == ' ' || *psz == ',') psz++;
 			portMin = strtol(psz, &pszEnd, 0);
 			if (pszEnd == psz)
@@ -127,14 +127,14 @@ static unsigned __stdcall NetlibBindAcceptThread(void* param)
 	struct NetlibBoundPort *nlbp = (NetlibBoundPort*)param;
 
 	NetlibLogf(nlbp->nlu, "(%u) Port %u opened for incoming connections", nlbp->s, nlbp->wPort);
-	for (;;) 
+	for (;;)
 	{
 		fd_set r;
 		FD_ZERO(&r);
 		FD_SET(nlbp->s, &r);
 		FD_SET(nlbp->s6, &r);
 
-		if (select(0, &r, NULL, NULL, NULL) == SOCKET_ERROR) 
+		if (select(0, &r, NULL, NULL, NULL) == SOCKET_ERROR)
 			break;
 
 		sinLen = sizeof(sin);
@@ -182,7 +182,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	UINT dwThreadId;
 
 	if (GetNetlibHandleType(nlu) != NLH_USER || !(nlu->user.flags & NUF_INCOMING) ||
-		nlb == NULL || nlb->pfnNewConnection == NULL) 
+		nlb == NULL || nlb->pfnNewConnection == NULL)
 	{
 		SetLastError(ERROR_INVALID_PARAMETER);
 		return 0;
@@ -198,7 +198,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 	nlbp->s = socket(PF_INET, SOCK_STREAM, 0);
 	nlbp->s6 = socket(PF_INET6, SOCK_STREAM, 0);
 	nlbp->pExtra = (nlb->cbSize != NETLIBBIND_SIZEOF_V1) ? nlb->pExtra : NULL;
-	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET) 
+	if (nlbp->s == INVALID_SOCKET && nlbp->s6 == INVALID_SOCKET)
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "socket", WSAGetLastError());
 		mir_free(nlbp);
@@ -209,7 +209,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 
 	/* if the netlib user wanted a free port given in the range, then
 	they better have given wPort == 0, let's hope so */
-	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0) 
+	if (nlu->settings.specifyIncomingPorts && nlu->settings.szIncomingPorts && nlb->wPort == 0)
 	{
 		if ( !BindSocketToPort(nlu->settings.szIncomingPorts, nlbp->s, nlbp->s6, &nlu->outportnum))
 		{
@@ -219,17 +219,17 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		else
 			foundPort = 1;
 	}
-	else 
+	else
 	{
 		/* if ->wPort == 0 then they'll get any free port, otherwise they'll
 		be asking for whatever was in nlb->wPort*/
-		if (nlb->wPort != 0) 
+		if (nlb->wPort != 0)
 		{
 			NetlibLogf(nlu, "%s %d: trying to bind port %d, this 'feature' can be abused, please be sure you want to allow it.", __FILE__, __LINE__, nlb->wPort);
 			sin.sin_port = htons(nlb->wPort);
 			sin6.sin6_port = htons(nlb->wPort);
 		}
-		if (bind(nlbp->s, (PSOCKADDR)&sin, sizeof(sin)) == 0) 
+		if (bind(nlbp->s, (PSOCKADDR)&sin, sizeof(sin)) == 0)
 		{
 			SOCKADDR_IN sin = {0};
 			int len = sizeof(sin);
@@ -238,10 +238,10 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 			foundPort = 1;
 		}
 
-		if (bind(nlbp->s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0) 
+		if (bind(nlbp->s6, (PSOCKADDR)&sin6, sizeof(sin6)) == 0)
 			foundPort = 1;
 	}
-	if ( !foundPort) 
+	if ( !foundPort)
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "bind", WSAGetLastError());
 		closesocket(nlbp->s);
@@ -250,7 +250,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5)) 
+	if (nlbp->s != INVALID_SOCKET && listen(nlbp->s, 5))
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		closesocket(nlbp->s);
@@ -259,7 +259,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	if (nlbp->s6 != INVALID_SOCKET && listen(nlbp->s6, 5)) 
+	if (nlbp->s6 != INVALID_SOCKET && listen(nlbp->s6, 5))
 	{
 		NetlibLogf(nlu, "%s %d: %s() failed (%u)", __FILE__, __LINE__, "listen", WSAGetLastError());
 		closesocket(nlbp->s);
@@ -268,7 +268,7 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	{	
+	{
 		SOCKADDR_INET_M sin = {0};
 		int len = sizeof(sin);
 		if ( !getsockname(nlbp->s, (PSOCKADDR)&sin, &len))
@@ -296,14 +296,14 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 			PHOSTENT he = gethostbyname(hostname);
 			if (he && he->h_addr)
 				nlb->dwInternalIP = ntohl(*(PDWORD)he->h_addr);
-		} 
+		}
 
 		DWORD extIP;
 		if (nlu->settings.enableUPnP && 
 			NetlibUPnPAddPortMapping(nlb->wPort, "TCP", &nlbp->wExPort, &extIP, nlb->cbSize > NETLIBBIND_SIZEOF_V2))
 		{
 			NetlibLogf(NULL, "UPnP port mapping succeeded. Internal Port: %u External Port: %u\n", 
-				nlb->wPort, nlbp->wExPort); 
+				nlb->wPort, nlbp->wExPort);
 			if (nlb->cbSize > NETLIBBIND_SIZEOF_V2)
 			{
 				nlb->wExPort = nlbp->wExPort;
@@ -313,9 +313,9 @@ INT_PTR NetlibBindPort(WPARAM wParam, LPARAM lParam)
 		else
 		{
 			if (nlu->settings.enableUPnP)
-				NetlibLogf(NULL, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort); 
+				NetlibLogf(NULL, "UPnP port mapping failed. Internal Port: %u\n", nlb->wPort);
 			else
-				NetlibLogf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort); 
+				NetlibLogf(NULL, "UPnP disabled. Internal Port: %u\n", nlb->wPort);
 
 			nlbp->wExPort = 0;
 			if (nlb->cbSize > NETLIBBIND_SIZEOF_V2)

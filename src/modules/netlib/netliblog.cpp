@@ -76,7 +76,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		CheckDlgButton(hwndDlg, IDC_DUMPSSL, logOptions.dumpSsl?BST_CHECKED:BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_TEXTDUMPS, logOptions.textDumps?BST_CHECKED:BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_AUTODETECTTEXT, logOptions.autoDetectText?BST_CHECKED:BST_UNCHECKED);
-		{	
+		{
 			int i;
 			for (i=0; i < SIZEOF(szTimeFormats); i++)
 				SendDlgItemMessage(hwndDlg, IDC_TIMEFORMAT, CB_ADDSTRING, 0, (LPARAM)TranslateTS(szTimeFormats[i]));
@@ -88,7 +88,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		SetDlgItemText(hwndDlg, IDC_FILENAME, logOptions.szUserFile);
 		SetDlgItemText(hwndDlg, IDC_PATH, logOptions.szFile);
 		CheckDlgButton(hwndDlg, IDC_SHOWTHISDLGATSTART, db_get_b(NULL, "Netlib", "ShowLogOptsAtStart", 0)?BST_CHECKED:BST_UNCHECKED);
-		{	DBVARIANT dbv;
+		{
+			DBVARIANT dbv;
 			if ( !DBGetContactSettingString(NULL, "Netlib", "RunAtStart", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, dbv.pszVal);
 				DBFreeVariant(&dbv);
@@ -141,7 +142,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			if ((HWND)lParam == GetFocus())
 				CheckDlgButton(hwndDlg, IDC_TOFILE, BST_CHECKED);
 
-			{	
+			{
 				TCHAR path[MAX_PATH];
 				GetWindowText((HWND)lParam, path, MAX_PATH);
 
@@ -153,7 +154,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 		case IDC_FILENAMEBROWSE:
 		case IDC_RUNATSTARTBROWSE:
-		{	TCHAR str[MAX_PATH+2];
+		{
+			TCHAR str[MAX_PATH+2];
 			OPENFILENAME ofn = {0};
 			TCHAR filter[512], *pfilter;
 
@@ -191,7 +193,8 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			break;
 		}
 		case IDC_RUNNOW:
-			{	TCHAR str[MAX_PATH+1];
+			{
+				TCHAR str[MAX_PATH+1];
 				STARTUPINFO si = {0};
 				PROCESS_INFORMATION pi;
 				GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
@@ -325,7 +328,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* if the Netlib user handle is NULL, just pretend its not */
-	if (nlu == NULL) { 
+	if (nlu == NULL) {
 		if ( !logOptions.toLog)
 			return 1;
 		nlu = &nludummy;
@@ -385,7 +388,7 @@ static INT_PTR NetlibLog(WPARAM wParam, LPARAM lParam)
 			size_t len = strlen(pszMsg);
 			fprintf(fp, "%s%s%s", szHead, pszMsg, pszMsg[len-1] == '\n' ? "" : "\r\n");
 			fclose(fp);
-		}	
+		}
 	}
 
 	LOGMSG logMsg = { szHead, pszMsg };
@@ -406,7 +409,7 @@ static INT_PTR NetlibLogW(WPARAM wParam, LPARAM lParam)
 
 void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 {
-	if (nlu == NULL) 
+	if (nlu == NULL)
 	{
 		if ( !logOptions.toLog)
 			return;
@@ -423,7 +426,6 @@ void NetlibLogf(NetlibUser* nlu, const char *fmt, ...)
 
 	NetlibLog((WPARAM)nlu, (LPARAM)szText);
 }
-
 
 void NetlibDumpData(struct NetlibConnection *nlc, PBYTE buf, int len, int sent, int flags)
 {

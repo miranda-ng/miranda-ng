@@ -109,7 +109,7 @@ bool RecvUntilTimeout(struct NetlibConnection *nlc, char *buf, int len, int flag
 }
 
 static int NetlibInitSocks4Connection(NetlibConnection *nlc, NetlibUser *nlu, NETLIBOPENCONNECTION *nloc)
-{	
+{
 	//	http://www.socks.nec.com/protocol/socks4.protocol and http://www.socks.nec.com/protocol/socks4a.protocol
 	if ( !nloc->szHost || !nloc->szHost[0]) return 0;
 
@@ -441,7 +441,7 @@ retry:
 			continue;
 		}
 
-		while (true) {		
+		while (true) {
 			fd_set r, w, e;
 			FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
 			FD_SET(nlc->s, &r);
@@ -450,7 +450,7 @@ retry:
 			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR) 
 				break;
 
-			if (rc > 0) {			
+			if (rc > 0) {
 				if (FD_ISSET(nlc->s, &w)){
 					// connection was successful
 					rc = 0;
@@ -585,7 +585,7 @@ retry:
 			SOCKET s6 = ai->ai_family == AF_INET6 ? nlc->s : INVALID_SOCKET;
 			if ( !BindSocketToPort(nlc->nlu->settings.szOutgoingPorts, s, s6, &nlc->nlu->inportnum))
 				NetlibLogf(nlc->nlu, "Netlib connect: Not enough ports for outgoing connections specified");
-		} 
+		}
 
 		// try a connect
 		if (connect(nlc->s, ai->ai_addr, (int)ai->ai_addrlen) == 0) {
@@ -606,11 +606,11 @@ retry:
 			FD_ZERO(&r); FD_ZERO(&w); FD_ZERO(&e);
 			FD_SET(nlc->s, &r);
 			FD_SET(nlc->s, &w);
-			FD_SET(nlc->s, &e);		
-			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR) 
+			FD_SET(nlc->s, &e);
+			if ((rc = select(0, &r, &w, &e, &tv)) == SOCKET_ERROR)
 				break;
 
-			if (rc > 0) {			
+			if (rc > 0) {
 				if (FD_ISSET(nlc->s, &w)){
 					// connection was successful
 					rc = 0;
@@ -626,7 +626,7 @@ retry:
 					int len = sizeof(lasterr);
 					rc = SOCKET_ERROR;
 					getsockopt(nlc->s, SOL_SOCKET, SO_ERROR, (char*)&lasterr, &len);
-					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2) 
+					if (lasterr == WSAEADDRINUSE && ++retrycnt <= 2)
 					{
 						closesocket(nlc->s);
 						nlc->s = INVALID_SOCKET;
@@ -634,12 +634,12 @@ retry:
 					}
 				}
 				break;
-			} 
+			}
 			else if (Miranda_Terminated()) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
 				break;
-			} 
+			}
 			else if (nloc->cbSize == sizeof(NETLIBOPENCONNECTION) && nloc->flags & NLOCF_V2 && nloc->waitcallback != NULL && nloc->waitcallback(&dwTimeout) == 0) {
 				rc = SOCKET_ERROR;
 				lasterr = ERROR_TIMEOUT;
@@ -851,7 +851,7 @@ INT_PTR NetlibOpenConnection(WPARAM wParam, LPARAM lParam)
 	NetlibInitializeNestedCS(&nlc->ncsRecv);
 
 	if ( !NetlibDoConnect(nlc)) {
-		FreePartiallyInitedConnection(nlc);		
+		FreePartiallyInitedConnection(nlc);
 		return 0;
 	}
 
