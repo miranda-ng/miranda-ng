@@ -71,7 +71,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					if ( !isSet) {
 						szName = (acs->handleType == HANDLE_EVENT) ? (tmpStr = mir_a2t(szUin)) : 
 							(acs->psr->id ? acs->psr->id : acs->psr->nick);
-				}	}
+					}
+				}
 
 				if (szName && szName[0]) {
 					TCHAR  szTitle[128];
@@ -80,12 +81,13 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				}
 				else SetWindowText(hdlg, TranslateT("Add Contact"));
 				mir_free(tmpStr);
-		}	}
+			}
+		}
 
 		if (acs->handleType == HANDLE_CONTACT && acs->handle)
 			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
 				acs->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)acs->handle, 0);
-		
+
 		{
 			int groupId;
 			for (groupId = 0; groupId < 999; groupId++) {
@@ -97,7 +99,8 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal+1));
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA , id, groupId+1);
 				DBFreeVariant(&dbv);
-		}	}
+			}
+		}
 
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_INSERTSTRING, 0, (LPARAM)TranslateT("None"));
 		SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETCURSEL, 0, 0);
@@ -117,7 +120,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 			if (flags&PF4_NOCUSTOMAUTH) {
 				EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), FALSE);
 				EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), FALSE);
-			} 
+			}
 			else {
 				EnableWindow( GetDlgItem(hdlg, IDC_AUTHREQ), IsDlgButtonChecked(hdlg, IDC_AUTH));
 				EnableWindow( GetDlgItem(hdlg, IDC_AUTHGB), IsDlgButtonChecked(hdlg, IDC_AUTH));
@@ -147,7 +150,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 		case IDOK:
 			{
 				HANDLE hContact = INVALID_HANDLE_VALUE;
-				switch (acs->handleType) 
+				switch (acs->handleType)
 				{
 				case HANDLE_EVENT:
 					{
@@ -175,7 +178,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					db_set_ts(hContact, "CList", "MyHandle", szHandle);
 
 				int item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETCURSEL, 0, 0);
-				if (item > 0) 
+				if (item > 0)
 				{
 					item = SendDlgItemMessage(hdlg, IDC_GROUP, CB_GETITEMDATA, item, 0);
 					CallService(MS_CLIST_CONTACTCHANGEGROUP, (WPARAM)hContact, item);
@@ -186,17 +189,17 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				if (IsDlgButtonChecked(hdlg, IDC_ADDED))
 					CallContactService(hContact, PSS_ADDED, 0, 0);
 
-				if (IsDlgButtonChecked(hdlg, IDC_AUTH)) 
+				if (IsDlgButtonChecked(hdlg, IDC_AUTH))
 				{
 					DWORD flags = CallProtoServiceInt(NULL,acs->szProto, PS_GETCAPS, PFLAGNUM_4, 0);
 					if (flags & PF4_NOCUSTOMAUTH)
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, 0);
-					else 
+					else
 					{
 						TCHAR szReason[512];
 						GetDlgItemText(hdlg, IDC_AUTHREQ, szReason, SIZEOF(szReason));
 						CallContactService(hContact, PSS_AUTHREQUESTT, 0, (LPARAM)szReason);
-					}	
+					}
 				}
 			}
 			// fall through
