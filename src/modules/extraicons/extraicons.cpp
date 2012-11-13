@@ -305,7 +305,7 @@ void fnReloadExtraIcons()
 }
 
 void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
- {
+{
 	if (cli.hwndContactTree == 0)
 		return;
 
@@ -324,7 +324,7 @@ void fnSetAllExtraIcons(HWND hwndList, HANDLE hContact)
 		HANDLE hItem = hContact;
 		if (hItem == 0)
 			continue;
-		
+
 		ClcCacheEntry* pdnce = (ClcCacheEntry*)cli.pfnGetCacheEntry(hItem);
 		if (pdnce == NULL)
 			continue;
