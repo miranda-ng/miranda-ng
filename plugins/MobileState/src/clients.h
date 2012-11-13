@@ -19,22 +19,20 @@
 
 #pragma once
 
-#define MIRANDA_VER    0x0A00
-
-#include <windows.h>
-#include <malloc.h>
-
-// Miranda API headers
-#include <newpluginapi.h>
-#include <m_database.h>
-#include <m_protocols.h>
-#include <m_langpack.h>
-#include <m_icolib.h>
-#include <m_extraicons.h>
-
-#include "resource.h"
-#include "Version.h"
-
-#define MODULENAME "MobileState"
-
-extern HINSTANCE g_hInst;
+static const TCHAR *clients[] = {
+	_T("android"),
+	_T("mobile"),
+	_T("pda"),
+	_T("gtalk"),
+	_T("jtalk"),
+	_T("jasmine"),
+	_T("ebuddy"),
+	_T("emessenger"),
+	_T("jimm"),
+	_T("mobicq"),
+	_T("bombus"),
+	_T("colibry"),
+	_T("berry"),
+	_T("iphone"),
+	_T("ipad")
+};

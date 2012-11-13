@@ -18,6 +18,7 @@
 */
 
 #include "commonheaders.h"
+#include "clients.h"
 
 HINSTANCE g_hInst;
 static HANDLE hHookModulesLoaded = NULL;
@@ -53,18 +54,19 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 bool hasMobileClient(HANDLE hContact, LPARAM lParam)
 {
 	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-	bool ret = false;
 
 	DBVARIANT dbv;
-	if (!DBGetContactSettingTString(hContact, proto, "MirVer", &dbv))
-	{		
-		if (_tcsstr(dbv.ptszVal, _T("Android")) || _tcsstr(dbv.ptszVal, _T("android")) || _tcsstr(dbv.ptszVal, _T("Mobile")) || _tcsstr(dbv.ptszVal, _T("mobile")))
-			ret = true;
-
+	if (!DBGetContactSettingTString(hContact, proto, "MirVer", &dbv)) {
+		TCHAR *client = _tcslwr(NEWTSTR_ALLOCA(dbv.ptszVal));
 		DBFreeVariant(&dbv);
+
+		for (size_t i=0; i<(sizeof(clients) / sizeof(TCHAR*)); i++) {
+			if (_tcsstr(client, clients[i])) {
+				return true;
+			}
+		}		
 	}
-	
-	return ret;
+	return false;
 }
 
 int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
