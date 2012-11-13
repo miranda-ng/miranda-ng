@@ -24,6 +24,7 @@ static const TCHAR *clients[] = {
 	_T("mobile"),
 	_T("pda"),
 	_T("gtalk"),
+	_T("jabiru"),
 	_T("jtalk"),
 	_T("jasmine"),
 	_T("ebuddy"),
@@ -35,4 +36,5 @@ static const TCHAR *clients[] = {
 	_T("berry"),
 	_T("iphone"),
 	_T("ipad")
+	_T("im+")
 };
