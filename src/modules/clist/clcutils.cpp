@@ -453,7 +453,8 @@ void fnDeleteFromContactList(HWND hwnd, struct ClcData *dat)
 	case CLCIT_CONTACT:
 		CallService("CList/DeleteContactCommand", (WPARAM)contact->hContact, (LPARAM)hwnd);
 		break;
-}	}
+	}
+}
 
 static WNDPROC OldRenameEditWndProc;
 static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -685,7 +686,8 @@ void fnGetDefaultFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 	case FONTID_NOTONLIST:
 		*colour = GetSysColor(COLOR_3DSHADOW);
 		break;
-}	}
+	}
+}
 
 void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 {
@@ -721,7 +723,7 @@ void fnGetFontSetting(int i, LOGFONT* lf, COLORREF* colour)
 void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 {
 	dat->rowHeight = db_get_b(NULL, "CLC", "RowHeight", CLCDEFAULT_ROWHEIGHT);
-	
+
 	LOGFONT lf;
 	SIZE fontSize;
 
@@ -775,7 +777,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 	dat->hotTextColour = db_get_dw(NULL, "CLC", "HotTextColour", CLCDEFAULT_HOTTEXTCOLOUR);
 	dat->quickSearchColour = db_get_dw(NULL, "CLC", "QuickSearchColour", CLCDEFAULT_QUICKSEARCHCOLOUR);
 	dat->useWindowsColours = db_get_b(NULL, "CLC", "UseWinColours", CLCDEFAULT_USEWINDOWSCOLOURS);
-	
+
 	NMHDR hdr;
 	hdr.code = CLN_OPTIONSCHANGED;
 	hdr.hwndFrom = hwnd;
@@ -856,23 +858,28 @@ void fnInvalidateItem(HWND hwnd, struct ClcData *dat, int iItem)
 // row coord functions
 
 int fnGetRowTopY(struct ClcData *dat, int item)
-{	return item * dat->rowHeight;
+{
+	return item * dat->rowHeight;
 }
 
 int fnGetRowBottomY(struct ClcData *dat, int item)
-{	return (item+1) * dat->rowHeight;
+{
+	return (item+1) * dat->rowHeight;
 }
 
 int fnGetRowTotalHeight(struct ClcData *dat)
-{	return dat->rowHeight * cli.pfnGetGroupContentsCount(&dat->list, 1);
+{
+	return dat->rowHeight * cli.pfnGetGroupContentsCount(&dat->list, 1);
 }
 
 int fnGetRowHeight(struct ClcData *dat, int)
-{	return dat->rowHeight;
+{
+	return dat->rowHeight;
 }
 
 int fnRowHitTest(struct ClcData *dat, int y)
-{	if ( !dat->rowHeight)
+{
+	if ( !dat->rowHeight)
 		return y;
 	return y / dat->rowHeight;
 }

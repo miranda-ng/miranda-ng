@@ -33,10 +33,10 @@ struct CDropTarget : IDropTarget
 	ULONG STDMETHODCALLTYPE Release(void);
 	HRESULT STDMETHODCALLTYPE QueryInterface(REFIID iid, void ** ppvObject);
 
-    HRESULT STDMETHODCALLTYPE DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
-    HRESULT STDMETHODCALLTYPE DragOver(DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
-    HRESULT STDMETHODCALLTYPE DragLeave(void);
-    HRESULT STDMETHODCALLTYPE Drop(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
+	HRESULT STDMETHODCALLTYPE DragEnter(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
+	HRESULT STDMETHODCALLTYPE DragOver(DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
+	HRESULT STDMETHODCALLTYPE DragLeave(void);
+	HRESULT STDMETHODCALLTYPE Drop(IDataObject *pDataObj, DWORD grfKeyState, POINTL pt, DWORD *pdwEffect);
 }
 static dropTarget;
 
@@ -79,7 +79,7 @@ static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, in
 	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hContact, 0);
 	if (szProto == NULL)
 		return NULL;
-	
+
 	DWORD protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if ( !(protoCaps & PF1_FILESEND))
 		return NULL;

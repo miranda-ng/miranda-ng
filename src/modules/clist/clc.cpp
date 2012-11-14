@@ -208,7 +208,7 @@ static void SortClcByTimer(HWND hwnd)
 int LoadCLCModule(void)
 {
 	bModuleInitialized = TRUE;
-	
+
 	g_IconWidth = GetSystemMetrics(SM_CXSMICON);
 	g_IconHeight = GetSystemMetrics(SM_CYSMICON);
 
@@ -236,7 +236,7 @@ int LoadCLCModule(void)
 void UnloadClcModule()
 {
 	if ( !bModuleInitialized) return;
-	
+
 	UnhookEvent(hAckHook);
 	UnhookEvent(hClcSettingsChanged);
 
@@ -609,7 +609,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
 			if (szProto == NULL)
 				break;
-		
+
 			WORD apparentMode = DBGetContactSettingWord((HANDLE)wParam, szProto, "ApparentMode", 0);
 			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
 			if (apparentMode == ID_STATUS_OFFLINE)
@@ -634,7 +634,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			contact->flags &= ~CONTACTF_IDLE;
 			if (db_get_dw((HANDLE)wParam, szProto, "IdleTS", 0))
 				contact->flags |= CONTACTF_IDLE;
-			
+
 			cli.pfnInvalidateRect(hwnd, NULL, FALSE);
 		}
 		break;
@@ -867,7 +867,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			cli.pfnScrollTo(hwnd, dat, dat->yScroll + dat->dragAutoScrolling * dat->rowHeight * 2, 0);
 			break;
 		case TIMERID_INFOTIP:
-			{	
+			{
 				CLCINFOTIP it;
 				RECT clRect;
 				POINT ptClientOffset = { 0 };
@@ -935,7 +935,8 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 				dat->dragStage = DRAGSTAGE_NOTMOVED | DRAGSTAGEF_MAYBERENAME;
 				dat->dragAutoScrolling = 0;
 				break;
-			}	}
+			}
+		}
 
 		if (hit != -1 && contact->type == CLCIT_GROUP) {
 			if (hitFlags & CLCHT_ONITEMICON) {

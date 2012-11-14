@@ -126,7 +126,8 @@ void fnFreeContact(ClcContact* p)
 		cli.pfnFreeGroup(p->group);
 		mir_free(p->group);
 		p->group = NULL;
-}	}
+	}
+}
 
 void fnFreeGroup(ClcGroup *group)
 {
@@ -226,7 +227,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 		if (szProto != NULL)
 			status = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
-	if ( DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
+	if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 		group = &dat->list;
 	else {
 		group = cli.pfnAddGroup(hwnd, dat, dbv.ptszVal, (DWORD) - 1, 0, 0);
@@ -487,7 +488,9 @@ static void InsertionSort(ClcContact **pContactArray, int nArray, int (*CompareP
 			j++;
 			memmove(&pContactArray[j + 1], &pContactArray[j], sizeof(void*) * (i - j));
 			pContactArray[j] = testElement;
-}	}	}
+		}
+	}
+}
 
 static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort)
 {
@@ -497,7 +500,8 @@ static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort
 		if (group->cl.items[i]->type == CLCIT_DIVIDER) {
 			mir_free(group->cl.items[i]);
 			List_Remove((SortedList*)&group->cl, i);
-	}	}
+		}
+	}
 
 	for (i=0; i < group->cl.count; i++)
 		if (group->cl.items[i]->type != CLCIT_INFO)
@@ -539,7 +543,10 @@ static void SortGroup(struct ClcData *dat, ClcGroup *group, int useInsertionSort
 					lstrcpy(group->cl.items[i]->szText, TranslateT("Offline"));
 				}
 				break;
-}	}	}	}
+			}
+		}
+	}
+}
 
 void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 {
@@ -571,8 +578,8 @@ void fnSortCLC(HWND hwnd, struct ClcData *dat, int useInsertionSort)
 		if (hSelItem)
 			if (cli.pfnFindItem(hwnd, dat, hSelItem, &selcontact, &selgroup, NULL))
 				dat->selection = cli.pfnGetRowsPriorTo(&dat->list, selgroup, List_IndexOf((SortedList*)&selgroup->cl, selcontact));
-				
-		cli.pfnRecalcScrollBar(hwnd, dat);				
+
+		cli.pfnRecalcScrollBar(hwnd, dat);
 	}
 	dat->needsResort = 0;
 	cli.pfnInvalidateRect(hwnd, NULL, FALSE);
@@ -675,7 +682,8 @@ void fnSaveStateAndRebuildList(HWND hwnd, struct ClcData *dat)
 				memcpy(group->cl.items[group->scanIndex]->iExtraImage, p->iExtraImage, sizeof(p->iExtraImage));
 				if (p->checked)
 					group->cl.items[group->scanIndex]->flags |= CONTACTF_CHECKED;
-		}	}
+			}
+		}
 
 		group->scanIndex++;
 	}

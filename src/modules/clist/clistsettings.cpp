@@ -48,7 +48,8 @@ void FreeDisplayNameCache(void)
 		List_Destroy(clistCache); 
 		mir_free(clistCache);
 		clistCache = NULL;
-}	}
+	}
+}
 
 // default handlers for the cache item creation and destruction
 
@@ -111,7 +112,8 @@ void fnInvalidateDisplayNameCacheEntry(HANDLE hContact)
 		int idx;
 		if (List_GetIndex(clistCache, &hContact, &idx))
 			cli.pfnFreeCacheItem((ClcCacheEntry*)clistCache->items[idx]);
-}	}
+	}
+}
 
 TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 {
@@ -145,7 +147,8 @@ TCHAR* fnGetContactDisplayName(HANDLE hContact, int mode)
 			if (cacheEntry != NULL)
 				cacheEntry->tszName = buffer;
 			return buffer;
-	}	}
+		}
+	}
 
 	CallContactService(hContact, PSS_GETINFO, SGIF_MINIMAL, 0);
 	TCHAR *buffer = TranslateT("(Unknown Contact)");
@@ -184,7 +187,7 @@ INT_PTR GetContactDisplayName(WPARAM wParam, LPARAM lParam)
 				mir_free(ci.pszVal);
 				return (INT_PTR)mir_strdup(retVal);
 			}
-			
+
 			cacheEntry->tszName = ci.pszVal;
 			return (INT_PTR)retVal;
 		}
@@ -260,7 +263,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				return 0;
 			}
 			cli.pfnSortContacts();
-	}	}
+		}
+	}
 
 	if ( !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "Hidden")) {
@@ -286,7 +290,8 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				cli.pfnIconFromStatusMode(szProto, 
 					szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", 
 					ID_STATUS_OFFLINE), hContact), 0);
-	}	}
+		}
+	}
 
 	// Clean up
 	if (dbv.pszVal)

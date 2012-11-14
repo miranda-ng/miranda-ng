@@ -232,19 +232,19 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 			return group->groupId | HCONTACT_ISGROUP;
 
 		case CLGN_NEXT:
-            do {
-			    if (++i >= group->cl.count)
-				    return NULL;
-            }
-            while (group->cl.items[i]->type == CLCIT_DIVIDER);
+			do {
+				if (++i >= group->cl.count)
+					return NULL;
+			}
+			while (group->cl.items[i]->type == CLCIT_DIVIDER);
 			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
 
 		case CLGN_PREVIOUS:
-            do {
-		        if (--i < 0)
-			        return NULL;
-            }
-            while (group->cl.items[i]->type == CLCIT_DIVIDER);
+			do {
+				if (--i < 0)
+					return NULL;
+			}
+			while (group->cl.items[i]->type == CLCIT_DIVIDER);
 			return (LRESULT)cli.pfnContactToHItem(group->cl.items[i]);
 
 		case CLGN_NEXTCONTACT:

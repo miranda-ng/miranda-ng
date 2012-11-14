@@ -174,11 +174,11 @@ int GetAverageMode(int* pNetProtoCount = NULL)
 			averageMode = CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0);
 		else if (averageMode > 0 && averageMode != CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0)) {
 			averageMode = -1;
-            if (pNetProtoCount == NULL) break;
-	    }
-    }
+			if (pNetProtoCount == NULL) break;
+		}
+	}
 
-    if (pNetProtoCount) *pNetProtoCount = netProtoCount;
+	if (pNetProtoCount) *pNetProtoCount = netProtoCount;
 	return averageMode;
 }
 
@@ -431,7 +431,9 @@ BOOL FindMenuHandleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itd
 				itdat->OwnerMenu = hMenu;
 				itdat->position = i;
 				return TRUE;
-	}	}	}
+			}
+		}
+	}
 
 	return FALSE;
 }
@@ -507,7 +509,9 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 					timiParent->iconId = timi->iconId;
 					if (timiParent->hBmp) DeleteObject(timiParent->hBmp);
 					timiParent->hBmp = NULL;
-		}	}	}
+				}
+			}
+		}
 	}
 	else if (smep && smep->status && !smep->custom) {
 		int curProtoStatus = (smep->proto) ? CallProtoServiceInt(NULL,smep->proto, PS_GETSTATUS, 0, 0) : GetAverageMode();
@@ -552,7 +556,8 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 				timi->mi.hIcon = NULL;
 			}
 			else IcoLib_ReleaseIcon(timi->mi.hIcon, 0);
-	}	}
+		}
+	}
 
 	return TRUE;
 }
@@ -605,27 +610,29 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				NotifyEventHooks(hStatusModeChangeEvent, smep->status, (LPARAM)smep->proto);
 			}
 			else {
-	            int MenusProtoCount = 0;
+				int MenusProtoCount = 0;
 
-	            for (int i=0; i < accounts.getCount(); i++)
-		            if (cli.pfnGetProtocolVisibility(accounts[i]->szModuleName))
-			            MenusProtoCount++;
+				for (int i=0; i < accounts.getCount(); i++)
+					if (cli.pfnGetProtocolVisibility(accounts[i]->szModuleName))
+						MenusProtoCount++;
 
-	            cli.currentDesiredStatusMode = smep->status;
+				cli.currentDesiredStatusMode = smep->status;
 
-	            for (int j=0; j < accounts.getCount(); j++) {
-		            PROTOACCOUNT* pa = accounts[j];
-		            if ( !Proto_IsAccountEnabled(pa))
-			            continue;
-		            if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
-			            continue;
+				for (int j=0; j < accounts.getCount(); j++) {
+					PROTOACCOUNT* pa = accounts[j];
+					if ( !Proto_IsAccountEnabled(pa))
+						continue;
+					if (MenusProtoCount > 1 && Proto_IsAccountLocked(pa))
+						continue;
 
 					Proto_SetStatus(pa->szModuleName, cli.currentDesiredStatusMode);
-	            }
-	            NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
-	            DBWriteContactSettingWord(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
+				}
+				NotifyEventHooks(hStatusModeChangeEvent, cli.currentDesiredStatusMode, 0);
+				DBWriteContactSettingWord(NULL, "CList", "Status", (WORD)cli.currentDesiredStatusMode);
 				return 1;
-	}	}	}
+			}
+		}
+	}
 
 	return 0;
 }
@@ -666,7 +673,8 @@ INT_PTR MenuProcessCommand(WPARAM wParam, LPARAM lParam)
 			int pos = statustopos(hst);
 			if (pos != -1 && hStatusMainMenuHandles != NULL)
 				return MO_ProcessCommand(hStatusMainMenuHandles[ pos ], lParam);
-		}	}
+			}
+		}
 
 	if ( !(cmd >= CLISTMENUIDMIN && cmd <= CLISTMENUIDMAX))
 		return 0; // DO NOT process ids outside from clist menu id range		v0.7.0.27+
@@ -707,22 +715,24 @@ BOOL FindMenuHanleByGlobalID(HMENU hMenu, PMO_IntMenuItem id, MenuItemData* itda
 				itdat->OwnerMenu = hMenu;
 				itdat->position = i;
 				return TRUE;
-	}	}	}
+			}
+		}
+	}
 
 	return FALSE;
 }
 
 static INT_PTR MenuProcessHotkey(WPARAM vKey, LPARAM)
 {
-    prochotkey = true;
+	prochotkey = true;
 
-    bool res =
-        MO_ProcessHotKeys(hStatusMenuObject, vKey)  ||
-        MO_ProcessHotKeys(hMainMenuObject, vKey);
+	bool res =
+		MO_ProcessHotKeys(hStatusMenuObject, vKey)  ||
+		MO_ProcessHotKeys(hMainMenuObject, vKey);
 
-    prochotkey = false;
+	prochotkey = false;
 
-    return res;
+	return res;
 }
 
 static int MenuIconsChanged(WPARAM, LPARAM)
@@ -784,7 +794,7 @@ int fnGetProtocolVisibility(const char* accName)
 	if (accName) {
 		PROTOACCOUNT* pa = Proto_GetAccount(accName);
 		return pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) &&
-            pa->ppro && (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
+			pa->ppro && (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
 	}
 
 	return FALSE;
@@ -802,7 +812,8 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR ** proto, int protoCnt, int Pos)
 			if (lstrcmpA(proto[p]->szName, dbv.pszVal) == 0) {
 				DBFreeVariant(&dbv);
 				return p;
-		}	}
+			}
+		}
 
 		DBFreeVariant(&dbv);
 	}
@@ -963,7 +974,8 @@ void RebuildMenuOrder(void)
 				MO_SetOptionsMenuItem(hStatusMenuHandles[i].menuhandle[j], OPT_MENUITEMSETUNIQNAME, (INT_PTR)buf);
 			}
 			IcoLib_ReleaseIcon(tmi.hIcon, 0);
-	}	}
+		}
+	}
 
 	NotifyEventHooks(cli.hPreBuildStatusMenuEvent, 0, 0);
 	int pos = 200000;
@@ -1013,7 +1025,8 @@ void RebuildMenuOrder(void)
 			}
 			IcoLib_ReleaseIcon(tmi.hIcon, 0);
 			break;
-	}	}
+		}
+	}
 
 	BuildStatusMenu(0, 0);
 }
@@ -1104,7 +1117,8 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				for (pos = 0; pos < SIZEOF(statusModeList); pos++) {
 					tmi.flags = CMIM_FLAGS | CMIF_ROOTHANDLE;
 					MO_ModifyMenuItem(hStatusMenuHandles[i].menuhandle[pos], &tmi);
-			}	}
+				}
+			}
 
 			if (ack->lParam >= ID_STATUS_OFFLINE && ack->lParam < ID_STATUS_OFFLINE + SIZEOF(statusModeList)) {
 				int pos = statustopos((int)ack->lParam);
@@ -1114,7 +1128,8 @@ static int MenuProtoAck(WPARAM, LPARAM lParam)
 				}
 			}
 			break;
-	}	}
+		}
+	}
 
 	//BuildStatusMenu(0, 0);
 	return 0;
@@ -1204,7 +1219,8 @@ static INT_PTR AddStatusMenuItem(WPARAM wParam, LPARAM lParam)
 
 			tmi.flags |= CMIF_ROOTHANDLE;
 			tmi.root = pRoot;
-	}	}
+		}
+	}
 
 	if (wParam) {
 		int * res = (int*)wParam;
