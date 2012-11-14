@@ -173,15 +173,15 @@ static void PaintWorker(MButtonCtrl *ctl, HDC hdcPaint)
 	int textLen = GetWindowTextLength(ctl->hwnd);
 
 	if (ctl->hIcon) {
-	  	LONG g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
-	  	LONG g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
+		LONG g_cxsmIcon = GetSystemMetrics(SM_CXSMICON);
+		LONG g_cysmIcon = GetSystemMetrics(SM_CYSMICON);
 		int ix = (rcClient.right-rcClient.left)/2 - (g_cxsmIcon/2);
 		int iy = (rcClient.bottom-rcClient.top)/2 - (g_cysmIcon/2);
 		if (ctl->stateId == PBS_PRESSED) {
 			ix++;
 			iy++;
 		}
-		
+
 		HIMAGELIST hImageList = ImageList_Create(g_cxsmIcon, g_cysmIcon, ILC_MASK | (IsWinVerXPPlus() ? ILC_COLOR32 : ILC_COLOR16), 1, 0);
 		ImageList_AddIcon(hImageList, ctl->hIcon);
 		HICON hIconNew = ImageList_GetIcon(hImageList, 0, ILD_NORMAL);
@@ -264,7 +264,7 @@ static LRESULT CALLBACK MButtonWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPAR
 		if (SUCCEEDED(CoCreateInstance(CLSID_AccPropServices, NULL, CLSCTX_SERVER, IID_IAccPropServices, (void**)&bct->pAccPropServices))) {
 			// Annotating the Role of this object to be PushButton
 			SetHwndPropInt(bct, OBJID_CLIENT, CHILDID_SELF, PROPID_ACC_ROLE, ROLE_SYSTEM_PUSHBUTTON);
-		} 
+		}
 		else bct->pAccPropServices = NULL;
 		SetWindowLongPtr(hwnd, 0, (LONG_PTR)bct);
 		if (((CREATESTRUCT *)lParam)->lpszName) SetWindowText(hwnd, ((CREATESTRUCT *)lParam)->lpszName);
@@ -636,8 +636,9 @@ void UnloadButtonModule()
 	if ( !bModuleInitialized)
 		return;
 
-	{	mir_cslock lck(csTips);
+	{
+		mir_cslock lck(csTips);
 		lToolTips.destroy();
-	}		
+	}
 	DeleteCriticalSection(&csTips);
 }
