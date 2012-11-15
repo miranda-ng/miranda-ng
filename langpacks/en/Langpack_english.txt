@@ -1,5 +1,3 @@
-п»ї
-
 Miranda Language Pack Version 1
 ;file E:\Sources\myranda\src\resource.rc
 [Enter account name (for example, My Google)]
@@ -1658,8 +1656,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\src\modules\utils\utils.cpp
 ["%s" /restart:%d]
 ;file E:\Sources\myranda\src\modules\visibility\visibility.cpp
-
-
 ;#muuid not found, please specify manually!
 ;langpack template for actman
 ;file E:\Sources\myranda\plugins\Actman\options.rc
@@ -1736,7 +1732,6 @@ Miranda Language Pack Version 1
 [Starting after]
 [Starting from]
 [Start immediately]
-
 #muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;langpack template for AddContactPlus
 ;file E:\Sources\myranda\plugins\AddContactPlus\res\resource.rc
@@ -1763,7 +1758,6 @@ Miranda Language Pack Version 1
 [AddContact+]
 [Open Add Contact Dialog]
 [Main]
-
 ;#muuid not found, please specify manually!
 ;langpack template for AdvancedAutoAway
 ;file E:\Sources\myranda\plugins\StatusPlugins\AdvancedAutoAway\options.cpp
@@ -1774,7 +1768,6 @@ Miranda Language Pack Version 1
 [Status Messages]
 [uxtheme.dll]
 [Auto Away]
-
 #muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;langpack template for AIM
 ;file E:\Sources\myranda\protocols\AimOscar\res\aim.rc
@@ -2015,7 +2008,6 @@ Miranda Language Pack Version 1
 [away.html]
 [open]
 [profile.html]
-
 #muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;langpack template for Alarms
 ;file E:\Sources\myranda\plugins\Alarms\res\resource.rc
@@ -2111,7 +2103,6 @@ Miranda Language Pack Version 1
 [Error]
 [The alarm time you have selected is in the past.]
 ;file E:\Sources\myranda\plugins\Alarms\src\trigger.cpp
-
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;langpack template for AssocMgr
 ;file E:\Sources\myranda\plugins\AssocMgr\res\resource.rc
@@ -2214,7 +2205,6 @@ Miranda Language Pack Version 1
 [Testing Service]
 [Miranda Installer Package (demo purpose)]
 [&Install]
-
 #muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;langpack template for AuthState
 ;file E:\Sources\myranda\plugins\AuthState\res\authstate.rc
@@ -2232,7 +2222,6 @@ Miranda Language Pack Version 1
 [Auth & Grant]
 ;file E:\Sources\myranda\plugins\AuthState\src\options.cpp
 [Contact List]
-
 #muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;langpack template for AutoRun
 ;file E:\Sources\myranda\plugins\AutoRun\res\autorun.rc
@@ -2245,7 +2234,6 @@ Miranda Language Pack Version 1
 ["%s" "%s"]
 [MirandaNG]
 [Events]
-
 #muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;langpack template for AutoShutdown
 ;file E:\Sources\myranda\plugins\AutoShutdown\res\resource.rc
@@ -2368,7 +2356,6 @@ Miranda Language Pack Version 1
 [ \r\n\t]
 [Toggle Automatic Shutdown]
 [Main]
-
 #muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;langpack template for AvatarHistory
 ;file E:\Sources\myranda\plugins\AvatarHistory\res\AvatarHistory.rc
@@ -2489,7 +2476,6 @@ Miranda Language Pack Version 1
 [static]
 [_PopupWindow]
 [ Error]
-
 #muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;langpack template for AVS
 ;file E:\Sources\myranda\plugins\AVS\res\avs.rc
@@ -2599,7 +2585,6 @@ Miranda Language Pack Version 1
 [No avatar]
 [Are you sure you want to remove your avatar?]
 [Global Avatar]
-
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;langpack template for BasicHistory
 ;file E:\Sources\myranda\plugins\BasicHistory\res\BasicHistory.rc
@@ -3006,7 +2991,6 @@ Miranda Language Pack Version 1
 [###]
 [)\n]
 ;file E:\Sources\myranda\plugins\BasicHistory\src\TxtExport.h
-
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;langpack template for BASS_interface
 ;file E:\Sources\myranda\plugins\BASS_interface\res\Bass.rc
@@ -3028,7 +3012,6 @@ Miranda Language Pack Version 1
 [Audio device is opened]
 [Audio device is closed]
 [Plugins\\Bass\\Bass.dll]
-
 #muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;langpack template for Boltun
 ;file E:\Sources\myranda\plugins\Boltun\res\Boltun.rc
@@ -3077,7 +3060,7 @@ Miranda Language Pack Version 1
 [ <FAILURE>]
 [ <REPEAT>]
 ;file E:\Sources\myranda\plugins\Boltun\src\Engine\TalkEngine.cpp
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}пїЅ\1]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—\1]
 [(study_all) ]
 [(widelyused_sent) ]
 [(study_sent) ]
@@ -3098,8 +3081,7 @@ Miranda Language Pack Version 1
 [>>Availabe:]
 [>>Result:]
 [: - ]
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}пїЅ]
-
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—]
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;langpack template for BossKey
 ;file E:\Sources\myranda\plugins\BossKeyPlus\res\BossKey.rc
@@ -3163,7 +3145,6 @@ Miranda Language Pack Version 1
 [Events]
 [Main]
 [Advanced]
-
 #muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;langpack template for BuddyExpectator
 ;file E:\Sources\myranda\plugins\BuddyExpectator\res\BuddyExpectator.rc
@@ -3234,7 +3215,6 @@ Miranda Language Pack Version 1
 [%#x]
 [not found]
 [This contact has been absent for an extended period of time.]
-
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;langpack template for ChangeKeyboardLayout
 ;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
@@ -3286,7 +3266,6 @@ Miranda Language Pack Version 1
 [RICHEDIT]
 [\n\n]
 [:\n]
-
 #muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;langpack template for ClientChangeNotify
 ;file E:\Sources\myranda\plugins\ClientChangeNotify\res\Resources.rc
@@ -3349,7 +3328,6 @@ Miranda Language Pack Version 1
 [Open log file]
 [Do nothing]
 [gmail;skype;/Miranda[0-9A-F]{8}/]
-
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;langpack template for Clist_modern
 ;file E:\Sources\myranda\plugins\Clist_modern\res\resource.rc
@@ -3947,7 +3925,6 @@ Miranda Language Pack Version 1
 [Contour thin]
 [Contour heavy]
 ;file E:\Sources\myranda\plugins\Clist_modern\src\hdr\modern_static_clui.h
-
 #muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;langpack template for Clist_mw
 ;file E:\Sources\myranda\plugins\Clist_mw\res\resource.rc
@@ -4166,7 +4143,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 [Statushelper]
 [Status]
-
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
 ;file E:\Sources\myranda\plugins\Clist_nicer\res\resource.rc
@@ -4202,7 +4178,7 @@ Miranda Language Pack Version 1
 [ms]
 [OK]
 [Clist Nicer+]
-[Copyright пїЅ 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Version]
 [Support and latest version information]
 [No]
@@ -4661,7 +4637,6 @@ Miranda Language Pack Version 1
 [&Floating Contact]
 ;file E:\Sources\myranda\plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
 [CoolSBSubclassPtr]
-
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;langpack template for Cln_skinedit
 ;file E:\Sources\myranda\plugins\Clist_nicer\skineditor\res\skinedit.rc
@@ -4697,7 +4672,6 @@ Miranda Language Pack Version 1
 [Bumped]
 [Etched]
 [Image items]
-
 #muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;langpack template for CmdLine
 ;file E:\Sources\myranda\plugins\CmdLine\MimCmd\src\commands.cpp
@@ -4761,7 +4735,6 @@ Miranda Language Pack Version 1
 [Notify]
 [Warning]
 [%ld]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Console
 ;file E:\Sources\myranda\plugins\Console\res\resource.rc
@@ -4807,7 +4780,6 @@ Miranda Language Pack Version 1
 [Save selection to file]
 [Save log to file]
 [txt]
-
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
 ;file E:\Sources\myranda\plugins\ContactsPlus\res\contacts.rc
@@ -4833,7 +4805,6 @@ Miranda Language Pack Version 1
 [Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));\r\n\r\n    cle.ptszTooltip = caToolTip;\r\n    if (g_UnicodeCore)\r\n      cle.flags |= CLEF_UNICODE;\r\n    CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);\r\n  }\r\n  return 0; //continue processing by other hooks\r\n}\r\n\r\n\r\nstatic void ProcessUnreadEvents(void)\r\n{\r\n  DBEVENTINFO dbei = {0};\r\n  HANDLE hDbEvent,hContact;\r\n\r\n  dbei.cbSize = sizeof(dbei);\r\n\r\n  hContact = SRCFindFirstContact();\r\n  while (hContact)\r\n  {\r\n    hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);\r\n\r\n    while (hDbEvent)\r\n    {\r\n      dbei.cbBlob=0;\r\n      CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);\r\n      if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)\r\n      { //process the event\r\n        HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);\r\n      }\r\n      hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);\r\n    }\r\n    hContact = SRCFindNextContact(hContact);\r\n  }\r\n}\r\n\r\n\r\nstatic bool CheckContactsServiceSupport(const char* szProto)\r\n{\r\n  if (g_NewProtoAPI)\r\n  { // there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)\r\n    if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)\r\n      return true;\r\n  }\r\n  else\r\n  { // check the real send service (only 0.7.x and older)\r\n    char serstr[MAX_PATH+30];\r\n\r\n    strcpy(serstr, szProto);\r\n    strcat(serstr, PSS_CONTACTS);\r\n    if (ServiceExists(serstr))\r\n      return true;\r\n  }\r\n  return false;\r\n}\r\n\r\n\r\nstatic int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)\r\n{\r\n  HANDLE hContact = (HANDLE)wParam;\r\n  char* szProto = GetContactProto(hContact);\r\n  int bVisible = FALSE;\r\n\r\n  if (szProto && CheckContactsServiceSupport(szProto))\r\n  { // known protocol, protocol supports contacts sending\r\n    // check the selected contact if it supports contacts receive\r\n    if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))\r\n      bVisible = TRUE;\r\n  }\r\n\r\n  { // update contact menu item's visibility\r\n    CLISTMENUITEM mi = {0};\r\n\r\n    mi.cbSize = sizeof(mi);\r\n    if (bVisible)\r\n      mi.flags = CMIM_FLAGS;\r\n    else\r\n      mi.flags = CMIM_FLAGS | CMIF_HIDDEN;\r\n\r\n    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);\r\n  }\r\n\r\n  return 0;\r\n}\r\n\r\n\r\nstatic int HookModulesLoaded(WPARAM wParam, LPARAM lParam)\r\n{\r\n  char* modules[2] = {0};\r\n  WCHAR tmp[MAX_PATH];\r\n\r\n  modules[0] = MODULENAME;\r\n  CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)1);\r\n\r\n  CLISTMENUITEM mi = {0};\r\n  mi.cbSize = sizeof(mi);\r\n  mi.ptszName = SRCTranslateT("Contacts", tmp);\r\n  mi.position = -2000009990;  //position in menu\r\n  mi.flags = CMIF_KEEPUNTRANSLATED;\r\n  if (g_UnicodeCore)\r\n    mi.flags |= CMIF_UNICODE;\r\n  mi.pszService = MS_CONTACTS_SEND;\r\n  mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));\r\n  hContactMenuItem = Menu_AddContactMenuItem(&mi);\r\n\r\n  hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);\r\n\r\n  ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this\r\n  ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this\r\n\r\n\r\n  ProcessUnreadEvents();\r\n  return 0;\r\n}\r\n\r\n\r\nstatic int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)\r\n{\r\n  DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;\r\n  char *szProto = GetContactProto((HANDLE)wParam);\r\n\r\n  if (strcmpnull(cws->szModule,"CList]
 [Incoming Contacts]
 [Outgoing Contacts]
-
 #muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;langpack template for CrashDumper
 ;file E:\Sources\myranda\plugins\CrashDumper\res\crshdmp.rc
@@ -4887,7 +4858,6 @@ Miranda Language Pack Version 1
 [Crash Dumper HTTP connections]
 ;file E:\Sources\myranda\plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-
 ;#muuid not found, please specify manually!
 ;langpack template for CryptoPP
 ;file E:\Sources\myranda\plugins\CryptoPP\src\GPGw\resource.rc
@@ -4896,7 +4866,6 @@ Miranda Language Pack Version 1
 [Ok]
 [Cancel]
 [Refresh]
-
 ;#muuid not found, please specify manually!
 ;langpack template for CSList
 ;file E:\Sources\myranda\plugins\CSList\res\cslist.rc
@@ -5019,7 +4988,6 @@ Miranda Language Pack Version 1
 [Undefined]
 [Weak]
 [Worried]
-
 #muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;langpack template for DbChecker
 ;file E:\Sources\myranda\plugins\DbChecker\res\resource.rc
@@ -5115,7 +5083,6 @@ Miranda Language Pack Version 1
 [Elapsed time: %d sec]
 [All tasks completed but with errors (%d)]
 [All tasks completed successfully]
-
 ;#muuid not found, please specify manually!
 ;langpack template for DbEditorPP
 ;file E:\Sources\myranda\plugins\DbEditorPP\res\resource.rc
@@ -5301,7 +5268,6 @@ Miranda Language Pack Version 1
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-
 #muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
 ;langpack template for Dbx_3x
 ;file E:\Sources\myranda\plugins\Db3x\res\resource.rc
@@ -5332,7 +5298,6 @@ Miranda Language Pack Version 1
 [Invalid database module]
 ;file E:\Sources\myranda\plugins\Db3x\src\init.cpp
 [db3x database support]
-
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;langpack template for Dbx_mmap
 ;file E:\Sources\myranda\plugins\Db3x_mmap\res\db3x_mmap.rc
@@ -5423,7 +5388,6 @@ Miranda Language Pack Version 1
 [Processing user data]
 [User corrupted, this could cause major problems]
 [More than one user contact: keeping only first]
-
 #muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;langpack template for Dbx_mmap_SA
 ;file E:\Sources\myranda\plugins\Dbx_mmap_SA\res\db3x_mmap.rc
@@ -5497,7 +5461,6 @@ Miranda Language Pack Version 1
 [DB is already secured!]
 [current database]
 [Set Password]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Dbx_tree
 ;file E:\Sources\myranda\plugins\Dbx_tree\res\dbConfig.rc
@@ -5545,7 +5508,6 @@ Miranda Language Pack Version 1
 [MapViewOfFile failed]
 ;file E:\Sources\myranda\plugins\Dbx_tree\src\Settings.cpp
 [Cannot Merge with global settings!\nSource %d Dest %d]
-
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;langpack template for Db_autobackups
 ;file E:\Sources\myranda\plugins\Db_autobackups\res\db_autobackups.rc
@@ -5612,7 +5574,6 @@ Miranda Language Pack Version 1
 [Error Creating Backup Folder]
 [Database AutoBackups]
 [Services]
-
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;langpack template for Facebook
 ;file E:\Sources\myranda\protocols\FacebookRM\res\facebook.rc
@@ -5716,7 +5677,6 @@ Miranda Language Pack Version 1
 [Services]
 [Check Friends Requests]
 [Check Newsfeeds]
-
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;langpack template for FavContacts
 ;file E:\Sources\myranda\plugins\FavContacts\res\resource.rc
@@ -5756,7 +5716,6 @@ Miranda Language Pack Version 1
 [&Favourite Contacts...]
 [<No group>]
 [Fonts]
-
 #muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;langpack template for FileAsMessage
 ;file E:\Sources\myranda\plugins\FileAsMessage\res\resources.rc
@@ -5802,7 +5761,6 @@ Miranda Language Pack Version 1
 [Plugins]
 [fileAsMessage]
 [File As Message...]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Fingerprint
 ;file E:\Sources\myranda\plugins\FingerPrintModPlus\res\resource.rc
@@ -6146,7 +6104,7 @@ Miranda Language Pack Version 1
 [Tkabber]
 [*Exodus*]
 [Exodus]
-[|*Pandion*|*пїЅпїЅпїЅпїЅпїЅпїЅпїЅ*]
+[|*Pandion*|*Пандион*]
 [Pandion]
 [*Gush*]
 [Gush]
@@ -6346,7 +6304,7 @@ Miranda Language Pack Version 1
 [MeinVZ]
 [*jabbim*]
 [Jabbim]
-[|*yandex*|*пїЅ.пїЅпїЅпїЅпїЅпїЅпїЅ*|*пїЅпїЅпїЅпїЅпїЅпїЅ*|*yaonline*]
+[|*yandex*|*Я.Онлайн*|*Яндекс*|*yaonline*]
 [YA online]
 [|*Jabiru*|http://jabiru*]
 [Jabiru]
@@ -6688,7 +6646,7 @@ Miranda Language Pack Version 1
 [HierOS]
 [*yaol*]
 [YAOL]
-[|*KDL*|*пїЅпїЅпїЅ*]
+[|*KDL*|*КДЛ*]
 [KDL]
 [*Valera*Vi*]
 [ValeraVi]
@@ -6866,11 +6824,11 @@ Miranda Language Pack Version 1
 [on Android]
 [*[*debug*]*]
 [[Debug]]
-[|*[*home*]*|*[*пїЅпїЅпїЅ*]*]
+[|*[*home*]*|*[*дом*]*]
 [[Home]]
-[|*[*work*]*|*[*пїЅпїЅпїЅпїЅпїЅпїЅ*]*]
+[|*[*work*]*|*[*работа*]*]
 [[Work]]
-[|*[*office*]*|*[*пїЅпїЅпїЅпїЅ*]*]
+[|*[*office*]*|*[*офис*]*]
 [[Office]]
 [|*[*mobile*]*|*[*pda*]*]
 [[Mobile]]
@@ -6888,7 +6846,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\options.cpp
 [Customize]
 [Fingerprint]
-
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 ;langpack template for Flags
 ;file E:\Sources\myranda\plugins\CountryFlags\res\resource.rc
@@ -6905,7 +6862,6 @@ Miranda Language Pack Version 1
 [Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]
 [Bin Converter]
 [Done!\n'ip-to-country.bin' has been created in current directory.]
-
 #muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;langpack template for FlashAvatars
 ;file E:\Sources\myranda\plugins\FlashAvatars\src\cflash.cpp
@@ -6925,7 +6881,6 @@ Miranda Language Pack Version 1
 [Flash\\]
 ;file E:\Sources\myranda\plugins\FlashAvatars\src\TigerHash.h
 [ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]
-
 ;#muuid not found, please specify manually!
 ;langpack template for FltContacts
 ;file E:\Sources\myranda\plugins\FloatingContacts\res\fltcnt.rc
@@ -6998,7 +6953,6 @@ Miranda Language Pack Version 1
 [Sample]
 [<none>]
 [<Contact List Text>]
-
 #muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}
 ;langpack template for Folders
 ;file E:\Sources\myranda\plugins\Folders\res\folders.rc
@@ -7011,7 +6965,7 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\Folders\src\dlg_handlers.cpp
 [Some changes weren't saved. Apply the changes now ?]
 [Changes not saved]
-[\\r\nDon't forget to click on Apply to save the changes. If you don't then the changes won't\r\n\\r\nbe saved to the database, they will only be valid for this session.\r\n\r\n\\r\nVariable string\t\tWhat it expands to:\r\n\\r\n%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda im).\r\n\\r\n%profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\\r\n\t\t\tProfileDir section (usually inside miranda's folder).\r\n\\r\n%current_profile%\tExpands to your current profile name without the extenstion.\r\n\\r\n\t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\\r\nEnvironment variables\r\n\\r\nThe plugin can also expand environment variables; the variables are specified like in any other\r\n\\r\nprogram that can use environment variables, i.e. %<env variable>%.\r\n\\r\nNote: Environment variables are expanded before any Miranda variables. So if you have, for\r\n\\r\nexample, %profile_path% defined as a system variable then it will be expanded to that value\r\n\\r\ninstead of expanding to MirandaпїЅs profile path.\r\n\r\n\\r\nExamples:\r\n\\r\nIf the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current\r\n\\r\nprofile is 'default.dat' and miranda's path is 'c:\\program files\\miranda im\' then:\r\n\\r\n%miranda_path%\t\t\twill expand to 'c:\\program files\\miranda im\'\r\n\\r\n%profile_path%\t\t\twill expand to 'c:\\program files\\miranda im\\profiles\'\r\n\\r\n%current_profile%\t\t\twill expand to 'default'\r\n\\r\n%temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\\r\n%profile_path%\\%current_profile%\twill expand to 'c:\\program files\\miranda im\\profiles\\default\'\r\n\\r\n%miranda_path%\\plugins\\config\twill expand to 'c:\\program files\\miranda im\\plugins\\config\'\r\n\\r\n'   %miranda_path%\\\\\\\\     '\t\twill expand to 'c:\\program files\\miranda im\'\r\n\\r\nnotice that the spaces at the beginning and the end of the string are trimmed, as well as the last]
+[\\r\nDon't forget to click on Apply to save the changes. If you don't then the changes won't\r\n\\r\nbe saved to the database, they will only be valid for this session.\r\n\r\n\\r\nVariable string\t\tWhat it expands to:\r\n\\r\n%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda im).\r\n\\r\n%profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\\r\n\t\t\tProfileDir section (usually inside miranda's folder).\r\n\\r\n%current_profile%\tExpands to your current profile name without the extenstion.\r\n\\r\n\t\t\t(e.g.default if your your profile is default.dat).\r\n\r\n\r\n\\r\nEnvironment variables\r\n\\r\nThe plugin can also expand environment variables; the variables are specified like in any other\r\n\\r\nprogram that can use environment variables, i.e. %<env variable>%.\r\n\\r\nNote: Environment variables are expanded before any Miranda variables. So if you have, for\r\n\\r\nexample, %profile_path% defined as a system variable then it will be expanded to that value\r\n\\r\ninstead of expanding to Miranda’s profile path.\r\n\r\n\\r\nExamples:\r\n\\r\nIf the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is '.\\profiles\', current\r\n\\r\nprofile is 'default.dat' and miranda's path is 'c:\\program files\\miranda im\' then:\r\n\\r\n%miranda_path%\t\t\twill expand to 'c:\\program files\\miranda im\'\r\n\\r\n%profile_path%\t\t\twill expand to 'c:\\program files\\miranda im\\profiles\'\r\n\\r\n%current_profile%\t\t\twill expand to 'default'\r\n\\r\n%temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\\r\n%profile_path%\\%current_profile%\twill expand to 'c:\\program files\\miranda im\\profiles\\default\'\r\n\\r\n%miranda_path%\\plugins\\config\twill expand to 'c:\\program files\\miranda im\\plugins\\config\'\r\n\\r\n'   %miranda_path%\\\\\\\\     '\t\twill expand to 'c:\\program files\\miranda im\'\r\n\\r\nnotice that the spaces at the beginning and the end of the string are trimmed, as well as the last]
 ;file E:\Sources\myranda\plugins\Folders\src\folderItem.cpp
 [explore]
 ;file E:\Sources\myranda\plugins\Folders\src\hooked_events.cpp
@@ -7020,7 +6974,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\Folders\src\services.cpp
 [\t \\]
 [%miranda_userdata%]
-
 ;#muuid not found, please specify manually!
 ;langpack template for FTPFile
 ;file E:\Sources\myranda\plugins\FTPFileYM\res\ftpfile.rc
@@ -7163,7 +7116,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\FTPFileYM\src\utils.cpp
 [file.zip]
 [...]
-
 #muuid {fb1c17e0-77fc-45a7-9c8b-e2bef4f56b28}
 ;langpack template for Gender
 ;file E:\Sources\myranda\plugins\Gender\res\gender.rc
@@ -7182,7 +7134,6 @@ Miranda Language Pack Version 1
 [Set Undefined]
 ;file E:\Sources\myranda\plugins\Gender\src\options.cpp
 [Plugins]
-
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;langpack template for GG
 ;file E:\Sources\myranda\protocols\Gadu-Gadu\res\resource.rc
@@ -7439,7 +7390,6 @@ Miranda Language Pack Version 1
 [Your e-mail cannot be changed because of error:\n\t%s]
 [Bad old e-mail or password]
 [Your e-mail has been changed.]
-
 ;#muuid not found, please specify manually!
 ;langpack template for GTalkExt
 ;file E:\Sources\myranda\protocols\GTalkExt\res\settings.rc
@@ -7544,7 +7494,6 @@ Miranda Language Pack Version 1
 [%raw:]
 [/UnreadThreads%]
 [Unread threads:]
-
 ;#muuid not found, please specify manually!
 ;langpack template for historypp
 ;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_opt_dialog.rc
@@ -7680,7 +7629,6 @@ Miranda Language Pack Version 1
 [Password set]
 ;file E:\Sources\myranda\plugins\HistoryPlusPlus\PassNewForm.pas
 [Password and Confirm fields should be similar]
-
 ;#muuid not found, please specify manually!
 ;langpack template for HistorySweeperLight
 ;file E:\Sources\myranda\plugins\HistorySweeperLight\res\historysweeperlight.rc
@@ -7695,7 +7643,6 @@ Miranda Language Pack Version 1
 [*** Defaut Action ***]
 [*** System History ***]
 [History]
-
 #muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
 ;langpack template for ICQ
 ;file E:\Sources\myranda\protocols\IcqOscarJ\res\resources.rc
@@ -8733,7 +8680,6 @@ Miranda Language Pack Version 1
 [<not specified>]
 [Member since:]
 [%s Details]
-
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;langpack template for IEView
 ;file E:\Sources\myranda\plugins\IEView\res\ieview.rc
@@ -8812,7 +8758,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\IEView\src\TemplateHTMLBuilder.cpp
 [.xml]
 [http://]
-
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;langpack template for IgnoreState
 ;file E:\Sources\myranda\plugins\IgnoreState\res\ignore.rc
@@ -8834,7 +8779,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\IgnoreState\src\options.cpp
 [Extraicons plugin is used, use Contact list > Extraicons for customize.]
 [Contact List]
-
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;langpack template for Import
 ;file E:\Sources\myranda\plugins\Import\res\resource.rc
@@ -8922,7 +8866,6 @@ Miranda Language Pack Version 1
 [Skipping duplicate group %s.]
 ;file E:\Sources\myranda\plugins\Import\src\wizard.cpp
 [Finish]
-
 ;#muuid not found, please specify manually!
 ;langpack template for importtxt
 ;file E:\Sources\myranda\plugins\ImportTXT\ImpTxtDlg.rc
@@ -8950,7 +8893,6 @@ Miranda Language Pack Version 1
 [Select folder for import...]
 ;file E:\Sources\myranda\plugins\ImportTXT\ImportTxtWiz.pas
 [Finish]
-
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
 ;langpack template for IRC
 ;file E:\Sources\myranda\protocols\IRCG\res\IRC.rc
@@ -9605,7 +9547,6 @@ Miranda Language Pack Version 1
 [%s %s %s]
 [/MODE]
 [/MODE %s +b]
-
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;langpack template for Jabber
 ;file E:\Sources\myranda\protocols\JabberG\res\jabber.rc
@@ -11536,7 +11477,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 [%s [%s: %s]]
-
 ;#muuid not found, please specify manually!
 ;langpack template for KeepStatus
 ;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
@@ -11565,7 +11505,6 @@ Miranda Language Pack Version 1
 [uxtheme.dll]
 [Status]
 [PopUps]
-
 ;#muuid not found, please specify manually!
 ;langpack template for KeyboardNotify
 ;file E:\Sources\myranda\plugins\KeyboardNotify\res\resources.rc
@@ -11692,7 +11631,6 @@ Miranda Language Pack Version 1
 [None]
 ;file E:\Sources\myranda\plugins\KeyboardNotify\src\utils.cpp
 [%s\\%s]
-
 #muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;langpack template for LangMan
 ;file E:\Sources\myranda\plugins\LangMan\res\resource.rc
@@ -11745,7 +11683,6 @@ Miranda Language Pack Version 1
 [&Remove...]
 [Languages]
 [Customize]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Libgcrypt
 ;file E:\Sources\myranda\plugins\MirOTR\libgcrypt-1.4.6\random\rndw32.c
@@ -11753,7 +11690,6 @@ Miranda Language Pack Version 1
 [Global]
 [SYSTEM\\CurrentControlSet\\Control\\ProductOptions]
 [ProductType]
-
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
 ;file E:\Sources\myranda\plugins\HistoryLinkListPlus\res\linklist.rc
@@ -11860,7 +11796,6 @@ Miranda Language Pack Version 1
 [*.rtf]
 [RTF File\0*.rtf\0All Files\0*.*\0\0]
 [Save RTF File]
-
 #muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;langpack template for ListeningTo
 ;file E:\Sources\myranda\plugins\ListeningTo\res\resource.rc
@@ -12014,7 +11949,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
 [Miranda ListeningTo Winamp Plugin]
 [Copyright (C) 2006 Ricardo Pescuma Domenecci]
-
 ;#muuid not found, please specify manually!
 ;langpack template for MenuEx
 ;file E:\Sources\myranda\plugins\MenuItemEx\res\resource.rc
@@ -12070,7 +12004,6 @@ Miranda Language Pack Version 1
 [Open ignore settings]
 ;file E:\Sources\myranda\plugins\MenuItemEx\src\options.cpp
 [Customize]
-
 #muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;langpack template for MetaContacts
 ;file E:\Sources\myranda\plugins\MetaContacts\res\MetaContacts.rc
@@ -12207,7 +12140,6 @@ Miranda Language Pack Version 1
 [IDLE]
 [Unknown]
 [(Unknown Contact)]
-
 ;#muuid not found, please specify manually!
 ;langpack template for MimCmd
 ;file E:\Sources\myranda\plugins\CmdLine\MimCmd\src\commands.cpp
@@ -12221,7 +12153,6 @@ Miranda Language Pack Version 1
 [No command can have more than %d parameters\n]
 [%s version %s]
 [Unknown command '%s'.\n]
-
 ;#muuid not found, please specify manually!
 ;langpack template for MirOTR
 ;file E:\Sources\myranda\plugins\MirOTR\MirOTR\res\resource.rc
@@ -12392,7 +12323,6 @@ Miranda Language Pack Version 1
 [%s Warning]
 [%s Error]
 [%s%s]
-
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;langpack template for MobileState
 ;file E:\Sources\myranda\plugins\MobileState\src\clients.h
@@ -12415,7 +12345,6 @@ Miranda Language Pack Version 1
 [im+]
 ;file E:\Sources\myranda\plugins\MobileState\src\main.cpp
 [Mobile State]
-
 #muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;langpack template for ModernOpt
 ;file E:\Sources\myranda\plugins\ModernOpt\res\resource.rc
@@ -12463,7 +12392,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\ModernOpt\src\mopt_selector.cpp
 [%s\\%s]
 [*.*]
-
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;langpack template for MRA
 ;file E:\Sources\myranda\protocols\MRA\res\resource.rc
@@ -12591,7 +12519,6 @@ Miranda Language Pack Version 1
 [Files]
 ;file E:\Sources\myranda\protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
-
 ;#muuid not found, please specify manually!
 ;langpack template for mradio
 ;file E:\Sources\myranda\protocols\mRadio\mradio.rc
@@ -12647,7 +12574,6 @@ Miranda Language Pack Version 1
 [Play Station]
 ;file E:\Sources\myranda\protocols\mRadio\mradio.dpr
 [%s server connection]
-
 #muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;langpack template for Msg_Export
 ;file E:\Sources\myranda\plugins\Msg_Export\res\resource.rc
@@ -12856,7 +12782,6 @@ Miranda Language Pack Version 1
 [%s\r\n%s]
 [User has been deleted do you want to delete the file ?]
 [Failed to delete the file]
-
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;langpack template for MSN
 ;file E:\Sources\myranda\protocols\MSN\res\msn.rc
@@ -13053,7 +12978,6 @@ Miranda Language Pack Version 1
 [Convert to Chat]
 ;file E:\Sources\myranda\protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
-
 ;#muuid not found, please specify manually!
 ;langpack template for mTextControl
 ;file E:\Sources\myranda\plugins\mTextControl\src\fancy_rtf.cpp
@@ -13082,7 +13006,6 @@ Miranda Language Pack Version 1
 [NBRichEditProxyWndClass]
 ;file E:\Sources\myranda\plugins\mTextControl\src\textcontrol.cpp
 [Tahoma]
-
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file E:\Sources\myranda\plugins\MyDetails\res\resource.rc
@@ -13169,7 +13092,6 @@ Miranda Language Pack Version 1
 [Set My Status Message for %s]
 ;file E:\Sources\myranda\plugins\MyDetails\src\options.cpp
 [Customize]
-
 #muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 ;langpack template for NewEventNotify
 ;file E:\Sources\myranda\plugins\NewEventNotify\res\resource.rc
@@ -13239,7 +13161,6 @@ Miranda Language Pack Version 1
 [%s%s]
 [%s\n]
 [%s\n...]
-
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;langpack template for NewsAggregator
 ;file E:\Sources\myranda\protocols\NewsAggregator\Res\Resource.rc
@@ -13366,7 +13287,6 @@ Miranda Language Pack Version 1
 [summary]
 [content]
 [term]
-
 ;#muuid not found, please specify manually!
 ;langpack template for NewXstatusNotify
 ;file E:\Sources\myranda\plugins\NewXstatusNotify\res\resource.rc
@@ -13570,11 +13490,10 @@ Miranda Language Pack Version 1
 [has %N @ %T%D%I]
 [These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
 [These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
-
 ;#muuid not found, please specify manually!
 ;langpack template for New_GPG
 ;file E:\Sources\myranda\plugins\New_GPG\res\new_gpg.rc
-[пїЅпїЅ]
+[ОК]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -13595,7 +13514,7 @@ Miranda Language Pack Version 1
 [Import key]
 [Accept and enable encryption]
 [Ignore]
-[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ]
+[Статический]
 [OK]
 [Cancel]
 [Key type:]
@@ -13829,7 +13748,6 @@ Miranda Language Pack Version 1
 [Keys export result]
 [Choose file to import keys from]
 [Keys import result]
-
 #muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;langpack template for Nudge
 ;file E:\Sources\myranda\plugins\Nudge\res\resource.rc
@@ -13886,7 +13804,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\Nudge\src\options.cpp
 [Events]
 [Window Shaking]
-
 #muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;langpack template for Omegle
 ;file E:\Sources\myranda\protocols\Omegle\res\omegle.rc
@@ -13949,7 +13866,6 @@ Miranda Language Pack Version 1
 [Visit Profile]
 [Protocols]
 [Omegle]
-
 ;#muuid not found, please specify manually!
 ;langpack template for OpenFolder
 ;file E:\Sources\myranda\plugins\OpenFolder\src\openFolder.cpp
@@ -13957,7 +13873,6 @@ Miranda Language Pack Version 1
 [open]
 [Open Folder]
 [Main]
-
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;langpack template for PackUpdater
 ;file E:\Sources\myranda\plugins\PackUpdater\Res\Resource.rc
@@ -14061,7 +13976,6 @@ Miranda Language Pack Version 1
 [No updates found.]
 [No files for update.]
 [Update checking already started!]
-
 ;#muuid not found, please specify manually!
 ;langpack template for PasteIt
 ;file E:\Sources\myranda\plugins\PasteIt\res\PasteIt.rc
@@ -14170,7 +14084,6 @@ Miranda Language Pack Version 1
 [<?xml version="1.0"?>\r\n<methodCall><methodName>types</methodName></methodCall>]
 ;file E:\Sources\myranda\plugins\PasteIt\src\PasteToWeb2.h
 [wklej.to]
-
 #muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;langpack template for PluginUpdater
 ;file E:\Sources\myranda\plugins\PluginUpdater\res\Resource.rc
@@ -14282,7 +14195,6 @@ Miranda Language Pack Version 1
 ["%s" /restart:%d /profile=%s]
 ;file E:\Sources\myranda\plugins\PluginUpdater\src\Minizip\ioapi.c
 [r+b]
-
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;langpack template for PManagerEx
 ;file E:\Sources\myranda\plugins\ProfileManager\src\pmanagerEx.cpp
@@ -14298,7 +14210,6 @@ Miranda Language Pack Version 1
 [Change profile]
 [Check database]
 [Restart]
-
 ;#muuid not found, please specify manually!
 ;langpack template for PopUp
 ;file E:\Sources\myranda\plugins\Popup\res\resource.rc
@@ -14558,7 +14469,6 @@ Miranda Language Pack Version 1
 [Auto]
 [Favourite]
 [Block]
-
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
 ;langpack template for QuickContacts
 ;file E:\Sources\myranda\plugins\QuickContacts\res\resource.rc
@@ -14598,7 +14508,6 @@ Miranda Language Pack Version 1
 [Ctrl+I]
 [Ctrl+H]
 [Ctrl+M]
-
 #muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
 ;file E:\Sources\myranda\plugins\QuickMessages\res\quickmessages.rc
@@ -14642,7 +14551,6 @@ Miranda Language Pack Version 1
 [New Button]
 [New Menu Entry]
 [Plugins]
-
 #muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;langpack template for QuickReplies
 ;file E:\Sources\myranda\plugins\QuickReplies\res\resources.rc
@@ -14660,7 +14568,6 @@ Miranda Language Pack Version 1
 [\r\n]
 [Message Sessions]
 [Quick Replies]
-
 ;#muuid not found, please specify manually!
 ;langpack template for quicksearch
 ;file E:\Sources\myranda\plugins\QuickSearch\qs.rc
@@ -14737,7 +14644,6 @@ Miranda Language Pack Version 1
 [Unknown]
 [All]
 [Stay on Top]
-
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;langpack template for Quotes
 ;file E:\Sources\myranda\protocols\Quotes\res\Forex.rc
@@ -14992,12 +14898,10 @@ Miranda Language Pack Version 1
 [1.0]
 [encoding]
 [UTF-8]
-
 #muuid {45230488-977b-405b-856d-ea276d7083b7}
 ;langpack template for Rate
 ;file E:\Sources\myranda\plugins\Rate\src\main.cpp
 [Contact Rate]
-
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;langpack template for RecentContacts
 ;file E:\Sources\myranda\plugins\RecentContacts\res\resource.rc
@@ -15017,7 +14921,6 @@ Miranda Language Pack Version 1
 [Background]
 [Tahoma]
 [Show Recent Contacts]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Restart
 ;file E:\Sources\myranda\plugins\Restart\src\restart.cpp
@@ -15025,7 +14928,6 @@ Miranda Language Pack Version 1
 ["%s" /restart:%d /profile=%s]
 [Restart Plugin]
 [Restart]
-
 #muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;langpack template for Scriver
 ;file E:\Sources\myranda\plugins\Scriver\res\resource.rc
@@ -15591,7 +15493,6 @@ Miranda Language Pack Version 1
 [AQGg']
 [%c%s]
 [%s: ]
-
 ;#muuid not found, please specify manually!
 ;langpack template for SecureIM
 ;file E:\Sources\myranda\plugins\SecureIM\res\resource.rc
@@ -15701,7 +15602,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\SecureIM\src\rtfconv.cpp
 [rtfconv.dll]
 [plugins\\rtfconv.dll]
-
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;langpack template for SeenPlugin
 ;file E:\Sources\myranda\plugins\SeenPlugin\res\resource.rc
@@ -15851,7 +15751,6 @@ Miranda Language Pack Version 1
 [\x0D\x0A]
 [Unknown]
 [Not Idle]
-
 ;#muuid not found, please specify manually!
 ;langpack template for SendSS
 ;file E:\Sources\myranda\plugins\SendScreenshotPlus\res\resource.rc
@@ -16006,7 +15905,6 @@ Miranda Language Pack Version 1
 [.tif]
 [gif]
 [.gif]
-
 #muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;langpack template for Sessions
 ;file E:\Sources\myranda\plugins\Sessions\res\Sessions.rc
@@ -16070,7 +15968,6 @@ Miranda Language Pack Version 1
 [Message Sessions]
 ;file E:\Sources\myranda\plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
-
 ;#muuid not found, please specify manually!
 ;langpack template for shlext
 ;file E:\Sources\myranda\plugins\ShlExt\shldlgs.rc
@@ -16092,7 +15989,6 @@ Miranda Language Pack Version 1
 [Clear entries]
 ;file E:\Sources\myranda\plugins\ShlExt\shlext.dpr
 [Disable/Remove shlext]
-
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;langpack template for SimpleAR
 ;file E:\Sources\myranda\plugins\SimpleAR\res\Resource.rc
@@ -16119,7 +16015,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 [Plugins]
-
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file E:\Sources\myranda\plugins\SimpleStatusMsg\res\resource.rc
@@ -16275,7 +16170,6 @@ Miranda Language Pack Version 1
 [That'll be the phone.]
 [Mmm...food.]
 [idleeeeeeee]
-
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;langpack template for SmileyAdd
 ;file E:\Sources\myranda\plugins\SmileyAdd\res\resource.rc
@@ -16412,7 +16306,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 [SmileyTool]
-
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;langpack template for SpellChecker
 ;file E:\Sources\myranda\plugins\SpellChecker\res\resource.rc
@@ -16509,7 +16402,6 @@ Miranda Language Pack Version 1
 [Language]
 [Enable spell checking]
 [Wrong words]
-
 ;#muuid not found, please specify manually!
 ;langpack template for SplashScreen
 ;file E:\Sources\myranda\plugins\SplashScreen\res\splash.rc
@@ -16613,7 +16505,6 @@ Miranda Language Pack Version 1
 [yes]
 [Timeout]
 [end]
-
 ;#muuid not found, please specify manually!
 ;langpack template for StartupStatus
 ;file E:\Sources\myranda\plugins\StatusPlugins\StartupStatus\options.cpp
@@ -16641,7 +16532,6 @@ Miranda Language Pack Version 1
 [There is a maximum of 6 menu items]
 [STATIC]
 ;file E:\Sources\myranda\plugins\StatusPlugins\StartupStatus\startupstatus.cpp
-
 ;#muuid not found, please specify manually!
 ;langpack template for StopSpam
 ;file E:\Sources\myranda\plugins\StopSpamPlus\res\stopspam.rc
@@ -16683,15 +16573,14 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\StopSpamPlus\src\settings.h
 [Spammers made me to install small anti-spam system you are now speaking with. ]
 [Please reply "nospam" without quotes and spaces if you want to contact me.\r\n]
-[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ "nospam" пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ.]
+[Внимание! Антиспам защита. Ответьте "nospam" без кавычек и пробелов, если хотите связаться со мной.]
 [StopSpam: send a message and reply to a anti-spam bot question.\r\n]
-[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ.]
+[Антиспам: отправьте сообщение и ответьте на вопрос антиспам системы.]
 [nospam]
 [Congratulations! You just passed human/robot test. Now you can write me a message.\r\n]
-[пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ! пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ.]
+[Поздравляю! Вы прошли антиспам проверку. Теперь вы можете писать мне.]
 ;file E:\Sources\myranda\plugins\StopSpamPlus\src\stopspam.cpp
 [Remove Temporary Contacts]
-
 ;#muuid not found, please specify manually!
 ;langpack template for StopSpamMod
 ;file E:\Sources\myranda\plugins\StopSpamMod\res\stopspam.rc
@@ -16771,7 +16660,6 @@ Miranda Language Pack Version 1
 [.tv]
 [ - ]
 [): ]
-
 #muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;langpack template for TabSRMM
 ;file E:\Sources\myranda\plugins\TabSRMM\res\chat.rc
@@ -17044,7 +16932,7 @@ Miranda Language Pack Version 1
 [Bottom tabs vertical adjustment:]
 [NOTE: some settings will not affect open containers.]
 [Tab layout tweaks]
-[Copyright пїЅ 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Support and latest version information]
 [Selected skin]
 [Rescan]
@@ -17490,7 +17378,7 @@ Miranda Language Pack Version 1
 [[/u]]
 [\\tab]
 [ !$%()#*"']
-[ !пїЅ$%&()#*]
+[ !§$%&()#*]
 [%04.04x]
 [MIME\\Database\\Rfc1766]
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
@@ -18312,7 +18200,6 @@ Miranda Language Pack Version 1
 [black]
 [white]
 [\\*]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Tipper
 ;file E:\Sources\myranda\plugins\TipperYM\res\resource.rc
@@ -18819,7 +18706,6 @@ Miranda Language Pack Version 1
 [October]
 [November]
 [December]
-
 #muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file E:\Sources\myranda\protocols\Tlen\res\tlen.rc
@@ -19031,7 +18917,6 @@ Miranda Language Pack Version 1
 [44100 Hz / 72 kbps]
 [...???...]
 [Default]
-
 ;#muuid not found, please specify manually!
 ;langpack template for TooltipNotify
 ;file E:\Sources\myranda\plugins\TooltipNotify\res\main.rc
@@ -19092,7 +18977,6 @@ Miranda Language Pack Version 1
 [%s%s%s]
 [%.0s%.0s%s]
 [ %s %s]
-
 #muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;langpack template for TopToolBar
 ;file E:\Sources\myranda\plugins\TopToolBar\res\main.rc
@@ -19126,7 +19010,6 @@ Miranda Language Pack Version 1
 [------------------]
 [exe]
 [Contact List]
-
 ;#muuid not found, please specify manually!
 ;langpack template for TrafficCounter
 ;file E:\Sources\myranda\plugins\TrafficCounter\res\resource.rc
@@ -19225,7 +19108,6 @@ Miranda Language Pack Version 1
 [total]
 [tc_GetTraffic]
 [tc_GetTime]
-
 ;#muuid not found, please specify manually!
 ;langpack template for TranslitSwitcher
 ;file E:\Sources\myranda\plugins\TranslitSwitcher\src\Layoutproc.cpp
@@ -19249,7 +19131,6 @@ Miranda Language Pack Version 1
 [SwitchLayout and Send]
 [Translit and Send]
 [Invert Case and Send]
-
 #muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;langpack template for Twitter
 ;file E:\Sources\myranda\protocols\Twitter\res\twitter.rc
@@ -19380,7 +19261,6 @@ Miranda Language Pack Version 1
 [Yogi Berra]
 [Always go to other peoples' funerals, otherwise ]
 [they won't go to yours.]
-
 ;#muuid not found, please specify manually!
 ;langpack template for UInfoEx
 ;file E:\Sources\myranda\plugins\UserInfoEx\res\resource.rc
@@ -20036,7 +19916,6 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 [PNG]
 [d:\\CD-Archiv\\Miranda\\trunk\\miranda\\bin9\\Debug Unicode\\Plugins\\dib_ico.bmp]
-
 ;#muuid not found, please specify manually!
 ;langpack template for UserGuide
 ;file E:\Sources\myranda\plugins\UserGuide\src\main.cpp
@@ -20044,7 +19923,6 @@ Miranda Language Pack Version 1
 [UserGuide.chm]
 [open]
 [User Guide]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Variables
 ;file E:\Sources\myranda\plugins\Variables\res\Variables.rc
@@ -20127,7 +20005,6 @@ Miranda Language Pack Version 1
 [alias]
 ;file E:\Sources\myranda\plugins\Variables\src\variables.cpp
 [uxtheme.dll]
-
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;langpack template for VersionInfo
 ;file E:\Sources\myranda\plugins\VersionInfo\res\resource.rc
@@ -20313,7 +20190,6 @@ Miranda Language Pack Version 1
 [Build]
 [<unknown version>]
 [{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}]
-
 ;#muuid not found, please specify manually!
 ;langpack template for watrack
 ;file E:\Sources\myranda\plugins\Watrack\kolframe\frm.rc
@@ -20459,7 +20335,6 @@ Miranda Language Pack Version 1
 [any XStatus is set]
 [''Music'' status is set]
 [XStatus is empty or ''Music'']
-
 ;#muuid not found, please specify manually!
 ;langpack template for Watrack_MPD
 ;file E:\Sources\myranda\plugins\Watrack_MPD\res\watrack_mpd.rc
@@ -20479,7 +20354,6 @@ Miranda Language Pack Version 1
 [Winamp Track]
 [Plugins]
 [Watrack MPD]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Weather
 ;file E:\Sources\myranda\protocols\Weather\res\resource.rc
@@ -20873,7 +20747,6 @@ Miranda Language Pack Version 1
 [No information available.\r\nPlease update weather condition first.]
 [%c, %t]
 [%s\n%s]
-
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 ;langpack template for WhenWasIt
 ;file E:\Sources\myranda\plugins\WhenWasIt\res\WhenWasIt.rc
@@ -20998,7 +20871,6 @@ Miranda Language Pack Version 1
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 ;file E:\Sources\myranda\plugins\WhenWasIt\src\utils.cpp
 [%ld]
-
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file E:\Sources\myranda\plugins\WhoUsesMyFiles\res\resource.rc
@@ -21034,7 +20906,6 @@ Miranda Language Pack Version 1
 [Plugins]
 [PopUps]
 [WUMF: Show connections]
-
 ;#muuid not found, please specify manually!
 ;langpack template for Xfire
 ;file E:\Sources\myranda\protocols\Xfire\res\Kopie von resource.rc
@@ -21233,7 +21104,6 @@ Miranda Language Pack Version 1
 [Start game]
 ;file E:\Sources\myranda\protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait ...]
-
 #muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;langpack template for Yahoo
 ;file E:\Sources\myranda\protocols\Yahoo\res\Yahoo.rc
@@ -21368,7 +21238,6 @@ Miranda Language Pack Version 1
 [System Error: %s]
 [Server Connection Error: %s]
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;langpack template for YAMN
 ;file E:\Sources\myranda\protocols\YAMN\res\YAMN.rc
@@ -21589,7 +21458,6 @@ Miranda Language Pack Version 1
 [Account Test (failed)]
 [You have N new mail messages]
 [Connection failed message]
-
 #muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;langpack template for YAPP
 ;file E:\Sources\myranda\plugins\YAPP\res\yapp.rc
@@ -21680,7 +21548,6 @@ Miranda Language Pack Version 1
 [Copy title to clipboard]
 [Copy message to clipboard]
 [Copy timestamp to clipboard]
-
 ;#muuid not found, please specify manually!
 ;langpack template for ZeroNotify
 ;file E:\Sources\myranda\plugins\ZeroNotification\res\ZeroNotifyW.rc
@@ -21691,3 +21558,4 @@ Miranda Language Pack Version 1
 ;file E:\Sources\myranda\plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 [Plugins]
+
