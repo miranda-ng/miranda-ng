@@ -1,0 +1,26 @@
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;langpack template for AddContactPlus
+;file E:\Sources\myranda\plugins\AddContactPlus\res\resource.rc
+[Add Contact\nAdd a contact to your contact list]
+[Account:]
+[Contact ID:]
+[Custom name:]
+[Group:]
+[Options]
+[Add temporarily]
+[Send "You were added"]
+[Send authorization request]
+[Authorization Request]
+[&Add]
+[&Cancel]
+;file E:\Sources\myranda\plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+[None]
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+[Add Contact]
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+;file E:\Sources\myranda\plugins\AddContactPlus\src\main.cpp
+[&Add Contact...]
+[AddContact+]
+[Open Add Contact Dialog]
+[Main]

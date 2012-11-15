@@ -1,0 +1,16 @@
+#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+;langpack template for Flags
+;file E:\Sources\myranda\plugins\CountryFlags\res\resource.rc
+[Country Flags]
+[Show country flag as &status icon on message window]
+[Show country flag as &extra image on contact list]
+[In following contact list &column:]
+[Use &unknown flag if the country can not be determined]
+[Use &IP-to-country database for country detection]
+;file E:\Sources\myranda\plugins\CountryFlags\src\extraimg.cpp
+[Contact List]
+;file E:\Sources\myranda\plugins\CountryFlags\src\ip2country.cpp
+[BIN]
+[Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]
+[Bin Converter]
+[Done!\n'ip-to-country.bin' has been created in current directory.]

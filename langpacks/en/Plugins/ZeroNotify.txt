@@ -1,0 +1,10 @@
+;#muuid not found, please specify manually!
+;langpack template for ZeroNotify
+;file E:\Sources\myranda\plugins\ZeroNotification\res\ZeroNotifyW.rc
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+[No sounds when:]
+[No SysTray blink when:]
+[No CLIST blink when:]
+;file E:\Sources\myranda\plugins\ZeroNotification\src\main.cpp
+[Zero Notifications]
+[Plugins]

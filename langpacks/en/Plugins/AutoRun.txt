@@ -1,0 +1,12 @@
+#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+;langpack template for AutoRun
+;file E:\Sources\myranda\plugins\AutoRun\res\autorun.rc
+[Autorun]
+[Launch Miranda NG at system startup]
+[Note: At startup Miranda NG will use current profile]
+;file E:\Sources\myranda\plugins\AutoRun\src\autorun.h
+[Software\\Microsoft\\Windows\\CurrentVersion\\Run]
+;file E:\Sources\myranda\plugins\AutoRun\src\main.cpp
+["%s" "%s"]
+[MirandaNG]
+[Events]

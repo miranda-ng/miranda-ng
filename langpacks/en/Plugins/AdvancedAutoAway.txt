@@ -1,0 +1,10 @@
+;#muuid not found, please specify manually!
+;langpack template for AdvancedAutoAway
+;file E:\Sources\myranda\plugins\StatusPlugins\AdvancedAutoAway\options.cpp
+[Status]
+[minutes of %s mode]
+[General]
+[Rules]
+[Status Messages]
+[uxtheme.dll]
+[Auto Away]

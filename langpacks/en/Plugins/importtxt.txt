@@ -1,0 +1,27 @@
+;#muuid not found, please specify manually!
+;langpack template for importtxt
+;file E:\Sources\myranda\plugins\ImportTXT\ImpTxtDlg.rc
+[Start]
+[Close]
+[Choose a file...]
+[...]
+;file E:\Sources\myranda\plugins\ImportTXT\ImpTxtWiz.rc
+[&Next >]
+[Cancel]
+[< &Back]
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+[It is recommended that you create a backup of your current Miranda profile before importing.]
+[Choose type of imported files:]
+[Select files or the whole directory for import:]
+[Files...]
+[Path:]
+[Files:]
+[Directory...]
+[All previous chosen files will try to import to this protocol.]
+[Select protocol or account:]
+[Now importing...]
+[Progress1]
+;file E:\Sources\myranda\plugins\ImportTXT\FileDlgs.pas
+[Select folder for import...]
+;file E:\Sources\myranda\plugins\ImportTXT\ImportTxtWiz.pas
+[Finish]

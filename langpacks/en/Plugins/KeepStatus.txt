@@ -1,0 +1,28 @@
+;#muuid not found, please specify manually!
+;langpack template for KeepStatus
+;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
+[Protocol]
+[<from trigger>]
+;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[STATIC]
+[KeepStatus]
+[%s Connected from another location]
+[%s Login error, cancel reconnecting]
+[%s Login error (next retry (%d) in %ds)]
+[%s Status error (next retry (%d) in %ds)]
+[Status error (next retry (%d) in %ds)]
+[%s\t(will be set to %s)\r\n]
+[will be set to]
+[Resetting status... (last try (%d))%s]
+[Resetting status... (next retry (%d) in %ds)%s]
+[No internet connection seems available... (last try (%d))]
+[No internet connection seems available... (next retry (%d) in %ds)]
+[Status was set ok]
+[Giving up]
+;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\options.cpp
+[Basic]
+[Advanced]
+[You broke the Internet!]
+[uxtheme.dll]
+[Status]
+[PopUps]

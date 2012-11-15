@@ -1,0 +1,55 @@
+;#muuid not found, please specify manually!
+;langpack template for mradio
+;file E:\Sources\myranda\protocols\mRadio\mradio.rc
+[Add Station]
+[Station Name]
+[Station URL (required)]
+[...]
+[Genre]
+[Bitrate]
+[Add station]
+[To list]
+[Record]
+[Record path]
+[Status Message]
+[V]
+[Status message template]
+[Import File]
+[Use EAX]
+[min]
+[max]
+[Volume]
+[Buffer, ms (5000)]
+[PreBuf, % (75%)]
+[Timeout, ms (5000)]
+[Tries to connect]
+[BASS library path (empty for default)]
+[OFF]
+[-15]
+[+]
+[-]
+[Equalizer presets]
+[Equalizer]
+[Station]
+[URL]
+[Custom INI file]
+[*]
+;file E:\Sources\myranda\protocols\mRadio\i_bass.inc
+[Sorry!]
+[Oops! BASS error]
+[BASS.DLL not found! Choose BASS.dll path manually]
+[Choose BASS.dll path]
+;file E:\Sources\myranda\protocols\mRadio\i_frameapi.inc
+[Mute]
+;file E:\Sources\myranda\protocols\mRadio\i_myservice.inc
+[Advanced]
+;file E:\Sources\myranda\protocols\mRadio\i_optdlg.inc
+[Add]
+[Delete]
+;file E:\Sources\myranda\protocols\mRadio\i_service.inc
+[Radio station URL]
+;file E:\Sources\myranda\protocols\mRadio\i_tray_api.inc
+[Stop]
+[Play Station]
+;file E:\Sources\myranda\protocols\mRadio\mradio.dpr
+[%s server connection]

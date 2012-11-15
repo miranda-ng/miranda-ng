@@ -1,0 +1,47 @@
+;#muuid not found, please specify manually!
+;langpack template for Dbx_tree
+;file E:\Sources\myranda\plugins\Dbx_tree\res\dbConfig.rc
+[Cancel]
+[Next >]
+[< Prev]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\BlockManager.cpp
+[Block-structure of file is corrupt!]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\BTree.h
+[Invalid Node]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\Compatibility.cpp
+[Trying to write malformed UTF8 setting "%hs" in module "%hs"]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\DataBase.cpp
+[.pri]
+[Header Block not found! File damaged: "%s"]
+[Header Block cannot be read! File damaged: "%s"]
+[Header Block in "%s" damaged!]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\DirectAccess.cpp
+[CreateFile failed]
+[SetFilePointer failed]
+[ReadFile failed]
+[WriteFile failed]
+[SetEndOfFile failed]
+[FlushFileBuffers failed]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\EncryptionManager.cpp
+[\\plugins\\encryption\\*.dll]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\FileAccess.cpp
+[.jrn]
+[Couldn't flush the journal because ReadFile failed!]
+[Your database journal wasn't completely written to disk.]
+[CreateFile failed on Journal %s]
+[.autobackup]
+[Journal "%s" was found on start.\nBackup "%s"%s created and backup "%s"%s created.\nYou may delete these file(s) after successful start from "%s".]
+[ was successfully]
+[ could not be]
+[Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\FileBTree.h
+[Signature check failed]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\Logger.cpp
+[[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n]
+[[%s - %s]\n%s\n\n]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\MappedMemory.cpp
+[Cannot set end of file]
+[CreateFileMapping failed]
+[MapViewOfFile failed]
+;file E:\Sources\myranda\plugins\Dbx_tree\src\Settings.cpp
+[Cannot Merge with global settings!\nSource %d Dest %d]

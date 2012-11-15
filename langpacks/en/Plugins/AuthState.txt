@@ -1,0 +1,17 @@
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;langpack template for AuthState
+;file E:\Sources\myranda\plugins\AuthState\res\authstate.rc
+[Show Auth icon]
+[Show Grant icon]
+[Plugin settings]
+[Enable Menu Item (*)]
+[Show icons only for recently added contacts]
+;file E:\Sources\myranda\plugins\AuthState\src\main.cpp
+[Disable AuthState icons]
+[Enable AuthState icons]
+[Auth State]
+[Auth]
+[Grant]
+[Auth & Grant]
+;file E:\Sources\myranda\plugins\AuthState\src\options.cpp
+[Contact List]

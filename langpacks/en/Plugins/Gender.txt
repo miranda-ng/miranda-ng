@@ -1,0 +1,18 @@
+#muuid {fb1c17e0-77fc-45a7-9c8b-e2bef4f56b28}
+;langpack template for Gender
+;file E:\Sources\myranda\plugins\Gender\res\gender.rc
+[Plugin settings]
+[Enable menu items]
+[Draw an icon when gender info not found]
+;file E:\Sources\myranda\plugins\Gender\src\main.cpp
+[Gender]
+[Male]
+[Female]
+[No info]
+[Set Gender]
+[Undefined]
+[Set Male]
+[Set Female]
+[Set Undefined]
+;file E:\Sources\myranda\plugins\Gender\src\options.cpp
+[Plugins]

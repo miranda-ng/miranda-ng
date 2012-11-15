@@ -1,0 +1,22 @@
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+;langpack template for MobileState
+;file E:\Sources\myranda\plugins\MobileState\src\clients.h
+[android]
+[mobile]
+[pda]
+[gtalk]
+[jabiru]
+[jtalk]
+[jasmine]
+[ebuddy]
+[emessenger]
+[jimm]
+[mobicq]
+[bombus]
+[colibry]
+[berry]
+[iphone]
+[ipad]
+[im+]
+;file E:\Sources\myranda\plugins\MobileState\src\main.cpp
+[Mobile State]

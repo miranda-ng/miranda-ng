@@ -1,0 +1,7 @@
+;#muuid not found, please specify manually!
+;langpack template for Restart
+;file E:\Sources\myranda\plugins\Restart\src\restart.cpp
+[%miranda_profilename%]
+["%s" /restart:%d /profile=%s]
+[Restart Plugin]
+[Restart]
