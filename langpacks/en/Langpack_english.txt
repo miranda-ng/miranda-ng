@@ -1,7 +1,4 @@
-﻿Miranda Language Pack Version 1
-Locale: 0409
-Last-Modified-Using: 0.93.4
-
+﻿
 
 Miranda Language Pack Version 1
 ;file E:\Sources\myranda\src\resource.rc
