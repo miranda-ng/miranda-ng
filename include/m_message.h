@@ -56,15 +56,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MSG_WINDOW_UFLAG_MSG_BOTH 0x00000004
 
 typedef struct {
-   int cbSize;
-   HANDLE hContact;
-   HWND hwndWindow; // top level window for the contact
-   const char* szModule; // used to get plugin type (which means you could use local if needed)
-   unsigned int uType; // see event types above
-   unsigned int uFlags; // used to indicate message direction for all event types except custom
-   void *local; // used to store pointer to custom data
-   HWND hwndInput; // input area window for the contact (or NULL if there is none)
-   HWND hwndLog; // log area window for the contact (or NULL if there is none)
+	int cbSize;
+	HANDLE hContact;
+	HWND hwndWindow; // top level window for the contact
+	const char* szModule; // used to get plugin type (which means you could use local if needed)
+	unsigned int uType; // see event types above
+	unsigned int uFlags; // used to indicate message direction for all event types except custom
+	void *local; // used to store pointer to custom data
+	HWND hwndInput; // input area window for the contact (or NULL if there is none)
+	HWND hwndLog; // log area window for the contact (or NULL if there is none)
 } MessageWindowEventData;
 
 #define MS_MSG_GETWINDOWAPI "MessageAPI/WindowAPI"
@@ -117,14 +117,14 @@ typedef struct {
 #define MSG_WINDOWPOPUP_LOG      2
 
 typedef struct {
-   int cbSize;
-   unsigned int uType; // see popup types above
-   unsigned int uFlags; // used to indicate in which window the popup was requested
-   HANDLE hContact;
-   HWND hwnd; // window where the popup was requested
-   HMENU hMenu;	// The handle to the menu
-   POINT pt; // The point, in screen coords
-   int selection; // The menu control id or 0 if no one was selected
+	int cbSize;
+	unsigned int uType; // see popup types above
+	unsigned int uFlags; // used to indicate in which window the popup was requested
+	HANDLE hContact;
+	HWND hwnd; // window where the popup was requested
+	HMENU hMenu;	// The handle to the menu
+	POINT pt; // The point, in screen coords
+	int selection; // The menu control id or 0 if no one was selected
 } MessageWindowPopupData;
 
 // status icons - HICONs will be automatically destroyed when removed or when miranda exits

@@ -128,23 +128,23 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #define CLUICAPS_FLAGS1   0
 #define CLUIF_HIDEEMPTYGROUPS   1   //the clist has a checkbox in its options
-          //to set this, which will be hidden if this flag is not set. It is
-		  //up to the CLUI to provide support for it, but it just seemed insane
-		  //to me to have hide offline and hide empty in different pages.
-		  //The setting is "CList"/"HideEmptyGroups", a byte. A complete list
-		  //reload is sent whenever the user changes it.
+												//to set this, which will be hidden if this flag is not set. It is
+												//up to the CLUI to provide support for it, but it just seemed insane
+												//to me to have hide offline and hide empty in different pages.
+												//The setting is "CList"/"HideEmptyGroups", a byte. A complete list
+												//reload is sent whenever the user changes it.
 #define CLUIF_DISABLEGROUPS     2   //can show list without groups. Adds option
-		  //to change "CList"/"UseGroups", a byte.
+												//to change "CList"/"UseGroups", a byte.
 #define CLUIF_HASONTOPOPTION    4   //the clui options page provides a way to
-          //change "CList"/"OnTop", a byte. When it is changed the clui should
-		  //also set the topmost flag on the window using SetWindowPos().
+												//change "CList"/"OnTop", a byte. When it is changed the clui should
+												//also set the topmost flag on the window using SetWindowPos().
 #define CLUIF_HASAUTOHIDEOPTION 8   //the clui options page provides a way to
-          //change the list auto hide options. It should read and write the
-		  //byte "CList"/"AutoHide" and the word "CList"/"HideTime". No other
-		  //action is needed.
+												//change the list auto hide options. It should read and write the
+												//byte "CList"/"AutoHide" and the word "CList"/"HideTime". No other
+												//action is needed.
 
 #define CLUICAPS_FLAGS2   1			//Returns info about extra icons
-		  //HIWORD is the first extra icon number, LOWORD is the extra icons count
+												//HIWORD is the first extra icon number, LOWORD is the extra icons count
 
 //LPARAMS for CLUICAPS_FLAGS2
 #define CLUIF2_PLUGININFO			1	//returns pointer to plugininfo

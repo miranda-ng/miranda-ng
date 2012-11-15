@@ -421,7 +421,7 @@ __forceinline char* Utils_ReplaceVars(const char *szData) {
 __forceinline TCHAR* Utils_ReplaceVarsT(const TCHAR *szData) {
 	REPLACEVARSDATA dat = {0};
 	dat.cbSize = sizeof(dat);
-    dat.dwFlags = RVF_TCHAR;
+	dat.dwFlags = RVF_TCHAR;
 	return (TCHAR*)CallService(MS_UTILS_REPLACEVARS, (WPARAM)szData, (LPARAM)&dat);
 }
 #ifdef _UNICODE

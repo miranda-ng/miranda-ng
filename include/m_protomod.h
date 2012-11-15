@@ -69,7 +69,7 @@ __forceinline HANDLE CreateProtoServiceFunction(const char *szModule, const char
 {
 	char str[MAXMODULELABELLENGTH];
 	_snprintf(str, sizeof(str), "%s%s", szModule, szService);
-    str[MAXMODULELABELLENGTH-1] = 0;
+	str[MAXMODULELABELLENGTH-1] = 0;
 	return CreateServiceFunction(str, serviceProc);
 }
 

@@ -88,7 +88,7 @@ extern int hLangpack;
 typedef struct {
 	int cbSize;	            //size in bytes of this structure
 	union {
-      char*  pszName;      //[TRANSLATED-BY-CORE] text of the menu item
+		char*  pszName;      //[TRANSLATED-BY-CORE] text of the menu item
 		TCHAR* ptszName;     //Unicode text of the menu item
 	};
 	DWORD flags;            //set of CMIF_* flags
@@ -248,8 +248,8 @@ sense to store all this information in memory, etc.
 	#define GCDNF_TCHAR       0      //will return char*, as usual
 #endif
 
-           //even if it's the one that should be displayed.  v0.1.2.0+
-		   //v0.3.0.0+ if using GCDNF_NOMYHANDLE you must free your string
+//even if it's the one that should be displayed.  v0.1.2.0+
+//v0.3.0.0+ if using GCDNF_NOMYHANDLE you must free your string
 #define MS_CLIST_GETCONTACTDISPLAYNAME  "CList/GetContactDisplayName"
 
 // Invalidates the display name cache
@@ -465,8 +465,8 @@ typedef struct {
 //lParam = pointer to CLISTGROUPCHANGE
 typedef struct {
 	int cbSize;	            //size in bytes of this structure
-    TCHAR*  pszOldName;     //old group name
-    TCHAR*  pszNewName;     //new group name
+	TCHAR*  pszOldName;     //old group name
+	TCHAR*  pszNewName;     //new group name
 } CLISTGROUPCHANGE;
 
 #define ME_CLIST_GROUPCHANGE       "CList/GroupChange"
@@ -615,7 +615,7 @@ typedef struct {
 		TCHAR *tszInfoTitle; // used if NIIF_INTERN_UNICODE is specified
 	};
 	union {
-      char *szInfo;		// only 256chars of it will be used
+		char *szInfo;		// only 256chars of it will be used
 		TCHAR *tszInfo;   // used if NIIF_INTERN_UNICODE is specified
 	};
 	DWORD dwInfoFlags;	// see NIIF_* stuff

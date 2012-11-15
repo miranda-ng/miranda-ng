@@ -268,10 +268,10 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#define ETS_FOCUSED			5
 	#define ETS_READONLY		6
 	#define ETS_ASSIST			7
-    #ifndef PBT_APMRESUMESUSPEND
-        #define PBT_APMSUSPEND		 0x0004
-	    #define PBT_APMRESUMESUSPEND 0x0007
-    #endif
+	#ifndef PBT_APMRESUMESUSPEND
+		#define PBT_APMSUSPEND		 0x0004
+		#define PBT_APMRESUMESUSPEND 0x0007
+	#endif
 	#define AW_HOR_POSITIVE		0x00000001
 	#define AW_VER_NEGATIVE		0x00000008
 	#define AW_HIDE				0x00010000
@@ -435,12 +435,10 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 			STDMETHOD_(ULONG, Release) (THIS) PURE;
 
 		    // IDropTargetHelper
-			STDMETHOD (DragEnter)(THIS_ HWND hwndTarget, IDataObject* pDataObject,
-                          POINT* ppt, DWORD dwEffect) PURE;
+			STDMETHOD (DragEnter)(THIS_ HWND hwndTarget, IDataObject* pDataObject, POINT* ppt, DWORD dwEffect) PURE;
 			STDMETHOD (DragLeave)(THIS) PURE;
 			STDMETHOD (DragOver)(THIS_ POINT* ppt, DWORD dwEffect) PURE;
-			STDMETHOD (Drop)(THIS_ IDataObject* pDataObject, POINT* ppt,
-                     DWORD dwEffect) PURE;
+			STDMETHOD (Drop)(THIS_ IDataObject* pDataObject, POINT* ppt, DWORD dwEffect) PURE;
 			STDMETHOD (Show)(THIS_ BOOL fShow) PURE;
 
 		};

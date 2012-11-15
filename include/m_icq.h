@@ -207,19 +207,18 @@ typedef struct {
   int flags;          // combination of CSSF_*
   int *status;        // custom status id
   union {
-    char *pszName;    // buffer for custom status name
-    TCHAR *ptszName;
-    WCHAR *pwszName;
+	  char *pszName;    // buffer for custom status name
+	  TCHAR *ptszName;
+	  WCHAR *pwszName;
   };
   union {
-    char *pszMessage; // buffer for custom status message
-    TCHAR *ptszMessage;
-    WCHAR *pwszMessage;
+	  char *pszMessage; // buffer for custom status message
+	  TCHAR *ptszMessage;
+	  WCHAR *pwszMessage;
   };
   WPARAM *wParam;     // extra params, see flags
   LPARAM *lParam;
 } ICQ_CUSTOM_STATUS;
-
 
 // Sets owner current custom status (obsolete)
 //wParam = (int)N   // custom status id (1-32)

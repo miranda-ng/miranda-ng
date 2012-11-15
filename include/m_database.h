@@ -505,18 +505,21 @@ typedef struct {
 #define MS_DB_EVENT_GETTEXT "DB/Event/GetText"
 
 __forceinline char* DbGetEventTextA(DBEVENTINFO* dbei, int codepage)
-{  DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
-   return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
+{
+	DBEVENTGETTEXT temp = { dbei, DBVT_ASCIIZ, codepage };
+	return (char*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 __forceinline WCHAR* DbGetEventTextW(DBEVENTINFO* dbei, int codepage)
-{  DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
-   return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
+{
+	DBEVENTGETTEXT temp = { dbei, DBVT_WCHAR, codepage };
+	return (WCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 __forceinline TCHAR* DbGetEventTextT(DBEVENTINFO* dbei, int codepage)
-{  DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
-   return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
+{
+	DBEVENTGETTEXT temp = { dbei, DBVT_TCHAR, codepage };
+	return (TCHAR*)CallService(MS_DB_EVENT_GETTEXT, 0, (LPARAM)&temp);
 }
 
 /* DB/Event/GetIcon (0.7.0.1+)
@@ -547,7 +550,7 @@ Caller must free the result using mir_free
 
 __forceinline TCHAR* DbGetEventStringT(DBEVENTINFO* dbei, const char* str)
 {
-   return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
+	return (TCHAR*)CallService(MS_DB_EVENT_GETSTRINGT, (WPARAM)dbei, (LPARAM)str);
 }
 
 /* DB/Event/MarkRead

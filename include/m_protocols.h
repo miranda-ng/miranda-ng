@@ -120,28 +120,28 @@ typedef struct tagPROTOFILETRANSFERSTATUS
 	HANDLE hContact;
 	DWORD  flags;      // one of PFTS_* constants
 
-    union {
-  	  char **pszFiles;
-      TCHAR **ptszFiles;
-      WCHAR **pwszFiles;
-    };
+	union {
+		char **pszFiles;
+		TCHAR **ptszFiles;
+		WCHAR **pwszFiles;
+	};
 
-    int totalFiles;
+	int totalFiles;
 	int currentFileNumber;
 	unsigned __int64 totalBytes;
 	unsigned __int64 totalProgress;
 
-    union {
-	   char *szWorkingDir;
-      TCHAR *tszWorkingDir;
-      WCHAR *wszWorkingDir;
-    };
+	union {
+		char *szWorkingDir;
+		TCHAR *tszWorkingDir;
+		WCHAR *wszWorkingDir;
+	};
 
-    union {
-  	  char *szCurrentFile;
-      TCHAR *tszCurrentFile;
-      WCHAR *wszCurrentFile;
-    };
+	union {
+		char *szCurrentFile;
+		TCHAR *tszCurrentFile;
+		WCHAR *wszCurrentFile;
+	};
 
 	unsigned __int64 currentFileSize;
 	unsigned __int64 currentFileProgress;

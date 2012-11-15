@@ -119,10 +119,10 @@ template<class T> struct LIST
 	__inline int getCount(void)     const { return count; }
 	__inline T** getArray(void)     const { return items; }
 
-    __inline LIST(const LIST& x)
-    {	 items = NULL;
-	    List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
-    }
+	__inline LIST(const LIST& x)
+	{	items = NULL;
+		List_Copy((SortedList*)&x, (SortedList*)this, sizeof(T));
+	}
 
 	__inline LIST& operator = (const LIST& x)
 	{	destroy();

@@ -199,8 +199,8 @@ typedef struct {
 	char *szIncomingPorts;      // can be NULL. Of form "1024-1050, 1060-1070, 2000"
 	int specifyOutgoingPorts;   // 0.3.3a+
 	char *szOutgoingPorts;      // 0.3.3a+
-    int enableUPnP;             // 0.6.1+ only for NUF_INCOMING
-    int validateSSL;
+	int enableUPnP;             // 0.6.1+ only for NUF_INCOMING
+	int validateSSL;
 } NETLIBUSERSETTINGS;
 #define MS_NETLIB_GETUSERSETTINGS  "Netlib/GetUserSettings"
 
@@ -742,7 +742,7 @@ typedef struct {
 
 typedef struct
 {
-    int cbSize;
+	int cbSize;
 	const char *host; //Expected host name
 	int flags;        //Reserved
 } NETLIBSSL;
@@ -887,7 +887,7 @@ static __inline char* Netlib_NtlmCreateResponse2(HANDLE hProvider, char* szChall
 //    lParam: NETLIBUSER*   - points to the protocol definition
 
 typedef struct {
-   NETLIBBUFFER* nlb;      // pointer to the request buffer
+	NETLIBBUFFER* nlb;      // pointer to the request buffer
 	int           result;   // amount of bytes really sent/received
 }
 	NETLIBNOTIFY;
