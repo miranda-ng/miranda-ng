@@ -31,8 +31,8 @@ typedef struct {
 
 static void OpenURLThread(void *arg)
 {
-   TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
-   if ( !hUrlInfo->szUrl)
+	TOpenUrlInfo *hUrlInfo = (TOpenUrlInfo*)arg;
+	if ( !hUrlInfo->szUrl)
 		return;
 
 	//wack a protocol on it
@@ -52,15 +52,14 @@ static void OpenURLThread(void *arg)
 				wsprintf(szResult, _T("http://%s"), hUrlInfo->szUrl);
 		}
 	}
-	
+
 	// check user defined browser for opening urls
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
 		ShellExecute(NULL, _T("open"), dbv.ptszVal, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 		DBFreeVariant(&dbv);
-	} else {
-		ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 	}
+	else ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 
 	mir_free(szResult);
 	mir_free(hUrlInfo->szUrl);

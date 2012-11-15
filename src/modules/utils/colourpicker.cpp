@@ -25,45 +25,46 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch(message) {
-		case WM_CREATE:
-			SetWindowLongPtr(hwnd, 0, 0);
-			SetWindowLongPtr(hwnd, sizeof(COLORREF), 0);
-			break;
-		case CPM_SETDEFAULTCOLOUR:
-			SetWindowLongPtr(hwnd, sizeof(COLORREF), lParam);
-			break;
-		case CPM_GETDEFAULTCOLOUR:
-			return GetWindowLongPtr(hwnd, sizeof(COLORREF));
-		case CPM_SETCOLOUR:
-			SetWindowLongPtr(hwnd, 0, lParam);
-			InvalidateRect(hwnd, NULL, FALSE);
-			break;
-		case CPM_GETCOLOUR:
-			return GetWindowLongPtr(hwnd, 0);
-		case WM_LBUTTONUP:
+	case WM_CREATE:
+		SetWindowLongPtr(hwnd, 0, 0);
+		SetWindowLongPtr(hwnd, sizeof(COLORREF), 0);
+		break;
+	case CPM_SETDEFAULTCOLOUR:
+		SetWindowLongPtr(hwnd, sizeof(COLORREF), lParam);
+		break;
+	case CPM_GETDEFAULTCOLOUR:
+		return GetWindowLongPtr(hwnd, sizeof(COLORREF));
+	case CPM_SETCOLOUR:
+		SetWindowLongPtr(hwnd, 0, lParam);
+		InvalidateRect(hwnd, NULL, FALSE);
+		break;
+	case CPM_GETCOLOUR:
+		return GetWindowLongPtr(hwnd, 0);
+	case WM_LBUTTONUP:
 		{
-            CHOOSECOLOR cc = {0};
-            COLORREF custColours[16] = {0};
+			CHOOSECOLOR cc = {0};
+			COLORREF custColours[16] = {0};
 			custColours[0] = GetWindowLongPtr(hwnd, sizeof(COLORREF));
-            cc.lStructSize = sizeof(CHOOSECOLOR);
-            cc.hwndOwner = hwnd;
-            cc.hInstance = (HWND)hInst;
-            cc.rgbResult = GetWindowLongPtr(hwnd, 0);
-            cc.lpCustColors = custColours;
-            cc.Flags = CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
-            if (ChooseColor(&cc)) {
+			cc.lStructSize = sizeof(CHOOSECOLOR);
+			cc.hwndOwner = hwnd;
+			cc.hInstance = (HWND)hInst;
+			cc.rgbResult = GetWindowLongPtr(hwnd, 0);
+			cc.lpCustColors = custColours;
+			cc.Flags = CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
+			if (ChooseColor(&cc)) {
 				SetWindowLongPtr(hwnd, 0, cc.rgbResult);
 				SendMessage(GetParent(hwnd), WM_COMMAND, MAKEWPARAM(GetDlgCtrlID(hwnd), CPN_COLOURCHANGED), (LPARAM)hwnd);
 				InvalidateRect(hwnd, NULL, FALSE);
 			}
 			break;
 		}
-		case WM_ENABLE:
-			InvalidateRect(hwnd, NULL, FALSE);
-			break;
-		case WM_NCPAINT:
-		case WM_PAINT:
-		{	PAINTSTRUCT ps;
+	case WM_ENABLE:
+		InvalidateRect(hwnd, NULL, FALSE);
+		break;
+	case WM_NCPAINT:
+	case WM_PAINT:
+		{
+			PAINTSTRUCT ps;
 			HDC hdc1;
 			RECT rc;
 			HBRUSH hBrush;
@@ -82,8 +83,6 @@ static LRESULT CALLBACK ColourPickerWndProc(HWND hwnd, UINT message, WPARAM wPar
 			EndPaint(hwnd, &ps);
 			break;
 		}
-		case WM_DESTROY:
-			break;
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }

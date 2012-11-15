@@ -159,11 +159,11 @@ void fnCluiProtocolStatusChanged(int, const char*)
 	int borders[3];
 	int flags = 0;
 
-    if (cli.menuProtoCount == 0) {
-	    SendMessage(cli.hwndStatus, SB_SETPARTS, 0, 0);
+	if (cli.menuProtoCount == 0) {
+		SendMessage(cli.hwndStatus, SB_SETPARTS, 0, 0);
 		SendMessage(cli.hwndStatus, SB_SETTEXT, SBT_OWNERDRAW, 0);
 		return;
-    }
+	}
 
 	SendMessage(cli.hwndStatus, SB_GETBORDERS, 0, (LPARAM)&borders);
 

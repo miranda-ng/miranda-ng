@@ -133,23 +133,22 @@
 
 // Some common types for char set portable code
 #ifdef _XMLWIDECHAR
-    #define _CXML(c) L ## c
-    #define XMLCSTR const wchar_t *
-    #define XMLSTR  wchar_t *
-    #define XMLCHAR wchar_t
+	#define _CXML(c) L ## c
+	#define XMLCSTR const wchar_t *
+	#define XMLSTR  wchar_t *
+	#define XMLCHAR wchar_t
 #else
-    #define _CXML(c) c
-    #define XMLCSTR const char *
-    #define XMLSTR  char *
-    #define XMLCHAR char
+	#define _CXML(c) c
+	#define XMLCSTR const char *
+	#define XMLSTR  char *
+	#define XMLCHAR char
 #endif
 #ifndef FALSE
-    #define FALSE 0
+	#define FALSE 0
 #endif /* FALSE */
 #ifndef TRUE
-    #define TRUE 1
+	#define TRUE 1
 #endif /* TRUE */
-
 
 /// Enumeration for XML parse errors.
 typedef enum XMLError

@@ -36,10 +36,10 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			TranslateDialogDefault(hwndDlg);
 			SetDlgItemText(hwndDlg, IDC_ININAME, (TCHAR*)lParam);
 			{	
-                TCHAR szSecurity[11];
-                const TCHAR *pszSecurityInfo;
-			  	
-                GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, SIZEOF(szSecurity), mirandabootini);
+				TCHAR szSecurity[11];
+				const TCHAR *pszSecurityInfo;
+
+				GetPrivateProfileString(_T("AutoExec"), _T("Warn"), _T("notsafe"), szSecurity, SIZEOF(szSecurity), mirandabootini);
 				if ( !lstrcmpi(szSecurity, _T("all")))
 					pszSecurityInfo = LPGENT("Security systems to prevent malicious changes are in place and you will be warned before every change that is made.");
 				else if ( !lstrcmpi(szSecurity, _T("onlyunsafe")))
@@ -50,6 +50,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 				if (pszSecurityInfo) SetDlgItemText(hwndDlg, IDC_SECURITYINFO, TranslateTS(pszSecurityInfo));
 			}
 			return TRUE;
+
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDC_VIEWINI:
@@ -401,7 +402,7 @@ static void DoAutoExec(void)
 	GetPrivateProfileString(_T("AutoExec"), _T("OverrideSecurityFilename"), _T(""), szOverrideSecurityFilename, SIZEOF(szOverrideSecurityFilename), mirandabootini);
 	GetPrivateProfileString(_T("AutoExec"), _T("OnCreateFilename"), _T(""), szOnCreateFilename, SIZEOF(szOnCreateFilename), mirandabootini);
 	GetPrivateProfileString(_T("AutoExec"), _T("Glob"), _T("autoexec_*.ini"), szFindPath, SIZEOF(szFindPath), mirandabootini);
-    
+
 	if (dbCreated && szOnCreateFilename[0]) {
 		str2 = Utils_ReplaceVarsT(szOnCreateFilename);
 		PathToAbsoluteT(str2, szIniPath, NULL);

@@ -336,7 +336,7 @@ static INT_PTR BuildContactMenu(WPARAM wParam, LPARAM)
 	BuildContactParam bcp;
 	bcp.szProto = szProto;
 	bcp.isOnList = (db_get_b(hContact, "CList", "NotOnList", 0) == 0);
-	bcp.isOnline = (szProto != NULL && ID_STATUS_OFFLINE != DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE));
+	bcp.isOnline = (szProto != NULL && ID_STATUS_OFFLINE != db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE));
 
 	ListParam param = { 0 };
 	param.MenuObjectHandle = hContactMenuObject;
@@ -1379,7 +1379,7 @@ void InitCustomMenus(void)
 
 	HookEvent(ME_HOTKEYS_CHANGED, sttRebuildHotkeys);
 
-   // add exit command to menu
+	// add exit command to menu
 	{
 		CLISTMENUITEM mi = { 0 };
 		mi.cbSize = sizeof(mi);

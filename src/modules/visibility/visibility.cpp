@@ -118,7 +118,7 @@ static void SetAllContactIcons(HWND hwndList)
 			}
 			else {
 				flags = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
-				status = DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0);
+				status = db_get_w(hContact, szProto, "ApparentMode", 0);
 			}
 
 			if (flags & PF1_INVISLIST)

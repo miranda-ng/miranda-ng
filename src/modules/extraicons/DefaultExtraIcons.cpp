@@ -67,7 +67,7 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 		return;
 
 	if (apparentMode <= 0)
-		apparentMode = DBGetContactSettingWord(hContact, proto, "ApparentMode", 0);
+		apparentMode = db_get_w(hContact, proto, "ApparentMode", 0);
 
 	const char *ico = NULL;
 

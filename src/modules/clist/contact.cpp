@@ -48,7 +48,7 @@ static int GetContactStatus(HANDLE hContact)
 	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
-	return DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 }
 
 void fnChangeContactIcon(HANDLE hContact, int iIcon, int add)
@@ -99,8 +99,8 @@ int fnCompareContacts(const ClcContact* c1, const ClcContact* c2)
 	int statusa, statusb;
 	int rc;
 
-	statusa = DBGetContactSettingWord((HANDLE) a, c1->proto, "Status", ID_STATUS_OFFLINE);
-	statusb = DBGetContactSettingWord((HANDLE) b, c2->proto, "Status", ID_STATUS_OFFLINE);
+	statusa = db_get_w((HANDLE) a, c1->proto, "Status", ID_STATUS_OFFLINE);
+	statusb = db_get_w((HANDLE) b, c2->proto, "Status", ID_STATUS_OFFLINE);
 
 	if (sortByProto) {
 		/* deal with statuses, online contacts have to go above offline */

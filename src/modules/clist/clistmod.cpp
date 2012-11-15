@@ -191,7 +191,7 @@ static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 
 	return cli.pfnIconFromStatusMode(szProto, 
-		szProto == NULL ? ID_STATUS_OFFLINE : DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
+		szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact);
 }
 
 static void AddProtoIconIndex(PROTOACCOUNT* pa)
@@ -446,8 +446,8 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 
 	szProto1 = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) a, 0);
 	szProto2 = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) b, 0);
-	statusa = DBGetContactSettingWord((HANDLE) a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
-	statusb = DBGetContactSettingWord((HANDLE) b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
+	statusa = db_get_w((HANDLE) a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
+	statusb = db_get_w((HANDLE) b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
 
 	if (sortByProto) {
 		/* deal with statuses, online contacts have to go above offline */

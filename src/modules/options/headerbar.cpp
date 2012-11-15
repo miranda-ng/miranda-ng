@@ -56,7 +56,7 @@ struct MHeaderbarCtrl : public MZeroedObject
 	// UI info
 	RECT		rc;
 	int			width, height;
-    HICON       hIcon;
+	HICON       hIcon;
 
 	// control colors
 	RGBQUAD		rgbBkgTop, rgbBkgBottom;
@@ -339,7 +339,7 @@ static LRESULT CALLBACK MHeaderbarWndProc(HWND hwndDlg, UINT  msg, WPARAM wParam
 		SendMessage(GetParent(hwndDlg), WM_SYSCOMMAND, 0xF012, 0);
 		return 0;
 
-    case WM_SETICON:
+	case WM_SETICON:
 		if (wParam < 3) {
 			itc->hIcon = (HICON)lParam;
 			InvalidateRect(hwndDlg, NULL, FALSE);

@@ -94,7 +94,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			}
 			else lvc.mask &= ~LVCF_TEXT;
 			mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
-			lvc.cx = DBGetContactSettingWord(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
+			lvc.cx = db_get_w(NULL, "FindAdd", szSetting, defaultColumnSizes[i]);
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
 
 			if (bNeedsFree)
@@ -197,8 +197,8 @@ static void BeginSearchFailed(void * arg)
 	if (arg != NULL) {
 		const TCHAR* protoName = (TCHAR*)arg;
 		mir_sntprintf(buf, SIZEOF(buf),
-            TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
-            protoName, protoName);
+			TranslateT("Could not start a search on '%s', there was a problem - is %s connected?"),
+			protoName, protoName);
 		mir_free((char*)arg);
 	}
 	else lstrcpyn(buf, TranslateT("Could not search on any of the protocols, are you online?"), SIZEOF(buf));

@@ -412,7 +412,7 @@ int LoadSkinIcons(void)
 	SKINICONDESC sid;
 	int i, j = 0;
 	char iconName[MAX_PATH], moduleName[MAX_PATH];
-    TCHAR modulePath[MAX_PATH];
+	TCHAR modulePath[MAX_PATH];
 	DBVARIANT dbv;
 
 	//
@@ -461,7 +461,7 @@ int LoadSkinIcons(void)
 	sid.cbSize = sizeof(sid);
 	GetModuleFileName(NULL, modulePath, SIZEOF(modulePath));
 	sid.ptszDefaultFile = modulePath;
-    sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszName = iconName;
 
 	//

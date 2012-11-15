@@ -132,11 +132,11 @@ BaseExtraIcon* GetExtraIconByName(const char *name)
 
 static void LoadGroups(vector<ExtraIconGroup *> &groups)
 {
-	unsigned int count = DBGetContactSettingWord(NULL, MODULE_NAME "Groups", "Count", 0);
+	unsigned int count = db_get_w(NULL, MODULE_NAME "Groups", "Count", 0);
 	for (unsigned int i = 0; i < count; i++) {
 		char setting[512];
 		mir_snprintf(setting, SIZEOF(setting), "%d_count", i);
-		unsigned int items = DBGetContactSettingWord(NULL, MODULE_NAME "Groups", setting, 0);
+		unsigned int items = db_get_w(NULL, MODULE_NAME "Groups", setting, 0);
 		if (items < 1)
 			continue;
 
@@ -406,10 +406,10 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 
 	char setting[512];
 	mir_snprintf(setting, SIZEOF(setting), "Position_%s", ei->name);
-	extra->setPosition(DBGetContactSettingWord(NULL, MODULE_NAME, setting, 1000));
+	extra->setPosition(db_get_w(NULL, MODULE_NAME, setting, 1000));
 
 	mir_snprintf(setting, SIZEOF(setting), "Slot_%s", ei->name);
-	int slot = DBGetContactSettingWord(NULL, MODULE_NAME, setting, 1);
+	int slot = db_get_w(NULL, MODULE_NAME, setting, 1);
 	if (slot == (WORD) -1)
 		slot = -1;
 	extra->setSlot(slot);

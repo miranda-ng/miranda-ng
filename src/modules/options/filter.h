@@ -50,7 +50,7 @@ class CPageKeywords
 	static int _KeyWordsSortFunc(const TCHAR* p1, const TCHAR* p2)	{ return _tcscmp(p1, p2); };
 
 public:
-    CPageKeywords(PageHash pageHashKey) : _pageHashKey(pageHashKey), _pageKeyWords(1, _KeyWordsSortFunc) {};
+	CPageKeywords(PageHash pageHashKey) : _pageHashKey(pageHashKey), _pageKeyWords(1, _KeyWordsSortFunc) {};
 	~CPageKeywords()
 	{
 		for (int j = 0; j < _pageKeyWords.getCount(); j++)

@@ -23,7 +23,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "findadd.h"
 
-#define TIMERID_THROBBER   111
+#define TIMERID_THROBBER 111
 
 #define HM_SEARCHACK  (WM_USER+10)
 #define M_SETGROUPVISIBILITIES  (WM_USER+11)

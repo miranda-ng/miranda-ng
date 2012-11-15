@@ -42,7 +42,7 @@ void AddFilterString(const PageHash key, TCHAR *data)
 
 void ClearFilterStrings()
 {
-    filterStrings.destroy();
+	filterStrings.destroy();
 }
 
 BOOL ContainsFilterString(const PageHash key, TCHAR *data)
@@ -155,7 +155,7 @@ static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWnd);
 		
-		CheckDlgButton(hWnd, IDC_ENABLE_KEYWORDFILTERING, DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hWnd, IDC_ENABLE_KEYWORDFILTERING, db_get_w(NULL, "Options", "EnableKeywordFiltering", TRUE) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 	
 	case WM_COMMAND:

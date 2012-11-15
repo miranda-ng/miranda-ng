@@ -196,7 +196,7 @@ static INT_PTR SetInfoTipHoverTime(WPARAM wParam, LPARAM)
 
 static INT_PTR GetInfoTipHoverTime(WPARAM, LPARAM)
 {
-	return DBGetContactSettingWord(NULL, "CLC", "InfoTipHoverTime", 750);
+	return db_get_w(NULL, "CLC", "InfoTipHoverTime", 750);
 }
 
 static void SortClcByTimer(HWND hwnd)
@@ -283,7 +283,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		dat->iInsertionMark = -1;
 		dat->insertionMarkHitHeight = 5;
 		dat->iHotTrack = -1;
-		dat->infoTipTimeout = DBGetContactSettingWord(NULL, "CLC", "InfoTipHoverTime", 750);
+		dat->infoTipTimeout = db_get_w(NULL, "CLC", "InfoTipHoverTime", 750);
 		dat->extraColumnSpacing = 20;
 		dat->list.cl.increment = 30;
 		dat->needsResort = 1;
@@ -515,7 +515,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (szProto == NULL)
 				status = ID_STATUS_OFFLINE;
 			else
-				status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
+				status = db_get_w((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 
 			// this means an offline msg is flashing, so the contact should be shown
 			DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
@@ -610,7 +610,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			if (szProto == NULL)
 				break;
 
-			WORD apparentMode = DBGetContactSettingWord((HANDLE)wParam, szProto, "ApparentMode", 0);
+			WORD apparentMode = db_get_w((HANDLE)wParam, szProto, "ApparentMode", 0);
 			contact->flags &= ~(CONTACTF_INVISTO | CONTACTF_VISTO);
 			if (apparentMode == ID_STATUS_OFFLINE)
 				contact->flags |= CONTACTF_INVISTO;

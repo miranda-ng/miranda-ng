@@ -275,7 +275,6 @@ int fnTrayIconInit(HWND hwnd)
 		cli.trayIcon = (trayIconInfo_t *) mir_calloc(sizeof(trayIconInfo_t) * accounts.getCount());
 
 		int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
-
 		if (trayIconSetting == SETTING_TRAYICON_SINGLE) {
 			DBVARIANT dbv = { DBVT_DELETED };
 			char *szProto;
@@ -288,8 +287,7 @@ int fnTrayIconInit(HWND hwnd)
 			cli.pfnTrayIconAdd(hwnd, NULL, szProto, szProto ? CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
 			DBFreeVariant(&dbv);
 		}
-		else if (trayIconSetting == SETTING_TRAYICON_MULTI &&
-			 (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 		{
 			cli.trayIconCount = netProtoCount;
 			for (int i=0; i < accounts.getCount(); i++) {
@@ -298,14 +296,14 @@ int fnTrayIconInit(HWND hwnd)
 					PROTOACCOUNT* pa = accounts[j];
 					if (cli.pfnGetProtocolVisibility(pa->szModuleName))
 						cli.pfnTrayIconAdd(hwnd, pa->szModuleName, NULL, CallProtoServiceInt(NULL,pa->szModuleName, PS_GETSTATUS, 0, 0));
-				}
+				}	
 			}
-		}
+		}	
 		else {
 			cli.pfnTrayIconAdd(hwnd, NULL, NULL, averageMode);
 
 			if (trayIconSetting == SETTING_TRAYICON_CYCLE && averageMode < 0)
-				cli.cycleTimerId = SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
+				cli.cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
 		}
 	}
 	else {
@@ -423,8 +421,8 @@ int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPrefer
 
 			cli.trayIcon[i].isBase = isBase;
 			if (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) {
-				DWORD time1 = DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT)*200;
-				DWORD time2 = DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550)+1000;
+				DWORD time1 = db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT)*200;
+				DWORD time2 = db_get_w(NULL, "CList", "IconFlashTime", 550)+1000;
 				DWORD time = max(max(2000, time1), time2);
 				if (RefreshTimerId) {KillTimer(NULL, RefreshTimerId); RefreshTimerId = 0;}
 				RefreshTimerId = SetTimer(NULL, 0, time, RefreshTimerProc);	// if unknown base was changed - than show preffered proto icon for 2 sec and reset it to original one after timeout
@@ -452,10 +450,10 @@ int fnTrayIconSetBaseInfo(HICON hIcon, const char *szPreferredProto)
 			cli.trayIcon[i].hBaseIcon = hIcon;
 			ulock; return i;
 		}
-		if ((cli.pfnGetProtocolVisibility(szPreferredProto))
-			 && (GetAverageMode() == -1)
-			 && (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI)
-			 && !(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
+		if ((cli.pfnGetProtocolVisibility(szPreferredProto)) &&
+			 (GetAverageMode() == -1) &&
+			 (db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT) == SETTING_TRAYICON_MULTI) &&
+			 !(db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 			goto LBL_Error;
 	}
 
@@ -519,10 +517,9 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 		cli.cycleTimerId = 0;
 	}
 
-	for (i=0; i < accounts.getCount(); i++) {
+	for (i=0; i < accounts.getCount(); i++)
 		if ( !lstrcmpA(szChangedProto, accounts[i]->szModuleName))
 			cycleStep = i - 1;
-	}
 
 	if (netProtoCount > 0) {
 		int trayIconSetting = db_get_b(NULL, "CList", "TrayIcon", SETTING_TRAYICON_DEFAULT);
@@ -552,22 +549,24 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 						szProto = NULL;
 					else
 						szProto = dbv.pszVal;
-					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ? CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
+					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ? 
+						CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : 
+						CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
 					DBFreeVariant(&dbv);
-					break;
 				}
+				break;
+
 			case SETTING_TRAYICON_CYCLE:
-				cli.cycleTimerId = 
-					SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
+				cli.cycleTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "CycleTime", SETTING_CYCLETIME_DEFAULT) * 1000, cli.pfnTrayCycleTimerProc);
 				changed = 
 					cli.pfnTrayIconSetBaseInfo(ImageList_GetIcon
 					(hCListImages, cli.pfnIconFromStatusMode(szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0), NULL), 
 					ILD_NORMAL), NULL);
 				break;
+
 			case SETTING_TRAYICON_MULTI:
-				if ( !cli.trayIcon) {
+				if ( !cli.trayIcon)
 					cli.pfnTrayIconRemove(NULL, NULL);
-				}
 				else if ((cli.trayIconCount > 1 || netProtoCount == 1) || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT))
 					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szChangedProto, CallProtoServiceInt(NULL,szChangedProto, PS_GETSTATUS, 0, 0)), (char*)szChangedProto);
 				else {
@@ -643,7 +642,7 @@ int fnTrayIconPauseAutoHide(WPARAM, LPARAM)
 	if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 		if (GetActiveWindow() != cli.hwndContactList) {
 			KillTimer(NULL, autoHideTimerId);
-			autoHideTimerId = SetTimer(NULL, 0, 1000 * DBGetContactSettingWord(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+			autoHideTimerId = SetTimer(NULL, 0, 1000 * db_get_w(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 		}
 	}
 	ulock; return 0;
@@ -721,7 +720,7 @@ INT_PTR fnTrayIconProcessMessage(WPARAM wParam, LPARAM lParam)
 	case WM_ACTIVATE:
 		if (db_get_b(NULL, "CList", "AutoHide", SETTING_AUTOHIDE_DEFAULT)) {
 			if (LOWORD(msg->wParam) == WA_INACTIVE)
-				autoHideTimerId = SetTimer(NULL, 0, 1000 * DBGetContactSettingWord(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
+				autoHideTimerId = SetTimer(NULL, 0, 1000 * db_get_w(NULL, "CList", "HideTime", SETTING_HIDETIME_DEFAULT), TrayIconAutoHideTimer);
 			else
 				KillTimer(NULL, autoHideTimerId);
 		}

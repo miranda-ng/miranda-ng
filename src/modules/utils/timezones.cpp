@@ -58,11 +58,11 @@ static pfnSendMessageW_t pfnSendMessageW;
 
 typedef struct _REG_TZI_FORMAT
 {
-    LONG Bias;
-    LONG StandardBias;
-    LONG DaylightBias;
-    SYSTEMTIME StandardDate;
-    SYSTEMTIME DaylightDate;
+	LONG Bias;
+	LONG StandardBias;
+	LONG DaylightBias;
+	SYSTEMTIME StandardDate;
+	SYSTEMTIME DaylightDate;
 } REG_TZI_FORMAT;
 
 #define MIM_TZ_DISPLAYLEN 128

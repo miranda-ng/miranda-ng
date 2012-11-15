@@ -748,7 +748,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 
 	dat->leftMargin = db_get_b(NULL, "CLC", "LeftMargin", CLCDEFAULT_LEFTMARGIN);
 	dat->exStyle = db_get_dw(NULL, "CLC", "ExStyle", cli.pfnGetDefaultExStyle());
-	dat->scrollTime = DBGetContactSettingWord(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
+	dat->scrollTime = db_get_w(NULL, "CLC", "ScrollTime", CLCDEFAULT_SCROLLTIME);
 	dat->groupIndent = db_get_b(NULL, "CLC", "GroupIndent", CLCDEFAULT_GROUPINDENT);
 	dat->gammaCorrection = db_get_b(NULL, "CLC", "GammaCorrect", CLCDEFAULT_GAMMACORRECT);
 	dat->showIdle = db_get_b(NULL, "CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE);
@@ -768,7 +768,7 @@ void fnLoadClcOptions(HWND hwnd, struct ClcData *dat)
 				mir_free(dbv.pszVal);
 			}
 		}
-		dat->backgroundBmpUse = DBGetContactSettingWord(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
+		dat->backgroundBmpUse = db_get_w(NULL, "CLC", "BkBmpUse", CLCDEFAULT_BKBMPUSE);
 	}
 	dat->greyoutFlags = db_get_dw(NULL, "CLC", "GreyoutFlags", CLCDEFAULT_GREYOUTFLAGS);
 	dat->offlineModes = db_get_dw(NULL, "CLC", "OfflineModes", CLCDEFAULT_OFFLINEMODES);

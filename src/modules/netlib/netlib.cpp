@@ -421,9 +421,9 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 	}
 	for (outputLen = 0, pszIn = szInput;*pszIn;pszIn++) {
 		if ((48 <= *pszIn && *pszIn <= 57)  || //0-9
-             (65 <= *pszIn && *pszIn <= 90)  || //ABC...XYZ
-             (97 <= *pszIn && *pszIn <= 122)  || //abc...xyz
-			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.' || *pszIn == ' ') outputLen++;
+			 (65 <= *pszIn && *pszIn <= 90)  || //ABC...XYZ
+			 (97 <= *pszIn && *pszIn <= 122)  || //abc...xyz
+			*pszIn == '-' || *pszIn == '_' || *pszIn == '.' || *pszIn == ' ') outputLen++;
 		else outputLen+=3;
 	}
 	szOutput = (unsigned char*)HeapAlloc(GetProcessHeap(), 0, outputLen+1);
@@ -433,9 +433,9 @@ INT_PTR NetlibHttpUrlEncode(WPARAM, LPARAM lParam)
 	}
 	for (pszOut = szOutput, pszIn = szInput;*pszIn;pszIn++) {
 		if ((48 <= *pszIn && *pszIn <= 57)  || 
-             (65 <= *pszIn && *pszIn <= 90)  || 
-             (97 <= *pszIn && *pszIn <= 122)  || 
-			 *pszIn == '-' || *pszIn == '_' || *pszIn == '.') *pszOut++=*pszIn;
+			 (65 <= *pszIn && *pszIn <= 90)  || 
+			 (97 <= *pszIn && *pszIn <= 122)  || 
+			*pszIn == '-' || *pszIn == '_' || *pszIn == '.') *pszOut++=*pszIn;
 		else if (*pszIn == ' ') *pszOut++='+';
 		else {
 			*pszOut++='%';

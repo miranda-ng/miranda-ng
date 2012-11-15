@@ -189,9 +189,9 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 	group->cl.items[i]->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) hContact, 0);
 	group->cl.items[i]->hContact = hContact;
 	group->cl.items[i]->proto = szProto;
-	if (szProto != NULL && !cli.pfnIsHiddenMode(dat, DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+	if (szProto != NULL && !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 		group->cl.items[i]->flags |= CONTACTF_ONLINE;
-	WORD apparentMode = szProto != NULL ? DBGetContactSettingWord(hContact, szProto, "ApparentMode", 0) : 0;
+	WORD apparentMode = szProto != NULL ? db_get_w(hContact, szProto, "ApparentMode", 0) : 0;
 	if (apparentMode == ID_STATUS_OFFLINE)
 		group->cl.items[i]->flags |= CONTACTF_INVISTO;
 	else if (apparentMode == ID_STATUS_ONLINE)
@@ -225,7 +225,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 		checkHideOffline = 0;
 	if (checkHideOffline)
 		if (szProto != NULL)
-			status = DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
+			status = db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
 
 	if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 		group = &dat->list;
@@ -397,7 +397,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 						if ( !cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							cli.pfnAddContactToGroup(dat, group, hContact);
 					}
-					else if ( !cli.pfnIsHiddenMode(dat, DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
+					else if ( !cli.pfnIsHiddenMode(dat, db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE)))
 						cli.pfnAddContactToGroup(dat, group, hContact);
 				}
 				else cli.pfnAddContactToGroup(dat, group, hContact);

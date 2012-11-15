@@ -188,7 +188,7 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 		else
 			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cle->hContact, 0);
 		iconsOn = 1;
-		flashTimerId = SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
+		flashTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
 		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->cle.ptszTooltip, szProto);
 	}
 	cli.pfnChangeContactIcon(cle->hContact, p->imlIconIndex, 1);
@@ -423,10 +423,8 @@ struct CListEvent* fnCreateEvent(void)
 
 void fnFreeEvent(struct CListEvent* p)
 {
-	if (p->cle.pszService)
-		mir_free(p->cle.pszService);
-	if (p->cle.pszTooltip)
-		mir_free(p->cle.pszTooltip);
+	mir_free(p->cle.pszService);
+	mir_free(p->cle.pszTooltip);
 	mir_free(p);
 }
 

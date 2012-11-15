@@ -171,7 +171,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 
 	item->pszService = desc->pszService ? mir_strdup(desc->pszService) : 0;
 	item->DefHotkey = desc->DefHotKey & ~HKF_MIRANDA_LOCAL;
-	item->Hotkey = DBGetContactSettingWord(NULL, DBMODULENAME, item->pszName, item->DefHotkey);
+	item->Hotkey = db_get_w(NULL, DBMODULENAME, item->pszName, item->DefHotkey);
 	item->type = item->pszService ?
 		(THotkeyType)db_get_b(NULL, DBMODULENAME "Types", item->pszName, 
 			(desc->DefHotKey & HKF_MIRANDA_LOCAL) ? HKT_LOCAL : HKT_GLOBAL) : HKT_MANUAL;
@@ -196,7 +196,7 @@ static INT_PTR svcHotkeyRegister(WPARAM wParam, LPARAM lParam)
 		count = (int)db_get_dw(NULL, DBMODULENAME, buf, -1);
 		for (i=0; i < count; i++) {
 			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, i);
-			if ( !DBGetContactSettingWord(NULL, DBMODULENAME, buf, 0))
+			if ( !db_get_w(NULL, DBMODULENAME, buf, 0))
 				continue;
 
 			svcHotkeyRegister(wParam, lParam);
@@ -374,7 +374,7 @@ int LoadSkinHotkeys(void)
 		mir_snprintf(szSetting, SIZEOF(szSetting), "HK%s", oldSettings[i]);
 
 		WORD key;
-		if ((key = DBGetContactSettingWord(NULL, "Clist", szSetting, 0))) {
+		if ((key = db_get_w(NULL, "Clist", szSetting, 0))) {
 			DBDeleteContactSetting(NULL, "Clist", szSetting);
 			DBWriteContactSettingWord(NULL, DBMODULENAME, newSettings[i], key);
 		}

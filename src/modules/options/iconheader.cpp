@@ -88,7 +88,7 @@ static void MITListDestructor(void * adr)
 	mir_free(mit->tcsName);
 	if (mit->hIcon && !(mit->flag&MITCF_SHAREDICON))
 		DestroyIcon(mit->hIcon);
-    mir_free(adr);
+	mir_free(adr);
 }
 
 void li_ListDestruct(LIST<MIcoTab> &pList, ItemDestuctor pItemDestructor)
@@ -245,9 +245,9 @@ static void MIcoTab_DrawItem(HWND hwnd, HDC hdc, MIcoTabCtrl *dat, MIcoTab *tab,
 		dto.dwFlags = DTT_COMPOSITED|DTT_GLOWSIZE;
 		dto.iGlowSize = 10;
 		HANDLE hTheme = openThemeData(hwnd, L"Window");
-        wchar_t *tcsNameW = mir_t2u(tab->tcsName);
+		wchar_t *tcsNameW = mir_t2u(tab->tcsName);
 		drawThemeTextEx(hTheme, hdc, WP_CAPTION, CS_ACTIVE, tcsNameW, -1, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS, &textRect, &dto);
-        mir_free(tcsNameW);
+		mir_free(tcsNameW);
 		closeThemeData(hTheme);
 	}
 	else DrawText(hdc, tab->tcsName, -1, &textRect, DT_VCENTER|DT_CENTER|DT_END_ELLIPSIS);

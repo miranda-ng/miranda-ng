@@ -30,8 +30,9 @@ HANDLE hIcons2ChangedEvent, hIconsChangedEvent;
 
 HICON hIconBlank = NULL;
 
-static HANDLE hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2, 
-              hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
+static HANDLE 
+	hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2, 
+   hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
 
 int iconEventActive = 0;
 
@@ -110,11 +111,11 @@ IconSourceFile* IconSourceFile_Get(const TCHAR* file, bool isPath)
 	if ( !file)
 		return NULL;
 
-    if (isPath)
-		 PathToAbsoluteT(file, fileFull, NULL);
-		 /// TODO: convert path to long - eliminate duplicate items
-	 else
-		 _tcscpy(fileFull, file);
+	if (isPath)
+		PathToAbsoluteT(file, fileFull, NULL);
+	/// TODO: convert path to long - eliminate duplicate items
+	else
+		_tcscpy(fileFull, file);
 
 	IconSourceFile key = { fileFull };
 	int ix;

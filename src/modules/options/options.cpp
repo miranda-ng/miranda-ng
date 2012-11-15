@@ -767,7 +767,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcTab, 2);
 			TabCtrl_AdjustRect( GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
-			//!!!!!!!!!! int enableKeywordFiltering = DBGetContactSettingWord(NULL, "Options", "EnableKeywordFiltering", TRUE); 
+			//!!!!!!!!!! int enableKeywordFiltering = db_get_w(NULL, "Options", "EnableKeywordFiltering", TRUE); 
 			FillFilterCombo(0, hdlg, dat); //!!!!!!!!!!  enableKeywordFiltering, 
 			SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
 

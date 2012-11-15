@@ -83,7 +83,7 @@ static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, in
 	DWORD protoCaps = CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_1, 0);
 	if ( !(protoCaps & PF1_FILESEND))
 		return NULL;
-	if (ID_STATUS_OFFLINE == DBGetContactSettingWord(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))
+	if (ID_STATUS_OFFLINE == db_get_w(contact->hContact, szProto, "Status", ID_STATUS_OFFLINE))
 		return NULL;
 	if (hitLine)
 		*hitLine = hit;

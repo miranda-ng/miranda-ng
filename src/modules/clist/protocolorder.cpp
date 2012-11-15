@@ -58,74 +58,58 @@ int isProtoSuitable(PROTO_INTERFACE* ppi)
 
 bool CheckProtocolOrder(void)
 {
-    bool changed = false;
-    int i, id = 0;
+	bool changed = false;
+	int i, id = 0;
 
-	for (;;)
-    {
-        // Find account with this id
-	    for (i=0; i < accounts.getCount(); i++)
-            if (accounts[i]->iOrder == id) break;
+	for (;;) {
+		// Find account with this id
+		for (i=0; i < accounts.getCount(); i++)
+			if (accounts[i]->iOrder == id) break;
 
-        // Account with id not found
-        if (i == accounts.getCount())
-        {
-            // Check if this is skipped id, if it is decrement all other ids
-            bool found = false;
-	        for (i=0; i < accounts.getCount(); i++)
-            {
-                if (accounts[i]->iOrder < 1000000 && accounts[i]->iOrder > id)
-                {
-                    --accounts[i]->iOrder;
-                    found = true;
-                }
-            }
-            if (found) changed = true;
-            else break;
-        }
-        else
-            ++id;
-    }
+		// Account with id not found
+		if (i == accounts.getCount()) {
+			// Check if this is skipped id, if it is decrement all other ids
+			bool found = false;
+			for (i=0; i < accounts.getCount(); i++) {
+				if (accounts[i]->iOrder < 1000000 && accounts[i]->iOrder > id) {
+					--accounts[i]->iOrder;
+					found = true;
+				}
+			}
+			if (found) changed = true;
+			else break;
+		}
+		else id++;
+	}
 
-    if (id < accounts.getCount())
-    {
-        // Remove huge ids
-        for (i=0; i < accounts.getCount(); i++)
-        {
-            if (accounts[i]->iOrder >= 1000000)
-                accounts[i]->iOrder = id++;
-        }
-        changed = true;
-    }
+	if (id < accounts.getCount()) {
+		// Remove huge ids
+		for (i=0; i < accounts.getCount(); i++)
+			if (accounts[i]->iOrder >= 1000000)
+				accounts[i]->iOrder = id++;
 
-    if (id < accounts.getCount())
-    {
-        // Remove duplicate ids
-        for (i=0; i < accounts.getCount(); i++)
-        {
-            bool found = false;
-            for (int j = 0; j < accounts.getCount(); j++)
-            {
-                if (accounts[j]->iOrder == i)
-                {
-                    if (found) accounts[j]->iOrder = id++;
-                    else found = true;
-                }
-            }
-        }
-        changed = true;
-    }
+		changed = true;
+	}
 
-    return changed;
+	if (id < accounts.getCount()) {
+		// Remove duplicate ids
+		for (i=0; i < accounts.getCount(); i++) {
+			bool found = false;
+			for (int j = 0; j < accounts.getCount(); j++) {
+				if (accounts[j]->iOrder == i) {
+					if (found) accounts[j]->iOrder = id++;
+					else found = true;
+				}
+			}
+		}
+		changed = true;
+	}
+
+	return changed;
 }
-
 
 int FillTree(HWND hwnd)
 {
-	ProtocolData *PD;
-	int i;
-	PROTOACCOUNT* pa;
-
 	TVINSERTSTRUCT tvis;
 	tvis.hParent = NULL;
 	tvis.hInsertAfter = TVI_LAST;
@@ -135,14 +119,14 @@ int FillTree(HWND hwnd)
 	if (accounts.getCount() == 0)
 		return FALSE;
 
-	for (i=0; i < accounts.getCount(); i++) {
+	for (int i=0; i < accounts.getCount(); i++) {
 		int idx = cli.pfnGetAccountIndexByPos(i);
 		if (idx == -1)
 			continue;
 
-		pa = accounts[idx];
+		PROTOACCOUNT *pa = accounts[idx];
 
-		PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
+		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = pa->szModuleName;
 		PD->protopos = pa->iOrder;
 		PD->enabled = Proto_IsAccountEnabled(pa) && isProtoSuitable(pa->ppro);
@@ -159,11 +143,10 @@ int FillTree(HWND hwnd)
 
 INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    HWND hwndProtoOrder = GetDlgItem(hwndDlg, IDC_PROTOCOLORDER);
+	HWND hwndProtoOrder = GetDlgItem(hwndDlg, IDC_PROTOCOLORDER);
 	struct ProtocolOrderData *dat = (ProtocolOrderData*)GetWindowLongPtr(hwndProtoOrder, GWLP_USERDATA);
 
-	switch (msg)
-    {
+	switch (msg) {
 	case WM_DESTROY:
 		ImageList_Destroy(TreeView_GetImageList(hwndProtoOrder, TVSIL_NORMAL));
 		mir_free(dat);
@@ -187,14 +170,13 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		return TRUE;
 
 	case WM_COMMAND:
-		if (LOWORD(wParam) == IDC_RESETPROTOCOLDATA && HIWORD(wParam) == BN_CLICKED)
-        {
+		if (LOWORD(wParam) == IDC_RESETPROTOCOLDATA && HIWORD(wParam) == BN_CLICKED) {
 			for (int i=0; i < accounts.getCount(); i++)
 				accounts[i]->iOrder = i;
 
 			FillTree(hwndProtoOrder);
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-        }
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -281,8 +263,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ClientToScreen(hwndDlg, &hti.pt);
 			ScreenToClient(hwndProtoOrder, &hti.pt);
 			TreeView_HitTest(hwndProtoOrder, &hti);
-			if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT))
-            {
+			if (hti.flags & (TVHT_ONITEM|TVHT_ONITEMRIGHT)) {
 				HTREEITEM it = hti.hItem;
 				hti.pt.y -= TreeView_GetItemHeight(hwndProtoOrder) / 2;
 				TreeView_HitTest(hwndProtoOrder, &hti);
@@ -295,7 +276,8 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				if (hti.flags&TVHT_ABOVE) SendMessage(hwndProtoOrder, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
 				if (hti.flags&TVHT_BELOW) SendMessage(hwndProtoOrder, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
 				TreeView_SetInsertMark(hwndProtoOrder, NULL, 0);
-		}	}
+			}
+		}
 		break;
 
 	case WM_LBUTTONUP:
@@ -318,8 +300,7 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 			tvi.hItem = dat->hDragItem;
 			TreeView_GetItem(hwndProtoOrder, &tvi);
-			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST))
-            {
+			if (hti.flags & (TVHT_ONITEM | TVHT_ONITEMRIGHT) || (hti.hItem == TVI_FIRST)) {
 				TVINSERTSTRUCT tvis;
 				TCHAR name[128];
 				ProtocolData * lpOldData;

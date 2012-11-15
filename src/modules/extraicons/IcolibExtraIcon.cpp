@@ -24,12 +24,12 @@
 #include "extraicons.h"
 #include "usedIcons.h"
 
-IcolibExtraIcon::IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
-		MIRANDAHOOKPARAM OnClick, LPARAM param) :
-	BaseExtraIcon(id, name, description, descIcon, OnClick, param)
+IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const TCHAR *_description, const char *_descIcon,
+		MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
+	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
 {
 	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, name);
+	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
 }
 

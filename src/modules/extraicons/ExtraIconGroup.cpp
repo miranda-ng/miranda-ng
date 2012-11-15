@@ -23,11 +23,11 @@
 #include "ExtraIconGroup.h"
 #include "extraicons.h"
 
-ExtraIconGroup::ExtraIconGroup(const char *name) :
-	ExtraIcon(name), setValidExtraIcon(false), insideApply(false)
+ExtraIconGroup::ExtraIconGroup(const char *_name) :
+	ExtraIcon(_name), setValidExtraIcon(false), insideApply(false)
 {
 	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, name);
+	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
 }
 

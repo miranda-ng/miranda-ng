@@ -697,13 +697,12 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				POINT ptItem = pt;
 				ScreenToClient(hwndList, &ptItem);
 				iItem = (short)LOWORD(SendMessage(hwndList, LB_ITEMFROMPOINT, 0, MAKELPARAM(ptItem.x, ptItem.y)));
-				if (iItem != LB_ERR) 
-                {
-				    ListBox_SetCurSel(hwndList, iItem);
-                    sttUpdateAccountInfo(hwndDlg, dat);
-				    sttSelectItem(dat, hwndList, iItem);
-				    SetFocus(hwndList);
-                }
+				if (iItem != LB_ERR) {
+					ListBox_SetCurSel(hwndList, iItem);
+					sttUpdateAccountInfo(hwndDlg, dat);
+					sttSelectItem(dat, hwndList, iItem);
+					SetFocus(hwndList);
+				}
 			}
 
 			if (iItem != LB_ERR) {
