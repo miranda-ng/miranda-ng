@@ -103,12 +103,12 @@ int cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex)
 	return -1;
 }
 
-int cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible)
+int cliFindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible)
 {
   return FindItem(hwnd,dat, hItem,contact,subgroup,isVisible,FALSE);
 }
 
-int FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts)
+int FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts)
 {
 	int index = 0, i;
 	int nowVisible = 1;
@@ -209,7 +209,7 @@ void ClearRowByIndexCache()
 		CacheIndexClear = TRUE;
 	};
 }
-int cliGetRowByIndex(struct ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup)
+int cliGetRowByIndex(ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup)
 {
 	int index = 0,i;
 	ClcGroup *group = &dat->list;

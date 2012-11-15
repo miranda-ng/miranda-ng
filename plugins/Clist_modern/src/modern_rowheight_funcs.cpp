@@ -30,9 +30,9 @@ Created by Pescuma, modified by Artem Shpynov
 #include "hdr/modern_clcpaint.h"
 
 int g_mutex_nCalcRowHeightLock = 0;
-int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
-void RowHeights_CalcRowHeights_Worker(struct ClcData *dat, HWND hwnd);
-int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
+int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
+void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd);
+int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
 
 /*
 *
@@ -68,7 +68,7 @@ SIZE GetAvatarSize(int imageWidth, int imageHeight, int maxWidth, int maxHeight)
   return sz;
 }
 
-int RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item)
+int RowHeight_CalcRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
 	if (MirandaExiting()) return 0;
 	g_mutex_nCalcRowHeightLock++;
@@ -77,16 +77,16 @@ int RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact,
 	return res;
 }
 
-int mod_CalcRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item)
+int mod_CalcRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
 	BYTE i=0;
 	int res = 0;
 	int height = 0;
-	ClcCacheEntry * pdnce; 
+	ClcCacheEntry *pdnce; 
 	BOOL hasAvatar = FALSE;
 	DWORD style;
 	style = GetWindowLongPtr(hwnd,GWL_STYLE);
-	pdnce = (ClcCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact);
+	pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 	if ( !RowHeights_Alloc(dat, item + 1))
 		return -1;
 
@@ -342,7 +342,7 @@ BOOL RowHeights_Initialize(struct	ClcData	*dat)
 	return TRUE;
 }
 
-void RowHeights_Free(struct ClcData *dat)
+void RowHeights_Free(ClcData *dat)
 {
 	if (dat->row_heights != NULL) {
 		free(dat->row_heights);
@@ -353,12 +353,12 @@ void RowHeights_Free(struct ClcData *dat)
 	dat->row_heights_size = 0;
 }
 
-void RowHeights_Clear(struct ClcData *dat)
+void RowHeights_Clear(ClcData *dat)
 {
 	dat->row_heights_size = 0;
 }
 
-BOOL RowHeights_Alloc(struct ClcData *dat, int size)
+BOOL RowHeights_Alloc(ClcData *dat, int size)
 {
 	if (size > dat->row_heights_size) {
 		if (size > dat->row_heights_allocated) {
@@ -403,7 +403,7 @@ static int contact_fonts[] = {
 	
 static int other_fonts[] = {FONTID_OPENGROUPS, FONTID_OPENGROUPCOUNTS,FONTID_CLOSEDGROUPS, FONTID_CLOSEDGROUPCOUNTS, FONTID_DIVIDERS, FONTID_CONTACT_TIME};
 
-int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
+int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd)
 {
 	int max_height = 0, i, tmp;
 	DWORD style = GetWindowLongPtr(hwnd,GWL_STYLE);
@@ -462,7 +462,7 @@ int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd)
 }
 
 // Calc and store row height for all items in the list
-void RowHeights_CalcRowHeights(struct ClcData *dat, HWND hwnd)
+void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd)
 {
     if (MirandaExiting()) return;
     g_mutex_nCalcRowHeightLock++;
@@ -470,7 +470,7 @@ void RowHeights_CalcRowHeights(struct ClcData *dat, HWND hwnd)
     g_mutex_nCalcRowHeightLock--;
 }
 
-void RowHeights_CalcRowHeights_Worker(struct ClcData *dat, HWND hwnd)
+void RowHeights_CalcRowHeights_Worker(ClcData *dat, HWND hwnd)
 {
 	if (MirandaExiting()) return;
 
@@ -536,7 +536,7 @@ void RowHeights_CalcRowHeights_Worker(struct ClcData *dat, HWND hwnd)
 }
 
 // Calc and store row height
-int RowHeights_GetRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item)
+int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
 	if (MirandaExiting()) return 0;
 	g_mutex_nCalcRowHeightLock++;
@@ -545,7 +545,7 @@ int RowHeights_GetRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact,
 	return res;
 }
 
-int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item)
+int RowHeights_GetRowHeight_worker(ClcData *dat, HWND hwnd, ClcContact *contact, int item)
 {
 	if (gl_RowRoot)
 		return RowHeight_CalcRowHeight(dat, hwnd, contact, item);
@@ -560,7 +560,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *c
 		return -1;
 
 	int height = 0;
-	ClcCacheEntry *pdnce = (contact->type == CLCIT_CONTACT) ? (ClcCacheEntry*)pcli->pfnGetCacheEntry(contact->hContact) : NULL;
+	ClcCacheEntry *pdnce = (contact->type == CLCIT_CONTACT) ? pcli->pfnGetCacheEntry(contact->hContact) : NULL;
 
 	if (dat->row_variable_height) {
 		if ( !dat->text_ignore_size_for_row_height) {
@@ -628,7 +628,7 @@ int RowHeights_GetRowHeight_worker(struct ClcData *dat, HWND hwnd, ClcContact *c
 }
 
 // Calc item top Y (using stored data)
-int cliGetRowTopY(struct ClcData *dat, int item)
+int cliGetRowTopY(ClcData *dat, int item)
 {
 	if (item >= dat->row_heights_size)
 		return cliGetRowBottomY(dat,item-1);
@@ -640,7 +640,7 @@ int cliGetRowTopY(struct ClcData *dat, int item)
 }
 
 // Calc item bottom Y (using stored data)
-int cliGetRowBottomY(struct ClcData *dat, int item)
+int cliGetRowBottomY(ClcData *dat, int item)
 {
 	if (item >= dat->row_heights_size)
 		return -1;
@@ -653,7 +653,7 @@ int cliGetRowBottomY(struct ClcData *dat, int item)
 
 
 // Calc total height of rows (using stored data)
-int cliGetRowTotalHeight(struct ClcData *dat)
+int cliGetRowTotalHeight(ClcData *dat)
 {
 	int y = 0;
 	for (int i=0 ; i < dat->row_heights_size ; i++)
@@ -663,7 +663,7 @@ int cliGetRowTotalHeight(struct ClcData *dat)
 }
 
 // Return the line that pos_y is at or -1 (using stored data)
-int cliRowHitTest(struct ClcData *dat, int pos_y)
+int cliRowHitTest(ClcData *dat, int pos_y)
 {
 	if (pos_y < 0)
 		return -1;
@@ -678,7 +678,7 @@ int cliRowHitTest(struct ClcData *dat, int pos_y)
 	return -1;
 }
 
-int cliGetRowHeight(struct ClcData *dat, int item)
+int cliGetRowHeight(ClcData *dat, int item)
 {	
 	if ( item >= dat->row_heights_size || item  < 0 )
 		return dat->rowHeight;

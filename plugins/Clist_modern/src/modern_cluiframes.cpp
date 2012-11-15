@@ -117,7 +117,7 @@ static int sortfunc(const void *a,const void *b)
 	if (sd1->order < sd2->order){return(-1);};
 	return (0);
 };
-int CLUIFrames_OnMoving( HWND hwnd, RECT * r)
+int CLUIFrames_OnMoving( HWND hwnd, RECT *r)
 {
 	int i;
 	g_CluiData.mutexPreventDockMoving = 0;
@@ -2635,7 +2635,7 @@ int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam)
 	{
 		RECT oldRect;
 		POINT pt;
-		RECT * newRect = (RECT *)lParam;
+		RECT *newRect = (RECT *)lParam;
 		int dl,dt,dr,db;
 		GetWindowRect((HWND)wParam,&oldRect);
 		pt.x = nRect.left;
@@ -2860,7 +2860,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc, HBITMAP hBmpBackground, COLORREF bkColou
 }
 
 
-int DrawTitleBar(HDC hdcMem2,RECT * rect,int Frameid)
+int DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid)
 {
 	int pos;
 	BOOL bThemed = FALSE;

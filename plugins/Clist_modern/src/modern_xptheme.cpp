@@ -197,7 +197,7 @@ void xpt_OnWM_THEMECHANGED()
 	}
 	xptunlock();
 }
-HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int state, const RECT * sizeRect, const RECT * clipRect)
+HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
 	HRESULT res = S_FALSE;
 	xptcheck S_FALSE;
@@ -207,7 +207,7 @@ HRESULT	xpt_DrawThemeBackground(XPTHANDLE xptHandle, HDC hdc, int type, int stat
 	xptunlock();
 	return res;
 }
-HRESULT	xpt_DrawThemeParentBackground(HWND hWnd, HDC hdc, const RECT * sizeRect)
+HRESULT	xpt_DrawThemeParentBackground(HWND hWnd, HDC hdc, const RECT *sizeRect)
 {
 	xptcheck S_FALSE;
 	return xpt_DrawThemeParentBackground(hWnd, hdc, sizeRect);
@@ -222,7 +222,7 @@ BOOL xpt_IsThemeBackgroundPartiallyTransparent(XPTHANDLE xptHandle, int type,  i
 	xptunlock();
 	return res;
 }
-HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int state, const RECT *sizeRect, const RECT * clipRect)
+HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int state, const RECT *sizeRect, const RECT *clipRect)
 {
 	HRESULT res = S_FALSE;
 	xptcheck S_FALSE;
@@ -237,7 +237,7 @@ HRESULT	xpt_DrawTheme(XPTHANDLE xptHandle, HWND hwnd, HDC hdc, int type, int sta
 	return res;
 }
 
-HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT * textRect)
+HRESULT xpt_DrawThemeText(XPTHANDLE xptHandle, HDC hdc, int type, int state, LPCTSTR lpStr, int len, DWORD flag1, DWORD flag2, const RECT *textRect)
 {
 	HRESULT res = S_FALSE;
 	xptcheck S_FALSE;

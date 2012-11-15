@@ -59,14 +59,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 /* Declaration of prototypes in other modules */
 
 int ClcUnloadModule();
-int ClcGetShortData(struct ClcData* pData, struct SHORTDATA *pShortData);
+int ClcGetShortData(ClcData* pData, struct SHORTDATA *pShortData);
 int ClcEnterDragToScroll(HWND hwnd, int Y);
 
 int CListMod_ContactListShutdownProc(WPARAM wParam,LPARAM lParam);
 int CListMod_HideWindow(HWND hwndContactList, int mode);
 
-int CListSettings_GetCopyFromCache(pClcCacheEntry pDest, DWORD flag);
-int CListSettings_SetToCache(pClcCacheEntry pSrc, DWORD flag);
+int CListSettings_GetCopyFromCache(ClcCacheEntry *pDest, DWORD flag);
+int CListSettings_SetToCache(ClcCacheEntry *pSrc, DWORD flag);
 
 int CLUIServices_LoadModule(void);
 INT_PTR CLUIServices_SortList(WPARAM wParam,LPARAM lParam);
@@ -90,7 +90,7 @@ int ske_JustUpdateWindowImage();
 void ske_LoadSkinFromDB(void);
 int ske_RedrawCompleteWindow();
 int ske_UpdateWindowImage();
-int ske_ValidateFrameImageProc(RECT * r);
+int ske_ValidateFrameImageProc(RECT *r);
 
 HWND StatusBar_Create(HWND parent);
 

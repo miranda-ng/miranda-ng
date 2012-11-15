@@ -46,7 +46,7 @@ static int OnIconLibIconChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static void InvalidateParentRect(HWND hwndChild, RECT * lpRect, BOOL fErase)
+static void InvalidateParentRect(HWND hwndChild, RECT *lpRect, BOOL fErase)
 {
 	LONG lExStyle = GetWindowLongPtr(hwndChild,GWL_EXSTYLE);
 	if (lExStyle & WS_EX_TRANSPARENT) {

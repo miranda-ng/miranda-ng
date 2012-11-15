@@ -329,7 +329,7 @@ HRESULT CLUI::CreateUIFrames()
 	return S_OK;
 }
 
-HRESULT CLUI::FillAlphaChannel( HDC hDC, RECT * prcParent, BYTE bAlpha)
+HRESULT CLUI::FillAlphaChannel( HDC hDC, RECT *prcParent, BYTE bAlpha)
 {
 	RECT rcWindow;
 	GetWindowRect( m_hWnd, &rcWindow );
@@ -1161,7 +1161,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 	if ( !fnGetMenuBarInfo )
 		return 1;
 
-	ClcData *dat = (struct ClcData*)GetWindowLongPtr(pcli->hwndContactTree,0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(pcli->hwndContactTree,0);
 	if ( !dat)
 		return 1;
 
@@ -1302,7 +1302,7 @@ static int CLUI_DrawMenuBackGround(HWND hwnd, HDC hdc, int item, int state)
 	return 0;
 }
 
-int CLUI_SizingGetWindowRect(HWND hwnd,RECT * rc)
+int CLUI_SizingGetWindowRect(HWND hwnd,RECT *rc)
 {
 	if (mutex_bDuringSizing && hwnd == pcli->hwndContactList)
 		*rc = rcSizingRect;
@@ -1314,18 +1314,18 @@ int CLUI_SizingGetWindowRect(HWND hwnd,RECT * rc)
 
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam)
 {
-	return CListSettings_GetCopyFromCache((pClcCacheEntry)lParam, wParam ? (DWORD) wParam : CCI_ALL );
+	return CListSettings_GetCopyFromCache((ClcCacheEntry *)lParam, wParam ? (DWORD) wParam : CCI_ALL );
 }
 
 int CLUI_SyncSetPDNCE(WPARAM wParam, LPARAM lParam)
 {
-	return CListSettings_SetToCache((pClcCacheEntry)lParam, wParam ?  (DWORD) wParam : CCI_ALL );
+	return CListSettings_SetToCache((ClcCacheEntry *)lParam, wParam ?  (DWORD) wParam : CCI_ALL );
 }
 
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam)
 {
 	HWND hwnd = (HWND) wParam;
-	struct ClcData *dat = (struct ClcData * )GetWindowLongPtr(hwnd,0);
+	ClcData *dat = (ClcData *)GetWindowLongPtr(hwnd,0);
 	return ClcGetShortData(dat,(struct SHORTDATA *)lParam);
 }
 
@@ -2741,7 +2741,7 @@ LRESULT CLUI::OnMeasureItem( UINT msg, WPARAM wParam, LPARAM lParam )
 
 LRESULT CLUI::OnDrawItem( UINT msg, WPARAM wParam, LPARAM lParam )
 {
-	struct ClcData * dat = (struct ClcData*)GetWindowLongPtr(pcli->hwndContactTree,0);
+	ClcData *dat = (ClcData*)GetWindowLongPtr(pcli->hwndContactTree,0);
 	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 	if ( !dat) return 0;
 

@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 /* Declarations */
 static HANDLE hNotifyFrame = NULL;
-static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
+static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
 static int EventArea_Draw(HWND hwnd, HDC hDC);
 static int EventArea_DrawWorker(HWND hwnd, HDC hDC);
 static void EventArea_HideShowNotifyFrame();
@@ -240,7 +240,7 @@ struct event_area_t
 
 static event_area_t event_area;
 
-static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT * rect)
+static BOOL sttDrawEventAreaBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
 	BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
@@ -309,7 +309,7 @@ void EventArea_ConfigureEventArea()
 }
 
 
-static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+static int EventArea_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
 {
 	return EventArea_Draw(hWnd,hDC);   
 }

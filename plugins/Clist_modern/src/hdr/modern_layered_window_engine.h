@@ -1,7 +1,7 @@
 #pragma once
 #include "../m_api/m_skin_eng.h"
 
-// typedef int (/*__stdcall*/ *tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgnUpdate, DWORD dFlags, void * CallBackData);
+// typedef int (/*__stdcall*/ *tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgnUpdate, DWORD dFlags, void * CallBackData);
 
 class CLayeredWindowEngine
 {
@@ -40,8 +40,8 @@ public:
 	void LweValidatorProcWorker();
 
 	void LweValidatorWorker();
-	int LweInvalidateRect( HWND hWnd, const RECT * rect, BOOL bErase );
-	// int LweValidateWindowRect( HWND hWnd, RECT * rect );
+	int LweInvalidateRect( HWND hWnd, const RECT *rect, BOOL bErase );
+	// int LweValidateWindowRect( HWND hWnd, RECT *rect );
 	// int RegisterWindow( HWND hwnd, tPaintCallbackProc pPaintCallBackProc );
 
 };

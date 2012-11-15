@@ -38,7 +38,7 @@ BOOL ModernSkinButtonModuleIsLoaded = FALSE;
 static HANDLE hookSystemShutdown_ModernSkinButton = NULL;
 static LRESULT CALLBACK ModernSkinButtonWndProc(HWND hwndDlg, UINT msg,  WPARAM wParam, LPARAM lParam);
 int ModernSkinButtonUnloadModule(WPARAM wParam, LPARAM lParam);
-int SkinSelector_DeleteMask(MODERNMASK * mm);
+int SkinSelector_DeleteMask(MODERNMASK *mm);
 HWND SetToolTip(HWND hwnd, TCHAR * tip);
 
 typedef struct _ModernSkinButtonCtrl
@@ -731,7 +731,7 @@ int ModernSkinButtonDeleteAll()
 	return 0;
 }
 
-int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r)
+int ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r)
 {
 	DWORD i;
 	RECT rc;

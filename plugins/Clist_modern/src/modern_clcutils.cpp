@@ -33,7 +33,7 @@ BOOL RectHitTest(RECT *rc, int testx, int testy)
 	return testx >= rc->left && testx < rc->right && testy >= rc->top && testy < rc->bottom;
 }
 
-int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags)
+int cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags)
 {
 	ClcContact *hitcontact = NULL;
 	ClcGroup *hitgroup = NULL;
@@ -130,7 +130,7 @@ int cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,ClcContact **co
 	return hit;
 }
 
-void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
+void cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth)
 {
 	DWORD startTick,nowTick;
 	int oldy = dat->yScroll;
@@ -190,7 +190,7 @@ void cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 }
 
 
-void cliRecalcScrollBar(HWND hwnd,struct ClcData *dat)
+void cliRecalcScrollBar(HWND hwnd,ClcData *dat)
 {
 	SCROLLINFO si = {0};
 	RECT clRect;
@@ -243,10 +243,10 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		switch(wParam) 
 		{
 		case VK_RETURN:
-			pcli->pfnEndRename(GetParent(hwnd),(struct ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
+			pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
 			return 0;
 		case VK_ESCAPE:
-			pcli->pfnEndRename(GetParent(hwnd),(struct ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),0);
+			pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),0);
 			return 0;
 		}
 		break;
@@ -259,14 +259,14 @@ static LRESULT CALLBACK RenameEditSubclassProc(HWND hwnd, UINT msg, WPARAM wPara
 		}
 		return DLGC_WANTMESSAGE;
 	case WM_KILLFOCUS:
-		pcli->pfnEndRename(GetParent(hwnd),(struct ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
+		pcli->pfnEndRename(GetParent(hwnd),(ClcData*)GetWindowLongPtr(hwnd,GWLP_USERDATA),1);
 		SendMessage(pcli->hwndContactTree,WM_SIZE,0,0);
 		return 0;
 	}
 	return CallWindowProc(OldRenameEditWndProc,hwnd,msg,wParam,lParam);
 }
 
-void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
+void cliBeginRenameSelection(HWND hwnd,ClcData *dat)
 {
 	ClcContact *contact;
 	ClcGroup *group;
@@ -354,7 +354,7 @@ void cliBeginRenameSelection(HWND hwnd,struct ClcData *dat)
 	SetFocus(dat->hwndRenameEdit);
 }
 
-int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
+int GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt)
 {
 	RECT clRect;
 	int hit;
@@ -413,7 +413,7 @@ int GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt)
 				}
 				if (bottomItem != -1 && bottomcontact->type != CLCIT_GROUP)
 				{
-					ClcGroup * gr = bottomgroup;
+					ClcGroup *gr = bottomgroup;
 					do 
 					{
 						bottomItem = cliGetRowByIndex(dat,bottomItem-1,&bottomcontact,&bottomgroup);}
@@ -473,7 +473,7 @@ COLORREF sttGetColor(char * module, char * color, COLORREF defColor)
 	else return db_get_dw(NULL, module, color, defColor);
 }
 void RegisterCLUIFonts( void );
-void LoadCLCFonts( HWND hwnd, struct ClcData *dat )
+void LoadCLCFonts( HWND hwnd, ClcData *dat )
 {
 	RegisterCLUIFonts();
 	
@@ -503,7 +503,7 @@ void LoadCLCFonts( HWND hwnd, struct ClcData *dat )
 	ReleaseDC( hwnd, hdc );
 }
 
-void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
+void LoadCLCOptions(HWND hwnd, ClcData *dat )
 { 
 	int i;
 
@@ -790,9 +790,9 @@ void LoadCLCOptions(HWND hwnd, struct ClcData *dat )
 
 }
 
-int ExpandMetaContact(HWND hwnd, ClcContact * contact, struct ClcData * dat, BOOL bExpand)
+int ExpandMetaContact(HWND hwnd, ClcContact *contact, ClcData *dat, BOOL bExpand)
 {
-	ClcContact * ht = NULL;
+	ClcContact *ht = NULL;
 	KillTimer(hwnd,TIMERID_SUBEXPAND);
 	if (contact->type != CLCIT_CONTACT  || contact->SubAllocated == 0 || contact->SubExpanded == bExpand || !db_get_b(NULL,"CLC","MetaExpanding",SETTING_METAEXPANDING_DEFAULT)) return 0;
 	contact->SubExpanded = bExpand;
@@ -803,7 +803,7 @@ int ExpandMetaContact(HWND hwnd, ClcContact * contact, struct ClcData * dat, BOO
 	return contact->SubExpanded;
 }
 
-int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk)
+int cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk)
 {
 	ClcGroup *group = &dat->list;
 	int testlen = lstrlen(text);
@@ -854,7 +854,7 @@ int cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int pref
 				int i=0;
 				for (i=0; i < contact->SubAllocated; i++)
 				{
-					ClcContact * subcontact = &(contact->subcontacts[i]);
+					ClcContact *subcontact = &(contact->subcontacts[i]);
 
 					bool found;
 					if (dat->filterSearch) {

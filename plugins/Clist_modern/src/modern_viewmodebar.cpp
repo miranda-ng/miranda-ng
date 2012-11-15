@@ -59,7 +59,7 @@ static UINT _page2Controls[] = {IDC_CLIST, IDC_STATIC9, IDC_STATIC8, IDC_CLEARAL
 void ApplyViewMode(const char *Name, bool onlySelector = false );
 static UINT _buttons[] = {IDC_RESETMODES, IDC_SELECTMODE, IDC_CONFIGUREMODES, 0};
 
-static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT * rect);
+static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect);
 static void DeleteViewMode( char * szName );
 
 static int DrawViewModeBar(HWND hWnd, HDC hDC)
@@ -70,7 +70,7 @@ static int DrawViewModeBar(HWND hWnd, HDC hDC)
 	return 0;
 }
 
-static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+static int ViewModePaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
 {
 	int i;
 	RECT MyRect = {0};
@@ -1268,7 +1268,7 @@ struct view_mode_t
 
 static view_mode_t view_mode;
 
-static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT * rect)
+static BOOL sttDrawViewModeBackground(HWND hwnd, HDC hdc, RECT *rect)
 {
 	BOOL bFloat = (GetParent(hwnd) != pcli->hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat)
@@ -1469,7 +1469,7 @@ void ApplyViewMode(const char *Name, bool onlySelector )
 			g_CluiData.bSortByOrder[0] = SORTBY_LASTMSG;
 			for (i=0; i < clistCache->realCount; i++)
 			{
-				PDNCE pdnce = (PDNCE)clistCache->items[i];
+				ClcCacheEntry *pdnce = (ClcCacheEntry *)clistCache->items[i];
 				pdnce->dwLastMsgTime = CompareContacts2_getLMTime(pdnce->hContact);
 			}
 			g_CluiData.bSortByOrder[0] = bSaved;

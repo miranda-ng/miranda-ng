@@ -43,7 +43,7 @@ int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
 
 typedef struct _GetTextAsyncItem {
 	HANDLE hContact;
-	struct ClcData *dat;
+	ClcData *dat;
 	struct _GetTextAsyncItem *Next;
 } GTACHAINITEM;
 
@@ -152,7 +152,7 @@ BOOL gtaWakeThread()
 	return FALSE;
 }
 
-int gtaAddRequest(struct ClcData *dat,ClcContact *contact,HANDLE hContact)
+int gtaAddRequest(ClcData *dat,ClcContact *contact,HANDLE hContact)
 {
 	if (MirandaExiting()) return 0;
 	gtalock;    

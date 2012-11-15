@@ -383,7 +383,6 @@ struct SHORTDATA
 	BOOL    third_line_use_name_and_message_for_xstatus;
 };
 
-
 typedef struct tagOVERLAYICONINFO
 {
 	char *name;
@@ -397,36 +396,36 @@ void    ClcOptionsChanged(void);
 
 //clcidents.c
 int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
-int     FindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts );
-int     cliGetRowByIndex(struct ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup);
+int     FindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible, BOOL isIgnoreSubcontacts );
+int     cliGetRowByIndex(ClcData *dat,int testindex,ClcContact **contact,ClcGroup **subgroup);
 HANDLE  ContactToHItem(ClcContact *contact);
 HANDLE  ContactToItemHandle(ClcContact *contact,DWORD *nmFlags);
 void    ClearRowByIndexCache();
 
 //clcitems.c
-ClcGroup *cli_AddGroup(HWND hwnd,struct ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
+ClcGroup *cli_AddGroup(HWND hwnd,ClcData *dat,const TCHAR *szName,DWORD flags,int groupId,int calcTotalMembers);
 void    cli_FreeGroup(ClcGroup *group);
 int     cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
-void    cliRebuildEntireList(HWND hwnd,struct ClcData *dat);
+void    cliRebuildEntireList(HWND hwnd,ClcData *dat);
 void    cli_DeleteItemFromTree(HWND hwnd,HANDLE hItem);
-void    cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
-void    cli_SortCLC(HWND hwnd,struct ClcData *dat,int useInsertionSort);
+void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
+void    cli_SortCLC(HWND hwnd,ClcData *dat,int useInsertionSort);
 int     GetNewSelection(ClcGroup *group,int selection, int direction);
 
 //clcmsgs.c
-LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
 
 //clcutils.c
-void    cliRecalcScrollBar(HWND hwnd,struct ClcData *dat);
-void    cliBeginRenameSelection(HWND hwnd,struct ClcData *dat);
-int     cliHitTest(HWND hwnd,struct ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags);
-void    cliScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth);
-int     GetDropTargetInformation(HWND hwnd,struct ClcData *dat,POINT pt);
-void    LoadCLCOptions(HWND hwnd,struct ClcData *dat);
+void    cliRecalcScrollBar(HWND hwnd,ClcData *dat);
+void    cliBeginRenameSelection(HWND hwnd,ClcData *dat);
+int     cliHitTest(HWND hwnd,ClcData *dat,int testx,int testy,ClcContact **contact,ClcGroup **group,DWORD *flags);
+void    cliScrollTo(HWND hwnd,ClcData *dat,int desty,int noSmooth);
+int     GetDropTargetInformation(HWND hwnd,ClcData *dat,POINT pt);
+void    LoadCLCOptions(HWND hwnd,ClcData *dat);
 
 
 //clcpaint.c
-void    CLCPaint_cliPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint);
+void    CLCPaint_cliPaintClc(HWND hwnd,ClcData *dat,HDC hdc,RECT *rcPaint);
 
 //clcopts.c
 int     ClcOptInit(WPARAM wParam,LPARAM lParam);

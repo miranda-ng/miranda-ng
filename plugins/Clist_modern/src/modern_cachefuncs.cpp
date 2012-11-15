@@ -48,19 +48,19 @@ typedef BOOL (* ExecuteOnAllContactsFuncPtr) (ClcContact *contact, BOOL subconta
 
 static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size);
 
-static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
+static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param);
 static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFuncPtr func, void *param);
 int CLUI_SyncGetShortData(WPARAM wParam, LPARAM lParam);
-void CListSettings_FreeCacheItemData(pClcCacheEntry pDst);
-void CListSettings_FreeCacheItemDataOption( pClcCacheEntry pDst, DWORD flag );
+void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
+void CListSettings_FreeCacheItemDataOption( ClcCacheEntry *pDst, DWORD flag );
 /*
-*	Get time zone for contact
-*/
-void Cache_GetTimezone(struct ClcData *dat, HANDLE hContact)
+ *	Get time zone for contact
+ */
+void Cache_GetTimezone(ClcData *dat, HANDLE hContact)
 {
-	PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(hContact);
+	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(hContact);
 	if (dat == NULL && pcli->hwndContactTree) 
-		dat = (struct ClcData *)GetWindowLongPtr(pcli->hwndContactTree,0);
+		dat = (ClcData *)GetWindowLongPtr(pcli->hwndContactTree,0);
 
 	if (dat && dat->hWnd == pcli->hwndContactTree) {
 		DWORD flags = dat->contact_time_show_only_if_different ? TZF_DIFONLY : 0;
@@ -69,21 +69,20 @@ void Cache_GetTimezone(struct ClcData *dat, HANDLE hContact)
 }
 
 /*
-*	Get all lines of text
-*/ 
+ *	Get all lines of text
+ */ 
 
-void Cache_GetText(struct ClcData *dat, ClcContact *contact, BOOL forceRenew)
+void Cache_GetText(ClcData *dat, ClcContact *contact, BOOL forceRenew)
 {
 	Cache_GetFirstLineText(dat, contact);
 	if ( !dat->force_in_dialog) {
-		PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
-
+		ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 		if ((dat->second_line_show && (forceRenew || pdnce->szSecondLineText == NULL)) || (dat->third_line_show && (forceRenew || pdnce->szThirdLineText == NULL)))
 			gtaAddRequest(dat,contact, contact->hContact);
 	}
 }
 
-void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, pClcCacheEntry pdnce, TCHAR *szText, BOOL replace_smileys)
+void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR *szText, BOOL replace_smileys)
 {
 	iMaxSmileyHeight = 0;
 	DestroySmileyList();
@@ -96,19 +95,17 @@ void CSmileyString::AddListeningToIcon(struct SHORTDATA *dat, pClcCacheEntry pdn
 
 	// Add Icon
 	{
-		BITMAP bm;
-
-		ICONINFO icon;
 		ClcContactTextPiece *piece = (ClcContactTextPiece *) mir_alloc(sizeof(ClcContactTextPiece));
-
 		piece->type = TEXT_PIECE_TYPE_SMILEY;
 		piece->len = 0;
 		piece->smiley = g_hListeningToIcon;
-
 		piece->smiley_width = 16;
 		piece->smiley_height = 16;
-		if (GetIconInfo(piece->smiley, &icon)) {
-			if (GetObject(icon.hbmColor,sizeof(BITMAP),&bm)) {
+
+		ICONINFO icon;
+		if ( GetIconInfo(piece->smiley, &icon)) {
+			BITMAP bm;
+			if (GetObject(icon.hbmColor, sizeof(BITMAP), &bm)) {
 				piece->smiley_width = bm.bmWidth;
 				piece->smiley_height = bm.bmHeight;
 			}
@@ -188,7 +185,7 @@ void CSmileyString::DestroySmileyList()
 * Parsing of text for smiley
 */
 
-void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * szText, BOOL replace_smileys)
+void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, TCHAR * szText, BOOL replace_smileys)
 {
 	SMADD_BATCHPARSE2 sp = {0};
 	SMADD_BATCHPARSERES *spr;
@@ -290,7 +287,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, PDNCE pdnce, TCHAR * s
 *	Getting Status name
 *  -1 for XStatus, 1 for Status
 */
-int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_priority) 
+int GetStatusName(TCHAR *text, int text_size, ClcCacheEntry *pdnce, BOOL xstatus_has_priority) 
 {
 	BOOL noAwayMsg = FALSE;
 	BOOL noXstatus = FALSE;
@@ -341,7 +338,7 @@ int GetStatusName(TCHAR *text, int text_size, PDNCE pdnce, BOOL xstatus_has_prio
 * Get Listening to information
 */
 
-void GetListeningTo(TCHAR *text, int text_size,  PDNCE pdnce)
+void GetListeningTo(TCHAR *text, int text_size,  ClcCacheEntry *pdnce)
 {
 	DBVARIANT dbv = {0};
 	WORD wStatus = pdnce___GetStatus( pdnce );
@@ -361,7 +358,7 @@ void GetListeningTo(TCHAR *text, int text_size,  PDNCE pdnce)
 *  -1 for XStatus, 1 for Status
 */
 
-int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_priority) 
+int GetStatusMessage(TCHAR *text, int text_size,  ClcCacheEntry *pdnce, BOOL xstatus_has_priority) 
 {
 	DBVARIANT dbv = {0};
 	BOOL noAwayMsg = FALSE;
@@ -416,7 +413,7 @@ int GetStatusMessage(TCHAR *text, int text_size,  PDNCE pdnce, BOOL xstatus_has_
 *	Get the text for specified lines
 */
 int Cache_GetLineText(
-	PDNCE pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority, 
+	ClcCacheEntry *pdnce, int type, LPTSTR text, int text_size, TCHAR *variable_text, BOOL xstatus_has_priority, 
 	BOOL show_status_if_no_away, BOOL show_listening_if_no_away, BOOL use_name_and_message_for_xstatus, 
 	BOOL pdnce_time_show_only_if_different)
 {
@@ -519,12 +516,12 @@ int Cache_GetLineText(
 /*
 *	Get the text for First Line
 */
-void Cache_GetFirstLineText(struct ClcData *dat, ClcContact *contact)
+void Cache_GetFirstLineText(ClcData *dat, ClcContact *contact)
 {
 	if (GetCurrentThreadId() != g_dwMainThreadID)
 		return;
 
-	PDNCE pdnce = (PDNCE)pcli->pfnGetCacheEntry(contact->hContact);
+	ClcCacheEntry *pdnce = pcli->pfnGetCacheEntry(contact->hContact);
 	TCHAR *name = pcli->pfnGetContactDisplayName(contact->hContact,0);
 	if (dat->first_line_append_nick && (!dat->force_in_dialog)) {
 		DBVARIANT dbv = {0};
@@ -555,7 +552,7 @@ void Cache_GetFirstLineText(struct ClcData *dat, ClcContact *contact)
 *	Get the text for Second Line
 */
 
-void Cache_GetSecondLineText(struct SHORTDATA *dat, PDNCE pdnce)
+void Cache_GetSecondLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240-EXTRA_ICON_COUNT] = {0};
 	int type = TEXT_EMPTY;
@@ -584,7 +581,7 @@ void Cache_GetSecondLineText(struct SHORTDATA *dat, PDNCE pdnce)
 /*
 *	Get the text for Third Line
 */
-void Cache_GetThirdLineText(struct SHORTDATA *dat, PDNCE pdnce)
+void Cache_GetThirdLineText(struct SHORTDATA *dat, ClcCacheEntry *pdnce)
 {
 	TCHAR Text[240-EXTRA_ICON_COUNT] = {0};
 	int type = TEXT_EMPTY;
@@ -672,7 +669,7 @@ static int CopySkipUnprintableChars(TCHAR *to, TCHAR * buf, DWORD size)
 
 // If ExecuteOnAllContactsFuncPtr returns FALSE, stop loop
 // Return TRUE if finished, FALSE if was stoped
-static BOOL ExecuteOnAllContacts(struct ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param)
+static BOOL ExecuteOnAllContacts(ClcData *dat, ExecuteOnAllContactsFuncPtr func, void *param)
 {
 	BOOL res;
 	res = ExecuteOnAllContactsOfGroup(&dat->list, func, param);
@@ -709,11 +706,11 @@ static BOOL ExecuteOnAllContactsOfGroup(ClcGroup *group, ExecuteOnAllContactsFun
 */
 BOOL UpdateAllAvatarsProxy(ClcContact *contact, BOOL subcontact, void *param)
 {
-	Cache_GetAvatar((struct ClcData *)param, contact);
+	Cache_GetAvatar((ClcData *)param, contact);
 	return TRUE;
 }
 
-void UpdateAllAvatars(struct ClcData *dat)
+void UpdateAllAvatars(ClcData *dat)
 {
 	ExecuteOnAllContacts(dat,UpdateAllAvatarsProxy,dat);
 }
@@ -726,7 +723,7 @@ BOOL ReduceAvatarPosition(ClcContact *contact, BOOL subcontact, void *param)
 	return TRUE;
 }
 
-void Cache_ProceedAvatarInList(struct ClcData *dat, ClcContact *contact)
+void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 {
 	struct avatarCacheEntry * ace = contact->avatar_data;
 	int old_pos = contact->avatar_pos;
@@ -832,7 +829,7 @@ void Cache_ProceedAvatarInList(struct ClcData *dat, ClcContact *contact)
 	}
 }
 
-void Cache_GetAvatar(struct ClcData *dat, ClcContact *contact)
+void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 {
 	int old_pos = contact->avatar_pos;
 	// workaround for avatar service and other wich destroys service on OK_TOEXIT

@@ -110,8 +110,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	void     freeName(void);
 };
 
-typedef ClcCacheEntry *pClcCacheEntry, *PDNCE;
-
 ///////////////////////////////////////////////////////////////////////////////
 
 #define CLVM_FILTER_PROTOS			1

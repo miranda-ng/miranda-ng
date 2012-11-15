@@ -106,7 +106,7 @@ HICON   CLUI_LoadIconFromExternalFile (char *filename,int i,BOOL UseLibrary,bool
 int     CLUI_OnSkinLoad(WPARAM wParam, LPARAM lParam);
 int     CLUI_ReloadCLUIOptions();
 int     CLUI_ShowFromBehindEdge();
-int     CLUI_SizingGetWindowRect(HWND hwnd,RECT * rc);
+int     CLUI_SizingGetWindowRect(HWND hwnd,RECT *rc);
 int     CLUI_SizingOnBorder(POINT ,int);
 int     CLUI_SmoothAlphaTransition(HWND hwnd, BYTE GoalAlpha, BOOL wParam);
 int     CLUI_TestCursorOnBorders();
@@ -129,16 +129,16 @@ void    EventArea_ConfigureEventArea();
 /* ModernSkinButton */
 int     ModernSkinButton_AddButton(HWND parent,char * ID,char * CommandService,char * StateDefService,char * HandeService,             int Left, int Top, int Right, int Bottom, DWORD AlignedTo,TCHAR * Hint,char * DBkey,char * TypeDef,int MinWidth, int MinHeight);
 int     ModernSkinButtonLoadModule();
-int     ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT * r);
+int     ModernSkinButton_ReposButtons(HWND parent, BYTE draw, RECT *r);
 int     ModernSkinButtonUnloadModule(WPARAM,LPARAM);
 
 /* RowHeight */
-int     RowHeight_CalcRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
+int     RowHeight_CalcRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
 
 /* SkinEngine */
 BOOL    ske_AlphaBlend(HDC hdcDest,int nXOriginDest,int nYOriginDest,int nWidthDest,int nHeightDest,HDC hdcSrc,int nXOriginSrc,int nYOriginSrc,int nWidthSrc,int nHeightSrc,BLENDFUNCTION blendFunction);
 void    ske_ApplyTransluency(void);
-int     ske_BltBackImage (HWND destHWND, HDC destDC, RECT * BltClientRect);
+int     ske_BltBackImage (HWND destHWND, HDC destDC, RECT *BltClientRect);
 HBITMAP ske_CreateDIB32(int cx, int cy);
 HBITMAP ske_CreateDIB32Point(int cx, int cy, void ** bits);
 HRGN    ske_CreateOpaqueRgn(BYTE Level, bool Opaque);
@@ -146,21 +146,21 @@ HICON   ske_CreateJoinedIcon(HICON hBottom, HICON hTop,BYTE alpha);
 int     ske_DrawImageAt(HDC hdc, RECT *rc);
 BOOL    ske_DrawIconEx(HDC hdc,int xLeft,int yTop,HICON hIcon,int cxWidth,int cyWidth, UINT istepIfAniCur, HBRUSH hbrFlickerFreeDraw, UINT diFlags);
 int     ske_DrawNonFramedObjects(BOOL Erase,RECT *r);
-BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format);
-BOOL    ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT * lpRect, UINT format);
+BOOL    ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format);
+BOOL    ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT *lpRect, UINT format);
 LPSKINOBJECTDESCRIPTOR   ske_FindObjectByName(const char * szName, BYTE objType, SKINOBJECTSLIST* Skin);
 HBITMAP ske_GetCurrentWindowImage();
 int     ske_GetFullFilename(char * buf, char *file, char * skinfolder,BOOL madeAbsolute);
 int     ske_GetSkinFolder(char * szFileName, char * t2);
 BOOL    ske_ImageList_DrawEx( HIMAGELIST himl,int i,HDC hdcDst,int x,int y,int dx,int dy,COLORREF rgbBk,COLORREF rgbFg,UINT fStyle);
 HICON   ske_ImageList_GetIcon(HIMAGELIST himl, int i, UINT fStyle);
-int     ske_JustUpdateWindowImageRect(RECT * rty);
+int     ske_JustUpdateWindowImageRect(RECT *rty);
 HBITMAP ske_LoadGlyphImage(char * szFileName);
 HRESULT SkinEngineLoadModule();
 void    ske_LoadSkinFromDB(void);
 int     ske_LoadSkinFromIniFile(TCHAR*, BOOL);
 TCHAR*  ske_ParseText(TCHAR *stzText);
-int     ske_PrepeareImageButDontUpdateIt(RECT * r);
+int     ske_PrepeareImageButDontUpdateIt(RECT *r);
 int     ske_ReCreateBackImage(BOOL Erase,RECT *w);
 int     ske_RedrawCompleteWindow();
 BOOL    ske_ResetTextEffect(HDC);
@@ -173,14 +173,14 @@ BOOL    ske_TextOutA(HDC hdc, int x, int y, char * lpString, int nCount);
 int     ske_UnloadGlyphImage(HBITMAP hbmp);
 int     SkinEngineUnloadModule();
 int     ske_UpdateWindowImage();
-int     ske_UpdateWindowImageRect(RECT * lpRect);
-int     ske_ValidateFrameImageProc(RECT * r);
+int     ske_UpdateWindowImageRect(RECT *lpRect);
+int     ske_ValidateFrameImageProc(RECT *r);
 
 /* CLUIFrames.c PROXIED */
 
 int CLUIFrames_ActivateSubContainers(BOOL wParam);
 int CLUIFrames_OnClistResize_mod(WPARAM wParam,LPARAM lParam);
-int CLUIFrames_OnMoving( HWND, RECT * );
+int CLUIFrames_OnMoving( HWND, RECT *);
 int CLUIFrames_OnShowHide( HWND hwnd, int mode );
 int CLUIFrames_SetLayeredMode( BOOL fLayeredMode, HWND hwnd );
 int CLUIFrames_SetParentForContainers( HWND parent );
@@ -188,8 +188,8 @@ int CLUIFramesOnClistResize(WPARAM wParam,LPARAM lParam);
 
 FRAMEWND * FindFrameByItsHWND(HWND FrameHwnd);                  //cluiframes.c
 
-//int callProxied_DrawTitleBar(HDC hdcMem2,RECT * rect,int Frameid);
-int DrawTitleBar(HDC hdcMem2,RECT * rect,int Frameid);
+//int callProxied_DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid);
+int DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid);
 
 int FindFrameID(HWND FrameHwnd);
 int SetAlpha(BYTE Alpha);
@@ -213,14 +213,14 @@ DWORD   CompareContacts2_getLMTime(HANDLE u);                                   
 DWORD   mod_CalcHash(const char * a);                                          //mod_skin_selector.c
 HICON   cliGetIconFromStatusMode(HANDLE hContact, const char *szProto,int status);            //clistmod.c
 HICON   GetMainStatusOverlay(int STATUS);                                       //clc.c
-int     __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szStatus, struct ClcData *dat);  //clcitems.c
+int     __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szStatus, ClcData *dat);  //clcitems.c
 int     BgStatusBarChange(WPARAM wParam,LPARAM lParam);                              //clcopts.c
 int     ClcDoProtoAck(HANDLE wParam,ACKDATA * ack);                                 //clc.c
 int     ModernSkinButtonDeleteAll();                                                   //modernbutton.c
 int     GetAverageMode( void );                                                   //clisttray.c
 int     GetContactCachedStatus(HANDLE hContact);                                 //clistsettings.c
 INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam);                              //clistmod.c
-int     GetContactIconC(pClcCacheEntry cacheEntry);                           //clistmod.c
+int     GetContactIconC(ClcCacheEntry *cacheEntry);                           //clistmod.c
 int     GetContactIndex(ClcGroup *group,ClcContact *contact);               //clcidents.c
 int     GetStatusForContact(HANDLE hContact,char *szProto);                           //clistsettings.c
 int     InitCustomMenus(void);                                                //clistmenus.c
@@ -237,10 +237,10 @@ int     QueueAllFramesUpdating (BYTE);                                          
 int     RecursiveDeleteMenu(HMENU hMenu);                                       //clistmenus.c
 int     ModernSkinButtonRedrawAll(HDC hdc);                                                //modern_button.c
 int     RegisterButtonByParce(char * ObjectName, char * Params);                     //mod_skin_selector.c
-int     RestoreAllContactData(struct ClcData *dat);                                 //cache_funcs.c
+int     RestoreAllContactData(ClcData *dat);                                 //cache_funcs.c
 
-int     SkinSelector_DeleteMask(MODERNMASK * mm);                                 //mod_skin_selector.c
-int     StoreAllContactData(struct ClcData *dat);                                 //cache_func.c
+int     SkinSelector_DeleteMask(MODERNMASK *mm);                                 //mod_skin_selector.c
+int     StoreAllContactData(ClcData *dat);                                 //cache_func.c
 INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam);                              //contact.c
 INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
 INT_PTR SetUseGroups(WPARAM wParam,LPARAM lParam);                                 //contact.c
@@ -252,13 +252,13 @@ void    DrawAvatarImageWithGDIp(HDC hDestDC,int x, int y, DWORD width, DWORD hei
 void    FreeRowCell();                                                      //RowHeight
 void    InitGdiPlus();                                                      //gdiplus.cpp
 void    InitTray();                                                         //clisttray.c
-void    InvalidateDNCEbyPointer(HANDLE hContact,pClcCacheEntry pdnce,int SettingType);  //clistsettings.c
+void    InvalidateDNCEbyPointer(HANDLE hContact,ClcCacheEntry *pdnce,int SettingType);  //clistsettings.c
 void    ShutdownGdiPlus();                                                   //gdiplus.cpp
 void    TextOutWithGDIp(HDC hDestDC, int x, int y, LPCTSTR lpString, int nCount);         //gdiplus.cpp
 void    UninitCustomMenus();                                                //clistmenus.c
 void    UnloadAvatarOverlayIcon();                                             //clc.c
 void    UnLoadContactListModule();                                             //clistmod.c
-void    UpdateAllAvatars(struct ClcData *dat);                                    //cache_func.c
+void    UpdateAllAvatars(ClcData *dat);                                    //cache_func.c
 
 //cluiframes.c
 void    gtaRenewText(HANDLE hContact);
@@ -277,38 +277,38 @@ void    CustomizeButton(HWND);
 
 // INTERFACES
 
-void    cliCheckCacheItem(pClcCacheEntry pdnce);
-void    cliFreeCacheItem( pClcCacheEntry p );
-void    cliRebuildEntireList(HWND hwnd,struct ClcData *dat);
-void    cliRecalcScrollBar(HWND hwnd,struct ClcData *dat);
+void    cliCheckCacheItem(ClcCacheEntry *pdnce);
+void    cliFreeCacheItem( ClcCacheEntry *p );
+void    cliRebuildEntireList(HWND hwnd,ClcData *dat);
+void    cliRecalcScrollBar(HWND hwnd,ClcData *dat);
 void    CLUI_cliOnCreateClc(void);
 int     cli_AddItemToGroup(ClcGroup *group, int iAboveItem);
 int     cli_AddInfoItemToGroup(ClcGroup *group,int flags,const TCHAR *pszText);
 int     cliGetGroupContentsCount(ClcGroup *group, int visibleOnly);
-int     cliFindRowByText(HWND hwnd, struct ClcData *dat, const TCHAR *text, int prefixOk);
+int     cliFindRowByText(HWND hwnd, ClcData *dat, const TCHAR *text, int prefixOk);
 int     cliGetRowsPriorTo(ClcGroup *group,ClcGroup *subgroup,int contactIndex);
 int     cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact);
 int     cli_RemoveEvent(HANDLE hContact, HANDLE hDbEvent);
-void    cli_AddContactToTree(HWND hwnd,struct ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
+void    cli_AddContactToTree(HWND hwnd,ClcData *dat,HANDLE hContact,int updateTotalCount,int checkHideOffline);
 void    cli_DeleteItemFromTree(HWND hwnd, HANDLE hItem);
 void    cli_FreeContact( ClcContact* );
 void    cli_FreeGroup( ClcGroup* );
-char*   cli_GetGroupCountsText(struct ClcData *dat, ClcContact *contact);
+char*   cli_GetGroupCountsText(ClcData *dat, ClcContact *contact);
 void    cli_ChangeContactIcon(HANDLE hContact,int iIcon,int add);
-LRESULT cli_ProcessExternalMessages(HWND hwnd,struct ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
+LRESULT cli_ProcessExternalMessages(HWND hwnd,ClcData *dat,UINT msg,WPARAM wParam,LPARAM lParam);
 struct  CListEvent* cliCreateEvent( void );
 struct  CListEvent* cli_AddEvent(CLISTEVENT *cle);
 LRESULT CALLBACK cli_ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 int     cliShowHide(WPARAM wParam,LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
 int     cliCompareContacts(const ClcContact *contact1,const ClcContact *contact2);
-int     cliFindItem(HWND hwnd,struct ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible);
+int     cliFindItem(HWND hwnd,ClcData *dat,HANDLE hItem,ClcContact **contact,ClcGroup **subgroup,int *isVisible);
 void    cliTrayIconUpdateBase(const char *szChangedProto);
 void    cliCluiProtocolStatusChanged(int status,const char * proto);
 HMENU   cliBuildGroupPopupMenu(ClcGroup *group);
 void    cliInvalidateDisplayNameCacheEntry(HANDLE hContact);
-void    cliCheckCacheItem(pClcCacheEntry pdnce);
-void    cli_SaveStateAndRebuildList(HWND hwnd, struct ClcData *dat);
+void    cliCheckCacheItem(ClcCacheEntry *pdnce);
+void    cli_SaveStateAndRebuildList(HWND hwnd, ClcData *dat);
 void    CLUI_cli_LoadCluiGlobalOpts(void);
 INT_PTR cli_TrayIconProcessMessage(WPARAM wParam,LPARAM lParam);
 BOOL    CLUI__cliInvalidateRect(HWND hWnd, CONST RECT* lpRect,BOOL bErase );
@@ -335,7 +335,7 @@ struct DWM_BLURBEHIND
 };
 extern HRESULT (WINAPI *g_proc_DWMEnableBlurBehindWindow)(HWND hWnd, DWM_BLURBEHIND *pBlurBehind);
 
-extern tPaintCallbackProc CLCPaint_PaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
+extern tPaintCallbackProc CLCPaint_PaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData);
 extern BOOL (WINAPI *MySetProcessWorkingSetSize)(HANDLE,SIZE_T,SIZE_T);
 
 /* SkinEngine.c */

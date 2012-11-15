@@ -161,7 +161,7 @@ static void		__AniAva_DebugRenderStrip();
 
 static void		_AniAva_DestroyAvatarWindow( HWND hwnd);
 static void		_AniAva_Clear_ANIAVA_WINDOWINFO(ANIAVA_WINDOWINFO * pavwi );
-static void     _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = NULL, RECT * rcInParent = NULL );
+static void     _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent = NULL, RECT *rcInParent = NULL );
 static void		_AniAva_PausePainting();
 static void		_AniAva_ResumePainting();
 static void		_AniAva_LoadOptions();
@@ -373,7 +373,7 @@ ANIAVA_OBJECT * FindAvatarByContact( HANDLE hContact )
 	return NULL;
 }
 
-int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT * rc )
+int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc )
 {
 	aacheck 0;
 	aalock;
@@ -384,7 +384,7 @@ int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT * rc )
 	return 0;
 }
 // update avatars pos
-int AniAva_SetAvatarPos(HANDLE hContact, RECT * rc, int overlayIdx, BYTE bAlpha)
+int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha)
 {
 	aacheck 0;
 	aalock;
@@ -781,7 +781,7 @@ static void __AniAva_DebugRenderStrip()
 	#endif
 }
 
-static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL*/, RECT * rcInParent /*= NULL */ )
+static void _AniAva_RenderAvatar(ANIAVA_WINDOWINFO * dat, HDC hdcParent /*= NULL*/, RECT *rcInParent /*= NULL */ )
 {
 	if (dat->bPaused>0)	{	dat->bPended = TRUE;	return; 	}
 	else dat->bPended = FALSE;

@@ -142,7 +142,7 @@ int BgStatusBarChange(WPARAM wParam,LPARAM lParam)
 }
 
 //ProtocolData;
-int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT * rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
+int NewStatusPaintCallbackProc(HWND hWnd, HDC hDC, RECT *rcPaint, HRGN rgn, DWORD dFlags, void * CallBackData)
 {
 	return ModernDrawStatusBar(hWnd,hDC);
 }

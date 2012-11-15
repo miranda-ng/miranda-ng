@@ -37,34 +37,34 @@ Created by Pescuma
 
 
 
-BOOL RowHeights_Initialize(struct ClcData *dat);
-void RowHeights_Free(struct ClcData *dat);
-void RowHeights_Clear(struct ClcData *dat);
+BOOL RowHeights_Initialize(ClcData *dat);
+void RowHeights_Free(ClcData *dat);
+void RowHeights_Clear(ClcData *dat);
 
-BOOL RowHeights_Alloc(struct ClcData *dat, int size);
+BOOL RowHeights_Alloc(ClcData *dat, int size);
 
 // Calc and store max row height
-int RowHeights_GetMaxRowHeight(struct ClcData *dat, HWND hwnd);
+int RowHeights_GetMaxRowHeight(ClcData *dat, HWND hwnd);
 
 // Calc and store row height
-int RowHeights_GetRowHeight(struct ClcData *dat, HWND hwnd, ClcContact *contact, int item);
+int RowHeights_GetRowHeight(ClcData *dat, HWND hwnd, ClcContact *contact, int item);
 
 // Calc and store row height for all itens in the list
-void RowHeights_CalcRowHeights(struct ClcData *dat, HWND hwnd);
+void RowHeights_CalcRowHeights(ClcData *dat, HWND hwnd);
 
 // Calc item top Y (using stored data)
-int cliGetRowTopY(struct ClcData *dat, int item);
+int cliGetRowTopY(ClcData *dat, int item);
 
 // Calc item bottom Y (using stored data)
-int cliGetRowBottomY(struct ClcData *dat, int item);
+int cliGetRowBottomY(ClcData *dat, int item);
 
 // Calc total height of rows (using stored data)
-int cliGetRowTotalHeight(struct ClcData *dat);
+int cliGetRowTotalHeight(ClcData *dat);
 
 // Return the line that pos_y is at or -1 (using stored data). Y start at 0
-int cliRowHitTest(struct ClcData *dat, int pos_y);
+int cliRowHitTest(ClcData *dat, int pos_y);
 
 // Returns the height of the chosen row
-int cliGetRowHeight(struct ClcData *dat, int item);
+int cliGetRowHeight(ClcData *dat, int item);
 
 #endif // __ROWHEIGHT_FUNCS_H__

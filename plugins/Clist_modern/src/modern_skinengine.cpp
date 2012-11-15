@@ -83,7 +83,7 @@ static BOOL ske_GetMaskBit(BYTE *line, int x);
 static INT_PTR  ske_Service_AlphaTextOut(WPARAM wParam,LPARAM lParam);
 static INT_PTR ske_Service_DrawIconEx(WPARAM wParam,LPARAM lParam);
 
-static int  ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, DWORD ARGBcolor);
+static int  ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor);
 static void ske_AddParseTextGlyphObject(char * szGlyphTextID,char * szDefineString,SKINOBJECTSLIST *Skin);
 static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJECTSLIST *Skin);
 static int  ske_DeleteAllSettingInSection(char * SectionName);
@@ -694,7 +694,7 @@ BOOL ske_SetRgnOpaque(HDC memdc,HRGN hrgn, BOOL force)
 	RGNDATA * rdata;
 	DWORD rgnsz;
 	DWORD d;
-	RECT * rect;
+	RECT *rect;
 	if (g_CluiData.fDisableSkinEngine && !force) return TRUE;
 	rgnsz = GetRegionData(hrgn,0,NULL);
 	rdata = (RGNDATA *) mir_alloc(rgnsz);
@@ -761,7 +761,7 @@ BOOL ske_SetRectOpaque(HDC memdc,RECT *fr, BOOL force)
 	return 1;
 }
 
-static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT * rFill, RECT * rGlyph, RECT * rClip, BYTE mode, BYTE drawMode, int depth)
+static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *rGlyph, RECT *rClip, BYTE mode, BYTE drawMode, int depth)
 {
 	int destw = 0, desth = 0;
 	int xstart = 0, xmax = 0;
@@ -1646,7 +1646,7 @@ static LPSKINOBJECTDESCRIPTOR ske_FindObject(const char * szName, BYTE objType, 
 	return skin_FindObjectByRequest((char *)szName,sk->pMaskList);
 }
 
-static LPSKINOBJECTDESCRIPTOR ske_FindObjectByMask(MODERNMASK * pModernMask, BYTE objType, SKINOBJECTSLIST* Skin)
+static LPSKINOBJECTDESCRIPTOR ske_FindObjectByMask(MODERNMASK *pModernMask, BYTE objType, SKINOBJECTSLIST* Skin)
 {
 	// DWORD i;
 	SKINOBJECTSLIST* sk;
@@ -2735,7 +2735,7 @@ static BOOL ske_DrawTextEffect(BYTE* destPt,BYTE* maskPt, DWORD width, DWORD hei
 	return FALSE;
 }
 
-static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, DWORD ARGBcolor)
+static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, DWORD ARGBcolor)
 {
 	if ( !( lpString && lpRect ))
 	{
@@ -3010,7 +3010,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT * lpRec
 	return 0;
 }
 
-static int ske_DrawTextWithEffectWorker( HDC hdc, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format, MODERNFONTEFFECT * effect )
+static int ske_DrawTextWithEffectWorker( HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format, MODERNFONTEFFECT * effect )
 {
     if (format&DT_CALCRECT) return DrawText(hdc,lpString,nCount,lpRect,format);
 
@@ -3039,7 +3039,7 @@ INT_PTR ske_Service_DrawTextWithEffect( WPARAM wParam, LPARAM lParam )
     return ske_DrawTextWithEffectWorker( p->hdc, p->lpchText, p->cchText, p->lprc, p->dwDTFormat, p->pEffect );
 }
 
-BOOL ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT * lpRect, UINT format)
+BOOL ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT *lpRect, UINT format)
 {
 	TCHAR *buf = mir_a2u(lpString);
 	BOOL res;
@@ -3049,7 +3049,7 @@ BOOL ske_DrawTextA(HDC hdc, char * lpString, int nCount, RECT * lpRect, UINT for
 }
 
 
-BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT * lpRect, UINT format)
+BOOL ske_DrawText(HDC hdc, LPCTSTR lpString, int nCount, RECT *lpRect, UINT format)
 {
 	DWORD form = 0, color = 0;
 	RECT r = *lpRect;
@@ -3360,7 +3360,7 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 
 
 
-int ske_PrepeareImageButDontUpdateIt(RECT * r)
+int ske_PrepeareImageButDontUpdateIt(RECT *r)
 {
 	if (g_CluiData.fLayered)
 	{
@@ -3687,7 +3687,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 	return 1;
 }
 
-int ske_BltBackImage (HWND destHWND, HDC destDC, RECT * BltClientRect)
+int ske_BltBackImage (HWND destHWND, HDC destDC, RECT *BltClientRect)
 {
 	POINT ptMainWnd = {0};
 	POINT ptChildWnd = {0};
@@ -3813,7 +3813,7 @@ int ske_DrawNonFramedObjects(BOOL Erase,RECT *r)
 	flag_bJustDrawNonFramedObjects = 1;
 	return 0;
 }
-int ske_ValidateFrameImageProc(RECT * r)                                // Calling queued frame paint procs and refresh image
+int ske_ValidateFrameImageProc(RECT *r)                                // Calling queued frame paint procs and refresh image
 {
 	RECT wnd = {0};
 	BOOL IsNewCache = 0;
@@ -3908,7 +3908,7 @@ int ske_UpdateWindowImage()
 }
 
 
-int ske_UpdateWindowImageRect(RECT * r)                                     // Update window with current image and
+int ske_UpdateWindowImageRect(RECT *r)                                     // Update window with current image and
 {
 	//if not validity -> ValidateImageProc
 	//else Update using current alpha
@@ -3956,7 +3956,7 @@ int ske_JustUpdateWindowImage()
 	GetWindowRect(pcli->hwndContactList,&r);
 	return ske_JustUpdateWindowImageRect(&r);
 }
-int ske_JustUpdateWindowImageRect(RECT * rty)
+int ske_JustUpdateWindowImageRect(RECT *rty)
 //Update window image
 {
 	BLENDFUNCTION bf = {AC_SRC_OVER, 0,g_CluiData.bCurrentAlpha, AC_SRC_ALPHA };

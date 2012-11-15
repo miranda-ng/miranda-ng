@@ -153,7 +153,7 @@ static int ehhToolBarBackgroundSettingsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT * rect, ModernToolbarCtrl* pMTBInfo)
+static BOOL sttDrawToolBarBackground(HWND hwnd, HDC hdc, RECT *rect, ModernToolbarCtrl* pMTBInfo)
 {
 	BOOL bFloat = (GetParent(hwnd)!=pcli->hwndContactList);
 	if (g_CluiData.fDisableSkinEngine || !g_CluiData.fLayered || bFloat) {	

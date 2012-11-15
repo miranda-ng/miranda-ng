@@ -309,13 +309,13 @@ int AniAva_UnloadModule();
 int AniAva_UpdateOptions();								   //reload options, //hot enable/disable engine
 
 int AniAva_AddAvatar(HANDLE hContact, TCHAR * szFilename, int width, int heigth);  // adds avatars to be displayed
-int AniAva_SetAvatarPos(HANDLE hContact, RECT * rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
+int AniAva_SetAvatarPos(HANDLE hContact, RECT *rc, int overlayIdx, BYTE bAlpha);	   // update avatars pos
 int AniAva_InvalidateAvatarPositions(HANDLE hContact);	   // reset positions of avatars to be drawn (still be painted at same place)
 int AniAva_RemoveInvalidatedAvatars();					   // all avatars without validated position will be stop painted and probably removed
 int AniAva_RemoveAvatar(HANDLE hContact);				   // remove avatar
 int AniAva_RedrawAllAvatars(BOOL updateZOrder);			   // request to repaint all
 void AniAva_UpdateParent();
-int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT * rc );
+int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT *rc );
 
 
 #define CCI_NAME			1
@@ -338,10 +338,10 @@ int AniAva_RenderAvatar( HANDLE hContact, HDC hdcMem, RECT * rc );
 #define CCI_OTHER			~( CCI_NAME|CCI_GROUP|CCI_PROTO|CCI_STATUS|CCI_LINES|CCI_TIME )
 #define CCI_ALL				(0xFFFFFFFF)
 
-void CListSettings_FreeCacheItemData(pClcCacheEntry pDst);
+void CListSettings_FreeCacheItemData(ClcCacheEntry *pDst);
 int CLUI_SyncGetPDNCE(WPARAM wParam, LPARAM lParam);
-WORD pdnce___GetStatus(pClcCacheEntry pdnce);
-void pdnce___SetStatus( pClcCacheEntry pdnce, WORD wStatus );
+WORD pdnce___GetStatus(ClcCacheEntry *pdnce);
+void pdnce___SetStatus( ClcCacheEntry *pdnce, WORD wStatus );
 
 /* move to list module */
 typedef void (*ItemDestuctor)(void*);

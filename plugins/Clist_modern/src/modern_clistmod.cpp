@@ -126,8 +126,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 			// substitute params by mostonline contact datas
 			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact) {
-				pClcCacheEntry cacheEntry;
-				cacheEntry = (pClcCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
+				ClcCacheEntry *cacheEntry = pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->m_cache_cszProto) {
 					szActProto = cacheEntry->m_cache_cszProto;
 					nActStatus = pdnce___GetStatus( cacheEntry );
@@ -155,7 +154,7 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 	return corecli.pfnIconFromStatusMode(szProto,nStatus,NULL);
 }
 
-int GetContactIconC(pClcCacheEntry cacheEntry)
+int GetContactIconC(ClcCacheEntry *cacheEntry)
 {
 	return ExtIconFromStatusMode(cacheEntry->hContact,cacheEntry->m_cache_cszProto,cacheEntry->m_cache_cszProto == NULL ? ID_STATUS_OFFLINE : pdnce___GetStatus( cacheEntry ));
 }
