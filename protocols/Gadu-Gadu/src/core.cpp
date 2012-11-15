@@ -231,6 +231,7 @@ void __cdecl GGPROTO::mainthread(void *)
 	// Gadu-Gadu variables
 	gg_login_params p = {0};
 	gg_event *e;
+	struct gg_session *local_sess;
 	// Host cycling variables
 	int hostnum = 0, hostcount = 0;
 	GGHOST hosts[64];
@@ -419,7 +420,7 @@ retry:
 		p.server_port = p.server_addr = 0;
 
 	// Send login request
-	if (!(sess = gg_login(&p, &sock, &gg_failno)))
+	if (!(local_sess = gg_login(&p, &sock, &gg_failno)))
 	{
 		broadcastnewstatus(ID_STATUS_OFFLINE);
 		// Check if connection attempt wasn't cancelled by the user
@@ -480,7 +481,7 @@ retry:
 		logonTime = time(NULL);
 		db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, logonTime);
 		gg_EnterCriticalSection(&sess_mutex, "mainthread", 15, "sess_mutex", 1);
-		sess = sess;
+		sess = local_sess;
 		gg_LeaveCriticalSection(&sess_mutex, "mainthread", 15, 1, "sess_mutex", 1);
 		// Subscribe users status notifications
 		notifyall();
@@ -945,28 +946,28 @@ retry:
 					gg_EnterCriticalSection(&sessions_mutex, "mainthread", 19, "sess_mutex", 1);
 					for (l = sessions; l; l = l->next)
 					{
-						struct gg_multilogon_session* sess = (struct gg_multilogon_session*)l->data;
+						struct gg_multilogon_session* msess = (struct gg_multilogon_session*)l->data;
 						for (i = 0; i < e->event.multilogon_info.count; i++)
 						{
-							if (!memcmp(&sess->id, &e->event.multilogon_info.sessions[i].id, sizeof(gg_multilogon_id_t)) && iIndexes)
+							if (!memcmp(&msess->id, &e->event.multilogon_info.sessions[i].id, sizeof(gg_multilogon_id_t)) && iIndexes)
 							{
 								iIndexes[i]++;
 								break;
 							}
 						}
-						mir_free(sess->name);
-						mir_free(sess);
+						mir_free(msess->name);
+						mir_free(msess);
 					}
 					list_destroy(sessions, 0);
 					sessions = NULL;
 					for (i = 0; i < e->event.multilogon_info.count; i++)
 					{
-						gg_multilogon_session* sess = (gg_multilogon_session*)mir_alloc(sizeof(struct gg_multilogon_session));
-						memcpy(sess, &e->event.multilogon_info.sessions[i], sizeof(struct gg_multilogon_session));
-						sess->name = mir_strdup(*e->event.multilogon_info.sessions[i].name != '\0'
+						gg_multilogon_session* msess = (gg_multilogon_session*)mir_alloc(sizeof(struct gg_multilogon_session));
+						memcpy(msess, &e->event.multilogon_info.sessions[i], sizeof(struct gg_multilogon_session));
+						msess->name = mir_strdup(*e->event.multilogon_info.sessions[i].name != '\0'
 												? e->event.multilogon_info.sessions[i].name
 												: Translate("Unknown client"));
-						list_add(&sessions, sess, 0);
+						list_add(&sessions, msess, 0);
 					}
 					gg_LeaveCriticalSection(&sessions_mutex, "mainthread", 19, 1, "sessions_mutex", 1);
 					sessions_updatedlg();
@@ -1060,7 +1061,7 @@ retry:
 					netlog("mainthread() (%x): Client: %d, File ack filename \"%s\" size %d.", this, dcc7->peer_uin,
 						dcc7->filename, dcc7->size);
 
-					TCHAR* filenameT = mir_utf8decodeT((char*)dcc7->filename);
+					TCHAR* filenameT = mir_a2t((char*)dcc7->filename);
 
 					PROTORECVFILET pre = {0};
 					pre.flags = PREF_TCHAR;
@@ -1231,9 +1232,9 @@ retry:
 		gg_EnterCriticalSection(&sessions_mutex, "mainthread", 23, "sessions_mutex", 1);
 		for (l = sessions; l; l = l->next)
 		{
-			struct gg_multilogon_session* sess = (struct gg_multilogon_session*)l->data;
-			mir_free(sess->name);
-			mir_free(sess);
+			struct gg_multilogon_session* msess = (struct gg_multilogon_session*)l->data;
+			mir_free(msess->name);
+			mir_free(msess);
 		}
 		list_destroy(sessions, 0);
 		sessions = NULL;
