@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007-09  Maxim Mluhov
-Copyright ( C ) 2007-09  Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007-09  Maxim Mluhov
+Copyright (C) 2007-09  Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -54,7 +54,7 @@ protected:
 
 	int m_wasPublished;
 
-	virtual void CreateData( HXML ) = 0;
+	virtual void CreateData(HXML) = 0;
 	void ForceRepublishOnLogin();
 };
 
@@ -68,8 +68,8 @@ public:
 		for (int i = 0; i < getCount(); ++i)
 		{
 			CPepService &pepSvc = (*this)[i];
-			HXML itemsNode = xmlGetChildByTag( eventNode, _T("items"), _T("node"), pepSvc.GetNode());
-			if ( itemsNode )
+			HXML itemsNode = xmlGetChildByTag(eventNode, _T("items"), _T("node"), pepSvc.GetNode());
+			if (itemsNode)
 				pepSvc.ProcessItems(from, itemsNode);
 		}
 	}
@@ -113,7 +113,7 @@ public:
 	CPepService *Find(TCHAR *node)
 	{
 		for (int i = 0; i < getCount(); ++i)
-			if (!lstrcmp((*this)[i].GetNode(), node))
+			if ( !lstrcmp((*this)[i].GetNode(), node))
 				return &((*this)[i]);
 		return NULL;
 	}
@@ -159,7 +159,7 @@ public: // FIXME: ugly hack
 	int m_mode;
 
 protected:
-	void CreateData( HXML );
+	void CreateData(HXML);
 	void ShowSetDialog(BYTE bQuiet);
 	void SetExtraIcon(HANDLE hContact, char *szMood);
 
@@ -181,7 +181,7 @@ protected:
 	TCHAR *m_text;
 	int m_mode;
 
-	void CreateData( HXML );
+	void CreateData(HXML);
 	void ShowSetDialog(BYTE bQuiet);
 	void SetExtraIcon(HANDLE hContact, char *szActivity);
 

@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007-09  Maxim Mluhov
-Copyright ( C ) 2007-09  Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007-09  Maxim Mluhov
+Copyright (C) 2007-09  Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -31,9 +31,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 static TCHAR *StrTrimCopy(TCHAR *str)
 {
-	if (!str) return 0;
+	if ( !str) return 0;
 	while (*str && _istspace(*str)) ++str;
-	if (!*str) return mir_tstrdup(str);
+	if ( !*str) return mir_tstrdup(str);
 	
 	TCHAR *res = mir_tstrdup(str);
 	for (TCHAR *p = res + lstrlen(res) - 1; p >= res; --p)
@@ -95,7 +95,7 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 	const TCHAR *szTags = tags;
 	TCHAR *p = m_szTags = (TCHAR *)mir_alloc((lstrlen(szTags) + 2 /*for double zero*/) * sizeof(TCHAR));
 	TCHAR *q = m_szTagsStr = (TCHAR *)mir_alloc((lstrlen(szTags) + 1) * sizeof(TCHAR));
-	for ( ; szTags && *szTags; ++szTags)
+	for (; szTags && *szTags; ++szTags)
 	{
 		if (_istspace(*szTags))
 			continue;
@@ -115,11 +115,11 @@ void CNoteItem::SetData(TCHAR *title, TCHAR *from, TCHAR *text, TCHAR *tags)
 
 bool CNoteItem::HasTag(const TCHAR *szTag)
 {
-	if (!szTag || !*szTag)
+	if ( !szTag || !*szTag)
 		return true;
 
 	for (TCHAR *p = m_szTags; p && *p; p = p + lstrlen(p) + 1)
-		if (!lstrcmp(p, szTag))
+		if ( !lstrcmp(p, szTag))
 			return true;
 
 	return false;
@@ -248,7 +248,7 @@ CJabberDlgNoteItem::CJabberDlgNoteItem(CJabberProto *proto, CNoteItem *pNote, TF
 void CJabberDlgNoteItem::OnInitDialog()
 {
 	CSuper::OnInitDialog();
-	WindowSetIcon( m_hwnd, m_proto, "notes" );
+	WindowSetIcon(m_hwnd, m_proto, "notes");
 
 	if (m_fnProcess)
 	{
@@ -296,7 +296,7 @@ class CCtrlNotebookList: public CCtrlListBox
 	HFONT m_hfntNormal, m_hfntSmall, m_hfntBold;
 
 public:
-	CCtrlNotebookList( CDlgBase* dlg, int ctrlId ): CCtrlListBox( dlg, ctrlId ) {}
+	CCtrlNotebookList(CDlgBase* dlg, int ctrlId): CCtrlListBox(dlg, ctrlId) {}
 	void SetFonts(HFONT hfntNormal, HFONT hfntSmall, HFONT hfntBold)
 	{
 		m_hfntNormal = hfntNormal;
@@ -354,7 +354,7 @@ public:
 	{
 		if (m_adding) return FALSE;
 		if (lps->itemID == -1) return TRUE;
-		if (!lps->itemData) return TRUE;
+		if ( !lps->itemData) return TRUE;
 
 		HDC hdc = lps->hDC;
 		CNoteItem *pNote = (CNoteItem *)lps->itemData;
@@ -406,7 +406,7 @@ public:
 	{
 		if (m_adding) return FALSE;
 		if (lps->itemID == -1) return TRUE;
-		if (!lps->itemData) return TRUE;
+		if ( !lps->itemData) return TRUE;
 
 		HDC hdc = GetDC(m_hwnd);
 		CNoteItem *pNote = (CNoteItem *)lps->itemData;
@@ -499,7 +499,7 @@ private:
 		{
 			TCHAR *tags = m_proto->m_notes[i].GetTags();
 			for (TCHAR *tag = tags; tag && *tag; tag = tag + lstrlen(tag) + 1)
-				if (!tagSet.find(tag))
+				if ( !tagSet.find(tag))
 					tagSet.insert(tag);
 		}
 
@@ -511,7 +511,7 @@ private:
 			InsertTag(htiRoot, tagSet[j], select);
 		}
 
-		if (!selected)
+		if ( !selected)
 			m_tvFilter.SelectItem(htiRoot);
 
 		tagSet.destroy();
@@ -630,7 +630,7 @@ private:
 	void btnSave_OnClick(CCtrlButton *)
 	{
 		XmlNodeIq iq(_T("set"));
-		HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVATE_STORAGE));
+		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE));
 		HXML storage = query << XCHILDNS(_T("storage"), _T(JABBER_FEAT_MIRANDA_NOTES));
 		m_proto->m_notes.SaveXml(storage);
 		m_proto->m_ThreadInfo->send(iq);
@@ -668,7 +668,7 @@ void CJabberDlgNotes::UpdateData()
 void CJabberDlgNotes::OnInitDialog()
 {
 	CSuper::OnInitDialog();
-	WindowSetIcon( m_hwnd, m_proto, "notes" );
+	WindowSetIcon(m_hwnd, m_proto, "notes");
 
 	LOGFONT lf, lfTmp;
 	m_hfntNormal = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
@@ -717,7 +717,7 @@ void CJabberDlgNotes::OnProtoRefresh(WPARAM, LPARAM)
 
 int CJabberDlgNotes::Resizer(UTILRESIZECONTROL *urc)
 {
-	switch ( urc->wId ) {
+	switch (urc->wId) {
 		case IDC_TV_FILTER:
 			return RD_ANCHORX_LEFT|RD_ANCHORY_HEIGHT;
 		case IDC_LST_NOTES:
@@ -743,7 +743,7 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 		m_notes.insert(pNote);
 
 		XmlNodeIq iq(_T("set"));
-		HXML query = iq << XQUERY( _T(JABBER_FEAT_PRIVATE_STORAGE));
+		HXML query = iq << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE));
 		HXML storage = query << XCHILDNS(_T("storage"), _T(JABBER_FEAT_MIRANDA_NOTES));
 		m_notes.SaveXml(storage);
 		m_ThreadInfo->send(iq);
@@ -755,7 +755,7 @@ void CJabberProto::ProcessIncomingNote(CNoteItem *pNote, bool ok)
 
 void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 {
-	if (!ok || !pNote->IsNotEmpty())
+	if ( !ok || !pNote->IsNotEmpty())
 	{
 		delete pNote;
 		return;
@@ -765,15 +765,15 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	mir_sntprintf(buf, SIZEOF(buf), _T("Incoming note: %s\n\n%s\nTags: %s"), 
 		pNote->GetTitle(), pNote->GetText(), pNote->GetTagsStr());
 
-	JabberCapsBits jcb = GetResourceCapabilites( pNote->GetFrom(), TRUE );
+	JabberCapsBits jcb = GetResourceCapabilites(pNote->GetFrom(), TRUE);
 
-	if ( jcb & JABBER_RESOURCE_CAPS_ERROR )
+	if (jcb & JABBER_RESOURCE_CAPS_ERROR)
 		jcb = JABBER_RESOURCE_CAPS_NONE;
 
 	int nMsgId = SerialNext();
 
 	XmlNode m(_T("message"));
-	m << XATTR(_T("type"), _T("chat")) << XATTR( _T("to"), pNote->GetFrom()) << XATTRID( nMsgId );
+	m << XATTR(_T("type"), _T("chat")) << XATTR(_T("to"), pNote->GetFrom()) << XATTRID(nMsgId);
 	m << XCHILD(_T("body"), buf);
 	HXML hXmlItem = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MIRANDA_NOTES)) << XCHILD(_T("note"));
 	hXmlItem << XATTR(_T("tags"), pNote->GetTagsStr());
@@ -781,11 +781,11 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 	hXmlItem << XCHILD(_T("text"), pNote->GetText());
 
 	// message receipts XEP priority
-	if ( jcb & JABBER_CAPS_MESSAGE_RECEIPTS )
-		m << XCHILDNS( _T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
-	else if ( jcb & JABBER_CAPS_MESSAGE_EVENTS ) {
-		HXML x = m << XCHILDNS( _T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
-		x << XCHILD( _T("delivered")); x << XCHILD( _T("offline"));
+	if (jcb & JABBER_CAPS_MESSAGE_RECEIPTS)
+		m << XCHILDNS(_T("request"), _T(JABBER_FEAT_MESSAGE_RECEIPTS));
+	else if (jcb & JABBER_CAPS_MESSAGE_EVENTS) {
+		HXML x = m << XCHILDNS(_T("x"), _T(JABBER_FEAT_MESSAGE_EVENTS));
+		x << XCHILD(_T("delivered")); x << XCHILD(_T("offline"));
 	}
 	else
 		nMsgId = -1;
@@ -796,12 +796,12 @@ void CJabberProto::ProcessOutgoingNote(CNoteItem *pNote, bool ok)
 
 bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 {
-	if (!m_options.AcceptNotes)
+	if ( !m_options.AcceptNotes)
 		return false;
 
-	if (!szFrom || !hXml) return true;
+	if ( !szFrom || !hXml) return true;
 	CNoteItem *pItem = new CNoteItem(hXml, (TCHAR *)szFrom);
-	if (!pItem->IsNotEmpty())
+	if ( !pItem->IsNotEmpty())
 	{
 		delete pItem;
 		return true;
@@ -815,7 +815,7 @@ bool CJabberProto::OnIncomingNote(const TCHAR *szFrom, HXML hXml)
 
 	CLISTEVENT cle = {0};
 	char szService[256];
-	mir_snprintf( szService, sizeof(szService),"%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT );
+	mir_snprintf(szService, sizeof(szService),"%s%s", m_szModuleName, JS_INCOMING_NOTE_EVENT);
 	cle.cbSize = sizeof(CLISTEVENT);
 	cle.hIcon = (HICON)LoadIconEx("notes");
 	cle.flags = CLEF_PROTOCOLGLOBAL|CLEF_TCHAR;
@@ -832,7 +832,7 @@ INT_PTR __cdecl CJabberProto::OnIncomingNoteEvent(WPARAM, LPARAM lParam)
 {
 	CLISTEVENT *pCle = (CLISTEVENT *)lParam;
 	CNoteItem *pNote = (CNoteItem *)pCle->lParam;
-	if ( !pNote )
+	if ( !pNote)
 		return 0;
 
 	CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pNote, &CJabberProto::ProcessIncomingNote);
@@ -843,7 +843,7 @@ INT_PTR __cdecl CJabberProto::OnIncomingNoteEvent(WPARAM, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Menu handling
 
-INT_PTR __cdecl CJabberProto::OnMenuHandleNotes( WPARAM, LPARAM)
+INT_PTR __cdecl CJabberProto::OnMenuHandleNotes(WPARAM, LPARAM)
 {
 	UI_SAFE_OPEN_EX(CJabberDlgNotes, m_pDlgNotes, pDlg);
 	pDlg->UpdateData();
@@ -852,12 +852,12 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleNotes( WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::OnMenuSendNote(WPARAM wParam, LPARAM)
 {
-	if (!wParam) return 0;
+	if ( !wParam) return 0;
 
 	TCHAR szClientJid[ JABBER_MAX_JID_LEN ];
-	GetClientJID( JGetStringT( (HANDLE)wParam, "jid"), szClientJid, SIZEOF( szClientJid ));
+	GetClientJID(JGetStringT((HANDLE)wParam, "jid"), szClientJid, SIZEOF(szClientJid));
 
-	CNoteItem *pItem = new CNoteItem( NULL, szClientJid );
+	CNoteItem *pItem = new CNoteItem(NULL, szClientJid);
 	CJabberDlgBase *pDlg = new CJabberDlgNoteItem(this, pItem, &CJabberProto::ProcessOutgoingNote);
 	pDlg->Show();
 

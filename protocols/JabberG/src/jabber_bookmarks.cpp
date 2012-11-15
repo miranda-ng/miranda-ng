@@ -1,12 +1,12 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2007  Michael Stepura, George Hazan
+Copyright (C) 2007  Michael Stepura, George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -30,126 +30,126 @@ struct JabberAddBookmarkDlgParam {
 	JABBER_LIST_ITEM* m_item;
 };
 
-static INT_PTR CALLBACK JabberAddBookmarkDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam )
+static INT_PTR CALLBACK JabberAddBookmarkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	JabberAddBookmarkDlgParam* param = (JabberAddBookmarkDlgParam*)GetWindowLongPtr( hwndDlg, GWLP_USERDATA );
+	JabberAddBookmarkDlgParam* param = (JabberAddBookmarkDlgParam*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	TCHAR text[512];
 	JABBER_LIST_ITEM *item;
 
-	switch ( msg ) {
+	switch (msg) {
 	case WM_INITDIALOG:
 		param = (JabberAddBookmarkDlgParam*)lParam;
-		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
 		param->ppro->m_hwndJabberAddBookmark = hwndDlg;
-		TranslateDialogDefault( hwndDlg );
-		if ( item = param->m_item ) {
-			if ( !lstrcmp( item->type, _T("conference"))) {
-				if (!_tcschr( item->jid, _T( '@' ))) {	  //no room name - consider it is transport
+		TranslateDialogDefault(hwndDlg);
+		if (item = param->m_item) {
+			if ( !lstrcmp(item->type, _T("conference"))) {
+				if ( !_tcschr(item->jid, _T('@'))) {	  //no room name - consider it is transport
 					SendDlgItemMessage(hwndDlg, IDC_AGENT_RADIO, BM_SETCHECK, BST_CHECKED, 0);
-					EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), FALSE );
-					EnableWindow( GetDlgItem( hwndDlg, IDC_PASSWORD ), FALSE );
+					EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
 				}
 				else SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_SETCHECK, BST_CHECKED, 0);
 			}
 			else {
 				SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_SETCHECK, BST_CHECKED, 0);
-				EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), FALSE );
-				EnableWindow( GetDlgItem( hwndDlg, IDC_PASSWORD ), FALSE );
+				EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
+				EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
 				SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
-				EnableWindow( GetDlgItem( hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE );
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
 			}
 
-			EnableWindow( GetDlgItem( hwndDlg, IDC_ROOM_RADIO), FALSE );
-			EnableWindow( GetDlgItem( hwndDlg, IDC_URL_RADIO), FALSE );
-			EnableWindow( GetDlgItem( hwndDlg, IDC_AGENT_RADIO), FALSE );
-			EnableWindow( GetDlgItem( hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE );
+			EnableWindow(GetDlgItem(hwndDlg, IDC_ROOM_RADIO), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_URL_RADIO), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_AGENT_RADIO), FALSE);
+			EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
 
-			if ( item->jid ) SetDlgItemText( hwndDlg, IDC_ROOM_JID, item->jid );
-			if ( item->name ) SetDlgItemText( hwndDlg, IDC_NAME, item->name );
-			if ( item->nick ) SetDlgItemText( hwndDlg, IDC_NICK, item->nick );
-			if ( item->password ) SetDlgItemText( hwndDlg, IDC_PASSWORD, item->password );
-			if ( item->bAutoJoin ) SendDlgItemMessage( hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_CHECKED, 0 );
-			if ( SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED )
-				EnableWindow( GetDlgItem( hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE );
+			if (item->jid) SetDlgItemText(hwndDlg, IDC_ROOM_JID, item->jid);
+			if (item->name) SetDlgItemText(hwndDlg, IDC_NAME, item->name);
+			if (item->nick) SetDlgItemText(hwndDlg, IDC_NICK, item->nick);
+			if (item->password) SetDlgItemText(hwndDlg, IDC_PASSWORD, item->password);
+			if (item->bAutoJoin) SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_CHECKED, 0);
+			if (SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED)
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
 		}
 		else {
-			EnableWindow( GetDlgItem( hwndDlg, IDOK ), FALSE );
+			EnableWindow(GetDlgItem(hwndDlg, IDOK), FALSE);
 			SendDlgItemMessage(hwndDlg, IDC_ROOM_RADIO, BM_SETCHECK, BST_CHECKED, 0);
 		}
 		return TRUE;
 
 	case WM_COMMAND:
-		switch ( HIWORD(wParam)) {
+		switch (HIWORD(wParam)) {
 			case BN_CLICKED:
 				switch (LOWORD (wParam)) {
 					case IDC_ROOM_RADIO:
-						EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), TRUE );
-						EnableWindow( GetDlgItem( hwndDlg, IDC_PASSWORD ), TRUE );
-						EnableWindow( GetDlgItem( hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE );
+						EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), TRUE);
 						break;
 					case IDC_AGENT_RADIO:
 					case IDC_URL_RADIO:
-						EnableWindow( GetDlgItem( hwndDlg, IDC_NICK ), FALSE );
-						EnableWindow( GetDlgItem( hwndDlg, IDC_PASSWORD ), FALSE );
+						EnableWindow(GetDlgItem(hwndDlg, IDC_NICK), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_PASSWORD), FALSE);
 						SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_SETCHECK, BST_UNCHECKED, 0);
-						EnableWindow( GetDlgItem( hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE );
+						EnableWindow(GetDlgItem(hwndDlg, IDC_CHECK_BM_AUTOJOIN), FALSE);
 						break;
 				}
 		}
 
-		switch ( LOWORD( wParam )) {
+		switch (LOWORD(wParam)) {
 		case IDC_ROOM_JID:
-			if (( HWND )lParam==GetFocus() && HIWORD( wParam )==EN_CHANGE )
-				EnableWindow( GetDlgItem( hwndDlg, IDOK ), GetDlgItemText( hwndDlg, IDC_ROOM_JID, text, SIZEOF( text )));
+			if ((HWND)lParam==GetFocus() && HIWORD(wParam)==EN_CHANGE)
+				EnableWindow(GetDlgItem(hwndDlg, IDOK), GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, SIZEOF(text)));
 			break;
 
 		case IDOK:
 			{
-				GetDlgItemText( hwndDlg, IDC_ROOM_JID, text, SIZEOF( text ));
-				TCHAR* roomJID = NEWTSTR_ALLOCA( text );
+				GetDlgItemText(hwndDlg, IDC_ROOM_JID, text, SIZEOF(text));
+				TCHAR* roomJID = NEWTSTR_ALLOCA(text);
 
-				if ( param->m_item )
-					param->ppro->ListRemove( LIST_BOOKMARK, param->m_item->jid );
+				if (param->m_item)
+					param->ppro->ListRemove(LIST_BOOKMARK, param->m_item->jid);
 
-				item = param->ppro->ListAdd( LIST_BOOKMARK, roomJID );
+				item = param->ppro->ListAdd(LIST_BOOKMARK, roomJID);
 				item->bUseResource = TRUE;
 
-				if ( SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED )
-					replaceStrT( item->type, _T( "url" ));
+				if (SendDlgItemMessage(hwndDlg, IDC_URL_RADIO, BM_GETCHECK,0, 0) == BST_CHECKED)
+					replaceStrT(item->type, _T("url"));
 				else
-					replaceStrT( item->type, _T( "conference" ));
+					replaceStrT(item->type, _T("conference"));
 
-				GetDlgItemText( hwndDlg, IDC_NICK, text, SIZEOF( text ));
-				replaceStrT( item->nick, text );
+				GetDlgItemText(hwndDlg, IDC_NICK, text, SIZEOF(text));
+				replaceStrT(item->nick, text);
 
-				GetDlgItemText( hwndDlg, IDC_PASSWORD, text, SIZEOF( text ));
-				replaceStrT( item->password, text );
+				GetDlgItemText(hwndDlg, IDC_PASSWORD, text, SIZEOF(text));
+				replaceStrT(item->password, text);
 
-				GetDlgItemText( hwndDlg, IDC_NAME, text, SIZEOF( text ));
-				replaceStrT( item->name, ( text[0] == 0 ) ? roomJID : text );
+				GetDlgItemText(hwndDlg, IDC_NAME, text, SIZEOF(text));
+				replaceStrT(item->name, (text[0] == 0) ? roomJID : text);
 
-				item->bAutoJoin = (SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_GETCHECK,0, 0) == BST_CHECKED );
+				item->bAutoJoin = (SendDlgItemMessage(hwndDlg, IDC_CHECK_BM_AUTOJOIN, BM_GETCHECK,0, 0) == BST_CHECKED);
 				{
 					int iqId = param->ppro->SerialNext();
-					param->ppro->IqAdd( iqId, IQ_PROC_SETBOOKMARKS, &CJabberProto::OnIqResultSetBookmarks);
+					param->ppro->IqAdd(iqId, IQ_PROC_SETBOOKMARKS, &CJabberProto::OnIqResultSetBookmarks);
 
-					XmlNodeIq iq( _T("set"), iqId);
+					XmlNodeIq iq(_T("set"), iqId);
 					param->ppro->SetBookmarkRequest(iq);
-					param->ppro->m_ThreadInfo->send( iq );
+					param->ppro->m_ThreadInfo->send(iq);
 				}
 			}
 			// fall through
 		case IDCANCEL:
-			EndDialog( hwndDlg, 0 );
+			EndDialog(hwndDlg, 0);
 			break;
 		}
 		break;
 
 	case WM_JABBER_CHECK_ONLINE:
-		if ( !param->ppro->m_bJabberOnline )
-			EndDialog( hwndDlg, 0 );
+		if ( !param->ppro->m_bJabberOnline)
+			EndDialog(hwndDlg, 0);
 		break;
 
 	case WM_DESTROY:
@@ -195,45 +195,45 @@ private:
 
 	void btnAdd_OnClick(CCtrlFilterListView *)
 	{
-		if (!m_proto->m_bJabberOnline) return;
+		if ( !m_proto->m_bJabberOnline) return;
 
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
 		param.m_item = NULL;
-		DialogBoxParam( hInst, MAKEINTRESOURCE( IDD_BOOKMARK_ADD ), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
 	void btnEdit_OnClick(CCtrlFilterListView *)
 	{
-		if (!m_proto->m_bJabberOnline) return;
+		if ( !m_proto->m_bJabberOnline) return;
 
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
 
 		TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
-		if (!address) return;
+		if ( !address) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-		if (!item) return;
+		if ( !item) return;
 
 		JabberAddBookmarkDlgParam param;
 		param.ppro = m_proto;
 		param.m_item = item;
-		DialogBoxParam( hInst, MAKEINTRESOURCE( IDD_BOOKMARK_ADD ), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), m_hwnd, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 
 	void btnRemove_OnClick(CCtrlFilterListView *)
 	{
-		if (!m_proto->m_bJabberOnline) return;
+		if ( !m_proto->m_bJabberOnline) return;
 
 		int iItem = m_lvBookmarks.GetNextItem(-1, LVNI_SELECTED);
 		if (iItem < 0) return;
 
 		TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
-		if (!address) return;
+		if ( !address) return;
 
 		JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-		if (!item) return;
+		if ( !item) return;
 
 		m_btnAdd.Disable();
 		m_btnEdit.Disable();
@@ -246,7 +246,7 @@ private:
 		int iqId = m_proto->SerialNext();
 		m_proto->IqAdd(iqId, IQ_PROC_SETBOOKMARKS, &CJabberProto::OnIqResultSetBookmarks);
 
-		XmlNodeIq iq( _T("set"), iqId);
+		XmlNodeIq iq(_T("set"), iqId);
 		m_proto->SetBookmarkRequest(iq);
 		m_proto->m_ThreadInfo->send(iq);
 	}
@@ -268,19 +268,19 @@ CJabberDlgBookmarks::CJabberDlgBookmarks(CJabberProto *proto) :
 
 void CJabberDlgBookmarks::UpdateData()
 {
-	if (!m_proto->m_bJabberOnline) return;
+	if ( !m_proto->m_bJabberOnline) return;
 
 	int iqId = m_proto->SerialNext();
-	m_proto->IqAdd( iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
-	m_proto->m_ThreadInfo->send( XmlNodeIq( _T("get"), iqId ) << XQUERY( _T(JABBER_FEAT_PRIVATE_STORAGE)) 
-		<< XCHILDNS( _T("storage"), _T("storage:bookmarks")));
+	m_proto->IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
+	m_proto->m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE)) 
+		<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 }
 
 void CJabberDlgBookmarks::OnInitDialog()
 {
 	CSuper::OnInitDialog();
 
-	WindowSetIcon( m_hwnd, m_proto, "bookmarks" );
+	WindowSetIcon(m_hwnd, m_proto, "bookmarks");
 
 	m_btnAdd.Disable();
 	m_btnEdit.Disable();
@@ -332,14 +332,14 @@ void CJabberDlgBookmarks::OpenBookmark()
 	if (iItem < 0) return;
 
 	TCHAR *address = (TCHAR *)m_lvBookmarks.GetItemData(iItem);
-	if (!address) return;
+	if ( !address) return;
 
 	JABBER_LIST_ITEM *item = m_proto->ListGetItemPtr(LIST_BOOKMARK, address);
-	if (!item) return;
+	if ( !item) return;
 
-	if (!lstrcmpi(item->type, _T("conference")))
+	if ( !lstrcmpi(item->type, _T("conference")))
 	{
-		if (!jabberChatDllPresent)
+		if ( !jabberChatDllPresent)
 		{
 			JabberChatDllError();
 			return;
@@ -348,7 +348,7 @@ void CJabberDlgBookmarks::OpenBookmark()
 		m_lvBookmarks.SetItemState(iItem, 0, LVIS_SELECTED); // Unselect the item
 
 		/* some hack for using bookmark to transport not under XEP-0048 */
-		if (!_tcschr(item->jid, _T('@')))
+		if ( !_tcschr(item->jid, _T('@')))
 		{	//the room name is not provided let consider that it is transport and send request to registration
 			m_proto->RegisterAgent(NULL, item->jid);
 		} else
@@ -404,7 +404,7 @@ INT_PTR CJabberDlgBookmarks::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CJabberDlgBookmarks::OnProtoCheckOnline(WPARAM, LPARAM)
 {
-	if (!m_proto->m_bJabberOnline)
+	if ( !m_proto->m_bJabberOnline)
 	{
 		m_btnAdd.Disable();
 		m_btnEdit.Disable();
@@ -444,7 +444,7 @@ void CJabberDlgBookmarks::OnProtoRefresh(WPARAM, LPARAM)
 
 int CJabberDlgBookmarks::Resizer(UTILRESIZECONTROL *urc)
 {
-	switch ( urc->wId ) {
+	switch (urc->wId) {
 		case IDC_BM_LIST:
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
 
@@ -462,7 +462,7 @@ int CJabberDlgBookmarks::Resizer(UTILRESIZECONTROL *urc)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the Bookmarks manager window
 
-INT_PTR __cdecl CJabberProto::OnMenuHandleBookmarks( WPARAM, LPARAM)
+INT_PTR __cdecl CJabberProto::OnMenuHandleBookmarks(WPARAM, LPARAM)
 {
 	UI_SAFE_OPEN_EX(CJabberDlgBookmarks, m_pDlgBookmarks, pDlg);
 	pDlg->UpdateData();
@@ -471,13 +471,13 @@ INT_PTR __cdecl CJabberProto::OnMenuHandleBookmarks( WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Launches the Bookmark details window, lParam is JABBER_BOOKMARK_ITEM*
-int CJabberProto::AddEditBookmark( JABBER_LIST_ITEM* item )
+int CJabberProto::AddEditBookmark(JABBER_LIST_ITEM* item)
 {
-	if ( m_bJabberOnline) {
+	if (m_bJabberOnline) {
 		JabberAddBookmarkDlgParam param;
 		param.ppro = this;
 		param.m_item = item;//(JABBER_LIST_ITEM*)lParam;
-		DialogBoxParam( hInst, MAKEINTRESOURCE( IDD_BOOKMARK_ADD ), NULL, JabberAddBookmarkDlgProc, (LPARAM)&param );
+		DialogBoxParam(hInst, MAKEINTRESOURCE(IDD_BOOKMARK_ADD), NULL, JabberAddBookmarkDlgProc, (LPARAM)&param);
 	}
 	return 0;
 }

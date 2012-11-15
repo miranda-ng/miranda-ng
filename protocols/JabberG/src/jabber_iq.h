@@ -1,14 +1,14 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -47,8 +47,8 @@ typedef enum {
 } JABBER_IQ_PROCID;
 
 struct CJabberProto;
-typedef void ( CJabberProto::*JABBER_IQ_PFUNC )( HXML iqNode );
-typedef void ( *IQ_USER_DATA_FREE_FUNC )( void *pUserData );
+typedef void (CJabberProto::*JABBER_IQ_PFUNC)(HXML iqNode);
+typedef void (*IQ_USER_DATA_FREE_FUNC)(void *pUserData);
 
 typedef struct {
 	TCHAR* xmlns;
@@ -59,8 +59,8 @@ typedef struct {
 // 2 minutes, milliseconds
 #define JABBER_DEFAULT_IQ_REQUEST_TIMEOUT		120000
 
-typedef void ( CJabberProto::*JABBER_IQ_HANDLER )( HXML iqNode, CJabberIqInfo* pInfo );
-typedef BOOL ( CJabberProto::*JABBER_PERMANENT_IQ_HANDLER )( HXML iqNode, CJabberIqInfo* pInfo );
+typedef void (CJabberProto::*JABBER_IQ_HANDLER)(HXML iqNode, CJabberIqInfo* pInfo);
+typedef BOOL (CJabberProto::*JABBER_PERMANENT_IQ_HANDLER)(HXML iqNode, CJabberIqInfo* pInfo);
 
 #define JABBER_IQ_PARSE_CHILD_TAG_NODE			(1)
 #define JABBER_IQ_PARSE_CHILD_TAG_NAME			((1<<1)|JABBER_IQ_PARSE_CHILD_TAG_NODE)
@@ -197,7 +197,7 @@ public:
 	}
 	~CJabberIqPermanentInfo()
 	{
-		if ( m_pUserDataFree )
+		if (m_pUserDataFree)
 			m_pUserDataFree(m_pUserData);
 		mir_free(m_szXmlns);
 		mir_free(m_szTag);
@@ -218,7 +218,7 @@ protected:
 
 	CJabberIqInfo* DetachInfo(int nIqId)
 	{
-		if (!m_pIqs)
+		if ( !m_pIqs)
 			return NULL;
 
 		CJabberIqInfo* pInfo = m_pIqs;
@@ -244,7 +244,7 @@ protected:
 	}
 	CJabberIqInfo* DetachInfo(void *pUserData)
 	{
-		if (!m_pIqs)
+		if ( !m_pIqs)
 			return NULL;
 
 		CJabberIqInfo* pInfo = m_pIqs;
@@ -270,13 +270,13 @@ protected:
 	}
 	CJabberIqInfo* DetachExpired()
 	{
-		if (!m_pIqs)
+		if ( !m_pIqs)
 			return NULL;
 
 		DWORD dwCurrentTime = GetTickCount();
 
 		CJabberIqInfo* pInfo = m_pIqs;
-		if (dwCurrentTime - pInfo->m_dwRequestTime > pInfo->m_dwTimeout )
+		if (dwCurrentTime - pInfo->m_dwRequestTime > pInfo->m_dwTimeout)
 		{
 			m_pIqs = pInfo->m_pNext;
 			pInfo->m_pNext = NULL;
@@ -285,7 +285,7 @@ protected:
 
 		while (pInfo->m_pNext)
 		{
-			if (dwCurrentTime - pInfo->m_pNext->m_dwRequestTime > pInfo->m_pNext->m_dwTimeout )
+			if (dwCurrentTime - pInfo->m_pNext->m_dwRequestTime > pInfo->m_pNext->m_dwTimeout)
 			{
 				CJabberIqInfo* pRetVal = pInfo->m_pNext;
 				pInfo->m_pNext = pInfo->m_pNext->m_pNext;
@@ -296,11 +296,11 @@ protected:
 		}
 		return NULL;
 	}
-	void ExpireInfo( CJabberIqInfo* pInfo, void *pUserData = NULL );
+	void ExpireInfo(CJabberIqInfo* pInfo, void *pUserData = NULL);
 	BOOL InsertIq(CJabberIqInfo* pInfo)
 	{ // inserts pInfo at a place determined by pInfo->m_iPriority
 		Lock();
-		if (!m_pIqs)
+		if ( !m_pIqs)
 			m_pIqs = pInfo;
 		else
 		{
@@ -320,7 +320,7 @@ protected:
 		return TRUE;
 	}
 public:
-	CJabberIqManager( CJabberProto* proto )
+	CJabberIqManager(CJabberProto* proto)
 	{
 		InitializeCriticalSection(&m_cs);
 		m_dwLastUsedHandle = 0;
@@ -334,7 +334,7 @@ public:
 		ExpireAll();
 		Lock();
 		CJabberIqPermanentInfo *pInfo = m_pPermanentHandlers;
-		while ( pInfo )
+		while (pInfo)
 		{
 			CJabberIqPermanentInfo *pTmp = pInfo->m_pNext;
 			delete pInfo;
@@ -347,13 +347,13 @@ public:
 	BOOL Start();
 	BOOL Shutdown()
 	{
-		if ( m_bExpirerThreadShutdownRequest || !m_hExpirerThread )
+		if (m_bExpirerThreadShutdownRequest || !m_hExpirerThread)
 			return TRUE;
 
 		m_bExpirerThreadShutdownRequest = TRUE;
 
-		WaitForSingleObject( m_hExpirerThread, INFINITE );
-		CloseHandle( m_hExpirerThread );
+		WaitForSingleObject(m_hExpirerThread, INFINITE);
+		CloseHandle(m_hExpirerThread);
 		m_hExpirerThread = NULL;
 
 		return TRUE;
@@ -368,24 +368,24 @@ public:
 	}
 	// fucking params, maybe just return CJabberIqRequestInfo pointer ?
 	CJabberIqInfo* AddHandler(JABBER_IQ_HANDLER pHandler, int nIqType = JABBER_IQ_TYPE_GET, const TCHAR *szReceiver = NULL, DWORD dwParamsToParse = 0, int nIqId = -1, void *pUserData = NULL, int iPriority = JH_PRIORITY_DEFAULT);
-	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const TCHAR* szXmlns, BOOL bAllowPartialNs, const TCHAR* szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT)
+	CJabberIqPermanentInfo* AddPermanentHandler(JABBER_PERMANENT_IQ_HANDLER pHandler, int nIqTypes, DWORD dwParamsToParse, const TCHAR *szXmlns, BOOL bAllowPartialNs, const TCHAR *szTag, void *pUserData = NULL, IQ_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT)
 	{
 		CJabberIqPermanentInfo* pInfo = new CJabberIqPermanentInfo();
-		if (!pInfo)
+		if ( !pInfo)
 			return NULL;
 
 		pInfo->m_pHandler = pHandler;
 		pInfo->m_nIqTypes = nIqTypes ? nIqTypes : JABBER_IQ_TYPE_ANY;
-		replaceStrT( pInfo->m_szXmlns, szXmlns );
+		replaceStrT(pInfo->m_szXmlns, szXmlns);
 		pInfo->m_bAllowPartialNs = bAllowPartialNs;
-		replaceStrT( pInfo->m_szTag, szTag );
+		replaceStrT(pInfo->m_szTag, szTag);
 		pInfo->m_dwParamsToParse = dwParamsToParse;
 		pInfo->m_pUserData = pUserData;
 		pInfo->m_pUserDataFree = pUserDataFree;
 		pInfo->m_iPriority = iPriority;
 
 		Lock();
-		if (!m_pPermanentHandlers)
+		if ( !m_pPermanentHandlers)
 			m_pPermanentHandlers = pInfo;
 		else
 		{
@@ -408,7 +408,7 @@ public:
 	BOOL DeletePermanentHandler(CJabberIqPermanentInfo *pInfo)
 	{ // returns TRUE when pInfo found, or FALSE otherwise
 		Lock();
-		if (!m_pPermanentHandlers)
+		if ( !m_pPermanentHandlers)
 		{
 			Unlock();
 			return FALSE;
@@ -440,7 +440,7 @@ public:
 	BOOL DeleteHandler(CJabberIqInfo *pInfo)
 	{ // returns TRUE when pInfo found, or FALSE otherwise
 		Lock();
-		if (!m_pIqs)
+		if ( !m_pIqs)
 		{
 			Unlock();
 			return FALSE;
@@ -486,7 +486,7 @@ public:
 		}
 		return FALSE;
 	}
-	void ExpirerThread( void );
+	void ExpirerThread(void);
 	BOOL ExpireByUserData(void *pUserData)
 	{
 		BOOL bRetVal = FALSE;
@@ -495,7 +495,7 @@ public:
 			Lock();
 			CJabberIqInfo* pInfo = DetachInfo(pUserData);
 			Unlock();
-			if (!pInfo)
+			if ( !pInfo)
 				break;
 			ExpireInfo(pInfo, NULL);
 			delete pInfo;
@@ -512,7 +512,7 @@ public:
 			if (pInfo)
 				m_pIqs = m_pIqs->m_pNext;
 			Unlock();
-			if (!pInfo)
+			if ( !pInfo)
 				break;
 			pInfo->m_pNext = NULL;
 			ExpireInfo(pInfo, pUserData);

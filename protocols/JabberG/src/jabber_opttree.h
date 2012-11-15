@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
-Copyright ( C ) 2007     Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2007     Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,7 +32,7 @@ class CCtrlTreeOpts : public CCtrlTreeView
 	typedef CCtrlTreeView CSuper;
 
 public:
-	CCtrlTreeOpts( CDlgBase* dlg, int ctrlId );
+	CCtrlTreeOpts(CDlgBase* dlg, int ctrlId);
 	~CCtrlTreeOpts();
 
 	void AddOption(TCHAR *szOption, CMOption<BYTE> &option);

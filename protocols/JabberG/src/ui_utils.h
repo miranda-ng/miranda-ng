@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007-09  Maxim Mluhov
-Copyright ( C ) 2007-09  Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007-09  Maxim Mluhov
+Copyright (C) 2007-09  Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -141,12 +141,12 @@ public:
 
 protected:
 	template<typename TClass, typename TArgument>
-	__inline CCallbackImp(TClass *object, void ( TClass::*func)(TArgument *argument)): m_object(( CDummy* )object), m_func((TFnCallback)func) {}
+	__inline CCallbackImp(TClass *object, void (TClass::*func)(TArgument *argument)): m_object((CDummy*)object), m_func((TFnCallback)func) {}
 
 	__inline void Invoke(void *argument) const { if (m_func && m_object) (m_object->*m_func)(argument); }
 
 private:
-	typedef void ( CDummy::*TFnCallback)( void *argument );
+	typedef void (CDummy::*TFnCallback)(void *argument);
 
 	CDummy* m_object;
 	TFnCallback m_func;
@@ -161,11 +161,11 @@ public:
 	__inline CCallback() {}
 
 	template<typename TClass>
-	__inline CCallback(TClass *object, void ( TClass::*func)(TArgument *argument)): CCallbackImp(object, func) {}
+	__inline CCallback(TClass *object, void (TClass::*func)(TArgument *argument)): CCallbackImp(object, func) {}
 
-	__inline CCallback& operator=( const CCallbackImp& x ) { CSuper::operator =( x ); return *this; }
+	__inline CCallback& operator=(const CCallbackImp& x) { CSuper::operator =(x); return *this; }
 
-	__inline void operator()(TArgument *argument) const { Invoke((void *)argument); }
+	__inline void operator()(TArgument *argument) const { Invoke((void*)argument); }
 };
 
 template<typename TClass, typename TArgument>
@@ -336,17 +336,17 @@ class CCtrlBase
 	friend class CDlgBase;
 
 public:
-	CCtrlBase(CDlgBase *wnd, int idCtrl );
+	CCtrlBase(CDlgBase *wnd, int idCtrl);
 	virtual ~CCtrlBase() { Unsubclass(); }
 
 	__inline HWND GetHwnd() const { return m_hwnd; }
 	__inline CDlgBase *GetParent() { return m_parentWnd; }
 
-	void Enable( int bIsEnable = true );
-	__inline void Disable() { Enable( false ); }
-	BOOL Enabled( void ) const;
+	void Enable(int bIsEnable = true);
+	__inline void Disable() { Enable(false); }
+	BOOL Enabled(void) const;
 
-	LRESULT SendMsg( UINT Msg, WPARAM wParam, LPARAM lParam );
+	LRESULT SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam);
 
 	void SetText(const TCHAR *text);
 	void SetTextA(const char *text);
@@ -410,7 +410,7 @@ class CCtrlButton : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlButton( CDlgBase* dlg, int ctrlId );
+	CCtrlButton(CDlgBase* dlg, int ctrlId);
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
 
@@ -422,8 +422,8 @@ class CCtrlMButton : public CCtrlButton
 	typedef CCtrlButton CSuper;
 
 public:
-	CCtrlMButton( CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip );
-	CCtrlMButton( CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip );
+	CCtrlMButton(CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip);
+	CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip);
 	~CCtrlMButton();
 
 	void MakeFlat();
@@ -442,7 +442,7 @@ class CCtrlHyperlink : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlHyperlink( CDlgBase* dlg, int ctrlId, const char* url );
+	CCtrlHyperlink(CDlgBase* dlg, int ctrlId, const char* url);
 
 	virtual BOOL OnCommand(HWND hwndCtrl, WORD idCtrl, WORD idCode);
 
@@ -457,7 +457,7 @@ class CCtrlClc: public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlClc( CDlgBase* dlg, int ctrlId );
+	CCtrlClc(CDlgBase* dlg, int ctrlId);
 
 	void AddContact(HANDLE hContact);
 	void AddGroup(HANDLE hGroup);
@@ -537,7 +537,7 @@ class CCtrlData : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlData( CDlgBase* dlg, int ctrlId );
+	CCtrlData(CDlgBase* dlg, int ctrlId);
 
 	virtual ~CCtrlData()
 	{
@@ -546,9 +546,9 @@ public:
 
 	__inline bool IsChanged() const { return m_changed; }
 
-	void CreateDbLink( const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned = false );
-	void CreateDbLink( const char* szModuleName, const char* szSetting, TCHAR* szValue );
-	void CreateDbLink( CDataLink *link ) { m_dbLink = link; }
+	void CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned = false);
+	void CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue);
+	void CreateDbLink(CDataLink *link) { m_dbLink = link; }
 
 	virtual void OnInit();
 
@@ -578,7 +578,7 @@ class CCtrlCheck : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlCheck( CDlgBase* dlg, int ctrlId );
+	CCtrlCheck(CDlgBase* dlg, int ctrlId);
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD /*idCode*/) { NotifyChange(); return TRUE; }
 	virtual void OnInit()
 	{
@@ -606,7 +606,7 @@ class CCtrlEdit : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlEdit( CDlgBase* dlg, int ctrlId );
+	CCtrlEdit(CDlgBase* dlg, int ctrlId);
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
 	{
 		if (idCode == EN_CHANGE)
@@ -649,7 +649,7 @@ class CCtrlListBox : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlListBox( CDlgBase* dlg, int ctrlId );
+	CCtrlListBox(CDlgBase* dlg, int ctrlId);
 
 	int    AddString(TCHAR *text, LPARAM data=0);
 	void   DeleteString(int index);
@@ -687,7 +687,7 @@ class CCtrlCombo : public CCtrlData
 	typedef CCtrlData CSuper;
 
 public:
-	CCtrlCombo( CDlgBase* dlg, int ctrlId );
+	CCtrlCombo(CDlgBase* dlg, int ctrlId);
 
 	virtual BOOL OnCommand(HWND /*hwndCtrl*/, WORD /*idCtrl*/, WORD idCode)
 	{
@@ -734,8 +734,8 @@ public:
 	}
 
 	// Control interface
-	int    AddString(const TCHAR *text, LPARAM data = 0 );
-	int    AddStringA(const char *text, LPARAM data = 0 );
+	int    AddString(const TCHAR *text, LPARAM data = 0);
+	int    AddStringA(const char *text, LPARAM data = 0);
 	void   DeleteString(int index);
 	int    FindString(const TCHAR *str, int index = -1, bool exact = false);
 	int    FindStringA(const char *str, int index = -1, bool exact = false);
@@ -765,7 +765,7 @@ class CCtrlListView : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlListView( CDlgBase* dlg, int ctrlId );
+	CCtrlListView(CDlgBase* dlg, int ctrlId);
 
 	// Classic LV interface
 	DWORD ApproximateViewRect(int cx, int cy, int iCount);
@@ -985,7 +985,7 @@ class CCtrlTreeView : public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlTreeView( CDlgBase* dlg, int ctrlId );
+	CCtrlTreeView(CDlgBase* dlg, int ctrlId);
 
 	// Classic TV interface
 	HIMAGELIST CreateDragImage(HTREEITEM hItem);
@@ -1095,12 +1095,12 @@ class CCtrlPages: public CCtrlBase
 	typedef CCtrlBase CSuper;
 
 public:
-	CCtrlPages( CDlgBase* dlg, int ctrlId );
+	CCtrlPages(CDlgBase* dlg, int ctrlId);
 
-	void AddPage( TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate = CCallback<void>(), void *param = NULL );
-	void AttachDialog( int iPage, CDlgBase *pDlg );
+	void AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate = CCallback<void>(), void *param = NULL);
+	void AttachDialog(int iPage, CDlgBase *pDlg);
 
-	void ActivatePage( int iPage );
+	void ActivatePage(int iPage);
 
 
 protected:
@@ -1218,24 +1218,24 @@ class CProtoIntDlgBase : public CDlgBase
 
 public:
 	__inline CProtoIntDlgBase(PROTO_INTERFACE *proto, int idDialog, HWND parent, bool show_label=true) :
-		CDlgBase( idDialog, parent ),
-		m_proto_interface( proto ),
-		m_show_label( show_label ),
-		m_hwndStatus( NULL )
+		CDlgBase(idDialog, parent),
+		m_proto_interface(proto),
+		m_show_label(show_label),
+		m_hwndStatus(NULL)
 	{
 	}
 
-	__inline void CreateLink( CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned = false )
+	__inline void CreateLink(CCtrlData& ctrl, char *szSetting, BYTE type, DWORD iValue, bool bSigned = false)
 	{
-		ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue, bSigned );
+		ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, type, iValue, bSigned);
 	}
-	__inline void CreateLink( CCtrlData& ctrl, const char *szSetting, TCHAR *szValue )
+	__inline void CreateLink(CCtrlData& ctrl, const char *szSetting, TCHAR *szValue)
 	{
 		ctrl.CreateDbLink(m_proto_interface->m_szModuleName, szSetting, szValue);
 	}
 
 	template<class T>
-	__inline void CreateLink( CCtrlData& ctrl, CMOption<T> &option )
+	__inline void CreateLink(CCtrlData& ctrl, CMOption<T> &option)
 	{
 		ctrl.CreateDbLink(new CMOptionLink<T>(option));
 	}
@@ -1266,9 +1266,9 @@ class CProtoDlgBase : public CProtoIntDlgBase
 	typedef CProtoIntDlgBase CSuper;
 
 public:
-	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog, HWND parent, bool show_label=true ) :
-		CProtoIntDlgBase( proto, idDialog, parent, show_label ),
-		m_proto( proto )
+	__inline CProtoDlgBase<TProto>(TProto *proto, int idDialog, HWND parent, bool show_label=true) :
+		CProtoIntDlgBase(proto, idDialog, parent, show_label),
+		m_proto(proto)
 	{
 	}
 
@@ -1321,7 +1321,7 @@ protected:
 
 #define UI_SAFE_CLOSE(dlg)	\
 	{	\
-		if ( dlg ) {	\
+		if (dlg) {	\
 			(dlg)->Close();	\
 			(dlg) = NULL;	\
 		}	\
@@ -1329,8 +1329,8 @@ protected:
 
 #define UI_SAFE_CLOSE_HWND(hwnd)	\
 	{	\
-		if ( hwnd ) {	\
-			::SendMessage( (hwnd), WM_CLOSE, 0, 0 );	\
+		if (hwnd) {	\
+			::SendMessage((hwnd), WM_CLOSE, 0, 0);	\
 			(hwnd) = NULL;	\
 		}	\
 	}
@@ -1339,13 +1339,13 @@ protected:
 // NULL-Safe dialog notifications
 #define UI_SAFE_NOTIFY(dlg, msg)	\
 	{	\
-		if ( dlg )	\
+		if (dlg)	\
 			::SendMessage((dlg)->GetHwnd(), msg, 0, 0);	\
 	}
 
 #define UI_SAFE_NOTIFY_HWND(hwnd, msg)	\
 	{	\
-		if ( hwnd )	\
+		if (hwnd)	\
 			::SendMessage((hwnd), msg, 0, 0);	\
 	}
 

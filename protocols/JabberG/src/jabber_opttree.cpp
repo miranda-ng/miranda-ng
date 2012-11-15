@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
-Copyright ( C ) 2007     Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2007     Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -64,8 +64,8 @@ BOOL CCtrlTreeOpts::OnNotify(int idCtrl, NMHDR *pnmh)
 			hti.pt.x=(short)LOWORD(GetMessagePos());
 			hti.pt.y=(short)HIWORD(GetMessagePos());
 			ScreenToClient(pnmh->hwndFrom,&hti.pt);
-			if(HitTest(&hti))
-				if(hti.flags&TVHT_ONITEMICON)
+			if (HitTest(&hti))
+				if (hti.flags&TVHT_ONITEMICON)
 					ProcessItemClick(hti.hItem);
 			break;
 		}
@@ -142,9 +142,9 @@ void CCtrlTreeOpts::OnInit()
 			}
 
 			hItem = FindNamedItem(hSection, pItemName);
-			if (!sectionName || !hItem)
+			if ( !sectionName || !hItem)
 			{
-				if (!hItem)
+				if ( !hItem)
 				{
 					TVINSERTSTRUCT tvis = {0};
 
@@ -174,7 +174,7 @@ void CCtrlTreeOpts::OnInit()
 						}
 					}
 					hItem = InsertItem(&tvis);
-					if (!sectionName)
+					if ( !sectionName)
 						m_options[i]->m_hItem = hItem;
 				}
 			}

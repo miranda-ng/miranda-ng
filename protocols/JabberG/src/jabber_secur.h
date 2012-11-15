@@ -1,13 +1,13 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,12 +33,12 @@ protected:  bool        bIsValid;
 				ThreadData* info;
 
 public:
-            TJabberAuth( ThreadData* );
+            TJabberAuth(ThreadData*);
 	virtual ~TJabberAuth();
 
 	virtual	char* getInitialRequest();
-	virtual	char* getChallenge( const TCHAR* challenge );
-	virtual	bool validateLogin( const TCHAR* challenge );
+	virtual	char* getChallenge(const TCHAR *challenge);
+	virtual	bool validateLogin(const TCHAR *challenge);
 
 	inline   const char* getName() const
 				{	return szName;
@@ -58,7 +58,7 @@ class TPlainAuth : public TJabberAuth
 	bool bOld;
 
 
-public:		TPlainAuth( ThreadData*, bool );
+public:		TPlainAuth(ThreadData*, bool);
 	virtual ~TPlainAuth();
 
 	virtual	char* getInitialRequest();
@@ -72,10 +72,10 @@ class TMD5Auth : public TJabberAuth
 
 				int iCallCount;
 public:		
-				TMD5Auth( ThreadData* );
+				TMD5Auth(ThreadData*);
 	virtual ~TMD5Auth();
 
-	virtual	char* getChallenge( const TCHAR* challenge );
+	virtual	char* getChallenge(const TCHAR *challenge);
 };
 
 class TScramAuth : public TJabberAuth
@@ -84,14 +84,14 @@ class TScramAuth : public TJabberAuth
 
 				char *cnonce, *msg1, *serverSignature;
 public:		
-				TScramAuth( ThreadData* );
+				TScramAuth(ThreadData*);
 	virtual ~TScramAuth();
 
 	virtual	char* getInitialRequest();
-	virtual	char* getChallenge( const TCHAR* challenge );
-	virtual bool validateLogin( const TCHAR* challenge );
+	virtual	char* getChallenge(const TCHAR *challenge);
+	virtual bool validateLogin(const TCHAR *challenge);
 	
-	void Hi( mir_sha1_byte_t* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind );
+	void Hi(mir_sha1_byte_t* res , char* passw, size_t passwLen, char* salt, size_t saltLen, int ind);
 };
 
 // ntlm auth - LanServer based authorization
@@ -103,11 +103,11 @@ class TNtlmAuth : public TJabberAuth
 				HANDLE hProvider;
 				const TCHAR *szHostName;
 public:		
-				TNtlmAuth( ThreadData*, const char* mechanism, const TCHAR* hostname = NULL );
+				TNtlmAuth(ThreadData*, const char* mechanism, const TCHAR *hostname = NULL);
 	virtual ~TNtlmAuth();
 
 	virtual	char* getInitialRequest();
-	virtual	char* getChallenge( const TCHAR* challenge );
+	virtual	char* getChallenge(const TCHAR *challenge);
 
-	bool getSpn( TCHAR* szSpn, size_t dwSpnLen );
+	bool getSpn(TCHAR* szSpn, size_t dwSpnLen);
 };

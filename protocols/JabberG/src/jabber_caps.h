@@ -1,14 +1,14 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -185,15 +185,15 @@ protected:
 	DWORD m_dwRequestTime;
 
 public:
-	CJabberClientPartialCaps( const TCHAR *szVer );
+	CJabberClientPartialCaps(const TCHAR *szVer);
 	~CJabberClientPartialCaps();
 
-	CJabberClientPartialCaps* SetNext( CJabberClientPartialCaps *pCaps );
+	CJabberClientPartialCaps* SetNext(CJabberClientPartialCaps *pCaps);
 	__inline CJabberClientPartialCaps* GetNext()
 	{	return m_pNext;
 	}
 
-	void SetCaps( JabberCapsBits jcbCaps, int nIqId = -1 );
+	void SetCaps(JabberCapsBits jcbCaps, int nIqId = -1);
 	JabberCapsBits GetCaps();
 
 	__inline TCHAR* GetVersion()
@@ -214,21 +214,21 @@ protected:
 	CJabberClientCaps *m_pNext;
 
 protected:
-	CJabberClientPartialCaps* FindByVersion( const TCHAR *szVer );
-	CJabberClientPartialCaps* FindById( int nIqId );
+	CJabberClientPartialCaps* FindByVersion(const TCHAR *szVer);
+	CJabberClientPartialCaps* FindById(int nIqId);
 
 public:
-	CJabberClientCaps( const TCHAR *szNode );
+	CJabberClientCaps(const TCHAR *szNode);
 	~CJabberClientCaps();
 
-	CJabberClientCaps* SetNext( CJabberClientCaps *pClient );
+	CJabberClientCaps* SetNext(CJabberClientCaps *pClient);
 	__inline CJabberClientCaps* GetNext()
 	{	return m_pNext;
 	}
 
-	JabberCapsBits GetPartialCaps( TCHAR *szVer );
-	BOOL SetPartialCaps( const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId = -1 );
-	BOOL SetPartialCaps( int nIqId, JabberCapsBits jcbCaps );
+	JabberCapsBits GetPartialCaps(TCHAR *szVer);
+	BOOL SetPartialCaps(const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
+	BOOL SetPartialCaps(int nIqId, JabberCapsBits jcbCaps);
 
 	__inline TCHAR* GetNode()
 	{	return m_szNode;
@@ -244,26 +244,26 @@ protected:
 	CJabberProto* ppro;
 
 protected:
-	CJabberClientCaps *FindClient( const TCHAR *szNode );
+	CJabberClientCaps *FindClient(const TCHAR *szNode);
 
 public:
-	CJabberClientCapsManager( CJabberProto* proto );
+	CJabberClientCapsManager(CJabberProto* proto);
 	~CJabberClientCapsManager();
 
 	__inline void Lock()
-	{	EnterCriticalSection( &m_cs );
+	{	EnterCriticalSection(&m_cs);
 	}
 	__inline void Unlock()
-	{	LeaveCriticalSection( &m_cs );
+	{	LeaveCriticalSection(&m_cs);
 	}
 
 	void AddDefaultCaps();
 
-	JabberCapsBits GetClientCaps( TCHAR *szNode, TCHAR *szVer );
-	BOOL SetClientCaps( const TCHAR *szNode, const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId = -1 );
-	BOOL SetClientCaps( int nIqId, JabberCapsBits jcbCaps );
+	JabberCapsBits GetClientCaps(TCHAR *szNode, TCHAR *szVer);
+	BOOL SetClientCaps(const TCHAR *szNode, const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId = -1);
+	BOOL SetClientCaps(int nIqId, JabberCapsBits jcbCaps);
 
-	BOOL HandleInfoRequest( HXML iqNode, CJabberIqInfo* pInfo, const TCHAR* szNode );
+	BOOL HandleInfoRequest(HXML iqNode, CJabberIqInfo* pInfo, const TCHAR *szNode);
 };
 
 struct JabberFeatCapPair

@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-08  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
-Copyright ( C ) 2008-09  Dmitriy Chervov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-08  George Hazan
+Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2008-09  Dmitriy Chervov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -28,12 +28,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "jabber_xml.h"
 
 struct CJabberProto;
-typedef void ( CJabberProto::*JABBER_PRESENCE_PFUNC )( HXML node, void *usedata );
-typedef void ( *PRESENCE_USER_DATA_FREE_FUNC )( void *pUserData );
+typedef void (CJabberProto::*JABBER_PRESENCE_PFUNC)(HXML node, void *usedata);
+typedef void (*PRESENCE_USER_DATA_FREE_FUNC)(void *pUserData);
 
 class CJabberPresenceInfo;
 
-typedef BOOL ( CJabberProto::*JABBER_PRESENCE_HANDLER )( HXML node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo );
+typedef BOOL (CJabberProto::*JABBER_PRESENCE_HANDLER)(HXML node, ThreadData *pThreadData, CJabberPresenceInfo* pInfo);
 
 class CJabberPresenceInfo
 {
@@ -75,7 +75,7 @@ public:
 	}
 	~CJabberPresencePermanentInfo()
 	{
-		if ( m_pUserDataFree )
+		if (m_pUserDataFree)
 			m_pUserDataFree(m_pUserData);
 	}
 };
@@ -88,7 +88,7 @@ protected:
 	CJabberPresencePermanentInfo* m_pPermanentHandlers;
 
 public:
-	CJabberPresenceManager( CJabberProto* proto )
+	CJabberPresenceManager(CJabberProto* proto)
 	{
 		InitializeCriticalSection(&m_cs);
 		m_pPermanentHandlers = NULL;
@@ -98,7 +98,7 @@ public:
 	{
 		Lock();
 		CJabberPresencePermanentInfo *pInfo = m_pPermanentHandlers;
-		while ( pInfo )
+		while (pInfo)
 		{
 			CJabberPresencePermanentInfo *pTmp = pInfo->m_pNext;
 			delete pInfo;
@@ -127,7 +127,7 @@ public:
 	CJabberPresencePermanentInfo* AddPermanentHandler(JABBER_PRESENCE_HANDLER pHandler, void *pUserData = NULL, PRESENCE_USER_DATA_FREE_FUNC pUserDataFree = NULL, int iPriority = JH_PRIORITY_DEFAULT)
 	{
 		CJabberPresencePermanentInfo* pInfo = new CJabberPresencePermanentInfo();
-		if (!pInfo)
+		if ( !pInfo)
 			return NULL;
 
 		pInfo->m_pHandler = pHandler;
@@ -136,7 +136,7 @@ public:
 		pInfo->m_iPriority = iPriority;
 
 		Lock();
-		if (!m_pPermanentHandlers)
+		if ( !m_pPermanentHandlers)
 			m_pPermanentHandlers = pInfo;
 		else
 		{
@@ -159,7 +159,7 @@ public:
 	BOOL DeletePermanentHandler(CJabberPresencePermanentInfo *pInfo)
 	{ // returns TRUE when pInfo found, or FALSE otherwise
 		Lock();
-		if (!m_pPermanentHandlers)
+		if ( !m_pPermanentHandlers)
 		{
 			Unlock();
 			return FALSE;

@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
 
 Idea & portions of code by Artem Shpynov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -190,7 +190,7 @@ static TIconListItem iconList[] =
 	{   LPGEN("%s"),                    "main",             IDI_JABBER,             NULL },
 };
 
-void CJabberProto::IconsInit( void )
+void CJabberProto::IconsInit(void)
 {
 	int i;
 
@@ -215,111 +215,111 @@ void CJabberProto::IconsInit( void )
 	sid.ptszSection = szSectionName;
 	sid.ptszDescription = szDescription;
 
-	m_phIconLibItems = ( HANDLE* )mir_alloc( sizeof( HANDLE )*SIZEOF(iconList));
+	m_phIconLibItems = (HANDLE*)mir_alloc(sizeof(HANDLE)*SIZEOF(iconList));
 
-	mir_sntprintf( szRootSection, SIZEOF(szRootSection), _T("%s/%s/%s"), LPGENT("Protocols"), LPGENT("Jabber"), LPGENT("Accounts"));
+	mir_sntprintf(szRootSection, SIZEOF(szRootSection), _T("%s/%s/%s"), LPGENT("Protocols"), LPGENT("Jabber"), LPGENT("Accounts"));
 
-	for (i = 0; i < SIZEOF(iconList); i++ ) {
+	for (i = 0; i < SIZEOF(iconList); i++) {
 		TCHAR tmp[100];
 
-		if ( iconList[i].szSection ) {
-			mir_sntprintf( szSectionName, SIZEOF(szSectionName), _T("%s/") _T(TCHAR_STR_PARAM), szRootSection, iconList[i].szSection );
+		if (iconList[i].szSection) {
+			mir_sntprintf(szSectionName, SIZEOF(szSectionName), _T("%s/") _T(TCHAR_STR_PARAM), szRootSection, iconList[i].szSection);
 			if (_tcsstr(szSectionName, _T("%s"))) {
 				mir_sntprintf(tmp, SIZEOF(tmp), szSectionName, m_tszUserName);
 				lstrcpy(szSectionName, tmp);
 			}
 		}
 		else {
-			mir_sntprintf( szSectionName, SIZEOF(szSectionName), _T("%s"), szRootSection );
+			mir_sntprintf(szSectionName, SIZEOF(szSectionName), _T("%s"), szRootSection);
 		}
 
 		if (strstr(iconList[i].szDescr, "%s")) {
-			mir_sntprintf( tmp, SIZEOF(tmp), _T(TCHAR_STR_PARAM), iconList[i].szDescr );
-			mir_sntprintf( szDescription, SIZEOF(szDescription), tmp, m_tszUserName );
+			mir_sntprintf(tmp, SIZEOF(tmp), _T(TCHAR_STR_PARAM), iconList[i].szDescr);
+			mir_sntprintf(szDescription, SIZEOF(szDescription), tmp, m_tszUserName);
 		}
-		else mir_sntprintf( szDescription, SIZEOF(szDescription), _T(TCHAR_STR_PARAM), iconList[i].szDescr );
+		else mir_sntprintf(szDescription, SIZEOF(szDescription), _T(TCHAR_STR_PARAM), iconList[i].szDescr);
 
-		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", m_szModuleName, iconList[i].szName );
+		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", m_szModuleName, iconList[i].szName);
 
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		m_phIconLibItems[i] = Skin_AddIcon(&sid);
 }	}
 
-HANDLE CJabberProto::GetIconHandle( int iconId )
+HANDLE CJabberProto::GetIconHandle(int iconId)
 {
 	if (HANDLE result = g_GetIconHandle(iconId))
 		return result;
 
-	for ( int i=0; i < SIZEOF(iconList); i++ )
-		if ( iconList[i].defIconID == iconId )
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iconId)
 			return m_phIconLibItems[i];
 
 	return NULL;
 }
 
-HICON CJabberProto::LoadIconEx( const char* name, bool big )
+HICON CJabberProto::LoadIconEx(const char* name, bool big)
 {
 	if (HICON result = g_LoadIconEx(name, big))
 		return result;
 
 	char szSettingName[100];
-	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", m_szModuleName, name );
+	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", m_szModuleName, name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // internal functions
 
-static inline TCHAR qtoupper( TCHAR c )
+static inline TCHAR qtoupper(TCHAR c)
 {
-	return ( c >= 'a' && c <= 'z' ) ? c - 'a' + 'A' : c;
+	return (c >= 'a' && c <= 'z') ? c - 'a' + 'A' : c;
 }
 
-static BOOL WildComparei( const TCHAR* name, const TCHAR* mask )
+static BOOL WildComparei(const TCHAR *name, const TCHAR *mask)
 {
-	const TCHAR* last='\0';
-	for ( ;; mask++, name++) {
-		if ( *mask != '?' && qtoupper( *mask ) != qtoupper( *name ))
+	const TCHAR *last='\0';
+	for (;; mask++, name++) {
+		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
 			break;
-		if ( *name == '\0' )
+		if (*name == '\0')
 			return ((BOOL)!*mask);
 	}
 
-	if ( *mask != '*' )
+	if (*mask != '*')
 		return FALSE;
 
-	for (;; mask++, name++ ) {
-		while( *mask == '*' ) {
+	for (;; mask++, name++) {
+		while(*mask == '*') {
 			last = mask++;
-			if ( *mask == '\0' )
+			if (*mask == '\0')
 				return ((BOOL)!*mask);   /* true */
 		}
 
-		if ( *name == '\0' )
+		if (*name == '\0')
 			return ((BOOL)!*mask);      /* *mask == EOS */
-		if ( *mask != '?' && qtoupper( *mask ) != qtoupper( *name ))
+		if (*mask != '?' && qtoupper(*mask) != qtoupper(*name))
 			name -= (size_t)(mask - last) - 1, mask = last;
 }	}
 
-static BOOL MatchMask( const TCHAR* name, const TCHAR* mask)
+static BOOL MatchMask(const TCHAR *name, const TCHAR *mask)
 {
-	if ( !mask || !name )
+	if ( !mask || !name)
 		return mask == name;
 
-	if ( *mask != '|' )
-		return WildComparei( name, mask );
+	if (*mask != '|')
+		return WildComparei(name, mask);
 
 	TCHAR* temp = NEWTSTR_ALLOCA(mask);
-	for ( int e=1; mask[e] != '\0'; e++ ) {
+	for (int e=1; mask[e] != '\0'; e++) {
 		int s = e;
-		while ( mask[e] != '\0' && mask[e] != '|')
+		while (mask[e] != '\0' && mask[e] != '|')
 			e++;
 
 		temp[e]= _T('\0');
-		if ( WildComparei( name, temp+s ))
+		if (WildComparei(name, temp+s))
 			return TRUE;
 
-		if ( mask[e] == 0 )
+		if (mask[e] == 0)
 			return FALSE;
 	}
 
@@ -334,7 +334,7 @@ static HICON ExtractIconFromPath(const char *path, BOOL * needFree)
 	HICON hIcon;
 	lstrcpynA(file,path,sizeof(file));
 	comma=strrchr(file,',');
-	if(comma==NULL) n=0;
+	if (comma==NULL) n=0;
 	else {n=atoi(comma+1); *comma=0;}
 	CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)file, (LPARAM)fileFull);
 	hIcon=NULL;
@@ -353,14 +353,14 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (needFree) *needFree=FALSE;
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str=strrchr(szPath,'\\');
-	if(str!=NULL) *str=0;
+	if (str!=NULL) *str=0;
 	_snprintf(szMyPath, sizeof(szMyPath), "%s\\Icons\\%s", szPath, filename);
 	_snprintf(szFullPath, sizeof(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	BOOL nf;
 	HICON hi=ExtractIconFromPath(szFullPath,&nf);
 	if (hi) has_proto_icon=TRUE;
 	if (hi && nf) DestroyIcon(hi);
-	if ( IconName != NULL && SectName != NULL)  {
+	if (IconName != NULL && SectName != NULL)  {
 		sid.cbSize = sizeof(sid);
 		sid.hDefaultIcon = (has_proto_icon)?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,0,(LPARAM)(-internalidx));
 		sid.ptszSection = SectName;
@@ -396,10 +396,10 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 
 	mir_sntprintf(Group, SIZEOF(Group), _T("Status Icons/%s/") _T(TCHAR_STR_PARAM) _T(" %s"), m_tszUserName, proto, TranslateT("transport"));
 	mir_snprintf(defFile, SIZEOF(defFile), "proto_%s.dll",proto);
-	if (!hAdvancedStatusIcon)
+	if ( !hAdvancedStatusIcon)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
-	EnterCriticalSection( &m_csModeMsgMutex );
+	EnterCriticalSection(&m_csModeMsgMutex);
 	for (i=0; i<ID_STATUS_ONTHEPHONE-ID_STATUS_OFFLINE; i++) {
 		HICON hicon;
 		BOOL needFree;
@@ -413,16 +413,16 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		if (hicon && needFree) DestroyIcon(hicon);
 	}
 
-	if ( m_transportProtoTableStartIndex[iID] == -1 )
+	if (m_transportProtoTableStartIndex[iID] == -1)
 		m_transportProtoTableStartIndex[iID] = first;
-	LeaveCriticalSection( &m_csModeMsgMutex );
+	LeaveCriticalSection(&m_csModeMsgMutex);
 	return 0;
 }
 
-int CJabberProto::GetTransportProtoID( TCHAR* TransportDomain )
+int CJabberProto::GetTransportProtoID(TCHAR* TransportDomain)
 {
-	for ( int i=0; i<SIZEOF(TransportProtoTable); i++ )
-		if ( MatchMask( TransportDomain, TransportProtoTable[i].mask ))
+	for (int i=0; i<SIZEOF(TransportProtoTable); i++)
+		if (MatchMask(TransportDomain, TransportProtoTable[i].mask))
 			return i;
 
 	return -1;
@@ -430,18 +430,18 @@ int CJabberProto::GetTransportProtoID( TCHAR* TransportDomain )
 
 int CJabberProto::GetTransportStatusIconIndex(int iID, int Status)
 {
-	if ( iID < 0 || iID >= SIZEOF( TransportProtoTable ))
+	if (iID < 0 || iID >= SIZEOF(TransportProtoTable))
 		return -1;
 
 	//icons not loaded - loading icons
-	if ( m_transportProtoTableStartIndex[iID] == -1 )
-		LoadAdvancedIcons( iID );
+	if (m_transportProtoTableStartIndex[iID] == -1)
+		LoadAdvancedIcons(iID);
 
 	//some fault on loading icons
-	if ( m_transportProtoTableStartIndex[iID] == -1 )
+	if (m_transportProtoTableStartIndex[iID] == -1)
 		return -1;
 
-	if ( Status < ID_STATUS_OFFLINE )
+	if (Status < ID_STATUS_OFFLINE)
 		Status = ID_STATUS_OFFLINE;
 
 	return m_transportProtoTableStartIndex[iID] + skinStatusToJabberStatus[ Status - ID_STATUS_OFFLINE ];
@@ -452,8 +452,8 @@ int CJabberProto::GetTransportStatusIconIndex(int iID, int Status)
 
 int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 {
-	for ( int i=0; i < SIZEOF(TransportProtoTable); i++ )
-		if ( m_transportProtoTableStartIndex[i] != -1 )
+	for (int i=0; i < SIZEOF(TransportProtoTable); i++)
+		if (m_transportProtoTableStartIndex[i] != -1)
 			LoadAdvancedIcons(i);
 
 	return 0;
@@ -470,27 +470,27 @@ int CJabberProto::OnReloadIcons(WPARAM, LPARAM)
 
 INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 {
-	HANDLE hContact=(HANDLE) wParam;
-	if ( !hContact )
+	HANDLE hContact=(HANDLE)wParam;
+	if ( !hContact)
 		return -1;
 
-	if ( !JGetByte( hContact, "IsTransported", 0 ))
+	if ( !JGetByte(hContact, "IsTransported", 0))
 		return -1;
 
 	DBVARIANT dbv;
-	if ( JGetStringT( hContact, "Transport", &dbv ))
+	if (JGetStringT(hContact, "Transport", &dbv))
 		return -1;
 
-	int iID = GetTransportProtoID( dbv.ptszVal );
+	int iID = GetTransportProtoID(dbv.ptszVal);
 	DBFreeVariant(&dbv);
-	if ( iID >= 0 ) {
+	if (iID >= 0) {
 		WORD Status = ID_STATUS_OFFLINE;
-		Status = JGetWord( hContact, "Status", ID_STATUS_OFFLINE );
-		if ( Status < ID_STATUS_OFFLINE )
+		Status = JGetWord(hContact, "Status", ID_STATUS_OFFLINE);
+		if (Status < ID_STATUS_OFFLINE)
 			Status = ID_STATUS_OFFLINE;
-		else if (Status > ID_STATUS_INVISIBLE )
+		else if (Status > ID_STATUS_INVISIBLE)
 			Status = ID_STATUS_ONLINE;
-		return GetTransportStatusIconIndex( iID, Status );
+		return GetTransportStatusIconIndex(iID, Status);
 	}
 	return -1;
 }
@@ -498,55 +498,55 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 /////////////////////////////////////////////////////////////////////////////////////////
 //   Transport check functions
 
-BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR* jid, HANDLE hContact)
+BOOL CJabberProto::DBCheckIsTransportedContact(const TCHAR *jid, HANDLE hContact)
 {
 	// check if transport is already set
-	if ( !jid || !hContact )
+	if ( !jid || !hContact)
 		return FALSE;
 
 	// strip domain part from jid
-	TCHAR* domain  = _tcschr(( TCHAR* )jid, '@' );
+	TCHAR* domain  = _tcschr((TCHAR*)jid, '@');
 	BOOL   isAgent = (domain == NULL) ? TRUE : FALSE;
 	BOOL   isTransported = FALSE;
-	if ( domain!=NULL )
+	if (domain!=NULL)
 		domain = NEWTSTR_ALLOCA(domain+1);
 	else
 		domain = NEWTSTR_ALLOCA(jid);
 
-	TCHAR* resourcepos = _tcschr( domain, '/' );
-	if ( resourcepos != NULL )
+	TCHAR* resourcepos = _tcschr(domain, '/');
+	if (resourcepos != NULL)
 		*resourcepos = '\0';
 
-	for ( int i=0; i < SIZEOF(TransportProtoTable); i++ ) {
-		if ( MatchMask( domain, TransportProtoTable[i].mask )) {
-			GetTransportStatusIconIndex( GetTransportProtoID( domain ), ID_STATUS_OFFLINE );
+	for (int i=0; i < SIZEOF(TransportProtoTable); i++) {
+		if (MatchMask(domain, TransportProtoTable[i].mask)) {
+			GetTransportStatusIconIndex(GetTransportProtoID(domain), ID_STATUS_OFFLINE);
 			isTransported = TRUE;
 			break;
 	}	}
 
-	if ( m_lstTransports.getIndex( domain ) == -1 ) {
-		if ( isAgent ) {
-			m_lstTransports.insert( mir_tstrdup(domain));
-			JSetByte( hContact, "IsTransport", 1 );
+	if (m_lstTransports.getIndex(domain) == -1) {
+		if (isAgent) {
+			m_lstTransports.insert(mir_tstrdup(domain));
+			JSetByte(hContact, "IsTransport", 1);
 	}	}
 
-	if ( isTransported ) {
-		JSetStringT( hContact, "Transport", domain );
-		JSetByte( hContact, "IsTransported", 1 );
+	if (isTransported) {
+		JSetStringT(hContact, "Transport", domain);
+		JSetByte(hContact, "IsTransported", 1);
 	}
 	return isTransported;
 }
 
 void CJabberProto::CheckAllContactsAreTransported()
 {
-	HANDLE hContact = ( HANDLE ) db_find_first();
-	while ( hContact != NULL ) {
-		char* szProto = ( char* )CallService( MS_PROTO_GETCONTACTBASEPROTO, ( WPARAM ) hContact, 0 );
-		if ( !lstrcmpA( m_szModuleName, szProto )) {
+	HANDLE hContact = (HANDLE)db_find_first();
+	while (hContact != NULL) {
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		if ( !lstrcmpA(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
-			if ( !JGetStringT( hContact, "jid", &dbv )) {
-				DBCheckIsTransportedContact( dbv.ptszVal, hContact );
-				JFreeVariant( &dbv );
+			if ( !JGetStringT(hContact, "jid", &dbv)) {
+				DBCheckIsTransportedContact(dbv.ptszVal, hContact);
+				db_free(&dbv);
 		}	}
 
 		hContact = db_find_next(hContact);
@@ -611,7 +611,7 @@ static TIconListItem sharedIconList[] =
 	{   LPGEN("Deny Queries"),          "pl_iq_deny",       IDI_PL_QUERY_DENY,      LPGEN("Dialogs/Privacy") },
 };
 
-static void sttProcessIcons( int iAmount )
+static void sttProcessIcons(int iAmount)
 {
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
@@ -622,16 +622,16 @@ static void sttProcessIcons( int iAmount )
 	sid.flags = SIDF_PATH_TCHAR;
 
 	char szRootSection[100];
-	mir_snprintf( szRootSection, SIZEOF(szRootSection), "%s/%s", LPGEN("Protocols"), LPGEN("Jabber"));
+	mir_snprintf(szRootSection, SIZEOF(szRootSection), "%s/%s", LPGEN("Protocols"), LPGEN("Jabber"));
 
-	for ( int i = 0; i < iAmount; i++ ) {
+	for (int i = 0; i < iAmount; i++) {
 		char szSettingName[100], szSectionName[100];
 
-		mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s",
+		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s",
 			GLOBAL_SETTING_PREFIX, sharedIconList[i].szName);
 
-		if ( sharedIconList[i].szSection ) {
-			mir_snprintf( szSectionName, sizeof( szSectionName ), "%s/%s", szRootSection, sharedIconList[i].szSection );
+		if (sharedIconList[i].szSection) {
+			mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", szRootSection, sharedIconList[i].szSection);
 			sid.pszSection = szSectionName;
 		}
 		else sid.pszSection = szRootSection;
@@ -644,45 +644,45 @@ static void sttProcessIcons( int iAmount )
 
 void g_IconsInit()
 {
-	sttProcessIcons( SIZEOF( sharedIconList ));
+	sttProcessIcons(SIZEOF(sharedIconList));
 }
 
-HANDLE g_GetIconHandle( int iconId )
+HANDLE g_GetIconHandle(int iconId)
 {
-	for ( int i=0; i < SIZEOF(sharedIconList); i++ )
-		if ( sharedIconList[i].defIconID == iconId )
+	for (int i=0; i < SIZEOF(sharedIconList); i++)
+		if (sharedIconList[i].defIconID == iconId)
 			return sharedIconList[i].hIcon;
 
 	return NULL;
 }
 
-HICON g_LoadIconEx( const char* name, bool big )
+HICON g_LoadIconEx(const char* name, bool big)
 {
 	char szSettingName[100];
-	mir_snprintf( szSettingName, sizeof( szSettingName ), "%s_%s", GLOBAL_SETTING_PREFIX, name );
+	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GLOBAL_SETTING_PREFIX, name);
 	return Skin_GetIcon(szSettingName, big);
 }
 
-void g_ReleaseIcon( HICON hIcon )
+void g_ReleaseIcon(HICON hIcon)
 {
 	if (hIcon)
 		Skin_ReleaseIcon(hIcon);
 }
 
-void ImageList_AddIcon_Icolib( HIMAGELIST hIml, HICON hIcon )
+void ImageList_AddIcon_Icolib(HIMAGELIST hIml, HICON hIcon)
 {
-	ImageList_AddIcon( hIml, hIcon );
-	g_ReleaseIcon( hIcon );
+	ImageList_AddIcon(hIml, hIcon);
+	g_ReleaseIcon(hIcon);
 }
 
 void WindowSetIcon(HWND hWnd, CJabberProto *proto, const char* name)
 {
-	SendMessage(hWnd, WM_SETICON, ICON_BIG, ( LPARAM )proto->LoadIconEx( name, true ));
-	SendMessage(hWnd, WM_SETICON, ICON_SMALL, ( LPARAM )proto->LoadIconEx( name ));
+	SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)proto->LoadIconEx(name, true));
+	SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)proto->LoadIconEx(name));
 }
 
 void WindowFreeIcon(HWND hWnd)
 {
-	g_ReleaseIcon(( HICON )SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
-	g_ReleaseIcon(( HICON )SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
+	g_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
+	g_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 }

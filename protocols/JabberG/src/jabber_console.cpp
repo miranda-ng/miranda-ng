@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
-Copyright ( C ) 2007     Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
+Copyright (C) 2007     Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -83,9 +83,9 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent);
 
 void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 {
-	if ( node && m_pDlgConsole ) {
-		if ( xmlGetName( node )) {
-			if ( FilterXml( node, flags )) {
+	if (node && m_pDlgConsole) {
+		if (xmlGetName(node)) {
+			if (FilterXml(node, flags)) {
 				StringBuf buf = {0};
 				sttAppendBufRaw(&buf, RTF_HEADER);
 				sttRtfAppendXml(&buf, node, flags, 1);
@@ -96,8 +96,8 @@ void CJabberProto::OnConsoleProcessXml(HXML node, DWORD flags)
 			}
 		}
 		else {
-			for ( int i = 0; i < xmlGetChildCount( node ); i++ )
-				OnConsoleProcessXml( xmlGetChild( node, i), flags );
+			for (int i = 0; i < xmlGetChildCount(node); i++)
+				OnConsoleProcessXml(xmlGetChild(node, i), flags);
 		}
 	}
 }
@@ -108,12 +108,12 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 	for (i = 0; i < xmlGetAttrCount(node); ++i)
 	{
-		if ( JabberStrIStr( xmlGetAttr( node,i ), m_filterInfo.pattern ))
+		if (JabberStrIStr(xmlGetAttr(node,i), m_filterInfo.pattern))
 			return true;
 	}
 
-	for (i = 0; i < xmlGetChildCount( node ); ++i) {
-		if (RecursiveCheckFilter( xmlGetChild( node, i ), flags))
+	for (i = 0; i < xmlGetChildCount(node); ++i) {
+		if (RecursiveCheckFilter(xmlGetChild(node, i), flags))
 			return true;
 	}
 
@@ -122,9 +122,9 @@ bool CJabberProto::RecursiveCheckFilter(HXML node, DWORD flags)
 
 bool CJabberProto::FilterXml(HXML node, DWORD flags)
 {
-	if (!m_filterInfo.msg && !lstrcmp(xmlGetName( node ), _T("message"))) return false;
-	if (!m_filterInfo.presence && !lstrcmp(xmlGetName( node ), _T("presence"))) return false;
-	if (!m_filterInfo.iq && !lstrcmp(xmlGetName( node ), _T("iq"))) return false;
+	if ( !m_filterInfo.msg && !lstrcmp(xmlGetName(node), _T("message"))) return false;
+	if ( !m_filterInfo.presence && !lstrcmp(xmlGetName(node), _T("presence"))) return false;
+	if ( !m_filterInfo.iq && !lstrcmp(xmlGetName(node), _T("iq"))) return false;
 	if (m_filterInfo.type == TFilterInfo::T_OFF) return true;
 
 	bool result = false;
@@ -134,18 +134,18 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 	{
 		case TFilterInfo::T_JID:
 		{
-			const TCHAR *attrValue = xmlGetAttrValue( node,(flags&JCPF_OUT)?_T("to"):_T("from"));
-			if (!attrValue) break;
+			const TCHAR *attrValue = xmlGetAttrValue(node,(flags&JCPF_OUT)?_T("to"):_T("from"));
+			if ( !attrValue) break;
 
 			result = JabberStrIStr(attrValue, m_filterInfo.pattern) ? true : false;
 			break;
 		}
 		case TFilterInfo::T_XMLNS:
 		{
-			if ( !xmlGetChildCount( node )) break;
+			if ( !xmlGetChildCount(node)) break;
 
-			const TCHAR *attrValue = xmlGetAttrValue( xmlGetChild( node, 0 ), _T("xmlns"));
-			if ( !attrValue )
+			const TCHAR *attrValue = xmlGetAttrValue(xmlGetChild(node, 0), _T("xmlns"));
+			if ( !attrValue)
 				break;
 
 			result = JabberStrIStr(attrValue, m_filterInfo.pattern) ? true : false;
@@ -165,7 +165,7 @@ bool CJabberProto::FilterXml(HXML node, DWORD flags)
 
 static void sttAppendBufRaw(StringBuf *buf, const char *str)
 {
-	if (!str) return;
+	if ( !str) return;
 
 	int length = lstrlenA(str);
 	if (buf->size - buf->offset < length+1)
@@ -181,7 +181,7 @@ static void sttAppendBufW(StringBuf *buf, const WCHAR *str)
 {
 	char tmp[32];
 
-	if (!str) return;
+	if ( !str) return;
 
 	sttAppendBufRaw(buf, "{\\uc1 ");
 	for (const WCHAR *p = str; *p; ++p)
@@ -227,56 +227,56 @@ static void sttRtfAppendXml(StringBuf *buf, HXML node, DWORD flags, int indent)
 	if (flags&JCPF_OUT)	sttAppendBufRaw(buf, "\\highlight4 ");
 	sttAppendBufRaw(buf, "<");
 	sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-	sttAppendBufW(buf, (TCHAR*)xmlGetName( node ));
+	sttAppendBufW(buf, (TCHAR*)xmlGetName(node));
 	sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 
-	for (i = 0; i < xmlGetAttrCount( node); i++)
+	for (i = 0; i < xmlGetAttrCount(node); i++)
 	{
-		TCHAR* attr = ( TCHAR* )xmlGetAttrName( node, i );
+		TCHAR* attr = (TCHAR*)xmlGetAttrName(node, i);
 		sttAppendBufRaw(buf, " ");
 		sttAppendBufRaw(buf, RTF_BEGINATTRNAME);
 		sttAppendBufW(buf, attr);
 		sttAppendBufRaw(buf, RTF_ENDATTRNAME);
 		sttAppendBufRaw(buf, "=\"");
 		sttAppendBufRaw(buf, RTF_BEGINATTRVAL);
-		sttAppendBufT(buf, ( TCHAR* )xmlGetAttr( node, i));
+		sttAppendBufT(buf, (TCHAR*)xmlGetAttr(node, i));
 		sttAppendBufRaw(buf, "\"");
 		sttAppendBufRaw(buf, RTF_ENDATTRVAL);
 	}
 
-	if ( xmlGetChild( node ) || xmlGetText( node ))
+	if (xmlGetChild(node) || xmlGetText(node))
 	{
 		sttAppendBufRaw(buf, ">");
-		if ( xmlGetChild( node ))
+		if (xmlGetChild(node))
 			sttAppendBufRaw(buf, RTF_ENDTAG);
 	}
 
-	if (xmlGetText( node ))
+	if (xmlGetText(node))
 	{
-		if ( xmlGetChildCount( node ))
+		if (xmlGetChildCount(node))
 		{
 			sttAppendBufRaw(buf, RTF_BEGINTEXT);
 			char *indentTextLevel = (char *)mir_alloc(128);
-			mir_snprintf( indentTextLevel, 128, RTF_TEXTINDENT_FMT, (int)(( indent + 1) * 200 ));
+			mir_snprintf(indentTextLevel, 128, RTF_TEXTINDENT_FMT, (int)((indent + 1) * 200));
 			sttAppendBufRaw(buf, indentTextLevel);
 			mir_free(indentTextLevel);
 		}
 
-		sttAppendBufT(buf, xmlGetText( node ));
-		if ( xmlGetChild( node ))
+		sttAppendBufT(buf, xmlGetText(node));
+		if (xmlGetChild(node))
 			sttAppendBufRaw(buf, RTF_ENDTEXT);
 	}
 
-	for (i = 0; i < xmlGetChildCount( node ) ; ++i)
-		sttRtfAppendXml(buf, xmlGetChild( node ,i), flags & ~(JCPF_IN|JCPF_OUT), indent+1);
+	for (i = 0; i < xmlGetChildCount(node) ; ++i)
+		sttRtfAppendXml(buf, xmlGetChild(node ,i), flags & ~(JCPF_IN|JCPF_OUT), indent+1);
 
-	if (xmlGetChildCount( node ) || xmlGetText( node ))
+	if (xmlGetChildCount(node) || xmlGetText(node))
 	{
 		sttAppendBufRaw(buf, RTF_BEGINTAG);
 		sttAppendBufRaw(buf, indentLevel);
 		sttAppendBufRaw(buf, "</");
 		sttAppendBufRaw(buf, RTF_BEGINTAGNAME);
-		sttAppendBufT(buf, xmlGetName( node ));
+		sttAppendBufT(buf, xmlGetName(node));
 		sttAppendBufRaw(buf, RTF_ENDTAGNAME);
 		sttAppendBufRaw(buf, ">");
 	} else
@@ -371,20 +371,20 @@ void CJabberDlgConsole::OnInitDialog()
 
 	int i;
 
-	WindowSetIcon( m_hwnd, m_proto, "xmlconsole" );
+	WindowSetIcon(m_hwnd, m_proto, "xmlconsole");
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_SETEDITSTYLE, SES_EXTENDBACKCOLOR, SES_EXTENDBACKCOLOR);
 	SendDlgItemMessage(m_hwnd, IDC_CONSOLE, EM_EXLIMITTEXT, 0, 0x80000000);
 
-	m_proto->m_filterInfo.msg = DBGetContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_msg", TRUE);
-	m_proto->m_filterInfo.presence = DBGetContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_presence", TRUE);
-	m_proto->m_filterInfo.iq = DBGetContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_iq", TRUE);
-	m_proto->m_filterInfo.type = (TFilterInfo::Type)DBGetContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", TFilterInfo::T_OFF);
+	m_proto->m_filterInfo.msg = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_msg", TRUE);
+	m_proto->m_filterInfo.presence = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_presence", TRUE);
+	m_proto->m_filterInfo.iq = db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_iq", TRUE);
+	m_proto->m_filterInfo.type = (TFilterInfo::Type)db_get_b(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", TFilterInfo::T_OFF);
 
 	DBVARIANT dbv;
 	*m_proto->m_filterInfo.pattern = 0;
 	if ( !m_proto->JGetStringT(NULL, "consoleWnd_fpattern", &dbv)) {
 		lstrcpyn(m_proto->m_filterInfo.pattern, dbv.ptszVal, SIZEOF(m_proto->m_filterInfo.pattern));
-		JFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	sttJabberConsoleRebuildStrings(m_proto, GetDlgItem(m_hwnd, IDC_CB_FILTER));
@@ -417,7 +417,7 @@ void CJabberDlgConsole::OnInitDialog()
 	for (i = 0; i < SIZEOF(filter_modes); ++i)
 		if (filter_modes[i].type == m_proto->m_filterInfo.type)
 		{
-			g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
+			g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 			SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon));
 			break;
 		}
@@ -429,10 +429,10 @@ void CJabberDlgConsole::OnInitDialog()
 
 void CJabberDlgConsole::OnClose()
 {
-	DBWriteContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_msg", m_proto->m_filterInfo.msg);
-	DBWriteContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_presence", m_proto->m_filterInfo.presence);
-	DBWriteContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_iq", m_proto->m_filterInfo.iq);
-	DBWriteContactSettingByte(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", m_proto->m_filterInfo.type);
+	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_msg", m_proto->m_filterInfo.msg);
+	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_presence", m_proto->m_filterInfo.presence);
+	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_iq", m_proto->m_filterInfo.iq);
+	db_set_b(NULL, m_proto->m_szModuleName, "consoleWnd_ftype", m_proto->m_filterInfo.type);
 	m_proto->JSetStringT(NULL, "consoleWnd_fpattern", m_proto->m_filterInfo.pattern);
 
 	Utils_SaveWindowPosition(m_hwnd, NULL, m_proto->m_szModuleName, "consoleWnd_");
@@ -442,11 +442,11 @@ void CJabberDlgConsole::OnClose()
 
 void CJabberDlgConsole::OnDestroy()
 {
-	g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0 ));
-	g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0 ));
-	g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0 ));
-	g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0 ));
-	g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0 ));
+	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_MSG, BM_SETIMAGE, IMAGE_ICON, 0));
+	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_PRESENCE, BM_SETIMAGE, IMAGE_ICON, 0));
+	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_IQ, BM_SETIMAGE, IMAGE_ICON, 0));
+	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, 0));
+	g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER_REFRESH, BM_SETIMAGE, IMAGE_ICON, 0));
 
 	m_proto->m_pDlgConsole = NULL;
 	CSuper::OnDestroy();
@@ -494,7 +494,7 @@ void CJabberDlgConsole::OnProtoRefresh(WPARAM, LPARAM lParam)
 
 int CJabberDlgConsole::Resizer(UTILRESIZECONTROL *urc)
 {
-	switch ( urc->wId )
+	switch (urc->wId)
 	{
 		case IDC_CONSOLE:
 			return RD_ANCHORX_WIDTH|RD_ANCHORY_HEIGHT;
@@ -527,7 +527,7 @@ int CJabberDlgConsole::Resizer(UTILRESIZECONTROL *urc)
 
 INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch ( msg )
+	switch (msg)
 	{
 		case WM_GETMINMAXINFO:
 		{
@@ -543,7 +543,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			{
 				case IDOK:
 				{
-					if (!m_proto->m_bJabberOnline)
+					if ( !m_proto->m_bJabberOnline)
 					{
 						MessageBox(m_hwnd, TranslateT("Can't send data while you are offline."), TranslateT("Jabber Error"), MB_ICONSTOP|MB_OK);
 						return TRUE;
@@ -554,10 +554,10 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 					GetWindowText(GetDlgItem(m_hwnd, IDC_CONSOLEIN), textToSend, length);
 
 					int bytesProcessed = 0;
-					XmlNode xmlTmp( textToSend, &bytesProcessed, NULL);
+					XmlNode xmlTmp(textToSend, &bytesProcessed, NULL);
 					if (xmlTmp)
 					{
-						m_proto->m_ThreadInfo->send( xmlTmp );
+						m_proto->m_ThreadInfo->send(xmlTmp);
 					}
 					else
 					{
@@ -622,7 +622,7 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 						for (i = 0; i < SIZEOF(filter_modes); ++i)
 							if (filter_modes[i].type == m_proto->m_filterInfo.type)
 							{
-								g_ReleaseIcon(( HICON )SendDlgItemMessage( m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
+								g_ReleaseIcon((HICON)SendDlgItemMessage(m_hwnd, IDC_BTN_FILTER, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_proto->LoadIconEx(filter_modes[i].icon)));
 								break;
 							}
 						EnableWindow(GetDlgItem(m_hwnd, IDC_CB_FILTER), (m_proto->m_filterInfo.type == TFilterInfo::T_OFF) ? FALSE : TRUE);
@@ -667,12 +667,12 @@ INT_PTR CJabberDlgConsole::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::DlgProc(msg, wParam, lParam);
 }
 
-void __cdecl CJabberProto::ConsoleThread( void* )
+void __cdecl CJabberProto::ConsoleThread(void*)
 {
 	MSG msg;
-	while ( GetMessage(&msg, NULL, 0, 0 )) {
-		if ( msg.message == WM_CREATECONSOLE ) {
-			m_pDlgConsole = new CJabberDlgConsole( this );
+	while (GetMessage(&msg, NULL, 0, 0)) {
+		if (msg.message == WM_CREATECONSOLE) {
+			m_pDlgConsole = new CJabberDlgConsole(this);
 			m_pDlgConsole->Show();
 			continue;
 		}
@@ -687,17 +687,17 @@ void CJabberProto::ConsoleInit()
 {
 	LoadLibraryA("riched20.dll");
 	InitializeCriticalSection(&m_filterInfo.csPatternLock);
-	m_hThreadConsole = JForkThreadEx( &CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId );
+	m_hThreadConsole = JForkThreadEx(&CJabberProto::ConsoleThread, 0, &m_dwConsoleThreadId);
 }
 
 void CJabberProto::ConsoleUninit()
 {
-	if ( m_hThreadConsole ) {
+	if (m_hThreadConsole) {
 		PostThreadMessage(m_dwConsoleThreadId, WM_QUIT, 0, 0);
-		if ( WaitForSingleObject( m_hThreadConsole, 5000 ) == WAIT_TIMEOUT) {
-			TerminateThread( m_hThreadConsole, 0 );
+		if (WaitForSingleObject(m_hThreadConsole, 5000) == WAIT_TIMEOUT) {
+			TerminateThread(m_hThreadConsole, 0);
 		}
-		CloseHandle( m_hThreadConsole );
+		CloseHandle(m_hThreadConsole);
 		m_hThreadConsole = NULL;
 	}
 
@@ -707,10 +707,10 @@ void CJabberProto::ConsoleUninit()
 
 INT_PTR __cdecl CJabberProto::OnMenuHandleConsole(WPARAM, LPARAM)
 {
-	if ( m_pDlgConsole )
-		SetForegroundWindow( m_pDlgConsole->GetHwnd());
+	if (m_pDlgConsole)
+		SetForegroundWindow(m_pDlgConsole->GetHwnd());
 	else
-		if ( m_hThreadConsole )
-			PostThreadMessage( m_dwConsoleThreadId, WM_CREATECONSOLE, 0, 0 );
+		if (m_hThreadConsole)
+			PostThreadMessage(m_dwConsoleThreadId, WM_CREATECONSOLE, 0, 0);
 	return 0;
 }

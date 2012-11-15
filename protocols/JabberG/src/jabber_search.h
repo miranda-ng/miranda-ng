@@ -1,9 +1,9 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Artem Shpynov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Artem Shpynov
 
 Module implements a search according to XEP-0055: Jabber Search
 http://www.xmpp.org/extensions/xep-0055.html
@@ -11,7 +11,7 @@ http://www.xmpp.org/extensions/xep-0055.html
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -71,8 +71,8 @@ static HWND searchHandleDlg=NULL;
 
 //local functions declarations
 static int JabberSearchFrameProc(HWND hwnd, int msg, WPARAM wParam, LPARAM lParam);
-static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat );
-static void JabberIqResultGetSearchFields( HXML iqNode, void *userdata );
+static int JabberSearchAddField(HWND hwndDlg, Data* FieldDat);
+static void JabberIqResultGetSearchFields(HXML iqNode, void *userdata);
 static void JabberSearchFreeData(HWND hwndDlg, JabberSearchData * dat);
 static void JabberSearchRefreshFrameScroll(HWND hwndDlg, JabberSearchData * dat);
 static INT_PTR CALLBACK JabberSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -108,7 +108,7 @@ private:
 	int _nextOrder;
 	LIST<_RECORD> _Records;
 
-	static int _KeysEqual( const _RECORD* p1, const _RECORD* p2 )
+	static int _KeysEqual(const _RECORD* p1, const _RECORD* p2)
 	{
 		if (COMPARATOR)
 			return (int)(COMPARATOR((p1->_key),(p2->_key)));
@@ -161,7 +161,7 @@ public:
 		int index=_Records.getIndex(rec);
 		if (index<0)
 		{
-			if (!_Records.insert(rec)) delete rec;
+			if ( !_Records.insert(rec)) delete rec;
 			else
 			{
 				index=_Records.getIndex(rec);
@@ -175,14 +175,14 @@ public:
 		}
 		return index;
 	}
-	int insertCopyKey(_KEYTYPE* Key, TCHAR *Value, _KEYTYPE** _KeyReturn, COPYKEYPROC CopyProc, DESTROYKEYPROC DestroyProc )
+	int insertCopyKey(_KEYTYPE* Key, TCHAR *Value, _KEYTYPE** _KeyReturn, COPYKEYPROC CopyProc, DESTROYKEYPROC DestroyProc)
 	{
 		_RECORD * rec= new _RECORD(Key,Value);
 		int index=_Records.getIndex(rec);
 		if (index<0)
 		{
 			_KEYTYPE* newKey=CopyProc(Key);
-			if (!_Records.insert(rec))
+			if ( !_Records.insert(rec))
 			{
 				delete rec;
 				DestroyProc(newKey);
@@ -205,7 +205,7 @@ public:
 		}
 		return index;
 	}
-	inline TCHAR* operator[]( _KEYTYPE* _KEY ) const
+	inline TCHAR* operator[](_KEYTYPE* _KEY) const
 	{
 		_RECORD rec(_KEY);
 		int index=_Records.getIndex(&rec);
@@ -220,7 +220,7 @@ public:
 		else
 			return NULL;
 	}
-	inline TCHAR* operator[]( int index ) const
+	inline TCHAR* operator[](int index) const
 	{
 		_RECORD * rv=_Records[index];
 		if (rv) return rv->_value;

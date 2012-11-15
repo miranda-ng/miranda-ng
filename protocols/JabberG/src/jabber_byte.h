@@ -1,14 +1,14 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,10 +42,10 @@ struct JABBER_BYTE_TRANSFER
 	HANDLE hConn;
 	HANDLE hEvent;
 	HXML   iqNode;
-	BOOL ( CJabberProto::*pfnSend )( HANDLE hConn, filetransfer* ft );
-	int ( CJabberProto::*pfnRecv )( HANDLE hConn, filetransfer* ft, char* buffer, int datalen );
-	void ( CJabberProto::*pfnFinal )( BOOL success, filetransfer* ft );
-	filetransfer* ft;
+	BOOL (CJabberProto::*pfnSend)(HANDLE hConn, filetransfer *ft);
+	int (CJabberProto::*pfnRecv)(HANDLE hConn, filetransfer *ft, char* buffer, int datalen);
+	void (CJabberProto::*pfnFinal)(BOOL success, filetransfer *ft);
+	filetransfer *ft;
 
 	// XEP-0065 proxy support
 	BOOL bProxyDiscovered;

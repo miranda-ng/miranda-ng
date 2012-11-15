@@ -1,14 +1,14 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007     Maxim Mluhov
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007     Maxim Mluhov
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -61,9 +61,9 @@ typedef enum {
 } JABBER_GC_ROLE;
 
 typedef enum {			// initial default to RSMODE_LASTSEEN
-	RSMODE_SERVER,		// always let server decide ( always send correspondence without resouce name )
-	RSMODE_LASTSEEN,	// use the last seen resource ( or let server decide if haven't seen anything yet )
-	RSMODE_MANUAL		// specify resource manually ( see the defaultResource field - must not be NULL )
+	RSMODE_SERVER,		// always let server decide (always send correspondence without resouce name)
+	RSMODE_LASTSEEN,	// use the last seen resource (or let server decide if haven't seen anything yet)
+	RSMODE_MANUAL		// specify resource manually (see the defaultResource field - must not be NULL)
 } JABBER_RESOURCE_MODE;
 
 
@@ -78,7 +78,7 @@ struct JABBER_XEP0232_SOFTWARE_INFO
 	BOOL bXMirandaIsAlpha;
 	BOOL bXMirandaIsDebug;
 	JABBER_XEP0232_SOFTWARE_INFO() {
-		ZeroMemory( this, sizeof( JABBER_XEP0232_SOFTWARE_INFO ));
+		ZeroMemory(this, sizeof(JABBER_XEP0232_SOFTWARE_INFO));
 	}
 	~JABBER_XEP0232_SOFTWARE_INFO() {
 		mir_free(szOs);
@@ -131,7 +131,7 @@ struct JABBER_LIST_ITEM
 	JABBER_RESOURCE_STATUS itemResource; // resource for jids without /resource node
 	int lastSeenResource;	// index to resource[x] which was last seen active
 	int manualResource;	// manually set index to resource[x]
-//	int defaultResource;	// index to resource[x] which is the default, negative ( -1 ) means no resource is chosen yet
+//	int defaultResource;	// index to resource[x] which is the default, negative (-1) means no resource is chosen yet
 	JABBER_RESOURCE_MODE resourceMode;
 	JABBER_SUBSCRIPTION subscription;
 	TCHAR* group;
@@ -150,7 +150,7 @@ struct JABBER_LIST_ITEM
 
 	// LIST_CHATROOM
 	// jid = room JID
-	// char* nick;	// my nick in this chat room ( SPECIAL: in TXT )
+	// char* nick;	// my nick in this chat room (SPECIAL: in TXT)
 	// JABBER_RESOURCE_STATUS *resource;	// participant nicks in this room
 	BOOL bChatActive;
 	HWND hwndGcListBan;
@@ -161,7 +161,7 @@ struct JABBER_LIST_ITEM
 
 	// LIST_FILE
 	// jid = string representation of port number
-	filetransfer* ft;
+	filetransfer *ft;
 	WORD port;
 
 	// LIST_BYTE
@@ -171,7 +171,7 @@ struct JABBER_LIST_ITEM
 	JABBER_IBB_TRANSFER *jibb;
 
 	// LIST_FTRECV
-	// jid = string representation of stream id ( sid )
+	// jid = string representation of stream id (sid)
 	// ft = file transfer data
 
 	//LIST_BOOKMARK
@@ -190,7 +190,7 @@ struct JABBER_HTTP_AVATARS
 	char * Url;
 	HANDLE hContact;
 
-	JABBER_HTTP_AVATARS(const TCHAR* tUrl, HANDLE thContact)
+	JABBER_HTTP_AVATARS(const TCHAR *tUrl, HANDLE thContact)
 		: Url(mir_t2a(tUrl)), hContact(thContact) {}
 
 	~JABBER_HTTP_AVATARS() { mir_free(Url); }

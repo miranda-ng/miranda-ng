@@ -1,15 +1,15 @@
 /*
 
 Jabber Protocol Plugin for Miranda IM
-Copyright ( C ) 2002-04  Santithorn Bunchua
-Copyright ( C ) 2005-12  George Hazan
-Copyright ( C ) 2007-09  Maxim Mluhov
-Copyright ( C ) 2007-09  Victor Pavlychko
+Copyright (C) 2002-04  Santithorn Bunchua
+Copyright (C) 2005-12  George Hazan
+Copyright (C) 2007-09  Maxim Mluhov
+Copyright (C) 2007-09  Victor Pavlychko
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -42,11 +42,11 @@ struct CMDBTraits<1>
 	enum { DBTypeId = DBVT_BYTE };
 	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return DBGetContactSettingByte(NULL, szModule, szSetting, value);
+		return db_get_b(NULL, szModule, szSetting, value);
 	}
 	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		DBWriteContactSettingByte(NULL, szModule, szSetting, value);
+		db_set_b(NULL, szModule, szSetting, value);
 	}
 };
 
@@ -57,11 +57,11 @@ struct CMDBTraits<2>
 	enum { DBTypeId = DBVT_WORD };
 	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return DBGetContactSettingWord(NULL, szModule, szSetting, value);
+		return db_get_w(NULL, szModule, szSetting, value);
 	}
 	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		DBWriteContactSettingWord(NULL, szModule, szSetting, value);
+		db_set_w(NULL, szModule, szSetting, value);
 	}
 };
 
@@ -76,11 +76,11 @@ struct CMDBTraits<4>
 	}
 	static __forceinline DBType Get(char *szModule, char *szSetting, DBType value)
 	{
-		return DBGetContactSettingDword(NULL, szModule, szSetting, value);
+		return db_get_dw(NULL, szModule, szSetting, value);
 	}
 	static __forceinline void Set(char *szModule, char *szSetting, DBType value)
 	{
-		DBWriteContactSettingDword(NULL, szModule, szSetting, value);
+		db_set_dw(NULL, szModule, szSetting, value);
 	}
 };
 
@@ -142,7 +142,7 @@ public:
 	{
 		CMString result;
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(NULL, m_proto->m_szModuleName, m_szSetting, &dbv))
+		if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, m_szSetting, &dbv))
 		{
 			result = dbv.ptszVal;
 			DBFreeVariant(&dbv);
@@ -151,7 +151,7 @@ public:
 	}
 	__forceinline Type operator= (Type value)
 	{
-		DBWriteContactSettingTString(NULL, m_proto->m_szModuleName, m_szSetting, value);
+		db_set_ts(NULL, m_proto->m_szModuleName, m_szSetting, value);
 		return value;
 	}
 

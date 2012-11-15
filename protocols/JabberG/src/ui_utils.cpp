@@ -6,7 +6,7 @@ Copyright (C) 2008  Victor Pavlychko, George Hazan
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
-of the License, or ( at your option ) any later version.
+of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -75,8 +75,8 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			m_initialized = false;
 			TranslateDialogDefault(m_hwnd);
 
-			for ( CCtrlBase* p = m_first; p != NULL; p = p->m_next )
-				AddControl( p );
+			for (CCtrlBase* p = m_first; p != NULL; p = p->m_next)
+				AddControl(p);
 
 			NotifyControls(&CCtrlBase::OnInit);
 			OnInitDialog();
@@ -119,7 +119,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 			WORD idCode = HIWORD(wParam);
 			if (CCtrlBase *ctrl = FindControl(idCtrl)) {
 				BOOL result = ctrl->OnCommand(hwndCtrl, idCtrl, idCode);
-				if ( result != FALSE )
+				if (result != FALSE)
 					return result;
 			}
 
@@ -127,7 +127,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 				((idCtrl == IDOK) && (m_autoClose & CLOSE_ON_OK) ||
 				(idCtrl == IDCANCEL) && (m_autoClose & CLOSE_ON_CANCEL)))
 			{
-				PostMessage( m_hwnd, WM_CLOSE, 0, 0 );
+				PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 			}
 			return FALSE;
 		}
@@ -176,7 +176,7 @@ INT_PTR CDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 		{
 			m_lresult = FALSE;
 			OnClose();
-			if ( !m_lresult )
+			if ( !m_lresult)
 			{
 				if (m_isModal)
 					EndDialog(m_hwnd, 0);
@@ -220,7 +220,7 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 		wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
 
-	if (!wnd) return FALSE;
+	if ( !wnd) return FALSE;
 
 	wnd->m_msg.hwnd = hwnd;
 	wnd->m_msg.message = msg;
@@ -232,7 +232,7 @@ INT_PTR CALLBACK CDlgBase::GlobalDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPA
 int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 {
 	CDlgBase *wnd = (CDlgBase *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (!wnd) return 0;
+	if ( !wnd) return 0;
 
 	return wnd->Resizer(urc);
 }
@@ -240,7 +240,7 @@ int CDlgBase::GlobalDlgResizer(HWND hwnd, LPARAM, UTILRESIZECONTROL *urc)
 CDlgBase::pfnEnableThemeDialogTexture CDlgBase::MyEnableThemeDialogTexture = NULL;
 void CDlgBase::ThemeDialogBackground(BOOL tabbed)
 {
-	if (!MyEnableThemeDialogTexture && IsWinVerXPPlus())
+	if ( !MyEnableThemeDialogTexture && IsWinVerXPPlus())
 	{
 		HMODULE hThemeAPI = GetModuleHandleA("uxtheme");
 		if (hThemeAPI)
@@ -273,15 +273,15 @@ CCtrlBase* CDlgBase::FindControl(int idCtrl)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCombo class
 
-CCtrlCombo::CCtrlCombo( CDlgBase* dlg, int ctrlId ) :
-	CCtrlData( dlg, ctrlId )
+CCtrlCombo::CCtrlCombo(CDlgBase* dlg, int ctrlId) :
+	CCtrlData(dlg, ctrlId)
 {
 }
 
 int CCtrlCombo::AddString(const TCHAR *text, LPARAM data)
 {
 	int iItem = SendMessage(m_hwnd, CB_ADDSTRING, 0, (LPARAM)text);
-	if ( data )
+	if (data)
 		SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
 	return iItem;
 }
@@ -289,7 +289,7 @@ int CCtrlCombo::AddString(const TCHAR *text, LPARAM data)
 int CCtrlCombo::AddStringA(const char *text, LPARAM data)
 {
 	int iItem = SendMessageA(m_hwnd, CB_ADDSTRING, 0, (LPARAM)text);
-	if ( data )
+	if (data)
 		SendMessage(m_hwnd, CB_SETITEMDATA, iItem, data);
 	return iItem;
 }
@@ -298,11 +298,11 @@ void CCtrlCombo::DeleteString(int index)
 {	SendMessage(m_hwnd, CB_DELETESTRING, index, 0);
 }
 
-int CCtrlCombo::FindString(const TCHAR *str, int index, bool exact )
+int CCtrlCombo::FindString(const TCHAR *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?CB_FINDSTRINGEXACT:CB_FINDSTRING, index, (LPARAM)str);
 }
 
-int CCtrlCombo::FindStringA(const char *str, int index, bool exact )
+int CCtrlCombo::FindStringA(const char *str, int index, bool exact)
 {	return SendMessageA(m_hwnd, exact?CB_FINDSTRINGEXACT:CB_FINDSTRING, index, (LPARAM)str);
 }
 
@@ -367,8 +367,8 @@ void CCtrlCombo::ShowDropdown(bool show)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListBox class
 
-CCtrlListBox::CCtrlListBox( CDlgBase* dlg, int ctrlId ) :
-	CCtrlBase( dlg, ctrlId )
+CCtrlListBox::CCtrlListBox(CDlgBase* dlg, int ctrlId) :
+	CCtrlBase(dlg, ctrlId)
 {
 }
 
@@ -394,7 +394,7 @@ void CCtrlListBox::DeleteString(int index)
 {	SendMessage(m_hwnd, LB_DELETESTRING, index, 0);
 }
 
-int CCtrlListBox::FindString( TCHAR *str, int index, bool exact)
+int CCtrlListBox::FindString(TCHAR *str, int index, bool exact)
 {	return SendMessage(m_hwnd, exact?LB_FINDSTRINGEXACT:LB_FINDSTRING, index, (LPARAM)str);
 }
 
@@ -478,8 +478,8 @@ void CCtrlListBox::SetSel(int index, bool sel)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlCheck class
 
-CCtrlCheck::CCtrlCheck( CDlgBase* dlg, int ctrlId ) :
-	CCtrlData( dlg, ctrlId )
+CCtrlCheck::CCtrlCheck(CDlgBase* dlg, int ctrlId) :
+	CCtrlData(dlg, ctrlId)
 {
 }
 
@@ -496,17 +496,17 @@ void CCtrlCheck::SetState(int state)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlEdit class
 
-CCtrlEdit::CCtrlEdit( CDlgBase* dlg, int ctrlId ) :
-	CCtrlData( dlg, ctrlId )
+CCtrlEdit::CCtrlEdit(CDlgBase* dlg, int ctrlId) :
+	CCtrlData(dlg, ctrlId)
 {
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlData class
 
-CCtrlData::CCtrlData( CDlgBase *wnd, int idCtrl ) :
-	CCtrlBase( wnd, idCtrl ),
-	m_dbLink( NULL )
+CCtrlData::CCtrlData(CDlgBase *wnd, int idCtrl) :
+	CCtrlBase(wnd, idCtrl),
+	m_dbLink(NULL)
 {
 }
 
@@ -518,55 +518,55 @@ void CCtrlData::OnInit()
 
 void CCtrlData::NotifyChange()
 {
-	if (!m_parentWnd || m_parentWnd->IsInitialized()) m_changed = true;
-	if ( m_parentWnd ) {
+	if ( !m_parentWnd || m_parentWnd->IsInitialized()) m_changed = true;
+	if (m_parentWnd) {
 		m_parentWnd->OnChange(this);
-		if ( m_parentWnd->IsInitialized())
-			::SendMessage( ::GetParent( m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0 );
+		if (m_parentWnd->IsInitialized())
+			::SendMessage(::GetParent(m_parentWnd->GetHwnd()), PSM_CHANGED, 0, 0);
 	}
 
 	OnChange(this);
 }
 
-void CCtrlData::CreateDbLink( const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned )
+void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, BYTE type, DWORD iValue, bool bSigned)
 {
-	m_dbLink = new CDbLink( szModuleName, szSetting, type, iValue, bSigned );
+	m_dbLink = new CDbLink(szModuleName, szSetting, type, iValue, bSigned);
 }
 
-void CCtrlData::CreateDbLink( const char* szModuleName, const char* szSetting, TCHAR* szValue )
+void CCtrlData::CreateDbLink(const char* szModuleName, const char* szSetting, TCHAR* szValue)
 {
-	m_dbLink = new CDbLink( szModuleName, szSetting, DBVT_TCHAR, szValue );
+	m_dbLink = new CDbLink(szModuleName, szSetting, DBVT_TCHAR, szValue);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlMButton
 
-CCtrlMButton::CCtrlMButton( CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip ) :
-	CCtrlButton( dlg, ctrlId ),
-	m_hIcon( hIcon ),
-	m_toolTip( tooltip )
+CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, HICON hIcon, const char* tooltip) :
+	CCtrlButton(dlg, ctrlId),
+	m_hIcon(hIcon),
+	m_toolTip(tooltip)
 {
 }
 
-CCtrlMButton::CCtrlMButton( CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip ) :
-	CCtrlButton( dlg, ctrlId ),
-	m_hIcon( LoadSkinnedIcon(iCoreIcon)),
-	m_toolTip( tooltip )
+CCtrlMButton::CCtrlMButton(CDlgBase* dlg, int ctrlId, int iCoreIcon, const char* tooltip) :
+	CCtrlButton(dlg, ctrlId),
+	m_hIcon(LoadSkinnedIcon(iCoreIcon)),
+	m_toolTip(tooltip)
 {
 }
 
 CCtrlMButton::~CCtrlMButton()
 {
-	g_ReleaseIcon( m_hIcon );
+	g_ReleaseIcon(m_hIcon);
 }
 
 void CCtrlMButton::OnInit()
 {
 	CCtrlButton::OnInit();
 
-	SendMessage( m_hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hIcon );
-	SendMessage( m_hwnd, BUTTONADDTOOLTIP, (WPARAM)m_toolTip, 0);
-	SendMessage( m_hwnd, BUTTONSETASFLATBTN, (WPARAM)m_toolTip, 0);
+	SendMessage(m_hwnd, BM_SETIMAGE, IMAGE_ICON, (LPARAM)m_hIcon);
+	SendMessage(m_hwnd, BUTTONADDTOOLTIP, (WPARAM)m_toolTip, 0);
+	SendMessage(m_hwnd, BUTTONSETASFLATBTN, (WPARAM)m_toolTip, 0);
 }
 
 void CCtrlMButton::MakeFlat()
@@ -582,14 +582,14 @@ void CCtrlMButton::MakePush()
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlButton
 
-CCtrlButton::CCtrlButton( CDlgBase* wnd, int idCtrl ) :
-	CCtrlBase( wnd, idCtrl )
+CCtrlButton::CCtrlButton(CDlgBase* wnd, int idCtrl) :
+	CCtrlBase(wnd, idCtrl)
 {
 }
 
 BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 {
-	if ( idCode == BN_CLICKED || idCode == STN_CLICKED )
+	if (idCode == BN_CLICKED || idCode == STN_CLICKED)
 		OnClick(this);
 	return FALSE;
 }
@@ -597,8 +597,8 @@ BOOL CCtrlButton::OnCommand(HWND, WORD, WORD idCode)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlHyperlink
 
-CCtrlHyperlink::CCtrlHyperlink( CDlgBase* wnd, int idCtrl, const char* url ) :
-	CCtrlBase( wnd, idCtrl ),
+CCtrlHyperlink::CCtrlHyperlink(CDlgBase* wnd, int idCtrl, const char* url) :
+	CCtrlBase(wnd, idCtrl),
 	m_url(url)
 {
 }
@@ -611,7 +611,7 @@ BOOL CCtrlHyperlink::OnCommand(HWND, WORD, WORD)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlClc
-CCtrlClc::CCtrlClc( CDlgBase* dlg, int ctrlId ):
+CCtrlClc::CCtrlClc(CDlgBase* dlg, int ctrlId):
 	CCtrlBase(dlg, ctrlId)
 {
 }
@@ -824,7 +824,7 @@ void CCtrlClc::SetTextColor(int iFontId, COLORREF clText)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlListView
 
-CCtrlListView::CCtrlListView( CDlgBase* dlg, int ctrlId ) :
+CCtrlListView::CCtrlListView(CDlgBase* dlg, int ctrlId) :
 	CCtrlBase(dlg, ctrlId)
 {
 }
@@ -1403,7 +1403,7 @@ void CCtrlFilterListView::OnInit()
 static LRESULT CALLBACK sttEditBoxSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	CFilterData *fdat = (CFilterData *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	if (!fdat) return DefWindowProc(hwnd, msg, wParam, lParam);
+	if ( !fdat) return DefWindowProc(hwnd, msg, wParam, lParam);
 
 	switch (msg)
 	{
@@ -1472,7 +1472,7 @@ void CCtrlFilterListView::FilterHighlight(TCHAR *str)
 			for (int j = 0; j < 10; ++j)
 			{
 				GetItemText(i, j, buf, SIZEOF(buf));
-				if (!*buf)
+				if ( !*buf)
 					break;
 
 				if (_tcsstr(buf, str))
@@ -1498,7 +1498,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 				case 0:
 				{
 					OnFilterChanged(this);
-					if (!m_keepHiglight) FilterHighlight(NULL);
+					if ( !m_keepHiglight) FilterHighlight(NULL);
 					break;
 				}
 
@@ -1684,9 +1684,9 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			pt.y = HIWORD(lParam);
 			MapWindowPoints(NULL, m_hwnd, &pt, 1);
 
-			if(PtInRect(&fdat->m_rcButtonClear, pt))
+			if (PtInRect(&fdat->m_rcButtonClear, pt))
 				return HTBORDER;
-			if(PtInRect(&fdat->m_rcEditBox, pt))
+			if (PtInRect(&fdat->m_rcEditBox, pt))
 				return HTBORDER;
 
 			break;
@@ -1699,7 +1699,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 			pt.y = HIWORD(lParam);
 			MapWindowPoints(NULL, m_hwnd, &pt, 1);
 
-			if(PtInRect(&fdat->m_rcButtonClear, pt))
+			if (PtInRect(&fdat->m_rcButtonClear, pt))
 			{
 				SetFocus(m_hwnd);
 				if (fdat->m_filterText) mir_free(fdat->m_filterText);
@@ -1708,7 +1708,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 				OnFilterChanged(this);
 				FilterHighlight(NULL);
 			} else
-			if(PtInRect(&fdat->m_rcEditBox, pt))
+			if (PtInRect(&fdat->m_rcEditBox, pt))
 			{
 				PostMessage(m_hwnd, WM_APP, 2, 0);
 			}
@@ -1729,7 +1729,7 @@ LRESULT CCtrlFilterListView::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lPara
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlTreeView
 
-CCtrlTreeView::CCtrlTreeView( CDlgBase* dlg, int ctrlId ):
+CCtrlTreeView::CCtrlTreeView(CDlgBase* dlg, int ctrlId):
 	CCtrlBase(dlg, ctrlId)
 {
 }
@@ -1786,7 +1786,7 @@ void CCtrlTreeView::TranslateTree()
 		{
 			while (1)
 			{
-				if (!(hItem = GetParent(hItem))) break;
+				if ( !(hItem = GetParent(hItem))) break;
 				if (hItemTmp = GetNextSibling(hItem))
 				{
 					hItem = hItemTmp;
@@ -1807,7 +1807,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	else
 		tvi.hItem = GetRoot();
 
-	if (!name)
+	if ( !name)
 		return tvi.hItem;
 
 	tvi.mask = TVIF_TEXT;
@@ -1818,7 +1818,7 @@ HTREEITEM CCtrlTreeView::FindNamedItem(HTREEITEM hItem, const TCHAR *name)
 	{
 		GetItem(&tvi);
 
-		if (!lstrcmp(tvi.pszText, name))
+		if ( !lstrcmp(tvi.pszText, name))
 			return tvi.hItem;
 
 		tvi.hItem = GetNextSibling(tvi.hItem);
@@ -2089,7 +2089,7 @@ void CCtrlTreeView::SortChildrenCB(TVSORTCB *cb, BOOL fRecurse)
 /////////////////////////////////////////////////////////////////////////////////////////
 // CCtrlPages
 
-CCtrlPages::CCtrlPages( CDlgBase* dlg, int ctrlId ):
+CCtrlPages::CCtrlPages(CDlgBase* dlg, int ctrlId):
 	CCtrlBase(dlg, ctrlId), m_hIml(NULL), m_pActivePage(NULL)
 {
 }
@@ -2110,7 +2110,7 @@ LRESULT CCtrlPages::CustomWndProc(UINT msg, WPARAM wParam, LPARAM lParam)
 	return CSuper::CustomWndProc(msg, wParam, lParam);
 }
 
-void CCtrlPages::AddPage( TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate, void *param )
+void CCtrlPages::AddPage(TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate, void *param)
 {
 	TPageInfo *info = new TPageInfo;
 	info->m_onCreate = onCreate;
@@ -2123,7 +2123,7 @@ void CCtrlPages::AddPage( TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate
 	tci.pszText = ptszName;
 	if (hIcon)
 	{
-		if (!m_hIml)
+		if ( !m_hIml)
 		{
 			m_hIml = ImageList_Create(16, 16, IsWinVerXPPlus() ? ILC_COLOR32|ILC_MASK : ILC_COLOR16|ILC_MASK, 0, 1);
 			TabCtrl_SetImageList(m_hwnd, m_hIml);
@@ -2136,7 +2136,7 @@ void CCtrlPages::AddPage( TCHAR *ptszName, HICON hIcon, CCallback<void> onCreate
 	TabCtrl_InsertItem(m_hwnd, TabCtrl_GetItemCount(m_hwnd), &tci);
 }
 
-void CCtrlPages::AttachDialog( int iPage, CDlgBase *pDlg )
+void CCtrlPages::AttachDialog(int iPage, CDlgBase *pDlg)
 {
 	if ((iPage < 0) || (iPage >= TabCtrl_GetItemCount(m_hwnd)))
 		return;
@@ -2163,7 +2163,7 @@ void CCtrlPages::AttachDialog( int iPage, CDlgBase *pDlg )
 
 void CCtrlPages::ShowPage(CDlgBase *pDlg)
 {
-	if (!pDlg) return;
+	if ( !pDlg) return;
 
 	RECT rc;
 	GetClientRect(m_hwnd, &rc);
@@ -2172,13 +2172,13 @@ void CCtrlPages::ShowPage(CDlgBase *pDlg)
 	SetWindowPos(pDlg->GetHwnd(), HWND_TOP, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, SWP_SHOWWINDOW);
 }
 
-void CCtrlPages::ActivatePage( int iPage )
+void CCtrlPages::ActivatePage(int iPage)
 {
 	TabCtrl_SetCurSel(m_hwnd, iPage);
 	//ShowPage(iPage);
 }
 
-BOOL CCtrlPages::OnNotify( int /*idCtrl*/, NMHDR *pnmh )
+BOOL CCtrlPages::OnNotify(int /*idCtrl*/, NMHDR *pnmh)
 {
 	switch (pnmh->code)
 	{
@@ -2257,12 +2257,12 @@ void CCtrlPages::OnDestroy()
 // CCtrlBase
 
 CCtrlBase::CCtrlBase(CDlgBase *wnd, int idCtrl) :
-	m_parentWnd( wnd ),
-	m_idCtrl( idCtrl ),
-	m_hwnd( NULL ),
-	m_wndproc( NULL )
+	m_parentWnd(wnd),
+	m_idCtrl(idCtrl),
+	m_hwnd(NULL),
+	m_wndproc(NULL)
 {
-	if ( wnd ) {
+	if (wnd) {
 		m_next = wnd->m_first;
 		wnd->m_first = this;
 }	}
@@ -2278,29 +2278,29 @@ void CCtrlBase::OnDestroy()
 	m_hwnd = NULL;
 }
 
-void CCtrlBase::Enable( int bIsEnable )
+void CCtrlBase::Enable(int bIsEnable)
 {
-	::EnableWindow( m_hwnd, bIsEnable );
+	::EnableWindow(m_hwnd, bIsEnable);
 }
 
 BOOL CCtrlBase::Enabled() const
 {
-	return ( m_hwnd ) ? IsWindowEnabled( m_hwnd ) : FALSE;
+	return (m_hwnd) ? IsWindowEnabled(m_hwnd) : FALSE;
 }
 
-LRESULT CCtrlBase::SendMsg( UINT Msg, WPARAM wParam, LPARAM lParam )
+LRESULT CCtrlBase::SendMsg(UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-	return ::SendMessage( m_hwnd, Msg, wParam, lParam );
+	return ::SendMessage(m_hwnd, Msg, wParam, lParam);
 }
 
 void CCtrlBase::SetText(const TCHAR *text)
 {
-	::SetWindowText( m_hwnd, text );
+	::SetWindowText(m_hwnd, text);
 }
 
 void CCtrlBase::SetTextA(const char *text)
 {
-	::SetWindowTextA( m_hwnd, text );
+	::SetWindowTextA(m_hwnd, text);
 }
 
 void CCtrlBase::SetInt(int value)
@@ -2401,9 +2401,9 @@ CDbLink::~CDbLink()
 DWORD CDbLink::LoadUnsigned()
 {
 	switch (m_type) {
-		case DBVT_BYTE:  return DBGetContactSettingByte(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_WORD:  return DBGetContactSettingWord(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_DWORD: return DBGetContactSettingDword(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_BYTE:  return db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_WORD:  return db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_DWORD: return db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
 		default:         return m_iDefault;
 	}
 }
@@ -2411,9 +2411,9 @@ DWORD CDbLink::LoadUnsigned()
 int CDbLink::LoadSigned()
 {
 	switch (m_type) {
-		case DBVT_BYTE:  return (signed char)DBGetContactSettingByte(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_WORD:  return (signed short)DBGetContactSettingWord(NULL, m_szModule, m_szSetting, m_iDefault);
-		case DBVT_DWORD: return (signed int)DBGetContactSettingDword(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_BYTE:  return (signed char)db_get_b(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_WORD:  return (signed short)db_get_w(NULL, m_szModule, m_szSetting, m_iDefault);
+		case DBVT_DWORD: return (signed int)db_get_dw(NULL, m_szModule, m_szSetting, m_iDefault);
 		default:         return m_iDefault;
 	}
 }
@@ -2421,16 +2421,16 @@ int CDbLink::LoadSigned()
 void CDbLink::SaveInt(DWORD value)
 {
 	switch (m_type) {
-		case DBVT_BYTE:  DBWriteContactSettingByte(NULL, m_szModule, m_szSetting, (BYTE)value); break;
-		case DBVT_WORD:  DBWriteContactSettingWord(NULL, m_szModule, m_szSetting, (WORD)value); break;
-		case DBVT_DWORD: DBWriteContactSettingDword(NULL, m_szModule, m_szSetting, value); break;
+		case DBVT_BYTE:  db_set_b(NULL, m_szModule, m_szSetting, (BYTE)value); break;
+		case DBVT_WORD:  db_set_w(NULL, m_szModule, m_szSetting, (WORD)value); break;
+		case DBVT_DWORD: db_set_dw(NULL, m_szModule, m_szSetting, value); break;
 	}
 }
 
 TCHAR* CDbLink::LoadText()
 {
 	if (dbv.type != DBVT_DELETED) DBFreeVariant(&dbv);
-	if (!DBGetContactSettingTString(NULL, m_szModule, m_szSetting, &dbv))
+	if ( !DBGetContactSettingTString(NULL, m_szModule, m_szSetting, &dbv))
 	{
 		if (dbv.type == DBVT_TCHAR)
 			return dbv.ptszVal;
@@ -2443,7 +2443,7 @@ TCHAR* CDbLink::LoadText()
 
 void CDbLink::SaveText(TCHAR *value)
 {
-	DBWriteContactSettingTString(NULL, m_szModule, m_szSetting, value);
+	db_set_ts(NULL, m_szModule, m_szSetting, value);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2477,7 +2477,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 			{
 				TCHAR *szTitle = (TCHAR *)lParam;
-				if (!_tcsstr(szTitle, m_proto_interface->m_tszUserName))
+				if ( !_tcsstr(szTitle, m_proto_interface->m_tszUserName))
 				{
 					UpdateProtoTitle(szTitle);
 					return TRUE;
@@ -2514,7 +2514,7 @@ INT_PTR CProtoIntDlgBase::DlgProc(UINT msg, WPARAM wParam, LPARAM lParam)
 
 void CProtoIntDlgBase::UpdateProtoTitle(TCHAR *szText)
 {
-	if (!m_show_label) return;
+	if ( !m_show_label) return;
 
 	int curLength;
 	TCHAR *curText;
@@ -2530,7 +2530,7 @@ void CProtoIntDlgBase::UpdateProtoTitle(TCHAR *szText)
 		GetWindowText(m_hwnd, curText, curLength);
 	}
 
-	if (!_tcsstr(curText, m_proto_interface->m_tszUserName))
+	if ( !_tcsstr(curText, m_proto_interface->m_tszUserName))
 	{
 		int length = curLength + lstrlen(m_proto_interface->m_tszUserName) + 256;
 		TCHAR *text = (TCHAR *)_alloca(length * sizeof(TCHAR));
