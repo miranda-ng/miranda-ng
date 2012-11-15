@@ -52,10 +52,16 @@ MDatabaseCache::~MDatabaseCache()
 
 DBCachedContact* MDatabaseCache::AddContactToCache(HANDLE hContact)
 {
-	DBCachedContact* VL = (DBCachedContact*)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContact));
-	VL->hContact = hContact;
-	m_lContacts.insert(VL);
-	return VL;
+	DBCachedContact VLtemp = { hContact };
+	int index = m_lContacts.getIndex(&VLtemp);
+	if (index == -1) {
+		DBCachedContact* VL = (DBCachedContact*)HeapAlloc(m_hCacheHeap, HEAP_ZERO_MEMORY, sizeof(DBCachedContact));
+		VL->hContact = hContact;
+		m_lContacts.insert(VL);
+		return VL;
+	}
+
+	return m_lContacts[ index ];
 }
 
 DBCachedContact* MDatabaseCache::GetCachedContact(HANDLE hContact)
