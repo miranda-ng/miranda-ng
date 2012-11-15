@@ -215,14 +215,14 @@ HRESULT CFormattedTextDraw::get_NaturalSize(void *hdcDraw, long *Width, long *He
 	cf.bCharSet = lf.lfCharSet;
 	cf.yHeight = 1440 * abs(lf.lfHeight) / GetDeviceCaps((HDC)hdcDraw, LOGPIXELSY);
 	wsprintf(cf.szFaceName, lf.lfFaceName);
-	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
-
-	SIZEL szExtent;
-//	HDC	hdcDraw;
 
 	if (!m_spTextServices)
 		return S_FALSE;
 
+	m_spTextServices->TxSendMessage(EM_SETCHARFORMAT, (WPARAM)(SCF_ALL), (LPARAM)&cf, &lResult);
+
+	SIZEL szExtent;
+//	HDC	hdcDraw;
 //	hdcDraw = GetDC(NULL);
 	*Height = 1;
 	szExtent.cx = *Width;
