@@ -305,7 +305,7 @@ static INT_PTR CALLBACK DlgProcIgnoreOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM
 						if (SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETCHECKMARK, (WPARAM)hItem, 0))
 							DBDeleteContactSetting(hContact, "CList", "Hidden");
 						else
-							DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
+							db_set_b(hContact, "CList", "Hidden", 1);
 					}
 					while (hContact = db_find_next(hContact));
 					SaveItemMask( GetDlgItem(hwndDlg, IDC_LIST), NULL, hItemAll, "Default1");

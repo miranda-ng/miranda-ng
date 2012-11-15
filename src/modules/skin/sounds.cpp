@@ -329,7 +329,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 		switch(((LPNMHDR)lParam)->idFrom) {
 		case 0:
 			if (((LPNMHDR)lParam)->code == PSN_APPLY) {
-				DBWriteContactSettingByte(NULL, "Skin", "UseSound", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
+				db_set_b(NULL, "Skin", "UseSound", (BYTE) IsDlgButtonChecked(hwndDlg, IDC_ENABLESOUNDS));
 
 				for (int i=0; i < arSounds.getCount(); i++)
 					if (arSounds[i].ptszTempFile)
@@ -351,7 +351,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 								cgs.szSetting = arSounds[tvic.lParam].name;
 								CallService(MS_DB_CONTACT_DELETESETTING, (WPARAM)(HANDLE)NULL, (LPARAM)&cgs);
 							}
-							else DBWriteContactSettingByte(NULL, "SkinSoundsOff", arSounds[tvic.lParam].name, 1);
+							else db_set_b(NULL, "SkinSoundsOff", arSounds[tvic.lParam].name, 1);
 							tvic.hItem = TreeView_GetNextSibling(hwndTree, tvic.hItem);
 					}	}
 

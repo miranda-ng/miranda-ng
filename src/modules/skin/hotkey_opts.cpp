@@ -326,9 +326,9 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 	item->Enabled = item->OptEnabled;
 
 	DBWriteContactSettingWord(NULL, DBMODULENAME, item->pszName, item->Hotkey);
-	DBWriteContactSettingByte(NULL, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
+	db_set_b(NULL, DBMODULENAME "Off", item->pszName, (BYTE)!item->Enabled);
 	if (item->type != HKT_MANUAL)
-		DBWriteContactSettingByte(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
+		db_set_b(NULL, DBMODULENAME "Types", item->pszName, (BYTE)item->type);
 
 	item->nSubHotkeys = 0;
 	for (i=0; i < hotkeys.getCount(); i++) {
@@ -340,7 +340,7 @@ static void sttOptionsSaveItem(THotkeyItem *item)
 			mir_snprintf(buf, SIZEOF(buf), "%s$%d", item->pszName, item->nSubHotkeys);
 			DBWriteContactSettingWord(NULL, DBMODULENAME, buf, subItem->Hotkey);
 			if (subItem->type != HKT_MANUAL)
-				DBWriteContactSettingByte(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
+				db_set_b(NULL, DBMODULENAME "Types", buf, (BYTE)subItem->type);
 
 			++item->nSubHotkeys;
 	}	}
@@ -993,7 +993,7 @@ static INT_PTR CALLBACK sttOptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				lvi.iSubItem = 1;
 				ListView_GetItem(hwndHotkey, &lvi);
 
-				DBWriteContactSettingByte(NULL, DBMODULENAME "UI", _T2A(lvi.pszText), ListView_GetCheckState(hwndHotkey, lvi.iItem));
+				db_set_b(NULL, DBMODULENAME "UI", _T2A(lvi.pszText), ListView_GetCheckState(hwndHotkey, lvi.iItem));
 			}
 		}
 	}

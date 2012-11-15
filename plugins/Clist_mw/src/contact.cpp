@@ -53,7 +53,7 @@ static int GetContactStatus(HANDLE hContact)
 
 	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
 	if (szProto == NULL) return ID_STATUS_OFFLINE;
-	return DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
+	return db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	*/
 	return (GetContactCachedStatus(hContact));
 }
@@ -75,30 +75,22 @@ static int GetStatusModeOrdering(int statusMode)
 
 void LoadContactTree(void)
 {
-	HANDLE hContact;
-	int i,hideOffline,status,tick;
-	pClcCacheEntry cacheEntry;
-		
-
-
-	tick = GetTickCount();
+	int tick = GetTickCount();
 	CallService(MS_CLUI_LISTBEGINREBUILD,0,0);
-	for (i = 1;;i++) {
-		if ((char*)CallService(MS_CLIST_GROUPGETNAME2,i,(LPARAM)(int*)NULL) == NULL) break;
-		CallService(MS_CLUI_GROUPADDED,i,0);
-	}
+	for (int i=1;; i++)
+		if ((char*)CallService(MS_CLIST_GROUPGETNAME2, i, 0) != NULL)
+			CallService(MS_CLUI_GROUPADDED, i, 0);
 
-	hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
-	hContact = db_find_first();
+	int hideOffline = db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT);
+	HANDLE hContact = db_find_first();
 
 	while(hContact != NULL) {
-		cacheEntry = GetContactFullCacheEntry(hContact);
-		if (cacheEntry == NULL)
-		{
+		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry(hContact);
+		if (cacheEntry == NULL) {
 			MessageBoxA(0,"Fail To Get CacheEntry for hContact","!!!!!",0);
 			break;
 		}
-		status = cacheEntry->status;
+		int status = cacheEntry->status;
 		if ((!hideOffline || status != ID_STATUS_OFFLINE) && !cacheEntry->bIsHidden)
 			ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,(char*)cacheEntry->szProto,status),1);
 		hContact = db_find_next(hContact);
@@ -111,13 +103,10 @@ void LoadContactTree(void)
 	CallService(MS_CLUI_LISTENDREBUILD,0,0);
 	
 	tick = GetTickCount()-tick;
-	{
-	char buf[255];
-	//sprintf(buf,"%s %s took %i ms",__FILE__,__LINE__,tick);
-	sprintf(buf,"LoadContactTree %d \r\n",tick);
 
+	char buf[255];
+	sprintf(buf,"LoadContactTree %d \r\n",tick);
 	OutputDebugStringA(buf);
-	}
 }
 
 #define SAFESTRING(a) a?a:""
@@ -191,7 +180,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 	if ((HANDLE)lParam == NULL)
 		DBDeleteContactSetting((HANDLE)wParam,"CList","Group");
 	else
-		DBWriteContactSettingString((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));
+		db_set_s((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));
 	CallService(MS_CLUI_CONTACTADDED,wParam,ExtIconFromStatusMode((HANDLE)wParam,(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0),GetContactStatus((HANDLE)wParam)));
 	return 0;
 }

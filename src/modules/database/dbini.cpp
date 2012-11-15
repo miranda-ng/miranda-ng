@@ -310,7 +310,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		switch(szValue[0]) {
 		case 'b':
 		case 'B':
-			DBWriteContactSettingByte(NULL, szSection, szName, (BYTE)strtol(szValue+1, NULL, 0));
+			db_set_b(NULL, szSection, szName, (BYTE)strtol(szValue+1, NULL, 0));
 			break;
 		case 'w':
 		case 'W':

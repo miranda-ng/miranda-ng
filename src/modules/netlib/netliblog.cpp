@@ -211,7 +211,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 
 				GetDlgItemText(hwndDlg, IDC_RUNATSTART, str, MAX_PATH);
 				db_set_ts(NULL, "Netlib", "RunAtStart", str);
-				DBWriteContactSettingByte(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
+				db_set_b(NULL, "Netlib", "ShowLogOptsAtStart", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_SHOWTHISDLGATSTART));
 
 				mir_cslock lck(logOptions.cs);
 
@@ -264,16 +264,16 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			}
 
 			if (logOptions.save) {
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpRecv", (BYTE)logOptions.dumpRecv);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpSent", (BYTE)logOptions.dumpSent);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpProxy", (BYTE)logOptions.dumpProxy);
-				DBWriteContactSettingByte(NULL, "Netlib", "DumpSsl", (BYTE)logOptions.dumpSsl);
-				DBWriteContactSettingByte(NULL, "Netlib", "TextDumps", (BYTE)logOptions.textDumps);
-				DBWriteContactSettingByte(NULL, "Netlib", "AutoDetectText", (BYTE)logOptions.autoDetectText);
-				DBWriteContactSettingByte(NULL, "Netlib", "TimeFormat", (BYTE)logOptions.timeFormat);
-				DBWriteContactSettingByte(NULL, "Netlib", "ShowUser", (BYTE)logOptions.showUser);
-				DBWriteContactSettingByte(NULL, "Netlib", "ToOutputDebugString", (BYTE)logOptions.toOutputDebugString);
-				DBWriteContactSettingByte(NULL, "Netlib", "ToFile", (BYTE)logOptions.toFile);
+				db_set_b(NULL, "Netlib", "DumpRecv", (BYTE)logOptions.dumpRecv);
+				db_set_b(NULL, "Netlib", "DumpSent", (BYTE)logOptions.dumpSent);
+				db_set_b(NULL, "Netlib", "DumpProxy", (BYTE)logOptions.dumpProxy);
+				db_set_b(NULL, "Netlib", "DumpSsl", (BYTE)logOptions.dumpSsl);
+				db_set_b(NULL, "Netlib", "TextDumps", (BYTE)logOptions.textDumps);
+				db_set_b(NULL, "Netlib", "AutoDetectText", (BYTE)logOptions.autoDetectText);
+				db_set_b(NULL, "Netlib", "TimeFormat", (BYTE)logOptions.timeFormat);
+				db_set_b(NULL, "Netlib", "ShowUser", (BYTE)logOptions.showUser);
+				db_set_b(NULL, "Netlib", "ToOutputDebugString", (BYTE)logOptions.toOutputDebugString);
+				db_set_b(NULL, "Netlib", "ToFile", (BYTE)logOptions.toFile);
 				db_set_ts(NULL, "Netlib", "File", logOptions.szFile ? logOptions.szUserFile: _T(""));
 				logOptions.save = 0;
 			}

@@ -87,10 +87,9 @@ int InitInternalButtons(WPARAM, LPARAM)
 	CreateServiceFunction(TTBI_SOUNDSONOFF,   TTBInternalSoundsOnOff);
 	CreateServiceFunction(TTBI_MAINMENUBUTT,  TTBInternalMainMenuButt);
 
-	TTBButton ttb = { 0 };
-	ttb.cbSize = sizeof(ttb);
-
 	for (int i=0; i < SIZEOF(stdButtons); i++) {
+		TTBButton ttb = { 0 };
+		ttb.cbSize = sizeof(ttb);
 		ttb.name = stdButtons[i].name;
 		ttb.pszService = stdButtons[i].pszService;
 		ttb.dwFlags = TTBBF_VISIBLE | TTBBF_INTERNAL;
@@ -103,6 +102,9 @@ int InitInternalButtons(WPARAM, LPARAM)
 			ttb.hIconDn = (HICON)LoadImage(hInst, MAKEINTRESOURCE(stdButtons[i].iconidDn), IMAGE_ICON, 16, 16, LR_DEFAULTCOLOR);
 		}
 		else ttb.hIconDn = NULL;
+
+		if (i == 0)
+			ttb.wParamUp = 1;
 
 		stdButtons[i].hButton = (HANDLE)TTBAddButton((WPARAM)&ttb, 0);
 	}

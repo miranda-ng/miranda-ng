@@ -191,7 +191,7 @@ static void SaveOptionsTreeState(HWND hdlg)
 	while (tvi.hItem != NULL) {
 		if (SendMessageA( GetDlgItem(hdlg, IDC_PAGETREE), TVM_GETITEMA, 0, (LPARAM)&tvi)) {
 			mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
-			DBWriteContactSettingByte(NULL, "Options", buf, (BYTE)((tvi.state&TVIS_EXPANDED)?1:0));
+			db_set_b(NULL, "Options", buf, (BYTE)((tvi.state&TVIS_EXPANDED)?1:0));
 		}
 		tvi.hItem = TreeView_GetNextSibling( GetDlgItem(hdlg, IDC_PAGETREE), tvi.hItem);
 }	}
@@ -1132,7 +1132,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			break;
 
 		case IDC_MODERN:
-			DBWriteContactSettingByte(NULL, "Options", "Expert", 0);
+			db_set_b(NULL, "Options", "Expert", 0);
 			SaveOptionsTreeState(hdlg);
 			PostMessage(hdlg, WM_CLOSE, 0, 0);
 			CallService(MS_MODERNOPT_SHOW, 0, 0);

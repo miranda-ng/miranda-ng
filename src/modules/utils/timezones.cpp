@@ -249,7 +249,7 @@ static void timeapiSetInfoByContact(HANDLE hContact, HANDLE hTZ)
 	if (tz)
 	{
 		db_set_ts(hContact, "UserInfo", "TzName", tz->tszName);
-		DBWriteContactSettingByte(hContact, "UserInfo", "Timezone", (char)((tz->tzi.Bias + tz->tzi.StandardBias) / 30));
+		db_set_b(hContact, "UserInfo", "Timezone", (char)((tz->tzi.Bias + tz->tzi.StandardBias) / 30));
 	}
 	else
 	{

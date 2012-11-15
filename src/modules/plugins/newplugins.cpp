@@ -476,7 +476,7 @@ void SetPluginOnWhiteList(const TCHAR* pluginname, int allow)
 	char plugName[MAX_PATH];
 	strncpy(plugName, StrConvA(pluginname), SIZEOF(plugName));
 	strlwr(plugName);
-	DBWriteContactSettingByte(NULL, PLUGINDISABLELIST, plugName, allow == 0);
+	db_set_b(NULL, PLUGINDISABLELIST, plugName, allow == 0);
 }
 
 // returns 1 if the plugin should be enabled within this profile, filename is always lower case

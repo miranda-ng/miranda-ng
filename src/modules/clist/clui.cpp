@@ -204,7 +204,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 					status = CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0);
 					if (status == ID_STATUS_OFFLINE || (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES)) {
 						// Set a flag so we remember to delete the contact when the protocol goes online the next time
-						DBWriteContactSettingByte((HANDLE)wParam, "CList", "Delete", 1);
+						db_set_b((HANDLE)wParam, "CList", "Delete", 1);
 						MessageBox(NULL,
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 							TranslateT("Delete Contact"), MB_OK);
@@ -217,7 +217,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 
 	// Archive contact
 	case IDC_HIDE:
-		DBWriteContactSettingByte((HANDLE)wParam, "CList", "Hidden", 1);
+		db_set_b((HANDLE)wParam, "CList", "Hidden", 1);
 		break;
 	}
 
@@ -570,9 +570,9 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		if (wParam == SIZE_MINIMIZED) {
 			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 				ShowWindow(hwnd, SW_HIDE);
-				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+				db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 			}
-			else DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
+			else db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 
 			if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 				MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
@@ -723,7 +723,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
-				DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+				db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 
 				if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))
 					MySetProcessWorkingSetSize(GetCurrentProcess(), -1, -1);
@@ -766,7 +766,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case POPUP_HIDEEMPTYGROUPS:
 			{
 				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_HIDEEMPTYGROUPS);
-				DBWriteContactSettingByte(NULL, "CList", "HideEmptyGroups", (BYTE) newVal);
+				db_set_b(NULL, "CList", "HideEmptyGroups", (BYTE) newVal);
 				SendMessage(cli.hwndContactTree, CLM_SETHIDEEMPTYGROUPS, newVal, 0);
 			}
 			break;
@@ -774,7 +774,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 		case POPUP_DISABLEGROUPS:
 			{
 				int newVal = !(GetWindowLongPtr(cli.hwndContactTree, GWL_STYLE) & CLS_USEGROUPS);
-				DBWriteContactSettingByte(NULL, "CList", "UseGroups", (BYTE) newVal);
+				db_set_b(NULL, "CList", "UseGroups", (BYTE) newVal);
 				SendMessage(cli.hwndContactTree, CLM_SETUSEGROUPS, newVal, 0);
 			}
 			break;

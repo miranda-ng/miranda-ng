@@ -104,7 +104,7 @@ static int SaveTree(HWND hwndDlg)
 			GetMenuItemName(iod->pimi, menuItemName, sizeof(menuItemName));
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
-			DBWriteContactSettingByte(NULL, MenuNameItems, DBString, iod->show);
+			db_set_b(NULL, MenuNameItems, DBString, iod->show);
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);
 			db_set_dw(NULL, MenuNameItems, DBString, runtimepos);
@@ -537,7 +537,7 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		case 0:
 			if (hdr->code == PSN_APPLY) {
 				bIconsDisabled = IsDlgButtonChecked(hwndDlg, IDC_DISABLEMENUICONS) != 0;
-				DBWriteContactSettingByte(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
+				db_set_b(NULL, "CList", "DisableMenuIcons", bIconsDisabled);
 				SaveTree(hwndDlg);
 				int iNewMenuValue = IsDlgButtonChecked(hwndDlg, IDC_RADIO1) ? 0 : 1;
 				if (iNewMenuValue != dat->iInitMenuValue) {

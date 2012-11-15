@@ -31,7 +31,7 @@ INT_PTR hkCloseMiranda(WPARAM wParam,LPARAM lParam)
 
 INT_PTR hkRestoreStatus(WPARAM wParam,LPARAM lParam)
 {
-	int nStatus = DBGetContactSettingWord(NULL, "CList", "Status", ID_STATUS_OFFLINE);
+	int nStatus = db_get_w(NULL, "CList", "Status", ID_STATUS_OFFLINE);
 	CallService(MS_CLIST_SETSTATUSMODE, nStatus, 0);
 
 	return 0;

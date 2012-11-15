@@ -48,8 +48,6 @@ struct ClcCacheEntry : public ClcCacheEntryBase
 	boolean isUnknown;
 };
 
-typedef ClcCacheEntry *pClcCacheEntry;
-
-pClcCacheEntry GetContactFullCacheEntry(HANDLE hContact);
+ClcCacheEntry* GetContactFullCacheEntry(HANDLE hContact);
 
 #endif

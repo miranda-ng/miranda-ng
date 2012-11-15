@@ -42,7 +42,7 @@ int OnStatusBarBackgroundChange()
 		}
 	}
 
-	backgroundBmpUse = DBGetContactSettingWord(NULL,"StatusBar","BkBmpUse",CLCDEFAULT_BKBMPUSE);
+	backgroundBmpUse = db_get_w(NULL,"StatusBar","BkBmpUse",CLCDEFAULT_BKBMPUSE);
 	extraspace = DBGetContactSettingDword(NULL,"StatusBar","BkExtraSpace",0);
 
 	RecreateStatusBar(pcli->hwndContactList);
@@ -106,7 +106,7 @@ void DrawDataForStatusBar(LPDRAWITEMSTRUCT dis)
 
 	if (showOpts & 4) {
 		TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
-		if (!szStatus)
+		if ( !szStatus)
 			szStatus = _T("");
 		GetTextExtentPoint32(dis->hDC,szStatus,lstrlen(szStatus),&textSize);
 		TextOut(dis->hDC,x,(dis->rcItem.top+dis->rcItem.bottom-textSize.cy)>>1,szStatus,lstrlen(szStatus));
@@ -262,7 +262,7 @@ void DrawBackGround(HWND hwnd,HDC mhdc)
 	DeleteObject(hBmpOsb);
 	DeleteDC(hdcMem);
 	paintst.fErase = FALSE;
-	if (!mhdc)
+	if ( !mhdc)
 		EndPaint(hwnd,&paintst);	
 }
 
@@ -309,7 +309,7 @@ LRESULT CALLBACK StatusHelperProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 	case WM_SHOWWINDOW:
 		if (hFrameHelperStatusBar) {
 			int res = CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS,hFrameHelperStatusBar),0);
-			DBWriteContactSettingByte(0, "CLUI", "ShowSBar", (res & F_VISIBLE) != 0);
+			db_set_b(0, "CLUI", "ShowSBar", (res & F_VISIBLE) != 0);
 		}
 
 		if (tooltipshoing){
@@ -345,7 +345,7 @@ LRESULT CALLBACK StatusHelperProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							return 0;
 
 						NotifyEventHooks(hStatusBarShowToolTipEvent,(WPARAM)PD->RealName,0);
-						SetTimer(hwnd,TM_STATUSBARHIDE,DBGetContactSettingWord(NULL,"CLUIFrames","HideToolTipTime",5000),0);
+						SetTimer(hwnd,TM_STATUSBARHIDE,db_get_w(NULL,"CLUIFrames","HideToolTipTime",5000),0);
 						tooltipshoing = TRUE;
 						break;
 					}
@@ -368,7 +368,7 @@ LRESULT CALLBACK StatusHelperProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				tooltipshoing = FALSE;		
 			}
 			KillTimer(hwnd,TM_STATUSBAR);
-			SetTimer(hwnd,TM_STATUSBAR,DBGetContactSettingWord(NULL,"CLC","InfoTipHoverTime",750),0);
+			SetTimer(hwnd,TM_STATUSBAR,db_get_w(NULL,"CLC","InfoTipHoverTime",750),0);
 		}			
 		return 0;
 

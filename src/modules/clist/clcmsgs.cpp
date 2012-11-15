@@ -419,7 +419,7 @@ LRESULT fnProcessExternalMessages(HWND hwnd, struct ClcData *dat, UINT msg, WPAR
 		break;
 
 	case CLM_SETHIDEOFFLINEROOT:
-		DBWriteContactSettingByte(NULL, "CLC", "HideOfflineRoot", (BYTE) wParam);
+		db_set_b(NULL, "CLC", "HideOfflineRoot", (BYTE) wParam);
 		SendMessage(hwnd, CLM_AUTOREBUILD, 0, 0);
 		break;
 

@@ -180,7 +180,7 @@ int InitFramesMenus(void)
 {
 	TMenuParam tmp;
 
-	if (!ServiceExists(MO_REMOVEMENUOBJECT))
+	if ( !ServiceExists(MO_REMOVEMENUOBJECT))
 	{
 
 		InitCustomMenus();

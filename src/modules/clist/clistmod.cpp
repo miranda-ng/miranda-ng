@@ -402,7 +402,7 @@ int fnShowHide(WPARAM, LPARAM)
 			SetWindowPos(cli.hwndContactList, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 
 		SetForegroundWindow(cli.hwndContactList);
-		DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_NORMAL);
+		db_set_b(NULL, "CList", "State", SETTING_STATE_NORMAL);
 
 		//this forces the window onto the visible screen
 		GetWindowRect(cli.hwndContactList, &rcWindow);
@@ -415,11 +415,11 @@ int fnShowHide(WPARAM, LPARAM)
 		if (db_get_b(NULL, "CList", "ToolWindow", SETTING_TOOLWINDOW_DEFAULT) || 
 			db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT)) {
 			ShowWindow(cli.hwndContactList, SW_HIDE);
-			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_HIDDEN);
+			db_set_b(NULL, "CList", "State", SETTING_STATE_HIDDEN);
 		}
 		else {
 			ShowWindow(cli.hwndContactList, SW_MINIMIZE);
-			DBWriteContactSettingByte(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
+			db_set_b(NULL, "CList", "State", SETTING_STATE_MINIMIZED);
 		}
 
 		if (MySetProcessWorkingSetSize != NULL && db_get_b(NULL, "CList", "DisableWorkingSet", 1))

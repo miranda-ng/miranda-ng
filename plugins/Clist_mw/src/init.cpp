@@ -125,12 +125,12 @@ INT_PTR SetDrawer(WPARAM wParam,LPARAM lParam)
 	if (DSS->cbSize != sizeof(*DSS)) return -1;
 	if (DSS->PluginName == NULL) return -1;
 	if (DSS->PluginName == NULL) return -1;
-	if (!ServiceExists(DSS->GetDrawFuncsServiceName)) return -1;
+	if ( !ServiceExists(DSS->GetDrawFuncsServiceName)) return -1;
 
 
 	SED.cbSize = sizeof(SED);
 	SED.PaintClc = (void (__cdecl *)(HWND,struct ClcData *,HDC,RECT *,int ,ClcProtoStatus *,HIMAGELIST))CallService(DSS->GetDrawFuncsServiceName,CLUI_EXT_FUNC_PAINTCLC,0);
-	if (!SED.PaintClc) return -1;
+	if ( !SED.PaintClc) return -1;
 	return 0;
 }
 
@@ -139,9 +139,9 @@ static struct ClcContact* fnCreateClcContact( void )
 	return (struct ClcContact*)mir_calloc( sizeof( struct ClcContact ));
 }
 
-static pClcCacheEntry fnCreateCacheItem( HANDLE hContact )
+static ClcCacheEntry *fnCreateCacheItem( HANDLE hContact )
 {
-	pClcCacheEntry p = (pClcCacheEntry)mir_calloc( sizeof( ClcCacheEntry ));
+	ClcCacheEntry *p = (ClcCacheEntry *)mir_calloc( sizeof( ClcCacheEntry ));
 	if ( p )
 		p->hContact = hContact;
 	return p;

@@ -61,7 +61,7 @@ void StatusUpdaterThread(void*)
 			if ( db_get_b(hContact,"CList","StatusMsgAuto",0)) {
 				for (i = 0; i<5; i++) {
 					if (hContact != NULL) {
-						pClcCacheEntry pdnce  = (pClcCacheEntry)pcli->pfnGetCacheEntry((HANDLE)hContact);
+						ClcCacheEntry *pdnce  = (ClcCacheEntry *)pcli->pfnGetCacheEntry((HANDLE)hContact);
 						if (pdnce && !pdnce->protoNotExists && pdnce->szProto)
 							CallContactService(hContact, PSS_GETAWAYMSG, 0, 0);
 
@@ -102,7 +102,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 	if ((HANDLE)wParam != NULL && !strcmp(cws->szModule,"CList")) {
 		if ( !strcmp( cws->szSetting, "noOffline" ))
 			pcli->pfnClcBroadcast( INTM_NAMEORDERCHANGED, wParam, lParam );
-		else if (!strcmp(cws->szSetting,"StatusMsg")) 
+		else if ( !strcmp(cws->szSetting,"StatusMsg")) 
 			pcli->pfnClcBroadcast( INTM_STATUSMSGCHANGED, wParam, lParam );
 	}
 	return 0;
@@ -144,7 +144,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 		int recalcScrollBar = 0,shouldShow;
 		HANDLE hSelItem = NULL;
 		struct ClcContact *selcontact = NULL;
-		pClcCacheEntry cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
+		ClcCacheEntry *cacheEntry = GetContactFullCacheEntry((HANDLE)wParam);
 
 		WORD status;
 		int needsResort = 0;
@@ -159,7 +159,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 
 		ClcContact *contact;
 		ClcGroup *group;
-		if (!FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {				
+		if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, &group, NULL)) {				
 			if (shouldShow && CallService(MS_DB_CONTACT_IS, wParam, 0)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
@@ -180,7 +180,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			if (contact->iImage == (WORD)lParam) break;				
 			if (sortByStatus) dat->needsResort = 1;
 
-			if (!shouldShow && !(style&CLS_NOHIDEOFFLINE) && (style&CLS_HIDEOFFLINE || group->hideOffline)) {
+			if ( !shouldShow && !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
 				if (dat->selection>=0 && GetRowByIndex(dat,dat->selection,&selcontact,NULL) != -1)
 					hSelItem = pcli->pfnContactToHItem(selcontact);
 				RemoveItemFromGroup(hwnd,group,contact,0);
@@ -191,7 +191,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 				int oldflags;
 				contact->iImage = (WORD)lParam;
 				oldflags = contact->flags;
-				if (!pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
+				if ( !pcli->pfnIsHiddenMode(dat,status)||cacheEntry->noHiddenOffline) contact->flags |= CONTACTF_ONLINE;
 				else contact->flags &= ~CONTACTF_ONLINE;
 				if (oldflags != contact->flags)
 					dat->needsResort = 1;
@@ -212,14 +212,14 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 	{	
 		DBVARIANT dbv;
 
-		if (!(dat->style & CLS_SHOWSTATUSMESSAGES))
+		if ( !(dat->style & CLS_SHOWSTATUSMESSAGES))
 			break;
 
 		ClcContact *contact;
 		ClcGroup *group;
 		if ( FindItem(hwnd,dat,(HANDLE)wParam,&contact,&group,NULL) && contact != NULL) {
 			contact->flags  &=  ~CONTACTF_STATUSMSG;
-			if (!DBGetContactSettingTString((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
+			if ( !DBGetContactSettingTString((HANDLE)wParam, "CList", "StatusMsg", &dbv)) {
 				int j;
 				if (dbv.ptszVal == NULL||_tcslen(dbv.ptszVal) == 0) break;
 				lstrcpyn(contact->szStatusMsg, dbv.ptszVal, SIZEOF(contact->szStatusMsg));
@@ -254,7 +254,7 @@ LRESULT CALLBACK ContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			KillTimer(hwnd,TIMERID_SUBEXPAND);
 			if (hitcontact) {
 				if (hitcontact->SubExpanded) hitcontact->SubExpanded = 0; else hitcontact->SubExpanded = 1;
-				DBWriteContactSettingByte(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
+				db_set_b(hitcontact->hContact,"CList","Expanded",hitcontact->SubExpanded);
 			}
 			hitcontact = NULL;
 			dat->needsResort = 1;

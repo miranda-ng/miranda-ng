@@ -169,9 +169,9 @@ void ScrollTo(HWND hwnd,struct ClcData *dat,int desty,int noSmooth)
 	if (desty>maxy) desty = maxy;
 	if (desty<0) desty = 0;
 	if (abs(desty-dat->yScroll)<4) noSmooth = 1;
-	if (!noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth = 1;
+	if ( !noSmooth && dat->exStyle&CLS_EX_NOSMOOTHSCROLLING) noSmooth = 1;
 	previousy = dat->yScroll;
-	if (!noSmooth) {
+	if ( !noSmooth) {
 		startTick = GetTickCount();
 		for (;;) {
 			nowTick = GetTickCount();
@@ -227,7 +227,7 @@ void RecalcScrollBar(HWND hwnd,struct ClcData *dat)
 	sbar = (dat->noVScrollbar == 1||(int)si.nPage>si.nMax);
 	
 	ShowScrollBar(hwnd,SB_VERT,sbar? FALSE : TRUE);
-	if (!sbar) {	
+	if ( !sbar) {	
 		if ( GetWindowLongPtr(hwnd,GWL_STYLE)&CLS_CONTACTLIST ) {
 			if ( dat->noVScrollbar == 0 ) SetScrollInfo(hwnd,SB_VERT,&si,TRUE);
 			else SetScrollInfo(hwnd,SB_VERT,&si,FALSE);

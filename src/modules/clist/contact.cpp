@@ -178,14 +178,13 @@ int fnSetHideOffline(WPARAM wParam, LPARAM)
 {
 	switch((int)wParam) {
 	case 0:
-		DBWriteContactSettingByte(NULL, "CList", "HideOffline", 0);
+		db_set_b(NULL, "CList", "HideOffline", 0);
 		break;
 	case 1:
-		DBWriteContactSettingByte(NULL, "CList", "HideOffline", 1);
+		db_set_b(NULL, "CList", "HideOffline", 1);
 		break;
 	case -1:
-		DBWriteContactSettingByte(NULL, "CList", "HideOffline", 
-			(BYTE) ! db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
+		db_set_b(NULL, "CList", "HideOffline", !db_get_b(NULL, "CList", "HideOffline", SETTING_HIDEOFFLINE_DEFAULT));
 		break;
 	}
 	cli.pfnLoadContactTree();

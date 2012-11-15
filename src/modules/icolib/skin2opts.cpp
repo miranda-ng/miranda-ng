@@ -623,9 +623,9 @@ static void SaveCollapseState(HWND hwndTree)
 		if (tvi.cChildren > 0) {
 			TreeItem *treeItem = (TreeItem *)tvi.lParam;
 			if (tvi.state & TVIS_EXPANDED)
-				DBWriteContactSettingByte(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
+				db_set_b(NULL, "SkinIconsUI", treeItem->paramName, TVIS_EXPANDED);
 			else
-				DBWriteContactSettingByte(NULL, "SkinIconsUI", treeItem->paramName, 0);
+				db_set_b(NULL, "SkinIconsUI", treeItem->paramName, 0);
 		}
 
 		HTREEITEM ht = TreeView_GetChild(hwndTree, hti);

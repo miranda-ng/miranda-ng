@@ -69,17 +69,17 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				dat->item[indx].selColor = DBGetContactSettingDword(NULL,module, "SelBkColour", DEFAULT_SELBKCOLOUR);
 				{	
 					DBVARIANT dbv;
-					if (!DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
+					if ( !DBGetContactSettingString(NULL,module,"BkBitmap",&dbv))
 					{
 						int retval = CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)dbv.pszVal, (LPARAM)dat->item[indx].filename);
-						if (!retval || retval == CALLSERVICE_NOTFOUND)
+						if ( !retval || retval == CALLSERVICE_NOTFOUND)
 							lstrcpynA(dat->item[indx].filename, dbv.pszVal, MAX_PATH);
 						mir_free(dbv.pszVal);
 					}
 					else
 						*dat->item[indx].filename = 0;
 				}
-				dat->item[indx].flags = DBGetContactSettingWord(NULL,module,"BkBmpUse", DEFAULT_BKBMPUSE);
+				dat->item[indx].flags = db_get_w(NULL,module,"BkBmpUse", DEFAULT_BKBMPUSE);
 				jndx = SendMessageA(hList, CB_ADDSTRING, 0, (LPARAM)Translate(bkgrList[indx]));
 				SendMessage(hList, CB_SETITEMDATA, jndx, indx);
 			}
@@ -175,7 +175,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ofn.nMaxFile = sizeof(str);
 				ofn.nMaxFileTitle = MAX_PATH;
 				ofn.lpstrDefExt = "bmp";
-				if (!GetOpenFileNameA(&ofn)) break;
+				if ( !GetOpenFileNameA(&ofn)) break;
 				SetDlgItemTextA(hwndDlg, IDC_FILENAME, str);
 			}
 			else if (LOWORD(wParam) == IDC_FILENAME && HIWORD(wParam) != EN_CHANGE) 
@@ -216,7 +216,7 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							if (dat->item[indx].changed)
 							{
 								char *module = bkgrList[indx] + strlen(bkgrList[indx]) + 1;
-								DBWriteContactSettingByte(NULL, module, "UseBitmap", (BYTE)dat->item[indx].useBitmap);
+								db_set_b(NULL, module, "UseBitmap", (BYTE)dat->item[indx].useBitmap);
 								{	
 									COLORREF col;
 
@@ -235,10 +235,10 @@ static INT_PTR CALLBACK DlgProcBkgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 									int retval = CallService(MS_UTILS_PATHTOABSOLUTE,
 										(WPARAM)dat->item[indx].filename,
 										(LPARAM)str);
-									if (!retval || retval == CALLSERVICE_NOTFOUND)
-										DBWriteContactSettingString(NULL, module, "BkBitmap", dat->item[indx].filename);
+									if ( !retval || retval == CALLSERVICE_NOTFOUND)
+										db_set_s(NULL, module, "BkBitmap", dat->item[indx].filename);
 									else
-										DBWriteContactSettingString(NULL, module, "BkBitmap", str);
+										db_set_s(NULL, module, "BkBitmap", str);
 								}
 								DBWriteContactSettingWord(NULL, module, "BkBmpUse", dat->item[indx].flags);
 								dat->item[indx].changed = FALSE;

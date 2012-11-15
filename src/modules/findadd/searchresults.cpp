@@ -47,13 +47,13 @@ void SaveColumnSizes(HWND hwndResults)
 	ListView_GetColumnOrderArray(hwndResults, columnCount, columnOrder);
 	for (i=0; i < NUM_COLUMNID; i++) {
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
-		DBWriteContactSettingByte(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
+		db_set_b(NULL, "FindAdd", szSetting, (BYTE)columnOrder[i]);
 		if (i>=columnCount) continue;
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColWidth%d", i);
 		DBWriteContactSettingWord(NULL, "FindAdd", szSetting, (WORD)ListView_GetColumnWidth(hwndResults, i));
 	}
-	DBWriteContactSettingByte(NULL, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
-	DBWriteContactSettingByte(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
+	db_set_b(NULL, "FindAdd", "SortColumn", (BYTE)dat->iLastColumnSortIndex);
+	db_set_b(NULL, "FindAdd", "SortAscending", (BYTE)dat->bSortAscending);
 }
 
 static const TCHAR *szColumnNames[] = { NULL, NULL, _T("Nick"), _T("First Name"), _T("Last Name"), _T("E-mail") };

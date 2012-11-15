@@ -116,7 +116,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 			if (ind < 0)
 				continue;
 
-			if (!pcli->pfnGetProtocolVisibility(accs[ind]->szModuleName))
+			if ( !pcli->pfnGetProtocolVisibility(accs[ind]->szModuleName))
 				continue;
 
 			x = 2;
@@ -130,7 +130,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 			if (showOpts & 4) {
 				int status = CallProtoService(accs[ind]->szModuleName, PS_GETSTATUS, 0, 0);
 				TCHAR *szStatus = pcli->pfnGetStatusModeDescription(status, 0);
-				if (!szStatus)
+				if ( !szStatus)
 					szStatus = _T("");
 				GetTextExtentPoint32(hdc, szStatus, (int)_tcslen(szStatus), &textSize);
 				x += textSize.cx;
@@ -160,7 +160,7 @@ void CluiProtocolStatusChanged(int parStatus, const char* szProto)
 		int ind = pcli->pfnGetAccountIndexByPos(i);
 		if (ind < 0) continue;
 
-		if (!pcli->pfnGetProtocolVisibility(accs[ind]->szModuleName))
+		if ( !pcli->pfnGetProtocolVisibility(accs[ind]->szModuleName))
 			continue;
 
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));

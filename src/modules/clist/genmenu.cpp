@@ -913,7 +913,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			// check if it visible
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_visible", menuItemName);
 			if (db_get_b(NULL, MenuNameItems, DBString, -1) == -1)
-				DBWriteContactSettingByte(NULL, MenuNameItems, DBString, 1);
+				db_set_b(NULL, MenuNameItems, DBString, 1);
 
 			pmi->OverrideShow = TRUE;
 			if ( !db_get_b(NULL, MenuNameItems, DBString, 1)) {

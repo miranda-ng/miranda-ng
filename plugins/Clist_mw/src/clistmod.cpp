@@ -48,12 +48,12 @@ int cli_IconFromStatusMode(const char *szProto,int nStatus, HANDLE hContact)
 		char AdvancedService[255] = {0};
 		int  nActStatus = nStatus;
 		HANDLE hActContact = hContact;
-		if (!db_get_b(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
+		if ( !db_get_b(NULL,"CLC","Meta",0) && !strcmp(szActProto,"MetaContacts")) {
 			// substitute params by mostonline contact datas
 			HANDLE hMostOnlineContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hActContact,0);
 			if (hMostOnlineContact && hMostOnlineContact != (HANDLE)CALLSERVICE_NOTFOUND) {
-				pClcCacheEntry cacheEntry;
-				cacheEntry = (pClcCacheEntry)pcli->pfnGetCacheEntry(hMostOnlineContact);
+				ClcCacheEntry *cacheEntry;
+				cacheEntry = (ClcCacheEntry *)pcli->pfnGetCacheEntry(hMostOnlineContact);
 				if (cacheEntry && cacheEntry->szProto) {
 					szActProto = cacheEntry->szProto;
 					nActStatus = cacheEntry->status;
@@ -86,7 +86,7 @@ int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
 			if ( hContact != 0 ) {
 				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
-				status = DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE);
+				status = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 			}
 		}
 	}*/
@@ -101,7 +101,7 @@ static int ProtocolAck(WPARAM wParam,LPARAM lParam)
 	ACKDATA *ack = (ACKDATA*)lParam;
 	if (ack->type == ACKTYPE_AWAYMSG && ack->lParam) {
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv)) {
+		if ( !DBGetContactSettingTString(ack->hContact, "CList", "StatusMsg", &dbv)) {
 			if ( !_tcscmp(dbv.ptszVal, (TCHAR *)ack->lParam)) {
 				DBFreeVariant(&dbv);
 				return 0;
@@ -131,7 +131,7 @@ int LoadContactListModule(void)
 {
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		DBWriteContactSettingString(hContact, "CList", "StatusMsg", "");
+		db_set_s(hContact, "CList", "StatusMsg", "");
 		hContact = db_find_next(hContact);
 	}
 

@@ -196,23 +196,23 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 {
 	if (flags & NUF_OUTGOING) {
 		char szEncodedPassword[512];
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
+		db_set_b(NULL, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
+		db_set_b(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
+		db_set_b(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
 		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyServer", settings->szProxyServer?settings->szProxyServer:"");
 		DBWriteContactSettingWord(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
+		db_set_b(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
 		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser?settings->szProxyAuthUser:"");
 		lstrcpynA(szEncodedPassword, settings->szProxyAuthPassword?settings->szProxyAuthPassword:"", SIZEOF(szEncodedPassword));
 		CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(szEncodedPassword), (LPARAM)szEncodedPassword);
 		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyAuthPassword", szEncodedPassword);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
+		db_set_b(NULL, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
+		db_set_b(NULL, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
 		DBWriteContactSettingString(NULL, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts?settings->szOutgoingPorts:"");
 	}
 	if (flags & NUF_INCOMING) {
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
-		DBWriteContactSettingByte(NULL, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
+		db_set_b(NULL, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
+		db_set_b(NULL, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
 		DBWriteContactSettingString(NULL, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts?settings->szIncomingPorts:"");
 	}
 }

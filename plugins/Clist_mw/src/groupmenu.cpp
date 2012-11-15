@@ -155,7 +155,7 @@ INT_PTR GroupMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
 		lpGroupMenuExecParam mmep = (lpGroupMenuExecParam)wParam;	
-		if (!strcmp(mmep->szServiceName,"Help/AboutCommand"))
+		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
@@ -184,7 +184,7 @@ return 0;
 INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 {
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS);
-	DBWriteContactSettingByte(NULL,"CList","HideEmptyGroups",(BYTE)newVal);
+	db_set_b(NULL,"CList","HideEmptyGroups",(BYTE)newVal);
 	SendMessage(pcli->hwndContactTree,CLM_SETHIDEEMPTYGROUPS,newVal,0);
 	return 0;
 }
@@ -192,7 +192,7 @@ INT_PTR HideGroupsHelper(WPARAM wParam,LPARAM lParam)
 INT_PTR UseGroupsHelper(WPARAM wParam,LPARAM lParam)
 {	
 	int newVal = !(GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS);
-	DBWriteContactSettingByte(NULL,"CList","UseGroups",(BYTE)newVal);
+	db_set_b(NULL,"CList","UseGroups",(BYTE)newVal);
 	SendMessage(pcli->hwndContactTree,CLM_SETUSEGROUPS,newVal,0);
 	return 0;
 }
@@ -209,11 +209,7 @@ SendMessage(
 
 static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM mi;
-
-	
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | ( db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideOfflineUsersMenuItem, (LPARAM)&mi);	
 
@@ -530,7 +526,7 @@ INT_PTR SubGroupMenuExecService(WPARAM wParam,LPARAM lParam)
 {
 	if (wParam != 0) {
 		lpSubGroupMenuExecParam mmep = (lpSubGroupMenuExecParam)wParam;	
-		if (!strcmp(mmep->szServiceName,"Help/AboutCommand")) {
+		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand")) {
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;
 			CallService(mmep->szServiceName,mmep->Param1,lParam);	

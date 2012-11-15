@@ -127,9 +127,9 @@ static int GetRealStatus(struct ClcContact * contact, int status)
 {
 	int i;
 	char *szProto = contact->proto;
-	if (!szProto) return status;
+	if ( !szProto) return status;
 	for (i = 0;i<pcli->hClcProtoCount;i++) {
-		if (!lstrcmpA(pcli->clcProto[i].szProto,szProto)) {
+		if ( !lstrcmpA(pcli->clcProto[i].szProto,szProto)) {
 			return pcli->clcProto[i].dwStatus;
 		}
 	}
@@ -386,7 +386,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 
 				// THEME
 				if (IsWinVerXPPlus()) {
-					if (!themeAPIHandle) {
+					if ( !themeAPIHandle) {
 						themeAPIHandle = GetModuleHandleA("uxtheme");
 						if (themeAPIHandle) {
 							MyOpenThemeData = (HANDLE (WINAPI *)(HWND,LPCWSTR))MGPROC("OpenThemeData");
@@ -534,7 +534,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 				}		
 			}
 
-			if (!Drawing->isSubcontact || ( db_get_b(NULL,"CLC","MetaHideExtra",0) == 0)) {
+			if ( !Drawing->isSubcontact || ( db_get_b(NULL,"CLC","MetaHideExtra",0) == 0)) {
 
 				//extra icons
 				if ( !(style & CLS_EX_MULTICOLUMNALIGNLEFT)) {
@@ -558,7 +558,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 						testrc.top = (y+((dat->rowHeight-16)>>1));
 						testrc.right = testrc.left+16;
 						testrc.bottom = testrc.top+16;
-						if (!PtInRect(&testrc,pt))
+						if ( !PtInRect(&testrc,pt))
 							mode = ILD_NORMAL;
 
 						ImageList_DrawEx(dat->himlExtraColumns,Drawing->iExtraImage[iImage],hdcMem,clRect.right-dat->extraColumnSpacing*(dat->extraColumnsCount-c),y+((dat->rowHeight-16)>>1),0,0,CLR_NONE,colourFg,mode);
@@ -642,7 +642,7 @@ void InternalPaintClc(HWND hwnd,struct ClcData *dat,HDC hdc,RECT *rcPaint)
 		SelectObject(hdcMem,hoBrush);
 		DeleteObject(hBrush);
 	}
-	if (!grey)
+	if ( !grey)
 		BitBlt(hdc,rcPaint->left,rcPaint->top,rcPaint->right-rcPaint->left,rcPaint->bottom-rcPaint->top,hdcMem,rcPaint->left,rcPaint->top,SRCCOPY);
 	//DeleteDC(hdcMem);
 	if (hBrushAlternateGrey) DeleteObject(hBrushAlternateGrey);

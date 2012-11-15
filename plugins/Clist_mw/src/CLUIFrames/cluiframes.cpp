@@ -492,9 +492,9 @@ int DBLoadFrameSettingsAtPos(int pos,int Frameid)
 	Frames[Frameid].visible					 = db_get_b(0,CLUIFrameModule,AS(buf,"Visible",sadd),Frames[Frameid].visible);
 	Frames[Frameid].TitleBar.ShowTitleBar	 = db_get_b(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),Frames[Frameid].TitleBar.ShowTitleBar);
 
-	Frames[Frameid].height					 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"Height",sadd),Frames[Frameid].height);
-	Frames[Frameid].HeightWhenCollapsed		 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),0);
-	Frames[Frameid].align					 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"Align",sadd),Frames[Frameid].align);
+	Frames[Frameid].height					 = db_get_w(0,CLUIFrameModule,AS(buf,"Height",sadd),Frames[Frameid].height);
+	Frames[Frameid].HeightWhenCollapsed		 = db_get_w(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),0);
+	Frames[Frameid].align					 = db_get_w(0,CLUIFrameModule,AS(buf,"Align",sadd),Frames[Frameid].align);
 
 	Frames[Frameid].FloatingPos.x		 = DBGetContactSettingRangedWord(0,CLUIFrameModule,AS(buf,"FloatX",sadd),100,0,1024);
 	Frames[Frameid].FloatingPos.y		 = DBGetContactSettingRangedWord(0,CLUIFrameModule,AS(buf,"FloatY",sadd),100,0,1024);
@@ -502,7 +502,7 @@ int DBLoadFrameSettingsAtPos(int pos,int Frameid)
 	Frames[Frameid].FloatingSize.y		 = DBGetContactSettingRangedWord(0,CLUIFrameModule,AS(buf,"FloatH",sadd),100,0,1024);
 
 	Frames[Frameid].floating			 = db_get_b(0,CLUIFrameModule,AS(buf,"Floating",sadd),0);
-	Frames[Frameid].order				 = DBGetContactSettingWord(0,CLUIFrameModule,AS(buf,"Order",sadd),0);
+	Frames[Frameid].order				 = db_get_w(0,CLUIFrameModule,AS(buf,"Order",sadd),0);
 
 	Frames[Frameid].UseBorder			 = db_get_b(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),Frames[Frameid].UseBorder);
 
@@ -518,10 +518,10 @@ int DBStoreFrameSettingsAtPos(int pos,int Frameid)
 
 	DBWriteContactSettingTString(0,CLUIFrameModule,AS(buf,"Name",sadd),Frames[Frameid].name);
 	//boolean
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"Collapse",sadd),(BYTE)btoint(Frames[Frameid].collapsed));
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"Locked",sadd),(BYTE)btoint(Frames[Frameid].Locked));
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"Visible",sadd),(BYTE)btoint(Frames[Frameid].visible));
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),(BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
+	db_set_b(0,CLUIFrameModule,AS(buf,"Collapse",sadd),(BYTE)btoint(Frames[Frameid].collapsed));
+	db_set_b(0,CLUIFrameModule,AS(buf,"Locked",sadd),(BYTE)btoint(Frames[Frameid].Locked));
+	db_set_b(0,CLUIFrameModule,AS(buf,"Visible",sadd),(BYTE)btoint(Frames[Frameid].visible));
+	db_set_b(0,CLUIFrameModule,AS(buf,"TBVisile",sadd),(BYTE)btoint(Frames[Frameid].TitleBar.ShowTitleBar));
 
 	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"Height",sadd),(WORD)Frames[Frameid].height);
 	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"HeightCollapsed",sadd),(WORD)Frames[Frameid].HeightWhenCollapsed);
@@ -532,10 +532,10 @@ int DBStoreFrameSettingsAtPos(int pos,int Frameid)
 	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatW",sadd),(WORD)Frames[Frameid].FloatingSize.x);
 	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"FloatH",sadd),(WORD)Frames[Frameid].FloatingSize.y);
 
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"Floating",sadd),(BYTE)btoint(Frames[Frameid].floating));
-	DBWriteContactSettingByte(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),(BYTE)btoint(Frames[Frameid].UseBorder));
+	db_set_b(0,CLUIFrameModule,AS(buf,"Floating",sadd),(BYTE)btoint(Frames[Frameid].floating));
+	db_set_b(0,CLUIFrameModule,AS(buf,"UseBorder",sadd),(BYTE)btoint(Frames[Frameid].UseBorder));
 	DBWriteContactSettingWord(0,CLUIFrameModule,AS(buf,"Order",sadd),(WORD)Frames[Frameid].order);
-	//DBWriteContactSettingString(0,CLUIFrameModule,AS(buf,"TBName",sadd),Frames[Frameid].TitleBar.tbname);
+	//db_set_s(0,CLUIFrameModule,AS(buf,"TBName",sadd),Frames[Frameid].TitleBar.tbname);
 	return 0;
 }
 
@@ -564,7 +564,7 @@ int CLUIFramesLoadFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	int maxstored = DBGetContactSettingWord(0,CLUIFrameModule,"StoredFrames",-1);
+	int maxstored = db_get_w(0,CLUIFrameModule,"StoredFrames",-1);
 	if (maxstored == -1)
 		return 0;
 
@@ -581,7 +581,7 @@ int CLUIFramesStoreFrameSettings(int Frameid)
 	if (Frameid < 0 || Frameid >= nFramescount)
 		return -1;
 
-	int maxstored = DBGetContactSettingWord(0,CLUIFrameModule,"StoredFrames",-1);
+	int maxstored = db_get_w(0,CLUIFrameModule,"StoredFrames",-1);
 	if (maxstored == -1) maxstored = 0;
 
 	int storpos = LocateStorePosition(Frameid,maxstored);
@@ -933,11 +933,11 @@ INT_PTR CLUIFramesGetFrameOptions(WPARAM wParam,LPARAM lParam)
 	case FO_FLAGS:
 		retval = 0;
 		if (Frames[pos].visible) retval |= F_VISIBLE;
-		if (!Frames[pos].collapsed) retval |= F_UNCOLLAPSED;
+		if ( !Frames[pos].collapsed) retval |= F_UNCOLLAPSED;
 		if (Frames[pos].Locked) retval |= F_LOCKED;
 		if (Frames[pos].TitleBar.ShowTitleBar) retval |= F_SHOWTB;
 		if (Frames[pos].TitleBar.ShowTitleBarTip) retval |= F_SHOWTBTIP;
-		if (!(GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
+		if ( !(GetWindowLongPtr(Frames[pos].hWnd,GWL_STYLE)&WS_BORDER)) retval |= F_NOBORDER;
 		break;
 
 	case FO_NAME:
@@ -1071,7 +1071,7 @@ INT_PTR CLUIFramesSetFrameOptions(WPARAM wParam,LPARAM lParam)
 		if (lParam<0) {ulockfrm(); return -1;}
 		retval = Frames[pos].height;
 		Frames[pos].height = lParam;
-		if (!CLUIFramesFitInSize()) Frames[pos].height = retval;
+		if ( !CLUIFramesFitInSize()) Frames[pos].height = retval;
 		retval = Frames[pos].height;
 		ulockfrm();
 
@@ -1148,7 +1148,7 @@ INT_PTR CLUIFramesShowHideFrame(WPARAM wParam,LPARAM lParam)
 		CLUIFrameResizeFloatingFrame(pos);
 	ulockfrm();
 
-	if (!Frames[pos].floating)
+	if ( !Frames[pos].floating)
 		CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 	return 0;
 }
@@ -1353,8 +1353,8 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam,LPARAM lParam)
 			Frames[FrameId].collapsed = TRUE;
 		}
 
-		if (!Frames[FrameId].floating) {
-			if (!CLUIFramesFitInSize()) {
+		if ( !Frames[FrameId].floating) {
+			if ( !CLUIFramesFitInSize()) {
 				//cant collapse,we can resize only for height<alclient frame height
 				int alfrm = CLUIFramesGetalClientFrame();
 
@@ -1392,7 +1392,7 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam,LPARAM lParam)
 
 		ulockfrm();
 
-		if (!Frames[FrameId].floating)
+		if ( !Frames[FrameId].floating)
 			CLUIFramesOnClistResize((WPARAM)pcli->hwndContactList,0);
 		else {
 			//SetWindowPos(Frames[FrameId].hWnd,HWND_TOP,0,0,Frames[FrameId].wndSize.right-Frames[FrameId].wndSize.left,Frames[FrameId].height,SWP_SHOWWINDOW|SWP_NOMOVE);
@@ -1549,7 +1549,7 @@ INT_PTR CLUIFramesAddFrame(WPARAM wParam,LPARAM lParam)
 	if (pcli->hwndContactList == 0) return -1;
 	if (FramesSysNotStarted) return -1;
 	if (clfrm->cbSize != sizeof(CLISTFrame)) return -1;
-	if (!(TitleBarFont)) TitleBarFont = CLUILoadTitleBarFont();
+	if ( !(TitleBarFont)) TitleBarFont = CLUILoadTitleBarFont();
 
 	lockfrm();
 	if (nFramescount>=MAX_FRAMES) { ulockfrm(); return -1;}
@@ -1801,7 +1801,7 @@ int CLUIFramesResize(const RECT newsize)
 		tbh = (TitleBarH+GapBetweenTitlebar)*btoint(Frames[clientfrm].TitleBar.ShowTitleBar);
 
 	for (i = 0; i < nFramescount; i++) {
-		if (!Frames[i].floating) {
+		if ( !Frames[i].floating) {
 			Frames[i].needhide = FALSE;
 			Frames[i].wndSize.left = 0;
 			Frames[i].wndSize.right = newsize.right-0;
@@ -1991,12 +1991,12 @@ int OnFrameTitleBarBackgroundChange(WPARAM wParam,LPARAM lParam)
 
 	if (hBmpBackground) {DeleteObject(hBmpBackground); hBmpBackground = NULL;}
 	if ( db_get_b(NULL,"FrameTitleBar","UseBitmap",CLCDEFAULT_USEBITMAP)) {
-		if (!DBGetContactSetting(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
+		if ( !DBGetContactSetting(NULL,"FrameTitleBar","BkBitmap",&dbv)) {
 			hBmpBackground = (HBITMAP)CallService(MS_UTILS_LOADBITMAP,0,(LPARAM)dbv.pszVal);
 			mir_free(dbv.pszVal);
 		}
 	}
-	backgroundBmpUse = DBGetContactSettingWord(NULL,"FrameTitleBar","BkBmpUse",CLCDEFAULT_BKBMPUSE);
+	backgroundBmpUse = db_get_w(NULL,"FrameTitleBar","BkBmpUse",CLCDEFAULT_BKBMPUSE);
 
 	CLUIFramesOnClistResize(0,0);
 	return 0;
@@ -2119,7 +2119,7 @@ void DrawBackGroundTTB(HWND hwnd,HDC mhdc)
 	DeleteDC(hdcMem);
 	paintst.fErase = FALSE;
 	//DeleteObject(hFont);
-	if (!mhdc)
+	if ( !mhdc)
 		EndPaint(hwnd,&paintst);
 }
 
@@ -2156,7 +2156,7 @@ static int DrawTitleBar(HDC dc,RECT rect,int Frameid)
 		SelBkColour = DBGetContactSettingDword(NULL,"CLUIFrames","FramesTitleBarFontCol",0);
 		if (SelBkColour) SetTextColor(hdcMem,SelBkColour);
 
-		if (!AlignCOLLIconToLeft) {
+		if ( !AlignCOLLIconToLeft) {
 
 			if (Frames[pos].TitleBar.hicon != NULL)	{
 				//(TitleBarH>>1)-(GetSystemMetrics(SM_CXSMICON)>>1)
@@ -2169,7 +2169,7 @@ static int DrawTitleBar(HDC dc,RECT rect,int Frameid)
 		else
 			TextOut(hdcMem,GetSystemMetrics(SM_CXSMICON)+2,0,Frames[pos].TitleBar.tbname,lstrlen(Frames[pos].TitleBar.tbname));
 
-		if (!AlignCOLLIconToLeft)
+		if ( !AlignCOLLIconToLeft)
 			DrawIconEx(hdcMem,Frames[pos].TitleBar.wndSize.right-GetSystemMetrics(SM_CXSMICON)-2,((TitleBarH>>1)-(GetSystemMetrics(SM_CXSMICON)>>1)),Frames[pos].collapsed?LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN):LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL);
 		else
 			DrawIconEx(hdcMem,0,((TitleBarH>>1)-(GetSystemMetrics(SM_CXSMICON)>>1)),Frames[pos].collapsed?LoadSkinnedIcon(SKINICON_OTHER_GROUPOPEN):LoadSkinnedIcon(SKINICON_OTHER_GROUPSHUT),GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL);
@@ -2417,7 +2417,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 
 					GetWindowRect(pcli->hwndContactList, &rcMiranda );
 
-					if (!IntersectRect( &rcOverlap, &rcwnd, &rcMiranda )) {
+					if ( !IntersectRect( &rcOverlap, &rcwnd, &rcMiranda )) {
 						ulockfrm();
 						GetCursorPos(&curpt);
 						GetWindowRect( Frames[pos].hWnd, &rcwnd );
@@ -2543,7 +2543,7 @@ LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					if (newh > 0)	{
 						prevold = Frames[Framemod].height;
 						Frames[Framemod].height = newh;
-						if (!CLUIFramesFitInSize()) {
+						if ( !CLUIFramesFitInSize()) {
 							Frames[Framemod].height = prevold;
 							ulockfrm();
 							return TRUE;
@@ -2593,7 +2593,7 @@ int CLUIFrameResizeFloatingFrame(int framepos)
 	int width,height;
 	RECT rect;
 
-	if (!Frames[framepos].floating){return 0;}
+	if ( !Frames[framepos].floating){return 0;}
 	if (Frames[framepos].ContainerWnd == 0){return 0;}
 	GetClientRect(Frames[framepos].ContainerWnd,&rect);
 
@@ -2650,7 +2650,7 @@ LRESULT CALLBACK CLUIFrameContainerWndProc(HWND hwnd, UINT msg, WPARAM wParam, L
 			lockfrm();
 			framepos = id2pos(Frameid);
 			if (framepos<0||framepos>=nFramescount){ulockfrm();break;}
-			if (!Frames[framepos].minmaxenabled){ulockfrm();break;}
+			if ( !Frames[framepos].minmaxenabled){ulockfrm();break;}
 			if (Frames[framepos].ContainerWnd == 0){ulockfrm();break;}
 
 			if (Frames[framepos].Locked) {
@@ -2777,7 +2777,7 @@ INT_PTR CLUIFrameSetFloat(WPARAM wParam,LPARAM lParam)
 
 		GetWindowRect(frame->hWnd,&rectw);
 		GetWindowRect(frame->TitleBar.hwnd,&recttb);
-		if (!frame->TitleBar.ShowTitleBar)
+		if ( !frame->TitleBar.ShowTitleBar)
 			recttb.top = recttb.bottom = recttb.left = recttb.right = 0;
 
 		frame->ContainerWnd = CreateContainerWindow(pcli->hwndContactList,frame->FloatingPos.x,frame->FloatingPos.y,10,10);

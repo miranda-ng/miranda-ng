@@ -149,7 +149,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	{
 		if (docked)
 		{
-			DBWriteContactSettingByte(NULL, "CList", "Docked", (BYTE) docked);
+			db_set_b(NULL, "CList", "Docked", (BYTE) docked);
 			db_set_dw(NULL, "CList", "DockX", (DWORD) dockPos.x);
 			db_set_dw(NULL, "CList", "DockY", (DWORD) dockPos.y);
 		}

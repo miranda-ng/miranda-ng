@@ -382,7 +382,7 @@ int LoadSkinHotkeys(void)
 		mir_snprintf(szSetting, SIZEOF(szSetting), "HKEn%s", oldSettings[i]);
 		if ((key = db_get_b(NULL, "Clist", szSetting, 0))) {
 			DBDeleteContactSetting(NULL, "Clist", szSetting);
-			DBWriteContactSettingByte(NULL, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));
+			db_set_b(NULL, DBMODULENAME "Off", newSettings[i], (BYTE)(key == 0));
 		}
 	}
 

@@ -234,7 +234,7 @@ static int InitializeStaticAccounts(WPARAM, LPARAM)
 	BuildProtoMenus();
 
 	if (count == 0 && !db_get_b(NULL, "FirstRun", "AccManager", 0)) {
-		DBWriteContactSettingByte(NULL, "FirstRun", "AccManager", 1);
+		db_set_b(NULL, "FirstRun", "AccManager", 1);
 		CallService(MS_PROTO_SHOWACCMGR, 0, 0);
 	}
 	return 0;
@@ -618,7 +618,7 @@ void BuildProtoMenus()
 
 void RebuildProtoMenus(int iNewValue)
 {
-	DBWriteContactSettingByte(NULL, "CList", "MoveProtoMenus", iNewValue);
+	db_set_b(NULL, "CList", "MoveProtoMenus", iNewValue);
 
 	RebuildMenuOrder();
 	BuildProtoMenus();

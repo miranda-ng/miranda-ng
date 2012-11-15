@@ -418,9 +418,9 @@ static void sttSaveCollapseState(HWND hwndTree)
 		if (tvi.cChildren > 0) {
 			treeItem = (TreeItem *)tvi.lParam;
 			if (tvi.state & TVIS_EXPANDED)
-				DBWriteContactSettingByte(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);
+				db_set_b(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);
 			else
-				DBWriteContactSettingByte(NULL, "FontServiceUI", treeItem->paramName, 0);
+				db_set_b(NULL, "FontServiceUI", treeItem->paramName, 0);
 		}
 
 		ht = TreeView_GetChild(hwndTree, hti);
@@ -545,19 +545,19 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 		SelectObject(hdc, hOldFont);
 		DeleteObject(hFont);
 
-		DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, (char)size.cy);
+		db_set_b(NULL, F.dbSettingsGroup, str, (char)size.cy);
 	}
 	else if (F.flags & FIDF_SAVEPOINTSIZE) {
 		HDC hdc = GetDC(hwndDlg);
-		DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, (BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)));
+		db_set_b(NULL, F.dbSettingsGroup, str, (BYTE)-MulDiv(F.value.size, 72, GetDeviceCaps(hdc, LOGPIXELSY)));
 		ReleaseDC(hwndDlg, hdc);
 	}
-	else DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, F.value.size);
+	else db_set_b(NULL, F.dbSettingsGroup, str, F.value.size);
 
 	mir_snprintf(str, SIZEOF(str), "%sSty", F.prefix);
-	DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, F.value.style);
+	db_set_b(NULL, F.dbSettingsGroup, str, F.value.style);
 	mir_snprintf(str, SIZEOF(str), "%sSet", F.prefix);
-	DBWriteContactSettingByte(NULL, F.dbSettingsGroup, str, F.value.charset);
+	db_set_b(NULL, F.dbSettingsGroup, str, F.value.charset);
 	mir_snprintf(str, SIZEOF(str), "%sCol", F.prefix);
 	db_set_dw(NULL, F.dbSettingsGroup, str, F.value.colour);
 	if (F.flags & FIDF_NOAS) {
@@ -1193,7 +1193,7 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 				EffectInternal& E = effect_id_list_w2[i];
 
 				mir_snprintf(str, SIZEOF(str), "%sEffect", E.setting);
-				DBWriteContactSettingByte(NULL, E.dbSettingsGroup, str, E.value.effectIndex);
+				db_set_b(NULL, E.dbSettingsGroup, str, E.value.effectIndex);
 
 				mir_snprintf(str, SIZEOF(str), "%sEffectCol1", E.setting);
 				db_set_dw(NULL, E.dbSettingsGroup, str, E.value.baseColour);

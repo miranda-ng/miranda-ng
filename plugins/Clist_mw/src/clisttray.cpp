@@ -163,7 +163,7 @@ INT_PTR TrayMenuExecService(WPARAM wParam,LPARAM lParam) {
 	if (wParam != 0)
 	{
 		lpTrayMenuExecParam mmep = (lpTrayMenuExecParam)wParam;
-		if (!strcmp(mmep->szServiceName,"Help/AboutCommand"))
+		if ( !strcmp(mmep->szServiceName,"Help/AboutCommand"))
 		{
 			//bug in help.c,it used wparam as parent window handle without reason.
 			mmep->Param1 = 0;

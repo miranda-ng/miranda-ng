@@ -193,7 +193,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 		_snprintf(szFullPath, SIZEOF(szFullPath), "%s\\Icons\\%s,%d", szPath, filename, i);
 	}
 
-	if (!UseLibrary) {
+	if ( !UseLibrary) {
 		hIcon = ExtractIconFromPath(szFullPath);
 		if (hIcon) return hIcon;
 	}
@@ -266,7 +266,7 @@ HICON GetConnectingIconForProto_DLL(char *szProto,int b)
 	}
 #endif
 
-	if (!strcmp(szProto,"ICQ"))
+	if ( !strcmp(szProto,"ICQ"))
 	{
 
 #ifdef _DEBUG
@@ -303,7 +303,7 @@ INT_PTR GetConnectingIconService(WPARAM wParam,LPARAM lParam)
 	HICON hIcon = NULL;
 
 	char *szProto = (char *)wParam;
-	if (!szProto) return 0;
+	if ( !szProto) return 0;
 
 	pt = GetProtoTicksByProto(szProto);
 
@@ -321,8 +321,8 @@ int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 {
 	int status = (int)wParam;
 	char *szProto = (char *)lParam;
-	if (!szProto) return 0;
-	if (!status) return 0;
+	if ( !szProto) return 0;
+	if ( !status) return 0;
 
 	if (( db_get_b(NULL,"CLUI","UseConnectingIcon",1) == 1) && status >= ID_STATUS_CONNECTING && status <= ID_STATUS_CONNECTING + MAX_CONNECT_RETRIES) {
 		ProtoTicks *pt = NULL;
@@ -337,7 +337,7 @@ int CreateTimerForConnectingIcon(WPARAM wParam,LPARAM lParam)
 					cnt = 8;
 
 				if (cnt != 0) {
-					DefaultStep = DBGetContactSettingWord(NULL,"CLUI","DefaultStepConnectingIcon",100);
+					DefaultStep = db_get_w(NULL,"CLUI","DefaultStepConnectingIcon",100);
 					pt->IconsCount = cnt;
 					SetTimer(pcli->hwndContactList,TM_STATUSBARUPDATE+pt->n,(int)(DefaultStep)/1,0);
 					pt->TimerCreated = 1;
@@ -357,7 +357,7 @@ int OnSettingChanging(WPARAM wParam,LPARAM lParam)
 	DBCONTACTWRITESETTING *dbcws = (DBCONTACTWRITESETTING *)lParam;
 	if (wParam == 0) {
 		if ((dbcws->value.type == DBVT_BYTE)&&!strcmp(dbcws->szModule,"CLUI")) {
-			if (!strcmp(dbcws->szSetting,"SBarShow")) {
+			if ( !strcmp(dbcws->szSetting,"SBarShow")) {
 				showOpts = dbcws->value.bVal;
 				return 0;
 			}
@@ -371,7 +371,7 @@ HWND PreCreateCLC(HWND parent)
 	pcli->hwndContactTree = CreateWindow(CLISTCONTROL_CLASS,_T(""),
 		WS_CHILD|WS_CLIPCHILDREN|CLS_CONTACTLIST
 		|( db_get_b(NULL,"CList","UseGroups",SETTING_USEGROUPS_DEFAULT)?CLS_USEGROUPS:0)
-		|CLS_HIDEOFFLINE
+		| CLS_HIDEOFFLINE
 		//|( db_get_b(NULL,"CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CLS_HIDEOFFLINE:0)
 		|( db_get_b(NULL,"CList","HideEmptyGroups",SETTING_HIDEEMPTYGROUPS_DEFAULT)?CLS_HIDEEMPTYGROUPS:0)
 		|( db_get_b(NULL,"CList","ShowStatusMessages",1)?CLS_SHOWSTATUSMESSAGES:0)
@@ -422,7 +422,7 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 	ProtocolData *PD;
 	int startoffset = DBGetContactSettingDword(NULL,"StatusBar","FirstIconOffset",0);
 
-	if (!UseOwnerDrawStatusBar) startoffset = 0;
+	if ( !UseOwnerDrawStatusBar) startoffset = 0;
 
 	nParts = SendMessage(hwnd,SB_GETPARTS,0,0);
 	FillMemory(rc,sizeof(RECT),0);
@@ -433,7 +433,7 @@ int GetStatsuBarProtoRect(HWND hwnd,char *szProto,RECT *rc)
 		if ( PD == NULL )
 			return 0;
 
-		if (!strcmp(szProto,PD->RealName))
+		if ( !strcmp(szProto,PD->RealName))
 		{
 			SendMessage(hwnd,SB_GETRECT,(WPARAM)nPanel,(LPARAM)rc);
 			rc->left += startoffset;
@@ -513,7 +513,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				CLUIFramesOnClistResize((WPARAM)hwnd,0);
 
 			GetWindowRect(hwnd, &rc);
-			if (!CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
+			if ( !CallService(MS_CLIST_DOCKINGISDOCKED,0,0)) {
 				//if docked, dont remember pos (except for width)
 				DBWriteContactSettingDword(NULL,"CList","Height",(DWORD)(rc.bottom - rc.top));
 				DBWriteContactSettingDword(NULL,"CList","x",(DWORD)rc.left);
@@ -524,9 +524,9 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		if ( wParam == SIZE_MINIMIZED ) {
 			if ( db_get_b(NULL,"CList","Min2Tray",SETTING_MIN2TRAY_DEFAULT )) {
 				ShowWindow(hwnd, SW_HIDE);
-				DBWriteContactSettingByte(NULL,"CList","State",SETTING_STATE_HIDDEN);
+				db_set_b(NULL,"CList","State",SETTING_STATE_HIDDEN);
 			}
-			else DBWriteContactSettingByte(NULL,"CList","State",SETTING_STATE_MINIMIZED);
+			else db_set_b(NULL,"CList","State",SETTING_STATE_MINIMIZED);
 		}
 		return 0;
 	}
@@ -550,7 +550,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 				pt = &CycleStartTick[i];
 				if (pt->szProto != NULL&&pt->TimerCreated == 1) {
 					status = CallProtoService(pt->szProto,PS_GETSTATUS,0,0);
-					if (!(status>=ID_STATUS_CONNECTING&&status<=ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES))
+					if ( !(status>=ID_STATUS_CONNECTING&&status<=ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES))
 					{
 						pt->CycleStartTick = 0;
 						KillTimer(hwnd,TM_STATUSBARUPDATE+pt->n);
@@ -728,7 +728,7 @@ LRESULT CALLBACK ContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 		pcli->hwndContactList = NULL;
 
 		UnLoadCLUIFramesModule();
-		DBWriteContactSettingByte(NULL, "CList", "State", (BYTE)state);
+		db_set_b(NULL, "CList", "State", (BYTE)state);
 		PostQuitMessage(0);
 		break;
 	}

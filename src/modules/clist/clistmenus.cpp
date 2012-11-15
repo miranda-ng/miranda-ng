@@ -577,7 +577,7 @@ INT_PTR StatusMenuExecService(WPARAM wParam, LPARAM)
 				char szHumanName[64] = {0};
 				PROTOACCOUNT * acc = Proto_GetAccount(smep->proto);
 				int i = (db_get_b(NULL, prot, "LockMainStatus", 0)?0:1);
-				DBWriteContactSettingByte(NULL, prot, "LockMainStatus", (BYTE)i);
+				db_set_b(NULL, prot, "LockMainStatus", (BYTE)i);
 
 				CallProtoServiceInt(NULL,smep->proto, PS_GETNAME, (WPARAM)SIZEOF(szHumanName), (LPARAM)szHumanName);
 				pimi = MO_GetIntMenuItem((HGENMENU)smep->protoindex);
