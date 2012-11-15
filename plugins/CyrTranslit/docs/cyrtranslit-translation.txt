@@ -1,2 +1,0 @@
-; Common strings that belong to many files
-;[]

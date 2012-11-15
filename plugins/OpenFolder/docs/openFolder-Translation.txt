@@ -1,2 +1,0 @@
-;[Adds a menuitem which opens the Miranda IM folder.]
-;[Open Folder]

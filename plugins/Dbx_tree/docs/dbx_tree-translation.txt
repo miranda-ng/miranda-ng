@@ -1,8 +1,0 @@
-; Common strings that belong to many files
-;[]
-
-; ../../plugins/Dbx_tree/dbConfig.rc
-;[< Prev]
-;[Cancel]
-;[Next >]
-;[dbxTree Profile Wizard]
