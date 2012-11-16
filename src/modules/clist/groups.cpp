@@ -184,8 +184,8 @@ static INT_PTR DeleteGroup(WPARAM wParam, LPARAM)
 	CLISTGROUPCHANGE grpChg = { sizeof(CLISTGROUPCHANGE), NULL, NULL };
 
 	for (hContact = db_find_first(); 
-		 hContact; 
-		 hContact = db_find_next(hContact))
+		hContact; 
+		hContact = db_find_next(hContact))
 	{
 		if (DBGetContactSettingTString(hContact, "CList", "Group", &dbv))
 			continue;
@@ -282,8 +282,7 @@ static int RenameGroupWithMove(int groupId, const TCHAR *szName, int move)
 			cache->tszGroup = 0;
 			cli.pfnCheckCacheItem(cache);
 		}
-	}
-		while ((hContact = db_find_next(hContact)) != NULL);
+	} while ((hContact = db_find_next(hContact)) != NULL);
 
 	//rename subgroups
 	{

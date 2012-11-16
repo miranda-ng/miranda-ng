@@ -250,7 +250,11 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 								pData->show = tvi.iImage;
 								TreeView_SetItem(((LPNMHDR)lParam)->hwndFrom, &tvi);
 								SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-			}	}	}	}	}
+							}
+						}
+					}
+				}
+			}
 			break;
 		}
 		break;
@@ -325,7 +329,8 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				tvis.hInsertAfter = hti.hItem;
 				TreeView_SelectItem(hwndProtoOrder, TreeView_InsertItem(hwndProtoOrder, &tvis));
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-		}	}
+			}
+		}
 		break;
 	}
 	return FALSE;

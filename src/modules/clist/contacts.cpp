@@ -276,10 +276,12 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 									return 0;
 								}
 								if (dbv.type == DBVT_WCHAR && (ci->dwFlag & CNF_UNICODE)) {
-								  ci->type = CNFT_ASCIIZ;
-								  ci->pszVal = dbv.ptszVal;
-								  return 0;
-						}	}	}
+									ci->type = CNFT_ASCIIZ;
+									ci->pszVal = dbv.ptszVal;
+									return 0;
+								}
+							}
+						}
 						break;
 					}
 					case 6: // first + last name
@@ -318,7 +320,9 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 							ci->pszVal = (TCHAR*)mir_strdup(Translate("'(Unknown Contact)'"));
 						ci->type = CNFT_ASCIIZ;
 						return 0;
-			}	}	}
+					}
+				}
+			}
 			break;
 
 		case CNF_TIMEZONE: {
@@ -344,7 +348,8 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 			}
 			ci->szProto = saveProto;
 			break;
-	}	}
+		}
+	}
 
 	return 1;
 }
@@ -355,18 +360,19 @@ struct ContactOptionsData {
 };
 
 static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lParam)
-{	struct ContactOptionsData *dat;
-
-	dat = (struct ContactOptionsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+{
+	struct ContactOptionsData *dat = (struct ContactOptionsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	switch (msg)
 	{
 		case WM_INITDIALOG:
-		{	TranslateDialogDefault(hwndDlg);
+		{
+			TranslateDialogDefault(hwndDlg);
 			dat = (struct ContactOptionsData*)mir_alloc(sizeof(struct ContactOptionsData));
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 			dat->dragging = 0;
 			SetWindowLongPtr( GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE, GetWindowLongPtr( GetDlgItem(hwndDlg, IDC_NAMEORDER), GWL_STYLE)|TVS_NOHSCROLL);
-			{	TVINSERTSTRUCT tvis;
+			{
+				TVINSERTSTRUCT tvis;
 				int i;
 				tvis.hParent = NULL;
 				tvis.hInsertAfter = TVI_LAST;
@@ -375,14 +381,16 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 					tvis.item.lParam = nameOrder[i];
 					tvis.item.pszText = TranslateTS(nameOrderDescr[ nameOrder[i]]);
 					TreeView_InsertItem( GetDlgItem(hwndDlg, IDC_NAMEORDER), &tvis);
-			}	}
+				}
+			}
 			return TRUE;
 		}
 		case WM_NOTIFY:
 			switch (((LPNMHDR)lParam)->idFrom) {
 				case 0:
 					if (((LPNMHDR)lParam)->code == PSN_APPLY)
-					{	DBCONTACTWRITESETTING cws;
+					{
+						DBCONTACTWRITESETTING cws;
 						TVITEM tvi;
 						int i;
 						cws.szModule = "Contact";
@@ -417,7 +425,8 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 			break;
 		case WM_MOUSEMOVE:
 			if ( !dat->dragging) break;
-			{	TVHITTESTINFO hti;
+			{
+				TVHITTESTINFO hti;
 				hti.pt.x = (short)LOWORD(lParam);
 				hti.pt.y = (short)HIWORD(lParam);
 				ClientToScreen(hwndDlg, &hti.pt);
@@ -440,7 +449,8 @@ static INT_PTR CALLBACK ContactOpts(HWND hwndDlg, UINT msg, WPARAM, LPARAM lPara
 			TreeView_SetInsertMark( GetDlgItem(hwndDlg, IDC_NAMEORDER), NULL, 0);
 			dat->dragging = 0;
 			ReleaseCapture();
-			{	TVHITTESTINFO hti;
+			{
+				TVHITTESTINFO hti;
 				TVITEM tvi;
 				hti.pt.x = (short)LOWORD(lParam);
 				hti.pt.y = (short)HIWORD(lParam);

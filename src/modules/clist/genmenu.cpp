@@ -42,7 +42,8 @@ static void DumpMenuItem(TMO_IntMenuItem* pParent, int level = 0)
 		PMO_IntMenuItem submenu = pimi->submenu.first;
 		if (submenu)
 			DumpMenuItem(submenu, level+1);
-}	}
+	}
+}
 
 #endif
 
@@ -61,7 +62,8 @@ void FreeAndNil(void **p)
 	if (*p != NULL) {
 		mir_free(*p);
 		*p = NULL;
-}	}
+	}
+}
 
 int GetMenuObjbyId(const int id)
 {
@@ -639,7 +641,7 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 	p->originalPosition = pmi->position;
 	p->hLangpack = pmi->hLangpack;
 
-	if (pmi->flags & CMIF_UNICODE) 
+	if (pmi->flags & CMIF_UNICODE)
 		p->mi.ptszName = mir_tstrdup(pmi->ptszName);
 	else
 		p->mi.ptszName = mir_a2u(pmi->pszName);
@@ -658,7 +660,8 @@ PMO_IntMenuItem MO_AddNewMenuItem(HANDLE menuobjecthandle, PMO_MenuItem pmi)
 				p->hIcolibItem = hIcolibItem;
 			}
 			else p->iconId = ImageList_AddIcon(pmo->m_hMenuIcons, pmi->hIcon);
-	}	}
+		}
+	}
 
 	if (p->mi.root == HGENMENU_ROOT)
 		p->mi.root = NULL;
@@ -752,7 +755,8 @@ static int WhereToPlace(HMENU hMenu, PMO_MenuItem mi)
 			if (pimi != NULL)
 				if (pimi->mi.position <= mi->position)
 					return i+1;
-	}	}
+		}
+	}
 
 	return 0;
 }
@@ -802,7 +806,9 @@ static void InsertMenuItemWithSeparators(HMENU hMenu, int uItem, MENUITEMINFO *l
 				if ( !(uItem < GetMenuItemCount(hMenu) && GetMenuItemType(hMenu, uItem) == MFT_SEPARATOR))
 					InsertSeparator(hMenu, uItem);
 				uItem++;
-	}	}	}	
+			}
+		}
+	}
 
 	//check for separator after
 	if (uItem < GetMenuItemCount(hMenu)) {
@@ -889,7 +895,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 		if (mi->flags & CMIF_HIDDEN)
 			continue;
 
-		if (pmo->CheckService != NULL)	{
+		if (pmo->CheckService != NULL) {
 			TCheckProcParam CheckParam;
 			CheckParam.lParam = param->lParam;
 			CheckParam.wParam = param->wParam;
@@ -1008,7 +1014,8 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 					continue;
 
 			InsertMenuItemWithSeparators(hMenu, i, &mii);
-	}	}
+		}
+	}
 
 	return hMenu;
 }
@@ -1047,9 +1054,9 @@ int OnIconLibChanges(WPARAM, LPARAM)
 
 static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 {
-	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName),
-		   *descr = GetMenuItemText(pmi);
-		
+	TCHAR *uname = (pmi->UniqName) ? mir_a2t(pmi->UniqName) : mir_tstrdup(pmi->CustomName), 
+		*descr = GetMenuItemText(pmi);
+
 	if ( !uname && !descr)
 		return FALSE;
 
@@ -1065,7 +1072,7 @@ static int MO_RegisterIcon(PMO_IntMenuItem pmi, void*)
 		// remove '&'
 		if (descr) {
 			descr = NEWTSTR_ALLOCA(descr);
-		
+
 			for (TCHAR *p = descr; *p; p++) {
 				if ((p = _tcschr(p, '&')) == NULL)
 					break;
@@ -1118,7 +1125,8 @@ int TryProcessDoubleClick(HANDLE hContact)
 		if (pimi != NULL) {
 			MO_ProcessCommand(pimi, (LPARAM)hContact);
 			return 0;
-	}	}
+		}
+	}
 
 	return 1;
 }
@@ -1192,7 +1200,8 @@ int InitGenMenu()
 int UnitGenMenu()
 {
 	if (bIsGenMenuInited) {
-		{	mir_cslock lck(csMenuHook);
+		{
+			mir_cslock lck(csMenuHook);
 			MO_RemoveAllObjects();
 			bIsGenMenuInited = false;
 		}

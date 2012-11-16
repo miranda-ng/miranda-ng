@@ -164,7 +164,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	if ( !docked && msg->message != WM_CREATE && msg->message != WM_MOVING)
 		return 0;
 
-	switch (msg->message) 
+	switch (msg->message)
 	{
 	case WM_CREATE:
 		draggingTitle = 0;
@@ -183,7 +183,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
 
 		bool vis = Docking_IsWindowVisible(msg->hwnd);
-		if (wp->flags & SWP_SHOWWINDOW) 
+		if (wp->flags & SWP_SHOWWINDOW)
 			vis = !IsIconic(msg->hwnd);
 		if (wp->flags & SWP_HIDEWINDOW)
 			vis = false;
@@ -193,21 +193,21 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 			if ( !(wp->flags & (SWP_NOMOVE | SWP_NOSIZE)))
 			{
 				bool addbar = Docking_Command(msg->hwnd, ABM_NEW) != 0;
-				
+
 				RECT rc = {0};
 				GetWindowRect(msg->hwnd, &rc);
 
 				int cx = rc.right - rc.left;
 				if ( !(wp->flags & SWP_NOMOVE)) { rc.left = wp->x; rc.top = wp->y; }
 
-				if (addbar) 
+				if (addbar)
 					Docking_RectToDock(&rc);
 
-				if ( !(wp->flags & SWP_NOSIZE)) 
-				{ 
-					rc.right = rc.left + wp->cx; 
-					rc.bottom = rc.top + wp->cy; 
-					addbar |= (cx != wp->cx); 
+				if ( !(wp->flags & SWP_NOSIZE))
+				{
+					rc.right = rc.left + wp->cx;
+					rc.bottom = rc.top + wp->cy;
+					addbar |= (cx != wp->cx);
 				}
 
 				Docking_SetSize(msg->hwnd, &rc, !addbar, false);
@@ -215,12 +215,12 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				if ( !(wp->flags & SWP_NOMOVE)) { wp->x = rc.left; wp->y = rc.top; }
 				if ( !(wp->flags & SWP_NOSIZE)) wp->cy = rc.bottom - rc.top;
 
-				*((LRESULT *) lParam) = TRUE; 
+				*((LRESULT *) lParam) = TRUE;
 				return TRUE;
 			}
 			else
 			{
-				if ((wp->flags & SWP_SHOWWINDOW) && Docking_Command(msg->hwnd, ABM_NEW)) 
+				if ((wp->flags & SWP_SHOWWINDOW) && Docking_Command(msg->hwnd, ABM_NEW))
 				{
 					RECT rc = {0};
 					GetWindowRect(msg->hwnd, &rc);
@@ -228,8 +228,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 					Docking_SetSize(msg->hwnd, &rc, false, false);
 
-					wp->x = rc.left; 
-					wp->y = rc.top; 
+					wp->x = rc.left;
+					wp->y = rc.top;
 					wp->cy = rc.bottom - rc.top;
 					wp->cx = rc.right - rc.left;
 					wp->flags &= ~(SWP_NOSIZE | SWP_NOMOVE);
@@ -243,7 +243,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 	{
 		LPWINDOWPOS wp = (LPWINDOWPOS)msg->lParam;
 		bool vis = Docking_IsWindowVisible(msg->hwnd);
-		if (wp->flags & SWP_SHOWWINDOW) 
+		if (wp->flags & SWP_SHOWWINDOW)
 			vis = !IsIconic(msg->hwnd);
 		if (wp->flags & SWP_HIDEWINDOW)
 			vis = false;
@@ -284,7 +284,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 
 			if (((ptCursor.x < rcMonitor.left + EDGESENSITIVITY) || 
 				(ptCursor.x >= rcMonitor.right - EDGESENSITIVITY)) &&
-				db_get_b(NULL, "CLUI", "DockToSides", 1)) 
+				db_get_b(NULL, "CLUI", "DockToSides", 1))
 			{
 				docked = (ptCursor.x < rcMonitor.left + EDGESENSITIVITY) ? DOCKED_LEFT : DOCKED_RIGHT;
 				PostMessage(msg->hwnd, WM_LBUTTONUP, 0, MAKELPARAM(ptCursor.x, ptCursor.y));
@@ -292,7 +292,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 				Docking_Command(msg->hwnd, ABM_NEW);
 				Docking_AdjustPosition(msg->hwnd, &rcMonitor, (LPRECT)msg->lParam, false, true);
 
-				*((LRESULT *) lParam) = TRUE; 
+				*((LRESULT *) lParam) = TRUE;
 				return TRUE;
 			}
 		}
@@ -302,7 +302,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		switch (DefWindowProc(msg->hwnd, WM_NCHITTEST, msg->wParam, msg->lParam))
 		{
 		case HTSIZE: case HTTOP: case HTTOPLEFT: case HTTOPRIGHT:
-		case HTBOTTOM: case HTBOTTOMRIGHT: case HTBOTTOMLEFT: 
+		case HTBOTTOM: case HTBOTTOMRIGHT: case HTBOTTOMLEFT:
 			*((LRESULT *) lParam) = HTCLIENT;
 			return TRUE;
 
@@ -360,7 +360,7 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_LBUTTONUP:
-		if (draggingTitle) 
+		if (draggingTitle)
 		{
 			ReleaseCapture();
 			draggingTitle = 0;

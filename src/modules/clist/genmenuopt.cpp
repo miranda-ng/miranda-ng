@@ -209,7 +209,8 @@ static void FreeTreeData(HWND hwndDlg)
 		tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 		tvi.hItem = hItem;
 		TreeView_GetItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
-		{	MenuItemOptData* O = (MenuItemOptData *)tvi.lParam;
+		{
+			MenuItemOptData* O = (MenuItemOptData *)tvi.lParam;
 			if (O->name) mir_free(O->name);
 			if (O->defname) mir_free(O->defname);
 			if (O->uniqname) mir_free(O->uniqname);
@@ -220,7 +221,8 @@ static void FreeTreeData(HWND hwndDlg)
 		TreeView_SetItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), &tvi);
 
 		hItem = TreeView_GetNextSibling( GetDlgItem(hwndDlg, IDC_MENUITEMS), hItem);
-}	}
+	}
+}
 
 static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 {
@@ -241,7 +243,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 	mir_snprintf(MenuNameItems, sizeof(MenuNameItems), "%s_Items", pimo->Name);
 
 	int count = 0;
-	{	
+	{
 		for (PMO_IntMenuItem p = pimo->m_items.first; p != NULL; p = p->next)
 			if (p->mi.root == (HGENMENU)-1 || p->mi.root == NULL)
 				count++;
@@ -287,7 +289,8 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 
 			PDar[ count ] = PD;
 			count++;
-	}	}
+		}
+	}
 
 	qsort(PDar, count, sizeof(lpMenuItemOptData), sortfunc);
 
@@ -316,7 +319,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 		tvis.item.lParam = (LPARAM)PDar[i];
 		tvis.item.pszText = PDar[i]->name;
 		tvis.item.iImage = tvis.item.iSelectedImage = PDar[i]->show;
-		
+
 		HTREEITEM hti = (HTREEITEM)SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, TVM_INSERTITEM, 0, (LPARAM)&tvis);
 		if (first) {
 			TreeView_SelectItem( GetDlgItem(hwndDlg, IDC_MENUITEMS), hti);
@@ -416,7 +419,9 @@ LRESULT CALLBACK LBTNDOWNProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 						TreeView_SetItem(tvw, &tvi);
 					}
 						while (hit = TreeView_GetNextSibling(tvw, hit));
-	}	}	}
+			}
+		}
+	}
 
 	return CallWindowProc(MyOldWindowProc, hwnd, uMsg, wParam, lParam);
 }
@@ -528,7 +533,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 				break;
-		}	}
+			}
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -626,7 +632,9 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 										TreeView_SetItem(tvw, &tvi);
 									}
 										while (hit = TreeView_GetNextSibling(tvw, hit));
-					}	}	}
+							}
+						}
+					}
 					break;
 				}
 			case TVN_SELCHANGING:
@@ -680,7 +688,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 				}
 				break;
-		}	}
+			}
+		}
 		break;
 
 	case WM_MOUSEMOVE:
@@ -706,7 +715,8 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				if (hti.flags&TVHT_ABOVE) SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_VSCROLL, MAKEWPARAM(SB_LINEUP, 0), 0);
 				if (hti.flags&TVHT_BELOW) SendDlgItemMessage(hwndDlg, IDC_MENUITEMS, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN, 0), 0);
 				TreeView_SetInsertMark( GetDlgItem(hwndDlg, IDC_MENUITEMS), NULL, 0);
-		}	}
+			}
+		}
 		break;
 
 	case WM_LBUTTONUP:
@@ -761,15 +771,18 @@ static INT_PTR CALLBACK GenMenuOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								if (insertAfter) insertAfter = MoveItemAbove(tvw, pSIT[i], insertAfter);
 								else break;
 								if ( !i) FirstItem = insertAfter;
-						}	}
+							}
+						}
 						// free pointers...
 						mir_free(pSIT);
-				}	}
+					}
+				}
 
 				if (FirstItem) TreeView_SelectItem(tvw, FirstItem);
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				SaveTree(hwndDlg);
-		}	}
+			}
+		}
 		break;
 
 	case WM_DESTROY:

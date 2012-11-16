@@ -209,7 +209,9 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 							TranslateT("This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network."),
 							TranslateT("Delete Contact"), MB_OK);
 						return 0;
-			}	}	}
+					}
+				}
+			}
 
 			CallService(MS_DB_CONTACT_DELETE, wParam, 0);
 		}
@@ -445,7 +447,8 @@ void fnDrawMenuItem(DRAWITEMSTRUCT *dis, HICON hIcon, HICON eventIcon)
 				DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, 4 + g_IconWidth, (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
 			}
 			else DrawState(dis->hDC, NULL, NULL, (LPARAM) hIcon, 0, (dis->rcItem.right + dis->rcItem.left - g_IconWidth) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), (dis->rcItem.bottom + dis->rcItem.top - g_IconHeight) / 2 + (dis->itemState & ODS_SELECTED ? 1 : 0), 0, 0, DST_ICON | (dis->itemState & ODS_INACTIVE ? DSS_DISABLED : DSS_NORMAL));
-	}	}
+		}
+	}
 
 	DestroyIcon(hIcon);
 	return;
@@ -719,7 +722,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 
 		case SC_MINIMIZE:
 		case SC_CLOSE:
-			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW)  || 
+			if ((GetWindowLongPtr(hwnd, GWL_EXSTYLE) & WS_EX_TOOLWINDOW) || 
 				db_get_b(NULL, "CList", "Min2Tray", SETTING_MIN2TRAY_DEFAULT))
 			{
 				ShowWindow(hwnd, SW_HIDE);
@@ -1083,7 +1086,8 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 					return TRUE;
 				}
 				return CallService(MS_CLIST_MENUDRAWITEM, wParam, lParam);
-		}	}
+			}
+		}
 		return 0;
 
 	case WM_CLOSE:
