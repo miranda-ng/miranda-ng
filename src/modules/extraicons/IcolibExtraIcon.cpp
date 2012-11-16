@@ -114,4 +114,3 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 
 	DBWriteContactSettingString(hContact, MODULE_NAME, name.c_str(), icolibName);
 }
-

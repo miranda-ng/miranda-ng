@@ -195,7 +195,6 @@ LRESULT CALLBACK TreeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				vector<HTREEITEM> selected;
 				Tree_GetSelected(hwndDlg, selected);
 
-
 				// Check if have to deselect it
 				for (unsigned int i = 0; i < selected.size(); i++) {
 					if (selected[i] == hti.hItem) {
@@ -302,9 +301,7 @@ static void GroupSelectedItems(HWND tree)
 	bool selected = false;
 	HTREEITEM hPlace = NULL;
 
-
 	// Find items
-
 	HTREEITEM hItem = TreeView_GetRoot(tree);
 	TVITEM tvi = { 0 };
 	tvi.mask = TVIF_HANDLE | TVIF_PARAM | TVIF_TEXT | TVIF_STATE;
@@ -335,7 +332,6 @@ static void GroupSelectedItems(HWND tree)
 	int ii = ids.at(0);
 	ii = ids.at(1);
 	HTREEITEM hNew = Tree_AddExtraIconGroup(tree, ids, selected, hPlace);
-
 
 	// Remove old
 	for (unsigned int i = 0; i < toRemove.size(); i++) {
@@ -380,7 +376,7 @@ static int ShowPopup(HWND hwndDlg, int popup)
 	while (hItem) {
 		if (hItem != hSelected && IsSelected(tree, hItem))
 			Tree_DropHilite(tree, hItem);
-		
+
 		hItem = TreeView_GetNextSibling(tree, hItem);
 	}
 	//	InvalidateRect(tree, NULL, FALSE);
@@ -491,7 +487,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					unsigned int i;
 
 					HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-
 
 					// Store old slots
 					int *oldSlots = new int[registeredExtraIcons.size()];
