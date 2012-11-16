@@ -32,7 +32,7 @@ static int sttCompareFont(const FontInternal* p1, const FontInternal* p2)
 	int result = _tcscmp(p1->group, p2->group);
 	if (result != 0)
 		return result;
-	
+
 	result = p1->order - p2->order;
 	if (result != 0)
 		return result;
@@ -294,7 +294,9 @@ static BOOL sttFsuiBindColourIdToFonts(HWND hwndList, const TCHAR *name, const T
 			if (backgroundGroup && backgroundName && !_tcscmp(F.backgroundGroup, backgroundGroup) && !_tcscmp(F.backgroundName, backgroundName)) {
 				itemData->colour_id = colourId;
 				res = TRUE;
-	}	}	}
+			}
+		}
+	}
 
 	return res;
 }
@@ -387,7 +389,8 @@ static void sttFsuiCreateSettingsTreeNode(HWND hwndTree, const TCHAR *groupName,
 				tvis.item.mask = TVIF_HANDLE|TVIF_STATE;
 				tvis.item.state = tvis.item.stateMask = db_get_b(NULL, "FontServiceUI", treeItem->paramName, TVIS_EXPANDED);
 				TreeView_SetItem(hwndTree, &tvis.item);
-		}	}
+			}
+		}
 
 		if (sectionName) {
 			*sectionName = '/';
@@ -430,10 +433,12 @@ static void sttSaveCollapseState(HWND hwndTree)
 				hti = TreeView_GetParent(hwndTree, hti);
 				if (hti == NULL) break;
 				ht = TreeView_GetNextSibling(hwndTree, hti);
-		}	}
+			}
+		}
 
 		hti = ht;
-}	}
+	}
+}
 
 static void sttFreeListItems(HWND hList)
 {
@@ -480,7 +485,9 @@ static INT_PTR CALLBACK ChooseEffectDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wPar
 				if (SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_GETITEMDATA, i, 0) == pEffect->effectIndex) {
 					SendDlgItemMessage(hwndDlg, IDC_EFFECT_COMBO, CB_SETCURSEL, i, 0);
 					break;
-		}	}	}
+				}
+			}
+		}
 
 		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR1, CPM_SETCOLOUR, 0, pEffect->baseColour&0x00FFFFFF);
 		SendDlgItemMessage(hwndDlg, IDC_EFFECT_COLOUR2, CPM_SETCOLOUR, 0, pEffect->secondaryColour&0x00FFFFFF);
@@ -652,7 +659,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					itemId = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
 					need_restart |= (F.flags & FIDF_NEEDRESTART);
-			}	}
+				}
+			}
 
 //			ShowWindow( GetDlgItem(hwndDlg, IDC_STAT_RESTART), (need_restart ? SW_SHOW : SW_HIDE));
 
@@ -679,7 +687,8 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					if (_tcscmp(C.name, _T("Background")) == 0)
 						hBkgColourBrush = CreateSolidBrush(C.value);
-			}	}
+				}
+			}
 
 			if ( !hBkgColourBrush)
 				hBkgColourBrush = CreateSolidBrush(GetSysColor(COLOR_WINDOW));
@@ -698,7 +707,9 @@ static INT_PTR CALLBACK DlgProcLogOptions(HWND hwndDlg, UINT msg, WPARAM wParam,
 						itemData->colour_id = -1;
 
 						itemId = SendDlgItemMessage(hwndDlg, IDC_FONTLIST, LB_ADDSTRING, (WPARAM)-1, (LPARAM)itemData);
-			}	}	}
+					}
+				}
+			}
 
 			SendDlgItemMessage(hwndDlg, IDC_FONTLIST, WM_SETREDRAW, TRUE, 0);
 			UpdateWindow( GetDlgItem(hwndDlg, IDC_FONTLIST));

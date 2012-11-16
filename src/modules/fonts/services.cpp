@@ -54,7 +54,7 @@ bool ConvertFontID(FontID *fid, FontIDW* fidw)
 
 	MultiByteToWideChar(code_page, 0, fid->group, -1, fidw->group, 64);
 	MultiByteToWideChar(code_page, 0, fid->name, -1, fidw->name, 64);
-	
+
 	if (fid->cbSize > FontID_OLDSIZE) {
 		MultiByteToWideChar(code_page, 0, fid->backgroundGroup, -1, fidw->backgroundGroup, 64);
 		MultiByteToWideChar(code_page, 0, fid->backgroundName, -1, fidw->backgroundName, 64);
@@ -157,7 +157,6 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 	mir_snprintf(idstr, SIZEOF(idstr), "%sSize", prefix);
 	lf->lfHeight = (char)db_get_b(NULL, settings_group, idstr, lf->lfHeight);
-
 
 	//wsprintf(idstr, "%sFlags", prefix);
 	//if (db_get_dw(NULL, settings_group, idstr, 0) & FIDF_SAVEACTUALHEIGHT) {
@@ -297,7 +296,7 @@ static int sttRegisterFontWorker(FontIDW* font_id, int hLangpack)
 	char idstr[256];
 	mir_snprintf(idstr, SIZEOF(idstr), "%sFlags", font_id->prefix);
 	db_set_dw(0, font_id->dbSettingsGroup, idstr, font_id->flags);
-	
+
 	FontInternal* newItem = new FontInternal;
 	memset(newItem, 0, sizeof(FontInternal));
 	memcpy(newItem, font_id, font_id->cbSize);
@@ -518,7 +517,8 @@ static INT_PTR sttGetEffectWorker(EffectIDW* effect_id, FONTEFFECT* effect)
 			effect->baseColour = temp.baseColour;
 			effect->secondaryColour = temp.secondaryColour;
 			return TRUE;
-	}	}
+		}
+	}
 
 	return FALSE;
 }
