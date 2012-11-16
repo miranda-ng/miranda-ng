@@ -35,7 +35,7 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		case WM_INITDIALOG:
 			TranslateDialogDefault(hwndDlg);
 			SetDlgItemText(hwndDlg, IDC_ININAME, (TCHAR*)lParam);
-			{	
+			{
 				TCHAR szSecurity[11];
 				const TCHAR *pszSecurityInfo;
 
@@ -54,7 +54,8 @@ static INT_PTR CALLBACK InstallIniDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 		case WM_COMMAND:
 			switch(LOWORD(wParam)) {
 				case IDC_VIEWINI:
-				{	TCHAR szPath[MAX_PATH];
+				{
+					TCHAR szPath[MAX_PATH];
 					GetDlgItemText(hwndDlg, IDC_ININAME, szPath, SIZEOF(szPath));
 					ShellExecute(hwndDlg, _T("open"), szPath, NULL, NULL, SW_SHOW);
 					break;
@@ -84,7 +85,8 @@ static bool IsInSpaceSeparatedList(const char *szWord, const char *szList)
 				return true;
 		}
 		szItem = szEnd+1;
-}	}
+	}
+}
 
 struct warnSettingChangeInfo_t {
 	TCHAR *szIniPath;
@@ -102,7 +104,8 @@ static INT_PTR CALLBACK WarnIniChangeDlgProc(HWND hwndDlg, UINT message, WPARAM 
 
 	switch(message) {
 		case WM_INITDIALOG:
-		{	char szSettingName[256];
+		{
+			char szSettingName[256];
 			const TCHAR *pszSecurityInfo;
 			warnInfo = (warnSettingChangeInfo_t*)lParam;
 			TranslateDialogDefault(hwndDlg);
@@ -145,7 +148,8 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 			SetDlgItemText(hwndDlg, IDC_NEWNAME, (TCHAR*)lParam);
 			return TRUE;
 		case WM_COMMAND:
-		{	TCHAR szIniPath[MAX_PATH];
+		{
+			TCHAR szIniPath[MAX_PATH];
 			GetDlgItemText(hwndDlg, IDC_ININAME, szIniPath, SIZEOF(szIniPath));
 			switch(LOWORD(wParam)) {
 				case IDC_DELETE:
@@ -154,7 +158,8 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 					EndDialog(hwndDlg, LOWORD(wParam));
 					break;
 				case IDC_RECYCLE:
-					{	SHFILEOPSTRUCT shfo = {0};
+					{
+						SHFILEOPSTRUCT shfo = {0};
 						shfo.wFunc = FO_DELETE;
 						shfo.pFrom = szIniPath;
 						szIniPath[lstrlen(szIniPath)+1] = '\0';
@@ -164,7 +169,8 @@ static INT_PTR CALLBACK IniImportDoneDlgProc(HWND hwndDlg, UINT message, WPARAM 
 					EndDialog(hwndDlg, LOWORD(wParam));
 					break;
 				case IDC_MOVE:
-					{	TCHAR szNewPath[MAX_PATH];
+					{
+						TCHAR szNewPath[MAX_PATH];
 						GetDlgItemText(hwndDlg, IDC_NEWNAME, szNewPath, SIZEOF(szNewPath));
 						MoveFile(szIniPath, szNewPath);
 					}
@@ -205,7 +211,9 @@ static void ConvertBackslashes(char *str, UINT fileCp)
 			default:  *pstr = pstr[1]; break;
 			}
 			memmove(pstr+1, pstr+2, strlen(pstr+2) + 1);
-}	}	}
+		}
+	}
+}
 
 static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsafeSections, int secur, bool secFN)
 {
@@ -218,14 +226,14 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 
 	while ( !feof(fp)) {
 		char szLine[2048];
-		if (fgets(szLine, sizeof(szLine), fp) == NULL) 
+		if (fgets(szLine, sizeof(szLine), fp) == NULL)
 			break;
 
 		int lineLength = lstrlenA(szLine);
 		while (lineLength && (BYTE)(szLine[lineLength-1]) <= ' ')
 			szLine[--lineLength] = '\0';
 
-		if (szLine[0] == ';' || szLine[0] <= ' ') 
+		if (szLine[0] == ';' || szLine[0] <= ' ')
 			continue;
 
 		if (szLine[0] == '[') {
@@ -333,7 +341,8 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			break;
 		case 'g':
 		case 'G':
-			{	char *pstr;
+			{
+				char *pstr;
 				for (pstr = szValue+1;*pstr;pstr++) {
 					if (*pstr == '\\') {
 						switch(pstr[1]) {
@@ -343,7 +352,9 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 						default:  *pstr = pstr[1]; break;
 						}
 						MoveMemory(pstr+1, pstr+2, lstrlenA(pstr+2)+1);
-			}	}	}
+					}
+				}
+			}
 		case 'u':
 		case 'U':
 			DBWriteContactSettingStringUtf(NULL, szSection, szName, szValue+1);
@@ -352,7 +363,8 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 		case 'h':
 		case 'N':
 		case 'H':
-			{	PBYTE buf;
+			{
+				PBYTE buf;
 				int len;
 				char *pszValue, *pszEnd;
 				DBCONTACTWRITESETTING cws;

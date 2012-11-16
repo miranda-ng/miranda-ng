@@ -204,7 +204,9 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 				if (makeDatabase(dat->pd->szProfile, dat->pd->dblink, hwndDlg) == 0) {
 					SetWindowLongPtr(hwndDlg, DWLP_MSGRESULT, PSNRET_INVALID_NOCHANGEPAGE);
-		}	}	}
+				}
+			}
+		}
 		break;
 	}
 
@@ -292,7 +294,7 @@ void CheckProfile(HWND hwndList, int iItem, DlgProfData *dat)
 {
 	if (iItem < 0)
 		return;
-	
+
 	TCHAR profile[MAX_PATH], fullName[MAX_PATH];
 	LVITEM item = {0};
 	item.mask = LVIF_TEXT;
@@ -492,7 +494,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							CloseHandle(hFile);
 							if (hdr->code == NM_DBLCLK) EndDialog(GetParent(hwndDlg), 1);
 						}
-					}	
+					}
 					return TRUE;
 
 				case LVN_KEYDOWN:
@@ -502,7 +504,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 							DeleteProfile(hwndList, ListView_GetNextItem(hwndList, -1, LVNI_SELECTED | LVNI_ALL), dat);
 						break;
 					}
-				}	
+				}
 			}
 			break;
 		}
@@ -605,7 +607,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		return TRUE;
 
 	case PSM_FORCECHANGED:
-		{	
+		{
 			PSHNOTIFY pshn;
 			pshn.hdr.code = PSN_INFOCHANGED;
 			pshn.hdr.idFrom = 0;
@@ -674,7 +676,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 				for (int i=0; i < dat->pageCount; i++) {
 					if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed)
 						continue;
-					
+
 					pshn.hdr.hwndFrom = dat->opd[i].hwnd;
 					SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 				}

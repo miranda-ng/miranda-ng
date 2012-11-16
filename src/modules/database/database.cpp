@@ -132,7 +132,7 @@ static void getDefaultProfile(TCHAR *szProfile, size_t cch, TCHAR *profiledir)
 
 // returns 1 if something that looks like a profile is there
 static void loadProfileByShortName(const TCHAR* src, TCHAR *szProfile, size_t cch, TCHAR *profiledir)
-{	
+{
 	TCHAR buf[MAX_PATH];
 	_tcsncpy(buf, src, SIZEOF(buf));
 
@@ -263,8 +263,7 @@ static int getProfile1(TCHAR *szProfile, size_t cch, TCHAR *profiledir, BOOL * n
 						if (++found == 1 && nodprof)
 							_tcscpy(szProfile, newProfile);
 				}
-			}
-				while (FindNextFile(hFind, &ffd));
+			} while (FindNextFile(hFind, &ffd));
 
 			FindClose(hFind);
 		}
@@ -523,8 +522,7 @@ int LoadDatabaseModule(void)
 				retry = MessageBox(0, buf, TranslateT("Miranda can't open that profile"), MB_RETRYCANCEL | MB_ICONERROR) == IDRETRY;
 			}
 		}
-	}
-		while (retry);
+	} while (retry);
 
 	if (rc == ERROR_SUCCESS) {
 		InitIni();

@@ -137,7 +137,9 @@ static INT_PTR DbEventGetText(WPARAM wParam, LPARAM lParam)
 					if (p[i] == 0) {
 						msglenW = i;
 						break;
-			}	}	}
+					}
+				}
+			}
 
 			if (msglenW > 0 && msglenW < msglen && !bIsDenyUnicode)
 				msg = mir_wstrdup((WCHAR*)&dbei->pBlob[ msglen ]);

@@ -52,7 +52,7 @@ void List_Destroy(SortedList* p_list)
 void* List_Find(SortedList* p_list, void* p_value)
 {
 	int index;
-	
+
 	if ( !List_GetIndex(p_list, p_value, &index))
 		return(NULL);
 
@@ -84,11 +84,11 @@ int List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 			int high = p_list->realCount - 1;
 
 			while (low <= high)
-			{  
+			{
 				int i = (low + high) / 2;
 				unsigned __int64 vali = *(unsigned __int64 *)p_list->items[i];
 				if (vali == val)
-				{	
+				{
 					*p_index = i;
 					return 1;
 				}
@@ -111,11 +111,11 @@ int List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 			int high = p_list->realCount - 1;
 
 			while (low <= high)
-			{  
+			{
 				int i = (low + high) / 2;
 				unsigned vali = *(unsigned *)p_list->items[i];
 				if (vali == val)
-				{	
+				{
 					*p_index = i;
 					return 1;
 				}
@@ -136,11 +136,11 @@ int List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 			int high = p_list->realCount - 1;
 
 			while (low <= high)
-			{  
+			{
 				int i = (low + high) / 2;
 				const void* vali = p_list->items[i];
 				if (vali == p_value)
-				{	
+				{
 					*p_index = i;
 					return 1;
 				}
@@ -161,11 +161,11 @@ int List_GetIndex(SortedList* p_list, void* p_value, int* p_index)
 			int high = p_list->realCount - 1;
 
 			while (low <= high)
-			{  
+			{
 				int i = (low + high) / 2;
 				int result = p_list->sortFunc(p_list->items[i], p_value);
 				if (result == 0)
-				{	
+				{
 					*p_index = i;
 					return 1;
 				}
@@ -206,7 +206,7 @@ int List_Insert(SortedList* p_list, void* p_value, int p_index)
 	if (p_value == NULL || p_index > p_list->realCount)
 		return 0;
 
-   if (p_list->realCount == p_list->limit)
+	if (p_list->realCount == p_list->limit)
 	{
 		p_list->items = (void**)mir_realloc(p_list->items, sizeof(void*)*(p_list->realCount + p_list->increment));
 		p_list->limit += p_list->increment;
@@ -215,10 +215,10 @@ int List_Insert(SortedList* p_list, void* p_value, int p_index)
 	if (p_index < p_list->realCount)
 		memmove(p_list->items+p_index+1, p_list->items+p_index, sizeof(void*)*(p_list->realCount-p_index));
 
-   p_list->realCount++;
+	p_list->realCount++;
 
-   p_list->items[ p_index ] = p_value;
-   return 1;
+	p_list->items[ p_index ] = p_value;
+	return 1;
 }
 
 int List_InsertPtr(SortedList* list, void* p)
@@ -236,14 +236,14 @@ int List_Remove(SortedList* p_list, int index)
 	if (index < 0 || index > p_list->realCount)
 		return(0);
 
-   p_list->realCount--;
-   if (p_list->realCount > index)
+	p_list->realCount--;
+	if (p_list->realCount > index)
 	{
 		memmove(p_list->items+index, p_list->items+index+1, sizeof(void*)*(p_list->realCount-index));
-      p_list->items[ p_list->realCount ] = NULL;
+		p_list->items[ p_list->realCount ] = NULL;
 	}
 
-   return 1;
+	return 1;
 }
 
 int List_RemovePtr(SortedList* list, void* p)
@@ -275,4 +275,5 @@ void List_ObjCopy(SortedList* s, SortedList* d, size_t itemSize)
 		void* item = new char[ itemSize ];
 		memcpy(item, s->items[i], itemSize);
 		List_Insert(d, item, i);
-}	}
+	}
+}

@@ -25,11 +25,13 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "database.h"
 
 static int stringCompare(const char* p1, const char* p2)
-{	return strcmp(p1, p2);
+{
+	return strcmp(p1, p2);
 }
 
 static int compareGlobals(const DBCachedGlobalValue* p1, const DBCachedGlobalValue* p2)
-{	return strcmp(p1->name, p2->name);
+{
+	return strcmp(p1->name, p2->name);
 }
 
 MDatabaseCache::MDatabaseCache() :
