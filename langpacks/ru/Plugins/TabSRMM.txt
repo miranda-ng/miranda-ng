@@ -884,6 +884,8 @@ TABSRMM: Набирает
 Закрыть контейнер\tAlt+F4
 [&View]
 &Вид
+[&Leave]
+&Покинуть чат
 [Show Menu Bar]
 Показывать меню
 [Show Status Bar]
