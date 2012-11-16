@@ -98,7 +98,7 @@ void LoadColumnSizes(HWND hwndResults, const char *szProto)
 			ListView_InsertColumn(hwndResults, i, (LPARAM)&lvc);
 
 			if (bNeedsFree)
-					mir_free(lvc.pszText);
+				mir_free(lvc.pszText);
 		}
 		mir_snprintf(szSetting, SIZEOF(szSetting), "ColOrder%d", i);
 		columnOrder[i] = db_get_b(NULL, "FindAdd", szSetting, -1);
@@ -265,7 +265,8 @@ void SetStatusBarSearchInfo(HWND hwndStatus, struct FindAddDlgData *dat)
 
 			lstrcat(str, i ? _T(", ") : _T(" "));
 			lstrcat(str, pa->tszAccountName);
-	}	}
+		}
+	}
 	else lstrcpy(str, TranslateT("Idle"));
 
 	SendMessage(hwndStatus, SB_SETTEXT, 0, (LPARAM)str);
@@ -312,7 +313,7 @@ void SetStatusBarResultInfo(HWND hwndDlg)
 
 		if (subtotalCount == 1) {
 			if (total == 1) mir_sntprintf(str, SIZEOF(str), TranslateT("1 %s user found"), pa->tszAccountName);
-			else         mir_sntprintf(str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName);
+			else mir_sntprintf(str, SIZEOF(str), TranslateT("%d %s users found"), total, pa->tszAccountName);
 		}
 		else {
 			mir_sntprintf(str, SIZEOF(str), TranslateT("%d users found ("), total);
@@ -350,7 +351,8 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 
 	dat = (struct FindAddDlgData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-	{	LVITEM lvi;
+	{
+		LVITEM lvi;
 		if (ListView_GetSelectedCount( GetDlgItem(hwndDlg, IDC_RESULTS)) != 1) return;
 		lvi.mask = LVIF_PARAM;
 		lvi.iItem = ListView_GetNextItem( GetDlgItem(hwndDlg, IDC_RESULTS), -1, LVNI_ALL|LVNI_SELECTED);
@@ -364,7 +366,8 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 	commandId = TrackPopupMenu(hPopupMenu, TPM_RIGHTBUTTON|TPM_RETURNCMD, x, y, 0, hwndDlg, NULL);
 	switch(commandId) {
 		case IDC_ADD:
-		{	ADDCONTACTSTRUCT acs;
+		{
+			ADDCONTACTSTRUCT acs;
 
 			acs.handle = NULL;
 			acs.handleType = HANDLE_SEARCHRESULT;
@@ -374,13 +377,15 @@ void ShowMoreOptionsMenu(HWND hwndDlg, int x, int y)
 			break;
 		}
 		case IDC_DETAILS:
-		{	HANDLE hContact;
+		{
+			HANDLE hContact;
 			hContact = (HANDLE)CallProtoServiceInt(NULL,lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_USERINFO_SHOWDIALOG, (WPARAM)hContact, 0);
 			break;
 		}
 		case IDC_SENDMESSAGE:
-		{	HANDLE hContact;
+		{
+			HANDLE hContact;
 			hContact = (HANDLE)CallProtoServiceInt(NULL,lsr->szProto, PS_ADDTOLIST, PALF_TEMPORARY, (LPARAM)&lsr->psr);
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, (LPARAM)(const char*)NULL);
 			break;
