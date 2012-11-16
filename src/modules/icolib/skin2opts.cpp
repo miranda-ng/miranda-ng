@@ -115,18 +115,21 @@ HICON IconItem_GetIcon_Preview(IconItem* item)
 				hIcon = CopyIcon(hRefIcon);
 				if (item->default_icon->icon == hRefIcon)
 					IconSourceItem_ReleaseIcon(item->default_icon);
-		}	}
+			}
+		}
 
 		if ( !hIcon && item->default_file) {
 			IconSourceItem_Release(&item->default_icon);
-			item->default_icon = GetIconSourceItem(item->default_file, item->default_indx, item->cx, item->cy); 
+			item->default_icon = GetIconSourceItem(item->default_file, item->default_indx, item->cx, item->cy);
 			if (item->default_icon) {
 				HICON hRefIcon = IconSourceItem_GetIcon(item->default_icon);
 				if (hRefIcon) {
 					hIcon = CopyIcon(hRefIcon);
 					if (item->default_icon->icon == hRefIcon)
 						IconSourceItem_ReleaseIcon(item->default_icon);
-		}	}	}
+				}
+			}
+		}
 
 		if ( !hIcon)
 			return CopyIcon(hIconBlank);
@@ -138,7 +141,8 @@ HICON IconItem_GetIcon_Preview(IconItem* item)
 // IcoLib GUI service routines
 
 static void __fastcall MySetCursor(TCHAR* nCursor)
-{	SetCursor(LoadCursor(NULL, nCursor));
+{
+	SetCursor(LoadCursor(NULL, nCursor));
 }
 
 static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
@@ -223,7 +227,8 @@ void UndoSubItemChanges(HWND htv, HTREEITEM hItem, int cmd)
 	while (tvi.hItem) {
 		UndoSubItemChanges(htv, tvi.hItem, cmd);
 		tvi.hItem = TreeView_GetNextSibling(htv, tvi.hItem);
-}	}
+	}
+}
 
 static void OpenIconsPage()
 {
@@ -518,7 +523,8 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						ImageList_DragEnter(hwndDragOver, ptDrag.x, ptDrag.y);
 					}
 					onItem = 1;
-			}	}
+				}
+			}
 
 			if ( !onItem && dropHiLite != -1) {
 				ImageList_DragLeave(hwndDragOver);
@@ -548,7 +554,8 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mir_sntprintf(path, MAX_PATH, _T("%s,%d"), filename, (int)lvi.lParam);
 				SendMessage(hwndParent, DM_CHANGEICON, dropHiLite, (LPARAM)path);
 				ListView_SetItemState( GetDlgItem(hwndParent, IDC_PREVIEW), dropHiLite, 0, LVIS_DROPHILITED);
-		}	}
+			}
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -577,7 +584,7 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		break;
 
 	case WM_SIZE: // make the dlg resizeable
-		if ( !IsIconic(hwndDlg)) { 
+		if ( !IsIconic(hwndDlg)) {
 			UTILRESIZEDIALOG urd = {0};
 			urd.cbSize = sizeof(urd);
 			urd.hInstance = hInst;
@@ -603,11 +610,13 @@ INT_PTR CALLBACK DlgProcIconImport(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 // IcoLib options window procedure
 
 static int CALLBACK DoSortIconsFunc(LPARAM lParam1, LPARAM lParam2, LPARAM)
-{	return lstrcmpi(iconList[lParam1]->getDescr(), iconList[lParam2]->getDescr());
+{
+	return lstrcmpi(iconList[lParam1]->getDescr(), iconList[lParam2]->getDescr());
 }
 
 static int CALLBACK DoSortIconsFuncByOrder(LPARAM lParam1, LPARAM lParam2, LPARAM)
-{	return iconList[lParam1]->orderID - iconList[lParam2]->orderID;
+{
+	return iconList[lParam1]->orderID - iconList[lParam2]->orderID;
 }
 
 static void SaveCollapseState(HWND hwndTree)
@@ -661,7 +670,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		//
 		{
 			mir_cslock lck(csIconList);
-		
+
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
 				iconList[indx]->temp_file = NULL;
 				iconList[indx]->temp_icon = NULL;
@@ -736,7 +745,8 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 							TreeView_GetItem(hwndTree, &tvi);
 							TreeItem *treeItem = (TreeItem *)tvi.lParam;
 							treeItem->value = SECTIONPARAM_MAKE(indx, sectionLevel, SECTIONPARAM_HAVEPAGE);
-					}	}
+						}
+					}
 
 					if (sectionName) {
 						*sectionName = '/';
@@ -815,7 +825,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if ( !hIcon)
 						hIcon = IconItem_GetIcon_Preview(iconList[lvi.lParam]);
 				}
-			
+
 				if (hIcon)
 					ImageList_ReplaceIcon(hIml, lvi.iImage, hIcon);
 				if (hIcon != iconList[lvi.lParam]->temp_icon) SafeDestroyIcon(&hIcon);
@@ -872,7 +882,8 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				MySetCursor(IDC_ARROW);
 
 				DoOptionsChanged(hwndDlg);
-		}	}
+			}
+		}
 		break;
 
 	case WM_CONTEXTMENU:
@@ -898,7 +909,9 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 						DoOptionsChanged(hwndDlg);
 						break;
-			}	}	}
+					}
+				}
+			}
 		}
 		else {
 			HWND htv = GetDlgItem(hwndDlg, IDC_CATEGORYLIST);
@@ -911,7 +924,9 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					UndoSubItemChanges(htv, TreeView_GetSelection(htv), cmd);
 					DoOptionsChanged(hwndDlg);
 					break;
-		}	}	}
+				}
+			}
+		}
 		break;
 
 	case WM_NOTIFY:
@@ -960,7 +975,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 						mir_sntprintf(pInfoTip->pszText, pInfoTip->cchTextMax, _T("%s, %d"), item->default_file, item->default_indx);
 				}
 			}
-			if (bNeedRebuild)	{
+			if (bNeedRebuild) {
 				bNeedRebuild = FALSE;
 				SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
 			}
@@ -991,12 +1006,14 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					break;
 				}
 			}
-			if (bNeedRebuild)	{
-				{	mir_cslock lck(csIconList);
+			if (bNeedRebuild) {
+				{
+					mir_cslock lck(csIconList);
 					bNeedRebuild = FALSE;
 				}
 				SendMessage(hwndDlg, DM_REBUILD_CTREE, 0, 0);
-		}	}
+			}
+		}
 		break;
 
 	case WM_DESTROY:

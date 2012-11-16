@@ -32,7 +32,7 @@ HICON hIconBlank = NULL;
 
 static HANDLE 
 	hIcoLib_AddNewIcon, hIcoLib_RemoveIcon, hIcoLib_GetIcon, hIcoLib_GetIcon2, 
-   hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
+	hIcoLib_GetIconHandle, hIcoLib_IsManaged, hIcoLib_AddRef, hIcoLib_ReleaseIcon;
 
 int iconEventActive = 0;
 
@@ -41,19 +41,22 @@ BOOL bNeedRebuild = FALSE;
 CRITICAL_SECTION csIconList;
 
 static int sttCompareSections(const SectionItem* p1, const SectionItem* p2)
-{	return _tcscmp(p1->name, p2->name);
+{
+	return _tcscmp(p1->name, p2->name);
 }
 
 LIST<SectionItem> sectionList(20, sttCompareSections);
 
 static int sttCompareIconSourceFiles(const IconSourceFile* p1, const IconSourceFile* p2)
-{	return _tcsicmp(p1->file, p2->file);
+{
+	return _tcsicmp(p1->file, p2->file);
 }
 
 static LIST<IconSourceFile> iconSourceFileList(10, sttCompareIconSourceFiles);
 
 static int sttCompareIconSourceItems(const IconSourceItem* p1, const IconSourceItem* p2)
-{	if (p1->indx < p2->indx)
+{
+	if (p1->indx < p2->indx)
 		return -1;
 
 	if (p1->indx > p2->indx)
@@ -80,7 +83,8 @@ static int sttCompareIconSourceItems(const IconSourceItem* p1, const IconSourceI
 static LIST<IconSourceItem> iconSourceList(20, sttCompareIconSourceItems);
 
 static int sttCompareIcons(const IconItem* p1, const IconItem* p2)
-{	return strcmp(p1->name, p2->name);
+{
+	return strcmp(p1->name, p2->name);
 }
 
 LIST<IconItem> iconList(20, sttCompareIcons);
@@ -93,14 +97,16 @@ void __fastcall SAFE_FREE(void** p)
 	if (*p) {
 		mir_free(*p);
 		*p = NULL;
-}	}
+	}
+}
 
 void __fastcall SafeDestroyIcon(HICON* icon)
 {
 	if (*icon) {
 		DestroyIcon(*icon);
 		*icon = NULL;
-}	}
+	}
+}
 
 // Helper functions to manage Icon resources
 
@@ -151,7 +157,8 @@ int IconSourceFile_Release(IconSourceFile** pitem)
 }
 
 static int BytesPerScanLine(int PixelsPerScanline, int BitsPerPixel, int Alignment)
-{	Alignment--;
+{
+	Alignment--;
 	int bytes = ((PixelsPerScanline * BitsPerPixel) + Alignment) & ~Alignment;
 	return bytes / 8;
 }
@@ -232,7 +239,7 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 
 	if ( !GetIconInfo(icon, &iconInfo)) return 1; // Failure
 
-	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize)  || 
+	if (InternalGetDIBSizes(iconInfo.hbmMask, &MonoInfoSize, &MonoBitsSize) || 
 		InternalGetDIBSizes(iconInfo.hbmColor, &ColorInfoSize, &ColorBitsSize)) {
 		DeleteObject(iconInfo.hbmColor);
 		DeleteObject(iconInfo.hbmMask);
@@ -243,7 +250,7 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 	void* ColorInfo = mir_alloc(ColorInfoSize);
 	void* ColorBits = mir_alloc(ColorBitsSize);
 
-	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits)  || 
+	if (InternalGetDIB(iconInfo.hbmMask, 0, MonoInfo, MonoBits) || 
 		InternalGetDIB(iconInfo.hbmColor, 0, ColorInfo, ColorBits)) {
 		SAFE_FREE(&MonoInfo);
 		SAFE_FREE(&MonoBits);
@@ -256,7 +263,7 @@ static int GetIconData(HICON icon, BYTE** data, int* size)
 
 	*size = ColorInfoSize + ColorBitsSize + MonoBitsSize;
 	*data = (BYTE*)mir_alloc(*size);
-	
+
 	BYTE* buf = *data;
 	((BITMAPINFOHEADER*)ColorInfo)->biHeight *= 2; // color height includes mono bits
 	memcpy(buf, ColorInfo, ColorInfoSize);
@@ -463,11 +470,11 @@ IconItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 		if (p->source_small  && p->source_small->icon == hIcon) {
 			big = false;
 			return p;
-		}	
+		}
 		if (p->source_big && p->source_big->icon == hIcon) {
 			big = true;
 			return p;
-		}	
+		}
 	}
 
 	return NULL;
@@ -652,7 +659,6 @@ HICON IconItem_GetDefaultIcon(IconItem* item, bool big)
 	return hIcon;
 }
 
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon
 
@@ -782,31 +788,38 @@ static int SkinSystemModulesLoaded(WPARAM, LPARAM)
 // Module initialization and finalization procedure
 
 static INT_PTR sttIcoLib_AddNewIcon(WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)IcoLib_AddNewIcon((int)wParam, (SKINICONDESC*)lParam);
+{
+	return (INT_PTR)IcoLib_AddNewIcon((int)wParam, (SKINICONDESC*)lParam);
 }
 
 static INT_PTR sttIcoLib_GetIcon(WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)IcoLib_GetIcon((const char*)lParam, wParam != 0);
+{
+	return (INT_PTR)IcoLib_GetIcon((const char*)lParam, wParam != 0);
 }
 
 static INT_PTR sttIcoLib_GetIconHandle(WPARAM, LPARAM lParam)
-{	return (INT_PTR)IcoLib_GetIconHandle((const char*)lParam);
+{
+	return (INT_PTR)IcoLib_GetIconHandle((const char*)lParam);
 }
 
 static INT_PTR sttIcoLib_GetIconByHandle(WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)IcoLib_GetIconByHandle((HANDLE)lParam, wParam != 0);
+{
+	return (INT_PTR)IcoLib_GetIconByHandle((HANDLE)lParam, wParam != 0);
 }
 
 static INT_PTR sttIcoLib_ReleaseIcon(WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, false);
+{
+	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, false);
 }
 
 static INT_PTR sttIcoLib_ReleaseIconBig(WPARAM wParam, LPARAM lParam)
-{	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, true);
+{
+	return (INT_PTR)IcoLib_ReleaseIcon((HICON)wParam, (char*)lParam, true);
 }
 
 static INT_PTR sttIcoLib_IsManaged(WPARAM wParam, LPARAM)
-{	return (INT_PTR)IcoLib_IsManaged((HICON)wParam);
+{
+	return (INT_PTR)IcoLib_IsManaged((HICON)wParam);
 }
 
 int LoadIcoLibModule(void)
