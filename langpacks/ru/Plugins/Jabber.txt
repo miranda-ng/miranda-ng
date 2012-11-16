@@ -247,8 +247,8 @@ TLS
 Конвертировать
 [Login/logout]
 Войти/Выйти
-[Leave]
-Покинуть чат
+[&Leave]
+&Покинуть чат
 [Add to roster]
 Добавить в ростер
 [Send Presence]
