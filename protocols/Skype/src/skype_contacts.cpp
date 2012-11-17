@@ -312,20 +312,20 @@ void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
 
 void CSkypeProto::UpdateContactOnlineSinceTime(HANDLE hContact, CContact::Ref contact)
 {
-	uint data;
-	contact->GetPropLastonlineTimestamp(data);
-	if (data > 0)
-	{
-	}
+	uint newTS = 0;
+	contact->GetPropLastonlineTimestamp(newTS);
+	DWORD oldTS = this->GetSettingDword(hContact, "OnlineSinceTS");
+	if (newTS > oldTS)
+		this->SetSettingDword(hContact, "OnlineSinceTS", newTS);
 }
 
 void CSkypeProto::UpdateContactLastEventDate(HANDLE hContact, CContact::Ref contact)
 {
-	uint data;
-	contact->GetPropLastusedTimestamp(data);
-	if (data > 0)
-	{
-	}
+	uint newTS = 0;
+	contact->GetPropLastusedTimestamp(newTS);
+	DWORD oldTS = this->GetSettingDword(hContact, "LastEventDateTS");
+	if (newTS > oldTS)
+		this->SetSettingDword(hContact, "LastEventDateTS", newTS);
 }
 
 void CSkypeProto::UpdateFullName(HANDLE hContact, CContact::Ref contact)

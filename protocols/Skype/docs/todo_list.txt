@@ -1,10 +1,9 @@
 Bugs:
-- don't send auth request
 - don't correct loading and setting users avatars
 
 Features:
 - add avatar loading to skype server
-- add correct users and own info
+- add correct own info
 - multiuser chat
 - voice
 - video

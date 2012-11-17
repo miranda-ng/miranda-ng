@@ -267,9 +267,39 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 					::SetDlgItemText(hwndDlg, IDC_SID, ppro->GetSettingString(hContact, "sid"));
 					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
-					::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, ppro->GetSettingDword(hContact, "OnlineSinceTS") ? ppro->GetSettingString(hContact, "OnlineSinceTS") : TranslateT("<not specified>"));
-					//::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, ppro->GetSettingDword(hContact, "LastEventDateTS") ? ppro->GetSettingString(hContact, "LastEventDateTS") : TranslateT("<not specified>"));
-					//::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, ppro->GetSettingDword(hContact, "ProfileTS") ? ppro->GetSettingDword(hContact, "ProfileTS") : TranslateT("<not specified>"));
+
+					if (ppro->GetSettingDword(hContact, "OnlineSinceTS")) {
+						TCHAR date[64];
+						DBTIMETOSTRINGT tts = {0};
+						tts.szFormat = _T("d s");
+						tts.szDest = date;
+						tts.cbDest = sizeof(date);
+						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "OnlineSinceTS"), (LPARAM)&tts);
+						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, date);
+					} else
+						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
+
+					if (ppro->GetSettingDword(hContact, "LastEventDateTS")) {
+						TCHAR date[64];
+						DBTIMETOSTRINGT tts = {0};
+						tts.szFormat = _T("d s");
+						tts.szDest = date;
+						tts.cbDest = sizeof(date);
+						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "LastEventDateTS"), (LPARAM)&tts);
+						::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, date);
+					} else
+						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
+
+					if (ppro->GetSettingDword(hContact, "ProfileTS")) {
+						TCHAR date[64];
+						DBTIMETOSTRINGT tts = {0};
+						tts.szFormat = _T("d s");
+						tts.szDest = date;
+						tts.cbDest = sizeof(date);
+						CallService(MS_DB_TIME_TIMESTAMPTOSTRINGT, (WPARAM)ppro->GetSettingDword(hContact, "ProfileTS"), (LPARAM)&tts);
+						::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, date);
+					} else
+						::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, TranslateT("<not specified>"));
 				}
 				break;
 			}
@@ -299,11 +329,20 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.hInstance = g_hInstance;
 	odp.dwInitParam = LPARAM(this);
-	odp.pfnDlgProc = SkypeDlgProc;
-	odp.position = -1900000000;
-	odp.ptszTitle = m_tszUserName;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
-	UserInfo_AddPage(wParam, &odp);
+
+	HANDLE hContact = (HANDLE)lParam;
+	if (hContact) {
+		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
+			odp.pfnDlgProc = SkypeDlgProc;
+			odp.position = -1900000000;
+			odp.ptszTitle = m_tszUserName;
+			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
+			UserInfo_AddPage(wParam, &odp);
+		}
+	} else {
+		//show own info
+	}
 
 	return 0;
 }
