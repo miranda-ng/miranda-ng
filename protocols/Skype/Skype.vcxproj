@@ -57,7 +57,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Debug</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>

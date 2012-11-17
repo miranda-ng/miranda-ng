@@ -123,8 +123,10 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	{
 		CContact::Ref contact;
 		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		if (g_skype->GetContact(sid, contact))
+		if (g_skype->GetContact(sid, contact)) {
+			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
 			contact->SendAuthRequest(::mir_u2a(szMessage));
+		}
 		
 		return 0;
 	}

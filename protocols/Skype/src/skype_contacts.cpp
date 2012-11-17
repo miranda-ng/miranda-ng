@@ -262,7 +262,7 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 	this->SetSettingWord(hContact, SKYPE_SETTINGS_STATUS, this->SkypeToMirandaStatus(availability));
 
 	if (availability == CContact::PENDINGAUTH)
-		this->SetSettingWord(hContact, "Auth", 1);
+		this->SetSettingByte(hContact, "Auth", 1);
 	else
 		this->DeleteSetting(hContact, "Auth");
 }
@@ -598,10 +598,10 @@ HANDLE CSkypeProto::AddContactBySid(const wchar_t* sid, const wchar_t* nick, DWO
 		{
 			contact.fetch();
 			bool result;
-			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_KNOWN_CONTACTS, result) && result)
+			if (contact->IsMemberOfHardwiredGroup(CContactGroup::ALL_BUDDIES, result))
 			{
 				CContactGroup::Ref group;
-				if (g_skype->GetHardwiredContactGroup(CContactGroup::ALL_KNOWN_CONTACTS, group))
+				if (g_skype->GetHardwiredContactGroup(CContactGroup::ALL_BUDDIES, group))
 				{
 					group.fetch();
 					group->AddContact(contact);

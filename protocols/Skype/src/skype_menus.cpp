@@ -69,7 +69,7 @@ INT_PTR GlobalService(WPARAM wParam, LPARAM lParam)
 int CSkypeProto::RequestAuth(WPARAM wParam, LPARAM lParam)
 {
 	// todo: set default auth request
-	return this->AuthRequest((HANDLE)wParam, LPGENT(""));
+	return this->AuthRequest((HANDLE)wParam, LPGENT("Hi! I\'d like to add you to my contact list"));
 }
 
 int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
