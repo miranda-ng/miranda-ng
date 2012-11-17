@@ -233,7 +233,7 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_INITDIALOG:
@@ -250,7 +250,7 @@ static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			case PSN_INFOCHANGED:
 				{
-					CSkypeProto* ppro = (CSkypeProto*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 					if (!ppro)
 						break;
 
@@ -260,16 +260,16 @@ static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if (hContact == NULL)
 						szProto = ppro->m_szModuleName;
 					else
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = (char*)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 
 					if (!szProto)
 						break;
 
-					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_SID), IDC_SID, ppro->GetSettingString(hContact, "sid"));
-					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_STATUSTEXT), IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
-					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_ONLINESINCE), IDC_ONLINESINCE, ppro->GetSettingDword(hContact, "OnlineSinceTS") ? ppro->GetSettingString(hContact, "OnlineSinceTS") : TranslateT("<not specified>"));
-					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_LASTEVENTDATE), IDC_LASTEVENTDATE, ppro->GetSettingDword(hContact, "LastEventDateTS") ? ppro->GetSettingString(hContact, "LastEventDateTS") : TranslateT("<not specified>"));
-					//SetDlgItemText(GetDlgItem(hwndDlg, IDC_LASTPROFILECHANGE), IDC_LASTPROFILECHANGE, ppro->GetSettingDword(hContact, "ProfileTS") ? ppro->GetSettingDword(hContact, "ProfileTS") : TranslateT("<not specified>"));
+					::SetDlgItemText(hwndDlg, IDC_SID, ppro->GetSettingString(hContact, "sid"));
+					::SetDlgItemText(hwndDlg, IDC_STATUSTEXT, ppro->GetSettingString(hContact, "XStatusMsg") ? ppro->GetSettingString(hContact, "XStatusMsg") : TranslateT("<not specified>"));
+					::SetDlgItemText(hwndDlg, IDC_ONLINESINCE, ppro->GetSettingDword(hContact, "OnlineSinceTS") ? ppro->GetSettingString(hContact, "OnlineSinceTS") : TranslateT("<not specified>"));
+					//::SetDlgItemText(hwndDlg, IDC_LASTEVENTDATE, ppro->GetSettingDword(hContact, "LastEventDateTS") ? ppro->GetSettingString(hContact, "LastEventDateTS") : TranslateT("<not specified>"));
+					//::SetDlgItemText(hwndDlg, IDC_LASTPROFILECHANGE, ppro->GetSettingDword(hContact, "ProfileTS") ? ppro->GetSettingDword(hContact, "ProfileTS") : TranslateT("<not specified>"));
 				}
 				break;
 			}
