@@ -246,6 +246,14 @@ void CInfoPanel::mapRealRect(const RECT& rcSrc, RECT& rcDest, const SIZE& sz)
 	rcDest.bottom = rcDest.top + sz.cy;
 }
 
+void CInfoPanel::mapRealRectOnTop(const RECT& rcSrc, RECT& rcDest, const SIZE& sz)
+{
+	rcDest.left = rcSrc.left;
+	rcDest.right = rcDest.left + sz.cx;
+	rcDest.top = rcSrc.top;
+	rcDest.bottom = rcDest.top + sz.cy;
+}
+
 /**
  * create an underlined version of the original font and select it
  * in the given device context
@@ -430,9 +438,11 @@ void CInfoPanel::RenderIPNickname(const HDC hdc, RECT& rcItem)
 			::GetTextExtentPoint32(hdc, _T("A"), 1, &sMask);
 			::GetTextExtentPoint32(hdc, szStatusMsg, lstrlen(szStatusMsg), &sStatusMsg);
 			dtFlagsNick = DT_SINGLELINE | DT_WORD_ELLIPSIS | DT_NOPREFIX;
-			if ((m_szNick.cx + sStatusMsg.cx + 6) < (rcItem.right - rcItem.left) || (rcItem.bottom - rcItem.top) < (2 * sMask.cy))
+			if ((m_szNick.cx + sStatusMsg.cx + 6) < (rcItem.right - rcItem.left) || (rcItem.bottom - rcItem.top) < (2 * sMask.cy)) {
 				dtFlagsNick |= DT_VCENTER;
-			mapRealRect(rcItem, m_rcNick, m_szNick);
+				mapRealRect(rcItem, m_rcNick, m_szNick);
+			}
+			else mapRealRectOnTop(rcItem, m_rcNick, m_szNick);
 
 			if (m_hoverFlags & HOVER_NICK)
 				setUnderlinedFont(hdc, fShowUin ? m_ipConfig.hFonts[IPFONTID_UIN] : m_ipConfig.hFonts[IPFONTID_NICK]);
@@ -508,7 +518,7 @@ void CInfoPanel::RenderIPUIN(const HDC hdc, RECT& rcItem)
 			int i_hrs = diff / 3600;
 			int i_mins = (diff - i_hrs * 3600) / 60;
 			mir_sntprintf(szBuf, safe_sizeof(szBuf), TranslateT("%s    Idle: %dh,%02dm"), tszUin, i_hrs, i_mins);
-		} 
+		}
 		else _tcscpy_s (szBuf, 256, tszUin);
 		_tcscat_s(szBuf, 256, temp);
 
@@ -988,7 +998,7 @@ void CInfoPanel::showTip(UINT ctrlId, const LPARAM lParam)
 /**
  * hide a tooltip (if it was created)
  * this is only used from outside (i.e. container window dialog)
- * 
+ *
  * hwndNew = window to become active (as reported by WM_ACTIVATE).
  */
 void CInfoPanel::hideTip(const HWND hwndNew)

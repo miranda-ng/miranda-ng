@@ -88,25 +88,25 @@ public:
 	static void					registerClass				();
 private:
 
-	INT_PTR	CALLBACK			WndProc						(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK	 	WndProcStub					(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK 	RichEditProc				(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	       INT_PTR CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK WndProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK RichEditProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-	HWND						m_hwnd;						// our window handle
-	HWND						m_hRich;					// handle of the rich edit child
-	HWND						m_hwndParent;				// parent window (used for position calculations and to send notifications)
-	HANDLE						m_hContact;					// contact handle
-	char*						m_pszText;					// the richedit text
-	SIZE						m_szRich;					// size of the richedit control (height auto-calculated to make it fit the text)
-	RECT						m_rcRich;					// adjusted rectangle for the richedit control (client coordinates)
-	const CInfoPanel*			m_panel;					// the info panel parent (if any)
-	HICON						m_hIcon;					// optional icon to show in the title line
-	const TCHAR*				m_szTitle;					// optional text to show in the title
-	int							m_leftWidth;
+	HWND    m_hwnd;            // our window handle
+	HWND    m_hRich;           // handle of the rich edit child
+	HWND    m_hwndParent;      // parent window (used for position calculations and to send notifications)
+	HANDLE  m_hContact;        // contact handle
+	char   *m_pszText;         // the richedit text
+	SIZE    m_szRich;          // size of the richedit control (height auto-calculated to make it fit the text)
+	RECT    m_rcRich;          // adjusted rectangle for the richedit control (client coordinates)
+	HICON   m_hIcon;           // optional icon to show in the title line
+	LPCTSTR m_szTitle;         // optional text to show in the title
+	int     m_leftWidth;
+
+	const CInfoPanel *m_panel; // the info panel parent (if any)
 
 private:
-	static	WNDPROC				m_OldMessageEditProc;		// stores original richedit wnd proc
-
+	static WNDPROC m_OldMessageEditProc;   // stores original richedit wnd proc
 };
 
 /**
@@ -123,16 +123,17 @@ public:
 		LEFT_OFFSET_LOGO = 3
 	};
 	enum {
-		HOVER_NICK 		= 1,
-		HOVER_STATUS 	= 2,
-		HOVER_UIN 		= 4
+		HOVER_NICK   = 1,
+		HOVER_STATUS = 2,
+		HOVER_UIN    = 4
 	};
 	enum {
-		HTNICK			= 1,
-		HTUIN			= 2,
-		HTSTATUS		= 3,
-		HTNIRVANA		= 0
+		HTNICK    = 1,
+		HTUIN     = 2,
+		HTSTATUS  = 3,
+		HTNIRVANA = 0
 	};
+
 	CInfoPanel(TWindowData *dat)
 	{
 		if (dat) {
@@ -153,68 +154,71 @@ public:
 		saveHeight(true);
 	}
 
-	const	LONG				getHeight					() const { return(m_height); }
-	void						setHeight					(LONG newHeight, bool fBroadcast = false);
-	bool						isActive					() const { return(m_active); }
-	bool						isPrivateHeight				() const { return(m_fPrivateHeight); }
-	DWORD						isHovered					() const { return(m_active ? m_hoverFlags : 0); }
-	const TWindowData*	getDat						() const { return(m_dat); }
-	void						setActive					(const int newActive);
-	void						loadHeight					();
-	void						saveHeight					(bool fFlush = false);
+	__forceinline const LONG getHeight() const { return m_height; }
+	__forceinline bool isActive() const { return m_active; }
+	__forceinline bool isPrivateHeight() const { return m_fPrivateHeight; }
+	__forceinline DWORD isHovered() const { return m_active ? m_hoverFlags : 0; }
+	__forceinline const TWindowData* getDat() const { return m_dat; }
 
-	void 						Configure					() const;
-	void 						showHide					() const;
-	bool 						getVisibility				();
-	void 						renderBG					(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, bool fAutoCalc = true) const;
-	void 						renderContent				(const HDC hdcMem);
-	void 						Invalidate					(BOOL fErase = FALSE) const;
-	void 						trackMouse					(POINT& pt);
-	int							hitTest						(POINT  pt);
-	void						handleClick					(const POINT& pt);
-	void						showTip						(UINT ctrlId, const LPARAM lParam);
-	void						hideTip						(const HWND hWndNew);
-	int							invokeConfigDialog			(const POINT& pt);
-	void						dismissConfig				(bool fForced = false);
+	void setHeight(LONG newHeight, bool fBroadcast = false);
+	void setActive(const int newActive);
+	void loadHeight();
+	void saveHeight(bool fFlush = false);
+
+	void Configure() const;
+	void showHide() const;
+	bool getVisibility();
+	void renderBG(const HDC hdc, RECT& rc, CSkinItem *item, bool fAero, bool fAutoCalc = true) const;
+	void renderContent(const HDC hdcMem);
+	void Invalidate(BOOL fErase = FALSE) const;
+	void trackMouse(POINT& pt);
+	int  hitTest(POINT  pt);
+	void handleClick(const POINT& pt);
+	void showTip(UINT ctrlId, const LPARAM lParam);
+	void hideTip(const HWND hWndNew);
+	int  invokeConfigDialog(const POINT& pt);
+	void dismissConfig(bool fForced = false);
 
 public:
-	static						TInfoPanelConfig			m_ipConfig;
-	static int	 				setPanelHandler				(TWindowData *dat, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK		avatarParentSubclass		(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static TInfoPanelConfig m_ipConfig;
+	static int setPanelHandler(TWindowData *dat, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK avatarParentSubclass(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
-	void						mapRealRect					(const RECT& rcSrc, RECT& rcDest, const SIZE& sz);
-	HFONT						setUnderlinedFont			(const HDC hdc, HFONT hFontOrig);
-	void						RenderIPNickname			(const HDC hdc, RECT& rc);
-	void 						RenderIPUIN					(const HDC hdc, RECT& rcItem);
-	void 						RenderIPStatus				(const HDC hdc, RECT& rcItem);
-	void 						Chat_RenderIPNickname		(const HDC hdc, RECT& rcItem);
-	void 						Chat_RenderIPSecondLine		(const HDC hdc, RECT& rcItem);
-	LRESULT						cmdHandler					(UINT cmd);
-	HMENU						constructContextualMenu		() const;
-	INT_PTR	CALLBACK			ConfigDlgProc				(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-	static INT_PTR CALLBACK	 	ConfigDlgProcStub			(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	void  mapRealRect(const RECT& rcSrc, RECT& rcDest, const SIZE& sz);
+	void  mapRealRectOnTop(const RECT& rcSrc, RECT& rcDest, const SIZE& sz);
+	HFONT setUnderlinedFont(const HDC hdc, HFONT hFontOrig);
+	void  RenderIPNickname(const HDC hdc, RECT& rc);
+	void  RenderIPUIN(const HDC hdc, RECT& rcItem);
+	void  RenderIPStatus(const HDC hdc, RECT& rcItem);
+	void  Chat_RenderIPNickname(const HDC hdc, RECT& rcItem);
+	void  Chat_RenderIPSecondLine(const HDC hdc, RECT& rcItem);
+	HMENU constructContextualMenu() const;
+	LRESULT cmdHandler(UINT cmd);
+	INT_PTR CALLBACK ConfigDlgProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK ConfigDlgProcStub(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 private:
-	bool				m_isChat;											// is MUC session
-	bool				m_active;											// panel active and visible
-	bool				m_fPrivateHeight;
-	bool				m_fDialogCreated;
-	TWindowData*	m_dat;												// this one OWNS us...
-	LONG				m_height;											// height (determined by position of IDC_PANELSPLITTER)
-	LONG				m_defaultHeight, m_defaultMUCHeight;				// global values for the info bar height
-	HWND				m_hwndConfig;										// window handle of the config dialog window
-	HFONT				m_configDlgFont, m_configDlgBoldFont;
-	SIZE				m_szNick;											// rectangle where the nick has been rendered,
+	bool  m_isChat;             // is MUC session
+	bool  m_active;             // panel active and visible
+	bool  m_fPrivateHeight;
+	bool  m_fDialogCreated;
+	TWindowData *m_dat;         // this one OWNS us...
+	LONG  m_height;             // height (determined by position of IDC_PANELSPLITTER)
+	LONG  m_defaultHeight, 
+	      m_defaultMUCHeight;   // global values for the info bar height
+	HWND  m_hwndConfig;         // window handle of the config dialog window
+	HFONT m_configDlgFont,
+	      m_configDlgBoldFont;
+	SIZE  m_szNick;             // rectangle where the nick has been rendered,
 	/*
 	 * these are used to store rectangles important to mouse tracking.
 	 */
-	RECT				m_rcNick;
-	RECT				m_rcUIN;
-	RECT				m_rcStatus;
-	DWORD				m_hoverFlags;
-	CTip*				m_tip;
+	RECT  m_rcNick;
+	RECT  m_rcUIN;
+	RECT  m_rcStatus;
+	DWORD m_hoverFlags;
+	CTip *m_tip;
 };
 
 #endif /* __INFOPANEL_H */
-
