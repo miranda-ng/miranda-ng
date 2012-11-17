@@ -78,10 +78,7 @@ struct FILEINFO
 {
 	TCHAR tszOldName[MAX_PATH], tszNewName[MAX_PATH];
 	FILEURL File;
-	BOOL enabled, bDeleteOnly;
-	BYTE FileType;
-	int  FileNum;
-	BYTE Force;
+	BOOL bEnabled, bDeleteOnly;
 };
 
 typedef OBJLIST<FILEINFO> FILELIST;
@@ -139,7 +136,6 @@ int  OnFoldersChanged(WPARAM, LPARAM);
 int  OnPreShutdown(WPARAM, LPARAM);
 int  OptInit(WPARAM, LPARAM);
 
-void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName);
 void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName);
 
 void DoCheck(int iFlag);

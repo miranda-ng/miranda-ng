@@ -35,17 +35,33 @@ static bool Exists(LPCTSTR strName)
 
 struct ServListEntry
 {
-	~ServListEntry()
-	{	mir_free(m_name);
+	ServListEntry(const char* _name, const char* _hash) :
+		m_name( mir_a2t(_name)),
+		m_bNeedFree(true)
+	{
+		strncpy(m_szHash, _hash, sizeof(m_szHash));
 	}
 
-	TCHAR *m_name, *m_searchName;
+	ServListEntry(TCHAR* _name) :
+		m_name(_name),
+		m_bNeedFree(false)
+	{
+	}
+
+	~ServListEntry()
+	{	
+		if (m_bNeedFree)
+			mir_free(m_name);
+	}
+
+	TCHAR *m_name;
 	char   m_szHash[32+1];
+	bool   m_bNeedFree;
 };
 
 static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
 {
-	return _tcscmp(p1->m_searchName, p2->m_searchName);
+	return _tcsicmp(p1->m_name, p2->m_name);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -128,15 +144,10 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 
 		// this file is not marked for deletion
 		if (tszNewName[0]) { 
-			// parse a relative name and extract a key for hashtable lookup
-			TCHAR *ptszName = _tcschr(tszNewName, '\\');
-			ptszName = (ptszName != NULL) ? ptszName+1 : tszNewName;
-			_tcscpy(key, ptszName);
-			_tcslwr(key);
-			ServListEntry tmp = {NULL, key};
+			ServListEntry tmp(tszNewName);
 			ServListEntry *item = hashes.find(&tmp);
 			if (item == NULL) {
-				TCHAR *p = _tcschr(key, '.');
+				TCHAR *p = _tcsrchr(tszNewName, '.');
 				if (p[-1] != 'w')
 					continue;
 	
@@ -145,12 +156,8 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 				if ((item = hashes.find(&tmp)) == NULL)
 					continue;
 
-				strdel(ptszName+iPos, 1);
+				strdel(tszNewName+iPos, 1);
 			}
-
-			PrepareFileName(key, SIZEOF(key), NULL, item->m_name);
-			if ( _tcsicmp(tszNewName, key)) // skip files with the same names from another folders
-				continue;
 
 			ptszUrl = item->m_name;
 
@@ -174,19 +181,20 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			}
 			else {
 				FileInfo->bDeleteOnly = FALSE;
-				PrepareFileName(FileInfo->tszNewName, SIZEOF(FileInfo->tszNewName), NULL, ptszUrl);
+				_tcsncpy(FileInfo->tszNewName, ptszUrl, SIZEOF(FileInfo->tszNewName));
 			}
 
 			_tcscpy(tszBuf, ptszUrl);
 			TCHAR *p = _tcsrchr(tszBuf, '.');
 			if (p) *p = 0;
-			p = _tcsrchr(tszBuf, '/');
+			p = _tcsrchr(tszBuf, '\\');
+			p = (p) ? p+1 : tszBuf;
+			_tcslwr(p);
 
-			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, (p) ? p+1 : tszBuf);
-			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s"), tszBaseUrl, ptszUrl);
-			if ((pExt = _tcsrchr(FileInfo->File.tszDownloadURL, '.')) != NULL)
-				_tcscpy(pExt, _T(".zip"));
-
+			mir_sntprintf(FileInfo->File.tszDiskPath, SIZEOF(FileInfo->File.tszDiskPath), _T("%s\\Temp\\%s.zip"), tszRoot, p);
+			mir_sntprintf(FileInfo->File.tszDownloadURL, SIZEOF(FileInfo->File.tszDownloadURL), _T("%s/%s.zip"), tszBaseUrl, tszBuf);
+			for (p = _tcschr(FileInfo->File.tszDownloadURL, '\\'); p != 0; p = _tcschr(p, '\\'))
+				*p++ = '/';
 			UpdateFiles->insert(FileInfo);
 		} // end compare versions
 	}
@@ -262,19 +270,8 @@ static void CheckUpdates(void *)
 		if ( !opts.bUpdateIcons && !_strnicmp(str, "icons\\", 6))
 			continue;
 
-		ServListEntry *newItem = new ServListEntry;
 		_strlwr(p);
-		strncpy(newItem->m_szHash, p, sizeof(newItem->m_szHash));
-
-		for (p = strchr(str, '\\'); p != NULL; p = strchr(p+1, '\\'))
-			*p = '/';
-
-		newItem->m_name = mir_a2t(str);
-
-		TCHAR *szName = _tcsrchr(newItem->m_name, '/');
-		newItem->m_searchName = (szName == NULL) ? newItem->m_name : szName+1;
-		_tcslwr(newItem->m_searchName);
-		hashes.insert(newItem);
+		hashes.insert(new ServListEntry(str, p));
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);

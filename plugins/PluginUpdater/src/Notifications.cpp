@@ -216,7 +216,7 @@ void SelectAll(HWND hDlg, bool bEnable)
 
 	for (int i=0; i < todo.getCount(); i++) {
 		ListView_SetCheckState(hwndList, i, bEnable);
-		todo[i].enabled = bEnable;
+		todo[i].bEnabled = bEnable;
 	}
 }
 
@@ -240,11 +240,11 @@ static void ApplyUpdates(void *param)
 
 	for (int i=0; i < todo.getCount(); ++i) {
 		ListView_EnsureVisible(hwndList, i, FALSE);
-		if ( !todo[i].enabled ) {
+		if ( !todo[i].bEnabled) {
 			SetStringText(hwndList, i, TranslateT("Skipped."));
 			continue;
 		}
-		if ( todo[i].bDeleteOnly) {
+		if (todo[i].bDeleteOnly) {
 			SetStringText(hwndList, i, TranslateT("Will be deleted!"));
 			continue;
 		}
@@ -279,7 +279,7 @@ static void ApplyUpdates(void *param)
 	TCHAR *tszMirandaPath = Utils_ReplaceVarsT(_T("%miranda_path%"));
 
 	for (int i = 0; i < todo.getCount(); i++) {
-		if ( !todo[i].enabled)
+		if ( !todo[i].bEnabled)
 			continue;
 
 		TCHAR tszBackFile[MAX_PATH];
@@ -365,7 +365,7 @@ BOOL IsRunAsAdmin()
 		goto Cleanup;
 	}
 
-	// Determine whether the SID of administrators group is enabled in 
+	// Determine whether the SID of administrators group is bEnabled in 
 	// the primary access token of the process.
 	if (!CheckTokenMembership(NULL, pAdministratorsGroup, &fIsRunAsAdmin))
 	{
@@ -545,7 +545,7 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 				// remember whether the user has decided not to update this component with this particular new version
 				ListView_SetCheckState(hwndList, lvI.iItem, true);
-				todo[i].enabled = true;
+				todo[i].bEnabled = true;
 			}
 			HWND hwOk = GetDlgItem(hDlg, IDOK);
 			EnableWindow(hwOk, true);
@@ -574,11 +574,11 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 
 					OBJLIST<FILEINFO> &todo = *(OBJLIST<FILEINFO> *)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
-						todo[lvI.iItem].enabled = ListView_GetCheckState(hwndList, nmlv->iItem);
+						todo[lvI.iItem].bEnabled = ListView_GetCheckState(hwndList, nmlv->iItem);
 
 						bool enableOk = false;
-						for(int i=0; i < todo.getCount(); ++i) {
-							if(todo[i].enabled) {
+						for (int i=0; i < todo.getCount(); ++i) {
+							if (todo[i].bEnabled) {
 								enableOk = true;
 								break;
 							}

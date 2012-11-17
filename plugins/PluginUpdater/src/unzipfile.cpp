@@ -26,12 +26,9 @@ extern "C"
 	void fill_fopen64_filefunc(zlib_filefunc64_def *pzlib_filefunc_def);
 }
 
-void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
+static void PrepareFileName(TCHAR *dest, size_t destSize, const TCHAR *ptszPath, const TCHAR *ptszFileName)
 {
-	if (ptszPath)
-		mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
-	else
-		mir_sntprintf(dest, destSize, _T("%s"), ptszFileName);
+	mir_sntprintf(dest, destSize, _T("%s\\%s"), ptszPath, ptszFileName);
 
 	for (TCHAR *p = dest; *p; ++p)
 		if (*p == '/')
@@ -42,7 +39,10 @@ void BackupFile(TCHAR *ptszSrcFileName, TCHAR *ptszBackFileName)
 {
 	CreatePathToFileT(ptszBackFileName);
 	DeleteFile(ptszBackFileName);
-	MoveFile(ptszSrcFileName, ptszBackFileName);
+	if ( MoveFile(ptszSrcFileName, ptszBackFileName) == 0) { // use copy on error
+		CopyFile(ptszSrcFileName, ptszBackFileName, FALSE);
+		DeleteFile(ptszSrcFileName);
+	}
 }
 
 bool extractCurrentFile(unzFile uf, TCHAR *ptszDestPath, TCHAR *ptszBackPath)

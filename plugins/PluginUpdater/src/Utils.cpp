@@ -188,7 +188,7 @@ BOOL AllowUpdateOnStartup()
 		time_t now = time(NULL);
 		time_t was = DBGetContactSettingDword(NULL, MODNAME, "LastUpdate", 0);
 
-		if((now - was) < 86400)
+		if ((now - was) < 86400)
 			return FALSE;
 	}
 	return TRUE;
@@ -205,7 +205,7 @@ LONG PeriodToMilliseconds(const int period, BYTE& periodMeasure)
 
 	default:
 		// hour
-		if(periodMeasure != 0)
+		if (periodMeasure != 0)
 			periodMeasure = 0;
 		result *= 60 * 60;
 		break;
