@@ -308,8 +308,7 @@ HICON IconSourceItem_GetIcon(IconSourceItem* item)
 
 int IconSourceItem_ReleaseIcon(IconSourceItem* item)
 {
-	if (item && item->icon_ref_count)
-	{
+	if (item && item->icon_ref_count) {
 		item->icon_ref_count--;
 		if ( !item->icon_ref_count) {
 			if ( !item->icon_size)
@@ -349,15 +348,14 @@ IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int c
 
 IconSourceItem* GetIconSourceItemFromPath(const TCHAR* path, int cxIcon, int cyIcon)
 {
-	TCHAR *comma;
-	TCHAR file[ MAX_PATH ];
-	int n;
-
 	if ( !path)
 		return NULL;
 
+	TCHAR file[ MAX_PATH ];
 	lstrcpyn(file, path, SIZEOF(file));
-	comma = _tcsrchr(file, ',');
+	TCHAR *comma = _tcsrchr(file, ',');
+
+	int n;
 	if ( !comma)
 		n = 0;
 	else {
@@ -375,7 +373,8 @@ IconSourceItem* CreateStaticIconSourceItem(int cxIcon, int cyIcon)
 	int i=0;
 	do { // find new unique name
 		mir_sntprintf(sourceName, SIZEOF(sourceName), _T("*StaticIcon_%d"), i++);
-	} while (iconSourceFileList.getIndex(&key) != -1);
+	}
+		while (iconSourceFileList.getIndex(&key) != -1);
 
 	IconSourceItem* newItem = (IconSourceItem*)mir_calloc(sizeof(IconSourceItem));
 	newItem->file = IconSourceFile_Get(sourceName, false);
@@ -440,7 +439,6 @@ static void IcoLib_RemoveSection(SectionItem* section)
 		return;
 
 	int indx;
-
 	if ((indx = sectionList.getIndex(section)) != -1) {
 		sectionList.remove(indx);
 		SAFE_FREE((void**)&section->name);

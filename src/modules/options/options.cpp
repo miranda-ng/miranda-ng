@@ -427,33 +427,32 @@ static void AeroPaintControl(HWND hwnd, HDC hdc, WNDPROC OldWndProc, UINT msg = 
 static LRESULT CALLBACK AeroPaintSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WNDPROC OldWndProc = (WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-	switch (msg)
-	{
-		case WM_CTLCOLOREDIT:
-			if ( !GetPropA((HWND)lParam, "Miranda.AeroRender.Active"))
-				RedrawWindow((HWND)lParam, NULL, NULL, RDW_INVALIDATE);
-			break;
+	switch (msg) {
+	case WM_CTLCOLOREDIT:
+		if ( !GetPropA((HWND)lParam, "Miranda.AeroRender.Active"))
+			RedrawWindow((HWND)lParam, NULL, NULL, RDW_INVALIDATE);
+		break;
 
-		case WM_ERASEBKGND:
-			return TRUE;
+	case WM_ERASEBKGND:
+		return TRUE;
 
-		case WM_PRINT:
-		case WM_PRINTCLIENT:
-			AeroPaintControl(hwnd, (HDC)wParam, OldWndProc, msg, lParam);
-			return TRUE;
+	case WM_PRINT:
+	case WM_PRINTCLIENT:
+		AeroPaintControl(hwnd, (HDC)wParam, OldWndProc, msg, lParam);
+		return TRUE;
 
-		case WM_PAINT:
+	case WM_PAINT:
 		{
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hwnd, &ps);
 			AeroPaintControl(hwnd, hdc, OldWndProc);
 			EndPaint(hwnd, &ps);
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_DESTROY:
-			RemovePropA(hwnd, "Miranda.AeroRender.Active");
-			break;
+	case WM_DESTROY:
+		RemovePropA(hwnd, "Miranda.AeroRender.Active");
+		break;
 	}
 	return CallWindowProc(OldWndProc, hwnd, msg, wParam, lParam);
 }
@@ -493,31 +492,36 @@ static void ExecuteFindFilterStringsTimer(HWND hdlg)
 
 static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgData* dat)
 {
-	HINSTANCE* KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
+	HINSTANCE *KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_RESETCONTENT, 0, 0);
 	int index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(ALL_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, 0);
 	index = SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_ADDSTRING, 0, (LPARAM)TranslateTS(CORE_MODULES_FILTER));
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
-	TCHAR* tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
+	TCHAR *tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
 	for (int i=0; i < dat->arOpd.getCount(); i++) {		
-		TCHAR *dllName = NULL;
-		int j;
-		HINSTANCE inst = dat->arOpd[i]->hInst;
-		
 		if ( !enableKeywordFiltering)
 			FindFilterStrings(enableKeywordFiltering, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
 		
-		if (inst == hInst) continue;
+		HINSTANCE inst = dat->arOpd[i]->hInst;
+		if (inst == hInst)
+			continue;
+
+		int j;
 		for (j = 0; j<countKnownInst; j++)
-			if (KnownInstances[j] == inst) break;
-		if (j != countKnownInst) continue;
+			if (KnownInstances[j] == inst)
+				break;
+		if (j != countKnownInst)
+			continue;
+
 		KnownInstances[countKnownInst] = inst;
 		countKnownInst++;
 		GetModuleFileName(inst, tszModuleName, MAX_PATH);
+
+		TCHAR *dllName = NULL;
 		{
-			char * name = GetPluginNameByInstance(inst);
+			char *name = GetPluginNameByInstance(inst);
 			if (name)
 				dllName = mir_a2t(name); 
 		}
@@ -539,7 +543,7 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 
 static BOOL IsInsideTab(HWND hdlg, OptionsDlgData * dat, int i)
 {
-	OptionsPageData* opd = dat->arOpd[i];
+	OptionsPageData *opd = dat->arOpd[i];
 	int pages = 0;
 	if (opd->ptszTab != NULL) {
 		// Count tabs to calc position
@@ -557,10 +561,12 @@ static BOOL IsInsideTab(HWND hdlg, OptionsDlgData * dat, int i)
 static bool LoadOptionsPage(OPTIONSDIALOGPAGE *src, OptionsPageData *dst)
 {
 	HRSRC hrsrc = FindResourceA(src->hInstance, src->pszTemplate, MAKEINTRESOURCEA(5));
-	if (hrsrc == NULL) return false;
+	if (hrsrc == NULL)
+		return false;
 	
 	HGLOBAL hglb = LoadResource(src->hInstance, hrsrc);
-	if (hglb == NULL) return false;
+	if (hglb == NULL)
+		return false;
 
 	DWORD resSize = SizeofResource(src->hInstance, hrsrc);
 	dst->pTemplate = (DLGTEMPLATE*)mir_alloc(resSize);

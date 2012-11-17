@@ -71,8 +71,7 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 
 	const char *ico = NULL;
 
-	if (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
-	{
+	if (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0)) {
 		// Is chat
 		if (apparentMode == ID_STATUS_OFFLINE)
 			ico = "ChatActivity";
@@ -82,14 +81,13 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 
 		ExtraIcon_SetIcon(hExtraChat, hContact, ico);
 	}
-	else
-	{
+	else {
 		// Not chat
 		if (apparentMode == ID_STATUS_OFFLINE)
-			ico = "NeverVis";
+			ico = "core_main_47";
 
 		else if (apparentMode == ID_STATUS_ONLINE)
-			ico = "AlwaysVis";
+			ico = "core_main_46";
 
 		if (ico == NULL && !clear)
 			return;
@@ -177,21 +175,17 @@ static void SetExtraIcons(HANDLE hContact)
 	if (IsEmpty(proto))
 		return;
 
-	for (unsigned int i = 0; i < SIZEOF(infos); i++)
-	{
+	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
 		Info &info = infos[i];
 
 		bool show = false;
-		for (unsigned int j = 0; !show && j < SIZEOF(info.db); j += 2)
-		{
+		for (unsigned int j = 0; !show && j < SIZEOF(info.db); j += 2) {
 			if (info.db[j + 1] == NULL)
 				break;
 
 			DBVARIANT dbv = { 0 };
-			if (!DBGetContactSettingString(hContact, info.db[j] == NULL ? proto : info.db[j], info.db[j+1], &dbv))
-			{
-				if (!IsEmpty(dbv.pszVal))
-				{
+			if (!DBGetContactSettingString(hContact, info.db[j] == NULL ? proto : info.db[j], info.db[j+1], &dbv)) {
+				if (!IsEmpty(dbv.pszVal)) {
 					info.SetIcon(hContact, &info, dbv.pszVal);
 					show = true;
 				}
@@ -210,11 +204,10 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return 0;
 
 	bool isProto = (strcmp(cws->szModule, proto) == 0);
-
 	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0) {
 		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, TRUE);
 		return 0;
@@ -250,7 +243,7 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 {
-	Info *info = (Info *) param;
+	Info *info = (Info*)param;
 	if (info == NULL)
 		return 0;
 
@@ -258,7 +251,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
 	if (IsEmpty(proto))
 		return 0;
 
@@ -284,8 +277,9 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 static void DBExtraIconsInit()
 {
 	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
-	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", "AlwaysVis");
+	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility");
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
+
 	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
 		Info &info = infos[i];
 		if (info.OnClick)

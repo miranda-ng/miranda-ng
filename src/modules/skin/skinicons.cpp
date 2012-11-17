@@ -26,10 +26,10 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct StandardIconDescription
 {
 	int    id;
-	const char*  description;
+	LPCSTR description;
 	int    resource_id;
 	int    pf2;
-	const char*  section;
+	LPCSTR section;
 };
 
 static const struct StandardIconDescription mainIcons[] = 
@@ -103,15 +103,12 @@ static const struct StandardIconDescription statusIcons[] =
 
 HANDLE hStatusIcons[SIZEOF(statusIcons)];
 
-const char* mainIconsFmt = "core_main_";
-const char* statusIconsFmt = "core_status_";
-const char* protoIconsFmt = LPGEN("%s Icons");
+const char *mainIconsFmt = "core_main_";
+const char *statusIconsFmt = "core_status_";
+const char *protoIconsFmt = LPGEN("%s Icons");
 
 #define PROTOCOLS_PREFIX "Status Icons/"
 #define GLOBAL_PROTO_NAME "*"
-
-
-
 
 // load small icon (shared) it's not need to be destroyed
 
@@ -221,9 +218,8 @@ void Button_FreeIcon_IcoLib(HWND hwndDlg, int itemId)
 //
 HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 {
-	int i, statusIndx = -1;
+	int statusIndx = -1;
 	char iconName[MAX_PATH];
-	HICON hIcon;
 	DWORD caps2 = (szProto == NULL) ? (DWORD)-1 : CallProtoServiceInt(NULL,szProto, PS_GETCAPS, PFLAGNUM_2, 0);
 
 	if (status >= ID_STATUS_CONNECTING && status < ID_STATUS_CONNECTING+MAX_CONNECT_RETRIES) {
@@ -231,7 +227,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 		return IcoLib_GetIcon(iconName, big);
 	}
 
-	for (i=0; i < SIZEOF(statusIcons); i++) {
+	for (int i=0; i < SIZEOF(statusIcons); i++) {
 		if (statusIcons[i].id == status) {
 			statusIndx = i;
 			break;
@@ -244,12 +240,10 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 		// Only return a protocol specific icon if there is only one protocol
 		// Otherwise return the global icon. This affects the global status menu mainly.
 		if (accounts.getCount() == 1) {
-			HICON hIcon;
-
 			// format: core_status_%proto%statusindex
 			mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, statusIndx);
 
-			hIcon = IcoLib_GetIcon(iconName, big);
+			HICON hIcon = IcoLib_GetIcon(iconName, big);
 			if (hIcon)
 				return hIcon;
 		}
@@ -261,7 +255,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 
 	// format: core_status_%s%d
 	mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, statusIndx);
-	hIcon = IcoLib_GetIcon(iconName, big);
+	HICON hIcon = IcoLib_GetIcon(iconName, big);
 	if (hIcon == NULL && (caps2 == 0 || (caps2 & statusIcons[statusIndx].pf2))) {
 		PROTOACCOUNT* pa = Proto_GetAccount(szProto);
 		if (pa) {
@@ -287,7 +281,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 				sid.ptszDefaultFile = szFullPath;
 			else {
 				mir_sntprintf(szFullPath, SIZEOF(szFullPath), _T("%s\\Plugins\\") _T(TCHAR_STR_PARAM) _T(".dll"), szPath, szProto);
-				if ((int)ExtractIconEx(szFullPath, statusIcons[i].resource_id, NULL, &hIcon, 1) > 0) {
+				if ((int)ExtractIconEx(szFullPath, statusIcons[statusIndx].resource_id, NULL, &hIcon, 1) > 0) {
 					DestroyIcon(hIcon);
 					sid.ptszDefaultFile = szFullPath;
 					hIcon = NULL;
@@ -302,22 +296,23 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 			//
 			// Add global icons to list
 			//
-			{
-				int lowidx, highidx;
-				if (caps2 == 0)
-					lowidx = statusIndx, highidx = statusIndx+1;
-				else
-					lowidx = 0, highidx = SIZEOF(statusIcons);
 
-				for (i = lowidx; i < highidx; i++) {
-					if (caps2 == 0 || (caps2 & statusIcons[i].pf2)) {
-						// format: core_%s%d
-						mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, i);
-						sid.pszName = iconName;
-						sid.ptszDescription = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
-						sid.iDefaultIndex = statusIcons[i].resource_id;
-						IcoLib_AddNewIcon(0, &sid);
-		}	}	}	}
+			int lowidx, highidx;
+			if (caps2 == 0)
+				lowidx = statusIndx, highidx = statusIndx+1;
+			else
+				lowidx = 0, highidx = SIZEOF(statusIcons);
+
+			for (int i = lowidx; i < highidx; i++)
+				if (caps2 == 0 || (caps2 & statusIcons[i].pf2)) {
+					// format: core_%s%d
+					mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, i);
+					sid.pszName = iconName;
+					sid.ptszDescription = cli.pfnGetStatusModeDescription(statusIcons[i].id, 0);
+					sid.iDefaultIndex = statusIcons[i].resource_id;
+					IcoLib_AddNewIcon(0, &sid);
+				}	
+		}
 
 		// format: core_status_%s%d
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%s%d", statusIconsFmt, szProto, statusIndx);
@@ -336,8 +331,7 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 
 HANDLE GetSkinIconHandle(int idx)
 {
-	int i;
-	for (i=0; i < SIZEOF(mainIcons); i++)
+	for (int i=0; i < SIZEOF(mainIcons); i++)
 		if (idx == mainIcons[i].id)
 			return hMainIcons[i];
 
@@ -362,10 +356,10 @@ HICON LoadSkinIcon(int idx, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Initializes the icon skin module
 
-static void convertOneProtocol(char* moduleName, char* iconName)
+static void convertOneProtocol(char *moduleName, char *iconName)
 {
-	char* pm = moduleName + strlen(moduleName);
-	char* pi = iconName + strlen(iconName);
+	char *pm = moduleName + strlen(moduleName);
+	char *pi = iconName + strlen(iconName);
 
 	for (int i=0; i < SIZEOF(statusIcons); i++) {
 		_itoa(statusIcons[i].id, pm, 10);
@@ -382,16 +376,10 @@ static void convertOneProtocol(char* moduleName, char* iconName)
 
 static INT_PTR sttLoadSkinIcon(WPARAM wParam, LPARAM lParam)
 {
-	switch (lParam)
-	{
-	case 0:
-		return (INT_PTR)LoadSkinIcon(wParam);
-
-	case 1:
-		return (INT_PTR)GetSkinIconHandle(wParam);
-
-	case 2:
-		return (INT_PTR)LoadSkinIcon(wParam, true);
+	switch (lParam) {
+		case 0: return (INT_PTR)LoadSkinIcon(wParam);
+		case 1: return (INT_PTR)GetSkinIconHandle(wParam);
+		case 2: return (INT_PTR)LoadSkinIcon(wParam, true);
 	}
 
 	return 0;

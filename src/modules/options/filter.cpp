@@ -89,43 +89,47 @@ void AddDialogString(HWND hWndDlg, const PageHash key)
 	if (lstrcmpi(szClass, _T("SysTreeView32")) == 0) {
 		HTREEITEM hItem = TreeView_GetRoot(hWndDlg);
 		AddTreeViewNodes(hWndDlg, key, hItem);
+		return;
 	}
-	else {
-		if (lstrcmpi(szClass, _T("listbox")) == 0) {
-			if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
-				int count = ListBox_GetCount(hWndDlg);
-				for (int i=0; i < count; i++) {
-					title[0] = 0; //safety
-					int res = ListBox_GetText(hWndDlg, i, title);
-					if (res != LB_ERR) {
-						title[SIZEOF(title) - 1] = 0;
-						if (_tcslen(title) > 0)
-							AddFilterString(key, title);
-			}	}	}
-		}
-		else {
-			if (lstrcmpi(szClass, _T("SysListView32")) == 0) {
-				int count = ListView_GetItemCount(hWndDlg);
-				for (int i=0; i < count; i++) {
-					title[0] = 0; //safety
-					ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
-					
+
+	if (lstrcmpi(szClass, _T("listbox")) == 0) {
+		if (GetWindowStyle(hWndDlg) & LBS_HASSTRINGS) {
+			int count = ListBox_GetCount(hWndDlg);
+			for (int i=0; i < count; i++) {
+				title[0] = 0; //safety
+				int res = ListBox_GetText(hWndDlg, i, title);
+				if (res != LB_ERR) {
+					title[SIZEOF(title) - 1] = 0;
 					if (_tcslen(title) > 0)
 						AddFilterString(key, title);
-			}	}
+		}	}	}
+		return;
+	}
 
-			if (lstrcmpi(szClass, _T("combobox")) == 0) {
-				if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) { 
-					int count = ComboBox_GetCount(hWndDlg);
-					for (int i=0; i < count; i++) {
-						title[0] = 0; //safety
-						int res = ComboBox_GetLBText(hWndDlg, i, title);
-						if (res != CB_ERR) {
-							title[SIZEOF(title) - 1] = 0;
+	if (lstrcmpi(szClass, _T("SysListView32")) == 0) {
+		int count = ListView_GetItemCount(hWndDlg);
+		for (int i=0; i < count; i++) {
+			title[0] = 0; //safety
+			ListView_GetItemText(hWndDlg, i, 0, title, SIZEOF(title));
+					
+			if (_tcslen(title) > 0)
+				AddFilterString(key, title);
+		}
+		return;
+	}
+
+	if (lstrcmpi(szClass, _T("combobox")) == 0) {
+		if (GetWindowStyle(hWndDlg) & CBS_HASSTRINGS) { 
+			int count = ComboBox_GetCount(hWndDlg);
+			for (int i=0; i < count; i++) {
+				title[0] = 0; //safety
+				int res = ComboBox_GetLBText(hWndDlg, i, title);
+				if (res != CB_ERR) {
+					title[SIZEOF(title) - 1] = 0;
 							
-							if (_tcslen(title) > 0)
-								AddFilterString(key, title);
-}	}	}	}	}	}	}
+					if (_tcslen(title) > 0)
+						AddFilterString(key, title);
+}	}	}	}	}
 
 static BOOL CALLBACK GetDialogStringsCallback(HWND hWnd, LPARAM lParam)
 {
@@ -178,7 +182,6 @@ static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPA
 				DBWriteContactSettingWord(NULL, "Options", "EnableKeywordFiltering", IsDlgButtonChecked(hWnd, IDC_ENABLE_KEYWORDFILTERING));
 				break;
 			}
-			break;
 		}
 		break;
 	}
