@@ -250,7 +250,7 @@ int StartSkypeRuntime()
 	PROCESS_INFORMATION pi;
 	TCHAR param[128];
 
-	ZeroMemory(&cif,sizeof(STARTUPINFO));	
+	ZeroMemory(&cif, sizeof(STARTUPINFO));	
 	cif.cb = sizeof(STARTUPINFO);
 	cif.dwFlags = STARTF_USESHOWWINDOW;
 	cif.wShowWindow = SW_HIDE;
@@ -317,14 +317,25 @@ int StartSkypeRuntime()
 		}
 	}
 
-	if (FindWindow(NULL, szFilename))
-		port += rand() % 100;
-	
-	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
+    PROCESSENTRY32 entry;
+    entry.dwSize = sizeof(PROCESSENTRY32);
 
-	int startingrt = CreateProcess(szFilename, param, NULL,
-					NULL, FALSE, CREATE_NEW_CONSOLE,
-					NULL, NULL, &cif, &pi);
+    HANDLE snapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, NULL);
+    if (Process32First(snapshot, &entry) == TRUE) {
+        while (Process32Next(snapshot, &entry) == TRUE) {
+            if (_tcsicmp(entry.szExeFile, _T("SkypeKit.exe")) == 0) {  
+                HANDLE hProcess = OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
+				port += rand() % 100;
+                CloseHandle(hProcess);
+				break;
+            }
+        }
+    }
+    CloseHandle(snapshot);
+
+	mir_sntprintf(param, SIZEOF(param), L"-p -p %d", port);
+	int startingrt = CreateProcess(szFilename, param, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &cif, &pi);
+
 	return startingrt;
 }
 
