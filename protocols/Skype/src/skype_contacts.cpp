@@ -269,21 +269,14 @@ void CSkypeProto::UpdateContactStatus(HANDLE hContact, CContact::Ref contact)
 
 void CSkypeProto::UpdateContactStatusMessage(HANDLE hContact, CContact::Ref contact)
 {
-	uint newTS = 0;
-	contact->GetPropMoodTimestamp(newTS);
-	DWORD oldTS = this->GetSettingDword(hContact, "XStatusTS");
-	if (newTS > oldTS)
-	{
-		SEString data;
-		contact->GetPropMoodText(data);
-		wchar_t* status = ::mir_utf8decodeW((const char*)data);
-		if (wcscmp(status, L"") == 0)
-			this->DeleteSetting(hContact, "XStatusMsg");
-		else
-			this->SetSettingString(hContact, "XStatusMsg", status);
-		::mir_free(status);
-		this->SetSettingDword(hContact, "XStatusTS", newTS);
-	}
+	SEString data;
+	contact->GetPropMoodText(data);
+	wchar_t* status = ::mir_utf8decodeW((const char*)data);
+	if (wcscmp(status, L"") == 0)
+		this->DeleteSetting(hContact, "XStatusMsg");
+	else
+		this->SetSettingString(hContact, "XStatusMsg", status);
+	::mir_free(status);
 }
 
 void CSkypeProto::UpdateContactTimezone(HANDLE hContact, CContact::Ref contact)
