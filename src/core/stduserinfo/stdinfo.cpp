@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -65,94 +65,107 @@ static void Proto_FreeInfoVariant(DBVARIANT *dbv)
 
 static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, char *szSetting, int special)
 {
-	DBVARIANT dbv = { 0 };
 	char str[80], *pstr = NULL;
 	TCHAR* ptstr = NULL;
-	int unspecified = 0;
 	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
-	dbv.type = DBVT_DELETED;
-	if (szModule == NULL) unspecified = 1;
-	else if (proto_service) unspecified = Proto_GetContactInfoSetting(hContact, szProto, szModule, szSetting, &dbv, 0);
-	else unspecified = DBGetContactSettingW(hContact, szModule, szSetting, &dbv);
+	DBVARIANT dbv = { DBVT_DELETED };
+
+	int unspecified;
+	if (szModule == NULL)
+		unspecified = 1;
+	else if (proto_service)
+		unspecified = Proto_GetContactInfoSetting(hContact, szProto, szModule, szSetting, &dbv, 0);
+	else
+		unspecified = DBGetContactSettingW(hContact, szModule, szSetting, &dbv);
+
 	if ( !unspecified) {
 		switch(dbv.type) {
-			case DBVT_BYTE:
-				if (special == SVS_GENDER) {
-					if (dbv.cVal == 'M') ptstr = TranslateT("Male");
-					else if (dbv.cVal == 'F') ptstr = TranslateT("Female");
-					else unspecified = 1;
+		case DBVT_BYTE:
+			if (special == SVS_GENDER) {
+				if (dbv.cVal == 'M') ptstr = TranslateT("Male");
+				else if (dbv.cVal == 'F') ptstr = TranslateT("Female");
+				else unspecified = 1;
+			}
+			else if (special == SVS_MONTH) {
+				if (dbv.bVal>0 && dbv.bVal <= 12) {
+					pstr = str;
+					GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1+dbv.bVal, str, SIZEOF(str));
 				}
-				else if (special == SVS_MONTH) {
-					if (dbv.bVal>0 && dbv.bVal <= 12) {
-						pstr = str;
-						GetLocaleInfoA(LOCALE_USER_DEFAULT, LOCALE_SABBREVMONTHNAME1-1+dbv.bVal, str, SIZEOF(str));
-					}
-					else unspecified = 1;
-				}
-				else if (special == SVS_TIMEZONE) {
-					if (dbv.cVal == -100) unspecified = 1;
-					else {
-						pstr = str;
-						mir_snprintf(str, SIZEOF(str), dbv.cVal?"UTC%+d:%02d":"UTC", -dbv.cVal/2, (dbv.cVal&1)*30);
-					}
-				}
+				else unspecified = 1;
+			}
+			else if (special == SVS_TIMEZONE) {
+				if (dbv.cVal == -100) unspecified = 1;
 				else {
-					unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
-					pstr = _itoa(special == SVS_SIGNED?dbv.cVal:dbv.bVal, str, 10);
+					pstr = str;
+					mir_snprintf(str, SIZEOF(str), dbv.cVal?"UTC%+d:%02d":"UTC", -dbv.cVal/2, (dbv.cVal&1)*30);
 				}
-				break;
-			case DBVT_WORD:
-				if (special == SVS_COUNTRY) {
-					WORD wSave = dbv.wVal;
-					if (wSave == (WORD)-1) {
-						char szSettingName[100];
-						mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sName", szSetting);
-						if ( !DBGetContactSettingTString(hContact, szModule, szSettingName, &dbv)) {
-							ptstr = dbv.ptszVal;
-							unspecified = false;
-							break;
-						}
-					}
+			}
+			else {
+				unspecified = (special == SVS_ZEROISUNSPEC && dbv.bVal == 0);
+				pstr = _itoa(special == SVS_SIGNED?dbv.cVal:dbv.bVal, str, 10);
+			}
+			break;
 
-					pstr = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0));
-					unspecified = pstr == NULL;
+		case DBVT_WORD:
+			if (special == SVS_COUNTRY) {
+				WORD wSave = dbv.wVal;
+				if (wSave == (WORD)-1) {
+					char szSettingName[100];
+					mir_snprintf(szSettingName, SIZEOF(szSettingName), "%sName", szSetting);
+					if ( !DBGetContactSettingTString(hContact, szModule, szSettingName, &dbv)) {
+						ptstr = dbv.ptszVal;
+						unspecified = false;
+						break;
+					}
 				}
-				else {
-					unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
-					pstr = _itoa(special == SVS_SIGNED?dbv.sVal:dbv.wVal, str, 10);
-				}
-				break;
-			case DBVT_DWORD:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
-				if (special == SVS_IP) {
-					struct in_addr ia;
-					ia.S_un.S_addr = htonl(dbv.dVal);
-					pstr = inet_ntoa(ia);
-					if (dbv.dVal == 0) unspecified = 1;
-				}
-				else pstr = _itoa(special == SVS_SIGNED?dbv.lVal:dbv.dVal, str, 10);
-				break;
-			case DBVT_ASCIIZ:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-				pstr = dbv.pszVal;
-				break;
-			case DBVT_UTF8:
-				unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
-				if ( !unspecified)
-				{	WCHAR* wszStr;
-					Utf8Decode(dbv.pszVal, &wszStr);
-					SetDlgItemTextW(hwndDlg, idCtrl, TranslateTS(wszStr));
-					mir_free(wszStr);
-               goto LBL_Exit;
-				}
-				
-				pstr = dbv.pszVal;
-				Utf8Decode(dbv.pszVal, NULL);
-				break;
-			default: pstr = str; lstrcpyA(str, "???"); break;
-	}	}
+
+				pstr = Translate((char*)CallService(MS_UTILS_GETCOUNTRYBYNUMBER, wSave, 0));
+				unspecified = pstr == NULL;
+			}
+			else {
+				unspecified = (special == SVS_ZEROISUNSPEC && dbv.wVal == 0);
+				pstr = _itoa(special == SVS_SIGNED?dbv.sVal:dbv.wVal, str, 10);
+			}
+			break;
+
+		case DBVT_DWORD:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.dVal == 0);
+			if (special == SVS_IP) {
+				struct in_addr ia;
+				ia.S_un.S_addr = htonl(dbv.dVal);
+				pstr = inet_ntoa(ia);
+				if (dbv.dVal == 0) unspecified = 1;
+			}
+			else pstr = _itoa(special == SVS_SIGNED?dbv.lVal:dbv.dVal, str, 10);
+			break;
+
+		case DBVT_ASCIIZ:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+			pstr = dbv.pszVal;
+			break;
+
+		case DBVT_UTF8:
+			unspecified = (special == SVS_ZEROISUNSPEC && dbv.pszVal[0] == '\0');
+			if ( !unspecified)
+			{	WCHAR* wszStr;
+			Utf8Decode(dbv.pszVal, &wszStr);
+			SetDlgItemTextW(hwndDlg, idCtrl, TranslateTS(wszStr));
+			mir_free(wszStr);
+			goto LBL_Exit;
+			}
+
+			pstr = dbv.pszVal;
+			Utf8Decode(dbv.pszVal, NULL);
+			break;
+
+		default:
+			pstr = str;
+			lstrcpyA(str, "???");
+			break;
+		}
+	}
 
 	if (unspecified)
 		SetDlgItemText(hwndDlg, idCtrl, TranslateT("<not specified>"));
@@ -161,9 +174,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 	else
 		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
 
-
 LBL_Exit:
-
 	EnableWindow(GetDlgItem(hwndDlg, idCtrl), !unspecified);
 	if (proto_service)
 		Proto_FreeInfoVariant(&dbv);
@@ -181,12 +192,13 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
 		case 0:
-			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED)
-			{	char *szProto;
+			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-					if (szProto == NULL) break;
+					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					if (szProto == NULL)
+						break;
+
 					SetValue(hwndDlg, IDC_NICK, hContact, szProto, "Nick", 0);
 					SetValue(hwndDlg, IDC_FIRSTNAME, hContact, szProto, "FirstName", 0);
 					SetValue(hwndDlg, IDC_LASTNAME, hContact, szProto, "LastName", 0);
@@ -197,10 +209,12 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetValue(hwndDlg, IDC_DOBMONTH, hContact, szProto, "BirthMonth", SVS_MONTH);
 					SetValue(hwndDlg, IDC_DOBYEAR, hContact, szProto, "BirthYear", 0);
 					SetValue(hwndDlg, IDC_MARITAL, hContact, szProto, "MaritalStatus", 0);
-			}	}
+				}
+			}
 			break;
 		}
 		break;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDCANCEL:
@@ -223,75 +237,72 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) {
-		case WM_INITDIALOG:
+	case WM_INITDIALOG:
 
-			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-			TranslateDialogDefault(hwndDlg);
-			SetTimer(hwndDlg, 1, 1000, NULL);
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		TranslateDialogDefault(hwndDlg);
+		SetTimer(hwndDlg, 1, 1000, NULL);
 
-			tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
-			SendMessage(hwndDlg, WM_TIMER, 0, 0);
-			break;
+		tmi.prepareList((HANDLE)lParam, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
+		SendMessage(hwndDlg, WM_TIMER, 0, 0);
+		break;
 
-		case WM_TIMER:
+	case WM_TIMER:
 		{
 			HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-
-			if (hContact != NULL) 
-			{
+			if (hContact != NULL) {
 				TCHAR szTime[80];
-				
-				if (tmi.printDateTimeByContact(hContact, _T("s"), szTime, SIZEOF(szTime), TZF_KNOWNONLY))
-				{
+				if (tmi.printDateTimeByContact(hContact, _T("s"), szTime, SIZEOF(szTime), TZF_KNOWNONLY)) {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), FALSE);
 					SetDlgItemText(hwndDlg, IDC_LOCALTIME, TranslateT("<not specified>"));
 				}
-				else
-				{
+				else {
 					EnableWindow(GetDlgItem(hwndDlg, IDC_LOCALTIME), TRUE);
 					SetDlgItemText(hwndDlg, IDC_LOCALTIME, szTime);
 				}
 			}
-			break;
 		}
-		case WM_NOTIFY:
-			switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED)
-				{	char *szProto;
-					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
-					if (hContact != NULL) {
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-						if (szProto == NULL) break;
-						SetValue(hwndDlg, IDC_STREET, hContact, szProto, "Street", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_CITY, hContact, szProto, "City", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_STATE, hContact, szProto, "State", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "ZIP", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "Country", SVS_COUNTRY);
-						SetValue(hwndDlg, IDC_LANGUAGE1, hContact, szProto, "Language1", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_LANGUAGE2, hContact, szProto, "Language2", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_LANGUAGE3, hContact, szProto, "Language3", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_TIMEZONE, hContact, szProto, "Timezone", SVS_TIMEZONE);
-					}
-				}
-				break;
-			}
-			break;
-		case WM_COMMAND:
-			switch(LOWORD(wParam)) {
-				case IDCANCEL:
-					SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
-					break;
-				case IDC_TIMEZONESELECT:
-					if (HIWORD(wParam) == CBN_SELCHANGE) {
-						HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+		break;
 
-						SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-						tmi.storeListResults(hContact, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
-					}
-					break;
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
+				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+				if (hContact != NULL) {
+					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					if (szProto == NULL)
+						break;
+
+					SetValue(hwndDlg, IDC_STREET, hContact, szProto, "Street", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_CITY, hContact, szProto, "City", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_STATE, hContact, szProto, "State", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "ZIP", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "Country", SVS_COUNTRY);
+					SetValue(hwndDlg, IDC_LANGUAGE1, hContact, szProto, "Language1", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_LANGUAGE2, hContact, szProto, "Language2", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_LANGUAGE3, hContact, szProto, "Language3", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_TIMEZONE, hContact, szProto, "Timezone", SVS_TIMEZONE);
+				}
 			}
+		}
+		break;
+
+	case WM_COMMAND:
+		switch(LOWORD(wParam)) {
+		case IDCANCEL:
+			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
 			break;
+
+		case IDC_TIMEZONESELECT:
+			if (HIWORD(wParam) == CBN_SELCHANGE) {
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				tmi.storeListResults(hContact, GetDlgItem(hwndDlg, IDC_TIMEZONESELECT), TZF_PLF_CB);
+			}
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -302,40 +313,42 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		break;
+
 	case WM_NOTIFY:
 		switch (((LPNMHDR)lParam)->idFrom) {
-			case 0:
-				if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED)
-				{	char *szProto;
-					HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
-					if (hContact != NULL) {
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-						if (szProto == NULL) break;
-						SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_POSITION, hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_STREET, hContact, szProto, "CompanyStreet", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_CITY, hContact, szProto, "CompanyCity", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_STATE, hContact, szProto, "CompanyState", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
-						SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "CompanyCountry", SVS_COUNTRY);
-						SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
-				}	}
-				break;
+		case 0:
+			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
+				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
+				if (hContact != NULL) {
+					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					if (szProto == NULL) break;
+					SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_POSITION, hContact, szProto, "CompanyPosition", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_STREET, hContact, szProto, "CompanyStreet", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_CITY, hContact, szProto, "CompanyCity", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_STATE, hContact, szProto, "CompanyState", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_ZIP, hContact, szProto, "CompanyZIP", SVS_ZEROISUNSPEC);
+					SetValue(hwndDlg, IDC_COUNTRY, hContact, szProto, "CompanyCountry", SVS_COUNTRY);
+					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "CompanyHomepage", SVS_ZEROISUNSPEC);
+				}	
+			}
+			break;
 		}
 		break;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDCANCEL:
 			SendMessage(GetParent(hwndDlg), msg, wParam, lParam);
 			break;
+
 		case IDC_WEBPAGE:
 			if (IsWindowEnabled(GetDlgItem(hwndDlg, IDC_WEBPAGE))) {
 				char szPage[256];
 				GetDlgItemTextA(hwndDlg, IDC_WEBPAGE, szPage, SIZEOF(szPage));
 				CallService(MS_UTILS_OPENURL, 1, (LPARAM)szPage);
 			}
-			break;
 		}
 		break;
 	}
@@ -396,7 +409,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Past%d", i);
-						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR))  || 
+						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Past%dText", i);
@@ -415,7 +428,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%d", i);
-						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR))  || 
+						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Affiliation%dText", i);
@@ -441,7 +454,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					lvi.iItem = 0;
 					for (i=0;;i++) {
 						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dCat", i);
-						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR))  || 
+						if ((proto_service && Proto_GetContactInfoSetting(hContact, szProto, szProto, idstr, &dbv, DBVT_TCHAR)) ||
 							( !proto_service && DBGetContactSettingTString(hContact, szProto, idstr, &dbv)))
 							break;
 						mir_snprintf(idstr, SIZEOF(idstr), "Interest%dText", i);
@@ -462,6 +475,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 			break;
 		}
 		break;
+
 	case WM_COMMAND:
 		switch(LOWORD(wParam)) {
 		case IDCANCEL:
@@ -504,7 +518,6 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			lf.lfPitchAndFamily = DEFAULT_PITCH | FF_DONTCARE;
 			lstrcpy(lf.lfFaceName, _T("Courier New"));
 			lf.lfCharSet = DEFAULT_CHARSET;
-//			hFont = (HFONT) GetStockObject(ANSI_FIXED_FONT); 
 			hFont = CreateFontIndirect(&lf);
 			SendDlgItemMessage(hwndDlg, IDC_ABOUT, WM_SETFONT, (WPARAM) hFont, MAKELPARAM(TRUE, 0));
 

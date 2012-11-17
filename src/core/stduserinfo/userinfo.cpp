@@ -2,7 +2,7 @@
 
 Miranda IM: the free IM client for Microsoft* Windows*
 
-Copyright 2000-2009 Miranda ICQ/IM project, 
+Copyright 2000-2009 Miranda ICQ/IM project,
 all portions of this codebase are copyrighted to the people
 listed in contributors.txt.
 
@@ -11,7 +11,7 @@ modify it under the terms of the GNU General Public License
 as published by the Free Software Foundation; either version 2
 of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful, 
+This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
@@ -44,7 +44,7 @@ struct DetailsPageData
 	LPARAM  dlgParam;
 	HWND hwnd;
 	HTREEITEM hItem;
-	int changed;
+	int changed, hLangpack;
 	TCHAR *ptszTitle, *ptszTab;
 };
 
@@ -63,18 +63,32 @@ struct DetailsData
 	int *infosUpdated;
 };
 
+TCHAR* getTitle(OPTIONSDIALOGPAGE *p)
+{
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->ptszTitle : TranslateTH(p->hLangpack, p->ptszTitle);
+}
+
+TCHAR* getTab(OPTIONSDIALOGPAGE *p)
+{
+	return (p->flags & ODPF_DONTTRANSLATE) ? p->ptszTab : TranslateTH(p->hLangpack, p->ptszTab);
+}
+
 static int PageSortProc(OPTIONSDIALOGPAGE *item1, OPTIONSDIALOGPAGE *item2)
 {
 	int res;
-	if ( !lstrcmp(item1->ptszTitle, TranslateT("Summary"))) return -1;
-	if ( !lstrcmp(item2->ptszTitle, TranslateT("Summary"))) return 1;
-	if (res = lstrcmp(item1->ptszTitle, item2->ptszTitle)) return res;
-	if (item1->ptszTab && !item2->ptszTab) return -1;
-	if ( !item1->ptszTab && item2->ptszTab) return 1;
-	if ( !item1->ptszTab && !item2->ptszTab) return 0;
-	if (item1->ptszTab && !lstrcmp(item1->ptszTab, TranslateT("General"))) return -1;
-	if (item2->ptszTab && !lstrcmp(item2->ptszTab, TranslateT("General"))) return 1;
-	return lstrcmp(item1->ptszTab, item2->ptszTab);
+	TCHAR *s1 = getTitle(item1), *s2 = getTitle(item2);
+	if ( !lstrcmp(s1, TranslateT("Summary"))) return -1;
+	if ( !lstrcmp(s2, TranslateT("Summary"))) return 1;
+	if (res = lstrcmp(s1, s2)) return res;
+
+	s1 = getTab(item1), getTab(item2);
+	if (s1 && !s2) return -1;
+	if (!s1 && s2) return 1;
+	if (!s1 && !s2) return 0;
+
+	if (s1 && !lstrcmp(s1, TranslateT("General"))) return -1;
+	if (s2 && !lstrcmp(s2, TranslateT("General"))) return 1;
+	return lstrcmp(s1, s2);
 }
 
 static INT_PTR ShowDetailsDialogCommand(WPARAM wParam, LPARAM)
@@ -132,25 +146,22 @@ static INT_PTR AddDetailsPage(WPARAM wParam, LPARAM lParam)
 	dst->pfnDlgProc = odp->pfnDlgProc;
 	dst->position = odp->position;
 	dst->pszTemplate = ((DWORD_PTR)odp->pszTemplate & 0xFFFF0000) ? mir_strdup(odp->pszTemplate) : odp->pszTemplate;
-	
+
 	if (odp->flags & ODPF_UNICODE) {
 		dst->ptszTitle = (odp->ptszTitle == 0) ? NULL : mir_wstrdup(odp->ptszTitle);
 		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->ptszTab) ? NULL : mir_wstrdup(odp->ptszTab);
 	}
 	else {
-		if (odp->flags & ODPF_DONTTRANSLATE)
-			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : mir_a2t(odp->pszTitle);
-		else
-			dst->ptszTitle = (odp->pszTitle == 0) ? NULL : Langpack_PcharToTchar(odp->pszTitle);
-		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : Langpack_PcharToTchar(odp->pszTab);
+		dst->ptszTitle = mir_a2t(odp->pszTitle);
+		dst->ptszTab = ( !(odp->flags & ODPF_USERINFOTAB) || !odp->pszTab) ? NULL : mir_a2t(odp->pszTab);
 	}
 
+	dst->hLangpack = odp->hLangpack;
 	dst->flags = odp->flags;
 	dst->groupPosition = odp->groupPosition;
 	dst->hGroupIcon = odp->hGroupIcon;
 	dst->hIcon = odp->hIcon;
-	if (odp->cbSize == sizeof(OPTIONSDIALOGPAGE))
-		dst->dwInitParam = odp->dwInitParam;
+	dst->dwInitParam = odp->dwInitParam;
 	opi->pageCount++;
 	return 0;
 }
@@ -170,13 +181,14 @@ static void CreateDetailsTabs(HWND hwndDlg, DetailsData *dat, DetailsPageData *p
 	tie.iImage = -1;
 	TabCtrl_DeleteAllItems(hwndTab);
 	for (int i=0; i < dat->pageCount; i++) {
-		if ( !dat->opd[i].ptszTab || lstrcmp(dat->opd[i].ptszTitle, ppg->ptszTitle))
+		DetailsPageData &odp = dat->opd[i];
+		if ( !odp.ptszTab || lstrcmp(odp.ptszTitle, ppg->ptszTitle))
 			continue;
 
-		tie.pszText = TranslateTS(dat->opd[i].ptszTab);
+		tie.pszText = TranslateTH(odp.hLangpack, odp.ptszTab);
 		tie.lParam = i;
 		TabCtrl_InsertItem(hwndTab, pages, &tie);
-		if ( !lstrcmp(dat->opd[i].ptszTab, ppg->ptszTab))
+		if ( !lstrcmp(odp.ptszTab, ppg->ptszTab))
 			sel = pages;
 		pages++;
 	}
@@ -222,7 +234,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	PSHNOTIFY pshn;
 	int i;
-	
+
 	DetailsData *dat = (DetailsData*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
 	switch (msg) {
@@ -251,7 +263,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			GetDlgItemText(hwndDlg, IDC_HEADERBAR, oldTitle, SIZEOF(oldTitle));
 			mir_sntprintf(newTitle, SIZEOF(newTitle), oldTitle, name);
 			SetDlgItemText(hwndDlg, IDC_HEADERBAR, newTitle);
-			
+
 			//////////////////////////////////////////////////////////////////////
 			LOGFONT lf;
 			HFONT hNormalFont = (HFONT)SendDlgItemMessage(hwndDlg, IDC_NAME, WM_GETFONT, 0, 0);
@@ -276,17 +288,19 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			//////////////////////////////////////////////////////////////////////
 			HWND hwndTree = GetDlgItem(hwndDlg, IDC_PAGETREE);
 			for (i=0; i < dat->pageCount; i++) {
-				dat->opd[i].pTemplate = (LPDLGTEMPLATE)LockResource(LoadResource(odp[i].hInstance, 
+				DetailsPageData &p = dat->opd[i];
+				p.pTemplate = (LPDLGTEMPLATE)LockResource(LoadResource(odp[i].hInstance,
 					FindResourceA(odp[i].hInstance, odp[i].pszTemplate, MAKEINTRESOURCEA(5))));
-				dat->opd[i].dlgProc = odp[i].pfnDlgProc;
-				dat->opd[i].dlgParam = odp[i].dwInitParam;
-				dat->opd[i].hInst = odp[i].hInstance;
+				p.dlgProc = odp[i].pfnDlgProc;
+				p.dlgParam = odp[i].dwInitParam;
+				p.hInst = odp[i].hInstance;
 
-				dat->opd[i].ptszTitle = odp[i].ptszTitle;
-				dat->opd[i].ptszTab = odp[i].ptszTab;
+				p.ptszTitle = odp[i].ptszTitle;
+				p.ptszTab = odp[i].ptszTab;
+				p.hLangpack = odp[i].hLangpack;
 
-				if (i && dat->opd[i].ptszTab && !lstrcmp(dat->opd[i-1].ptszTitle, dat->opd[i].ptszTitle)) {
-					dat->opd[i].hItem = dat->opd[i-1].hItem;
+				if (i && p.ptszTab && !lstrcmp(dat->opd[i-1].ptszTitle, p.ptszTitle)) {
+					p.hItem = dat->opd[i-1].hItem;
 					continue;
 				}
 
@@ -296,12 +310,12 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				tvis.item.mask = TVIF_TEXT | TVIF_PARAM;
 				tvis.item.lParam = (LPARAM) i;
 				if (odp[i].flags & ODPF_DONTTRANSLATE)
-					tvis.item.pszText = mir_tstrdup(odp[i].ptszTitle);
+					tvis.item.pszText = p.ptszTitle;
 				else
-					tvis.item.pszText = TranslateTS(odp[i].ptszTitle);
+					tvis.item.pszText = TranslateTH(p.hLangpack, p.ptszTitle);
 				if (ptszLastTab && !lstrcmp(tvis.item.pszText, ptszLastTab))
 					dat->currentPage = i;
-				dat->opd[i].hItem = TreeView_InsertItem(hwndTree, &tvis);
+				p.hItem = TreeView_InsertItem(hwndTree, &tvis);
 			}
 
 			//////////////////////////////////////////////////////////////////////
@@ -315,7 +329,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			GetWindowRect(hwndTab, &dat->rcDisplayTab);
 			TabCtrl_AdjustRect(hwndTab, FALSE, &dat->rcDisplayTab);
-				
+
 			POINT pt = {0, 0};
 			ClientToScreen(hwndDlg, &pt);
 			OffsetRect(&dat->rcDisplayTab, -pt.x, -pt.y);
@@ -324,7 +338,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			GetWindowRect(hwndTab, &dat->rcDisplay);
 			TabCtrl_AdjustRect(hwndTab, FALSE, &dat->rcDisplay);
-				
+
 			memset(&pt, 0, sizeof(pt));
 			ClientToScreen(hwndDlg, &pt);
 			OffsetRect(&dat->rcDisplay, -pt.x, -pt.y);
@@ -366,8 +380,8 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				COLORREF textCol = GetSysColor(COLOR_BTNTEXT);
 				COLORREF bgCol = GetSysColor(COLOR_3DFACE);
 				int      ratio = abs(UPDATEANIMFRAMES/2-dat->updateAnimFrame)*510/UPDATEANIMFRAMES;
-				COLORREF newCol = RGB(GetRValue(bgCol)+(GetRValue(textCol)-GetRValue(bgCol))*ratio/256, 
-							GetGValue(bgCol)+(GetGValue(textCol)-GetGValue(bgCol))*ratio/256, 
+				COLORREF newCol = RGB(GetRValue(bgCol)+(GetRValue(textCol)-GetRValue(bgCol))*ratio/256,
+							GetGValue(bgCol)+(GetGValue(textCol)-GetGValue(bgCol))*ratio/256,
 							GetBValue(bgCol)+(GetBValue(textCol)-GetBValue(bgCol))*ratio/256);
 				SetTextColor((HDC)wParam, newCol);
 				SetBkColor((HDC)wParam, GetSysColor(COLOR_3DFACE));
@@ -389,9 +403,10 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		pshn.hdr.idFrom = 0;
 		pshn.lParam = (LPARAM)dat->hContact;
 		for (i=0; i < dat->pageCount; i++) {
-			pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-			if (dat->opd[i].hwnd != NULL)
-				SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+			DetailsPageData &odp = dat->opd[i];
+			pshn.hdr.hwndFrom = odp.hwnd;
+			if (odp.hwnd != NULL)
+				SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 		}
 		break;
 
@@ -511,17 +526,19 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		switch(LOWORD(wParam)) {
 		case IDCANCEL:
 			pshn.hdr.idFrom = 0;
-			pshn.lParam = (LPARAM)dat->hContact;
 			pshn.hdr.code = PSN_RESET;
+			pshn.lParam = (LPARAM)dat->hContact;
 
 			for (i=0; i < dat->pageCount; i++) {
-				if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
-				pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-				SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
+				DetailsPageData &odp = dat->opd[i];
+				if (odp.hwnd == NULL || !odp.changed)
+					continue;
+				pshn.hdr.hwndFrom = odp.hwnd;
+				SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn);
 			}
 			DestroyWindow(hwndDlg);
 			break;
-		
+
 		case IDOK:
 			pshn.hdr.idFrom = 0;
 			pshn.lParam = (LPARAM)dat->hContact;
@@ -534,10 +551,12 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			pshn.hdr.code = PSN_APPLY;
 			for (i=0; i < dat->pageCount;i++) {
-				if (dat->opd[i].hwnd == NULL || !dat->opd[i].changed) continue;
-				pshn.hdr.hwndFrom = dat->opd[i].hwnd;
-				if (SendMessage(dat->opd[i].hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
-					TreeView_Select(GetDlgItem(hwndDlg, IDC_PAGETREE), dat->opd[i].hItem, TVGN_CARET);
+				DetailsPageData &odp = dat->opd[i];
+				if (odp.hwnd == NULL || !odp.changed)
+					continue;
+				pshn.hdr.hwndFrom = odp.hwnd;
+				if (SendMessage(odp.hwnd, WM_NOTIFY, 0, (LPARAM)&pshn) == PSNRET_INVALID_NOCHANGEPAGE) {
+					TreeView_Select(GetDlgItem(hwndDlg, IDC_PAGETREE), odp.hItem, TVGN_CARET);
 					if (dat->currentPage != -1) ShowWindow(dat->opd[dat->currentPage].hwnd, SW_HIDE);
 					dat->currentPage = i;
 					ShowWindow(dat->opd[dat->currentPage].hwnd, SW_SHOW);
@@ -584,9 +603,11 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		UnhookEvent(dat->hProtoAckEvent);
 
 		for (i=0; i < dat->pageCount; i++) {
-			if (dat->opd[i].hwnd != NULL) DestroyWindow(dat->opd[i].hwnd);
-			mir_free(dat->opd[i].ptszTitle);
-			mir_free(dat->opd[i].ptszTab);
+			DetailsPageData &odp = dat->opd[i];
+			if (odp.hwnd != NULL)
+				DestroyWindow(odp.hwnd);
+			mir_free(odp.ptszTitle);
+			mir_free(odp.ptszTab);
 		}
 
 		mir_free(dat->infosUpdated);
