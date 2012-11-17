@@ -88,7 +88,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;$(SolutionDir)..\..\SkypeKit\SDK\interfaces\skype\cpp_embedded\build</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Release</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
     <ResourceCompile>
