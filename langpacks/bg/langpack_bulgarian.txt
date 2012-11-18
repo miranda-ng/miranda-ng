@@ -1595,7 +1595,7 @@ Miranda NG е заключена.\nВъведете паролата за отключване.
 [Always on top]
 Винаги отгоре
 [Hide contact list after ]
-Скриване на списъка след 
+Скриване на списъка след
 [Fade contact list in/out]
 Избледняване/Изсветляване на списъка
 [Transparent contact list]
@@ -1699,7 +1699,7 @@ Miranda NG е заключена.\nВъведете паролата за отключване.
 [Editing view mode]
 Редактиране на режима за преглед
 [Last message ]
-Последно съобщение 
+Последно съобщение
 [Status Bar]
 Лента за състояние
 [Show status bar]
@@ -4267,7 +4267,7 @@ FTP File: Изберете папка
 [Error occurred when opening local file.\nAborting file upload...]
 Възникна грешка при отварянето на местния файл.\nПрекратяване на качването...
 [Error occurred when initializing libcurl.\nAborting file upload...]
-Възникна грешка при 
+Възникна грешка при
 [FTP error occurred.\n%s]
 Възникна FTP грешка.\n%s
 [WAITTING...]
@@ -5343,13 +5343,13 @@ OTR създаване на нов частен ключ
 [End sessions on window close]
 Приключване на сесията при затваряне на прозореца за съобщения
 [End sessions when contacts go offline]
-Приключване на сесията при състояние на контакта "Извън линия" 
+Приключване на сесията при състояние на контакта "Извън линия"
 [Prefix encrypted IMs:]
 Представка за шифровани съобщения:
 [Don't add encrypted messages to the history]
 Без добавяне на шифрованите съобщения към историята
 [Also remove OTR system messages]
-Премахване и на OTR системните съобщения 
+Премахване и на OTR системните съобщения
 [Show OTR system messages inline]
 Показване на OTR системните съобщения в прозореца за съобщения
 [Show OTR system messages as popup]
@@ -5425,7 +5425,7 @@ OTR шифрованата сесия бе прекратена от "%s". Вие трябва да направите същото!
 [OTR encrypted session with '%s' could not be started]
 Не е възможно започването на OTR шифрована  сесия "%s"
 [OTR could not encrypt when sending message]
-Криптирането по време на изпращане не е възможно 
+Криптирането по време на изпращане не е възможно
 [OTR Information]
 OTR информация
 [Authentication from %s]
@@ -5657,7 +5657,7 @@ UTF8 за нови файлове
 [Allow it to grow]
 Възможност за увеличаване
 [Use free space (under avatar) to other texts]
-Ползване на мястото под аватара за друг текст 
+Ползване на мястото под аватара за друг текст
 [Show protocol name]
 Показване името на протокола
 [Show protocol cycle button]
@@ -6011,7 +6011,7 @@ PopUp настройки
 [Remind about not installed pack update]
 Напомняне за неинсталирани актуализации
 [Message boxes]
-Текстови кутии 
+Текстови кутии
 [Errors]
 Грешки
 [Info messages]
@@ -6805,7 +6805,7 @@ kB
 [Show icon in tray for users kicking other user]
 Потребител изгонва друг потребител
 [Show icon in tray for notices ]
-Известие 
+Известие
 [Show icon in tray for name changes]
 Промяна на прякор
 [Show icon in tray for information messages]
@@ -7745,7 +7745,7 @@ Dial-up (експериментално)
 [Reconnecting]
 Повторно свързване
 [Ignore locked status of protocols]
-Игнориране на заключените протоколи
+Игнориране на заключените акаунти
 [Consider connection lost after]
 Считай връзката за загубена след
 [failed pings]
@@ -7769,7 +7769,7 @@ Dial-up (експериментално)
 [Filtered accounts:]
 Акаунти за филтриране:
 [Do not send more than ]
-Не изпращай повече от 
+Не изпращай повече от
 [ questions to one contact (0 - for no limit)]
  въпроса до един контакт (0=без ограничение)
 [Enable StopSpam-StopSpam infinite talk protection]
@@ -7879,7 +7879,7 @@ StopSpam: изпратете съобщение и отговорете на въпроса. /English: send a message 
 [&Open in current browser window]
 Отваряне в текущия прозорец
 [Undo  ]
-Отмяна  
+Отмяна
 [&Close tab]
 Затваряне на таба
 [C&lose other tabs]
@@ -8149,7 +8149,7 @@ ID на потребителя в лентата за състояние
 [Help on containers]
 Помощ за контейнерите
 [Windows Aero settings]
-Windows Aero - настройки 
+Windows Aero - настройки
 [Use Aero UI elements(only when not using a custom skin)]
 Ползване на Aero UI елементи (само когато не се ползва персонален облик)
 [Use Windows 7 task bar enhancements (restart required)]
@@ -8483,7 +8483,7 @@ Esc затваря разговора (минимизира прозореца, ако е изключено)
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\TabSRMM\src\chat\log.cpp
 [Notice from %s: ]
-Известие от %s: 
+Известие от %s:
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\TabSRMM\src\chat\muchighlight.cpp
 [Add user to highlight list]
@@ -8807,7 +8807,7 @@ TabSRMM/Дневник за груповите чатове
 [Unknown event]
 Неизвестно събитие
 [New messages: ]
-Нови съобщения: 
+Нови съобщения:
 [Unknown module or contact]
 Непознат модул/контакт
 
@@ -8865,7 +8865,7 @@ TABSRMM: Писане
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
 \\tab \\ul\\b Текст за състоянието:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Допълнителна информация:\\ul0\\b0 \\par 
+\\par\\par\\tab \\ul\\b Допълнителна информация:\\ul0\\b0 \\par
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 \\par\\par\\tab \\ul\\b Слуша:\\ul0\\b0 \\par %s
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -8945,7 +8945,7 @@ tabSRMM информация
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 Функцията "Поставяне и изпращане" е изключена. Можете да я включите от Разговори>Основни - Изпращане на съобщения.
 [JPEG-compressed images]
-JPEG компресирани изображения 
+JPEG компресирани изображения
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\TabSRMM\src\msglog.cpp
 [Use default codepage]
@@ -9767,7 +9767,7 @@ Miranda работи от:
 [Del Sep/Launch Button]
 Изтиване на бутона
 [Name: ]
-Име: 
+Име:
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\TrafficCounter\res\resource.rc
 [Selected totals]
@@ -10837,7 +10837,7 @@ Popup етикет / Текст
 
 ; D:\Translation\MirandaNG\SVN\trunk\plugins\Watrack\proto\proto.pas
 [Music Info from ]
-Музикална информация от 
+Музикална информация от
 [ answer you]
  ви отговори
 
@@ -11393,13 +11393,13 @@ AIM икона
 [Unknown login error]
 Неизвестна грешка при вписване
 [Login error: ]
-Грешка при вписване: 
+Грешка при вписване:
 [Login error, probably bad login credentials.]
 Грешка при вписване вероятно поради сгрешени данни за вписване.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 Проблем с Facebook - вероятно уебсайта е обновен. Очаквайте актуализация на протокола Facebook.
 [Got new messages: ]
-Имате нови съобщения: 
+Имате нови съобщения:
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 За изпращането на съобщения до дуги клиенти е необходимо потвърждение.\nОтворете уебстраницата на Facebook и опитайте да изпратите съобщението до контакта отново!
 
@@ -13447,7 +13447,7 @@ IRC предупреждение
 [These are online: ]
 Потребители на линия:
 [Notice to %s: ]
-Известие до %s: 
+Известие до %s:
 
 ; D:\Translation\MirandaNG\SVN\trunk\protocols\IRCG\src\services.cpp
 [&Quick connect]
@@ -13533,7 +13533,7 @@ IRC предупреждение
 [Auth nick]
 Удостоверяване на прякора
 [Remind password ]
-Напомняне на паролата 
+Напомняне на паролата
 [Set language]
 Задаване на език
 [Set homepage]
@@ -14469,13 +14469,13 @@ S.ms
 [** Subsription: none **]
 ** Упълномощаване: няма **
 [allow ]
-позволяване 
+позволяване
 [deny ]
-отхвърляне 
+отхвърляне
 [all.]
 всичко.
 [ and ]
- и 
+ и
 [incoming presences]
 входящи присъствия
 [outgoing presences]
@@ -14483,17 +14483,17 @@ S.ms
 [queries]
 запитвания
 [Else ]
-Или 
+Или
 [If jabber id is ']
 Ако jabber id е '
 [ (nickname: ]
- (прякор: 
+ (прякор:
 [If group is ']
 Ако групата е '
 [If subscription is ']
 Ако пълномощното е '
 [then ]
-тогава 
+тогава
 [ (act., def.)]
  (активен, стандартен)
 [ (active)]
@@ -15065,7 +15065,7 @@ Quote\\Инф. за курса
 
 ; D:\Translation\MirandaNG\SVN\trunk\protocols\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
-Източник 
+Източник
 [Enter positive number.]
 Въведете положително число.
 
@@ -16017,7 +16017,7 @@ Popups за изобразяване
 [Enable avatar support in the message window]
 Поддръжка на аватари в прозореца за съобщения
 [Limit avatar height to ]
-Височина на аватара до 
+Височина на аватара до
 [pixels.]
 пиксела.
 [Max Number of Flashes]
@@ -16798,7 +16798,7 @@ ToptoolBar - лентата с инструменти, в която можете да добавяте бутони за бърз до
 [Yahoo Protocol support via libyahoo2 library.]
 Осигурява поддръжка на протокола Yahoo чрез библиотеката libyahoo2
 
-;Списък с контакти > Елемети на реда 
+;Списък с контакти > Елемети на реда
 ;|
 [Left align group names]
 Имената на групите вляво
@@ -16807,7 +16807,7 @@ ToptoolBar - лентата с инструменти, в която можете да добавяте бутони за бърз до
 [Right align group names]
 Имената на групите вдясно
 ;Списък с контакти > Лента с инструменти
-;| 
+;|
 [StatusMenu]
 Меню на състоянието
 [AccoMgr]

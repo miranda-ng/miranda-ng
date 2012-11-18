@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""winres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\n"
     "\0"
@@ -357,7 +357,7 @@ BEGIN
     LTEXT           "Max. protocol connecting time (secs)",IDC_STATIC,159,35,113,19
     GROUPBOX        "Timers",IDC_STATIC,7,7,266,48
     GROUPBOX        "Reconnecting",IDC_STATIC,7,56,266,98
-    CONTROL         "Ignore locked status of protocols",IDC_NOLOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,69,234,10
+    CONTROL         "Ignore locked status of accounts",IDC_NOLOCKED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,16,69,234,10
     GROUPBOX        "Dial-Up",IDC_STATIC,7,156,266,43
     LTEXT           "Consider connection lost after",IDC_STATIC,17,168,122,8
     EDITTEXT        IDC_PINGCOUNT,140,165,22,14,ES_AUTOHSCROLL | ES_NUMBER
@@ -390,7 +390,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_KS_BASIC, DIALOG
     BEGIN
@@ -537,4 +537,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-
