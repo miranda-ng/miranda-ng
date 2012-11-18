@@ -1,28 +1,47 @@
 ﻿Miranda NG is designed, written & supported by:
 
-Bartosz Białek
-Vadim Dashevsky
-George Hazan
-Ekaterina Gritsenko
-Alexey Koulakov
-Michael Kunz
-Dmitry Kuzkin
-Eugene Lishnevsky
-Tobias Weimer
-Vlad Mironov
-Victor Pavlychko
-Robert Pösel
-Ivan Rozhuk
-Artem Shpynov
-Kirill Volinsky
+Bartosz Białek aka Dezeath
+Vadim Dashevsky aka watcher
+George Hazan aka ghazan
+Ekaterina Gritsenko aka Tuarisa
+Alexey Koulakov aka awkward
+Michael Kunz aka Protogenes
+Dmitry Kuzkin aka Bio
+Eugene Lishnevsky aka elishnevsky
+Tobias Weimer aka Wishmaster aka Freak_TheMighty
+Vlad Mironov aka mironych
+Victor Pavlychko aka nullbie
+Robert Pösel aka robyer
+Ivan Rozhuk aka rozhuk
+Artem Shpynov aka FYR
+Kirill Volinsky aka Mataes
+
 
 People that previously used to develop Miranda IM Project:
 
-Ricardo Domenecci
-Gennady Feldman
-Martin Öberg
-Denis Stanishevskiy
-Richard Hughes
+Ricardo Domenecci aka pescuma
+Gennady Feldman aka gena01
+Martin Öberg aka Strickz
+Denis Stanishevskiy aka std
+Vladislav Grishenko aka theMIROn
+Richard Hughes aka Cyreve
+Santithorn Bunchua aka keh
+Sam K aka egoDust
+Jörgen Persson aka Matrix
+Tim Hunter aka cojones
+Kubilay Kocak aka koobs
+Boris Krasnovskiy aka borkra
+Josef Kucera aka joe_whale
+Aaron Landwehr aka snaphat
+Lyon Lim aka lyon
+Tjado Maecke aka tjado
+Piotr Piastucki aka the_leech
+Robert Rainwater aka rainwater
+Alex Sanda aka Nightwish
+Adam Strzelecki aka OnO
+Maxim Mluhov aka mlu
+Scott Ellis aka sje
+Cristi Libotean aka eblis
 Emostar
 Esnow
 Figbug
@@ -30,18 +49,3 @@ Tristan_VdV
 Crypt0gl
 Lowspirit
 Glutnix
-Santithorn Bunchua
-Sam K
-Jörgen Persson
-Tim Hunter
-Kubilay Kocak
-Boris Krasnovskiy
-Josef Kucera
-Aaron Landwehr
-Lyon Lim
-Tjado Maecke
-Piotr Piastucki
-Robert Rainwater
-Alex Sanda
-Adam Strzelecki
-Maxim Mluhov
