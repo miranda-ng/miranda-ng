@@ -376,6 +376,7 @@ void CSkypeProto::UpdateContactProfile(HANDLE hContact, CContact::Ref contact)
 		this->UpdateContactLastEventDate(hContact, contact);
 		this->UpdateFullName(hContact, contact);
 
+		this->SetSettingString(hContact, "MirVer", _T("Skype"));
 		this->SetSettingDword(hContact, "ProfileTS", newTS);
 	}
 }

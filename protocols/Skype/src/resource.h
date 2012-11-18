@@ -5,6 +5,7 @@
 #define IDD_SKYPEACCOUNT                9
 #define IDD_OPTIONS                     10
 #define IDD_INFO_SKYPE                  11
+#define IDD_OWNINFO_SKYPE               12
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
 #define IDI_AUTH_GRANT                  103
@@ -24,6 +25,9 @@
 #define IDC_ONLINESINCE                 1010
 #define IDC_LASTEVENTDATE               1011
 #define IDC_LASTPROFILECHANGE           1012
+#define IDC_SAVE                        1013
+#define IDC_LIST                        1014
+#define IDC_UPLOADING                   1015
 
 // Next default values for new objects
 // 
@@ -31,7 +35,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1013
+#define _APS_NEXT_CONTROL_VALUE         1016
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

@@ -218,18 +218,18 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.hInstance   = g_hInstance;
-	odp.ptszTitle   = m_tszUserName;
+	odp.hInstance = g_hInstance;
+	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = LPARAM(this);
-	odp.flags       = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
-	odp.position    = 271828;
-	odp.ptszGroup   = LPGENT("Network");
-	odp.ptszTab     = LPGENT("Account");
+	odp.position = 271828;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTab = LPGENT("Account");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc  = SkypeOptionsProc;
+	odp.pfnDlgProc = SkypeOptionsProc;
 	Options_AddPage(wParam, &odp);
-	
+
 	return 0;
 }
 
@@ -316,7 +316,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 		break;
 	}
 
-	return FALSE;  
+	return FALSE;
+}
+
+INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return FALSE;
 }
 
 int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
@@ -329,19 +334,21 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 	odp.hInstance = g_hInstance;
 	odp.dwInitParam = LPARAM(this);
+	odp.position = -1900000000;
+	odp.ptszTitle = m_tszUserName;
 
 	HANDLE hContact = (HANDLE)lParam;
 	if (hContact) {
 		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			odp.pfnDlgProc = SkypeDlgProc;
-			odp.position = -1900000000;
-			odp.ptszTitle = m_tszUserName;
 			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_SKYPE);
 			UserInfo_AddPage(wParam, &odp);
 		}
 	} else {
-		//show own info
+		odp.pfnDlgProc = OwnSkypeDlgProc;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OWNINFO_SKYPE);
+		UserInfo_AddPage(wParam, &odp);
 	}
 
 	return 0;
