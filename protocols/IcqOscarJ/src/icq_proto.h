@@ -157,7 +157,6 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	//====| Data |========================================================================
 	IcqIconHandle m_hIconProtocol;
 	HANDLE m_hServerNetlibUser, m_hDirectNetlibUser;
-	HANDLE hxstatuschanged, hxstatusiconchanged;
 
 	BYTE m_bGatewayMode;
 	BYTE m_bSecureLogin;
@@ -817,26 +816,17 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	HANDLE hHookExtraIconsRebuild;
 	HANDLE hHookStatusBuild;
 	HANDLE hHookExtraIconsApply;
-	HANDLE hXStatusExtraIcons[XSTATUS_COUNT];
-	IcqIconHandle hXStatusIcons[XSTATUS_COUNT];
-	HANDLE hXStatusItems[XSTATUS_COUNT + 1];
 
-	int    hXStatusCListIcons[XSTATUS_COUNT];
-	BOOL   bXStatusCListIconsValid[XSTATUS_COUNT];
+	HANDLE hXStatusItems[XSTATUS_COUNT + 1];
 
 	void   InitXStatusItems(BOOL bAllowStatus);
 	BYTE   getContactXStatus(HANDLE hContact);
 	DWORD  sendXStatusDetailsRequest(HANDLE hContact, int bForced);
 	DWORD  requestXStatusDetails(HANDLE hContact, BOOL bAllowDelay);
 	HICON  getXStatusIcon(int bStatus, UINT flags);
-	void   releaseXStatusIcon(int bStatus, UINT flags);
 	void   setXStatusEx(BYTE bXStatus, BYTE bQuiet);
-	void   setContactExtraIcon(HANDLE hContact, int xstatus);
 	void   handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYTE *caps, int capsize, char *moods, int moodsize);
 	void   updateServerCustomStatus(int fullUpdate);
-
-	void   InitXStatusIcons();
-	void   UninitXStatusIcons();
 
 	//----| icq_xtraz.cpp |---------------------------------------------------------------
 	void   handleXtrazNotify(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCookie, char* szMsg, int nMsgLen, BOOL bThruDC);

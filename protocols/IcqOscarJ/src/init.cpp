@@ -28,7 +28,9 @@
 //
 // -----------------------------------------------------------------------------
 #include "icqoscar.h"
+
 #include "m_extraicons.h"
+#include "m_icolib.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -114,7 +116,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	hStaticIcons[ISI_AUTH_REVOKE] = IconLibDefine(LPGEN("Revoke authorization"), szSectionName, NULL, "revoke_auth", lib, -IDI_AUTH_REVOKE);
 	hStaticIcons[ISI_ADD_TO_SERVLIST] = IconLibDefine(LPGEN("Add to server list"), szSectionName, NULL, "add_to_server", lib, -IDI_SERVLIST_ADD);
 
-	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus");
+	// Init extra statuses
+	InitXStatusIcons();
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnReloadIcons);
+
+	hExtraXStatus = ExtraIcon_Register("xstatus", "ICQ XStatus", "icq_xstatus13");
 
 	g_MenuInit();
 	return 0;
@@ -123,14 +129,14 @@ extern "C" int __declspec(dllexport) Load(void)
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	int i;
-
 	// Release static icon handles
-	for (i = 0; i < SIZEOF(hStaticIcons); i++)
+	for (int i = 0; i < SIZEOF(hStaticIcons); i++)
 		IconLibRemove(&hStaticIcons[i]);
 
 	// destroying contact menu
 	g_MenuUninit();
+
+	UninitXStatusIcons();
 
 	g_Instances.destroy();
 	return 0;
@@ -165,15 +171,6 @@ static void CListSetMenuItemIcon(HANDLE hMenuItem, HICON hIcon)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// OnReloadIcons event
-
-int CIcqProto::OnReloadIcons(WPARAM wParam, LPARAM lParam)
-{
-	memset(bXStatusCListIconsValid, 0, sizeof(bXStatusCListIconsValid));
-	return 0;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // UpdateGlobalSettings event
 
 void CIcqProto::UpdateGlobalSettings()
@@ -182,32 +179,25 @@ void CIcqProto::UpdateGlobalSettings()
 	getSettingStringStatic(NULL, "OscarServer", szServer, MAX_PATH);
 
 	m_bSecureConnection = getSettingByte(NULL, "SecureConnection", DEFAULT_SECURE_CONNECTION);
-	if (szServer[0])
-	{
+	if (szServer[0]) {
 		if (strstr(szServer, "aol.com"))
 			setSettingString(NULL, "OscarServer", m_bSecureConnection ? DEFAULT_SERVER_HOST_SSL : DEFAULT_SERVER_HOST);
 
-		if (m_bSecureConnection && !_strnicmp(szServer, "login.", 6))
-		{
+		if (m_bSecureConnection && !_strnicmp(szServer, "login.", 6)) {
 			setSettingString(NULL, "OscarServer", DEFAULT_SERVER_HOST_SSL);
 			setSettingWord(NULL, "OscarPort", DEFAULT_SERVER_PORT_SSL);
 		}
 	}
 
-	if (m_hServerNetlibUser)
-	{
-		NETLIBUSERSETTINGS nlus = {0};
-
-		nlus.cbSize = sizeof(NETLIBUSERSETTINGS);
-		if (!m_bSecureConnection && CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hServerNetlibUser, (LPARAM)&nlus))
-		{
+	if (m_hServerNetlibUser) {
+		NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
+		if ( !m_bSecureConnection && CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)m_hServerNetlibUser, (LPARAM)&nlus)) {
 			if (nlus.useProxy && nlus.proxyType == PROXYTYPE_HTTP)
 				m_bGatewayMode = 1;
 			else
 				m_bGatewayMode = 0;
 		}
-		else
-			m_bGatewayMode = 0;
+		else m_bGatewayMode = 0;
 	}
 
 	m_bSecureLogin = getSettingByte(NULL, "SecureLogin", DEFAULT_SECURE_LOGIN);

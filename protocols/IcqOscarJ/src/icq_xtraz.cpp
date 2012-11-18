@@ -266,8 +266,6 @@ NextVal:
 					SAFE_FREE(&szXMsg);
 				}
 				BroadcastAck(hContact, ICQACKTYPE_XSTATUS_RESPONSE, ACKRESULT_SUCCESS, (HANDLE)wCookie, 0);
-				if (bChanged)
-					NotifyEventHooks(hxstatuschanged, (WPARAM)hContact, 0);
 			}
 			else
 			{

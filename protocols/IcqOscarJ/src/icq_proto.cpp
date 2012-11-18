@@ -104,8 +104,6 @@ cheekySearchId( -1 )
 	localSeqMutex = new icq_critical_section();
 
 	m_modeMsgsEvent = CreateProtoEvent(ME_ICQ_STATUSMSGREQ);
-	hxstatuschanged = CreateProtoEvent(ME_ICQ_CUSTOMSTATUS_CHANGED);
-	hxstatusiconchanged = CreateProtoEvent(ME_ICQ_CUSTOMSTATUS_EXTRAICON_CHANGED);
 
 	// Initialize cookies
 	cookieMutex = new icq_critical_section();
@@ -168,9 +166,6 @@ cheekySearchId( -1 )
 	// Custom caps
 	CreateProtoService(PS_ICQ_ADDCAPABILITY, &CIcqProto::IcqAddCapability);
 	CreateProtoService(PS_ICQ_CHECKCAPABILITY, &CIcqProto::IcqCheckCapability);
-
-	HookProtoEvent(ME_SKIN2_ICONSCHANGED, &CIcqProto::OnReloadIcons);
-
 	{
 		// Initialize IconLib icons
 		char szSectionName[MAX_PATH], *szAccountName = tchar_to_utf8(m_tszUserName);
@@ -192,9 +187,6 @@ cheekySearchId( -1 )
 
 	// Startup Auto Info-Update thread
 	icq_InitInfoUpdate();
-
-	// Init extra statuses
-	InitXStatusIcons();
 
 	HookProtoEvent(ME_CLIST_PREBUILDSTATUSMENU, &CIcqProto::OnPreBuildStatusMenu);
 
@@ -263,12 +255,6 @@ CIcqProto::~CIcqProto()
 	if (m_modeMsgsEvent)
 		DestroyHookableEvent(m_modeMsgsEvent);
 
-	if (hxstatuschanged)
-		DestroyHookableEvent(hxstatuschanged);
-
-	if (hxstatusiconchanged)
-		DestroyHookableEvent(hxstatusiconchanged);
-
 	// Clean-up remaining protocol instance members
 	cookies.destroy();
 
@@ -297,8 +283,6 @@ CIcqProto::~CIcqProto()
 	SAFE_FREE(&m_modeMsgs.szFfc);
 
 	// Remove account icons
-	UninitXStatusIcons();
-
 	IconLibRemove(&m_hIconProtocol);
 
 	NetLog_Server("%s: Protocol instance '%s' destroyed.", ICQ_PROTOCOL_NAME, m_szModuleName);

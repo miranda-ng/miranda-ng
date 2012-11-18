@@ -180,9 +180,14 @@ char *GetDlgItemTextUtf(HWND hwndDlg, int iItem);
 void SetWindowTextUtf(HWND hWnd, const char *szText);
 void SetDlgItemTextUtf(HWND hwndDlg, int iItem, const char *szText);
 
-int ComboBoxAddStringUtf(HWND hCombo, const char *szString, DWORD data);
-int ListBoxAddStringUtf(HWND hList, const char *szString);
+int  ComboBoxAddStringUtf(HWND hCombo, const char *szString, DWORD data);
+int  ListBoxAddStringUtf(HWND hList, const char *szString);
 
-int MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uType);
+int  MessageBoxUtf(HWND hWnd, const char *szText, const char *szCaption, UINT uType);
+
+void InitXStatusIcons();
+void UninitXStatusIcons();
+void setContactExtraIcon(HANDLE hContact, int xstatus);
+int  OnReloadIcons(WPARAM wParam, LPARAM lParam);
 
 #endif /* __UTILITIES_H */
