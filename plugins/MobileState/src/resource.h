@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by Z:\Myranda\trunk\plugins\MobileState\res\mobilestate.rc
+// Used by ..\res\mobilestate.rc
 //
 #define IDI_MOBILE                      105
 
