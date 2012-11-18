@@ -277,7 +277,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 static void DBExtraIconsInit()
 {
 	hExtraChat = ExtraIcon_Register("chat_activity", "Chat activity", "ChatActivity");
-	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility");
+	hExtraVisibility = ExtraIcon_Register("visibility", "Visibility", "core_main_46");
 	hExtraGender = ExtraIcon_Register("gender", "Gender", "gender_male");
 
 	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
