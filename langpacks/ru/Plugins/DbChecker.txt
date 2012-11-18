@@ -63,7 +63,7 @@
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
 Конвертирует историю сообщений из <0.7 формата (ANSI+UCS2) в новый UTF8 формат. В большинстве случаев помогает сохранить место на диске (рекомендуется).
 [Create backup]
-Создать резерв
+Резервная копия
 [Creates a backup copy of the database before any of the requested changes are made.]
 Создаёт резервную копию базы перед любым изменением.
 [Database is corrupted and too small to contain any recoverable data]
