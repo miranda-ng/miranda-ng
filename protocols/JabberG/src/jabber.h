@@ -636,6 +636,7 @@ HXML JabberFormGetData(HWND hwndStatic, HXML xNode);
 //---- jabber_icolib.c ----------------------------------------------
 
 void   g_IconsInit();
+void   g_XstatusIconsInit();
 HANDLE g_GetIconHandle(int iconId);
 HICON  g_LoadIconEx(const char* name, bool big = false);
 void   g_ReleaseIcon(HICON hIcon);

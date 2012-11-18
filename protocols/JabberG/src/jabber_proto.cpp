@@ -516,7 +516,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberAuthDeny - handles the unsuccessful authorization
 
-int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR */*szReason*/)
+int CJabberProto::AuthDeny(HANDLE hDbEvent, const TCHAR*)
 {
 	if ( !m_bJabberOnline)
 		return 1;
@@ -640,7 +640,7 @@ int __cdecl CJabberProto::FileCancel(HANDLE /*hContact*/, HANDLE hTransfer)
 ////////////////////////////////////////////////////////////////////////////////////////
 // JabberFileDeny - denies a file transfer
 
-int __cdecl CJabberProto::FileDeny(HANDLE /*hContact*/, HANDLE hTransfer, const TCHAR */*reason*/)
+int __cdecl CJabberProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR *)
 {
 	if ( !m_bJabberOnline)
 		return 1;

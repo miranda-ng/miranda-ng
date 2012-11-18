@@ -105,8 +105,7 @@ CIconPool::CPoolItem::~CPoolItem()
 	if (m_name) mir_free(m_name);
 }
 
-CIconPool::CIconPool(CJabberProto *proto):
-	m_proto(proto),
+CIconPool::CIconPool() :
 	m_items(10, CIconPool::CPoolItem::cmp),
 	m_hOnExtraIconsRebuild(NULL)
 {
@@ -120,22 +119,21 @@ CIconPool::~CIconPool()
 	}
 }
 
-void CIconPool::RegisterIcon(const char *name, const char *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)
+void CIconPool::RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription)
 {
 	char szSettingName[128];
-	mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", m_proto->m_szModuleName, name);
+	mir_snprintf(szSettingName, SIZEOF(szSettingName), "jabber_%s", name);
 
 	CPoolItem *item = new CPoolItem;
 	item->m_name = mir_strdup(name);
 	item->m_szIcolibName = mir_strdup(szSettingName);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszDefaultFile = (char *)filename;	// kill const flag for compiler to shut up
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.ptszDefaultFile = filename;
 	sid.pszName = szSettingName;
 	sid.ptszSection = szSection;
 	sid.ptszDescription = szDescription;
-	sid.flags = SIDF_TCHAR;
+	sid.flags = SIDF_ALL_TCHAR;
 	sid.iDefaultIndex = iconid;
 	item->m_hIcolibItem = Skin_AddIcon(&sid);
 

@@ -34,8 +34,11 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_skin_eng.h"
 #include "m_extraicons.h"
 
+static CIconPool g_MoodIcons, g_ActivityIcons;
+
 ///////////////////////////////////////////////////////////////////////////////
 // Simple dialog with timer and ok/cancel buttons
+
 class CJabberDlgPepBase: public CJabberDlgBase
 {
 	typedef CJabberDlgBase CSuper;
@@ -378,6 +381,7 @@ BOOL CJabberDlgPepSimple::OnWmGetMinMaxInfo(UINT, WPARAM, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 // CPepService base class
+
 CPepService::CPepService(CJabberProto *proto, char *name, TCHAR *node):
 	m_proto(proto),
 	m_name(name),
@@ -465,21 +469,23 @@ void CPepGuiService::InitGui()
 void CPepGuiService::RebuildMenu()
 {
 	HGENMENU hJabberRoot = MO_GetProtoRootMenu(m_proto->m_szModuleName);
-	if (hJabberRoot) {
-		char szService[128];
-		mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
+	if (hJabberRoot == NULL)
+		return;
 
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
-		mi.hParentMenu = hJabberRoot;
-		mi.pszService = szService;
-		mi.position = 200010;
-		mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIF_HIDDEN | CMIF_ROOTHANDLE;
+	char szService[128];
+	mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
 
-		mi.icolibItem = m_hIcolibItem;
-		mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
-		m_hMenuItem = Menu_AddProtoMenuItem(&mi);
-}	}
+	CLISTMENUITEM mi = { 0 };
+	mi.cbSize = sizeof(mi);
+	mi.hParentMenu = hJabberRoot;
+	mi.pszService = szService;
+	mi.position = 200010;
+	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIF_HIDDEN | CMIF_ROOTHANDLE;
+
+	mi.icolibItem = m_hIcolibItem;
+	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
+	m_hMenuItem = Menu_AddProtoMenuItem(&mi);
+}
 
 bool CPepGuiService::LaunchSetGui(BYTE bQuiet)
 {
@@ -500,9 +506,8 @@ void CPepGuiService::UpdateMenuItem(HANDLE hIcolibIcon, TCHAR *text)
 
 	if ( !m_hMenuItem) return;
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIM_ICON|CMIM_NAME;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIM_ICON | CMIM_NAME;
 	mi.icolibItem = m_hIcolibItem;
 	mi.ptszName = m_szText ? m_szText : _T("<advanced status slot>");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)m_hMenuItem, (LPARAM)&mi);
@@ -611,9 +616,8 @@ static g_arrMoods[] =
 	{ LPGENT("Worried"),      "worried"       },
 };
 
-CPepMood::CPepMood(CJabberProto *proto):
+CPepMood::CPepMood(CJabberProto *proto) :
 	CPepGuiService(proto, "Mood", _T(JABBER_FEAT_USER_MOOD)),
-	m_icons(proto),
 	m_text(NULL),
 	m_mode(-1)
 {
@@ -623,22 +627,6 @@ CPepMood::CPepMood(CJabberProto *proto):
 CPepMood::~CPepMood()
 {
 	if (m_text) mir_free(m_text);
-}
-
-void CPepMood::InitGui()
-{
-	CSuper::InitGui();
-
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
-	if (char *p = strrchr(szFile, '\\'))
-		strcpy(p+1, "..\\Icons\\xstatus_jabber.dll");
-
-	TCHAR szSection[100];
-
-	mir_sntprintf(szSection, SIZEOF(szSection), _T("Status Icons/%s/Moods"), m_proto->m_tszUserName);
-	for (int i = 1; i < SIZEOF(g_arrMoods); i++)
-		m_icons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200+i), szSection, TranslateTS(g_arrMoods[i].szName));
 }
 
 void CPepMood::ProcessItems(const TCHAR *from, HXML itemsNode)
@@ -695,7 +683,7 @@ void CPepMood::ResetExtraIcon(HANDLE hContact)
 
 void CPepMood::SetExtraIcon(HANDLE hContact, char *szMood)
 {
-	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : m_icons.GetIcolibName(szMood));
+	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibName(szMood));
 }
 
 void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText)
@@ -720,13 +708,13 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 		m_mode = mood;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (mood >= 0) ? m_icons.GetIcolibHandle(g_arrMoods[mood].szTag) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon = (mood >= 0) ? g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
 
 		if (m_proto->m_pInfoFrame) {
 			if (mood >= 0) {
 				mir_sntprintf(title, SIZEOF(title), TranslateT("Mood: %s"), TranslateTS(g_arrMoods[mood].szName));
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", m_icons.GetIcolibHandle(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName));
+				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName));
 			}
 			else {
 				lstrcpy(title, LPGENT("Set mood..."));
@@ -746,7 +734,7 @@ void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText
 		else
 			m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSMSG);
 
-		m_proto->WriteAdvStatus(hContact, ADVSTATUS_MOOD, szMood, m_icons.GetIcolibName(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName), szText);
+		m_proto->WriteAdvStatus(hContact, ADVSTATUS_MOOD, szMood, g_MoodIcons.GetIcolibName(g_arrMoods[mood].szTag), TranslateTS(g_arrMoods[mood].szName), szText);
 	}
 	else {
 		m_proto->JDeleteSetting(hContact, DBSETTING_XSTATUSID);
@@ -764,7 +752,8 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 	if ( !bQuiet) {
 		CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Mood"));
 		for (int i = 1; i < SIZEOF(g_arrMoods); ++i)
-			dlg.AddStatusMode(i, g_arrMoods[i].szTag, m_icons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
+			dlg.AddStatusMode(i, g_arrMoods[i].szTag, g_MoodIcons.GetIcon(g_arrMoods[i].szTag), TranslateTS(g_arrMoods[i].szName));
+
 		dlg.SetActiveStatus(m_mode, m_text);
 		dlg.DoModal();
 		if ( !dlg.OkClicked())
@@ -778,8 +767,8 @@ void CPepMood::ShowSetDialog(BYTE bQuiet)
 		if (m_mode >= 0) {
 			Publish();
 
-			UpdateMenuItem(m_icons.GetIcolibHandle(g_arrMoods[m_mode].szTag), g_arrMoods[m_mode].szName);
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", m_icons.GetIcolibHandle(g_arrMoods[m_mode].szTag), TranslateTS(g_arrMoods[m_mode].szName));
+			UpdateMenuItem(g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag), g_arrMoods[m_mode].szName);
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/mood", g_MoodIcons.GetIcolibHandle(g_arrMoods[m_mode].szTag), TranslateTS(g_arrMoods[m_mode].szName));
 		}
 		else {
 			Retract();
@@ -937,7 +926,7 @@ char *returnActivity (int id){
 
 char *ActivityGetFirst(int id)
 {
-	if (id >= SIZEOF(g_arrActivities) - 1)
+	if (id >= SIZEOF(g_arrActivities)-1)
 		return NULL;
 
 	while (id >= 0) {
@@ -1007,7 +996,6 @@ void ActivityBuildTitle(int id, TCHAR *buf, int size)
 
 CPepActivity::CPepActivity(CJabberProto *proto):
 	CPepGuiService(proto, "Activity", _T(JABBER_FEAT_USER_ACTIVITY)),
-	m_icons(proto),
 	m_text(NULL),
 	m_mode(-1)
 {
@@ -1017,26 +1005,6 @@ CPepActivity::CPepActivity(CJabberProto *proto):
 CPepActivity::~CPepActivity()
 {
 	mir_free(m_text);
-}
-
-void CPepActivity::InitGui()
-{
-	CSuper::InitGui();
-
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hInst, szFile, MAX_PATH);
-	if (char *p = strrchr(szFile, '\\'))
-		strcpy(p+1, "..\\Icons\\xstatus_jabber.dll");
-
-	TCHAR szSection[100];
-
-	mir_sntprintf(szSection, SIZEOF(szSection), _T("Status Icons/%s/Activities"), m_proto->m_tszUserName);
-	for (int i = 0; i < SIZEOF(g_arrActivities); i++) {
-		if (g_arrActivities[i].szFirst)
-			m_icons.RegisterIcon(g_arrActivities[i].szFirst, szFile, g_arrActivities[i].iconid, szSection, TranslateTS(g_arrActivities[i].szTitle));
-		if (g_arrActivities[i].szSecond)
-			m_icons.RegisterIcon(g_arrActivities[i].szSecond, szFile, g_arrActivities[i].iconid, szSection, TranslateTS(g_arrActivities[i].szTitle));
-	}
 }
 
 void CPepActivity::ProcessItems(const TCHAR *from, HXML itemsNode)
@@ -1107,7 +1075,7 @@ void CPepActivity::ResetExtraIcon(HANDLE hContact)
 
 void CPepActivity::SetExtraIcon(HANDLE hContact, char *szActivity)
 {
-	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : m_icons.GetIcolibName(szActivity));
+	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : g_ActivityIcons.GetIcolibName(szActivity));
 }
 
 void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)
@@ -1126,13 +1094,13 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 		m_mode = activity;
 		replaceStrT(m_text, szText);
 
-		HANDLE hIcon = (activity >= 0) ? m_icons.GetIcolibHandle(returnActivity(activity)) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
+		HANDLE hIcon = (activity >= 0) ? g_ActivityIcons.GetIcolibHandle(returnActivity(activity)) : LoadSkinnedIconHandle(SKINICON_OTHER_SMALLDOT);
 		TCHAR title[128];
 
 		if (m_proto->m_pInfoFrame) {
 			if (activity >= 0) {
 				mir_sntprintf(title, SIZEOF(title), TranslateT("Activity: %s"), activityTitle);
-				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", m_icons.GetIcolibHandle(returnActivity(activity)), activityTitle);
+				m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(activity)), activityTitle);
 			}
 			else {
 				lstrcpy(title, LPGENT("Set activity..."));
@@ -1146,7 +1114,7 @@ void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecon
 
 	if (activity >= 0) {
 		TCHAR* p = mir_a2t(ActivityGetId(activity));
-		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, p, m_icons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
+		m_proto->WriteAdvStatus(hContact, ADVSTATUS_ACTIVITY, p, g_ActivityIcons.GetIcolibName(returnActivity(activity)), activityTitle, szText);
 		mir_free(p);
 	}
 	else m_proto->ResetAdvStatus(hContact, ADVSTATUS_ACTIVITY);
@@ -1157,7 +1125,8 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 	CJabberDlgPepSimple dlg(m_proto, TranslateT("Set Activity"));
 	for (int i = 0; i < SIZEOF(g_arrActivities); ++i)
 		if (g_arrActivities[i].szFirst || g_arrActivities[i].szSecond)
-			dlg.AddStatusMode(i, ActivityGetId(i), m_icons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
+			dlg.AddStatusMode(i, ActivityGetId(i), g_ActivityIcons.GetIcon(returnActivity(i)), TranslateTS(g_arrActivities[i].szTitle), (g_arrActivities[i].szSecond != NULL));
+
 	dlg.SetActiveStatus(m_mode, m_text);
 	dlg.DoModal();
 
@@ -1168,9 +1137,9 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 		replaceStrT(m_text, dlg.GetStatusText());
 		Publish();
 
-		UpdateMenuItem(m_icons.GetIcolibHandle(returnActivity(m_mode)), g_arrActivities[m_mode].szTitle);
+		UpdateMenuItem(g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), g_arrActivities[m_mode].szTitle);
 		if (m_proto->m_pInfoFrame)
-			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", m_icons.GetIcolibHandle(returnActivity(m_mode)), TranslateTS(g_arrActivities[m_mode].szTitle));
+			m_proto->m_pInfoFrame->UpdateInfoItem("$/PEP/activity", g_ActivityIcons.GetIcolibHandle(returnActivity(m_mode)), TranslateTS(g_arrActivities[m_mode].szTitle));
 	}
 	else {
 		Retract();
@@ -1186,7 +1155,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 {
 	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
-	HICON icon = pepMood->m_icons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
+	HICON icon = g_MoodIcons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
 
@@ -1496,10 +1465,9 @@ void CJabberProto::WriteAdvStatus(HANDLE hContact, const char *pszSlot, const TC
 	db_set_ts(hContact, "AdvStatus", szSetting, pszTitle);
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/text", m_szModuleName, pszSlot);
-	if (pszText) {
+	if (pszText)
 		db_set_ts(hContact, "AdvStatus", szSetting, pszText);
-	} else
-	{
+	else {
 		// set empty text before DBDeleteContactSetting to make resident setting manager happy
 		db_set_s(hContact, "AdvStatus", szSetting, "");
 		DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
@@ -1534,480 +1502,27 @@ TCHAR *CJabberProto::ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const 
 	return res;
 }
 
-/////////////////////////////////////////////////////////////////////////////////////////
-// CJabberInfoFrame
+///////////////////////////////////////////////////////////////////////////////
+// Global functions
 
-class CJabberInfoFrameItem
+void g_XstatusIconsInit()
 {
-public:
-	char *m_pszName;
-	HANDLE m_hIcolibIcon;
-	TCHAR *m_pszText;
-	LPARAM m_pUserData;
-	bool m_bCompact;
-	bool m_bShow;
-	void (CJabberProto::*m_onEvent)(CJabberInfoFrame_Event *);
-	RECT m_rcItem;
-	int m_tooltipId;
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
+	if (TCHAR *p = _tcsrchr(szFile, '\\'))
+		_tcscpy(p+1, _T("..\\Icons\\xstatus_jabber.dll"));
 
-public:
-	CJabberInfoFrameItem(char *pszName, bool bCompact=false, LPARAM pUserData=0):
-		m_pszName(NULL), m_hIcolibIcon(NULL), m_pszText(NULL), m_bShow(true), m_bCompact(bCompact), m_pUserData(pUserData), m_onEvent(NULL)
-	{
-		m_pszName = mir_strdup(pszName);
+	TCHAR szSection[100];
+	_tcscpy(szSection, _T("Protocols/Jabber/Moods"));
+
+	for (int i = 1; i < SIZEOF(g_arrMoods); i++)
+		g_MoodIcons.RegisterIcon(g_arrMoods[i].szTag, szFile, -(200+i), szSection, TranslateTS(g_arrMoods[i].szName));
+
+	_tcscpy(szSection, _T("Protocols/Jabber/Activities"));
+	for (int k = 0; k < SIZEOF(g_arrActivities); k++) {
+		if (g_arrActivities[k].szFirst)
+			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szFirst, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));
+		if (g_arrActivities[k].szSecond)
+			g_ActivityIcons.RegisterIcon(g_arrActivities[k].szSecond, szFile, g_arrActivities[k].iconid, szSection, TranslateTS(g_arrActivities[k].szTitle));
 	}
-	~CJabberInfoFrameItem()
-	{
-		mir_free(m_pszName);
-		mir_free(m_pszText);
-	}
-
-	void SetInfo(HANDLE hIcolibIcon, TCHAR *pszText)
-	{
-		mir_free(m_pszText);
-		m_pszText = pszText ? mir_tstrdup(pszText) : NULL;
-		m_hIcolibIcon = hIcolibIcon;
-	}
-
-	static int cmp(const CJabberInfoFrameItem *p1, const CJabberInfoFrameItem *p2)
-	{
-		return lstrcmpA(p1->m_pszName, p2->m_pszName);
-	}
-};
-
-CJabberInfoFrame::CJabberInfoFrame(CJabberProto *proto):
-	m_pItems(3, CJabberInfoFrameItem::cmp), m_compact(false)
-{
-	m_proto = proto;
-	m_hwnd = m_hwndToolTip = NULL;
-	m_clickedItem = -1;
-	m_hiddenItemCount = 0;
-	m_bLocked = false;
-	m_nextTooltipId = 0;
-	m_hhkFontsChanged = 0;
-
-	if ( !proto->m_options.DisableFrame && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		InitClass();
-
-		CLISTFrame frame = {0};
-		frame.cbSize = sizeof(frame);
-		HWND hwndClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
-		frame.hWnd = CreateWindowEx(0, _T("JabberInfoFrameClass"), NULL, WS_CHILD|WS_VISIBLE, 0, 0, 100, 100, hwndClist, NULL, hInst, this);
-		frame.align = alBottom;
-		frame.height = 2 * SZ_FRAMEPADDING + GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING; // compact height by default
-		frame.Flags = F_VISIBLE|F_LOCKED|F_NOBORDER|F_TCHAR;
-		frame.tname = mir_a2t(proto->m_szModuleName);
-		frame.TBtname = proto->m_tszUserName;
-		m_frameId = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&frame, 0);
-		mir_free(frame.tname);
-		if (m_frameId == -1) {
-			DestroyWindow(frame.hWnd);
-			return;
-		}
-
-		m_hhkFontsChanged = HookEventMessage(ME_FONT_RELOAD, m_hwnd, WM_APP);
-		ReloadFonts();
-
-		m_hwndToolTip = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, NULL,
-			WS_POPUP | TTS_NOPREFIX | TTS_ALWAYSTIP,
-			CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT, CW_USEDEFAULT,
-			m_hwnd, NULL, hInst, NULL);
-		SetWindowPos(m_hwndToolTip, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
-
-		CreateInfoItem("$", true);
-		UpdateInfoItem("$", proto->GetIconHandle(IDI_JABBER), proto->m_tszUserName);
-
-		CreateInfoItem("$/JID", true);
-		UpdateInfoItem("$/JID", LoadSkinnedIconHandle(SKINICON_OTHER_USERDETAILS), _T("Offline"));
-		SetInfoItemCallback("$/JID", &CJabberProto::InfoFrame_OnSetup);
-	}
-}
-
-CJabberInfoFrame::~CJabberInfoFrame()
-{
-	if ( !m_hwnd) return;
-
-	if (m_hhkFontsChanged) UnhookEvent(m_hhkFontsChanged);
-	CallService(MS_CLIST_FRAMES_REMOVEFRAME, (WPARAM)m_frameId, 0);
-	SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-	DestroyWindow(m_hwnd);
-	DestroyWindow(m_hwndToolTip);
-	DeleteObject(m_hfntText);
-	DeleteObject(m_hfntTitle);
-	m_hwnd = NULL;
-}
-
-void CJabberInfoFrame::InitClass()
-{
-	static bool bClassRegistered = false;
-	if (bClassRegistered)
-		return;
-
-	WNDCLASSEX wcx = {0};
-	wcx.cbSize = sizeof(wcx);
-	wcx.style = CS_DBLCLKS|CS_HREDRAW|CS_VREDRAW;
-	wcx.lpfnWndProc = GlobalWndProc;
-	wcx.hInstance = hInst;
-	wcx.lpszClassName = _T("JabberInfoFrameClass");
-	wcx.hCursor = LoadCursor(NULL, IDC_ARROW);
-	RegisterClassEx(&wcx);
-	bClassRegistered = true;
-}
-
-LRESULT CALLBACK CJabberInfoFrame::GlobalWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	CJabberInfoFrame *pFrame;
-
-	if (msg == WM_CREATE) {
-		CREATESTRUCT *pcs = (CREATESTRUCT *)lParam;
-		pFrame = (CJabberInfoFrame *)pcs->lpCreateParams;
-		if (pFrame) pFrame->m_hwnd = hwnd;
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)pFrame);
-	}
-	else pFrame = (CJabberInfoFrame *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
-
-	return pFrame ? pFrame->WndProc(msg, wParam, lParam) : DefWindowProc(hwnd, msg, wParam, lParam);
-}
-
-LRESULT CJabberInfoFrame::WndProc(UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_APP:
-		ReloadFonts();
-		return 0;
-
-	case WM_PAINT:
-		{
-			RECT rc; GetClientRect(m_hwnd, &rc);
-			m_compact = rc.bottom < (2 * (GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING) + SZ_LINESPACING + 2 * SZ_FRAMEPADDING);
-
-			PAINTSTRUCT ps;
-			HDC hdc = BeginPaint(m_hwnd, &ps);
-			m_compact ? PaintCompact(hdc) : PaintNormal(hdc);
-			EndPaint(m_hwnd, &ps);
-			return 0;
-		}
-
-	case WM_RBUTTONUP:
-		{
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			MapWindowPoints(m_hwnd, NULL, &pt, 1);
-			HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDFRAMECONTEXT, m_frameId, 0);
-			int res = TrackPopupMenu(hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL);
-			CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(res, 0), m_frameId);
-			return 0;
-		}
-
-	case WM_LBUTTONDOWN:
-		{
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			for (int i = 0; i < m_pItems.getCount(); ++i)
-				if (m_pItems[i].m_onEvent && PtInRect(&m_pItems[i].m_rcItem, pt)) {
-					m_clickedItem = i;
-					return 0;
-				}
-		}
-		return 0;
-
-	case WM_LBUTTONUP:
-		{
-			POINT pt = { LOWORD(lParam), HIWORD(lParam) };
-			if ((m_clickedItem >= 0) && (m_clickedItem < m_pItems.getCount()) && m_pItems[m_clickedItem].m_onEvent && PtInRect(&m_pItems[m_clickedItem].m_rcItem, pt))
-			{
-				CJabberInfoFrame_Event evt;
-				evt.m_event = CJabberInfoFrame_Event::CLICK;
-				evt.m_pszName = m_pItems[m_clickedItem].m_pszName;
-				evt.m_pUserData = m_pItems[m_clickedItem].m_pUserData;
-				(m_proto->*m_pItems[m_clickedItem].m_onEvent)(&evt);
-				return 0;
-			}
-
-			m_clickedItem = -1;
-
-			return 0;
-		}
-
-	case WM_LBUTTONDBLCLK:
-		m_compact = !m_compact;
-		UpdateSize();
-		return 0;
-	}
-
-	return DefWindowProc(m_hwnd, msg, wParam, lParam);
-}
-
-void CJabberInfoFrame::LockUpdates()
-{
-	m_bLocked = true;
-}
-
-void CJabberInfoFrame::Update()
-{
-	m_bLocked = false;
-	UpdateSize();
-}
-
-void CJabberInfoFrame::ReloadFonts()
-{
-	LOGFONT lfFont;
-
-	FontID fontid = {0};
-	fontid.cbSize = sizeof(fontid);
-	lstrcpyA(fontid.group, "Jabber");
-	lstrcpyA(fontid.name, "Frame title");
-	m_clTitle = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lfFont);
-	DeleteObject(m_hfntTitle);
-	m_hfntTitle = CreateFontIndirect(&lfFont);
-	lstrcpyA(fontid.name, "Frame text");
-	m_clText = CallService(MS_FONT_GET, (WPARAM)&fontid, (LPARAM)&lfFont);
-	DeleteObject(m_hfntText);
-	m_hfntText = CreateFontIndirect(&lfFont);
-
-	ColourID colourid = {0};
-	colourid.cbSize = sizeof(colourid);
-	lstrcpyA(colourid.group, "Jabber");
-	lstrcpyA(colourid.name, "Background");
-	m_clBack = CallService(MS_COLOUR_GET, (WPARAM)&colourid, 0);
-
-	UpdateSize();
-}
-
-void CJabberInfoFrame::UpdateSize()
-{
-	if ( !m_hwnd || m_bLocked)
-		return;
-
-	int line_count = m_compact ? 1 : (m_pItems.getCount() - m_hiddenItemCount);
-	int height = 2 * SZ_FRAMEPADDING + line_count * (GetSystemMetrics(SM_CYSMICON) + SZ_LINEPADDING) + (line_count - 1) * SZ_LINESPACING;
-
-	if (CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLAGS, m_frameId), 0) & F_VISIBLE) {
-		if ( !ServiceExists(MS_SKIN_DRAWGLYPH)) {
-			// crazy resizing for clist_nicer...
-			CallService(MS_CLIST_FRAMES_SHFRAME, m_frameId, 0);
-			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, m_frameId), height);
-			CallService(MS_CLIST_FRAMES_SHFRAME, m_frameId, 0);
-		}
-		else {
-			CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, m_frameId), height);
-			RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
-		}
-	}
-	else CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS, MAKEWPARAM(FO_HEIGHT, m_frameId), height);
-}
-
-void CJabberInfoFrame::RemoveTooltip(int id)
-{
-	TOOLINFO ti = {0};
-	ti.cbSize = sizeof(TOOLINFO);
-
-	ti.hwnd = m_hwnd;
-	ti.uId = id;
-	SendMessage(m_hwndToolTip, TTM_DELTOOLW, 0, (LPARAM)&ti);
-}
-
-void CJabberInfoFrame::SetToolTip(int id, RECT *rc, TCHAR *pszText)
-{
-	TOOLINFO ti = {0};
-	ti.cbSize = sizeof(TOOLINFO);
-
-	ti.hwnd = m_hwnd;
-	ti.uId = id;
-	SendMessage(m_hwndToolTip, TTM_DELTOOLW, 0, (LPARAM)&ti);
-
-	ti.uFlags = TTF_SUBCLASS;
-	ti.hwnd = m_hwnd;
-	ti.uId = id;
-	ti.hinst = hInst;
-	ti.lpszText = pszText;
-	ti.rect = *rc;
-	SendMessage(m_hwndToolTip, TTM_ADDTOOL, 0, (LPARAM)&ti);
-}
-
-void CJabberInfoFrame::PaintSkinGlyph(HDC hdc, RECT *rc, char **glyphs, COLORREF fallback)
-{
-	if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
-		SKINDRAWREQUEST rq = {0};
-		rq.hDC = hdc;
-		rq.rcDestRect = *rc;
-		rq.rcClipRect = *rc;
-
-		for (; *glyphs; ++glyphs) {
-			strncpy(rq.szObjectID, *glyphs, sizeof(rq.szObjectID));
-			if ( !CallService(MS_SKIN_DRAWGLYPH, (WPARAM)&rq, 0))
-				return;
-		}
-	}
-
-	if (fallback != 0xFFFFFFFF) {
-		HBRUSH hbr = CreateSolidBrush(fallback);
-		FillRect(hdc, rc, hbr);
-		DeleteObject(hbr);
-	}
-}
-
-void CJabberInfoFrame::PaintCompact(HDC hdc)
-{
-	RECT rc; GetClientRect(m_hwnd, &rc);
-	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", NULL };
-	PaintSkinGlyph(hdc, &rc, glyphs, m_clBack);
-
-	HFONT hfntSave = (HFONT)SelectObject(hdc, m_hfntTitle);
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, m_clTitle);
-
-	int cx_icon = GetSystemMetrics(SM_CXSMICON);
-	int cy_icon = GetSystemMetrics(SM_CYSMICON);
-
-	int cx = rc.right - cx_icon - SZ_FRAMEPADDING;
-	for (int i = m_pItems.getCount(); i--;) {
-		CJabberInfoFrameItem &item = m_pItems[i];
-
-		SetRect(&item.m_rcItem, 0, 0, 0, 0);
-		if ( !item.m_bShow) continue;
-		if ( !item.m_bCompact) continue;
-
-		int depth = 0;
-		for (char *p = item.m_pszName; p = strchr(p+1, '/'); ++depth) ;
-
-		if (depth == 0) {
-			if (item.m_hIcolibIcon) {
-				HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
-				if (hIcon) {
-					DrawIconEx(hdc, SZ_FRAMEPADDING, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-					g_ReleaseIcon(hIcon);
-				}
-			}
-
-			RECT rcText; SetRect(&rcText, cx_icon + SZ_FRAMEPADDING + SZ_ICONSPACING, 0, rc.right - SZ_FRAMEPADDING, rc.bottom);
-			DrawText(hdc, item.m_pszText, lstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
-		}
-		else {
-			if (item.m_hIcolibIcon) {
-				HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
-				if (hIcon) {
-					SetRect(&item.m_rcItem, cx, (rc.bottom-cy_icon)/2, cx+cx_icon, (rc.bottom-cy_icon)/2+cy_icon);
-					DrawIconEx(hdc, cx, (rc.bottom-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-					cx -= cx_icon;
-
-					g_ReleaseIcon(hIcon);
-
-					SetToolTip(item.m_tooltipId, &item.m_rcItem, item.m_pszText);
-				}
-			}
-		}
-	}
-
-	SelectObject(hdc, hfntSave);
-}
-
-void CJabberInfoFrame::PaintNormal(HDC hdc)
-{
-	RECT rc; GetClientRect(m_hwnd, &rc);
-	char *glyphs[] = { "Main,ID=ProtoInfo", "Main,ID=EventArea", "Main,ID=StatusBar", NULL };
-	PaintSkinGlyph(hdc, &rc, glyphs, m_clBack);
-
-	HFONT hfntSave = (HFONT)SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-	SetBkMode(hdc, TRANSPARENT);
-
-	int cx_icon = GetSystemMetrics(SM_CXSMICON);
-	int cy_icon = GetSystemMetrics(SM_CYSMICON);
-	int line_height = cy_icon + SZ_LINEPADDING;
-	int cy = SZ_FRAMEPADDING;
-
-	for (int i = 0; i < m_pItems.getCount(); ++i) {
-		CJabberInfoFrameItem &item = m_pItems[i];
-
-		if ( !item.m_bShow) {
-			SetRect(&item.m_rcItem, 0, 0, 0, 0);
-			continue;
-		}
-
-		int cx = SZ_FRAMEPADDING;
-		int depth = 0;
-		for (char *p = item.m_pszName; p = strchr(p+1, '/'); cx += cx_icon) ++depth;
-
-		SetRect(&item.m_rcItem, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-
-		if (item.m_hIcolibIcon) {
-			HICON hIcon = Skin_GetIconByHandle(item.m_hIcolibIcon);
-			if (hIcon) {
-				DrawIconEx(hdc, cx, cy + (line_height-cy_icon)/2, hIcon, cx_icon, cy_icon, 0, NULL, DI_NORMAL);
-				cx += cx_icon + SZ_ICONSPACING;
-
-				g_ReleaseIcon(hIcon);
-			}
-		}
-
-		SelectObject(hdc, depth ? m_hfntText : m_hfntTitle);
-		SetTextColor(hdc, depth ? m_clText : m_clTitle);
-
-		RECT rcText; SetRect(&rcText, cx, cy, rc.right - SZ_FRAMEPADDING, cy + line_height);
-		DrawText(hdc, item.m_pszText, lstrlen(item.m_pszText), &rcText, DT_NOPREFIX|DT_SINGLELINE|DT_VCENTER|DT_END_ELLIPSIS);
-
-		RemoveTooltip(item.m_tooltipId);
-
-		cy += line_height + SZ_LINESPACING;
-	}
-
-	SelectObject(hdc, hfntSave);
-}
-
-void CJabberInfoFrame::CreateInfoItem(char *pszName, bool bCompact, LPARAM pUserData)
-{
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
-		return;
-
-	CJabberInfoFrameItem *newItem = new CJabberInfoFrameItem(pszName, bCompact, pUserData);
-	newItem->m_tooltipId = m_nextTooltipId++;
-	m_pItems.insert(newItem);
-	UpdateSize();
-}
-
-void CJabberInfoFrame::SetInfoItemCallback(char *pszName, void (CJabberProto::*onEvent)(CJabberInfoFrame_Event *))
-{
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
-		pItem->m_onEvent = onEvent;
-}
-
-void CJabberInfoFrame::UpdateInfoItem(char *pszName, HANDLE hIcolibIcon, TCHAR *pszText)
-{
-	CJabberInfoFrameItem item(pszName);
-	if (CJabberInfoFrameItem *pItem = m_pItems.find(&item))
-		pItem->SetInfo(hIcolibIcon, pszText);
-	if (m_hwnd)
-		RedrawWindow(m_hwnd, NULL, NULL, RDW_INVALIDATE);
-}
-
-void CJabberInfoFrame::ShowInfoItem(char *pszName, bool bShow)
-{
-	bool bUpdate = false;
-	size_t length = strlen(pszName);
-	for (int i = 0; i < m_pItems.getCount(); ++i)
-		if ((m_pItems[i].m_bShow != bShow) && !strncmp(m_pItems[i].m_pszName, pszName, length)) {
-			m_pItems[i].m_bShow = bShow;
-			m_hiddenItemCount += bShow ? -1 : 1;
-			bUpdate = true;
-		}
-
-	if (bUpdate)
-		UpdateSize();
-}
-
-void CJabberInfoFrame::RemoveInfoItem(char *pszName)
-{
-	bool bUpdate = false;
-	size_t length = strlen(pszName);
-	for (int i = 0; i < m_pItems.getCount(); ++i)
-		if ( !strncmp(m_pItems[i].m_pszName, pszName, length)) {
-			if ( !m_pItems[i].m_bShow) --m_hiddenItemCount;
-			RemoveTooltip(m_pItems[i].m_tooltipId);
-			m_pItems.remove(i);
-			bUpdate = true;
-			--i;
-		}
-
-	if (bUpdate)
-		UpdateSize();
 }

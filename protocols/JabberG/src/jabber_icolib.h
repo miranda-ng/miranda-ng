@@ -30,10 +30,10 @@ struct CJabberProto;
 class CIconPool
 {
 public:
-	CIconPool(CJabberProto *proto);
+	CIconPool();
 	~CIconPool();
 
-	void RegisterIcon(const char *name, const char *filename, int iconid, TCHAR *szSection, TCHAR *szDescription);
+	void RegisterIcon(const char *name, TCHAR *filename, int iconid, TCHAR *szSection, TCHAR *szDescription);
 
 	HANDLE GetIcolibHandle(const char *name);
 	char *GetIcolibName(const char *name);
@@ -52,7 +52,6 @@ private:
 		~CPoolItem();
 	};
 
-	CJabberProto *m_proto;
 	OBJLIST<CPoolItem> m_items;
 	HANDLE m_hOnExtraIconsRebuild;
 

@@ -149,12 +149,10 @@ class CPepMood: public CPepGuiService
 public:
 	CPepMood(CJabberProto *proto);
 	~CPepMood();
-	void InitGui();
 	void ProcessItems(const TCHAR *from, HXML items);
 	void ResetExtraIcon(HANDLE hContact);
 
-public: // FIXME: ugly hack
-	CIconPool m_icons;
+public:
 	TCHAR *m_text;
 	int m_mode;
 
@@ -172,12 +170,10 @@ class CPepActivity: public CPepGuiService
 public:
 	CPepActivity(CJabberProto *proto);
 	~CPepActivity();
-	void InitGui();
 	void ProcessItems(const TCHAR *from, HXML items);
 	void ResetExtraIcon(HANDLE hContact);
 
 protected:
-	CIconPool m_icons;
 	TCHAR *m_text;
 	int m_mode;
 

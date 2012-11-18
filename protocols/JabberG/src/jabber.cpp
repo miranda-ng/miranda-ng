@@ -255,6 +255,7 @@ extern "C" int __declspec(dllexport) Load()
 	}	}
 
 	g_IconsInit();
+	g_XstatusIconsInit();
 	g_MenuInit();
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	JabberUserInfoInit();
