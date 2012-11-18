@@ -136,7 +136,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Miranda_Unknown",
+	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Unknown",
 		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
 
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
