@@ -44,7 +44,7 @@ int CompareSettings( const TAAAProtoSetting* p1, const TAAAProtoSetting* p2 )
 	return lstrcmpA( p1->szName, p2->szName );
 }
 
-OBJLIST<TAAAProtoSetting> autoAwaySettings( 10, CompareSettings );
+OBJLIST<TAAAProtoSetting> *autoAwaySettings;
 
 TAAAProtoSetting::TAAAProtoSetting( PROTOACCOUNT* pa )
 {
@@ -190,14 +190,14 @@ static int ProcessProtoAck(WPARAM wParam,LPARAM lParam)
 	if ( ack->result != ACKRESULT_SUCCESS )
 		return 0;
 	log_debugA("ProcessProtoAck: ack->szModule: %s", ack->szModule);
-	for ( int i=0; i < autoAwaySettings.getCount(); i++ ) {
-		log_debugA("chk: %s", autoAwaySettings[i].szName);
-		if (!strcmp(autoAwaySettings[i].szName, ack->szModule)) {
-			log_debugA("ack->szModule: %s autoAwaySettings[i].statusChanged: %d", ack->szModule, autoAwaySettings[i].statusChanged);
-			if (!autoAwaySettings[i].statusChanged)
-				autoAwaySettings[i].mStatus = TRUE;
+	for ( int i=0; i < autoAwaySettings->getCount(); i++ ) {
+		log_debugA("chk: %s", (*autoAwaySettings)[i].szName);
+		if (!strcmp((*autoAwaySettings)[i].szName, ack->szModule)) {
+			log_debugA("ack->szModule: %s (*autoAwaySettings)[i].statusChanged: %d", ack->szModule, (*autoAwaySettings)[i].statusChanged);
+			if (!(*autoAwaySettings)[i].statusChanged)
+				(*autoAwaySettings)[i].mStatus = TRUE;
 
-			autoAwaySettings[i].statusChanged = FALSE;
+			(*autoAwaySettings)[i].statusChanged = FALSE;
 	}	}
 
 	return 0;
@@ -211,14 +211,14 @@ int OnAccChanged(WPARAM wParam,LPARAM lParam)
 	PROTOACCOUNT* pa = ( PROTOACCOUNT* )lParam;
 	switch( wParam ) {
 	case PRAC_ADDED:
-		autoAwaySettings.insert( new TAAAProtoSetting( pa ));
+		autoAwaySettings->insert( new TAAAProtoSetting( pa ));
 		break;
 		
 	case PRAC_REMOVED:
 		{
-			for ( int i=0; i < autoAwaySettings.getCount(); i++ ) {
-				if ( !lstrcmpA( autoAwaySettings[i].szName, pa->szModuleName )) {
-					autoAwaySettings.remove( i );
+			for ( int i=0; i < autoAwaySettings->getCount(); i++ ) {
+				if ( !lstrcmpA( (*autoAwaySettings)[i].szName, pa->szModuleName )) {
+					autoAwaySettings->remove( i );
 					break;
 		}	}	}
 		break;
@@ -293,8 +293,8 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 	int statusChanged = FALSE;
 	int confirm = FALSE;
 
-	for ( int i=0; i < autoAwaySettings.getCount(); i++ ) {
-		TAAAProtoSetting& aas = autoAwaySettings[i];
+	for ( int i=0; i < autoAwaySettings->getCount(); i++ ) {
+		TAAAProtoSetting& aas = (*autoAwaySettings)[i];
 		aas.status = ID_STATUS_DISABLED;
 
 		BOOL screenSaver = FALSE, locked = FALSE;
@@ -400,11 +400,11 @@ static VOID CALLBACK AutoAwayTimer(HWND hwnd,UINT message,UINT_PTR idEvent,DWORD
 			changeState(aas, ACTIVE);
 			aas.sts1setTimer = 0;
 		}
-		autoAwaySettings[i].mStatus = FALSE;
+		(*autoAwaySettings)[i].mStatus = FALSE;
 	}
 
 	if ( confirm || statusChanged ) {
-		OBJLIST<TAAAProtoSetting> ps = autoAwaySettings;
+		OBJLIST<TAAAProtoSetting> ps = *autoAwaySettings;
 
 		int i;
 		for ( i=0; i < ps.getCount(); i++ ) {
@@ -592,7 +592,7 @@ static int AutoAwayShutdown(WPARAM wParam,LPARAM lParam)
 	UnhookWindowsHooks();
 	DestroyHookableEvent(hStateChangedEvent);
 		
-	autoAwaySettings.destroy();
+	autoAwaySettings->destroy();
 	return 0;
 }
 
@@ -616,7 +616,7 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	protoList = ( OBJLIST<PROTOCOLSETTINGEX>* )&autoAwaySettings;
+	protoList = ( OBJLIST<PROTOCOLSETTINGEX>* )autoAwaySettings;
 
 	int count;
 	PROTOACCOUNT** protos;
@@ -624,11 +624,11 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam)
 
 	for ( int i=0; i < count; i++ )
 		if ( IsSuitableProto( protos[i] ))
-			autoAwaySettings.insert( new TAAAProtoSetting( protos[i] ));
+			autoAwaySettings->insert( new TAAAProtoSetting( protos[i] ));
 
 	////////////////////////////////////////////////////////////////////////////////////////
 
-	LoadOptions(autoAwaySettings, FALSE);
+	LoadOptions(*autoAwaySettings, FALSE);
 
 #ifdef TRIGGERPLUGIN
 	InitTrigger();

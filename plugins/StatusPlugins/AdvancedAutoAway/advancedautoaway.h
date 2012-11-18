@@ -80,11 +80,11 @@ struct AAMSGSETTING
 	char* msg;
 };
 
-extern HINSTANCE hInst;
+extern HINSTANCE hInst, hCore;
 
 int CompareSettings( const TAAAProtoSetting* p1, const TAAAProtoSetting* p2 );
 
-extern OBJLIST<TAAAProtoSetting> autoAwaySettings;
+extern OBJLIST<TAAAProtoSetting> *autoAwaySettings;
 
 int  LoadAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoName);
 void LoadOptions(OBJLIST<TAAAProtoSetting>& settings, BOOL override);

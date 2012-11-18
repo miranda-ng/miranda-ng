@@ -31,8 +31,6 @@ static BOOL (WINAPI *pfnEnableThemeDialogTexture)(HANDLE, DWORD) = 0;
 #define ListView_SetCheckState(w,i,f) ListView_SetItemState(w,i,INDEXTOSTATEIMAGEMASK((f)+1),LVIS_STATEIMAGEMASK)
 #endif
 
-static OBJLIST<TAAAProtoSetting> optionSettings( 10, CompareSettings );
-
 int LoadAutoAwaySetting(TAAAProtoSetting& autoAwaySetting, char* protoName);
 
 INT_PTR CALLBACK DlgProcAutoAwayMsgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -125,6 +123,8 @@ static void SetDialogStatus(HWND hwndDlg, TAAAProtoSetting* sameSetting)
 /////////////////////////////////////////////////////////////////////////////////////////
 // Rules dialog window procedure
 
+static OBJLIST<TAAAProtoSetting> *optionSettings;
+
 static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static TAAAProtoSetting* sameSetting;
@@ -136,15 +136,16 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 		TranslateDialogDefault(hwndDlg);
 
 		// copy the settings
-		optionSettings = autoAwaySettings;
+		optionSettings = new OBJLIST<TAAAProtoSetting>(10, CompareSettings);
+		*optionSettings = *autoAwaySettings;
 
 		sameSetting = ( TAAAProtoSetting* )malloc(sizeof(TAAAProtoSetting));
 		LoadAutoAwaySetting(*sameSetting, SETTING_ALL);
 
 		// fill list from currentProtoSettings
 		{
-			for ( int i=0; i < optionSettings.getCount(); i++ ) {
-				TAAAProtoSetting& p = optionSettings[i];
+			for ( int i=0; i < optionSettings->getCount(); i++ ) {
+				TAAAProtoSetting& p = (*optionSettings)[i];
 				int item = SendDlgItemMessage( hwndDlg, IDC_PROTOCOL, CB_ADDSTRING, 0, ( LPARAM )p.tszAccName );
 				SendDlgItemMessage( hwndDlg, IDC_PROTOCOL, CB_SETITEMDATA, item, (LPARAM)&p );
 			}
@@ -351,15 +352,15 @@ static INT_PTR CALLBACK DlgProcAutoAwayRulesOpts(HWND hwndDlg, UINT msg, WPARAM 
 			if (bSettingSame)
 				WriteAutoAwaySetting(*sameSetting, SETTING_ALL);
 			else {
-				for (int i=0; i < optionSettings.getCount(); i++ )
-					WriteAutoAwaySetting(optionSettings[i], optionSettings[i].szName);
+				for (int i=0; i < optionSettings->getCount(); i++ )
+					WriteAutoAwaySetting((*optionSettings)[i], (*optionSettings)[i].szName);
 			}
-			LoadOptions(autoAwaySettings, FALSE);
+			LoadOptions(*autoAwaySettings, FALSE);
 		}
 		break;
 
 	case WM_DESTROY:
-		optionSettings.destroy();
+		optionSettings->destroy();
 		free(sameSetting);
 		break;
 	}
@@ -419,7 +420,7 @@ static INT_PTR CALLBACK DlgProcAutoAwayGeneralOpts(HWND hwndDlg, UINT msg, WPARA
 			DBWriteContactSettingWord(NULL, MODULENAME, SETTING_CONFIRMDELAY, (WORD)GetDlgItemInt(hwndDlg, IDC_CONFIRMDELAY, NULL, FALSE));
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_MONITORMOUSE, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORMOUSE));
 			DBWriteContactSettingByte(NULL, MODULENAME, SETTING_MONITORKEYBOARD, (BYTE)IsDlgButtonChecked(hwndDlg, IDC_MONITORKEYBOARD));
-			LoadOptions(autoAwaySettings, FALSE);
+			LoadOptions(*autoAwaySettings, FALSE);
 		}
 		break;
 	}

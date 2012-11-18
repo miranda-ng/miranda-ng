@@ -27,9 +27,7 @@
 // {F0FDF73A-753D-499d-8DBA-336DB79CDD41}
 #define MIID_ADVAUTOAWAY { 0xf0fdf73a, 0x753d, 0x499d, { 0x8d, 0xba, 0x33, 0x6d, 0xb7, 0x9c, 0xdd, 0x41 } }
 
-HINSTANCE hInst;
-
-
+HINSTANCE hInst, hCore = NULL;
 
 HANDLE hCSModuleLoadedHook;
 HANDLE hStateChangedEvent;
@@ -42,7 +40,10 @@ int CSModuleLoaded(WPARAM wParam, LPARAM lParam);
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInst = hinstDLL;
+	if (fdwReason == DLL_PROCESS_ATTACH) {
+		hInst = hinstDLL;
+		hCore = GetModuleHandleA("mir_core.dll");
+	}
 	return TRUE;
 }
 
@@ -72,8 +73,9 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP( &pluginInfoEx );
+
+	autoAwaySettings = new OBJLIST<TAAAProtoSetting>(10, CompareSettings);
 
 	InitCommonStatus();
 	hCSModuleLoadedHook = HookEvent(ME_SYSTEM_MODULESLOADED, CSModuleLoaded);
@@ -87,5 +89,6 @@ extern "C" __declspec(dllexport) int Load(void)
 extern "C" __declspec(dllexport) int Unload(void)
 {
 	DestroyHookableEvent( hStateChangedEvent );
+	delete autoAwaySettings;
 	return 0;
 }

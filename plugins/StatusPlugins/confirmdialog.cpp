@@ -47,7 +47,7 @@ static int CompareSettings( const TConfirmSetting* p1, const TConfirmSetting* p2
 {	return lstrcmpA( p1->szName, p2->szName );
 }
 
-static OBJLIST<TConfirmSetting> confirmSettings( 10, CompareSettings );
+static OBJLIST<TConfirmSetting> *confirmSettings;
 
 static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
@@ -104,7 +104,7 @@ static INT_PTR CALLBACK StatusMessageDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam
 
 static int SetStatusList(HWND hwndDlg)
 {
-	if (confirmSettings.getCount() == 0)
+	if (confirmSettings->getCount() == 0)
 		return -1;
 
 	HWND hList = GetDlgItem(hwndDlg, IDC_STARTUPLIST);
@@ -115,19 +115,19 @@ static int SetStatusList(HWND hwndDlg)
 	lvItem.mask = LVIF_TEXT | LVIF_PARAM;
 	lvItem.cchTextMax = 256;
 
-	for ( int i=0; i < confirmSettings.getCount(); i++ ) {
-		lvItem.pszText = confirmSettings[i].tszAccName;
-		if (ListView_GetItemCount(hList) < confirmSettings.getCount()) 
+	for ( int i=0; i < confirmSettings->getCount(); i++ ) {
+		lvItem.pszText = (*confirmSettings)[i].tszAccName;
+		if (ListView_GetItemCount(hList) < confirmSettings->getCount()) 
 			ListView_InsertItem(hList,&lvItem);
 
 		int actualStatus;
-		switch( confirmSettings[i].status ) {
-			case ID_STATUS_LAST:    actualStatus = confirmSettings[i].lastStatus;   break;
-			case ID_STATUS_CURRENT: actualStatus = CallProtoService(confirmSettings[i].szName,PS_GETSTATUS, 0, 0); break;
-			default:                actualStatus = confirmSettings[i].status;
+		switch( (*confirmSettings)[i].status ) {
+			case ID_STATUS_LAST:    actualStatus = (*confirmSettings)[i].lastStatus;   break;
+			case ID_STATUS_CURRENT: actualStatus = CallProtoService((*confirmSettings)[i].szName,PS_GETSTATUS, 0, 0); break;
+			default:                actualStatus = (*confirmSettings)[i].status;
 		}
 		TCHAR* status = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, actualStatus, GSMDF_TCHAR );
-		switch( confirmSettings[i].status ) {
+		switch( (*confirmSettings)[i].status ) {
 		case ID_STATUS_LAST:
 			mir_sntprintf(buf, SIZEOF(buf), _T("%s (%s)"), TranslateT("<last>"), status);
 			ListView_SetItemText(hList, lvItem.iItem, 1, buf);
@@ -141,10 +141,10 @@ static int SetStatusList(HWND hwndDlg)
 		}
 
 		// status message
-		if ( !((!((CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService(confirmSettings[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))) {
-			TCHAR *msg = GetDefaultStatusMessage( &confirmSettings[i], actualStatus );
+		if ( !((!((CallProtoService((*confirmSettings)[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_1, 0)&PF1_MODEMSGSEND)&~PF1_INDIVMODEMSG)) || (!(CallProtoService((*confirmSettings)[i].szName, PS_GETCAPS, (WPARAM)PFLAGNUM_3, 0)&Proto_Status2Flag(actualStatus))))) {
+			TCHAR *msg = GetDefaultStatusMessage( &(*confirmSettings)[i], actualStatus );
 			if ( msg != NULL ) {
-				TCHAR* fMsg = variables_parsedup( msg, confirmSettings[i].tszAccName, NULL );
+				TCHAR* fMsg = variables_parsedup( msg, (*confirmSettings)[i].tszAccName, NULL );
 				ListView_SetItemText(hList, lvItem.iItem, 2, fMsg);
 				mir_free(fMsg);
 				mir_free(msg);
@@ -155,7 +155,7 @@ static int SetStatusList(HWND hwndDlg)
 
 		ListView_SetColumnWidth(hList, 0, LVSCW_AUTOSIZE);
 		ListView_SetColumnWidth(hList, 2, LVSCW_AUTOSIZE);
-		lvItem.lParam = (LPARAM)&confirmSettings[i];
+		lvItem.lParam = (LPARAM)&(*confirmSettings)[i];
 		ListView_SetItem(hList,&lvItem);
 		lvItem.iItem++;
 	}
@@ -189,6 +189,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		}
 
 		// create items
+		confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
 		SetStatusList(hwndDlg);
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
@@ -238,16 +239,16 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 			case IDC_PROFILE:
 				{
 					int i, profile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-					for ( i=0; i < confirmSettings.getCount(); i++ ) {
-						if (confirmSettings[i].szMsg != NULL) {
-							free(confirmSettings[i].szMsg);
-							confirmSettings[i].szMsg = NULL;
+					for ( i=0; i < confirmSettings->getCount(); i++ ) {
+						if ((*confirmSettings)[i].szMsg != NULL) {
+							free((*confirmSettings)[i].szMsg);
+							(*confirmSettings)[i].szMsg = NULL;
 					}	}
 
 					CallService(MS_SS_GETPROFILE, (WPARAM)profile, (LPARAM)&confirmSettings);
-					for ( i=0; i < confirmSettings.getCount(); i++ )
-						if (confirmSettings[i].szMsg != NULL) // we free this later, copy to our memory space
-							confirmSettings[i].szMsg = _tcsdup(confirmSettings[i].szMsg);
+					for ( i=0; i < confirmSettings->getCount(); i++ )
+						if ((*confirmSettings)[i].szMsg != NULL) // we free this later, copy to our memory space
+							(*confirmSettings)[i].szMsg = _tcsdup((*confirmSettings)[i].szMsg);
 
 					SetStatusList(hwndDlg);
 				}
@@ -343,7 +344,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 					lvItem.iSubItem=0;
 					lvItem.iItem = ListView_GetNextItem(GetDlgItem(hwndDlg,IDC_STARTUPLIST),-1,LVNI_SELECTED);
 				
-					if (ListView_GetItem(GetDlgItem(hwndDlg,IDC_STARTUPLIST), &lvItem) == FALSE) {
+					if ( ListView_GetItem(GetDlgItem(hwndDlg,IDC_STARTUPLIST), &lvItem) == FALSE) {
 						SetStatusList(hwndDlg);
 						break;
 					}
@@ -377,14 +378,15 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 						actualStatus = currentStatus;
 					}
 
-					for ( i = 0; i < SIZEOF(statusModeList); i++ ) {
+					for (i=0; i < SIZEOF(statusModeList); i++) {
 						if ( ((flags&statusModePf2List[i]) || (statusModePf2List[i] == PF2_OFFLINE)) && (!((!(flags)&Proto_Status2Flag(statusModePf2List[i]))) || ((CallProtoService(proto->szName, PS_GETCAPS, (WPARAM)PFLAGNUM_5, 0)&Proto_Status2Flag(statusModePf2List[i]))))) {
 							TCHAR* statusMode = ( TCHAR* )CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, statusModeList[i], GSMDF_TCHAR);
 							item = SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_ADDSTRING,0,(LPARAM)statusMode);
 							SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETITEMDATA,item,(LPARAM)statusModeList[i]);
 							if (statusModeList[i] == proto->status)
 								SendDlgItemMessage(hwndDlg,IDC_STATUS,CB_SETCURSEL,(WPARAM)item,0);
-					}	}
+						}
+					}
 
 					// enable status box
 					EnableWindow(GetDlgItem(hwndDlg,IDC_STATUS), (ListView_GetNextItem(GetDlgItem(hwndDlg,IDC_STARTUPLIST),-1,LVNI_SELECTED)>=0));
@@ -411,7 +413,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		break;
 
 	case WM_DESTROY:
-		confirmSettings.destroy();
+		delete confirmSettings; confirmSettings = 0;
 		break;
 	}
 
@@ -423,18 +425,18 @@ INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam)
 	if ( wParam == 0 )
 		return -1;
 
-	confirmSettings.destroy();
+	delete confirmSettings; confirmSettings = 0;
 
 	OBJLIST<PROTOCOLSETTINGEX>& param = *( OBJLIST<PROTOCOLSETTINGEX>* )wParam;
-	for ( int i=0; i < param.getCount(); i++ )
-		confirmSettings.insert( new TConfirmSetting( param[i] ));
+	for (int i=0; i < param.getCount(); i++)
+		confirmSettings->insert( new TConfirmSetting( param[i] ));
 
 	timeOut = lParam;
 	if (timeOut < 0)
 		timeOut = DEF_CLOSE_TIME;
 
-	if ( GetWindow(win, 0) == NULL ) {
-		win = CreateDialogParam( hInst,MAKEINTRESOURCE(IDD_CONFIRMDIALOG),NULL,ConfirmDlgProc,NULL);
+	if (GetWindow(win, 0) == NULL) {
+		win = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_CONFIRMDIALOG), NULL, ConfirmDlgProc, NULL);
 		EnableWindow(win,TRUE);
 	}
 	
