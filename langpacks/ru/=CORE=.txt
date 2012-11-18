@@ -1137,6 +1137,8 @@ Cлужба:
 Эксперт
 [Show Hide Contact List]
 Показать/Скрыть список контактов
+[Show/Hide Offline Users]
+Показать/Скрыть отключённых
 [Show protocols in the following order, drag to choose another order:]
 Порядок отображения протоколов. Перетаскивайте для изменения:
 [Show this dialog box when Miranda NG starts]
