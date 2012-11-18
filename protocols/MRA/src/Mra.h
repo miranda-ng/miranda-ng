@@ -185,6 +185,8 @@ typedef struct
 extern MRA_SETTINGS masMraSettings;
 extern LIST<CMraProto> g_Instances;
 
+extern HANDLE hXStatusAdvancedStatusIcons[];
+
 INT_PTR LoadModules();
 void    UnloadModules();
 void    InitExtraIcons();
@@ -233,6 +235,9 @@ DWORD   MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize,
 void   MraAddrListFree(MRA_ADDR_LIST *pmalAddrList);
 DWORD  MraAddrListGetFromBuff(LPSTR lpszAddreses, size_t dwAddresesSize, MRA_ADDR_LIST *pmalAddrList);
 DWORD  MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList, LPSTR lpszBuff, size_t dwBuffSize, size_t *pdwBuffSizeRet);
+
+void   InitXStatusIcons();
+void   DestroyXStatusIcons();
 
 DWORD  MraGetVersionStringFromFormatted (LPSTR dwUserAgentFormatted, size_t dwUserAgentFormattedSize, LPSTR lpszVersion, size_t dwVersionSize, size_t *pdwVersionSizeRet);
 BOOL   IsUnicodeEnv                    ();

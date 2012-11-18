@@ -105,6 +105,8 @@ extern "C" MRA_API int Load(void)
 		}
 	}
 
+	InitXStatusIcons();
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
@@ -122,6 +124,7 @@ extern "C" MRA_API int Load(void)
 
 extern "C" MRA_API int Unload(void)
 {
+	DestroyXStatusIcons();
 	if (masMraSettings.hDLLXStatusIcons) {
 		FreeLibrary(masMraSettings.hDLLXStatusIcons);
 		masMraSettings.hDLLXStatusIcons = NULL;

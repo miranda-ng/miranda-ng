@@ -55,7 +55,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	InitContactMenu();
 
 	// xstatus menu
-	InitXStatusIcons();
 	for (size_t i = 0; i < MRA_XSTATUS_COUNT; i++) {
 		char szServiceName[100];
 		mir_snprintf(szServiceName, SIZEOF(szServiceName), "/menuXStatus%ld", i);
@@ -68,8 +67,8 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, &CMraProto::MraRebuildStatusMenu);
 	MraRebuildStatusMenu(0, 0);
 
-	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", "Mail.ru Xstatus", "MRA_xstatus25");
-	hExtraInfo = ExtraIcon_Register("MRAStatus", "Mail.ru extra info", "MRA_xstatus49");
+	hExtraXstatusIcon = ExtraIcon_Register("MRAXstatus", "Mail.ru Xstatus", "mra_xstatus25");
+	hExtraInfo = ExtraIcon_Register("MRAStatus", "Mail.ru extra info", "mra_xstatus49");
 
 	bHideXStatusUI = FALSE;
 	m_iXStatus = mraGetByte(NULL, DBSETTING_XSTATUSID, MRA_MIR_XSTATUS_NONE);
@@ -82,8 +81,6 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 CMraProto::~CMraProto()
 {
 	Netlib_CloseHandle(hNetlibUser);
-
-	DestroyXStatusIcons();
 
 	if (heNudgeReceived)
 		DestroyHookableEvent(heNudgeReceived);

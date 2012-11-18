@@ -157,7 +157,7 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 		if (dwBlogStatusMsgSize) dwIconID = ADV_ICON_BLOGSTATUS;
 	}
 
-	ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL));
+	//ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL));
 	ExtraSetIcon(hExtraInfo, hContact, ((dwIconID != -1) ? hAdvancedStatusItems[dwIconID]:NULL));
 }
 

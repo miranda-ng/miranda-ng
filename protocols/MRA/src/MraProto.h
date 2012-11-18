@@ -223,8 +223,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 
 	BOOL    bHideXStatusUI;
 	HANDLE  hXStatusMenuItems[MRA_XSTATUS_COUNT+4];
-	HANDLE  hXStatusAdvancedStatusIcons[MRA_XSTATUS_COUNT+4];
-	HANDLE  hXStatusAdvancedStatusItems[MRA_XSTATUS_COUNT+4];
 	HANDLE  hExtraXstatusIcon;
 	HANDLE  hExtraInfo;
 
@@ -296,8 +294,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 
 	DWORD  MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *plpsFrom, MRA_LPS *plpsText, MRA_LPS *plpsRFTText, MRA_LPS *plpsMultiChatData);
 
-	void   InitXStatusIcons();
-	void   DestroyXStatusIcons();
 	void   SetExtraIcons(HANDLE hContact);
 
 	#define	MESSAGE_NOT_SPAM	1

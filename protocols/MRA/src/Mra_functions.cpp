@@ -1225,7 +1225,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			WCHAR szBuff[STATUS_TITLE_MAX+STATUS_DESC_MAX];
 			WNDPROC OldMessageEditProc;
 
-			dat->hDlgIcon = IconLibGetIcon(dat->ppro->hXStatusAdvancedStatusIcons[dat->dwXStatus]);
+			dat->hDlgIcon = IconLibGetIcon(hXStatusAdvancedStatusIcons[dat->dwXStatus]);
 			dat->dwCountdown = 5;
 
 			hWndEdit = GetDlgItem(hWndDlg, IDC_XTITLE);

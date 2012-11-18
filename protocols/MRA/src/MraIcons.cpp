@@ -1,6 +1,8 @@
 #include "Mra.h"
 #include "MraIcons.h"
 
+HANDLE hXStatusAdvancedStatusIcons[MRA_XSTATUS_COUNT+4];
+
 GUI_DISPLAY_ITEM gdiMenuItems[] =
 {
 	{ MRA_GOTO_INBOX,         MRA_GOTO_INBOX_STR,         IDI_INBOX,          &CMraProto::MraGotoInbox },
@@ -92,25 +94,23 @@ HICON IconLibGetIconEx(HANDLE hIcon, DWORD dwFlags)
 
 void IconsLoad()
 {
-	AddIcoLibItems(L"MainMenu", gdiMenuItems, SIZEOF(gdiMenuItems));
-	AddIcoLibItems(L"ContactMenu", gdiContactMenuItems, SIZEOF(gdiContactMenuItems));
+	AddIcoLibItems(L"Main Menu", gdiMenuItems, SIZEOF(gdiMenuItems));
+	AddIcoLibItems(L"Contact Menu", gdiContactMenuItems, SIZEOF(gdiContactMenuItems));
 
 	// Advanced Status Icons initialization
 	AddIcoLibItems(L"Extra status", gdiExtraStatusIconsItems, SIZEOF(gdiExtraStatusIconsItems));
 }
 
-void CMraProto::InitXStatusIcons()
+void InitXStatusIcons()
 {
-	WCHAR wszSection[MAX_PATH], wszPath[MAX_FILEPATH];
-	mir_sntprintf(wszSection, SIZEOF(wszSection), L"Status Icons/%s/Custom Status", m_tszUserName);
+	WCHAR wszPath[MAX_FILEPATH];
 	if (masMraSettings.hDLLXStatusIcons)
 		GetModuleFileName(masMraSettings.hDLLXStatusIcons, wszPath, SIZEOF(wszPath));
 	else
 		bzero(wszPath, sizeof(wszPath));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.pwszSection = wszSection;
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pwszSection = L"Protocols/MRA/Custom Status";
 	sid.pwszDefaultFile = wszPath;
 	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_UNICODE;
@@ -118,7 +118,7 @@ void CMraProto::InitXStatusIcons()
 	hXStatusAdvancedStatusIcons[0] = NULL;
 	for (int i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
 		char szBuff[MAX_PATH];
-		mir_snprintf(szBuff, SIZEOF(szBuff), "%s_xstatus%ld", m_szModuleName, i);
+		mir_snprintf(szBuff, SIZEOF(szBuff), "mra_xstatus%ld", i);
 		sid.pszName = szBuff;
 
 		int iCurIndex = i+IDI_XSTATUS1-1;
@@ -133,17 +133,16 @@ void CMraProto::InitXStatusIcons()
 	}
 }
 
-void CMraProto::DestroyXStatusIcons()
+void DestroyXStatusIcons()
 {
 	char szBuff[MAX_PATH];
 
 	for (size_t i = 1; i < MRA_XSTATUS_COUNT+1; i++) {
-		mir_snprintf(szBuff, SIZEOF(szBuff), "xstatus%ld", i);
+		mir_snprintf(szBuff, SIZEOF(szBuff), "mra_xstatus%ld", i);
 		Skin_RemoveIcon(szBuff);
 	}
 
 	bzero(hXStatusAdvancedStatusIcons, sizeof(hXStatusAdvancedStatusIcons));
-	bzero(hXStatusAdvancedStatusItems, sizeof(hXStatusAdvancedStatusItems));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
