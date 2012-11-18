@@ -157,8 +157,19 @@ void CMraProto::SetExtraIcons(HANDLE hContact)
 		if (dwBlogStatusMsgSize) dwIconID = ADV_ICON_BLOGSTATUS;
 	}
 
-	//ExtraSetIcon(hExtraXstatusIcon, hContact, (( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN)? hXStatusAdvancedStatusItems[dwXStatus]:NULL));
-	ExtraSetIcon(hExtraInfo, hContact, ((dwIconID != -1) ? hAdvancedStatusItems[dwIconID]:NULL));
+	if ( IsXStatusValid(dwXStatus) || dwXStatus == MRA_MIR_XSTATUS_UNKNOWN) {
+		char szSetting[40];
+		mir_snprintf(szSetting, SIZEOF(szSetting), "mra_xstatus%d", dwXStatus);
+		ExtraSetIcon(hExtraXstatusIcon, hContact, szSetting);
+	}
+	else ExtraSetIcon(hExtraXstatusIcon, hContact, NULL);
+	
+	if (dwIconID != -1) {
+		char szSetting[40];
+		mir_snprintf(szSetting, SIZEOF(szSetting), "MRA_%s", gdiExtraStatusIconsItems[dwIconID].lpszName);
+		ExtraSetIcon(hExtraInfo, hContact, szSetting);
+	}
+	else ExtraSetIcon(hExtraInfo, hContact, NULL);
 }
 
 INT_PTR CMraProto::MraXStatusMenu(WPARAM wParam, LPARAM lParam, LPARAM param)

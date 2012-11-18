@@ -1155,8 +1155,6 @@ void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
 
 int ExtraSetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)
 {
-	if (hImage == NULL)
-		hImage = INVALID_HANDLE_VALUE;
 	return ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
 }
 

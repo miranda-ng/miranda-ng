@@ -216,7 +216,6 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 
 	HANDLE  hMainMenuItems[MAIN_MENU_ITEMS_COUNT+4];
 	HANDLE  hContactMenuItems[CONTACT_MENU_ITEMS_COUNT+4];
-	HANDLE  hAdvancedStatusItems[ADV_ICON_MAX+4];
 
 	HWND    hWndEMailPopupStatus;
 	DWORD   dwEmailMessagesTotal, dwEmailMessagesUnread;

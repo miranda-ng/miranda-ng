@@ -69,7 +69,8 @@ static void AddIcoLibItems(LPWSTR lpwszSubSectionName, GUI_DISPLAY_ITEM *pgdiIte
 		sid.pwszDescription = pgdiItems[i].lpwszDescr;
 		sid.iDefaultIndex = -pgdiItems[i].defIcon;
 		sid.hDefaultIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(pgdiItems[i].defIcon), IMAGE_ICON, 0, 0, LR_SHARED);
-		if (sid.hDefaultIcon == NULL) sid.hDefaultIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(pgdiItems[i].defIcon), IMAGE_ICON, 0, 0, LR_SHARED);
+		if (sid.hDefaultIcon == NULL)
+			sid.hDefaultIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(pgdiItems[i].defIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 		pgdiItems[i].hIconHandle = Skin_AddIcon(&sid);
 	}
 }
