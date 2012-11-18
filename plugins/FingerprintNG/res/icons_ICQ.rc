@@ -1,0 +1,130 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+//
+// Generated from the TEXTINCLUDE 2 resource.
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+//##############################################################################################################
+//########################################## Unofficial ICQ clients ############################################
+//##############################################################################################################
+   IDI_1UND1              ICON    "..\\icons\\ICQ\\1&1.ico"
+   IDI_ALICQ               ICON    "..\\icons\\ICQ\\Alicq.ico"
+   IDI_ANASTASIA           ICON    "..\\icons\\ICQ\\Anastasia.ico"
+   IDI_ANDRQ               ICON    "..\\icons\\ICQ\\&RQ.ico"
+   IDI_ASIA		ICON	"..\\icons\\ICQ\\Asia.ico"
+   IDI_COREPAGER           ICON    "..\\icons\\ICQ\\corepager.ico"
+   IDI_DELPHI              ICON    "..\\icons\\ICQ\\Delphi.ico"
+   IDI_DICHAT              ICON    "..\\icons\\ICQ\\D[i]Chat.ico"
+   IDI_GLICQ               ICON    "..\\icons\\ICQ\\GLICQ.ico"
+   IDI_GNOMEICU            ICON    "..\\icons\\ICQ\\GnomeICU.ico"
+   IDI_ICAT                ICON    "..\\icons\\ICQ\\IC@.ico"
+   IDI_ICQ2X               ICON    "..\\icons\\ICQ\\ICQ_2.x.ico"
+   IDI_ICY_JUICE		ICON	"..\\icons\\ICQ\\Icy Juice.ico"
+   IDI_CENTERICQ           ICON    "..\\icons\\ICQ\\CenterICQ.ico"
+   IDI_JICQ                ICON    "..\\icons\\ICQ\\JICQ.ico"
+//	IDI_KMASKA				ICON    "..\\icons\\ICQ\\KM_Aska.ico"
+   IDI_KXICQ               ICON    "..\\icons\\ICQ\\kxICQ2.ico"
+   IDI_LIBICQ2000          ICON    "..\\icons\\ICQ\\LibICQ2000.ico"
+   IDI_LICQ                ICON    "..\\icons\\ICQ\\Licq.ico"
+   IDI_LOCID               ICON    "..\\icons\\ICQ\\locid.ico"
+   IDI_MICQ                ICON    "..\\icons\\ICQ\\mICQ.ico"
+   IDI_MIP                 ICON    "..\\icons\\ICQ\\MIP.ico"
+   IDI_NANOICQ             ICON    "..\\icons\\ICQ\\NanoICQ.ico"
+   IDI_NICQ                ICON    "..\\icons\\ICQ\\nICQ.ico"
+   IDI_QIP                 ICON    "..\\icons\\ICQ\\QIP.ico"
+   IDI_RANDQ_NEW           ICON    "..\\icons\\ICQ\\R&Q.ico"
+
+   IDI_SMAPER              ICON    "..\\icons\\ICQ\\smaper.ico"
+   IDI_SMARTICQ            ICON    "..\\icons\\ICQ\\SmartICQ.ico"
+   IDI_SPAMBOT             ICON    "..\\icons\\ICQ\\Spambot.ico"
+   IDI_STICQ               ICON    "..\\icons\\ICQ\\stICQ.ico"
+   IDI_STRICQ              ICON    "..\\icons\\ICQ\\StrICQ.ico"
+   IDI_TICQ					ICON	"..\\icons\\ICQ\\TICQ.ico"
+   IDI_VICQ                ICON    "..\\icons\\ICQ\\vICQ.ico"
+   IDI_VIRUS               ICON    "..\\icons\\ICQ\\Biohazard.ico"
+   IDI_VMICQ               ICON    "..\\icons\\ICQ\\vmICQ.ico"
+   IDI_WEBICQ              ICON    "..\\icons\\ICQ\\WebICQ.ico"
+   IDI_YEEMP               ICON    "..\\icons\\ICQ\\Yeemp.ico"
+   IDI_YSM                 ICON    "..\\icons\\ICQ\\YSM.ico"
+   
+   
+//##############################################################################################################
+//############################################# Official ICQ clients ###########################################
+//##############################################################################################################
+	IDI_AIM                 ICON    "..\\icons\\AIM\\AIM.ico"
+	IDI_ICQ                 ICON    "..\\icons\\ICQ\\official\\ICQ.ico" 
+   
+//##############################################################################################################
+//################################################## Overlays ##################################################
+//##############################################################################################################
+
+//##############################################################################################################
+//################################# ICQ overlays ###############################################################
+//##############################################################################################################
+
+   IDI_ICQ6_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v6.ico"
+   IDI_ICQ7_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v7.ico"
+   IDI_ICQ8_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v8.ico"
+
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+    IDS_IDENTIFY            "# Finger Icons #"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

@@ -1,0 +1,185 @@
+﻿Fingerprint NG 0.1.0.0
+
+Changelog:
+mass-update of Fingerprint Mod and renaming it to Fingerprint NG 0.1.0.0.
+lots clients added, a lot of icons updated, some of them (incomplete list of changes):
+
+ICQ Asia
+ICQ GlICQ
+ICQ ICQ 7
+ICQ ICQ 8
+ICQ ICQ Flash ++
+ICQ ICQ Java ++
+ICQ Icy Juice
+ICQ TICQ
+
+IRC BersIRC
+IRC VortecIRC
+
+Jabber Ambrosia XMPP Server
+Jabber BarnOwl
+Jabber Beem
+Jabber Bombus Mod ++
+Jabber Bombus NG
+Jabber Bombus QD ++
+Jabber CJC
+Jabber CRoom
+Jabber Candy
+Jabber Carrier
+Jabber ChitChat
+Jabber Claros Chat
+Jabber CommuniGate Pro
+Jabber Crosstalk
+Jabber Cudumar-xmpp
+Jabber Cyclops Chat
+Jabber Desyr
+Jabber EMess
+Jabber Elmer Bot
+Jabber Empathy
+Jabber Gibberbot
+Jabber IM Friendly!
+Jabber J2J Transport
+Jabber JAMM
+Jabber JWChat
+Jabber Jabba
+Jabber Jabber.el Emacs ++
+Jabber Jabber client
+Jabber jabberDisk
+Jabber Jabber-Net
+Jabber JabberMixClient JMC
+Jabber Jabbroid
+Jabber JimmyIM
+Jabber Joost
+Jabber Lamp IM
+Jabber Lampiro
+Jabber LeechCraft
+Jabber MGTalk
+Jabber MUCkl ??
+Jabber Mango
+Jabber Mix Client ++
+Jabber OctroTalk ++
+Jabber OneTeam ++
+Jabber PSI
+Jabber PSI+
+Jabber Pandion ++
+Jabber Poezio
+Jabber Prosody
+Jabber Psyc
+Jabber Pygeon
+Jabber QuteCom
+Jabber SAPO Messenger
+Jabber SBot
+Jabber SIP Communicator => Jitsi
+Jabber SamePlace
+Jabber SieJC
+Jabber Sky Messager
+Jabber Slick
+Jabber Speakall
+Jabber Speeqe
+Jabber Swift
+Jabber SworIM => Monal
+Jabber Synapse
+Jabber Talkdroid
+Jabber The Bee
+Jabber Thunderbird
+Jabber Tigase
+Jabber Translate component
+Jabber Twitter
+Jabber V&V Messenger ++
+Jabber VKontakte
+Jabber Vacuum ++
+Jabber Vayusphere ++
+Jabber Virtus
+Jabber Vysper
+Jabber WTW ++
+Jabber WinJab
+Jabber XMPP
+Jabber Xiffian ++
+Jabber chat bots
+Jabber dziObber
+Jabber ejabberd
+Jabber emite
+Jabber glu
+Jabber iJab
+Jabber iMov ++
+Jabber jTalk
+Jabber jabberDisk
+Jabber jabbim
+Jabber jabiru
+Jabber jappix
+Jabber mJabber
+Jabber saje
+Jabber tkchat
+Jabber uJabber
+Jabber vBuzzer
+Jabber xabber
+Jabber xeus 2
+Jabber yaxim
+
+Multi Appolo IM
+Multi Ayttm
+Multi BayanICQ ++
+Multi BeejiveIM ++
+Multi Bimoid ++
+Multi BitlBee
+Multi BlackBerry
+Multi Buddycloud
+Multi Causerie
+Multi CenterIM
+Multi ChatSecure
+Multi Citron
+Multi EKG2
+Multi Empathy
+Multi Eyeball Chat
+Multi FamaIM
+Multi GMX MultiMessenger
+Multi Galaxium
+Multi IM2
+Multi IMVU
+Multi IMadering ++
+Multi Inlux Messenger
+Multi JBother
+Multi JBuddy Messenger
+Multi Jabbear
+Multi Jabbin
+Multi Jimm Aspro
+Multi JimmyIM
+Multi KMess
+Multi KoolIM
+Multi LeechCraft Azoth
+Multi MDC
+Multi Meetro
+Multi Monal
+Multi Nimbuzz
+Multi Pidgin
+Multi PlayXpert
+Multi Python
+Multi QIP Android
+Multi QIP Java
+Multi QIP Symbian ++
+Multi SAPO Messenger
+Multi Shaim
+Multi SrevIM
+Multi Trillian Android
+Multi Tuukle Chat (formerly IM Gate)
+Multi WeeChat
+Multi Wippien
+Multi Yeigo
+Multi Yoono
+Multi climm
+Multi eBuddy Messenger
+Multi eM Client
+Multi eQo
+Multi emesene
+Multi iCall
+Multi iChat
+Multi irssi
+Multi qutIM ++
+Multi uIM
+Multi uTalk
+Multi Salut à Toi
+Multi Palringo
+overlay Unicode client
+
+etc.
+

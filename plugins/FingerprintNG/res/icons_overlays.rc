@@ -1,0 +1,125 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "..\src\resource.h"
+
+//
+// Generated from the TEXTINCLUDE 2 resource.
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+#include "afxres.h"
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#endif	// Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+//##############################################################################################################
+//##################################### Miranda client overlays ################################################
+//##############################################################################################################
+
+	IDI_AIMOSCAR_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_AIM.ico"
+	IDI_GMAIL_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Gmail.ico"
+	IDI_ICQJ_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_ICQJ.ico"
+	IDI_ICQJ_PLUS_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_ICQJ_Plus.ico"
+	IDI_IRC_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_IRC.ico"
+	IDI_JABBER_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Jabber.ico"
+	IDI_JGTALK_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_JGTalk.ico"
+	IDI_MAILRU_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_MailRu.ico"
+	IDI_MSN_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_MSN.ico"
+	IDI_QQ_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_QQ.ico"
+	IDI_TLEN_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Tlen.ico"
+	IDI_YAHOO_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Yahoo.ico"
+
+//##############################################################################################################
+//######################################### Platform overlays ##################################################
+//##############################################################################################################
+	IDI_DEBUG_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_debug.ico"
+	IDI_HOME_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_home.ico"
+	IDI_MOBILE_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_mobile.ico"
+	IDI_NOTEBOOK_OVERLAY			ICON    "..\\icons\\overlays\\overlay_resource_notebook.ico"
+	IDI_OFFICE_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_office.ico"
+	IDI_WORK_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_work.ico"
+
+//##############################################################################################################
+//########################################### Secure overlays ##################################################
+//##############################################################################################################
+	IDI_SECUREIM_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_SecureIM.ico"
+	IDI_IMSECURE_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_IMsecure.ico"
+	IDI_SIMPLITE_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_SimpLite.ico"
+	IDI_SIMPPRO_OVERLAY				ICON	"..\\icons\\overlays\\overlay_secure_SimpPro.ico"
+
+//##############################################################################################################
+//############################## PLATFORM OVERLAYS #############################################################
+//##############################################################################################################
+	IDI_PLATFORM_ANDROID			ICON	"..\\icons\\overlays\\overlay_platform_Android.ico"
+	IDI_PLATFORM_FLASH				ICON	"..\\icons\\overlays\\overlay_platform_Flash.ico"
+	IDI_PLATFORM_MAC				ICON	"..\\icons\\overlays\\overlay_platform_iMac.ico"
+	IDI_PLATFORM_JAVA				ICON	"..\\icons\\overlays\\overlay_platform_Java.ico "
+	IDI_PLATFORM_LINUX				ICON	"..\\icons\\overlays\\overlay_platform_linux.ico"
+	IDI_PLATFORM_SYMBIAN			ICON	"..\\icons\\overlays\\overlay_platform_Symbian.ico"
+	IDI_PLATFORM_WIN				ICON	"..\\icons\\overlays\\overlay_platform_Windows.ico"
+	IDI_PLATFORM_IOS				ICON	"..\\icons\\overlays\\overlay_platform_iOS.ico"
+
+//##############################################################################################################
+//##############################################################################################################
+//##############################################################################################################
+	
+	IDI_PLATFORM_X32				ICON	"..\\icons\\overlays\\overlay_platform_x32.ico"
+	IDI_PLATFORM_X64				ICON	"..\\icons\\overlays\\overlay_platform_x64.ico"
+
+	
+//##############################################################################################################
+
+	IDI_CLIENT_UNICODE				ICON	"..\\icons\\overlays\\overlay_Unicode.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+	IDS_IDENTIFY			"# Finger Icons #"
+END
+
+#endif	// English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif	// not APSTUDIO_INVOKED
+

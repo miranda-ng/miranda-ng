@@ -1,0 +1,1082 @@
+Fingerprint Mod 0.3.0.01
+
+Changelog:
+overlay Unicode client
+Multi Bimoid ++
+Skype Skype 4
+Skype Skype 5
+Skype Skype 6
+ICQ ICQ 7
+ICQ ICQ 8
+ICQ ICQ Flash ++
+ICQ ICQ Java ++
+Jabber ejabberd
+Jabber JAMM
+Multi Jimm Aspro
+Multi QIP Android
+Multi QIP Java
+Multi QIP Symbian ++
+Multi Trillian Android
+Jabber Bombus Mod ++
+Jabber Bombus NG
+Multi PlayXpert
+Multi SAPO Messenger
+Multi Wippien
+Jabber Elmer
+Multi Buddycloud
+Multi JimmyIM
+Jabber Jabber-Net http://cursive.net/clients/csharp-example 6ghXfpEOZD3CQOiNSOoxbuS5Ezk=
+Jabber xabber http://www.igniterealtime.org/projects/smack/ bWG06mEjKFM5ygtd84Ov95P8VH0=
+Jabber Beem
+Multi uTalk
+Multi eQo
+Jabber EMess
+Jabber jabiru
+Jabber yaxim
+Multi Yeigo ??
+Multi Nimbuzz
+Multi BeejiveIM ++
+Multi Jabbear
+Multi EKG2
+Jabber Cyclops Chat
+Jabber Cudumar-xmpp
+Jabber CRoom
+Multi Monal
+Multi CenterIM
+Multi Jabbin
+Jabber jabbim
+Multi Citron
+Jabber Pygeon
+Carrier
+Jabber Prosody IM
+Jabber Vysper
+Jabber Ambrosia XMPP Server
+Multi climm
+Jabber Candy
+Jabber OneTeam
+CommuniGate Pro
+Jabber Gizmo --
+iMov ++
+OctroTalk ++
+Multi qutIM ++
+bombus mod ++
+IMadering ++
+Multi BayanICQ ++
+Multi JimmyIM
+SrevIM
+Jabber Synapse
+JBuddyMessenger
+Tigase
+Empathy
+Zoep --
+kmess
+Interaction
+Multi BitlBee
+Jabber SieJC
+eBuddy Messenger
+VortecIRC
+SrevIM
+SamePlace
+Famaim
+vBuzzer
+MGTalk
+Emacs
+Jabber jTalk
+Multi BlackBerry
+Multi MDC (Multiple Direct Communicator)
+Jabber Lamp IM
+Jabber mJabber
+Jabber Lampiro
+Jabber Elmer Bot
+Jabber CJC
+Multi LeechCraft Azoth
+SworIM ++
+yoono
+Jamm
+Jabber SBot
+Multi Shaim
+Jabber tkchat
+Jabber JabberMixClient JMC
+Jabber jabberDisk
+Multi Galaxium
+Multi JBother
+Jabber glu
+Jabber Swift
+Jabber jappix
+Jabber MUCkl ??
+Jabber emacs-jabber jabber.el
+TheBee
+Jaiku ??
+ICQ Icy Juice
+Multi KoolIM
+Multi SrevIM
+Jabber Poezio
+Jabber Jabba
+Jabber Virtus
+Multi iChat
+
+
+
+
+>>> 0.2.0.01 (01.02.10-20.02.10, internal build)
+[-] fixed wrong Weather protocol tree.
+
+[!] changed icon for WinJab
+[!] changed icon for Pidgin
+[!] changed icon for SAPO Messenger
+[!] changed icon for Bombus Mod
+
+
+[+] added Glu
+[+] added Jabbear
+[+] added V&V Messenger
+[+] added JBuddy messenger
+[+] added SworIM
+[+] added BombusQD
+[+] added BayanICQ
+[+] added Jimm aspro
+[+] added Jamm
+[+] added tkchat
+[+] added Virtus
+[+] added qutIM
+[+] added Android
+[+] added XMPP
+[+] added ejabberd
+[+] added BeejiveIM
+[+] added Tigase
+[+] added Nimbuzz
+[+] added Digsby
+[+] added Sketsa
+[+] added ya.online
+[+] added Buddycloud
+[+] added MDC
+[+] added Galaxium
+[+] added Yeigo
+[+] added Vacuum
+[+] added Empathy
+[+] added Juick
+[+] added AQQ
+[+] added Translate component (http://JRuDevels.org)
+[+] added CampusTalk
+[+] added SrevIM
+[+] added Psyc
+[+] added Delphi
+[+] added Slick
+[+] added Smaper
+[+] added PSI+
+[+] added PSI Development versions
+[+] added Miranda 0.9
+[+] added Palringo
+[+] added BimoidIM
+[+] added QIP 2010
+[+] added QIP 2012
+[+] added Trillian for Android
+[+] added Android
+[+] added 
+
+
+
+jwchat
+gmail.9559577E
+
+
+Python
+
+
+
+у мен€ их не много:
+WLM 2009
+WLM 8.1
+MSN 7.0
+aMSN 0.97.2
+
+правильно все, кроме первого - там (?)
+
+Gtalk 1.0.0.104 определилс€ после перезапуска, но при этом 
+JuBo (http://pjc.googlecode.com/caps PJC 0.02) тоже стал Gtalkом
+kxepal, 16.07.2010 @ 12:54:12:
+public@disk.jabbim.cz (http://dev.jabbim.cz/jdisk/0.2 DvVWmEyPVYYdEqMX2iFuMK/ReFU=) тоже гталк, но гугла нет(:
+
+
+kxepal, 16.07.2010 @ 13:13:58:
+Incoming file transfer: 4.png
+скрин 1. нет конактов с gtalk, все показывает как надо.
+скрин 2. добавил контакта с гталком - artasis@gmail.com - заметь, его иконку в типпере
+скрин 3. перезапустил миранду 
+скрин 4. заметь икоку jubo в типпере и в контакт листе
+удалил контакт с gtalkом - все вернулось к скрин 1. после перезапуска
+
+
+
+
+
+xeus 2.ico
+RSS.ico
+ChitChat.ico
+chat bots.ico
+J2J Transport.ico
+Jabbin.ico
+
+
+Thunderbird 001.ico
+gnome220redhat9.ico
+Copy of gnome220redhat9.ico
+mcabber_pour_McKael.ico
+overlay_Songbird.ico
+overlay_FireFox.ico
+Peekko Chat.ico
+overlay_Flock.ico
+overlay_Seamonkey.ico
+Jabbim.ico
+imvu.ico
+moochIconWin.ico
+Wlinstaller 001.ico
+
+Image1.ico
+jabber 012.ico
+
+wi23ki.ico
+Twitter.ico
+multi-protocol\Translate component.ico
+BIG.ico
+
+354.ico
+ICQ\Delphi.ico
+favicon112.ico
+453345.ico
+
+Copy of SrevIM.ico
+sameplace_favicon.ico
+Jabber\Bombus_Mod.ico
+Famaim.ico
+sc_logo16x16111.ico
+SipCoExample.ico
+Joostlogo.ico
+tux.ico
+jooooost.ico
+gmx_multimessenger 001.ico
+jabber disk.ico
+packs\packs_induction.ico
+overlays\ICQ\overlay_ICQ_98.ico
+overlays\ICQ\overlay_ICQ_99.ico
+overlays\ICQ\overlay_ICQ_2001.ico
+overlays\ICQ\overlay_ICQ_2000.ico
+overlays\ICQ\overlay_ICQ_Lite4.ico
+overlays\ICQ\overlay_ICQ_2003a.ico
+overlays\ICQ\overlay_ICQ_6.ico
+overlays\ICQ\overlay_ICQ_Lite5.ico
+overlays\ICQ\overlay_ICQ_Lite5.1.ico
+overlays\ICQ\overlay_ICQ_Lite.ico
+overlays\ICQ\overlay_ICQ_2003b.ico
+
+
+IM Friendly!
+
+Parlingo
+
+
+climm
+
+Core pager
+di_chat
+IM Gate
+glicq
+Naticq
+
+uJabber
+muckl
+
+TransVerse
+
+OneTeam
+
+Multi:
+IMVU
+
+
+
+ICQ:
+ICQ 6.5
+ICQ 7
+
+Jabber:
+Jabbim
+
+PSI 0.13
+PSI 0.14
+PSI 0.15
+
+[+] added vBuzzer
+Instant Bird
+Meca
+Odigo
+PalTalk
+
+Jabber disk
+[cs]_*
+[??]_*
+GMX
+Twitter
+KoolIM
+Fama IM
+WLM 8.x
+mCabber
+Mooch
+Peekko Chat
+
+
+Miranda Pack
+
+iPhone
+Miranda IM 0.9 alpha build #5†[eternity†mod]†SVN†11209 Unicode (Jabber 0.9.0.2 alpha [miranda-laptop])
+Miranda IM Jabber 0.9.0.2
+
+
+RSS
+
+SamePlace
+on SeaMonkey, on FireFox, on Flock, on SongBird
+
+
+Bombus
+
+
+
+
+
+********************** TRUNCATE HERE *******************************************
+
+
+
+>>> 0.1.99.161 (xx.04.08, internal build)
+[!] lot's of added clients, but sources were completely lost.
+
+>>> 0.1.99.132-136 (27.05.07-17.08.07)
+[!] bugfix (semi-)release.
+[+] added Openfire client (formerly known as Wildfire).
+[+] added LJ Bot client.
+[+] added BeeNut client.
+[+] added Talkonaut client.
+[-] a lot of small fixes.
+[+] something I don't remember (a lot of things though)
+
+>>> 0.1.99.131 (27.05.07-01.06.07)
+[+] added OpenSER client.
+[+] added Causerie client.
+[+] added MRIM client.
+[+] added J2J Transport client.
+[+] added dziObber client.
+[+] added Joost client.
+[+] added Claros Chat client.
+[+] added chat bots.
+[-] minor detection improvements.
+
+>>> 0.1.99.130 (27.05.07, internal build)
+[!] oops, wrong version again, bumped.
+
+>>> 0.1.99.126-128 (24-26.05.07, internal build)
+[!] Bombus clients splitted again to original, Mod and NG (PocketPC) versions.
+[-] ICQJ S7/SSS / Plus Mod minor detection fixes.
+
+>>> 0.1.99.123-125 (22.05.07, internal build)
+[+] added SAPO Messenger client.
+[+] added Wippien client.
+[!] changed Coccinella icon.
+[!] changed GoTalkMobile icon.
+[!] changed Colibri icon.
+[!] changed Jabbin icon.
+
+>>> 0.1.99.122 (21.05.07, internal build)
+[+] added Elmer NxG bot.
+[+] minor ICQ mods detection fixes.
+[!] changed Tkabber logo.
+
+>>> 0.1.99.121 (19.05.07, internal build)
+[+] added all Weather plugin channels (GisMeteo.ru, AccuWeather.com, Wetter.com, Weather Underground, Yahoo Weather, Weather.com). Wrong tree (icons in root) is known issue.
+
+>>> 0.1.99.120 (16-18.05.07)
+[-] minor Miranda + Jabber detection fix (again).
+[!] changed Pidgin client and sub-client overlay to official logo.
+
+>>> 0.1.99.119 (15.05.07)
+[-] minor Miranda + Jabber detection fixes.
+
+>>> 0.1.99.118 (14.05.07)
+[!] improved Miranda Jabber detection due it's new caps (agrrr, hope they're temporal)
+[-] minor Miranda versions detection improvements.
+
+>>> 0.1.99.117 (10.05.07)
+[+] added Carleone pack overlay.
+[!] changed MirandaME pack overlay.
+[-] fixed dll version in Windows properties.
+
+>>> 0.1.99.116 (08.05.07)
+[!] impoved Pidgin (libpurple) detection.
+[-] fixed 666 excess overlay.
+
+>>> 0.1.99.115 (01.05.07)
+[+] minor fixes.
+[+] Gadu-Gadu 7.6 detection added.
+
+>>> 0.1.99.114 (27.04.07, internal build)
+[+] added Vmicq client (current icon is temporal).
+
+>>> 0.1.99.113 (25.04.07, internal build)
+[+] version bump (specially for users, who don't read changelogs).
+[!] MSN overlays are back again. seems to be current overlay will be changed due overlays are a bit huge.
+[-] fixed/improved Pidgin (libpurple) detection.
+
+>>> 0.1.99.110 (18-23.04.07)
+[!] version number in file properties removed at all (temporarily).
+[+] added ICQJ S!N Mod.
+[+] added ICQ Unnamed Mod (forthcoming S7/SSS and S!N mods merge to Plus).
+[+] added WLM 8.x detection.
+[-] some minor fixes.
+
+>>> 0.1.99.109 (18.04.07)
+[+] added PlayXpert client (by blackfog request).
+[-] improved Miranda IM Mobile detection.
+
+>>> 0.1.99.108 (17.04.07, internal build)
+[!] damn, wrong version number in resources, fixed.
+[+] added IMadering client (though still needs this client to be detected by ICQ.dll).
+
+>>> 0.1.99.107 (16.04.07)
+[+] added Miranda Mobile overlay.
+[!] new Qnext logo.
+
+>>> 0.1.99.106 (14-15.04.07)
+[+] added JGTalk (JGmail @ libjingle) overlay.
+[+] added QIP for Symbian client.
+[+] added QIP for Symbian sub-client (for ICQJ S7/SSS Mod).
+
+>>> 0.1.99.105 (09-12.04.07)
+[-] fixed Python sub-clients detection.
+[-] fixed MSN excess overlay.
+[-] fixed GTalk/Gmail excess 666 overlay.
+[!] SIM Linux icons are back again (detection may be faulty).
+[!] some old miranda logo icons are back.
+
+>>> 0.1.99.104 (08.04.07)
+[!] fixed issue with missed icons.
+[-] fixed issue when FP Mod wasn't loading on Win9x.
+
+>>> 0.1.99.103 (06.04.07, internal build)
+[+] added GlICQ client.
+[+] added Pidgin (ex-Gaim) client (still shares icon with gaim).
+[-] fixed sudden bug with missed Unknown clients icons.
+[-] fixed Miranda ICQJ and S7/SSS Mod detection (I hope at least :)).
+
+>>> 0.1.99.102 (05.04.07, internal build)
+[!] OM client logo changed to official Beeline logo.
+[!] internal resources reorganisation (please reset your icons in IconLib if you manually assigned there something).
+[-] minor fixes.
+
+>>> 0.1.99.101 (04.04.07)
+[+] added zsIRC.
+[+] added OM client (Beeline's Online Messenger, thanks v3 for note).
+[-] fix with different 666 clients. >:-)
+
+>>> 0.1.99.100 (03.04.07)
+[-] fixed Miranda jabber detection.
+
+>>> 0.1.99.99 (02.04.07)
+[!] minor fixes with Miranda ICQ and Jabber detection.
+
+>>> 0.1.99.98 (31.03.07)
+[!] small workaround with layers.
+[-] small bugfixes.
+
+>>> 0.1.99.97 (28.03.07)
+[-] detection fixes (sub-clients detection was severely broken).
+[!] "Unknown client" icon changed.
+[!] small sources cleanup.
+
+>>> 0.1.99.96 (14.03.07-23.03.07)
+[+] added GTalk Gadget client.
+[+] added Chikka client.
+[+] added Desyr Messenger client.
+[+] added Octro client.
+[+] added Xeus client.
+[+] MirandaIM v0.8 icon added (for future).
+[!] minor miranda jabber-related detection fixes.
+
+>>> 0.1.99.95 (12.03.07)
+[!] PluginInfo is back, so it will be working with old Miranda cores too.
+
+>>> 0.1.99.94 (09.03.07)
+[!] UUID's and interfaces were added (see m_fingerprint.h):
+{FFF4B77A-CE40-11DB-A5CD-06A755D89593} MIID_FINGERPRINT (shared with Fingerprint UUID)
+{BAC0BBBE-CE40-11DB-A11E-72A655D89593} MIID_FINGERPRINT_MOD (Fingerprint Mod UUID)
+{0afe5bbb-ce62-11db-8314-0800200c9a66} MIID_FINGERPRINT_MOD_FULL (Fingerprint Mod Full UUID)
+{0afe5abc-ce62-11db-8314-0800200c9a66} MIID_FINGERPRINT_MOD_STANDARD (Fingerprint Mod Standard UUID)
+{0afe5def-ce62-11db-8314-0800200c9a66} MIID_FINGERPRINT_MOD_LITE (Fingerprint Mod Lite UUID)
+{0afe5bad-ce62-11db-8314-0800200c9a66} MIID_FINGERPRINT_MOD_CUSTOM (Fingerprint Mod custom build UUID)
+[-] fixed assigned icon for old Miranda clients.
+
+>>> 0.1.95.93 (04.03.07)
+[-] oops, version in sources wasn't changed.
+[+] added ICQJ S7/SSS Mod Trillian Astra sub-client.
+[+] added ICQJ S7/SSS Mod R&Q sub-client.
+[+] added ICQJ S7/SSS Mod NanoICQ sub-client.
+[-] fixed original clients and their new sub-clients detection.
+[!] SIM OS overlay icons removed again (now they're merged with overlays), old versions icons added too.
+[!] fixes for Standard and Lite builds.
+[!] sources updated and uploaded to SVN trunk.
+[!] FL release.
+
+>>> 0.1.95.92 (02.03.07, internal build)
+[+] added ICQJ S7/SSS Mod Alicq sub-client.
+[+] added ICQJ S7/SSS Mod mICQ sub-client.
+[+] added ICQJ S7/SSS Mod vICQ sub-client.
+[+] added ICQJ S7/SSS Mod IM2 sub-client.
+[+] added ICQJ S7/SSS Mod ICQ99 sub-client.
+[+] added ICQJ S7/SSS Mod WebICQ sub-client.
+[+] added ICQJ S7/SSS Mod SmartICQ sub-client.
+[+] added ICQJ S7/SSS Mod IM+ sub-client.
+[+] added ICQJ S7/SSS Mod uIM sub-client.
+[+] added ICQJ S7/SSS Mod TICQ sub-client.
+[+] added ICQJ S7/SSS Mod IC@ sub-client.
+[+] added ICQJ S7/SSS Mod Prelude sub-client.
+[+] added ICQJ S7/SSS Mod Qnext sub-client.
+[+] added ICQJ S7/SSS Mod PyICQ sub-client.
+[+] added ICQJ S7/SSS Mod QIP Infium sub-client.
+[+] added ICQJ S7/SSS Mod JICQ sub-client.
+[+] added WengoPhone sub-client.
+[!] small revision with Miranda icons.
+[-] redrawn Mail.Ru Agent clients icons (thanks to Yasnovidyashii for the kicks :)).
+[-] fixed ICQJ S7/SSS Mod client detecton priority.
+[+] added Windows + iMac + Linux overlays (for SIM).
+
+>>> 0.1.95.91 (27.02.07, internal build)
+[+] added Piorun client.
+[+] added PocketIRC client.
+[+] added OneTeam client.
+[+] added Bowline client.
+[+] added ProChat client.
+[+] added SmartIRC client.
+[+] added Vayusphere client.
+[+] added TransactIM client.
+[+] added Xiffian client.
+[+] added Mango client.
+[+] added GoTalkMobile client.
+[+] added Sky Messager client.
+[+] added QTJim client.
+[+] added ICQJ S7/SSS Mod MIP sub-client.
+
+>>> 0.1.91.89-0.1.94.90 (14.02.07-26.02.07, internal builds)
+[+] added Tapioca client.
+[+] added Telepathy client.
+[+] added Landell client.
+[+] added Leaf Messenger client.
+[+] added Laffer client.
+[+] added JWGC (Jabber WindowGram Client)
+[+] added SIP Communicator client.
+[+] added MIP client.
+[-] fixed 666 detection.
+[!] some icons redrawn for better look with dark backgrounds.
+[!] replaced SMS overlay icon.
+
+>>> 0.1.91.87-88 (04.02.07-12.02.07, internal builds)
+[+] added Fring client.
+[+] added Native Siemens client.
+[+] added 1&1 client.
+[+] added GDP Web Chat client.
+[+] added JICQ client.
+[+] added QIP Infium client.
+[-] fixed ICQJ v0.3.8.10 detection.
+[!] Miranda icons are now in one style (I suppose a lot of people won't like it).
+[!] some icons were redrawn or replaced.
+
+>>> 0.1.77.86 (29.01.07)
+[-] oops, version dll wasn't bumped.
+[+] small fix with Miranda ICQ detection.
+
+>>> 0.1.77.85 (29.01.07)
+[!] FL release.
+
+>>> 0.1.75.84 (24-26.01.07, internal build)
+[+] added Trillian Astra client.
+[+] added Virus sub-client (ICQJ S7/SSS Mod).
+[+] added Anastasia sub-client (ICQJ S7/SSS Mod).
+[+] added ICQ for PocketPC sub-client (ICQJ S7/SSS Mod).
+[+] added Gaim sub-client (ICQJ S7/SSS Mod).
+[-] minor detection fixes.
+
+>>> 0.1.73.81-0.1.75.83 (12-23.01.07)
+[!]  added 3rd overlays' layer. :)
+[-] some detection fixes.
+[!] some overlays routines changed.
+[!] some overlays icons changed.
+[!] Unknown Miranda version icon changed.
+[!] new way to show alpha build state - now if MirVer contains SecureIM/SimpPro/Unicode/etс (i.e. overlay with arrow overlay), then small white triangle puts into that arrow/triange overlay (it probably looks not the best with very dark clist themes, so if you really don't like the way it looks - just assign blank icon onto +nightly ovelay).
+
+>>> 0.1.73.80 (12.01.07)
+[+] Updater support for official FileListing (full version only!).
+
+>>> 0.1.73.78-79 (11-12.01.07)
+[!] Standard/Full/Lite versions are tested and ready.
+[+] added Stalker Miranda pack detection.
+[!] source cleanup.
+[!] official FileListing release (full version only!).
+
+>>> 0.1.67.73-0.1.73.77 (08-11.01.07, internal builds)
+[!] renamed ICQJ Camouflage Mod to ICQJ Plus Mod.
+[+] changes according new S7/SSS Mod MirVer (sub-clients too).
+[-] big detection improvements, it's much more accurate now.
+[!] source cleanup.
+[!] something I don't remember.
+
+>>> 0.1.67.73-0.1.73.75 (28.12.06-12.01.07, internal builds)
+[+] added kf jabber client.
+[+] added Importal client.
+[+] added eBuddy client.
+[+] added JClaim client.
+[+] added Inlux Messenger
+[+] added ICQJ Plus overlay.
+[+] added ICQJ Plus sub-clients detection.
+[+] added ICQJ S7/SSS / ICQJ Plus 2002 sub-client.
+[-] detection fixes.
+[!] source cleanup.
+[!] something I don't remember.
+
+>>> 0.1.67.73 (27.12.06)
+[!] Portable overlay redrawn.
+[!] Debug overlay redrawn.
+[!] Release.
+
+>>> 0.1.64.72 (21-26.12.06)
+[+] added Office overlay.
+[+] added Portable (USB Flash Drive) overlay.
+[+] added Debug overlay.
+[-] fixed Jimm detection.
+[-] fixed tweaked Miranda ICQ clients detection.
+
+>>> 0.1.64.71 (21.12.06)
+[!] Gadu-Gadu v6 and v7 are now separated (thanks a lot to JKL for icons and testing!)
+[!] Mail.Ru and Gadu-Gadu now in their own separate groups.
+
+>>> 0.1.64.70 (21.12.06)
+[-] SIM detection fix.
+[+] Miranda Gadu-Gadu overlay.
+[+] added SysReset and FChat IRC clients (thanks to Arren!).
+
+>>> 0.1.64.69 (14-20.12.06)
+[!] Release.
+
+>>> 0.1.61.67-0.1.64.68 (14-20.12.06, internal builds)
+[!] Sorting.
+[!] Fixes.
+[!] Again: lots of clients are thrown out, lots are back again.
+[!] Old Python clients are in the past, now it's Python logo + protocol overlays.
+[!] More icons redrawn or changed.
+
+>>> 0.1.61.66 (14.12.06)
+[-] fixed bug with empty SIM icon.
+[-] small detection fixes.
+[!] Python jabber transports now as Python logo + overlays (used the same overlays as for Miranda clients).
+[!] some clients are back by request from Full to Standard.
+[!] Next releases will be separated to Lite, Standard and Full.
+
+>>> 0.1.61.65 (12.12.06)
+[!] release.
+
+>>> 0.1.61.60-64 (08-12.12.06, internal builds)
+[!] it's now STANDARD build, some rare clients (for all protocols) are thrown out for reducing dll size.
+[!] Miranda packs removed too (I will spread special version for developers)
+[!] changed QIP PDA icon and sub-client icon overlays
+[!] SIM client icon is as original one (temporarily it's one icon for all SIM's).
+[!] sorting and groups changed.
+[!] lots of icons redrawn.
+[!] detection fixes.
+[!] sources cleaning.
+
+>>> 0.1.53.59 (08.12.06)
+[!] some icons are back again (to you: thank you for the fun). :)
+[!] some sorting in Iconlib (in work).
+[-] sime detection fixes.
+[+] added pda and notebook overlays (for jabber clients).
+[-] some icons redrawn, in progress (if you want to get some kind of a "lawsuit" - just use icons from original fingerprint :)).
+[+] added new sub-clients for ICQ S7/SSS Mod (Kxicq2, QIP PDA/QIP Mobile, ICQ v6).
+
+>>> 0.1.53.58 (06.12.06)
+[+] added SSL overlay.
+[-] fixed Jabber SSS Mod detection.
+[!] detection improvements.
+
+>>> 0.1.50.57 (05.12.06)
+[!] some resource cleaning.
+[!] release.
+
+>>> 0.1.50.56 (29.11.06-05.12.06, internal builds)
+[!] merge with official sources.
+[!] version bump
+[!] redrawn some icons.
+[-] detection fixes.
+[!] "secure" and other overlays moved to corner arrows instead of locks and dots.
+[+] ICQ v6 client detection added (for future).
+[+] added JMeebo overlay.
+[+] added Unicode overlay.
+[+] added Jabber Messenger.
+[!] v666 icon is back again.
+
+>>> 0.1.4.55 (29.11.06)
+[!] some overlays redrawm.
+[!] Talk.* and gmail.* MirVers now splitted.
+[-] MSN and Jabber overlays fixes.
+
+>>> 0.1.4.54 (29.11.06)
+[+] added Anastasia client.
+[!] public release.
+
+>>> 0.1.4.52-53 (24-28.11.06, internal builds)
+[+] added Skype 3 (future support :P).
+[+] added Eyeball Chat client.
+[+] added ekg2 client.
+[+] added JabberNaut client.
+
+>>> 0.1.4.51 (23.11.06)
+[!] merged with Fingerprint v0.1.0.4 sources.
+[!] version bump.
+[!] more accurate ICQ v6.6.6 detection.
+
+>>> 0.1.0.50 (23.11.06)
+[!] release (VS6 build).
+
+>>> 0.1.0.46-49 (17-22.11.06, internal builds)
+[!] updater is back again (thanks to Thief!).
+[-] fixed a bit sub-clients detection of ICQ S7/SSS Mod.
+[!] more testing.
+[-] detection fixes.
+
+>>> 0.1.0.45 (17.11.06, internal builds)
+[!] based on Fingerprint v0.1.0.0 sources.
+[-] detection fixes.
+[+] added nightly (alpha) overlay.
+[!] IconLib (sub)menus reworked.
+
+>>> 0.0.30.35-0.40.44 (12.11.06, internal builds)
+[!] based on latest Fingerprint sources.
+[!] fully moved to overlays.
+[+] clients detection fully reworked.
+[+] sub-clients detection of ICQ S7/SSS Mod "fake" clients.
+[+] some overlays are by XPK (visit his great site http://pk69.com)
+[+] extra overlays (in dll via import).
+[+] lots of other stuff.
+
+>>> 0.0.30.34 (23.08.06)
+[!] fixed a bit broken detection.
+
+>>> 0.0.30.33 (22.08.06)
+[!] changed ICQJ S7/SSS Mod icon.
+[+] Detection fixes.
+
+>>> 0.0.30.32 (03.08.06)
+[+] added FR pack
+[+] fixes.
+
+>>> 0.0.30.31 (02.08.06, internal build)
+[!] ICQJ S7/SSS Mod detection.
+[-] some detection improvements.
+[!] build with VS6 (less size due /md).
+
+>>> 0.0.30.30 (31.07.06)
+[*] internal build
+
+>>> 0.0.29.29 (30.07.06)
+[!] fixed crash on start on some configurations (thanks ghazan!)
+[-] some detection fixes.
+[!] MSN icons redraw/changed.
+[-] IconLib tree simplified again due some IconLib bugs.
+
+>>> 0.0.29.28 (21.07.06)
+[-] some detection fixes.
+[+] added MirandaIM S7 Mod detection.
+[+] added Se7ven Pack.
+[+] added XiRCON client.
+[+] added XiRCON client.
+[+] added Babbel client.
+[+] added KSirc client.
+[!] add icon to clist when user have been just added.
+
+>>> 0.0.28.27 (30.06.06)
+[-] some detection fixes.
+[+] added AmIRC client.
+[+] added aMule client.
+[+] added BersIRC client.
+[+] added cbirc client.
+[+] added ChatZilla client.
+[+] added dIRC client.
+[+] added Eggdrop client.
+[+] added Eggdrop RacBot client.
+[+] added eMule MorphXT client.
+[+] added eMule Neo client.
+[+] added eMule Xtreme client.
+[+] added GoPowerTools client.
+[+] added HydraIRC client.
+[+] added IceChat 5/7/others clients.
+[+] added ircle client.
+[+] added IRCXpro client.
+[+] added jircii client.
+[+] added jmIrc client.
+[+] added Klient client.
+[+] added Konversation client.
+[+] added NeoRa Trion client.
+[+] added Nettalk client.
+[+] added NoNameScript client.
+[+] added PJIRC client.
+[+] added Snak client.
+[+] added VircaIRC client.
+[+] added VisionIRC client.
+[+] added VisualIRC client.
+[+] added VortecIRC client.
+[+] added WeeChat client.
+[+] added WLIrc client.
+[+] added wmIRC client.
+[+] added X-Chat Aqua client.
+[+] added PyAIMt client.
+[+] added PyICQt client.
+[+] added PyIRCt client.
+[+] added PyMSNt client.
+[+] added PyYAHOOt client.
+
+>>> 0.0.27.26 (26.06.06)
+[-] IconLib tree fixes.
+[+] new IRC clients tree.
+[+] added LexSys pack icon.
+[+] added eMule client.
+[+] added eMule+ client.
+[+] added MirandaIM IRC client.
+[+] added Irssi client.
+[+] added KVIrc client.
+[+] added mIRC client.
+[+] added Opera client.
+[+] added pIRC client.
+[+] added Pirch client.
+[+] added PJIRC client.
+[+] added psyBNC client.
+[+] added uTorrent client.
+[+] added ZipTorrent client.
+[+] added xBitch client.
+[+] added xChat client.
+
+>>> 0.0.26.25 (16.06.06)
+[!] fixed clents sorting (thanks to ~Grave~ for help).
+[!] mobile clients are now in separate tree.
+
+>>> 0.0.26.24 (15.06.06)
+[-] fixed broken Updater support (sorry, my bad).
+[!] testing seems to be complete, IconLib's double trees bug is fixed (Thanks Joe@Whale).
+
+>>> 0.0.25.23 (08.06.06, internal build)
+[!] new sorting is done (maybe :)), thanks MattJ for idea.
+[!] new groups (sorted finaly) - Yahoo, MSN, AIM
+[+] added new section - custom Miranda packs (hey, if you want to add your icon there - please contact me).
+[!] splitted SIM detection (Win/MacOS/others).
+
+>>> 0.0.24.22 (05.06.06, internal build)
+[!] more Miranda clients detection (splitted AimOSCAR, Jabber), new icons (they are not final).
+[!] merged and fixed a bit gmail/jgmail clients detection.
+[-] fixed AIM clients detection.
+[+] Added MSN clients detection (addicial clients MSN 4.5-8.0 and more).
+[+] Added Yahoo detection.
+[*] something more, I don't remember.
+
+>>> 0.0.23.21 (24.05.06, internal build)
+[!] changed Triple Software IM new icon.
+[+] added ICQ Lite 5.1 client.
+[!] redrawn ICQ Rambler icon.
+[!] redrawn SIM icon.
+[!] Some code cleaning and detection priority.
+
+>>> 0.0.22.20 (22.05.06, internal build)
+[-] fixed some old Miranda versions detection.
+[!] changed ICQ Netvigator icon (grrr, again, finally, to the original logo!).
+[-] fixed broken AIM detection (dumb typo).
+[+] added Conference Bot.
+
+>>> 0.0.22.19 (19.05.06, internal build)
+[!] changed ICQ Netvigator icon.
+[!] changed JGmail icon (temporarily again).
+[+] added IMCom client.
+
+>>> 0.0.21.18 (17.05.06, internal build)
+[!] added/splitted Skype 1.x/2.x detection.
+[+] added ICQ Lite 5.1 detection.
+[+] added BuddySpace client.
+[+] added Yeemp client.
+[+] added Kadu client.
+[+] added NanoICQ client.
+[+] added iMeem client.
+
+>>> 0.0.20.17 (12.05.06)
+[!] version bump.
+[-] fixed "blank" icon bug (made typo when was "playing").
+[-] fixed JETI client detection (thanks tweety).
+[!] Mail.Ru Agent default icon rolled back to green (lots complained about it).
+
+>>> 0.0.19.16 (01:02:03 @ 04.05.06 :))
+[+] added AIM (+Triton) client (+ alternative icon).
+[+] added JGmail client (temporal icon, I don't like current one).
+[+] added SMS icon.
+[+] Added TerraIM client
+[!] changed ICQ Netvigator icon to the icon with the proper flag (thanks kissson for note).
+[!] changed default Mail.Ru Agent icon.
+[!] a bit simplified Miranda versions detection.
+[!] less dll size due removing duplucate icons.
+
+>>> 0.0.19.15 (28.04.06)
+[!] fixed bug with empty Unknown icon (thanks to ghazan).
+
+>>> 0.0.19.14 (20.04.06)
+[+] added SMTP Transport icon.
+[+] added Skype icon for the future support.
+[+] added Ayttm client.
+[!] changed ICQ iMac icon (again).
+[+] added Added 2 alternative Proteus icons
+[+] added more modern style Miranda icons (for dark skins, for example).
+
+>>> 0.0.19.13 (17.04.06)
+[!] fixed wrong version in sources.
+
+>>> 0.0.19.12 (14.04.06)
+[!] merge with official Fingerprint 0.0.0.19.
+[+] added PocketPC client.
+[+] added GreenThumb client.
+[+] added NAIM client.
+[+] added alternative TKabber icon.
+[!] changed QQ icon.
+[!] changed AIM icon.
+[!] changed IM2 icon.
+[!] changed GnomeICU icon.
+[!] Changed icon for unknown Miranda version.
+
+>>> 0.0.18.11 (12.04.06, internal build)
+[!] merge with official Fingerprint 0.0.0.18.
+[+] added ICQ bigmir.net (UA) client.
+[+] added Colloquy client.
+[+] added MiniAIM client.
+[+] added Colloquy client.
+
+>>> 0.0.16.10 (24.03.06)
+[!] version bump
+[!] sorting groups are temporarily simplified.
+[!] fixed Miranda crash on try entering options.
+
+>>> 0.0.16.9 (23.03.06)
+[!] version bump
+[!] fixed my stupid bug with Updater support.
+[!] first workaround with sorting (Still detest it, but it's better than nothing. Waiting for IconLib update).
+[+] added WinJab client.
+[+] added LinQ client.
+[+] added GNU Gadu client.
+[+] added JMC client.
+[+] added BlackBerry client.
+[+] added MozillaChat client.
+[+] added Jeti client.
+[+] added QQ client.
+[+] added Gnome client.
+[+] added Jabber BeOS client.
+[!] changed ICQ for Mac and ICQ Netvigator client.s and some others.
+[+] added alternative clients client.s (Jimm, Agile, TICQ, ICQ ISee, Miranda Jabber, Mail.Ru Agent), it's in dll, you'll see them on import.
+
+>>> 0.0.16.8 (21.03.06, internal build)
+[*] just for internal testing
+
+>>> 0.0.15.7 (17.03.06)
+[!] version bump
+[-] fix with wrong MirVer strings which produces Miranda crash.
+[!] source synchronization with .15 original build (added client groups, thought it's still needed to sort).
+
+>>> 0.0.14.6 (16.03.06, internal build)
+[+] added myJabber client.
+[+] added WannaChat client.
+[+] added Meetro client.
+
+>>> 0.0.14.5 (15.03.06, internal build)
+[+] added Spik client.
+[+] added M2 client.
+[+] added gYaber client.
+[+] added Konnekt client.
+[+] added SoapBox client.
+[+] added Papla client.
+[+] added Nitro client.
+[+] added USCSS Nostromo client.
+[+] added LLuna client.
+[!] updated JabberWocky client..
+[!] replaced Gossip icon.
+[!] updated new blog url for Updater.
+
+>>> 0.0.14.1-0.0.14.4 (07.03.06-12.03.06, internal builds)
+[!] Version bump to scheme 0.0.xx.yy (where xx is build number of unmodded fingerprint, yy - modded build number).
+[+] added Prelude client.
+[+] added Gabber client.
+[+] added Gajim client.
+[+] added Proteus client.
+[+] added TipicIM/TipicME clients.
+[+] added Wildfire client.
+[+] added TripleSoftwareIM client.
+[+] added Neos client.
+[+] added GTalk client.
+[+] added Akeni client.
+[+] added Zoep client.
+[+] added Coccinella client.
+[+] added Jabbin client.
+[+] added WhisperIM client.
+[+] added wija client.
+[+] added moJab client.
+[+] added JBother client.
+[+] added JabberZilla client (not tested!).
+[+] added JabberFoX client.
+[+] added Colibri client.
+[+] added GOIM client.
+[+] added GCN client.
+[+] added Gossip client.
+[+] added Fire client.
+[+] added Mercury Messenger client.
+[+] added BitWise client.
+[+] added Iruka client.
+[+] added Spark IM client.
+[!] TICQ icon replaced with TheBee icon.
+[!] updated/replaced some icons.
+
+>>> 0.0.0.14c
+[+] added mChat client.
+[+] added uIM client.
+[!] new PSI icon.
+[!] new "ICQ ProSieben aka Pro7" icon.
+[!] new "ICQ2Go! (Java)" icon.
+[!] new TICQ icon.
+[-] Some fixes.
+
+>>> 0.0.0.14b
+[-] Some fixes.
+
+>>> 0.0.0.14a
+[+] added Mail.Ru Agent client.
+[+] added bulgarian ICQ ABV client.
+[+] added Easy Message client.
+[+] more accurate MirandaIM Jabber detection (thanks JKL for note).
+[*] experimental Updater support (not tested!), thanks FREAK_THEMIGHTY for suggestion.
+[+] added something more, but I donТt remember now>>> :)
+
+>>> 0.0.0.12a
+[+] added Jabber Messenger client.
+[+] added WTW client.
+[+] added Tlen.pl client.
+
+>>> 0.0.0.11a
+[+] added BitlBee client.
+[+] added IC@ client.
+
+>>> 0.0.0.10a
+[+] added R&Q (thanks to Thief).
+[+] added Bombus java client (thanks to Shaggoth).
+[+] added MirandaIMТs Jabber client detection.
+[+] added AdiumX client.
+[+] added Meebo client.
+[+] added ComPad (forthcoming ICQ fork release).
+[+] added Jabberwocky icon (fake actually - canТt test).
+[*] replaced all official ICQ icons.
+[+] replaced/fixed/redraw other client icons.
+[-] fixed ISee and ICQJ Mod client detection when using ICQJ/ICQJ Mod.
