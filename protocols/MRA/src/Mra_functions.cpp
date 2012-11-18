@@ -33,12 +33,12 @@ DWORD MraGetSelfVersionString(LPSTR lpszSelfVersion, size_t dwSelfVersionSize, s
 
 	WORD v[4];
 	DWORD dwMirVer = CallService(MS_SYSTEM_GETFILEVERSION, 0, (LPARAM)v);
-	LPSTR	lpszUnicode = (IsUnicodeEnv()? " Unicode":""), 
+	LPSTR	lpszUnicode = (IsUnicodeEnv()? " Unicode":""),
 			lpszSecIM = ( ServiceExists("SecureIM/IsContactSecured")? " + SecureIM":"");
 	size_t dwSelfVersionSizeRet;
 
-	dwSelfVersionSizeRet = mir_snprintf(lpszSelfVersion, dwSelfVersionSize, "Miranda NG %lu.%lu.%lu.%lu%s (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu", 
-		v[0], v[1], v[2], v[3], lpszUnicode, 
+	dwSelfVersionSizeRet = mir_snprintf(lpszSelfVersion, dwSelfVersionSize, "Miranda NG %lu.%lu.%lu.%lu%s (MRA v%lu.%lu.%lu.%lu)%s, version: %lu.%lu",
+		v[0], v[1], v[2], v[3], lpszUnicode,
 		__FILEVERSION_STRING, lpszSecIM, PROTO_VERSION_MAJOR, PROTO_VERSION_MINOR);
 
 	if (pdwSelfVersionSizeRet)
@@ -170,7 +170,7 @@ DWORD MraAddrListGetToBuff(MRA_ADDR_LIST *pmalAddrList, LPSTR lpszBuff, size_t d
 	LPSTR lpszCurPos = lpszBuff;
 
 	for (size_t i = 0;i<pmalAddrList->dwAddrCount;i++)
-		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;", 
+		lpszCurPos += mir_snprintf(lpszCurPos, (dwBuffSize-((size_t)lpszCurPos-(size_t)lpszBuff)), "%s:%lu;",
 			inet_ntoa((*((in_addr*)&pmalAddrList->pmaliAddress[i].dwAddr))), pmalAddrList->pmaliAddress[i].dwPort);
 
 	if (pdwBuffSizeRet)
@@ -441,7 +441,7 @@ DWORD CMraProto::SetContactFlags(HANDLE hContact, DWORD dwContactFlag)
 		CallService(MS_IGNORE_IGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
 	else
 		CallService(MS_IGNORE_UNIGNORE, (WPARAM)hContact, IGNOREEVENT_MESSAGE);
-	
+
 	return 0;
 }
 
@@ -528,7 +528,7 @@ DWORD CMraProto::SetContactBasicInfoW(HANDLE hContact, DWORD dwSetInfoFlags, DWO
 				lpszPhoneNext = (LPSTR)MemoryFindByte((lpszCurPhone-lpszPhones), lpszPhones, dwPhonesSize, ',');
 				if (lpszPhoneNext)
 					dwCurPhoneSize = lpszPhoneNext - lpszCurPhone;
-				else 
+				else
 					dwCurPhoneSize = (lpszPhones + dwPhonesSize) - lpszCurPhone;
 
 				szPhone[0] = '+';
@@ -1344,7 +1344,7 @@ BOOL CMraProto::MraRequestXStatusDetails(DWORD dwXStatus)
 		dat->ppro = this;
 		return DialogBoxParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_SETXSTATUS), NULL, SetXStatusDlgProc, (LPARAM)dat) != -1;
 	}
-	
+
 	return FALSE;
 }
 

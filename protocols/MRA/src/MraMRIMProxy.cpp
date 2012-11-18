@@ -35,17 +35,17 @@ DWORD MraMrimProxySetData(HANDLE hMraMrimProxyData, LPSTR lpszEMail, size_t dwEM
 		memmove(pmmpd->lpszEMail, lpszEMail, dwEMailSize);
 		pmmpd->dwEMailSize = dwEMailSize;
 	}
-	
+
 	if (dwIDRequest) pmmpd->dwIDRequest = dwIDRequest;
 	if (dwDataType) pmmpd->dwDataType = dwDataType;
-	
+
 	if (lpszUserData) {
 		mir_free(pmmpd->lpszUserData);
 		pmmpd->lpszUserData = (LPSTR)mir_calloc(dwUserDataSize);
 		memmove(pmmpd->lpszUserData, lpszUserData, dwUserDataSize);
 		pmmpd->dwUserDataSize = dwUserDataSize;
 	}
-	
+
 	if (lpszAddreses && dwAddresesSize)
 		MraAddrListGetFromBuff(lpszAddreses, dwAddresesSize, &pmmpd->malAddrList);
 	if (pmguidSessionID)
@@ -91,7 +91,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 		MRA_MRIMPROXY_DATA *pmmpd = (MRA_MRIMPROXY_DATA*)hMraMrimProxyData;
 		NETLIBOPENCONNECTION nloc = {0};
 
-		// адреса есть, значит инициаторы не мы		
+		// адреса есть, значит инициаторы не мы
 		if (pmmpd->malAddrList.dwAddrCount) {
 			MraAddrListGetToBuff(&pmmpd->malAddrList, (LPSTR)lpbBufferRcv, SIZEOF(lpbBufferRcv), &dwRcvBuffSizeUsed);
 			MraProxyAck(PROXY_STATUS_OK, pmmpd->lpszEMail, pmmpd->dwEMailSize, pmmpd->dwIDRequest, pmmpd->dwDataType, pmmpd->lpszUserData, pmmpd->dwUserDataSize, (LPSTR)lpbBufferRcv, dwRcvBuffSizeUsed, pmmpd->mguidSessionID);
@@ -144,7 +144,7 @@ DWORD CMraProto::MraMrimProxyConnect(HANDLE hMraMrimProxyData, HANDLE *phConnect
 						if (pmmpd->dwDataType == MRIM_PROXY_TYPE_FILES)
 							ProtoBroadcastAck(m_szModuleName, MraHContactFromEmail(pmmpd->lpszEMail, pmmpd->dwEMailSize, FALSE, TRUE, NULL), ACKTYPE_FILE, ACKRESULT_CONNECTED, (HANDLE)pmmpd->dwIDRequest, 0);
 						MraSendPacket(nls.hReadConns[0], 0, MRIM_CS_PROXY_HELLO, &pmmpd->mguidSessionID, sizeof(MRA_GUID));
-						
+
 						while (bContinue) {
 							switch (CallService(MS_NETLIB_SELECT, 0, (LPARAM)&nls)) {
 							case SOCKET_ERROR:

@@ -1,121 +1,121 @@
 #include "Mra.h"
 #include "proto.h"
 
-const LPSTR lpcszStatusUri[] = 
+const LPSTR lpcszStatusUri[] =
 {
-	"", // offline // "status_0", 
-	"STATUS_ONLINE", // "status_1", 
-	"STATUS_AWAY", 	// "status_2", 
-	"STATUS_INVISIBLE", // "status_3", 
-	"status_dnd", 
-	"status_chat", 
-	"status_4", 
-	"status_5", 
-	"status_6", 
-	"status_7", 
-	"status_8", 
-	"status_9", 
-	"status_10", 
-	"status_11", 
-	"status_12", 
-	"status_13", 
-	"status_14", 
-	"status_15", 
-	"status_16", 
-	"status_17", 
-	"status_18", 
-	"status_19", 
-	"status_20", 
-	"status_21", 
-	"status_22", 
-	"status_23", 
-	"status_24", 
+	"", // offline // "status_0",
+	"STATUS_ONLINE", // "status_1",
+	"STATUS_AWAY", 	// "status_2",
+	"STATUS_INVISIBLE", // "status_3",
+	"status_dnd",
+	"status_chat",
+	"status_4",
+	"status_5",
+	"status_6",
+	"status_7",
+	"status_8",
+	"status_9",
+	"status_10",
+	"status_11",
+	"status_12",
+	"status_13",
+	"status_14",
+	"status_15",
+	"status_16",
+	"status_17",
+	"status_18",
+	"status_19",
+	"status_20",
+	"status_21",
+	"status_22",
+	"status_23",
+	"status_24",
 	//"status_25", // chat/dnd
-	"status_26", 
-	"status_27", 
-	"status_28", 
-	"status_29", 
-	"status_30", 
+	"status_26",
+	"status_27",
+	"status_28",
+	"status_29",
+	"status_30",
 	//"status_31", // chat/dnd
-	"status_32", 
-	"status_33", 
-	"status_34", 
-	"status_35", 
-	"status_36", 
-	"status_37", 
-	"status_38", 
-	"status_39", 
-	"status_40", 
-	"status_41", 
-	"status_42", 
-	"status_43", 
-	"status_44", 
-	"status_45", 
-	"status_46", 
-	"status_47", 
-	"status_48", 
-	"status_49", 
-	"status_50", 
-	"status_51", 
-	"status_52", 
-	"status_53", 
-	"status_dating", 
+	"status_32",
+	"status_33",
+	"status_34",
+	"status_35",
+	"status_36",
+	"status_37",
+	"status_38",
+	"status_39",
+	"status_40",
+	"status_41",
+	"status_42",
+	"status_43",
+	"status_44",
+	"status_45",
+	"status_46",
+	"status_47",
+	"status_48",
+	"status_49",
+	"status_50",
+	"status_51",
+	"status_52",
+	"status_53",
+	"status_dating",
 	//"status_127", 145, 154
 	NULL
 };
 
-const LPWSTR lpcszXStatusNameDef[] = 
+const LPWSTR lpcszXStatusNameDef[] =
 {
-	L"None", 
-	L"Sick", 
-	L"Home", 
-	L"Eating", 
-	L"Compass", 
-	L"On WC", 
-	L"Cooking", 
-	L"Walking", 
-	L"Alien", 
-	L"Shrimp", 
-	L"Got lost", 
-	L"Crazy", 
-	L"Duck", 
-	L"Playing", 
-	L"Smoking", 
-	L"Office", 
-	L"Meeting", 
-	L"Beer", 
-	L"Coffee", 
-	L"Working", 
-	L"Relaxing", 
-	L"On the phone", 
-	L"In institute", 
-	L"At school", 
-	L"Wrong number", 
-	L"Laughing", 
-	L"Malicious", 
-	L"Imp", 
-	L"Blind", 
-	L"Disappointed", 
-	L"Almost crying", 
-	L"Fearful", 
-	L"Angry", 
-	L"Vampire", 
-	L"Ass", 
-	L"Love", 
-	L"Sleeping", 
-	L"Cool!", 
-	L"Peace!", 
-	L"Cock a snook", 
-	L"Get out", 
-	L"Death", 
-	L"Rocket", 
-	L"Devil-fish", 
-	L"Heavy metal", 
-	L"Things look bad", 
-	L"Squirrel", 
-	L"Star", 
-	L"Music", 
-	L"Dating", 
+	L"None",
+	L"Sick",
+	L"Home",
+	L"Eating",
+	L"Compass",
+	L"On WC",
+	L"Cooking",
+	L"Walking",
+	L"Alien",
+	L"Shrimp",
+	L"Got lost",
+	L"Crazy",
+	L"Duck",
+	L"Playing",
+	L"Smoking",
+	L"Office",
+	L"Meeting",
+	L"Beer",
+	L"Coffee",
+	L"Working",
+	L"Relaxing",
+	L"On the phone",
+	L"In institute",
+	L"At school",
+	L"Wrong number",
+	L"Laughing",
+	L"Malicious",
+	L"Imp",
+	L"Blind",
+	L"Disappointed",
+	L"Almost crying",
+	L"Fearful",
+	L"Angry",
+	L"Vampire",
+	L"Ass",
+	L"Love",
+	L"Sleeping",
+	L"Cool!",
+	L"Peace!",
+	L"Cock a snook",
+	L"Get out",
+	L"Death",
+	L"Rocket",
+	L"Devil-fish",
+	L"Heavy metal",
+	L"Things look bad",
+	L"Squirrel",
+	L"Star",
+	L"Music",
+	L"Dating",
 	NULL
 };
 
@@ -225,8 +225,8 @@ INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_UPD_ALL_USERS_INFO_STR), MB_YESNO | MB_ICONQUESTION) == IDYES ) {
-		for (HANDLE hContact = db_find_first(); 
-			  hContact != NULL; 
+		for (HANDLE hContact = db_find_first();
+			  hContact != NULL;
 			  hContact = db_find_next(hContact)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
@@ -241,8 +241,8 @@ INT_PTR CMraProto::MraUpdateAllUsersInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_CHK_USERS_AVATARS_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(); 
-			  hContact != NULL; 
+		for (HANDLE hContact = db_find_first();
+			  hContact != NULL;
 			  hContact = db_find_next(hContact)) {
 			size_t dwEMailSize;
 			CHAR szEMail[MAX_EMAIL_LEN];
@@ -259,8 +259,8 @@ INT_PTR CMraProto::MraCheckUpdatesUsersAvt(WPARAM wParam, LPARAM lParam)
 INT_PTR CMraProto::MraRequestAuthForAll(WPARAM wParam, LPARAM lParam)
 {
 	if ( MessageBox(NULL, TranslateT("Are you sure?"), TranslateW(MRA_REQ_AUTH_FOR_ALL_STR), MB_YESNO | MB_ICONQUESTION) == IDYES) {
-		for (HANDLE hContact = db_find_first(); 
-			  hContact != NULL; 
+		for (HANDLE hContact = db_find_first();
+			  hContact != NULL;
 			  hContact = db_find_next(hContact)) {
 			DWORD dwContactSeverFlags;
 			if (GetContactBasicInfoW(hContact, NULL, NULL, NULL, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL) == NO_ERROR)
@@ -290,7 +290,7 @@ INT_PTR CMraProto::MraRequestAuthorization(WPARAM wParam, LPARAM lParam)
 				int iRet = MraMessageW(bSlowSend, hContact, ACKTYPE_AUTHREQ, MESSAGE_FLAG_AUTHORIZE, szEMail, dwEMailSize, wszAuthMessage, dwMessageSize, NULL, 0);
 				if (bSlowSend == FALSE)
 					ProtoBroadcastAckAsync(hContact, ACKTYPE_AUTHREQ, ACKRESULT_SUCCESS, (HANDLE)iRet, 0);
-	
+
 				return 0;
 			}
 		}
@@ -453,7 +453,7 @@ int CMraProto::MraContactDeleted(WPARAM wParam, LPARAM lParam)
 		DWORD dwID, dwGroupID;
 		size_t dwEMailSize;
 		GetContactBasicInfoW(hContact, &dwID, &dwGroupID, NULL, NULL, NULL, szEMail, SIZEOF(szEMail), &dwEMailSize, NULL, 0, NULL, NULL, 0, NULL);
-			
+
 		MraSetContactStatus(hContact, ID_STATUS_OFFLINE);
 		if ( !db_get_b(hContact, "CList", "NotOnList", 0) || dwID != -1)
 			MraModifyContactW(hContact, dwID, CONTACT_FLAG_REMOVED, dwGroupID, szEMail, dwEMailSize, NULL, 0, NULL, 0);
@@ -625,7 +625,7 @@ int CMraProto::MraRebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 	//"Reply Blog Status"
 	CListShowMenuItem(hContactMenuItems[5], (m_bLoggedIn && dwBlogStatusMsgSize && bChatAgent == FALSE));
-		
+
 	//"View Video"
 	CListShowMenuItem(hContactMenuItems[6], (m_bLoggedIn && bHasEMailMR && bChatAgent == FALSE));
 
@@ -1037,7 +1037,7 @@ INT_PTR CMraProto::MraGetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	switch (wParam) {
 	case AF_MAXSIZE:
 		return -1;
-		
+
 	case AF_PROPORTION:
 		return PIP_NONE;
 

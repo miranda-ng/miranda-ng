@@ -12,44 +12,44 @@ struct FieldNames
 
 
 
-static const FieldNames GenderField[] = 
+static const FieldNames GenderField[] =
 {
-	{1, 		L"Male"}, 
-	{2, 		L"Female"}, 
+	{1, 		L"Male"},
+	{2, 		L"Female"},
 	{-1, 	NULL}
 };
 
-static const FieldNames MonthField[] = 
+static const FieldNames MonthField[] =
 {
-	{1, 		L"January"}, 
-	{2, 		L"February"}, 
-	{3, 		L"March"}, 
-	{4, 		L"April"}, 
-	{5, 		L"May"}, 
-	{6, 		L"June"}, 
-	{7, 		L"July"}, 
-	{8, 		L"August"}, 
-	{9, 		L"September"}, 
-	{10, 	L"October"}, 
-	{11, 	L"November"}, 
-	{12, 	L"December"}, 
+	{1, 		L"January"},
+	{2, 		L"February"},
+	{3, 		L"March"},
+	{4, 		L"April"},
+	{5, 		L"May"},
+	{6, 		L"June"},
+	{7, 		L"July"},
+	{8, 		L"August"},
+	{9, 		L"September"},
+	{10, 	L"October"},
+	{11, 	L"November"},
+	{12, 	L"December"},
 	{-1, 	NULL}
 };
 
-static const FieldNames ZodiakField[] = 
+static const FieldNames ZodiakField[] =
 {
-	{1, 		L"Aries"}, 
-	{2, 		L"Taurus"}, 
-	{3, 		L"Gemini"}, 
-	{4, 		L"Cancer"}, 
-	{5, 		L"Leo"}, 
-	{6, 		L"Virgo"}, 
-	{7, 		L"Libra"}, 
-	{8, 		L"Scorpio"}, 
-	{9, 		L"Sagitarius"}, 
-	{10, 	L"Capricorn"}, 
-	{11, 	L"Aquarius"}, 
-	{12, 	L"Pisces"}, 
+	{1, 		L"Aries"},
+	{2, 		L"Taurus"},
+	{3, 		L"Gemini"},
+	{4, 		L"Cancer"},
+	{5, 		L"Leo"},
+	{6, 		L"Virgo"},
+	{7, 		L"Libra"},
+	{8, 		L"Scorpio"},
+	{9, 		L"Sagitarius"},
+	{10, 	L"Capricorn"},
+	{11, 	L"Aquarius"},
+	{12, 	L"Pisces"},
 	{-1, 	NULL}
 };
 

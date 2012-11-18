@@ -273,7 +273,7 @@ void MraFilesQueueItemFree(MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem)
 	MEMFREE(pmrafqFilesQueueItem->pmfqfFiles);
 	MEMFREE(pmrafqFilesQueueItem->pmfqaAddreses);
 	MEMFREE(pmrafqFilesQueueItem->lpszPath);
-	//MEMFREE(pmrafqFilesQueueItem->lpszDescription); //placed after pmrafqFilesQueueItem 
+	//MEMFREE(pmrafqFilesQueueItem->lpszDescription); //placed after pmrafqFilesQueueItem
 	MEMFREE(pmrafqFilesQueueItem);
 }
 
@@ -372,7 +372,7 @@ DWORD MraFilesQueueAddReceive(HANDLE hFilesQueueHandle,DWORD dwFlags,HANDLE hCon
 						CopyMemory(pmrafqFilesQueueItem->pmfqfFiles[pmrafqFilesQueueItem->dwFilesCount].lpszName,lpszCurrentItem,dwMemSize);
 						pmrafqFilesQueueItem->pmfqfFiles[pmrafqFilesQueueItem->dwFilesCount].dwNameLen=dwMemSize;
 						pmrafqFilesQueueItem->pmfqfFiles[pmrafqFilesQueueItem->dwFilesCount].dwSize=StrToUNum32((lpszDelimiter+1),(lpszEndItem-(lpszDelimiter+1)));
-						
+
 						pmrafqFilesQueueItem->dwFilesCount++;
 						lpszCurrentItem=(lpszEndItem+1);
 					}else{
@@ -534,7 +534,7 @@ DWORD MraFilesQueueAddSend(HANDLE hFilesQueueHandle,DWORD dwFlags,HANDLE hContac
 				MRA_FILES_THREADPROC_PARAMS *pmftpp=(MRA_FILES_THREADPROC_PARAMS*)MEMALLOC(sizeof(MRA_FILES_THREADPROC_PARAMS));
 				pmftpp->hFilesQueueHandle=hFilesQueueHandle;
 				pmftpp->pmrafqFilesQueueItem=pmrafqFilesQueueItem;
-				
+
 				pmrafqFilesQueueItem->hThread=CreateThread(0,0,MraFilesQueueSendThreadProc,pmftpp,0,NULL);
 			}
 
@@ -569,7 +569,7 @@ DWORD MraFilesQueueAccept(HANDLE hFilesQueueHandle,DWORD dwIDRequest,LPSTR lpszP
 
 			pmftpp->hFilesQueueHandle=hFilesQueueHandle;
 			pmftpp->pmrafqFilesQueueItem=pmrafqFilesQueueItem;
-			
+
 			pmrafqFilesQueueItem->hThread=CreateThread(0,0,MraFilesQueueRecvThreadProc,pmftpp,0,NULL);
 		}
 		ListMTUnLock(&pmrafqFilesQueue->lmtListMT);
@@ -847,10 +847,10 @@ HANDLE MraFilesQueueConnectOut(MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem)
 		if (DB_Mra_GetByte(NULL,"FileSendIgnoryAdditionalPorts",MRA_DEF_FS_IGNORY_ADDITIONAL_PORTS))
 		{// фильтруем порты для одного IP, вместо 3 будем коннектится только к одному
 			switch(DB_Mra_GetWord(NULL,"ServerPort",MRA_DEFAULT_SERVER_PORT)) {
-			case MRA_SERVER_PORT_STANDART_NLB: 
+			case MRA_SERVER_PORT_STANDART_NLB:
 				dwLocalPort=MRA_SERVER_PORT_STANDART;
 				break;
-			case MRA_SERVER_PORT_HTTPS: 
+			case MRA_SERVER_PORT_HTTPS:
 				dwLocalPort=MRA_SERVER_PORT_HTTPS;
 				break;
 			default:
@@ -975,7 +975,7 @@ DWORD WINAPI MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 {
 	MRA_FILES_QUEUE *pmrafqFilesQueue=(MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem=((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->pmrafqFilesQueueItem;
-    
+
 	char szFileName[MAX_FILEPATH]={0};
 	BYTE btBuff[65536];
 	BOOL bFailed=TRUE,bOK,bConnected=FALSE;
@@ -1118,7 +1118,7 @@ DWORD WINAPI MraFilesQueueSendThreadProc(LPVOID lpParameter)
 {
 	MRA_FILES_QUEUE *pmrafqFilesQueue=(MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *pmrafqFilesQueueItem=((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->pmrafqFilesQueueItem;
-    
+
 	BYTE btBuff[65536];
 	BOOL bFailed=TRUE,bOK,bConnected=FALSE;
 	DWORD dwReceived,dwSended,dwSendBlockSize,dwUpdateTimeNext,dwUpdateTimeCur;

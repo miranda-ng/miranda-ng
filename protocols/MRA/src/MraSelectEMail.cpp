@@ -100,10 +100,10 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 				WCHAR wszBuff[MAX_PATH];
 				size_t dwEMailSize;
 
-				dwEMailSize = SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETTEXT, SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);  
+				dwEMailSize = SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETTEXT, SendMessage(GetDlgItem(hWndDlg, IDC_LIST_EMAILS), LB_GETCURSEL, 0, 0), (LPARAM)wszBuff);
 				WideCharToMultiByte(MRA_CODE_PAGE, 0, wszBuff, (dwEMailSize+1), szEMail, SIZEOF(szEMail), NULL, NULL);
 				BuffToLowerCase(szEMail, szEMail, dwEMailSize);
-					
+
 				switch (dat->dwType) {
 				case MRA_SELECT_EMAIL_TYPE_SEND_POSTCARD:
 					{

@@ -37,7 +37,7 @@ size_t MraAntiSpamLoadBadWordsW()
 		dbv.type = DBVT_WCHAR;
 		if (CallService(MS_DB_CONTACT_GETSETTING_STR, NULL, (LPARAM)&sVal))
 			break;
-		
+
 		if (dwAllocatedItemsCount == i) {
 			dwAllocatedItemsCount += MRA_ANTISPAM_PREALLOC_COUNT;
 			pmabwBadWords = (MRA_ANTISPAM_BAD_WORD*)mir_realloc(pmabwBadWords, (sizeof(MRA_ANTISPAM_BAD_WORD)*dwAllocatedItemsCount));
@@ -73,7 +73,7 @@ void MraAntiSpamFreeBadWords()
 }
 
 static WORD wMraAntiSpamControlsList[] = {
-	IDC_CHK_TEMP_CONTACTS, IDC_CLN_NON_ALPHNUM, IDC_MAX_LANG_CHANGES, IDC_SHOWPOPUP, IDC_WRITETOSYSTEMHISTORY, IDC_SEND_SPAM_REPORT_TO_SERVER, 
+	IDC_CHK_TEMP_CONTACTS, IDC_CLN_NON_ALPHNUM, IDC_MAX_LANG_CHANGES, IDC_SHOWPOPUP, IDC_WRITETOSYSTEMHISTORY, IDC_SEND_SPAM_REPORT_TO_SERVER,
 	IDC_BAD_WORDS_LIST, IDC_EDIT_BAD_WORD, IDC_BUTTON_ADD, IDC_BUTTONREMOVE, IDC_BUTTON_DEFAULT };
 
 void MraAntiSpamEnableControls(HWND hWndDlg, BOOL bEnabled)
@@ -129,7 +129,7 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 
 		if (LOWORD(wParam) == IDC_BUTTON_ADD) {
 			WCHAR szBadWord[MAX_PATH];
-			
+
 			if (GET_DLG_ITEM_TEXT(hWndDlg, IDC_EDIT_BAD_WORD, szBadWord, SIZEOF(szBadWord))) {
 				SET_DLG_ITEM_TEXTW(hWndDlg, IDC_EDIT_BAD_WORD, L"");
 				if (SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_FINDSTRING, -1, (LPARAM)szBadWord) == LB_ERR) SEND_DLG_ITEM_MESSAGE(hWndDlg, IDC_BAD_WORDS_LIST, LB_ADDSTRING, 0, (LPARAM)szBadWord);
@@ -203,22 +203,22 @@ INT_PTR CALLBACK MraAntiSpamDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wParam, L
 
 ///////////////////////////////////////////////////////////////////////////////
 
-static LPWSTR lpwszBadWords[] = 
+static LPWSTR lpwszBadWords[] =
 {
 	// web words
-	L"@", L"http://", L"ftp://", L"www", L"wap.", L".com", L".org", L".info", L".net", L".ua", L".uz", L".to", L".biz", L".vu", L".ru", L"mailto:", L"ICQ", L"SKYPE", 
+	L"@", L"http://", L"ftp://", L"www", L"wap.", L".com", L".org", L".info", L".net", L".ua", L".uz", L".to", L".biz", L".vu", L".ru", L"mailto:", L"ICQ", L"SKYPE",
 
 	// spam words
-	L"sex", L"seks", L"sekc", L"xxx", L"phorno", L"video", L"photo", L"SMS", L"WMZ", L"WMR", L"narod", L"ucoz", L"ref", L"Agent", L"+7", L"495", L"$", L"spam", L"URL", L"%2E", 
+	L"sex", L"seks", L"sekc", L"xxx", L"phorno", L"video", L"photo", L"SMS", L"WMZ", L"WMR", L"narod", L"ucoz", L"ref", L"Agent", L"+7", L"495", L"$", L"spam", L"URL", L"%2E",
 
 	// spam words rus
-	L"прода", L"цена", L"деньги", L"денег", L"секс", L"лесби", L"лезби", L"анал", L"порн", L"эротич", L"видео", L"фильм", L"кино", L"муз", L"фотки", L"фото", L"СМС", L"аськ", L"база", L"сайт", L"проект", L"рассылк", L"обьявлен", L"реклам", L"услуг", L"оплат", L"заказ", L"пиши", L"звони", L"работ", L"зараб", L"зайди", L"загляни", L"посети", L"посмотр", L"погляд", L"точка", L"тчк", L"спам", L"ссылк", L"майл", L"агент", L"супер", L"лох", L"регистрац", L"троян", L"вирус", L"взлом", 
+	L"прода", L"цена", L"деньги", L"денег", L"секс", L"лесби", L"лезби", L"анал", L"порн", L"эротич", L"видео", L"фильм", L"кино", L"муз", L"фотки", L"фото", L"СМС", L"аськ", L"база", L"сайт", L"проект", L"рассылк", L"обьявлен", L"реклам", L"услуг", L"оплат", L"заказ", L"пиши", L"звони", L"работ", L"зараб", L"зайди", L"загляни", L"посети", L"посмотр", L"погляд", L"точка", L"тчк", L"спам", L"ссылк", L"майл", L"агент", L"супер", L"лох", L"регистрац", L"троян", L"вирус", L"взлом",
 
 	// executable
-	L".ade", L".adp", L".bas", L".bat", L".chm", L".cmd", L".com", L".cpl", L".crt", L".exe", L".hlp", L".hta", L".inf", L".ins", L".isp", L".js", L".jse", L".lnk", L".mdb", L".mde", L".msc", L".msi", L".msp", L".mst", L".pcd", L".pif", L".reg", L".scr", L".sct", L".shs", L".shb", L".url", L".vb", L".vbe", L".vbs", L".wsc", L".wsf", L".wsh", 
+	L".ade", L".adp", L".bas", L".bat", L".chm", L".cmd", L".com", L".cpl", L".crt", L".exe", L".hlp", L".hta", L".inf", L".ins", L".isp", L".js", L".jse", L".lnk", L".mdb", L".mde", L".msc", L".msi", L".msp", L".mst", L".pcd", L".pif", L".reg", L".scr", L".sct", L".shs", L".shb", L".url", L".vb", L".vbe", L".vbs", L".wsc", L".wsf", L".wsh",
 
 	// archives
-	L".zip", L".rar", L".cab", L".arj", L".tar", L".gz", L".zoo", L".lzh", L".jar", L".ace", L".z", L".iso", L".bz2", L".uue", L".gzip", 
+	L".zip", L".rar", L".cab", L".arj", L".tar", L".gz", L".zoo", L".lzh", L".jar", L".ace", L".z", L".iso", L".bz2", L".uue", L".gzip",
 
 	NULL
 };
@@ -345,7 +345,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 	if (IsEMailChatAgent(lpszEMail, dwEMailSize) == FALSE) { // enabled, message must be checked
 		BOOL bCheckMessage = TRUE;
 		dwRet = MESSAGE_SPAM;
-		HANDLE hContact = MraHContactFromEmail(lpszEMail, dwEMailSize, FALSE, TRUE, NULL); 
+		HANDLE hContact = MraHContactFromEmail(lpszEMail, dwEMailSize, FALSE, TRUE, NULL);
 		if (hContact) {
 			DWORD dwID, dwGroupID, dwContactFlag, dwContactSeverFlags;
 			GetContactBasicInfoW(hContact, &dwID, &dwGroupID, &dwContactFlag, &dwContactSeverFlags, NULL, NULL, 0, NULL, NULL, 0, NULL, NULL, 0, NULL);
@@ -412,7 +412,7 @@ DWORD CMraProto::MraAntiSpamReceivedMessageW(LPSTR lpszEMail, size_t dwEMailSize
 
 				if (hContact && bAntiSpamDeteleSpamBotContacts) {
 					dwDBMessageSize = mir_sntprintf(wszBuff, SIZEOF(wszBuff), L"%s: %S", TranslateW(L"Spam bot contact deleted"), szEMail);
-					
+
 					if (bAntiSpamShowPopUp)
 						MraPopupShowFromAgentW(MRA_POPUP_TYPE_INFORMATION, 0, wszBuff);
 

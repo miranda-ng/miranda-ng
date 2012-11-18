@@ -1,46 +1,46 @@
 #include "Mra.h"
 #include "MraIcons.h"
 
-GUI_DISPLAY_ITEM gdiMenuItems[] = 
+GUI_DISPLAY_ITEM gdiMenuItems[] =
 {
-	{ MRA_GOTO_INBOX,         MRA_GOTO_INBOX_STR,         IDI_INBOX,          &CMraProto::MraGotoInbox }, 
-	{ MRA_SHOW_INBOX_STATUS,  MRA_SHOW_INBOX_STATUS_STR,  IDI_MAIL_NOTIFY,    &CMraProto::MraShowInboxStatus }, 
-	{ MRA_EDIT_PROFILE,       MRA_EDIT_PROFILE_STR,       IDI_PROFILE,        &CMraProto::MraEditProfile }, 
-	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum }, 
-	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MraReadBlog }, 
-	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus }, 
-	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MraViewVideo }, 
-	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MraAnswers }, 
-	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MraWorld }, 
-	{ MRA_ZHUKI,              MRA_ZHUKI_STR,              IDI_MRA_ZHUKI,      &CMraProto::MraZhuki }, 
-	{ MRA_CHAT,               MRA_CHAT_STR,               IDI_MRA_CHAT,       &CMraProto::MraChat }, 
-	{ MRA_WEB_SEARCH,         MRA_WEB_SEARCH_STR,         IDI_MRA_WEB_SEARCH, &CMraProto::MraWebSearch }, 
-	{ MRA_UPD_ALL_USERS_INFO, MRA_UPD_ALL_USERS_INFO_STR, IDI_PROFILE,        &CMraProto::MraUpdateAllUsersInfo }, 
-	{ MRA_CHK_USERS_AVATARS,  MRA_CHK_USERS_AVATARS_STR,  IDI_PROFILE,        &CMraProto::MraCheckUpdatesUsersAvt }, 
+	{ MRA_GOTO_INBOX,         MRA_GOTO_INBOX_STR,         IDI_INBOX,          &CMraProto::MraGotoInbox },
+	{ MRA_SHOW_INBOX_STATUS,  MRA_SHOW_INBOX_STATUS_STR,  IDI_MAIL_NOTIFY,    &CMraProto::MraShowInboxStatus },
+	{ MRA_EDIT_PROFILE,       MRA_EDIT_PROFILE_STR,       IDI_PROFILE,        &CMraProto::MraEditProfile },
+	{ MRA_MY_ALBUM,           MRA_MY_ALBUM_STR,           IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum },
+	{ MRA_MY_BLOG,            MRA_MY_BLOG_STR,            IDI_MRA_BLOGS,      &CMraProto::MraReadBlog },
+	{ MRA_MY_BLOGSTATUS,      MRA_MY_BLOGSTATUS_STR,      IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus },
+	{ MRA_MY_VIDEO,           MRA_MY_VIDEO_STR,           IDI_MRA_VIDEO,      &CMraProto::MraViewVideo },
+	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MraAnswers },
+	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MraWorld },
+	{ MRA_ZHUKI,              MRA_ZHUKI_STR,              IDI_MRA_ZHUKI,      &CMraProto::MraZhuki },
+	{ MRA_CHAT,               MRA_CHAT_STR,               IDI_MRA_CHAT,       &CMraProto::MraChat },
+	{ MRA_WEB_SEARCH,         MRA_WEB_SEARCH_STR,         IDI_MRA_WEB_SEARCH, &CMraProto::MraWebSearch },
+	{ MRA_UPD_ALL_USERS_INFO, MRA_UPD_ALL_USERS_INFO_STR, IDI_PROFILE,        &CMraProto::MraUpdateAllUsersInfo },
+	{ MRA_CHK_USERS_AVATARS,  MRA_CHK_USERS_AVATARS_STR,  IDI_PROFILE,        &CMraProto::MraCheckUpdatesUsersAvt },
 	{ MRA_REQ_AUTH_FOR_ALL,   MRA_REQ_AUTH_FOR_ALL_STR,   IDI_AUTHRUGUEST,    &CMraProto::MraRequestAuthForAll }
 };
 
-GUI_DISPLAY_ITEM gdiContactMenuItems[] = 
+GUI_DISPLAY_ITEM gdiContactMenuItems[] =
 {
-	{ MRA_REQ_AUTH,           MRA_REQ_AUTH_STR,           IDI_AUTHRUGUEST,    &CMraProto::MraRequestAuthorization }, 
-	{ MRA_GRANT_AUTH,         MRA_GRANT_AUTH_STR,         IDI_AUTHGRANT,      &CMraProto::MraGrantAuthorization }, 
-	{ MRA_SEND_POSTCARD,      MRA_SEND_POSTCARD_STR,      IDI_MRA_POSTCARD,   &CMraProto::MraSendPostcard }, 
-	{ MRA_VIEW_ALBUM,         MRA_VIEW_ALBUM_STR,         IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum }, 
-	{ MRA_READ_BLOG,          MRA_READ_BLOG_STR    ,      IDI_MRA_BLOGS,      &CMraProto::MraReadBlog }, 
-	{ MRA_REPLY_BLOG_STATUS,  MRA_REPLY_BLOG_STATUS_STR,  IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus }, 
-	{ MRA_VIEW_VIDEO,         MRA_VIEW_VIDEO_STR,         IDI_MRA_VIDEO,      &CMraProto::MraViewVideo }, 
-	{ MRA_ANSWERS,            MRA_ANSWERS_STR,            IDI_MRA_ANSWERS,    &CMraProto::MraAnswers }, 
-	{ MRA_WORLD,              MRA_WORLD_STR,              IDI_MRA_WORLD,      &CMraProto::MraWorld }, 
+	{ MRA_REQ_AUTH,           MRA_REQ_AUTH_STR,           IDI_AUTHRUGUEST,    &CMraProto::MraRequestAuthorization },
+	{ MRA_GRANT_AUTH,         MRA_GRANT_AUTH_STR,         IDI_AUTHGRANT,      &CMraProto::MraGrantAuthorization },
+	{ MRA_SEND_POSTCARD,      MRA_SEND_POSTCARD_STR,      IDI_MRA_POSTCARD,   &CMraProto::MraSendPostcard },
+	{ MRA_VIEW_ALBUM,         MRA_VIEW_ALBUM_STR,         IDI_MRA_PHOTO,      &CMraProto::MraViewAlbum },
+	{ MRA_READ_BLOG,          MRA_READ_BLOG_STR    ,      IDI_MRA_BLOGS,      &CMraProto::MraReadBlog },
+	{ MRA_REPLY_BLOG_STATUS,  MRA_REPLY_BLOG_STATUS_STR,  IDI_BLOGSTATUS,     &CMraProto::MraReplyBlogStatus },
+	{ MRA_VIEW_VIDEO,         MRA_VIEW_VIDEO_STR,         IDI_MRA_VIDEO,      &CMraProto::MraViewVideo },
+	{ MRA_ANSWERS,            MRA_ANSWERS_STR,            IDI_MRA_ANSWERS,    &CMraProto::MraAnswers },
+	{ MRA_WORLD,              MRA_WORLD_STR,              IDI_MRA_WORLD,      &CMraProto::MraWorld },
 	{ MRA_SEND_NUDGE,         MRA_SENDNUDGE_STR,          IDI_MRA_ALARM,      NULL }
 };
 
-GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[]  = 
+GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[] =
 {
-   { ADV_ICON_DELETED_ID,        ADV_ICON_DELETED_STR,      	(INT_PTR)IDI_ERROR, NULL }, 
-   { ADV_ICON_NOT_ON_SERVER_ID,  ADV_ICON_NOT_ON_SERVER_STR, 	IDI_AUTHGRANT,      NULL }, 
-   { ADV_ICON_NOT_AUTHORIZED_ID, ADV_ICON_NOT_AUTHORIZED_STR, 	IDI_AUTHRUGUEST,    NULL }, 
-   { ADV_ICON_PHONE_ID,          ADV_ICON_PHONE_STR,           IDI_MRA_PHONE,      NULL }, 
-   { ADV_ICON_BLOGSTATUS_ID,     ADV_ICON_BLOGSTATUS_STR,   	IDI_BLOGSTATUS,     NULL }, 
+   { ADV_ICON_DELETED_ID,        ADV_ICON_DELETED_STR,      	(INT_PTR)IDI_ERROR, NULL },
+   { ADV_ICON_NOT_ON_SERVER_ID,  ADV_ICON_NOT_ON_SERVER_STR, 	IDI_AUTHGRANT,      NULL },
+   { ADV_ICON_NOT_AUTHORIZED_ID, ADV_ICON_NOT_AUTHORIZED_STR, 	IDI_AUTHRUGUEST,    NULL },
+   { ADV_ICON_PHONE_ID,          ADV_ICON_PHONE_STR,           IDI_MRA_PHONE,      NULL },
+   { ADV_ICON_BLOGSTATUS_ID,     ADV_ICON_BLOGSTATUS_STR,   	IDI_BLOGSTATUS,     NULL },
 };
 
 //////////////////////////////////////////////////////////////////////////////////////

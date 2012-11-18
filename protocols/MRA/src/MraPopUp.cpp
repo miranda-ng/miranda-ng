@@ -2,15 +2,15 @@
 #include "MraPopUp.h"
 
 #define POPUPS_TYPES_COUNT	7
-static LPCWSTR lpcwszPopupsTypes[] = 
+static LPCWSTR lpcwszPopupsTypes[] =
 {
-	L"None", 
-	L"Debug", 
-	L"Information", 
-	L"Question", 
-	L"Warning", 
-	L"Error", 
-	L"NewMail", 
+	L"None",
+	L"Debug",
+	L"Information",
+	L"Question",
+	L"Warning",
+	L"Error",
+	L"NewMail",
 	NULL
 };
 
@@ -219,7 +219,7 @@ LRESULT CALLBACK MraPopupDlgProc(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM l
 void CMraProto::MraPopupShowFromContactW(HANDLE hContact, DWORD dwType, DWORD dwFlags, LPWSTR lpszMessage)
 {
 	WCHAR szNick[MAX_EMAIL_LEN], szEMail[MAX_EMAIL_LEN], szTitle[MAX_CONTACTNAME];
-	
+
 	mraGetStaticStringW(hContact, "Nick", szNick, SIZEOF(szNick), NULL);
 	mraGetStaticStringW(hContact, "e-mail", szEMail, SIZEOF(szEMail), NULL);
 	if (hContact) {

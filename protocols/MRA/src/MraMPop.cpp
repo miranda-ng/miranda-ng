@@ -25,7 +25,7 @@ DWORD MraMPopSessionQueueInitialize(HANDLE *phMPopSessionQueue)
 	MRA_MPOP_SESSION_QUEUE *pmpsqMPopSessionQueue = (MRA_MPOP_SESSION_QUEUE*)mir_calloc(sizeof(MRA_MPOP_SESSION_QUEUE));
 	if (!pmpsqMPopSessionQueue)
 		return GetLastError();
-		
+
 	pmpsqMPopSessionQueue->bKeyValid = FALSE;
 	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
 	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
@@ -168,14 +168,9 @@ DWORD MraMPopSessionQueueSetNewMPopKey(HANDLE hMPopSessionQueue, LPSTR lpszKey, 
 		DebugPrint(L"New MPOP session key: ");DebugPrintCRLFA(pmpsqMPopSessionQueue->lpszMPOPKey);
 		return NO_ERROR;
 	}
-	
+
 	pmpsqMPopSessionQueue->bKeyValid = FALSE;
 	pmpsqMPopSessionQueue->lpszMPOPKey = NULL;
 	pmpsqMPopSessionQueue->dwMPOPKeySize = 0;
 	return GetLastError();
 }
-
-
-
-
-

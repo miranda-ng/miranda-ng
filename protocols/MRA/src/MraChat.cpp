@@ -131,7 +131,7 @@ INT_PTR CMraProto::MraChatSessionEventSendByHandle(HANDLE hContactChatSession, D
 	gce.dwItemData = dwItemData;
 	gce.time = dwTime;
 
-	if (lpszUID && dwUIDSize) 
+	if (lpszUID && dwUIDSize)
 		gce.bIsMe = IsEMailMy(lpszUID, dwUIDSize);
 	else
 		gce.bIsMe = TRUE;

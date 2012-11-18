@@ -30,7 +30,7 @@ DWORD MraSendQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phSendQueueHan
 	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)mir_calloc(sizeof(MRA_SEND_QUEUE));
 	if (!pmrasqSendQueue)
 		return GetLastError();
-	
+
 	DWORD dwRetErrorCode = ListMTInitialize(pmrasqSendQueue, 0);
 	if (dwRetErrorCode == NO_ERROR) {
 		pmrasqSendQueue->dwSendTimeOutInterval = dwSendTimeOutInterval;
@@ -143,7 +143,7 @@ DWORD MraSendQueueFindOlderThan(HANDLE hSendQueueHandle, DWORD dwTime, DWORD *pd
 	FILETIME ftExpireTime;
 	GetSystemTimeAsFileTime(&ftExpireTime);
 	(*((DWORDLONG*)&ftExpireTime))-=((DWORDLONG)dwTime*FILETIME_SECOND);
-	
+
 	MRA_SEND_QUEUE *pmrasqSendQueue = (MRA_SEND_QUEUE*)hSendQueueHandle;
 	mt_lock l(pmrasqSendQueue);
 

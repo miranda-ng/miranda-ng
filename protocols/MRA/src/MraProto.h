@@ -184,7 +184,7 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR __cdecl MraWorld(WPARAM, LPARAM);
 	INT_PTR __cdecl MraCreateAccMgrUI(WPARAM, LPARAM);
 
-	// ====| Events  |====================================================================== 
+	// ====| Events  |======================================================================
 	int __cdecl OnModulesLoaded(WPARAM, LPARAM);
 	int __cdecl OnPreShutdown(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);

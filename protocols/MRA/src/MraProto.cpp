@@ -96,7 +96,7 @@ CMraProto::~CMraProto()
 
 INT_PTR CMraProto::MraCreateAccMgrUI(WPARAM wParam,LPARAM lParam)
 {
-	return (int)CreateDialogParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT), 
+	return (int)CreateDialogParam(masMraSettings.hInstance, MAKEINTRESOURCE(IDD_MRAACCOUNT),
 		 (HWND)lParam, DlgProcAccount, LPARAM(this));
 }
 
@@ -389,8 +389,8 @@ HICON CMraProto::GetIcon(int iconIndex)
 		default: return NULL;
 	}
 
-	return (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(id), IMAGE_ICON, 
-		GetSystemMetrics((iconIndex & PLIF_SMALL) ? SM_CXSMICON : SM_CXICON), 
+	return (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(id), IMAGE_ICON,
+		GetSystemMetrics((iconIndex & PLIF_SMALL) ? SM_CXSMICON : SM_CXICON),
 		GetSystemMetrics((iconIndex & PLIF_SMALL) ? SM_CYSMICON : SM_CYICON), 0);
 }
 
@@ -423,7 +423,7 @@ HANDLE CMraProto::SearchByName(const TCHAR *pszNick, const TCHAR *pszFirstName, 
 		if (*pszNick)      SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);
 		if (*pszFirstName) SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);
 		if (*pszLastName)  SetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);
-		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, NULL, 0, NULL, 0, 
+		return MraWPRequestW(NULL, ACKTYPE_SEARCH, dwRequestFlags, NULL, 0, NULL, 0,
 			pszNick, lstrlen(pszNick), pszFirstName, lstrlen(pszFirstName), pszLastName, lstrlen(pszLastName), 0, 0, 0, 0, 0, 0, 0, 0, 0);
 	}
 

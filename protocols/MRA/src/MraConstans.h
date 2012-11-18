@@ -15,13 +15,13 @@
 #define MRA_SERVER_PORT_STANDART_NLB         2042
 #define MRA_SERVER_PORT_STANDART             2041
 #define MRA_SERVER_PORT_HTTPS                443
-static const LPSTR lpcszMailRuDomains[] = 
+static const LPSTR lpcszMailRuDomains[] =
 {
-   ("mail.ru"), 
-   ("list.ru"), 
-   ("bk.ru"), 
-   ("inbox.ru"), 
-   ("corp.mail.ru"), 
+   ("mail.ru"),
+   ("list.ru"),
+   ("bk.ru"),
+   ("inbox.ru"),
+   ("corp.mail.ru"),
    NULL
 };
 #define MAILRU_CHAT_CONF_DOMAIN              "chat.agent"
@@ -136,9 +136,9 @@ static const LPSTR lpcszMailRuDomains[] =
 #define ADV_ICON_BLOGSTATUS                  4
 #define ADV_ICON_BLOGSTATUS_ID               "ADV_ICON_BLOGSTATUS"
 #define ADV_ICON_BLOGSTATUS_STR              L"Blog status message"
-												   
+
 #define MRA_SOUND_NEW_EMAIL                   "New E-mail available in Inbox"
-												   
+
 #define MAILRU_SERVER_TIME_ZONE              -180 //internal // +0300
 #define MAILRU_CONTACTISTYPING_TIMEOUT       10 //internal
 #define MRA_DEFAULT_SERVER                   "mrim.mail.ru"
@@ -239,7 +239,7 @@ static const LPSTR lpcszMailRuDomains[] =
 
 #define ICQACKTYPE_SMS      1001
 #define ICQEVENTTYPE_SMS    2001    //database event type
-#define MS_ICQ_SENDSMS      "/SendSMS" 
+#define MS_ICQ_SENDSMS      "/SendSMS"
 
 // Database setting names
 #define DBSETTING_CAPABILITIES    "caps"
@@ -264,7 +264,7 @@ extern const LPSTR  lpcszStatusUri[];
 extern const LPWSTR lpcszXStatusNameDef[];
 
 #define MRA_XSTATUS_MENU        "/menuXStatus"
-#define MRA_XSTATUS_COUNT       50	
+#define MRA_XSTATUS_COUNT       50
 #define MRA_MIR_XSTATUS_NONE    0
 #define MRA_MIR_XSTATUS_UNKNOWN MRA_XSTATUS_COUNT
 

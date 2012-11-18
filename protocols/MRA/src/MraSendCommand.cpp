@@ -147,7 +147,7 @@ DWORD CMraProto::MraMessageW(BOOL bAddToQueue, HANDLE hContact, DWORD dwAckType,
 			}
 		}
 	}
-	
+
 	if (lpszMessageRTF == NULL || dwMessageRTFSize == 0) dwFlags &= ~(MESSAGE_FLAG_RTF|MESSAGE_FLAG_FLASH);
 	if (lpbMultiChatData == NULL || dwMultiChatDataSize == 0) dwFlags &= ~MESSAGE_FLAG_MULTICHAT;
 
@@ -188,7 +188,7 @@ DWORD CMraProto::MraMessageAskW(DWORD dwMsgID, DWORD dwFlags, LPSTR lpszEMail, s
 			SetUL(&lpbDataCurrent, dwFlags);//UL flags
 			SetLPSLowerCase(&lpbDataCurrent, lpszEMail, dwEMailSize);// LPS from e-mail ANSI
 			SetLPS(&lpbDataCurrent, (LPSTR)lpwszMessage, dwMessageSize);// LPS message UNICODE
-			if (dwFlags&MESSAGE_FLAG_RTF) 
+			if (dwFlags&MESSAGE_FLAG_RTF)
 				SetLPS(&lpbDataCurrent, (LPSTR)lpwszMessageRTF, dwMessageRTFSize);// LPS	//rtf-formatted message ( >= 1.1)	- MESSAGE_FLAG_RTF
 
 			dwRet = MraSendCMD(MRIM_CS_MESSAGE_ACK, lpbData, (lpbDataCurrent-lpbData));
@@ -238,7 +238,7 @@ DWORD CMraProto::MraAddContactW(HANDLE hContact, DWORD dwContactFlag, DWORD dwGr
 			// pack auth message
 			LPBYTE lpbAuthMsgBuff, lpbAuthMessageConverted, lpbAuthDataCurrent;
 			size_t dwAuthMessageConvertedBuffSize = (((((dwAuthMessageSize*sizeof(WCHAR))+1024)+2)/3)*4), dwAuthMessageConvertedSize = 0;
-				
+
 			lpbAuthMessageConverted = (LPBYTE)mir_calloc(dwAuthMessageConvertedBuffSize);
 			lpbAuthMsgBuff = (LPBYTE)mir_calloc(((dwAuthMessageSize*sizeof(WCHAR))+1024));
 			if (lpbAuthMessageConverted && lpbAuthMsgBuff) {
@@ -402,7 +402,7 @@ HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwReques
 		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_NICKNAME))  { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_NICKNAME);SetLPSW(&lpbDataCurrent, lpwszNickName, dwNickNameSize); }
 		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME)) { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_FIRSTNAME);SetLPSW(&lpbDataCurrent, lpwszFirstName, dwFirstNameSize); }
 		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_LASTNAME))  { SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_LASTNAME);SetLPSW(&lpbDataCurrent, lpwszLastName, dwLastNameSize); }
-		
+
 		if (GetBit(dwRequestFlags, MRIM_CS_WP_REQUEST_PARAM_SEX)) {
 			dwBuffSize = mir_snprintf(szBuff, SIZEOF(szBuff), "%lu", dwSex);
 			SetUL(&lpbDataCurrent, MRIM_CS_WP_REQUEST_PARAM_SEX);
@@ -467,7 +467,7 @@ HANDLE CMraProto::MraWPRequestW(HANDLE hContact, DWORD dwAckType, DWORD dwReques
 HANDLE CMraProto::MraWPRequestByEMail(HANDLE hContact, DWORD dwAckType, LPCSTR lpszEMail, size_t dwEMailSize)
 {
 	HANDLE dwRet = 0;
-	
+
 	if (lpszEMail && dwEMailSize>4) {
 		size_t dwUserSize, dwDomainSize;
 		LPSTR lpszDomain = (LPSTR)MemoryFindByte(0, lpszEMail, dwEMailSize, '@');

@@ -62,15 +62,15 @@ mrim_packet_header_t;
 	#define MESSAGE_FLAG_ALARM			0x00004000
 	#define MESSAGE_FLAG_FLASH			0x00008000
 	#define MESSAGE_FLAG_SPAMF_SPAM		0x00020000	// чтобы пожаловатся на спам - вернуть назад с этим флагом ;клиенту игнорировать, ставится в момент обработки сообщения при передаче внутри кластера
-	#define MESSAGE_FLAG_MULTICHAT		0x00400000	// 
+	#define MESSAGE_FLAG_MULTICHAT		0x00400000	//
 		#define MULTICHAT_MESSAGE		0	// received message (s->c)
 		#define MULTICHAT_GET_MEMBERS	1	// request members list from server (c->s)
 		#define MULTICHAT_MEMBERS		2	// members list from server (s->c)
-		#define MULTICHAT_ADD_MEMBERS	3	// 
+		#define MULTICHAT_ADD_MEMBERS	3	//
 		#define MULTICHAT_ATTACHED		4	// user joined to chat (s->c)
 		#define MULTICHAT_DETACHED		5	// user leave chat (s->c)
-		#define MULTICHAT_DESTROYED		6	// 
-		#define MULTICHAT_INVITE		7	// 
+		#define MULTICHAT_DESTROYED		6	//
+		#define MULTICHAT_INVITE		7	//
 	#define MESSAGE_FLAG_v1p16			0x00100000	// для перекодировки юникода
 	#define MESSAGE_FLAG_CP1251			0x00200000
 // LPS to e-mail ANSI
@@ -200,7 +200,7 @@ mrim_packet_header_t;
 
 
 #define MRIM_CS_ADD_CONTACT			0x1019	// C -> S
-// UL flags (group(2) or usual(0) 
+// UL flags (group(2) or usual(0)
 	#define CONTACT_FLAG_REMOVED		0x00000001
 	#define CONTACT_FLAG_GROUP			0x00000002
 	#define CONTACT_FLAG_INVISIBLE		0x00000004
@@ -221,7 +221,7 @@ mrim_packet_header_t;
 //				LPS auth_sender_nick ???
 //				LPS auth_request_text ???
 //	)
-// UL actions ( >= 1.15) 
+// UL actions ( >= 1.15)
 // [LPS multichat_data]
 //		CLPS members ( >=  1.20)
 //		[ LPS owner ]
@@ -229,7 +229,7 @@ mrim_packet_header_t;
     #define ADD_CONTACT_FLAG_MULTICHAT_ATTACHE	0x00000002
 	//used internal in win32 agent
 	#define CONTACT_AWAITING_AUTHORIZATION_USER	0x00000100
-	#define CONTACT_FLAG_TEMPORARY				0x00010000 
+	#define CONTACT_FLAG_TEMPORARY				0x00010000
 
 
 #define MRIM_CS_ADD_CONTACT_ACK			0x101A	// S -> C
@@ -282,31 +282,31 @@ mrim_packet_header_t;
 
 
 #define MRIM_CS_MPOP_SESSION			0x1025	// S -> C
-// UL status 
+// UL status
 	#define MRIM_GET_SESSION_FAIL		0
 	#define MRIM_GET_SESSION_SUCCESS	1
 // LPS mpop session ???
 
 
-#define MRIM_CS_FILE_TRANSFER			0x1026  // C->S 
+#define MRIM_CS_FILE_TRANSFER			0x1026  // C->S
 // LPS TO/FROM e-mail ANSI
-// DWORD id_request - uniq per connect 
-// DWORD FILESIZE 
+// DWORD id_request - uniq per connect
+// DWORD FILESIZE
 // LPS:	// LPS Files (FileName;FileSize;FileName;FileSize;) ANSI
 		// LPS DESCRIPTION:
 							// UL ?
 							// Files (FileName;FileSize;FileName;FileSize;) UNICODE
 		// LPS Conn (IP:Port;IP:Port;) ANSI
 
-#define MRIM_CS_FILE_TRANSFER_ACK		0x1027 // S->C 
-// DWORD status 
-	#define FILE_TRANSFER_STATUS_OK                 1 
-	#define FILE_TRANSFER_STATUS_DECLINE            0 
-	#define FILE_TRANSFER_STATUS_ERROR              2 
-	#define FILE_TRANSFER_STATUS_INCOMPATIBLE_VERS  3 
-	#define FILE_TRANSFER_MIRROR                    4 
+#define MRIM_CS_FILE_TRANSFER_ACK		0x1027 // S->C
+// DWORD status
+	#define FILE_TRANSFER_STATUS_OK                 1
+	#define FILE_TRANSFER_STATUS_DECLINE            0
+	#define FILE_TRANSFER_STATUS_ERROR              2
+	#define FILE_TRANSFER_STATUS_INCOMPATIBLE_VERS  3
+	#define FILE_TRANSFER_MIRROR                    4
 // LPS TO/FROM e-mail ANSI
-// DWORD id_request 
+// DWORD id_request
 // LPS DESCRIPTION [Conn (IP:Port;IP:Port;) ANSI]
 
 
@@ -318,7 +318,7 @@ mrim_packet_header_t;
 #define PARAMS_NUMBER_LIMIT			50
 #define PARAM_VALUE_LENGTH_LIMIT	64
 
-//if last symbol in value eq '*' it will be replaced by LIKE '%' 
+//if last symbol in value eq '*' it will be replaced by LIKE '%'
 // params define
 // must be  in consecutive order (0..N) to quick check in check_anketa_info_request
 	enum {
@@ -336,19 +336,19 @@ mrim_packet_header_t;
 	MRIM_CS_WP_REQUEST_PARAM_STATUS	, 		// we do not used it, yet
 	MRIM_CS_WP_REQUEST_PARAM_CITY_ID, 		// ANSI
 	MRIM_CS_WP_REQUEST_PARAM_ZODIAC, 		// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH, // ANSI	
+	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_MONTH, // ANSI
 	MRIM_CS_WP_REQUEST_PARAM_BIRTHDAY_DAY, 	// ANSI
 	MRIM_CS_WP_REQUEST_PARAM_COUNTRY_ID, 	// ANSI
-	MRIM_CS_WP_REQUEST_PARAM_MAX		
+	MRIM_CS_WP_REQUEST_PARAM_MAX
 	};
 
 #define MRIM_CS_ANKETA_INFO			0x1028 //S->C
-// DWORD status 
+// DWORD status
 	#define MRIM_ANKETA_INFO_STATUS_OK			1
 	#define MRIM_ANKETA_INFO_STATUS_NOUSER		0
 	#define MRIM_ANKETA_INFO_STATUS_DBERR		2
 	#define MRIM_ANKETA_INFO_STATUS_RATELIMERR	3
-// DWORD fields_num				
+// DWORD fields_num
 // DWORD max_rows
 // DWORD server_time sec since 1970 (unixtime)
 	// fields set 				//%fields_num == 0
@@ -356,7 +356,7 @@ mrim_packet_header_t;
 // LPS value (numbers too) ???
 
 
-#define MRIM_CS_MAILBOX_STATUS			0x1033	
+#define MRIM_CS_MAILBOX_STATUS			0x1033
 // DWORD new messages in mailbox
 
 
@@ -365,20 +365,20 @@ mrim_packet_header_t;
 // DWORD session unique per game
 // DWORD msg internal game message
 	enum {
-	GAME_BASE, 
-	GAME_CONNECTION_INVITE, 
-	GAME_CONNECTION_ACCEPT, 
-	GAME_DECLINE, 
-	GAME_INC_VERSION, 
-	GAME_NO_SUCH_GAME, 
-	GAME_JOIN, 
-	GAME_CLOSE, 
-	GAME_SPEED, 
-	GAME_SYNCHRONIZATION, 
-	GAME_USER_NOT_FOUND, 
-	GAME_ACCEPT_ACK, 
-	GAME_PING, 
-	GAME_RESULT, 
+	GAME_BASE,
+	GAME_CONNECTION_INVITE,
+	GAME_CONNECTION_ACCEPT,
+	GAME_DECLINE,
+	GAME_INC_VERSION,
+	GAME_NO_SUCH_GAME,
+	GAME_JOIN,
+	GAME_CLOSE,
+	GAME_SPEED,
+	GAME_SYNCHRONIZATION,
+	GAME_USER_NOT_FOUND,
+	GAME_ACCEPT_ACK,
+	GAME_PING,
+	GAME_RESULT,
 	GAME_MESSAGES_NUMBER
 	};
 // DWORD msg_id id for ack
@@ -397,7 +397,7 @@ mrim_packet_header_t;
 	// mask symbols table:
 	// 's' - lps
 	// 'u' - unsigned long
-	// 'z' - zero terminated string 
+	// 'z' - zero terminated string
 	// LPS groups fields mask ANSI
 	// LPS contacts fields mask ANSI
 	// group fields
@@ -503,7 +503,7 @@ mrim_packet_header_t;
 // LPS to Phone ???
 // LPS message ???
 
-#define MRIM_CS_SMS_ACK		0x1040 // S->C 
+#define MRIM_CS_SMS_ACK		0x1040 // S->C
 // UL status
 
 
@@ -554,9 +554,9 @@ mrim_packet_header_t;
 
 #define MRIM_CS_USER_BLOG_STATUS	0x1063
 // DWORD flags
-	#define MRIM_BLOG_STATUS_UPDATE		0x00000001	
+	#define MRIM_BLOG_STATUS_UPDATE		0x00000001
 	#define MRIM_BLOG_STATUS_MUSIC		0x00000002 // add music to status
-	#define MRIM_BLOG_STATUS_REPLY		0x00000004	
+	#define MRIM_BLOG_STATUS_REPLY		0x00000004
 	#define MRIM_BLOG_STATUS_NOTIFY		0x00000010 // not set self status, alert only
 // LPS user
 // UINT64 id
@@ -608,4 +608,3 @@ mrim_connection_params_t;
 
 
 #endif // MRIM_PROTO_H
-

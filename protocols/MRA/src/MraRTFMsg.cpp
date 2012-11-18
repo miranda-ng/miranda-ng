@@ -3,16 +3,16 @@
 
 
 #define COLORTABLE_COUNT	8
-#define RTF_COLORTBLCOLOURS "\\red255\\green0\\blue0;\\red0\\green255\\blue0;\\red0\\green0\\blue255;\\red255\\green0\\blue255;\\red255\\green255\\blue0;\\red0\\green255\\blue255;\\red0\\green0\\blue0;\\red255\\green255\\blue255;" 
-static const LPSTR lpszColours[COLORTABLE_COUNT] = 
+#define RTF_COLORTBLCOLOURS "\\red255\\green0\\blue0;\\red0\\green255\\blue0;\\red0\\green0\\blue255;\\red255\\green0\\blue255;\\red255\\green255\\blue0;\\red0\\green255\\blue255;\\red0\\green0\\blue0;\\red255\\green255\\blue255;"
+static const LPSTR lpszColours[COLORTABLE_COUNT] =
 {
-	"red", 
-	"green", 
-	"blue", 
-	"magenta", 
-	"yellow", 
-	"cyan", 
-	"black", 
+	"red",
+	"green",
+	"blue",
+	"magenta",
+	"yellow",
+	"cyan",
+	"black",
 	"white"
 };
 
@@ -22,76 +22,76 @@ static const LPSTR lpszColours[COLORTABLE_COUNT] =
 
 #define BB_COLOR_TAG	"[color="
 #define SYMBOLS_COUNT	19
-static const LPSTR lpszSimbols[SYMBOLS_COUNT] = 
+static const LPSTR lpszSimbols[SYMBOLS_COUNT] =
 {
-	"\r\n", 
-	"\\", 
-	"{", 
-	"}", 
-	"[b]", 
-	"[/b]", 
-	"[u]", 
-	"[/u]", 
-	"[i]", 
-	"[/i]", 
-	"[/color]", 
-	"[color = red]", 
-	"[color = green]", 
-	"[color = blue]", 
-	"[color = magenta]", 
-	"[color = yellow]", 
-	"[color = cyan]", 
-	"[color = black]", 
-	"[color = white]", 
+	"\r\n",
+	"\\",
+	"{",
+	"}",
+	"[b]",
+	"[/b]",
+	"[u]",
+	"[/u]",
+	"[i]",
+	"[/i]",
+	"[/color]",
+	"[color = red]",
+	"[color = green]",
+	"[color = blue]",
+	"[color = magenta]",
+	"[color = yellow]",
+	"[color = cyan]",
+	"[color = black]",
+	"[color = white]",
 };
 
-static const size_t dwcSimbolsCount[SYMBOLS_COUNT] = 
+static const size_t dwcSimbolsCount[SYMBOLS_COUNT] =
 {
-	2, 
-	1, 
-	1, 
-	1, 
-	3, 
-	4, 
-	3, 
-	4, 
-	3, 
-	4, 
-	8, 
-	11, 
-	13, 
-	12, 
-	15, 
-	14, 
-	12, 
-	13, 
-	13, 
+	2,
+	1,
+	1,
+	1,
+	3,
+	4,
+	3,
+	4,
+	3,
+	4,
+	8,
+	11,
+	13,
+	12,
+	15,
+	14,
+	12,
+	13,
+	13,
 };
 
-static const LPSTR lpszRTFTags[SYMBOLS_COUNT] = 
+static const LPSTR lpszRTFTags[SYMBOLS_COUNT] =
 {
-	"\\par", 
-	"\\\\", 
-	"\\{", 
-	"\\}", 
-	"{\\b ", 
-	"}", 
-	"{\\ul ", 
-	"}", 
-	"{\\i ", 
-	"}", 
-	"}", 
-	"{\\cf2 ", 
-	"{\\cf3 ", 
-	"{\\cf4 ", 
-	"{\\cf5 ", 
-	"{\\cf6 ", 
-	"{\\cf7 ", 
-	"{\\cf8 ", 
-	"{\\cf9 ", 
+	"\\par",
+	"\\\\",
+	"\\{",
+	"\\}",
+	"{\\b ",
+	"}",
+	"{\\ul ",
+	"}",
+	"{\\i ",
+	"}",
+	"}",
+	"{\\cf2 ",
+	"{\\cf3 ",
+	"{\\cf4 ",
+	"{\\cf5 ",
+	"{\\cf6 ",
+	"{\\cf7 ",
+	"{\\cf8 ",
+	"{\\cf9 ",
 };
 
-static const size_t dwcRTFTagsCount[SYMBOLS_COUNT] = 
+static const size_t dwcRTFTagsCount[SYMBOLS_COUNT] =
 {
 	4, 2, 2, 2, 4, 1, 5, 1, 4, 1, 1, 6, 6, 6, 6, 6, 6, 6, 6
 };
@@ -133,7 +133,7 @@ DWORD MraTextToRTFData(LPSTR lpszMessage, size_t dwMessageSize, LPSTR lpszMessag
 			*pdwMessageConvertedSize = lpszMessageConvertedCur - lpszMessageConverted;
 		return NO_ERROR;
 	}
-	
+
 	if (pdwMessageConvertedSize)
 		*pdwMessageConvertedSize = 0;
 	return ERROR_INVALID_HANDLE;
@@ -230,10 +230,10 @@ DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LP
 	else
 		lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "{\\colortbl;\\red%lu\\green%lu\\blue%lu;}\r\n", (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtBlue, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtGreen, (*((RGBTRIPLE*)&dwRTFFontColour)).rgbtRed);
 
-	LPSTR	lpszNotfink = "", 
-			lpszBold = ((lf.lfWeight == FW_BOLD)? "\\b1":lpszNotfink), 
-			lpszItalic = (lf.lfItalic? "\\i1":lpszNotfink), 
-			lpszUnderline = (lf.lfUnderline? "\\ul1":lpszNotfink), 
+	LPSTR	lpszNotfink = "",
+			lpszBold = ((lf.lfWeight == FW_BOLD)? "\\b1":lpszNotfink),
+			lpszItalic = (lf.lfItalic? "\\i1":lpszNotfink),
+			lpszUnderline = (lf.lfUnderline? "\\ul1":lpszNotfink),
 			lpszStrikeOut = (lf.lfStrikeOut? "\\strike1":lpszNotfink);
 	lpszMessageRTFCur += mir_snprintf(lpszMessageRTFCur, (dwMessageRTFBuffSize-((size_t)lpszMessageRTFCur-(size_t)lpszMessageRTF)), "\\viewkind4\\uc1\\pard\\cf1\\f0\\fs%lu%s%s%s%s", dwFontSize, lpszBold, lpszItalic, lpszUnderline, lpszStrikeOut);
 
@@ -254,6 +254,3 @@ DWORD CMraProto::MraConvertToRTFW(LPCWSTR lpwszMessage, size_t dwMessageSize, LP
 
 	return 0;
 }
-
-
-

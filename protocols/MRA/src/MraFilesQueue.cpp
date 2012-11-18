@@ -57,11 +57,11 @@ void   MraFilesQueueItemFree(MRA_FILES_QUEUE_ITEM *dat);
 // File transfer options
 
 static WORD wMraFilesControlsList[] = {
-	IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE, 
-	IDC_FILE_SEND_NOOUTCONNECTIONONSEND, 
-	IDC_FILE_SEND_IGNORYADDITIONALPORTS, 
-	IDC_FILE_SEND_HIDE_MY_ADDRESSES, 
-	IDC_FILE_SEND_ADD_EXTRA_ADDRESS, 
+	IDC_FILE_SEND_NOOUTCONNECTIONONRECEIVE,
+	IDC_FILE_SEND_NOOUTCONNECTIONONSEND,
+	IDC_FILE_SEND_IGNORYADDITIONALPORTS,
+	IDC_FILE_SEND_HIDE_MY_ADDRESSES,
+	IDC_FILE_SEND_ADD_EXTRA_ADDRESS,
 	IDC_FILE_SEND_EXTRA_ADDRESS
 };
 
@@ -153,7 +153,7 @@ DWORD MraFilesQueueInitialize(DWORD dwSendTimeOutInterval, HANDLE *phFilesQueueH
 		*phFilesQueueHandle = (HANDLE)pmrafqFilesQueue;
 	}
 	else mir_free(pmrafqFilesQueue);
-	
+
 	return dwRetErrorCode;
 }
 
@@ -317,7 +317,7 @@ DWORD CMraProto::MraFilesQueueCancel(HANDLE hFilesQueueHandle, DWORD dwIDRequest
 			if (mraGetStaticStringA(dat->hContact, "e-mail", szEMail, SIZEOF(szEMail), &dwEMailSize))
 				MraFileTransferAck(FILE_TRANSFER_STATUS_DECLINE, szEMail, dwEMailSize, dwIDRequest, NULL, 0);
 		}
-			
+
 		MraMrimProxyCloseConnection(dat->hMraMrimProxyData);
 
 		Netlib_CloseHandle(dat->hListen);
@@ -559,7 +559,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 			// не смогли слушать порт, хз почему.
 			else {
 				ShowFormattedErrorMessage(L"Files exchange: cant create listen soscket, will try connect to remonte host. Error", GetLastError());
-					
+
 				//dwAddrListSize = 0;
 				memmove(szAddrList, MRA_FILES_NULL_ADDRR, sizeof(MRA_FILES_NULL_ADDRR));
 				dwAddrListSize = (sizeof(MRA_FILES_NULL_ADDRR)-1);
@@ -586,7 +586,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 					lpwszCurPos = lpwszFiles;
 					for (size_t i = 0;i < dat->dwFilesCount;i++) {
 						MRA_FILES_QUEUE_FILE &p = dat->pmfqfFiles[i];
-						lpwszCurPos += mir_sntprintf(lpwszCurPos, (dwFilesSize-((size_t)lpwszCurPos-(size_t)lpwszFiles)), L"%s;%I64u;", 
+						lpwszCurPos += mir_sntprintf(lpwszCurPos, (dwFilesSize-((size_t)lpwszCurPos-(size_t)lpwszFiles)), L"%s;%I64u;",
 							GetFileNameFromFullPathW(p.lpwszName, p.dwNameLen), p.dwSize);
 					}
 					dwFilesSize = (lpwszCurPos-lpwszFiles);// size in WCHARs
@@ -605,7 +605,7 @@ HANDLE CMraProto::MraFilesQueueConnectIn(MRA_FILES_QUEUE_ITEM *dat)
 						}
 					}
 					MraFileTransfer(szEMail, dwEMailSize, dat->dwIDRequest, dat->dwFilesTotalSize, lpwszFiles, dwFilesSize, szAddrList, dwAddrListSize);
-						
+
 					mir_free(lpwszFiles);
 				}
 			}
@@ -693,7 +693,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 		p.dwSize = StrToUNum64((LPSTR)lpwszDelimiter, (size_t)lpwszEndItem-(size_t)lpwszDelimiter+1);
 		dat->dwFilesTotalSize += p.dwSize;
 		dwFileNameTotalSize += p.dwNameLen * sizeof(TCHAR);
-						
+
 		dat->dwFilesCount++;
 		lpwszCurrentItem = lpwszEndItem+1;
 	}
@@ -733,7 +733,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 	prf.fileCount = 1;//dat->dwFilesCount;
 	prf.ptszFiles = &dat->pwszFilesList;
 	prf.lParam = dwIDRequest;
- 
+
 	CCSDATA ccs;
 	ccs.szProtoService = PSR_FILE;
 	ccs.hContact = hContact;
@@ -752,7 +752,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 	{
 		MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 		MRA_FILES_QUEUE_ITEM *dat = ((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->dat;
-	    
+
 		WCHAR wszFileName[MAX_FILEPATH] = {0};
 		WCHAR szErrorText[2048];
 		BYTE btBuff[BUFF_SIZE_RCV];
@@ -816,7 +816,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				pfts.currentFileSize = dat->pmfqfFiles[i].dwSize;
 				pfts.currentFileProgress = 0;
 				//pfts.currentFileTime;  //as seconds since 1970
-				
+
 				if ((dat->dwPathSize+dat->pmfqfFiles[i].dwNameLen)<SIZEOF(wszFileName))
 				{
 					memmove(wszFileName, dat->lpwszPath, (dat->dwPathSize*sizeof(WCHAR)));
@@ -833,7 +833,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 				//dwBuffSizeUsed = ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_FILERESUME, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
 
 				ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_NEXTFILE, (HANDLE)dat->dwIDRequest, 0);
-				
+
 				//dwBuffSizeUsed = (mir_snprintf((LPSTR)btBuff, SIZEOF(btBuff), "%s %S", MRA_FT_GET_FILE, dat->pmfqfFiles[i].lpwszName)+1);
 				memmove(btBuff, MRA_FT_GET_FILE, sizeof(MRA_FT_GET_FILE));
 				btBuff[(sizeof(MRA_FT_GET_FILE)-1)] = ' ';
@@ -886,7 +886,7 @@ void CMraProto::MraFilesQueueRecvThreadProc(LPVOID lpParameter)
 										{
 											pfts.currentFileProgress += dwReceived;
 											pfts.totalProgress += dwReceived;
-											
+
 											// progress updates
 											dwUpdateTimeCur = GetTickCount();
 											if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[i].dwSize)
@@ -1024,7 +1024,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 	MRA_FILES_QUEUE *pmrafqFilesQueue = (MRA_FILES_QUEUE*)((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->hFilesQueueHandle;
 	MRA_FILES_QUEUE_ITEM *dat = ((MRA_FILES_THREADPROC_PARAMS*)lpParameter)->dat;
 	mir_free(lpParameter);
-	    
+
 	CHAR szFileName[MAX_FILEPATH] = {0};
 	WCHAR szErrorText[2048];
 	BYTE btBuff[BUFF_SIZE_RCV];
@@ -1086,7 +1086,7 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 
 			if (bFailed)
 				break;
-			
+
 			// ...received
 			if (dwBuffSizeUsed > (sizeof(MRA_FT_GET_FILE)+1)) {// file name received
 				if (CompareStringA( MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), NORM_IGNORECASE, (LPSTR)btBuff, (sizeof(MRA_FT_GET_FILE)-1), MRA_FT_GET_FILE, (sizeof(MRA_FT_GET_FILE)-1)) == CSTR_EQUAL) {
@@ -1122,14 +1122,14 @@ void CMraProto::MraFilesQueueSendThreadProc(LPVOID lpParameter)
 									if (dwBuffSizeUsed == dwReceived) {
 										pfts.currentFileProgress += dwBuffSizeUsed;
 										pfts.totalProgress += dwBuffSizeUsed;
-												
+
 										// progress updates
 										dwUpdateTimeCur = GetTickCount();
 										if (dwUpdateTimeNext <= dwUpdateTimeCur || pfts.currentFileProgress >= dat->pmfqfFiles[j].dwSize) { // we update it
 											dwUpdateTimeNext = dwUpdateTimeCur+MRA_FILES_QUEUE_PROGRESS_INTERVAL;
 
 											ProtoBroadcastAck(m_szModuleName, dat->hContact, ACKTYPE_FILE, ACKRESULT_DATA, (HANDLE)dat->dwIDRequest, (LPARAM)&pfts);
-													
+
 											if (pfts.currentFileProgress >= dat->pmfqfFiles[j].dwSize) { // file received
 												bOK = TRUE;
 												break;

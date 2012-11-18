@@ -2,7 +2,7 @@
 #include "MraAvatars.h"
 
 #define PA_FORMAT_MAX		7
-const LPTSTR lpcszExtensions[9] = 
+const LPTSTR lpcszExtensions[9] =
 {
 	_T(".dat"), // PA_FORMAT_UNKNOWN
 	_T(".png"), // PA_FORMAT_PNG
@@ -15,7 +15,7 @@ const LPTSTR lpcszExtensions[9] =
 	NULL
 };
 
-const LPSTR lpcszContentType[9] = 
+const LPSTR lpcszContentType[9] =
 {
 	"", 					// PA_FORMAT_UNKNOWN
 	"image/png", 		// PA_FORMAT_PNG
@@ -117,7 +117,7 @@ DWORD CMraProto::MraAvatarsQueueInitialize(HANDLE *phAvatarsQueueHandle)
 			*phAvatarsQueueHandle = (HANDLE)pmraaqAvatarsQueue;
 		}
 	}
-	
+
 	return dwRetErrorCode;
 }
 
@@ -444,7 +444,7 @@ DWORD MraAvatarsHttpTransaction(HANDLE hConnection, DWORD dwRequestType, LPSTR l
 	nlhr.szUrl = szBuff;
 	nlhr.headers = (NETLIBHTTPHEADER*)&nlbhHeaders;
 	nlhr.headersCount = 4;
-		
+
 	DWORD dwSent = CallService(MS_NETLIB_SENDHTTPREQUEST, (WPARAM)hConnection, (LPARAM)&nlhr);
 	if (dwSent == SOCKET_ERROR || !dwSent)
 		return GetLastError();
@@ -551,7 +551,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 		// default path
 		mir_ptr<TCHAR> lpszPathToAvatarsCache( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
 		dwEMailSize = mir_sntprintf(lpszPath, dwPathSize, _T("%s\\%s\\"), (TCHAR*)lpszPathToAvatarsCache, m_tszUserName);
-	} 
+	}
 	else {
 		FoldersGetCustomPathT( pmraaqAvatarsQueue->hAvatarsPath, lpszCurPath, int(dwPathSize), _T(""));
 		dwEMailSize = lstrlen( lpszCurPath );
@@ -577,7 +577,7 @@ DWORD CMraProto::MraAvatarsGetFileName(HANDLE hAvatarsQueueHandle, HANDLE hConta
 				if ( pdwPathSizeRet )
 					*pdwPathSizeRet = lpszCurPath - lpszPath;
 				return NO_ERROR;
-			}						 
+			}
 		}
 		else {
 			if ( DB_GetStaticStringW(NULL, MRA_AVT_SECT_NAME, "DefaultAvatarFileName", lpszCurPath, dwPathSize-5, &dwEMailSize ) == FALSE) {
@@ -615,7 +615,7 @@ DWORD CMraProto::MraAvatarsQueueGetAvatar(HANDLE hAvatarsQueueHandle, DWORD dwFl
 			GetSystemTimeAsFileTime(&ftCurrentTime);
 			SystemTimeToFileTime(&stAvatarLastCheckTime, &ftExpireTime);
 			(*((DWORDLONG*)&ftExpireTime)) += (FILETIME_MINUTE*(DWORDLONG)DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL));
-			
+
 			if ((*((DWORDLONG*)&ftExpireTime))>(*((DWORDLONG*)&ftCurrentTime)))
 			if ( MraAvatarsGetFileName(hAvatarsQueueHandle, hContact, GetContactAvatarFormat(hContact, PA_FORMAT_DEFAULT), wszFileName, SIZEOF(wszFileName), &dwPathSize) == NO_ERROR)
 			if ( IsFileExist( wszFileName )) {
@@ -663,12 +663,12 @@ DWORD CMraProto::MraAvatarsQueueGetAvatarSimple(HANDLE hAvatarsQueueHandle, DWOR
 // Avatars options
 
 WORD wMraAvatarsControlsList[] = {
-	IDC_SERVER, 
-	IDC_SERVERPORT, 
-	IDC_BUTTON_DEFAULT, 
-	IDC_USE_KEEPALIVE_CONN, 
-	IDC_UPD_CHECK_INTERVAL, 
-	IDC_RETURN_ABC_PATH, 
+	IDC_SERVER,
+	IDC_SERVERPORT,
+	IDC_BUTTON_DEFAULT,
+	IDC_USE_KEEPALIVE_CONN,
+	IDC_UPD_CHECK_INTERVAL,
+	IDC_RETURN_ABC_PATH,
 	IDC_DELETE_AVT_ON_CONTACT_DELETE
 };
 
@@ -696,7 +696,7 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 			SetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, DBGetContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", MRA_AVT_DEFAULT_CHK_INTERVAL), FALSE);
 			CHECK_DLG_BUTTON(hWndDlg, IDC_RETURN_ABC_PATH, db_get_b(NULL, MRA_AVT_SECT_NAME, "ReturnAbsolutePath", MRA_AVT_DEFAULT_RET_ABC_PATH));
 			CHECK_DLG_BUTTON(hWndDlg, IDC_DELETE_AVT_ON_CONTACT_DELETE, db_get_b(NULL, MRA_AVT_SECT_NAME, "DeleteAvtOnContactDelete", MRA_DELETE_AVT_ON_CONTACT_DELETE));
-			
+
 			EnableControlsArray(hWndDlg, (WORD*)&wMraAvatarsControlsList, SIZEOF(wMraAvatarsControlsList), IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_ENABLE));
 		}
 		return TRUE;
@@ -726,8 +726,8 @@ INT_PTR CALLBACK MraAvatarsQueueDlgProcOpts(HWND hWndDlg, UINT msg, WPARAM wPara
 				DBWriteContactSettingDword(NULL, MRA_AVT_SECT_NAME, "CheckInterval", GetDlgItemInt(hWndDlg, IDC_UPD_CHECK_INTERVAL, NULL, FALSE));
 				DBWriteContactSettingByte(NULL, MRA_AVT_SECT_NAME, "UseKeepAliveConn", IS_DLG_BUTTON_CHECKED(hWndDlg, IDC_USE_KEEPALIVE_CONN));
 				DBWriteContactSettingDword(NULL, MRA_AVT_SECT_NAME, "ServerPort", GetDlgItemInt(hWndDlg, IDC_SERVERPORT, NULL, FALSE));
-				
-				GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer)); 
+
+				GET_DLG_ITEM_TEXT(hWndDlg, IDC_SERVER, szServer, SIZEOF(szServer));
 				db_set_ws(NULL, MRA_AVT_SECT_NAME, "Server", szServer);
 			}
 			return TRUE;

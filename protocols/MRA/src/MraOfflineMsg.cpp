@@ -151,7 +151,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 													if (pdwFlags)
 													{
 														(*pdwFlags) &= ~MESSAGE_FLAG_v1p16; // reset unocode flag if exist
-														(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag 
+														(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag
 													}
 													dwRetErrorCode = NO_ERROR;
 												}else {
@@ -225,7 +225,7 @@ DWORD MraOfflineMessageGet(MRA_LPS *plpsMsg, DWORD *pdwTime, DWORD *pdwFlags, MR
 						if (pdwFlags)
 						{
 							(*pdwFlags) &= ~MESSAGE_FLAG_v1p16; // reset unocode flag if exist
-							(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag 
+							(*pdwFlags) |= MESSAGE_FLAG_CP1251; // set ansi flag
 						}
 						dwRetErrorCode = NO_ERROR;
 					}else {
@@ -263,7 +263,7 @@ DWORD MraOfflineMessageGetMIMEHeadAndBody(LPSTR lpszMessage, size_t dwMessageSiz
 	{
 		LPSTR lpszBody;
 		size_t dwBodySize;
-		
+
 		// затычка: майл не придерживается RFC и вместо CRLFCRLF ставит LFLF в MIME частях, иногда ставит
 		lpszBody = (LPSTR)MemoryFind(0, lpszMessage, dwMessageSize, CRLFCRLF, (sizeof(CRLFCRLF)-1));
 		if (lpszBody)
