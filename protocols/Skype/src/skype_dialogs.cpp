@@ -321,6 +321,40 @@ INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 
 INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
+		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT);
+		/*LOGFONT lf;
+		GetObject((HFONT)SendMessage(hwndList, WM_GETFONT, 0, 0), sizeof(lf), &lf);
+		lf.lfHeight -= 5;
+		HFONT hFont = CreateFontIndirect(&lf);
+		SendMessage(hwndList, WM_SETFONT, (WPARAM)hFont, 0);*/
+		// Prepare ListView Columns
+		LV_COLUMN lvc = {0};
+		RECT rc;
+		GetClientRect(hwndList, &rc);
+		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+		lvc.mask = LVCF_WIDTH;
+		lvc.cx = rc.right / 3;
+		ListView_InsertColumn(hwndList, 0, &lvc);
+		lvc.cx = rc.right - lvc.cx;
+		ListView_InsertColumn(hwndList, 1, &lvc);
+		// Prepare Setting Items
+		LV_ITEM lvi = {0};
+		lvi.mask = LVIF_PARAM | LVIF_TEXT;
+
+		for (lvi.iItem = 0; lvi.iItem < SIZEOF(setting); lvi.iItem++) 
+		{
+			lvi.lParam = lvi.iItem;
+			lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
+			ListView_InsertItem(hwndList, &lvi);
+		}
+
+		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		return TRUE;
+	}
 	return FALSE;
 }
 

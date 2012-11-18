@@ -24,6 +24,37 @@ struct LanguagesListEntry {
 	char ISOcode[3];
 };
 
+struct SettingItem
+{
+  const TCHAR *szDescription;
+  const char *szDbSetting;
+};
+
+const SettingItem setting[]={
+  {LPGENT("Full name"),		"Nick"},
+  {LPGENT("Mood"),			"XStatusMsg"},
+
+  {LPGENT("Mobile phone"),	"Cellular"},
+  {LPGENT("Home phone"),		"Phone"},
+  {LPGENT("Office phone"),	"CompanyPhone"},
+  {LPGENT("E-mail 1"),		"e-mail0"},
+  {LPGENT("E-mail 2"),		"e-mail1"},
+  {LPGENT("E-mail 3"),		"e-mail2"},
+
+  {LPGENT("Country"),		"Country"},
+  {LPGENT("State"),			"State"},
+  {LPGENT("City"),			"City"},
+  {LPGENT("Time zone"),		"Timezone"},
+  {LPGENT("Homepage"),		"Homepage"},
+  {LPGENT("Gender"),		"Gender"},
+  {LPGENT("Birth day"),		"BirthDay"},
+  {LPGENT("Birth month"),	"BirthMonth"},
+  {LPGENT("Birth year"),	"BirthYear"},
+  {LPGENT("Language"),		"Language1"},
+
+  {LPGENT("About"),			"About"}
+};
+
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
@@ -193,6 +224,7 @@ protected:
 	void	UpdateOwnStatusMessage();
 	void	UpdateOwnTimezone();
 	void	UpdateOwnProfile();	
+	void	UpdateOwnAbout();	
 
 	void	OnAccountChanged(int prop);
 

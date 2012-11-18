@@ -2,7 +2,7 @@
 
 void CSkypeProto::UpdateOwnAvatar()
 {
-	uint newTS = 0;
+	/*uint newTS = 0;
 	this->account->GetPropAvatarTimestamp(newTS);
 	DWORD oldTS = this->GetSettingDword("AvatarTS");
 	if (newTS > oldTS)
@@ -31,7 +31,7 @@ void CSkypeProto::UpdateOwnAvatar()
 			}
 			delete path;
 		}		
-	}
+	}*/
 }
 
 void CSkypeProto::UpdateOwnBirthday()
@@ -278,6 +278,17 @@ void CSkypeProto::UpdateOwnTimezone()
 		this->DeleteSetting("TimeZone");
 }
 
+void CSkypeProto::UpdateOwnAbout()
+{
+	SEString data;
+	this->account->GetPropAbout(data);
+	wchar_t* about = ::mir_utf8decodeW((const char*)data);
+	if (wcscmp(about, L"") == 0)
+		this->DeleteSetting("About");
+	else
+		this->SetSettingString("About", about);
+	::mir_free(about);
+}
 void CSkypeProto::UpdateOwnProfile()
 {
 	uint newTS = 0;
@@ -300,6 +311,7 @@ void CSkypeProto::UpdateOwnProfile()
 		this->UpdateOwnState();
 		this->UpdateOwnStatusMessage();
 		this->UpdateOwnTimezone();
+		this->UpdateOwnAbout();
 
 		this->SetSettingDword("ProfileTS", newTS);
 	}
@@ -358,6 +370,9 @@ void CSkypeProto::OnAccountChanged(int prop)
 		break;
 	case CAccount::P_FULLNAME:
 		this->UpdateOwnNickName();
+		break;
+	case CAccount::P_ABOUT:
+		this->UpdateOwnAbout();
 		break;
 	}
 }
