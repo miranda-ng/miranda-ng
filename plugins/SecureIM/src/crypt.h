@@ -139,6 +139,7 @@ BOOL isSecureIM(HANDLE hContact, BOOL emptyMirverAsSecureIM=FALSE);
 
 // crypt_icons.cpp
 HICON mode2icon(int,int);
+HANDLE mode2clicon(int mode, int type);
 void RefreshContactListIcons(void);
 void ShowStatusIcon(HANDLE,UINT);
 void ShowStatusIcon(HANDLE);

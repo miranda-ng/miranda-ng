@@ -1,49 +1,57 @@
 #include "commonheaders.h"
 
-typedef struct {
-	HICON icon;
-	SHORT mode;
-} ICON_CACHE;
+struct ICON_CACHE
+{
+	HICON  icon;
+	HANDLE hCLIcon;
+	SHORT  mode;
+};
 
-
-ICON_CACHE *ICONS_CACHE = NULL;
-int icons_cache = 0;
-
+OBJLIST<ICON_CACHE> arIcoList(10);
 
 // преобразует mode в HICON который НЕ НУЖНО разрушать в конце
-HICON mode2icon(int mode,int type) {
-
-	int m=mode&0x0f,s=(mode&SECURED)>>4,i; // разобрали на части - режим и состояние
+static ICON_CACHE& getCacheItem(int mode, int type)
+{
+	int m = mode & 0x0f, s = (mode & SECURED)>>4, i; // разобрали на части - режим и состояние
 	HICON icon;
 
-	if ( icons_cache ) {
-		for(i=0;i<icons_cache;i++) {
-			if ( ICONS_CACHE[i].mode == ((type<<8) | mode)) {
-				return ICONS_CACHE[i].icon;
-			}
-		}
-	}
+	for(i=0; i < arIcoList.getCount(); i++)
+		if (arIcoList[i].mode == ((type<<8) | mode))
+			return arIcoList[i];
 
-	i=s;
+	i = s;
 	switch(type) {
-	case 1: i+=IEC_CL_DIS; break;
-	case 2: i+=ICO_CM_DIS; break;
-	case 3: i+=ICO_MW_DIS; break;
+		case 1: i += IEC_CL_DIS; break;
+		case 2: i += ICO_CM_DIS; break;
+		case 3: i += ICO_MW_DIS; break;
 	}
 
-	if ( type==1 ) {
-		icon = BindOverlayIcon(g_hIEC[i],g_hICO[ICO_OV_NAT+m]);
-	}
-	else {
-		icon = BindOverlayIcon(g_hICO[i],g_hICO[ICO_OV_NAT+m]);
-	}
+	if (type == 1)
+		icon = BindOverlayIcon(g_hIEC[i], g_hICO[ICO_OV_NAT+m]);
+	else
+		icon = BindOverlayIcon(g_hICO[i], g_hICO[ICO_OV_NAT+m]);
 
-	ICONS_CACHE = (ICON_CACHE*) mir_realloc(ICONS_CACHE,sizeof(ICON_CACHE)*(icons_cache+1));
-	ICONS_CACHE[icons_cache].icon = icon;
-	ICONS_CACHE[icons_cache].mode = (type<<8) | mode;
-	icons_cache++;
+	ICON_CACHE *p = new ICON_CACHE;
+	p->icon = icon;
+	p->mode = (type << 8) | mode;
+	p->hCLIcon = NULL;
+	arIcoList.insert(p);
 
-	return icon;
+	return *p;
+}
+
+HICON mode2icon(int mode, int type)
+{
+	return getCacheItem(mode, type).icon;
+}
+
+HANDLE mode2clicon(int mode, int type)
+{
+	ICON_CACHE &p = getCacheItem(mode, type);
+	if (p.hCLIcon == NULL)
+		p.hCLIcon = (HANDLE)CallService(MS_CLIST_EXTRA_ADD_ICON, (WPARAM)p.icon, 0);
+
+	return p.hCLIcon;
 }
 
 // обновляет иконки в clist и в messagew
@@ -53,18 +61,21 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 
 	// обновить иконки в clist
 	if (mode != -1) {
-		HICON hIcon = mode2icon(mode, 1);
+		HANDLE hIcon = mode2clicon(mode, 1);
 		ExtraIcon_SetIcon(g_hCLIcon, hContact, hIcon);
-		if ( hMC )
+		if (hMC)
 			ExtraIcon_SetIcon(g_hCLIcon, hMC, hIcon);
+	}
+	else {
+		ExtraIcon_Clear(g_hCLIcon, hContact);
+		if (hMC)
+			ExtraIcon_Clear(g_hCLIcon, hMC);
 	}
 
 	if ( ServiceExists(MS_MSG_MODIFYICON)) {  // обновить иконки в srmm
-		StatusIconData sid;
-		memset(&sid,0,sizeof(sid));
-		sid.cbSize = sizeof(sid);
+		StatusIconData sid = {sizeof(sid) };
 		sid.szModule = (char*)szModuleName;
-		for(int i=MODE_NATIVE; i<MODE_CNT;i++) {
+		for(int i = MODE_NATIVE; i < MODE_CNT; i++) {
 			sid.dwId = i;
 			sid.flags = (mode & SECURED) ? 0 : MBF_DISABLED;
 			if (mode == -1 || (mode & 0x0f) != i || isChatRoom(hContact))
@@ -78,7 +89,7 @@ void ShowStatusIcon(HANDLE hContact, int mode)
 
 void ShowStatusIcon(HANDLE hContact)
 {
-	ShowStatusIcon(hContact,isContactSecured(hContact));
+	ShowStatusIcon(hContact, isContactSecured(hContact));
 }
 
 void ShowStatusIconNotify(HANDLE hContact)
@@ -90,6 +101,9 @@ void ShowStatusIconNotify(HANDLE hContact)
 
 void RefreshContactListIcons(void)
 {
+	for (int i=0; i < arIcoList.getCount(); i++)
+		arIcoList[i].hCLIcon = 0;
+
 	HANDLE hContact = db_find_first();
 	while (hContact) { // и снова зажигаем иконку
 		if ( isSecureProtocol(hContact))

@@ -87,7 +87,7 @@ int __cdecl onExtraImageListRebuilding(WPARAM, LPARAM)
 int __cdecl onExtraImageApplying(WPARAM wParam, LPARAM)
 {
 	if ( isSecureProtocol((HANDLE)wParam))
-		ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, mode2icon( isContactSecured((HANDLE)wParam), 1));
+		ExtraIcon_SetIcon(g_hCLIcon, (HANDLE)wParam, mode2clicon( isContactSecured((HANDLE)wParam), 1));
 
 	return 0;
 }
