@@ -188,7 +188,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 #endif
 		szEncMsg = ppre->szMessage;
 		if ( !ptr->cntx ) {
-			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings)?CPP_MODE_GPG:CPP_MODE_PGP) | ((DBGetContactSettingByte(pccsd->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
+			ptr->cntx = cpp_create_context(((bGPGloaded && bGPGkeyrings)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(pccsd->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
 			ptr->keyLoaded = 0;
 		}
 
@@ -245,7 +245,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		if ( ptr->mode==MODE_NATIVE ) {
 		    ptr->mode = MODE_RSAAES;
 		    deleteRSAcntx(ptr);
-		    DBWriteContactSettingByte(ptr->hContact, szModuleName, "mode", ptr->mode);
+		    db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
 		}
 		createRSAcntx(ptr);
 		loadRSAkey(ptr);
@@ -361,7 +361,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		Sent_NetLog("onRecvMsg: Native SiG_DISA message");
 #endif
 //		ptr->status=ptr->tstatus=STATUS_DISABLED;
-//		DBWriteContactSettingByte(ptr->hContact, szModuleName, "StatusID", ptr->status);
+//		db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 	}
 	case SiG_DEIN: { // deinit message
 		// other user has disabled SecureIM with you
@@ -382,7 +382,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		    cpp_delete_context(ptr->cntx);
 		    ptr->cntx = 0;
 		    ptr->keyLoaded = 0;
-		    DBWriteContactSettingByte(ptr->hContact, szModuleName, "mode", ptr->mode);
+		    db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
 		}
 		switch(ssig) {
 		case SiG_KEYR: { // key3 message
@@ -419,7 +419,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			if ( ptr->features & CPP_FEATURES_RSA ) {
 				// switch to RSAAES mode
 				ptr->mode = MODE_RSAAES;
-				DBWriteContactSettingByte(ptr->hContact, szModuleName, "mode", ptr->mode);
+				db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
 
 				resetRSAcntx(ptr);
 				loadRSAkey(ptr);
@@ -627,7 +627,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 		}
 */
 		if ( !ptr->cntx ) {
-			ptr->cntx = cpp_create_context((isContactGPG(ptr->hContact)?CPP_MODE_GPG:CPP_MODE_PGP) | ((DBGetContactSettingByte(ptr->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
+			ptr->cntx = cpp_create_context((isContactGPG(ptr->hContact)?CPP_MODE_GPG:CPP_MODE_PGP) | ((db_get_b(ptr->hContact,szModuleName,"gpgANSI",0))?CPP_MODE_GPG_ANSI:0));
 			ptr->keyLoaded = 0;
 		}
 		if ( !ptr->keyLoaded && bPGPloaded ) ptr->keyLoaded = LoadKeyPGP(ptr);
@@ -885,7 +885,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onSendMsg: cryptokey exist");
 #endif
-/*	    if ( !hMetaContact && isProtoMetaContacts(pccsd->hContact) && (DBGetContactSettingByte(NULL, "MetaContacts", "SubcontactHistory", 1) == 1)) {
+/*	    if ( !hMetaContact && isProtoMetaContacts(pccsd->hContact) && (db_get_b(NULL, "MetaContacts", "SubcontactHistory", 1) == 1)) {
 		// add sent event to subcontact
     		DBEVENTINFO dbei; HANDLE hC = getMostOnline(pccsd->hContact);
 		ZeroMemory(&dbei, sizeof(dbei));

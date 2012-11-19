@@ -112,7 +112,7 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	case -8: { // сессия разорвана по причине "disabled"
 		msg=sim508; 
 //		ptr->status=ptr->tstatus=STATUS_DISABLED;
-//		DBWriteContactSettingByte(ptr->hContact, szModuleName, "StatusID", ptr->status);
+//		db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 	} break;
 	case -0x10: // сессия разорвана по ошибке
 	case -0x21:

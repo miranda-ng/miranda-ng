@@ -107,7 +107,7 @@ BOOL isProtoSmallPackets(HANDLE hContact) {
 
 BOOL isContactInvisible(HANDLE hContact) {
 
-	if ( !DBGetContactSettingByte(hContact,"CList","Hidden",0)) {
+	if ( !db_get_b(hContact,"CList","Hidden",0)) {
 		if ( !clist_cnt ) return false;
 		for(int j=0;j<clist_cnt;j++) {
 			if ( clist[j].hContact == hContact ) {
@@ -130,7 +130,7 @@ BOOL isContactInvisible(HANDLE hContact) {
 
 
 BOOL isNotOnList(HANDLE hContact) {
-	return DBGetContactSettingByte(hContact, "CList", "NotOnList", 0);
+	return db_get_b(hContact, "CList", "NotOnList", 0);
 }
 
 
@@ -220,7 +220,7 @@ BOOL isChatRoom(HANDLE hContact) {
 	for(int j=0;j<clist_cnt;j++) {
 		if ( clist[j].hContact == hContact ) {
 			if ( !clist[j].proto->inspecting ) break;
-			return (DBGetContactSettingByte(hContact,clist[j].proto->name,"ChatRoom",0)!=0);
+			return (db_get_b(hContact,clist[j].proto->name,"ChatRoom",0)!=0);
 		}
 	}
 	return false;
@@ -238,7 +238,7 @@ BOOL isSecureIM(pUinKey ptr, BOOL emptyMirverAsSecureIM) {
 	if ( !ptr->proto->inspecting ) return false;
 
 	BOOL isSecureIM = false;
-	if ( bNOL && DBGetContactSettingByte(ptr->hContact,"CList","NotOnList",0)) {
+	if ( bNOL && db_get_b(ptr->hContact,"CList","NotOnList",0)) {
 		return false;
 	}
 	LPSTR mirver = myDBGetString(ptr->hContact,ptr->proto->name,"MirVer");

@@ -115,36 +115,36 @@ void showPopUp(LPCSTR lpzText,HANDLE hContact,HICON hIcon, UINT type) {
 
 
 void showPopUpDCmsg(HANDLE hContact,LPCSTR msg) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "dc",1);
+	int indic=db_get_b(0, szModuleName, "dc",1);
 	if (indic==1) showPopUp(msg,hContact,g_hPOP[POP_PU_DIS],1);
 }
 void showPopUpDC(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "dc",1);
+	int indic=db_get_b(0, szModuleName, "dc",1);
 	if (indic==1) showPopUp(sim006,hContact,g_hPOP[POP_PU_DIS],1);
 }
 void showPopUpEC(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "ec",1);
+	int indic=db_get_b(0, szModuleName, "ec",1);
 	if (indic==1) showPopUp(sim001,hContact,g_hPOP[POP_PU_EST],1);
 }
 void showPopUpKS(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "ks",1);
+	int indic=db_get_b(0, szModuleName, "ks",1);
 	if (indic==1) showPopUp(sim007,hContact,g_hPOP[POP_PU_PRC],0);
 }
 void showPopUpKRmsg(HANDLE hContact,LPCSTR msg) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "kr",1);
+	int indic=db_get_b(0, szModuleName, "kr",1);
 	if (indic==1) showPopUp(msg,hContact,g_hPOP[POP_PU_PRC],0);
 }
 void showPopUpKR(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "kr",1);
+	int indic=db_get_b(0, szModuleName, "kr",1);
 	if (indic==1) showPopUp(sim008,hContact,g_hPOP[POP_PU_PRC],0);
 }
 void showPopUpSM(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "ss",0);
+	int indic=db_get_b(0, szModuleName, "ss",0);
 	if (indic==1) showPopUp(sim009,hContact,g_hPOP[POP_PU_MSS],2);
 	SkinPlaySound("OutgoingSecureMessage");
 }
 void showPopUpRM(HANDLE hContact) {
-	int indic=DBGetContactSettingByte(0, szModuleName, "sr",0);
+	int indic=db_get_b(0, szModuleName, "sr",0);
 	if (indic==1) showPopUp(sim010,hContact,g_hPOP[POP_PU_MSR],2);
 	SkinPlaySound("IncomingSecureMessage");
 }

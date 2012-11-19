@@ -200,7 +200,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 
 
 BOOL LoadKeyPGP(pUinKey ptr) {
-   	int mode = DBGetContactSettingByte(ptr->hContact,szModuleName,"pgp_mode",255);
+   	int mode = db_get_b(ptr->hContact,szModuleName,"pgp_mode",255);
    	if(mode==0) {
    		DBVARIANT dbv;
    		DBGetContactSetting(ptr->hContact,szModuleName,"pgp",&dbv);

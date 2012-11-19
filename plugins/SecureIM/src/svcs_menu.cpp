@@ -29,7 +29,7 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam) {
 		if(ptr) {
 			ptr->status=ptr->tstatus=(BYTE)lParam;
 			if(ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
-			else 				DBWriteContactSettingByte(ptr->hContact, szModuleName, "StatusID", ptr->status);
+			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 		}
 		break;
     }
@@ -89,7 +89,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
     		cws.value.pbVal = (LPBYTE)KeyID;
     		cws.value.cpbVal = pgp_size_keyid();
     		CallService(MS_DB_CONTACT_WRITESETTING,wParam,(LPARAM)&cws);
-    		DBWriteContactSettingByte((HANDLE)wParam,szModuleName,"pgp_mode",0);
+    		db_set_b((HANDLE)wParam,szModuleName,"pgp_mode",0);
     		DBWriteContactSettingString((HANDLE)wParam,szModuleName,"pgp_abbr",szKeyID);
     	  	del = false;
 	    }
@@ -102,7 +102,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
     	  		if(publ) {
     				DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
     		  		myDBWriteStringEncode((HANDLE)wParam,szModuleName,"pgp",publ);
-    				DBWriteContactSettingByte((HANDLE)wParam,szModuleName,"pgp_mode",1);
+    				db_set_b((HANDLE)wParam,szModuleName,"pgp_mode",1);
     				DBWriteContactSettingString((HANDLE)wParam,szModuleName,"pgp_abbr","(binary)");
     		  		mir_free(publ);
     		  		del = false;
@@ -181,7 +181,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam) {
 				ptr->keyLoaded = 0;
 			}
 			ptr->mode=(BYTE)lParam;
-			DBWriteContactSettingByte((HANDLE)wParam, szModuleName, "mode", (BYTE)lParam);
+			db_set_b((HANDLE)wParam, szModuleName, "mode", (BYTE)lParam);
 		}
 		ShowStatusIcon((HANDLE)wParam);
 		break;

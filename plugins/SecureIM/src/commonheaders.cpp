@@ -38,7 +38,8 @@ PLUGININFOEX pluginInfoEx = {
 		MIID_SECUREIM
 };
 
-LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) {
+LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting)
+{
 	char *val=NULL;
 	DBVARIANT dbv;
 	dbv.type = DBVT_ASCIIZ;
@@ -50,7 +51,8 @@ LPSTR myDBGetString(HANDLE hContact,const char *szModule,const char *szSetting) 
 }
 
 
-LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSetting) {
+LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSetting)
+{
 	char *val = myDBGetString(hContact,szModule,szSetting);
 	if (!val) return NULL;
 	size_t len = strlen(val)+64;
@@ -61,7 +63,8 @@ LPSTR myDBGetStringDecode(HANDLE hContact,const char *szModule,const char *szSet
 }
 
 
-int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSetting,const char *val) {
+int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSetting,const char *val)
+{
 	int len = (int)strlen(val)+64;
 	char *buf = (LPSTR)alloca(len);
 	strncpy(buf,val,len);
@@ -70,31 +73,32 @@ int myDBWriteStringEncode(HANDLE hContact,const char *szModule,const char *szSet
 	return ret;
 }
 
-void GetFlags() {
-    bSFT = DBGetContactSettingByte(0,szModuleName,"sft",0);
-    bSOM = DBGetContactSettingByte(0,szModuleName,"som",0);
-    bASI = DBGetContactSettingByte(0,szModuleName,"asi",0);
-    bMCD = DBGetContactSettingByte(0,szModuleName,"mcd",0);
-    bSCM = DBGetContactSettingByte(0,szModuleName,"scm",0);
-    bDGP = DBGetContactSettingByte(0,szModuleName,"dgp",0);
-    bAIP = DBGetContactSettingByte(0,szModuleName,"aip",0);
-    bNOL = DBGetContactSettingByte(0,szModuleName,"nol",0);
-    bAAK = DBGetContactSettingByte(0,szModuleName,"aak",0);
-    bMCM = DBGetContactSettingByte(0,szModuleName,"mcm",0);
+void GetFlags()
+{
+	bSFT = db_get_b(0, szModuleName, "sft", 0);
+	bSOM = db_get_b(0, szModuleName, "som", 0);
+	bASI = db_get_b(0, szModuleName, "asi", 0);
+	bMCD = db_get_b(0, szModuleName, "mcd", 0);
+	bSCM = db_get_b(0, szModuleName, "scm", 0);
+	bDGP = db_get_b(0, szModuleName, "dgp", 0);
+	bAIP = db_get_b(0, szModuleName, "aip", 0);
+	bNOL = db_get_b(0, szModuleName, "nol", 0);
+	bAAK = db_get_b(0, szModuleName, "aak", 0);
+	bMCM = db_get_b(0, szModuleName, "mcm", 0);
 }
 
-
-void SetFlags() {
-    DBWriteContactSettingByte(0,szModuleName,"sft",bSFT);
-    DBWriteContactSettingByte(0,szModuleName,"som",bSOM);
-    DBWriteContactSettingByte(0,szModuleName,"asi",bASI);
-    DBWriteContactSettingByte(0,szModuleName,"mcd",bMCD);
-    DBWriteContactSettingByte(0,szModuleName,"scm",bSCM);
-    DBWriteContactSettingByte(0,szModuleName,"dgp",bDGP);
-    DBWriteContactSettingByte(0,szModuleName,"aip",bAIP);
-    DBWriteContactSettingByte(0,szModuleName,"nol",bNOL);
-    DBWriteContactSettingByte(0,szModuleName,"aak",bAAK);
-    DBWriteContactSettingByte(0,szModuleName,"mcm",bMCM);
+void SetFlags()
+{
+	db_set_b(0, szModuleName, "sft", bSFT);
+	db_set_b(0, szModuleName, "som", bSOM);
+	db_set_b(0, szModuleName, "asi", bASI);
+	db_set_b(0, szModuleName, "mcd", bMCD);
+	db_set_b(0, szModuleName, "scm", bSCM);
+	db_set_b(0, szModuleName, "dgp", bDGP);
+	db_set_b(0, szModuleName, "aip", bAIP);
+	db_set_b(0, szModuleName, "nol", bNOL);
+	db_set_b(0, szModuleName, "aak", bAAK);
+	db_set_b(0, szModuleName, "mcm", bMCM);
 }
 
 struct A2U {
@@ -106,7 +110,8 @@ typedef A2U* pA2U;
 pA2U pa2u;
 int ca2u=0;
 
-LPSTR TranslateU( LPCSTR lpText ) {
+LPSTR TranslateU( LPCSTR lpText )
+{
 	int i;
 	for(i=0;i<ca2u;i++) {
 		if ( pa2u[i].a == lpText ) {
@@ -132,7 +137,8 @@ LPSTR TranslateU( LPCSTR lpText ) {
 	return pa2u[i].u;
 }
 
-int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType) {
+int msgbox( HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType)
+{
 	if ( bCoreUnicode ) {
 		LPWSTR lpwText = mir_a2u(lpText);
 		LPWSTR lpwCaption = mir_a2u(lpCaption);
@@ -163,10 +169,9 @@ void CopyToClipboard(HWND hwnd,LPSTR msg)
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 HANDLE hNetlibUser;
 
-void InitNetlib() {
-	NETLIBUSER nl_user;
-	memset(&nl_user,0,sizeof(nl_user));
-	nl_user.cbSize = sizeof(nl_user);
+void InitNetlib()
+{
+	NETLIBUSER nl_user = { sizeof(nl_user) };
 	nl_user.szSettingsModule = (LPSTR)szModuleName;
 	nl_user.szDescriptiveName = (LPSTR)szModuleName;
 	nl_user.flags = NUF_NOOPTIONS;
@@ -174,7 +179,8 @@ void InitNetlib() {
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nl_user);
 }
 
-void DeinitNetlib() {
+void DeinitNetlib()
+{
 	if(hNetlibUser)
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
 }

@@ -1113,20 +1113,20 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 
 	GetFlags();
 
-	SendMessage(GetDlgItem(hDlg,IDC_SFT),BM_SETCHECK,(bSFT)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_SOM),BM_SETCHECK,(bSOM)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_ASI),BM_SETCHECK,(bASI)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_MCD),BM_SETCHECK,(bMCD)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_SCM),BM_SETCHECK,(bSCM)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_DGP),BM_SETCHECK,(bDGP)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_AIP),BM_SETCHECK,(bAIP)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_NOL),BM_SETCHECK,(bNOL)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_AAK),BM_SETCHECK,(bAAK)?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_MCM),BM_SETCHECK,(bMCM)?BST_CHECKED:BST_UNCHECKED,0L);
+	SendMessage( GetDlgItem(hDlg,IDC_SFT), BM_SETCHECK, (bSFT) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_SOM), BM_SETCHECK, (bSOM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_ASI), BM_SETCHECK, (bASI) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_MCD), BM_SETCHECK, (bMCD) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_SCM), BM_SETCHECK, (bSCM) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_DGP), BM_SETCHECK, (bDGP) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_AIP), BM_SETCHECK, (bAIP) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_NOL), BM_SETCHECK, (bNOL) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_AAK), BM_SETCHECK, (bAAK) ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_MCM), BM_SETCHECK, (bMCM) ? BST_CHECKED : BST_UNCHECKED, 0);
 
 	// Select {OFF,PGP,GPG}
-	SendMessage(GetDlgItem(hDlg,IDC_PGP),BM_SETCHECK,bPGP?BST_CHECKED:BST_UNCHECKED,0L);
-	SendMessage(GetDlgItem(hDlg,IDC_GPG),BM_SETCHECK,bGPG?BST_CHECKED:BST_UNCHECKED,0L);
+	SendMessage( GetDlgItem(hDlg,IDC_PGP), BM_SETCHECK, bPGP ? BST_CHECKED : BST_UNCHECKED, 0);
+	SendMessage( GetDlgItem(hDlg,IDC_GPG), BM_SETCHECK, bGPG ? BST_CHECKED : BST_UNCHECKED, 0);
 
 	// rebuild list of contacts
 	HWND hLV = GetDlgItem(hDlg,IDC_STD_USERLIST);
@@ -1139,9 +1139,8 @@ void RefreshGeneralDlg(HWND hDlg, BOOL iInit) {
 	char tmp[NAMSIZE];
 
 	while (hContact) {
-
 		pUinKey ptr = getUinKey(hContact);
-		if ( ptr && isSecureProtocol(hContact) /*&& !getMetaContact(hContact)*/ && !isChatRoom(hContact)) {
+		if ( ptr && isSecureProtocol(hContact) && !isChatRoom(hContact)) {
 
 			if ( iInit ) {
 				ptr->tmode = ptr->mode;
@@ -1286,7 +1285,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 		SetDlgItemText(hDlg, IDC_GPGHOME_EDIT, path);
 		mir_free(path);
 	}
-	BOOL bGPGLogFlag = DBGetContactSettingByte(0, szModuleName, "gpgLogFlag",0);
+	BOOL bGPGLogFlag = db_get_b(0, szModuleName, "gpgLogFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_LOGGINGON_CBOX),BM_SETCHECK,(bGPGLogFlag)?BST_CHECKED:BST_UNCHECKED,0L);
 	path = myDBGetString(0,szModuleName,"gpgLog");
 	if(path) {
@@ -1294,7 +1293,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 		mir_free(path);
 	}
 	SendMessage(GetDlgItem(hDlg,IDC_SAVEPASS_CBOX),BM_SETCHECK,(bSavePass)?BST_CHECKED:BST_UNCHECKED,0L);
-	BOOL bGPGTmpFlag = DBGetContactSettingByte(0, szModuleName, "gpgTmpFlag",0);
+	BOOL bGPGTmpFlag = db_get_b(0, szModuleName, "gpgTmpFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_TMPPATHON_CBOX),BM_SETCHECK,(bGPGTmpFlag)?BST_CHECKED:BST_UNCHECKED,0L);
 	path = myDBGetString(0,szModuleName,"gpgTmp");
 	if(path) {
@@ -1453,12 +1452,12 @@ void ApplyGeneralSettings(HWND hDlg) {
 	i = SendMessage(GetDlgItem(hDlg, IDC_PGP),BM_GETCHECK,0L,0L)==BST_CHECKED;
 	if(i!=bPGP) {
 		bPGP = i; tmp++;
-		DBWriteContactSettingByte(0, szModuleName, "pgp", bPGP);
+		db_set_b(0, szModuleName, "pgp", bPGP);
 	}
 	i = SendMessage(GetDlgItem(hDlg, IDC_GPG),BM_GETCHECK,0L,0L)==BST_CHECKED;
 	if(i!=bGPG) {
 		bGPG = i; tmp++;
-		DBWriteContactSettingByte(0, szModuleName, "gpg", bGPG);
+		db_set_b(0, szModuleName, "gpg", bGPG);
 	}
 	if(tmp) msgbox1(hDlg, sim224, szModuleName, MB_OK|MB_ICONINFORMATION);
 	}
@@ -1470,12 +1469,12 @@ void ApplyGeneralSettings(HWND hDlg) {
 		if ( !ptr ) continue;
 		if ( ptr->mode!=ptr->tmode ) {
 			ptr->mode = ptr->tmode;
-			DBWriteContactSettingByte(ptr->hContact, szModuleName, "mode", ptr->mode);
+			db_set_b(ptr->hContact, szModuleName, "mode", ptr->mode);
 		}
 		if ( ptr->status!=ptr->tstatus ) {
 			ptr->status = ptr->tstatus;
 			if(ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
-			else 				DBWriteContactSettingByte(ptr->hContact, szModuleName, "StatusID", ptr->status);
+			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 		}
 		if ( ptr->mode==MODE_NATIVE ) {
 			if ( getListViewPSK(hLV,i)) {
@@ -1523,7 +1522,7 @@ void ApplyProtoSettings(HWND hDlg) {
 void ApplyPGPSettings(HWND hDlg) {
 
 	bUseKeyrings = !(SendMessage(GetDlgItem(hDlg, IDC_NO_KEYRINGS),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	DBWriteContactSettingByte(0,szModuleName,"ukr",bUseKeyrings);
+	db_set_b(0,szModuleName,"ukr",bUseKeyrings);
 
 	char *priv = myDBGetString(0,szModuleName,"tpgpPrivKey");
 	if(priv) {
@@ -1546,17 +1545,17 @@ void ApplyGPGSettings(HWND hDlg) {
 	DBWriteContactSettingString(0,szModuleName,"gpgHome",tmp);
 
 	bSavePass = (SendMessage(GetDlgItem(hDlg, IDC_SAVEPASS_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	DBWriteContactSettingByte(0,szModuleName,"gpgSaveFlag",bSavePass);
+	db_set_b(0,szModuleName,"gpgSaveFlag",bSavePass);
 
 	BOOL bgpgLogFlag = (SendMessage(GetDlgItem(hDlg, IDC_LOGGINGON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	DBWriteContactSettingByte(0,szModuleName,"gpgLogFlag",bgpgLogFlag);
+	db_set_b(0,szModuleName,"gpgLogFlag",bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, sizeof(tmp));
 	DBWriteContactSettingString(0,szModuleName,"gpgLog",tmp);
 	if(bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
 	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
-	DBWriteContactSettingByte(0,szModuleName,"gpgTmpFlag",bgpgTmpFlag);
+	db_set_b(0,szModuleName,"gpgTmpFlag",bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, sizeof(tmp));
 	DBWriteContactSettingString(0,szModuleName,"gpgTmp",tmp);
 	if(bgpgTmpFlag)	gpg_set_tmp(tmp);
@@ -1569,7 +1568,7 @@ void ApplyGPGSettings(HWND hDlg) {
 		if ( !ptr ) continue;
 		if ( ptr->gpgMode != ptr->tgpgMode ) {
 			ptr->gpgMode = ptr->tgpgMode;
-			if ( ptr->gpgMode )	DBWriteContactSettingByte(ptr->hContact,szModuleName,"gpgANSI",1);
+			if ( ptr->gpgMode )	db_set_b(ptr->hContact,szModuleName,"gpgANSI",1);
 			else              	DBDeleteContactSetting(ptr->hContact,szModuleName,"gpgANSI");
 		}			
 
@@ -1761,14 +1760,14 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort) {
 	// restore sort column
 	sprintf(t,"os%02x",(UINT)lParamSort&0xF0);
 	if ((lParamSort&0x0F)==0) {
-		lParamSort=(int)DBGetContactSettingByte(0, szModuleName, t, lParamSort+1);
+		lParamSort=(int)db_get_b(0, szModuleName, t, lParamSort+1);
 	}
-	DBWriteContactSettingByte(0, szModuleName, t, (BYTE)lParamSort);
+	db_set_b(0, szModuleName, t, (BYTE)lParamSort);
 
 	// restore sort order
 	sprintf(t,"os%02x",(UINT)lParamSort);
-	int m=DBGetContactSettingByte(0, szModuleName, t, 0);
-	if(bChangeSortOrder){ m=!m; DBWriteContactSettingByte(0, szModuleName, t, m); }
+	int m=db_get_b(0, szModuleName, t, 0);
+	if(bChangeSortOrder){ m=!m; db_set_b(0, szModuleName, t, m); }
 
 	ListView_SortItems(hLV,&CompareFunc,lParamSort|(m<<8));
 }

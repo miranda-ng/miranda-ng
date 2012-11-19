@@ -95,17 +95,17 @@ pUinKey addContact(HANDLE hContact) {
 			clist[j].footer = FOOTER;
 			clist[j].hContact = hContact;
 			clist[j].proto = proto;
-			clist[j].mode = DBGetContactSettingByte(hContact, szModuleName, "mode", 99);
+			clist[j].mode = db_get_b(hContact, szModuleName, "mode", 99);
 			if ( clist[j].mode == 99 ) {
 				if ( isContactPGP(hContact)) clist[j].mode = MODE_PGP;
 				else
 					if ( isContactGPG(hContact)) clist[j].mode = MODE_GPG;
 					else
 						clist[j].mode = MODE_RSAAES;
-				DBWriteContactSettingByte(hContact, szModuleName, "mode", clist[j].mode);
+				db_set_b(hContact, szModuleName, "mode", clist[j].mode);
 			}
-			clist[j].status = DBGetContactSettingByte(hContact, szModuleName, "StatusID", STATUS_ENABLED);
-			clist[j].gpgMode = DBGetContactSettingByte(hContact, szModuleName, "gpgANSI", 0);
+			clist[j].status = db_get_b(hContact, szModuleName, "StatusID", STATUS_ENABLED);
+			clist[j].gpgMode = db_get_b(hContact, szModuleName, "gpgANSI", 0);
 			return &clist[j];
 		}
 	}

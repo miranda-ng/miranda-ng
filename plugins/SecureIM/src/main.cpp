@@ -238,10 +238,10 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("pgp_init");
 #endif
-	bPGP = DBGetContactSettingByte(0, szModuleName, "pgp", 0);
+	bPGP = db_get_b(0, szModuleName, "pgp", 0);
 	if(bPGP) { //PGP
 	    bPGPloaded = pgp_init();
-   	    bUseKeyrings = DBGetContactSettingByte(0,szModuleName,"ukr",1);
+   	    bUseKeyrings = db_get_b(0,szModuleName,"ukr",1);
    	    LPSTR priv = myDBGetStringDecode(0,szModuleName,"pgpPrivKey");
    	    if(priv) {
 	   	    bPGPprivkey = true;
@@ -285,7 +285,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("gpg_init");
 #endif
-	bGPG = DBGetContactSettingByte(0, szModuleName, "gpg", 0);
+	bGPG = db_get_b(0, szModuleName, "gpg", 0);
 	if(bGPG) { //GPG
 
 		LPSTR tmp;
@@ -306,7 +306,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 			mir_free(tmp);
 		}
 
-		if(DBGetContactSettingByte(0, szModuleName, "gpgLogFlag",0)) {
+		if(db_get_b(0, szModuleName, "gpgLogFlag",0)) {
 			tmp = myDBGetString(0,szModuleName,"gpgLog");
 			if(tmp) {
 				gpg_set_log(tmp);
@@ -314,7 +314,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 			}
 		}
 
-		if(DBGetContactSettingByte(0, szModuleName, "gpgTmpFlag",0)) {
+		if(db_get_b(0, szModuleName, "gpgTmpFlag",0)) {
 			tmp = myDBGetString(0,szModuleName,"gpgTmp");
 			if(tmp) {
 				gpg_set_tmp(tmp);
@@ -332,7 +332,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 			DBDeleteContactSetting(0, szModuleName, "gpgHome");
 		}
 
-		bSavePass = DBGetContactSettingByte(0,szModuleName,"gpgSaveFlag",0);
+		bSavePass = db_get_b(0,szModuleName,"gpgSaveFlag",0);
 		if(bSavePass) {
 			tmp = myDBGetString(0,szModuleName,"gpgSave");
 			if(tmp) {
