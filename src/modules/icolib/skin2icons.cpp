@@ -674,7 +674,7 @@ HICON IconItem_GetIcon(IconItem* item, bool big)
 		int cx = item->cx ? item->cx : GetSystemMetrics(big ? SM_CXICON : SM_CXSMICON);
 		int cy = item->cy ? item->cy : GetSystemMetrics(big ? SM_CYICON : SM_CYSMICON);
 		source = GetIconSourceItemFromPath(tszFullPath, cx, cy);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (source)

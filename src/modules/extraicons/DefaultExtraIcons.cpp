@@ -63,7 +63,7 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 		return;
 
 	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return;
 
 	if (apparentMode <= 0)
@@ -102,7 +102,7 @@ static void SetGender(HANDLE hContact, int gender, BOOL clear)
 		return;
 
 	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return;
 
 	if (gender <= 0)
@@ -172,7 +172,7 @@ static void SetExtraIcons(HANDLE hContact)
 		return;
 
 	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return;
 
 	for (unsigned int i = 0; i < SIZEOF(infos); i++) {
@@ -189,7 +189,7 @@ static void SetExtraIcons(HANDLE hContact)
 					info.SetIcon(hContact, &info, dbv.pszVal);
 					show = true;
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -252,7 +252,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 		return 0;
 
 	char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return 0;
 
 	bool found = false;
@@ -267,7 +267,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 				found = true;
 			}
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -347,7 +347,7 @@ static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = (HANDLE)wParam;
 
 	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-	if (IsEmpty(proto))
+	if ( IsEmpty(proto))
 		return 0;
 
 	ProtoInfo *pi = FindProto(proto);

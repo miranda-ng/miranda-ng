@@ -102,20 +102,13 @@ static INT_PTR Get(HANDLE hContact)
 
 static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
-	EXTRAICON ico = { sizeof(ico) };
-	ico.hContact = hContact;
-	ico.hExtraIcon = ghExtraIconSvc;
+	char *icoName;
 	switch (Get(hContact)) {
-	case PHONE_NORMAL:
-		ico.icoName = ICO_BTN_PHONE;
-		break;
-	case PHONE_SMS:
-		ico.icoName = ICO_BTN_CELLULAR;
-		break;
-	default:
-		ico.icoName = NULL;
+		case PHONE_NORMAL:  icoName = ICO_BTN_PHONE;     break;
+		case PHONE_SMS:     icoName = ICO_BTN_CELLULAR;  break;
+		default:            icoName = NULL;
 	}
-	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+	ExtraIcon_SetIcon(ghExtraIconSvc, hContact, icoName);
 	return 0;
 }
 

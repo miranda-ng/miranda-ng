@@ -161,12 +161,12 @@ static HANDLE extra_ES_icon_handle[2];
 
 static void clear_AT_icon(HANDLE hContact)
 {
-	ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
+	ExtraIcon_Clear(hExtraAT, hContact);
 }
 
 static void clear_ES_icon(HANDLE hContact)
 {
-	ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
+	ExtraIcon_Clear(hExtraES, hContact);
 }
 
 static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
@@ -180,7 +180,7 @@ static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
 		mir_snprintf(name, sizeof(name), "AIM_%s", extra_AT_icon_name[i]);
 		ExtraIcon_SetIcon(hExtraAT, hContact, name);
 	}
-	else ExtraIcon_SetIcon(hExtraAT, hContact, (char*)NULL);
+	else ExtraIcon_Clear(hExtraAT, hContact);
 }
 
 static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
@@ -194,7 +194,7 @@ static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
 		mir_snprintf(name, sizeof(name), "AIM_%s", extra_ES_icon_name[i]);
 		ExtraIcon_SetIcon(hExtraES, hContact, name);
 	}
-	else ExtraIcon_SetIcon(hExtraES, hContact, (char*)NULL);
+	else ExtraIcon_Clear(hExtraES, hContact);
 }
 
 void set_contact_icon(CAimProto* ppro, HANDLE hContact)

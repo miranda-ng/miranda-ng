@@ -96,7 +96,7 @@ static INT_PTR ServiceSkinAddNewSound(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSettingString(NULL, "SkinSounds", item->name, &dbv))
 			db_set_ts(NULL, "SkinSounds", item->name, ptszDefaultFile);
 		else
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		mir_free(ptszDefaultFile);
 	}
 
@@ -129,7 +129,7 @@ static INT_PTR ServiceSkinPlaySound(WPARAM, LPARAM lParam)
 			TCHAR szFull[MAX_PATH];
 			PathToAbsoluteT(dbv.ptszVal, szFull, NULL);
 			NotifyEventHooks(hPlayEvent, 0, (LPARAM)szFull);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	return 1;
@@ -253,7 +253,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					TCHAR szPathFull[MAX_PATH];
 					PathToAbsoluteT(dbv.ptszVal, szPathFull, NULL);
 					NotifyEventHooks(hPlayEvent, 1, (LPARAM)szPathFull);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			break;
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					DBVARIANT dbv;
 					if (DBGetContactSettingTString(NULL, "SkinSounds", snd.name, &dbv) == 0) {
 						PathToAbsoluteT(dbv.ptszVal, strdir, NULL);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 			}	}	}
 
 			mir_sntprintf(strFull, SIZEOF(strFull), _T("%s"), snd.ptszTempFile ? snd.ptszTempFile : _T(""));
@@ -381,7 +381,7 @@ INT_PTR CALLBACK DlgProcSoundOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							DBVARIANT dbv;
 							if ( !DBGetContactSettingTString(NULL, "SkinSounds", arSounds[tvi.lParam].name, &dbv)) {
 								SetDlgItemText(hwndDlg, IDC_LOCATION, dbv.ptszVal);
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							else SetDlgItemText(hwndDlg, IDC_LOCATION, TranslateT("<not specified>"));
 						}

@@ -62,7 +62,7 @@ static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
 			ci->pszVal = dbv.ptszVal;
 			return 0;
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (DBGetContactSetting(ci->hContact, ci->szProto, setting, &dbv))
@@ -83,7 +83,7 @@ static int ProcessDatabaseValueDefault(CONTACTINFO *ci, const char* setting)
 		return 0;
 	}
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return 1;
 }
 
@@ -159,12 +159,12 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 						else ci->pszVal = (TCHAR*)mir_strdup(countries[i].szName);
 
 						ci->type = CNFT_ASCIIZ;
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 						return 0;
 					}
 				}
 				else return ProcessDatabaseValueDefault(ci, (ci->dwFlag & 0x7F) == CNF_COUNTRY ? "Country" : "CompanyCountry");
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			break;
 
@@ -187,11 +187,11 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 							strcat(strcat(strcpy(buf, dbv.pszVal), " "), dbv2.pszVal);
 						ci->pszVal = (TCHAR*)buf;
 					}
-					DBFreeVariant(&dbv);
-					DBFreeVariant(&dbv2);
+					db_free(&dbv);
+					db_free(&dbv2);
 					return 0;
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			break;
 
@@ -305,11 +305,11 @@ static INT_PTR GetContactInfo(WPARAM, LPARAM lParam) {
 									ci->pszVal = (TCHAR*)buf;
 								}
 
-								DBFreeVariant(&dbv);
-								DBFreeVariant(&dbv2);
+								db_free(&dbv);
+								db_free(&dbv2);
 								return 0;
 							}
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						break;
 
@@ -510,7 +510,7 @@ int LoadContactsModule(void)
 	DBVARIANT dbv;
 	if ( !DBGetContactSetting(NULL, "Contact", "NameOrder", &dbv)) {
 		CopyMemory(nameOrder, dbv.pbVal, dbv.cpbVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	CreateServiceFunction(MS_CONTACT_GETCONTACTINFO, GetContactInfo);

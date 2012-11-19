@@ -81,20 +81,13 @@ BYTE GenderOf(HANDLE hContact)
 static INT OnCListApplyIcons(HANDLE hContact, LPARAM)
 {
 	if (ghExtraIconSvc != INVALID_HANDLE_VALUE) {
-		EXTRAICON ico = { sizeof(ico) };
-		ico.hContact = hContact;
-		ico.hExtraIcon = ghExtraIconSvc;
+		char *icoName;
 		switch (GenderOf(hContact)) {
-		case 'M': 
-			ico.icoName = ICO_COMMON_MALE;
-			break;
-		case 'F': 
-			ico.icoName = ICO_COMMON_FEMALE;
-			break;
-		default:
-			ico.icoName = NULL;
+			case 'M':  icoName = ICO_COMMON_MALE;   break;
+			case 'F':  icoName = ICO_COMMON_FEMALE; break;
+			default:   icoName = NULL;
 		}
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+		ExtraIcon_SetIcon(ghExtraIconSvc, hContact, icoName);
 	}
 	return 0;
 }

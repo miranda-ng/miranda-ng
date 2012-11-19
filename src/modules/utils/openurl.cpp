@@ -57,7 +57,7 @@ static void OpenURLThread(void *arg)
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(NULL, "Miranda", "OpenUrlBrowser", &dbv)) {
 		ShellExecute(NULL, _T("open"), dbv.ptszVal, szResult, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else ShellExecute(NULL, _T("open"), szResult, NULL, NULL, (hUrlInfo->newWindow) ? SW_NORMAL : SW_SHOWDEFAULT);
 

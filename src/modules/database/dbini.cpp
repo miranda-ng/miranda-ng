@@ -337,7 +337,7 @@ static void ProcessIniFile(TCHAR* szIniPath, char *szSafeSections, char *szUnsaf
 			ConvertBackslashes(szValue+1, Langpack_GetDefaultCodePage());
 		case 's':
 		case 'S':
-			DBWriteContactSettingString(NULL, szSection, szName, szValue+1);
+			db_set_s(NULL, szSection, szName, szValue+1);
 			break;
 		case 'g':
 		case 'G':

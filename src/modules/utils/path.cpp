@@ -71,7 +71,7 @@ TCHAR *GetContactID(HANDLE hContact)
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
 			theValue = (TCHAR *)mir_tstrdup(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return theValue;
 	}	}
 	else {

@@ -146,13 +146,8 @@ static INT_PTR MenuCommand(WPARAM wParam,LPARAM lParam)
 static INT OnCListApplyIcons(WPARAM wParam, LPARAM lParam)
 {
 	LPSTR val = Get((HANDLE)wParam);
-
-	EXTRAICON ico = { sizeof(ico) };
-	ico.hContact=(HANDLE)wParam;
-	ico.hExtraIcon=ghExtraIconSvc;
-	ico.icoName=val?ICO_BTN_EMAIL:(char *)0;
+	ExtraIcon_SetIcon(ghExtraIconSvc, (HANDLE)wParam, (val) ? ICO_BTN_EMAIL: 0);
 	mir_free(val);
-	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
 	return 0;
 }
 

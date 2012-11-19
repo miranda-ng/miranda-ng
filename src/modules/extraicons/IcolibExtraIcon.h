@@ -25,8 +25,7 @@
 class IcolibExtraIcon : public BaseExtraIcon
 {
 public:
-	IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick,
-			LPARAM param);
+	IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~IcolibExtraIcon();
 
 	virtual int getType() const;
@@ -34,7 +33,8 @@ public:
 	virtual void rebuildIcons();
 	virtual void applyIcon(HANDLE hContact);
 
-	virtual int setIcon(int id, HANDLE hContact, void *icon);
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
 	virtual void storeIcon(HANDLE hContact, void *icon);
 };
 

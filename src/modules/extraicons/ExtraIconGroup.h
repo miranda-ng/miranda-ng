@@ -27,6 +27,7 @@ class BaseExtraIcon;
 
 class ExtraIconGroup : public ExtraIcon
 {
+	int  internalSetIcon(int id, HANDLE hContact, HANDLE icon, bool bByName);
 public:
 	ExtraIconGroup(const char *name);
 	virtual ~ExtraIconGroup();
@@ -37,7 +38,8 @@ public:
 	virtual void applyIcon(HANDLE hContact);
 	virtual void onClick(HANDLE hContact);
 
-	virtual int setIcon(int id, HANDLE hContact, void *icon);
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
 	virtual void storeIcon(HANDLE hContact, void *icon);
 
 	virtual const TCHAR *getDescription() const;
@@ -56,7 +58,7 @@ protected:
 	bool setValidExtraIcon;
 	bool insideApply;
 
-	virtual ExtraIcon * getCurrentItem(HANDLE hContact) const;
+	virtual ExtraIcon *getCurrentItem(HANDLE hContact) const;
 };
 
 #endif // __EXTRAICONGROUP_H__

@@ -535,7 +535,7 @@ static void sttSaveFontData(HWND hwndDlg, FontInternal &F)
 	if (db_set_ts(NULL, F.dbSettingsGroup, str, F.value.szFace)) {
 		char buff[1024];
 		WideCharToMultiByte(code_page, 0, F.value.szFace, -1, buff, 1024, 0, 0);
-		DBWriteContactSettingString(NULL, F.dbSettingsGroup, str, buff);
+		db_set_s(NULL, F.dbSettingsGroup, str, buff);
 	}
 
 	mir_snprintf(str, SIZEOF(str), "%sSize", F.prefix);

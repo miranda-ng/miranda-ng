@@ -92,7 +92,7 @@ static INT_PTR CALLBACK LogOptionsDlgProc(HWND hwndDlg, UINT message, WPARAM wPa
 			DBVARIANT dbv;
 			if ( !DBGetContactSettingString(NULL, "Netlib", "RunAtStart", &dbv)) {
 				SetDlgItemTextA(hwndDlg, IDC_RUNATSTART, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		logOptions.save = 0;
@@ -575,7 +575,7 @@ void NetlibLogInit(void)
 		logOptions.szFile = mir_tstrdup(path);
 
 		mir_free(pszNewPath);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else {
 		logOptions.szUserFile = mir_tstrdup(_T("%miranda_logpath%\\netlog.txt"));
@@ -598,7 +598,7 @@ void NetlibLogInit(void)
 		si.cb = sizeof(si);
 		if (dbv.ptszVal[0])
 			CreateProcess(NULL, dbv.ptszVal, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 }
 

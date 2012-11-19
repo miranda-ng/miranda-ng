@@ -386,9 +386,9 @@ static int CListEventSettingsChanged(WPARAM wParam, LPARAM lParam)
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
 	if (hContact == NULL && cws && cws->szModule && cws->szSetting && strcmp(cws->szModule, "CList") == 0) {
 		if (strcmp(cws->szSetting, "DisableTrayFlash") == 0)
-			disableTrayFlash = (int) cws->value.bVal;
+			disableTrayFlash = (int)cws->value.bVal;
 		else if (strcmp(cws->szSetting, "NoIconBlink") == 0)
-			disableIconFlash = (int) cws->value.bVal;
+			disableIconFlash = (int)cws->value.bVal;
 	}
 	return 0;
 }

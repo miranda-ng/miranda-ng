@@ -718,13 +718,13 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if (ood->pszPage == NULL) {
 				if ( !DBGetContactSettingTString(NULL, "Options", "LastPage", &dbv)) {
 					lastPage = mir_tstrdup(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 
 				if (ood->pszGroup == NULL) {
 					if ( !DBGetContactSettingTString(NULL, "Options", "LastGroup", &dbv)) {
 						lastGroup = mir_tstrdup(dbv.ptszVal);
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 				else lastGroup = mir_a2t(ood->pszGroup);
@@ -737,7 +737,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			if (ood->pszTab == NULL) {
 				if ( !DBGetContactSettingTString(NULL, "Options", "LastTab", &dbv)) {
 					lastTab = mir_tstrdup(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 			else lastTab = mir_a2t(ood->pszTab);

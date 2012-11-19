@@ -391,7 +391,7 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				if ((rect.right-rect.left)<cbwidth)
 					SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETDROPPEDWIDTH, cbwidth, 0);
 				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, index, 0);
-				DBFreeVariant(&dbv); /* free string szProto was fetched with */
+				db_free(&dbv); /* free string szProto was fetched with */
 			}
 			SendMessage(hwndDlg, M_SETGROUPVISIBILITIES, 0, 0);
 			Utils_RestoreWindowPosition(hwndDlg, NULL, "FindAdd", "");

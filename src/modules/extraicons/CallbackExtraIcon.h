@@ -34,7 +34,8 @@ public:
 	virtual void rebuildIcons();
 	virtual void applyIcon(HANDLE hContact);
 
-	virtual int setIcon(int id, HANDLE hContact, void *icon);
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
 	virtual void storeIcon(HANDLE hContact, void *icon);
 
 private:

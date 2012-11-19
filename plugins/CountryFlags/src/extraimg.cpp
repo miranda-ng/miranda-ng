@@ -66,7 +66,7 @@ static void RemoveExtraImages(void)
 {
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		ExtraIcon_SetIcon(hExtraIcon, hContact, (HANDLE)0);
+		ExtraIcon_Clear(hExtraIcon, hContact);
 		hContact = db_find_next(hContact);
 	}
 }

@@ -225,7 +225,7 @@ void fnScrollTo(HWND hwnd, struct ClcData *dat, int desty, int noSmooth)
 			nowTick = GetTickCount();
 			if (nowTick >= startTick + dat->scrollTime)
 				break;
-			dat->yScroll = oldy + (desty - oldy) * (int) (nowTick - startTick) / dat->scrollTime;
+			dat->yScroll = oldy + (desty - oldy) * (int)(nowTick - startTick) / dat->scrollTime;
 			if (dat->backgroundBmpUse & CLBF_SCROLL || dat->hBmpBackground == NULL)
 				ScrollWindowEx(hwnd, 0, previousy - dat->yScroll, NULL, NULL, NULL, NULL, SW_INVALIDATE);
 			else

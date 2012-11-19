@@ -369,7 +369,7 @@ static void convertOneProtocol(char *moduleName, char *iconName)
 			_itoa(i, pi, 10);
 
 			db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			DBDeleteContactSetting(NULL, "Icons", moduleName);
 }	}	}
@@ -414,7 +414,7 @@ int LoadSkinIcons(void)
 		mir_snprintf(iconName, SIZEOF(iconName), "%s%d", mainIconsFmt, i);
 
 		db_set_ts(NULL, "SkinIcons", iconName, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		DBDeleteContactSetting(NULL, "Icons", moduleName);
 	}
@@ -435,7 +435,7 @@ int LoadSkinIcons(void)
 		mir_snprintf(iconName, SIZEOF(iconName), "%s" TCHAR_STR_PARAM, statusIconsFmt, dbv.ptszVal);
 
 		convertOneProtocol(moduleName, iconName);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	moduleName[0] = 0;
 	strcpy(iconName, "core_status_" GLOBAL_PROTO_NAME);

@@ -231,7 +231,7 @@ int SoundNotifyBirthday(int dtb)
 
 int ClearClistIcon(HANDLE hContact)
 {
-	return ExtraIcon_SetIcon(hWWIExtraIcons, hContact, INVALID_HANDLE_VALUE);
+	return ExtraIcon_Clear(hWWIExtraIcons, hContact);
 }
 
 int RefreshContactListIcons(HANDLE hContact)

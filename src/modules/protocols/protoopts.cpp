@@ -175,7 +175,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 							mir_snprintf(buf, SIZEOF(buf), "%s_%d", pa->szProtoName, count++);
 							if (DBGetContactSettingString(NULL, buf, "AM_BaseProto", &dbv))
 								break;
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}	
 					}
 					pa->szModuleName = mir_strdup(buf);
@@ -185,7 +185,7 @@ static INT_PTR CALLBACK AccFormDlgProc(HWND hwndDlg, UINT message, WPARAM wParam
 						pa->tszAccountName = mir_a2t(buf);
 					}
 
-					DBWriteContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
+					db_set_s(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
 					accounts.insert(pa);
 
 					if ( ActivateAccount(pa)) {

@@ -199,21 +199,21 @@ static void WriteSettingsStructToDb(const char *szSettingsModule, NETLIBUSERSETT
 		db_set_b(NULL, szSettingsModule, "NLValidateSSL", (BYTE)settings->validateSSL);
 		db_set_b(NULL, szSettingsModule, "NLUseProxy", (BYTE)settings->useProxy);
 		db_set_b(NULL, szSettingsModule, "NLProxyType", (BYTE)settings->proxyType);
-		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyServer", settings->szProxyServer?settings->szProxyServer:"");
+		db_set_s(NULL, szSettingsModule, "NLProxyServer", settings->szProxyServer?settings->szProxyServer:"");
 		DBWriteContactSettingWord(NULL, szSettingsModule, "NLProxyPort", (WORD)settings->wProxyPort);
 		db_set_b(NULL, szSettingsModule, "NLUseProxyAuth", (BYTE)settings->useProxyAuth);
-		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser?settings->szProxyAuthUser:"");
+		db_set_s(NULL, szSettingsModule, "NLProxyAuthUser", settings->szProxyAuthUser?settings->szProxyAuthUser:"");
 		lstrcpynA(szEncodedPassword, settings->szProxyAuthPassword?settings->szProxyAuthPassword:"", SIZEOF(szEncodedPassword));
 		CallService(MS_DB_CRYPT_ENCODESTRING, SIZEOF(szEncodedPassword), (LPARAM)szEncodedPassword);
-		DBWriteContactSettingString(NULL, szSettingsModule, "NLProxyAuthPassword", szEncodedPassword);
+		db_set_s(NULL, szSettingsModule, "NLProxyAuthPassword", szEncodedPassword);
 		db_set_b(NULL, szSettingsModule, "NLDnsThroughProxy", (BYTE)settings->dnsThroughProxy);
 		db_set_b(NULL, szSettingsModule, "NLSpecifyOutgoingPorts", (BYTE)settings->specifyOutgoingPorts);
-		DBWriteContactSettingString(NULL, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts?settings->szOutgoingPorts:"");
+		db_set_s(NULL, szSettingsModule, "NLOutgoingPorts", settings->szOutgoingPorts?settings->szOutgoingPorts:"");
 	}
 	if (flags & NUF_INCOMING) {
 		db_set_b(NULL, szSettingsModule, "NLEnableUPnP", (BYTE)settings->enableUPnP);
 		db_set_b(NULL, szSettingsModule, "NLSpecifyIncomingPorts", (BYTE)settings->specifyIncomingPorts);
-		DBWriteContactSettingString(NULL, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts?settings->szIncomingPorts:"");
+		db_set_s(NULL, szSettingsModule, "NLIncomingPorts", settings->szIncomingPorts?settings->szIncomingPorts:"");
 	}
 }
 

@@ -146,7 +146,7 @@ int GetFontSettingFromDB(char *settings_group, char *prefix, LOGFONT* lf, COLORR
 
 	if ( !DBGetContactSettingTString(NULL, settings_group, idstr, &dbv)) {
 		_tcscpy(lf->lfFaceName, dbv.ptszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else retval = 1;
 

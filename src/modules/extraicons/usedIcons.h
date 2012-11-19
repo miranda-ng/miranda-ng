@@ -20,9 +20,12 @@
 #ifndef __USEDICONS_H__
 #define __USEDICONS_H__
 
-HANDLE GetIcon(const char *icolibName);
-HANDLE AddIcon(const char *icolibName);
-void RemoveIcon(const char *icolibName);
+HANDLE GetIcon(LPCSTR icolibName);
+
+HANDLE AddIcon(LPCSTR icolibName);
+HANDLE AddIcon(HANDLE hIcolib);
+
+void RemoveIcon(LPCSTR icolibName);
 void ResetIcons();
 
 

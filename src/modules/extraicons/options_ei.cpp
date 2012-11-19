@@ -419,7 +419,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 		{
 			int numSlots = GetNumberOfSlots();
-			if (numSlots < (int) registeredExtraIcons.size()) {
+			if (numSlots < (int)registeredExtraIcons.size()) {
 				TCHAR txt[512];
 				mir_sntprintf(txt, SIZEOF(txt), TranslateT("* only the first %d icons will be shown"), numSlots);
 
@@ -573,7 +573,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 							BaseExtraIcon *extra = group->items[j];
 
 							mir_snprintf(setting, SIZEOF(setting), "%d_%d", i, j);
-							DBWriteContactSettingString(NULL, MODULE_NAME "Groups", setting, extra->getName());
+							db_set_s(NULL, MODULE_NAME "Groups", setting, extra->getName());
 						}
 					}
 

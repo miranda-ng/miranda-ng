@@ -65,7 +65,7 @@ static TCHAR* sttGetXStatus(const char* szProto)
 				if ( !DBGetContactSettingTString(NULL, szProto, dbTitle, &dbv)) {
 					if (dbv.ptszVal[0] != 0)
 						result = mir_tstrdup(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 			}
 		}
@@ -285,7 +285,7 @@ int fnTrayIconInit(HWND hwnd)
 				szProto = NULL;
 
 			cli.pfnTrayIconAdd(hwnd, NULL, szProto, szProto ? CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : CallService(MS_CLIST_GETSTATUSMODE, 0, 0));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else if (trayIconSetting == SETTING_TRAYICON_MULTI && (averageMode < 0 || db_get_b(NULL, "CList", "AlwaysMulti", SETTING_ALWAYSMULTI_DEFAULT)))
 		{
@@ -552,7 +552,7 @@ void fnTrayIconUpdateBase(const char *szChangedProto)
 					changed = cli.pfnTrayIconSetBaseInfo(cli.pfnGetIconFromStatusMode(NULL, szProto, szProto ? 
 						CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) : 
 						CallService(MS_CLIST_GETSTATUSMODE, 0, 0)), szProto);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 

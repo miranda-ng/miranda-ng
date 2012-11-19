@@ -187,31 +187,31 @@ static HICON GetAnnivIcon(const CEvent &evt)
 static VOID NotifyWithExtraIcon(HANDLE hContact, const CEvent &evt)
 {
 	if (gRemindOpts.bCListExtraIcon) {
-		CHAR szIcon[MAXSETTING];
-
-		EXTRAICON ico = { sizeof(ico) };
-		ico.hContact = hContact;
-		ico.hExtraIcon = ExtraIcon;
+		char szIcon[MAXSETTING], *icoName;
+		
 		switch (evt._eType) {
 		case CEvent::BIRTHDAY:
 			if (evt._wDaysLeft > 9)
-				ico.icoName = ICO_RMD_DTAX;
+				icoName = ICO_RMD_DTAX;
 			else {
 				mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dtb%u", evt._wDaysLeft);
-				ico.icoName = szIcon;
+				icoName = szIcon;
 			}
 			break;
 
 		case CEvent::ANNIVERSARY:
 			if (evt._wDaysLeft > 9)
-				ico.icoName = ICO_RMD_DTAX;
+				icoName = ICO_RMD_DTAX;
 			else {
 				mir_snprintf(szIcon, SIZEOF(szIcon), MODNAME"_rmd_dta%u", evt._wDaysLeft);
-				ico.icoName = szIcon;
+				icoName = szIcon;
 			}
 			break;
+
+		default:	
+			return;
 		}
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+		ExtraIcon_SetIcon(ExtraIcon, hContact, icoName);
 	}
 }
 

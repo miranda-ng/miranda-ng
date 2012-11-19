@@ -810,12 +810,12 @@ int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR ** proto, int protoCnt, int Pos)
 	if ( !DBGetContactSetting(NULL, "Protocols", buf, &dbv)) {
 		for (p=0; p < protoCnt; p++) {
 			if (lstrcmpA(proto[p]->szName, dbv.pszVal) == 0) {
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				return p;
 			}
 		}
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return -1;

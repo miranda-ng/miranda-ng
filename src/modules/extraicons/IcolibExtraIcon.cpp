@@ -54,18 +54,50 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
 	DBVARIANT dbv = { 0 };
-	if (!DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv))
-	{
+	if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 		if (!IsEmpty(dbv.pszVal))
 			hImage = GetIcon(dbv.pszVal);
 
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	ClistSetExtraIcon(hContact, hImage);
 }
 
-int IcolibExtraIcon::setIcon(int id, HANDLE hContact, void *icon)
+int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
+{
+	if (hContact == NULL || id != this->id)
+		return -1;
+
+	if (hIcoLib == INVALID_HANDLE_VALUE)
+		hIcoLib = NULL;
+
+	if (isEnabled()) {
+		DBVARIANT dbv = { 0 };
+		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
+			if (!IsEmpty(dbv.pszVal))
+				RemoveIcon(dbv.pszVal);
+
+			db_free(&dbv);
+		}
+	}
+
+	storeIcon(hContact, hIcoLib);
+
+	if (isEnabled()) {
+		HANDLE hImage;
+		if (hIcoLib == NULL)
+			hImage = INVALID_HANDLE_VALUE;
+		else
+			hImage = AddIcon(hIcoLib);
+
+		return ClistSetExtraIcon(hContact, hImage);
+	}
+
+	return 0;
+}
+
+int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 {
 	if (hContact == NULL || id != this->id)
 		return -1;
@@ -73,26 +105,23 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, void *icon)
 	if (icon == INVALID_HANDLE_VALUE)
 		icon = NULL;
 
-	if (isEnabled())
-	{
+	if (isEnabled()) {
 		DBVARIANT dbv = { 0 };
-		if (!DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv))
-		{
+		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
 				RemoveIcon(dbv.pszVal);
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
-	storeIcon(hContact, icon);
+	storeIcon(hContact, "");
 
-	if (isEnabled())
-	{
+	if (isEnabled()) {
 		const char *icolibName = (const char *) icon;
 
 		HANDLE hImage;
-		if (IsEmpty(icolibName))
+		if ( IsEmpty(icolibName))
 			hImage = INVALID_HANDLE_VALUE;
 		else
 			hImage = AddIcon(icolibName);
@@ -109,8 +138,8 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 		return;
 
 	const char *icolibName = (const char *) icon;
-	if (IsEmpty(icolibName))
-		icolibName = ""; // Delete don't work and I don't know why
+	if ( IsEmpty(icolibName))
+		icolibName = ""; // Delete doesn't work, and I don't know why
 
-	DBWriteContactSettingString(hContact, MODULE_NAME, name.c_str(), icolibName);
+	db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
 }

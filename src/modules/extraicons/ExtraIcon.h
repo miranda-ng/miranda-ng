@@ -30,18 +30,19 @@ public:
 	ExtraIcon(const char *name);
 	virtual ~ExtraIcon();
 
-	virtual void rebuildIcons() =0;
+	virtual void rebuildIcons() = 0;
 	virtual void applyIcons();
-	virtual void applyIcon(HANDLE hContact) =0;
-	virtual void onClick(HANDLE hContact) =0;
+	virtual void applyIcon(HANDLE hContact) =0 ;
+	virtual void onClick(HANDLE hContact) = 0;
 
-	virtual int setIcon(int id, HANDLE hContact, void *icon) =0;
-	virtual void storeIcon(HANDLE hContact, void *icon) =0;
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon) = 0;
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon) = 0;
+	virtual void storeIcon(HANDLE hContact, void *icon) = 0;
 
 	virtual const char *getName() const;
-	virtual const TCHAR *getDescription() const =0;
-	virtual const char *getDescIcon() const =0;
-	virtual int getType() const =0;
+	virtual const TCHAR *getDescription() const = 0;
+	virtual const char *getDescIcon() const = 0;
+	virtual int getType() const = 0;
 
 	virtual int getSlot() const;
 	virtual void setSlot(int slot);

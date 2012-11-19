@@ -263,7 +263,7 @@ typedef struct {
 // Called from contact list in order to get index of custom status icon in list
 // wParam = hContact
 // lParam = 0
-// rerurn = (int) index of extra contact icon shifted <<16 (the low word will be normal status icon, the high will be xStatus Icon
+// rerurn = (int)index of extra contact icon shifted <<16 (the low word will be normal status icon, the high will be xStatus Icon
 #define PS_ICQ_GETADVANCEDSTATUSICON "/GetAdvancedStatusIcon"
 
 #endif // M_ICQ_H__

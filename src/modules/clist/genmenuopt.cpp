@@ -265,7 +265,7 @@ static int BuildTree(HWND hwndDlg, int MenuObjectId, BOOL bReread)
 
 				if ( !DBGetContactSettingTString(NULL, MenuNameItems, buf, &dbv)) {
 					PD->name = mir_tstrdup(dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else PD->name = mir_tstrdup(GetMenuItemText(p));
 			}

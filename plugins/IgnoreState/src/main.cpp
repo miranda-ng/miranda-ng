@@ -101,7 +101,7 @@ void applyExtraImage(HANDLE hContact)
 	if (ignore == 1)
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "ignore_full");
 	else if (ignore == 0)
-		ExtraIcon_SetIcon(hExtraIcon, hContact, "");
+		ExtraIcon_Clear(hExtraIcon, hContact);
 	else if (isIgnored(hContact, IGNOREEVENT_MESSAGE))
 		ExtraIcon_SetIcon(hExtraIcon, hContact, "ignore_mess");
 	else

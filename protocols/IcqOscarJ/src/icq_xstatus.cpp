@@ -183,7 +183,7 @@ void releaseXStatusIcon(int bStatus, UINT flags)
 void setContactExtraIcon(HANDLE hContact, int xstatus)
 {
 	if (xstatus <= 0)
-		ExtraIcon_SetIcon(hExtraXStatus, hContact, (char *) NULL);
+		ExtraIcon_Clear(hExtraXStatus, hContact);
 	else {
 		char szTemp[MAX_PATH];
 		null_snprintf(szTemp, sizeof(szTemp), "icq_xstatus%d", xstatus-1);

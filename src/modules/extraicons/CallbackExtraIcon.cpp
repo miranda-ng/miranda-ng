@@ -60,12 +60,17 @@ void CallbackExtraIcon::applyIcon(HANDLE hContact)
 	ApplyIcon((WPARAM) hContact, 0);
 }
 
-int CallbackExtraIcon::setIcon(int id, HANDLE hContact, void *icon)
+int CallbackExtraIcon::setIcon(int id, HANDLE hContact, HANDLE icon)
 {
 	if (!isEnabled() || hContact == NULL || id != this->id)
 		return -1;
 
-	return ClistSetExtraIcon(hContact, (HANDLE) icon);
+	return ClistSetExtraIcon(hContact, icon);
+}
+
+int CallbackExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
+{
+	return -1;
 }
 
 void CallbackExtraIcon::storeIcon(HANDLE hContact, void *icon)

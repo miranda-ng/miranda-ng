@@ -98,7 +98,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 				if (DBGetContactSettingTString(NULL, "CListGroups", idstr, &dbv)) break;
 				id = SendDlgItemMessage(hdlg, IDC_GROUP, CB_ADDSTRING, 0, (LPARAM)(dbv.ptszVal+1));
 				SendDlgItemMessage(hdlg, IDC_GROUP, CB_SETITEMDATA , id, groupId+1);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 

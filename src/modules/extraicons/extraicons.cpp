@@ -102,7 +102,7 @@ int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage)
 
 ExtraIcon* GetExtraIcon(HANDLE id)
 {
-	unsigned int i = (int) id;
+	unsigned int i = (int)id;
 
 	if (i < 1 || i > extraIconsByHandle.size())
 		return NULL;
@@ -157,7 +157,7 @@ static void LoadGroups(vector<ExtraIconGroup *> &groups)
 							group->setSlot(extra->getSlot());
 					}
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 
@@ -257,7 +257,7 @@ int ClistExtraClick(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	int clistSlot = (int) lParam;
+	int clistSlot = (int)lParam;
 
 	for (unsigned int i = 0; i < extraIconsBySlot.size(); i++) {
 		ExtraIcon *extra = extraIconsBySlot[i];
@@ -349,11 +349,11 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	EXTRAICON_INFO *ei = (EXTRAICON_INFO *) wParam;
-	if (ei->cbSize < (int) sizeof(EXTRAICON_INFO))
+	if (ei->cbSize < (int)sizeof(EXTRAICON_INFO))
 		return 0;
 	if (ei->type != EXTRAICON_TYPE_CALLBACK && ei->type != EXTRAICON_TYPE_ICOLIB)
 		return 0;
-	if (IsEmpty(ei->name) || IsEmpty(ei->description))
+	if ( IsEmpty(ei->name) || IsEmpty(ei->description))
 		return 0;
 	if (ei->type == EXTRAICON_TYPE_CALLBACK && (ei->ApplyIcon == NULL || ei->RebuildIcons == NULL))
 		return 0;
@@ -457,17 +457,31 @@ INT_PTR ExtraIcon_SetIcon(WPARAM wParam, LPARAM lParam)
 	if (wParam == 0)
 		return -1;
 
-	EXTRAICON *ei = (EXTRAICON *) wParam;
-	if (ei->cbSize < (int) sizeof(EXTRAICON))
-		return -1;
-	if (ei->hExtraIcon == NULL || ei->hContact == NULL)
+	EXTRAICON *ei = (EXTRAICON*)wParam;
+	if (ei->cbSize < (int)sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
 		return -1;
 
 	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);
 	if (extra == NULL)
 		return -1;
 
-	return extra->setIcon((int) ei->hExtraIcon, ei->hContact, ei->hImage);
+	return extra->setIcon((int)ei->hExtraIcon, ei->hContact, ei->hImage);
+}
+
+INT_PTR ExtraIcon_SetIconByName(WPARAM wParam, LPARAM lParam)
+{
+	if (wParam == 0)
+		return -1;
+
+	EXTRAICON *ei = (EXTRAICON*)wParam;
+	if (ei->cbSize < (int)sizeof(EXTRAICON) || ei->hExtraIcon == NULL || ei->hContact == NULL)
+		return -1;
+
+	ExtraIcon *extra = GetExtraIcon(ei->hExtraIcon);
+	if (extra == NULL)
+		return -1;
+
+	return extra->setIconByName((int)ei->hExtraIcon, ei->hContact, ei->icoName);
 }
 
 static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM lParam)
@@ -486,6 +500,7 @@ void LoadExtraIconsModule()
 	// Services
 	CreateServiceFunction(MS_EXTRAICON_REGISTER, &ExtraIcon_Register);
 	CreateServiceFunction(MS_EXTRAICON_SET_ICON, &ExtraIcon_SetIcon);
+	CreateServiceFunction(MS_EXTRAICON_SET_ICON_BY_NAME, &ExtraIcon_SetIconByName);
 
 	CreateServiceFunction(MS_CLIST_EXTRA_ADD_ICON, &svcExtraIcon_Add);
 

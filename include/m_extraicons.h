@@ -117,11 +117,12 @@ typedef struct {
 
 typedef struct {
 	int cbSize;
-	HANDLE hExtraIcon;				// Value returned by MS_EXTRAICON_REGISTER
-	HANDLE hContact;				// Contact to set the extra icon
-	union {							// The icon to be set. This depends on the type of the extra icon:
-		HANDLE hImage; 				// Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
-		const char *icoName;		// Name of the icon registered with icolib (if EXTRAICON_TYPE_ICOLIB)
+	HANDLE hExtraIcon;      // Value returned by MS_EXTRAICON_REGISTER
+	HANDLE hContact;        // Contact to set the extra icon
+	union {                 // The icon to be set. This depends on the type of the extra icon:
+		HANDLE hImage;       // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
+		                     // or the icolib icon handle (if EXTRAICON_TYPE_ICOLIB)
+		const char *icoName; // Name of the icon registered with icolib (if EXTRAICON_TYPE_ICOLIB)
 	};
 } EXTRAICON;
 
@@ -130,15 +131,19 @@ typedef struct {
 // Return: 0 on success
 #define MS_EXTRAICON_SET_ICON "ExtraIcon/SetIcon"
 
-
+// Set an extra icon by icolib icon's name
+// wParam = (EXTRAICON *) Extra icon
+// Return: 0 on success
+#define MS_EXTRAICON_SET_ICON_BY_NAME "ExtraIcon/SetIconByName"
 
 #ifndef _NO_WRAPPERS
 #ifdef __cplusplus
 
-static HANDLE ExtraIcon_Register(const char *name, const char *description, const char *descIcon,
-								 MIRANDAHOOK RebuildIcons,
-								 MIRANDAHOOK ApplyIcon,
-								 MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
+static HANDLE ExtraIcon_Register(
+	const char *name, const char *description, const char *descIcon,
+	MIRANDAHOOK RebuildIcons,
+	MIRANDAHOOK ApplyIcon,
+	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
 {
 	if (!ServiceExists(MS_EXTRAICON_REGISTER))
 		return NULL;
@@ -156,8 +161,9 @@ static HANDLE ExtraIcon_Register(const char *name, const char *description, cons
 	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, 0);
 }
 
-static HANDLE ExtraIcon_Register(const char *name, const char *description, const char *descIcon = NULL,
-								 MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
+static HANDLE ExtraIcon_Register(
+	const char *name, const char *description, const char *descIcon = NULL,
+	MIRANDAHOOKPARAM OnClick = NULL, LPARAM onClickParam = 0)
 {
 	if (!ServiceExists(MS_EXTRAICON_REGISTER))
 		return NULL;
@@ -189,6 +195,16 @@ static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, const char *ico
 	ei.hExtraIcon = hExtraIcon;
 	ei.hContact = hContact;
 	ei.icoName = icoName;
+
+	return CallService(MS_EXTRAICON_SET_ICON_BY_NAME, (WPARAM) &ei, 0);
+}
+
+static int ExtraIcon_Clear(HANDLE hExtraIcon, HANDLE hContact)
+{
+	EXTRAICON ei = { sizeof(ei) };
+	ei.hExtraIcon = hExtraIcon;
+	ei.hContact = hContact;
+	ei.icoName = NULL;
 
 	return CallService(MS_EXTRAICON_SET_ICON, (WPARAM) &ei, 0);
 }

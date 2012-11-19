@@ -170,8 +170,8 @@ int fnDocking_ProcessWindowMessage(WPARAM wParam, LPARAM lParam)
 		draggingTitle = 0;
 		docked = db_get_b(NULL, "CLUI", "DockToSides", 1) ? 
 			(char) db_get_b(NULL, "CList", "Docked", 0) : 0;
-		dockPos.x = (int) db_get_dw(NULL, "CList", "DockX", 0);
-		dockPos.y = (int) db_get_dw(NULL, "CList", "DockY", 0);
+		dockPos.x = (int)db_get_dw(NULL, "CList", "DockX", 0);
+		dockPos.y = (int)db_get_dw(NULL, "CList", "DockY", 0);
 		break;
 
 	case WM_ACTIVATE:

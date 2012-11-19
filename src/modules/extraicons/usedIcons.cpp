@@ -25,41 +25,69 @@ struct Icon
 {
 	string name;
 	int refCount;
-	HANDLE hImage;
+	HANDLE hIcoLib, hImage;
 
 	Icon(const char *icolibName) :
-		name(icolibName), refCount(0), hImage(INVALID_HANDLE_VALUE)
+		name(icolibName), hIcoLib(0), refCount(0), hImage(INVALID_HANDLE_VALUE)
+	{
+	}
+
+	Icon(HANDLE _hIcolib) :
+		name(""), hIcoLib(_hIcolib), refCount(0), hImage(INVALID_HANDLE_VALUE)
 	{
 	}
 };
 
 static vector<Icon> usedIcons;
 
-static Icon * FindIcon(const char *icolibName)
+static Icon* FindIcon(const char *icolibName)
 {
 	Icon *icon = NULL;
 
-	for (unsigned int i = 0; i < usedIcons.size(); i++)
-	{
+	for (unsigned int i = 0; i < usedIcons.size(); i++) {
 		Icon *tmp = &usedIcons[i];
-		if (tmp->name != icolibName)
-			continue;
-
-		icon = tmp;
-		break;
+		if (tmp->name == icolibName) {
+			icon = tmp;
+			break;
+		}
 	}
 
-	if (icon == NULL)
-	{
-		usedIcons.push_back(Icon(icolibName));
+	if (icon == NULL) {
+		usedIcons.push_back( Icon(icolibName));
 		icon = &usedIcons[usedIcons.size() - 1];
 	}
 
-	if (icon->hImage == INVALID_HANDLE_VALUE)
-	{
+	if (icon->hImage == INVALID_HANDLE_VALUE) {
 		HICON hIcon = Skin_GetIcon(icon->name.c_str());
-		if (hIcon != NULL)
-		{
+		if (hIcon != NULL) {
+			icon->hImage = ExtraIcon_Add(hIcon);
+			Skin_ReleaseIcon(hIcon);
+		}
+	}
+
+	return icon;
+}
+
+static Icon* FindIcon(HANDLE hIcolib)
+{
+	Icon *icon = NULL;
+
+	for (unsigned int i = 0; i < usedIcons.size(); i++) {
+		Icon *tmp = &usedIcons[i];
+		if (tmp->hImage == hIcolib) {
+			icon = tmp;
+			break;
+		}
+	}
+
+	if (icon == NULL) {
+		usedIcons.push_back( Icon(hIcolib));
+		icon = &usedIcons[usedIcons.size() - 1];
+	}
+
+	if (icon->hImage == INVALID_HANDLE_VALUE) {
+		HICON hIcon = Skin_GetIconByHandle(icon->hIcoLib);
+		if (hIcon != NULL) {
 			icon->hImage = ExtraIcon_Add(hIcon);
 			Skin_ReleaseIcon(hIcon);
 		}
@@ -76,6 +104,13 @@ HANDLE GetIcon(const char *icolibName)
 HANDLE AddIcon(const char *icolibName)
 {
 	Icon *icon = FindIcon(icolibName);
+	icon->refCount++;
+	return icon->hImage;
+}
+
+HANDLE AddIcon(HANDLE hIcolib)
+{
+	Icon *icon = FindIcon(hIcolib);
 	icon->refCount++;
 	return icon->hImage;
 }

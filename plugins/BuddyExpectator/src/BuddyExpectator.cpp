@@ -153,7 +153,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 			if ( !db_get_b(PUGetContact(hWnd), MODULE_NAME, "MissYouNotifyAlways", 0)) {
 				db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
 				if (options.MissYouIcon)
-					ExtraIcon_SetIcon(hExtraIcon, PUGetContact(hWnd), "");
+					ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			}
 			PUDeletePopUp(hWnd);
 		}
@@ -167,7 +167,7 @@ LRESULT CALLBACK MissYouPopupDlgProc(HWND hWnd, UINT message, WPARAM wParam, LPA
 		if (wParam == 1) {
 			db_set_b(PUGetContact(hWnd), MODULE_NAME, "MissYou", 0);
 			if (options.MissYouIcon)
-				ExtraIcon_SetIcon(hExtraIcon, PUGetContact(hWnd), "");
+				ExtraIcon_Clear(hExtraIcon, PUGetContact(hWnd));
 			PUDeletePopUp(hWnd);
 		}
 		break;
@@ -449,7 +449,7 @@ INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
 	if (db_get_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0)) {
 		db_set_b((HANDLE)wParam, MODULE_NAME, "MissYou", 0);
 		if (options.MissYouIcon)
-			ExtraIcon_SetIcon(hExtraIcon, (HANDLE)wParam, "");
+			ExtraIcon_Clear(hExtraIcon, (HANDLE)wParam);
 	}
 	else {
 		db_set_b((HANDLE)wParam, MODULE_NAME, "MissYou", 1);

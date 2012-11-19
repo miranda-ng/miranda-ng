@@ -311,14 +311,14 @@ int LoadCLUIModule(void)
 		lstrcpyn(titleText, _T(MIRANDANAME), SIZEOF(titleText));
 	else {
 		lstrcpyn(titleText, dbv.ptszVal, SIZEOF(titleText));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	RECT pos;
-	pos.left = (int) db_get_dw(NULL, "CList", "x", 700);
-	pos.top = (int) db_get_dw(NULL, "CList", "y", 221);
-	pos.right = pos.left + (int) db_get_dw(NULL, "CList", "Width", 108);
-	pos.bottom = pos.top + (int) db_get_dw(NULL, "CList", "Height", 310);
+	pos.left = (int)db_get_dw(NULL, "CList", "x", 700);
+	pos.top = (int)db_get_dw(NULL, "CList", "y", 221);
+	pos.right = pos.left + (int)db_get_dw(NULL, "CList", "Width", 108);
+	pos.bottom = pos.top + (int)db_get_dw(NULL, "CList", "Height", 310);
 
 	Utils_AssertInsideScreen(&pos);
 
@@ -639,7 +639,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 	}
 
 	case WM_TIMER:
-		if ((int) wParam == TM_AUTOALPHA) {
+		if ((int)wParam == TM_AUTOALPHA) {
 			int inwnd;
 
 			if (GetForegroundWindow() == hwnd) {
@@ -693,7 +693,7 @@ LRESULT CALLBACK fnContactListWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 				if (thisTick >= startTick + 200)
 					break;
 				setLayeredWindowAttributes(hwnd, RGB(0, 0, 0),
-					(BYTE) (sourceAlpha + (destAlpha - sourceAlpha) * (int) (thisTick - startTick) / 200), LWA_ALPHA);
+					(BYTE) (sourceAlpha + (destAlpha - sourceAlpha) * (int)(thisTick - startTick) / 200), LWA_ALPHA);
 			}
 			setLayeredWindowAttributes(hwnd, RGB(0, 0, 0), (BYTE) destAlpha, LWA_ALPHA);
 		}

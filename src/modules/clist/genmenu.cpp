@@ -932,7 +932,7 @@ HMENU BuildRecursiveMenu(HMENU hMenu, PMO_IntMenuItem pRootMenu, ListParam *para
 			if ( !DBGetContactSettingTString(NULL, MenuNameItems, DBString, &dbv)) {
 				if (_tcslen(dbv.ptszVal) > 0)
 					replaceStrT(pmi->CustomName, dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			mir_snprintf(DBString, SIZEOF(DBString), "%s_pos", menuItemName);

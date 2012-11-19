@@ -121,7 +121,7 @@ static char *GetNetlibUserSettingString(const char *szUserModule, const char *sz
 		char *szRet;
 		if (decode) CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		szRet = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		if (szRet == NULL) SetLastError(ERROR_OUTOFMEMORY);
 		return szRet;
 	}

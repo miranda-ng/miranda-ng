@@ -65,17 +65,15 @@ void ExtraIconGroup::applyIcon(HANDLE hContact)
 	insideApply = true;
 
 	unsigned int i;
-	for (i = 0; i < items.size(); i++)
-	{
+	for (i = 0; i < items.size(); i++) {
 		items[i]->applyIcon(hContact);
-
 		if (setValidExtraIcon)
 			break;
 	}
 
 	insideApply = false;
 
-	DBWriteContactSettingDword(hContact, MODULE_NAME, name.c_str(), setValidExtraIcon ? items[i]->getID() : 0);
+	db_set_dw(hContact, MODULE_NAME, name.c_str(), setValidExtraIcon ? items[i]->getID() : 0);
 }
 
 int ExtraIconGroup::getPosition() const
@@ -96,7 +94,7 @@ void ExtraIconGroup::setSlot(int slot)
 
 ExtraIcon * ExtraIconGroup::getCurrentItem(HANDLE hContact) const
 {
-	int id = (int) DBGetContactSettingDword(hContact, MODULE_NAME, name.c_str(), 0);
+	int id = (int)DBGetContactSettingDword(hContact, MODULE_NAME, name.c_str(), 0);
 	if (id < 1)
 		return NULL;
 
@@ -114,13 +112,25 @@ void ExtraIconGroup::onClick(HANDLE hContact)
 		extra->onClick(hContact);
 }
 
-int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
+int ExtraIconGroup::setIcon(int id, HANDLE hContact, HANDLE value)
 {
-	if (insideApply)
-	{
+	return internalSetIcon(id, hContact, (void*)value, false);
+}
+
+int ExtraIconGroup::setIconByName(int id, HANDLE hContact, const char *value)
+{
+	return internalSetIcon(id, hContact, (void*)value, true);
+}
+
+int ExtraIconGroup::internalSetIcon(int id, HANDLE hContact, void *value, bool bByName)
+{
+	if (insideApply) {
 		for (unsigned int i = 0; i < items.size(); i++)
-			if (items[i]->getID() == id)
-				return items[i]->setIcon(id, hContact, icon);
+			if (items[i]->getID() == id) {
+				if (bByName)
+					return items[i]->setIconByName(id, hContact, (const char*)value);
+				return items[i]->setIcon(id, hContact, (HANDLE)value);
+			}
 
 		return -1;
 	}
@@ -128,8 +138,7 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 	ExtraIcon *current = getCurrentItem(hContact);
 	int currentPos = (int)items.size();
 	int storePos = (int)items.size();
-	for (unsigned int i = 0; i < items.size(); i++)
-	{
+	for (unsigned int i = 0; i < items.size(); i++) {
 		if (items[i]->getID() == id)
 			storePos = i;
 
@@ -140,9 +149,8 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 	if (storePos == items.size())
 		return -1;
 
-	if (storePos > currentPos)
-	{
-		items[storePos]->storeIcon(hContact, icon);
+	if (storePos > currentPos) {
+		items[storePos]->storeIcon(hContact, value);
 		return 0;
 	}
 
@@ -150,25 +158,24 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 
 	setValidExtraIcon = false;
 
-	int ret = items[storePos]->setIcon(id, hContact, icon);
+	int ret;
+	if (bByName)
+		ret = items[storePos]->setIconByName(id, hContact, (const char*)value);
+	else
+		ret = items[storePos]->setIcon(id, hContact, (HANDLE)value);
 
-	if (storePos < currentPos)
-	{
+	if (storePos < currentPos) {
 		if (setValidExtraIcon)
-			DBWriteContactSettingDword(hContact, MODULE_NAME, name.c_str(), items[storePos]->getID());
+			db_set_dw(hContact, MODULE_NAME, name.c_str(), items[storePos]->getID());
 	}
-	else if (storePos == currentPos)
-	{
-		if (!setValidExtraIcon)
-		{
-			DBWriteContactSettingDword(hContact, MODULE_NAME, name.c_str(), 0);
+	else if (storePos == currentPos) {
+		if (!setValidExtraIcon) {
+			db_set_dw(hContact, MODULE_NAME, name.c_str(), 0);
 
 			insideApply = true;
 
-			for (++storePos; storePos < (int)items.size(); ++storePos)
-			{
+			for (++storePos; storePos < (int)items.size(); ++storePos) {
 				items[storePos]->applyIcon(hContact);
-
 				if (setValidExtraIcon)
 					break;
 			}
@@ -176,7 +183,7 @@ int ExtraIconGroup::setIcon(int id, HANDLE hContact, void *icon)
 			insideApply = false;
 
 			if (setValidExtraIcon)
-				DBWriteContactSettingDword(hContact, MODULE_NAME, name.c_str(), items[storePos]->getID());
+				db_set_dw(hContact, MODULE_NAME, name.c_str(), items[storePos]->getID());
 		}
 	}
 

@@ -435,7 +435,7 @@ typedef struct {
 // Converts numerical representation of IP in SOCKADDR_INET into string representation with IP and port
 // IPv4 will be supplied in formats address:port or address
 // IPv6 will be supplied in formats [address]:port or [address]
-// wParam = (WPARAM)(int) 0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
+// wParam = (WPARAM)(int)0 - lParam - (sockaddr_gen*); 1 - lParam - (unsigned) in host byte order
 // lParam = (LPARAM)(sockaddr_gen*) or (unsigned) numeric IP address structure
 // Returns pointer to the string or NULL if not successful
 #define MS_NETLIB_ADDRESSTOSTRING  "Netlib/AddressToString"

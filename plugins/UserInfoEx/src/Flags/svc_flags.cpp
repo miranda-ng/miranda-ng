@@ -234,30 +234,20 @@ static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
-	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);;
-
-	EXTRAICON ico = { sizeof(ico) };
-	ico.hContact = (HANDLE)lParam;
-	ico.hExtraIcon	= hExtraIconSvc;
-	ico.icoName = (char*)0;		//preset
+	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);
 	if (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
 		char szId[20];
-		mir_snprintf(szId, SIZEOF(szId), (countryNumber==0xFFFF)?"%s_0x%X":"%s_%i","flags",countryNumber); /* buffer safe */
-		ico.icoName	= szId;
+		mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i","flags", countryNumber); /* buffer safe */
+		ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, szId);
 	}
-	CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
+	else ExtraIcon_Clear(hExtraIconSvc, (HANDLE)lParam);
 }
 
 static void CALLBACK RemoveExtraImages(LPARAM lParam)
 {
-	EXTRAICON ico = { sizeof(ico) };
-	ico.hExtraIcon	= hExtraIconSvc;
-	ico.icoName = 0; /* invalidate icon for contact*/
 	/* enum all contacts */
-	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact)) {
-		ico.hContact = hContact;
-		CallService(MS_EXTRAICON_SET_ICON, (WPARAM)&ico, 0);
-	}
+	for (HANDLE hContact = DB::Contact::FindFirst(); hContact != NULL; hContact = DB::Contact::FindNext(hContact))
+		ExtraIcon_Clear(hExtraIconSvc, hContact);
 }
 
 // always call in context of main thread

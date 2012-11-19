@@ -54,7 +54,7 @@ static int EnumDbModules(const char *szModuleName, DWORD ofsModuleName, LPARAM l
 			pa->iOrder = accounts.getCount();
 			accounts.insert(pa);
 		}
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	return 0;
 }
@@ -73,12 +73,12 @@ void LoadDbAccounts(void)
 
 		PROTOACCOUNT* pa = (PROTOACCOUNT*)mir_calloc(sizeof(PROTOACCOUNT));
 		if (pa == NULL) {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			continue;
 		}
 		pa->cbSize = sizeof(*pa);
 		pa->szModuleName = mir_strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 
 		_itoa(OFFSET_VISIBLE+i, buf, 10);
 		pa->bIsVisible = db_get_dw(NULL, "Protocols", buf, 1);
@@ -87,11 +87,11 @@ void LoadDbAccounts(void)
 		pa->iOrder = db_get_dw(NULL, "Protocols", buf, 1);
 
 		if (ver >= 4) {
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			_itoa(OFFSET_NAME+i, buf, 10);
 			if ( !DBGetContactSettingTString(NULL, "Protocols", buf, &dbv)) {
 				pa->tszAccountName = mir_tstrdup(dbv.ptszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			_itoa(OFFSET_ENABLED+i, buf, 10);
@@ -99,14 +99,14 @@ void LoadDbAccounts(void)
 
 			if ( !DBGetContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", &dbv)) {
 				pa->szProtoName = mir_strdup(dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		else pa->bIsEnabled = TRUE;
 
 		if ( !pa->szProtoName) {
 			pa->szProtoName = mir_strdup(pa->szModuleName);
-			DBWriteContactSettingString(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
+			db_set_s(NULL, pa->szModuleName, "AM_BaseProto", pa->szProtoName);
 		}
 
 		if ( !pa->tszAccountName)
@@ -173,7 +173,7 @@ void WriteDbAccounts()
 
 		char buf[ 20 ];
 		_itoa(i, buf, 10);
-		DBWriteContactSettingString(NULL, "Protocols", buf, pa->szModuleName);
+		db_set_s(NULL, "Protocols", buf, pa->szModuleName);
 
 		_itoa(OFFSET_PROTOPOS+i, buf, 10);
 		db_set_dw(NULL, "Protocols", buf, pa->iOrder);

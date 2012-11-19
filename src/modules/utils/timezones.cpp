@@ -190,7 +190,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	if ( !DBGetContactSettingTString(hContact, "UserInfo", "TzName", &dbv))
 	{
 		HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		if (res) return res;
 	}
 
@@ -201,7 +201,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 		if ( !DBGetContactSettingTString(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			if (res) return res;
 		}
 		timezone = (signed char)db_get_b(hContact, szProto, "Timezone", -1);
@@ -390,7 +390,7 @@ static int timeapiSelectListItem(HANDLE hContact, HWND hWnd, DWORD dwFlags)
 					break;
 				}
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
