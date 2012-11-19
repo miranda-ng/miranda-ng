@@ -113,10 +113,8 @@ static void SetGender(HANDLE hContact, int gender, BOOL clear)
 	else
 		ico = NULL;
 
-	if (ico == NULL && !clear)
-		return;
-
-	ExtraIcon_SetIcon(hExtraGender, hContact, ico);
+	if (ico != NULL || clear)
+		ExtraIcon_SetIcon(hExtraGender, hContact, ico);
 }
 
 static void EmailOnClick(Info *info, const char *text);

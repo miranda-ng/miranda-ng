@@ -117,10 +117,8 @@ HANDLE AddIcon(HANDLE hIcolib)
 
 void RemoveIcon(const char *icolibName)
 {
-	for (unsigned int i = 0; i < usedIcons.size(); i++)
-	{
+	for (unsigned int i = 0; i < usedIcons.size(); i++) {
 		Icon *icon = &usedIcons[i];
-
 		if (icon->name != icolibName)
 			continue;
 

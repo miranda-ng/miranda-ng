@@ -37,7 +37,7 @@ public:
 
 	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon) = 0;
 	virtual int  setIconByName(int id, HANDLE hContact, const char* icon) = 0;
-	virtual void storeIcon(HANDLE hContact, void *icon) = 0;
+	virtual void storeIcon(HANDLE hContact, void *icon) {};
 
 	virtual const char *getName() const;
 	virtual const TCHAR *getDescription() const = 0;

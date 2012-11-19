@@ -82,7 +82,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		}
 	}
 
-	storeIcon(hContact, hIcoLib);
+	storeIcon(hContact, "");
 
 	if (isEnabled()) {
 		HANDLE hImage;
@@ -115,16 +115,14 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 		}
 	}
 
-	storeIcon(hContact, "");
+	storeIcon(hContact, (char*)icon);
 
 	if (isEnabled()) {
-		const char *icolibName = (const char *) icon;
-
 		HANDLE hImage;
-		if ( IsEmpty(icolibName))
+		if ( IsEmpty(icon))
 			hImage = INVALID_HANDLE_VALUE;
 		else
-			hImage = AddIcon(icolibName);
+			hImage = AddIcon(icon);
 
 		return ClistSetExtraIcon(hContact, hImage);
 	}
@@ -139,7 +137,7 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 
 	const char *icolibName = (const char *) icon;
 	if ( IsEmpty(icolibName))
-		icolibName = ""; // Delete doesn't work, and I don't know why
-
-	db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
+		db_unset(hContact, MODULE_NAME, name.c_str());
+	else
+		db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
 }

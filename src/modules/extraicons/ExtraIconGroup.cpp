@@ -190,10 +190,6 @@ int ExtraIconGroup::internalSetIcon(int id, HANDLE hContact, void *value, bool b
 	return ret;
 }
 
-void ExtraIconGroup::storeIcon(HANDLE hContact, void *icon)
-{
-}
-
 const TCHAR *ExtraIconGroup::getDescription() const
 {
 	return description.c_str();

@@ -36,7 +36,6 @@ public:
 
 	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
 	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
-	virtual void storeIcon(HANDLE hContact, void *icon);
 
 private:
 	int(*RebuildIcons)(WPARAM wParam, LPARAM lParam);

@@ -72,7 +72,3 @@ int CallbackExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 {
 	return -1;
 }
-
-void CallbackExtraIcon::storeIcon(HANDLE hContact, void *icon)
-{
-}
