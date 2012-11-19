@@ -235,12 +235,7 @@ static void CALLBACK SetExtraImage(LPARAM lParam)
 {
 	/* get contact's country */
 	int countryNumber = ServiceDetectContactOriginCountry((WPARAM)lParam,0);
-	if (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) {
-		char szId[20];
-		mir_snprintf(szId, SIZEOF(szId), (countryNumber == 0xFFFF) ? "%s_0x%X" : "%s_%i","flags", countryNumber); /* buffer safe */
-		ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, szId);
-	}
-	else ExtraIcon_Clear(hExtraIconSvc, (HANDLE)lParam);
+	ExtraIcon_SetIcon(hExtraIconSvc, (HANDLE)lParam, (countryNumber != 0xFFFF || gFlagsOpts.bUseUnknownFlag) ? LoadFlagHandle(countryNumber) : NULL);
 }
 
 static void CALLBACK RemoveExtraImages(LPARAM lParam)
@@ -314,8 +309,7 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 
 	// Flags is on
 	if (gFlagsOpts.bShowExtraImgFlag) {
-		if(hExtraIconSvc == INVALID_HANDLE_VALUE) {
-			char  szId[20];
+		if (hExtraIconSvc == INVALID_HANDLE_VALUE) {
 			//get local langID for descIcon (try to use user local Flag as icon)
 			DWORD langid = 0;
 			int r = GetLocaleInfo(
@@ -324,13 +318,9 @@ VOID SvcFlagsEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 				(LPTSTR)&langid, sizeof(langid)/sizeof(TCHAR));
 			if (!CallService(MS_UTILS_GETCOUNTRYBYNUMBER,langid,0)) langid = 1;
 
-			EXTRAICON_INFO ico = { sizeof(ico) };
-			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.name = "Flags";
-			ico.description = "Flags (uinfoex)";
+			char szId[20];
 			mir_snprintf(szId, SIZEOF(szId), (langid==0xFFFF)?"%s_0x%X":"%s_%i","flags",langid); /* buffer safe */
-			ico.descIcon = szId;
-			hExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
+			hExtraIconSvc = ExtraIcon_Register("Flags", "Flags (uinfoex)", szId);
 			if (hExtraIconSvc)
 				HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnExtraIconSvcChanged);
 		}

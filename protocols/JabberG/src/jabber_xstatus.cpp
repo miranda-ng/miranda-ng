@@ -683,7 +683,7 @@ void CPepMood::ResetExtraIcon(HANDLE hContact)
 
 void CPepMood::SetExtraIcon(HANDLE hContact, char *szMood)
 {
-	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibName(szMood));
+	ExtraIcon_SetIcon(hExtraMood, hContact, szMood == NULL ? NULL : g_MoodIcons.GetIcolibHandle(szMood));
 }
 
 void CPepMood::SetMood(HANDLE hContact, const TCHAR *szMood, const TCHAR *szText)
@@ -1075,7 +1075,7 @@ void CPepActivity::ResetExtraIcon(HANDLE hContact)
 
 void CPepActivity::SetExtraIcon(HANDLE hContact, char *szActivity)
 {
-	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : g_ActivityIcons.GetIcolibName(szActivity));
+	ExtraIcon_SetIcon(hExtraActivity, hContact, szActivity == NULL ? NULL : g_ActivityIcons.GetIcolibHandle(szActivity));
 }
 
 void CPepActivity::SetActivity(HANDLE hContact, LPCTSTR szFirst, LPCTSTR szSecond, LPCTSTR szText)

@@ -32,8 +32,9 @@ struct _tag_iconList
 	const char*  szName;
 	int          defIconID;
 	const char*  szSection;
+	HANDLE       hIcolib;
 }
-static const iconList[] =
+static iconList[] =
 {
 	{	LPGEN("ICQ"),                    "icq",         IDI_ICQ             },
 	{	LPGEN("Add"),                    "add",         IDI_ADD             },
@@ -66,8 +67,6 @@ static const iconList[] =
 	{	LPGEN("Not Normal Script"),      "nnorm_scrpt", IDI_NNORMALSCRIPT,   LPGEN("Profile Editor") },
 };
 
-static HANDLE hIconLibItem[SIZEOF(iconList)];
-
 void InitIcons(void)
 {
 	TCHAR szFile[MAX_PATH];
@@ -93,7 +92,7 @@ void InitIcons(void)
 
 		sid.pszDescription = (char*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
+		iconList[i].hIcolib = Skin_AddIcon(&sid);
 	}	
 }
 
@@ -106,9 +105,10 @@ HICON LoadIconEx(const char* name, bool big)
 
 HANDLE GetIconHandle(const char* name)
 {
-	for (unsigned i=0; i < SIZEOF(iconList); i++)
-		if (strcmp(iconList[i].szName, name) == 0)
-			return hIconLibItem[i];
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if ( !strcmp(iconList[i].szName, name))
+			return iconList[i].hIcolib;
+
 	return NULL;
 }
 
@@ -156,31 +156,12 @@ static const char* extra_ES_icon_name[2] =
 	"hiptop",
 };
 
-static HANDLE extra_AT_icon_handle[5];
-static HANDLE extra_ES_icon_handle[2];
-
-static void clear_AT_icon(HANDLE hContact)
-{
-	ExtraIcon_Clear(hExtraAT, hContact);
-}
-
-static void clear_ES_icon(HANDLE hContact)
-{
-	ExtraIcon_Clear(hExtraES, hContact);
-}
-
 static void set_AT_icon(CAimProto* ppro, HANDLE hContact)
 {
 	if (ppro->getByte(hContact, "ChatRoom", 0)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_AC, 0) - 1;
-
-	if (i < 5) {
-		char name[64];
-		mir_snprintf(name, sizeof(name), "AIM_%s", extra_AT_icon_name[i]);
-		ExtraIcon_SetIcon(hExtraAT, hContact, name);
-	}
-	else ExtraIcon_Clear(hExtraAT, hContact);
+	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 5) ? GetIconHandle(extra_AT_icon_name[i]) : NULL);
 }
 
 static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
@@ -188,13 +169,7 @@ static void set_ES_icon(CAimProto* ppro, HANDLE hContact)
 	if (ppro->getByte(hContact, "ChatRoom", 0)) return;
 
 	unsigned i = ppro->getByte(hContact, AIM_KEY_ET, 0) - 1;
-
-	if (i < 2) {
-		char name[64];
-		mir_snprintf(name, sizeof(name), "AIM_%s", extra_ES_icon_name[i]);
-		ExtraIcon_SetIcon(hExtraES, hContact, name);
-	}
-	else ExtraIcon_Clear(hExtraES, hContact);
+	ExtraIcon_SetIcon(hExtraAT, hContact, (i < 2) ? GetIconHandle(extra_ES_icon_name[i]) : NULL);
 }
 
 void set_contact_icon(CAimProto* ppro, HANDLE hContact)
@@ -206,10 +181,9 @@ void set_contact_icon(CAimProto* ppro, HANDLE hContact)
 void remove_AT_icons(CAimProto* ppro)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	while (hContact) {
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
-			clear_AT_icon(hContact);
+			ExtraIcon_Clear(hExtraAT, hContact);
 
 		hContact = db_find_next(hContact);
 	}
@@ -218,10 +192,10 @@ void remove_AT_icons(CAimProto* ppro)
 void remove_ES_icons(CAimProto* ppro)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	while (hContact) {
 		if (ppro->is_my_contact(hContact) && !ppro->getByte(hContact, "ChatRoom", 0)) 
-			clear_ES_icon(hContact);
+			ExtraIcon_Clear(hExtraES, hContact);
+
 		hContact = db_find_next(hContact);
 	}
 }
@@ -229,8 +203,7 @@ void remove_ES_icons(CAimProto* ppro)
 void add_AT_icons(CAimProto* ppro)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	while (hContact) {
 		if (ppro->is_my_contact(hContact)) 
 			set_AT_icon(ppro, hContact);
 
@@ -241,8 +214,7 @@ void add_AT_icons(CAimProto* ppro)
 void add_ES_icons(CAimProto* ppro)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact)
-	{
+	while (hContact) {
 		if (ppro->is_my_contact(hContact)) 
 			set_ES_icon(ppro, hContact);
 

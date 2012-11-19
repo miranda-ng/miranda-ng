@@ -7,6 +7,7 @@
 #include "IQuotesProvider.h"
 #include "Log.h"
 #include "DBUtils.h"
+#include "resource.h"
 
 CExtraImages::CExtraImages() :
 	m_hExtraIcons(ExtraIcon_Register(ICON_STR_QUOTE,QUOTES_PROTOCOL_NAME,Quotes_MakeIconName(ICON_STR_MAIN).c_str())),
@@ -36,19 +37,21 @@ bool CExtraImages::SetContactExtraImage(HANDLE hContact,EImageIndex nIndex)const
 	if (!m_hExtraIcons)
 		return false;
 
-	std::string sIconName;
+	HANDLE hIcolib;
 	switch(nIndex) {
 	case eiUp:
-		sIconName = Quotes_MakeIconName(ICON_STR_QUOTE_UP);
+		hIcolib = Quotes_GetIconHandle(IDI_ICON_UP);
 		break;
 	case eiDown:
-		sIconName = Quotes_MakeIconName(ICON_STR_QUOTE_DOWN);
+		hIcolib = Quotes_GetIconHandle(IDI_ICON_DOWN);
 		break;
 	case eiNotChanged:
-		sIconName = Quotes_MakeIconName(ICON_STR_QUOTE_NOT_CHANGED);
+		hIcolib = Quotes_GetIconHandle(IDI_ICON_NOTCHANGED);
 		break;
+	default:
+		hIcolib = NULL;
 	}
-	return (0 == ExtraIcon_SetIcon(m_hExtraIcons,hContact,sIconName.c_str()));
+	return ExtraIcon_SetIcon(m_hExtraIcons, hContact, hIcolib) == 0;
 }
 
 int QuotesEventFunc_onExtraImageApply(WPARAM wp,LPARAM lp)

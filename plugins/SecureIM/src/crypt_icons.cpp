@@ -47,7 +47,7 @@ HICON mode2icon(int mode,int type) {
 }
 
 // обновляет иконки в clist и в messagew
-void ShowStatusIcon(HANDLE hContact,int mode)
+void ShowStatusIcon(HANDLE hContact, int mode)
 {
 	HANDLE hMC = getMetaContact(hContact);
 

@@ -76,23 +76,18 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 		if (apparentMode == ID_STATUS_OFFLINE)
 			ico = "ChatActivity";
 
-		if (ico == NULL && !clear)
-			return;
-
-		ExtraIcon_SetIcon(hExtraChat, hContact, ico);
+		if (ico != NULL || clear)
+			ExtraIcon_SetIcon(hExtraChat, hContact, ico);
 	}
 	else {
 		// Not chat
 		if (apparentMode == ID_STATUS_OFFLINE)
 			ico = "core_main_47";
-
 		else if (apparentMode == ID_STATUS_ONLINE)
 			ico = "core_main_46";
 
-		if (ico == NULL && !clear)
-			return;
-
-		ExtraIcon_SetIcon(hExtraVisibility, hContact, ico);
+		if (ico != NULL || clear)
+			ExtraIcon_SetIcon(hExtraVisibility, hContact, ico);
 	}
 }
 

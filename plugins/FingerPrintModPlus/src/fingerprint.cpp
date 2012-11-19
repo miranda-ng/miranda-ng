@@ -165,7 +165,7 @@ int FASTCALL ApplyFingerprintImage(HANDLE hContact, LPTSTR szMirVer)
 	if (szMirVer)
 		hImage = GetIconIndexFromFI(szMirVer);
 
-	ExtraIcon_SetIcon(hExtraIcon,hContact,hImage);
+	ExtraIcon_SetIcon(hExtraIcon, hContact, hImage);
 	return 0;
 }
 

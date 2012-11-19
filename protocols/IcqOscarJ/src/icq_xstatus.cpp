@@ -182,13 +182,7 @@ void releaseXStatusIcon(int bStatus, UINT flags)
 
 void setContactExtraIcon(HANDLE hContact, int xstatus)
 {
-	if (xstatus <= 0)
-		ExtraIcon_Clear(hExtraXStatus, hContact);
-	else {
-		char szTemp[MAX_PATH];
-		null_snprintf(szTemp, sizeof(szTemp), "icq_xstatus%d", xstatus-1);
-		ExtraIcon_SetIcon(hExtraXStatus, hContact, szTemp);
-	}
+	ExtraIcon_SetIcon(hExtraXStatus, hContact, (xstatus > 0) ? hXStatusIcons[xstatus-1]->Handle() : NULL);
 }
 
 #define NULLCAP {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}

@@ -33,8 +33,9 @@ Last change by : $Author: ing.u.horn $
 #ifndef  _UINFOEX_FLAGSICONS_H_INCLUDED_
 #define  _UINFOEX_FLAGSICONS_H_INCLUDED_
 
-int		CountryNumberToIndex(int countryNumber);
+int   CountryNumberToIndex(int countryNumber);
 HICON	LoadFlag(int countryNumber);
+HANDLE LoadFlagHandle(int countryNumber);
 
 VOID InitIcons();
 //VOID SvcFlagsOnModulesLoaded();
