@@ -28,9 +28,11 @@ IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const TCHAR *_descr
 		MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
 {
-	char setting[512];
-	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
-	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
+	#ifndef _DEBUG
+		char setting[512];
+		mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
+		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
+	#endif
 }
 
 IcolibExtraIcon::~IcolibExtraIcon()
@@ -53,7 +55,7 @@ void IcolibExtraIcon::applyIcon(HANDLE hContact)
 
 	HANDLE hImage = INVALID_HANDLE_VALUE;
 
-	DBVARIANT dbv = { 0 };
+	DBVARIANT dbv;
 	if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 		if (!IsEmpty(dbv.pszVal))
 			hImage = GetIcon(dbv.pszVal);
@@ -73,7 +75,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		hIcoLib = NULL;
 
 	if (isEnabled()) {
-		DBVARIANT dbv = { 0 };
+		DBVARIANT dbv;
 		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
 				RemoveIcon(dbv.pszVal);
@@ -82,7 +84,9 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		}
 	}
 
-	storeIcon(hContact, "");
+	char szId[30];
+	wsprintfA(szId, "{%p}", hIcoLib);
+	storeIcon(hContact, szId);
 
 	if (isEnabled()) {
 		HANDLE hImage;
@@ -106,7 +110,7 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 		icon = NULL;
 
 	if (isEnabled()) {
-		DBVARIANT dbv = { 0 };
+		DBVARIANT dbv;
 		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
 				RemoveIcon(dbv.pszVal);

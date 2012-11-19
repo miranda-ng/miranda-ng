@@ -33,8 +33,11 @@ struct Icon
 	}
 
 	Icon(HANDLE _hIcolib) :
-		name(""), hIcoLib(_hIcolib), refCount(0), hImage(INVALID_HANDLE_VALUE)
+		hIcoLib(_hIcolib), refCount(0), hImage(INVALID_HANDLE_VALUE)
 	{
+		char szId[30];
+		wsprintfA(szId, "{%p}", _hIcolib);
+		name = szId;
 	}
 };
 
