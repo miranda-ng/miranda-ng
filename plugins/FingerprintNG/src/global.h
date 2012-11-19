@@ -99,34 +99,31 @@ typedef struct _foundInfo
 	HANDLE	hRegisteredImage;
 } FOUNDINFO;
 
-#define MIRANDA_CASE				1 	//	Miranda clients
-#define MIRANDA_VERSION_CASE		2 	//	Miranda version overlays
-#define MIRANDA_PACKS_CASE			3 	//	Miranda packs overlays
+#define MIRANDA_CASE				3001 	//	Miranda clients
+#define MIRANDA_VERSION_CASE		3002 	//	Miranda version overlays
+#define MIRANDA_PACKS_CASE			3003 	//	Miranda packs overlays
 
-#define MULTI_CASE					4 	//	multi-protocol clients
-#define AIM_CASE					5 	//	AIM clients
-#define GG_CASE						6 	//	Gadu-Gadu clients
+#define MULTI_CASE					3004 	//	multi-protocol clients
+#define AIM_CASE					3005 	//	AIM clients
+#define GG_CASE						3006 	//	Gadu-Gadu clients
+#define ICQ_CASE					3008 	//	ICQ clients
+#define IRC_CASE					3009 	//	IRC clients
+#define JABBER_CASE					3010	//	Jabber clients
+#define MRA_CASE					3011	//	Mail.Ru Agent clients
+#define MSN_CASE					3012	//	MSN clients
+#define QQ_CASE						3013	//	QQ clients (+ versions)
+#define RSS_CASE					3014	//	RSS clients
+#define TLEN_CASE					3015	//	Tlen clients (+ versions)
+#define WEATHER_CASE				3016	//	Weather clients
+#define YAHOO_CASE					3017	//	Yahoo clients (+ versions)
 
-#define ICQ_OFFICIAL_CASE			7 	//	ICQ official clients (+ versions)
-#define ICQ_CASE					8 	//	ICQ clients
+#define OTHER_PROTOS_CASE			3018	//	other protocols
+#define OTHERS_CASE					3019	//	other icons
 
-#define IRC_CASE					9 	//	IRC clients
-#define JABBER_CASE					10	//	Jabber clients
-#define MRA_CASE					11	//	Mail.Ru Agent clients
-#define MSN_CASE					12	//	MSN clients
-#define QQ_CASE						13	//	QQ clients (+ versions)
-#define RSS_CASE					14	//	RSS clients
-#define TLEN_CASE					15	//	Tlen clients (+ versions)
-#define WEATHER_CASE				16	//	Weather clients
-#define YAHOO_CASE					17	//	Yahoo clients (+ versions)
-
-#define OTHER_PROTOS_CASE			18	//	other protocols
-#define OTHERS_CASE					19	//	other icons
-
-#define OVERLAYS_RESOURCE_CASE		20	//	resource overlays
-#define OVERLAYS_PLATFORM_CASE		21	//	platforms overlays
-#define OVERLAYS_PROTO_CASE			22	//	protocols overlays
-#define OVERLAYS_SECURITY_CASE		23	//	security overlays
+#define OVERLAYS_RESOURCE_CASE		3020	//	resource overlays
+#define OVERLAYS_PLATFORM_CASE		3021	//	platforms overlays
+#define OVERLAYS_PROTO_CASE			3022	//	protocols overlays
+#define OVERLAYS_SECURITY_CASE		3023	//	security overlays
 
 /*
 #define OVERLAYS_RESOURCE_ALT_CASE	24	//	alternative (old style) overlays

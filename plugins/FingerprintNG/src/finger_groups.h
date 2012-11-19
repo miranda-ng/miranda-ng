@@ -28,16 +28,11 @@ case GG_CASE:
 		return _T("Client Icons/Gadu-Gadu clients");
 	break;
 
-
-case ICQ_OFFICIAL_CASE:
-	if ( db_get_b(NULL, "Finger", "GroupICQ", 1))
-		return _T("Client Icons/ICQ official clients");
 	break;
 case ICQ_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupICQ", 1))
 		return _T("Client Icons/ICQ clients");
 	break;
-
 
 case IRC_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupIRC", 1))

@@ -146,42 +146,43 @@
 
 //##############################################################################################################
 //Unofficial ICQ clients
-#define IDI_1UND1				201
-#define IDI_ALICQ				202
-#define IDI_ANASTASIA			203
-#define IDI_ANDRQ				204
-#define IDI_ASIA				205
-#define IDI_COREPAGER			206
-#define IDI_DELPHI				207
-#define IDI_DICHAT				208
-#define IDI_GLICQ				209
-#define IDI_GNOMEICU			210
-#define IDI_ICAT				211
-#define IDI_ICQ2X				212
-#define IDI_ICY_JUICE			213
-#define IDI_JICQ				214
-#define IDI_KXICQ				215
+
+#define IDI_ASIA				202
+#define IDI_DICHAT				203
+#define IDI_GNOMEICU			214
+#define IDI_ICY_JUICE			215
 #define IDI_LIBICQ2000			216
 #define IDI_LICQ				217
 #define IDI_LOCID				218
-#define IDI_MICQ				219
-#define IDI_MIP					220
-#define IDI_NANOICQ				221
-#define IDI_NICQ				222
-#define IDI_QIP					223
-#define IDI_RANDQ_NEW			224
-#define IDI_SMAPER				225
-#define IDI_SMARTICQ			226
-#define IDI_SPAMBOT				227
-#define IDI_STICQ				228
-#define IDI_STRICQ				229
-#define IDI_TICQ				230
-#define IDI_VICQ				231
-#define IDI_VIRUS				232
-#define IDI_VMICQ				233
-#define IDI_WEBICQ				234
-#define IDI_YEEMP				235
-#define IDI_YSM					236
+#define IDI_QIP_2005			219
+#define IDI_RANDQ				220
+#define IDI_SMARTICQ			221
+#define IDI_SPAM				222
+#define IDI_STRICQ				223
+#define IDI_TICQ				234
+
+//#define IDI_ALICQ				251
+//#define IDI_ANASTASIA			252
+//#define IDI_ANDRQ				253
+//#define IDI_COREPAGER			254
+//#define IDI_DELPHI			255
+//#define IDI_GLICQ				256
+//#define IDI_ICAT				257
+//#define IDI_ICQ2X				258
+//#define IDI_JICQ				259
+//#define IDI_KXICQ				260
+//#define IDI_MICQ				261
+//#define IDI_MIP				262
+//#define IDI_NANOICQ			263
+//#define IDI_NICQ				264
+//#define IDI_SMAPER			265
+//#define IDI_STICQ				266
+//#define IDI_VICQ				267
+//#define IDI_VIRUS				268
+//#define IDI_VMICQ				269
+//#define IDI_WEBICQ			270
+//#define IDI_YEEMP				271
+//#define IDI_YSM				272
 
 //##############################################################################################################
 //IRC
@@ -466,7 +467,6 @@
 
 //##############################################################################################################
 //AIM
-#define IDI_AIM					711
 #define IDI_AIM_4				712
 #define IDI_AIM_5				713
 #define IDI_AIM_6  				714
@@ -595,7 +595,7 @@
 #define IDI_BLACKBERRY      	1007
 #define IDI_BUDDYCLOUD      	1008
 #define IDI_CAUSERIE        	1009
-#define IDI_CENTERICQ			1010
+#define IDI_1UND1				1010
 #define IDI_CENTERIM        	1011
 #define IDI_CHATSECURE      	1012
 #define IDI_CITRON				1013
@@ -675,6 +675,7 @@
 #define IDI_YAMIGO				1087
 #define IDI_YEIGO           	1088
 #define IDI_YOONO           	1089
+#define IDI_XFIRE				1090
 
 //##############################################################################################################
 //resources

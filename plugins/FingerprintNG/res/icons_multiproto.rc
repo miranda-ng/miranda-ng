@@ -43,8 +43,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //#################################### Multi-protocol clients ##################################################
 //##############################################################################################################
 
-	IDI_AIM                 ICON    "..\\icons\\AIM\\AIM.ico"
+	IDI_AIM_7				ICON    "..\\icons\\AIM\\AIM_7.x.ico"
 
+	IDI_1UND1				ICON	"..\\icons\\multi-protocol\\1&1.ico"
+	IDI_ASIA				ICON	"..\\icons\\multi-protocol\\Asia.ico"
 	IDI_ADIUM               ICON    "..\\icons\\multi-protocol\\Adium.ico"
 	IDI_AGILE               ICON    "..\\icons\\multi-protocol\\AgileMobile.ico"
 	IDI_ANDROID             ICON    "..\\icons\\multi-protocol\\Android.ico"
@@ -91,7 +93,6 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_JASMINEIM           ICON    "..\\icons\\multi-protocol\\JasmineIM.ico"
 	IDI_JBOTHER             ICON    "..\\icons\\multi-protocol\\JBother.ico"
 	IDI_JBUDDY          	ICON	"..\\icons\\multi-protocol\\JBuddy Messenger.ico"
-	IDI_JIMM                ICON    "..\\icons\\multi-protocol\\Jimm.ico"
 	IDI_JIMMY	         	ICON	"..\\icons\\multi-protocol\\JimmyIM.ico"
 	IDI_JIMM_ASPRO      	ICON	"..\\icons\\multi-protocol\\Jimm Aspro.ico"
 	IDI_KMESS           	ICON	"..\\icons\\multi-protocol\\KMess.ico"
@@ -143,7 +144,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_YAMIGO              ICON    "..\\icons\\multi-protocol\\Yamigo.ico"
 	IDI_YEIGO           	ICON	"..\\icons\\multi-protocol\\Yeigo.ico"
 	IDI_YOONO           	ICON	"..\\icons\\multi-protocol\\Yoono.ico"
-	
+	IDI_XFIRE               ICON    "..\\icons\\others\\xfire.ico"
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table

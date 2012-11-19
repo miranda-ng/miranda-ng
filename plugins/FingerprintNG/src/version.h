@@ -37,7 +37,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __BETA_FILE_TITLE "fingerprint"
 
 
-#define __LEGAL_COPYRIGHT_STRING "© 2006-12 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."
+#define __LEGAL_COPYRIGHT_STRING "©2006-12 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors."
 
 // Fingerprint interface ID. Should be the same for ALL fingerprint plugins.
 // {FFF4B77A-CE40-11DB-A5CD-06A755D89593}

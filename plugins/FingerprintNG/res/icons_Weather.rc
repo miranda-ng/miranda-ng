@@ -42,7 +42,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################# Weather ########################################################
 //##############################################################################################################
-   IDI_ACCU                ICON    "..\\icons\\Weather\\accu.ico"
+   IDI_ACCU                ICON    "..\\icons\\Weather\\AccuWeather.ico"
    IDI_GISMETEO            ICON    "..\\icons\\Weather\\gismeteo.ico"
    IDI_INTELLI             ICON    "..\\icons\\Weather\\intelli.ico"
    IDI_METEOGID            ICON    "..\\icons\\Weather\\meteogid.ico"
