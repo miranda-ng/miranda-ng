@@ -106,16 +106,15 @@ static int GetStatusOnlineness(int status)
 
 static int GetGeneralisedStatus(void)
 {
-	int i, status, thisStatus, statusOnlineness, thisOnlineness;
+	int status = ID_STATUS_OFFLINE;
+	int statusOnlineness = 0;
 
-	status = ID_STATUS_OFFLINE;
-	statusOnlineness = 0;
-
-	for (i = 0; i < pcli->hClcProtoCount; i++) {
-		thisStatus = pcli->clcProto[i].dwStatus;
+	for (int i = 0; i < pcli->hClcProtoCount; i++) {
+		int thisStatus = pcli->clcProto[i].dwStatus;
 		if (thisStatus == ID_STATUS_INVISIBLE)
 			return ID_STATUS_INVISIBLE;
-		thisOnlineness = GetStatusOnlineness(thisStatus);
+		
+		int thisOnlineness = GetStatusOnlineness(thisStatus);
 		if (thisOnlineness > statusOnlineness) {
 			status = thisStatus;
 			statusOnlineness = thisOnlineness;
@@ -130,11 +129,10 @@ static int GetRealStatus(struct ClcContact *contact, int status)
 	if (!szProto)
 		return status;
 
-	for (int i = 0; i < pcli->hClcProtoCount; i++) {
-		if (!lstrcmpA(pcli->clcProto[i].szProto, szProto)) {
+	for (int i = 0; i < pcli->hClcProtoCount; i++)
+		if (!lstrcmpA(pcli->clcProto[i].szProto, szProto))
 			return pcli->clcProto[i].dwStatus;
-		}
-	}
+
 	return status;
 }
 
@@ -372,9 +370,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 						}
 					}
 					// Make sure all of these methods are valid (i would hope either all or none work)
-					if (MyOpenThemeData && MyCloseThemeData && MyDrawThemeBackground) {
+					if (MyOpenThemeData && MyCloseThemeData && MyDrawThemeBackground)
 						hTheme = MyOpenThemeData(hwnd, L"BUTTON");
-					}
 				}
 				rc.left = dat->leftMargin + indent * dat->groupIndent;
 				rc.right = rc.left + dat->checkboxSize;
@@ -413,6 +410,29 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					mode = ILD_SELECTED;
 				ImageList_DrawEx(himlCListClc, iImage, hdcMem, dat->leftMargin + indent * dat->groupIndent + checkboxWidth,
 					y + ((dat->rowHeight - 16) >> 1), 0, 0, CLR_NONE, colourFg, mode);
+			}
+
+			//extra icons
+			int rightOffset = 0;
+			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
+				COLORREF colourFg = dat->selBkColour;
+				if (group->cl.items[group->scanIndex]->iExtraImage[i] == EMPTY_EXTRA_ICON)
+					continue;
+
+				int mode = ILD_NORMAL;
+				if (selected)
+					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_SELECTED;
+				else if (hottrack) {
+					colourFg = dat->hotTextColour;
+					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_BLEND50;
+				}
+				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST)
+					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
+
+				rightOffset += dat->extraColumnSpacing;
+				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[i], hdcMem,
+					clRect.right - rightOffset, y + ((dat->rowHeight - 16) >> 1), 0, 0,
+					CLR_NONE, colourFg, mode);
 			}
 
 			//text
@@ -458,7 +478,7 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 					rc.top = y + (dat->rowHeight >> 1);
 					rc.bottom = rc.top + 2;
 					rc.left = dat->leftMargin + indent * dat->groupIndent + checkboxWidth + dat->iconXSpace + width + 3;
-					rc.right = clRect.right - 1;
+					rc.right = clRect.right - rightOffset - 1;
 					if (rc.right - rc.left > 1)
 						DrawEdge(hdcMem, &rc, BDR_SUNKENOUTER, BF_RECT);
 				}
@@ -487,30 +507,8 @@ void PaintClc(HWND hwnd, struct ClcData *dat, HDC hdc, RECT * rcPaint)
 						DrawText(hdcMem, szText, qlen, &rc, DT_EDITCONTROL | DT_NOPREFIX | DT_NOCLIP | DT_WORD_ELLIPSIS | DT_SINGLELINE);
 				}
 			}
-
-			//extra icons
-			int rightOffset = 0;
-			for (int i = dat->extraColumnsCount-1; i >= 0; i--) {
-				COLORREF colourFg = dat->selBkColour;
-				if (group->cl.items[group->scanIndex]->iExtraImage[i] == EMPTY_EXTRA_ICON)
-					continue;
-
-				int mode = ILD_NORMAL;
-				if (selected)
-					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_SELECTED;
-				else if (hottrack) {
-					colourFg = dat->hotTextColour;
-					mode = (dat->exStyle & CLS_EX_NOTRANSLUCENTSEL) ? ILD_NORMAL : ILD_BLEND50;
-				}
-				else if (group->cl.items[group->scanIndex]->type == CLCIT_CONTACT && group->cl.items[group->scanIndex]->flags & CONTACTF_NOTONLIST)
-					colourFg = dat->fontInfo[FONTID_NOTONLIST].colour;
-
-				rightOffset += dat->extraColumnSpacing;
-				ImageList_DrawEx(dat->himlExtraColumns, group->cl.items[group->scanIndex]->iExtraImage[i], hdcMem,
-					clRect.right - rightOffset, y + ((dat->rowHeight - 16) >> 1), 0, 0,
-					CLR_NONE, colourFg, mode);
-			}
 		}
+
 		index++;
 		y += dat->rowHeight;
 		if (group->cl.items[group->scanIndex]->type == CLCIT_GROUP && group->cl.items[group->scanIndex]->group->expanded) {

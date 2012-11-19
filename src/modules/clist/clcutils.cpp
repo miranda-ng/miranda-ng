@@ -152,7 +152,7 @@ int fnHitTest(HWND hwnd, struct ClcData *dat, int testx, int testy, ClcContact *
 	}
 
 	int eiOffset = 0;
-	for (i=0; i < dat->extraColumnsCount; i++) {
+	for (i = dat->extraColumnsCount-1; i >= 0; i--) {
 		if (hitcontact->iExtraImage[i] == EMPTY_EXTRA_ICON)
 			continue;
 
