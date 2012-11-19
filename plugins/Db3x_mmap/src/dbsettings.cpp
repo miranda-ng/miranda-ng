@@ -645,60 +645,59 @@ STDMETHODIMP_(BOOL) CDb3Base::DeleteContactSetting(HANDLE hContact, DBCONTACTGET
 		return 1;
 	}
 
-	mir_cslockfull lck(m_csDbAccess);
-	ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
- 	if (hContact == 0)
-		hContact = (HANDLE)m_dbHeader.ofsUser;
-
-	dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
-	if (dbc->signature != DBCONTACT_SIGNATURE)
-		return 1;
-
-	//make sure the module group exists
-	ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,(DWORD)hContact,ofsModuleName);
-	if (ofsSettingsGroup == 0)
-		return 1;
-
-	//find if the setting exists
-	ofsBlobPtr = ofsSettingsGroup+offsetof(DBContactSettings,blob);
-	pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
-	while (pBlob[0]) {
-		NeedBytes(settingNameLen+1);
-		if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen))
-			break;
-		NeedBytes(1);
-		MoveAlong(pBlob[0]+1);
-		NeedBytes(3);
-		MoveAlong(1+GetSettingValueLength(pBlob));
-		NeedBytes(1);
-	}
-	if (!pBlob[0]) //setting didn't exist
-		return 1;
-
-	//bin it
-	int nameLen,valLen;
-	DWORD ofsSettingToCut;
-	MoveAlong(1+settingNameLen);
-	NeedBytes(3);
-	nameLen = 1+settingNameLen;
-	valLen = 1+GetSettingValueLength(pBlob);
-	ofsSettingToCut = ofsBlobPtr-nameLen;
-	MoveAlong(valLen);
-	NeedBytes(1);
-	while (pBlob[0]) {
-		MoveAlong(pBlob[0]+1);
-		NeedBytes(3);
-		MoveAlong(1+GetSettingValueLength(pBlob));
-		NeedBytes(1);
-	}
-	DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
-
 	szCachedSettingName = m_cache->GetCachedSetting(dbcgs->szModule,dbcgs->szSetting,moduleNameLen,settingNameLen);
-	m_cache->GetCachedValuePtr((HANDLE)saveWparam, szCachedSettingName, -1 );
+	if (szCachedSettingName[-1] == 0) { // it's not a resident variable
+		mir_cslock lck(m_csDbAccess);
+		ofsModuleName = GetModuleNameOfs(dbcgs->szModule);
+ 		if (hContact == 0)
+			hContact = (HANDLE)m_dbHeader.ofsUser;
 
-	//quit
-	DBFlush(1);
-	lck.unlock();
+		dbc = (DBContact*)DBRead(hContact,sizeof(DBContact),NULL);
+		if (dbc->signature != DBCONTACT_SIGNATURE)
+			return 1;
+
+		//make sure the module group exists
+		ofsSettingsGroup = GetSettingsGroupOfsByModuleNameOfs(dbc,(DWORD)hContact,ofsModuleName);
+		if (ofsSettingsGroup == 0)
+			return 1;
+
+		//find if the setting exists
+		ofsBlobPtr = ofsSettingsGroup+offsetof(DBContactSettings,blob);
+		pBlob = (PBYTE)DBRead(ofsBlobPtr,1,&bytesRemaining);
+		while (pBlob[0]) {
+			NeedBytes(settingNameLen+1);
+			if (pBlob[0] == settingNameLen && !memcmp(pBlob+1,dbcgs->szSetting,settingNameLen))
+				break;
+			NeedBytes(1);
+			MoveAlong(pBlob[0]+1);
+			NeedBytes(3);
+			MoveAlong(1+GetSettingValueLength(pBlob));
+			NeedBytes(1);
+		}
+		if (!pBlob[0]) //setting didn't exist
+			return 1;
+
+		//bin it
+		int nameLen,valLen;
+		DWORD ofsSettingToCut;
+		MoveAlong(1+settingNameLen);
+		NeedBytes(3);
+		nameLen = 1+settingNameLen;
+		valLen = 1+GetSettingValueLength(pBlob);
+		ofsSettingToCut = ofsBlobPtr-nameLen;
+		MoveAlong(valLen);
+		NeedBytes(1);
+		while (pBlob[0]) {
+			MoveAlong(pBlob[0]+1);
+			NeedBytes(3);
+			MoveAlong(1+GetSettingValueLength(pBlob));
+			NeedBytes(1);
+		}
+		DBMoveChunk(ofsSettingToCut,ofsSettingToCut+nameLen+valLen,ofsBlobPtr+1-ofsSettingToCut);
+		DBFlush(1);
+	}
+
+	m_cache->GetCachedValuePtr((HANDLE)saveWparam, szCachedSettingName, -1 );
 	
 	//notify
 	DBCONTACTWRITESETTING dbcws = {0};

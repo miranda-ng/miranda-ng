@@ -30,11 +30,9 @@ IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const TCHAR *_descr
 		MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
 {
-	#ifndef _DEBUG
-		char setting[512];
-		mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
-	#endif
+	char setting[512];
+	mir_snprintf(setting, SIZEOF(setting), "%s/%s", MODULE_NAME, _name);
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (WPARAM) setting);
 }
 
 IcolibExtraIcon::~IcolibExtraIcon()
@@ -129,6 +127,7 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 
 	const char *icolibName = (const char *) icon;
 	if ( IsEmpty(icolibName))
-		icolibName = "";
-	db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
+		db_unset(hContact, MODULE_NAME, name.c_str());
+	else
+		db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
 }
