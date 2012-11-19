@@ -21,6 +21,7 @@
 
 #include "m_cluiframes.h"
 
+#include "ExtraIcon.h"
 #include "extraicons.h"
 
 /*
@@ -38,6 +39,7 @@
 
 static void ProtocolInit();
 static void DBExtraIconsInit();
+ExtraIcon* GetExtraIcon(HANDLE id);
 
 void DefaultExtraIcons_Load()
 {
@@ -57,7 +59,7 @@ HANDLE hExtraVisibility = NULL;
 HANDLE hExtraChat = NULL;
 HANDLE hExtraGender = NULL;
 
-static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
+static void SetVisibility(HANDLE hContact, int apparentMode, bool clear)
 {
 	if (hContact == NULL)
 		return;
@@ -70,28 +72,31 @@ static void SetVisibility(HANDLE hContact, int apparentMode, BOOL clear)
 		apparentMode = db_get_w(hContact, proto, "ApparentMode", 0);
 
 	const char *ico = NULL;
+	HANDLE hExtraIcon;
 
-	if (DBGetContactSettingByte(hContact, proto, "ChatRoom", 0)) {
+	if ( db_get_b(hContact, proto, "ChatRoom", 0)) {
 		// Is chat
+		hExtraIcon = hExtraChat;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			ico = "ChatActivity";
-
-		if (ico != NULL || clear)
-			ExtraIcon_SetIcon(hExtraChat, hContact, ico);
 	}
 	else {
 		// Not chat
+		hExtraIcon = hExtraVisibility;
 		if (apparentMode == ID_STATUS_OFFLINE)
 			ico = "core_main_47";
 		else if (apparentMode == ID_STATUS_ONLINE)
 			ico = "core_main_46";
+	}
 
-		if (ico != NULL || clear)
-			ExtraIcon_SetIcon(hExtraVisibility, hContact, ico);
+	if (ico != NULL || clear) {
+		ExtraIcon *extra = GetExtraIcon(hExtraIcon);
+		if (extra)
+			extra->setIconByName((int)hExtraIcon, hContact, ico);
 	}
 }
 
-static void SetGender(HANDLE hContact, int gender, BOOL clear)
+static void SetGender(HANDLE hContact, int gender, bool clear)
 {
 	if (hContact == NULL)
 		return;
@@ -101,11 +106,11 @@ static void SetGender(HANDLE hContact, int gender, BOOL clear)
 		return;
 
 	if (gender <= 0)
-		gender = DBGetContactSettingByte(hContact, proto, "Gender", 0);
+		gender = db_get_b(hContact, proto, "Gender", 0);
 	if (gender <= 0)
-		gender = DBGetContactSettingByte(hContact, "UserInfo", "Gender", 0);
+		gender = db_get_b(hContact, "UserInfo", "Gender", 0);
 
-	const char *ico = NULL;
+	const char *ico;
 	if (gender == 'M')
 		ico = "gender_male";
 	else if (gender == 'F')
@@ -113,8 +118,11 @@ static void SetGender(HANDLE hContact, int gender, BOOL clear)
 	else
 		ico = NULL;
 
-	if (ico != NULL || clear)
-		ExtraIcon_SetIcon(hExtraGender, hContact, ico);
+	if (ico != NULL || clear) {
+		ExtraIcon *extra = GetExtraIcon(hExtraGender);
+		if (extra)
+			extra->setIconByName((int)hExtraGender, hContact, ico);
+	}
 }
 
 static void EmailOnClick(Info *info, const char *text);
@@ -202,12 +210,12 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 
 	bool isProto = (strcmp(cws->szModule, proto) == 0);
 	if (isProto && strcmp(cws->szSetting, "ApparentMode") == 0) {
-		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, TRUE);
+		SetVisibility(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.wVal, true);
 		return 0;
 	}
 
 	if (strcmp(cws->szSetting, "Gender") == 0 && (isProto || strcmp(cws->szModule, "UserInfo") == 0)) {
-		SetGender(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal, TRUE);
+		SetGender(hContact, cws->value.type == DBVT_DELETED ? 0 : cws->value.bVal, true);
 		return 0;
 	}
 
@@ -284,8 +292,8 @@ static void DBExtraIconsInit()
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		SetExtraIcons(hContact);
-		SetVisibility(hContact, -1, FALSE);
-		SetGender(hContact, -1, FALSE);
+		SetVisibility(hContact, -1, false);
+		SetGender(hContact, -1, false);
 
 		hContact = db_find_next(hContact);
 	}

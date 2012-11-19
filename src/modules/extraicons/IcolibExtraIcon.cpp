@@ -24,6 +24,8 @@
 #include "extraicons.h"
 #include "usedIcons.h"
 
+#include "..\icolib\IcoLib.h"
+
 IcolibExtraIcon::IcolibExtraIcon(int _id, const char *_name, const TCHAR *_description, const char *_descIcon,
 		MIRANDAHOOKPARAM _OnClick, LPARAM _param) :
 	BaseExtraIcon(_id, _name, _description, _descIcon, _OnClick, _param)
@@ -74,7 +76,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 	if (hIcoLib == INVALID_HANDLE_VALUE)
 		hIcoLib = NULL;
 
-	if (isEnabled()) {
+	if ( isEnabled()) {
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
@@ -84,19 +86,12 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		}
 	}
 
-	char szId[30];
-	wsprintfA(szId, "{%p}", hIcoLib);
-	storeIcon(hContact, szId);
+	IconItem *p = (IconItem*)hIcoLib;
+	char *szName = (p) ? p->name : NULL;
+	storeIcon(hContact, szName);
 
-	if (isEnabled()) {
-		HANDLE hImage;
-		if (hIcoLib == NULL)
-			hImage = INVALID_HANDLE_VALUE;
-		else
-			hImage = AddIcon(hIcoLib);
-
-		return ClistSetExtraIcon(hContact, hImage);
-	}
+	if ( isEnabled())
+		return ClistSetExtraIcon(hContact, (hIcoLib == NULL) ? INVALID_HANDLE_VALUE : AddIcon(szName));
 
 	return 0;
 }
@@ -109,7 +104,7 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 	if (icon == INVALID_HANDLE_VALUE)
 		icon = NULL;
 
-	if (isEnabled()) {
+	if ( isEnabled()) {
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingString(hContact, MODULE_NAME, name.c_str(), &dbv)) {
 			if (!IsEmpty(dbv.pszVal))
@@ -121,15 +116,8 @@ int IcolibExtraIcon::setIconByName(int id, HANDLE hContact, const char *icon)
 
 	storeIcon(hContact, (char*)icon);
 
-	if (isEnabled()) {
-		HANDLE hImage;
-		if ( IsEmpty(icon))
-			hImage = INVALID_HANDLE_VALUE;
-		else
-			hImage = AddIcon(icon);
-
-		return ClistSetExtraIcon(hContact, hImage);
-	}
+	if ( isEnabled())
+		return ClistSetExtraIcon(hContact, ( IsEmpty(icon)) ? INVALID_HANDLE_VALUE : AddIcon(icon));
 
 	return 0;
 }
@@ -141,7 +129,6 @@ void IcolibExtraIcon::storeIcon(HANDLE hContact, void *icon)
 
 	const char *icolibName = (const char *) icon;
 	if ( IsEmpty(icolibName))
-		db_unset(hContact, MODULE_NAME, name.c_str());
-	else
-		db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
+		icolibName = "";
+	db_set_s(hContact, MODULE_NAME, name.c_str(), icolibName);
 }
