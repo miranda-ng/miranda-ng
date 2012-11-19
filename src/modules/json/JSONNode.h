@@ -61,7 +61,7 @@
     #define DECLARE_FOR_ALL_TYPES_CONST(foo)\
 	   foo(char) const; foo(unsigned char) const;\
 	   foo(short) const; foo(unsigned short) const;\
-	   foo(int)const; foo(unsigned int) const;\
+	   foo(int) const; foo(unsigned int) const;\
 	   foo(long) const; foo(unsigned long) const;\
 	   foo(float) const; foo(double) const;\
 	   foo(bool) const;\
@@ -72,7 +72,7 @@
     #define IMPLEMENT_FOR_ALL_NUMBERS(foo)\
 	   foo(char) foo(unsigned char)\
 	   foo(short) foo(unsigned short)\
-	   foo(int)foo(unsigned int)\
+	   foo(int) foo(unsigned int)\
 	   foo(long) foo(unsigned long)\
 	   foo(float) foo(double)
 
