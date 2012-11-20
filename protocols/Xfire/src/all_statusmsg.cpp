@@ -19,7 +19,7 @@ vector<string> *olstatusmsg=NULL;
 vector<string> *protoname=NULL;
 vector<unsigned int> *olstatus=NULL;
 vector<unsigned int> *oltostatus=NULL;
-PROTOCOLDESCRIPTOR **temp;
+PROTOACCOUNT **temp;
 int anz,statusid;
 int statustype;
 
@@ -57,20 +57,19 @@ BOOL BackupStatusMsg() {
 	oltostatus=new vector<unsigned int>;
 
 	//alle protokolle durchgehen und den status in den vector sichern
-	// TODO: was enumprotocols, is enumprotos okay?
-	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
+	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
-		statusid=CallProtoService(temp[i]->szName,PS_GETSTATUS,0,0);
-		XFireLog("Get Status of %s ...",temp[i]->szName);
+		statusid=CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0);
+		XFireLog("Get Status of %s ...",temp[i]->szModuleName);
 
 		char ttemp[128]="";
-		sprintf_s(ttemp,128,"%s%s",temp[i]->szName,PS_SETAWAYMSG);
+		sprintf_s(ttemp,128,"%s%s",temp[i]->szModuleName,PS_SETAWAYMSG);
 		
 		//xfire wird geskipped, offline prots und invs prots auch, und locked status prots auch
-		if(statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szName, protocolname )||!ServiceExists(ttemp)||DBGetContactSettingByte(NULL,temp[i]->szName,"LockMainStatus",0)==1)
+		if(!temp[i]->bIsEnabled||statusid==ID_STATUS_INVISIBLE||statusid==ID_STATUS_OFFLINE||!lstrcmpiA( temp[i]->szModuleName, protocolname )||!ServiceExists(ttemp)||DBGetContactSettingByte(NULL,temp[i]->szModuleName,"LockMainStatus",0)==1)
 		{
-			XFireLog("-> Skip %s.",temp[i]->szName);
+			XFireLog("-> Skip %s.",temp[i]->szModuleName);
 
 			olstatus->push_back(-1);
 			olstatusmsg->push_back("");
@@ -85,7 +84,7 @@ BOOL BackupStatusMsg() {
 		{
 			if(statusid!=0)
 			{
-				int caps=CallProtoService(temp[i]->szName,PS_GETCAPS,PFLAGNUM_2,0);
+				int caps=CallProtoService(temp[i]->szModuleName,PS_GETCAPS,PFLAGNUM_2,0);
 
 				//normale statusreihenfolge
 				if(DBGetContactSettingByte(NULL,protocolname,"dndfirst",0)==0)
@@ -94,23 +93,23 @@ BOOL BackupStatusMsg() {
 					{
 						oltostatus->push_back(ID_STATUS_OCCUPIED);
 						dummystatusid=ID_STATUS_OCCUPIED;
-						XFireLog("%s supports OCCUPIED.",temp[i]->szName);
+						XFireLog("%s supports OCCUPIED.",temp[i]->szModuleName);
 					}
 					else if(caps&PF2_HEAVYDND)
 					{
 						oltostatus->push_back(ID_STATUS_DND);
 						dummystatusid=ID_STATUS_DND;
-						XFireLog("%s supports DND.",temp[i]->szName);
+						XFireLog("%s supports DND.",temp[i]->szModuleName);
 					}
 					else if(caps&PF2_SHORTAWAY)
 					{
 						oltostatus->push_back(ID_STATUS_AWAY);
 						dummystatusid=ID_STATUS_AWAY;
-						XFireLog("%s supports AWAY.",temp[i]->szName);
+						XFireLog("%s supports AWAY.",temp[i]->szModuleName);
 					}
 					else
 					{
-						XFireLog("%s no Away???.",temp[i]->szName);
+						XFireLog("%s no Away???.",temp[i]->szModuleName);
 						oltostatus->push_back(statusid);
 						dummystatusid=statusid;
 					}
@@ -121,23 +120,23 @@ BOOL BackupStatusMsg() {
 					{
 						oltostatus->push_back(ID_STATUS_DND);
 						dummystatusid=ID_STATUS_DND;
-						XFireLog("%s supports DND.",temp[i]->szName);
+						XFireLog("%s supports DND.",temp[i]->szModuleName);
 					}
 					else if(caps&PF2_LIGHTDND)
 					{
 						oltostatus->push_back(ID_STATUS_OCCUPIED);
 						dummystatusid=ID_STATUS_OCCUPIED;
-						XFireLog("%s supports OCCUPIED.",temp[i]->szName);
+						XFireLog("%s supports OCCUPIED.",temp[i]->szModuleName);
 					}
 					else if(caps&PF2_SHORTAWAY)
 					{
 						oltostatus->push_back(ID_STATUS_AWAY);
 						dummystatusid=ID_STATUS_AWAY;
-						XFireLog("%s supports AWAY.",temp[i]->szName);
+						XFireLog("%s supports AWAY.",temp[i]->szModuleName);
 					}
 					else
 					{
-						XFireLog("%s no Away???.",temp[i]->szName);
+						XFireLog("%s no Away???.",temp[i]->szModuleName);
 						oltostatus->push_back(statusid);
 						dummystatusid=statusid;
 					}
@@ -194,12 +193,12 @@ BOOL BackupStatusMsg() {
 		if(olstatus->size()>olstatusmsg->size())
 		{
 			olstatusmsg->push_back(string(dbv.pszVal));
-			protoname->push_back(temp[i]->szName);
+			protoname->push_back(temp[i]->szModuleName);
 			//freigeben
 			DBFreeVariant(&dbv);
 		}
 		else
-			protoname->push_back(temp[i]->szName);
+			protoname->push_back(temp[i]->szModuleName);
 	}
 
 	return TRUE;
@@ -281,8 +280,7 @@ BOOL SetGameStatusMsg()
 		}
 	}
 
-	// TODO: MS_PROTO_ENUMPROTOCOLS was original... is enumprotos okay?
-	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
+	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
 		if(olstatus->at(i)!=-1)
@@ -316,14 +314,14 @@ BOOL SetGameStatusMsg()
 					XFireLog("-> SetStatusMsg of %s with Miranda with occupied status.",protoname->at(i).c_str());
 
 					//statusmsg für beschäftigt setzen
-					CallProtoService(temp[i]->szName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
+					CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
 					//status auf beschäftigt wechseln
-					CallProtoService(temp[i]->szName,PS_SETSTATUS,oltostatus->at(i),0);
+					CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,oltostatus->at(i),0);
 					//statusmsg für beschäftigt setzen
-					if(CallProtoService(temp[i]->szName,PS_GETSTATUS,0,0)!=oltostatus->at(i))
+					if(CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=oltostatus->at(i))
 					{
 						XFireLog("Set StatusMsg again, Status was not succesfully set.");
-						CallProtoService(temp[i]->szName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
+						CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,oltostatus->at(i),(LPARAM)statusmsg);
 					}
 				}
 			}
@@ -331,7 +329,7 @@ BOOL SetGameStatusMsg()
 			{
 				XFireLog("-> SetStatusMsg of %s.",protoname->at(i).c_str());
 
-				CallProtoService(temp[i]->szName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)statusmsg);
+				CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)statusmsg);
 			}
 		}
 	}
@@ -350,8 +348,7 @@ BOOL SetOldStatusMsg()
 	if(olstatusmsg==NULL)
 		return FALSE;
 
-	// TODO: was enumprotocols, is enumprotos okay?
-	CallService(MS_PROTO_ENUMPROTOS,(WPARAM)&anz,(LPARAM)&temp);
+	CallService(MS_PROTO_ENUMACCOUNTS,(WPARAM)&anz,(LPARAM)&temp);
 	for(int i=0;i<anz;i++)
 	{
 		if(olstatus->at(i)!=-1)
@@ -359,15 +356,15 @@ BOOL SetOldStatusMsg()
 			if(statustype)
 			{
 				//alten status setzen
-				CallProtoService(temp[i]->szName,PS_SETSTATUS,olstatus->at(i),0);
+				CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,olstatus->at(i),0);
 				//status wurde nicht gewechselt, dann statusmsg nachträglich setzen
-				if(CallProtoService(temp[i]->szName,PS_GETSTATUS,0,0)!=olstatus->at(i))
-					CallProtoService(temp[i]->szName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)olstatusmsg->at(i).c_str());
+				if(CallProtoService(temp[i]->szModuleName,PS_GETSTATUS,0,0)!=olstatus->at(i))
+					CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)olstatusmsg->at(i).c_str());
 			}
 			else
 			{
-				CallProtoService(temp[i]->szName,PS_SETSTATUS,olstatus->at(i),0);
-				CallProtoService(temp[i]->szName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)olstatusmsg->at(i).c_str());
+				CallProtoService(temp[i]->szModuleName,PS_SETSTATUS,olstatus->at(i),0);
+				CallProtoService(temp[i]->szModuleName,PS_SETAWAYMSG,olstatus->at(i),(LPARAM)olstatusmsg->at(i).c_str());
 			}
 		}
 	}

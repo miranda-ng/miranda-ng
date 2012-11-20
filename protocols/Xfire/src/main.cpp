@@ -2778,7 +2778,7 @@ void gamedetectiont(LPVOID lparam)
 										//popup abschalten, menuservice funk aufrufen
 										if(DBGetContactSettingByte(NULL,protocolname,"nopopups",0))
 										{
-											if(ServiceExists("PopUp/EnableDisableMenuCommand")&&DBGetContactSettingByte(NULL,"PopUp","ModuleIsEnabled",0)==1&&DBGetContactSettingByte(NULL,"PopUp","DisableWhenFullscreen",0)==0) /**/
+											if(ServiceExists("PopUp/EnableDisableMenuCommand")&&DBGetContactSettingByte(NULL,"PopUp","ModuleIsEnabled",0)==1) /**/
 											{
 												disabledpopups=TRUE;
 												CallService("PopUp/EnableDisableMenuCommand",NULL,NULL);
