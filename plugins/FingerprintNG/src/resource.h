@@ -5,10 +5,9 @@
 // Used by resource.rc
 //##############################################################################################################
 //Other
-#define IDI_BLANK				1
-#define IDI_NOTFOUND			2
-#define IDI_UNDETECTED			3
-#define IDI_UNKNOWN				4
+#define IDI_NOTFOUND			1
+#define IDI_UNDETECTED			2
+#define IDI_UNKNOWN				3
 
 //##############################################################################################################
 //Skype clients
@@ -28,21 +27,13 @@
 #define IDI_MIRANDA_09XX      		26
 #define IDI_MIRANDA_010X      		27
 
-#define IDI_MIRANDA_4				31
-#define IDI_MIRANDA_5				32
-#define IDI_MIRANDA_6				33
-#define IDI_MIRANDA_7				34
-#define IDI_MIRANDA_8				35
-#define IDI_MIRANDA_9				36
-#define IDI_MIRANDA_10				37
-
-#define IDI_MIRANDA_4s				41
-#define IDI_MIRANDA_5s				42
-#define IDI_MIRANDA_6s				43
-#define IDI_MIRANDA_7s				44
-#define IDI_MIRANDA_8s				45
-#define IDI_MIRANDA_9s				46
-#define IDI_MIRANDA_10s				47
+#define IDI_MIRANDA_4s				31
+#define IDI_MIRANDA_5s				32
+#define IDI_MIRANDA_6s				33
+#define IDI_MIRANDA_7s				34
+#define IDI_MIRANDA_8s				35
+#define IDI_MIRANDA_9s				36
+#define IDI_MIRANDA_10s				37
 
 //##############################################################################################################
 //Jabber resource overlays
@@ -557,10 +548,6 @@
 #define IDI_YWEATHER			811
 #define IDI_METEONOVOSTI		812
 #define IDI_NOAA				813
-
-//##############################################################################################################
-//Weather overlay
-#define IDI_CLIENT_WEATHER		817
 
 //##############################################################################################################
 //Yahoo

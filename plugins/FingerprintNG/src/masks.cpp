@@ -687,14 +687,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //###########################################################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		#########################################################################################################################################
 //###########################################################################################################################################################################################################
-	{"client_Mir_010_over",		_T("*Miranda*0.10.*"),						_T("Miranda v0.10 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_10,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_09_over",		_T("*Miranda*0.9.*"),						_T("Miranda v0.9 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_9,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_08_over",		_T("*Miranda*0.8.*"),						_T("Miranda v0.8 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_8,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_07_over",		_T("*Miranda*0.7.*"),						_T("Miranda v0.7 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_7,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_06_over",		_T("*Miranda*0.6.*"),						_T("Miranda v0.6 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_6,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_05_over",		_T("*Miranda*0.5.*"),						_T("Miranda v0.5 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_5,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_04_over",		_T("*Miranda*0.4.*"),						_T("Miranda v0.4 overlay"),				_T("ClientIcons_Miranda"),		IDI_MIRANDA_4,			MIRANDA_VERSION_CASE	},
-
 	{"client_ICQ6_over",		_T("ICQ*6*"),								_T("ICQ v6.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ6_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ7_over",		_T("ICQ*7*"),								_T("ICQ v7.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ7_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ8_over",		_T("ICQ*8*"),								_T("ICQ v8.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ8_OVERLAY,		ICQ_CASE	},
@@ -723,8 +715,6 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_Tlen_7",			_T("Tlen Protocol 16"),						_T("Tlen 7.x overlay"),					_T("ClientIcons_Tlen"),			IDI_CLIENT_TLEN7,		TLEN_CASE	},
 	{"client_Tlen_6",			_T("Tlen Protocol 10"),						_T("Tlen 6.x overlay"),					_T("ClientIcons_Tlen"),			IDI_CLIENT_TLEN6,		TLEN_CASE	},
 	{"client_Tlen_5",			_T("Tlen Protocol 7"),						_T("Tlen 5.x overlay"),					_T("ClientIcons_Tlen"),			IDI_CLIENT_TLEN5,		TLEN_CASE	},
-
-	{"client_weather_over",		_T("*Weather*"),							_T("Weather"),							_T("ClientIcons_Weather"),		IDI_CLIENT_WEATHER,		WEATHER_CASE	},
 
 //###########################################################################################################################################################################################################
 //#################################		PLATFORM OVERLAYS	#################################################################################################################################################

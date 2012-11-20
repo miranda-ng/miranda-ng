@@ -55,19 +55,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_MIRANDA_09XX		ICON	"..\\icons\\Miranda\\MirandaIM_09xx.ico"
 	IDI_MIRANDA_010X		ICON	"..\\icons\\Miranda\\MirandaIM_010xx.ico"
 
-	IDI_MIRANDA_4			ICON	"..\\icons\\Miranda\\overlay_miranda_v4.ico"
 	IDI_MIRANDA_4s			ICON	"..\\icons\\Miranda\\overlay_miranda_v4s.ico"
-	IDI_MIRANDA_5			ICON	"..\\icons\\Miranda\\overlay_miranda_v5.ico"
 	IDI_MIRANDA_5s			ICON	"..\\icons\\Miranda\\overlay_miranda_v5s.ico"
-	IDI_MIRANDA_6			ICON	"..\\icons\\Miranda\\overlay_miranda_v6.ico"
 	IDI_MIRANDA_6s			ICON	"..\\icons\\Miranda\\overlay_miranda_v6s.ico"
-	IDI_MIRANDA_7			ICON	"..\\icons\\Miranda\\overlay_miranda_v7.ico"
 	IDI_MIRANDA_7s			ICON	"..\\icons\\Miranda\\overlay_miranda_v7s.ico"
-	IDI_MIRANDA_8			ICON	"..\\icons\\Miranda\\overlay_miranda_v8.ico"
 	IDI_MIRANDA_8s			ICON	"..\\icons\\Miranda\\overlay_miranda_v8s.ico"
-	IDI_MIRANDA_9			ICON	"..\\icons\\Miranda\\overlay_miranda_v9.ico"
 	IDI_MIRANDA_9s			ICON	"..\\icons\\Miranda\\overlay_miranda_v9s.ico"
-	IDI_MIRANDA_10			ICON	"..\\icons\\Miranda\\overlay_miranda_v10.ico"
 	IDI_MIRANDA_10s			ICON	"..\\icons\\Miranda\\overlay_miranda_v10s.ico"
 
 
