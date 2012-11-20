@@ -328,8 +328,12 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 
 	  if(s.length()>100)
 	  {
-		  char* temp=(char*)s.c_str();
-		  *(temp+100)=0;
+		  s.substr(0, 100);
+		  
+		  // W T F?
+		  ///char* temp=(char*)s.c_str(); 
+		  ///*(temp+100)=0;
+		  // W T F?		
 	  }
 	  SendStatusMessagePacket *packet = new SendStatusMessagePacket();
 
@@ -3567,7 +3571,7 @@ int ContactDeleted(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-int StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam) {
+INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam) {
 	//gamelist blocken
 	xgamelist.Block(TRUE);
 

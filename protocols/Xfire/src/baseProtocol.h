@@ -72,9 +72,7 @@
 #include <m_assocmgr.h>
 #include <m_icolib.h>
 #include <m_genmenu.h>
-#include <m_cluiframes.h>
-#include <m_account.h>
-#include <m_protoplugin.h>
+#include <m_extraicons.h>
 #include <m_extraicons.h>
 
 #include "services.h"
