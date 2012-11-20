@@ -196,6 +196,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\stdafx.cpp" />
     <ClCompile Include="action_keepstatus.cpp" />
     <ClCompile Include="..\commonstatus.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

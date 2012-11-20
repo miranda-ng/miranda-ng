@@ -208,6 +208,7 @@
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\snac.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\theme.cpp" />
     <ClCompile Include="src\thread.cpp" />
     <ClCompile Include="src\tlv.cpp" />

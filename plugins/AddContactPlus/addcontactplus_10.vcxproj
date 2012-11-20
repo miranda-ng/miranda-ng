@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClCompile Include="src\addcontact.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\addcontactplus.h" />

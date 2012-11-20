@@ -209,6 +209,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\stdafx.cpp" />
     <ClCompile Include="advancedautoaway.cpp" />
     <ClCompile Include="..\commonstatus.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
