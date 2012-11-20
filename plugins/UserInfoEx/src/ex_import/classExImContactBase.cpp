@@ -524,7 +524,7 @@ BOOLEAN CExImContactBase::isHandle(HANDLE hContact)
 
 	// compare protocols
 	pszProto = DB::Contact::Proto(hContact);
-	if (pszProto == NULL || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || mir_stricmp(pszProto, _pszProto))
+	if (pszProto == NULL || (INT_PTR)pszProto == CALLSERVICE_NOTFOUND || lstrcmpA(pszProto, _pszProto))
 		return FALSE;
 
 	// compare uids

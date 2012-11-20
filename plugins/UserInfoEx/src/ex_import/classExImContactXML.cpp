@@ -198,26 +198,17 @@ TiXmlElement* CExImContactXML::CreateXmlElement()
  **/
 INT CExImContactXML::ExportContact(DB::CEnumList* pModules)
 {
-	if (_pXmlFile->_wExport & EXPORT_DATA) 
-	{
-		if (pModules) 
-		{
+	if (_pXmlFile->_wExport & EXPORT_DATA) {
+		if (pModules) {
 			INT i;
 			LPSTR p;
 
-			for (i = 0; i < pModules->getCount(); i++)
-			{
+			for (i = 0; i < pModules->getCount(); i++) {
 				p = (*pModules)[i];
-
-				/*Filter/
-				if (mir_stricmp(p, "Protocol") && !DB::Module::IsMeta(p))*/
-				{
-					ExportModule(p);
-				}
+				ExportModule(p);
 			}
 		}
-		else 
-		{
+		else {
 			ExportModule(USERINFO);
 			ExportModule(MOD_MBIRTHDAY);
 		}
@@ -225,9 +216,7 @@ INT CExImContactXML::ExportContact(DB::CEnumList* pModules)
 	
 	// export contact's events
 	if (_pXmlFile->_wExport & EXPORT_HISTORY)
-	{
 		ExportEvents();
-	}
 
 	return ERROR_OK;
 }
@@ -530,9 +519,10 @@ BOOLEAN CExImContactXML::ExportEvents()
 						xmlEvent->LinkEndChild(xmlText);
 
 						// find module
-						for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling()) {
-							if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule)) break;
-						}
+						for (xmlModule = _xmlNode->FirstChild(); xmlModule != NULL; xmlModule = xmlModule->NextSibling())
+							if (!mir_stricmp(((TiXmlElement*)xmlModule)->Attribute("key"), dbei.szModule))
+								break;
+
 						// create new module
 						if (!xmlModule) {
 							xmlModule = _xmlNode->InsertEndChild(TiXmlElement(XKEY_MOD));
@@ -583,8 +573,10 @@ VOID CExImContactXML::CountKeys(DWORD &numSettings, DWORD &numEvents)
 		for (xkey = xmod->FirstChild();
 			xkey != NULL;
 			xkey = xkey->NextSibling()) {
-			if (!mir_stricmp(xkey->Value(), XKEY_SET)) numSettings++;
-			else numEvents++;
+			if (!mir_stricmp(xkey->Value(), XKEY_SET))
+				numSettings++;
+			else
+				numEvents++;
 		}
 	}
 }
