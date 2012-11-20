@@ -78,6 +78,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_GAIM                ICON    "..\\icons\\multi-protocol\\GAIM.ico"
 	IDI_GALAXIUM        	ICON	"..\\icons\\multi-protocol\\Galaxium.ico"
 	IDI_GMX             	ICON	"..\\icons\\multi-protocol\\GMX MultiMessenger.ico"
+	IDI_GNUGADU             ICON    "..\\icons\\multi-protocol\\GNU_Gadu.ico"
 	IDI_ICALL           	ICON	"..\\icons\\multi-protocol\\iCall.ico"
 	IDI_ICHAT               ICON    "..\\icons\\multi-protocol\\iChat.ico"
 	IDI_IM2             	ICON	"..\\icons\\multi-protocol\\IM2.ico"

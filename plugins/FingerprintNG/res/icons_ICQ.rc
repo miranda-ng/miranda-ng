@@ -59,14 +59,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################# Official ICQ clients ###########################################
 //##############################################################################################################
-	IDI_ICQ                 ICON    "..\\icons\\ICQ\\official\\ICQ.ico" 
+	IDI_ICQ                 ICON    "..\\icons\\ICQ\\ICQ.ico" 
 
 //##############################################################################################################
 //################################# ICQ overlays ###############################################################
 //##############################################################################################################
-   IDI_ICQ6_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v6.ico"
-   IDI_ICQ7_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v7.ico"
-   IDI_ICQ8_OVERLAY          ICON    "..\\icons\\ICQ\\official\\overlay_ICQ_v8.ico"
+   IDI_ICQ6_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v6.ico"
+   IDI_ICQ7_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v7.ico"
+   IDI_ICQ8_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v8.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////

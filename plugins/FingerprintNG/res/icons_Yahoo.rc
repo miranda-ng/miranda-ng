@@ -42,14 +42,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################ Yahoo #######################################################
 //##############################################################################################################
-   IDI_LIBYAHOO2           ICON    "..\\icons\\Yahoo\\libyahoo2.ico"
-   IDI_PINGBOX	           ICON    "..\\icons\\Yahoo\\PingBox.ico"
    IDI_YAHOO               ICON    "..\\icons\\Yahoo\\Yahoo.ico"
-   IDI_YAHOO5              ICON    "..\\icons\\Yahoo\\Yahoo 5.ico"
-   IDI_YAHOO6              ICON    "..\\icons\\Yahoo\\Yahoo 6.ico"
-   IDI_YAHOO7              ICON    "..\\icons\\Yahoo\\Yahoo 7.ico"
-   IDI_YAHOO8              ICON    "..\\icons\\Yahoo\\Yahoo 8.ico"
-   IDI_YAHOO10             ICON    "..\\icons\\Yahoo\\Yahoo 10.ico"
+   IDI_LIBYAHOO2           ICON    "..\\icons\\Yahoo\\libyahoo2.ico"
+   IDI_YAHOO_PINGBOX	   ICON    "..\\icons\\Yahoo\\Yahoo PingBox.ico"
+   IDI_YAHOO_WEB           ICON    "..\\icons\\Yahoo\\Yahoo Web.ico"
    IDI_YAHOO_GO_MOBILE     ICON    "..\\icons\\Yahoo\\Yahoo Go Mobile.ico"
 
 //##############################################################################################################
@@ -59,12 +55,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################# Yahoo overlays #############################################################
 //##############################################################################################################
-   IDI_CLIENT_YAHOO5       ICON    "..\\icons\\Yahoo\\Yahoo_5.ico"
-   IDI_CLIENT_YAHOO6       ICON    "..\\icons\\Yahoo\\Yahoo_6.ico"
-   IDI_CLIENT_YAHOO7       ICON    "..\\icons\\Yahoo\\Yahoo_7.ico"
-   IDI_CLIENT_YAHOO8       ICON    "..\\icons\\Yahoo\\Yahoo_8.ico"
-   IDI_CLIENT_YAHOO9       ICON    "..\\icons\\Yahoo\\Yahoo_9.ico"
-   IDI_CLIENT_YAHOO10      ICON    "..\\icons\\Yahoo\\Yahoo_10.ico"
+   IDI_YAHOO9_OVERLAY		ICON    "..\\icons\\Yahoo\\overlay_Yahoo_v9.ico"
+   IDI_YAHOO10_OVERLAY		ICON    "..\\icons\\Yahoo\\overlay_Yahoo_v10.ico"
+   IDI_YAHOO11_OVERLAY		ICON    "..\\icons\\Yahoo\\overlay_Yahoo_v11.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

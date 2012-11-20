@@ -42,8 +42,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //##################################### Miranda client overlays ################################################
 //##############################################################################################################
-
-	IDI_AIMOSCAR_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_AIM.ico"
+	IDI_AIM_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_AIM.ico"
 	IDI_GMAIL_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Gmail.ico"
 	IDI_ICQJ_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_ICQJ.ico"
 	IDI_ICQJ_PLUS_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_ICQJ_Plus.ico"
@@ -70,13 +69,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //########################################### Secure overlays ##################################################
 //##############################################################################################################
 	IDI_SECUREIM_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_SecureIM.ico"
-	IDI_IMSECURE_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_IMsecure.ico"
-	IDI_SIMPLITE_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_SimpLite.ico"
-	IDI_SIMPPRO_OVERLAY				ICON	"..\\icons\\overlays\\overlay_secure_SimpPro.ico"
 
 //##############################################################################################################
 //############################## PLATFORM OVERLAYS #############################################################
 //##############################################################################################################
+	IDI_PLATFORM_AMIGA				ICON	"..\\icons\\overlays\\overlay_platform_Amiga.ico"
 	IDI_PLATFORM_ANDROID			ICON	"..\\icons\\overlays\\overlay_platform_Android.ico"
 	IDI_PLATFORM_FLASH				ICON	"..\\icons\\overlays\\overlay_platform_Flash.ico"
 	IDI_PLATFORM_MAC				ICON	"..\\icons\\overlays\\overlay_platform_iMac.ico"
@@ -96,7 +93,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	
 //##############################################################################################################
 
-	IDI_CLIENT_UNICODE				ICON	"..\\icons\\overlays\\overlay_Unicode.ico"
+	IDI_UNICODE_CLIENT				ICON	"..\\icons\\overlays\\overlay_Unicode.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -42,8 +42,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################### Gadu-Gadu ########################################################
 //##############################################################################################################
-   IDI_GADU_GADU_6                ICON    "..\\icons\\Gadu-Gadu\\Gadu_Gadu_6.ico"
-   IDI_GADU_GADU_7                ICON    "..\\icons\\Gadu-Gadu\\Gadu_Gadu_7.ico"
+   IDI_GG				ICON	"..\\icons\\GG\\Gadu-Gadu.ico"
+
+   IDI_GG8_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v8.ico"
+   IDI_GG9_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v9.ico"
+   IDI_GG10_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v10.ico"
+   IDI_GG11_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v11.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

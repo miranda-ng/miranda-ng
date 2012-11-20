@@ -5,9 +5,9 @@
 // Used by resource.rc
 //##############################################################################################################
 //Other
-#define IDI_NOTFOUND			1
-#define IDI_UNDETECTED			2
-#define IDI_UNKNOWN				3
+#define IDI_NOTFOUND			5
+#define IDI_UNDETECTED			6
+#define IDI_UNKNOWN				7
 
 //##############################################################################################################
 //Skype clients
@@ -46,22 +46,23 @@
 
 //##############################################################################################################
 //Platform
-#define IDI_PLATFORM_ANDROID		61
-#define IDI_PLATFORM_FLASH			62
-#define IDI_PLATFORM_IOS			63
-#define IDI_PLATFORM_JAVA			64
-#define IDI_PLATFORM_LINUX			65
-#define IDI_PLATFORM_MAC			66
-#define IDI_PLATFORM_SYMBIAN		67
-#define IDI_PLATFORM_WIN			68
+#define IDI_PLATFORM_AMIGA			61
+#define IDI_PLATFORM_ANDROID		62
+#define IDI_PLATFORM_FLASH			63
+#define IDI_PLATFORM_IOS			64
+#define IDI_PLATFORM_JAVA			65
+#define IDI_PLATFORM_LINUX			66
+#define IDI_PLATFORM_MAC			67
+#define IDI_PLATFORM_SYMBIAN		68
+#define IDI_PLATFORM_WIN			69
 
-#define IDI_CLIENT_UNICODE			71
+#define IDI_UNICODE_CLIENT			71
 #define IDI_PLATFORM_X32			72
 #define IDI_PLATFORM_X64			73
 
 //##############################################################################################################
 //Clients overlays
-#define IDI_AIMOSCAR_OVERLAY		75
+#define IDI_AIM_OVERLAY				75
 #define IDI_GMAIL_OVERLAY			76
 #define IDI_ICQJ_OVERLAY			77
 #define IDI_ICQJ_PLUS_OVERLAY		78
@@ -76,13 +77,10 @@
 
 //##############################################################################################################
 //Secure overlays
-#define IDI_IMSECURE_OVERLAY		91
-#define IDI_SECUREIM_OVERLAY		92
-#define IDI_SIMPLITE_OVERLAY		93
-#define IDI_SIMPPRO_OVERLAY			94
+#define IDI_SECUREIM_OVERLAY		91
 
 //##############################################################################################################
-//MirandaIM Packs
+//Miranda packs
 #define IDI_MIRANDA_A0X				101
 #define IDI_MIRANDA_AF				102
 #define IDI_MIRANDA_ALFAMAR			103
@@ -152,31 +150,9 @@
 #define IDI_STRICQ				223
 #define IDI_TICQ				234
 
-//#define IDI_ALICQ				251
-//#define IDI_ANASTASIA			252
-//#define IDI_ANDRQ				253
-//#define IDI_COREPAGER			254
-//#define IDI_DELPHI			255
-//#define IDI_GLICQ				256
-//#define IDI_ICAT				257
-//#define IDI_ICQ2X				258
-//#define IDI_JICQ				259
-//#define IDI_KXICQ				260
-//#define IDI_MICQ				261
-//#define IDI_MIP				262
-//#define IDI_NANOICQ			263
-//#define IDI_NICQ				264
-//#define IDI_SMAPER			265
-//#define IDI_STICQ				266
-//#define IDI_VICQ				267
-//#define IDI_VIRUS				268
-//#define IDI_VMICQ				269
-//#define IDI_WEBICQ			270
-//#define IDI_YEEMP				271
-//#define IDI_YSM				272
-
 //##############################################################################################################
 //IRC
+#define IDI_IRC					300
 #define IDI_AMIRC				301
 #define IDI_AMULE				302
 #define IDI_BABBEL				303
@@ -234,7 +210,6 @@
 #define IDI_XCHAT				355
 #define IDI_XIRC				356
 #define IDI_XIRCON				357
-#define IDI_ZIPTORRENT			358
 #define IDI_ZSIRC				359
 #define IDI_POCKET_IRC			360
 
@@ -291,7 +266,6 @@
 #define IDI_GLU					448
 #define IDI_GMAIL				449
 #define IDI_GNOME				450
-#define IDI_GNUGADU				451
 #define IDI_GOIM				452
 #define IDI_GOSSIP				453
 #define IDI_GOTALKMOBILE		454
@@ -378,13 +352,7 @@
 #define IDI_PSIPLUS 			536
 #define IDI_PSTO				537
 #define IDI_PSYC 				538
-#define IDI_PYAIMT				539
 #define IDI_PYGEON 				540
-#define IDI_PYICQT				541
-#define IDI_PYIRCT				542
-#define IDI_PYMRAT				543
-#define IDI_PYMSNT				544
-#define IDI_PYYAHOOT			545
 #define IDI_QTJIM				546
 #define IDI_QUTECOM 			547
 #define IDI_RENREN				548
@@ -458,8 +426,6 @@
 
 //##############################################################################################################
 //AIM
-#define IDI_AIM_4				712
-#define IDI_AIM_5				713
 #define IDI_AIM_6  				714
 #define IDI_AIM_7  				715
 #define IDI_AIM_MAC				716
@@ -471,18 +437,22 @@
 
 //##############################################################################################################
 //Gadu-Gadu clients
-#define IDI_GADU_GADU_6			731
-#define IDI_GADU_GADU_7			732
+#define IDI_GG					724
+#define IDI_GG8_OVERLAY			725
+#define IDI_GG9_OVERLAY			726
+#define IDI_GG10_OVERLAY		727
+#define IDI_GG11_OVERLAY		728
 
 //##############################################################################################################
 //Tlen clients
-#define IDI_TLEN				734
+#define IDI_TLEN				731
 
 //##############################################################################################################
 //Tlen clients overlays
-#define IDI_CLIENT_TLEN5		735
-#define IDI_CLIENT_TLEN6		736
-#define IDI_CLIENT_TLEN7		737
+#define IDI_TLEN5_OVERLAY		732
+#define IDI_TLEN6_OVERLAY		733
+#define IDI_TLEN7_OVERLAY		734
+#define IDI_TLEN8_OVERLAY		735
 
 //##############################################################################################################
 //MSN
@@ -507,31 +477,32 @@
 
 //##############################################################################################################
 //QQ clients
-#define IDI_MOBILEQQ			771
-#define IDI_QQ					772
-#define IDI_QQCONCEPT			773
-#define IDI_QQCRM				774
-#define IDI_QQINT				775
-#define IDI_QQSILVER			776
-#define IDI_TM					777
-#define IDI_TM2008				778
-#define IDI_WEBQQ				779
-#define IDI_YAMQQ				780
+#define IDI_MOBILEQQ			770
+#define IDI_QQ					771
+#define IDI_QQCONCEPT			772
+#define IDI_QQCRM				773
+#define IDI_QQINT				774
+#define IDI_QQSILVER			775
+#define IDI_TM					776
+#define IDI_TM2008				777
+#define IDI_WEBQQ				778
+#define IDI_YAMQQ				799
 
 //##############################################################################################################
 //QQ clients overlays
-#define IDI_CLIENT_QQ2000		781
-#define IDI_CLIENT_QQ2004		782
-#define IDI_CLIENT_TM1			783
-#define IDI_CLIENT_TM2			784
-#define IDI_CLIENT_TM_QQ2003	785
-#define IDI_CLIENT_TM_QQ2005	786
-#define IDI_CLIENT_TM_QQ2006	787
-#define IDI_CLIENT_TM_QQ2007	788
-#define IDI_CLIENT_TM_QQ2008	789
-#define IDI_CLIENT_TM_QQ2009	790
-#define IDI_CLIENT_TM_QQ2010	791
-#define IDI_CLIENT_TM_QQ2011	792
+#define IDI_QQ_2000_OVERLAY		780
+#define IDI_QQ_2001_OVERLAY		781
+#define IDI_QQ_2002_OVERLAY		782
+#define IDI_QQ_2003_OVERLAY		783
+#define IDI_QQ_2004_OVERLAY		784
+#define IDI_QQ_2005_OVERLAY		785
+#define IDI_QQ_2006_OVERLAY		786
+#define IDI_QQ_2007_OVERLAY		787
+#define IDI_QQ_2008_OVERLAY		788
+#define IDI_QQ_2009_OVERLAY		789
+#define IDI_QQ_2010_OVERLAY		790
+#define IDI_QQ_2011_OVERLAY		791
+#define IDI_QQ_2012_OVERLAY		792
 
 //##############################################################################################################
 //Weather clients
@@ -552,23 +523,20 @@
 //##############################################################################################################
 //Yahoo
 #define IDI_LIBYAHOO2			821
-#define IDI_PINGBOX				822
+#define IDI_YAHOO_PINGBOX		822
 #define IDI_YAHOO				823
-#define IDI_YAHOO5				824
-#define IDI_YAHOO6				825
-#define IDI_YAHOO7				826
-#define IDI_YAHOO8				827
-#define IDI_YAHOO10				828
+#define IDI_YAHOO_WEB			828
 #define IDI_YAHOO_GO_MOBILE		829
 
 //##############################################################################################################
 //Yahoo overlays
-#define IDI_CLIENT_YAHOO5		831
-#define IDI_CLIENT_YAHOO6		832
-#define IDI_CLIENT_YAHOO7		833
-#define IDI_CLIENT_YAHOO8		834
-#define IDI_CLIENT_YAHOO9		835
-#define IDI_CLIENT_YAHOO10		836
+#define IDI_YAHOO5_OVERLAY		831
+#define IDI_YAHOO6_OVERLAY		832
+#define IDI_YAHOO7_OVERLAY		833
+#define IDI_YAHOO8_OVERLAY		834
+#define IDI_YAHOO9_OVERLAY		835
+#define IDI_YAHOO10_OVERLAY		836
+#define IDI_YAHOO11_OVERLAY		837
 
 //##############################################################################################################
 //Multi-protocols clients
@@ -663,6 +631,7 @@
 #define IDI_YEIGO           	1088
 #define IDI_YOONO           	1089
 #define IDI_XFIRE				1090
+#define IDI_GNUGADU				1091
 
 //##############################################################################################################
 //resources

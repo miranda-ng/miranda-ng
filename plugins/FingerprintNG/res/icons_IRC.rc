@@ -62,9 +62,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
    IDI_GOPOWERTOOLS        ICON    "..\\icons\\IRC\\GoPowerTools.ico"
    IDI_HYDRA_IRC           ICON    "..\\icons\\IRC\\HydraIRC.ico"
    IDI_ICECHAT             ICON    "..\\icons\\IRC\\IceChat.ico"
-//   IDI_ICECHAT5            ICON    "..\\icons\\IRC\\IceChat 5.ico"
-//   IDI_ICECHAT7            ICON    "..\\icons\\IRC\\IceChat 7.ico"
-   IDI_IRC_UNKNOWN         ICON    "..\\icons\\IRC\\IRC_Unknown.ico"
+   IDI_IRC					ICON    "..\\icons\\IRC\\IRC.ico"
    IDI_IRCLE               ICON    "..\\icons\\IRC\\ircle.ico"
    IDI_IRCXPRO             ICON    "..\\icons\\IRC\\IRCXPro.ico"
    IDI_JIRCII              ICON    "..\\icons\\IRC\\jircii.ico"
@@ -101,9 +99,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
    IDI_XCHAT               ICON    "..\\icons\\IRC\\xChat.ico"
    IDI_XIRC                ICON    "..\\icons\\IRC\\Xirc.ico"
    IDI_XIRCON              ICON    "..\\icons\\IRC\\XIRCON.ico"
-   IDI_ZIPTORRENT          ICON    "..\\icons\\IRC\\ZipTorrent.ico"
    IDI_ZSIRC               ICON    "..\\icons\\IRC\\zsIRC.ico"
-	IDI_POCKET_IRC               ICON    "..\\icons\\IRC\\Pocket IRC.ico"
+   IDI_POCKET_IRC		   ICON    "..\\icons\\IRC\\Pocket IRC.ico"
    
    
 /////////////////////////////////////////////////////////////////////////////
