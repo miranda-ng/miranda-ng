@@ -1086,18 +1086,18 @@ void CJabberProto::_RosterHandleGetRequest(HXML node)
 							DBVARIANT dbvtemp;
 							if ( !DBGetContactSettingTString(hContact, "CList", "MyHandle", &dbvtemp)) {
 								name = mir_tstrdup(dbvtemp.ptszVal);
-								DBFreeVariant(&dbvtemp);
+								db_free(&dbvtemp);
 							}
 							if ( !DBGetContactSettingTString(hContact, "CList", "Group", &dbvtemp)) {
 								group = mir_tstrdup(dbvtemp.ptszVal);
-								DBFreeVariant(&dbvtemp);
+								db_free(&dbvtemp);
 							}
 							_RosterInsertListItem(hList, jid, name, group, NULL, FALSE);
 							if (jid) mir_free(jid);
 							if (name) mir_free(name);
 							if (group) mir_free(group);
 						}
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 				}
 				hContact = db_find_next(hContact);

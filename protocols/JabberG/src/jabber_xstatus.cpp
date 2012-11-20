@@ -1154,7 +1154,7 @@ void CPepActivity::ShowSetDialog(BYTE bQuiet)
 
 HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 {
-	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
 	HICON icon = g_MoodIcons.GetIcon(g_arrMoods[bStatus].szTag, (flags & LR_BIGICON) != 0);
 	return (flags & LR_SHARED) ? icon : CopyIcon(icon);
 }
@@ -1171,7 +1171,7 @@ INT_PTR __cdecl CJabberProto::OnGetXStatusIcon(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	if ( !wParam)
-		wParam = ((CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->m_mode;
+		wParam = ((CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->m_mode;
 
 	if (wParam < 1 || wParam >= SIZEOF(g_arrMoods))
 		return 0;
@@ -1341,28 +1341,101 @@ void CJabberProto::XStatusInit()
 	RegisterAdvStatusSlot(ADVSTATUS_ACTIVITY);
 }
 
-void CJabberProto::XStatusUninit()
-{
-	if (m_hHookExtraIconsRebuild)
-		UnhookEvent(m_hHookExtraIconsRebuild);
-
-	if (m_hHookExtraIconsApply)
-		UnhookEvent(m_hHookExtraIconsApply);
-}
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetXStatus - sets the extended status info (mood)
 
-INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CJabberProto::OnGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
-
 	if ( !m_bPepSupported || !m_bJabberOnline)
 		return 1;
 
-	if (pData->cbSize < sizeof(CUSTOM_STATUS)) return 1; // Failure
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
+	if (pData->cbSize < sizeof(CUSTOM_STATUS))
+		return 1;
 
-	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
+	if (pepMood == NULL)
+		return 1;
+
+	HANDLE hContact = (HANDLE)wParam;
+
+	// fill status member
+	if (pData->flags & CSSF_MASK_STATUS)
+		*pData->status = pepMood->m_mode;
+
+	// fill status name member
+	if (pData->flags & CSSF_MASK_NAME) {
+		if (pData->flags & CSSF_DEFAULT_NAME) {
+			DWORD dwXStatus = (pData->wParam == NULL) ? pepMood->m_mode : *pData->wParam;
+			if (dwXStatus >= SIZEOF(g_arrMoods))
+				return 1;
+
+			if (pData->flags & CSSF_UNICODE)
+				lstrcpynW(pData->pwszName, g_arrMoods[dwXStatus].szName, (STATUS_TITLE_MAX+1));
+			else {
+				size_t dwStatusTitleSize = lstrlenW( g_arrMoods[dwXStatus].szName );
+				if (dwStatusTitleSize > STATUS_TITLE_MAX)
+					dwStatusTitleSize = STATUS_TITLE_MAX;
+
+				WideCharToMultiByte(CP_ACP, 0, g_arrMoods[dwXStatus].szName, (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL);
+				pData->pszName[dwStatusTitleSize] = 0;
+			}
+		}
+		else {
+			*pData->ptszName = 0;
+			if (pData->flags & CSSF_UNICODE) {
+				mir_ptr<TCHAR> title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				if (title)
+					_tcsncpy(pData->ptszName, title, STATUS_TITLE_MAX);
+			}
+			else {
+				mir_ptr<char> title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TITLE));
+				if (title)
+					strncpy(pData->pszName, title, STATUS_TITLE_MAX);
+			}
+		}
+	}
+
+	// fill status message member
+	if (pData->flags & CSSF_MASK_MESSAGE) {
+		*pData->pszMessage = 0;
+		if (pData->flags & CSSF_UNICODE) {
+			mir_ptr<TCHAR> title( ReadAdvStatusT(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			if (title)
+				_tcsncpy(pData->ptszMessage, title, STATUS_TITLE_MAX);
+		}
+		else {
+			mir_ptr<char> title( ReadAdvStatusA(hContact, ADVSTATUS_MOOD, ADVSTATUS_VAL_TEXT));
+			if (title)
+				strncpy(pData->pszMessage, title, STATUS_TITLE_MAX);
+		}
+	}
+
+	if (pData->flags & CSSF_DISABLE_UI)
+		if (pData->wParam)
+			*pData->wParam = true;
+
+	if (pData->flags & CSSF_STATUSES_COUNT)
+		if (pData->wParam)
+			*pData->wParam = SIZEOF(g_arrMoods);
+
+	if (pData->flags & CSSF_STR_SIZES) {
+		if (pData->wParam) *pData->wParam = STATUS_TITLE_MAX;
+		if (pData->lParam) *pData->lParam = STATUS_DESC_MAX;
+	}
+	return 0;
+}
+
+INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
+{
+	if ( !m_bPepSupported || !m_bJabberOnline)
+		return 1;
+
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
+	if (pData->cbSize < sizeof(CUSTOM_STATUS))
+		return 1;
+
+	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
 
 	int status = *pData->status;
 	if (status > 0 && status < SIZEOF(g_arrMoods)) {
@@ -1397,24 +1470,19 @@ void CJabberProto::RegisterAdvStatusSlot(const char *pszSlot)
 }
 
 void CJabberProto::ResetAdvStatus(HANDLE hContact, const char *pszSlot)
-{	// set empty text before DBDeleteContactSetting to make resident setting manager happy
+{
 	char szSetting[128];
-
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/id", m_szModuleName, pszSlot);
-	db_set_s(hContact, "AdvStatus", szSetting, "");
-	DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
+	db_unset(hContact, "AdvStatus", szSetting);
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/icon", m_szModuleName, pszSlot);
-	db_set_s(hContact, "AdvStatus", szSetting, "");
-	DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
+	db_unset(hContact, "AdvStatus", szSetting);
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/title", m_szModuleName, pszSlot);
-	db_set_s(hContact, "AdvStatus", szSetting, "");
-	DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
+	db_unset(hContact, "AdvStatus", szSetting);
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/text", m_szModuleName, pszSlot);
-	db_set_s(hContact, "AdvStatus", szSetting, "");
-	DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
+	db_unset(hContact, "AdvStatus", szSetting);
 }
 
 void CJabberProto::WriteAdvStatus(HANDLE hContact, const char *pszSlot, const TCHAR *pszMode, const char *pszIcon, const TCHAR *pszTitle, const TCHAR *pszText)
@@ -1434,9 +1502,9 @@ void CJabberProto::WriteAdvStatus(HANDLE hContact, const char *pszSlot, const TC
 	if (pszText)
 		db_set_ts(hContact, "AdvStatus", szSetting, pszText);
 	else {
-		// set empty text before DBDeleteContactSetting to make resident setting manager happy
+		// set empty text before db_unset to make resident setting manager happy
 		db_set_s(hContact, "AdvStatus", szSetting, "");
-		DBDeleteContactSetting(hContact, "AdvStatus", szSetting);
+		db_unset(hContact, "AdvStatus", szSetting);
 	}
 }
 
@@ -1446,11 +1514,11 @@ char *CJabberProto::ReadAdvStatusA(HANDLE hContact, const char *pszSlot, const c
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 
 	DBVARIANT dbv;
-	if (DBGetContactSettingString(hContact, "AdvStatus", szSetting, &dbv))
+	if ( DBGetContactSettingString(hContact, "AdvStatus", szSetting, &dbv))
 		return NULL;
 
 	char *res = mir_strdup(dbv.pszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return res;
 }
 
@@ -1460,11 +1528,11 @@ TCHAR *CJabberProto::ReadAdvStatusT(HANDLE hContact, const char *pszSlot, const 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", m_szModuleName, pszSlot, pszValue);
 
 	DBVARIANT dbv;
-	if (DBGetContactSettingTString(hContact, "AdvStatus", szSetting, &dbv))
+	if ( DBGetContactSettingTString(hContact, "AdvStatus", szSetting, &dbv))
 		return NULL;
 
 	TCHAR *res = mir_tstrdup(dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return res;
 }
 

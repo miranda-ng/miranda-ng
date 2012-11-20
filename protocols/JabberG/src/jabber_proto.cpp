@@ -120,8 +120,7 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	JCreateService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
 	JCreateService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
 
-	// not needed anymore and therefore commented out
-	// JCreateService(PS_GETXSTATUSEX, &CJabberProto::OnGetXStatusEx);
+	JCreateService(PS_GETCUSTOMSTATUSEX, &CJabberProto::OnGetXStatusEx);
 	JCreateService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
 	JCreateService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
 	JCreateService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
@@ -215,7 +214,6 @@ CJabberProto::~CJabberProto()
 {
 	WsUninit();
 	IqUninit();
-	XStatusUninit();
 	SerialUninit();
 	ConsoleUninit();
 	GlobalMenuUninit();
@@ -503,7 +501,7 @@ int CJabberProto::Authorize(HANDLE hDbEvent)
 			if ((hContact = AddToListByJID(newJid, 0)) != NULL) {
 				// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 				// See AddToListByJID() and JabberDbSettingChanged().
-				DBDeleteContactSetting(hContact, "CList", "NotOnList");
+				db_unset(hContact, "CList", "NotOnList");
 	}	}	}
 
 	mir_free(newJid);

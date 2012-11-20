@@ -480,7 +480,7 @@ INT_PTR __cdecl CJabberProto::JGetAdvancedStatusIcon(WPARAM wParam, LPARAM)
 		return -1;
 
 	int iID = GetTransportProtoID(dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	if (iID >= 0) {
 		WORD Status = ID_STATUS_OFFLINE;
 		Status = JGetWord(hContact, "Status", ID_STATUS_OFFLINE);

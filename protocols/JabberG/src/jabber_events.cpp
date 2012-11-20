@@ -188,7 +188,7 @@ void __cdecl CJabberProto::OnAddContactForever(DBCONTACTWRITESETTING* cws, HANDL
 	SendGetVcard(jid.ptszVal);
 
 	mir_free(nick);
-	DBDeleteContactSetting(hContact, "CList", "Hidden");
+	db_unset(hContact, "CList", "Hidden");
 	db_free(&jid);
 }
 

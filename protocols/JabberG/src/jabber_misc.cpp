@@ -77,7 +77,7 @@ static void JabberContactListCreateClistGroup(TCHAR* groupName)
 
 	for (i=0;;i++) {
 		_itoa(i, str, 10);
-		if (DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
+		if ( DBGetContactSettingTString(NULL, "CListGroups", str, &dbv))
 			break;
 		TCHAR* name = dbv.ptszVal;
 		if (name[0]!='\0' && !_tcscmp(name+1, groupName)) {

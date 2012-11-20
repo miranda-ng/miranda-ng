@@ -388,7 +388,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 		DBVARIANT dbvMessage;
 		if ( !DBGetContactSettingTString(NULL, m_szModuleName, "GcMsgQuit", &dbvMessage)) {
 			szMessage = NEWTSTR_ALLOCA(dbvMessage.ptszVal);
-			DBFreeVariant(&dbvMessage);
+			db_free(&dbvMessage);
 		}
 		else szMessage = TranslateTS(JABBER_GC_MSG_QUIT);
 	}
@@ -399,7 +399,7 @@ void CJabberProto::GcQuit(JABBER_LIST_ITEM* item, int code, HXML reason)
 		CallServiceSync(MS_GC_EVENT, SESSION_OFFLINE, (LPARAM)&gce);
 	}
 
-	DBDeleteContactSetting(HContactFromJID(item->jid), "CList", "Hidden");
+	db_unset(HContactFromJID(item->jid), "CList", "Hidden");
 	item->bChatActive = FALSE;
 
 	if (m_bJabberOnline) {
@@ -1109,7 +1109,7 @@ static void sttNickListHook(CJabberProto* ppro, JABBER_LIST_ITEM* item, GCHOOK* 
 					<< XCHILD(_T("body"), buf));
 
 			if (szMessage == dbv.ptszVal)
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 		}
 		break;
 	}

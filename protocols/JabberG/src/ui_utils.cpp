@@ -2395,7 +2395,7 @@ CDbLink::~CDbLink()
 	mir_free(m_szSetting);
 	mir_free(m_szDefault);
 	if (dbv.type != DBVT_DELETED)
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 }
 
 DWORD CDbLink::LoadUnsigned()
@@ -2429,7 +2429,7 @@ void CDbLink::SaveInt(DWORD value)
 
 TCHAR* CDbLink::LoadText()
 {
-	if (dbv.type != DBVT_DELETED) DBFreeVariant(&dbv);
+	if (dbv.type != DBVT_DELETED) db_free(&dbv);
 	if ( !DBGetContactSettingTString(NULL, m_szModule, m_szSetting, &dbv))
 	{
 		if (dbv.type == DBVT_TCHAR)

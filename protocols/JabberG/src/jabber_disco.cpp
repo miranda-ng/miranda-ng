@@ -1461,7 +1461,7 @@ void CJabberProto::ServiceDiscoveryShowMenu(CJabberSDNode *pNode, HTREELISTITEM 
 		case SD_ACT_ROSTER:
 		{
 			HANDLE hContact = DBCreateContact(pNode->GetJid(), pNode->GetName(), FALSE, FALSE);
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 			JABBER_LIST_ITEM* item = ListAdd(LIST_VCARD_TEMP, pNode->GetJid());
 			item->bUseResource = TRUE;
 			break;

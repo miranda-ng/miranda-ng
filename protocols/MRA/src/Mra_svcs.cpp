@@ -875,69 +875,65 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	INT_PTR iRet = 1;
 	HANDLE hContact = (HANDLE)wParam;
 	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
-	if (pData->cbSize >= sizeof(CUSTOM_STATUS)) {
-		DWORD dwXStatus;
+	if (pData->cbSize < sizeof(CUSTOM_STATUS))
+		return 1;
 
-		iRet = 0;
+	// fill status member
+	if (pData->flags & CSSF_MASK_STATUS)
+		*pData->status = m_iXStatus;
 
-		// fill status member
-		if (pData->flags & CSSF_MASK_STATUS)
-			*pData->status = m_iXStatus;
+	// fill status name member
+	if (pData->flags & CSSF_MASK_NAME) {
+		if (pData->flags & CSSF_DEFAULT_NAME) {
+			DWORD dwXStatus = (pData->wParam == NULL) ? m_iXStatus : *pData->wParam;
+			if ( !IsXStatusValid(dwXStatus))
+				return 1;
 
-		// fill status name member
-		if (pData->flags & CSSF_MASK_NAME) {
-			if (pData->flags & CSSF_DEFAULT_NAME) {
-				dwXStatus = (pData->wParam == NULL) ? m_iXStatus : *pData->wParam;
-				if ( IsXStatusValid(dwXStatus)) {
-					if (pData->flags & CSSF_UNICODE)
-						lstrcpynW(pData->pwszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
-					else {
-						size_t dwStatusTitleSize = lstrlenW( lpcszXStatusNameDef[dwXStatus] );
-						if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
-
-						WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL );
-						(*((CHAR*)(pData->pszName+dwStatusTitleSize))) = 0;
-					}
-				}
-				else iRet = 1;
-			}
-			else {
-				if (pData->flags & CSSF_UNICODE)
-					mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, pData->pwszName, (STATUS_TITLE_MAX+1), NULL);
-				else
-					mraGetStaticStringA(hContact, DBSETTING_XSTATUSNAME, pData->pszName, (STATUS_TITLE_MAX+1), NULL);
-			}
-		}
-
-		// fill status message member
-		if (pData->flags & CSSF_MASK_MESSAGE) {
-			char szSetting[100];
-			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", m_iXStatus);
 			if (pData->flags & CSSF_UNICODE)
-				mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
-			else
-				mraGetStaticStringA(hContact, szSetting, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
+				lstrcpynW(pData->pwszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
+			else {
+				size_t dwStatusTitleSize = lstrlenW( lpcszXStatusNameDef[dwXStatus] );
+				if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
+
+				WideCharToMultiByte(MRA_CODE_PAGE, 0, lpcszXStatusNameDef[dwXStatus], (DWORD)dwStatusTitleSize, pData->pszName, MAX_PATH, NULL, NULL );
+				(*((CHAR*)(pData->pszName+dwStatusTitleSize))) = 0;
+			}
 		}
-
-		if (pData->flags & CSSF_DISABLE_UI)
-			if (pData->wParam)
-				*pData->wParam = bHideXStatusUI;
-
-		if (pData->flags & CSSF_STATUSES_COUNT)
-			if (pData->wParam)
-				*pData->wParam = MRA_XSTATUS_COUNT-1;
-
-		//**deb можно оптимизировать, данный параметр возможно уже был вычислен при получении самих текстов
-		if (pData->flags & CSSF_STR_SIZES) {
-			if (pData->wParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, NULL, 0, (size_t*)pData->wParam);
-			if (pData->lParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, NULL, 0, (size_t*)pData->lParam);
+		else {
+			if (pData->flags & CSSF_UNICODE)
+				mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, pData->pwszName, (STATUS_TITLE_MAX+1), NULL);
+			else
+				mraGetStaticStringA(hContact, DBSETTING_XSTATUSNAME, pData->pszName, (STATUS_TITLE_MAX+1), NULL);
 		}
 	}
-	return iRet;
+
+	// fill status message member
+	if (pData->flags & CSSF_MASK_MESSAGE) {
+		char szSetting[100];
+		mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", m_iXStatus);
+		if (pData->flags & CSSF_UNICODE)
+			mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
+		else
+			mraGetStaticStringA(hContact, szSetting, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
+	}
+
+	if (pData->flags & CSSF_DISABLE_UI)
+		if (pData->wParam)
+			*pData->wParam = bHideXStatusUI;
+
+	if (pData->flags & CSSF_STATUSES_COUNT)
+		if (pData->wParam)
+			*pData->wParam = MRA_XSTATUS_COUNT-1;
+
+	//**deb можно оптимизировать, данный параметр возможно уже был вычислен при получении самих текстов
+	if (pData->flags & CSSF_STR_SIZES) {
+		if (pData->wParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSNAME, NULL, 0, (size_t*)pData->wParam);
+		if (pData->lParam) mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, NULL, 0, (size_t*)pData->lParam);
+	}
+	return 0;
 }
 
 INT_PTR CMraProto::MraGetXStatusIcon(WPARAM wParam, LPARAM lParam)

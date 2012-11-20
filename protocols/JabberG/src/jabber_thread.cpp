@@ -911,7 +911,7 @@ void CJabberProto::OnProcessSuccess(HXML node, ThreadData* info)
 		}
 
 		Log("Success: Logged-in.");
-		if (DBGetContactSettingString(NULL, m_szModuleName, "Nick", &dbv))
+		if ( DBGetContactSettingString(NULL, m_szModuleName, "Nick", &dbv))
 			JSetStringT(NULL, "Nick", info->username);
 		else
 			db_free(&dbv);
@@ -1570,7 +1570,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 		if (item->itemResource.statusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", item->itemResource.statusMessage);
 		else
-			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+			db_unset(hContact, "CList", "StatusMsg");
 	}
 
 	// Determine status to show for the contact based on the remaining resources
@@ -1594,7 +1594,7 @@ void CJabberProto::UpdateJidDbSettings(const TCHAR *jid)
 		if (item->resource[nSelectedResource].statusMessage)
 			db_set_ts(hContact, "CList", "StatusMsg", item->resource[nSelectedResource].statusMessage);
 		else
-			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+			db_unset(hContact, "CList", "StatusMsg");
 		UpdateMirVer(hContact, &item->resource[nSelectedResource]);
 	}
 	else JDeleteSetting(hContact, DBSETTING_DISPLAY_UID);
@@ -1799,7 +1799,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 					if ((hContact=AddToListByJID(from, 0)) != NULL) {
 						// Trigger actual add by removing the "NotOnList" added by AddToListByJID()
 						// See AddToListByJID() and JabberDbSettingChanged().
-						DBDeleteContactSetting(hContact, "CList", "NotOnList");
+						db_unset(hContact, "CList", "NotOnList");
 			}	}	}
 			RebuildInfoFrame();
 		}

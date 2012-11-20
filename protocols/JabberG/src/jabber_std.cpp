@@ -67,7 +67,7 @@ HANDLE CJabberProto::JForkThreadEx(JThreadFunc pFunc, void *param, UINT* threadI
 
 void CJabberProto::JDeleteSetting(HANDLE hContact, const char* valueName)
 {
-   DBDeleteContactSetting(hContact, m_szModuleName, valueName);
+   db_unset(hContact, m_szModuleName, valueName);
 }
 /*
 DWORD CJabberProto::JGetByte(const char* valueName, int parDefltValue)
@@ -220,14 +220,14 @@ TCHAR* CJabberProto::JGetStringCrypt(HANDLE hContact, char *valueName)
 {
 	DBVARIANT dbv;
 
-	if (DBGetContactSettingString(hContact, m_szModuleName, valueName, &dbv))
+	if ( DBGetContactSettingString(hContact, m_szModuleName, valueName, &dbv))
 		return NULL;
 
 	sttCryptString(dbv.pszVal);
 	WCHAR *res = mir_utf8decodeW(dbv.pszVal);
 
 
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return res;
 }
 

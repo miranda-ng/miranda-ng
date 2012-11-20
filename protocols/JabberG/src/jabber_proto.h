@@ -261,9 +261,6 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 	JABBER_MODEMSGS m_modeMsgs;
 	BOOL m_bModeMsgStatusChangePending;
 
-	HANDLE m_hHookExtraIconsRebuild;
-	HANDLE m_hHookExtraIconsApply;
-
 	BOOL   m_bChangeStatusMessageOnly;
 	BOOL   m_bSendKeepAlive;
 	BOOL   m_bPepSupported;
@@ -956,6 +953,7 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 
 	INT_PTR    __cdecl OnSetListeningTo(WPARAM wParam, LPARAM lParams);
 	INT_PTR    __cdecl OnGetXStatusIcon(WPARAM wParam, LPARAM lParams);
+	INT_PTR    __cdecl OnGetXStatusEx(WPARAM wParam, LPARAM lParams);
 	INT_PTR    __cdecl OnSetXStatusEx(WPARAM wParam, LPARAM lParams);
 
 	HICON  GetXStatusIcon(int bStatus, UINT flags);
@@ -969,7 +967,6 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 	BOOL   SendPepTune(TCHAR* szArtist, TCHAR* szLength, TCHAR* szSource, TCHAR* szTitle, TCHAR* szTrack, TCHAR* szUri);
 
 	void   XStatusInit(void);
-	void   XStatusUninit(void);
 
 	void   SetContactTune(HANDLE hContact,  LPCTSTR szArtist, LPCTSTR szLength, LPCTSTR szSource, LPCTSTR szTitle, LPCTSTR szTrack);
 

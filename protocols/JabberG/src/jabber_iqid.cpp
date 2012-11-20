@@ -458,13 +458,13 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 				if (lstrcmp(nick, dbNick.ptszVal) != 0)
 					db_set_ts(hContact, "CList", "MyHandle", nick);
 				else
-					DBDeleteContactSetting(hContact, "CList", "MyHandle");
+					db_unset(hContact, "CList", "MyHandle");
 
 				db_free(&dbNick);
 			}
 			else db_set_ts(hContact, "CList", "MyHandle", nick);
 		}
-		else DBDeleteContactSetting(hContact, "CList", "MyHandle");
+		else db_unset(hContact, "CList", "MyHandle");
 
 		if (JGetByte(hContact, "ChatRoom", 0)) {
 			GCSESSION gcw = {0};
@@ -481,7 +481,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 
 			CallServiceSync(MS_GC_NEWSESSION, 0, (LPARAM)&gcw);
 
-			DBDeleteContactSetting(hContact, "CList", "Hidden");
+			db_unset(hContact, "CList", "Hidden");
 			chatRooms.insert(hContact);
 		} else
 		{
@@ -502,7 +502,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 				else db_set_ts(hContact, "CList", "Group", item->group);
 			}
 			else 
-				DBDeleteContactSetting(hContact, "CList", "Group");
+				db_unset(hContact, "CList", "Group");
 		}
 
 		if (hContact != NULL) {
@@ -1111,7 +1111,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 				else {
 					char text[ 100 ];
 					sprintf(text, "e-mail%d", nEmail-1);
-					if (DBGetContactSettingString(hContact, m_szModuleName, text, &dbv)) break;
+					if ( DBGetContactSettingString(hContact, m_szModuleName, text, &dbv)) break;
 					db_free(&dbv);
 					JDeleteSetting(hContact, text);
 				}
@@ -1122,7 +1122,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "e-mail%d", nEmail);
-				if (DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
+				if ( DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				JDeleteSetting(NULL, text);
 				sprintf(text, "e-mailFlag%d", nEmail);
@@ -1155,7 +1155,7 @@ void CJabberProto::OnIqResultGetVcard(HXML iqNode)
 			while (true) {
 				char text[ 100 ];
 				sprintf(text, "Phone%d", nPhone);
-				if (DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
+				if ( DBGetContactSettingString(NULL, m_szModuleName, text, &dbv)) break;
 				db_free(&dbv);
 				JDeleteSetting(NULL, text);
 				sprintf(text, "PhoneFlag%d", nPhone);

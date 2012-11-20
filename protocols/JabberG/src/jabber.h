@@ -167,6 +167,8 @@ protected:
 #define WM_JABBER_ADD_TO_BOOKMARKS     (WM_PROTO_LAST + 116)
 #define WM_JABBER_REFRESH_VCARD        (WM_PROTO_LAST + 117)
 
+#define STATUS_TITLE_MAX 16
+#define STATUS_DESC_MAX  64
 
 // Error code
 #define JABBER_ERROR_REDIRECT                    302

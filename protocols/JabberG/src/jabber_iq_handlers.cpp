@@ -606,13 +606,13 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 							if (_tcscmp(nick, dbnick.ptszVal) != 0)
 								db_set_ts(hContact, "CList", "MyHandle", nick);
 							else
-								DBDeleteContactSetting(hContact, "CList", "MyHandle");
+								db_unset(hContact, "CList", "MyHandle");
 
 							db_free(&dbnick);
 						}
 						else db_set_ts(hContact, "CList", "MyHandle", nick);
 					}
-					else DBDeleteContactSetting(hContact, "CList", "MyHandle");
+					else db_unset(hContact, "CList", "MyHandle");
 
 					if ( !m_options.IgnoreRosterGroups)
 					{
@@ -621,7 +621,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 							db_set_ts(hContact, "CList", "Group", item->group);
 						}
 						else 
-							DBDeleteContactSetting(hContact, "CList", "Group");
+							db_unset(hContact, "CList", "Group");
 					}
 				}
 				mir_free(nick);
@@ -642,7 +642,7 @@ BOOL CJabberProto::OnRosterPushRequest(HXML, CJabberIqInfo *pInfo)
 					ListRemove(LIST_ROSTER, jid);
 			}	}
 			else if (JGetByte(hContact, "ChatRoom", 0))
-				DBDeleteContactSetting(hContact, "CList", "Hidden");
+				db_unset(hContact, "CList", "Hidden");
 			else
 				UpdateSubscriptionInfo(hContact, item);
 	}	}

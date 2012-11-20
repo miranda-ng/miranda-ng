@@ -145,7 +145,7 @@ public:
 		if ( !DBGetContactSettingTString(NULL, m_proto->m_szModuleName, m_szSetting, &dbv))
 		{
 			result = dbv.ptszVal;
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		return result;
 	}
