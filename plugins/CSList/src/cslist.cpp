@@ -254,21 +254,22 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)protoName);
 	if (pdescr == NULL)
 		return;
+
+	char szService[100];
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", pdescr->szProtoName, PS_SETCUSTOMSTATUSEX);
 	int statusToSet = -1;
-	if (lstrcmpA(pdescr->szProtoName, "ICQ") == 0)
-	{
+
+	if ( ServiceExists(szService)) {
 		CUSTOM_STATUS ics = {0};
 		ics.cbSize = sizeof(CUSTOM_STATUS);
 		ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_TCHAR;
 
-		if (code == IDC_CANCEL)
-		{
+		if (code == IDC_CANCEL) {
 			statusToSet = 0;
 			ics.ptszName = _T("");
 			ics.ptszMessage = _T("");
 		}
-		else if (code == IDOK && item != NULL)
-		{
+		else if (code == IDOK && item != NULL) {
 			statusToSet = item->iIcon + 1;
 			ics.ptszName = variables_parsedup(item->tszTitle, NULL, NULL);
 			ics.ptszMessage = variables_parsedup(item->tszMessage, NULL, NULL);
@@ -277,37 +278,11 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 
 		ics.status = &statusToSet;
 
-		char protoService[64];
-		mir_snprintf(protoService, SIZEOF(protoService), "%s%s", protoName, PS_SETCUSTOMSTATUSEX);
-		CallService(protoService, 0, (LPARAM)&ics);
-	}
-	if (lstrcmpA(pdescr->szProtoName, "JABBER") == 0)
-	{
-		JABBER_CUSTOM_STATUS ics = {0};
-		ics.cbSize = sizeof(CUSTOM_STATUS);
-		ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_TCHAR;
-
-		if (code == IDC_CANCEL)
-		{
-			statusToSet = 0;
-			ics.ptszMessage = _T("");
-		}
-		else if (code == IDOK && item != NULL)
-		{
-			statusToSet = item->iIcon + 1;
-			ics.ptszMessage = variables_parsedup(item->tszMessage, NULL, NULL);
-		}
-		else return;
-
-		ics.status = &statusToSet;
-
-		char protoService[64];
-		mir_snprintf(protoService, SIZEOF(protoService), "%s%s", protoName, JS_SETXSTATUSEX);
-		CallService(protoService, 0, (LPARAM)&ics);
+		CallService(szService, 0, (LPARAM)&ics);
 	}
 }
 
-void CSList::initIcoLib( )
+void CSList::initIcoLib()
 {
 	// init icons of buttons
 	TCHAR tszFile[MAX_PATH];
@@ -320,7 +295,7 @@ void CSList::initIcoLib( )
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = _T(MODULENAME);
 
-	for (int i=0; i < SIZEOF(forms); i++ ) {
+	for (int i=0; i < SIZEOF(forms); i++) {
 		char szSettingName[64];
 		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, forms[i].pszIconIcoLib );
 
@@ -1208,39 +1183,34 @@ INT_PTR CALLBACK CSAMWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM 
 {
 	CSAMWindow* csamw = ( CSAMWindow* )GetWindowLongPtr( hwnd, GWLP_USERDATA );
 
-	switch ( message )
-	{
+	switch ( message ) {
+	case WM_INITDIALOG:
+		{
+			csamw = ( CSAMWindow* )lparam;
+			SetWindowLongPtr( hwnd, GWLP_USERDATA, lparam );
+			csamw->handle = hwnd;
+			EnableWindow( csamw->parent->handle, FALSE );
+			csamw->hCombo = GetDlgItem( hwnd, IDC_COMBO );
+			csamw->hMessage = GetDlgItem( hwnd, IDC_MESSAGE );
+			csamw->setCombo();
+			csamw->fillDialog();
+			TranslateDialogDefault(hwnd);
+		}
+		break;
 
-		case WM_INITDIALOG:
-			{
-				csamw = ( CSAMWindow* )lparam;
-				SetWindowLongPtr( hwnd, GWLP_USERDATA, lparam );
-				csamw->handle = hwnd;
-				EnableWindow( csamw->parent->handle, FALSE );
-				csamw->hCombo = GetDlgItem( hwnd, IDC_COMBO );
-				csamw->hMessage = GetDlgItem( hwnd, IDC_MESSAGE );
-				csamw->setCombo();
-				csamw->fillDialog();
-				TranslateDialogDefault(hwnd);
-			}
+	case WM_COMMAND:
+		switch ( LOWORD( wparam )) {
+		case IDC_MESSAGE:
+			csamw->checkFieldLimit( HIWORD( wparam ), LOWORD( wparam ));
 			break;
-
-		case WM_COMMAND:
-			switch ( LOWORD( wparam ))
-			{
-			case IDC_MESSAGE:
-				csamw->checkFieldLimit( HIWORD( wparam ), LOWORD( wparam ));
-				break;
-			case IDOK:
-				csamw->checkItemValidity( );
-			case IDCANCEL:
-				EnableWindow( csamw->parent->handle, TRUE );
-				EndDialog( hwnd, LOWORD( wparam ));
-				break;
-
-			}
+		case IDOK:
+			csamw->checkItemValidity( );
+		case IDCANCEL:
+			EnableWindow( csamw->parent->handle, TRUE );
+			EndDialog( hwnd, LOWORD( wparam ));
 			break;
-
+		}
+		break;
 	}
 	return FALSE;
 }
@@ -1248,8 +1218,7 @@ INT_PTR CALLBACK CSAMWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM 
 
 INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam )
 {
-	switch ( message )
-	{
+	switch ( message ) {
 
 	case WM_INITDIALOG:
 		{
