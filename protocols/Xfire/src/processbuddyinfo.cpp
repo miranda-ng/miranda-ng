@@ -5,9 +5,9 @@
 
 
 /*
-DBWriteContactSettingTString(xsa->hContact, "ContactPhoto", "Backup", av.backup);
-DBWriteContactSettingTString(xsa->hContact, "ContactPhoto", "File", av.file);
-DBWriteContactSettingTString(xsa->hContact, "ContactPhoto", "RFile", av.rfile);
+DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "Backup", av.backup);
+DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "File", av.file);
+DBWriteContactSettingString(xsa->hContact, "ContactPhoto", "RFile", av.rfile);
 DBWriteContactSettingWord(xsa->hContact, "ContactPhoto", "Format", av.type);
 */
 
@@ -103,7 +103,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 			DBWriteContactSettingDword(NULL, protocolname, "XFireAvatarId", buddyinfo->avatarid);
 			DBWriteContactSettingByte(NULL, protocolname, "XFireAvatarMode", buddyinfo->avatarmode);
 			//neuen avatarfilepath eintragen
-			DBWriteContactSettingTString(NULL,protocolname, "MyAvatarFile",filename);
+			DBWriteContactSettingString(NULL,protocolname, "MyAvatarFile",filename);
 			//beshceid geben, avatar hat sich geändert
 			CallService(MS_AV_REPORTMYAVATARCHANGED,(WPARAM)protocolname,0);
 		}

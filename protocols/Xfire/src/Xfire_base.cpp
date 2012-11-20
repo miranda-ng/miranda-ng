@@ -136,7 +136,7 @@ void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,int id,char*val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
-	DBWriteContactSettingTString(NULL, protocolname, temp,val);
+	DBWriteContactSettingString(NULL, protocolname, temp,val);
 }
 
 //schreibt einen stringval in die db welche unterid hat
@@ -148,7 +148,7 @@ void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,char*val)
 
 	//wert aus der dblesen
 	sprintf_s(temp,128,"%s_%i",name,dbid);
-	DBWriteContactSettingTString(NULL, protocolname, temp,val);
+	DBWriteContactSettingString(NULL, protocolname, temp,val);
 }
 
 //schreibt einen bytewert in die db
