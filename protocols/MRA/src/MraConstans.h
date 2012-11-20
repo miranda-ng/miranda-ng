@@ -251,15 +251,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define DBSETTING_BLOGSTATUS      "BlogStatus"
 #define DBSETTING_BLOGSTATUSMUSIC "ListeningTo"
 
-#define CSSF_MASK_STATUS    0x0001  // status member valid for set/get
-#define CSSF_MASK_NAME      0x0002  // pszName member valid for set/get
-#define CSSF_MASK_MESSAGE   0x0004  // pszMessage member valid for set/get
-#define CSSF_DISABLE_UI     0x0040  // disable default custom status UI, wParam = bEnable
-#define CSSF_DEFAULT_NAME   0x0080  // only with CSSF_MASK_NAME and get API to get default custom status name (wParam = status)
-#define CSSF_STATUSES_COUNT 0x0100  // returns number of custom statuses in wParam, only get API
-#define CSSF_STR_SIZES      0x0200  // returns sizes of custom status name & message (wParam & lParam members) in chars
-#define CSSF_UNICODE        0x1000  // strings are in UCS-2
-
 extern const LPSTR  lpcszStatusUri[];
 extern const LPWSTR lpcszXStatusNameDef[];
 

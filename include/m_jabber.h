@@ -195,53 +195,6 @@ __forceinline IJabberInterface *getJabberApi(const char *szAccount)
 	return NULL;
 }
 
-/* Custom Status helper API *
-   DB settings and write values to them (UTF-8 strings best). (obsolete)
- - use JS_GETXSTATUSEX and JS_SETXSTATUSEX for controling Custom Status
- */
-#define CSSF_MASK_STATUS    0x0001  // status member valid for set/get
-#define CSSF_MASK_NAME      0x0002  // pszName member valid for set/get
-#define CSSF_MASK_MESSAGE   0x0004  // pszMessage member valid for set/get
-#define CSSF_DISABLE_MENU   0x0020  // disable default custom status menu, wParam = bEnable
-#define CSSF_DISABLE_UI     0x0040  // disable default custom status UI, wParam = bEnable
-#define CSSF_DEFAULT_NAME   0x0080  // only with CSSF_MASK_NAME and get API to get default custom status name (wParam = status)
-#define CSSF_STATUSES_COUNT 0x0100  // returns number of custom statuses in wParam, only get API
-#define CSSF_STR_SIZES      0x0200  // returns sizes of custom status name & message (wParam & lParam members) in chars
-#define CSSF_UNICODE        0x1000  // strings are in UCS-2
-
-#if defined(_UNICODE)
-  #define CSSF_TCHAR  CSSF_UNICODE
-#else
-  #define CSSF_TCHAR  0
-#endif
-
-typedef struct {
-  int cbSize;         // size of the structure
-  int flags;          // combination of CSSF_*
-  int *status;        // custom status id
-  union {
-    char *pszMessage; // buffer for custom status message
-    TCHAR *ptszMessage;
-    WCHAR *pwszMessage;
-  };
-  WPARAM *wParam;     // extra params, see flags
-  LPARAM *lParam;
-} JABBER_CUSTOM_STATUS;
-
-// Sets owner current custom status
-//wParam = 0                          // reserved
-//lParam = (JABBER_CUSTOM_STATUS*)pData  // contains what to set and new values
-//return = 0 (for success)
-#define JS_SETXSTATUSEX "/SetXStatusEx"
-
-// Retrieves custom status details for specified hContact
-//wParam = (HANDLE)hContact
-//lParam = (JABBER_CUSTOM_STATUS*)pData  // receives details (members must be prepared)
-//return = 0 (for success)
-
-// not needed anymore and therefore commented out
-//#define JS_GETXSTATUSEX "/GetXStatusEx"
-
 #endif // __cplusplus
 
 #endif // M_JABBER_H__

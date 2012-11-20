@@ -32,7 +32,6 @@
 
 #include <commonheaders.h>
 #include <m_findadd.h>
-#include <m_icq.h>
 #include "../cluiframes/cluiframes.h"
 #include "../coolsb/coolscroll.h"
 
@@ -1787,16 +1786,16 @@ buttons_done:
 						mir_snprintf(szBuffer, 128, "%s_conn", pd->RealName);
 						hIcon = Skin_GetIcon(szBuffer);
 					} else if (cfg::dat.bShowXStatusOnSbar && status > ID_STATUS_OFFLINE) {
-						ICQ_CUSTOM_STATUS cst = {0};
+						CUSTOM_STATUS cst = {0};
 						char szServiceName[128];
 						int xStatus;
 
-						mir_snprintf(szServiceName, 128, "%s%s", pd->RealName, PS_ICQ_GETCUSTOMSTATUSEX);
-						cst.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+						mir_snprintf(szServiceName, 128, "%s%s", pd->RealName, PS_GETCUSTOMSTATUSEX);
+						cst.cbSize = sizeof(CUSTOM_STATUS);
 						cst.flags = CSSF_MASK_STATUS;
 						cst.status = &xStatus;
 						if (ServiceExists(szServiceName) && !CallService(szServiceName, 0, (LPARAM)&cst) && xStatus > 0) {
-							hIcon = (HICON)CallProtoService(pd->RealName, PS_ICQ_GETCUSTOMSTATUSICON, 0, LR_SHARED);	// get OWN xStatus icon (if set)
+							hIcon = (HICON)CallProtoService(pd->RealName, PS_GETCUSTOMSTATUSICON, 0, LR_SHARED);	// get OWN xStatus icon (if set)
 						} else
 							hIcon = LoadSkinnedProtoIcon(szProto, status);
 					} else

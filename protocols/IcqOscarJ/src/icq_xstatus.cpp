@@ -974,39 +974,13 @@ INT_PTR CIcqProto::ShowXStatusDetails(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CIcqProto::SetXStatus(WPARAM wParam, LPARAM lParam)
-{
-	if (!m_bXStatusEnabled && !m_bMoodsEnabled)
-		return 0;
-
-	if (wParam >= 0 && wParam <= XSTATUS_COUNT) {
-		setXStatusEx((BYTE)wParam, 1);
-		return wParam;
-	}
-	return 0;
-}
-
-INT_PTR CIcqProto::GetXStatus(WPARAM wParam, LPARAM lParam)
-{
-	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 0;
-
-	if (!icqOnline()) return 0;
-
-	BYTE status = getContactXStatus(NULL);
-
-	if (wParam) *((char**)wParam) = m_bXStatusEnabled ? DBSETTING_XSTATUS_NAME : NULL;
-	if (lParam) *((char**)lParam) = DBSETTING_XSTATUS_MSG;
-
-	return status;
-}
-
 INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 1;
 
-	if (pData->cbSize < sizeof(ICQ_CUSTOM_STATUS)) return 1; // Failure
+	if (pData->cbSize < sizeof(CUSTOM_STATUS)) return 1; // Failure
 
 	if (pData->flags & CSSF_MASK_STATUS) { // set custom status
 		int status = *pData->status;
@@ -1052,12 +1026,12 @@ INT_PTR CIcqProto::SetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 	HANDLE hContact = (HANDLE)wParam;
 
 	if (!m_bXStatusEnabled && !m_bMoodsEnabled) return 1;
 
-	if (pData->cbSize < sizeof(ICQ_CUSTOM_STATUS)) return 1; // Failure
+	if (pData->cbSize < sizeof(CUSTOM_STATUS)) return 1; // Failure
 
 	// fill status member
 	if (pData->flags & CSSF_MASK_STATUS)
@@ -1066,7 +1040,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 	// fill status name member
 	if (pData->flags & CSSF_MASK_NAME) {
 		if (pData->flags & CSSF_DEFAULT_NAME) {
-			int status = *pData->wParam;
+			int status = (pData->wParam == NULL) ? getContactXStatus(hContact) : *pData->wParam;
 			if (status < 1 || status > XSTATUS_COUNT)
 				return 1; // Failure
 

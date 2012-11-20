@@ -1443,22 +1443,22 @@ INT_PTR CALLBACK DlgProcXstatusList(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					hParent = TreeView_InsertItem(hwndTree, &tvis);
 					for(j = 0; j < XstatusListAux[i].count; j++) {
 						TCHAR szDefaultName[1024];
-						ICQ_CUSTOM_STATUS xstatus={0};
+						CUSTOM_STATUS xstatus={0};
 
 						tvis.hParent = hParent;
 						tvis.item.mask = TVIF_TEXT|TVIF_PARAM|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 						if (!j){
 							tvis.item.pszText = TranslateT("None"); }
 						else {
-							xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+							xstatus.cbSize = sizeof(CUSTOM_STATUS);
 							xstatus.flags = CSSF_MASK_NAME|CSSF_DEFAULT_NAME|CSSF_UNICODE;
 							xstatus.ptszName = szDefaultName;
 							xstatus.wParam = &j;
-							CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
+							CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
 							tvis.item.pszText = szDefaultName;
 						}
 						tvis.item.lParam = (LPARAM)j;
-						tvis.item.iImage = tvis.item.iSelectedImage = j?ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSICON, (WPARAM)j, 0)):0;
+						tvis.item.iImage = tvis.item.iSelectedImage = j?ImageList_AddIcon(hImageList, hIconAux=(HICON)CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSICON, (WPARAM)j, 0)):0;
 						if (hIconAux) DestroyIcon(hIconAux);
 						TreeView_InsertItem(hwndTree, &tvis);
 					}

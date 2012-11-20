@@ -205,7 +205,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 						// get advanced status icon
 						if (pwd->bIsIconVisible[1])
 						{
-							pwd->extraIcons[1].hIcon = (HICON)CallProtoService(pwd->clcit.szProto, PS_ICQ_GETCUSTOMSTATUSICON, 0, 0);
+							pwd->extraIcons[1].hIcon = (HICON)CallProtoService(pwd->clcit.szProto, PS_GETCUSTOMSTATUSICON, 0, 0);
 							pwd->extraIcons[1].bDestroy = true;
 						}
 					}
@@ -413,7 +413,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								DBFreeVariant(&dbv);
 							}
 
-							pwd->extraIcons[i].hIcon = (HICON)CallProtoService(szIconProto, PS_ICQ_GETCUSTOMSTATUSICON, (WPARAM)iXstatus, LR_SHARED);
+							pwd->extraIcons[i].hIcon = (HICON)CallProtoService(szIconProto, PS_GETCUSTOMSTATUSICON, (WPARAM)iXstatus, LR_SHARED);
 							pwd->extraIcons[i].bDestroy = false;	
 						}
 					}

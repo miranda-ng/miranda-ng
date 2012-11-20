@@ -146,9 +146,7 @@ struct CMraProto : public PROTO_INTERFACE, public MZeroedObject
 		return DB_GetContactSettingBlob(hContact, m_szModuleName, lpszValueName, lpbRet, dwRetBuffSize, pdwRetBuffSize); }
 
 	// ====| Services  |====================================================================
-	INT_PTR __cdecl MraSetXStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraSetXStatusEx(WPARAM, LPARAM);
-	INT_PTR __cdecl MraGetXStatus(WPARAM, LPARAM);
 	INT_PTR __cdecl MraGetXStatusEx(WPARAM, LPARAM);
 	INT_PTR __cdecl MraGetXStatusIcon(WPARAM, LPARAM);
 	INT_PTR __cdecl MraXStatusMenu(WPARAM, LPARAM, LPARAM param);

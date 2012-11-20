@@ -257,8 +257,8 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 	int statusToSet = -1;
 	if (lstrcmpA(pdescr->szProtoName, "ICQ") == 0)
 	{
-		ICQ_CUSTOM_STATUS ics = {0};
-		ics.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+		CUSTOM_STATUS ics = {0};
+		ics.cbSize = sizeof(CUSTOM_STATUS);
 		ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_TCHAR;
 
 		if (code == IDC_CANCEL)
@@ -278,13 +278,13 @@ void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
 		ics.status = &statusToSet;
 
 		char protoService[64];
-		mir_snprintf(protoService, SIZEOF(protoService), "%s%s", protoName, PS_ICQ_SETCUSTOMSTATUSEX);
+		mir_snprintf(protoService, SIZEOF(protoService), "%s%s", protoName, PS_SETCUSTOMSTATUSEX);
 		CallService(protoService, 0, (LPARAM)&ics);
 	}
 	if (lstrcmpA(pdescr->szProtoName, "JABBER") == 0)
 	{
 		JABBER_CUSTOM_STATUS ics = {0};
-		ics.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+		ics.cbSize = sizeof(CUSTOM_STATUS);
 		ics.flags = CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_TCHAR;
 
 		if (code == IDC_CANCEL)

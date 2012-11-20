@@ -130,11 +130,17 @@ int Protocol::GetStatus()
 		data_changed = true;
 
 	// check if protocol supports custom status
-	if (ProtoServiceExists(name, PS_ICQ_GETCUSTOMSTATUS))
+	CUSTOM_STATUS css = { sizeof(css) };
+	if ( ProtoServiceExists(name, PS_GETCUSTOMSTATUSEX)) {
 		// check if custom status is set
-		custom_status = CallProtoService(name, PS_ICQ_GETCUSTOMSTATUS, (WPARAM) &custom_status_name, (LPARAM) &custom_status_message);
-	else
-		custom_status = 0;
+		css.flags = CSSF_TCHAR | CSSF_MASK_STATUS | CSSF_MASK_NAME | CSSF_MASK_MESSAGE | CSSF_DEFAULT_NAME;
+		css.status = &custom_status;
+		css.ptszName = status_name;
+		css.ptszMessage = status_message;
+		if ( CallProtoService(name, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&css) != 0)
+			status_message[0] = status_name[0] = 0, custom_status = 0;
+	}
+	else custom_status = 0;
 
 	// if protocol supports custom status, but it is not set (custom_status will be -1), show normal status
 	if (custom_status < 0) custom_status = 0;
@@ -142,35 +148,24 @@ int Protocol::GetStatus()
 	if (custom_status == 0) {
 		TCHAR *tmp = (TCHAR*) CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 		lcopystr(status_name, tmp, SIZEOF(status_name));
-	} else {
-		DBVARIANT dbv;
+	}
+	else {
 		TCHAR tmp[256]; tmp[0] = 0;
 
-		if (custom_status_name != NULL && custom_status_name[0] != '\0' && !DBGetContactSettingTString(0, name, custom_status_name, &dbv)) {
-			if (dbv.ptszVal != NULL && dbv.ptszVal[0] != _T('\0'))
-				lstrcpyn(tmp, dbv.ptszVal, SIZEOF(tmp));
-			else
-				lstrcpyn(tmp, TranslateT("<no status name>"), SIZEOF(tmp));
-
-			DBFreeVariant(&dbv);
-		} else {
+		if (status_name[0] != '\0')
+			lstrcpyn(tmp, status_name, SIZEOF(tmp));
+		else
 			lstrcpyn(tmp, TranslateT("<no status name>"), SIZEOF(tmp));
-		}
 
-		if (custom_status_message != NULL && custom_status_message[0] != '\0' && !DBGetContactSettingTString(0, name, custom_status_message, &dbv)) {
-			if (dbv.ptszVal != NULL && dbv.ptszVal[0] != '\0') {
-				int len = lstrlen(tmp);
+		if (status_message[0] != '\0') {
+			int len = lstrlen(tmp);
+			if (len < SIZEOF(tmp))
+				lstrcpyn(&tmp[len], _T(": "), SIZEOF(tmp) - len);
 
-				if (len < SIZEOF(tmp))
-					lstrcpyn(&tmp[len], _T(": "), SIZEOF(tmp) - len);
+			len += 2;
 
-				len += 2;
-
-				if (len < SIZEOF(tmp))
-					lstrcpyn(&tmp[len], dbv.ptszVal, SIZEOF(tmp) - len);
-			}
-
-			DBFreeVariant(&dbv);
+			if (len < SIZEOF(tmp))
+				lstrcpyn(&tmp[len], status_message, SIZEOF(tmp) - len);
 		}
 
 		lcopystr(status_name, tmp, SIZEOF(status_name));
@@ -450,7 +445,7 @@ TCHAR * Protocol::GetListeningTo()
 	}
 
 	lcopystr(listening_to, dbv.ptszVal, SIZEOF(listening_to));
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return listening_to;
 }
 
@@ -604,7 +599,7 @@ void ProtocolArray::GetDefaultNick()
 	DBVARIANT dbv;
 	if ( !DBGetContactSettingTString(0, MODULE_NAME, SETTING_DEFAULT_NICK, &dbv)) {
 		lstrcpyn(default_nick, dbv.ptszVal, SIZEOF(default_nick));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else default_nick[0] = '\0';
 }
@@ -614,7 +609,7 @@ void ProtocolArray::GetDefaultAvatar()
 	DBVARIANT dbv;
 	if ( !DBGetContactSettingTString(0, "ContactPhoto", "File", &dbv)) {
 		lstrcpyn(default_avatar_file, dbv.ptszVal, SIZEOF(default_avatar_file));
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else default_avatar_file[0] = '\0';
 }

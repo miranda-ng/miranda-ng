@@ -51,7 +51,7 @@ Boston, MA 02111-1307, USA.
 #include <m_variables.h>
 #include <m_avatars.h>
 #include <m_statusplugins.h>
-#include <m_icq.h>
+#include <m_xstatus.h>
 #include <m_icolib.h>
 #include "m_cluiframes.h"
 #include "m_simpleaway.h"

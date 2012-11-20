@@ -451,26 +451,24 @@ BOOL checkGlobalStatus()
 
 BOOL checkGlobalXstatus()
 {
-	ICQ_CUSTOM_STATUS xstatus={0};
-	int i, protosSupporting, status=0;
+	int protosSupporting=0, status=0;
 
-	for(i=0, protosSupporting=0; i < ProtoList.protoCount; i++) {
-		if (!ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count) continue;
+	for (int i=0; i < ProtoList.protoCount; i++) {
+		if ( !ProtoList.protoInfo[i].enabled || !ProtoList.protoInfo[i].xstatus.count)
+			continue;
 
 		protosSupporting++;
 		// Retrieve xstatus for protocol
-		xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+		CUSTOM_STATUS xstatus = { sizeof(CUSTOM_STATUS) };
 		xstatus.flags = CSSF_MASK_STATUS;
 		xstatus.status = &status;
-		CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
+		CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
 
-		if (ProtoList.protoInfo[i].xstatus.enabled[status]) return TRUE;
+		if (ProtoList.protoInfo[i].xstatus.enabled[status])
+			return TRUE;
 	}
 
-	if (!protosSupporting)
-		return TRUE;
-	else
-		return FALSE;
+	return protosSupporting == 0;
 }
 
 
@@ -676,7 +674,7 @@ BOOL checkStatus(char *szProto)
 BOOL checkXstatus(char *szProto)
 {
 	int status=0;
-	ICQ_CUSTOM_STATUS xstatus={0};
+	CUSTOM_STATUS xstatus={0};
 
 	if (!szProto)
 		return checkGlobalXstatus();
@@ -686,10 +684,10 @@ BOOL checkXstatus(char *szProto)
 			if (!ProtoList.protoInfo[i].xstatus.count) return TRUE;
 
 			// Retrieve xstatus for protocol
-			xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+			xstatus.cbSize = sizeof(CUSTOM_STATUS);
 			xstatus.flags = CSSF_MASK_STATUS;
 			xstatus.status = &status;
-			CallProtoService(ProtoList.protoInfo[i].szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
+			CallProtoService(ProtoList.protoInfo[i].szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
 
 			return ProtoList.protoInfo[i].xstatus.enabled[status];
 		}
@@ -962,16 +960,16 @@ void updateXstatusProto(PROTOCOL_INFO *protoInfo)
 {
 	unsigned int i;
 	char szServiceName[MAXMODULELABELLENGTH];
-	ICQ_CUSTOM_STATUS xstatus={0};
+	CUSTOM_STATUS xstatus={0};
 
-	mir_snprintf(szServiceName, sizeof(szServiceName), "%s%s", protoInfo->szProto, PS_ICQ_GETCUSTOMSTATUSEX);
+	mir_snprintf(szServiceName, sizeof(szServiceName), "%s%s", protoInfo->szProto, PS_GETCUSTOMSTATUSEX);
 	if (!ServiceExists(szServiceName)) return;
 
 	// Retrieve xstatus.count
-	xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+	xstatus.cbSize = sizeof(CUSTOM_STATUS);
 	xstatus.flags = CSSF_STATUSES_COUNT;
 	xstatus.wParam = &(protoInfo->xstatus.count);
-	CallProtoService(protoInfo->szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
+	CallProtoService(protoInfo->szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus);
 	(protoInfo->xstatus.count)++;	// Don't forget about xstatus=0 (None)
 
 	// Alloc and initiailize xstatus.enabled array

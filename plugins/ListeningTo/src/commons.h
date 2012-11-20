@@ -56,7 +56,7 @@ Boston, MA 02111-1307, USA.
 #include <m_radio.h>
 #include <m_toptoolbar.h>
 #include <m_icolib.h>
-#include <m_icq.h>
+#include <m_xstatus.h>
 #include <m_variables.h>
 #include <m_clui.h>
 #include <m_cluiframes.h>

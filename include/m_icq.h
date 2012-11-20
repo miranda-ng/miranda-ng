@@ -177,81 +177,6 @@ typedef struct {
 //uin is the UIN of the contact requesting our status message
 #define ME_ICQ_STATUSMSGREQ      "/StatusMsgReq"
 
-
-
-/* Custom Status helper API *
- - to set custom status message & title use PS_ICQ_GETCUSTOMSTATUS to obtain
-   DB settings and write values to them (UTF-8 strings best). (obsolete)
- - use PS_ICQ_GETCUSTOMSTATUSEX and PS_ICQ_SETCUSTOMSTATUSEX for controling Custom Status
- - custom messages for each user supported - ME_ICQ_STATUSMSGREQ with type MTYPE_SCRIPT_NOTIFY
- */
-#define CSSF_MASK_STATUS    0x0001  // status member valid for set/get
-#define CSSF_MASK_NAME      0x0002  // pszName member valid for set/get
-#define CSSF_MASK_MESSAGE   0x0004  // pszMessage member valid for set/get
-#define CSSF_DISABLE_MENU   0x0020  // disable default custom status menu, wParam = bEnable
-#define CSSF_DISABLE_UI     0x0040  // disable default custom status UI, wParam = bEnable
-#define CSSF_DEFAULT_NAME   0x0080  // only with CSSF_MASK_NAME and get API to get default custom status name (wParam = status)
-#define CSSF_STATUSES_COUNT 0x0100  // returns number of custom statuses in wParam, only get API
-#define CSSF_STR_SIZES      0x0200  // returns sizes of custom status name & message (wParam & lParam members) in chars
-#define CSSF_UNICODE        0x1000  // strings are in UCS-2
-
-#if defined(_UNICODE)
-  #define CSSF_TCHAR  CSSF_UNICODE
-#else
-  #define CSSF_TCHAR  0
-#endif
-
-
-typedef struct {
-  int cbSize;         // size of the structure
-  int flags;          // combination of CSSF_*
-  int *status;        // custom status id
-  union {
-	  char *pszName;    // buffer for custom status name
-	  TCHAR *ptszName;
-	  WCHAR *pwszName;
-  };
-  union {
-	  char *pszMessage; // buffer for custom status message
-	  TCHAR *ptszMessage;
-	  WCHAR *pwszMessage;
-  };
-  WPARAM *wParam;     // extra params, see flags
-  LPARAM *lParam;
-} ICQ_CUSTOM_STATUS;
-
-// Sets owner current custom status (obsolete)
-//wParam = (int)N   // custom status id (1-32)
-//lParam = 0
-//return = N (id of status set) or 0 (failed - probably bad params)
-#define PS_ICQ_SETCUSTOMSTATUS "/SetXStatus"
-
-// Sets owner current custom status
-//wParam = 0                          // reserved
-//lParam = (ICQ_CUSTOM_STATUS*)pData  // contains what to set and new values
-//return = 0 (for success)
-#define PS_ICQ_SETCUSTOMSTATUSEX "/SetXStatusEx"
-
-// Retrieves custom status details for specified hContact
-//wParam = (HANDLE)hContact
-//lParam = (ICQ_CUSTOM_STATUS*)pData  // receives details (members must be prepared)
-//return = 0 (for success)
-#define PS_ICQ_GETCUSTOMSTATUSEX "/GetXStatusEx"
-
-#define LR_BIGICON 0x40
-
-// Retrieves specified custom status icon
-//wParam = (int)N  // custom status id (1-32), 0 = my current custom status
-//lParam = flags   // use LR_SHARED for shared HICON, LR_BIGICON for 32x32 icon
-//return = HICON   // custom status icon (use DestroyIcon to release resources if not LR_SHARED)
-#define PS_ICQ_GETCUSTOMSTATUSICON "/GetXStatusIcon"
-
-// Get Custom status DB field names & current owner custom status (obsolete)
-//wParam = (char**)szDBTitle // will receive title DB setting name (do not free)
-//lParam = (char**)szDBMsg   // will receive message DB setting name
-//return = N  // current custom status id if successful, 0 otherwise
-#define PS_ICQ_GETCUSTOMSTATUS "/GetXStatus"
-
 // Request Custom status details (messages) for specified contact
 //wParam = hContact  // request custom status details for this contact
 //lParam = 0
@@ -259,11 +184,5 @@ typedef struct {
                              // 0 failed to request (e.g. auto-request enabled)
                              // -1 delayed (rate control) - sequence unknown
 #define PS_ICQ_REQUESTCUSTOMSTATUS "/RequestXStatusDetails"
-
-// Called from contact list in order to get index of custom status icon in list
-// wParam = hContact
-// lParam = 0
-// rerurn = (int)index of extra contact icon shifted <<16 (the low word will be normal status icon, the high will be xStatus Icon
-#define PS_ICQ_GETADVANCEDSTATUSICON "/GetAdvancedStatusIcon"
 
 #endif // M_ICQ_H__

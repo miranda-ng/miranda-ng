@@ -84,6 +84,7 @@
 #include <m_fontservice.h>
 #include <m_metacontacts.h>
 #include <m_cln_skinedit.h>
+#include <m_xstatus.h>
 #include <m_extraicons.h>
 
 #include "extbackg.h"

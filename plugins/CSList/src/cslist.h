@@ -69,7 +69,7 @@
 #include <m_icolib.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_icq.h>
+#include <m_xstatus.h>
 #include <m_jabber.h>
 #include <m_options.h>
 #include <m_hotkeys.h>

@@ -45,7 +45,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 	if ( !DBGetContactSettingTString(hContact, module, setting, &dbv))
 	{
 		lstrcpyn(out, dbv.ptszVal, (int)len);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 	{
@@ -146,7 +146,7 @@ static void LoadOpt(OptPageControl *ctrl, char *module)
 			if ( !DBGetContactSettingString(NULL, module, ctrl->setting, &dbv))
 			{
 				lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if (tmp[0] != 0)
@@ -281,7 +281,7 @@ INT_PTR CALLBACK SaveOptsDlgProc(OptPageControl *controls, int controlsSize, cha
 						DBVARIANT dbv = {0};
 						if ( !DBGetContactSettingString(NULL, module, ctrl->setting, &dbv)) {
 							lstrcpynA(tmp, dbv.pszVal, SIZEOF(tmp));
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 
 						if (tmp[0] != 0)

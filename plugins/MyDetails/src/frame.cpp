@@ -1287,18 +1287,13 @@ void Draw(HWND hwnd, HDC hdc_orig)
 		SelectClipRgn(hdc, rgn);
 
 		HICON status_icon;
-		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_ICQ_GETCUSTOMSTATUSICON))
-		{
-			status_icon = (HICON) CallProtoService(proto->name, PS_ICQ_GETCUSTOMSTATUSICON, proto->custom_status, 0);
-		}
+		if (proto->custom_status != 0 && ProtoServiceExists(proto->name, PS_GETCUSTOMSTATUSICON)) 
+			status_icon = (HICON) CallProtoService(proto->name, PS_GETCUSTOMSTATUSICON, proto->custom_status, 0);
 		else
-		{
 			status_icon = LoadSkinnedProtoIcon(proto->name, proto->status);
-		}
-		if (status_icon != NULL)
-		{
-			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, 
-						ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
+
+		if (status_icon != NULL) {
+			DrawIconEx(hdc, data->status_icon_rect.left, data->status_icon_rect.top, status_icon, ICON_SIZE, ICON_SIZE, 0, NULL, DI_NORMAL);
 			DeleteObject(status_icon);
 		}
 		
@@ -2668,21 +2663,9 @@ int SettingsChangedHook(WPARAM wParam, LPARAM lParam)
 
 	if ((HANDLE)wParam == NULL)
 	{
-		Protocol *proto = protocols->Get((const char *) cws->szModule);
+		Protocol *proto = protocols->Get((const char*)cws->szModule);
 
-		if ( !strcmp(cws->szSetting,"Status") 
-				|| ( proto != NULL && proto->custom_status != 0 
-					 && proto->custom_status_name != NULL 
-					 && !strcmp(cws->szSetting, proto->custom_status_name))
-				|| ( proto != NULL && proto->custom_status != 0 
-					 && proto->custom_status_message != NULL 
-					 && !strcmp(cws->szSetting, proto->custom_status_message)))
-		{
-			// Status changed
-			if (proto != NULL)
-				PostMessage(hwnd_frame, MWM_STATUS_CHANGED, (WPARAM) proto->name, 0);
-		}
-		else if (!strcmp(cws->szSetting,"MyHandle")
+		if (!strcmp(cws->szSetting,"MyHandle")
 				|| !strcmp(cws->szSetting,"UIN") 
 				|| !strcmp(cws->szSetting,"Nick") 
 				|| !strcmp(cws->szSetting,"FirstName") 

@@ -89,6 +89,7 @@
 #include <m_cluiframes.h>
 #include <m_ignore.h>
 #include <m_avatars.h>
+#include <m_xstatus.h>
 #include <win2k.h>
 
 // Project resources

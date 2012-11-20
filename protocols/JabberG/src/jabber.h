@@ -77,6 +77,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_timezones.h>
 #include <m_jabber.h>
 #include <m_fingerprint.h>
+#include <m_xstatus.h>
 #include <m_extraicons.h>
 #include <win2k.h>
 
@@ -246,10 +247,6 @@ enum {
 #define LR_BIGICON                 0x40
 
 #define JS_SENDXML                 "/SendXML" // Warning: This service is obsolete. Use IJabberNetInterface::SendXmlNode() instead.
-#define JS_GETADVANCEDSTATUSICON   "/GetAdvancedStatusIcon"
-#define JS_GETCUSTOMSTATUSICON     "/GetXStatusIcon"
-#define JS_GETXSTATUS              "/GetXStatus"
-#define JS_SETXSTATUS              "/SetXStatus"
 
 #define JS_HTTP_AUTH               "/HttpAuthRequest"
 #define JS_INCOMING_NOTE_EVENT     "/IncomingNoteEvent"

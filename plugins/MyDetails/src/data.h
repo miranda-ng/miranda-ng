@@ -42,9 +42,7 @@ public:
 	TCHAR description[256];
 	TCHAR nickname[256];
 	TCHAR status_name[256];
-	char *custom_status_name;
 	TCHAR status_message[1024];
-	char *custom_status_message;
 	TCHAR listening_to[1024];
 	AVATARCACHEENTRY *ace;
 	TCHAR avatar_file[1024];

@@ -51,7 +51,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_contacts.h>
 #include <m_message.h>
 #include <m_utils.h>
-#include <m_icq.h>
+#include <m_xstatus.h>
 #include <m_clc.h>
 #include <m_skin.h>
 #include <win2k.h>

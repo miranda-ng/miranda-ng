@@ -1160,19 +1160,6 @@ HICON CJabberProto::GetXStatusIcon(int bStatus, UINT flags)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-// JabberGetXStatus - gets the extended status info (mood)
-
-INT_PTR __cdecl CJabberProto::OnGetXStatus(WPARAM wParam, LPARAM lParam)
-{
-	if ( !m_bJabberOnline || !m_bPepSupported)
-		return 0;
-
-	if (wParam) *((char**)wParam) = DBSETTING_XSTATUSNAME;
-	if (lParam) *((char**)lParam) = DBSETTING_XSTATUSMSG;
-	return ((CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD)))->m_mode;
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////
 // JabberGetXStatusIcon - Retrieves specified custom status icon
 // wParam = (int)N  // custom status id, 0 = my current custom status
 // lParam = flags   // use LR_SHARED for shared HICON
@@ -1366,35 +1353,14 @@ void CJabberProto::XStatusUninit()
 /////////////////////////////////////////////////////////////////////////////////////////
 // JabberSetXStatus - sets the extended status info (mood)
 
-INT_PTR __cdecl CJabberProto::OnSetXStatus(WPARAM wParam, LPARAM)
-{
-	if ( !m_bPepSupported || !m_bJabberOnline)
-		return 0;
-
-	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
-	if ( !wParam) {
-		pepMood->m_mode = -1;
-		pepMood->Retract();
-		return 0;
-	}
-
-	if (wParam > 0 && wParam < SIZEOF(g_arrMoods)) {
-		pepMood->m_mode = wParam;
-		pepMood->LaunchSetGui(0);
-		return wParam;
-	}
-
-	return 0;
-}
-
 INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
-	JABBER_CUSTOM_STATUS *pData = (JABBER_CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
 	if ( !m_bPepSupported || !m_bJabberOnline)
 		return 1;
 
-	if (pData->cbSize < sizeof(JABBER_CUSTOM_STATUS)) return 1; // Failure
+	if (pData->cbSize < sizeof(CUSTOM_STATUS)) return 1; // Failure
 
 	CPepMood *pepMood = (CPepMood *)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
 

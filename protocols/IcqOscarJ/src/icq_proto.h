@@ -115,7 +115,6 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR  __cdecl GetAvatarInfo(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetMyAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetMyAwayMsg(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl GetXStatus(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetXStatusEx(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GetXStatusIcon(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl GrantAuthorization(WPARAM wParam, LPARAM lParam);
@@ -130,7 +129,6 @@ struct CIcqProto : public PROTO_INTERFACE, public MZeroedObject
 	INT_PTR  __cdecl SetMyAvatar(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SetNickName(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SetPassword(WPARAM wParam, LPARAM lParam);
-	INT_PTR  __cdecl SetXStatus(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl SetXStatusEx(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl ShowXStatusDetails(WPARAM wParam, LPARAM lParam);
 

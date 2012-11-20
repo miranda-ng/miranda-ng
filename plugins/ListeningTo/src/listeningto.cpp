@@ -226,8 +226,7 @@ void RebuildMenu()
 
 void RegisterProtocol(char *proto, TCHAR *account)
 {
-	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
-		!ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX))
+	if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) && !ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX))
 		return;
 
 	size_t id = proto_items.size();
@@ -578,13 +577,13 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 	if (ProtoServiceExists(proto, PS_SET_LISTENINGTO))
 		CallProtoService(proto, PS_SET_LISTENINGTO, 0, (LPARAM) lti);
 
-	else if (ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX)) {
+	else if (ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX)) {
 		if (opts.xstatus_set == IGNORE_XSTATUS)
 			return;
 
 		int status;
-		ICQ_CUSTOM_STATUS ics = {0};
-		ics.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+		CUSTOM_STATUS ics = {0};
+		ics.cbSize = sizeof(CUSTOM_STATUS);
 		ics.status = &status;
 
 		// Set or reset?
@@ -592,7 +591,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 		{
 			// Reset -> only if is still in music xstatus
 			ics.flags = CSSF_MASK_STATUS;
-			if (CallProtoService(proto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
+			if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
 			{
 				if (opts.xstatus_set == SET_XSTATUS)
 				{
@@ -623,14 +622,14 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 				ics.ptszName = name.str;
 				ics.ptszMessage = msg.str;
 
-				CallProtoService(proto, PS_ICQ_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 			}
 			else if (opts.xstatus_set == CHECK_XSTATUS)
 			{
 				status = 0;
 				ics.flags = CSSF_MASK_STATUS;
 
-				CallProtoService(proto, PS_ICQ_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 			}
 			else
 			{
@@ -649,7 +648,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 					ics.flags = CSSF_MASK_STATUS;
 				}
 
-				CallProtoService(proto, PS_ICQ_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+				CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 
 				if (pi != NULL)
 				{
@@ -665,20 +664,20 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			if (opts.xstatus_set == CHECK_XSTATUS_MUSIC)
 			{
 				ics.flags = CSSF_MASK_STATUS;
-				if (CallProtoService(proto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
+				if (CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) || status != XSTATUS_MUSIC)
 					return;
 			}
 			else if (opts.xstatus_set == CHECK_XSTATUS)
 			{
 				ics.flags = CSSF_MASK_STATUS;
-				if (!CallProtoService(proto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC && status != 0)
+				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC && status != 0)
 					return;
 			}
 			else
 			{
 				// Store old data
 				ics.flags = CSSF_MASK_STATUS;
-				if (!CallProtoService(proto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC)
+				if (!CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics) && status != XSTATUS_MUSIC)
 				{
 					ProtocolInfo *pi = GetProtoInfo(proto);
 					if (pi != NULL)
@@ -688,7 +687,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 						ics.ptszName = pi->old_xstatus_name;
 						ics.ptszMessage = pi->old_xstatus_message;
 
-						CallProtoService(proto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+						CallProtoService(proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 					}
 				}
 			}
@@ -717,7 +716,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			ics.ptszName = name.str;
 			ics.ptszMessage = msg.str;
 
-			CallProtoService(proto, PS_ICQ_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
+			CallProtoService(proto, PS_SETCUSTOMSTATUSEX, 0, (LPARAM) &ics);
 
 			mir_free(fr[1]);
 		}
@@ -756,7 +755,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	else
 	{
 		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
-			!ProtoServiceExists(proto, PS_ICQ_SETCUSTOMSTATUSEX) &&
+			!ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) &&
 			!ProtoServiceExists(proto, PS_SETAWAYMSGT)) // by yaho
 			return 0;
 

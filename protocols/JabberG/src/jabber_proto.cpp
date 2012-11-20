@@ -120,13 +120,11 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	JCreateService(PS_JOINCHAT, &CJabberProto::OnJoinChat);
 	JCreateService(PS_LEAVECHAT, &CJabberProto::OnLeaveChat);
 
-	JCreateService(JS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
-	JCreateService(JS_GETXSTATUS, &CJabberProto::OnGetXStatus);
-	JCreateService(JS_SETXSTATUS, &CJabberProto::OnSetXStatus);
-	JCreateService(JS_SETXSTATUSEX, &CJabberProto::OnSetXStatusEx);
-
 	// not needed anymore and therefore commented out
-	// JCreateService(JS_GETXSTATUSEX, &CJabberProto::OnGetXStatusEx);
+	// JCreateService(PS_GETXSTATUSEX, &CJabberProto::OnGetXStatusEx);
+	JCreateService(PS_SETCUSTOMSTATUSEX, &CJabberProto::OnSetXStatusEx);
+	JCreateService(PS_GETCUSTOMSTATUSICON, &CJabberProto::OnGetXStatusIcon);
+	JCreateService(PS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
 
 	JCreateService(JS_HTTP_AUTH, &CJabberProto::OnHttpAuthRequest);
 	JCreateService(JS_INCOMING_NOTE_EVENT, &CJabberProto::OnIncomingNoteEvent);
@@ -137,7 +135,6 @@ CJabberProto::CJabberProto(const char* aProtoName, const TCHAR *aUserName) :
 	JCreateService(PS_SETMYAVATART, &CJabberProto::JabberSetAvatar);
 	JCreateService(PS_SETMYNICKNAME, &CJabberProto::JabberSetNickname);
 
-	JCreateService(JS_GETADVANCEDSTATUSICON, &CJabberProto::JGetAdvancedStatusIcon);
 	JCreateService(JS_DB_GETEVENTTEXT_CHATSTATES, &CJabberProto::OnGetEventTextChatStates);
 	JCreateService(JS_DB_GETEVENTTEXT_PRESENCE, &CJabberProto::OnGetEventTextPresence);
 

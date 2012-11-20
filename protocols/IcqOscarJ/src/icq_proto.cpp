@@ -147,13 +147,11 @@ cheekySearchId( -1 )
 	CreateProtoService(PS_GETMYAVATART, &CIcqProto::GetMyAvatar);
 	CreateProtoService(PS_SETMYAVATART, &CIcqProto::SetMyAvatar);
 	// Custom Status API
-	CreateProtoService(PS_ICQ_SETCUSTOMSTATUS, &CIcqProto::SetXStatus);
-	CreateProtoService(PS_ICQ_GETCUSTOMSTATUS, &CIcqProto::GetXStatus);
-	CreateProtoService(PS_ICQ_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);
-	CreateProtoService(PS_ICQ_GETCUSTOMSTATUSEX, &CIcqProto::GetXStatusEx);
-	CreateProtoService(PS_ICQ_GETCUSTOMSTATUSICON, &CIcqProto::GetXStatusIcon);
+	CreateProtoService(PS_SETCUSTOMSTATUSEX, &CIcqProto::SetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSEX, &CIcqProto::GetXStatusEx);
+	CreateProtoService(PS_GETCUSTOMSTATUSICON, &CIcqProto::GetXStatusIcon);
+	CreateProtoService(PS_GETADVANCEDSTATUSICON, &CIcqProto::RequestAdvStatusIconIdx);
 	CreateProtoService(PS_ICQ_REQUESTCUSTOMSTATUS, &CIcqProto::RequestXStatusDetails);
-	CreateProtoService(PS_ICQ_GETADVANCEDSTATUSICON, &CIcqProto::RequestAdvStatusIconIdx);
 
 	CreateProtoService(MS_ICQ_ADDSERVCONTACT, &CIcqProto::AddServerContact);
 

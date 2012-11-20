@@ -65,7 +65,7 @@
 #include <m_chat.h>
 #include <m_extraicons.h>
 #include <m_music.h>
-#include <m_icq.h>
+#include <m_xstatus.h>
 #include <m_proto_listeningto.h>
 
 

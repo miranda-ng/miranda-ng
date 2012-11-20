@@ -151,7 +151,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	case TYPE_ICQ_XSTATUS:
 		{
 			int statusId = db_get_b(xsc->hContact, xsc->szProto, "XStatusId", 0);
-			ppd.lchIcon = (HICON)CallProtoService(xsc->szProto, PS_ICQ_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
+			ppd.lchIcon = (HICON)CallProtoService(xsc->szProto, PS_GETCUSTOMSTATUSICON, statusId, LR_SHARED);
 		}
 	}
 
@@ -367,12 +367,12 @@ TCHAR *GetDefaultXstatusName(int statusID, char *szProto, TCHAR *buff, int buffl
 	TCHAR nameBuff[64];
 	buff[0] = 0;
 
-	ICQ_CUSTOM_STATUS xstatus = {0};
-	xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+	CUSTOM_STATUS xstatus = {0};
+	xstatus.cbSize = sizeof(CUSTOM_STATUS);
 	xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 	xstatus.ptszName = nameBuff;
 	xstatus.wParam = (WPARAM *)&statusID;
-	if (!CallProtoService(szProto, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus)) {
+	if (!CallProtoService(szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus)) {
 		_tcsncpy(buff, TranslateTS(nameBuff), bufflen);
 		buff[bufflen - 1] = 0;
 	}

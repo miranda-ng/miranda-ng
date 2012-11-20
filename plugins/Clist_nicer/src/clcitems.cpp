@@ -31,7 +31,6 @@
  */
 
 #include <commonheaders.h>
-#include <m_icq.h>
 
 extern int ( *saveAddContactToGroup )(struct ClcData *dat, ClcGroup *group, HANDLE hContact);
 extern int ( *saveAddInfoItemToGroup )(ClcGroup *group, int flags, const TCHAR *pszText);
@@ -301,10 +300,10 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 			TCHAR xStatusName[128];
 			char szServiceName[128];
 
-			mir_snprintf(szServiceName, 128, "%s%s", szProto, PS_ICQ_GETCUSTOMSTATUSEX);
+			mir_snprintf(szServiceName, 128, "%s%s", szProto, PS_GETCUSTOMSTATUSEX);
 
-			ICQ_CUSTOM_STATUS cst = {0};
-			cst.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+			CUSTOM_STATUS cst = {0};
+			cst.cbSize = sizeof(CUSTOM_STATUS);
 			cst.flags = CSSF_MASK_STATUS;
 			cst.status = &xStatus;
 			if (ServiceExists(szServiceName) && !CallService(szServiceName, (WPARAM)hContact, (LPARAM)&cst) && xStatus > 0) {

@@ -21,21 +21,19 @@ CMraProto::CMraProto(const char* _module, const TCHAR* _displayName) :
 	MraMPopSessionQueueInitialize(&hMPopSessionQueue);
 	MraAvatarsQueueInitialize(&hAvatarsQueueHandle);
 
-	CreateObjectSvc(PS_ICQ_SETCUSTOMSTATUS,     &CMraProto::MraSetXStatus);
-	CreateObjectSvc(PS_ICQ_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
-	CreateObjectSvc(PS_ICQ_GETCUSTOMSTATUS,     &CMraProto::MraGetXStatus);
-	CreateObjectSvc(PS_ICQ_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
-	CreateObjectSvc(PS_ICQ_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
+	CreateObjectSvc(PS_SETCUSTOMSTATUSEX,   &CMraProto::MraSetXStatusEx);
+	CreateObjectSvc(PS_GETCUSTOMSTATUSEX,   &CMraProto::MraGetXStatusEx);
+	CreateObjectSvc(PS_GETCUSTOMSTATUSICON, &CMraProto::MraGetXStatusIcon);
 
-	CreateObjectSvc(PS_SET_LISTENINGTO,         &CMraProto::MraSetListeningTo);
+	CreateObjectSvc(PS_SET_LISTENINGTO,     &CMraProto::MraSetListeningTo);
 
-	CreateObjectSvc(PS_CREATEACCMGRUI,          &CMraProto::MraCreateAccMgrUI);
-	CreateObjectSvc(PS_GETAVATARCAPS,           &CMraProto::MraGetAvatarCaps);
-	CreateObjectSvc(PS_GETAVATARINFOT,          &CMraProto::MraGetAvatarInfo);
-	CreateObjectSvc(PS_GETMYAVATART,            &CMraProto::MraGetMyAvatar);
+	CreateObjectSvc(PS_CREATEACCMGRUI,      &CMraProto::MraCreateAccMgrUI);
+	CreateObjectSvc(PS_GETAVATARCAPS,       &CMraProto::MraGetAvatarCaps);
+	CreateObjectSvc(PS_GETAVATARINFOT,      &CMraProto::MraGetAvatarInfo);
+	CreateObjectSvc(PS_GETMYAVATART,        &CMraProto::MraGetMyAvatar);
 
-	CreateObjectSvc(MS_ICQ_SENDSMS,             &CMraProto::MraSendSMS);
-	CreateObjectSvc(MRA_SEND_NUDGE,             &CMraProto::MraSendNudge);
+	CreateObjectSvc(MS_ICQ_SENDSMS,         &CMraProto::MraSendSMS);
+	CreateObjectSvc(MRA_SEND_NUDGE,         &CMraProto::MraSendNudge);
 
 	if ( ServiceExists(MS_NUDGE_SEND))
 		heNudgeReceived = CreateHookableEvent(MS_NUDGE);

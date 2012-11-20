@@ -25,7 +25,6 @@ UNICODE done
 */
 #include <commonheaders.h>
 #include "../cluiframes/cluiframes.h"
-#include <m_icq.h>
 
 extern HIMAGELIST hCListImages;
 extern ButtonItem *g_ButtonItems;

@@ -794,24 +794,13 @@ DWORD CMraProto::MraSetXStatusInternal(DWORD dwXStatus)
 	return dwOldStatusMode;
 }
 
-// obsolete (TODO: remove in next version)
-INT_PTR CMraProto::MraSetXStatus(WPARAM wParam, LPARAM lParam)
-{
-	INT_PTR iRet = 0;
-	if ( IsXStatusValid(wParam) || wParam == MRA_MIR_XSTATUS_NONE) {
-		MraSetXStatusInternal(wParam);
-		iRet = wParam;
-	}
-	return iRet;
-}
-
 INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR iRet = 1;
 	DWORD dwXStatus;
-	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
-	if (pData->cbSize >= sizeof(ICQ_CUSTOM_STATUS)) {
+	if (pData->cbSize >= sizeof(CUSTOM_STATUS)) {
 		iRet = 0;
 
 		if (pData->flags & CSSF_MASK_STATUS) {
@@ -884,24 +873,13 @@ INT_PTR CMraProto::MraSetXStatusEx(WPARAM wParam, LPARAM lParam)
 	return iRet;
 }
 
-INT_PTR CMraProto::MraGetXStatus(WPARAM wParam, LPARAM lParam)
-{
-	if (m_bLoggedIn) {
-		if (wParam) *((CHAR**)wParam) = DBSETTING_XSTATUSNAME;
-		if (lParam) *((CHAR**)lParam) = DBSETTING_XSTATUSMSG;
-		return m_iXStatus;
-	}
-
-	return 0;
-}
-
 INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR iRet = 1;
 	HANDLE hContact = (HANDLE)wParam;
-	ICQ_CUSTOM_STATUS *pData = (ICQ_CUSTOM_STATUS*)lParam;
+	CUSTOM_STATUS *pData = (CUSTOM_STATUS*)lParam;
 
-	if (pData->cbSize >= sizeof(ICQ_CUSTOM_STATUS)) {
+	if (pData->cbSize >= sizeof(CUSTOM_STATUS)) {
 		DWORD dwXStatus;
 
 		iRet = 0;
@@ -913,11 +891,10 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 		// fill status name member
 		if (pData->flags & CSSF_MASK_NAME) {
 			if (pData->flags & CSSF_DEFAULT_NAME) {
-				dwXStatus = (*pData->wParam);
+				dwXStatus = (pData->wParam == NULL) ? m_iXStatus : *pData->wParam;
 				if ( IsXStatusValid(dwXStatus)) {
-					if (pData->flags & CSSF_UNICODE) {
+					if (pData->flags & CSSF_UNICODE)
 						lstrcpynW(pData->pwszName, lpcszXStatusNameDef[dwXStatus], (STATUS_TITLE_MAX+1));
-					}
 					else {
 						size_t dwStatusTitleSize = lstrlenW( lpcszXStatusNameDef[dwXStatus] );
 						if (dwStatusTitleSize>STATUS_TITLE_MAX) dwStatusTitleSize = STATUS_TITLE_MAX;
@@ -938,10 +915,12 @@ INT_PTR CMraProto::MraGetXStatusEx(WPARAM wParam, LPARAM lParam)
 
 		// fill status message member
 		if (pData->flags & CSSF_MASK_MESSAGE) {
+			char szSetting[100];
+			mir_snprintf(szSetting, SIZEOF(szSetting), "XStatus%dMsg", m_iXStatus);
 			if (pData->flags & CSSF_UNICODE)
-				mraGetStaticStringW(hContact, DBSETTING_XSTATUSMSG, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
+				mraGetStaticStringW(hContact, szSetting, pData->pwszMessage, (STATUS_DESC_MAX+1), NULL);
 			else
-				mraGetStaticStringA(hContact, DBSETTING_XSTATUSMSG, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
+				mraGetStaticStringA(hContact, szSetting, pData->pszMessage, (STATUS_DESC_MAX+1), NULL);
 		}
 
 		if (pData->flags & CSSF_DISABLE_UI)

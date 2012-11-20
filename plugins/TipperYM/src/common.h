@@ -76,6 +76,7 @@ Boston, MA 02111-1307, USA.
 #include <m_system.h>
 #include <m_timezones.h>
 #include <m_utils.h>
+#include <m_xstatus.h>
 #include <m_icq.h>
 
 #include "resource.h"

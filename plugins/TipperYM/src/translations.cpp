@@ -583,7 +583,7 @@ TCHAR *DayMonthToDaysToNextBirthday(HANDLE hContact, const char *szModuleName, c
 TCHAR *EmptyXStatusToDefaultName(HANDLE hContact, const char *szModuleName, const char *szSettingName, TCHAR *buff, int bufflen) 
 {
 	TCHAR szDefaultName[1024];
-	ICQ_CUSTOM_STATUS xstatus = {0};
+	CUSTOM_STATUS xstatus = {0};
 	DBVARIANT dbv;
 
 	// translate jabber mood
@@ -603,13 +603,13 @@ TCHAR *EmptyXStatusToDefaultName(HANDLE hContact, const char *szModuleName, cons
 	int status = DBGetContactSettingByte(hContact, szModuleName, "XStatusId", 0);
 	if (!status) return 0;
 	
-	if (ProtoServiceExists(szModuleName, PS_ICQ_GETCUSTOMSTATUSEX))
+	if (ProtoServiceExists(szModuleName, PS_GETCUSTOMSTATUSEX))
 	{ 
-		xstatus.cbSize = sizeof(ICQ_CUSTOM_STATUS);
+		xstatus.cbSize = sizeof(CUSTOM_STATUS);
 		xstatus.flags = CSSF_MASK_NAME | CSSF_DEFAULT_NAME | CSSF_TCHAR;
 		xstatus.ptszName = szDefaultName;
 		xstatus.wParam = (WPARAM *)&status;
-		if (CallProtoService(szModuleName, PS_ICQ_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
+		if (CallProtoService(szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&xstatus))
 		   return 0;
 		
 		_tcsncpy(buff, TranslateTS(szDefaultName), bufflen);
