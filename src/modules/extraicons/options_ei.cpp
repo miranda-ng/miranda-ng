@@ -419,7 +419,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		TranslateDialogDefault(hwndDlg);
 		{
 			int numSlots = GetNumberOfSlots();
-			if (numSlots < (int)registeredExtraIcons.size()) {
+			if (numSlots < (int)registeredExtraIcons.getCount()) {
 				TCHAR txt[512];
 				mir_sntprintf(txt, SIZEOF(txt), TranslateT("* only the first %d icons will be shown"), numSlots);
 
@@ -439,7 +439,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			DestroyIcon(hDefaultIcon);
 
 			unsigned int i;
-			for (i = 0; i < registeredExtraIcons.size(); i++) {
+			for (i = 0; i < registeredExtraIcons.getCount(); i++) {
 				ExtraIcon *extra = registeredExtraIcons[i];
 
 				HICON hIcon = Skin_GetIcon(extra->getDescIcon());
@@ -489,9 +489,9 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
 
 					// Store old slots
-					int *oldSlots = new int[registeredExtraIcons.size()];
+					int *oldSlots = new int[registeredExtraIcons.getCount()];
 					int lastUsedSlot = -1;
-					for (i = 0; i < registeredExtraIcons.size(); i++) {
+					for (i = 0; i < registeredExtraIcons.getCount(); i++) {
 						if (extraIconsByHandle[i] == registeredExtraIcons[i])
 							oldSlots[i] = registeredExtraIcons[i]->getSlot();
 						else
@@ -549,7 +549,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 					// Store data
-					for (i = 0; i < registeredExtraIcons.size(); i++) {
+					for (i = 0; i < registeredExtraIcons.getCount(); i++) {
 						BaseExtraIcon *extra = registeredExtraIcons[i];
 
 						char setting[512];

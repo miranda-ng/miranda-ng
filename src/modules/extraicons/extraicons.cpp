@@ -34,7 +34,9 @@
 
 // Prototypes ///////////////////////////////////////////////////////////////////////////
 
-vector<BaseExtraIcon*> registeredExtraIcons;
+typedef vector<ExtraIcon*>::iterator IconIter;
+
+LIST<BaseExtraIcon> registeredExtraIcons(10);
 vector<ExtraIcon*> extraIconsByHandle;
 vector<ExtraIcon*> extraIconsBySlot;
 
@@ -57,6 +59,25 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 	return 0;
+}
+
+void KillModuleExtraIcons(int hLangpack)
+{
+	for (IconIter p1 = extraIconsByHandle.begin(); p1 != extraIconsByHandle.end(); p1++)
+		if ((*p1)->hLangpack == hLangpack)
+			extraIconsByHandle.erase(p1--);
+
+	for (IconIter p2 = extraIconsBySlot.begin(); p2 != extraIconsBySlot.end(); p2++)
+		if ((*p2)->hLangpack == hLangpack)
+			extraIconsBySlot.erase(p2--);
+
+	for (int i=registeredExtraIcons.getCount()-1; i >= 0; i--) {
+		BaseExtraIcon *p = registeredExtraIcons[i];
+		if (p->hLangpack == hLangpack) {
+			registeredExtraIcons.remove(i);
+			delete p;
+		}
+	}
 }
 
 int PreShutdown(WPARAM wParam, LPARAM lParam)
@@ -122,7 +143,7 @@ ExtraIcon* GetExtraIconBySlot(int slot)
 
 BaseExtraIcon* GetExtraIconByName(const char *name)
 {
-	for (unsigned int i = 0; i < registeredExtraIcons.size(); i++) {
+	for (int i=0; i < registeredExtraIcons.getCount(); i++) {
 		BaseExtraIcon *extra = registeredExtraIcons[i];
 		if (strcmp(name, extra->getName()) == 0)
 			return extra;
@@ -389,7 +410,7 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		return extra->getID();
 	}
 
-	int id = (int)registeredExtraIcons.size() + 1;
+	int id = registeredExtraIcons.getCount() + 1;
 
 	switch (ei->type) {
 	case EXTRAICON_TYPE_CALLBACK:
@@ -414,7 +435,9 @@ INT_PTR ExtraIcon_Register(WPARAM wParam, LPARAM lParam)
 		slot = -1;
 	extra->setSlot(slot);
 
-	registeredExtraIcons.push_back(extra);
+	extra->hLangpack = (int)lParam;
+
+	registeredExtraIcons.insert(extra);
 	extraIconsByHandle.push_back(extra);
 
 	vector<ExtraIconGroup *> groups;
@@ -546,6 +569,8 @@ void LoadExtraIconsModule()
 
 void UnloadExtraIconsModule(void)
 {
-	for (size_t i=0; i < registeredExtraIcons.size(); i++)
+	for (int i=0; i < registeredExtraIcons.getCount(); i++)
 		delete registeredExtraIcons[i];
+
+	registeredExtraIcons.destroy();
 }

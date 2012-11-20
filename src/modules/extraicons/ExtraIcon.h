@@ -64,6 +64,8 @@ public:
 
 	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage) =0;
 
+	int hLangpack;
+
 protected:
 	std::string name;
 

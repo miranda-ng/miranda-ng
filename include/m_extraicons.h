@@ -139,6 +139,8 @@ typedef struct {
 #ifndef _NO_WRAPPERS
 #ifdef __cplusplus
 
+extern int hLangpack;
+
 static HANDLE ExtraIcon_Register(
 	const char *name, const char *description, const char *descIcon,
 	MIRANDAHOOK RebuildIcons,
@@ -158,7 +160,7 @@ static HANDLE ExtraIcon_Register(
 	ei.OnClick = OnClick;
 	ei.onClickParam = onClickParam;
 
-	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, 0);
+	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, hLangpack);
 }
 
 static HANDLE ExtraIcon_Register(
@@ -176,7 +178,7 @@ static HANDLE ExtraIcon_Register(
 	ei.OnClick = OnClick;
 	ei.onClickParam = onClickParam;
 
-	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, 0);
+	return (HANDLE) CallService(MS_EXTRAICON_REGISTER, (WPARAM) &ei, hLangpack);
 }
 
 static int ExtraIcon_SetIcon(HANDLE hExtraIcon, HANDLE hContact, HANDLE hImage)

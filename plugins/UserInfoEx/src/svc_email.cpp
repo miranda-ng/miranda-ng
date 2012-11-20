@@ -283,15 +283,8 @@ VOID SvcEMailEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 		if (hApplyIconHook == NULL) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, OnCListApplyIcons);
 
-		if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
-			EXTRAICON_INFO ico = { sizeof(ico) };
-			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.name = "email";	//must be the same as the group name in extraicon
-			ico.description= "E-mail (uinfoex)";
-			ico.descIcon = ICO_BTN_EMAIL;
-			ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-			ZeroMemory(&ico,sizeof(ico));
-		}
+		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
+			ghExtraIconSvc = ExtraIcon_Register("email", "E-mail (uinfoex)", ICO_BTN_EMAIL);
 	}
 	else { // E-mail uncheckt
 		if (hChangedHook) {

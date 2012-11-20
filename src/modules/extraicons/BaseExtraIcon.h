@@ -25,8 +25,7 @@
 class BaseExtraIcon : public ExtraIcon
 {
 public:
-	BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick,
-			LPARAM param);
+	BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
 	virtual ~BaseExtraIcon();
 
 	virtual int getID() const;

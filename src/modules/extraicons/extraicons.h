@@ -33,7 +33,7 @@ class ExtraIconGroup;
 class ExtraIcon;
 class BaseExtraIcon;
 
-extern vector<BaseExtraIcon*> registeredExtraIcons;
+extern LIST<BaseExtraIcon> registeredExtraIcons;
 extern vector<ExtraIcon*> extraIconsByHandle;
 extern vector<ExtraIcon*> extraIconsBySlot;
 void RebuildListsBasedOnGroups(vector<ExtraIconGroup *> &groups);

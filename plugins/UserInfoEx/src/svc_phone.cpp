@@ -173,14 +173,8 @@ VOID SvcPhoneEnableExtraIcons(BOOLEAN bEnable, BOOLEAN bUpdateDB)
 		if (hApplyIconHook == NULL) 
 			hApplyIconHook = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcons);
 
-		if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
-			EXTRAICON_INFO ico = { sizeof(ico) };
-			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.name = "sms";	//must be the same as the group name in extraicon
-			ico.description = "(uinfoex)";
-			ico.descIcon = ICO_BTN_CELLULAR;
-			ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-		}
+		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
+			ghExtraIconSvc = ExtraIcon_Register("sms", "(uinfoex)", ICO_BTN_CELLULAR);
 	}
 	else {
 		if (hChangedHook) {

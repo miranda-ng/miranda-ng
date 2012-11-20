@@ -361,6 +361,7 @@ int Plugin_UnloadDyn(pluginEntry* p)
 		KillModuleIcons(hLangpack);
 		KillModuleHotkeys(hLangpack);
 		KillModuleSounds(hLangpack);
+		KillModuleExtraIcons(hLangpack);
 	}
 
 	Plugin_Uninit(p);

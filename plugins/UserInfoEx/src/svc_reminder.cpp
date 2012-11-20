@@ -968,15 +968,9 @@ VOID SvcReminderEnable(BOOLEAN bEnable)
 {
 	if (bEnable)	// Reminder is on
 	{
-		if (ExtraIcon == INVALID_HANDLE_VALUE) {
-			EXTRAICON_INFO ico = { sizeof(ico) };
-			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.name = "Reminder";
-			ico.description = "Reminder (uinfoex)";
-			ico.descIcon = ICO_COMMON_ANNIVERSARY;
-			ExtraIcon = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-			ZeroMemory(&ico,sizeof(ico));
-		}
+		if (ExtraIcon == INVALID_HANDLE_VALUE)
+			ExtraIcon = ExtraIcon_Register("Reminder", "Reminder (uinfoex)", ICO_COMMON_ANNIVERSARY);
+
 		// init hooks
 		if (!ghCListIA)
 			ghCListIA = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, (MIRANDAHOOK)OnCListApplyIcon);

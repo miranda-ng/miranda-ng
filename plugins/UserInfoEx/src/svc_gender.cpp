@@ -141,14 +141,8 @@ VOID SvcGenderEnableExtraIcons(BYTE bColumn, BOOLEAN bUpdateDB)
 		DB::Setting::WriteByte(SET_CLIST_EXTRAICON_GENDER2, bColumn);
 
 	if (bEnable) { // Gender checkt or dropdown select
-		if (ghExtraIconSvc == INVALID_HANDLE_VALUE) {
-			EXTRAICON_INFO ico = { sizeof(ico) };
-			ico.type = EXTRAICON_TYPE_ICOLIB;
-			ico.name = "gender";	//must be the same as the group name in extraicon
-			ico.description="Gender (uinfoex)";
-			ico.descIcon = ICO_COMMON_MALE;
-			ghExtraIconSvc = (HANDLE)CallService(MS_EXTRAICON_REGISTER, (WPARAM)&ico, 0);
-		}
+		if (ghExtraIconSvc == INVALID_HANDLE_VALUE)
+			ghExtraIconSvc = ExtraIcon_Register("gender", "Gender (uinfoex)", ICO_COMMON_MALE);
 
 		// hook events
 		if (hChangedHook == NULL) 

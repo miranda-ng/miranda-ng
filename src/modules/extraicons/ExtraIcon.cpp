@@ -24,7 +24,7 @@
 #include "extraicons.h"
 
 ExtraIcon::ExtraIcon(const char *name) :
-	name(name), slot(-1), position(1000)
+	name(name), slot(-1), position(1000), hLangpack(0)
 {
 }
 

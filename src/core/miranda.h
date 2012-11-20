@@ -117,6 +117,10 @@ extern LIST<DATABASELINK> arDbPlugins;
 int  InitIni(void);
 void UninitIni(void);
 
+/**** extraicons.cpp *******************************************************************/
+
+void KillModuleExtraIcons(int hLangpack);
+
 /**** fontService.cpp ******************************************************************/
 
 void KillModuleFonts(int hLangpack);
