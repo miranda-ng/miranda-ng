@@ -44,8 +44,6 @@
 #define IDD_OPT                         102
 #define IDD_UD 1000
 #define IDD_UD2 1001
-#define IDC_CBGICO 1013
-#define IDC_CBVICO 1015
 #define IDC_GROUPCONFIG                 1000
 #define IDC_GROUPMAIN                   1002
 #define IDC_KEEPALIVE                   1011

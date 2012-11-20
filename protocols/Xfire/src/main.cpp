@@ -2837,31 +2837,17 @@ void setBuddyStatusMsg(BuddyListEntry *entry,string statusmsg)
 
 	if(IsContactMySelf(entry->username))
 		return;
-
-	if(strlen(entry->statusmsg.c_str())>5)
-	{
-		char* away=(char*)entry->statusmsg.c_str();
-		if(
-			(*(away)=='('
-			&& *(away+1)=='A'
-			&& *(away+2)=='F'
-			&& *(away+3)=='K'
-			&& *(away+4)==')')
-			||
-			(*(away)=='('
-			&&*(away+1)=='A'
-			&& *(away+2)=='B'
-			&& *(away+3)=='S'
-			&& *(away+4)==')')
-			)
-		{
+	
+	if (entry->statusmsg.length() > 5) {
+		string afk = entry->statusmsg.substr(0,5);
+		if (afk == "(AFK)" || afk == "(ABS)")
 			mystatus=ID_STATUS_AWAY;
-		}
 	}
-
+	
 	//statusmsg umwandeln
-	char * temp = mir_utf8decode((char*)entry->statusmsg.c_str(),NULL);
-	if(temp==NULL) temp=(char*)entry->statusmsg.c_str();
+	char *temp = mir_utf8decode((char*)entry->statusmsg.c_str(),NULL);
+	if (temp==NULL)
+		temp=(char*)entry->statusmsg.c_str();
 
 	//DBDeleteContactSetting(hContact, "CList", "StatusMsg");
 	DBWriteContactSettingWord(entry->hcontact, protocolname, "Status", mystatus);
@@ -2901,18 +2887,18 @@ void setBuddyStatusMsg(BuddyListEntry *entry,string statusmsg)
 
 		strncpy(status,temp2,97);
 
-		if(strlen(entry->statusmsg.c_str())>0)
+		if(!entry->statusmsg.empty())
 		{
 			strcat(status," - ");
 			strcat(status,temp);
 		}
-		DBWriteContactSettingString(entry->hcontact, "CList", "StatusMsg", status );
-		DBWriteContactSettingString(entry->hcontact, protocolname, "XStatusMsg", status );
+		DBWriteContactSettingString(entry->hcontact, "CList", "StatusMsg", status);
+		DBWriteContactSettingString(entry->hcontact, protocolname, "XStatusMsg", status);
 	}
 	else
 	{
-		DBWriteContactSettingString(entry->hcontact, "CList", "StatusMsg", temp );
-		DBWriteContactSettingString(entry->hcontact, protocolname, "XStatusMsg", temp );
+		DBWriteContactSettingString(entry->hcontact, "CList", "StatusMsg", temp);
+		DBWriteContactSettingString(entry->hcontact, protocolname, "XStatusMsg", temp);
 		DBWriteContactSettingByte(entry->hcontact, protocolname, "XStatusId", 1);
 		DBWriteContactSettingString(entry->hcontact, protocolname, "XStatusName", "");
 	}

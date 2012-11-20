@@ -371,23 +371,11 @@ static BOOL CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Messagebox" ));
 			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_ADDSTRING, 0, (LPARAM)TranslateT("Popup" ));
 
-			//iconslots auswahl einfügen
-			SendDlgItemMessage( hwndDlg, IDC_CBGICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #1 (ICQ X-Status)" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBGICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #2" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBGICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #3" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBGICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #4" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBVICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #1 (ICQ X-Status)" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBVICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #2" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBVICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #3" ));
-			SendDlgItemMessage( hwndDlg, IDC_CBVICO, CB_ADDSTRING, 0, (LPARAM)TranslateT("Advanced #4" ));
-
 			//scanalways
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_ADDSTRING, 0, (LPARAM)TranslateT("No" ));
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_ADDSTRING, 0, (LPARAM)TranslateT("On every start" ));
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_ADDSTRING, 0, (LPARAM)TranslateT("Daily" ));
 
-			SendDlgItemMessage( hwndDlg, IDC_CBVICO, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"voiceico",-1), 0);
-			SendDlgItemMessage( hwndDlg, IDC_CBGICO, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"gameico",-1), 0);
 			SendDlgItemMessage( hwndDlg, IDC_SCANUPDATECB, CB_SETCURSEL, DBGetContactSettingByte(NULL,protocolname,"scanalways",0), 0);
 			
 			SendDlgItemMessage( hwndDlg, IDC_NOMSG, CB_SETCURSEL, nomsgboxsel[DBGetContactSettingByte(NULL,protocolname,"nomsgbox",0)], 0);
@@ -563,10 +551,6 @@ static BOOL CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 					DBWriteContactSettingByte(NULL,protocolname,"nomsgbox",(BYTE)nomsgboxsel[SendDlgItemMessage(hwndDlg, IDC_NOMSG, CB_GETCURSEL, 0, 0)]);
 
-					ccc=SendDlgItemMessage(hwndDlg, IDC_CBVICO, CB_GETCURSEL, 0, 0);
-					DBWriteContactSettingByte(NULL,protocolname,"voiceico",(BYTE)ccc);
-					ccc=SendDlgItemMessage(hwndDlg, IDC_CBGICO, CB_GETCURSEL, 0, 0);
-					DBWriteContactSettingByte(NULL,protocolname,"gameico",(BYTE)ccc);
 					ccc=SendDlgItemMessage(hwndDlg, IDC_CLANGROUP, CB_GETCURSEL, 0, 0);
 					DBWriteContactSettingByte(NULL,protocolname,"mainclangroup",(BYTE)ccc);
 					ccc=SendDlgItemMessage(hwndDlg, IDC_FOFGROUP, CB_GETCURSEL, 0, 0);
