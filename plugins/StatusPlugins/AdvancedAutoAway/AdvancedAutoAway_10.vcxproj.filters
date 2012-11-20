@@ -39,6 +39,9 @@
     <ClCompile Include="trigger_aaa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="advancedautoaway.h">
