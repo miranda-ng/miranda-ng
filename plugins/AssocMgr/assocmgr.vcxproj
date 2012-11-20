@@ -191,10 +191,11 @@
   <ItemGroup>
     <ClCompile Include="src\assoclist.cpp" />
     <ClCompile Include="src\dde.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\reg.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\test.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

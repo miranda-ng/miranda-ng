@@ -190,12 +190,13 @@
   <ItemGroup>
     <ClCompile Include="src\cpuusage.cpp" />
     <ClCompile Include="src\frame.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\settingsdlg.cpp" />
     <ClCompile Include="src\shutdownsvc.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\watcher.cpp" />
   </ItemGroup>

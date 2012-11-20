@@ -176,13 +176,14 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\ClientChangeNotify.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\CommonLibs\CString.cpp" />
     <ClCompile Include="src\OptDlg.cpp" />
     <ClCompile Include="..\CommonLibs\Options.cpp" />
     <ClCompile Include="..\CommonLibs\pcre.cpp" />
+    <ClCompile Include="src\ClientChangeNotify.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Common.h" />

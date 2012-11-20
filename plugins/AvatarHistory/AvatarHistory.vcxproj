@@ -185,7 +185,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\AvatarDlg.cpp" />
-    <ClCompile Include="src\AvatarHistory.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\icolib.cpp" />
@@ -194,6 +194,7 @@
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\popup.cpp" />
+    <ClCompile Include="src\AvatarHistory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\AvatarHistory.h" />
