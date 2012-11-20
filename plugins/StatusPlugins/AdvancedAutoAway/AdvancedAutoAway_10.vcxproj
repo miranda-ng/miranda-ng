@@ -210,12 +210,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonstatus.h</PrecompiledHeaderFile>
+      <PrecompiledHeader>Create</PrecompiledHeader>
+      <PrecompiledHeaderFile>commonstatus.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="advancedautoaway.cpp" />
     <ClCompile Include="..\commonstatus.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>commonstatus.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
     </ClCompile>

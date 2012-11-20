@@ -195,10 +195,9 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\commonstatus.cpp">
+    <ClCompile Include="..\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>commonstatus.h</PrecompiledHeaderFile>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Use</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\confirmdialog.cpp">
       <PrecompiledHeaderFile>commonstatus.h</PrecompiledHeaderFile>
@@ -206,9 +205,8 @@
     <ClCompile Include="..\..\helpers\gen_helpers.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">commonstatus.h</PrecompiledHeaderFile>
+    <ClCompile Include="..\commonstatus.cpp">
+      <PrecompiledHeaderFile>commonstatus.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="options.cpp" />
