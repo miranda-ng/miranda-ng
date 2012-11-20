@@ -516,6 +516,12 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 	}
 
 	// attach additional info for fingerprint plguin
+	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
+	{
+		int offset = lstrlen(buf);
+		mir_sntprintf(buf + offset, bufSize - offset, _T(" (SecureIM)"));
+	}
+
 	if (resource->resourceName && !_tcsstr(buf, resource->resourceName))
 	{
 		if (_tcsstr(buf, _T("Miranda IM")) || _tcsstr(buf, _T("Miranda NG")) || m_options.ShowForeignResourceInMirVer)
@@ -523,12 +529,6 @@ void CJabberProto::FormatMirVer(JABBER_RESOURCE_STATUS *resource, TCHAR *buf, in
 			int offset = lstrlen(buf);
 			mir_sntprintf(buf + offset, bufSize - offset, _T(" [%s]"), resource->resourceName);
 		}
-	}
-
-	if (resource->szCapsExt && _tcsstr(resource->szCapsExt, _T(JABBER_EXT_SECUREIM)) && !_tcsstr(buf, _T("(SecureIM)")))
-	{
-		int offset = lstrlen(buf);
-		mir_sntprintf(buf + offset, bufSize - offset, _T(" (SecureIM)"));
 	}
 }
 
