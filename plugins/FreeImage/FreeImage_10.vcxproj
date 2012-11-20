@@ -315,7 +315,6 @@
     <ClCompile Include="src\FreeImageToolkit\JPEGTransform.cpp" />
     <ClCompile Include="src\FreeImageToolkit\Rescale.cpp" />
     <ClCompile Include="src\FreeImageToolkit\Resize.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\FreeImage.rc" />

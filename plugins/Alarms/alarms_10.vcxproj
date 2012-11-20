@@ -186,7 +186,6 @@
     <ClCompile Include="src\frame.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\time_utils.cpp" />
     <ClCompile Include="src\trigger.cpp" />
   </ItemGroup>

@@ -437,9 +437,6 @@
     <ClCompile Include="src\FreeImage\ConversionUINT16.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\FreeImage.rc">
