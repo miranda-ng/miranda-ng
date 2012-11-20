@@ -180,7 +180,8 @@
   <ItemGroup>
     <ClCompile Include="src\alarm_win.cpp" />
     <ClCompile Include="src\alarmlist.cpp" />
-    <ClCompile Include="src\alarms.cpp">
+    <ClCompile Include="src\alarms.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\frame.cpp" />
