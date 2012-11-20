@@ -187,9 +187,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\aim.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\aim.cpp" />
     <ClCompile Include="src\avatars.cpp" />
     <ClCompile Include="src\away.cpp" />
     <ClCompile Include="src\chat.cpp" />
@@ -208,7 +209,6 @@
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\snac.cpp" />
-    <ClCompile Include="src\stdafx.cpp" />
     <ClCompile Include="src\theme.cpp" />
     <ClCompile Include="src\thread.cpp" />
     <ClCompile Include="src\tlv.cpp" />
