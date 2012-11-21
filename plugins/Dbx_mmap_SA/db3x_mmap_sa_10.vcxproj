@@ -226,10 +226,11 @@
     <ClCompile Include="src\dbintf_sa.cpp" />
     <ClCompile Include="src\dbpreset.cpp" />
     <ClCompile Include="src\dialogs.cpp" />
-    <ClCompile Include="src\init.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\security.cpp" />
+    <ClCompile Include="src\init.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Db3x_mmap\src\dbintf.h" />

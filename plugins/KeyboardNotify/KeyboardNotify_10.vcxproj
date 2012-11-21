@@ -189,10 +189,11 @@
     <ClCompile Include="src\ignore.cpp" />
     <ClCompile Include="src\keyboard.cpp" />
     <ClCompile Include="src\keypresses.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\trigger.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

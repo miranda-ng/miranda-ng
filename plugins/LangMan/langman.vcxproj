@@ -190,10 +190,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\langpack.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>

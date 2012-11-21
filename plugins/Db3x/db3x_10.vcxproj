@@ -225,9 +225,10 @@
     </ClCompile>
     <ClCompile Include="src\dbcache3x.cpp" />
     <ClCompile Include="src\dbintf3x.cpp" />
-    <ClCompile Include="src\init.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\init.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Db3x_mmap\src\dbintf.h" />

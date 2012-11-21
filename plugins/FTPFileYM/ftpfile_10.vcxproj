@@ -180,7 +180,7 @@
     <ClCompile Include="src\dbentry.cpp" />
     <ClCompile Include="src\deletetimer.cpp" />
     <ClCompile Include="src\dialog.cpp" />
-    <ClCompile Include="src\ftpfile.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\job_delete.cpp" />
@@ -192,6 +192,7 @@
     <ClCompile Include="src\mir_db.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\serverlist.cpp" />
+    <ClCompile Include="src\ftpfile.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\zip\ioapi.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>

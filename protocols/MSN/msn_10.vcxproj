@@ -204,7 +204,7 @@
     <ClCompile Include="src\ezxml.c">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\msn.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\msn_auth.cpp" />
@@ -238,6 +238,7 @@
     <ClCompile Include="src\msn_threads.cpp" />
     <ClCompile Include="src\msn_useropts.cpp" />
     <ClCompile Include="src\msn_ws.cpp" />
+    <ClCompile Include="src\msn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\msn.rc" />

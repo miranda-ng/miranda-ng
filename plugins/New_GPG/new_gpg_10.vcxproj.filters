@@ -48,6 +48,9 @@
     <ClCompile Include="src\utilities.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">

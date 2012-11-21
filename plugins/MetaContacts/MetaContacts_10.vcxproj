@@ -187,13 +187,14 @@
     <ClCompile Include="src\edit.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\meta_api.cpp" />
-    <ClCompile Include="src\meta_main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\meta_menu.cpp" />
     <ClCompile Include="src\meta_options.cpp" />
     <ClCompile Include="src\meta_services.cpp" />
     <ClCompile Include="src\meta_utils.cpp" />
+    <ClCompile Include="src\meta_main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\metacontacts.h" />

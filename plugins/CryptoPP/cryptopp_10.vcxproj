@@ -180,7 +180,7 @@
   <ItemGroup>
     <ClCompile Include="src\base16.cpp" />
     <ClCompile Include="src\base64.cpp" />
-    <ClCompile Include="src\commonheaders.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\cpp_cntx.cpp" />
@@ -196,6 +196,7 @@
     <ClCompile Include="src\gettime.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\mmi.cpp" />
+    <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\utf8.cpp" />
   </ItemGroup>
   <ItemGroup>

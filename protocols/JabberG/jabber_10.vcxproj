@@ -199,7 +199,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\jabber.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\jabber_adhoc.cpp" />
@@ -253,6 +253,7 @@
     <ClCompile Include="src\jabber_xstatus.cpp" />
     <ClCompile Include="src\jabber_zstream.cpp" />
     <ClCompile Include="src\MString.cpp" />
+    <ClCompile Include="src\jabber.cpp" />
     <ClCompile Include="src\ui_utils.cpp" />
   </ItemGroup>
   <ItemGroup>

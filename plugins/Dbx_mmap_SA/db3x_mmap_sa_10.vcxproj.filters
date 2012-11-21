@@ -90,6 +90,9 @@
     <ClCompile Include="..\db3x_mmap\src\dbtool\user.cpp">
       <Filter>Mmap files\Checker</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h">

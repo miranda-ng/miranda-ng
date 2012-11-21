@@ -189,10 +189,10 @@
     <ResourceCompile Include="res\FlashAvatars.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cflash.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\stdafx.cpp" />
+    <ClCompile Include="src\cflash.cpp" />
     <ClCompile Include="src\TigerHash.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

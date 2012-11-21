@@ -279,11 +279,12 @@
     <ClInclude Include="modules\xml\xmlParser.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\commonheaders.cpp">
+    <ClCompile Include="core\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="core\miranda.cpp" />
     <ClCompile Include="core\modules.cpp" />
+    <ClCompile Include="core\commonheaders.cpp" />
     <ClCompile Include="modules\addcontact\addcontact.cpp">
       <PrecompiledHeaderFile>..\..\core\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>

@@ -169,12 +169,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\commands.cpp" />
-    <ClCompile Include="src\MimCmd.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\src\mimcmd_ipc.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\MimCmd.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commands.h" />

@@ -184,13 +184,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\modernopt.cpp" />
     <ClCompile Include="src\mopt_home.cpp" />
     <ClCompile Include="src\mopt_ignore.cpp" />
     <ClCompile Include="src\mopt_selector.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\commonheaders.h" />

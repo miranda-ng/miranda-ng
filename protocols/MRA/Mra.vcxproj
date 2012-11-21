@@ -184,7 +184,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Mra.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\MraProto.cpp" />
@@ -206,6 +206,7 @@
     <ClCompile Include="src\MraSelectEMail.cpp" />
     <ClCompile Include="src\MraSendCommand.cpp" />
     <ClCompile Include="src\MraSendQueue.cpp" />
+    <ClCompile Include="src\Mra.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Mra.h" />

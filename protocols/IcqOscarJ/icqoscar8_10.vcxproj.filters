@@ -265,5 +265,6 @@
     <ClCompile Include="src\icq_menu.cpp">
       <Filter>Miranda Bits</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp" />
   </ItemGroup>
 </Project>

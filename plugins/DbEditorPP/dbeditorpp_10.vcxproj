@@ -180,7 +180,7 @@
     <ClCompile Include="src\exportimport.cpp" />
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\knownmodules.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\modules.cpp" />
@@ -193,6 +193,7 @@
     <ClCompile Include="src\moduletree.cpp" />
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\settinglist.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\watchedvars.cpp" />
   </ItemGroup>
   <ItemGroup>

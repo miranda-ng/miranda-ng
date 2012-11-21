@@ -189,9 +189,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\wizard.cpp" />
     <ClCompile Include="src\worker.cpp" />
     <ClCompile Include="src\cleaning.cpp" />

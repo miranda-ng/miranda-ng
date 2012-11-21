@@ -198,11 +198,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\import.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\miranda.cpp" />
     <ClCompile Include="src\progress.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\utils.cpp" />
     <ClCompile Include="src\wizard.cpp" />
   </ItemGroup>

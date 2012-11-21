@@ -27,11 +27,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmdline.cpp" />
-    <ClCompile Include="commonheaders.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="db.cpp" />
     <ClCompile Include="langpack.cpp" />
@@ -42,6 +39,7 @@
     <ClCompile Include="modules.cpp" />
     <ClCompile Include="path.cpp" />
     <ClCompile Include="sha1.cpp" />
+    <ClCompile Include="commonheaders.cpp" />
     <ClCompile Include="threads.cpp" />
     <ClCompile Include="utf.cpp" />
     <ClCompile Include="utils.cpp" />

@@ -198,7 +198,7 @@
     <ClCompile Include="src\dialogs.cpp" />
     <ClCompile Include="src\dynstuff.cpp" />
     <ClCompile Include="src\filetransfer.cpp" />
-    <ClCompile Include="src\gg.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\gg_proto.cpp" />
@@ -213,6 +213,7 @@
     <ClCompile Include="src\popups.cpp" />
     <ClCompile Include="src\services.cpp" />
     <ClCompile Include="src\sessions.cpp" />
+    <ClCompile Include="src\gg.cpp" />
     <ClCompile Include="src\token.cpp" />
     <ClCompile Include="src\userutils.cpp" />
     <ClCompile Include="src\libgadu\common.c">

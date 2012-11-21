@@ -198,7 +198,7 @@
     <ClCompile Include="src\input.cpp" />
     <ClCompile Include="src\irclib.cpp" />
     <ClCompile Include="src\ircproto.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\MString.cpp" />
@@ -206,6 +206,7 @@
     <ClCompile Include="src\output.cpp" />
     <ClCompile Include="src\scripting.cpp" />
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tools.cpp" />
     <ClCompile Include="src\ui_utils.cpp" />
     <ClCompile Include="src\userinfo.cpp" />

@@ -632,6 +632,9 @@
     <ClCompile Include="modules\extraicons\options_ei.cpp">
       <Filter>Modules\extraicons</Filter>
     </ClCompile>
+    <ClCompile Include="core\stdafx.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">
