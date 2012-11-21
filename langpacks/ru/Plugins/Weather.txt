@@ -28,7 +28,7 @@
 [%s - Update All]
 %s - Обновить все
 [Current weather information for %s.]
-Текущая информация о погоде для %s
+Текущая информация о погоде для %s.
 [Weather Station]
 Прогноз погоды
 [Log Information]
@@ -46,9 +46,9 @@
 [Set as default station]
 По умолчанию
 [Weather condition was not logged.]
-Журнал погоды не ведется
+Журнал погоды не ведется.
 [No information available.\nPlease update weather condition first.]
-Информация недоступна \nПредварительно обновите данные о погоде
+Информация недоступна \nПредварительно обновите данные о погоде.
 [Brief Weather Information]
 Краткая информация о погоде
 [Read More]
@@ -56,7 +56,7 @@
 [Station ID]
 ID города
 [Please try again after weather update is completed.]
-Попробуйте после завершения обновления сведений о погоде
+Попробуйте после завершения обновления сведений о погоде.
 [Use English units]
 Применять британские единицы
 [Show main menu items]
