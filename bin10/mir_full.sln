@@ -290,8 +290,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PasteIt", "..\plugins\Paste
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SendSS", "..\plugins\SendScreenshotPlus\SendSS_10.vcxproj", "{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CheckSum", "..\tools\checksum\checksum_10.vcxproj", "{5153CD6C-6041-47CD-8BE3-2772326BB7C5}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbEditorPP", "..\plugins\DbeditorPP\dbeditorpp_10.vcxproj", "{9C6040B8-1173-40FA-A3DB-DE044CCD8250}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrashDumper", "..\plugins\CrashDumper\crshdmp_10.vcxproj", "{576EEEFD-E423-482B-879A-F0515D40B8E1}"
@@ -1349,14 +1347,6 @@ Global
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|Win32.Build.0 = Release|Win32
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|x64.ActiveCfg = Release|x64
 		{CEAD8BCF-1F22-4E00-9F6D-E33405B00552}.Release|x64.Build.0 = Release|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.ActiveCfg = Debug|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|Win32.Build.0 = Debug|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.ActiveCfg = Debug|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Debug|x64.Build.0 = Debug|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.ActiveCfg = Release|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|Win32.Build.0 = Release|Win32
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.ActiveCfg = Release|x64
-		{5153CD6C-6041-47CD-8BE3-2772326BB7C5}.Release|x64.Build.0 = Release|x64
 		{9C6040B8-1173-40FA-A3DB-DE044CCD8250}.Debug|Win32.ActiveCfg = Debug|Win32
 		{9C6040B8-1173-40FA-A3DB-DE044CCD8250}.Debug|Win32.Build.0 = Debug|Win32
 		{9C6040B8-1173-40FA-A3DB-DE044CCD8250}.Debug|x64.ActiveCfg = Debug|x64
