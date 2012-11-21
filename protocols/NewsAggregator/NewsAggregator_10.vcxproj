@@ -185,10 +185,11 @@
     <ClCompile Include="Src\Icons.cpp" />
     <ClCompile Include="Src\Menus.cpp" />
     <ClCompile Include="Src\Options.cpp" />
-    <ClCompile Include="Src\NewsAggregator.cpp">
+    <ClCompile Include="Src\Stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Services.cpp" />
+    <ClCompile Include="Src\NewsAggregator.cpp" />
     <ClCompile Include="Src\Update.cpp" />
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>

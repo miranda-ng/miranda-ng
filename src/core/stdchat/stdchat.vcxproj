@@ -202,7 +202,7 @@
     <ClCompile Include="src\clist.cpp" />
     <ClCompile Include="src\colorchooser.cpp" />
     <ClCompile Include="src\log.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\manager.cpp" />
@@ -212,6 +212,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\tools.cpp" />
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>

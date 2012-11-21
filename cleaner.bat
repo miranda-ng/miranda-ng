@@ -1,1 +1,1 @@
-del /F /S /Q /A RHS *.sdf *.suo *.user
+del /F /S /Q /A RHS *.sdf *.suo *.user include\m_version.h

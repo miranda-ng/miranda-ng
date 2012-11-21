@@ -204,10 +204,11 @@
     </ClCompile>
     <ClCompile Include="src\Notifications.cpp" />
     <ClCompile Include="src\Options.cpp" />
-    <ClCompile Include="src\PluginUpdater.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Scanner.cpp" />
+    <ClCompile Include="src\PluginUpdater.cpp" />
     <ClCompile Include="src\unzipfile.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>

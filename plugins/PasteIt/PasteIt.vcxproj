@@ -176,12 +176,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Options.cpp" />
-    <ClCompile Include="src\PasteIt.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\PasteToWeb.cpp" />
     <ClCompile Include="src\PasteToWeb1.cpp" />
     <ClCompile Include="src\PasteToWeb2.cpp" />
+    <ClCompile Include="src\PasteIt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="res\PasteIt.rc" />

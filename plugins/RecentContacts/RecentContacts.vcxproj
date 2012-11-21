@@ -175,9 +175,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\options.cpp" />
-    <ClCompile Include="src\RecentContacts.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\RecentContacts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\resource.h" />

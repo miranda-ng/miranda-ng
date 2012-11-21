@@ -192,7 +192,7 @@
     <ClCompile Include="src\headers.cpp" />
     <ClCompile Include="src\history.cpp" />
     <ClCompile Include="src\icons.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\notifications.cpp" />
@@ -208,6 +208,7 @@
     <ClCompile Include="src\opt_gen.cpp" />
     <ClCompile Include="src\opt_skins.cpp" />
     <ClCompile Include="src\opttree.cpp" />
+    <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\actions.h" />

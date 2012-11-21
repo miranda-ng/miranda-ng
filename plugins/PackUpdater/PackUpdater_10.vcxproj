@@ -178,9 +178,10 @@
     <ClCompile Include="Src\Events.cpp" />
     <ClCompile Include="Src\Notifications.cpp" />
     <ClCompile Include="Src\Options.cpp" />
-    <ClCompile Include="Src\PackUpdater.cpp">
+    <ClCompile Include="Src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Src\PackUpdater.cpp" />
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

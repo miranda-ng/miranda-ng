@@ -224,7 +224,7 @@
     </ClCompile>
     <ClCompile Include="src\options.cpp" />
     <ClCompile Include="src\RichEdit.cpp" />
-    <ClCompile Include="src\spellchecker.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\hunspell\affentry.cxx">
@@ -260,6 +260,7 @@
     <ClCompile Include="src\hunspell\suggestmgr.cxx">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\SpellChecker.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -45,7 +45,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <commctrl.h>
 
 #include <newpluginapi.h>
-#include <m_version.h>
 #include <m_system.h>
 #include <m_system_cpp.h>
 #include <m_chat.h>

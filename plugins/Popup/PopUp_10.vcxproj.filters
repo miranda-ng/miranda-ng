@@ -99,6 +99,9 @@
     <ClCompile Include="src\opttree.cpp">
       <Filter>Option Pages</Filter>
     </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\actions.h">

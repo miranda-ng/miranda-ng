@@ -184,12 +184,13 @@
   <ItemGroup>
     <ClCompile Include="src\file.cpp" />
     <ClCompile Include="src\history.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\menu.cpp" />
     <ClCompile Include="src\missed.cpp" />
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\userinfo.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>

@@ -211,7 +211,7 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\commonheaders.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\crypt_check.cpp" />
@@ -233,6 +233,7 @@
     <ClCompile Include="src\popupOptions.cpp" />
     <ClCompile Include="src\rtfconv.cpp" />
     <ClCompile Include="src\splitmsg.cpp" />
+    <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\svcs_clist.cpp" />
     <ClCompile Include="src\svcs_menu.cpp" />
     <ClCompile Include="src\svcs_proto.cpp" />

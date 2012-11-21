@@ -177,10 +177,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Src\Main.cpp">
+    <ClCompile Include="Src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Src\Options.cpp" />
+    <ClCompile Include="Src\Main.cpp" />
     <ClCompile Include="Src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
