@@ -129,7 +129,7 @@ PLUGININFOEX pluginInfoEx={
 		sizeof(PLUGININFOEX),
 		"Xfire protocol",
 		PLUGIN_MAKE_VERSION(0,1,8,4),
-		"Xfire Protocol Plugin by dufte [Built: "__DATE__" "__TIME__"]",
+		"Xfire Protocol Plugin by dufte",
 		"dufte",
 		"dufte@justmail.de",
 		"(c) 2012 Xfirelib by Herbert Poul, Xfire Miranda protocol plugin by dufte",
@@ -1206,6 +1206,8 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	char AvatarsFolder[MAX_PATH]= "";
 	CallService(MS_DB_GETPROFILEPATH, (WPARAM) MAX_PATH, (LPARAM)AvatarsFolder);
+	strcat(AvatarsFolder, "\\");
+	strcat(AvatarsFolder, CURRENT_PROFILE);
 	strcat(AvatarsFolder, "\\");
 	strcat(AvatarsFolder, "XFire");
 	XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
