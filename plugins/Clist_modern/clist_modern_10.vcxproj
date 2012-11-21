@@ -243,6 +243,7 @@
     <ClCompile Include="src\modern_sync.cpp" />
     <ClCompile Include="src\modern_tbbutton.cpp" />
     <ClCompile Include="src\modern_toolbar.cpp" />
+    <ClCompile Include="src\modern_utils.cpp" />
     <ClCompile Include="src\modern_viewmodebar.cpp" />
     <ClCompile Include="src\modern_xptheme.cpp" />
   </ItemGroup>
