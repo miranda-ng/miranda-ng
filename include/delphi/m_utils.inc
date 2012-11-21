@@ -69,8 +69,9 @@ type
 
   PCountryListEntry = ^TCountryListEntry;
   TCountryListEntry = record
-    id    : int;
-    szName: PAnsiChar;
+    id     : int;
+    szName : PAnsiChar;
+    ISOcode: array [0..2] of AnsiChar;
   end;
 
   PWINDOWLISTENTRY = ^TWINDOWLISTENTRY;
@@ -126,6 +127,15 @@ const
     Version: v0.1.2.0+
   }
   MS_UTILS_GETCOUNTRYBYNUMBER:PAnsiChar = 'Utils/GetCountryByNumber';
+
+  {
+    Gets the name of a country given its ISO code	v0.1.2.0+
+    wParam = (char*)ISOcode
+    lParam = 0
+    Returns a pointer to the string containing the country name on success,
+    or NULL on failure
+  }
+  MS_UTILS_GETCOUNTRYBYISOCODE:PAnsiChar = 'Utils/GetCountryByISOCode';
 
   {
     wParam : Pointer to an int to be filled with count  -- !TODO! test.

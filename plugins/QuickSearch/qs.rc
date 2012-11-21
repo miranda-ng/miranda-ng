@@ -163,12 +163,12 @@ BEGIN
       VALUE "CompanyName",""
       VALUE "Comments", "Plugin to quick search for nickname, firstname, lastname, email, uin in your contact list"0
       VALUE "FileDescription", "Quick info search plugin for Miranda NG"0
-      VALUE "FileVersion", "1, 4, 1, 18 "0
-      VALUE "InternalName", "QuickSearchMod"0
+      VALUE "FileVersion", "1, 4, 1, 19 "0
+      VALUE "InternalName", "QuickSearch"0
       VALUE "OriginalFilename", "quicksearch.dll"0
-      VALUE "ProductName", "QuickSearchMod Dynamic Link Library (DLL)"0
+      VALUE "ProductName", "QuickSearch Dynamic Link Library (DLL)"0
       VALUE "ProductVersion", "0, 8, 0, 0 "0
-      VALUE "SpecialBuild", "2.07.2010 "0
+      VALUE "SpecialBuild", "12.09.2012 "0
     END
   END
   BLOCK "VarFileInfo"

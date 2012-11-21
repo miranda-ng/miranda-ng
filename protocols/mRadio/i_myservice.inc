@@ -116,12 +116,6 @@ begin
 end;
 
 function Service_RadioMute(wParam:WPARAM;lParam:LPARAM):int;cdecl;
-var
-{$IFDEF KOL_MCK}
-  med:TMouseEventData;
-{$ELSE}
-  tmp:pAnsiChar;
-{$ENDIF}
 begin
   if gVolume=0 then
     gVolume:=-1
@@ -131,30 +125,6 @@ begin
   if hVolFrmCtrl<>0 then
     EnableWindow(hVolFrmCtrl,gVolume>=0);
 
-{$IFDEF KOL_MCK}
-  if lParam=0 then // 0 - from Service, not frame
-  begin
-    if btnMute<>nil then
-    begin
-      FillChar(med,SizeOf(med),0);
-      med.Button:=mbLeft;
-      med.StopHandling:=true;
-      btnMute.OnMouseDown(btnMute,med);
-  //    btnMute.Click; // without click processing
-      btnMute.OnMouseUp  (btnMute,med);
-      btnMute.Invalidate;
-    end
-  end;
-{$ELSE}
-  if hMuteFrmCtrl<>0 then
-  begin
-    if gVolume<0 then
-      tmp:=IcoBtnOff
-    else
-      tmp:=IcoBtnOn;
-    SetButtonIcon(hMuteFrmCtrl,tmp);
-  end;
-{$ENDIF}
 end;
 
 function Service_EqOnOff(wParam:WPARAM;lParam:LPARAM):int;cdecl;

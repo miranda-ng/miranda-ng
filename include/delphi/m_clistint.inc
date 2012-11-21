@@ -32,6 +32,7 @@
   PClcProtoStatus       = ^ClcProtoStatus;
   PCLIST_INTERFACE      = ^CLIST_INTERFACE;
   PCListEvent           = ^CListEvent;
+  PCLCCacheEntry        = ^CLCCacheEntry;
   PContactList          = ^ContactList;
   PEventList            = ^EventList;
   PMenuProto            = ^MenuProto;
@@ -42,8 +43,8 @@
 const
   HCONTACT_ISGROUP = $80000000;
   HCONTACT_ISINFO  = $FFFF0000;
-  MAXEXTRACOLUMNS  = 16;
   MAX_TIP_SIZE     = 2048;
+  EXTRA_ICON_COUNT = 10;
 
 function IsHContactGroup  (h:THANDLE):bool;
 function IsHContactInfo   (h:THANDLE):bool;
@@ -131,7 +132,7 @@ type
   tCLCCB = record
     case boolean of
      false: (
-       iImage:word;
+       iImage:int;
        hContact:THANDLE);
      true : (
        groupId:word;
@@ -142,8 +143,8 @@ type
     _type      :byte;
     flags      :byte;
     data       :tCLCCB;
-    iExtraImage:array [0..MAXEXTRACOLUMNS-1] of byte;
-    szText     :array [0..120-MAXEXTRACOLUMNS-1] of WideChar;
+    iExtraImage:array [0..EXTRA_ICON_COUNT-1] of word;
+    szText     :array [0..120-EXTRA_ICON_COUNT-1] of WideChar;
     proto      :pAnsiChar; // MS_PROTO_GETBASEPROTO
   end;
 
@@ -296,6 +297,10 @@ type
     isHidden:int;
   end;
 
+  PCLCCacheEntry = ^CLCCacheEntry;
+  CLCCacheEntry = record
+  end;
+
 type
   PCLIST_INTERFACE = ^CLIST_INTERFACE;
   CLIST_INTERFACE = record
@@ -403,10 +408,10 @@ type
     pfnGetStatusModeDescription : function (mode:int; flags:int):TChar; cdecl;
 
   (* clistsettings.c *)
-    pfnGetCacheEntry   : function (hContact:THANDLE):PClcCacheEntryBase; cdecl;
-    pfnCreateCacheItem : function (hContact:THANDLE):PClcCacheEntryBase; cdecl;
-    pfnCheckCacheItem  : procedure (_para1:PClcCacheEntryBase); cdecl;
-    pfnFreeCacheItem   : procedure (_para1:PClcCacheEntryBase); cdecl;
+    pfnGetCacheEntry   : function (hContact:THANDLE):PClcCacheEntry; cdecl;
+    pfnCreateCacheItem : function (hContact:THANDLE):PClcCacheEntry; cdecl;
+    pfnCheckCacheItem  : procedure (_para1:PClcCacheEntry); cdecl;
+    pfnFreeCacheItem   : procedure (_para1:PClcCacheEntry); cdecl;
 
     pfnGetContactDisplayName           : function (hContact:THANDLE; mode:int):TChar; cdecl;
     pfnInvalidateDisplayNameCacheEntry : procedure (hContact:THANDLE); cdecl;
@@ -530,6 +535,12 @@ type
   *************************************************************************************)
     pfnGetAccountIndexByPos : function (pos:int):int; cdecl;
     pfnConvertMenu: function( clitem:PCLISTMENUITEM; moitem:PMO_MenuItem):int; cdecl;
+
+	(*************************************************************************************
+	 * version 7 additions (0.11.0.x) - extra images
+	 *************************************************************************************)
+    pfnReloadExtraIcons: procedure;
+    pfnSetAllExtraIcons: procedure(hwndList:HWND; hContact:THANDLE);
   end;
 
 {

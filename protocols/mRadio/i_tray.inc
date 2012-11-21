@@ -21,7 +21,7 @@ type
 
 function MyStrSort(para1:pointer; para2:pointer):int; cdecl;
 begin
-  result:=StrCmpW(pTrayRadioStation(para1).name,pTrayRadioStation(para2).name);
+  result:=lstrcmpiW{StrCmpW}(pTrayRadioStation(para1).name,pTrayRadioStation(para2).name);
 end;
 
 function ChooseStation(wParam:WPARAM;lParam,lParam1:LPARAM):int; cdecl;

@@ -141,7 +141,7 @@ begin
 //  ListView_GetItemTextA(wnd,CurProto,0,@buf,SizeOf(buf));
 
   StrCopy(buf,GetProtoName(CurProto));
-  StrCat(buf,PS_ICQ_GETCUSTOMSTATUSICON);
+  StrCat(buf,PS_GETCUSTOMSTATUSICON);
   endis:=ServiceExists(buf)<>0;
 
   EnableWindow(GetDlgItem(Dialog,IDC_CBEX       ),endis);

@@ -27,42 +27,78 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ///////////////////////////////////////////////////////////////////////////////
 // basic database interface
 type
+  TDBCachedGlobalValue = record
+    name : pAnsiChar;
+    value:TDBVARIANT;
+  end;
+type
+  PDBCachedContactValue = ^TDBCachedContactValue;
+  TDBCachedContactValue = record
+    name:pAnsiChar;
+    value:TDBVARIANT;
+    next: PDBCachedContactValue;
+  end;
+
+  PDBCachedContact = ^TDBCachedContact;
+  TDBCachedContact = record
+    hContact:THANDLE;
+    hNext   :THANDLE;
+    szProto :PAnsiChar;
+    first   :PDBCachedContactValue;
+    last    :PDBCachedContactValue;
+  end;
+
+  PMIDatabaseCache = ^MIDatabaseCache;
+  MIDatabaseCache = interface
+    function AddContactToCache(hContact:THANDLE):PDBCachedContact; stdcall;
+    function GetCachedContact(hContact:THANDLE):PDBCachedContact; stdcall;
+    procedure FreeCachedContact(hContact:THANDLE); stdcall;
+
+    function InsertCachedSetting(szName:pAnsiChar; param:int):pAnsiChar; stdcall;
+    function GetCachedSetting(szModuleName:pAnsiChar; szSettingName:pAnsiChar; param1:int; param2:int):pAnsiChar; stdcall;
+    procedure SetCachedVariant(s:PDBVARIANT; d:PDBVARIANT); stdcall;
+    function GetCachedValuePtr(hContact:THANDLE; szSetting:pAnsiChar; bAllocate:int):PDBVARIANT; stdcall;
+  end;
+
+type
   PMIDatabase = ^TMIDatabase;
-  TMIDatabase = interface
-    procedure SetCacheSafetyMode(val:bool); stdcall;
+  TMIDatabase = record
+    m_cache: PMIDatabaseCache;
 
-    function GetContactCount():long; stdcall;
-    function FindFirstContact(const szProto:PAnsiChar = NIL):THANDLE; stdcall;
-    function FindNextContact(hContact:THANDLE; const szProto:PAnsiChar = NIL):THANDLE; stdcall;
+    SetCacheSafetyMode:procedure(val:bool); stdcall;
 
-    function DeleteContact(hContact:THANDLE):long; stdcall;
-    function AddContact():THANDLE; stdcall;
-    function IsDbContact(hContact:THANDLE):bool; stdcall;
+    GetContactCount:function():long; stdcall;
+    FindFirstContact:function(const szProto:PAnsiChar = NIL):THANDLE; stdcall;
+    FindNextContact:function(hContact:THANDLE; const szProto:PAnsiChar = NIL):THANDLE; stdcall;
 
-    function GetEventCount(hContact:THANDLE):long; stdcall;
-    function AddEvent(hContact:THANDLE; dbe:PDBEVENTINFO):THANDLE; stdcall;
-    function DeleteEvent(hContact:THANDLE; hDbEvent:THANDLE):bool; stdcall;
-    function GetBlobSize(hDbEvent:THANDLE):long; stdcall;
-    function GetEvent(hDbEvent:THANDLE; dbe:PDBEVENTINFO):bool; stdcall;
-    function MarkEventRead(hContact:THANDLE; hDbEvent:THANDLE):bool; stdcall;
-    function GetEventContact(hDbEvent:THANDLE):THANDLE; stdcall;
-    function FindFirstEvent(hContact:THANDLE):THANDLE; stdcall;
-    function FindFirstUnreadEvent(hContact:THANDLE):THANDLE; stdcall;
-    function FindLastEvent(hContact:THANDLE):THANDLE; stdcall;
-    function FindNextEvent(hDbEvent:THANDLE):THANDLE; stdcall;
-    function FindPrevEvent(hDbEvent:THANDLE):THANDLE; stdcall;
+    DeleteContact:function(hContact:THANDLE):long; stdcall;
+    AddContact:function():THANDLE; stdcall;
+    IsDbContact:function(hContact:THANDLE):bool; stdcall;
 
-    function EnumModuleNames(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
+    GetEventCount:function(hContact:THANDLE):long; stdcall;
+    AddEvent:function(hContact:THANDLE; dbe:PDBEVENTINFO):THANDLE; stdcall;
+    DeleteEvent:function(hContact:THANDLE; hDbEvent:THANDLE):bool; stdcall;
+    GetBlobSize:function(hDbEvent:THANDLE):long; stdcall;
+    GetEvent:function(hDbEvent:THANDLE; dbe:PDBEVENTINFO):bool; stdcall;
+    MarkEventRead:function(hContact:THANDLE; hDbEvent:THANDLE):bool; stdcall;
+    GetEventContact:function(hDbEvent:THANDLE):THANDLE; stdcall;
+    FindFirstEvent:function(hContact:THANDLE):THANDLE; stdcall;
+    FindFirstUnreadEvent:function(hContact:THANDLE):THANDLE; stdcall;
+    FindLastEvent:function(hContact:THANDLE):THANDLE; stdcall;
+    FindNextEvent:function(hDbEvent:THANDLE):THANDLE; stdcall;
+    FindPrevEvent:function(hDbEvent:THANDLE):THANDLE; stdcall;
 
-    function GetContactSetting      (hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    function GetContactSettingStr   (hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    function GetContactSettingStatic(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    function FreeVariant(dbv:PDBVARIANT):bool; stdcall;
-    function WriteContactSetting (hContact:THANDLE; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
-    function DeleteContactSetting(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
-    function EnumContactSettings (hContact:THANDLE; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
-    function SetSettingResident  (bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
-    function EnumResidentSettings(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
+    EnumModuleNames:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
+
+    GetContactSetting      :function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
+    GetContactSettingStr   :function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
+    GetContactSettingStatic:function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
+    FreeVariant:function(dbv:PDBVARIANT):bool; stdcall;
+    WriteContactSetting :function(hContact:THANDLE; dbcws:PDBCONTACTWRITESETTING):bool; stdcall;
+    DeleteContactSetting:function(hContact:THANDLE; dbcgs:PDBCONTACTGETSETTING):bool; stdcall;
+    EnumContactSettings :function(hContact:THANDLE; dbces:PDBCONTACTENUMSETTINGS):bool; stdcall;
+    SetSettingResident  :function(bIsResident:bool; const pszSettingName:PAnsiChar):bool; stdcall;
+    EnumResidentSettings:function(pFunc:TDBMODULEENUMPROC; pParam:pointer):bool; stdcall;
   end;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -186,5 +222,22 @@ const
   returns MIDatabase* of the current profile or NULL on error
 }
   MS_DB_GET_CURRENT:PAnsiChar = 'DB/GetCurrentDb';
+
+{
+  MS_DB_INIT_INSTANCE : initializes a database instance
+  wParam : 0 (unused)
+  lParam : MIDatabase* = pointer to a database instance
+  returns 0
+}
+  MS_DB_INIT_INSTANCE:pAnsiChar = 'DB/InitDbInstance';
+
+
+{
+  MS_DB_DESTROY_INSTANCE : destroys a database instance
+  wParam : 0 (unused)
+  lParam : MIDatabase* = pointer to a database instance
+  returns 0
+}
+  MS_DB_DESTROY_INSTANCE:pAnsiChar = 'DB/DestroyDbInstance';
 
 {$ENDIF}

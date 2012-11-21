@@ -36,7 +36,7 @@ function MirandaPluginInfoEx(mirandaVersion:DWORD):PPLUGININFOEX; cdecl;
 begin
   result:=@PluginInfo;
   PluginInfo.cbSize     :=SizeOf(TPLUGININFOEX);
-  PluginInfo.shortName  :='Quick Search Mod';
+  PluginInfo.shortName  :='Quick Search';
   PluginInfo.version    :=$01040112;
   PluginInfo.description:=
     'This Plugin allow you to quick search for nickname,'+

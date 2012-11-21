@@ -67,7 +67,7 @@ type
   // delphi 64 must have these types anyway
   int_ptr   = integer;
   uint_ptr  = cardinal;
-
+  
   {$ENDIF}
   long      = longint;
   plong     = ^long;
@@ -111,6 +111,7 @@ const
 type
   PMUUID = ^TMUUID;
   MUUID  = System.TGUID;
+
   TMUUID = MUUID;
 {
   MUUID = record
@@ -134,8 +135,10 @@ type
     authorEmail:PAnsiChar;
     copyright  :PAnsiChar;
     homepage   :PAnsiChar;
-    flags      :Integer;  // right now the only flag, UNICODE_AWARE, is recognized here
-    uuid       :MUUID; // plugin's unique identifier
+    flags      :byte;  // right now the only flag, UNICODE_AWARE, is recognized here
+    case boolean of
+      false: (dummy:longword);
+      true : (uuid :MUUID); // plugin's unique identifier
   end;
 
 //----- Fork enchancement -----
@@ -157,7 +160,7 @@ const
   ME_SYSTEM_MODULEUNLOAD:pAnsiChar = 'Miranda/System/UnloadModule';
 
 {
-  Each service mode plugin must implement MS_SERVICEMODE_LAUNCH
+  Each service mode plugin must implement MS_SERVICEMODE_LAUNCH 
    This service might return one of the following values:
 	SERVICE_CONTINUE - load Miranda normally, like there's no service plugins at all
 	SERVICE_ONLYDB - load database and then execute service plugin only
@@ -201,7 +204,6 @@ var
   {$include m_protosvc.inc}
   {$include m_options.inc}
   {$include m_ssl.inc}
-  {$include m_zlib.inc}
   {$include m_icq.inc}
   {$include m_protoint.inc}
   {$include m_protocols.inc}
@@ -239,6 +241,8 @@ var
   {$include m_toptoolbar.inc}
   {$include m_msg_buttonsbar.inc}
   {$include m_json.inc}
+  {$include m_xstatus.inc}
+  {$include m_zlib.inc}
 {$define M_API_UNIT}
   {$include m_helpers.inc}
   {$include m_clistint.inc}

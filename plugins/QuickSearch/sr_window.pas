@@ -527,7 +527,7 @@ begin
         if wparam._type=ptCurrent then wparam.n:=hContact;
         if lparam._type=ptCurrent then lparam.n:=hContact;
         tmp:=CallService(protov,wparam.n,lparam.n);
-        if int_ptr(tmp)=int_ptr(CALLSERVICE_NOTFOUND) then exit;
+        if tmp=CALLSERVICE_NOTFOUND then exit;
         case setting_cnftype of
           ptString: begin
             AnsiToWide(PAnsiChar(tmp),res.text);
@@ -1464,7 +1464,7 @@ var
   i,num,cnt:integer;
   pinfo:LV_HITTESTINFO;
   TI:TToolInfoW;
-  ics:TICQ_CUSTOM_STATUS;
+  ics:TCUSTOM_STATUS;
 
   info:TCLCINFOTIP;
 //  qsr:tQSRec;
@@ -1686,7 +1686,7 @@ end;
               StrCopyW(buf,MainBuf[i,OldHSubItem].text);
               ics.flags:=CSSF_DEFAULT_NAME or CSSF_MASK_NAME or CSSF_UNICODE;
 
-              StrCopy(StrCopyE(buf1,GetProtoName(FlagBuf[i].proto)),PS_ICQ_GETCUSTOMSTATUSEX);
+              StrCopy(StrCopyE(buf1,GetProtoName(FlagBuf[i].proto)),PS_GETCUSTOMSTATUSEX);
 
               i:=StrToInt(buf);
               ics.wParam:=@i;
@@ -1926,7 +1926,7 @@ begin
         j:=StrToInt(MainBuf[i,sub].text);
         if j>0 then
         begin
-          StrCopy(StrCopyE(buf,GetProtoName(FlagBuf[i].proto)),PS_ICQ_GETCUSTOMSTATUSICON);
+          StrCopy(StrCopyE(buf,GetProtoName(FlagBuf[i].proto)),PS_GETCUSTOMSTATUSICON);
           if ServiceExists(buf)<>0 then
           begin
             h:=CallService(buf,j,LR_SHARED);

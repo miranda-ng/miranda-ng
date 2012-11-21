@@ -21,6 +21,27 @@
 {$DEFINE M_EXTRAICONS}
 
 const
+  EMPTY_EXTRA_ICON = $FFFF;
+
+const
+// Adding icon to extra image list.
+// Used for EXTRAICON_TYPE_CALLBACK extra icons
+//
+// wparam = (HICON)hIcon
+// lparam = 0 (unused)
+// return HANDLE hImage on success or INVALID_HANDLE_VALUE on failure
+  MS_CLIST_EXTRA_ADD_ICON:PansiChar = 'CListFrames/AddIconToExtraImageList';
+
+//called with wparam=hContact
+  ME_CLIST_EXTRA_IMAGE_APPLY:PansiChar = 'CListFrames/OnExtraImageApply';
+
+//called with wparam=hContact lparam=extra
+  ME_CLIST_EXTRA_CLICK:PansiChar = 'CListFrames/OnExtraClick';
+
+//called with wparam=lparam=0
+  ME_CLIST_EXTRA_LIST_REBUILD:PansiChar = 'CListFrames/OnExtraListRebuild';
+
+const
   EXTRAICON_TYPE_CALLBACK = 0; // Similar to old clist callbacks, it fires 2 notifications
   EXTRAICON_TYPE_ICOLIB   = 1; // This extra icon will use only icons registered with icolib.
         // No callbacks needed. Just call MS_EXTRAICON_SET_ICON passing the name of the
@@ -75,13 +96,23 @@ type
     // The icon to be set. This depends on the type of the extra icon:
 	  case boolean of
       false:(hImage :THANDLE);   // Value returned by MS_CLIST_EXTRA_ADD_ICON (if EXTRAICON_TYPE_CALLBACK)
+                                 // or the icolib icon handle (if EXTRAICON_TYPE_ICOLIB)
       true :(icoName:PAnsiChar); // Name of the icon registered with icolib (if EXTRAICON_TYPE_ICOLIB)
   end;
 
 const
-// Set an extra icon icon
-// wParam = (EXTRAICON *) Extra icon
-// Return: 0 on success
+{
+  Set an extra icon icon
+  wParam = (EXTRAICON *) Extra icon
+  Return: 0 on success
+}
   MS_EXTRAICON_SET_ICON:PAnsiChar = 'ExtraIcon/SetIcon';
+
+{
+  Set an extra icon by icolib icon's name
+  wParam = (EXTRAICON *) Extra icon
+  Return: 0 on success
+}
+  MS_EXTRAICON_SET_ICON_BY_NAME:PAnsiChar = 'ExtraIcon/SetIconByName';
 
 {$ENDIF}

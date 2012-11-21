@@ -19,11 +19,11 @@ var
   icon:HICON;
   buf,buf1:array [0..127] of AnsiChar;
   b:array [0..63] of WideChar;
-  ics:TICQ_CUSTOM_STATUS;
+  ics:TCUSTOM_STATUS;
 begin
   result:=0;
   SendMessage(wnd,CB_RESETCONTENT,0,0);
-  StrCopy(StrCopyE(buf,proto),PS_ICQ_GETCUSTOMSTATUSICON);
+  StrCopy(StrCopyE(buf,proto),PS_GETCUSTOMSTATUSICON);
 
   if ServiceExists(@buf)=0 then
     exit;
@@ -32,7 +32,7 @@ begin
   if il=0 then exit;
 
   cnt:=0;
-  StrCopy(StrCopyE(buf1,proto),PS_ICQ_GETCUSTOMSTATUSEX);
+  StrCopy(StrCopyE(buf1,proto),PS_GETCUSTOMSTATUSEX);
 
   cbei.mask:=CBEIF_IMAGE or CBEIF_SELECTEDIMAGE or CBEIF_TEXT; //!!
   ics.cbSize  :=SizEOf(ics);

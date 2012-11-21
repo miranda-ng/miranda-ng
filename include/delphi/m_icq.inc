@@ -273,77 +273,6 @@ an XML parser in the protocol module. Here's one I got:
 }
   PS_ICQ_ISAVATARFORMATSUPPORTED = '/IsAvatarFormatSupported';
 
-{ Custom Status helper API *
- - to set custom status message & title use PS_ICQ_GETCUSTOMSTATUS to obtain
-   DB settings and write values to them (UTF-8 strings best).
- - use PS_ICQ_GETCUSTOMSTATUSEX and PS_ICQ_SETCUSTOMSTATUSEX for controling Custom Status
- - custom messages for each user supported - ME_ICQ_STATUSMSGREQ with type MTYPE_SCRIPT_NOTIFY
-}
-
-  CSSF_MASK_STATUS    = $0001; // status member valid for set/get
-  CSSF_MASK_NAME      = $0002; // pszName member valid for set/get
-  CSSF_MASK_MESSAGE   = $0004; // pszMessage member valid for set/get
-  CSSF_DISABLE_MENU   = $0020; // disable default custom status menu, wParam = bEnable
-  CSSF_DISABLE_UI     = $0040; // disable default custom status UI, wParam = bEnable
-  CSSF_DEFAULT_NAME   = $0080; // only with CSSF_MASK_NAME and get API to get default custom status name (wParam = status)
-  CSSF_STATUSES_COUNT = $0100; // returns number of custom statuses in wParam, only get API
-  CSSF_STR_SIZES      = $0200; // returns sizes of custom status name & message (wParam & lParam members) in chars
-  CSSF_UNICODE        = $1000; // strings are in UCS-2
-
-type
-  PICQ_CUSTOM_STATUS = ^TICQ_CUSTOM_STATUS;
-  TICQ_CUSTOM_STATUS = record
-    cbSize   :int;     // size of the structure
-    flags    :int;     // combination of CSSF_*
-    status   :^int;    // custom status id
-    szName   :TChar;   // buffer for custom status name
-    szMessage:TChar;   // buffer for custom status message
-    wParam   :^WPARAM; // extra params, see flags
-    lParam   :^LPARAM;
-  end;
-
-const
-{
-  Sets owner current custom status
-  wParam = (int)N   // custom status id (1-29)
-  lParam = 0
-  return = N (id of status set) or 0 (failed - probably bad params)
-}
-  PS_ICQ_SETCUSTOMSTATUS = '/SetXStatus';
-
-{
-   Sets owner current custom status
-   wParam = 0                          // reserved
-   lParam = (ICQ_CUSTOM_STATUS*)pData  // contains what to set and new values
-   return = 0 (for success)
-}
-  PS_ICQ_SETCUSTOMSTATUSEX = '/SetXStatusEx';
-
-{
- Retrieves custom status details for specified hContact
- wParam = (HANDLE)hContact
- lParam = (ICQ_CUSTOM_STATUS*)pData  // receives details (members must be prepared)
- return = 0 (for success)
-}
-  PS_ICQ_GETCUSTOMSTATUSEX = '/GetXStatusEx';
-
-const
-  LR_BIGICON = $40;
-{
-  Retrieves specified custom status icon
-  wParam = (int)N  // custom status id (1-32), 0 = my current custom status
-  lParam = flags   // use LR_SHARED for shared HICON, LR_BIGICON for 32x32 icon
-  return = HICON   // custom status icon (use DestroyIcon to release resources)
-}
-  PS_ICQ_GETCUSTOMSTATUSICON = '/GetXStatusIcon';
-
-{
-  Get Custom status DB field names & current owner custom status
-  wParam = (AnsiChar**)szDBTitle // will receive title DB setting name (do not free)
-  lParam = (AnsiChar**)szDBMsg   // will receive message DB setting name
-  Return = N  // current custom status id if successful, 0 otherwise
-}
-  PS_ICQ_GETCUSTOMSTATUS = '/GetXStatus';
 
 {
   Request Custom status details (messages) for specified contact
@@ -369,13 +298,5 @@ const
 }
   ME_ICQ_CUSTOMSTATUS_CHANGED = '/XStatusChanged';
 
-{
-  Called from contact list in order to get index of custom status icon in list
-  wParam = hContact
-  lParam = 0
-  return = (int) index of extra contact icon shifted <<16 
-  (the low word will be normal status icon, the high will be xStatus Icon)
-}
-  PS_ICQ_GETADVANCEDSTATUSICON = '/GetAdvancedStatusIcon';
 
 {$ENDIF}

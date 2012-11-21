@@ -201,7 +201,6 @@ const
 // (assuming classic, mw, meta, nicer1, modern1, nicer++, modernLayered)
 // +0x0100 for unicode
   CLUIF2_EXTRACOLUMNCOUNT = 3; // return max number of extra icon available to be set in main window
-  CLUIF2_USEREXTRASTART   = 4; // return index of first 'advanced' image except Adv1 and Adv2
 
   MS_CLUI_GETCAPS:PAnsiChar = 'CLUI/GetCaps';
 

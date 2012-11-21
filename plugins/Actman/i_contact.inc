@@ -64,7 +64,7 @@ begin
         else
         begin
           uid:=pAnsiChar(CallProtoService(acc,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0));
-          if uint_ptr(uid)<>CALLSERVICE_NOTFOUND then
+          if int_ptr(uid)<>CALLSERVICE_NOTFOUND then
           begin
             if DBReadSetting(hContact,acc,uid,@ldbv)=0 then
             begin

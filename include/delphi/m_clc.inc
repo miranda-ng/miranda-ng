@@ -81,7 +81,7 @@ const
   CLM_GETEDITCONTROL    = (CLM_FIRST+13); // returns the HWND, or NULL
   CLM_GETEXPAND         = (CLM_FIRST+14); // wParam=hItem, returns a CLE_, CLE_INVALID if not a group
   CLM_GETEXTRACOLUMNS   = (CLM_FIRST+15); // returns number of extra columns
-  CLM_GETEXTRAIMAGE     = (CLM_FIRST+16); // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),0), returns iImage or $FF
+  CLM_GETEXTRAIMAGE     = (CLM_FIRST+16); // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),0), returns iImage or EMPTY_EXTRA_ICON
   CLM_GETEXTRAIMAGELIST = (CLM_FIRST+17); // returns HIMAGELIST
   CLM_GETFONT           = (CLM_FIRST+18); // wParam=fontId, see clm_setfont. returns hFont.
   CLM_GETINDENT         = (CLM_FIRST+19); // wParam=new group indent
@@ -89,6 +89,7 @@ const
   CLM_GETITEMTEXT       = (CLM_FIRST+21); // wParam=hItem, lParam=(TChar*)pszStr, max 120 bytes
   CLM_GETSCROLLTIME     = (CLM_FIRST+22); // returns time in ms
   CLM_GETSELECTION      = (CLM_FIRST+23); // returns hItem
+  CLM_SETEXTRASPACE     = (CLM_FIRST+24); // wParam=extra space between icons
 
   CLCHT_ABOVE        = $0001; // above client area
   CLCHT_BELOW        = $0002; // below client area
@@ -121,9 +122,9 @@ const
   CLM_SETBKBITMAP       = (CLM_FIRST+27); // wParam=mode, lParam=hBitmap (don't delete it), NULL for none
   CLM_SETBKCOLOR        = (CLM_FIRST+28); // wParam=a COLORREF, default is GetSysColor(COLOR_3DFACE)
   CLM_SETCHECKMARK      = (CLM_FIRST+29); // wParam=hItem, lParam=1 or 0
-  CLM_SETEXTRACOLUMNS   = (CLM_FIRST+30); // wParam=number of extra columns (zero to MAXEXTRACOLUMNS from clc.h, currently 16)
-  CLM_SETEXTRAIMAGE     = (CLM_FIRST+31); // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),iImage). iImage=$FF is a blank
-  CLM_SETEXTRAIMAGELIST = (CLM_FIRST+32); // lParam=HIMAGELIST, wParam=WideImageList
+  CLM_SETEXTRACOLUMNS   = (CLM_FIRST+30); // wParam = number of extra columns (zero to EXTRA_ICON_COUNT from clc.h, currently 16)
+  CLM_SETEXTRAIMAGE     = (CLM_FIRST+31); // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),iImage). iImage=EMPTY_EXTRA_ICON is a blank
+  CLM_SETEXTRAIMAGELIST = (CLM_FIRST+32); // lParam=HIMAGELIST
 
   FONTID_CONTACTS      = 0;
   FONTID_INVIS         = 1;
@@ -171,11 +172,6 @@ const
   CLM_ADDINFOITEMW = (CLM_FIRST+53); // lParam=&TCLCINFOITEM, returns hItem
   CLM_ADDINFOITEM = CLM_ADDINFOITEMW;
 
-//DO NOT USE IT EXTERNALLY CAN BE NOT SUPPORTED BY CLIST
-  CLM_SETWIDEEXTRAIMAGE     = CLM_FIRST+60; // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),iImage). iImage=0xFFFF is a blank
-  CLM_GETWIDEEXTRAIMAGE     = CLM_FIRST+61; // wParam=hItem, lParam=MAKELPARAM(iColumn (0 based),0), returns iImage or 0xFF
-  CLM_GETWIDEEXTRAIMAGELIST = CLM_FIRST+62; // returns HWIDEIMAGELIST
-
   CLCIIF_BELOWGROUPS   = 1;   // put it between groups and contacts, default is at top
   CLCIIF_BELOWCONTACTS = 2;   // put it at the bottom
   CLCIIF_CHECKBOX      = $40; // give this item a check box
@@ -212,6 +208,10 @@ const
   CLN_NEWCONTACT     = (CLN_FIRST-8);  // hItem,flags valid. sent when a new contact is added without a full list rebuild
   CLN_CONTACTMOVED   = (CLN_FIRST-9);  // hItem,flags valid. sent when contact is moved without a full list rebuild
   CLN_CHECKCHANGED   = (CLN_FIRST-10); // hItem,flags valid. sent when any check mark is changed, but only for one change if there are many
+
+// clist window tree messages
+  M_CREATECLC        = WM_USER+1;
+  M_SETALLEXTRAICONS = WM_USER+2;
 
 type
   PCLCINFOITEM = ^TCLCINFOITEM;

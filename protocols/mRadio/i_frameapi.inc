@@ -8,7 +8,6 @@ var
   colorhook:THANDLE;
   hbr:HBRUSH;
   frm_bkg:TCOLORREF;
-  OldBtnWndProc:pointer;
   OldSliderWndProc:pointer;
 
 function QSDlgResizer(Dialog:HWND;lParam:LPARAM;urc:PUTILRESIZECONTROL):int; cdecl;
@@ -29,20 +28,13 @@ begin
     result:=CallWindowProc(OldSliderWndProc, Dialog, hMessage, wParam, lParam);
 end;
 
-function BtnWndProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
-begin
-  if hMessage=WM_ERASEBKGND then
-    result:=1
-  else
-    result:=CallWindowProc(OldBtnWndProc, Dialog, hMessage, wParam, lParam);
-end;
-
 function RadioFrameProc(Dialog:HWnd;hMessage:UINT;wParam:WPARAM;lParam:LPARAM):lresult; stdcall;
 var
   urd:TUTILRESIZEDIALOG;
   rc:TRECT;
   ti:TTOOLINFOW;
   hwndTooltip:HWND;
+  tmp:pAnsiChar;
 begin
   result:=0;
   case hMessage of
@@ -77,7 +69,6 @@ begin
       SendMessage(hVolFrmCtrl,TBM_SETPOS,1,gVolume);
 
       OldSliderWndProc:=pointer(SetWindowLongPtrW(hVolFrmCtrl,GWL_WNDPROC,LONG_PTR(@SliderWndProc)));
-      OldBtnWndProc   :=pointer(SetWindowLongPtrW(hVolFrmCtrl,GWL_WNDPROC,LONG_PTR(@BtnWndProc)));
     end;
 
     WM_SIZE: begin
@@ -95,6 +86,28 @@ begin
       GetClientRect(Dialog,rc);
       FillRect(wParam,rc,hbr);
       result:=1;
+    end;
+
+    WM_DRAWITEM: begin
+      if wParam=IDC_RADIO_MUTE then
+      begin
+        result:=1;
+        if gVolume<0 then
+          tmp:=IcoBtnOff
+        else
+          tmp:=IcoBtnOn;
+        DrawIconEx(PDRAWITEMSTRUCT(lParam)^.hDC,0,0,
+            CallService(MS_SKIN2_GETICON,0,TLPARAM(tmp)),
+            16,16,0,hbr,DI_NORMAL);
+      end;
+    end;
+
+    WM_CTLCOLORBTN: begin
+      if THANDLE(lParam)=hMuteFrmCtrl then
+      begin
+        SetBkColor(wParam, frm_bkg);
+        result:=hbr;
+      end;
     end;
 
     WM_CTLCOLORSTATIC: begin
@@ -179,18 +192,9 @@ begin
       hIcon   :=0;
       align   :=alTop;
       height  :=tr.bottom-tr.top+2;
-      if IsAnsi then
-      begin
-        Flags   :=F_VISIBLE or F_NOBORDER;
-        name.a  :=cPluginName;
-        TBName.a:=cPluginName + ' volume control';
-      end
-      else
-      begin
-        Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;
-        name.w  :=cPluginName;
-        TBName.w:=cPluginName + ' volume control';
-      end;
+      Flags   :=F_VISIBLE or F_NOBORDER or F_UNICODE;
+      name.w  :=cPluginName;
+      TBName.w:=cPluginName + ' volume control';
     end;
 
     FrameId:=CallService(MS_CLIST_FRAMES_ADDFRAME,wparam(@Frame),0);

@@ -17,71 +17,14 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 }
 
-////////////////////////////////////
-//Extra Image Column Support +0.5.0.0
-
-//Extra columns type.
-//column arranged in this way
-//
-//  [statusicon] ContactName  [ADV1][ADV2][SMS][EMAIL][PROTO]
-//
 {$IFNDEF M_CLUIFRAMES}
 {$DEFINE M_CLUIFRAMES}
 
 const
-  EXTRA_ICON_RES0    = 0;	// only used by nicer
-  EXTRA_ICON_EMAIL   = 1;
-  EXTRA_ICON_PROTO   = 2; // used by mwclist and modern
-  EXTRA_ICON_RES1    = 2; // only used by nicer
-  EXTRA_ICON_SMS     = 3;
-  EXTRA_ICON_ADV1    = 4;
-  EXTRA_ICON_ADV2    = 5;
-  EXTRA_ICON_WEB     = 6;
-  EXTRA_ICON_CLIENT  = 7;
-  EXTRA_ICON_VISMODE = 8; // only used by modern
-  EXTRA_ICON_RES2    = 8; // only used by nicer
-  EXTRA_ICON_ADV3    = 9;
-  EXTRA_ICON_ADV4    = 10;
-
-  EXTRA_ICON_COUNT   = 10;
-
 //  DEFAULT_TITLEBAR_HEIGHT = 18;
 
 //this control will be the main contact list (v. 0.3.4.3+ 2004/11/02)
   CLS_SKINNEDFRAME = $0800;
-
-type
-  PIconExtraColumn = ^TIconExtraColumn;
-  TIconExtraColumn = record
-    cbSize    :int;     //must be sizeof(IconExtraColumn)
-    ColumnType:int;
-    hImage    :THANDLE; //return value from MS_CLIST_EXTRA_ADD_ICON
-  end;
-
-const
-//Set icon for contact at needed column
-//wparam=hContact
-//lparam=pIconExtraColumn
-//return 0 on success,-1 on failure
-//
-//See above for supported columns
-  MS_CLIST_EXTRA_SET_ICON:PAnsiChar = 'CListFrames/SetIconForExraColumn';
-
-//Adding icon to extra image list. 
-//Call this in ME_CLIST_EXTRA_LIST_REBUILD event
-//
-//wparam=hIcon
-//lparam=0
-//return hImage on success,-1 on failure
-  MS_CLIST_EXTRA_ADD_ICON:PAnsiChar = 'CListFrames/AddIconToExtraImageList';
-
-  ME_CLIST_EXTRA_LIST_REBUILD:PAnsiChar = 'CListFrames/OnExtraListRebuild';
-
-//called with wparam=hContact
-  ME_CLIST_EXTRA_IMAGE_APPLY:PAnsiChar = 'CListFrames/OnExtraImageApply';
-
-//called with wparam=hContact lparam=extra
-  ME_CLIST_EXTRA_CLICK:PAnsiChar = 'CListFrames/OnExtraClick';
 
 //adds a frame window
 //wParam=(CLISTFrame*)

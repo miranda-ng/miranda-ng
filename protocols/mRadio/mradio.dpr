@@ -9,7 +9,7 @@ library mradio;
 
 uses
 //  FastMM4,
-  {$IFDEF KOL_MCK}kol,icobuttons,KOLCCtrls,{$ENDIF}Windows,messages,commctrl
+  Windows,messages,commctrl
   ,common,io,wrapper,wrapdlgs,syswin
   ,Dynamic_Bass,dynbasswma
   ,m_api,dbsettings,mirutils,playlist,memini;
@@ -91,11 +91,7 @@ end;
 {$include i_service.inc}
 {$include i_myservice.inc}
 {$include i_hotkey.inc}
-{$IFDEF KOL_MCK}
-  {$include i_frame.inc}
-{$ELSE}
-  {$include i_frameapi.inc}
-{$ENDIF}
+{$include i_frameapi.inc}
 {$include i_tray.inc}
 {$include i_visual.inc}
 {$include i_optdlg.inc}
