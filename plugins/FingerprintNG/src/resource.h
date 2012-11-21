@@ -15,7 +15,8 @@
 
 //##############################################################################################################
 //MirandaIM clients
-#define IDI_MIRANDA_NG        		11
+#define IDI_MIRANDA_NG        		10
+#define IDI_MIRANDA_NG_STABLE		11
 #define IDI_MIRANDA_OLD       		12
 #define IDI_MIRANDA_UNKNOWN   		13
 

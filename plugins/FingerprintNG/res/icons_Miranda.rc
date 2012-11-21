@@ -44,6 +44,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 
 	IDI_MIRANDA_NG			ICON	"..\\icons\\Miranda\\MirandaNG.ico"
+	IDI_MIRANDA_NG_STABLE	ICON	"..\\icons\\Miranda\\MirandaNG Stable.ico"
 	IDI_MIRANDA_UNKNOWN		ICON	"..\\icons\\Miranda\\Miranda_unknown.ico"
 
 	IDI_MIRANDA_OLD			ICON	"..\\icons\\Miranda\\MirandaIM_old.ico"
