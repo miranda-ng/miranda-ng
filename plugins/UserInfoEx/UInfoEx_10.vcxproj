@@ -183,7 +183,7 @@
     <ClCompile Include="src\classMTime.cpp" />
     <ClCompile Include="src\classPsTree.cpp" />
     <ClCompile Include="src\classPsTreeItem.cpp" />
-    <ClCompile Include="src\commonheaders.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\init.cpp" />
@@ -193,6 +193,7 @@
     <ClCompile Include="src\mir_menuitems.cpp" />
     <ClCompile Include="src\mir_string.cpp" />
     <ClCompile Include="src\psp_options.cpp" />
+    <ClCompile Include="src\commonheaders.cpp" />
     <ClCompile Include="src\svc_avatar.cpp" />
     <ClCompile Include="src\svc_constants.cpp" />
     <ClCompile Include="src\svc_contactinfo.cpp" />

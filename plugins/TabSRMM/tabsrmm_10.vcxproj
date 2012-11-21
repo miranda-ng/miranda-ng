@@ -220,9 +220,10 @@
     <ClCompile Include="src\selectcontainer.cpp" />
     <ClCompile Include="src\sendqueue.cpp" />
     <ClCompile Include="src\sidebar.cpp" />
-    <ClCompile Include="src\srmm.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\srmm.cpp" />
     <ClCompile Include="src\tabctrl.cpp" />
     <ClCompile Include="src\taskbar.cpp" />
     <ClCompile Include="src\templates.cpp" />

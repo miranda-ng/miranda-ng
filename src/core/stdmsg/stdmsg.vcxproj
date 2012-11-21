@@ -197,10 +197,11 @@
     <ClCompile Include="src\msgs.cpp" />
     <ClCompile Include="src\msgtimedout.cpp" />
     <ClCompile Include="src\richutil.cpp" />
-    <ClCompile Include="src\srmm.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\statusicon.cpp" />
+    <ClCompile Include="src\srmm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cmdlist.h" />

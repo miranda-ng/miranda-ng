@@ -188,8 +188,9 @@
     <ClCompile Include="src\icons.cpp" />
     <ClCompile Include="src\notifiers.cpp" />
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\WhenWasIt.cpp" />
     <ClCompile Include="src\utils.cpp" />
-    <ClCompile Include="src\WhenWasIt.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>

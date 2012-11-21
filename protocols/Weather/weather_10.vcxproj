@@ -185,7 +185,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\weather.cpp">
+    <ClCompile Include="src\weather.cpp" />
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\weather_addstn.cpp" />

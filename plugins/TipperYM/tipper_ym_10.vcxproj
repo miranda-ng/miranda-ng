@@ -185,9 +185,10 @@
     <ClCompile Include="src\popwin.cpp" />
     <ClCompile Include="src\preset_items.cpp" />
     <ClCompile Include="src\skin_parser.cpp" />
+    <ClCompile Include="src\tipper.cpp" />
     <ClCompile Include="src\str_utils.cpp" />
     <ClCompile Include="src\subst.cpp" />
-    <ClCompile Include="src\tipper.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\translations.cpp" />

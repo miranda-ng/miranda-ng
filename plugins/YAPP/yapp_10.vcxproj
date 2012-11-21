@@ -179,9 +179,10 @@
     <ClCompile Include="src\message_pump.cpp" />
     <ClCompile Include="src\notify_imp.cpp" />
     <ClCompile Include="src\options.cpp" />
+    <ClCompile Include="src\yapp.cpp" />
     <ClCompile Include="src\yapp_history.cpp" />
     <ClCompile Include="src\yapp_history_dlg.cpp" />
-    <ClCompile Include="src\yapp.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\popwin.cpp" />

@@ -185,10 +185,11 @@
     <ClCompile Include="src\CVersionInfo.cpp" />
     <ClCompile Include="src\dlgHandlers.cpp" />
     <ClCompile Include="src\hooked_events.cpp" />
-    <ClCompile Include="src\main.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\utils.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -205,10 +205,11 @@
     <ClCompile Include="src\search.cpp" />
     <ClCompile Include="src\server.cpp" />
     <ClCompile Include="src\services.cpp" />
+    <ClCompile Include="src\yahoo.cpp" />
     <ClCompile Include="src\user_info.cpp" />
     <ClCompile Include="src\util.cpp" />
     <ClCompile Include="src\webcam.cpp" />
-    <ClCompile Include="src\yahoo.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\libyahoo2\crypt.c">

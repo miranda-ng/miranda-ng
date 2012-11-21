@@ -201,9 +201,10 @@
     <ClCompile Include="src\clistmenus.cpp" />
     <ClCompile Include="src\clistopts.cpp" />
     <ClCompile Include="src\cluiopts.cpp" />
-    <ClCompile Include="src\init.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\init.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\clc.h" />
