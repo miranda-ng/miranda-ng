@@ -173,11 +173,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Commonheaders.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\Console.cpp" />
     <ClCompile Include="src\init.cpp" />
+    <ClCompile Include="src\Commonheaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Commonheaders.h" />

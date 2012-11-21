@@ -209,7 +209,7 @@
     <ClCompile Include="src\clui.cpp" />
     <ClCompile Include="src\cluiopts.cpp" />
     <ClCompile Include="src\cluiservices.cpp" />
-    <ClCompile Include="src\commonheaders.cpp">
+    <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\contact.cpp" />
@@ -225,6 +225,7 @@
     <ClCompile Include="src\CLUIFrames\statusbar.cpp">
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\commonheaders.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CLUIFrames\cluiframes.h" />

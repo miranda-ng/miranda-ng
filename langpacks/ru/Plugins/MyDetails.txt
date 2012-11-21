@@ -23,13 +23,13 @@
 Сменить мой ник для %s
 [Set My Status Message for %s]
 Установить статус для %s
-[ Avatar ]
+[Avatar]
 Аватар
-[ Frame Options ]
+[Frame Options]
 Опции окна
-[ General ]
+[General]
 Общие
-[ Protocol ]
+[Protocol]
 Протокол
 [&Offline]
 Отключён
