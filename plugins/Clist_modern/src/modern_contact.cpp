@@ -83,42 +83,41 @@ DWORD CompareContacts2_getLMTime(HANDLE hContact)
 
 int GetProtoIndex(char * szName)
 {
-	PROTOACCOUNT **accs = NULL;
-	int accCount = 0;
-	int i;
-    if ( !szName) return -1;
-	ProtoEnumAccounts( &accCount, &accs );    
-	for (i=0; i < accCount; i++)
-		if ( !mir_strcmpi(szName,accs[i]->szModuleName))
-			return accs[i]->iOrder;
-    return -1;
+	if (szName) {
+		PROTOACCOUNT **accs = NULL;
+		int accCount = 0;
+		ProtoEnumAccounts( &accCount, &accs );    
+
+		for (int i=0; i < accCount; i++)
+			if ( !mir_strcmpi(szName, accs[i]->szModuleName))
+				return accs[i]->iOrder;
+	}
+
+	return -1;
 }
 
 int CompareContacts2(const ClcContact *contact1,const ClcContact *contact2, int by)
 {
-
 	HANDLE a;
 	HANDLE b;
 	TCHAR *namea, *nameb;
 	int statusa,statusb;
 	char *szProto1,*szProto2;
-	
+
 	if ((INT_PTR)contact1 < 100 || (INT_PTR)contact2 < 100) return 0;
-	
+
 	a = contact1->hContact;
 	b = contact2->hContact;
-	
+
 	namea = (TCHAR *)contact1->szText;
 	statusa = GetContactCachedStatus(contact1->hContact);
 	szProto1 = contact1->proto;
-	
+
 	nameb = (TCHAR *)contact2->szText;
 	statusb = GetContactCachedStatus(contact2->hContact);
 	szProto2 = contact2->proto;
 
-
-	if (by == SORTBY_STATUS) 
-	{ //status
+	if (by == SORTBY_STATUS) { //status
 		int ordera,orderb;
 		ordera = GetStatusModeOrdering(statusa);
 		orderb = GetStatusModeOrdering(statusb);
@@ -191,7 +190,6 @@ INT_PTR ToggleHideOffline(WPARAM wParam,LPARAM lParam)
 
 INT_PTR ToggleGroups(WPARAM wParam,LPARAM lParam)
 {
-
 	db_set_b(NULL, "CList", "UseGroups",
 				(BYTE) !db_get_b(NULL, "CList", "UseGroups", SETTING_USEGROUPS_DEFAULT));
 	pcli->pfnLoadContactTree();

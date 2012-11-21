@@ -28,25 +28,19 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "hdr/modern_commonprototypes.h"
 #include "hdr/modern_row.h"
 
-
-
-
-
-
 void RefreshTree(HWND hwndDlg,HTREEITEM hti);
 static char* rowOptTmplStr;
 static ROWCELL* rowOptTmplRoot;
 static ROWCELL* rowOptTA[100];
-				TCHAR *types[] = {_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"), 
-								_T("avatar"), _T("extra"),  _T("extra1"), _T("extra2"), _T("extra3"), 
-								_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"), 
-								_T("extra9"), _T("time"),   _T("space"),  _T("fspace")};
-RECT da = {205,58,440,130}; // Draw area
-// Add by ZorG
+TCHAR *types[] = {
+	_T("none"),   _T("text1"),  _T("text2"),  _T("text3"),  _T("status"), 
+	_T("avatar"), _T("extra"),  _T("extra1"), _T("extra2"), _T("extra3"), 
+	_T("extra4"), _T("extra5"), _T("extra6"), _T("extra7"), _T("extra8"), 
+	_T("extra9"), _T("time"),   _T("space"),  _T("fspace")
+};
 
-//char * rowOptBuildTmpl(HTREEITEM node, HWND htree)
-//{	
-//}
+RECT da = {205,58,440,130}; // Draw area
+
 void rowOptBuildTA(pROWCELL cell, pROWCELL* TA, int* i)
 {
 	if ( !cell) return;
@@ -68,8 +62,7 @@ void rowOptShowSettings(HWND hwnd)
 	TreeView_GetItem(GetDlgItem(hwnd, IDC_ROWTREE), &tvi);
 	cell = (pROWCELL)tvi.lParam;
 	
-	if ( !tvi.hItem) 
-	{
+	if ( !tvi.hItem)  {
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),0);
 		EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,0);
@@ -80,40 +73,34 @@ void rowOptShowSettings(HWND hwnd)
 		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,0);
 		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,0);
 		EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),0);
-	return;
+		return;
 	}
-	else
-	{
-		EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,1);
-		EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),1);
-		EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,1);
-		EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),1);
 
-		if (cell->type != TC_SPACE && cell->type != TC_FIXED)
-		{
-			EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,0);
-			EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
-			EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,0);
-			EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),0);
-			SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,0);
-			SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,0);
-		}
-		else
-		{
-			EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,1);
-			EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),1);
-			EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,1);
-			EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),1);
-			SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,MAKELONG(cell->w,0));
-			SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,MAKELONG(cell->h,0));
-		}
-		
+	EnableWindow(GetDlgItem(hwnd,IDC_CONTTYPE) ,1);
+	EnableWindow(GetDlgItem(hwnd,IDC_VALIGN),1);
+	EnableWindow(GetDlgItem(hwnd,IDC_HALIGN) ,1);
+	EnableWindow(GetDlgItem(hwnd,IDC_CONTLAYER),1);
+
+	if (cell->type != TC_SPACE && cell->type != TC_FIXED) {
+		EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,0);
+		EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),0);
+		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,0);
+		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,0);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,0);
+	}
+	else {
+		EnableWindow(GetDlgItem(hwnd,IDC_CONTWIDTH) ,1);
+		EnableWindow(GetDlgItem(hwnd,IDC_CONTHEIGHT),1);
+		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTWIDTH) ,1);
+		EnableWindow(GetDlgItem(hwnd,IDC_SPINCONTHEIGHT),1);
+		SendDlgItemMessage(hwnd,IDC_SPINCONTWIDTH, UDM_SETPOS,0,MAKELONG(cell->w,0));
+		SendDlgItemMessage(hwnd,IDC_SPINCONTHEIGHT,UDM_SETPOS,0,MAKELONG(cell->h,0));
 	}
 
 	SendDlgItemMessage(hwnd, IDC_CONTTYPE, CB_SETCURSEL, cell->type, 0);
 	
-	switch (cell->valign)
-	{
+	switch (cell->valign) {
 	case TC_VCENTER:
 		param = 1;
 		break;
@@ -125,8 +112,7 @@ void rowOptShowSettings(HWND hwnd)
 	}
 	SendDlgItemMessage(hwnd, IDC_VALIGN, CB_SETCURSEL, param, 0);
 
-	switch (cell->halign)
-	{
+	switch (cell->halign) {
 	case TC_HCENTER:
 		param = 1;
 		break;
@@ -139,49 +125,40 @@ void rowOptShowSettings(HWND hwnd)
 	SendDlgItemMessage(hwnd, IDC_HALIGN, CB_SETCURSEL, param, 0);
 
 	CheckDlgButton(hwnd,IDC_CONTLAYER,cell->layer?BST_CHECKED:BST_UNCHECKED);
-
-	return;
-		
 }
 
 void rowOptGenerateTreeView(pROWCELL cell, HTREEITEM node, HWND hwnd)
 {
-	TVINSERTSTRUCT tvis;
-	HTREEITEM pnode;
-
 	if ( !cell) return;
 
+	TVINSERTSTRUCT tvis;
 	tvis.hParent = node;
-    tvis.hInsertAfter = TVI_LAST;
+	tvis.hInsertAfter = TVI_LAST;
 	tvis.item.mask = TVIF_PARAM|TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 	tvis.item.stateMask = TVIS_STATEIMAGEMASK;
 	tvis.item.lParam = (LPARAM)cell;
 
-	switch (cell->cont)
-	{
+	switch (cell->cont) {
 	case TC_ROW:
 		tvis.item.pszText = _T("Line");
 		break;
 	case TC_COL:
 		tvis.item.pszText = _T("Column");
 	}
-	
+
 	tvis.item.iImage = cell->child?1:2;
 	tvis.item.iSelectedImage = cell->child?0:2;
 
-	pnode = TreeView_InsertItem(hwnd,&tvis);
-
+	HTREEITEM pnode = TreeView_InsertItem(hwnd,&tvis);
 	rowOptGenerateTreeView(cell->child, pnode, hwnd);
 	rowOptGenerateTreeView(cell->next,  node,  hwnd);
 }
 
 int rowOptFillRowTree(HWND hwnd)
 {
-	int i=0;
 	TreeView_DeleteAllItems(hwnd);
 	rowOptGenerateTreeView(rowOptTmplRoot, NULL, hwnd);
 	TreeView_Expand(hwnd, TreeView_GetRoot(hwnd), TVM_EXPAND);
-
 	return 0;
 }
 
@@ -191,21 +168,18 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	TVITEM tviparent;
 	ROWCELL *cell = NULL;
 
-	if ( !hti)
-	{
-		if (TreeView_GetRoot(htree)) return;
-		else
-		{
-			rowAddCell(rowOptTmplRoot, TC_ROW);
-			tvis.hParent = NULL;
-			tvis.hInsertAfter = TVI_ROOT;
-			tvis.item.pszText = _T("Line");
-			tvis.item.lParam = (LPARAM)rowOptTmplRoot;
-			cell = rowOptTmplRoot;
-		}	
+	if ( !hti) {
+		if (TreeView_GetRoot(htree))
+			return;
+
+		rowAddCell(rowOptTmplRoot, TC_ROW);
+		tvis.hParent = NULL;
+		tvis.hInsertAfter = TVI_ROOT;
+		tvis.item.pszText = _T("Line");
+		tvis.item.lParam = (LPARAM)rowOptTmplRoot;
+		cell = rowOptTmplRoot;
 	}
-	else
-	{
+	else {
 		// Get parent item
 		tviparent.hItem = hti;
 		tviparent.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
@@ -217,8 +191,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 		else
 			tvis.item.pszText = _T("Line");
 
-		if (cell->child)
-		{
+		if (cell->child) {
 			cell = cell->child;
 
 			while (cell->next)
@@ -227,8 +200,7 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 			rowAddCell(cell->next, ((ROWCELL*)tviparent.lParam)->cont == TC_ROW?TC_COL:TC_ROW);
 			cell = cell->next;
 		}
-		else
-		{
+		else {
 			rowAddCell(cell->child, ((ROWCELL*)tviparent.lParam)->cont == TC_ROW?TC_COL:TC_ROW);		
 			cell = cell->child;
 		}
@@ -253,12 +225,9 @@ void rowOptAddContainer(HWND htree, HTREEITEM hti)
 	tviparent.iSelectedImage = 0;
 	TreeView_SetItem(htree, &tviparent);
 
-	{
-		int i=0;
-		ZeroMemory( rowOptTA, sizeof( rowOptTA ));
-		rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &i);
-	}
-
+	int i=0;
+	ZeroMemory( rowOptTA, sizeof( rowOptTA ));
+	rowOptBuildTA(rowOptTmplRoot, (pROWCELL*)&rowOptTA, &i);
 }
 
 void rowOptDelContainer(HWND htree, HTREEITEM hti)
@@ -375,8 +344,7 @@ void RefreshTree(HWND hwndDlg,HTREEITEM hti)
 
 INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_INITDIALOG:
 		{
 			int hbuf = 0, seq = 0;
@@ -384,52 +352,33 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 			TranslateDialogDefault(hwndDlg);	
 			rowOptTmplStr = db_get_sa(NULL, "ModernData", "RowTemplate");
-			if ( !rowOptTmplStr) rowOptTmplStr = mir_strdup("<TR />");
-			{	
-				//HIMAGELIST himlTreeIcons;
-				//himlTreeIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,2);
-				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT1)));
-				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT2)));
-				//ImageList_AddIcon(himlTreeIcons,LoadSmallIconShared(g_hInst,MAKEINTRESOURCE(IDI_ROWCONT3)));
-				//TreeView_SetImageList(htree,himlTreeIcons,TVSIL_NORMAL);
-			}
+			if ( !rowOptTmplStr)
+				rowOptTmplStr = mir_strdup("<TR />");
 
 			SendDlgItemMessage(hwndDlg,IDC_SPINCONTWIDTH, UDM_SETRANGE,0,MAKELONG(999,0));
 			SendDlgItemMessage(hwndDlg,IDC_SPINCONTHEIGHT,UDM_SETRANGE,0,MAKELONG(999,0));
 
-			{
-				int i, item;
+			int i, item;
 
-				for (i=0; i < SIZEOF(types); i++) 
-				{
-					item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
-					SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,0);
-				}
-				SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL,0,0);
+			for (i=0; i < SIZEOF(types); i++) {
+				item = SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_ADDSTRING,0,(LPARAM)TranslateTS(types[i]));
+				SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETITEMDATA,item,0);
 			}
+			SendDlgItemMessage(hwndDlg,IDC_CONTTYPE,CB_SETCURSEL,0,0);
 
-			{
-				int i, item;
-				TCHAR *alignment[] = {_T("left"), _T("hCenter"), _T("right")};
-				for (i=0; i < SIZEOF(alignment); i++) 
-				{
-					item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
-					SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,0);
-				}
-				SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL,0,0);
-			
+			TCHAR *h_alignment[] = {_T("left"), _T("hCenter"), _T("right")};
+			for (i=0; i < SIZEOF(h_alignment); i++) {
+				item = SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(h_alignment[i]));
+				SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETITEMDATA,item,0);
 			}
+			SendDlgItemMessage(hwndDlg,IDC_HALIGN,CB_SETCURSEL,0,0);
 
-			{
-				int i, item;
-				TCHAR *alignment[] = {_T("top"), _T("vCenter"), _T("bottom")};
-				for (i=0; i < SIZEOF(alignment); i++) 
-				{
-					item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(alignment[i]));
-					SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,0);
-				}
-				SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL,0,0);
+			TCHAR *v_alignment[] = {_T("top"), _T("vCenter"), _T("bottom")};
+			for (i=0; i < SIZEOF(v_alignment); i++) {
+				item = SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_ADDSTRING,0,(LPARAM)TranslateTS(v_alignment[i]));
+				SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETITEMDATA,item,0);
 			}
+			SendDlgItemMessage(hwndDlg,IDC_VALIGN,CB_SETCURSEL,0,0);
 
 			rowDeleteTree(rowOptTmplRoot);
 			rowOptTmplRoot = NULL;
@@ -442,9 +391,8 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			RefreshTree(hwndDlg,NULL);
 			TreeView_SelectItem(GetDlgItem(hwndDlg, IDC_ROWTREE), TreeView_GetRoot(GetDlgItem(hwndDlg, IDC_ROWTREE)));
 			rowOptShowSettings(hwndDlg);
-
-			return TRUE;
 		}
+		return TRUE;
 
 	case WM_COMMAND:
 		{
@@ -452,29 +400,25 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			pROWCELL  cell;
 			TVITEM    tvi = {0};
 			HTREEITEM hti = TreeView_GetSelection(htree);
-			
+
 
 			tvi.hItem = hti;
 			tvi.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 			TreeView_GetItem(htree, &tvi);
 			cell = (pROWCELL)tvi.lParam;
 
-			switch (LOWORD(wParam))
-			{
+			switch (LOWORD(wParam)) {
 			case IDC_CONTTYPE:
-				if (HIWORD(wParam) == CBN_SELENDOK)
-				{
-					TVITEM    tv = {0};
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					TVITEM tv = {0};
 					int index = SendMessage(GetDlgItem(hwndDlg,IDC_CONTTYPE),CB_GETCURSEL, 0, 0);
 					cell->type = index; 
 					RefreshTree(hwndDlg,NULL);
 				}
-			
+
 			case IDC_VALIGN:
-				if (HIWORD(wParam) == CBN_SELENDOK)
-				{
-					switch (SendMessage(GetDlgItem(hwndDlg,IDC_VALIGN),CB_GETCURSEL, 0, 0))
-					{
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					switch (SendMessage(GetDlgItem(hwndDlg,IDC_VALIGN),CB_GETCURSEL, 0, 0)) {
 					case 0:
 						cell->valign = TC_TOP;
 						break;
@@ -489,10 +433,8 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				}
 
 			case IDC_HALIGN:
-				if (HIWORD(wParam) == CBN_SELENDOK)
-				{
-					switch (SendMessage(GetDlgItem(hwndDlg,IDC_HALIGN),CB_GETCURSEL, 0, 0))
-					{
+				if (HIWORD(wParam) == CBN_SELENDOK) {
+					switch (SendMessage(GetDlgItem(hwndDlg,IDC_HALIGN),CB_GETCURSEL, 0, 0)) {
 					case 0:
 						cell->halign = TC_LEFT;
 						break;
@@ -505,77 +447,60 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					}
 					RefreshTree(hwndDlg,NULL);
 				}
-
-			
 			}
 
-			if (HIWORD(wParam) == BN_CLICKED) 
-			{
+			if (HIWORD(wParam) == BN_CLICKED) {
 				if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_ADDCONTAINER))	
-				// Adding new container
+					// Adding new container
 				{	
 					rowOptAddContainer(htree, hti);
 				}
 				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_DELCONTAINER))
-				// Deleting container
+					// Deleting container
 				{
 					rowOptDelContainer(htree, hti);
 				}
 				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_CONTUP))
-				// Moving container to up
+					// Moving container to up
 				{
 					RedrawWindow(htree,&da,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);
 				}
-				else if (lParam == (LPARAM)GetDlgItem(hwndDlg,IDC_CONTDOWN))
-				// Moving container to down
-				{
-				}							
 				RefreshTree(hwndDlg,NULL);
 				RedrawWindow(GetParent(hwndDlg),NULL,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW|RDW_ALLCHILDREN);   
 			}
-
-			
-			//SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-		return TRUE;
+			return TRUE;
 		}
 
 	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom)
-		{
-		
+		switch(((LPNMHDR)lParam)->idFrom) {
 		case IDC_ROWTREE:
 			if (((LPNMHDR)lParam)->code == NM_SETCURSOR )
 				rowOptShowSettings(hwndDlg);
 			if (((LPNMHDR)lParam)->code == NM_CLICK )
 				RedrawWindow(hwndDlg,&da,NULL,RDW_INVALIDATE|RDW_ERASE|RDW_UPDATENOW);
 			break;
-		
+
 		case 0: // Apply or Ok button is pressed
 			return FALSE; // Temporary
 			break;
 		}
 		return TRUE;
-	
+
 	case WM_PAINT:
-		{
+		if (rowOptTmplRoot) {
 			int i=0;
 
 			// Drawning row template at properties page
 			PAINTSTRUCT ps;
-			HDC hdc;
-			TVITEM curItem;
-			
-			if ( !rowOptTmplRoot) return FALSE;
-			hdc = BeginPaint(hwndDlg, &ps);
+			HDC hdc = BeginPaint(hwndDlg, &ps);
 
+			TVITEM curItem;
 			curItem.hItem = TreeView_GetSelection(GetDlgItem(hwndDlg, IDC_ROWTREE));
 			curItem.mask = TVIF_HANDLE|TVIF_IMAGE|TVIF_SELECTEDIMAGE;
 			TreeView_GetItem(GetDlgItem(hwndDlg, IDC_ROWTREE), &curItem);
 
-			while(rowOptTA[i])
-			{
-				switch(rowOptTA[i]->type)
-				{
+			while(rowOptTA[i]) {
+				switch(rowOptTA[i]->type) {
 				case TC_AVATAR:
 					rowOptTA[i]->w = 25;
 					rowOptTA[i]->h = 30;
@@ -611,38 +536,29 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					rowOptTA[i]->w = 30;
 					rowOptTA[i]->h = 10;
 				default:
-				{
 					rowOptTA[i]->w = 0;
 					rowOptTA[i]->h = 0;
 				}
-				
-				}
-				
-
 				i++;
 			}
-			
+
 			rowSizeWithReposition(rowOptTmplRoot, da.right-da.left);		
 
-			
-
 			i = -1;
-			while (rowOptTA[++i])
-			{
-				
-				switch(rowOptTA[i]->type)
-				{
+			while (rowOptTA[++i]) {
+
+				switch(rowOptTA[i]->type) {
 				case TC_SPACE:
 				case TC_FIXED:
 				case 0:
 					//if (rowOptTA[i] != (pROWCELL)curItem.lParam)
-						continue;
+					continue;
 				}			
 				Rectangle(hdc, 
-						  rowOptTA[i]->r.left   + da.left, 
-						  rowOptTA[i]->r.top    + da.top, 
-						  rowOptTA[i]->r.right  + da.left, 
-						  rowOptTA[i]->r.bottom + da.top);
+					rowOptTA[i]->r.left   + da.left, 
+					rowOptTA[i]->r.top    + da.top, 
+					rowOptTA[i]->r.right  + da.left, 
+					rowOptTA[i]->r.bottom + da.top);
 			}
 
 			EndPaint(hwndDlg, &ps);
@@ -652,53 +568,3 @@ INT_PTR CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	}
 	return FALSE;
 }
-
-
-
-
-/*
-BOOL CALLBACK DlgTmplEditorOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
-
-{
-	switch (msg)
-	{
-	case WM_DESTROY: 
-		{
-			break;
-		}
-	case WM_INITDIALOG:
-		{ 			
-			TranslateDialogDefault(hwndDlg);
-			break;
-		}
-	case WM_COMMAND:
-		{
-			//LOWORD(wParam) == IDC_control
-			//HIWORD(wParam) == Message
-			//SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-		}
-	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR)lParam)->idFrom) 
-			{
-//				case IDC_control:
-//				{
-//					break;
-//				}
-				case 0:
-				{
-					switch (((LPNMHDR)lParam)->code)
-					{
-						case PSN_APPLY:
-						{
-							break;
-						}		//case PSN_APPLY
-					}		//switch code
-				}		//case 0:
-			}		//switch from
-		}		//case: WM_NOTIFY
-	}	// switch msg
-	return FALSE;
-}
-*/

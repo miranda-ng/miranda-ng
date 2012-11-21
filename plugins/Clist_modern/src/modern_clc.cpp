@@ -1495,7 +1495,7 @@ static LRESULT clcOnDestroy(ClcData *dat, HWND hwnd, UINT msg, WPARAM wParam, LP
 	}
 
 	ImageArray_Clear(&dat->avatar_cache);
-	mod_DeleteDC(dat->avatar_cache.hdc);
+	DeleteDC(dat->avatar_cache.hdc);
 	ImageArray_Free(&dat->avatar_cache, FALSE);
 	if (dat->himlHighlight)
 		ImageList_Destroy(dat->himlHighlight);

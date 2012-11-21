@@ -1453,8 +1453,8 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 									BitBlt( hdcMem, p_rect.left, p_rect.top, w, h, hdcTmp2, 0, 0, SRCCOPY );
 									SelectObject( hdcTmp2, bmo2 );
 									SelectObject( hdcTmp, bmo );
-									mod_DeleteDC( hdcTmp );
-									mod_DeleteDC( hdcTmp2 );
+									DeleteDC( hdcTmp );
+									DeleteDC( hdcTmp2 );
 									DeleteObject( b2 );
 								}
 								else {
@@ -1464,7 +1464,7 @@ void CLCPaint::_PaintRowItemsEx( HWND hwnd, HDC hdcMem, ClcData *dat, ClcContact
 									hbmTempAvOld = ( HBITMAP )SelectObject( hdcTempAv, Drawing->avatar_data->hbmPic );
 									ske_AlphaBlend( hdcMem, p_rect.left, p_rect.top, w, h, hdcTempAv, 0, 0, Drawing->avatar_data->bmWidth, Drawing->avatar_data->bmHeight, bf );
 									SelectObject( hdcTempAv, hbmTempAvOld );
-									mod_DeleteDC( hdcTempAv );
+									DeleteDC( hdcTempAv );
 								}
 							}*/
 							_DrawContactAvatar( hdcMem, dat, Drawing, &row_rc, selected, hottrack, p_rect, &p_rect );

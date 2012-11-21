@@ -1161,7 +1161,7 @@ LRESULT CALLBACK ViewModeFrameWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM
 			BitBlt(hdc,rc.left,rc.top,rc.right-rc.left,rc.bottom-rc.top,hdc2,rc.left,rc.top,SRCCOPY);
 			SelectObject(hdc2,hbmpo);
 			DeleteObject(hbmp);
-			mod_DeleteDC(hdc2);
+			DeleteDC(hdc2);
 
 			SelectObject(hdc,GetStockObject(DEFAULT_GUI_FONT));
 

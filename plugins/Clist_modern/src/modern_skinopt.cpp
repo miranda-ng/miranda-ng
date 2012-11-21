@@ -304,13 +304,13 @@ INT_PTR CALLBACK DlgSkinOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );                 
 					ske_AlphaBlend( memDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
 					SelectObject( imgDC, imgOldbmp );
-					mod_DeleteDC( imgDC );
+					DeleteDC( imgDC );
 				}
 			}
 			BitBlt( dis->hDC, dis->rcItem.left, dis->rcItem.top, mWidth, mHeight, memDC, 0, 0, SRCCOPY );
 			SelectObject( memDC, holdbmp );
 			DeleteObject( hbmp );
-			mod_DeleteDC( memDC );
+			DeleteDC( memDC );
 		}
 		break;
 
@@ -760,7 +760,7 @@ INT_PTR SvcPreviewSkin(WPARAM wParam, LPARAM lParam)
 				imgOldbmp = ( HBITMAP )SelectObject( imgDC, hPreviewBitmap );                 
 				ske_AlphaBlend( dis->hDC, imgPos.x, imgPos.y, dWidth, dHeight, imgDC, 0, 0, bmp.bmWidth, bmp.bmHeight, bf );
 				SelectObject( imgDC, imgOldbmp );
-				mod_DeleteDC( imgDC );
+				DeleteDC( imgDC );
 			}
 			ske_UnloadGlyphImage(hPreviewBitmap);
 		}

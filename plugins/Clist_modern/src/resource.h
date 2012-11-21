@@ -22,8 +22,6 @@
 #define IDI_SENDEMAIL                   193
 #define IDR_CLISTMENU                   199
 #define IDI_BLANK                       200
-#define IDI_NOTICK                      205
-#define IDI_TICK                        206
 #define IDD_OPT_ICONS                   207
 #define IDI_FILE                        207
 #define IDI_TIMESTAMP                   208

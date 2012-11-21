@@ -133,7 +133,7 @@ void ImageArray_Initialize(LP_IMAGE_ARRAY_DATA iad, BOOL width_based, int grow_s
 // If keep_bitmap is TRUE, doesn't delete de bitmap and return its handle. Else, return NULL
 HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap)
 {
-	mod_DeleteDC(iad->hdc);
+	DeleteDC(iad->hdc);
 
 	if (iad->img != NULL && !keep_bitmap)
 	{
@@ -160,7 +160,7 @@ HBITMAP ImageArray_Free(LP_IMAGE_ARRAY_DATA iad, BOOL keep_bitmap)
 void ImageArray_Clear(LP_IMAGE_ARRAY_DATA iad)
 {
 	HDC tmpdc = CreateCompatibleDC(iad->hdc);
-	if (iad->hdc) mod_DeleteDC(iad->hdc);
+	if (iad->hdc) DeleteDC(iad->hdc);
 	iad->hdc = tmpdc;
 
 	if (iad->img != NULL)
@@ -339,7 +339,7 @@ int ImageArray_AddImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 
 	// restore things
 	SelectObject(hdc_old,old_bmp);
-	mod_DeleteDC(hdc_old);
+	DeleteDC(hdc_old);
 	if (iad->img != NULL) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 
@@ -499,7 +499,7 @@ BOOL ImageArray_ChangeImage(LP_IMAGE_ARRAY_DATA iad, HBITMAP hBmp, int pos)
 	}
 
 	// restore things
-	mod_DeleteDC(hdc_old);
+	DeleteDC(hdc_old);
 	if (iad->img != NULL) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 
@@ -628,7 +628,7 @@ BOOL ImageArray_RemoveImage(LP_IMAGE_ARRAY_DATA iad, int pos)
 	}
 
 	// restore things
-	mod_DeleteDC(hdc_old);
+	DeleteDC(hdc_old);
 	if (iad->img != NULL) DeleteObject(iad->img);
 	iad->img = hNewBmp;
 

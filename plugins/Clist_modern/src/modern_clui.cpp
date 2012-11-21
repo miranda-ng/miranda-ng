@@ -2061,7 +2061,7 @@ LRESULT CLUI::OnPaint( UINT msg, WPARAM wParam, LPARAM lParam )
 			BitBlt(paintDC,w2.left,w2.top,w2.right-w2.left,w2.bottom-w2.top,g_pCachedWindow->hBackDC,w2.left,w2.top,SRCCOPY);
 			SelectObject(hdc,oldbmp);
 			DeleteObject(hbmp);
-			mod_DeleteDC(hdc);
+			DeleteDC(hdc);
 			ReleaseDC(m_hWnd,paintDC);
 		}
 		else {

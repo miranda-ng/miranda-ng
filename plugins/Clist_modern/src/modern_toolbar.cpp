@@ -202,7 +202,7 @@ static void sttDrawNonLayeredSkinedBar(HWND hwnd, HDC hdc)
 	BitBlt(hdc, rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, hdc2, rc.left, rc.top, SRCCOPY);
 	SelectObject(hdc2, hbmpo);
 	DeleteObject(hbmp);
-	mod_DeleteDC(hdc2);
+	DeleteDC(hdc2);
 
 	SelectObject(hdc, (HFONT)GetStockObject(DEFAULT_GUI_FONT));
 	ValidateRect(hwnd, NULL);		        							

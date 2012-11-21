@@ -529,8 +529,8 @@ int SkinEngineUnloadModule()
 		SelectObject(g_pCachedWindow->hImageDC,g_pCachedWindow->hImageOld);
 		DeleteObject(g_pCachedWindow->hBackDIB);
 		DeleteObject(g_pCachedWindow->hImageDIB);
-		mod_DeleteDC(g_pCachedWindow->hBackDC);
-		mod_DeleteDC(g_pCachedWindow->hImageDC);
+		DeleteDC(g_pCachedWindow->hBackDC);
+		DeleteDC(g_pCachedWindow->hImageDC);
 		ReleaseDC(NULL,g_pCachedWindow->hScreenDC);
 		mir_free_and_nil(g_pCachedWindow);
 	}
@@ -811,7 +811,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 		{
 			SelectObject(mem2dc,oldbmp);
 			DeleteObject(mem2bmp);
-			mod_DeleteDC(mem2dc);
+			DeleteDC(mem2dc);
 		}
 		return 1;
 	}
@@ -912,7 +912,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 		}
 		SelectObject(mem2dc,oldbmp);
 		DeleteObject(mem2bmp);
-		mod_DeleteDC(mem2dc);
+		DeleteDC(mem2dc);
 	}
 	else if (mode == FM_TILE_HORZ && (rGlyph->right-rGlyph->left>0) &&  (rGlyph->bottom-rGlyph->top>0) && (rFill->bottom-rFill->top)>0 && (rFill->right-rFill->left)>0)
 	{
@@ -1001,7 +1001,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 		}
 		SelectObject(mem2dc,oldbmp);
 		DeleteObject(mem2bmp);
-		mod_DeleteDC(mem2dc);
+		DeleteDC(mem2dc);
 	}
 	else if (mode == FM_TILE_BOTH && (rGlyph->right-rGlyph->left>0) && (rGlyph->bottom-rGlyph->top>0))
 	{
@@ -1102,7 +1102,7 @@ static BOOL ske_SkinFillRectByGlyph(HDC hDest, HDC hSource, RECT *rFill, RECT *r
 		}
 		SelectObject(mem2dc,oldbmp);
 		DeleteObject(mem2bmp);
-		mod_DeleteDC(mem2dc);
+		DeleteDC(mem2dc);
 	}
 	return 1;
 
@@ -1258,7 +1258,7 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 			if (mode == 2)
 			{
 				SelectObject(memdc,oldbmp);
-				mod_DeleteDC(memdc);
+				DeleteDC(memdc);
 				DeleteObject(membmp);
 			}
 			return 0;
@@ -1518,12 +1518,12 @@ static int ske_DrawSkinObject(SKINDRAWREQUEST * preq, GLYPHOBJECT * pobj)
 		{
 
 			if (oldglyph) SelectObject(glyphdc,oldglyph);
-			if (glyphdc) mod_DeleteDC(glyphdc);
+			if (glyphdc) DeleteDC(glyphdc);
 		}
 		if (mode == 2)
 		{
 			SelectObject(memdc,oldbmp);
-			mod_DeleteDC(memdc);
+			DeleteDC(memdc);
 			DeleteObject(membmp);
 		}
 
@@ -2067,8 +2067,8 @@ static HBITMAP ske_LoadGlyphImageByDecoders(char * szFileName)
 			BitBlt(dc32,0,0,bmpInfo.bmWidth,bmpInfo.bmHeight,dc24,0,0,SRCCOPY);
 			SelectObject(dc24,obmp24);
 			SelectObject(dc32,obmp32);
-			mod_DeleteDC(dc24);
-			mod_DeleteDC(dc32);
+			DeleteDC(dc24);
+			DeleteDC(dc32);
 			DeleteObject(hBitmap);
 			hBitmap = hBitmap32;
 			ske_PreMultiplyChanells(hBitmap,0);
@@ -2990,7 +2990,7 @@ static int ske_AlphaTextOut (HDC hDC, LPCTSTR lpString, int nCount, RECT *lpRect
 				SelectObject(bufDC,bufoldbmp);
 				DeleteObject(bufbmp);
 				SelectObject(bufDC, hOldBufFont );
-				mod_DeleteDC(bufDC);
+				DeleteDC(bufDC);
 			}
 			SelectObject(hOffscreenDC,holdbmp);
 			DeleteObject(hbmp);
@@ -3232,7 +3232,7 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 
 		}
 		SelectObject(tempDC1,otBmp);
-		mod_DeleteDC(tempDC1);
+		DeleteDC(tempDC1);
 	}
 	/*
 	if (imbt.bmBitsPixel != 32)
@@ -3354,7 +3354,7 @@ BOOL ske_DrawIconEx(HDC hdcDst,int xLeft,int yTop,HICON hIcon,int cxWidth,int cy
 	DeleteObject(ici.hbmColor);
 	DeleteObject(ici.hbmMask);
 	SelectObject(imDC,GetStockObject(DEFAULT_GUI_FONT));
-	mod_DeleteDC(imDC);
+	DeleteDC(imDC);
 	return 1;// DrawIconExS(hdc,xLeft,yTop,hIcon,cxWidth,cyWidth,istepIfAniCur,hbrFlickerFreeDraw,diFlags);
 }
 
@@ -3682,7 +3682,7 @@ static int ske_ValidateSingleFrameImage(FRAMEWND * Frame, BOOL SkipBkgBlitting) 
 
 		SelectObject(hdc,o);
 		DeleteObject(n);
-		mod_DeleteDC(hdc);
+		DeleteDC(hdc);
 	}
 	return 1;
 }
@@ -4242,7 +4242,7 @@ static void ske_AddParseSkinFont(char * szFontID,char * szDefineString,SKINOBJEC
 			{
 				HDC hdc = CreateCompatibleDC(NULL);
 				logfont.lfHeight = (long)-MulDiv(logfont.lfHeight, GetDeviceCaps(hdc, LOGPIXELSY), 72);
-				mod_DeleteDC(hdc);
+				DeleteDC(hdc);
 			}
 			logfont.lfHeight = -logfont.lfHeight;
 			GetParamN(szDefineString,buf,sizeof(buf),2,',',TRUE);

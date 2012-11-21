@@ -198,7 +198,7 @@ static int ModernSkinButtonPaintWorker(HWND hwnd, HDC whdc)
 	if ( !whdc || !g_CluiData.fLayered) 
 	{	
 		SelectObject(hdc, GetStockObject(DEFAULT_GUI_FONT));
-		mod_DeleteDC(hdc);
+		DeleteDC(hdc);
 	}
 	//  if (sdc) 
 	//    ReleaseDC(GetParent(hwnd),sdc);

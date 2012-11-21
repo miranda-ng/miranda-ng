@@ -233,7 +233,6 @@ extern int CLUI_ShowWindowMod(HWND hwnd, int cmd);
 
 extern void TRACE_ERROR();
 extern BOOL DebugDeleteObject(HGDIOBJ a);
-extern BOOL mod_DeleteDC(HDC hdc);
 extern BOOL ske_ResetTextEffect(HDC hdc);
 extern BOOL ske_SelectTextEffect(HDC hdc, BYTE EffectID, DWORD FirstColor, DWORD SecondColor);
 extern void IvalidateDisplayNameCache(DWORD mode);
@@ -258,7 +257,6 @@ void FreeAndNil( void **p );
 
 extern SortedList *clistCache;
 
-HICON LoadSmallIconShared(HINSTANCE hInstance, LPCTSTR lpIconName);
 HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName);
 BOOL DestroyIcon_protect(HICON icon);
 
@@ -347,9 +345,6 @@ void pdnce___SetStatus( ClcCacheEntry *pdnce, WORD wStatus );
 typedef void (*ItemDestuctor)(void*);
 
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor);
-void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestructor);
-void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor);
-void li_SortList(SortedList *pList, FSortFunc pSortFunct);
 
 #define mir_safe_free(a) if(a) mir_free(a)
 

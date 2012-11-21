@@ -798,8 +798,8 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 					BitBlt(hdc, rc.left, rc.top, w, h,hdcTmp2,0,0,SRCCOPY);
 					SelectObject(hdcTmp2,bmo2);
 					SelectObject(hdcTmp,bmo);
-					mod_DeleteDC(hdcTmp);
-					mod_DeleteDC(hdcTmp2);
+					DeleteDC(hdcTmp);
+					DeleteDC(hdcTmp2);
 					DeleteObject(b2);
 				}
 				else {
@@ -809,7 +809,7 @@ void Cache_ProceedAvatarInList(ClcData *dat, ClcContact *contact)
 					hbmTempAvOld = (HBITMAP)SelectObject(hdcTempAv,ace->hbmPic);
 					ske_AlphaBlend(hdc, rc.left, rc.top, w, h, hdcTempAv, 0, 0,ace->bmWidth,ace->bmHeight, bf);
 					SelectObject(hdcTempAv, hbmTempAvOld);
-					mod_DeleteDC(hdcTempAv);
+					DeleteDC(hdcTempAv);
 				}
 			}
 		}
@@ -899,7 +899,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 						HBITMAP obmp = (HBITMAP)SelectObject(dcMem, hBmp);						
 						StretchBlt(hdc, 0, 0, width_clip, height_clip,dcMem, 0, 0, bm.bmWidth, bm.bmHeight, SRCCOPY);
 						SelectObject(dcMem,obmp);
-						mod_DeleteDC(dcMem);
+						DeleteDC(dcMem);
 
 						RECT rtr = {0};
 						rtr.right = width_clip+1;
@@ -908,7 +908,7 @@ void Cache_GetAvatar(ClcData *dat, ClcContact *contact)
 
 						hDrawBmp = (HBITMAP)GetCurrentObject(hdc, OBJ_BITMAP);
 						SelectObject(hdc,oldBmp);
-						mod_DeleteDC(hdc);
+						DeleteDC(hdc);
 
 						// Add to list
 						if (old_pos >= 0) {

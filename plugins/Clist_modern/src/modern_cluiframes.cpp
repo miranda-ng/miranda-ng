@@ -2981,7 +2981,7 @@ int DrawTitleBar(HDC hdcMem2,RECT *rect,int Frameid)
 	DeleteObject(b1);
 	SelectObject(hdcMem,hoTTBFont);
 	SelectObject(hdcMem,hoBrush);
-	mod_DeleteDC(hdcMem);
+	DeleteDC(hdcMem);
 	return 0;
 }
 static LRESULT CALLBACK CLUIFrameTitleBarProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
