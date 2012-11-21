@@ -246,17 +246,17 @@ void CSList::rebuildMenuItems( )
 }
 
 
-void CSList::setStatus( WORD code, StatusItem* item,  char* protoName)
+void CSList::setStatus(WORD code, StatusItem* item,  char* szAccName)
 {
 	if ( code == IDCLOSE )
 		return;
 
-	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)protoName);
+	PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)szAccName);
 	if (pdescr == NULL)
 		return;
 
 	char szService[100];
-	mir_snprintf(szService, SIZEOF(szService), "%s%s", pdescr->szProtoName, PS_SETCUSTOMSTATUSEX);
+	mir_snprintf(szService, SIZEOF(szService), "%s%s", szAccName, PS_SETCUSTOMSTATUSEX);
 	int statusToSet = -1;
 
 	if ( ServiceExists(szService)) {
