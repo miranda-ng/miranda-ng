@@ -42,58 +42,58 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //##################################### Miranda client overlays ################################################
 //##############################################################################################################
-	IDI_AIM_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_AIM.ico"
-	IDI_GMAIL_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Gmail.ico"
-	IDI_ICQJ_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_ICQJ.ico"
-	IDI_ICQJ_PLUS_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_ICQJ_Plus.ico"
-	IDI_IRC_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_IRC.ico"
-	IDI_JABBER_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Jabber.ico"
-	IDI_JGTALK_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_JGTalk.ico"
-	IDI_MAILRU_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_MailRu.ico"
-	IDI_MSN_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_MSN.ico"
-	IDI_QQ_OVERLAY					ICON	"..\\icons\\overlays\\overlay_proto_QQ.ico"
-	IDI_TLEN_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Tlen.ico"
-	IDI_YAHOO_OVERLAY				ICON	"..\\icons\\overlays\\overlay_proto_Yahoo.ico"
+	IDI_AIM_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_AIM.ico"
+	IDI_GMAIL_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_Gmail.ico"
+	IDI_ICQJ_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_ICQJ.ico"
+	IDI_ICQJ_PLUS_OVERLAY	ICON	"..\\icons\\overlays\\overlay_proto_ICQJ_Plus.ico"
+	IDI_IRC_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_IRC.ico"
+	IDI_JABBER_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_Jabber.ico"
+	IDI_JGTALK_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_JGTalk.ico"
+	IDI_MAILRU_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_MailRu.ico"
+	IDI_MSN_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_MSN.ico"
+	IDI_QQ_OVERLAY			ICON	"..\\icons\\overlays\\overlay_proto_QQ.ico"
+	IDI_TLEN_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_Tlen.ico"
+	IDI_YAHOO_OVERLAY		ICON	"..\\icons\\overlays\\overlay_proto_Yahoo.ico"
 
 //##############################################################################################################
 //######################################### Platform overlays ##################################################
 //##############################################################################################################
-	IDI_DEBUG_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_debug.ico"
-	IDI_HOME_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_home.ico"
-	IDI_MOBILE_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_mobile.ico"
-	IDI_NOTEBOOK_OVERLAY			ICON    "..\\icons\\overlays\\overlay_resource_notebook.ico"
-	IDI_OFFICE_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_office.ico"
-	IDI_WORK_OVERLAY				ICON    "..\\icons\\overlays\\overlay_resource_work.ico"
+	IDI_DEBUG_OVERLAY		ICON	"..\\icons\\overlays\\overlay_resource_debug.ico"
+	IDI_HOME_OVERLAY		ICON	"..\\icons\\overlays\\overlay_resource_home.ico"
+	IDI_MOBILE_OVERLAY		ICON	"..\\icons\\overlays\\overlay_resource_mobile.ico"
+	IDI_NOTEBOOK_OVERLAY	ICON	"..\\icons\\overlays\\overlay_resource_notebook.ico"
+	IDI_OFFICE_OVERLAY		ICON	"..\\icons\\overlays\\overlay_resource_office.ico"
+	IDI_WORK_OVERLAY		ICON	"..\\icons\\overlays\\overlay_resource_work.ico"
 
 //##############################################################################################################
 //########################################### Secure overlays ##################################################
 //##############################################################################################################
-	IDI_SECUREIM_OVERLAY			ICON	"..\\icons\\overlays\\overlay_secure_SecureIM.ico"
+	IDI_SECUREIM_OVERLAY	ICON	"..\\icons\\overlays\\overlay_secure_SecureIM.ico"
 
 //##############################################################################################################
 //############################## PLATFORM OVERLAYS #############################################################
 //##############################################################################################################
-	IDI_PLATFORM_AMIGA				ICON	"..\\icons\\overlays\\overlay_platform_Amiga.ico"
-	IDI_PLATFORM_ANDROID			ICON	"..\\icons\\overlays\\overlay_platform_Android.ico"
-	IDI_PLATFORM_FLASH				ICON	"..\\icons\\overlays\\overlay_platform_Flash.ico"
-	IDI_PLATFORM_MAC				ICON	"..\\icons\\overlays\\overlay_platform_iMac.ico"
-	IDI_PLATFORM_JAVA				ICON	"..\\icons\\overlays\\overlay_platform_Java.ico "
-	IDI_PLATFORM_LINUX				ICON	"..\\icons\\overlays\\overlay_platform_linux.ico"
-	IDI_PLATFORM_SYMBIAN			ICON	"..\\icons\\overlays\\overlay_platform_Symbian.ico"
-	IDI_PLATFORM_WIN				ICON	"..\\icons\\overlays\\overlay_platform_Windows.ico"
-	IDI_PLATFORM_IOS				ICON	"..\\icons\\overlays\\overlay_platform_iOS.ico"
+	IDI_PLATFORM_AMIGA		ICON	"..\\icons\\overlays\\overlay_platform_Amiga.ico"
+	IDI_PLATFORM_ANDROID	ICON	"..\\icons\\overlays\\overlay_platform_Android.ico"
+	IDI_PLATFORM_FLASH		ICON	"..\\icons\\overlays\\overlay_platform_Flash.ico"
+	IDI_PLATFORM_MAC		ICON	"..\\icons\\overlays\\overlay_platform_iMac.ico"
+	IDI_PLATFORM_JAVA		ICON	"..\\icons\\overlays\\overlay_platform_Java.ico"
+	IDI_PLATFORM_LINUX		ICON	"..\\icons\\overlays\\overlay_platform_linux.ico"
+	IDI_PLATFORM_SYMBIAN	ICON	"..\\icons\\overlays\\overlay_platform_Symbian.ico"
+	IDI_PLATFORM_WIN		ICON	"..\\icons\\overlays\\overlay_platform_Windows.ico"
+	IDI_PLATFORM_IOS		ICON	"..\\icons\\overlays\\overlay_platform_iOS.ico"
 
 //##############################################################################################################
 //##############################################################################################################
 //##############################################################################################################
 	
-	IDI_PLATFORM_X32				ICON	"..\\icons\\overlays\\overlay_platform_x32.ico"
-	IDI_PLATFORM_X64				ICON	"..\\icons\\overlays\\overlay_platform_x64.ico"
+	IDI_PLATFORM_X32		ICON	"..\\icons\\overlays\\overlay_platform_x32.ico"
+	IDI_PLATFORM_X64		ICON	"..\\icons\\overlays\\overlay_platform_x64.ico"
 
 	
 //##############################################################################################################
 
-	IDI_UNICODE_CLIENT				ICON	"..\\icons\\overlays\\overlay_Unicode.ico"
+	IDI_UNICODE_CLIENT		ICON	"..\\icons\\overlays\\overlay_Unicode.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

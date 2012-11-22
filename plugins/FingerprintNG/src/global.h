@@ -10,12 +10,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 // Modify the following defines if you have to target a platform prior to the ones specified below.
@@ -81,16 +81,16 @@ typedef struct {
 
 struct KN_FP_MASK
 {
-	LPSTR	  szIconName;
-	LPTSTR  szMask;
-	LPTSTR  szClientDescription;
-	LPTSTR  szIconFileName;
-	int     iIconIndex;
-	int     iSectionFlag;
-	BOOL    fNotUseOverlay;
+	LPSTR	szIconName;
+	LPTSTR	szMask;
+	LPTSTR	szClientDescription;
+	LPTSTR	szIconFileName;
+	int		iIconIndex;
+	int		iSectionFlag;
+	BOOL	fNotUseOverlay;
 
-	HANDLE  hIcolibItem;
-	LPTSTR  szMaskUpper;
+	HANDLE	hIcolibItem;
+	LPTSTR	szMaskUpper;
 };
 
 typedef struct _foundInfo
@@ -99,15 +99,15 @@ typedef struct _foundInfo
 	HANDLE	hRegisteredImage;
 } FOUNDINFO;
 
-#define MIRANDA_CASE				3001 	//	Miranda clients
-#define MIRANDA_VERSION_CASE		3002 	//	Miranda version overlays
-#define MIRANDA_PACKS_CASE			3003 	//	Miranda packs overlays
+#define MIRANDA_CASE				3001	//	Miranda clients
+#define MIRANDA_VERSION_CASE		3002	//	Miranda version overlays
+#define MIRANDA_PACKS_CASE			3003	//	Miranda packs overlays
 
-#define MULTI_CASE					3004 	//	multi-protocol clients
-#define AIM_CASE					3005 	//	AIM clients
-#define GG_CASE						3006 	//	Gadu-Gadu clients
-#define ICQ_CASE					3008 	//	ICQ clients
-#define IRC_CASE					3009 	//	IRC clients
+#define MULTI_CASE					3004	//	multi-protocol clients
+#define AIM_CASE					3005	//	AIM clients
+#define GG_CASE						3006	//	Gadu-Gadu clients
+#define ICQ_CASE					3008	//	ICQ clients
+#define IRC_CASE					3009	//	IRC clients
 #define JABBER_CASE					3010	//	Jabber clients
 #define MRA_CASE					3011	//	Mail.Ru Agent clients
 #define MSN_CASE					3012	//	MSN clients
@@ -126,7 +126,7 @@ typedef struct _foundInfo
 #define OVERLAYS_SECURITY_CASE		3023	//	security overlays
 
 /*
-#define OVERLAYS_RESOURCE_ALT_CASE	24	//	alternative (old style) overlays
+#define OVERLAYS_RESOURCE_ALT_CASE	24		//	alternative (old style) overlays
 */
 
 #define PtrIsValid(p)		(((p)!=0)&&(((HANDLE)(p))!=INVALID_HANDLE_VALUE))

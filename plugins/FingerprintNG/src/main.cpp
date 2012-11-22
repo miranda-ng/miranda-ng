@@ -9,12 +9,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //Start of header
@@ -24,7 +24,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define LIB_USE		3
 
 HINSTANCE g_hInst;
-int       hLangpack;
+int hLangpack;
 
 HANDLE hHeap					= NULL;
 
@@ -33,7 +33,7 @@ HANDLE getClientIconA			= NULL;
 
 HANDLE compClientServW			= NULL;
 HANDLE getClientIconW			= NULL;
-LPSTR  g_szClientDescription	= NULL;
+LPSTR g_szClientDescription	= NULL;
 
 HANDLE hStaticHooks[1]			= { NULL };
 

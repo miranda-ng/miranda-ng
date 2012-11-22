@@ -20,7 +20,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
-#endif    // Russian resources
+#endif	// Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,16 +42,16 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################### MSN ######################################################
 //##############################################################################################################
-   IDI_AMSN                ICON    "..\\icons\\MSN\\aMSN.ico"
-   IDI_MSN_MAC             ICON    "..\\icons\\MSN\\MSN Mac.ico"
-   IDI_MSN_45              ICON    "..\\icons\\MSN\\MSN v4.5-v5.x.ico"
-   IDI_MSN_6               ICON    "..\\icons\\MSN\\MSN v6.x.ico"
-   IDI_MSN_7               ICON    "..\\icons\\MSN\\MSN v7.x.ico"
-   IDI_MSN_8               ICON    "..\\icons\\MSN\\MSN v8.x.ico"
-   IDI_MSN                 ICON    "..\\icons\\MSN\\MSN v8.x.ico"
-   IDI_WEBMESSENGER        ICON    "..\\icons\\MSN\\WebMessenger.ico"
-   IDI_WLM_9               ICON    "..\\icons\\MSN\\wlm9.ico"
-   IDI_WLM_10              ICON    "..\\icons\\MSN\\WLM10-11.ico"
+	IDI_AMSN				ICON	"..\\icons\\MSN\\aMSN.ico"
+	IDI_MSN_MAC				ICON	"..\\icons\\MSN\\MSN Mac.ico"
+	IDI_MSN_45				ICON	"..\\icons\\MSN\\MSN v4.5-v5.x.ico"
+	IDI_MSN_6				ICON	"..\\icons\\MSN\\MSN v6.x.ico"
+	IDI_MSN_7				ICON	"..\\icons\\MSN\\MSN v7.x.ico"
+	IDI_MSN_8				ICON	"..\\icons\\MSN\\MSN v8.x.ico"
+	IDI_MSN					ICON	"..\\icons\\MSN\\MSN v8.x.ico"
+	IDI_WEBMESSENGER		ICON	"..\\icons\\MSN\\WebMessenger.ico"
+	IDI_WLM_9				ICON	"..\\icons\\MSN\\wlm9.ico"
+	IDI_WLM_10				ICON	"..\\icons\\MSN\\WLM10-11.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -60,10 +60,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE 
 BEGIN
-    IDS_IDENTIFY            "# Finger Icons #"
+	IDS_IDENTIFY			"# Finger Icons #"
 END
 
-#endif    // English (U.S.) resources
+#endif	// English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -76,5 +76,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif	// not APSTUDIO_INVOKED
 

@@ -20,7 +20,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
-#endif    // Russian resources
+#endif	// Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,14 +42,14 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################# AIM ########################################################
 //##############################################################################################################
-   IDI_AIM_6               ICON    "..\\icons\\AIM\\AIM_6.x.ico"
-   IDI_AIM_7               ICON    "..\\icons\\AIM\\AIM_7.x.ico"
-   IDI_AIM_MAC             ICON    "..\\icons\\AIM\\AIM_Mac.ico"
-   IDI_AIM_MOBILE          ICON    "..\\icons\\AIM\\AIM_Mobile.ico"
-   IDI_AIM_TRITON          ICON    "..\\icons\\AIM\\AIM_Triton.ico"
-   IDI_MINIAIM             ICON    "..\\icons\\AIM\\miniaim.ico"
-   IDI_NAIM                ICON    "..\\icons\\AIM\\naim.ico"
-   IDI_TERRAIM             ICON    "..\\icons\\AIM\\TerraIM.ico"
+	IDI_AIM_6				ICON	"..\\icons\\AIM\\AIM_6.x.ico"
+	IDI_AIM_7				ICON	"..\\icons\\AIM\\AIM_7.x.ico"
+	IDI_AIM_MAC				ICON	"..\\icons\\AIM\\AIM_Mac.ico"
+	IDI_AIM_MOBILE			ICON	"..\\icons\\AIM\\AIM_Mobile.ico"
+	IDI_AIM_TRITON			ICON	"..\\icons\\AIM\\AIM_Triton.ico"
+	IDI_MINIAIM				ICON	"..\\icons\\AIM\\miniaim.ico"
+	IDI_NAIM				ICON	"..\\icons\\AIM\\naim.ico"
+	IDI_TERRAIM				ICON	"..\\icons\\AIM\\TerraIM.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -58,10 +58,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE 
 BEGIN
-    IDS_IDENTIFY            "# Finger Icons #"
+	IDS_IDENTIFY			"# Finger Icons #"
 END
 
-#endif    // English (U.S.) resources
+#endif	// English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -74,5 +74,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif	// not APSTUDIO_INVOKED
 

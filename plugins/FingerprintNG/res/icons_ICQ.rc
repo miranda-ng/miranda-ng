@@ -20,7 +20,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
-#endif    // Russian resources
+#endif	// Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,31 +42,32 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################## Unofficial ICQ clients ############################################
 //##############################################################################################################
-	IDI_DICHAT              ICON    "..\\icons\\ICQ\\D[i]Chat.ico"
-	IDI_GNOMEICU            ICON    "..\\icons\\ICQ\\GnomeICU.ico"
-	IDI_ICY_JUICE		ICON	"..\\icons\\ICQ\\Icy Juice.ico"
-	IDI_JIMM                ICON    "..\\icons\\multi-protocol\\Jimm.ico"
-	IDI_LIBICQ2000          ICON    "..\\icons\\ICQ\\LibICQ2000.ico"
-	IDI_LICQ                ICON    "..\\icons\\ICQ\\Licq.ico"
-	IDI_LOCID               ICON    "..\\icons\\ICQ\\locid.ico"
-	IDI_QIP_2005            ICON    "..\\icons\\ICQ\\QIP.ico"
-	IDI_RANDQ   		        ICON    "..\\icons\\ICQ\\R&Q.ico"
-	IDI_SMARTICQ            ICON    "..\\icons\\ICQ\\SmartICQ.ico"
-	IDI_SPAM					ICON    "..\\icons\\ICQ\\spam.ico"
-	IDI_STRICQ              ICON    "..\\icons\\ICQ\\StrICQ.ico"
-	IDI_TICQ					ICON	"..\\icons\\ICQ\\TICQClient.ico"
+	IDI_DICHAT				ICON	"..\\icons\\ICQ\\D[i]Chat.ico"
+	IDI_GNOMEICU			ICON	"..\\icons\\ICQ\\GnomeICU.ico"
+	IDI_ICY_JUICE			ICON	"..\\icons\\ICQ\\Icy Juice.ico"
+	IDI_JIMM				ICON	"..\\icons\\multi-protocol\\Jimm.ico"
+	IDI_LIBICQ2000			ICON	"..\\icons\\ICQ\\LibICQ2000.ico"
+	IDI_LICQ				ICON	"..\\icons\\ICQ\\Licq.ico"
+	IDI_LOCID				ICON	"..\\icons\\ICQ\\locid.ico"
+	IDI_QIP_2005			ICON	"..\\icons\\ICQ\\QIP.ico"
+	IDI_RANDQ				ICON	"..\\icons\\ICQ\\R&Q.ico"
+	IDI_SMARTICQ			ICON	"..\\icons\\ICQ\\SmartICQ.ico"
+	IDI_SPAM				ICON	"..\\icons\\ICQ\\spam.ico"
+	IDI_STRICQ				ICON	"..\\icons\\ICQ\\StrICQ.ico"
+	IDI_TICQ				ICON	"..\\icons\\ICQ\\TICQClient.ico"
 
 //##############################################################################################################
 //############################################# Official ICQ clients ###########################################
 //##############################################################################################################
-	IDI_ICQ                 ICON    "..\\icons\\ICQ\\ICQ.ico" 
+	IDI_ICQ					ICON	"..\\icons\\ICQ\\ICQ.ico" 
 
 //##############################################################################################################
 //################################# ICQ overlays ###############################################################
 //##############################################################################################################
-   IDI_ICQ6_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v6.ico"
-   IDI_ICQ7_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v7.ico"
-   IDI_ICQ8_OVERLAY          ICON    "..\\icons\\ICQ\\overlay_ICQ_v8.ico"
+	IDI_ICQ5_OVERLAY		ICON	"..\\icons\\ICQ\\overlay_ICQ_v5.ico"
+	IDI_ICQ6_OVERLAY		ICON	"..\\icons\\ICQ\\overlay_ICQ_v6.ico"
+	IDI_ICQ7_OVERLAY		ICON	"..\\icons\\ICQ\\overlay_ICQ_v7.ico"
+	IDI_ICQ8_OVERLAY		ICON	"..\\icons\\ICQ\\overlay_ICQ_v8.ico"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -76,10 +77,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE 
 BEGIN
-    IDS_IDENTIFY            "# Finger Icons #"
+	IDS_IDENTIFY			"# Finger Icons #"
 END
 
-#endif    // English (U.S.) resources
+#endif	// English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -92,5 +93,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif	// not APSTUDIO_INVOKED
 

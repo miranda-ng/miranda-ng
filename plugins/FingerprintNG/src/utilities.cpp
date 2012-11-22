@@ -9,12 +9,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //Start of header
@@ -265,7 +265,7 @@ int utf8_decode_static(LPCSTR from, LPSTR to, int to_size)
 	{
 		size_t chars = strlennull(from) + 1;
 		LPWSTR unicode = (LPWSTR)_alloca(chars * sizeof(WCHAR));
-    
+
 		make_unicode_string_static(from, unicode, chars);
 
 		WideCharToMultiByte(CP_ACP, WC_COMPOSITECHECK, unicode, -1, to, to_size, NULL, NULL);

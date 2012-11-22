@@ -10,12 +10,12 @@ of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 */
 
 //Start of header
@@ -28,32 +28,32 @@ struct _settingsInfo
 }
 static settings [] =
 {
-	{IDC_GROUP_MIRANDA, 			"GroupMiranda"},
-	{IDC_GROUP_MIRANDA_VERSION, 	"GroupMirandaVersion"},
-	{IDC_GROUP_MIRANDA_PACKS, 		"GroupMirandaPacks"},
+	{IDC_GROUP_MIRANDA,				"GroupMiranda"},
+	{IDC_GROUP_MIRANDA_VERSION,		"GroupMirandaVersion"},
+	{IDC_GROUP_MIRANDA_PACKS,		"GroupMirandaPacks"},
 	
-	{IDC_GROUP_MULTI, 				"GroupMulti"},
-	{IDC_GROUP_AIM, 				"GroupAIM"},
-	{IDC_GROUP_GG, 					"GroupGG"},
-	{IDC_GROUP_ICQ, 				"GroupICQ"},
-	{IDC_GROUP_IRC, 				"GroupIRC"},
-	{IDC_GROUP_JABBER, 				"GroupJabber"},
-	{IDC_GROUP_MRA, 				"GroupMRA"},
-	{IDC_GROUP_MSN, 				"GroupMSN"},
-	{IDC_GROUP_QQ, 					"GroupQQ"},
-	{IDC_GROUP_RSS, 				"GroupRSS"},
-	{IDC_GROUP_TLEN, 				"GroupTlen"},
-	{IDC_GROUP_WEATHER, 			"GroupWeather"},
-	{IDC_GROUP_YAHOO, 				"GroupYahoo"},
+	{IDC_GROUP_MULTI,				"GroupMulti"},
+	{IDC_GROUP_AIM,			   		"GroupAIM"},
+	{IDC_GROUP_GG,			   		"GroupGG"},
+	{IDC_GROUP_ICQ,			   		"GroupICQ"},
+	{IDC_GROUP_IRC,			   		"GroupIRC"},
+	{IDC_GROUP_JABBER,		   		"GroupJabber"},
+	{IDC_GROUP_MRA,			   		"GroupMRA"},
+	{IDC_GROUP_MSN,			   		"GroupMSN"},
+	{IDC_GROUP_QQ,			   		"GroupQQ"},
+	{IDC_GROUP_RSS,			   		"GroupRSS"},
+	{IDC_GROUP_TLEN,				"GroupTlen"},
+	{IDC_GROUP_WEATHER,				"GroupWeather"},
+	{IDC_GROUP_YAHOO,				"GroupYahoo"},
 	
-	{IDC_GROUP_OTHER_PROTOS, 		"GroupOtherProtos"},
-	{IDC_GROUP_OTHERS, 				"GroupOthers"},
+	{IDC_GROUP_OTHER_PROTOS,		"GroupOtherProtos"},
+	{IDC_GROUP_OTHERS,				"GroupOthers"},
 
-	{IDC_GROUP_OVERLAYS_RESOURCE, 	"GroupOverlaysResource"},
-	{IDC_GROUP_OVERLAYS_PLATFORM, 	"GroupOverlaysPlatform"},
-	{IDC_GROUP_OVERLAYS_PROTO, 		"GroupOverlaysProtos"},
-	{IDC_GROUP_OVERLAYS_SECURITY, 	"GroupOtherProtos"},
-//	{IDC_GROUP_OVERLAYS_RESOURCE_ALT, 	"GroupOverlays"},
+	{IDC_GROUP_OVERLAYS_RESOURCE,	"GroupOverlaysResource"},
+	{IDC_GROUP_OVERLAYS_PLATFORM,	"GroupOverlaysPlatform"},
+	{IDC_GROUP_OVERLAYS_PROTO,		"GroupOverlaysProtos"},
+	{IDC_GROUP_OVERLAYS_SECURITY,	"GroupOtherProtos"},
+//	{IDC_GROUP_OVERLAYS_RESOURCE_ALT,	"GroupOverlays"},
 
 };
 
@@ -66,12 +66,12 @@ static void OptDlgChanged(HWND hwndDlg, BOOL show)
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
-	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL, "Finger", szSetting, bDef));
+	CheckDlgButton(hwndDlg, idCtrl, db_get_b(NULL,	"Finger", szSetting, bDef));
 }
 
 static void StoreDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting)
 {
-	db_set_b(NULL, "Finger", szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
+	db_set_b(NULL,	"Finger", szSetting, (BYTE)IsDlgButtonChecked(hwndDlg, idCtrl));
 }
 
 static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -81,7 +81,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < SIZEOF(settings); i++) {
-				if (lstrcmpA(settings[i].szSetName, "ShowVersion") == 0)
+				if (lstrcmpA(settings[i].szSetName,	"ShowVersion") == 0)
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
 				else
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);

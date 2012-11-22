@@ -82,7 +82,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_1&1",				_T("|*Pocket*Web*|*1&1*|*1*?nd*1"),			_T("1&1"),								_T("ClientIcons_multiproto"),	IDI_1UND1,				MULTI_CASE,	TRUE	},
 	{"client_Asia",				_T("*Asia*"),								_T("Asia"),								_T("ClientIcons_multiproto"),	IDI_ASIA,				MULTI_CASE,	TRUE	},
 	{"client_Adium",			_T("|*Adium*")
-								_T("|*VUFD6HcFmUT2NxJkBGCiKlZnS3M=*") 		// Gabble client?
+								_T("|*VUFD6HcFmUT2NxJkBGCiKlZnS3M=*")		// Gabble client?
 								_T("|*DdnydQG7RGhP9E3k9Sf+b+bF0zo=*"),		_T("Adium"),							_T("ClientIcons_multiproto"),	IDI_ADIUM,				MULTI_CASE,	TRUE	},
 	{"client_AgileMessenger",	_T("*Agile Messenger*"),					_T("Agile Messenger"),					_T("ClientIcons_multiproto"),	IDI_AGILE,				MULTI_CASE,	TRUE	},
 
@@ -201,7 +201,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Licq",				_T("Licq*"),								_T("Licq"),								_T("ClientIcons_ICQ"),			IDI_LICQ,				ICQ_CASE,	TRUE	},
 	{"client_LocID",			_T("LocID*"),								_T("LocID"),							_T("ClientIcons_ICQ"),			IDI_LOCID,				ICQ_CASE,	TRUE	},
 	{"client_QIP_2005",			_T("QIP*2005*"),							_T("QIP 2005"),							_T("ClientIcons_ICQ"),			IDI_QIP_2005,			ICQ_CASE,	TRUE	},
-	{"client_R&Q",				_T("R&Q*"),									_T("R&Q"),								_T("ClientIcons_ICQ"),			IDI_RANDQ,				ICQ_CASE,	TRUE	},
+	{"client_R&Q",				_T("|R&Q*|&RQ*"),							_T("R&Q"),								_T("ClientIcons_ICQ"),			IDI_RANDQ,				ICQ_CASE,	TRUE	},
 	{"client_SmartICQ",			_T("Smart*ICQ*"),							_T("SmartICQ"),							_T("ClientIcons_ICQ"),			IDI_SMARTICQ,			ICQ_CASE,	TRUE	},
 	{"client_StrICQ",			_T("StrICQ*"),								_T("StrICQ"),							_T("ClientIcons_ICQ"),			IDI_STRICQ,				ICQ_CASE,	TRUE	},
 
@@ -209,7 +209,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_libicq2k",			_T("libicq*"),								_T("LibICQ/JIT"),						_T("ClientIcons_ICQ"),			IDI_LIBICQ2000,			ICQ_CASE,	TRUE	},
 	{"client_TICQClient",		_T("*TICQ*Client*"),						_T("TICQClient (Delphi lib)"),			_T("ClientIcons_ICQ"),			IDI_TICQ,				ICQ_CASE,	TRUE	},
 
-	{"client_ICQ_all",			_T("|ICQ *|ICQ2*"),							_T("ICQ official client"),				_T("ClientIcons_ICQ"),			IDI_ICQ,				ICQ_CASE	},
+	{"client_ICQ_all",			_T("|ICQ?|ICQ?.?|ICQ *|ICQ2*|ICQ"),			_T("ICQ client"),						_T("ClientIcons_ICQ"),			IDI_ICQ,				ICQ_CASE	},
 
 //	AIM detection in ICQ protocol clutch, actually are mobile clients
 //	{"client_AIM",				_T("AIM"),									_T("AIM-based client"),					_T("ClientIcons_ICQ"),			IDI_AIM_7,				ICQ_CASE,	TRUE	},
@@ -252,7 +252,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Emacs",			_T("|*Jabber.el*|*Emacs*"),					_T("Emacs (Jabber.el)"),				_T("ClientIcons_Jabber"),		IDI_EMACS,				JABBER_CASE,	TRUE	},
 	{"client_Exodus",			_T("*Exodus*"),								_T("Exodus"),							_T("ClientIcons_Jabber"),		IDI_EXODUS,				JABBER_CASE,	TRUE	},
 	{"client_Facebook",			_T("*Facebook*"),							_T("Facebook"),							_T("ClientIcons_Jabber"),		IDI_FACEBOOK,			JABBER_CASE,	TRUE	},
-	{"client_Fire",				_T("Fire*"),								_T("Fire"),								_T("ClientIcons_Jabber"),		IDI_FIRE,				JABBER_CASE,	TRUE	},
 	{"client_GCN",				_T("*GCN*"),								_T("GCN"),								_T("ClientIcons_Jabber"),		IDI_GCN,				JABBER_CASE,	TRUE	},
 	{"client_GMail",			_T("|*gmail.*|GMail*"),						_T("GMail"),							_T("ClientIcons_Jabber"),		IDI_GMAIL,				JABBER_CASE,	TRUE	},
 	{"client_GOIM",				_T("*GOIM*"),								_T("GOIM"),								_T("ClientIcons_Jabber"),		IDI_GOIM,				JABBER_CASE,	TRUE	},
@@ -274,7 +273,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Importal",			_T("*Importal*"),							_T("Importal"),							_T("ClientIcons_Jabber"),		IDI_IMPORTAL,			JABBER_CASE,	TRUE	},
 	{"client_InstanT",			_T("*Instan-t*"),							_T("Instan-t"),							_T("ClientIcons_Jabber"),		IDI_INSTANT,			JABBER_CASE,	TRUE	},
 	{"client_Interaction",		_T("*Interaction*"),						_T("Interaction"),						_T("ClientIcons_Jabber"),		IDI_INTERACTION,		JABBER_CASE,	TRUE	},
-	{"client_Iruka",			_T("*Iruka*"),								_T("Iruka"),							_T("ClientIcons_Jabber"),		IDI_IRUKA,				JABBER_CASE,	TRUE	},
+	{"client_iruka",			_T("*Iruka*"),								_T("Iruka"),							_T("ClientIcons_Jabber"),		IDI_IRUKA,				JABBER_CASE,	TRUE	},
 	{"client_J2J_Transport",	_T("*J2J*Transport*"),						_T("J2J Transport"),					_T("ClientIcons_Jabber"),		IDI_J2J_TRANSPORT,		JABBER_CASE,	TRUE	},
 	{"client_Jamm",				_T("*Jamm*"),								_T("Jamm"),								_T("ClientIcons_Jabber"),		IDI_JAMM,				JABBER_CASE,	TRUE	},
 	{"client_JClaim",			_T("*JClaim*"),								_T("JClaim"),							_T("ClientIcons_Jabber"),		IDI_JCLAIM,				JABBER_CASE,	TRUE	},
@@ -318,6 +317,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_OM",				_T("OM*"),									_T("OM aka Online Messenger"),			_T("ClientIcons_Jabber"),		IDI_OM,					JABBER_CASE,	TRUE	},
 	{"client_OctroTalk",		_T("*Octro*"),								_T("OctroTalk"),						_T("ClientIcons_Jabber"),		IDI_OCTROTALK,			JABBER_CASE,	TRUE	},
 	{"client_OneTeam",			_T("*OneTeam*"),							_T("OneTeam"),							_T("ClientIcons_Jabber"),		IDI_ONETEAM,			JABBER_CASE,	TRUE	},
+	{"client_Openfire",			_T("*Openfire*"),							_T("Openfire"),							_T("ClientIcons_Jabber"),		IDI_OPENFIRE,			JABBER_CASE,	TRUE	},
+	{"client_Fire",				_T("Fire*"),								_T("Fire"),								_T("ClientIcons_Jabber"),		IDI_FIRE,				JABBER_CASE,	TRUE	},
 	{"client_Paltalk",			_T("*Paltalk*"),							_T("Paltalk"),							_T("ClientIcons_Jabber"),		IDI_PALTALK,			JABBER_CASE,	TRUE	},
 	{"client_Pandion",			_T("|*Pandion*|*Пандион*"),					_T("Pandion"),							_T("ClientIcons_Jabber"),		IDI_PANDION,			JABBER_CASE,	TRUE	},
 	{"client_Papla",			_T("*Papla*"),								_T("Papla"),							_T("ClientIcons_Jabber"),		IDI_PAPLA,				JABBER_CASE,	TRUE	},
@@ -465,6 +466,9 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_cbirc",			_T("*cbirc*"),								_T("cbirc"),							_T("ClientIcons_IRC"),			IDI_CBIRC,				IRC_CASE,	TRUE	},
 	{"client_dIRC",				_T("*dIRC*"),								_T("dIRC"),								_T("ClientIcons_IRC"),			IDI_DIRC,				IRC_CASE,	TRUE	},
 
+	{"client_iroffer_dinoex",	_T("*iroffer*dinoex*"),						_T("iroffer dinoex"),					_T("ClientIcons_IRC"),			IDI_IROFFER_DINOEX,		IRC_CASE,	TRUE	},
+	{"client_iroffer",			_T("*iroffer*"),							_T("iroffer"),							_T("ClientIcons_IRC"),			IDI_IROFFER,			IRC_CASE,	TRUE	},
+
 	{"client_ircle",			_T("*ircle*"),								_T("ircle"),							_T("ClientIcons_IRC"),			IDI_IRCLE,				IRC_CASE,	TRUE	},
 	{"client_jircii",			_T("*jircii*"),								_T("jircii"),							_T("ClientIcons_IRC"),			IDI_JIRCII,				IRC_CASE,	TRUE	},
 	{"client_jmIrc",			_T("*jmIrc*"),								_T("jmIrc"),							_T("ClientIcons_IRC"),			IDI_JMIRC,				IRC_CASE,	TRUE	},
@@ -478,6 +482,8 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_xChat",			_T("*xChat*"),								_T("xChat"),							_T("ClientIcons_IRC"),			IDI_XCHAT,				IRC_CASE,	TRUE	},
 	{"client_zsIRC",			_T("*zsIRC*"),								_T("zsIRC"),							_T("ClientIcons_IRC"),			IDI_ZSIRC,				IRC_CASE,	TRUE	},
 
+	{"client_ZNC",				_T("*ZNC*"),								_T("ZNC"),								_T("ClientIcons_IRC"),			IDI_ZNC,				IRC_CASE,	TRUE	},
+
 	{"client_aMule",			_T("*aMule*"),								_T("aMule"),							_T("ClientIcons_IRC"),			IDI_AMULE,				IRC_CASE,	TRUE	},
 	{"client_eMuleMorphXT",		_T("eMule*MorphXT*"),						_T("eMule MorphXT"),					_T("ClientIcons_IRC"),			IDI_EMULE_MORPHXT,		IRC_CASE,	TRUE	},
 	{"client_eMuleNeo",			_T("eMule*Neo*"),							_T("eMule Neo"),						_T("ClientIcons_IRC"),			IDI_EMULE_NEO,			IRC_CASE,	TRUE	},
@@ -490,16 +496,16 @@ KN_FP_MASK def_kn_fp_mask[] =
 //###########################################################################################################################################################################################################
 //#################################		AIM		#############################################################################################################################################################
 //###########################################################################################################################################################################################################
-	{"client_Aim7",				_T("AIM*7.*"),								_T("AIM v7.x"),							_T("ClientIcons_AIM"),	 		IDI_AIM_7,				AIM_CASE,	TRUE	},
-	{"client_Aim6",				_T("AIM*6.*"),								_T("AIM v6.x"),							_T("ClientIcons_AIM"),	 		IDI_AIM_6,				AIM_CASE,	TRUE	},
+	{"client_Aim7",				_T("AIM*7.*"),								_T("AIM v7.x"),							_T("ClientIcons_AIM"),			IDI_AIM_7,				AIM_CASE,	TRUE	},
+	{"client_Aim6",				_T("AIM*6.*"),								_T("AIM v6.x"),							_T("ClientIcons_AIM"),			IDI_AIM_6,				AIM_CASE,	TRUE	},
 
-	{"client_AIM_Triton",		_T("*AIM*Triton*"),							_T("AIM Triton"),						_T("ClientIcons_AIM"),	 		IDI_AIM_TRITON,			AIM_CASE,	TRUE	},
-	{"client_AimMac",			_T("AIM*Mac*"),								_T("AIM for MacOS"),					_T("ClientIcons_AIM"),	 		IDI_AIM_MAC,			AIM_CASE,	TRUE	},
-	{"client_AimMobile",		_T("|AIM*Mobile*|AIM*gprs*|Aim*sms*"),		_T("AIM Mobile"),						_T("ClientIcons_AIM"),	 		IDI_AIM_MOBILE,			AIM_CASE,	TRUE	},
-	{"client_Naim",				_T("*naim*"),								_T("Naim"),								_T("ClientIcons_AIM"),	 		IDI_NAIM,				AIM_CASE,	TRUE	},
-	{"client_miniaim",			_T("*miniaim*"),							_T("miniaim"),							_T("ClientIcons_AIM"),	 		IDI_MINIAIM,			AIM_CASE,	TRUE	},
-	{"client_TerraIM",			_T("*Terra*"),								_T("TerraIM"),							_T("ClientIcons_AIM"),	 		IDI_TERRAIM,			AIM_CASE,	TRUE	},
-	{"client_AIM",				_T("AIM*"),									_T("AIM"),								_T("ClientIcons_AIM"),	 		IDI_AIM_7,				AIM_CASE,	TRUE	},
+	{"client_AIM_Triton",		_T("*AIM*Triton*"),							_T("AIM Triton"),						_T("ClientIcons_AIM"),			IDI_AIM_TRITON,			AIM_CASE,	TRUE	},
+	{"client_AimMac",			_T("AIM*Mac*"),								_T("AIM for MacOS"),					_T("ClientIcons_AIM"),			IDI_AIM_MAC,			AIM_CASE,	TRUE	},
+	{"client_AimMobile",		_T("|AIM*Mobile*|AIM*gprs*|Aim*sms*"),		_T("AIM Mobile"),						_T("ClientIcons_AIM"),			IDI_AIM_MOBILE,			AIM_CASE,	TRUE	},
+	{"client_Naim",				_T("*naim*"),								_T("Naim"),								_T("ClientIcons_AIM"),			IDI_NAIM,				AIM_CASE,	TRUE	},
+	{"client_miniaim",			_T("*miniaim*"),							_T("miniaim"),							_T("ClientIcons_AIM"),			IDI_MINIAIM,			AIM_CASE,	TRUE	},
+	{"client_TerraIM",			_T("*Terra*"),								_T("TerraIM"),							_T("ClientIcons_AIM"),			IDI_TERRAIM,			AIM_CASE,	TRUE	},
+	{"client_AIM",				_T("AIM*"),									_T("AIM"),								_T("ClientIcons_AIM"),			IDI_AIM_7,				AIM_CASE,	TRUE	},
 
 //###########################################################################################################################################################################################################
 //#################################		MSN		#############################################################################################################################################################
@@ -521,12 +527,12 @@ KN_FP_MASK def_kn_fp_mask[] =
 //###########################################################################################################################################################################################################
 	{"client_MRA_official",		_T("|magent*|Mail.ru Agent*official*")
 								_T("|Mail.ru Agent*PC*")
-								_T("|http://agent.mail.ru*"),				_T("Mail.Ru Agent (official)"),			_T("ClientIcons_MRA"),	 		IDI_MAIL_RU_OFFICIAL,	MRA_CASE,	TRUE	},
+								_T("|http://agent.mail.ru*"),				_T("Mail.Ru Agent (official)"),			_T("ClientIcons_MRA"),			IDI_MAIL_RU_OFFICIAL,	MRA_CASE,	TRUE	},
 	{"client_MRA_Mobile",		_T("|wmagent*|MobileAgent*")
 								_T("|sagent*|Mail.ru Agent*Symbian*")
-								_T("|jagent*"),								_T("Mail.Ru Mobile Agent"),				_T("ClientIcons_MRA"),	 		IDI_MAIL_RU_MOBILE,		MRA_CASE,	TRUE	},
-	{"client_MRA_web",			_T("Web Agent*"),							_T("Mail.Ru Web Agent"),				_T("ClientIcons_MRA"),	 		IDI_MAIL_RU_WEBAGENT,	MRA_CASE,	TRUE	},
-	{"client_MRA_unknown",		_T("Mail.ru Agent*"),						_T("Mail.Ru (unknown client)"),			_T("ClientIcons_MRA"),	 		IDI_MAIL_RU_UNKNOWN,	MRA_CASE,	TRUE	},
+								_T("|jagent*"),								_T("Mail.Ru Mobile Agent"),				_T("ClientIcons_MRA"),			IDI_MAIL_RU_MOBILE,		MRA_CASE,	TRUE	},
+	{"client_MRA_web",			_T("Web Agent*"),							_T("Mail.Ru Web Agent"),				_T("ClientIcons_MRA"),			IDI_MAIL_RU_WEBAGENT,	MRA_CASE,	TRUE	},
+	{"client_MRA_unknown",		_T("Mail.ru Agent*"),						_T("Mail.Ru (unknown client)"),			_T("ClientIcons_MRA"),			IDI_MAIL_RU_UNKNOWN,	MRA_CASE,	TRUE	},
 
 //###########################################################################################################################################################################################################
 //#################################		YAHOO	#############################################################################################################################################################
@@ -619,53 +625,53 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //###########################################################################################################################################################################################################
 //#################################		 MIRANDA PACKS OVERLAYS		#########################################################################################################################################
 //###########################################################################################################################################################################################################
-	{"client_AF_pack",			_T("*AF*Pack*"),					 		_T("AF"),								_T("ClientIcons_packs"),		IDI_MIRANDA_AF,			MIRANDA_PACKS_CASE	},
-	{"client_AlfaMaR_pack",		_T("*AlfaMaR*"),					 		_T("AlfaMaR"),							_T("ClientIcons_packs"),		IDI_MIRANDA_ALFAMAR,	MIRANDA_PACKS_CASE	},
-	{"client_Amatory_pack",		_T("*Amatory*"),					 		_T("Amatory"),							_T("ClientIcons_packs"),		IDI_MIRANDA_AMATORY,	MIRANDA_PACKS_CASE	},
-	{"client_BRI_pack",			_T("*bri*edition*"),				 		_T("Bri edition"),						_T("ClientIcons_packs"),		IDI_MIRANDA_BRI,		MIRANDA_PACKS_CASE	},
-	{"client_Devil_pack",		_T("*6.6.6*"),						 		_T("Devil Suite"),						_T("ClientIcons_packs"),		IDI_MIRANDA_DEVIL,		MIRANDA_PACKS_CASE	},
-	{"client_E33_pack",			_T("*[E33*]*"),						 		_T("E33"),								_T("ClientIcons_packs"),		IDI_MIRANDA_E33,		MIRANDA_PACKS_CASE	},
-	{"client_FR_pack",			_T("*FR*Pack*"),					 		_T("Miranda FR"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FR,			MIRANDA_PACKS_CASE	},
-	{"client_Faith_pack",		_T("*Faith*Pack*"),					 		_T("FaithPack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FAITH,		MIRANDA_PACKS_CASE	},
-	{"client_Final_pack",		_T("*[Final*Pack]*"),				 		_T("Final pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FINAL,		MIRANDA_PACKS_CASE	},
-	{"client_Freize_pack",		_T("*Freize*"),						 		_T("Freize"),							_T("ClientIcons_packs"),		IDI_MIRANDA_FREIZE,		MIRANDA_PACKS_CASE	},
-	{"client_Ghost_pack",		_T("*Ghost's*"),					 		_T("Ghost's pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_GHOST,		MIRANDA_PACKS_CASE	},
-	{"client_HCoffee_pack",		_T("*[HotCoffee]*"),				 		_T("HotCoffee"),						_T("ClientIcons_packs"),		IDI_MIRANDA_CAPPUCCINO,	MIRANDA_PACKS_CASE	},
-	{"client_HierOS_pack",		_T("*HierOS*"),						 		_T("HierOS"),							_T("ClientIcons_packs"),		IDI_MIRANDA_HIEROS,		MIRANDA_PACKS_CASE	},
+	{"client_AF_pack",			_T("*AF*Pack*"),							_T("AF"),								_T("ClientIcons_packs"),		IDI_MIRANDA_AF,			MIRANDA_PACKS_CASE	},
+	{"client_AlfaMaR_pack",		_T("*AlfaMaR*"),							_T("AlfaMaR"),							_T("ClientIcons_packs"),		IDI_MIRANDA_ALFAMAR,	MIRANDA_PACKS_CASE	},
+	{"client_Amatory_pack",		_T("*Amatory*"),							_T("Amatory"),							_T("ClientIcons_packs"),		IDI_MIRANDA_AMATORY,	MIRANDA_PACKS_CASE	},
+	{"client_BRI_pack",			_T("*bri*edition*"),						_T("Bri edition"),						_T("ClientIcons_packs"),		IDI_MIRANDA_BRI,		MIRANDA_PACKS_CASE	},
+	{"client_Devil_pack",		_T("*6.6.6*"),								_T("Devil Suite"),						_T("ClientIcons_packs"),		IDI_MIRANDA_DEVIL,		MIRANDA_PACKS_CASE	},
+	{"client_E33_pack",			_T("*[E33*]*"),								_T("E33"),								_T("ClientIcons_packs"),		IDI_MIRANDA_E33,		MIRANDA_PACKS_CASE	},
+	{"client_FR_pack",			_T("*FR*Pack*"),							_T("Miranda FR"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FR,			MIRANDA_PACKS_CASE	},
+	{"client_Faith_pack",		_T("*Faith*Pack*"),							_T("FaithPack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FAITH,		MIRANDA_PACKS_CASE	},
+	{"client_Final_pack",		_T("*[Final*Pack]*"),						_T("Final pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_FINAL,		MIRANDA_PACKS_CASE	},
+	{"client_Freize_pack",		_T("*Freize*"),								_T("Freize"),							_T("ClientIcons_packs"),		IDI_MIRANDA_FREIZE,		MIRANDA_PACKS_CASE	},
+	{"client_Ghost_pack",		_T("*Ghost's*"),							_T("Ghost's pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_GHOST,		MIRANDA_PACKS_CASE	},
+	{"client_HCoffee_pack",		_T("*[HotCoffee]*"),						_T("HotCoffee"),						_T("ClientIcons_packs"),		IDI_MIRANDA_CAPPUCCINO,	MIRANDA_PACKS_CASE	},
+	{"client_HierOS_pack",		_T("*HierOS*"),								_T("HierOS"),							_T("ClientIcons_packs"),		IDI_MIRANDA_HIEROS,		MIRANDA_PACKS_CASE	},
 	{"client_ICE_pack",			_T("|*miranda*[ice*]|*induction*"),			_T("iCE / Induction"),					_T("ClientIcons_packs"),		IDI_MIRANDA_INDUCTION,	MIRANDA_PACKS_CASE	},
-	{"client_KDL_pack",			_T("|*KDL*|*КДЛ*"),					 		_T("KDL"),								_T("ClientIcons_packs"),		IDI_MIRANDA_KDL,		MIRANDA_PACKS_CASE	},
-	{"client_Kolich_pack",		_T("*Kolich*"),						 		_T("Kolich"),							_T("ClientIcons_packs"),		IDI_MIRANDA_KOLICH,		MIRANDA_PACKS_CASE	},
-	{"client_Kuzzman_pack",		_T("*kuzzman*"),					 		_T("Kuzzman"),							_T("ClientIcons_packs"),		IDI_MIRANDA_KUZZMAN,	MIRANDA_PACKS_CASE	},
-	{"client_Lenin_pack",		_T("*[Lenin*]*"),					 		_T("Lenin pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_LENINPACK,	MIRANDA_PACKS_CASE	},
-	{"client_Lestat_pack",		_T("*[Lpack*]*"),					 		_T("Lestat pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_LESTAT,		MIRANDA_PACKS_CASE	},
-	{"client_LexSys_pack",		_T("|*Miranda*LS*|*LexSys*"),		 		_T("LexSys"),							_T("ClientIcons_packs"),		IDI_MIRANDA_LEXSYS,		MIRANDA_PACKS_CASE	},
-	{"client_MD_pack",			_T("*MDpack*"),						 		_T("MDpack"),							_T("ClientIcons_packs"),		IDI_MIRANDA_MD,			MIRANDA_PACKS_CASE	},
-	{"client_Mataes_pack",		_T("*Mataes*"),						 		_T("Mataes pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_MATAES,		MIRANDA_PACKS_CASE	},
-	{"client_Mir_ME_pack",		_T("*[Miranda*ME]*"),				 		_T("Miranda ME"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ME,			MIRANDA_PACKS_CASE	},
-	{"client_Native_pack",		_T("*Native*"),						 		_T("Native"),							_T("ClientIcons_packs"),		IDI_MIRANDA_NATIVE,		MIRANDA_PACKS_CASE	},
-	{"client_New_Style_pack",	_T("*New*Style*"),					 		_T("New Style"),						_T("ClientIcons_packs"),		IDI_MIRANDA_NEW_STYLE,	MIRANDA_PACKS_CASE	},
-	{"client_Pilot_pack",		_T("*Pilot*"),						 		_T("Pilot"),							_T("ClientIcons_packs"),		IDI_MIRANDA_PILOT,		MIRANDA_PACKS_CASE	},
-	{"client_Razunter_pack",	_T("*Razunter*"),					 		_T("Razunter's Pk"),					_T("ClientIcons_packs"),		IDI_MIRANDA_RAZUNTER,	MIRANDA_PACKS_CASE	},
-	{"client_Robyer_pack",		_T("*Robyer*Pack*"),				 		_T("Robyer pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ROBYER,		MIRANDA_PACKS_CASE	},
-	{"client_SSS_pack",			_T("*sss*pack*"),					 		_T("SSS build"),						_T("ClientIcons_packs"),		IDI_MIRANDA_SSS_MOD,	MIRANDA_PACKS_CASE	},
-	{"client_Se7ven_pack",		_T("|^*sss*|*[S7*pack]*|*[*S7*]*"),	 		_T("Se7ven"),							_T("ClientIcons_packs"),		IDI_MIRANDA_SE7VEN,		MIRANDA_PACKS_CASE	},
-	{"client_SpellhowleR_pack",	_T("*Spellhowler*"),				 		_T("xSpellhowleRx pack"),				_T("ClientIcons_packs"),		IDI_MIRANDA_SPELLHOWLER,MIRANDA_PACKS_CASE	},
-	{"client_Stalker_pack",		_T("*Stalker*"),					 		_T("Stalker"),							_T("ClientIcons_packs"),		IDI_MIRANDA_STALKER,	MIRANDA_PACKS_CASE	},
-	{"client_Tweety_pack",		_T("*tweety*"),						 		_T("Tweety"),							_T("ClientIcons_packs"),		IDI_MIRANDA_TWEETY,		MIRANDA_PACKS_CASE	},
-	{"client_Umedon_pack",		_T("*Miranda*Umedon*"),				 		_T("Umedon"),							_T("ClientIcons_packs"),		IDI_MIRANDA_UMEDON,		MIRANDA_PACKS_CASE	},
-	{"client_ValeraVi_pack",	_T("*Valera*Vi*"),					 		_T("ValeraVi"),							_T("ClientIcons_packs"),		IDI_MIRANDA_VALERAVI,	MIRANDA_PACKS_CASE	},
-	{"client_Watcher_pack",		_T("*Watcher*"),					 		_T("Watcher pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_WATCHER,	MIRANDA_PACKS_CASE	},
-	{"client_YAOL_pack",		_T("*yaol*"),						 		_T("YAOL"),								_T("ClientIcons_packs"),		IDI_MIRANDA_YAOL,		MIRANDA_PACKS_CASE	},
-	{"client_dar_veter_pack",	_T("*Dar*veter*"),					 		_T("Dar_veter pack"),					_T("ClientIcons_packs"),		IDI_MIRANDA_DAR,		MIRANDA_PACKS_CASE	},
-	{"client_dmikos_pack",		_T("*dmikos*"),						 		_T("Dmikos"),							_T("ClientIcons_packs"),		IDI_MIRANDA_DMIKOS,		MIRANDA_PACKS_CASE	},
-	{"client_zeleboba_pack",	_T("*zeleboba*"),					 		_T("zeleboba's"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ZELEBOBA,	MIRANDA_PACKS_CASE	},
+	{"client_KDL_pack",			_T("|*KDL*|*КДЛ*"),							_T("KDL"),								_T("ClientIcons_packs"),		IDI_MIRANDA_KDL,		MIRANDA_PACKS_CASE	},
+	{"client_Kolich_pack",		_T("*Kolich*"),								_T("Kolich"),							_T("ClientIcons_packs"),		IDI_MIRANDA_KOLICH,		MIRANDA_PACKS_CASE	},
+	{"client_Kuzzman_pack",		_T("*kuzzman*"),							_T("Kuzzman"),							_T("ClientIcons_packs"),		IDI_MIRANDA_KUZZMAN,	MIRANDA_PACKS_CASE	},
+	{"client_Lenin_pack",		_T("*[Lenin*]*"),							_T("Lenin pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_LENINPACK,	MIRANDA_PACKS_CASE	},
+	{"client_Lestat_pack",		_T("*[Lpack*]*"),							_T("Lestat pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_LESTAT,		MIRANDA_PACKS_CASE	},
+	{"client_LexSys_pack",		_T("|*Miranda*LS*|*LexSys*"),				_T("LexSys"),							_T("ClientIcons_packs"),		IDI_MIRANDA_LEXSYS,		MIRANDA_PACKS_CASE	},
+	{"client_MD_pack",			_T("*MDpack*"),								_T("MDpack"),							_T("ClientIcons_packs"),		IDI_MIRANDA_MD,			MIRANDA_PACKS_CASE	},
+	{"client_Mataes_pack",		_T("*Mataes*"),								_T("Mataes pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_MATAES,		MIRANDA_PACKS_CASE	},
+	{"client_Mir_ME_pack",		_T("*[Miranda*ME]*"),						_T("Miranda ME"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ME,			MIRANDA_PACKS_CASE	},
+	{"client_Native_pack",		_T("*Native*"),								_T("Native"),							_T("ClientIcons_packs"),		IDI_MIRANDA_NATIVE,		MIRANDA_PACKS_CASE	},
+	{"client_New_Style_pack",	_T("*New*Style*"),							_T("New Style"),						_T("ClientIcons_packs"),		IDI_MIRANDA_NEW_STYLE,	MIRANDA_PACKS_CASE	},
+	{"client_Pilot_pack",		_T("*Pilot*"),								_T("Pilot"),							_T("ClientIcons_packs"),		IDI_MIRANDA_PILOT,		MIRANDA_PACKS_CASE	},
+	{"client_Razunter_pack",	_T("*Razunter*"),							_T("Razunter's Pk"),					_T("ClientIcons_packs"),		IDI_MIRANDA_RAZUNTER,	MIRANDA_PACKS_CASE	},
+	{"client_Robyer_pack",		_T("*Robyer*Pack*"),						_T("Robyer pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ROBYER,		MIRANDA_PACKS_CASE	},
+	{"client_SSS_pack",			_T("*sss*pack*"),							_T("SSS build"),						_T("ClientIcons_packs"),		IDI_MIRANDA_SSS_MOD,	MIRANDA_PACKS_CASE	},
+	{"client_Se7ven_pack",		_T("|^*sss*|*[S7*pack]*|*[*S7*]*"),			_T("Se7ven"),							_T("ClientIcons_packs"),		IDI_MIRANDA_SE7VEN,		MIRANDA_PACKS_CASE	},
+	{"client_SpellhowleR_pack",	_T("*Spellhowler*"),						_T("xSpellhowleRx pack"),				_T("ClientIcons_packs"),		IDI_MIRANDA_SPELLHOWLER,MIRANDA_PACKS_CASE	},
+	{"client_Stalker_pack",		_T("*Stalker*"),							_T("Stalker"),							_T("ClientIcons_packs"),		IDI_MIRANDA_STALKER,	MIRANDA_PACKS_CASE	},
+	{"client_Tweety_pack",		_T("*tweety*"),								_T("Tweety"),							_T("ClientIcons_packs"),		IDI_MIRANDA_TWEETY,		MIRANDA_PACKS_CASE	},
+	{"client_Umedon_pack",		_T("*Miranda*Umedon*"),						_T("Umedon"),							_T("ClientIcons_packs"),		IDI_MIRANDA_UMEDON,		MIRANDA_PACKS_CASE	},
+	{"client_ValeraVi_pack",	_T("*Valera*Vi*"),							_T("ValeraVi"),							_T("ClientIcons_packs"),		IDI_MIRANDA_VALERAVI,	MIRANDA_PACKS_CASE	},
+	{"client_Watcher_pack",		_T("*Watcher*"),							_T("Watcher pack"),						_T("ClientIcons_packs"),		IDI_MIRANDA_WATCHER,	MIRANDA_PACKS_CASE	},
+	{"client_YAOL_pack",		_T("*yaol*"),								_T("YAOL"),								_T("ClientIcons_packs"),		IDI_MIRANDA_YAOL,		MIRANDA_PACKS_CASE	},
+	{"client_dar_veter_pack",	_T("*Dar*veter*"),							_T("Dar_veter pack"),					_T("ClientIcons_packs"),		IDI_MIRANDA_DAR,		MIRANDA_PACKS_CASE	},
+	{"client_dmikos_pack",		_T("*dmikos*"),								_T("Dmikos"),							_T("ClientIcons_packs"),		IDI_MIRANDA_DMIKOS,		MIRANDA_PACKS_CASE	},
+	{"client_zeleboba_pack",	_T("*zeleboba*"),							_T("zeleboba's"),						_T("ClientIcons_packs"),		IDI_MIRANDA_ZELEBOBA,	MIRANDA_PACKS_CASE	},
 
 //###########################################################################################################################################################################################################
 //#################################		PROTO OVERLAYS		#################################################################################################################################################
 //###########################################################################################################################################################################################################
 	{"client_AIM_overlay",		_T("|^AIM*|*AIM*"),							_T("AIM overlay"),						_T("ClientIcons_overlays"),		IDI_AIM_OVERLAY,		OVERLAYS_PROTO_CASE	},	//FIX
-	{"client_ICQJ_Plus_over",	_T("|^ICQ*|*ICQ*Plus*"),					_T("ICQJ Plus Mod overlay"),			_T("ClientIcons_overlays"),		IDI_ICQJ_PLUS_OVERLAY,	OVERLAYS_PROTO_CASE	},
-	{"client_ICQJ_overlay",		_T("|^ICQ*|*ICQ*"),							_T("ICQJ overlay"),						_T("ClientIcons_overlays"),		IDI_ICQJ_OVERLAY,		OVERLAYS_PROTO_CASE	},
+	{"client_ICQJ_Plus_over",	_T("|^ICQ|^ICQ*|*ICQ*Plus*"),				_T("ICQJ Plus Mod overlay"),			_T("ClientIcons_overlays"),		IDI_ICQJ_PLUS_OVERLAY,	OVERLAYS_PROTO_CASE	},
+	{"client_ICQJ_overlay",		_T("|^ICQ|^ICQ*|*ICQ*"),					_T("ICQJ overlay"),						_T("ClientIcons_overlays"),		IDI_ICQJ_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_IRC_overlay",		_T("|^IRC*|Miranda*IRC*"),					_T("IRC overlay"),						_T("ClientIcons_overlays"),		IDI_IRC_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_JGmail_overlay",	_T("*JGmail*"),								_T("JGmail overlay"),					_T("ClientIcons_overlays"),		IDI_GMAIL_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_JGTalk_overlay",	_T("*JGTalk*"),								_T("JGTalk overlay"),					_T("ClientIcons_overlays"),		IDI_JGTALK_OVERLAY,		OVERLAYS_PROTO_CASE	},
@@ -679,6 +685,7 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //###########################################################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		#########################################################################################################################################
 //###########################################################################################################################################################################################################
+	{"client_ICQ5_over",		_T("|ICQ*5*|icq5*"),						_T("ICQ v5.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ5_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ6_over",		_T("ICQ*6*"),								_T("ICQ v6.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ6_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ7_over",		_T("ICQ*7*"),								_T("ICQ v7.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ7_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ8_over",		_T("ICQ*8*"),								_T("ICQ v8.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ8_OVERLAY,		ICQ_CASE	},
@@ -736,7 +743,7 @@ int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);
 //###########################################################################################################################################################################################################
 
 KN_FP_MASK def_kn_fp_overlays2_mask[] =
-{//	IconName						Mask										Icon caption							 NULL ICON_RESOURCE_ID
+{//	IconName						Mask										Icon caption							NULL ICON_RESOURCE_ID
 	{"client_debug_overlay",	_T("|*[*debug*]*|*test*|*тест*"),			_T("debug overlay"),					_T("ClientIcons_overlays"),		IDI_DEBUG_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 	{"client_home_overlay",		_T("|*[*home*]*|*[*дом*]*|*[*хоме*]*"),		_T("home overlay"),						_T("ClientIcons_overlays"),		IDI_HOME_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 	{"client_work_overlay",		_T("|*[*work*]*|*wrk*|*[*работа*]*|*ворк*"),_T("work overlay"),						_T("ClientIcons_overlays"),		IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},

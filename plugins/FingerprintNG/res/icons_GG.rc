@@ -20,7 +20,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
-#endif    // Russian resources
+#endif	// Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,12 +42,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################### Gadu-Gadu ########################################################
 //##############################################################################################################
-   IDI_GG				ICON	"..\\icons\\GG\\Gadu-Gadu.ico"
+	IDI_GG					ICON	"..\\icons\\GG\\Gadu-Gadu.ico"
 
-   IDI_GG8_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v8.ico"
-   IDI_GG9_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v9.ico"
-   IDI_GG10_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v10.ico"
-   IDI_GG11_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v11.ico"
+	IDI_GG8_OVERLAY			ICON	"..\\icons\\GG\\overlay_GG_v8.ico"
+	IDI_GG9_OVERLAY			ICON	"..\\icons\\GG\\overlay_GG_v9.ico"
+	IDI_GG10_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v10.ico"
+	IDI_GG11_OVERLAY		ICON	"..\\icons\\GG\\overlay_GG_v11.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -56,10 +56,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE 
 BEGIN
-    IDS_IDENTIFY            "# Finger Icons #"
+	IDS_IDENTIFY			"# Finger Icons #"
 END
 
-#endif    // English (U.S.) resources
+#endif	// English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -72,5 +72,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif	// not APSTUDIO_INVOKED
 

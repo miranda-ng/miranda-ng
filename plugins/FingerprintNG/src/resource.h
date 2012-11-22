@@ -130,6 +130,7 @@
 
 //##############################################################################################################
 //Official ICQ overlays
+#define IDI_ICQ5_OVERLAY			195
 #define IDI_ICQ6_OVERLAY			196
 #define IDI_ICQ7_OVERLAY			197
 #define IDI_ICQ8_OVERLAY			198
@@ -213,6 +214,10 @@
 #define IDI_XIRCON					357
 #define IDI_ZSIRC					359
 #define IDI_POCKET_IRC				360
+#define IDI_OPENFIRE 				361
+#define IDI_IROFFER_DINOEX			362
+#define IDI_IROFFER					363
+#define IDI_ZNC						364
 
 //##############################################################################################################
 //Jabber clients
@@ -416,7 +421,8 @@
 #define IDI_XMPP					606
 #define IDI_YAMBI					607
 #define IDI_YAONLINE				608
-#define IDI_YAXIM					609
+#define IDI_YAXIM 					609
+#define IDI_OPENFIRE 				610
 
 //##############################################################################################################
 //Mail.Ru Agent clients
@@ -587,7 +593,7 @@
 #define IDI_JIMM					1043
 #define IDI_JIMMY					1044
 #define IDI_JIMM_ASPRO				1045
-#define IDI_KMESS				 	1046
+#define IDI_KMESS					1046
 #define IDI_KOOLIM					1047
 #define IDI_KOPETE					1048
 #define IDI_LEECHCRAFT				1049
@@ -636,40 +642,40 @@
 
 //##############################################################################################################
 //resources
-#define IDD_DIALOG					10000
+#define IDD_DIALOG						10000
 
-#define IDC_GROUP_MIRANDA			10025
-#define IDC_GROUP_MIRANDA_VERSION	10026
-#define IDC_GROUP_MIRANDA_PACKS		10027
+#define IDC_GROUP_MIRANDA				10025
+#define IDC_GROUP_MIRANDA_VERSION		10026
+#define IDC_GROUP_MIRANDA_PACKS			10027
 
-#define IDC_GROUP_MULTI				10028
-#define IDC_GROUP_AIM				10029
-#define IDC_GROUP_GG				10030
-#define IDC_GROUP_ICQ				10032
-#define IDC_GROUP_IRC				10033
-#define IDC_GROUP_JABBER			10034
-#define IDC_GROUP_MSN				10035
-#define IDC_GROUP_MRA				10036
-#define IDC_GROUP_QQ				10037
-#define IDC_GROUP_RSS				10038
-#define IDC_GROUP_TLEN				10039
-#define IDC_GROUP_WEATHER			10040
-#define IDC_GROUP_YAHOO				10041
+#define IDC_GROUP_MULTI					10028
+#define IDC_GROUP_AIM					10029
+#define IDC_GROUP_GG					10030
+#define IDC_GROUP_ICQ					10032
+#define IDC_GROUP_IRC					10033
+#define IDC_GROUP_JABBER				10034
+#define IDC_GROUP_MSN					10035
+#define IDC_GROUP_MRA					10036
+#define IDC_GROUP_QQ					10037
+#define IDC_GROUP_RSS					10038
+#define IDC_GROUP_TLEN					10039
+#define IDC_GROUP_WEATHER				10040
+#define IDC_GROUP_YAHOO					10041
 
-#define IDC_GROUP_OTHER_PROTOS		10042
-#define IDC_GROUP_OTHERS			10043
+#define IDC_GROUP_OTHER_PROTOS			10042
+#define IDC_GROUP_OTHERS				10043
 
-#define IDC_GROUP_OVERLAYS_RESOURCE	10044
-#define IDC_GROUP_OVERLAYS_PLATFORM	10045
-#define IDC_GROUP_OVERLAYS_PROTO	10046
-#define IDC_GROUP_OVERLAYS_SECURITY	10047
+#define IDC_GROUP_OVERLAYS_RESOURCE		10044
+#define IDC_GROUP_OVERLAYS_PLATFORM		10045
+#define IDC_GROUP_OVERLAYS_PROTO		10046
+#define IDC_GROUP_OVERLAYS_SECURITY		10047
 
 /*
 #define IDC_GROUP_OVERLAYS_RESOURCE_ALT	10048
 */
 
-#define IDS_IDENTIFY				11001
-#define IDC_OPTCHANGENOTE			11002
+#define IDS_IDENTIFY					11001
+#define IDC_OPTCHANGENOTE				11002
 
 //##############################################################################################################
 
@@ -677,9 +683,9 @@
 //
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE	2000
-#define _APS_NEXT_COMMAND_VALUE		40001
-#define _APS_NEXT_CONTROL_VALUE		7001
-#define _APS_NEXT_SYMED_VALUE		7000
+#define _APS_NEXT_RESOURCE_VALUE		2000
+#define _APS_NEXT_COMMAND_VALUE			40001
+#define _APS_NEXT_CONTROL_VALUE			7001
+#define _APS_NEXT_SYMED_VALUE			7000
 #endif
 #endif

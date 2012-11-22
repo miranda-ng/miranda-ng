@@ -20,7 +20,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 #pragma code_page(1251)
 #endif //_WIN32
 
-#endif    // Russian resources
+#endif	// Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -42,15 +42,15 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################### Tlen #####################################################
 //##############################################################################################################
-   IDI_TLEN                ICON    "..\\icons\\Tlen\\Tlen.ico"
-   
+	IDI_TLEN					ICON	"..\\icons\\Tlen\\Tlen.ico"
+
 //##############################################################################################################
 //########################################### Tlen overlays ####################################################
 //##############################################################################################################
-   IDI_TLEN5_OVERLAY        ICON    "..\\icons\\Tlen\\overlay_Tlen_v5.ico"
-   IDI_TLEN6_OVERLAY        ICON    "..\\icons\\Tlen\\overlay_Tlen_v6.ico"
-   IDI_TLEN7_OVERLAY        ICON    "..\\icons\\Tlen\\overlay_Tlen_v7.ico"
-   IDI_TLEN8_OVERLAY        ICON    "..\\icons\\Tlen\\overlay_Tlen_v8.ico"
+	IDI_TLEN5_OVERLAY			ICON	"..\\icons\\Tlen\\overlay_Tlen_v5.ico"
+	IDI_TLEN6_OVERLAY			ICON	"..\\icons\\Tlen\\overlay_Tlen_v6.ico"
+	IDI_TLEN7_OVERLAY			ICON	"..\\icons\\Tlen\\overlay_Tlen_v7.ico"
+	IDI_TLEN8_OVERLAY			ICON	"..\\icons\\Tlen\\overlay_Tlen_v8.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -59,10 +59,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 STRINGTABLE 
 BEGIN
-    IDS_IDENTIFY            "# Finger Icons #"
+	IDS_IDENTIFY			"# Finger Icons #"
 END
 
-#endif    // English (U.S.) resources
+#endif	// English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -75,5 +75,5 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-#endif    // not APSTUDIO_INVOKED
+#endif	// not APSTUDIO_INVOKED
 
