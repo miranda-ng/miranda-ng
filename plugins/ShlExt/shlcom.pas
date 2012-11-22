@@ -1862,7 +1862,7 @@ var
   szTmp: array [0 .. 63] of Char;
   dwCaps: Cardinal;
 begin
-  if (CallService(MS_PROTO_ENUMPROTOCOLS, wParam(@protoCount), lParam(@pp)) = 0) and
+  if (CallService(MS_PROTO_ENUMACCOUNTS, wParam(@protoCount), lParam(@pp)) = 0) and
     (protoCount <> 0) then
   begin
     spi.pid := GetCurrentProcessId();
