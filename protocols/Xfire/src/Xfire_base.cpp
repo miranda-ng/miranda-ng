@@ -127,6 +127,43 @@ void Xfire_base::readStringfromDB(char*name,unsigned int dbid,int id,char**to)
 	}
 }
 
+//liest einen stringval aus der db und setzt einen string für
+void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,char**to)
+{
+	//keine quelle, kein ziel? dann nix machen
+	if(name==NULL||to==NULL)
+		return;
+
+	//wert aus der dblesen
+	sprintf_s(temp,128,"%s_%i",name,dbid);
+	if(!DBGetContactSettingUTF8String(NULL, protocolname, temp,&dbv))
+	{
+		//string setzen
+		setString(dbv.pszVal,to);
+		//dbval wieder freigeben
+		DBFreeVariant(&dbv);
+	}
+}
+
+//liest einen stringval aus der db welches unterid hat und setzt einen string für
+void Xfire_base::readUtf8StringfromDB(char*name,unsigned int dbid,int id,char**to)
+{
+	//keine quelle, kein ziel? dann nix machen
+	if(name==NULL||to==NULL)
+		return;
+
+	//wert aus der dblesen
+	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
+	if(!DBGetContactSettingUTF8String(NULL, protocolname, temp,&dbv))
+	{
+		//string setzen
+		setString(dbv.pszVal,to);
+		//dbval wieder freigeben
+		DBFreeVariant(&dbv);
+	}
+}
+
+
 //schreibt einen stringval in die db welche unterid hat
 void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,int id,char*val)
 {
@@ -150,6 +187,31 @@ void Xfire_base::writeStringtoDB(char*name,unsigned int dbid,char*val)
 	sprintf_s(temp,128,"%s_%i",name,dbid);
 	DBWriteContactSettingString(NULL, protocolname, temp,val);
 }
+
+//schreibt einen stringval in die db welche unterid hat
+void Xfire_base::writeUtf8StringtoDB(char*name,unsigned int dbid,int id,char*val)
+{
+	//keine quelle, kein ziel? dann nix machen
+	if(name==NULL||val==NULL)
+		return;
+
+	//wert aus der dblesen
+	sprintf_s(temp,128,"%s_%i_%i",name,dbid,id);
+	DBWriteContactSettingUTF8String(NULL, protocolname, temp,val);
+}
+
+//schreibt einen stringval in die db welche unterid hat
+void Xfire_base::writeUtf8StringtoDB(char*name,unsigned int dbid,char*val)
+{
+	//keine quelle, kein ziel? dann nix machen
+	if(name==NULL||val==NULL)
+		return;
+
+	//wert aus der dblesen
+	sprintf_s(temp,128,"%s_%i",name,dbid);
+	DBWriteContactSettingUTF8String(NULL, protocolname, temp,val);
+}
+
 
 //schreibt einen bytewert in die db
 void Xfire_base::writeBytetoDB(char*name,unsigned int dbid,int val)

@@ -49,12 +49,16 @@ public:
 	void appendString(char*from,char**to);
 	void readStringfromDB(char*name,unsigned int dbid,char**to);
 	void readStringfromDB(char*name,unsigned int dbid,int id,char**to);
+	void readUtf8StringfromDB(char*name,unsigned int dbid,char**to);
+	void readUtf8StringfromDB(char*name,unsigned int dbid,int id,char**to);
 	unsigned char readBytefromDB(char*name,unsigned int dbid,int defaultval=0);
 	unsigned int readWordfromDB(char*name,unsigned int dbid,int defaultval=0);
 	BOOL removeDBEntry(char*name,unsigned int dbid);
 	BOOL removeDBEntry(char*name,unsigned int dbid,int id2);
 	void writeStringtoDB(char*name,unsigned int dbid,int id,char*val);
 	void writeStringtoDB(char*name,unsigned int dbid,char*val);
+	void writeUtf8StringtoDB(char*name,unsigned int dbid,int id,char*val);
+	void writeUtf8StringtoDB(char*name,unsigned int dbid,char*val);
 	void writeBytetoDB(char*name,unsigned int dbid,int val);
 	void writeWordtoDB(char*name,unsigned int dbid,int val);
 	void strtolower(char*);

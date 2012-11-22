@@ -37,7 +37,7 @@
 #include "baseProtocol.h"
 
 extern HANDLE handlingBuddys(xfirelib::BuddyListEntry *entry, int clan=0,char* group=NULL,BOOL dontscan=FALSE);
-extern void setBuddyStatusMsg(xfirelib::BuddyListEntry *entry,std::string statusmsg);
+extern void setBuddyStatusMsg(xfirelib::BuddyListEntry *entry);
 
 namespace xfirelib {
 
@@ -315,8 +315,8 @@ namespace xfirelib {
         }
 		else
 		{
-			entry->statusmsg = status->msgs->at(i).c_str();
-			setBuddyStatusMsg(entry,entry->statusmsg); //auf eine funktion reduziert, verringert cpuauslastung und beseitigt das
+			entry->statusmsg = status->msgs->at(i);
+			setBuddyStatusMsg(entry); //auf eine funktion reduziert, verringert cpuauslastung und beseitigt das
 													 //das problem der fehlenden statusmsg
 		}
     }

@@ -328,8 +328,8 @@ void Xfire_game::readFromDB(unsigned dbid)
 	this->notinstartmenu=this->readBytefromDB("notinstartmenu",this->id,0);
 	this->noicqstatus=this->readBytefromDB("gamenostatus",this->id,0);
 	this->readStringfromDB("gameextraparams",this->id,&this->extraparams);
-	this->readStringfromDB("customgamename",this->id,&this->customgamename);
-	this->readStringfromDB("statusmsg",this->id,&this->statusmsg);
+	this->readStringfromDB("customgamename",this->id,&this->customgamename);	
+	this->readUtf8StringfromDB("statusmsg",this->id,&this->statusmsg);
 
 	//mehrere pfade
 	int size=this->readWordfromDB("gamemulti",dbid,0);
@@ -406,7 +406,7 @@ void Xfire_game::writeToDB(unsigned dbid)
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("customgamename",this->id);
 	if(this->statusmsg!=0)
-		this->writeStringtoDB("statusmsg",this->id,this->statusmsg);
+		this->writeUtf8StringtoDB("statusmsg",this->id,this->statusmsg);
 	else //wenn nicht eintrag aus db löschen
 		this->removeDBEntry("statusmsg",this->id);
 
