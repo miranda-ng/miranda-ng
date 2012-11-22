@@ -113,6 +113,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_timezones.h>
 #include <m_toptoolbar.h>
 #include <m_extraicons.h>
+#include <m_xstatus.h>
 
 #include "modern_clc.h"
 #include "modern_clist.h"

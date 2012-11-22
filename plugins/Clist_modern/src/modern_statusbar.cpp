@@ -371,20 +371,12 @@ int ModernDrawStatusBarWorker(HWND hWnd, HDC hDC)
 
 				p.extraIcon = NULL;
 				if ((p.xStatusMode & 8) && p.ProtoStatus > ID_STATUS_OFFLINE) {
-					char str[MAXMODULELABELLENGTH];
-					mir_snprintf(str, SIZEOF(str), "%s/GetXStatus", p.AccountName);
-					if ( ServiceExists(str)) {
-						char *dbTitle = "XStatusName";
-						char *dbTitle2 = NULL;
-						xstatus = CallProtoService(p.AccountName,"/GetXStatus",(WPARAM)&dbTitle,(LPARAM)&dbTitle2);
-						if (dbTitle && xstatus) {
-							DBVARIANT dbv = {0};
-							if ( !DBGetContactSettingTString(NULL, p.AccountName, dbTitle, &dbv)) {
-								p.ProtoXStatus = mir_tstrdup(dbv.ptszVal);
-								db_free(&dbv);
-							}
-						}
-					}
+					TCHAR str[512];
+					CUSTOM_STATUS cs = { sizeof(cs) };
+					cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
+					cs.ptszMessage = str;
+					if ( CallProtoService(p.AccountName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
+						p.ProtoXStatus = mir_tstrdup(str);
 				}
 				
 				if ((p.xStatusMode & 3)) {
