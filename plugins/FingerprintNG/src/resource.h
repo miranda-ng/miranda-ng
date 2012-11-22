@@ -214,10 +214,9 @@
 #define IDI_XIRCON					357
 #define IDI_ZSIRC					359
 #define IDI_POCKET_IRC				360
-#define IDI_OPENFIRE 				361
-#define IDI_IROFFER_DINOEX			362
-#define IDI_IROFFER					363
-#define IDI_ZNC						364
+#define IDI_IROFFER_DINOEX			361
+#define IDI_IROFFER					362
+#define IDI_ZNC						363
 
 //##############################################################################################################
 //Jabber clients
