@@ -451,7 +451,13 @@ INT_PTR StatusMenuCheckService(WPARAM wParam, LPARAM)
 	StatusMenuExecParam *smep = (StatusMenuExecParam*)pcpp->MenuItemOwnerData;
 	if (smep && !smep->status && smep->custom) {
 		if (wildcmp(smep->svc, "*XStatus*")) {
-			int XStatus = CallProtoServiceInt(NULL,smep->proto, "/GetXStatus", 0, 0);
+			int XStatus;
+			CUSTOM_STATUS cs = { sizeof(cs) };
+			cs.flags = CSSF_MASK_STATUS;
+			cs.status = &XStatus;
+			if ( CallProtoServiceInt(NULL, smep->proto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) != 0)
+				XStatus = 0;
+
 			char buf[255];
 			mir_snprintf(buf, sizeof(buf), "*XStatus%d", XStatus);
 

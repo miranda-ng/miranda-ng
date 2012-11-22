@@ -98,6 +98,7 @@ using namespace std;
 #include <m_help.h>
 #include <m_timezones.h>
 #include <m_extraicons.h>
+#include <m_xstatus.h>
 
 #include "miranda.h"
 #include "stdplug.h"

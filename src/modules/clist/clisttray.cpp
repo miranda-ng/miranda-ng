@@ -54,21 +54,12 @@ static TCHAR* sttGetXStatus(const char* szProto)
 	TCHAR* result = NULL;
 
 	if (CallProtoServiceInt(NULL,szProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE) {
-		char str[MAXMODULELABELLENGTH];
-		mir_snprintf(str, sizeof(str), "%s/GetXStatus", szProto);
-		if (ServiceExists(str)) {
-			char* dbTitle = "XStatusName";
-			char* dbTitle2 = NULL;
-			int xstatus = CallProtoServiceInt(NULL,szProto, "/GetXStatus", (WPARAM)&dbTitle, (LPARAM)&dbTitle2);
-			if (dbTitle && xstatus) {
-				DBVARIANT dbv = {0};
-				if ( !DBGetContactSettingTString(NULL, szProto, dbTitle, &dbv)) {
-					if (dbv.ptszVal[0] != 0)
-						result = mir_tstrdup(dbv.ptszVal);
-					db_free(&dbv);
-				}
-			}
-		}
+		TCHAR tszStatus[512];
+		CUSTOM_STATUS cs = { sizeof(cs) };
+		cs.flags = CSSF_MASK_MESSAGE | CSSF_TCHAR;
+		cs.ptszMessage = tszStatus;
+		if ( CallProtoServiceInt(NULL, szProto, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) == 0)
+			result = mir_tstrdup(tszStatus);
 	}
 
 	return result;
