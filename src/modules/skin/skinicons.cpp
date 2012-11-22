@@ -30,9 +30,10 @@ struct StandardIconDescription
 	int    resource_id;
 	int    pf2;
 	LPCSTR section;
+	HANDLE hIcolib;
 };
 
-static const struct StandardIconDescription mainIcons[] = 
+static struct StandardIconDescription mainIcons[] = 
 {
 	{ SKINICON_OTHER_MIRANDA,         LPGEN("Miranda NG"),          -IDI_MIRANDA        }, 
 	{ SKINICON_EVENT_MESSAGE,         LPGEN("Message"),             -IDI_RECVMSG        }, 
@@ -85,9 +86,7 @@ static const struct StandardIconDescription mainIcons[] =
 	{ SKINICON_OTHER_STATUS_LOCKED,   LPGEN("Locked status"),       -IDI_STATUS_LOCKED, 0, "Status Icons" }, 
 };
 
-HANDLE hMainIcons[SIZEOF(mainIcons)];
-
-static const struct StandardIconDescription statusIcons[] = 
+static struct StandardIconDescription statusIcons[] = 
 {
 	{ ID_STATUS_OFFLINE,         LPGEN("Offline"),          -IDI_OFFLINE,       0xFFFFFFFF     }, 
 	{ ID_STATUS_ONLINE,          LPGEN("Online"),           -IDI_ONLINE,        PF2_ONLINE     }, 
@@ -100,8 +99,6 @@ static const struct StandardIconDescription statusIcons[] =
 	{ ID_STATUS_ONTHEPHONE,      LPGEN("On the phone"),     -IDI_ONTHEPHONE,    PF2_ONTHEPHONE }, 
 	{ ID_STATUS_OUTTOLUNCH,      LPGEN("Out to lunch"),     -IDI_OUTTOLUNCH,    PF2_OUTTOLUNCH }
 };
-
-HANDLE hStatusIcons[SIZEOF(statusIcons)];
 
 const char *mainIconsFmt = "core_main_";
 const char *statusIconsFmt = "core_status_";
@@ -333,7 +330,7 @@ HANDLE GetSkinIconHandle(int idx)
 {
 	for (int i=0; i < SIZEOF(mainIcons); i++)
 		if (idx == mainIcons[i].id)
-			return hMainIcons[i];
+			return mainIcons[i].hIcolib;
 
 	return NULL;
 }
@@ -460,7 +457,7 @@ int LoadSkinIcons(void)
 		sid.pszSection = mainIcons[i].section == NULL ? "Main Icons" : (char*)mainIcons[i].section;
 		sid.pszDescription = (char*)mainIcons[i].description;
 		sid.iDefaultIndex = mainIcons[i].resource_id;
-		hMainIcons[i] = IcoLib_AddNewIcon(0, &sid);
+		mainIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
 	}
 	//
 	// Add global icons to list
@@ -474,7 +471,7 @@ int LoadSkinIcons(void)
 		sid.pszName = iconName;
 		sid.pszDescription = (char*)statusIcons[i].description;
 		sid.iDefaultIndex = statusIcons[i].resource_id;
-		hStatusIcons[i] = IcoLib_AddNewIcon(0, &sid);
+		statusIcons[i].hIcolib = IcoLib_AddNewIcon(0, &sid);
 	}
 	return 0;
 }
