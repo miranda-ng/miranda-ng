@@ -82,7 +82,6 @@ struct CommonData{
 	int popupTimeout;
 	int popupTimeoutToday;
 	int bUsePopups;
-	int bUseClistIcon;
 	int bUseDialog;
 	int bIgnoreSubcontacts;
 	int cShowAgeMode;

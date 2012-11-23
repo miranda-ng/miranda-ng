@@ -163,7 +163,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 
 int ClistIconNotifyBirthday(HANDLE hContact, int dtb)
 {
-	ExtraIcon_SetIcon(hWWIExtraIcons, hContact, GetClistIcon(dtb));
+	ExtraIcon_SetIcon(hWWIExtraIcons, hContact, "MenuCheck");
 	return 0;
 }
 

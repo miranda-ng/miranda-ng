@@ -163,7 +163,7 @@ INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam)
 
 	if (lParam) //if not forced - i.e. timer check
 	{
-		DBWriteContactSettingDword(NULL, ModuleName, "LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
+		db_set_dw(NULL, ModuleName, "LastChecked", MAKELONG(MAKEWORD(today.wDay, today.wMonth), today.wYear)); //write the value in DB so we don't check again today
 	}
 
 	return 0;

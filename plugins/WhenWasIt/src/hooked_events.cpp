@@ -236,7 +236,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 
 	if (ok && (dtb >= 0 || dab > 0)) {
 		int age = GetContactAge(hContact);
-		DBWriteContactSettingByte(hContact, "UserInfo", "Age", age);
+		db_set_b(hContact, "UserInfo", "Age", age);
 
 		if ((bShouldCheckBirthdays) && (commonData.bUsePopups))
 		{
@@ -259,9 +259,8 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 				DialogNotifyMissedBirthday(hContact, dab, age);
 		}
 
-		if (commonData.bUseClistIcon)  //TODO
-			if (dtb >= 0)
-				ClistIconNotifyBirthday(hContact, dtb);
+		if (dtb >= 0)
+			ClistIconNotifyBirthday(hContact, dtb);
 	}
 	else ClearClistIcon(hContact);
 

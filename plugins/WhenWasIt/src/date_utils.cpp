@@ -262,9 +262,9 @@ int SaveBirthday(HANDLE hContact, int year, int month, int day, int mode)
 			DBDeleteContactSetting(hContact, sModule, sDay);
 		}
 		else{
-			DBWriteContactSettingWord(hContact, sModule, sYear, year);
-			DBWriteContactSettingByte(hContact, sModule, sMonth, month);
-			DBWriteContactSettingByte(hContact, sModule, sDay, day);
+			db_set_dw(hContact, sModule, sYear, year);
+			db_set_b(hContact, sModule, sMonth, month);
+			db_set_b(hContact, sModule, sDay, day);
 		}
 	
 	DBDeleteContactSetting(hContact, sdModule, sdYear);
