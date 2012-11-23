@@ -75,7 +75,7 @@
 Разрешить доп. хСтатусы (только в ICQ Plus)
 [Remember last window position]
 Помнить последнее положение окна
-[Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
-Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно установленной учётной записи ICQ. Проверьте, если у вас есть по крайней мере одна учётная запись с UIN.
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+Примечание: Пункты меню отображаются только при наличии хотя бы одной правильно установленной учётной записи. Проверьте, если у вас есть по крайней мере одна учётная запись с UIN.
 [Do you want old database entries to be deleted after Import?]
 Вы хотите удалить записи старой базы данных после импорта?
