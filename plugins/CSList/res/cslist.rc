@@ -83,13 +83,11 @@ FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
     GROUPBOX        "List settings",IDC_STATIC,4,4,292,73
     CONTROL         "Confirm deletion of items",IDC_CONFIRM_DELETION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,20,253,10
-    CONTROL         "Delete entries in ICQ Custom status menu after Import",IDC_DELETE_AFTER_IMPORT,
+    CONTROL         "Delete entries in Custom status menu after Import",IDC_DELETE_AFTER_IMPORT,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,24,32,253,10
-    CONTROL         "Allow extra ICQ Custom status items (ICQ Plus only)",IDC_ALLOW_EXTRA_ICONS,
-                    "Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,24,44,253,10
     CONTROL         "Remember last window position",IDC_REMEMBER_POSITION,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,56,253,10
-    CTEXT           "Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.",IDC_STATIC,6,80,283,23
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,44,253,10
+    CTEXT           "Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.",IDC_STATIC,6,68,283,23
 END
 
 
@@ -148,17 +146,17 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE 
+1 TEXTINCLUDE
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-3 TEXTINCLUDE 
+3 TEXTINCLUDE
 BEGIN
     "\r\0"
 END
 
-2 TEXTINCLUDE 
+2 TEXTINCLUDE
 BEGIN
     "#include ""afxres.h""\r\0"
 END
@@ -179,4 +177,3 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
-

@@ -34,7 +34,6 @@
 #define IDC_CONFIRM_DELETION            1051
 #define IDC_DELETE_AFTER_IMPORT         1052
 #define IDC_IMPORT                      1071
-#define IDC_ALLOW_EXTRA_ICONS           1204
 #define IDC_REMEMBER_POSITION           1207
 
 // Next default values for new objects

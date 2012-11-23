@@ -1030,9 +1030,6 @@ INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		CheckDlgButton( hwnd, IDC_REMEMBER_POSITION,
 			               getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ) ?
 			               BST_CHECKED : BST_UNCHECKED );
-
-		EnableWindow(GetDlgItem( hwnd, IDC_ALLOW_EXTRA_ICONS ), TRUE);
-		CheckDlgButton(hwnd, IDC_ALLOW_EXTRA_ICONS, getByte( "AllowExtraIcons", DEFAULT_ALLOW_EXTRA_ICONS));
 		return TRUE;
 
 	case WM_NOTIFY:
@@ -1040,7 +1037,6 @@ INT_PTR CALLBACK CSOptionsProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM l
 		case PSN_APPLY:
 			setByte( "ConfirmDeletion", IsDlgButtonChecked( hwnd, IDC_CONFIRM_DELETION ) ? 1 : 0 );
 			setByte( "DeleteAfterImport", IsDlgButtonChecked( hwnd, IDC_DELETE_AFTER_IMPORT ) ? 1 : 0 );
-			setByte( "AllowExtraIcons", IsDlgButtonChecked( hwnd, IDC_ALLOW_EXTRA_ICONS ) ? 1 : 0 );
 			setByte( "RememberWindowPosition", IsDlgButtonChecked( hwnd, IDC_REMEMBER_POSITION ) ? 1 : 0 );
 
 			pcli->pfnReloadProtoMenus();
