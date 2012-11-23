@@ -492,7 +492,9 @@ object fmGlobalSearch: TfmGlobalSearch
         BorderWidth = 2
         EdgeBorders = []
         Flat = True
+        DoubleBuffered = True
         Images = ilToolbar
+        ParentDoubleBuffered = False
         TabOrder = 0
         Transparent = True
         object tbAdvanced: THppToolButton
@@ -575,7 +577,7 @@ object fmGlobalSearch: TfmGlobalSearch
           Style = tbsSeparator
           Visible = False
         end
-        object tbEventsFilter: TSpeedButton
+        object tbEventsFilter: THppSpeedButton
           Left = 185
           Top = 0
           Width = 110

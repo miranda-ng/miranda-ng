@@ -171,7 +171,7 @@ type
     tbUserMenu: THppToolButton;
     tbUserDetails: THppToolButton;
     ToolButton1: THppToolButton;
-    tbEventsFilter: TSpeedButton;
+    tbEventsFilter: THppSpeedButton;
     ToolButton5: THppToolButton;
     pmToolbar: TPopupMenu;
     Customize2: TMenuItem;

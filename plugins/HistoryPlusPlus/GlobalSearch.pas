@@ -137,7 +137,7 @@ type
     dtRange2: TDateTimePicker;
     laPasswordHead: TLabel;
     laRangeHead: TLabel;
-    tbEventsFilter: TSpeedButton;
+    tbEventsFilter: THppSpeedButton;
     tbAdvanced: THppToolButton;
     tbRange: THppToolButton;
     ToolButton2: THppToolButton;

@@ -256,7 +256,9 @@ object HistoryFrm: THistoryFrm
         BorderWidth = 2
         EdgeBorders = []
         Flat = True
+        DoubleBuffered = True
         Images = ilToolbar
+        ParentDoubleBuffered = False
         PopupMenu = pmToolbar
         TabOrder = 0
         Transparent = True
@@ -335,7 +337,7 @@ object HistoryFrm: THistoryFrm
           Width = 7
           Style = tbsSeparator
         end
-        object tbEventsFilter: TSpeedButton
+        object tbEventsFilter: THppSpeedButton
           Left = 160
           Top = 0
           Width = 110
