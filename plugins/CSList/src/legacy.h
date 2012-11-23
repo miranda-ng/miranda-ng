@@ -4,10 +4,10 @@
 
 */
 
-int cslist_import_v2_status_items( );
+int cslist_import_v2_status_items();
 int cslist_parse_row( TCHAR *row, int ord );
 
-int cslist_import_v2_status_items( )
+int cslist_import_v2_status_items()
 {
   // get DB string, parse to statuses, add by helpItem
   DBVARIANT dbv = { DBVT_TCHAR };
