@@ -144,7 +144,7 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	void requestAvatar(HANDLE hContact, int iWaitFor);
 	void getUserAvatar();
 	void setAvatar(const TCHAR *szFilename);
-	void getAvatarFileInfo(uin_t uin, char **avatarurl, int *type);
+	void getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts);
 
 	INT_PTR  __cdecl getavatarcaps(WPARAM wParam, LPARAM lParam);
 	INT_PTR  __cdecl getavatarinfo(WPARAM wParam, LPARAM lParam);

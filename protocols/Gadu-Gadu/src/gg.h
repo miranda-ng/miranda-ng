@@ -191,6 +191,8 @@ typedef struct
 
 #define GG_KEY_AVATARURL		"AvatarURL"		// Contact's avatar URL
 
+#define GG_KEY_AVATARTS			"AvatarTs"		// Contact's avatar Timestamp
+
 #define GG_KEY_AVATARTYPE		"AvatarType"	// Contact's avatar format
 #define GG_KEYDEF_AVATARTYPE	PA_FORMAT_UNKNOWN
 

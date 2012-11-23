@@ -34,8 +34,7 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, cbLen, _T(""))) {
 		mir_ptr<TCHAR> tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
 		tPathLen = mir_sntprintf(pszDest, cbLen, _T("%s\\%s"), (TCHAR*)tmpPath, m_tszUserName);
-	}
-	else {
+	} else {
 		_tcscpy(pszDest, path);
 		tPathLen = (int)_tcslen(pszDest);
 	}
@@ -62,13 +61,13 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 	}
 }
 
-void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, int *type)
+void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, char **avatarts)
 {
 	NETLIBHTTPREQUEST req = {0};
 	NETLIBHTTPREQUEST *resp;
 	char szUrl[128];
 	*avatarurl = NULL;
-	*type = PA_FORMAT_UNKNOWN;
+	*avatarts = NULL;
 
 	req.cbSize = sizeof(req);
 	req.requestType = REQUEST_GET;
@@ -96,26 +95,18 @@ void GGPROTO::getAvatarFileInfo(uin_t uin, char **avatarurl, int *type)
 				blank = (node != NULL) ? mir_t2a(xi.getAttrValue(node, tag)) : NULL;
 
 				if (blank != NULL && strcmp(blank, "1")) {
-					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/bigAvatar");
+					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/originBigAvatar");
 					node = xi.getChildByPath(hXml, tag, 0);
 					*avatarurl = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
 
-					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/originBigAvatar");
+					mir_free(tag); tag = mir_a2t("users/user/avatars/avatar/timestamp");
 					node = xi.getChildByPath(hXml, tag, 0);
-					if (node != NULL) {
-						char *orgavurl = mir_t2a(xi.getText(node));
-						char *avtype = strrchr(orgavurl, '.');
-						avtype++;
-						if (!_stricmp(avtype, "jpg"))
-							*type = PA_FORMAT_JPEG;
-						else if (!_stricmp(avtype, "gif"))
-							*type = PA_FORMAT_GIF;
-						else if (!_stricmp(avtype, "png"))
-							*type = PA_FORMAT_PNG;
-						mir_free(orgavurl);
-					}
+					*avatarts = node != NULL ? mir_t2a(xi.getText(node)) : NULL;
+
+				} else {
+					*avatarurl = mir_strdup("");
+					*avatarts = mir_strdup("");
 				}
-				else *avatarurl = mir_strdup("");
 				mir_free(blank);
 				xi.destroyNode(hXml);
 			}
@@ -199,19 +190,22 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 		if (avatar_requests) {
 			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA *)avatar_requests->data;
 			char *AvatarURL;
-			int AvatarType, iWaitFor = data->iWaitFor;
+			char *AvatarTs;
+			int iWaitFor = data->iWaitFor;
 			HANDLE hContact = data->hContact;
 
 			list_remove(&avatar_requests, data, 0);
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
 
-			getAvatarFileInfo( db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
-			if (AvatarURL != NULL && strlen(AvatarURL) > 0)
+			getAvatarFileInfo( db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs);
+			if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0){
 				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-			else
+				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+			} else {
 				db_unset(hContact, m_szModuleName, GG_KEY_AVATARURL);
-			db_set_b(hContact, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)AvatarType);
+				db_unset(hContact, m_szModuleName, GG_KEY_AVATARTS);
+			}
 			db_set_b(hContact, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
 
 			if (iWaitFor) {
@@ -248,6 +242,21 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			if (resp) {
 				if (resp->resultCode == 200 && resp->dataLength > 0 && resp->pData) {
 					int file_fd;
+
+					int avatarType = PA_FORMAT_UNKNOWN;
+					for (int i=0; i < resp->headersCount; i++)
+					{
+						NETLIBHTTPHEADER& tHeader = resp->headers[i];
+						if (!_stricmp(tHeader.szName, "Content-Type")){
+							if (!_stricmp(tHeader.szValue, "image/jpeg"))
+								avatarType = PA_FORMAT_JPEG;
+							else if (!_stricmp(tHeader.szValue, "image/gif"))
+								avatarType = PA_FORMAT_GIF;
+							else if (!_stricmp(tHeader.szValue, "image/png"))
+								avatarType = PA_FORMAT_PNG;
+						}
+					}
+					db_set_b(data->hContact, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)avatarType);
 
 					getAvatarFilename(pai.hContact, pai.filename, sizeof(pai.filename));
 					file_fd = _topen(pai.filename, _O_WRONLY | _O_TRUNC | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE);
@@ -325,16 +334,18 @@ void GGPROTO::uninitavatarrequestthread()
 void __cdecl GGPROTO::getuseravatarthread(void*)
 {
 	char *AvatarURL;
-	int AvatarType;
+	char *AvatarTs;
 
 	netlog("getuseravatarthread() started");
 
-	getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarType);
-	if (AvatarURL != NULL && strlen(AvatarURL) > 0)
+	getAvatarFileInfo( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs);
+	if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0){
 		db_set_s(NULL, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
-	else
+		db_set_s(NULL, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
+	} else {
 		db_unset(NULL, m_szModuleName, GG_KEY_AVATARURL);
-	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)AvatarType);
+		db_unset(NULL, m_szModuleName, GG_KEY_AVATARTS);
+	}
 	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARREQUESTED, 1);
 	mir_free(AvatarURL);
 

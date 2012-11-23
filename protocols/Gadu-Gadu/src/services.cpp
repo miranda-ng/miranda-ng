@@ -174,6 +174,7 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 	PROTO_AVATAR_INFORMATIONT *pai = (PROTO_AVATAR_INFORMATIONT *)lParam;
 	char *AvatarHash = NULL, *AvatarSavedHash = NULL;
 	char *AvatarURL = NULL;
+	char *AvatarTs = NULL;
 	INT_PTR result = GAIR_NOAVATAR;
 	DBVARIANT dbv;
 	uin_t uin = (uin_t)db_get_dw(pai->hContact, m_szModuleName, GG_KEY_UIN, 0);
@@ -198,11 +199,16 @@ INT_PTR GGPROTO::getavatarinfo(WPARAM wParam, LPARAM lParam)
 		AvatarURL = mir_strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
 	}
-
-	if (AvatarURL != NULL && strlen(AvatarURL) > 0) {
+	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARTS, &dbv, DBVT_ASCIIZ)) {
+		AvatarTs = mir_strdup(dbv.pszVal);
+		DBFreeVariant(&dbv);
+	}
+	if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0) {
 		char *AvatarName = strrchr(AvatarURL, '/');
 		AvatarName++;
-		AvatarHash = gg_avatarhash(AvatarName);
+		char AvatarNameWithTS[128];
+		sprintf(AvatarNameWithTS, "%s%s", AvatarName, AvatarTs);
+		AvatarHash = gg_avatarhash(AvatarNameWithTS);
 	}
 
 	if (!db_get_s(pai->hContact, m_szModuleName, GG_KEY_AVATARHASH, &dbv, DBVT_ASCIIZ)) {
