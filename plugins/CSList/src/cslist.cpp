@@ -96,11 +96,6 @@ static int OnInitOptions(WPARAM wparam, LPARAM lparam)
 
 static int OnCreateMenuItems(WPARAM wparam, LPARAM lparam)
 {
-	int ProtoCount = 0;
-	forAllProtocols(countProtos, &ProtoCount);
-	if (ProtoCount == 0)
-		return FALSE;
-
 	forAllProtocols(addProtoStatusMenuItem, 0);
 	return FALSE;
 }
@@ -154,8 +149,7 @@ extern "C" __declspec(dllexport) int Unload()
 
 void RegisterHotkeys(char buf[200], TCHAR* accName, int Number)
 {
-	HOTKEYDESC hotkey = { 0 };
-	hotkey.cbSize = sizeof(hotkey);
+	HOTKEYDESC hotkey = { sizeof(hotkey) };
 	hotkey.dwFlags = HKD_TCHAR;
 	hotkey.pszName = buf;
 	hotkey.ptszDescription = accName;
@@ -212,7 +206,7 @@ INT_PTR showList(WPARAM wparam, LPARAM lparam, LPARAM param)
 		}
 	}
 
-	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), NULL, CSWindowProc, ( LPARAM )new CSWindow(szProto));
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), NULL, CSWindowProc, (LPARAM)new CSWindow(szProto));
 	return 0;
 }
 
@@ -230,7 +224,7 @@ void forAllProtocols( pForAllProtosFunc pFunc, void *arg )
 	}
 }
 
-void addProtoStatusMenuItem( char *protoName, void *arg )
+void addProtoStatusMenuItem(char *protoName, void *arg)
 {
 	char buf[200];
 	PROTOACCOUNT *pdescr;
@@ -259,27 +253,12 @@ void addProtoStatusMenuItem( char *protoName, void *arg )
 	RegisterHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);
 }
 
-void countProtos( char *protoName, void *arg )
-{
-	int *protosEnabled = (int*)arg;
-	*protosEnabled = ( *protosEnabled )++;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
-struct importParams
+void importCustomStatuses(CSWindow* csw, int result)
 {
-	CSWindow* csw;
-	int* result;
-};
-
-void importCustomStatusUIStatusesFromAllProtos(char *protoName, void *arg)
-{
-	importParams* params = (importParams*)arg;
-	CSWindow* csw = params->csw;
-
 	DBVARIANT dbv;
-	char bufTitle[32], bufMessage[32];
+	char bufTitle[32], bufMessage[32], *protoName = csw->m_protoName;
 
 	for (int i = 0; i < csw->m_statusCount; i++) {
 		StatusItem* si = new StatusItem();
@@ -305,7 +284,7 @@ void importCustomStatusUIStatusesFromAllProtos(char *protoName, void *arg)
 		}
 		else delete si;
 
-		if ( *params->result == IDYES ) {
+		if (result == IDYES) {
 			db_unset(NULL, protoName, bufTitle);
 			db_unset(NULL, protoName, bufMessage);
 		}
@@ -380,7 +359,7 @@ void CSWindow::initButtons()
 		if ( forms[i].idc < 0 )
 			continue;
 
-		SendDlgItemMessage( m_handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, ( LPARAM )Skin_GetIconByHandle(forms[i].hIcoLibItem));
+		SendDlgItemMessage( m_handle, forms[i].idc, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIconByHandle(forms[i].hIcoLibItem));
 		SendDlgItemMessage( m_handle, forms[i].idc, BUTTONSETASFLATBTN, TRUE, 0 ); //maybe set as BUTTONSETDEFAULT?
 		SendDlgItemMessage( m_handle, forms[i].idc, BUTTONADDTOOLTIP, (WPARAM )TranslateTS(forms[i].ptszTitle), BATF_TCHAR );
 	}
@@ -480,7 +459,7 @@ CSAMWindow::~CSAMWindow()
 
 void CSAMWindow::exec()
 {
-	DialogBoxParam( g_hInst, MAKEINTRESOURCE( IDD_ADDMODIFY ), NULL, ( DLGPROC )CSAMWindowProc, ( LPARAM )this );
+	DialogBoxParam( g_hInst, MAKEINTRESOURCE( IDD_ADDMODIFY ), NULL, ( DLGPROC )CSAMWindowProc, (LPARAM)this );
 }
 
 
@@ -506,7 +485,7 @@ void CSAMWindow::setCombo()
 	cs.ptszName = tszName;
 	cs.wParam = &iStatus;
 
-	SendMessage( m_hCombo, CBEM_SETIMAGELIST, 0, ( LPARAM )m_parent->m_icons);
+	SendMessage( m_hCombo, CBEM_SETIMAGELIST, 0, (LPARAM)m_parent->m_icons);
 	for (int i=1; i <= m_parent->m_statusCount; i++) {
 		iStatus = i;
 		if ( CallProtoService(pdescr->szModuleName, PS_GETCUSTOMSTATUSEX, 0, (LPARAM)&cs) != 0)
@@ -517,7 +496,7 @@ void CSAMWindow::setCombo()
 		cbi.iItem = -1;
 		cbi.iImage = cbi.iSelectedImage = i-1;
 		cbi.pszText = TranslateTS(tszName);
-		SendMessage( m_hCombo, CBEM_INSERTITEM, 0, ( LPARAM )&cbi );
+		SendMessage( m_hCombo, CBEM_INSERTITEM, 0, (LPARAM)&cbi );
 	}
 	SendMessage( m_hCombo, CB_SETCURSEL, 0, 0 ); // first 0 sets selection to top
 }
@@ -558,7 +537,7 @@ void CSAMWindow::checkFieldLimit( WORD action, WORD item )
 			mir_sntprintf(tszPopupTip, SIZEOF(tszPopupTip), TranslateT("This field doesn't accept string longer than %d characters. The string will be truncated."), limit);
 			ebt.pszText = tszPopupTip;
 			ebt.ttiIcon = TTI_WARNING;
-			SendMessage( GetDlgItem( m_handle, item ), EM_SHOWBALLOONTIP, 0, ( LPARAM )&ebt );
+			SendMessage( GetDlgItem( m_handle, item ), EM_SHOWBALLOONTIP, 0, (LPARAM)&ebt );
 #endif
 			TCHAR* ptszOutputText = (TCHAR*)mir_alloc((limit + 1) * sizeof(TCHAR));
 			GetDlgItemText( m_handle, item, ptszOutputText, limit + 1 );
@@ -574,7 +553,7 @@ void CSAMWindow::checkItemValidity()
 	COMBOBOXEXITEM cbi = { 0 };
 	cbi.mask = CBEIF_IMAGE;
 	cbi.iItem = SendDlgItemMessage(m_handle, IDC_COMBO, CB_GETCURSEL, 0, 0);
-	SendDlgItemMessage( m_handle, IDC_COMBO, CBEM_GETITEM, 0, ( LPARAM )&cbi );
+	SendDlgItemMessage( m_handle, IDC_COMBO, CBEM_GETITEM, 0, (LPARAM)&cbi );
 
 	if (m_item->m_iIcon != cbi.iImage)
 		m_item->m_iIcon = cbi.iImage, m_bChanged = TRUE;
@@ -627,13 +606,13 @@ CSListView::CSListView(HWND hwnd, CSWindow* parent)
 	lvc.cx = 0x00;
 	lvc.pszText = TEXT( "");
 	lvc.cx = 0x16;
-	SendMessage( m_handle, LVM_INSERTCOLUMN, 0, ( LPARAM )&lvc );
+	SendMessage( m_handle, LVM_INSERTCOLUMN, 0, (LPARAM)&lvc );
 	lvc.pszText = TranslateT("Title");
 	lvc.cx = 0x64;
-	SendMessage( m_handle, LVM_INSERTCOLUMN, 1, ( LPARAM )&lvc );
+	SendMessage( m_handle, LVM_INSERTCOLUMN, 1, (LPARAM)&lvc );
 	lvc.pszText = TranslateT("Message");
 	lvc.cx = 0xa8;
-	SendMessage( m_handle, LVM_INSERTCOLUMN, 2, ( LPARAM )&lvc );
+	SendMessage( m_handle, LVM_INSERTCOLUMN, 2, (LPARAM)&lvc );
 
 #if (_WIN32_IE >= 0x0400)
 	ListView_SetExtendedListViewStyleEx( m_handle, 0, LVS_EX_FULLROWSELECT | LVS_EX_GRIDLINES | LVS_EX_HEADERDRAGDROP | LVS_EX_INFOTIP );
@@ -655,18 +634,18 @@ void CSListView::addItem( StatusItem* item, int itemNumber )
 	// first column
 	lvi.iSubItem = 0;
 	lvi.iImage = item->m_iIcon; // use selected xicon
-	SendMessage( m_handle, LVM_INSERTITEM, 0, ( LPARAM )&lvi );
+	SendMessage( m_handle, LVM_INSERTITEM, 0, (LPARAM)&lvi );
 
 	// second column
 	lvi.mask = LVIF_TEXT;
 	lvi.iSubItem = 1;
 	lvi.pszText = item->m_tszTitle;
-	SendMessage( m_handle, LVM_SETITEM, 0, ( LPARAM )&lvi );
+	SendMessage( m_handle, LVM_SETITEM, 0, (LPARAM)&lvi );
 
 	// third column
 	lvi.iSubItem = 2;
 	lvi.pszText = item->m_tszMessage;
-	SendMessage( m_handle, LVM_SETITEM, 0, ( LPARAM )&lvi );
+	SendMessage( m_handle, LVM_SETITEM, 0, (LPARAM)&lvi );
 }
 
 void CSListView::initItems( ListItem< StatusItem >* items )
@@ -922,8 +901,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 						break;
 				}
 
-				importParams params = { csw, &result };
-				forAllProtocols(importCustomStatusUIStatusesFromAllProtos, &params);
+				importCustomStatuses(csw, result);
 				csw->m_bSomethingChanged = TRUE;
 				csw->toggleButtons();
 				csw->toggleEmptyListMessage();

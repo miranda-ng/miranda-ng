@@ -418,7 +418,6 @@ INT_PTR __cdecl  showList(WPARAM, LPARAM, LPARAM);
 // protocols enumeration related functions
 void forAllProtocols(pForAllProtosFunc pFunc, void *arg);
 void addProtoStatusMenuItem( char *protoName, void *arg);
-void countProtos( char *protoName, void *arg);
 
 // other functions
 void IitIcoLib();
