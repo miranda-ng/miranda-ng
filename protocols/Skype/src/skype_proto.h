@@ -28,31 +28,32 @@ struct SettingItem
 {
   const TCHAR *szDescription;
   const char *szDbSetting;
+  int dbType;              //DBVT_ constant
 };
 
 const SettingItem setting[]={
-  {LPGENT("Full name"),		"Nick"},
-  {LPGENT("Mood"),			"XStatusMsg"},
+  {LPGENT("Full name"),		"Nick",			DBVT_WCHAR},
+  {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR},
 
-  {LPGENT("Mobile phone"),	"Cellular"},
-  {LPGENT("Home phone"),		"Phone"},
-  {LPGENT("Office phone"),	"CompanyPhone"},
-  {LPGENT("E-mail 1"),		"e-mail0"},
-  {LPGENT("E-mail 2"),		"e-mail1"},
-  {LPGENT("E-mail 3"),		"e-mail2"},
+  {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR},
+  {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR},
+  {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR},
+  {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR},
+  {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR},
+  {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR},
 
-  {LPGENT("Country"),		"Country"},
-  {LPGENT("State"),			"State"},
-  {LPGENT("City"),			"City"},
-  {LPGENT("Time zone"),		"Timezone"},
-  {LPGENT("Homepage"),		"Homepage"},
-  {LPGENT("Gender"),		"Gender"},
-  {LPGENT("Birth day"),		"BirthDay"},
-  {LPGENT("Birth month"),	"BirthMonth"},
-  {LPGENT("Birth year"),	"BirthYear"},
-  {LPGENT("Language"),		"Language1"},
+  {LPGENT("Country"),		"Country",		DBVT_WCHAR},
+  {LPGENT("State"),			"State",		DBVT_WCHAR},
+  {LPGENT("City"),			"City",			DBVT_WCHAR},
+  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE},
+  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR},
+  {LPGENT("Gender"),		"Gender",		DBVT_BYTE},
+  {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE},
+  {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE},
+  {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD},
+  {LPGENT("Language"),		"Language1",	DBVT_WCHAR},
 
-  {LPGENT("About"),			"About"}
+  {LPGENT("About"),			"About",		DBVT_WCHAR}
 };
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
@@ -236,7 +237,7 @@ protected:
 	static int DetectAvatarFormatBuffer(const char *pBuffer);
 	static int DetectAvatarFormat(const wchar_t *path);
 
-	wchar_t* GetContactAvatarFilePath(HANDLE hContact = 0);
+	wchar_t* GetContactAvatarFilePath(wchar_t *sid);
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 

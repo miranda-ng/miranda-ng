@@ -264,7 +264,7 @@ int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
 	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
 }
 
-wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
+wchar_t* CSkypeProto::GetContactAvatarFilePath(wchar_t *sid)
 {
 	wchar_t* path = new wchar_t[MAX_PATH * 2];
 	
@@ -299,10 +299,11 @@ wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
 	// make sure the avatar cache directory exists
 	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	wchar_t *sid = this->GetSettingString("sid", ::mir_wstrdup(L""));
-	::wcscat(path, sid);
-	::wcscat(path, L".jpg");
-	::mir_free(sid);
+	if (sid) {
+		::wcscat(path, sid);
+		::wcscat(path, L".jpg");
+	} else
+		path = NULL;
 
 	return path;
 }

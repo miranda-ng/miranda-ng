@@ -326,11 +326,6 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 		TranslateDialogDefault(hwndDlg);
 		HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
 		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT);
-		/*LOGFONT lf;
-		GetObject((HFONT)SendMessage(hwndList, WM_GETFONT, 0, 0), sizeof(lf), &lf);
-		lf.lfHeight -= 5;
-		HFONT hFont = CreateFontIndirect(&lf);
-		SendMessage(hwndList, WM_SETFONT, (WPARAM)hFont, 0);*/
 		// Prepare ListView Columns
 		LV_COLUMN lvc = {0};
 		RECT rc;

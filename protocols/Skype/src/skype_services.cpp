@@ -80,7 +80,7 @@ int __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam) return -2;
 
-	wchar_t *path = this->GetContactAvatarFilePath();
+	wchar_t *path = this->GetContactAvatarFilePath(NULL);
 	if (path && !_waccess(path, 0)) 
 	{
 		::wcsncpy((wchar_t *)wParam, path, (int)lParam);
@@ -107,7 +107,7 @@ int __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			::DeleteObject(avt);
 		}
 
-		wchar_t *avatarPath = this->GetContactAvatarFilePath();
+		wchar_t *avatarPath = this->GetContactAvatarFilePath(NULL);
 		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
 		{
 			this->Log("Failed to copy our avatar to local storage.");

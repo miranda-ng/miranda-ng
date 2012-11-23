@@ -42,32 +42,28 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 	uint newTS = 0;
 	contact->GetPropAvatarTimestamp(newTS);
 	DWORD oldTS = this->GetSettingDword(hContact, "AvatarTS");
-	if (newTS > oldTS)
+	SEBinary data;
+	contact->GetPropAvatarImage(data);
+	if ((newTS > oldTS) || (!newTS && data.size() > 0)) //hack for avatars without timestamp
 	{
-		SEBinary data;
-		contact->GetPropAvatarImage(data);
-		
-		if (data.size() > 0)
+		wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString(hContact, "sid"));
+		FILE* fp = _wfopen(path, L"wb");
+		if (fp)
 		{
-			wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString(hContact, "sid"));
-			FILE* fp = _wfopen(path, L"wb");
-			if (fp)
-			{
-				fwrite(data.data(), sizeof(char), data.size(), fp);
-				fclose(fp);
+			fwrite(data.data(), sizeof(char), data.size(), fp);
+			fclose(fp);
 
-				this->SetSettingDword(hContact, "AvatarTS", newTS);
+			this->SetSettingDword(hContact, "AvatarTS", newTS);
 
-				PROTO_AVATAR_INFORMATIONW pai = {0};
-				pai.cbSize = sizeof(pai);
-				pai.format = PA_FORMAT_JPEG;
-				pai.hContact = hContact;
-				wcscpy(pai.filename, path);
+			PROTO_AVATAR_INFORMATIONW pai = {0};
+			pai.cbSize = sizeof(pai);
+			pai.format = PA_FORMAT_JPEG;
+			pai.hContact = hContact;
+			wcscpy(pai.filename, path);
 		
-				this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-			}
-			delete path;
-		}		
+			this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		}
+		delete path;
 	}
 }
 
