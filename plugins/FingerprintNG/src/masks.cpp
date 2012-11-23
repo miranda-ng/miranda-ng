@@ -163,9 +163,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_QIP_2010",			_T("|QIP 2010*|http://2010.qip.ru*"),		_T("QIP 2010"),							_T("ClientIcons_multiproto"),	IDI_QIP_2010,			MULTI_CASE,		TRUE	},
 	{"client_QIP_Infium",		_T("|QIP Infium*|http://*qip*"),			_T("QIP Infium"),						_T("ClientIcons_multiproto"),	IDI_QIP_INFIUM,			MULTI_CASE,		TRUE	},
 
+	{"client_qutIM",			_T("*qutIM*"),								_T("qutIM"),							_T("ClientIcons_multiproto"),	IDI_QUTIM,				MULTI_CASE	},
+	{"client_mqutIM",			_T("*mqutIM*"),								_T("mqutIM"),							_T("ClientIcons_multiproto"),	IDI_MQUTIM,				MULTI_CASE	},
+
 	{"client_Qnext",			_T("Qnext*"),								_T("Qnext"),							_T("ClientIcons_multiproto"),	IDI_QNEXT,				MULTI_CASE,		TRUE	},
-	{"client_qutIM",			_T("*qutIM*"),								_T("qutIM"),							_T("ClientIcons_multiproto"),	IDI_QUTIM,				MULTI_CASE,		TRUE	},
-	{"client_mqutIM",			_T("*mqutIM*"),								_T("mqutIM"),							_T("ClientIcons_multiproto"),	IDI_MQUTIM,				MULTI_CASE,		TRUE	},
+
 	{"client_SAPO",				_T("*SAPO*"),								_T("SAPO Messenger"),					_T("ClientIcons_multiproto"),	IDI_SAPO,				MULTI_CASE,		TRUE	},
 	{"client_SIM",				_T("|^*Simp*|*SIM*"),						_T("SIM"),								_T("ClientIcons_multiproto"),	IDI_SIM,				MULTI_CASE,		TRUE	},
 	{"client_Salut_a_Toi",		_T("*Salut*Toi*"),							_T("Salut a Toi"),						_T("ClientIcons_multiproto"),	IDI_SALUT_A_TOI,		MULTI_CASE,		TRUE	},
