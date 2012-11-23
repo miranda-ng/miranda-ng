@@ -51,7 +51,7 @@
 #define MIRANDA_VER   0x0A00
 
 #pragma warning( disable: 4996 )
-#pragma comment( lib, "comctl32.lib" )
+#pragma comment( lib, "comctl32.lib")
 
 #include <windows.h>
 #include <commctrl.h>
@@ -61,6 +61,7 @@
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_utils.h>
+#include <m_system_cpp.h>
 #include <m_langpack.h>
 #include <m_clist.h>
 #include <m_clistint.h>
@@ -80,9 +81,6 @@
 #include "version.h"
 
 #define MODULENAME	       "Custom Status List"
-
-// {C8CC7414-6507-4AF6-925A-83C1D2F7BE8C}
-#define PLUGIN_GUUID                  { 0xc8cc7414, 0x6507, 0x4af6, { 0x92, 0x5a, 0x83, 0xc1, 0xd2, 0xf7, 0xbe, 0x8c } }
 
 // ====[ LIMITS ]=============================================================
 
@@ -165,17 +163,17 @@ static struct CSForm { // icons + buttons
 
 } forms[] = {
 
-	{ -1, LPGENT( "Main Menu" ), LPGENT( "Main Icon" ), "icon", IDI_CSLIST, NULL },
-	{ IDC_ADD, LPGENT( "Add new item" ), LPGENT( "Add" ), "add", IDI_ADD, NULL },
-	{ IDC_MODIFY, LPGENT( "Modify selected item" ), LPGENT( "Modify" ), "modify", IDI_MODIFY, NULL },
-	{ IDC_REMOVE, LPGENT( "Delete selected item" ), LPGENT( "Remove" ), "remove", IDI_REMOVE, NULL },
-	{ IDC_FAVOURITE, LPGENT( "Set/unset current item as favorite" ), LPGENT( "Favourite" ), "favourite", IDI_FAVOURITE, NULL },
-	{ IDC_UNDO, LPGENT( "Undo changes" ), LPGENT( "Undo changes" ), "undo", IDI_UNDO, NULL },
-	{ IDC_IMPORT, LPGENT( "Import statuses from database" ), LPGENT( "Import" ), "import", IDI_IMPORT, NULL },
-	{ IDC_FILTER, LPGENT( "Filter list" ), LPGENT( "Filter" ), "filter", IDI_FILTER, NULL },
-	{ IDCLOSE, LPGENT( "Close without changing custom status" ), LPGENT( "No change" ), "nochng", IDI_CLOSE, NULL },
-	{ IDC_CANCEL, LPGENT( "Clear custom status (reset to None) and close" ), LPGENT( "Clear" ), "clear", IDI_UNSET, NULL },
-	{ IDOK, LPGENT( "Set custom status to selected one and close" ), LPGENT( "Set" ), "apply", IDI_APPLY, NULL },
+	{ -1, LPGENT("Main Menu"), LPGENT("Main Icon"), "icon", IDI_CSLIST },
+	{ IDC_ADD, LPGENT("Add new item"), LPGENT("Add"), "add", IDI_ADD },
+	{ IDC_MODIFY, LPGENT("Modify selected item"), LPGENT("Modify"), "modify", IDI_MODIFY },
+	{ IDC_REMOVE, LPGENT("Delete selected item"), LPGENT("Remove"), "remove", IDI_REMOVE },
+	{ IDC_FAVOURITE, LPGENT("Set/unset current item as favorite"), LPGENT("Favourite"), "favourite", IDI_FAVOURITE },
+	{ IDC_UNDO, LPGENT("Undo changes"), LPGENT("Undo changes"), "undo", IDI_UNDO },
+	{ IDC_IMPORT, LPGENT("Import statuses from database"), LPGENT("Import"), "import", IDI_IMPORT },
+	{ IDC_FILTER, LPGENT("Filter list"), LPGENT("Filter"), "filter", IDI_FILTER },
+	{ IDCLOSE, LPGENT("Close without changing custom status"), LPGENT("No change"), "nochng", IDI_CLOSE },
+	{ IDC_CANCEL, LPGENT("Clear custom status (reset to None) and close"), LPGENT("Clear"), "clear", IDI_UNSET },
+	{ IDOK, LPGENT("Set custom status to selected one and close"), LPGENT("Set"), "apply", IDI_APPLY }
 };
 
 // ====[ MY BITCHY LIST IMPLEMENTATION x)) ]==================================
@@ -426,12 +424,10 @@ void    closeList( HWND );
 void forAllProtocols(pForAllProtosFunc pFunc, void *arg);
 void addProtoStatusMenuItem( char *protoName, void *arg);
 void countProtos( char *protoName, void *arg);
-void importCustomStatusUIStatusesFromAllProtos( char *protoName, void *arg );
 
 // other functions
 void IitIcoLib();
 void RegisterHotkeys(char buf[200], TCHAR* accName, int Number);
-void RebuildMenuItems();
 void SetStatus(WORD code, StatusItem* item, char *protoName);
 
 // ====[ INIT STUFF ]=========================================================
