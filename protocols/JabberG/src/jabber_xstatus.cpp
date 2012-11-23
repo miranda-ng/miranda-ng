@@ -1438,7 +1438,7 @@ INT_PTR __cdecl CJabberProto::OnSetXStatusEx(WPARAM wParam, LPARAM lParam)
 	CPepMood *pepMood = (CPepMood*)m_pepServices.Find(_T(JABBER_FEAT_USER_MOOD));
 
 	int status = *pData->status;
-	if (status > 0 && status < SIZEOF(g_arrMoods)) {
+	if (status >= 0 && status < SIZEOF(g_arrMoods)) {
 		pepMood->m_mode = status;
 		pepMood->m_text = JabberStrFixLines(pData->ptszMessage);
 		pepMood->LaunchSetGui(1);
