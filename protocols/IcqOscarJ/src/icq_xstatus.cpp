@@ -435,9 +435,6 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 							NetLog_Server("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
 						}
-#ifdef _DEBUG
-						else NetLog_Server("%s has custom status %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-#endif
 
 						if (getSettingByte(NULL, "XStatusAuto", DEFAULT_XSTATUS_AUTO))
 							requestXStatusDetails(hContact, TRUE);
@@ -445,22 +442,11 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 						nCustomStatusID = bXStatusId;
 						break;
 					}
-				}
+			}
 
-				if (nCustomStatusID == 0) {
-#ifdef _DEBUG
-					if (m_iStatus != ID_STATUS_OFFLINE && CheckContactCapabilities(hContact, CAPF_XSTATUS))
-						NetLog_Server("%s has removed custom status.", strUID(dwUIN, szUID));
-#endif
-					ClearContactCapabilities(hContact, CAPF_XSTATUS);
-				}
+			if (nCustomStatusID == 0)
+				ClearContactCapabilities(hContact, CAPF_XSTATUS);
 		}
-#ifdef _DEBUG
-		else if (CheckContactCapabilities(hContact, CAPF_XSTATUS)) {
-			char str[MAX_PATH];
-			NetLog_Server("%s has custom status %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[nOldXStatusID-1], str, MAX_PATH));
-		}
-#endif
 	}
 
 	if (m_bMoodsEnabled) {
@@ -489,34 +475,17 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 							NetLog_Server("%s changed mood to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							bChanged = TRUE;
 						}
-#ifdef _DEBUG
-						else if (nOldXStatusID != bXStatusId)
-							NetLog_Server("%s changed mood to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-						else
-							NetLog_Server("%s has mood %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-#endif
+
 						// cannot retrieve mood details here - need to be processed with new user details
 						nMoodID = bXStatusId;
 
 						break;
 					}
-				}
+			}
 
-				if (nMoodID == 0 && moods) {
-#ifdef _DEBUG
-					if (m_iStatus != ID_STATUS_OFFLINE && CheckContactCapabilities(hContact, CAPF_STATUS_MOOD))
-						NetLog_Server("%s has removed mood.", strUID(dwUIN, szUID));
-#endif
-					ClearContactCapabilities(hContact, CAPF_STATUS_MOOD);
-				}
+			if (nMoodID == 0 && moods)
+				ClearContactCapabilities(hContact, CAPF_STATUS_MOOD);
 		}
-#ifdef _DEBUG
-		// Mood was not changed, but contact has one, add a small log notice
-		else if (CheckContactCapabilities(hContact, CAPF_STATUS_MOOD)) {
-			char str[MAX_PATH];
-			NetLog_Server("%s has mood %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[nOldXStatusID-1], str, MAX_PATH));
-		}
-#endif
 	}
 
 	if (nCustomStatusID != 0 && nMoodID != 0 && nCustomStatusID != nMoodID)
@@ -1045,10 +1014,10 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 				return 1; // Failure
 
 			if (pData->flags & CSSF_UNICODE) {
-				char *text = (char*)nameXStatus[status -1];
+				char *text = (char*)nameXStatus[status-1];
 				MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, text, -1, pData->pwszName, MAX_PATH);
 			}
-			else strcpy(pData->pszName, (char*)nameXStatus[status - 1]);
+			else strcpy(pData->pszName, (char*)nameXStatus[status-1]);
 		}
 		else { // moods does not support status title
 			if (!m_bXStatusEnabled) return 1;
