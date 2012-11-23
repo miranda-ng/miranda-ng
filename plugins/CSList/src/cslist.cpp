@@ -212,13 +212,8 @@ INT_PTR showList(WPARAM wparam, LPARAM lparam, LPARAM param)
 		}
 	}
 
-	mir_forkthread(&CSWindow::showWindow, new CSWindow(szProto));
+	CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_CSLIST), NULL, CSWindowProc, ( LPARAM )new CSWindow(szProto));
 	return 0;
-}
-
-void closeList(HWND hwnd)
-{
-	mir_forkthread(&CSWindow::closeWindow, hwnd);
 }
 
 void forAllProtocols( pForAllProtosFunc pFunc, void *arg )
@@ -337,21 +332,6 @@ CSWindow::~CSWindow()
 {
 	delete m_itemslist;
 	SAFE_FREE(( void** )&m_filterString );
-}
-
-void CSWindow::showWindow( void *arg )
-{
-	CSWindow* csw = ( CSWindow* )arg;
-
-	while ( csw == NULL )
-		SleepEx( 10, FALSE );
-
-	DialogBoxParam( g_hInst, MAKEINTRESOURCE( IDD_CSLIST ), NULL, ( DLGPROC )CSWindowProc, ( LPARAM )csw );
-}
-
-void CSWindow::closeWindow( void *arg )
-{
-	EndDialog((HWND)arg, FALSE);
 }
 
 void CSWindow::initIcons()
@@ -972,9 +952,7 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 				if (csw->m_itemslist!=NULL)
 					csw->m_itemslist->saveItems(csw->m_protoName);
 			csw->saveWindowPosition(csw->m_handle);
-			delete csw->m_listview;
-			csw->deinitIcons();
-			closeList( hwnd );
+			EndDialog(hwnd, FALSE);
 			break;
 		}
 		return FALSE;
@@ -1004,6 +982,8 @@ INT_PTR CALLBACK CSWindowProc( HWND hwnd, UINT message, WPARAM wparam, LPARAM lp
 	case WM_DESTROY:
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, 0);
 		arWindows.remove(csw);
+		delete csw->m_listview;
+		csw->deinitIcons();
 		delete csw;
 		break;
 	}

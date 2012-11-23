@@ -173,7 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cslist.h" />
-    <ClInclude Include="src\legacy.h" />
     <ClInclude Include="src\strpos.h" />
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Version.h" />

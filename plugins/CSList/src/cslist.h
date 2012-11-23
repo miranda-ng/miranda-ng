@@ -377,8 +377,6 @@ struct CSWindow
 	void    initIcons();
 	void    deinitIcons();
 	void    initButtons();
-	static void __cdecl showWindow( void *arg );
-	static void __cdecl closeWindow( void *arg );
 	void    loadWindowPosition();
 	BOOL    toggleButtons();
 	void    toggleEmptyListMessage();
@@ -388,9 +386,7 @@ struct CSWindow
 	void __inline saveWindowPosition( HWND hwnd )
 	{
 		if ( getByte( "RememberWindowPosition", DEFAULT_REMEMBER_WINDOW_POSITION ) == TRUE )
-		{
 			Utils_SaveWindowPosition(hwnd,NULL,__INTERNAL_NAME,"Position");
-		}
 	}
 };
 
@@ -418,7 +414,6 @@ struct CSAMWindow
 
 // service functions
 INT_PTR __cdecl  showList(WPARAM, LPARAM, LPARAM);
-void    closeList( HWND );
 
 // protocols enumeration related functions
 void forAllProtocols(pForAllProtosFunc pFunc, void *arg);

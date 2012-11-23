@@ -23,9 +23,6 @@
     <ClInclude Include="src\cslist.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\legacy.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\strpos.h">
       <Filter>Header Files</Filter>
     </ClInclude>
