@@ -91,13 +91,20 @@ static int OnInitOptions(WPARAM wparam, LPARAM lparam)
 	odp.pszGroup = LPGEN("Status");
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wparam, &odp);
-	return FALSE;
+	return 0;
 }
 
 static int OnCreateMenuItems(WPARAM wparam, LPARAM lparam)
 {
 	forAllProtocols(addProtoStatusMenuItem, 0);
-	return FALSE;
+	return 0;
+}
+
+static int OnPreshutdown(WPARAM wparam, LPARAM lparam)
+{
+	for (int i=0; i < arWindows.getCount(); i++)
+		DestroyWindow(arWindows[i]->m_handle);
+	return 0;
 }
 
 extern "C" __declspec(dllexport) int Load()
@@ -134,7 +141,9 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbChanged);
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, OnCreateMenuItems);
-	return FALSE;
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnCreateMenuItems);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
+	return 0;
 }
 
 // ====[ UNLOADER ]===========================================================
@@ -142,7 +151,7 @@ extern "C" __declspec(dllexport) int Load()
 extern "C" __declspec(dllexport) int Unload()
 {
 	arWindows.destroy();
-	return FALSE;
+	return 0;
 }
 
 // ====[ FUN ]================================================================
