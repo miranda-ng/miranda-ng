@@ -1,7 +1,7 @@
 /* THIS FILE WILL BE OVERWRITTEN BY DEV-C++ */
 /* DO NOT EDIT! */
 
-#include "private.h"
+#include "..\src\private.h"
 #include "afxres.h"
 //
 // TO CHANGE VERSION INFORMATION, EDIT PROJECT OPTIONS...

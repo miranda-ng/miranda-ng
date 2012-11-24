@@ -351,6 +351,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Xfire", "..\protocols\Xfire
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MobileState", "..\plugins\MobileState\mobilestate_10.vcxproj", "{AE677E3A-DAC5-42FD-8762-47370C57639B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoHistory\NoHistory.vcxproj", "{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1550,6 +1554,22 @@ Global
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Release|Win32.Build.0 = Release|Win32
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Release|x64.ActiveCfg = Release|x64
 		{AE677E3A-DAC5-42FD-8762-47370C57639B}.Release|x64.Build.0 = Release|x64
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Debug|Win32.Build.0 = Debug|Win32
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Debug|x64.ActiveCfg = Debug|x64
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Debug|x64.Build.0 = Debug|x64
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Release|Win32.ActiveCfg = Release|Win32
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Release|Win32.Build.0 = Release|Win32
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Release|x64.ActiveCfg = Release|x64
+		{ABF05E2C-C335-4BD1-8C3E-4C63285362CF}.Release|x64.Build.0 = Release|x64
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Debug|Win32.Build.0 = Debug|Win32
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Debug|x64.ActiveCfg = Debug|x64
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Debug|x64.Build.0 = Debug|x64
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|Win32.ActiveCfg = Release|Win32
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|Win32.Build.0 = Release|Win32
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.ActiveCfg = Release|x64
+		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
