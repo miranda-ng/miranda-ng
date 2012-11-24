@@ -125,7 +125,7 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
 		if (g_skype->GetContact(sid, contact)) {
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
-			contact->SendAuthRequest(::mir_u2a(szMessage));
+			contact->SendAuthRequest(::mir_utf8encodeW(szMessage));
 		}
 		
 		return 0;
