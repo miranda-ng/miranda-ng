@@ -7,13 +7,12 @@
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include "afxres.h"
-
+#include "afxres.h"
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Английский (США) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
@@ -81,7 +80,7 @@ IDD_OPTIONS DIALOGEX 0, 0, 300, 107
 STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_CLIPSIBLINGS
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "List settings",IDC_STATIC,4,4,292,73
+    GROUPBOX        "List settings",IDC_STATIC,4,4,292,57
     CONTROL         "Confirm deletion of items",IDC_CONFIRM_DELETION,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,24,20,253,10
     CONTROL         "Delete entries in Custom status menu after Import",IDC_DELETE_AFTER_IMPORT,
                     "Button",BS_AUTOCHECKBOX | BS_TOP | BS_MULTILINE | WS_TABSTOP,24,32,253,10
@@ -146,24 +145,24 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\0"
 END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Английский (США) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -173,7 +172,7 @@ END
 //
 // Generated from the TEXTINCLUDE 3 resource.
 //
-
-
+
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+

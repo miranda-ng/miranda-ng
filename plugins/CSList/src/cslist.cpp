@@ -235,12 +235,11 @@ void forAllProtocols( pForAllProtosFunc pFunc, void *arg )
 
 void addProtoStatusMenuItem(char *protoName, void *arg)
 {
-	char buf[200];
-	PROTOACCOUNT *pdescr;
-	pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)protoName);
+	PROTOACCOUNT *pdescr = ProtoGetAccount(protoName);
 	if (pdescr == NULL)
 		return;
 
+	char buf[200];
 	mir_snprintf(buf, SIZEOF(buf), "CSList/ShowList/%s", protoName);
 	if ( !ServiceExists(buf))
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
@@ -324,7 +323,7 @@ CSWindow::~CSWindow()
 
 void CSWindow::initIcons()
 {
-	PROTOACCOUNT *pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_protoName);
+	PROTOACCOUNT *pdescr = ProtoGetAccount(m_protoName);
 	if (pdescr == NULL)
 		return;
 
@@ -468,13 +467,13 @@ CSAMWindow::~CSAMWindow()
 
 void CSAMWindow::exec()
 {
-	DialogBoxParam( g_hInst, MAKEINTRESOURCE( IDD_ADDMODIFY ), NULL, ( DLGPROC )CSAMWindowProc, (LPARAM)this );
+	DialogBoxParam( g_hInst, MAKEINTRESOURCE( IDD_ADDMODIFY ), NULL, CSAMWindowProc, (LPARAM)this );
 }
 
 
 void CSAMWindow::setCombo()
 {
-	PROTOACCOUNT *pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_parent->m_protoName);
+	PROTOACCOUNT *pdescr = ProtoGetAccount(m_parent->m_protoName);
 	if (pdescr == NULL)
 		return;
 

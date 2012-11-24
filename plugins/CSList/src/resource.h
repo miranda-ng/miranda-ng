@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by cslist.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\CSList\res\cslist.rc
 //
 #define IDCLOSE                         8
 #define IDC_CANCEL                      9
