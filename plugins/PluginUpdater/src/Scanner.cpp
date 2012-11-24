@@ -76,7 +76,7 @@ static renameTable[] =
 	{ _T("svc_crshdmp.dll"), _T("Plugins\\crashdumper.dll") },
 	{ _T("svc_vi.dll"),      _T("Plugins\\versioninfo.dll") },
 	{ _T("import_sa.dll"),   _T("Plugins\\import.dll") },
-	{ _T("newnr.exe"),       _T("Plugins\\notesreminders.dll") },
+	{ _T("newnr.dll"),       _T("Plugins\\notesreminders.dll") },
 	{ _T("dbtool.exe"),      _T("Plugins\\dbchecker.dll") },
 	{ _T("dbtool_sa.exe"),   _T("Plugins\\dbchecker.dll") },
 	
