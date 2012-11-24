@@ -281,7 +281,7 @@ void RegisterFontServiceFonts()
 		_tcsncpy(fontid.deffontsettings.szFace, fontOptionsList[i].szDefFace, SIZEOF(fontid.deffontsettings.szFace));
 		_tcsncpy(fontid.backgroundName, fontOptionsList[i].szBkgName, SIZEOF(fontid.backgroundName));
 
-		FontRegister(&fontid);
+		FontRegisterT(&fontid);
 	}
 
 	colorid.cbSize = sizeof(ColourIDT);
@@ -297,7 +297,7 @@ void RegisterFontServiceFonts()
 		colorid.defcolour = colourOptionsList[i].defColour;
 		strncpy(colorid.setting, colourOptionsList[i].szSettingName, SIZEOF(colorid.setting));
 
-		ColourRegister(&colorid);
+		ColourRegisterT(&colorid);
 	}
 
 	hkFontChange = HookEvent(ME_FONT_RELOAD, FS_FontsChanged);
@@ -306,14 +306,13 @@ void RegisterFontServiceFonts()
 
 void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 {
-	COLORREF col;
     FontIDT fontid = {0};
 
     fontid.cbSize = sizeof(fontid);
     _tcsncpy(fontid.group, LPGENT(SECTIONNAME), SIZEOF(fontid.group));
     _tcsncpy(fontid.name, fontOptionsList[i].szDescr, SIZEOF(fontid.name));
 
-    col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
+    COLORREF col = CallService(MS_FONT_GETT, (WPARAM)&fontid, (LPARAM)lf);
 
 	if (colour)
 	{
@@ -366,7 +365,7 @@ static void TrimString(TCHAR *s)
 }
 
 
-int CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	BOOL LB;
 	WORD SzT;
@@ -504,11 +503,11 @@ int CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
 				ofn.lStructSize = sizeof(ofn);
 #endif
 				ofn.hwndOwner = hdlg;
-				ofn.lpstrFilter = "Executable Files\0*.exe\0All Files\0*.*\0\0";
+				ofn.lpstrFilter = _T("Executable Files\0*.exe\0All Files\0*.*\0\0");
 				ofn.lpstrFile = s;
 				ofn.nMaxFile = SIZEOF(s);
-				ofn.lpstrTitle = Translate("Select Executable");
-				ofn.lpstrInitialDir = ".";
+				ofn.lpstrTitle = TranslateT("Select Executable");
+				ofn.lpstrInitialDir = _T(".");
 				ofn.Flags = OFN_FILEMUSTEXIST|OFN_LONGNAMES;
 				if ( IsWinVer98Plus() )
 				{
@@ -528,13 +527,13 @@ int CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
 		case IDC_RESET:
 			{
 				SAFE_FREE((void**)&g_RemindSMS);
-				SetDlgItemText(hdlg,IDC_REMINDEMAIL,"");
+				SetDlgItemText(hdlg,IDC_REMINDEMAIL,_T(""));
 				if (g_lpszAltBrowser)
 				{
 					mir_free(g_lpszAltBrowser);
 					g_lpszAltBrowser = NULL;
 				}
-				SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,"");
+				SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,_T(""));
 				g_ShowNotesAtStart = TRUE;
 				g_AddContListMI = TRUE;
 				g_ShowScrollbar = TRUE; // 4.2

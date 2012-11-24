@@ -1,6 +1,6 @@
 #include "globals.h"
 
-#define MSG_WND_CLASS "MIM_SNMsgWindow"
+#define MSG_WND_CLASS _T("MIM_SNMsgWindow")
 
 
 HWND HKHwnd;
@@ -15,31 +15,32 @@ void RegisterKeyBindings()
 
 	ZeroMemory(&desc, sizeof(desc));
 	desc.cbSize = sizeof(desc);
-	desc.pszSection = SECTIONNAME;
+	desc.ptszSection = _T(SECTIONNAME);
+	desc.dwFlags = HKD_TCHAR;
 
 	desc.pszName = MODULENAME"/NewNote";
-	desc.pszDescription = "New Note";
+	desc.ptszDescription = LPGENT("New Note");
 	desc.lParam = KB_NEW_NOTE;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_INSERT);
 	desc.pszService = MODULENAME"/MenuCommandAddNew";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/ToggleNotesVis";
-	desc.pszDescription = "Toggle Notes Visibility";
+	desc.ptszDescription = LPGENT("Toggle Notes Visibility");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_ADD);
 	desc.pszService = MODULENAME"/MenuCommandShowHide";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/BringNotesFront";
-	desc.pszDescription = "Bring All Notes to Front";
+	desc.ptszDescription = LPGENT("Bring All Notes to Front");
 	desc.lParam = KB_TOGGLE_NOTES;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_HOME);
 	desc.pszService = MODULENAME"/MenuCommandBringAllFront";
 	Hotkey_Register(&desc);
 
 	desc.pszName = MODULENAME"/NewReminder";
-	desc.pszDescription = "New Reminder";
+	desc.ptszDescription = LPGENT("New Reminder");
 	desc.lParam = KB_NEW_REMINDER;
 	desc.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL|HOTKEYF_SHIFT, VK_SUBTRACT);
 	desc.pszService = MODULENAME"/MenuCommandNewReminder";
@@ -80,7 +81,7 @@ void RegisterKeyBindings()
 }*/
 
 
-int CALLBACK NotifyHotKeyWndProc(HWND AHwnd,UINT Message,WPARAM wParam,LPARAM lParam)
+LRESULT CALLBACK NotifyHotKeyWndProc(HWND AHwnd,UINT Message,WPARAM wParam,LPARAM lParam)
 {
 	BOOL b;
 
@@ -116,7 +117,7 @@ void CreateMsgWindow(void)
 		TWC.lpszMenuName = NULL;
 		TWC.lpszClassName = MSG_WND_CLASS;
 		TWC.cbSize = sizeof(TWC);
-		TWC.lpfnWndProc = (WNDPROC)NotifyHotKeyWndProc;
+		TWC.lpfnWndProc = NotifyHotKeyWndProc;
 		RegisterClassEx(&TWC);
 	}
 

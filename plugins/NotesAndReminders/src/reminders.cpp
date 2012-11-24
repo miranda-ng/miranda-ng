@@ -52,11 +52,11 @@ static SOCKET S;
 int WS_Send(SOCKET s,char *data,int datalen);
 unsigned long WS_ResolveName(char *name,WORD *port,int defaultPort);
 
-int CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,
+INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,
 								   WPARAM wParam,LPARAM lParam);
-int CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,
+INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,
 								LPARAM lParam);
-int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,
+INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,
 								  LPARAM lParam);
 
 void Send(char *user, char *host, char *Msg, char* server);
@@ -816,16 +816,14 @@ void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOO
 }
 
 
-int OpenTriggeredReminder(WPARAM w, LPARAM l)
+INT_PTR OpenTriggeredReminder(WPARAM w, LPARAM l)
 {
-	REMINDERDATA *pReminder;
-
 	if (!l)
 		return 0;
 
 	l = ((CLISTEVENT*)l)->lParam;
 
-	pReminder = (REMINDERDATA*)FindReminder((DWORD)l);
+	REMINDERDATA *pReminder = (REMINDERDATA*)FindReminder((DWORD)l);
 	if (!pReminder || !pReminder->SystemEventQueued)
 		return 0;
 
@@ -1792,7 +1790,7 @@ static void OnDateChanged(HWND Dialog, UINT nDateID, UINT nTimeID, UINT nRefTime
 }
 
 
-int CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
 {
 	int I;
 
@@ -2043,7 +2041,7 @@ int CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM
 									m += h * 60;
 									if (!m)
 									{
-										MessageBox(Dialog, Translate("The specified time offset is invalid."), SECTIONNAME, MB_OK|MB_ICONWARNING);
+										MessageBox(Dialog, TranslateT("The specified time offset is invalid."), _T(SECTIONNAME), MB_OK|MB_ICONWARNING);
 										return TRUE;
 									}
 
@@ -2125,7 +2123,7 @@ int CALLBACK DlgProcNotifyReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM
 	return FALSE;
 }
 
-int CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
 {
 	HICON hIcon = NULL;
 	switch (Message)
@@ -2583,15 +2581,12 @@ void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols)
 
 static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,REMINDERDATA *pReminder)
 {
-	HWND hwndListView;
-    HMENU hMenuLoad,FhMenu;
-	MENUITEMINFO mii;
-
-	hwndListView = (HWND)wParam;
+	HWND hwndListView = (HWND)wParam;
 	if (hwndListView != GetDlgItem(AhWnd,IDC_LISTREMINDERS)) return FALSE;
-	hMenuLoad = LoadMenu(hinstance,"MNU_REMINDERPOPUP");
-	FhMenu = GetSubMenu(hMenuLoad,0);
+	HMENU hMenuLoad = LoadMenu(hinstance,_T("MNU_REMINDERPOPUP"));
+	HMENU FhMenu = GetSubMenu(hMenuLoad,0);
 
+	MENUITEMINFO mii;
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_STATE;
 	mii.fState = MFS_DEFAULT;
@@ -2608,7 +2603,7 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,REMINDERDAT
 	return TRUE;
 }
 
-int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
 {
     LV_COLUMN lvCol;
     NMLISTVIEW *NM;
@@ -2635,7 +2630,7 @@ int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		return 0;
 	case WM_RELOAD:
 		{
-			SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
+			SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 			InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
 			return TRUE;
 		}
@@ -2660,16 +2655,14 @@ int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 		break;
 	case WM_INITDIALOG:
 		{
-			HWND H;
-
 			HICON hIcon = Skin_GetIconByHandle(hIconLibItem[6], ICON_SMALL);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
 			hIcon = Skin_GetIconByHandle(hIconLibItem[6], ICON_BIG);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 
 			TranslateDialogDefault(Dialog);
-			SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
-			H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
+			SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
+			HWND H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Reminder text");
 			lvCol.pszText = S;
@@ -2779,9 +2772,9 @@ int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 					return TRUE;
 				}
 			case IDM_DELETEALLREMINDERS:
-				if (RemindersList && MessageBox(Dialog, Translate("Are you sure you want to delete all reminders?"), SECTIONNAME, MB_OKCANCEL) == IDOK)
+				if (RemindersList && MessageBox(Dialog, TranslateT("Are you sure you want to delete all reminders?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
 				{
-					SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
+					SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 					DeleteReminders();
 					InitListView(GetDlgItem(Dialog,IDC_LISTREMINDERS));
 				}
@@ -2795,9 +2788,9 @@ int CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 					{
 						I = ListView_GetSelectionMark(H);
 						if (I != -1
-							&& MessageBox(Dialog, Translate("Are you sure you want to delete this reminder?"), SECTIONNAME, MB_OKCANCEL) == IDOK)
+							&& MessageBox(Dialog, TranslateT("Are you sure you want to delete this reminder?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
 						{
-							SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
+							SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 							DeleteReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));
 							JustSaveReminders();
 							InitListView(H);

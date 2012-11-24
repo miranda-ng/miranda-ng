@@ -97,7 +97,7 @@ extern BOOL CheckRemindersAndStart(void);
 
 extern void InitSettings(void);
 extern void TermSettings(void);
-extern int CALLBACK DlgProcOptions(HWND hdlg,UINT message,
+extern INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,
 								   WPARAM wParam,LPARAM lParam);
 extern void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour);
 
@@ -109,7 +109,6 @@ extern LPCSTR GetTimeFormatStr();
 
 extern HINSTANCE hinstance;
 extern HINSTANCE hmiranda;
-extern PLUGINLINK *pluginLink;
 
 extern BOOL g_CloseAfterAddReminder, g_UseDefaultPlaySound;
 extern HICON g_hReminderIcon;

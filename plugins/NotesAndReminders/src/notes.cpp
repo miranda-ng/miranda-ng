@@ -46,7 +46,7 @@
 
 #define PENLINK ENLINK *
 
-#define NOTE_WND_CLASS "MIM_StickyNote"
+#define NOTE_WND_CLASS _T("MIM_StickyNote")
 
 
 #define IDM_COLORPRESET_BG 41000
@@ -65,36 +65,36 @@ struct ColorPreset
 
 static struct ColorPreset clrPresets[] =
 {
-	{"Black", RGB(0,0,0)},
-	{"Maroon", RGB(128,0,0)},
-	{"Green", RGB(0,128,0)},
-	{"Olive", RGB(128,128,0)},
-	{"Navy", RGB(0,0,128)},
-	{"Purple", RGB(128,0,128)},
-	{"Teal", RGB(0,128,128)},
-	{"Gray", RGB(128,128,128)},
-	{"Silver", RGB(192,192,192)},
-	{"Red", RGB(255,0,0)},
-	{"Orange", RGB(255,155,0)},
-	{"Lime", RGB(0,255,0)},
-	{"Yellow", RGB(255,255,0)},
-	{"Blue", RGB(0,0,255)},
-	{"Fuchsia", RGB(255,0,255)},
-	{"Aqua", RGB(0,255,255)},
-	{"White", RGB(255,255,255)}
+	{LPGENT("Black"), RGB(0,0,0)},
+	{LPGENT("Maroon"), RGB(128,0,0)},
+	{LPGENT("Green"), RGB(0,128,0)},
+	{LPGENT("Olive"), RGB(128,128,0)},
+	{LPGENT("Navy"), RGB(0,0,128)},
+	{LPGENT("Purple"), RGB(128,0,128)},
+	{LPGENT("Teal"), RGB(0,128,128)},
+	{LPGENT("Gray"), RGB(128,128,128)},
+	{LPGENT("Silver"), RGB(192,192,192)},
+	{LPGENT("Red"), RGB(255,0,0)},
+	{LPGENT("Orange"), RGB(255,155,0)},
+	{LPGENT("Lime"), RGB(0,255,0)},
+	{LPGENT("Yellow"), RGB(255,255,0)},
+	{LPGENT("Blue"), RGB(0,0,255)},
+	{LPGENT("Fuchsia"), RGB(255,0,255)},
+	{LPGENT("Aqua"), RGB(0,255,255)},
+	{LPGENT("White"), RGB(255,255,255)}
 };
 
 
 TREEELEMENT *g_Stickies = NULL;
 
 
-int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,
+INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,
 								  WPARAM wParam,LPARAM lParam);
-int CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,
+INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,
 								  LPARAM lParam);
 void JustSaveNotes(void);
-int PluginMenuCommandAddNew(WPARAM w,LPARAM l);
-int PluginMenuCommandDeleteAll(WPARAM w,LPARAM l);
+INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l);
+INT_PTR PluginMenuCommandDeleteAll(WPARAM w,LPARAM l);
 void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOOL bUtc);
 void OnListResize(HWND Dialog);
 void UpdateGeomFromWnd(HWND Dialog, int *geom, int *colgeom, int nCols);
@@ -703,7 +703,7 @@ void PurgeNotes(void)
 
 void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
-	if (MessageBox(hdlg, Translate("Are you sure you want to delete this note?"), SECTIONNAME, MB_OKCANCEL) == IDOK)
+	if (MessageBox(hdlg, TranslateT("Are you sure you want to delete this note?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
 	{
 		DestroyWindow(hdlg);
 		TreeDelete(&g_Stickies,SN);
@@ -1034,10 +1034,10 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 			HMENU hFg = GetSubMenu(hSub, FindMenuItem(hSub, _T("Text Color")));
 
 			for (i=0; i<SIZEOF(clrPresets); i++)
-				InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateT(clrPresets[i].szName));
+				InsertMenu(hBg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_BG+i, TranslateTS(clrPresets[i].szName));
 
 			for (i=0; i<SIZEOF(clrPresets); i++)
-				InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateT(clrPresets[i].szName));
+				InsertMenu(hFg, i, MF_BYPOSITION|MF_OWNERDRAW, IDM_COLORPRESET_FG+i, TranslateTS(clrPresets[i].szName));
 		}
 	}
 
@@ -1188,7 +1188,7 @@ static UINT_PTR CALLBACK CFHookProc(HWND hdlg, UINT msg, WPARAM wParam, LPARAM l
 }
 
 
-int CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	switch (message)
 	{
@@ -1910,7 +1910,7 @@ static BOOL DoListContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam,STICKYNOTE 
 }
 
 
-int CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM lParam)
 {
     LV_COLUMN lvCol;
     NMLISTVIEW *NM;

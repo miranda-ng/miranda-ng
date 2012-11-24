@@ -33,12 +33,12 @@ static PLUGININFOEX pluginInfo =
 
 void RegisterFontServiceFonts();
 void RegisterKeyBindings();
-int OpenTriggeredReminder(WPARAM w, LPARAM l);
+INT_PTR OpenTriggeredReminder(WPARAM w, LPARAM l);
 void BringAllNotesToFront(STICKYNOTE *pActive);
 void CloseNotesList();
 void CloseReminderList();
 
-int PluginMenuCommandAddNew(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l)
 {
 	STICKYNOTE* PSN;
 	PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
@@ -46,74 +46,74 @@ int PluginMenuCommandAddNew(WPARAM w,LPARAM l)
 	return 0;
 }
 
-int PluginMenuCommandDeleteAll(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandDeleteAll(WPARAM w,LPARAM l)
 {
-	if (g_Stickies && MessageBox(NULL, Translate("Are you sure you want to delete all notes?"), SECTIONNAME, MB_OKCANCEL) == IDOK)
+	if (g_Stickies && MessageBox(NULL, TranslateT("Are you sure you want to delete all notes?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteNotes();
 	return 0;
 }
 
-int PluginMenuCommandShowHide(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandShowHide(WPARAM w,LPARAM l)
 {
 	ShowHideNotes();
 	return 0;
 }
 
-int PluginMenuCommandViewNotes(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandViewNotes(WPARAM w,LPARAM l)
 {
 	ListNotes();
 	return 0;
 }
 
-int PluginMenuCommandAllBringFront(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandAllBringFront(WPARAM w,LPARAM l)
 {
 	BringAllNotesToFront(NULL);
 	return 0;
 }
 
-int PluginMenuCommandNewReminder(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandNewReminder(WPARAM w,LPARAM l)
 {
 	NewReminder();
 	return 0;
 }
 
-int PluginMenuCommandViewReminders(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandViewReminders(WPARAM w,LPARAM l)
 {
 	ListReminders();
 	return 0;
 }
 
-int PluginMenuCommandDeleteReminders(WPARAM w,LPARAM l)
+INT_PTR PluginMenuCommandDeleteReminders(WPARAM w,LPARAM l)
 {
-	if (RemindersList && MessageBox(NULL, Translate("Are you sure you want to delete all reminders?"), SECTIONNAME, MB_OKCANCEL) == IDOK)
+	if (RemindersList && MessageBox(NULL, TranslateT("Are you sure you want to delete all reminders?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteReminders();
 	return 0;
 }
 
 struct
 {
-	char* szDescr;
+	TCHAR* szDescr;
 	char* szName;
 	int   defIconID;
 }
 static const iconList[] =
 {
-	{"New Reminder", "AddReminder", IDI_ADDREMINDER},
-	{"Delete All Notes", "DeleteIcon", IDI_DELETEICON},
-	{"New Note", "NoteIcon", IDI_NOTEICON},
-	{"Show/Hide Notes", "ShowHide", IDI_SHOWHIDE},
-	{"On Top Caption Icon", "CaptionIcon", IDI_CAPTIONICON},
-	{"Delete All Reminders", "DeleteReminder", IDI_DELETEREMINDER},
-	{"View Reminders", "ViewReminders", IDI_VIEWREMINDERS},
-	{"Not on Top Caption Icon", "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP},
-	{"Hide Note Icon", "HideNote", IDI_HIDENOTE},
-	{"Remove Note Icon", "RemoveNote", IDI_REMOVENOTE},
-	{"Reminder Icon", "Reminder", IDI_REMINDER},
-	{"Bring All to Front", "BringFront", IDI_BRINGFRONT},
-	{"Play Sound Icon", "PlaySound", IDI_PLAYSOUND},
-	{"View Notes", "ViewNotes", IDI_VIEWNOTES},
-	{"New Note", "NewNote", IDI_NOTEICON},
-	{"New Reminder", "NewReminder", IDI_ADDREMINDER}
+	{LPGENT("New Reminder"), "AddReminder", IDI_ADDREMINDER},
+	{LPGENT("Delete All Notes"), "DeleteIcon", IDI_DELETEICON},
+	{LPGENT("New Note"), "NoteIcon", IDI_NOTEICON},
+	{LPGENT("Show/Hide Notes"), "ShowHide", IDI_SHOWHIDE},
+	{LPGENT("On Top Caption Icon"), "CaptionIcon", IDI_CAPTIONICON},
+	{LPGENT("Delete All Reminders"), "DeleteReminder", IDI_DELETEREMINDER},
+	{LPGENT("View Reminders"), "ViewReminders", IDI_VIEWREMINDERS},
+	{LPGENT("Not on Top Caption Icon"), "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP},
+	{LPGENT("Hide Note Icon"), "HideNote", IDI_HIDENOTE},
+	{LPGENT("Remove Note Icon"), "RemoveNote", IDI_REMOVENOTE},
+	{LPGENT("Reminder Icon"), "Reminder", IDI_REMINDER},
+	{LPGENT("Bring All to Front"), "BringFront", IDI_BRINGFRONT},
+	{LPGENT("Play Sound Icon"), "PlaySound", IDI_PLAYSOUND},
+	{LPGENT("View Notes"), "ViewNotes", IDI_VIEWNOTES},
+	{LPGENT("New Note"), "NewNote", IDI_NOTEICON},
+	{LPGENT("New Reminder"), "NewReminder", IDI_ADDREMINDER}
 };
 
 HANDLE hIconLibItem[SIZEOF(iconList)];
@@ -130,14 +130,14 @@ void InitIcons(void)
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
-	sid.pszSection = MODULENAME;
-	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszSection = _T(MODULENAME);
+	sid.flags = SIDF_ALL_TCHAR;
 
 	for (i = 0; i < SIZEOF(iconList); i++) 
 	{
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULENAME, iconList[i].szName);
 
-		sid.pszDescription = iconList[i].szDescr;
+		sid.ptszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}	
@@ -150,9 +150,10 @@ int OnOptInitialise(WPARAM w, LPARAM L)
 	odp.position = 900002000;
 	odp.hInstance = hinstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_STNOTEOPTIONS);
-	odp.pszTitle = _T(SECTIONNAME);
-	odp.pszGroup = _T("Plugins");
+	odp.ptszTitle = _T(SECTIONNAME);
+	odp.ptszGroup = _T("Plugins");
 	odp.pfnDlgProc = DlgProcOptions;
+	odp.flags = ODPF_TCHAR;
 	Options_AddPage(w, &odp);
 	return 0;
 }
@@ -181,9 +182,9 @@ static void InitServices()
 {
 	// register sounds
 
-	SkinAddNewSoundEx("AlertReminder", "Alerts", "Reminder triggered");
-	SkinAddNewSoundEx("AlertReminder2", "Alerts", "Reminder triggered (Alternative 1)");
-	SkinAddNewSoundEx("AlertReminder3", "Alerts", "Reminder triggered (Alternative 2)");
+	SkinAddNewSoundExT("AlertReminder", LPGENT("Alerts"), LPGENT("Reminder triggered"));
+	SkinAddNewSoundExT("AlertReminder2", LPGENT("Alerts"), LPGENT("Reminder triggered (Alternative 1)"));
+	SkinAddNewSoundExT("AlertReminder3", LPGENT("Alerts"), LPGENT("Reminder triggered (Alternative 2)"));
 
 	// register menu command services
 
@@ -217,19 +218,19 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 
 	cmi.cbSize = sizeof(cmi);
 	cmi.pszContactOwner = NULL;
-	cmi.pszPopupName = "Notes && Reminders";
-	cmi.flags = CMIM_ICON | CMIF_ICONFROMICOLIB;
+	cmi.ptszPopupName = LPGENT("Notes && Reminders");
+	cmi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 
 	cmi.position = 1600000000;
 	cmi.icolibItem = hIconLibItem[2];
-	cmi.pszName = "New &Note";
+	cmi.ptszName = LPGENT("New &Note");
 	cmi.pszService = MODULENAME"/MenuCommandAddNew";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
 
 	cmi.position = 1600000001;
 	cmi.icolibItem = hIconLibItem[0];
-	cmi.pszName = "New &Reminder";
+	cmi.ptszName = LPGENT("New &Reminder");
 	cmi.pszService = MODULENAME"/MenuCommandNewReminder";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
@@ -238,28 +239,28 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 
 	cmi.position = 1600100000;
 	cmi.icolibItem = hIconLibItem[3];
-	cmi.pszName = "&Show / Hide Notes";
+	cmi.ptszName = LPGENT("&Show / Hide Notes");
 	cmi.pszService = MODULENAME"/MenuCommandShowHide";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
 
 	cmi.position = 1600100001;
 	cmi.icolibItem = hIconLibItem[13];
-	cmi.pszName = "Vie&w Notes";
+	cmi.ptszName = LPGENT("Vie&w Notes");
 	cmi.pszService = MODULENAME"/MenuCommandViewNotes";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
 
 	cmi.position = 1600100002;
 	cmi.icolibItem = hIconLibItem[1];
-	cmi.pszName = "&Delete All Notes";
+	cmi.ptszName = LPGENT("&Delete All Notes");
 	cmi.pszService = MODULENAME"/MenuCommandDeleteAll";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
 
 	cmi.position = 1600100003;
 	cmi.icolibItem = hIconLibItem[11];
-	cmi.pszName = "&Bring All to Front";
+	cmi.ptszName = LPGENT("&Bring All to Front");
 	cmi.pszService = MODULENAME"/MenuCommandBringAllFront";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
@@ -268,14 +269,14 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 
 	cmi.position = 1600200000;
 	cmi.icolibItem = hIconLibItem[6];
-	cmi.pszName = "&View Reminders";
+	cmi.ptszName = LPGENT("&View Reminders");
 	cmi.pszService = MODULENAME"/MenuCommandViewReminders";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
 
 	cmi.position = 1600200001;
 	cmi.icolibItem = hIconLibItem[5];
-	cmi.pszName = "D&elete All Reminders";
+	cmi.ptszName = LPGENT("D&elete All Reminders");
 	cmi.pszService = MODULENAME"/MenuCommandDeleteReminders";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
 	Menu_AddMainMenuItem(&cmi);
@@ -347,15 +348,15 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	g_isWin2kPlus = IsWinVer2000Plus();
 
-	hRichedDll = LoadLibrary("RICHED20.DLL");
+	hRichedDll = LoadLibrary(_T("RICHED20.DLL"));
 	if (!hRichedDll)
 	{
-		if (MessageBox(0, Translate("Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."), SECTIONNAME, MB_YESNO | MB_ICONINFORMATION) != IDYES)
+		if (MessageBox(0, TranslateT("Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."), _T(SECTIONNAME), MB_YESNO | MB_ICONINFORMATION) != IDYES)
 			return 1;
 		return 0;
 	}
 
-	hUserDll = LoadLibrary("user32.dll");
+	hUserDll = LoadLibrary(_T("user32.dll"));
 	if (hUserDll) 
 	{
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll,"SetLayeredWindowAttributes");
@@ -367,7 +368,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		MyMonitorFromWindow = NULL;
 	}
 
-	hKernelDll = LoadLibrary("kernel32.dll");
+	hKernelDll = LoadLibrary(_T("kernel32.dll"));
 	if (hKernelDll) 
 	{
 		MyTzSpecificLocalTimeToSystemTime = (BOOL (WINAPI*)(LPTIME_ZONE_INFORMATION,LPSYSTEMTIME,LPSYSTEMTIME))GetProcAddress(hKernelDll,"TzSpecificLocalTimeToSystemTime");
