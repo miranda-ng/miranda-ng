@@ -44,9 +44,10 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 	DWORD oldTS = this->GetSettingDword(hContact, "AvatarTS");
 	SEBinary data;
 	contact->GetPropAvatarImage(data);
-	if ((newTS > oldTS) || (!newTS && data.size() > 0)) //hack for avatars without timestamp
+	wchar_t *path = this->GetContactAvatarFilePath(hContact);
+	int ttt = _waccess(path, 0);
+	if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
 	{
-		wchar_t *path = this->GetContactAvatarFilePath(hContact);
 		FILE* fp = _wfopen(path, L"wb");
 		if (fp)
 		{
@@ -63,8 +64,8 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 		
 			this->SendBroadcast(hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 		}
-		delete path;
 	}
+	delete path;
 }
 
 void CSkypeProto::UpdateContactBirthday(HANDLE hContact, CContact::Ref contact)
