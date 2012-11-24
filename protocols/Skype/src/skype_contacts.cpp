@@ -46,7 +46,7 @@ void CSkypeProto::UpdateContactAvatar(HANDLE hContact, CContact::Ref contact)
 	contact->GetPropAvatarImage(data);
 	if ((newTS > oldTS) || (!newTS && data.size() > 0)) //hack for avatars without timestamp
 	{
-		wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString(hContact, "sid"));
+		wchar_t *path = this->GetContactAvatarFilePath(hContact);
 		FILE* fp = _wfopen(path, L"wb");
 		if (fp)
 		{

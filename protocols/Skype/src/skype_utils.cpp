@@ -264,46 +264,44 @@ int CSkypeProto::DetectAvatarFormat(const wchar_t *path)
 	return CSkypeProto::DetectAvatarFormatBuffer(pBuf);
 }
 
-wchar_t* CSkypeProto::GetContactAvatarFilePath(wchar_t *sid)
+static HANDLE hAvatarsFolder = NULL;
+static bool bInitDone = false;
+
+void CSkypeProto::InitCustomFolders()
 {
-	wchar_t* path = new wchar_t[MAX_PATH * 2];
-	
-	FOLDERSGETDATA fgd = {0};
-	fgd.cbSize = sizeof(FOLDERSGETDATA);
-	fgd.nMaxPathSize = MAX_PATH * 2;
-	fgd.szPathT = path;
-	fgd.flags = FF_UNICODE;
+	if (bInitDone)
+		return;
 
-	HANDLE hAvatarsFolder;
-	if (::ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
-		wchar_t tszPath[MAX_PATH * 2];
-		::mir_sntprintf(
-			tszPath, 
-			MAX_PATH * 2, 
-			_T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM) _T("\\"), 
-			this->m_szModuleName);
+	bInitDone = true;
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
+		TCHAR AvatarsFolder[MAX_PATH];
+		mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), this->m_szModuleName);
+		hAvatarsFolder = FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars", AvatarsFolder);
+	}
+}
 
-			hAvatarsFolder = ::FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars Cache", tszPath);
-		}
+wchar_t* CSkypeProto::GetContactAvatarFilePath(HANDLE hContact)
+{
+	wchar_t* path = new wchar_t[MAX_PATH];
 	
-	if (::CallService(MS_FOLDERS_GET_PATH, (WPARAM)hAvatarsFolder, (LPARAM)&fgd))
+	this->InitCustomFolders();
+
+	if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, path, MAX_PATH, _T("")))
 	{
 		wchar_t *tmpPath = ::Utils_ReplaceVarsT(L"%miranda_avatarcache%");
-		::mir_sntprintf(path, MAX_PATH * 2, _T("%s\\") _T(TCHAR_STR_PARAM) _T("\\"), tmpPath, this->m_szModuleName);
+		::mir_sntprintf(path, MAX_PATH, _T("%s\\") _T(TCHAR_STR_PARAM), tmpPath, this->m_szModuleName);
 		mir_free(tmpPath);
 	}
-	else
-		wcscat(path, L"\\");
 
-	// make sure the avatar cache directory exists
-	::CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
+	DWORD dwAttributes = GetFileAttributes(path);
+	if (dwAttributes == 0xffffffff || (dwAttributes & FILE_ATTRIBUTE_DIRECTORY) == 0)
+		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)path);
 
-	if (sid) {
-		::wcscat(path, sid);
-		::wcscat(path, L".jpg");
-	} else
-		path = NULL;
+	wchar_t *sid = this->GetSettingString(hContact, "sid");
+	if (hContact != NULL)
+		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s.jpg"), path, sid);
+	else if (sid != NULL)
+		::mir_sntprintf(path, MAX_PATH, _T("%s\\%s avatar.jpg"), path, sid);
 
 	return path;
 }

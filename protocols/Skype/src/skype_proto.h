@@ -233,11 +233,12 @@ protected:
 
 	// utils
 	static void FakeAsync(void*);
+	void InitCustomFolders();
 
 	static int DetectAvatarFormatBuffer(const char *pBuffer);
 	static int DetectAvatarFormat(const wchar_t *path);
 
-	wchar_t* GetContactAvatarFilePath(wchar_t *sid);
+	wchar_t* GetContactAvatarFilePath(HANDLE hContact);
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 

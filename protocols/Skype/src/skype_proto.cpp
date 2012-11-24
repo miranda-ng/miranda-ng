@@ -25,6 +25,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->CreateService(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
 
 	this->InitNetLib();
+	this->InitCustomFolders();
 }
 
 CSkypeProto::~CSkypeProto()

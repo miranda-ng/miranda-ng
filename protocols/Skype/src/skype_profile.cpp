@@ -12,7 +12,7 @@ void CSkypeProto::UpdateOwnAvatar()
 		
 		if (data.size() > 0)
 		{
-			wchar_t *path = this->GetContactAvatarFilePath(this->GetSettingString("sid"));
+			wchar_t *path = this->GetContactAvatarFilePath(NULL);
 			FILE* fp = _wfopen(path, L"wb");
 			if (fp)
 			{

@@ -20,8 +20,8 @@ int __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	wchar_t *sid = this->GetSettingString(pai->hContact, "sid");
 	if (sid)
 	{
-		wchar_t *path = this->GetContactAvatarFilePath(sid);
-		if (path && !_waccess(path, 0)) 
+		wchar_t *path = this->GetContactAvatarFilePath(pai->hContact);
+		if (path && !_waccess(path, 0))
 		{
 			::wcsncpy(pai->filename, path, SIZEOF(pai->filename));
 			pai->format = PA_FORMAT_JPEG;
