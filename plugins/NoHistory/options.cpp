@@ -5,18 +5,17 @@
 
 static void SetListGroupIcons(HWND hwndList,HANDLE hFirstItem,HANDLE hParentItem,int *groupChildCount)
 {
-	int typeOfFirst;
 	int iconOn = 1;
 	int childCount = 0;
 	int iImage;
-	HANDLE hItem,hChildItem;
+	HANDLE hItem;
 
-	typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
+	int typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
 	//check groups
 	if(typeOfFirst==CLCIT_GROUP) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
 	while(hItem) {
-		hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
+		HANDLE hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if(hChildItem) SetListGroupIcons(hwndList,hChildItem,hItem,&childCount);
 		if(iconOn && SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,0)==0) iconOn=0;
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
@@ -37,15 +36,14 @@ static void SetListGroupIcons(HWND hwndList,HANDLE hFirstItem,HANDLE hParentItem
 
 static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iImage)
 {
-	int typeOfFirst,iOldIcon;
-	HANDLE hItem,hChildItem;
+	HANDLE hItem;
 
-	typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
+	int typeOfFirst=SendMessage(hwndList,CLM_GETITEMTYPE,(WPARAM)hFirstItem,0);
 	//check groups
 	if(typeOfFirst==CLCIT_GROUP) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hFirstItem);
 	while(hItem) {
-		hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
+		HANDLE hChildItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_CHILD,(LPARAM)hItem);
 		if(hChildItem) SetAllChildIcons(hwndList,hChildItem,iColumn,iImage);
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTGROUP,(LPARAM)hItem);
 	}
@@ -53,7 +51,7 @@ static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iIm
 	if(typeOfFirst==CLCIT_CONTACT) hItem=hFirstItem;
 	else hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hFirstItem);
 	while(hItem) {
-		iOldIcon=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
+		int iOldIcon=SendMessage(hwndList,CLM_GETEXTRAIMAGE,(WPARAM)hItem,iColumn);
 		if(iOldIcon!=0xFF && iOldIcon!=iImage) SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(iColumn,iImage));
 		hItem=(HANDLE)SendMessage(hwndList,CLM_GETNEXTITEM,CLGN_NEXTCONTACT,(LPARAM)hItem);
 	}
@@ -62,38 +60,31 @@ static void SetAllChildIcons(HWND hwndList,HANDLE hFirstItem,int iColumn,int iIm
 
 static void ResetListOptions(HWND hwndList)
 {
-	int i;
-
 	SendMessage(hwndList,CLM_SETBKBITMAP,0,(LPARAM)(HBITMAP)NULL);
 	SendMessage(hwndList,CLM_SETBKCOLOR,GetSysColor(COLOR_WINDOW),0);
 	SendMessage(hwndList,CLM_SETGREYOUTFLAGS,0,0);
 	SendMessage(hwndList,CLM_SETLEFTMARGIN,2,0);
 	SendMessage(hwndList,CLM_SETINDENT,10,0);
-	for(i=0;i<=FONTID_MAX;i++)
+	for(int i=0;i<=FONTID_MAX;i++)
 		SendMessage(hwndList,CLM_SETTEXTCOLOR,i,GetSysColor(COLOR_WINDOWTEXT));
 	SetWindowLong(hwndList,GWL_STYLE,GetWindowLong(hwndList,GWL_STYLE)|CLS_SHOWHIDDEN);
 }
 
 static void SetAllContactIcons(HWND hwndList)
 {
-	HANDLE hContact,hItem;
-	bool disabled;
-	char *proto;
-	bool chat_room;
-
-	hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+	HANDLE hContact = db_find_first();
 	do {
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-		chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
+		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
 		if(!chat_room) {
-			hItem=(HANDLE)SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
+			HANDLE hItem=(HANDLE)SendMessage(hwndList,CLM_FINDCONTACT,(WPARAM)hContact,0);
 			if(hItem) {
-				disabled = (DBGetContactSettingByte(hContact, MODULE, DBSETTING_REMOVE, 0) == 1);
+				bool disabled = (DBGetContactSettingByte(hContact, MODULE, DBSETTING_REMOVE, 0) == 1);
 				SendMessage(hwndList,CLM_SETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(0,disabled?1:0));
 			}
 		}
-	} while(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+	} while(hContact = db_find_next(hContact));
 }
 
 
@@ -152,25 +143,23 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						ResetListOptions(GetDlgItem(hwndDlg,IDC_LIST));
 						break;
 					case NM_CLICK:
-					{	HANDLE hItem;
+					{
 						NMCLISTCONTROL *nm=(NMCLISTCONTROL*)lParam;
 						DWORD hitFlags;
-						int iImage;
-						int itemType;
 
 						// Make sure we have an extra column
 						if (nm->iColumn == -1)
 							break;
 
 						// Find clicked item
-						hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x,nm->pt.y));
+						HANDLE hItem = (HANDLE)SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_HITTEST, (WPARAM)&hitFlags, MAKELPARAM(nm->pt.x,nm->pt.y));
 						// Nothing was clicked
 						if (hItem == NULL) break; 
 						// It was not a visbility icon
 						if (!(hitFlags & CLCHT_ONITEMEXTRA)) break;
 
 						// Get image in clicked column (0=none, 1=visible, 2=invisible)
-						iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
+						int iImage = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(nm->iColumn, 0));
 						if (iImage == 0)
 							iImage=nm->iColumn + 1;
 						else
@@ -178,7 +167,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 								iImage = 0;
 
 						// Get item type (contact, group, etc...)
-						itemType = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
+						int itemType = SendDlgItemMessage(hwndDlg, IDC_LIST, CLM_GETITEMTYPE, (WPARAM)hItem, 0);
 
 						// Update list, making sure that the options are mutually exclusive
 						if (itemType == CLCIT_CONTACT) { // A contact
@@ -206,24 +195,20 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				switch (((LPNMHDR)lParam)->code)
 				{
 					case PSN_APPLY:
-					{	HANDLE hContact,hItem;
-						int iImage;
-						char *proto;
-						bool chat_room;
-
-						hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);
+					{
+						HANDLE hContact = db_find_first();
 						do {
-							proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
-							chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
+							char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+							bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 					
 							if(!chat_room) {							
-								hItem=(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_FINDCONTACT,(WPARAM)hContact,0);
+								HANDLE hItem=(HANDLE)SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_FINDCONTACT,(WPARAM)hContact,0);
 								if(hItem) {
-									iImage=SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(0,0));
+									int iImage=SendDlgItemMessage(hwndDlg,IDC_LIST,CLM_GETEXTRAIMAGE,(WPARAM)hItem,MAKELPARAM(0,0));
 									DBWriteContactSettingByte(hContact, MODULE, DBSETTING_REMOVE, iImage==1?1:0);
 								}
 							}
-						} while(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0));
+						} while(hContact = db_find_next(hContact));
 
 						return TRUE;
 					}
@@ -242,24 +227,18 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 }
 
 int OptInit(WPARAM wParam, LPARAM lParam) {
-//#define OPTIONPAGE_OLD_SIZE2 60
-
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize						= sizeof(odp);
-//	odp.cbSize						= OPTIONPAGE_OLD_SIZE2;
-	odp.flags						= ODPF_BOLDGROUPS;
-	//odp.flags |= ODPF_UNICODE;
+	odp.flags						= ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.position					= -790000000;
 	odp.hInstance					= hInst;
 
 	odp.pszTemplate					= MAKEINTRESOURCEA(IDD_OPT);
-//	odp.pszTitle					= "NoHistory";
-	odp.pszTitle					= "History";
-	odp.pszGroup					= "Message Sessions";
-	odp.pszTab						= "Logging";
-	odp.nIDBottomSimpleControl		= 0;
+	odp.ptszTitle					= LPGENT("No History");
+	odp.ptszGroup					= LPGENT("History");
+	odp.ptszTab						= LPGENT("Logging");
 	odp.pfnDlgProc					= DlgProcOpts;
-	CallService( MS_OPT_ADDPAGE, wParam,( LPARAM )&odp );
+	Options_AddPage(wParam,&odp);
 
 	return 0;
 }

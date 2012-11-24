@@ -24,7 +24,6 @@
 #include <m_icolib.h>
 
 #include <m_utils.h>
-#include "m_updater.h"
 
 #define MODULE						"NoHistory"
 #define DBSETTING_REMOVE			"RemoveHistory"

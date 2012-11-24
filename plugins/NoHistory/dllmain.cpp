@@ -11,10 +11,7 @@
 // Common Plugin Stuff
 ///////////////////////////////////////////////
 HINSTANCE hInst;
-PLUGINLINK *pluginLink;
-
-struct MM_INTERFACE   mmi  = {sizeof(struct MM_INTERFACE  ),0};
-
+int hLangpack = 0;
 
 // add icon to srmm status icons
 static void SrmmMenu_UpdateIcon(HANDLE hContact);
@@ -49,13 +46,8 @@ PLUGININFOEX pluginInfo={
 	"mail@scottellis.com.au; nightfox@myied.org",
 	"© 2005 Scott Ellis; NightFox 2010",
 	"http://www.scottellis.com.au/",
-	0,		//not transient
-	0,		//doesn't replace anything built-in
-#ifdef _UNICODE
-{ 0xb25e8c7b, 0x292b, 0x495a, { 0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b } } // {B25E8C7B-292B-495a-9FB8-A4C3D4EEB04B}
-#else
-{ 0x12e5a39, 0x78a6, 0x4ccb, { 0xa6, 0x3f, 0x60, 0xfa, 0x7c, 0xb4, 0xd, 0xee } } // {012E5A39-78A6-4ccb-A63F-60FA7CB40DEE}
-#endif
+	UNICODE_AWARE,		//not transient
+	{ 0xb25e8c7b, 0x292b, 0x495a, { 0x9f, 0xb8, 0xa4, 0xc3, 0xd4, 0xee, 0xb0, 0x4b } } // {B25E8C7B-292B-495a-9FB8-A4C3D4EEB04B}
 };
 
 extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved) {
@@ -65,11 +57,6 @@ extern "C" BOOL APIENTRY DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvRe
 
 extern "C" __declspec (dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) {
 	return &pluginInfo;
-}
-
-extern "C" __declspec (dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion) {
-	pluginInfo.cbSize = sizeof(PLUGININFO);
-	return (PLUGININFO*)&pluginInfo;
 }
 
 static const MUUID interfaces[] = {MIID_NOHISTORY, MIID_LAST};
@@ -162,9 +149,8 @@ int OnDatabaseEventAdd(WPARAM wParam, LPARAM lParam) {
 
 
 INT_PTR ServiceClear(WPARAM wParam, LPARAM lParam) {
-	HANDLE hContact = (HANDLE)wParam;
-	
 	if(MessageBox(0, TranslateT("This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?"), TranslateT("Clear History"), MB_YESNO | MB_ICONWARNING) == IDYES) {
+		HANDLE hContact = (HANDLE)wParam;
 		RemoveAllEvents(hContact);
 	}
 	
@@ -181,11 +167,11 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
 
-	mi.flags = CMIM_FLAGS;
+	mi.flags = CMIM_FLAGS|CMIF_TCHAR;
 	if(chat_room) mi.flags |= CMIF_HIDDEN;
 	else {
 		mi.flags |= (CMIM_NAME | CMIM_ICON);
-		mi.pszName = (remove ? Translate("Enable History") : Translate("Disable History"));
+		mi.ptszName = (remove ? LPGENT("Enable History") : LPGENT("Disable History"));
 		mi.hIcon = (remove ? hIconKeep : hIconRemove);
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggle, (LPARAM)&mi);
@@ -318,58 +304,24 @@ void SrmmMenu_Load()
 }
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
-	if(ServiceExists(MS_UPDATE_REGISTER)) {
-		// register with updater
-		Update update = {0};
-		char szVersion[16];
-
-		update.cbSize = sizeof(Update);
-
-		update.szComponentName = pluginInfo.shortName;
-		update.pbVersion = (BYTE *)CreateVersionString(pluginInfo.version, szVersion);
-		update.cpbVersion = (int)strlen((char *)update.pbVersion);
-
-		update.szUpdateURL = UPDATER_AUTOREGISTER;
-		
-		// these are the three lines that matter - the archive, the page containing the version string, and the text (or data) 
-		// before the version that we use to locate it on the page
-		// (note that if the update URL and the version URL point to standard file listing entries, the backend xml
-		// data will be used to check for updates rather than the actual web page - this is not true for beta urls)
-		update.szBetaUpdateURL = "http://www.scottellis.com.au/miranda_plugins/no_history.zip";
-		update.szBetaVersionURL = "http://www.scottellis.com.au/miranda_plugins/ver_no_history.html";
-		update.pbBetaVersionPrefix = (BYTE *)"NoHistory plugin, version ";
-		
-		update.cpbBetaVersionPrefix = (int)strlen((char *)update.pbBetaVersionPrefix);
-
-		CallService(MS_UPDATE_REGISTER, 0, (WPARAM)&update);
-	}
-
-	hServiceToggle = (HANDLE)CreateServiceFunction(MS_NOHISTORY_TOGGLE, ServiceToggle);
-	hServiceClear = (HANDLE)CreateServiceFunction(MS_NOHISTORY_CLEAR, ServiceClear);
-	
 	InitIcons();
 	
 	// create contact menu item
 	CLISTMENUITEM mi = {0};
 	mi.cbSize = sizeof(mi);
-	mi.flags = CMIM_ALL;
+	mi.flags = CMIF_TCHAR;
 
 	mi.position = -300010;
-	mi.pszName = Translate("Disable History");
+	mi.ptszName = LPGENT("Disable History");
 	mi.pszService = MS_NOHISTORY_TOGGLE;
 	mi.hIcon = hIconRemove;
-	hMenuToggle = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
+	hMenuToggle = Menu_AddMainMenuItem(&mi);
 
 	mi.position = -300005;
-	mi.pszName = Translate("Clear History");
+	mi.ptszName = LPGENT("Clear History");
 	mi.pszService = MS_NOHISTORY_CLEAR;
 	mi.hIcon = hIconClear;
-	hMenuClear = (HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM, 0, (LPARAM)&mi);
-
-	hEventMenuPrebuild = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
-
-	// hooked so we can track events added to the database
-	hEventDbEventAdded = HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdd);
+	hMenuClear = Menu_AddMainMenuItem(&mi);
 	
 	// add icon to srmm status icons
 	SrmmMenu_Load();
@@ -379,37 +331,27 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 
 
 HANDLE hModulesLoaded;
-extern "C" __declspec (dllexport) int Load(PLUGINLINK *link) {
-	pluginLink=link;
-
-	CallService( MS_SYSTEM_GET_MMI,	 0, (LPARAM)&mmi  );
-		
+extern "C" __declspec (dllexport) int Load() {
 	InitializeCriticalSection(&list_cs);
-
-	// fix for wrong module name - ugh
-	DBVARIANT dbv;
-	HANDLE hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDFIRST, 0, 0 );
-	while ( hContact != NULL )
-	{
-		if(!DBGetContactSetting(hContact, "NoHostory", DBSETTING_REMOVE, &dbv)) {
-			if(dbv.type == DBVT_BYTE && dbv.bVal != 0)
-				DBWriteContactSettingByte(hContact, MODULE, DBSETTING_REMOVE, 1);
-			DBFreeVariant(&dbv);
-			DBDeleteContactSetting(hContact, "NoHostory", DBSETTING_REMOVE);
-		}
-		hContact = ( HANDLE )CallService( MS_DB_CONTACT_FINDNEXT,( WPARAM )hContact, 0 );
-	}	
-	
-	INITCOMMONCONTROLSEX icex;
+	mir_getLP(&pluginInfo);
 
 	// Ensure that the common control DLL is loaded (for listview)
+	INITCOMMONCONTROLSEX icex;
 	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
 	icex.dwICC  = ICC_LISTVIEW_CLASSES;
 	InitCommonControlsEx(&icex); 	
 	
 	InitOptions();
+
+	hEventMenuPrebuild = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildContactMenu);
+	// hooked so we can track events added to the database
+	hEventDbEventAdded = HookEvent(ME_DB_EVENT_ADDED, OnDatabaseEventAdd);
 	// hook modules loaded
 	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+
+	hServiceToggle = CreateServiceFunction(MS_NOHISTORY_TOGGLE, ServiceToggle);
+	hServiceClear = CreateServiceFunction(MS_NOHISTORY_CLEAR, ServiceClear);
+
 	return 0;
 }
 
