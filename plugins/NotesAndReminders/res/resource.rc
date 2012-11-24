@@ -135,7 +135,7 @@ BEGIN
     LTEXT           "Open links with this program instead:",IDC_STATIC,5,228,125,8
     EDITTEXT        IDC_EDIT_ALTBROWSER,138,225,140,14,ES_AUTOHSCROLL
     PUSHBUTTON      "...",IDC_BTN_BROWSEBROWSER,280,225,15,15
-    PUSHBUTTON      "Reset to defaults",1007,32,140,94,14
+    PUSHBUTTON      "Reset to defaults",IDC_BUTTON_RESET,32,140,94,14
     CTEXT           "(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)",IDC_STATIC,172,111,119,43
 END
 
@@ -322,6 +322,18 @@ BEGIN
         VERTGUIDE, 172
         VERTGUIDE, 291
         VERTGUIDE, 296
+    END
+
+    IDD_ADDREMINDER, DIALOG
+    BEGIN
+    END
+
+    IDD_NOTIFYREMINDER, DIALOG
+    BEGIN
+    END
+
+    IDD_LISTREMINDERS, DIALOG
+    BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED

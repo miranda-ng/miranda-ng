@@ -20,6 +20,7 @@
 #define IDI_BRINGFRONT                  121
 #define IDI_PLAYSOUND                   122
 #define IDI_VIEWNOTES                   123
+#define IDC_BUTTON_RESET                1007
 #define IDC_CHECK_HIDENOTES             1010
 #define IDC_CHECK_MENUS                 1011
 #define IDC_EDIT_WIDTH                  1012

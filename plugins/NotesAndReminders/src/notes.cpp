@@ -978,11 +978,10 @@ __inline void JustSaveNotes(void)
 
 static int FindMenuItem(HMENU h, LPTSTR lpszName)
 {
-	int n;
 	UINT i;
 	TCHAR s[128];
 
-	n = GetMenuItemCount(h);
+	int n = GetMenuItemCount(h);
 
 	if (n <= 0)
 	{
@@ -1007,10 +1006,10 @@ static int FindMenuItem(HMENU h, LPTSTR lpszName)
 static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 {
 	int n, i;
-	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd,"ctrldata");
+	STICKYNOTE *SN = (STICKYNOTE*)GetProp(AhWnd,_T("ctrldata"));
 
 	HMENU hMenuLoad, FhMenu, hSub;
-	hMenuLoad = LoadMenu(hinstance,"MNU_NOTEPOPUP");
+	hMenuLoad = LoadMenu(hinstance,_T("MNU_NOTEPOPUP"));
 	FhMenu = GetSubMenu(hMenuLoad,0);
 
 	if (SN->OnTop)
@@ -1051,7 +1050,7 @@ static BOOL DoContextMenu(HWND AhWnd,WPARAM wParam,LPARAM lParam)
 static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureItem, struct ColorPreset *clrPresets)
 {
 	HDC hdc = GetDC(hdlg);
-	LPTSTR lpsz = TranslateT(clrPresets->szName);
+	LPTSTR lpsz = TranslateTS(clrPresets->szName);
 	SIZE sz;
 	GetTextExtentPoint32(hdc, lpsz, _tcslen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
@@ -1197,11 +1196,10 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 
 	case WM_SIZE:
 		{
-			HWND H;
 			RECT SZ;
 
 			GetClientRect(hdlg,&SZ);
-			H = GetDlgItem(hdlg,1);
+			HWND H = GetDlgItem(hdlg,1);
 			MoveWindow(H, 0, 0, SZ.right,SZ.bottom, TRUE);
 
 			KillTimer(hdlg, 1025);
@@ -1212,7 +1210,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
     case WM_TIMER:
 		if (wParam == 1025)
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,"ctrldata");
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
 
 			KillTimer(hdlg, 1025);
 			JustSaveNotesEx(SN);
@@ -1226,14 +1224,14 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		}
     case WM_CREATE:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,"ctrldata");
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
 
 			CREATESTRUCT *CS = (CREATESTRUCT *)lParam;
 			HWND H;
 			DWORD mystyle;
 
 			SN = (STICKYNOTE*)CS->lpCreateParams;
-			SetProp(hdlg,"ctrldata",(HANDLE)SN);
+			SetProp(hdlg,_T("ctrldata"),(HANDLE)SN);
 			BringWindowToTop(hdlg);
 			mystyle = WS_CHILD | WS_VISIBLE | ES_LEFT | ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN;
 			if (g_ShowScrollbar) mystyle |= WS_VSCROLL;
@@ -1377,11 +1375,11 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 				Buff = (char*)malloc(PEnLnk->chrg.cpMax - PEnLnk->chrg.cpMin + 1);
 				SendDlgItemMessage(hdlg,1,EM_GETSELTEXT,0,(LPARAM)Buff);
 				if ((GetAsyncKeyState(VK_CONTROL) >> 15) != 0)
-					ShellExecute(hdlg,"open","iexplore",Buff,"",SW_SHOWNORMAL);
+					ShellExecute(hdlg,_T("open"),_T("iexplore"),Buff,_T(""),SW_SHOWNORMAL);
 				else if (g_lpszAltBrowser && *g_lpszAltBrowser)
-					ShellExecute(hdlg,"open",g_lpszAltBrowser,Buff,"",SW_SHOWNORMAL);
+					ShellExecute(hdlg,_T("open"),g_lpszAltBrowser,Buff,_T(""),SW_SHOWNORMAL);
 				else
-					ShellExecute(hdlg,"open",Buff,"","",SW_SHOWNORMAL);
+					ShellExecute(hdlg,_T("open"),Buff,_T(""),_T(""),SW_SHOWNORMAL);
 				SAFE_FREE((void**)&Buff);
 				return TRUE;
 			}
@@ -1473,7 +1471,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		break;
 	case WM_COMMAND:
 		{
-			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,"ctrldata");
+			STICKYNOTE *SN = (STICKYNOTE*)GetProp(hdlg,_T("ctrldata"));
 
 			HWND H;
 			UINT id;
@@ -1709,7 +1707,7 @@ INT_PTR CALLBACK StickyNoteWndProc(HWND hdlg,UINT message,WPARAM wParam,LPARAM l
 		}
 	case WM_NCDESTROY:
 		{
-			RemoveProp(hdlg, "ctrldata");
+			RemoveProp(hdlg, _T("ctrldata"));
 		}
 		break;
     case WM_CONTEXTMENU:
@@ -1914,7 +1912,7 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 {
     LV_COLUMN lvCol;
     NMLISTVIEW *NM;
-    char *S;
+    TCHAR *S;
     int I;
 
 	switch (Message)
@@ -1973,35 +1971,35 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 			TranslateDialogDefault(Dialog);
 
-			SetDlgItemText(Dialog,IDC_REMINDERDATA,"");
+			SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 
 			H = GetDlgItem(Dialog,IDC_LISTREMINDERS);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Note text");
+			S = TranslateT("Note text");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = _tcslen(S);
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("T");
+			S = TranslateT("T");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = _tcslen(S);
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("V");
+			S = TranslateT("V");
 			lvCol.pszText = S;
 			lvCol.cchTextMax = strlen(S);
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
-			S = Translate("Date/Title");
+			S = TranslateT("Date/Title");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = _tcslen(S);
 			lvCol.cx = g_notesListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 
