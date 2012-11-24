@@ -40,9 +40,9 @@ void CloseReminderList();
 
 INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l)
 {
-	STICKYNOTE* PSN;
-	PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
-	SetFocus(PSN->REHwnd);
+	STICKYNOTE *PSN = NewNote(0,0,0,0,NULL,NULL,TRUE,TRUE,0);
+	if(PSN)
+		SetFocus(PSN->REHwnd);
 	return 0;
 }
 
