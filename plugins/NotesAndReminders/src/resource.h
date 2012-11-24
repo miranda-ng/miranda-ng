@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by resource.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\myranda\plugins\NotesAndReminders\res\resource.rc
 //
 #define IDD_STNOTEOPTIONS               101
 #define IDD_ADDREMINDER                 102
@@ -20,10 +20,19 @@
 #define IDI_BRINGFRONT                  121
 #define IDI_PLAYSOUND                   122
 #define IDI_VIEWNOTES                   123
-
+#define IDC_CHECK_HIDENOTES             1010
+#define IDC_CHECK_MENUS                 1011
+#define IDC_EDIT_WIDTH                  1012
+#define IDC_EDIT_HEIGHT                 1013
+#define IDC_SLIDER_TRANSPARENCY         1014
+#define IDC_EDIT_EMAILSMS               1017
+#define IDC_CHECK_SCROLLBARS            1018
+#define IDC_CHECK_BUTTONS               1019
+#define IDC_CHECK_CLOSE                 1020
 #define IDC_COMBODATE                   1021
 #define IDC_COMBOTIME                   1022
 #define IDC_COMBOREMINDERTIME           1023
+#define IDC_CHECK_MSI                   1023
 #define IDC_REFTIME                     1024
 #define IDC_STATIC_DATE                 1025
 #define IDC_STATIC_TIME                 1026

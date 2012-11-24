@@ -247,8 +247,6 @@ static int FS_ColorChanged(WPARAM wParam, LPARAM lParam)
 
 void RegisterFontServiceFonts()
 {
-	HDC hDC;
-	int nFontScale;
 	FontIDT fontid = {0};
 	ColourIDT colorid = {0};
 	char szTemp[100];
@@ -261,8 +259,8 @@ void RegisterFontServiceFonts()
 	strncpy(fontid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
-	hDC = GetDC(NULL);
-	nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
+	HDC hDC = GetDC(NULL);
+	int nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
 	ReleaseDC(NULL, hDC);
 
 	for (i = 0; i < SIZEOF(fontOptionsList); i++)
@@ -323,19 +321,15 @@ void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 
 static void TrimString(TCHAR *s)
 {
-	TCHAR *start;
-	TCHAR *end;
-	UINT n;
-
 	if (!s || !*s)
 	{
 		return;
 	}
 
-	start = s;
-	n = _tcslen(s) - 1;
+	TCHAR *start = s;
+	UINT n = _tcslen(s) - 1;
 
-	end = s + n;
+	TCHAR *end = s + n;
 
 	if (!_istspace(*start) && !_istspace(*end))
 	{
@@ -521,6 +515,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				if ( GetOpenFileName(&ofn) )
 				{
 					SetDlgItemText(hdlg,IDC_EDIT_ALTBROWSER,s);
+					SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
 				}
 			}
 			break;
@@ -559,9 +554,27 @@ INT_PTR CALLBACK DlgProcOptions(HWND hdlg,UINT message,WPARAM wParam,LPARAM lPar
 				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0); // JK optim
 				return TRUE;					
 			}
-		default:
-			SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
-			return TRUE;
+		case IDC_EDIT_ALTBROWSER:
+		case IDC_EDIT_EMAILSMS:
+		case IDC_EDIT_WIDTH:
+		case IDC_EDIT_HEIGHT:
+			if (HIWORD(wParam) == EN_CHANGE && (HWND)lParam == GetFocus())
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_COMBODATE:
+		case IDC_COMBOTIME:
+			if (HIWORD(wParam) == CBN_SELCHANGE)
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
+		case IDC_CHECK_SCROLLBARS:
+		case IDC_CHECK_BUTTONS:
+		case IDC_CHECK_HIDENOTES:
+		case IDC_CHECK_MENUS:
+		case IDC_CHECK_CLOSE:
+		case IDC_CHECK_MSI:
+			if (HIWORD(wParam) == BN_CLICKED)
+				SendMessage(GetParent(hdlg), PSM_CHANGED, 0, 0);
+			break;
 		}
 	}
 	return FALSE;
