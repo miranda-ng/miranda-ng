@@ -82,6 +82,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewEventNotify.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewsAggregator.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewXstatusNotify.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/New_GPG.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NoHistory.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Nudge.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Omegle.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/OpenFolder.txt

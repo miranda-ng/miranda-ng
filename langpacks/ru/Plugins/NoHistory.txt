@@ -1,10 +1,11 @@
-﻿;============================================================
+﻿#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;============================================================
 ;  File: NoHistory.dll
 ;  Module: No history
 ;  Versions: 0.0.3.4
 ;============================================================
 [Prevent miranda from storing any history]
-Запрещает сохранять историю переписки Miranda IM.
+Запрещает сохранять историю переписки Miranda NG.
 [Disable History]
 Отключить историю
 [Disable history for this contact]
