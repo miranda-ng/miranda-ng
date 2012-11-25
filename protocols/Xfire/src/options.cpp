@@ -1240,9 +1240,9 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 	//odp.position=-790000000;
 	odp.hInstance=hinstance;
 	odp.pszTemplate=MAKEINTRESOURCE(IDD_OPT);
-	odp.pszTitle=Translate("XFire");
-	odp.pszGroup = Translate("Network");
-	odp.flags=ODPF_BOLDGROUPS;
+	odp.ptszTitle=_T("XFire");
+	odp.ptszGroup = TranslateT("Network");
+	odp.flags=ODPF_BOLDGROUPS, ODPF_UNICODE;
 	//odp.nIDBottomSimpleControl=IDC_GROUPMAIN;
 	odp.pfnDlgProc=DlgProcOpts;
 	Options_AddPage(wParam, &odp);
