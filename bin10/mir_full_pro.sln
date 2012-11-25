@@ -246,9 +246,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Events Notification Modules", "Events Notification Modules", "{99B819F8-65D9-45BC-B0C4-8C2B0F63AD46}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Protocols", "Protocols", "{B913F0DC-E0A2-4973-A65C-BB00A51DB9E4}"
-	ProjectSection(SolutionItems) = preProject
-		..\protocols\Xfire\xfire.vcxproj = ..\protocols\Xfire\xfire.vcxproj
-	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Import Modules", "Import Modules", "{48032210-388E-4227-8DE5-61680B2B3A30}"
 EndProject
