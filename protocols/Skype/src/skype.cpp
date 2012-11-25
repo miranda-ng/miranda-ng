@@ -333,7 +333,7 @@ int StartSkypeRuntime()
     }
     CloseHandle(snapshot);
 
-	mir_sntprintf(param, SIZEOF(param), L"-p -m -f nodb -p %d", port);
+	mir_sntprintf(param, SIZEOF(param), L"-p -P %d", port);
 	int startingrt = CreateProcess(szFilename, param, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &cif, &pi);
 
 	return startingrt;

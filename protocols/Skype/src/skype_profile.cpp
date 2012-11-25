@@ -2,36 +2,32 @@
 
 void CSkypeProto::UpdateOwnAvatar()
 {
-	/*uint newTS = 0;
+	uint newTS = 0;
 	this->account->GetPropAvatarTimestamp(newTS);
 	DWORD oldTS = this->GetSettingDword("AvatarTS");
-	if (newTS > oldTS)
+	wchar_t *path = this->GetContactAvatarFilePath(NULL);
+	SEBinary data;
+	this->account->GetPropAvatarImage(data);
+	if ((newTS > oldTS) || (!newTS && data.size() > 0 && _waccess(path, 0) == -1) || (newTS && _waccess(path, 0) == -1)) //hack for avatars without timestamp
 	{
-		SEBinary data;
-		this->account->GetPropAvatarImage(data);
-		
-		if (data.size() > 0)
+		FILE* fp = _wfopen(path, L"wb");
+		if (fp)
 		{
-			wchar_t *path = this->GetContactAvatarFilePath(NULL);
-			FILE* fp = _wfopen(path, L"wb");
-			if (fp)
-			{
-				fwrite(data.data(), sizeof(char), data.size(), fp);
-				fclose(fp);
+			fwrite(data.data(), sizeof(char), data.size(), fp);
+			fclose(fp);
 
-				this->SetSettingDword("AvatarTS", newTS);
+			this->SetSettingDword("AvatarTS", newTS);
 
-				PROTO_AVATAR_INFORMATIONW pai = {0};
-				pai.cbSize = sizeof(pai);
-				pai.format = PA_FORMAT_JPEG;
-				pai.hContact = NULL;
-				wcscpy(pai.filename, path);
+			PROTO_AVATAR_INFORMATIONW pai = {0};
+			pai.cbSize = sizeof(pai);
+			pai.format = PA_FORMAT_JPEG;
+			pai.hContact = NULL;
+			wcscpy(pai.filename, path);
 		
-				this->SendBroadcast(ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
-			}
-			delete path;
-		}		
-	}*/
+			this->SendBroadcast(ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+		}
+		delete path;
+	}
 }
 
 void CSkypeProto::UpdateOwnBirthday()
