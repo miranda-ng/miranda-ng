@@ -18,5 +18,6 @@
 [iphone]
 [ipad]
 [im+]
+[bayan]
 ;file E:\Sources\myranda\plugins\MobileState\src\main.cpp
 [Mobile State]

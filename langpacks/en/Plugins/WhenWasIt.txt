@@ -55,7 +55,7 @@
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 [Set birthday for %s:]
 [mBirthday]
-[%S protocol]
+[%S szProto]
 [Birthday Reminder]
 [UserInfo]
 [mICQBirthday]
@@ -79,8 +79,6 @@
 [Check for birthdays]
 [When Was It]
 [Contact List]
-;file E:\Sources\myranda\plugins\WhenWasIt\src\icons.cpp
-[WhenWasIt birthday reminder]
 ;file E:\Sources\myranda\plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 [%s has birthday in %d days.]
@@ -95,11 +93,10 @@
 [%s\n%s will be %d years old.]
 [%s\n%s just turned %d.]
 ;file E:\Sources\myranda\plugins\WhenWasIt\src\services.cpp
-[Error #%d while trying to create add birthday dialog]
-[Error]
 [Starting to refresh user details]
 [Done refreshing user details]
 [Could not create worker thread. Error#%d - threadID %d]
+[Error]
 [%s (*]
 [)%c*]
 [Birthdays files]

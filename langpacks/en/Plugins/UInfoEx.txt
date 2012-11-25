@@ -652,4 +652,3 @@
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
 ;file E:\Sources\myranda\plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 [PNG]
-[d:\\CD-Archiv\\Miranda\\trunk\\miranda\\bin9\\Debug Unicode\\Plugins\\dib_ico.bmp]

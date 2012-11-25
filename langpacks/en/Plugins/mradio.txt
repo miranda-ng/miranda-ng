@@ -48,8 +48,5 @@
 [Delete]
 ;file E:\Sources\myranda\protocols\mRadio\i_service.inc
 [Radio station URL]
-;file E:\Sources\myranda\protocols\mRadio\i_tray_api.inc
-[Stop]
-[Play Station]
 ;file E:\Sources\myranda\protocols\mRadio\mradio.dpr
 [%s server connection]

@@ -470,8 +470,6 @@
 [SubContainerWindow]
 [FramesContainer]
 [Shell_TrayWnd]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_commonheaders.cpp
-[Error]
 ;file E:\Sources\myranda\plugins\Clist_modern\src\modern_docking.cpp
 [user32]
 ;file E:\Sources\myranda\plugins\Clist_modern\src\modern_groupmenu.cpp
@@ -556,6 +554,8 @@
 [Toolbar]
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
+;file E:\Sources\myranda\plugins\Clist_modern\src\modern_utils.cpp
+[Error]
 ;file E:\Sources\myranda\plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 [And]

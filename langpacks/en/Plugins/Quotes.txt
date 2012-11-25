@@ -99,8 +99,6 @@
 [Export]
 [Swap button]
 [Import]
-[%s/%s]
-[Protocols]
 ;file E:\Sources\myranda\protocols\Quotes\src\ImportExport.cpp
 [Value]
 [Name]
