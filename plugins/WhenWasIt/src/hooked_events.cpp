@@ -26,15 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define EXCLUDE_HIDDEN  1
 #define EXCLUDE_IGNORED 2
 
-HANDLE hModulesLoaded;
-HANDLE hOptionsInitialize;
-HANDLE hIconsChanged;
-HANDLE hExtraIconListRebuild;
-HANDLE hExtraImageApply;
-HANDLE hContactSettingChanged;
-HANDLE hTopToolBarModuleLoaded;
-//HANDLE hContactSendMessage;
-
 HANDLE hmCheckBirthdays = NULL;
 HANDLE hmBirthdayList = NULL;
 HANDLE hmRefreshDetails = NULL;
@@ -49,76 +40,61 @@ int currentDay;
 
 int HookEvents()
 {
-	Log("%s", "Entering function " __FUNCTION__);
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	Log("%s", "Leaving function " __FUNCTION__);
-	
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
 	return 0;
 }
 
 int UnhookEvents()
 {
-	Log("%s", "Entering function " __FUNCTION__);
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hOptionsInitialize);
-	UnhookEvent(hIconsChanged);
-	UnhookEvent(hExtraIconListRebuild);
-	UnhookEvent(hExtraImageApply);
-	UnhookEvent(hContactSettingChanged);
-	UnhookEvent(hTopToolBarModuleLoaded);
-	
 	KillTimers();
-	
-	Log("%s", "Leaving function " __FUNCTION__);
-	
 	return 0;
 }
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	hIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
-	hTopToolBarModuleLoaded = HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
+	HookEvent(ME_TTB_MODULELOADED, OnTopToolBarModuleLoaded);
 	
 	SkinAddNewSoundEx(BIRTHDAY_NEAR_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday near"));
 	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday today"));
 	
 	UpdateTimers();
-	CLISTMENUITEM cl = {0};
-	cl.cbSize = sizeof(CLISTMENUITEM);
-	cl.hIcon = hiCheckMenu;
+	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 10000000;
-	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	cl.pszName = "Check for birthdays";
+	cl.flags = CMIF_ICONFROMICOLIB;
 	cl.pszPopupName = "Birthdays (When Was It)";
+
+	cl.pszService = MS_WWI_CHECK_BIRTHDAYS;
+	cl.icolibItem = hCheckMenu;
+	cl.pszName = "Check for birthdays";
 	hmCheckBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_LIST_SHOW;
 	cl.pszName = "Birthday list";
-	cl.hIcon = hiListMenu;
+	cl.icolibItem = hListMenu;
 	hmBirthdayList = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_REFRESH_USERDETAILS;
 	cl.position = 10100000;
 	cl.pszName = "Refresh user details";
-	cl.hIcon = hiRefreshUserDetails;
+	cl.icolibItem = hRefreshUserDetails;
 	hmRefreshDetails = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_IMPORT_BIRTHDAYS;
 	cl.position = 10200000;
 	cl.pszName = "Import birthdays";
-	cl.hIcon = hiImportBirthdays;
+	cl.icolibItem = hImportBirthdays;
 	hmImportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_EXPORT_BIRTHDAYS;
 	cl.pszName = "Export birthdays";
-	cl.hIcon = hiExportBirthdays;
+	cl.icolibItem = hExportBirthdays;
 	hmExportBirthdays = Menu_AddMainMenuItem(&cl);
 	
 	cl.pszService = MS_WWI_ADD_BIRTHDAY;
 	cl.position = 10000000;
-	cl.hIcon = hiAddBirthdayContact;
+	cl.icolibItem = hAddBirthdayContact;
 	cl.pszName = "Add/change user &birthday";
 	hmAddChangeBirthday = Menu_AddContactMenuItem(&cl);
 
@@ -146,7 +122,7 @@ int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam)
 	ttb.cbSize = sizeof(ttb);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttb.pszService = MS_WWI_CHECK_BIRTHDAYS;
-	ttb.hIconUp = hiCheckMenu;
+	ttb.hIconHandleUp = hCheckMenu;
 	ttb.name = ttb.pszTooltipUp = LPGEN("Check for birthdays");
 	TopToolbar_AddButton(&ttb);
 	return 0;
@@ -170,51 +146,18 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void UpdateMenuItems()
-{
-	CLISTMENUITEM cl = {0};
-	cl.cbSize = sizeof(CLISTMENUITEM);
-	cl.flags = CMIM_ICON;
-	cl.hIcon = hiCheckMenu;
-	int res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmCheckBirthdays, (LPARAM) &cl);
-	
-	cl.hIcon = hiListMenu;
-	res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmBirthdayList, (LPARAM) &cl);
-	
-	cl.hIcon = hiRefreshUserDetails;
-	res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmRefreshDetails, (LPARAM) &cl);
-	
-	cl.hIcon = hiAddBirthdayContact;
-	res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmAddChangeBirthday, (LPARAM) &cl);
-	
-	cl.hIcon = hiImportBirthdays;
-	res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmImportBirthdays, (LPARAM) &cl);
-	
-	cl.hIcon = hiExportBirthdays;
-	res = CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hmExportBirthdays, (LPARAM) &cl);
-}
-
-int OnIconsChanged(WPARAM wParam, LPARAM lParam)
-{
-	GetIcons();
-	UpdateMenuItems();
-	
-	return 0;
-}
-
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *dw = (DBCONTACTWRITESETTING *) lParam;
 	DBVARIANT dv = dw->value;
 	if ((strcmp(dw->szModule, DUMMY_MODULE) == 0) && (strcmp(dw->szSetting, DUMMY_SETTING) == 0))
-		OnExtraImageApply(wParam, 0);
+		RefreshContactListIcons((HANDLE)wParam);
 	
 	return 0;
 }
 
-int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
+int RefreshContactListIcons(HANDLE hContact)
 {
-	HANDLE hContact = (HANDLE) wParam;
 	if (hContact == 0)
 		return 0;
 
@@ -260,9 +203,9 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 		}
 
 		if (dtb >= 0)
-			ClistIconNotifyBirthday(hContact, dtb);
+			ExtraIcon_SetIcon(hWWIExtraIcons, hContact, GetDTBIconHandle(dtb));
 	}
-	else ClearClistIcon(hContact);
+	else ExtraIcon_Clear(hWWIExtraIcons, hContact);
 
 	return 0;
 }
@@ -285,7 +228,6 @@ int UpdateTimers()
 
 int KillTimers()
 {
-	Log("%s", "Entering function " __FUNCTION__);
 	if (hCheckTimer) {
 		KillTimer(NULL, hCheckTimer);
 		hCheckTimer = NULL;
@@ -296,31 +238,22 @@ int KillTimers()
 		hDateChangeTimer = NULL;
 	}
 
-	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
 
 VOID CALLBACK OnCheckTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 {
-	Log("%s", "Entering function " __FUNCTION__);
 	CheckBirthdaysService(0, 1);
-	Log("%s", "Leaving function " __FUNCTION__);
 }
 
 VOID CALLBACK OnDateChangeTimer(HWND hWnd, UINT msg, UINT_PTR idEvent, DWORD dwTime)
 {
 	SYSTEMTIME now;
-	//Log("%s", "Entering function " __FUNCTION__);
 	GetLocalTime(&now);
+
 	if (currentDay != now.wDay)
-		{
-			CheckBirthdaysService(0, 1);
-		}
-		//else{
-		//	RefreshAllContactListIcons();
-		//}
+		CheckBirthdaysService(0, 1);
+
 	currentDay = now.wDay;
-		
-	//Log("%s", "Leaving function " __FUNCTION__);
 }
 

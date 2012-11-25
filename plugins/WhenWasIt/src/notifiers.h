@@ -44,17 +44,14 @@ struct TUpcomingBirthday{
 
 typedef TUpcomingBirthday *PUpcomingBirthday;
 
-int PopupNotifyNoBirthdays();
-int PopupNotifyBirthday(HANDLE hContact, int dtb, int age);
-int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age);
-int DialogNotifyBirthday(HANDLE hContact, int dtb, int age);
-int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age);
-int SoundNotifyBirthday(int dtb);
+void PopupNotifyNoBirthdays();
+int  PopupNotifyBirthday(HANDLE hContact, int dtb, int age);
+int  PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age);
+int  DialogNotifyBirthday(HANDLE hContact, int dtb, int age);
+int  DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age);
+int  SoundNotifyBirthday(int dtb);
 
-int ClistIconNotifyBirthday(HANDLE hContact, int dtb);
-int ClearClistIcon(HANDLE hContact);
-
-int RefreshContactListIcons(HANDLE hContact);
-int RefreshAllContactListIcons(int oldClistIcon = -1);
+int  RefreshContactListIcons(HANDLE hContact);
+int  RefreshAllContactListIcons(int oldClistIcon = -1);
 
 #endif //M_WWI_NOTIFIERS_H

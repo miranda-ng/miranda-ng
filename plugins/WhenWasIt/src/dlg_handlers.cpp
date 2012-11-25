@@ -394,18 +394,19 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HANDLE hContact = (HANDLE)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+
 	switch (msg) {
 	case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hWnd);
+		TranslateDialogDefault(hWnd);
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, lParam);
 
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiAddBirthdayContact);
-			int i;
-			for (i = 0; i < cSaveModule; i++)
+		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hAddBirthdayContact, 1));
+		{
+			for (int i = 0; i < cSaveModule; i++)
 				SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_ADDSTRING, 0, (LPARAM) TranslateTS(szSaveModule[i]));
 
-			i = commonData.cDefaultModule;
-			SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_SETCURSEL, i, 0);
+			SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_SETCURSEL, commonData.cDefaultModule, 0);
 		}
 		break;
 
@@ -414,11 +415,10 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			int year, month, day;
 			TCHAR *szTooltipText = TranslateT("Please select the module where you want the date of birth to be saved.\r\n\"UserInfo\" is the default location.\r\nUse \"Protocol module\" to make the data visible in User Details.\n\"mBirthday module\" uses the same module as mBirthday plugin.");
 			TCHAR *szCurrentModuleTooltip = NULL;
-			HANDLE hContact = (HANDLE) GetWindowLongPtr(hWnd, GWLP_USERDATA);
 			const int maxSize = 2048;
 			TCHAR buffer[maxSize];
-			char *protocol = GetContactProto(hContact);
-			TCHAR *name = GetContactName(hContact, protocol);
+			char *szProto = GetContactProto(hContact);
+			TCHAR *name = GetContactName(hContact, szProto);
 			_stprintf(buffer, TranslateT("Set birthday for %s:"), name);
 			free(name);
 			SetWindowText(hWnd, buffer);
@@ -441,7 +441,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 			case DOB_PROTOCOL:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
-				_stprintf(buffer, TranslateT("%S protocol"), protocol);
+				_stprintf(buffer, TranslateT("%S szProto"), szProto);
 				szCurrentModuleTooltip = buffer;
 				break;
 
@@ -473,11 +473,9 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 		}
 
 	case WM_DESTROY:
-		{
-			HANDLE hContact = (HANDLE) GetWindowLongPtr(hWnd, GWLP_USERDATA);
-			OnExtraImageApply((WPARAM) hContact, NULL); //the birthday might be changed, refresh icon.
-			WindowList_Remove(hAddBirthdayWndsList, hWnd);
-		}
+		RefreshContactListIcons(hContact); //the birthday might be changed, refresh icon.
+		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		WindowList_Remove(hAddBirthdayWndsList, hWnd);
 		break;
 
 	case WM_CLOSE:
@@ -519,34 +517,16 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 
 #define NA TranslateT("N/A")
 
-TCHAR *GetBirthdayModule(int module, HANDLE hContact, TCHAR *birthdayModule, int size)
+TCHAR *GetBirthdayModule(int module, HANDLE hContact)
 {
 	switch (module) {
-	case DOB_MBIRTHDAY:
-		_tcsncpy(birthdayModule, _T("mBirthday"), size);
-		break;
-
-	case DOB_PROTOCOL:
-		_sntprintf(birthdayModule, size, TranslateT("%S protocol"), GetContactProto(hContact));
-		break;
-
-	case DOB_BIRTHDAYREMINDER:
-		_tcsncpy(birthdayModule, _T("Birthday Reminder"), size);
-		break;
-
-	case DOB_USERINFO:
-		_tcsncpy(birthdayModule, _T("UserInfo"), size);
-		break;
-
-	case DOB_MICQBIRTHDAY:
-		_tcsncpy(birthdayModule, _T("mICQBirthday"), size);
-		break;
-
-	default:
-		_tcsncpy(birthdayModule, NA, size);
-		break;
+		case DOB_MBIRTHDAY:        return _T("mBirthday");
+		case DOB_PROTOCOL:         return TranslateT("Protocol module");
+		case DOB_BIRTHDAYREMINDER: return _T("Birthday Reminder");
+		case DOB_USERINFO:         return _T("UserInfo");
+		case DOB_MICQBIRTHDAY:     return _T("mICQBirthday");
 	}
-	return birthdayModule;
+	return NA;
 }
 
 static int lastColumn = -1;
@@ -586,20 +566,9 @@ INT_PTR CALLBACK BirthdaysCompare(LPARAM lParam1, LPARAM lParam2, LPARAM myParam
 	return res;
 }
 
-//only updates the birthday part of the list view entry. Won't update the protocol and the contact name (those shouldn't change anyway :))
+//only updates the birthday part of the list view entry. Won't update the szProto and the contact name (those shouldn't change anyway :))
 int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, int bShowCurrentAge, int bAdd)
 {
-	const int maxSize = 2048;
-	TCHAR buffer[maxSize];
-	
-	int age;
-	int dtb;
-	int year, month, day;
-	TCHAR *name;
-	int module;
-	char *protocol;
-	LVITEM item = {0};
-
 	int currentYear;
 	int currentMonth;
 	int currentDay;
@@ -614,35 +583,35 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 		currentYear = today->tm_year;
 	}
 
-	item.mask = LVIF_TEXT | LVIF_PARAM;
-	item.iItem = entry;
-
-	module = GetContactDOB(hContact, year, month, day);
+	int year, month, day;
+	int module = GetContactDOB(hContact, year, month, day);
 	if (bShowAll || IsDOBValid(year, month, day)) {
 		lastColumn = -1; //list isn't sorted anymore
-		dtb = DaysToBirthday(Today(), year, month, day);
-		age = GetContactAge(hContact);
+		int dtb = DaysToBirthday(Today(), year, month, day);
+		int age = GetContactAge(hContact);
 		if (bShowCurrentAge)
 			if ((month > currentMonth) || ((month == currentMonth) && (day > currentDay))) //birthday still to come
 				age--;
 
+		char *szProto = GetContactProto(hContact);
+		PROTOACCOUNT *pAcc = ProtoGetAccount(szProto);
+
+		LVITEM item = {0};
+		item.mask = LVIF_TEXT | LVIF_PARAM;
+		item.iItem = entry;
 		item.lParam = (LPARAM) hContact;
-
-		protocol = GetContactProto(hContact);
-
-		MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, protocol, -1, buffer, maxSize);
-
-		item.pszText = buffer;
+		item.pszText = pAcc->tszAccountName;
 
 		if (bAdd)
 			ListView_InsertItem(hList, &item);
 		else
-			ListView_SetItemText(hList, entry, 0, buffer);
+			ListView_SetItemText(hList, entry, 0, pAcc->tszAccountName);
 
-		name = GetContactName(hContact, protocol);
+		TCHAR *name = GetContactName(hContact, szProto);
 		ListView_SetItemText(hList, entry, 1, name);
 		free(name);
 
+		TCHAR buffer[2048];
 		if ((dtb <= 366) && (dtb >= 0))
 			_stprintf(buffer, _T("%d"), dtb);
 		else
@@ -662,13 +631,11 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 			_stprintf(buffer, NA);
 
 		ListView_SetItemText(hList, entry, 4, buffer);
-
-		GetBirthdayModule(module, hContact, buffer, maxSize);
-		ListView_SetItemText(hList, entry, 5, buffer);
+		ListView_SetItemText(hList, entry, 5, GetBirthdayModule(module, hContact));
 
 		res++;
 	}
-	else if ((!bShowAll) && (!bAdd))
+	else if (!bShowAll && !bAdd)
 		ListView_DeleteItem(hList, entry);
 
 	return res;	
@@ -734,9 +701,9 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 {
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hWnd);
+		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hListMenu));
 		{
-			TranslateDialogDefault(hWnd);
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiListMenu);
 			HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
 
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
@@ -775,12 +742,6 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			Utils_RestoreWindowPosition(hWnd,NULL,ModuleName,"BirthdayList");
 		}
 		return TRUE;
-
-	case WM_DESTROY:
-		hBirthdaysDlg = NULL;
-		Utils_SaveWindowPosition(hWnd,NULL,ModuleName,"BirthdayList");
-		lastColumn = -1;
-		break;
 
 	case WM_CLOSE:
 		DestroyWindow(hWnd);
@@ -864,6 +825,14 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			}
 		}
 		break;
+
+	case WM_DESTROY:
+		hBirthdaysDlg = NULL;
+		Utils_SaveWindowPosition(hWnd,NULL,ModuleName,"BirthdayList");
+		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		lastColumn = -1;
+		break;
+
 	}
 	return 0;
 }
@@ -897,7 +866,7 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			timeout = commonData.cDlgTimeout;
 			TranslateDialogDefault(hWnd);
-			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM) hiListMenu);
+			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)Skin_GetIconByHandle(hListMenu));
 			HWND hList = GetDlgItem(hWnd, IDC_UPCOMING_LIST);
 
 			ListView_SetExtendedListViewStyleEx(hList, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
@@ -932,11 +901,6 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 		DestroyWindow(hWnd);
 		break;
 
-	case WM_DESTROY:
-		hUpcomingDlg = NULL;
-		KillTimer(hWnd, UPCOMING_TIMER_ID);
-		break;
-
 	case WWIM_ADD_UPCOMING_BIRTHDAY:
 		{
 			PUpcomingBirthday data = (PUpcomingBirthday) wParam;
@@ -965,6 +929,12 @@ INT_PTR CALLBACK DlgProcUpcoming(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPar
 			SendMessage(hWnd, WM_CLOSE, 0, 0);
 			break;
 		}
+
+	case WM_DESTROY:
+		hUpcomingDlg = NULL;
+		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_GETICON, ICON_BIG, 0));
+		KillTimer(hWnd, UPCOMING_TIMER_ID);
+		break;
 	}
 
 	return 0;
@@ -975,7 +945,6 @@ DWORD WINAPI OpenMessageWindowThread(void *data)
 	HANDLE hContact = (HANDLE) data;
 	CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM) hContact, 0);
 	CallServiceSync("SRMsg/LaunchMessageWindow", (WPARAM) hContact, 0);
-
 	return 0;
 }
 

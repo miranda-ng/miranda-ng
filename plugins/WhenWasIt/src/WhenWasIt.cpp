@@ -63,7 +63,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	icex.dwICC = ICC_DATE_CLASSES;
 	InitCommonControlsEx(&icex);
 	
-	LoadIcons();
+	AddIcons();
 
 	Log("%s", "Creating service functions ...");
 	InitServices();

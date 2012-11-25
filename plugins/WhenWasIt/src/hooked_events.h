@@ -35,8 +35,6 @@ int UnhookEvents();
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam);
 int OnTopToolBarModuleLoaded(WPARAM wParam, LPARAM lParam);
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam);
-int OnIconsChanged(WPARAM wParam, LPARAM lParam);
-int OnExtraImageApply(WPARAM wParam, LPARAM lParam);
 int OnContactSettingChanged(WPARAM wParam, LPARAM lParam);
 
 int UpdateTimers();

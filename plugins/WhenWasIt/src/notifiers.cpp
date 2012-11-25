@@ -30,7 +30,7 @@ void FillPopupData(POPUPDATAT &pd, int dtb)
 	pd.iSeconds = popupTimeout;
 }
 
-int PopupNotifyNoBirthdays()
+void PopupNotifyNoBirthdays()
 {
 	POPUPDATAT pd = {0};
 	FillPopupData(pd, -1);
@@ -38,7 +38,9 @@ int PopupNotifyNoBirthdays()
 
 	_tcscpy(pd.lptzContactName, TranslateT("WhenWasIt"));
 	_tcscpy(pd.lptzText, TranslateT("No upcoming birthdays."));
-	return PUAddPopUpT(&pd);
+	PUAddPopUpT(&pd);
+
+	Skin_ReleaseIcon(pd.lchIcon);
 }
 
 TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
@@ -86,13 +88,8 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	FillPopupData(pd, dtb);
 	pd.lchContact = hContact;
 	pd.PluginWindowProc = (WNDPROC) DlgProcPopup;
-	//pd.PluginData = (void *) hContact;
-	//pd.colorBack = background;
-	//pd.colorText = foreground;
-	//pd.iSeconds = popupTimeout;
 	pd.lchIcon = GetDTBIcon(dtb);
 	
-	//strcpy(pd.lpzContactName, text);
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
 	switch (toupper(gender)) {
@@ -112,6 +109,7 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
 
 	PUAddPopUpT(&pd);
+	Skin_ReleaseIcon(pd.lchIcon);
 	free(name);
 	
 	return 0;
@@ -135,7 +133,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	FillPopupData(pd, dab);
 	pd.lchContact = hContact;
 	pd.PluginWindowProc = (WNDPROC) DlgProcPopup;
-	pd.lchIcon = GetDABIcon(dab);
+	pd.lchIcon = GetDTBIcon(dab);
 	
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
@@ -156,14 +154,9 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	
 	PUAddPopUpT(&pd);
-	free(name);
-	
-	return 0;
-}
 
-int ClistIconNotifyBirthday(HANDLE hContact, int dtb)
-{
-	ExtraIcon_SetIcon(hWWIExtraIcons, hContact, "MenuCheck");
+	Skin_ReleaseIcon(pd.lchIcon);
+	free(name);
 	return 0;
 }
 
@@ -229,17 +222,6 @@ int SoundNotifyBirthday(int dtb)
 	return 0;
 }
 
-int ClearClistIcon(HANDLE hContact)
-{
-	return ExtraIcon_Clear(hWWIExtraIcons, hContact);
-}
-
-int RefreshContactListIcons(HANDLE hContact)
-{
-	OnExtraImageApply((WPARAM) hContact, 0);
-	return 0;
-}
-
 //if oldClistIcon != -1 it will remove the old location of the clist extra icon
 //called with oldClistIcon != -1 from dlg_handlers whtn the extra icon slot changes.
 int RefreshAllContactListIcons(int oldClistIcon)
@@ -247,7 +229,7 @@ int RefreshAllContactListIcons(int oldClistIcon)
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		if (oldClistIcon != -1)
-			ClearClistIcon(hContact);
+			ExtraIcon_Clear(hWWIExtraIcons, hContact);
 
 		RefreshContactListIcons(hContact); //will change bBirthdayFound if needed
 		hContact = db_find_next(hContact);

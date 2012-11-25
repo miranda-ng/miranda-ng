@@ -25,8 +25,8 @@ CBirthdays &birthdays = CBirthdays();
 
 CBirthdays::CBirthdays(int initialSize)
 {
-	int count = 0;
-	int size = 0;
+	count = 0;
+	size = 0;
 	birthdays = NULL;
 	advancedIcon = CLIST_ICON;
 	
@@ -40,21 +40,18 @@ CBirthdays::~CBirthdays()
 
 void CBirthdays::Destroy()
 {
-	if (birthdays)
-		{
-			Clear();
-			free(birthdays);
-			birthdays = NULL;
-		}
+	if (birthdays) {
+		Clear();
+		free(birthdays);
+		birthdays = NULL;
+	}
 }
 
 void CBirthdays::Clear()
 {
-	int i;
-	for (i = 0; i < Count(); i++)
-		{
-			ClearItem(i);
-		}
+	for (int i = 0; i < Count(); i++)
+		ClearItem(i);
+
 	count = 0;
 }
 
@@ -77,9 +74,7 @@ int CBirthdays::Size() const
 void CBirthdays::EnsureCapacity()
 {
 	if (count >= size)
-		{
-			Realloc(size / 2);
-		}
+		Realloc(size / 2);
 }
 
 void CBirthdays::Realloc(int increaseCapacity)
@@ -90,62 +85,49 @@ void CBirthdays::Realloc(int increaseCapacity)
 
 int CBirthdays::Add(HANDLE hContact, HANDLE hClistIcon)
 {
-	if ( !Contains(hContact))
-		{
-			EnsureCapacity();
-			TBirthdayContact *item = (TBirthdayContact *) malloc(sizeof(TBirthdayContact));
-			item->hContact = hContact;
-			item->hClistIcon = hClistIcon;
-			birthdays[count++] = item;
-			return 0;
-		}
+	if ( !Contains(hContact)) {
+		EnsureCapacity();
+		TBirthdayContact *item = (TBirthdayContact *) malloc(sizeof(TBirthdayContact));
+		item->hContact = hContact;
+		item->hClistIcon = hClistIcon;
+		birthdays[count++] = item;
+		return 0;
+	}
 	return -1;
 }
 
 int CBirthdays::Remove(int index)
 {
-	if ((index >= 0) && (index < count))
-		{
-			int i;
-			for (i = index + 1; i < count; i++)
-				{
-					birthdays[i - 1] = birthdays[i];
-				}
-			ClearItem(count--);
-			return 0;
-		}
+	if ((index >= 0) && (index < count)) {
+		for (int i = index + 1; i < count; i++)
+			birthdays[i - 1] = birthdays[i];
+
+		ClearItem(count--);
+		return 0;
+	}
 	return -1;
 }
 
 int CBirthdays::Remove(HANDLE hContact)
 {
-	int index = Index(hContact);
-	return Remove(index);
+	return Remove( Index(hContact));
 }
 
 int CBirthdays::Contains(HANDLE hContact) const
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			if (birthdays[i]->hContact == hContact)
-				{
-					return TRUE;
-				}
-		}
+	for (int i = 0; i < count; i++)
+		if (birthdays[i]->hContact == hContact)
+			return TRUE;
+
 	return FALSE;
 }
 
 int CBirthdays::Index(HANDLE hContact) const
 {
-	int i;
-	for (i = 0; i < count; i++)
-		{
-			if (birthdays[i]->hContact == hContact)
-				{
-					return i;
-				}
-		}
+	for (int i = 0; i < count; i++)
+		if (birthdays[i]->hContact == hContact)
+			return i;
+
 	return -1;
 }
 
@@ -163,8 +145,7 @@ HANDLE CBirthdays::GetClistIcon(HANDLE hContact) const
 {
 	int index = Index(hContact);
 	if ((index >= 0) && (index < count))
-		{
-			return birthdays[index]->hClistIcon;
-		}
-	return (HANDLE) -1;
+		return birthdays[index]->hClistIcon;
+
+	return INVALID_HANDLE_VALUE;
 }

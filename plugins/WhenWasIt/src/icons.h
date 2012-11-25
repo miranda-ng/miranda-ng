@@ -21,28 +21,25 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_WWI_ICONS_H
 #define M_WWI_ICONS_H
 
-extern HICON hiMainMenu;
-extern HICON hiCheckMenu;
-extern HICON hiListMenu;
-extern HICON hiAddBirthdayContact;
-extern HICON hiRefreshUserDetails;
+extern HANDLE hCheckMenu;
+extern HANDLE hListMenu;
+extern HANDLE hAddBirthdayContact;
+extern HANDLE hRefreshUserDetails;
 
-extern HICON hiImportBirthdays;
-extern HICON hiExportBirthdays;
+extern HANDLE hImportBirthdays;
+extern HANDLE hExportBirthdays;
 
-extern HICON hiDTB[];
-extern HICON hiDTBMore;
-
-extern HANDLE hClistImages[];
+extern HANDLE hDTB[];
+extern HANDLE hDTBMore;
 
 extern HANDLE hWWIExtraIcons;
 
-int LoadIcons();
 int AddIcons();
-int GetIcons();
 
-HICON GetDTBIcon(int dtb);
-HICON GetDABIcon(int dtb);
-HANDLE GetClistIcon(int dtb);
+HANDLE GetDTBIconHandle(int dtb);
+
+__forceinline HICON GetDTBIcon(int dtb)
+{	return Skin_GetIconByHandle( GetDTBIconHandle(dtb));
+}
 
 #endif //M_WWI_ICONS_H

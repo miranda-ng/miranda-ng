@@ -172,32 +172,28 @@ INT_PTR AddBirthdayService(WPARAM wParam, LPARAM lParam)
 {
 	HWND hWnd = WindowList_Find(hAddBirthdayWndsList, (HANDLE) wParam);
 	if ( !hWnd) {
-		hWnd = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday);
-		if (hWnd == NULL) {
-			TCHAR buffer[1024];
-			_stprintf(buffer, _T("Error #%d while trying to create add birthday dialog"), GetLastError());
-			MessageBox(0, buffer, _T("Error"), MB_OK);
-		}
+		hWnd = CreateDialogParam(hInstance, MAKEINTRESOURCE(IDD_ADD_BIRTHDAY), NULL, DlgProcAddBirthday, wParam);
 		WindowList_Add(hAddBirthdayWndsList, hWnd, (HANDLE) wParam);
-		SetWindowLongPtr(hWnd, GWLP_USERDATA, wParam);
 	}
 	return ShowWindow(hWnd, SW_SHOW);
 }
 
-void ShowPopupMessage(TCHAR *title, TCHAR *message, HICON icon)
+void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 {
 	POPUPDATAT pd = {0};
-	pd.lchIcon = icon;
+	pd.lchIcon = Skin_GetIconByHandle(icon);
 	_tcscpy(pd.lptzContactName, title);
 	_tcscpy(pd.lptzText, message);
 	pd.colorText = commonData.foreground;
 	pd.colorBack = commonData.background;
 	PUAddPopUpT(&pd);
+
+	Skin_ReleaseIcon(pd.lchIcon);
 }
 
 DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
 {
-	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hiRefreshUserDetails);
+	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Starting to refresh user details"), hRefreshUserDetails);
 	int delay = db_get_w(NULL, ModuleName, "UpdateDelay", REFRESH_DETAILS_DELAY);
 	int res;
 
@@ -208,7 +204,7 @@ DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
 		if (hContact)
 			Sleep(delay); //sleep for a few seconds between requests
 	}
-	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done refreshing user details"), hiRefreshUserDetails);
+	ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done refreshing user details"), hRefreshUserDetails);
 	return 0;
 }
 
@@ -245,9 +241,9 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	if ( GetOpenFileName(&of)) {
 		TCHAR buffer[2048];
 		mir_sntprintf(buffer, SIZEOF(buffer), TranslateT("Importing birthdays from file: %s"), fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hiImportBirthdays);
+		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hImportBirthdays);
 		DoImport(fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hiImportBirthdays);
+		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done importing birthdays"), hImportBirthdays);
 	}
 
 	return 0;
@@ -273,9 +269,9 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 			_tcscat(fileName, _T(BIRTHDAY_EXTENSION));
 
 		_stprintf(buffer, TranslateT("Exporting birthdays to file: %s"), fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hiExportBirthdays);
+		ShowPopupMessage(TranslateT("WhenWasIt"), buffer, hExportBirthdays);
 		DoExport(fileName);
-		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hiExportBirthdays);
+		ShowPopupMessage(TranslateT("WhenWasIt"), TranslateT("Done exporting birthdays"), hExportBirthdays);
 	}
 
 	return 0;
@@ -320,7 +316,7 @@ int DoImport(TCHAR *fileName)
 				else {
 					TCHAR tmp[2048];
 					_stprintf(tmp, TranslateT(NOTFOUND_FORMAT), szHandle, szProto);
-					ShowPopupMessage(TranslateT("Warning"), tmp, hiImportBirthdays);
+					ShowPopupMessage(TranslateT("Warning"), tmp, hImportBirthdays);
 				}
 			}
 		}

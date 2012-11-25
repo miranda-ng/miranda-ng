@@ -21,160 +21,61 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "commonheaders.h"
 #include "icons.h"
 
-//HICON hiDlg = NULL;
-HICON hiMainMenu = NULL;
-HICON hiCheckMenu = NULL;
-HICON hiListMenu = NULL;
-HICON hiAddBirthdayContact = NULL;
-HICON hiRefreshUserDetails = NULL;
-
-HICON hiImportBirthdays = NULL;
-HICON hiExportBirthdays = NULL;
+HANDLE hCheckMenu, hListMenu, hAddBirthdayContact, hRefreshUserDetails;
+HANDLE hImportBirthdays, hExportBirthdays;
 
 const int cDTB = 10;
-HICON hiDTB[cDTB] = {NULL};
-HICON hiDTBMore = NULL;
-
-HANDLE hClistImages[cDTB + 1];
+HANDLE hDTB[cDTB] = {NULL};
+HANDLE hDTBMore = NULL;
 
 HANDLE hWWIExtraIcons = (HANDLE) -1;
 
-#define GET_DTB_ICON(index) (hiDTB[index] = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DTB ## index)))
-
-int LoadIcons()
+static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaultIdx)
 {
-	//hiDlgIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_BIRTHDAYS_DLG));
-	hiCheckMenu = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_CHECK));
-	hiListMenu = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_LIST));
-	hiAddBirthdayContact = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ADD));
-	hiRefreshUserDetails = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_REFRESH_USERDETAILS));
-	
-	hiImportBirthdays = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_IMPORT_BIRTHDAYS));
-	hiExportBirthdays = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_EXPORT_BIRTHDAYS));
-	
-	GET_DTB_ICON(0);
-	GET_DTB_ICON(1);
-	GET_DTB_ICON(2);
-	GET_DTB_ICON(3);
-	GET_DTB_ICON(4);
-	GET_DTB_ICON(5);
-	GET_DTB_ICON(6);
-	GET_DTB_ICON(7);
-	GET_DTB_ICON(8);
-	GET_DTB_ICON(9);
-	hiDTBMore = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_DTBMORE));
-	
-	AddIcons();
-	GetIcons();
-	
-	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", Translate("WhenWasIt birthday reminder"), "MenuCheck");
-	return 0;
-}
-
-HANDLE AddIcon(HICON icon, char *name, char *description)
-{
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_UNICODE;
 	sid.pszSection = "WhenWasIt";
 	sid.cx = sid.cy = 16;
 	sid.pszDescription = description;
 	sid.pszName = name;
-	sid.hDefaultIcon = icon;
+	sid.ptszDefaultFile = tszPath;
+	sid.iDefaultIndex = -iDefaultIdx;
 	return Skin_AddIcon(&sid);
 }
 
 int AddIcons()
 {
-	AddIcon(hiCheckMenu, "MenuCheck", "Check birthdays menu item");
-	AddIcon(hiListMenu, "MenuList", "List birthdays menu item");
-	AddIcon(hiAddBirthdayContact, "AddBirthday", "Add/change birthday");
-	AddIcon(hiRefreshUserDetails, "RefreshUserDetails", "Refresh user details");
+	TCHAR tszPath[MAX_PATH];
+	GetModuleFileName(hInstance, tszPath, SIZEOF(tszPath));
 
-	AddIcon(hiImportBirthdays, "ImportBirthdays", "Import birthdays");
-	AddIcon(hiExportBirthdays, "ExportBirthdays", "Export birthdays");
+	hCheckMenu = AddIcon("MenuCheck", "Check birthdays menu item", tszPath, IDI_CHECK);
+	hListMenu = AddIcon("MenuList", "List birthdays menu item", tszPath, IDI_LIST);
+	hAddBirthdayContact = AddIcon("AddBirthday", "Add/change birthday", tszPath, IDI_ADD);
+	hRefreshUserDetails = AddIcon("RefreshUserDetails", "Refresh user details", tszPath, IDI_REFRESH_USERDETAILS);
+
+	hImportBirthdays = AddIcon("ImportBirthdays", "Import birthdays", tszPath, IDI_IMPORT_BIRTHDAYS);
+	hExportBirthdays = AddIcon("ExportBirthdays", "Export birthdays", tszPath, IDI_EXPORT_BIRTHDAYS);
 
 	char name[1024];
 	char description[1024];
-	AddIcon(hiDTB[0], "DTB0", "Birthday today");
-	AddIcon(hiDTB[1], "DTB1", "1 day to birthday");
+	hDTB[0] = AddIcon("DTB0", "Birthday today", tszPath, IDI_DTB0);
+	hDTB[1] = AddIcon("DTB1", "1 day to birthday", tszPath, IDI_DTB1);
 	for (int i = 2; i < cDTB; i++) {
 		sprintf(name, "DTB%d", i);
 		sprintf(description, "%d days to birthday", i);
-		AddIcon(hiDTB[i], name, description);
+		hDTB[i] = AddIcon(name, description, tszPath, IDI_DTB0+i);
 	}
 	sprintf(description, "More than %d days to birthday", cDTB - 1);
-	AddIcon(hiDTBMore, "DTBMore", description);
+	hDTBMore = AddIcon("DTBMore", description, tszPath, IDI_DTBMORE);
+
+	hWWIExtraIcons = ExtraIcon_Register("WhenWasIt", "WhenWasIt birthday reminder", "MenuCheck");
 	return 0;
 }
 
-HICON GetIcon(char *name)
+HANDLE GetDTBIconHandle(int dtb)
 {
-	return Skin_GetIcon(name);	
-}
+	if (dtb >= cDTB || dtb < 0)
+		return hDTBMore;
 
-void FreeIcon(HICON &icon)
-{
-	DestroyIcon(icon);
-	icon = NULL;
-}
-
-void FreeIcons()
-{
-	static int bFreed = 0;
-	if ( !bFreed) {
-		FreeIcon(hiCheckMenu);
-		FreeIcon(hiListMenu);
-		FreeIcon(hiAddBirthdayContact);
-		FreeIcon(hiRefreshUserDetails);
-
-		FreeIcon(hiImportBirthdays);
-		FreeIcon(hiExportBirthdays);
-
-		for (int i = 0; i < cDTB; i++)
-			FreeIcon(hiDTB[i]);
-
-		FreeIcon(hiDTBMore);
-	}
-	bFreed = 1; //only free them once (ours).
-}
-
-int GetIcons()
-{
-	hiCheckMenu = GetIcon("MenuCheck");
-	hiListMenu = GetIcon("MenuList");
-	hiAddBirthdayContact = GetIcon("AddBirthday");
-	hiRefreshUserDetails = GetIcon("RefreshUserDetails");
-
-	hiImportBirthdays = GetIcon("ImportBirthdays");
-	hiExportBirthdays = GetIcon("ExportBirthdays");
-
-	char buffer[1024];
-	for (int i = 0; i < cDTB; i++)
-	{
-		sprintf(buffer, "DTB%d", i);
-		hiDTB[i] = GetIcon(buffer);
-	}
-	hiDTBMore = GetIcon("DTBMore");
-	return 0;
-}
-
-HICON GetDTBIcon(int dtb)
-{
-	if ((dtb >= cDTB) || (dtb < 0))
-		return hiDTBMore;
-
-	return hiDTB[dtb];
-}
-
-HICON GetDABIcon(int dab)
-{
-	return GetDTBIcon(dab);
-}
-
-HANDLE GetClistIcon(int dtb)
-{
-	if (dtb >= cDTB)
-		return hClistImages[cDTB];
-
-	return hClistImages[dtb];
+	return hDTB[dtb];
 }

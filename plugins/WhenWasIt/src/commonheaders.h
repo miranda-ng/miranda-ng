@@ -33,40 +33,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <time.h>
 #include <math.h>
 
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_system.h>
+#include <m_skin.h>
+#include <m_options.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_history.h>
+#include <m_contacts.h>
+#include <m_popup.h>
+#include <m_fontservice.h>
+#include <m_utils.h>
+#include <m_icolib.h>
+#include <m_cluiframes.h>
+#include <m_clui.h>
+#include <m_protosvc.h>
+#include <m_hotkeys.h>
+#include <m_toptoolbar.h>
+#include <m_metacontacts.h>
+#include <m_message.h>
+#include <m_extraicons.h>
+#include <win2k.h>
+
+#include "icons.h"
 #include "resource.h"
 #include "version.h"
 
 #include "utils.h"
 #include "date_utils.h"
 #include "services.h"
-//#include "events.h"
 #include "hooked_events.h"
-#include "icons.h"
 #include "notifiers.h"
-//#include "birthdays.h"
-#include "win2k.h"
-#include "newpluginapi.h"
-#include "m_database.h"
-#include "m_system.h"
-#include "m_skin.h"
-#include "m_options.h"
-#include "m_clist.h"
-#include "m_langpack.h"
-#include "m_history.h"
-#include "m_contacts.h"
-#include "m_popup.h"
-//#include "m_popupw.h"
-#include "m_fontservice.h"
-#include "m_utils.h"
-#include "m_icolib.h"
-#include "m_cluiframes.h"
-#include "m_clui.h"
-#include "m_protosvc.h"
-#include "m_hotkeys.h"
-#include "m_toptoolbar.h"
-#include "m_metacontacts.h"
-#include "m_message.h"
-#include "m_extraicons.h"
 
 extern char ModuleName[];
 extern HINSTANCE hInstance;
