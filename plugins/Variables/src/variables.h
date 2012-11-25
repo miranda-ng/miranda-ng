@@ -20,6 +20,7 @@
 
 #define MIRANDA_VER 0x0A00
 
+#define _CRT_SECURE_NO_WARNINGS
 #define _CRT_NON_CONFORMING_SWPRINTFS
 
 #include <tchar.h> 
@@ -35,7 +36,7 @@
 #include <win2k.h>
 #endif
 #include <newpluginapi.h>
-#include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_langpack.h>
 #include <m_database.h>
 #include <m_protosvc.h>
