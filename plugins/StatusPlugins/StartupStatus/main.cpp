@@ -31,7 +31,7 @@ static HANDLE
 HINSTANCE hInst;
 
 int hLangpack = 0;
-CLIST_INTERFACE* pcli;
+CLIST_INTERFACE *pcli;
 
 int CSModuleLoaded( WPARAM, LPARAM );
 

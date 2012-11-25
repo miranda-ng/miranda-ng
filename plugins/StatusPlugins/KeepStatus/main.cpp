@@ -30,9 +30,8 @@ HANDLE hCSModuleLoadedHook = NULL;
 HANDLE hConnectionEvent = NULL;
 HANDLE hStopRecon = NULL, hEnableProto = NULL, hIsProtoEnabled = NULL, hAnnounceStat = NULL;
 
-
 HINSTANCE hInst;
-
+CLIST_INTERFACE *pcli;
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // dll entry point
@@ -79,8 +78,8 @@ INT_PTR AnnounceStatusChangeService(WPARAM wParam, LPARAM lParam);
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP( &pluginInfoEx );
+	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
 
 	InitCommonStatus();
 

@@ -28,6 +28,7 @@
 #define MIID_ADVAUTOAWAY { 0xf0fdf73a, 0x753d, 0x499d, { 0x8d, 0xba, 0x33, 0x6d, 0xb7, 0x9c, 0xdd, 0x41 } }
 
 HINSTANCE hInst, hCore = NULL;
+CLIST_INTERFACE *pcli;
 
 HANDLE hCSModuleLoadedHook;
 HANDLE hStateChangedEvent;
@@ -74,6 +75,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfoEx );
+	pcli = (CLIST_INTERFACE*)CallService( MS_CLIST_RETRIEVE_INTERFACE, 0, 0);
 
 	autoAwaySettings = new OBJLIST<TAAAProtoSetting>(10, CompareSettings);
 
