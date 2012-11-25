@@ -113,6 +113,7 @@ int __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 			this->Log("Failed to copy our avatar to local storage.");
 			return iRet;
 		}
+		// need to validate avatar Skype::ValidateAvatar
 		//this->account->SetBinProperty(Account::P_AVATAR_IMAGE, avt);
 
 		// todo: add avatar loading to skype server

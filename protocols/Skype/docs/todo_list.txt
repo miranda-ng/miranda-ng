@@ -1,6 +1,3 @@
-Bugs:
-- don't correct loading and setting users avatars
-
 Features:
 - add avatar loading to skype server
 - add correct own info
