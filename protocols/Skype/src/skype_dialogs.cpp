@@ -345,6 +345,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			lvi.lParam = lvi.iItem;
 			lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
 			ListView_InsertItem(hwndList, &lvi);
+			ListView_SetItemText(hwndList, lvi.iItem, 1, _T("111"));
 		}
 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
