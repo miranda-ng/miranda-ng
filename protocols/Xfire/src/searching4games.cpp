@@ -27,7 +27,7 @@
 #include "stdafx.h"
 #include "baseProtocol.h"
 #include "Xfire_gamelist.h"
-
+#include "variables.h"
 #include <string>
 using std::string;
 
@@ -244,8 +244,7 @@ void Scan4Games( LPVOID lparam  )
 		mir_forkthread(ShowSearchDialog,&hwnd);
 	}
 
-	FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
-	strcat(inipath,"\\");
+	strcpy(inipath, XFireGetFoldersPath ("IniFile"));
 	strcat(inipath,"xfire_games.ini");
 
 	//erstmal db säubern

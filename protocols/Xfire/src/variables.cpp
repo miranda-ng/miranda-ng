@@ -166,3 +166,49 @@ char* Varmyxfirevoice(ARGUMENTSINFO *ai)
 
 	return mir_strdup("");
 }
+
+char* XFireGetFoldersPath(char * pathtype)
+{// Get XFire folder path
+extern HANDLE XFireWorkingFolder;
+extern HANDLE XFireIconFolder;
+extern HANDLE XFireAvatarFolder;
+	char path[1024] = "";
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
+		if (pathtype == "Avatar"){
+			FoldersGetCustomPath(XFireAvatarFolder, path, 1024, "" );}
+		if (pathtype == "IniFile"){
+			FoldersGetCustomPath(XFireWorkingFolder, path, 1024, "" );}
+		if (pathtype == "IconsFile"){
+			FoldersGetCustomPath(XFireIconFolder, path, 1024, "" );}
+		strcat(path,"\\");
+		return path;
+	}
+	else {
+/******BASE********/
+		char BaseFolder[MAX_PATH]= "";
+		char CurProfileF[MAX_PATH] = "";
+		char CurProfile[MAX_PATH] = "";
+		CallService(MS_DB_GETPROFILEPATH, (WPARAM) MAX_PATH, (LPARAM)BaseFolder);
+		strcat(BaseFolder, "\\");
+		CallService(MS_DB_GETPROFILENAME, (WPARAM) MAX_PATH, (LPARAM)CurProfileF);
+		int i;
+		for (i = MAX_PATH; 5; i--){
+			if (CurProfileF[i] == 't' && CurProfileF[i-3] == '.'){
+				i = i-3;
+				break;
+			}
+		}
+		memcpy(CurProfile, CurProfileF, i);
+		strcat(BaseFolder, CurProfile);
+		strcat(BaseFolder, "\\");
+		strcat(BaseFolder, "XFire");
+		strcat(BaseFolder, "\\");
+/*******BASE********/
+		if (pathtype == "Avatar"){
+			strcat(BaseFolder, "Avatars");
+			strcat(BaseFolder, "\\");
+		}
+		strcat(path, BaseFolder);
+	}
+	return path;
+}
