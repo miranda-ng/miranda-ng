@@ -340,6 +340,7 @@ BOOL WINAPI DllMain(HINSTANCE hinst, DWORD fdwReason, LPVOID lpvReserved)
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
+	hmiranda = GetModuleHandle(NULL);
 
 	INITCOMMONCONTROLSEX ctrls = {0};
 	ctrls.dwSize = sizeof(INITCOMMONCONTROLSEX);
@@ -349,33 +350,28 @@ extern "C" __declspec(dllexport) int Load(void)
 	g_isWin2kPlus = IsWinVer2000Plus();
 
 	hRichedDll = LoadLibrary(_T("RICHED20.DLL"));
-	if (!hRichedDll)
-	{
+	if (!hRichedDll) {
 		if (MessageBox(0, TranslateT("Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda."), _T(SECTIONNAME), MB_YESNO | MB_ICONINFORMATION) != IDYES)
 			return 1;
 		return 0;
 	}
 
 	hUserDll = LoadLibrary(_T("user32.dll"));
-	if (hUserDll) 
-	{
+	if (hUserDll) {
 		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll,"SetLayeredWindowAttributes");
 		MyMonitorFromWindow = (HANDLE (WINAPI*)(HWND,DWORD))GetProcAddress(hUserDll,"MonitorFromWindow");
 	}
-	else
-	{
+	else {
 		MySetLayeredWindowAttributes = NULL;
 		MyMonitorFromWindow = NULL;
 	}
 
 	hKernelDll = LoadLibrary(_T("kernel32.dll"));
-	if (hKernelDll) 
-	{
+	if (hKernelDll) {
 		MyTzSpecificLocalTimeToSystemTime = (BOOL (WINAPI*)(LPTIME_ZONE_INFORMATION,LPSYSTEMTIME,LPSYSTEMTIME))GetProcAddress(hKernelDll,"TzSpecificLocalTimeToSystemTime");
 		MySystemTimeToTzSpecificLocalTime = (BOOL (WINAPI*)(LPTIME_ZONE_INFORMATION,LPSYSTEMTIME,LPSYSTEMTIME))GetProcAddress(hKernelDll,"SystemTimeToTzSpecificLocalTime");
 	}
-	else
-	{
+	else {
 		MyTzSpecificLocalTimeToSystemTime = NULL;
 		MySystemTimeToTzSpecificLocalTime = NULL;
 	}
