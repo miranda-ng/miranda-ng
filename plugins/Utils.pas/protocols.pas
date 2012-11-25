@@ -562,26 +562,44 @@ begin
   if IsXStatusSupported(uint_ptr(proto)) then
   begin
 
-    with ics do
+    if (title<>nil) or (txt<>nil) then
     begin
-      cbSize:=SizeOf(ics);
-      flags:=CSSF_STR_SIZES;
-      wParam:=@i;
-      lParam:=@j;
+      with ics do
+      begin
+        cbSize:=SizeOf(ics);
+        flags:=CSSF_STR_SIZES;
+        wParam:=@i;
+        lParam:=@j;
+      end;
+      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
     end;
-    CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
+
     if title<>nil then
+    begin
       mGetMem(title^,(i+1)*SizeOf(WideChar));
+      with ics do
+      begin
+        flags   :=CSSF_MASK_NAME or CSSF_UNICODE;
+        szName.w:=pWideChar(title^);
+      end;
+      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
+    end;
+
     if txt<>nil then
+    begin
       mGetMem(txt^,(j+1)*SizeOf(WideChar));
+      with ics do
+      begin
+        flags:=CSSF_MASK_MESSAGE or CSSF_UNICODE;
+        szMessage.w:=pWideChar(txt^);
+      end;
+      CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
+    end;
 
     with ics do
     begin
-      cbSize:=SizeOf(ics);
-      flags:=CSSF_MASK_STATUS or CSSF_MASK_NAME or CSSF_MASK_MESSAGE or CSSF_UNICODE;
+      flags:=CSSF_MASK_STATUS;
       status:=@result;
-      szName.w   :=pWideChar(title^);
-      szMessage.w:=pWideChar(txt^);
     end;
     CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
 
