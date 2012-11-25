@@ -171,7 +171,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		{
-			HWND hList=GetDlgItem(hwndDlg,IDC_STARTUPLIST);
+			HWND hList = GetDlgItem(hwndDlg, IDC_STARTUPLIST);
 			SendMessage(hList,LVM_SETEXTENDEDLISTVIEWSTYLE,0,LVS_EX_FULLROWSELECT);
 
 			// create columns
@@ -194,19 +194,21 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 
 		EnableWindow(GetDlgItem(hwndDlg, IDC_SETSTSMSG), FALSE);
 		// fill profile combo box
-		if (!ServiceExists(MS_SS_GETPROFILE))
+		if ( !ServiceExists(MS_SS_GETPROFILE))
 			EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), FALSE);
 		else {
 			int defaultProfile;
 			int profileCount = (int)CallService(MS_SS_GETPROFILECOUNT, (WPARAM)&defaultProfile, 0);
-			for ( int i=0; i < profileCount; i++ ) {
+			for (int i=0; i < profileCount; i++) {
 				char profileName[128];
-				CallService( MS_SS_GETPROFILENAME, i, (LPARAM)profileName );
-				int item = SendDlgItemMessageA( hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)profileName );
-				SendDlgItemMessage( hwndDlg, IDC_PROFILE, CB_SETITEMDATA, item, ( LPARAM )i );
+				CallService(MS_SS_GETPROFILENAME, i, (LPARAM)profileName);
+				int item = SendDlgItemMessageA(hwndDlg, IDC_PROFILE, CB_ADDSTRING, 0, (LPARAM)profileName);
+				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETITEMDATA, item, i);
 			}
-			if ( profileCount == 0 )
+			if (profileCount == 0)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_PROFILE), FALSE);
+			else
+				SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_SETCURSEL, defaultProfile, 0);
 		}
 		// start timer
 		if (timeOut > 0) {
@@ -238,15 +240,15 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 			switch (LOWORD(wParam)) {
 			case IDC_PROFILE:
 				{
-					int i, profile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
-					for ( i=0; i < confirmSettings->getCount(); i++ ) {
+					int profile = (int)SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETITEMDATA, SendDlgItemMessage(hwndDlg, IDC_PROFILE, CB_GETCURSEL, 0, 0), 0);
+					for (int i=0; i < confirmSettings->getCount(); i++) {
 						if ((*confirmSettings)[i].szMsg != NULL) {
 							free((*confirmSettings)[i].szMsg);
 							(*confirmSettings)[i].szMsg = NULL;
 					}	}
 
-					CallService(MS_SS_GETPROFILE, (WPARAM)profile, (LPARAM)&confirmSettings);
-					for ( i=0; i < confirmSettings->getCount(); i++ )
+					CallService(MS_SS_GETPROFILE, (WPARAM)profile, (LPARAM)confirmSettings);
+					for (int i=0; i < confirmSettings->getCount(); i++)
 						if ((*confirmSettings)[i].szMsg != NULL) // we free this later, copy to our memory space
 							(*confirmSettings)[i].szMsg = _tcsdup((*confirmSettings)[i].szMsg);
 
@@ -408,7 +410,7 @@ static INT_PTR CALLBACK ConfirmDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,LPARA
 		break;
 
 	case UM_CLOSECONFIRMDLG:
-		CallService(MS_CS_SETSTATUSEX, (WPARAM)&confirmSettings, 0);
+		CallService(MS_CS_SETSTATUSEX, (WPARAM)confirmSettings, 0);
 		DestroyWindow(hwndDlg);
 		break;
 
@@ -425,7 +427,8 @@ INT_PTR ShowConfirmDialogEx(WPARAM wParam, LPARAM lParam)
 	if ( wParam == 0 )
 		return -1;
 
-	delete confirmSettings; confirmSettings = 0;
+	delete confirmSettings; 
+	confirmSettings = new OBJLIST<TConfirmSetting>(10, CompareSettings);
 
 	OBJLIST<PROTOCOLSETTINGEX>& param = *( OBJLIST<PROTOCOLSETTINGEX>* )wParam;
 	for (int i=0; i < param.getCount(); i++)
