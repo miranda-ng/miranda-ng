@@ -15,7 +15,7 @@ void DeleteSetting(HANDLE hContact,char *ModuleName,
 				   char *SettingName);
 void WriteSettingIntArray(HANDLE hContact,char *ModuleName,
 					 char *SettingName,const int *Value, int Size);
-BOOL ReadSettingIntArray(HANDLE hContact,char *ModuleName,
+bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,
 				   char *SettingName,int *Value, int Size);
 
 extern BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);

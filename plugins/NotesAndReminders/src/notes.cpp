@@ -155,7 +155,7 @@ static void InitNoteTitle(STICKYNOTE *TSN)
 			// append time if requested
 			if (g_NoteTitleTime)
 			{
-				int n = strlen(TempStr);
+				int n = (int)strlen(TempStr);
 				TempStr[n++] = ' ';
 				TempStr[n] = 0;
 
@@ -879,9 +879,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		//
 
 		Value = (char*)malloc(SzT + 512);
-
-		if (!Value)
-		{
+		if (!Value) {
 			if (bDeleteTData)
 				SAFE_FREE((void**)&tData);
 			continue;
@@ -941,7 +939,7 @@ static void JustSaveNotesEx(STICKYNOTE *pModified)
 		{
 			// huston, we have a problem, strip some reminder text
 			n = 0xfffe;
-			ValueName[0xffff] = 0;
+			Value[0xffff] = 0;
 		}
 
 		sprintf(ValueName, "NotesData%d", NotesCount - I - 1); // we do not reverse notes in DB
@@ -1052,7 +1050,7 @@ static void MeasureColorPresetMenuItem(HWND hdlg, LPMEASUREITEMSTRUCT lpMeasureI
 	HDC hdc = GetDC(hdlg);
 	LPTSTR lpsz = TranslateTS(clrPresets->szName);
 	SIZE sz;
-	GetTextExtentPoint32(hdc, lpsz, _tcslen(lpsz), &sz);
+	GetTextExtentPoint32(hdc, lpsz, (int)_tcslen(lpsz), &sz);
 	ReleaseDC(hdlg, hdc);
 
 	lpMeasureItem->itemWidth = 50 + sz.cx;
@@ -1133,7 +1131,7 @@ static BOOL GetClipboardText_Title(char *pOut, int size)
 					if (*p == '\r' || *p == '\n')
 					{
 						*p = 0;
-						n = strlen(pOut);
+						n = (int)strlen(pOut);
 						break;
 					}
 					else if (*p == '\t')
@@ -1768,7 +1766,7 @@ char* GetPreviewString(const char *lpsz)
 	while ( iswspace(*lpsz) )
 		lpsz++;
 
-	l = strlen(lpsz);
+	l = (int)strlen(lpsz);
 
 	if (!l)
 		return "";
@@ -1833,7 +1831,7 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = (pNote->CustomTitle && pNote->title) ? pNote->title : S1;
-		lvTIt.cchTextMax = strlen(S1);
+		lvTIt.cchTextMax = (int)strlen(S1);
 		ListView_InsertItem(AHLV,&lvTIt);
 
 		if (pNote->Visible)
@@ -1841,7 +1839,7 @@ static void InitListView(HWND AHLV)
 			lvTIt.iItem = I;
 			lvTIt.iSubItem = 1;
 			lvTIt.pszText = V;
-			lvTIt.cchTextMax = strlen(lvTIt.pszText);
+			lvTIt.cchTextMax = (int)strlen(lvTIt.pszText);
 			ListView_SetItem(AHLV,&lvTIt);
 		}
 
@@ -1850,7 +1848,7 @@ static void InitListView(HWND AHLV)
 			lvTIt.iItem = I;
 			lvTIt.iSubItem = 2;
 			lvTIt.pszText = T;
-			lvTIt.cchTextMax = strlen(lvTIt.pszText);
+			lvTIt.cchTextMax = (int)strlen(lvTIt.pszText);
 			ListView_SetItem(AHLV,&lvTIt);
 		}
 
@@ -1858,7 +1856,7 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 3;
 		lvTIt.pszText = S;
-		lvTIt.cchTextMax = strlen(S);
+		lvTIt.cchTextMax = (int)strlen(S);
 		ListView_SetItem(AHLV,&lvTIt);
 
 		I++;
@@ -1978,28 +1976,28 @@ INT_PTR CALLBACK DlgProcViewNotes(HWND Dialog,UINT Message,WPARAM wParam,LPARAM 
 
 			S = TranslateT("Note text");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = _tcslen(S);
+			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[3];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("T");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = _tcslen(S);
+			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[2];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("V");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_notesListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 
 			S = TranslateT("Date/Title");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = _tcslen(S);
+			lvCol.cchTextMax = (int)_tcslen(S);
 			lvCol.cx = g_notesListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 
