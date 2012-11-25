@@ -345,7 +345,25 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 			lvi.lParam = lvi.iItem;
 			lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
 			ListView_InsertItem(hwndList, &lvi);
-			ListView_SetItemText(hwndList, lvi.iItem, 1, _T("111"));
+			wchar_t *text;
+			switch(setting[lvi.iItem].dbType) {
+			DBVARIANT dbv;
+			case DBVT_WCHAR:
+				//text = this->GetSettingString(setting[lvi.iItem].szDbSetting);
+				/*if ( !DBGetContactSettingWString(NULL, "Skype_1", setting[lvi.iItem].szDbSetting, &dbv)) {
+					text = mir_tstrdup(dbv.pwszVal);
+					db_free(&dbv);
+				}*/
+
+				break;
+			case DBVT_BYTE:
+				//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
+				break;
+			case DBVT_WORD:
+				//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
+				break;
+			}
+			ListView_SetItemText(hwndList, lvi.iItem, 1, text);
 		}
 
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
