@@ -25,10 +25,10 @@ struct Icon
 {
 	string name;
 	int refCount;
-	HANDLE hIcoLib, hImage;
+	HANDLE hImage;
 
 	Icon(const char *icolibName) :
-		name(icolibName), hIcoLib(0), refCount(0), hImage(INVALID_HANDLE_VALUE)
+		name(icolibName), refCount(0), hImage(INVALID_HANDLE_VALUE)
 	{
 	}
 };
