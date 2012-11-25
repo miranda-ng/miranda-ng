@@ -208,7 +208,7 @@ void amRequestAwayMsg(HANDLE hContact)
 	if ( !g_CluiData.bInternalAwayMsgDiscovery || !hContact) 
 		return;
 	//Do not re-ask for chat rooms   
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	szProto = GetContactProto(hContact);
 	if (szProto == NULL || db_get_b(hContact, szProto, "ChatRoom", 0) != 0) 	
 		return;
 	amAddHandleToChain(hContact);        

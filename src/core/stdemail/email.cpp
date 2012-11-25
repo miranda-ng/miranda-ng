@@ -34,7 +34,7 @@ void SendEmailThread(void *szUrl)
 static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL || DBGetContactSettingString((HANDLE)wParam, szProto, "e-mail", &dbv)) {
 		if (DBGetContactSettingString((HANDLE)wParam, "UserInfo", "Mye-mail0", &dbv)) {
 			MessageBox((HWND)lParam, TranslateT("User has not registered an e-mail address"), TranslateT("Send e-mail"), MB_OK);
@@ -56,7 +56,7 @@ static int EMailPreBuildMenu(WPARAM wParam, LPARAM)
 	mi.flags = CMIM_FLAGS;
 
 	DBVARIANT dbv = { 0 };
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL || DBGetContactSettingString((HANDLE)wParam, szProto, "e-mail", & dbv))
 		if (DBGetContactSettingString((HANDLE)wParam, "UserInfo", "Mye-mail0", &dbv))
 			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;

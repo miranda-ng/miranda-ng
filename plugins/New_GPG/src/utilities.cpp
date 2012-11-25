@@ -146,7 +146,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 		hContact = metaGetMostOnline(hContact);
 	char *szMessage;
 	{
-		LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		LPSTR proto = GetContactProto(hContact);
 		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
 		std::string acc_str;
 		if(acc)
@@ -1165,7 +1165,7 @@ int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARA
 	ACKDATA ack;
 	memset(&ack,0,sizeof(ack));
 	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = szGPGModuleName;//	(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ack.szModule = szGPGModuleName;//	GetContactProto(hContact);
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;
@@ -1334,7 +1334,7 @@ INT_PTR ExportGpGKeys(WPARAM w, LPARAM l)
 		std::string key = k;
 		mir_free(k);
 		
-		const char* proto = (const char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		const char* proto = (const char*)GetContactProto(hContact);
 		std::string id = "Comment: login ";
 		const char * uid = (const char*)CallProtoService(proto, PS_GETCAPS,  (WPARAM)PFLAG_UNIQUEIDSETTING, 0);
 		DBVARIANT dbv = {0};

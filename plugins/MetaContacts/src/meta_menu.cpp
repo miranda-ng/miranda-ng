@@ -42,7 +42,7 @@ INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam)
 	char *group = 0;//, *proto;
 		
 	// Get some information about the selected contact.
-//	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+//	proto = GetContactProto(wParam,0);
 	if (!DBGetContactSettingStringUtf((HANDLE)wParam,"CList","Group",&dbv)) {
 		group = _strdup(dbv.pszVal);
 		DBFreeVariant(&dbv);
@@ -437,7 +437,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		for (i = 0; i < MAX_CONTACTS; i++) {
 			if (i < num_contacts) {
 				hContact = Meta_GetContactHandle((HANDLE)wParam, i);
-				proto = _strdup((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+				proto = _strdup(GetContactProto(hContact));
 
 				if (!proto)
 					status = ID_STATUS_OFFLINE;
@@ -506,7 +506,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		{
 			char serviceFunc[256];
 			hContact = Meta_GetMostOnline((HANDLE)wParam);
-			mir_snprintf(serviceFunc, 256, "%s/SendNudge", (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+			mir_snprintf(serviceFunc, 256, "%s/SendNudge", GetContactProto(hContact));
 			CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
 		}
 	}

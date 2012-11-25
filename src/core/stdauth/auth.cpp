@@ -69,7 +69,7 @@ static int AuthEventAdded(WPARAM, LPARAM lParam)
 	CONTACTINFO ci = {0};
 	ci.cbSize = sizeof(ci);
 	ci.hContact = hContact;
-	ci.szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ci.szProto = GetContactProto(hContact);
 	ci.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
 	if ( !CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM)&ci)) {
 		switch (ci.type) {

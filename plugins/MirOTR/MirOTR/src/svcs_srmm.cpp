@@ -39,7 +39,7 @@ int SVC_IconPressed(WPARAM wParam, LPARAM lParam) {
 		return 0;
 
 	if(strcmp(sicd->szModule, MODULENAME) == 0) {
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if(proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
 			return 0;
 		ShowOTRMenu(hContact, sicd->clickLocation);
@@ -145,7 +145,7 @@ void SetEncryptionStatus(HANDLE hContact, TrustLevel level) {
 	//strcat(dbg_msg, "Set encyption status: ");
 	//strcat(dbg_msg, (encrypted ? "true" : "false"));
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0));
 
 	// if (!chat_room) DBWriteContactSettingByte(hContact, MODULENAME, "Encrypted", (encrypted ? 1 : 0));
@@ -225,7 +225,7 @@ int SVC_ButtonsBarPressed(WPARAM w, LPARAM l) {
 	if (cbcd->cbSize == (int)sizeof(CustomButtonClickData) && cbcd->dwButtonId == 0 && strcmp(cbcd->pszModule, MODULENAME)==0) {
 		HANDLE hContact = (HANDLE)w;
 	
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if(proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0))
 			return 0;
 		ShowOTRMenu(hContact, cbcd->pt);

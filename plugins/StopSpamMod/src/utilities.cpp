@@ -409,7 +409,7 @@ void CleanProtocolTmpThread(std::string proto)
 	std::list<HANDLE> contacts;
 	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
-		char *proto_tmp = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto_tmp = GetContactProto(hContact);
 		if(proto_tmp)
 			if(!strcmp(proto.c_str(), proto_tmp))
 				if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)|| (_T("Not In List")== DBGetContactSettingStringPAN(hContact,"CList","Group",_T(""))))
@@ -439,7 +439,7 @@ void CleanProtocolExclThread(std::string proto)
 	std::list<HANDLE> contacts;
 	for(HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
 	{
-		char *proto_tmp = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto_tmp = GetContactProto(hContact);
 		if(proto_tmp)
 			if(!strcmp(proto.c_str(), proto_tmp))
 				if(DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) && DBGetContactSettingByte(hContact, pluginName, "Excluded", 0))
@@ -498,9 +498,9 @@ void HistoryLogFunc(HANDLE hContact, std::string message)
 			return;
 		std::string msg = message;
 		msg.append("\n");
-		msg.append("Protocol: ").append((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)).append(" Contact: ");
+		msg.append("Protocol: ").append(GetContactProto(hContact)).append(" Contact: ");
 		msg.append(toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, GCDNF_TCHAR))).append(" ID: ");
-		msg.append(toUTF8(GetContactUid(hContact,toUTF16((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0)))));
+		msg.append(toUTF8(GetContactUid(hContact,toUTF16(GetContactProto(hContact)))));
 		HistoryLog(NULL, (char*)msg.c_str(), EVENTTYPE_MESSAGE, DBEF_READ);
 	}
 }

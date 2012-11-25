@@ -192,7 +192,7 @@ void SmileyType::CallSmileyService(HANDLE hContact)
 
 	if (name[0] == '/')
 	{
-		proto = (const char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = (const char*)GetContactProto(hContact);
 		if (proto == NULL) return;
 	}
 	mir_snprintf(str, sizeof(str), "%s%s", proto, T2A_SM(name.c_str()));
@@ -905,7 +905,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
-		char* proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char* proto = GetContactProto(hContact);
 		if (proto)
 		{
 			DBVARIANT dbv;
@@ -931,7 +931,7 @@ void SmileyCategoryListType::DeleteAccountAsCategory(PROTOACCOUNT *acc)
 
 void SmileyCategoryListType::AddContactTransportAsCategory(HANDLE hContact, const bkstring& defaultFile)
 {
-	char* proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* proto = GetContactProto(hContact);
 	if (proto == NULL) return;
 
 	DBVARIANT dbv;

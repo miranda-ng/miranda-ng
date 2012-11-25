@@ -324,11 +324,8 @@ static void MsgWndDetect(HWND hwndDlg, HANDLE hContact, msgData* datm)
 			dat.hContact = hContact;
 
 		// Get the protocol for this contact to display correct smileys.
-		char *protonam = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, 
-			(WPARAM)DecodeMetaContact(dat.hContact), 0);
-
-		if (protonam)
-		{
+		char *protonam = GetContactProto( DecodeMetaContact(dat.hContact));
+		if (protonam) {
 			strncpy(dat.ProtocolName, protonam, sizeof(dat.ProtocolName));
 			dat.ProtocolName[sizeof(dat.ProtocolName)-1] = 0;
 		}

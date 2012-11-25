@@ -213,7 +213,7 @@ void JabberIqResultRoster(TlenProtocol *proto, XmlNode *iqNode)
 				list = NULL;
 				hContact = db_find_first();
 				while (hContact != NULL) {
-					str = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+					str = GetContactProto(hContact);
 					if (str != NULL && !strcmp(str, proto->m_szModuleName)) {
 						if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
 							if (!JabberListExist(proto, LIST_ROSTER, dbv.pszVal)) {

@@ -1026,7 +1026,7 @@ panel_found:
 							if (dat && dat->bType == SESSIONTYPE_CHAT) {
 								SESSION_INFO *si = (SESSION_INFO *)dat->si;
 								if (si && dat->hContact) {
-									char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dat->hContact, 0);
+									char* szProto = GetContactProto(dat->hContact);
 									if ( szProto )
 										CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
 								}
@@ -1106,7 +1106,7 @@ panel_found:
 							if (contactOK) {
 								char szFinalService[512];
 
-								mir_snprintf(szFinalService, 512, "%s/%s", (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), item->szService);
+								mir_snprintf(szFinalService, 512, "%s/%s", GetContactProto(hContact), item->szService);
 								if (ServiceExists(szFinalService))
 									CallService(szFinalService, wwParam, llParam);
 								else
@@ -1122,7 +1122,7 @@ panel_found:
 							if (item->dwFlags & BUTTON_ISCONTACTDBACTION || item->dwFlags & BUTTON_DBACTIONONCONTACT) {
 								contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);
 								if (contactOK && item->dwFlags & BUTTON_ISCONTACTDBACTION)
-									szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+									szModule = GetContactProto(hContact);
 								finalhContact = hContact;
 							}
 							else
@@ -2606,7 +2606,7 @@ HMENU TSAPI BuildMCProtocolMenu(HWND hwndDlg) {
 	iNumProtos = (int)CallService(MS_MC_GETNUMCONTACTS, (WPARAM)dat->hContact, 0);
 	iDefaultProtoByNum = (int)CallService(MS_MC_GETDEFAULTCONTACTNUM, (WPARAM)dat->hContact, 0);
 	hContactMostOnline = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)dat->hContact, 0);
-	szProtoMostOnline = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContactMostOnline, 0);
+	szProtoMostOnline = GetContactProto(hContactMostOnline);
 	isForced = M->GetDword(dat->hContact, "tabSRMM_forced", -1);
 
 	for (i=0; i < iNumProtos; i++) {

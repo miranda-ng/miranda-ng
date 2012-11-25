@@ -29,8 +29,6 @@ int hLangpack;
 
 CommonData commonData = {0};
 
-
-
 PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	__PLUGIN_DISPLAY_NAME,
@@ -41,13 +39,12 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}} //{2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+	//{2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+	{0x2ff96c84, 0xb0b5, 0x470e, {0xbb, 0xf9, 0x90, 0x7b, 0x9f, 0x3f, 0x5d, 0x2f}}
 };
 
 extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion) 
 {
-//	Log("%s", "Entering function " __FUNCTION__);
-//	Log("%s", "Leaving function " __FUNCTION__);
 	return &pluginInfo;
 }
 
@@ -62,22 +59,15 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	INITCOMMONCONTROLSEX icex;
-
 	icex.dwSize = sizeof(icex);
 	icex.dwICC = ICC_DATE_CLASSES;
-
 	InitCommonControlsEx(&icex);
 	
-	Log("%s", "Initialising miranda memory functions");
-	
 	LoadIcons();
-	//hBirthdaysDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_BIRTHDAYS), NULL, DlgProcBirthdays);
+
 	Log("%s", "Creating service functions ...");
 	InitServices();
-	
-	//Log("%s", "Creating events ...");
-	//CreateEvents();
-	
+
 	Log("%s", "Hooking events ...");	
 	HookEvents();
 	
@@ -93,14 +83,10 @@ extern "C" int __declspec(dllexport) Unload()
 	Log("%s", "Entering function " __FUNCTION__);
 	
 	if (hBirthdaysDlg)
-	{
 		SendMessage(hBirthdaysDlg, WM_CLOSE, 0, 0);
-	}
 	
 	if (hUpcomingDlg)
-	{
 		SendMessage(hUpcomingDlg, WM_CLOSE, 0, 0);
-	}
 	
 	WindowList_Broadcast(hAddBirthdayWndsList, WM_CLOSE, 0, 0);
 
@@ -112,10 +98,8 @@ extern "C" int __declspec(dllexport) Unload()
 	
 	Log("%s", "Destroying service functions ...");
 	DestroyServices();
-	
-	
+
 	Log("%s", "Leaving function " __FUNCTION__);
-	
 	return 0;
 }
 
@@ -123,9 +107,7 @@ bool WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
 	hInstance = hinstDLL;
 	if (fdwReason == DLL_PROCESS_ATTACH)
-		{
-			DisableThreadLibraryCalls(hinstDLL);
-		}
-		
+		DisableThreadLibraryCalls(hinstDLL);
+
 	return TRUE;
 }

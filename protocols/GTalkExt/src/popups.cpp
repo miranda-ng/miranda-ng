@@ -47,7 +47,7 @@ LRESULT CALLBACK PopupHookProc(int nCode, WPARAM wParam, LPARAM lParam)
 					if (hContact != (HANDLE)-1 &&
 						hContact != (HANDLE)0x80000000 &&
 						DBGetContactSettingByte(hContact, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0)) {
-							LPCSTR proto = (LPCSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+							LPCSTR proto = (LPCSTR)GetContactProto(hContact);
 							DWORD checkboxes = ReadCheckboxes(0, proto);
 							if (ReadCheckbox(0, IDC_PSEUDOCONTACTENABLED, checkboxes) &&
 								ReadCheckbox(0, IDC_SUPRESSFOREIGN, checkboxes))

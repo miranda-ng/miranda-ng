@@ -399,7 +399,7 @@ char* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count)
 
 static HANDLE gg_getsubcontact(GGPROTO* gg, HANDLE hContact)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	char* szMetaProto = (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
 	if (szProto && szMetaProto && (INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && !lstrcmpA(szProto, szMetaProto))
@@ -409,7 +409,7 @@ static HANDLE gg_getsubcontact(GGPROTO* gg, HANDLE hContact)
 		for (i = 0; i < nSubContacts; i++)
 		{
 			hMetaContact = (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hContact, i);
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hMetaContact, 0);
+			szProto = GetContactProto(hMetaContact);
 			if (szProto && !lstrcmpA(szProto, gg->m_szModuleName))
 				return hMetaContact;
 		}
@@ -557,7 +557,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 									}
 									else
 									{
-										szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+										szProto = GetContactProto(hContact);
 										uin = (uin_t)db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0);
 									}
 

@@ -70,14 +70,9 @@ INT_PTR CALLBACK ErrorDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
 		break;
 
 	case WM_COMMAND:
-		switch (LOWORD(wParam)) 
-		{
+		switch (LOWORD(wParam)) {
 		case IDOK:
-			{
-				char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) item->hContact, 0);
-				SendMessageDirect(item->szMsg, item->hContact, szProto);
-			}
-
+			SendMessageDirect(item->szMsg, item->hContact, GetContactProto(item->hContact));
 			DestroyWindow(hwndDlg);
 			break;
 

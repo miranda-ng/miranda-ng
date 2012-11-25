@@ -231,7 +231,7 @@ static INT_PTR CALLBACK IcqDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					if (hContact == NULL)
 						szProto = ppro->m_szModuleName;
 					else
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = GetContactProto(hContact);
 
 					if (!szProto)
 						break;

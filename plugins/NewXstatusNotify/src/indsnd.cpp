@@ -119,7 +119,7 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			TranslateDialogDefault(hwndDlg);
 
 			hContact = (HANDLE)lParam;
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			HWND hList = GetDlgItem(hwndDlg, IDC_INDSNDLIST);
 			
 			ListView_SetImageList(hList, GetStatusIconsImgList(szProto), LVSIL_SMALL);
@@ -377,7 +377,7 @@ void SetAllContactsIcons(HWND hwndList)
 		HANDLE hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if (hItem)
 		{
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto) 
 			{
 				EnableSounds = db_get_b(hContact, MODULE, "EnableSounds", 1);

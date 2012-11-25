@@ -86,7 +86,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 
 		if (acs->handleType == HANDLE_CONTACT && acs->handle)
 			if (acs->szProto == NULL || (acs->szProto != NULL && *acs->szProto == 0))
-				acs->szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)acs->handle, 0);
+				acs->szProto = GetContactProto(acs->handle);
 
 		{
 			int groupId;

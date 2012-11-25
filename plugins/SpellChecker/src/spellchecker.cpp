@@ -1237,7 +1237,7 @@ void GetUserProtoLanguageSetting(Dialog *dlg, HANDLE hContact, char *group, char
 
 void GetUserLanguageSetting(Dialog *dlg, char *setting)
 {
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dlg->hContact, 0);
+	char *proto = GetContactProto(dlg->hContact);
 	if (proto == NULL)
 		return;
 	

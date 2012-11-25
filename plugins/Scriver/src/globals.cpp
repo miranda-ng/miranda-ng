@@ -475,7 +475,7 @@ static int ackevent(WPARAM wParam, LPARAM lParam) {
 			dbei.flags = DBEF_SENT | (( item->flags & PREF_RTL) ? DBEF_RTL : 0 );
 			if ( item->flags & PREF_UTF )
 				dbei.flags |= DBEF_UTF;
-			dbei.szModule = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) item->hContact, 0);
+			dbei.szModule = GetContactProto(item->hContact);
 			dbei.timestamp = time(NULL);
 			dbei.cbBlob = lstrlenA(item->sendBuffer) + 1;
 			if ( !( item->flags & PREF_UTF ))

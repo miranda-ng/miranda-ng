@@ -155,7 +155,7 @@ static bool CheckContactsServiceSupport(const char* szProto)
 static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
   HANDLE hContact = (HANDLE)wParam;
-  char* szProto = GetContactProto(hContact);
+  char* szProto =GetContactProto(hContact);
   int bVisible = FALSE;
 
   if (szProto && CheckContactsServiceSupport(szProto))
@@ -214,7 +214,7 @@ static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 static int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
   DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-  char *szProto = GetContactProto((HANDLE)wParam);
+  char *szProto =GetContactProto((HANDLE)wParam);
 
   if (strcmpnull(cws->szModule,"CList") && strcmpnull(cws->szModule, szProto)) return 0;
 

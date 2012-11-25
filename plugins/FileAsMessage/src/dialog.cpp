@@ -1183,8 +1183,7 @@ INT_PTR CALLBACK DialogProc( HWND hDlg, UINT uMsg, WPARAM wParam, LPARAM lParam 
 			break;
 		case WM_FE_STATUSCHANGE:
 		{
-			char *szProto;
-			szProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)dat->hContact,0);
+			char *szProto = GetContactProto(dat->hContact);
 			if (szProto)
 			{
 				int dwStatus;

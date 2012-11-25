@@ -890,7 +890,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
     		DBEVENTINFO dbei; HANDLE hC = getMostOnline(pccsd->hContact);
 		ZeroMemory(&dbei, sizeof(dbei));
 		dbei.cbSize = sizeof(dbei);
-		dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hC, 0);
+		dbei.szModule = GetContactProto(hC, 0);
 		dbei.flags = DBEF_SENT;
 		dbei.timestamp = time(NULL);
 		dbei.eventType = EVENTTYPE_MESSAGE;

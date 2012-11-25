@@ -616,10 +616,8 @@ void	PopupWnd2::fixDefaults()
 
 	m_hContactPassed = m_hContact;
 	if (m_hContact)
-	{
-		if (!CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)m_hContact, 0))
+		if (!GetContactProto(m_hContact))
 			m_hContact = NULL;
-	}
 	
 	switch (m_textType)
 	{
@@ -653,10 +651,7 @@ void	PopupWnd2::fixAvatar()
 
 int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 {
-	bool isIm = (m_hContact &&
-		(CallProtoService(
-			(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)m_hContact, 0),
-			PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
+	bool isIm = (m_hContact && (CallProtoService(GetContactProto(m_hContact), PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
 
 //	bool enableDefault = (isIm || !(PopUpOptions.actions&ACT_DEF_IMONLY)) ? true : false;
 	bool enableDefaultGen = (m_hContact || !(PopUpOptions.actions&ACT_DEF_NOGLOBAL)) ? true : false;
@@ -1042,7 +1037,7 @@ struct	ReplyEditData
 bool	IsMsgServiceNameW(HANDLE hContact) {
 	if (g_popup.isMirUnicode) {
 		char szServiceName[100];
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL)
 			return false;
 
@@ -1055,13 +1050,13 @@ bool	IsMsgServiceNameW(HANDLE hContact) {
 
 BOOL	IsUtfSendAvailable(HANDLE hContact)
 {
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if(szProto == NULL) return FALSE;
 	//check for MetaContact and get szProto from subcontact
 	if(strcmp(szProto, gszMetaProto)==0) {
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETDEFAULTCONTACT, (WPARAM)hContact, 0);
 		if (!hSubContact) return FALSE;
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hSubContact, 0);
+		szProto = GetContactProto(hSubContact);
 	}
 	return(CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_IMSENDUTF) ? TRUE : FALSE;
 }
@@ -1072,7 +1067,7 @@ void	AddMessageToDB(HANDLE hContact, char *msg, int flag/*bool utf*/)
 	dbei.cbSize = sizeof(dbei);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT | ((flag&PREF_UTF)==PREF_UTF ? DBEF_UTF : 0);
-	dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	dbei.szModule = GetContactProto(hContact);
 	dbei.timestamp = time(NULL);
 	if(g_popup.isOsUnicode && !((flag&PREF_UTF)==PREF_UTF) && (flag&PREF_UNICODE)==PREF_UNICODE)
 		dbei.cbBlob = (lstrlenW((LPWSTR)msg) + 1)*sizeof(WCHAR/*TCHAR*/);

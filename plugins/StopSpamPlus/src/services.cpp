@@ -31,7 +31,7 @@ INT_PTR RemoveTempContacts(WPARAM wParam,LPARAM lParam)
 			dbv.ptszVal = NULL;
 
 		if ( DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) || DBGetContactSettingByte(hContact, "CList", "Hidden", 0 ) || (dbv.ptszVal != NULL && (_tcsstr(dbv.ptszVal, _T("Not In List")) || _tcsstr(dbv.ptszVal, TranslateT("Not In List"))))) {
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if ( szProto != NULL ) {
 				// Check if protocol uses server side lists
 				DWORD caps = CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0);

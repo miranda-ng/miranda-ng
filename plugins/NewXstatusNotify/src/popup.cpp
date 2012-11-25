@@ -29,7 +29,7 @@ extern OPTIONS opt;
 void QueryAwayMessage(HWND hWnd, PLUGINDATA *pdp)
 {
 	HANDLE hContact = PUGetContact(hWnd);
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto)
 	{
 		if ((CallProtoService(szProto, PS_GETCAPS,PFLAGNUM_1, 0) & PF1_MODEMSGRECV) &&
@@ -154,7 +154,7 @@ INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lPa
 		case UM_INITPOPUP:
 			pdp = (PLUGINDATA *)PUGetPluginData(hwnd);
 			if (pdp != NULL) {
-				char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)PUGetContact(hwnd), 0);
+				char *szProto = GetContactProto( PUGetContact(hwnd));
 				if (szProto && opt.ReadAwayMsg && StatusHasAwayMessage(szProto, pdp->newStatus)) {
 					WORD myStatus = (WORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);
 					if (myStatus != ID_STATUS_INVISIBLE)

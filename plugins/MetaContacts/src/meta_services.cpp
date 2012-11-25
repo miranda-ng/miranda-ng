@@ -299,7 +299,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 		hSubContact = Meta_GetMostOnline(hMeta);
 
 	char servicefunction[ 100 ];
-	char *protoName = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSubContact, 0);
+	char *protoName = GetContactProto(hSubContact);
 	sprintf(servicefunction, "%s/SendNudge", protoName);
 
 	return CallService(servicefunction, (WPARAM)hSubContact, lParam);
@@ -358,7 +358,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 	Meta_CopyContactNick(ccs->hContact, most_online);
 
 	ccs->hContact = most_online;
-	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+	proto = GetContactProto(most_online);
 	Meta_SetNick(proto);	// (no matter what was there before)
 
 	// don't bypass filters etc
@@ -374,7 +374,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 	if (options.subhistory && !(ccs->wParam & PREF_METANODB)) {
 		// add sent event to subcontact
 		DBEVENTINFO dbei = { sizeof(dbei) };
-		dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+		dbei.szModule = GetContactProto(ccs->hContact);
 		if (dbei.szModule) {
 			dbei.flags = DBEF_SENT;
 			dbei.timestamp = time(NULL);
@@ -464,7 +464,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 			if (options.use_proto_recv)
 			{
 				// use the subcontact's protocol 'recv' service to add the meta's history (AIMOSCAR removes HTML here!) if possible
-				char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+				char *proto = GetContactProto(ccs->hContact);
 				if (proto) {
 					char service[256];
 					HANDLE hSub = ccs->hContact;
@@ -509,7 +509,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 	if (options.subhistory) {
 		ZeroMemory(&dbei, sizeof(dbei));
 		dbei.cbSize = sizeof(dbei);
-		dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+		dbei.szModule = GetContactProto(ccs->hContact, 0);
 		dbei.timestamp = pre->timestamp;
 		dbei.flags = (DBGetContactSettingByte(ccs->hContact, META_PROTO, "WindowOpen", 0) ? 0 : DBEF_READ);
 		if (pre->flags & PREF_RTL) dbei.flags |= DBEF_RTL;
@@ -551,9 +551,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
     CCSDATA *ccs = (CCSDATA *) lParam;
     PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 
-	char *proto;
-
-	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	char *proto = GetContactProto(ccs->hContact);
 
 	// contact is not a meta proto contact - just leave it
 	if (!proto || strcmp(proto, META_PROTO)) {
@@ -564,7 +562,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 	{
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		char *proto = GetContactProto(most_online);
 		if (proto) {
 			char service[256];
 			mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
@@ -817,7 +815,7 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 			if (dcws->value.type == DBVT_DELETED) {
 				DBVARIANT dbv;
 
-				char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+				char *proto = GetContactProto((HANDLE)wParam);
 				strcpy(buffer, "CListName");
 				strcat(buffer, _itoa(contact_number, buffer2, 10));
 				if (proto && !MyDBGetContactSetting((HANDLE)wParam, proto, "Nick", &dbv)) {
@@ -969,7 +967,7 @@ INT_PTR Meta_UserIsTyping(WPARAM wParam, LPARAM lParam)
 
 		if (!most_online) return 0;
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		proto = GetContactProto(most_online);
 		if (proto) {
 			strncpy(buff, proto, 512);
 			strncpy(buff + strlen(proto), PSS_USERISTYPING, 512 - strlen(proto));
@@ -1100,7 +1098,7 @@ int Meta_ClistDoubleClicked(WPARAM wParam, LPARAM lParam)
 			}
 			return 1;
 		} else {
-			proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+			proto = GetContactProto(most_online);
 
 			if (proto) {
 				strcpy(buffer, proto);
@@ -1315,7 +1313,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam) {
 		char *proto;
 		char buffer[512];
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = GetContactProto(hContact);
 
 		if (proto) {
 			strcpy(buffer, proto);
@@ -1376,7 +1374,7 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 			return 0;
 		}
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		proto = GetContactProto(most_online);
 		//Meta_CopyContactNick(ccs->hContact, most_online, proto);
 
 		if (proto) {
@@ -1416,7 +1414,7 @@ INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam) {
 		if (!most_online)
 			return 0;
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		proto = GetContactProto(most_online);
 		if (!proto) return 0;
 
 		//Meta_CopyContactNick(ccs->hContact, most_online, proto);
@@ -1452,7 +1450,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 		if (!hSub)
 			return GAIR_NOAVATAR;
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSub, 0);
+		proto = GetContactProto(hSub);
 		if (!proto) return GAIR_NOAVATAR;
 
 		AI->hContact = hSub;
@@ -1487,7 +1485,7 @@ INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam) {
 		if (!most_online)
 			return 0;
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		proto = GetContactProto(most_online);
 		if (!proto) return 0;
 
 		AI.cbSize = sizeof(AI);

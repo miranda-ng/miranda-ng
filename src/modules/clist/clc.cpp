@@ -93,7 +93,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 			cli.pfnClcBroadcast(INTM_NAMEORDERCHANGED, 0, 0);
 	}
 	else {
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+		char *szProto = GetContactProto((HANDLE)wParam);
 		if (szProto != NULL) {
 			if ( !strcmp(cws->szModule, "Protocol") && !strcmp(cws->szSetting, "p"))
 				cli.pfnClcBroadcast(INTM_PROTOCHANGED, wParam, lParam);
@@ -511,7 +511,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 			HANDLE hSelItem = NULL;
 			ClcContact *selcontact = NULL;
 
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			char *szProto = GetContactProto((HANDLE)wParam);
 			if (szProto == NULL)
 				status = ID_STATUS_OFFLINE;
 			else
@@ -580,7 +580,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 		if ( !cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 			break;
 
-		contact->proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+		contact->proto = GetContactProto((HANDLE)wParam);
 		cli.pfnInvalidateDisplayNameCacheEntry((HANDLE)wParam);
 		lstrcpyn(contact->szText, cli.pfnGetContactDisplayName((HANDLE)wParam, 0), SIZEOF(contact->szText));
 		SortClcByTimer(hwnd);
@@ -606,7 +606,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case INTM_APPARENTMODECHANGED:
 		if ( cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			char *szProto = GetContactProto((HANDLE)wParam);
 			if (szProto == NULL)
 				break;
 
@@ -628,7 +628,7 @@ LRESULT CALLBACK fnContactListControlWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
 	case INTM_IDLECHANGED:
 		if ( cli.pfnFindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL)) {
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			char *szProto = GetContactProto((HANDLE)wParam);
 			if (szProto == NULL)
 				break;
 			contact->flags &= ~CONTACTF_IDLE;

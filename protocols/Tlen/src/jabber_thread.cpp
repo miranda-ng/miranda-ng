@@ -369,7 +369,7 @@ void __cdecl JabberServerThread(ThreadData *info)
 			// Set all contacts to offline
 			hContact = db_find_first();
 			while (hContact != NULL) {
-				str = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+				str = GetContactProto(hContact);
 				if (str != NULL && !strcmp(str, info->proto->m_szModuleName)) {
 					if (DBGetContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 						DBWriteContactSettingWord(hContact, info->proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);

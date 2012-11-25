@@ -127,7 +127,7 @@ int AddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 		p->bIsMeta = FALSE;
 	if (p->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 		p->hSubContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
-		p->metaProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) p->hSubContact, 0);
+		p->metaProto = GetContactProto(p->hSubContact);
 		p->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) p->hSubContact, 0);
 	}
 	else {
@@ -206,7 +206,7 @@ void RebuildEntireList(HWND hwnd, struct ClcData *dat)
 			if (group != NULL) {
 				group->totalMembers++;
 				if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-					char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL) {
 						if ( !pcli->pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							AddContactToGroup(dat, group, hContact);
@@ -271,7 +271,7 @@ BYTE GetCachedStatusMsg(int iExtraCacheEntry, char *szProto)
 		cEntry->bStatusMsgValid = STATUSMSG_CLIST;
 	else {
 		if ( !szProto)
-			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			szProto = GetContactProto(hContact);
 		if (szProto) {
 			if ( !result )
 				DBFreeVariant( &dbv );
@@ -374,7 +374,7 @@ void ReloadExtraInfo(HANDLE hContact)
 	if (hContact && pcli->hwndContactTree) {
 		int index = cfg::getCache(hContact, NULL);
 		if (index >= 0 && index < cfg::nextCacheEntry) {
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 
 			TZ_LoadTimeZone(hContact, &cfg::eCache[index], szProto);
 			InvalidateRect(pcli->hwndContactTree, NULL, FALSE);
@@ -501,7 +501,7 @@ void LoadSkinItemToCache(struct TExtraCache *cEntry, const char *szProto)
 void ReloadSkinItemsToCache()
 {
 	for (int i = 0; i < cfg::nextCacheEntry; i++) {
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cfg::eCache[i].hContact, 0);
+		char *szProto = GetContactProto(cfg::eCache[i].hContact);
 		if (szProto)
 			LoadSkinItemToCache(&cfg::eCache[i], szProto);
 	}
@@ -531,7 +531,7 @@ int __fastcall CLVM_GetContactHiddenStatus(HANDLE hContact, char *szProto, struc
 		return dbHidden;
 
 	if (szProto == NULL)
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 	// check stickies first (priority), only if we really have stickies defined (CLVM_STICKY_CONTACTS is set).
 	if (cfg::dat.bFilterEffective & CLVM_STICKY_CONTACTS) {
 		if ((dwLocalMask = cfg::getDword(hContact, "CLVM", cfg::dat.current_viewmode, 0)) != 0) {

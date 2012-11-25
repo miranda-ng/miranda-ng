@@ -306,7 +306,7 @@ void ThumbInfo::ResizeThumb()
 		int nApparentMode;
 		char* szProto;
 
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		
 		if ( NULL != szProto )
 		{
@@ -725,7 +725,7 @@ void ThumbInfo::UpdateContent()
 		char* szProto;
 
 
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		
 		if ( NULL != szProto )
 		{

@@ -140,8 +140,6 @@ int EnlargeControl(HWND hCtrl, HWND hGroup, SIZE oldSize)
 	int offset = (rect.right - rect.left) - oldSize.cx;
 	SetWindowPos(hCtrl, HWND_TOP, 0, 0, size.cx + offset, oldSize.cy, SWP_NOMOVE);
 	SetWindowPos(hCtrl, HWND_BOTTOM, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-	//RedrawWindow(hCtrl, NULL, NULL, RDW_ERASE | RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASENOW);
-	
 	return 0;
 }
 
@@ -211,7 +209,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_OPENINBACKGROUND, (commonData.bOpenInBackground) ? BST_CHECKED : BST_UNCHECKED);
 
 			CheckDlgButton(hWnd, IDC_NOBIRTHDAYS_POPUP, (commonData.bNoBirthdaysPopup) ? BST_CHECKED : BST_UNCHECKED);
-			//CheckDlgButton(hWnd, IDC_SHOW_CURRENT_AGE, (bShowCurrentAge) ? BST_CHECKED : BST_UNCHECKED);
 			SendMessage(GetDlgItem(hWnd, IDC_AGE_COMBOBOX), CB_SETCURSEL, commonData.cShowAgeMode, 0);
 
 			CheckDlgButton(hWnd, IDC_IGNORE_SUBCONTACTS, (commonData.bIgnoreSubcontacts) ? BST_CHECKED : BST_UNCHECKED);
@@ -222,8 +219,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 			CheckDlgButton(hWnd, IDC_USE_DIALOG, (commonData.bUseDialog) ? BST_CHECKED : BST_UNCHECKED);
 			EnableDialogGroup(hWnd, commonData.bUseDialog);
 
-			if (ServiceExists(MS_POPUP_ADDPOPUPEX))
-			{
+			if (ServiceExists(MS_POPUP_ADDPOPUPEX)) {
 				CheckDlgButton(hWnd, IDC_USE_POPUPS, commonData.bUsePopups ? BST_CHECKED : BST_UNCHECKED);
 				EnablePopupsGroup(hWnd, commonData.bUsePopups);
 			}
@@ -325,7 +321,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 					GetWindowText(GetDlgItem(hWnd, IDC_CHECK_INTERVAL), buffer, maxSize);
 					commonData.checkInterval = _ttol(buffer);
-					if (!commonData.checkInterval) { commonData.checkInterval = CHECK_INTERVAL; }
+					if ( !commonData.checkInterval) { commonData.checkInterval = CHECK_INTERVAL; }
 
 					GetWindowText(GetDlgItem(hWnd, IDC_POPUP_TIMEOUT), buffer, maxSize);
 					TCHAR *pos;
@@ -421,16 +417,14 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 			HANDLE hContact = (HANDLE) GetWindowLongPtr(hWnd, GWLP_USERDATA);
 			const int maxSize = 2048;
 			TCHAR buffer[maxSize];
-			char protocol[256];
-			GetContactProtocol(hContact, protocol, sizeof(protocol));
-
+			char *protocol = GetContactProto(hContact);
 			TCHAR *name = GetContactName(hContact, protocol);
 			_stprintf(buffer, TranslateT("Set birthday for %s:"), name);
 			free(name);
 			SetWindowText(hWnd, buffer);
 			HWND hDate = GetDlgItem(hWnd, IDC_DATE);
 			int loc = GetContactDOB(hContact, year, month, day);
-			if (IsDOBValid(year, month, day)) {
+			if ( IsDOBValid(year, month, day)) {
 				SYSTEMTIME st = {0};
 				st.wDay = day;
 				st.wMonth = month;
@@ -470,7 +464,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 				szCurrentModuleTooltip = NULL;
 				break;
 			}
-			//CreateToolTip(GetDlgItem(hWnd, IDC_COMPATIBILITY), hWnd, szTooltipText);
+
 			CreateToolTip(GetDlgItem(hWnd, IDC_COMPATIBILITY), szTooltipText, 500);
 			if (szCurrentModuleTooltip)
 				CreateToolTip(hDate, szCurrentModuleTooltip, 400);
@@ -497,14 +491,11 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 				SYSTEMTIME st;
 				HANDLE hContact = (HANDLE) GetWindowLongPtr(hWnd, GWLP_USERDATA);
 				HWND hDate = GetDlgItem(hWnd, IDC_DATE);
-				if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID)
-				{
+				if (DateTime_GetSystemtime(hDate, &st) == GDT_VALID) {
 					int mode = SendMessage(GetDlgItem(hWnd, IDC_COMPATIBILITY), CB_GETCURSEL, 0, 0); //SAVE modes  in date_utils.h are synced
 					SaveBirthday(hContact, st.wYear, st.wMonth, st.wDay, mode);
 				}
-				else{
-					SaveBirthday(hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
-				}
+				else SaveBirthday(hContact, 0, 0, 0, SAVE_MODE_DELETEALL);
 
 				if (hBirthdaysDlg != NULL)
 					SendMessage(hBirthdaysDlg, WWIM_UPDATE_BIRTHDAY, (WPARAM) hContact, NULL);
@@ -530,54 +521,31 @@ void AddAnchorWindowToDeferList(HDWP &hdWnds, HWND window, RECT *rParent, WINDOW
 
 TCHAR *GetBirthdayModule(int module, HANDLE hContact, TCHAR *birthdayModule, int size)
 {
-	switch (module)
-		{
-			case DOB_MBIRTHDAY:
-				{
-					_tcsncpy(birthdayModule, _T("mBirthday"), size);
-					
-					break;
-				}
-				
-			case DOB_PROTOCOL:
-				{
-					char protocol[512];
-					GetContactProtocol(hContact, protocol, sizeof(protocol));
+	switch (module) {
+	case DOB_MBIRTHDAY:
+		_tcsncpy(birthdayModule, _T("mBirthday"), size);
+		break;
 
-					_sntprintf(birthdayModule, size, TranslateT("%S protocol"), protocol);
+	case DOB_PROTOCOL:
+		_sntprintf(birthdayModule, size, TranslateT("%S protocol"), GetContactProto(hContact));
+		break;
 
-					
-					break;
-				}
-				
-			case DOB_BIRTHDAYREMINDER:
-				{
-					_tcsncpy(birthdayModule, _T("Birthday Reminder"), size);
-					
-					break;
-				}
-				
-			case DOB_USERINFO:
-				{
-					_tcsncpy(birthdayModule, _T("UserInfo"), size);
-					
-					break;
-				}
+	case DOB_BIRTHDAYREMINDER:
+		_tcsncpy(birthdayModule, _T("Birthday Reminder"), size);
+		break;
 
-			case DOB_MICQBIRTHDAY:
-				{
-					_tcsncpy(birthdayModule, _T("mICQBirthday"), size);
+	case DOB_USERINFO:
+		_tcsncpy(birthdayModule, _T("UserInfo"), size);
+		break;
 
-					break;
-				}
-				
-			default:
-				{
-					_tcsncpy(birthdayModule, NA, size);
-				
-					break;
-				}
-		}
+	case DOB_MICQBIRTHDAY:
+		_tcsncpy(birthdayModule, _T("mICQBirthday"), size);
+		break;
+
+	default:
+		_tcsncpy(birthdayModule, NA, size);
+		break;
+	}
 	return birthdayModule;
 }
 
@@ -629,7 +597,7 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 	int year, month, day;
 	TCHAR *name;
 	int module;
-	char protocol[512];
+	char *protocol;
 	LVITEM item = {0};
 
 	int currentYear;
@@ -638,8 +606,7 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 
 	int res = entry;
 
-	if (bShowCurrentAge)
-	{
+	if (bShowCurrentAge) {
 		time_t now = Today();
 		struct tm *today = gmtime(&now);
 		currentDay = today->tm_mday + 1;
@@ -651,7 +618,7 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 	item.iItem = entry;
 
 	module = GetContactDOB(hContact, year, month, day);
-	if ((bShowAll) || (IsDOBValid(year, month, day))) {
+	if (bShowAll || IsDOBValid(year, month, day)) {
 		lastColumn = -1; //list isn't sorted anymore
 		dtb = DaysToBirthday(Today(), year, month, day);
 		age = GetContactAge(hContact);
@@ -661,7 +628,7 @@ int UpdateBirthdayEntry(HWND hList, HANDLE hContact, int entry, int bShowAll, in
 
 		item.lParam = (LPARAM) hContact;
 
-		GetContactProtocol(hContact, protocol, sizeof(protocol));
+		protocol = GetContactProto(hContact);
 
 		MultiByteToWideChar(CP_ACP, MB_USEGLYPHCHARS, protocol, -1, buffer, maxSize);
 
@@ -750,13 +717,11 @@ void SetBirthdaysCount(HWND hWnd)
 
 int LoadBirthdays(HWND hWnd, int bShowAll)
 {
-	HANDLE hContact = db_find_first();
 	HWND hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
-	//int bShowCurrentAge = DBGetContactSettingByte(NULL, ModuleName, "ShowCurrentAge", 0);
-
 	ListView_DeleteAllItems(hList);
 
 	int count = 0;
+	HANDLE hContact = db_find_first();
 	while (hContact) {
 		count = UpdateBirthdayEntry(hList, hContact, count, bShowAll, commonData.cShowAgeMode, 1); 
 		hContact = db_find_next(hContact);
@@ -796,11 +761,11 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			col.cx = 50;
 			ListView_InsertColumn(hList, 4, &col);
 			col.pszText = TranslateT("Module");
-			col.cx = 110;
+			col.cx = 108;
 			ListView_InsertColumn(hList, 5, &col);
 
 			LoadBirthdays(hWnd, 0);
-			int column = DBGetContactSettingByte(NULL, ModuleName, "SortColumn", 0);
+			int column = db_get_b(NULL, ModuleName, "SortColumn", 0);
 
 			BirthdaysSortParams params = {0};
 			params.hList = GetDlgItem(hWnd, IDC_BIRTHDAYS_LIST);
@@ -808,10 +773,8 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			ListView_SortItemsEx(params.hList, BirthdaysCompare, (LPARAM) &params);
 
 			Utils_RestoreWindowPosition(hWnd,NULL,ModuleName,"BirthdayList");
-
-			return TRUE;
-			break;
 		}
+		return TRUE;
 
 	case WM_DESTROY:
 		hBirthdaysDlg = NULL;
@@ -829,7 +792,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 			HANDLE hContact = (HANDLE) wParam;
 			int i;
 			int count = ListView_GetItemCount(hList);
-			//int bShowCurrentAge = DBGetContactSettingByte(NULL, ModuleName, "ShowCurrentAge", 0);
+			//int bShowCurrentAge = db_get_b(NULL, ModuleName, "ShowCurrentAge", 0);
 			LVITEM item = {0};
 			int found = 0;
 
@@ -842,7 +805,7 @@ INT_PTR CALLBACK DlgProcBirthdays(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lPa
 					found = 1;
 				}
 			}
-			if (!found)
+			if ( !found)
 				UpdateBirthdayEntry(hList, hContact, count, IsDlgButtonChecked(hWnd, IDC_SHOW_ALL), commonData.cShowAgeMode, 1);
 
 			SetBirthdaysCount(hWnd);

@@ -711,7 +711,7 @@ class CGroupchatInviteDlg : public CJabberDlgBase
 				hContact;
 				hContact = db_find_next(hContact))
 		{
-			char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *proto = GetContactProto(hContact);
 			if (lstrcmpA(proto, m_proto->m_szModuleName) || db_get_b(hContact, proto, "ChatRoom", 0))
 				if (HANDLE hItem = m_clc.FindContact(hContact))
 					m_clc.DeleteItem(hItem);
@@ -829,7 +829,7 @@ public:
 				hContact;
 				hContact = db_find_next(hContact))
 		{
-			char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *proto = GetContactProto(hContact);
 			if ( !lstrcmpA(proto, m_proto->m_szModuleName) && !db_get_b(hContact, proto, "ChatRoom", 0))
 			{
 				if (int hItem = SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0))

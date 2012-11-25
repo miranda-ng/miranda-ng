@@ -70,7 +70,7 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_USERONL
 
 BYTE GetGender(HANDLE hContact)
 {
-	char *szProto =(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto =GetContactProto(hContact);
 	if (szProto) {
 		switch (db_get_b(hContact, szProto, "Gender", 0)) {
 		case 'M': case 'm':
@@ -108,7 +108,7 @@ bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
 int ProcessExtraStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
 	XSTATUSCHANGE *xsc;
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 
 	if ( ProtoServiceExists(szProto, JS_PARSE_XMPP_URI)) {
 		if (cws->value.type == DBVT_DELETED)
@@ -472,7 +472,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 			if (!db_get_b(NULL, MODULE, dbSetting, 1))
 				return 0;
 		}
-		smi.proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		smi.proto = GetContactProto(hContact);
 
 		//don't show popup when mradio connecting and disconnecting
 		if (_stricmp(smi.proto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
@@ -565,7 +565,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return 0;
 
@@ -776,7 +776,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	char buff[8], szProto[64], szSubProto[64];
 	bool bEnablePopup = true, bEnableSound = true;
 
-	char *hlpProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *hlpProto = GetContactProto((HANDLE)wParam);
 	if (hlpProto == NULL || opt.TempDisabled)
 		return 0;
 
@@ -785,7 +785,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 
 	if (strcmp(szProto, szMetaModuleName) == 0) { //this contact is Meta
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0);
-		strcpy(szSubProto, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSubContact,0));
+		strcpy(szSubProto, GetContactProto(hSubContact));
 
 		if (newStatus == ID_STATUS_OFFLINE) {
 			// read last online proto for metaconatct if exists,

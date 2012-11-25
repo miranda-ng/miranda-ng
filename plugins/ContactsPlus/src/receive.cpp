@@ -137,7 +137,7 @@ static void RebuildGroupCombo(HWND hwndDlg)
 static HANDLE CreateTemporaryContactForItem(HWND hwndDlg, TRecvContactsData* wndData, int iItem)
 {
   char* caUIN = ListView_GetItemTextEx(GetDlgItem(hwndDlg, IDC_CONTACTS), iItem, 0);
-  char* szProto = GetContactProto(wndData->mhContact);
+  char* szProto =GetContactProto(wndData->mhContact);
   wndData->rhSearch = (HANDLE)CallProtoService(szProto, PS_BASICSEARCH, 0, (LPARAM)caUIN); // find it
   SAFE_FREE((void**)&wndData->haUin);
   wndData->haUin = caUIN;
@@ -193,7 +193,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
       TranslateMenu(wndData->mhPopup);
       wndData->hHook = HookEventMessage(ME_PROTO_ACK, hwndDlg, HM_EVENTSENT);
 
-      char *szProto = GetContactProto(wndData->mhContact);
+      char *szProto =GetContactProto(wndData->mhContact);
 
       HWND hLV = GetDlgItem(hwndDlg, IDC_CONTACTS);
       ListView_SetExtendedListViewStyle(hLV, LVS_EX_CHECKBOXES|LVS_EX_FULLROWSELECT);
@@ -332,7 +332,7 @@ INT_PTR CALLBACK RecvDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
               for (int j = 0; j < wndData->cbReceived; j++)   // determine item index in packet
                 if (!strcmpnull(wndData->maReceived[j]->mcaUIN, caUIN))
                 {
-                  char* szProto = GetContactProto(wndData->mhContact);
+                  char* szProto =GetContactProto(wndData->mhContact);
                   HANDLE hContact = (HANDLE)CallProtoService(szProto, PS_ADDTOLISTBYEVENT, MAKEWPARAM(0, j), (LPARAM)wndData->mhDbEvent);
                   if (hContact && caGroup)
                   { // use newest group API if available

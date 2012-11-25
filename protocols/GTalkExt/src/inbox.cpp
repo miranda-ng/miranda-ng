@@ -382,7 +382,7 @@ LPTSTR CraftInboxUrl(LPTSTR jid)
 
 void OpenContactInbox(HANDLE hContact)
 {
-	LPSTR acc = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	LPSTR acc = GetContactProto(hContact);
 	if (!acc) return;
 
 	DBVARIANT dbv;

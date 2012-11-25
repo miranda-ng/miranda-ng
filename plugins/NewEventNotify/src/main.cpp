@@ -240,7 +240,7 @@ int CheckMsgWnd(HANDLE hContact)
 		char *szProto;
 		TCHAR *contactName, *szStatus;
 
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 		szStatus = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, szProto?DBGetContactSettingWord(hContact,szProto,"Status",ID_STATUS_OFFLINE):ID_STATUS_OFFLINE, GSMDF_TCHAR);
 

@@ -76,7 +76,7 @@ static HANDLE HContactFromPoint(HWND hwnd, struct ClcData *dat, int x, int y, in
 	if (hit == -1 || !(hitFlags & (CLCHT_ONITEMLABEL | CLCHT_ONITEMICON)) || contact->type != CLCIT_CONTACT)
 		return NULL;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hContact, 0);
+	char *szProto = GetContactProto(contact->hContact);
 	if (szProto == NULL)
 		return NULL;
 

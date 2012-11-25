@@ -986,7 +986,7 @@ TCHAR *CTooltipNotify::MakeTooltipString(HANDLE hContact, int iStatus, TCHAR *sz
 	const TCHAR* szIs = TranslateT("is");
 
 	const char* szProto = 
-		hContact==0 ? "Proto" : (char*)::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		hContact==0 ? "Proto" : (char*)::GetContactProto(hContact);
 	const TCHAR* szContactName = 
 		(TCHAR *)::CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 

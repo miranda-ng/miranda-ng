@@ -53,7 +53,7 @@ TCHAR *GetContactID(HANDLE hContact);
 TCHAR *GetContactID(HANDLE hContact, char *szProto);
 HANDLE GetContactFromID(TCHAR *szID, char *szProto);
 HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
-void GetContactProtocol(HANDLE hContact, char *szProto, size_t size);
+void GetContactProto(HANDLE hContact, char *szProto, size_t size);
 
 int MyPUShowMessage(char *lpzText, BYTE kind);
 

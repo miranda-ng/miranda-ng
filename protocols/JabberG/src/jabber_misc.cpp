@@ -177,7 +177,7 @@ HANDLE CJabberProto::DBCreateContact(const TCHAR *jid, const TCHAR *nick, BOOL t
 	// We can't use JabberHContactFromJID() here because of the stripResource option
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto!=NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
 			if ( !JGetStringT(hContact, "jid", &dbv)) {
@@ -330,7 +330,7 @@ void CJabberProto::ResolveTransportNicks(const TCHAR *jid)
 		hContact = (HANDLE)db_find_first();
 
 	for (; hContact != NULL; hContact = db_find_next(hContact)) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (lstrcmpA(szProto, m_szModuleName))
 			continue;
 

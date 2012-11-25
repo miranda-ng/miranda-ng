@@ -34,7 +34,7 @@ static void sttUpdateTitle(HWND hwndDlg, HANDLE hContact)
 	char  *szProto;
 
 	if (hContact) {
-		szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto) {
 			CONTACTINFO ci;
 			int hasName = 0;
@@ -141,7 +141,7 @@ INT_PTR CALLBACK DlgProcUrlRecv(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
 				char *szProto;
 				
-				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				szProto = GetContactProto(dat->hContact);
 				if (szProto) {
 					HICON hIcon;
 					
@@ -522,7 +522,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		{
 			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				char *szProto = GetContactProto(dat->hContact);
 				if (szProto) {
 					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
@@ -630,7 +630,7 @@ INT_PTR CALLBACK DlgProcUrlSend(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_URL;
 		dbei.flags = DBEF_SENT;
-		dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+		dbei.szModule = GetContactProto(dat->hContact);
 		dbei.timestamp = time(NULL);
 		dbei.cbBlob = (DWORD)(strlen(dat->sendBuffer)+strlen(dat->sendBuffer+strlen(dat->sendBuffer)+1)+2);
 		dbei.pBlob = (PBYTE)dat->sendBuffer;

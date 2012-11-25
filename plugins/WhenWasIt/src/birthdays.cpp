@@ -90,7 +90,7 @@ void CBirthdays::Realloc(int increaseCapacity)
 
 int CBirthdays::Add(HANDLE hContact, HANDLE hClistIcon)
 {
-	if (!Contains(hContact))
+	if ( !Contains(hContact))
 		{
 			EnsureCapacity();
 			TBirthdayContact *item = (TBirthdayContact *) malloc(sizeof(TBirthdayContact));

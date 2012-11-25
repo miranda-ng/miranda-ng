@@ -115,9 +115,8 @@ HANDLE g_hContactMenuSvc[CMITEMS_COUNT];
 // Helper functions
 static FacebookProto * GetInstanceByHContact(HANDLE hContact)
 {
-	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0));
-	if(!proto)
+	char *proto = GetContactProto(hContact);
+	if( !proto )
 		return 0;
 
 	for(int i=0; i<g_Instances.getCount(); i++)

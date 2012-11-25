@@ -58,7 +58,7 @@ bool NeedWaitForContent(CLCINFOTIPEX *clcitex)
 
 	if (opt.bWaitForContent && IsContactTooltip(clcitex))
 	{
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)clcitex->hItem, 0);
+		char *szProto = GetContactProto(clcitex->hItem);
 		if (!szProto) return false;
 
 		if (opt.bWaitForStatusMsg && !bStatusMsgReady)

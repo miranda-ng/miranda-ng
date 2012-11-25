@@ -287,7 +287,7 @@ int RegisterPOP3Plugin(WPARAM,LPARAM)
 		hContact = db_find_first();
 		while(hContact) 
 		{
-			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			szProto = GetContactProto(hContact);
 			if (szProto != NULL && strcmp(szProto, YAMN_DBMODULE)==0)
 			{
 				if (!DBGetContactSettingString(hContact,YAMN_DBMODULE,"Id",&dbv)) {

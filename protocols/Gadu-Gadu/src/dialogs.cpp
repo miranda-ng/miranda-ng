@@ -746,7 +746,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 					if (hContact == NULL)
 						szProto = gg->m_szModuleName;
 					else
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = GetContactProto(hContact);
 					if (szProto == NULL)
 						break;
 
@@ -880,7 +880,7 @@ static INT_PTR CALLBACK gg_detailsdlgproc(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 int GGPROTO::details_init(WPARAM wParam, LPARAM lParam)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, lParam, 0);
+	char* szProto = GetContactProto((HANDLE)lParam);
 	if ((szProto == NULL || strcmp(szProto, m_szModuleName)) && lParam || lParam && db_get_b((HANDLE)lParam, m_szModuleName, "ChatRoom", 0))
 			return 0;
 

@@ -60,7 +60,7 @@ static void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type)
 static char *MsgServiceName(HANDLE hContact)
 {
 	char szServiceName[100];
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return PSS_MESSAGE;
 
@@ -72,7 +72,7 @@ static char *MsgServiceName(HANDLE hContact)
 
 static BOOL IsUtfSendAvailable(HANDLE hContact)
 {
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if ( szProto == NULL )
 		return FALSE;
 
@@ -719,7 +719,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				PostMessage(GetDlgItem(hwndDlg, IDC_MESSAGE), EM_SETSEL, len, len);
 			}
 
-			dat->szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dat->hContact, 0);
+			dat->szProto = GetContactProto(dat->hContact);
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_LOG));
 			RichUtil_SubClass(GetDlgItem(hwndDlg, IDC_MESSAGE));
 

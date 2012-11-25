@@ -211,7 +211,7 @@ static int gg_preshutdown(WPARAM wParam, LPARAM lParam)
 // Gets protocol instance associated with a contact
 static GGPROTO* gg_getprotoinstance(HANDLE hContact)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	list_t l = g_Instances;
 
 	if (szProto == NULL)

@@ -24,7 +24,7 @@ BOOL UpdateListFlag = FALSE;
 
 BOOL IsMyContact(HANDLE hContact)
 {
-	const char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(MODULE, szProto) == 0;
 }
 

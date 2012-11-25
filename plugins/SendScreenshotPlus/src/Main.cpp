@@ -208,8 +208,8 @@ INT_PTR service_CaptureAndSendDesktop(WPARAM wParam, LPARAM lParam) {
 	LPTSTR pszPath = GetCustomPath();
 	if(pszPath)
 	{
-		LPSTR  pszProto		= (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
-		bool bChatRoom		= DBGetContactSettingByte((HANDLE)wParam, pszProto, "ChatRoom", 0) != 0;
+		LPSTR  pszProto = GetContactProto((HANDLE)wParam);
+		bool bChatRoom = DBGetContactSettingByte((HANDLE)wParam, pszProto, "ChatRoom", 0) != 0;
 		frmMain->m_opt_chkTimed			= false;
 		frmMain->m_opt_tabCapture		= 1;
 		frmMain->m_opt_cboxDesktop		= 0;

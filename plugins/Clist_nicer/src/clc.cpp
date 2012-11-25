@@ -125,7 +125,7 @@ static int ClcSettingChanged(WPARAM wParam, LPARAM lParam)
 			else if ( !__strcmp(cws->szSetting, "Timezone") || !__strcmp(cws->szSetting, "TzName"))
 				ReloadExtraInfo((HANDLE)wParam);
 		}
-		else if (wParam != 0 && (szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0)) != NULL) {
+		else if (wParam != 0 && (szProto = GetContactProto((HANDLE)wParam)) != NULL) {
 			char *id = NULL;
 			if ( !__strcmp(cws->szModule, "Protocol") && !__strcmp(cws->szSetting, "p")) {
 				char *szProto_s;
@@ -352,7 +352,7 @@ LBL_Def:
 				HANDLE hSelItem = NULL;
 				ClcContact *selcontact = NULL;
 
-				char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+				char *szProto = GetContactProto((HANDLE)wParam);
 				if (szProto == NULL)
 					status = ID_STATUS_OFFLINE;
 				else
@@ -412,7 +412,7 @@ LBL_Def:
 
 			if (contact->bIsMeta && cfg::dat.bMetaAvail && !(cfg::dat.dwFlags & CLUI_USEMETAICONS)) {
 				contact->hSubContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) contact->hContact, 0);
-				contact->metaProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) contact->hSubContact, 0);
+				contact->metaProto = GetContactProto(contact->hSubContact);
 				contact->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) contact->hSubContact, 0);
 				if (contact->extraCacheEntry >= 0 && contact->extraCacheEntry < cfg::nextCacheEntry) {
 					int subIndex = cfg::getCache(contact->hSubContact, contact->metaProto);
@@ -523,7 +523,7 @@ LBL_Def:
 			if ( !FindItem(hwnd, dat, (HANDLE)wParam, &contact, NULL, NULL))
 				break;
 
-			contact->proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			contact->proto = GetContactProto((HANDLE)wParam);
 			CallService(MS_CLIST_INVALIDATEDISPLAYNAME, wParam, 0);
 			lstrcpyn(contact->szText, pcli->pfnGetContactDisplayName((HANDLE)wParam, 0), safe_sizeof(contact->szText));
 

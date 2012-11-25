@@ -725,7 +725,7 @@ int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
 	if (!m_bLoggedIn)
 		return 0;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto==NULL || strcmp(szProto, m_szModuleName))
 		return 0;
 

@@ -251,7 +251,7 @@ static BOOL CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					  if (hContact == NULL)
 						szProto = protocolname;
 					  else
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = GetContactProto(hContact);
 
 					  if (szProto == NULL)
 						break;
@@ -375,7 +375,7 @@ static BOOL CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam, L
 							if (hContact == NULL)
 								szProto = protocolname;
 							else
-								szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+								szProto = GetContactProto(hContact);
 
 							if (szProto == NULL)
 								break;

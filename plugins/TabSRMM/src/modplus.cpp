@@ -59,7 +59,7 @@ static char* getMirVer(HANDLE hContact)
 	char		*msg = NULL;
 	DBVARIANT 	dbv = {0};
 
-	szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	szProto = GetContactProto(hContact);
 	if ( !szProto )
 		return (NULL);
 

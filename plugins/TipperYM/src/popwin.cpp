@@ -378,7 +378,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 				TCHAR *swzNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)pwd->hContact, GCDNF_TCHAR);
 				_tcsncpy(pwd->swzTitle, swzNick, TITLE_TEXT_LEN);
 
-				char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pwd->hContact, 0);
+				char *szProto = GetContactProto(pwd->hContact);
 				pwd->spiTitle = Smileys_PreParse(pwd->swzTitle, -1, szProto);
 
 				// get extra icons
@@ -1266,7 +1266,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 								pwd->rows = (RowData *)mir_realloc(pwd->rows, sizeof(RowData) * (pwd->iRowCount + 1));	
 							}
 
-							char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)pwd->hContact, 0);
+							char *szProto = GetContactProto(pwd->hContact);
 
 							pwd->rows[pwd->iRowCount].swzLabel = mir_tstrdup(buff_label);
 							pwd->rows[pwd->iRowCount].swzValue = mir_tstrdup(buff);
@@ -1772,7 +1772,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					HANDLE hContact = db_find_first();
 					while (hContact)
 					{
-						char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						char *proto = GetContactProto(hContact);
 						if (proto && !strcmp(proto, pa->szModuleName))
 						{
 							if (DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
@@ -1932,7 +1932,7 @@ LRESULT CALLBACK PopupWindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPa
 					{
 						if (DBGetContactSettingByte(hContact, MODULE, "FavouriteContact", 0))
 						{
-							char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+							char *proto = GetContactProto(hContact);
 							if (proto) 
 							{
 								WORD wStatus = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);

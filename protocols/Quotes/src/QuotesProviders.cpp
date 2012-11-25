@@ -86,9 +86,8 @@ void CQuotesProviders::InitProviders()
 
 CQuotesProviders::TQuotesProviderPtr CQuotesProviders::GetContactProviderPtr(HANDLE hContact)const
 {
-	char* szProto = reinterpret_cast<char*>(CallService(MS_PROTO_GETCONTACTBASEPROTO,
-											reinterpret_cast<WPARAM>(hContact),0));
-	if(NULL == szProto || 0 != ::_stricmp(szProto,QUOTES_PROTOCOL_NAME))
+	char* szProto = GetContactProto(hContact);
+	if(NULL == szProto || 0 != ::_stricmp(szProto, QUOTES_PROTOCOL_NAME))
 	{
 		return TQuotesProviderPtr();
 	}

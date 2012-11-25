@@ -51,7 +51,7 @@ static int GetContactStatus(HANDLE hContact)
 {
     char *szProto;
 
-    szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+    szProto = GetContactProto(hContact);
     if (szProto == NULL)
         return ID_STATUS_OFFLINE;
     return cfg::getWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -161,7 +161,7 @@ void LoadContactTree(void)
     while (hContact != NULL) {
         status = GetContactStatus(hContact);
         if ((!hideOffline || status != ID_STATUS_OFFLINE) && !CLVM_GetContactHiddenStatus(hContact, NULL, NULL))
-            pcli->pfnChangeContactIcon(hContact, IconFromStatusMode((char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact, NULL), 1);
+            pcli->pfnChangeContactIcon(hContact, IconFromStatusMode(GetContactProto(hContact), status, hContact, NULL), 1);
 
         if (mc_disablehgh && !mc_hgh_removed) {
             if ( !DBGetContactSetting(hContact, "CList", "Group", &dbv)) {

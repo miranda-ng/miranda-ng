@@ -103,7 +103,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 
 		LvItem.iSubItem = 1; // id
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)chg->hContact[i], 0);
+		proto = GetContactProto(chg->hContact[i]);
 		if (proto) {
 			field = (char *)CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
 

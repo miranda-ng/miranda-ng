@@ -74,7 +74,7 @@ static void SetAllContactIcons(HWND hwndList)
 {
 	HANDLE hContact = db_find_first();
 	do {
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
 		if(!chat_room) {
@@ -198,7 +198,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					{
 						HANDLE hContact = db_find_first();
 						do {
-							char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+							char *proto = GetContactProto(hContact);
 							bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 					
 							if(!chat_room) {							

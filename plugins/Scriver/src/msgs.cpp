@@ -63,12 +63,11 @@ static int SRMMStatusToPf2(int status)
 
 int IsAutoPopup(HANDLE hContact) {
 	if (g_dat->flags & SMF_AUTOPOPUP) {
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (strcmp(szProto, "MetaContacts") == 0 ) {
 			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)hContact, 0);
-			if (hContact != NULL) {
-				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-			}
+			if (hContact != NULL)
+				szProto = GetContactProto(hContact);
 		}
 		if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) {
 			return 1;
@@ -150,18 +149,13 @@ static INT_PTR SendMessageCommandW(WPARAM wParam, LPARAM lParam)
    HWND hwnd;
    NewMessageWindowLParam newData = { 0 };
 
-   {
-      /* does the HCONTACT's protocol support IM messages? */
-      char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
-      if (szProto) {
-         if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
-            return 1;
-      }
-      else {
-         /* unknown contact */
-         return 1;
-      }                       //if
-   }
+   /* does the HCONTACT's protocol support IM messages? */
+   char *szProto = GetContactProto((HANDLE)wParam);
+   if (szProto == NULL)
+      return 1; /* unknown contact */
+
+	if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
+		return 1;
 
    if ((hwnd = WindowList_Find(g_dat->hMessageWindowList, (HANDLE) wParam))) {
       if (lParam) {
@@ -194,7 +188,7 @@ static INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
    NewMessageWindowLParam newData = { 0 };
 
    {
-      char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+      char *szProto = GetContactProto((HANDLE)wParam);
       //logInfo("Show message window for: %s (%s)", CallService(MS_CLIST_GETCONTACTDISPLAYNAME, wParam, 0), szProto);
       if (szProto) {
 	      /* does the HCONTACT's protocol support IM messages? */
@@ -284,7 +278,7 @@ static int TypingMessage(WPARAM wParam, LPARAM lParam)
 static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 {
    DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
-   char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+   char *szProto = GetContactProto((HANDLE)wParam);
    if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
       return 0;
    WindowList_Broadcast(g_dat->hMessageWindowList, DM_CLISTSETTINGSCHANGED, wParam, lParam);
@@ -385,7 +379,7 @@ static INT_PTR GetWindowData(WPARAM wParam, LPARAM lParam)
 static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 
 		CLISTMENUITEM clmi = {0};
 		clmi.cbSize = sizeof(CLISTMENUITEM);

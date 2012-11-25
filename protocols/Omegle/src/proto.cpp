@@ -244,7 +244,7 @@ int OmegleProto::OnContactDeleted(WPARAM wparam,LPARAM)
 
 /*bool OmegleProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
-	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
+	const char *proto = reinterpret_cast<char*>(GetContactProto(
 		reinterpret_cast<WPARAM>(hContact),0));
 
 	if ( proto && strcmp(m_szModuleName,proto) == 0 )

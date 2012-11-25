@@ -196,7 +196,7 @@ static void SetAllContactIcons(HWND hwndList)
 	do {
 		hItem = (HANDLE)SendMessage(hwndList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 		if(hItem && SendMessage(hwndList, CLM_GETEXTRAIMAGE, (WPARAM)hItem, MAKELPARAM(IGNOREEVENT_MAX, 0)) == EMPTY_EXTRA_ICON) {
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			szProto = GetContactProto(hContact);
 			if(szProto == NULL)
 				protoCaps = 0;
 			else

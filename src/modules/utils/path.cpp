@@ -66,7 +66,7 @@ static INT_PTR createDirTreeW(WPARAM, LPARAM lParam)
 TCHAR *GetContactID(HANDLE hContact)
 {
 	TCHAR *theValue = {0};
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (db_get_b(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
@@ -275,7 +275,7 @@ XCHAR *GetInternalVariable(XCHAR *key, size_t keyLength, HANDLE hContact)
 		if ( !_xcscmp(theKey, XSTR(key, "nick")))
 			theValue = GetContactNickX(key, hContact);
 		else if ( !_xcscmp(theKey, XSTR(key, "proto")))
-			theValue = mir_a2x(key, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+			theValue = mir_a2x(key, GetContactProto(hContact));
 		else if ( !_xcscmp(theKey, XSTR(key, "userid"))) 
 			theValue = GetContactIDX(key, hContact);
 	}

@@ -1848,7 +1848,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 			while (hContact)
 			{
 				
-				GetContactProtocol(hContact, protocol, sizeof(protocol));
+				GetContactProto(hContact, protocol, sizeof(protocol));
 				
 				char *contact = GetContactName(hContact, protocol);
 				char *id = GetContactID(hContact, protocol);
@@ -1894,7 +1894,7 @@ void HandleContactsCommand(PCommand command, TArgument *argv, int argc, PReply r
 					*reply->message = 0;
 					while (hContact)
 					{
-						GetContactProtocol(hContact, protocol, sizeof(protocol));
+						GetContactProto(hContact, protocol, sizeof(protocol));
 						
 						char *contact = GetContactName(hContact, protocol);
 						char *id = GetContactID(hContact, protocol);
@@ -2030,7 +2030,7 @@ void HandleHistoryCommand(PCommand command, TArgument *argv, int argc, PReply re
 								hEvent = (HANDLE) CallService(MS_DB_EVENT_FINDNEXT, (WPARAM) hEvent, 0);
 							}
 							
-							GetContactProtocol(hContact, protocol, sizeof(protocol));
+							GetContactProto(hContact, protocol, sizeof(protocol));
 							contact = GetContactName(hContact, protocol);
 							mir_snprintf(buffer, sizeof(buffer), Translate("%s:%s - %d unread events."), contact, protocol, count);
 							

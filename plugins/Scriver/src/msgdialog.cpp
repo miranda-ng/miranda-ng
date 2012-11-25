@@ -164,7 +164,7 @@ void NotifyLocalWinEvent(HANDLE hContact, HWND hwnd, unsigned int type) {
 
 static BOOL IsUtfSendAvailable(HANDLE hContact)
 {
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if ( szProto == NULL )
 		return FALSE;
 
@@ -264,11 +264,10 @@ void SetStatusIcon(struct SrmmWindowData *dat) {
 		if ((INT_PTR)szMetaProto != CALLSERVICE_NOTFOUND && strcmp(dat->szProto, szMetaProto) == 0 &&
 			DBGetContactSettingByte(NULL,"CLC","Meta",0) == 0) {
 			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(WPARAM)dat->windowData.hContact, 0);
-			if (hContact != NULL) {
-				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-			} else {
+			if (hContact != NULL)
+				szProto = GetContactProto(hContact);
+			else
 				hContact = dat->windowData.hContact;
-			}
 		}
 
 		Skin_ReleaseIcon(dat->statusIcon);
@@ -767,7 +766,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			dat->hwndParent = GetParent(hwndDlg);
 			dat->parent = (ParentWindowData *) GetWindowLongPtr(dat->hwndParent, GWLP_USERDATA);
 			dat->windowData.hwndLog = NULL;
-			dat->szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dat->windowData.hContact, 0);
+			dat->szProto = GetContactProto(dat->windowData.hContact);
 			dat->avatarPic = 0;
 			if (dat->windowData.hContact && dat->szProto != NULL)
 				dat->wStatus = DBGetContactSettingWord(dat->windowData.hContact, dat->szProto, "Status", ID_STATUS_OFFLINE);
@@ -1889,7 +1888,7 @@ INT_PTR CALLBACK DlgProcMessage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 				if (dat->szProto!=NULL && strcmp(dat->szProto,"MetaContacts")==0) {
 					HANDLE hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) dat->windowData.hContact, 0);
 					if (hContact!=NULL) {
-						smaddInfo.Protocolname = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						smaddInfo.Protocolname = GetContactProto(hContact);
 					}
 				}
 				GetWindowRect(GetDlgItem(hwndDlg, IDC_SMILEYS), &rc);

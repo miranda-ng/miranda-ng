@@ -413,7 +413,7 @@ int TSAPI MsgWindowMenuHandler(TWindowData *dat, int selection, int menuId)
 				if (dat && dat->bType == SESSIONTYPE_CHAT) {
 					SESSION_INFO *si = (SESSION_INFO *)dat->si;
 					if ( (si != NULL) && (dat->hContact != NULL)) {
-						char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dat->hContact, 0);
+						char* szProto = GetContactProto(dat->hContact);
 						if ( szProto )
 							CallProtoService( szProto, PS_LEAVECHAT, (WPARAM)dat->hContact, 0 );
 					}

@@ -209,7 +209,7 @@ void CSmileyString::ReplaceSmileys(struct SHORTDATA *dat, ClcCacheEntry *pdnce, 
 		if (db_get_b(NULL,"CLC","Meta",SETTING_USEMETAICON_DEFAULT) != 1 && pdnce->m_cache_cszProto != NULL && g_szMetaModuleName && strcmp(pdnce->m_cache_cszProto, g_szMetaModuleName) == 0) {
 			HANDLE hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (LPARAM)pdnce->hContact, 0);
 			if (hContact != 0)
-				sp.Protocolname = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (LPARAM)hContact, 0);
+				sp.Protocolname = GetContactProto(hContact);
 		}
 	}
 	else sp.Protocolname = "clist";

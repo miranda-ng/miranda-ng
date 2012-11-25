@@ -7,7 +7,7 @@ void HistoryLog(HANDLE hContact, LPCSTR szText) {
 	memset(&dbei, 0, sizeof(dbei));
 
 	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	dbei.szModule = GetContactProto(hContact);
 	dbei.flags = DBEF_SENT|DBEF_READ;
 	dbei.timestamp = time(NULL);
 	dbei.eventType = EVENTTYPE_MESSAGE;

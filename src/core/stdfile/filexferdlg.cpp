@@ -78,7 +78,7 @@ static void SetOpenFileButtonStyle(HWND hwndButton, int enabled)
 void FillSendData(FileDlgData* dat, DBEVENTINFO& dbei)
 {
 	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+	dbei.szModule = GetContactProto(dat->hContact);
 	dbei.eventType = EVENTTYPE_FILE;
 	dbei.flags = DBEF_SENT;
 	dbei.timestamp = time(NULL);
@@ -282,7 +282,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			dat->hIcon = NULL;
 
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BM_SETIMAGE, IMAGE_ICON, 
-				(LPARAM)LoadSkinnedProtoIcon((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0), ID_STATUS_ONLINE));
+				(LPARAM)LoadSkinnedProtoIcon(GetContactProto(dat->hContact), ID_STATUS_ONLINE));
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONADDTOOLTIP, (WPARAM)LPGEN("Contact menu"), 0);
 			SendDlgItemMessage(hwndDlg, IDC_CONTACT, BUTTONSETASFLATBTN, TRUE, 0);
 
@@ -469,7 +469,7 @@ INT_PTR CALLBACK DlgProcFileTransfer(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		case M_FILEEXISTSDLGREPLY:
 		{	PROTOFILERESUME *pfr = (PROTOFILERESUME*)lParam;
 			TCHAR *szOriginalFilename = (TCHAR*)wParam;
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+			char *szProto = GetContactProto(dat->hContact);
 
 			EnableWindow(hwndDlg, TRUE);
 			switch(pfr->action) {

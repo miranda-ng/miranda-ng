@@ -1550,7 +1550,7 @@ static LRESULT clcOnIntmIconChanged(ClcData *dat, HWND hwnd, UINT msg, WPARAM wP
 	HANDLE hSelItem = NULL;
 	ClcContact *selcontact = NULL;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL)
 		status = ID_STATUS_OFFLINE;
 	else

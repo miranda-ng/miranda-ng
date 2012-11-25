@@ -539,7 +539,7 @@ void CJabberProto::CheckAllContactsAreTransported()
 {
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if ( !lstrcmpA(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
 			if ( !JGetStringT(hContact, "jid", &dbv)) {

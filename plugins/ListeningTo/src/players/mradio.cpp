@@ -41,7 +41,7 @@ int MRadio::GetData()
 	hContact = db_find_first();
 	while (hContact != NULL) 
 	{
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if (proto)
 		{
 			if (strcmp("mRadio", proto) == 0) 

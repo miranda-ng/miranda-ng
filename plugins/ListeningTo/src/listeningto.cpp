@@ -314,7 +314,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if (proto != NULL) {
 			DBVARIANT dbv;
 			if (!DBGetContactSettingTString(hContact, proto, "ListeningTo", &dbv)) {
@@ -985,7 +985,7 @@ int SettingChanged(WPARAM wParam,LPARAM lParam)
 	if (strcmp(cws->szSetting, "ListeningTo") != 0)
 		return 0;
 
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if (proto == NULL)
 		return 0;
 

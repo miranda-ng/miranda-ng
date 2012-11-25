@@ -138,7 +138,7 @@ int TlenUserInfoInit(void *ptr, WPARAM wParam, LPARAM lParam)
 	if (!CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM) proto->m_szModuleName))
 		return 0;
 	hContact = (HANDLE) lParam;
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	szProto = GetContactProto(hContact);
 	if ((szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) || !lParam) {
 		odp.cbSize = sizeof(odp);
 		odp.hInstance = hInst;

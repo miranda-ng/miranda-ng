@@ -32,7 +32,7 @@ static HANDLE hSRFileMenuItem;
 TCHAR *GetContactID(HANDLE hContact)
 {
 	TCHAR *theValue = {0};
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0) == 1) {
 		DBVARIANT dbv;
 		if ( !DBGetContactSettingTString(hContact, szProto, "ChatRoomID", &dbv)) {
@@ -312,7 +312,7 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL) {
 		if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_FILESEND) {
 			if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_OFFLINEFILES)
@@ -396,7 +396,7 @@ static INT_PTR Proto_RecvFileT(WPARAM, LPARAM lParam)
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = (pre->flags & PREF_CREATEREAD) ? DBEF_READ : 0;
 	dbei.eventType = EVENTTYPE_FILE;

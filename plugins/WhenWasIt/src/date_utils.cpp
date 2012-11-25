@@ -31,58 +31,43 @@ time_t Today()
 
 int IsDOBValid(int year, int month, int day)
 {
-	return ((year != 0) && (month != 0) && (day != 0));
+	return (year != 0 && month != 0 && day != 0);
 }
 
 int GetContactDOB(HANDLE hContact, int &year, int &month, int &day)
 {
-	int res = DOB_USERINFO;
-	
-	//TCHAR *contact = GetContactName(hContact, NULL);
-	year = DBGetContactSettingWord(hContact, "UserInfo", "DOBy", 0);
-	month = DBGetContactSettingByte(hContact, "UserInfo", "DOBm", 0);
-	day = DBGetContactSettingByte(hContact, "UserInfo", "DOBd", 0);
-	
-	if (!IsDOBValid(year, month, day))
-		{
-			res = DOB_MBIRTHDAY;
-			year = DBGetContactSettingWord(hContact, "mBirthday", "BirthYear", 0);
-			month = DBGetContactSettingByte(hContact, "mBirthday", "BirthMonth", 0);
-			day = DBGetContactSettingByte(hContact, "mBirthday", "BirthDay", 0);
-		}
-		
-	if (!IsDOBValid(year, month, day))
-		{
-			res = DOB_PROTOCOL;
-			char protocol[512];
-			GetContactProtocol(hContact, protocol, sizeof(protocol));
-			year = DBGetContactSettingWord(hContact, protocol, "BirthYear", 0);
-			month = DBGetContactSettingByte(hContact, protocol, "BirthMonth", 0);
-			day = DBGetContactSettingByte(hContact, protocol, "BirthDay", 0);
-		}
-		
-	if (!IsDOBValid(year, month, day))
-		{
-			res = DOB_BIRTHDAYREMINDER;
-			year = DBGetContactSettingWord(hContact, "BirthDay", "BirthYear", 0);
-			month = DBGetContactSettingByte(hContact, "BirthDay", "BirthMonth", 0);
-			day = DBGetContactSettingByte(hContact, "BirthDay", "BirthDay", 0);
-		}
-		
-	if (!IsDOBValid(year, month, day))
-		{
-			res = DOB_MICQBIRTHDAY;
-			year = DBGetContactSettingDword(hContact, "micqBirthday", "BirthYear", 0);
-			month = DBGetContactSettingDword(hContact, "micqBirthday", "BirthMonth", 0);
-			day = DBGetContactSettingDword(hContact, "micqBirthday", "BirthDay", 0);
-		}
+	year = db_get_w(hContact, "UserInfo", "DOBy", 0);
+	month = db_get_b(hContact, "UserInfo", "DOBm", 0);
+	day = db_get_b(hContact, "UserInfo", "DOBd", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_USERINFO;
 
-	if (!IsDOBValid(year, month, day))
-		{
-			res = DOB_UNKNOWN;
-		}
-	//free(contact);
-	return res;
+	year = db_get_w(hContact, "mBirthday", "BirthYear", 0);
+	month = db_get_b(hContact, "mBirthday", "BirthMonth", 0);
+	day = db_get_b(hContact, "mBirthday", "BirthDay", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_MBIRTHDAY;
+
+	char *szProto = GetContactProto(hContact);
+	year = db_get_w(hContact, szProto, "BirthYear", 0);
+	month = db_get_b(hContact, szProto, "BirthMonth", 0);
+	day = db_get_b(hContact, szProto, "BirthDay", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_PROTOCOL;
+
+	year = db_get_w(hContact, "BirthDay", "BirthYear", 0);
+	month = db_get_b(hContact, "BirthDay", "BirthMonth", 0);
+	day = db_get_b(hContact, "BirthDay", "BirthDay", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_BIRTHDAYREMINDER;
+
+	year = db_get_dw(hContact, "micqBirthday", "BirthYear", 0);
+	month = db_get_dw(hContact, "micqBirthday", "BirthMonth", 0);
+	day = db_get_dw(hContact, "micqBirthday", "BirthDay", 0);
+	if ( IsDOBValid(year, month, day))
+		return DOB_MICQBIRTHDAY;
+
+	return DOB_UNKNOWN;
 }
 
 int GetContactAge(HANDLE hContact)
@@ -97,43 +82,35 @@ int GetContactAge(HANDLE hContact)
 
 char GetContactGender(HANDLE hContact)
 {
-	char gender = DBGetContactSettingByte(hContact, "UserInfo", "Gender", 'U');
+	char gender = db_get_b(hContact, "UserInfo", "Gender", 'U');
 	if (gender == 'U')
-		{
-			char protocol[512];
-			GetContactProtocol(hContact, protocol, sizeof(protocol));
-			
-			gender = DBGetContactSettingByte(hContact, protocol, "Gender", 'U');
-		}
+		gender = db_get_b(hContact, GetContactProto(hContact), "Gender", 'U');
+
 	return gender;
 }
 
 int IsLeapYear(int year)
 {
-	int yes = ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0)));
-	return yes;
+	return ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0)));
 }
 
 unsigned int GetDaysDifference(time_t time1, time_t time2)
 {
 	errno = 0;
 	double diff = difftime(time1, time2);
-	if (errno == 0)
-		{
-			diff = diff / (60 * 60 * 24);
-			int days = (int) floor(diff);
-			if (days < 0)
-				{
-					struct tm *date = gmtime(&time1);
-					int leap = 0;
-					if ((date->tm_mon > 2) && (IsLeapYear(date->tm_year))) //if month > feb and it's a leap year
-						{
-							leap = 1;
-						}
-					days = 365 + days + leap;
-				}
-			return days;
+	if (errno == 0) {
+		diff = diff / (60 * 60 * 24);
+		int days = (int) floor(diff);
+		if (days < 0) {
+			struct tm *date = gmtime(&time1);
+			int leap = 0;
+			if ((date->tm_mon > 2) && (IsLeapYear(date->tm_year))) //if month > feb and it's a leap year
+				leap = 1;
+
+			days = 365 + days + leap;
 		}
+		return days;
+	}
 	return 0x7fffffff;
 }
 
@@ -158,36 +135,33 @@ int GetDaysDifferenceAfter(time_t time1, time_t time2)
 
 unsigned int DaysToBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
 {
-	if (IsDOBValid(ctYear, ctMonth, ctDay))
-		{
-			struct tm ct = {0};
-			struct tm *tmp = gmtime(&now);
-			ct.tm_year = tmp->tm_year;
-			ct.tm_mon = ctMonth - 1;
-			ct.tm_mday = ctDay;
-			time_t ctBirthday = mktime(&ct);
-			return GetDaysDifference(ctBirthday, now);
-		}
-	return -1;
-}
-
-int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
-{
-	if (IsDOBValid(ctYear, ctMonth, ctDay))
-	{
+	if ( IsDOBValid(ctYear, ctMonth, ctDay)) {
 		struct tm ct = {0};
 		struct tm *tmp = gmtime(&now);
 		ct.tm_year = tmp->tm_year;
 		ct.tm_mon = ctMonth - 1;
 		ct.tm_mday = ctDay;
 		time_t ctBirthday = mktime(&ct);
-		
-		return GetDaysDifferenceAfter(ctBirthday, now);
+		return GetDaysDifference(ctBirthday, now);
 	}
-	
 	return -1;
 }
 
+int DaysAfterBirthday(time_t now, int ctYear, int ctMonth, int ctDay)
+{
+	if ( IsDOBValid(ctYear, ctMonth, ctDay)) {
+		struct tm ct = {0};
+		struct tm *tmp = gmtime(&now);
+		ct.tm_year = tmp->tm_year;
+		ct.tm_mon = ctMonth - 1;
+		ct.tm_mday = ctDay;
+		time_t ctBirthday = mktime(&ct);
+
+		return GetDaysDifferenceAfter(ctBirthday, now);
+	}
+
+	return -1;
+}
 
 void FillProtocol(char *&sYear, char *&sMonth, char *&sDay)
 {
@@ -218,66 +192,54 @@ int SaveBirthday(HANDLE hContact, int year, int month, int day, int mode)
 	char *sYear, *sdYear, *sd2Year;
 	char *sMonth, *sdMonth, *sd2Month;
 	char *sDay, *sdDay, *sd2Day;
-	char protocol[256];
-	GetContactProtocol(hContact, protocol, sizeof(protocol));
+	char *protocol = GetContactProto(hContact);
 	
-	switch (mode)
-		{
-			case SAVE_MODE_MBIRTHDAY:
-				{
-					FillmBirthday(sModule, sYear, sMonth, sDay);
-					FillStandard(sdModule, sdYear, sdMonth, sdDay);
-					sd2Module = protocol;
-					FillProtocol(sd2Year, sd2Month, sd2Day);
-					
-					break;
-				}
-				
-			case SAVE_MODE_PROTOCOL:
-				{
-					sModule = protocol;
-					FillProtocol(sYear, sMonth, sDay);
-				
-					FillmBirthday(sd2Module, sd2Year, sd2Month, sd2Day);
-					FillStandard(sdModule, sdYear, sdMonth, sdDay);
-				
-					break;
-				}
-			
-			case SAVE_MODE_STANDARD:
-			default:
-				{
-					FillStandard(sModule, sYear, sMonth, sDay);
-					FillmBirthday(sdModule, sdYear, sdMonth, sdDay);
-					sd2Module = protocol;
-					FillProtocol(sd2Year, sd2Month, sd2Day);
-					break;
-				}
-		}
-		
-	if (mode == SAVE_MODE_DELETEALL)
-		{
-			DBDeleteContactSetting(hContact, sModule, sYear);
-			DBDeleteContactSetting(hContact, sModule, sMonth);
-			DBDeleteContactSetting(hContact, sModule, sDay);
-		}
-		else{
-			db_set_dw(hContact, sModule, sYear, year);
-			db_set_b(hContact, sModule, sMonth, month);
-			db_set_b(hContact, sModule, sDay, day);
-		}
-	
-	DBDeleteContactSetting(hContact, sdModule, sdYear);
-	DBDeleteContactSetting(hContact, sdModule, sdMonth);
-	DBDeleteContactSetting(hContact, sdModule, sdDay);
-	
-	DBDeleteContactSetting(hContact, sd2Module, sd2Year);
-	DBDeleteContactSetting(hContact, sd2Module, sd2Month);
-	DBDeleteContactSetting(hContact, sd2Module, sd2Day);
-	
-	DBDeleteContactSetting(hContact, "BirthDay", "BirthYear");
-	DBDeleteContactSetting(hContact, "BirthDay", "BirthMonth");
-	DBDeleteContactSetting(hContact, "BirthDay", "BirthDay");
+	switch (mode) {
+	case SAVE_MODE_MBIRTHDAY:
+		FillmBirthday(sModule, sYear, sMonth, sDay);
+		FillStandard(sdModule, sdYear, sdMonth, sdDay);
+		sd2Module = protocol;
+		FillProtocol(sd2Year, sd2Month, sd2Day);
+		break;
 
+	case SAVE_MODE_PROTOCOL:
+		sModule = protocol;
+		FillProtocol(sYear, sMonth, sDay);
+
+		FillmBirthday(sd2Module, sd2Year, sd2Month, sd2Day);
+		FillStandard(sdModule, sdYear, sdMonth, sdDay);
+		break;
+
+	case SAVE_MODE_STANDARD:
+	default:
+		FillStandard(sModule, sYear, sMonth, sDay);
+		FillmBirthday(sdModule, sdYear, sdMonth, sdDay);
+		sd2Module = protocol;
+		FillProtocol(sd2Year, sd2Month, sd2Day);
+		break;
+	}
+
+	if (mode == SAVE_MODE_DELETEALL) {
+		db_unset(hContact, sModule, sYear);
+		db_unset(hContact, sModule, sMonth);
+		db_unset(hContact, sModule, sDay);
+	}
+	else {
+		db_set_dw(hContact, sModule, sYear, year);
+		db_set_b(hContact, sModule, sMonth, month);
+		db_set_b(hContact, sModule, sDay, day);
+	}
+
+	db_unset(hContact, sdModule, sdYear);
+	db_unset(hContact, sdModule, sdMonth);
+	db_unset(hContact, sdModule, sdDay);
+	
+	db_unset(hContact, sd2Module, sd2Year);
+	db_unset(hContact, sd2Module, sd2Month);
+	db_unset(hContact, sd2Module, sd2Day);
+	
+	db_unset(hContact, "BirthDay", "BirthYear");
+	db_unset(hContact, "BirthDay", "BirthMonth");
+	db_unset(hContact, "BirthDay", "BirthDay");
 	return 0;
 }

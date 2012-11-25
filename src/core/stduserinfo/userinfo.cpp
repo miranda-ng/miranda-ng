@@ -412,7 +412,7 @@ static INT_PTR CALLBACK DlgProcDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 	case M_CHECKONLINE:
 		if (dat->hContact != NULL) {
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+			char *szProto = GetContactProto(dat->hContact);
 			if (szProto == NULL)
 				EnableWindow(GetDlgItem(hwndDlg, IDC_UPDATE), FALSE);
 			else {

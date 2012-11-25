@@ -388,7 +388,7 @@ void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
 
 static CMsnProto* GetProtoInstanceByHContact(HANDLE hContact)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 

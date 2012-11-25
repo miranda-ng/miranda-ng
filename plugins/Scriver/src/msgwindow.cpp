@@ -353,7 +353,7 @@ static void AddChild(ParentWindowData *dat, HWND hwnd, HANDLE hContact)
 	MessageWindowTabData *mwtd = (MessageWindowTabData *) mir_alloc(sizeof(MessageWindowTabData));
 	mwtd->hwnd = hwnd;
 	mwtd->hContact = hContact;
-	mwtd->szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	mwtd->szProto = GetContactProto(hContact);
 	mwtd->parent = dat;
 	dat->childrenCount++;
 	tci.mask = TCIF_PARAM | TCIF_IMAGE | TCIF_TEXT;

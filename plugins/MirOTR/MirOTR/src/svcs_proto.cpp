@@ -18,7 +18,7 @@ INT_PTR SVC_OTRSendMessage(WPARAM wParam,LPARAM lParam){
 	if (ccs->wParam & PREF_BYPASS_OTR) // bypass for OTR-messages
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	char *proto = GetContactProto(ccs->hContact);
 	if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) // bypass for metacontacts
 		return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
 	if (!proto || !ccs->hContact) return 1; // error
@@ -166,7 +166,7 @@ INT_PTR SVC_OTRRecvMessage(WPARAM wParam,LPARAM lParam){
 		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 	}
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	char *proto = GetContactProto(ccs->hContact);
 	if (!proto)
 		return 1; //error
 	else if(proto && g_metaproto && strcmp(proto, g_metaproto) == 0) // bypass for metacontacts

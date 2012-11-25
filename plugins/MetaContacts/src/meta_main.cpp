@@ -171,7 +171,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		HANDLE hContact = db_find_first();
 		char *proto;
 		while(hContact != NULL) {
-			//proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			//proto = GetContactProto(hContact);
 			if (!DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
 				proto = dbv.pszVal;
 				if (proto && !lstrcmp( META_PROTO, proto)) {

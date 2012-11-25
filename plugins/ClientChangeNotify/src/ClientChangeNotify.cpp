@@ -178,7 +178,7 @@ void ShowPopup(SHOWPOPUP_DATA *sd)
 	PLUGIN_DATA *pdata = (PLUGIN_DATA*)calloc(1, sizeof(PLUGIN_DATA));
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = sd->hContact;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)sd->hContact, 0);
+	char *szProto = GetContactProto(sd->hContact);
 	pdata->hIcon = ppd.lchIcon = (HICON)CallService(MS_FP_GETCLIENTICON, (WPARAM)(const char*)TCHAR2ANSI(sd->MirVer), false);
 	_ASSERT(ppd.lchIcon);
 	if (!ppd.lchIcon || (DWORD)ppd.lchIcon == CALLSERVICE_NOTFOUND) {
@@ -211,7 +211,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 			if (!hContact) // exit if hContact == NULL and it's not a popup preview
 				return 0;
 
-			szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			szProto = GetContactProto(hContact);
 			_ASSERT(szProto);
 			if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 				return 0;
@@ -301,7 +301,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 static int ContactSettingsInit(WPARAM wParam, LPARAM lParam)
 {
 	CONTACTSETTINGSINIT *csi = (CONTACTSETTINGSINIT*)wParam;
-	char *szProto = (csi->Type == CSIT_CONTACT) ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)csi->hContact, 0) : NULL;
+	char *szProto = (csi->Type == CSIT_CONTACT) ? GetContactProto(csi->hContact) : NULL;
 	if ((csi->Type == CSIT_GROUP) || (szProto && csi->Type == CSIT_CONTACT)) {
 		int Flag1 = (csi->Type == CSIT_CONTACT) ? CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) : PF1_IM; // if it's a group settings dialog, we assume that there are possibly some contacts in the group with PF1_IM capability
 		if (Flag1 & (PF1_IMRECV | PF1_URLRECV | PF1_FILERECV)) { // I hope, these flags are sufficient to describe which protocols can theoretically have a client

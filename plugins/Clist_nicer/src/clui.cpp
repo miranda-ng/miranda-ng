@@ -476,7 +476,7 @@ void SetDBButtonStates(HANDLE hPassedContact)
 				continue;
 			}
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
-				szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				szModule = GetContactProto(hContact);
 			hFinalContact = hContact;
 		} else
 			hFinalContact = 0;
@@ -1444,7 +1444,7 @@ skipbg:
 								if (contactOK) {
 									char szFinalService[512];
 
-									mir_snprintf(szFinalService, 512, "%s/%s", (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), item->szService);
+									mir_snprintf(szFinalService, 512, "%s/%s", GetContactProto(hContact), item->szService);
 									if (ServiceExists(szFinalService))
 										CallService(szFinalService, wwParam, llParam);
 									else
@@ -1460,7 +1460,7 @@ skipbg:
 								if (item->dwFlags & BUTTON_ISCONTACTDBACTION || item->dwFlags & BUTTON_DBACTIONONCONTACT) {
 									contactOK = ServiceParamsOK(item, &wwParam, &llParam, hContact);
 									if (contactOK && item->dwFlags & BUTTON_ISCONTACTDBACTION)
-										szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+										szModule = GetContactProto(hContact);
 									finalhContact = hContact;
 								}
 								else contactOK = 1;

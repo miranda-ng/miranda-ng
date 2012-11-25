@@ -37,7 +37,7 @@ int Log(char *format, ...)
 	va_list	vararg;
 	int tBytes;
 	FILE *fout = fopen(LOG_FILE, "at");
-	if (!fout)
+	if ( !fout)
 		{
 //			MessageBox(0, "can't open file", NULL, MB_OK);
 			return -1;
@@ -159,161 +159,94 @@ int GetStringFromDatabase(char *szSettingName, char *szError, char *szResult, si
 #pragma warning (disable: 4312) 
 TCHAR *GetContactName(HANDLE hContact, char *szProto)
 {
-	CONTACTINFO ctInfo;
-	int ret;
-	char proto[200];
-	
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
-	ctInfo.cbSize = sizeof(ctInfo);
-	if (szProto)
-		{
-			ctInfo.szProto = szProto;
-		}
-		else{
-			GetContactProtocol(hContact, proto, sizeof(proto));
-			ctInfo.szProto = proto;
-		}
-	ctInfo.dwFlag = CNF_DISPLAY;
-
-	ctInfo.dwFlag += CNF_UNICODE;
-
+	CONTACTINFO ctInfo = { sizeof(ctInfo) };
+	ctInfo.szProto = (szProto) ? szProto : GetContactProto(hContact);
+	ctInfo.dwFlag = CNF_DISPLAY | CNF_UNICODE;
 	ctInfo.hContact = hContact;
 	//_debug_message("retrieving contact name for %d", hContact);
-	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
+	int ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
 	//_debug_message("	contact name %s", ctInfo.pszVal);
 	TCHAR *buffer;
-	if (!ret)
-	{
+	if ( !ret)
 		buffer = _tcsdup(ctInfo.pszVal);
-	}
+
 	mir_free(ctInfo.pszVal);
 	if (ret)
-	{
 		return NULL;
-	}
 	
 	return buffer;
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312) 
-void GetContactProtocol(HANDLE hContact, char *szProto, int size)
-{
-	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
-}
-#pragma warning (default: 4312)
-
-#pragma warning (disable: 4312)
 TCHAR *GetContactID(HANDLE hContact)
 {
-	char protocol[256];
-	GetContactProtocol(hContact, protocol, sizeof(protocol));
-
-	return GetContactID(hContact, protocol);
+	return GetContactID(hContact, GetContactProto(hContact));
 }
 
 TCHAR *GetContactID(HANDLE hContact, char *szProto)
 {
-	CONTACTINFO ctInfo;
-	int ret;
-
-	ZeroMemory((void *) &ctInfo, sizeof(ctInfo));	
-	ctInfo.cbSize = sizeof(ctInfo);
+	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = szProto;
-	ctInfo.dwFlag = CNF_UNIQUEID;
-
-	ctInfo.dwFlag |= CNF_UNICODE;
-
+	ctInfo.dwFlag = CNF_UNIQUEID | CNF_UNICODE;
 	ctInfo.hContact = hContact;
-	ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
+	int ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
 	TCHAR *buffer;
-	if (!ret)
-		{
-			TCHAR tmp[16];
-			switch (ctInfo.type)
-				{
-					case CNFT_BYTE:
-						{
-							_stprintf(tmp, _T("%d"), ctInfo.bVal);
-							buffer = _tcsdup(tmp);
-						
-							break;
-						}
-						
-					case CNFT_WORD:
-						{
-							_stprintf(tmp, _T("%d"), ctInfo.wVal);
-							buffer = _tcsdup(tmp);
-						
-							break;
-						}
-						
-					case CNFT_DWORD:
-						{
-							_stprintf(tmp, _T("%ld"), ctInfo.dVal);
-							buffer = _tcsdup(tmp);
-							
-							break;
-						}
-						
-					case CNFT_ASCIIZ:
-					default:
-						{
-							buffer = _tcsdup(ctInfo.pszVal);
-							
-							break;
-						}
-				}
-				
+	if ( !ret) {
+		TCHAR tmp[16];
+		switch (ctInfo.type) {
+		case CNFT_BYTE:
+			_stprintf(tmp, _T("%d"), ctInfo.bVal);
+			buffer = _tcsdup(tmp);
+			break;
 
+		case CNFT_WORD:
+			_stprintf(tmp, _T("%d"), ctInfo.wVal);
+			buffer = _tcsdup(tmp);
+			break;
+
+		case CNFT_DWORD:
+			_stprintf(tmp, _T("%ld"), ctInfo.dVal);
+			buffer = _tcsdup(tmp);
+			break;
+
+		default:
+			buffer = _tcsdup(ctInfo.pszVal);
+			break;
 		}
+	}
+
 	mir_free(ctInfo.pszVal);
-	if (!ret)
-		{
-			return buffer;
-		}
-		else{
-			return NULL;
-		}
+	return (!ret) ? buffer : NULL;
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
 	HANDLE hContact = db_find_first();
 	TCHAR *szHandle;
-	char cProtocol[256];
 
 	int found = 0;
-	while (hContact)
-		{
-			GetContactProtocol(hContact, cProtocol, sizeof(cProtocol));
-			szHandle = GetContactID(hContact, cProtocol);
-			if ((szHandle) && (_tcsicmp(szHandle, szID) == 0) && (_stricmp(szProto, cProtocol) == 0))
-				{
-					found = 1;
-				}
-			if (szHandle) free(szHandle);
-		
-			if (found)
-				{
-					break;
-				}
-			hContact = db_find_next(hContact);
-		}
+	while (hContact) {
+		char *szProto = GetContactProto(hContact);
+		szHandle = GetContactID(hContact, szProto);
+		if (szHandle && !_tcsicmp(szHandle, szID) && !_stricmp(szProto, szProto))
+			found = 1;
+
+		if (szHandle)
+			free(szHandle);
+
+		if (found)
+			break;
+
+		hContact = db_find_next(hContact);
+	}
 	return hContact;
 }
-#pragma warning (default: 4312)
 
-#pragma warning (disable: 4312)
 HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto)
 {
 	char protocol[1024];
 	WideCharToMultiByte(CP_ACP, 0, szProto, -1, protocol, sizeof(protocol), NULL, NULL);
 	return GetContactFromID(szID, protocol);
 }
-#pragma warning (default: 4312)
 
 void ScreenToClient(HWND hWnd, LPRECT rect)
 {
@@ -331,37 +264,31 @@ void ScreenToClient(HWND hWnd, LPRECT rect)
 
 void AnchorMoveWindow(HWND window, const WINDOWPOS *parentPos, int anchors)
 {
-	RECT rParent;
-	RECT rChild;
-	
 	if (parentPos->flags & SWP_NOSIZE)
-		{
-			return;
-		}
+		return;
+
+	RECT rParent;
 	GetWindowRect(parentPos->hwnd, &rParent);
-	rChild = AnchorCalcPos(window, &rParent, parentPos, anchors);
+
+	RECT rChild = AnchorCalcPos(window, &rParent, parentPos, anchors);
 	MoveWindow(window, rChild.left, rChild.top, rChild.right - rChild.left, rChild.bottom - rChild.top, FALSE);
 }
 
 RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos, int anchors)
 {
 	RECT rChild;
-	RECT rTmp;
-
 	GetWindowRect(window, &rChild);
 	ScreenToClient(parentPos->hwnd, &rChild);
 
 	int cx = rParent->right - rParent->left;
 	int cy = rParent->bottom - rParent->top;
 	if ((cx == parentPos->cx) && (cy == parentPos->cy))
-		{
-			return rChild;
-		}
-	if (parentPos->flags & SWP_NOSIZE)
-		{
-			return rChild;
-		}
+		return rChild;
 
+	if (parentPos->flags & SWP_NOSIZE)
+		return rChild;
+
+	RECT rTmp;
 	rTmp.left = parentPos->x - rParent->left;
 	rTmp.right = (parentPos->x + parentPos->cx) - rParent->right;
 	rTmp.bottom = (parentPos->y + parentPos->cy) - rParent->bottom;
@@ -374,20 +301,16 @@ RECT AnchorCalcPos(HWND window, const RECT *rParent, const WINDOWPOS *parentPos,
 	rChild.bottom += cy;
 	//expanded the window accordingly, now we need to enforce the anchors
 	if ((anchors & ANCHOR_LEFT) && (!(anchors & ANCHOR_RIGHT)))
-		{
-			rChild.right -= cx;
-		}
+		rChild.right -= cx;
+
 	if ((anchors & ANCHOR_TOP) && (!(anchors & ANCHOR_BOTTOM)))
-		{
-			rChild.bottom -= cy;
-		}
+		rChild.bottom -= cy;
+
 	if ((anchors & ANCHOR_RIGHT) && (!(anchors & ANCHOR_LEFT)))
-		{
-			rChild.left += cx;
-		}
+		rChild.left += cx;
+
 	if ((anchors & ANCHOR_BOTTOM) && (!(anchors & ANCHOR_TOP)))
-		{
-			rChild.top += cy;
-		}
+		rChild.top += cy;
+
 	return rChild;
 }

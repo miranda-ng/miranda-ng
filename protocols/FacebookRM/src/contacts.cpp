@@ -24,9 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 bool FacebookProto::IsMyContact(HANDLE hContact, bool include_chat)
 {
-	const char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0));
-
+	const char *proto = GetContactProto(hContact);
 	if( proto && strcmp(m_szModuleName,proto) == 0 )
 	{
 		if( include_chat )

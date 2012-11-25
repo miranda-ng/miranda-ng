@@ -148,7 +148,7 @@ static int ProtocolAck(WPARAM, LPARAM lParam)
 		if (caps & PF1_SERVERCLIST) {
 			HANDLE hContact = db_find_first();
 			while (hContact) {
-				char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				if (szProto != NULL && !strcmp(szProto, ack->szModule))
 					if (db_get_b(hContact, "CList", "Delete", 0))
 						CallService(MS_DB_CONTACT_DELETE, (WPARAM) hContact, 0);
@@ -187,7 +187,7 @@ int fnIconFromStatusMode(const char *szProto, int status, HANDLE)
 
 static INT_PTR GetContactIcon(WPARAM wParam, LPARAM)
 {
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	HANDLE hContact = (HANDLE)wParam;
 
 	return cli.pfnIconFromStatusMode(szProto, 
@@ -444,8 +444,8 @@ static INT_PTR CompareContacts(WPARAM wParam, LPARAM lParam)
 	char *szProto1, *szProto2;
 	int rc;
 
-	szProto1 = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) a, 0);
-	szProto2 = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) b, 0);
+	szProto1 = GetContactProto(a);
+	szProto2 = GetContactProto(b);
 	statusa = db_get_w((HANDLE) a, SAFESTRING(szProto1), "Status", ID_STATUS_OFFLINE);
 	statusb = db_get_w((HANDLE) b, SAFESTRING(szProto2), "Status", ID_STATUS_OFFLINE);
 

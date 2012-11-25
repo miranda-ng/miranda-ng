@@ -53,7 +53,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 bool hasMobileClient(HANDLE hContact, LPARAM lParam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 
 	DBVARIANT dbv;
 	if (!DBGetContactSettingTString(hContact, proto, "MirVer", &dbv)) {
@@ -83,7 +83,7 @@ int ExtraIconsApply(WPARAM wParam, LPARAM lParam)
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	if (!proto)
 		return 0;
 

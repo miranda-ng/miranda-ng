@@ -205,7 +205,7 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL) {
 		DBVARIANT dbvMirVer = { 0 };
 

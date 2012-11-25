@@ -959,7 +959,7 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	queryResult.iItemsNum = 0;
 	hContact = db_find_first();
 	while (hContact != NULL) {
-		char *str = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *str = GetContactProto(hContact);
 		if (str != NULL && !strcmp(str, threadData->proto->m_szModuleName)) {
 			if (!DBGetContactSettingByte(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
 				if (!DBGetContactSetting(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {
@@ -977,7 +977,7 @@ static void __cdecl TlenMUCCSendQueryResultThread(void *ptr)
 	queryResult.iItemsNum = 0;
 	hContact = db_find_first();
 	while (hContact != NULL) {
-		char *baseProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *baseProto = GetContactProto(hContact);
 		if (baseProto != NULL && !strcmp(baseProto, threadData->proto->m_szModuleName)) {
 			if (!DBGetContactSettingByte(hContact, threadData->proto->m_szModuleName, "bChat", FALSE)) {
 				if (!DBGetContactSetting(hContact, threadData->proto->m_szModuleName, "jid", &dbv)) {

@@ -507,7 +507,7 @@ std::wstring EventList::GetMyName()
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ci.szProto = GetContactProto(hContact);
 	ci.hContact = 0;
 	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
 	GetInfo(ci, myName);
@@ -544,7 +544,7 @@ std::wstring EventList::GetProtocolName()
 
 std::string EventList::GetBaseProtocol()
 {
-	char* proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* proto = GetContactProto(hContact);
 	return proto == NULL ? "" : proto;
 }
 
@@ -554,7 +554,7 @@ std::wstring EventList::GetMyId()
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ci.szProto = GetContactProto(hContact);
 	ci.hContact = 0;
 	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
 	GetInfo(ci, myId);
@@ -567,7 +567,7 @@ inline std::wstring GetContactId(HANDLE hContact)
 	CONTACTINFO ci;
 	ZeroMemory(&ci, sizeof(ci));
 	ci.cbSize = sizeof(ci);
-	ci.szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ci.szProto = GetContactProto(hContact);
 	ci.hContact = hContact;
 	ci.dwFlag = CNF_DISPLAYUID | CNF_TCHAR;
 	GetInfo(ci, id);
@@ -723,7 +723,7 @@ void EventList::MargeMessages(const std::vector<IImport::ExternalMessage>& messa
 	GetTempList(tempList, true, false, hContact);
 	DBEVENTINFO dbei = {0};
 	dbei.cbSize = sizeof(DBEVENTINFO);
-	dbei.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	dbei.szModule = GetContactProto(hContact);
 	CallService(MS_DB_SETSAFETYMODE, (WPARAM)FALSE, 0);
 	for(std::list<EventTempIndex>::iterator it = tempList.begin(); it != tempList.end(); ++it)
 	{

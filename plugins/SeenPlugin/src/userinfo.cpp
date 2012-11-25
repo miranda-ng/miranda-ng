@@ -77,7 +77,7 @@ INT_PTR CALLBACK UserinfoDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 
 int UserinfoInit(WPARAM wparam,LPARAM lparam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, lparam, 0);
+	char *proto = GetContactProto((HANDLE)lparam);
 	if ( IsWatchedProtocol(proto)) {
 		OPTIONSDIALOGPAGE uip = { sizeof(uip) };
 		uip.hInstance = hInstance;

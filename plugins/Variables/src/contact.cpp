@@ -118,7 +118,7 @@ TCHAR* getContactInfoT(BYTE type, HANDLE hContact)
 	if (hContact == NULL)
 		return NULL;
 
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 
@@ -241,17 +241,12 @@ int getContactFromString( CONTACTSINFO* ci )
 	if (ci == NULL)
 		return -1;
 
-	if (ci->flags&CI_UNICODE) {
-		
-			tszContact = NEWTSTR_ALLOCA(ci->tszContact);
-	
-	}
+	if (ci->flags & CI_UNICODE)
+		tszContact = NEWTSTR_ALLOCA(ci->tszContact);
 	else {
-	
-			WCHAR* tmp = mir_a2t(ci->szContact);
-			tszContact = NEWTSTR_ALLOCA(tmp);
-			mir_free(tmp);
-		
+		WCHAR* tmp = mir_a2t(ci->szContact);
+		tszContact = NEWTSTR_ALLOCA(tmp);
+		mir_free(tmp);
 	}
 	if ((tszContact == NULL) || (_tcslen(tszContact) == 0))
 		return -1;
@@ -281,7 +276,7 @@ int getContactFromString( CONTACTSINFO* ci )
 		szFind = NULL;
 		bMatch = FALSE;
 		ZeroMemory(&dbv, sizeof(DBVARIANT));
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto == NULL) {
 			hContact = db_find_next(hContact);
 			continue;
@@ -443,7 +438,7 @@ static int contactSettingChanged(WPARAM wParam, LPARAM lParam)
 			continue;
 
 		dbw = (DBCONTACTWRITESETTING*)lParam;
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam,0);
+		szProto = GetContactProto((HANDLE)wParam);
 		if (szProto == NULL)
 			continue;
 
@@ -505,7 +500,7 @@ TCHAR *encodeContactToString(HANDLE hContact)
 	DBVARIANT dbv;
 
 	ZeroMemory(&dbv, sizeof(DBVARIANT));
-	szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	szProto = GetContactProto(hContact);
 	tszUniqueId = getContactInfoT(CNF_UNIQUEID, hContact);
 	if (szProto == NULL || tszUniqueId == NULL)
 		return NULL;

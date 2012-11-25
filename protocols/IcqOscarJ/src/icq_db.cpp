@@ -340,7 +340,7 @@ int __fastcall ICQFreeVariant(DBVARIANT *dbv)
 
 int CIcqProto::IsICQContact(HANDLE hContact)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 
 	return !strcmpnull(szProto, m_szModuleName);
 }

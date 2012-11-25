@@ -51,7 +51,7 @@ CContactCache::CContactCache(const HANDLE hContact)
 	m_nMax = 0;
 
 	if (hContact) {
-		m_szProto = reinterpret_cast<char *>(::CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)m_hContact, 0));
+		m_szProto = ::GetContactProto(m_hContact);
 		if (m_szProto)
 			m_tszProto = mir_a2t(m_szProto);
 		initPhaseTwo();
@@ -171,7 +171,7 @@ void CContactCache::updateMeta(bool fForce)
 		HANDLE hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)m_hContact, 0);
 		if (hSubContact && (hSubContact != m_hSubContact || fForce)) {
 			m_hSubContact = hSubContact;
-			m_szMetaProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)m_hSubContact, 0);
+			m_szMetaProto = GetContactProto(m_hSubContact);
 			if (m_szMetaProto) {
 				PROTOACCOUNT *acc = reinterpret_cast<PROTOACCOUNT *>(::CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)m_szMetaProto));
 				if (acc && acc->tszAccountName)

@@ -1962,7 +1962,7 @@ INT_PTR CALLBACK RoomWndProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPar
 			si = psi;
 			dat->si = psi;
 			dat->hContact = psi->hContact;
-			dat->szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)psi->hContact, 0);
+			dat->szProto = GetContactProto(psi->hContact);
 			dat->bType = SESSIONTYPE_CHAT;
 			dat->Panel = new CInfoPanel(dat);
 

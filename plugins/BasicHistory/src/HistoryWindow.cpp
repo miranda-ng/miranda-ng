@@ -1516,7 +1516,7 @@ void HistoryWindow::ReplaceIcons(HWND hwndDlg, int selStart, BOOL isSent)
 
 		smadd.cbSize = sizeof(smadd);
 		smadd.hwndRichEditControl = hwndDlg;
-		smadd.Protocolname = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		smadd.Protocolname = GetContactProto(hContact);
 		smadd.hContact = hContact;
 		smadd.flags = isSent ? SAFLRE_OUTGOING : 0;
 		if (selStart > 0)

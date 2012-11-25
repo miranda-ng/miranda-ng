@@ -230,7 +230,7 @@ int FetchAvatarFor(HANDLE hContact, char *szProto = NULL)
 	int result = GAIR_NOAVATAR;
 
 	if (szProto == NULL)
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 
 	if (szProto != NULL && PollProtocolCanHaveAvatar(szProto) && PollContactCanHaveAvatar(hContact, szProto))
 	{

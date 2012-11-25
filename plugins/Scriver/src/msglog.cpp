@@ -1087,7 +1087,7 @@ void StreamInEvents(HWND hwndDlg, HANDLE hDbEventFirst, int count, int fAppend)
         if (dat->szProto!=NULL && strcmp(dat->szProto,"MetaContacts")==0) {
             HANDLE hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) dat->windowData.hContact, 0);
             if (hContact!=NULL) {
-                smre.Protocolname = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+                smre.Protocolname = GetContactProto(hContact);
             }
         }
 		if (fi.chrg.cpMin > 0) {

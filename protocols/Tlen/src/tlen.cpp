@@ -321,7 +321,7 @@ int TlenOnModulesLoaded(void *ptr, WPARAM wParam, LPARAM lParam)
 	/* Set all contacts to offline */
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, proto->m_szModuleName)) {
 			if (DBGetContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) {
 				DBWriteContactSettingWord(hContact, proto->m_szModuleName, "Status", ID_STATUS_OFFLINE);

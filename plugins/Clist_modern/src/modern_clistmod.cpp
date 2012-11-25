@@ -166,7 +166,7 @@ int GetContactIconC(ClcCacheEntry *cacheEntry)
 INT_PTR GetContactIcon(WPARAM wParam,LPARAM lParam)
 {
 	int status;
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL)
 		status = ID_STATUS_OFFLINE;
 	else

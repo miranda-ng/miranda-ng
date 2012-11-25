@@ -331,7 +331,7 @@ static INT_PTR BuildContactMenu(WPARAM wParam, LPARAM)
 	HANDLE hContact = (HANDLE)wParam;
 	NotifyEventHooks(hPreBuildContactMenuEvent, (WPARAM)hContact, 0);
 
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 
 	BuildContactParam bcp;
 	bcp.szProto = szProto;

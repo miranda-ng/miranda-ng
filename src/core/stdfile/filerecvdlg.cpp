@@ -154,7 +154,7 @@ void GetContactReceivedFilesDir(HANDLE hContact, TCHAR *szDir, int cchDir, BOOL 
 		rvaVarsToReplace[1].lptzKey = _T("userid");
 		rvaVarsToReplace[1].lptzValue = GetContactID(hContact);
 		rvaVarsToReplace[2].lptzKey = _T("proto");
-		rvaVarsToReplace[2].lptzValue = mir_a2t((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+		rvaVarsToReplace[2].lptzValue = mir_a2t(GetContactProto(hContact));
 		rvaVarsToReplace[3].lptzKey = NULL;
 		rvaVarsToReplace[3].lptzValue = NULL;
 		for (int i=0; i < (SIZEOF(rvaVarsToReplace)-1);i++)
@@ -274,7 +274,7 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 			tmi.printTimeStamp(NULL, dbei.timestamp, _T("t d"), datetimestr, SIZEOF(datetimestr), 0);
 			SetDlgItemText(hwndDlg, IDC_DATE, datetimestr);
 
-			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+			char* szProto = GetContactProto(dat->hContact);
 			if (szProto) {
 				int hasName = 0;
 				char buf[128];
@@ -322,15 +322,12 @@ INT_PTR CALLBACK DlgProcRecvFile(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 		return CallService(MS_CLIST_MENUMEASUREITEM, wParam, lParam);
 
 	case WM_DRAWITEM:
-		{	LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
+		{
+			LPDRAWITEMSTRUCT dis = (LPDRAWITEMSTRUCT)lParam;
 			if (dis->hwndItem == GetDlgItem(hwndDlg, IDC_PROTOCOL)) {
-				char *szProto;
-
-				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				char *szProto = GetContactProto(dat->hContact);
 				if (szProto) {
-					HICON hIcon;
-
-					hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
+					HICON hIcon = (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
 					if (hIcon) {
 						DrawIconEx(dis->hDC, dis->rcItem.left, dis->rcItem.top, hIcon, GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0, NULL, DI_NORMAL);
 						DestroyIcon(hIcon);

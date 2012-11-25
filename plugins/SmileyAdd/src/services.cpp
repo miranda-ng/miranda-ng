@@ -53,7 +53,7 @@ SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCTyp
 
 		if (categoryName.empty() && !opt.UseOneForAll)
 		{
-			char *protonam = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *protonam = GetContactProto(hContact);
 			if (protonam != NULL)
 			{
 				DBVARIANT dbv;
@@ -410,7 +410,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 
-	char* protnam = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char* protnam = GetContactProto((HANDLE)wParam);
 	bool haveMenu = IsSmileyProto(protnam);
 	if (haveMenu && opt.UseOneForAll)
 	{

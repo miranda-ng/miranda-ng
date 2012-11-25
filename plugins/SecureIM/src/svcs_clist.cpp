@@ -120,7 +120,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 		return 0;
 	}
 
-//	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+//	char *szProto = GetContactProto(hContact,0);
 //	if (szProto==NULL) // || DBGetContactSettingDword(hContact, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 //		return 0;
 

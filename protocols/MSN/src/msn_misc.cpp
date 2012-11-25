@@ -1373,7 +1373,7 @@ char* MSN_Base64Decode(const char* str)
 
 bool CMsnProto::MSN_IsMyContact(HANDLE hContact)
 {
-	const char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
 }
 

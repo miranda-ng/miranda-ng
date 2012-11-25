@@ -131,7 +131,7 @@ void PasteIt(HANDLE hContact, int mode)
 	}
 	else if(hContact != NULL && pasteToWeb->szFileLink[0] != 0)
 	{
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
 			BOOL isChat = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0); 
@@ -336,7 +336,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 	
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 	
 	CLISTMENUITEM mi = {0};
@@ -472,7 +472,7 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 {
 	if(lParam->uType == MSG_WINDOW_EVT_OPEN)
 	{
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)lParam->hContact, 0);
+		char *szProto = GetContactProto(lParam->hContact);
 		if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
 		{
 			if(DBGetContactSettingByte(lParam->hContact, szProto, "ChatRoom", 0))

@@ -289,7 +289,7 @@ static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						break;
 
 					while (hContact) {
-						szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = GetContactProto(hContact);
 						if (szProto != NULL)
 							break;
 						hContact = db_find_next(hContact);

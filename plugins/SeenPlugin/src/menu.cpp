@@ -42,7 +42,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 {
 	int id = -1, isetting;
 	HANDLE hContact = (HANDLE)wparam;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 
 	CLISTMENUITEM cmi = { sizeof(cmi) };
 	if (!IsWatchedProtocol(szProto) || !db_get_b(NULL,S_MOD,"MenuItem",1))

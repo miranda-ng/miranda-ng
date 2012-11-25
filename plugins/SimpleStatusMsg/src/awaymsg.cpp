@@ -105,7 +105,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			{
 				TCHAR str[256], format[128];
 				TCHAR *contactName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)dat->hContact, GCDNF_TCHAR);
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				char *szProto = GetContactProto(dat->hContact);
 				WORD dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = (TCHAR*)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, dwStatus, GSMDF_TCHAR);
 
@@ -374,7 +374,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM clmi = {0};
 	TCHAR str[128];
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	int iHidden = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 	char *szMsg;
 	int iStatus;

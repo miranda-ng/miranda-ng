@@ -254,7 +254,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 	// Check if contact handle is valid.
 	char *proto = NULL;
 	if (ppd->lchContact)
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ppd->lchContact, 0);
+		proto = GetContactProto(ppd->lchContact);
 
 	BYTE bShowMode = proto ? DBGetContactSettingByte(ppd->lchContact, MODULNAME, "ShowMode", PU_SHOWMODE_AUTO) : PU_SHOWMODE_AUTO;
 
@@ -292,7 +292,7 @@ INT_PTR PopUp_AddPopUp2(WPARAM wParam, LPARAM lParam)
 		if (proto)
 		{
 			char prefix[128];
-			mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ppd->lchContact, 0));
+			mir_snprintf(prefix, sizeof(prefix), "Protocol Status/%s", GetContactProto(ppd->lchContact));
 			if (DBGetContactSettingDword(NULL, MODULNAME, prefix, 0) &
 					Proto_Status2Flag_My(CallProtoService(proto, PS_GETSTATUS, 0, 0)))
 				return -1;

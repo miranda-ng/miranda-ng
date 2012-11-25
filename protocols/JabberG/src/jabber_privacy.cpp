@@ -435,7 +435,7 @@ public:
 				HANDLE hContact = (HANDLE)db_find_first();
 				while (hContact != NULL)
 				{
-					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto != NULL && !strcmp(szProto, m_proto->m_szModuleName))
 					{
 						DBVARIANT dbv;
@@ -1372,7 +1372,7 @@ void CJabberDlgPrivacyLists::CListFilter(HWND)
 			hContact;
 			hContact = db_find_next(hContact))
 	{
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if ( !proto || lstrcmpA(proto, m_proto->m_szModuleName))
 			if (HANDLE hItem = m_clcClist.FindContact(hContact))
 				m_clcClist.DeleteItem(hItem);

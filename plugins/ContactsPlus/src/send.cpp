@@ -139,7 +139,7 @@ int TSendContactsData::SendContactsPacket(HWND hwndDlg, HANDLE *phContacts, int 
 
 
 int TSendContactsData::SendContacts(HWND hwndDlg) {
-  char* szProto = GetContactProto(hContact);
+  char* szProto =GetContactProto(hContact);
   int nMaxContacts = CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact);
 
   if (!nMaxContacts) {
@@ -224,7 +224,7 @@ static void SetAllContactChecks(HWND hwndList, HANDLE hReceiver) // doubtful nam
 
   if (binListEvent) return;
   binListEvent = TRUE;
-  char* szProto = GetContactProto(hReceiver); 
+  char* szProto =GetContactProto(hReceiver); 
   if (szProto == NULL) return;
 
   if (CallService(MS_CLUI_GETCAPS, 0, 0) & CLUIF_HIDEEMPTYGROUPS && DBGetContactSettingByte(NULL, "CList", "HideEmptyGroups", SETTING_USEGROUPS_DEFAULT))
@@ -235,7 +235,7 @@ static void SetAllContactChecks(HWND hwndList, HANDLE hReceiver) // doubtful nam
   hContact = FindFirstClistContact(hwndList, &hItem);
   while (hContact)
   {
-    char* szProto2 = GetContactProto(hContact);
+    char* szProto2 =GetContactProto(hContact);
 
     if (strcmpnull(szProto, szProto2))
     { // different protocols or protocol undefined, remove contact, useless anyway
@@ -470,7 +470,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
       }
 
       dbei.cbSize = sizeof(dbei);
-      dbei.szModule = GetContactProto(ackData->hContact);
+      dbei.szModule =GetContactProto(ackData->hContact);
       dbei.eventType = EVENTTYPE_CONTACTS;
       dbei.flags = DBEF_SENT;
       if (g_UnicodeCore && g_Utf8EventsSupported)

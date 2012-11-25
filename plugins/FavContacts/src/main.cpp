@@ -507,7 +507,7 @@ static BOOL sttMeasureItem_Contact(LPMEASUREITEMSTRUCT lpmis, Options *options)
 			bool bFree = false;
 			if (DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv) || !*dbv.ptszVal)
 			{
-				char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *proto = GetContactProto(hContact);
 				int status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
 				title = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, status, GSMDF_TCHAR);
 			} else
@@ -706,7 +706,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	lpdis->rcItem.top += 2;
 	lpdis->rcItem.bottom -= 2;
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 
 	if (true)
 	{

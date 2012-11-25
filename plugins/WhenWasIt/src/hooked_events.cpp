@@ -219,8 +219,8 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	int count = CallService(MS_DB_CONTACT_GETCOUNT, 0, 0);
-	int hidden = DBGetContactSettingByte(hContact, "CList", "Hidden", 0);
-	int ignored = DBGetContactSettingDword(hContact, "Ignore", "Mask1", 0);
+	int hidden = db_get_b(hContact, "CList", "Hidden", 0);
+	int ignored = db_get_dw(hContact, "Ignore", "Mask1", 0);
 	ignored = ((ignored & 0x3f) != 0) ? 1 : 0;
 	int ok = 1;
 	if (commonData.notifyFor & EXCLUDE_HIDDEN)
@@ -274,10 +274,10 @@ int UpdateTimers()
 		hCheckTimer = NULL;
 	}
 
-	long interval = DBGetContactSettingDword(NULL, ModuleName, "Interval", CHECK_INTERVAL);
+	long interval = db_get_dw(NULL, ModuleName, "Interval", CHECK_INTERVAL);
 	interval *= 1000 * 60 * 60; //go from miliseconds to hours
 	hCheckTimer = SetTimer(NULL, 0, interval, (TIMERPROC) OnCheckTimer);
-	if (!hDateChangeTimer)
+	if ( !hDateChangeTimer)
 		hDateChangeTimer = SetTimer(NULL, 0, 1000 * DATE_CHANGE_CHECK_INTERVAL, (TIMERPROC) OnDateChangeTimer);
 		
 	return 0;

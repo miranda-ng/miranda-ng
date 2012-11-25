@@ -192,6 +192,6 @@ int DB::deleteSettingF(HANDLE hContact, char *szModule, char *szSetting, int id)
 
 char *DB::getProto(HANDLE hContact)
 {
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	return ((INT_PTR)szProto != CALLSERVICE_NOTFOUND) ? szProto : NULL;
 }

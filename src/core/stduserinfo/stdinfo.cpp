@@ -67,7 +67,7 @@ static void SetValue(HWND hwndDlg, int idCtrl, HANDLE hContact, char *szModule, 
 {
 	char str[80], *pstr = NULL;
 	TCHAR* ptstr = NULL;
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	bool proto_service = szProto && (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC);
 
 	DBVARIANT dbv = { DBVT_DELETED };
@@ -195,7 +195,7 @@ static INT_PTR CALLBACK SummaryDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL)
 						break;
 
@@ -270,7 +270,7 @@ static INT_PTR CALLBACK LocationDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL)
 						break;
 
@@ -320,7 +320,7 @@ static INT_PTR CALLBACK WorkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 			if (((LPNMHDR)lParam)->code == PSN_INFOCHANGED) {
 				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 				if (hContact != NULL) {
-					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL) break;
 					SetValue(hwndDlg, IDC_COMPANY, hContact, szProto, "Company", SVS_ZEROISUNSPEC);
 					SetValue(hwndDlg, IDC_DEPARTMENT, hContact, szProto, "CompanyDepartment", SVS_ZEROISUNSPEC);
@@ -397,7 +397,7 @@ static INT_PTR CALLBACK BackgroundDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam,
 				HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 
 				if (hContact != NULL) {
-					char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto == NULL) break;
 					bool proto_service = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_4, 0) & PF4_INFOSETTINGSVC) == PF4_INFOSETTINGSVC;
 					SetValue(hwndDlg, IDC_WEBPAGE, hContact, szProto, "Homepage", SVS_ZEROISUNSPEC);
@@ -536,7 +536,7 @@ static INT_PTR CALLBACK NotesDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					{	char *szProto;
 						HANDLE hContact = (HANDLE)((LPPSHNOTIFY)lParam)->lParam;
 						if (hContact != NULL) {
-							szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+							szProto = GetContactProto(hContact);
 							if (szProto == NULL) break;
 							SetValue(hwndDlg, IDC_ABOUT, hContact, szProto, "About", 0);
 						}
@@ -577,7 +577,7 @@ int DetailsInit(WPARAM wParam, LPARAM lParam)
 	if (lParam == NULL)
 		return 0;
 
-	if (CallService(MS_PROTO_GETCONTACTBASEPROTO, lParam, 0) == 0)
+	if (GetContactProto((HANDLE)lParam) == 0)
 		return 0;
 
 	OPTIONSDIALOGPAGE odp;

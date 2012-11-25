@@ -568,11 +568,9 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 		}
 		else if(!isContactHaveKey(ccs->hContact) && bAutoExchange && gpg_valid && gpg_keyexist)
 		{
-			LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+			char *proto = GetContactProto(ccs->hContact);
 			DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
-			if(uin)
-			{
-				char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+			if(uin) {
 				char svc[64];
 				strcpy(svc, proto);
 				strcat(svc, PS_ICQ_CHECKCAPABILITY);
@@ -841,11 +839,11 @@ int SendMsgSvc(WPARAM w, LPARAM l)
 		if(bAutoExchange && !strstr(msg, "-----PGP KEY REQUEST-----") && !strstr(msg, "-----BEGIN PGP PUBLIC KEY BLOCK-----") && gpg_valid)
 		{
 			void send_encrypted_msgs_thread(HANDLE hContact);
-			LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+			LPSTR proto = GetContactProto(ccs->hContact);
 			DWORD uin = DBGetContactSettingDword(ccs->hContact, proto, "UIN", 0);
 			if(uin)
 			{
-				char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+				char *proto = GetContactProto(ccs->hContact);
 				char svc[64];
 				strcpy(svc, proto);
 				strcat(svc, PS_ICQ_CHECKCAPABILITY);

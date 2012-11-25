@@ -197,7 +197,7 @@ static HANDLE timeapiGetInfoByContact(HANDLE hContact, DWORD dwFlags)
 	signed char timezone = (signed char)db_get_b(hContact, "UserInfo", "Timezone", -1);
 	if (timezone == -1)
 	{
-		char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char* szProto = GetContactProto(hContact);
 		if ( !DBGetContactSettingTString(hContact, szProto, "TzName", &dbv))
 		{
 			HANDLE res = timeapiGetInfoByName(dbv.ptszVal, dwFlags);

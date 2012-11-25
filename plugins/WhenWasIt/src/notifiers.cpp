@@ -70,7 +70,7 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
-	//int bIgnoreSubcontacts = DBGetContactSettingByte(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
+	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	if (commonData.bIgnoreSubcontacts)
 		{
 			HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
@@ -122,7 +122,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	TCHAR *name = GetContactName(hContact, NULL);
 	const int MAX_SIZE = 1024;
 	TCHAR text[MAX_SIZE];
-	//int bIgnoreSubcontacts = DBGetContactSettingByte(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
+	//int bIgnoreSubcontacts = db_get_b(NULL, ModuleName, "IgnoreSubcontacts", FALSE);
 	if (commonData.bIgnoreSubcontacts) {
 		HANDLE hMetacontact = (HANDLE) CallService(MS_MC_GETMETACONTACT, (WPARAM) hContact, 0);
 		if (hMetacontact && hMetacontact != hContact) //not main metacontact
@@ -174,7 +174,7 @@ int DialogNotifyBirthday(HANDLE hContact, int dtb, int age)
 	TCHAR text[MAX_SIZE];
 	
 	BuildDTBText(dtb, name, text, MAX_SIZE);
-	if (!hUpcomingDlg) {
+	if ( !hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}
@@ -200,7 +200,7 @@ int DialogNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	TCHAR text[MAX_SIZE];
 	
 	BuildDABText(dab, name, text, MAX_SIZE);
-	if (!hUpcomingDlg) {
+	if ( !hUpcomingDlg) {
 		hUpcomingDlg = CreateDialog(hInstance, MAKEINTRESOURCE(IDD_UPCOMING), NULL, DlgProcUpcoming);
 		ShowWindow(hUpcomingDlg, commonData.bOpenInBackground ? SW_SHOWNOACTIVATE : SW_SHOW);
 	}

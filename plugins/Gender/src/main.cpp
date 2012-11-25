@@ -91,7 +91,7 @@ int applyExtraImage(HANDLE hContact)
 			hContact = hMetacontact;
 	}
 		
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;
 
@@ -107,7 +107,7 @@ int applyExtraImage(HANDLE hContact)
 // Returns gender icon for specific contact
 INT_PTR GetIcon(WPARAM wParam, LPARAM lParam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	unsigned short gender = DBGetContactSettingByte((HANDLE)wParam, "UserInfo", "Gender", DBGetContactSettingByte((HANDLE)wParam, proto, "Gender", 0));
 	
 	if (gender > 0) {
@@ -122,7 +122,7 @@ INT_PTR GetIcon(WPARAM wParam, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 
 	if (!proto) return 0;
 

@@ -1899,7 +1899,7 @@ static int OnICQStatusMsgRequest(WPARAM wParam, LPARAM lParam, LPARAM lMirParam)
 	hContact = db_find_first();
 	while (hContact)
 	{
-		szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, (char *)lMirParam) && DBGetContactSettingDword(hContact, szProto, "UIN", 0) == (DWORD)lParam)
 		{
 			bContactFound = TRUE;

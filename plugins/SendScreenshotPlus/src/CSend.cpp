@@ -65,7 +65,7 @@ CSend::~CSend(){
 //---------------------------------------------------------------------------
 void CSend::SetContact(HANDLE hContact) {
 	m_hContact		= hContact;
-	m_pszProto		= (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	m_pszProto		= GetContactProto(hContact);
 	m_ChatRoom		= DBGetContactSettingByte(hContact, m_pszProto, "ChatRoom", 0);
 	m_PFflag		= hasCap(PF1_URLSEND);
 	m_PFflag		= hasCap(PF1_CHAT);

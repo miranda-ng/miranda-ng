@@ -824,7 +824,7 @@ BOOL CMraProto::IsContactMra(HANDLE hContact)
 BOOL IsContactMraProto(HANDLE hContact)
 {
 	BOOL bRet = FALSE;
-	LPSTR lpszProto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	LPSTR lpszProto = GetContactProto(hContact);
 
 	if (lpszProto)
 	{
@@ -992,7 +992,7 @@ DWORD CMraProto::GetContactEMailCount(HANDLE hContact, BOOL bMRAOnly)
 	LPSTR lpszProto;
 
 	if (hContact)
-		lpszProto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		lpszProto = GetContactProto(hContact);
 	else
 		lpszProto = m_szModuleName;
 
@@ -1049,7 +1049,7 @@ BOOL CMraProto::GetContactFirstEMail(HANDLE hContact, BOOL bMRAOnly, LPSTR lpszR
 	LPSTR lpszProto;
 
 	if (hContact)
-		lpszProto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		lpszProto = GetContactProto(hContact);
 	else
 		lpszProto = m_szModuleName;
 

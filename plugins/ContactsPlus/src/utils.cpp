@@ -61,18 +61,10 @@ void __fastcall SAFE_FREE(void** p)
   }
 }
 
-
-char *GetContactProto(HANDLE hContact)
-{
-  return (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-}
-
-
 TCHAR *GetContactDisplayNameT(HANDLE hContact)
 {
   return (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, g_UnicodeCore ? GCDNF_UNICODE : 0);
 }
-
 
 char *GetContactUID(HANDLE hContact, int bTchar)
 {
@@ -218,7 +210,7 @@ void UpdateDialogTitle(HWND hwndDlg, HANDLE hContact, char* pszTitleStart)
 
   if (hContact)
   {
-    szProto = GetContactProto(hContact);
+    szProto =GetContactProto(hContact);
     if (szProto)
     {
       TCHAR *uid = GetContactUID(hContact, TRUE);
@@ -273,7 +265,7 @@ HICON InitMButton(HWND hDlg, int idButton, LPCSTR szIcon, char* szTip)
 
 HICON LoadContactProtoIcon(HANDLE hContact)
 {
-  char* szProto = GetContactProto(hContact);
+  char* szProto =GetContactProto(hContact);
   if (szProto)
     return (HICON)CallProtoService(szProto, PS_LOADICON, PLI_PROTOCOL|PLIF_SMALL, 0);
   return NULL;

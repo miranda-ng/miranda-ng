@@ -530,7 +530,7 @@ int PreBuildContactMenu(WPARAM wParam,LPARAM lParam)
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	if (!ProtocolEnabled(proto))
 		clmi.flags |= CMIF_HIDDEN;
 

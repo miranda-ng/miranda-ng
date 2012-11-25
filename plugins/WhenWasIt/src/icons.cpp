@@ -121,7 +121,7 @@ void FreeIcon(HICON &icon)
 void FreeIcons()
 {
 	static int bFreed = 0;
-	if (!bFreed) {
+	if ( !bFreed) {
 		FreeIcon(hiCheckMenu);
 		FreeIcon(hiListMenu);
 		FreeIcon(hiAddBirthdayContact);

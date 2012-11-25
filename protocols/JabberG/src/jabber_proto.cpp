@@ -317,7 +317,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 		HANDLE hContact = (HANDLE)db_find_first();
 		while (hContact != NULL) {
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL && !strcmp(szProto, m_szModuleName))
 				MenuHideSrmmIcon(hContact);
 			hContact = db_find_next(hContact);
@@ -342,7 +342,7 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 	// Set all contacts to offline
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			SetContactOfflineStatus(hContact);
 

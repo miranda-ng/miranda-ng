@@ -184,7 +184,7 @@ int fnAddContactToGroup(struct ClcData *dat, ClcGroup *group, HANDLE hContact)
 	}
 
 	i = cli.pfnAddItemToGroup(group, index + 1);
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	group->cl.items[i]->type = CLCIT_CONTACT;
 	group->cl.items[i]->iImage = CallService(MS_CLIST_GETCONTACTICON, (WPARAM) hContact, 0);
 	group->cl.items[i]->hContact = hContact;
@@ -218,7 +218,7 @@ void fnAddContactToTree(HWND hwnd, struct ClcData *dat, HANDLE hContact, int upd
 	DBVARIANT dbv;
 	DWORD style = GetWindowLongPtr(hwnd, GWL_STYLE);
 	WORD status = ID_STATUS_OFFLINE;
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 
 	dat->needsResort = 1;
 	if (style & CLS_NOHIDEOFFLINE)
@@ -392,7 +392,7 @@ void fnRebuildEntireList(HWND hwnd, struct ClcData *dat)
 					if (_tcsstr(lowered_name, lowered_search))
 						cli.pfnAddContactToGroup(dat, group, hContact);
 				} else if ( !(style & CLS_NOHIDEOFFLINE) && (style & CLS_HIDEOFFLINE || group->hideOffline)) {
-					szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+					szProto = GetContactProto(hContact);
 					if (szProto == NULL) {
 						if ( !cli.pfnIsHiddenMode(dat, ID_STATUS_OFFLINE))
 							cli.pfnAddContactToGroup(dat, group, hContact);

@@ -1327,7 +1327,7 @@ void LoadPerContactSkins(TCHAR *tszFileName)
 			char UIN[40];
 			int j;
 
-			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			szProto = GetContactProto(hContact);
 			if (szProto) {
 				uid = (char *)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 				if ((INT_PTR) uid != CALLSERVICE_NOTFOUND && uid != NULL) {

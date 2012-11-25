@@ -43,7 +43,7 @@ LIST<CIcqProto> g_Instances(1, sttCompareProtocols);
 
 static CIcqProto* IcqGetInstanceByHContact(HANDLE hContact)
 {
-	char* szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 

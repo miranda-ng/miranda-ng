@@ -852,7 +852,7 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	HANDLE hContact = (HANDLE)lParam;
 	if (hContact) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			odp.pfnDlgProc = JabberUserInfoDlgProc;
 			odp.position = -2000000000;

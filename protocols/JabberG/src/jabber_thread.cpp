@@ -585,7 +585,7 @@ recvRest:
 			// Set all contacts to offline
 			HANDLE hContact = (HANDLE)db_find_first();
 			while (hContact != NULL) {
-				if ( !lstrcmpA((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), m_szModuleName))
+				if ( !lstrcmpA(GetContactProto(hContact), m_szModuleName))
 				{
 					SetContactOfflineStatus(hContact);
 					MenuHideSrmmIcon(hContact);

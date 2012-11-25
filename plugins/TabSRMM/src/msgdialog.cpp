@@ -103,7 +103,7 @@ static BOOL IsStringValidLinkA(char* pszText)
 
 BOOL TSAPI IsUtfSendAvailable(HANDLE hContact)
 {
-	char* szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return FALSE;
 

@@ -45,7 +45,7 @@ static const struct {
 
 static int GetContactStatus(HANDLE hContact)
 {
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return ID_STATUS_OFFLINE;
 	return db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -83,7 +83,7 @@ void fnLoadContactTree(void)
 	while (hContact != NULL) {
 		status = GetContactStatus(hContact);
 		if (( !hideOffline || status != ID_STATUS_OFFLINE) && !db_get_b(hContact, "CList", "Hidden", 0))
-			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0), status, hContact), 1);
+			cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(GetContactProto(hContact), status, hContact), 1);
 		hContact = db_find_next(hContact);
 	}
 	sortByStatus = db_get_b(NULL, "CList", "SortByStatus", SETTING_SORTBYSTATUS_DEFAULT);
@@ -168,7 +168,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam, LPARAM lParam)
 		db_set_ts((HANDLE)wParam, "CList", "Group", grpChg.pszNewName);
 	}
 	CallService(MS_CLUI_CONTACTADDED, wParam, 
-		cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0), GetContactStatus((HANDLE)wParam), (HANDLE)wParam));
+		cli.pfnIconFromStatusMode(GetContactProto((HANDLE)wParam), GetContactStatus((HANDLE)wParam), (HANDLE)wParam));
 
 	NotifyEventHooks(hGroupChangeEvent, wParam, (LPARAM)&grpChg);
 	return 0;

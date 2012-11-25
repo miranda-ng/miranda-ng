@@ -276,7 +276,7 @@ struct CListEvent* AddEvent(CLISTEVENT *cle)
 							return p;
 			}	}	}
 
-			szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) p->cle.hContact, 0);
+			szProto = GetContactProto(p->cle.hContact);
 			szName = pcli->pfnGetContactDisplayName(p->cle.hContact, 0);
 			if (szProto && szName) {
 				nmi = (struct NotifyMenuItemExData *) malloc(sizeof(struct NotifyMenuItemExData));

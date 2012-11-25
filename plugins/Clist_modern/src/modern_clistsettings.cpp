@@ -499,7 +499,7 @@ int ContactSettingChanged(WPARAM wParam,LPARAM lParam)
 		else if ( !strcmp(cws->szSetting,"Hidden")) {
 			InvalidateDNCEbyPointer(hContact,pdnce,cws->value.type);		
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+				char *szProto = GetContactProto((HANDLE)wParam);
 				cli_ChangeContactIcon(hContact,ExtIconFromStatusMode(hContact,szProto,szProto == NULL?ID_STATUS_OFFLINE:db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE)),1);  //by FYR
 			}
 			pcli->pfnClcBroadcast(CLM_AUTOREBUILD,0, 0);

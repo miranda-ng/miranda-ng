@@ -136,24 +136,24 @@ char * HTMLBuilder::encodeUTF8(HANDLE hContact, const char *proto, const char *t
 }
 
 char *HTMLBuilder::getProto(HANDLE hContact) {
-	return Utils::dupString((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0));
+	return Utils::dupString(GetContactProto(hContact));
 }
 
 char *HTMLBuilder::getProto(const char *proto, HANDLE hContact) {
 	if (proto != NULL) {
 		return Utils::dupString(proto);
 	}
-	return Utils::dupString((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0));
+	return Utils::dupString(GetContactProto(hContact));
 }
 
 char *HTMLBuilder::getRealProto(HANDLE hContact) {
 	if (hContact != NULL) {
-		char *szProto = Utils::dupString((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0));
+		char *szProto = Utils::dupString(GetContactProto(hContact));
 		if (szProto!=NULL && !strcmp(szProto,"MetaContacts")) {
 			hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 			if (hContact!=NULL) {
 				delete szProto;
-				szProto = Utils::dupString((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0));
+				szProto = Utils::dupString(GetContactProto(hContact));
 			}
 		}
 		return szProto;
@@ -165,14 +165,14 @@ char *HTMLBuilder::getRealProto(HANDLE hContact, const char *szProto) {
 	if (szProto!=NULL && !strcmp(szProto,"MetaContacts")) {
 		hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 		if (hContact!=NULL) {
-			return Utils::dupString((char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0));
+			return Utils::dupString(GetContactProto(hContact));
 		}
 	}
 	return Utils::dupString(szProto);
 }
 
 HANDLE HTMLBuilder::getRealContact(HANDLE hContact) {
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto != NULL && !strcmp(szProto,"MetaContacts")) {
 		hContact = (HANDLE) CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM) hContact, 0);
 	}

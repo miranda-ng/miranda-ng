@@ -51,7 +51,7 @@ static int GetContactStatus(HANDLE hContact)
 	
 	char *szProto;
 
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	szProto = GetContactProto(hContact,0);
 	if (szProto == NULL) return ID_STATUS_OFFLINE;
 	return db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 	*/
@@ -181,6 +181,7 @@ INT_PTR ContactChangeGroup(WPARAM wParam,LPARAM lParam)
 		DBDeleteContactSetting((HANDLE)wParam,"CList","Group");
 	else
 		db_set_s((HANDLE)wParam,"CList","Group",(char*)CallService(MS_CLIST_GROUPGETNAME2,lParam,(LPARAM)(int*)NULL));
-	CallService(MS_CLUI_CONTACTADDED,wParam,ExtIconFromStatusMode((HANDLE)wParam,(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0),GetContactStatus((HANDLE)wParam)));
+
+	CallService(MS_CLUI_CONTACTADDED,wParam,ExtIconFromStatusMode((HANDLE)wParam, GetContactProto((HANDLE)wParam), GetContactStatus((HANDLE)wParam)));
 	return 0;
 }

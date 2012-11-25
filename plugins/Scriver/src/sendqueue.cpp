@@ -28,7 +28,7 @@ static char *MsgServiceName(HANDLE hContact)
 {
 
     char szServiceName[100];
-    char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+    char *szProto = GetContactProto(hContact);
     if (szProto == NULL)
         return PSS_MESSAGE;
 

@@ -214,7 +214,7 @@ INT_PTR InvalidateDisplayName(WPARAM wParam, LPARAM)
 
 int ContactAdded(WPARAM wParam, LPARAM)
 {
-	cli.pfnChangeContactIcon((HANDLE)wParam, cli.pfnIconFromStatusMode((char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0), ID_STATUS_OFFLINE, NULL), 1);
+	cli.pfnChangeContactIcon((HANDLE)wParam, cli.pfnIconFromStatusMode(GetContactProto((HANDLE)wParam), ID_STATUS_OFFLINE, NULL), 1);
 	cli.pfnSortContacts();
 	return 0;
 }
@@ -269,7 +269,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if ( !strcmp(cws->szModule, "CList")) {
 		if ( !strcmp(cws->szSetting, "Hidden")) {
 			if (cws->value.type == DBVT_DELETED || cws->value.bVal == 0) {
-				char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+				char *szProto = GetContactProto((HANDLE)wParam);
 				cli.pfnChangeContactIcon(hContact, cli.pfnIconFromStatusMode(szProto, szProto == NULL ? ID_STATUS_OFFLINE : db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE), hContact), 1);
 			}
 			else

@@ -476,7 +476,7 @@ static TCHAR *parseSpecialContact(ARGUMENTSINFO *ai)
 	ai->flags |= AIF_DONTPARSE;
 	TCHAR *res = NULL;
 	TCHAR *szUniqueID = NULL;
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ai->fi->hContact, 0);
+	char *szProto = GetContactProto(ai->fi->hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, ai->fi->hContact);
 

@@ -69,7 +69,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 INT_PTR getIconToUse(HANDLE hContact, LPARAM lParam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 //	if (lParam == 1) return icon_none;
 	if (!DBGetContactSettingByte(hContact,"AuthState","ShowIcons",!bIconsForRecentContacts)) return icon_none;
 
@@ -112,7 +112,7 @@ int onExtraImageApplying(WPARAM wParam, LPARAM lParam)
 int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws=(DBCONTACTWRITESETTING*)lParam;
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	if (!proto) return 0;
 
 	if (!lstrcmpA(cws->szModule,proto))
@@ -142,7 +142,7 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	if (!proto) return 0;
 
 	CLISTMENUITEM mi = {0};

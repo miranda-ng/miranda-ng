@@ -480,6 +480,6 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 BOOL IsMyContact(HANDLE hContact)
 {
-	const char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(WEATHERPROTONAME, szProto) == 0;
 }

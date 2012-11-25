@@ -931,7 +931,7 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 		char *szProto, *nick, *jid, *group;
 
 		hContact = (HANDLE) wParam;
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
 //		if (DBGetContactSettingByte(hContact, proto->m_szModuleName, "ChatRoom", 0) != 0) return 0;
 		// A contact's group is changed
@@ -977,7 +977,7 @@ int JabberDbSettingChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 			char *newNick;
 
 //			hContact = (HANDLE) wParam;
-//			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+//			szProto = GetContactProto(hContact);
 //			if (szProto == NULL || strcmp(szProto, proto->m_szModuleName)) return 0;
 
 			if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
@@ -1058,7 +1058,7 @@ int JabberContactDeleted(void *ptr, WPARAM wParam, LPARAM lParam)
 
 	if (!proto->isOnline)	// should never happen
 		return 0;
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = GetContactProto((HANDLE)wParam);
 	if (szProto == NULL || strcmp(szProto, proto->m_szModuleName))
 		return 0;
 	if (!DBGetContactSetting((HANDLE) wParam, proto->m_szModuleName, "jid", &dbv)) {

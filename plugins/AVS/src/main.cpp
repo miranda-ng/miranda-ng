@@ -165,7 +165,7 @@ int _DebugTrace(HANDLE hContact, const char *fmt, ...)
 	if (hContact != NULL)
 	{
 		name = (char*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
-		proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = GetContactProto(hContact);
 	}
 
 	mir_snprintf(text, SIZEOF(text) - 10, " ***** AVS [%08d] [ID:%04x]: [%08d - %s - %s] ",
@@ -252,7 +252,7 @@ static void NotifyMetaAware(HANDLE hContact, struct CacheNode *node = NULL, AVAT
 			cacn.filename[MAX_PATH - 1] = 0;
 
 			// Get hash
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL) {
 				DBVARIANT dbv = {0};
 				if (!DBGetContactSetting(hContact, szProto, "AvatarHash", &dbv)) {
@@ -434,7 +434,7 @@ int CreateAvatarInCache(HANDLE hContact, avatarCacheEntry *ace, char *szProto)
 	ace->szFilename[0] = 0;
 
 	if (szProto == NULL) {
-		char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *proto = GetContactProto(hContact);
 		if (proto == NULL || !DBGetContactSettingByte(NULL, AVS_MODULE, proto, 1)) {
 			return -1;
 		}
@@ -639,7 +639,7 @@ struct CacheNode *FindAvatarInCache(HANDLE hContact, BOOL add, BOOL findAny = FA
 {
 	struct CacheNode *cacheNode = g_Cache, *foundNode = NULL;
 
-	char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL || !DBGetContactSettingByte(NULL, AVS_MODULE, szProto, 1))
 		return NULL;
 
@@ -749,7 +749,7 @@ static int ProtocolAck(WPARAM wParam, LPARAM lParam)
 		}
 		else if (ack->result == ACKRESULT_STATUS)
 		{
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ack->hContact, 0);
+			char *szProto = GetContactProto(ack->hContact);
 			if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
 			{
 				// Queue
@@ -1702,7 +1702,7 @@ INT_PTR GetMyAvatar(WPARAM wParam, LPARAM lParam)
 
 static protoPicCacheEntry *GetProtoDefaultAvatar(HANDLE hContact)
 {
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto) {
 		for(int i = 0; i < g_ProtoPictures.getCount(); i++) {
 			protoPicCacheEntry& p = g_ProtoPictures[i];
@@ -1818,7 +1818,7 @@ static void PicLoader(LPVOID param)
 
 				if (result == -2)
 				{
-					char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)node->ace.hContact, 0);
+					char *szProto = GetContactProto(node->ace.hContact);
 					if (szProto == NULL || Proto_NeedDelaysForAvatars(szProto))
 					{
 						QueueAdd(node->ace.hContact);
@@ -2373,7 +2373,7 @@ static int OnDetailsInit(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto == NULL || DBGetContactSettingByte(NULL, AVS_MODULE, szProto, 1))
 		{
 			// Contact dialog

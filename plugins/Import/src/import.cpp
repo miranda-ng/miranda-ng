@@ -70,7 +70,7 @@ static HANDLE HContactFromNumericID(char* szProto, char* pszSetting, DWORD dwID)
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
 		if ( db_get_dw(hContact, szProto, pszSetting, 0) == dwID) {
-			char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char* szProto = GetContactProto(hContact);
 			if (szProto != NULL && !lstrcmpA(szProto, szProto))
 				return hContact;
 		}
@@ -83,7 +83,7 @@ static HANDLE HContactFromID(char* szProto, char* pszSetting, TCHAR* pwszID)
 {
 	HANDLE hContact = dstDb->FindFirstContact();
 	while (hContact != NULL) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char* szProto = GetContactProto(hContact);
 		if ( !lstrcmpA(szProto, szProto)) {
 			mir_ptr<WCHAR> id( db_get_tsa(hContact, szProto, pszSetting));
 			if ( !lstrcmp(pwszID, id))

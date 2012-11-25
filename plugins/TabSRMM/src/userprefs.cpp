@@ -74,22 +74,21 @@ static INT_PTR CALLBACK DlgProcUserPrefs(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		case WM_INITDIALOG: {
 			DWORD sCodePage;
 			int i;
-			DWORD maxhist = M->GetDword((HANDLE)lParam, "maxhist", 0);
-			BYTE bIEView = M->GetByte((HANDLE)lParam, "ieview", 0);
-			BYTE bHPP = M->GetByte((HANDLE)lParam, "hpplog", 0);
-			int iLocalFormat = M->GetDword((HANDLE)lParam, "sendformat", 0);
-			BYTE bRTL = M->GetByte((HANDLE)lParam, "RTL", 0);
-			BYTE bLTR = M->GetByte((HANDLE)lParam, "RTL", 1);
-			BYTE bSplit = M->GetByte((HANDLE)lParam, "splitoverride", 0);
-			BYTE bInfoPanel = M->GetByte((HANDLE)lParam, "infopanel", 0);
-			BYTE bAvatarVisible = M->GetByte((HANDLE)lParam, "hideavatar", -1);
-			char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)lParam, 0);
+			hContact = (HANDLE)lParam;
+			DWORD maxhist = M->GetDword(hContact, "maxhist", 0);
+			BYTE bIEView = M->GetByte(hContact, "ieview", 0);
+			BYTE bHPP = M->GetByte(hContact, "hpplog", 0);
+			int iLocalFormat = M->GetDword(hContact, "sendformat", 0);
+			BYTE bRTL = M->GetByte(hContact, "RTL", 0);
+			BYTE bLTR = M->GetByte(hContact, "RTL", 1);
+			BYTE bSplit = M->GetByte(hContact, "splitoverride", 0);
+			BYTE bInfoPanel = M->GetByte(hContact, "infopanel", 0);
+			BYTE bAvatarVisible = M->GetByte(hContact, "hideavatar", -1);
+			char *szProto = GetContactProto(hContact);
 			int  def_log_index = 1, hpp_log_index = 1, ieview_log_index = 1;
 
 			have_ieview = ServiceExists(MS_IEVIEW_WINDOW);
 			have_hpp = ServiceExists("History++/ExtGrid/NewWindow");
-
-			hContact = (HANDLE)lParam;
 
 			TranslateDialogDefault(hwndDlg);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)lParam);

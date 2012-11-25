@@ -53,7 +53,7 @@ static INT_PTR CALLBACK ReadAwayMsgDlgProc(HWND hwndDlg, UINT message, WPARAM wP
 			{
 				TCHAR str[256], format[128];
 				TCHAR *contactName = pcli->pfnGetContactDisplayName(dat->hContact, 0);
-				char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				char *szProto = GetContactProto(dat->hContact);
 				WORD dwStatus = DBGetContactSettingWord(dat->hContact, szProto, "Status", ID_STATUS_OFFLINE);
 				TCHAR *status = pcli->pfnGetStatusModeDescription(dwStatus, 0);
 
@@ -136,7 +136,7 @@ static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 	TCHAR str[128];
 	char *szProto;
 
-	szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = GetContactProto((HANDLE)wParam);
 	ZeroMemory(&clmi, sizeof(clmi));
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;

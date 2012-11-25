@@ -437,7 +437,7 @@ INT_PTR CALLBACK DlgProcOptionsProtos(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 							HANDLE hContact = db_find_first();
 							while (hContact != NULL) 
 							{
-								char* szContactProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+								char* szContactProto = GetContactProto(hContact);
 								if (szContactProto != NULL && !strcmp(szContactProto, szProto)) 
 									DeleteAvatarFromCache(hContact, TRUE);
 
@@ -613,7 +613,7 @@ INT_PTR CALLBACK DlgProcAvatarOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 		case IDC_RESET:
 			{
-				char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				DBVARIANT dbv = {0};
 
 				ProtectAvatar((WPARAM)hContact, 0);
@@ -844,7 +844,7 @@ INT_PTR CALLBACK DlgProcAvatarUserInfo(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		case IDC_RESET:
 			{
-				char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				DBVARIANT dbv = {0};
 
 				ProtectAvatar((WPARAM)hContact, 0);

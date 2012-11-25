@@ -3,7 +3,7 @@
 
 BOOL isProtoMetaContacts(HANDLE hContact) {
     if(bMetaContacts) {
-    	LPSTR proto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+    	LPSTR proto = GetContactProto(hContact);
     	if ( proto && strcmp(proto,"MetaContacts")==0 ) {
     		return true;
     	}

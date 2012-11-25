@@ -5,7 +5,7 @@ int SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARA
 	ACKDATA ack;
 	memset(&ack,0,sizeof(ack));
 	ack.cbSize = sizeof( ACKDATA );
-	ack.szModule = 	(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	ack.szModule = 	GetContactProto(hContact);
 	ack.hContact = hContact;
 	ack.type = type;
 	ack.result = result;

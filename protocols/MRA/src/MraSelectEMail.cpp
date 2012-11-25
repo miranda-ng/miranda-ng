@@ -65,7 +65,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 			}
 
 			if (dat->hContact)
-				lpszProto = (LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)dat->hContact, 0);
+				lpszProto = GetContactProto(dat->hContact);
 			else
 				lpszProto = dat->ppro->m_szModuleName;
 

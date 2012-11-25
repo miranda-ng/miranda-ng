@@ -105,7 +105,7 @@ static void RestoreUnreadUrlAlerts(void)
 static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (lstrcmpA(cws->szModule, "CList") && (szProto == NULL || lstrcmpA(cws->szModule, szProto)))
 		return 0;
 
@@ -119,7 +119,7 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL)
 		if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_URLSEND)
 			mi.flags = CMIM_FLAGS;

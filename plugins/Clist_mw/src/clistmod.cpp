@@ -85,7 +85,7 @@ int ExtIconFromStatusMode(HANDLE hContact, const char *szProto,int status)
 		if (strcmp(szProto,"MetaContacts") == 0 ) {
 			hContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT,(UINT)hContact,0);
 			if ( hContact != 0 ) {
-				szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(UINT)hContact,0);
+				szProto = GetContactProto((UINT)hContact,0);
 				status = db_get_w(hContact,szProto,"Status",ID_STATUS_OFFLINE);
 			}
 		}

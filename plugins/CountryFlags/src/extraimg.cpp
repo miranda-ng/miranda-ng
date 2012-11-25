@@ -32,7 +32,7 @@ extern struct CountryListEntry *countries;
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	int countryNumber = 0xFFFF;
-	char *pszProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* ip detect */
 	if ( db_get_b(NULL,"Flags","UseIpToCountry",SETTING_USEIPTOCOUNTRY_DEFAULT))
 		countryNumber=ServiceIpToCountry(DBGetContactSettingDword((HANDLE)wParam,pszProto,"RealIP",0),0);

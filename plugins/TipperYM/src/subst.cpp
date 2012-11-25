@@ -159,7 +159,7 @@ bool Uid(HANDLE hContact, char *szProto, TCHAR *buff, int bufflen)
 {
 	char *tmpProto = NULL;
 
-	if (hContact) tmpProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact, 0);
+	if (hContact) tmpProto = GetContactProto(hContact);
 	else tmpProto = szProto;
 
 	if (tmpProto) 
@@ -258,7 +258,7 @@ TCHAR *GetStatusMessageText(HANDLE hContact)
 	TCHAR *swzMsg = 0;
 	DBVARIANT dbv;
 
-	char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto) 
 	{
 		if (!strcmp(szProto, szMetaModuleName))
@@ -310,7 +310,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 	} 
 	else if (!_tcscmp(swzRawSpec, _T("proto"))) 
 	{
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto)
 		{
 			a2t(szProto, buff, bufflen);
@@ -343,7 +343,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 	}
 	else if (!_tcscmp(swzRawSpec, _T("uidname")))
 	{
-		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0); 
+		char *szProto = GetContactProto(hContact); 
 		return UidName(szProto, buff, bufflen);
 	}
 	else if (!_tcscmp(swzRawSpec, _T("status_msg"))) 
@@ -426,7 +426,7 @@ bool GetSysSubstText(HANDLE hContact, TCHAR *swzRawSpec, TCHAR *buff, int buffle
 		int iNumber = 1;
 		HANDLE hTmpContact = hContact;
 
-		char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto && !strcmp(szProto, szMetaModuleName))
 		{
 			iNumber = CallService(MS_MC_GETNUMCONTACTS, (WPARAM)hContact, 0);
@@ -519,7 +519,7 @@ bool GetSubstText(HANDLE hContact, const DISPLAYSUBST &ds, TCHAR *buff, int buff
 			return transFunc(hContact, ds.szModuleName, ds.szSettingName, buff, bufflen) != 0;
 		case DVT_PROTODB:
 		{
-			char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto)
 			{
 				if (transFunc(hContact, szProto, ds.szSettingName, buff, bufflen) != 0)
@@ -543,7 +543,7 @@ bool GetRawSubstText(HANDLE hContact, char *szRawSpec, TCHAR *buff, int bufflen)
 			szRawSpec[i] = 0;
 			if (strlen(szRawSpec) == 0)
 			{
-				char *szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				char *szProto = GetContactProto(hContact);
 				if (szProto)
 				{
 					if (translations[0].transFunc(hContact, szProto, &szRawSpec[i + 1], buff, bufflen) != 0)
@@ -624,7 +624,7 @@ bool ApplySubst(HANDLE hContact, const TCHAR *swzSource, bool parseTipperVarsFir
 					p++;
 					if (*p) 
 					{
-						char *cp = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						char *cp = GetContactProto(hContact);
 						if (cp != NULL)
 						{
 							PROTOACCOUNT *acc = ProtoGetAccount(cp);
@@ -916,13 +916,13 @@ TCHAR *GetProtoExtraStatusMessage(char *szProto)
 		if (ServiceExists(MS_VARS_FORMATSTRING))
 		{		
 			HANDLE hContact = db_find_first();
-			char *proto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *proto = GetContactProto(hContact);
 			while(!proto)
 			{
 				hContact = db_find_next(hContact);
 				if (hContact) 
 				{
-					proto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					proto = GetContactProto(hContact);
 				}
 				else 
 				{

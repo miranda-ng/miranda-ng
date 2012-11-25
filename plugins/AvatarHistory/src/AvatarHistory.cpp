@@ -253,7 +253,7 @@ BOOL ContactEnabled(HANDLE hContact, char *setting, int def)
 	if (hContact == NULL)
 		return FALSE;
 
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if (!ProtocolEnabled(proto))
 		return FALSE;
 
@@ -403,7 +403,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 	}
 
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *proto = GetContactProto((HANDLE)wParam);
 	if (proto == NULL)
 	{
 		ShowDebugPopup(hContact, _T("AVH Debug"), _T("Invalid protocol... skipping"));
@@ -545,7 +545,7 @@ static int AvatarChanged(WPARAM wParam, LPARAM lParam)
 			{
 				DBEVENTINFO AvatarEvent = { 0 };
 				AvatarEvent.cbSize = sizeof(AvatarEvent);
-				AvatarEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				AvatarEvent.szModule = GetContactProto(hContact);
 				AvatarEvent.flags = flags;
 				AvatarEvent.timestamp = (DWORD) time(NULL);
 				AvatarEvent.eventType = EVENTTYPE_AVATAR_CHANGE;
@@ -698,7 +698,7 @@ TCHAR * GetContactFolder(TCHAR *fn, HANDLE hContact)
 {
 	TCHAR uin[MAX_PATH];
 
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	GetProtocolFolder(fn, proto);
 	
 	GetUIDFromHContact(hContact, uin, MAX_REGS(uin));

@@ -144,7 +144,7 @@ __inline const TCHAR* contact_get_nameT(HANDLE hContact) {
 }
 
 __inline const char* contact_get_proto(HANDLE hContact) {
-	char *uproto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *uproto = GetContactProto(hContact);
 	return uproto;
 }
 
@@ -367,7 +367,7 @@ void ShowMessage(const HANDLE hContact, const TCHAR *msg) {
 
 /*
 bool GetEncryptionStatus(HANDLE hContact) {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0));
 
 	if (!chat_room) {

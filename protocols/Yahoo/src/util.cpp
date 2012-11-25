@@ -321,7 +321,7 @@ bool CYahooProto::IsMyContact(HANDLE hContact)
 {
 	if (!hContact) return false;
 
-	char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	return szProto && !strcmp(szProto, m_szModuleName);
 }
 

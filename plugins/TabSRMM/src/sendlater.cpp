@@ -535,7 +535,7 @@ HANDLE CSendLater::processAck(const ACKDATA *ack)
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT;
-				dbei.szModule = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)((*it)->hContact), 0);
+				dbei.szModule = GetContactProto(((*it)->hContact));
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = lstrlenA((*it)->sendBuffer) + 1;
 				dbei.flags |= DBEF_UTF;

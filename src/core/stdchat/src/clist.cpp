@@ -89,7 +89,7 @@ END_GROUPLOOP:
 BOOL CList_SetOffline(HANDLE hContact, BOOL bHide)
 {
 	if ( hContact ) {
-		char* szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 		int i = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0);
 		DBWriteContactSettingWord(hContact, szProto,"ApparentMode",(LPARAM) 0);
 		DBWriteContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE);
@@ -106,7 +106,7 @@ BOOL CList_SetAllOffline(BOOL bHide, const char *pszModule)
 
 	hContact = db_find_first();
 	while ( hContact ) {
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if ( MM_FindModule( szProto )) {
 			if ( !pszModule || ( pszModule && !strcmp( pszModule, szProto ))) {
 				int i = DBGetContactSettingByte(hContact, szProto, "ChatRoom", 0);
@@ -129,7 +129,7 @@ int CList_RoomDoubleclicked( WPARAM wParam, LPARAM lParam )
 	if ( !hContact )
 		return 0;
 
-	szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	szProto = GetContactProto(hContact);
 	if ( MM_FindModule(szProto)) {
 		if ( DBGetContactSettingByte( hContact, szProto, "ChatRoom", 0 ) == 0 )
 			return 0;
@@ -169,7 +169,7 @@ INT_PTR CList_JoinChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 		if ( szProto ) {
 			if ( DBGetContactSettingWord( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
 				CallProtoService( szProto, PS_JOINCHAT, wParam, lParam );
@@ -184,7 +184,7 @@ INT_PTR CList_LeaveChat(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 		if ( szProto )
 			CallProtoService( szProto, PS_LEAVECHAT, wParam, lParam );
 	}
@@ -195,7 +195,7 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 
 		CLISTMENUITEM clmi = {0};
 		clmi.cbSize = sizeof(CLISTMENUITEM);

@@ -111,7 +111,7 @@ static void SetAllContactIcons(HWND hwndList)
 		if (hItem) {
 			DWORD flags;
 			WORD status;
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto == NULL) {
 				flags = 0;
 				status = 0;

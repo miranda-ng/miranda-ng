@@ -76,7 +76,7 @@ HANDLE CJabberProto::ChatRoomHContactFromJID(const TCHAR *jid)
 	HANDLE hContactMatched = NULL;
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
 			int result = JGetStringT(hContact, "ChatRoomID", &dbv);
@@ -111,7 +111,7 @@ HANDLE CJabberProto::HContactFromJID(const TCHAR *jid , BOOL bStripResource)
 	HANDLE hContactMatched = NULL;
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(m_szModuleName, szProto)) {
 			DBVARIANT dbv;
 			int result;

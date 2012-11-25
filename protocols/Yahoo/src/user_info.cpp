@@ -52,7 +52,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 					if (hContact == NULL) {
 						szProto = ppro->m_szModuleName;
 					} else {
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+						szProto = GetContactProto(hContact);
 					}
 
 					if (!szProto)

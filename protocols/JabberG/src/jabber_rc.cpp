@@ -478,7 +478,7 @@ int CJabberProto::RcGetUnreadEventsCount()
 	int nEventsSent = 0;
 	HANDLE hContact = (HANDLE)db_find_first();
 	while (hContact != NULL) {
-		char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			DBVARIANT dbv;
 			if ( !JGetStringT(hContact, "jid", &dbv)) {
@@ -575,7 +575,7 @@ int CJabberProto::AdhocForwardHandler(HXML, CJabberIqInfo* pInfo, CJabberAdhocSe
 		int nEventsSent = 0;
 		HANDLE hContact = (HANDLE)db_find_first();
 		while (hContact != NULL) {
-			char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char *szProto = GetContactProto(hContact);
 			if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 				DBVARIANT dbv;
 				if ( !JGetStringT(hContact, "jid", &dbv)) {

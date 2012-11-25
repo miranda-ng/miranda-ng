@@ -102,8 +102,7 @@ static HANDLE g_hMenuEvts[3];
 // Helper functions
 static TwitterProto * GetInstanceByHContact(HANDLE hContact)
 {
-	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0));
+	char *proto = GetContactProto(hContact);
 	if(!proto)
 		return 0;
 

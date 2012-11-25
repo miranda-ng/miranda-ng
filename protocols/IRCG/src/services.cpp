@@ -93,7 +93,7 @@ static HANDLE hPreBuildContactMenu, hMenuChanSettings, hMenuWhois, hMenuDisconne
 
 static CIrcProto* IrcGetInstanceByHContact(HANDLE hContact)
 {
-	char* szProto = ( char* )CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 

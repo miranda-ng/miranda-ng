@@ -1405,7 +1405,7 @@ void GGPROTO::setalloffline()
 	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName))
 		{
 			db_set_w(hContact, m_szModuleName, GG_KEY_STATUS, ID_STATUS_OFFLINE);
@@ -1478,7 +1478,7 @@ void GGPROTO::notifyall()
 	hContact = db_find_first();
 	while (hContact)
 	{
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) count ++;
 		hContact = db_find_next(hContact);
 	}
@@ -1501,7 +1501,7 @@ void GGPROTO::notifyall()
 	hContact = db_find_first();
 	while (hContact && cc < count)
 	{
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName) && (uins[cc] = db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 		{
 			if ((db_get_w(hContact, m_szModuleName, GG_KEY_APPARENT, (WORD) ID_STATUS_ONLINE) == ID_STATUS_OFFLINE) ||
@@ -1540,7 +1540,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 	// Look for contact in DB
 	HANDLE hContact = db_find_first();
 	while (hContact) {
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char *szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
 			if ((uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0) == uin
 				&& db_get_b(hContact, m_szModuleName, "ChatRoom", 0) == 0)

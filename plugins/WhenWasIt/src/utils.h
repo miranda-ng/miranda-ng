@@ -49,6 +49,5 @@ TCHAR *GetContactID(HANDLE hContact);
 TCHAR *GetContactID(HANDLE hContact, char *szProto);
 HANDLE GetContactFromID(TCHAR *szID, char *szProto);
 HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto);
-void GetContactProtocol(HANDLE hContact, char *szProto, int size);
 
 #endif

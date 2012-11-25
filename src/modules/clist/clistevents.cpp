@@ -73,7 +73,7 @@ static char * GetEventProtocol(int idx)
 				szProto = NULL;
 		}
 		else
-			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) cli.events.items[idx]->cle.hContact, 0);
+			szProto = GetContactProto(cli.events.items[idx]->cle.hContact);
 		return szProto;
 	}
 	return NULL;
@@ -185,8 +185,8 @@ struct CListEvent* fnAddEvent(CLISTEVENT *cle)
 			else
 				szProto = NULL;
 		}
-		else
-			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cle->hContact, 0);
+		else szProto = GetContactProto(cle->hContact);
+
 		iconsOn = 1;
 		flashTimerId = SetTimer(NULL, 0, db_get_w(NULL, "CList", "IconFlashTime", 550), IconFlashTimer);
 		cli.pfnTrayIconUpdateWithImageList(p->imlIconIndex, p->cle.ptszTooltip, szProto);
@@ -214,7 +214,7 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 		return 1;
 
 	// Update contact's icon
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	szProto = GetContactProto(hContact);
 	cli.pfnChangeContactIcon(cli.events.items[i]->cle.hContact, 
 		CallService(MS_CLIST_GETCONTACTICON, (WPARAM)cli.events.items[i]->cle.hContact, 1), 
 		0);
@@ -228,7 +228,7 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 		for (i=0; i < cli.events.count; i++)
 		{
 			if (cli.events.items[i]->cle.hContact)
-				szEventProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)(cli.events.items[i]->cle.hContact), 0);
+				szEventProto = GetContactProto((cli.events.items[i]->cle.hContact));
 			else if (cli.events.items[i]->cle.flags&CLEF_PROTOCOLGLOBAL) 
 				szEventProto = (char *) cli.events.items[i]->cle.lpszProtocol;
 			else 
@@ -248,7 +248,7 @@ int fnRemoveEvent(HANDLE hContact, HANDLE dbEvent)
 		if (cli.events.items[0]->cle.hContact == NULL)
 			szProto = NULL;
 		else
-			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) cli.events.items[0]->cle.hContact, 0);
+			szProto = GetContactProto(cli.events.items[0]->cle.hContact);
 		cli.pfnTrayIconUpdateWithImageList(iconsOn ? cli.events.items[0]->imlIconIndex : 0, cli.events.items[0]->cle.ptszTooltip, szProto);
 	}
 
@@ -304,7 +304,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 				for (i=0; i<cli.events.count; i++) {
 					char * eventProto = NULL;
 					if (cli.events.items[i]->cle.hContact) 
-						eventProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
+						eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
 					if ( !eventProto)
 						eventProto = cli.events.items[i]->cle.lpszProtocol;
 
@@ -321,7 +321,7 @@ int fnEventsProcessTrayDoubleClick(int index)
 						for (i=0; i<cli.events.count; i++) {
 							char * eventProto = NULL;
 							if (cli.events.items[i]->cle.hContact) 
-								eventProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)cli.events.items[i]->cle.hContact, 0);
+								eventProto = GetContactProto(cli.events.items[i]->cle.hContact);
 							if ( !eventProto)
 								eventProto = cli.events.items[i]->cle.lpszProtocol;
 							if (eventProto) {

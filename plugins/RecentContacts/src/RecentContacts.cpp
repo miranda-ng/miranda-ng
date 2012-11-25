@@ -246,7 +246,7 @@ INT_PTR CALLBACK ShowListMainDlgProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM 
 						continue;
 
 					if (LastUCOpt.HideOffline == 1) {
-						szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)curContact->second, 0);
+						szProto = GetContactProto(curContact->second);
 						if (szProto != NULL && DBGetContactSettingWord((HANDLE)curContact->second, szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 							continue;
 					}

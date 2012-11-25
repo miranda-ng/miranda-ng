@@ -166,7 +166,7 @@ static INT_PTR Proto_RecvMessage(WPARAM, LPARAM lParam)
 
 	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
-	dbei.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)ccs->hContact, 0);
+	dbei.szModule = GetContactProto(ccs->hContact);
 	dbei.timestamp = pre->timestamp;
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	if (pre->flags & PREF_UNICODE) {
@@ -218,7 +218,7 @@ static int Proto_ValidTypingContact(HANDLE hContact, char *szProto)
 static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	if (lParam == PROTOTYPE_SELFTYPING_OFF || lParam == PROTOTYPE_SELFTYPING_ON) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+		char* szProto = GetContactProto((HANDLE)wParam);
 		if ( !szProto)
 			return 0;
 
@@ -232,7 +232,7 @@ static INT_PTR Proto_SelfIsTyping(WPARAM wParam, LPARAM lParam)
 static INT_PTR Proto_ContactIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	int type = (int)lParam;
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if ( !szProto)
 		return 0;
 

@@ -66,7 +66,7 @@ struct flash_avatar_item : public MZeroedObject
 	FLASHAVATAR hFA;
 	IShockwaveFlash* pFlash;
 
-	char* getProto() { return (hFA.cProto) ? hFA.cProto : (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hFA.hContact, 0); }
+	char* getProto() { return (hFA.cProto) ? hFA.cProto : GetContactProto(hFA.hContact); }
 
 	flash_avatar_item(HANDLE contact, FLASHAVATAR& fa, IShockwaveFlash *flash) { hContact = contact; hFA = fa; pFlash = flash; }
 };

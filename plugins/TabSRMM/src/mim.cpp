@@ -666,7 +666,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 
 		CLISTMENUITEM clmi = {0};
 		clmi.cbSize = sizeof(CLISTMENUITEM);
@@ -812,13 +812,12 @@ int CMimAPI::MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	if (dwStatusMask == -1)
 		bAllowAutoCreate = TRUE;
 	else {
-		char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)wParam, 0);
+		char *szProto = GetContactProto((HANDLE)wParam);
 		DWORD dwStatus = 0;
 
 		if (PluginConfig.g_MetaContactsAvail && szProto && !strcmp(szProto, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) {
 			HANDLE hSubconttact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, wParam, 0);
-
-			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSubconttact, 0);
+			szProto = GetContactProto(hSubconttact);
 		}
 		if (szProto) {
 			dwStatus = (DWORD)CallProtoService(szProto, PS_GETSTATUS, 0, 0);

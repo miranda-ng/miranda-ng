@@ -1053,7 +1053,7 @@ void TSAPI DM_SetDBButtonStates(HWND hwndChild, struct TWindowData *dat)
 				continue;
 			}
 			if (buttonItem->dwFlags & BUTTON_ISCONTACTDBACTION)
-				szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+				szModule = GetContactProto(hContact);
 			hFinalContact = hContact;
 		} else
 			hFinalContact = 0;

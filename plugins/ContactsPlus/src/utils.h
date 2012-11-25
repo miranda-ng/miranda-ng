@@ -33,7 +33,6 @@ size_t __fastcall strlennull(const char *string);
 int __fastcall strcmpnull(const char *str1, const char *str2);
 char* __fastcall null_strdup(const char *string);
 
-char *GetContactProto(HANDLE hContact);
 char *GetContactUID(HANDLE hContact, int bTchar);
 TCHAR *GetContactDisplayNameT(HANDLE hContact);
 TCHAR* MirandaStatusToStringT(int mirandaStatus);

@@ -93,8 +93,7 @@ HANDLE GetIconHandle(const char* name)
 // Helper functions
 static OmegleProto * GetInstanceByHContact(HANDLE hContact)
 {
-	char *proto = reinterpret_cast<char*>( CallService(MS_PROTO_GETCONTACTBASEPROTO,
-		reinterpret_cast<WPARAM>(hContact),0));
+	char *proto = GetContactProto(hContact);
 	if (!proto)
 		return 0;
 

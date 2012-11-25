@@ -251,7 +251,7 @@ bool isContactGoneFor(HANDLE hContact, int days)
 				ppd.lchContact = hContact;
 				ppd.lchIcon = Skin_GetIcon("enabled_icon");
 
-				mir_sntprintf(szInfo, 200, TranslateT("Hiding %s (%S)"), (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+				mir_sntprintf(szInfo, 200, TranslateT("Hiding %s (%S)"), (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR), GetContactProto(hContact));
 				_tcsncpy(ppd.lptzContactName, szInfo, MAX_CONTACTNAME);
 				mir_sntprintf(szInfo, 200, TranslateT("%d days since last message"), daysSinceMessage);
 				_tcsncpy(ppd.lptzText, szInfo, MAX_SECONDLINE);
@@ -465,7 +465,7 @@ INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
  */
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-   char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+   char *proto = GetContactProto((HANDLE)wParam);
    if (!proto) return 0;
 
    CLISTMENUITEM mi = {0};
@@ -516,7 +516,7 @@ int SettingChanged(WPARAM wParam, LPARAM lParam)
 	if (db_get_b(hContact, "CList", "NotOnList", 0) == 1)
 		return 0;
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if (proto == 0 || (db_get_b(hContact, proto, "ChatRoom", 0) == 1)
 		|| !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 0;
@@ -612,7 +612,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
 	char *proto;
 	while (hContact != 0)
 	{
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = GetContactProto(hContact);
 		if (proto && (db_get_b(hContact, proto, "ChatRoom", 0) == 0) && (CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND) && isContactGoneFor(hContact, options.iAbsencePeriod2) && (db_get_b(hContact, MODULE_NAME, "StillAbsentNotified", 0) == 0))
 		{
 			db_set_b(hContact, MODULE_NAME, "StillAbsentNotified", 1);

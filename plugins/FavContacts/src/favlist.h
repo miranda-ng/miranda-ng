@@ -32,7 +32,7 @@ public:
 		{
 			group = mir_tstrdup(TranslateT("Favourite Contacts"));
 		}
-		status = DBGetContactSettingWord(hContact, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), "Status", ID_STATUS_OFFLINE);
+		status = DBGetContactSettingWord(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 	}
 
 	~TContactInfo()

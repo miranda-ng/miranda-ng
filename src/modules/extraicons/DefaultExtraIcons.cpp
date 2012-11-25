@@ -64,7 +64,7 @@ static void SetVisibility(HANDLE hContact, int apparentMode, bool clear)
 	if (hContact == NULL)
 		return;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return;
 
@@ -101,7 +101,7 @@ static void SetGender(HANDLE hContact, int gender, bool clear)
 	if (hContact == NULL)
 		return;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return;
 
@@ -172,7 +172,7 @@ static void SetExtraIcons(HANDLE hContact)
 	if (hContact == NULL)
 		return;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return;
 
@@ -204,7 +204,7 @@ static int SettingChanged(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return 0;
 
@@ -252,7 +252,7 @@ static int DefaultOnClick(WPARAM wParam, LPARAM lParam, LPARAM param)
 	if (hContact == NULL)
 		return 0;
 
-	char *proto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return 0;
 
@@ -347,7 +347,7 @@ static int ProtocolApplyIcon(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 
-	char *proto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char *proto = GetContactProto(hContact);
 	if ( IsEmpty(proto))
 		return 0;
 

@@ -156,7 +156,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				item.pszText = name;
 				iRow = ListView_InsertItem(hwndList, &item);
 				ListView_SetItemText(hwndList, iRow, 0, name);
-				TCHAR *tmp = mir_a2t((char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0));
+				TCHAR *tmp = mir_a2t(GetContactProto(hContact));
 				ListView_SetItemText(hwndList, iRow, 4, tmp);
 				mir_free(tmp);
 				tmp2 = UniGetContactSettingUtf(hContact, szGPGModuleName, "KeyID", "");

@@ -302,7 +302,7 @@ INT_PTR SendMessageCommand_W(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = GetContactProto((HANDLE)wParam);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 			return 0;
@@ -361,7 +361,7 @@ INT_PTR SendMessageCommand(WPARAM wParam, LPARAM lParam)
 	}
 
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+	szProto = GetContactProto((HANDLE)wParam);
 	if (szProto) {
 		if (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND)
 			return 0;
@@ -703,7 +703,7 @@ HWND TSAPI CreateNewTabForContact(struct TContainerData *pContainer, HANDLE hCon
 	newData.hContact = hContact;
 	newData.isWchar = isSend;
 	newData.szInitialText = pszInitialText;
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) newData.hContact, 0);
+	szProto = GetContactProto(newData.hContact);
 
 	ZeroMemory((void*)&newData.item, sizeof(newData.item));
 

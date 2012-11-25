@@ -192,7 +192,7 @@ static INT_PTR MenuItem_DeleteContact(WPARAM wParam, LPARAM lParam)
 	// Delete contact
 	case IDYES:
 		{
-			char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			char *szProto = GetContactProto((HANDLE)wParam);
 			if (szProto != NULL) {
 				// Check if protocol uses server side lists
 				DWORD caps;

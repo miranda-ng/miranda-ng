@@ -205,8 +205,7 @@ void KillBufferedFunctions()
 static INT_PTR ServiceDetectContactOriginCountry(WPARAM wParam,LPARAM lParam)
 {
 	WORD countryNumber;
-	char *pszProto = 
-	pszProto=(char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *pszProto = GetContactProto((HANDLE)wParam);
 	/* UserinfoEx */
 	if (countryNumber = (int)DB::Setting::GetWord((HANDLE)wParam,USERINFO,SET_CONTACT_ORIGIN_COUNTRY,0))
 		return (INT_PTR)countryNumber;

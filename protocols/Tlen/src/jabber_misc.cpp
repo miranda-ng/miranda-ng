@@ -93,7 +93,7 @@ HANDLE JabberHContactFromJID(TlenProtocol *proto, const char *jid)
 	hContactMatched = NULL;
 	hContact = db_find_first();
 	while (hContact != NULL) {
-		szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		szProto = GetContactProto(hContact);
 		if (szProto != NULL && !strcmp(proto->m_szModuleName, szProto)) {
 			if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
 				if ((p=dbv.pszVal) != NULL) {

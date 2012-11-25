@@ -163,7 +163,7 @@ unsigned short CAimProto::get_default_port(void)
 
 bool CAimProto::is_my_contact(HANDLE hContact)
 {
-	const char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	const char* szProto = GetContactProto(hContact);
 	return szProto != NULL && strcmp(m_szModuleName, szProto) == 0;
 }
 

@@ -306,7 +306,7 @@ BOOL CheckMsgWnd(HANDLE, BOOL *);
 
 BOOL isMetaContactsSubContact(HANDLE hMetaContact, HANDLE hContact)
 {
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hMetaContact, 0);
+	char *szProto = GetContactProto(hMetaContact);
 	if (szProto && !strcmp(szMetaProto, szProto)) { // Safety check
 		int i = DBGetContactSettingDword(hContact, szMetaProto, "ContactNumber", -1);
 		if (i >= 0 && hContact == (HANDLE)CallService(MS_MC_GETSUBCONTACT, (WPARAM)hMetaContact, i))
@@ -478,7 +478,7 @@ DBEVENTINFO createMsgEventInfo(HANDLE hContact)
 
 	einfo.cbSize = sizeof(einfo);
 	einfo.eventType = EVENTTYPE_MESSAGE;
-	einfo.szModule = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	einfo.szModule = GetContactProto(hContact);
 
 	return einfo;
 }
@@ -525,7 +525,7 @@ BOOL metaCheckProtocol(char *szProto, HANDLE hContact, WORD eventType)
 
 	if (szMetaProto && bMetaProtoEnabled && szProto && !strcmp(szMetaProto, szProto))
 		if (hSubContact = (HANDLE)CallService(MS_MC_GETMOSTONLINECONTACT, (WPARAM)hContact, 0))
-			szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hSubContact, 0);
+			szProto = GetContactProto(hSubContact);
 
 	return checkProtocol(szProto) && checkIgnore(hSubContact?hSubContact:hContact, eventType);
 }

@@ -257,7 +257,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		MessageBox(0, Translate("Could not retreive MetaContact contact count"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
-	if (!(proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)src,0))) {
+	if (!(proto = GetContactProto(src))) {
 		MessageBox(0, Translate("Could not retreive contact protocol"), Translate("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
@@ -476,7 +476,7 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 		return NULL;
 
 	most_online_contact = Meta_GetContactHandle(hMeta, default_contact_number);
-	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online_contact, 0);
+	proto = GetContactProto(most_online_contact);
 	caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
 	if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
 	// we are forced to do use default for sending - '-1' capability indicates no specific capability, but respect 'Force Default'
@@ -492,7 +492,7 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 	}
 
 	most_online_contact = Meta_GetContactHandle(hMeta, default_contact_number);
-	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online_contact, 0);
+	proto = GetContactProto(most_online_contact);
 	if (proto && CallProtoService(proto, PS_GETSTATUS, 0, 0) >= ID_STATUS_ONLINE) {
 		caps = proto ? CallProtoService(proto, PS_GETCAPS, (WPARAM)pflagnum, 0) : 0;
 		if (proto && strcmp(proto, "IRC") == 0) caps |= PF1_IM;
@@ -516,7 +516,7 @@ HANDLE Meta_GetMostOnlineSupporting(HANDLE hMeta, int pflagnum, unsigned long ca
 			continue;
 
 		hContact = Meta_GetContactHandle(hMeta, i);
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = GetContactProto(hContact);
 
 		if (!proto || CallProtoService(proto, PS_GETSTATUS, 0, 0) < ID_STATUS_ONLINE) // proto offline or connecting
 			continue;
@@ -607,7 +607,7 @@ BOOL dbv_same(DBVARIANT *dbv1, DBVARIANT *dbv2) {
 
 			if (hContact) {
 				if (!module) {
-					used_mod = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+					used_mod = GetContactProto(hContact);
 					if (!used_mod) continue; // next contact
 				} else
 					used_mod = module;
@@ -698,7 +698,7 @@ void CopyStatusData(HANDLE hMeta) {
 		else
 			hContact = Meta_GetContactHandle(hMeta, i);
 
-		proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		proto = GetContactProto(hContact);
 
 		if (proto && DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE) == status) {
 			if (!bDoneStatus && !MyDBGetContactSetting(hContact, "CList", "StatusMsg", &dbv)) {
@@ -974,7 +974,7 @@ int Meta_HideLinkedContacts(void) {
 			contact_number = DBGetContactSettingDword(hContact, META_PROTO, "ContactNumber", (DWORD)-1);
 
 			// prepare to update metacontact record of subcontat status
-			proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			proto = GetContactProto(hContact);
 
 			// save old group and move to invisible group (i.e. non-existent group)
 			Meta_SetGroup(hContact);
@@ -1184,7 +1184,7 @@ void Meta_SetGroup(HANDLE hContact) {
 	// the existence of this service means that clist_meta_mw is active and will do the hiding for us
 	if (ServiceExists(MS_CLUI_METASUPPORT)) return;
 
-	proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	proto = GetContactProto(hContact);
 	if (proto)
 		uid   = (char *)CallProtoService(proto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
 
@@ -1280,7 +1280,7 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 
 	if (!hContact) return 1;
 
-	//proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	//proto = GetContactProto(hContact);
 	// read proto direct from db, since we do this on load and other proto plugins may not be loaded yet
 	if (!DBGetContactSetting(hContact, "Protocol", "p", &dbv_proto)) {
 
@@ -1636,7 +1636,7 @@ void Meta_RemoveHistory(HANDLE hContactRemoveFrom, HANDLE hContactSource) {
 }
 
 char *Meta_GetUniqueIdentifier(HANDLE hContact, DWORD *pused) {
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	char *field;
 	char *id;
 	char buff[256];
@@ -1687,7 +1687,7 @@ char *Meta_GetUniqueIdentifier(HANDLE hContact, DWORD *pused) {
 void Meta_FixStatus(HANDLE hMeta) {
 	HANDLE most_online = Meta_GetMostOnlineSupporting(hMeta, PFLAGNUM_1, 0);
 	if (most_online) {
-		char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)most_online, 0);
+		char *proto = GetContactProto(most_online);
 		if (proto) {
 			WORD status = (WORD)DBGetContactSettingWord(most_online, proto, "Status", (WORD)ID_STATUS_OFFLINE);
 			DBWriteContactSettingWord(hMeta, META_PROTO, "Status", status);

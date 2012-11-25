@@ -438,7 +438,7 @@ void AddEventThread(void *arg)
 	HANDLE hContact = (HANDLE)arg;
 	TCHAR stzTitle[MAX_TITLE_LEN], stzText[MAX_TEXT_LEN];
 
-	char *szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return;
 

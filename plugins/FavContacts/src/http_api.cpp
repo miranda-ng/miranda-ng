@@ -75,7 +75,7 @@ public:
 			HANDLE hContact = favList[i]->getHandle();
 			TCHAR *name = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
 			AVATARCACHEENTRY *avatar = (AVATARCACHEENTRY *)CallService(MS_AV_GETAVATARBITMAP, (WPARAM)hContact, 0);
-			int status = DBGetContactSettingWord(hContact, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0), "Status", ID_STATUS_OFFLINE);
+			int status = DBGetContactSettingWord(hContact, GetContactProto(hContact), "Status", ID_STATUS_OFFLINE);
 
 			Send("SetContact(");
 			Send(i);

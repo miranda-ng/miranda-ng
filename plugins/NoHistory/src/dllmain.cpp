@@ -161,7 +161,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)wParam;
 	
 	bool remove = (DBGetContactSettingByte(hContact, MODULE, DBSETTING_REMOVE, 0) != 0);
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
 	CLISTMENUITEM mi = {0};
@@ -227,7 +227,7 @@ int WindowEvent(WPARAM wParam, LPARAM lParam) {
 
 	if(!ServiceExists(MS_MSG_MODIFYICON)) return 0;
 	
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
 
@@ -263,7 +263,7 @@ int IconPressed(WPARAM wParam, LPARAM lParam) {
 	if(sicd->flags & MBCF_RIGHTBUTTON) return 0; // ignore right-clicks
 	if(strcmp(sicd->szModule, MODULE) != 0) return 0; // not our event
 
-	char *proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
 	if(!chat_room) ServiceToggle((WPARAM)hContact, 0);

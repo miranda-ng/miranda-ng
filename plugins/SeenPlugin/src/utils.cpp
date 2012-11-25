@@ -168,7 +168,7 @@ TCHAR *ParseString(TCHAR *szstring, HANDLE hcontact, BYTE isfile)
 
 	CONTACTINFO ci = { sizeof(CONTACTINFO) };
 	ci.hContact = hcontact;
-	ci.szProto = hcontact ? (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0) : courProtoName;
+	ci.szProto = hcontact ? GetContactProto(hcontact) : courProtoName;
 
 	TCHAR *d = sztemp;
 	for (TCHAR *p = szstring; *p; p++) {
@@ -612,7 +612,7 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			// avoid repeating the offline status
 			if ((prevStatus|0x8000)<=ID_STATUS_OFFLINE)
 				return 0;
-			proto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0);
+			proto = GetContactProto((HANDLE)wparam);
 			db_set_b((HANDLE)wparam, S_MOD, "Offline", 1);
 			{
 				DWORD t;
@@ -626,18 +626,15 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 
 			if (!db_get_b(NULL,S_MOD,"IgnoreOffline",1))
 			{
-				char * sProto;
 				if ( db_get_b(NULL,S_MOD,"FileOutput",0))
 					FileWrite((HANDLE)wparam);
 
-				if (CallProtoService(sProto = 
-					(char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0),
-					PS_GETSTATUS,0,0
-					)>ID_STATUS_OFFLINE)	{
+				char *sProto = GetContactProto((HANDLE)wparam);
+				if (CallProtoService(sProto, PS_GETSTATUS, 0, 0) > ID_STATUS_OFFLINE)	{
 					myPlaySound((HANDLE)wparam, ID_STATUS_OFFLINE, prevStatus);
-					if ( db_get_b(NULL, S_MOD, "UsePopups", 0)) {
+					if ( db_get_b(NULL, S_MOD, "UsePopups", 0))
 						ShowPopup((HANDLE)wparam, sProto, ID_STATUS_OFFLINE);
-				}	}
+				}
 
 				if ( db_get_b(NULL, S_MOD, "KeepHistory", 0))
 					HistoryWrite((HANDLE)wparam);
@@ -658,7 +655,8 @@ int UpdateValues(WPARAM wparam,LPARAM lparam)
 			if ( db_get_b(NULL, S_MOD, "FileOutput", 0)) FileWrite((HANDLE)wparam);
 			if (prevStatus != cws->value.wVal) myPlaySound((HANDLE)wparam, cws->value.wVal, prevStatus);
 			if ( db_get_b(NULL, S_MOD, "UsePopups", 0))
-				if (prevStatus != cws->value.wVal) ShowPopup((HANDLE)wparam, (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, wparam, 0), cws->value.wVal|0x8000);
+				if (prevStatus != cws->value.wVal)
+					ShowPopup((HANDLE)wparam, GetContactProto((HANDLE)wparam), cws->value.wVal|0x8000);
 
 			if ( db_get_b(NULL, S_MOD, "KeepHistory", 0)) HistoryWrite((HANDLE)wparam);
 			if ( db_get_b((HANDLE)wparam, S_MOD, "OnlineAlert", 0)) ShowHistory((HANDLE)wparam, 1);
@@ -687,7 +685,7 @@ static DWORD __stdcall cleanThread(logthread_info* infoParam)
 
 	HANDLE hcontact = db_find_first();
 	while(hcontact != NULL) {
-		char *contactProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hcontact,0);
+		char *contactProto = GetContactProto(hcontact);
 		if (contactProto) {
 			if ( !strncmp(infoParam->sProtoName, contactProto, MAXMODULELABELLENGTH)) {
 				WORD oldStatus = db_get_w(hcontact,S_MOD,"StatusTriger",ID_STATUS_OFFLINE) | 0x8000;

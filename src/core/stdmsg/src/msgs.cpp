@@ -83,7 +83,7 @@ static int MessageEventAdded(WPARAM wParam, LPARAM lParam)
 	/* new message */
 	SkinPlaySound("AlertMsg");
 	{
-		char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) wParam, 0);
+		char *szProto = GetContactProto((HANDLE)wParam);
 		if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0))))
 		{
 			struct NewMessageWindowLParam newData = { 0 };
@@ -116,7 +116,7 @@ INT_PTR SendMessageCmd(HANDLE hContact, char* msg, int isWchar)
 	HWND hwnd;
 
 	/* does the HCONTACT's protocol support IM messages? */
-	szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	szProto = GetContactProto(hContact);
 	if (!szProto || (!CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		return 1;
 
@@ -225,7 +225,7 @@ static int MessageSettingChanged(WPARAM wParam, LPARAM lParam)
 			WindowList_Broadcast(g_dat->hMessageWindowList, DM_NEWTIMEZONE, (WPARAM) cws, 0);
 		else
 		{
-			char * szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, wParam, 0);
+			char * szProto = GetContactProto((HANDLE)wParam);
 			if (szProto && !strcmp(cws->szModule, szProto))
 				WindowList_Broadcast(g_dat->hMessageWindowList, DM_UPDATETITLE, (WPARAM) cws, 0);
 		}
@@ -273,7 +273,7 @@ static void RestoreUnreadMessageAlerts(void)
 				if (windowAlreadyExists)
 					continue;
 				{
-					char *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+					char *szProto = GetContactProto(hContact);
 					if (szProto && (g_dat->openFlags & SRMMStatusToPf2(CallProtoService(szProto, PS_GETSTATUS, 0, 0)))) 
 					{
 						autoPopup = 1;
@@ -374,7 +374,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		char* szProto = GetContactProto(hContact);
 
 		CLISTMENUITEM clmi = {0};
 		clmi.cbSize = sizeof(CLISTMENUITEM);

@@ -224,7 +224,7 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 			ctInfo.szProto = szProto;
 		}
 		else{
-			GetContactProtocol(hContact, proto, sizeof(proto));
+			GetContactProto(hContact, proto, sizeof(proto));
 			ctInfo.szProto = proto;
 		}
 	ctInfo.dwFlag = CNF_DISPLAY;
@@ -253,7 +253,7 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 #pragma warning (default: 4312)
 
 #pragma warning (disable: 4312) 
-void GetContactProtocol(HANDLE hContact, char *szProto, size_t size)
+void GetContactProto(HANDLE hContact, char *szProto, size_t size)
 {
 	GetStringFromDatabase(hContact, "Protocol", "p", NULL, szProto, size);
 }
@@ -263,7 +263,7 @@ void GetContactProtocol(HANDLE hContact, char *szProto, size_t size)
 TCHAR *GetContactID(HANDLE hContact)
 {
 	char protocol[256];
-	GetContactProtocol(hContact, protocol, sizeof(protocol));
+	GetContactProto(hContact, protocol, sizeof(protocol));
 
 	return GetContactID(hContact, protocol);
 }
@@ -346,7 +346,7 @@ HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 	int found = 0;
 	while (hContact)
 	{
-		GetContactProtocol(hContact, cProtocol, sizeof(cProtocol));
+		GetContactProto(hContact, cProtocol, sizeof(cProtocol));
 		szHandle = GetContactID(hContact, cProtocol);
 		
 		tmp = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) hContact, 0);

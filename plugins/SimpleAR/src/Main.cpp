@@ -194,7 +194,7 @@ INT addEvent(WPARAM wParam, LPARAM lParam)
 	if (!fEnabled || !hContact || !hDBEvent)
 		return FALSE;	/// unspecifyed error 
 
-	char* pszProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* pszProto = GetContactProto(hContact);
 	int status = CallProtoService(pszProto, PS_GETSTATUS, 0, 0);
 	if (status == 40072 || status == 40077 || status == 40078)
 		return FALSE;

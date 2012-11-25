@@ -81,7 +81,7 @@ static INT_PTR JabberMenuChooseService(WPARAM wParam, LPARAM lParam)
 
 static CJabberProto* JabberGetInstanceByHContact(HANDLE hContact)
 {
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char *szProto = GetContactProto(hContact);
 	if (szProto == NULL)
 		return NULL;
 

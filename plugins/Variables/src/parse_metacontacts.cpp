@@ -51,7 +51,7 @@ static TCHAR *parseGetParent(ARGUMENTSINFO *ai)
 
 	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
-	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
@@ -112,7 +112,7 @@ static TCHAR *parseGetDefault(ARGUMENTSINFO *ai)
 
 	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
-	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 
@@ -172,7 +172,7 @@ static TCHAR *parseGetMostOnline(ARGUMENTSINFO *ai)
 
 	TCHAR* res = NULL;
 	TCHAR* szUniqueID = NULL;
-	char* szProto = (char *)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	char* szProto = GetContactProto(hContact);
 	if (szProto != NULL)
 		szUniqueID = getContactInfoT(CNF_UNIQUEID, hContact);
 

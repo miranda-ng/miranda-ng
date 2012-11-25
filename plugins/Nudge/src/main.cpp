@@ -36,21 +36,16 @@ PLUGININFOEX pluginInfo={
 
 INT_PTR NudgeShowMenu(WPARAM wParam,LPARAM lParam)
 {
-
 	for(NudgeElementList *n = NudgeList;n != NULL; n = n->next)
-	{
 		if (!strcmp((char *) wParam,n->item.ProtocolName))
-		{
 			return n->item.ShowContactMenu(lParam != 0);
-		}
-	}
+
 	return 0;
 }
 
 INT_PTR NudgeSend(WPARAM wParam,LPARAM lParam)
 {
-
-	char *protoName = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *protoName = GetContactProto((HANDLE)wParam);
 	int diff = time(NULL) - DBGetContactSettingDword((HANDLE) wParam, "Nudge", "LastSent", time(NULL)-30);
 
 	if(diff < GlobalNudge.sendTimeSec)
@@ -113,7 +108,7 @@ void OpenContactList()
 int NudgeRecieved(WPARAM wParam,LPARAM lParam)
 {
 
-	char *protoName = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *protoName = GetContactProto((HANDLE)wParam);
 
 	DWORD currentTimestamp = time(NULL);
 	DWORD nudgeSentTimestamp = lParam ? (DWORD)lParam : currentTimestamp;
@@ -418,7 +413,7 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 void HideNudgeButton(HANDLE hContact)
 {
 	char str[MAXMODULELABELLENGTH + 12] = {0};
-	char *szProto = (char*) CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
+	char *szProto = GetContactProto(hContact);
 	mir_snprintf(str,MAXMODULELABELLENGTH + 12,"%s/SendNudge", szProto);
 
 	if (!ServiceExists(str))
@@ -654,7 +649,7 @@ void Nudge_SentStatus(CNudgeElement n, HANDLE hContact)
 	DBEVENTINFO NudgeEvent = { 0 };
 
 	NudgeEvent.cbSize = sizeof(NudgeEvent);
-	NudgeEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	NudgeEvent.szModule = GetContactProto(hContact);
 
 	char *buff = mir_utf8encodeT(n.senText);
 	NudgeEvent.flags = DBEF_SENT | DBEF_UTF;
@@ -681,7 +676,7 @@ void Nudge_ShowStatus(CNudgeElement n, HANDLE hContact, DWORD timestamp)
 	DBEVENTINFO NudgeEvent = { 0 };
 
 	NudgeEvent.cbSize = sizeof(NudgeEvent);
-	NudgeEvent.szModule = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+	NudgeEvent.szModule = GetContactProto(hContact);
 
 	char *buff = mir_utf8encodeT(n.recText);
 	NudgeEvent.flags = DBEF_UTF;

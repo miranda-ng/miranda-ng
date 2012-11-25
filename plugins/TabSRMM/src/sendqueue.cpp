@@ -54,7 +54,7 @@ static char *pss_msgw = "/SendMsgW";
 char *SendQueue::MsgServiceName(const HANDLE hContact = 0, const TWindowData *dat = 0, int dwFlags = 0)
 {
 	char	szServiceName[100];
-	char	*szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char	*szProto = GetContactProto(hContact);
 
 	if (szProto == NULL)
 		return pss_msg;
@@ -208,7 +208,7 @@ static void DoSplitSendW(LPVOID param)
 	HANDLE  hContact = job->hOwner;
 	DWORD   dwFlags = job->dwFlags;
 	int     chunkSize = job->chunkSize / 2;
-	char    *szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+	char    *szProto = GetContactProto(hContact);
 
 	if (szProto == NULL)
 		svcName = pss_msg;
@@ -808,7 +808,7 @@ inform_and_discard:
 	dbei.cbSize = sizeof(dbei);
 	dbei.eventType = EVENTTYPE_MESSAGE;
 	dbei.flags = DBEF_SENT;
-	dbei.szModule = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) m_jobs[iFound].hOwner, 0);
+	dbei.szModule = GetContactProto(m_jobs[iFound].hOwner);
 	dbei.timestamp = time(NULL);
 	dbei.cbBlob = lstrlenA(m_jobs[iFound].sendBuffer) + 1;
 
@@ -906,7 +906,7 @@ int SendQueue::doSendLater(int iJobIndex, TWindowData *dat, HANDLE hContact, boo
 		dbei.cbSize = sizeof(dbei);
 		dbei.eventType = EVENTTYPE_MESSAGE;
 		dbei.flags = DBEF_SENT | DBEF_UTF;
-		dbei.szModule = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) dat->hContact, 0);
+		dbei.szModule = GetContactProto(dat->hContact);
 		dbei.timestamp = time(NULL);
 		dbei.cbBlob = lstrlenA(utfText) + 1;
 		dbei.pBlob = (PBYTE) utfText;

@@ -528,7 +528,7 @@ void CJabberProto::OnIqResultGetRoster(HXML iqNode, CJabberIqInfo* pInfo)
 		HANDLE* list = NULL;
 		HANDLE hContact = (HANDLE)db_find_first();
 		while (hContact != NULL) {
-			char* str = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+			char* str = GetContactProto(hContact);
 			if (str != NULL && !strcmp(str, m_szModuleName)) {
 				DBVARIANT dbv;
 				if ( !JGetStringT(hContact, "jid", &dbv)) {

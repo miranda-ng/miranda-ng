@@ -345,7 +345,7 @@ void SortArray(void)
 int GetStatus(HANDLE hContact, char *proto = NULL)
 {
 	if (proto == NULL)
-		proto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
+		proto = GetContactProto(hContact);
 
 	if (proto == NULL)
 		return ID_STATUS_OFFLINE;
@@ -380,7 +380,7 @@ void LoadContacts(HWND hwndDlg, BOOL show_all)
 		hContact != NULL; 
 		hContact = db_find_next(hContact))
 	{
-		char *pszProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *pszProto = GetContactProto(hContact);
 		if(pszProto != NULL)
 		{
 			// Get meta
@@ -510,7 +510,7 @@ void EnableButtons(HWND hwndDlg, HANDLE hContact)
 		// Get caps
 		INT_PTR caps = 0;
 
-		char *pszProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM)hContact, 0);
+		char *pszProto = GetContactProto(hContact);
 		if (pszProto != NULL)
 			caps = CallProtoService(pszProto, PS_GETCAPS, PFLAGNUM_1, 0);
 
