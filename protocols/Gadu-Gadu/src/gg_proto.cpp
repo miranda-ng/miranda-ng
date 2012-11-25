@@ -64,13 +64,6 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	setalloffline();
 	db_set_dw(NULL, m_szModuleName, GG_KEY_LOGONTIME, 0);
 
-	DWORD dwVersion;
-	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
-		cleanuplastplugin(dwVersion);
-
-	links_instance_init();
-	initavatarrequestthread();
-
 	TCHAR szPath[MAX_PATH];
 	TCHAR *tmpPath = Utils_ReplaceVarsT( _T("%miranda_avatarcache%"));
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s"), tmpPath, m_tszUserName);
@@ -81,6 +74,14 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	mir_sntprintf(szPath, MAX_PATH, _T("%s\\%s\\ImageCache"), tmpPath, m_tszUserName);
 	mir_free(tmpPath);
 	hImagesFolder = FoldersRegisterCustomPathT(m_szModuleName, "Images", szPath);
+
+	DWORD dwVersion;
+	if ((dwVersion = db_get_dw(NULL, m_szModuleName, GG_PLUGINVERSION, 0)) < pluginInfo.version)
+		cleanuplastplugin(dwVersion);
+
+	links_instance_init();
+	initavatarrequestthread();
+
 }
 
 GGPROTO::~GGPROTO()

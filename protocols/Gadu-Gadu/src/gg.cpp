@@ -147,56 +147,42 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCO
 
 void GGPROTO::cleanuplastplugin(DWORD version)
 {
-	HANDLE hContact;
-	char *szProto;
 
-	// Remove bad e-mail and phones from
-	if (version < PLUGIN_MAKE_VERSION(0, 0, 1, 4))
-	{
-#ifdef DEBUGMODE
-		netlog("cleanuplastplugin() version=%d Cleaning junk Phone settings from < 0.0.1.4 ...", version);
-#endif
-		// Look for contact in DB
-		hContact = db_find_first();
-		while (hContact)
-		{
-			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-			if (szProto != NULL && !strcmp(szProto, m_szModuleName))
-			{
-				// Do contact cleanup
-				db_unset(hContact, m_szModuleName, GG_KEY_EMAIL);
-				db_unset(hContact, m_szModuleName, "Phone");
-			}
-			hContact = db_find_next(hContact);
-		}
-	}
-
-	// Remove GG entries for non GG contacts
-	if (version < PLUGIN_MAKE_VERSION(0, 0, 3, 5))
-	{
-#ifdef DEBUGMODE
-		netlog("cleanuplastplugin(): version=%d Cleaning junk Nick settings from < 0.0.3.5 ...", version);
-#endif
-		// Look for contact in DB
-		hContact = db_find_first();
-		while (hContact)
-		{
-			szProto = (char *) CallService(MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) hContact, 0);
-			if (szProto != NULL && strcmp(szProto, m_szModuleName))
-			{
-				// Do nick entry cleanup
-				db_unset(hContact, m_szModuleName, GG_KEY_NICK);
-			}
-			hContact = db_find_next(hContact);
-		}
-	}
-
-	// Remove old unneeded entry
-	if (version < PLUGIN_MAKE_VERSION(0, 0, 5, 3))
-		db_unset(NULL, m_szModuleName, "ShowNotOnMyList");
-
-	// Store this plugin version
+	// Store current plugin version
 	db_set_dw(NULL, m_szModuleName, GG_PLUGINVERSION, pluginInfo.version);
+
+
+	//1. clean files: %miranda_avatarcache%\GG\*.(null)
+	if (version < PLUGIN_MAKE_VERSION(0, 11, 0, 2)){
+		netlog("cleanuplastplugin() 1: version=%d Cleaning junk avatar files from < 0.11.0.2", version);
+
+		TCHAR avatarsPath[MAX_PATH];
+		if (hAvatarsFolder == NULL || FoldersGetCustomPathT(hAvatarsFolder, avatarsPath, MAX_PATH, _T(""))) {
+			mir_ptr<TCHAR> tmpPath( Utils_ReplaceVarsT( _T("%miranda_avatarcache%")));
+			mir_sntprintf(avatarsPath, MAX_PATH, _T("%s\\%s"), (TCHAR*)tmpPath, m_tszUserName);
+		}
+		netlog("cleanuplastplugin() 1: miranda_avatarcache = %S", avatarsPath);
+
+		if (avatarsPath !=  NULL){
+			HANDLE hFind = INVALID_HANDLE_VALUE;
+			TCHAR spec[MAX_PATH + 10];
+			mir_sntprintf(spec, MAX_PATH + 10, _T("%s\\*.(null)"), avatarsPath);
+			WIN32_FIND_DATA ffd;
+			hFind = FindFirstFile(spec, &ffd);
+			if (hFind != INVALID_HANDLE_VALUE) {
+				do {
+					TCHAR filePathT [2*MAX_PATH + 10];
+					mir_sntprintf(filePathT, 2*MAX_PATH + 10, _T("%s\\%s"), avatarsPath, ffd.cFileName);
+					if (!_taccess(filePathT, 0)){
+						netlog("cleanuplastplugin() 1: remove file = %S", filePathT);
+						_tremove(filePathT);
+					}
+				} while (FindNextFile(hFind, &ffd) != 0);
+				FindClose(hFind);
+			}
+		}
+	}
+
 }
 
 //////////////////////////////////////////////////////////
