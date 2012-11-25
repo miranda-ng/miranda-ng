@@ -87,7 +87,7 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	POPUPDATAT pd = {0};
 	FillPopupData(pd, dtb);
 	pd.lchContact = hContact;
-	pd.PluginWindowProc = (WNDPROC) DlgProcPopup;
+	pd.PluginWindowProc = (WNDPROC)DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dtb);
 	
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
@@ -109,9 +109,9 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
 
 	PUAddPopUpT(&pd);
+
 	Skin_ReleaseIcon(pd.lchIcon);
 	free(name);
-	
 	return 0;
 }
 
@@ -132,7 +132,7 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	POPUPDATAT pd = {0};
 	FillPopupData(pd, dab);
 	pd.lchContact = hContact;
-	pd.PluginWindowProc = (WNDPROC) DlgProcPopup;
+	pd.PluginWindowProc = (WNDPROC)DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dab);
 	
 	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);

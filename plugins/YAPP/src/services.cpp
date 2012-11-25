@@ -5,11 +5,10 @@
 #include "resource.h"
 #include "yapp_history.h"
 
-#define NUM_SERVICES		20
-HANDLE hService[NUM_SERVICES];
 HANDLE hMenuShowHistory, hMenuToggleOnOff;
 
-void StripBBCodesInPlace(wchar_t *text) {
+void StripBBCodesInPlace(wchar_t *text)
+{
 	if (text == 0 || db_get_b(0, MODULE, "StripBBCodes", 1) == 0)
 		return;
 
@@ -44,7 +43,8 @@ void StripBBCodesInPlace(wchar_t *text) {
 	}
 }
 
-INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
+INT_PTR CreatePopupA(WPARAM wParam, LPARAM lParam)
+{
 	POPUPDATA *pd_in = (POPUPDATA *)wParam;
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 
@@ -56,7 +56,7 @@ INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
 	StripBBCodesInPlace(pd_out->pwzText);
 
 	pd_out->hContact = pd_in->lchContact;
-	pd_out->hIcon = pd_in->lchIcon;
+	pd_out->SetIcon(pd_in->lchIcon);
 	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
@@ -81,7 +81,7 @@ INT_PTR OldCreatePopupA(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
+INT_PTR CreatePopupExA(WPARAM wParam, LPARAM lParam) {
 
 	POPUPDATAEX *pd_in = (POPUPDATAEX *)wParam;
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
@@ -94,7 +94,7 @@ INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
 	StripBBCodesInPlace(pd_out->pwzText);
 
 	pd_out->hContact = pd_in->lchContact;
-	pd_out->hIcon = pd_in->lchIcon;
+	pd_out->SetIcon(pd_in->lchIcon);
 	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
@@ -118,8 +118,8 @@ INT_PTR OldCreatePopupExA(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
-
+INT_PTR CreatePopupW(WPARAM wParam, LPARAM lParam)
+{
 	POPUPDATAW *pd_in = (POPUPDATAW *)wParam;
 	PopupData *pd_out = (PopupData *)mir_calloc(sizeof(PopupData));
 
@@ -131,7 +131,7 @@ INT_PTR OldCreatePopupW(WPARAM wParam, LPARAM lParam) {
 	StripBBCodesInPlace(pd_out->pwzText);
 
 	pd_out->hContact = pd_in->lchContact;
-	pd_out->hIcon = pd_in->lchIcon;
+	pd_out->SetIcon(pd_in->lchIcon);
 	if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 		pd_out->colorBack = pd_out->colorText = 0;
 	else {
@@ -294,7 +294,7 @@ INT_PTR PopupChangeA(WPARAM wParam, LPARAM lParam) {
 		StripBBCodesInPlace(pd_out.pwzText);
 
 		pd_out.hContact = pd_in->lchContact;
-		pd_out.hIcon = pd_in->lchIcon;
+		pd_out.SetIcon(pd_in->lchIcon);
 		if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 			pd_out.colorBack = pd_out.colorText = 0;
 		else {
@@ -329,7 +329,7 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 		StripBBCodesInPlace(pd_out.pwzText);
 
 		pd_out.hContact = pd_in->lchContact;
-		pd_out.hIcon = pd_in->lchIcon;
+		pd_out.SetIcon(pd_in->lchIcon);
 		if (pd_in->colorBack == 0xffffffff) // that's the old #define for 'skinned bg'
 			pd_out.colorBack = pd_out.colorText = 0;
 		else {
@@ -350,35 +350,30 @@ INT_PTR PopupChangeW(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR ShowMessage(WPARAM wParam, LPARAM lParam) {
-	if (!db_get_b(0, MODULE, "Enabled", 1)) return 0;
+	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAT pd = {0};
 	_tcscpy(pd.lptzContactName, lParam == SM_WARNING ? _T("Warning") : _T("Notification"));
 	pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
-	TCHAR *buff = mir_a2t((char *)wParam);
-	_tcscpy(pd.lptzText, buff); pd.lptzText[MAX_SECONDLINE-1] = 0;
-	mir_free(buff);
-
+	_tcsncpy(pd.lptzText, _A2T((char *)wParam), MAX_SECONDLINE); pd.lptzText[MAX_SECONDLINE-1] = 0;
 	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&pd, 0);
-
 	return 0;
 }
 
-INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam) {
-	if (!db_get_b(0, MODULE, "Enabled", 1)) return 0;
+INT_PTR ShowMessageW(WPARAM wParam, LPARAM lParam)
+{
+	if ( !db_get_b(0, MODULE, "Enabled", 1)) return 0;
 
 	POPUPDATAW pd = {0};
 	wcscpy(pd.lpwzContactName, lParam == SM_WARNING ? L"Warning" : L"Notification");
 	pd.lchIcon = LoadIcon(0, lParam == SM_WARNING ? IDI_WARNING : IDI_INFORMATION);
 	wcsncpy(pd.lpwzText, (wchar_t *)wParam, MAX_SECONDLINE);
-
 	CallService(MS_POPUP_ADDPOPUPW, (WPARAM)&pd, 0);
-
 	return 0;
 }
 
 //=====PopUp/ShowHistory
-//extern BOOL CALLBACK DlgProcHistLstOpts(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 INT_PTR PopUp_ShowHistory(WPARAM wParam, LPARAM lParam)
 {
 	if (!hHistoryWindow) {
@@ -437,7 +432,7 @@ INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 		if (pc->flags & PCF_UNICODE) pd.flags |= PDF_UNICODE;
 		pd.colorBack = pc->colorBack;
 		pd.colorText = pc->colorText;
-		pd.hIcon = pc->hIcon;
+		pd.SetIcon(pc->hIcon);
 		pd.timeout = pc->iSeconds;
 		pd.windowProc = pc->PluginWindowProc;
 
@@ -451,43 +446,38 @@ INT_PTR CreateClassPopup(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PrebuildMenu(WPARAM wParam, LPARAM lParam) {
-	return 0;
-}
-
-HANDLE hEventBuildMenu;
+//////////////////////////////////////////////////////////////////////////////
 
 void InitServices() 
 {
-	int i = 0;
-	hService[i++] = CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
-	hService[i++] = CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
-	hService[i++] = CreateServiceFunction(MS_POPUP_ADDPOPUP, OldCreatePopupA);
-	hService[i++] = CreateServiceFunction(MS_POPUP_ADDPOPUPEX, OldCreatePopupExA);
-	hService[i++] = CreateServiceFunction(MS_POPUP_ADDPOPUPW, OldCreatePopupW);
-	hService[i++] = CreateServiceFunction(MS_POPUP_CHANGETEXTW, ChangeTextW);
-	hService[i++] = CreateServiceFunction(MS_POPUP_CHANGETEXT, ChangeTextA);
-	hService[i++] = CreateServiceFunction(MS_POPUP_CHANGE, PopupChangeA);
-	hService[i++] = CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
-	hService[i++] = CreateServiceFunction(MS_POPUP_GETCONTACT, GetContact);
-	hService[i++] = CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetOpaque);
-	hService[i++] = CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN, IsSecondLineShown);
-	hService[i++] = CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
+	CreateServiceFunction(MS_POPUP_REGISTERCLASS, RegisterPopupClass);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPCLASS, CreateClassPopup);
+	CreateServiceFunction(MS_POPUP_ADDPOPUP, CreatePopupA);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPEX, CreatePopupExA);
+	CreateServiceFunction(MS_POPUP_ADDPOPUPW, CreatePopupW);
+	CreateServiceFunction(MS_POPUP_CHANGETEXTW, ChangeTextW);
+	CreateServiceFunction(MS_POPUP_CHANGETEXT, ChangeTextA);
+	CreateServiceFunction(MS_POPUP_CHANGE, PopupChangeA);
+	CreateServiceFunction(MS_POPUP_CHANGEW, PopupChangeW);
+	CreateServiceFunction(MS_POPUP_GETCONTACT, GetContact);
+	CreateServiceFunction(MS_POPUP_GETPLUGINDATA, GetOpaque);
+	CreateServiceFunction(MS_POPUP_ISSECONDLINESHOWN, IsSecondLineShown);
+	CreateServiceFunction(MS_POPUP_QUERY, PopupQuery);
 
-	hService[i++] = CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
-	hService[i++] = CreateServiceFunction(MS_POPUP_SHOWMESSAGE"W", ShowMessageW);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE, ShowMessage);
+	CreateServiceFunction(MS_POPUP_SHOWMESSAGE"W", ShowMessageW);
 
-	hService[i++] = CreateServiceFunction(MS_POPUP_SHOWHISTORY, PopUp_ShowHistory);
-	hService[i++] = CreateServiceFunction("PopUp/ToggleEnabled", TogglePopups);
+	CreateServiceFunction(MS_POPUP_SHOWHISTORY, PopUp_ShowHistory);
+	CreateServiceFunction("PopUp/ToggleEnabled", TogglePopups);
 
-	hService[i++] = CreateServiceFunction("YAPP/RegisterClass", RegisterPopupClass);
-	hService[i++] = CreateServiceFunction("YAPP/ClassInstance", CreateClassPopup);
+	CreateServiceFunction("YAPP/RegisterClass", RegisterPopupClass);
+	CreateServiceFunction("YAPP/ClassInstance", CreateClassPopup);
 
-	CLISTMENUITEM mi = {0};
+	////////////////////////////////////////////////////////////////////////////
+	// Menus
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL;
-
 	mi.position = 500010000;
 	mi.pszPopupName = LPGEN("PopUps");
 
@@ -502,20 +492,13 @@ void InitServices()
 	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) ? 
 		LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	hMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
-
-	hEventBuildMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PrebuildMenu);
 }
 
-void DeinitServices() {
-	int i;
-	for (i = 0; i < num_classes; i++) {
+void DeinitServices()
+{
+	for (int i = 0; i < num_classes; i++) {
 		mir_free(classes[i].pszName);
 		mir_free(classes[i].pszDescription);
 	}
 	mir_free(classes); num_classes = 0;
-
-	UnhookEvent(hEventBuildMenu);
-
-	for (i = 0; i < NUM_SERVICES; i++)
-		if (hService[i]) DestroyServiceFunction(hService[i]);
 }

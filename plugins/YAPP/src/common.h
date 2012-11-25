@@ -51,6 +51,7 @@
 #include <m_fontservice.h>
 #include <m_avatars.h>
 #include <m_popup.h>
+#include <m_icolib.h>
 #include <win2k.h>
 
 #include <m_notify.h>
@@ -79,7 +80,8 @@ typedef int (CALLBACK *PFNLVCOMPARE)(LPARAM, LPARAM, LPARAM);
 #endif
 
 
-typedef struct {
+struct PopupData
+{
 	int cbSize;
 	int flags; // OR of PDF_* flags below
 	HANDLE hContact;
@@ -99,11 +101,14 @@ typedef struct {
 	WNDPROC windowProc;		// optional custom window procedure
 	int timeout;			// -1 == infinite, 0 == default, otherwise timeout in seconds
 	void *opaque;
-} PopupData;
 
-#define PDF_UNICODE		0x0001
+	void SetIcon(HICON);
+};
 
-#define PDF_TCHAR		PDF_UNICODE
+#define PDF_UNICODE  0x0001
+#define PDF_ICOLIB   0x0002
+
+#define PDF_TCHAR    PDF_UNICODE
 
 // windowProc messages
 #define PM_INIT			(WM_USER + 0x0202)				// message sent to your windowProc after the window has been initialized

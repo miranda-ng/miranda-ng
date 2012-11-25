@@ -21,11 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifndef M_WWI_NOTIFIERS_H
 #define M_WWI_NOTIFIERS_H
 
-
-#define POPUPDATAT POPUPDATAW
-#define PUAddPopUpT PUAddPopUpW
-
-
 #define BIRTHDAY_TODAY_SOUND "WWIBirthdayToday"
 #define BIRTHDAY_NEAR_SOUND "WWIBirthdayNear"
 

@@ -148,8 +148,6 @@ static void InitFonts()
 	ReloadFont(0, 0);
 }
 
-HANDLE hEventReloadFont = 0;
-
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	MNotifyGetLink();
@@ -157,7 +155,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_HPP_EG_WINDOW))
 		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
 
-	hEventReloadFont = HookEvent(ME_FONT_RELOAD, ReloadFont);
+	HookEvent(ME_FONT_RELOAD, ReloadFont);
 	
 	LoadModuleDependentOptions(); 
 
@@ -167,13 +165,12 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int PreShutdown(WPARAM wParam, LPARAM lParam) {
+int PreShutdown(WPARAM wParam, LPARAM lParam)
+{
 	DeinitMessagePump();
 	DeinitNotify();
 	return 0;
 }
-
-HANDLE hEventPreShutdown, hEventModulesLoaded;
 
 extern "C" int YAPP_API Load(void) {
 
@@ -184,32 +181,13 @@ extern "C" int YAPP_API Load(void) {
 	InitNotify();
 	InitFonts();
 
-	hEventPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	hEventModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-
-	/*
-	// test popup classes
-	PopupClass test = {0};
-	test.cbSize = sizeof(test);
-	test.flags = PCF_TCHAR;
-	test.hIcon = LoadIcon(0, IDI_WARNING);
-	test.colorBack = RGB(0, 0, 0);
-	test.colorText = RGB(255, 255, 255);
-	test.iSeconds = 10;
-	test.ptszDescription = TranslateT("Test popup class");
-	test.pszName = "popup/testclass";
-	CallService(MS_POPUP_REGISTERCLASS, 0, (WPARAM)&test);
-	*/
-
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	return 0;
 }
 
 extern "C" int YAPP_API Unload()
 {
-	if (hEventReloadFont)
-		UnhookEvent(hEventReloadFont);
-	UnhookEvent(hEventPreShutdown);
-	UnhookEvent(hEventModulesLoaded);
 	DeinitNotify();
 	DeleteObject(hFontFirstLine);
 	DeleteObject(hFontSecondLine);

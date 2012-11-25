@@ -163,57 +163,42 @@ void	UnloadPopupWnd2()
 
 PopupWnd2::PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions, bool renderOnly)
 {
-	m_signature		= POPUP_OBJECT_SIGNARURE;
-
-	m_lockCount		= 0;
-	m_hbmAvatar		= NULL;
-	m_avatar		= NULL;
-	m_textType		= TT_NONE;
-	m_options		= theCustomOptions ? theCustomOptions : &PopUpOptions;
-	m_lpzSkin		= NULL;
-	m_customPopup	= false;
-	m_lpwzTitle		= m_lpwzText	= NULL;
-	m_lpzTitle		= m_lpzText		= NULL;
-	m_mtTitle		= m_mtText		= NULL;
-	m_hfnText		= fonts.text;
-	m_hfnTitle		= fonts.title;
-	m_hwnd			= m_hwndToolTip	= NULL;
-	m_bPositioned	= m_bIsHovered	= /*m_bIdleRequested =*/ m_bWindowCreated = m_bFade = m_bSlide = m_bDestroy = false;
-	m_bmp			= m_bmpBase		= m_bmpAnimate = NULL;
-	m_avatarFrameDelay				= 0;
-	m_hhkAvatarChanged				= NULL;
-	m_actions		= NULL;
-	m_actionCount	= 0;
-	m_bIsPinned		= false;
+	m_signature = POPUP_OBJECT_SIGNARURE;
+	m_textType = TT_NONE;
+	m_options = theCustomOptions ? theCustomOptions : &PopUpOptions;
+	m_hfnText = fonts.text;
+	m_hfnTitle = fonts.title;
 	updateData(ppd);
 	if (!renderOnly)
 		startThread();
 }
 
-
 PopupWnd2::~PopupWnd2()
 {
 	m_signature = 0;
+	setIcon(NULL);
 
-	if (m_lpzSkin) mir_free(m_lpzSkin);
-	if (m_hwnd) SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+	mir_free(m_lpzSkin);
+	mir_free(m_lpzTitle);
+	mir_free(m_lpwzTitle);
+
+	if (m_hwnd)
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
 	if (m_bmp) delete m_bmp;
 	if (m_bmpBase) delete m_bmpBase;
 	if (m_bmpAnimate) delete m_bmpAnimate;
-	mir_free(m_lpzText);  mir_free(m_lpzTitle);
-	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
 	if (m_mtText)  MText.Destroy(m_mtText);
 	if (m_mtTitle) MText.Destroy(m_mtTitle);
 	if (m_avatar) delete m_avatar;
 	if (m_actions) delete [] m_actions;
 }
 
-void	PopupWnd2::startThread()
+void PopupWnd2::startThread()
 {
 	_beginthread(WindowThread, 0, this);
 }
 
-void	PopupWnd2::create()
+void PopupWnd2::create()
 {
 	m_hwnd = CreateWindowEx(
 		WS_EX_TRANSPARENT|					// prevents unwanted clicks
@@ -231,15 +216,13 @@ void	PopupWnd2::create()
 		(LPVOID)this);
 
 	// Shadows
-	if (IsWinVerXPPlus())
-	{
+	if (IsWinVerXPPlus()) {
 		ULONG_PTR style = GetClassLongPtr(m_hwnd, GCL_STYLE);
-		if (m_options->DropShadow && !(style & CS_DROPSHADOW)) {
+		if (m_options->DropShadow && !(style & CS_DROPSHADOW))
 			style |= CS_DROPSHADOW;
-		}
-		else if (!m_options->DropShadow && (style & CS_DROPSHADOW)) {
+		else if (!m_options->DropShadow && (style & CS_DROPSHADOW))
 			style &= ~CS_DROPSHADOW;
-		}
+
 		SetClassLongPtr(m_hwnd, GCL_STYLE, style);
 	}
 
@@ -254,41 +237,41 @@ void	PopupWnd2::create()
 	update();
 }
 
-void	PopupWnd2::updateLayered(BYTE opacity)
+void PopupWnd2::updateLayered(BYTE opacity)
 {
 	if (!m_hwnd) return;
 
-		if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED)) {
-			RECT rc; GetWindowRect(m_hwnd, &rc);
-			POINT ptDst = {rc.left, rc.top};
-			POINT ptSrc = {0, 0};
+	if (SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) | WS_EX_LAYERED)) {
+		RECT rc; GetWindowRect(m_hwnd, &rc);
+		POINT ptDst = {rc.left, rc.top};
+		POINT ptSrc = {0, 0};
 
-			BLENDFUNCTION blend;
-			blend.BlendOp =             AC_SRC_OVER;
-			blend.BlendFlags =          0;
-			blend.SourceConstantAlpha = opacity; //m_options->UseTransparency ? opacity : 255;
-			blend.AlphaFormat =         AC_SRC_ALPHA;
+		BLENDFUNCTION blend;
+		blend.BlendOp =             AC_SRC_OVER;
+		blend.BlendFlags =          0;
+		blend.SourceConstantAlpha = opacity; //m_options->UseTransparency ? opacity : 255;
+		blend.AlphaFormat =         AC_SRC_ALPHA;
 
-			UpdateLayeredWindow(m_hwnd, NULL, &ptDst, &m_sz,
-				m_bmpAnimate ? m_bmpAnimate->getDC() : m_bmp->getDC(),
-				&ptSrc, 0xffffffff, &blend, ULW_ALPHA);
+		UpdateLayeredWindow(m_hwnd, NULL, &ptDst, &m_sz,
+			m_bmpAnimate ? m_bmpAnimate->getDC() : m_bmp->getDC(),
+			&ptSrc, 0xffffffff, &blend, ULW_ALPHA);
 
-			UpdateWindow(m_hwnd);
-		}
-
+		UpdateWindow(m_hwnd);
+	}
 }
 
-SIZE	PopupWnd2::measure()
+SIZE PopupWnd2::measure()
 {
 	const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
-	if (!skin) return m_sz;
+	if (!skin)
+		return m_sz;
 
 	MyBitmap bmpTmp(1,1);
 	skin->measure(bmpTmp.getDC(), this, m_options->UseMaximumWidth ? m_options->MaximumWidth : SETTING_MAXIMUMWIDTH_MAX, m_options);
 	return m_sz;
 }
 
-void	PopupWnd2::update()
+void PopupWnd2::update()
 {
 	const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
 	if (!skin) return;
@@ -297,8 +280,7 @@ void	PopupWnd2::update()
 	fixAvatar();
 
 	// destroy content bitmap so animate() can reallocate it if needed
-	if (m_bmp)
-	{
+	if (m_bmp) {
 		delete m_bmp;
 		m_bmp = NULL;
 	}
@@ -330,7 +312,7 @@ void	PopupWnd2::update()
 	animate();
 }
 
-void	PopupWnd2::animate()
+void PopupWnd2::animate()
 {
 	const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
 	if (!skin) return;
@@ -382,7 +364,7 @@ void	PopupWnd2::animate()
 	}
 }
 
-void	PopupWnd2::show()
+void PopupWnd2::show()
 {
 	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeIn)
 	{
@@ -479,7 +461,7 @@ void	PopupWnd2::show()
 	SetWindowPos(m_hwnd, 0, m_pos.x, m_pos.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING|SWP_SHOWWINDOW);
 }
 
-void	PopupWnd2::hide()
+void PopupWnd2::hide()
 {
 	if ((m_options->UseEffect || (m_options->UseAnimations && !m_customPopup)) && m_options->FadeOut)
 	{
@@ -589,77 +571,65 @@ bool __forceinline isTextEmpty(WCHAR *text)
 	return true;
 }
 
-void	PopupWnd2::fixDefaults()
+void PopupWnd2::fixDefaults()
 {
-	if (m_options->UseWinColors)
-	{
+	if (m_options->UseWinColors) {
 		m_clBack	= GetSysColor(COLOR_BTNFACE);
 		m_clText	= GetSysColor(COLOR_WINDOWTEXT);
 		m_clTitle	= GetSysColor(COLOR_WINDOWTEXT);
 		m_clClock	= GetSysColor(COLOR_WINDOWTEXT);
-	} else
-	if ((m_clBack == (COLORREF)NULL) && (m_clText == (COLORREF)NULL))
-	{
+	}
+	else if ((m_clBack == (COLORREF)NULL) && (m_clText == (COLORREF)NULL)) {
 		m_clTitle	= fonts.clTitle;
 		m_clBack	= fonts.clBack;
 		m_clText	= fonts.clText;
 		m_clClock	= fonts.clClock;
-	} else
-	{
-		m_clClock	= m_clTitle;
 	}
+	else m_clClock	= m_clTitle;
 
 	if (!m_iTimeout)
-	{
 		m_iTimeout = m_options->InfiniteDelay ? -1 : m_options->Seconds;
-	}
 
 	m_hContactPassed = m_hContact;
 	if (m_hContact)
 		if (!GetContactProto(m_hContact))
 			m_hContact = NULL;
 	
-	switch (m_textType)
-	{
-		case TT_ANSI:
-			m_bTextEmpty = ::isTextEmpty(m_lpzText);
-			break;
+	switch (m_textType) {
+	case TT_ANSI:
+		m_bTextEmpty = ::isTextEmpty(m_lpzText);
+		break;
 
-		case TT_UNICODE:
-			m_bTextEmpty = ::isTextEmpty(m_lpwzText);
-			break;
+	case TT_UNICODE:
+		m_bTextEmpty = ::isTextEmpty(m_lpwzText);
+		break;
 
-		default:
-			m_bTextEmpty = false;
-			break;
+	default:
+		m_bTextEmpty = false;
+		break;
 	}
 }
 
-void	PopupWnd2::fixAvatar()
+void PopupWnd2::fixAvatar()
 {
 	if (m_avatar && !m_avatar->isValid())
 		delete m_avatar;
 
 	if (m_hbmAvatar)
-	{
 		m_avatar = new SimpleAvatar(m_hbmAvatar, true);
-	} else
-	{
+	else
 		m_avatar = PopupAvatar::create(m_hContact);
-	}
 }
 
-int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
+int PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 {
 	bool isIm = (m_hContact && (CallProtoService(GetContactProto(m_hContact), PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM)) ? true : false;
 
-//	bool enableDefault = (isIm || !(PopUpOptions.actions&ACT_DEF_IMONLY)) ? true : false;
 	bool enableDefaultGen = (m_hContact || !(PopUpOptions.actions&ACT_DEF_NOGLOBAL)) ? true : false;
 	bool enableDefaultUsr = (isIm || m_hContact && !(PopUpOptions.actions&ACT_DEF_IMONLY)) ? true : false;
 	bool iconSize = PopUpOptions.actions&ACT_LARGE ? TRUE : FALSE;
 
-	if (PopUpOptions.actions&ACT_ENABLE)
-	{
+	if (PopUpOptions.actions & ACT_ENABLE) {
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) ++m_actionCount;
 		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) ++m_actionCount;
 		if (enableDefaultUsr && IsActionEnabled("General/User details")) ++m_actionCount;
@@ -671,8 +641,7 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 		
 		int iAction = fixActions(theActions, count, m_actionCount);
 
-		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply"))
-		{
+		if (enableDefaultUsr && isIm && IsActionEnabled("General/Quick reply")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_REPLY,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Quick reply");
@@ -680,8 +649,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_REPLY;
 			++iAction;
 		}
-		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message"))
-		{
+		
+		if (enableDefaultUsr && isIm && IsActionEnabled("General/Send message")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MESS,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Send message");
@@ -689,8 +658,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_MESSAGE;
 			++iAction;
 		}
-		if (enableDefaultUsr && IsActionEnabled("General/User details"))
-		{
+		
+		if (enableDefaultUsr && IsActionEnabled("General/User details")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_INFO,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/User details");
@@ -698,8 +667,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_DETAILS;
 			++iAction;
 		}
-		if (enableDefaultUsr && IsActionEnabled("General/Contact menu"))
-		{
+		
+		if (enableDefaultUsr && IsActionEnabled("General/Contact menu")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_MENU,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Contact menu");
@@ -707,8 +676,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_MENU;
 			++iAction;
 		}
-		if (enableDefaultUsr && DBGetContactSettingByte(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently"))
-		{
+		
+		if (enableDefaultUsr && DBGetContactSettingByte(m_hContact, "CList", "NotOnList", 0) && IsActionEnabled("General/Add permanently")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_ADD,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Add permanently");
@@ -716,8 +685,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_ADD;
 			++iAction;
 		}
-		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup"))
-		{
+		
+		if (enableDefaultGen && (m_iTimeout != -1) && IsActionEnabled("General/Pin popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED,iconSize) : IcoLib_GetIcon(ICO_ACT_PIN,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Pin popup");
@@ -725,8 +694,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_PIN;
 			++iAction;
 		}
-		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup"))
-		{
+		
+		if (enableDefaultGen && IsActionEnabled("General/Dismiss popup")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_CLOSE,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Dismiss popup");
@@ -734,8 +703,8 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 			m_actions[iAction].actionA.lParam = ACT_DEF_DISMISS;
 			++iAction;
 		}
-		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard"))
-		{
+		
+		if (enableDefaultGen && IsActionEnabled("General/Copy to clipboard")) {
 			m_actions[iAction].actionA.cbSize = sizeof(POPUPACTION);
 			m_actions[iAction].actionA.lchIcon = IcoLib_GetIcon(ICO_ACT_COPY,iconSize);
 			lstrcpyA(m_actions[iAction].actionA.lpzTitle, "General/Copy to clipboard");
@@ -748,7 +717,7 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count)
 	return m_actionCount;
 }
 
-int		PopupWnd2::fixActions(POPUPACTION *theActions, int count, int additional)
+int PopupWnd2::fixActions(POPUPACTION *theActions, int count, int additional)
 {
 	m_actionCount = 0;
 	if (m_actions) delete [] m_actions;
@@ -774,7 +743,22 @@ int		PopupWnd2::fixActions(POPUPACTION *theActions, int count, int additional)
 	return iAction;
 }
 
-void	PopupWnd2::updateData(POPUPDATA *ppd)
+void PopupWnd2::setIcon(HICON hNewIcon)
+{
+	if (m_bIcoLib) {
+		Skin_ReleaseIcon(m_hIcon);
+		m_bIcoLib = false;
+	}
+
+	m_hIcon = hNewIcon;
+
+	if ( CallService(MS_SKIN2_ISMANAGEDICON, (WPARAM)m_hIcon, 0)) {
+		CallService(MS_SKIN2_ADDREFICON, (WPARAM)m_hIcon, 0);
+		m_bIcoLib = true;
+	}
+}
+
+void PopupWnd2::updateData(POPUPDATA *ppd)
 {
 	m_hContact	= ppd->lchContact;
 
@@ -784,13 +768,12 @@ void	PopupWnd2::updateData(POPUPDATA *ppd)
 
 	mir_free(m_lpzText);  mir_free(m_lpzTitle);
 	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	if (m_textType == TT_NONE) m_textType = TT_ANSI;
-	m_lpzTitle		= mir_strdup(ppd->lpzContactName);
-	m_lpzText		= mir_strdup(ppd->lpzText);
-	m_lpwzTitle		= m_lpwzText = NULL;
-//	mtTitle = mtText = NULL;
-	// hfnTitle, hfnText;
-	m_hIcon = ppd->lchIcon;
+	if (m_textType == TT_NONE)
+		m_textType = TT_ANSI;
+	m_lpzTitle = mir_strdup(ppd->lpzContactName);
+	m_lpzText = mir_strdup(ppd->lpzText);
+	m_lpwzTitle	= m_lpwzText = NULL;
+	setIcon(ppd->lchIcon);
 
 	m_PluginData = ppd->PluginData;
 	m_PluginWindowProc = ppd->PluginWindowProc;
@@ -804,23 +787,21 @@ void	PopupWnd2::updateData(POPUPDATA *ppd)
 	if (m_textType == TT_MTEXT) buildMText();
 }
 
-void	PopupWnd2::updateData(POPUPDATAEX_V2 *ppd)
+void PopupWnd2::updateData(POPUPDATAEX_V2 *ppd)
 {
 	m_hContact	= ppd->lchContact;
 
 	m_clBack	= ppd->colorBack;
-	m_clClock	= m_clTitle = m_clText = ppd->colorText;
-	m_iTimeout	= ppd->iSeconds ? ppd->iSeconds : m_options->Seconds;
+	m_clClock = m_clTitle = m_clText = ppd->colorText;
+	m_iTimeout = ppd->iSeconds ? ppd->iSeconds : m_options->Seconds;
 
 	if (m_textType == TT_NONE) m_textType = TT_ANSI;
 	mir_free(m_lpzText);  mir_free(m_lpzTitle);
 	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	m_lpzTitle		= mir_strdup(ppd->lpzContactName);
-	m_lpzText		= mir_strdup(ppd->lpzText);
-	m_lpwzTitle		= m_lpwzText = NULL;
-//	mtTitle = mtText = NULL;
-	// hfnTitle, hfnText;
-	m_hIcon = ppd->lchIcon;
+	m_lpzTitle = mir_strdup(ppd->lpzContactName);
+	m_lpzText = mir_strdup(ppd->lpzText);
+	m_lpwzTitle = m_lpwzText = NULL;
+	setIcon(ppd->lchIcon);
 	m_hNotification = ppd->hNotification;
 
 	m_PluginData = ppd->PluginData;
@@ -836,7 +817,7 @@ void	PopupWnd2::updateData(POPUPDATAEX_V2 *ppd)
 	if (m_textType == TT_MTEXT) buildMText();
 }
 
-void	PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
+void PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 {
 	m_hContact	= ppd->lchContact;
 
@@ -847,15 +828,13 @@ void	PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	if (m_textType == TT_NONE) m_textType = TT_UNICODE;
 	mir_free(m_lpzText);  mir_free(m_lpzTitle);
 	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	m_lpzTitle		= m_lpzText = NULL;
-	m_lpwzTitle		= mir_wstrdup(ppd->lpwzContactName);
-	m_lpwzText		= mir_wstrdup(ppd->lpwzText);
-//	mtTitle = mtText = NULL;
-	// hfnTitle, hfnText;
-	m_hIcon			= ppd->lchIcon;
-	m_hNotification	= ppd->hNotification;
+	m_lpzTitle = m_lpzText = NULL;
+	m_lpwzTitle = mir_wstrdup(ppd->lpwzContactName);
+	m_lpwzText = mir_wstrdup(ppd->lpwzText);
+	setIcon(ppd->lchIcon);
+	m_hNotification = ppd->hNotification;
 
-	m_PluginData	= ppd->PluginData;
+	m_PluginData = ppd->PluginData;
 	m_PluginWindowProc = ppd->PluginWindowProc;
 
 	if (m_options->DisplayTime)
@@ -868,7 +847,7 @@ void	PopupWnd2::updateData(POPUPDATAW_V2 *ppd)
 	if (m_textType == TT_MTEXT) buildMText();
 }
 
-void	PopupWnd2::updateData(POPUPDATA2 *ppd)
+void PopupWnd2::updateData(POPUPDATA2 *ppd)
 {
 	m_hContact	= ppd->lchContact;
 
@@ -878,22 +857,21 @@ void	PopupWnd2::updateData(POPUPDATA2 *ppd)
 
 	mir_free(m_lpzText);  mir_free(m_lpzTitle);
 	mir_free(m_lpwzText); mir_free(m_lpwzTitle);
-	if (ppd->flags&PU2_UNICODE)
-	{
+	if (ppd->flags & PU2_UNICODE) {
 		if (m_textType == TT_NONE) m_textType = TT_UNICODE;
-		m_lpzTitle		= m_lpzText = NULL;
-		m_lpwzTitle		= mir_wstrdup(ppd->lpwzTitle);
-		m_lpwzText		= mir_wstrdup(ppd->lpwzText);
-		m_lpzTitle		= m_lpzText = NULL;
-	} else
-	{
+		m_lpzTitle = m_lpzText = NULL;
+		m_lpwzTitle = mir_wstrdup(ppd->lpwzTitle);
+		m_lpwzText = mir_wstrdup(ppd->lpwzText);
+		m_lpzTitle = m_lpzText = NULL;
+	}
+	else {
 		if (m_textType == TT_NONE) m_textType = TT_ANSI;
-		m_lpzTitle		= mir_strdup(ppd->lpzTitle);
-		m_lpzText		= mir_strdup(ppd->lpzText);
-		m_lpwzTitle		= m_lpwzText = NULL;
+		m_lpzTitle = mir_strdup(ppd->lpzTitle);
+		m_lpzText = mir_strdup(ppd->lpzText);
+		m_lpwzTitle = m_lpwzText = NULL;
 	}
 
-	m_hIcon = ppd->lchIcon;
+	setIcon(ppd->lchIcon);
 	m_hNotification = ppd->lchNotification;
 
 	m_PluginData = ppd->PluginData;
@@ -925,7 +903,7 @@ void	PopupWnd2::updateData(POPUPDATA2 *ppd)
 	if (m_textType == TT_MTEXT) buildMText();
 }
 
-void	PopupWnd2::buildMText()
+void PopupWnd2::buildMText()
 {
 	if (!(htuText && htuTitle && PopUpOptions.UseMText))
 		return;
@@ -962,7 +940,7 @@ void	PopupWnd2::buildMText()
 	}
 }
 
-void	PopupWnd2::updateText(char *text)
+void PopupWnd2::updateText(char *text)
 {
 	if (m_lpzText)
 	{
@@ -974,7 +952,7 @@ void	PopupWnd2::updateText(char *text)
 	m_bTextEmpty = ::isTextEmpty(m_lpzText);
 }
 
-void	PopupWnd2::updateText(WCHAR *text)
+void PopupWnd2::updateText(WCHAR *text)
 {
 	if (m_lpwzText)
 	{
@@ -986,7 +964,7 @@ void	PopupWnd2::updateText(WCHAR *text)
 	m_bTextEmpty = ::isTextEmpty(m_lpwzText);
 }
 
-void	PopupWnd2::updateTitle(char *title)
+void PopupWnd2::updateTitle(char *title)
 {
 	if (m_lpzTitle)
 	{
@@ -997,7 +975,7 @@ void	PopupWnd2::updateTitle(char *title)
 	}
 }
 
-void	PopupWnd2::updateTitle(WCHAR *title)
+void PopupWnd2::updateTitle(WCHAR *title)
 {
 	if (m_lpwzTitle)
 	{
@@ -1008,7 +986,7 @@ void	PopupWnd2::updateTitle(WCHAR *title)
 	}
 }
 
-void	PopupWnd2::updateTimer()
+void PopupWnd2::updateTimer()
 {
 	KillTimer(m_hwnd, POPUP_TIMER);
 	if (m_iTimeout > 0)
@@ -1180,179 +1158,164 @@ LRESULT CALLBACK ReplyEditWndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM
 	}
 
 	if (oldWndProc)
-	{
-
 		return CallWindowProcW(oldWndProc, hwnd, message, wParam, lParam);
-
-	}
 
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }
 
 LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lParam)
 {
-	switch (message)
-	{
-		case WM_CREATE:
-		{
-//			show();
-			return DefWindowProc(m_hwnd, message, wParam, lParam);
-			break;
-		}
+	switch (message) {
+	case WM_CREATE:
+		return DefWindowProc(m_hwnd, message, wParam, lParam);
 
-		case UM_INITPOPUP:
-		{
-			if (!m_customPopup) PopupThreadAddWindow(this);
-			if (m_iTimeout > 0) SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout*1000, 0);
-			if (m_hContact && !m_hbmAvatar && PopUpOptions.EnableAvatarUpdates)
-				m_hhkAvatarChanged = HookEventMessage(ME_AV_AVATARCHANGED, m_hwnd, UM_AVATARCHANGED);
-			if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
+	case UM_INITPOPUP:
+		if (!m_customPopup) PopupThreadAddWindow(this);
+		if (m_iTimeout > 0) SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout*1000, 0);
+		if (m_hContact && !m_hbmAvatar && PopUpOptions.EnableAvatarUpdates)
+			m_hhkAvatarChanged = HookEventMessage(ME_AV_AVATARCHANGED, m_hwnd, UM_AVATARCHANGED);
+		if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
 
-			// prevent unwanted clicks, but allow wanted :)
-			GetCursorPos(&m_ptPrevCursor);
-			SetTimer(m_hwnd, CURSOR_TIMER, 500, NULL);
+		// prevent unwanted clicks, but allow wanted :)
+		GetCursorPos(&m_ptPrevCursor);
+		SetTimer(m_hwnd, CURSOR_TIMER, 500, NULL);
 
-			break;
-		}
+		break;
 
-		case UM_POPUPSHOW:
+	case UM_POPUPSHOW:
 		{
 			POINT pt; pt.x = wParam; pt.y = lParam;
 			setPosition(pt);
 			show();
-			break;
 		}
+		break;
 
-		case UM_AVATARCHANGED:
+	case UM_AVATARCHANGED:
+		if ((HANDLE)wParam == m_hContact)
 		{
-			if ((HANDLE)wParam == m_hContact)
-			{
-				m_avatar->invalidate();
-				update();
-				if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
-			}
-			break;
+			m_avatar->invalidate();
+			update();
+			if (m_avatar->activeFrameDelay() > 0) SetTimer(m_hwnd, AVATAR_TIMER, m_avatar->activeFrameDelay(), 0);
 		}
+		break;
 
-		case UM_POPUPACTION:
-		{
-			if (wParam != 0) break;
-			switch (lParam)
+	case UM_POPUPACTION:
+		if (wParam != 0) break;
+		switch (lParam) {
+		case ACT_DEF_MESSAGE:
+			CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, 0);
+			if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
+				PUDeletePopUp(m_hwnd);
+			break;
+
+		case ACT_DEF_REPLY:
 			{
-				case ACT_DEF_MESSAGE:
-					CallServiceSync(MS_MSG_SENDMESSAGE, (WPARAM)m_hContact, 0);
-					if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
-						PUDeletePopUp(m_hwnd);
-					break;
+				if (!m_customPopup) PopupThreadLock();
+				//RECT rc = renderInfo.textRect;
+				//MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
+				RECT rc; GetWindowRect(m_hwnd, &rc);
 
-				case ACT_DEF_REPLY:
-				{
-					if (!m_customPopup) PopupThreadLock();
-					//RECT rc = renderInfo.textRect;
-					//MapWindowPoints(hwnd, NULL, (LPPOINT)&rc, 2);
-					RECT rc; GetWindowRect(m_hwnd, &rc);
-
-					HWND hwndEditBox = CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
+				HWND hwndEditBox = CreateWindowExW(WS_EX_TOOLWINDOW|WS_EX_TOPMOST,
 					g_wndClass.cPopupEditBox ? L"PopupEditBox" : L"EDIT",
 					NULL,
 					WS_BORDER|WS_POPUP|WS_VISIBLE|ES_AUTOVSCROLL|ES_LEFT|ES_MULTILINE|ES_NOHIDESEL|ES_WANTRETURN,
 					rc.left, rc.top, rc.right-rc.left, rc.bottom-rc.top, NULL, NULL, hInst, NULL);
 
-					ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
-					dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
-					dat->hwndPopup = m_hwnd;
-					dat->hContact = m_hContact;
-					if(IsWindowUnicode(hwndEditBox)) {
+				ReplyEditData *dat = (ReplyEditData *)mir_alloc(sizeof(ReplyEditData));
+				dat->oldWndProc = (WNDPROC)GetWindowLongPtr(hwndEditBox, (LONG_PTR)GWLP_WNDPROC);
+				dat->hwndPopup = m_hwnd;
+				dat->hContact = m_hContact;
+				if(IsWindowUnicode(hwndEditBox)) {
 
-						SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
+					SendMessageW(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
 
-						SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
-						SetWindowLongPtrW(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
-					}
-					else {
-						SendMessageA(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
-						SetWindowLongPtrA(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
-						SetWindowLongPtrA(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
-					}
-					SetFocus(hwndEditBox);
-					break;
+					SetWindowLongPtrW(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
+					SetWindowLongPtrW(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
 				}
+				else {
+					SendMessageA(hwndEditBox, WM_SETFONT, (WPARAM)fonts.text, TRUE);
+					SetWindowLongPtrA(hwndEditBox, GWLP_USERDATA, (LONG_PTR)dat);
+					SetWindowLongPtrA(hwndEditBox, GWLP_WNDPROC, (LONG_PTR)ReplyEditWndProc);
+				}
+				SetFocus(hwndEditBox);
+				break;
+			}
 
-				case ACT_DEF_DETAILS:
-					CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)m_hContact, 0);
-					if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
-						PUDeletePopUp(m_hwnd);
-					break;
-				case ACT_DEF_MENU:
-				{
-					lock();
-					PostMessage(ghwndMenuHost, UM_SHOWMENU, (WPARAM)m_hwnd, (LPARAM)m_hContact);
-					break;
-				}
-				case ACT_DEF_ADD:
-				{
-					ADDCONTACTSTRUCT acs = {0};
-					acs.handle = m_hContact;
-					acs.handleType = HANDLE_CONTACT;
-					acs.szProto = 0;
-					CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
-					if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
-						PUDeletePopUp(m_hwnd);
-					break;
-				}
-				case ACT_DEF_PIN:
-				{
-					if (m_bIsPinned)
-					{
-						SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout*1000, NULL);
-					} else
-					{
-						KillTimer(m_hwnd, POPUP_TIMER);
-					}
-					m_bIsPinned = !m_bIsPinned;
-					bool iconSize = PopUpOptions.actions&ACT_LARGE ? TRUE : FALSE;
-					PUModifyActionIcon(m_hwnd, wParam, lParam, m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED,iconSize) : IcoLib_GetIcon(ICO_ACT_PIN,iconSize));
-					break;
-				}
-				case ACT_DEF_DISMISS:
+		case ACT_DEF_DETAILS:
+			CallServiceSync(MS_USERINFO_SHOWDIALOG, (WPARAM)m_hContact, 0);
+			if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
+				PUDeletePopUp(m_hwnd);
+			break;
+
+		case ACT_DEF_MENU:
+			lock();
+			PostMessage(ghwndMenuHost, UM_SHOWMENU, (WPARAM)m_hwnd, (LPARAM)m_hContact);
+			break;
+
+		case ACT_DEF_ADD:
+			{
+				ADDCONTACTSTRUCT acs = {0};
+				acs.handle = m_hContact;
+				acs.handleType = HANDLE_CONTACT;
+				acs.szProto = 0;
+				CallServiceSync(MS_ADDCONTACT_SHOW, NULL, (LPARAM)&acs);
+				if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
 					PUDeletePopUp(m_hwnd);
-					break;
-				case ACT_DEF_COPY:
-				{
-					#define CF_TCHAR CF_UNICODETEXT 
-					
-					HGLOBAL clipbuffer;
-					static TCHAR * buffer, *text;
-					char* sztext;
-					if ((this->m_lpwzText) || (this->m_lpwzTitle))
-					{
-						text = (TCHAR*)mir_alloc((_tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3)*sizeof(TCHAR));
-						mir_sntprintf(text, _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
-					}
-					else if ((this->m_lpzText) || (this->m_lpzTitle))
-					{
-						sztext = (char*)mir_alloc((lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3)*sizeof(char));
-						mir_snprintf(sztext, lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3, "%s\n\n%s", this->m_lpzTitle, this->m_lpzText);
-						text = mir_a2t(sztext);
-					}
-					OpenClipboard(m_hwnd);
-					EmptyClipboard();
-					clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (lstrlen(text)+1) * sizeof(TCHAR));
-					buffer = (TCHAR *)GlobalLock(clipbuffer);
-					lstrcpy(buffer, text);
-					GlobalUnlock(clipbuffer);
-					SetClipboardData(CF_TCHAR, clipbuffer);
-					CloseClipboard();
-					if (sztext)
-						mir_free(text);
-					PUDeletePopUp(m_hwnd);
-					break;
-				}
 			}
 			break;
-		}
 
-		case UM_POPUPMODIFYACTIONICON:
+		case ACT_DEF_PIN:
+			if (m_bIsPinned)
+				SetTimer(m_hwnd, POPUP_TIMER, m_iTimeout*1000, NULL);
+			else
+				KillTimer(m_hwnd, POPUP_TIMER);
+
+			m_bIsPinned = !m_bIsPinned;
+			{
+				bool iconSize = PopUpOptions.actions&ACT_LARGE ? TRUE : FALSE;
+				PUModifyActionIcon(m_hwnd, wParam, lParam, m_bIsPinned ? IcoLib_GetIcon(ICO_ACT_PINNED,iconSize) : IcoLib_GetIcon(ICO_ACT_PIN,iconSize));
+			}
+			break;
+
+		case ACT_DEF_DISMISS:
+			PUDeletePopUp(m_hwnd);
+			break;
+
+		case ACT_DEF_COPY:
+			{
+				#define CF_TCHAR CF_UNICODETEXT 
+
+				HGLOBAL clipbuffer;
+				static TCHAR * buffer, *text;
+				char* sztext;
+				if ((this->m_lpwzText) || (this->m_lpwzTitle))
+				{
+					text = (TCHAR*)mir_alloc((_tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3)*sizeof(TCHAR));
+					mir_sntprintf(text, _tcslen(this->m_lpwzText) + _tcslen(this->m_lpwzTitle)+3, _T("%s\n\n%s"), this->m_lpwzTitle, this->m_lpwzText);
+				}
+				else if ((this->m_lpzText) || (this->m_lpzTitle))
+				{
+					sztext = (char*)mir_alloc((lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3)*sizeof(char));
+					mir_snprintf(sztext, lstrlenA(this->m_lpzText) + lstrlenA(this->m_lpzTitle)+3, "%s\n\n%s", this->m_lpzTitle, this->m_lpzText);
+					text = mir_a2t(sztext);
+				}
+				OpenClipboard(m_hwnd);
+				EmptyClipboard();
+				clipbuffer = GlobalAlloc(GMEM_MOVEABLE | GMEM_SHARE, (lstrlen(text)+1) * sizeof(TCHAR));
+				buffer = (TCHAR *)GlobalLock(clipbuffer);
+				lstrcpy(buffer, text);
+				GlobalUnlock(clipbuffer);
+				SetClipboardData(CF_TCHAR, clipbuffer);
+				CloseClipboard();
+				if (sztext)
+					mir_free(text);
+				PUDeletePopUp(m_hwnd);
+				break;
+			}
+		}
+		break;
+
+	case UM_POPUPMODIFYACTIONICON:
 		{
 			LPPOPUPACTIONID actionId = (LPPOPUPACTIONID)wParam;
 			for (int i=0; i < m_actionCount; ++i)
@@ -1363,36 +1326,18 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					animate();
 					break;
 				}
-
-			break;
 		}
+		break;
 
-		case UM_MENUDONE:
+	case UM_MENUDONE:
 		{
 			unlock();
 			if (!(PopUpOptions.actions&ACT_DEF_KEEPWND))
 				PUDeletePopUp(m_hwnd);
 			break;
 		}
-/*
-		case WM_WINDOWPOSCHANGED:
-		{
-			WINDOWPOS *wp = (WINDOWPOS *)lParam;
-			if (!bIsHovered)
-			{
-				RECT rc; SetRect(&rc, wp->x, wp->y, wp->x + wp->cx, wp->y + wp->cy);
-				GetCursorPos(&ptPrevCursor);
 
-				if (PtInRect(&rc, ptPrevCursor))
-				{
-					SetWindowLongPtr(hwnd, GWLP_EXSTYLE, GetWindowLongPtr(hwnd, GWLP_EXSTYLE) | WS_EX_TRANSPARENT);
-					SetTimer(hwnd, CURSOR_TIMER, 500, NULL);
-				}
-			}
-			break;
-		}
-*/
-		case WM_LBUTTONUP:
+	case WM_LBUTTONUP:
 		{
 			int i;
 			for (i = 0; i < m_actionCount; ++i)
@@ -1402,20 +1347,20 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 					break;
 				}
 
-			if (i == m_actionCount)
-			{
+			if (i == m_actionCount) {
 				if(PopUpOptions.overrideLeft!=false && (m_hContact!=NULL || PopUpOptions.overrideLeft == 5 ||  PopUpOptions.overrideLeft == 6)) {
 					switch (PopUpOptions.overrideLeft){
-						default:
-						case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
-						case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
-						case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
-						case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
-						case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
-						case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
-						case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
+					default:
+					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
+					case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
+					case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
+					case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
+					case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
+					case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
+					case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
 					}
-				}else{
+				}
+				else {
 					lock();
 					if (!PerformAction(m_hNotification, m_hwnd, message, wParam, lParam))
 						SendMessage(m_hwnd, WM_COMMAND, 0, 0);
@@ -1425,159 +1370,126 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 			break;
 		}
 
-		case WM_MBUTTONUP:
-		{
-			if(PopUpOptions.overrideMiddle!=false && (m_hContact!=NULL || PopUpOptions.overrideMiddle == 5 ||  PopUpOptions.overrideMiddle == 6)) {
-				switch (PopUpOptions.overrideMiddle){
-					default:
-					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
-					case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
-					case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
-					case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
-					case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
-					case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
-					case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
-				}
+	case WM_MBUTTONUP:
+		if ( PopUpOptions.overrideMiddle!=false && (m_hContact!=NULL || PopUpOptions.overrideMiddle == 5 ||  PopUpOptions.overrideMiddle == 6)) {
+			switch (PopUpOptions.overrideMiddle){
+			default:
+			case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
+			case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
+			case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
+			case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
+			case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
+			case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
+			case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
 			}
-			break;
 		}
+		break;
 
-		case WM_CONTEXTMENU:
-		{
-			if(PopUpOptions.overrideRight!=false && (m_hContact!=NULL || PopUpOptions.overrideRight == 5 ||  PopUpOptions.overrideRight == 6)) {
-				switch (PopUpOptions.overrideRight){
-					default:
-					case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
-					case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
-					case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
-					case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
-					case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
-					case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
-					case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
-				}
-				return TRUE;
-			}else{
-				lock();
-				if (PerformAction(m_hNotification, m_hwnd, message, wParam, lParam))
-				{
-					unlock();
-					return TRUE;
-				}
+	case WM_CONTEXTMENU:
+		if ( PopUpOptions.overrideRight!=false && (m_hContact!=NULL || PopUpOptions.overrideRight == 5 ||  PopUpOptions.overrideRight == 6)) {
+			switch (PopUpOptions.overrideRight){
+			default:
+			case 1:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MESSAGE); break;
+			case 2:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_REPLY); break;
+			case 3:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DETAILS); break;
+			case 4:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_MENU); break;
+			case 5:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_DISMISS); break;
+			case 6:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_PIN); break;
+			case 7:SendMessage(m_hwnd, UM_POPUPACTION,0, ACT_DEF_COPY); break;
+			}
+			return TRUE;
+		}
+		else{
+			lock();
+			if (PerformAction(m_hNotification, m_hwnd, message, wParam, lParam)) {
 				unlock();
+				return TRUE;
 			}
-		}
-/*
-		case WM_RBUTTONUP:
-		{
-			SendMessage(hwnd, WM_CONTEXTMENU, 0, 0);
-			break;
-		}
-*/
-		case WM_TIMER:
-		{
-			switch (wParam)
-			{
-				case POPUP_TIMER:
-				{
-					KillTimer(m_hwnd, POPUP_TIMER);
-					if (!m_customPopup)
-					{
-						PopupThreadRequestRemoveWindow(this);
-					} else
-					{
-						if (isLocked())
-						{
-							updateTimer();
-						} else
-						{
-							PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-						}
-					}
-					break;
-				}
-
-				case AVATAR_TIMER:
-				{
-					int newDelay = m_avatar->activeFrameDelay();
-					animate();
-					if ((newDelay <= 0) || (newDelay != m_avatarFrameDelay)) KillTimer(m_hwnd, AVATAR_TIMER);
-					if (newDelay > 0) {
-						SetTimer(m_hwnd, AVATAR_TIMER, newDelay, 0);
-						m_avatarFrameDelay = newDelay;
-					}
-					break;
-				}
-
-				case CURSOR_TIMER:
-				{
-					POINT pt; GetCursorPos(&pt);
-					if (abs(pt.x-m_ptPrevCursor.x) + abs(pt.y-m_ptPrevCursor.y) > 4)
-					{
-						SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);
-						KillTimer(m_hwnd, CURSOR_TIMER);
-					}
-					break;
-				}
-			}
-
-			break;
+			unlock();
 		}
 
-		case UM_DESTROYPOPUP:
-		{
+	case WM_TIMER:
+		switch (wParam) {
+		case POPUP_TIMER:
 			KillTimer(m_hwnd, POPUP_TIMER);
-			KillTimer(m_hwnd, AVATAR_TIMER);
-			KillTimer(m_hwnd, CURSOR_TIMER);
-			PostMessage(m_hwnd, WM_CLOSE, 0, 0);
-			break;
-		}
-
-		case UM_CHANGEPOPUP:
-		{
-			switch (wParam)
-			{
-				case CPT_TEXT:   updateText((char *)lParam);        mir_free((void *)lParam); break;
-				case CPT_TEXTW:  updateText((WCHAR *)lParam);       mir_free((void *)lParam); break;
-				case CPT_TITLE:  updateTitle((char *)lParam);       mir_free((void *)lParam); break;
-				case CPT_TITLEW: updateTitle((WCHAR *)lParam);      mir_free((void *)lParam); break;
-				case CPT_DATA:   updateData((POPUPDATA *)lParam);   mir_free((void *)lParam); break;
-				case CPT_DATAEX: updateData((POPUPDATAEX_V2 *)lParam); mir_free((void *)lParam); break;
-				case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
+			if (!m_customPopup)
+				PopupThreadRequestRemoveWindow(this);
+			else {
+				if (isLocked())
+					updateTimer();
+				else
+					PostMessage(m_hwnd, WM_CLOSE, 0, 0);
 			}
-			update();
 			break;
-		}
 
-		case UM_CALLMETHOD:
+		case AVATAR_TIMER:
+			{
+				int newDelay = m_avatar->activeFrameDelay();
+				animate();
+				if ((newDelay <= 0) || (newDelay != m_avatarFrameDelay)) KillTimer(m_hwnd, AVATAR_TIMER);
+				if (newDelay > 0) {
+					SetTimer(m_hwnd, AVATAR_TIMER, newDelay, 0);
+					m_avatarFrameDelay = newDelay;
+				}
+				break;
+			}
+
+		case CURSOR_TIMER:
+			{
+				POINT pt; GetCursorPos(&pt);
+				if (abs(pt.x-m_ptPrevCursor.x) + abs(pt.y-m_ptPrevCursor.y) > 4) {
+					SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, GetWindowLongPtr(m_hwnd, GWL_EXSTYLE) & ~WS_EX_TRANSPARENT);
+					KillTimer(m_hwnd, CURSOR_TIMER);
+				}
+				break;
+			}
+		}
+		break;
+
+	case UM_DESTROYPOPUP:
+		KillTimer(m_hwnd, POPUP_TIMER);
+		KillTimer(m_hwnd, AVATAR_TIMER);
+		KillTimer(m_hwnd, CURSOR_TIMER);
+		PostMessage(m_hwnd, WM_CLOSE, 0, 0);
+		break;
+
+	case UM_CHANGEPOPUP:
+		switch (wParam) {
+			case CPT_TEXT:   updateText((char *)lParam);        mir_free((void *)lParam); break;
+			case CPT_TEXTW:  updateText((WCHAR *)lParam);       mir_free((void *)lParam); break;
+			case CPT_TITLE:  updateTitle((char *)lParam);       mir_free((void *)lParam); break;
+			case CPT_TITLEW: updateTitle((WCHAR *)lParam);      mir_free((void *)lParam); break;
+			case CPT_DATA:   updateData((POPUPDATA *)lParam);   mir_free((void *)lParam); break;
+			case CPT_DATAEX: updateData((POPUPDATAEX_V2 *)lParam); mir_free((void *)lParam); break;
+			case CPT_DATAW:  updateData((POPUPDATAW_V2 *)lParam);  mir_free((void *)lParam); break;
+		}
+		update();
+		break;
+
+	case UM_CALLMETHOD:
 		{
 			MethodPtr *method_copy = (MethodPtr *)wParam;
 			(this->*(*method_copy))(lParam);
 			delete method_copy;
-			break;
 		}
+		break;
 
-		case WM_PAINT:
-		{
-			if (GetUpdateRect(m_hwnd, 0, FALSE))
-			{
-				PAINTSTRUCT ps;
-				HDC mydc = BeginPaint(m_hwnd, &ps);
-				BitBlt(mydc, 0, 0, m_sz.cx, m_sz.cy, m_bmp->getDC(), 0, 0, SRCCOPY);
-				EndPaint(m_hwnd, &ps);
-				return 0;
-			}
-			break;
-		}
-
-		case WM_PRINT:
-		case WM_PRINTCLIENT:
-		{
-			HDC mydc = (HDC)wParam;
+	case WM_PAINT:
+		if (GetUpdateRect(m_hwnd, 0, FALSE)) {
+			PAINTSTRUCT ps;
+			HDC mydc = BeginPaint(m_hwnd, &ps);
 			BitBlt(mydc, 0, 0, m_sz.cx, m_sz.cy, m_bmp->getDC(), 0, 0, SRCCOPY);
-			break;
+			EndPaint(m_hwnd, &ps);
+			return 0;
 		}
+		break;
 
-		case WM_MOUSEMOVE:
+	case WM_PRINT:
+	case WM_PRINTCLIENT:
+		BitBlt((HDC)wParam, 0, 0, m_sz.cx, m_sz.cy, m_bmp->getDC(), 0, 0, SRCCOPY);
+		break;
+
+	case WM_MOUSEMOVE:
 		{
 			const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
 			if (skin)
@@ -1597,9 +1509,10 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 				updateLayered(255);
 
 			m_bIsHovered = true;
-			break;
 		}
-		case WM_MOUSELEAVE:
+		break;
+
+	case WM_MOUSELEAVE:
 		{
 			const PopupSkin *skin = skins.getSkin(m_lpzSkin?m_lpzSkin:m_options->SkinPack);
 			if (skin)
@@ -1613,80 +1526,37 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 
 			if (!m_customPopup) PopupThreadUnlock();
 			m_bIsHovered = false;
-			break;
 		}
+		break;
 
-		case WM_CLOSE:
-		{
-			hide();
-			return TRUE;
+	case WM_CLOSE:
+		hide();
+		return TRUE;
+
+	case WM_DESTROY:
+		if (m_bIsHovered) {
+			if (!m_customPopup) PopupThreadUnlock();
+			m_bIsHovered = false;
 		}
+		if (m_hhkAvatarChanged)
+			PopUp_UnhookEventAsync((WPARAM)m_hwnd, (LPARAM)m_hhkAvatarChanged);
+		SendMessage(m_hwnd, UM_FREEPLUGINDATA, 0, 0);
+		SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
+		m_hwnd = 0;
 
-		case WM_DESTROY:
-		{
-			if (m_bIsHovered)
-			{
-				if (!m_customPopup) PopupThreadUnlock();
-				m_bIsHovered = false;
-			}
-			if (m_hhkAvatarChanged)
-				PopUp_UnhookEventAsync((WPARAM)m_hwnd, (LPARAM)m_hhkAvatarChanged);
-			SendMessage(m_hwnd, UM_FREEPLUGINDATA, 0, 0);
-			SetWindowLongPtr(m_hwnd, GWLP_USERDATA, 0);
-			m_hwnd = 0;
-			
-			DestroyWindow(m_hwndToolTip);
+		DestroyWindow(m_hwndToolTip);
 
-			if (!m_customPopup)
-			{
-				// we can't access "this" pointer after followint line!
-				PopupThreadRemoveWindow(this);
-			} else
-			{
-				delete this;
-			}
+		if (!m_customPopup)
+			// we can't access "this" pointer after following line!
+			PopupThreadRemoveWindow(this);
+		else
+			delete this;
 
-			PostQuitMessage(0);
-			return TRUE;
-		}
-/*
-		case WM_WINDOWPOSCHANGING:
-//		case WM_WINDOWPOSCHANGED:
-		{
-			WINDOWPOS *wp = (WINDOWPOS *)lParam;
-			wp->flags |= SWP_NOACTIVATE; // block focus stealing
-
-			if (!(wp->flags & SWP_NOZORDER))
-			{
-				if ((wp->hwndInsertAfter == HWND_BOTTOM) ||
-					(wp->hwndInsertAfter == HWND_NOTOPMOST) ||
-					(wp->hwndInsertAfter == HWND_TOP))
-				{
-					wp->hwndInsertAfter == HWND_TOPMOST;
-				} else
-				if (wp->hwndInsertAfter != HWND_TOPMOST)
-				{
-					HWND hwndAbove = GetWindow(wp->hwndInsertAfter, GW_HWNDPREV);
-					if (hwndAbove)
-					{
-						char buf[64];
-						GetClassName(hwndAbove, buf, sizeof(buf));
-						buf[sizeof(buf)-1] = 0;
-
-						if (lstrcmp(buf, POPUP_WNDCLASS))
-							wp->hwndInsertAfter == HWND_TOPMOST;
-					}
-				}
-			}
-
-			// this allows us to reduce message traffic
-			return 0;
-		}
-*/
+		PostQuitMessage(0);
+		return TRUE;
 	}
 
-	if (m_PluginWindowProc && !closing)
-	{
+	if (m_PluginWindowProc && !closing) {
 		lock();
 
 		// some plugins use cdecl instead of stdcall
@@ -1694,100 +1564,6 @@ LRESULT CALLBACK PopupWnd2::WindowProc(UINT message, WPARAM wParam, LPARAM lPara
 		BOOL result;
 
 		result = m_PluginWindowProc(this->m_hwnd, message, wParam, lParam);
-/*
-		DWORD esp_in, esp_out, esp_fixed;
-		__asm
-		{
-			push ecx
-			mov [esp_in], esp
-			push [lParam]
-			push [wParam]
-			push [message]
-			mov ecx, [this]
-			push [ecx+hwnd]
-			call [ecx+PluginWindowProc]
-			mov [result], eax
-			mov [esp_out], esp
-			cmp esp, [esp_in]		; check it
-			jz lbl_stack_fix_end
-			pop ecx					; fix stack
-			pop ecx
-			pop ecx
-			pop ecx
-lbl_stack_fix_end:					; end of stack fix hack
-			mov [esp_fixed], esp
-			pop ecx
-		}
-
-#ifndef POPUP_NO_STACK_WARNING
-		if (esp_in != esp_out)
-		{
-			HANDLE hBadModule = 0;
-			char szBadModule[64] = {0};
-
-			// plugin enumeration from the core
-			char exe[MAX_PATH];
-			char search[MAX_PATH];
-			char *p = 0;
-			// get miranda's exe path
-			GetModuleFileNameA(NULL, exe, SIZEOF(exe));
-			// find the last \ and null it out, this leaves no trailing slash
-			p = strrchr(exe, '\\');
-			if ( p ) *p=0;
-			// create the search filter
-			mir_snprintf(search,SIZEOF(search),"%s\\Plugins\\*.dll", exe);
-			{
-				// FFFN will return filenames for things like dot dll+ or dot dllx
-				HANDLE hFind=INVALID_HANDLE_VALUE;
-				WIN32_FIND_DATAA ffd;
-				hFind = FindFirstFileA(search, &ffd);
-				if ( hFind != INVALID_HANDLE_VALUE )
-				{
-					do
-					{
-						if ( !(ffd.dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY))
-						{
-							HMODULE hModule = GetModuleHandleA(ffd.cFileName);
-							if (((char *)PluginWindowProc > (char *)hModule) &&
-								(((char *)PluginWindowProc - (char *)hModule) < ((char *)PluginWindowProc - (char *)hBadModule)))
-							{
-								hBadModule = hModule;
-								lstrcpynA(szBadModule, ffd.cFileName, sizeof(szBadModule));
-							}
-						}
-					} while ( FindNextFileA(hFind, &ffd));
-					FindClose(hFind);
-				}
-			}
-
-#ifdef POPUP_STACK_WARNING_MSGBOX
-			char buf[256];
-			mir_snprintf(buf, sizeof(buf),
-				"Some plugin passed callback with invalid calling\r\n"
-				"convention and caused stack corruption\r\n"
-				"Module name: %s\r\n"
-				"PluginWindowProc: %x\r\n"
-				"ESP Before: %d\r\n"
-				"ESP After: %d\r\n"
-				"ESP Fixed: %d",
-				szBadModule,
-				PluginWindowProc,
-				esp_in, esp_out, esp_fixed);
-
-			MessageBox(NULL, buf, _T("Popup Plus stack check"), MB_ICONSTOP|MB_OK);
-#else
-			strcat(exe, "\\popup_stack.log");
-			FILE *f = fopen(exe,"a");
-			fprintf(f,
-				"Module name: %s; PluginWindowProc: 0x%x; ESP Before: %d; ESP After: %d; ESP Fixed: %d\n",
-				szBadModule,
-				PluginWindowProc,
-				esp_in, esp_out, esp_fixed);
-			fclose(f);
-#endif // _DEBUG
-		}
-#endif // POPUP_NO_STACK_WARNING
-*/
 		unlock();
 		return result;
 	}
@@ -1798,15 +1574,13 @@ lbl_stack_fix_end:					; end of stack fix hack
 LRESULT CALLBACK PopupWnd2::WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PopupWnd2 *wnd = 0;
-	if (message == WM_CREATE)
-	{
+	if (message == WM_CREATE) {
 		LPCREATESTRUCT cs = (LPCREATESTRUCT)lParam;
 		wnd = (PopupWnd2 *)cs->lpCreateParams;
 		SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)wnd);
-	} else
-	{
-		wnd = (PopupWnd2 *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 	}
+	else wnd = (PopupWnd2 *)GetWindowLongPtr(hwnd, GWLP_USERDATA);
+
 	if (wnd) return wnd->WindowProc(message, wParam, lParam);
 	return DefWindowProc(hwnd, message, wParam, lParam);
 }

@@ -39,7 +39,7 @@ class PopupAvatar;
 
 #define POPUP_OBJECT_SIGNARURE	0x0B1A11BE
 
-class PopupWnd2
+class PopupWnd2 : public MZeroedObject
 {
 public:
 	typedef		LRESULT (PopupWnd2::*MethodPtr)(LPARAM lParam);
@@ -62,70 +62,63 @@ private:
 	int m_iTimeout;
 
 	// content
-	TextType	m_textType;
-	char		*m_lpzTitle,	*m_lpzText;
-	WCHAR		*m_lpwzTitle,	*m_lpwzText;
-	HANDLE		m_mtTitle,		m_mtText;
-	bool		m_bTextEmpty;
-	HFONT		m_hfnTitle,		m_hfnText;
-	HICON		m_hIcon;
-	HBITMAP		m_hbmAvatar;
-	char		m_time[2+1+2+1];
-	ActionInfo*	m_actions;
-	int			m_actionCount;
-	HANDLE		m_hNotification;
+	TextType    m_textType;
+	char       *m_lpzTitle,	*m_lpzText;
+	WCHAR      *m_lpwzTitle, *m_lpwzText;
+	HANDLE      m_mtTitle, m_mtText;
+	bool        m_bTextEmpty, m_bIcoLib;
+	HFONT       m_hfnTitle, m_hfnText;
+	HICON       m_hIcon;
+	HBITMAP     m_hbmAvatar;
+	char        m_time[2+1+2+1];
+	ActionInfo* m_actions;
+	int         m_actionCount;
+	HANDLE      m_hNotification;
 
 	// other data
-	Formula::Args	m_args;
-	HANDLE		m_hContact, m_hContactPassed;
-	WNDPROC		m_PluginWindowProc;
-	void		*m_PluginData;
+	Formula::Args m_args;
+	HANDLE      m_hContact, m_hContactPassed;
+	WNDPROC     m_PluginWindowProc;
+	void       *m_PluginData;
 	
 	// the window
-	LPTSTR		m_lpzSkin;
-	bool		m_customPopup;
-	HWND		m_hwnd, m_hwndToolTip;
-	bool		m_bPositioned;
-	POINT		m_pos;
-	SIZE		m_sz;
-	MyBitmap	*m_bmpBase, *m_bmp, *m_bmpAnimate;
-	PopupAvatar	*m_avatar;
-	int			m_avatarFrameDelay;
-	bool		m_bReshapeWindow;
-	HANDLE		m_hhkAvatarChanged;
-	bool		m_bIsPinned;
+	LPTSTR      m_lpzSkin;
+	bool        m_customPopup;
+	HWND        m_hwnd, m_hwndToolTip;
+	bool        m_bPositioned;
+	POINT       m_pos;
+	SIZE        m_sz;
+	MyBitmap   *m_bmpBase, *m_bmp, *m_bmpAnimate;
+	PopupAvatar*m_avatar;
+	int         m_avatarFrameDelay;
+	bool        m_bReshapeWindow;
+	HANDLE      m_hhkAvatarChanged;
+	bool        m_bIsPinned;
 
 	// show & hide
-//	bool		m_bIdleRequested;
-	bool		m_bFade;
-//	DWORD		m_dwTmFade0,	m_dwTmFade1;
-	BYTE		m_btAlpha0,		m_btAlpha1;
-	bool		m_bSlide;
-//	DWORD		m_dwTmSlide0,	m_dwTmSlide1;
-	POINT		m_ptPosition0,	m_ptPosition1;
-	bool		m_bDestroy;
-	bool		m_bIsHovered;
+	bool        m_bFade;
+	BYTE        m_btAlpha0,		m_btAlpha1;
+	bool        m_bSlide;
+	POINT       m_ptPosition0,	m_ptPosition1;
+	bool        m_bDestroy;
+	bool        m_bIsHovered;
 
 	// prevent unwanted clicks
-	POINT		m_ptPrevCursor;
+	POINT       m_ptPrevCursor;
 
 	// system
-	POPUPOPTIONS	*m_options;
-	DWORD			m_lockCount;
+	POPUPOPTIONS *m_options;
+	DWORD       m_lockCount;
 
 	PopupSkin::RenderInfo	m_renderInfo;
 
-	void		fixDefaults();
-	void		fixAvatar();
-	int			fixActions(POPUPACTION *theActions, int count);
-	int			fixActions(POPUPACTION *theActions, int count, int additional);
+	void       fixDefaults();
+	void       fixAvatar();
+	int        fixActions(POPUPACTION *theActions, int count);
+	int        fixActions(POPUPACTION *theActions, int count, int additional);
 
 public:
-//	PopupWnd2(POPUPDATA *ppd, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
-//	PopupWnd2(POPUPDATAEX_V2 *ppd, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
-//	PopupWnd2(POPUPDATAW_V2 *ppd, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
 	PopupWnd2(POPUPDATA2 *ppd, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
-//	PopupWnd2(HANDLE hNtf, POPUPOPTIONS *theCustomOptions=NULL, bool renderOnly=false);
 	~PopupWnd2();
 
 	void	startThread();
@@ -144,11 +137,12 @@ public:
 	DWORD	unlock()			{ return m_lockCount = m_lockCount ? m_lockCount-1 : 0; }
 	bool	isLocked()			{ return m_lockCount != 0; }
 
+	void  setIcon(HICON);
+
 	void	updateData(POPUPDATA *ppd);
 	void	updateData(POPUPDATAEX_V2 *ppd);
 	void	updateData(POPUPDATAW_V2 *ppd);
 	void	updateData(POPUPDATA2 *ppd);
-//	void	updateData(HANDLE hNtf);
 	void	buildMText();
 	void	updateText(char *text);
 	void	updateText(WCHAR *text);
@@ -157,40 +151,42 @@ public:
 
 	void	updateTimer();
 
-	MyBitmap *getContent()		{ return m_bmp; }
+	MyBitmap *getContent()      { return m_bmp; }
 
-	COLORREF getTextColor()		{ return m_clText; }
-	COLORREF getTitleColor()	{ return m_clTitle; }
-	COLORREF getClockColor()	{ return m_clClock; }
-	COLORREF getBackColor()		{ return m_clBack; }
+	COLORREF getTextColor()     { return m_clText; }
+	COLORREF getTitleColor()    { return m_clTitle; }
+	COLORREF getClockColor()    { return m_clClock; }
+	COLORREF getBackColor()     { return m_clBack; }
 
-	bool	isTextEmpty()		{ return m_bTextEmpty; }
-	TextType getTextType()		{ return m_textType; }
-	char	*getTextA()			{ return m_lpzText; }
-	WCHAR	*getTextW()			{ return m_lpwzText; }
-	HANDLE	getTextM()			{ return m_mtText; }
-	char	*getTitleA()		{ return m_lpzTitle; }
-	WCHAR	*getTitleW()		{ return m_lpwzTitle; }
-	HANDLE	getTitleM()			{ return m_mtTitle; }
+	bool     isTextEmpty()      { return m_bTextEmpty; }
+	bool     isIcolib()         { return m_bIcoLib; }
+	TextType getTextType()      { return m_textType; }
+	char    *getTextA()         { return m_lpzText; }
+	WCHAR   *getTextW()         { return m_lpwzText; }
+	HANDLE   getTextM()         { return m_mtText; }
+	char    *getTitleA()        { return m_lpzTitle; }
+	WCHAR   *getTitleW()        { return m_lpwzTitle; }
+	HANDLE   getTitleM()        { return m_mtTitle; }
 
-	int		getActionCount()	{ return m_actionCount; }
-	ActionInfo *getActions()	{ return m_actions; }
+	int      getActionCount()   { return m_actionCount; }
+	ActionInfo *getActions()    { return m_actions; }
 
-	char	*getTime()			{ return m_time; }
-	HICON	getIcon()			{ return m_hIcon; }
-	HANDLE	getContact()		{ return m_hContact; }
-	HANDLE	getContactPassed()	{ return m_hContactPassed; }
-	int		getTimeout()		{ return m_iTimeout; }
-//	HBITMAP	getAvatar()			{ return hbmAvatar; }
-	PopupAvatar *getAvatar()	{ return m_avatar; }
-	HWND	getHwnd()			{ return m_hwnd; }
-	void	*getData()			{ return m_PluginData; }
+	char    *getTime()          { return m_time; }
+	HICON    getIcon()          { return m_hIcon; }
+	HANDLE   getContact()       { return m_hContact; }
+	HANDLE   getContactPassed() { return m_hContactPassed; }
+	int      getTimeout()       { return m_iTimeout; }
+	HWND     getHwnd()          { return m_hwnd; }
+	void    *getData()          { return m_PluginData; }
 
-	Formula::Args			*getArgs()			{ return &m_args; }
-	PopupSkin::RenderInfo	*getRenderInfo()	{ return &m_renderInfo; }
+	PopupAvatar *getAvatar()    { return m_avatar; }
 
-	SIZE	getSize()			{ return m_sz; }
-	void	setSize(SIZE sz)
+	Formula::Args *getArgs()    { return &m_args; }
+
+	PopupSkin::RenderInfo *getRenderInfo() { return &m_renderInfo; }
+
+	SIZE   getSize()            { return m_sz; }
+	void   setSize(SIZE sz)
 	{
 		this->m_sz = sz;
 		if (m_hwnd)
@@ -200,20 +196,17 @@ public:
 				PopupThreadUpdateWindow(this);
 		}
 	}
-	bool	isPositioned()		{ return m_bPositioned; }
-	POINT	getPosition()		{ return m_pos; }
-	POINT	getRealPosition()	{ return POINT(); }
+	bool	isPositioned()        { return m_bPositioned; }
+	POINT	getPosition()         { return m_pos; }
+	POINT	getRealPosition()     { return POINT(); }
 	void	setPosition(POINT pt)
 	{
 		m_bPositioned = true;
 		m_pos = pt;
 		if (m_bSlide)
-		{
 			m_ptPosition1 = pt;
-		} else
-		{
+		else
 			SetWindowPos(m_hwnd, 0, pt.x, pt.y, 0, 0, SWP_NOZORDER|SWP_NOSIZE|SWP_NOACTIVATE|SWP_DEFERERASE|SWP_NOSENDCHANGING);
-		}
 	}
 
 	// Thread-related methods
@@ -236,7 +229,6 @@ public:
 	LRESULT m_updateData_POPUPDATAEX_V2(LPARAM arg)	{ updateData((POPUPDATAEX_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATAW_V2(LPARAM arg)	{ updateData((POPUPDATAW_V2 *)arg); update(); return 0; }
 	LRESULT m_updateData_POPUPDATA2(LPARAM arg)		{ updateData((POPUPDATA2 *)arg); update(); return 0; }
-//	LRESULT m_updateData_HNOTIFY(LPARAM arg)		{ updateData((HANDLE)arg); update(); return 0; }
 	LRESULT m_updateText(LPARAM arg)				{ updateText((char *)arg); update(); return 0; }
 	LRESULT m_updateTextW(LPARAM arg)				{ updateText((WCHAR *)arg); update(); return 0; }
 	LRESULT m_updateTitle(LPARAM arg)				{ updateTitle((char *)arg); update(); return 0; }
