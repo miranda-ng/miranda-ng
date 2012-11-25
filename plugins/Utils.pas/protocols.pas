@@ -580,8 +580,8 @@ begin
       cbSize:=SizeOf(ics);
       flags:=CSSF_MASK_STATUS or CSSF_MASK_NAME or CSSF_MASK_MESSAGE or CSSF_UNICODE;
       status:=@result;
-      szName.w   :=pWideChar(title);
-      szMessage.w:=pWideChar(txt);
+      szName.w   :=pWideChar(title^);
+      szMessage.w:=pWideChar(txt^);
     end;
     CallProtoService(proto,PS_GETCUSTOMSTATUSEX,0,dword(@ics));
 
