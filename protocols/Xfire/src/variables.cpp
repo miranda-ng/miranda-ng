@@ -174,11 +174,11 @@ extern HANDLE XFireIconFolder;
 extern HANDLE XFireAvatarFolder;
 	char path[1024] = "";
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
-		if (pathtype == "Avatar"){
+		if (!strcmp(pathtype,"Avatar")){
 			FoldersGetCustomPath(XFireAvatarFolder, path, 1024, "" );}
-		if (pathtype == "IniFile"){
+		if (!strcmp(pathtype,"IniFile")){
 			FoldersGetCustomPath(XFireWorkingFolder, path, 1024, "" );}
-		if (pathtype == "IconsFile"){
+		if (!strcmp(pathtype,"IconsFile")){
 			FoldersGetCustomPath(XFireIconFolder, path, 1024, "" );}
 		strcat(path,"\\");
 		return path;
@@ -204,7 +204,7 @@ extern HANDLE XFireAvatarFolder;
 		strcat(BaseFolder, "XFire");
 		strcat(BaseFolder, "\\");
 /*******BASE********/
-		if (pathtype == "Avatar"){
+		if (!strcmp(pathtype,"Avatar")){
 			strcat(BaseFolder, "Avatars");
 			strcat(BaseFolder, "\\");
 		}
