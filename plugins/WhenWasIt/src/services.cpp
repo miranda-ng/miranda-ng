@@ -36,7 +36,7 @@ int bBirthdayFound = 0;
 int InitServices()
 {
 	Log("%s", "Entering function " __FUNCTION__);
-	
+
 	commonData.foreground = db_get_dw(NULL, ModuleName, "Foreground", FOREGROUND_COLOR);
 	commonData.background = db_get_dw(NULL, ModuleName, "Background", BACKGROUND_COLOR);
 	commonData.checkInterval = db_get_w(NULL, ModuleName, "CheckInterval", CHECK_INTERVAL);
@@ -56,15 +56,15 @@ int InitServices()
 	commonData.rPopupClick = db_get_b(NULL, ModuleName, "PopupRightClick", 1);
 	commonData.bOncePerDay = db_get_b(NULL, ModuleName, "OncePerDay", 0);
 	commonData.cDlgTimeout = db_get_w(NULL, ModuleName, "DlgTimeout", POPUP_TIMEOUT);
-	commonData.notifyFor = db_get_b(NULL, ModuleName, "NotifyFor", 0);	
-	
+	commonData.notifyFor = db_get_b(NULL, ModuleName, "NotifyFor", 0);
+
 	hsCheckBirthdays = CreateServiceFunction(MS_WWI_CHECK_BIRTHDAYS, CheckBirthdaysService);
 	hsShowList = CreateServiceFunction(MS_WWI_LIST_SHOW, ShowListService);
 	hsAddBirthday = CreateServiceFunction(MS_WWI_ADD_BIRTHDAY, AddBirthdayService);
 	hsRefreshUserDetails = CreateServiceFunction(MS_WWI_REFRESH_USERDETAILS, RefreshUserDetailsService);
 	hsImportBirthdays = CreateServiceFunction(MS_WWI_IMPORT_BIRTHDAYS, ImportBirthdaysService);
 	hsExportBirthdays = CreateServiceFunction(MS_WWI_EXPORT_BIRTHDAYS, ExportBirthdaysService);
-	
+
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
@@ -72,14 +72,14 @@ int InitServices()
 int DestroyServices()
 {
 	Log("%s", "Entering function " __FUNCTION__);
-	
+
 	DestroyServiceFunction(hsCheckBirthdays);
 	DestroyServiceFunction(hsShowList);
 	DestroyServiceFunction(hsAddBirthday);
 	DestroyServiceFunction(hsRefreshUserDetails);
 	DestroyServiceFunction(hsImportBirthdays);
 	DestroyServiceFunction(hsExportBirthdays);
-	
+
 	Log("%s", "Leaving function " __FUNCTION__);
 	return 0;
 }
@@ -113,7 +113,7 @@ int NotifyMissedContactBirthday(HANDLE hContact, time_t now, int daysAfter)
 			return daysAfterBirthday;
 		}
 	}
-	
+
 	return -1;
 }
 
@@ -123,27 +123,27 @@ int NotifyMissedContactBirthday(HANDLE hContact, time_t now, int daysAfter)
 INT_PTR CheckBirthdaysService(WPARAM wParam, LPARAM lParam)
 {
 	bBirthdayFound = 0; //no birthdays have been found in the given interval
-	
+
 	SYSTEMTIME today;
 	GetLocalTime(&today);
-	
+
 	DWORD lastChecked = db_get_dw(NULL, ModuleName, "LastChecked", 0); //get last checked date
 	int lcDay = LOBYTE(LOWORD(lastChecked));
 	int lcMonth = HIBYTE(LOWORD(lastChecked));
 	int lcYear = HIWORD(lastChecked);
-	
+
 	int daysAfter = DaysAfterBirthday(Today(), lcYear, lcMonth, lcDay); //get difference between last checked date and today
 	int savedDaysAfter = 0;
 
 	savedDaysAfter = commonData.daysAfter; //save value
-	
+
 	if ((daysAfter > commonData.daysAfter) && (commonData.daysAfter > 0))//check for passed birthdays
 		commonData.daysAfter = daysAfter; //bigger values of the two
-	
+
 	if ((lParam) && (commonData.bOncePerDay)) //if force check then we don't take OncePerDay into account
 		if (lcDay == today.wDay && lcMonth == today.wMonth && lcYear == today.wYear)
 			return 0; //already checked today
-	
+
 	bShouldCheckBirthdays = 1;
 	RefreshAllContactListIcons();
 	if ((!bBirthdayFound) && (commonData.bNoBirthdaysPopup))
@@ -231,7 +231,7 @@ INT_PTR ImportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c"), TranslateT("Birthdays files"), 0, 0); 
+	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c"), TranslateT("Birthdays files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = 1024;
@@ -256,7 +256,7 @@ INT_PTR ExportBirthdaysService(WPARAM wParam, LPARAM lParam)
 	of.lStructSize = sizeof(OPENFILENAME);
 	//of.hInstance = hInstance;
 	TCHAR filter[MAX_PATH];
-	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c%s (*.*)%c*.*%c"), TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0); 
+	mir_sntprintf(filter, SIZEOF(filter), _T("%s (*") _T(BIRTHDAY_EXTENSION) _T(")%c*") _T(BIRTHDAY_EXTENSION) _T("%c%s (*.*)%c*.*%c"), TranslateT("Birthdays files"), 0, 0, TranslateT("All Files"), 0, 0);
 	of.lpstrFilter = filter;
 	of.lpstrFile = fileName;
 	of.nMaxFile = 1024;
@@ -286,7 +286,7 @@ int DoImport(TCHAR *fileName)
 	}
 
 	int mode = commonData.cDefaultModule;
-	
+
 	while (!feof(fin)) {
 		TCHAR buffer[4096];
 		_fgetts(buffer, SIZEOF(buffer), fin);
@@ -308,7 +308,7 @@ int DoImport(TCHAR *fileName)
 				if (hContact) {
 					delProto[0] = tmp;
 					delAccount[0] = tmp;
-				
+
 					int year, month, day;
 					_stscanf(delAccount, _T(" : %02d/%02d/%04d"), &day, &month, &year);
 					SaveBirthday(hContact, year, month, day, mode);
