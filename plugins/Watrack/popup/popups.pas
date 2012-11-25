@@ -261,7 +261,7 @@ begin
           StrCopyW(ppdu^.lpwzContactName,title,MAX_CONTACTNAME-1);
           lpwzText[0]:=' ';
         end;
-        
+
         lchIcon         :=Icon;
         PluginWindowProc:=@DumbPopupDlgProc;
         iSeconds        :=sec;
@@ -385,7 +385,7 @@ var
   odp:TOPTIONSDIALOGPAGE;
 begin
   FillChar(odp,SizeOf(odp),0);
-  odp.cbSize     :=OPTIONPAGE_OLD_SIZE2; //for 0.5 compatibility
+  odp.cbSize     :=sizeof(odp);
   odp.flags      :=ODPF_BOLDGROUPS;
   odp.Position   :=900003000;
   odp.hInstance  :=hInstance;
