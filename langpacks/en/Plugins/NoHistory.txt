@@ -1,0 +1,21 @@
+#muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;langpack template for NoHistory
+;file E:\Sources\myranda\plugins\NoHistory\res\NoHistory.rc
+[Keep history for this contact]
+[Disable history for this contact]
+;file E:\Sources\myranda\plugins\NoHistory\src\dllmain.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+[Clear History]
+[Enable History]
+[Disable History]
+[History Enabled]
+[History Disabled]
+;file E:\Sources\myranda\plugins\NoHistory\src\icons.cpp
+[Disable]
+[Enable]
+[Clear]
+;file E:\Sources\myranda\plugins\NoHistory\src\options.cpp
+[** All contacts **]
+[No History]
+[History]
+[Logging]
