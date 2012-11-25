@@ -33,7 +33,6 @@
 #include "xdebug.h"
 
 extern HANDLE hNetlib;
-
 //convert buf to hexstring
 /*char* tohex(unsigned char*buf,int size) {
 	static char buffer[1024*10]="";

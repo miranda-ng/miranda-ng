@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "processbuddyinfo.h"
-
+#include "variables.h"
 #include <sys\stat.h> 
 
 
@@ -28,8 +28,8 @@ extern HANDLE	 XFireAvatarFolder;
 }*/
 
 void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char* username) {
-	char temp[255]="";
-	char filename[255];
+	char temp[255] = "";
+	char filename[1024] = "";
 	BOOL dl=FALSE;
 	int type;
 
@@ -50,8 +50,7 @@ void ProcessBuddyInfo(xfirelib::BuddyInfoPacket *buddyinfo,HANDLE hcontact,char*
 		DBDeleteContactSetting(NULL,protocolname, "MyAvatarFile");
 	}
 
-	FoldersGetCustomPath( XFireAvatarFolder, filename, 255, "" );
-	strcat(filename,"\\");
+	strcpy(filename, XFireGetFoldersPath ("Avatar"));
 	
 	switch(buddyinfo->avatarmode) {
 		case 1:

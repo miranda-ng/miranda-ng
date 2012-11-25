@@ -9,3 +9,5 @@ char* Varxfirevoice(ARGUMENTSINFO *ai);
 char* Varxfirevoiceip(ARGUMENTSINFO *ai);
 char* Varmyxfirevoiceip(ARGUMENTSINFO *ai);
 char* Varmyxfireserverip(ARGUMENTSINFO *ai);
+
+char* XFireGetFoldersPath(char * pathtype);

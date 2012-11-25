@@ -440,7 +440,7 @@ int OnDetailsInit(WPARAM wParam,LPARAM lParam)
 	odp.pfnDlgProc = DlgProcUserDetails;
 	odp.position = -1900000000;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_UD);
-	odp.pszTitle = Translate("XFire");
+	odp.ptszTitle = TranslateT("XFire");
 	odp.pszGroup = NULL;
 
 	UserInfo_AddPage(wParam, &odp);

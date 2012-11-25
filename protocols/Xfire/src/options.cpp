@@ -33,6 +33,7 @@
 #include "recvprefspacket.h"
 #include "Xfire_gamelist.h"
 #include "addgamedialog.h"
+#include "variables.h"
 
 extern HANDLE XFireWorkingFolder;
 extern HANDLE XFireIconFolder;
@@ -136,12 +137,11 @@ static BOOL CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ghwndDlg2=hwndDlg;
 
 			hwndTree = GetDlgItem(hwndDlg, IDC_TREE);
-			SetWindowLong(hwndTree,GWL_STYLE,GetWindowLong(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
+			SetWindowLongPtr(hwndTree,GWL_STYLE,GetWindowLongPtr(hwndTree,GWL_STYLE)|TVS_NOHSCROLL|TVS_CHECKBOXES);
 			SendMessage(hwndDlg, DM_REBUILD_TREE, 0, 0);
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
-			strcat(inipath,"\\");
-			strcat(inipath,"xfire_games.ini");
+			strcpy(inipath, XFireGetFoldersPath ("IniFile"));
+			strcat(inipath, "xfire_games.ini");
 			
 			FILE * f = fopen(inipath,"r");
 			if(f!=NULL)
@@ -156,9 +156,8 @@ static BOOL CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				inifound = FALSE;
 			}
 
-			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, "" );
-			strcat(inipath,"\\");
-			strcat(inipath,"icons.dll");
+			strcpy(inipath, XFireGetFoldersPath ("IconsFile"));
+			strcat(inipath, "icons.dll");
 			
 			f = fopen(inipath,"r");
 			if(f!=NULL)
@@ -588,9 +587,8 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			//addgamedia auf 0 setzen
 			TranslateDialogDefault(hwndDlg);
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
-			strcat(inipath,"\\");
-			strcat(inipath,"xfire_games.ini");
+			strcpy(inipath, XFireGetFoldersPath ("IniFile"));
+			strcat(inipath, "xfire_games.ini");
 			
 			FILE * f = fopen(inipath,"r");
 			if(f!=NULL)
@@ -605,9 +603,8 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				inifound = FALSE;
 			}
 
-			FoldersGetCustomPath( XFireIconFolder, inipath, 1024, "" );
-			strcat(inipath,"\\");
-			strcat(inipath,"icons.dll");
+			strcpy(inipath, XFireGetFoldersPath ("IconsFile"));
+			strcat(inipath, "icons.dll");
 			
 			f = fopen(inipath,"r");
 			if(f!=NULL)
@@ -630,7 +627,7 @@ static BOOL CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 
 			SendMessage(GetDlgItem(hwndDlg,IDC_REMUSER),BM_SETIMAGE,IMAGE_ICON,(WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DELETE));
 
-			FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
+			strcpy(inipath, XFireGetFoldersPath ("IniFile"));
 			SetDlgItemText(hwndDlg,IDC_FILESSHOULDBE,inipath);
 
 			EnableDlgItem(hwndDlg, IDC_REMUSER, FALSE);

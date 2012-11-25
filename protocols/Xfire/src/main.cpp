@@ -79,6 +79,8 @@
 #include "Xfire_avatar_loader.h"
 #include "Xfire_voicechat.h"
 
+#include "variables.h"
+
 #include <stdexcept>
 #include <sstream>
 
@@ -1199,21 +1201,35 @@ extern "C" __declspec(dllexport) int  Load(void)
 	CreateServiceFunction( servicefunction,	GetXStatusIcon );
 
 	char AvatarsFolder[MAX_PATH]= "";
+	char CurProfileF[MAX_PATH] = "";
+	char CurProfile[MAX_PATH] = "";
 	CallService(MS_DB_GETPROFILEPATH, (WPARAM) MAX_PATH, (LPARAM)AvatarsFolder);
 	strcat(AvatarsFolder, "\\");
-	strcat(AvatarsFolder, CURRENT_PROFILE);
+	CallService(MS_DB_GETPROFILENAME, (WPARAM) MAX_PATH, (LPARAM)CurProfileF);
+
+	int i;
+	for (i = MAX_PATH; 5; i--){
+		if (CurProfileF[i] == 't' && CurProfileF[i-3] == '.'){
+			i = i-3;
+			break;
+		}
+	}
+	memcpy(CurProfile, CurProfileF, i);
+	strcat(AvatarsFolder, CurProfile);
 	strcat(AvatarsFolder, "\\");
 	strcat(AvatarsFolder, "XFire");
-	XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
-	XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder);
-	strcat(AvatarsFolder, "\\Avatars");
-	XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder);
-
-	//kein folders plugin, verzeichnisse anlegen
-	if (!ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		CreateDirectory("XFire",NULL);
-		CreateDirectory("XFire\\Avatars",NULL);
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
+		XFireWorkingFolder = FoldersRegisterCustomPath(protocolname, "Working Folder", AvatarsFolder);
+		XFireIconFolder = FoldersRegisterCustomPath(protocolname, "Game Icon Folder", AvatarsFolder);
 	}
+	else
+		CreateDirectory(AvatarsFolder,NULL);
+
+	strcat(AvatarsFolder, "\\Avatars");
+	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
+		XFireAvatarFolder = FoldersRegisterCustomPath(protocolname, "Avatars", AvatarsFolder);
+	else
+	CreateDirectory(AvatarsFolder,NULL);
 
 	//erweiterte Kontextmenüpunkte
 	CLISTMENUITEM mi = { 0 };
@@ -1229,7 +1245,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.pszContactOwner=protocolname;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
-	mi.pszName = LPGEN("&XFire Online Profile");
+	mi.ptszName = LPGENT("&XFire Online Profile");
 	Menu_AddContactMenuItem(&mi);
 
 	//gotoxfireclansitemenüpunkt
@@ -1240,7 +1256,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.pszContactOwner=protocolname;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
-	mi.pszName = LPGEN("XFire &Clan Site");
+	mi.ptszName = LPGENT("XFire &Clan Site");
 	gotoclansite=Menu_AddContactMenuItem(&mi);
 
 	//kopiermenüpunkt
@@ -1251,7 +1267,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("C&opy Server Address and Port");
+	mi.ptszName = LPGENT("C&opy Server Address and Port");
 	copyipport=Menu_AddContactMenuItem(&mi);
 
 	//kopiermenüpunkt
@@ -1262,7 +1278,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Cop&y Voice Server Address and Port");
+	mi.ptszName = LPGENT("Cop&y Voice Server Address and Port");
 	vipport=Menu_AddContactMenuItem(&mi);
 
 	//joinmenüpunkt
@@ -1273,7 +1289,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Join &Game ...");
+	mi.ptszName = LPGENT("Join &Game ...");
 	joingame=Menu_AddContactMenuItem(&mi);
 
 	//joinmenüpunkt
@@ -1284,7 +1300,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Play this Game ...");
+	mi.ptszName = LPGENT("Play this Game ...");
 	startthisgame=Menu_AddContactMenuItem(&mi);
 
 	//remove friend
@@ -1295,7 +1311,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Remove F&riend ...");
+	mi.ptszName = LPGENT("Remove F&riend ...");
 	removefriend=Menu_AddContactMenuItem(&mi);
 
 	//block user
@@ -1306,7 +1322,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 2000070000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Block U&ser ...");
+	mi.ptszName = LPGENT("Block U&ser ...");
 	blockfriend=Menu_AddContactMenuItem(&mi);
 
 	//my fire profile
@@ -1317,7 +1333,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("&My XFire Online Profile");
+	mi.ptszName = LPGENT("&My XFire Online Profile");
 	Menu_AddMainMenuItem(&mi);
 
 	//my activity protocol
@@ -1328,7 +1344,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("&Activity Report");
+	mi.ptszName = LPGENT("&Activity Report");
 	Menu_AddMainMenuItem(&mi);
 
 	//rescan my games
@@ -1339,7 +1355,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("&Rescan my Games ...");
+	mi.ptszName = LPGENT("&Rescan my Games ...");
 	Menu_AddMainMenuItem(&mi);
 
 	strcpy(servicefunction, protocolname);
@@ -1349,7 +1365,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	mi.position = 500090000;
 	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
 	mi.pszContactOwner=protocolname;
-	mi.pszName = LPGEN("Set &Nickname");
+	mi.ptszName = LPGENT("Set &Nickname");
 	Menu_AddMainMenuItem(&mi);
 
 	HookEvent( ME_CLIST_PREBUILDCONTACTMENU, RebuildContactMenu );
@@ -1371,9 +1387,9 @@ extern "C" __declspec(dllexport) int  Load(void)
 	sid.cbSize = sizeof(SKINICONDESC);
 	sid.pszDefaultFile = szFile;
 	sid.cx = sid.cy = 16;
-	sid.pszSection = (char*)LPGEN( "Protocols/XFire" );
+	sid.ptszSection = LPGENT( "Protocols/XFire" );
 	sid.pszName = "XFIRE_main";
-	sid.pszDescription = (char*)Translate("Protocol icon");
+	sid.ptszDescription = TranslateT("Protocol icon");
 	sid.iDefaultIndex = -IDI_TM;
 	Skin_AddIcon(&sid);
 
@@ -2075,9 +2091,8 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 					if(pos)
 					{
 						char filename[512];
-						FoldersGetCustomPath( XFireAvatarFolder, filename, 1024, "" );
-						strcat(filename,"\\");
-						strcat(filename,username);
+						strcpy(filename, XFireGetFoldersPath ("Avatar"));
+						strcat(filename, username);
 
 						pos++;
 						//gif?!?!

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "addgamedialog.h"
+#include "variables.h"
 
 extern HANDLE XFireWorkingFolder;
 extern Xfire_gamelist xgamelist;
@@ -42,9 +43,9 @@ static void FillGameList( LPVOID hwndDlg ) {
 		//vector für doppelfilter
 		vector<DWORD> dublBuffer;
 		//Cache ist leer, Cache füllen
-		FoldersGetCustomPath( XFireWorkingFolder, inipath, 1024, "" );
-		strcat_s(inipath,MAX_PATH,"\\");
-		strcat_s(inipath,MAX_PATH,"xfire_games.ini");
+
+		strcpy(inipath, XFireGetFoldersPath ("IniFile"));
+		strcat_s(inipath, MAX_PATH, "xfire_games.ini");
 
 		//ini soll in den RAM geladen werden, fürs schnellere ausparsen
 		FILE* f=fopen(inipath,"rb");

@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "Xfire_base.h"
+#include "variables.h"
 
 //rechnet die einzelnen chars des strings zusammen
 BYTE Xfire_base::accStringByte(char* str){
@@ -482,11 +483,8 @@ BOOL Xfire_base::getIniPath(char*path) {
 	//kein ziel abbruch
 	if(!path)
 		return FALSE;
-
-	FoldersGetCustomPath( XFireWorkingFolder, path, MAX_PATH, "" );
-	strcat_s(path,MAX_PATH,"\\");
+	strcpy(path, XFireGetFoldersPath ("IniFile"));
 	strcat_s(path,MAX_PATH,"xfire_games.ini");
-
 	return TRUE;
 }
 
@@ -494,10 +492,7 @@ BOOL Xfire_base::getIconPath(char*path) {
 	//kein ziel abbruch
 	if(!path)
 		return FALSE;
-
-	FoldersGetCustomPath( XFireIconFolder, path, MAX_PATH, "" );
-	strcat_s(path,MAX_PATH,"\\");
-
+	strcpy(path, XFireGetFoldersPath ("IconsFile"));
 	return TRUE;
 }
 

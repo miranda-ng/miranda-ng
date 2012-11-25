@@ -4,6 +4,7 @@
 
 #include "iniupdater.h"
 #include "baseProtocol.h"
+#include "variables.h"
 
 extern HANDLE XFireWorkingFolder;
 extern HANDLE XFireIconFolder;
@@ -53,8 +54,7 @@ void UpdateMyXFireIni(LPVOID dummy) {
 	char file3[1024];
 
 	//ini pfad rausbekommen
-	FoldersGetCustomPath( XFireWorkingFolder, file, 1024, "" );
-	strcat(file,"\\");
+	strcpy(file, XFireGetFoldersPath ("IniFile"));
 	strcpy(file2,file);
 	strcpy(file3,file);
 	strcat(file,"xfire_games.new");
@@ -94,8 +94,7 @@ void UpdateMyIcons(LPVOID dummy) {
 	char file3[1024];
 
 	//ini pfad rausbekommen
-	FoldersGetCustomPath( XFireIconFolder, file, 1024, "" );
-	strcat(file,"\\");
+	strcpy(file,XFireGetFoldersPath ("IconsFile"));
 	strcpy(file2,file);
 	strcpy(file3,file);
 	strcat(file,"icons.new");
