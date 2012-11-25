@@ -441,7 +441,7 @@ INT_PTR CALLBACK DlgProcAddBirthday(HWND hWnd, UINT msg, WPARAM wParam, LPARAM l
 
 			case DOB_PROTOCOL:
 				DateTime_SetMonthCalColor(hDate, MCSC_TITLEBK, COLOR_PROTOCOL);
-				_stprintf(buffer, TranslateT("%S szProto"), szProto);
+				_stprintf(buffer, TranslateT("%S protocol"), szProto);
 				szCurrentModuleTooltip = buffer;
 				break;
 
