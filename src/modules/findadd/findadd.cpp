@@ -349,7 +349,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			int i, index = 0, cbwidth = 0, netProtoCount = 0;
 			for (i=0; i < accounts.getCount(); i++) {
-				if ( !Proto_IsAccountEnabled(accounts[i])) continue;
+				if ( !Proto_IsAccountEnabled(accounts[i]))
+					continue;
+
 				DWORD caps = (DWORD)CallProtoServiceInt(NULL,accounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if (caps & PF1_BASICSEARCH || caps & PF1_EXTSEARCH || caps & PF1_SEARCHBYEMAIL || caps & PF1_SEARCHBYNAME)
 					netProtoCount++;
@@ -375,7 +377,9 @@ static INT_PTR CALLBACK DlgProcFindAdd(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 			for (i=0; i < accounts.getCount(); i++) {
 				PROTOACCOUNT* pa = accounts[i];
-				if ( !Proto_IsAccountEnabled(pa)) continue;
+				if ( !Proto_IsAccountEnabled(pa))
+					continue;
+
 				DWORD caps = (DWORD)CallProtoServiceInt(NULL,pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 				if ( !(caps&PF1_BASICSEARCH) && !(caps&PF1_EXTSEARCH) && !(caps&PF1_SEARCHBYEMAIL) && !(caps&PF1_SEARCHBYNAME))
 					continue;

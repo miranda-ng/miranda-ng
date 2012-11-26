@@ -481,13 +481,8 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			EnableWindow( GetDlgItem(hwndDlg, IDC_REMOVE), FALSE);
 			EnableWindow( GetDlgItem(hwndDlg, IDC_OPTIONS), FALSE);
 			EnableWindow( GetDlgItem(hwndDlg, IDC_UPGRADE), FALSE);
-
 			{
 				LOGFONT lf;
-				HDC hdc;
-				HFONT hfnt;
-				TEXTMETRIC tm;
-
 				GetObject((HFONT)SendMessage(hwndDlg, WM_GETFONT, 0, 0), sizeof(lf), &lf);
 				dat->hfntText = CreateFontIndirect(&lf);
 
@@ -495,11 +490,14 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 				lf.lfWeight = FW_BOLD;
 				dat->hfntTitle = CreateFontIndirect(&lf);
 
-				hdc = GetDC(hwndDlg);
-				hfnt = (HFONT)SelectObject(hdc, dat->hfntTitle);
+				HDC hdc = GetDC(hwndDlg);
+				HFONT hfnt = (HFONT)SelectObject(hdc, dat->hfntTitle);
+
+				TEXTMETRIC tm;
 				GetTextMetrics(hdc, &tm);
 				dat->titleHeight = tm.tmHeight;
 				SelectObject(hdc, dat->hfntText);
+
 				GetTextMetrics(hdc, &tm);
 				dat->textHeight = tm.tmHeight;
 				SelectObject(hdc, hfnt);
@@ -660,10 +658,15 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			dat->iSelected = -1;
 			SendMessage(hList, LB_RESETCONTENT, 0, 0);
 			for (i=0; i < accounts.getCount(); i++) {
-				int iItem = SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)accounts[i]->tszAccountName);
-				SendMessage(hList, LB_SETITEMDATA, iItem, (LPARAM)accounts[i]);
+				PROTOACCOUNT *p = accounts[i];
+				PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
+				if (pd == NULL || pd->type != PROTOTYPE_PROTOCOL)
+					continue;
 
-				if (accounts[i] == acc)
+				int iItem = SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)p->tszAccountName);
+				SendMessage(hList, LB_SETITEMDATA, iItem, (LPARAM)p);
+
+				if (p == acc)
 					ListBox_SetCurSel(hList, iItem);
 			}
 

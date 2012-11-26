@@ -42,33 +42,35 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 {
 	switch(msg) {
 	case WM_SETCURSOR:
-	{
-		POINT pt;
+		{
+			POINT pt;
+			GetCursorPos(&pt);  
 
-		GetCursorPos(&pt);  
-		SendMessage(GetParent(hwnd),msg,wParam,lParam);
-		if (pt.x == ptMouse.x && pt.y == ptMouse.y)
-			return 1;//return(TestCursorOnBorders());
+			SendMessage(GetParent(hwnd),msg,wParam,lParam);
+			if (pt.x == ptMouse.x && pt.y == ptMouse.y)
+				return 1;//return(TestCursorOnBorders());
 
-		ptMouse = pt;
-		if (tooltip_active){
-			KillTimer(hwnd, TIMERID_HOVER);				
-			if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
-				CallService("mToolTip/HideTip", 0, 0);
-			tooltip_active = FALSE;		
+			ptMouse = pt;
+			if (tooltip_active){
+				KillTimer(hwnd, TIMERID_HOVER);				
+				if ( !NotifyEventHooks(hStatusBarHideToolTipEvent, 0, 0))
+					CallService("mToolTip/HideTip", 0, 0);
+				tooltip_active = FALSE;		
 			}
-		KillTimer(hwnd, TIMERID_HOVER);
-		SetTimer(hwnd, TIMERID_HOVER, 750, 0);
+			KillTimer(hwnd, TIMERID_HOVER);
+			SetTimer(hwnd, TIMERID_HOVER, 750, 0);
+		}
 		break;
-	}
+
 	case WM_NCHITTEST:
-	{
-		LRESULT lr = SendMessage(GetParent(hwnd), WM_NCHITTEST, wParam, lParam);
-		if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
-			|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
-			return HTTRANSPARENT;
+		{
+			LRESULT lr = SendMessage(GetParent(hwnd), WM_NCHITTEST, wParam, lParam);
+			if (lr == HTLEFT || lr == HTRIGHT || lr == HTBOTTOM || lr == HTTOP || lr == HTTOPLEFT || lr == HTTOPRIGHT
+				|| lr == HTBOTTOMLEFT || lr == HTBOTTOMRIGHT)
+				return HTTRANSPARENT;
+		}
 		break;
-	}
+
 	case WM_ERASEBKGND:
 		if (cfg::dat.bSkinnedStatusBar)
 			return 1;
@@ -146,9 +148,6 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 		}
 		break;
 
-	case WM_DESTROY:
-		break;
-
 	case WM_TIMER:
 		if (wParam == TIMERID_HOVER) {
 			POINT pt;
@@ -156,17 +155,13 @@ LRESULT CALLBACK NewStatusBarWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM 
 
 			GetCursorPos(&pt);
 			if (pt.x == ptMouse.x && pt.y == ptMouse.y) {
-				int i,nParts;
-				RECT rc;
-
 				ScreenToClient(hwnd, &pt);
-				nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
-				for (i = 0; i < nParts; i++) {
+				int nParts = SendMessage(hwnd, SB_GETPARTS, 0, 0);
+				for (int i = 0; i < nParts; i++) {
+					RECT rc;
 					SendMessage(hwnd, SB_GETRECT, i, (LPARAM)&rc);
 					if (PtInRect(&rc,pt)) {
-						ProtocolData *PD;
-						PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
-
+						ProtocolData *PD = (ProtocolData *)SendMessageA(hwnd, SB_GETTEXTA, i, 0);
 						if (PD) {
 							if (NotifyEventHooks(hStatusBarShowToolTipEvent, (WPARAM)PD->RealName, 0) > 0) // a plugin handled this event
 								tooltip_active = TRUE;

@@ -45,18 +45,16 @@ static INT_PTR GetClistVersion(WPARAM wParam, LPARAM lParam)
 void FreeProtocolData( void )
 {
 	//free protocol data
-	int nPanel;
-	int nParts=SendMessage(pcli->hwndStatus,SB_GETPARTS,0,0);
-	for (nPanel=0;nPanel<nParts;nPanel++)
-	{
-		ProtocolData *PD;
-		PD=(ProtocolData *)SendMessage(pcli->hwndStatus,SB_GETTEXT,(WPARAM)nPanel,0);
-		if (PD!=NULL&&!IsBadCodePtr((FARPROC)PD))
-		{
+	int nParts = SendMessage(pcli->hwndStatus,SB_GETPARTS,0,0);
+	for (int nPanel=0; nPanel < nParts; nPanel++) {
+		ProtocolData *PD = (ProtocolData *)SendMessage(pcli->hwndStatus, SB_GETTEXT, nPanel, 0);
+		if (PD != NULL && !IsBadCodePtr((FARPROC)PD)) {
 			SendMessage(pcli->hwndStatus,SB_SETTEXT,(WPARAM)nPanel|SBT_OWNERDRAW,0);
 			if (PD->RealName) mir_free(PD->RealName);
 			if (PD) mir_free(PD);
-}	}	}
+		}
+	}
+}
 
 int g_maxStatus = ID_STATUS_OFFLINE;
 char g_maxProto[100] = "";
@@ -173,20 +171,16 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 	SendMessage(pcli->hwndStatus, SB_SETPARTS, partCount, (LPARAM)partWidths);
 
 	for ( partCount=0, i=0; i < protoCount; i++ ) {      //count down since built in ones tend to go at the end
-		ProtocolData *PD;
-		PROTOACCOUNT *pa;
-		int caps1, caps2;
-
 		int idx = pcli->pfnGetAccountIndexByPos( i );
 		if ( idx == -1 )
 			continue;
 
-		pa = accs[idx];
+		PROTOACCOUNT *pa = accs[idx];
 		if ( !pcli->pfnGetProtocolVisibility( pa->szModuleName ))
 			continue;
 
 		status = CallProtoService( pa->szModuleName,PS_GETSTATUS,0,0);
-		PD = ( ProtocolData* )mir_alloc(sizeof(ProtocolData));
+		ProtocolData *PD = ( ProtocolData* )mir_alloc(sizeof(ProtocolData));
 		PD->RealName = mir_strdup( pa->szModuleName );
 		PD->statusbarpos = partCount;
 		{
@@ -196,8 +190,8 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 				flags |= SBT_NOBORDERS;
 			SendMessageA( pcli->hwndStatus, SB_SETTEXTA, partCount|flags,(LPARAM)PD );
 		}
-		caps2 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-		caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
+		int caps2 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+		int caps1 = CallProtoService(pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if ((caps1 & PF1_IM) && (caps2 & (PF2_LONGAWAY | PF2_SHORTAWAY))) {
 			onlineness = GetStatusOnlineness(status);
 			if (onlineness > maxOnline) {
@@ -262,5 +256,4 @@ void CluiProtocolStatusChanged( int parStatus, const char* szProto )
 		}
 		SFL_Update(hIcon, iIcon, hCListImages, szStatus, TRUE);
 	}
-	return;
 }

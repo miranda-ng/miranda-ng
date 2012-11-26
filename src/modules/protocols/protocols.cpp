@@ -122,7 +122,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 		memset(p, 0, sizeof(PROTOCOLDESCRIPTOR));
 		p->cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
 		p->type = pd->type;
-		if (p->type == PROTOTYPE_PROTOCOL) {
+		if (p->type == PROTOTYPE_PROTOCOL || p->type == PROTOTYPE_VIRTUAL) {
 			// let's create a new container
 			PROTO_INTERFACE* ppi = AddDefaultAccount(pd->szName);
 			if (ppi) {

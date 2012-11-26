@@ -795,12 +795,17 @@ static INT_PTR SetStatusMode(WPARAM wParam, LPARAM)
 	return 0;
 }
 
-int fnGetProtocolVisibility(const char* accName)
+int fnGetProtocolVisibility(const char *accName)
 {
 	if (accName) {
-		PROTOACCOUNT* pa = Proto_GetAccount(accName);
-		return pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) &&
-			pa->ppro && (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
+		PROTOACCOUNT *pa = Proto_GetAccount(accName);
+		if (pa && pa->bIsVisible && Proto_IsAccountEnabled(pa) && pa->ppro) {
+			PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
+			if (pd == NULL || pd->type != PROTOTYPE_PROTOCOL)
+				return FALSE;
+
+			return (pa->ppro->GetCaps(PFLAGNUM_2, 0) & ~pa->ppro->GetCaps(PFLAGNUM_5, 0));
+		}
 	}
 
 	return FALSE;
