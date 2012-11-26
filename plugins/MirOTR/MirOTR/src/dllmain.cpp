@@ -102,8 +102,7 @@ DLLFUNC int Load(void)
 
 	/////////////
 	////// init plugin
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = MODULENAME;
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

@@ -91,8 +91,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
 	// Register the module
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize   = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName   = ICQ_PROTOCOL_NAME;
 	pd.type     = PROTOTYPE_PROTOCOL;
 	pd.fnInit   = icqProtoInit;

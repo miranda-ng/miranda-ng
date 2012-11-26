@@ -1949,7 +1949,7 @@ static void LoadDefaultInfo()
 	g_ProtoPictures.insert(pce);
 }
 
-static void LoadProtoInfo( PROTOCOLDESCRIPTOR* proto )
+static void LoadProtoInfo(PROTOCOLDESCRIPTOR* proto)
 {
 	if ( proto->type == PROTOTYPE_PROTOCOL && proto->cbSize == sizeof( *proto ))
 	{

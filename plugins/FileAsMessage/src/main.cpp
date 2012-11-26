@@ -256,9 +256,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CreateServiceFunction(SERVICE_NAME "/FESendFile", OnSendFile);
 	CreateServiceFunction(SERVICE_NAME "/FERecvFile", OnRecvFile);
 
-	PROTOCOLDESCRIPTOR pd;
-	memset(&pd, 0, sizeof( PROTOCOLDESCRIPTOR));
-	pd.cbSize = sizeof(PROTOCOLDESCRIPTOR);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = SERVICE_NAME;
 	pd.type = PROTOTYPE_FILTER;
 	CallService(MS_PROTO_REGISTERMODULE, 0, ( LPARAM ) &pd);

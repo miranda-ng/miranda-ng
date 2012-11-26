@@ -390,8 +390,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	}	}
 
 	// Registering YAMN as protocol
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = YAMN_DBMODULE;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

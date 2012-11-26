@@ -806,7 +806,7 @@ int fnGetProtocolVisibility(const char* accName)
 	return FALSE;
 }
 
-int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR ** proto, int protoCnt, int Pos)
+int fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos)
 {
 	int p;
 	char buf[10];

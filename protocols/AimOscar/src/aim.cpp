@@ -102,13 +102,11 @@ static int protoUninit(PROTO_INTERFACE* ppro)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
 	mir_getLP(&pluginInfo);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "AIM";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = protoInit;

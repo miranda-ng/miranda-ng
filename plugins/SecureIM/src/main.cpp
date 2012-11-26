@@ -126,9 +126,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	load_rtfconv();
 
 	// register plugin module
-	PROTOCOLDESCRIPTOR pd;
-	memset(&pd,0,sizeof(pd));
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = (char*)szModuleName;
 	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);

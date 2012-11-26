@@ -86,8 +86,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hChangeFeedDlgList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
 	// register weather protocol
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULE;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

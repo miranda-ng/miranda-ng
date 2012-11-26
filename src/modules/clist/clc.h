@@ -112,7 +112,7 @@ int      fnGetProtocolVisibility(const char* accName);
 int      fnConvertMenu(CLISTMENUITEM*, TMO_MenuItem*);
 
 int      fnGetAccountIndexByPos(int Pos);
-int      fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR ** proto, int protoCnt, int Pos);
+int      fnGetProtoIndexByPos(PROTOCOLDESCRIPTOR **proto, int protoCnt, int Pos);
 void     RebuildMenuOrder(void);
 
 INT_PTR  MenuProcessCommand(WPARAM wParam, LPARAM lParam);

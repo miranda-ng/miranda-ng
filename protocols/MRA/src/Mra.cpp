@@ -110,8 +110,7 @@ extern "C" MRA_API int Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "MRA";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = (pfnInitProto)mraProtoInit;

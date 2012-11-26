@@ -421,8 +421,7 @@ extern "C"
 
 		Quotes_IconsInit();
 
-		PROTOCOLDESCRIPTOR pd = {0};
-		pd.cbSize = /*sizeof(pd)*/PROTOCOLDESCRIPTOR_V3_SIZE;
+		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 		pd.szName = QUOTES_PROTOCOL_NAME;
 		pd.type = PROTOTYPE_PROTOCOL;
 // 		pd.fnInit = protoInit;

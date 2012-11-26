@@ -97,8 +97,7 @@ extern "C" int __declspec(dllexport)Load(void)
 {
 	mir_getLP( &pluginInfo );
 	
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "YAHOO";
 	pd.type   = PROTOTYPE_PROTOCOL;
 	pd.fnInit = ( pfnInitProto )yahooProtoInit;

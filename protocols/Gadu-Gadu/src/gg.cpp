@@ -372,8 +372,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	hHookPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, gg_preshutdown);
 
 	// Prepare protocol name
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = GGDEF_PROTO;
 	pd.fnInit = (pfnInitProto)gg_proto_init;
 	pd.fnUninit = (pfnUninitProto)gg_proto_uninit;

@@ -167,10 +167,9 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	g_hCLIcon = ExtraIcon_Register(szGPGModuleName, Translate("GPG encryption status"), "secured", (MIRANDAHOOK)onExtraImageListRebuilding, (MIRANDAHOOK)onExtraImageApplying);
 
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize=sizeof(PROTOCOLDESCRIPTOR);
-	pd.szName=szGPGModuleName;
-	pd.type=PROTOTYPE_ENCRYPTION;
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	pd.szName = szGPGModuleName;
+	pd.type = PROTOTYPE_ENCRYPTION;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 	
 	CreateProtoServiceFunction(szGPGModuleName, PSR_MESSAGE, (MIRANDASERVICE)RecvMsgSvc);

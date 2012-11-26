@@ -150,9 +150,7 @@ BOOL IsUnicodeOS()
 */
 extern "C" __declspec(dllexport) int Load(void)
 {
-	PROTOCOLDESCRIPTOR pd;
 	DBVARIANT dbv;
-	
 
 	mir_getLP(&pluginInfo);
 
@@ -184,7 +182,6 @@ extern "C" __declspec(dllexport) int Load(void)
 						DBWriteContactSettingDword(hContact, META_PROTO, "Default", DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", 0));
 						DBWriteContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
 					}
-					
 				}
 				DBFreeVariant(&dbv);
 			}
@@ -222,17 +219,12 @@ extern "C" __declspec(dllexport) int Load(void)
 			DBFreeVariant(&dbv);
 	} 
 
-	ZeroMemory(&pd,sizeof(pd));
-	pd.cbSize=PROTOCOLDESCRIPTOR_V3_SIZE;//sizeof(pd);
-
-	pd.szName=META_FILTER;
-	pd.type=PROTOTYPE_FILTER;
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
+	pd.szName = META_FILTER;
+	pd.type = PROTOTYPE_FILTER;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 
-	ZeroMemory(&pd,sizeof(pd));
-	pd.cbSize=PROTOCOLDESCRIPTOR_V3_SIZE;//sizeof(pd);
-
-	pd.szName=META_PROTO;
+	pd.szName = META_PROTO;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 

@@ -233,8 +233,7 @@ extern "C" int __declspec(dllexport) Load()
 	pcli = (CLIST_INTERFACE*)CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInst);
 
 	// Register protocol module
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(PROTOCOLDESCRIPTOR);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "JABBER";
 	pd.fnInit = (pfnInitProto)jabberProtoInit;
 	pd.fnUninit = (pfnUninitProto)jabberProtoUninit;

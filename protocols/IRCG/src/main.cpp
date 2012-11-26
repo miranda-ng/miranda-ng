@@ -98,8 +98,7 @@ extern "C" int __declspec(dllexport) Load(  )
 	InitContactMenus();
 
 	// register protocol
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof( pd );
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "IRC";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = ( pfnInitProto )ircProtoInit;

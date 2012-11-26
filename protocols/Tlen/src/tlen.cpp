@@ -495,8 +495,6 @@ static int tlenProtoUninit( TlenProtocol* ppro )
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	PROTOCOLDESCRIPTOR pd;
-
 	mir_getLP( &pluginInfoEx );
 
 	DuplicateHandle(GetCurrentProcess(), GetCurrentThread(), GetCurrentProcess(), &hMainThread, THREAD_SET_CONTEXT, FALSE, 0);
@@ -506,8 +504,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	TlenRegisterIcons();
 
 	// Register protocol module
-	ZeroMemory(&pd, sizeof(PROTOCOLDESCRIPTOR));
-	pd.cbSize = sizeof(PROTOCOLDESCRIPTOR);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "TLEN";
 	pd.fnInit = ( pfnInitProto )tlenProtoInit;
 	pd.fnUninit = ( pfnUninitProto )tlenProtoUninit;

@@ -31,11 +31,10 @@ char *TransliterationProtocol::MODULE_NAME = "ProtoCyrTranslitByIKR";
 
 void TransliterationProtocol::initialize()
 {
-	PROTOCOLDESCRIPTOR desc;
-	desc.cbSize = sizeof(desc);
-	desc.szName = MODULE_NAME;
-	desc.type = PROTOTYPE_TRANSLATION;
-	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&desc));
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
+	pd.szName = MODULE_NAME;
+	pd.type = PROTOTYPE_TRANSLATION;
+	CallService(MS_PROTO_REGISTERMODULE, 0, reinterpret_cast<LPARAM>(&pd));
 
 	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE,    sendMessageA);
 	CreateProtoServiceFunction(MODULE_NAME, PSS_MESSAGE"W", sendMessageW);

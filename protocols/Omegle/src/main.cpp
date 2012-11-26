@@ -97,8 +97,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	pcli = reinterpret_cast<CLIST_INTERFACE*>( CallService(
 	    MS_CLIST_RETRIEVE_INTERFACE,0,reinterpret_cast<LPARAM>(g_hInstance)));
 
-	PROTOCOLDESCRIPTOR pd = { 0 };
-	pd.cbSize = sizeof(pd);
+	PROTOCOLDESCRIPTOR pd = { sizeof(pd) };
 	pd.szName = "Omegle";
 	pd.type = PROTOTYPE_PROTOCOL;
 	pd.fnInit = protoInit;
