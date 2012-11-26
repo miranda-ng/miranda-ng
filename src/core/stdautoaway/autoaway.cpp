@@ -40,12 +40,12 @@ static bool Proto_IsAccountEnabled(PROTOACCOUNT* pa)
 
 static bool Proto_IsAccountLocked(PROTOACCOUNT* pa)
 {
-	return pa && DBGetContactSettingByte(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
+	return pa && db_get_b(NULL, pa->szModuleName, "LockMainStatus", 0) != 0;
 }
 
 static void Proto_SetStatus(const char* szProto, unsigned status)
 {
-	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
+	if ( CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGSEND) {
 		TCHAR* awayMsg = (TCHAR*)CallService(MS_AWAYMSG_GETSTATUSMSGW, (WPARAM) status, (LPARAM) szProto);
 		if ((INT_PTR)awayMsg == CALLSERVICE_NOTFOUND) {
 			char* awayMsgA = (char*)CallService(MS_AWAYMSG_GETSTATUSMSG, (WPARAM) status, (LPARAM) szProto);
@@ -92,19 +92,19 @@ static int AutoAwayEvent(WPARAM, LPARAM lParam)
 				continue;
 		}
 		if (currentstatus >= ID_STATUS_ONLINE && currentstatus != ID_STATUS_INVISIBLE) {			
-			if ((lParam&IDF_ISIDLE) && (currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT))  {
-				DBWriteContactSettingByte(NULL, AA_MODULE, pa->szModuleName, 1);
+			if ((lParam & IDF_ISIDLE) && (currentstatus == ID_STATUS_ONLINE || currentstatus == ID_STATUS_FREECHAT))  {
+				db_set_b(NULL, AA_MODULE, pa->szModuleName, 1);
 				Proto_SetStatus(pa->szModuleName, status);
 			}
-			else if ( !(lParam & IDF_ISIDLE) && DBGetContactSettingByte(NULL, AA_MODULE, pa->szModuleName, 0)) {
+			else if ( !(lParam & IDF_ISIDLE) && db_get_b(NULL, AA_MODULE, pa->szModuleName, 0)) {
 				// returning from idle and this proto was set away, set it back
-				DBWriteContactSettingByte(NULL, AA_MODULE, pa->szModuleName, 0);
+				db_set_b(NULL, AA_MODULE, pa->szModuleName, 0);
 				if ( !mii.aaLock)
 					Proto_SetStatus(pa->szModuleName, ID_STATUS_ONLINE);
 	}	}	}
 
 	if (mii.idlesoundsoff)
-		iBreakSounds = (lParam&IDF_ISIDLE) != 0;
+		iBreakSounds = (lParam & IDF_ISIDLE) != 0;
 
 	return 0;
 }

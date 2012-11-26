@@ -167,21 +167,21 @@ void CALLBACK IdleTimer(HWND hwnd, UINT umsg, UINT_PTR idEvent, DWORD dwTime);
 
 static void IdleObject_ReadSettings(IdleObject * obj)
 {
-	obj->useridlecheck = DBGetContactSettingByte(NULL, IDLEMOD, IDL_USERIDLECHECK, 0);
-	obj->minutes = DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10);
-	obj->aastatus = !DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1))
+	obj->useridlecheck = db_get_b(NULL, IDLEMOD, IDL_USERIDLECHECK, 0);
+	obj->minutes = db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10);
+	obj->aastatus = !db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? 0 : DBGetContactSettingWord(NULL, IDLEMOD, IDL_AASTATUS, 0);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1))
 		obj->aasoundsoff = 1;
 	else
 		obj->aasoundsoff = 0;
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEMETHOD, 0)) IdleObject_UseMethod1(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEMETHOD, 0)) IdleObject_UseMethod1(obj);
 	else IdleObject_UseMethod0(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONSAVER, 0)) IdleObject_SetSaverCheck(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0)) IdleObject_SetFullScrCheck(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONLOCK, 0)) IdleObject_SetWorkstationCheck(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0)) IdleObject_SetPrivacy(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0)) IdleObject_SetStatusLock(obj);
-	if (DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, 0)) IdleObject_SetTerminalCheck(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEONSAVER, 0)) IdleObject_SetSaverCheck(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0)) IdleObject_SetFullScrCheck(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEONLOCK, 0)) IdleObject_SetWorkstationCheck(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0)) IdleObject_SetPrivacy(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0)) IdleObject_SetStatusLock(obj);
+	if ( db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0)) IdleObject_SetTerminalCheck(obj);
 }
 
 static void IdleObject_Create(IdleObject * obj)
@@ -335,9 +335,8 @@ void CALLBACK IdleTimer(HWND, UINT, UINT_PTR idEvent, DWORD)
 
 int IdleGetStatusIndex(WORD status)
 {
-	int j;
-	for (j = 0; j < SIZEOF(aa_Status); j++)
-	if (aa_Status[j] == status)
+	for (int j = 0; j < SIZEOF(aa_Status); j++)
+		if (aa_Status[j] == status)
 			return j;
 
 	return 0;
@@ -349,27 +348,27 @@ static INT_PTR CALLBACK IdleOptsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, L
 	case WM_INITDIALOG:
 	{
 		int j;
-		int method = DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEMETHOD, 0);
+		int method = db_get_b(NULL, IDLEMOD, IDL_IDLEMETHOD, 0);
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_IDLESHORT, DBGetContactSettingByte(NULL, IDLEMOD, IDL_USERIDLECHECK, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESHORT, db_get_b(NULL, IDLEMOD, IDL_USERIDLECHECK, 0) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLEONWINDOWS, method == 0 ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLEONMIRANDA, method ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_SCREENSAVER, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONSAVER, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_FULLSCREEN, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_LOCKED, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_SCREENSAVER, db_get_b(NULL, IDLEMOD, IDL_IDLEONSAVER, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_FULLSCREEN, db_get_b(NULL, IDLEMOD, IDL_IDLEONFULLSCR, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_LOCKED, db_get_b(NULL, IDLEMOD, IDL_IDLEONLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLEPRIVATE, db_get_b(NULL, IDLEMOD, IDL_IDLEPRIVATE, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESTATUSLOCK, db_get_b(NULL, IDLEMOD, IDL_IDLESTATUSLOCK, 0) ? BST_CHECKED : BST_UNCHECKED);
 		if ( !bIsWTSApiPresent)
 			EnableWindow(GetDlgItem(hwndDlg, IDC_IDLETERMINAL), FALSE);
 		else
-			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
-		CheckDlgButton(hwndDlg, IDC_IDLESOUNDSOFF, DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_IDLETERMINAL, db_get_b(NULL, IDLEMOD, IDL_IDLEONTSDC, 0) ? BST_CHECKED : BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_IDLESOUNDSOFF, db_get_b(NULL, IDLEMOD, IDL_IDLESOUNDSOFF, 1) ? BST_CHECKED : BST_UNCHECKED);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETBUDDY, (WPARAM)GetDlgItem(hwndDlg, IDC_IDLE1STTIME), 0);
 		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETRANGE32, 1, 60);
-		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) DBGetContactSettingByte(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
+		SendDlgItemMessage(hwndDlg, IDC_IDLESPIN, UDM_SETPOS, 0, MAKELONG((short) db_get_b(NULL, IDLEMOD, IDL_IDLETIME1ST, 10), 0));
 		SendDlgItemMessage(hwndDlg, IDC_IDLE1STTIME, EM_LIMITTEXT, (WPARAM)2, 0);
 
-		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, DBGetContactSettingByte(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
+		CheckDlgButton(hwndDlg, IDC_AASHORTIDLE, db_get_b(NULL, IDLEMOD, IDL_AAENABLE, 0) ? BST_CHECKED:BST_UNCHECKED);
 		for (j = 0; j < SIZEOF(aa_Status); j++)
 			SendDlgItemMessage(hwndDlg, IDC_AASTATUS, CB_ADDSTRING, 0, (LPARAM)pcli->pfnGetStatusModeDescription(aa_Status[j], 0));
 

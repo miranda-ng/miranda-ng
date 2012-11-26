@@ -70,6 +70,11 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
+// interfaces
+
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_AUTOAWAY, MIID_LAST };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 // plugin's entry point
 
 extern "C" __declspec(dllexport) int Load(void)
