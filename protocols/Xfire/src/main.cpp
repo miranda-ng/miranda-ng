@@ -1529,9 +1529,9 @@ INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 	else if(wParam==PFLAGNUM_4)
 		return PF4_SUPPORTTYPING|PF4_AVATARS;
 	else if(wParam==PFLAG_UNIQUEIDTEXT)
-		return (int) Translate("Username");
+		return (INT_PTR)Translate("Username");
 	else if(wParam==PFLAG_UNIQUEIDSETTING)
-		return (int)"Username";
+		return (INT_PTR)"Username";
 	else if(wParam==PFLAG_MAXLENOFMESSAGE)
 		return 3996; //255;
 	return 0;
