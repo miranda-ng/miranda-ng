@@ -125,6 +125,8 @@ int FillTree(HWND hwnd)
 			continue;
 
 		PROTOACCOUNT *pa = accounts[idx];
+		if ( !cli.pfnGetProtocolVisibility(pa->szModuleName))
+			continue;
 
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
 		PD->RealName = pa->szModuleName;
@@ -147,11 +149,6 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 	struct ProtocolOrderData *dat = (ProtocolOrderData*)GetWindowLongPtr(hwndProtoOrder, GWLP_USERDATA);
 
 	switch (msg) {
-	case WM_DESTROY:
-		ImageList_Destroy(TreeView_GetImageList(hwndProtoOrder, TVSIL_NORMAL));
-		mir_free(dat);
-		break;
-
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
 		dat = (ProtocolOrderData*)mir_calloc(sizeof(ProtocolOrderData));
@@ -286,13 +283,11 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 	case WM_LBUTTONUP:
 		if (dat->dragging) {
-			TVHITTESTINFO hti;
-			TVITEM tvi;
-
 			TreeView_SetInsertMark(hwndProtoOrder, NULL, 0);
 			dat->dragging = 0;
 			ReleaseCapture();
 
+			TVHITTESTINFO hti;
 			hti.pt.x = (short)LOWORD(lParam);
 			hti.pt.y = (short)HIWORD(lParam);
 			ClientToScreen(hwndDlg, &hti.pt);
@@ -300,7 +295,10 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			hti.pt.y -= TreeView_GetItemHeight(hwndProtoOrder) / 2;
 			TreeView_HitTest(hwndProtoOrder, &hti);
 			if (dat->hDragItem == hti.hItem) break;
-			if (hti.flags & TVHT_ABOVE) hti.hItem = TVI_FIRST;
+			if (hti.flags & TVHT_ABOVE)
+				hti.hItem = TVI_FIRST;
+
+			TVITEM tvi;
 			tvi.mask = TVIF_HANDLE|TVIF_PARAM;
 			tvi.hItem = dat->hDragItem;
 			TreeView_GetItem(hwndProtoOrder, &tvi);
@@ -331,6 +329,11 @@ INT_PTR CALLBACK ProtocolOrderOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 			}
 		}
+		break;
+
+	case WM_DESTROY:
+		ImageList_Destroy(TreeView_GetImageList(hwndProtoOrder, TVSIL_NORMAL));
+		mir_free(dat);
 		break;
 	}
 	return FALSE;
