@@ -115,14 +115,14 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_PROTOCOL, MIID_METACONTACTS, MIID_LAST };
 
 /** DLL entry point
 * Required to store the instance handle
 */
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInstance=hinstDLL;
+	hInstance = hinstDLL;
 	return TRUE;
 }
 
@@ -150,48 +150,36 @@ BOOL IsUnicodeOS()
 */
 extern "C" __declspec(dllexport) int Load(void)
 {
-	DBVARIANT dbv;
-
 	mir_getLP(&pluginInfo);
 
 	os_unicode_enabled = IsUnicodeOS();
 
-	if (ServiceExists(MS_DB_SETSETTINGRESIDENT)) { // 0.6+
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/ContactCountCheck"));
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Handle"));
-		CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/WindowOpen"));
-	}
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/ContactCountCheck"));
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Handle"));
+	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/WindowOpen"));
 
 	//set all contacts to 'offline', and initialize subcontact counter for db consistency check
-	{
-		HANDLE hContact = db_find_first();
-		char *proto;
-		while(hContact != NULL) {
-			//proto = GetContactProto(hContact);
-			if (!DBGetContactSetting(hContact, "Protocol", "p", &dbv)) {
-				proto = dbv.pszVal;
-				if (proto && !lstrcmp( META_PROTO, proto)) {
-					DBWriteContactSettingWord(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
-					DBWriteContactSettingDword(hContact, META_PROTO, "IdleTS", 0);
-					DBWriteContactSettingByte(hContact, META_PROTO, "ContactCountCheck", 0);
+	HANDLE hContact = db_find_first();
+	while (hContact != NULL) {
+		char *proto = GetContactProto(hContact);
+		if (proto && !lstrcmp( META_PROTO, proto)) {
+			db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
+			db_set_dw(hContact, META_PROTO, "IdleTS", 0);
+			db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);
 
-					// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
-					if (DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
-						DBWriteContactSettingDword(hContact, META_PROTO, "Default", DBGetContactSettingDword(hContact, META_PROTO, "SavedDefault", 0));
-						DBWriteContactSettingDword(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
-					}
-				}
-				DBFreeVariant(&dbv);
+			// restore any saved defaults that might have remained if miranda was closed or crashed while a convo was happening
+			if (db_get_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1) != (DWORD)-1) {
+				db_set_dw(hContact, META_PROTO, "Default", db_get_dw(hContact, META_PROTO, "SavedDefault", 0));
+				db_set_dw(hContact, META_PROTO, "SavedDefault", (DWORD)-1);
 			}
+		}
 
-			hContact = db_find_next(hContact);
-		}	
-	}
+		hContact = db_find_next(hContact);
+	}	
 
 	Meta_ReadOptions(&options);
-
 
 	// sets subcontact handles to metacontacts, and metacontact handles to subcontacts
 	// (since these handles are not necessarily the same from run to run of miranda)
@@ -200,33 +188,31 @@ extern "C" __declspec(dllexport) int Load(void)
 	// that metacontacts: have the correct number of subcontacts, and have reasonable defaults
 	if (Meta_SetHandles()) {
 		// error - db corruption
-		if (!DBGetContactSettingByte(0, META_PROTO, "DisabledMessageShown", 0)) {
+		if (!db_get_b(0, META_PROTO, "DisabledMessageShown", 0)) {
 			MessageBox(0, Translate("Error - Database corruption.\nPlugin disabled."), Translate("MetaContacts"), MB_OK | MB_ICONERROR);
-			DBWriteContactSettingByte(0, META_PROTO, "DisabledMessageShown", 1);
+			db_set_b(0, META_PROTO, "DisabledMessageShown", 1);
 		}
 		//Meta_HideMetaContacts(TRUE);
 		return 1;
 	}
 
-	DBDeleteContactSetting(0, META_PROTO, "DisabledMessageShown");
+	db_unset(0, META_PROTO, "DisabledMessageShown");
 
 	// add our modules to the KnownModules list 
-	{ 
-		DBVARIANT dbv; 
-		if (DBGetContactSetting(NULL, "KnownModules", META_PROTO, &dbv))
-			DBWriteContactSettingString(NULL, "KnownModules", META_PROTO, META_PROTO); 
-		else
-			DBFreeVariant(&dbv);
-	} 
+	DBVARIANT dbv; 
+	if ( db_get(NULL, "KnownModules", META_PROTO, &dbv))
+		db_set_s(NULL, "KnownModules", META_PROTO, META_PROTO); 
+	else
+		db_free(&dbv);
 
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = META_FILTER;
 	pd.type = PROTOTYPE_FILTER;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	pd.szName = META_PROTO;
-	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+	pd.type = PROTOTYPE_VIRTUAL;
+	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
 
@@ -236,12 +222,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	// check protocol for jabber hack, and the proto modules must be loaded
 	//Meta_HideLinkedContactsAndSetHandles();
 
-	if (ServiceExists(MS_MSG_GETWINDOWAPI)) {
+	if ( ServiceExists(MS_MSG_GETWINDOWAPI))
 		message_window_api_enabled = TRUE;
-	}
 
 	// for clist_meta_mw - write hidden group name to DB
-	DBWriteContactSettingString(0, META_PROTO, "HiddenGroupName", META_HIDDEN_GROUP);
+	db_set_s(0, META_PROTO, "HiddenGroupName", META_HIDDEN_GROUP);
 	
 	return 0;
 }

@@ -45,7 +45,7 @@ INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam)
 //	proto = GetContactProto(wParam,0);
 	if (!DBGetContactSettingStringUtf((HANDLE)wParam,"CList","Group",&dbv)) {
 		group = _strdup(dbv.pszVal);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	// Create a new metacontact
@@ -55,9 +55,9 @@ INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam)
 	if (hMetaContact)
 	{
 
-		DBWriteContactSettingDword(hMetaContact,META_PROTO,META_ID,nextMetaID);
-		DBWriteContactSettingDword(hMetaContact,META_PROTO,"NumContacts",0);
-		DBWriteContactSettingDword(NULL,META_PROTO,"NextMetaID",++nextMetaID);
+		db_set_dw(hMetaContact,META_PROTO,META_ID,nextMetaID);
+		db_set_dw(hMetaContact,META_PROTO,"NumContacts",0);
+		db_set_dw(NULL,META_PROTO,"NextMetaID",++nextMetaID);
 
 		// Add the MetaContact protocol to the new meta contact
 		CallService( MS_PROTO_ADDTOCONTACT, ( WPARAM )hMetaContact, ( LPARAM )META_PROTO );
@@ -66,7 +66,7 @@ INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam)
 			if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR))
 				DBWriteContactSettingStringUtf(hMetaContact,"CList","Group",group);
 			else
-				DBWriteContactSettingString(hMetaContact,"CList","Group",group);
+				db_set_s(hMetaContact,"CList","Group",group);
 		}
 		
 		// Assign the contact to the MetaContact just created (and make default).
@@ -78,7 +78,7 @@ INT_PTR Meta_Convert(WPARAM wParam,LPARAM lParam)
 
 		// hide the contact if clist groups disabled (shouldn't create one anyway since menus disabled)
 		if (!Meta_IsEnabled())
-			DBWriteContactSettingByte(hMetaContact, "CList", "Hidden", 1);
+			db_set_b(hMetaContact, "CList", "Hidden", 1);
 
 	}
 
@@ -145,24 +145,24 @@ void Meta_RemoveContactNumber(HANDLE hMeta, int number) {
 
 	char buffer[512], buffer2[512];
 
-	num_contacts = DBGetContactSettingDword(hMeta, META_PROTO, "NumContacts", 0);
-	default_contact = DBGetContactSettingDword(hMeta, META_PROTO, "Default", -1);
+	num_contacts = db_get_dw(hMeta, META_PROTO, "NumContacts", 0);
+	default_contact = db_get_dw(hMeta, META_PROTO, "Default", -1);
 	if (number >= 0 && number < num_contacts) {
 
 		// get the handle
 		hContact = Meta_GetContactHandle(hMeta, number);
 
 		// make sure this contact thinks it's part of this metacontact
-		if ((HANDLE)DBGetContactSettingDword(hContact,META_PROTO,"Handle", 0) == hMeta) {
+		if ((HANDLE)db_get_dw(hContact,META_PROTO,"Handle", 0) == hMeta) {
 
 			// remove link to meta contact
-			DBDeleteContactSetting(hContact,META_PROTO,"IsSubcontact");
-			DBDeleteContactSetting(hContact,META_PROTO,META_LINK);
-			DBDeleteContactSetting(hContact,META_PROTO,"Handle");
-			DBDeleteContactSetting(hContact,META_PROTO,"ContactNumber");
+			db_unset(hContact,META_PROTO,"IsSubcontact");
+			db_unset(hContact,META_PROTO,META_LINK);
+			db_unset(hContact,META_PROTO,"Handle");
+			db_unset(hContact,META_PROTO,"ContactNumber");
 			// unhide - must be done after removing link (see meta_services.c:Meta_ChangeStatus)
 			Meta_RestoreGroup(hContact);
-			DBDeleteContactSetting(hContact,META_PROTO,"OldCListGroup");
+			db_unset(hContact,META_PROTO,"OldCListGroup");
 			//CallService(MS_PROTO_REMOVEFROMCONTACT,(WPARAM)hContact,(LPARAM)META_PROTO);
 			CallService(MS_PROTO_REMOVEFROMCONTACT,(WPARAM)hContact,(LPARAM)META_FILTER);
 			// stop ignoring, if we were
@@ -182,25 +182,25 @@ void Meta_RemoveContactNumber(HANDLE hMeta, int number) {
 		// remove the last one
 		strcpy(buffer, "Protocol");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "Status");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "Handle");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "StatusString");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "Login");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "Nick");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 		strcpy(buffer, "CListName");
 		strcat(buffer, _itoa((num_contacts - 1), buffer2, 10));
-		DBDeleteContactSetting(hMeta, META_PROTO, buffer);
+		db_unset(hMeta, META_PROTO, buffer);
 
 		// if the default contact was equal to or greater than 'number', decrement it (and deal with ends)
 		if (default_contact >= number) {
@@ -208,11 +208,11 @@ void Meta_RemoveContactNumber(HANDLE hMeta, int number) {
 			if (default_contact < 0) 
 				default_contact = 0;
 
-			DBWriteContactSettingDword(hMeta, META_PROTO, "Default", (DWORD)default_contact);
+			db_set_dw(hMeta, META_PROTO, "Default", (DWORD)default_contact);
 			NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)Meta_GetContactHandle(hMeta, default_contact));
 		}
 		num_contacts--;
-		DBWriteContactSettingDword(hMeta, META_PROTO, "NumContacts", (DWORD)num_contacts);
+		db_set_dw(hMeta, META_PROTO, "NumContacts", (DWORD)num_contacts);
 
 		// fix nick
 		hContact = Meta_GetMostOnline(hMeta);
@@ -250,7 +250,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 	DWORD metaID;
 	HANDLE hContact;
 
-	if ((metaID=DBGetContactSettingDword((HANDLE)wParam,META_PROTO,META_ID,(DWORD)-1))!=(DWORD)-1)
+	if ((metaID=db_get_dw((HANDLE)wParam,META_PROTO,META_ID,(DWORD)-1))!=(DWORD)-1)
 	{// The wParam is a metacontact
 		if (!lParam) { // check from recursion - see second half of this function
 			if (MessageBox((HWND)CallService(MS_CLUI_GETHWND,0,0),Translate("This will remove the MetaContact permanently.\n\nProceed Anyway?"),
@@ -263,15 +263,15 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 		hContact = db_find_first();
 		while(hContact)
 		{	// Scans the database to get all the contacts that have been previously linked to this MetaContact
-			if (DBGetContactSettingDword(hContact,META_PROTO,META_LINK,(DWORD)-1)==metaID)
+			if (db_get_dw(hContact,META_PROTO,META_LINK,(DWORD)-1)==metaID)
 			{ // This contact is assigned to the MetaContact that will be deleted, clear the "MetaContacts" information
-				DBDeleteContactSetting(hContact,META_PROTO,"IsSubcontact");
-				DBDeleteContactSetting(hContact,META_PROTO,META_LINK);
-				DBDeleteContactSetting(hContact,META_PROTO,"Handle");
-				DBDeleteContactSetting(hContact,META_PROTO,"ContactNumber");
+				db_unset(hContact,META_PROTO,"IsSubcontact");
+				db_unset(hContact,META_PROTO,META_LINK);
+				db_unset(hContact,META_PROTO,"Handle");
+				db_unset(hContact,META_PROTO,"ContactNumber");
 				// unhide - must be done after removing link (see meta_services.c:Meta_ChangeStatus)
 				Meta_RestoreGroup(hContact);
-				DBDeleteContactSetting(hContact,META_PROTO,"OldCListGroup");
+				db_unset(hContact,META_PROTO,"OldCListGroup");
 
 				CallService(MS_PROTO_REMOVEFROMCONTACT,(WPARAM)hContact,(LPARAM)META_FILTER);
 				// stop ignoring, if we were
@@ -280,8 +280,8 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 			}
 			hContact = db_find_next(hContact);
 		}
-		//DBDeleteContactSetting((HANDLE)wParam, META_PROTO, META_ID);
-		//DBDeleteContactSetting((HANDLE)wParam, META_PROTO, "NumContacts");
+		//db_unset((HANDLE)wParam, META_PROTO, META_ID);
+		//db_unset((HANDLE)wParam, META_PROTO, "NumContacts");
 		//CallService(MS_PROTO_REMOVEFROMCONTACT,wParam,(LPARAM)META_PROTO);
 		NotifyEventHooks(hSubcontactsChanged, (WPARAM)wParam, 0);
 		CallService(MS_DB_CONTACT_DELETE,wParam,0);
@@ -292,10 +292,10 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 		//	return 1; // The function has been called by the menu of a simple contact. Should not happen.
 		//else
 		{// The function has been called by the edit dialog
-			HANDLE hMeta = (HANDLE)DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Handle", 0);
+			HANDLE hMeta = (HANDLE)db_get_dw((HANDLE)wParam, META_PROTO, "Handle", 0);
 
 
-			DWORD num_contacts = DBGetContactSettingDword(hMeta, META_PROTO, "NumContacts", -1);
+			DWORD num_contacts = db_get_dw(hMeta, META_PROTO, "NumContacts", -1);
 			
 			if (num_contacts == 1) {
 				if (MessageBox(0,Translate("You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"),
@@ -307,7 +307,7 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 				return 0;
 			}
 
-			Meta_RemoveContactNumber(hMeta, DBGetContactSettingDword((HANDLE)wParam,META_PROTO,"ContactNumber", -1));
+			Meta_RemoveContactNumber(hMeta, db_get_dw((HANDLE)wParam,META_PROTO,"ContactNumber", -1));
 
 			CallService(MS_PROTO_REMOVEFROMCONTACT,(WPARAM)wParam,(LPARAM)META_FILTER);
 		}
@@ -327,9 +327,9 @@ INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hMeta;
 
-	if ((hMeta = (HANDLE)DBGetContactSettingDword((HANDLE)wParam,META_PROTO,"Handle",0)) != 0)
+	if ((hMeta = (HANDLE)db_get_dw((HANDLE)wParam,META_PROTO,"Handle",0)) != 0)
 	{ // the wParam is a subcontact
-		DBWriteContactSettingDword(hMeta, META_PROTO, "Default", (DWORD)Meta_GetContactNumber((HANDLE)wParam));
+		db_set_dw(hMeta, META_PROTO, "Default", (DWORD)Meta_GetContactNumber((HANDLE)wParam));
 		NotifyEventHooks(hEventDefaultChanged, (WPARAM)hMeta, (LPARAM)(HANDLE)wParam);
 	}
 	return 0;
@@ -345,16 +345,16 @@ INT_PTR Meta_Default(WPARAM wParam,LPARAM lParam)
 */
 INT_PTR Meta_ForceDefault(WPARAM wParam,LPARAM lParam)
 {
-	if (DBGetContactSettingDword((HANDLE)wParam,META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1)
+	if (db_get_dw((HANDLE)wParam,META_PROTO, META_ID, (DWORD)-1) != (DWORD)-1)
 	{ // the wParam is a MetaContact
 
-		BOOL current = DBGetContactSettingByte((HANDLE)wParam, META_PROTO, "ForceDefault", 0);
+		BOOL current = db_get_b((HANDLE)wParam, META_PROTO, "ForceDefault", 0);
 		current = !current;
-		DBWriteContactSettingByte((HANDLE)wParam, META_PROTO, "ForceDefault", (BYTE)current);
+		db_set_b((HANDLE)wParam, META_PROTO, "ForceDefault", (BYTE)current);
 
-		DBWriteContactSettingDword((HANDLE)wParam, META_PROTO, "ForceSend", 0);
+		db_set_dw((HANDLE)wParam, META_PROTO, "ForceSend", 0);
 
-		if (current) NotifyEventHooks(hEventForceSend, wParam, (LPARAM)Meta_GetContactHandle((HANDLE)wParam, DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "Default", -1)));
+		if (current) NotifyEventHooks(hEventForceSend, wParam, (LPARAM)Meta_GetContactHandle((HANDLE)wParam, db_get_dw((HANDLE)wParam, META_PROTO, "Default", -1)));
 		else NotifyEventHooks(hEventUnforceSend, wParam, 0);
 	}
 	return 0;
@@ -408,7 +408,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	mi.flags = CMIM_FLAGS;
 	mi.cbSize = sizeof(CLISTMENUITEM);
 
-	if (DBGetContactSettingDword((HANDLE)wParam,META_PROTO,META_ID,-1) != (DWORD)-1)
+	if (db_get_dw((HANDLE)wParam,META_PROTO,META_ID,-1) != (DWORD)-1)
 	{
 		int num_contacts, i;
 
@@ -418,7 +418,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		// This is a MetaContact, show the edit, force default, and the delete menu, and hide the others
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
 		//mi.flags |= CMIM_NAME;
-		//if (DBGetContactSettingByte((HANDLE)wParam, META_PROTO, "ForceDefault", 0))
+		//if (db_get_b((HANDLE)wParam, META_PROTO, "ForceDefault", 0))
 		//	mi.pszName = Translate("Unforce Default");
 		//else
 		//	mi.pszName = Translate("Force Default");
@@ -433,7 +433,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 
 
 		//show subcontact menu items
-		num_contacts = DBGetContactSettingDword((HANDLE)wParam, META_PROTO, "NumContacts", 0);
+		num_contacts = db_get_dw((HANDLE)wParam, META_PROTO, "NumContacts", 0);
 		for (i = 0; i < MAX_CONTACTS; i++) {
 			if (i < num_contacts) {
 				hContact = Meta_GetContactHandle((HANDLE)wParam, i);
@@ -442,13 +442,13 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 				if (!proto)
 					status = ID_STATUS_OFFLINE;
 				else
-					status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE);
+					status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE);
 
 				if (options.menu_contact_label == DNT_UID) {
 					strcpy(buf, "Login");
 					strcat(buf, _itoa(i, buffer2, 10));
 
-					DBGetContactSetting((HANDLE)wParam,META_PROTO,buf,&dbv);
+					db_get((HANDLE)wParam,META_PROTO,buf,&dbv);
 					switch(dbv.type)
 					{
 						case DBVT_ASCIIZ:
@@ -466,7 +466,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 						default:
 							buf[0] = 0;
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					mi.pszName = buf;
 					mi.flags = 0;
 				} else {
@@ -526,7 +526,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
 			}
 
-		} else if (DBGetContactSettingDword((HANDLE)wParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
+		} else if (db_get_dw((HANDLE)wParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1) {
 			// The contact is affected to a metacontact.
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
 			mi.flags |= CMIM_NAME;

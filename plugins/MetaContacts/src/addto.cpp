@@ -61,7 +61,7 @@ int FillList(HWND list, BOOL sort)
 
 	while(hMetaUser)	// The DB is searched through, to get all the metacontacts
 	{
-		if ((metaID=DBGetContactSettingDword(hMetaUser,META_PROTO,META_ID,(DWORD)-1))==(DWORD)-1)
+		if ((metaID = db_get_dw(hMetaUser,META_PROTO,META_ID,(DWORD)-1))==(DWORD)-1)
 		{
 			// This isn't a MetaContact, go to the next
 			hMetaUser = db_find_next(hMetaUser);
@@ -171,14 +171,14 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TranslateDialogDefault( hwndDlg );
 
 
-			if (DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1)
+			if (db_get_dw((HANDLE)lParam,META_PROTO,META_ID,(DWORD)-1)!=(DWORD)-1)
 			{
 				MessageBox(hwndDlg,Translate("This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another."),
 					Translate("MetaContact Conflict"),MB_ICONERROR);
 				DestroyWindow(hwndDlg);
 				return TRUE;
 			}
-			if (DBGetContactSettingDword((HANDLE)lParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1)
+			if (db_get_dw((HANDLE)lParam,META_PROTO,META_LINK,(DWORD)-1)!=(DWORD)-1)
 			{
 				MessageBox(hwndDlg,Translate("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 					Translate("Multiple MetaContacts"),MB_ICONERROR);

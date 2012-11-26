@@ -107,7 +107,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 		if (proto) {
 			field = (char *)CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
 
-			DBGetContactSetting(chg->hContact[i],proto,field,&dbv);
+			db_get(chg->hContact[i],proto,field,&dbv);
 			switch(dbv.type)
 			{
 				case DBVT_ASCIIZ:
@@ -126,7 +126,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg) {
 					//sprintf(buff,"");
 					buff[0] = 0;
 			}
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 
 			LvItem.pszText = buff;
 			SendMessage(hList,LVM_SETITEM,0,(LPARAM)&LvItem); // Enter text to SubItems
@@ -194,16 +194,16 @@ void ApplyChanges(CHANGES *chg)
 
 	// set default
 	if (chg->hDefaultContact)
-		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->hDefaultContact));
+		db_set_dw(chg->hMeta, META_PROTO, "Default", Meta_GetContactNumber(chg->hDefaultContact));
 	else
-		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "Default", 0);
+		db_set_dw(chg->hMeta, META_PROTO, "Default", 0);
 	NotifyEventHooks(hEventDefaultChanged, (WPARAM)chg->hMeta, (LPARAM)chg->hDefaultContact);
 
 	// set offline
 	if (chg->hOfflineContact)
-		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->hOfflineContact));
+		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", Meta_GetContactNumber(chg->hOfflineContact));
 	else
-		DBWriteContactSettingDword(chg->hMeta, META_PROTO, "OfflineSend", (DWORD)-1);
+		db_set_dw(chg->hMeta, META_PROTO, "OfflineSend", (DWORD)-1);
 
 	// fix nick
 	most_online = Meta_GetMostOnline(chg->hMeta);
@@ -337,9 +337,9 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			hwnd = GetDlgItem(hwndDlg, IDC_BTN_DOWN);
 			EnableWindow(hwnd, FALSE);
 
-			nb_contacts = DBGetContactSettingDword((HANDLE)lParam, META_PROTO, "NumContacts", 0);
-			default_contact_number = DBGetContactSettingDword((HANDLE)lParam, META_PROTO, "Default", (DWORD)-1);
-			offline_contact_number = DBGetContactSettingDword((HANDLE)lParam, META_PROTO, "OfflineSend", (DWORD)-1);
+			nb_contacts = db_get_dw((HANDLE)lParam, META_PROTO, "NumContacts", 0);
+			default_contact_number = db_get_dw((HANDLE)lParam, META_PROTO, "Default", (DWORD)-1);
+			offline_contact_number = db_get_dw((HANDLE)lParam, META_PROTO, "OfflineSend", (DWORD)-1);
 
 			changes.hMeta = (HANDLE)lParam;
 			changes.num_contacts = nb_contacts;

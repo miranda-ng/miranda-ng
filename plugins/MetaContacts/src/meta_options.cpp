@@ -240,66 +240,66 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 }
 
 int Meta_WriteOptions(MetaOptions *opt) {
-	DBWriteContactSettingByte(NULL, META_PROTO, "SetDefaultOnRecv", (BYTE)(opt->set_default_on_recv ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "TempDefault", (BYTE)(opt->temp_default ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "AlwaysUseDefault", (BYTE)(opt->always_use_default ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "SuppressStatus", (BYTE)(opt->suppress_status ? 1 : 0));
-	DBWriteContactSettingWord(NULL, META_PROTO, "MenuContactLabel", (WORD)opt->menu_contact_label);
-	DBWriteContactSettingWord(NULL, META_PROTO, "MenuContactFunction", (WORD)opt->menu_function);
-	DBWriteContactSettingWord(NULL, META_PROTO, "CListContactName", (WORD)opt->clist_contact_name);
-	DBWriteContactSettingByte(NULL, META_PROTO, "SuppressProto", (BYTE)(opt->suppress_proto ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "CopyHistory", (BYTE)(opt->copy_subcontact_history ? 1 : 0));
-	DBWriteContactSettingDword(NULL, META_PROTO, "DaysHistory", (DWORD)(opt->days_history));
-	DBWriteContactSettingDword(NULL, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(opt->set_status_from_offline_delay));
-	DBWriteContactSettingByte(NULL, META_PROTO, "SubcontactWindows", (BYTE)(opt->subcontact_windows ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "CopyData", (BYTE)(opt->copydata ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "LockHandle", (BYTE)(opt->lockHandle ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "MetaMessageIcon", (BYTE)(opt->flash_meta_message_icon ? 1 : 0));
-	DBWriteContactSettingByte(NULL, META_PROTO, "CopyUserInfo", (BYTE)(opt->copy_userinfo ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "SetDefaultOnRecv", (BYTE)(opt->set_default_on_recv ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "TempDefault", (BYTE)(opt->temp_default ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "AlwaysUseDefault", (BYTE)(opt->always_use_default ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "SuppressStatus", (BYTE)(opt->suppress_status ? 1 : 0));
+	db_set_w(NULL, META_PROTO, "MenuContactLabel", (WORD)opt->menu_contact_label);
+	db_set_w(NULL, META_PROTO, "MenuContactFunction", (WORD)opt->menu_function);
+	db_set_w(NULL, META_PROTO, "CListContactName", (WORD)opt->clist_contact_name);
+	db_set_b(NULL, META_PROTO, "SuppressProto", (BYTE)(opt->suppress_proto ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "CopyHistory", (BYTE)(opt->copy_subcontact_history ? 1 : 0));
+	db_set_dw(NULL, META_PROTO, "DaysHistory", (DWORD)(opt->days_history));
+	db_set_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(opt->set_status_from_offline_delay));
+	db_set_b(NULL, META_PROTO, "SubcontactWindows", (BYTE)(opt->subcontact_windows ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "CopyData", (BYTE)(opt->copydata ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "LockHandle", (BYTE)(opt->lockHandle ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "MetaMessageIcon", (BYTE)(opt->flash_meta_message_icon ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "CopyUserInfo", (BYTE)(opt->copy_userinfo ? 1 : 0));
 
 	if (!opt->subcontact_windows)
-		DBWriteContactSettingByte(NULL, META_PROTO, "MetaHistory", 1);
+		db_set_b(NULL, META_PROTO, "MetaHistory", 1);
 	else
-		DBWriteContactSettingByte(NULL, META_PROTO, "MetaHistory", (BYTE)(opt->metahistory ? 1 : 0));
+		db_set_b(NULL, META_PROTO, "MetaHistory", (BYTE)(opt->metahistory ? 1 : 0));
 
 	if (opt->subcontact_windows)
-		DBWriteContactSettingByte(NULL, META_PROTO, "SubcontactHistory", 1);
+		db_set_b(NULL, META_PROTO, "SubcontactHistory", 1);
 	else
-		DBWriteContactSettingByte(NULL, META_PROTO, "SubcontactHistory", (BYTE)(opt->subhistory ? 1 : 0));
+		db_set_b(NULL, META_PROTO, "SubcontactHistory", (BYTE)(opt->subhistory ? 1 : 0));
 	return 0;
 
-	DBWriteContactSettingByte(NULL, META_PROTO, "UseProtoRecv", (BYTE)(opt->use_proto_recv ? 1 : 0));
+	db_set_b(NULL, META_PROTO, "UseProtoRecv", (BYTE)(opt->use_proto_recv ? 1 : 0));
 }
 
 int Meta_ReadOptions(MetaOptions *opt) {
-	opt->set_default_on_recv = (DBGetContactSettingByte(NULL, META_PROTO, "SetDefaultOnRecv", 1) == 1 ? TRUE : FALSE);
-	opt->temp_default = (DBGetContactSettingByte(NULL, META_PROTO, "TempDefault", 1) == 1 ? TRUE : FALSE);
-	opt->always_use_default = (DBGetContactSettingByte(NULL, META_PROTO, "AlwaysUseDefault", 1) == 1 ? TRUE : FALSE);
-	opt->suppress_status = (DBGetContactSettingByte(NULL, META_PROTO, "SuppressStatus", 1) == 1 ? TRUE : FALSE);
-	opt->menu_contact_label = (int)DBGetContactSettingWord(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
-	opt->menu_function = (int)DBGetContactSettingWord(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
-	opt->clist_contact_name = (int)DBGetContactSettingWord(NULL, META_PROTO, "CListContactName", CNNT_NICK);
-	opt->suppress_proto = (DBGetContactSettingByte(NULL, META_PROTO, "SuppressProto", 0) == 1 ? TRUE : FALSE);
-	opt->copy_subcontact_history = (DBGetContactSettingByte(NULL, META_PROTO, "CopyHistory", 1) == 1 ? TRUE : FALSE);
-	opt->days_history = (int)DBGetContactSettingDword(NULL, META_PROTO, "DaysHistory", 0);
-	opt->set_status_from_offline_delay = (int)DBGetContactSettingDword(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
-	opt->subcontact_windows = (DBGetContactSettingByte(NULL, META_PROTO, "SubcontactWindows", 0) == 1 ? TRUE : FALSE);
-	opt->copydata = (DBGetContactSettingByte(NULL, META_PROTO, "CopyData", 1) == 1 ? TRUE : FALSE);
-	opt->lockHandle = (DBGetContactSettingByte(NULL, META_PROTO, "LockHandle", 0) == 1 ? TRUE : FALSE);
-	opt->flash_meta_message_icon = (DBGetContactSettingByte(NULL, META_PROTO, "MetaMessageIcon", 1) == 1 ? TRUE : FALSE);
-	opt->copy_userinfo = (DBGetContactSettingByte(NULL, META_PROTO, "CopyUserInfo", 1) == 1 ? TRUE : FALSE);
+	opt->set_default_on_recv = (db_get_b(NULL, META_PROTO, "SetDefaultOnRecv", 1) == 1 ? TRUE : FALSE);
+	opt->temp_default = (db_get_b(NULL, META_PROTO, "TempDefault", 1) == 1 ? TRUE : FALSE);
+	opt->always_use_default = (db_get_b(NULL, META_PROTO, "AlwaysUseDefault", 1) == 1 ? TRUE : FALSE);
+	opt->suppress_status = (db_get_b(NULL, META_PROTO, "SuppressStatus", 1) == 1 ? TRUE : FALSE);
+	opt->menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
+	opt->menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
+	opt->clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_NICK);
+	opt->suppress_proto = (db_get_b(NULL, META_PROTO, "SuppressProto", 0) == 1 ? TRUE : FALSE);
+	opt->copy_subcontact_history = (db_get_b(NULL, META_PROTO, "CopyHistory", 1) == 1 ? TRUE : FALSE);
+	opt->days_history = (int)db_get_dw(NULL, META_PROTO, "DaysHistory", 0);
+	opt->set_status_from_offline_delay = (int)db_get_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);
+	opt->subcontact_windows = (db_get_b(NULL, META_PROTO, "SubcontactWindows", 0) == 1 ? TRUE : FALSE);
+	opt->copydata = (db_get_b(NULL, META_PROTO, "CopyData", 1) == 1 ? TRUE : FALSE);
+	opt->lockHandle = (db_get_b(NULL, META_PROTO, "LockHandle", 0) == 1 ? TRUE : FALSE);
+	opt->flash_meta_message_icon = (db_get_b(NULL, META_PROTO, "MetaMessageIcon", 1) == 1 ? TRUE : FALSE);
+	opt->copy_userinfo = (db_get_b(NULL, META_PROTO, "CopyUserInfo", 1) == 1 ? TRUE : FALSE);
 	
 	if (!opt->subcontact_windows)
 		opt->metahistory = TRUE;
 	else
-		opt->metahistory = (DBGetContactSettingByte(NULL, META_PROTO, "MetaHistory", 1) == 1 ? TRUE : FALSE);
+		opt->metahistory = (db_get_b(NULL, META_PROTO, "MetaHistory", 1) == 1 ? TRUE : FALSE);
 
 	if (opt->subcontact_windows)
 		opt->subhistory = TRUE;
 	else
-		opt->subhistory = (DBGetContactSettingByte(NULL, META_PROTO, "SubcontactHistory", 1) == 1 ? TRUE : FALSE);
+		opt->subhistory = (db_get_b(NULL, META_PROTO, "SubcontactHistory", 1) == 1 ? TRUE : FALSE);
 
-	opt->use_proto_recv = (DBGetContactSettingByte(NULL, META_PROTO, "UseProtoRecv", 1) == 1 ? TRUE : FALSE);
+	opt->use_proto_recv = (db_get_b(NULL, META_PROTO, "UseProtoRecv", 1) == 1 ? TRUE : FALSE);
 	return 0;
 }
 
@@ -342,14 +342,14 @@ int GetRealPriority(char *proto, int status) {
 	char szSetting[256];
 	if (!proto) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
-		return DBGetContactSettingWord(0, META_PROTO, szSetting, GetDefaultPrio(status));
+		return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
 	} else {
 		int prio;
 		mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", proto, status);
-		prio = DBGetContactSettingWord(0, META_PROTO, szSetting, 0xFFFF);
+		prio = db_get_w(0, META_PROTO, szSetting, 0xFFFF);
 		if (prio == 0xFFFF) {
 			mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
-			return DBGetContactSettingWord(0, META_PROTO, szSetting, GetDefaultPrio(status));
+			return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
 		} else
 			return prio;
 	}
@@ -369,13 +369,13 @@ void ReadPriorities() {
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", i);
 		current->def[i - ID_STATUS_OFFLINE] = TRUE;
-		current->prio[i - ID_STATUS_OFFLINE] = DBGetContactSettingWord(0, META_PROTO, szSetting, GetDefaultPrio(i));
+		current->prio[i - ID_STATUS_OFFLINE] = db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(i));
 	}
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
 			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szModuleName, j);
-			current->prio[j - ID_STATUS_OFFLINE] = DBGetContactSettingWord(0, META_PROTO, szSetting, 0xFFFF);
+			current->prio[j - ID_STATUS_OFFLINE] = db_get_w(0, META_PROTO, szSetting, 0xFFFF);
 			current->def[j - ID_STATUS_OFFLINE] = (current->prio[j - ID_STATUS_OFFLINE] == 0xFFFF);
 		}
 	}
@@ -393,18 +393,18 @@ void WritePriorities() {
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", i);
 		if (current->prio[i - ID_STATUS_OFFLINE] != GetDefaultPrio(i))
-			DBWriteContactSettingWord(0, META_PROTO, szSetting, (WORD)current->prio[i - ID_STATUS_OFFLINE]);
+			db_set_w(0, META_PROTO, szSetting, (WORD)current->prio[i - ID_STATUS_OFFLINE]);
 		else
-			DBDeleteContactSetting(0, META_PROTO, szSetting);
+			db_unset(0, META_PROTO, szSetting);
 	}
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
 			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szModuleName, j);
 			if (!current->def[j - ID_STATUS_OFFLINE])
-				DBWriteContactSettingWord(0, META_PROTO, szSetting, (WORD)current->prio[j - ID_STATUS_OFFLINE]);
+				db_set_w(0, META_PROTO, szSetting, (WORD)current->prio[j - ID_STATUS_OFFLINE]);
 			else
-				DBDeleteContactSetting(0, META_PROTO, szSetting);
+				db_unset(0, META_PROTO, szSetting);
 		}
 	}
 }
