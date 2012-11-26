@@ -26,8 +26,8 @@ void CSkypeProto::UpdateOwnAvatar()
 		
 			this->SendBroadcast(ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
 		}
-		delete path;
 	}
+	delete path;
 }
 
 void CSkypeProto::UpdateOwnBirthday()
