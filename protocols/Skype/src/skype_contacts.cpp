@@ -331,21 +331,9 @@ void CSkypeProto::UpdateFullName(HANDLE hContact, CContact::Ref contact)
 	contact->GetPropFullname(data);
 	wchar_t* fullname = ::mir_utf8decodeW((const char*)data);
 	if (wcscmp(fullname, L"") == 0)
-	{
-		this->DeleteSetting(hContact, "FirstName");
 		this->DeleteSetting(hContact, "LastName");
-	}
 	else
-	{
-		wchar_t* last = _tcstok(fullname, L" ");
-		wchar_t* first = _tcstok(NULL, L" ");
-		if (first == NULL)
-		{
-			first = L"";
-		}
-		this->SetSettingString(hContact, "LastName", last);
-		this->SetSettingString(hContact, "FirstName", first);
-	}
+		this->SetSettingString(hContact, "LastName", fullname);
 	::mir_free(fullname);
 }
 
@@ -785,14 +773,7 @@ void CSkypeProto::OnContactFinded(HANDLE hSearch, CContact::Ref contact)
 		contact->GetPropFullname(data);
 		wchar_t *fullname = ::mir_utf8decodeW((const char*)data);
 
-		wchar_t *first = wcstok(fullname, L" ");
-		wchar_t *last = wcstok(NULL, L" ");
-		if (last != NULL)
-		{
-			last = L"";
-		}
-		isr.firstName = first;
-		isr.lastName = last;
+		isr.lastName = fullname;
 	}
 	{
 		contact->GetPropEmails(data);
