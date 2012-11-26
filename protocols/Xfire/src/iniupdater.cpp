@@ -9,7 +9,7 @@
 extern HANDLE XFireWorkingFolder;
 extern HANDLE XFireIconFolder;
 
-LRESULT CALLBACK DlgUpdateDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgUpdateDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

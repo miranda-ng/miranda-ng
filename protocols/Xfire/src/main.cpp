@@ -1125,8 +1125,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	HookEvent(ME_OPT_INITIALISE, OptInit);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
 
-	PROTOCOLDESCRIPTOR pd = {0};
-	pd.cbSize = PROTOCOLDESCRIPTOR_V3_SIZE;
+	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = protocolname;
 	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);

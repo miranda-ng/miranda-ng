@@ -96,7 +96,7 @@ BOOL CheckPath(char*ppath,char*pathwildcard=NULL)
 	return FALSE;
 }
 
-LRESULT CALLBACK DlgSearchDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgSearchDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

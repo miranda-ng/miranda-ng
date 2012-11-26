@@ -6,7 +6,7 @@
 static char nick[255];
 BOOL usenick=FALSE;
 
-LRESULT CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static char* pw[255];
 	switch (msg)

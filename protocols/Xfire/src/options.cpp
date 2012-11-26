@@ -114,7 +114,7 @@ static int enumSettingsProc(const char *szSetting,LPARAM lParam)
 }
 
 //damit die änderungen sofort sichtbar sind
-static LRESULT CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char inipath[XFIRE_MAX_STATIC_STRING_LEN]="";
 	static BOOL inifound = FALSE;
@@ -346,7 +346,7 @@ static LRESULT CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static LRESULT CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char inipath[XFIRE_MAX_STATIC_STRING_LEN]="";
 	static BOOL inifound = FALSE;
@@ -572,7 +572,7 @@ static LRESULT CALLBACK DlgProcOpts3(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static LRESULT CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	char inipath[XFIRE_MAX_STATIC_STRING_LEN]="";
 	static BOOL inifound = FALSE;
@@ -679,7 +679,7 @@ static LRESULT CALLBACK DlgProcOpts4(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static LRESULT CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
 
@@ -756,7 +756,7 @@ static LRESULT CALLBACK DlgProcOpts5(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static LRESULT CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -1099,7 +1099,7 @@ static LRESULT CALLBACK DlgProcOpts6(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	return FALSE;
 }
 
-static LRESULT CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
