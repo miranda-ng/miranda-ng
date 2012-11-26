@@ -202,13 +202,14 @@ typedef struct {
 //
 // The DB will store higher numbers here, LOWER in the protocol chain, and lower numbers
 // here HIGHER in the protocol chain
-//
-#define PROTOTYPE_IGNORE	  50    // added during v0.3.3
-#define PROTOTYPE_PROTOCOL    1000
-#define PROTOTYPE_ENCRYPTION  2000
-#define PROTOTYPE_FILTER      3000
-#define PROTOTYPE_TRANSLATION 4000
-#define PROTOTYPE_OTHER       10000   //avoid using this if at all possible
+
+#define PROTOTYPE_IGNORE         50    // added during v0.3.3
+#define PROTOTYPE_PROTOCOL     1000
+#define PROTOTYPE_VIRTUAL      1001    // virtual protocol (has no accounts)
+#define PROTOTYPE_ENCRYPTION   2000
+#define PROTOTYPE_FILTER       3000
+#define PROTOTYPE_TRANSLATION  4000
+#define PROTOTYPE_OTHER       10000    // avoid using this if at all possible
 
 #define MS_PROTO_ENUMPROTOS        "Proto/EnumProtos"
 
