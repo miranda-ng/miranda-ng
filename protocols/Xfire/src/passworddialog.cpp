@@ -6,7 +6,7 @@
 static char nick[255];
 BOOL usenick=FALSE;
 
-BOOL CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgPWProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static char* pw[255];
 	switch (msg)
@@ -50,7 +50,7 @@ void ShowPasswordDialog(char*pw,char*mynick) {
 	else
 		usenick=FALSE;
 
-	char* npw = (char*)DialogBox(hinstance,MAKEINTRESOURCE(IDD_PWDLG),NULL,DlgPWProc);	
+	char* npw = (char*)DialogBox(hinstance,MAKEINTRESOURCE(IDD_PWDLG),NULL,DlgPWProc);
 	strcpy(pw,npw);
 	if(mynick)
 	{

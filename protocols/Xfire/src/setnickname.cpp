@@ -3,7 +3,7 @@
 #include "stdafx.h"
 #include "setnickname.h"
 
-BOOL CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgNickProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

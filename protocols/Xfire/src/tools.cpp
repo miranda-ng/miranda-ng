@@ -249,12 +249,16 @@ char* GetLaunchPath(char*launch)
 //roll bits, vllt ein tickschneller als die funktionen von winsock
 unsigned short r(unsigned short data)
 {
-	_asm {
-		mov ax,data
-		rol ax,8
-		mov data,ax
-	}
-	return data;
+	#if defined(WIN64)
+		return ((data & 0xFF) << 8) + (data >> 8);
+	#else
+		_asm {
+			mov ax,data
+			rol ax,8
+			mov data,ax
+		}
+		return data;
+	#endif
 }
 
 //simple und hoffetnlich schnelle teamspeakdetection

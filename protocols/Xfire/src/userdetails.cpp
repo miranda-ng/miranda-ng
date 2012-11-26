@@ -179,7 +179,7 @@ void setGameInfo(HWND listbox,char *mbuf)
 	}
 }
 
-static BOOL CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK DlgProcUserDetails(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static char path[XFIRE_MAX_STATIC_STRING_LEN]="";
 	static WCHAR wpath[256];

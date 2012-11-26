@@ -5,7 +5,7 @@
 
 char password[256]="";
 
-BOOL CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgPwProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{

@@ -142,28 +142,30 @@ PLUGININFOEX pluginInfoEx={
 		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } }
 };
 
+INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam);
+INT_PTR SendMessage(WPARAM wParam, LPARAM lParam);
+
 int FillList(WPARAM wParam, LPARAM lParam);
 HANDLE CList_AddContact(XFireContact xfc, bool InList, bool SetOnline,int clan);
 HANDLE CList_FindContact (int uid);
 void CList_MakeAllOffline();
-int RecvMessage(WPARAM wParam, LPARAM lParam);
-int SendMessage(WPARAM wParam, LPARAM lParam);
-static int UserIsTyping(WPARAM wParam, LPARAM lParam);
+static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam);
 HANDLE LoadGameIcon(char* g, int id, HICON* ico,BOOL onyico=FALSE,char * gamename=NULL,int*uu=NULL);
 void SetIcon(HANDLE hcontact,HANDLE hicon,int ctype=1);
 BOOL GetAvatar(char* username,XFireAvatar* av);
 //void SetAvatar(HANDLE hContact, char* username);
 static void SetAvatar(LPVOID lparam);
-static int GetIPPort(WPARAM /*wParam*/,LPARAM lParam);
-static int GetVIPPort(WPARAM /*wParam*/,LPARAM lParam);
+static INT_PTR GetIPPort(WPARAM /*wParam*/,LPARAM lParam);
+static INT_PTR GetVIPPort(WPARAM /*wParam*/,LPARAM lParam);
 int RebuildContactMenu( WPARAM wParam, LPARAM lParam );
 int doneQuery( WPARAM wParam, LPARAM lParam );
-static int GotoProfile(WPARAM wParam,LPARAM lParam);
-static int GotoProfileAct(WPARAM wParam,LPARAM lParam);
-static int GotoXFireClanSite(WPARAM wParam,LPARAM lParam);
-static int ReScanMyGames(WPARAM wParam,LPARAM lParam);
-static int SetNickDlg(WPARAM wParam,LPARAM lParam);
-static int CustomGameSetup(WPARAM wParam,LPARAM lParam);
+
+static INT_PTR GotoProfile(WPARAM wParam,LPARAM lParam);
+static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam);
+static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam);
+static INT_PTR ReScanMyGames(WPARAM wParam,LPARAM lParam);
+static INT_PTR SetNickDlg(WPARAM wParam,LPARAM lParam);
+static INT_PTR CustomGameSetup(WPARAM wParam,LPARAM lParam);
 
 #ifndef NO_PTHREAD
 	void *gamedetectiont(void *ptr);
@@ -174,25 +176,27 @@ static int CustomGameSetup(WPARAM wParam,LPARAM lParam);
 	void gamedetectiont(LPVOID lparam);
 #endif
 
-static int GotoProfile2(WPARAM wParam,LPARAM lParam);
+INT_PTR AddtoList( WPARAM wParam, LPARAM lParam );
+INT_PTR BasicSearch(WPARAM wParam,LPARAM lParam);
+INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam); //GAIR_NOAVATAR
+INT_PTR SearchAddtoList(WPARAM wParam,LPARAM lParam);
+INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam);
+INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam);
+INT_PTR GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam);
+INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam);
+
+static INT_PTR GotoProfile2(WPARAM wParam,LPARAM lParam);
 HANDLE handlingBuddys(BuddyListEntry *entry, int clan=0,char* group=NULL,BOOL dontscan=FALSE);
 int StatusIcon(WPARAM wParam,LPARAM lParam);
-int AddtoList( WPARAM wParam, LPARAM lParam );
-int BasicSearch(WPARAM wParam,LPARAM lParam);
-int GetAvatarInfo(WPARAM wParam, LPARAM lParam); //GAIR_NOAVATAR
-static int SearchAddtoList(WPARAM wParam,LPARAM lParam);
+
 void CreateGroup(char*grpn,char*field); //void CreateGroup(char*grp);
-int SetAwayMsg(WPARAM wParam, LPARAM lParam);
-int GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam);
 int ContactDeleted(WPARAM wParam,LPARAM /*lParam*/);
-int JoinGame(WPARAM wParam,LPARAM lParam);
+INT_PTR JoinGame(WPARAM wParam,LPARAM lParam);
 extern void Scan4Games( LPVOID lparam  );
-int RemoveFriend(WPARAM wParam,LPARAM lParam);
-int BlockFriend(WPARAM wParam,LPARAM lParam);
-int GetXStatusIcon(WPARAM wParam, LPARAM lParam);
-int StartThisGame(WPARAM wParam,LPARAM lParam);
+INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam);
+INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam);
+INT_PTR StartThisGame(WPARAM wParam,LPARAM lParam);
 int IconLibChanged(WPARAM wParam, LPARAM lParam);
-int SendPrefs(WPARAM wparam, LPARAM lparam);
 void SetAvatar2(LPVOID lparam);
 int ExtraListRebuild(WPARAM wparam, LPARAM lparam);
 int ExtraImageApply(WPARAM wparam, LPARAM lparam);
@@ -856,7 +860,7 @@ void StartIniUpdateAndDetection(LPVOID dummy)
 	LeaveCriticalSection(&connectingMutex);
 }
 
-int UrlCall(WPARAM wparam,LPARAM lparam) {
+INT_PTR UrlCall(WPARAM wparam,LPARAM lparam) {
 	//lparam!=0?
 	if(lparam) {
 		//nach dem doppelpunkt suchen
@@ -1172,33 +1176,33 @@ extern "C" __declspec(dllexport) int  Load(void)
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PSS_MESSAGE);
-	CreateServiceFunction( servicefunction,	SendMessage );
+	CreateServiceFunction( servicefunction, SendMessage );
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PSS_USERISTYPING);
-	CreateServiceFunction( servicefunction,	UserIsTyping );
+	CreateServiceFunction( servicefunction, UserIsTyping );
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PSR_MESSAGE);
-	CreateServiceFunction( servicefunction,	RecvMessage );
+	CreateServiceFunction( servicefunction, RecvMessage );
 
 	strcpy(servicefunction, XFIRE_URLCALL);
-	CreateServiceFunction( servicefunction,	UrlCall );
+	CreateServiceFunction( servicefunction, UrlCall );
 
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, PSS_GETAWAYMSG);
-	CreateServiceFunction( servicefunction,	GetAwayMsg );
+	CreateServiceFunction( servicefunction, GetAwayMsg );
 
 	strcpy(servicefunction, XFIRE_SET_NICK);
-	CreateServiceFunction( servicefunction,	SetNickName );
+	CreateServiceFunction( servicefunction, SetNickName );
 
 	strcpy(servicefunction, XFIRE_SEND_PREFS);
-	CreateServiceFunction( servicefunction,	SendPrefs );
+	CreateServiceFunction( servicefunction, SendPrefs );
 
 	//für mtipper, damit man das statusico übertragen kann
 	strcpy(servicefunction, protocolname);
 	strcat(servicefunction, "/GetXStatusIcon");
-	CreateServiceFunction( servicefunction,	GetXStatusIcon );
+	CreateServiceFunction( servicefunction, GetXStatusIcon );
 
 	char AvatarsFolder[MAX_PATH]= "";
 	char CurProfileF[MAX_PATH] = "";
@@ -1399,7 +1403,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 }
 
 //funktion liefert für xstatusid den passenden ico zurück, für tipper zb notwendig
-int GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
+INT_PTR GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
 	if(lParam == LR_SHARED)
 	{
 		if(wParam>1)
@@ -1414,7 +1418,7 @@ int GetXStatusIcon(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-int RecvMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = ( CCSDATA* )lParam;
     DBDeleteContactSetting(ccs->hContact, "CList", "Hidden");
@@ -1454,7 +1458,7 @@ static void SendBadAck( LPVOID param )
 	ProtoBroadcastAck(protocolname, param, ACKTYPE_MESSAGE, ACKRESULT_FAILED, (HANDLE) 0, LPARAM(Translate("XFire does not support offline messaging!")));
 }
 
-static int UserIsTyping(WPARAM wParam, LPARAM lParam)
+static INT_PTR UserIsTyping(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = ( HANDLE )wParam;
     DBVARIANT dbv;
@@ -1481,7 +1485,7 @@ static int UserIsTyping(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int SendMessage(WPARAM wParam, LPARAM lParam)
+INT_PTR SendMessage(WPARAM wParam, LPARAM lParam)
 {
     CCSDATA *ccs = (CCSDATA *) lParam;
 	PROTORECVEVENT* pre = (PROTORECVEVENT*)ccs->lParam;
@@ -1514,7 +1518,7 @@ int SendMessage(WPARAM wParam, LPARAM lParam)
 //GetCaps
 //=======================================================
 
-int GetCaps(WPARAM wParam,LPARAM lParam)
+INT_PTR GetCaps(WPARAM wParam,LPARAM lParam)
 {
 	if(wParam==PFLAGNUM_1)
 		return PF1_BASICSEARCH|PF1_MODEMSG|PF1_IM;
@@ -1536,7 +1540,7 @@ int GetCaps(WPARAM wParam,LPARAM lParam)
 //=======================================================
 //GetName (tray icon)
 //=======================================================
-int GetName(WPARAM wParam,LPARAM lParam)
+INT_PTR GetName(WPARAM wParam,LPARAM lParam)
 {
 	lstrcpyn((char*)lParam,"XFire",wParam);
 	return 0;
@@ -1545,7 +1549,7 @@ int GetName(WPARAM wParam,LPARAM lParam)
 //=======================================================
 //TMLoadIcon
 //=======================================================
-int TMLoadIcon(WPARAM wParam,LPARAM lParam)
+INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam)
 {
 	if(LOWORD( wParam ) == PLI_PROTOCOL) {
 		if(wParam & PLIF_ICOLIB)
@@ -1592,7 +1596,7 @@ static void ConnectingThread(LPVOID params)
 //=======================================================
 //SetStatus
 //=======================================================
-int SetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR SetStatus(WPARAM wParam,LPARAM lParam)
 {
 	int oldStatus;
 
@@ -1749,7 +1753,7 @@ int SetStatus(WPARAM wParam,LPARAM lParam)
 //=======================================================
 //GetStatus
 //=======================================================
-int GetStatus(WPARAM wParam,LPARAM lParam)
+INT_PTR GetStatus(WPARAM wParam,LPARAM lParam)
 {
 	if (bpStatus == ID_STATUS_ONLINE)
 		return ID_STATUS_ONLINE;
@@ -2125,7 +2129,7 @@ BOOL GetAvatar(char* username,XFireAvatar* av)
 	return status;
 }
 
-static int GetIPPort(WPARAM wParam,LPARAM lParam)
+static INT_PTR GetIPPort(WPARAM wParam,LPARAM lParam)
 {
 	char temp[XFIRE_MAX_STATIC_STRING_LEN];
     HGLOBAL clipbuffer;
@@ -2158,7 +2162,7 @@ static int GetIPPort(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int GetVIPPort(WPARAM wParam,LPARAM lParam)
+static INT_PTR GetVIPPort(WPARAM wParam,LPARAM lParam)
 {
 	char temp[XFIRE_MAX_STATIC_STRING_LEN];
     HGLOBAL clipbuffer;
@@ -2191,7 +2195,7 @@ static int GetVIPPort(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int GotoProfile(WPARAM wParam,LPARAM lParam)
+static INT_PTR GotoProfile(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 	char temp[64]="";
@@ -2208,7 +2212,7 @@ static int GotoProfile(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
+static INT_PTR GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	DBVARIANT dbv;
 	char temp[64]="";
 
@@ -2227,7 +2231,7 @@ static int GotoXFireClanSite(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-static int GotoProfile2(WPARAM wParam,LPARAM lParam)
+static INT_PTR GotoProfile2(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 	char temp[64]="";
@@ -2249,7 +2253,7 @@ static int GotoProfile2(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int GotoProfileAct(WPARAM wParam,LPARAM lParam)
+static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 {
 	DBVARIANT dbv;
 	char temp[64]="";
@@ -2828,7 +2832,7 @@ void gamedetectiont(LPVOID lparam)
 	}
 }
 
-static int ReScanMyGames(WPARAM wParam,LPARAM lParam)
+static INT_PTR ReScanMyGames(WPARAM wParam,LPARAM lParam)
 {
 	DBDeleteContactSetting(NULL, protocolname, "foundgames");
 
@@ -2837,7 +2841,7 @@ static int ReScanMyGames(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static int CustomGameSetup(WPARAM wParam,LPARAM lParam)
+static INT_PTR CustomGameSetup(WPARAM wParam,LPARAM lParam)
 {
 	//DialogBox(hinstance,MAKEINTRESOURCE(IDD_GAMELIST),NULL,DlgAddGameProc);
 	return 0;
@@ -3301,7 +3305,7 @@ HANDLE handlingBuddys(BuddyListEntry *entry, int clan,char*group,BOOL dontscan)
 	return hContact;
 }
 
-int AddtoList( WPARAM wParam, LPARAM lParam ) {
+INT_PTR AddtoList( WPARAM wParam, LPARAM lParam ) {
     CCSDATA* ccs = (CCSDATA*)lParam;
 
     if (ccs->hContact)
@@ -3340,7 +3344,7 @@ static void __cdecl AckBasicSearch(void * pszNick)
 	}
 }
 
-int BasicSearch(WPARAM wParam,LPARAM lParam) {
+INT_PTR BasicSearch(WPARAM wParam,LPARAM lParam) {
 	static char buf[50];
 	if ( lParam ) {
 		if(myClient!=NULL)
@@ -3357,7 +3361,7 @@ int BasicSearch(WPARAM wParam,LPARAM lParam) {
 
 
 
-static int SearchAddtoList(WPARAM wParam,LPARAM lParam)
+INT_PTR SearchAddtoList(WPARAM wParam,LPARAM lParam)
 {
 	PROTOSEARCHRESULT *psr = ( PROTOSEARCHRESULT* ) lParam;
 
@@ -3432,7 +3436,7 @@ void CreateGroup(char*grpn,char*field) {
 }
 
 
-int SetAwayMsg(WPARAM wParam, LPARAM lParam) {
+INT_PTR SetAwayMsg(WPARAM wParam, LPARAM lParam) {
 	EnterCriticalSection(&modeMsgsMutex);
 	if(( char* )lParam==NULL)
 	{
@@ -3488,7 +3492,7 @@ static void SendAMAck( LPVOID param )
 		ProtoBroadcastAck(protocolname, (HANDLE)param, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE) 1, LPARAM(""));
 }
 
-int SetNickName(WPARAM wparam, LPARAM newnick)
+INT_PTR SetNickName(WPARAM newnick, LPARAM lparam)
 {
 	if(newnick==NULL)
 	{
@@ -3506,7 +3510,7 @@ int SetNickName(WPARAM wparam, LPARAM newnick)
 }
 
 //sendet neue preferencen zu xfire
-int SendPrefs(WPARAM wparam, LPARAM lparam)
+INT_PTR SendPrefs(WPARAM wparam, LPARAM lparam)
 {
 	if(myClient!=NULL)
 		if(myClient->client->connected)
@@ -3523,7 +3527,7 @@ int SendPrefs(WPARAM wparam, LPARAM lparam)
 }
 
 
-int GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam)
+INT_PTR GetAwayMsg(WPARAM /*wParam*/, LPARAM lParam)
 {
 	CCSDATA* ccs = (CCSDATA*)lParam;
 
@@ -3566,7 +3570,7 @@ INT_PTR StartGame(WPARAM wParam,LPARAM lParam,LPARAM fParam) {
 	return 0;
 }
 
-int RemoveFriend(WPARAM wParam,LPARAM lParam) {
+INT_PTR RemoveFriend(WPARAM wParam,LPARAM lParam) {
 	char temp[256];
 	DBVARIANT dbv;
 
@@ -3595,7 +3599,7 @@ int RemoveFriend(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-int BlockFriend(WPARAM wParam,LPARAM lParam) {
+INT_PTR BlockFriend(WPARAM wParam,LPARAM lParam) {
 	DBVARIANT dbv;
 
 	if(!DBGetContactSettingString((HANDLE)wParam, protocolname, "Username",&dbv))
@@ -3620,7 +3624,7 @@ int BlockFriend(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-int StartThisGame(WPARAM wParam,LPARAM lParam) {
+INT_PTR StartThisGame(WPARAM wParam,LPARAM lParam) {
 	//gamelist blocken
 	xgamelist.Block(TRUE);
 
@@ -3640,7 +3644,7 @@ int StartThisGame(WPARAM wParam,LPARAM lParam) {
 	return 0;
 }
 
-int JoinGame(WPARAM wParam,LPARAM lParam) {
+INT_PTR JoinGame(WPARAM wParam,LPARAM lParam) {
 	//gamelist blocken
 	xgamelist.Block(TRUE);
 
@@ -3688,7 +3692,7 @@ int doneQuery( WPARAM wParam, LPARAM lParam ) {
 	return 0;
 }
 
-static int SetNickDlg(WPARAM wParam,LPARAM lParam) {
+static INT_PTR SetNickDlg(WPARAM wParam,LPARAM lParam) {
 	return ShowSetNick();
 }
 
@@ -3713,7 +3717,7 @@ int IconLibChanged(WPARAM wParam, LPARAM lParam) {
 }
 
 
-int GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
+INT_PTR GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 	PROTO_AVATAR_INFORMATION* pai = (PROTO_AVATAR_INFORMATION*)lParam;
 
 	if(DBGetContactSettingByte(NULL,protocolname,"noavatars",-1)!=0)

@@ -53,7 +53,7 @@ BOOL IsContactMySelf(std::string buddyusername) {
 }
 
 //liefert vollendateipfad vom eigenen avatar zurück, wenn definiert
-int GetMyAvatar(WPARAM wparam,LPARAM lparam) {
+INT_PTR GetMyAvatar(WPARAM wparam,LPARAM lparam) {
 	DBVARIANT dbv;
 
 	if(!DBGetContactSetting(NULL,protocolname,"MyAvatarFile",&dbv))

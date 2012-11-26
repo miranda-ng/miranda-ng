@@ -117,11 +117,13 @@ extern HINSTANCE hinstance;
 extern int bpStatus;
 
 //Services.c
-int GetCaps(WPARAM wParam,LPARAM lParam);
-int GetName(WPARAM wParam,LPARAM lParam);
-int TMLoadIcon(WPARAM wParam,LPARAM lParam);
-int SetStatus(WPARAM wParam,LPARAM lParam);
-int GetStatus(WPARAM wParam,LPARAM lParam);
+INT_PTR GetCaps(WPARAM wParam,LPARAM lParam);
+INT_PTR GetName(WPARAM wParam,LPARAM lParam);
+INT_PTR SetStatus(WPARAM wParam,LPARAM lParam);
+INT_PTR GetStatus(WPARAM wParam,LPARAM lParam);
+INT_PTR TMLoadIcon(WPARAM wParam,LPARAM lParam);
+INT_PTR SetNickName(WPARAM newnick, LPARAM lparam);
+
 BOOL IsXFireContact(HANDLE h);
 int displayPopup(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType,HICON hhicon=NULL);
 BOOL CreateToolTip(int toolID, HWND hDlg, CHAR* pText);
@@ -133,7 +135,6 @@ char* GetLaunchPath(char*launch);
 unsigned short r(unsigned short data);
 BOOL GetServerIPPort(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,char*ip2,char*ip3,char*ip4,long*port);
 BOOL GetServerIPPort2(DWORD pid,char*localaddrr,unsigned long localaddr,char*ip1,char*ip2,char*ip3,char*ip4,long*port);
-int SetNickName(WPARAM newnick, LPARAM lparam);
 BOOL FindTeamSpeak(DWORD*pid,int*vid);
 char*menuitemtext(char*mtext);
 BOOL checkCommandLine(HANDLE hProcess,char * mustcontain,char * mustnotcontain);
