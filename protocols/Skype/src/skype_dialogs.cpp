@@ -324,50 +324,63 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch(msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
-		ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT);
-		// Prepare ListView Columns
-		LV_COLUMN lvc = {0};
-		RECT rc;
-		GetClientRect(hwndList, &rc);
-		rc.right -= GetSystemMetrics(SM_CXVSCROLL);
-		lvc.mask = LVCF_WIDTH;
-		lvc.cx = rc.right / 3;
-		ListView_InsertColumn(hwndList, 0, &lvc);
-		lvc.cx = rc.right - lvc.cx;
-		ListView_InsertColumn(hwndList, 1, &lvc);
-		// Prepare Setting Items
-		LV_ITEM lvi = {0};
-		lvi.mask = LVIF_PARAM | LVIF_TEXT;
+		break;
 
-		for (lvi.iItem = 0; lvi.iItem < SIZEOF(setting); lvi.iItem++) 
-		{
-			lvi.lParam = lvi.iItem;
-			lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
-			ListView_InsertItem(hwndList, &lvi);
-			wchar_t *text;
-			switch(setting[lvi.iItem].dbType) {
-			DBVARIANT dbv;
-			case DBVT_WCHAR:
-				//text = this->GetSettingString(setting[lvi.iItem].szDbSetting);
-				/*if ( !DBGetContactSettingWString(NULL, "Skype_1", setting[lvi.iItem].szDbSetting, &dbv)) {
-					text = mir_tstrdup(dbv.pwszVal);
-					db_free(&dbv);
-				}*/
+	case WM_NOTIFY:
+		switch (((LPNMHDR)lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR)lParam)->code) {
+			case PSN_PARAMCHANGED:
+				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
+				break;
 
-				break;
-			case DBVT_BYTE:
-				//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
-				break;
-			case DBVT_WORD:
-				//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
+			case PSN_INFOCHANGED:
+				{
+					CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+					if (!ppro)
+						break;
+
+					HWND hwndList = GetDlgItem(hwndDlg, IDC_LIST);
+					ListView_SetExtendedListViewStyle(hwndList, LVS_EX_FULLROWSELECT);
+					// Prepare ListView Columns
+					LV_COLUMN lvc = {0};
+					RECT rc;
+					GetClientRect(hwndList, &rc);
+					rc.right -= GetSystemMetrics(SM_CXVSCROLL);
+					lvc.mask = LVCF_WIDTH;
+					lvc.cx = rc.right / 3;
+					ListView_InsertColumn(hwndList, 0, &lvc);
+					lvc.cx = rc.right - lvc.cx;
+					ListView_InsertColumn(hwndList, 1, &lvc);
+					// Prepare Setting Items
+					LV_ITEM lvi = {0};
+					lvi.mask = LVIF_PARAM | LVIF_TEXT;
+
+					for (lvi.iItem = 0; lvi.iItem < SIZEOF(setting); lvi.iItem++) 
+					{
+						lvi.lParam = lvi.iItem;
+						lvi.pszText = (LPTSTR)setting[lvi.iItem].szDescription;
+						ListView_InsertItem(hwndList, &lvi);
+						wchar_t *text = L"";
+						switch(setting[lvi.iItem].dbType) {
+						case DBVT_WCHAR:
+							text = ppro->GetSettingString(setting[lvi.iItem].szDbSetting);
+							break;
+						case DBVT_BYTE:
+							//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
+							break;
+						case DBVT_WORD:
+							//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
+							break;
+						}
+						ListView_SetItemText(hwndList, lvi.iItem, 1, text);
+					}
+				}
 				break;
 			}
-			ListView_SetItemText(hwndList, lvi.iItem, 1, text);
+			break;
 		}
-
-		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		return TRUE;
+		break;
 	}
 	return FALSE;
 }
