@@ -494,3 +494,5 @@
 Проливной дождь
 [Rain 40% Chance Of Precipitation]
 Дождь, 40% вероятность осадков
+[Chance Rain 40% Chance Of Precipitation]
+Возможен дождь, 40% вероятность осадков
