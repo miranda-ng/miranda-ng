@@ -225,7 +225,7 @@ static INT_PTR Proto_AddToContact(WPARAM wParam, LPARAM lParam)
 		return 1;
 	}
 
-	if (pd->type == PROTOTYPE_PROTOCOL)
+	if (pd->type == PROTOTYPE_PROTOCOL || pd->type == PROTOTYPE_VIRTUAL)
 		db_set_s((HANDLE)wParam, "Protocol", "p", szProto);
 
 	return 0;
