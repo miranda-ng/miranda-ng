@@ -368,10 +368,21 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 								break;
 							case DBVT_BYTE:
 							{
-								wchar_t tmp[10];
-								_ltot(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting), tmp, 10);
-								text = mir_tstrdup(tmp);
-								//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
+								if (!strcmp(setting[lvi.iItem].szDbSetting, "Gender")) {
+									switch(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting)) {
+									case 'M':
+										text = L"Male";
+										break;
+									case 'F':
+										text = L"Female";
+										break;
+									}
+								//} else if (!strcmp(setting[lvi.iItem].szDbSetting, "Timezone")) {
+								} else {
+									wchar_t tmp[10];
+									_ltot(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting), tmp, 10);
+									text = mir_tstrdup(tmp);
+								}
 								break;
 							}
 							case DBVT_WORD:
@@ -384,7 +395,7 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 							}
 						}
 						ListView_SetItemText(hwndList, lvi.iItem, 1, text);
-						if (setting[lvi.iItem].dbType != DBVT_WCHAR)
+						if (setting[lvi.iItem].dbType == DBVT_WORD || (strcmp(setting[lvi.iItem].szDbSetting, "Gender") && setting[lvi.iItem].dbType == DBVT_BYTE))
 							mir_free(text);
 					}
 				}
