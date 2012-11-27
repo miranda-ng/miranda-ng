@@ -355,6 +355,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NoHistory", "..\plugins\NoH
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "NotesReminders", "..\plugins\NotesAndReminders\NotesReminders.vcxproj", "{EEB57129-946C-4B98-8856-FDA501AE2A5E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EmLanProto", "..\protocols\EmLanProto\amdproto.vcxproj", "{2115FEBC-1EC4-4F95-A058-A523ED5295A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1571,6 +1573,14 @@ Global
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|Win32.Build.0 = Release|Win32
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.ActiveCfg = Release|x64
 		{EEB57129-946C-4B98-8856-FDA501AE2A5E}.Release|x64.Build.0 = Release|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|Win32.Build.0 = Debug|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.ActiveCfg = Debug|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Debug|x64.Build.0 = Debug|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.ActiveCfg = Release|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|Win32.Build.0 = Release|Win32
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.ActiveCfg = Release|x64
+		{2115FEBC-1EC4-4F95-A058-A523ED5295A4}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
