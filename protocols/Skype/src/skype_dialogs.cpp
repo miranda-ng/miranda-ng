@@ -363,17 +363,29 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 						ListView_InsertItem(hwndList, &lvi);
 						wchar_t *text = L"";
 						switch(setting[lvi.iItem].dbType) {
-						case DBVT_WCHAR:
-							text = ppro->GetSettingString(setting[lvi.iItem].szDbSetting);
-							break;
-						case DBVT_BYTE:
-							//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
-							break;
-						case DBVT_WORD:
-							//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
-							break;
+							case DBVT_WCHAR:
+								text = ppro->GetSettingString(setting[lvi.iItem].szDbSetting);
+								break;
+							case DBVT_BYTE:
+							{
+								wchar_t tmp[10];
+								_ltot(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting), tmp, 10);
+								text = mir_tstrdup(tmp);
+								//text = (wchar_t*)ppro->GetSettingByte(setting[lvi.iItem].szDbSetting);
+								break;
+							}
+							case DBVT_WORD:
+							{
+								wchar_t tmp[10];
+								_ltot(ppro->GetSettingWord(setting[lvi.iItem].szDbSetting), tmp, 10);
+								text = mir_tstrdup(tmp);
+								//text = (wchar_t*)ppro->GetSettingWord(setting[lvi.iItem].szDbSetting);
+								break;
+							}
 						}
 						ListView_SetItemText(hwndList, lvi.iItem, 1, text);
+						if (setting[lvi.iItem].dbType != DBVT_WCHAR)
+							mir_free(text);
 					}
 				}
 				break;
