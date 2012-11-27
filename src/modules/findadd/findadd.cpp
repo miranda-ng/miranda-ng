@@ -1038,7 +1038,7 @@ static int OnSystemModulesLoaded(WPARAM, LPARAM)
 	int netProtoCount = 0;
 
 	// Make sure we have some networks to search on.
-	for (int i=0, netProtoCount = 0; i < accounts.getCount(); i++) {
+	for (int i=0; i < accounts.getCount(); i++) {
 		PROTOACCOUNT* pa = accounts[i];
 		int protoCaps = CallProtoServiceInt(NULL, pa->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (protoCaps & (PF1_BASICSEARCH | PF1_SEARCHBYEMAIL | PF1_SEARCHBYNAME | PF1_EXTSEARCHUI))
