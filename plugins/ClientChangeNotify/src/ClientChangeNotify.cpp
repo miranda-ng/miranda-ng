@@ -204,14 +204,13 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 	if (!lstrcmpA(cws->szSetting, DB_MIRVER)) {
 		HANDLE hContact = (HANDLE)wParam;
 		SHOWPOPUP_DATA sd = {0};
-		char *szProto = NULL;
+		char *szProto = GetContactProto(hContact);
 		if (g_PreviewOptPage)
 			sd.MirVer = _T("Miranda IM 0.6.0.1 (ICQ v0.3.7 alpha)");
 		else {
 			if (!hContact) // exit if hContact == NULL and it's not a popup preview
 				return 0;
 
-			szProto = GetContactProto(hContact);
 			_ASSERT(szProto);
 			if (ServiceExists(MS_MC_GETPROTOCOLNAME) && !strcmp(szProto, (char*)CallService(MS_MC_GETPROTOCOLNAME, 0, 0))) // workaround for metacontacts
 				return 0;
@@ -287,7 +286,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 				_ASSERT(szProto);
 				TCString szUID(_T(""));
 				char *uid = (char*)CallProtoService(szProto, PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0);
-				if (uid && (int)uid != CALLSERVICE_NOTFOUND)
+				if (uid && (INT_PTR)uid != CALLSERVICE_NOTFOUND)
 					szUID = DBGetContactSettingAsString(hContact, szProto, uid, _T(""));
 
 				logservice_log(LOG_ID, hContact, TCString((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)) + _T(" (") + szUID + TranslateT(") changed client to ") + ClientName);
