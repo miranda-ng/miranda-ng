@@ -378,7 +378,7 @@ void AddMenuItems(void)
 		CreateServiceFunction("Weather/mwin_menu", Mwin_MenuClicked);
 		mi.position = -0x7FFFFFF0;
 		mi.hIcon = NULL;
-		mi.flags = CMIF_TCHAR;
+		mi.flags = 0;
 		mi.pszName = LPGEN("Display in a frame");
 		mi.pszService = "Weather/mwin_menu";
 		hMwinMenu = Menu_AddContactMenuItem(&mi);
