@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -43,19 +44,19 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		if ( IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
-			if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
-				if (!_tcsicmp(psr->email, dbv.ptszVal)) {
+			if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+				if ( !_tcsicmp(psr->email, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
-					if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 1)) {
-						DBDeleteContactSetting(hContact, "CList", "NotOnList");
-						DBDeleteContactSetting(hContact, "CList", "Hidden");						
+					if (db_get_b(hContact, "CList", "NotOnList", 1)) {
+						db_unset(hContact, "CList", "NotOnList");
+						db_unset(hContact, "CList", "Hidden");						
 					}
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 					// contact is added, function quitting
 					return (INT_PTR)hContact;
 				}
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 		hContact = db_find_next(hContact);
@@ -75,31 +76,31 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	// set settings by obtaining the default for the service 
 	if (psr->lastName[0] != 0) {
 		sData = GetWIData(svc);
-		DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
-		DBWriteContactSettingString(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
+		db_set_ts(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
+		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
 	}
 	else { // if no valid service is found, create empty strings for MapURL and InfoURL
-		DBWriteContactSettingString(hContact, WEATHERPROTONAME, "MapURL", "");
-		DBWriteContactSettingString(hContact, WEATHERPROTONAME, "InfoURL", "");
+		db_set_s(hContact, WEATHERPROTONAME, "MapURL", "");
+		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", "");
 	}
 	// write the other info and settings to the database
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "ID", psr->email);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "Nick", psr->nick);
-	DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
+	db_set_ts(hContact, WEATHERPROTONAME, "ID", psr->email);
+	db_set_ts(hContact, WEATHERPROTONAME, "Nick", psr->nick);
+	db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_OFFLINE);
 
 	AvatarDownloaded(hContact);
 
 	TCHAR str[256];
 	mir_sntprintf(str, SIZEOF(str), TranslateT("Current weather information for %s."), psr->nick);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "About", str);
+	db_set_ts(hContact, WEATHERPROTONAME, "About", str);
 
 	// make the last update tags to something invalid
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastLog", "never");
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastCondition", "None");
-	DBWriteContactSettingString(hContact, WEATHERPROTONAME, "LastTemperature", "None");
+	db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
+	db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
+	db_set_s(hContact, WEATHERPROTONAME, "LastTemperature", "None");
 
 	// ignore status change
-	DBWriteContactSettingDword(hContact, "Ignore", "Mask", 8);
+	db_set_dw(hContact, "Ignore", "Mask", 8);
 
 	// if no default station is found, set the new contact as default station
 	if (opt.Default[0] == 0) {
@@ -107,13 +108,13 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
 
 		opt.DefStn = hContact;
-		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
 			wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
 		}
-		DBWriteContactSettingTString(NULL, WEATHERPROTONAME, "Default", opt.Default);
+		db_set_ts(NULL, WEATHERPROTONAME, "Default", opt.Default);
 	}
 	// display the Edit Settings dialog box
 	EditSettings((WPARAM)hContact, 0);
@@ -330,7 +331,7 @@ int NameSearchProc(TCHAR *name, const int searchId, WINAMESEARCH *sData, TCHAR *
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 				}
 				// if station name appears first in the downloaded data
-				else if (!_tcsicmp(sData->Single.First, _T("NAME"))) {
+				else if ( !_tcsicmp(sData->Single.First, _T("NAME"))) {
 					GetDataValue(&sData->Single.Name, Name, &szInfo);
 					GetDataValue(&sData->Single.ID, str, &szInfo);
 					wsprintf(sID, _T("%s/%s"), svc, str);
@@ -421,7 +422,7 @@ int NameSearch(TCHAR *name, const int searchId)
 // add a new weather station via find/add dialog
 int WeatherAdd(WPARAM wParam, LPARAM lParam) 
 {
-	DBWriteContactSettingString(NULL, "FindAdd", "LastSearched", "Weather");
+	db_set_s(NULL, "FindAdd", "LastSearched", "Weather");
 	CallService(MS_FINDADD_FINDADD, 0, 0);
 	return 0;
 }

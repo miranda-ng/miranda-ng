@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -84,7 +85,7 @@ INT_PTR CALLBACK DlgProcUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		SendDlgItemMessage(hwndDlg, IDC_INFOICON, STM_SETICON, 
 			(WPARAM)LoadSkinnedProtoIcon(WEATHERPROTONAME,
-			DBGetContactSettingWord(hContact, WEATHERPROTONAME, "StatusIcon",0)), 0);
+			db_get_w(hContact, WEATHERPROTONAME, "StatusIcon",0)), 0);
 
 		{	// bold and enlarge the current condition
 			LOGFONT lf;
@@ -227,7 +228,7 @@ INT_PTR CALLBACK DlgProcMoreData(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 
 		// set icons
 		{
-			WORD statusIcon = DBGetContactSettingWord(hContact, WEATHERPROTONAME, "StatusIcon", 0);
+			WORD statusIcon = db_get_w(hContact, WEATHERPROTONAME, "StatusIcon", 0);
 
 			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadSkinnedProtoIconBig(WEATHERPROTONAME, statusIcon)));
 			ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadSkinnedProtoIcon(WEATHERPROTONAME, statusIcon)));
@@ -355,7 +356,7 @@ void LoadBriefInfoText(HWND hwndDlg, HANDLE hContact)
 	// load weather information from the contact into the WEATHERINFO struct
 	winfo = LoadWeatherInfo(hContact);
 	// check if data exist.  If not, display error message box
-	if (!(BOOL)DBGetContactSettingByte(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
+	if ( !(BOOL)db_get_b(hContact, WEATHERPROTONAME, "IsUpdated", FALSE))
 		_tcscpy(str, TranslateT("No information available.\r\nPlease update weather condition first."));
 	else
 		// set the display text and show the message box

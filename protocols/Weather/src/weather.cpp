@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,8 +36,6 @@ HWND hPopupWindow;
 
 HANDLE hHookWeatherUpdated;
 HANDLE hHookWeatherError;
-
-static HANDLE hHooks[9];
 
 HANDLE hDataWindowList;
 HANDLE hWindowList;
@@ -113,11 +112,11 @@ void Upgrade(DWORD lastver)
 {
 	// for version below v0.3.2.3, remove the "TriggerText" setting
 	if (lastver < PLUGIN_MAKE_VERSION(0,3,2,3))
-		DBDeleteContactSetting(NULL, WEATHERPROTONAME, "TriggerText");
+		db_unset(NULL, WEATHERPROTONAME, "TriggerText");
 	if (lastver < PLUGIN_MAKE_VERSION(0,3,3,13))
-		DBDeleteContactSetting(NULL, "KnownModules", "Weather");
+		db_unset(NULL, "KnownModules", "Weather");
 
-	DBWriteContactSettingDword(NULL, WEATHERPROTONAME, "Version", __VERSION_DWORD);
+	db_set_dw(NULL, WEATHERPROTONAME, "Version", __VERSION_DWORD);
 }
 
 // weather protocol initialization function
@@ -137,7 +136,7 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
 
 	// weather user detail
-	hHooks[0] = HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
+	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
 
 	hDataWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
@@ -153,8 +152,8 @@ void UpgradeContact(DWORD lastver, HANDLE hContact)
 	// for version below v0.3.2.3, suppress online notifications for all weather contacts
 	if (lastver < PLUGIN_MAKE_VERSION(0,3,2,3)) 
 	{
-		DBWriteContactSettingDword(hContact, "Ignore", "Mask", 8);
-		DBWriteContactSettingDword(hContact, "Ignore", "Mask1", 8);
+		db_set_dw(hContact, "Ignore", "Mask", 8);
+		db_set_dw(hContact, "Ignore", "Mask1", 8);
 	}
 }
 
@@ -176,18 +175,11 @@ void InitVar()
 // unload function
 extern "C" int __declspec(dllexport) Unload(void) 
 {
-	unsigned i;
-
 	DestroyMwin();
 	DestroyWindow(hPopupWindow);
 
-	for (i = SIZEOF(hHooks); i--; )
-		UnhookEvent(hHooks[i]);
-
 	DestroyHookableEvent(hHookWeatherUpdated);
 	DestroyHookableEvent(hHookWeatherError);
-
-	DestroyServices();
 
 	NetlibHttpDisconnect();
 	Netlib_CloseHandle(hNetlibUser);
@@ -197,14 +189,12 @@ extern "C" int __declspec(dllexport) Unload(void)
 	DestroyWIList();				// unload all ini data from memory
 
 	CloseHandle(hUpdateMutex);
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void) 
 {
 	DWORD lastver;
-
 
 	mir_getLP(&pluginInfoEx);
 
@@ -218,7 +208,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// I only support version check and upgrade for my own version, so check if the author is my name
 	if (strstr(AUTH, "NoName") != NULL) 
 	{
-		lastver = DBGetContactSettingDword(NULL, WEATHERPROTONAME, "Version", PLUGIN_MAKE_VERSION(0,3,1,8));
+		lastver = db_get_dw(NULL, WEATHERPROTONAME, "Version", PLUGIN_MAKE_VERSION(0,3,1,8));
 		if (lastver < __VERSION_DWORD)	Upgrade(lastver);
 	}
 	else	// if it is not my build, ignore upgrade procedure
@@ -238,28 +228,28 @@ extern "C" int __declspec(dllexport) Load(void)
 	hHookWeatherError = CreateHookableEvent(ME_WEATHER_ERROR);
 
 	// initialize options and network
-	hHooks[1] = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hHooks[2] = HookEvent(ME_SYSTEM_MODULESLOADED, WeatherInit);
-	hHooks[3] = HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
-	hHooks[4] = HookEvent(ME_CLIST_DOUBLECLICKED, BriefInfo);
-	hHooks[5] = HookEvent(ME_WEATHER_UPDATED, WeatherPopup);
-	hHooks[6] = HookEvent(ME_WEATHER_ERROR, WeatherError);
-	hHooks[7] = HookEvent(ME_SYSTEM_PRESHUTDOWN, WeatherShutdown);
-	hHooks[8] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, WeatherInit);
+	HookEvent(ME_DB_CONTACT_DELETED, ContactDeleted);
+	HookEvent(ME_CLIST_DOUBLECLICKED, BriefInfo);
+	HookEvent(ME_WEATHER_UPDATED, WeatherPopup);
+	HookEvent(ME_WEATHER_ERROR, WeatherError);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, WeatherShutdown);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, BuildContactMenu);
 
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
 
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = WEATHERPROTONAME;
-	pd.type = PROTOTYPE_PROTOCOL;
-	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
+	pd.type = (opt.NoProtoCondition) ? PROTOTYPE_VIRTUAL : PROTOTYPE_PROTOCOL;
+	CallService(MS_PROTO_REGISTERMODULE,0, (LPARAM)&pd);
 
 	// initialize weather protocol services
 	InitServices();
 
 	// add our modules to the KnownModules list 
-	DBWriteContactSettingString(NULL, "KnownModules", "Weather Protocol", "Weather,WeatherCondition,Current");
+	db_set_s(NULL, "KnownModules", "Weather Protocol", "Weather,WeatherCondition,Current");
 
 	// add sound event
 	SkinAddNewSoundExT("weatherupdated", _T(WEATHERPROTONAME), LPGENT("Weather Condition Changed"));
@@ -269,7 +259,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	TCHAR SvcFunc[100];
 	mir_sntprintf( SvcFunc, SIZEOF(SvcFunc), _T("%s__PopupWindow"), _T(WEATHERPROTONAME));
 	hPopupWindow = CreateWindowEx(WS_EX_TOOLWINDOW,_T("static"),SvcFunc,0,CW_USEDEFAULT,CW_USEDEFAULT,
-		CW_USEDEFAULT,CW_USEDEFAULT,HWND_DESKTOP,NULL,hInst,NULL);
+		CW_USEDEFAULT,CW_USEDEFAULT,HWND_DESKTOP,NULL, hInst,NULL);
 	SetWindowLongPtr(hPopupWindow, GWLP_WNDPROC, (LONG_PTR)PopupWndProc);
 
 	return 0; 

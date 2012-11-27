@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2006-2009 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2006 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2006-2009 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2006 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -111,7 +112,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 		break;
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)data->hContact))
+		if ( CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)data->hContact))
 			break;
 		return FALSE;
 
@@ -154,9 +155,9 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				int picSize = opt.AvatarSize;
 				HICON hIcon = NULL;
 
-				if (!data->haveAvatar)
+				if ( !data->haveAvatar)
 				{
-					int statusIcon = DBGetContactSettingWord(data->hContact, WEATHERPROTONAME, "Status", 0);
+					int statusIcon = db_get_w(data->hContact, WEATHERPROTONAME, "Status", 0);
 
 					picSize = GetSystemMetrics(SM_CXICON);
 					hIcon = LoadSkinnedProtoIconBig(WEATHERPROTONAME, statusIcon);
@@ -167,7 +168,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					}
 				}
 
-				clr = DBGetContactSettingDword(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
+				clr = db_get_dw(NULL, WEATHERPROTONAME, "ColorMwinFrame", GetSysColor(COLOR_3DFACE));
 
 				{
 					FontIDT fntid = {0};
@@ -185,7 +186,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 				HDC hdc = BeginPaint(hwnd, &ps);
 
-				if (ServiceExists(MS_SKIN_DRAWGLYPH)) {
+				if ( ServiceExists(MS_SKIN_DRAWGLYPH)) {
 					SKINDRAWREQUEST rq;
 					memset(&rq, 0, sizeof(rq));
 					rq.hDC = hdc;
@@ -202,7 +203,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 					DeleteObject(hBkgBrush);
 				}
 
-				if (!data->haveAvatar)
+				if ( !data->haveAvatar)
 					DrawIconEx(hdc, 1, 1, hIcon, 0, 0, 0, NULL, DI_NORMAL);
 
 				SetBkMode(hdc, TRANSPARENT);
@@ -239,7 +240,7 @@ static LRESULT CALLBACK wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 				}
 				EndPaint(hwnd, &ps);
 				Skin_ReleaseIcon(hIcon);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 			break;
 		}
@@ -257,7 +258,7 @@ static void addWindow(HANDLE hContact)
 
 	TCHAR winname[512];
 	mir_sntprintf(winname, SIZEOF(winname), _T("Weather: %s"), dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	HWND hWnd = CreateWindow( _T("WeatherFrame"), _T(""), WS_CHILD | WS_VISIBLE, 
 		0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, hContact);
@@ -273,19 +274,19 @@ static void addWindow(HANDLE hContact)
 	Frame.height = 32;
 	DWORD frameID = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
-	DBWriteContactSettingDword(hContact, WEATHERPROTONAME, "mwin", frameID);
-	DBWriteContactSettingByte(hContact, "CList", "Hidden", TRUE);
+	db_set_dw(hContact, WEATHERPROTONAME, "mwin", frameID);
+	db_set_b(hContact, "CList", "Hidden", TRUE);
 }
 
 void removeWindow(HANDLE hContact) 
 {
-	DWORD frameId = DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0);
+	DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
 
 	WindowList_Remove(hMwinWindowList, WindowList_Find(hMwinWindowList, hContact));
 	CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 
-	DBWriteContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0);
-	DBDeleteContactSetting(hContact, "CList", "Hidden");
+	db_set_dw(hContact, WEATHERPROTONAME, "mwin", 0);
+	db_unset(hContact, "CList", "Hidden");
 }
 
 void UpdateMwinData(HANDLE hContact) 
@@ -313,7 +314,7 @@ int BuildContactMenu(WPARAM wparam,LPARAM lparam)
 
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | 
-		(DBGetContactSettingDword((HANDLE)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
+		(db_get_dw((HANDLE)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMwinMenu, (LPARAM)&mi);
 	return 0;
 }
@@ -330,7 +331,7 @@ void InitMwin(void)
 {
 	HMODULE hUser = GetModuleHandle(_T("user32.dll"));
 
-	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
+	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) return;
 
 	f_TrackMouseEvent = (ft_TrackMouseEvent)GetProcAddress(hUser, "TrackMouseEvent");
 
@@ -392,7 +393,7 @@ void InitMwin(void)
 		// see if the contact is a weather contact
 		if (IsMyContact(hContact)) 
 		{
-			if (DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0))
+			if (db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0))
 				addWindow(hContact);
 		}
 		hContact = db_find_next(hContact);
@@ -408,7 +409,7 @@ void DestroyMwin(void)
 		// see if the contact is a weather contact
 		if (IsMyContact(hContact)) 
 		{
-			DWORD frameId = DBGetContactSettingDword(hContact, WEATHERPROTONAME, "mwin", 0);
+			DWORD frameId = db_get_dw(hContact, WEATHERPROTONAME, "mwin", 0);
 			if (frameId)
 				CallService(MS_CLIST_FRAMES_REMOVEFRAME, frameId, 0);
 		}

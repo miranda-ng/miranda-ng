@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -81,7 +82,7 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 	while (result == 0xBADBAD) {
 		// download the page
 		NETLIBHTTPREQUEST *nlhrReply = (NETLIBHTTPREQUEST*)CallService(MS_NETLIB_HTTPTRANSACTION,
-			(WPARAM)hNetlibUser,(LPARAM)&nlhr);
+			(WPARAM)hNetlibUser, (LPARAM)&nlhr);
 
 		if (nlhrReply) {
 			// if the recieved code is 200 OK
@@ -161,7 +162,7 @@ int InternetDownloadFile (char *szUrl, char* cookie, TCHAR** szData)
 
 			hNetlibHttp = nlhrReply->nlc;
 			// make a copy of the retrieved data, then free the memory of the http reply
-			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0,(LPARAM)nlhrReply);
+			CallService(MS_NETLIB_FREEHTTPREQUESTSTRUCT,0, (LPARAM)nlhrReply);
 		}
 		// if the data does not downloaded successfully (ie. disconnected), then return 1000 as error code
 		else 
@@ -190,7 +191,7 @@ void NetlibInit(void)
 	nlu.flags = NUF_OUTGOING|NUF_HTTPCONNS|NUF_NOHTTPSOPTION|NUF_TCHAR;
 	nlu.szSettingsModule = WEATHERPROTONAME;
 	nlu.ptszDescriptiveName = TranslateT("Weather HTTP connections");
-	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
+	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0, (LPARAM)&nlu);
 }
 
 void NetlibHttpDisconnect(void) 

@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2009 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2009 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -35,7 +36,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 {
 	// determine if the popup should display or not
 	if (opt.UsePopup && opt.UpdatePopup && (!opt.PopupOnChange || (BOOL)lParam) &&
-	      !DBGetContactSettingByte((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
+	      !db_get_b((HANDLE)wParam, WEATHERPROTONAME, "DPopUp", 0)) 
 	{
 		POPUPDATAT ppd = {0};
 		WEATHERINFO winfo;
@@ -72,7 +73,7 @@ int WeatherPopup(WPARAM wParam, LPARAM lParam)
 
 int WeatherError(WPARAM wParam, LPARAM lParam) 
 {
-	if (!opt.UsePopup)
+	if ( !opt.UsePopup)
 		return 0;
 
 	TCHAR* tszMsg = ( TCHAR* )wParam;
@@ -191,7 +192,7 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		CallService(MS_USERINFO_SHOWDIALOG, wParam, 0);
 
 	case WM_COMMAND:	 //Needed by the contact's context menu
-		if (CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU),(LPARAM)hPopupContact))
+		if ( CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(wParam),MPCF_CONTACTMENU), (LPARAM)hPopupContact))
 			break;
 		return FALSE;
 
@@ -309,7 +310,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		// enable the "apply" button 
 		if (HIWORD(wParam) == BN_CLICKED && GetFocus() == (HWND)lParam)
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
-		if (!((LOWORD(wParam) == IDC_UPDATE || LOWORD(wParam) == IDC_DEGREE) && 
+		if ( !((LOWORD(wParam) == IDC_UPDATE || LOWORD(wParam) == IDC_DEGREE) && 
 			(HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())))
 			SendMessage(GetParent(hdlg),PSM_CHANGED,0,0);
 		//These are simple clicks: we don't save, but we tell the Options Page to enable the "Apply" button.

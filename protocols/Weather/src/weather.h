@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -440,7 +441,6 @@ void wfree(char **Data);
 void wfree(WCHAR **Data);
 
 void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam);
-int GetWeatherDataFromDB(const char *szSetting, LPARAM lparam);
 
 // functions in weather_http.c
 int InternetDownloadFile (char *szUrl, char *cookie, TCHAR** szData);
@@ -490,7 +490,6 @@ LRESULT CALLBACK PopupWndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 
 // functions in weather_svcs.c
 void InitServices(void);
-void DestroyServices(void);
 
 INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam);
 INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam);

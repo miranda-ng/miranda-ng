@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -67,10 +68,10 @@ int UpdateWeather(HANDLE hContact)
 		// log to netlib
 		Netlib_LogfT(hNetlibUser, _T("Error! Update cannot continue... Start to free memory"));
 		Netlib_LogfT(hNetlibUser, _T("<-- Error occurs while updating station: %s -->"), dbv.ptszVal);
-		if (!dbres) DBFreeVariant(&dbv);
+		if ( !dbres) db_free(&dbv);
 		return 1;
 	}
-	if (!dbres) DBFreeVariant(&dbv);
+	if ( !dbres) db_free(&dbv);
 
 	// initialize, load new weather Data
 	WEATHERINFO winfo = LoadWeatherInfo(hContact);
@@ -80,74 +81,74 @@ int UpdateWeather(HANDLE hContact)
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
 			if (_tcsicmp(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
 			if (_tcsicmp(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if (!DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
 			if (_tcsicmp(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 
 	// have weather alert issued?
 	dbres = DBGetContactSettingTString(hContact, WEATHERCONDITION, "Alert", &dbv);
-	if (!dbres && dbv.ptszVal[0] != 0) {
-		if (opt.AlertPopup && !DBGetContactSettingByte(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
+	if ( !dbres && dbv.ptszVal[0] != 0) {
+		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
 			wsprintf(str, _T("Alert for %s%c%s"), winfo.city, 255, dbv.ptszVal);
 			WPShowMessage(str, SM_WEATHERALERT);
 		}
 		// alert issued, set display to italic
 		if (opt.MakeItalic)
-			DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "ApparentMode", ID_STATUS_OFFLINE);
+			db_set_w(hContact, WEATHERPROTONAME, "ApparentMode", ID_STATUS_OFFLINE);
 		SkinPlaySound("weatheralert");
 	}
 	// alert dropped, set the display back to normal
-	else	DBDeleteContactSetting(hContact, WEATHERPROTONAME, "ApparentMode");
-	if (!dbres) DBFreeVariant(&dbv);
+	else	db_unset(hContact, WEATHERPROTONAME, "ApparentMode");
+	if ( !dbres) db_free(&dbv);
 
 	// backup current condition for checking if the weather is changed or not
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
+	db_set_ts(hContact, WEATHERPROTONAME, "LastLog", winfo.update);
+	db_set_ts(hContact, WEATHERPROTONAME, "LastCondition", winfo.cond);
+	db_set_ts(hContact, WEATHERPROTONAME, "LastTemperature", winfo.temp);
+	db_set_ts(hContact, WEATHERPROTONAME, "LastUpdate", winfo.update);
 
 	// display condition on contact list
 	if (opt.DisCondIcon && winfo.status != ID_STATUS_OFFLINE)
-		DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "Status", ID_STATUS_ONLINE);
+		db_set_w(hContact, WEATHERPROTONAME, "Status", ID_STATUS_ONLINE);
 	else
-		DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "Status", winfo.status);
+		db_set_w(hContact, WEATHERPROTONAME, "Status", winfo.status);
 	AvatarDownloaded(hContact);
 
 	GetDisplay(&winfo, opt.cText, str2);
-	DBWriteContactSettingTString(hContact, "CList", "MyHandle", str2);
+	db_set_ts(hContact, "CList", "MyHandle", str2);
 
 	GetDisplay(&winfo, opt.sText, str2);
 	if (str2[0])
-		DBWriteContactSettingTString(hContact, "CList", "StatusMsg", str2);
+		db_set_ts(hContact, "CList", "StatusMsg", str2);
 	else
-		DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+		db_unset(hContact, "CList", "StatusMsg");
 
 	ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, NULL, (LPARAM)(str2[0] ? str2 : 0));
 
 	// save descriptions in MyNotes
 	GetDisplay(&winfo, opt.nText, str2);
-	DBWriteContactSettingTString(hContact, "UserInfo", "MyNotes", str2);
+	db_set_ts(hContact, "UserInfo", "MyNotes", str2);
 	GetDisplay(&winfo, opt.xText, str2);
-	DBWriteContactSettingTString(hContact, WEATHERCONDITION, "WeatherInfo", str2);
+	db_set_ts(hContact, WEATHERCONDITION, "WeatherInfo", str2);
 
 	// set the update tag
-	DBWriteContactSettingByte(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
+	db_set_b(hContact, WEATHERPROTONAME, "IsUpdated", TRUE);
 
 	// save info for default weather condition
 	if ( !_tcscmp(winfo.id, opt.Default) && !opt.NoProtoCondition) {
@@ -164,15 +165,15 @@ int UpdateWeather(HANDLE hContact)
 		// play the sound event
 		SkinPlaySound("weatherupdated");
 
-		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "File", 0)) {
+		if (db_get_b(hContact, WEATHERPROTONAME, "File", 0)) {
 			// external log
-			if (!DBGetContactSettingTString(hContact,WEATHERPROTONAME,"Log",&dbv)) {
+			if ( !DBGetContactSettingTString(hContact,WEATHERPROTONAME, "Log",&dbv)) {
 				// for the option for overwriting the file, delete old file first
-				if (DBGetContactSettingByte(hContact,WEATHERPROTONAME,"Overwrite",0))
+				if (db_get_b(hContact,WEATHERPROTONAME, "Overwrite",0))
 					DeleteFile(dbv.ptszVal);
 				// open the file and set point to the end of file
 				FILE *file = _tfopen( dbv.ptszVal, _T("a"));
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 				if (file != NULL) {
 					// write data to the file and close
 					GetDisplay(&winfo, opt.eText, str2);
@@ -180,7 +181,7 @@ int UpdateWeather(HANDLE hContact)
 					fclose(file);
 		}	}	}
 
-		if (DBGetContactSettingByte(hContact, WEATHERPROTONAME, "History", 0)) {
+		if (db_get_b(hContact, WEATHERPROTONAME, "History", 0)) {
 			DBEVENTINFO dbei = {0};
 			// internal log using history
 			GetDisplay(&winfo, opt.hText, str2);
@@ -289,7 +290,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 	{
 		if (IsMyContact(hContact)) 
 		{
-			if (!DBGetContactSettingByte(hContact,WEATHERPROTONAME,"AutoUpdate",FALSE) || !AutoUpdate) 
+			if ( !db_get_b(hContact,WEATHERPROTONAME, "AutoUpdate",FALSE) || !AutoUpdate) 
 			{
 				if (RemoveData)	DBDataManage((HANDLE)hContact, WDBM_REMOVE, 0, 0);
 				UpdateListAdd(hContact);
@@ -300,7 +301,7 @@ void UpdateAll(BOOL AutoUpdate, BOOL RemoveData)
 
 	// if it is not updating, then start the update thread process
 	// if it is updating, the stations just added to the queue will get updated by the already-running process
-	if (!ThreadRunning)
+	if ( !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, NULL);
 }
 
@@ -316,7 +317,7 @@ INT_PTR UpdateSingleStation(WPARAM wParam, LPARAM lParam)
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get 
 		// updated by the already-running process
-		if (!ThreadRunning)
+		if ( !ThreadRunning)
 			mir_forkthread(UpdateThreadProc, NULL);
 	}
 
@@ -335,7 +336,7 @@ INT_PTR UpdateSingleRemove(WPARAM wParam, LPARAM lParam)
 
 		// if it is not updating, then start the update thread process
 		// if it is updating, the stations just added to the queue will get updated by the already-running process
-		if (!ThreadRunning)
+		if ( !ThreadRunning)
 			mir_forkthread(UpdateThreadProc, NULL);
 	}
 
@@ -368,13 +369,13 @@ void UpdateThreadProc(LPVOID hWnd)
 // the "Update All" menu item in main menu
 INT_PTR UpdateAllInfo(WPARAM wParam,LPARAM lParam)
 {
-	if (!ThreadRunning)  UpdateAll(FALSE, FALSE);
+	if ( !ThreadRunning)  UpdateAll(FALSE, FALSE);
 	return 0;
 }
 
 // the "Update All" menu item in main menu and remove the old data
 INT_PTR UpdateAllRemove(WPARAM wParam,LPARAM lParam) {
-	if (!ThreadRunning)  UpdateAll(FALSE, TRUE);
+	if ( !ThreadRunning)  UpdateAll(FALSE, TRUE);
 	return 0;
 }
 
@@ -495,7 +496,7 @@ int GetWeatherData(HANDLE hContact)
 							if ( !DBGetData(hContact, _T2A(str2), &dbv)) {
 								_tcsncat(DataValue, dbv.ptszVal, SIZEOF(DataValue) - _tcslen(DataValue));
 								DataValue[SIZEOF(DataValue)-1] = 0;
-								DBFreeVariant(&dbv);
+								db_free(&dbv);
 							}
 							break;
 
@@ -509,17 +510,17 @@ int GetWeatherData(HANDLE hContact)
 						str = chop + 3;
 					} while (chop[0] && str[0]);
 
-					if (!hasvar) ConvertDataValue(&Item->Item, DataValue);
+					if ( !hasvar) ConvertDataValue(&Item->Item, DataValue);
 					break;
 				}
 			case WID_BREAK: 
 				{
 					// for the "Break Data=" operation
 					DBVARIANT dbv;
-					if (!DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
+					if ( !DBGetData(hContact, _T2A(Item->Item.Start), &dbv)) {
 						_tcsncpy(DataValue, dbv.ptszVal, SIZEOF(DataValue));
 						DataValue[SIZEOF(DataValue)-1] = 0;
-						DBFreeVariant(&dbv);
+						db_free(&dbv);
 					}
 					else {
 						DataValue[0] = 0;
@@ -541,7 +542,7 @@ int GetWeatherData(HANDLE hContact)
 
 					// write the 2 strings created from the break operation
 					if (Item->Item.End[0]) 
-						DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.End), end);
+						db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.End), end);
 					break;
 			}	}
 
@@ -552,17 +553,17 @@ int GetWeatherData(HANDLE hContact)
 			{
 				// temporary workaround for mToolTip to show feel-like temperature
 				if ( !_tcscmp(Item->Item.Name, _T("Feel")))
-					DBWriteContactSettingTString(hContact, WEATHERCONDITION, "Heat Index", DataValue);
+					db_set_ts(hContact, WEATHERCONDITION, "Heat Index", DataValue);
 				GetStationID(hContact, Svc, SIZEOF(Svc));
 				if ( !_tcscmp(Svc, opt.Default))
-					DBWriteContactSettingTString(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
+					db_set_ts(NULL, DEFCURRENTWEATHER, _T2A(Item->Item.Name), DataValue);
 				if ( !_tcscmp(Item->Item.Name, _T("Condition"))) {
 					TCHAR buf[128], *cbuf;
 					mir_sntprintf(buf, SIZEOF(buf), _T("#%s Weather"), DataValue);
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
-					DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
+					db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
 					CharLowerBuff(DataValue, (DWORD)_tcslen(DataValue));
 					cond = GetIcon(DataValue, Data);
 				}
@@ -572,9 +573,9 @@ int GetWeatherData(HANDLE hContact)
 					cbuf = TranslateTS(buf);
 					if (cbuf[0] == '#')
 						cbuf = TranslateTS(DataValue);
-					DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
+					db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), cbuf);
 				}
-				else DBWriteContactSettingTString(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), DataValue);
+				else db_set_ts(hContact, WEATHERCONDITION, _T2A(Item->Item.Name), DataValue);
 			}
 			Item = Item->Next;
 		}
@@ -582,8 +583,8 @@ int GetWeatherData(HANDLE hContact)
 	}
 
 	// assign condition icon
-	DBWriteContactSettingWord(hContact, WEATHERPROTONAME, "StatusIcon", cond);
-	DBWriteContactSettingTString(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
+	db_set_w(hContact, WEATHERPROTONAME, "StatusIcon", cond);
+	db_set_ts(hContact, WEATHERPROTONAME, "MirVer", Data->DisplayName);
 	return 0;
 }
 
@@ -593,7 +594,7 @@ int GetWeatherData(HANDLE hContact)
 void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if (!ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && 
+	if ( !ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && 
 		(!opt.NoProtoCondition || status == ID_STATUS_ONLINE))	
 		UpdateAll(TRUE, FALSE);
 }
@@ -605,8 +606,7 @@ void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (!Miranda_Terminated())
-	{
+	if ( !Miranda_Terminated()) {
 		if (opt.StartupUpdate && !opt.NoProtoCondition)	
 			UpdateAll(FALSE, FALSE);
 		timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime)*60000, (TIMERPROC)timerProc);

@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -270,17 +271,17 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 		TrimString(Line);
 
 		// make sure it is a valid weather protocol ini file
-		if (!strcmp(Line, "[Weather 0.3.x Update Data]"))
+		if ( !strcmp(Line, "[Weather 0.3.x Update Data]"))
 			Data->InternalVer = 1;
-		else if (!strcmp(Line, "[Weather 0.3.x Update Data 1.1]"))
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.1]"))
 			Data->InternalVer = 2;
-		else if (!strcmp(Line, "[Weather 0.3.x Update Data 1.1a]"))
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.1a]"))
 			Data->InternalVer = 3;
-		else if (!strcmp(Line, "[Weather 0.3.x Update Data 1.2]"))
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.2]"))
 			Data->InternalVer = 4;
-		else if (!strcmp(Line, "[Weather 0.3.x Update Data 1.3]"))
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.3]"))
 			Data->InternalVer = 5;
-		else if (!strcmp(Line, "[Weather 0.3.x Update Data 1.4]"))
+		else if ( !strcmp(Line, "[Weather 0.3.x Update Data 1.4]"))
 			Data->InternalVer = 6;
 		else
 		{
@@ -395,56 +396,56 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 			Value++;
 			ConvertBackslashes(Value);
 			// store the value for each string
-			if (!_stricmp(Group, "HEADER")) {
-				if (!_stricmp(ValName, "NAME"))						wSetData(&Data->DisplayName, Value);
-				else if (!_stricmp(ValName, "INTERNAL NAME"))	wSetData(&Data->InternalName, Value);
-				else if (!_stricmp(ValName, "DESCRIPTION"))		wSetData(&Data->Description, Value);
-				else if (!_stricmp(ValName, "AUTHOR")) 			wSetData(&Data->Author, Value);
-				else if (!_stricmp(ValName, "VERSION")) 			wSetData(&Data->Version, Value);
+			if ( !_stricmp(Group, "HEADER")) {
+				if ( !_stricmp(ValName, "NAME"))						wSetData(&Data->DisplayName, Value);
+				else if ( !_stricmp(ValName, "INTERNAL NAME"))	wSetData(&Data->InternalName, Value);
+				else if ( !_stricmp(ValName, "DESCRIPTION"))		wSetData(&Data->Description, Value);
+				else if ( !_stricmp(ValName, "AUTHOR")) 			wSetData(&Data->Author, Value);
+				else if ( !_stricmp(ValName, "VERSION")) 			wSetData(&Data->Version, Value);
 			}
-			else if (!_stricmp(Group, "DEFAULT")) {
-				if (!_stricmp(ValName, "DEFAULT URL"))				wSetData(&Data->DefaultURL, Value);
-				else if (!_stricmp(ValName, "DEFAULT MAP"))		wSetData(&Data->DefaultMap, Value);
-				else if (!_stricmp(ValName, "UPDATE URL"))		wSetData(&Data->UpdateURL, Value);
-				else if (!_stricmp(ValName, "UPDATE URL2"))		wSetData(&Data->UpdateURL2, Value);
-				else if (!_stricmp(ValName, "UPDATE URL3"))		wSetData(&Data->UpdateURL3, Value);
-				else if (!_stricmp(ValName, "UPDATE URL4"))		wSetData(&Data->UpdateURL4, Value);
-				else if (!_stricmp(ValName, "COOKIE"))				wSetData(&Data->Cookie, Value);
+			else if ( !_stricmp(Group, "DEFAULT")) {
+				if ( !_stricmp(ValName, "DEFAULT URL"))				wSetData(&Data->DefaultURL, Value);
+				else if ( !_stricmp(ValName, "DEFAULT MAP"))		wSetData(&Data->DefaultMap, Value);
+				else if ( !_stricmp(ValName, "UPDATE URL"))		wSetData(&Data->UpdateURL, Value);
+				else if ( !_stricmp(ValName, "UPDATE URL2"))		wSetData(&Data->UpdateURL2, Value);
+				else if ( !_stricmp(ValName, "UPDATE URL3"))		wSetData(&Data->UpdateURL3, Value);
+				else if ( !_stricmp(ValName, "UPDATE URL4"))		wSetData(&Data->UpdateURL4, Value);
+				else if ( !_stricmp(ValName, "COOKIE"))				wSetData(&Data->Cookie, Value);
 			}
-			else if (!_stricmp(Group, "ID SEARCH")) {
-				if (!_stricmp(ValName, "AVAILABLE")) {
-					if (!_stricmp(Value, "TRUE"))				Data->IDSearch.Available = TRUE;
+			else if ( !_stricmp(Group, "ID SEARCH")) {
+				if ( !_stricmp(ValName, "AVAILABLE")) {
+					if ( !_stricmp(Value, "TRUE"))				Data->IDSearch.Available = TRUE;
 					else										Data->IDSearch.Available = FALSE;
 				}
-				else if (!_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->IDSearch.SearchURL, Value);
-				else if (!_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->IDSearch.NotFoundStr, Value);
-				else if (!_stricmp(ValName, "NAME START")) 		wSetData(&Data->IDSearch.Name.Start, Value);
-				else if (!_stricmp(ValName, "NAME END")) 		wSetData(&Data->IDSearch.Name.End, Value);
+				else if ( !_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->IDSearch.SearchURL, Value);
+				else if ( !_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->IDSearch.NotFoundStr, Value);
+				else if ( !_stricmp(ValName, "NAME START")) 		wSetData(&Data->IDSearch.Name.Start, Value);
+				else if ( !_stricmp(ValName, "NAME END")) 		wSetData(&Data->IDSearch.Name.End, Value);
 			}
-			else if (!_stricmp(Group, "NAME SEARCH")) {
-				if (!_stricmp(ValName, "SINGLE RESULT")) {
-					if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Single.Available = TRUE;
+			else if ( !_stricmp(Group, "NAME SEARCH")) {
+				if ( !_stricmp(ValName, "SINGLE RESULT")) {
+					if ( !_stricmp(Value, "TRUE"))				Data->NameSearch.Single.Available = TRUE;
 					else										Data->NameSearch.Single.Available = FALSE;
 				}
-				else if (!_stricmp(ValName, "MULTIPLE RESULT")) {
-					if (!_stricmp(Value, "TRUE"))				Data->NameSearch.Multiple.Available = TRUE;
+				else if ( !_stricmp(ValName, "MULTIPLE RESULT")) {
+					if ( !_stricmp(Value, "TRUE"))				Data->NameSearch.Multiple.Available = TRUE;
 					else										Data->NameSearch.Multiple.Available = FALSE;
 				}
-				else if (!_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->NameSearch.SearchURL, Value);
-				else if (!_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->NameSearch.NotFoundStr, Value);
-				else if (!_stricmp(ValName, "SINGLE RESULT STR")) wSetData(&Data->NameSearch.SingleStr, Value);
-				else if (!_stricmp(ValName, "SINGLE FIRST"))	wSetData(&Data->NameSearch.Single.First, Value);
-				else if (!_stricmp(ValName, "SINGLE NAME START"))wSetData(&Data->NameSearch.Single.Name.Start, Value);
-				else if (!_stricmp(ValName, "SINGLE NAME END")) wSetData(&Data->NameSearch.Single.Name.End, Value);
-				else if (!_stricmp(ValName, "SINGLE ID START"))	wSetData(&Data->NameSearch.Single.ID.Start, Value);
-				else if (!_stricmp(ValName, "SINGLE ID END")) 	wSetData(&Data->NameSearch.Single.ID.End, Value);
-				else if (!_stricmp(ValName, "MULT FIRST"))		wSetData(&Data->NameSearch.Multiple.First, Value);
-				else if (!_stricmp(ValName, "MULT NAME START"))	wSetData(&Data->NameSearch.Multiple.Name.Start, Value);
-				else if (!_stricmp(ValName, "MULT NAME END")) 	wSetData(&Data->NameSearch.Multiple.Name.End, Value);
-				else if (!_stricmp(ValName, "MULT ID START"))	wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
-				else if (!_stricmp(ValName, "MULT ID END")) 	wSetData(&Data->NameSearch.Multiple.ID.End, Value);
+				else if ( !_stricmp(ValName, "SEARCH URL"))		wSetData(&Data->NameSearch.SearchURL, Value);
+				else if ( !_stricmp(ValName, "NOT FOUND STR"))	wSetData(&Data->NameSearch.NotFoundStr, Value);
+				else if ( !_stricmp(ValName, "SINGLE RESULT STR")) wSetData(&Data->NameSearch.SingleStr, Value);
+				else if ( !_stricmp(ValName, "SINGLE FIRST"))	wSetData(&Data->NameSearch.Single.First, Value);
+				else if ( !_stricmp(ValName, "SINGLE NAME START"))wSetData(&Data->NameSearch.Single.Name.Start, Value);
+				else if ( !_stricmp(ValName, "SINGLE NAME END")) wSetData(&Data->NameSearch.Single.Name.End, Value);
+				else if ( !_stricmp(ValName, "SINGLE ID START"))	wSetData(&Data->NameSearch.Single.ID.Start, Value);
+				else if ( !_stricmp(ValName, "SINGLE ID END")) 	wSetData(&Data->NameSearch.Single.ID.End, Value);
+				else if ( !_stricmp(ValName, "MULT FIRST"))		wSetData(&Data->NameSearch.Multiple.First, Value);
+				else if ( !_stricmp(ValName, "MULT NAME START"))	wSetData(&Data->NameSearch.Multiple.Name.Start, Value);
+				else if ( !_stricmp(ValName, "MULT NAME END")) 	wSetData(&Data->NameSearch.Multiple.Name.End, Value);
+				else if ( !_stricmp(ValName, "MULT ID START"))	wSetData(&Data->NameSearch.Multiple.ID.Start, Value);
+				else if ( !_stricmp(ValName, "MULT ID END")) 	wSetData(&Data->NameSearch.Multiple.ID.End, Value);
 			}
-			else if (!_stricmp(Group, "ICONS")) {
+			else if ( !_stricmp(Group, "ICONS")) {
 				for (i=0; i<10; i++) {
 					if ( !_stricmp(ValName, statusStr[i])) {
 						WICondListAdd(Value, &Data->CondList[i]);
@@ -453,13 +454,13 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 				}
 			}
 			else if (Data->UpdateDataCount != 0) {
-				if (!_stricmp(ValName, "START")) 			wSetData(&Data->UpdateDataTail->Item.Start, Value);
-				else if (!_stricmp(ValName, "SOURCE"))		wSetData(&Data->UpdateDataTail->Item.Start, Value);
-				else if (!_stricmp(ValName, "END")) 		wSetData(&Data->UpdateDataTail->Item.End, Value);
-				else if (!_stricmp(ValName, "UNIT")) 		wSetData(&Data->UpdateDataTail->Item.Unit, Value);
-				else if (!_stricmp(ValName, "URL")) 		wSetData(&Data->UpdateDataTail->Item.Url, Value);
-				else if (!_stricmp(ValName, "HIDDEN")) {
-					if (!_stricmp(Value, "TRUE")) {
+				if ( !_stricmp(ValName, "START")) 			wSetData(&Data->UpdateDataTail->Item.Start, Value);
+				else if ( !_stricmp(ValName, "SOURCE"))		wSetData(&Data->UpdateDataTail->Item.Start, Value);
+				else if ( !_stricmp(ValName, "END")) 		wSetData(&Data->UpdateDataTail->Item.End, Value);
+				else if ( !_stricmp(ValName, "UNIT")) 		wSetData(&Data->UpdateDataTail->Item.Unit, Value);
+				else if ( !_stricmp(ValName, "URL")) 		wSetData(&Data->UpdateDataTail->Item.Url, Value);
+				else if ( !_stricmp(ValName, "HIDDEN")) {
+					if ( !_stricmp(Value, "TRUE")) {
 						TCHAR *nm = Data->UpdateDataTail->Item.Name;
 						size_t len = _tcslen(nm) + 1;
 
@@ -468,11 +469,11 @@ void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data)
 						*nm = '#';
 					}
 				}
-				else if (!_stricmp(ValName, "SET DATA")) {
+				else if ( !_stricmp(ValName, "SET DATA")) {
 					Data->UpdateDataTail->Item.Type = WID_SET;
 					wSetData(&Data->UpdateDataTail->Item.End, Value);
 				}
-				else if (!_stricmp(ValName, "BREAK DATA")) {
+				else if ( !_stricmp(ValName, "BREAK DATA")) {
 					Data->UpdateDataTail->Item.Type = WID_BREAK;
 					wSetData(&Data->UpdateDataTail->Item.Break, Value);
 				}

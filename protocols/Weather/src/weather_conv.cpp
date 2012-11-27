@@ -1,7 +1,8 @@
 /*
 Weather Protocol plugin for Miranda IM
-Copyright (C) 2005-2011 Boris Krasnovskiy All Rights Reserved
-Copyright (C) 2002-2005 Calvin Che
+Copyright (c) 2012 Miranda NG Team
+Copyright (c) 2005-2011 Boris Krasnovskiy All Rights Reserved
+Copyright (c) 2002-2005 Calvin Che
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License
@@ -90,7 +91,7 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 		_tcscpy(str, tempchar);
 		return;
 	}
-	if (!is_number(tempchar)) {
+	if ( !is_number(tempchar)) {
 		_tcscpy(str, NODATA);
 		return;
 	}
@@ -99,8 +100,8 @@ void GetTemp(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	temp = _ttof(tempchar);
 
 	// convert all to F first
-	if (!_tcsicmp(unit, _T("C")))		temp = (temp*9/5)+32;
-	else if (!_tcsicmp(unit, _T("K")))	temp = ((temp-273.15)*9/5)+32;
+	if ( !_tcsicmp(unit, _T("C")))		temp = (temp*9/5)+32;
+	else if ( !_tcsicmp(unit, _T("K")))	temp = ((temp-273.15)*9/5)+32;
 
 	// convert to apporiate unit
 	switch (opt.tUnit) {
@@ -142,17 +143,17 @@ void GetPressure(TCHAR *tempchar, TCHAR *unit, TCHAR* str)
 	}
 
 	// convert all to mb first
-	if (!_tcsicmp(unit, _T("KPA")))
+	if ( !_tcsicmp(unit, _T("KPA")))
 		tempunit = (double)output * 10;
-	else if (!_tcsicmp(unit, _T("HPA")))
+	else if ( !_tcsicmp(unit, _T("HPA")))
 		tempunit = (double)output;
-	else if (!_tcsicmp(unit, _T("MB")))
+	else if ( !_tcsicmp(unit, _T("MB")))
 		tempunit = (double)output;
-	else if (!_tcsicmp(unit, _T("IN")))
+	else if ( !_tcsicmp(unit, _T("IN")))
 		tempunit = (double)output * 33.86388;
-	else if (!_tcsicmp(unit, _T("MM")))
+	else if ( !_tcsicmp(unit, _T("MM")))
 		tempunit = (double)output * 1.33322;
-	else if (!_tcsicmp(unit, _T("TORR")))
+	else if ( !_tcsicmp(unit, _T("TORR")))
 		tempunit = (double)output * 1.33322;
 
 	// convert to apporiate unit
@@ -199,13 +200,13 @@ void GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 		return;
 
 	// convert all to m/s first
-	if (!_tcsicmp(unit, _T("KM/H")))
+	if ( !_tcsicmp(unit, _T("KM/H")))
 		tempunit /= 3.6;
-//	else if (!_tcsicmp(unit, _T("M/S"))
+//	else if ( !_tcsicmp(unit, _T("M/S"))
 //		tempunit = tempunit;
-	else if (!_tcsicmp(unit, _T("MPH")))
+	else if ( !_tcsicmp(unit, _T("MPH")))
 		tempunit *= 0.44704;
-	else if (!_tcsicmp(unit, _T("KNOTS")))
+	else if ( !_tcsicmp(unit, _T("KNOTS")))
 		tempunit *= 0.514444;
 
 	// convert to apporiate unit
@@ -248,9 +249,9 @@ void GetDist(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	}
 
 	// convert all to km first
-	if (!_tcsicmp(unit, _T("KM")))
+	if ( !_tcsicmp(unit, _T("KM")))
 		tempunit = (double)output;
-	else if (!_tcsicmp(unit, _T("MILES")))
+	else if ( !_tcsicmp(unit, _T("MILES")))
 		tempunit = (double)output * 1.609;
 
 	// convert to apporiate unit
@@ -288,9 +289,9 @@ void GetElev(TCHAR *tempchar, TCHAR *unit, TCHAR *str)
 	}
 
 	// convert all to m first
-	if (!_tcsicmp(unit, _T("M")))
+	if ( !_tcsicmp(unit, _T("M")))
 		tempunit = (double)output;
-	else if (!_tcsicmp(unit, _T("FT")))
+	else if ( !_tcsicmp(unit, _T("FT")))
 		tempunit = (double)output / 3.28;
 
 	// convert to apporiate unit
@@ -556,7 +557,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 				if ( !DBGetContactSettingTString(w->hContact, WEATHERCONDITION, name, &dbv)) {
 					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))	
 						_tcscat(str, dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				break;
 			}
