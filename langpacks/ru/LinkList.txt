@@ -39,6 +39,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_mmap_SA.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Dbx_tree.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Db_autobackups.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/EmLanProto.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Facebook.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FavContacts.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FileAsMessage.txt
@@ -83,6 +84,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewsAggregator.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NewXstatusNotify.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/New_GPG.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NoHistory.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/NotesReminders.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Nudge.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Omegle.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/OpenFolder.txt
