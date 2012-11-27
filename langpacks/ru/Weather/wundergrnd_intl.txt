@@ -500,3 +500,5 @@
 Возможен снег, 60% вероятность осадков
 [Chance Rain 50% Chance Of Precipitation]
 Возможен дождь, 50% вероятность осадков
+[Snow 40% Chance Of Precipitation]
+Снег, 40% вероятность осадков
