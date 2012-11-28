@@ -149,7 +149,7 @@ type
   program's lifetime. Do not use this list in the global context, copy protocols
   names otherwise.
   IMPORTANT NOTE #2: in version 0.8 this service is mapped to the MS_PROTO_ENUMACCOUNTS
-  service to provide the compatibility with old plugins (first three members of 
+  service to provide the compatibility with old plugins (first three members of
   PROTOACCOUNT are equal to the old PROTOCOLDESCRIPTOR format). If you declare the
   MIRANDA_VER macro with value greater or equal to 0x800, use MS_PROTO_ENUMPROTOS
   service instead to obtain the list of running protocols instead of accounts.
@@ -190,6 +190,7 @@ const
 const
   PROTOTYPE_IGNORE      = 50;    // added during v0.3.3
   PROTOTYPE_PROTOCOL    = 1000;
+  PROTOTYPE_VIRTUAL     = 1001;  // added in 0.93.5
   PROTOTYPE_ENCRYPTION  = 2000;
   PROTOTYPE_FILTER      = 3000;
   PROTOTYPE_TRANSLATION = 4000;
@@ -251,7 +252,7 @@ const
   lParam=(LPARAM)(int)typing state }
   ME_PROTO_CONTACTISTYPING:PAnsiChar = 'Proto/ContactIsTypingEvent';
 
-// -------------- accounts support --------------------- 0.8.0+ 
+// -------------- accounts support --------------------- 0.8.0+
 
 type
   PPROTOACCOUNT = ^TPROTOACCOUNT;
