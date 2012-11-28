@@ -1,0 +1,14 @@
+;#muuid not found, please specify manually!
+;langpack template for EmLanProto
+;file E:\Sources\myranda\protocols\EmLanProto\res\amdproto.rc
+[OK]
+[This window is shown only once]
+[Select your IP address]
+[LAN Settings]
+[Use computer name]
+[Your name]
+[Select your name]
+;file E:\Sources\myranda\protocols\EmLanProto\src\amdproto.cpp
+[User name or '*']
+[E-mage LAN protocol]
+[Network]

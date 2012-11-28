@@ -4802,7 +4802,8 @@ Miranda Language Pack Version 1
 [User Details]
 [Send Message]
 ;file E:\Sources\myranda\plugins\ContactsPlus\src\main.cpp
-[Contacts received from", tmp), (TCHAR*)GetContactDisplayNameT(hContact));\r\n\r\n    cle.ptszTooltip = caToolTip;\r\n    if (g_UnicodeCore)\r\n      cle.flags |= CLEF_UNICODE;\r\n    CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);\r\n  }\r\n  return 0; //continue processing by other hooks\r\n}\r\n\r\n\r\nstatic void ProcessUnreadEvents(void)\r\n{\r\n  DBEVENTINFO dbei = {0};\r\n  HANDLE hDbEvent,hContact;\r\n\r\n  dbei.cbSize = sizeof(dbei);\r\n\r\n  hContact = SRCFindFirstContact();\r\n  while (hContact)\r\n  {\r\n    hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);\r\n\r\n    while (hDbEvent)\r\n    {\r\n      dbei.cbBlob=0;\r\n      CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);\r\n      if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)\r\n      { //process the event\r\n        HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);\r\n      }\r\n      hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);\r\n    }\r\n    hContact = SRCFindNextContact(hContact);\r\n  }\r\n}\r\n\r\n\r\nstatic bool CheckContactsServiceSupport(const char* szProto)\r\n{\r\n  if (g_NewProtoAPI)\r\n  { // there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)\r\n    if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)\r\n      return true;\r\n  }\r\n  else\r\n  { // check the real send service (only 0.7.x and older)\r\n    char serstr[MAX_PATH+30];\r\n\r\n    strcpy(serstr, szProto);\r\n    strcat(serstr, PSS_CONTACTS);\r\n    if (ServiceExists(serstr))\r\n      return true;\r\n  }\r\n  return false;\r\n}\r\n\r\n\r\nstatic int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)\r\n{\r\n  HANDLE hContact = (HANDLE)wParam;\r\n  char* szProto =GetContactProto(hContact);\r\n  int bVisible = FALSE;\r\n\r\n  if (szProto && CheckContactsServiceSupport(szProto))\r\n  { // known protocol, protocol supports contacts sending\r\n    // check the selected contact if it supports contacts receive\r\n    if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))\r\n      bVisible = TRUE;\r\n  }\r\n\r\n  { // update contact menu item's visibility\r\n    CLISTMENUITEM mi = {0};\r\n\r\n    mi.cbSize = sizeof(mi);\r\n    if (bVisible)\r\n      mi.flags = CMIM_FLAGS;\r\n    else\r\n      mi.flags = CMIM_FLAGS | CMIF_HIDDEN;\r\n\r\n    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);\r\n  }\r\n\r\n  return 0;\r\n}\r\n\r\n\r\nstatic int HookModulesLoaded(WPARAM wParam, LPARAM lParam)\r\n{\r\n  char* modules[2] = {0};\r\n  WCHAR tmp[MAX_PATH];\r\n\r\n  modules[0] = MODULENAME;\r\n  CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)1);\r\n\r\n  CLISTMENUITEM mi = {0};\r\n  mi.cbSize = sizeof(mi);\r\n  mi.ptszName = SRCTranslateT("Contacts", tmp);\r\n  mi.position = -2000009990;  //position in menu\r\n  mi.flags = CMIF_KEEPUNTRANSLATED;\r\n  if (g_UnicodeCore)\r\n    mi.flags |= CMIF_UNICODE;\r\n  mi.pszService = MS_CONTACTS_SEND;\r\n  mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));\r\n  hContactMenuItem = Menu_AddContactMenuItem(&mi);\r\n\r\n  hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);\r\n\r\n  ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this\r\n  ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this\r\n\r\n\r\n  ProcessUnreadEvents();\r\n  return 0;\r\n}\r\n\r\n\r\nstatic int HookContactSettingChanged(WPARAM wParam, LPARAM lParam)\r\n{\r\n  DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING*)lParam;\r\n  char *szProto =GetContactProto((HANDLE)wParam);\r\n\r\n  if (strcmpnull(cws->szModule,"CList]
+[Contacts received from]
+[Contacts]
 [Incoming Contacts]
 [Outgoing Contacts]
 #muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
@@ -5507,6 +5508,20 @@ Miranda Language Pack Version 1
 [Error Creating Backup Folder]
 [Database AutoBackups]
 [Services]
+;#muuid not found, please specify manually!
+;langpack template for EmLanProto
+;file E:\Sources\myranda\protocols\EmLanProto\res\amdproto.rc
+[OK]
+[This window is shown only once]
+[Select your IP address]
+[LAN Settings]
+[Use computer name]
+[Your name]
+[Select your name]
+;file E:\Sources\myranda\protocols\EmLanProto\src\amdproto.cpp
+[User name or '*']
+[E-mage LAN protocol]
+[Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;langpack template for Facebook
 ;file E:\Sources\myranda\protocols\FacebookRM\res\facebook.rc
@@ -14652,7 +14667,6 @@ Miranda Language Pack Version 1
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 [PopupMenuHostWnd]
 [%s\n\n%s]
-[Popup Plus stack check]
 ;file E:\Sources\myranda\plugins\Popup\src\services.cpp
 [WorkerW]
 [Notify]
@@ -21008,7 +21022,7 @@ Miranda Language Pack Version 1
 [Please select the module where you want the date of birth to be saved.\r\n"UserInfo" is the default location.\r\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
 [Set birthday for %s:]
 [mBirthday]
-[%S szProto]
+[%S protocol]
 [Birthday Reminder]
 [UserInfo]
 [mICQBirthday]
@@ -21737,7 +21751,6 @@ Miranda Language Pack Version 1
 [Sidebar]
 [Title underline]
 [neweventnotify]
-[Test popup class]
 ;file E:\Sources\myranda\plugins\YAPP\src\yapp_history_dlg.cpp
 [Title]
 [Message]

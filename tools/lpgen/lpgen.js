@@ -394,7 +394,7 @@ function ParseSourceFile (SourceFile,array) {
  //this is final great regexp ever /(?:LPGENT?|Translate[TW]?|_T)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["']\x20*?\))/mg
  //not store ?: functions LPGEN or LPGENT? or Translate(T or W) or _T, than any unnecessary space \s, than not stored ?: "(" followed by ' or " than \S\s - magic with multiline capture, ending with not stored ?= " or ', than none or few spaces \x20 followed by )/m=multiline g=global
  var find= /(?:LPGENT?|Translate[TW]?|_T)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["']\x20*?\))/mg;
- //read file fully into var
+ var find= /(?:LPGENT?|Translate[TW]?|_T)(?:[\s])*?(?:\(['"])([\S\s]*?)(?=["'],?\x20*?(?:tmp)?\))/mg;
  allstrings=sourcefile_stream.ReadAll();
  //now make a job, till end of matching regexp
  while ((string = find.exec(allstrings)) != null) {

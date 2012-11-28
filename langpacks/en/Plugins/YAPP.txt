@@ -80,7 +80,6 @@
 [Sidebar]
 [Title underline]
 [neweventnotify]
-[Test popup class]
 ;file E:\Sources\myranda\plugins\YAPP\src\yapp_history_dlg.cpp
 [Title]
 [Message]
