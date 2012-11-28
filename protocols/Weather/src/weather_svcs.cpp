@@ -32,7 +32,7 @@ static HGENMENU hEnableDisableMenu;
 //============  MIRANDA PROTOCOL SERVICES  ============
 
 // protocol service function for setting weather protocol status
-INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam) 
+INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam)
 {
 	new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 
@@ -51,7 +51,7 @@ INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam)
 }
 
 // get capabilities protocol service function
-INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam) 
+INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR ret = 0;
 
@@ -62,17 +62,17 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam)
 		break;
 
 	case PFLAGNUM_2:
-		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | 
+		ret = PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND |
 		      PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
-		break;	
+		break;
 
 	case PFLAGNUM_4:
-		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEADDED | 
+		ret = PF4_AVATARS | PF4_NOCUSTOMAUTH | PF4_NOAUTHDENYREASON | PF4_FORCEADDED |
 		      PF4_FORCEAUTH;
 		break;
 
 	case PFLAGNUM_5: /* this is PFLAGNUM_5 change when alpha SDK is released */
-		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | 
+		ret = PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND |
 		      PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 		break;
 
@@ -88,26 +88,26 @@ INT_PTR WeatherGetCaps(WPARAM wParam, LPARAM lParam)
 }
 
 // protocol service function to get weather protocol name
-INT_PTR WeatherGetName(WPARAM wParam,LPARAM lParam) 
+INT_PTR WeatherGetName(WPARAM wParam,LPARAM lParam)
 {
 	strncpy((char*)lParam,WEATHERPROTOTEXT,wParam-1);
-	*((char*)lParam + wParam-1) = 0; 
+	*((char*)lParam + wParam-1) = 0;
 	return 0;
 }
 
 // protocol service function to get the current status of the protocol
-INT_PTR WeatherGetStatus(WPARAM wParam,LPARAM lParam) 
+INT_PTR WeatherGetStatus(WPARAM wParam,LPARAM lParam)
 {
 	return status;
 }
 
 // protocol service function to get the icon of the protocol
-INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM lParam) 
+INT_PTR WeatherLoadIcon(WPARAM wParam,LPARAM lParam)
 {
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
 
-static void __cdecl AckThreadProc(HANDLE param) 
+static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
 	ProtoBroadcastAck(WEATHERPROTONAME, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
@@ -115,7 +115,7 @@ static void __cdecl AckThreadProc(HANDLE param)
 
 // nothing to do here because weather proto do not need to retrieve contact info form network
 // so just return a 0
-INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam) 
+INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA *) lParam;
 	mir_forkthread(AckThreadProc, ccs->hContact);
@@ -126,7 +126,7 @@ INT_PTR WeatherGetInfo(WPARAM wParam,LPARAM lParam)
 static const TCHAR *statusStr[] = { _T("Light"), _T("Fog"), _T("SShower"), _T("Snow"), _T("RShower"), _T("Rain"), _T("PCloudy"), _T("Cloudy"), _T("Sunny"), _T("NA") };
 static const WORD statusValue[] = { LIGHT, FOG, SSHOWER, SNOW, RSHOWER, RAIN, PCLOUDY, CLOUDY, SUNNY, NA };
 
-INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam) 
+INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR szSearchPath[MAX_PATH], *chop;
 	WORD status;
@@ -141,7 +141,7 @@ INT_PTR WeatherGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	status = (WORD)db_get_w(ai->hContact, WEATHERPROTONAME, "StatusIcon",0);
 	for (i=0; i<10; i++)
-		if (statusValue[i] == status) 
+		if (statusValue[i] == status)
 			break;
 
 	if (i >= 10)
@@ -200,7 +200,7 @@ static INT_PTR WeatherGetAwayMsg(WPARAM wParam, LPARAM lParam)
 
 //============  PROTOCOL INITIALIZATION  ============
 // protocol services
-void InitServices(void) 
+void InitServices(void)
 {
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETCAPS, WeatherGetCaps);
 	CreateProtoServiceFunction(WEATHERPROTONAME, PS_GETNAME, WeatherGetName);
@@ -221,7 +221,7 @@ void InitServices(void)
 
 //============  MENU INITIALIZATION  ============
 
-void UpdateMenu(BOOL State) 
+void UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
@@ -242,45 +242,45 @@ void UpdateMenu(BOOL State)
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
 }
 
-void UpdatePopupMenu(BOOL State) 
+void UpdatePopupMenu(BOOL State)
 {
 	// update option setting
 	opt.UsePopup = State;
 	db_set_b(NULL, WEATHERPROTONAME, "UsePopUp", (BYTE)opt.UsePopup);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	if (State) 
+	if (State)
 	{	// to enable popup
 		mi.pszName = LPGEN("Disable &weather notification");
 		mi.icolibItem = GetIconHandle("popup");
 	}
-	else 
+	else
 	{	// to disable popup
 		mi.pszName = LPGEN("Enable &weather notification");
 		mi.icolibItem = GetIconHandle("nopopup");
 	}
 
-	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisablePopupMenu, (LPARAM)&mi);
 }
 
 // update the weather auto-update menu item when click on it
-INT_PTR EnableDisableCmd(WPARAM wParam,LPARAM lParam) 
+INT_PTR EnableDisableCmd(WPARAM wParam,LPARAM lParam)
 {
 	UpdateMenu(wParam == TRUE ? (BOOL)lParam : !opt.CAutoUpdate);
 	return 0;
 }
 
 // update the weather popup menu item when click on it
-INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam) 
+INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 {
 	UpdatePopupMenu(!opt.UsePopup);
 	return 0;
 }
 
 // adding weather contact menus
-// copied and modified form "modified MSN Protocol"	
-void AddMenuItems(void) 
+// copied and modified form "modified MSN Protocol"
+void AddMenuItems(void)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = WEATHERPROTONAME;
