@@ -39,16 +39,16 @@ static int ClearDatabase(char* filter);
 static TSettingsList* GetCurrentProtoSettings()
 {
 	int count;
-	PROTOACCOUNT** protos;
-	ProtoEnumAccounts( &count, &protos );
+	PROTOACCOUNT **protos;
+	ProtoEnumAccounts(&count, &protos);
 
-	TSettingsList* result = new TSettingsList( count, CompareSettings );
-	if ( result == NULL )
+	TSettingsList *result = new TSettingsList(count, CompareSettings);
+	if (result == NULL)
 		return NULL;
 
-	for ( int i=0; i < count; i++ )
-		if ( IsSuitableProto( protos[i] ))
-			result->insert( new TSSSetting( protos[i] ));
+	for (int i=0; i < count; i++)
+		if ( IsSuitableProto(protos[i]))
+			result->insert( new TSSSetting(protos[i]));
 
 	return result;
 }

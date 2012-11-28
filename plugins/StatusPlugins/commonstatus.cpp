@@ -164,11 +164,11 @@ static int equalsGlobalStatus(PROTOCOLSETTINGEX **ps) {
 			return 0;
 
 	int count;
-	PROTOACCOUNT** protos;
-	ProtoEnumAccounts( &count, &protos );
+	PROTOACCOUNT **protos;
+	ProtoEnumAccounts(&count, &protos);
 
-	for ( i=0; i < count; i++ ) {
-		if ( !IsSuitableProto( protos[i] ))
+	for (i=0; i < count; i++) {
+		if ( !IsSuitableProto(protos[i]))
 			continue;
 
 		pstatus = 0;
@@ -317,18 +317,9 @@ static INT_PTR GetProtocolCountService(WPARAM wParam, LPARAM lParam)
 	return GetProtoCount();
 }
 
-bool IsSuitableProto( PROTOACCOUNT* pa )
+bool IsSuitableProto(PROTOACCOUNT *pa)
 {
-	if ( pa == NULL )
-		return false;
-
-	if ( pa->bDynDisabled || !pa->bIsEnabled )
-		return false;
-
-	if ( CallProtoService( pa->szProtoName, PS_GETCAPS, PFLAGNUM_2, 0 ) == 0 )
-		return false;
-
-	return true;
+	return (pa == NULL) ? false : (pcli->pfnGetProtocolVisibility(pa->szModuleName) != 0);
 }
 
 int GetProtoCount()
@@ -336,12 +327,12 @@ int GetProtoCount()
 	int pCount = 0;
 
 	int count;
-	PROTOACCOUNT** protos;
+	PROTOACCOUNT **protos;
 	ProtoEnumAccounts( &count, &protos );
 
-	for ( int i=0; i < count; i++ )
-		if ( IsSuitableProto( protos[i] ))
-			pCount ++;
+	for (int i=0; i < count; i++)
+		if ( IsSuitableProto(protos[i]))
+			pCount++;
 
 	return pCount;
 }

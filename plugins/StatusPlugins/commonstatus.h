@@ -75,7 +75,7 @@ static int statusModePf2List[]={PF2_OFFLINE,PF2_ONLINE,PF2_SHORTAWAY,PF2_LONGAWA
 TCHAR *GetDefaultStatusMessage(PROTOCOLSETTINGEX *ps, int status);
 int GetActualStatus(PROTOCOLSETTINGEX *protoSetting);
 int InitCommonStatus();
-bool IsSuitableProto( PROTOACCOUNT* pa );
+bool IsSuitableProto(PROTOACCOUNT *pa);
 
 /* SimpleAway */
 
