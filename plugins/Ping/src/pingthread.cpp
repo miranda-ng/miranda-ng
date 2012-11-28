@@ -1,0 +1,1063 @@
+#include "common.h"
+#include "pingthread.h"
+
+int upCount, total = 0;
+
+int list_size = 0;
+
+HANDLE mainThread;
+HANDLE hWakeEvent = 0; 
+
+// thread protected variables
+CRITICAL_SECTION thread_finished_cs, list_changed_cs, data_list_cs;
+bool thread_finished = false, list_changed = false;
+PINGLIST data_list;
+
+HANDLE status_update_thread = 0;
+
+HWND hpwnd = 0, list_hwnd, hwnd_clist = 0;
+int frame_id = -1;
+
+HBRUSH tbrush = 0;
+
+FontID font_id;
+ColourID bk_col_id;
+HFONT hFont = 0;
+COLORREF bk_col = RGB(255, 255, 255);
+
+////////////////
+#define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
+#define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
+#define IsWinVer2000Plus() (WinVerMajor()>=5)
+
+static HMODULE hUserDll;
+BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
+BOOL (WINAPI *MyAnimateWindow)(HWND hWnd,DWORD dwTime,DWORD dwFlags);
+#define TM_AUTOALPHA  1
+static int transparentFocus=1;
+/////////////////
+
+bool get_thread_finished() {
+	Lock(&thread_finished_cs, "get_thread_finished");
+	bool retval = thread_finished;
+	Unlock(&thread_finished_cs);
+	return retval;
+}
+
+void set_thread_finished(bool f) {
+	Lock(&thread_finished_cs, "set_thread_finished");
+	thread_finished = f;
+	Unlock(&thread_finished_cs);
+}
+
+bool get_list_changed() {
+	Lock(&list_changed_cs, "get_list_changed");
+	bool retval = list_changed;
+	Unlock(&list_changed_cs);
+	return retval;
+}
+
+void set_list_changed(bool f) {
+	Lock(&list_changed_cs, "set_list_changed");
+	list_changed = f;
+	Unlock(&list_changed_cs);
+}
+
+void SetProtoStatus(char *pszLabel, char *pszProto, int if_status, int new_status) {
+	if(strcmp(pszProto, Translate("<all>")) == 0) {
+		int num_protocols;
+		PROTOACCOUNT **pppDesc;
+
+		ProtoEnumAccounts(&num_protocols,&pppDesc);
+		for(int i = 0; i < num_protocols; i++) {
+			SetProtoStatus(pszLabel, pppDesc[i]->szModuleName, if_status, new_status);
+		}
+	} else {
+		char get_status[512], set_status[512];
+		mir_snprintf(get_status, 512, "%s%s", pszProto, PS_GETSTATUS);
+		if(ServiceExists(get_status)) {
+			mir_snprintf(set_status, 512, "%s%s", pszProto, PS_SETSTATUS);
+			if(CallService(get_status, 0, 0) == if_status) {
+				if(options.logging) {
+					char buf[1024];
+					mir_snprintf(buf, 1024, Translate("%s - setting status of protocol '%s' (%d)"), pszLabel, pszProto, new_status);
+					CallService(PLUG "/Log", (WPARAM)buf, 0);
+				}
+				CallService(set_status, new_status, 0);
+			}
+		}
+	}
+}
+
+DWORD WINAPI sttCheckStatusThreadProc( void *vp)
+{
+	clock_t start_t = clock(), end_t;
+	while(!get_thread_finished()) {
+	
+		end_t = clock();
+
+		int wait = (int)((options.ping_period - ((end_t - start_t) / (double)CLOCKS_PER_SEC)) * 1000);
+		if(wait > 0)
+			WaitForSingleObjectEx(hWakeEvent, wait, TRUE);
+
+		if(get_thread_finished()) break;
+
+		start_t = clock();
+
+		bool timeout = false;
+		bool reply = false;
+		int count = 0;
+
+		PINGADDRESS pa;
+		HistPair history_entry;
+
+		Lock(&data_list_cs, "ping thread loop start");
+		set_list_changed(false);
+		int size = data_list.size();
+		Unlock(&data_list_cs);
+		
+		int index = 0;
+		for(; index < size; index++) {
+			Lock(&data_list_cs, "ping thread loop start");
+			int c = 0;
+			for(PINGLIST::Iterator i = data_list.start(); i.has_val() && c <= index; i.next(), c++) {
+				if(c == index) {
+					// copy just what we need - i.e. not history, not command
+					pa.get_status = i.val().get_status;
+					pa.item_id = i.val().item_id;
+					pa.miss_count = i.val().miss_count;
+					pa.port = i.val().port;
+					strcpy(pa.pszLabel, i.val().pszLabel);
+					strcpy(pa.pszName, i.val().pszName);
+					strcpy(pa.pszProto, i.val().pszProto);
+					pa.set_status = i.val().set_status;
+					pa.status = i.val().status;
+					break;
+				}
+					
+			}
+			Unlock(&data_list_cs);
+
+			if(get_thread_finished()) break;
+			if(get_list_changed()) break;
+
+			if(pa.status != PS_DISABLED) {
+				if(!options.no_test_icon) {
+					Lock(&data_list_cs, "ping thread loop start");
+					for(PINGLIST::Iterator i = data_list.start(); i.has_val(); i.next()) {
+						if(i.val().item_id == pa.item_id) {
+							i.val().status = PS_TESTING;
+						}
+					}
+					Unlock(&data_list_cs);
+					InvalidateRect(list_hwnd, 0, FALSE);
+				}
+
+				CallService(PLUG "/Ping", 0, (LPARAM)&pa);	
+
+				if(get_thread_finished()) break;
+				if(get_list_changed()) break;
+
+				Lock(&data_list_cs, "ping thread loop start");
+				for(PINGLIST::Iterator i = data_list.start(); i.has_val(); i.next()) {
+					if(i.val().item_id == pa.item_id) {
+						i.val().responding = pa.responding;
+						i.val().round_trip_time = pa.round_trip_time;
+						history_entry.first = i.val().round_trip_time;
+						history_entry.second = time(0);
+						history_map[i.val().item_id].push_back(history_entry);
+						// maintain history (-1 represents no response)
+						while(history_map[i.val().item_id].size() >= MAX_HISTORY)
+							//history_map[i.val().item_id].pop_front();
+							history_map[i.val().item_id].remove(history_map[i.val().item_id].start().val());
+
+						if(pa.responding) {
+							if(pa.miss_count > 0)
+								pa.miss_count = -1;
+							else
+								pa.miss_count--;
+							pa.status = PS_RESPONDING;
+						}
+						else {
+							if(pa.miss_count < 0)
+								pa.miss_count = 1;
+							else
+								pa.miss_count++;
+							pa.status = PS_NOTRESPONDING;
+						}
+						i.val().miss_count = pa.miss_count;
+						i.val().status = pa.status;
+
+						break;
+					}
+				}
+				Unlock(&data_list_cs);
+				
+				if(pa.responding) {	
+					count++;
+
+					if(pa.miss_count == -1 - options.retries || 
+						(((-pa.miss_count) % (options.retries + 1)) == 0 && !options.block_reps))
+					{
+						reply = true;
+						if(options.show_popup2 && ServiceExists(MS_POPUP_SHOWMESSAGE)) {
+							ShowPopup("Ping Reply", pa.pszLabel, 1);
+						}
+					}
+					if(pa.miss_count == -1 - options.retries && options.logging) {
+						char buf[512];
+						mir_snprintf(buf, 512, Translate("%s - reply, %d"), pa.pszLabel, pa.round_trip_time);
+						CallService(PLUG "/Log", (WPARAM)buf, 0);
+					}
+					SetProtoStatus(pa.pszLabel, pa.pszProto, pa.get_status, pa.set_status);
+				} else {
+
+					if(pa.miss_count == 1 + options.retries || 
+						((pa.miss_count % (options.retries + 1)) == 0 && !options.block_reps))
+					{
+						timeout = true;
+						if(options.show_popup && ServiceExists(MS_POPUP_SHOWMESSAGE)) {
+							ShowPopup("Ping Timeout", pa.pszLabel, 0);
+						}
+					}
+					if(pa.miss_count == 1 + options.retries && options.logging) {
+						char buf[512];
+						mir_snprintf(buf, 512, Translate("%s - timeout"), pa.pszLabel);
+						CallService(PLUG "/Log", (WPARAM)buf, 0);
+					}
+				}
+
+				InvalidateRect(list_hwnd, 0, FALSE);
+			}			
+		}
+
+		if(timeout) SkinPlaySound("PingTimeout");
+		if(reply) SkinPlaySound("PingReply");
+
+		if(!get_list_changed()) {
+			upCount = count;
+			total = index;
+		} else {
+			total = 0;
+		}
+	}
+
+	return 0;
+}
+
+void start_ping_thread() {
+	DWORD tid;
+
+	if(status_update_thread) CloseHandle(status_update_thread);
+	status_update_thread = CreateThread(0, 0, sttCheckStatusThreadProc, 0, 0, &tid);
+}
+
+void stop_ping_thread() {
+	set_thread_finished(true);
+	SetEvent(hWakeEvent);
+	//ICMP::get_instance()->stop();
+	WaitForSingleObject(status_update_thread, 2000);
+	TerminateThread(status_update_thread, 0);
+	CloseHandle(status_update_thread);
+	status_update_thread = 0;
+}
+
+bool FrameIsFloating() {
+	if(frame_id == -1) 
+		return true; // no frames, always floating
+	
+	return (CallService(MS_CLIST_FRAMES_GETFRAMEOPTIONS, MAKEWPARAM(FO_FLOATING, frame_id), 0) != 0);
+}
+
+int FillList(WPARAM wParam, LPARAM lParam) {
+
+	if(options.logging)
+		CallService(PLUG "/Log", (WPARAM)"ping address list reload", 0);
+
+	PINGLIST pl;
+	CallService(PLUG "/GetPingList", 0, (LPARAM)&pl);
+
+	SendMessage(list_hwnd, WM_SETREDRAW, (WPARAM)FALSE, 0);
+	Lock(&data_list_cs, "fill_list");
+	
+	data_list = pl;
+	SendMessage(list_hwnd, LB_RESETCONTENT, 0, 0);
+
+	int index = 0;
+	for(PINGLIST::Iterator j = data_list.start(); j.has_val(); j.next(), index++) {
+		SendMessage(list_hwnd, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)&j.val());
+	}
+	set_list_changed(true);
+
+	list_size = data_list.size();
+
+	Unlock(&data_list_cs);
+	SendMessage(list_hwnd, WM_SETREDRAW, (WPARAM)TRUE, 0);
+
+	InvalidateRect(list_hwnd, 0, FALSE);
+
+	SetEvent(hWakeEvent);
+
+	if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME) && options.attach_to_clist)
+		UpdateFrame();
+
+	return 0;
+}
+
+INT_PTR PingPlugShowWindow(WPARAM wParam, LPARAM lParam) {
+	if(hpwnd) {
+		if(frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_SHFRAME)) CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)frame_id, 0);
+		else {
+			ShowWindow(hpwnd, IsWindowVisible(hpwnd) ? SW_HIDE : SW_SHOW);
+		}
+	}
+	return 0;
+}
+
+#define TIMER_ID		11042
+void CALLBACK TimerProc(
+  HWND hwnd,         // handle to window
+  UINT uMsg,         // WM_TIMER message
+  UINT_PTR idEvent,  // timer identifier
+  DWORD dwTime       // current system time
+)
+{
+	if(frame_id != -1 && ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		char TBcapt[255];
+		if(total > 0)
+			wsprintf(TBcapt,"Ping (%d/%d)", upCount, total);
+		else
+			wsprintf(TBcapt,"Ping");
+		
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBNAME,frame_id),(LPARAM)TBcapt);
+		CallService(MS_CLIST_FRAMES_SETFRAMEOPTIONS,MAKEWPARAM(FO_TBTIPNAME,frame_id),(LPARAM)TBcapt);
+		CallService(MS_CLIST_FRAMES_UPDATEFRAME,frame_id,FU_TBREDRAW);
+	} else {
+//		if(options.attach_to_clist) {
+//			AttachToClist(true);
+//		}
+	}
+}
+
+DWORD context_point;
+bool context_point_valid = false;
+LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	RECT rect;
+	MEASUREITEMSTRUCT *mis;
+	LPDRAWITEMSTRUCT dis;
+	SIZE textSize;
+	PINGADDRESS itemData;
+	RECT r;
+	LPARAM lp;
+	int sel;
+
+	switch(msg)
+	{
+		
+	case WM_MEASUREITEM:
+		mis = (MEASUREITEMSTRUCT *)lParam;
+		mis->itemWidth = 100;
+		mis->itemHeight = options.row_height;
+		return TRUE;
+
+	case WM_DRAWITEM:
+		dis = (LPDRAWITEMSTRUCT)lParam;
+		if(dis->hwndItem == list_hwnd) {
+			HBRUSH ttbrush = 0;
+			COLORREF tcol;
+			if(dis->itemID != -1) {
+				Lock(&data_list_cs, "draw item");
+				itemData = *(PINGADDRESS *)dis->itemData;
+				Unlock(&data_list_cs);
+
+				SendMessage(list_hwnd, LB_SETITEMHEIGHT, 0, (LPARAM)options.row_height);
+				//dis->rcItem.bottom = dis->rcItem.top + options.row_height;
+
+				LONG x, y;
+				if(context_point_valid) {
+					RECT r;
+					GetWindowRect(list_hwnd, &r);
+					x = LOWORD(context_point) - r.left,
+					y = HIWORD(context_point) - r.top;
+				}
+
+				GetClientRect(hwnd, &r);
+
+				if((dis->itemState & ODS_SELECTED && dis->itemState & ODS_FOCUS) 
+					|| (context_point_valid && (x >= dis->rcItem.left && x <= dis->rcItem.right) && (y >= dis->rcItem.top && y <= dis->rcItem.bottom)))
+				{
+					tcol = DBGetContactSettingDword(NULL,"CLC","SelBkColour", GetSysColor(COLOR_HIGHLIGHT));
+					SetBkColor(dis->hDC, tcol);
+					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
+					
+					tcol = DBGetContactSettingDword(NULL,"CLC","SelTextColour", GetSysColor(COLOR_HIGHLIGHTTEXT));
+					SetTextColor(dis->hDC, tcol);
+				} else {
+					tcol = bk_col;
+					SetBkColor(dis->hDC, tcol);
+					FillRect(dis->hDC, &dis->rcItem, (ttbrush = CreateSolidBrush(tcol)));
+
+					tcol = DBGetContactSettingDword(NULL, PLUG, "FontCol", GetSysColor(COLOR_WINDOWTEXT));
+					SetTextColor(dis->hDC, tcol);
+				}
+				
+				SetBkMode(dis->hDC, TRANSPARENT);
+				HICON hIcon = (itemData.status != PS_DISABLED ? (itemData.status == PS_TESTING ? hIconTesting : (itemData.status == PS_RESPONDING ? hIconResponding : hIconNotResponding)) : hIconDisabled);
+				dis->rcItem.left += options.indent;
+				//DrawIconEx(dis->hDC,dis->rcItem.left,(dis->rcItem.top + dis->rcItem.bottom - GetSystemMetrics(SM_CYSMICON))>>1,hIcon,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0,NULL,DI_NORMAL);
+				//DrawIconEx(dis->hDC,dis->rcItem.left,(dis->rcItem.top + dis->rcItem.bottom - GetSystemMetrics(SM_CYSMICON))>>1,hIcon,0, 0, 0, NULL, DI_NORMAL);
+				DrawIconEx(dis->hDC,dis->rcItem.left,dis->rcItem.top + ((options.row_height - 16)>>1),hIcon,0, 0, 0, NULL, DI_NORMAL);
+
+				GetTextExtentPoint32(dis->hDC,itemData.pszLabel,lstrlen(itemData.pszLabel),&textSize);
+				TextOut(dis->hDC,dis->rcItem.left + 16 + 4,(dis->rcItem.top + dis->rcItem.bottom - textSize.cy)>>1,itemData.pszLabel,lstrlen(itemData.pszLabel));
+
+				if(itemData.status != PS_DISABLED) {
+					char buf[256];
+					if(itemData.responding) {
+						mir_snprintf(buf, 256, Translate("%d ms"), itemData.round_trip_time);
+						GetTextExtentPoint32(dis->hDC,buf,lstrlen(buf),&textSize);
+						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,lstrlen(buf));
+					} else if(itemData.miss_count > 0) {
+						mir_snprintf(buf, 256, "[%d]", itemData.miss_count);
+						GetTextExtentPoint32(dis->hDC,buf,lstrlen(buf),&textSize);
+						TextOut(dis->hDC,dis->rcItem.right - textSize.cx - 2,(dis->rcItem.top + dis->rcItem.bottom -textSize.cy)>>1,buf,lstrlen(buf));
+					} 
+				}
+				SetBkMode(dis->hDC, OPAQUE);
+			}
+			if(ttbrush) DeleteObject(ttbrush);
+			return TRUE;
+		}
+		//return DefWindowProc(hwnd, msg, wParam, lParam);
+		return TRUE;
+	
+	case WM_CTLCOLORLISTBOX:
+		{
+			if(tbrush) DeleteObject(tbrush);
+
+			return (BOOL)(tbrush = CreateSolidBrush(bk_col));
+		}	
+	
+	case WM_ERASEBKGND: 
+		{
+			RECT r;
+			GetClientRect(hwnd, &r);
+			if(!tbrush) tbrush = CreateSolidBrush(bk_col);
+			FillRect((HDC)wParam, &r, tbrush);
+		}
+		return TRUE;
+
+	case WM_CONTEXTMENU:
+		{
+			context_point = lParam;
+			context_point_valid = true;
+			InvalidateRect(list_hwnd, 0, FALSE);
+			HMENU menu = LoadMenu(hInst, MAKEINTRESOURCE(IDR_MENU1)),
+				submenu = GetSubMenu(menu, 0);
+
+			POINT pt = {LOWORD(context_point),HIWORD(context_point)};
+
+			RECT r;
+			GetClientRect(list_hwnd, &r);
+			ScreenToClient(list_hwnd, &pt);
+
+			DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(pt.x, pt.y));
+			bool found = false;
+			if(HIWORD(item) == 0) {				
+				int count = LOWORD(item);
+				Lock(&data_list_cs, "show graph");
+				if(count >= 0 && count < (int)data_list.size()) {
+					itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
+					found = true;
+				}
+				Unlock(&data_list_cs);
+				
+			}
+
+			if(found) {
+				EnableMenuItem(submenu, ID_MENU_GRAPH, MF_BYCOMMAND | MF_ENABLED);
+				EnableMenuItem(submenu, ID_MENU_EDIT, MF_BYCOMMAND | MF_ENABLED);
+				EnableMenuItem(submenu, ID_MENU_TOGGLE, MF_BYCOMMAND | MF_ENABLED);
+				if(itemData.status == PS_DISABLED) {
+					ModifyMenu(submenu, ID_MENU_TOGGLE, MF_BYCOMMAND | MF_STRING, ID_MENU_TOGGLE, TranslateT("Enable"));
+				} else {
+					ModifyMenu(submenu, ID_MENU_TOGGLE, MF_BYCOMMAND | MF_STRING, ID_MENU_TOGGLE, TranslateT("Disable"));
+				}
+			} else {
+				EnableMenuItem(submenu, ID_MENU_GRAPH, MF_BYCOMMAND | MF_GRAYED);
+				EnableMenuItem(submenu, ID_MENU_EDIT, MF_BYCOMMAND | MF_GRAYED);
+				EnableMenuItem(submenu, ID_MENU_TOGGLE, MF_BYCOMMAND | MF_GRAYED);
+			}
+
+			CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+
+			//ClientToScreen(list_hwnd, &pt);
+			GetCursorPos(&pt);
+			BOOL ret = TrackPopupMenu(submenu, TPM_TOPALIGN|TPM_LEFTALIGN|TPM_RIGHTBUTTON|TPM_RETURNCMD, pt.x, pt.y, 0, hwnd, NULL);
+			DestroyMenu(menu);
+			if(ret) {
+				SendMessage(hwnd, WM_COMMAND, ret, 0);
+			}
+			context_point_valid = false;
+			InvalidateRect(list_hwnd, 0, FALSE);
+		}
+		
+		return TRUE;
+
+	case WM_SYSCOLORCHANGE:
+		SendMessage(list_hwnd,msg,wParam,lParam);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_CREATE:
+		list_hwnd = CreateWindow("LISTBOX", "", 
+			//(WS_VISIBLE | WS_CHILD | LBS_NOINTEGRALHEIGHT| LBS_STANDARD | WS_CLIPCHILDREN | LBS_OWNERDRAWVARIABLE | LBS_NOTIFY) 
+			(WS_VISIBLE | WS_CHILD | LBS_STANDARD | LBS_OWNERDRAWFIXED | LBS_NOTIFY) 
+			& ~WS_BORDER, 0, 0, 0, 0, hwnd, NULL, hInst,0);		
+
+		if (DBGetContactSettingByte(NULL,"CList","Transparent",0))
+		{
+			if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+
+			} else {
+#ifdef WS_EX_LAYERED 
+				SetWindowLong(hwnd, GWL_EXSTYLE, GetWindowLong(hwnd, GWL_EXSTYLE) | WS_EX_LAYERED);
+#endif
+#ifdef LWA_ALPHA
+				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+#endif
+			}
+		}
+
+		// timer to update titlebar
+		if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+			SetTimer(hwnd, TIMER_ID, 1000, TimerProc);
+
+		PostMessage(hwnd, WM_SIZE, 0, 0);
+		return TRUE;;
+
+	case WM_ACTIVATE:
+		if(wParam==WA_INACTIVE) {
+			if((HWND)wParam!=hwnd)
+				if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT))
+					if(transparentFocus)
+						SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
+		}
+		else {
+			if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
+				KillTimer(hwnd,TM_AUTOALPHA);
+#ifdef LWA_ALPHA
+				if (MySetLayeredWindowAttributes) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+#endif
+				transparentFocus=1;
+			}
+		}
+		return DefWindowProc(hwnd,msg,wParam,lParam);
+
+	case WM_SETCURSOR:
+		if(DBGetContactSettingByte(NULL,"CList","Transparent",SETTING_TRANSPARENT_DEFAULT)) {
+			if (!transparentFocus && GetForegroundWindow()!=hwnd && MySetLayeredWindowAttributes) {
+#ifdef LWA_ALPHA
+				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+#endif
+				transparentFocus=1;
+				SetTimer(hwnd, TM_AUTOALPHA,250,NULL);
+			}
+		}
+		return DefWindowProc(hwnd,msg,wParam,lParam);
+
+	case WM_TIMER:
+		if ((int)wParam==TM_AUTOALPHA)
+		{	int inwnd;
+			
+			if (GetForegroundWindow()==hwnd) {
+				KillTimer(hwnd,TM_AUTOALPHA);
+				inwnd=1;
+			}
+			else {
+				POINT pt;
+				HWND hwndPt;
+				pt.x=(short)LOWORD(GetMessagePos());
+				pt.y=(short)HIWORD(GetMessagePos());
+				hwndPt=WindowFromPoint(pt);
+				inwnd=(hwndPt==hwnd || GetParent(hwndPt)==hwnd);
+			}
+			if (inwnd!=transparentFocus && MySetLayeredWindowAttributes)
+			{ //change
+				transparentFocus=inwnd;
+#ifdef LWA_ALPHA
+				if(transparentFocus) MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_ALPHA_DEFAULT), LWA_ALPHA);
+				else MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)DBGetContactSettingByte(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT), LWA_ALPHA);
+#endif
+			}
+			if(!transparentFocus) KillTimer(hwnd,TM_AUTOALPHA);
+			return TRUE;
+		}
+		return FALSE;
+
+	case WM_SHOWWINDOW:
+	{	static int noRecurse=0;
+		if(lParam) break;
+		if(noRecurse) break;
+		if(!DBGetContactSettingByte(NULL,"CLUI","FadeInOut",0) || !IsWinVer2000Plus()) break;
+#ifdef WS_EX_LAYERED
+		if(GetWindowLong(hwnd,GWL_EXSTYLE)&WS_EX_LAYERED) {
+			DWORD thisTick,startTick;
+			int sourceAlpha,destAlpha;
+			if(wParam) {
+				sourceAlpha=0;
+				destAlpha=(BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
+#ifdef LWA_ALPHA
+				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), 0, LWA_ALPHA);
+#endif
+				noRecurse=1;
+				ShowWindow(hwnd,SW_SHOW);
+				noRecurse=0;
+			}
+			else {
+				sourceAlpha=(BYTE)DBGetContactSettingByte(NULL,"CList","Alpha",SETTING_AUTOALPHA_DEFAULT);
+				destAlpha=0;
+			}
+			for(startTick=GetTickCount();;) {
+				thisTick=GetTickCount();
+				if(thisTick>=startTick+200) break;
+#ifdef LWA_ALPHA
+				MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)(sourceAlpha+(destAlpha-sourceAlpha)*(int)(thisTick-startTick)/200), LWA_ALPHA);
+#endif
+			}
+#ifdef LWA_ALPHA
+			MySetLayeredWindowAttributes(hwnd, RGB(0,0,0), (BYTE)destAlpha, LWA_ALPHA);
+#endif
+		}
+		else {
+//			if(wParam) SetForegroundWindow(hwnd);
+			MyAnimateWindow(hwnd,200,AW_BLEND|(wParam?0:AW_HIDE));
+			//SetWindowPos(label,0,0,0,0,0,SWP_NOZORDER|SWP_NOMOVE|SWP_NOSIZE|SWP_FRAMECHANGED);
+		}
+#endif
+		//int res = DefWindowProc(hwnd, msg, wParam, lParam);
+		//return res;
+		//break;
+		//return FALSE; //break;
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
+
+	/*
+	case WM_PAINT:	
+				{
+				paintDC = BeginPaint(hwnd, &paintStruct); // 
+				//SelectObject(paintDC,TitleBarFont);
+				//SetBkMode(paintDC,TRANSPARENT);
+
+				//paintStruct.fErase=TRUE;
+				//color=RGB(1,1,1);
+				//brush=CreateSolidBrush(RGB(200,20,20));
+				
+				//GetClientRect(hwnd,&rect);
+				//FillRect(paintDC,&rect,brush);
+				//TextOut(paintDC,4,4,"cl1 Bottom window",sizeof("cl1 Bottom window")-1);
+				//DeleteObject(brush);
+				EndPaint(hwnd, &paintStruct); // 
+			  
+
+				};
+				return TRUE;
+	
+	*/
+	case WM_COMMAND:
+		//CreateServiceFunction("PingPlug/DisableAll", PingPlugDisableAll);
+		//CreateServiceFunction("PingPlug/EnableAll", PingPlugEnableAll);
+		switch(LOWORD(wParam)) {
+		case ID_MENU_GRAPH:
+			if(context_point_valid) {
+				WORD x = LOWORD(context_point),
+					y = HIWORD(context_point);
+				RECT r;
+				GetWindowRect(list_hwnd, &r);
+				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				if(HIWORD(item) == 0) {				
+					int count = LOWORD(item);
+					bool found = false;
+					Lock(&data_list_cs, "menu show graph");
+					if(count >= 0 && count < (int)data_list.size()) {
+						itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
+						found = true;
+					}
+					Unlock(&data_list_cs);
+					if(found)
+						CallService(PLUG "/ShowGraph", (WPARAM)itemData.item_id, (LPARAM)itemData.pszLabel);
+				}
+			}
+			return TRUE;
+		case ID_MENU_TOGGLE:
+			if(context_point_valid) {
+				WORD x = LOWORD(context_point),
+					y = HIWORD(context_point);
+				RECT r;
+				GetWindowRect(list_hwnd, &r);
+				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				if(HIWORD(item) == 0) {				
+					int count = LOWORD(item);
+					bool found = false;
+					Lock(&data_list_cs, "menu toggle");
+					if(count >= 0 && count < (int)data_list.size()) {
+						itemData = *(PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
+						found = true;
+					}
+					Unlock(&data_list_cs);
+					if(found)
+						CallService(PLUG "/ToggleEnabled", (WPARAM)itemData.item_id, 0);
+				}
+			}
+			return TRUE;
+		case ID_MENU_EDIT:
+			if(context_point_valid) {
+				WORD x = LOWORD(context_point),
+					y = HIWORD(context_point);
+				RECT r;
+				GetWindowRect(list_hwnd, &r);
+				DWORD item = SendMessage(list_hwnd, LB_ITEMFROMPOINT, 0, MAKELPARAM(x - r.left, y - r.top));
+				PINGADDRESS *temp = 0;
+				if(HIWORD(item) == 0) {				
+					int count = LOWORD(item);
+					Lock(&data_list_cs, "menu edit");
+					if(count >= 0 && count < (int)data_list.size()) {
+						temp = (PINGADDRESS *)SendMessage(list_hwnd, LB_GETITEMDATA, count, 0);
+					}
+					Unlock(&data_list_cs);
+					if(temp) {
+						itemData = *temp;
+						if(Edit(hwnd, itemData)) {
+							Lock(&data_list_cs, "menu edited");
+							*temp = itemData;
+							CallService(PLUG "/SetAndSavePingList", (WPARAM)&data_list, 0);
+							Unlock(&data_list_cs);
+						}
+					}
+				}
+			}
+			return TRUE;
+		case ID_MENU_DISABLEALLPINGS:
+			CallService(PLUG "/DisableAll", 0, 0);
+			return TRUE;
+		case ID_MENU_ENABLEALLPINGS:
+			CallService(PLUG "/EnableAll", 0, 0);
+			return TRUE;
+		case ID_MENU_OPTIONS:
+			{
+				OPENOPTIONSDIALOG oop = {0};
+				oop.cbSize = sizeof(oop);
+				oop.pszGroup = "Network";
+				oop.pszPage = "PING";
+				oop.pszTab = "Settings";
+				Options_Open(&oop);
+			}
+			return TRUE;
+		case ID_MENU_DESTINATIONS:
+			{
+				OPENOPTIONSDIALOG oop = {0};
+				oop.cbSize = sizeof(oop);
+				oop.pszGroup = "Network";
+				oop.pszPage = "PING";
+				oop.pszTab = "Hosts";
+				Options_Open(&oop);
+			}
+			return TRUE;
+		}
+		if (HIWORD( wParam ) == LBN_DBLCLK) {
+			sel = SendMessage(list_hwnd, LB_GETCURSEL, 0, 0);
+			if(sel != LB_ERR) {
+				lp = SendMessage(list_hwnd, LB_GETITEMDATA, sel, 0);
+				if(lp != LB_ERR) {
+					PINGADDRESS *pItemData = (PINGADDRESS *)lp;
+
+					Lock(&data_list_cs, "command");
+
+					if(pItemData) {
+						DWORD item_id = pItemData->item_id;
+						Unlock(&data_list_cs);					
+
+						int wake = CallService(PLUG "/DblClick", (WPARAM)item_id, 0);
+						InvalidateRect(list_hwnd, 0, FALSE);
+						if(wake) SetEvent(hWakeEvent);
+
+						if(options.logging) {
+							char buf[1024];
+							mir_snprintf(buf, 1024, "%s - %s", pItemData->pszLabel, (wake ? Translate("enabled") : Translate("double clicked")));
+							CallService(PLUG "/Log", (WPARAM)buf, 0);
+						}
+
+					} else {
+						Unlock(&data_list_cs);					
+					}
+				}
+			}
+			return TRUE;
+		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+	
+	case WM_MOVE:		// needed for docked frames in clist_mw (not needed in clist_modern)
+		if(FrameIsFloating()) 
+			break;
+	case WM_SIZE:
+		{
+		//PostMessage(label, WM_SIZE, wParam, lParam);
+		
+			GetClientRect(hwnd,&rect);	
+		//SetWindowPos(list_hwnd, 0, rect.left, rect.top, rect.right-rect.left, rect.bottom-rect.top, SWP_NOZORDER);
+		//InvalidateRect(list_hwnd, &rect, FALSE);
+			int winheight = rect.bottom - rect.top,
+				itemheight = SendMessage(list_hwnd, LB_GETITEMHEIGHT, 0, 0),
+				count = SendMessage(list_hwnd, LB_GETCOUNT, 0, 0),
+#ifdef min
+				height = min(winheight - winheight % itemheight, itemheight * count);
+#else
+				height = std::min(winheight - winheight % itemheight, itemheight * count);
+#endif
+			SetWindowPos(list_hwnd, 0, rect.left, rect.top, rect.right-rect.left, height, SWP_NOZORDER);
+			InvalidateRect(list_hwnd, 0, FALSE);
+		}
+		InvalidateRect(hwnd, 0, TRUE);
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_DESTROY:
+		if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+			Utils_SaveWindowPosition(hwnd, 0, PLUG, "main_window");
+		}
+
+		KillTimer(hwnd, TIMER_ID);
+		if(tbrush) DeleteObject(tbrush);
+
+		DestroyWindow(list_hwnd);
+
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	case WM_CLOSE:
+		if(!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+			Utils_SaveWindowPosition(hwnd, 0, PLUG, "main_window");
+			ShowWindow(hwnd, SW_HIDE);
+			return 0;
+		}
+		return DefWindowProc(hwnd, msg, wParam, lParam);
+/*
+	case WM_POWERBROADCAST:
+
+		if(options.logging) {
+			std::ostringstream oss;
+			switch(wParam) {
+			case PBT_APMSUSPEND:
+				CallService("PingPlug/Log", (WPARAM)"system suspend", 0);
+				break;
+			case PBT_APMRESUMESUSPEND:
+				oss << "system resume";
+				if(lParam == PBTF_APMRESUMEFROMFAILURE)
+					oss << " [suspend failure!]";
+				CallService("PingPlug/Log", (WPARAM)oss.str().c_str(), 0);
+				break;
+			case PBT_APMRESUMEAUTOMATIC:
+				oss << "system resume (automatic)";
+				if(lParam == PBTF_APMRESUMEFROMFAILURE)
+					oss << " [suspend failure!]";
+				CallService("PingPlug/Log", (WPARAM)oss.str().c_str(), 0);
+				break;
+			case PBT_APMRESUMECRITICAL:
+				oss << "system resume (critical)";
+				if(lParam == PBTF_APMRESUMEFROMFAILURE)
+					oss << " [suspend failure!]";
+				CallService("PingPlug/Log", (WPARAM)oss.str().c_str(), 0);
+				break;
+			}
+		}
+		break;
+*/
+	default:
+			return DefWindowProc(hwnd, msg, wParam, lParam);
+
+	};
+	
+	return(TRUE);
+};
+
+
+int ReloadFont(WPARAM wParam, LPARAM lParam) {
+	if(hFont) DeleteObject(hFont);
+
+	LOGFONT log_font;
+	CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
+	hFont = CreateFontIndirect(&log_font);
+	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
+
+	bk_col = CallService(MS_COLOUR_GET, (WPARAM)&bk_col_id, 0);
+	RefreshWindow(0, 0);
+
+	return 0;
+}
+
+int RefreshWindow(WPARAM wParam, LPARAM lParam) {
+	InvalidateRect(list_hwnd, 0, TRUE);
+	InvalidateRect(hpwnd, 0, TRUE);
+	return 0;
+}
+
+void UpdateFrame() {
+	if(IsWindowVisible(hwnd_clist) != IsWindowVisible(hpwnd))
+		ShowWindow(hpwnd, IsWindowVisible(hwnd_clist) ? SW_SHOW : SW_HIDE);
+
+	if(!IsWindowVisible(hpwnd)) return;
+
+	RECT r_clist;
+	GetWindowRect(hwnd_clist, &r_clist);
+	RECT r_frame;
+	GetWindowRect(hpwnd, &r_frame);
+	int height = list_size * options.row_height;
+	if(GetWindowLong(hpwnd, GWL_STYLE) & WS_BORDER) {
+		RECT r_frame_client;
+		GetClientRect(hpwnd, &r_frame_client);
+		height += (r_frame.bottom - r_frame.top) - (r_frame_client.bottom - r_frame_client.top);
+	}
+
+	SetWindowPos(hpwnd, 0, r_clist.left, r_clist.top - height, (r_clist.right - r_clist.left), height, SWP_NOZORDER | SWP_NOACTIVATE);
+}
+
+WNDPROC wpOrigClistProc;  
+
+// Subclass procedure 
+LRESULT APIENTRY ClistSubclassProc(
+    HWND hwnd, 
+    UINT uMsg, 
+    WPARAM wParam, 
+    LPARAM lParam) 
+{ 
+	if(uMsg == WM_SIZE || uMsg == WM_MOVE)
+		UpdateFrame();
+
+	if(uMsg == WM_NCCALCSIZE) { // possible window style change
+		if(GetWindowLong(hwnd_clist, GWL_STYLE) != GetWindowLong(hpwnd, GWL_STYLE)
+			|| GetWindowLong(hwnd_clist, GWL_STYLE) != GetWindowLong(hpwnd, GWL_STYLE))
+		{
+			SetWindowLong(hpwnd, GWL_STYLE, GetWindowLong(hwnd_clist, GWL_STYLE));
+			SetWindowLong(hpwnd, GWL_EXSTYLE, GetWindowLong(hwnd_clist, GWL_EXSTYLE));
+			SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+		}
+	}
+
+	if(uMsg == WM_SHOWWINDOW) {
+		ShowWindow(hpwnd, wParam);
+	}
+	
+    return CallWindowProc(wpOrigClistProc, hwnd, uMsg, wParam, lParam); 
+} 
+
+void AttachToClist(bool attach) {
+	if(!hpwnd) return;
+
+	if(attach) {
+		SetWindowLong(hpwnd, GWL_STYLE, GetWindowLong(hwnd_clist, GWL_STYLE));
+		SetWindowLong(hpwnd, GWL_EXSTYLE, GetWindowLong(hwnd_clist, GWL_EXSTYLE));
+		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+
+		// subclass clist to trap move/size
+		wpOrigClistProc = (WNDPROC) SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) ClistSubclassProc); 
+
+		UpdateFrame();
+	} else {
+		SetWindowLong(hpwnd, GWL_STYLE, (WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_VISIBLE | WS_CLIPCHILDREN));
+		SetWindowLong(hpwnd, GWL_EXSTYLE, WS_EX_TOOLWINDOW);
+		SetWindowPos(hpwnd, 0, 0, 0, 0, 0, SWP_FRAMECHANGED | SWP_NOMOVE | SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
+		
+		SetWindowLongPtr(hwnd_clist, GWLP_WNDPROC, (LONG_PTR) wpOrigClistProc); 
+	}
+}
+
+void InitList() {
+
+	hUserDll = LoadLibrary(_T("user32.dll"));
+	if (hUserDll) {
+		MySetLayeredWindowAttributes = (BOOL (WINAPI *)(HWND,COLORREF,BYTE,DWORD))GetProcAddress(hUserDll, "SetLayeredWindowAttributes");
+		MyAnimateWindow=(BOOL (WINAPI*)(HWND,DWORD,DWORD))GetProcAddress(hUserDll,"AnimateWindow");
+	}
+
+	hwnd_clist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+
+	WNDCLASS wndclass;
+
+    wndclass.style         = 0;
+    wndclass.lpfnWndProc   = FrameWindowProc;
+    wndclass.cbClsExtra    = 0;
+    wndclass.cbWndExtra    = 0;
+    wndclass.hInstance     = hInst;
+    wndclass.hIcon         = hIconResponding;
+    wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
+    wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
+    wndclass.lpszMenuName  = NULL;
+    wndclass.lpszClassName = PLUG "WindowClass";
+	RegisterClass(&wndclass);
+
+	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
+		hpwnd=CreateWindow(PLUG "WindowClass", "Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
+
+		CLISTFrame frame = {0};
+		frame.name=PLUG;
+		frame.cbSize=sizeof(CLISTFrame);
+		frame.hWnd=hpwnd;
+		frame.align=alBottom;
+		frame.Flags=F_VISIBLE|F_SHOWTB|F_SHOWTBTIP;
+		frame.height=30;
+		frame.TBname=Translate("Ping");
+	
+		frame_id=CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
+	} else {
+		hpwnd=CreateWindowEx(WS_EX_TOOLWINDOW, PLUG "WindowClass","Ping",
+						(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
+						0,0,400,300,hwnd_clist,NULL,hInst,NULL);
+
+		Utils_RestoreWindowPosition(hpwnd, 0, PLUG, "main_window");
+
+		CreateServiceFunction(PLUG "/ShowWindow", PingPlugShowWindow);
+		
+		CLISTMENUITEM mi = {0};
+
+		mi.flags = CMIF_TCHAR;
+		mi.popupPosition = 1000200001;
+		mi.ptszPopupName = LPGENT( "Ping" );
+		mi.cbSize = sizeof( mi );
+		mi.position = 3000320001;
+		mi.hIcon = 0;//LoadIcon( hInst, 0);
+		mi.ptszName = LPGENT( "Show/Hide &Ping Window" );
+		mi.pszService = PLUG "/ShowWindow";
+		Menu_AddMainMenuItem(&mi);
+
+		if(options.attach_to_clist) AttachToClist(true);
+		else ShowWindow(hpwnd, SW_SHOW);
+	}
+
+	{
+		font_id.cbSize = sizeof(FontID);
+		strncpy(font_id.group, "Ping", sizeof(font_id.group));
+		strncpy(font_id.name, "List", sizeof(font_id.name));
+		strncpy(font_id.dbSettingsGroup, "PING", sizeof(font_id.dbSettingsGroup));
+		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
+		font_id.order = 0;
+
+		FontRegister(&font_id);
+
+		bk_col_id.cbSize = sizeof(ColourID);
+		strncpy(bk_col_id.group, "Ping", sizeof(bk_col_id.group));
+		strncpy(bk_col_id.name, "Background", sizeof(bk_col_id.name));
+		strncpy(bk_col_id.dbSettingsGroup, "PING", sizeof(bk_col_id.dbSettingsGroup));
+		strncpy(bk_col_id.setting, "BgColor", sizeof(bk_col_id.setting));
+		ColourRegister(&bk_col_id);
+
+		HookEvent(ME_FONT_RELOAD, ReloadFont);
+
+		ReloadFont(0, 0);
+	}
+
+	start_ping_thread();
+}
+
+void DeinitList() {
+	DestroyWindow(hpwnd);
+	stop_ping_thread();
+	if(hFont) DeleteObject(hFont);
+}
