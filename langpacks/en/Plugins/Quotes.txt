@@ -1,6 +1,6 @@
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;langpack template for Quotes
-;file \protocols\Quotes\res\Forex.rc
+;file \plugins\Quotes\res\Forex.rc
 [OK]
 [Use contact specific settings]
 [Log]
@@ -57,24 +57,24 @@
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
-;file \protocols\Quotes\src\Chart.h
+;file \plugins\Quotes\src\Chart.h
 [There is no to show]
-;file \protocols\Quotes\src\CommonOptionDlg.cpp
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 [Minutes]
 [Hours]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
-;file \protocols\Quotes\src\CreateFilePath.cpp
+;file \plugins\Quotes\src\CreateFilePath.cpp
 [\\Quotes\\]
-;file \protocols\Quotes\src\CurrencyConverter.cpp
+;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 [ <a href="]
 [</a>]
 [Enter positive number.]
 [open]
-;file \protocols\Quotes\src\Forex.cpp
+;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 [Refresh All Quotes\\Rates]
 [Currency Converter...]
@@ -85,10 +85,10 @@
 [Chart...]
 [Edit Settings...]
 [Network]
-;file \protocols\Quotes\src\HTTPSession.cpp
+;file \plugins\Quotes\src\HTTPSession.cpp
 [Dioksin]
 [Quotes HTTP connections]
-;file \protocols\Quotes\src\IconLib.cpp
+;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 [Quote/Rate up]
 [Quote/Rate down]
@@ -99,7 +99,7 @@
 [Export]
 [Swap button]
 [Import]
-;file \protocols\Quotes\src\ImportExport.cpp
+;file \plugins\Quotes\src\ImportExport.cpp
 [Value]
 [Name]
 [Setting]
@@ -121,7 +121,7 @@
 [xml]
 [CList]
 [Group]
-;file \protocols\Quotes\src\Locale.cpp
+;file \plugins\Quotes\src\Locale.cpp
 [Control Panel\\International]
 [%d.%m.%y]
 [dd/MM/yy]
@@ -136,16 +136,16 @@
 [sLongDate]
 [sShortTime]
 [sTimeFormat]
-;file \protocols\Quotes\src\Log.cpp
+;file \plugins\Quotes\src\Log.cpp
 [Quotes.log]
 [ ================================>\n]
 [\n\n]
-;file \protocols\Quotes\src\ModuleInfo.cpp
+;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-;file \protocols\Quotes\src\OptionDukasCopy.cpp
+;file \plugins\Quotes\src\OptionDukasCopy.cpp
 [ - ]
-;file \protocols\Quotes\src\QuoteChart.cpp
+;file \plugins\Quotes\src\QuoteChart.cpp
 [DioksinChart]
 [%d/%m/%y %H:%M:%S]
 [%d.%m.%y %H:%M:%S]
@@ -157,8 +157,8 @@
 [Last Month]
 [Last Year]
 [User-Defined]
-;file \protocols\Quotes\src\QuoteInfoDlg.cpp
-;file \protocols\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
 [Unknown]
 [symbol]
 [description]
@@ -170,18 +170,18 @@
 [url]
 [Begin contacts refreshing]
 [End contacts refreshing]
-;file \protocols\Quotes\src\QuotesProviderDukasCopy.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 [sid]
 [stock]
 [oldPrice]
-;file \protocols\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [?a=]
 [&from=]
 [&to=]
 [currency_converter_result]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
-;file \protocols\Quotes\src\QuotesProviderGoogleFinance.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
 [?q=]
 [ref_]
 [_ecp]
@@ -190,7 +190,7 @@
 [var _companyName = ]
 [Open]
 [snap-data]
-;file \protocols\Quotes\src\QuotesProviderVisitorDbSettings.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
 [%r>%p]
 [%s\\t%t\\t%r\\n]
 [%s %r]
@@ -200,8 +200,8 @@
 [Google.xml]
 [GoogleFinance.xml]
 [Yahoo.xml]
-;file \protocols\Quotes\src\QuotesProviderVisitorFormater.cpp
-;file \protocols\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormater.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 [Quote Name]
 [From Currency Full Name]
@@ -228,10 +228,10 @@
 [Day's Low]
 [Previous Close]
 [Change]
-;file \protocols\Quotes\src\QuotesProviderYahoo.cpp
+;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
 [dioksin.txt?s=]
 [&f=snl1ohgpc1]
-;file \protocols\Quotes\src\SettingsDlg.cpp
+;file \plugins\Quotes\src\SettingsDlg.cpp
 [%quotename%]
 [%miranda_userdata%]
 [Log Files (*.txt,*.log)]
@@ -243,9 +243,9 @@
 [Enter history format.]
 [Enter popup window format.]
 [.log]
-;file \protocols\Quotes\src\WinCtrlHelper.cpp
+;file \plugins\Quotes\src\WinCtrlHelper.cpp
 [\r\n]
-;file \protocols\Quotes\src\XMLEngineMI.cpp
+;file \plugins\Quotes\src\XMLEngineMI.cpp
 [version]
 [1.0]
 [encoding]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Weather
-;file \protocols\Weather\res\resource.rc
+;file \plugins\Weather\res\resource.rc
 [Update]
 [Brief Info]
 [Webpage]
@@ -124,12 +124,12 @@
 [Show user detail]
 [To old setting]
 [To default]
-;file \protocols\Weather\src\weather.cpp
+;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 [Weather Alert Issued]
 [%s__PopupWindow]
 [static]
-;file \protocols\Weather\src\weather.h
+;file \plugins\Weather\src\weather.h
 [N/A]
 [Invalid ID format, missing "/" (10)]
 [Invalid service (11)]
@@ -165,7 +165,7 @@
 [%n   (%u)]
 [%c, %t\nToday:  High %h, Low %l]
 [Temperature: %[Temperature]]
-;file \protocols\Weather\src\weather_addstn.cpp
+;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
 [Weather Protocol]
@@ -174,7 +174,7 @@
 [%s/%s]
 [<Enter station ID here>]
 [NAME]
-;file \protocols\Weather\src\weather_contacts.cpp
+;file \plugins\Weather\src\weather_contacts.cpp
 [open]
 [Weather condition was not logged.]
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -190,7 +190,7 @@
 [All Files]
 [ (*.*)]
 [*.*]
-;file \protocols\Weather\src\weather_conv.cpp
+;file \plugins\Weather\src\weather_conv.cpp
 [%i.%i]
 [%s%sC]
 [%s%sF]
@@ -249,7 +249,7 @@
 [<unknown time>]
 [<Error>]
 [HTTP Error %i]
-;file \protocols\Weather\src\weather_data.cpp
+;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 [High]
 [Low]
@@ -261,11 +261,11 @@
 [MONTH]
 [Ignore]
 [Error when obtaining data: %s]
-;file \protocols\Weather\src\weather_http.cpp
+;file \plugins\Weather\src\weather_http.cpp
 [Error occured! HTTP Error: %i\n]
 [NetLib error occurred!!]
 [Weather HTTP connections]
-;file \protocols\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 [Update Disabled]
 [View Log]
@@ -276,7 +276,7 @@
 [Popup]
 [No Popup]
 [Edit Settings]
-;file \protocols\Weather\src\weather_info.cpp
+;file \plugins\Weather\src\weather_info.cpp
 [1.0]
 [1.1]
 [1.1a]
@@ -308,7 +308,7 @@
 [Description:]
 [Here is a list of custom variables that are currently available]
 [%c[%s]]
-;file \protocols\Weather\src\weather_ini.cpp
+;file \plugins\Weather\src\weather_ini.cpp
 [ID Search - Station Name]
 [\\Plugins\\Weather\\*.ini]
 [SAMPLE_INI.INI]
@@ -321,7 +321,7 @@
 [http://miranda-ng.org/]
 [\\Plugins\\weather\\]
 [All update data has been reloaded.]
-;file \protocols\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 [Frame Title Font]
 [Weather: %s]
@@ -329,20 +329,20 @@
 [user32.dll]
 [Frame Background]
 [Verdana]
-;file \protocols\Weather\src\weather_opt.cpp
+;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 [General]
 [Display]
 [PopUps]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [Weather Protocol Text Preview]
-;file \protocols\Weather\src\weather_popup.cpp
+;file \plugins\Weather\src\weather_popup.cpp
 [This is the name of the city]
 [Here is a short weather description]
 [                                                            \n]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [%[..]\tcustom variables]
-;file \protocols\Weather\src\weather_svcs.cpp
+;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 [Light]
 [SShower]
@@ -364,7 +364,7 @@
 [Remove Old Data then Update All]
 [Weather Notification]
 [Display in a frame]
-;file \protocols\Weather\src\weather_update.cpp
+;file \plugins\Weather\src\weather_update.cpp
 [************************************************************************]
 [<-- Start update for station -->]
 [Unable to retrieve weather information for %s]
@@ -379,7 +379,7 @@
 [ & ]
 [Alert]
 [#%s Weather]
-;file \protocols\Weather\src\weather_userinfo.cpp
+;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 [%c     %t]
 [%i  %w]

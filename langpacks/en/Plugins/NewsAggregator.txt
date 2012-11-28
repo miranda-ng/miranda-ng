@@ -1,6 +1,6 @@
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;langpack template for NewsAggregator
-;file \protocols\NewsAggregator\Res\Resource.rc
+;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]
 [Remove]
@@ -24,19 +24,19 @@
 [Reset]
 [?]
 [0 - check manually]
-;file \protocols\NewsAggregator\Src\Icons.cpp
+;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
 [Add Feed]
 [Import Feeds]
 [Export Feeds]
 [News Aggregator]
-;file \protocols\NewsAggregator\Src\Menus.cpp
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 [\\Avatars\\]
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
 [http://]
 [Enter Feed name]
 [Error]
@@ -50,7 +50,7 @@
 [Change Feed]
 [Contact deleting]
 [Network]
-;file \protocols\NewsAggregator\Src\Utils.cpp
+;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggr HTTP connection]
 [.jpg]
 [.jpeg]

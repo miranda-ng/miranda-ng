@@ -13190,7 +13190,7 @@ Miranda Language Pack Version 1
 [%s\n...]
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;langpack template for NewsAggregator
-;file \protocols\NewsAggregator\Res\Resource.rc
+;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]
 [Remove]
@@ -13214,19 +13214,19 @@ Miranda Language Pack Version 1
 [Reset]
 [?]
 [0 - check manually]
-;file \protocols\NewsAggregator\Src\Icons.cpp
+;file \plugins\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
 [Add Feed]
 [Import Feeds]
 [Export Feeds]
 [News Aggregator]
-;file \protocols\NewsAggregator\Src\Menus.cpp
+;file \plugins\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
-;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \plugins\NewsAggregator\Src\NewsAggregator.cpp
 [\\Avatars\\]
-;file \protocols\NewsAggregator\Src\Options.cpp
+;file \plugins\NewsAggregator\Src\Options.cpp
 [http://]
 [Enter Feed name]
 [Error]
@@ -13240,7 +13240,7 @@ Miranda Language Pack Version 1
 [Change Feed]
 [Contact deleting]
 [Network]
-;file \protocols\NewsAggregator\Src\Utils.cpp
+;file \plugins\NewsAggregator\Src\Utils.cpp
 [NewsAggr HTTP connection]
 [.jpg]
 [.jpeg]
@@ -14305,6 +14305,100 @@ Miranda Language Pack Version 1
 [<?xml version="1.0"?>\r\n<methodCall><methodName>types</methodName></methodCall>]
 ;file \plugins\PasteIt\src\PasteToWeb2.h
 [wklej.to]
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;langpack template for PingPlugin
+;file \plugins\Ping\res\ping.rc
+[Delay between pings (secs):]
+[Timeout]
+[Ping timeout (secs):]
+[Logging]
+[Log to File]
+[Log Filename:]
+[Network]
+[PopUps]
+[Reply]
+[Block Repetitions]
+[View Log]
+[Browse...]
+[Interface]
+[Do not change icon when testing]
+[Use the Customize/Fonts options to change text size and colour.]
+[Indent:]
+[Row height:]
+[Spin3]
+[Repeats for success/failure:]
+[Attach to contact list]
+[Use CSV format]
+[Add]
+[Remove]
+[Edit]
+[Up]
+[Down]
+[OK]
+[Cancel]
+[Address:]
+[Label:]
+[TCP Connect]
+[Port:]
+[Control Protocol:]
+[Set my status to:]
+[On success, if my status is:]
+[Execute the following command on double-click:]
+[Contact]
+[Protocols]
+[(Optional) Command Parameters:]
+[Graph]
+[Enable]
+[Disable all pings]
+[Enable all pings]
+[Options...]
+[Hosts...]
+;file \plugins\Ping\src\icmp.cpp
+[IPHLPAPI.DLL]
+[ICMP.DLL]
+;file \plugins\Ping\src\log.cpp
+[edit]
+;file \plugins\Ping\src\menu.cpp
+[Disable]
+[PING]
+[Enable All Pings]
+[Disable All Pings]
+;file \plugins\Ping\src\options.cpp
+[All\0*.*\0Text\0*.TXT\0]
+[<none>]
+[<all>]
+[Settings]
+[Hosts]
+;file \plugins\Ping\src\ping.cpp
+[Ping Plugin]
+[Failed to initialize. Plugin disabled.]
+[Local\\ThreadWaitEvent]
+;file \plugins\Ping\src\pinggraph.cpp
+[BUTTON]
+[Show grid lines]
+[Show stats]
+[%d ms]
+[AVG %.1lf ms]
+[MAX %hd ms]
+[MIN %hd ms]
+[GraphWindow]
+;file \plugins\Ping\src\pingthread.cpp
+[%s - setting status of protocol '%s' (%d)]
+[%s - reply, %d]
+[%s - timeout]
+[enabled]
+[double clicked]
+[user32.dll]
+[Ping]
+;file \plugins\Ping\src\rawping.cpp
+[Host %s requests that you reduce the amount of traffic you are sending.]
+;file \plugins\Ping\src\utils.cpp
+[Unknown Address]
+[Unknown]
+[Responding]
+[Not Responding]
+[Testing]
+[Disabled]
 #muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;langpack template for PluginUpdater
 ;file \plugins\PluginUpdater\res\Resource.rc
@@ -14867,7 +14961,7 @@ Miranda Language Pack Version 1
 [Stay on Top]
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;langpack template for Quotes
-;file \protocols\Quotes\res\Forex.rc
+;file \plugins\Quotes\res\Forex.rc
 [OK]
 [Use contact specific settings]
 [Log]
@@ -14924,24 +15018,24 @@ Miranda Language Pack Version 1
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
 [Status &Message:]
-;file \protocols\Quotes\src\Chart.h
+;file \plugins\Quotes\src\Chart.h
 [There is no to show]
-;file \protocols\Quotes\src\CommonOptionDlg.cpp
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
 [Seconds]
 [Minutes]
 [Hours]
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
-;file \protocols\Quotes\src\CreateFilePath.cpp
+;file \plugins\Quotes\src\CreateFilePath.cpp
 [\\Quotes\\]
-;file \protocols\Quotes\src\CurrencyConverter.cpp
+;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 [ <a href="]
 [</a>]
 [Enter positive number.]
 [open]
-;file \protocols\Quotes\src\Forex.cpp
+;file \plugins\Quotes\src\Forex.cpp
 [Quotes]
 [Refresh All Quotes\\Rates]
 [Currency Converter...]
@@ -14952,10 +15046,10 @@ Miranda Language Pack Version 1
 [Chart...]
 [Edit Settings...]
 [Network]
-;file \protocols\Quotes\src\HTTPSession.cpp
+;file \plugins\Quotes\src\HTTPSession.cpp
 [Dioksin]
 [Quotes HTTP connections]
-;file \protocols\Quotes\src\IconLib.cpp
+;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
 [Quote/Rate up]
 [Quote/Rate down]
@@ -14966,7 +15060,7 @@ Miranda Language Pack Version 1
 [Export]
 [Swap button]
 [Import]
-;file \protocols\Quotes\src\ImportExport.cpp
+;file \plugins\Quotes\src\ImportExport.cpp
 [Value]
 [Name]
 [Setting]
@@ -14988,7 +15082,7 @@ Miranda Language Pack Version 1
 [xml]
 [CList]
 [Group]
-;file \protocols\Quotes\src\Locale.cpp
+;file \plugins\Quotes\src\Locale.cpp
 [Control Panel\\International]
 [%d.%m.%y]
 [dd/MM/yy]
@@ -15003,16 +15097,16 @@ Miranda Language Pack Version 1
 [sLongDate]
 [sShortTime]
 [sTimeFormat]
-;file \protocols\Quotes\src\Log.cpp
+;file \plugins\Quotes\src\Log.cpp
 [Quotes.log]
 [ ================================>\n]
 [\n\n]
-;file \protocols\Quotes\src\ModuleInfo.cpp
+;file \plugins\Quotes\src\ModuleInfo.cpp
 [Miranda could not load Quotes plugin. XML parser is missing.]
 [Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
-;file \protocols\Quotes\src\OptionDukasCopy.cpp
+;file \plugins\Quotes\src\OptionDukasCopy.cpp
 [ - ]
-;file \protocols\Quotes\src\QuoteChart.cpp
+;file \plugins\Quotes\src\QuoteChart.cpp
 [DioksinChart]
 [%d/%m/%y %H:%M:%S]
 [%d.%m.%y %H:%M:%S]
@@ -15024,8 +15118,8 @@ Miranda Language Pack Version 1
 [Last Month]
 [Last Year]
 [User-Defined]
-;file \protocols\Quotes\src\QuoteInfoDlg.cpp
-;file \protocols\Quotes\src\QuotesProviderBase.cpp
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
 [Unknown]
 [symbol]
 [description]
@@ -15037,18 +15131,18 @@ Miranda Language Pack Version 1
 [url]
 [Begin contacts refreshing]
 [End contacts refreshing]
-;file \protocols\Quotes\src\QuotesProviderDukasCopy.cpp
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
 [sid]
 [stock]
 [oldPrice]
-;file \protocols\Quotes\src\QuotesProviderGoogle.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
 [?a=]
 [&from=]
 [&to=]
 [currency_converter_result]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
-;file \protocols\Quotes\src\QuotesProviderGoogleFinance.cpp
+;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
 [?q=]
 [ref_]
 [_ecp]
@@ -15057,7 +15151,7 @@ Miranda Language Pack Version 1
 [var _companyName = ]
 [Open]
 [snap-data]
-;file \protocols\Quotes\src\QuotesProviderVisitorDbSettings.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
 [%r>%p]
 [%s\\t%t\\t%r\\n]
 [%s %r]
@@ -15067,8 +15161,8 @@ Miranda Language Pack Version 1
 [Google.xml]
 [GoogleFinance.xml]
 [Yahoo.xml]
-;file \protocols\Quotes\src\QuotesProviderVisitorFormater.cpp
-;file \protocols\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormater.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
 [Quote Name]
 [From Currency Full Name]
@@ -15095,10 +15189,10 @@ Miranda Language Pack Version 1
 [Day's Low]
 [Previous Close]
 [Change]
-;file \protocols\Quotes\src\QuotesProviderYahoo.cpp
+;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
 [dioksin.txt?s=]
 [&f=snl1ohgpc1]
-;file \protocols\Quotes\src\SettingsDlg.cpp
+;file \plugins\Quotes\src\SettingsDlg.cpp
 [%quotename%]
 [%miranda_userdata%]
 [Log Files (*.txt,*.log)]
@@ -15110,9 +15204,9 @@ Miranda Language Pack Version 1
 [Enter history format.]
 [Enter popup window format.]
 [.log]
-;file \protocols\Quotes\src\WinCtrlHelper.cpp
+;file \plugins\Quotes\src\WinCtrlHelper.cpp
 [\r\n]
-;file \protocols\Quotes\src\XMLEngineMI.cpp
+;file \plugins\Quotes\src\XMLEngineMI.cpp
 [version]
 [1.0]
 [encoding]
@@ -20574,7 +20668,7 @@ Miranda Language Pack Version 1
 [Watrack MPD]
 ;#muuid not found, please specify manually!
 ;langpack template for Weather
-;file \protocols\Weather\res\resource.rc
+;file \plugins\Weather\res\resource.rc
 [Update]
 [Brief Info]
 [Webpage]
@@ -20698,12 +20792,12 @@ Miranda Language Pack Version 1
 [Show user detail]
 [To old setting]
 [To default]
-;file \protocols\Weather\src\weather.cpp
+;file \plugins\Weather\src\weather.cpp
 [Weather Condition Changed]
 [Weather Alert Issued]
 [%s__PopupWindow]
 [static]
-;file \protocols\Weather\src\weather.h
+;file \plugins\Weather\src\weather.h
 [N/A]
 [Invalid ID format, missing "/" (10)]
 [Invalid service (11)]
@@ -20739,7 +20833,7 @@ Miranda Language Pack Version 1
 [%n   (%u)]
 [%c, %t\nToday:  High %h, Low %l]
 [Temperature: %[Temperature]]
-;file \protocols\Weather\src\weather_addstn.cpp
+;file \plugins\Weather\src\weather_addstn.cpp
 [Current weather information for %s.]
 [%s is now the default weather station]
 [Weather Protocol]
@@ -20748,7 +20842,7 @@ Miranda Language Pack Version 1
 [%s/%s]
 [<Enter station ID here>]
 [NAME]
-;file \protocols\Weather\src\weather_contacts.cpp
+;file \plugins\Weather\src\weather_contacts.cpp
 [open]
 [Weather condition was not logged.]
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
@@ -20764,7 +20858,7 @@ Miranda Language Pack Version 1
 [All Files]
 [ (*.*)]
 [*.*]
-;file \protocols\Weather\src\weather_conv.cpp
+;file \plugins\Weather\src\weather_conv.cpp
 [%i.%i]
 [%s%sC]
 [%s%sF]
@@ -20823,7 +20917,7 @@ Miranda Language Pack Version 1
 [<unknown time>]
 [<Error>]
 [HTTP Error %i]
-;file \protocols\Weather\src\weather_data.cpp
+;file \plugins\Weather\src\weather_data.cpp
 [<Enter city name here>]
 [High]
 [Low]
@@ -20835,11 +20929,11 @@ Miranda Language Pack Version 1
 [MONTH]
 [Ignore]
 [Error when obtaining data: %s]
-;file \protocols\Weather\src\weather_http.cpp
+;file \plugins\Weather\src\weather_http.cpp
 [Error occured! HTTP Error: %i\n]
 [NetLib error occurred!!]
 [Weather HTTP connections]
-;file \protocols\Weather\src\weather_icons.cpp
+;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
 [Update Disabled]
 [View Log]
@@ -20850,7 +20944,7 @@ Miranda Language Pack Version 1
 [Popup]
 [No Popup]
 [Edit Settings]
-;file \protocols\Weather\src\weather_info.cpp
+;file \plugins\Weather\src\weather_info.cpp
 [1.0]
 [1.1]
 [1.1a]
@@ -20882,7 +20976,7 @@ Miranda Language Pack Version 1
 [Description:]
 [Here is a list of custom variables that are currently available]
 [%c[%s]]
-;file \protocols\Weather\src\weather_ini.cpp
+;file \plugins\Weather\src\weather_ini.cpp
 [ID Search - Station Name]
 [\\Plugins\\Weather\\*.ini]
 [SAMPLE_INI.INI]
@@ -20895,7 +20989,7 @@ Miranda Language Pack Version 1
 [http://miranda-ng.org/]
 [\\Plugins\\weather\\]
 [All update data has been reloaded.]
-;file \protocols\Weather\src\weather_mwin.cpp
+;file \plugins\Weather\src\weather_mwin.cpp
 [Frame Font]
 [Frame Title Font]
 [Weather: %s]
@@ -20903,20 +20997,20 @@ Miranda Language Pack Version 1
 [user32.dll]
 [Frame Background]
 [Verdana]
-;file \protocols\Weather\src\weather_opt.cpp
+;file \plugins\Weather\src\weather_opt.cpp
 [Network]
 [General]
 [Display]
 [PopUps]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [Weather Protocol Text Preview]
-;file \protocols\Weather\src\weather_popup.cpp
+;file \plugins\Weather\src\weather_popup.cpp
 [This is the name of the city]
 [Here is a short weather description]
 [                                                            \n]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 [%[..]\tcustom variables]
-;file \protocols\Weather\src\weather_svcs.cpp
+;file \plugins\Weather\src\weather_svcs.cpp
 [Station ID]
 [Light]
 [SShower]
@@ -20938,7 +21032,7 @@ Miranda Language Pack Version 1
 [Remove Old Data then Update All]
 [Weather Notification]
 [Display in a frame]
-;file \protocols\Weather\src\weather_update.cpp
+;file \plugins\Weather\src\weather_update.cpp
 [************************************************************************]
 [<-- Start update for station -->]
 [Unable to retrieve weather information for %s]
@@ -20953,7 +21047,7 @@ Miranda Language Pack Version 1
 [ & ]
 [Alert]
 [#%s Weather]
-;file \protocols\Weather\src\weather_userinfo.cpp
+;file \plugins\Weather\src\weather_userinfo.cpp
 [Current condition for %n]
 [%c     %t]
 [%i  %w]
@@ -21451,7 +21545,7 @@ Miranda Language Pack Version 1
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
 ;langpack template for YAMN
-;file \protocols\YAMN\res\YAMN.rc
+;file \plugins\YAMN\res\YAMN.rc
 [List4]
 [List5]
 [OK]
@@ -21534,7 +21628,7 @@ Miranda Language Pack Version 1
 [Preview]
 [Background colour]
 [Text colour]
-;file \protocols\YAMN\src\account.cpp
+;file \plugins\YAMN\src\account.cpp
 [%s: %s,length is %d, remaining %d chars]
 [debug]
 [NFlags: %04x, remaining %d chars]
@@ -21559,11 +21653,11 @@ Miranda Language Pack Version 1
 [Browsing account %s]
 [(null)]
 [debug- WriteAccount...]
-;file \protocols\YAMN\src\debug.cpp
+;file \plugins\YAMN\src\debug.cpp
 [%s\\yamn-debug.synchro.log]
 [%s\\yamn-debug.comm.log]
 [%s\\yamn-debug.decode.log]
-;file \protocols\YAMN\src\main.cpp
+;file \plugins\YAMN\src\main.cpp
 [\\*.book]
 [%miranda_userdata%]
 [Check mail]
@@ -21573,15 +21667,15 @@ Miranda Language Pack Version 1
 [\\Plugins\\YAMN\\*.dll]
 [dll]
 [\\Plugins\\YAMN\\]
-;file \protocols\YAMN\src\protoplugin.cpp
+;file \plugins\YAMN\src\protoplugin.cpp
 [%s\\yamn-accounts.%s.%s.book]
-;file \protocols\YAMN\src\services.cpp
+;file \plugins\YAMN\src\services.cpp
 [Nick]
 [No new mail message]
-;file \protocols\YAMN\src\browser\badconnect.cpp
+;file \plugins\YAMN\src\browser\badconnect.cpp
 [Unknown error]
 [ - connection error]
-;file \protocols\YAMN\src\browser\mailbrowser.cpp
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
 [- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
@@ -21594,12 +21688,12 @@ Miranda Language Pack Version 1
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]
 [%s\t%s\t%s\t%s\r\n]
-;file \protocols\YAMN\src\mails\mime.cpp
+;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 [Part]
-;file \protocols\YAMN\src\proto\netlib.cpp
+;file \plugins\YAMN\src\proto\netlib.cpp
 [%s connection]
-;file \protocols\YAMN\src\proto\pop3\pop3comm.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
 [Disconnected]
 [POP3 protocol (internal)]
 [Mail notifier and browser for Miranda NG. Included POP3 protocol.]
@@ -21642,7 +21736,7 @@ Miranda Language Pack Version 1
 [Cannot write SSL data.]
 [Cannot read SSL data.]
 [Error %d-%d-%d-%d:]
-;file \protocols\YAMN\src\proto\pop3\pop3opt.cpp
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
 [Accounts]
 [General]

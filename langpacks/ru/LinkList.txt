@@ -90,6 +90,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Omegle.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/OpenFolder.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PackUpdater.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PasteIt.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PingPlugin.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PluginUpdater.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PManagerEx.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PopUp.txt
