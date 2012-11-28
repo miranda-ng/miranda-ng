@@ -1,11 +1,11 @@
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;langpack template for AssocMgr
-;file E:\Sources\myranda\plugins\AssocMgr\res\resource.rc
+;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 [Miscellaneous]
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
-;file E:\Sources\myranda\plugins\AssocMgr\src\assoclist.cpp
+;file \plugins\AssocMgr\src\assoclist.cpp
 [%hs:]
 [%hs files]
 [Type]
@@ -19,7 +19,7 @@
 [Services]
 [Associations]
 [Miranda NG Database]
-;file E:\Sources\myranda\plugins\AssocMgr\src\dde.cpp
+;file \plugins\AssocMgr\src\dde.cpp
 [Miranda NG could not open file]
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThere is no registered handler for this file type.]
 [Miranda NG was not able to open ""TCHAR_STR_PARAM"".\n\nThe file could not be processed.]
@@ -30,17 +30,17 @@
 [file]
 [url]
 [miranda32.exe]
-;file E:\Sources\myranda\plugins\AssocMgr\src\dde.h
+;file \plugins\AssocMgr\src\dde.h
 [Miranda]
 [OpenAssoc]
 [url,"%l"]
 [file,"%1"]
-;file E:\Sources\myranda\plugins\AssocMgr\src\main.cpp
+;file \plugins\AssocMgr\src\main.cpp
 [AssocMgr-Readme.txt]
 [Docs\\]
 [AssocMgr-License.txt]
 [AssocMgr-SDK.zip]
-;file E:\Sources\myranda\plugins\AssocMgr\src\reg.cpp
+;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry Warning]
 ["%s" "%hs"]
@@ -89,7 +89,7 @@
 [NoOpenWith]
 [SupportedTypes]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Run]
-;file E:\Sources\myranda\plugins\AssocMgr\src\test.cpp
+;file \plugins\AssocMgr\src\test.cpp
 [AIM Link Protocol]
 [ICQ Link Shortcut]
 [&Add to Contact List...]

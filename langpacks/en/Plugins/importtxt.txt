@@ -1,11 +1,11 @@
 ;#muuid not found, please specify manually!
 ;langpack template for importtxt
-;file E:\Sources\myranda\plugins\ImportTXT\ImpTxtDlg.rc
+;file \plugins\ImportTXT\ImpTxtDlg.rc
 [Start]
 [Close]
 [Choose a file...]
 [...]
-;file E:\Sources\myranda\plugins\ImportTXT\ImpTxtWiz.rc
+;file \plugins\ImportTXT\ImpTxtWiz.rc
 [&Next >]
 [Cancel]
 [< &Back]
@@ -21,7 +21,7 @@
 [Select protocol or account:]
 [Now importing...]
 [Progress1]
-;file E:\Sources\myranda\plugins\ImportTXT\FileDlgs.pas
+;file \plugins\ImportTXT\FileDlgs.pas
 [Select folder for import...]
-;file E:\Sources\myranda\plugins\ImportTXT\ImportTxtWiz.pas
+;file \plugins\ImportTXT\ImportTxtWiz.pas
 [Finish]

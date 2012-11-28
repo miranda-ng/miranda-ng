@@ -1,19 +1,19 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Watrack_MPD
-;file E:\Sources\myranda\plugins\Watrack_MPD\res\watrack_mpd.rc
+;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
 [Port]
 [Password]
-;file E:\Sources\myranda\plugins\Watrack_MPD\src\init.c
+;file \plugins\Watrack_MPD\src\init.c
 [127.0.0.1]
-;file E:\Sources\myranda\plugins\Watrack_MPD\src\main.c
+;file \plugins\Watrack_MPD\src\main.c
 [mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.]
 [Unknown track]
 [Unknown artist]
 [Unknown genre]
 [Unknown album]
 [Unknown year]
-;file E:\Sources\myranda\plugins\Watrack_MPD\src\options.c
+;file \plugins\Watrack_MPD\src\options.c
 [Winamp Track]
 [Plugins]
 [Watrack MPD]

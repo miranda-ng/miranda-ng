@@ -1,6 +1,6 @@
 #muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
 ;langpack template for Twitter
-;file E:\Sources\myranda\protocols\Twitter\res\twitter.rc
+;file \protocols\Twitter\res\twitter.rc
 [Server:]
 [Create a new Twitter account]
 [Default group:]
@@ -31,10 +31,10 @@
 [But not during sign-on]
 [OK]
 [Enter the PIN provided by Twitter to complete your sign in. This is a one time process until you recreate your Miranda Twitter account.]
-;file E:\Sources\myranda\protocols\Twitter\src\chat.cpp
+;file \protocols\Twitter\src\chat.cpp
 [**Chat - Outgoing message: %s]
 [Normal]
-;file E:\Sources\myranda\protocols\Twitter\src\connection.cpp
+;file \protocols\Twitter\src\connection.cpp
 [***** Executing APC]
 [***** Beginning SignOn process]
 [***** Requesting MessageLoop to exit]
@@ -84,13 +84,13 @@
 [***** UpdateMessages - Bad response from server, this has happened %d time(s)]
 [***** UpdateMessages - Too many bad responses from the server, signing off]
 [***** Error updating direct messages: %s]
-;file E:\Sources\myranda\protocols\Twitter\src\contacts.cpp
+;file \protocols\Twitter\src\contacts.cpp
 [***** Error adding friend: %s]
 [***** Error searching for contacts: %s]
-;file E:\Sources\myranda\protocols\Twitter\src\Debug.c
+;file \protocols\Twitter\src\Debug.c
 [\r\n]
 [_DEBUG FORMATTING ERROR\r\n]
-;file E:\Sources\myranda\protocols\Twitter\src\proto.cpp
+;file \protocols\Twitter\src\proto.cpp
 [%miranda_avatarcache%]
 [http://api.twitter.com/oauth/authorize?oauth_token=%s]
 [Send Tweet...]
@@ -103,11 +103,11 @@
 [%s avatar connection]
 [Unable to get avatar Netlib connection for Twitter]
 [%s Protocol]
-;file E:\Sources\myranda\protocols\Twitter\src\theme.cpp
+;file \protocols\Twitter\src\theme.cpp
 [Protocols]
 [Reply...]
 [Visit Homepage]
-;file E:\Sources\myranda\protocols\Twitter\src\ui.cpp
+;file \protocols\Twitter\src\ui.cpp
 [https://api.twitter.com/]
 [https://identi.ca/api/]
 [140]

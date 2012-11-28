@@ -1,6 +1,6 @@
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;langpack template for BASS_interface
-;file E:\Sources\myranda\plugins\BASS_interface\res\Bass.rc
+;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 [bass.dll loading error]
 [Current bass.dll path:]
@@ -10,7 +10,7 @@
 [-]
 [download bass library]
 [Play only if]
-;file E:\Sources\myranda\plugins\BASS_interface\src\Main.cpp
+;file \plugins\BASS_interface\src\Main.cpp
 [HH:mm]
 [un4seen's bass version: %d.%d.%d.%d]
 [--default device--]

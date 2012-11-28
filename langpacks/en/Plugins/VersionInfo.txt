@@ -1,6 +1,6 @@
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;langpack template for VersionInfo
-;file E:\Sources\myranda\plugins\VersionInfo\res\resource.rc
+;file \plugins\VersionInfo\res\resource.rc
 [OK]
 [Cancel]
 [Text file]
@@ -31,14 +31,14 @@
 [&Copy text]
 [Upload]
 [&Save to file]
-;file E:\Sources\myranda\plugins\VersionInfo\src\CPlugin.cpp
+;file \plugins\VersionInfo\src\CPlugin.cpp
 [%d.%d.%d.%d]
 [ v.]
 [] - ]
 [unicode]
 [2in1]
 [\r\n]
-;file E:\Sources\myranda\plugins\VersionInfo\src\CVersionInfo.cpp
+;file \plugins\VersionInfo\src\CVersionInfo.cpp
 [dd' 'MMM' 'yyyy]
 [HH':'mm':'ss]
 [ at ]
@@ -158,17 +158,17 @@
 [VersionInfo]
 [The clipboard is not available, retry.]
 [Information successfully copied into clipboard.]
-;file E:\Sources\myranda\plugins\VersionInfo\src\dlgHandlers.cpp
+;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [%s | %s]
 [Customize using folders plugin]
 [vi.cass.cz]
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 [Show plugin UUIDs ?]
-;file E:\Sources\myranda\plugins\VersionInfo\src\hooked_events.cpp
+;file \plugins\VersionInfo\src\hooked_events.cpp
 [Version Information]
 [Services]
-;file E:\Sources\myranda\plugins\VersionInfo\src\main.cpp
-;file E:\Sources\myranda\plugins\VersionInfo\src\utils.cpp
+;file \plugins\VersionInfo\src\main.cpp
+;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
 [%s\\Plugins\\%s]
 [SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\IniFileMapping\\system.ini\\boot]

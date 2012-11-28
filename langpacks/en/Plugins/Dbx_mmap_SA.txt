@@ -1,6 +1,6 @@
 #muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;langpack template for Dbx_mmap_SA
-;file E:\Sources\myranda\plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [EN]
 [OK]
 [Cancel]
@@ -35,12 +35,12 @@
 [Site:]
 [Email:]
 [Unique ID:]
-;file E:\Sources\myranda\plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
 [Database is Secured MMAP database]
 [You are not authorized for access to Database]
 [Secured MMAP: authorization successful]
 [Database is marked as belonging to an unknown version of Miranda]
-;file E:\Sources\myranda\plugins\Dbx_mmap_SA\src\dialogs.cpp
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
 [Services]
 [Database]
@@ -59,9 +59,9 @@
 [Password is too short!]
 [Passwords do not match!]
 [Wrong password!]
-;file E:\Sources\myranda\plugins\Dbx_mmap_SA\src\init.cpp
+;file \plugins\Dbx_mmap_SA\src\init.cpp
 [db3x secure mmap database support]
-;file E:\Sources\myranda\plugins\Dbx_mmap_SA\src\security.cpp
+;file \plugins\Dbx_mmap_SA\src\security.cpp
 [cryptors\\*.dll]
 [cryptors\\%s]
 [Crypto modules not found]

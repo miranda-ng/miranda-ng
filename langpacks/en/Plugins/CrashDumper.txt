@@ -1,6 +1,6 @@
 #muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;langpack template for CrashDumper
-;file E:\Sources\myranda\plugins\CrashDumper\res\crshdmp.rc
+;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
 [Copy To Clipboard]
 [To File]
@@ -14,7 +14,7 @@
 [&Copy]
 [Co&py All]
 [Select &All]
-;file E:\Sources\myranda\plugins\CrashDumper\src\crshdmp.cpp
+;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 [VersionInfo file %s is inaccessible]
 [Services]
@@ -34,14 +34,14 @@
 [Open miranda-vi.org]
 [Copy Version Info to clipboard]
 [Show Version Info]
-;file E:\Sources\myranda\plugins\CrashDumper\src\dumper.cpp
+;file \plugins\CrashDumper\src\dumper.cpp
 [Not ]
-;file E:\Sources\myranda\plugins\CrashDumper\src\exhndlr.cpp
+;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-;file E:\Sources\myranda\plugins\CrashDumper\src\ui.cpp
+;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
-;file E:\Sources\myranda\plugins\CrashDumper\src\upload.cpp
+;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
 [Cannot upload VersionInfo. Incorrect username or password]
 [Cannot upload VersionInfo. User is banned]
@@ -49,5 +49,5 @@
 [Cannot upload VersionInfo. Unknown error]
 [Cannot upload VersionInfo. Host unreachable.]
 [Crash Dumper HTTP connections]
-;file E:\Sources\myranda\plugins\CrashDumper\src\utils.cpp
+;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]

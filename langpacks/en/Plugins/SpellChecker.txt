@@ -1,6 +1,6 @@
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;langpack template for SpellChecker
-;file E:\Sources\myranda\plugins\SpellChecker\res\resource.rc
+;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 [Enable auto-replacements]
 [Language:]
@@ -29,18 +29,18 @@
 [Use input language to select dictionary]
 [Use dictionaries from other programs]
 [Avoid removing underscores (slows down checking of long texts)]
-;file E:\Sources\myranda\plugins\SpellChecker\src\ardialog.cpp
+;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 [Wrong Correction]
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
-;file E:\Sources\myranda\plugins\SpellChecker\src\autoreplace.cpp
+;file \plugins\SpellChecker\src\autoreplace.cpp
 [-_.!@#$%&*()[]{}<>:?/\\=+]
-;file E:\Sources\myranda\plugins\SpellChecker\src\commons.h
+;file \plugins\SpellChecker\src\commons.h
 [%miranda_path%\\Icons]
 [%miranda_userdata%\\Dictionaries]
 [%miranda_path%\\Dictionaries]
-;file E:\Sources\myranda\plugins\SpellChecker\src\dictionary.cpp
+;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
 [Tagalog (Philippines)]
 [de_frami_neu]
@@ -60,7 +60,7 @@
 [Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
 [Path]
 [%s\\Dictionaries]
-;file E:\Sources\myranda\plugins\SpellChecker\src\options.cpp
+;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 [Auto-replacements]
 [Line]
@@ -72,7 +72,7 @@
 [Thick]
 [Wrong word]
 [Correction]
-;file E:\Sources\myranda\plugins\SpellChecker\src\spellchecker.cpp
+;file \plugins\SpellChecker\src\spellchecker.cpp
 [Enabled]
 [Disabled]
 [Unknown Flag]

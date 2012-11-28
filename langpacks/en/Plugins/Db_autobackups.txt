@@ -1,6 +1,6 @@
 #muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;langpack template for Db_autobackups
-;file E:\Sources\myranda\plugins\Db_autobackups\res\db_autobackups.rc
+;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 [Automatic Backups]
 [Number of backups to keep:]
@@ -14,7 +14,7 @@
 [Go to the "Customize -> Folders" to change settings]
 [Disable progress bar]
 [Disable Popups]
-;file E:\Sources\myranda\plugins\Db_autobackups\src\backup.cpp
+;file \plugins\Db_autobackups\src\backup.cpp
 [%s (*.dat)]
 [Miranda Databases]
 [*.dat]
@@ -29,13 +29,13 @@
 [Rotating backup files...]
 [Copying database file...]
 [Database backuped]
-;file E:\Sources\myranda\plugins\Db_autobackups\src\main.cpp
+;file \plugins\Db_autobackups\src\main.cpp
 [Backup Profile]
 [Save Profile As...]
 [Database/Database Backups]
 [Database]
 [%miranda_userdata%]
-;file E:\Sources\myranda\plugins\Db_autobackups\src\options.cpp
+;file \plugins\Db_autobackups\src\options.cpp
 [%s%s]
 [%s\\]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]

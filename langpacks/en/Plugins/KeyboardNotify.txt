@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for KeyboardNotify
-;file E:\Sources\myranda\plugins\KeyboardNotify\res\resources.rc
+;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
 [Events to react on]
 [Incoming messages]
@@ -85,19 +85,19 @@
 [Ignore all]
 [Ignore none]
 [Ignore]
-;file E:\Sources\myranda\plugins\KeyboardNotify\src\ignore.cpp
+;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 [** Unknown contacts **]
-;file E:\Sources\myranda\plugins\KeyboardNotify\src\keyboard.cpp
+;file \plugins\KeyboardNotify\src\keyboard.cpp
 [Kbd%d]
 [\\Device\\KeyboardClass%d]
 [\\\\.\\Kbd%d]
-;file E:\Sources\myranda\plugins\KeyboardNotify\src\main.cpp
+;file \plugins\KeyboardNotify\src\main.cpp
 [screen-saver]
 [user32]
 [%s/FlashEvent]
 [%s/ExitEvent]
-;file E:\Sources\myranda\plugins\KeyboardNotify\src\options.cpp
+;file \plugins\KeyboardNotify\src\options.cpp
 [Miranda]
 [Windows]
 [left->right]
@@ -122,5 +122,5 @@
 [%s\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]
 [None]
-;file E:\Sources\myranda\plugins\KeyboardNotify\src\utils.cpp
+;file \plugins\KeyboardNotify\src\utils.cpp
 [%s\\%s]

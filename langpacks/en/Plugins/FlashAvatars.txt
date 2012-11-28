@@ -1,6 +1,6 @@
 #muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
 ;langpack template for FlashAvatars
-;file E:\Sources\myranda\plugins\FlashAvatars\src\cflash.cpp
+;file \plugins\FlashAvatars\src\cflash.cpp
 [%miranda_avatarcache%]
 [%s\\%s]
 [Flash]
@@ -15,5 +15,5 @@
 [Flash Avatars]
 [%s\\%s\\]
 [Flash\\]
-;file E:\Sources\myranda\plugins\FlashAvatars\src\TigerHash.h
+;file \plugins\FlashAvatars\src\TigerHash.h
 [ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]

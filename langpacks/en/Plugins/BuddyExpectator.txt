@@ -1,6 +1,6 @@
 #muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;langpack template for BuddyExpectator
-;file E:\Sources\myranda\plugins\BuddyExpectator\res\BuddyExpectator.rc
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after ]
 [Show a popup]
 [Add an event (flashing icon) to the contact]
@@ -31,7 +31,7 @@
 [Never hide this contact]
 [Enable Miss You]
 [Notify always]
-;file E:\Sources\myranda\plugins\BuddyExpectator\src\BuddyExpectator.cpp
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Hiding %s (%S)]
 [%d days since last message]
 [%s %s]
@@ -53,7 +53,7 @@
 [Hide]
 [NeverHide]
 [Hide contact]
-;file E:\Sources\myranda\plugins\BuddyExpectator\src\options.cpp
+;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
 [months]
 [years]

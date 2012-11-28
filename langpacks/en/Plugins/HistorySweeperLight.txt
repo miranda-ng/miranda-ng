@@ -1,14 +1,14 @@
 ;#muuid not found, please specify manually!
 ;langpack template for HistorySweeperLight
-;file E:\Sources\myranda\plugins\HistorySweeperLight\res\historysweeperlight.rc
+;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 [Sweep history for this contacts:]
 [Action 1]
 [Action 2]
-;file E:\Sources\myranda\plugins\HistorySweeperLight\src\main.cpp
+;file \plugins\HistorySweeperLight\src\main.cpp
 [Keep all events]
 [Delete all events]
-;file E:\Sources\myranda\plugins\HistorySweeperLight\src\options.cpp
+;file \plugins\HistorySweeperLight\src\options.cpp
 [*** Defaut Action ***]
 [*** System History ***]
 [History]

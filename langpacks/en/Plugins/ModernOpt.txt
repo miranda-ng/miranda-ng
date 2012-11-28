@@ -1,6 +1,6 @@
 #muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;langpack template for ModernOpt
-;file E:\Sources\myranda\plugins\ModernOpt\res\resource.rc
+;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 [`]
 [Sample page]
@@ -11,7 +11,7 @@
 [Apply]
 [Switch to classic options]
 [Advanced]
-;file E:\Sources\myranda\plugins\ModernOpt\src\modernopt.cpp
+;file \plugins\ModernOpt\src\modernopt.cpp
 [Home]
 [Miranda NG configuration center]
 [Accounts]
@@ -42,6 +42,6 @@
 [Configure]
 [Update]
 [Download]
-;file E:\Sources\myranda\plugins\ModernOpt\src\mopt_selector.cpp
+;file \plugins\ModernOpt\src\mopt_selector.cpp
 [%s\\%s]
 [*.*]

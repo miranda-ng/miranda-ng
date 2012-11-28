@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for SecureIM
-;file E:\Sources\myranda\plugins\SecureIM\res\resource.rc
+;file \plugins\SecureIM\res\resource.rc
 [User List]
 [Enable Secure Offline messages]
 [Enable Secure File Transfer]
@@ -83,7 +83,7 @@
 [Export public key]
 [Import public key]
 [Delete public key]
-;file E:\Sources\myranda\plugins\SecureIM\src\main.cpp
+;file \plugins\SecureIM\src\main.cpp
 [comctl32.dll]
 [Incoming Secure Message]
 [Outgoing Secure Message]
@@ -92,7 +92,7 @@
 [SecureIM [PGP]]
 [SecureIM [GPG]]
 [SecureIM [RSA/AES]]
-;file E:\Sources\myranda\plugins\SecureIM\src\options.cpp
+;file \plugins\SecureIM\src\options.cpp
 [ASC files\0*.asc\0All files (*.*)\0*.*\0]
 [Open Key File]
 [rsa_pub.asc]
@@ -102,8 +102,8 @@
 [Load Private Key File]
 [Load Public Key File]
 [Services]
-;file E:\Sources\myranda\plugins\SecureIM\src\popupOptions.cpp
+;file \plugins\SecureIM\src\popupOptions.cpp
 [Popups]
-;file E:\Sources\myranda\plugins\SecureIM\src\rtfconv.cpp
+;file \plugins\SecureIM\src\rtfconv.cpp
 [rtfconv.dll]
 [plugins\\rtfconv.dll]

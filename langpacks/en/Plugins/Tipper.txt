@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Tipper
-;file E:\Sources\myranda\plugins\TipperYM\res\resource.rc
+;file \plugins\TipperYM\res\resource.rc
 [Options]
 [Layout]
 [Text indent:]
@@ -89,13 +89,13 @@
 [Hide offline protocols]
 [Hide offline]
 [Append protocol name]
-;file E:\Sources\myranda\plugins\TipperYM\src\message_pump.cpp
+;file \plugins\TipperYM\src\message_pump.cpp
 [user32.dll]
 [dwmapi.dll]
-;file E:\Sources\myranda\plugins\TipperYM\src\mir_smileys.cpp
+;file \plugins\TipperYM\src\mir_smileys.cpp
 [Tipper smileys]
 [...]
-;file E:\Sources\myranda\plugins\TipperYM\src\options.cpp
+;file \plugins\TipperYM\src\options.cpp
 [sys:status_msg]
 [Last message: (%sys:last_msg_reltime% ago)]
 [%sys:last_msg%]
@@ -136,7 +136,7 @@
 [Content]
 [Tray tooltip]
 [Extra]
-;file E:\Sources\myranda\plugins\TipperYM\src\options.h
+;file \plugins\TipperYM\src\options.h
 [Number of contacts]
 [Protocol lock status]
 [Logon time]
@@ -151,7 +151,7 @@
 [Gender]
 [Country flag]
 [Client]
-;file E:\Sources\myranda\plugins\TipperYM\src\popwin.cpp
+;file \plugins\TipperYM\src\popwin.cpp
 [Tipper]
 [%s (locked)]
 [ ago]
@@ -175,9 +175,9 @@
 [Other]
 [Miranda uptime:]
 [<b>]
-;file E:\Sources\myranda\plugins\TipperYM\src\popwin.h
+;file \plugins\TipperYM\src\popwin.h
 [MimTTClass]
-;file E:\Sources\myranda\plugins\TipperYM\src\preset_items.cpp
+;file \plugins\TipperYM\src\preset_items.cpp
 [Birthday]
 [Birthday:]
 [%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
@@ -295,7 +295,7 @@
 [logoff_date]
 [logoff_time]
 [logoff_ago]
-;file E:\Sources\myranda\plugins\TipperYM\src\skin_parser.cpp
+;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
 [*.*]
 [*.tsf]
@@ -344,7 +344,7 @@
 [[sidebar]]
 [[fonts]]
 [[appearance]]
-;file E:\Sources\myranda\plugins\TipperYM\src\subst.cpp
+;file \plugins\TipperYM\src\subst.cpp
 [[b]]
 [[i]]
 [[/b]]
@@ -374,7 +374,7 @@
 [msg_count_in]
 [raw:]
 [sys:]
-;file E:\Sources\myranda\plugins\TipperYM\src\tipper.cpp
+;file \plugins\TipperYM\src\tipper.cpp
 [Background]
 [Dividers]
 [Sidebar]
@@ -382,7 +382,7 @@
 [Labels]
 [Values]
 [Tray title]
-;file E:\Sources\myranda\plugins\TipperYM\src\translations.cpp
+;file \plugins\TipperYM\src\translations.cpp
 [[No translation]]
 [Yes]
 [Female]
@@ -412,7 +412,7 @@
 [WORD to name of a day (0..6, 0 is Sunday)]
 [WORD to name of a month (1..12, 1 is January)]
 [BYTE to language (ICQ)]
-;file E:\Sources\myranda\plugins\TipperYM\src\translations.h
+;file \plugins\TipperYM\src\translations.h
 [Afrikaans]
 [Albanian]
 [Arabic]

@@ -1,6 +1,6 @@
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
 ;langpack template for FavContacts
-;file E:\Sources\myranda\plugins\FavContacts\res\resource.rc
+;file \plugins\FavContacts\res\resource.rc
 [Customize]
 [Show second line]
 [Show avatars]
@@ -19,9 +19,9 @@
 [Dim idle contact icons]
 [Show]
 [recent contacts]
-;file E:\Sources\myranda\plugins\FavContacts\src\favlist.h
+;file \plugins\FavContacts\src\favlist.h
 [<no group>]
-;file E:\Sources\myranda\plugins\FavContacts\src\main.cpp
+;file \plugins\FavContacts\src\main.cpp
 [Contact name]
 [Second line]
 [Selected contact name (color)]

@@ -1,6 +1,6 @@
 #muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;langpack template for DbChecker
-;file E:\Sources\myranda\plugins\DbChecker\res\resource.rc
+;file \plugins\DbChecker\res\resource.rc
 [whiterect]
 [Welcome to the Miranda Database Wizard]
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
@@ -43,14 +43,14 @@
 [Launches Miranda with the profile that was just worked on.]
 [Backup:]
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-;file E:\Sources\myranda\plugins\DbChecker\src\finished.cpp
+;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
-;file E:\Sources\myranda\plugins\DbChecker\src\progress.cpp
+;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
 [Miranda Database Tool]
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-;file E:\Sources\myranda\plugins\DbChecker\src\selectdb.cpp
+;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 [Error]
 [Database driver '%s' doesn't support checking.]
@@ -77,8 +77,8 @@
 [All Files]
 [*.DAT]
 [dat]
-;file E:\Sources\myranda\plugins\DbChecker\src\wizard.cpp
-;file E:\Sources\myranda\plugins\DbChecker\src\worker.cpp
+;file \plugins\DbChecker\src\wizard.cpp
+;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 [%s\\Backup of %s]
 [%s\\Backup (%d) of %s]

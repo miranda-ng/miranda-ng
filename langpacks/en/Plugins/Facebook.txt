@@ -1,6 +1,6 @@
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;langpack template for Facebook
-;file E:\Sources\myranda\protocols\FacebookRM\res\facebook.rc
+;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 [Password:]
 [Create a new Facebook account]
@@ -34,10 +34,10 @@
 [Use secure connection also for channel requests]
 [Also disconnect chat when going to offline]
 [Map non-standard statuses to Invisible (instead of Online)]
-;file E:\Sources\myranda\protocols\FacebookRM\src\chat.cpp
+;file \protocols\FacebookRM\src\chat.cpp
 [Admin]
 [Normal]
-;file E:\Sources\myranda\protocols\FacebookRM\src\communication.cpp
+;file \protocols\FacebookRM\src\communication.cpp
 [Login error: Some Facebook things are required.]
 [Your account requires HTTPS connection. Activating.]
 [Login error: Captcha code is required. Bad login credentials?]
@@ -47,31 +47,31 @@
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
 [Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
 [Timeout when sending message.]
-;file E:\Sources\myranda\protocols\FacebookRM\src\connection.cpp
+;file \protocols\FacebookRM\src\connection.cpp
 [Please enter a username.]
 [Please enter a password.]
-;file E:\Sources\myranda\protocols\FacebookRM\src\contacts.cpp
+;file \protocols\FacebookRM\src\contacts.cpp
 [Contact was removed from your server list.]
 [Error occured when removing contact from server.]
 [Request for friendship was sent.]
 [Error occured when requesting friendship.]
 [Request for friendship was canceled.]
 [Error occured when canceling friendship request.]
-;file E:\Sources\myranda\protocols\FacebookRM\src\dialogs.cpp
+;file \protocols\FacebookRM\src\dialogs.cpp
 [Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
 [Sample event]
 [Sample request]
 [Sample newsfeed]
 [Sample notification]
-;file E:\Sources\myranda\protocols\FacebookRM\src\json.cpp
+;file \protocols\FacebookRM\src\json.cpp
 [Multichat]
-;file E:\Sources\myranda\protocols\FacebookRM\src\messages.cpp
+;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
-;file E:\Sources\myranda\protocols\FacebookRM\src\process.cpp
+;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
 [Attachments:]
-;file E:\Sources\myranda\protocols\FacebookRM\src\proto.cpp
+;file \protocols\FacebookRM\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Facebook]
 [%miranda_avatarcache%]
@@ -85,7 +85,7 @@
 [Checking friend requests...]
 [Refreshing buddy list...]
 [Do you want to cancel your friendship with '%s'?]
-;file E:\Sources\myranda\protocols\FacebookRM\src\theme.cpp
+;file \protocols\FacebookRM\src\theme.cpp
 [Facebook Icon]
 [Mind]
 [Cancel friendship]

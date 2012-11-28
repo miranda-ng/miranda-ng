@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for UserGuide
-;file E:\Sources\myranda\plugins\UserGuide\src\main.cpp
+;file \plugins\UserGuide\src\main.cpp
 [%miranda_path%\\Plugins]
 [UserGuide.chm]
 [open]

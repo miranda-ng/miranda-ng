@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for New_GPG
-;file E:\Sources\myranda\plugins\New_GPG\res\new_gpg.rc
+;file \plugins\New_GPG\res\new_gpg.rc
 [Œ ]
 [Load from file]
 [Select existing]
@@ -56,15 +56,15 @@
 [Close:]
 [Strip all tags in outgoing messages]
 [Turn on presence signing (Jabber)]
-;file E:\Sources\myranda\plugins\New_GPG\src\gpg_wrapper.cpp
+;file \plugins\New_GPG\src\gpg_wrapper.cpp
 [" --homedir "]
 [--display-charset utf-8 ]
 [-z 9 ]
 [LANGUAGE=en@quot\0LC_ALL=English\0]
-;file E:\Sources\myranda\plugins\New_GPG\src\icons.cpp
+;file \plugins\New_GPG\src\icons.cpp
 [Secured]
 [Unsecured]
-;file E:\Sources\myranda\plugins\New_GPG\src\init.cpp
+;file \plugins\New_GPG\src\init.cpp
 [<GPGdec>]
 [</GPGdec>]
 [<GPGenc>]
@@ -77,9 +77,9 @@
 [Send public key]
 [Export GPG Public keys from all users]
 [Import GPG Public keys from all users]
-;file E:\Sources\myranda\plugins\New_GPG\src\log.cpp
+;file \plugins\New_GPG\src\log.cpp
 [C:\\GPGdebug.log]
-;file E:\Sources\myranda\plugins\New_GPG\src\main.cpp
+;file \plugins\New_GPG\src\main.cpp
 [Set own key]
 [Key ID]
 [Email]
@@ -167,7 +167,7 @@
 [temporary_exported.asc]
 [ --batch ]
 [ --import "]
-;file E:\Sources\myranda\plugins\New_GPG\src\messages.cpp
+;file \plugins\New_GPG\src\messages.cpp
 [-----BEGIN PGP MESSAGE-----]
 [-----END PGP MESSAGE-----]
 [We received encrypted message from contact with encryption turned off.\nDo you want turn on encryption for this contact ?]
@@ -190,7 +190,7 @@
 [We trying to encrypt with untrusted key, do you want to trust this key permanently ?]
 [Something wrong, gpg does not understand us, aborting encryption.]
 [.asc]
-;file E:\Sources\myranda\plugins\New_GPG\src\options.cpp
+;file \plugins\New_GPG\src\options.cpp
 [Services]
 [Main]
 [GnuPG Variables]
@@ -223,7 +223,7 @@
 [Set file containing GPG public key]
 [GPG public key file]
 [Where is no public or private key.]
-;file E:\Sources\myranda\plugins\New_GPG\src\utilities.cpp
+;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts ?]
 [.gpg]
 [ -o ]

@@ -1,6 +1,6 @@
 #muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;langpack template for Alarms
-;file E:\Sources\myranda\plugins\Alarms\res\resource.rc
+;file \plugins\Alarms\res\resource.rc
 [New]
 [Delete]
 [Edit]
@@ -56,21 +56,21 @@
 [&Delete]
 [&Options...]
 [&New Alarm...]
-;file E:\Sources\myranda\plugins\Alarms\src\alarmlist.cpp
-;file E:\Sources\myranda\plugins\Alarms\src\alarms.cpp
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
 [ ffw]
 [Fast forward!]
 [Windows Media Player]
 [Unknown command issued: "%s"]
 [Set Alarm]
-;file E:\Sources\myranda\plugins\Alarms\src\alarm_win.cpp
+;file \plugins\Alarms\src\alarm_win.cpp
 [Example Alarm]
 [Some example text. Example, example, example.]
 [Title]
 [Background]
 [Window]
 [user32.dll]
-;file E:\Sources\myranda\plugins\Alarms\src\frame.cpp
+;file \plugins\Alarms\src\frame.cpp
 [LISTBOX]
 [%dh %dm]
 [%dm]
@@ -81,7 +81,7 @@
 [AlarmsFrameContainer]
 [Frames]
 [Alarm Reminders]
-;file E:\Sources\myranda\plugins\Alarms\src\options.cpp
+;file \plugins\Alarms\src\options.cpp
 [Sunday]
 [Monday]
 [Tuesday]
@@ -92,4 +92,4 @@
 [Please enter a title for this alarm.]
 [Error]
 [The alarm time you have selected is in the past.]
-;file E:\Sources\myranda\plugins\Alarms\src\trigger.cpp
+;file \plugins\Alarms\src\trigger.cpp

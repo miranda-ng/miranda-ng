@@ -1,6 +1,6 @@
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
-;file E:\Sources\myranda\plugins\MyDetails\res\resource.rc
+;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
 [OK]
 [Cancel]
@@ -54,9 +54,9 @@
 [Show previous protocol]
 [Cycle through protocols]
 [Don't cycle through protocols]
-;file E:\Sources\myranda\plugins\MyDetails\src\data.cpp
+;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
-;file E:\Sources\myranda\plugins\MyDetails\src\frame.cpp
+;file \plugins\MyDetails\src\frame.cpp
 [MyDetailsFrame]
 [MyDetailsFrameContainer]
 [<no nickname>]
@@ -75,12 +75,12 @@
 [Set My Nickname for %s...]
 [Set My Status Message for %s...]
 [Hide My Details]
-;file E:\Sources\myranda\plugins\MyDetails\src\mydetails.cpp
+;file \plugins\MyDetails\src\mydetails.cpp
 [Contact List]
 [Listening to]
 [Previous protocol]
 [Next protocol]
 [Set My Nickname for %s]
 [Set My Status Message for %s]
-;file E:\Sources\myranda\plugins\MyDetails\src\options.cpp
+;file \plugins\MyDetails\src\options.cpp
 [Customize]

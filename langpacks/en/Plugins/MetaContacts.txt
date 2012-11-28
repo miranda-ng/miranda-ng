@@ -1,6 +1,6 @@
 #muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;langpack template for MetaContacts
-;file E:\Sources\myranda\plugins\MetaContacts\res\MetaContacts.rc
+;file \plugins\MetaContacts\res\MetaContacts.rc
 [Please select a MetaContact:]
 [&Ok]
 [&Cancel]
@@ -51,7 +51,7 @@
 [Keep MetaContact history synchronized with subcontacts]
 [Keep subcontact history synchronized with MetaContact]
 [History (** beware - change at your own risk **)]
-;file E:\Sources\myranda\plugins\MetaContacts\src\addto.cpp
+;file \plugins\MetaContacts\src\addto.cpp
 [This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
 [MetaContact Conflict]
 [This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
@@ -64,17 +64,17 @@
 [Assignment to the MetaContact failed.]
 [Assignment failure]
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n"\r\n							"or there is none that can host this contact.\n"\r\n							"Another solution could be to convert this contact into a new MetaContact.\n\nConvert this contact into a new MetaContact?]
-;file E:\Sources\myranda\plugins\MetaContacts\src\edit.cpp
+;file \plugins\MetaContacts\src\edit.cpp
 [Yes]
 [Contact]
 [Protocol]
 [Send Offline]
 [You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?]
 [Delete MetaContact?]
-;file E:\Sources\myranda\plugins\MetaContacts\src\meta_main.cpp
+;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 [MetaContacts]
-;file E:\Sources\myranda\plugins\MetaContacts\src\meta_menu.cpp
+;file \plugins\MetaContacts\src\meta_menu.cpp
 [There was a problem in assigning the contact to the MetaContact]
 [Error]
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
@@ -83,9 +83,9 @@
 [Force Default]
 [Delete MetaContact]
 [Remove from MetaContact]
-;file E:\Sources\myranda\plugins\MetaContacts\src\meta_options.cpp
+;file \plugins\MetaContacts\src\meta_options.cpp
 [<default>]
-;file E:\Sources\myranda\plugins\MetaContacts\src\meta_services.cpp
+;file \plugins\MetaContacts\src\meta_services.cpp
 [Meta ID]
 [No online contacts found.]
 [Message from %s]
@@ -93,7 +93,7 @@
 [General]
 [Priorities]
 [History]
-;file E:\Sources\myranda\plugins\MetaContacts\src\meta_utils.cpp
+;file \plugins\MetaContacts\src\meta_utils.cpp
 [Sender]
 [Could not get MetaContact id]
 [Assignment Error]

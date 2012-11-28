@@ -1,6 +1,6 @@
 #muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;langpack template for Boltun
-;file E:\Sources\myranda\plugins\Boltun\res\Boltun.rc
+;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
 [Boltun Autochat everybody]
 [Boltun Autochat everybody not in contact list]
@@ -21,10 +21,10 @@
 [Stay silent, if have no good aswers]
 [Start answers with a lowercase letter]
 [Don't use "I don't understand"-like answers]
-;file E:\Sources\myranda\plugins\Boltun\src\boltun.cpp
+;file \plugins\Boltun\src\boltun.cpp
 [%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1]
 [SMILES]
-;file E:\Sources\myranda\plugins\Boltun\src\boltun.h
+;file \plugins\Boltun\src\boltun.h
 [boltun.mindw]
 [Mind Files]
 [All Files]
@@ -32,7 +32,7 @@
 [Boltun Error]
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
 [Failed to save base of remarks to %s]
-;file E:\Sources\myranda\plugins\Boltun\src\Engine\Mind.cpp
+;file \plugins\Boltun\src\Engine\Mind.cpp
 [QUESTION]
 [IGNORED]
 [ESCAPE]
@@ -45,7 +45,7 @@
 [ <INITIAL>]
 [ <FAILURE>]
 [ <REPEAT>]
-;file E:\Sources\myranda\plugins\Boltun\src\Engine\TalkEngine.cpp
+;file \plugins\Boltun\src\Engine\TalkEngine.cpp
 [ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—\1]
 [(study_all) ]
 [(widelyused_sent) ]

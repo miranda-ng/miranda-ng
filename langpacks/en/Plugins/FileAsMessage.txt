@@ -1,6 +1,6 @@
 #muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;langpack template for FileAsMessage
-;file E:\Sources\myranda\plugins\FileAsMessage\res\resources.rc
+;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 [Size:]
 [...]
@@ -16,7 +16,7 @@
 [Received]
 [Use only alphanumeric encoding on transfer]
 [Extra options: Events > File Transfers, "Receiving files" group]
-;file E:\Sources\myranda\plugins\FileAsMessage\src\dialog.cpp
+;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 [Couldn't open a file]
 [Size: %d bytes]
@@ -39,7 +39,7 @@
 [Can't get a file size]
 [Cancelled by user]
 [Transfer is in progress. Do you really want to close?]
-;file E:\Sources\myranda\plugins\FileAsMessage\src\main.cpp
+;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 [fileAsMessage]
 [File As Message...]

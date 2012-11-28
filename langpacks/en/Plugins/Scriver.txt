@@ -1,6 +1,6 @@
 #muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;langpack template for Scriver
-;file E:\Sources\myranda\plugins\Scriver\res\resource.rc
+;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 [Automatically pop up the window when]
 [and stay minimized]
@@ -148,7 +148,7 @@
 [&Message]
 [Clear lo&g]
 [Co&py all]
-;file E:\Sources\myranda\plugins\Scriver\src\globals.cpp
+;file \plugins\Scriver\src\globals.cpp
 [Single Messaging]
 [Add contact]
 [User's details]
@@ -215,11 +215,11 @@
 [Baltic]
 [Vietnamese]
 [Korean (Johab)]
-;file E:\Sources\myranda\plugins\Scriver\src\infobar.cpp
+;file \plugins\Scriver\src\infobar.cpp
 [%s (%s)]
-;file E:\Sources\myranda\plugins\Scriver\src\input.cpp
+;file \plugins\Scriver\src\input.cpp
 [mailto:]
-;file E:\Sources\myranda\plugins\Scriver\src\msgdialog.cpp
+;file \plugins\Scriver\src\msgdialog.cpp
 [Quote]
 [Smiley]
 [Add Contact]
@@ -242,7 +242,7 @@
 [Sending in progress: %d message(s) left...]
 [%s is typing a message...]
 [Last message received on %s at %s.]
-;file E:\Sources\myranda\plugins\Scriver\src\msglog.cpp
+;file \plugins\Scriver\src\msglog.cpp
 ['(Unknown Contact)']
 [Unknown Contact]
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
@@ -256,7 +256,7 @@
 [File received]
 [URL sent]
 [URL received]
-;file E:\Sources\myranda\plugins\Scriver\src\msgoptions.cpp
+;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 [Event Log]
 [Group Chat Log]
@@ -318,7 +318,7 @@
 [Show balloon popup (unsupported system)]
 [Message Sessions]
 [Typing Notify]
-;file E:\Sources\myranda\plugins\Scriver\src\msgs.cpp
+;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
@@ -329,11 +329,11 @@
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Outgoing]
-;file E:\Sources\myranda\plugins\Scriver\src\msgtimedout.cpp
+;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
 [%s - %s]
 [Send Error]
-;file E:\Sources\myranda\plugins\Scriver\src\msgwindow.cpp
+;file \plugins\Scriver\src\msgwindow.cpp
 [%name%]
 [%status%]
 [%statusmsg%]
@@ -342,18 +342,18 @@
 [%name% - ]
 [%name% (%status%) : ]
 [Always On Top]
-;file E:\Sources\myranda\plugins\Scriver\src\sendqueue.cpp
+;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
-;file E:\Sources\myranda\plugins\Scriver\src\utils.cpp
+;file \plugins\Scriver\src\utils.cpp
 [:;,.!?'"><()[]- \r\n]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\chat.h
+;file \plugins\Scriver\src\chat\chat.h
 [%miranda_logpath%\\%proto%\\%userid%.log]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\clist.cpp
+;file \plugins\Scriver\src\chat\clist.cpp
 [Chat rooms]
 [Join chat]
 [Open chat window]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\colorchooser.cpp
-;file E:\Sources\myranda\plugins\Scriver\src\chat\log.cpp
+;file \plugins\Scriver\src\chat\colorchooser.cpp
+;file \plugins\Scriver\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
 [%%%c]
 [: %s]
@@ -372,10 +372,10 @@
 [--> %s]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\main.cpp
+;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
 [&Leave]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\options.cpp
+;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
 [Flash when a word is highlighted]
 [Show chat user list]
@@ -497,9 +497,9 @@
 [User has changed name]
 [User has sent a notice]
 [The topic has been changed]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\services.cpp
+;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\tools.cpp
+;file \plugins\Scriver\src\chat\tools.cpp
 [ - %s]
 [%s wants your attention in %s]
 [%s speaks in %s]
@@ -531,7 +531,7 @@
 [yyyy]
 [wday]
 [weekday]
-;file E:\Sources\myranda\plugins\Scriver\src\chat\window.cpp
+;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
 [Underline]
 [Text color]

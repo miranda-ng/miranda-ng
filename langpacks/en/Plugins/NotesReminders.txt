@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for NotesReminders
-;file E:\Sources\myranda\plugins\NotesAndReminders\res\resource.rc
+;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 [Width (Pixels)]
 [Height (Pixels)]
@@ -69,14 +69,14 @@
 [Always &On Top]
 [Delete &All Notes]
 [&Show / Hide Notes]
-;file E:\Sources\myranda\plugins\NotesAndReminders\src\hotkeys.cpp
+;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [MIM_SNMsgWindow]
 [New Note]
 [Toggle Notes Visibility]
 [Bring All Notes to Front]
 [New Reminder]
 [StickyNotes]
-;file E:\Sources\myranda\plugins\NotesAndReminders\src\main.cpp
+;file \plugins\NotesAndReminders\src\main.cpp
 [Are you sure you want to delete all notes?]
 [Are you sure you want to delete all reminders?]
 [Delete All Notes]
@@ -107,7 +107,7 @@
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 [user32.dll]
 [kernel32.dll]
-;file E:\Sources\myranda\plugins\NotesAndReminders\src\notes.cpp
+;file \plugins\NotesAndReminders\src\notes.cpp
 [MIM_StickyNote]
 [Black]
 [Maroon]
@@ -138,7 +138,7 @@
 [Notes]
 [Note text]
 [Date/Title]
-;file E:\Sources\myranda\plugins\NotesAndReminders\src\options.cpp
+;file \plugins\NotesAndReminders\src\options.cpp
 [Sticky Note Caption]
 [Small Fonts]
 [Sticky Note Background Color]
@@ -149,7 +149,7 @@
 [System]
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
 [Select Executable]
-;file E:\Sources\myranda\plugins\NotesAndReminders\src\reminders.cpp
+;file \plugins\NotesAndReminders\src\reminders.cpp
 [Reminder]
 [Minutes]
 [Hours]

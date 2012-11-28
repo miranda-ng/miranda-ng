@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for historypp
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_opt_dialog.rc
+;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
 [Appearance options]
 [Show event icons]
 [Use RTL by default]
@@ -22,17 +22,17 @@
 [Recent events on top]
 [Visit Wiki page for more options]
 [Please restart Miranda NG for your changes to take effect.]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
+;file \plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
 [New Filter #%d]
 [Incoming & Outgoing]
 [Events]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\CustomizeToolbar.pas
+;file \plugins\HistoryPlusPlus\CustomizeToolbar.pas
 [Event Filters]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\EmptyHistoryForm.pas
+;file \plugins\HistoryPlusPlus\EmptyHistoryForm.pas
 [History of this contact is password protected]
 [Do you really want to delete ALL items for this contact?]
 [Note: It can take several minutes for large histories]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\GlobalSearch.pas
+;file \plugins\HistoryPlusPlus\GlobalSearch.pas
 [Search]
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
 [All Results]
@@ -68,7 +68,7 @@
 [Delete Selected]
 [Do you really want to delete selected item?]
 [Delete]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\HistoryForm.pas
+;file \plugins\HistoryPlusPlus\HistoryForm.pas
 [Unknown codepage %u]
 [%s - History++]
 [Error]
@@ -87,7 +87,7 @@
 [%d min]
 [%d event]
 [%0.n events (%s)]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\HistoryGrid.pas
+;file \plugins\HistoryPlusPlus\HistoryGrid.pas
 [Remove Bookmark]
 [Set Bookmark]
 [Hide headers]
@@ -95,12 +95,12 @@
 [Running version of AniSmiley is not supported]
 [Running version of SmileyAdd is not supported]
 [Running version of Emoticons is not supported]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\historypp.dpr
+;file \plugins\HistoryPlusPlus\historypp.dpr
 [History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_contacts.pas
+;file \plugins\HistoryPlusPlus\hpp_contacts.pas
 [Server]
 [''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n    else\r\n    begin\r\n      ci.cbSize := SizeOf(ci);\r\n      ci.hContact := hContact;\r\n      ci.szProto := PAnsiChar(Proto);\r\n      ci.dwFlag := CNF_DISPLAY + CNF_UNICODE;\r\n      if CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(@ci)) = 0 then\r\n      begin\r\n        RetPWideChar := ci.retval.szVal.w;\r\n        UW := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } );\r\n        if WideCompareText(RetPWideChar, UW) = 0 then\r\n          Result := AnsiToWideString(GetContactID(hContact, Proto), CP_ACP)\r\n        else\r\n          Result := RetPWideChar;\r\n        mir_free(RetPWideChar);\r\n      end\r\n      else\r\n        Result := String(GetContactID(hContact, Proto));\r\n      if Result = '' then\r\n        Result := TranslateAnsiW(Proto { TRANSLATE-IGNORE } );\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;\r\nvar\r\n  uid: PAnsiChar;\r\n  dbv: TDBVARIANT;\r\n  cgs: TDBCONTACTGETSETTING;\r\n  tmp: String;\r\nbegin\r\n  Result := '';\r\n  if not((hContact = 0) and Contact) then\r\n  begin\r\n    if Proto = '' then\r\n      Proto := GetContactProto(hContact);\r\n    uid := PAnsiChar(CallProtoService(PAnsiChar(Proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));\r\n    if (Cardinal(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then\r\n    begin\r\n      cgs.szModule := PAnsiChar(Proto);\r\n      cgs.szSetting := uid;\r\n      cgs.pValue := @dbv;\r\n      if CallService(MS_DB_CONTACT_GETSETTING, hContact, LPARAM(@cgs)) = 0 then\r\n      begin\r\n        case dbv._type of\r\n          DBVT_BYTE:\r\n            Result := AnsiString(intToStr(dbv.bVal));\r\n          DBVT_WORD:\r\n            Result := AnsiString(intToStr(dbv.wVal));\r\n          DBVT_DWORD:\r\n            Result := AnsiString(intToStr(dbv.dVal));\r\n          DBVT_ASCIIZ:\r\n            Result := AnsiString(dbv.szVal.a);\r\n          DBVT_UTF8:\r\n            begin\r\n              tmp := AnsiToWideString(dbv.szVal.a, CP_UTF8);\r\n              Result := WideToAnsiString(tmp, hppCodepage);\r\n            end;\r\n          DBVT_WCHAR:\r\n            Result := WideToAnsiString(dbv.szVal.w, hppCodepage);\r\n        end;\r\n        // free variant\r\n        DBFreeVariant(@dbv);\r\n      end;\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ']
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_events.pas
+;file \plugins\HistoryPlusPlus\hpp_events.pas
 [URL: %s]
 [Authorisation request by %s (%s%d): %s]
 [You were added by %s (%s%d)]
@@ -120,16 +120,16 @@
 [Artist: %s\r\nTitle: %s\r\nAlbum: %s]
 [WATrack: %s]
 [WATrack: request denied]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_externalgrid.pas
+;file \plugins\HistoryPlusPlus\hpp_externalgrid.pas
 [Save History]
 [No such items]
 [No "%s" items]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\hpp_options.pas
+;file \plugins\HistoryPlusPlus\hpp_options.pas
 [Cannot load icon pack (%s) from:\r\n%s\r\nThis can cause no icons will be shown.]
 [You are using old icon pack from:\r\n%s\r\nThis can cause missing icons, so update the icon pack.]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\PassCheckForm.pas
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\PassForm.pas
+;file \plugins\HistoryPlusPlus\PassCheckForm.pas
+;file \plugins\HistoryPlusPlus\PassForm.pas
 [Password not set]
 [Password set]
-;file E:\Sources\myranda\plugins\HistoryPlusPlus\PassNewForm.pas
+;file \plugins\HistoryPlusPlus\PassNewForm.pas
 [Password and Confirm fields should be similar]

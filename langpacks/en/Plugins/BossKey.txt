@@ -1,6 +1,6 @@
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;langpack template for BossKey
-;file E:\Sources\myranda\plugins\BossKeyPlus\res\BossKey.rc
+;file \plugins\BossKeyPlus\res\BossKey.rc
 [Trigger when Miranda is hiding]
 [Trigger when Miranda is showing]
 [Pre-conditions]
@@ -29,7 +29,7 @@
 [Others]
 [Create a main menu item]
 [Restore hiding on startup after failure]
-;file E:\Sources\myranda\plugins\BossKeyPlus\src\BossKey.cpp
+;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
 [Miranda NG]
@@ -47,9 +47,9 @@
 [dwmapi.dll]
 [bosskeyname]
 [BossKey\tget the BossKey name]
-;file E:\Sources\myranda\plugins\BossKeyPlus\src\BossKey.h
+;file \plugins\BossKeyPlus\src\BossKey.h
 [MY6BossKey_Param]
-;file E:\Sources\myranda\plugins\BossKeyPlus\src\Options.cpp
+;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
 [Offline]
 [Online]

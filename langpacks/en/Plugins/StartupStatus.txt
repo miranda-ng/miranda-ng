@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for StartupStatus
-;file E:\Sources\myranda\plugins\StatusPlugins\StartupStatus\options.cpp
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 [<current>]
 [.\\%s]
@@ -21,7 +21,7 @@
 [Status]
 [General]
 [Status Profiles]
-;file E:\Sources\myranda\plugins\StatusPlugins\StartupStatus\profiles.cpp
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 [STATIC]
-;file E:\Sources\myranda\plugins\StatusPlugins\StartupStatus\startupstatus.cpp
+;file \plugins\StatusPlugins\StartupStatus\startupstatus.cpp

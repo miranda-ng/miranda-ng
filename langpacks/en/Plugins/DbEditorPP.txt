@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for DbEditorPP
-;file E:\Sources\myranda\plugins\DbEditorPP\res\resource.rc
+;file \plugins\DbEditorPP\res\resource.rc
 [Case Sensitive]
 [Module Name]
 [Exact Match]
@@ -86,7 +86,7 @@
 [Export Contacts]
 [Export Module from all contacts]
 [Reload Watch List]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\addeditsettingsdlg.cpp
+;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
 [New BYTE value]
 [Edit BYTE value]
@@ -101,14 +101,14 @@
 [New BLOB value]
 [Edit BLOB value]
 [Couldnt allocate enough memory!]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\copymodule.cpp
+;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\deletemodule.cpp
+;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 [Confirm Module Deletion]
 [Delete module from Database]
 [Delete module from Database... Loading]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\exportimport.cpp
+;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 [All Files]
 [Export to file]
@@ -117,7 +117,7 @@
 [Do you want to overwrite it "%s"?]
 [Contact already exists]
 [Import from files]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\findwindow.cpp
+;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
 [Stop]
 [Replaced with]
@@ -132,7 +132,7 @@
 [Finished. %d items were found, %d items were deleted.]
 [Finished. %d items were found, %d items were replaced.]
 [Finished. %d items were found.]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\icons.cpp
+;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
 [Open Known Module]
 [Closed Unknown Module]
@@ -140,26 +140,26 @@
 [Contacts Group]
 [Unknown Contact]
 [Known Contact]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\main.cpp
+;file \plugins\DbEditorPP\src\main.cpp
 [Database Editor++]
 [Open Database Editor]
 [Open user tree in DBE++]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\main_window.cpp
+;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 [Confirm Contact Delete]
 [Database Editor++ (unicode mode)]
 [Database Editor++ (ansi mode)]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\modules.cpp
-;file E:\Sources\myranda\plugins\DbEditorPP\src\moduletree.cpp
+;file \plugins\DbEditorPP\src\modules.cpp
+;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
 [Loading modules...]
 [Module tree not found]
 [Contacts]
 [HANDLE]
 [Add module to contact "%s"]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\options.cpp
+;file \plugins\DbEditorPP\src\options.cpp
 [Services]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\settinglist.cpp
+;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 [Data]
 [Type]
@@ -174,7 +174,7 @@
 [<unknown>]
 [Decoded string..]
 [Encoded string..]
-;file E:\Sources\myranda\plugins\DbEditorPP\src\watchedvars.cpp
+;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 [Module]
 [Setting]

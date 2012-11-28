@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for FTPFile
-;file E:\Sources\myranda\plugins\FTPFileYM\res\ftpfile.rc
+;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 [Host name]
 [User]
@@ -56,7 +56,7 @@
 [Disabled]
 [Delete from List]
 [Copy Link]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\dialog.cpp
+;file \plugins\FTPFileYM\src\dialog.cpp
 [* %s]
 [User Info]
 [Copy Link to Clipboard]
@@ -65,7 +65,7 @@
 [%d hours]
 [%d days]
 [Do you really want to cancel all running jobs?]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\ftpfile.cpp
+;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP Server %d]
 [FTP File]
 [Upload file(s)]
@@ -82,7 +82,7 @@
 [Upload canceled]
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 [uxtheme.dll]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\job_generic.cpp
+;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)\0*.*\0]
 [FTP File - Select files]
 [FTP File - Select a folder]
@@ -98,7 +98,7 @@
 [PAUSED]
 [WAITING...]
 [UNKNOWN]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\job_packer.cpp
+;file \plugins\FTPFileYM\src\job_packer.cpp
 [archive]
 [%s%s.zip]
 [Error occured when zipping the file(s).]
@@ -109,7 +109,7 @@
 [%s (%d kB/%d kB)]
 [Do you really want to cancel this upload?]
 [Status: %s\r\nFile: %s\r\nServer: %s]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\job_upload.cpp
+;file \plugins\FTPFileYM\src\job_upload.cpp
 [Resume]
 [File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
@@ -119,13 +119,13 @@
 [Download link:]
 [Do you really want to cancel running upload?]
 [%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\libcurl.cpp
+;file \plugins\FTPFileYM\src\libcurl.cpp
 [libcurl.dll]
 [plugins\\libcurl.dll]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\manager.cpp
+;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 [Clear All]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\options.cpp
+;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
 [FTP+SSL (Explicit)]
 [FTP+SSL (Implicit)]
@@ -136,7 +136,7 @@
 [Services]
 [Accounts]
 [Advanced]
-;file E:\Sources\myranda\plugins\FTPFileYM\src\serverlist.cpp
-;file E:\Sources\myranda\plugins\FTPFileYM\src\utils.cpp
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp
 [file.zip]
 [...]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Xfire
-;file E:\Sources\myranda\protocols\Xfire\res\Kopie von resource.rc
+;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 [Loginname:]
 [XFire]
@@ -86,8 +86,8 @@
 [Statusmessage for Xfire, if this game will be started:]
 [Parameter:]
 [Searching games ...]
-;file E:\Sources\myranda\protocols\Xfire\res\resource.rc
-;file E:\Sources\myranda\protocols\Xfire\src\addgamedialog.cpp
+;file \protocols\Xfire\res\resource.rc
+;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
 [Please wait, gameini will be currently parsed ...]
 [XFire Options]
@@ -101,7 +101,7 @@
 [Please select a game exe. Note: If you dont select a launcher exe, the game exe will be used in the game start menu.]
 [Supported Games]
 [Custom game]
-;file E:\Sources\myranda\protocols\Xfire\src\all_statusmsg.cpp
+;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
 [I've been away since %time%.]
 [Give it up, I'm not in!]
@@ -110,13 +110,13 @@
 [Well, I would talk to you if Miranda ICQ supported chat]
 [That'll be the phone.]
 [Mmm...food.]
-;file E:\Sources\myranda\protocols\Xfire\src\iniupdater.cpp
+;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 [Error during xfire_games Update.]
 [There is a new Icons.dll online, do you want to update now?]
 [The Icons.dll was updated.]
 [Error during Icons.dll Update.]
-;file E:\Sources\myranda\protocols\Xfire\src\main.cpp
+;file \protocols\Xfire\src\main.cpp
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 [Login failed.]
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -163,7 +163,7 @@
 [Confirm Delete]
 [Block this user from ever contacting you again?]
 [Block Confirmation]
-;file E:\Sources\myranda\protocols\Xfire\src\options.cpp
+;file \protocols\Xfire\src\options.cpp
 [The username must be lowercase, so it will be lowercased saved.]
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 [Hidden]
@@ -183,12 +183,12 @@
 [Blocklist / Games]
 [StatusMsg]
 [Network]
-;file E:\Sources\myranda\protocols\Xfire\src\searching4games.cpp
+;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 [Games found:%s%s]
-;file E:\Sources\myranda\protocols\Xfire\src\userdetails.cpp
+;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
-;file E:\Sources\myranda\protocols\Xfire\src\Xfire_game.cpp
+;file \protocols\Xfire\src\Xfire_game.cpp
 [Start game]
-;file E:\Sources\myranda\protocols\Xfire\src\Xfire_gamelist.cpp
+;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait ...]

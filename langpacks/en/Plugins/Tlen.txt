@@ -1,6 +1,6 @@
 #muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
-;file E:\Sources\myranda\protocols\Tlen\res\tlen.rc
+;file \protocols\Tlen\res\tlen.rc
 [Username:]
 [Password:]
 [Save password]
@@ -81,10 +81,10 @@
 [&Accept]
 [From:]
 [The following invitation to join a voice chat is received.]
-;file E:\Sources\myranda\protocols\Tlen\src\jabber_iqid.cpp
+;file \protocols\Tlen\src\jabber_iqid.cpp
 [Authentication failed for]
 [Tlen Authentication]
-;file E:\Sources\myranda\protocols\Tlen\src\jabber_opt.cpp
+;file \protocols\Tlen\src\jabber_opt.cpp
 [General]
 [Advanced]
 [Notifications]
@@ -116,9 +116,9 @@
 [SOCKS4]
 [SOCKS5]
 [%s mail]
-;file E:\Sources\myranda\protocols\Tlen\src\jabber_svc.cpp
+;file \protocols\Tlen\src\jabber_svc.cpp
 [Tlen login]
-;file E:\Sources\myranda\protocols\Tlen\src\jabber_thread.cpp
+;file \protocols\Tlen\src\jabber_thread.cpp
 [Enter password for]
 [Jabber Connection Error]
 [%s Web Messages]
@@ -128,10 +128,10 @@
 [An alert has been received.]
 [Private conference]
 [Subject]
-;file E:\Sources\myranda\protocols\Tlen\src\jabber_ws.cpp
+;file \protocols\Tlen\src\jabber_ws.cpp
 [%s connection]
 [%s SOCKS connection]
-;file E:\Sources\myranda\protocols\Tlen\src\tlen.cpp
+;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 [Tlen inbox]
 [Group chats]
@@ -146,10 +146,10 @@
 [Protocols]
 [Incoming mail]
 [Alert]
-;file E:\Sources\myranda\protocols\Tlen\src\tlen_file.cpp
+;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 [%d Files]
-;file E:\Sources\myranda\protocols\Tlen\src\tlen_muc.cpp
+;file \protocols\Tlen\src\tlen_muc.cpp
 [You have been kicked. Reason: %s ]
 [You cannot join this chat room, because you are banned.]
 [Chat room not found.]
@@ -163,7 +163,7 @@
 [You cannot join more than %s chat rooms.]
 [Anonymous nicknames are not allowed in this chat room.]
 [Unknown error code : %d]
-;file E:\Sources\myranda\protocols\Tlen\src\tlen_userinfo.cpp
+;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Male]
 [Female]
 [Somebody to talk]
@@ -196,7 +196,7 @@
 [from]
 [none]
 [not on roster]
-;file E:\Sources\myranda\protocols\Tlen\src\tlen_voice.cpp
+;file \protocols\Tlen\src\tlen_voice.cpp
 [...Connecting...]
 [...Waiting for connection...]
 [...Finished...]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Console
-;file E:\Sources\myranda\plugins\Console\res\resource.rc
+;file \plugins\Console\res\resource.rc
 [Single window mode*]
 [Show icons in log*]
 [New lines between events*]
@@ -9,7 +9,7 @@
 [Log size limit [1 000 - 1 000 000 lines]]
 [* Restart needed]
 [Save settings and restart console]
-;file E:\Sources\myranda\plugins\Console\src\Console.cpp
+;file \plugins\Console\src\Console.cpp
 [Show/Hide Console]
 [Hide Console]
 [Show Console]

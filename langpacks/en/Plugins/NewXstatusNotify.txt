@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for NewXstatusNotify
-;file E:\Sources\myranda\plugins\NewXstatusNotify\res\resource.rc
+;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
 [Online]
 [Offline]
@@ -87,7 +87,7 @@
 [Ignore empty status messages]
 [Protocols]
 [Enable/Disable protocols which you don't wish to be notified for:]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\indsnd.cpp
+;file \plugins\NewXstatusNotify\src\indsnd.cpp
 [%s (*.wav)%c*.WAV%c%s (*.*)%c*%c]
 [Wave Files]
 [All Files]
@@ -96,7 +96,7 @@
 [Sound for the status]
 [From offline]
 [** All contacts **]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\main.cpp
+;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
 [Contact]
 [\r\n]
@@ -156,7 +156,7 @@
 [Extra status message changed]
 [Extra status removed]
 [Toggle status notification]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\options.cpp
+;file \plugins\NewXstatusNotify\src\options.cpp
 [%s_TSMChange]
 [%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c]
 [Log]
@@ -170,7 +170,7 @@
 [Protocol]
 [Filtering]
 [Message log]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\popup.h
+;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
 [Open message window]
 [Close popup]
@@ -178,13 +178,13 @@
 [Open contact menu]
 [Open contact history]
 [Do nothing]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\utils.cpp
+;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
 [open]
 [Can't open the log file!]
 [NewXstatusNotify]
 [a+b, ccs=UTF-8]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\xstatus.cpp
+;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
 [Activity]
 [Xstatus]
@@ -192,7 +192,7 @@
 [%s (%s)]
 [%s, %s. %s removed %s.\r\n]
 [%s, %s. %s changed %s to: %s.\r\n]
-;file E:\Sources\myranda\plugins\NewXstatusNotify\src\xstatus.h
+;file \plugins\NewXstatusNotify\src\xstatus.h
 [changed %N to: %T%D%I]
 [changed %N message to:%D%I]
 [removed %N]

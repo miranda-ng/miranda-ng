@@ -1,6 +1,6 @@
 #muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;langpack template for Sessions
-;file E:\Sources\myranda\plugins\Sessions\res\Sessions.rc
+;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
 [Open Sessions Manager dialog]
 [Restore Last Session]
@@ -33,7 +33,7 @@
 [OK]
 [Cancel]
 [Save your current session?]
-;file E:\Sources\myranda\plugins\Sessions\Src\Main.cpp
+;file \plugins\Sessions\Src\Main.cpp
 [Current session is empty!]
 [Sessions Manager]
 [Session name is empty, enter the name and try again]
@@ -56,8 +56,8 @@
 [Load session...]
 [Close session]
 [Load last session]
-;file E:\Sources\myranda\plugins\Sessions\Src\Options.cpp
+;file \plugins\Sessions\Src\Options.cpp
 [View]
 [Message Sessions]
-;file E:\Sources\myranda\plugins\Sessions\Src\Utils.cpp
+;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]

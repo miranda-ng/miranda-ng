@@ -1,6 +1,6 @@
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;langpack template for ChangeKeyboardLayout
-;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
+;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 [Changing layout:]
 [Changing layout (alternative):]
@@ -34,18 +34,18 @@
 [Dismiss]
 [On right click]
 [Preview]
-;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\src\hook_events.cpp
+;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Changing Layout]
 [Changing Case]
 [Popup]
 [Plugins]
 [PopUps]
-;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\src\main.cpp
+;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]
 [ \t\n\r]
-;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\src\options.cpp
+;file \plugins\ChangeKeyboardLayout\src\options.cpp
 [Ghbdtn? rfr ltkf&]
-;file E:\Sources\myranda\plugins\ChangeKeyboardLayout\src\text_operations.cpp
+;file \plugins\ChangeKeyboardLayout\src\text_operations.cpp
 [RICHEDIT]
 [\n\n]
 [:\n]

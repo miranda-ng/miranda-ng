@@ -1,6 +1,6 @@
 #muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;langpack template for Clist_mw
-;file E:\Sources\myranda\plugins\Clist_mw\res\resource.rc
+;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 [Background colour:]
 [Selection colour:]
@@ -141,15 +141,15 @@
 [Show bevel effect on panels]
 [Use connecting Icon]
 [Use New Drawer for StatusBar]
-;file E:\Sources\myranda\plugins\Clist_mw\src\BkgrCfg.cpp
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
 [Backgrounds]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clcfonts.cpp
+;file \plugins\Clist_mw\src\clcfonts.cpp
 [Background]
 [Selected Text]
 [Hottrack Text]
 [Quicksearch Text]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clcopts.cpp
+;file \plugins\Clist_mw\src\clcopts.cpp
 [List]
 [List Background]
 [List MetaContacts]
@@ -164,28 +164,28 @@
 [Invisible]
 [Out to lunch]
 [On the phone]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clistopts.cpp
+;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clistsettings.cpp
+;file \plugins\Clist_mw\src\clistsettings.cpp
 [_NoProtocol_]
 [(Unknown Contact)]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clisttray.cpp
+;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
 [&Status]
 [&Options...]
 [&About]
-;file E:\Sources\myranda\plugins\Clist_mw\src\clui.cpp
+;file \plugins\Clist_mw\src\clui.cpp
 [My Contacts]
-;file E:\Sources\myranda\plugins\Clist_mw\src\cluiopts.cpp
-;file E:\Sources\myranda\plugins\Clist_mw\src\cluiservices.cpp
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\cluiservices.cpp
 [%s%s]
-;file E:\Sources\myranda\plugins\Clist_mw\src\groupmenu.cpp
+;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
-;file E:\Sources\myranda\plugins\Clist_mw\src\keyboard.cpp
+;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 [Restore last status]
-;file E:\Sources\myranda\plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 [&Visible]
 [&Show TitleBar]
@@ -211,8 +211,8 @@
 [Floating]
 [TitleBarFont]
 [FramesContainer]
-;file E:\Sources\myranda\plugins\Clist_mw\src\CLUIFrames\cluiframes.h
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.h
 [CLUIFrameTitleBar]
-;file E:\Sources\myranda\plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 [Statushelper]
 [Status]

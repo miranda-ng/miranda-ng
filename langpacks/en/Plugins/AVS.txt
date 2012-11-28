@@ -1,6 +1,6 @@
 #muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;langpack template for AVS
-;file E:\Sources\myranda\plugins\AVS\res\avs.rc
+;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 [Set default picture]
 [Delete default picture]
@@ -35,9 +35,9 @@
 [Color diff:]
 [Set]
 [Use per protocol avatars]
-;file E:\Sources\myranda\plugins\AVS\src\acc.cpp
+;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
-;file E:\Sources\myranda\plugins\AVS\src\main.cpp
+;file \plugins\AVS\src\main.cpp
 [%s\\%s]
 [AVS-HASH-%x]
 [%s@%s]
@@ -98,7 +98,7 @@
 [%miranda_userdata%]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]
-;file E:\Sources\myranda\plugins\AVS\src\options.cpp
+;file \plugins\AVS\src\options.cpp
 [%%miranda_path%%\\%s]
 [Set avatar options for %s]
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for SendSS
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\res\resource.rc
+;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 [All]
 [None]
@@ -23,7 +23,7 @@
 [Caption :]
 [Size (HxW) :]
 [Target Tool]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSend.cpp
+;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Unable to initiate transfer.]
 [\r\n]
 [Initialising...]
@@ -41,10 +41,10 @@
 [An unknown error has occured.]
 [%s - %s]
 [Error]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSend.h
+;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 [MAPI error (%i):\n%s.]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSendEmail.cpp
+;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
 [MAPI32.DLL]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
@@ -61,28 +61,28 @@
 [A recipient did not appear in the address list]
 [The user canceled one of the dialog boxes]
 [Unknown Error]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSendFile.cpp
+;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
+;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 [%s (%i):\nCould not add a share to the FTP File plugin.]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
+;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 [Could not start the HTTP Server plugin.]
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\CSendImageShack.cpp
+;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 [Image upload]
 [Upload server did not respond timely.]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
+;file \plugins\SendScreenshotPlus\src\dlg_msgbox.cpp
 [Retry]
 [Yes]
 [Abord]
 [Ignore]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\global.h
+;file \plugins\SendScreenshotPlus\src\global.h
 [SendSS]
 [SendScreenshot - Error]
 [UInfoButtonClass]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\Main.cpp
+;file \plugins\SendScreenshotPlus\src\Main.cpp
 [sendss.dll]
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 [\\Screenshots]
@@ -99,20 +99,20 @@
 [%miranda_userdata%\\Screenshots]
 [Can not retrieve Screenshot path.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\mir_icolib.cpp
+;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
 [Icons\\uinfoex_icons.dll]
 [Plugins\\uinfoex_icons.dll]
 [Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 [Plugins\\]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\UAboutForm.cpp
+;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [\r\n\r\n]
 [TEXT]
 [Credits]
 [< Copyright]
 [Copyright]
-;file E:\Sources\myranda\plugins\SendScreenshotPlus\src\UMainForm.cpp
+;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&&Drop the target on the desired window.]
 [Send screenshot to\n]
 [Window]

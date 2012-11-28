@@ -1,6 +1,6 @@
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
 ;langpack template for Dbx_mmap
-;file E:\Sources\myranda\plugins\Db3x_mmap\res\db3x_mmap.rc
+;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -22,36 +22,36 @@
 [&Delete]
 [&Move/Rename]
 [&Leave]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\database.cpp
+;file \plugins\Db3x_mmap\src\database.cpp
 [Disk is full. Miranda will now shutdown.]
 [Database failure. Miranda will now shutdown.]
 [Database Error]
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
 [Database Panic]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbcache.cpp
+;file \plugins\Db3x_mmap\src\dbcache.cpp
 [%s (MapViewOfFile failed. Code: %d)]
 [%s (CreateFileMapping failed. Code: %d)]
 [%s (Too large increment)]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbmodulechain.cpp
+;file \plugins\Db3x_mmap\src\dbmodulechain.cpp
 [%s (Module Name not unique)]
 [%s (Module Offset not unique)]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\init.cpp
+;file \plugins\Db3x_mmap\src\init.cpp
 [db3x mmap database support]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\aggressive.cpp
+;file \plugins\Db3x_mmap\src\dbtool\aggressive.cpp
 [Performing aggressive pass]
 [Aggressive: random junk at %08X: skipping]
 [Aggressive: unlinked data at %08X: can't automatically place]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\contactchain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\contactchain.cpp
 [Processing contact chain]
 [Contact count marked wrongly: correcting]
 [Contact chain corrupted, further entries ignored]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\disk.cpp
+;file \plugins\Db3x_mmap\src\dbtool\disk.cpp
 [Invalid offset found (database truncated?)]
 [Invalid offset found]
 [Error reading, database truncated? (%u)]
 [Can't write to working file, aggressive mode may be too aggressive now]
 [Can't write to output file - disk full? (%u)]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\eventchain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\eventchain.cpp
 [Event count marked wrongly: correcting]
 [Event chain corrupted, trying to recover...]
 [Event chain corrupted, further entries ignored]
@@ -65,26 +65,26 @@
 [Event position in chain is not correct]
 [Event position in chain is not correct: fixing]
 [Event position in chain is not correct: unable to fix]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
+;file \plugins\Db3x_mmap\src\dbtool\finaltasks.cpp
 [Processing final tasks]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
+;file \plugins\Db3x_mmap\src\dbtool\initialchecks.cpp
 [Database signature is corrupted, automatic repair is impossible]
 [Database is marked as belonging to an unknown version of Miranda]
 [Database is newly created and has no data to process]
 [Processing completed successfully]
 [Can't create file mapping (%u)]
 [Can't create map view of file (%u)]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\modulechain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\modulechain.cpp
 [Processing module name chain]
 [Module chain corrupted, further entries ignored]
 [Unreasonably long module name, skipping]
 [Module name '%s' is not unique: %d duplicates found)]
 [Invalid module name offset, skipping data]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\settingschain.cpp
+;file \plugins\Db3x_mmap\src\dbtool\settingschain.cpp
 [Settings chain corrupted, further entries ignored]
 [Infeasibly large settings blob: skipping]
 [Empty settings group at %08X: skipping]
-;file E:\Sources\myranda\plugins\Db3x_mmap\src\dbtool\user.cpp
+;file \plugins\Db3x_mmap\src\dbtool\user.cpp
 [Processing user data]
 [User corrupted, this could cause major problems]
 [More than one user contact: keeping only first]

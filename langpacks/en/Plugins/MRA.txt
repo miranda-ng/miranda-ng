@@ -1,6 +1,6 @@
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;langpack template for MRA
-;file E:\Sources\myranda\protocols\MRA\res\resource.rc
+;file \protocols\MRA\res\resource.rc
 [E-mail:]
 [Password:]
 [Create a new account]
@@ -90,7 +90,7 @@
 [Notify]
 [Writed:]
 [0/500]
-;file E:\Sources\myranda\protocols\MRA\src\MraAvatars.cpp
+;file \protocols\MRA\src\MraAvatars.cpp
 [.dat]
 [.png]
 [.jpg]
@@ -104,24 +104,24 @@
 [%%miranda_avatarcache%%\\%s]
 [%miranda_avatarcache%]
 [%s\\%s\\]
-;file E:\Sources\myranda\protocols\MRA\src\MraChat.cpp
+;file \protocols\MRA\src\MraChat.cpp
 [get]
-;file E:\Sources\myranda\protocols\MRA\src\MraConstans.h
+;file \protocols\MRA\src\MraConstans.h
 [_default.jpg]
-;file E:\Sources\myranda\protocols\MRA\src\MraFilesQueue_mod.cpp
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
-;file E:\Sources\myranda\protocols\MRA\src\MraPopUp.cpp
+;file \protocols\MRA\src\MraPopUp.cpp
 [Popups]
-;file E:\Sources\myranda\protocols\MRA\src\MraProto.cpp
+;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [E-mail address]
 [%04ld.%02ld.%02ld %02ld:%02ld: ]
 [%s%s]
-;file E:\Sources\myranda\protocols\MRA\src\Mra_options.cpp
+;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
 [Connections]
 [Anti spam]
 [Files]
-;file E:\Sources\myranda\protocols\MRA\src\Mra_svcs.cpp
+;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]

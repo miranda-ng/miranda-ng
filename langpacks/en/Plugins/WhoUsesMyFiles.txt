@@ -1,6 +1,6 @@
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
-;file E:\Sources\myranda\plugins\WhoUsesMyFiles\res\resource.rc
+;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 [Popup delay settings]
 [PopUp Delay (seconds)]
@@ -26,7 +26,7 @@
 [Alert computer name with username]
 [Disabled options will be available in the next version]
 [Show current connections]
-;file E:\Sources\myranda\plugins\WhoUsesMyFiles\src\wumfplug.c
+;file \plugins\WhoUsesMyFiles\src\wumfplug.c
 [Enable WUMF popups]
 [Disable WUMF popups]
 [Show connections list]

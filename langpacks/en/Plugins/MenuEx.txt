@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for MenuEx
-;file E:\Sources\myranda\plugins\MenuItemEx\res\resource.rc
+;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
 [&Cancel]
 [Shown menu items]
@@ -24,7 +24,7 @@
 [Hide contact on 'Ignore all']
 [Other options]
 [Automatically refresh contact's details after they come online]
-;file E:\Sources\myranda\plugins\MenuItemEx\src\main.cpp
+;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 [XStatus title]
 [XStatus message]
@@ -51,5 +51,5 @@
 [Do you want to send authorization request\nto new contact?]
 [Miranda NG]
 [Open ignore settings]
-;file E:\Sources\myranda\plugins\MenuItemEx\src\options.cpp
+;file \plugins\MenuItemEx\src\options.cpp
 [Customize]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for TrafficCounter
-;file E:\Sources\myranda\plugins\TrafficCounter\res\resource.rc
+;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 [Accounts]
 [Units]
@@ -22,11 +22,11 @@
 [Counters format string:]
 [Tooltip format string:]
 [Display traffic for current]
-;file E:\Sources\myranda\plugins\TrafficCounter\src\misc.c
+;file \plugins\TrafficCounter\src\misc.c
 [%c%d]
 [%d.%d]
 [%02d]
-;file E:\Sources\myranda\plugins\TrafficCounter\src\statistics.c
+;file \plugins\TrafficCounter\src\statistics.c
 [ListBox]
 [Bytes]
 [Adaptive]
@@ -51,7 +51,7 @@
 [%s\\%S.stat]
 [Couldn't read statistics file]
 [Traffic Counter]
-;file E:\Sources\myranda\plugins\TrafficCounter\src\TrafficCounter.c
+;file \plugins\TrafficCounter\src\TrafficCounter.c
 [TrafficCounterWnd]
 [{I4}\x0D\x0A\x0A\\r\n{R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\\r\n{R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\\r\n{R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\\r\n{L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\\r\n{L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)]
 [Font]
@@ -86,7 +86,7 @@
 [Traffic counter notification]
 [%d kilobytes sent]
 [%d kilobytes received]
-;file E:\Sources\myranda\plugins\TrafficCounter\src\vars.c
+;file \plugins\TrafficCounter\src\vars.c
 [overall]
 [summary]
 [now]

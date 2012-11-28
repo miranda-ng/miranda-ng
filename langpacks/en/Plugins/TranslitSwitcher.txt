@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for TranslitSwitcher
-;file E:\Sources\myranda\plugins\TranslitSwitcher\src\Layoutproc.cpp
+;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [sch]
 [Sch]
 [THppRichEdit.UnicodeClass]
@@ -10,7 +10,7 @@
 [TranslitSwitcher]
 [RichEdit20W]
 [%s %s]
-;file E:\Sources\myranda\plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
+;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Convert All / Selected]
 [Convert Last / Selected]
 [Translit All / Selected]

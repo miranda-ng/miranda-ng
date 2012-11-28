@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Variables
-;file E:\Sources\myranda\plugins\Variables\res\Variables.rc
+;file \plugins\Variables\res\Variables.rc
 [Parse]
 [Auto parse]
 [Parse the following string at startup]
@@ -23,9 +23,9 @@
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 [Notes]
 [Variables...]
-;file E:\Sources\myranda\plugins\Variables\src\contact.cpp
+;file \plugins\Variables\src\contact.cpp
 [<%s:%s>]
-;file E:\Sources\myranda\plugins\Variables\src\help.cpp
+;file \plugins\Variables\src\help.cpp
 [%c%s%c]
 [%c%s%s]
 [Token]
@@ -38,10 +38,10 @@
 [Help]
 [Variables Help]
 [Open String Formatting Help]
-;file E:\Sources\myranda\plugins\Variables\src\options.cpp
+;file \plugins\Variables\src\options.cpp
 [Services]
 [Variables]
-;file E:\Sources\myranda\plugins\Variables\src\parse_external.cpp
+;file \plugins\Variables\src\parse_external.cpp
 [STUDIO]
 [Winamp v1.x]
 [ - Winamp]
@@ -50,8 +50,8 @@
 [[Paused]]
 [Paused]
 [Playing]
-;file E:\Sources\myranda\plugins\Variables\src\parse_metacontacts.cpp
-;file E:\Sources\myranda\plugins\Variables\src\parse_miranda.cpp
+;file \plugins\Variables\src\parse_metacontacts.cpp
+;file \plugins\Variables\src\parse_miranda.cpp
 [d s]
 [%%%s%%]
 [miranda_path]
@@ -64,10 +64,10 @@
 [username]
 [mydocuments]
 [desktop]
-;file E:\Sources\myranda\plugins\Variables\src\parse_str.cpp
+;file \plugins\Variables\src\parse_str.cpp
 [\r\n]
 [(...)]
-;file E:\Sources\myranda\plugins\Variables\src\parse_system.cpp
+;file \plugins\Variables\src\parse_system.cpp
 [\\Processor(_Total)\\% Processor Time]
 [\\Process(%s)\\%% Processor Time]
 [%.0f]
@@ -76,7 +76,7 @@
 [HKEY_LOCAL_MACHINE]
 [HKEY_USERS]
 [\\System\\System Up Time]
-;file E:\Sources\myranda\plugins\Variables\src\tokenregister.cpp
+;file \plugins\Variables\src\tokenregister.cpp
 [alias]
-;file E:\Sources\myranda\plugins\Variables\src\variables.cpp
+;file \plugins\Variables\src\variables.cpp
 [uxtheme.dll]

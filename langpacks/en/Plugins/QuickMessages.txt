@@ -1,6 +1,6 @@
 #muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
-;file E:\Sources\myranda\plugins\QuickMessages\res\quickmessages.rc
+;file \plugins\QuickMessages\res\quickmessages.rc
 [+]
 [-]
 [Button Right-Click value]
@@ -31,9 +31,9 @@
 [%F]
 [- Contact last name]
 [%L]
-;file E:\Sources\myranda\plugins\QuickMessages\src\main.cpp
+;file \plugins\QuickMessages\src\main.cpp
 [Quick Messages]
-;file E:\Sources\myranda\plugins\QuickMessages\src\options.cpp
+;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
 [---]
 [Congratulation!\n\\r\n								   You have clicked this button 100 times!\n\\r\n								   There was access violation at this point...\n\\r\n								   And now function for freeing resources must be called...\n\\r\n								   But no! there's only break :D]

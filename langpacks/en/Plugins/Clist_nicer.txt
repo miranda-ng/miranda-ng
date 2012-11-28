@@ -1,6 +1,6 @@
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;langpack template for Clist_nicer
-;file E:\Sources\myranda\plugins\Clist_nicer\res\resource.rc
+;file \plugins\Clist_nicer\res\resource.rc
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]
@@ -269,7 +269,7 @@
 [Use Status Floater]
 [Auto-Hide Status Floater]
 [Show Event Area in Floater]
-;file E:\Sources\myranda\plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 [General]
 [Gradient]
@@ -294,7 +294,7 @@
 [3D border (bright / dark)]
 [Item ignored]
 [Not yet supported]
-;file E:\Sources\myranda\plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 [<None>]
 [Raised]
@@ -302,7 +302,7 @@
 [Bumped]
 [Etched]
 [Image items]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\CLCButton.cpp
+;file \plugins\Clist_nicer\src\CLCButton.cpp
 [Show menu]
 [Show / hide offline contacts]
 [Toggle group mode]
@@ -317,9 +317,9 @@
 [Select view mode]
 [Setup view modes]
 [Clear view mode]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clcitems.cpp
+;file \plugins\Clist_nicer\src\clcitems.cpp
 [%s|]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clcopts.cpp
+;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 [Offline]
 [Online]
@@ -357,11 +357,11 @@
 [Floating contacts]
 [Skins]
 [Contact list]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clcutils.cpp
+;file \plugins\Clist_nicer\src\clcutils.cpp
 [%s\\%s]
 [RichEdit20W]
 [EDIT]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clistmenus.cpp
+;file \plugins\Clist_nicer\src\clistmenus.cpp
 [CLCButtonClass]
 [FOO]
 [Add permanently]
@@ -373,9 +373,9 @@
 [When needed by status message]
 [Contact list display and ignore options for %s]
 [&Contact list settings...]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clistopts.cpp
+;file \plugins\Clist_nicer\src\clistopts.cpp
 [Global]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\clui.cpp
+;file \plugins\Clist_nicer\src\clui.cpp
 [Toggle show online/offline]
 [Toggle groups]
 [Find contacts]
@@ -403,31 +403,31 @@
 [Selected Text]
 [Hottrack Text]
 [Quicksearch Text]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\cluiopts.cpp
+;file \plugins\Clist_nicer\src\cluiopts.cpp
 [Title bar]
 [Tool Window]
 [Thin border]
 [No border]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\config.cpp
+;file \plugins\Clist_nicer\src\config.cpp
 [\\uxtheme.dll]
 [\\dwmapi.dll]
 [An application error has occured: %s]
 [%s\n\n(%s)]
 [TabSRMM runtime error]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\Docking.cpp
+;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 [Clist docking]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\extBackg.cpp
+;file \plugins\Clist_nicer\src\extBackg.cpp
 [*.clist]
 [*.clist\0]
 [Load and apply]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\init.cpp
+;file \plugins\Clist_nicer\src\init.cpp
 [No events...]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\statusfloater.cpp
+;file \plugins\Clist_nicer\src\statusfloater.cpp
 [StatusFloaterClass]
 [ContactFloaterClass]
 [sfl]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\viewmodes.cpp
+;file \plugins\Clist_nicer\src\viewmodes.cpp
 [Ungrouped contacts]
 [And]
 [Older than]
@@ -451,7 +451,7 @@
 [View modes]
 [View Modes]
 [CLVM]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 [&Visible]
 [&Show TitleBar]
@@ -478,9 +478,9 @@
 [Floating]
 [mf_update_evt_%d]
 [FramesContainer]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\CLUIFrames\cluiframes.h
+;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.h
 [CLUIFrameTitleBar]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
 [&Status]
@@ -488,7 +488,7 @@
 [&Options...]
 [&About the contact list...]
 [&New SubGroup]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
+;file \plugins\Clist_nicer\src\CLUIFrames\movetogroup.cpp
 [&Floating Contact]
-;file E:\Sources\myranda\plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
+;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
 [CoolSBSubclassPtr]

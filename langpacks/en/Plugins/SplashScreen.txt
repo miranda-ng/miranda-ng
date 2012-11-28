@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for SplashScreen
-;file E:\Sources\myranda\plugins\SplashScreen\res\splash.rc
+;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 [Show splash]
 [Show random splash]
@@ -18,15 +18,15 @@
 [Fade out:]
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
 [Preview...]
-;file E:\Sources\myranda\plugins\SplashScreen\src\bitmap_funcs.cpp
+;file \plugins\SplashScreen\src\bitmap_funcs.cpp
 [.png]
 [Loading splash file]
 [done]
 [MyBitmap::loadFromFile]
 [Bitmap load failed]
-;file E:\Sources\myranda\plugins\SplashScreen\src\debug.h
+;file \plugins\SplashScreen\src\debug.h
 [%s:\t\t%s\n]
-;file E:\Sources\myranda\plugins\SplashScreen\src\main.cpp
+;file \plugins\SplashScreen\src\main.cpp
 [%miranda_path%]
 [%s\\plugins\\advaimg.dll]
 [%s\\%s.log]
@@ -64,7 +64,7 @@
 [Loading modules]
 [Unload]
 [Job done]
-;file E:\Sources\myranda\plugins\SplashScreen\src\options.cpp
+;file \plugins\SplashScreen\src\options.cpp
 [%s (*.png, *.bmp)%c*.png;*.bmp%c%c]
 [Graphic files]
 [Set path]
@@ -73,9 +73,9 @@
 [Set sound path]
 [Skins]
 [Splash Screen]
-;file E:\Sources\myranda\plugins\SplashScreen\src\services.cpp
+;file \plugins\SplashScreen\src\services.cpp
 [PNG and BMP files\0*.png;*.bmp\0\0]
-;file E:\Sources\myranda\plugins\SplashScreen\src\splash.cpp
+;file \plugins\SplashScreen\src\splash.cpp
 [WM_LOADED]
 [called]
 [Timer ID]

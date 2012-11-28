@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for actman
-;file E:\Sources\myranda\plugins\Actman\options.rc
+;file \plugins\Actman\options.rc
 [Delete]
 [&Change]
 [C&ancel]
@@ -24,14 +24,14 @@
 [Other Action groups]
 [Message title]
 [Yes to &All]
-;file E:\Sources\myranda\plugins\Actman\hooks\hooks.rc
-;file E:\Sources\myranda\plugins\Actman\tasks\tasks.rc
+;file \plugins\Actman\hooks\hooks.rc
+;file \plugins\Actman\tasks\tasks.rc
 [Date]
 [Days]
 [Time]
 [Repeat, times]
 [Interval]
-;file E:\Sources\myranda\plugins\Actman\ua\ua.rc
+;file \plugins\Actman\ua\ua.rc
 [Action list]
 [Where to use]
 [Normal button tooltip]
@@ -39,12 +39,12 @@
 [Root popup:]
 [Menu item name:]
 [Show only if variables return 1]
-;file E:\Sources\myranda\plugins\Actman\i_inoutxm.inc
+;file \plugins\Actman\i_inoutxm.inc
 [Action "$" exists, do you want to rewrite it?]
-;file E:\Sources\myranda\plugins\Actman\i_options.inc
+;file \plugins\Actman\i_options.inc
 [No Description]
-;file E:\Sources\myranda\plugins\Actman\i_opt_dlg.inc
-;file E:\Sources\myranda\plugins\Actman\i_opt_dlg2.inc
+;file \plugins\Actman\i_opt_dlg.inc
+;file \plugins\Actman\i_opt_dlg2.inc
 [Help]
 [New]
 [Down]
@@ -60,16 +60,16 @@
 [Macros]
 [MessageBox]
 [Append data to file]
-;file E:\Sources\myranda\plugins\Actman\i_visual.inc
+;file \plugins\Actman\i_visual.inc
 [hContact]
 [parameter]
 [result]
 [structure]
-;file E:\Sources\myranda\plugins\Actman\hooks\i_opt_dlg.inc
+;file \plugins\Actman\hooks\i_opt_dlg.inc
 [hook sample]
 [Description]
 [Name]
-;file E:\Sources\myranda\plugins\Actman\tasks\i_opt_dlg.inc
+;file \plugins\Actman\tasks\i_opt_dlg.inc
 [Task sample]
 [Starting after]
 [Starting from]

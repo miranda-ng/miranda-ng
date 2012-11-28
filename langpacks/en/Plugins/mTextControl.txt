@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for mTextControl
-;file E:\Sources\myranda\plugins\mTextControl\src\fancy_rtf.cpp
+;file \plugins\mTextControl\src\fancy_rtf.cpp
 [icon]
 [[b]]
 [[/b]]
@@ -16,13 +16,13 @@
 [[url]]
 [[/url]]
 [[url=]
-;file E:\Sources\myranda\plugins\mTextControl\src\FormattedTextDraw.cpp
+;file \plugins\mTextControl\src\FormattedTextDraw.cpp
 [MS Shell Dlg]
-;file E:\Sources\myranda\plugins\mTextControl\src\ImageDataObjectHlp.cpp
+;file \plugins\mTextControl\src\ImageDataObjectHlp.cpp
 [riched20.dll]
-;file E:\Sources\myranda\plugins\mTextControl\src\main.cpp
+;file \plugins\mTextControl\src\main.cpp
 [msftedit.dll]
-;file E:\Sources\myranda\plugins\mTextControl\src\richeditutils.cpp
+;file \plugins\mTextControl\src\richeditutils.cpp
 [NBRichEditProxyWndClass]
-;file E:\Sources\myranda\plugins\mTextControl\src\textcontrol.cpp
+;file \plugins\mTextControl\src\textcontrol.cpp
 [Tahoma]

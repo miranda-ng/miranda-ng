@@ -1,6 +1,6 @@
 #muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;langpack template for TabSRMM
-;file E:\Sources\myranda\plugins\TabSRMM\res\chat.rc
+;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 [OK]
 [Cancel]
@@ -70,7 +70,7 @@
 [&Close tab]
 [C&lose other tabs]
 [&Open at this position]
-;file E:\Sources\myranda\plugins\TabSRMM\res\resource.rc
+;file \plugins\TabSRMM\res\resource.rc
 [Copy to clipboard]
 [Continue]
 [Exit Miranda]
@@ -433,7 +433,7 @@
 [URL events]
 [Other events]
 [Send message on Ctrl+Enter (always enabled)]
-;file E:\Sources\myranda\plugins\TabSRMM\src\buttonsbar.cpp
+;file \plugins\TabSRMM\src\buttonsbar.cpp
 [TSButtonClass]
 [Protocol Button]
 [Info button]
@@ -455,9 +455,9 @@
 [Channel manager]
 [>-------M-------<]
 [<Separator>]
-;file E:\Sources\myranda\plugins\TabSRMM\src\contactcache.cpp
+;file \plugins\TabSRMM\src\contactcache.cpp
 [<undef>]
-;file E:\Sources\myranda\plugins\TabSRMM\src\container.cpp
+;file \plugins\TabSRMM\src\container.cpp
 [default]
 [**free**]
 [Hide titlebar]
@@ -476,7 +476,7 @@
 [Autoselect]
 [Use Protocol]
 [Set Default Protocol]
-;file E:\Sources\myranda\plugins\TabSRMM\src\containeroptions.cpp
+;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
 [Window layout]
 [Tabs and switch bar]
@@ -503,7 +503,7 @@
 [On, if present, always in bottom display]
 [Don't show them]
 [http://miranda.or.at/TabSRMM/TitleBarFormatting]
-;file E:\Sources\myranda\plugins\TabSRMM\src\controls.cpp
+;file \plugins\TabSRMM\src\controls.cpp
 [&Main]
 [&File]
 [&View]
@@ -518,7 +518,7 @@
 [Sending typing notifications is %s.]
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-;file E:\Sources\myranda\plugins\TabSRMM\src\eventpopups.cpp
+;file \plugins\TabSRMM\src\eventpopups.cpp
 [found stale popup %s]
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
 [Incoming file]
@@ -533,7 +533,7 @@
 [Unknown module or contact]
 [%s: %s (%s) [%d]]
 [(undef)]
-;file E:\Sources\myranda\plugins\TabSRMM\src\generic_msghandlers.cpp
+;file \plugins\TabSRMM\src\generic_msghandlers.cpp
 [%s%c*.rtf%c%c]
 [Rich Edit file]
 [%s.rtf]
@@ -553,7 +553,7 @@
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
 [No UID]
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-;file E:\Sources\myranda\plugins\TabSRMM\src\globals.cpp
+;file \plugins\TabSRMM\src\globals.cpp
 [%n (%s)]
 [%s\n\n(%s)]
 [TabSRMM runtime error]
@@ -575,7 +575,7 @@
 [signed off.]
 [signed on and is now %s.]
 [changed status from %s to %s.]
-;file E:\Sources\myranda\plugins\TabSRMM\src\infopanel.cpp
+;file \plugins\TabSRMM\src\infopanel.cpp
 [Angry]
 [Duck]
 [Tired]
@@ -638,18 +638,18 @@
 [Show always (if present)]
 [Never show it at all]
 [%s%s]
-;file E:\Sources\myranda\plugins\TabSRMM\src\mim.cpp
+;file \plugins\TabSRMM\src\mim.cpp
 [%s\\%s]
 [%stabSRMM]
 [%sLogs\\]
 [%s\\skins\\]
 [%s\\Saved Contact Pictures]
-;file E:\Sources\myranda\plugins\TabSRMM\src\modplus.cpp
+;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
 [[img]%s[/img]]
 [[img]]
 [[/img]]
-;file E:\Sources\myranda\plugins\TabSRMM\src\msgdialog.cpp
+;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 [Do not add this contact permanently]
 [Expand or collapse the side bar]
@@ -672,7 +672,7 @@
 [The selected protocol cannot be forced at this time]
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
 [Contact is offline and this protocol does not support sending files to offline users.]
-;file E:\Sources\myranda\plugins\TabSRMM\src\msgdlgutils.cpp
+;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [SHELLDLL_DefView]
 [%04u %02u %02u_%02u%02u]
 [Error creating destination directory]
@@ -725,7 +725,7 @@
 [%s%c*.jpg%c%c]
 [JPEG-compressed images]
 [jpg]
-;file E:\Sources\myranda\plugins\TabSRMM\src\msglog.cpp
+;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
 [Japanese]
 [Simplified Chinese]
@@ -765,7 +765,7 @@
 [Yesterday]
 [WMA]
 [Use default codepage]
-;file E:\Sources\myranda\plugins\TabSRMM\src\msgoptions.cpp
+;file \plugins\TabSRMM\src\msgoptions.cpp
 [%s*.*]
 [.tsk]
 [Name]
@@ -803,7 +803,7 @@
 [Events and filters]
 [Highlighting]
 [Choose status modes]
-;file E:\Sources\myranda\plugins\TabSRMM\src\msgs.cpp
+;file \plugins\TabSRMM\src\msgs.cpp
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
 [TabSRMM fatal error]
 [Warning: trying to create duplicate window]
@@ -842,13 +842,13 @@
 [Frame 4]
 [icons\\tabsrmm_icons.dll]
 [plugins\\tabsrmm.dll]
-;file E:\Sources\myranda\plugins\TabSRMM\src\selectcontainer.cpp
+;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 [You cannot delete the default container]
 [Error]
 [You cannot rename the default container]
 [This name is already in use]
-;file E:\Sources\myranda\plugins\TabSRMM\src\sendlater.cpp
+;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
 [A send later job failed to complete.\nThe original message: %s]
 [%Y.%m.%d - %H:%M]
@@ -869,7 +869,7 @@
 [Last send info]
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
 [Queue manager]
-;file E:\Sources\myranda\plugins\TabSRMM\src\sendqueue.cpp
+;file \plugins\TabSRMM\src\sendqueue.cpp
 [Send queue full]
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
 [A message delivery has failed.\nClick to open the message window.]
@@ -880,21 +880,21 @@
 [The send later feature is not available on this protocol.]
 [\n(Sent delayed. Original timestamp %s)]
 [M%d|]
-;file E:\Sources\myranda\plugins\TabSRMM\src\sidebar.cpp
+;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
 [Compact layout, horizontal buttons]
 [Advanced layout with avatars]
 [Advanced with avatars, vertical orientation]
 [TS_SideBarClass]
-;file E:\Sources\myranda\plugins\TabSRMM\src\srmm.cpp
+;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
 [tabSRMM]
 [tabSRMM Message (%s)]
 [TabSRMM\n%s %d.%d.%d.%d (Unicode) %s]
 [Version]
-;file E:\Sources\myranda\plugins\TabSRMM\src\tabctrl.cpp
+;file \plugins\TabSRMM\src\tabctrl.cpp
 [msctls_updown32]
-;file E:\Sources\myranda\plugins\TabSRMM\src\taskbar.cpp
+;file \plugins\TabSRMM\src\taskbar.cpp
 [Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Advanced]
 [TaskbarSmallIcons]
 [TaskbarGlomLevel]
@@ -910,7 +910,7 @@
 [%d User(s)]
 [Server window]
 [%s on %s%s]
-;file E:\Sources\myranda\plugins\TabSRMM\src\templates.cpp
+;file \plugins\TabSRMM\src\templates.cpp
 [%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M]
 [%S %T%|%M]
 [%I %S %&D, %&T, %N %M%! ]
@@ -921,13 +921,13 @@
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
 [My Nickname]
-;file E:\Sources\myranda\plugins\TabSRMM\src\themeio.cpp
+;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM Theme]
 [Cookie]
 [%s%c*.tabsrmm%c%c]
 [tabSRMM themes]
 [tabsrmm]
-;file E:\Sources\myranda\plugins\TabSRMM\src\themes.cpp
+;file \plugins\TabSRMM\src\themes.cpp
 [tabskin_aero.png]
 [tabskin_aero_glow.png]
 [tabskin_aero_button.png]
@@ -1064,7 +1064,7 @@
 [%scustom_tabskin_aero_button.png]
 [%stabskin_aero_button.png]
 [SKIN_GLYPH]
-;file E:\Sources\myranda\plugins\TabSRMM\src\translator.cpp
+;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
 [Error feedback]
 [Show client icon in status bar (fingerprint plugin required)]
@@ -1144,13 +1144,13 @@
 [Close button only hides message windows]
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]
 [Add offline contacts to multisend list]
-;file E:\Sources\myranda\plugins\TabSRMM\src\trayicon.cpp
+;file \plugins\TabSRMM\src\trayicon.cpp
 [tsr_evt_%d]
 [TrayNotifyWnd]
 [TrayClockWClass]
 [Shell_TrayWnd]
-;file E:\Sources\myranda\plugins\TabSRMM\src\TSButton.cpp
-;file E:\Sources\myranda\plugins\TabSRMM\src\typingnotify.cpp
+;file \plugins\TabSRMM\src\TSButton.cpp
+;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
 [Enable &typing notification]
 [Warning: Popup plugin not found.]
@@ -1159,7 +1159,7 @@
 [...has stopped typing.]
 [Contact started typing]
 [Contact stopped typing]
-;file E:\Sources\myranda\plugins\TabSRMM\src\userprefs.cpp
+;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
 [Always Off]
 [Force Default Message Log]
@@ -1167,7 +1167,7 @@
 [Force IEView]
 [Set messaging options for %s]
 [Message Log]
-;file E:\Sources\myranda\plugins\TabSRMM\src\utils.cpp
+;file \plugins\TabSRMM\src\utils.cpp
 [[color=]
 [b1 ]
 [i1 ]
@@ -1205,16 +1205,16 @@
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
 [TabSRMM warning message]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\chat.h
+;file \plugins\TabSRMM\src\chat\chat.h
 [%miranda_logpath%\\%proto%\\%userid%.log]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\clist.cpp
+;file \plugins\TabSRMM\src\chat\clist.cpp
 [Chat rooms]
 [Join chat]
 [Open chat window]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\colorchooser.cpp
+;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 [Background color]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\log.cpp
+;file \plugins\TabSRMM\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
 [%%%c]
 [: %s]
@@ -1238,11 +1238,11 @@
 [#++~~]
 [~~++#]
 [~-+%d+-~]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\muchighlight.cpp
+;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [PERF text match: %d ticks = %f msec (%d words, %d patterns)]
 [Add user to highlight list]
 [Edit user highlight list]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\options.cpp
+;file \plugins\TabSRMM\src\chat\options.cpp
 [TabSRMM/Group Chats]
 [Group chat log background]
 [TabSRMM]
@@ -1451,12 +1451,12 @@
 [User has changed name]
 [User has sent a notice]
 [The topic has been changed]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\services.cpp
+;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
 [&Leave]
 [Server: %s]
 [Chat Rooms]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\tools.cpp
+;file \plugins\TabSRMM\src\chat\tools.cpp
 [ - %s]
 [%s wants your attention in %s]
 [%s speaks in %s]
@@ -1496,7 +1496,7 @@
 [wday]
 [weekday]
 [%userid%.log]
-;file E:\Sources\myranda\plugins\TabSRMM\src\chat\window.cpp
+;file \plugins\TabSRMM\src\chat\window.cpp
 [/topic]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [Nick name]
@@ -1522,12 +1522,12 @@
 [%s: ]
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 [Event filter error]
-;file E:\Sources\myranda\plugins\TabSRMM\src\include\contactcache.h
+;file \plugins\TabSRMM\src\include\contactcache.h
 [<account error>]
 [<proto error>]
-;file E:\Sources\myranda\plugins\TabSRMM\src\include\taskbar.h
+;file \plugins\TabSRMM\src\include\taskbar.h
 [TabSRMM_DWMProxy]
-;file E:\Sources\myranda\plugins\TabSRMM\src\include\utils.h
+;file \plugins\TabSRMM\src\include\utils.h
 [{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u]
 [red]
 [blue]

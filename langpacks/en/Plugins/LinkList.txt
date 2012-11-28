@@ -1,6 +1,6 @@
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
 ;langpack template for LinkList
-;file E:\Sources\myranda\plugins\HistoryLinkListPlus\res\linklist.rc
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Close]
 [Search for:]
 [Search]
@@ -45,7 +45,7 @@
 [Open in new Window]
 [Copy to Clipboard]
 [Show Message]
-;file E:\Sources\myranda\plugins\HistoryLinkListPlus\src\linklist.cpp
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
 [RICHED32.DLL]
 [Unable to load the Rich Edit control!]
 [Error]
@@ -57,12 +57,12 @@
 [Could not create window!]
 [Could not allocate memory!]
 [There are no links in history!]
-;file E:\Sources\myranda\plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
 [%s [%s]]
 [Linklist Plugin]
 [mailto:]
 [%s: %s]
-;file E:\Sources\myranda\plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [http://]
 [ftp://]
 [https://]

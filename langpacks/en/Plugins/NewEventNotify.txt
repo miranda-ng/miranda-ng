@@ -1,6 +1,6 @@
 #muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 ;langpack template for NewEventNotify
-;file E:\Sources\myranda\plugins\NewEventNotify\res\resource.rc
+;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 [Show entry in the PopUps menu]
 [Temporarily disable Event Popups]
@@ -35,7 +35,7 @@
 [Edit]
 [No popups for RSS contacts]
 [No popups for read messages]
-;file E:\Sources\myranda\plugins\NewEventNotify\src\main.cpp
+;file \plugins\NewEventNotify\src\main.cpp
 [%s  (%s)]
 [TMsgWindow]
 [[%s  (%s)]]
@@ -44,11 +44,11 @@
 [Message Session]
 [#32770]
 [Message Received]
-;file E:\Sources\myranda\plugins\NewEventNotify\src\menuitem.cpp
+;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
-;file E:\Sources\myranda\plugins\NewEventNotify\src\options.cpp
+;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
-;file E:\Sources\myranda\plugins\NewEventNotify\src\popup.cpp
+;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 [ added you to the contact list]
 [ requested authorization]

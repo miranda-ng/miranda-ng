@@ -1,6 +1,6 @@
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\res\resource.rc
+;file \plugins\SimpleStatusMsg\res\resource.rc
 [&Cancel]
 [Retrieving %s message...]
 [Co&py to Clipboard]
@@ -86,7 +86,7 @@
 [Status:]
 [Independent setting for each protocol]
 [Pop up dialog asking for status message]
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\src\awaymsg.cpp
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 [&Close]
 [Re&ad %s Message]
@@ -95,7 +95,7 @@
 [Re&ad Away Message]
 [Copy Away Message]
 [&Go to URL in Away Message]
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\src\main.cpp
+;file \plugins\SimpleStatusMsg\src\main.cpp
 [STUDIO]
 [Winamp v1.x]
 [ - Winamp]
@@ -111,7 +111,7 @@
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 [date]
 [Miranda Related\tget the date (Simple Status Message compatible)]
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\src\msgbox.cpp
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 [<current>]
 [## %s ##]
@@ -123,7 +123,7 @@
 [Closing in %d]
 [Are you sure you want to clear status message history?]
 [Confirm clearing history]
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\src\options.cpp
+;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 [Open String Formatting Help]
 [Hide]
@@ -137,7 +137,7 @@
 [Status]
 [General]
 [Advanced]
-;file E:\Sources\myranda\plugins\SimpleStatusMsg\src\utils.cpp
+;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
 [Predefined Message]
 [Go to URL in Away Message]

@@ -1,13 +1,13 @@
 #muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
 ;langpack template for SimpleAR
-;file E:\Sources\myranda\plugins\SimpleAR\res\Resource.rc
+;file \plugins\SimpleAR\res\Resource.rc
 [Enable Auto Replier]
 [Reply Message Heading:]
 [Reply Message when]
 [No-repeat Interval:]
 [mins]
 [&Default]
-;file E:\Sources\myranda\plugins\SimpleAR\src\Main.cpp
+;file \plugins\SimpleAR\src\Main.cpp
 [I am currently away. I will reply to you when I am back.]
 [I am currently very busy and can't spare any time to talk with you. Sorry...]
 [I am not available right now.]
@@ -21,6 +21,6 @@
 [Dear %user%, the owner left the following message:]
 [%user%]
 [%s\r\n\r\n%s]
-;file E:\Sources\myranda\plugins\SimpleAR\src\Options.cpp
+;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 [Plugins]

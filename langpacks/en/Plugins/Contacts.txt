@@ -1,6 +1,6 @@
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 ;langpack template for Contacts
-;file E:\Sources\myranda\plugins\ContactsPlus\res\contacts.rc
+;file \plugins\ContactsPlus\res\contacts.rc
 [&A]
 [6]
 [&D]
@@ -19,7 +19,7 @@
 [Add to List]
 [User Details]
 [Send Message]
-;file E:\Sources\myranda\plugins\ContactsPlus\src\main.cpp
+;file \plugins\ContactsPlus\src\main.cpp
 [Contacts received from]
 [Contacts]
 [Incoming Contacts]

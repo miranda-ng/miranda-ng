@@ -1,6 +1,6 @@
 #muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
 ;langpack template for Dbx_3x
-;file E:\Sources\myranda\plugins\Db3x\res\resource.rc
+;file \plugins\Db3x\res\resource.rc
 [Yes]
 [No]
 [A file containing new database settings has been placed in the Miranda NG directory.]
@@ -22,9 +22,9 @@
 [&Delete]
 [&Move/Rename]
 [&Leave]
-;file E:\Sources\myranda\plugins\Db3x\src\dbcache3x.cpp
+;file \plugins\Db3x\src\dbcache3x.cpp
 [%s (Write error)]
-;file E:\Sources\myranda\plugins\Db3x\src\dbintf3x.cpp
+;file \plugins\Db3x\src\dbintf3x.cpp
 [Invalid database module]
-;file E:\Sources\myranda\plugins\Db3x\src\init.cpp
+;file \plugins\Db3x\src\init.cpp
 [db3x database support]

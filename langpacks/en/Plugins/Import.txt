@@ -1,6 +1,6 @@
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;langpack template for Import
-;file E:\Sources\myranda\plugins\Import\res\resource.rc
+;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 [From a Miranda NG database.]
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
@@ -33,7 +33,7 @@
 [URLs]
 [File Transfers]
 [Other]
-;file E:\Sources\myranda\plugins\Import\src\import.cpp
+;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 [Added contact %u (found in history)]
 [Failed to add %S contact %s]
@@ -64,10 +64,10 @@
 [Skipped %d contacts.]
 [Skipped %d duplicates and %d filtered events.]
 [Skipped %d duplicates.]
-;file E:\Sources\myranda\plugins\Import\src\main.cpp
+;file \plugins\Import\src\main.cpp
 [Import...]
 [&Import...]
-;file E:\Sources\myranda\plugins\Import\src\miranda.cpp
+;file \plugins\Import\src\miranda.cpp
 [%s\\*.*]
 [%s\\%s\\%s.dat]
 [%s.dat]
@@ -81,7 +81,7 @@
 [Miranda NG database]
 [All Files]
 [dat]
-;file E:\Sources\myranda\plugins\Import\src\utils.cpp
+;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
-;file E:\Sources\myranda\plugins\Import\src\wizard.cpp
+;file \plugins\Import\src\wizard.cpp
 [Finish]

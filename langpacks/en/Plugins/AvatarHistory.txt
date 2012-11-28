@@ -1,6 +1,6 @@
 #muuid {dbe8c990-7aa0-458d-bab7-33eb07238e71}
 ;langpack template for AvatarHistory
-;file E:\Sources\myranda\plugins\AvatarHistory\res\AvatarHistory.rc
+;file \plugins\AvatarHistory\res\AvatarHistory.rc
 [Save As...]
 [Delete this entry]
 [Delete this entry and the bitmap file]
@@ -44,7 +44,7 @@
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\AvatarDlg.cpp
+;file \plugins\AvatarHistory\src\AvatarDlg.cpp
 [Avatar History for %s]
 [Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
 [Delete avatar log?]
@@ -61,7 +61,7 @@
 [View Avatar History]
 [Save Avatar for %s]
 [Save Avatar]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\AvatarHistory.cpp
+;file \plugins\AvatarHistory\src\AvatarHistory.cpp
 [Avatar History]
 [Contact changed avatar]
 [Contact removed avatar]
@@ -98,13 +98,13 @@
 [%s\\%04d-%02d-%02d %02dh%02dm%02ds]
 [AVH Debug: GetOldStyleAvatarName]
 [CreateShortcut]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\AvatarHistory.h
+;file \plugins\AvatarHistory\src\AvatarHistory.h
 [removed his/her avatar]
 [changed his/her avatar]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\icolib.cpp
+;file \plugins\AvatarHistory\src\icolib.cpp
 [History]
 [Avatar Overlay]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\options.cpp
+;file \plugins\AvatarHistory\src\options.cpp
 [Avatar]
 [Popups]
 [Avatar Change]
@@ -114,7 +114,7 @@
 [Show contact history]
 [Test Contact]
 [Test description]
-;file E:\Sources\myranda\plugins\AvatarHistory\src\popup.cpp
+;file \plugins\AvatarHistory\src\popup.cpp
 [static]
 [_PopupWindow]
 [ Error]

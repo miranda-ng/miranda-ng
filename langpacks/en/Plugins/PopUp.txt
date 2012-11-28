@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for PopUp
-;file E:\Sources\myranda\plugins\Popup\res\resource.rc
+;file \plugins\Popup\res\resource.rc
 [Content && Style]
 [Go to Customize > Fonts && Colors for fonts and colors options]
 [Miscellaneous]
@@ -101,7 +101,7 @@
 [Always (has priority)]
 [Fullscreen mode]
 [Debug]
-;file E:\Sources\myranda\plugins\Popup\src\actions.cpp
+;file \plugins\Popup\src\actions.cpp
 [no overwrite]
 [Send message]
 [Quick reply]
@@ -111,13 +111,13 @@
 [Pin popup]
 [Copy to clipboard]
 [Action]
-;file E:\Sources\myranda\plugins\Popup\src\avatars.cpp
+;file \plugins\Popup\src\avatars.cpp
 [.gif]
-;file E:\Sources\myranda\plugins\Popup\src\bitmap_funcs.cpp
+;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-;file E:\Sources\myranda\plugins\Popup\src\common.h
+;file \plugins\Popup\src\common.h
 [debug]
-;file E:\Sources\myranda\plugins\Popup\src\config.cpp
+;file \plugins\Popup\src\config.cpp
 [The Jabberwocky]
 [`Twas brillig, and the slithy toves\r\n]
 [Did gyre and gimble in the wabe:\r\n]
@@ -132,14 +132,14 @@
 [This is a notification message]
 [This is a warning message]
 [This is an error message]
-;file E:\Sources\myranda\plugins\Popup\src\font.cpp
+;file \plugins\Popup\src\font.cpp
 [Tahoma]
 [Hovered Action]
-;file E:\Sources\myranda\plugins\Popup\src\history.cpp
+;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
 [Popup History message]
 [Popup History]
-;file E:\Sources\myranda\plugins\Popup\src\icons.cpp
+;file \plugins\Popup\src\icons.cpp
 [Popups are enabled]
 [Popups are disabled]
 [With "favourite" overlay]
@@ -162,7 +162,7 @@
 [Contact Menu]
 [Add Contact Permanently]
 [Dismiss Popup]
-;file E:\Sources\myranda\plugins\Popup\src\main.cpp
+;file \plugins\Popup\src\main.cpp
 [Classes]
 [Actions]
 [Contacts]
@@ -176,15 +176,15 @@
 [dwmapi.dll]
 [Error: I could not register the PopUp Window class.\r\n]
 [The plugin will not operate.]
-;file E:\Sources\myranda\plugins\Popup\src\opt_adv.cpp
+;file \plugins\Popup\src\opt_adv.cpp
 [%d%%]
 [No effect]
 [Fade in/out]
-;file E:\Sources\myranda\plugins\Popup\src\opt_class.cpp
+;file \plugins\Popup\src\opt_class.cpp
 [%s/%s]
 [CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
-;file E:\Sources\myranda\plugins\Popup\src\opt_gen.cpp
+;file \plugins\Popup\src\opt_gen.cpp
 [/Offline]
 [/Online]
 [/Invisible]
@@ -211,7 +211,7 @@
 [\r\n]
 [Do you want to enable popup reordering now?\r\n]
 [Popup Plus Warning]
-;file E:\Sources\myranda\plugins\Popup\src\opt_skins.cpp
+;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 [#32770]
 [PopupPlusDlgBox]
@@ -226,17 +226,17 @@
 [Use advanced text render]
 [Global settings]
 [Refresh List]
-;file E:\Sources\myranda\plugins\Popup\src\popup_thread.cpp
+;file \plugins\Popup\src\popup_thread.cpp
 [PopupThreadManagerWnd]
-;file E:\Sources\myranda\plugins\Popup\src\popup_wnd2.cpp
+;file \plugins\Popup\src\popup_wnd2.cpp
 [Failed to GetClassInfoExW from EDIT class.]
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 [PopupMenuHostWnd]
 [%s\n\n%s]
-;file E:\Sources\myranda\plugins\Popup\src\services.cpp
+;file \plugins\Popup\src\services.cpp
 [WorkerW]
 [Notify]
-;file E:\Sources\myranda\plugins\Popup\src\skin.cpp
+;file \plugins\Popup\src\skin.cpp
 [res:]
 [Skin]
 [*.popupskin]
@@ -248,7 +248,7 @@
 [for newer version of Popup Plus. And will not\r\n]
 [display properly.\r\n]
 [Please choose another skin.]
-;file E:\Sources\myranda\plugins\Popup\src\srmm_menu.cpp
+;file \plugins\Popup\src\srmm_menu.cpp
 [Popup Mode: Auto]
 [Popup Mode: Favourite]
 [Popup Mode: Ignore fullscreen]

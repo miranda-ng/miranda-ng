@@ -1,13 +1,13 @@
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
 ;langpack template for RecentContacts
-;file E:\Sources\myranda\plugins\RecentContacts\res\resource.rc
+;file \plugins\RecentContacts\res\resource.rc
 [Plugin settings]
 [Number shown contacts:\n (0 to show all)]
 [Format of date and time\n(Look to readme for placeholders help)]
 [Hide offline contacts]
-;file E:\Sources\myranda\plugins\RecentContacts\src\options.cpp
+;file \plugins\RecentContacts\src\options.cpp
 [Contact List]
-;file E:\Sources\myranda\plugins\RecentContacts\src\RecentContacts.cpp
+;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Contact]
 [Toggle Ignore]
 [Main icon]

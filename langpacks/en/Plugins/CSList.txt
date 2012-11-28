@@ -1,6 +1,6 @@
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;langpack template for CSList
-;file E:\Sources\myranda\plugins\CSList\res\cslist.rc
+;file \plugins\CSList\res\cslist.rc
 [A]
 [M]
 [D]
@@ -18,7 +18,7 @@
 [Delete entries in Custom status menu after Import]
 [Remember last window position]
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
-;file E:\Sources\myranda\plugins\CSList\src\cslist.cpp
+;file \plugins\CSList\src\cslist.cpp
 [Status]
 [Custom Status List]
 [%s (locked)]
@@ -34,7 +34,7 @@
 [Message]
 [Do you really want to delete selected item?]
 [Do you want old database entries to be deleted after Import?]
-;file E:\Sources\myranda\plugins\CSList\src\cslist.h
+;file \plugins\CSList\src\cslist.h
 [Main Menu]
 [Main Icon]
 [Modify selected item]

@@ -1,6 +1,6 @@
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;langpack template for Jabber
-;file E:\Sources\myranda\protocols\JabberG\res\jabber.rc
+;file \protocols\JabberG\res\jabber.rc
 [Tags:]
 [OK]
 [Cancel]
@@ -192,13 +192,13 @@
 [Jabber notebook\nStore notes on server and access them from anywhere.]
 [Reset log]
 [Send]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber.cpp
+;file \protocols\JabberG\src\jabber.cpp
 [Jabber Link Protocol]
 [%d.%d.%d.%d]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber.h
+;file \protocols\JabberG\src\jabber.h
 [I'm happy Miranda NG user. Get it at http://miranda-ng.org/.]
 [/me slaps %s around a bit with a large trout]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_adhoc.cpp
+;file \protocols\JabberG\src\jabber_adhoc.cpp
 [get]
 [node]
 [item]
@@ -233,7 +233,7 @@
 [next]
 [complete]
 [PopupMenuHost]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_agent.cpp
+;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
 [Jabber Agent Registration]
 [Please wait...]
@@ -241,7 +241,7 @@
 [key]
 [registered]
 [password]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_bookmarks.cpp
+;file \protocols\JabberG\src\jabber_bookmarks.cpp
 [conference]
 [url]
 [storage]
@@ -251,7 +251,7 @@
 [Nickname]
 [Conferences]
 [Links]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_byte.cpp
+;file \protocols\JabberG\src\jabber_byte.cpp
 [host]
 [port]
 [Bytestream Proxy not available]
@@ -266,7 +266,7 @@
 [item-not-found]
 [activate]
 [streamhost-used]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_caps.cpp
+;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
 [Supports Service Discovery items list]
 [Can inform about its Jabber capabilities]
@@ -342,7 +342,7 @@
 [software]
 [Miranda NG Jabber Protocol]
 [software_version]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_captcha.cpp
+;file \protocols\JabberG\src\jabber_captcha.cpp
 [Enter the text you see]
 [ocr]
 [label]
@@ -357,7 +357,7 @@
 [challenge]
 [message]
 [modify]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_chat.cpp
+;file \protocols\JabberG\src\jabber_chat.cpp
 [http://jabber.org/protocol/muc#admin]
 [http://jabber.org/protocol/muc#owner]
 [None]
@@ -462,14 +462,14 @@
 [Change nickname in]
 [Reason to destroy]
 [destroy]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_console.cpp
+;file \protocols\JabberG\src\jabber_console.cpp
 [JID]
 [all attributes]
 [disabled]
 [Can't send data while you are offline.]
 [Jabber Error]
 [Outgoing XML parsing error]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_disco.cpp
+;file \protocols\JabberG\src\jabber_disco.cpp
 [account]
 [anonymous]
 [cert]
@@ -568,7 +568,7 @@
 [Copy node information]
 [remove]
 [subscription]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_disco.h
+;file \protocols\JabberG\src\jabber_disco.h
 [Jid: %s\r\n]
 [%s: %s\r\n]
 [\r\n%s:\r\n]
@@ -582,12 +582,12 @@
 [\r\n%s: %s\r\n]
 [Info request error]
 [Items request error]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_events.cpp
+;file \protocols\JabberG\src\jabber_events.cpp
 [subscribe]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_file.cpp
+;file \protocols\JabberG\src\jabber_file.cpp
 [desc]
 [%s\\%s]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_form.cpp
+;file \protocols\JabberG\src\jabber_form.cpp
 [text-private]
 [text-multi]
 [jid-multi]
@@ -599,7 +599,7 @@
 [edit]
 [\r\n]
 [option]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_form2.cpp
+;file \protocols\JabberG\src\jabber_form2.cpp
 [abuse-addresses]
 [One or more addresses for communication related to abusive traffic]
 [feedback-addresses]
@@ -884,10 +884,10 @@
 [listbox]
 [combobox]
 [JabberDataFormControl]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_frame.cpp
+;file \protocols\JabberG\src\jabber_frame.cpp
 [JabberInfoFrameClass]
 [Offline]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_ft.cpp
+;file \protocols\JabberG\src\jabber_ft.cpp
 [mime-type]
 [binary/octet-stream]
 [profile]
@@ -906,7 +906,7 @@
 [bad-request]
 [no-valid-streams]
 [bad-profile]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_groupchat.cpp
+;file \protocols\JabberG\src\jabber_groupchat.cpp
 [%s@%s/%s]
 [%04d-%02d-%02dT%02d:%02d:%02dZ]
 [history]
@@ -930,12 +930,12 @@
 [jabber:x:delay]
 [stamp]
 [Incoming groupchat invitation.]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_ibb.cpp
+;file \protocols\JabberG\src\jabber_ibb.cpp
 [open]
 [close]
 [block-size]
 [stanza]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_icolib.cpp
+;file \protocols\JabberG\src\jabber_icolib.cpp
 [|*icq*|jit*]
 [msn*]
 [yahoo*]
@@ -1010,13 +1010,13 @@
 [Deny Presences (in)]
 [Deny Presences (out)]
 [Deny Queries]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_iq.cpp
+;file \protocols\JabberG\src\jabber_iq.cpp
 [google:shared-status]
 [query]
 [ping]
 [time]
 [confirm]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_iqid.cpp
+;file \protocols\JabberG\src\jabber_iqid.cpp
 [Google Talk]
 [version]
 [query[@xmlns='%s']/roster[@xmlns='%s']]
@@ -1059,7 +1059,7 @@
 [Jabber Bookmarks Error]
 [time[@xmlns='%s']/tzo]
 [time[@xmlns='%s']/tz]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_iqid_muc.cpp
+;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Jabber Conference Room Configuration]
 [JID List]
 [%s, %d items (%s)]
@@ -1071,7 +1071,7 @@
 [Owner List]
 [%s %s?]
 [Removing]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_iq_handlers.cpp
+;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Miranda NG Jabber]
 [seconds]
 [%+03d:%02d]
@@ -1083,7 +1083,7 @@
 [Ad-hoc commands]
 [Http authentication request received]
 [method]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_menu.cpp
+;file \protocols\JabberG\src\jabber_menu.cpp
 [Convert]
 [Add to Bookmarks]
 [Commands]
@@ -1115,13 +1115,13 @@
 [No activity yet, use server's choice]
 [Highest priority (server's choice)]
 [Status Message]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_message_handlers.cpp
+;file \protocols\JabberG\src\jabber_message_handlers.cpp
 [%s:\n%s\n%s]
 [%s:\n%s]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_message_manager.cpp
+;file \protocols\JabberG\src\jabber_message_manager.cpp
 [event]
 [normal]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_misc.cpp
+;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
 [%%miranda_avatarcache%%\\Jabber]
 [%miranda_avatarcache%]
@@ -1147,7 +1147,7 @@
 [From]
 [Both]
 [Errors]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_notes.cpp
+;file \protocols\JabberG\src\jabber_notes.cpp
 [note]
 [tags]
 [title]
@@ -1162,7 +1162,7 @@
 [delivered]
 [offline]
 [Incoming note]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_opt.cpp
+;file \protocols\JabberG\src\jabber_opt.cpp
 [%s %s@%S:%d?]
 [Afar]
 [Abkhazian]
@@ -1441,12 +1441,12 @@
 [Vkontakte]
 [S.ms]
 [Some changes will take effect the next time you connect to the Jabber network.]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_password.cpp
+;file \protocols\JabberG\src\jabber_password.cpp
 [%s %s@]
 [Set New Password for]
 [New password does not match.]
 [Current password is incorrect.]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_privacy.cpp
+;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 [Error occurred while applying changes]
 [Privacy lists successfully saved]
@@ -1522,7 +1522,7 @@
 [Sorry]
 [Unable to save list because you are currently offline.]
 [List Editor...]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_proto.cpp
+;file \protocols\JabberG\src\jabber_proto.cpp
 [forbidden]
 [xml:lang]
 [add]
@@ -1533,10 +1533,10 @@
 [): ]
 [paused]
 [composing]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_proxy.cpp
+;file \protocols\JabberG\src\jabber_proxy.cpp
 [rid]
 [http://jabber.org/protocol/httpbind]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_rc.cpp
+;file \protocols\JabberG\src\jabber_rc.cpp
 [%u%u]
 [bad-sessionid]
 [Command completed successfully]
@@ -1588,7 +1588,7 @@
 [allow-shutdown]
 [There is no groupchats to leave]
 [Choose the groupchats you want to leave]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_search.cpp
+;file \protocols\JabberG\src\jabber_search.cpp
 [STATIC]
 [EDIT]
 [Error %s %s\r\nPlease select other server]
@@ -1600,14 +1600,14 @@
 [Select/type search service URL above and press <Go>]
 [Please wait...\r\nConnecting search server...]
 [You have to be connected to server]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_secur.cpp
+;file \protocols\JabberG\src\jabber_secur.cpp
 [Negotiate]
 [GSSAPI]
 [NTLM]
 [secur32.dll]
 [xmpp/%s/%s@%s]
 [xmpp/%s@%s]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_svc.cpp
+;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
 [sent subscription request]
 [approved subscription request]
@@ -1637,7 +1637,7 @@
 [urn:ietf:params:xml:xmpp-stanzas]
 [thread]
 [bcdfghjklmnpqrstvwxz0123456789]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_thread.cpp
+;file \protocols\JabberG\src\jabber_thread.cpp
 [Enter password for]
 [1.0]
 [encoding]
@@ -1704,7 +1704,7 @@
 [urn:xmpp:jingle:errors:1]
 [service-unavailable]
 [Sending registration information...]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_userinfo.cpp
+;file \protocols\JabberG\src\jabber_userinfo.cpp
 [%s: %s]
 [Resource]
 [<not specified>]
@@ -1747,7 +1747,7 @@
 [<Photo not available while offline>]
 [<No photo>]
 [Photo]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_util.cpp
+;file \protocols\JabberG\src\jabber_util.cpp
 [%%%02X]
 [%2x]
 [Redirect]
@@ -1782,7 +1782,7 @@
 [Set mood...]
 [Set activity...]
 [%s (%d)]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_vcard.cpp
+;file \protocols\JabberG\src\jabber_vcard.cpp
 [prodid]
 [-//HandGen//NONSGML vGen v1.0//EN]
 [2.0]
@@ -1808,13 +1808,13 @@
 [BINVAL]
 [Contacts]
 [Note]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_ws.cpp
+;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_xml.cpp
+;file \protocols\JabberG\src\jabber_xml.cpp
 [mir_%d]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_xml.h
+;file \protocols\JabberG\src\jabber_xml.h
 [Hello]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_xstatus.cpp
+;file \protocols\JabberG\src\jabber_xstatus.cpp
 [%s [%s]]
 [...%s]
 [publish]
@@ -2003,8 +2003,8 @@
 [..\\Icons\\xstatus_jabber.dll]
 [Protocols/Jabber/Moods]
 [Protocols/Jabber/Activities]
-;file E:\Sources\myranda\protocols\JabberG\src\jabber_xstatus.h
+;file \protocols\JabberG\src\jabber_xstatus.h
 [items]
-;file E:\Sources\myranda\protocols\JabberG\src\ui_utils.cpp
+;file \protocols\JabberG\src\ui_utils.cpp
 [Set filter...]
 [%s [%s: %s]]

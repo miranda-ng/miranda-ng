@@ -1,5 +1,5 @@
 Miranda Language Pack Version 1
-;file E:\Sources\myranda\src\resource.rc
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 [Choose the protocol type]
 [Specify the internal account name (optional)]
@@ -245,7 +245,7 @@ Miranda Language Pack Version 1
 [&Reset To Default]
 [Group]
 [Ungroup]
-;file E:\Sources\myranda\src\core\stdauth\resource.rc
+;file \src\core\stdauth\resource.rc
 [&Authorize]
 [&Deny]
 [Decide &Later]
@@ -255,7 +255,7 @@ Miranda Language Pack Version 1
 [Add to contact list if authorized]
 [&Close]
 [&U]
-;file E:\Sources\myranda\src\core\stdaway\resource.rc
+;file \src\core\stdaway\resource.rc
 [Retrieving %s message...]
 [Status Messages]
 [Do not reply to requests for this message]
@@ -265,7 +265,7 @@ Miranda Language Pack Version 1
 [Use %time% for the current time, %date% for the current date]
 [Status messages:]
 [Closing in %d]
-;file E:\Sources\myranda\src\core\stdchat\res\chat.rc
+;file \src\core\stdchat\res\chat.rc
 [&Send]
 [Show these events only:]
 [Actions]
@@ -318,7 +318,7 @@ Miranda Language Pack Version 1
 [&Close tab]
 [C&lose other tabs]
 [&Open at this position]
-;file E:\Sources\myranda\src\core\stdclist\res\resource.rc
+;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
 [Hide empty groups]
 [Disable groups]
@@ -425,7 +425,7 @@ Miranda Language Pack Version 1
 [&Invisible\tCtrl+7]
 [On the &Phone\tCtrl+8]
 [Out to &Lunch\tCtrl+9]
-;file E:\Sources\myranda\src\core\stdfile\resource.rc
+;file \src\core\stdfile\resource.rc
 [To:]
 [File(s):]
 [&Choose Again...]
@@ -480,10 +480,10 @@ Miranda Language Pack Version 1
 [Ask me]
 [Rename (append " (1)", etc.)]
 [You will always be asked about files from people not on your contact list]
-;file E:\Sources\myranda\src\core\stdhelp\resource.rc
+;file \src\core\stdhelp\resource.rc
 [Miranda NG\n%s]
 [Credits >]
-;file E:\Sources\myranda\src\core\stdidle\resource.rc
+;file \src\core\stdidle\resource.rc
 [Become idle if the following is left unattended:]
 [Windows]
 [Miranda]
@@ -500,7 +500,7 @@ Miranda Language Pack Version 1
 [Disable sounds on idle]
 [Become idle if computer is left unattended for:]
 [Idle (auto-away):]
-;file E:\Sources\myranda\src\core\stdmsg\res\resource.rc
+;file \src\core\stdmsg\res\resource.rc
 [Automatically popup window when:]
 [In background]
 [Close the message window on send]
@@ -549,11 +549,11 @@ Miranda Language Pack Version 1
 [&Open link]
 [Paste && Send]
 [Delete]
-;file E:\Sources\myranda\src\core\stduihist\resource.rc
+;file \src\core\stduihist\resource.rc
 [&Find Next]
 [Find What:]
 [&Find...]
-;file E:\Sources\myranda\src\core\stduserinfo\resource.rc
+;file \src\core\stduserinfo\resource.rc
 [Enter country, area code and phone number:]
 [Or enter a full international number:]
 [Phone can receive SMS text messages]
@@ -586,11 +586,11 @@ Miranda Language Pack Version 1
 [Department:]
 [Position:]
 [Website:]
-;file E:\Sources\myranda\src\core\miranda.cpp
+;file \src\core\miranda.cpp
 [restart]
 [memdebug]
 [\\StringFileInfo\\000004b0\\ProductVersion]
-;file E:\Sources\myranda\src\core\stdauth\auth.cpp
+;file \src\core\stdauth\auth.cpp
 [%s requests authorization]
 [%u requests authorization]
 [%s added you to their contact list]
@@ -598,7 +598,7 @@ Miranda Language Pack Version 1
 [Alerts]
 [Authorization request]
 [Added event]
-;file E:\Sources\myranda\src\core\stdauth\authdialogs.cpp
+;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
 [Add Contact Permanently to List]
 [%s %s]
@@ -613,10 +613,10 @@ Miranda Language Pack Version 1
 [%s requested authorization\n%u on %s]
 [%s requested authorization\n%s on %s]
 [Feature is not supported by protocol]
-;file E:\Sources\myranda\src\core\stdaway\awaymsg.cpp
+;file \src\core\stdaway\awaymsg.cpp
 [Re&ad %s Message]
 [Re&ad Status Message]
-;file E:\Sources\myranda\src\core\stdaway\sendmsg.cpp
+;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
 [Give it up, I'm not in!]
 [Not right now.]
@@ -631,13 +631,13 @@ Miranda Language Pack Version 1
 [%time%]
 [%date%]
 [Status]
-;file E:\Sources\myranda\src\core\stdchat\src\clist.cpp
+;file \src\core\stdchat\src\clist.cpp
 [Chat rooms]
 [Join chat]
 [Open chat window]
-;file E:\Sources\myranda\src\core\stdchat\src\colorchooser.cpp
+;file \src\core\stdchat\src\colorchooser.cpp
 [Text colour]
-;file E:\Sources\myranda\src\core\stdchat\src\log.cpp
+;file \src\core\stdchat\src\log.cpp
 [%s (%s)]
 [%s ]
 [%s has joined]
@@ -655,9 +655,9 @@ Miranda Language Pack Version 1
 [--> %s]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
-;file E:\Sources\myranda\src\core\stdchat\src\main.cpp
+;file \src\core\stdchat\src\main.cpp
 [riched20.dll]
-;file E:\Sources\myranda\src\core\stdchat\src\options.cpp
+;file \src\core\stdchat\src\options.cpp
 [Terminal]
 [Others nicknames]
 [Verdana]
@@ -824,10 +824,10 @@ Miranda Language Pack Version 1
 [User has changed name]
 [User has sent a notice]
 [The topic has been changed]
-;file E:\Sources\myranda\src\core\stdchat\src\services.cpp
+;file \src\core\stdchat\src\services.cpp
 [&Join]
 [Server: %s]
-;file E:\Sources\myranda\src\core\stdchat\src\tools.cpp
+;file \src\core\stdchat\src\tools.cpp
 [ - %s]
 [%s wants your attention in %s]
 [%s speaks in %s]
@@ -855,7 +855,7 @@ Miranda Language Pack Version 1
 [%s %s\n]
 [Look up '%s':]
 [\\/:*?"<>|]
-;file E:\Sources\myranda\src\core\stdchat\src\window.cpp
+;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 [Make the text bold (CTRL+B)]
 [Make the text italicized (CTRL+I)]
@@ -881,11 +881,11 @@ Miranda Language Pack Version 1
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [%s: ]
 [open]
-;file E:\Sources\myranda\src\core\stdclist\src\clcfonts.cpp
+;file \src\core\stdclist\src\clcfonts.cpp
 [Selected Text]
 [Hottrack Text]
 [Quicksearch Text]
-;file E:\Sources\myranda\src\core\stdclist\src\clcopts.cpp
+;file \src\core\stdclist\src\clcopts.cpp
 [Not focused]
 [Offline]
 [Online]
@@ -898,15 +898,15 @@ Miranda Language Pack Version 1
 [On the phone]
 [List]
 [List Background]
-;file E:\Sources\myranda\src\core\stdclist\src\clistopts.cpp
+;file \src\core\stdclist\src\clistopts.cpp
 [Global]
-;file E:\Sources\myranda\src\core\stdclist\src\cluiopts.cpp
+;file \src\core\stdclist\src\cluiopts.cpp
 [Progman]
-;file E:\Sources\myranda\src\core\stdemail\email.cpp
+;file \src\core\stdemail\email.cpp
 [User has not registered an e-mail address]
 [Send e-mail]
 [&E-mail]
-;file E:\Sources\myranda\src\core\stdfile\file.cpp
+;file \src\core\stdfile\file.cpp
 [File from %s]
 [%u%s%s]
 [bytes]
@@ -923,14 +923,14 @@ Miranda Language Pack Version 1
 [Complete]
 [Error]
 [Denied]
-;file E:\Sources\myranda\src\core\stdfile\fileexistsdlg.cpp
+;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 [EXE]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
 [\\DefaultIcon]
 [All Files]
 [ (*)]
-;file E:\Sources\myranda\src\core\stdfile\fileopts.cpp
+;file \src\core\stdfile\fileopts.cpp
 [Network Associates/McAfee VirusScan]
 [SOFTWARE\\McAfee\\VirusScan]
 [Scan32EXE]
@@ -970,7 +970,7 @@ Miranda Language Pack Version 1
 [*.exe]
 [File Transfers]
 [Events]
-;file E:\Sources\myranda\src\core\stdfile\filerecvdlg.cpp
+;file \src\core\stdfile\filerecvdlg.cpp
 [*?"<>|]
 [%%mydocuments%%\\%s\\%%userid%%]
 [My Received Files]
@@ -982,13 +982,13 @@ Miranda Language Pack Version 1
 [User Menu]
 [t d]
 [Cancelled]
-;file E:\Sources\myranda\src\core\stdfile\filesenddlg.cpp
+;file \src\core\stdfile\filesenddlg.cpp
 [%s, %s]
 [%d file]
 [%d files]
 [%d directory]
 [%d directories]
-;file E:\Sources\myranda\src\core\stdfile\filexferdlg.cpp
+;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 [File Received]
 [%s"%s"%s]
@@ -1020,27 +1020,27 @@ Miranda Language Pack Version 1
 [Transfer completed, open folder.]
 [Scanning for viruses...]
 [Transfer and virus scan complete]
-;file E:\Sources\myranda\src\core\stdfile\ftmanager.cpp
+;file \src\core\stdfile\ftmanager.cpp
 [Outgoing]
-;file E:\Sources\myranda\src\core\stdhelp\about.cpp
+;file \src\core\stdhelp\about.cpp
 [\\StringFileInfo\\000004b0\\LegalCopyright]
 [TEXT]
 [< Copyright]
-;file E:\Sources\myranda\src\core\stdhelp\help.cpp
+;file \src\core\stdhelp\help.cpp
 [http://wiki.miranda-im.org/]
 [&About...]
 [&Support]
 [&Miranda NG Homepage]
 [&Report Bug]
-;file E:\Sources\myranda\src\core\stdidle\idle.cpp
+;file \src\core\stdidle\idle.cpp
 [WorkerW]
 [Idle]
-;file E:\Sources\myranda\src\core\stdmsg\src\cmdlist.cpp
+;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
-;file E:\Sources\myranda\src\core\stdmsg\src\globals.cpp
+;file \src\core\stdmsg\src\globals.cpp
 [Incoming message (10x10)]
 [Outgoing message (10x10)]
-;file E:\Sources\myranda\src\core\stdmsg\src\msgdialog.cpp
+;file \src\core\stdmsg\src\msgdialog.cpp
 [%s\\*]
 [Last message received on %s at %s.]
 [Message Session]
@@ -1051,7 +1051,7 @@ Miranda Language Pack Version 1
 [is now %s (was %s)]
 [%s is typing a message...]
 [mailto:]
-;file E:\Sources\myranda\src\core\stdmsg\src\msglog.cpp
+;file \src\core\stdmsg\src\msglog.cpp
 [[b]]
 [[i]]
 [[u]]
@@ -1069,7 +1069,7 @@ Miranda Language Pack Version 1
 [d t]
 [File sent]
 [File received]
-;file E:\Sources\myranda\src\core\stdmsg\src\msgoptions.cpp
+;file \src\core\stdmsg\src\msgoptions.cpp
 [Outgoing messages]
 [Arial]
 [Incoming messages]
@@ -1086,7 +1086,7 @@ Miranda Language Pack Version 1
 [Show balloon popup (unsupported system)]
 [Messaging Log]
 [Typing Notify]
-;file E:\Sources\myranda\src\core\stdmsg\src\msgs.cpp
+;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 [%s is typing a message]
 [Typing Notification]
@@ -1096,9 +1096,9 @@ Miranda Language Pack Version 1
 [Incoming (Unfocused Window)]
 [Incoming (New Session)]
 [Message send error]
-;file E:\Sources\myranda\src\core\stdmsg\src\msgtimedout.cpp
+;file \src\core\stdmsg\src\msgtimedout.cpp
 [An unknown error has occured.]
-;file E:\Sources\myranda\src\core\stduihist\history.cpp
+;file \src\core\stduihist\history.cpp
 [Invalid Message]
 [\r\n]
 [Outgoing Message]
@@ -1111,15 +1111,15 @@ Miranda Language Pack Version 1
 [Are you sure you want to delete this history item?]
 [Delete History]
 [View &History]
-;file E:\Sources\myranda\src\core\stdurl\url.cpp
+;file \src\core\stdurl\url.cpp
 [URL from %s]
 [Web Page Address (&URL)]
 [URL]
-;file E:\Sources\myranda\src\core\stdurl\urldialogs.cpp
+;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 [%s %s (%s)]
 [Send timed out]
-;file E:\Sources\myranda\src\core\stduserinfo\contactinfo.cpp
+;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
 [Edit Phone Number]
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
@@ -1132,7 +1132,7 @@ Miranda Language Pack Version 1
 [Work Fax]
 [ SMS]
 [mailto:%s]
-;file E:\Sources\myranda\src\core\stduserinfo\stdinfo.cpp
+;file \src\core\stduserinfo\stdinfo.cpp
 [Male]
 [Female]
 [<not specified>]
@@ -1143,17 +1143,17 @@ Miranda Language Pack Version 1
 [Work]
 [Background info]
 [Notes]
-;file E:\Sources\myranda\src\core\stduserinfo\userinfo.cpp
+;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 [%.*s%s%.*s]
 [.........]
 [View/Change My &Details...]
-;file E:\Sources\myranda\src\core\stduseronline\useronline.cpp
+;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
-;file E:\Sources\myranda\src\mir_core\cmdline.cpp
+;file \src\mir_core\cmdline.cpp
 [ \t=:]
 [ \t]
-;file E:\Sources\myranda\src\mir_core\langpack.cpp
+;file \src\mir_core\langpack.cpp
 [%s%s]
 [static]
 [hyperlink]
@@ -1162,34 +1162,34 @@ Miranda Language Pack Version 1
 [MHeaderbarCtrl]
 [edit]
 [langpack_*.txt]
-;file E:\Sources\myranda\src\mir_core\miranda.cpp
+;file \src\mir_core\miranda.cpp
 [ComboLBox]
 [STATIC]
-;file E:\Sources\myranda\src\mir_core\path.cpp
-;file E:\Sources\myranda\src\mir_core\threads.cpp
+;file \src\mir_core\path.cpp
+;file \src\mir_core\threads.cpp
 [ntdll.dll]
-;file E:\Sources\myranda\src\modules\addcontact\addcontact.cpp
+;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
 [Add Contact]
 [Please authorize my request and add me to your contact list.]
-;file E:\Sources\myranda\src\modules\clist\clc.cpp
-;file E:\Sources\myranda\src\modules\clist\clcfiledrop.cpp
+;file \src\modules\clist\clc.cpp
+;file \src\modules\clist\clcfiledrop.cpp
 [\\*]
-;file E:\Sources\myranda\src\modules\clist\clcitems.cpp
-;file E:\Sources\myranda\src\modules\clist\clcutils.cpp
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clcutils.cpp
 [EDIT]
-;file E:\Sources\myranda\src\modules\clist\clistmenus.cpp
+;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 [%s (locked)]
 [%s\t%s]
-;file E:\Sources\myranda\src\modules\clist\clistmod.cpp
+;file \src\modules\clist\clistmod.cpp
 [Connecting]
 [Connecting (attempt %d)]
 [This plugin requires db3x plugin version 0.5.1.0 or later]
 [CList]
-;file E:\Sources\myranda\src\modules\clist\clistsettings.cpp
+;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
-;file E:\Sources\myranda\src\modules\clist\clisttray.cpp
+;file \src\modules\clist\clisttray.cpp
 [ | ]
 [<b>%-12.12s</b>\t%s]
 [%-24.24s\n]
@@ -1201,7 +1201,7 @@ Miranda Language Pack Version 1
 [TaskbarButtonCreated]
 [&Main Menu]
 [&Status]
-;file E:\Sources\myranda\src\modules\clist\clui.cpp
+;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 [Delete Contact]
 [Miranda::ProcessProfile]
@@ -1209,8 +1209,8 @@ Miranda Language Pack Version 1
 [&Rename]
 [&Add permanently to list]
 [%miranda_userdata%\\%miranda_profilename%.dat]
-;file E:\Sources\myranda\src\modules\clist\cluiservices.cpp
-;file E:\Sources\myranda\src\modules\clist\contacts.cpp
+;file \src\modules\clist\cluiservices.cpp
+;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 [Nick]
 [FirstName]
@@ -1222,14 +1222,14 @@ Miranda Language Pack Version 1
 ['(Unknown Contact)']
 [Customize]
 [Contacts]
-;file E:\Sources\myranda\src\modules\clist\genmenu.cpp
+;file \src\modules\clist\genmenu.cpp
 [%s (%d, id %x)]
 [Menu Icons/%s]
-;file E:\Sources\myranda\src\modules\clist\genmenuopt.cpp
+;file \src\modules\clist\genmenuopt.cpp
 [-----------------------------------]
 [Menus]
 [Accounts]
-;file E:\Sources\myranda\src\modules\clist\groups.cpp
+;file \src\modules\clist\groups.cpp
 [New Group]
 [%s (%d)]
 [Are you sure you want to delete group '%s'?  This operation can not be undone.]
@@ -1237,17 +1237,17 @@ Miranda Language Pack Version 1
 [You already have a group with that name. Please enter a unique name for the group.]
 [Rename Group]
 [This group]
-;file E:\Sources\myranda\src\modules\clist\keyboard.cpp
+;file \src\modules\clist\keyboard.cpp
 [Show Hide Contact List]
 [Main]
 [Read Message]
 [Open Options Page]
 [Open Logging Options]
 [Open Find User Dialog]
-;file E:\Sources\myranda\src\modules\clist\movetogroup.cpp
+;file \src\modules\clist\movetogroup.cpp
 [&Move to Group]
 [<Root Group>]
-;file E:\Sources\myranda\src\modules\database\database.cpp
+;file \src\modules\database\database.cpp
 [%miranda_path%]
 [Database]
 [ProfileDir]
@@ -1290,7 +1290,7 @@ Miranda Language Pack Version 1
 [Miranda can't understand that profile]
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
 [Miranda can't open that profile]
-;file E:\Sources\myranda\src\modules\database\dbini.cpp
+;file \src\modules\database\dbini.cpp
 [AutoExec]
 [Warn]
 [notsafe]
@@ -1322,7 +1322,7 @@ Miranda Language Pack Version 1
 [RenamePrefix]
 [done_]
 [ask]
-;file E:\Sources\myranda\src\modules\database\profilemanager.cpp
+;file \src\modules\database\profilemanager.cpp
 [%s.dat]
 [.?/\\#' ]
 [&Create]
@@ -1342,13 +1342,13 @@ Miranda Language Pack Version 1
 [Select or create your Miranda NG user profile]
 [My Profiles]
 [New Profile]
-;file E:\Sources\myranda\src\modules\extraicons\ExtraIconGroup.cpp
+;file \src\modules\extraicons\ExtraIconGroup.cpp
 [ / ]
-;file E:\Sources\myranda\src\modules\extraicons\extraicons.cpp
+;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
-;file E:\Sources\myranda\src\modules\extraicons\options_ei.cpp
+;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
-;file E:\Sources\myranda\src\modules\findadd\findadd.cpp
+;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 [Search]
 [Results]
@@ -1358,7 +1358,7 @@ Miranda Language Pack Version 1
 [All Networks]
 [Handle]
 [&Find/Add Contacts...]
-;file E:\Sources\myranda\src\modules\findadd\searchresults.cpp
+;file \src\modules\findadd\searchresults.cpp
 [First Name]
 [Last Name]
 [Could not start a search on '%s', there was a problem - is %s connected?]
@@ -1369,7 +1369,7 @@ Miranda Language Pack Version 1
 [%d users found (]
 [%d %s]
 [No users found]
-;file E:\Sources\myranda\src\modules\fonts\FontOptions.cpp
+;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
 [<none>]
 [Shadow at left]
@@ -1389,19 +1389,19 @@ Miranda Language Pack Version 1
 [Sample Text]
 [Fonts]
 [Installed Plugins]
-;file E:\Sources\myranda\src\modules\fonts\FontService.cpp
+;file \src\modules\fonts\FontService.cpp
 [Headers]
 [Generic text]
 [Small text]
-;file E:\Sources\myranda\src\modules\fonts\FontService.h
+;file \src\modules\fonts\FontService.h
 [Incoming nick]
 [Outgoing nick]
 [Incoming timestamp]
 [Outgoing timestamp]
-;file E:\Sources\myranda\src\modules\fonts\services.cpp
-;file E:\Sources\myranda\src\modules\icolib\skin2icons.cpp
+;file \src\modules\fonts\services.cpp
+;file \src\modules\icolib\skin2icons.cpp
 [*StaticIcon_%d]
-;file E:\Sources\myranda\src\modules\icolib\skin2opts.cpp
+;file \src\modules\icolib\skin2opts.cpp
 [%s,]
 [Icon Sets]
 [ (*.dll;*.icl;*.exe;*.ico)]
@@ -1412,13 +1412,13 @@ Miranda Language Pack Version 1
 [icons.dll]
 [%s,%d]
 [%s, %d]
-;file E:\Sources\myranda\src\modules\ignore\ignore.cpp
+;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
-;file E:\Sources\myranda\src\modules\netlib\netlibhttp.cpp
+;file \src\modules\netlib\netlibhttp.cpp
 [(no user)]
 [(exist)]
 [(no psw)]
-;file E:\Sources\myranda\src\modules\netlib\netliblog.cpp
+;file \src\modules\netlib\netliblog.cpp
 [No times]
 [Standard hh:mm:ss times]
 [Times in milliseconds]
@@ -1427,7 +1427,7 @@ Miranda Language Pack Version 1
 [Select where log file will be created]
 [Select program to be run]
 [%miranda_logpath%\\netlog.txt]
-;file E:\Sources\myranda\src\modules\netlib\netlibopts.cpp
+;file \src\modules\netlib\netlibopts.cpp
 [<mixed>]
 [SOCKS4]
 [SOCKS5]
@@ -1436,22 +1436,22 @@ Miranda Language Pack Version 1
 [Internet Explorer]
 [<All connections>]
 [Network]
-;file E:\Sources\myranda\src\modules\netlib\netlibsecurity.cpp
+;file \src\modules\netlib\netlibsecurity.cpp
 [Basic]
 [GSSAPI]
 [Kerberos]
-;file E:\Sources\myranda\src\modules\netlib\netlibssl.cpp
+;file \src\modules\netlib\netlibssl.cpp
 [Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
 [Host we are connecting to is not the one certificate was issued for]
 [SSL connection failure (%x %u): %s]
-;file E:\Sources\myranda\src\modules\options\filter.cpp
+;file \src\modules\options\filter.cpp
 [SysTreeView32]
 [listbox]
 [SysListView32]
 [combobox]
 [Options search]
-;file E:\Sources\myranda\src\modules\options\headerbar.cpp
-;file E:\Sources\myranda\src\modules\options\options.cpp
+;file \src\modules\options\headerbar.cpp
+;file \src\modules\options\options.cpp
 [<all modules>]
 [<core modules>]
 [Button]
@@ -1459,7 +1459,7 @@ Miranda Language Pack Version 1
 [%s options]
 [Miranda NG Options]
 [&Options...]
-;file E:\Sources\myranda\src\modules\plugins\newplugins.cpp
+;file \src\modules\plugins\newplugins.cpp
 [stduserinfo]
 [stdurl]
 [stdemail]
@@ -1521,12 +1521,12 @@ Miranda Language Pack Version 1
 [advaimg.dll]
 [crashdumper.dll]
 [mirandaboot.ini]
-;file E:\Sources\myranda\src\modules\plugins\pluginopts.cpp
+;file \src\modules\plugins\pluginopts.cpp
 [%s\\Plugins\\%s]
 [%d.%d.%d.%d]
 [Plugin]
 [Version]
-;file E:\Sources\myranda\src\modules\protocols\protoopts.cpp
+;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 [Editing account]
 [Upgrading account]
@@ -1549,9 +1549,9 @@ Miranda Language Pack Version 1
 [Account %s is being deleted]
 [You need to disable plugin to delete this account]
 [&Accounts...]
-;file E:\Sources\myranda\src\modules\skin\hotkeys.cpp
+;file \src\modules\skin\hotkeys.cpp
 [MirandaHotkeyHostWnd]
-;file E:\Sources\myranda\src\modules\skin\hotkey_opts.cpp
+;file \src\modules\skin\hotkey_opts.cpp
 [%s%s%s%s%s]
 [Ctrl + ]
 [Alt + ]
@@ -1566,7 +1566,7 @@ Miranda Language Pack Version 1
 [Modify]
 [System scope]
 [Miranda scope]
-;file E:\Sources\myranda\src\modules\skin\skinicons.cpp
+;file \src\modules\skin\skinicons.cpp
 [Message]
 [User Online]
 [Group (Open)]
@@ -1604,11 +1604,11 @@ Miranda Language Pack Version 1
 [%s\\Icons\\proto_]
 [.dll]
 [%s\\Plugins\\]
-;file E:\Sources\myranda\src\modules\skin\sounds.cpp
+;file \src\modules\skin\sounds.cpp
 [%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c]
 [Sound Files]
 [wav]
-;file E:\Sources\myranda\src\modules\utils\bmpfilter.cpp
+;file \src\modules\utils\bmpfilter.cpp
 [.bmp]
 [.rle]
 [.png]
@@ -1628,17 +1628,17 @@ Miranda Language Pack Version 1
 [*.GIF]
 [ (*.png)]
 [*.PNG]
-;file E:\Sources\myranda\src\modules\utils\openurl.cpp
+;file \src\modules\utils\openurl.cpp
 [file:///%s]
 [ftp.]
 [ftp://%s]
 [http://%s]
-;file E:\Sources\myranda\src\modules\utils\path.cpp
+;file \src\modules\utils\path.cpp
 [%s\\%s\\AvatarCache]
 [%s\\%s\\Logs]
-;file E:\Sources\myranda\src\modules\utils\timeutils.cpp
+;file \src\modules\utils\timeutils.cpp
 [%d-%02d-%02dT%02d:%02d:%02dZ]
-;file E:\Sources\myranda\src\modules\utils\timezones.cpp
+;file \src\modules\utils\timezones.cpp
 [UTC]
 [COMBOBOX]
 [LISTBOX]
@@ -1653,6 +1653,6 @@ Miranda Language Pack Version 1
 [Display]
 [Std]
 [Dlt]
-;file E:\Sources\myranda\src\modules\utils\utils.cpp
+;file \src\modules\utils\utils.cpp
 ["%s" /restart:%d]
-;file E:\Sources\myranda\src\modules\visibility\visibility.cpp
+;file \src\modules\visibility\visibility.cpp

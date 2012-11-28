@@ -1,17 +1,17 @@
 #muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;langpack template for CmdLine
-;file E:\Sources\myranda\plugins\CmdLine\MimCmd\src\commands.cpp
+;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 [Available commands: ]
 [Miranda has been closed or an error has occured while waiting for the result, could not process request.]
-;file E:\Sources\myranda\plugins\CmdLine\MimCmd\src\MimCmd.cpp
+;file \plugins\CmdLine\MimCmd\src\MimCmd.cpp
 [%s usage:\n]
 [%s <command> [<param> [, <param> ..]]\n]
 [This will tell Miranda to run the specified command. The commands can have zero, one or more parameters. Use '%s help' to get a list of possible commands.\n]
 [No command can have more than %d parameters\n]
 [%s version %s]
 [Unknown command '%s'.\n]
-;file E:\Sources\myranda\plugins\CmdLine\src\mimcmd_handlers.cpp
+;file \plugins\CmdLine\src\mimcmd_handlers.cpp
 [Command '%s' is not currently supported.]
 [Wrong number of parameters for command '%s'.]
 [Unknown parameter '%s' for command '%s'.]
@@ -53,11 +53,11 @@
 [%s:%s - %d unread events.]
 [Contact '%s' has '%d' events in history.]
 [Error setting nickname to '%s' for protocol '%s']
-;file E:\Sources\myranda\plugins\CmdLine\src\services.cpp
+;file \plugins\CmdLine\src\services.cpp
 [Could not create CommandLine listening server!]
 [You can only run one instance of CmdLine plugin.]
 [Error]
-;file E:\Sources\myranda\plugins\CmdLine\src\utils.cpp
+;file \plugins\CmdLine\src\utils.cpp
 [Notify]
 [Warning]
 [%ld]

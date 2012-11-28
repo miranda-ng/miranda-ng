@@ -1,6 +1,6 @@
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;langpack template for MSN
-;file E:\Sources\myranda\protocols\MSN\res\msn.rc
+;file \protocols\MSN\res\msn.rc
 [MSN]
 [Live ID:]
 [Password:]
@@ -55,7 +55,7 @@
 [&Invite]
 [&Cancel]
 [Add]
-;file E:\Sources\myranda\protocols\MSN\src\msn_chat.cpp
+;file \protocols\MSN\src\msn_chat.cpp
 [%s %s%s]
 [Chat #]
 [Others]
@@ -63,7 +63,7 @@
 [&Leave chat session]
 [User &details]
 [User &history]
-;file E:\Sources\myranda\protocols\MSN\src\msn_commands.cpp
+;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
 [%I64u bytes]
 [Accept NetMeeting request from %s?]
@@ -78,26 +78,26 @@
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
 [MSN Chat]
 [Message delivery failed]
-;file E:\Sources\myranda\protocols\MSN\src\msn_errors.cpp
+;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
-;file E:\Sources\myranda\protocols\MSN\src\msn_links.cpp
+;file \protocols\MSN\src\msn_links.cpp
 [contact=]
 [add?]
 [chat?]
 [voice?]
 [video?]
 [MSN Link Protocol]
-;file E:\Sources\myranda\protocols\MSN\src\msn_lists.cpp
+;file \protocols\MSN\src\msn_lists.cpp
 [Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
 [%s protocol]
-;file E:\Sources\myranda\protocols\MSN\src\msn_mail.cpp
+;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
 [Hotmail from %s (%S)]
 [Hotmail from %s]
 [Unread mail is available: %d in Inbox and %d in other folders).]
 [%s [%d]]
 [%s [%d][%d]]
-;file E:\Sources\myranda\protocols\MSN\src\msn_menu.cpp
+;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
 [You must be talking to start Netmeeting]
@@ -108,7 +108,7 @@
 [Setup Live &Alerts]
 [&Block]
 [&Start Netmeeting]
-;file E:\Sources\myranda\protocols\MSN\src\msn_misc.cpp
+;file \protocols\MSN\src\msn_misc.cpp
 [%%miranda_userdata%%\\Avatars\\%s]
 [%miranda_userdata%]
 [%s\\Avatars\\%s]
@@ -140,8 +140,8 @@
 [Notify]
 [Error]
 [%s:\n%s]
-;file E:\Sources\myranda\protocols\MSN\src\msn_msgqueue.cpp
-;file E:\Sources\myranda\protocols\MSN\src\msn_opts.cpp
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 [Hotmail Inbox]
 [Profile]
@@ -168,11 +168,11 @@
 [Connection]
 [Server list]
 [Notifications]
-;file E:\Sources\myranda\protocols\MSN\src\msn_p2p.cpp
+;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
 [Contact tried to view our webcam data (currently not supported)]
 [Contact tried to share media with us (currently not supported)]
-;file E:\Sources\myranda\protocols\MSN\src\msn_proto.cpp
+;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
 [Live Alert]
 [%s plugin HTTPS connections]
@@ -184,13 +184,13 @@
 [Message is too long: SMS page limited to 133 UTF8 chars]
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 [Offline messaging is not allowed for LCS contacts]
-;file E:\Sources\myranda\protocols\MSN\src\msn_soapstore.cpp
+;file \protocols\MSN\src\msn_soapstore.cpp
 [miranda_avatar.tmp]
-;file E:\Sources\myranda\protocols\MSN\src\msn_svcs.cpp
+;file \protocols\MSN\src\msn_svcs.cpp
 [Music]
 [No Title]
 [%s - %s]
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 [Convert to Chat]
-;file E:\Sources\myranda\protocols\MSN\src\msn_ws.cpp
+;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]

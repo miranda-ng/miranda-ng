@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for GTalkExt
-;file E:\Sources\myranda\protocols\GTalkExt\res\settings.rc
+;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
 [Notify in fullscreen mode too]
@@ -22,9 +22,9 @@
 [If both colors set to the same value, default colors will be used]
 [0 means default timeout]
 [Test]
-;file E:\Sources\myranda\protocols\GTalkExt\src\avatar.cpp
+;file \protocols\GTalkExt\src\avatar.cpp
 [PNG]
-;file E:\Sources\myranda\protocols\GTalkExt\src\handlers.cpp
+;file \protocols\GTalkExt\src\handlers.cpp
 [mir_]
 [mir_%d]
 [google:mail:notify]
@@ -60,14 +60,14 @@
 [new-mail]
 [true]
 [%x%08x]
-;file E:\Sources\myranda\protocols\GTalkExt\src\inbox.cpp
+;file \protocols\GTalkExt\src\inbox.cpp
 [gmail.com]
 [googlemail.com]
 [https://mail.google.com/%s%s/#inbox]
 [mail]
-;file E:\Sources\myranda\protocols\GTalkExt\src\menu.cpp
+;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
-;file E:\Sources\myranda\protocols\GTalkExt\src\notifications.cpp
+;file \protocols\GTalkExt\src\notifications.cpp
 [AntiShittyFullscreenDetectionWindowClass]
 [You've received an e-mail\n%s unread threads]
 [{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}]
@@ -76,7 +76,7 @@
 [{7A60EA87-3E77-41DF-8A69-59B147F0C9C6}]
 [%s [%s]]
 [    %s <%s>\n]
-;file E:\Sources\myranda\protocols\GTalkExt\src\options.cpp
+;file \protocols\GTalkExt\src\options.cpp
 [{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}]
 [{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}]
 [Popups]
@@ -89,16 +89,16 @@
 [* Limited possibility of data abstraction, polymorphism, subtyping and code reuse\n]
 [* No metaprogramming except preprocessor macros\n]
 [* No exceptions]
-;file E:\Sources\myranda\protocols\GTalkExt\src\options.h
+;file \protocols\GTalkExt\src\options.h
 [GMail notifications]
 [subject\n    %s\nfrom\n%s\n%s\n]
 [subject\n    %s\nfrom\n%s]
-;file E:\Sources\myranda\protocols\GTalkExt\src\popups.cpp
+;file \protocols\GTalkExt\src\popups.cpp
 [YAPPYAPPWindowClass]
 [YAPPWinClass]
-;file E:\Sources\myranda\protocols\GTalkExt\src\stdafx.h
+;file \protocols\GTalkExt\src\stdafx.h
 [ColourPicker]
-;file E:\Sources\myranda\protocols\GTalkExt\src\tipper_items.cpp
+;file \protocols\GTalkExt\src\tipper_items.cpp
 [%raw:]
 [/UnreadThreads%]
 [Unread threads:]

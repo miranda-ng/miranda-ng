@@ -1,6 +1,6 @@
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;langpack template for NewsAggregator
-;file E:\Sources\myranda\protocols\NewsAggregator\Res\Resource.rc
+;file \protocols\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]
 [Remove]
@@ -24,19 +24,19 @@
 [Reset]
 [?]
 [0 - check manually]
-;file E:\Sources\myranda\protocols\NewsAggregator\Src\Icons.cpp
+;file \protocols\NewsAggregator\Src\Icons.cpp
 [Protocol icon]
 [Check All Feeds]
 [Add Feed]
 [Import Feeds]
 [Export Feeds]
 [News Aggregator]
-;file E:\Sources\myranda\protocols\NewsAggregator\Src\Menus.cpp
+;file \protocols\NewsAggregator\Src\Menus.cpp
 [Check feed]
 [Change feed]
-;file E:\Sources\myranda\protocols\NewsAggregator\Src\NewsAggregator.cpp
+;file \protocols\NewsAggregator\Src\NewsAggregator.cpp
 [\\Avatars\\]
-;file E:\Sources\myranda\protocols\NewsAggregator\Src\Options.cpp
+;file \protocols\NewsAggregator\Src\Options.cpp
 [http://]
 [Enter Feed name]
 [Error]
@@ -50,7 +50,7 @@
 [Change Feed]
 [Contact deleting]
 [Network]
-;file E:\Sources\myranda\protocols\NewsAggregator\Src\Utils.cpp
+;file \protocols\NewsAggregator\Src\Utils.cpp
 [NewsAggr HTTP connection]
 [.jpg]
 [.jpeg]

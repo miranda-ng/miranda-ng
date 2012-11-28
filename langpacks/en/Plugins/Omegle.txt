@@ -1,6 +1,6 @@
 #muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;langpack template for Omegle
-;file E:\Sources\myranda\protocols\Omegle\res\omegle.rc
+;file \protocols\Omegle\res\omegle.rc
 [Server:]
 [Visible name:]
 [Meet strangers with common interests (separated by commas):]
@@ -14,7 +14,7 @@
 [Enable logging for debugging purposes]
 [Meet strangers with common interests]
 [Your interests (separated by commas):]
-;file E:\Sources\myranda\protocols\Omegle\src\chat.cpp
+;file \protocols\Omegle\src\chat.cpp
 [Server]
 [Last question is empty.]
 [Your question is too short.]
@@ -28,7 +28,7 @@
 [Normal]
 [Omegle is a great way of meeting new friends!]
 [You]
-;file E:\Sources\myranda\protocols\Omegle\src\communication.cpp
+;file \protocols\Omegle\src\communication.cpp
 [Connection error.]
 [Chosing server: ]
 [Connected to server %s. There are %s users online now.]
@@ -42,20 +42,20 @@
 [Recaptcha is required.\nOpen http://omegle.com , solve Recaptcha and try again.]
 [Error: ]
 [We are still waiting...]
-;file E:\Sources\myranda\protocols\Omegle\src\connection.cpp
+;file \protocols\Omegle\src\connection.cpp
 [Connecting canceled.]
 [Disconnecting...]
 [We are already waiting for new stranger...]
 [Connecting...]
 [Waiting for Stranger...]
 [We are disconnecting now, wait...]
-;file E:\Sources\myranda\protocols\Omegle\src\proto.cpp
+;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
 [Unable to get Netlib connection for Omegle]
 [Visible name]
 [Network]
 [Account]
-;file E:\Sources\myranda\protocols\Omegle\src\theme.cpp
+;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
 [Visit Profile]
 [Protocols]

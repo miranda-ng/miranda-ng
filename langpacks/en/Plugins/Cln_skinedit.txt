@@ -1,6 +1,6 @@
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;langpack template for Cln_skinedit
-;file E:\Sources\myranda\plugins\Clist_nicer\skineditor\res\skinedit.rc
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 [General]
 [Gradient]
@@ -25,7 +25,7 @@
 [3D border (bright / dark)]
 [Item ignored]
 [Not yet supported]
-;file E:\Sources\myranda\plugins\Clist_nicer\skineditor\src\main.cpp
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 [<None>]
 [Raised]

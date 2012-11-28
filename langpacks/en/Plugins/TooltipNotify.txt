@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for TooltipNotify
-;file E:\Sources\myranda\plugins\TooltipNotify\res\main.rc
+;file \plugins\TooltipNotify\res\main.rc
 [OK]
 [Allow tooltip notifications for the following users:]
 [Cancel]
@@ -31,12 +31,12 @@
 [000%]
 [Contacts]
 [Idle]
-;file E:\Sources\myranda\plugins\TooltipNotify\src\Settings.h
+;file \plugins\TooltipNotify\src\Settings.h
 [Tahoma]
-;file E:\Sources\myranda\plugins\TooltipNotify\src\Tooltip.cpp
+;file \plugins\TooltipNotify\src\Tooltip.cpp
 [MimTooltipNotify]
 [user32.dll]
-;file E:\Sources\myranda\plugins\TooltipNotify\src\TooltipNotify.cpp
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 [Other Status]
 [Tooltip Notify: Online]

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Fingerprint
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\res\resource.rc
+;file \plugins\FingerPrintModPlus\res\resource.rc
 [Fingerprint icons]
 [Overlay#1]
 [Overlay#2]
@@ -26,10 +26,10 @@
 [Weather]
 [Yahoo]
 [Note: Miranda NG will have to be restarted for changes to take effect.]
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\fingerprint.cpp
+;file \plugins\FingerPrintModPlus\src\fingerprint.cpp
 [%s\\%s.dll]
 [ClientIcons_Packs]
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\finger_groups.h
+;file \plugins\FingerPrintModPlus\src\finger_groups.h
 [Client Icons/Miranda]
 [Client Icons/Multi-Protocol]
 [Client Icons/ICQ/Official]
@@ -54,9 +54,9 @@
 [Client Icons/QQ]
 [Client Icons/Tlen]
 [Client Icons]
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\global.h
+;file \plugins\FingerPrintModPlus\src\global.h
 [Icons\\Fp_ClientIcons]
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\masks.cpp
+;file \plugins\FingerPrintModPlus\src\masks.cpp
 [|*http://miranda-ng.org*|*http://nightly.miranda.im*]
 [|*Miranda*NG*]
 [Miranda NG]
@@ -1080,6 +1080,6 @@
 [+SimpLite]
 [*IMSecure*]
 [+IMSecure]
-;file E:\Sources\myranda\plugins\FingerPrintModPlus\src\options.cpp
+;file \plugins\FingerPrintModPlus\src\options.cpp
 [Customize]
 [Fingerprint]

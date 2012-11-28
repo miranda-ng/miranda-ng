@@ -1,6 +1,6 @@
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;langpack template for SeenPlugin
-;file E:\Sources\myranda\plugins\SeenPlugin\res\resource.rc
+;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 [Last seen menuitem]
 [Show icon]
@@ -34,14 +34,14 @@
 [You missed following contacts:]
 [Test\nTest]
 [Alert when user status changes]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\history.cpp
+;file \plugins\SeenPlugin\src\history.cpp
 [%s: %s]
 [last seen history]
 [User Menu]
 [View User's Details]
 [Send Instant Message]
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\main.cpp
+;file \plugins\SeenPlugin\src\main.cpp
 [Any to Idle/Not Idle/Unknown]
 [Any to /Idle or empty]
 [LastSeen]
@@ -50,17 +50,17 @@
 [User Logged Off]
 [User Logged In]
 [Last seen]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\menu.cpp
+;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 [<none>]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\missed.cpp
+;file \plugins\SeenPlugin\src\missed.cpp
 [ [%i]]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\options.cpp
+;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [uxtheme.dll]
 [Services]
 [PopUps]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\seen.h
+;file \plugins\SeenPlugin\src\seen.h
 [Debug]
 [%n is %s (%u)]
 [%i(%r)%bWas %o]
@@ -99,8 +99,8 @@
 [Use]
 [for empty string]
 [instead of]
-;file E:\Sources\myranda\plugins\SeenPlugin\src\userinfo.cpp
-;file E:\Sources\myranda\plugins\SeenPlugin\src\utils.cpp
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
 [Monday]
 [Tuesday]

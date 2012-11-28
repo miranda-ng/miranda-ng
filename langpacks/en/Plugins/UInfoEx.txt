@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for UInfoEx
-;file E:\Sources\myranda\plugins\UserInfoEx\res\resource.rc
+;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Origin]
 [&Update]
@@ -163,7 +163,7 @@
 [Check all]
 [Uncheck all]
 [&Export]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\classMAnnivDate.cpp
+;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 [Taurus]
 [Gemini]
@@ -180,14 +180,14 @@
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
 [Update custom birthday]
 [Keeps your custom birthday up to date.]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\classPsTree.cpp
+;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
 [An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
 [Rename Item]
 [Hide Item]
 [Show Items:]
 [Reset to defaults]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\classPsTreeItem.cpp
+;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Button]
 [%s %d\\%s]
 [%s %d]
@@ -195,12 +195,12 @@
 [Creating unique name for a page failed with %d and error code %d]
 [Creating the label for a page failed with %d and error code %d]
 [The dialog template type is no longer supported]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ctrl_annivedit.cpp
+;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 [Delete an existing anniversary]
 ['%s']
 [Unspecified]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ctrl_contact.cpp
+;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
 [Edit Phone Number]
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
@@ -218,14 +218,14 @@
 [%s %d\0]
 [ SMS\0]
 [ SMS]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ctrl_contact.h
+;file \plugins\UserInfoEx\src\ctrl_contact.h
 [UInfoComboExWndClass]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ctrl_edit.cpp
+;file \plugins\UserInfoEx\src\ctrl_edit.cpp
 [mailto:]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ctrl_tzcombo.cpp
+;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 [--:--]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\dlg_anniversarylist.cpp
+;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 [Contact]
 [Proto]
@@ -238,14 +238,14 @@
 [Disabled reminder]
 [Anniversary list]
 [Popup Anniversary list]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\dlg_msgbox.cpp
+;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 [Yes]
 [Abord]
 [Ignore]
 [%s - %s]
 [Error]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\dlg_propsheet.cpp
+;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
 [Upload Details]
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
@@ -272,16 +272,16 @@
 [Upload ICQ Details]
 [Upload failed]
 [Your details were not uploaded successfully.\nThey were written to database only.]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\init.cpp
+;file \plugins\UserInfoEx\src\init.cpp
 [miranda]
 [Fatal error, image services not found. Flags Module will be disabled.]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\mir_icolib.cpp
+;file \plugins\UserInfoEx\src\mir_icolib.cpp
 [Icons\\uinfoex_icons.dll]
 [Plugins\\uinfoex_icons.dll]
 [Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\mir_menuitems.cpp
+;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
 [User &Details]
 [&Export User Details]
@@ -298,14 +298,14 @@
 [&Import Group]
 [%s %s]
 [Ex-/Import]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_about.cpp
+;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
 [About:]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_anniversary.cpp
+;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
 [No valid date selected for editing!]
 [Do you really want to delete the %s?]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_contact.cpp
+;file \plugins\UserInfoEx\src\psp_contact.cpp
 [%s (%s)]
 [Address]
 [Home]
@@ -315,7 +315,7 @@
 [Tertiary e-mail]
 [Address & Contact]
 [Company]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_options.cpp
+;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
 [Ready]
@@ -331,9 +331,9 @@
 [Advanced]
 [Details Dialog]
 [Popups]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_origin.cpp
+;file \plugins\UserInfoEx\src\psp_origin.cpp
 [ - ]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\psp_profile.cpp
+;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 [Affiliation]
 [Interest]
@@ -346,7 +346,7 @@
 [Edit Value]
 [Delete an entry]
 [Do you really want to delete this entry?]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_constants.cpp
+;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
 [Albanian]
 [Arabic]
@@ -527,21 +527,21 @@
 [Widowed]
 [jun.]
 [sen.]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_contactinfo.cpp
+;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_email.cpp
+;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 [Memory allocation error!]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_homepage.cpp
+;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
 [View Homepage]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_refreshci.cpp
+;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
 [Do you want to cancel the current refresh procedure?]
 [Miranda must be online for refreshing contact information!]
 [The function caused an exception!]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_reminder.cpp
+;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
 [an anniversary]
 [She]
@@ -561,7 +561,7 @@
 [Birthday reminder]
 [Birthday reminder: it's coming]
 [Anniversary Reminder]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\svc_timezone_old.cpp
+;file \plugins\UserInfoEx\src\svc_timezone_old.cpp
 [Display]
 [TZI]
 [Index]
@@ -596,10 +596,10 @@
 [Vladivostok Standard Time]
 [Central Pacific Standard Time]
 [New Zealand Standard Time]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactBase.cpp
 [contact identificaion]
 [The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
 [Sub Contact: %s (]
@@ -607,11 +607,11 @@
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
 [Settings: %S]
 [Events: %S]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
 [Required modules]
 [Optional modules]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
+;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Software\\Miranda NG\\PlacesBar]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar]
 [Place0]
@@ -622,19 +622,19 @@
 [Shows the directory with all your Miranda's profiles.]
 [The OpenFileDialog returned an error: %d!]
 [The SaveFileDialog returned an error: %d!]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
 [Import complete]
 [Some basic statistics]
 [Added %d of %d contacts stored in the ini-file.]
 [The ini-file "%s"\nfor reading contact information could not be opened.]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
 [Select a destination file...]
 [Import User Details from VCard]
 [%s%s%s]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
+;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 [Export took %f msec]
 [Contact: %s (%S)]
@@ -650,5 +650,5 @@
 [Import took %f msec]
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
-;file E:\Sources\myranda\plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
+;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 [PNG]

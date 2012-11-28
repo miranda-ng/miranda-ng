@@ -1,13 +1,13 @@
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;langpack template for IgnoreState
-;file E:\Sources\myranda\plugins\IgnoreState\res\ignore.rc
+;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 [Use]
 [slot to draw the icon]
 [Warning: classic contact list plugin doesn`t have ability to use extraicons]
 [Filtered events:]
 [Use Miranda ignore settings for All Contacts]
-;file E:\Sources\myranda\plugins\IgnoreState\src\main.cpp
+;file \plugins\IgnoreState\src\main.cpp
 [All]
 [Messages]
 [URL]
@@ -16,6 +16,6 @@
 [Authorization]
 [You Were Added]
 [Typing Notify]
-;file E:\Sources\myranda\plugins\IgnoreState\src\options.cpp
+;file \plugins\IgnoreState\src\options.cpp
 [Extraicons plugin is used, use Contact list > Extraicons for customize.]
 [Contact List]

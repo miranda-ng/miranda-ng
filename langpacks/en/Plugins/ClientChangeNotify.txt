@@ -1,6 +1,6 @@
 #muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;langpack template for ClientChangeNotify
-;file E:\Sources\myranda\plugins\ClientChangeNotify\res\Resources.rc
+;file \plugins\ClientChangeNotify\res\Resources.rc
 [OK]
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
@@ -24,7 +24,7 @@
 [Preview]
 [Ignore these clients (separated by semicolons):]
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
-;file E:\Sources\myranda\plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
+;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [static]
 [_MenuWindow]
 [changed client to %s (was %s)]
@@ -46,11 +46,11 @@
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
 [/Miranda[0-9A-F]{8}/]
 [/[0-9A-F]{8}(\\W|$)/]
-;file E:\Sources\myranda\plugins\ClientChangeNotify\src\Misc.h
+;file \plugins\ClientChangeNotify\src\Misc.h
 [open]
 [Error #%d]
 [Can't open log file ]
-;file E:\Sources\myranda\plugins\ClientChangeNotify\src\OptDlg.cpp
+;file \plugins\ClientChangeNotify\src\OptDlg.cpp
 [(you can use regular expressions here)]
 [Open message window]
 [Close popup]

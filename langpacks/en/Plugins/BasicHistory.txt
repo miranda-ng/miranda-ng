@@ -1,6 +1,6 @@
 #muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;langpack template for BasicHistory
-;file E:\Sources\myranda\plugins\BasicHistory\res\BasicHistory.rc
+;file \plugins\BasicHistory\res\BasicHistory.rc
 [Settings]
 [Always show contact list]
 [Show groups in contact list]
@@ -66,7 +66,7 @@
 [Execute task for specified contacts]
 [OK]
 [Cancel]
-;file E:\Sources\myranda\plugins\BasicHistory\src\BasicHistory.cpp
+;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 [View &History]
 [Delete All User History]
@@ -83,11 +83,11 @@
 [Minus in export]
 [\\WinSCP\\WinSCP.exe]
 [%miranda_logpath%\\BasicHistory\\ftplog.txt]
-;file E:\Sources\myranda\plugins\BasicHistory\src\BinaryExport.h
+;file \plugins\BasicHistory\src\BinaryExport.h
 [bin]
-;file E:\Sources\myranda\plugins\BasicHistory\src\DatExport.h
+;file \plugins\BasicHistory\src\DatExport.h
 [dat]
-;file E:\Sources\myranda\plugins\BasicHistory\src\EventList.cpp
+;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
 [Default history events]
 [History for %s]
@@ -96,7 +96,7 @@
 [Invalid Message]
 [Authorisation request by %s (%s%d): %s]
 [%016llx]
-;file E:\Sources\myranda\plugins\BasicHistory\src\ExportManager.cpp
+;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
 [*.%s]
 [Import]
@@ -105,7 +105,7 @@
 [File do not contain selected contact]
 [File is corrupted]
 [d s]
-;file E:\Sources\myranda\plugins\BasicHistory\src\HistoryWindow.cpp
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 [Are You sure?]
 [Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
@@ -141,7 +141,7 @@
 [Error]
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 [\r\n]
-;file E:\Sources\myranda\plugins\BasicHistory\src\Options.cpp
+;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 [File transfer]
 [Link]
@@ -253,9 +253,9 @@
 [Download from FTP (WinSCP requred)]
 [Import from]
 [** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
-;file E:\Sources\myranda\plugins\BasicHistory\src\Options.h
+;file \plugins\BasicHistory\src\Options.h
 [_<contact>_<date>.<ext>]
-;file E:\Sources\myranda\plugins\BasicHistory\src\PlainHtmlExport.cpp
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
 [<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n]
 [<html><head>\n<meta http-equiv="Content-Type" content="text/html; charset=]
 [">\n]
@@ -303,9 +303,9 @@
 [<div class=date id=]
 [<div class=text>\n]
 [\n</div>\n]
-;file E:\Sources\myranda\plugins\BasicHistory\src\PlainHtmlExport.h
+;file \plugins\BasicHistory\src\PlainHtmlExport.h
 [html]
-;file E:\Sources\myranda\plugins\BasicHistory\src\RichHtmlExport.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
 [&<>\t\r\n]
 [&amp;]
 [&lt;]
@@ -367,8 +367,8 @@
 [<img class=smiley src="]
 [" alt="]
 ["/>]
-;file E:\Sources\myranda\plugins\BasicHistory\src\RichHtmlExport.h
-;file E:\Sources\myranda\plugins\BasicHistory\src\Scheduler.cpp
+;file \plugins\BasicHistory\src\RichHtmlExport.h
+;file \plugins\BasicHistory\src\Scheduler.cpp
 [History task]
 [Contacts]
 [At least one contact should be selected.]
@@ -395,12 +395,12 @@
 [\\script.sc]
 ["%s" /nointeractiveinput /log="%s" /script=script.sc]
 [Task '%s' execution failed:]
-;file E:\Sources\myranda\plugins\BasicHistory\src\Searcher.cpp
+;file \plugins\BasicHistory\src\Searcher.cpp
 ["%s" not found]
 [Search]
 [You have reached the end of the group.]
 [You have reached the end of the history.]
-;file E:\Sources\myranda\plugins\BasicHistory\src\TxtExport.cpp
+;file \plugins\BasicHistory\src\TxtExport.cpp
 [###]
 [)\n]
-;file E:\Sources\myranda\plugins\BasicHistory\src\TxtExport.h
+;file \plugins\BasicHistory\src\TxtExport.h

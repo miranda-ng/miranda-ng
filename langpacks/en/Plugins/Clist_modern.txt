@@ -1,6 +1,6 @@
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;langpack template for Clist_modern
-;file E:\Sources\myranda\plugins\Clist_modern\res\resource.rc
+;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 [Window behaviour:]
 [List sorting:]
@@ -324,9 +324,9 @@
 [&Show Offline Users in here]
 [&Rename Group]
 [&Delete Group]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_aniavatars.cpp
+;file \plugins\Clist_modern\src\modern_aniavatars.cpp
 [MirandaModernAniAvatar]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_cachefuncs.cpp
+;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [%s: %s]
 [%s - %s]
 [[b]]
@@ -351,7 +351,7 @@
 [<I>]
 [</I>]
 [*.gif]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clc.cpp
+;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 [Contact List/Status Overlay]
 [Contact List smileys]
@@ -367,11 +367,11 @@
 [Changing MetaContacts (Moving)]
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 [%s\\%s]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clcitems.cpp
+;file \plugins\Clist_modern\src\modern_clcitems.cpp
 [-@-HIDDEN-GROUP-@-]
 [#%s]
 [%s|]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clcopts.cpp
+;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
 [Contact List/Row Items]
 [Contact List/Frame texts]
@@ -406,20 +406,20 @@
 [Behind right edge]
 [Progman]
 [Fonts]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clcutils.cpp
+;file \plugins\Clist_modern\src\modern_clcutils.cpp
 [EDIT]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clistevents.cpp
+;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [%s: %s (%s)]
 [EventArea]
 [Event Area]
 [No Events]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clistmenus.cpp
+;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 [%s (%s)]
 [Show even if offline]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clistmod.cpp
+;file \plugins\Clist_modern\src\modern_clistmod.cpp
 [kernel32]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clistopts.cpp
+;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 [Icon]
 [Text]
@@ -433,22 +433,22 @@
 [Second Line]
 [Third Line]
 [Row items]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clistsettings.cpp
+;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clisttray.cpp
+;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 [&Main Menu]
 [&Status]
 [&Options...]
 [&About]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_clui.cpp
+;file \plugins\Clist_modern\src\modern_clui.cpp
 [user32.dll]
 [dwmapi.dll]
 [Show Contact &Avatar]
 [Hide Contact &Avatar]
 [My Contacts]
 [Miranda::GetProfile]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_cluiframes.cpp
+;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 [&Visible]
 [&Show title]
 [&Locked]
@@ -470,21 +470,21 @@
 [SubContainerWindow]
 [FramesContainer]
 [Shell_TrayWnd]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_docking.cpp
+;file \plugins\Clist_modern\src\modern_docking.cpp
 [user32]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_groupmenu.cpp
+;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 [SubGroupMenu]
 [&New SubGroup]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_keyboard.cpp
+;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 [Main]
 [Restore last status]
 [Show/Hide Offline Users]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_newrowopts.cpp
+;file \plugins\Clist_modern\src\modern_newrowopts.cpp
 [Init NewRow Dialog]
 [Notify]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_rowtemplateopt.cpp
+;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [none]
 [text1]
 [text2]
@@ -519,7 +519,7 @@
 [top]
 [vCenter]
 [bottom]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_skineditor.cpp
+;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
 [Solid fill object]
 [Image (draw image)]
@@ -529,12 +529,12 @@
 [Tile Vertical, Stretch Horizontal]
 [Tile Both directions]
 [Image size is]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_skinengine.cpp
+;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Skin_Description_Section]
 [SkinFolder]
 [ImgDecoder.dll]
 [Profile]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_skinopt.cpp
+;file \plugins\Clist_modern\src\modern_skinopt.cpp
 [fyr.mirandaim.ru]
 [%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
@@ -543,20 +543,20 @@
 [%s\\*]
 [%Default Skin%]
 [%%Default Skin%%]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_statusbar.cpp
+;file \plugins\Clist_modern\src\modern_statusbar.cpp
 [ModernStatusBar]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_statusbar_options.cpp
+;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [Center]
 [Right]
 [Bottom]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_toolbar.cpp
+;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [icons\\toolbar_icons.dll]
 [Toolbar]
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_utils.cpp
+;file \plugins\Clist_modern\src\modern_utils.cpp
 [Error]
-;file E:\Sources\myranda\plugins\Clist_modern\src\modern_viewmodebar.cpp
+;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 [And]
 [Older than]
@@ -583,10 +583,10 @@
 [CLVMFrameWindow]
 [View modes]
 [View Modes]
-;file E:\Sources\myranda\plugins\Clist_modern\src\hdr\modern_cluiframes.h
+;file \plugins\Clist_modern\src\hdr\modern_cluiframes.h
 [CLUIFrameSubContainer]
 [CLUIFrameTitleBar]
-;file E:\Sources\myranda\plugins\Clist_modern\src\hdr\modern_effectenum.h
+;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
 [Shadow at left]
 [Shadow at right]
 [Outline]
@@ -594,4 +594,4 @@
 [Smooth bump]
 [Contour thin]
 [Contour heavy]
-;file E:\Sources\myranda\plugins\Clist_modern\src\hdr\modern_static_clui.h
+;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

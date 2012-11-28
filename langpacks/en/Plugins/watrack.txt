@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for watrack
-;file E:\Sources\myranda\plugins\Watrack\kolframe\frm.rc
+;file \plugins\Watrack\kolframe\frm.rc
 [Frame refresh time]
 [...]
 [Picture transform]
@@ -12,14 +12,14 @@
 [Text movement]
 [Text rotation speed (1-20)]
 [Frame Text]
-;file E:\Sources\myranda\plugins\Watrack\lastfm\lastfm.rc
+;file \plugins\Watrack\lastfm\lastfm.rc
 [Password]
 [Attempts]
 [Content language]
 [Get Artist Info]
 [Artist]
 [Album]
-;file E:\Sources\myranda\plugins\Watrack\myshows\myshows.rc
+;file \plugins\Watrack\myshows\myshows.rc
 [Timeout, ms]
 [Scrobble at]
 [Get Series Info]
@@ -27,7 +27,7 @@
 [Episode]
 [Genres]
 [Kinopoisk info page]
-;file E:\Sources\myranda\plugins\Watrack\popup\popup.rc
+;file \plugins\Watrack\popup\popup.rc
 [Colors]
 [Background]
 [Actions]
@@ -39,12 +39,12 @@
 [Test]
 [M]
 [Popup Title / Text]
-;file E:\Sources\myranda\plugins\Watrack\proto\proto.rc
+;file \plugins\Watrack\proto\proto.rc
 [Save events in database]
 [Music Info Request]
 [User music info text]
 [(%artist%, %title%, %album% and %year% macros can be used only)]
-;file E:\Sources\myranda\plugins\Watrack\res\watrack.rc
+;file \plugins\Watrack\res\watrack.rc
 [Unicode to Ansi translation codepage:]
 [Refresh time, sec]
 [Formats]
@@ -70,7 +70,7 @@
 [15]
 [16]
 [Switch ON these modules]
-;file E:\Sources\myranda\plugins\Watrack\stat\stat.rc
+;file \plugins\Watrack\stat\stat.rc
 [Delete]
 [Statistic log file]
 [Sort]
@@ -82,7 +82,7 @@
 [Show in report]
 [Sort log file]
 [Report Items]
-;file E:\Sources\myranda\plugins\Watrack\status\status.rc
+;file \plugins\Watrack\status\status.rc
 [Options]
 [Set XStatus when...]
 [Color]
@@ -96,7 +96,7 @@
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
 [Chat Template]
 [[X]Status Title / Text]
-;file E:\Sources\myranda\plugins\Watrack\templates\templates.rc
+;file \plugins\Watrack\templates\templates.rc
 [File size]
 [Precision]
 [Postfix]
@@ -104,42 +104,42 @@
 [Player name letters]
 [Export text template]
 [V]
-;file E:\Sources\myranda\plugins\Watrack\i_gui.inc
+;file \plugins\Watrack\i_gui.inc
 [Disable Plugin]
-;file E:\Sources\myranda\plugins\Watrack\i_opt_1.inc
+;file \plugins\Watrack\i_opt_1.inc
 [System default codepage]
 [All]
-;file E:\Sources\myranda\plugins\Watrack\kolframe\frm_dlg1.inc
+;file \plugins\Watrack\kolframe\frm_dlg1.inc
 [All Bitmaps]
-;file E:\Sources\myranda\plugins\Watrack\lastfm\i_last_api.inc
+;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 [Client is banned]
 [Bad Auth. Check login and password]
 [Bad TimeStamp]
-;file E:\Sources\myranda\plugins\Watrack\lastfm\i_last_dlg.inc
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
 [Similar artists]
-;file E:\Sources\myranda\plugins\Watrack\lastfm\i_last_opt.inc
+;file \plugins\Watrack\lastfm\i_last_opt.inc
 [Don''t forget to enter Login and Password to use Last.fm service]
-;file E:\Sources\myranda\plugins\Watrack\myshows\i_myshows_opt.inc
+;file \plugins\Watrack\myshows\i_myshows_opt.inc
 [Don''t forget to enter Login and Password to use MyShows service]
-;file E:\Sources\myranda\plugins\Watrack\popup\pop_dlg.inc
+;file \plugins\Watrack\popup\pop_dlg.inc
 [popup test]
 [second line]
-;file E:\Sources\myranda\plugins\Watrack\proto\i_proto_dlg.inc
+;file \plugins\Watrack\proto\i_proto_dlg.inc
 [** All contacts **]
-;file E:\Sources\myranda\plugins\Watrack\proto\proto.pas
+;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 [ answer you]
 [You Get Error]
-;file E:\Sources\myranda\plugins\Watrack\stat\statlog.pas
+;file \plugins\Watrack\stat\statlog.pas
 [Music Statistic]
-;file E:\Sources\myranda\plugins\Watrack\status\i_opt_11.inc
+;file \plugins\Watrack\status\i_opt_11.inc
 [Status]
 [XStatus]
 [Tunes]
 [Format text Info]
-;file E:\Sources\myranda\plugins\Watrack\status\i_opt_12.inc
-;file E:\Sources\myranda\plugins\Watrack\status\i_opt_3.inc
+;file \plugins\Watrack\status\i_opt_12.inc
+;file \plugins\Watrack\status\i_opt_3.inc
 [any XStatus is set]
 [''Music'' status is set]
 [XStatus is empty or ''Music'']

@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for CryptoPP
-;file E:\Sources\myranda\plugins\CryptoPP\src\GPGw\resource.rc
+;file \plugins\CryptoPP\src\GPGw\resource.rc
 [Enter passphrase for the secret key of user:]
 [User ID]
 [Ok]

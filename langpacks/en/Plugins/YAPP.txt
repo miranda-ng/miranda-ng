@@ -1,6 +1,6 @@
 #muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;langpack template for YAPP
-;file E:\Sources\myranda\plugins\YAPP\res\yapp.rc
+;file \plugins\YAPP\res\yapp.rc
 [Close]
 [Case sensitive]
 [Default Timeout]
@@ -27,12 +27,12 @@
 [Background colour:]
 [Set timeout]
 [Timeout value (0 = default):]
-;file E:\Sources\myranda\plugins\YAPP\src\message_pump.cpp
+;file \plugins\YAPP\src\message_pump.cpp
 [default]
 [Popup]
-;file E:\Sources\myranda\plugins\YAPP\src\notify_imp.cpp
+;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
-;file E:\Sources\myranda\plugins\YAPP\src\options.cpp
+;file \plugins\YAPP\src\options.cpp
 [Example]
 [The quick brown fox jumped over the lazy dog.]
 [Example With a Long Title]
@@ -58,11 +58,11 @@
 [PopUps]
 [Settings]
 [Classes]
-;file E:\Sources\myranda\plugins\YAPP\src\popwin.cpp
+;file \plugins\YAPP\src\popwin.cpp
 [user32.dll]
-;file E:\Sources\myranda\plugins\YAPP\src\popwin.h
+;file \plugins\YAPP\src\popwin.h
 [YAPPWindowClass]
-;file E:\Sources\myranda\plugins\YAPP\src\services.cpp
+;file \plugins\YAPP\src\services.cpp
 [CreatePopupA]
 [CreatePopupExA]
 [CreatePopupW]
@@ -71,7 +71,7 @@
 [Warning]
 [Notification]
 [Popup History]
-;file E:\Sources\myranda\plugins\YAPP\src\yapp.cpp
+;file \plugins\YAPP\src\yapp.cpp
 [Popups]
 [First line]
 [Background]
@@ -80,7 +80,7 @@
 [Sidebar]
 [Title underline]
 [neweventnotify]
-;file E:\Sources\myranda\plugins\YAPP\src\yapp_history_dlg.cpp
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Title]
 [Message]
 [Timestamp]

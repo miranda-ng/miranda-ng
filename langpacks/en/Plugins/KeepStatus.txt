@@ -1,9 +1,9 @@
 ;#muuid not found, please specify manually!
 ;langpack template for KeepStatus
-;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
+;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
 [Protocol]
 [<from trigger>]
-;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [STATIC]
 [KeepStatus]
 [%s Connected from another location]
@@ -19,7 +19,7 @@
 [No internet connection seems available... (next retry (%d) in %ds)]
 [Status was set ok]
 [Giving up]
-;file E:\Sources\myranda\plugins\StatusPlugins\KeepStatus\options.cpp
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
 [Advanced]
 [You broke the Internet!]

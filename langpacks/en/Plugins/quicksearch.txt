@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for quicksearch
-;file E:\Sources\myranda\plugins\QuickSearch\qs.rc
+;file \plugins\QuickSearch\qs.rc
 [*]
 [<]
 [>]
@@ -35,11 +35,11 @@
 [Show Offline contacts]
 [Colorize]
 [Search for:]
-;file E:\Sources\myranda\plugins\QuickSearch\sr_frame.pas
+;file \plugins\QuickSearch\sr_frame.pas
 [Previous item]
 [Next item]
 [Open main window]
-;file E:\Sources\myranda\plugins\QuickSearch\sr_optdialog.pas
+;file \plugins\QuickSearch\sr_optdialog.pas
 [Metacontact]
 [Service]
 [number value]
@@ -52,7 +52,7 @@
 [Down]
 [Delete]
 [Reload]
-;file E:\Sources\myranda\plugins\QuickSearch\sr_window.pas
+;file \plugins\QuickSearch\sr_window.pas
 [ users found (]
 [) Online: ]
 [Online]

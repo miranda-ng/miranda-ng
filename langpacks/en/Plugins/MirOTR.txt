@@ -1,6 +1,6 @@
 ;#muuid not found, please specify manually!
 ;langpack template for MirOTR
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\res\resource.rc
+;file \plugins\MirOTR\MirOTR\res\resource.rc
 [Generating new private key - please wait.]
 [Default Policy]
 [Always]
@@ -36,17 +36,17 @@
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
 [&Yes]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\dialogs.cpp
+;file \plugins\MirOTR\MirOTR\src\dialogs.cpp
 [SMP failed]
 [SMP successful]
 [Received an SMP update]
 [SMP requires user password (NOT IMPL YET)]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\dllmain.cpp
+;file \plugins\MirOTR\MirOTR\src\dllmain.cpp
 [OTR Info]
 [Your SRMM plugin does not support status icons. Not all OTR-functions are available!]
 [LOAD MIROTR]
 [UNLOAD MIROTR]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\language.h
+;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
 [Stop OTR]
 [Yes]
@@ -130,13 +130,13 @@
 [Cannot start OTR for '%s'. SecureIM is already running]
 [OTR: SecureIM installed]
 [You are using SecureIM. MirOTR will only work for contacts with SecureIM disabled]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
+;file \plugins\MirOTR\MirOTR\src\mirotrmenu.cpp
 [MirOTRPopUpMenuProcessor]
 [OTR Status]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\options.cpp
+;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Plugins]
 [READ privkey]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\otr.cpp
+;file \plugins\MirOTR\MirOTR\src\otr.cpp
 [OTR_GUI_POLICY]
 [OTR_GUI_CREATE_PRIVKEY]
 [Would you like to generate a new private key for this protocol?]
@@ -156,12 +156,12 @@
 [OTR_GUI_GONE_INSECURE]
 [OTR_GUI_STILL_SECURE]
 [OTR Log Message]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\svcs_proto.cpp
+;file \plugins\MirOTR\MirOTR\src\svcs_proto.cpp
 [SENDING]
 [OTR message without PREF_BYPASS_OTR]
 [OTR - sending raw message]
 [OTR - receiving message]
-;file E:\Sources\myranda\plugins\MirOTR\MirOTR\src\utils.cpp
+;file \plugins\MirOTR\MirOTR\src\utils.cpp
 [%02X]
 [%s Message]
 [%s\r\n%s]

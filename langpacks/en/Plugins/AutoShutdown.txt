@@ -1,6 +1,6 @@
 #muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;langpack template for AutoShutdown
-;file E:\Sources\myranda\plugins\AutoShutdown\res\resource.rc
+;file \plugins\AutoShutdown\res\resource.rc
 [Shutdown]
 [&Show confirmation dialog before shutdown]
 [&Countdown starts at:]
@@ -31,12 +31,12 @@
 [Unsaved data in open applications except Miranda NG might get lost.]
 [Please click "Cancel" if you would like to abort the process.]
 [&Now!]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\cpuusage.cpp
+;file \plugins\AutoShutdown\src\cpuusage.cpp
 [System\\CurrentControlSet\\Services]
 [Performance]
 [Disable Performance Counters]
 [PerfOS]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\frame.cpp
+;file \plugins\AutoShutdown\src\frame.cpp
 [AutoShutdownCountdown]
 [Static]
 [Shutdown at:]
@@ -50,13 +50,13 @@
 [&Cancel Countdown]
 [%s %s]
 [AutoShutdown]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\main.cpp
+;file \plugins\AutoShutdown\src\main.cpp
 [Header]
 [Active]
 [Inactive]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\options.cpp
+;file \plugins\AutoShutdown\src\options.cpp
 [Events]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\settingsdlg.cpp
+;file \plugins\AutoShutdown\src\settingsdlg.cpp
 [(current: %u%%)]
 [Second(s)]
 [Minute(s)]
@@ -70,7 +70,7 @@
 [Sdop automatic shutdown]
 [Stop automatic &shutdown]
 [Automatic &shutdown...]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\shutdownsvc.cpp
+;file \plugins\AutoShutdown\src\shutdownsvc.cpp
 [default]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\Explorer]
 [NoLogOff]
@@ -116,7 +116,7 @@
 [Sets all protocols to offline and closes all RAS connections.]
 [Alerts]
 [Automatic Shutdown Countdown]
-;file E:\Sources\myranda\plugins\AutoShutdown\src\utils.cpp
+;file \plugins\AutoShutdown\src\utils.cpp
 [ \r\n\t]
 [Toggle Automatic Shutdown]
 [Main]

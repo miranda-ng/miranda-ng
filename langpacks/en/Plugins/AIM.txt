@@ -1,6 +1,6 @@
 #muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;langpack template for AIM
-;file E:\Sources\myranda\protocols\AimOscar\res\aim.rc
+;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 [Screen Name:]
 [Display Name:]
@@ -61,7 +61,7 @@
 [&Deny]
 [Message]
 [Room]
-;file E:\Sources\myranda\protocols\AimOscar\src\avatars.cpp
+;file \protocols\AimOscar\src\avatars.cpp
 [.gif]
 [.png]
 [.bmp]
@@ -70,13 +70,13 @@
 [%miranda_avatarcache%]
 [%s\\%s]
 [\\%s]
-;file E:\Sources\myranda\protocols\AimOscar\src\chat.cpp
+;file \protocols\AimOscar\src\chat.cpp
 [Others]
 [&Invite user...]
 [&Leave chat session]
 [User &details]
 [User &history]
-;file E:\Sources\myranda\protocols\AimOscar\src\error.cpp
+;file \protocols\AimOscar\src\error.cpp
 [Invalid Screen Name or password.]
 [Mismatched Screen Name or password.]
 [You are connecting too frequently. Try waiting 10 minutes to reconnect.]
@@ -139,10 +139,10 @@
 [Over Limit.]
 [Email Host Fail.]
 [DNS Fail.]
-;file E:\Sources\myranda\protocols\AimOscar\src\file.cpp
+;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 [%s%s]
-;file E:\Sources\myranda\protocols\AimOscar\src\links.cpp
+;file \protocols\AimOscar\src\links.cpp
 [addbuddy?]
 [screenname=]
 [groupname=]
@@ -152,14 +152,14 @@
 [roomname=]
 [exchange=]
 [AIM Link Protocol]
-;file E:\Sources\myranda\protocols\AimOscar\src\popup.cpp
+;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
 [ %s]
 [Open mail account?]
-;file E:\Sources\myranda\protocols\AimOscar\src\proto.cpp
+;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
 [%s Client-to-client connection]
-;file E:\Sources\myranda\protocols\AimOscar\src\server.cpp
+;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
 [Contact tried to open an audio/video conference (currently not supported)]
 [No information has been provided by the server.]
@@ -186,7 +186,7 @@
 [Unable to confirm at this time. Please try again later.]
 [Your account has already been confirmed.]
 [Can't start the confirmation procedure.]
-;file E:\Sources\myranda\protocols\AimOscar\src\theme.cpp
+;file \protocols\AimOscar\src\theme.cpp
 [ICQ]
 [Block]
 [Profile]
@@ -225,12 +225,12 @@
 [Read &HTML Away Message]
 [Read Profile]
 [Add To Server List]
-;file E:\Sources\myranda\protocols\AimOscar\src\ui.cpp
+;file \protocols\AimOscar\src\ui.cpp
 [Network]
 [Basic]
 [Privacy]
 [Join me in this buddy chat!]
-;file E:\Sources\myranda\protocols\AimOscar\src\utility.cpp
+;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]
 [Please, enter a password in the options dialog.]
 [%miranda_userdata%]

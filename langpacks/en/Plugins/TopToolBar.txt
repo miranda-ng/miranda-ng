@@ -1,6 +1,6 @@
 #muuid {f593c752-51d8-4d46-ba27-37577953f55c}
 ;langpack template for TopToolBar
-;file E:\Sources\myranda\plugins\TopToolBar\res\main.rc
+;file \plugins\TopToolBar\res\main.rc
 [Buttons Order && Visibility]
 [Button height]
 [Button width]
@@ -16,18 +16,18 @@
 [...]
 [Path:]
 [Set]
-;file E:\Sources\myranda\plugins\TopToolBar\src\common.h
+;file \plugins\TopToolBar\src\common.h
 [TopToolbarButtonClass]
-;file E:\Sources\myranda\plugins\TopToolBar\src\toolbar.cpp
+;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 [Execute Path]
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 [TopToolBar]
-;file E:\Sources\myranda\plugins\TopToolBar\src\toolbarwnd.cpp
+;file \plugins\TopToolBar\src\toolbarwnd.cpp
 [Toolbar]
-;file E:\Sources\myranda\plugins\TopToolBar\src\topbutton.cpp
+;file \plugins\TopToolBar\src\topbutton.cpp
 [STATIC]
-;file E:\Sources\myranda\plugins\TopToolBar\src\ttbopt.cpp
+;file \plugins\TopToolBar\src\ttbopt.cpp
 [------------------]
 [exe]
 [Contact List]
