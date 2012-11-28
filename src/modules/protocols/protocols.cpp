@@ -147,7 +147,7 @@ static INT_PTR Proto_RegisterModule(WPARAM, LPARAM lParam)
 	else *p = *pd;
 	p->szName = mir_strdup(pd->szName);
 	protos.insert(p);
-	if (p->type != PROTOTYPE_PROTOCOL)
+	if (p->type != PROTOTYPE_PROTOCOL && p->type != PROTOTYPE_VIRTUAL)
 		filters.insert(p);
 	return 0;
 }

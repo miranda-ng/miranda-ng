@@ -132,6 +132,7 @@ void KillModuleSounds(int hLangpack);
 /**** miranda.cpp **********************************************************************/
 
 extern HINSTANCE hInst;
+extern DWORD hMainThreadId;
 extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModule;
 
 /**** newplugins.cpp *******************************************************************/

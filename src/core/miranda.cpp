@@ -85,6 +85,7 @@ static char *pszWaitServices[MAXIMUM_WAIT_OBJECTS-1];
 static int waitObjectCount = 0;
 HANDLE hMirandaShutdown;
 HINSTANCE hInst;
+DWORD hMainThreadId;
 int hLangpack = 0;
 bool bModulesLoadedFired = false;
 
@@ -210,6 +211,7 @@ void CheckRestart()
 int WINAPI _tWinMain(HINSTANCE hInstance, HINSTANCE, LPTSTR cmdLine, int)
 {
 	hInst = hInstance;
+	hMainThreadId = GetCurrentThreadId();
 
 	CmdLine_Parse(cmdLine);
 	setlocale(LC_ALL, "");

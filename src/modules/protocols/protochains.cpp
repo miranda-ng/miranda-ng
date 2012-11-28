@@ -127,23 +127,24 @@ INT_PTR Proto_CallContactService(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
+static INT_PTR Proto_RecvChain(WPARAM wParam, LPARAM lParam)
 {
 	CCSDATA *ccs = (CCSDATA*)lParam;
 	INT_PTR ret;
 
 	if (wParam == (WPARAM)(-1)) return 1;   //shouldn't happen - sanity check
-	if (wParam == 0)   //begin processing by finding end of chain
-		wParam = filters.getCount();
-	else
-		wParam--;
+	if (wParam == 0) { //begin processing by finding end of chain
+		if (GetCurrentThreadId() != hMainThreadId) // restart this function in the main thread
+			return CallServiceSync(MS_PROTO_CHAINRECV, wParam, lParam);
 
-	for (int i = wParam-1; i >= 0; i--) {
-		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND) {
+		wParam = filters.getCount();
+	}
+	else wParam--;
+
+	for (int i = wParam-1; i >= 0; i--)
+		if ((ret = CallProtoServiceInt(NULL, filters[i]->szName, ccs->szProtoService, i+1, lParam)) != CALLSERVICE_NOTFOUND)
 			//chain was started, exit
 			return ret;
-		}
-	}
 
 	//end of chain, call network protocol again
 	char szProto[40];
@@ -162,12 +163,6 @@ static INT_PTR CallRecvChain(WPARAM wParam, LPARAM lParam)
 		ret = 1;
 
 	return ret;
-}
-
-static INT_PTR Proto_ChainRecv(WPARAM wParam, LPARAM lParam)
-{
-	/* this will switch threads just like before */
-	return CallServiceSync(MS_PROTO_CHAINRECV "ThreadSafe", wParam, lParam);
 }
 
 PROTOACCOUNT* __fastcall Proto_GetAccount(HANDLE hContact)
@@ -252,8 +247,7 @@ int LoadProtoChains(void)
 
 	CreateServiceFunction(MS_PROTO_CALLCONTACTSERVICE, Proto_CallContactService);
 	CreateServiceFunction(MS_PROTO_CHAINSEND, Proto_CallContactService);
-	CreateServiceFunction(MS_PROTO_CHAINRECV, Proto_ChainRecv);
-	CreateServiceFunction(MS_PROTO_CHAINRECV "ThreadSafe", CallRecvChain);
+	CreateServiceFunction(MS_PROTO_CHAINRECV, Proto_RecvChain);
 	CreateServiceFunction(MS_PROTO_GETCONTACTBASEPROTO, Proto_GetContactBaseProto);
 	CreateServiceFunction(MS_PROTO_GETCONTACTBASEACCOUNT, Proto_GetContactBaseAccount);
 	CreateServiceFunction(MS_PROTO_ISPROTOONCONTACT, Proto_IsProtoOnContact);
