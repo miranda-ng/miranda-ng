@@ -171,9 +171,9 @@ type
 
 const
   {$IFDEF WIN64}
-  CALLSERVICE_NOTFOUND = $8000000000000000;
+  CALLSERVICE_NOTFOUND = int_ptr($8000000000000000);
   {$ELSE}
-  CALLSERVICE_NOTFOUND = $80000000;
+  CALLSERVICE_NOTFOUND = int_ptr($80000000);
   {$ENDIF}
 
 function CreateHookableEvent(const name: PAnsiChar): THANDLE; stdcall;
