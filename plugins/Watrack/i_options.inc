@@ -111,7 +111,7 @@ procedure ReadPlayers;
 begin
   EnumPlayers(@enumrp,0);
 {!!  p:=DBReadString(0,PluginShort,opt_DefPlayer,nil);
-  CallService(MS_WAT_PLAYER,WAT_ACT_SETACTIVE,dword(p));
+  CallService(MS_WAT_PLAYER,WAT_ACT_SETACTIVE,TLPARAM(p));
   mFreeMem(p);
 }
 end;

@@ -130,7 +130,7 @@ begin
         i:=SendDlgItemMessage(Dialog,IDC_CODEPAGE,CB_GETCOUNT,0,0)-1;
         while i>0 do
         begin
-          if dword(SendDlgItemMessage(Dialog,IDC_CODEPAGE,CB_GETITEMDATA,dword(i),0))=UserCP then
+          if dword(SendDlgItemMessage(Dialog,IDC_CODEPAGE,CB_GETITEMDATA,twparam(i),0))=UserCP then
             break;
           dec(i);
         end

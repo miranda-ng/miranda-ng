@@ -628,7 +628,7 @@ begin
         begin
           lwnd:=CheckTmpl(lwnd,plyLink^[i].Check,plyLink^[i].flags);
 // find "Winamp" window
-          if (lwnd<>dword(WAT_RES_NOTFOUND)) and (lwnd<>0) and
+          if (lwnd<>THANDLE(WAT_RES_NOTFOUND)) and (lwnd<>0) and
              ((plyLink^[i].flags and WAT_OPT_WINAMPAPI)<>0) then
           begin
             wwnd:=WinampFindWindow(lwnd);
@@ -641,11 +641,11 @@ begin
           with plyLink^[i] do
           begin
             lwnd:=tCheckProc(Check)(lwnd,flags);
-            if (lwnd<>dword(WAT_RES_NOTFOUND)) and (lwnd<>0) and (GetStatus<>nil) then
+            if (lwnd<>THANDLE(WAT_RES_NOTFOUND)) and (lwnd<>0) and (GetStatus<>nil) then
               stat:=tStatusProc(GetStatus)(lwnd);
           end;
         end;
-        if (lwnd<>dword(WAT_RES_NOTFOUND)) and (lwnd<>0) then
+        if (lwnd<>THANDLE(WAT_RES_NOTFOUND)) and (lwnd<>0) then
         begin
           if (stat=WAT_MES_PLAYING) or ((flags and WAT_OPT_CHECKALL)=0) then
           begin

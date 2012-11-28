@@ -139,7 +139,7 @@ begin
     si.mfile:=dst^.mfile;
 }
   f:=Reset(dst^.mfile);
-  if dword(f)<>INVALID_HANDLE_VALUE then
+  if THANDLE(f)<>INVALID_HANDLE_VALUE then
     GetFileTime(f,nil,nil,@dst^.date);
   CloseHandle(f);
   dst^.fsize:=GetFSize(dst^.mfile);

@@ -37,7 +37,7 @@ begin
         StrCatW(line,wr);
         hTmp:=FindFirstFileW(line,fdata);
       end;
-      if dword(hTmp)<>INVALID_HANDLE_VALUE then
+      if THANDLE(hTmp)<>INVALID_HANDLE_VALUE then
       begin
         wr1:=ExtractW(line,false);
         StrCopyW(line1,wr1);
