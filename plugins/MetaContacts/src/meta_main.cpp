@@ -211,7 +211,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	pd.szName = META_PROTO;
-	pd.type = PROTOTYPE_VIRTUAL;
+	pd.type = PROTOTYPE_PROTOCOL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	// further db setup done in modules loaded (nick [protocol string required] & clist display name)
