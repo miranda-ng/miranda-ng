@@ -120,7 +120,7 @@ INT_PTR MetaAPI_SetDefaultContact(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, (int)lParam);
 	HANDLE hMeta = (HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (!hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if ( !hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -136,7 +136,7 @@ INT_PTR MetaAPI_ForceSendContactNum(WPARAM wParam, LPARAM lParam) {
 INT_PTR MetaAPI_ForceSendContact(WPARAM wParam, LPARAM lParam) {
 	HANDLE hContact = (HANDLE)lParam;
 	HANDLE hMeta = (HANDLE)db_get_dw(hContact, META_PROTO, "Handle", 0);
-	if (!hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
+	if ( !hContact || !hMeta || hMeta != (HANDLE)wParam || db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) 
 		return 1;
 
 	db_set_dw(hMeta, META_PROTO, "ForceSend", (DWORD)hContact);
@@ -182,7 +182,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 	HANDLE hMeta = (HANDLE)wParam;
 	HANDLE hContact;
 	
-	if (!hMeta) return 0;
+	if ( !hMeta) return 0;
 	
 	if (db_get_b(hMeta, META_PROTO, "ForceDefault", 0)) {
 		if (lParam) *(DWORD *)lParam = db_get_dw((HANDLE)wParam, META_PROTO, "Default", -1);
@@ -191,7 +191,7 @@ INT_PTR MetaAPI_GetForceState(WPARAM wParam, LPARAM lParam) {
 
 	hContact = (HANDLE)db_get_dw(hMeta, META_PROTO, "ForceSend", 0);
 
-	if (!hContact) {
+	if ( !hContact) {
 		if (lParam) *(DWORD *)lParam = -1;
 	} else {
 		if (lParam) *(DWORD *)lParam = (DWORD)Meta_GetContactNumber(hContact);

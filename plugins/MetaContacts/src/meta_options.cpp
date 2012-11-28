@@ -65,7 +65,7 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		CheckDlgButton(hwndDlg, IDC_CHK_SUBHISTORY, options_changes.subhistory ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_COPYDATA, options_changes.copydata ? TRUE : FALSE);
 
-		if (!options_changes.subcontact_windows) {
+		if ( !options_changes.subcontact_windows) {
 			hw = GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY);
 			EnableWindow(hw, FALSE);
 		} else {
@@ -257,7 +257,7 @@ int Meta_WriteOptions(MetaOptions *opt) {
 	db_set_b(NULL, META_PROTO, "MetaMessageIcon", (BYTE)(opt->flash_meta_message_icon ? 1 : 0));
 	db_set_b(NULL, META_PROTO, "CopyUserInfo", (BYTE)(opt->copy_userinfo ? 1 : 0));
 
-	if (!opt->subcontact_windows)
+	if ( !opt->subcontact_windows)
 		db_set_b(NULL, META_PROTO, "MetaHistory", 1);
 	else
 		db_set_b(NULL, META_PROTO, "MetaHistory", (BYTE)(opt->metahistory ? 1 : 0));
@@ -289,7 +289,7 @@ int Meta_ReadOptions(MetaOptions *opt) {
 	opt->flash_meta_message_icon = (db_get_b(NULL, META_PROTO, "MetaMessageIcon", 1) == 1 ? TRUE : FALSE);
 	opt->copy_userinfo = (db_get_b(NULL, META_PROTO, "CopyUserInfo", 1) == 1 ? TRUE : FALSE);
 	
-	if (!opt->subcontact_windows)
+	if ( !opt->subcontact_windows)
 		opt->metahistory = TRUE;
 	else
 		opt->metahistory = (db_get_b(NULL, META_PROTO, "MetaHistory", 1) == 1 ? TRUE : FALSE);
@@ -340,7 +340,7 @@ ProtoStatusPrio *priorities = 0;
 
 int GetRealPriority(char *proto, int status) {
 	char szSetting[256];
-	if (!proto) {
+	if ( !proto) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
 		return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
 	} else {
@@ -401,7 +401,7 @@ void WritePriorities() {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
 			mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", pppDesc[i]->szModuleName, j);
-			if (!current->def[j - ID_STATUS_OFFLINE])
+			if ( !current->def[j - ID_STATUS_OFFLINE])
 				db_set_w(0, META_PROTO, szSetting, (WORD)current->prio[j - ID_STATUS_OFFLINE]);
 			else
 				db_unset(0, META_PROTO, szSetting);
@@ -438,7 +438,7 @@ void SetPriority(int proto_index, int status, BOOL def, int prio) {
 	} else {
 		current = priorities + (proto_index + 1);
 		current->def[status - ID_STATUS_OFFLINE] = def;
-		if (!def) {
+		if ( !def) {
 			current->prio[status - ID_STATUS_OFFLINE] = prio;
 		}
 	}

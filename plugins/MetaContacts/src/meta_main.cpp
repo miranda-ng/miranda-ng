@@ -188,7 +188,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// that metacontacts: have the correct number of subcontacts, and have reasonable defaults
 	if (Meta_SetHandles()) {
 		// error - db corruption
-		if (!db_get_b(0, META_PROTO, "DisabledMessageShown", 0)) {
+		if ( !db_get_b(0, META_PROTO, "DisabledMessageShown", 0)) {
 			MessageBox(0, Translate("Error - Database corruption.\nPlugin disabled."), Translate("MetaContacts"), MB_OK | MB_ICONERROR);
 			db_set_b(0, META_PROTO, "DisabledMessageShown", 1);
 		}
@@ -227,6 +227,5 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// for clist_meta_mw - write hidden group name to DB
 	db_set_s(0, META_PROTO, "HiddenGroupName", META_HIDDEN_GROUP);
-	
 	return 0;
 }
