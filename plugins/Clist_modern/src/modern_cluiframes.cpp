@@ -837,8 +837,7 @@ static HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGEN
 	if (_fCluiFramesModuleNotStarted)
 		return NULL;
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
@@ -1006,15 +1005,12 @@ static int ModifyMItem(WPARAM wParam,LPARAM lParam)
 
 static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam,LPARAM lParam)
 {
-	int pos;
-	CLISTMENUITEM mi;
 	/* HOOK */
 	if (MirandaExiting()) return 0;
 	if (_fCluiFramesModuleNotStarted) return -1;
-	pos = id2pos(wParam);
+	int pos = id2pos(wParam);
 	if (pos >= 0 && pos < g_nFramesCount) {
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS|CMIM_NAME|CMIF_CHILDPOPUP|CMIF_TCHAR;
 		if (g_pfwFrames[pos].visible) mi.flags |= CMIF_CHECKED;
 		mi.ptszName = g_pfwFrames[pos].TitleBar.tbname ? g_pfwFrames[pos].TitleBar.tbname : g_pfwFrames[pos].Name;
@@ -1061,18 +1057,12 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam,LPARAM lParam)
 static int CLUIFramesModifyMainMenuItems(WPARAM wParam,LPARAM lParam)
 {
 	//hiword(wParam) = frameid,loword(wParam) = flag
-	int pos;
-	CLISTMENUITEM mi;
-	//TMO_MenuItem tmi;
-
 	if (_fCluiFramesModuleNotStarted) return -1;
 
-
-	pos = id2pos(wParam);
+	int pos = id2pos(wParam);
 
 	if (pos >= 0 && pos < g_nFramesCount) {
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS|CMIM_NAME|CMIF_CHILDPOPUP|CMIF_TCHAR;
 		if (g_pfwFrames[pos].visible) mi.flags |= CMIF_CHECKED;
 		mi.ptszName = g_pfwFrames[pos].TitleBar.tbname ? g_pfwFrames[pos].TitleBar.tbname : g_pfwFrames[pos].Name;
@@ -1107,23 +1097,6 @@ static int CLUIFramesModifyMainMenuItems(WPARAM wParam,LPARAM lParam)
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|((g_pfwFrames[pos].align&alClient)?CMIF_GRAYED:0);
 		if (g_pfwFrames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_pfwFrames[pos].MenuHandles.MIAlignBottom,(LPARAM)&mi);
-
-		/*
-		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|((Frames[pos].align&alClient)?CMIF_GRAYED:0);
-		if (Frames[pos].align&alTop) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignTop,(LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|CMIF_GRAYED;
-		if (Frames[pos].align&alClient) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignClient,(LPARAM)&mi);
-
-		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP|((Frames[pos].align&alClient)?CMIF_GRAYED:0);
-		if (Frames[pos].align&alBottom) mi.flags |= CMIF_CHECKED;
-		ModifyMItem((WPARAM)contMIAlignBottom,(LPARAM)&mi);
-
-		*/
-
-
 
 		mi.flags = CMIM_FLAGS|CMIF_CHILDPOPUP;
 		if (g_pfwFrames[pos].collapsed) mi.flags |= CMIF_CHECKED;
@@ -1768,9 +1741,8 @@ static int CLUIFramesLoadMainMenu()
 		_hmiRoot = (HGENMENU)-1;
 	}
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
 	// create root menu
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.position = 3000090000;

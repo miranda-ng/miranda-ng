@@ -130,8 +130,7 @@ __declspec(dllexport) int Load(void)
 
 	/* menu item */
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000089999;
 	mi.icolibItem = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RELOAD));
 	mi.pszName = LPGEN("Reload langpack");

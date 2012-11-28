@@ -164,9 +164,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
 	char *proto = GetContactProto(hContact);
 	bool chat_room = (proto && DBGetContactSettingByte(hContact, proto, "ChatRoom", 0) != 0);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS|CMIF_TCHAR;
 	if(chat_room) mi.flags |= CMIF_HIDDEN;
 	else {
@@ -307,8 +305,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam) {
 	InitIcons();
 	
 	// create contact menu item
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 
 	mi.position = -300010;

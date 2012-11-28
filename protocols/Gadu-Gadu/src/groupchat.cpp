@@ -61,12 +61,10 @@ int GGPROTO::gc_init()
 
 void GGPROTO::gc_menus_init(HGENMENU hRoot)
 {
-	if (gc_enabled)
-	{
-		CLISTMENUITEM mi = {0};
+	if (gc_enabled) {
 		char service[64];
 
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
 		mi.hParentMenu = hRoot;
 

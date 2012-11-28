@@ -149,7 +149,6 @@ void Scan4Games( LPVOID lparam  )
 	BOOL multiexe=FALSE;
 	BOOL somethingfound=TRUE;
 	int i3=0;
-	CLISTMENUITEM mi = { 0 };
 	DWORD gpps=1;
 	DWORD last_gpps=0;
 	static BOOL searching=FALSE;

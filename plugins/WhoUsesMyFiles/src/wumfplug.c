@@ -271,17 +271,14 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 {
 	BOOL MajorTo0121 = FALSE;
 	int iResult = 0;
-	CLISTMENUITEM mi = { 0 };
 
-	mi.cbSize = sizeof(mi);
-	if (WumfOptions.PopupsEnabled == TRUE) 
-	{ 
+	CLISTMENUITEM mi = { sizeof(mi) };
+	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
 		mi.pszName = Translate("Enable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
 	}
-	else 
-	{
+	else {
 		WumfOptions.PopupsEnabled = TRUE;
 		mi.pszName = Translate("Disable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
@@ -579,37 +576,34 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 
 __declspec(dllexport) int Load(void)
 {
-    CLISTMENUITEM mi = { 0 };
-
 	mir_getLP(&pluginInfo);
 
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	LoadOptions();
 
 	CreateServiceFunction(MS_WUMF_SWITCHPOPUP, WumfMenuCommand);
 	CreateServiceFunction(MS_WUMF_CONNECTIONSSHOW, WumfShowConnections);
-	if (WumfOptions.PopupsEnabled == FALSE) 
-	{ 
-		mi.pszName = Translate("Enable WUMF popups");
-		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
-	}
-	else 
 	{
-		mi.pszName = Translate("Disable WUMF popups");
-		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
-	}
-	mi.pszService = MS_WUMF_SWITCHPOPUP;
-	mi.popupPosition = 1999990000;
-	mi.pszPopupName = Translate("PopUps");
-	hMenuItem = (HANDLE)Menu_AddMainMenuItem(&mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
+		if (WumfOptions.PopupsEnabled == FALSE) { 
+			mi.pszName = Translate("Enable WUMF popups");
+			mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
+		}
+		else {
+			mi.pszName = Translate("Disable WUMF popups");
+			mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
+		}
+		mi.pszService = MS_WUMF_SWITCHPOPUP;
+		mi.popupPosition = 1999990000;
+		mi.pszPopupName = Translate("PopUps");
+		hMenuItem = (HANDLE)Menu_AddMainMenuItem(&mi);
 
-	mi.pszName = Translate("WUMF: Show connections");
-	mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
-	mi.pszService = MS_WUMF_CONNECTIONSSHOW;
-	mi.popupPosition = 1999990000;
-	mi.pszPopupName = NULL;
-	Menu_AddMainMenuItem(&mi);
+		mi.pszName = Translate("WUMF: Show connections");
+		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
+		mi.pszService = MS_WUMF_CONNECTIONSSHOW;
+		mi.popupPosition = 1999990000;
+		mi.pszPopupName = NULL;
+		Menu_AddMainMenuItem(&mi);
+	}
 
 	HookEvent(ME_OPT_INITIALISE,OptionsInit);
 	HookEvent(ME_TTB_MODULELOADED, InitTopToolbar);

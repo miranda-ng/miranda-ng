@@ -79,11 +79,9 @@ static INT_PTR ShowGuideFile(WPARAM wParam,LPARAM lParam)
 
 int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM mi;
-
 	hShowGuide = CreateServiceFunction("UserGuide/ShowGuide", ShowGuideFile);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_HELP);

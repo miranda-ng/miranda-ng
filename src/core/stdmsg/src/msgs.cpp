@@ -313,8 +313,7 @@ static int SplitmsgModulesLoaded(WPARAM wParam, LPARAM lParam)
 	RegisterSRMMFonts();
 	LoadMsgLogIcons();
 	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000090000;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_EVENT_MESSAGE );
@@ -376,8 +375,7 @@ static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
 
-		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof(CLISTMENUITEM);
+		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
 
 		if ( szProto ) {

@@ -194,8 +194,8 @@ extern "C" int __declspec(dllexport) Load()
 	CreateServiceFunction("/ExportGPGKeys",ExportGpGKeys);
 	CreateServiceFunction("/ImportGPGKeys",ImportGpGKeys);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize=sizeof(mi);
+   // !!!!!!!! check it later
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position=-0x7FFFFFFF;
 	mi.flags=CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);

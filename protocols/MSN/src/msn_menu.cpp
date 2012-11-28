@@ -140,18 +140,16 @@ int CMsnProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 	const HANDLE hContact = (HANDLE)wParam;
 	char szEmail[MSN_MAX_EMAIL_LEN];
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
-	if (!MSN_IsMyContact(hContact)) return 0;
+	if ( !MSN_IsMyContact(hContact))
+		return 0;
 
 	bool isMe = MSN_IsMeByContact(hContact, szEmail);
-	if (szEmail[0]) 
-	{
+	if (szEmail[0]) {
 		int listId = Lists_GetMask(szEmail);
 		
 		bool noChat = !(listId & LIST_FL) || isMe || getByte(hContact, "ChatRoom", 0);
 
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
 		if (noChat) mi.flags |= CMIF_HIDDEN;
 		mi.pszName = (char*)((listId & LIST_BL) ? "&Unblock" : "&Block");
@@ -295,12 +293,10 @@ void CMsnProto::MsnInitMainMenu(void)
 	strcpy(servicefunction, m_szModuleName);
 	char* tDest = servicefunction + strlen(servicefunction);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
-	if (hRoot == NULL)
-	{
+	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -308,8 +304,7 @@ void CMsnProto::MsnInitMainMenu(void)
 		mi.ptszName = m_tszUserName;
 		hRoot = mainMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
-	else
-	{
+	else {
 		MsnRemoveMainMenus();
 		mainMenuRoot = NULL;
 	}
@@ -364,20 +359,16 @@ void CMsnProto::MsnRemoveMainMenus(void)
 
 void  CMsnProto::MSN_EnableMenuItems(bool bEnable)
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 	if (!bEnable)
 		mi.flags |= CMIF_GRAYED;
 
 	for (unsigned i=0; i < SIZEOF(menuItemsMain); i++)
-	{
 		if (menuItemsMain[i] != NULL)
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[i], (LPARAM)&mi);
-	}
 
-	if (bEnable)
-	{
+	if (bEnable) {
 		mi.flags = CMIM_FLAGS;
 		if (!emailEnabled) mi.flags |= CMIF_HIDDEN;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)menuItemsMain[1], (LPARAM)&mi);
@@ -425,8 +416,7 @@ static INT_PTR MsnMenuSendHotmail(WPARAM wParam, LPARAM lParam)
 
 static void sttEnableMenuItem(HANDLE hMenuItem, bool bEnable)
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
 	if (!bEnable)
 		clmi.flags |= CMIF_HIDDEN;
@@ -457,8 +447,7 @@ void MSN_InitContactMenu(void)
 	strcpy(servicefunction, "MSN");
 	char* tDest = servicefunction + strlen(servicefunction);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszService = servicefunction;
 

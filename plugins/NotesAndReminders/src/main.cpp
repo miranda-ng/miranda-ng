@@ -207,79 +207,71 @@ static void InitServices()
 
 int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 {
-	CLISTMENUITEM cmi = {0};
-
 	// register fonts and hotkeys
-
 	RegisterFontServiceFonts();
 	RegisterKeyBindings();
 
 	// register menus
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.pszContactOwner = NULL;
+	mi.ptszPopupName = LPGENT("Notes && Reminders");
+	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 
-	cmi.cbSize = sizeof(cmi);
-	cmi.pszContactOwner = NULL;
-	cmi.ptszPopupName = LPGENT("Notes && Reminders");
-	cmi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.position = 1600000000;
+	mi.icolibItem = hIconLibItem[2];
+	mi.ptszName = LPGENT("New &Note");
+	mi.pszService = MODULENAME"/MenuCommandAddNew";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600000000;
-	cmi.icolibItem = hIconLibItem[2];
-	cmi.ptszName = LPGENT("New &Note");
-	cmi.pszService = MODULENAME"/MenuCommandAddNew";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600000001;
+	mi.icolibItem = hIconLibItem[0];
+	mi.ptszName = LPGENT("New &Reminder");
+	mi.pszService = MODULENAME"/MenuCommandNewReminder";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600000001;
-	cmi.icolibItem = hIconLibItem[0];
-	cmi.ptszName = LPGENT("New &Reminder");
-	cmi.pszService = MODULENAME"/MenuCommandNewReminder";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600100000;
+	mi.icolibItem = hIconLibItem[3];
+	mi.ptszName = LPGENT("&Show / Hide Notes");
+	mi.pszService = MODULENAME"/MenuCommandShowHide";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	//
+	mi.position = 1600100001;
+	mi.icolibItem = hIconLibItem[13];
+	mi.ptszName = LPGENT("Vie&w Notes");
+	mi.pszService = MODULENAME"/MenuCommandViewNotes";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600100000;
-	cmi.icolibItem = hIconLibItem[3];
-	cmi.ptszName = LPGENT("&Show / Hide Notes");
-	cmi.pszService = MODULENAME"/MenuCommandShowHide";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600100002;
+	mi.icolibItem = hIconLibItem[1];
+	mi.ptszName = LPGENT("&Delete All Notes");
+	mi.pszService = MODULENAME"/MenuCommandDeleteAll";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600100001;
-	cmi.icolibItem = hIconLibItem[13];
-	cmi.ptszName = LPGENT("Vie&w Notes");
-	cmi.pszService = MODULENAME"/MenuCommandViewNotes";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600100003;
+	mi.icolibItem = hIconLibItem[11];
+	mi.ptszName = LPGENT("&Bring All to Front");
+	mi.pszService = MODULENAME"/MenuCommandBringAllFront";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600100002;
-	cmi.icolibItem = hIconLibItem[1];
-	cmi.ptszName = LPGENT("&Delete All Notes");
-	cmi.pszService = MODULENAME"/MenuCommandDeleteAll";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600200000;
+	mi.icolibItem = hIconLibItem[6];
+	mi.ptszName = LPGENT("&View Reminders");
+	mi.pszService = MODULENAME"/MenuCommandViewReminders";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
-	cmi.position = 1600100003;
-	cmi.icolibItem = hIconLibItem[11];
-	cmi.ptszName = LPGENT("&Bring All to Front");
-	cmi.pszService = MODULENAME"/MenuCommandBringAllFront";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
-
-	//
-
-	cmi.position = 1600200000;
-	cmi.icolibItem = hIconLibItem[6];
-	cmi.ptszName = LPGENT("&View Reminders");
-	cmi.pszService = MODULENAME"/MenuCommandViewReminders";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
-
-	cmi.position = 1600200001;
-	cmi.icolibItem = hIconLibItem[5];
-	cmi.ptszName = LPGENT("D&elete All Reminders");
-	cmi.pszService = MODULENAME"/MenuCommandDeleteReminders";
-	if (g_AddContListMI) Menu_AddContactMenuItem(&cmi);
-	Menu_AddMainMenuItem(&cmi);
+	mi.position = 1600200001;
+	mi.icolibItem = hIconLibItem[5];
+	mi.ptszName = LPGENT("D&elete All Reminders");
+	mi.pszService = MODULENAME"/MenuCommandDeleteReminders";
+	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	// register misc
 

@@ -85,8 +85,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hotkey.DefHotKey = MAKEWORD( 'O', HOTKEYF_SHIFT | HOTKEYF_ALT );
 	Hotkey_Register(&hotkey);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
 	mi.icolibItem = hIconOpenFolder;

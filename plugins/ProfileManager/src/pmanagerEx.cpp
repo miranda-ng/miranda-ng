@@ -100,13 +100,12 @@ static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	CLISTMENUITEM mi;
-
 	mir_getLP(&pluginInfo);
 
 	hLoadPM = CreateServiceFunction("Database/LoadPM", LoadPM);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+
+   // !!!!!!!! check it later
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));

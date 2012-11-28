@@ -132,29 +132,26 @@ static INT_PTR GetMessageCommand(WPARAM wParam, LPARAM)
 
 static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM clmi;
 	TCHAR str[128];
-	char *szProto;
+	char *szProto = GetContactProto((HANDLE)wParam);
 
-	szProto = GetContactProto((HANDLE)wParam);
-	ZeroMemory(&clmi, sizeof(clmi));
-	clmi.cbSize = sizeof(clmi);
-	clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN | CMIF_TCHAR;
 
 	if (szProto != NULL) {
 		int chatRoom = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 		if ( !chatRoom) {
 			int status = DBGetContactSettingWord((HANDLE)wParam, szProto, "Status", ID_STATUS_OFFLINE);
 			mir_sntprintf(str, SIZEOF(str), TranslateT("Re&ad %s Message"), pcli->pfnGetStatusModeDescription(status, 0));
-			clmi.ptszName = str;
+			mi.ptszName = str;
 			if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_MODEMSGRECV) {
 				if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_3, 0) & Proto_Status2Flag(status)) {
-					clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
-					clmi.hIcon = LoadSkinProtoIcon(szProto, status);
+					mi.flags = CMIM_FLAGS | CMIM_NAME | CMIF_NOTOFFLINE | CMIM_ICON | CMIF_TCHAR;
+					mi.hIcon = LoadSkinProtoIcon(szProto, status);
 	}	}	}	}
 
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&clmi);
-	IcoLib_ReleaseIcon(clmi.hIcon, 0);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAwayMsgMenuItem, (LPARAM)&mi);
+	IcoLib_ReleaseIcon(mi.hIcon, 0);
 	return 0;
 }
 
@@ -166,12 +163,10 @@ static int AwayMsgPreShutdown(WPARAM, LPARAM)
 
 int LoadAwayMsgModule(void)
 {
-	CLISTMENUITEM mi = {0};
-
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000005000;
 	mi.flags = CMIF_NOTOFFLINE;
 	mi.pszName = LPGEN("Re&ad Status Message");

@@ -618,11 +618,10 @@ static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text be
 {
 	if (g_hMenuItem)
 	{
-		CLISTMENUITEM mi = {0};
 		TCHAR buf[128] = {0};
 		mir_sntprintf(buf, SIZEOF(buf), _T("%s [%s]"), TranslateT("Hide"), GetBossKeyText());
 
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_TCHAR  | CMIM_NAME;
 		mi.ptszName = buf;
 
@@ -633,9 +632,7 @@ static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text be
 
 void BossKeyMenuItemInit(void) // Add menu item
 {
-	CLISTMENUITEM mi = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 	mi.position = 2000100000;
 	mi.pszPopupName = 0;

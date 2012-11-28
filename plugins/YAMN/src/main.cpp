@@ -197,8 +197,7 @@ BOOL CALLBACK EnumSystemCodePagesProc(LPTSTR cpStr)
 
 void CheckMenuItems()
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof( CLISTMENUITEM );
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
 	if ( !DBGetContactSettingByte(NULL, YAMN_DBMODULE, YAMN_SHOWMAINMENU, 1))
 		clmi.flags |= CMIF_HIDDEN;
@@ -209,8 +208,7 @@ void CheckMenuItems()
 int SystemModulesLoaded(WPARAM, LPARAM)
 {
 	//Insert "Check mail (YAMN)" item to Miranda's menu
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0xb0000000;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = g_GetIconHandle(0);

@@ -91,8 +91,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	_tcslwr(filePath);
 
 	//Menu item
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = mi.popupPosition = 2000089999;
 	mi.flags = 0;
 	mi.hIcon = hiVIIcon;

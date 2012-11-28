@@ -692,8 +692,7 @@ void AddMenuItem()
 {
 	if (hMainMenuItem) return;
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL;
 	mi.hIcon = hIconMenuSet;
 	mi.pszName = "Set Alarm";

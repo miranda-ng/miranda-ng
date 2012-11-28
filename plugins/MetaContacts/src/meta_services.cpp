@@ -1489,9 +1489,9 @@ int Meta_CallMostOnline(WPARAM wParam, LPARAM lParam) {
 }
 
 
-INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam) {
-	CLISTMENUITEM mi;
-	mi.cbSize = sizeof(CLISTMENUITEM);
+INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
 	// just write to db - the rest is handled in the Meta_SettingChanged function
 	if (db_get_b(0, META_PROTO, "Enabled", 1)) {
 		db_set_b(0, META_PROTO, "Enabled", 0);

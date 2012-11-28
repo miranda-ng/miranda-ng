@@ -224,8 +224,7 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
 
-		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof(CLISTMENUITEM);
+		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
 
 		if ( szProto ) {

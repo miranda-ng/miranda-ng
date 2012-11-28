@@ -1144,11 +1144,10 @@ DWORD CMraProto::CreateBlobFromContact(HANDLE hContact, LPWSTR lpwszRequestReaso
 
 void CMraProto::CListShowMenuItem(HANDLE hMenuItem, BOOL bShow)
 {
-	CLISTMENUITEM mi = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	if (bShow == FALSE) mi.flags |= CMIF_HIDDEN;
+	if (bShow == FALSE)
+		mi.flags |= CMIF_HIDDEN;
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItem, (LPARAM)&mi);
 }
@@ -1286,7 +1285,6 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			WCHAR szBuff[STATUS_TITLE_MAX+STATUS_DESC_MAX];
 			size_t dwBuffSize;
 			WNDPROC OldMessageEditProc;
-			CLISTMENUITEM mi = {0};
 
 			SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)0);
 
@@ -1314,7 +1312,7 @@ INT_PTR CALLBACK SetXStatusDlgProc(HWND hWndDlg, UINT message, WPARAM wParam, LP
 			dat->ppro->mraSetStringExW(NULL, szValueName, szBuff, dwBuffSize);
 			dat->ppro->mraSetStringExW(NULL, DBSETTING_XSTATUSNAME, szBuff, dwBuffSize);
 
-			mi.cbSize = sizeof(mi);
+			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = (CMIM_NAME|CMIF_UNICODE);
 			mi.ptszName = szBuff;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)dat->ppro->hXStatusMenuItems[dat->dwXStatus], (LPARAM)&mi);

@@ -2331,12 +2331,11 @@ void CIrcProto::OnIrcDisconnected()
 	memcpy( m_nick, m_pNick, sizeof( m_nick ));
 	setTString( "Nick", m_pNick );
 	
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof( clmi );
-	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuJoin, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuList, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuNick, ( LPARAM )&clmi );
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS | CMIF_GRAYED;
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuJoin, ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuList, ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuNick, ( LPARAM )&mi );
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -2362,12 +2361,11 @@ bool CIrcProto::DoOnConnect( const CIrcMessage* )
 	bPerformDone = true;
 	nickflag = true;	
 
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof( clmi );
-	clmi.flags = CMIM_FLAGS;
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuJoin, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuList, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuNick, ( LPARAM )&clmi );
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS;
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuJoin, ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuList, ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuNick, ( LPARAM )&mi );
 
 	int Temp = m_iStatus;
 	m_iStatus = ID_STATUS_ONLINE;

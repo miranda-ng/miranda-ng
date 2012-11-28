@@ -797,13 +797,11 @@ void CConnectPrefsDlg::OnApply()
 	m_proto->m_oldStyleModes = m_oldStyle.GetState();
 	m_proto->m_useServer = m_useServer.GetState();
 
-	CLISTMENUITEM clmi;
-	memset( &clmi, 0, sizeof( clmi ));
-	clmi.cbSize = sizeof( clmi );
-	clmi.flags = CMIM_FLAGS;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS;
 	if ( !m_proto->m_useServer )
-		clmi.flags |= CMIF_GRAYED;
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_proto->hMenuServer, ( LPARAM )&clmi );
+		mi.flags |= CMIF_GRAYED;
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_proto->hMenuServer, ( LPARAM )&mi );
 
 	m_proto->m_joinOnInvite = m_autoJoin.GetState();
 	m_proto->m_hideServerWindow = !m_showServer.GetState();

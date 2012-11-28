@@ -41,8 +41,7 @@ INT_PTR OpenMailboxMenuHandler(WPARAM wParam, LPARAM lParam)
 
 int OnPrebuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM cmi = {0};
-	cmi.cbSize = sizeof(cmi);
+	CLISTMENUITEM cmi = { sizeof(cmi) };
 	cmi.flags = CMIM_FLAGS;
 	if (!DBGetContactSettingByte((HANDLE)wParam, SHORT_PLUGIN_NAME, PSEUDOCONTACT_FLAG, 0))
 		cmi.flags |= CMIF_HIDDEN;
@@ -61,8 +60,7 @@ BOOL InitMenus(BOOL init)
 
 		extern HICON g_hPopupIcon;
 
-		CLISTMENUITEM cmi = {0};
-		cmi.cbSize = sizeof(cmi);
+		CLISTMENUITEM cmi = { sizeof(cmi) };
 		cmi.flags = CMIF_TCHAR;
 		cmi.hIcon = g_hPopupIcon;
 		cmi.ptszName = _T(OPEN_MAILBOX_ITEM_CAPTION);

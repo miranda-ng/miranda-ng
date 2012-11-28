@@ -1417,8 +1417,7 @@ static INT_PTR AddOptionsPage(WPARAM wParam, LPARAM lParam)
 
 static int OptModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_OPTIONS);
 	mi.position = 1900000000;

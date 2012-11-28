@@ -143,10 +143,10 @@ INT_PTR onAuthMenuSelected(WPARAM wParam, LPARAM lParam)
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	char *proto = GetContactProto((HANDLE)wParam);
-	if (!proto) return 0;
+	if (!proto)
+		return 0;
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	if (!DBGetContactSettingByte((HANDLE)wParam,proto,"Auth",0) && !DBGetContactSettingByte((HANDLE)wParam,proto,"Grant",0) && DBGetContactSettingWord((HANDLE)wParam,proto,"ServerId",0))
 		mi.flags = CMIF_TCHAR | CMIM_FLAGS | CMIF_HIDDEN;
@@ -252,8 +252,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	{
 		hAuthMenuSelected = CreateServiceFunction("AuthState/MenuItem", onAuthMenuSelected);
 
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(CLISTMENUITEM);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
 		mi.ptszName = _T("Enable AuthState icons");

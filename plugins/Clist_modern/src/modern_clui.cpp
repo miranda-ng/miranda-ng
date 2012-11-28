@@ -100,10 +100,10 @@ int CLUI::OnEvent_ContactMenuPreBuild(WPARAM wParam, LPARAM lParam)
 	TCHAR cls[128];
 	HANDLE hItem;
 	HWND hwndClist = GetFocus();
-	CLISTMENUITEM mi;
+
 	if (MirandaExiting()) return 0;
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist,cls,SIZEOF(cls));
 	hwndClist = (!lstrcmp(CLISTCONTROL_CLASS,cls))?hwndClist:pcli->hwndContactList;

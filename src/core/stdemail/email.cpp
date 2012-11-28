@@ -51,8 +51,7 @@ static INT_PTR SendEMailCommand(WPARAM wParam, LPARAM lParam)
 
 static int EMailPreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	DBVARIANT dbv = { 0 };
@@ -68,8 +67,7 @@ static int EMailPreBuildMenu(WPARAM wParam, LPARAM)
 
 int LoadSendRecvEMailModule(void)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000010000;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_SENDEMAIL);

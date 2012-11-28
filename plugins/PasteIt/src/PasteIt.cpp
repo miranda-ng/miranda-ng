@@ -337,10 +337,10 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	bool bIsContact = false;
 	
 	char *szProto = GetContactProto((HANDLE)wParam);
-	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
+	if (szProto && (INT_PTR)szProto != CALLSERVICE_NOTFOUND)
+		bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 	
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	if (!bIsContact) mi.flags |= CMIF_HIDDEN;
@@ -385,10 +385,7 @@ void InitIcolib()
 
 void InitMenuItems()
 {
-	CLISTMENUITEM mi = {0};
-	CLISTMENUITEM mi2 = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hMainIcon;
 	mi.position = 3000090005;
@@ -413,7 +410,7 @@ void InitMenuItems()
 	mi.ptszName = _T("Default web page");
 	HGENMENU hDefWebMenu = Menu_AddContactMenuItem(&mi);
 	
-	mi2.cbSize = sizeof(mi2);
+	CLISTMENUITEM mi2 = { sizeof(mi2) };
 	mi2.pszService = MS_PASTEIT_CONTACTMENU;
 	mi2.hParentMenu = hDefWebMenu;
 	for(int i = 0 ; i < PasteToWeb::pages; ++i)
@@ -431,16 +428,11 @@ void InitMenuItems()
 
 void DefWebPageChanged()
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
-	for (int i = 0; i < PasteToWeb::pages; i++) 
-	{
+	CLISTMENUITEM mi = { sizeof(mi) };
+	for (int i = 0; i < PasteToWeb::pages; i++) {
 		mi.flags = CMIM_FLAGS;
 		if (Options::instance->defWeb == i) 
-		{
 			mi.flags |= CMIF_CHECKED;
-		} 
 
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hWebPageMenus[i], (LPARAM)&mi);
 	}

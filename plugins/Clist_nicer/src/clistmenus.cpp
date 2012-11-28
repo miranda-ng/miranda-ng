@@ -398,27 +398,24 @@ int InitCustomMenus(void)
 	CreateServiceFunction("CloseAction",CloseAction);
 	CreateServiceFunction("CList/SetContactFloating", SetContactFloating);
 	CreateServiceFunction("CList/SetContactIgnore", SetContactIgnore);
-    {
-        //FYR: Visibility and ignore item moved back to clist_nicer from core
-        HANDLE hIgnoreItem = 0;  // FYR: moved from global it is never used globally
-        CLISTMENUITEM mi = { 0 };
-        mi.cbSize = sizeof( mi );
-
-        if ( !hIgnoreItem ) {
-            mi.position = 200000;
-            mi.pszPopupName = ( char* )-1;
-            mi.pszService = "CList/SetContactIgnore";
-            mi.pszName = LPGEN("&Contact list settings...");
-            hIgnoreItem = Menu_AddContactMenuItem(&mi);
-        }
-    }
-    hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
-    hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
+	{
+		//FYR: Visibility and ignore item moved back to clist_nicer from core
+		HANDLE hIgnoreItem = 0;  // FYR: moved from global it is never used globally
+		if ( !hIgnoreItem ) {
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.position = 200000;
+			mi.pszPopupName = ( char* )-1;
+			mi.pszService = "CList/SetContactIgnore";
+			mi.pszName = LPGEN("&Contact list settings...");
+			hIgnoreItem = Menu_AddContactMenuItem(&mi);
+		}
+	}
+	hMainStatusMenu = (HMENU)CallService(MS_CLIST_MENUGETSTATUS,0,0);
+	hMainMenu = (HMENU)CallService(MS_CLIST_MENUGETMAIN,0,0);
 
 	return 0;
 }
 
 void UninitCustomMenus(void)
 {
-
 }

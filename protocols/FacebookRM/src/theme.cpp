@@ -200,8 +200,7 @@ void UninitContactMenus()
 
 void EnableMenuItem(HANDLE hMenuItem, bool enable)
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
 	if (!enable)
 		clmi.flags |= CMIF_HIDDEN;
@@ -236,13 +235,11 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	strcpy(text,m_szModuleName);
 	char *tDest = text+strlen(text);
 
-	HGENMENU hRoot;
 	CLISTMENUITEM mi = {sizeof(mi)};
 	mi.pszService = text;
 
-	hRoot = MO_GetProtoRootMenu(m_szModuleName);
-	if (hRoot == NULL)
-	{
+	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	if (hRoot == NULL) {
 		mi.popupPosition = 500085000;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED | ( this->isOnline() ? 0 : CMIF_GRAYED );
@@ -311,8 +308,7 @@ int FacebookProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 
 void FacebookProto::ToggleStatusMenuItems( BOOL bEnable )
 {
-	CLISTMENUITEM clmi = { 0 };
-	clmi.cbSize = sizeof( CLISTMENUITEM );
+	CLISTMENUITEM clmi = {sizeof(clmi)};
 	clmi.flags = CMIM_FLAGS | (( bEnable ) ? 0 : CMIF_GRAYED);
 
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )m_hMenuRoot,   ( LPARAM )&clmi );

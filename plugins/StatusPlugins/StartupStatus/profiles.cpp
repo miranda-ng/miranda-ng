@@ -89,12 +89,10 @@ static INT_PTR profileService5(WPARAM wParam, LPARAM lParam)
 
 static int CreateMainMenuItems(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi;
 	char profilename[128], servicename[128];
 	int i, count;
 
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 2000100000;
 	mcount = 0;
 	count = GetProfileCount(0, 0);

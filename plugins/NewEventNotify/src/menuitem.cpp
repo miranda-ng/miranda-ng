@@ -1,6 +1,6 @@
 /*
   Name: NewEventNotify - Plugin for Miranda IM
-  File: menuitem.c - Manages item(s) in the Miranda Menu
+  File: mi.c - Manages item(s) in the Miranda Menu
   Version: 0.0.4
   Description: Notifies you about some events
   Author: icebreaker, <icebreaker@newmail.net>
@@ -24,7 +24,6 @@
 
 #include "neweventnotify.h"
 
-CLISTMENUITEM menuitem;
 HANDLE hMenuitemNotify;
 BOOL bNotify;
 
@@ -40,14 +39,14 @@ static INT_PTR MenuitemNotifyCmd(WPARAM wParam,LPARAM lParam)
 
 int MenuitemUpdate(BOOL bStatus)
 {
-	//menuitem.flags = CMIM_FLAGS | (bStatus ? CMIF_CHECKED : 0);
-	menuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(bStatus ? IDI_ENABLED : IDI_DISABLED));
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(bStatus ? IDI_ENABLED : IDI_DISABLED));
 	if (bStatus)
-		menuitem.ptszName = TranslateT(MENUITEM_DISABLE);
+		mi.ptszName = TranslateT(MENUITEM_DISABLE);
 	else
-		menuitem.ptszName = TranslateT(MENUITEM_ENABLE);
-	menuitem.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuitemNotify, (LPARAM)&menuitem);
+		mi.ptszName = TranslateT(MENUITEM_ENABLE);
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuitemNotify, (LPARAM)&mi);
 
 	return 0;
 }
@@ -56,14 +55,13 @@ int MenuitemInit(BOOL bStatus)
 {
 	CreateServiceFunction(MS_NEN_MENUNOTIFY, MenuitemNotifyCmd);
 
-	ZeroMemory(&menuitem, sizeof(menuitem));
-	menuitem.cbSize = sizeof(CLISTMENUITEM);
-	menuitem.position = 1;
-	menuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
-	menuitem.ptszPopupName = TranslateT("PopUps");
-	menuitem.pszService = MS_NEN_MENUNOTIFY;
-	menuitem.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
-	hMenuitemNotify = Menu_AddMainMenuItem(&menuitem);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 1;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ENABLED));
+	mi.ptszPopupName = TranslateT("PopUps");
+	mi.pszService = MS_NEN_MENUNOTIFY;
+	mi.flags = CMIF_KEEPUNTRANSLATED | CMIF_TCHAR;
+	hMenuitemNotify = Menu_AddMainMenuItem(&mi);
 
 	bNotify = bStatus;
 	MenuitemUpdate(bNotify);

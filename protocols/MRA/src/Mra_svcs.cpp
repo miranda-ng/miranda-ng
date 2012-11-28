@@ -661,8 +661,7 @@ int CMraProto::MraRebuildStatusMenu(WPARAM wParam, LPARAM lParam)
 	WCHAR szItem[MAX_PATH+64], szStatusTitle[STATUS_TITLE_MAX+4];
 	mir_sntprintf(szItem, SIZEOF(szItem), L"%s Custom Status", m_tszUserName);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000060000;
 	mi.popupPosition = 500085000;
 	mi.ptszPopupName = szItem;

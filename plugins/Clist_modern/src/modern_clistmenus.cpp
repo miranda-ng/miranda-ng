@@ -75,7 +75,6 @@ static HANDLE hOnContactMenuBuild_FAV = NULL;
 
 static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM mi;
 	BOOL NeedFree = FALSE;
 	BYTE bContactRate = db_get_b((HANDLE)wParam, "CList", "Rate",0);
 	//if (hFavoriteContactMenu)
@@ -103,9 +102,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	int i;
 	TCHAR * name = NULL;
 
-
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8,TRUE,TRUE,iconsName[bContactRate],"Contact List",Translate(iconsName[bContactRate]),-IDI_FAVORITE_0 - bContactRate, &NeedFree);
 	mi.pszPopupName = (char *)-1;
 	mi.position = 0;

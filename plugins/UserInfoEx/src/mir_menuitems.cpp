@@ -80,7 +80,6 @@ VOID RebuildContact()
 {
 	int flag = 0;
 	BYTE item = 0;
-	CLISTMENUITEM mi;
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
 	HGENMENU mhExIm = HGENMENU_ROOT;
@@ -98,10 +97,9 @@ VOID RebuildContact()
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
 	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 
 	// support new genmenu style
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = HGENMENU_ROOT;
 
@@ -182,7 +180,6 @@ VOID RebuildMain()
 {
 	int flag = 0;
 	BYTE item = 0;
-	CLISTMENUITEM mi;
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
 	HGENMENU mhExIm = HGENMENU_ROOT;
@@ -197,10 +194,9 @@ VOID RebuildMain()
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
 	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 
 	// support new genmenu style
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTHANDLE;
 	mi.hParentMenu = HGENMENU_ROOT;
 
@@ -321,7 +317,6 @@ VOID RebuildGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
-	CLISTMENUITEM mi;
 	GroupMenuParam gmp = {0};
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
@@ -337,12 +332,12 @@ VOID RebuildGroup()
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
 	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[ 200 ];
 	strcpy( text, "UserInfo");
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
 	char* tDest = text + strlen( text );
 
@@ -419,7 +414,6 @@ VOID RebuildSubGroup()
 {
 	int flag = 0;
 	BYTE item = 0;
-	CLISTMENUITEM mi;
 	GroupMenuParam gmp = {0};
 
 	HGENMENU mhRoot = HGENMENU_ROOT;
@@ -435,12 +429,12 @@ VOID RebuildSubGroup()
 
 	// delete all MenuItems and set all bytes 0 to avoid problems
 	RemoveMenuItems (hMenuItem, SIZEOF(hMenuItem));
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
 
 	// create service name main (prevent to generate {(Null)/Ex-/Import Group} in db) and set pointer to end it
 	char text[ 200 ];
 	strcpy( text, "UserInfo");
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
 	char* tDest = text + strlen( text );
 
@@ -529,7 +523,6 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 	BYTE i = 0, item = 0;
 	TCHAR sztName[MAXSETTING];
 	PROTOACCOUNT* pAccountName = NULL;
-	CLISTMENUITEM mi;
 
 	mProtoCount = pcli->menuProtoCount;
 
@@ -556,15 +549,12 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		DB::Setting::WriteByte(SET_MI_ACCOUNT, flag);
 	}
 
-
 	// loop for all account names
 	for (i = 0; i < mProtoCount; i++) {
 
 		// set all bytes 0 to avoid problems
 		item = 0;
 		mhRoot = 0;
-		ZeroMemory(&mi, sizeof(mi));
-		mi.cbSize = sizeof(mi);
 
 		mhRoot = pcli->menuProtos[i].pMenu;
 		if ( mhRoot == NULL )
@@ -574,6 +564,8 @@ INT_PTR RebuildAccount(WPARAM wParam, LPARAM lParam)
 		// create service name main (account module name) and set pointer to end it
 		char text[ 200 ];
 		strcpy( text, pcli->menuProtos[i].szProto);
+	
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.pszService = text;
 		char* tDest = text + strlen( text );
 

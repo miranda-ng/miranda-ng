@@ -322,11 +322,11 @@ int TwitterProto::OnBuildStatusMenu(WPARAM wParam,LPARAM lParam)
 	if (hRoot == NULL)
 		return 0;
 
-	CLISTMENUITEM mi = {sizeof(mi)};
-
 	char text[200];
 	strcpy(text,m_szModuleName);
 	char *tDest = text+strlen(text);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = text;
 
 	mi.hParentMenu = hRoot;

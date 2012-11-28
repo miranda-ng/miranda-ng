@@ -197,28 +197,27 @@ int CList_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if ( hContact ) {
 		char* szProto = GetContactProto(hContact);
 
-		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof(CLISTMENUITEM);
-		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
 
 		if ( szProto ) {
 			// display this menu item only for chats
 			if ( DBGetContactSettingByte( hContact, szProto, "ChatRoom", 0 )) {
 				// still hide it for offline protos
 				if ( CallProtoService( szProto, PS_GETSTATUS, 0, 0 ) != ID_STATUS_OFFLINE ) {
-					clmi.flags &= ~CMIF_HIDDEN;
-					clmi.flags |= CMIM_NAME;
+					mi.flags &= ~CMIF_HIDDEN;
+					mi.flags |= CMIM_NAME;
 
 					if ( DBGetContactSettingWord( hContact, szProto, "Status", 0 ) == ID_STATUS_OFFLINE )
-						clmi.pszName = ( char* )LPGEN("Join chat");
+						mi.pszName = ( char* )LPGEN("Join chat");
 					else
-						clmi.pszName = ( char* )LPGEN("Open chat window");
+						mi.pszName = ( char* )LPGEN("Open chat window");
 		}	}	}
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hJoinMenuItem, ( LPARAM )&clmi );
+		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hJoinMenuItem, ( LPARAM )&mi );
 
-		clmi.flags &= ~(CMIM_NAME | CMIF_DEFAULT);
-		clmi.flags |= CMIF_NOTOFFLINE;
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hLeaveMenuItem, ( LPARAM )&clmi );
+		mi.flags &= ~(CMIM_NAME | CMIF_DEFAULT);
+		mi.flags |= CMIF_NOTOFFLINE;
+		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hLeaveMenuItem, ( LPARAM )&mi );
 	}
 	return 0;
 }

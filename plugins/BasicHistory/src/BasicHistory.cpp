@@ -82,8 +82,8 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	int count = EventList::GetContactMessageNumber((HANDLE)wParam);
 	bool isInList = HistoryWindow::IsInList(GetForegroundWindow());
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	if (!count) mi.flags |= CMIF_HIDDEN;
@@ -114,8 +114,7 @@ int ToolbarModuleLoaded(WPARAM wParam,LPARAM lParam)
 
 void InitMenuItems()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
@@ -141,8 +140,7 @@ void InitTaskMenuItems()
 {
 	if(Options::instance->taskOptions.size() > 0)
 	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		if(hTaskMainMenu == NULL)
 		{
 			mi.position = 500060005;
@@ -189,8 +187,7 @@ void InitTaskMenuItems()
 	}
 	else if(hTaskMainMenu != NULL)
 	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_HIDDEN;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hTaskMainMenu, (LPARAM)&mi);
 	}

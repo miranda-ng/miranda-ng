@@ -317,17 +317,15 @@ int CreateFrame()
 
 		// Create menu item
 
-		CLISTMENUITEM menu = {0};
-
-		menu.cbSize=sizeof(menu);
-		menu.flags = CMIF_TCHAR;
-		menu.popupPosition = -0x7FFFFFFF;
-		menu.ptszPopupName = LPGENT("My Details");
-		menu.position = 1; // 500010000
-		menu.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
-		menu.ptszName = LPGENT("Show My Details");
-		menu.pszService= MODULE_NAME "/ShowHideMyDetails";
-		hMenuShowHideFrame = Menu_AddMainMenuItem(&menu);
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags = CMIF_TCHAR;
+		mi.popupPosition = -0x7FFFFFFF;
+		mi.ptszPopupName = LPGENT("My Details");
+		mi.position = 1; // 500010000
+		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
+		mi.ptszName = LPGENT("Show My Details");
+		mi.pszService= MODULE_NAME "/ShowHideMyDetails";
+		hMenuShowHideFrame = Menu_AddMainMenuItem(&mi);
 
 		if ( db_get_b(0, MODULE_NAME, SETTING_FRAME_VISIBLE, 1) == 1) {
 			ShowWindow(hwnd_container, SW_SHOW);
@@ -2485,8 +2483,7 @@ INT_PTR HideFrameFunc(WPARAM wParam, LPARAM lParam)
 
 void FixMainMenu() 
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 
 	if (MyDetailsFrameVisible())

@@ -526,8 +526,7 @@ int CleanupAvatarPic(HWND hwnd)
 
 int PreBuildContactMenu(WPARAM wParam,LPARAM lParam) 
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(clmi);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
 
 	char *proto = GetContactProto((HANDLE)wParam);
@@ -541,11 +540,9 @@ int PreBuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void InitMenuItem()
 {
-	CLISTMENUITEM mi = {0};
-
 	hServices[2] = CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.ptszName = LPGENT("View Avatar History");
 	mi.flags = CMIF_TCHAR;
 	mi.position = 1000090010;

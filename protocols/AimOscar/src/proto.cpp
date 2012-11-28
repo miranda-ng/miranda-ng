@@ -869,45 +869,39 @@ int __cdecl CAimProto::UserIsTyping(HANDLE hContact, int type)
 
 int __cdecl CAimProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam)
 {
-	switch (eventType)
-	{
-		case EV_PROTO_ONLOAD:
-			return OnModulesLoaded(0, 0);
+	switch (eventType) {
+	case EV_PROTO_ONLOAD:
+		return OnModulesLoaded(0, 0);
 
-//		case EV_PROTO_ONEXIT:
-//            return OnPreShutdown(0, 0);
+	case EV_PROTO_ONMENU:
+		InitMainMenus();
+		break;
 
-		case EV_PROTO_ONMENU:
-			InitMainMenus();
-			break;
+	case EV_PROTO_ONOPTIONS:
+		return OnOptionsInit(wParam, lParam);
 
-		case EV_PROTO_ONOPTIONS:
-			return OnOptionsInit(wParam, lParam);
-
-		case EV_PROTO_ONERASE:
+	case EV_PROTO_ONERASE:
 		{
 			char szDbsettings[64];
 			mir_snprintf(szDbsettings, sizeof(szDbsettings), "%sP2P", m_szModuleName);
 			CallService(MS_DB_MODULE_DELETE, 0, (LPARAM)szDbsettings);
-			break;
 		}
+		break;
 
-		case EV_PROTO_ONRENAME:
-			if (hMenuRoot)
-			{
-				CLISTMENUITEM clmi = { 0 };
-				clmi.cbSize = sizeof(CLISTMENUITEM);
-				clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-				clmi.ptszName = m_tszUserName;
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&clmi);
-			}
-			break;
+	case EV_PROTO_ONRENAME:
+		if (hMenuRoot) {
+			CLISTMENUITEM clmi = { sizeof(clmi) };
+			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			clmi.ptszName = m_tszUserName;
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuRoot, (LPARAM)&clmi);
+		}
+		break;
 
-		case EV_PROTO_ONCONTACTDELETED:
-			return OnContactDeleted(wParam, lParam);
+	case EV_PROTO_ONCONTACTDELETED:
+		return OnContactDeleted(wParam, lParam);
 
-		case EV_PROTO_DBSETTINGSCHANGED:
-			return OnDbSettingChanged(wParam, lParam);
+	case EV_PROTO_DBSETTINGSCHANGED:
+		return OnDbSettingChanged(wParam, lParam);
 	}
 	return 1;
 }

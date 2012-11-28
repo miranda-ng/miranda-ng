@@ -629,13 +629,10 @@ int CLUIFramesGetalClientFrame(void)
 
 HMENU CLUIFramesCreateMenuForFrame(int frameid,int root,int popuppos,HGENMENU (*pfnAdd )( CLISTMENUITEM* ))
 {
-	CLISTMENUITEM mi;
 	HANDLE menuid;
 	int framepos = id2pos(frameid);
 
-	ZeroMemory(&mi,sizeof(mi));
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hIcon = LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_CLIENTMIRANDA));
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
@@ -807,16 +804,11 @@ INT_PTR ModifyMItem(WPARAM wParam,LPARAM lParam)
 
 static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam,LPARAM lParam)
 {
-	int pos;
-	CLISTMENUITEM mi;
-	//TMO_MenuItem tmi;
-
 	lockfrm();
-	pos = id2pos(wParam);
+	int pos = id2pos(wParam);
 
 	if (pos >= 0 && pos < nFramescount) {
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME|CMIF_CHILDPOPUP|CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		ModifyMItem((WPARAM)contMITitle,(LPARAM)&mi);
@@ -868,8 +860,7 @@ INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam,LPARAM lParam)
 
 	int pos = id2pos(wParam);
 	if (pos >= 0 && pos < nFramescount) {
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME|CMIF_CHILDPOPUP|CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)Frames[pos].MenuHandles.MITitle,(LPARAM)&mi);
@@ -1415,14 +1406,11 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam,LPARAM lParam)
 
 static int CLUIFramesLoadMainMenu()
 {
-	CLISTMENUITEM mi;
 	int i,separator;
 
 	if ( !(ServiceExists(MS_CLIST_REMOVEMAINMENUITEM))) {
-		//hmm new menu system not used..so display only two items and warning message
-		ZeroMemory(&mi,sizeof(mi));
-		mi.cbSize = sizeof(mi);
 		// create "show all frames" menu
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.hIcon = NULL;//LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
 		mi.flags = CMIF_GRAYED;
 		mi.position = 10000000;
@@ -1455,10 +1443,8 @@ static int CLUIFramesLoadMainMenu()
 		MainMIRoot = (HGENMENU)-1;
 	}
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
-
 	// create root menu
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hIcon = LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_CLIENTMIRANDA));
 	mi.flags = CMIF_ROOTPOPUP;
 	mi.position = 3000090000;

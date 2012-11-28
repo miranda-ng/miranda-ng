@@ -636,16 +636,13 @@ int CLUIFramesGetalClientFrame(void)
 
 HMENU CLUIFramesCreateMenuForFrame(int frameid, int root, int popuppos, HGENMENU (*pfnAdd )( CLISTMENUITEM* ))
 {
-	CLISTMENUITEM mi;
-	//TMO_MenuItem tmi;
 	HANDLE menuid;
 	int framepos = id2pos(frameid);
 
-	if (FramesSysNotStarted) return NULL;
+	if (FramesSysNotStarted)
+		return NULL;
 
-	ZeroMemory(&mi, sizeof(mi));
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
 	mi.pszPopupName = (char *)root;
 	mi.popupPosition = frameid;
@@ -835,18 +832,14 @@ int ModifyMItem(WPARAM wParam, LPARAM lParam)
 
 static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM lParam)
 {
-	int pos;
-	CLISTMENUITEM mi;
-
 	if (FramesSysNotStarted)
 		return -1;
 
 	lockfrm();
-	pos = id2pos((INT_PTR)wParam);
+	int pos = id2pos((INT_PTR)wParam);
 
 	if (pos >= 0 && pos < nFramescount) {
-		memset(&mi, 0, sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		ModifyMItem((WPARAM)contMITitle, (LPARAM)&mi);
@@ -899,18 +892,14 @@ static int CLUIFramesModifyContextMenuForFrame(WPARAM wParam, LPARAM lParam)
 
 INT_PTR CLUIFramesModifyMainMenuItems(WPARAM wParam, LPARAM lParam)
 {
-	int pos;
-	CLISTMENUITEM mi;
-
 	if (FramesSysNotStarted)
 		return -1;
 
 	lockfrm();
-	pos = id2pos((INT_PTR)wParam);
+	int pos = id2pos((INT_PTR)wParam);
 
 	if (pos >= 0 && pos < nFramescount) {
-		memset(&mi, 0, sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_NAME | CMIF_CHILDPOPUP | CMIF_TCHAR;
 		mi.ptszName = Frames[pos].TitleBar.tbname ? Frames[pos].TitleBar.tbname : Frames[pos].name;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)Frames[pos].MenuHandles.MITitle, (LPARAM)&mi);
@@ -1599,9 +1588,6 @@ INT_PTR CLUIFramesCollapseUnCollapseFrame(WPARAM wParam, LPARAM lParam)
 
 static int CLUIFramesLoadMainMenu()
 {
-	CLISTMENUITEM mi;
-	int i, separator;
-
 	if (FramesSysNotStarted)
 		return -1;
 
@@ -1610,10 +1596,8 @@ static int CLUIFramesLoadMainMenu()
 		MainMIRoot = (HANDLE) - 1;
 	}
 
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
-
 	// create root menu
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_MIRANDA); //LoadIcon(g_hInst,MAKEINTRESOURCE(IDI_MIRANDA));
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 	mi.position = (int)3000090000;
@@ -1623,8 +1607,8 @@ static int CLUIFramesLoadMainMenu()
 	MainMIRoot = Menu_AddMainMenuItem(&mi);
 
 	// create frames menu
-	separator = (int)3000200000;
-	for (i = 0;i < nFramescount;i++) {
+	int separator = (int)3000200000;
+	for (int i=0; i < nFramescount; i++) {
 		mi.hIcon = Frames[i].TitleBar.hicon;
 		mi.flags = CMIF_CHILDPOPUP | CMIF_ROOTPOPUP | CMIF_TCHAR;
 		mi.position = separator;

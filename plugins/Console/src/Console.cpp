@@ -187,9 +187,7 @@ static void ShowConsole(int show)
 
 	if (hMenu)
 	{
-		CLISTMENUITEM mi = {0};
-
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.ptszName = (show) ? _T("Hide Console") : _T("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
@@ -1271,9 +1269,9 @@ static int OnSystemModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	if (hwndConsole && IsWindow(hwndConsole))
 	{
-		CLISTMENUITEM mi = {0};
 		HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
-		mi.cbSize = sizeof(mi);
+
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = hIcons[0];
 		mi.ptszPopupName = _T("&Help");

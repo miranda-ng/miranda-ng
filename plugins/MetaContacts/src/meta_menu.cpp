@@ -394,7 +394,6 @@ INT_PTR TranslateMenuFunc(HANDLE hMeta, int contact_number) {
 */
 int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi;
 	DBVARIANT dbv;
 	HANDLE hContact;
 	char *proto;
@@ -402,8 +401,8 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 	int i, iconIndex;
 	WORD status;
 
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	mi.cbSize = sizeof(CLISTMENUITEM);
 
 	if (db_get_dw((HANDLE)wParam, META_PROTO, META_ID,-1) != (DWORD)-1)
 	{

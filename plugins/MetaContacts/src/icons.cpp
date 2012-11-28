@@ -30,34 +30,32 @@ void ReleaseIconEx(HICON hIcon)
 int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
 	// fix menu icons
-	CLISTMENUITEM menu = {0};
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_ICON;
 
-	menu.cbSize = sizeof(menu);
-	menu.flags = CMIM_ICON;
+	mi.hIcon = LoadIconEx(Meta_IsEnabled() ? I_MENUOFF : I_MENU);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 
-	menu.hIcon = LoadIconEx(Meta_IsEnabled() ? I_MENUOFF : I_MENU);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
-
-	menu.hIcon = LoadIconEx(I_CONVERT);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
+	mi.hIcon = LoadIconEx(I_CONVERT);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuConvert, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 	
-	menu.hIcon = LoadIconEx(I_ADD);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
+	mi.hIcon = LoadIconEx(I_ADD);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuAdd, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 	
-	menu.hIcon = LoadIconEx(I_EDIT);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
+	mi.hIcon = LoadIconEx(I_EDIT);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuEdit, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 
-	menu.hIcon = LoadIconEx(I_SETDEFAULT);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
+	mi.hIcon = LoadIconEx(I_SETDEFAULT);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 
-	menu.hIcon = LoadIconEx(I_REMOVE);
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&menu);
-	ReleaseIconEx(menu.hIcon);
+	mi.hIcon = LoadIconEx(I_REMOVE);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
+	ReleaseIconEx(mi.hIcon);
 
 	return 0;
 }

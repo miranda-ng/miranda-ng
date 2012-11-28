@@ -11,55 +11,27 @@ int __cdecl onContactSettingChanged(WPARAM wParam,LPARAM lParam) {
 	int stat = getContactStatus(hContact);
 	if (!ptr || stat==-1) return 0;
 
-//	HANDLE hMetaContact = getMetaContact(hContact);
-//	if(hMetaContact) {
-//		ptr = getUinKey(hMetaContact);
-//		if (!ptr) return 0;
-//	}
-
 	if (stat==ID_STATUS_OFFLINE) { // go offline
 		if (ptr->mode==MODE_NATIVE && cpp_keyx(ptr->cntx)) { // have active context
 			cpp_delete_context(ptr->cntx); ptr->cntx=0; // reset context
-//			if(hMetaContact) { // is subcontact of metacontact
-//				showPopUpDC(hMetaContact);
-//				ShowStatusIconNotify(hMetaContact);
-//				if(getMostOnline(hMetaContact)) { // make handover
-//					CallContactService(hMetaContact,PSS_MESSAGE,0,(LPARAM)SIG_INIT);
-//				}
-//			}
-//			else { // is contact or metacontact (not subcontact)
-				showPopUpDC(hContact);	// show popup "Disabled"
-				ShowStatusIconNotify(hContact); // change icon in CL
-//			}
+			showPopUpDC(hContact);	// show popup "Disabled"
+			ShowStatusIconNotify(hContact); // change icon in CL
 		}
-		else
-		if (ptr->mode==MODE_RSAAES && exp->rsa_get_state(ptr->cntx)==7) {
+		else if (ptr->mode==MODE_RSAAES && exp->rsa_get_state(ptr->cntx)==7) {
 			deleteRSAcntx(ptr);
-//			if(hMetaContact) { // is subcontact of metacontact
-//				showPopUpDC(hMetaContact);
-//				ShowStatusIconNotify(hMetaContact);
-//				if(getMostOnline(hMetaContact)) { // make handover
-//					CallContactService(hMetaContact,PSS_MESSAGE,0,(LPARAM)SIG_INIT);
-//				}
-//			}
-//			else { // is contact or metacontact (not subcontact)
-				showPopUpDC(hContact);	// show popup "Disabled"
-				ShowStatusIconNotify(hContact); // change icon in CL
-//			}
+			showPopUpDC(hContact);	// show popup "Disabled"
+			ShowStatusIconNotify(hContact); // change icon in CL
 		}
 	}
 	else { // go not offline
-//		if (!hMetaContact) { // is contact or metacontact (not subcontact)
-			if (ptr->offlineKey) {
-				cpp_reset_context(ptr->cntx);
-				ptr->offlineKey = false;
-			}
-			ShowStatusIconNotify(hContact); // change icon in CL
-//		}
+		if (ptr->offlineKey) {
+			cpp_reset_context(ptr->cntx);
+			ptr->offlineKey = false;
+		}
+		ShowStatusIconNotify(hContact); // change icon in CL
 	}
 	return 0;
 }
-
 
 //  wParam=(WPARAM)(HANDLE)hContact
 //  lParam=0
@@ -103,13 +75,10 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 	pUinKey ptr = getUinKey(hContact);
 	int i;
 
-	CLISTMENUITEM mi;
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize = sizeof(CLISTMENUITEM);
-
 	ShowStatusIconNotify(hContact);
 
 	// check offline/online
+	CLISTMENUITEM mi = { sizeof(mi) };
 	if (!ptr) {
 		// hide menu bars
 		mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_HIDDEN;

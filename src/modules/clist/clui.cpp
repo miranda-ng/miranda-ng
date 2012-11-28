@@ -91,17 +91,14 @@ static int MenuItem_PreBuild(WPARAM, LPARAM)
 	TCHAR cls[128];
 	HANDLE hItem;
 	HWND hwndClist = GetFocus();
-	CLISTMENUITEM mi;
 
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 	GetClassName(hwndClist, cls, SIZEOF(cls));
 	hwndClist = ( !lstrcmp(CLISTCONTROL_CLASS, cls)) ? hwndClist : cli.hwndContactList;
 	hItem = (HANDLE) SendMessage(hwndClist, CLM_GETSELECTION, 0, 0);
-	if ( !hItem) {
+	if ( !hItem)
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-	}
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hRenameMenuItem, (LPARAM) & mi);
 	return 0;
 }
@@ -356,8 +353,7 @@ int LoadCLUIModule(void)
 			0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE);
 	}
 	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 
 		CreateServiceFunction("CList/DeleteContactCommand", MenuItem_DeleteContact);
 		mi.position = 2000070000;

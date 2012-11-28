@@ -232,13 +232,11 @@ static GGPROTO* gg_getprotoinstance(HANDLE hContact)
 static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 {
 	const HANDLE hContact = (HANDLE)wParam;
-	CLISTMENUITEM mi = {0};
 	GGPROTO* gg = gg_getprotoinstance(hContact);
-
 	if (gg == NULL)
 		return 0;
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
 	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0) ||
 		db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0) ||
@@ -246,7 +244,6 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 		mi.flags |= CMIF_HIDDEN;
 	mi.pszName = db_get_b(hContact, gg->m_szModuleName, GG_KEY_BLOCK, 0) ? LPGEN("&Unblock") : LPGEN("&Block");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)gg->hBlockMenuItem, (LPARAM)&mi);
-
 	return 0;
 }
 
@@ -267,14 +264,12 @@ INT_PTR GGPROTO::blockuser(WPARAM wParam, LPARAM lParam)
 #define GGS_BLOCKUSER "%s/BlockUser"
 void GGPROTO::block_init()
 {
-	CLISTMENUITEM mi = {0};
 	char service[64];
-
-	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_ICONFROMICOLIB;
-
 	mir_snprintf(service, sizeof(service), GGS_BLOCKUSER, m_szModuleName);
 	createObjService(service, &GGPROTO::blockuser);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = -500050000;
 	mi.icolibItem = GetIconHandle(IDI_BLOCK);
 	mi.pszName = LPGEN("&Block");
@@ -298,12 +293,10 @@ void GGPROTO::block_uninit()
 // Menus initialization
 void GGPROTO::menus_init()
 {
-	HGENMENU hGCRoot, hCLRoot, hRoot = MO_GetProtoRootMenu(m_szModuleName);
-	CLISTMENUITEM mi = {0};
+	CLISTMENUITEM mi = { sizeof(mi) };
 
-	mi.cbSize = sizeof(mi);
-	if (hRoot == NULL)
-	{
+	HGENMENU hGCRoot, hCLRoot, hRoot = MO_GetProtoRootMenu(m_szModuleName);
+	if (hRoot == NULL) {
 		mi.ptszName = m_tszUserName;
 		mi.position = 500090000;
 		mi.hParentMenu = HGENMENU_ROOT;
@@ -311,8 +304,7 @@ void GGPROTO::menus_init()
 		mi.icolibItem = GetIconHandle(IDI_GG);
 		hGCRoot = hCLRoot = hRoot = hMenuRoot = Menu_AddProtoMenuItem(&mi);
 	}
-	else
-	{
+	else {
 		mi.hParentMenu = hRoot;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
 

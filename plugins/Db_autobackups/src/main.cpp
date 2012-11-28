@@ -82,8 +82,7 @@ static void IcoLibInit(void)
 
 static void MenuInit(void)
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = Skin_GetIcon("backup");
 	mi.ptszPopupName = LPGENT("Database");

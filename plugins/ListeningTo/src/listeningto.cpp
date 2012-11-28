@@ -172,8 +172,7 @@ void UpdateGlobalStatusMenus()
 {
 	BOOL enabled = ListeningToEnabled(NULL, TRUE);
 
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(clmi);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS
 			| (enabled ? CMIF_CHECKED : 0)
 			| (opts.enable_sending ? 0 : CMIF_GRAYED);
@@ -207,8 +206,7 @@ void RebuildMenu()
 		TCHAR text[512];
 		mir_sntprintf(text, MAX_REGS(text), TranslateT("Send to %s"), info->account);
 
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 100000 + i;
 		mi.pszPopupName = (char *) hMainMenuGroup;
 		mi.popupPosition = 500080000 + i;
@@ -260,8 +258,7 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 			TCHAR text[512];
 			mir_sntprintf(text, MAX_REGS(text), TranslateT("Send to %s"), info->account);
 
-			CLISTMENUITEM clmi = {0};
-			clmi.cbSize = sizeof(clmi);
+			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_NAME | CMIF_TCHAR;
 			clmi.ptszName = text;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
@@ -767,8 +764,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 		ProtocolInfo *info = GetProtoInfo(proto);
 		if (info != NULL)
 		{
-			CLISTMENUITEM clmi = {0};
-			clmi.cbSize = sizeof(clmi);
+			CLISTMENUITEM clmi = { sizeof(clmi) };
 			clmi.flags = CMIM_FLAGS
 					| (lParam ? CMIF_CHECKED : 0)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);

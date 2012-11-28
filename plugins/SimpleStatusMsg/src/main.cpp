@@ -1647,8 +1647,7 @@ static int ChangeStatusMsgPrebuild(WPARAM wParam, LPARAM lParam)
 	if (!iStatusMsgFlags || !iStatusMenuItemCount)
 		return 0;
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	if (!DBGetContactSettingByte(NULL, "SimpleStatusMsg", "ShowStatusMenuItem", 1))
 		mi.flags |= CMIF_HIDDEN;

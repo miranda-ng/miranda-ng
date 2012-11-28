@@ -44,7 +44,6 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	list_t l = g_Instances;
 	GGPROTO *gg = NULL;
 	uin_t uin;
-	CLISTMENUITEM mi = {0};
 	int items = 0;
 
 	if (list_count(l) == 0)
@@ -64,20 +63,18 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 	if (!uin)
 		return 1;
 
-	for (mi.cbSize = sizeof(mi); l; l = l->next)
-	{
+	for (; l; l = l->next) {
 		GGPROTO *gginst = (GGPROTO*)l->data;
 
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_FLAGS;
-		if (gginst->m_iStatus > ID_STATUS_OFFLINE)
-		{
+		if (gginst->m_iStatus > ID_STATUS_OFFLINE) {
 			++items;
 			gg = (GGPROTO*)l->data;
 			mi.flags |= CMIM_ICON;
 			mi.hIcon = LoadSkinnedProtoIcon(gg->m_szModuleName, gg->m_iStatus);
 		}
-		else
-		{
+		else {
 			mi.flags |= CMIF_HIDDEN;
 			mi.hIcon = NULL;
 		}
@@ -87,8 +84,7 @@ static INT_PTR gg_parselink(WPARAM wParam, LPARAM lParam)
 			Skin_ReleaseIcon(mi.hIcon);
 	}
 
-	if (items > 1)
-	{
+	if (items > 1) {
 		ListParam param = {0};
 		HMENU hMenu = CreatePopupMenu();
 		POINT pt;

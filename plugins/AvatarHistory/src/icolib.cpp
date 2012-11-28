@@ -46,9 +46,7 @@ static void ReleaseIconEx(HICON hIcon)
 
 static void IcoLibUpdateMenus()
 {
-	CLISTMENUITEM mi = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIM_ICON;
 	mi.hIcon = createDefaultOverlayedIcon(FALSE);
 	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenu, ( LPARAM )&mi );

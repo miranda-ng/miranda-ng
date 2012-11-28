@@ -51,7 +51,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 					{
 						case PSN_APPLY:
 							{
-								CLISTMENUITEM mi = {0};
 								char mods[4096];
 								DBWriteContactSettingByte(NULL,modname,"ExpandSettingsOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_EXPANDSETTINGS));
 								DBWriteContactSettingByte(NULL,modname,"RestoreOnOpen",(BYTE)IsDlgButtonChecked(hwnd,IDC_RESTORESETTINGS));
@@ -65,15 +64,13 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 								DBWriteContactSettingWord(NULL,modname,"PopupDelay",(WORD)GetDlgItemInt(hwnd,IDC_POPUPTIMEOUT,NULL,0));
 								DBWriteContactSettingDword(NULL,modname,"PopupColour",(DWORD)SendDlgItemMessage(hwnd, IDC_COLOUR, CPM_GETCOLOUR, 0, 0));
 
-								mi.cbSize = sizeof(mi);
-
+								CLISTMENUITEM mi = { sizeof(mi) };
 								if (!IsDlgButtonChecked(hwnd,IDC_MENU))
 									mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 								else
 									mi.flags = CMIM_FLAGS;
 
-							    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hUserMenu, (LPARAM) & mi);
-
+								CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) hUserMenu, (LPARAM) & mi);
 							}
 							return TRUE;
 					}

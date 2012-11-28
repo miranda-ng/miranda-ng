@@ -475,8 +475,7 @@ void CPepGuiService::RebuildMenu()
 	char szService[128];
 	mir_snprintf(szService, SIZEOF(szService), "%s/AdvStatusSet/%s", m_proto->m_szModuleName, m_name);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hParentMenu = hJabberRoot;
 	mi.pszService = szService;
 	mi.position = 200010;

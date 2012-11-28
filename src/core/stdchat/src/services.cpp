@@ -219,8 +219,7 @@ static int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	AddIcons();
 	LoadIcons();
 	{
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000090001;
 		mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
 		mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );

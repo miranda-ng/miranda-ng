@@ -154,60 +154,54 @@ static bool CheckContactsServiceSupport(const char* szProto)
 
 static int HookPreBuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
-  HANDLE hContact = (HANDLE)wParam;
-  char* szProto =GetContactProto(hContact);
-  int bVisible = FALSE;
+	HANDLE hContact = (HANDLE)wParam;
+	char* szProto =GetContactProto(hContact);
+	int bVisible = FALSE;
 
-  if (szProto && CheckContactsServiceSupport(szProto))
-  { // known protocol, protocol supports contacts sending
-    // check the selected contact if it supports contacts receive
-    if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))
-      bVisible = TRUE;
-  }
+	if (szProto && CheckContactsServiceSupport(szProto)) {
+		// known protocol, protocol supports contacts sending
+		// check the selected contact if it supports contacts receive
+		if (CallProtoService(szProto, PS_GETCAPS, PFLAG_MAXCONTACTSPERPACKET, (LPARAM)hContact))
+			bVisible = TRUE;
+	}
 
-  { // update contact menu item's visibility
-    CLISTMENUITEM mi = {0};
+	// update contact menu item's visibility
+	CLISTMENUITEM mi = { sizeof(mi) };
+	if (bVisible)
+		mi.flags = CMIM_FLAGS;
+	else
+		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
-    mi.cbSize = sizeof(mi);
-    if (bVisible)
-      mi.flags = CMIM_FLAGS;
-    else
-      mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-
-    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
-  }
-
-  return 0;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
+	return 0;
 }
 
 
 static int HookModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-  char* modules[2] = {0};
-  WCHAR tmp[MAX_PATH];
+	char* modules[2] = {0};
+	WCHAR tmp[MAX_PATH];
 
-  modules[0] = MODULENAME;
-  CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)1);
+	modules[0] = MODULENAME;
+	CallService("DBEditorpp/RegisterModule",(WPARAM)modules,(LPARAM)1);
 
-  CLISTMENUITEM mi = {0};
-  mi.cbSize = sizeof(mi);
-  mi.ptszName = SRCTranslateT("Contacts", tmp);
-  mi.position = -2000009990;  //position in menu
-  mi.flags = CMIF_KEEPUNTRANSLATED;
-  if (g_UnicodeCore)
-    mi.flags |= CMIF_UNICODE;
-  mi.pszService = MS_CONTACTS_SEND;
-  mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
-  hContactMenuItem = Menu_AddContactMenuItem(&mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.ptszName = SRCTranslateT("Contacts", tmp);
+	mi.position = -2000009990;  //position in menu
+	mi.flags = CMIF_KEEPUNTRANSLATED;
+	if (g_UnicodeCore)
+		mi.flags |= CMIF_UNICODE;
+	mi.pszService = MS_CONTACTS_SEND;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_CONTACTS));
+	hContactMenuItem = Menu_AddContactMenuItem(&mi);
 
-  hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
+	hHookPreBuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, HookPreBuildContactMenu);
 
-  ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
-  ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
+	ghSendWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
+	ghRecvWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0); // no need to destroy this
 
-
-  ProcessUnreadEvents();
-  return 0;
+	ProcessUnreadEvents();
+	return 0;
 }
 
 

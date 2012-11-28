@@ -1215,9 +1215,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	CreateDirectory(AvatarsFolder,NULL);
 
 	//erweiterte Kontextmenüpunkte
-	CLISTMENUITEM mi = { 0 };
-	memset(&mi,0,sizeof(CLISTMENUITEM));
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = protocolname;
 
 	//gotoprofilemenüpunkt
@@ -2256,6 +2254,7 @@ static INT_PTR GotoProfileAct(WPARAM wParam,LPARAM lParam)
 
 int RebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
+   // !!!!!!!! check it later
 	CLISTMENUITEM clmi = { 0 };
 	clmi.cbSize = sizeof( clmi );
 	CLISTMENUITEM clmi2 = { 0 };

@@ -513,11 +513,8 @@ static int OnStatusModeChange( WPARAM wParam, LPARAM lParam )
 static int OnPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
 	ThumbInfo *pThumb = thumbList.FindThumbByContact( (HANDLE) wParam );
-	CLISTMENUITEM clmi;
 
-	ZeroMemory( &clmi, sizeof( clmi ));
-	clmi.cbSize = sizeof( clmi );
-
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = ( pThumb == NULL ) ? CMIM_FLAGS | CMIF_HIDDEN : CMIM_FLAGS &~CMIF_HIDDEN;
 	CallService( MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemRemove, (LPARAM)&clmi );
 
@@ -1060,8 +1057,7 @@ static void LoadMenus()
 	// Remove thumb menu item
 	hRemoveThumb = CreateServiceFunction( sModule "/RemoveThumb", OnContactMenu_Remove );
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0xFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( IDI_HIDE ));
@@ -1184,18 +1180,15 @@ static INT_PTR OnHotKey_HideWhenCListShow( WPARAM wParam, LPARAM lParam )
 
 static INT_PTR OnMainMenu_HideAll( WPARAM wParam, LPARAM lParam )
 {
-	CLISTMENUITEM clmi = {0};
-	int b;
-
 	fcOpt.bHideAll = !fcOpt.bHideAll;
 	DBWriteContactSettingByte(NULL, sModule, "HideAll", (BYTE)fcOpt.bHideAll);
 	OnStatusChanged();
 
-	clmi.cbSize		 =  sizeof( clmi );
-	clmi.flags		 =  CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
-	clmi.hIcon		 =  LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
-	clmi.ptszName	 =  fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
-	b = CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
+	CLISTMENUITEM clmi = { sizeof(clmi) };
+	clmi.flags = CMIM_NAME | CMIM_ICON|CMIF_TCHAR;
+	clmi.hIcon = LoadIcon( hInst, MAKEINTRESOURCE( fcOpt.bHideAll ? IDI_SHOW : IDI_HIDE ));
+	clmi.ptszName = fcOpt.bHideAll ? _T("Show all thumbs") : _T("Hide all thumbs");
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMainMenuItemHideAll, ( LPARAM )&clmi );
 	return 0;
 }
 

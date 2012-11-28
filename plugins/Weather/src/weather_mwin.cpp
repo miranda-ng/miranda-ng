@@ -310,9 +310,7 @@ INT_PTR Mwin_MenuClicked(WPARAM wParam,LPARAM lParam)
 
 int BuildContactMenu(WPARAM wparam,LPARAM lparam) 
 {
-	CLISTMENUITEM mi = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | 
 		(db_get_dw((HANDLE)wparam, WEATHERPROTONAME, "mwin", 0) ? CMIF_CHECKED : 0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMwinMenu, (LPARAM)&mi);

@@ -292,13 +292,11 @@ INT_PTR service_Send2ImageShack(WPARAM wParam, LPARAM lParam) {
 
 //---------------------------------------------------------------------------
 // Add SendSS menu item in contact menu
-void AddMenuItems(void) {
-	CLISTMENUITEM mi={0};
-
+void AddMenuItems(void)
+{
 	// Common
-	mi.cbSize = sizeof(mi);
-	// support new genmenu style
-	mi.flags = CMIF_ROOTHANDLE|CMIF_UNICODE;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ROOTHANDLE | CMIF_UNICODE;
 	mi.hParentMenu = HGENMENU_ROOT;
 
 	// Add item to contact menu

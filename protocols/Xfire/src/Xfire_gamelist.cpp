@@ -246,16 +246,14 @@ void Xfire_gamelist::clearGamelist() {
 //erstellt ein dummyeintrag
 void Xfire_gamelist::createDummyMenuItem()
 {
-	CLISTMENUITEM midummy = { 0 };
-	midummy.cbSize = sizeof( midummy );
-	midummy.position = 500090001;
-	midummy.pszName = Translate("Please wait ...");
-	//midummy.flags = CMIF_GRAYED; geht nicht bei 0.8.1
-	midummy.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
-	midummy.popupPosition = 500084000;
-	midummy.pszPopupName = Translate("Start game");
-	midummy.pszContactOwner=protocolname;
-	dummymenuitem=Menu_AddMainMenuItem(&midummy);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 500090001;
+	mi.pszName = Translate("Please wait ...");
+	mi.hIcon = LoadIcon(hinstance,MAKEINTRESOURCE(ID_OP));
+	mi.popupPosition = 500084000;
+	mi.pszPopupName = Translate("Start game");
+	mi.pszContactOwner=protocolname;
+	dummymenuitem = Menu_AddMainMenuItem(&mi);
 }
 
 //entfernt dummymenueintrag

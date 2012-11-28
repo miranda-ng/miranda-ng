@@ -103,8 +103,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// Add cheking update menu item
 	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = Skin_GetIconHandle("check_update");

@@ -180,9 +180,7 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 		MessageBox( NULL , LPGENT("Failed to HookEvent ME_OPT_INITIALISE") , MSG_BOX_TITEL , MB_OK );
 
 
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags=0;
 	mi.pszContactOwner=NULL;    //all contacts
 	mi.hIcon=LoadIcon(hInstance,MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));

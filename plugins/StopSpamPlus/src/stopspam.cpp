@@ -43,8 +43,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-	CLISTMENUITEM mi;
-
 	mir_getLP(&pluginInfoEx);
 
 	plSets=new Settings;
@@ -55,8 +53,8 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	// Add deliting temporary contacts
 	hTempRemove = CreateServiceFunction(MS_STOPSPAM_REMTEMPCONTACTS, RemoveTempContacts);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);

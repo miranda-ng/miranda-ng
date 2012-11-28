@@ -47,7 +47,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	CLISTMENUITEM linklistmenuitem;
 	WNDCLASS wndclass;
 
 
@@ -71,14 +70,15 @@ extern "C" __declspec(dllexport) int Load(void)
 #endif
 
 	CreateServiceFunction("Linklist/MenuCommand", LinkList_Main);
-	ZeroMemory(&linklistmenuitem, sizeof(linklistmenuitem));
-	linklistmenuitem.cbSize = sizeof(linklistmenuitem);
-	linklistmenuitem.position = 0x00;
-	linklistmenuitem.flags = CMIF_TCHAR;
-	linklistmenuitem.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
-	linklistmenuitem.ptszName = LPGENT("&Create Linklist");
-	linklistmenuitem.pszService = "Linklist/MenuCommand";
-	Menu_AddContactMenuItem(&linklistmenuitem);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 0x00;
+	mi.flags = CMIF_TCHAR;
+	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LINKLISTICON));
+	mi.ptszName = LPGENT("&Create Linklist");
+	mi.pszService = "Linklist/MenuCommand";
+	Menu_AddContactMenuItem(&mi);
+	
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
 	wndclass.style = CS_HREDRAW | CS_VREDRAW;

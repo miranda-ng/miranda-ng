@@ -304,13 +304,10 @@ namespace
 {
 	void enable_menu(HANDLE hMenu,bool bEnable)
 	{
-		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof( CLISTMENUITEM );
+		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_FLAGS;
 		if(false == bEnable)
-		{
-			clmi.flags |= /*CMIF_HIDDEN*/CMIF_GRAYED;
-		}
+			clmi.flags |= CMIF_GRAYED;
 
 		CallService(MS_CLIST_MODIFYMENUITEM,reinterpret_cast<WPARAM>(hMenu),reinterpret_cast<LPARAM>(&clmi));
 	}

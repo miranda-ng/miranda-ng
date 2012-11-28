@@ -52,9 +52,8 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-	CLISTMENUITEM mi;
-
 	mir_getLP(&pluginInfoEx);
+
 	TCHAR* tszFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER));
 	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
@@ -70,8 +69,8 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	// Add cheking update menu item
 	hCheckUpdates = CreateServiceFunction(MODNAME"/CheckUpdates", MenuCommand);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = Skin_GetIcon("check_update");

@@ -1506,10 +1506,7 @@ int MenuCommand_TrafficShowHide(WPARAM wParam,LPARAM lParam)
 
 void Traffic_AddMainMenuItem(void)
 {
-	CLISTMENUITEM mi;
-
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
 	mi.hIcon = NULL;

@@ -223,64 +223,40 @@ INT_PTR HideOfflineRootHelper(WPARAM wParam,LPARAM lParam)
 		!SendMessage((HWND)CallService(MS_CLUI_GETHWNDTREE,0,0),CLM_GETHIDEOFFLINEROOT,0,0),
 		0);
 	return 0;
-};
+}
 
 static int OnBuildGroupMenu(WPARAM wParam,LPARAM lParam)
 {
-	CLISTMENUITEM mi;
-
-
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | (cfg::getByte("CList","HideOffline",SETTING_HIDEOFFLINE_DEFAULT)?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideOfflineUsersMenuItem, (LPARAM)&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | (SendMessage(pcli->hwndContactTree,CLM_GETHIDEOFFLINEROOT,0,0)?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideOfflineUsersOutHereMenuItem, (LPARAM)&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_HIDEEMPTYGROUPS?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideEmptyGroupsMenuItem, (LPARAM)&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS | (GetWindowLongPtr(pcli->hwndContactTree,GWL_STYLE)&CLS_USEGROUPS?0:CMIF_CHECKED);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hDisableGroupsMenuItem, (LPARAM)&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hGroupMainMenuItemProxy, (LPARAM)&mi);
 
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_FLAGS;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hAppearanceMenuItemProxy, (LPARAM)&mi);
-
 	return 0;
-};
+}
 
 int static OnIconLibIconChanged(WPARAM wParam,LPARAM lParam)
 {
-	HICON hicon;
-	CLISTMENUITEM clmi={0};
-
-	//hicon=LoadIconFromExternalFile("clisticons.dll",2,TRUE,FALSE,"NewGroup","Contact List","New Group",-IDI_NEWGROUP);
-	NewGroupIconidx=ImageList_ReplaceIcon(hCListImages,NewGroupIconidx,hicon);
-
-	clmi.cbSize=sizeof(clmi);
-	clmi.flags=CMIM_ICON;
-	clmi.hIcon=ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hNewSubGroupMenuItem,(LPARAM)&clmi);
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hNewGroupMenuItem,(LPARAM)&clmi);
-	//
-
-
+	CLISTMENUITEM clmi = { sizeof(clmi) };
+	clmi.flags = CMIM_ICON;
+	clmi.hIcon = ImageList_GetIcon(hCListImages, NewGroupIconidx, 0);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hNewSubGroupMenuItem, (LPARAM)&clmi);
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hNewGroupMenuItem, (LPARAM)&clmi);
 	return 0;
-};
+}
 
 void InitGroupMenus(void)
 {
@@ -330,11 +306,9 @@ void InitGroupMenus(void)
 
 	{
 		//add  exit command to menu
-		CLISTMENUITEM mi;
 		GroupMenuParam gmp;
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize=sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position=1900000;
 		mi.pszService="CloseAction";
 		mi.pszName=LPGEN("E&xit");
@@ -386,7 +360,6 @@ void InitGroupMenus(void)
 		mi.pszName=LPGEN("&Options...");
 
 		AddGroupMenuItem(0,(LPARAM)&mi);
-
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize=sizeof(mi);
@@ -482,8 +455,7 @@ static int OnBuildSubGroupMenu(WPARAM wParam,LPARAM lParam)
 		return 0;
 
 	//contact->group
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | (group->hideOffline?CMIF_CHECKED:0);
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hHideOfflineUsersHereMenuItem, (LPARAM)&mi);
 
@@ -657,11 +629,9 @@ void InitSubGroupMenus(void)
 
 	{
 		//add  exit command to menu
-		CLISTMENUITEM mi;
 		GroupMenuParam gmp;
 
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize=sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position=1000;
 		mi.hIcon=ImageList_GetIcon(hCListImages,NewGroupIconidx,0);
 		mi.pszService="CLISTMENUSSubGroup/GroupMenuExecProxy";

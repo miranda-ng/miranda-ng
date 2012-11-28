@@ -402,20 +402,16 @@ INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 
 int RebuildContactMenu(WPARAM wParam, LPARAM)
 {
-	int i;
-	CLISTMENUITEM mi = {0};
-
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 
 	SmileyCategoryListType::SmileyCategoryVectorType& smc = *g_SmileyCategories.GetSmileyCategoryList();
 
 	char* protnam = GetContactProto((HANDLE)wParam);
 	bool haveMenu = IsSmileyProto(protnam);
-	if (haveMenu && opt.UseOneForAll)
-	{
+	if (haveMenu && opt.UseOneForAll) {
 		unsigned cnt = 0;
-		for (i = 0; i < smc.getCount(); ++i)
+		for (int i=0; i < smc.getCount(); ++i)
 			cnt += smc[i].IsCustom();
 		haveMenu = cnt != 0;
 	}
@@ -424,12 +420,11 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuItem, (LPARAM)&mi);
 
-	for (i = 0; i < menuHandleArray.getCount(); ++i)
+	for (int i = 0; i < menuHandleArray.getCount(); ++i)
 		CallService(MS_CLIST_REMOVECONTACTMENUITEM, (WPARAM)menuHandleArray[i], 0);
 	menuHandleArray.destroy();
 
-	if (haveMenu)
-	{
+	if (haveMenu) {
 		bkstring cat;
 		opt.ReadContactCategory((HANDLE)wParam, cat);
 
@@ -440,9 +435,9 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 		bool nonecheck = true;
 		HGENMENU hMenu;
 
-		for (i = 0; i < smc.getCount(); i++)
-		{
-			if (smc[i].IsExt() || (smc[i].IsProto() && opt.UseOneForAll)) continue;
+		for (int i=0; i < smc.getCount(); i++) {
+			if (smc[i].IsExt() || (smc[i].IsProto() && opt.UseOneForAll))
+				continue;
 
 			const int ind = i + 3;
 
@@ -450,8 +445,7 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 			mi.popupPosition = ind;
 			mi.ptszName      = (TCHAR*)smc[i].GetDisplayName().c_str();
 
-			if (cat == smc[i].GetName())
-			{
+			if (cat == smc[i].GetName()) {
 				mi.flags |= CMIF_CHECKED; 
 				nonecheck = false;
 			}

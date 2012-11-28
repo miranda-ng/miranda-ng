@@ -124,11 +124,9 @@ static void InitIcolib()
 
 void InitMenuItems()
 {
-	CLISTMENUITEM mi = {0};
-	CLISTMENUITEM mi2 = {0};
 	TCHAR stzName[256];
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconlibItem[ServerList::FTP_COUNT];
 	mi.position = 3000090001;
@@ -141,7 +139,7 @@ void InitMenuItems()
 	mi.cbSize = sizeof(mi);
 	mi.ptszName = stzName;
 
-	mi2.cbSize = sizeof(mi2);
+	CLISTMENUITEM mi2 = { sizeof(mi2) };
 	mi2.flags = CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi2.pszService = MS_FTPFILE_CONTACTMENU;
 
@@ -256,8 +254,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 			bHideRoot = false;
 	}
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	if (opt.bUseSubmenu)
@@ -287,11 +284,8 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 
 void PrebuildMainMenu()
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
-	for (int i = 0; i < ServerList::FTP_COUNT; i++) 
-	{
+	CLISTMENUITEM mi = { sizeof(mi) };
+	for (int i=0; i < ServerList::FTP_COUNT; i++) {
 		mi.flags = CMIM_FLAGS;
 		if (!ftpList[i]->bEnabled)
 			mi.flags |= opt.bHideInactive ? CMIF_HIDDEN : CMIF_GRAYED;

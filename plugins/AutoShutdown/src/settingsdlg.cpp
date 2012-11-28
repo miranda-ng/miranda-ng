@@ -439,31 +439,28 @@ extern HANDLE hActiveIcon,hInactiveIcon;
 
 void SetShutdownMenuItem(BOOL fActive)
 {
-	CLISTMENUITEM cmi;
-	ZeroMemory(&cmi,sizeof(cmi));
-	cmi.cbSize=sizeof(cmi);
-
 	/* main menu */
-	cmi.position=2001090000;
-	cmi.icolibItem=fActive?hActiveIcon:hInactiveIcon;
-	cmi.ptszName=fActive?_T("Stop automatic &shutdown"):_T("Automatic &shutdown..."); /* autotranslated */
-	cmi.pszService="AutoShutdown/MenuCommand";
-	cmi.flags=CMIF_TCHAR|CMIF_ICONFROMICOLIB;
-	if(hMainMenuItem!=NULL) {
-		cmi.flags|=CMIM_NAME|CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMainMenuItem,(LPARAM)&cmi);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.position = 2001090000;
+	mi.icolibItem = fActive?hActiveIcon:hInactiveIcon;
+	mi.ptszName = fActive?_T("Stop automatic &shutdown"):_T("Automatic &shutdown..."); /* autotranslated */
+	mi.pszService = "AutoShutdown/MenuCommand";
+	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB;
+	if (hMainMenuItem != NULL) {
+		mi.flags |= CMIM_NAME|CMIM_ICON;
+		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMainMenuItem,(LPARAM)&mi);
 	}
-	else hMainMenuItem = Menu_AddMainMenuItem(&cmi);
+	else hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
-	cmi.position=899999;
+	mi.position = 899999;
 	if(hTrayMenuItem!=NULL) {
-		cmi.flags|=CMIM_NAME|CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hTrayMenuItem,(LPARAM)&cmi);
+		mi.flags|=CMIM_NAME|CMIM_ICON;
+		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hTrayMenuItem,(LPARAM)&mi);
 	}
-	else hTrayMenuItem = Menu_AddTrayMenuItem(&cmi);
+	else hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 
-	Skin_ReleaseIcon(cmi.hIcon);
+	Skin_ReleaseIcon(mi.hIcon);
 }
 
 static INT_PTR MenuItemCommand(WPARAM wParam,LPARAM lParam)

@@ -115,8 +115,7 @@ static int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 
 static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
 	char *szProto = GetContactProto((HANDLE)wParam);
@@ -130,8 +129,7 @@ static int SRUrlPreBuildMenu(WPARAM wParam, LPARAM)
 
 static int SRUrlModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000040000;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_URL);

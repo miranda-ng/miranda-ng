@@ -156,10 +156,9 @@ void CGlobals::reloadSystemStartup()
  */
 void CGlobals::reloadSystemModulesChanged()
 {
-	BOOL				bIEView = FALSE;
-	CLISTMENUITEM 		mi = { 0 };
+	BOOL bIEView = FALSE;
 
-	m_MathModAvail = 					ServiceExists(MATH_RTF_REPLACE_FORMULAE);
+	m_MathModAvail = ServiceExists(MATH_RTF_REPLACE_FORMULAE);
 
 	/*
 	 * smiley add
@@ -203,11 +202,9 @@ void CGlobals::reloadSystemModulesChanged()
 			CallService(MTH_FREE_MATH_BUFFER, 0, (LPARAM)szDelim);
 		}
 	}
-	else
-		PluginConfig.m_MathModStartDelimiter[0] = 0;
+	else PluginConfig.m_MathModStartDelimiter[0] = 0;
 
 	g_MetaContactsAvail = (ServiceExists(MS_MC_GETDEFAULTCONTACT) ? 1 : 0);
-
 
 	if (g_MetaContactsAvail) {
 		mir_snprintf(szMetaName, 256, "%s", (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));
@@ -221,7 +218,7 @@ void CGlobals::reloadSystemModulesChanged()
 	g_PopupAvail = (ServiceExists(MS_POPUP_ADDPOPUPEX) ? 1 : 0);
 	g_PopupWAvail = (ServiceExists(MS_POPUP_ADDPOPUPW) ? 1 : 0);
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090000;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_DEFAULT;
 	mi.icolibItem = LoadSkinnedIconHandle(SKINICON_EVENT_MESSAGE);
@@ -364,11 +361,6 @@ void CGlobals::hookSystemEvents()
 
 int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	int 				i;
-	MENUITEMINFOA 		mii = {0};
-	HMENU 				submenu;
-	CLISTMENUITEM 		mi = { 0 };
-
 	::UnhookEvent(m_event_ModulesLoaded);
 
 	M->configureCustomFolders();
@@ -376,17 +368,18 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	Skin->Init(true);
 	CSkin::initAeroEffect();
 
-	for (i=0; i < NR_BUTTONBARICONS; i++)
+	for (int i=0; i < NR_BUTTONBARICONS; i++)
 		PluginConfig.g_buttonBarIcons[i] = 0;
 	::LoadIconTheme();
 	::CreateImageList(TRUE);
 
+	MENUITEMINFOA mii = {0};
 	mii.cbSize = sizeof(mii);
 	mii.fMask = MIIM_BITMAP;
 	mii.hbmpItem = HBMMENU_CALLBACK;
-	submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
-	for (i=0; i <= 8; i++)
-		SetMenuItemInfoA(submenu, (UINT_PTR)i, TRUE, &mii);
+	HMENU submenu = GetSubMenu(PluginConfig.g_hMenuContext, 7);
+	for (int k=0; k <= 8; k++)
+		SetMenuItemInfoA(submenu, (UINT_PTR)k, TRUE, &mii);
 
 	PluginConfig.reloadSystemModulesChanged();
 
@@ -395,7 +388,6 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	::CB_InitDefaultButtons();
 	::ModPlus_Init(wParam, lParam);
 	::NotifyEventHooks(hHookToolBarLoadedEvt, 0, 0);
-	//
 
 	if (M->GetByte("avatarmode", -1) == -1)
 		M->WriteByte(SRMSGMOD_T, "avatarmode", 2);
@@ -407,7 +399,7 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (nen_options.bTraySupport)
 		::CreateSystrayIcon(TRUE);
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -500050005;
 	mi.hIcon = PluginConfig.g_iconContainer;
 	mi.pszContactOwner = NULL;
@@ -416,7 +408,6 @@ int CGlobals::ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	PluginConfig.m_UserMenuItem = Menu_AddContactMenuItem(&mi);
 
 	if (sendLater->isAvail()) {
-		mi.cbSize = sizeof(mi);
 		mi.position = -500050006;
 		mi.hIcon = 0;
 		mi.pszContactOwner = NULL;

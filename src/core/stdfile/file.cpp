@@ -308,8 +308,7 @@ static void RemoveUnreadFileEvents(void)
 
 static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
 	char *szProto = GetContactProto((HANDLE)wParam);
@@ -327,8 +326,7 @@ static int SRFilePreBuildMenu(WPARAM wParam, LPARAM)
 
 static int SRFileModulesLoaded(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000020000;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
 	mi.pszName = LPGEN("&File");
@@ -426,8 +424,7 @@ int LoadSendRecvFileModule(void)
 {
 	CreateServiceFunction("FtMgr/Show", FtMgrShowCommand);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_EVENT_FILE);
 	mi.position = 1900000000;

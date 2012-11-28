@@ -789,12 +789,10 @@ static INT_PTR CALLBACK SetXStatusDlgProc(HWND hwndDlg,UINT message,WPARAM wPara
 
 void CIcqProto::setXStatusEx(BYTE bXStatus, BYTE bQuiet)
 {
-	CLISTMENUITEM mi = {0};
 	BYTE bOldXStatus = getSettingByte(NULL, DBSETTING_XSTATUS_ID, 0);
 
-	mi.cbSize = sizeof(mi);
-
 	if (!m_bHideXStatusUI) {
+		CLISTMENUITEM mi = { sizeof(mi) };
 		if (bOldXStatus <= XSTATUS_COUNT) {
 			mi.flags = CMIM_FLAGS;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hXStatusItems[bOldXStatus], (LPARAM)&mi);
@@ -854,8 +852,7 @@ INT_PTR CIcqProto::menuXStatus(WPARAM wParam,LPARAM lParam,LPARAM fParam)
 
 void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 {
-	CLISTMENUITEM mi;
-	int i = 0, len = strlennull(m_szModuleName);
+	int len = strlennull(m_szModuleName);
 	char srvFce[MAX_PATH + 64];
 	char szItem[MAX_PATH + 64];
 	int bXStatusMenuBuilt = 0;
@@ -873,12 +870,13 @@ void CIcqProto::InitXStatusItems(BOOL bAllowStatus)
 		return;
 
 	null_snprintf(szItem, sizeof(szItem), Translate("%s Custom Status"), m_szModuleName);
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszPopupName = szItem;
 	mi.popupPosition = 500084000;
 	mi.position = 2000040000;
 
-	for (i = 0; i <= XSTATUS_COUNT; i++) {
+	for (int i = 0; i <= XSTATUS_COUNT; i++) {
 		null_snprintf(srvFce, sizeof(srvFce), "%s/menuXStatus%d", m_szModuleName, i);
 
 		mi.position++;

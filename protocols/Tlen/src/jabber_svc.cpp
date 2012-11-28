@@ -1213,11 +1213,10 @@ int __cdecl TlenProtocol::OnEvent(PROTOEVENTTYPE iEventType, WPARAM wParam, LPAR
 	case EV_PROTO_ONEXIT:    return TlenPreShutdown(this, 0, 0 );
 	case EV_PROTO_ONRENAME:
 		{
-			CLISTMENUITEM clmi = { 0 };
-			clmi.cbSize = sizeof( CLISTMENUITEM );
-			clmi.flags = CMIM_NAME | CMIF_TCHAR;
-			clmi.ptszName = m_tszUserName;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuRoot, ( LPARAM )&clmi );
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.flags = CMIM_NAME | CMIF_TCHAR;
+			mi.ptszName = m_tszUserName;
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuRoot, ( LPARAM )&mi );
 			/* FIXME: Rename network user as well */
 		}
 	}

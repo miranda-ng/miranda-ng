@@ -666,12 +666,10 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = (HANDLE)wParam;
 	if ( hContact ) {
-		char* szProto = GetContactProto(hContact);
-
-		CLISTMENUITEM clmi = {0};
-		clmi.cbSize = sizeof(CLISTMENUITEM);
+		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_FLAGS | CMIF_DEFAULT | CMIF_HIDDEN;
 
+		char *szProto = GetContactProto(hContact);
 		if ( szProto ) {
 			// leave this menu item hidden for chats
 			if ( !M->GetByte(hContact, szProto, "ChatRoom", 0 ))
@@ -679,7 +677,7 @@ int CMimAPI::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 					clmi.flags &= ~CMIF_HIDDEN;
 		}
 
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )PluginConfig.m_hMenuItem, ( LPARAM )&clmi );
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)PluginConfig.m_hMenuItem, (LPARAM)&clmi);
 	}
 	return 0;
 }

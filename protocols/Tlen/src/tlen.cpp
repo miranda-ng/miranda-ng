@@ -156,10 +156,9 @@ int TlenPrebuildContactMenu(void *ptr, WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact;
 	DBVARIANT dbv;
-	CLISTMENUITEM clmi = {0};
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	JABBER_LIST_ITEM *item;
 	TlenProtocol *proto = (TlenProtocol *)ptr;
-	clmi.cbSize = sizeof(CLISTMENUITEM);
 	if ((hContact=(HANDLE) wParam) != NULL && proto->isOnline) {
 		if (!DBGetContactSetting(hContact, proto->m_szModuleName, "jid", &dbv)) {
 			if ((item=JabberListGetItemPtr(proto, LIST_ROSTER, dbv.pszVal)) != NULL) {
@@ -353,13 +352,9 @@ int TlenPreShutdown(void *ptr, WPARAM wParam, LPARAM lParam)
 
 static void initMenuItems(TlenProtocol *proto)
 {
-
 	char text[_MAX_PATH];
-	CLISTMENUITEM mi, clmi;
-	memset(&mi, 0, sizeof(CLISTMENUITEM));
-	mi.cbSize = sizeof(CLISTMENUITEM);
-	memset(&clmi, 0, sizeof(CLISTMENUITEM));
-	clmi.cbSize = sizeof(CLISTMENUITEM);
+
+	CLISTMENUITEM mi = { sizeof(mi) }, clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 	mi.pszContactOwner = proto->m_szModuleName;
@@ -410,7 +405,6 @@ static void initMenuItems(TlenProtocol *proto)
 	proto->hMenuInbox = Menu_AddMainMenuItem(&mi);
 
 	mi.hParentMenu = NULL;
-
 
 	// "Send picture"
 	sprintf(text, "%s/SendPicture", proto->m_szModuleName);

@@ -122,15 +122,15 @@ INT_PTR SVC_ToggleHTMLOTR(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void InitMenu() {
+void InitMenu()
+{
 	CreateServiceFunction(MS_OTR_MENUSTART, SVC_StartOTR);
 	CreateServiceFunction(MS_OTR_MENUSTOP, SVC_StopOTR);
 	CreateServiceFunction(MS_OTR_MENUREFRESH, SVC_RefreshOTR);
 	CreateServiceFunction(MS_OTR_MENUVERIFY, SVC_VerifyOTR);
 	CreateServiceFunction(MS_OTR_MENUTOGGLEHTML, SVC_ToggleHTMLOTR);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_NOTOFFLINE | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	mi.position = -400000;
 
@@ -154,11 +154,11 @@ void DeinitMenu() {
 	UnhookEvent(hMenuBuildEvent);
 }
 
-int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam) {
+int SVC_PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
+{
 	HANDLE hContact = (HANDLE)wParam;
 	
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	
 	const char *proto = contact_get_proto(hContact);

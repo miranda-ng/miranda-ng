@@ -60,6 +60,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	SkinAddNewSoundEx(BIRTHDAY_TODAY_SOUND, LPGEN("WhenWasIt"), LPGEN("Birthday today"));
 	
 	UpdateTimers();
+
 	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 10000000;
 	cl.flags = CMIF_ICONFROMICOLIB;

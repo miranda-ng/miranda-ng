@@ -431,19 +431,17 @@ void Xfire_game::writeToDB(unsigned dbid)
 //erzeugt ein menüpunkt
 void Xfire_game::createMenuitem(unsigned int pos,int dbid)
 {
-	CLISTMENUITEM mi = { 0 };
 	char servicefunction[100];
+	strcpy(servicefunction, protocolname);
+	strcat(servicefunction, "StartGame%d");
 
 	if(dbid<0)
 		dbid=pos;
 	
-	memset(&mi,0,sizeof(CLISTMENUITEM));
-	strcpy(servicefunction, protocolname);
-	strcat(servicefunction, "StartGame%d");
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 500084000;
 	mi.pszPopupName = Translate("Start game");
 	mi.pszContactOwner=protocolname;
-	mi.cbSize = sizeof( mi );
 
 	sprintf(temp,servicefunction,this->id);
 	//wenn die servicefunktion schon exisitert vernichten, hehe
@@ -475,13 +473,12 @@ void Xfire_game::refreshMenuitem()
 {
 	if(menuhandle!=NULL)
 	{
-		CLISTMENUITEM clmi = { 0 };
-		clmi.cbSize = sizeof( clmi );
-		clmi.flags = CMIM_FLAGS;
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags = CMIM_FLAGS;
 		
 		if(this->notinstartmenu)
-			clmi.flags|= CMIF_HIDDEN;
+			mi.flags|= CMIF_HIDDEN;
 
-		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )menuhandle, ( LPARAM )&clmi );
+		CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )menuhandle, ( LPARAM )&mi );
 	}
 }

@@ -587,14 +587,12 @@ static INT_PTR ContactClickStartChatting(WPARAM wParam, LPARAM lParam)
 
 static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM clmi;
-	HANDLE hContact = (HANDLE)wParam;
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 
+	HANDLE hContact = (HANDLE)wParam;
 	if (!blInit || (DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1))
 	{
-		ZeroMemory(&clmi, sizeof(clmi));
-		clmi.cbSize = sizeof(clmi);
-		clmi.flags  = CMIM_FLAGS | CMIF_GRAYED;
+		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemAutoChat, (LPARAM)&clmi);
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemNotToChat, (LPARAM)&clmi);
@@ -603,8 +601,7 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	{
 		BOOL boltunautochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
 		BOOL boltunnottochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
-		ZeroMemory(&clmi, sizeof(clmi));
-		clmi.cbSize = sizeof(clmi);
+
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
 		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuItemAutoChat, (LPARAM)&clmi);
@@ -650,14 +647,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	CreateServiceFunction(SERV_CONTACT_NOT_TO_CHAT, ContactClickNotToChat);
 	CreateServiceFunction(SERV_CONTACT_START_CHATTING, ContactClickStartChatting);
 	{
-		CLISTMENUITEM mi;
-
-		ZeroMemory(&mi,sizeof(mi));
-		mi.cbSize              = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position            = -50010002; //TODO: check the warning
-		mi.flags               = 0;
-		mi.hIcon               = NULL;
-		mi.pszContactOwner     = NULL;
 		mi.pszName             = BOLTUN_AUTO_CHAT;
 		mi.pszService          = SERV_CONTACT_AUTO_CHAT;
 		hMenuItemAutoChat      = Menu_AddContactMenuItem(&mi);
@@ -674,6 +665,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		mi.pszService          = SERV_CONTACT_START_CHATTING;
 		hMenuItemStartChatting = Menu_AddContactMenuItem(&mi);
 	}
+
 	int line;
 	blInit = LoadMind(Config.MindFileName, line);
 	if (!blInit)

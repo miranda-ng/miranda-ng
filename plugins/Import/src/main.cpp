@@ -115,9 +115,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	hIcoHandle = IcoLib_Register("import_main", "Import", LPGEN("Import..."), IDI_IMPORT);
 	
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.icolibItem = hIcoHandle;
 	mi.pszName = LPGEN("&Import...");
 	mi.position = 500050000;

@@ -7,10 +7,7 @@ static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
 	Disabled = !(Disabled);
 
 	if (PopupService) {
-
-		CLISTMENUITEM mi = { 0 };
-
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_ICON | CMIM_NAME;
 
 		if (!Disabled) {
@@ -21,7 +18,7 @@ static INT_PTR EnableDisableMenuCommand(WPARAM wParam,LPARAM lParam)
 			mi.hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_DISABLED));
 		}
 
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hDisableMenu,(LPARAM)&mi);
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hDisableMenu, (LPARAM)&mi);
 	}
 
 	return 0;
@@ -541,10 +538,9 @@ int TN_ModuleInit()
 	mir_sntprintf(szStop, sizeof(szStop), TranslateT("...has stopped typing."));
 
 	if (PopupService && ShowMenu) {
-		CLISTMENUITEM mi = { 0 };
 		hTypingNotify = CreateServiceFunction("TypingNotify/EnableDisableMenuCommand", EnableDisableMenuCommand);
 
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = 0;
 
 		if (!Disabled) {

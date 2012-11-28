@@ -2250,8 +2250,7 @@ INT_PTR __cdecl CJabberProto::menuSetPrivacyList(WPARAM, LPARAM, LPARAM iList)
 
 void CJabberProto::BuildPrivacyMenu()
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 200005;
 	mi.pszContactOwner = m_szModuleName;
 	mi.icolibItem = GetIconHandle(IDI_AGENTS);
@@ -2285,8 +2284,7 @@ void CJabberProto::BuildPrivacyListsMenu(bool bDeleteOld)
 	i = 0;
 	char srvFce[MAX_PATH + 64], *svcName = srvFce+strlen(m_szModuleName);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2000040000;
 	mi.flags = CMIF_CHILDPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.hParentMenu = m_hPrivacyMenuRoot;

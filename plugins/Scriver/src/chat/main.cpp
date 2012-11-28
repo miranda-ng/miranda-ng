@@ -76,7 +76,7 @@ int Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam)
 	OptionsInit();
 	LoadIcons();
 	{
-		CLISTMENUITEM mi = { 0 };
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.cbSize = sizeof(mi);
 		mi.position = -2000090001;
 		mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;

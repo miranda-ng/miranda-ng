@@ -343,8 +343,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	LoadHttpApi();
 
 	#ifdef _DEBUG
-		CLISTMENUITEM mi = { 0 };
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_ICONFROMICOLIB;
 		mi.icolibItem = LoadSkinnedIconHandle(SKINICON_OTHER_OPTIONS);
 		mi.position = 1900000000;

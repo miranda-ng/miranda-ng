@@ -23,8 +23,7 @@ HANDLE hService2[6];
 
 VOID InitMenu()
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = MODULE;
 	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTOFFLINE;
 

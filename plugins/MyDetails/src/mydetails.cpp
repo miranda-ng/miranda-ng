@@ -150,11 +150,10 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 	InitProtocolData();
 
 	// Add options to menu
-	CLISTMENUITEM mi;
+   // !!!!!!!! check it later
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	if (protocols->CanSetAvatars()) {
-		ZeroMemory(&mi,sizeof(mi));
-		mi.cbSize = sizeof(mi);
 		mi.flags = CMIF_TCHAR;
 		mi.popupPosition = 500050000;
 		mi.ptszPopupName = LPGENT("My Details");

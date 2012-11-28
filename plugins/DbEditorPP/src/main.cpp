@@ -162,8 +162,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	// Register menu item
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1900000001;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(ICO_REGEDIT));
 	mi.pszName = modFullname;

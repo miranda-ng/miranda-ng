@@ -225,10 +225,7 @@ void InitTrayMenus(void)
 
 	{
 		//add  exit command to menu
-		CLISTMENUITEM mi;
-
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 900000;
 		mi.pszService = "CloseAction";
 		mi.pszName = LPGEN("E&xit");

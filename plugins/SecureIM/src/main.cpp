@@ -46,30 +46,27 @@ void AddHookFunction(LPCSTR eventName, MIRANDAHOOK hookFunction) {
 
 HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize=sizeof(mi);
-	mi.flags=flags | CMIF_HIDDEN;
-	mi.position=pos;
-	mi.hIcon=hicon;
-	mi.pszName= (char*)name;
-	mi.pszPopupName=(char*)-1;
-	mi.pszService=(char*)service;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = flags | CMIF_HIDDEN;
+	mi.position = pos;
+	mi.hIcon = hicon;
+	mi.pszName = (char*)name;
+	mi.pszPopupName = (char*)-1;
+	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }
 
 
 HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0)
 {
-	CLISTMENUITEM mi = { 0 };
-	memset(&mi,0,sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.flags=CMIF_CHILDPOPUP | CMIF_HIDDEN;
-	mi.position=pos;
-	mi.popupPosition=poppos;
-	mi.hIcon=NULL;
-	mi.pszName=(char*)name;
-	mi.pszPopupName=(char*)rootid;
-	mi.pszService=(char*)service;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_CHILDPOPUP | CMIF_HIDDEN;
+	mi.position = pos;
+	mi.popupPosition = poppos;
+	mi.hIcon = NULL;
+	mi.pszName = (char*)name;
+	mi.pszPopupName = (char*)rootid;
+	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }
 

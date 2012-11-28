@@ -142,11 +142,9 @@ static INT OnContactSettingChanged(HANDLE hContact, DBCONTACTWRITESETTING* pdbcw
  **/
 static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM mi;
 	LPSTR val;
 	
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	val = Get((HANDLE)wParam);
@@ -154,10 +152,8 @@ static INT OnPreBuildMenu(WPARAM wParam, LPARAM lParam)
 	{
 		MIR_FREE(val);
 	}
-	else 
-	{
-		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-	}
+	else mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)ghMenuItem, (LPARAM)&mi);
 	return 0;
 }
@@ -181,9 +177,7 @@ VOID SvcHomepageRebuildMenu()
 
 	if (!ghMenuItem) {
 		// insert contact menuitem
-		CLISTMENUITEM mi = { 0 };
-		ZeroMemory(&mi, sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -2000010000;
 		mi.hIcon = IcoLib_GetIcon(ICO_BTN_GOTO);
 		mi.pszName = "&Homepage";

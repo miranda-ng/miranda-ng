@@ -70,8 +70,7 @@ int Chat_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	LoadIcons();
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -2000090001;
 	mi.flags = CMIF_DEFAULT | CMIF_ICONFROMICOLIB;
 	mi.icolibItem = LoadSkinnedIconHandle( SKINICON_CHAT_JOIN );

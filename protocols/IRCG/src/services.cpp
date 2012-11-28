@@ -28,8 +28,7 @@ void CIrcProto::InitMainMenus(void)
 	char temp[ MAXMODULELABELLENGTH ];
 	char *d = temp + sprintf( temp, m_szModuleName );
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
 
 	if ( bChatInstalled ) {
@@ -130,14 +129,13 @@ static INT_PTR IrcMenuIgnore(WPARAM wParam, LPARAM lParam)
 
 int IrcPrebuildContactMenu( WPARAM wParam, LPARAM lParam )
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
-	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois,        ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,   ( LPARAM )&clmi );
-	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore,       ( LPARAM )&clmi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois,        ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,   ( LPARAM )&mi );
+	CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore,       ( LPARAM )&mi );
 
 	CIrcProto* ppro = IrcGetInstanceByHContact((HANDLE)wParam);
 	return (ppro) ? ppro->OnMenuPreBuild(wParam, lParam) : 0;
@@ -148,8 +146,7 @@ void InitContactMenus(void)
 	char temp[MAXMODULELABELLENGTH];
 	char *d = temp + sprintf(temp, "IRC");
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = temp;
 	mi.flags = CMIF_ICONFROMICOLIB;
 
@@ -1014,47 +1011,46 @@ int __cdecl CIrcProto::OnMenuPreBuild(WPARAM wParam, LPARAM)
 	if ( !hContact )
 		return 0;
 
-	CLISTMENUITEM clmi = { 0 };
-	clmi.cbSize = sizeof( clmi );
-	clmi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 
 	char *szProto = ( char* ) CallService( MS_PROTO_GETCONTACTBASEPROTO, (WPARAM) wParam, 0);
 	if ( szProto && !lstrcmpiA(szProto, m_szModuleName)) {
 		bool bIsOnline = getWord(hContact, "Status", ID_STATUS_OFFLINE)== ID_STATUS_OFFLINE ? false : true;
 		if ( getByte(hContact, "ChatRoom", 0) == GCW_CHATROOM) {
 			// context menu for chatrooms
-			clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&clmi );
+			mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings, ( LPARAM )&mi );
 		}
 		else if ( !getTString( hContact, "Default", &dbv )) {
 			// context menu for contact
 			BYTE bDcc = getByte( hContact, "DCC", 0) ;
 
-			clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings,		( LPARAM )&clmi );
+			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuChanSettings,		( LPARAM )&mi );
 
-			clmi.flags = CMIM_FLAGS;
+			mi.flags = CMIM_FLAGS;
 			if ( bDcc ) {
 				// for DCC contact
-				clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,		( LPARAM )&clmi );
+				mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
+				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuDisconnect,		( LPARAM )&mi );
 			}
 			else {
 				// for normal contact
-				clmi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
+				mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
 				if ( !IsConnected())
-					clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois, ( LPARAM )&clmi );
+					mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuWhois, ( LPARAM )&mi );
 
 				if (bIsOnline) {
 					DBVARIANT dbv3;
 					if ( !getString( hContact, "Host", &dbv3)) {
 						if (dbv3.pszVal[0] == 0)
-							clmi.flags = CMIM_FLAGS | CMIF_HIDDEN;
+							mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 						DBFreeVariant( &dbv3 );
 					}
 				}
-				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore, ( LPARAM )&clmi );
+				CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hUMenuIgnore, ( LPARAM )&mi );
 			}
 			DBFreeVariant( &dbv );
 	}	}

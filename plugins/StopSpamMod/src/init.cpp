@@ -166,11 +166,11 @@ int hLangpack = 0;
 extern "C" int __declspec(dllexport) Load()
 {
 	mir_getLP(&pluginInfoEx);
-	CLISTMENUITEM mi;
+
 	CreateServiceFunction("/RemoveTmp", (MIRANDASERVICE)RemoveTmp);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnSystemModulesLoaded);
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize=sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position=-0x7FFFFFFF;
 	mi.flags=0;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);

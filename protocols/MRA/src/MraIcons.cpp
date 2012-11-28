@@ -168,8 +168,7 @@ void CMraProto::CListCreateMenu(LONG lPosition, LONG lPopupPosition, HICON hMain
 	strncpy(szServiceFunction, m_szModuleName, sizeof(szServiceFunction));
 	pszServiceFunctionName = szServiceFunction + strlen(m_szModuleName);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -1999901008;
 
 	HGENMENU (*fnAddFunc)(CLISTMENUITEM*);

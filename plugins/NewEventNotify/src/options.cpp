@@ -263,7 +263,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
 								options->colBackOthers = SendDlgItemMessage(hWnd, IDC_COLBACK_OTHERS, CPM_GETCOLOUR, 0, 0);
 								options->colTextOthers = SendDlgItemMessage(hWnd, IDC_COLTEXT_OTHERS, CPM_GETCOLOUR, 0, 0);
 							}
-							//send changes to menuitem
+							//send changes to mi
 							MenuitemUpdate(!options->bDisable);
 							//enable "Apply" button
 							SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
@@ -282,7 +282,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hWnd, UINT message, WPARAM wParam, L
           case PSN_RESET:
             OptionsRead();
 
-            //maybe something changed with the menuitem
+            //maybe something changed with the mi
             MenuitemUpdate(!options->bDisable);
             break;
 				}

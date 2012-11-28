@@ -466,10 +466,10 @@ INT_PTR MenuMissYouClick(WPARAM wParam, LPARAM lParam)
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
    char *proto = GetContactProto((HANDLE)wParam);
-   if (!proto) return 0;
+   if (!proto)
+		return 0;
 
-   CLISTMENUITEM mi = {0};
-   mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 
    if (db_get_b((HANDLE)wParam, proto, "ChatRoom", 0) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
@@ -717,8 +717,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (options.enableMissYou) {
 		hPrebuildContactMenu = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(CLISTMENUITEM);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = hDisabledIcon;
 		mi.position = 200000;

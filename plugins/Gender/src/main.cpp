@@ -123,13 +123,10 @@ INT_PTR GetIcon(WPARAM wParam, LPARAM lParam)
 int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	char *proto = GetContactProto((HANDLE)wParam);
+	if (!proto)
+		return 0;
 
-	if (!proto) return 0;
-
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(CLISTMENUITEM);
-	
-	
+	CLISTMENUITEM mi = { sizeof(mi) };
 	if (DBGetContactSettingByte((HANDLE)wParam, proto, "ChatRoom", 0) || !(CallProtoService(proto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IMSEND))
 		mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 	else
@@ -139,8 +136,7 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	
 	unsigned short gender = DBGetContactSettingByte((HANDLE)wParam, proto, "Gender", DBGetContactSettingByte((HANDLE)wParam, "UserInfo", "Gender", 0));
 	
-	CLISTMENUITEM mitem = {0};
-	mitem.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mitem = { sizeof(mitem) };
 	mitem.flags = CMIM_FLAGS;
 	
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuMale, (LPARAM)&mitem);
@@ -149,16 +145,15 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	
 	mitem.flags = CMIM_FLAGS | CMIF_CHECKED;
 	
-	switch (gender)
-	{
-		case 77:
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuMale, (LPARAM)&mitem);
+	switch (gender) {
+	case 77:
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuMale, (LPARAM)&mitem);
 		break;
-		case 70:
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuFemale, (LPARAM)&mitem);
+	case 70:
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuFemale, (LPARAM)&mitem);
 		break;
-		case 0:
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuNotDef, (LPARAM)&mitem);
+	case 0:
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenuNotDef, (LPARAM)&mitem);
 		break;
 	}	
 	
@@ -253,8 +248,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	{
 		if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP))
 		{
-			CLISTMENUITEM mi = {0};
-			mi.cbSize = sizeof(CLISTMENUITEM);
+			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 			mi.icolibItem = g_hIconMenu;
 			mi.pszPopupName = (char*)-1;
@@ -284,8 +278,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 		}
 		else
 		{
-			CLISTMENUITEM mi = {0};
-			mi.cbSize = sizeof(CLISTMENUITEM);
+			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 			mi.position = 1001;
 			mi.ptszName = LPGENT("Set Male");

@@ -73,11 +73,7 @@ namespace
 
 	void InitMenu()
 	{
-// 		USES_CONVERSION;
-
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(CLISTMENUITEM);
-		//mi.ptszPopupName = _T("Quotes");
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.ptszName = _T("Quotes");
 		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTPOPUP;
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);

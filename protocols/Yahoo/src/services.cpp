@@ -378,8 +378,7 @@ void CYahooProto::MenuMainInit( void )
 	lstrcpyA( servicefunction, m_szModuleName );
 	char* tDest = servicefunction + lstrlenA( servicefunction );
 	
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = servicefunction;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu( m_szModuleName );
@@ -480,8 +479,7 @@ void CYahooProto::MenuContactInit( void )
 	lstrcpyA( servicefunction, m_szModuleName );
 	char* tDest = servicefunction + lstrlenA( servicefunction );
 	
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.pszService = servicefunction;
 	mi.pszContactOwner = m_szModuleName;
@@ -507,24 +505,19 @@ void CYahooProto::MenuUninit( void )
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
 {
-    const HANDLE hContact = (HANDLE)wParam;
-	
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
-
+	const HANDLE hContact = (HANDLE)wParam;
 	if (!IsMyContact(hContact))  {
 		DebugLog("[OnPrebuildContactMenu] Not a Yahoo Contact!!!");
 		return 0;
 	}
 
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
-	
-    if (GetWord( hContact, "yprotoid", 0) != 0) 
+	if (GetWord( hContact, "yprotoid", 0) != 0) 
 		mi.flags |= CMIF_HIDDEN;
-	
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowProfileMenuItem, (LPARAM)&mi);
 
-    return 0;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hShowProfileMenuItem, (LPARAM)&mi);
+	return 0;
 }
 
 

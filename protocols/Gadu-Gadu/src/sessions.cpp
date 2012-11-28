@@ -425,19 +425,14 @@ BOOL GGPROTO::sessions_closedlg()
 
 void GGPROTO::sessions_menus_init(HGENMENU hRoot)
 {
-	CLISTMENUITEM mi = {0};
 	char service[64];
-
-	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
-	mi.hParentMenu = hRoot;
-
 	mir_snprintf(service, sizeof(service), GGS_CONCUR_SESS, m_szModuleName);
 	createObjService(service, &GGPROTO::sessions_view);
-	if (hMenuRoot)
-		mi.position = 2050000001;
-	else
-		mi.position = 200003;
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
+	mi.hParentMenu = hRoot;
+	mi.position = (hMenuRoot) ? 2050000001 : 200003;
 	mi.icolibItem = GetIconHandle(IDI_SESSIONS);
 	mi.ptszName = LPGENT("Concurrent &sessions");
 	mi.pszService = service;

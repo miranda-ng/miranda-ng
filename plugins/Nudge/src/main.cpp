@@ -762,8 +762,7 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	newNudge->item.hIcoLibItem = Skin_AddIcon(&sid);
 
 	//Add contact menu entry
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.popupPosition = 500085000;
 	mi.pszContactOwner = proto->szModuleName;
 	mi.pszPopupName = proto->szModuleName;

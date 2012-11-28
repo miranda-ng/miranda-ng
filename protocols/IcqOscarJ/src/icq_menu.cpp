@@ -92,8 +92,7 @@ static INT_PTR IcqMenuHandleOpenProfile(WPARAM wParam, LPARAM lParam)
 
 static void sttEnableMenuItem( HANDLE hMenuItem, bool bEnable )
 {
-	CLISTMENUITEM clmi = {0};
-	clmi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_FLAGS;
 	if ( !bEnable )
 		clmi.flags |= CMIF_HIDDEN;
@@ -126,8 +125,7 @@ void g_MenuInit(void)
 	char str[MAXMODULELABELLENGTH], *pszDest = str + 3;
 	strcpy( str, "ICQ" );
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = str;
 	mi.flags = CMIF_ICONFROMICOLIB;
 
@@ -238,9 +236,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_XSTATUS_DETAILS], m_bHideXStatusUI ? 0 : bXStatus != 0);
 	if (bXStatus && !m_bHideXStatusUI) {
-		CLISTMENUITEM clmi = {0};
-
-		clmi.cbSize = sizeof(clmi);
+		CLISTMENUITEM clmi = { sizeof(clmi) };
 		clmi.flags = CMIM_ICON;
 
 		if (bXStatus > 0 && bXStatus <= XSTATUS_COUNT)

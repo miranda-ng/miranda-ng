@@ -1058,11 +1058,10 @@ int __cdecl CIrcProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM 
 
 	case EV_PROTO_ONRENAME:
 		if ( hMenuRoot ) {
-			CLISTMENUITEM clmi = { 0 };
-			clmi.cbSize = sizeof(CLISTMENUITEM);
-			clmi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-			clmi.ptszName = m_tszUserName;
-			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuRoot, ( LPARAM )&clmi );
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.flags = CMIM_NAME | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+			mi.ptszName = m_tszUserName;
+			CallService( MS_CLIST_MODIFYMENUITEM, ( WPARAM )hMenuRoot, ( LPARAM )&mi );
 		}
 		break;
 

@@ -239,9 +239,9 @@ INT_PTR IsSecondLineShown(WPARAM wParam, LPARAM lParam) {
 	return TRUE;
 }
 
-void UpdateMenu() {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(CLISTMENUITEM);
+void UpdateMenu()
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) == 1 ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	mi.flags = CMIM_NAME;// | CMIM_ICON;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuToggleOnOff, (LPARAM)&mi);

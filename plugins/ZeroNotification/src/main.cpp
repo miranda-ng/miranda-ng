@@ -16,7 +16,6 @@ http://miranda-ng.org/
 HINSTANCE hInst;
 
 static HANDLE hEventSoundSettingChange, hEventStatusModeChange, hEventOptionsInitialize, hAckEvent, hSoundMenu;
-CLISTMENUITEM mi;
 HGENMENU noSoundMenu;
 int hLangpack;
 
@@ -38,7 +37,7 @@ static const struct CheckBoxValues_t statusValues[]={
 };
 
 PLUGININFOEX pluginInfoEx = {
-    sizeof(PLUGININFOEX),
+	sizeof(PLUGININFOEX),
 	PLUGINNAME,
 	PLUGIN_MAKE_VERSION(VER_MAJOR, VER_MINOR, VER_RELEASE, VER_BUILD),
 	DESCRIPTION,
@@ -81,24 +80,29 @@ static void FillCheckBoxTree(HWND hwndTree,const struct CheckBoxValues_t *values
 static DWORD MakeCheckBoxTreeFlags(HWND hwndTree)
 {
 	DWORD flags=0;
-	TVITEM tvi;
 
+	TVITEM tvi;
 	tvi.mask=TVIF_HANDLE|TVIF_PARAM|TVIF_STATE;
 	tvi.hItem=TreeView_GetRoot(hwndTree);
 	while(tvi.hItem) {
 		TreeView_GetItem(hwndTree,&tvi);
-		if (((tvi.state&TVIS_STATEIMAGEMASK)>>12==2)) flags|=tvi.lParam;
-		tvi.hItem=TreeView_GetNextSibling(hwndTree,tvi.hItem);
+		if (((tvi.state & TVIS_STATEIMAGEMASK)>>12 == 2))
+			flags |= tvi.lParam;
+		tvi.hItem = TreeView_GetNextSibling(hwndTree,tvi.hItem);
 	}
 	return flags;
 }
 
 //Update the name on the menu
-static void UpdateMenuItem() {
+static void UpdateMenuItem()
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
 	if (DBGetContactSettingByte(NULL, "Skin", "UseSound", 1))
 		mi.ptszName = TranslateT(DISABLE_SOUND);
 	else
 		mi.ptszName = TranslateT(ENABLE_SOUND);
+	mi.flags |= CMIM_NAME | CMIF_TCHAR;
+	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
 }
 
 //Called when the sound setting in the database is changed
@@ -108,23 +112,16 @@ static int SoundSettingChanged(WPARAM wParam,LPARAM lParam)
 	if(lstrcmpA(cws->szModule, "Skin") || lstrcmpA(cws->szSetting, "UseSound")) return 0;
 
 	UpdateMenuItem();
-
-	mi.flags |= CMIM_NAME;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
-
 	return 0;
 }
 
-static int SetNotify(const long status){
+static int SetNotify(const long status)
+{
 	DBWriteContactSettingByte(NULL,"Skin","UseSound", (BYTE) !(DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoSound",DEFAULT_NOSOUND) & status));
 	DBWriteContactSettingByte(NULL,"CList","DisableTrayFlash", (BYTE) (DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoBlink",DEFAULT_NOBLINK) & status));
 	DBWriteContactSettingByte(NULL,"CList","NoIconBlink", (BYTE) (DBGetContactSettingDword(NULL,PLUGINNAME_SHORT,"NoCLCBlink",DEFAULT_NOCLCBLINK) & status));
 
 	UpdateMenuItem();
-
-	mi.flags |= CMIM_NAME;
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)noSoundMenu,(LPARAM)&mi);
-
 	return 0;
 }
 
@@ -239,15 +236,13 @@ static INT_PTR NoSoundMenuCommand(WPARAM wParam,LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	//The menu item - begin
-	if (!DBGetContactSettingByte(NULL, PLUGINNAME_SHORT, "HideMenu", 1))
-	{
+	if (!DBGetContactSettingByte(NULL, PLUGINNAME_SHORT, "HideMenu", 1)) {
 		hSoundMenu = CreateServiceFunction(PLUGINNAME_SHORT "/MenuCommand", NoSoundMenuCommand);
-		ZeroMemory(&mi, sizeof(mi));
-		mi.cbSize = sizeof(mi);
+	
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -0x7FFFFFFF;
 		mi.flags = CMIF_TCHAR;
 		UpdateMenuItem();

@@ -68,15 +68,13 @@ int gg_img_remove(GGIMAGEDLGDATA *dat);
 
 int GGPROTO::img_init()
 {
-	CLISTMENUITEM mi = {0};
 	char service[64];
-
-	mi.cbSize = sizeof(mi);
-	mi.flags = CMIF_ICONFROMICOLIB;
-
-	// Send image contact menu item
 	mir_snprintf(service, sizeof(service), GGS_SENDIMAGE, m_szModuleName);
 	createObjService(service, &GGPROTO::img_sendimg);
+
+	// Send image contact menu item
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = -2000010000;
 	mi.icolibItem = GetIconHandle(IDI_IMAGE);
 	mi.pszName = LPGEN("&Image");

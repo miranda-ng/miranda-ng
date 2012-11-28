@@ -208,8 +208,8 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
 	enc = enc?0:1;
-	CLISTMENUITEM mi = {0};
-	mi.cbSize=sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	enc?mi.pszName="Turn off GPG encryption":mi.pszName="Turn on GPG encryption";
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggleEncryption, (LPARAM)&mi);
@@ -221,8 +221,8 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	HANDLE hContact = (HANDLE)w;
 	if(metaIsProtoMetaContacts(hContact))
 		hContact = metaGetMostOnline(hContact);
-	CLISTMENUITEM mi = {0};
-	mi.cbSize=sizeof(mi);
+	
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
 	if(_tcslen(tmp) < 1)

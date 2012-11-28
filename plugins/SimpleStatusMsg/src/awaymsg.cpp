@@ -372,13 +372,13 @@ static INT_PTR GoToURLMsgCommand(WPARAM wParam, LPARAM lParam)
 
 static int AwayMsgPreBuildMenu(WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM clmi = {0};
 	TCHAR str[128];
 	char *szProto = GetContactProto((HANDLE)wParam);
 	int iHidden = szProto ? DBGetContactSettingByte((HANDLE)wParam, szProto, "ChatRoom", 0) : 0;
 	char *szMsg;
 	int iStatus;
 
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.cbSize = sizeof(clmi);
 	clmi.flags = CMIM_FLAGS | CMIF_HIDDEN | CMIF_TCHAR;
 
@@ -456,11 +456,10 @@ int AwayMsgPreShutdown(void)
 
 int LoadAwayMsgModule(void)
 {
-	CLISTMENUITEM mi = {0};
-
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 	hWindowList2 = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
-	mi.cbSize = sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 
 	CreateServiceFunctionEx(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);

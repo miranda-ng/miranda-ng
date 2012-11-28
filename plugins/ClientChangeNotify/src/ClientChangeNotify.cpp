@@ -336,8 +336,7 @@ static int PrebuildMainMenu(WPARAM wParam, LPARAM lParam)
 {
 	// we have to use ME_CLIST_PREBUILDMAINMENU instead of updating menu items only on settings change, because "popup_enabled" and "popup_disabled" icons are not always available yet in ModulesLoaded
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR | CMIM_NAME | CMIM_ICON;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY)) {
 			mi.ptszName = LPGENT("Disable c&lient change notification");
@@ -388,8 +387,8 @@ int MirandaLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		hServices.AddElem(CreateServiceFunction(MS_CCN_TOGGLEPOPUPS, srvTogglePopups));
 		hHooks.AddElem(HookEvent(ME_CLIST_PREBUILDMAINMENU, PrebuildMainMenu));
-		CLISTMENUITEM mi = {0};
-		mi.cbSize = sizeof(mi);
+	
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		if (g_PopupOptPage.GetDBValueCopy(IDC_POPUPOPTDLG_POPUPNOTIFY))
 			mi.ptszName = LPGENT("Disable c&lient change notification");

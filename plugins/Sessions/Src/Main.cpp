@@ -976,9 +976,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hibSessionsSave = AddIcon(hiSessionsSave, "SessionsSave", LPGENT("Save Session"));
 	hibSessionsLoadLast = AddIcon(hiSessionsLoadLast, "SessionsLoadLast", LPGENT("Load last Session"));
 
-	CLISTMENUITEM cl;
-	ZeroMemory(&cl, sizeof(cl));
-	cl.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM cl = { sizeof(cl) };
 	cl.position = 1000000000;
 	cl.flags = CMIM_ALL | CMIF_TCHAR;
 

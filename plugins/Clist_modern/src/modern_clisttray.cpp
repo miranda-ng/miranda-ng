@@ -641,10 +641,7 @@ void InitTrayMenus(void)
 
 	{
 		//add  exit command to menu
-		CLISTMENUITEM mi;
-
-		memset(&mi,0,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 900000;
 		mi.pszService = "CloseAction";
 		mi.pszName = LPGEN("E&xit");
@@ -672,7 +669,6 @@ void InitTrayMenus(void)
 		mi.pszName = LPGEN("&Find/Add Contacts...");
 		AddTrayMenuItem(0,(LPARAM)&mi);
 		DestroyIcon_protect(mi.hIcon);
-
 
 		memset(&mi,0,sizeof(mi));
 		mi.cbSize = sizeof(mi);

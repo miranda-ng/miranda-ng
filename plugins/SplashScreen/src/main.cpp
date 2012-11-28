@@ -338,9 +338,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	#ifdef _DEBUG
 		hTestService = CreateServiceFunction("Splash/Test", TestService);
-		CLISTMENUITEM mi;
-		ZeroMemory(&mi,sizeof(mi));
-		mi.cbSize = sizeof(mi);
+
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_TCHAR;
 		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		mi.hotKey = 0;

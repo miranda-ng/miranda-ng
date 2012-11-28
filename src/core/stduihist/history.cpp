@@ -413,8 +413,7 @@ int PreShutdownHistoryModule(WPARAM, LPARAM)
 
 int LoadHistoryModule(void)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 1000090000;
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_HISTORY);

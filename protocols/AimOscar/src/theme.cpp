@@ -259,11 +259,8 @@ int CAimProto::OnPreBuildContactMenu(WPARAM wParam,LPARAM /*lParam*/)
 	HANDLE hContact = (HANDLE)wParam;
 	bool isChatRoom = getByte(hContact, "ChatRoom", 0) != 0;
 
-	CLISTMENUITEM mi;
-	ZeroMemory(&mi,sizeof(mi));
-	mi.cbSize = sizeof(mi);
-
 	//see if we should add the html away message context menu items
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS | CMIF_NOTOFFLINE;
 	if (getWord(hContact, AIM_KEY_ST, ID_STATUS_OFFLINE) != ID_STATUS_AWAY || isChatRoom)
 		mi.flags |= CMIF_HIDDEN;
@@ -315,8 +312,7 @@ void CAimProto::InitMainMenus(void)
 	//Do not put any services below HTML get away message!!!
 	char service_name[200];
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 
 	HGENMENU hRoot = MO_GetProtoRootMenu(m_szModuleName);
 	if (hRoot == NULL) {
@@ -364,8 +360,7 @@ void CAimProto::InitContactMenus(void)
 	//Do not put any services below HTML get away message!!!
 	char service_name[200];
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszService = service_name;
 	mi.pszContactOwner = m_szModuleName;
 

@@ -70,12 +70,10 @@ INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 
 static int OnIconsChanged(WPARAM, LPARAM)
 {
-	CLISTMENUITEM mi = {0};
-
 	if (!hMainMenuItem)
 		return 0;
 
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.icolibItem = hIconLibItem;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&mi);
@@ -99,12 +97,10 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 	if (iAccCount)
 	{
-		CLISTMENUITEM mi = {0};
-
 		if (hMainMenuItem)
 			return 0;
 
-		mi.cbSize = sizeof(mi);
+		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 500020001;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = hIconLibItem;

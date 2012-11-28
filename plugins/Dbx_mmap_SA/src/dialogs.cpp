@@ -70,17 +70,14 @@ INT_PTR ChangePassword(WPARAM wParam, LPARAM lParam)
 
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon)
 {
-	CLISTMENUITEM menu;
-	ZeroMemory(&menu,sizeof(menu));
-	menu.cbSize = sizeof(menu);
-	menu.flags = CMIM_FLAGS | CMIF_TCHAR;
-	menu.flags  |=  name ? CMIM_NAME : 0;
-	menu.flags  |=  hIcon ? CMIM_ICON : 0;
-	menu.flags  |=  flags;
-	menu.ptszName = (TCHAR*)name;
-	menu.hIcon = hIcon;
-
-	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenu,(LPARAM)&menu);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_FLAGS | CMIF_TCHAR;
+	mi.flags |= name ? CMIM_NAME : 0;
+	mi.flags |= hIcon ? CMIM_ICON : 0;
+	mi.flags |= flags;
+	mi.ptszName = (TCHAR*)name;
+	mi.hIcon = hIcon;
+	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenu,(LPARAM)&mi);
 }
 
 int InitMenus(WPARAM, LPARAM)
@@ -106,15 +103,14 @@ int InitMenus(WPARAM, LPARAM)
 	HANDLE hIcon = Skin_AddIcon(&sid);
 
 	// main menu item
-	CLISTMENUITEM menu = {0};
-	menu.cbSize = sizeof(menu);
-	menu.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
-	menu.icolibItem = hIcon;
-	menu.ptszName = (g_Db->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
-	menu.ptszPopupName = LPGENT("Database");
-	menu.pszService = MS_DB_CHANGEPASSWORD;
-	menu.position = 500100000;
-	hSetPwdMenu = Menu_AddMainMenuItem(&menu);
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.icolibItem = hIcon;
+	mi.ptszName = (g_Db->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.pszService = MS_DB_CHANGEPASSWORD;
+	mi.position = 500100000;
+	hSetPwdMenu = Menu_AddMainMenuItem(&mi);
 	return 0;
 }
 

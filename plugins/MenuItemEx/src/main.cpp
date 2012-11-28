@@ -896,8 +896,7 @@ INT_PTR onIgnore(WPARAM wparam,LPARAM lparam)
 
 static HANDLE AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag, char* service, int pos, int param)
 {
-	CLISTMENUITEM mi =  { 0 };
-	mi.cbSize        =  sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hParentMenu   =  hRoot;
 	mi.popupPosition =  param;
 	mi.position      =  pos;
@@ -910,14 +909,13 @@ static HANDLE AddSubmenuItem(HGENMENU hRoot, TCHAR* name, HICON icon, DWORD flag
 
 static void ModifySubmenuItem(HANDLE hItem, TCHAR* name, int checked, int hidden)
 {
-	CLISTMENUITEM mi	 =  { 0 };
-	mi.cbSize			 =  sizeof(mi);
-	mi.ptszName			 =  name;
-	mi.flags			 =  CMIM_FLAGS | CMIF_TCHAR;
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.ptszName =  name;
+	mi.flags =  CMIM_FLAGS | CMIF_TCHAR;
 	if ( checked )
-		mi.flags		|= CMIF_CHECKED;
+		mi.flags |= CMIF_CHECKED;
 	if ( hidden )
-		mi.flags		|= CMIF_HIDDEN;
+		mi.flags |= CMIF_HIDDEN;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hItem, (LPARAM)&mi);
 }
 
@@ -1196,8 +1194,6 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
 	int pos = 1000, i = 0;
 
-	CLISTMENUITEM mi;
-
 	IconsInit();
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
@@ -1215,7 +1211,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hServices[10] = CreateServiceFunction(MS_COPYIP,onCopyIP);
 	hServices[11] = CreateServiceFunction(MS_COPYMIRVER,onCopyMirVer);
 
-	mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = NULL;
 	mi.pszContactOwner = NULL;

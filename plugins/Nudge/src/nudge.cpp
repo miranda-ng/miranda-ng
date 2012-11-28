@@ -30,10 +30,7 @@ void CNudge::Load(void)
 
 int CNudgeElement::ShowContactMenu(bool show)
 {
-
-	CLISTMENUITEM mi;
-	memset( &mi, 0, sizeof( mi ));
-	mi.cbSize = sizeof( mi );
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags =  show? CMIM_FLAGS : CMIM_FLAGS | CMIF_HIDDEN ;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
 

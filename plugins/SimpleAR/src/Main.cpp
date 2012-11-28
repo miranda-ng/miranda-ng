@@ -20,7 +20,6 @@ HINSTANCE hinstance;
 
 HANDLE hPreBuildHook = NULL, hAddEventHook = NULL, hOptHook = NULL, hCheckDefHook = NULL, hOnPreShutdown = NULL, hToggleEnable = NULL, hToggleAutoanswer = NULL;
 HANDLE hToggle = NULL, hEnableMenu = NULL;
-CLISTMENUITEM mi;
 BOOL fEnabled, gbVarsServiceExist = FALSE;
 INT interval;
 int hLangpack;
@@ -61,16 +60,14 @@ BOOL WINAPI DllMain(HINSTANCE hinst,DWORD fdwReason,LPVOID lpvReserved)
 
 INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 {
-	mi.cbSize=sizeof(mi);
-	mi.flags=CMIM_NAME|CMIM_ICON|CMIF_TCHAR;
-	fEnabled=!fEnabled;
-	if (fEnabled)
-	{
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_NAME|CMIM_ICON|CMIF_TCHAR;
+	fEnabled = !fEnabled;
+	if (fEnabled) {
 		mi.ptszName = _T("Disable Auto&reply");
 		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	}
-	else
-	{
+	else {
 		mi.ptszName = _T("Enable Auto&reply");
 		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
 	}
@@ -85,7 +82,8 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
 	DBWriteContactSettingByte(hContact, protocolname, "TurnedOn", on?1:0);
 	on = on?0:1;
-	mi.cbSize=sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME |CMIM_ICON | CMIF_TCHAR;
 	mi.ptszName=on?_T("Turn off Autoanswer"):_T("Turn on Autoanswer");
 	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
@@ -96,7 +94,8 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 {
 	HANDLE hContact = (HANDLE)w;
-	mi.cbSize=sizeof(mi);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	BOOL  on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
 	mi.ptszName = on?_T("Turn off Autoanswer"):_T("Turn on Autoanswer");
@@ -314,23 +313,20 @@ INT OnPreShutdown(WPARAM wParam, LPARAM lParam)
 
 extern "C" int __declspec(dllexport)Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
 
 	hToggleEnable = CreateServiceFunction(protocolname"/ToggleEnable", ToggleEnable);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize = sizeof(mi);
+	hToggleAutoanswer = CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 500090000;
 	mi.ptszName = _T("");
 	mi.pszService = protocolname"/ToggleEnable";
 	hEnableMenu = Menu_AddMainMenuItem(&mi);
 
-	hToggleAutoanswer = CreateServiceFunction(protocolname"/ToggleAutoanswer",Toggle);
-	ZeroMemory(&mi, sizeof(mi));
-	mi.cbSize=sizeof(mi);
-	mi.position=-0x7FFFFFFF;
-	mi.ptszName=_T("");
-	mi.pszService=protocolname"/ToggleAutoanswer";
+	mi.position = -0x7FFFFFFF;
+	mi.ptszName = _T("");
+	mi.pszService = protocolname"/ToggleAutoanswer";
 	hToggle = Menu_AddContactMenuItem(&mi);
 
 	//add hook

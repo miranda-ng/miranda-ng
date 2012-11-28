@@ -84,8 +84,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	INT_PTR temp = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp);
 
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;

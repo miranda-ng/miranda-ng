@@ -461,8 +461,8 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 
 int Create_MenuitemShowList(void)
 {
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+   // !!!!!!!! check it later
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.hIcon = Skin_GetIcon("recent_main");
 	mi.pszName = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
@@ -522,8 +522,7 @@ static void iconsInit(void)
 
 static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 {
-	CLISTMENUITEM clmi = { 0 };
-	clmi.cbSize = sizeof( clmi );
+	CLISTMENUITEM clmi = { sizeof(clmi) };
 	clmi.flags = CMIM_NAME | CMIF_TCHAR;
 
 	if ( DBGetContactSettingByte((HANDLE)wParam, dbLastUC_ModuleName, dbLastUC_IgnoreContact, 0) == 0)

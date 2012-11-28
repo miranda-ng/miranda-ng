@@ -453,8 +453,7 @@ int ReloadFont(WPARAM wParam, LPARAM lParam)
 
 void FixMainMenu()
 {
-	CLISTMENUITEM mi = {0};
-	mi.cbSize = sizeof(CLISTMENUITEM);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	if (!ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
 		if (options.hide_with_clist || options.auto_showhide)
 			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
@@ -555,7 +554,7 @@ int CreateFrame()
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIM_ALL;
-		mi.hIcon=hIconMenuShowHide;
+		mi.hIcon = hIconMenuShowHide;
 		mi.pszName = LPGEN("Show Reminders");
 		mi.pszService = MODULE "/ShowHideReminders";
 		mi.pszPopupName = LPGEN("Alarms");

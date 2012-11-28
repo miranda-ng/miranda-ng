@@ -114,10 +114,8 @@ void __cdecl JabberServerThread(ThreadData *info)
 	int numRetry;
 	int reconnectTime;
 	char *str;
-	CLISTMENUITEM clmi;
 	int loginErr = 0;
 	JabberLog(info->proto, "Thread started");
-
 
 	// Normal server connection, we will fetch all connection parameters
 	// e.g. username, password, etc. from the database.
@@ -353,13 +351,11 @@ void __cdecl JabberServerThread(ThreadData *info)
 			info->proto->isOnline = FALSE;
 			info->proto->isConnected = FALSE;
 
-			memset(&clmi, 0, sizeof(CLISTMENUITEM));
-			clmi.cbSize = sizeof(CLISTMENUITEM);
-			clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
-			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuMUC, (LPARAM) &clmi);
-			if (info->proto->hMenuChats != NULL){
-				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuChats, (LPARAM) &clmi);
-			}
+			CLISTMENUITEM mi = { sizeof(mi) };
+			mi.flags = CMIM_FLAGS | CMIF_GRAYED;
+			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuMUC, (LPARAM) &mi);
+			if (info->proto->hMenuChats != NULL)
+				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->proto->hMenuChats, (LPARAM) &mi);
 
 			// Set status to offline
 			oldStatus = info->proto->m_iStatus;

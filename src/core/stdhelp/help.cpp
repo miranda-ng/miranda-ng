@@ -84,8 +84,7 @@ int LoadHelpModule(void)
 	hBugEvent = CreateHookableEvent(ME_HELP_BUGREPORT);
 	SetHookDefaultForHookableEvent(hBugEvent, BugCommandEvent);
 
-	CLISTMENUITEM mi = { 0 };
-	mi.cbSize = sizeof(mi);
+	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.icolibItem = GetSkinIconHandle(SKINICON_OTHER_MIRANDA);
 	mi.pszPopupName = LPGEN("&Help");
