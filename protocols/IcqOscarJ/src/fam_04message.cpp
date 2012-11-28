@@ -265,7 +265,6 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 				// different encodings (just like the new format of Offline Messages).
 				DWORD dwRecvTime;
 				char* szMsg = NULL;
-				CCSDATA ccs;
 				PROTORECVEVENT pre = {0};
 				int bAdded;
 
@@ -392,21 +391,16 @@ void CIcqProto::handleRecvServMsgType1(BYTE *buf, WORD wLen, DWORD dwUin, char *
 						}
 					}
 					// Create and send the message event
-					ccs.szProtoService = PSR_MESSAGE;
-					ccs.hContact = hContact;
-					ccs.wParam = 0;
-					ccs.lParam = (LPARAM)&pre;
 					pre.timestamp = dwRecvTime;
 					pre.szMessage = (char *)szMsg;
-					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+					ProtoChainRecvMsg(hContact, &pre);
 
 					NetLog_Server("Message (format 1) received");
 
 					// Save tick value
-					setSettingDword(ccs.hContact, "TickTS", time(NULL) - (dwMsgID1/1000));
+					setSettingDword(hContact, "TickTS", time(NULL) - (dwMsgID1/1000));
 				}
-				else
-					NetLog_Server("Message (format %u) - Ignoring empty message", 1);
+				else NetLog_Server("Message (format %u) - Ignoring empty message", 1);
 
 				SAFE_FREE(&szMsg);
 			}
@@ -1203,23 +1197,17 @@ void CIcqProto::handleRecvServMsgContacts(BYTE *buf, WORD wLen, DWORD dwUin, cha
 			else
 			{
 				int bAdded;
-				CCSDATA ccs;
-				PROTORECVEVENT pre = {0};
-
 				hContact = HContactFromUID(dwUin, szUID, &bAdded);
 
 				// ack the message
 				icq_sendContactsAck(dwUin, szUID, dwID1, dwID2);
 
-				ccs.szProtoService = PSR_CONTACTS;
-				ccs.hContact = hContact;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
+				PROTORECVEVENT pre = {0};
 				pre.timestamp = (DWORD)time(NULL);
 				pre.szMessage = (char *)contacts;
 				pre.lParam = nContacts;
 				pre.flags = PREF_TCHAR;
-				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 			}
 
 			for (int i = 0; i < iContact; i++)
@@ -1636,37 +1624,27 @@ void packPluginTypeId(icq_packet *packet, int nTypeID)
 
 void CIcqProto::handleStatusMsgReply(const char *szPrefix, HANDLE hContact, DWORD dwUin, WORD wVersion, int bMsgType, WORD wCookie, const char *szMsg, int nMsgFlags)
 {
-	CCSDATA ccs;
-	PROTORECVEVENT pre = {0};
-
-	if (hContact == INVALID_HANDLE_VALUE)
-	{
+	if (hContact == INVALID_HANDLE_VALUE) {
 		NetLog_Server("%sIgnoring status message from unknown contact %u", szPrefix, dwUin);
 		return;
 	}
 
 	int status = AwayMsgTypeToStatus(bMsgType);
-	if (status == ID_STATUS_OFFLINE)
-	{
+	if (status == ID_STATUS_OFFLINE) {
 		NetLog_Server("%sIgnoring unknown status message from %u", szPrefix, dwUin);
 		return;
 	}
 
 	// it is probably UTF-8 status reply
+	PROTORECVEVENT pre = {0};
 	if (wVersion == 9 || (nMsgFlags & MTF_PLUGIN) && wVersion == 10)
-	{
-		if (UTF8_IsValid(szMsg)) pre.flags |= PREF_UTF;
-	}
+		if (UTF8_IsValid(szMsg))
+			pre.flags |= PREF_UTF;
 
-	ccs.szProtoService = PSR_AWAYMSG;
-	ccs.hContact = hContact;
-	ccs.wParam = status;
-	ccs.lParam = (LPARAM)&pre;
 	pre.szMessage = (char*)szMsg;
 	pre.timestamp = time(NULL);
 	pre.lParam = wCookie;
-
-	CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+	ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
 }
 
 
@@ -1783,7 +1761,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 	case MTYPE_PLAIN:    /* plain message */
 		{
-			CCSDATA ccs;
 			PROTORECVEVENT pre = {0};
 
 			// Check if this message is marked as UTF8 encoded
@@ -1852,20 +1829,14 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 				}
 			}
 
-			ccs.szProtoService = PSR_MESSAGE;
-			ccs.hContact = hContact;
-			ccs.wParam = 0;
-			ccs.lParam = (LPARAM)&pre;
 			pre.timestamp = dwTimestamp;
 			pre.szMessage = (char *)szMsg;
-
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+			ProtoChainRecvMsg(hContact, &pre);
 		}
 		break;
 
 	case MTYPE_URL:
 		{
-			CCSDATA ccs;
 			PROTORECVEVENT pre = {0};
 
 			if (nMsgFields < 2)
@@ -1890,15 +1861,10 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			SAFE_FREE(&szDataDescr);
 			SAFE_FREE(&szDataUrl);
 
-			ccs.szProtoService = PSR_MESSAGE;
-			ccs.hContact = hContact;
-			ccs.wParam = 0;
-			ccs.lParam = (LPARAM)&pre;
 			pre.timestamp = dwTimestamp;
 			pre.szMessage = (char *)szBlob;
 			pre.flags = PREF_UTF;
-
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+			ProtoChainRecvMsg(hContact, &pre);
 
 			SAFE_FREE(&szBlob);
 		}
@@ -1907,22 +1873,15 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 	case MTYPE_AUTHREQ:       /* auth request */
 		/* format: nick FE first FE last FE email FE unk-char FE msg 00 */
 		{
-			CCSDATA ccs;
-			PROTORECVEVENT pre = {0};
 			char* szBlob;
 			char* pCurBlob;
 
-
-			if (nMsgFields < 6)
-			{
+			if (nMsgFields < 6) {
 				NetLog_Server("Malformed '%s' message", "auth req");
 				break;
 			}
 
-			ccs.szProtoService=PSR_AUTH;
-			ccs.hContact=hContact=HContactFromUIN(dwUin, &bAdded);
-			ccs.wParam=0;
-			ccs.lParam=(LPARAM)&pre;
+			PROTORECVEVENT pre = {0};
 			pre.timestamp=dwTimestamp;
 			pre.lParam=sizeof(DWORD)+sizeof(HANDLE)+strlennull(pszMsgField[0])+strlennull(pszMsgField[1])+strlennull(pszMsgField[2])+strlennull(pszMsgField[3])+strlennull(pszMsgField[5])+5;
 
@@ -1937,7 +1896,7 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 			strcpy((char *)pCurBlob,pszMsgField[5]);
 			pre.szMessage=(char *)szBlob;
 
-			CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+			ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 		}
 		break;
 
@@ -1971,8 +1930,6 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 
 	case MTYPE_CONTACTS:
 		{
-			CCSDATA ccs;
-			PROTORECVEVENT pre = {0};
 			char* pszNContactsEnd;
 			int nContacts;
 			int i;
@@ -2018,15 +1975,12 @@ void CIcqProto::handleMessageTypes(DWORD dwUin, char *szUID, DWORD dwTimestamp, 
 				hContact = HContactFromUIN(dwUin, &bAdded);
 				sendMessageTypesAck(hContact, 0, pAckParams);
 
-				ccs.szProtoService = PSR_CONTACTS;
-				ccs.hContact = hContact;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
+				PROTORECVEVENT pre = {0};
 				pre.timestamp = dwTimestamp;
 				pre.szMessage = (char *)isrList;
 				pre.lParam = nContacts;
 				pre.flags = PREF_TCHAR;
-				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 			}
 
 			for (i = 0; i < nContacts; i++)

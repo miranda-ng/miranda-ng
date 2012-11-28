@@ -610,7 +610,6 @@ static void TlenProcessAvatar(XmlNode* node, ThreadData *info)
 static void JabberProcessMessage(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	CCSDATA ccs;
 	PROTORECVEVENT recv;
 	XmlNode *bodyNode, *subjectNode, *xNode, *n;
 	char *from, *type, *nick, *p, *localMessage, *idStr;
@@ -732,12 +731,7 @@ static void JabberProcessMessage(XmlNode *node, ThreadData *info)
 						recv.timestamp = (DWORD) msgTime;
 						recv.szMessage = localMessage;
 						recv.lParam = 0;
-						ccs.hContact = hContact;
-						ccs.wParam = 0;
-						ccs.szProtoService = PSR_MESSAGE;
-						ccs.lParam = (LPARAM) &recv;
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
-
+						ProtoChainRecvMsg(hContact, &recv);
 						mir_free(localMessage);
 					}
 				}
@@ -982,7 +976,6 @@ static void JabberProcessIq(XmlNode *node, ThreadData *info)
 static void TlenProcessW(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	CCSDATA ccs;
 	PROTORECVEVENT recv;
 	char *f, *e, *s, *body;
 	char *str, *localMessage;
@@ -1019,11 +1012,7 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 		recv.timestamp = (DWORD) time(NULL);
 		recv.szMessage = localMessage;
 		recv.lParam = 0;
-		ccs.hContact = hContact;
-		ccs.wParam = 0;
-		ccs.szProtoService = PSR_MESSAGE;
-		ccs.lParam = (LPARAM) &recv;
-		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+		ProtoChainRecvMsg(hContact, &recv);	
 
 		mir_free(localMessage);
 		mir_free(str);
@@ -1036,7 +1025,6 @@ static void TlenProcessW(XmlNode *node, ThreadData *info)
 static void TlenProcessM(XmlNode *node, ThreadData *info)
 {
 	HANDLE hContact;
-	CCSDATA ccs;
 	PROTORECVEVENT recv;
 	char *f;//, *from;//username
 	char *tp;//typing start/stop
@@ -1111,11 +1099,7 @@ static void TlenProcessM(XmlNode *node, ThreadData *info)
 						recv.timestamp = (DWORD) timestamp;
 						recv.szMessage = localMessage;
 						recv.lParam = 0;
-						ccs.hContact = hContact;
-						ccs.wParam = 0;
-						ccs.szProtoService = PSR_MESSAGE;
-						ccs.lParam = (LPARAM) &recv;
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+						ProtoChainRecvMsg(hContact, &recv);
 						mir_free(localMessage);
 					} else {
 						/* MUC message */

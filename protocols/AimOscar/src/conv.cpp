@@ -287,7 +287,7 @@ char* html_to_bbcodes(char *src)
 				memmove(ptr+2, ptr, strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
-			else if(s2&&s2<s1||s2&&!s1)
+			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
 				ptr=strip_tag_within(begin,ptr);
@@ -333,7 +333,7 @@ char* html_to_bbcodes(char *src)
 				memmove(ptr+2, ptr, strlen(ptr) + 1);
 				memcpy(ptr,"[/url]",6);
 			}
-			else if(s2&&s2<s1||s2&&!s1)
+			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
 				ptr=strip_tag_within(begin,ptr);
@@ -380,7 +380,7 @@ char* html_to_bbcodes(char *src)
 				memmove(ptr+1, ptr, strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
-			else if(s2&&s2<s1||s2&&!s1)
+			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
 				memmove(ptr+8, ptr, strlen(ptr) + 1);
@@ -418,7 +418,7 @@ char* html_to_bbcodes(char *src)
 				memmove(ptr+1, ptr, strlen(ptr) + 1);
 				memcpy(ptr,"[/color]",8);
 			}
-			else if(s2&&s2<s1||s2&&!s1)
+			else if (s2&&s2<s1||s2&&!s1)
 			{
 				ptr=s2;
 				memmove(ptr+8, ptr, strlen(ptr) + 1);
@@ -584,7 +584,7 @@ char* strip_tag_within(char* begin, char* end)
 {
 	while(char* sub_begin=strchr(begin,'<'))
 	{	
-		if(sub_begin<end)//less than the original ending
+		if (sub_begin<end)//less than the original ending
 		{
 			char* sub_end=strchr(begin,'>');
 			strip_tag(sub_begin,sub_end);
@@ -630,69 +630,69 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 		COLORREF isColor=cfOld.crTextColor;
 		COLORREF isBackColor=cfOld.crBackColor;
 		int isSize;
-		if(cfOld.yHeight==38*20)
+		if (cfOld.yHeight==38*20)
 			isSize=7;
-		else if(cfOld.yHeight==24*20)
+		else if (cfOld.yHeight==24*20)
 			isSize=6;
-		else if(cfOld.yHeight==18*20)
+		else if (cfOld.yHeight==18*20)
 			isSize=5;
-		else if(cfOld.yHeight==14*20)
+		else if (cfOld.yHeight==14*20)
 			isSize=4;
-		else if(cfOld.yHeight==12*20)
+		else if (cfOld.yHeight==12*20)
 			isSize=3;
-		else if(cfOld.yHeight==10*20)
+		else if (cfOld.yHeight==10*20)
 			isSize=2;
-		else if(cfOld.yHeight==8*20)
+		else if (cfOld.yHeight==8*20)
 			isSize=1;
 		else
 			isSize=3;
 		TCHAR text[3] =_T("");
 		SendDlgItemMessage(hwndDlg, DlgItem, EM_GETSELTEXT, 0, (LPARAM)&text);
-		if(Bold!=isBold)
+		if (Bold!=isBold)
 		{
 			Bold=isBold;
-			if(isBold)
+			if (isBold)
 			{
 				strcpy(&buf[pos],"<b>");
 				pos+=3;
 			}
 			else
 			{
-				if(start!=0)
+				if (start!=0)
 				{
 					strcpy(&buf[pos],"</b>");
 					pos+=4;	
 				}
 			}
 		}
-		if(Italic!=isItalic)
+		if (Italic!=isItalic)
 		{
 			Italic=isItalic;
-			if(isItalic)
+			if (isItalic)
 			{
 				strcpy(&buf[pos],"<i>");
 				pos+=3;
 			}
 			else
 			{
-				if(start!=0)
+				if (start!=0)
 				{
 					strcpy(&buf[pos],"</i>");
 					pos+=4;	
 				}
 			}
 		}
-		if(Underline!=isUnderline)
+		if (Underline!=isUnderline)
 		{
 			Underline=isUnderline;
-			if(isUnderline)
+			if (isUnderline)
 			{
 				strcpy(&buf[pos],"<u>");
 				pos+=3;
 			}
 			else
 			{
-				if(start!=0)
+				if (start!=0)
 				{
 					strcpy(&buf[pos],"</u>");
 					pos+=4;	
@@ -705,7 +705,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			Color=isColor;
 			BackColor=isBackColor;
 			strcpy(Face,cfOld.szFaceName);
-			if(start!=0)
+			if (start!=0)
 			{
 				strcpy(&buf[pos],"</font>");
 				pos+=7;
@@ -725,7 +725,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				char chBackColor[7];
 				_itoa((_htonl(BackColor)>>8),chBackColor,16);
 				size_t len=strlen(chBackColor);
-				if(len<6)
+				if (len<6)
 				{
 					memmove(chBackColor+(6-len),chBackColor,len+1);
 					for(int i=0;i<6;i++)
@@ -741,7 +741,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 				char chColor[7];
 				_itoa((_htonl(Color)>>8),chColor,16);
 				size_t len=strlen(chColor);
-				if(len<6)
+				if (len<6)
 				{
 					memmove(chColor+(6-len),chColor,len+1);
 					for(int i=0;i<6;i++)
@@ -760,7 +760,7 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 			strcpy(&buf[pos],">");
 			pos++;
 		}
-		if(text[0]=='\r')
+		if (text[0]=='\r')
 		{
 			strcpy(&buf[pos],"<br>");
 			pos+=4;
@@ -775,17 +775,17 @@ char* rtf_to_html(HWND hwndDlg,int DlgItem)
 		start++;
 		end++;
 	}
-	if(Bold)
+	if (Bold)
 	{
 		strcpy(&buf[pos],"</b>");
 		pos+=4;	
 	}
-	if(Italic)
+	if (Italic)
 	{
 		strcpy(&buf[pos],"</i>");
 		pos+=4;	
 	}
-	if(Underline)
+	if (Underline)
 	{
 		strcpy(&buf[pos],"</u>");
 		pos+=4;	

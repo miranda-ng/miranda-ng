@@ -404,16 +404,10 @@ void FacebookProto::ProcessUnreadMessages( void* )
 				}
 
 				PROTORECVEVENT recv = {0};
-				CCSDATA ccs = {0};
-
 				recv.flags = PREF_UTF;
 				recv.szMessage = const_cast<char*>(message_text.c_str());
 				recv.timestamp = timestamp;
-
-				ccs.hContact = hContact;
-				ccs.szProtoService = PSR_MESSAGE;
-				ccs.lParam = reinterpret_cast<LPARAM>(&recv);
-				CallService(MS_PROTO_CHAINRECV,0,reinterpret_cast<LPARAM>(&ccs));
+				ProtoChainRecvMsg(hContact, &recv);
 
 				pos3++;
 			}
@@ -461,16 +455,10 @@ void FacebookProto::ProcessMessages( void* data )
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
 
 			PROTORECVEVENT recv = {0};
-			CCSDATA ccs = {0};
-
 			recv.flags = PREF_UTF;
 			recv.szMessage = const_cast<char*>(messages[i]->message_text.c_str());
 			recv.timestamp = local_timestamp ? ::time(NULL) : messages[i]->time;
-
-			ccs.hContact = hContact;
-			ccs.szProtoService = PSR_MESSAGE;
-			ccs.lParam = reinterpret_cast<LPARAM>(&recv);
-			CallService(MS_PROTO_CHAINRECV,0,reinterpret_cast<LPARAM>(&ccs));
+			ProtoChainRecvMsg(hContact, &recv);
 		}
 		delete messages[i];
 	}

@@ -131,17 +131,17 @@ void CAimProto::avatar_retrieval_handler(const char* sn, const char* hash, const
 
 int detect_image_type(const char* stream, const TCHAR* &type_ret)
 {
-	if(stream[0]=='G'&&stream[1]=='I'&&stream[2]=='F')
+	if (stream[0]=='G'&&stream[1]=='I'&&stream[2]=='F')
 	{
 		type_ret = _T(".gif");
 		return PA_FORMAT_GIF;
 	}
-	else if(stream[1]=='P'&&stream[2]=='N'&&stream[3]=='G')
+	else if (stream[1]=='P'&&stream[2]=='N'&&stream[3]=='G')
 	{
 		type_ret = _T(".png");
 		return PA_FORMAT_PNG;
 	}
-	else if(stream[0]=='B'&&stream[1]=='M')
+	else if (stream[0]=='B'&&stream[1]=='M')
 	{
 		type_ret = _T(".bmp");
 		return PA_FORMAT_BMP;

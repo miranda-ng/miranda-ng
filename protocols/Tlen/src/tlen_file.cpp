@@ -615,8 +615,7 @@ void TlenProcessF(XmlNode *node, ThreadData *info)
 					pre.ptszFiles = &filenameT;
 					pre.lParam = (LPARAM)ft;
 					JabberLog(ft->proto, "sending chainrecv");
-					CCSDATA ccs = { ft->hContact, PSR_FILE, 0, (LPARAM)&pre };
-					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+					ProtoChainRecvFile(ft->hContact, &pre);
 					mir_free(filenameT);
 				} else {
 					// malformed <f/> request, reject

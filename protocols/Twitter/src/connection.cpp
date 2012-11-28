@@ -657,19 +657,12 @@ void TwitterProto::UpdateMessages(bool pre_read)
 			HANDLE hContact = AddToClientList(i->username.c_str(),"");
 
 			PROTORECVEVENT recv = {};
-			CCSDATA ccs = {};
-
 			recv.flags = PREF_UTF;
 			if(pre_read)
 				recv.flags |= PREF_CREATEREAD;
 			recv.szMessage = const_cast<char*>(i->status.text.c_str());
 			recv.timestamp = static_cast<DWORD>(i->status.time);
-
-			ccs.hContact = hContact;
-			ccs.szProtoService = PSR_MESSAGE;
-			ccs.wParam = ID_STATUS_ONLINE;
-			ccs.lParam = reinterpret_cast<LPARAM>(&recv);
-			CallService(MS_PROTO_CHAINRECV,0,reinterpret_cast<LPARAM>(&ccs));
+			ProtoChainRecvMsg(hContact, &recv);
 		}
 
 		db_pod_set(0,m_szModuleName,TWITTER_KEY_DMSINCEID,dm_since_id_);

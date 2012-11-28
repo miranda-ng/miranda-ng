@@ -96,16 +96,10 @@ void  CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const c
 	if (reason == NULL) reason = "";
 	int reasonlen = (int)strlen(reason);
 
-	CCSDATA ccs = { 0 };
 	PROTORECVEVENT pre = { 0 };
-
 	pre.flags = PREF_UTF;
 	pre.timestamp = (DWORD)time(NULL);
 	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + nicklen + emaillen + 5 + reasonlen;
-
-	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = hContact;
-	ccs.lParam = (LPARAM)&pre;
 
 	char* pCurBlob = (char*)alloca(pre.lParam);
 	pre.szMessage = pCurBlob;
@@ -118,7 +112,7 @@ void  CMsnProto::MSN_AddAuthRequest(const char *email, const char *nick, const c
 	strcpy(pCurBlob, email); pCurBlob += emaillen + 1;              // E-mail
 	strcpy(pCurBlob, reason);                                       // Reason
 
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////

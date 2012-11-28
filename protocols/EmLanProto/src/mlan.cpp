@@ -362,20 +362,13 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 					RequestStatus(true, cont->m_addr.S_un.S_addr);
 				else
 				{
-					CCSDATA ccs;
 					PROTORECVEVENT pre;
-
-					ccs.hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
-					ccs.szProtoService = pak.flIsUrl?PSR_URL:PSR_MESSAGE;
-					ccs.wParam = 0;
-					ccs.lParam =(LPARAM)&pre;
-
 					pre.flags = 0;
 					pre.timestamp = get_time();
 					pre.szMessage = pak.strMessage;
 					pre.lParam = 0;
-
-					CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+					ProtoChainRecv( FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status),
+						pak.flIsUrl ? PSR_URL : PSR_MESSAGE, 0, (LPARAM)&pre );
 
 					TPacket npak;
 					ZeroMemory(&npak, sizeof(npak));
@@ -394,20 +387,12 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 
 			if (pak.strAwayMessage && cont)
 			{
-				CCSDATA ccs;
 				PROTORECVEVENT pre;
-
-				ccs.hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
-				ccs.szProtoService = PSR_AWAYMSG;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
-
 				pre.flags = 0;
 				pre.timestamp = get_time();
 				pre.szMessage = pak.strAwayMessage;
 				pre.lParam = pak.idAckAwayMessage;
-
-				CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+				ProtoChainRecv( FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status), PSR_AWAYMSG, 0, (LPARAM)&pre);
 			}
 
 			if (pak.idReqAwayMessage && cont)
@@ -453,21 +438,6 @@ void CMLan::OnRecvPacket(u_char* mes, int len, in_addr from)
 				}
 
 				LeaveCriticalSection(&m_csAccessAwayMes);
-
-//				CCSDATA ccs;
-//				PROTORECVEVENT pre;
-//
-//				ccs.hContact = FindContact(cont->m_addr, cont->m_nick, false, true, cont->m_status);
-//				ccs.szProtoService = PSS_AWAYMSG;
-//				ccs.wParam = pak.idReqAwayMessage;
-//				ccs.lParam = (LPARAM)"";
-//
-//				pre.flags = 0;
-//				pre.timestamp = get_time();
-//				pre.szMessage = "Anus";
-//				pre.lParam = ID_STATUS_AWAY;
-//
-//				CallService(MS_PROTO_CHAINRECV, 0 ,(LPARAM)&ccs);
 			}
 		}
 	}
@@ -481,7 +451,7 @@ void CMLan::RecvMessageUrl(CCSDATA* ccs)
 
 	ZeroMemory(&dbei,sizeof(dbei));
 
-	if (ccs->szProtoService==PSR_MESSAGE)
+	if (ccs->szProtoService == PSR_MESSAGE)
 		dbei.eventType = EVENTTYPE_MESSAGE;
 	else
 		dbei.eventType = EVENTTYPE_URL;
@@ -1234,16 +1204,11 @@ void CMLan::OnInTCPConnection(u_long addr, SOCKET in_sock)
 		*pf_to++ = *pf_fr++;
 	*pf_to++ = *pf_fr++;
 
-	conn->m_hContact = ccs.hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
-	ccs.szProtoService = PSR_FILE;
-	ccs.wParam = 0;
-	ccs.lParam =(LPARAM)&pre;
-
+	conn->m_hContact = FindContact(cont->m_addr, cont->m_nick, true, false, false, cont->m_status);
 	pre.flags = 0;
 	pre.timestamp = get_time();
 	pre.lParam = 0;
-
-	CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+	ProtoChainRecv(conn->m_hContact, PSR_FILE, 0, (LPARAM)&pre);
 
 	delete[] pre.szMessage;
 

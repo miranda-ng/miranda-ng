@@ -36,7 +36,7 @@ TLV::TLV(unsigned short type, unsigned short length, const char* value)
 {
     type_ = type;
     length_ = length;
-    if(length_ > 0)
+    if (length_ > 0)
     {
         value_ = (char*)mir_alloc(length_+1);
         memcpy(value_, value, length_);

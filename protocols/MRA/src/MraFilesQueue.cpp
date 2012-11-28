@@ -733,14 +733,7 @@ DWORD CMraProto::MraFilesQueueAddReceive(HANDLE hFilesQueueHandle, DWORD dwFlags
 	prf.fileCount = 1;//dat->dwFilesCount;
 	prf.ptszFiles = &dat->pwszFilesList;
 	prf.lParam = dwIDRequest;
-
-	CCSDATA ccs;
-	ccs.szProtoService = PSR_FILE;
-	ccs.hContact = hContact;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&prf;
-
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+	ProtoChainRecvFile(hContact, &prf);
 	return NO_ERROR;
 }
 

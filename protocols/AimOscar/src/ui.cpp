@@ -41,9 +41,9 @@ void DrawMyControl(HDC hDC, HWND /*hwndButton*/, HANDLE hTheme, UINT iState, REC
 	if (hTheme)
 	{
 		DWORD state = (bIsPressed)?PBS_PRESSED:PBS_NORMAL;
-		if(state == PBS_NORMAL)
+		if (state == PBS_NORMAL)
 		{
-			if(bIsFocused)
+			if (bIsFocused)
 				state = PBS_DEFAULTED;
 		}
 		rect.top-=1;
@@ -137,22 +137,22 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 #define MIN_WIDTH 400
 			if (WMSZ_RIGHT==wParam||WMSZ_TOPRIGHT==wParam||WMSZ_BOTTOMRIGHT==wParam)
 			{
-				if(rect->right-rect->left<MIN_WIDTH)
+				if (rect->right-rect->left<MIN_WIDTH)
 					rect->right=rect->left+MIN_WIDTH;
 			}
 			if (WMSZ_LEFT==wParam||WMSZ_TOPLEFT==wParam||WMSZ_BOTTOMLEFT==wParam)
 			{
-				if(rect->right-rect->left<MIN_WIDTH)
+				if (rect->right-rect->left<MIN_WIDTH)
 					rect->left=rect->right-MIN_WIDTH;
 			}
 			if (WMSZ_TOP==wParam||WMSZ_TOPRIGHT==wParam||WMSZ_TOPLEFT==wParam)
 			{
-				if(rect->bottom-rect->top<MIN_HEIGHT)
+				if (rect->bottom-rect->top<MIN_HEIGHT)
 					rect->top=rect->bottom-MIN_HEIGHT;
 			}
 			if (WMSZ_BOTTOM==wParam||WMSZ_BOTTOMLEFT==wParam||WMSZ_BOTTOMRIGHT==wParam)
 			{
-				if(rect->bottom-rect->top<MIN_HEIGHT)
+				if (rect->bottom-rect->top<MIN_HEIGHT)
 					rect->bottom=rect->top+MIN_HEIGHT;
 			}
 			break;
@@ -233,7 +233,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cfOld.dwMask = CFM_SUPERSCRIPT;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
 				BOOL isSuper = (cfOld.dwEffects & CFE_SUPERSCRIPT) && (cfOld.dwMask & CFM_SUPERSCRIPT);
-				if(isSuper)
+				if (isSuper)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);	
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sup_scrpt"), 16, 16, 0, 0, DI_NORMAL);
@@ -274,7 +274,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cfOld.dwMask = CFM_SUBSCRIPT;
 				SendDlgItemMessage(hwndDlg, IDC_PROFILE, EM_GETCHARFORMAT, SCF_SELECTION, (LPARAM)&cfOld);
 				BOOL isSub = (cfOld.dwEffects & CFE_SUBSCRIPT) && (cfOld.dwMask & CFM_SUBSCRIPT);
-				if(isSub)
+				if (isSub)
 				{
 					DrawMyControl(lpDIS->hDC,GetDlgItem(hwndDlg, IDC_BOLD),hThemeButton,lpDIS->itemState|ODS_SELECTED, lpDIS->rcItem);
 					DrawIconEx(lpDIS->hDC, 4, 5, LoadIconEx("sub_scrpt"), 16, 16, 0, 0, DI_NORMAL);	
@@ -307,7 +307,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					ReleaseIconEx("bold");
 				}
 			}
-			else if(lpDIS->CtlID == IDC_ITALIC)
+			else if (lpDIS->CtlID == IDC_ITALIC)
 			{
 				CHARFORMAT2 cfOld;
 				cfOld.cbSize = sizeof(CHARFORMAT2);
@@ -521,7 +521,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_UNDERLINE:
-			if(HIWORD(wParam)==BN_CLICKED)
+			if (HIWORD(wParam)==BN_CLICKED)
 			{
 				CHARFORMAT2 cfOld;
 				cfOld.cbSize = sizeof(CHARFORMAT2);
@@ -563,7 +563,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cc.hInstance=(HWND)GetModuleHandle(NULL);
 				cc.lpCustColors=custColours;
 				cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
-				if(ChooseColor(&cc)) 
+				if (ChooseColor(&cc)) 
 				{
 					foreground=cc.rgbResult;
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_FOREGROUNDCOLOR), NULL, FALSE);
@@ -586,7 +586,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 			break;
 
 		case IDC_BACKGROUNDCOLORPICKER:
-			if(HIWORD(wParam)==BN_CLICKED)
+			if (HIWORD(wParam)==BN_CLICKED)
 			{
 				CHOOSECOLOR cc={0};
 				custColours[0]=foreground;
@@ -596,7 +596,7 @@ static INT_PTR CALLBACK userinfo_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, L
 				cc.hInstance=(HWND)GetModuleHandle(NULL);
 				cc.lpCustColors=custColours;
 				cc.Flags=CC_ANYCOLOR|CC_FULLOPEN|CC_RGBINIT;
-				if(ChooseColor(&cc))
+				if (ChooseColor(&cc))
 				{
 					background=cc.rgbResult;
 					InvalidateRect(GetDlgItem(hwndDlg, IDC_BACKGROUNDCOLOR), NULL, FALSE);
@@ -878,14 +878,14 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				char str[128];
 				//SN
 				GetDlgItemTextA(hwndDlg, IDC_SN, str, sizeof(str));
-				if(strlen(str)>0)
+				if (strlen(str)>0)
 					ppro->setString(AIM_KEY_SN, str);
 				else
 					ppro->deleteSetting(NULL, AIM_KEY_SN);
 				//END SN
 
 				//NK
-				if(GetDlgItemTextA(hwndDlg, IDC_NK, str, sizeof(str)))
+				if (GetDlgItemTextA(hwndDlg, IDC_NK, str, sizeof(str)))
 					ppro->setString(AIM_KEY_NK, str);
 				else
 				{
@@ -896,7 +896,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//PW
 				GetDlgItemTextA(hwndDlg, IDC_PW, str, sizeof(str));
-				if(strlen(str)>0)
+				if (strlen(str)>0)
 				{
 					CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);
 					ppro->setString(AIM_KEY_PW, str);
@@ -907,7 +907,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//HN
 				GetDlgItemTextA(hwndDlg, IDC_HN, str, sizeof(str));
-				if(strlen(str)>0 && strcmp(str, AIM_DEFAULT_SERVER))
+				if (strlen(str)>0 && strcmp(str, AIM_DEFAULT_SERVER))
 					ppro->setString(AIM_KEY_HN, str);
 				else
 					ppro->deleteSetting(NULL, AIM_KEY_HN);
@@ -935,7 +935,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				//PN
 				int port = GetDlgItemInt(hwndDlg, IDC_PN, NULL, FALSE);
-				if(port > 0 && port != ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT)
+				if (port > 0 && port != ppro->getByte(AIM_KEY_DSSL, 0) ? AIM_DEFAULT_PORT : AIM_DEFAULT_SSL_PORT)
 					ppro->setWord(AIM_KEY_PN, (WORD)port);
 				else
 					ppro->deleteSetting(NULL, AIM_KEY_PN);
@@ -952,7 +952,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 				{
 					int acc_disabled = ppro->getByte(AIM_KEY_AT, 0);
-					if(acc_disabled)
+					if (acc_disabled)
 						add_AT_icons(ppro);
 					ppro->setByte(AIM_KEY_AT, 0);
 				}
@@ -969,7 +969,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				{
 					int es_disabled = ppro->getByte(AIM_KEY_ES, 0);
 					ppro->setByte(AIM_KEY_ES, 0);
-					if(es_disabled)
+					if (es_disabled)
 						add_ES_icons(ppro);
 				}
 				//End
@@ -985,7 +985,7 @@ static INT_PTR CALLBACK options_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				else
 				{
 					int hf = ppro->getByte(AIM_KEY_HF, 0);
-					if(hf)
+					if (hf)
 						ShowWindow(GetDlgItem(hwndDlg, IDC_MASQ), SW_SHOW);
 					ppro->setByte(AIM_KEY_HF, 0);
 				}

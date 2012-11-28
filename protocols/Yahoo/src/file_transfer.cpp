@@ -529,13 +529,7 @@ void CYahooProto::ext_got_file(const char *me, const char *who, const char *url,
 	pre.tszDescription = mir_a2t(msg);
 	pre.ptszFiles = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
-
-	CCSDATA ccs;
-	ccs.szProtoService = PSR_FILE;
-	ccs.hContact = hContact;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM) & pre;
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
+	ProtoChainRecvFile(hContact, &pre);
 
 	mir_free(pre.tszDescription);
 	mir_free(ptszFileName);
@@ -585,13 +579,7 @@ void CYahooProto::ext_got_files(const char *me, const char *who, const char *ft_
 	pre.tszDescription = _T("");
 	pre.ptszFiles = &ptszFileName;
 	pre.lParam = (LPARAM)ft;
-
-	CCSDATA ccs;
-	ccs.szProtoService = PSR_FILE;
-	ccs.hContact = ft->hContact;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
+	ProtoChainRecvFile(ft->hContact, &pre);
 
 	mir_free(ptszFileName);
 }

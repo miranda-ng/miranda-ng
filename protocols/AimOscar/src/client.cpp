@@ -223,7 +223,7 @@ int CAimProto::aim_set_caps(HANDLE hServerConn,unsigned short &seqno)
 //	memcpy(&temp[AIM_CAPS_LENGTH*i++],AIM_CAP_ICQ_SERVER_RELAY,AIM_CAPS_LENGTH);
 	memcpy(&temp[AIM_CAPS_LENGTH*i++],AIM_CAP_UTF8,AIM_CAPS_LENGTH);
 	memcpy(&temp[AIM_CAPS_LENGTH*i++],AIM_CAP_MIRANDA,AIM_CAPS_LENGTH);
-	if(getByte(AIM_KEY_HF, 0))
+	if (getByte(AIM_KEY_HF, 0))
 		memcpy(&temp[AIM_CAPS_LENGTH*i++],AIM_CAP_HIPTOP,AIM_CAPS_LENGTH);
 	aim_writesnac(0x02,0x04,offset,buf);
 	aim_writetlv(0x05,(unsigned short)(AIM_CAPS_LENGTH*i),temp,offset,buf);
@@ -370,7 +370,7 @@ int CAimProto::aim_send_message(HANDLE hServerConn,unsigned short &seqno,const c
 
 	if (!blast)
 	{
-		if(auto_response)
+		if (auto_response)
 			aim_writetlv(0x04,0,0,offset,buf);                       // auto-response message
 		else
 		{

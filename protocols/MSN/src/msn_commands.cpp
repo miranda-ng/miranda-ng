@@ -155,13 +155,7 @@ void CMsnProto::sttInviteMessage(ThreadData* info, char* msgBody, char* email, c
 		pre.tszDescription = tComment;
 		pre.ptszFiles = &ft->std.tszCurrentFile;
 		pre.lParam = (LPARAM)ft;
-
-		CCSDATA ccs;
-		ccs.hContact = ft->std.hContact;
-		ccs.szProtoService = PSR_FILE;
-		ccs.wParam = 0;
-		ccs.lParam = (LPARAM)&pre;
-		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+		ProtoChainRecvFile(ft->std.hContact, &pre);
 		return;
 	}
 
@@ -440,9 +434,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 
 	if (!_strnicmp(tContentType, "text/plain", 10))
 	{
-		CCSDATA ccs = {0};
-
-		ccs.hContact = MSN_HContactFromEmail(email, nick, true, true);
+		HANDLE hContact = MSN_HContactFromEmail(email, nick, true, true);
 
 		const char* p = tHeader["X-MMS-IM-Format"];
 		bool isRtl =  p != NULL && strstr(p, "RL=1") != NULL;
@@ -457,7 +449,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				{
 					if (_stricmp(info->mJoinedContactsWLID[j], email) == 0 && j != 0)
 					{
-						ccs.hContact = info->getContactHandle();
+						hContact = info->getContactHandle();
 						break;
 					}
 				}
@@ -469,8 +461,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			parseWLID(NEWSTR_ALLOCA(email), NULL, &szEmail, NULL);
 			sentMsg = _stricmp(szEmail, MyOptions.szEmail) == 0;
 			if (sentMsg)
-				ccs.hContact = ubmMsg ? MSN_HContactFromEmail(datau.toEmail, nick) :
-					info->getContactHandle();
+				hContact = ubmMsg ? MSN_HContactFromEmail(datau.toEmail, nick) : info->getContactHandle();
 		}
 
 		const char* tP4Context = tHeader["P4-Context"];
@@ -493,7 +484,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			gce.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
 			gce.pDest = &gcd;
 			gce.ptszUID = mir_a2t(email);
-			gce.ptszNick = GetContactNameT(ccs.hContact);
+			gce.ptszNick = GetContactNameT(hContact);
 			gce.time = time(NULL);
 			gce.bIsMe = FALSE;
 
@@ -505,29 +496,24 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 			mir_free((void*)gce.pszText);
 			mir_free((void*)gce.ptszUID);
 		}
-		else if (ccs.hContact)
+		else if (hContact)
 		{
 			if (!sentMsg)
 			{
-				CallService(MS_PROTO_CONTACTISTYPING, WPARAM(ccs.hContact), 0);
+				CallService(MS_PROTO_CONTACTISTYPING, WPARAM(hContact), 0);
 
 				PROTORECVEVENT pre;
 				pre.szMessage = (char*)msgBody;
 				pre.flags = PREF_UTF + (isRtl ? PREF_RTL : 0);
 				pre.timestamp = (DWORD)time(NULL);
 				pre.lParam = 0;
-
-				ccs.szProtoService = PSR_MESSAGE;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
-				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				ProtoChainRecvMsg(hContact, &pre);
 			}
 			else
 			{
+				bool haveWnd = MSN_MsgWndExist(hContact);
+
 				DBEVENTINFO dbei = {0};
-
-				bool haveWnd = MSN_MsgWndExist(ccs.hContact);
-
 				dbei.cbSize = sizeof(dbei);
 				dbei.eventType = EVENTTYPE_MESSAGE;
 				dbei.flags = DBEF_SENT | DBEF_UTF | (haveWnd ? 0 : DBEF_READ) | (isRtl ? DBEF_RTL : 0);
@@ -535,7 +521,7 @@ void CMsnProto::MSN_ReceiveMessage(ThreadData* info, char* cmdString, char* para
 				dbei.timestamp = time(NULL);
 				dbei.cbBlob = (unsigned)strlen(msgBody) + 1;
 				dbei.pBlob = (PBYTE)msgBody;
-				CallService(MS_DB_EVENT_ADD, (WPARAM)ccs.hContact, (LPARAM)&dbei);
+				CallService(MS_DB_EVENT_ADD, (WPARAM)hContact, (LPARAM)&dbei);
 			}
 		}
 	}
@@ -979,13 +965,7 @@ void CMsnProto::sttProcessPage(char* buf, unsigned len)
 		pre.szMessage = (char*)szMsg;
 		pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
 		pre.timestamp = time(NULL);
-
-		CCSDATA ccs = {0};
-		ccs.hContact = MSN_HContactFromEmail(szTel, szTel, true, true);
-		ccs.szProtoService = PSR_MESSAGE;
-		ccs.lParam = (LPARAM)&pre;
-		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-
+		ProtoChainRecvMsg( MSN_HContactFromEmail(szTel, szTel, true, true), &pre);
 	}
 	ezxml_free(xmlnot);
 }

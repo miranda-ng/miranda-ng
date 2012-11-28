@@ -799,37 +799,36 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 
 void CYahooProto::ext_contact_added(const char *myid, const char *who, const char *fname, const char *lname, const char *msg, int protocol)
 {
-	char		nick[128];
-	BYTE		*pCurBlob;
-	HANDLE		hContact = NULL;
-	CCSDATA 	ccs = { 0 };
+	char nick[128];
+	BYTE *pCurBlob;
+	HANDLE hContact = NULL;
 	PROTORECVEVENT pre = { 0 };
 
 	/* NOTE: Msg is actually in UTF8 unless stated otherwise!! */
-    LOG(("[ext_contact_added] %s %s (%s:%d) added you as %s w/ msg '%s'", fname, lname, who, protocol, myid, msg));
-    
+	LOG(("[ext_contact_added] %s %s (%s:%d) added you as %s w/ msg '%s'", fname, lname, who, protocol, myid, msg));
+
 	if ( BuddyIgnored( who )) {
 		LOG(("User '%s' on our Ignore List. Dropping Authorization Request.", who));
 		return;
 	}
-	
+
 	nick[0] = '\0';
-	
+
 	if (lname && fname)
 		mir_snprintf(nick, sizeof(nick), "%s %s", fname, lname);
 	else if (lname)
 		mir_snprintf(nick, sizeof(nick), "%s", lname);
 	else if (fname)
 		mir_snprintf(nick, sizeof(nick), "%s", fname);
-	
+
 	if (nick[0] == '\0') 
 		mir_snprintf(nick, sizeof(nick), "%s", who);
-	
+
 	if (fname) SetStringUtf(hContact, "FirstName", fname);
 	if (lname) SetStringUtf(hContact, "LastName", lname);
 
 	hContact = add_buddy(who, nick, protocol, PALF_TEMPORARY);
-	
+
 	if (strcmp(nick, who) != 0)
 		SetStringUtf(hContact, "Nick", nick);
 
@@ -840,14 +839,10 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 
 	//SetWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
-	
-	ccs.szProtoService	= PSR_AUTH;
-	ccs.hContact		= hContact;
-	ccs.wParam			= 0;
-	ccs.lParam			= (LPARAM) &pre;
+
 	pre.flags			= PREF_UTF;
 	pre.timestamp		= time(NULL);
-	
+
 	pre.lParam = sizeof(DWORD)+sizeof(HANDLE)+lstrlenA(who)+lstrlenA(nick)+5;
 
 	if (fname != NULL)
@@ -861,14 +856,6 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 
 	pCurBlob=(PBYTE)malloc(pre.lParam);
 	pre.szMessage = (char *)pCurBlob;
-
-	/*
-	Auth blob is: uin(DWORD),hcontact(HANDLE),nick(ASCIIZ),first(ASCIIZ),
-	last(ASCIIZ),email(ASCIIZ),reason(ASCIIZ)
-
-	blob is: 0(DWORD), hContact(HANDLE), nick(ASCIIZ), fname (ASCIIZ), lname (ASCIIZ), email(ASCIIZ), msg(ASCIIZ)
-
-	*/
 
 	// UIN
 	*( PDWORD )pCurBlob = 0;
@@ -896,9 +883,9 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	pCurBlob+=lstrlenA((char *)pCurBlob)+1;
 
 	// Reason
-	lstrcpyA((char *)pCurBlob, (msg != NULL) ? msg : "" ); 
+	lstrcpyA((char *)pCurBlob, (msg != NULL) ? msg : "");
 
-	CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 }
 
 void CYahooProto::ext_typing_notify(const char *me, const char *who, int protocol, int stat)
@@ -936,38 +923,37 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 [17:36:44 YAHOO]  
 [17:36:44 YAHOO] libyahoo2/libyahoo2.c:908: debug: 
 [17:36:44 YAHOO] [Reading packet done]
-
-	 */
-    LOG(("[ext_game_notify] me: %s, who: %s, stat: %d, msg: %s", me, who, stat, msg));
-    /* FIXME - Not Implemented - this informs you someone else is playing on Yahoo! Games */
-    /* Also Stubbed in Sample Client */
+*/
+	LOG(("[ext_game_notify] me: %s, who: %s, stat: %d, msg: %s", me, who, stat, msg));
+	/* FIXME - Not Implemented - this informs you someone else is playing on Yahoo! Games */
+	/* Also Stubbed in Sample Client */
 	HANDLE hContact = getbuddyH(who);
 	if (!hContact)
 		return;
-	
+
 	if (stat == 2) 
 		SetString(hContact, "YGMsg", "");
 	else if (msg) {
 		const char *l = msg, *u = NULL;
 		char *z, *c;
 		int i = 0;
-		
+
 		/* Parse and Set a custom Message 
-		 *
-		 * Format: 1 [09] ygamesp [09] 1 [09] 0 [09] ante?room=yahoo_1078798506&follow=rrrrrrr	
-		 * [09] Yahoo! Poker\nRoom: Intermediate Lounge 2
-		 *
-		 * Sign-in:
-		 * [17:13:42 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrrrr, 
-		 * stat: 1, msg: 1	ygamesa	1	0	ante?room=yahoo_1043183792&follow=lotesdelere	
-		 * Yahoo! Backgammon Room: Social Lounge 12 
-		 *
-		 * Sign-out:
-		 * [17:18:38 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrr, 
-		 *	stat: 2, msg: 1	ygamesa	2
-		 */
+		*
+		* Format: 1 [09] ygamesp [09] 1 [09] 0 [09] ante?room=yahoo_1078798506&follow=rrrrrrr	
+		* [09] Yahoo! Poker\nRoom: Intermediate Lounge 2
+		*
+		* Sign-in:
+		* [17:13:42 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrrrr, 
+		* stat: 1, msg: 1	ygamesa	1	0	ante?room=yahoo_1043183792&follow=lotesdelere	
+		* Yahoo! Backgammon Room: Social Lounge 12 
+		*
+		* Sign-out:
+		* [17:18:38 YAHOO] [ext_yahoo_game_notify] id: 1, me: xxxxx, who: rrrrr, 
+		*	stat: 2, msg: 1	ygamesa	2
+		*/
 		z = (char *) _alloca(lstrlenA(l) + 50);
-		
+
 		z[0]='\0';
 		do{
 			c = ( char* )strchr(l, 0x09);
@@ -979,12 +965,12 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 					u = l;
 			}
 		} while (c != NULL && i < 5);
-		
+
 		if (c != NULL) {
 			// insert \r before \n
 			do{
 				c = ( char* )strchr(l, '\n');
-				
+
 				if (c != NULL) {
 					(*c) = '\0';
 					lstrcatA(z, l);
@@ -994,15 +980,15 @@ void CYahooProto::ext_game_notify(const char *me, const char *who, int stat, con
 					lstrcatA(z, l);
 				}
 			} while (c != NULL);
-			
+
 			lstrcatA(z, "\r\n\r\nhttp://games.yahoo.com/games/");
 			lstrcatA(z, u);
 			c = strchr(z, 0x09);
 			(*c) = '\0';
 		}
-		
+
 		SetStringUtf(hContact, "YGMsg", z);
-		
+
 	} else {
 		/* ? no information / reset custom message */
 		SetString(hContact, "YGMsg", "");

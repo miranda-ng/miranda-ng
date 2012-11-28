@@ -121,12 +121,7 @@ void CMsnProto::getOIMs(ezxml_t xmli)
 			pre.szMessage = mailInfo.decodeMailBody((char*)mailbody);
 			pre.flags = PREF_UTF /*+ ((isRtl) ? PREF_RTL : 0)*/;
 			pre.timestamp = evtm;
-
-			CCSDATA ccs = {0};
-			ccs.hContact = MSN_HContactFromEmail(szEmail);
-			ccs.szProtoService = PSR_MESSAGE;
-			ccs.lParam = (LPARAM)&pre;
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+			ProtoChainRecvMsg( MSN_HContactFromEmail(szEmail), &pre);
 			mir_free(pre.szMessage);
 
 			ezxml_t delmid = ezxml_add_child(delmids, "messageId", 0);

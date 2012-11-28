@@ -172,7 +172,7 @@ char* XFireGetFoldersPath(char * pathtype)
 extern HANDLE XFireWorkingFolder;
 extern HANDLE XFireIconFolder;
 extern HANDLE XFireAvatarFolder;
-	char path[1024] = "";
+	static char path[1024]; path[0] = 0;
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)){
 		if (!strcmp(pathtype,"Avatar")){
 			FoldersGetCustomPath(XFireAvatarFolder, path, 1024, "" );}

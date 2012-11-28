@@ -21,14 +21,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 FLAP::FLAP(char* buf,int num_bytes)
 {
-	if(FLAP_SIZE>num_bytes)
+	if (FLAP_SIZE>num_bytes)
 	{
 		length_=0;
 	}
 	else
 	{
 		length_=_htons((*(unsigned short*)&buf[4]));
-		if(FLAP_SIZE+length_>num_bytes)
+		if (FLAP_SIZE+length_>num_bytes)
 		{
 			length_=0;
 		}
@@ -49,7 +49,7 @@ unsigned short FLAP::snaclen()
 }
 int FLAP::cmp(unsigned short type)
 {
-	if(type_==type)
+	if (type_==type)
 		return 1;
 	else 
 		return 0;

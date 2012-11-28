@@ -320,14 +320,8 @@ void ShowMessageInline(const HANDLE hContact, const TCHAR *msg) {
 	char *utf = mir_utf8encodeT(buff);
 	pre.szMessage = utf;
 	pre.flags = PREF_UTF|PREF_BYPASS_OTR;
-	//CallContactService(hContact, PSR_MESSAGE, 0, (LPARAM)&pre);
+	ProtoChainRecvMsg(hContact, &pre);	
 
-	CCSDATA ccs = {0};
-	ccs.hContact = hContact;
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.lParam = (LPARAM)&pre;
-
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
 	mir_free(utf);
 }
 
@@ -339,16 +333,8 @@ void ShowMessageInlineUtf(const HANDLE hContact, const char *msg) {
 	pre.timestamp = time(0);
 	pre.szMessage = buff;
 	pre.flags = PREF_UTF|PREF_BYPASS_OTR;
-	//CallContactService(hContact, PSR_MESSAGE, 0, (LPARAM)&pre);
-
-	CCSDATA ccs = {0};
-	ccs.hContact = hContact;
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.lParam = (LPARAM)&pre;
-
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+	ProtoChainRecvMsg(hContact, &pre);
 }
-
 
 void ShowMessageUtf(const HANDLE hContact, const char *msg) {
 	if(options.msg_inline)

@@ -32,14 +32,14 @@ SNAC::SNAC(char* buf,unsigned short length)
 }
 int SNAC::cmp(unsigned short service)
 {
-	if(service_==service)
+	if (service_==service)
 		return 1;
 	else 
 		return 0;
 }
 int SNAC::subcmp(unsigned short subgroup)
 {
-	if(subgroup_==subgroup)
+	if (subgroup_==subgroup)
 		return 1;
 	else 
 		return 0;

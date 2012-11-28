@@ -392,9 +392,8 @@ void __cdecl GGPROTO::dccmainthread(void*)
 								pre.ptszFiles = &filenameT;
 								pre.lParam = (LPARAM)local_dcc;
 
-								CCSDATA ccs = { local_dcc->contact, PSR_FILE, 0, (LPARAM)&pre };
 								gg_LeaveCriticalSection(&ft_mutex, "dccmainthread", 37, 7, "ft_mutex", 1);
-								CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+								ProtoChainRecvFile(local_dcc->contact, &pre);
 								gg_EnterCriticalSection(&ft_mutex, "dccmainthread", 37, "ft_mutex", 1);
 
 								mir_free(filenameT);

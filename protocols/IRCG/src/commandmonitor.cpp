@@ -705,11 +705,7 @@ bool CIrcProto::OnIrc_PRIVMSG( const CIrcMessage* pmsg )
 		bool bIsChannel = IsChannel(pmsg->parameters[0]);
 
 		if ( pmsg->m_bIncoming && !bIsChannel ) {
-			CCSDATA ccs = {0}; 
-			PROTORECVEVENT pre;
-
 			mess = DoColorCodes( mess.c_str(), TRUE, FALSE );
-			ccs.szProtoService = PSR_MESSAGE;
 
 			struct CONTACT user = { (TCHAR*)pmsg->prefix.sNick.c_str(), (TCHAR*)pmsg->prefix.sUser.c_str(), (TCHAR*)pmsg->prefix.sHost.c_str(), false, false, false};
 
@@ -723,14 +719,15 @@ bool CIrcProto::OnIrc_PRIVMSG( const CIrcMessage* pmsg )
 					return true;
 			}
 
-			ccs.hContact = CList_AddContact( &user, false, true );
-			ccs.lParam = (LPARAM)&pre;
+			HANDLE hContact = CList_AddContact(&user, false, true);
+
+			PROTORECVEVENT pre;
 			pre.timestamp = (DWORD)time(NULL);
 			pre.flags = PREF_UTF;
 			pre.szMessage = mir_utf8encodeW( mess.c_str());
-			setTString(ccs.hContact, "User", pmsg->prefix.sUser.c_str());
-			setTString(ccs.hContact, "Host", pmsg->prefix.sHost.c_str());
-			CallService( MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
+			setTString(hContact, "User", pmsg->prefix.sUser.c_str());
+			setTString(hContact, "Host", pmsg->prefix.sHost.c_str());
+			ProtoChainRecvMsg(hContact, &pre);
 			mir_free( pre.szMessage );
 			return true;
 		}
@@ -1180,12 +1177,7 @@ bool CIrcProto::IsCTCP( const CIrcMessage* pmsg )
 						pre.fileCount = 1;
 						pre.ptszFiles = &tszTemp;						
 						pre.lParam = (LPARAM)di;
-
-						CCSDATA ccs = {0}; 
-						ccs.szProtoService = PSR_FILE;
-						ccs.hContact = hContact;
-						ccs.lParam = (LPARAM) & pre;
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+						ProtoChainRecvFile(hContact, &pre);
 			}	}	}
 			// end type == "send"
 		}

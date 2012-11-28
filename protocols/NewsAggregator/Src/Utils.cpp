@@ -1090,13 +1090,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									recv.flags = PREF_TCHAR;
 									recv.timestamp = stamp;
 									recv.tszMessage = message;
-
-									CCSDATA ccs;
-									ccs.hContact = hContact;
-									ccs.wParam = 0;
-									ccs.szProtoService = PSR_MESSAGE;
-									ccs.lParam = ( LPARAM )&recv;
-									CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+									ProtoChainRecvMsg(hContact, &recv);
 								}
 								mir_free(message);
 							}
@@ -1389,13 +1383,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 									recv.flags = PREF_TCHAR;
 									recv.timestamp = stamp;
 									recv.tszMessage = message;
-
-									CCSDATA ccs;
-									ccs.hContact = hContact;
-									ccs.wParam = 0;
-									ccs.szProtoService = PSR_MESSAGE;
-									ccs.lParam = ( LPARAM )&recv;
-									CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+									ProtoChainRecvMsg(hContact, &recv);
 								}
 								mir_free(message);
 							}

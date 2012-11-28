@@ -722,9 +722,7 @@ BOOL CJabberProto::OnIqRequestOOB(HXML, CJabberIqInfo *pInfo)
 		pre.ptszFiles = &str2;
 		pre.fileCount = 1;
 		pre.lParam = (LPARAM)ft;
-
-		CCSDATA ccs = { ft->std.hContact, PSR_FILE, 0, (LPARAM)&pre };
-		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+		ProtoChainRecvFile(ft->std.hContact, &pre);		
 		mir_free(str2);
 	}
 	else {

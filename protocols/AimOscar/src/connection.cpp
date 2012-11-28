@@ -131,10 +131,10 @@ void CAimProto::aim_connection_authorization(void)
 					if (aim_send_connection_packet(hServerConn, seqno,flap.val())==0)//cookie challenge
 						aim_authkey_request(hServerConn, seqno);//md5 authkey request
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(),flap.snaclen());
-					if(snac.cmp(0x0017))
+					if (snac.cmp(0x0017))
 					{
 						snac_md5_authkey(snac,hServerConn,seqno, username, password);
 						int authres = snac_authorization_reply(snac);
@@ -156,7 +156,7 @@ void CAimProto::aim_connection_authorization(void)
 						}
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 				{
 					LOG("Connection Authorization Thread Ending: Flap 0x04");
 					goto exit;
@@ -201,7 +201,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 				break;
 			}
 		}
-		else if(recvResult>0)
+		else if (recvResult>0)
 		{
 			unsigned short flap_length=0;
 			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
@@ -212,17 +212,17 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(hServerConn,seqno,COOKIE_LENGTH,COOKIE);//cookie challenge
 					mir_free(COOKIE);
 					COOKIE=NULL;
 					COOKIE_LENGTH=0;
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(),flap.snaclen());
-					if(snac.cmp(0x0001))
+					if (snac.cmp(0x0001))
 					{
 						snac_supported_families(snac,hServerConn,seqno);
 						snac_supported_family_versions(snac,hServerConn,seqno);
@@ -231,18 +231,18 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 						snac_self_info(snac);
 						snac_error(snac);
 					}
-					else if(snac.cmp(0x0002))
+					else if (snac.cmp(0x0002))
 					{
 						snac_received_info(snac);
 						snac_error(snac);
 					}
-					else if(snac.cmp(0x0003))
+					else if (snac.cmp(0x0003))
 					{
 						snac_user_online(snac);
 						snac_user_offline(snac);
 						snac_error(snac);
 					}
-					else if(snac.cmp(0x0004))
+					else if (snac.cmp(0x0004))
 					{
 						snac_icbm_limitations(snac,hServerConn,seqno);
 						snac_message_accepted(snac);
@@ -251,7 +251,7 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 						snac_error(snac);
 						snac_file_decline(snac);
 					}
-					else if(snac.cmp(0x000A))
+					else if (snac.cmp(0x000A))
 					{
 						snac_email_search_results(snac);
 						/* 
@@ -262,14 +262,14 @@ void __cdecl CAimProto::aim_protocol_negotiation( void* )
 						*/
 						//snac_error(snac); 
 					}
-					else if(snac.cmp(0x0013))
+					else if (snac.cmp(0x0013))
 					{
 						snac_contact_list(snac,hServerConn,seqno);
 						snac_list_modification_ack(snac);
 						snac_error(snac);
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 				{
 					sendBroadcast(NULL, ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_OTHERLOCATION);
 					LOG("Connection Negotiation Thread Ending: Flap 0x04");
@@ -311,7 +311,7 @@ void __cdecl CAimProto::aim_mail_negotiation( void* )
 			else
 				break;
 		}
-		if(recvResult>0)
+		if (recvResult>0)
 		{
 			unsigned short flap_length=0;
 			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
@@ -322,7 +322,7 @@ void __cdecl CAimProto::aim_mail_negotiation( void* )
 				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(hMailConn,mail_seqno,MAIL_COOKIE_LENGTH,MAIL_COOKIE);//cookie challenge
 					mir_free(MAIL_COOKIE);
@@ -344,7 +344,7 @@ void __cdecl CAimProto::aim_mail_negotiation( void* )
 						snac_mail_response(snac);
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 					goto exit;
 			}
 		}
@@ -384,14 +384,14 @@ void __cdecl CAimProto::aim_avatar_negotiation( void* )
 				if (!flap.len())
 					break;
 				flap_length += FLAP_SIZE + flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(hAvatarConn, avatar_seqno, AVATAR_COOKIE_LENGTH, AVATAR_COOKIE);//cookie challenge
 					mir_free(AVATAR_COOKIE);
 					AVATAR_COOKIE = NULL;
 					AVATAR_COOKIE_LENGTH = 0;
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(), flap.snaclen());
 					if (snac.cmp(0x0001))
@@ -451,7 +451,7 @@ void __cdecl CAimProto::aim_chatnav_negotiation( void* )
 				break;
 		}
 
-		if(recvResult>0)
+		if (recvResult>0)
 		{
 			unsigned short flap_length=0;
 			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
@@ -462,30 +462,30 @@ void __cdecl CAimProto::aim_chatnav_negotiation( void* )
 				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(hChatNavConn,chatnav_seqno,CHATNAV_COOKIE_LENGTH,CHATNAV_COOKIE);//cookie challenge
 					mir_free(CHATNAV_COOKIE);
 					CHATNAV_COOKIE=NULL;
 					CHATNAV_COOKIE_LENGTH=0;
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(),flap.snaclen());
-					if(snac.cmp(0x0001))
+					if (snac.cmp(0x0001))
 					{
 						snac_supported_families(snac,hChatNavConn,chatnav_seqno);
 						snac_supported_family_versions(snac,hChatNavConn,chatnav_seqno);
 						snac_chatnav_rate_limitations(snac,hChatNavConn,chatnav_seqno);
 						snac_error(snac);
 					}
-					if(snac.cmp(0x000D))
+					if (snac.cmp(0x000D))
 					{
 						snac_chatnav_info_response(snac,hChatNavConn,chatnav_seqno);
 						snac_error(snac);
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 					goto exit;
 			}
 		}
@@ -524,7 +524,7 @@ void __cdecl CAimProto::aim_chat_negotiation( void* param )
 				break;
 		}
 
-		if(recvResult>0)
+		if (recvResult>0)
 		{
 			unsigned short flap_length=0;
 			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
@@ -535,17 +535,17 @@ void __cdecl CAimProto::aim_chat_negotiation( void* param )
 				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(item->hconn,item->seqno,item->CHAT_COOKIE_LENGTH,item->CHAT_COOKIE);//cookie challenge
 					mir_free(item->CHAT_COOKIE);
 					item->CHAT_COOKIE=NULL;
 					item->CHAT_COOKIE_LENGTH=0;
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(),flap.snaclen());
-					if(snac.cmp(0x0001))
+					if (snac.cmp(0x0001))
 					{
 						snac_supported_families(snac,item->hconn,item->seqno);
 						snac_supported_family_versions(snac,item->hconn,item->seqno);
@@ -553,14 +553,14 @@ void __cdecl CAimProto::aim_chat_negotiation( void* param )
 						snac_error(snac);
 
 					}
-					if(snac.cmp(0x000E))
+					if (snac.cmp(0x000E))
 					{
 						snac_chat_received_message(snac, item);
 						snac_chat_joined_left_users(snac, item);
 						snac_error(snac);
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 					goto exit;
 			}
 		}
@@ -590,7 +590,7 @@ void __cdecl CAimProto::aim_admin_negotiation( void* )
 		if (recvResult == SOCKET_ERROR)
 			break;
 
-		if(recvResult>0)
+		if (recvResult>0)
 		{
 			unsigned short flap_length=0;
 			for (;packetRecv.bytesUsed<packetRecv.bytesAvailable;packetRecv.bytesUsed=flap_length)
@@ -601,31 +601,31 @@ void __cdecl CAimProto::aim_admin_negotiation( void* )
 				if (!flap.len())
 					break;
 				flap_length+=FLAP_SIZE+flap.len();
-				if(flap.cmp(0x01))
+				if (flap.cmp(0x01))
 				{
 					aim_send_cookie(hAdminConn,admin_seqno,ADMIN_COOKIE_LENGTH,ADMIN_COOKIE);//cookie challenge
 					mir_free(ADMIN_COOKIE);
 					ADMIN_COOKIE=NULL;
 					ADMIN_COOKIE_LENGTH=0;
 				}
-				else if(flap.cmp(0x02))
+				else if (flap.cmp(0x02))
 				{
 					SNAC snac(flap.val(),flap.snaclen());
-					if(snac.cmp(0x0001))
+					if (snac.cmp(0x0001))
 					{
 						snac_supported_families(snac,hAdminConn,admin_seqno);
 						snac_supported_family_versions(snac,hAdminConn,admin_seqno);
 						snac_admin_rate_limitations(snac,hAdminConn,admin_seqno);
 						snac_error(snac);
 					}
-					if(snac.cmp(0x0007))
+					if (snac.cmp(0x0007))
 					{
 						snac_admin_account_infomod(snac);
 						snac_admin_account_confirm(snac);
 						snac_error(snac);
 					}
 				}
-				else if(flap.cmp(0x04))
+				else if (flap.cmp(0x04))
 					goto exit;
 			}
 		}

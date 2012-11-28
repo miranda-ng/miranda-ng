@@ -371,21 +371,14 @@ void CIcqProto::handleXtrazData(DWORD dwUin, DWORD dwMID, DWORD dwMID2, WORD wCo
 				strcat(szWork, szNum);
 
 				// Create message to notify user
-				{
-					CCSDATA ccs;
-					PROTORECVEVENT pre = {0};
-					int bAdded;
+				PROTORECVEVENT pre = {0};
+				pre.timestamp = time(NULL);
+				pre.szMessage = szWork;
+				pre.flags = PREF_UTF;
 
-					ccs.szProtoService = PSR_MESSAGE;
-					ccs.hContact = HContactFromUIN(dwUin, &bAdded);
-					ccs.wParam = 0;
-					ccs.lParam = (LPARAM)&pre;
-					pre.timestamp = time(NULL);
-					pre.szMessage = szWork;
-					pre.flags = PREF_UTF;
+				int bAdded;
+				ProtoChainRecvMsg( HContactFromUIN(dwUin, &bAdded), &pre);
 
-					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-				}
 				SAFE_FREE(&szWork);
 			}
 			else

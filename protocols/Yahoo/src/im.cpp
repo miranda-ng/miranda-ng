@@ -34,7 +34,6 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	char 		*umsg;
 	const char	*c = msg;
 	int 		oidx = 0;
-	CCSDATA 		ccs;
 	PROTORECVEVENT 	pre;
 	HANDLE 			hContact;
 
@@ -104,16 +103,9 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	/* Need to strip off formatting stuff first. Then do all decoding/converting */
 	LOG(("%s: %s", who, umsg));
 
-	//if (!strcmp(umsg, "<ding>")) 
-	//	:P("\a");
-
-	ccs.szProtoService = PSR_MESSAGE;
-	ccs.hContact = hContact = add_buddy(who, who, protocol, PALF_TEMPORARY);
 	//SetWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM) &pre;
 	pre.flags = (utf8) ? PREF_UTF : 0;
 
 	if (tm) {
@@ -144,7 +136,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 
 	// Turn off typing
 	CallService(MS_PROTO_CONTACTISTYPING, (WPARAM) hContact, PROTOTYPE_CONTACTTYPING_OFF);
-	CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) & ccs);
+	ProtoChainRecvMsg(hContact, &pre);
 
 	// ack the message we just got
 	if (seqn)

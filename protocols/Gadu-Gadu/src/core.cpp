@@ -845,15 +845,11 @@ retry:
 					// Check if not empty message ( who needs it? )
 					else if (!e->event.msg.recipients_count && e->event.msg.message && *e->event.msg.message && strcmp(e->event.msg.message, "\xA0\0"))
 					{
-						CCSDATA ccs = {0};
 						PROTORECVEVENT pre = {0};
 						time_t t = time(NULL);
-						ccs.szProtoService = PSR_MESSAGE;
-						ccs.hContact = getcontact(e->event.msg.sender, 1, 0, NULL);
-						ccs.lParam = (LPARAM)&pre;
 						pre.timestamp = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 						pre.szMessage = e->event.msg.message;
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+						ProtoChainRecvMsg( getcontact(e->event.msg.sender, 1, 0, NULL), &pre);
 					}
 
 					// RichEdit format included (image)
@@ -1070,9 +1066,7 @@ retry:
 					pre.tszDescription = filenameT;
 					pre.ptszFiles = &filenameT;
 					pre.lParam = (LPARAM)dcc7;
-
-					CCSDATA ccs = { dcc7->contact, PSR_FILE, 0, (LPARAM)&pre };
-					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+					ProtoChainRecvFile(dcc7->contact, &pre);
 
 					mir_free(filenameT);
 					e->event.dcc7_new = NULL;

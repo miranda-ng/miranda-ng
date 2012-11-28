@@ -851,18 +851,12 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 
 	if (res != 0) {
 		char image_msg[MAX_PATH + 11];
-		CCSDATA ccs = {0};
-		PROTORECVEVENT pre = {0};
+		mir_snprintf(image_msg, SIZEOF(image_msg), "[img]%s[/img]", (char*)_T2A(szPath));
 
-		ccs.szProtoService = PSR_MESSAGE;
-		ccs.hContact = hContact;
-		ccs.lParam = (LPARAM)&pre;
-        char* szPathA = mir_t2a(szPath);
-		mir_snprintf(image_msg, SIZEOF(image_msg), "[img]%s[/img]", szPathA);
-        mir_free(szPathA);
+		PROTORECVEVENT pre = {0};
 		pre.timestamp = time(NULL);
 		pre.szMessage = image_msg;
-		CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+		ProtoChainRecvMsg(hContact, &pre);
 		netlog("img_displayasmsg(): Image saved to %s.", szPath);
 	}
 	else

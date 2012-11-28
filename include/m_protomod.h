@@ -31,6 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <stdio.h>
 
 #include "m_protocols.h"
+#include "m_protosvc.h"
 
 //notify the protocol manager that you're around
 //wParam = 0
@@ -99,6 +100,21 @@ __forceinline HANDLE CreateProtoServiceFunction(const char *szModule, const char
 //differences between threads the functions are in.
 #define MS_PROTO_CHAINRECV       "Proto/ChainRecv"
 
+__forceinline INT_PTR ProtoChainRecv(HANDLE hContact, char *szService, WPARAM wParam, LPARAM lParam)
+{	CCSDATA ccs = { hContact, szService, wParam, lParam };
+	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+}
+
+__forceinline INT_PTR ProtoChainRecvMsg(HANDLE hContact, PROTORECVEVENT *pre)
+{	CCSDATA ccs = { hContact, PSR_MESSAGE, 0, (LPARAM)pre };
+	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+}
+
+__forceinline INT_PTR ProtoChainRecvFile(HANDLE hContact, PROTORECVFILET *pre)
+{	CCSDATA ccs = { hContact, PSR_FILE, 0, (LPARAM)pre };
+	return CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+}
+
 //Broadcast a ME_PROTO_ACK event
 //wParam = 0
 //lParam = (LPARAM)(ACKDATA*)&ack
@@ -106,6 +122,7 @@ __forceinline HANDLE CreateProtoServiceFunction(const char *szModule, const char
 //Thread safety: me_proto_ack is completely thread safe since 0.1.2.0
 //See the notes in core/modules.h under NotifyEventHooks()
 #define MS_PROTO_BROADCASTACK    "Proto/BroadcastAck"
+
 __forceinline INT_PTR ProtoBroadcastAck(const char *szModule, HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
 	ACKDATA ack = {0};

@@ -1329,13 +1329,7 @@ void CMsnProto::p2p_InitFileTransfer(
 			pre.tszDescription = tComment;
 			pre.ptszFiles = &ft->std.tszCurrentFile;
 			pre.lParam = (LPARAM)ft;
-
-			CCSDATA ccs;
-			ccs.hContact = ft->std.hContact;
-			ccs.szProtoService = PSR_FILE;
-			ccs.wParam = 0;
-			ccs.lParam = (LPARAM)&pre;
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+			ProtoChainRecvFile(ft->std.hContact, &pre);
 		}
 		break;
 

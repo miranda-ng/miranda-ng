@@ -268,19 +268,19 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 				else
 					deleteSetting(hContact, "Transport" );
 
-				if(admin_aol)
+				if (admin_aol)
 				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_ADMIN);
 				}
-				else if(aol)
+				else if (aol)
 				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_AOL);	
 				}
-				else if(icq)
+				else if (icq)
 				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_ICQ);	
 				}
-				else if(unconfirmed)
+				else if (unconfirmed)
 				{
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_UNCONFIRMED);
 				}
@@ -289,17 +289,17 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 					setByte(hContact, AIM_KEY_AC, ACCOUNT_TYPE_CONFIRMED);
 				}
 
-				if(bot)
+				if (bot)
 				{
 					strcpy(client,CLIENT_BOT);
 					bot_user=1;
 				}
-				if(wireless)
+				if (wireless)
 				{
 					strcpy(client,CLIENT_SMS);
 					wireless_user=1;
 				}
-				else if(away)
+				else if (away)
 				{
 					away_user=1;
 				}
@@ -407,93 +407,93 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 				for(int i=0;i<tlv.len();i=i+2)
 				{
 					unsigned short cap=tlv.ushort(i);
-					//if(cap==0x134E)
+					//if (cap==0x134E)
 					//	utf8=1;
-					if(cap==0xf002)
+					if (cap==0xf002)
 						f002=1;
-					if(cap==0xf003)
+					if (cap==0xf003)
 						f003=1;
-					if(cap==0xf004)
+					if (cap==0xf004)
 						f004=1;
-					if(cap==0xf005)
+					if (cap==0xf005)
 						f005=1;
-					if(cap==0xf007)
+					if (cap==0xf007)
 						f007=1;
-					if(cap==0xf008)
+					if (cap==0xf008)
 						f008=1;
-					if(cap==0x0101)
+					if (cap==0x0101)
 						O101=1;
-					if(cap==0x0102)
+					if (cap==0x0102)
 						O102=1;
-					if(cap==0x0103)
+					if (cap==0x0103)
 						O103=1;
-					if(cap==0x0104)
+					if (cap==0x0104)
 						O104=1;
-					if(cap==0x0105)
+					if (cap==0x0105)
 						O105=1;
-					if(cap==0x0107)
+					if (cap==0x0107)
 						O107=1;
-					if(cap==0x010a)
+					if (cap==0x010a)
 						O10a=1;
-					if(cap==0x010c)
+					if (cap==0x010c)
 						O10c=1;
-					if(cap==0x010d)
+					if (cap==0x010d)
 						O10d=1;
-					if(cap==0x01ff)
+					if (cap==0x01ff)
 						O1ff=1;
-					if(cap==0x1323)
+					if (cap==0x1323)
 					{
 						strcpy(client,CLIENT_GPRS);
 						hiptop_user=1;
 					}
-					if(cap==0x1341)
+					if (cap==0x1341)
 						l341=1;
-					if(cap==0x1343)
+					if (cap==0x1343)
 						l343=1;
-					if(cap==0x1345)
+					if (cap==0x1345)
 						l345=1;
-					if(cap==0x1346)
+					if (cap==0x1346)
 						l346=1;
-					if(cap==0x1347)
+					if (cap==0x1347)
 						l347=1;
-					if(cap==0x1348)
+					if (cap==0x1348)
 						l348=1;
-					if(cap==0x1349)
+					if (cap==0x1349)
 						l349=1;
-					if(cap==0x134b)
+					if (cap==0x134b)
 						l34b=1;
-					if(cap==0x134e)
+					if (cap==0x134e)
 						l34e=1;
 				}
-				if(f002&&f003&&f004&&f005)
+				if (f002&&f003&&f004&&f005)
 					strcpy(client,CLIENT_TRILLIAN_PRO);
 				else if ((f004&&f005&&f007&&f008) || (f004&&f005&&O104&&O105))
 					strcpy(client,CLIENT_ICHAT);
-				else if(f003&f004&f005)
+				else if (f003&f004&f005)
 					strcpy(client,CLIENT_TRILLIAN);
-				else if(l343&&O1ff&&tlv.len()==4)
+				else if (l343&&O1ff&&tlv.len()==4)
 					strcpy(client,CLIENT_TRILLIAN_ASTRA);
-				else if(l343&&tlv.len()==2)
+				else if (l343&&tlv.len()==2)
 					strcpy(client,CLIENT_AIMTOC);
-				else if(l343&&l345&&l346&&tlv.len()==6)
+				else if (l343&&l345&&l346&&tlv.len()==6)
 					strcpy(client,CLIENT_GAIM);
-				else if(l343&&l345&&l346&&l34e&&tlv.len()==8)
+				else if (l343&&l345&&l346&&l34e&&tlv.len()==8)
 					strcpy(client,CLIENT_PURPLE);
-				else if(l343&&l345&&l346&&l349&&l34e&&tlv.len()==10)
+				else if (l343&&l345&&l346&&l349&&l34e&&tlv.len()==10)
 					strcpy(client,CLIENT_PURPLE);
-				else if(l343&&l345&&l34e&&tlv.len()==6)
+				else if (l343&&l345&&l34e&&tlv.len()==6)
 					strcpy(client,CLIENT_ADIUM);
-				else if(l343&&l346&&l34e&&tlv.len()==6)
+				else if (l343&&l346&&l34e&&tlv.len()==6)
 					strcpy(client,CLIENT_TERRAIM);
-				else if(tlv.len()==0 && getWord(hContact, AIM_KEY_ST,0)!=ID_STATUS_ONTHEPHONE)
+				else if (tlv.len()==0 && getWord(hContact, AIM_KEY_ST,0)!=ID_STATUS_ONTHEPHONE)
 					strcpy(client,CLIENT_AIMEXPRESS5);	
-				else if(l34b&&l343&&O1ff&&l345&&l346&&tlv.len()==10)
+				else if (l34b&&l343&&O1ff&&l345&&l346&&tlv.len()==10)
 					strcpy(client,CLIENT_AIMEXPRESS6);	
-				else if(l34b&&l341&&l343&&O1ff&&l345&&l346&&l347)
+				else if (l34b&&l341&&l343&&O1ff&&l345&&l346&&l347)
 					strcpy(client,CLIENT_AIM5);
-				else if(l34b&&l341&&l343&&l345&l346&&l347&&l348)
+				else if (l34b&&l341&&l343&&l345&l346&&l347&&l348)
 					strcpy(client,CLIENT_AIM4);
-				else if(O1ff&&l343&&O107&&l341&&O104&&O105&&O101&&l346)
+				else if (O1ff&&l343&&O107&&l341&&O104&&O105&&O101&&l346)
 				{
 					if (O10d)
 						strcpy(client,CLIENT_AIM6_9);
@@ -504,13 +504,13 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 					else
 						strcpy(client,CLIENT_AIM_TRITON);
 				}
-				else if(O1ff&&l343&&l341&&O104&&O105&&O101&&l346)
+				else if (O1ff&&l343&&l341&&O104&&O105&&O101&&l346)
 					strcpy(client,CLIENT_AIM7_0);
-				else if(l346&&l34e&&tlv.len()==4)
+				else if (l346&&l34e&&tlv.len()==4)
 					strcpy(client,CLIENT_MEEBO);
-				else if(l34e&&tlv.len()==2)
+				else if (l34e&&tlv.len()==2)
 					strcpy(client,CLIENT_BEEJIVE);
-				else if(l34e&&l343&&tlv.len()==4)
+				else if (l34e&&l343&&tlv.len()==4)
 					strcpy(client,CLIENT_BEEJIVE);
 
 				//	setByte(hContact, AIM_KEY_US, utf8);
@@ -564,7 +564,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 						DBDeleteContactSetting(hContact, MOD_KEY_CL, OTH_KEY_SM);
 				}
 			}
-			else if(tlv.cmp(0x0004))//idle tlv
+			else if (tlv.cmp(0x0004))//idle tlv
 			{
 				if (hContact)
 				{
@@ -625,7 +625,7 @@ void CAimProto::snac_user_online(SNAC &snac)//family 0x0003
 }
 void CAimProto::snac_user_offline(SNAC &snac)//family 0x0003
 {
-	if(snac.subcmp(0x000c))
+	if (snac.subcmp(0x000c))
 	{
 		unsigned char buddy_length=snac.ubyte();
 		char* buddy=snac.part(1,buddy_length);
@@ -637,7 +637,7 @@ void CAimProto::snac_user_offline(SNAC &snac)//family 0x0003
 }
 void CAimProto::snac_error(SNAC &snac)//family 0x0003 or 0x0004
 {
-	if(snac.subcmp(0x0001))
+	if (snac.subcmp(0x0001))
 	{
 		get_error(snac.ushort());
 	}
@@ -758,9 +758,9 @@ void CAimProto::process_ssi_list(SNAC &snac, int &offset)
 				{
 					TLV tlv(snac.val(tlv_base + tlv_offset));
 
-					if(tlv.cmp(0x00ca))
+					if (tlv.cmp(0x00ca))
 						pd_mode = tlv.ubyte();
-					else if(tlv.cmp(0x00cc))
+					else if (tlv.cmp(0x00cc))
 						pd_flags = tlv.ulong();
 
 					tlv_offset += TLV_HEADER_SIZE + tlv.len();
@@ -906,9 +906,9 @@ void CAimProto::modify_ssi_list(SNAC &snac, int &offset)
 			{
 				TLV tlv(snac.val(tlv_base + tlv_offset));
 
-				if(tlv.cmp(0x00ca))
+				if (tlv.cmp(0x00ca))
 					pd_mode = tlv.ubyte();
-				else if(tlv.cmp(0x00cc))
+				else if (tlv.cmp(0x00cc))
 					pd_flags = tlv.ulong();
 
 				tlv_offset += TLV_HEADER_SIZE + tlv.len();
@@ -1129,13 +1129,10 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 		unsigned char sn_length = snac.ubyte(10);
 		char* sn                = snac.part(11,sn_length);
 
-		HANDLE hContact = contact_from_sn(sn, true, true);
+		HANDLE hContact = contact_from_sn(sn, true, true), hMsgContact = NULL;
 
 		int offset=15+sn_length;
 
-		CCSDATA ccs={0};
-		PROTORECVEVENT pre;
-		
 		char* msg_buf=NULL;
 		unsigned long offline_timestamp = 0;
 		bool is_offline = false;
@@ -1164,26 +1161,24 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 			// some extra sanity
 			if (offset>=snac.len()) break;
 		}
-		while (offset<snac.len())
+		
+		while (offset < snac.len())
 		{
 			TLV tlv(snac.val(offset));
-			offset+=TLV_HEADER_SIZE;
+			offset += TLV_HEADER_SIZE;
 			if (tlv.cmp(0x0004)&&!tlv.len())//auto response flag
-			{
-				auto_response=1;
-			}
-			if (tlv.cmp(0x0002))//msg
+				auto_response = 1;
+
+			if (tlv.cmp(0x0002)) //msg
 			{
 				unsigned short caps_length=tlv.ushort(2);
 				unsigned short msg_length=tlv.ushort(6+caps_length)-4;
 				unsigned short encoding=tlv.ushort(8+caps_length);
-				char* buf=tlv.part(12+caps_length,msg_length);
-				if(hContact)
-				{
+				char* buf = tlv.part(12+caps_length,msg_length);
+				if (hContact) {
 					wchar_t* wbuf;
-					ccs.hContact = hContact;
-					switch (encoding)
-					{
+					hMsgContact = hContact;
+					switch (encoding) {
 					case 2:
 						wbuf = (wchar_t*)buf;
 						wcs_htons(wbuf);
@@ -1206,84 +1201,59 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 					}
 				}
 			}
+
 			if (tlv.cmp(0x0004) && !tlv.len())//auto response flag
-			{
-				auto_response=1;
-			}
-			if (channel == 2 && tlv.cmp(0x0005))//recv rendervous packet
-			{
+				auto_response = 1;
+
+			if (channel == 2 && tlv.cmp(0x0005)) { //recv rendervous packet
 				rdz_msg_type = snac.ushort(offset);
 				icbm_cookie = snac.part(offset+2,8);
-				if (cap_cmp(snac.val(offset+10), AIM_CAP_FILE_TRANSFER) == 0)
-				{
-					for (int i = 26; i < tlv.len(); )
-					{
+				if (cap_cmp(snac.val(offset+10), AIM_CAP_FILE_TRANSFER) == 0) {
+					for (int i = 26; i < tlv.len(); ) {
 						TLV tlv(snac.val(offset+i));
 						if (tlv.cmp(0x000A))
-						{
 							request_num=tlv.ushort();//for file transfer
-						}
-						else if(tlv.cmp(0x0002))//proxy ip
-						{
+						else if (tlv.cmp(0x0002))//proxy ip
 							proxy_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0003))//client ip
-						{
+						else if (tlv.cmp(0x0003))//client ip
 							local_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0004))//verified ip
-						{
+						else if (tlv.cmp(0x0004))//verified ip
 							verified_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0005))
-						{
+						else if (tlv.cmp(0x0005))
 							port=tlv.ushort();
-						}
-						else if(tlv.cmp(0x0010))
-						{
+						else if (tlv.cmp(0x0010))
 							force_proxy=1;
-						}
 						else if (tlv.cmp(0x0012))
-						{
 							max_ver = tlv.ushort();
-						}
-						else if (tlv.cmp(0x2711))
-						{
+						else if (tlv.cmp(0x2711)) {
 							num_files = tlv.ushort(2);
 							file_size = tlv.ulong(4);
 							filename  = tlv.part(8, tlv.len()-8);
 						}
-						else if (tlv.cmp(0x2712))
-						{
+						else if (tlv.cmp(0x2712)) {
 							char* enc = tlv.dup();
 							utf_fname = strcmp(enc, "utf-8") == 0;
 							mir_free(enc);
 						}
-						else if (tlv.cmp(0x2713))
-						{
+						else if (tlv.cmp(0x2713)) {
 							file_size = tlv.u64();
 						}
-						else if (tlv.cmp(0x000c))
-						{
+						else if (tlv.cmp(0x000c)) {
 							msg_buf = unicode_descr ? tlv.dupw() : tlv.dup();
 							html_decode(msg_buf);
 							descr_included = true;
-							if (strstr(msg_buf, "<ICQ_COOL_FT>"))
-							{
+							if (strstr(msg_buf, "<ICQ_COOL_FT>")) {
 								char* beg = strstr(msg_buf, "<DESC>");
 								char* end = strstr(msg_buf, "</DESC>");
-								if (beg && end && beg < end)
-								{
+								if (beg && end && beg < end) {
 									beg += 6;
 									end[0] = 0;
 									memmove(msg_buf, beg, end - beg + 1);
 								}
-								else
-									descr_included = false;
+								else descr_included = false;
 							}
 						}
-						else if(tlv.cmp(0x000d))
-						{
+						else if (tlv.cmp(0x000d)) {
 							char* enc = tlv.dup();
 							unicode_descr = strcmp(enc, "unicode-2-0") == 0;
 							mir_free(enc);
@@ -1291,47 +1261,29 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 						i += TLV_HEADER_SIZE + tlv.len();
 					}
 				}
-				else if (cap_cmp(snac.val(offset+10), AIM_CAP_RTCAUDIO) == 0 || 
-					cap_cmp(snac.val(offset+10), AIM_CAP_RTCVIDEO) == 0)
-				{
-					for (int i = 26; i < tlv.len(); )
-					{
+				else if (cap_cmp(snac.val(offset+10), AIM_CAP_RTCAUDIO) == 0 || cap_cmp(snac.val(offset+10), AIM_CAP_RTCVIDEO) == 0) {
+					for (int i = 26; i < tlv.len(); ) {
 						TLV tlv(snac.val(offset+i));
 						if (tlv.cmp(0x000A))
-						{
 							request_num=tlv.ushort();//for file transfer
-						}
-						else if(tlv.cmp(0x0002))//proxy ip
-						{
+						else if (tlv.cmp(0x0002))//proxy ip
 							proxy_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0003))//client ip
-						{
+						else if (tlv.cmp(0x0003))//client ip
 							local_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0004))//verified ip
-						{
+						else if (tlv.cmp(0x0004))//verified ip
 							verified_ip = tlv.ulong();
-						}
-						else if(tlv.cmp(0x0005))
-						{
+						else if (tlv.cmp(0x0005))
 							port=tlv.ushort();
-						}
 					}
 					channel = 0;
 					break;
 				}
-				else if (cap_cmp(snac.val(offset+10), AIM_CAP_CHAT) == 0)//it's a chat invite request
-				{
-					for(int i=26;i<tlv.len();)
-					{
+				else if (cap_cmp(snac.val(offset+10), AIM_CAP_CHAT) == 0) { //it's a chat invite request
+					for(int i=26; i < tlv.len();) {
 						TLV tlv(snac.val(offset+i));
-						if(tlv.cmp(0x000c))//optional message
-						{
+						if (tlv.cmp(0x000c)) //optional message
 							msg_buf = tlv.dup();		
-						}
-						else if(tlv.cmp(0x2711))//room information
-						{
+						else if (tlv.cmp(0x2711)) { //room information
 							int cookie_len=tlv.ubyte(2);
 							chatnav_param* par = 
 								new chatnav_param(tlv.part(3,cookie_len), tlv.ushort(), tlv.ushort(3+cookie_len),
@@ -1343,30 +1295,26 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 						i+=TLV_HEADER_SIZE+tlv.len();
 					}
 				}
-				else
-				{
+				else {
 					channel = 0;
 					break;
 				}
 			}
+
 			if (channel == 6 && tlv.cmp(0x0005))//audio/video tunnel
-			{
 				msg_buf = tlv.dup();		
-			}
+
 			if (tlv.cmp(0x0006))//Offline message flag
-			{
 				is_offline = true;
-			}
+
 			if (tlv.cmp(0x0016))//Offline message timestamp
-			{
 				offline_timestamp = tlv.ulong(0);
-			}
-			offset+=(tlv.len());
+
+			offset += (tlv.len());
 		}
-		if (channel == 1)//Message not file
-		{
-			if (auto_response)//this message must be an autoresponse
-			{
+
+		if (channel == 1) { //Message not file
+			if (auto_response) { //this message must be an autoresponse
 				char* away = mir_utf8encodeT(TranslateT("[Auto-Response]:"));
 				size_t len = strlen(msg_buf) + strlen(away) + 2;
 				char* buf = (char*)mir_alloc(len);
@@ -1377,20 +1325,17 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 			}
 
 			// Okay we are setting up the structure to give the message back to miranda's core
-			pre.flags = PREF_UTF;
+			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hMsgContact, 0);
+			{
+				PROTORECVEVENT pre;
+				pre.flags = PREF_UTF;
+				pre.timestamp = (is_offline) ? offline_timestamp : (DWORD)time(0);
+				pre.szMessage = msg_buf;
+				pre.lParam = 0;
+				ProtoChainRecvMsg(hMsgContact, &pre);
+			}
 
-			if (is_offline)
-				pre.timestamp = offline_timestamp;
-			else
-				pre.timestamp = (DWORD)time(NULL);
-			pre.szMessage = msg_buf;
-			pre.lParam = 0;
-			ccs.szProtoService = PSR_MESSAGE;	
-			CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)ccs.hContact, 0);
-			ccs.wParam = 0;
-			ccs.lParam = (LPARAM)&pre;
-			CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
-			if(m_iStatus==ID_STATUS_AWAY && !auto_response && !getByte(AIM_KEY_DM,0))
+			if (m_iStatus==ID_STATUS_AWAY && !auto_response && !getByte(AIM_KEY_DM,0))
 			{
 				unsigned long msg_time = getDword(hContact, AIM_KEY_LM, 0);
 				unsigned long away_time = getDword(AIM_KEY_LA, 0);
@@ -1457,12 +1402,7 @@ void CAimProto::snac_received_message(SNAC &snac,HANDLE hServerConn,unsigned sho
 				pre.tszDescription = mir_utf8decodeT(msg_buf);
 				pre.ptszFiles = &filenameT;
 				pre.lParam = (LPARAM)ft;
-
-				ccs.szProtoService = PSR_FILE;
-				ccs.hContact = hContact;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
-				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				ProtoChainRecvFile(hContact, &pre);
 
 				mir_free(pre.tszDescription);
 				mir_free(filenameT);
@@ -1587,7 +1527,7 @@ void CAimProto::snac_file_decline(SNAC &snac)//family 0x0004
 }
 void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 {
-	if(snac.subcmp(0x0006))
+	if (snac.subcmp(0x0006))
 	{   
 		unsigned short offset = 0;
 		int i = 0;
@@ -1659,19 +1599,19 @@ void CAimProto::snac_received_info(SNAC &snac)//family 0x0002
 }
 void CAimProto::snac_typing_notification(SNAC &snac)//family 0x004
 {
-	if(snac.subcmp(0x0014))
+	if (snac.subcmp(0x0014))
 	{
 		unsigned char sn_length=snac.ubyte(10);
 		char* sn=snac.part(11,sn_length);
 		HANDLE hContact=contact_from_sn(sn);
-		if(hContact)
+		if (hContact)
 		{
 			unsigned short type=snac.ushort(11+sn_length);
-			if(type==0x0000)//typing finished
+			if (type==0x0000)//typing finished
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(WPARAM)PROTOTYPE_CONTACTTYPING_OFF);
-			else if(type==0x0001)//typed
+			else if (type==0x0001)//typed
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,PROTOTYPE_CONTACTTYPING_INFINITE);
-			else if(type==0x0002)//typing
+			else if (type==0x0002)//typing
 				CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)hContact,(LPARAM)60);
 		}
 		mir_free(sn);
@@ -1779,24 +1719,24 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 		while (offset < snac.len())
 		{
 			TLV tlv(snac.val(offset));
-			if(tlv.cmp(0x000d))
+			if (tlv.cmp(0x000d))
 			{
 				family=tlv.ushort();
 			}
-			else if(tlv.cmp(0x0005))
+			else if (tlv.cmp(0x0005))
 			{
 				server=tlv.dup();
 			}
-			else if(tlv.cmp(0x0006))
+			else if (tlv.cmp(0x0006))
 			{
 				local_cookie=tlv.dup();
 				local_cookie_length=tlv.len();
 			}
-			else if(tlv.cmp(0x008d))
+			else if (tlv.cmp(0x008d))
 			{
 				host=tlv.dup();
 			}
-			else if(tlv.cmp(0x008e))
+			else if (tlv.cmp(0x008e))
 			{
 				use_ssl=tlv.ubyte();
 			}
@@ -1805,7 +1745,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 		if (family == 0x0018)
 		{
 			hMailConn = aim_connect(server, get_default_port(), false/*use_ssl != 0*/, host);
-			if(hMailConn)
+			if (hMailConn)
 			{
 				LOG("Successfully Connected to the Mail Server.");
 				MAIL_COOKIE=local_cookie;
@@ -1818,7 +1758,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 		else if (family == 0x0010)
 		{
 			hAvatarConn = aim_connect(server, get_default_port(), false/*use_ssl != 0*/);
-			if(hAvatarConn)
+			if (hAvatarConn)
 			{
 				LOG("Successfully Connected to the Avatar Server.");
 				AVATAR_COOKIE = local_cookie;
@@ -1831,7 +1771,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 		else if (family == 0x000D)
 		{
 			hChatNavConn = aim_connect(server, get_default_port(), use_ssl != 0, host);
-			if(hChatNavConn)
+			if (hChatNavConn)
 			{
 				LOG("Successfully Connected to the Chat Navigation Server.");
 				CHATNAV_COOKIE = local_cookie;
@@ -1863,7 +1803,7 @@ void CAimProto::snac_service_redirect(SNAC &snac)//family 0x0001
 		else if (family == 0x0007)
 		{
 			hAdminConn = aim_connect(server, get_default_port(), false /*use_ssl != 0*/);
-			if(hAdminConn)
+			if (hAdminConn)
 			{
 				LOG("Successfully Connected to the Admin Server.");
 				ADMIN_COOKIE = local_cookie;
@@ -2018,7 +1958,7 @@ void CAimProto::snac_email_search_results(SNAC &snac)//family 0x000A
 
 void CAimProto::snac_chatnav_info_response(SNAC &snac,HANDLE hServerConn,unsigned short &seqno)//family 0x000D
 {
-	if(snac.subcmp(0x0009))
+	if (snac.subcmp(0x0009))
 	{
 		LOG("Chat Info Received");
 
@@ -2317,7 +2257,7 @@ void CAimProto::snac_admin_account_infomod(SNAC &snac)//family 0x0007
 			// Display messages
 			if (email)
 				setString(AIM_KEY_EM,email); // Save our email for future reference.
-			if(sn)
+			if (sn)
 				setString(AIM_KEY_SN,sn); // Update the database to reflect the formatted name.
 			sendBroadcast( NULL, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE)1, 0 );
 			
@@ -2374,7 +2314,7 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 
 /*void CAimProto::snac_delete_contact(SNAC &snac, char* buf)//family 0x0013
 {
-	if(snac.subcmp(0x000a))
+	if (snac.subcmp(0x000a))
 	{
 		char sn[33];
 		int sn_length=buf[SNAC_SIZE*2];
@@ -2382,7 +2322,7 @@ void CAimProto::snac_admin_account_confirm(SNAC &snac)//family 0x0007
 		ZeroMemory(sn,sizeof(sn));
 		memcpy(sn,&buf[SNAC_SIZE*2+1],sn_length);
 		hContact=find_contact(sn);
-		if(hContact)
+		if (hContact)
 		{
 			unsigned short* type=(unsigned short*)&buf[SNAC_SIZE*2+1+sn_length];
 			*type=htons(*type);

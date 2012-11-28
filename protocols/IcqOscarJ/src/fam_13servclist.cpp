@@ -1633,13 +1633,8 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 		return;
 
 	HANDLE hContact = HContactFromUID(dwUin, szUid, &bAdded);
-	CCSDATA ccs;
-	PROTORECVEVENT pre;
 
-	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = hContact;
-	ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
+	PROTORECVEVENT pre;
 	pre.flags = 0;
 	pre.timestamp = time(NULL);
 	pre.lParam = sizeof(DWORD) + sizeof(HANDLE) + 5;
@@ -1675,7 +1670,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 
 	pre.lParam += nNickLen + nReasonLen;
 
-	setSettingByte(ccs.hContact, "Grant", 1);
+	setSettingByte(hContact, "Grant", 1);
 
 	/*blob is: uin(DWORD), hcontact(HANDLE), nick(ASCIIZ), first(ASCIIZ), last(ASCIIZ), email(ASCIIZ), reason(ASCIIZ)*/
 	char *szBlob = (char *)_alloca(pre.lParam);
@@ -1691,8 +1686,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	*pCurBlob = 0; pCurBlob++; // FirstName
 	*pCurBlob = 0; pCurBlob++; // LastName
 	*pCurBlob = 0; pCurBlob++; // email
-	if (nReasonLen)
-	{
+	if (nReasonLen) {
 		memcpy(pCurBlob, szReason, nReasonLen);
 		pCurBlob += nReasonLen;
 	}
@@ -1700,7 +1694,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 	pre.szMessage = szBlob;
 
 	// TODO: Change for new auth system, include all known informations
-	CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+	ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 
 	SAFE_FREE(&szNick);
 	SAFE_FREE(&szReason);

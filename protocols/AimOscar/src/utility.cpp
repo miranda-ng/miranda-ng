@@ -90,7 +90,7 @@ void CAimProto::start_connection(void *arg)
 {
 	int status = (int)arg;
 
-	if(m_iStatus<=ID_STATUS_OFFLINE)
+	if (m_iStatus<=ID_STATUS_OFFLINE)
 	{
 		offline_contacts();
 		DBVARIANT dbv;
@@ -325,7 +325,7 @@ void CAimProto::add_contact_to_group(HANDLE hContact, const char* new_group)
 
 void CAimProto::offline_contact(HANDLE hContact, bool remove_settings)
 {
-	if(remove_settings)
+	if (remove_settings)
 	{
 		//We need some of this stuff if we are still online.
 		for(int i=1;;++i)

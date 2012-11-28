@@ -626,25 +626,17 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 				  HANDLE handle=CList_AddContact(xfire_newc,TRUE,TRUE,0);
 
 				  if(handle) {  // invite nachricht mitsenden
-	    			  string str;
-					  CCSDATA ccs;
+	    			  string str = (char*)invite->msg.c_str();
+
 					  PROTORECVEVENT pre;
-
-					  str=(char*)invite->msg.c_str();
-
-					  time_t t = time(NULL);
-					  ccs.szProtoService = PSR_MESSAGE;
-					  ccs.hContact = handle;
-					  ccs.wParam = 0;
-					  ccs.lParam = (LPARAM) & pre;
 					  pre.flags = 0;
-					  pre.timestamp = t;
+					  pre.timestamp = time(NULL);
 					  pre.szMessage = (char*)mir_utf8decode((char*)str.c_str(),NULL);
 					  //invite nachricht konnte nicht zugewiesen werden?!?!?!
 					  if(!pre.szMessage)
 							pre.szMessage=(char*)str.c_str();
 					  pre.lParam = 0;
-					  CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
+					  ProtoChainRecvMsg(handle, &pre);
 				  }
 			  }
 			  else
@@ -731,41 +723,29 @@ void XFireClient::sendmsg(char*usr,char*cmsg) {
 		//ne nachricht für mich, juhu
 		case XFIRE_MESSAGE_ID: {
 			string str;
-			CCSDATA ccs;
-			PROTORECVEVENT pre;
 
 			if( (( MessagePacket*)content)->getMessageType() == 0){
 				BuddyListEntry *entry = client->getBuddyList()->getBuddyBySid( ((MessagePacket*)content)->getSid() );
 				if(entry!=NULL)
 				{
 					str=((MessagePacket*)content)->getMessage();
-					time_t t = time(NULL);
-					ccs.szProtoService = PSR_MESSAGE;
-					ccs.hContact = entry->hcontact;
-					ccs.wParam = 0;
-					ccs.lParam = (LPARAM) & pre;
-					pre.flags = 0;
-					pre.timestamp = t;
-					if(this->useutf8)
-					{
+
+					PROTORECVEVENT pre = { 0 };
+					pre.timestamp = time(NULL);
+					if (this->useutf8) {
 						pre.szMessage = (char*)str.c_str();
 						pre.flags = PREF_UTF;
 					}
-					else
-						pre.szMessage = (char*)mir_utf8decode((char*)str.c_str(),NULL);
-					pre.lParam = 0;
+					else pre.szMessage = (char*)mir_utf8decode((char*)str.c_str(),NULL);
 
-					CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)ccs.hContact,PROTOTYPE_CONTACTTYPING_OFF);
-					CallService(MS_PROTO_CHAINRECV, 0, (LPARAM) &ccs);
-
+					CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)entry->hcontact,PROTOTYPE_CONTACTTYPING_OFF);
+					ProtoChainRecvMsg(entry->hcontact, &pre);
 				}
 			}
 			else if( (( MessagePacket*)content)->getMessageType() == 3) {
 				BuddyListEntry *entry = client->getBuddyList()->getBuddyBySid( ((MessagePacket*)content)->getSid() );
 				if(entry!=NULL)
-				{
 					CallService(MS_PROTO_CONTACTISTYPING,(WPARAM)entry->hcontact,5);
-				}
 			}
 
 			break;

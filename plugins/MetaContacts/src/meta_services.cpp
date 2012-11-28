@@ -485,7 +485,6 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 */
 INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
-	DBEVENTINFO dbei;
 	CCSDATA *ccs = (CCSDATA *) lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 
@@ -499,17 +498,14 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
 		char *proto = GetContactProto(most_online);
-		if (proto) {
-			char service[256];
-			mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
-			if (CallService(service, wParam, lParam) != CALLSERVICE_NOTFOUND)
+		if (proto)
+			if ( CallProtoService(proto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
-		}
 	}
 
 
 	// otherwise, add event to db directly
-	ZeroMemory(&dbei, sizeof(dbei));
+	DBEVENTINFO dbei = { 0 };
 	dbei.cbSize = sizeof(dbei);
 	dbei.szModule = META_PROTO;
 	dbei.timestamp = pre->timestamp;

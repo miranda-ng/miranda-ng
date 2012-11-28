@@ -143,7 +143,7 @@ INT_PTR OnRecvMessage( WPARAM wParam, LPARAM lParam )
 	PROTORECVEVENT *ppre = ( PROTORECVEVENT * )pccsd->lParam;
 
 	if(strncmp(ppre->szMessage, szServicePrefix, strlen(szServicePrefix)))
-		return CallService( MS_PROTO_CHAINRECV, wParam, lParam );
+		return CallService(MS_PROTO_CHAINRECV, wParam, lParam);
 
 	HWND hwnd = WindowList_Find(hFileList, (HANDLE)pccsd->hContact);
 	if(!IsWindow(hwnd))

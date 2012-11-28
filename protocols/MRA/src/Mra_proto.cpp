@@ -1735,11 +1735,8 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 	LPSTR lpszMessageExt = NULL;
 	LPWSTR lpwszMessage = NULL;
 	size_t dwMessageSize = 0, dwMessageExtSize = 0;
-	CCSDATA ccs = {0};
-	PROTORECVEVENT pre = {0};
 
-	//ccs.wParam = 0;
-	ccs.lParam = (LPARAM)&pre;
+	PROTORECVEVENT pre = {0};
 	pre.timestamp = dwTime;
 
 	// check flags and datas
@@ -1915,15 +1912,15 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 			mir_free(lpszMessageUTF);
 		}
 		else {
-			ccs.hContact = MraHContactFromEmail(plpsFrom->lpszData, plpsFrom->dwSize, TRUE, TRUE, &bAdded);
+			HANDLE hContact = MraHContactFromEmail(plpsFrom->lpszData, plpsFrom->dwSize, TRUE, TRUE, &bAdded);
 			if (bAdded)
-				MraUpdateContactInfo(ccs.hContact);
+				MraUpdateContactInfo(hContact);
 
 			// user typing
 			if (dwFlags & MESSAGE_FLAG_NOTIFY)
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)ccs.hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, MAILRU_CONTACTISTYPING_TIMEOUT);
 			else { // text/contact/auth // typing OFF
-				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)ccs.hContact, PROTOTYPE_CONTACTTYPING_OFF);
+				CallService(MS_PROTO_CONTACTISTYPING, (WPARAM)hContact, PROTOTYPE_CONTACTTYPING_OFF);
 
 				if (dwFlags & MESSAGE_FLAG_MULTICHAT) {
 					LPBYTE lpbMultiChatData, lpbDataCurrent;
@@ -1941,12 +1938,12 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 
 					switch (dwMultiChatEventType) {
 					case MULTICHAT_MESSAGE:
-						MraChatSessionMessageAdd(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, lpwszMessage, dwMessageSize, dwTime);// LPS sender
+						MraChatSessionMessageAdd(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, lpwszMessage, dwMessageSize, dwTime);// LPS sender
 						break;
 					case MULTICHAT_ADD_MEMBERS:
-						MraChatSessionMembersAdd(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
+						MraChatSessionMembersAdd(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
 						GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsString);// CLPS members
-						MraChatSessionSetIviter(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
+						MraChatSessionSetIviter(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
 					case MULTICHAT_MEMBERS:
 						{
 							LPBYTE lpbMultiChatDataLocal, lpbDataCurrentLocal;
@@ -1961,23 +1958,23 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 							dwMultiChatMembersCount = GetUL(&lpbDataCurrentLocal);// count
 							for (i = 0; i < dwMultiChatMembersCount; i++)
 								if (GetLPS(lpbMultiChatDataLocal, dwMultiChatDataLocalSize, &lpbDataCurrentLocal, &lpsString) == NO_ERROR)
-									MraChatSessionJoinUser(ccs.hContact, lpsString.lpszData, lpsString.dwSize, ((dwMultiChatEventType == MULTICHAT_MEMBERS)? 0:dwTime));
+									MraChatSessionJoinUser(hContact, lpsString.lpszData, lpsString.dwSize, ((dwMultiChatEventType == MULTICHAT_MEMBERS)? 0:dwTime));
 
 							if (dwMultiChatEventType == MULTICHAT_MEMBERS) {
 								GetLPS(lpbMultiChatData, dwMultiChatDataSize, &lpbDataCurrent, &lpsEMailInMultiChat);// [ LPS owner ]
-								MraChatSessionSetOwner(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
+								MraChatSessionSetOwner(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize);
 							}
 						}
 						break;
 					case MULTICHAT_ATTACHED:
-						MraChatSessionJoinUser(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
+						MraChatSessionJoinUser(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
 						break;
 					case MULTICHAT_DETACHED:
-						MraChatSessionLeftUser(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
+						MraChatSessionLeftUser(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS member
 						break;
 					case MULTICHAT_INVITE:
-						MraChatSessionInvite(ccs.hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
-						MraAddContactW(ccs.hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom->lpszData, plpsFrom->dwSize, lpsMultichatName.lpwszData, (lpsMultichatName.dwSize/sizeof(WCHAR)), NULL, 0, NULL, 0, 0);
+						MraChatSessionInvite(hContact, lpsEMailInMultiChat.lpszData, lpsEMailInMultiChat.dwSize, dwTime);// LPS sender
+						MraAddContactW(hContact, (CONTACT_FLAG_VISIBLE|CONTACT_FLAG_MULTICHAT|CONTACT_FLAG_UNICODE_NAME), -1, plpsFrom->lpszData, plpsFrom->dwSize, lpsMultichatName.lpwszData, (lpsMultichatName.dwSize/sizeof(WCHAR)), NULL, 0, NULL, 0, 0);
 						break;
 					default:
 						DebugBreak();
@@ -1992,7 +1989,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						bAutoGrantAuth = FALSE;
 					else {
 						// temporary contact
-						if (db_get_b(ccs.hContact, "CList", "NotOnList", 0)) {
+						if (db_get_b(hContact, "CList", "NotOnList", 0)) {
 							if (mraGetByte(NULL, "AutoAuthGrandNewUsers", MRA_DEFAULT_AUTO_AUTH_GRAND_NEW_USERS))
 								bAutoGrantAuth = TRUE;
 						}
@@ -2001,7 +1998,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 					}
 
 					if (bAdded)
-						DBWriteContactSettingByte(ccs.hContact, "CList", "Hidden", 1);
+						DBWriteContactSettingByte(hContact, "CList", "Hidden", 1);
 
 					if (bAutoGrantAuth) { // auto grant auth
 						DBEVENTINFO dbei = {0};
@@ -2013,26 +2010,24 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						dbei.eventType = EVENTTYPE_AUTHREQUEST;
 						dbei.pBlob = (PBYTE)btBuff;
 
-						CreateBlobFromContact(ccs.hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&dbei.cbBlob);
+						CreateBlobFromContact(hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&dbei.cbBlob);
 						CallService(MS_DB_EVENT_ADD, 0, (LPARAM)&dbei);
 						MraAuthorize(plpsFrom->lpszData, plpsFrom->dwSize);
 					}
 					else {
-						ccs.szProtoService = PSR_AUTH;
 						pre.szMessage = (LPSTR)btBuff;
-						CreateBlobFromContact(ccs.hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&pre.lParam);
-						CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+						CreateBlobFromContact(hContact, lpwszMessage, dwMessageSize, btBuff, SIZEOF(btBuff), (size_t*)&pre.lParam);
+						ProtoChainRecv(hContact, PSR_AUTH, 0, (LPARAM)&pre);
 					}
 				}
 				else {
-					DBDeleteContactSetting(ccs.hContact, "CList", "Hidden");
+					DBDeleteContactSetting(hContact, "CList", "Hidden");
 
 					if (dwFlags & MESSAGE_FLAG_CONTACT) { // contacts received
 						LPBYTE lpbBuffer, lpbBufferCurPos;
 
 						lpbBuffer = (LPBYTE)mir_calloc((dwMessageSize+MAX_PATH));
 						if (lpbBuffer) {
-							ccs.szProtoService = PSR_CONTACTS;
 							pre.flags = 0;
 							pre.szMessage = (LPSTR)lpbBuffer;
 							pre.lParam = WideCharToMultiByte(MRA_CODE_PAGE, 0, lpwszMessage, dwMessageSize, (LPSTR)lpbBuffer, (dwMessageSize+MAX_PATH), NULL, NULL);
@@ -2047,20 +2042,18 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 								(*lpbBufferCurPos) = 0;
 								lpbBufferCurPos++;
 							}
-							CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+							ProtoChainRecv(hContact, PSR_CONTACTS, 0, (LPARAM)&pre);
 							mir_free(lpbBuffer);
 						}
 						else dwRetErrorCode = GetLastError();
 					}
 					else if (dwFlags & MESSAGE_FLAG_ALARM) { // alarm
 						if (heNudgeReceived)
-							NotifyEventHooks(heNudgeReceived, (WPARAM)ccs.hContact, NULL);
+							NotifyEventHooks(heNudgeReceived, (WPARAM)hContact, NULL);
 						else {
 							pre.flags = 0;
 							pre.szMessage = (LPSTR)TranslateTS(MRA_ALARM_MESSAGE);
-							//pre.lParam = lstrlenA(pre.szMessage);
-							ccs.szProtoService = PSR_MESSAGE;
-							CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+							ProtoChainRecvMsg(hContact, &pre);
 						}
 					}
 					else { // standart message// flash animation
@@ -2068,9 +2061,7 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 						if ((dwFlags & MESSAGE_FLAG_RTF) && (dwFlags & MESSAGE_FLAG_FLASH) == 0 && lpszMessageExt && dwMessageExtSize && mraGetByte(NULL, "RTFReceiveEnable", MRA_DEFAULT_RTF_RECEIVE_ENABLE)) {
 							pre.flags = 0;
 							pre.szMessage = lpszMessageExt;
-							//pre.lParam = dwMessageExtSize;
-							ccs.szProtoService = PSR_MESSAGE;
-							CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+							ProtoChainRecvMsg(hContact, &pre);
 						}
 						else {
 							// some plugins can change pre.szMessage pointer and we failed to free it
@@ -2079,15 +2070,14 @@ DWORD CMraProto::MraRecvCommand_Message(DWORD dwTime, DWORD dwFlags, MRA_LPS *pl
 								pre.szMessage = lpszMessageUTF;
 								pre.flags = PREF_UTF;
 								WideCharToMultiByte(CP_UTF8, 0, lpwszMessage, dwMessageSize, lpszMessageUTF, ((dwMessageSize+MAX_PATH)*sizeof(WCHAR)), NULL, NULL);
-								ccs.szProtoService = PSR_MESSAGE;
-								CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+								ProtoChainRecvMsg(hContact, &pre);
 								mir_free(lpszMessageUTF);
 							}
 							else dwRetErrorCode = GetLastError();
 						}
 
 						if (dwFlags & MESSAGE_FLAG_SYSTEM)
-							MraPopupShowW(ccs.hContact, MRA_POPUP_TYPE_INFORMATION, 0, TranslateW(L"Mail.ru System notify"), (LPWSTR)pre.szMessage);
+							MraPopupShowW(hContact, MRA_POPUP_TYPE_INFORMATION, 0, TranslateW(L"Mail.ru System notify"), (LPWSTR)pre.szMessage);
 					}
 				}
 			}

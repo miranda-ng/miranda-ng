@@ -574,13 +574,7 @@ void CIcqProto::handleRecvServMsgOFT(BYTE *buf, WORD wLen, DWORD dwUin, char *sz
 				pre.tszDescription = mir_utf8decodeT(pszDescription);
 				pre.ptszFiles = &ptszFileName;
 				pre.lParam = (LPARAM)ft;
-
-				CCSDATA ccs;
-				ccs.szProtoService = PSR_FILE;
-				ccs.hContact = hContact;
-				ccs.wParam = 0;
-				ccs.lParam = (LPARAM)&pre;
-				CallService(MS_PROTO_CHAINRECV, 0, (LPARAM)&ccs);
+				ProtoChainRecvFile(hContact, &pre);
 
 				mir_free(pre.tszDescription);
 				mir_free(ptszFileName);

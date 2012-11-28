@@ -249,8 +249,6 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 				oscar_tlv* pTLV;
 				BYTE *tmp;
 				char *szMsg = NULL;
-				CCSDATA ccs;
-				PROTORECVEVENT pre;
 
 				// Syntax check
 				if (wLen < 4)
@@ -266,22 +264,19 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 				wLen -= (buf - tmp);
 
 				// Get extra chain
-				if (pChain = readIntoTLVChain(&buf, wLen, 2))
-				{
+				if (pChain = readIntoTLVChain(&buf, wLen, 2)) {
 					char* szEncoding = NULL;
 
 					// Get Away encoding TLV
 					pTLV = pChain->getTLV(0x03, 1);
-					if (pTLV && (pTLV->wLen >= 1))
-					{
+					if (pTLV && (pTLV->wLen >= 1)) {
 						szEncoding = (char*)_alloca(pTLV->wLen + 1);
 						memcpy(szEncoding, pTLV->pData, pTLV->wLen);
 						szEncoding[pTLV->wLen] = '\0';
 					}
 					// Get Away info TLV
 					pTLV = pChain->getTLV(0x04, 1);
-					if (pTLV && (pTLV->wLen >= 1))
-					{
+					if (pTLV && (pTLV->wLen >= 1)) {
 						szMsg = (char*)SAFE_MALLOC(pTLV->wLen + 2);
 						memcpy(szMsg, pTLV->pData, pTLV->wLen);
 						szMsg[pTLV->wLen] = '\0';
@@ -293,16 +288,12 @@ void CIcqProto::handleLocationUserInfoReply(BYTE* buf, WORD wLen, DWORD dwCookie
 					disposeChain(&pChain);
 				}
 
-				ccs.szProtoService = PSR_AWAYMSG;
-				ccs.hContact = hContact;
-				ccs.wParam = status;
-				ccs.lParam = (LPARAM)&pre;
+				PROTORECVEVENT pre;
 				pre.flags = 0;
-				pre.szMessage = szMsg?szMsg:(char *)"";
+				pre.szMessage = szMsg ? szMsg : (char *)"";
 				pre.timestamp = time(NULL);
 				pre.lParam = dwCookie;
-
-				CallService(MS_PROTO_CHAINRECV,0,(LPARAM)&ccs);
+				ProtoChainRecv(hContact, PSR_AWAYMSG, status, (LPARAM)&pre);
 
 				SAFE_FREE((void**)&szMsg);
 			}

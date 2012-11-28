@@ -123,12 +123,6 @@ static int PluginMessageReceived(WPARAM wParam,LPARAM lParam)
 	}
 	else mir_sntprintf(buff, SIZEOF(buff), _T("Unknown command issued: \"%s\""), msg);
 
-	/*
-	ppre->szMessage = (char *)Translate(buff);
-	retval = CallService( MS_PROTO_CHAINRECV, wParam, lParam );
-	ppre->szMessage = savedMsg;
-	*/
-
 	ShowPopup(pccsd->hContact, buff);
 
 	_tcscpy(response, buff);
