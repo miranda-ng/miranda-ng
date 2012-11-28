@@ -38,15 +38,15 @@ YAMN_VARIABLES YAMNVar;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
-	sizeof(PLUGININFOEX), 
-	YAMN_SHORTNAME, 
-	YAMN_VERSION, 
-	"Mail notifier and browser for Miranda NG. Included POP3 protocol.", 
-	"y_b tweety (majvan)", 
-	"francois.mean@skynet.be", 
-	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community", 
-	"http://miranda-ng.org/", //"http://www.majvan.host.sk/Projekty/YAMN?fm = soft", 
-	UNICODE_AWARE, 
+	sizeof(PLUGININFOEX),
+	YAMN_SHORTNAME,
+	YAMN_VERSION,
+	"Mail notifier and browser for Miranda NG. Included POP3 protocol.",
+	"y_b tweety (majvan)",
+	"francois.mean@skynet.be",
+	"© (2002-2004 majvan) 2005-2007 tweety y_b Miranda community",
+	"http://miranda-ng.org/", //"http://www.majvan.host.sk/Projekty/YAMN?fm = soft",
+	UNICODE_AWARE,
 	{ 0xb047a7e5, 0x27a, 0x4cfc, { 0x8b, 0x18, 0xed, 0xa8, 0x34, 0x5d, 0x27, 0x90 } } // {B047A7E5-027A-4cfc-8B18-EDA8345D2790}
 };
 
@@ -251,7 +251,7 @@ struct TIconListItem
 	HANDLE hIcon;
 };
 
-static TIconListItem iconList[] = 
+static TIconListItem iconList[] =
 {
 
 	{LPGENT("Check mail"),			"YAMN_Check",		IDI_CHECKMAIL,	0},
@@ -317,15 +317,15 @@ static void LoadPlugins()
 			TCHAR *dot = _tcsrchr(fd.cFileName, '.');
 			if (dot == NULL )
 				continue;
-			
+
 			// we have a dot
 			int len = (int)lstrlen(fd.cFileName); // find the length of the string
 			TCHAR* end = fd.cFileName+len; // get a pointer to the NULL
 			int safe = (end-dot)-1;	// figure out how many chars after the dot are "safe", not including NULL
-		
+
 			if ((safe!=3) || (lstrcmpi(dot+1, _T("dll"))!=0)) //not bound, however the "dll" string should mean only 3 chars are compared
 				continue;
-			
+
 			HINSTANCE hDll;
 			LOADFILTERFCN LoadFilter;
 
@@ -339,7 +339,7 @@ static void LoadPlugins()
 				hDll = NULL;
 				continue;
 			}
-			
+
 			if (!(*LoadFilter)(GetFcnPtrSvc)) {
 				FreeLibrary(hDll);
 				hDll = NULL;
@@ -349,7 +349,7 @@ static void LoadPlugins()
 				hDllPlugins = (HINSTANCE *)realloc((void *)hDllPlugins, (iDllPlugins+1)*sizeof(HINSTANCE));
 				hDllPlugins[iDllPlugins++] = hDll;
 			}
-		} 
+		}
 			while(FindNextFile(hFind, &fd));
 
 		FindClose(hFind);
@@ -379,7 +379,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	//	we get the user path where our yamn-account.book.ini is stored from mirandaboot.ini file
 	GetProfileDirectory(UserDirectory, SIZEOF(UserDirectory));
-	
+
 	// Enumerate all the code pages available for the System Locale
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
 	CodePageNamesSupp = new _tcptable[CPLENSUPP];
@@ -392,7 +392,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Registering YAMN as protocol
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = YAMN_DBMODULE;
-	pd.type = PROTOTYPE_PROTOCOL;
+	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE, 0, (LPARAM)&pd);
 
 	InitializeCriticalSection(&AccountStatusCS);

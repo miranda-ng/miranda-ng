@@ -83,7 +83,7 @@ namespace
 		mi.icolibItem = Quotes_GetIconHandle(IDI_ICON_MAIN);
 		HGENMENU hMenuRoot = Menu_AddMainMenuItem(&mi);
 		g_ahMenus.push_back(hMenuRoot);
-		
+
 		mi.ptszName = _T("Refresh All Quotes\\Rates");
 		mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_ROOTHANDLE;
 		//mi.position = 0x0FFFFFFF;
@@ -123,7 +123,7 @@ namespace
 		g_ahMenus.push_back(hMenu);
 		h = CreateServiceFunction(mi.pszService, QuotesMenu_ImportAll);
 		g_ahServices.push_back(h);
-#endif 
+#endif
 
 		bool bSubGroups = 1 == ServiceExists(MS_CLIST_MENUBUILDSUBGROUP);
 
@@ -142,7 +142,7 @@ namespace
 			tstring sProtocolName = quotes_a2t(QUOTES_PROTOCOL_NAME);
 			mi.ptszName = const_cast<TCHAR*>(sProtocolName.c_str());//A2T(QUOTES_PROTOCOL_NAME);
 			mi.position = 0;
-			
+
 			hMenuRoot = Menu_AddContactMenuItem(&mi);
 		}
 
@@ -151,7 +151,7 @@ namespace
 		{
 			mi.flags |= CMIF_CHILDPOPUP;
 			mi.pszPopupName = (char*)hMenuRoot;
-		}		
+		}
 
 		mi.ptszName = _T("Refresh");
 		mi.popupPosition = 0;
@@ -212,7 +212,7 @@ namespace
 		g_hEventWorkThreadStop = ::CreateEvent(NULL,TRUE,FALSE,NULL);
 		h = (ME_USERINFO_INITIALISE,QuotesEventFunc_OnUserInfoInit);
 		g_ahEvents.push_back(h);
-		
+
 		h = HookEvent(ME_CLIST_DOUBLECLICKED,Quotes_OnContactDoubleClick);
 		g_ahEvents.push_back(h);
 
@@ -287,7 +287,7 @@ namespace
 		return 0;
 	}
 
-	int QuotesEventFunc_PreShutdown(WPARAM wParam, LPARAM lParam) 
+	int QuotesEventFunc_PreShutdown(WPARAM wParam, LPARAM lParam)
 	{
 		QuoteProtoFunc_SetStatus(ID_STATUS_OFFLINE,0);
 		//WindowList_Broadcast(g_hWindowListEditSettings,WM_CLOSE,0,0);
@@ -306,13 +306,13 @@ namespace
 		{
 			return 1;
 		}
-	}	
+	}
 
 	INT_PTR QuoteProtoFunc_GetCaps(WPARAM wp,LPARAM lp)
 	{
 		int ret = 0;
 		switch(wp)
-		{        
+		{
 		case PFLAGNUM_1:
 			ret = PF1_PEER2PEER;
 			break;
@@ -330,7 +330,7 @@ namespace
 	}
 
 	INT_PTR QuoteProtoFunc_LoadIcon(WPARAM wp,LPARAM /*lp*/)
-	{	
+	{
 		if ((wp & 0xffff) == PLI_PROTOCOL)
 		{
 			return reinterpret_cast<int>(::CopyIcon(Quotes_LoadIconEx(ICON_STR_MAIN)));
@@ -378,7 +378,7 @@ namespace
 // 		g_Instances.insert(ppro);
 // 		return ppro;
 // 	}
-// 
+//
 // 	int protoUninit(PROTO_INTERFACE* ppro)
 // 	{
 // 		g_Instances.remove((CAimProto*)ppro);
@@ -393,7 +393,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 	return TRUE;
 }
 
-extern "C" 
+extern "C"
 {
 	__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 	{
@@ -423,10 +423,7 @@ extern "C"
 
 		PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 		pd.szName = QUOTES_PROTOCOL_NAME;
-		pd.type = PROTOTYPE_PROTOCOL;
-// 		pd.fnInit = protoInit;
-// 		pd.fnUninit = protoUninit;
-
+		pd.type = PROTOTYPE_VIRTUAL;
 		CallService( MS_PROTO_REGISTERMODULE, 0, ( LPARAM )&pd );
 
 		HANDLE h = CreateProtoServiceFunction(QUOTES_PROTOCOL_NAME, PS_GETNAME, QuoteProtoFunc_GetName);
@@ -462,7 +459,7 @@ extern "C"
 		std::for_each(g_ahServices.begin(),g_ahServices.end(),boost::bind(Quotes_DestroyServiceFunction,_1));
 		std::for_each(g_ahEvents.begin(),g_ahEvents.end(),boost::bind(Quotes_UnhookEvent,_1));
 		std::for_each(g_ahMenus.begin(),g_ahMenus.end(),boost::bind(Quotes_RemoveMenuItem,_1));
-		
+
 		WaitForWorkingThreads();
 
 		::CloseHandle(g_hEventWorkThreadStop);

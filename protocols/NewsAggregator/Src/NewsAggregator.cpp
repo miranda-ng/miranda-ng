@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2012 Mataes
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 #include "Common.h"
@@ -76,7 +76,7 @@ extern "C" __declspec(dllexport) int Load(void)
 		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 		mir_free(tszFolder);
 	}
-	
+
 	// Add options hook
 	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);
 	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, NewsAggrInit);
@@ -88,7 +88,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	// register weather protocol
 	PROTOCOLDESCRIPTOR pd = { PROTOCOLDESCRIPTOR_V3_SIZE };
 	pd.szName = MODULE;
-	pd.type = PROTOTYPE_PROTOCOL;
+	pd.type = PROTOTYPE_VIRTUAL;
 	CallService(MS_PROTO_REGISTERMODULE,0,(LPARAM)&pd);
 
 	hProtoService[0] = CreateProtoServiceFunction(MODULE, PS_GETNAME, NewsAggrGetName);

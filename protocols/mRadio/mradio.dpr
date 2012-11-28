@@ -173,7 +173,7 @@ begin
   if NumTries<1 then NumTries:=1;
 
   SetStatus(0,ID_STATUS_OFFLINE);
-  
+
   StatusTmpl:=DBReadUnicode(0,PluginName,optStatusTmpl,'%radio_title%');
 
   CallService(MS_RADIO_COMMAND,MRC_STATUS,RD_STATUS_NOSTATION);
@@ -297,7 +297,7 @@ begin
     FillChar(desc,SizeOf(desc),0);
     desc.cbSize:=PROTOCOLDESCRIPTOR_V3_SIZE;//SizeOf(desc);
     desc.szName:=PluginName;
-    desc._type :=PROTOTYPE_PROTOCOL;
+    desc._type :=PROTOTYPE_VIRTUAL;
     CallService(MS_PROTO_REGISTERMODULE,0,lparam(@desc));
 
     hhRadioStatus:=CreateHookableEvent(ME_RADIO_STATUS);
