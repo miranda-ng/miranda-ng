@@ -285,7 +285,7 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 
 	if (szFilename == NULL) {
 		MessageBox(NULL, 
-			TranslateT("To remove your Gadu-Gadu avatar, you must use the MojaGeneracja.pl website."),
+			TranslateT("To remove your Gadu-Gadu avatar, you must use the gg.pl website."),
 			m_tszUserName, MB_OK | MB_ICONINFORMATION);
 		return -1;
 	}
