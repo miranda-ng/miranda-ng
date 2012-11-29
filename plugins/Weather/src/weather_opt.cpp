@@ -112,7 +112,7 @@ void LoadOptions(void)
 	opt.AutoUpdate = db_get_b(NULL, WEATHERPROTONAME, "AutoUpdate",TRUE);
 	opt.UpdateTime = db_get_w(NULL, WEATHERPROTONAME, "UpdateTime",30);
 	opt.NewBrowserWin = db_get_b(NULL, WEATHERPROTONAME, "NewWindow",TRUE);
-	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus",0);
+	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus",TRUE);
 	opt.UpdateOnlyConditionChanged = db_get_b(NULL, WEATHERPROTONAME, "CondChangeAsUpdate",TRUE);
 	opt.RemoveOldData = db_get_b(NULL, WEATHERPROTONAME, "RemoveOld",FALSE);
 	opt.MakeItalic = db_get_b(NULL, WEATHERPROTONAME, "MakeItalic",TRUE);

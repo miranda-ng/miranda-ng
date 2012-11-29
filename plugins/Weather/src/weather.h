@@ -371,9 +371,6 @@ extern BOOL ThreadRunning;
 
 //============  FUNCTION PRIMITIVES  ============
 
-// functions in weather.c
-void UpgradeContact(DWORD lastver, HANDLE hContact);
-
 // functions in weather_addstn.c
 INT_PTR WeatherAddToList(WPARAM wParam,LPARAM lParam);
 BOOL CheckSearch();
@@ -429,7 +426,7 @@ WEATHERINFO LoadWeatherInfo(HANDLE Change);
 int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv);
 int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len);
 
-void EraseAllInfo(DWORD lastver);
+void EraseAllInfo(void);
 
 void LoadStationData(TCHAR *pszFile, TCHAR *pszShortFile, WIDATA *Data);
 void GetDataValue(WIDATAITEM *UpdateData, TCHAR *Data, TCHAR** szInfo);

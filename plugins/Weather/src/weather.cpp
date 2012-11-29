@@ -56,20 +56,16 @@ BOOL ThreadRunning;
 // variable to determine if module loaded
 BOOL ModuleLoaded;
 
-
-
-
 // plugin info
-// VER = version, AUTH = author, defined in weather.h
 static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
 	"Weather Protocol",
 	__VERSION_DWORD,
 	"Retrieves weather information and displays it in your contact list.",
-	AUTH,
-	"borkra@miranda-im.org",
-	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy",
+	"Miranda NG Team",
+	"www.miranda-ng.org",
+	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012 Miranda NG Team",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
 	MIID_WEATHER
@@ -89,7 +85,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	return TRUE;
 }
 
-
 int WeatherShutdown(WPARAM wParam,LPARAM lParam) 
 {
 	KillTimer(NULL, timerId);		// kill update timer
@@ -104,19 +99,6 @@ int WeatherShutdown(WPARAM wParam,LPARAM lParam)
 	SendMessage(hWndSetup, WM_CLOSE, 0, 0);
 
 	return 0;
-}
-
-// update some settings/db values for new version
-// lastver = dword value for the last version made by PLUGIN_MAKE_VERSION
-void Upgrade(DWORD lastver)
-{
-	// for version below v0.3.2.3, remove the "TriggerText" setting
-	if (lastver < PLUGIN_MAKE_VERSION(0,3,2,3))
-		db_unset(NULL, WEATHERPROTONAME, "TriggerText");
-	if (lastver < PLUGIN_MAKE_VERSION(0,3,3,13))
-		db_unset(NULL, "KnownModules", "Weather");
-
-	db_set_dw(NULL, WEATHERPROTONAME, "Version", __VERSION_DWORD);
 }
 
 // weather protocol initialization function
@@ -142,19 +124,6 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
 	return 0;
-}
-
-// update some settings/db values for new version, this one is for contact
-// lastver = dword value for the last version made by PLUGIN_MAKE_VERSION
-// hContact = current contact
-void UpgradeContact(DWORD lastver, HANDLE hContact) 
-{
-	// for version below v0.3.2.3, suppress online notifications for all weather contacts
-	if (lastver < PLUGIN_MAKE_VERSION(0,3,2,3)) 
-	{
-		db_set_dw(hContact, "Ignore", "Mask", 8);
-		db_set_dw(hContact, "Ignore", "Mask1", 8);
-	}
 }
 
 //============  MISC FUNCTIONS  ============
@@ -194,8 +163,6 @@ extern "C" int __declspec(dllexport) Unload(void)
 
 extern "C" int __declspec(dllexport) Load(void) 
 {
-	DWORD lastver;
-
 	mir_getLP(&pluginInfoEx);
 
 	// initialize global variables
@@ -204,18 +171,8 @@ extern "C" int __declspec(dllexport) Load(void)
 	// load options and set defaults
 	LoadOptions();
 
-	// upgrade check
-	// I only support version check and upgrade for my own version, so check if the author is my name
-	if (strstr(AUTH, "NoName") != NULL) 
-	{
-		lastver = db_get_dw(NULL, WEATHERPROTONAME, "Version", PLUGIN_MAKE_VERSION(0,3,1,8));
-		if (lastver < __VERSION_DWORD)	Upgrade(lastver);
-	}
-	else	// if it is not my build, ignore upgrade procedure
-		lastver = PLUGIN_MAKE_VERSION(255,255,255,255);
-
 	// reset the weather data at startup for individual contacts
-	EraseAllInfo(lastver);
+	EraseAllInfo();
 
 	// load weather update data
 	LoadWIData(TRUE);

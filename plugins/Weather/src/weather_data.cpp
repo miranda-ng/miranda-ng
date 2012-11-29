@@ -117,7 +117,7 @@ int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueNa
 
 // erase all current weather information from database
 // lastver = the last used version number in dword (using PLUGIN_MAKE_VERSION)
-void EraseAllInfo(DWORD lastver) 
+void EraseAllInfo() 
 {
 	TCHAR str[255];
 	int ContactCount = 0;
@@ -128,9 +128,6 @@ void EraseAllInfo(DWORD lastver)
 	while(hContact) {
 		// see if the contact is a weather contact
 		if ( IsMyContact(hContact)) {
-			// check for upgrade
-			if (lastver < __VERSION_DWORD)
-				UpgradeContact(lastver, hContact);
 			db_set_w(hContact,WEATHERPROTONAME, "Status",ID_STATUS_OFFLINE);
 			db_set_w(hContact,WEATHERPROTONAME, "StatusIcon",ID_STATUS_OFFLINE);
 			db_unset(hContact, "CList", "MyHandle");
