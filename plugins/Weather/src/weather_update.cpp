@@ -605,10 +605,10 @@ void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if ( !Miranda_Terminated()) {
-		if (opt.StartupUpdate)	
-			UpdateAll(FALSE, FALSE);
-		timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime)*60000, (TIMERPROC)timerProc);
-	}
-}
+	if ( Miranda_Terminated())
+		return;
 
+	if (opt.StartupUpdate && opt.NoProtoCondition)
+		UpdateAll(FALSE, FALSE);
+	timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime)*60000, (TIMERPROC)timerProc);
+}
