@@ -65,10 +65,10 @@ void InitIcons(void)
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(hInstance, path, SIZEOF(path));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = META_PROTO;
-	sid.pszDefaultFile = path;
+	sid.ptszDefaultFile = path;
 
 	for (int i=0; i < SIZEOF(iconList); ++i) {
 		sid.pszDescription = iconList[i].szDescr;

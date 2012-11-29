@@ -33,18 +33,18 @@ MetaOptions options_changes;
 INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hw;
-	char buff[512];
+	TCHAR buff[40];
 
 	switch ( msg ) {
-	case WM_INITDIALOG: {
+	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
 		options_changes = options;
-		
+
 		CheckDlgButton(hwndDlg, IDC_CHK_SETDEFAULTRECV, options_changes.set_default_on_recv ? TRUE : FALSE);
 		hw = GetDlgItem(hwndDlg, IDC_CHK_TEMPDEFAULT);
 		EnableWindow(hw, options_changes.set_default_on_recv);
 		CheckDlgButton(hwndDlg, IDC_CHK_TEMPDEFAULT, options_changes.temp_default ? TRUE : FALSE);
-		
+
 		CheckDlgButton(hwndDlg, IDC_CHK_ALWAYSUSEDEFAULT, options_changes.always_use_default ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSSTATUS, options_changes.suppress_status ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSPROTO, options_changes.suppress_proto ? TRUE : FALSE);
@@ -75,156 +75,136 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		CheckDlgButton(hwndDlg, IDC_CHK_COPYHISTORY, options_changes.copy_subcontact_history ? TRUE : FALSE);
 		hw = GetDlgItem(hwndDlg, IDC_ED_DAYS);
-		_itoa(options_changes.days_history, buff, 10);
+		_itot(options_changes.days_history, buff, 10);
 		SetWindowText(hw, buff);
-
 		return TRUE;
-	}
+
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_CHK_SETDEFAULTRECV:
 				options_changes.set_default_on_recv = IsDlgButtonChecked(hwndDlg, IDC_CHK_SETDEFAULTRECV);
-				hw = GetDlgItem(hwndDlg, IDC_CHK_TEMPDEFAULT);
-				EnableWindow(hw, options_changes.set_default_on_recv);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_TEMPDEFAULT), options_changes.set_default_on_recv);
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_TEMPDEFAULT:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_TEMPDEFAULT);
 				options_changes.temp_default = IsDlgButtonChecked(hwndDlg, IDC_CHK_TEMPDEFAULT);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_ALWAYSUSEDEFAULT:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_ALWAYSUSEDEFAULT);
 				options_changes.always_use_default = IsDlgButtonChecked(hwndDlg, IDC_CHK_ALWAYSUSEDEFAULT);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_SUPPRESSSTATUS:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_SUPPRESSSTATUS);
 				options_changes.suppress_status = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSSTATUS);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_SUPPRESSPROTO:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_SUPPRESSPROTO);
 				options_changes.suppress_proto = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSPROTO);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_COPYHISTORY:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_COPYHISTORY);
 				options_changes.copy_subcontact_history = IsDlgButtonChecked(hwndDlg, IDC_CHK_COPYHISTORY);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_METAHISTORY:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY);
 				options_changes.metahistory = IsDlgButtonChecked(hwndDlg, IDC_CHK_METAHISTORY);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_SUBHISTORY:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_SUBHISTORY);
 				options_changes.subhistory = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUBHISTORY);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_COPYDATA:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_COPYDATA);
 				options_changes.copydata = IsDlgButtonChecked(hwndDlg, IDC_CHK_COPYDATA);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_UID:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_UID);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_UID)) {
 					options_changes.menu_contact_label = DNT_UID;
 					CheckDlgButton(hwndDlg, IDC_RAD_DID, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_DID:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_DID);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_DID)) {
 					options_changes.menu_contact_label = DNT_DID;
 					CheckDlgButton(hwndDlg, IDC_RAD_UID, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_MSG:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_MSG);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_MSG)) {
 					options_changes.menu_function = FT_MSG;
 					CheckDlgButton(hwndDlg, IDC_RAD_MENU, FALSE);
 					CheckDlgButton(hwndDlg, IDC_RAD_INFO, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_MENU:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_MENU);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_MENU)) {
 					options_changes.menu_function = FT_MENU;
 					CheckDlgButton(hwndDlg, IDC_RAD_MSG, FALSE);
 					CheckDlgButton(hwndDlg, IDC_RAD_INFO, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_INFO:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_INFO);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_INFO)) {
 					options_changes.menu_function = FT_INFO;
 					CheckDlgButton(hwndDlg, IDC_RAD_MSG, FALSE);
 					CheckDlgButton(hwndDlg, IDC_RAD_MENU, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_NICK:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_NICK);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NICK)) {
 					options_changes.clist_contact_name = CNNT_NICK;
 					CheckDlgButton(hwndDlg, IDC_RAD_NAME, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_RAD_NAME:
-				hw = GetDlgItem(hwndDlg, IDC_RAD_NAME);
 				if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NAME)) {
 					options_changes.clist_contact_name = CNNT_DISPLAYNAME;
 					CheckDlgButton(hwndDlg, IDC_RAD_NICK, FALSE);
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_SUBWINDOW:
-				hw = GetDlgItem(hwndDlg, IDC_CHK_SUBWINDOW);
 				options_changes.subcontact_windows = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUBWINDOW);
 
 				if (options_changes.subcontact_windows) {
-					hw = GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY);
-					EnableWindow(hw, TRUE);
-					hw = GetDlgItem(hwndDlg, IDC_CHK_SUBHISTORY);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY), TRUE);
 					CheckDlgButton(hwndDlg, IDC_CHK_SUBHISTORY, TRUE);
-					EnableWindow(hw, FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_SUBHISTORY), FALSE);
 					options_changes.subhistory = TRUE;
 				} else {
-					hw = GetDlgItem(hwndDlg, IDC_CHK_SUBHISTORY);
-					EnableWindow(hw, TRUE);
-					hw = GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_SUBHISTORY), TRUE);
 					CheckDlgButton(hwndDlg, IDC_CHK_METAHISTORY, TRUE);
-					EnableWindow(hw, FALSE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_METAHISTORY), FALSE);
 					options_changes.metahistory = TRUE;
 				}
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
+
 			case IDC_CHK_LOCKHANDLE:
 				options_changes.lockHandle = IsDlgButtonChecked(hwndDlg, IDC_CHK_LOCKHANDLE);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
-		} else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
-			SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+		}
+		else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
+			SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 		}
 		break;
 
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 			hw = GetDlgItem(hwndDlg, IDC_ED_DAYS);
-			GetWindowText(hw, buff, 512);
-			if (strlen(buff) > 0)
-				options_changes.days_history = atoi(buff);
+			GetWindowText(hw, buff, SIZEOF(buff));
+			if (buff[0] != 0)
+				options_changes.days_history = _ttoi(buff);
 
 			options = options_changes;
 			Meta_WriteOptions(&options);
@@ -239,7 +219,8 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return FALSE;
 }
 
-int Meta_WriteOptions(MetaOptions *opt) {
+int Meta_WriteOptions(MetaOptions *opt)
+{
 	db_set_b(NULL, META_PROTO, "SetDefaultOnRecv", (BYTE)(opt->set_default_on_recv ? 1 : 0));
 	db_set_b(NULL, META_PROTO, "TempDefault", (BYTE)(opt->temp_default ? 1 : 0));
 	db_set_b(NULL, META_PROTO, "AlwaysUseDefault", (BYTE)(opt->always_use_default ? 1 : 0));
@@ -271,7 +252,8 @@ int Meta_WriteOptions(MetaOptions *opt) {
 	db_set_b(NULL, META_PROTO, "UseProtoRecv", (BYTE)(opt->use_proto_recv ? 1 : 0));
 }
 
-int Meta_ReadOptions(MetaOptions *opt) {
+int Meta_ReadOptions(MetaOptions *opt)
+{
 	opt->set_default_on_recv = (db_get_b(NULL, META_PROTO, "SetDefaultOnRecv", 1) == 1 ? TRUE : FALSE);
 	opt->temp_default = (db_get_b(NULL, META_PROTO, "TempDefault", 1) == 1 ? TRUE : FALSE);
 	opt->always_use_default = (db_get_b(NULL, META_PROTO, "AlwaysUseDefault", 1) == 1 ? TRUE : FALSE);
@@ -288,7 +270,7 @@ int Meta_ReadOptions(MetaOptions *opt) {
 	opt->lockHandle = (db_get_b(NULL, META_PROTO, "LockHandle", 0) == 1 ? TRUE : FALSE);
 	opt->flash_meta_message_icon = (db_get_b(NULL, META_PROTO, "MetaMessageIcon", 1) == 1 ? TRUE : FALSE);
 	opt->copy_userinfo = (db_get_b(NULL, META_PROTO, "CopyUserInfo", 1) == 1 ? TRUE : FALSE);
-	
+
 	if ( !opt->subcontact_windows)
 		opt->metahistory = TRUE;
 	else
@@ -316,7 +298,8 @@ int Meta_ReadOptions(MetaOptions *opt) {
 #define ID_STATUS_OUTTOLUNCH            40080		->3
 */
 
-int GetDefaultPrio(int status) {
+int GetDefaultPrio(int status)
+{
 	switch( status ) {
 		case ID_STATUS_OFFLINE:    return 8;
 		case ID_STATUS_AWAY:       return 4;
@@ -338,39 +321,37 @@ typedef struct {
 
 ProtoStatusPrio *priorities = 0;
 
-int GetRealPriority(char *proto, int status) {
+int GetRealPriority(char *proto, int status)
+{
 	char szSetting[256];
 	if ( !proto) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
 		return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
-	} else {
-		int prio;
-		mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", proto, status);
-		prio = db_get_w(0, META_PROTO, szSetting, 0xFFFF);
-		if (prio == 0xFFFF) {
-			mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
-			return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
-		} else
-			return prio;
 	}
-	return 0xFFFF;
+
+	mir_snprintf(szSetting, 256, "ProtoPrio_%s%d", proto, status);
+	int prio = db_get_w(0, META_PROTO, szSetting, 0xFFFF);
+	if (prio == 0xFFFF) {
+		mir_snprintf(szSetting, 256, "DefaultPrio_%d", status);
+		return db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(status));
+	}
+	return prio;
 }
 
-void ReadPriorities() {
-	int num_protocols;
-	PROTOACCOUNT **pppDesc;
+void ReadPriorities()
+{
 	char szSetting[256];
-	ProtoStatusPrio * current;
-	int i, j;
-
+	int num_protocols, i, j;
+	PROTOACCOUNT **pppDesc;
 	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
-	current = priorities = (ProtoStatusPrio *)malloc((num_protocols + 1) * sizeof(ProtoStatusPrio));
+	ProtoStatusPrio *current = priorities = (ProtoStatusPrio *)malloc((num_protocols + 1) * sizeof(ProtoStatusPrio));
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		mir_snprintf(szSetting, 256, "DefaultPrio_%d", i);
 		current->def[i - ID_STATUS_OFFLINE] = TRUE;
 		current->prio[i - ID_STATUS_OFFLINE] = db_get_w(0, META_PROTO, szSetting, GetDefaultPrio(i));
 	}
+
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
@@ -381,13 +362,14 @@ void ReadPriorities() {
 	}
 }
 
-void WritePriorities() {
-	int num_protocols;
-	PROTOACCOUNT **pppDesc;
+void WritePriorities()
+{
 	char szSetting[256];
-	ProtoStatusPrio * current = priorities;
+	ProtoStatusPrio *current = priorities;
 	int i, j;
 
+	int num_protocols;
+	PROTOACCOUNT **pppDesc;
 	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
@@ -409,54 +391,49 @@ void WritePriorities() {
 	}
 }
 
-int GetIsDefault(int proto_index, int status) {
+int GetIsDefault(int proto_index, int status)
+{
 	return (priorities + (proto_index + 1))->def[status - ID_STATUS_OFFLINE];
 }
 
-BOOL GetPriority(int proto_index, int status) {
-	ProtoStatusPrio * current;
-	if (proto_index == -1) {
+BOOL GetPriority(int proto_index, int status)
+{
+	if (proto_index == -1)
+		return priorities->prio[status - ID_STATUS_OFFLINE];
+
+	ProtoStatusPrio *current = priorities + (proto_index + 1);
+	if (current->def[status - ID_STATUS_OFFLINE])
 		current = priorities;
-		return current->prio[status - ID_STATUS_OFFLINE];
-	} else {
-		current = priorities + (proto_index + 1);
-		if (current->def[status - ID_STATUS_OFFLINE]) {
-			current = priorities;
-		}
-		return current->prio[status - ID_STATUS_OFFLINE];
-	}
-	return 0xFFFF;
+
+	return current->prio[status - ID_STATUS_OFFLINE];
 }
 
-void SetPriority(int proto_index, int status, BOOL def, int prio) {
-	ProtoStatusPrio * current;
+void SetPriority(int proto_index, int status, BOOL def, int prio)
+{
 	if (prio < 0) prio = 0;
 	if (prio > 500) prio = 500;
-	if (proto_index == -1) {
-		current = priorities;
-		current->prio[status - ID_STATUS_OFFLINE] = prio;
-	} else {
-		current = priorities + (proto_index + 1);
+	if (proto_index == -1)
+		priorities->prio[status - ID_STATUS_OFFLINE] = prio;
+	else {
+		ProtoStatusPrio *current = priorities + (proto_index + 1);
 		current->def[status - ID_STATUS_OFFLINE] = def;
-		if ( !def) {
+		if ( !def)
 			current->prio[status - ID_STATUS_OFFLINE] = prio;
-		}
 	}
 }
 
-void ResetPriorities() {
-	int num_protocols;
+void ResetPriorities()
+{
+	int i, j, num_protocols;
 	PROTOACCOUNT **pppDesc;
-	ProtoStatusPrio * current;
-	int i, j;
-
 	ProtoEnumAccounts(&num_protocols, &pppDesc);
 
-	current = priorities;
+	ProtoStatusPrio *current = priorities;
 	for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 		current->def[i - ID_STATUS_OFFLINE] = TRUE;
 		current->prio[i - ID_STATUS_OFFLINE] = GetDefaultPrio(i);
 	}
+
 	for (i = 0; i < num_protocols; i++) {
 		current = priorities + (i + 1);
 		for (j = ID_STATUS_OFFLINE; j <= ID_STATUS_OUTTOLUNCH; j++) {
@@ -471,6 +448,7 @@ void ResetPriorities() {
 INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hw;
+	int sel;
 
 	switch ( msg ) {
 	case WM_INITDIALOG:
@@ -480,13 +458,12 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			int num_protocols;
 			PROTOACCOUNT **pppDesc;
-			int i, index;
-
 			ProtoEnumAccounts(&num_protocols, &pppDesc);
+
 			hw = GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL);
-			index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<default>"));
+			int index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<default>"));
 			SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, -1);
-			for (i = 0; i < num_protocols; i++) {
+			for (int i = 0; i < num_protocols; i++) {
 				if (strcmp(pppDesc[i]->szModuleName, META_PROTO) != 0) {
 					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->szModuleName);
 					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
@@ -498,105 +475,106 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(hwndDlg, WMU_FILLPRIODATA, 0, 0);
 		}
 		return FALSE;
+
 	case WMU_FILLPRIODATA:
-		{
-			int sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+		sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+		if (sel != -1) {
+			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+			sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
 			if (sel != -1) {
-				int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
-				sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
-				if (sel != -1) {
-					int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
-					SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
-					if (index == -1) {
+				int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
+				SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
+				if (index == -1) {
+					EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), TRUE);
+					CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, TRUE);
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DEFAULT), FALSE);
+				}
+				else {
+					if (GetIsDefault(index, status)) {
+						CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, TRUE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), FALSE);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), FALSE);
+					}
+					else {
+						CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, FALSE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), TRUE);
 						EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), TRUE);
-						CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, TRUE);
-						EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DEFAULT), FALSE);
-					} else {
-						if (GetIsDefault(index, status)) {
-							CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), FALSE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), FALSE);
-						} else {
-							CheckDlgButton(hwndDlg, IDC_CHK_DEFAULT, FALSE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), TRUE);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), TRUE);
-						}
-						
-						EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DEFAULT), TRUE);
 					}
+
+					EnableWindow(GetDlgItem(hwndDlg, IDC_CHK_DEFAULT), TRUE);
 				}
 			}
 		}
 		return TRUE;
+
 	case WMU_FILLSTATUSCMB:
-		{
-			int sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
-			if (sel != -1) {
-				int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
-				HWND hw = GetDlgItem(hwndDlg, IDC_CMB_STATUS);
-				SendMessage(hw, CB_RESETCONTENT, 0, 0);
-				if (index == -1) {
-					int i;
-					for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+		sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+		if (sel != -1) {
+			int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+			HWND hw = GetDlgItem(hwndDlg, IDC_CMB_STATUS);
+			SendMessage(hw, CB_RESETCONTENT, 0, 0);
+			if (index == -1) {
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, 0));
+					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
+				}
+			}
+			else {
+				int num_protocols;
+				PROTOACCOUNT **pppDesc;
+				ProtoEnumAccounts(&num_protocols, &pppDesc);
+
+				int caps = CallProtoService(pppDesc[index]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
+
+				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
+					if (caps & Proto_Status2Flag(i)) {
 						index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, 0));
 						SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
 					}
-				} else {
-					int num_protocols, caps, i;
-					PROTOACCOUNT **pppDesc;
-					ProtoEnumAccounts(&num_protocols, &pppDesc);
-
-					caps = CallProtoService(pppDesc[index]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0);
-
-					for (i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-						if (caps & Proto_Status2Flag(i)) {
-							index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, 0));
-							SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
-						}
-					}
 				}
-				SendMessage(hw, CB_SETCURSEL, 0, 0);
-				SendMessage(hwndDlg, WMU_FILLPRIODATA, 0, 0);
 			}
+			SendMessage(hw, CB_SETCURSEL, 0, 0);
+			SendMessage(hwndDlg, WMU_FILLPRIODATA, 0, 0);
 		}
 		return TRUE;
+
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == BN_CLICKED ) {
 			switch( LOWORD( wParam )) {
 			case IDC_CHK_DEFAULT:
-				{
-					int sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+				sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+				if (sel != -1) {
+					int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
+					sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
 					if (sel != -1) {
-						int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
-						sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
-						if (sel != -1) {
-							BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHK_DEFAULT);
-							int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
-							if (checked) {
-								SetPriority(index, status, TRUE, 0);
-								SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
-							} else {
-								SetPriority(index, status, FALSE, GetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, 0, FALSE));
-							}
-							EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), !checked);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), !checked);
-							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+						BOOL checked = IsDlgButtonChecked(hwndDlg, IDC_CHK_DEFAULT);
+						int status = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETITEMDATA, (WPARAM)sel, 0);
+						if (checked) {
+							SetPriority(index, status, TRUE, 0);
+							SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
 						}
+						else SetPriority(index, status, FALSE, GetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, 0, FALSE));
+
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_PRIORITY), !checked);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_SP_PRIORITY), !checked);
+						SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					}
 				}
 				break;
+
 			case IDC_BTN_RESET:
 				ResetPriorities();
 				SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_SETCURSEL, 0, 0);
 				SendMessage(hwndDlg, WMU_FILLSTATUSCMB, 0, 0);
 				SendMessage(hwndDlg, WMU_FILLPRIODATA, 0, 0);
-				SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			}
 		}
+
 		if ( HIWORD( wParam ) == EN_CHANGE && LOWORD(wParam) == IDC_ED_PRIORITY && ( HWND )lParam == GetFocus()) {
-			int sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
+			sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETCURSEL, 0, 0);
 			if (sel != -1) {
 				int index = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL), CB_GETITEMDATA, (WPARAM)sel, 0);
 				sel = SendMessage(GetDlgItem(hwndDlg, IDC_CMB_STATUS), CB_GETCURSEL, 0, 0);
@@ -606,7 +584,7 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SetPriority(index, status, FALSE, prio);
 					if (prio != GetPriority(index, status))
 						SetDlgItemInt(hwndDlg, IDC_ED_PRIORITY, GetPriority(index, status), FALSE);
-					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				}
 			}
 		}
@@ -621,7 +599,7 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			}
 		}
 		break;
-						
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == PSN_APPLY ) {
 			WritePriorities();

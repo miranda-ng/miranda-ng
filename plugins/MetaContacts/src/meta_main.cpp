@@ -164,7 +164,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	HANDLE hContact = db_find_first();
 	while (hContact != NULL) {
 		char *proto = GetContactProto(hContact);
-		if (proto && !lstrcmp( META_PROTO, proto)) {
+		if (proto && !lstrcmpA( META_PROTO, proto)) {
 			db_set_w(hContact, META_PROTO, "Status", ID_STATUS_OFFLINE);
 			db_set_dw(hContact, META_PROTO, "IdleTS", 0);
 			db_set_b(hContact, META_PROTO, "ContactCountCheck", 0);
@@ -189,7 +189,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (Meta_SetHandles()) {
 		// error - db corruption
 		if ( !db_get_b(0, META_PROTO, "DisabledMessageShown", 0)) {
-			MessageBox(0, Translate("Error - Database corruption.\nPlugin disabled."), Translate("MetaContacts"), MB_OK | MB_ICONERROR);
+			MessageBox(0, TranslateT("Error - Database corruption.\nPlugin disabled."), TranslateT("MetaContacts"), MB_OK | MB_ICONERROR);
 			db_set_b(0, META_PROTO, "DisabledMessageShown", 1);
 		}
 		//Meta_HideMetaContacts(TRUE);

@@ -78,27 +78,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 INT_PTR TranslateMenuFunc(HANDLE hContact, int i);
 extern HANDLE hMenuContact[MAX_CONTACTS];
 
-INT_PTR MenuFunc0(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc1(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc2(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc3(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc4(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc5(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc6(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc7(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc8(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc9(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc10(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc11(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc12(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc13(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc14(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc15(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc16(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc17(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc18(WPARAM wParam, LPARAM lParam);
-INT_PTR MenuFunc19(WPARAM wParam, LPARAM lParam);
-
 extern HINSTANCE hInstance;
 extern PLUGININFOEX pluginInfo;
 
@@ -130,7 +109,7 @@ int Meta_SetHandles(void);
 int Meta_UnhideLinkedContacts(void);
 int Meta_GetContactNumber(HANDLE hContact);
 HANDLE Meta_GetContactHandle(HANDLE hMeta, int contact_number);
-void Meta_GetStatusString(int status, char *buf, size_t size);
+void Meta_GetStatusString(int status, TCHAR *buf, size_t size);
 void Meta_RestoreGroup(HANDLE hContact);
 void Meta_SetGroup(HANDLE hContact);
 int Meta_HideMetaContacts(int hide);
@@ -253,7 +232,8 @@ extern BOOL meta_group_hack_disabled;
 #ifndef MS_CLUI_GETVERSION
 #define MS_CLUI_GETVERSION      "CLUI/GetVersion"
 
-
 extern BOOL os_unicode_enabled;
+
+#define szDelMsg "You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"
 
 #endif
