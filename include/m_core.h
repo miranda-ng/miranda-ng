@@ -99,9 +99,14 @@ MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char
 MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
 MIR_CORE_DLL(DWORD)   db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue);
 MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
 MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting);
 MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, const char *szModule, const char *szSetting);
+
+#if defined(__cplusplus)
+MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
+#else
+MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
+#endif
 
 MIR_CORE_DLL(INT_PTR) db_set_b(HANDLE hContact, const char *szModule, const char *szSetting, BYTE val);
 MIR_CORE_DLL(INT_PTR) db_set_w(HANDLE hContact, const char *szModule, const char *szSetting, WORD val);
