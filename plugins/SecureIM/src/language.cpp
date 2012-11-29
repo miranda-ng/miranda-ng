@@ -84,8 +84,8 @@ LPCSTR sim312[] = { "SecureIM status (disabled)",
 
 //System messages
 LPCSTR sim401 = "SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.";
-LPCSTR sim402 = "SecureIM received unencryped message:\n";
-LPCSTR sim403 = "SecureIM received encryped message:\n";
+LPCSTR sim402 = "SecureIM received unencrypted message:\n";
+LPCSTR sim403 = "SecureIM received encrypted message:\n";
 
 //RSA messages
 LPCSTR sim501 = "Session closed by receiving incorrect message type";
