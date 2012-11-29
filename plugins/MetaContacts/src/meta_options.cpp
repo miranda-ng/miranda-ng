@@ -461,11 +461,11 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ProtoEnumAccounts(&num_protocols, &pppDesc);
 
 			hw = GetDlgItem(hwndDlg, IDC_CMB_PROTOCOL);
-			int index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)Translate("<default>"));
+			int index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)TranslateT("<default>"));
 			SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, -1);
 			for (int i = 0; i < num_protocols; i++) {
 				if (strcmp(pppDesc[i]->szModuleName, META_PROTO) != 0) {
-					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->szModuleName);
+					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)pppDesc[i]->tszAccountName);
 					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
 				}
 			}
@@ -516,7 +516,7 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			SendMessage(hw, CB_RESETCONTENT, 0, 0);
 			if (index == -1) {
 				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
-					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, 0));
+					index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, GCDNF_TCHAR));
 					SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
 				}
 			}
@@ -529,7 +529,7 @@ INT_PTR CALLBACK DlgProcOptsPriorities(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 				for (int i = ID_STATUS_OFFLINE; i <= ID_STATUS_OUTTOLUNCH; i++) {
 					if (caps & Proto_Status2Flag(i)) {
-						index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, (LPARAM)(char *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, 0));
+						index = SendMessage(hw, CB_INSERTSTRING, (WPARAM)-1, CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, i, GCDNF_TCHAR));
 						SendMessage(hw, CB_SETITEMDATA, (WPARAM)index, i);
 					}
 				}
