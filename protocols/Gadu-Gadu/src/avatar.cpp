@@ -378,13 +378,17 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	char szUrl[128], uin[32], *authHeader, *data, *avatardata, content[256], image_ext[4], image_type[11];
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
-	netlog("setavatarthread(): started. Trying to set user avatar using %s...", szFilename);
+	netlog("setavatarthread(): started. Trying to set user avatar.");
 	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
 		netlog("setavatarthread(): Failed to open avatar file (%s).", strerror(errno));
 		mir_free(szFilename);
+		int prevType = db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, -1);
+		if (prevType != -1)
+			db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, prevType);
+		db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
 		getUserAvatar();
 #ifdef DEBUGMODE
 		netlog("setavatarthread(): end. err1");
@@ -492,10 +496,15 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	mir_free(avatardata);
 	mir_free(data);
 
-	if (res)
+	if (res) {
 		netlog("setavatarthread(): User avatar set successfully.");
-	else
+	} else {
+		int prevType = db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, -1);
+		if (prevType != -1)
+			db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, prevType);
 		netlog("setavatarthread(): Failed to set user avatar.");
+	}
+	db_unset(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV);
 
 	mir_free(szFilename);
 	getUserAvatar();
@@ -507,7 +516,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 void GGPROTO::setAvatar(const TCHAR *szFilename)
 {
 #ifdef DEBUGMODE
-		netlog("setAvatar(): forkthread 3 GGPROTO::setavatarthread");
+	netlog("setAvatar(): forkthread 3 GGPROTO::setavatarthread");
 #endif
 	forkthread(&GGPROTO::setavatarthread, mir_tstrdup(szFilename));
 }

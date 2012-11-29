@@ -194,6 +194,7 @@ typedef struct
 #define GG_KEY_AVATARTS			"AvatarTs"		// Contact's avatar Timestamp
 
 #define GG_KEY_AVATARTYPE		"AvatarType"	// Contact's avatar format
+#define GG_KEY_AVATARTYPEPREV	"AvatarTypePrev"		// Contact's previous avatar format (during setting new avatar)
 #define GG_KEYDEF_AVATARTYPE	PA_FORMAT_UNKNOWN
 
 #define GG_KEY_AVATARREQUESTED		"AvatarRequested"	// When contact's avatar is requested

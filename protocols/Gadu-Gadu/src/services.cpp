@@ -290,10 +290,29 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 		return -1;
 	}
 	
+
+	TCHAR *szAvType = _tcsrchr(szFilename, '.');
+	int iAvType = -1;
+	szAvType++;
+	if (!_tcsicmp(szAvType, _T("jpg")))
+		iAvType = PA_FORMAT_JPEG;
+	else if (!_tcsicmp(szAvType, _T("gif")))
+		iAvType = PA_FORMAT_GIF;
+	else if (!_tcsicmp(szAvType, _T("png")))
+		iAvType = PA_FORMAT_PNG;
+
+	if ( iAvType == -1) {
+		netlog("setmyavatar(): Failed to set user avatar. File %S has incompatible extansion.", szAvType);
+		return -1;
+	}
+
+	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, -1));
+	db_set_b(NULL, m_szModuleName, GG_KEY_AVATARTYPE, (BYTE)iAvType);
+
 	TCHAR szMyFilename[MAX_PATH];
 	getAvatarFilename(NULL, szMyFilename, SIZEOF(szMyFilename));
 	if ( _tcscmp(szFilename, szMyFilename) && !CopyFile(szFilename, szMyFilename, FALSE)) {
-		netlog("setmyavatar(): Failed to set user avatar. File %s could not be created/overwritten.", szMyFilename);
+		netlog("setmyavatar(): Failed to set user avatar. File with type %d could not be created/overwritten.", iAvType);
 		return -1;
 	}
 
