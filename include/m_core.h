@@ -99,7 +99,7 @@ MIR_CORE_DLL(int)     db_get_b(HANDLE hContact, const char *szModule, const char
 MIR_CORE_DLL(int)     db_get_w(HANDLE hContact, const char *szModule, const char *szSetting, int errorValue);
 MIR_CORE_DLL(DWORD)   db_get_dw(HANDLE hContact, const char *szModule, const char *szSetting, DWORD errorValue);
 MIR_CORE_DLL(INT_PTR) db_get(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv);
-MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType);
+MIR_CORE_DLL(INT_PTR) db_get_s(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv, const int nType=DBVT_ASCIIZ);
 MIR_CORE_DLL(char*)   db_get_sa(HANDLE hContact, const char *szModule, const char *szSetting);
 MIR_CORE_DLL(WCHAR*)  db_get_wsa(HANDLE hContact, const char *szModule, const char *szSetting);
 
@@ -111,10 +111,15 @@ MIR_CORE_DLL(INT_PTR) db_set_ws(HANDLE hContact, const char *szModule, const cha
 MIR_CORE_DLL(INT_PTR) db_set_utf(HANDLE hContact, const char *szModule, const char *szSetting, const char *val);
 MIR_CORE_DLL(INT_PTR) db_set_blob(HANDLE hContact, const char *szModule, const char *szSetting, void *val, unsigned len);
 
+#define db_get_ws(a,b,c,d)  db_get_s(a,b,c,d,DBVT_WCHAR)
+#define db_get_utf(a,b,c,d) db_get_s(a,b,c,d,DBVT_UTF8)
+
 #ifdef _UNICODE
+	#define db_get_ts(a,b,c,d)  db_get_s(a,b,c,d,DBVT_WCHAR)
 	#define db_get_tsa db_get_wsa
 	#define db_set_ts  db_set_ws
 #else
+	#define db_get_ts(a,b,c,d)  db_get_s(a,b,c,d,DBVT_ASCIIZ)
 	#define db_get_tsa db_get_sa
 	#define db_set_ts  db_set_s
 #endif
