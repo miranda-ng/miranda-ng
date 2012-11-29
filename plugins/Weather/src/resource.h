@@ -58,7 +58,6 @@
 #define IDC_HTEXT                       2028
 #define IDC_DPop                        2029
 #define IDC_DAutoUpdate                 2030
-#define IDC_NEWWIN                      2031
 #define IDC_IURL                        2032
 #define IDC_MURL                        2033
 #define IDC_PROTOCOND                   2034

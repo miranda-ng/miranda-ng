@@ -32,7 +32,7 @@ static void OpenUrl( TCHAR* format, TCHAR* id )
 	GetID( id );
 	mir_sntprintf( loc, SIZEOF(loc), format, id );
 	
-	CallService(MS_UTILS_OPENURL, opt.NewBrowserWin | OUF_TCHAR, (LPARAM)loc );
+	CallService(MS_UTILS_OPENURL, OUF_NEWWINDOW | OUF_TCHAR, (LPARAM)loc );
 }
 
 //============ BASIC CONTACTS FUNCTIONS AND LINKS  ============
@@ -43,7 +43,7 @@ INT_PTR ViewLog(WPARAM wParam, LPARAM lParam)
 {
 	// see if the log path is set
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString((HANDLE)wParam, WEATHERPROTONAME, "Log", &dbv)) {
+	if ( !db_get_ts((HANDLE)wParam, WEATHERPROTONAME, "Log", &dbv)) {
 		if (dbv.pszVal[0] != 0)
 			ShellExecute((HWND)lParam, _T("open"), dbv.ptszVal, _T(""), _T(""), SW_SHOW);
 		db_free(&dbv);
@@ -182,17 +182,17 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 
 		// start to get the settings
 		// if the setting not exist, leave the dialog box blank
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_ID, dbv.ptszVal);
 			// check if the station is a default station
 			CheckDlgButton(hwndDlg, IDC_DEFA, _tcscmp(dbv.ptszVal, opt.Default) != 0);
 			db_free(&dbv);
 		}
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_NAME, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Log", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Log", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_LOG, dbv.ptszVal);
 			// if the log path is not empty, check the checkbox for external log
 			if (dbv.ptszVal[0]) CheckDlgButton(hwndDlg, IDC_External, TRUE);
@@ -206,11 +206,11 @@ INT_PTR CALLBACK DlgProcChange(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPa
 		CheckDlgButton(hwndDlg, IDC_DAutoUpdate, db_get_b(hContact, WEATHERPROTONAME, "DAutoUpdate", FALSE));
 		CheckDlgButton(hwndDlg, IDC_Internal, db_get_b(hContact, WEATHERPROTONAME, "History", 0));
 
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "InfoURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_IURL, dbv.ptszVal);
 			db_free(&dbv);
 		}
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "MapURL", &dbv)) {
 			SetDlgItemText(hwndDlg, IDC_MURL, dbv.ptszVal);
 			db_free(&dbv);
 		}
@@ -437,7 +437,7 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 
 	// exit this function if it is not default station
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString((HANDLE)wParam, WEATHERPROTONAME, "ID", &dbv)) {
+	if ( !db_get_ts((HANDLE)wParam, WEATHERPROTONAME, "ID", &dbv)) {
 		if ( _tcscmp(dbv.ptszVal, opt.Default)) {
 			db_free(&dbv);
 			return 0;
@@ -451,14 +451,14 @@ int ContactDeleted(WPARAM wParam, LPARAM lParam)
 	HANDLE hContact = db_find_first();
 	while(hContact) {
 		if (IsMyContact(hContact)) {
-			if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 				// if the station is not a default station, set it as the new default station
 				// this is the first weather station encountered from the search
 				if ( _tcscmp(opt.Default, dbv.ptszVal)) {
 					_tcscpy(opt.Default, dbv.ptszVal);
 					opt.DefStn = hContact;
 					db_free(&dbv);
-					if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+					if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 						TCHAR str[255];
 						mir_sntprintf(str, SIZEOF(str), TranslateT("%s is now the default weather station"), dbv.ptszVal);
 						db_free(&dbv);

@@ -104,19 +104,18 @@ void DestroyOptions(void)
 // load options from database + set default if the setting does not exist
 void LoadOptions(void) 
 {
-	DBVARIANT dbv;
 	ZeroMemory(&opt, sizeof(opt));
 
 	// main options
-	opt.StartupUpdate = db_get_b(NULL, WEATHERPROTONAME, "StartupUpdate",TRUE);
-	opt.AutoUpdate = db_get_b(NULL, WEATHERPROTONAME, "AutoUpdate",TRUE);
-	opt.UpdateTime = db_get_w(NULL, WEATHERPROTONAME, "UpdateTime",30);
-	opt.NewBrowserWin = db_get_b(NULL, WEATHERPROTONAME, "NewWindow",TRUE);
-	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus",TRUE);
-	opt.UpdateOnlyConditionChanged = db_get_b(NULL, WEATHERPROTONAME, "CondChangeAsUpdate",TRUE);
-	opt.RemoveOldData = db_get_b(NULL, WEATHERPROTONAME, "RemoveOld",FALSE);
-	opt.MakeItalic = db_get_b(NULL, WEATHERPROTONAME, "MakeItalic",TRUE);
+	opt.StartupUpdate = db_get_b(NULL, WEATHERPROTONAME, "StartupUpdate", true);
+	opt.AutoUpdate = db_get_b(NULL, WEATHERPROTONAME, "AutoUpdate", true);
+	opt.UpdateTime = db_get_w(NULL, WEATHERPROTONAME, "UpdateTime", 30);
+	opt.NoProtoCondition = db_get_b(NULL, WEATHERPROTONAME, "NoStatus", true);
+	opt.UpdateOnlyConditionChanged = db_get_b(NULL, WEATHERPROTONAME, "CondChangeAsUpdate", true);
+	opt.RemoveOldData = db_get_b(NULL, WEATHERPROTONAME, "RemoveOld", false);
+	opt.MakeItalic = db_get_b(NULL, WEATHERPROTONAME, "MakeItalic", true);
 	opt.AvatarSize = db_get_b(NULL, WEATHERPROTONAME, "AvatarSize", 128);
+	
 	// units
 	opt.tUnit = db_get_w(NULL, WEATHERPROTONAME, "tUnit", 1);
 	opt.wUnit = db_get_w(NULL, WEATHERPROTONAME, "wUnit", 2);
@@ -124,7 +123,9 @@ void LoadOptions(void)
 	opt.pUnit = db_get_w(NULL, WEATHERPROTONAME, "pUnit", 4);
 	opt.dUnit = db_get_w(NULL, WEATHERPROTONAME, "dUnit", 1);
 	opt.eUnit = db_get_w(NULL, WEATHERPROTONAME, "eUnit", 2);
-	if (DBGetContactSettingTString(NULL, WEATHERPROTONAME, "DegreeSign",&dbv))
+
+	DBVARIANT dbv;
+	if (db_get_ts(NULL, WEATHERPROTONAME, "DegreeSign",&dbv))
 		_tcscpy(opt.DegreeSign, _T(""));
 	else {
 		_tcscpy(opt.DegreeSign, dbv.ptszVal);
@@ -133,86 +134,86 @@ void LoadOptions(void)
 	opt.DoNotAppendUnit = db_get_b(NULL, WEATHERPROTONAME, "DoNotAppendUnit", 0);
 	opt.NoFrac = db_get_b(NULL, WEATHERPROTONAME, "NoFractions", 0);
 	// texts
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "DisplayText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "DisplayText", &dbv)) {
 		wSetData(&opt.cText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("C");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "BriefTextTitle",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "BriefTextTitle", &dbv)) {
 		wSetData(&opt.bTitle, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("b");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "BriefText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "BriefText", &dbv)) {
 		wSetData(&opt.bText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("B");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "NoteText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "NoteText", &dbv)) {
 		wSetData(&opt.nText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("N");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "ExtText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "ExtText", &dbv)) {
 		wSetData(&opt.eText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("E");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "HistoryText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "HistoryText", &dbv)) {
 		wSetData(&opt.hText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("H");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "ExtraText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "ExtraText", &dbv)) {
 		wSetData(&opt.xText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("X");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "StatusText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "StatusText", &dbv)) {
 		wSetData(&opt.sText, TranslateTS(dbv.ptszVal));
 		db_free(&dbv);
 	}
 	else SetTextDefault("S");
 
 	// advanced
-	opt.DisCondIcon = db_get_b(NULL, WEATHERPROTONAME, "DisableConditionIcon",FALSE);
+	opt.DisCondIcon = db_get_b(NULL, WEATHERPROTONAME, "DisableConditionIcon", false);
 	// popup options
-	opt.UsePopup = db_get_b(NULL, WEATHERPROTONAME, "UsePopUp",TRUE);
-	opt.UpdatePopup = db_get_b(NULL, WEATHERPROTONAME, "UpdatePopup",TRUE);
-	opt.AlertPopup = db_get_b(NULL, WEATHERPROTONAME, "AlertPopup",TRUE);
-	opt.PopupOnChange = db_get_b(NULL, WEATHERPROTONAME, "PopUpOnChange",TRUE);
-	opt.ShowWarnings = db_get_b(NULL, WEATHERPROTONAME, "ShowWarnings",TRUE);
+	opt.UsePopup = db_get_b(NULL, WEATHERPROTONAME, "UsePopUp", true);
+	opt.UpdatePopup = db_get_b(NULL, WEATHERPROTONAME, "UpdatePopup", true);
+	opt.AlertPopup = db_get_b(NULL, WEATHERPROTONAME, "AlertPopup", true);
+	opt.PopupOnChange = db_get_b(NULL, WEATHERPROTONAME, "PopUpOnChange", true);
+	opt.ShowWarnings = db_get_b(NULL, WEATHERPROTONAME, "ShowWarnings", true);
 	// popup colors
-	opt.BGColour = db_get_dw(NULL, WEATHERPROTONAME, "BackgroundColour",GetSysColor(COLOR_BTNFACE));
-	opt.TextColour = db_get_dw(NULL, WEATHERPROTONAME, "TextColour",GetSysColor(COLOR_WINDOWTEXT));
-	opt.UseWinColors = (BOOL)db_get_b(NULL, WEATHERPROTONAME, "UseWinColors", FALSE);
+	opt.BGColour = db_get_dw(NULL, WEATHERPROTONAME, "BackgroundColour", GetSysColor(COLOR_BTNFACE));
+	opt.TextColour = db_get_dw(NULL, WEATHERPROTONAME, "TextColour", GetSysColor(COLOR_WINDOWTEXT));
+	opt.UseWinColors = (BOOL)db_get_b(NULL, WEATHERPROTONAME, "UseWinColors", false);
 	// popup actions
-	opt.LeftClickAction = db_get_dw(NULL, WEATHERPROTONAME, "LeftClickAction",IDM_M2);
-	opt.RightClickAction = db_get_dw(NULL, WEATHERPROTONAME, "RightClickAction",IDM_M1);
+	opt.LeftClickAction = db_get_dw(NULL, WEATHERPROTONAME, "LeftClickAction", IDM_M2);
+	opt.RightClickAction = db_get_dw(NULL, WEATHERPROTONAME, "RightClickAction", IDM_M1);
 	// popup delay
-	opt.pDelay = db_get_dw(NULL, WEATHERPROTONAME, "PopupDelay",0);
+	opt.pDelay = db_get_dw(NULL, WEATHERPROTONAME, "PopupDelay", 0);
 	// popup texts
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "PopupTitle",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "PopupTitle",&dbv)) {
 		wSetData(&opt.pTitle, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else SetTextDefault("P");
 
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "PopupText",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "PopupText",&dbv)) {
 		wSetData(&opt.pText, dbv.ptszVal);
 		db_free(&dbv);
 	}
 	else SetTextDefault("p");
 
 	// misc
-	if ( !DBGetContactSettingTString(NULL, WEATHERPROTONAME, "Default",&dbv)) {
+	if ( !db_get_ts(NULL, WEATHERPROTONAME, "Default",&dbv)) {
 		_tcscpy(opt.Default, dbv.ptszVal);
 		db_free(&dbv);
 	}
@@ -226,7 +227,6 @@ void SaveOptions(void)
 	db_set_b(NULL, WEATHERPROTONAME, "StartupUpdate", (BYTE)opt.StartupUpdate);
 	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)opt.AutoUpdate);
 	db_set_w(NULL, WEATHERPROTONAME, "UpdateTime", opt.UpdateTime);
-	db_set_b(NULL, WEATHERPROTONAME, "NewWindow", (BYTE)opt.NewBrowserWin);
 	db_set_b(NULL, WEATHERPROTONAME, "NoStatus", (BYTE)opt.NoProtoCondition);
 	db_set_b(NULL, WEATHERPROTONAME, "CondChangeAsUpdate", (BYTE)opt.UpdateOnlyConditionChanged);
 	db_set_b(NULL, WEATHERPROTONAME, "RemoveOld", (BYTE)opt.RemoveOldData);
@@ -334,16 +334,15 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 		SendDlgItemMessage(hdlg, IDC_AVATARSPIN, UDM_SETPOS, 0, opt.AvatarSize);
 		SendDlgItemMessage(hdlg, IDC_AVATARSIZE, EM_LIMITTEXT, 3, 0);
 
-		CheckDlgButton(hdlg, IDC_STARTUPUPD, opt.StartupUpdate);
-		CheckDlgButton(hdlg, IDC_UPDATE, opt.AutoUpdate);
-		CheckDlgButton(hdlg, IDC_PROTOCOND, !opt.NoProtoCondition);
-		CheckDlgButton(hdlg, IDC_UPDCONDCHG, opt.UpdateOnlyConditionChanged);
-		CheckDlgButton(hdlg, IDC_NEWWIN, opt.NewBrowserWin);
-		CheckDlgButton(hdlg, IDC_REMOVEOLD, opt.RemoveOldData);
-		CheckDlgButton(hdlg, IDC_MAKEI, opt.MakeItalic);
-		CheckDlgButton(hdlg, IDC_DISCONDICON, opt.DisCondIcon);
+		CheckDlgButton(hdlg, IDC_STARTUPUPD,    opt.StartupUpdate);
+		CheckDlgButton(hdlg, IDC_UPDATE,        opt.AutoUpdate);
+		CheckDlgButton(hdlg, IDC_PROTOCOND,    !opt.NoProtoCondition);
+		CheckDlgButton(hdlg, IDC_UPDCONDCHG,    opt.UpdateOnlyConditionChanged);
+		CheckDlgButton(hdlg, IDC_REMOVEOLD,     opt.RemoveOldData);
+		CheckDlgButton(hdlg, IDC_MAKEI,         opt.MakeItalic);
+		CheckDlgButton(hdlg, IDC_DISCONDICON,   opt.DisCondIcon);
 		CheckDlgButton(hdlg, IDC_DONOTAPPUNITS, opt.DoNotAppendUnit);
-		CheckDlgButton(hdlg, IDC_NOFRAC, opt.NoFrac);
+		CheckDlgButton(hdlg, IDC_NOFRAC,        opt.NoFrac);
 
 		// load units
 		switch (opt.tUnit) {	// temperature
@@ -409,7 +408,6 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lparam)
 			GetDlgItemText(hdlg, IDC_DEGREE, opt.DegreeSign, sizeof(opt.DegreeSign));
 			opt.StartupUpdate = IsDlgButtonChecked(hdlg, IDC_STARTUPUPD);
 			opt.AutoUpdate = IsDlgButtonChecked(hdlg, IDC_UPDATE);
-			opt.NewBrowserWin = IsDlgButtonChecked(hdlg, IDC_NEWWIN);
 			opt.NoProtoCondition = !IsDlgButtonChecked(hdlg, IDC_PROTOCOND);
 			opt.DisCondIcon = IsDlgButtonChecked(hdlg, IDC_DISCONDICON);
 			opt.UpdateOnlyConditionChanged = (BYTE)IsDlgButtonChecked(hdlg, IDC_UPDCONDCHG);

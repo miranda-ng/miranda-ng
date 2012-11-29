@@ -45,17 +45,15 @@ EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     GROUPBOX        "Options",IDC_STATIC,3,0,299,70,WS_GROUP
-    CONTROL         "Update weather information on startup",IDC_STARTUPUPD,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,219,8
-    CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,19,206,8
-    EDITTEXT        IDC_UPDATETIME,231,15,21,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
-    LTEXT           "minutes",IDC_STATIC,257,16,43,9
+    CONTROL         "Update weather information on startup",IDC_STARTUPUPD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,12,219,8
+    CONTROL         "Update weather information every",IDC_UPDATE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,23,206,8
+    EDITTEXT        IDC_UPDATETIME,231,21,25,12,ES_AUTOHSCROLL | ES_NUMBER | NOT WS_BORDER,WS_EX_CLIENTEDGE | WS_EX_STATICEDGE
+    LTEXT           "minutes",IDC_STATIC,260,23,39,8
     CONTROL         "Consider weather info updated only when condition and temperature are changed",IDC_UPDCONDCHG,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,28,282,8
-    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,38,282,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,282,8
+    CONTROL         "Remove old data when updating",IDC_REMOVEOLD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,45,282,8
     CONTROL         "Make the contact italic when weather alert is issued",IDC_MAKEI,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,48,282,8
-    CONTROL         "Open URLs in new browser window",IDC_NEWWIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,57,287,8
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,56,282,8
     GROUPBOX        "Modes",IDC_STATIC,3,70,300,37
     CONTROL         "Use weather condition as protocol status",IDC_PROTOCOND,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,81,278,8

@@ -47,7 +47,7 @@ int UpdateWeather(HANDLE hContact)
 
 	// log to netlib log for debug purpose
 	Netlib_LogfT(hNetlibUser, _T("************************************************************************"));
-	int dbres = DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv);
+	int dbres = db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv);
 
 	Netlib_LogfT(hNetlibUser, _T("<-- Start update for station -->"));
 
@@ -81,19 +81,19 @@ int UpdateWeather(HANDLE hContact)
 
 	// compare the old condition and determine if the weather had changed
 	if (opt.UpdateOnlyConditionChanged) {	// consider condition change
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastCondition", &dbv)) {
 			if (_tcsicmp(winfo.cond, dbv.ptszVal))  Ch = TRUE;		// the weather condition is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastTemperature", &dbv)) {
 			if (_tcsicmp(winfo.temp, dbv.ptszVal))  Ch = TRUE;		// the temperature is changed
 			db_free(&dbv);
 		}
 		else Ch = TRUE;
 	}
 	else {	// consider update time change
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "LastUpdate", &dbv)) {
 			if (_tcsicmp(winfo.update, dbv.ptszVal))  Ch = TRUE;		// the update time is changed
 			db_free(&dbv);
 		}
@@ -101,7 +101,7 @@ int UpdateWeather(HANDLE hContact)
 	}
 
 	// have weather alert issued?
-	dbres = DBGetContactSettingTString(hContact, WEATHERCONDITION, "Alert", &dbv);
+	dbres = db_get_ts(hContact, WEATHERCONDITION, "Alert", &dbv);
 	if ( !dbres && dbv.ptszVal[0] != 0) {
 		if (opt.AlertPopup && !db_get_b(hContact, WEATHERPROTONAME, "DPopUp", 0) && Ch) {
 			// display alert popup
@@ -167,7 +167,7 @@ int UpdateWeather(HANDLE hContact)
 
 		if (db_get_b(hContact, WEATHERPROTONAME, "File", 0)) {
 			// external log
-			if ( !DBGetContactSettingTString(hContact,WEATHERPROTONAME, "Log",&dbv)) {
+			if ( !db_get_ts(hContact,WEATHERPROTONAME, "Log",&dbv)) {
 				// for the option for overwriting the file, delete old file first
 				if (db_get_b(hContact,WEATHERPROTONAME, "Overwrite",0))
 					DeleteFile(dbv.ptszVal);
@@ -594,8 +594,7 @@ int GetWeatherData(HANDLE hContact)
 void CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) 
 {
 	// only run if it is not current updating and the auto update option is enabled
-	if ( !ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && 
-		(!opt.NoProtoCondition || status == ID_STATUS_ONLINE))	
+	if ( !ThreadRunning && opt.CAutoUpdate && !Miranda_Terminated() && (opt.NoProtoCondition || status == ID_STATUS_ONLINE))	
 		UpdateAll(TRUE, FALSE);
 }
 
@@ -607,7 +606,7 @@ void CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	ThreadRunning = FALSE;
 
 	if ( !Miranda_Terminated()) {
-		if (opt.StartupUpdate && !opt.NoProtoCondition)	
+		if (opt.StartupUpdate)	
 			UpdateAll(FALSE, FALSE);
 		timerId = SetTimer(NULL, 0, ((int)opt.UpdateTime)*60000, (TIMERPROC)timerProc);
 	}

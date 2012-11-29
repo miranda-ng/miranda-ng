@@ -37,7 +37,7 @@ INT_PTR WeatherSetStatus(WPARAM new_status, LPARAM lParam)
 	new_status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 
 	// if we don't want to show status for default station
-	if (opt.NoProtoCondition && status != new_status) {
+	if (!opt.NoProtoCondition && status != new_status) {
 		old_status = status;
 		status = new_status != ID_STATUS_OFFLINE ? ID_STATUS_ONLINE : ID_STATUS_OFFLINE;
 		ProtoBroadcastAck(WEATHERPROTONAME, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, status);
@@ -181,7 +181,7 @@ static void __cdecl WeatherGetAwayMsgThread(HANDLE hContact)
 	Sleep(100);
 
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(hContact, "CList", "StatusMsg", &dbv)) {
+	if ( !db_get_ts(hContact, "CList", "StatusMsg", &dbv)) {
 		ProtoBroadcastAck(WEATHERPROTONAME, hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, (HANDLE)1, (LPARAM)dbv.ptszVal);
 		db_free( &dbv );
 	}

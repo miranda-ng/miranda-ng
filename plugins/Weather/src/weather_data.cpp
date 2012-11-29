@@ -88,13 +88,13 @@ WEATHERINFO LoadWeatherInfo(HANDLE hContact)
 // return 0 on success
 int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv) 
 {
-	if ( DBGetContactSettingTString(hContact, WEATHERCONDITION, setting, dbv)) {
+	if ( db_get_ts(hContact, WEATHERCONDITION, setting, dbv)) {
 		size_t len = strlen(setting) + 1;
 		char *set = (char*)alloca(len + 1);
 		*set = '#';
 		memcpy(set + 1, setting, len);
 
-		if ( DBGetContactSettingTString(hContact, WEATHERCONDITION, set, dbv))
+		if ( db_get_ts(hContact, WEATHERCONDITION, set, dbv))
 			return 1;
 	}
 	return 0;
@@ -103,7 +103,7 @@ int DBGetData(HANDLE hContact, char *setting, DBVARIANT *dbv)
 int DBGetStaticString(HANDLE hContact, const char *szModule, const char *valueName, TCHAR *dest, size_t dest_len)
 {
 	DBVARIANT dbv;
-	if ( DBGetContactSettingTString( hContact, szModule, valueName, &dbv ))
+	if ( db_get_ts( hContact, szModule, valueName, &dbv ))
 		return 1;
 
 	_tcsncpy( dest, dbv.ptszVal, dest_len );
@@ -132,7 +132,7 @@ void EraseAllInfo()
 			db_set_w(hContact,WEATHERPROTONAME, "StatusIcon",ID_STATUS_OFFLINE);
 			db_unset(hContact, "CList", "MyHandle");
 			// clear all data
-			if ( DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+			if ( db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 				db_set_ts(hContact, WEATHERPROTONAME, "Nick", TranslateT("<Enter city name here>"));
 				db_set_s(hContact, WEATHERPROTONAME, "LastLog", "never");
 				db_set_s(hContact, WEATHERPROTONAME, "LastCondition", "None");
@@ -145,7 +145,7 @@ void EraseAllInfo()
 			// reset update tag
 			db_set_b(hContact,WEATHERPROTONAME, "IsUpdated",FALSE);
 			// reset logging settings
-			if ( !DBGetContactSettingTString(hContact,WEATHERPROTONAME, "Log", &dbv)) {
+			if ( !db_get_ts(hContact,WEATHERPROTONAME, "Log", &dbv)) {
 				db_set_b(hContact,WEATHERPROTONAME, "File",(BYTE)(dbv.ptszVal[0] != 0));
 				db_free(&dbv);
 			}
@@ -156,7 +156,7 @@ void EraseAllInfo()
 				GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
 
 				opt.DefStn = hContact;
-				if ( !DBGetContactSettingTString(hContact,WEATHERPROTONAME, "Nick",&dbv)) {
+				if ( !db_get_ts(hContact,WEATHERPROTONAME, "Nick",&dbv)) {
 					wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 					db_free(&dbv);
 					MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
@@ -164,7 +164,7 @@ void EraseAllInfo()
 			}
 			// get the handle of the default station
 			if (opt.DefStn == NULL) {
-				if ( !DBGetContactSettingTString(hContact,WEATHERPROTONAME, "ID",&dbv)) {
+				if ( !db_get_ts(hContact,WEATHERPROTONAME, "ID",&dbv)) {
 					if ( !_tcscmp(dbv.ptszVal, opt.Default))
 						opt.DefStn = hContact;
 					db_free(&dbv);
@@ -180,12 +180,12 @@ void EraseAllInfo()
 	// if (ContactCount != 0) status = ONLINE;
 	// in case where the default station is missing
 	if (opt.DefStn == NULL && ContactCount != 0) {
-		if ( !DBGetContactSettingTString(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
+		if ( !db_get_ts(LastContact, WEATHERPROTONAME, "ID", &dbv)) {
 			_tcscpy(opt.Default, dbv.ptszVal);
 			db_free(&dbv);
 		}
 		opt.DefStn = LastContact;
-		if ( !DBGetContactSettingTString(LastContact,WEATHERPROTONAME, "Nick",&dbv)) {
+		if ( !db_get_ts(LastContact,WEATHERPROTONAME, "Nick",&dbv)) {
 			wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
 			MessageBox(NULL, str, TranslateT("Weather Protocol"), MB_OK|MB_ICONINFORMATION);
@@ -439,7 +439,7 @@ void DBDataManage(HANDLE hContact, WORD Mode, WPARAM wParam, LPARAM lParam)
 		char *szSetting = arSettings[i];
 	
 		DBVARIANT dbv;
-		if ( !DBGetContactSettingTString(hContact, WEATHERCONDITION, szSetting, &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERCONDITION, szSetting, &dbv)) {
 			switch (Mode) {
 			case WDBM_REMOVE:
 				db_unset(hContact, WEATHERCONDITION, szSetting);

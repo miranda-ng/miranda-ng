@@ -554,7 +554,7 @@ TCHAR* GetDisplay(WEATHERINFO *w, const TCHAR *dis, TCHAR* str)
 					strcat(name, temp);
 				}
 				// access the database to get its value
-				if ( !DBGetContactSettingTString(w->hContact, WEATHERCONDITION, name, &dbv)) {
+				if ( !db_get_ts(w->hContact, WEATHERCONDITION, name, &dbv)) {
 					if (dbv.ptszVal != TranslateTS(NODATA) && dbv.ptszVal != TranslateT("<Error>"))	
 						_tcscat(str, dbv.ptszVal);
 					db_free(&dbv);

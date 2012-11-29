@@ -174,19 +174,21 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //============  OPTION STRUCT  ============
 
 // option struct
-typedef struct {
-// main options
-	BOOL AutoUpdate;
-	BOOL CAutoUpdate;
-	BOOL StartupUpdate;
+struct MYOPTIONS
+{
+	// main options
+	BYTE AutoUpdate;
+	BYTE CAutoUpdate;
+	BYTE StartupUpdate;
+	BYTE NoProtoCondition;
+	BYTE UpdateOnlyConditionChanged;
+	BYTE RemoveOldData;
+	BYTE MakeItalic;
+
 	WORD UpdateTime;
 	WORD AvatarSize;
-	BOOL NewBrowserWin;
-	BOOL NoProtoCondition;
-	BOOL UpdateOnlyConditionChanged;
-	BOOL RemoveOldData;
-	BOOL MakeItalic;
-// units
+
+	// units
 	WORD tUnit;
 	WORD wUnit;
 	WORD vUnit;
@@ -194,9 +196,10 @@ typedef struct {
 	WORD dUnit;
 	WORD eUnit;
 	TCHAR DegreeSign[4];
-	BOOL DoNotAppendUnit;
-    BOOL NoFrac;
-// texts
+	BYTE DoNotAppendUnit;
+	BYTE NoFrac;
+
+	// texts
 	TCHAR *cText;
 	TCHAR *bTitle;
 	TCHAR *bText;
@@ -205,30 +208,37 @@ typedef struct {
 	TCHAR *hText;
 	TCHAR *xText;
 	TCHAR *sText;
-// advanced
-	BOOL DisCondIcon;
-// popup options
-	BOOL UsePopup;
-	BOOL UpdatePopup;
-	BOOL AlertPopup;
-	BOOL PopupOnChange;
-	BOOL ShowWarnings;
-// popup colors
-	BOOL UseWinColors;
+
+	// advanced
+	BYTE DisCondIcon;
+
+	// popup options
+	BYTE UsePopup;
+	BYTE UpdatePopup;
+	BYTE AlertPopup;
+	BYTE PopupOnChange;
+	BYTE ShowWarnings;
+
+	// popup colors
+	BYTE UseWinColors;
 	COLORREF BGColour;
 	COLORREF TextColour;
-// popup actions
+
+	// popup actions
 	DWORD LeftClickAction;
 	DWORD RightClickAction;
-// popup delay
+
+	// popup delay
 	DWORD pDelay;
-// popup texts
+
+	// popup texts
 	TCHAR *pTitle;
 	TCHAR *pText;
-// other misc stuff
+
+	// other misc stuff
 	TCHAR Default[64];
 	HANDLE DefStn;
-} MYOPTIONS;
+};
 
 void DestroyOptions(void);
 

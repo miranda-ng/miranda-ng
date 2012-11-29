@@ -44,7 +44,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		if ( IsMyContact(hContact)) {
 			DBVARIANT dbv;
 			// check ID to see if the contact already exist in the database
-			if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "ID", &dbv)) {
+			if ( !db_get_ts(hContact, WEATHERPROTONAME, "ID", &dbv)) {
 				if ( !_tcsicmp(psr->email, dbv.ptszVal)) {
 					// remove the flag for not on list and hidden, thus make the contact visible
 					// and add them on the list
@@ -108,7 +108,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 		GetStationID(hContact, opt.Default, SIZEOF(opt.Default));
 
 		opt.DefStn = hContact;
-		if ( !DBGetContactSettingTString(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
+		if ( !db_get_ts(hContact, WEATHERPROTONAME, "Nick", &dbv)) {
 			// notification message box
 			wsprintf(str, TranslateT("%s is now the default weather station"), dbv.ptszVal);
 			db_free(&dbv);
