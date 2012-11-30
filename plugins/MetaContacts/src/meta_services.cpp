@@ -490,15 +490,16 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		// use the subcontact's protocol to add the db if possible (AIMOSCAR removes HTML here!)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
 		char *proto = GetContactProto(most_online);
-		if (proto)
-			if ( CallProtoService(proto, PSR_MESSAGE, (WPARAM)ccs->hContact, (LPARAM)pre) != CALLSERVICE_NOTFOUND)
+		if (proto) {
+			char service[256];
+			mir_snprintf(service, 256, "%s%s", proto, PSR_MESSAGE);
+			if (CallService(service, wParam, lParam) != CALLSERVICE_NOTFOUND)
 				return 0;
+		}
 	}
 
-
 	// otherwise, add event to db directly
-	DBEVENTINFO dbei = { 0 };
-	dbei.cbSize = sizeof(dbei);
+	DBEVENTINFO dbei = { sizeof(dbei) };
 	dbei.szModule = META_PROTO;
 	dbei.timestamp = pre->timestamp;
 	dbei.flags = (pre->flags & PREF_CREATEREAD ? DBEF_READ : 0);
@@ -509,12 +510,9 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 	if ( pre->flags & PREF_UNICODE )
 		dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 	dbei.pBlob = (PBYTE) pre->szMessage;
-
 	CallService(MS_DB_EVENT_ADD, (WPARAM) ccs->hContact, (LPARAM)&dbei);
-
 	return 0;
 }
-
 
 
 /** Called when an ACK is received.
