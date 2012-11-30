@@ -499,7 +499,7 @@ INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 		HANDLE most_online = Meta_GetMostOnline(ccs->hContact);
 		char *proto = GetContactProto(most_online);
 		if (proto)
-			if ( CallProtoService(proto, PSR_MESSAGE, wParam, lParam) != CALLSERVICE_NOTFOUND)
+			if ( CallProtoService(proto, PSR_MESSAGE, 0, (LPARAM)pre) != CALLSERVICE_NOTFOUND)
 				return 0;
 	}
 

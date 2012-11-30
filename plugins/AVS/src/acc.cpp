@@ -567,7 +567,10 @@ static LRESULT CALLBACK ACCWndProc(HWND hwnd, UINT msg,  WPARAM wParam, LPARAM l
 			DestroyAnimation(hwnd, data);
 
 			data->hContact = (HANDLE) lParam;
-			lstrcpynA(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
+			if (lParam == NULL)
+				data->proto[0] = '\0';
+			else
+				lstrcpynA(data->proto, GetContactProto(data->hContact), sizeof(data->proto));
 
 			StartAnimation(hwnd, data);
 
