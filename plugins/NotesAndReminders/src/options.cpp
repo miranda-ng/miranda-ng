@@ -167,7 +167,6 @@ static int CALLBACK EnumFontFamExProc(const LOGFONT *lpelfe, const TEXTMETRIC *l
 // get font charset according to current CP, if available for specified font
 static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 {
-	HDC hdc;
 	LOGFONT lf = {0};
 	int found = 0;
 
@@ -175,7 +174,7 @@ static BYTE MsgDlgGetFontDefaultCharset(const TCHAR* szFont)
 	lf.lfCharSet = MsgDlgGetCPDefaultCharset();
 
 	// check if the font supports specified charset
-	hdc = GetDC(0);
+	HDC hdc = GetDC(0);
 	EnumFontFamiliesEx(hdc, &lf, &EnumFontFamExProc, (LPARAM)&found, 0);
 	ReleaseDC(0, hdc);
 
@@ -230,15 +229,13 @@ static int FS_ColorChanged(WPARAM wParam, LPARAM lParam)
 
 void RegisterFontServiceFonts()
 {
-	FontIDT fontid = {0};
-	ColourIDT colorid = {0};
 	char szTemp[100];
-	int i;
 
+	FontIDT fontid = {0};
 	fontid.cbSize = sizeof(FontIDT);
 
-    mir_sntprintf(fontid.group, SIZEOF(fontid.group), _T("%s"), LPGENT(SECTIONNAME));
-    mir_sntprintf(fontid.backgroundGroup, SIZEOF(fontid.backgroundGroup), _T("%s"), LPGENT(SECTIONNAME));
+    _tcsncpy(fontid.group, _T(SECTIONNAME), SIZEOF(fontid.group));
+    _tcsncpy(fontid.backgroundGroup, _T(SECTIONNAME), SIZEOF(fontid.backgroundGroup) );
 	strncpy(fontid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
 	fontid.flags = FIDF_ALLOWREREGISTER | FIDF_DEFAULTVALID | FIDF_SAVEPOINTSIZE;
 
@@ -246,7 +243,7 @@ void RegisterFontServiceFonts()
 	int nFontScale = GetDeviceCaps(hDC, LOGPIXELSY);
 	ReleaseDC(NULL, hDC);
 
-	for (i = 0; i < SIZEOF(fontOptionsList); i++)
+	for (int i = 0; i < SIZEOF(fontOptionsList); i++)
 	{
 		fontid.order = i;
 		mir_snprintf(szTemp, SIZEOF(szTemp), "Font%d", i);
@@ -265,13 +262,14 @@ void RegisterFontServiceFonts()
 		FontRegisterT(&fontid);
 	}
 
+	ColourIDT colorid = {0};
 	colorid.cbSize = sizeof(ColourIDT);
 
-	mir_sntprintf(colorid.group, SIZEOF(colorid.group), _T("%s"), LPGENT(SECTIONNAME));
+	_tcsncpy(colorid.group, _T(SECTIONNAME), SIZEOF(colorid.group));
 	strncpy(colorid.dbSettingsGroup, MODULENAME, SIZEOF(fontid.dbSettingsGroup));
 	colorid.flags = 0;
 
-	for (i = 0; i < SIZEOF(colourOptionsList); i++)
+	for (int i = 0; i < SIZEOF(colourOptionsList); i++)
 	{
 		colorid.order = i;
 		_tcsncpy(colorid.name, colourOptionsList[i].szName, SIZEOF(colorid.name));
