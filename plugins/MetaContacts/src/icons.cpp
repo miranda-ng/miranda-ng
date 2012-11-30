@@ -1,19 +1,19 @@
 #include "metacontacts.h"
 
 typedef struct {
-	TCHAR* szDescr;
+	char* szDescr;
 	char* szName;
 	int   defIconID;
 } IconStruct;
 
 static IconStruct iconList[] = {
-	{ LPGENT("Toggle Off"),					"mc_off",		IDI_MCMENUOFF     },
-	{ LPGENT("Toggle On"),					"mc_on",		IDI_MCMENU        },
-	{ LPGENT("Convert to MetaContact"),		"mc_convert",	IDI_MCCONVERT     },
-	{ LPGENT("Add to Existing"),			"mc_add",		IDI_MCADD         },
-	{ LPGENT("Edit"),						"mc_edit",		IDI_MCEDIT        },
-	{ LPGENT("Set to Default"),				"mc_default",	IDI_MCSETDEFAULT  },
-	{ LPGENT("Remove"),						"mc_remove",	IDI_MCREMOVE      },
+	{ LPGEN("Toggle Off"),             "mc_off",     IDI_MCMENUOFF     },
+	{ LPGEN("Toggle On"),              "mc_on",      IDI_MCMENU        },
+	{ LPGEN("Convert to MetaContact"), "mc_convert", IDI_MCCONVERT     },
+	{ LPGEN("Add to Existing"),        "mc_add",     IDI_MCADD         },
+	{ LPGEN("Edit"),                   "mc_edit",    IDI_MCEDIT        },
+	{ LPGEN("Set to Default"),         "mc_default", IDI_MCSETDEFAULT  },
+	{ LPGEN("Remove"),                 "mc_remove",  IDI_MCREMOVE      },
 };
 
 
@@ -66,12 +66,12 @@ void InitIcons(void)
 	GetModuleFileName(hInstance, path, SIZEOF(path));
 
 	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = _T(META_PROTO);
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszSection = META_PROTO;
 	sid.ptszDefaultFile = path;
 
 	for (int i=0; i < SIZEOF(iconList); ++i) {
-		sid.ptszDescription = iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.pszName = iconList[i].szName;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		Skin_AddIcon(&sid);
