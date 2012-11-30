@@ -73,48 +73,39 @@ BOOL firstSetOnline = TRUE; // see Meta_SetStatus function
 */
 INT_PTR Meta_GetCaps(WPARAM wParam,LPARAM lParam)
 {
-	int ret = 0;
 	switch (wParam) {
 	case PFLAGNUM_1:
-		ret = PF1_IM | PF1_CHAT | PF1_FILESEND | PF1_MODEMSGRECV | PF1_NUMERICUSERID;
-		break;
+		return PF1_IM | PF1_CHAT | PF1_FILESEND | PF1_MODEMSGRECV | PF1_NUMERICUSERID;
 
 	case PFLAGNUM_2:
-		if ( !options.suppress_proto)
-			ret =	PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
-		break;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 
 	case PFLAGNUM_3:
-		ret =	PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
-		break;
+		return PF2_ONLINE | PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 
 	case PFLAGNUM_4:
-		ret = PF4_SUPPORTTYPING | PF4_AVATARS;
-		break;
+		return PF4_SUPPORTTYPING | PF4_AVATARS;
 
 	case PFLAGNUM_5:
-		ret =	PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
-		break;
+		return PF2_INVISIBLE | PF2_SHORTAWAY | PF2_LONGAWAY | PF2_LIGHTDND | PF2_HEAVYDND | PF2_FREECHAT | PF2_OUTTOLUNCH | PF2_ONTHEPHONE;
 
 	case PFLAG_UNIQUEIDTEXT:
-		ret = (INT_PTR) Translate("Meta ID");
-		break;
+		return (INT_PTR) Translate("Meta ID");
 
 	case PFLAG_MAXLENOFMESSAGE:
-		ret = 2000;
-		break;
+		return 2000;
 
 	case PFLAG_UNIQUEIDSETTING:
-		ret = (INT_PTR)META_ID;
-		break;
+		return (INT_PTR)META_ID;
 	}
-	return ret;
+	return 0;
 }
 
 /** Copy the name of the protocole into lParam
 * @param wParam :	max size of the name
 * @param lParam :	reference to a char *, which will hold the name
 */
+
 INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam)
 {
 	char *name = (char *)Translate(META_PROTO);
@@ -131,6 +122,7 @@ INT_PTR Meta_GetName(WPARAM wParam,LPARAM lParam)
 					<tt>PLI_PROTOCOL | PLI_ONLINE | PLI_OFFLINE</tt>
 * @return			an \c HICON in which the icon has been loaded.
 */
+
 INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
 {
 	UINT id;
@@ -153,7 +145,6 @@ INT_PTR Meta_LoadIcon(WPARAM wParam,LPARAM lParam)
 		GetSystemMetrics(wParam & PLIF_SMALL ? SM_CYSMICON : SM_CYICON), 0);
 }
 
-//static DWORD CALLBACK SetStatusThread( LPVOID param )
 void CALLBACK SetStatusThread(HWND hWnd, UINT msg, UINT_PTR id, DWORD dw)
 {
 	previousMode = mcStatus;
@@ -177,7 +168,8 @@ INT_PTR Meta_SetStatus(WPARAM wParam,LPARAM lParam)
 		//CloseHandle( CreateThread( NULL, 0, SetStatusThread, (void *)wParam, 0, 0 ));
 		setStatusTimerId = SetTimer(0, 0, options.set_status_from_offline_delay, SetStatusThread);
 		firstSetOnline = FALSE;
-	} else {
+	}
+	else {
 		previousMode = mcStatus;
 		mcStatus = (int)wParam;
 		ProtoBroadcastAck(META_PROTO, NULL,ACKTYPE_STATUS,ACKRESULT_SUCCESS, (HANDLE)previousMode, mcStatus);
@@ -229,7 +221,7 @@ static DWORD CALLBACK sttFakeAckFail( LPVOID param )
 
 INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	HANDLE hMeta;
 
 	if ((hMeta = (HANDLE)db_get_dw(ccs->hContact, META_PROTO, "Handle", 0)) == 0)
@@ -262,7 +254,7 @@ INT_PTR MetaFilter_SendMessage(WPARAM wParam,LPARAM lParam)
 			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
 		dbei.pBlob = (PBYTE)ccs->lParam;
 
-		CallService(MS_DB_EVENT_ADD, (WPARAM) hMeta, (LPARAM)&dbei);
+		CallService(MS_DB_EVENT_ADD, (WPARAM)hMeta, (LPARAM)&dbei);
 	}
 
 	return CallService(MS_PROTO_CHAINSEND, wParam, lParam);
@@ -293,7 +285,7 @@ INT_PTR Meta_SendNudge(WPARAM wParam,LPARAM lParam)
 */
 INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
 	DWORD default_contact_number;
 
@@ -382,7 +374,7 @@ INT_PTR Meta_SendMessage(WPARAM wParam,LPARAM lParam)
 INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 {
 	DBEVENTINFO dbei;
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 	HANDLE hMeta;
 
@@ -485,7 +477,7 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 */
 INT_PTR Meta_RecvMessage(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	PROTORECVEVENT *pre = (PROTORECVEVENT *) ccs->lParam;
 
 	char *proto = GetContactProto(ccs->hContact);
@@ -626,11 +618,11 @@ int Meta_SettingChanged(WPARAM wParam, LPARAM lParam)
 		Meta_SetHandles();
 		{
 			HANDLE hContact = db_find_first();
-			int meta_id;
 			while ( hContact != NULL ) {
-				if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1))!=(DWORD)-1) {
+				int meta_id;
+				if ((meta_id = db_get_dw(hContact, META_PROTO, META_ID,(DWORD)-1)) != (DWORD)-1)
 					Meta_CopyData(hContact);
-				}
+
 				hContact = db_find_next(hContact);
 			}
 		}
@@ -1210,7 +1202,7 @@ INT_PTR Meta_ContactMenuFunc(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
 	DWORD default_contact_number;
 
@@ -1256,7 +1248,7 @@ INT_PTR Meta_FileSend(WPARAM wParam, LPARAM lParam)
 
 INT_PTR Meta_GetAwayMsg(WPARAM wParam, LPARAM lParam)
 {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
 	DWORD default_contact_number;
 
@@ -1325,7 +1317,7 @@ INT_PTR Meta_GetAvatarInfo(WPARAM wParam, LPARAM lParam) {
 }
 
 INT_PTR Meta_GetInfo(WPARAM wParam, LPARAM lParam) {
-	CCSDATA *ccs = (CCSDATA *) lParam;
+	CCSDATA *ccs = (CCSDATA*)lParam;
 	char *proto = 0;
 	DWORD default_contact_number;
 

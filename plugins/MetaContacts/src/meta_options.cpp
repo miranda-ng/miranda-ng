@@ -47,7 +47,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 		CheckDlgButton(hwndDlg, IDC_CHK_ALWAYSUSEDEFAULT, options_changes.always_use_default ? TRUE : FALSE);
 		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSSTATUS, options_changes.suppress_status ? TRUE : FALSE);
-		CheckDlgButton(hwndDlg, IDC_CHK_SUPPRESSPROTO, options_changes.suppress_proto ? TRUE : FALSE);
 
 		CheckDlgButton(hwndDlg, IDC_RAD_UID, options_changes.menu_contact_label == DNT_UID);
 		CheckDlgButton(hwndDlg, IDC_RAD_DID, options_changes.menu_contact_label == DNT_DID);
@@ -97,10 +96,6 @@ INT_PTR CALLBACK DlgProcOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				break;
 			case IDC_CHK_SUPPRESSSTATUS:
 				options_changes.suppress_status = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSSTATUS);
-				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				break;
-			case IDC_CHK_SUPPRESSPROTO:
-				options_changes.suppress_proto = IsDlgButtonChecked(hwndDlg, IDC_CHK_SUPPRESSPROTO);
 				SendMessage( GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 				break;
 			case IDC_CHK_COPYHISTORY:
@@ -228,7 +223,6 @@ int Meta_WriteOptions(MetaOptions *opt)
 	db_set_w(NULL, META_PROTO, "MenuContactLabel", (WORD)opt->menu_contact_label);
 	db_set_w(NULL, META_PROTO, "MenuContactFunction", (WORD)opt->menu_function);
 	db_set_w(NULL, META_PROTO, "CListContactName", (WORD)opt->clist_contact_name);
-	db_set_b(NULL, META_PROTO, "SuppressProto", (BYTE)(opt->suppress_proto ? 1 : 0));
 	db_set_b(NULL, META_PROTO, "CopyHistory", (BYTE)(opt->copy_subcontact_history ? 1 : 0));
 	db_set_dw(NULL, META_PROTO, "DaysHistory", (DWORD)(opt->days_history));
 	db_set_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", (DWORD)(opt->set_status_from_offline_delay));
@@ -261,7 +255,6 @@ int Meta_ReadOptions(MetaOptions *opt)
 	opt->menu_contact_label = (int)db_get_w(NULL, META_PROTO, "MenuContactLabel", DNT_UID);
 	opt->menu_function = (int)db_get_w(NULL, META_PROTO, "MenuContactFunction", FT_MENU);
 	opt->clist_contact_name = (int)db_get_w(NULL, META_PROTO, "CListContactName", CNNT_NICK);
-	opt->suppress_proto = (db_get_b(NULL, META_PROTO, "SuppressProto", 0) == 1 ? TRUE : FALSE);
 	opt->copy_subcontact_history = (db_get_b(NULL, META_PROTO, "CopyHistory", 1) == 1 ? TRUE : FALSE);
 	opt->days_history = (int)db_get_dw(NULL, META_PROTO, "DaysHistory", 0);
 	opt->set_status_from_offline_delay = (int)db_get_dw(NULL, META_PROTO, "SetStatusFromOfflineDelay", DEFAULT_SET_STATUS_SLEEP_TIME);

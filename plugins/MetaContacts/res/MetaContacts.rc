@@ -230,7 +230,6 @@ BEGIN
     GROUPBOX        "Contact List",IDC_STATIC,4,139,289,33,WS_GROUP
     CONTROL         "Display subcontact nickname",IDC_RAD_NICK,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,149,144,10
     CONTROL         "Display subcontact display name",IDC_RAD_NAME,"Button",BS_AUTORADIOBUTTON | WS_GROUP,9,160,144,10
-    CONTROL         "Hide in status bar and status menu (*requires restart, uncheck to set proto icons)",IDC_CHK_SUPPRESSPROTO,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,53,290,10
     CONTROL         "Use subcontact message windows",IDC_CHK_SUBWINDOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,4,64,155,10
     CONTROL         "Copy subcontact data",IDC_CHK_COPYDATA,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,162,64,133,10
     CONTROL         "Lock name to first contact",IDC_CHK_LOCKHANDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,173,155,115,10

@@ -146,27 +146,28 @@ enum MenuDisplayNameType {DNT_UID = 0, DNT_DID = 1};
 enum MenuFunctionType {FT_MSG = 0, FT_MENU = 1, FT_INFO = 2};
 enum CListDisplayNameType {CNNT_NICK = 0, CNNT_DISPLAYNAME = 1};
 
-typedef struct tag_MetaOptions {
-	BOOL set_default_on_recv;
-	BOOL always_use_default;
-	BOOL suppress_status;
+struct MetaOptions
+{
+	BYTE set_default_on_recv;
+	BYTE always_use_default;
+	BYTE suppress_status;
+	BYTE copy_subcontact_history;
+	BYTE subcontact_windows;
+	BYTE metahistory;
+	BYTE subhistory;
+	BYTE copydata;
+	BYTE lockHandle;
+	BYTE temp_default;
+	BYTE flash_meta_message_icon;
+	BYTE copy_userinfo;
+	BYTE use_proto_recv;
+
 	int menu_contact_label;
-	int clist_contact_name;
 	int menu_function;
-	BOOL suppress_proto;
-	BOOL copy_subcontact_history;
+	int clist_contact_name;
 	int days_history;
 	int set_status_from_offline_delay;
-	BOOL subcontact_windows;
-	BOOL metahistory;
-	BOOL subhistory;
-	BOOL copydata;
-	BOOL lockHandle;
-	BOOL temp_default;
-	BOOL flash_meta_message_icon;
-	BOOL copy_userinfo;
-	BOOL use_proto_recv;
-} MetaOptions;
+};
 
 extern MetaOptions options;
 

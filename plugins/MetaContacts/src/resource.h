@@ -38,7 +38,6 @@
 #define IDC_RAD_NICK                    1024
 #define IDC_RAD_NAME                    1025
 #define IDC_LST_CONTACTS                1026
-#define IDC_CHK_SUPPRESSPROTO           1026
 #define IDC_BTN_SETDEFAULT              1027
 #define IDC_CHK_COPYHISTORY             1027
 #define IDC_BTN_UP                      1028

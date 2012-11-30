@@ -711,7 +711,8 @@ void CopyStatusData(HANDLE hMeta)
 			}
 		}
 
-		if (bDoneStatus && bDoneXStatus) break;
+		if (bDoneStatus && bDoneXStatus)
+			break;
 	}
 
 	if ( !bDoneStatus) db_unset(hMeta, "CList", "StatusMsg");
@@ -1285,7 +1286,8 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 	return 1;
 }
 
-int Meta_SetAllNicks() {
+int Meta_SetAllNicks()
+{
 	HANDLE hContact = db_find_first(), most_online;
 
 	while ( hContact != NULL ) {
@@ -1301,8 +1303,10 @@ int Meta_SetAllNicks() {
 	return 0;
 }
 
-int Meta_IsHiddenGroup(const char *group_name) {
-	if (group_name && !strcmp(group_name, META_HIDDEN_GROUP)) return 1;
+int Meta_IsHiddenGroup(const char *group_name)
+{
+	if (group_name && !strcmp(group_name, META_HIDDEN_GROUP))
+		return 1;
 
 	return 0;
 }
