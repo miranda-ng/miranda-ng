@@ -20,15 +20,14 @@ int frame_id = -1;
 
 HBRUSH tbrush = 0;
 
-FontID font_id;
-ColourID bk_col_id;
+FontIDT font_id;
+ColourIDT bk_col_id;
 HFONT hFont = 0;
 COLORREF bk_col = RGB(255, 255, 255);
 
 ////////////////
 #define WinVerMajor()      LOBYTE(LOWORD(GetVersion()))
 #define WinVerMinor()      HIBYTE(LOWORD(GetVersion()))
-#define IsWinVer2000Plus() (WinVerMajor()>=5)
 
 static HMODULE hUserDll;
 BOOL (WINAPI *MySetLayeredWindowAttributes)(HWND,COLORREF,BYTE,DWORD);
@@ -883,11 +882,11 @@ int ReloadFont(WPARAM wParam, LPARAM lParam) {
 	if(hFont) DeleteObject(hFont);
 
 	LOGFONT log_font;
-	CallService(MS_FONT_GET, (WPARAM)&font_id, (LPARAM)&log_font);
+	CallService(MS_FONT_GETT, (WPARAM)&font_id, (LPARAM)&log_font);
 	hFont = CreateFontIndirect(&log_font);
 	SendMessage(list_hwnd, WM_SETFONT, (WPARAM)hFont, (LPARAM)TRUE);
 
-	bk_col = CallService(MS_COLOUR_GET, (WPARAM)&bk_col_id, 0);
+	bk_col = CallService(MS_COLOUR_GETT, (WPARAM)&bk_col_id, 0);
 	RefreshWindow(0, 0);
 
 	return 0;
@@ -990,11 +989,11 @@ void InitList() {
     wndclass.hCursor       = LoadCursor (NULL, IDC_ARROW);
     wndclass.hbrBackground = (HBRUSH)(COLOR_3DFACE+1);
     wndclass.lpszMenuName  = NULL;
-    wndclass.lpszClassName = PLUG "WindowClass";
+    wndclass.lpszClassName = _T(PLUG) _T("WindowClass");
 	RegisterClass(&wndclass);
 
 	if(ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		hpwnd=CreateWindow(PLUG "WindowClass", "Ping", (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
+		hpwnd=CreateWindow(_T(PLUG) _T("WindowClass"), _T("Ping"), (WS_BORDER | WS_CHILD | WS_CLIPCHILDREN), 0, 0, 0, 0, hwnd_clist, NULL, hInst, NULL);
 
 		CLISTFrame frame = {0};
 		frame.name=PLUG;
@@ -1007,7 +1006,7 @@ void InitList() {
 	
 		frame_id=CallService(MS_CLIST_FRAMES_ADDFRAME,(WPARAM)&frame,0);
 	} else {
-		hpwnd=CreateWindowEx(WS_EX_TOOLWINDOW, PLUG "WindowClass","Ping",
+		hpwnd=CreateWindowEx(WS_EX_TOOLWINDOW, _T(PLUG) _T("WindowClass"),_T("Ping"),
 						(WS_POPUPWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME | WS_CLIPCHILDREN),
 						0,0,400,300,hwnd_clist,NULL,hInst,NULL);
 
@@ -1031,20 +1030,22 @@ void InitList() {
 
 	{
 		font_id.cbSize = sizeof(FontID);
-		strncpy(font_id.group, "Ping", sizeof(font_id.group));
-		strncpy(font_id.name, "List", sizeof(font_id.name));
+		_tcsncpy(font_id.group, _T("Ping"), SIZEOF(font_id.group));
+		_tcsncpy(font_id.name, _T("List"), SIZEOF(font_id.name));
 		strncpy(font_id.dbSettingsGroup, "PING", sizeof(font_id.dbSettingsGroup));
 		strncpy(font_id.prefix, "Font", sizeof(font_id.prefix));
+		_tcsncpy(font_id.backgroundGroup,_T("Ping"),SIZEOF(font_id.backgroundGroup));
+		_tcsncpy(font_id.backgroundName,_T("Background"),SIZEOF(font_id.backgroundName));
 		font_id.order = 0;
 
-		FontRegister(&font_id);
+		FontRegisterT(&font_id);
 
 		bk_col_id.cbSize = sizeof(ColourID);
-		strncpy(bk_col_id.group, "Ping", sizeof(bk_col_id.group));
-		strncpy(bk_col_id.name, "Background", sizeof(bk_col_id.name));
+		_tcsncpy(bk_col_id.group, _T("Ping"), SIZEOF(bk_col_id.group));
+		_tcsncpy(bk_col_id.name, _T("Background"), SIZEOF(bk_col_id.name));
 		strncpy(bk_col_id.dbSettingsGroup, "PING", sizeof(bk_col_id.dbSettingsGroup));
 		strncpy(bk_col_id.setting, "BgColor", sizeof(bk_col_id.setting));
-		ColourRegister(&bk_col_id);
+		ColourRegisterT(&bk_col_id);
 
 		HookEvent(ME_FONT_RELOAD, ReloadFont);
 
