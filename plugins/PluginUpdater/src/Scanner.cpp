@@ -35,9 +35,10 @@ static bool Exists(LPCTSTR strName)
 
 struct ServListEntry
 {
-	ServListEntry(const char* _name, const char* _hash) :
+	ServListEntry(const char* _name, const char* _hash, DWORD _crc) :
 		m_name( mir_a2t(_name)),
-		m_bNeedFree(true)
+		m_bNeedFree(true),
+		m_crc(_crc)
 	{
 		strncpy(m_szHash, _hash, sizeof(m_szHash));
 	}
@@ -57,6 +58,7 @@ struct ServListEntry
 	TCHAR *m_name;
 	char   m_szHash[32+1];
 	bool   m_bNeedFree;
+	DWORD  m_crc;
 };
 
 static int CompareHashes(const ServListEntry *p1, const ServListEntry *p2)
@@ -272,7 +274,16 @@ static void CheckUpdates(void *)
 			continue;
 
 		_strlwr(p);
-		hashes.insert(new ServListEntry(str, p));
+
+		DWORD dwCrc32;
+		char *p1 = strchr(p, ' ');
+		if (p1 == NULL)
+			dwCrc32 = 0;
+		else {
+			*p1++ = 0;
+			sscanf(p1, "%08x", &dwCrc32);
+		}
+		hashes.insert(new ServListEntry(str, p, dwCrc32));
 	}
 	fclose(fp);
 	DeleteFile(tszTmpIni);
