@@ -75,7 +75,7 @@ void ChangeInfoData::LoadSettingsFromDb(int keepChanged)
 				break;
 #endif
 			}
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
     char buf[MAX_PATH];

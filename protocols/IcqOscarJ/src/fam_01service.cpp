@@ -585,7 +585,7 @@ char* CIcqProto::buildUinList(int subtype, WORD wMaxLen, HANDLE* hContactResume)
 					add = 0;
 
 				// Never add hidden contacts to CS list
-				if (DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+				if (db_get_b(hContact, "CList", "Hidden", 0))
 					add = 0;
 
 				break;
@@ -689,7 +689,7 @@ void CIcqProto::setUserInfo()
 	//MIM/PackName
 	bool bHasPackName = false;
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingString(NULL, "ICQCaps", "PackName", &dbv )) {
+	if ( !db_get_s(NULL, "ICQCaps", "PackName", &dbv )) {
 		//MIM/PackName
 		bHasPackName = true;
 		wAdditionalData += 16;
@@ -771,7 +771,7 @@ void CIcqProto::setUserInfo()
 	//MIM/PackName
 	if ( bHasPackName ) {
 		packBuffer(&packet, (BYTE*)dbv.pszVal, 0x10);
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if(!CustomCapList.empty())

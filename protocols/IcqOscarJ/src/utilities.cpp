@@ -507,7 +507,7 @@ HANDLE CIcqProto::HContactFromUIN(DWORD dwUin, int *Added)
 
 		if (!bIsSyncingCL)
 		{
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
 			setContactHidden(hContact, 1);
 
 			setSettingWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -573,7 +573,7 @@ HANDLE CIcqProto::HContactFromUID(DWORD dwUin, const char *szUid, int *Added)
 
 		if (!bIsSyncingCL)
 		{
-			DBWriteContactSettingByte(hContact, "CList", "NotOnList", 1);
+			db_set_b(hContact, "CList", "NotOnList", 1);
 			setContactHidden(hContact, 1);
 
 			setSettingWord(hContact, "Status", ID_STATUS_OFFLINE);
@@ -1115,7 +1115,7 @@ int CIcqProto::IsMetaInfoChanged(HANDLE hContact)
 				res = 1; // directory info not saved at all
 		}
 
-		ICQFreeVariant(&infoToken);
+		db_free(&infoToken);
 	}
 	else
 	{ // it cannot be detected if user info was not changed, so use a generic threshold
@@ -1133,7 +1133,7 @@ int CIcqProto::IsMetaInfoChanged(HANDLE hContact)
 			else if (infoSaved.type == DBVT_DWORD)
 				dwInfoTime = infoSaved.dVal;
 
-			ICQFreeVariant(&infoSaved);
+			db_free(&infoSaved);
 
 			if ((time(NULL) - dwInfoTime) > 14*3600*24)
 			{ 
@@ -1263,7 +1263,7 @@ void __cdecl CIcqProto::SetStatusNoteThread(void *pDelay)
 				sendServPacket(&packet);
 			}
 			SAFE_FREE(&szCurrentStatusNote);
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	SAFE_FREE(&setStatusNoteText);
@@ -1342,7 +1342,7 @@ int CIcqProto::SetStatusMood(const char *szMoodData, DWORD dwDelay)
 
 			bChanged = TRUE;
 		}
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else
 	{ // only alter status mood object with new status mood, keep the thread waiting for execution
@@ -1607,8 +1607,8 @@ BOOL CIcqProto::validateStatusMessageRequest(HANDLE hContact, WORD byMessageType
 			return FALSE;
 
 		// Don't send statusmessage to temporary contacts or hidden contacts
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) ||
-			DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0) ||
+			db_get_b(hContact, "CList", "Hidden", 0))
 			return FALSE;
 
 		// Don't send statusmessage to invisible contacts

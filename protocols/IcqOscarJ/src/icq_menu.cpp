@@ -228,7 +228,7 @@ int CIcqProto::OnPreBuildContactMenu(WPARAM wParam, LPARAM)
 		sttEnableMenuItem(g_hContactMenuItems[ICMI_ADD_TO_SERVLIST],
 			m_bSsiEnabled && !getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_ID, 0) &&
 			!getSettingWord((HANDLE)wParam, DBSETTING_SERVLIST_IGNORE, 0) &&
-			!DBGetContactSettingByte(hContact, "CList", "NotOnList", 0));
+			!db_get_b(hContact, "CList", "NotOnList", 0));
 	}
 
 	sttEnableMenuItem(g_hContactMenuItems[ICMI_OPEN_PROFILE],getContactUin(hContact) != 0);

@@ -497,7 +497,7 @@ int CIcqProto::AuthDeny( HANDLE hDbEvent, const TCHAR* szReason )
 
 		icq_sendAuthResponseServ(uin, uid, 0, szReason);
 
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if (db_get_b(hContact, "CList", "NotOnList", 0))
 			CallService(MS_DB_CONTACT_DELETE, (WPARAM)hContact, 0);
 
 		return 0; // Success

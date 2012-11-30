@@ -268,7 +268,7 @@ void CIcqProto::icq_setstatus(WORD wStatus, const char *szStatusNote)
 		if (m_bMoodsEnabled && !getSettingString(NULL, DBSETTING_STATUS_MOOD, &dbv))
 			szMoodData = null_strdup(dbv.pszVal);
 
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 
 		wStatusNoteLen = strlennull(szStatusNote);
 		wStatusMoodLen = strlennull(szMoodData);
@@ -566,7 +566,7 @@ DWORD CIcqProto::icq_sendGetInfoServ(HANDLE hContact, DWORD dwUin, int bManual)
 		pToken = (BYTE*)_alloca(cbToken);
 		memcpy(pToken, infoToken.pbVal, cbToken);
 
-		ICQFreeVariant(&infoToken);
+		db_free(&infoToken);
 	}
 
 	cookie_directory_data *pCookieData = (cookie_directory_data*)SAFE_MALLOC(sizeof(cookie_directory_data));

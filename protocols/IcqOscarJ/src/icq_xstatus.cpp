@@ -1036,7 +1036,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 				else 
 					strcpy(pData->pszName, "");
 
-				ICQFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 	}
@@ -1058,7 +1058,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 			else
 				strcpy(pData->pszMessage, "");
 
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -1082,7 +1082,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 				*pData->wParam = strlennull(dbv.pszVal);
 			else
 				*pData->wParam = 0;
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (pData->lParam) {
@@ -1090,7 +1090,7 @@ INT_PTR CIcqProto::GetXStatusEx(WPARAM wParam, LPARAM lParam)
 				*pData->lParam = strlennull(dbv.pszVal);
 			else
 				*pData->lParam = 0;
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 

@@ -1042,7 +1042,7 @@ void CIcqProto::LoadServerIDs()
 			nUnhandled++;
 		}
 
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	NetLog_Server("Loaded SSI: %d contacts, %d groups, %d permit, %d deny, %d ignore, %d unknown items.", nContacts, nGroups, nPermits, nDenys, nIgnores, nUnhandled);
@@ -1196,7 +1196,7 @@ DWORD CIcqProto::icq_sendServerContact(HANDLE hContact, DWORD dwCookie, WORD wAc
 		pMetaToken = (BYTE*)_alloca(dbv.cpbVal);
 		memcpy(pMetaToken, dbv.pbVal, dbv.cpbVal);
 
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	if (!getSetting(hContact, DBSETTING_METAINFO_TIME, &dbv))
 	{
@@ -1205,7 +1205,7 @@ DWORD CIcqProto::icq_sendServerContact(HANDLE hContact, DWORD dwCookie, WORD wAc
 		for (int i = 0; i < dbv.cpbVal; i++)
 			pMetaTime[i] = dbv.pbVal[dbv.cpbVal - i - 1];
 
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (!getSetting(hContact, DBSETTING_SERVLIST_DATA, &dbv))
@@ -1214,7 +1214,7 @@ DWORD CIcqProto::icq_sendServerContact(HANDLE hContact, DWORD dwCookie, WORD wAc
 		pData = (BYTE*)_alloca(nDataLen);
 		memcpy(pData, dbv.pbVal, nDataLen);
 
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	nNickLen = strlennull(szNick);
@@ -1446,7 +1446,7 @@ void* CIcqProto::collectGroups(int *count)
 static int GroupLinksEnumProc(const char *szSetting,LPARAM lParam)
 {
 	// check link target, add if match
-	if (DBGetContactSettingWord(NULL, ((char**)lParam)[2], szSetting, 0) == (WORD)((char**)lParam)[1])
+	if (db_get_w(NULL, ((char**)lParam)[2], szSetting, 0) == (WORD)((char**)lParam)[1])
 	{
 		char** block = (char**)SAFE_MALLOC(2*sizeof(char*));
 		block[1] = null_strdup(szSetting);
@@ -1479,7 +1479,7 @@ void CIcqProto::removeGroupPathLinks(WORD wGroupID)
 		{
 			void* bet;
 
-			DBDeleteContactSetting(NULL, szModule, list[1]);
+			db_unset(NULL, szModule, list[1]);
 			SAFE_FREE((void**)&list[1]);
 			bet = list;
 			list = (char**)list[0];
@@ -1506,7 +1506,7 @@ char *CIcqProto::getServListGroupName(WORD wGroupID)
 	if (!CheckServerID(wGroupID, 0))
 	{ // check if valid id, if not give empty and remove
 		NetLog_Server("Removing group %u from cache...", wGroupID);
-		DBDeleteContactSetting(NULL, szModule, szGroup);
+		db_unset(NULL, szModule, szGroup);
 		return NULL;
 	}
 
@@ -1532,7 +1532,7 @@ void CIcqProto::setServListGroupName(WORD wGroupID, const char *szGroupName)
 		setSettingStringUtf(NULL, szModule, szGroup, szGroupName);
 	else
 	{
-		DBDeleteContactSetting(NULL, szModule, szGroup);
+		db_unset(NULL, szModule, szGroup);
 		removeGroupPathLinks(wGroupID);
 	}
 	return;
@@ -1546,12 +1546,12 @@ WORD CIcqProto::getServListGroupLinkID(const char *szPath)
 
 	null_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
 
-	wGroupId = DBGetContactSettingWord(NULL, szModule, szPath, 0);
+	wGroupId = db_get_w(NULL, szModule, szPath, 0);
 
 	if (wGroupId && !CheckServerID(wGroupId, 0))
 	{ // known, check if still valid, if not remove
 		NetLog_Server("Removing group \"%s\" from cache...", szPath);
-		DBDeleteContactSetting(NULL, szModule, szPath);
+		db_unset(NULL, szModule, szPath);
 		wGroupId = 0;
 	}
 
@@ -1566,9 +1566,9 @@ void CIcqProto::setServListGroupLinkID(const char *szPath, WORD wGroupID)
 	null_snprintf(szModule, SIZEOF(szModule), "%sGroups", m_szModuleName);
 
 	if (wGroupID)
-		DBWriteContactSettingWord(NULL, szModule, szPath, wGroupID);
+		db_set_w(NULL, szModule, szPath, wGroupID);
 	else
-		DBDeleteContactSetting(NULL, szModule, szPath);
+		db_unset(NULL, szModule, szPath);
 }
 
 
@@ -2312,7 +2312,7 @@ void CIcqProto::servlistMoveContact(HANDLE hContact, const char *pszNewGroup)
 	if (!getSettingWord(hContact, DBSETTING_SERVLIST_ID, 0)) /// FIXME:::: this should be in _ready
 	{ // the contact is not stored on the server, check if we should try to add
 		if (!getSettingByte(NULL, "ServerAddRemove", DEFAULT_SS_ADDSERVER) ||
-			DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+			db_get_b(hContact, "CList", "Hidden", 0))
 			return;
 	}
 	cookie_servlist_action *ack = (cookie_servlist_action*)SAFE_MALLOC(sizeof(cookie_servlist_action));

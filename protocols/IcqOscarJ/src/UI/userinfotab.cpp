@@ -76,13 +76,11 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 			dbv.type = DBVT_DELETED;
 		}
 	}
-	else
-	{
+	else {
 		if (szModule == NULL)
 			unspecified = 1;
-		else
-		{
-			unspecified = DBGetContactSetting(hContact, szModule, szSetting, &dbv);
+		else {
+			unspecified = db_get(hContact, szModule, szSetting, &dbv);
 			bDbv = 1;
 		}
 	}
@@ -196,7 +194,7 @@ static void SetValue(CIcqProto* ppro, HWND hwndDlg, int idCtrl, HANDLE hContact,
 		SetDlgItemTextA(hwndDlg, idCtrl, pstr);
 
 	if (bDbv)
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 
 	if (bAlloc)
 		SAFE_FREE(&pstr);

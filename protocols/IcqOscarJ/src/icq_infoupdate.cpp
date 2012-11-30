@@ -323,7 +323,7 @@ void __cdecl CIcqProto::InfoUpdateThread( void* )
 								if (!getSetting(m_infoUpdateList[i].hContact, DBSETTING_METAINFO_TOKEN, &dbv))
 								{ // retrieve user details using privacy token
 									ppackTLV(&pItem, &nItemSize, 0x96, dbv.cpbVal, dbv.pbVal);
-									ICQFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 								// last updated time
 								ppackTLVDouble(&pItem, &nItemSize, 0x64, getSettingDouble(m_infoUpdateList[i].hContact, DBSETTING_METAINFO_TIME, 0));

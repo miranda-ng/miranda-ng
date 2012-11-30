@@ -566,7 +566,7 @@ void CIcqProto::handleUserOnline(BYTE *buf, WORD wLen, serverthread_info *info)
 
 	if (szClient == cliSpamBot)
 	{
-		if (getSettingByte(NULL, "KillSpambots", DEFAULT_KILLSPAM_ENABLED) && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if (getSettingByte(NULL, "KillSpambots", DEFAULT_KILLSPAM_ENABLED) && db_get_b(hContact, "CList", "NotOnList", 0))
 		{ // kill spammer
 			icq_DequeueUser(dwUIN);
 			icq_sendRemoveContact(dwUIN, NULL);
@@ -746,7 +746,7 @@ void CIcqProto::parseStatusNote(DWORD dwUin, char *szUid, HANDLE hContact, oscar
 			if (strlennull(szStatusNote) || (!getSettingString(hContact, DBSETTING_STATUS_NOTE, &dbv) && (dbv.type == DBVT_ASCIIZ || dbv.type == DBVT_UTF8) && strlennull(dbv.pszVal)))
 				NetLog_Server("%s changed status note to \"%s\"", strUID(dwUin, szUid), szStatusNote ? szStatusNote : "");
 
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 
 			if (szStatusNote)
 				setSettingStringUtf(hContact, DBSETTING_STATUS_NOTE, szStatusNote);

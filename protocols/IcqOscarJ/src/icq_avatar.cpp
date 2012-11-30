@@ -108,7 +108,7 @@ TCHAR* CIcqProto::GetOwnAvatarFileName()
 	{
 		TCHAR tmp[MAX_PATH * 2];
 		CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)dbvFile.ptszVal, (LPARAM)tmp);
-		ICQFreeVariant(&dbvFile);
+		db_free(&dbvFile);
 
 		return null_strdup(tmp);
 	}
@@ -286,11 +286,11 @@ int CIcqProto::IsAvatarChanged(HANDLE hContact, const BYTE *pHash, int nHashLen)
 	{
 		if ((dbvSaved.cpbVal != nHashLen) || memcmp(dbvSaved.pbVal, pHash, nHashLen))
 		{ // the hashes are different
-			ICQFreeVariant(&dbvSaved);
+			db_free(&dbvSaved);
 
 			return 2;
 		}
-		ICQFreeVariant(&dbvSaved);
+		db_free(&dbvSaved);
 
 		return 0; // hash is there and is the same - Success
 	}
@@ -604,7 +604,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 #ifdef _DEBUG
 				NetLog_Hash(this, "old", dbv.pbVal, dbv.cpbVal);
 #endif
-				ICQFreeVariant(&dbv);
+				db_free(&dbv);
 				NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
 				deleteSetting(hContact, "AvatarHash");
@@ -713,7 +713,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 					bJob = 2;
 				}
 			}
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (bJob)
@@ -755,7 +755,7 @@ void CIcqProto::handleAvatarContactHash(DWORD dwUIN, char *szUID, HANDLE hContac
 #ifdef _DEBUG
 			NetLog_Hash(this, "old", dbv.pbVal, dbv.cpbVal);
 #endif
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 			NetLog_Server("%s has removed Avatar.", strUID(dwUIN, szUID));
 
 			deleteSetting(hContact, "AvatarHash");
@@ -1687,7 +1687,7 @@ void avatars_server_connection::handleAvatarFam(BYTE *pBuffer, WORD wBufferLengt
 									if (ppro->setSettingBlob(pCookieData->hContact, "AvatarSaved", dbv.pbVal, dbv.cpbVal))
 										NetLog_Server("Failed to set file hash.");
 
-									ICQFreeVariant(&dbv);
+									db_free(&dbv);
 								}
 								else
 								{

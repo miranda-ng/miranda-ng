@@ -1167,5 +1167,5 @@ void CIcqProto::sendPeerFileInit(directconnect* dc)
 #ifdef _DEBUG
 	NetLog_Direct("Sent PEER_FILE_INIT to %u on %s DC", dc->dwRemoteUin, dc->incoming?"incoming":"outgoing");
 #endif
-	ICQFreeVariant(&dbv);
+	db_free(&dbv);
 }

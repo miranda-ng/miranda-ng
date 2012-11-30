@@ -930,7 +930,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 						else
 							NetLog_Server("SSI ignoring existing contact '%s'", szRecordName);
 						// Contact on server is always on list
-						DBWriteContactSettingByte(hContact, "CList", "NotOnList", 0);
+						db_set_b(hContact, "CList", "NotOnList", 0);
 					}
 
 					// Save group and item ID
@@ -1015,7 +1015,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 											{
 												// Yes, we really do need to delete it first. Otherwise the CLUI nick
 												// cache isn't updated (I'll look into it)
-												DBDeleteContactSetting(hContact,"CList","MyHandle");
+												db_unset(hContact,"CList","MyHandle");
 												setSettingStringUtf(hContact, "CList", "MyHandle", pszNick);
 											}
 										}
@@ -1023,7 +1023,7 @@ void CIcqProto::handleServerCListReply(BYTE *buf, WORD wLen, WORD wFlags, server
 									}
 									else if (strlennull(pszNick) > 0)
 									{
-										DBDeleteContactSetting(hContact,"CList","MyHandle");
+										db_unset(hContact,"CList","MyHandle");
 										setSettingStringUtf(hContact, "CList", "MyHandle", pszNick);
 									}
 								}
@@ -1522,7 +1522,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 							icq_QueueUser(hContact);
 					}
 
-					ICQFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else if (pToken)
 				{
@@ -1568,7 +1568,7 @@ void CIcqProto::handleServerCListItemUpdate(const char *szRecordName, WORD wGrou
 						NetLog_Server("Owner meta info token changed");
 				}
 
-				ICQFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 
 			if (pToken)
@@ -1661,7 +1661,7 @@ void CIcqProto::handleRecvAuthRequest(unsigned char *buf, WORD wLen)
 		else if (!getSettingString(hContact, "Nick", &dbv))
 		{
 			szNick = null_strdup(dbv.pszVal);
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	else
@@ -1918,7 +1918,7 @@ void CIcqProto::updateServAvatarHash(BYTE *pHash, int size)
 			/** add code to remove old hash from server */
 			bResetHash = 1;
 		}
-		ICQFreeVariant(&dbvHash);
+		db_free(&dbvHash);
 	}
 
 	if (bResetHash) // start update session

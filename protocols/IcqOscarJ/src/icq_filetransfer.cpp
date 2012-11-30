@@ -83,7 +83,7 @@ static void file_sendNick(CIcqProto* ppro, directconnect* dc)
 	packLEWord(&packet, (WORD)(wNickLen + 1));
 	packBuffer(&packet, (LPBYTE)szNick, (WORD)(wNickLen + 1));
 	ppro->sendDirectPacket(dc, &packet);
-	ICQFreeVariant(&dbv);
+	db_free(&dbv);
 }
 
 

@@ -173,7 +173,7 @@ INT_PTR CIcqProto::GetInfoSetting(WPARAM wParam, LPARAM lParam)
 				rc = LookupDatabaseSetting(interestsField, code, cgs->pValue, type);
 		}
 		// Release database memory
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return rc;
@@ -408,13 +408,13 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 
 	if (getSetting(pai->hContact, "AvatarHash", &dbv) || dbv.type != DBVT_BLOB || (dbv.cpbVal != 0x14 && dbv.cpbVal != 0x09))
 	{
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 		return GAIR_NOAVATAR; // we did not found avatar hash or hash invalid - no avatar available
 	}
 
 	if (getContactUid(pai->hContact, &dwUIN, &szUID))
 	{
-		ICQFreeVariant(&dbv);
+		db_free(&dbv);
 		return GAIR_NOAVATAR; // we do not support avatars for invalid contacts
 	}
 
@@ -433,7 +433,7 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 		{ // hashes are the same
 			if (_taccess(tszFile, 0) == 0)
 			{
-				ICQFreeVariant(&dbv);
+				db_free(&dbv);
 
 				return GAIR_SUCCESS; // we have found the avatar file, whoala
 			}
@@ -450,12 +450,12 @@ INT_PTR CIcqProto::GetAvatarInfo(WPARAM wParam, LPARAM lParam)
 			GetAvatarData(pai->hContact, dwUIN, szUID, dbv.pbVal, dbv.cpbVal, tszFile);
 			lstrcpyn(pai->filename, tszFile, SIZEOF(pai->filename)); // Avatar API does not support unicode :-(
 
-			ICQFreeVariant(&dbv);
+			db_free(&dbv);
 
 			return GAIR_WAITFOR;
 		}
 	}
-	ICQFreeVariant(&dbv);
+	db_free(&dbv);
 
 	return GAIR_NOAVATAR;
 }
@@ -667,10 +667,10 @@ HANDLE CIcqProto::AddToListByUIN(DWORD dwUin, DWORD dwFlags)
 	HANDLE hContact = HContactFromUIN(dwUin, &bAdded);
 	if (hContact)
 	{
-		if (!(dwFlags & PALF_TEMPORARY) && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0))
 		{
 			setContactHidden(hContact, 0);
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 		}
 
 		return hContact; // Success
@@ -686,10 +686,10 @@ HANDLE CIcqProto::AddToListByUID(const char *szUID, DWORD dwFlags)
 	HANDLE hContact = HContactFromUID(0, szUID, &bAdded);
 	if (hContact)
 	{
-		if (!(dwFlags & PALF_TEMPORARY) && DBGetContactSettingByte(hContact, "CList", "NotOnList", 0))
+		if (!(dwFlags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 0))
 		{
 			setContactHidden(hContact, 0);
-			DBDeleteContactSetting(hContact, "CList", "NotOnList");
+			db_unset(hContact, "CList", "NotOnList");
 		}
 
 		return hContact; // Success
@@ -709,7 +709,7 @@ void CIcqProto::ICQAddRecvEvent(HANDLE hContact, WORD wType, PROTORECVEVENT* pre
 	if (pre->flags & PREF_UTF) 
 		flags |= DBEF_UTF;
 
-	if (hContact && DBGetContactSettingByte(hContact, "CList", "Hidden", 0))
+	if (hContact && db_get_b(hContact, "CList", "Hidden", 0))
 	{
 		DWORD dwUin;
 		uid_str szUid;
