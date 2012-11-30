@@ -70,56 +70,22 @@ int FillList(HWND list, BOOL sort)
 
 		{
 			// get contact display name from clist
-			char *szCDN = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, 0);
+			TCHAR *swzContactDisplayName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, GCDNF_TCHAR);
+			// don't insert huge strings that we have to compare with later
+			if (_tcslen(swzContactDisplayName) > 1023)
+				swzContactDisplayName[1024] = 0;
 
-			if (os_unicode_enabled) {
-				wchar_t *ptszCDN = (wchar_t *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, GCDNF_UNICODE),
-					*swzContactDisplayName;
-
-				// detect if the clist provided unicode display name by comparing with non-unicode
-				if (szCDN && ptszCDN && strncmp(szCDN, (char *)ptszCDN, strlen(szCDN)) != 0) { 
-					swzContactDisplayName = ptszCDN;
-				} else {
-					// no? convert to unicode
-					if (szCDN) {
-						swzContactDisplayName = (wchar_t *) _alloca(sizeof(wchar_t) * (strlen(szCDN) + 1));
-						MultiByteToWideChar(CP_ACP, 0, (char *) szCDN, -1, swzContactDisplayName, (int)strlen((char *)szCDN) + 1);
-					} else {
-						swzContactDisplayName = TranslateW(L"(Unknown Contact)");
+			if (sort) {
+				TCHAR buff[1024];
+				for (int j = 0; j < i; j++) {
+					SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
+					if (_tcscmp(buff, swzContactDisplayName) > 0) {
+						index = SendMessage(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)swzContactDisplayName);
+						break;
 					}
-				}				
-
-				// don't insert huge strings that we have to compare with later
-				if (wcslen(swzContactDisplayName) > 1023)
-					swzContactDisplayName[1024] = 0;
-
-				if (sort) {
-					int j;
-					wchar_t buff[1024];
-					for (j = 0; j < i; j++) {
-						SendMessageW(list, LB_GETTEXT, j, (LPARAM)buff);
-						if (wcscmp(buff, swzContactDisplayName) > 0) break;
-					}
-					index = SendMessageW(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)swzContactDisplayName);
-				} else {
-					index = SendMessageW(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)swzContactDisplayName);
 				}
 			} else {
-				// don't insert huge strings that we have to compare with later
-				if (strlen(szCDN) > 1023)
-					szCDN[1024] = 0;
-
-				if (sort) {
-					int j;
-					char buff[1024];
-					for (j = 0; j < i; j++) {
-						SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
-						if (strcmp(buff, szCDN) > 0) break;
-					}
-					index = SendMessage(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)szCDN);
-				} else {
-					index = SendMessage(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)szCDN);
-				}
+				index = SendMessage(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)swzContactDisplayName);
 			}
 
 			SendMessage(list, LB_SETITEMDATA, (WPARAM)index, (LPARAM)hMetaUser);
@@ -223,11 +189,11 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		switch(LOWORD(wParam)) {
 		case IDOK:
 			{
-				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
-				int item;	// Get the index of the selected metacontact
-				if ((item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST),LB_GETCURSEL, 0, 0))==-1)
+				int item = SendMessage(GetDlgItem(hwndDlg, IDC_METALIST),LB_GETCURSEL, 0, 0);	// Get the index of the selected metacontact
+				if (item == -1)
 					return IDOK == MessageBox(hwndDlg, TranslateT("Please select a MetaContact"), TranslateT("No MetaContact selected"), MB_ICONHAND);
 
+				HANDLE hContact = (HANDLE)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 				HANDLE hMeta = (HANDLE)SendMessage(GetDlgItem(hwndDlg, IDC_METALIST), LB_GETITEMDATA, (WPARAM)item, 0);
 				if ( !Meta_Assign(hContact,hMeta, FALSE))
 					MessageBox(hwndDlg, TranslateT("Assignment to the MetaContact failed."), TranslateT("Assignment failure"),MB_ICONERROR);
