@@ -183,7 +183,6 @@
     <ClInclude Include="src\autoreplace.h" />
     <ClInclude Include="src\commons.h" />
     <ClInclude Include="src\dictionary.h" />
-    <ClInclude Include="..\utils\mir_icons.h" />
     <ClInclude Include="..\utils\mir_memory.h" />
     <ClInclude Include="..\utils\mir_options.h" />
     <ClInclude Include="src\options.h" />

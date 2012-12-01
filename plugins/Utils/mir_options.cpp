@@ -42,7 +42,7 @@ static TCHAR* MyDBGetContactSettingTString(HANDLE hContact, char* module, char* 
 
 	out[0] = _T('\0');
 
-	if ( !DBGetContactSettingTString(hContact, module, setting, &dbv))
+	if ( !db_get_ts(hContact, module, setting, &dbv))
 	{
 		lstrcpyn(out, dbv.ptszVal, (int)len);
 		db_free(&dbv);

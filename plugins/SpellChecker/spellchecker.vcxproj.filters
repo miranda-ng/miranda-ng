@@ -33,9 +33,6 @@
     <ClInclude Include="src\dictionary.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\utils\mir_icons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\utils\mir_memory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
