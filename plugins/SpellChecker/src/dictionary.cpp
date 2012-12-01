@@ -88,7 +88,7 @@ protected:
 
 	void appendToCustomDict(const TCHAR *word)
 	{
-		CreatePath(userPath);
+		CreateDirectoryTreeT(userPath);
 
 		TCHAR filename[1024];
 		mir_sntprintf(filename, SIZEOF(filename), _T("%s\\%s.cdic"), userPath, language);

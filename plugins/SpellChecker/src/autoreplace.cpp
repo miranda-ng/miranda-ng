@@ -103,7 +103,7 @@ void AutoReplaceMap::writeAutoReplaceMap()
 	if (p != NULL)
 	{
 		*p = 0;
-		CreatePath(filename);
+		CreateDirectoryTreeT(filename);
 		*p = _T('\\');
 	}
 

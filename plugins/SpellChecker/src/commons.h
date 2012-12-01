@@ -77,7 +77,6 @@ using namespace std;
 #include "ardialog.h"
 #include "RichEdit.h"
 
-
 #define MODULE_NAME		"SpellChecker"
 
 #define FLAGS_DLL_FOLDER _T("%miranda_path%\\Icons")
@@ -89,14 +88,19 @@ extern HINSTANCE hInst;
 extern BOOL uinfoex_enabled;
 extern BOOL variables_enabled;
 
-
 #define FREE(_m_)		if (_m_ != NULL) { free(_m_); _m_ = NULL; }
-
 
 #define ICON_SIZE 16
 
+#define TIMER_ID 17982
+#define WMU_DICT_CHANGED (WM_USER+100)
+#define WMU_KBDL_CHANGED (WM_USER+101)
+
+#define HOTKEY_ACTION_TOGGLE 1
 
 extern LIST<Dictionary> languages;
+extern BITMAP bmpChecked;
+extern HBITMAP hCheckedBmp;
 
 struct WrongWordPopupMenuData 
 {
@@ -137,9 +141,28 @@ struct Dialog
 };
 
 BOOL CenterParent(HWND hwnd);
-BOOL CreatePath(const TCHAR *path);
 TCHAR *lstrtrim(TCHAR *str);
 BOOL lstreq(TCHAR *a, TCHAR *b, size_t len = -1);
 BOOL IsNumber(TCHAR c);
+
+int MsgWindowEvent(WPARAM wParam, LPARAM lParam);
+int MsgWindowPopup(WPARAM wParam, LPARAM lParam);
+int IconPressed(WPARAM wParam, LPARAM lParam);
+
+int AddContactTextBox(HANDLE hContact, HWND hwnd, char *name, BOOL srmm, HWND hwndOwner);
+int RemoveContactTextBox(HWND hwnd);
+int ShowPopupMenu(HWND hwnd, HMENU hMenu, POINT pt, HWND hwndOwner);
+
+INT_PTR AddContactTextBoxService(WPARAM wParam, LPARAM lParam);
+INT_PTR RemoveContactTextBoxService(WPARAM wParam, LPARAM lParam);
+INT_PTR ShowPopupMenuService(WPARAM wParam, LPARAM lParam);
+
+LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
+void ModifyIcon(Dialog *dlg);
+BOOL GetWordCharRange(Dialog *dlg, CHARRANGE &sel, TCHAR *text, size_t text_len, int &first_char);
+TCHAR *GetWordUnderPoint(Dialog *dlg, POINT pt, CHARRANGE &sel);
+
+int GetClosestLanguage(TCHAR *lang_name);
 
 #endif // __COMMONS_H__
