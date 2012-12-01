@@ -246,11 +246,7 @@
     <ClInclude Include="core\stdplug.h" />
     <ClInclude Include="modules\database\database.h" />
     <ClInclude Include="modules\database\profilemanager.h" />
-    <ClInclude Include="modules\extraicons\BaseExtraIcon.h" />
-    <ClInclude Include="modules\extraicons\CallbackExtraIcon.h" />
-    <ClInclude Include="modules\extraicons\DefaultExtraIcons.h" />
     <ClInclude Include="modules\extraicons\ExtraIcon.h" />
-    <ClInclude Include="modules\extraicons\ExtraIconGroup.h" />
     <ClInclude Include="modules\extraicons\extraicons.h" />
     <ClInclude Include="modules\extraicons\IcolibExtraIcon.h" />
     <ClInclude Include="modules\extraicons\usedIcons.h" />

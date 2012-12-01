@@ -254,7 +254,6 @@ static HTREEITEM Tree_AddExtraIcon(HWND tree, BaseExtraIcon *extra, bool selecte
 	ids->push_back(extra->getID());
 
 	TVINSERTSTRUCT tvis = { 0 };
-	tvis.hParent = NULL;
 	tvis.hInsertAfter = hAfter;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 	tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -283,7 +282,6 @@ static HTREEITEM Tree_AddExtraIconGroup(HWND tree, vector<int> &group, bool sele
 	}
 
 	TVINSERTSTRUCT tvis = { 0 };
-	tvis.hParent = NULL;
 	tvis.hInsertAfter = hAfter;
 	tvis.item.mask = TVIF_PARAM | TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE | TVIF_STATE;
 	tvis.item.stateMask = TVIS_STATEIMAGEMASK;
@@ -411,6 +409,8 @@ static int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSor
 
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
+
 	static int dragging = 0;
 	static HANDLE hDragItem = NULL;
 
@@ -428,36 +428,30 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				ShowWindow(label, SW_SHOW);
 			}
 
-			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
 			SetWindowLongPtr(tree, GWL_STYLE, GetWindowLongPtr(tree, GWL_STYLE) | TVS_NOHSCROLL);
 
 			int cx = GetSystemMetrics(SM_CXSMICON);
 			HIMAGELIST hImageList = ImageList_Create(cx, cx, ILC_COLOR32 | ILC_MASK, 2, 2);
 
-			HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, LR_DEFAULTCOLOR | LR_SHARED);
-			ImageList_AddIcon(hImageList, hDefaultIcon);
-			DestroyIcon(hDefaultIcon);
+			HICON hBlankIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx, 0);
+			ImageList_AddIcon(hImageList, hBlankIcon);
 
-			unsigned int i;
-			for (i = 0; i < registeredExtraIcons.getCount(); i++) {
+			for (int i = 0; i < registeredExtraIcons.getCount(); i++) {
 				ExtraIcon *extra = registeredExtraIcons[i];
 
 				HICON hIcon = Skin_GetIcon(extra->getDescIcon());
-				if (hIcon == NULL) {
-					HICON hDefaultIcon = (HICON) LoadImage(hInst, MAKEINTRESOURCE(IDI_BLANK), IMAGE_ICON, cx, cx,
-						LR_DEFAULTCOLOR | LR_SHARED);
-					ImageList_AddIcon(hImageList, hDefaultIcon);
-					DestroyIcon(hDefaultIcon);
-				}
+				if (hIcon == NULL)
+					ImageList_AddIcon(hImageList, hBlankIcon);
 				else {
 					ImageList_AddIcon(hImageList, hIcon);
 					Skin_ReleaseIcon(hIcon);
 				}
 			}
 			TreeView_SetImageList(tree, hImageList, TVSIL_NORMAL);
+			DestroyIcon(hBlankIcon);
 
-			for (i = 0; i < extraIconsBySlot.size(); i++) {
-				ExtraIcon *extra = extraIconsBySlot[i];
+			for (unsigned k = 0; k < extraIconsBySlot.size(); k++) {
+				ExtraIcon *extra = extraIconsBySlot[k];
 
 				if (extra->getType() == EXTRAICON_TYPE_GROUP) {
 					ExtraIconGroup *group = (ExtraIconGroup *) extra;
@@ -476,21 +470,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			TreeView_SortChildrenCB(tree, &sort, 0);
 
 			origTreeProc = (WNDPROC) SetWindowLongPtr(tree, GWLP_WNDPROC, (INT_PTR)TreeProc);
-
-			return TRUE;
 		}
+		return TRUE;
+
 	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR) lParam;
 			if (lpnmhdr->idFrom == 0) {
 				if (lpnmhdr->code == (UINT) PSN_APPLY) {
-					unsigned int i;
-
-					HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-
 					// Store old slots
 					int *oldSlots = new int[registeredExtraIcons.getCount()];
-					int lastUsedSlot = -1;
+					int i, lastUsedSlot = -1;
 					for (i = 0; i < registeredExtraIcons.getCount(); i++) {
 						if (extraIconsByHandle[i] == registeredExtraIcons[i])
 							oldSlots[i] = registeredExtraIcons[i]->getSlot();
@@ -534,7 +524,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 							ExtraIconGroup *group = new ExtraIconGroup(name);
 
-							for (i = 0; i < ids->size(); i++) {
+							for (unsigned i = 0; i < ids->size(); i++) {
 								BaseExtraIcon *extra = registeredExtraIcons[ids->at(i) - 1];
 								extra->setPosition(pos++);
 
@@ -599,8 +589,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				}
 			}
 			else if (lpnmhdr->idFrom == IDC_EXTRAORDER) {
-				HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-
 				switch (lpnmhdr->code) {
 				case TVN_BEGINDRAGW:
 				case TVN_BEGINDRAGA:
@@ -670,12 +658,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			break;
 		}
 	case WM_MOUSEMOVE:
-		{
-			if (!dragging)
-				break;
-
-			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-
+		if (dragging) {
 			TVHITTESTINFO hti;
 			hti.pt.x = (short) LOWORD(lParam);
 			hti.pt.y = (short) HIWORD(lParam);
@@ -698,15 +681,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					SendDlgItemMessage(hwndDlg, IDC_EXTRAORDER, WM_VSCROLL, MAKEWPARAM(SB_LINEDOWN,0), 0);
 				TreeView_SetInsertMark(tree, NULL, 0);
 			}
-			break;
 		}
+		break;
+
 	case WM_LBUTTONUP:
-		{
-			if (!dragging)
-				break;
-
-			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-
+		if (dragging) {
 			TreeView_SetInsertMark(tree, NULL, 0);
 			dragging = 0;
 			ReleaseCapture();
@@ -749,16 +728,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_DESTROY:
-		{
-			HWND tree = GetDlgItem(hwndDlg, IDC_EXTRAORDER);
-			HTREEITEM hItem = TreeView_GetRoot(tree);
-			while (hItem) {
-				delete Tree_GetIDs(tree, hItem);
-				hItem = TreeView_GetNextSibling(tree, hItem);
-			}
-
-			break;
+		HTREEITEM hItem = TreeView_GetRoot(tree);
+		while (hItem) {
+			delete Tree_GetIDs(tree, hItem);
+			hItem = TreeView_GetNextSibling(tree, hItem);
 		}
+
+		ImageList_Destroy( TreeView_GetImageList(tree, TVSIL_NORMAL));
+		break;
 	}
 
 	return 0;

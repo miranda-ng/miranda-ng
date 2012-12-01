@@ -21,8 +21,12 @@
 #define __EXTRAICON_H__
 
 #include <string>
+#include <vector>
 
 #define EXTRAICON_TYPE_GROUP -1
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// ExtraIcon - base class for all extra icons
 
 class ExtraIcon
 {
@@ -62,7 +66,7 @@ public:
 	bool operator>(const ExtraIcon &other) const;
 	bool operator>=(const ExtraIcon &other) const;
 
-	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage) =0;
+	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage) = 0;
 
 	int hLangpack;
 
@@ -71,6 +75,117 @@ protected:
 
 	int slot;
 	int position;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// BaseExtraIcon - basic class for all 'real' extra icons
+
+class BaseExtraIcon : public ExtraIcon
+{
+public:
+	BaseExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	virtual ~BaseExtraIcon();
+
+	virtual int getID() const;
+	virtual const TCHAR *getDescription() const;
+	virtual void setDescription(const TCHAR *desc);
+	virtual const char *getDescIcon() const;
+	virtual void setDescIcon(const char *icon);
+	virtual int getType() const =0;
+
+	virtual void onClick(HANDLE hContact);
+	virtual void setOnClick(MIRANDAHOOKPARAM OnClick, LPARAM param);
+
+	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
+
+protected:
+	int id;
+	std::tstring description;
+	std::string descIcon;
+	MIRANDAHOOKPARAM OnClick;
+	LPARAM onClickParam;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CallbackExtraIcon - extra icon, implemented using callback functions
+
+class CallbackExtraIcon : public BaseExtraIcon
+{
+public:
+	CallbackExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
+			MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	virtual ~CallbackExtraIcon();
+
+	virtual int getType() const;
+
+	virtual void rebuildIcons();
+	virtual void applyIcon(HANDLE hContact);
+
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
+
+private:
+	int(*RebuildIcons)(WPARAM wParam, LPARAM lParam);
+	int(*ApplyIcon)(WPARAM wParam, LPARAM lParam);
+
+	bool needToRebuild;
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// IcolibExtraIcon - extra icon, implemented using icolib
+
+class IcolibExtraIcon : public BaseExtraIcon
+{
+public:
+	IcolibExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon, MIRANDAHOOKPARAM OnClick, LPARAM param);
+	virtual ~IcolibExtraIcon();
+
+	virtual int getType() const;
+
+	virtual void rebuildIcons();
+	virtual void applyIcon(HANDLE hContact);
+
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
+	virtual void storeIcon(HANDLE hContact, void *icon);
+};
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// ExtraIconGroup - joins some slots into one
+
+class ExtraIconGroup : public ExtraIcon
+{
+	int  internalSetIcon(int id, HANDLE hContact, HANDLE icon, bool bByName);
+public:
+	ExtraIconGroup(const char *name);
+	virtual ~ExtraIconGroup();
+
+	virtual void addExtraIcon(BaseExtraIcon *extra);
+
+	virtual void rebuildIcons();
+	virtual void applyIcon(HANDLE hContact);
+	virtual void onClick(HANDLE hContact);
+
+	virtual int  setIcon(int id, HANDLE hContact, HANDLE icon);
+	virtual int  setIconByName(int id, HANDLE hContact, const char* icon);
+
+	virtual const TCHAR *getDescription() const;
+	virtual const char *getDescIcon() const;
+	virtual int getType() const;
+
+	virtual int getPosition() const;
+	virtual void setSlot(int slot);
+
+	std::vector<BaseExtraIcon*> items;
+
+	virtual int ClistSetExtraIcon(HANDLE hContact, HANDLE hImage);
+
+protected:
+	std::tstring description;
+	bool setValidExtraIcon;
+	bool insideApply;
+
+	virtual ExtraIcon *getCurrentItem(HANDLE hContact) const;
 };
 
 #endif // __EXTRAICON_H__

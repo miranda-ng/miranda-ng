@@ -276,19 +276,7 @@
     <ClInclude Include="modules\database\database.h">
       <Filter>Modules\database</Filter>
     </ClInclude>
-    <ClInclude Include="modules\extraicons\BaseExtraIcon.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\extraicons\CallbackExtraIcon.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\extraicons\DefaultExtraIcons.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
     <ClInclude Include="modules\extraicons\ExtraIcon.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
-    <ClInclude Include="modules\extraicons\ExtraIconGroup.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
     <ClInclude Include="modules\extraicons\IcolibExtraIcon.h">

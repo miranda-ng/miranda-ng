@@ -29,9 +29,7 @@ extern HINSTANCE hInst;
 
 #define ICON_SIZE 16
 
-class ExtraIconGroup;
-class ExtraIcon;
-class BaseExtraIcon;
+#include "Extraicon.h"
 
 extern LIST<BaseExtraIcon> registeredExtraIcons;
 extern vector<ExtraIcon*> extraIconsByHandle;
@@ -43,6 +41,9 @@ int GetNumberOfSlots();
 int ConvertToClistSlot(int slot);
 
 int Clist_SetExtraIcon(HANDLE hContact, int slot, HANDLE hImage);
+
+void DefaultExtraIcons_Load();
+void DefaultExtraIcons_Unload();
 
 HANDLE ExtraIcon_Add(HICON hIcon);
 
