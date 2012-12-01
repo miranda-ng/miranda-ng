@@ -248,7 +248,6 @@
     <ClInclude Include="modules\database\profilemanager.h" />
     <ClInclude Include="modules\extraicons\ExtraIcon.h" />
     <ClInclude Include="modules\extraicons\extraicons.h" />
-    <ClInclude Include="modules\extraicons\IcolibExtraIcon.h" />
     <ClInclude Include="modules\extraicons\usedIcons.h" />
     <ClInclude Include="modules\findadd\findadd.h" />
     <ClInclude Include="modules\json\internalJSONNode.h" />

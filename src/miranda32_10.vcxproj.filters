@@ -279,9 +279,6 @@
     <ClInclude Include="modules\extraicons\ExtraIcon.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
-    <ClInclude Include="modules\extraicons\IcolibExtraIcon.h">
-      <Filter>Modules\extraicons</Filter>
-    </ClInclude>
     <ClInclude Include="modules\extraicons\usedIcons.h">
       <Filter>Modules\extraicons</Filter>
     </ClInclude>
