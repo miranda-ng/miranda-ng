@@ -53,47 +53,36 @@ typedef struct {
 */
 int FillList(HWND list, BOOL sort)
 {
-	DWORD metaID;
-	HANDLE hMetaUser = db_find_first();
 	int i=0;
-	int index;
-	//BOOL mbs = FALSE;
 
-	while(hMetaUser)	// The DB is searched through, to get all the metacontacts
-	{
-		if ((metaID = db_get_dw(hMetaUser, META_PROTO, META_ID,(DWORD)-1))==(DWORD)-1)
-		{
-			// This isn't a MetaContact, go to the next
-			hMetaUser = db_find_next(hMetaUser);
+	// The DB is searched through, to get all the metacontacts
+	for (HANDLE hMetaUser = db_find_first(); hMetaUser; hMetaUser = db_find_next(hMetaUser)) {
+		// if it's not a MetaContact, go to the next
+		if ( db_get_dw(hMetaUser, META_PROTO, META_ID, (DWORD)-1) == (DWORD)-1)
 			continue;
-		}
 
-		{
-			// get contact display name from clist
-			TCHAR *swzContactDisplayName = (TCHAR *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMetaUser, GCDNF_TCHAR);
-			// don't insert huge strings that we have to compare with later
-			if (_tcslen(swzContactDisplayName) > 1023)
-				swzContactDisplayName[1024] = 0;
+		// get contact display name from clist
+		TCHAR *swzContactDisplayName = pcli->pfnGetContactDisplayName(hMetaUser, GCDNF_TCHAR);
+		// don't insert huge strings that we have to compare with later
+		if (_tcslen(swzContactDisplayName) > 1023)
+			swzContactDisplayName[1024] = 0;
 
-			if (sort) {
+		int index;
+		if (sort) {
+			for (int j = 0; j < i; j++) {
 				TCHAR buff[1024];
-				for (int j = 0; j < i; j++) {
-					SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
-					if (_tcscmp(buff, swzContactDisplayName) > 0) {
-						index = SendMessage(list, LB_INSERTSTRING, (WPARAM)j, (LPARAM)swzContactDisplayName);
-						break;
-					}
+				SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
+				if ( _tcscmp(buff, swzContactDisplayName) > 0) {
+					index = SendMessage(list, LB_INSERTSTRING, j, (LPARAM)swzContactDisplayName);
+					break;
 				}
-			} else {
-				index = SendMessage(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)swzContactDisplayName);
 			}
-
-			SendMessage(list, LB_SETITEMDATA, (WPARAM)index, (LPARAM)hMetaUser);
 		}
+		else index = SendMessage(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)swzContactDisplayName);
+
+		SendMessage(list, LB_SETITEMDATA, index, (LPARAM)hMetaUser);
 
 		i++;
-
-		hMetaUser = db_find_next(hMetaUser);
 	}
 	return i;
 }
@@ -107,14 +96,11 @@ int FillList(HWND list, BOOL sort)
 *
 * @returns					An integer specifying the number of rows inserted or \c -1 if there was a problem
 */
+
 int BuildList(HWND list, BOOL sort)
 {
-	int ret=-1;
 	SendMessage(list, LB_RESETCONTENT, 0, 0);
-
-	ret = FillList(list, sort);
-	
-    return ret;
+	return FillList(list, sort);
 }
 
 /** Callback function for the <b>'Add To'</b> Dialog.
@@ -147,7 +133,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			return TRUE;
 		}
 
-		if (db_get_dw((HANDLE)lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
+		if ( db_get_dw((HANDLE)lParam, META_PROTO, META_LINK, (DWORD)-1) != (DWORD)-1) {
 			MessageBox(hwndDlg,
 				TranslateT("This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts."),
 				TranslateT("Multiple MetaContacts"),MB_ICONERROR);
@@ -170,7 +156,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		else {
 			// get contact display name from clist
-			TCHAR *ptszCDN = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, lParam, GCDNF_TCHAR);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((HANDLE)lParam, GCDNF_TCHAR);
 			if (!ptszCDN)
 				ptszCDN = TranslateT("a contact");
 
@@ -217,7 +203,7 @@ INT_PTR CALLBACK Meta_SelectDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 	case WM_DESTROY:
 		// Free all allocated memory and return the focus to the CList
 		HWND clist = GetParent(hwndDlg);
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		EndDialog(hwndDlg,TRUE);
 		SetFocus(clist);
 		return TRUE;

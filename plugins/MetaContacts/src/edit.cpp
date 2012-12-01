@@ -60,7 +60,7 @@ void FillContactList(HWND hWndDlg, CHANGES *chg)
 	for (int i = 0; i < chg->num_contacts; i++)  {
 		LvItem.iItem = i;
 	
-		TCHAR *ptszCDN = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)chg->hContact[i], GCDNF_TCHAR);
+		TCHAR *ptszCDN = pcli->pfnGetContactDisplayName(chg->hContact[i], GCDNF_TCHAR);
 		if (ptszCDN == NULL)
 			ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -294,7 +294,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 	case WMU_SETTITLE:
 		{
-			TCHAR *ptszCDN = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)lParam, GCDNF_UNICODE);
+			TCHAR *ptszCDN = pcli->pfnGetContactDisplayName((HANDLE)lParam, GCDNF_TCHAR);
 			if (ptszCDN == NULL)
 				ptszCDN = TranslateT("(Unknown Contact)");
 
@@ -387,8 +387,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 				if (changes.hDefaultContact == changes.hContact[sel]) {
 					if (changes.num_contacts > 0) {
 						changes.hDefaultContact = changes.hContact[0];
-						TCHAR *str = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)changes.hDefaultContact, GCDNF_TCHAR);
-						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT),str);
+						SetWindowText(GetDlgItem(hwndDlg,IDC_ED_DEFAULT), pcli->pfnGetContactDisplayName(changes.hDefaultContact, GCDNF_TCHAR));
 					}
 					else {
 						changes.hDefaultContact = 0;
@@ -458,7 +457,7 @@ INT_PTR CALLBACK Meta_EditDialogProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		return TRUE;
 
 	case WM_DESTROY:
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
 		EndDialog(hwndDlg, IDCANCEL);
 		break;
 	}

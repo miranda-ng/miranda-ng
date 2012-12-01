@@ -41,7 +41,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_metacontacts.h"
 
 #include <newpluginapi.h>
-#include <m_clist.h>
+#include <m_clistint.h>
 #include <m_clui.h>
 #include <m_skin.h>
 #include <m_langpack.h>
@@ -208,7 +208,7 @@ void InitIcons(void);
 
 typedef enum {I_MENUOFF, I_MENU, I_CONVERT, I_ADD, I_EDIT, I_SETDEFAULT, I_REMOVE} IconIndex;
 HICON LoadIconEx(IconIndex i);
-void ReleaseIconEx(HICON hIcon);
+HANDLE GetIconHandle(IconIndex i);
 
 extern HANDLE hEventDefaultChanged, hEventForceSend, hEventUnforceSend, hSubcontactsChanged;
 
@@ -232,8 +232,6 @@ extern BOOL meta_group_hack_disabled;
 
 #ifndef MS_CLUI_GETVERSION
 #define MS_CLUI_GETVERSION      "CLUI/GetVersion"
-
-extern BOOL os_unicode_enabled;
 
 #define szDelMsg "You are going to remove all the contacts associated with this MetaContact.\nThis will delete the MetaContact.\n\nProceed Anyway?"
 

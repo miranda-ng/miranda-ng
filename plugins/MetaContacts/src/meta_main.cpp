@@ -89,6 +89,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 BOOL os_unicode_enabled = FALSE;
 int hLangpack;
+CLIST_INTERFACE *pcli = NULL;
 
 //! Information gathered by Miranda, displayed in the plugin pane of the Option Dialog
 PLUGININFOEX pluginInfo={
@@ -136,14 +137,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 	//MessageBox(0, "Unload complete", "MC", MB_OK);
 	return 0;
 }
-
-BOOL IsUnicodeOS()
-{
-	OSVERSIONINFOW		os;
-	memset(&os, 0, sizeof(OSVERSIONINFOW));
-	os.dwOSVersionInfoSize = sizeof(OSVERSIONINFOW);
-	return (GetVersionExW(&os) != 0);
-}
  
 /** Initializes the services provided and the link to those needed
 * Called when the plugin is loaded into Miranda
@@ -151,8 +144,7 @@ BOOL IsUnicodeOS()
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
-
-	os_unicode_enabled = IsUnicodeOS();
+	pcli = ( CLIST_INTERFACE* )CallService(MS_CLIST_RETRIEVE_INTERFACE, 0, (LPARAM)hInstance);
 
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/Status"));
 	CallService(MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)(META_PROTO "/IdleTS"));

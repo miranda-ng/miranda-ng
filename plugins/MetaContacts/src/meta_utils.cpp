@@ -237,14 +237,16 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	WORD status;
 	HANDLE most_online;
 		
-	if ((metaID=db_get_dw(dest, META_PROTO, META_ID,(DWORD)-1))==-1) {
+	if ((metaID = db_get_dw(dest, META_PROTO, META_ID,(DWORD)-1))==-1) {
 		MessageBox(0, TranslateT("Could not get MetaContact id"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
-	if ((num_contacts=db_get_dw(dest, META_PROTO, "NumContacts",(DWORD)-1))==-1) {
+
+	if ((num_contacts = db_get_dw(dest, META_PROTO, "NumContacts",(DWORD)-1))==-1) {
 		MessageBox(0, TranslateT("Could not retreive MetaContact contact count"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
 		return FALSE;
 	}
+
 	char *szProto = GetContactProto(src);
 	if (szProto == NULL) {
 		MessageBox(0, TranslateT("Could not retreive contact protocol"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
@@ -274,7 +276,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 
 	// write the contact's protocol
 	strcpy(buffer, "Protocol");
-	strcat(buffer, _itoa((int)(num_contacts -1), szId, 10));
+	strcat(buffer, _itoa(num_contacts-1, szId, 10));
 
 	if ( db_set_s(dest, META_PROTO, buffer, szProto)) {
 		MessageBox(0, TranslateT("Could not write contact protocol to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
@@ -284,7 +286,7 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 
 	// write the login
 	strcpy(buffer, "Login");
-	strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
+	strcat(buffer, szId);
 
 	cws.szModule = META_PROTO;
 	cws.szSetting = buffer;
@@ -301,10 +303,10 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	if ( !db_get(src,szProto,"Nick",&cws.value)) {
 		// write the nickname
 		strcpy(buffer, "Nick");
-		strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
+		strcat(buffer, szId);
 
-		cws.szModule=META_PROTO;
-		cws.szSetting=buffer;
+		cws.szModule = META_PROTO;
+		cws.szSetting = buffer;
 
 		if (CallService(MS_DB_CONTACT_WRITESETTING,(WPARAM)dest,(LPARAM)&cws)) {
 			MessageBox(0, TranslateT("Could not write nickname of contact to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
@@ -314,75 +316,44 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 		db_free(&cws.value);
 	}
 
-	{
-		// Get the displayname of the subcontact
-		char *name = (char *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)src, 0);
-		wchar_t *wname = (wchar_t *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)src, GCDNF_UNICODE);
+	// write the display name
+	strcpy(buffer, "CListName");
+	strcat(buffer, szId);
+	db_set_ts(dest, META_PROTO, buffer, pcli->pfnGetContactDisplayName(src, GCDNF_TCHAR));
 
-		// write the display name
-		strcpy(buffer, "CListName");
-		strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
-
-		if (wname && strncmp(name, (char *)wname, strlen(name)) != 0) {
-			DBWriteContactSettingWString(dest, META_PROTO, buffer, wname);
-		} else
-			db_set_s(dest, META_PROTO, buffer, name);
-
-		// Get the status
-		if ( !szProto)
-			status = ID_STATUS_OFFLINE;
-		else
-			status = db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
-	}
+	// Get the status
+	if ( !szProto)
+		status = ID_STATUS_OFFLINE;
+	else
+		status = db_get_w(src, szProto, "Status", ID_STATUS_OFFLINE);
 
 	// write the status
 	strcpy(buffer, "Status");
-	strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
-	if (db_set_w(dest, META_PROTO, buffer, status)) {
-		MessageBox(0, TranslateT("Could not write contact status to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	strcat(buffer, szId);
+	db_set_w(dest, META_PROTO, buffer, status);
 
 	// write the handle
 	strcpy(buffer, "Handle");
-	strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
-	if (db_set_dw(dest, META_PROTO, buffer, (DWORD)src)) {
-		MessageBox(0, TranslateT("Could not write contact handle to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	strcat(buffer, szId);
+	db_set_dw(dest, META_PROTO, buffer, (DWORD)src);
 
 	// write status string
 	strcpy(buffer, "StatusString");
-	strcat(buffer, _itoa((int)(num_contacts - 1), szId, 10));
+	strcat(buffer, szId);
 	Meta_GetStatusString(status, buffer2, 512);
-	if (db_set_ts(dest, META_PROTO, buffer, buffer2)) {
-		MessageBox(0, TranslateT("Could not write contact status string to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	db_set_ts(dest, META_PROTO, buffer, buffer2);
 
 	// Write the link in the contact
-	if (db_set_dw(src, META_PROTO, META_LINK,metaID)) {
-		MessageBox(0, TranslateT("Could not write MetaContact id to contact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	db_set_dw(src, META_PROTO, META_LINK, metaID);
 
 	// Write the contact number in the contact
-	if (db_set_dw(src, META_PROTO, "ContactNumber",(DWORD)(num_contacts - 1))) {
-		MessageBox(0, TranslateT("Could not write MetaContact contact number to contact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	db_set_dw(src, META_PROTO, "ContactNumber", num_contacts-1);
 
 	// Write the handle in the contact
-	if (db_set_dw(src, META_PROTO, "Handle",(DWORD)dest)) {
-		MessageBox(0, TranslateT("Could not write MetaContact contact number to contact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	db_set_dw(src, META_PROTO, "Handle", (DWORD)dest);
 
 	// update count of contacts
-	if (db_set_dw(dest, META_PROTO, "NumContacts",num_contacts)) {
-		MessageBox(0, TranslateT("Could not write contact count to MetaContact"), TranslateT("Assignment Error"), MB_OK | MB_ICONWARNING);
-		return FALSE;
-	}
+	db_set_dw(dest, META_PROTO, "NumContacts", num_contacts);
 
 	if (set_as_default) {
 		db_set_dw(dest, META_PROTO, "Default", (WORD)(num_contacts - 1));
@@ -401,13 +372,12 @@ BOOL Meta_Assign(HANDLE src, HANDLE dest, BOOL set_as_default)
 	most_online = Meta_GetMostOnlineSupporting(dest, PFLAGNUM_4, PF4_AVATARS);
 	if (most_online == src) {
 		PROTO_AVATAR_INFORMATIONT AI;
-
 		AI.cbSize = sizeof(AI);
 		AI.hContact = dest;
 		AI.format = PA_FORMAT_UNKNOWN;
 		_tcscpy(AI.filename, _T("X"));
 
-		if ((int)CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
+		if ( CallProtoService(META_PROTO, PS_GETAVATARINFOT, 0, (LPARAM)&AI) == GAIR_SUCCESS)
 	        db_set_ts(dest, "ContactPhoto", "File",AI.filename);
 	}
 
@@ -1274,7 +1244,7 @@ int Meta_CopyContactNick(HANDLE hMeta, HANDLE hContact) {
 				return 0;
 			}
 		} else if (options.clist_contact_name == CNNT_DISPLAYNAME) {
-			TCHAR *name = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+			TCHAR *name = pcli->pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
 			if (name && _tcscmp(name, TranslateT("(Unknown Contact)")) != 0) {
 				db_set_ts(hMeta, META_PROTO, "Nick", name);
 				db_free(&dbv_proto);

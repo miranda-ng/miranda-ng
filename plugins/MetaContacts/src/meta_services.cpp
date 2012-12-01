@@ -400,17 +400,17 @@ INT_PTR MetaFilter_RecvMessage(WPARAM wParam,LPARAM lParam)
 			&& db_get_b(hMeta, META_PROTO, "WindowOpen", 0) == 0
 			&& options.flash_meta_message_icon)
 		{
-			char toolTip[256], *contactName;
+			TCHAR toolTip[256];
 
 			CLISTEVENT cle = { sizeof(cle) };
 			cle.hContact = hMeta;
+			cle.flags = CLEF_TCHAR;
 			cle.hDbEvent = ccs->hContact;	// use subcontact handle as key - then we can remove all events if the subcontact window is opened
 			cle.hIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 			cle.pszService = "MetaContacts/CListMessageEvent";
-			contactName = (char *) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hMeta, 0);
-			_snprintf(toolTip, sizeof(toolTip), Translate("Message from %s"), contactName);
-			cle.pszTooltip = toolTip;
-			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM) & cle);
+			mir_sntprintf(toolTip, SIZEOF(toolTip), TranslateT("Message from %s"), pcli->pfnGetContactDisplayName(hMeta, GCDNF_TCHAR));
+			cle.ptszTooltip = toolTip;
+			CallService(MS_CLIST_ADDEVENT, 0, (LPARAM)&cle);
 		}
 
 		if (options.metahistory) {
@@ -1026,37 +1026,45 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, Meta_ModifyMenu);
 	HookEvent(ME_CLIST_DOUBLECLICKED, Meta_ClistDoubleClicked );
 
+	InitIcons();
+
 	////////////////////////////////////////////////////////////////////////////
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL;
+	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
 
 	// main menu item
+	mi.icolibItem = GetIconHandle(I_MENUOFF);
 	mi.pszName = "Toggle MetaContacts Off";
 	mi.pszService = "MetaContacts/OnOff";
 	mi.position = 500010000;
 	hMenuOnOff = Menu_AddMainMenuItem(&mi);
 
 	// contact menu items
+	mi.icolibItem = GetIconHandle(I_CONVERT);
 	mi.position = -200010;
 	mi.pszName = "Convert to MetaContact";
 	mi.pszService = "MetaContacts/Convert";
 	hMenuConvert = Menu_AddContactMenuItem(&mi);
 
+	mi.icolibItem = GetIconHandle(I_ADD);
 	mi.position = -200009;
 	mi.pszName = "Add to existing MetaContact...";
 	mi.pszService = "MetaContacts/AddTo";
 	hMenuAdd = Menu_AddContactMenuItem(&mi);
 
+	mi.icolibItem = GetIconHandle(I_EDIT);
 	mi.position = -200010;
 	mi.pszName = "Edit MetaContact...";
 	mi.pszService = "MetaContacts/Edit";
 	hMenuEdit = Menu_AddContactMenuItem(&mi);
 
+	mi.icolibItem = GetIconHandle(I_SETDEFAULT);
 	mi.position = -200009;
 	mi.pszName = "Set as MetaContact default";
 	mi.pszService = "MetaContacts/Default";
 	hMenuDefault = Menu_AddContactMenuItem(&mi);
 
+	mi.icolibItem = GetIconHandle(I_REMOVE);
 	mi.position = -200008;
 	mi.pszName = "Delete MetaContact";
 	mi.pszService = "MetaContacts/Delete";
@@ -1066,6 +1074,7 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.pszContactOwner = META_PROTO;
 
 	mi.position = -99000;
+	mi.flags &= ~CMIF_ICONFROMICOLIB;
 	for (i = 0; i < MAX_CONTACTS; i++) {
 		mi.position--;
 		strcpy(buffer3, (char *)Translate("Context"));
@@ -1095,57 +1104,43 @@ int Meta_ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	Meta_HideLinkedContacts();
 
-	InitIcons();
-
-	if ( !Meta_IsEnabled())
-	{
+	if ( !Meta_IsEnabled()) {
 		// modify main menu item
-		mi.flags = CMIM_NAME;
+		mi.flags = CMIM_NAME | CMIM_ICON;
+		mi.icolibItem = GetIconHandle(I_MENU);
 		mi.pszName = "Toggle MetaContacts On";
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 
 		Meta_HideMetaContacts(TRUE);
-	} else {
-		Meta_SuppressStatus(options.suppress_status);
 	}
+	else Meta_SuppressStatus(options.suppress_status);
 
 	// hook srmm window close/open events - message api ver 0.0.0.1+
 	if (HookEvent(ME_MSG_WINDOWEVENT, Meta_MessageWindowEvent))
 		message_window_api_enabled = TRUE;
 
 	// hook protocol nudge events to forward to subcontacts
-	{
-		int i, numberOfProtocols,ret;
-		char str[MAXMODULELABELLENGTH + 10];
-		HANDLE hNudgeEvent = NULL;
-		PROTOACCOUNT ** ppProtocolDescriptors;
-		ret = ProtoEnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
-		if (ret == 0)
-		{
-			for (i = 0; i < numberOfProtocols ; i++)
-			{
-				if (strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
-					sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szModuleName);
-					HookEvent(str, NudgeRecieved);
-				}
-			}
+	int numberOfProtocols;
+	PROTOACCOUNT ** ppProtocolDescriptors;
+	ProtoEnumAccounts(&numberOfProtocols, &ppProtocolDescriptors);
+
+	for (int i = 0; i < numberOfProtocols ; i++)
+		if ( strcmp(ppProtocolDescriptors[i]->szModuleName, META_PROTO)) {
+			char str[MAXMODULELABELLENGTH + 10];
+			sprintf(str,"%s/Nudge",ppProtocolDescriptors[i]->szModuleName);
+			HookEvent(str, NudgeRecieved);
 		}
-	}
+
 	return 0;
 }
 
 static VOID CALLBACK sttMenuThread( PVOID param )
 {
-	HMENU hMenu;
-	TPMPARAMS tpmp;
-	BOOL menuRet;
+	HMENU hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)param, 0);
 
-	hMenu = (HMENU)CallService(MS_CLIST_MENUBUILDCONTACT, (WPARAM)param, 0);
-
-	ZeroMemory(&tpmp, sizeof(tpmp));
+	TPMPARAMS tpmp = { 0 };
 	tpmp.cbSize = sizeof(tpmp);
-
-	menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), &tpmp);
+	BOOL menuRet = TrackPopupMenuEx(hMenu, TPM_RETURNCMD, menuMousePoint.x, menuMousePoint.y, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), &tpmp);
 
 	CallService(MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM(LOWORD(menuRet), MPCF_CONTACTMENU), (LPARAM)param);
 
@@ -1410,24 +1405,20 @@ int Meta_CallMostOnline(WPARAM wParam, LPARAM lParam)
 INT_PTR Meta_OnOff(WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.flags = CMIM_NAME | CMIM_ICON;
 	// just write to db - the rest is handled in the Meta_SettingChanged function
 	if (db_get_b(0, META_PROTO, "Enabled", 1)) {
 		db_set_b(0, META_PROTO, "Enabled", 0);
 		// modify main mi item
-		mi.flags = CMIM_NAME | CMIM_ICON;
-		mi.hIcon = LoadIconEx(I_MENU);
+		mi.icolibItem = GetIconHandle(I_MENU);
 		mi.pszName = "Toggle MetaContacts On";
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 	} else {
 		db_set_b(0, META_PROTO, "Enabled", 1);
 		// modify main mi item
-		mi.flags = CMIM_NAME | CMIM_ICON;
-		mi.hIcon = LoadIconEx(I_MENUOFF);
+		mi.icolibItem = GetIconHandle(I_MENUOFF);
 		mi.pszName = "Toggle MetaContacts Off";
-		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 	}
-	ReleaseIconEx(mi.hIcon);
-
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuOnOff, (LPARAM)&mi);
 	return 0;
 }
 

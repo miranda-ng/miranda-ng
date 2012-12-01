@@ -264,8 +264,6 @@ INT_PTR Meta_Delete(WPARAM wParam,LPARAM lParam)
 	}
 	else {
 		HANDLE hMeta = (HANDLE)db_get_dw((HANDLE)wParam, META_PROTO, "Handle", 0);
-
-
 		DWORD num_contacts = db_get_dw(hMeta, META_PROTO, "NumContacts", -1);
 
 		if (num_contacts == 1) {
@@ -341,17 +339,13 @@ HANDLE hMenuContact[MAX_CONTACTS];
 int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv;
-	HANDLE hContact;
 	char buf[512], idStr[512];
-	int i, iconIndex;
 	WORD status;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_FLAGS;
 
 	if (db_get_dw((HANDLE)wParam, META_PROTO, META_ID,-1) != (DWORD)-1) {
-		int num_contacts, i;
-
 		// save the mouse pos in case they open a subcontact menu
 		GetCursorPos(&menuMousePoint);
 		
@@ -368,10 +362,10 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDelete, (LPARAM)&mi);
 
 		//show subcontact menu items
-		num_contacts = db_get_dw((HANDLE)wParam, META_PROTO, "NumContacts", 0);
-		for (i = 0; i < MAX_CONTACTS; i++) {
+		int num_contacts = db_get_dw((HANDLE)wParam, META_PROTO, "NumContacts", 0);
+		for (int i = 0; i < MAX_CONTACTS; i++) {
 			if (i < num_contacts) {
-				hContact = Meta_GetContactHandle((HANDLE)wParam, i);
+				HANDLE hContact = Meta_GetContactHandle((HANDLE)wParam, i);
 				char *szProto = GetContactProto(hContact);
 				if ( !szProto)
 					status = ID_STATUS_OFFLINE;
@@ -404,14 +398,14 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 					mi.flags = 0;
 				}
 				else {
-					mi.ptszName = (TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR);
+					mi.ptszName = pcli->pfnGetContactDisplayName(hContact, GCDNF_TCHAR);
 					mi.flags = CMIF_TCHAR;
 				}
 
 				mi.flags |= CMIM_FLAGS | CMIM_NAME | CMIM_ICON;
 
-				iconIndex = (int)CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
-				mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);;
+				int iconIndex = CallService(MS_CLIST_GETCONTACTICON, (WPARAM)hContact, 0);
+				mi.hIcon = ImageList_GetIcon((HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST, 0, 0), iconIndex, 0);
 
 				CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
 				DestroyIcon(mi.hIcon);
@@ -427,8 +421,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 		// wParam = char *szProto
 		// lParam = BOOL show
 		char serviceFunc[256];
-		hContact = Meta_GetMostOnline((HANDLE)wParam);
-		mir_snprintf(serviceFunc, 256, "%s/SendNudge", GetContactProto(hContact));
+		mir_snprintf(serviceFunc, 256, "%s/SendNudge", GetContactProto( Meta_GetMostOnline((HANDLE)wParam)));
 		CallService(MS_NUDGE_SHOWMENU, (WPARAM)META_PROTO, (LPARAM)ServiceExists(serviceFunc));
 	}
 	else { // This is a simple contact
@@ -462,7 +455,7 @@ int Meta_ModifyMenu(WPARAM wParam, LPARAM lParam)
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuDefault, (LPARAM)&mi);
 		}
 
-		for (i = 0; i < MAX_CONTACTS; i++) {
+		for (int i = 0; i < MAX_CONTACTS; i++) {
 			mi.flags = CMIM_FLAGS | CMIF_HIDDEN;
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenuContact[i], (LPARAM)&mi);
 		}
