@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 struct _tag_iconList
 {
-	TCHAR*  szDescr;
+	char*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIconLibItem;
@@ -29,34 +29,30 @@ struct _tag_iconList
 
 static iconList[] =
 {
-	{	LPGENT("Protocol icon"),	"main",			IDI_ICON		},
-	{	LPGENT("Check All Feeds"),	"checkall",		IDI_CHECKALL	},
-	{	LPGENT("Add Feed"),			"addfeed",		IDI_ADDFEED		},
-	{	LPGENT("Import Feeds"),		"importfeeds",	IDI_IMPORTFEEDS	},
-	{	LPGENT("Export Feeds"),		"exportfeeds",	IDI_EXPORTFEEDS	},
-	{	LPGENT("Check Feed"),		"checkfeed",	IDI_CHECKALL	},
+	{	LPGEN("Protocol icon"),   "main",        IDI_ICON        },
+	{	LPGEN("Check All Feeds"), "checkall",    IDI_CHECKALL    },
+	{	LPGEN("Add Feed"),        "addfeed",     IDI_ADDFEED     },
+	{	LPGEN("Import Feeds"),    "importfeeds", IDI_IMPORTFEEDS },
+	{	LPGEN("Export Feeds"),    "exportfeeds", IDI_EXPORTFEEDS },
+	{	LPGEN("Check Feed"),      "checkfeed",   IDI_CHECKALL    }
 };
 
 VOID InitIcons()
 {
-	TCHAR szFile[MAX_PATH];
 	char szSettingName[100];
-	SKINICONDESC sid = {0};
-	unsigned i;
-
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
 	sid.ptszSection = _T("News Aggregator");
 
-	for (i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, iconList[i].szName);
 
-		sid.ptszDescription = iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}	

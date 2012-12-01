@@ -75,8 +75,7 @@ void InitIcons(void)
 	char szSettingName[100];
 	char szSectionName[100];
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
 	sid.pszSection = szSectionName;

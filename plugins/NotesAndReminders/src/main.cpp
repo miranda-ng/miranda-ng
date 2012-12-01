@@ -92,52 +92,48 @@ INT_PTR PluginMenuCommandDeleteReminders(WPARAM w,LPARAM l)
 
 struct
 {
-	TCHAR* szDescr;
+	char* szDescr;
 	char* szName;
 	int   defIconID;
 }
 static const iconList[] =
 {
-	{LPGENT("New Reminder"), "AddReminder", IDI_ADDREMINDER},
-	{LPGENT("Delete All Notes"), "DeleteIcon", IDI_DELETEICON},
-	{LPGENT("New Note"), "NoteIcon", IDI_NOTEICON},
-	{LPGENT("Show/Hide Notes"), "ShowHide", IDI_SHOWHIDE},
-	{LPGENT("On Top Caption Icon"), "CaptionIcon", IDI_CAPTIONICON},
-	{LPGENT("Delete All Reminders"), "DeleteReminder", IDI_DELETEREMINDER},
-	{LPGENT("View Reminders"), "ViewReminders", IDI_VIEWREMINDERS},
-	{LPGENT("Not on Top Caption Icon"), "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP},
-	{LPGENT("Hide Note Icon"), "HideNote", IDI_HIDENOTE},
-	{LPGENT("Remove Note Icon"), "RemoveNote", IDI_REMOVENOTE},
-	{LPGENT("Reminder Icon"), "Reminder", IDI_REMINDER},
-	{LPGENT("Bring All to Front"), "BringFront", IDI_BRINGFRONT},
-	{LPGENT("Play Sound Icon"), "PlaySound", IDI_PLAYSOUND},
-	{LPGENT("View Notes"), "ViewNotes", IDI_VIEWNOTES},
-	{LPGENT("New Note"), "NewNote", IDI_NOTEICON},
-	{LPGENT("New Reminder"), "NewReminder", IDI_ADDREMINDER}
+	{ LPGEN("New Reminder"), "AddReminder", IDI_ADDREMINDER},
+	{ LPGEN("Delete All Notes"), "DeleteIcon", IDI_DELETEICON},
+	{ LPGEN("New Note"), "NoteIcon", IDI_NOTEICON},
+	{ LPGEN("Show/Hide Notes"), "ShowHide", IDI_SHOWHIDE},
+	{ LPGEN("On Top Caption Icon"), "CaptionIcon", IDI_CAPTIONICON},
+	{ LPGEN("Delete All Reminders"), "DeleteReminder", IDI_DELETEREMINDER},
+	{ LPGEN("View Reminders"), "ViewReminders", IDI_VIEWREMINDERS},
+	{ LPGEN("Not on Top Caption Icon"), "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP},
+	{ LPGEN("Hide Note Icon"), "HideNote", IDI_HIDENOTE},
+	{ LPGEN("Remove Note Icon"), "RemoveNote", IDI_REMOVENOTE},
+	{ LPGEN("Reminder Icon"), "Reminder", IDI_REMINDER},
+	{ LPGEN("Bring All to Front"), "BringFront", IDI_BRINGFRONT},
+	{ LPGEN("Play Sound Icon"), "PlaySound", IDI_PLAYSOUND},
+	{ LPGEN("View Notes"), "ViewNotes", IDI_VIEWNOTES},
+	{ LPGEN("New Note"), "NewNote", IDI_NOTEICON},
+	{ LPGEN("New Reminder"), "NewReminder", IDI_ADDREMINDER}
 };
 
 HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void InitIcons(void)
 {
-	int i;
 	char szSettingName[100];
-	SKINICONDESC sid = {0};
-	TCHAR szFile[MAX_PATH];
 
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hinstance, szFile, SIZEOF(szFile));
 
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
-	sid.ptszSection = _T(MODULENAME);
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.pszSection = MODULENAME;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for (i = 0; i < SIZEOF(iconList); i++) 
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULENAME, iconList[i].szName);
-
-		sid.ptszDescription = iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		hIconLibItem[i] = Skin_AddIcon(&sid);
 	}	

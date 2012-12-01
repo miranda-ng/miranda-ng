@@ -76,8 +76,7 @@ void RegisterButtons()
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszSection = "Toolbar/StartupStatus";
 	sid.pszName = "StartupStatus/TtbDown";

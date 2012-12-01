@@ -57,8 +57,7 @@ void gg_icolib_init()
 	char szSectionName[100];
 	mir_snprintf(szSectionName, sizeof( szSectionName ), "%s/%s", LPGEN("Protocols"), LPGEN(GGDEF_PROTO));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszSection = szSectionName;
 	sid.flags = SIDF_PATH_TCHAR;

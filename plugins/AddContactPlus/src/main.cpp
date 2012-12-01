@@ -136,10 +136,10 @@ static int CreateButton(WPARAM, LPARAM)
 
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	SKINICONDESC sid = {0};
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
-	sid.cbSize = sizeof(SKINICONDESC);
+
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = szFile;
 	sid.ptszSection = LPGENT("AddContact+");

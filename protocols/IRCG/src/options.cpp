@@ -223,8 +223,7 @@ void AddIcons(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = "Protocols/IRC";
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_PATH_TCHAR;

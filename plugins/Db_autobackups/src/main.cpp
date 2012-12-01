@@ -66,8 +66,7 @@ static void IcoLibInit(void)
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(hInst, tszFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = tszFile;
 	sid.ptszSection = _T("Database/Database Backups");
 	sid.flags = SIDF_ALL_TCHAR;

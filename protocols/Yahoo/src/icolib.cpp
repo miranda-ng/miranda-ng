@@ -43,8 +43,7 @@ void CYahooProto::IconsInit( void )
 	char szSectionName[100];
 	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("YAHOO"));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszSection = szSectionName;
 	sid.flags = SIDF_PATH_TCHAR;

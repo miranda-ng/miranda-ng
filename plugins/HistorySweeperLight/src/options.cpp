@@ -65,8 +65,7 @@ void InitIcons(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.cx = sid.cy = 16;
 	sid.pszSection = ModuleName;

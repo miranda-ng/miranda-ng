@@ -480,8 +480,7 @@ void AddIcons(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_PATH_TCHAR;
 

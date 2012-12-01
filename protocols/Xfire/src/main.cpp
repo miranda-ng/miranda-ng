@@ -1364,8 +1364,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 	char szFile[MAX_PATH];
 	GetModuleFileNameA(hinstance, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszDefaultFile = szFile;
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = LPGENT( "Protocols/XFire" );

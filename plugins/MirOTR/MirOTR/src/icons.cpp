@@ -24,8 +24,7 @@ void InitIcons() {
 
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.ptszSection = _T(MODULENAME);
 	sid.flags = SIDF_ALL_TCHAR;

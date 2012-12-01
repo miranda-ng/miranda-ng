@@ -157,8 +157,7 @@ void RegisterIcons(void)
 	char  szSection[200];
 	GetModuleFileName(g_hInst, path, MAX_PATH);
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.ptszDefaultFile = path;
 	sid.pszSection = szSection;

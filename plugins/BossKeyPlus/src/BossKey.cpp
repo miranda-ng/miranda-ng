@@ -601,8 +601,7 @@ static int IcoLibInit (void) // Icolib support
 	TCHAR tszFile[MAX_PATH];
 	GetModuleFileName(g_hInstance, tszFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszDefaultFile = tszFile;
 	sid.cx = sid.cy = 16;

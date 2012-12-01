@@ -573,8 +573,7 @@ int LoadVarModule()
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszSection = TranslateT("Variables");
 	sid.ptszDescription = TranslateT("Help");
 	sid.pszName = "vars_help";

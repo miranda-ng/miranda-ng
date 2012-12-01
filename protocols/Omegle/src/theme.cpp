@@ -48,22 +48,18 @@ void InitIcons(void)
 	char setting_name[100];
 	char section_name[100];
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.cx = sid.cy = 16;
 	sid.pszName = setting_name;
 	sid.pszSection = section_name;
-    sid.flags = SIDF_PATH_TCHAR;
+	sid.flags = SIDF_PATH_TCHAR;
 
-	for (int i=0; i<SIZEOF(icons); i++) 
-	{
-		if(icons[i].defIconID)
-		{
+	for (int i=0; i<SIZEOF(icons); i++) {
+		if(icons[i].defIconID) {
 			mir_snprintf(setting_name,sizeof(setting_name),"%s_%s","Omegle",icons[i].name);
 
-			if (icons[i].section)
-			{
+			if (icons[i].section) {
 				mir_snprintf(section_name,sizeof(section_name),"%s/%s/%s",LPGEN("Protocols"),
 					LPGEN("Omegle"), icons[i].section);
 			} else {

@@ -1052,8 +1052,7 @@ static int TSAPI SetupIconLibConfig()
 	FreeLibrary(g_hIconDLL);
 	g_hIconDLL = 0;
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFilename;
 	sid.flags = SIDF_PATH_TCHAR;
 

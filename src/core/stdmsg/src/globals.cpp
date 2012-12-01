@@ -50,8 +50,7 @@ static void InitIcons(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, SIZEOF(szFile));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
 	sid.pszSection = LPGEN("Messaging");

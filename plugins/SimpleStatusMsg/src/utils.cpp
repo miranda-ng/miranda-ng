@@ -27,13 +27,14 @@ static int HookCount = 0;
 static int ProtoHookCount = 0;
 static int ServiceCount = 0;
 
-struct tagiconList
+struct
 {
-	const TCHAR *szDescr;
-	const char	*szName;
-	int			defIconID;
+	TCHAR *szDescr;
+	char  *szName;
+	int    defIconID;
+	HANDLE hIcolib;
 }
-static const iconList[] =
+static iconList[] =
 {
 	{ LPGENT("Delete Selected"),			"cross",	IDI_CROSS		},
 	{ LPGENT("Recent Message"),				"recent",	IDI_HISTORY		},
@@ -45,26 +46,22 @@ static const iconList[] =
 	{ LPGENT("Go to URL in Away Message"),	"gotourl",	IDI_GOTOURL		}
 };
 
-HANDLE hIconLibItem[SIZEOF(iconList)];
-
 void IconsInit(void)
 {
-	SKINICONDESC sid = {0};
-	char szFile[MAX_PATH];
-	char szSettingName[100];
+	TCHAR szFile[MAX_PATH];
+	GetModuleFileName(g_hInst, szFile, SIZEOF(szFile));
 
-	GetModuleFileNameA(g_hInst, szFile, MAX_PATH);
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_TCHAR;
-	sid.pszDefaultFile = szFile;
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.ptszDefaultFile = szFile;
 	sid.ptszSection = _T("Simple Status Message");
-	for (int i = 0; i < SIZEOF(iconList); i++)
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
+		char szSettingName[100];
 		mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", iconList[i].szName);
 		sid.pszName = szSettingName;
 		sid.ptszDescription = (TCHAR*)iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
+		iconList[i].hIcolib = Skin_AddIcon(&sid);
 	}
 }
 
@@ -78,7 +75,9 @@ HICON LoadIconEx(const char* name)
 HANDLE GetIconHandle(int iconId)
 {
 	for(int i = 0; i < SIZEOF(iconList); i++)
-		if (iconList[i].defIconID == iconId) return hIconLibItem[i];
+		if (iconList[i].defIconID == iconId)
+			return iconList[i].hIcolib;
+
 	return NULL;
 }
 

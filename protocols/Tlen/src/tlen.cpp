@@ -130,13 +130,11 @@ static int TlenIconsChanged(void *ptr, WPARAM wParam, LPARAM lParam)
 
 static void TlenRegisterIcons()
 {
-	SKINICONDESC sid = { 0 };
-	TCHAR path[MAX_PATH];
-	TCHAR szSectionName[100];
+	TCHAR path[MAX_PATH], szSectionName[100];
 	mir_sntprintf(szSectionName, SIZEOF( szSectionName ), _T("%s/%s"), _T("Protocols"), _T("Tlen"));
-
 	GetModuleFileName(hInst, path, MAX_PATH);
-	sid.cbSize = sizeof(SKINICONDESC);
+
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.cx = sid.cy = 16;
 	sid.ptszSection = szSectionName;
 	sid.ptszDefaultFile = path;

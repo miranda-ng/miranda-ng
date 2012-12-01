@@ -465,8 +465,7 @@ void Chat_AddIcons(void)
 	GetModuleFileName(g_hIconDLL, szFile, SIZEOF(szFile));
 
 	// 16x16 icons
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = "TabSRMM/Group chat windows";
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_PATH_TCHAR;

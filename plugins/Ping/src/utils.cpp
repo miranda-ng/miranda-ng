@@ -304,7 +304,8 @@ HANDLE hIcoLibIconsChanged;
 
 HICON hIconResponding, hIconNotResponding, hIconTesting, hIconDisabled;
 
-int ReloadIcons(WPARAM wParam, LPARAM lParam) {
+int ReloadIcons(WPARAM wParam, LPARAM lParam)
+{
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");
 	hIconTesting = Skin_GetIcon("ping_testing");
@@ -318,48 +319,44 @@ void InitUtils()
 {
 	TCHAR file[MAX_PATH];
 	GetModuleFileName(hInst,file,MAX_PATH);
-	{
-		SKINICONDESC sid = {0};
 
-		sid.cbSize = sizeof(SKINICONDESC);
-		sid.ptszSection = LPGENT("Ping");
-		sid.flags = SIDF_PATH_TCHAR;
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.ptszSection = LPGENT("Ping");
+	sid.flags = SIDF_PATH_TCHAR;
 
-		sid.pszDescription = LPGEN("Responding");
-		sid.pszName = "ping_responding";
-		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = -IDI_ICON_RESPONDING;
-		Skin_AddIcon(&sid);
+	sid.pszDescription = LPGEN("Responding");
+	sid.pszName = "ping_responding";
+	sid.ptszDefaultFile = file;
+	sid.iDefaultIndex = -IDI_ICON_RESPONDING;
+	Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGEN("Not Responding");
-		sid.pszName = "ping_not_responding";
-		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = -IDI_ICON_NOTRESPONDING;
-		Skin_AddIcon(&sid);
+	sid.pszDescription = LPGEN("Not Responding");
+	sid.pszName = "ping_not_responding";
+	sid.ptszDefaultFile = file;
+	sid.iDefaultIndex = -IDI_ICON_NOTRESPONDING;
+	Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGEN("Testing");
-		sid.pszName = "ping_testing";
-		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = -IDI_ICON_TESTING;
-		Skin_AddIcon(&sid);
+	sid.pszDescription = LPGEN("Testing");
+	sid.pszName = "ping_testing";
+	sid.ptszDefaultFile = file;
+	sid.iDefaultIndex = -IDI_ICON_TESTING;
+	Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGEN("Disabled");
-		sid.pszName = "ping_disabled";
-		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = -IDI_ICON_DISABLED;
-		Skin_AddIcon(&sid);
+	sid.pszDescription = LPGEN("Disabled");
+	sid.pszName = "ping_disabled";
+	sid.ptszDefaultFile = file;
+	sid.iDefaultIndex = -IDI_ICON_DISABLED;
+	Skin_AddIcon(&sid);
 
-		hIconResponding = Skin_GetIcon("ping_responding");
-		hIconNotResponding = Skin_GetIcon("ping_not_responding");
-		hIconTesting = Skin_GetIcon("ping_testing");
-		hIconDisabled = Skin_GetIcon("ping_disabled");
+	hIconResponding = Skin_GetIcon("ping_responding");
+	hIconNotResponding = Skin_GetIcon("ping_not_responding");
+	hIconTesting = Skin_GetIcon("ping_testing");
+	hIconDisabled = Skin_GetIcon("ping_disabled");
 
-		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
-	}
+	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 
-	if(ServiceExists(MS_POPUP_REGISTERCLASS)) {
-		POPUPCLASS test = {0};
-		test.cbSize = sizeof(test);
+	if (ServiceExists(MS_POPUP_REGISTERCLASS)) {
+		POPUPCLASS test = { sizeof(test) };
 		test.flags = PCF_TCHAR;
 		test.hIcon = hIconResponding;
 		test.iSeconds = -1;

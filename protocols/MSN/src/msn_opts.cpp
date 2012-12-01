@@ -60,8 +60,7 @@ void MsnInitIcons(void)
 	char szSectionName[100];
 	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("MSN"));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszSection = szSectionName;
 	sid.flags = SIDF_PATH_TCHAR;

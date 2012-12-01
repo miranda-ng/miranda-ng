@@ -196,11 +196,10 @@ void CJabberProto::IconsInit(void)
 	for (i = 0; i < SIZEOF(TransportProtoTable); ++i)
 		m_transportProtoTableStartIndex[i] = -1;
 
-	SKINICONDESC sid = {0};
 	char szFile[MAX_PATH];
 	GetModuleFileNameA(hInst, szFile, MAX_PATH);
 
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszDefaultFile = szFile;
 	sid.flags = SIDF_TCHAR;
 
@@ -612,8 +611,7 @@ static void sttProcessIcons(int iAmount)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_PATH_TCHAR;
 

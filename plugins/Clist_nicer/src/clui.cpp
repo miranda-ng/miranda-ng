@@ -300,8 +300,7 @@ static void InitIcoLib()
 	int i, version = 0;
 	char szBuffer[128];
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = LPGEN("CList - Nicer/Default");
 	sid.ptszDefaultFile = szFilename;
