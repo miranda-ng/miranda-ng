@@ -366,19 +366,16 @@ void RegisterToDbeditorpp(void)
 void LoadIcons(void)
 {
 	//Load icons
-	SKINICONDESC sid = {0};
 	TCHAR szFilename[MAX_PATH];
 	GetModuleFileName(hInst,szFilename,MAX_PATH);
 
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = LPGENT("Nudge");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszSection = LPGEN("Nudge");
 	sid.ptszDefaultFile = szFilename;
-
 	sid.pszName = "Nudge_Default";
-	sid.ptszDescription = LPGENT("Nudge as Default");
+	sid.pszDescription = LPGEN("Nudge as Default");
 	sid.iDefaultIndex = -IDI_NUDGE;
-	sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
 	g_hIcon = Skin_AddIcon(&sid);
 }
 
@@ -750,15 +747,13 @@ void Nudge_AddAccount(PROTOACCOUNT *proto)
 	GetModuleFileName(hInst,szFilename,MAX_PATH);
 	mir_sntprintf(iconDesc, SIZEOF(iconDesc), TranslateT("Nudge for %s"), proto->tszAccountName);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("Nudge");
 	sid.ptszDefaultFile = szFilename;
 	sid.pszName = iconName;
 	sid.ptszDescription = iconDesc;
 	sid.iDefaultIndex = -IDI_NUDGE;
-	sid.hDefaultIcon =  LoadIcon(hInst,MAKEINTRESOURCE(IDI_NUDGE));
 	newNudge->item.hIcoLibItem = Skin_AddIcon(&sid);
 
 	//Add contact menu entry

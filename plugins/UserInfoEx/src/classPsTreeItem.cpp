@@ -361,12 +361,8 @@ INT CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BOOLEAN bInitIcon
 	LPCSTR pszIconName = IconKey();
 
 	// use icolib to handle icons
-	if (!(hIcon = IcoLib_GetIcon(pszIconName))) 
-	{
-		SKINICONDESC sid;
-
-		ZeroMemory(&sid, sizeof(sid));
-		sid.cbSize = sizeof(sid);
+	if (!(hIcon = IcoLib_GetIcon(pszIconName))) {
+		SKINICONDESC sid = { sizeof(sid) };
 		sid.flags = SIDF_ALL_TCHAR;
 		sid.cx = GetSystemMetrics(SM_CXSMICON);
 		sid.cy = GetSystemMetrics(SM_CYSMICON);
@@ -402,7 +398,8 @@ INT CPsTreeItem::Icon(HIMAGELIST hIml, OPTIONSDIALOGPAGE *odp, BOOLEAN bInitIcon
 		else {
 			sid.iDefaultIndex = -1;
 			sid.hDefaultIcon = ProtoIcon();
-			if (!sid.hDefaultIcon) sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL);
+			if (!sid.hDefaultIcon)
+				sid.hDefaultIcon = ImageList_GetIcon(hIml, 0, ILD_NORMAL);
 		}
 		// add file to icolib
 		Skin_AddIcon(&sid);

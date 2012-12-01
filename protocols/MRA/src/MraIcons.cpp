@@ -38,7 +38,7 @@ GUI_DISPLAY_ITEM gdiContactMenuItems[] =
 
 GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[] =
 {
-   { ADV_ICON_DELETED_ID,        ADV_ICON_DELETED_STR,      	(INT_PTR)IDI_ERROR, NULL },
+   { ADV_ICON_DELETED_ID,        ADV_ICON_DELETED_STR,      	IDI_DELETED,        NULL },
    { ADV_ICON_NOT_ON_SERVER_ID,  ADV_ICON_NOT_ON_SERVER_STR, 	IDI_AUTHGRANT,      NULL },
    { ADV_ICON_NOT_AUTHORIZED_ID, ADV_ICON_NOT_AUTHORIZED_STR, 	IDI_AUTHRUGUEST,    NULL },
    { ADV_ICON_PHONE_ID,          ADV_ICON_PHONE_STR,           IDI_MRA_PHONE,      NULL },
@@ -47,30 +47,28 @@ GUI_DISPLAY_ITEM gdiExtraStatusIconsItems[] =
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-static void AddIcoLibItems(LPWSTR lpwszSubSectionName, GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount)
+static void AddIcoLibItems(LPWSTR lptszSubSectionName, GUI_DISPLAY_ITEM *pgdiItems, size_t dwCount)
 {
-	char szBuff[MAX_PATH];
-	WCHAR wszSection[MAX_PATH], wszPath[MAX_FILEPATH];
+	TCHAR tszSection[MAX_PATH], tszPath[MAX_FILEPATH];
+	GetModuleFileName(masMraSettings.hInstance, tszPath, SIZEOF(tszPath));
+	mir_sntprintf(tszSection, SIZEOF(tszSection), L"Protocols/MRA/%s", lptszSubSectionName);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.pwszSection = wszSection;
-	sid.pwszDefaultFile = wszPath;
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.ptszSection = tszSection;
+	sid.ptszDefaultFile = tszPath;
 	sid.cx = sid.cy = 16;
 	sid.flags = SIDF_ALL_UNICODE;
 
-	if (lpwszSubSectionName == NULL) lpwszSubSectionName = L"";
-	GetModuleFileName(masMraSettings.hInstance, wszPath, SIZEOF(wszPath));
-	mir_sntprintf(wszSection, SIZEOF(wszSection), L"Protocols/MRA/%s", lpwszSubSectionName);
+	if (lptszSubSectionName == NULL)
+		lptszSubSectionName = _T("");
 
 	for (size_t i = 0;i<dwCount;i++) {
+		char szBuff[MAX_PATH];
 		mir_snprintf(szBuff, SIZEOF(szBuff), "MRA_%s", pgdiItems[i].lpszName);
+
 		sid.pszName = szBuff;
 		sid.pwszDescription = pgdiItems[i].lpwszDescr;
 		sid.iDefaultIndex = -pgdiItems[i].defIcon;
-		sid.hDefaultIcon = (HICON)LoadImage(masMraSettings.hInstance, MAKEINTRESOURCE(pgdiItems[i].defIcon), IMAGE_ICON, 0, 0, LR_SHARED);
-		if (sid.hDefaultIcon == NULL)
-			sid.hDefaultIcon = (HICON)LoadImage(NULL, MAKEINTRESOURCE(pgdiItems[i].defIcon), IMAGE_ICON, 0, 0, LR_SHARED);
 		pgdiItems[i].hIconHandle = Skin_AddIcon(&sid);
 	}
 }
@@ -125,10 +123,6 @@ void InitXStatusIcons()
 		int iCurIndex = i+IDI_XSTATUS1-1;
 		sid.pwszDescription = lpcszXStatusNameDef[i];
 		sid.iDefaultIndex = -iCurIndex;
-		if (masMraSettings.hDLLXStatusIcons)
-			sid.hDefaultIcon = (HICON)LoadImage(masMraSettings.hDLLXStatusIcons, MAKEINTRESOURCE(iCurIndex), IMAGE_ICON, 0, 0, LR_SHARED);
-		else
-			sid.hDefaultIcon = NULL;
 
 		hXStatusAdvancedStatusIcons[i] = Skin_AddIcon(&sid);
 	}

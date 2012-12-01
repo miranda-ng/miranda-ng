@@ -23,153 +23,151 @@ ListData* ButtonsList[100];
 
 SortedList* QuickList=NULL;
 
-
 typedef void (*ItemDestuctor)(void*);
 
-
 int  sstSortButtons(const void * vmtbi1, const void * vmtbi2)
-	{
+{
 	ButtonData * mtbi1=(ButtonData *)*((ButtonData ** )vmtbi1);
 	ButtonData * mtbi2=(ButtonData *)*((ButtonData ** )vmtbi2);
 	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
 	return mtbi1->dwPos-mtbi2->dwPos;
-	}
+}
 
 int  sstQuickSortButtons(const void * vmtbi1, const void * vmtbi2)
-	{
+{
 	QuickData * mtbi1=(QuickData *)*((QuickData ** )vmtbi1);
 	QuickData * mtbi2=(QuickData *)*((QuickData ** )vmtbi2);
 	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
 	return mtbi1->dwPos-mtbi2->dwPos;
-	}
+}
 
 
 int  sstOpSortButtons(const void * vmtbi1, const void * vmtbi2)
-	{
+{
 	ButtonData * mtbi1=(ButtonData *)*((ButtonData ** )vmtbi1);
 	ButtonData * mtbi2=(ButtonData *)*((ButtonData ** )vmtbi2);
 	if (mtbi1==NULL || mtbi2==NULL) return (mtbi1-mtbi2);
 	return mtbi1->dwOPPos-mtbi2->dwOPPos;
-	}
+}
 
 
 void li_ListDestruct(SortedList *pList, ItemDestuctor pItemDestructor)
-	{																			
+{																			
 	int i=0;
 	if (!pList) return;
 	for (i=0; i<pList->realCount; i++)	pItemDestructor(pList->items[i]);	
 	List_Destroy(pList);																											
 	mir_free(pList);
-	}
+}
 
 void li_RemoveDestruct(SortedList *pList, int index, ItemDestuctor pItemDestructor)
-	{																																
+{																																
 	if (index>=0 && index<pList->realCount)	
-		{
+	{
 		pItemDestructor(pList->items[index]);
 		List_Remove(pList, index);
-		}
 	}
+}
 
 void li_RemovePtrDestruct(SortedList *pList, void * ptr, ItemDestuctor pItemDestructor)
-	{																																
+{																																
 	if (List_RemovePtr(pList, ptr))
 		pItemDestructor(ptr);
-	}
+}
 
 void li_SortList(SortedList *pList, FSortFunc pSortFunct)
-	{
+{
 	FSortFunc pOldSort=pList->sortFunc;
 	int i;
 	if (!pSortFunct) pSortFunct=pOldSort;
 	pList->sortFunc=NULL;
 	for (i=0; i<pList->realCount-1; i++)
 		if (pOldSort(pList->items[i],pList->items[i+1])<0)
-			{
+		{
 			void * temp=pList->items[i];
 			pList->items[i]=pList->items[i+1];
 			pList->items[i+1]=temp;
 			i--;
 			if (i>0) i--;
-			}
+		}
 		pList->sortFunc=pOldSort;
-	}
+}
 
 void li_ZeroQuickList(SortedList *pList)
-	{
+{
 	int i;
 	for (i=0; i<pList->realCount; i++)
-		{
-			QuickData * qd=(QuickData *)pList->items[i];
-			qd->dwPos=0;
-			qd->bIsService=0;
-			qd->ptszValue=NULL;
-			qd->ptszValueName=NULL;
-			List_Remove(pList, i);
-			i--;
-		}
+	{
+		QuickData * qd=(QuickData *)pList->items[i];
+		qd->dwPos=0;
+		qd->bIsService=0;
+		qd->ptszValue=NULL;
+		qd->ptszValueName=NULL;
+		List_Remove(pList, i);
+		i--;
 	}
+}
 
 static void listdestructor(void * input)
-	{
+{
 	ButtonData * cbdi=(ButtonData *)input;
-	
+
 	if(cbdi->pszName!=cbdi->pszOpName)
-		{
+	{
 		if(cbdi->pszOpName)
 			mir_free(cbdi->pszOpName);
 		if(cbdi->pszName)
 			mir_free(cbdi->pszName);
-		}
+	}
 	else if(cbdi->pszName)
-			mir_free(cbdi->pszName);
+		mir_free(cbdi->pszName);
 
 	if(cbdi->pszValue!=cbdi->pszOpValue)
-		{
+	{
 		if(cbdi->pszOpValue)
 			mir_free(cbdi->pszOpValue);
 		if(cbdi->pszValue)
 			mir_free(cbdi->pszValue);
-		}
+	}
 	else if(cbdi->pszValue)
-			mir_free(cbdi->pszValue);
+		mir_free(cbdi->pszValue);
 
 	mir_free(cbdi);
-	}
+}
 
 void RemoveMenuEntryNode(SortedList *pList, int index)
-	{
-		li_RemoveDestruct(pList,index,listdestructor);
-	}
+{
+	li_RemoveDestruct(pList,index,listdestructor);
+}
 
 void DestroyButton(int listnum)
-	{
+{
 	int i=listnum;
 	ListData* ld=ButtonsList[listnum];
-	
+
 	if(ld->ptszButtonName) mir_free(ld->ptszButtonName);
 
 	if(ld->ptszOPQValue!=ld->ptszQValue)
 		if(ld->ptszOPQValue) mir_free(ld->ptszOPQValue);
-	
+
 	if (ld->ptszQValue) mir_free(ld->ptszQValue);
 
 	li_ListDestruct((SortedList*)ld->sl,listdestructor);
-	
+
 
 	mir_free(ld);
 	ButtonsList[i]=NULL;
 	while(ButtonsList[i+1])
 	{
-	ButtonsList[i]=ButtonsList[i+1];
-	ButtonsList[i+1]=NULL;
-	i++;
+		ButtonsList[i]=ButtonsList[i+1];
+		ButtonsList[i+1]=NULL;
+		i++;
 	}
 }
 
 
 void SaveModuleSettings(int buttonnum,ButtonData* bd)
-	{
+{
 	char szMEntry[256]={'\0'};
 
 	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,bd->dwPos);
@@ -189,10 +187,10 @@ void SaveModuleSettings(int buttonnum,ButtonData* bd)
 
 	mir_snprintf(szMEntry,255,"EntryIsServiceName_%u_%u",buttonnum,bd->dwPos);
 	DBWriteContactSettingByte(NULL, PLGNAME,szMEntry,bd->bIsServName);
-	}
+}
 
 void CleanSettings(int buttonnum,int from)
-	{
+{
 	char szMEntry[256]={'\0'};
 	DBVARIANT dbv = {0};
 	if(from==-1){
@@ -202,7 +200,7 @@ void CleanSettings(int buttonnum,int from)
 		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
 		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
 		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
-		}
+	}
 
 	mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,from);
 	while(!DBGetContactSettingTString(NULL, PLGNAME,szMEntry,&dbv)) {
@@ -217,12 +215,12 @@ void CleanSettings(int buttonnum,int from)
 		DBDeleteContactSetting(NULL, PLGNAME,szMEntry);
 
 		mir_snprintf(szMEntry,255,"EntryName_%u_%u",buttonnum,++from);
-		}
-	DBFreeVariant(&dbv);
 	}
+	DBFreeVariant(&dbv);
+}
 
 BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode) 
-	{	  
+{	  
 	char szMEntry[256]={'\0'};
 	if		(mode==0)
 		mir_snprintf(szMEntry,255,"EntryToQMenu_%u_%u",buttonnum,entrynum);
@@ -233,52 +231,64 @@ BYTE getEntryByte(int buttonnum,int entrynum,BOOL mode)
 	else if (mode==3)
 		mir_snprintf(szMEntry,255,"RCEntryIsServiceName_%u",buttonnum);
 	return DBGetContactSettingByte(NULL, PLGNAME,szMEntry, 0); 
-	}
+}
 
-DWORD BalanceButtons(int buttonsWas,int buttonsNow)
-	{
-	if  (ServiceExists(MS_BB_ADDBUTTON))
-		{
-		BBButton bb={0};
-		bb.cbSize=sizeof(BBButton);
-		bb.pszModuleName=PLGNAME;
+static HANDLE AddIcon(char* szIcoName)
+{
+	TCHAR tszPath[MAX_PATH];
+	GetModuleFileName(hinstance, tszPath, SIZEOF(tszPath));
 
-		while(buttonsWas>(buttonsNow))
-			{
-			bb.dwButtonID=--buttonsWas;
-			CallService(MS_BB_REMOVEBUTTON,0,(LPARAM)&bb);
-			}	
-		while (buttonsWas<(buttonsNow))
-			{
-			if  (ServiceExists(MS_BB_ADDBUTTON))
-				{
-				char iconname[20]={'\0'};
-				mir_snprintf(iconname,SIZEOF(iconname),"QMessagesButton_%u",buttonsWas);
-				bb.bbbFlags=BBBF_ISIMBUTTON|BBBF_ISCHATBUTTON|BBBF_ISLSIDEBUTTON;
-				bb.dwButtonID=buttonsWas++;
-				bb.dwDefPos=300+buttonsWas;
-				bb.hIcon = (HANDLE)AddIcon(hIcon, iconname, iconname);
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszSection = "Quick Messages";
+	sid.cx = sid.cy = 16;
+	sid.pszDescription = szIcoName;
+	sid.pszName = szIcoName;
+	sid.ptszDefaultFile = tszPath;
+	sid.iDefaultIndex = -IDI_QICON;
+	return Skin_AddIcon(&sid);
+}
+
+DWORD BalanceButtons(int buttonsWas, int buttonsNow)
+{
+	if ( !ServiceExists(MS_BB_ADDBUTTON)) {
+		BBButton bb = { sizeof(bb) };
+		bb.pszModuleName = PLGNAME;
+
+		while (buttonsWas > buttonsNow) {
+			bb.dwButtonID = --buttonsWas;
+			CallService(MS_BB_REMOVEBUTTON, 0, (LPARAM)&bb);
+		}	
+		
+		while (buttonsWas < buttonsNow) {
+			if  (ServiceExists(MS_BB_ADDBUTTON)) {
+				char iconname[20];
+				mir_snprintf(iconname, SIZEOF(iconname), "QMessagesButton_%u", buttonsWas);
+				bb.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
+				bb.dwButtonID = buttonsWas++;
+				bb.dwDefPos = 300+buttonsWas;
+				bb.hIcon = AddIcon(iconname);
 				CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bb);
-				}
 			}
 		}
-	return buttonsNow;
 	}
+	return buttonsNow;
+}
 
 
 void InitButtonsList()
-	{  
+{  
 	int i,j,k=0;
 	QuickList=List_Create(0,1);
 	for(i=0;i<g_iButtonsCount;i++)
-		{
+	{
 		TCHAR* pszBName=NULL;
 		ListData* ld=NULL;
 		if (!(pszBName=getMenuEntry(i,0,3))) { 
 			g_iButtonsCount=i;
 			DBWriteContactSettingByte(NULL, PLGNAME,"ButtonsCount", (BYTE)g_iButtonsCount);
 			break;}
-			
+
 		ld = (ListData *)mir_alloc(sizeof(ListData));
 		ButtonsList[i]=ld;
 		ld->sl=List_Create(0,1);
@@ -288,10 +298,10 @@ void InitButtonsList()
 		ld->dwOPFlags=0;
 		ld->bIsServName=ld->bIsOpServName=getEntryByte(i,0,3);
 		for(j=0;;j++)
-			{	
+		{	
 			TCHAR* pszEntry=NULL;
 			ButtonData *bd=NULL;
-			
+
 			if (!(pszEntry=getMenuEntry(i,j,0)))
 				break;
 
@@ -310,35 +320,34 @@ void InitButtonsList()
 				qd->ptszValue=bd->pszValue;
 				qd->ptszValueName=bd->pszName;
 				List_InsertPtr(QuickList,qd);
-				}
-			List_InsertPtr((SortedList*)ld->sl,bd);
 			}
+			List_InsertPtr((SortedList*)ld->sl,bd);
 		}
-
 	}
+}
 
 void DestructButtonsList()
 {
 	int i=0;
-//	for ( i=0; i < g_iButtonsCount; i++ )
-while(ButtonsList[i])
-		{
+	//	for ( i=0; i < g_iButtonsCount; i++ )
+	while(ButtonsList[i])
+	{
 		li_ListDestruct(ButtonsList[i]->sl,listdestructor);
 		mir_free(ButtonsList[i]->ptszButtonName);
 		if(ButtonsList[i]->ptszOPQValue!=ButtonsList[i]->ptszQValue)
 			if (ButtonsList[i]->ptszOPQValue) mir_free(ButtonsList[i]->ptszOPQValue);
 		if (ButtonsList[i]->ptszQValue) mir_free(ButtonsList[i]->ptszQValue);
-	i++;	
+		i++;	
 	}
-if(QuickList)
+	if(QuickList)
 	{
-	li_ZeroQuickList(QuickList);
-	List_Destroy(QuickList);
+		li_ZeroQuickList(QuickList);
+		List_Destroy(QuickList);
 	}
 }
 
 TCHAR* getMenuEntry(int buttonnum,int entrynum,BYTE mode) 
-	{	  
+{	  
 	TCHAR* buffer=NULL;
 	char szMEntry[256]={'\0'};
 	DBVARIANT dbv = {0};
@@ -356,74 +365,56 @@ TCHAR* getMenuEntry(int buttonnum,int entrynum,BYTE mode)
 	DBGetContactSettingTString(NULL, PLGNAME,szMEntry, &dbv);
 
 	if(dbv.ptszVal&&_tcslen(dbv.ptszVal))
-		{
+	{
 		buffer=mir_tstrdup(dbv.ptszVal);
 		DBFreeVariant(&dbv);
-		}
-
-	return buffer; 
 	}
 
-
-int AddIcon(HICON icon, char *name, char *description)
-{
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.pszSection = "Quick Messages";
-	sid.cx = sid.cy = 16;
-	sid.pszDescription = description;
-	sid.pszName = name;
-	sid.hDefaultIcon = icon;
-
-	return (int)Skin_AddIcon(&sid);
+	return buffer; 
 }
 
 int RegisterCustomButton(WPARAM wParam,LPARAM lParam)
-	{
-	if  (ServiceExists(MS_BB_ADDBUTTON))
-		{
-		int i;
-		for(i=0;i<g_iButtonsCount;i++)
-			{
-			BBButton bbd={0};
-			ListData* ld=ButtonsList[i];
-			char iconname[20]={'\0'};
-			mir_snprintf(iconname,SIZEOF(iconname),"QMessagesButton_%u",i);
+{
+	if ( !ServiceExists(MS_BB_ADDBUTTON))
+		return 1;
 
-			bbd.cbSize=sizeof(BBButton);
-			bbd.bbbFlags=BBBF_ISIMBUTTON|BBBF_ISCHATBUTTON|BBBF_ISLSIDEBUTTON;
-			bbd.dwButtonID=i;
-			bbd.dwDefPos=320+i;
-			bbd.hIcon=(HANDLE)AddIcon(hIcon, iconname, iconname);
-			bbd.pszModuleName=PLGNAME;
-			bbd.ptszTooltip=ld->ptszButtonName;
-			CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
-			}
-		return 0;
-		}
-	return 1;
+	for (int i=0; i < g_iButtonsCount; i++) {
+		ListData* ld = ButtonsList[i];
+
+		char iconname[20];
+		mir_snprintf(iconname, SIZEOF(iconname), "QMessagesButton_%u", i);
+
+		BBButton bbd = { sizeof(bbd) };
+		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
+		bbd.dwButtonID = i;
+		bbd.dwDefPos = 320+i;
+		bbd.hIcon = AddIcon(iconname);
+		bbd.pszModuleName = PLGNAME;
+		bbd.ptszTooltip = ld->ptszButtonName;
+		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 	}
+	return 0;
+}
 
 TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptszClip,int QVSize,int TextSize ,int ClipSize)
-	{
+{
 	int i=0,iOffset=0,iCount=0;
 	TCHAR* tempPointer=NULL;
 	TCHAR* ptszQValue=_tcsdup(ptszQValIn);
 	TCHAR* tempQValue=ptszQValue;
 	TCHAR varstr=_T('%');
- 
- 	if(TextSize&&ptszText[TextSize-1]=='\0') TextSize--;
- 	if(ClipSize&&ptszClip[ClipSize-1]=='\0') ClipSize--;
+
+	if(TextSize&&ptszText[TextSize-1]=='\0') TextSize--;
+	if(ClipSize&&ptszClip[ClipSize-1]=='\0') ClipSize--;
 
 	if (!_tcschr(ptszQValue,varstr))
 		return ptszQValue;
 
-	while(ptszQValue[i])
-		{
+	while(ptszQValue[i]) {
 		if(ptszQValue[i]=='%') {
-			switch(ptszQValue[i+1])
+			switch(ptszQValue[i+1]) {
+			case 't':
 				{
-				case 't':{
 					TCHAR* p=NULL;
 					p = (TCHAR *)realloc(tempQValue, (QVSize + TextSize+1)*sizeof(TCHAR));
 					if(p){
@@ -432,23 +423,24 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						tempQValue=ptszQValue=p;
 
 						tempPointer = (TCHAR *)memmove(ptszQValue + i + TextSize, ptszQValue + i + 2, (QVSize - i - 1)*sizeof(TCHAR));
-						
+
 						if(TextSize) memcpy(ptszQValue+i, ptszText, TextSize*sizeof(TCHAR));
-						
- 						QVSize+=(TextSize-2);
- 
- 						ptszQValue[QVSize]='\0';
- 
+
+						QVSize+=(TextSize-2);
+
+						ptszQValue[QVSize]='\0';
+
 						if (!_tcschr(ptszQValue,varstr))
 							return ptszQValue;
 
 						ptszQValue=tempPointer;
 						iOffset+=TextSize-1;
 						i=-1;
-						}
+					}
 				}break;
 
-				case 'c':{
+			case 'c':
+				{
 					TCHAR* p=NULL;
 					p = (TCHAR *)realloc(tempQValue, (QVSize + ClipSize + 1)*sizeof(TCHAR));
 					if(p){
@@ -460,17 +452,18 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						QVSize+=(ClipSize-2);
 
 						ptszQValue[QVSize]='\0';
-						
+
 						if (!_tcschr(ptszQValue,varstr))
 							return ptszQValue;
 
 						ptszQValue=tempPointer;
 						iOffset+=ClipSize-1;
 						i=-1;
-						}
+					}
 				}break;
 
-				case 'P':{
+			case 'P':
+				{
 					TCHAR* p=NULL;
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
@@ -497,10 +490,11 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						ptszQValue=tempPointer;
 						iOffset+=NameLenght-1;
 						i=-1;
-						}
-					}break;
+					}
+				}break;
 
-				case 'n':{
+			case 'n':
+				{
 					TCHAR* p=NULL;
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
@@ -526,9 +520,10 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						ptszQValue=tempPointer;
 						iOffset+=NameLenght-1;
 						i=-1;
-						}
-					}break;
-				case 'F':{
+					}
+				}break;
+			case 'F':
+				{
 					TCHAR* p=NULL;
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
@@ -543,7 +538,7 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
-						}
+					}
 					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
@@ -563,9 +558,10 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						ptszQValue=tempPointer;
 						iOffset+=NameLenght-1;
 						i=-1;
-						}
-					}break;
-				case 'L':{
+					}
+				}break;
+			case 'L':
+				{
 					TCHAR* p=NULL;
 					int NameLenght=0;
 					TCHAR* ptszName=NULL;
@@ -580,7 +576,7 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 					if (!CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci)&&ci.pszVal){
 						NameLenght=(int)_tcslen(ci.pszVal);
 						ptszName=ci.pszVal;
-						}
+					}
 					p = (TCHAR *)realloc(tempQValue, (QVSize + NameLenght + 1)*sizeof(TCHAR));
 					if(p){
 						i=iOffset;
@@ -598,12 +594,12 @@ TCHAR* ParseString(HANDLE hContact,TCHAR* ptszQValIn,TCHAR* ptszText,TCHAR* ptsz
 						ptszQValue=tempPointer;
 						iOffset+=NameLenght-1;
 						i=-1;
-						}
-					}break;
-				}
+					}
+				}break;
 			}
+		}
 		iOffset++;
 		i++;
-		}
-	return ptszQValue;
 	}
+	return ptszQValue;
+}

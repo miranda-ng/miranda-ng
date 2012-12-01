@@ -380,19 +380,14 @@ HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, 
  **/
 VOID IcoLib_LoadModule()
 {
-	LPTSTR	szDefaultFile;
-	INT_PTR i;
-
-	// search for default icon file
-	szDefaultFile = IcoLib_GetDefaultIconFileName();
-	
+	LPTSTR szDefaultFile = IcoLib_GetDefaultIconFileName();
 	IcoLib_CheckIconPackVersion(szDefaultFile);
 
 	// load default icon if required
 	ghDefIcon = (HICON)LoadImage(ghInst, MAKEINTRESOURCE(IDI_DEFAULT), IMAGE_ICON, 
 							 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
-	for (i = 0; i < SIZEOF(icoDesc); i++) {	
+	for (int i = 0; i < SIZEOF(icoDesc); i++) {	
 		IcoLib_RegisterIconHandleEx(
 			icoDesc[i].pszName, icoDesc[i].pszDesc, icoDesc[i].pszSection, 
 			szDefaultFile, icoDesc[i].idResource, icoDesc[i].size, ghDefIcon);

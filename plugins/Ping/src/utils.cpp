@@ -314,7 +314,8 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-void InitUtils() {
+void InitUtils()
+{
 	TCHAR file[MAX_PATH];
 	GetModuleFileName(hInst,file,MAX_PATH);
 	{
@@ -322,40 +323,36 @@ void InitUtils() {
 
 		sid.cbSize = sizeof(SKINICONDESC);
 		sid.ptszSection = LPGENT("Ping");
-		sid.flags = SIDF_ALL_TCHAR;
+		sid.flags = SIDF_PATH_TCHAR;
 
-		sid.pszDescription = LPGENT("Responding");
+		sid.pszDescription = LPGEN("Responding");
 		sid.pszName = "ping_responding";
 		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = 0;
-		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON_RESPONDING), IMAGE_ICON, 16, 16, 0);
+		sid.iDefaultIndex = -IDI_ICON_RESPONDING;
 		Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGENT("Not Responding");
+		sid.pszDescription = LPGEN("Not Responding");
 		sid.pszName = "ping_not_responding";
 		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = 1;
-		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON_NOTRESPONDING), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
+		sid.iDefaultIndex = -IDI_ICON_NOTRESPONDING;
 		Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGENT("Testing");
+		sid.pszDescription = LPGEN("Testing");
 		sid.pszName = "ping_testing";
 		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = 2;
-		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON_TESTING), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
+		sid.iDefaultIndex = -IDI_ICON_TESTING;
 		Skin_AddIcon(&sid);
 
-		sid.pszDescription = LPGENT("Disabled");
+		sid.pszDescription = LPGEN("Disabled");
 		sid.pszName = "ping_disabled";
 		sid.ptszDefaultFile = file;
-		sid.iDefaultIndex = 3;
-		sid.hDefaultIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_ICON_DISABLED), IMAGE_ICON, 16, 16, 0);//LR_LOADTRANSPARENT | LR_LOADMAP3DCOLORS );
+		sid.iDefaultIndex = -IDI_ICON_DISABLED;
 		Skin_AddIcon(&sid);
 
-		hIconResponding = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ping_responding");
-		hIconNotResponding = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ping_not_responding");
-		hIconTesting = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ping_testing");
-		hIconDisabled = (HICON)CallService(MS_SKIN2_GETICON, 0, (LPARAM)"ping_disabled");
+		hIconResponding = Skin_GetIcon("ping_responding");
+		hIconNotResponding = Skin_GetIcon("ping_not_responding");
+		hIconTesting = Skin_GetIcon("ping_testing");
+		hIconDisabled = Skin_GetIcon("ping_disabled");
 
 		hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 	}

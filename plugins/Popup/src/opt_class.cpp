@@ -376,17 +376,17 @@ INT_PTR CALLBACK DlgProcOptsClasses(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 								//we work with a copy for preview
 								ptdPrev = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
 								memcpy(ptdPrev, ptd, sizeof(POPUPTREEDATA));
-								ptdPrev->enabled				= ptd->enabled;
-								ptdPrev->timeoutValue			= ptd->timeoutValue;
-								strcpy(ptdPrev->leftAction		, ptd->leftAction);		//geht noch nicht??
-								strcpy(ptdPrev->rightAction		, ptd->rightAction);	//geht noch nicht??
-								ptdPrev->disableWhen			= ptd->disableWhen;
+								ptdPrev->enabled = ptd->enabled;
+								ptdPrev->timeoutValue = ptd->timeoutValue;
+								strcpy(ptdPrev->leftAction, ptd->leftAction);		//geht noch nicht??
+								strcpy(ptdPrev->rightAction, ptd->rightAction);	//geht noch nicht??
+								ptdPrev->disableWhen = ptd->disableWhen;
 
 								ppd.lchNotification = (HANDLE)ptdPrev;
 							}
-							else if(ptd->typ == 2) {
-								ppd.lchIcon			= ptd->pupClass.hIcon;
-							}
+							else if(ptd->typ == 2)
+								ppd.lchIcon = ptd->pupClass.hIcon;
+
 							CallService(MS_POPUP_ADDPOPUP2, (WPARAM)&ppd, APF_NO_HISTORY);
 							mir_free(ptdPrev); ptdPrev = NULL;
 						}

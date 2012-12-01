@@ -81,7 +81,7 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 		GetTempPath(sizeof(temp),temp);
 		GetLongPathName(temp,TEMP,sizeof(TEMP));
 		TEMP_SIZE = (int)strlen(TEMP);
-		if(TEMP[TEMP_SIZE-1]=='\\') {
+		if (TEMP[TEMP_SIZE-1]=='\\') {
 			TEMP_SIZE--;
 			TEMP[TEMP_SIZE]='\0';
 		}
@@ -170,8 +170,8 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
     bPopupExists = ServiceExists(MS_POPUP_ADDPOPUPEX)!=0;
     bPopupUnicode = ServiceExists(MS_POPUP_ADDPOPUPW)!=0;
 
-    g_hFolders = FoldersRegisterCustomPath(szModuleName, "Icons", MIRANDA_PATH"\\icons");
-    if ( g_hFolders==(HANDLE)CALLSERVICE_NOTFOUND ) g_hFolders = 0;
+	 if ( ServiceExists(MS_FOLDERS_GET_PATH))
+		g_hFolders = FoldersRegisterCustomPathT(szModuleName, "Icons", _T(MIRANDA_PATH"\\icons"));
 
     InitIcons();
     GetFlags();
@@ -234,37 +234,37 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	Sent_NetLog("pgp_init");
 #endif
 	bPGP = db_get_b(0, szModuleName, "pgp", 0);
-	if(bPGP) { //PGP
+	if (bPGP) { //PGP
 	    bPGPloaded = pgp_init();
    	    bUseKeyrings = db_get_b(0,szModuleName,"ukr",1);
    	    LPSTR priv = myDBGetStringDecode(0,szModuleName,"pgpPrivKey");
-   	    if(priv) {
+   	    if (priv) {
 	   	    bPGPprivkey = true;
-		    if(bPGPloaded)
+		    if (bPGPloaded)
 			pgp_set_priv_key(priv);
 	   	    mir_free(priv);
-	    }// if(priv)
-            if(bPGPloaded && bUseKeyrings) {
+	    }// if (priv)
+            if (bPGPloaded && bUseKeyrings) {
     		char PubRingPath[MAX_PATH], SecRingPath[MAX_PATH];
     		PubRingPath[0]='\0'; SecRingPath[0]='\0';
-    		if(pgp_get_version()<0x02000000) { // 6xx
+    		if (pgp_get_version()<0x02000000) { // 6xx
     		    bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
 		}
         	else {
         		LPSTR tmp;
         		tmp = myDBGetString(0,szModuleName,"pgpPubRing");
-        		if(tmp) {
+        		if (tmp) {
         			strncpy(PubRingPath,tmp,sizeof(PubRingPath));
         			mir_free(tmp);
         		}
         		tmp = myDBGetString(0,szModuleName,"pgpSecRing");
-        		if(tmp) {
+        		if (tmp) {
         			strncpy(SecRingPath,tmp,sizeof(SecRingPath));
         			mir_free(tmp);
         		}
-        	   	if(PubRingPath[0] && SecRingPath[0]) {
+        	   	if (PubRingPath[0] && SecRingPath[0]) {
         			bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
-        			if(bPGPkeyrings) {
+        			if (bPGPkeyrings) {
         				DBWriteContactSettingString(0,szModuleName,"pgpPubRing",PubRingPath);
         				DBWriteContactSettingString(0,szModuleName,"pgpSecRing",SecRingPath);
         			}
@@ -274,14 +274,14 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
         			}
         		}
     		}
-    	    }// if(bPGPloaded && bUseKeyrings)
-   	}// if(bPGP)
+    	    }// if (bPGPloaded && bUseKeyrings)
+   	}// if (bPGP)
 
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("gpg_init");
 #endif
 	bGPG = db_get_b(0, szModuleName, "gpg", 0);
-	if(bGPG) { //GPG
+	if (bGPG) { //GPG
 
 		LPSTR tmp;
 
@@ -291,34 +291,34 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
    		gpgexec[0]='\0'; gpghome[0]='\0';
 
 		tmp = myDBGetString(0,szModuleName,"gpgExec");
-		if(tmp) {
+		if (tmp) {
 			strncpy(gpgexec,tmp,sizeof(gpgexec));
 			mir_free(tmp);
 		}
 		tmp = myDBGetString(0,szModuleName,"gpgHome");
-		if(tmp) {
+		if (tmp) {
 			strncpy(gpghome,tmp,sizeof(gpghome));
 			mir_free(tmp);
 		}
 
-		if(db_get_b(0, szModuleName, "gpgLogFlag",0)) {
+		if (db_get_b(0, szModuleName, "gpgLogFlag",0)) {
 			tmp = myDBGetString(0,szModuleName,"gpgLog");
-			if(tmp) {
+			if (tmp) {
 				gpg_set_log(tmp);
 				mir_free(tmp);
 			}
 		}
 
-		if(db_get_b(0, szModuleName, "gpgTmpFlag",0)) {
+		if (db_get_b(0, szModuleName, "gpgTmpFlag",0)) {
 			tmp = myDBGetString(0,szModuleName,"gpgTmp");
-			if(tmp) {
+			if (tmp) {
 				gpg_set_tmp(tmp);
 				mir_free(tmp);
 			}
 		}
 
 		bGPGkeyrings = gpg_open_keyrings(gpgexec,gpghome);
-		if(bGPGkeyrings) {
+		if (bGPGkeyrings) {
 			DBWriteContactSettingString(0,szModuleName,"gpgExec",gpgexec);
 			DBWriteContactSettingString(0,szModuleName,"gpgHome",gpghome);
 		}
@@ -328,9 +328,9 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 		}
 
 		bSavePass = db_get_b(0,szModuleName,"gpgSaveFlag",0);
-		if(bSavePass) {
+		if (bSavePass) {
 			tmp = myDBGetString(0,szModuleName,"gpgSave");
-			if(tmp) {
+			if (tmp) {
 				gpg_set_passphrases(tmp);
 				mir_free(tmp);
 			}
@@ -362,7 +362,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 
 	// hook init options
 	AddHookFunction(ME_OPT_INITIALISE, onRegisterOptions);
-	if(bPopupExists)
+	if (bPopupExists)
 		AddHookFunction(ME_OPT_INITIALISE, onRegisterPopOptions);
 	AddHookFunction(ME_PROTO_ACK, onProtoAck);
 	AddHookFunction(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
@@ -382,7 +382,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	g_hMenu[0] = AddMenuItem(sim301,110000,g_hICO[ICO_CM_EST],MODULENAME"/SIM_EST",CMIF_NOTOFFLINE);
 	g_hMenu[1] = AddMenuItem(sim302,110001,g_hICO[ICO_CM_DIS],MODULENAME"/SIM_DIS",CMIF_NOTOFFLINE);
 
-	if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
+	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
 	    g_hMenu[2] = AddMenuItem(sim312[0],110002,NULL,NULL,CMIF_ROOTPOPUP);
 	    g_hMenu[3] = AddSubItem(g_hMenu[2],sim232[0],110003,110002,MODULENAME"/SIM_ST_DIS");
 	    g_hMenu[4] = AddSubItem(g_hMenu[2],sim232[1],110004,110002,MODULENAME"/SIM_ST_ENA");
@@ -406,7 +406,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 		g_hMenu[7] = AddMenuItem(sim307,110007,icon,MODULENAME"/PGP_DEL",0);
 	}
 
-    	if(bGPGloaded) {
+    	if (bGPGloaded) {
 		icon=mode2icon(MODE_GPG|SECURED,2);
 		g_hMenu[8] = AddMenuItem(sim308,110008,icon,MODULENAME"/GPG_SET",0);
 		icon=mode2icon(MODE_GPG,2);
@@ -416,7 +416,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 	Sent_NetLog("create Mode menu");
 #endif
-	if(ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
+	if (ServiceExists(MS_CLIST_MENUBUILDSUBGROUP)) {
 	    g_hMenu[10] = AddMenuItem(sim311[0],110010,NULL,NULL,CMIF_ROOTPOPUP);
 	    g_hMenu[11] = AddSubItem(g_hMenu[10],sim231[0],110011,110010,MODULENAME"/MODE_NAT");
 	    g_hMenu[12] = AddSubItem(g_hMenu[10],sim231[1],110012,110010,MODULENAME"/MODE_PGP");
@@ -436,7 +436,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 	Sent_NetLog("create srmm icons");
 #endif
 	// add icon to srmm status icons
-	if(ServiceExists(MS_MSG_ADDICON)) {
+	if (ServiceExists(MS_MSG_ADDICON)) {
 
 		StatusIconData sid;
 		memset(&sid,0,sizeof(sid));
@@ -482,7 +482,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 
 int __cdecl onSystemOKToExit(WPARAM wParam,LPARAM lParam) {
 
-    if(bSavePass) {
+    if (bSavePass) {
 	LPSTR tmp = gpg_get_passphrases();
 	DBWriteContactSettingString(0,szModuleName,"gpgSave",tmp);
 	LocalFree(tmp);
@@ -490,8 +490,8 @@ int __cdecl onSystemOKToExit(WPARAM wParam,LPARAM lParam) {
     else {
 	DBDeleteContactSetting(0,szModuleName,"gpgSave");
     }
-	if(bPGPloaded) pgp_done();
-	if(bGPGloaded) gpg_done();
+	if (bPGPloaded) pgp_done();
+	if (bGPGloaded) gpg_done();
 	rsa_done();
 	while(iHook--) UnhookEvent(g_hHook[iHook]);
 	mir_free(g_hHook);

@@ -16,41 +16,30 @@
 
 #include "commonheaders.h"
 
-HANDLE IconLibDefine(TCHAR* desc, TCHAR* section, char* ident, HICON icon, char* def_file, int def_idx, int size)
+extern HINSTANCE hInst;
+
+HANDLE IconLibDefine(char* desc, char* ident, TCHAR* def_file, int def_idx)
 {
-  SKINICONDESC sid = {0};
-  HANDLE hIcon;
-
-  if(!size)
-	  size = 16;
-
-  sid.cbSize = sizeof( SKINICONDESC );
-  sid.ptszSection = section;
-  sid.ptszDescription = desc;
-  sid.flags = SIDF_TCHAR;
+  SKINICONDESC sid = { sizeof(sid) };
+  sid.pszSection = szGPGModuleName;
+  sid.pszDescription = desc;
+  sid.flags = SIDF_PATH_TCHAR;
 
   sid.pszName = ident;
-  sid.pszDefaultFile = def_file;
-  sid.iDefaultIndex = def_idx;
-  sid.hDefaultIcon = icon;
-  sid.cx = sid.cy = size;
-  
-  hIcon =  Skin_AddIcon(&sid);
-
-  return hIcon;
+  sid.ptszDefaultFile = def_file;
+  sid.iDefaultIndex = -def_idx;
+  sid.cx = sid.cy = 16;
+  return Skin_AddIcon(&sid);
 }
 
 
 void InitIconLib()
 {
-	extern HINSTANCE hInst;
-	char lib[MAX_PATH];
-	GetModuleFileNameA(hInst, lib, MAX_PATH);
-	TCHAR *module = mir_a2t(szGPGModuleName);
+	TCHAR lib[MAX_PATH];
+	GetModuleFileName(hInst, lib, MAX_PATH);
 
-	IconLibDefine(_T("Secured"), module, "secured", NULL, lib, -IDI_SECURED,0);
-	IconLibDefine(_T("Unsecured"), module, "unsecured", NULL, lib, -IDI_UNSECURED,0);
-	mir_free(module);
+	IconLibDefine( "Secured", "secured", lib, IDI_SECURED);
+	IconLibDefine( "Unsecured", "unsecured", lib, IDI_UNSECURED);
 }
 
 HICON IconLibGetIcon(const char* ident)

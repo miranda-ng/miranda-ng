@@ -189,7 +189,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			else {
 				sid.hDefaultIcon = NULL;
 				sid.ptszDefaultFile = path;
-				sid.iDefaultIndex = - IDI_UNKNOWN_FLAG;
+				sid.iDefaultIndex = -IDI_UNKNOWN_FLAG;
 			}
 
 			// Oki, lets add to IcoLib, then

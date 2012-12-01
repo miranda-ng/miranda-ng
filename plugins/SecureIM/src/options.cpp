@@ -120,7 +120,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
          MoveWindow((HWND)tci.lParam,5,26,rcClient.right-8,rcClient.bottom-29,1);
          ShowWindow((HWND)tci.lParam, SW_HIDE);
 
-         if(bPGP && bPGPloaded) {
+         if (bPGP && bPGPloaded) {
          tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_PGP),hwnd,DlgProcOptionsPGP);
 	 tci.pszText = (LPSTR)sim214;
          TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 3, &tci);
@@ -128,7 +128,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
          ShowWindow((HWND)tci.lParam, SW_HIDE);
          }
 
-         if(bGPG && bGPGloaded) {
+         if (bGPG && bGPGloaded) {
          tci.lParam = (LPARAM)CreateDialog(g_hInst,MAKEINTRESOURCE(IDD_TAB_GPG),hwnd,DlgProcOptionsGPG);
 	 tci.pszText = (LPSTR)sim226;
          TC_InsertItem(GetDlgItem(hwnd, IDC_OPTIONSTAB), 4, &tci);
@@ -320,11 +320,11 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case ID_SETPSK: {
 				idx = ListView_GetSelectionMark(hLV);
 				ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if(ptr) {
+		  		if (ptr) {
 					LPSTR buffer = (LPSTR)alloca(PSKSIZE+1);
 					getContactName(ptr->hContact, buffer);
 					int res = DialogBoxParam(g_hInst,MAKEINTRESOURCE(IDD_PSK),NULL,DlgProcSetPSK,(LPARAM)buffer);
-					if(res == IDOK) {
+					if (res == IDOK) {
 					    setListViewPSK(hLV,idx,1);
 					    DBWriteContactSettingString(ptr->hContact,szModuleName,"tPSK",buffer);
 					}
@@ -335,7 +335,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case ID_DELPSK: {
 		  		idx = ListView_GetSelectionMark(hLV);
 		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if(ptr) {
+		  		if (ptr) {
 					setListViewPSK(hLV,idx,0);
 					DBDeleteContactSetting(ptr->hContact, szModuleName, "tPSK");
 				}
@@ -345,7 +345,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case ID_DELPUBL: {
 		  		idx = ListView_GetSelectionMark(hLV);
 		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if(ptr) {
+		  		if (ptr) {
 					setListViewPUB(hLV,idx,0);
 				}
 		  	}
@@ -354,7 +354,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case ID_EXPPUBL: {
 		  		idx = ListView_GetSelectionMark(hLV);
 		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if(ptr) {
+		  		if (ptr) {
 		  			if ( !ptr->keyLoaded ) {
 		  				createRSAcntx(ptr);
 		  				loadRSAkey(ptr);
@@ -373,7 +373,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 		  	case ID_IMPPUBL: {
 		  		idx = ListView_GetSelectionMark(hLV);
 		  		ptr = (pUinKey) getListViewParam(hLV,idx);
-		  		if(ptr) {
+		  		if (ptr) {
 		  			createRSAcntx(ptr);
 		  			LPSTR pub = (LPSTR) alloca(RSASIZE);
 		  			if ( !LoadImportRSAKeyDlg(hDlg,pub,0)) return TRUE;
@@ -463,7 +463,7 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 				case IDC_STD_USERLIST: {
                     switch(((LPNMHDR)lParam)->code) {
                     case NM_DBLCLK: {
-				if(LPNMLISTVIEW(lParam)->iSubItem == 2) {
+				if (LPNMLISTVIEW(lParam)->iSubItem == 2) {
 					idx = LPNMLISTVIEW(lParam)->iItem;
 					ptr = (pUinKey) getListViewParam(hLV,idx);
 					if (ptr) {
@@ -476,11 +476,11 @@ INT_PTR CALLBACK DlgProcOptionsGeneral(HWND hDlg, UINT wMsg, WPARAM wParam, LPAR
 						SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
 					}
 				}
-				if(LPNMLISTVIEW(lParam)->iSubItem == 3) {
+				if (LPNMLISTVIEW(lParam)->iSubItem == 3) {
 					idx = LPNMLISTVIEW(lParam)->iItem;
 					ptr = (pUinKey) getListViewParam(hLV,idx);
 					if (ptr) {
-						ptr->tstatus++; if(ptr->tstatus>(ptr->tmode==MODE_RSAAES?1:2)) ptr->tstatus=0;
+						ptr->tstatus++; if (ptr->tstatus>(ptr->tmode==MODE_RSAAES?1:2)) ptr->tstatus=0;
 						setListViewStatus(hLV,idx,ptr->tstatus);
 						setListViewIcon(hLV,idx,ptr);
 						SendMessage(GetParent(hDlg), PSM_CHANGED, 0, 0);
@@ -761,7 +761,7 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 	  			char PubRingPath[MAX_PATH], SecRingPath[MAX_PATH];
 				PubRingPath[0]='\0'; SecRingPath[0]='\0';
 				bPGPkeyrings = pgp_open_keyrings(PubRingPath,SecRingPath);
-				if(bPGPkeyrings && PubRingPath[0] && SecRingPath[0]) {
+				if (bPGPkeyrings && PubRingPath[0] && SecRingPath[0]) {
 					DBWriteContactSettingString(0,szModuleName,"pgpPubRing",PubRingPath);
 					DBWriteContactSettingString(0,szModuleName,"pgpSecRing",SecRingPath);
 				}
@@ -780,9 +780,9 @@ INT_PTR CALLBACK DlgProcOptionsPGP(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 		  	break;
 		  	case IDC_LOAD_PRIVKEY: {
 				char KeyPath[MAX_PATH]; KeyPath[0]='\0';
-			  	if(ShowSelectKeyDlg(hDlg,KeyPath)) {
+			  	if (ShowSelectKeyDlg(hDlg,KeyPath)) {
 			  		char *priv = LoadKeys(KeyPath,true);
-			  		if(priv) {
+			  		if (priv) {
 				  		DBWriteContactSettingString(0,szModuleName,"tpgpPrivKey",priv);
 				  		mir_free(priv);
 			  		}
@@ -911,9 +911,9 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 			switch(LOWORD(wParam)) {
 /*		  	case IDC_LOAD_PRIVKEY: {
 				char KeyPath[MAX_PATH] = {0};
-			  	if(ShowSelectKeyDlg(hDlg,KeyPath)) {
+			  	if (ShowSelectKeyDlg(hDlg,KeyPath)) {
 			  		char *priv = LoadKeys(KeyPath,true);
-			  		if(priv) {
+			  		if (priv) {
 				  		DBWriteContactSettingString(0,szModuleName,"tpgpPrivKey",priv);
 				  		mir_free(priv);
 			  		}
@@ -985,7 +985,7 @@ INT_PTR CALLBACK DlgProcOptionsGPG(HWND hDlg, UINT wMsg, WPARAM wParam, LPARAM l
 				case IDC_GPG_USERLIST: {
                     switch(((LPNMHDR)lParam)->code) {
                     case NM_DBLCLK: {
-						if(LPNMLISTVIEW(lParam)->iSubItem == 3) {
+						if (LPNMLISTVIEW(lParam)->iSubItem == 3) {
 							idx = LPNMLISTVIEW(lParam)->iItem;
 		  					ptr = (pUinKey) getListViewParam(hLV,idx);
 		  					if ( !ptr ) break;
@@ -1034,7 +1034,7 @@ INT_PTR CALLBACK DlgProcSetPSK(HWND hDlg,UINT uMsg,WPARAM wParam,LPARAM lParam) 
 		switch(LOWORD(wParam)) {
 		case IDOK: {
 			int len = GetDlgItemTextA(hDlg,IDC_EDIT1,buffer,PSKSIZE);
-			if(len<8) {
+			if (len<8) {
 				msgbox1(hDlg,sim211,szModuleName,MB_OK|MB_ICONEXCLAMATION);
 				return TRUE;
 			}
@@ -1218,7 +1218,7 @@ void RefreshPGPDlg(HWND hDlg, BOOL iInit) {
 	EnableWindow(GetDlgItem(hDlg, IDC_LOAD_PRIVKEY), !bUseKeyrings);
 	SetDlgItemText(hDlg, IDC_PGP_PRIVKEY, bPGPprivkey?Translate(sim222):Translate(sim223));
 
-	if(bPGPloaded && ver) {
+	if (bPGPloaded && ver) {
 		char pgpVerStr[64];
 		sprintf(pgpVerStr, Translate(sim218), ver >> 24, (ver >> 16) & 255, (ver >> 8) & 255);
 		SetDlgItemText(hDlg, IDC_PGP_SDK, pgpVerStr);
@@ -1276,19 +1276,19 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 	Sent_NetLog("RefreshGPGDlg");
 #endif
 	path = myDBGetString(0,szModuleName,"gpgExec");
-	if(path) {
+	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGEXECUTABLE_EDIT, path);
 		mir_free(path);
 	}
 	path = myDBGetString(0,szModuleName,"gpgHome");
-	if(path) {
+	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGHOME_EDIT, path);
 		mir_free(path);
 	}
 	BOOL bGPGLogFlag = db_get_b(0, szModuleName, "gpgLogFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_LOGGINGON_CBOX),BM_SETCHECK,(bGPGLogFlag)?BST_CHECKED:BST_UNCHECKED,0L);
 	path = myDBGetString(0,szModuleName,"gpgLog");
-	if(path) {
+	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, path);
 		mir_free(path);
 	}
@@ -1296,7 +1296,7 @@ void RefreshGPGDlg(HWND hDlg, BOOL iInit) {
 	BOOL bGPGTmpFlag = db_get_b(0, szModuleName, "gpgTmpFlag",0);
 	SendMessage(GetDlgItem(hDlg,IDC_TMPPATHON_CBOX),BM_SETCHECK,(bGPGTmpFlag)?BST_CHECKED:BST_UNCHECKED,0L);
 	path = myDBGetString(0,szModuleName,"gpgTmp");
-	if(path) {
+	if (path) {
 		SetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, path);
 		mir_free(path);
 	}
@@ -1420,7 +1420,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 
 	// Key Exchange Timeout
 	GetDlgItemText(hDlg,IDC_KET,timeout,5);
-	tmp = atoi(timeout); if(tmp > 65535) tmp = 65535;
+	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
 	DBWriteContactSettingWord(0,szModuleName,"ket",tmp);
 	exp->rsa_set_timeout( DBGetContactSettingWord(0,szModuleName,"ket",10));
 	mir_itoa(tmp,timeout,10);
@@ -1428,7 +1428,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 
 	// Offline Key Timeout
 	GetDlgItemText(hDlg,IDC_OKT,timeout,5);
-	tmp = atoi(timeout); if(tmp > 65535) tmp = 65535;
+	tmp = atoi(timeout); if (tmp > 65535) tmp = 65535;
 	DBWriteContactSettingWord(0,szModuleName,"okt",tmp);
 	mir_itoa(tmp,timeout,10);
 	SetDlgItemText(hDlg,IDC_OKT,timeout);
@@ -1450,16 +1450,16 @@ void ApplyGeneralSettings(HWND hDlg) {
 	{
 	tmp = 0;
 	i = SendMessage(GetDlgItem(hDlg, IDC_PGP),BM_GETCHECK,0L,0L)==BST_CHECKED;
-	if(i!=bPGP) {
+	if (i!=bPGP) {
 		bPGP = i; tmp++;
 		db_set_b(0, szModuleName, "pgp", bPGP);
 	}
 	i = SendMessage(GetDlgItem(hDlg, IDC_GPG),BM_GETCHECK,0L,0L)==BST_CHECKED;
-	if(i!=bGPG) {
+	if (i!=bGPG) {
 		bGPG = i; tmp++;
 		db_set_b(0, szModuleName, "gpg", bGPG);
 	}
-	if(tmp) msgbox1(hDlg, sim224, szModuleName, MB_OK|MB_ICONINFORMATION);
+	if (tmp) msgbox1(hDlg, sim224, szModuleName, MB_OK|MB_ICONINFORMATION);
 	}
 
 	HWND hLV = GetDlgItem(hDlg,IDC_STD_USERLIST);
@@ -1473,7 +1473,7 @@ void ApplyGeneralSettings(HWND hDlg) {
 		}
 		if ( ptr->status!=ptr->tstatus ) {
 			ptr->status = ptr->tstatus;
-			if(ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
+			if (ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
 			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 		}
 		if ( ptr->mode==MODE_NATIVE ) {
@@ -1525,7 +1525,7 @@ void ApplyPGPSettings(HWND hDlg) {
 	db_set_b(0,szModuleName,"ukr",bUseKeyrings);
 
 	char *priv = myDBGetString(0,szModuleName,"tpgpPrivKey");
-	if(priv) {
+	if (priv) {
    	    bPGPprivkey = true;
 	    pgp_set_priv_key(priv);
 		myDBWriteStringEncode(0,szModuleName,"pgpPrivKey",priv);
@@ -1551,14 +1551,14 @@ void ApplyGPGSettings(HWND hDlg) {
 	db_set_b(0,szModuleName,"gpgLogFlag",bgpgLogFlag);
 	GetDlgItemText(hDlg, IDC_GPGLOGFILE_EDIT, tmp, sizeof(tmp));
 	DBWriteContactSettingString(0,szModuleName,"gpgLog",tmp);
-	if(bgpgLogFlag)	gpg_set_log(tmp);
+	if (bgpgLogFlag)	gpg_set_log(tmp);
 	else gpg_set_log(0);
 
 	BOOL bgpgTmpFlag = (SendMessage(GetDlgItem(hDlg, IDC_TMPPATHON_CBOX),BM_GETCHECK,0L,0L)==BST_CHECKED);
 	db_set_b(0,szModuleName,"gpgTmpFlag",bgpgTmpFlag);
 	GetDlgItemText(hDlg, IDC_GPGTMPPATH_EDIT, tmp, sizeof(tmp));
 	DBWriteContactSettingString(0,szModuleName,"gpgTmp",tmp);
-	if(bgpgTmpFlag)	gpg_set_tmp(tmp);
+	if (bgpgTmpFlag)	gpg_set_tmp(tmp);
 	else gpg_set_tmp(0);
 
 	HWND hLV = GetDlgItem(hDlg,IDC_GPG_USERLIST);
@@ -1684,7 +1684,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
     int s,d,m=1;
 	DBVARIANT dbv1,dbv2;
 
-	if(lParamSort&0x100) {
+	if (lParamSort&0x100) {
 		lParamSort&=0xFF;
 		m=-1;
 	}
@@ -1714,7 +1714,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
 		DBGetContactSetting(pUinKey(lParam2)->hContact,szModuleName,"pgp_abbr",&dbv2);
 		s=(dbv1.type==DBVT_ASCIIZ);
 		d=(dbv2.type==DBVT_ASCIIZ);
-		if(s && d) {
+		if (s && d) {
 			s=strcmp(dbv1.pszVal,dbv2.pszVal);
 			d=0;
 		}
@@ -1727,7 +1727,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort) {
 		DBGetContactSetting(pUinKey(lParam2)->hContact,szModuleName,"gpg",&dbv2);
 		s=(dbv1.type==DBVT_ASCIIZ);
 		d=(dbv2.type==DBVT_ASCIIZ);
-		if(s && d) {
+		if (s && d) {
 			s=strcmp(dbv1.pszVal,dbv2.pszVal);
 			d=0;
 		}
@@ -1767,7 +1767,7 @@ void ListView_Sort(HWND hLV, LPARAM lParamSort) {
 	// restore sort order
 	sprintf(t,"os%02x",(UINT)lParamSort);
 	int m=db_get_b(0, szModuleName, t, 0);
-	if(bChangeSortOrder){ m=!m; db_set_b(0, szModuleName, t, m); }
+	if (bChangeSortOrder){ m=!m; db_set_b(0, szModuleName, t, m); }
 
 	ListView_SortItems(hLV,&CompareFunc,lParamSort|(m<<8));
 }
@@ -1804,7 +1804,7 @@ LPSTR LoadKeys(LPCSTR file,BOOL priv) {
 	fseek(f,0,SEEK_SET);
 
 	LPCSTR beg,end;
-	if(priv) {
+	if (priv) {
 		beg = priv_beg;
 		end = priv_end;
 	}
@@ -1820,11 +1820,11 @@ LPSTR LoadKeys(LPCSTR file,BOOL priv) {
 			b=true;
 		}
 		else
-		if(b && strncmp(keys+i,end,strlen(end))==0) {
+		if (b && strncmp(keys+i,end,strlen(end))==0) {
 			i+=(int)strlen(keys+i);
 			b=false;
 		}
-		if(b) {
+		if (b) {
 			i+=(int)strlen(keys+i);
 		}
 	}
@@ -1883,7 +1883,7 @@ BOOL LoadImportRSAKeyDlg(HWND hParent, LPSTR key, BOOL priv)
    if ( !f ) return FALSE;
 
    fseek(f,0,SEEK_END);
-   int flen = ftell(f); if(flen>RSASIZE) { fclose(f); return FALSE; }
+   int flen = ftell(f); if (flen>RSASIZE) { fclose(f); return FALSE; }
    fseek(f,0,SEEK_SET);
 
    fread(key,flen,1,f);

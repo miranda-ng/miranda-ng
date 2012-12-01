@@ -151,8 +151,7 @@ static void Icon2button(TTBButton* but, HANDLE& hIcoLib, HICON& hIcon, bool bIsU
 	if (!hIcoLib) {
 		char buf[256];
 		mir_snprintf(buf, SIZEOF(buf), "toptoolbar_%s%s", but->name, (bIsUp) ? (but->hIconDn ? "%s_up" : "%s") : "%s_dn");
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(sid);
+		SKINICONDESC sid = { sizeof(sid) };
 		sid.pszSection = "Toolbar";				
 		sid.pszName = buf;
 		sid.pszDefaultFile = NULL;

@@ -32,52 +32,49 @@ Last change by : $Author: Merlin_de $
 
 #include "headers.h"
 
-typedef struct _ICODESC 
+struct
 {
 	LPSTR	pszName;
-	LPTSTR	ptszDesc;
-	LPTSTR	ptszSection;
-	BOOL	bfromIconPack;
+	LPSTR	ptszDesc;
+	LPSTR	ptszSection;
 	WORD	idResource;
 	LPSTR	pszIcon;
 	int	size;
-} ICODESC;
-
-static ICODESC icoDesc[] = 
+}
+static icoDesc[] = 
 {
 	//toolbar
-	{ ICO_TB_POPUP_ON,		_T("Popups are enabled"),			_T(SECT_TOLBAR),					0,	IDI_POPUP,			NULL,			0	},
-	{ ICO_TB_POPUP_OFF,		_T("Popups are disabled"),			_T(SECT_TOLBAR),					0,	IDI_NOPOPUP,		NULL,			0	},
+	{ ICO_TB_POPUP_ON,    "Popups are enabled",          SECT_TOLBAR,               IDI_POPUP,          NULL,  0 },
+	{ ICO_TB_POPUP_OFF,   "Popups are disabled",         SECT_TOLBAR,               IDI_NOPOPUP,        NULL,  0 },
+
 	//common popup
-	{ ICO_POPUP_ON,			_T("Popups are enabled"),			_T(SECT_POPUP),						0,	IDI_POPUP,			NULL,			0	},
-	{ ICO_POPUP_OFF,		_T("Popups are disabled"),			_T(SECT_POPUP),						0,	IDI_NOPOPUP,		NULL,			0	},
-	{ ICO_FAV,				_T("With \"favourite\" overlay"),	_T(SECT_POPUP),						0,	IDI_PU_FAVOURITE,	NULL,			0	},
-	{ ICO_FULLSCREEN,		_T("With \"fullscreen\" overlay"),	_T(SECT_POPUP),						0,	IDI_PU_FULLSCREEN,	NULL,			0	},
-	{ ICO_HISTORY,			_T("Popup History"),				_T(SECT_POPUP),						0,	IDI_HISTORY,		NULL,			-1	},
-	//misc (register is done inside notification service)
-	//{ ICO_MISC_NOTIFY,	_T("Notification"),					_T(SECT_POPUP) _T(SECT_POPUP_MISC),	0,	IDI_MB_INFO,		NULL,			0	},
-	//{ ICO_MISC_WARNING,	_T("Warning"),						_T(SECT_POPUP) _T(SECT_POPUP_MISC),	0,	IDI_MB_WARN,		NULL,			0	},
-	//{ ICO_MISC_ERROR,		_T("Error"),						_T(SECT_POPUP) _T(SECT_POPUP_MISC),	0,	IDI_MB_STOP,		NULL,			0	},
+	{ ICO_POPUP_ON,       "Popups are enabled",          SECT_POPUP,                IDI_POPUP,          NULL,  0 },
+	{ ICO_POPUP_OFF,      "Popups are disabled",         SECT_POPUP,                IDI_NOPOPUP,        NULL,  0 },
+	{ ICO_FAV,            "With \"favourite\" overlay",  SECT_POPUP,                IDI_PU_FAVOURITE,   NULL,  0 },
+	{ ICO_FULLSCREEN,     "With \"fullscreen\" overlay", SECT_POPUP,                IDI_PU_FULLSCREEN,  NULL,  0 },
+	{ ICO_HISTORY,        "Popup History",               SECT_POPUP,                IDI_HISTORY,        NULL, -1 },
+
 	//option
-	{ ICO_OPT_RELOAD,		_T("Refresh skin list"),			_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_RELOAD,			NULL,			0	},
-	{ ICO_OPT_RESIZE,		_T("Popup Placement"),				_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_RESIZE,			NULL,			0	},
-	{ ICO_OPT_OK,			_T("OK"),							_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_ACT_OK,			NULL,			0	},
-	{ ICO_OPT_CANCEL,		_T("Cancel"),						_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_ACT_CLOSE,		NULL,			0	},
-	{ ICO_OPT_GROUP,		_T("Popup Group"),					_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_OPT_GROUP,		NULL,			0	},
-	{ ICO_OPT_DEF,			_T("Show default"),					_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_ACT_OK,			NULL,			0	},
-	{ ICO_OPT_FAV,			_T("Favorite Contact"),				_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_OPT_FAVORITE,	NULL,			0	},
-	{ ICO_OPT_FULLSCREEN,	_T("Show in Fullscreen"),			_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_OPT_FULLSCREEN,	NULL,			0	},
-	{ ICO_OPT_BLOCK,		_T("Blocked Contact"),				_T(SECT_POPUP) _T(SECT_POPUP_OPT),	0,	IDI_OPT_BLOCK,		NULL,			0	},
+	{ ICO_OPT_RELOAD,     "Refresh skin list",           SECT_POPUP SECT_POPUP_OPT, IDI_RELOAD,         NULL,  0 },
+	{ ICO_OPT_RESIZE,     "Popup Placement",             SECT_POPUP SECT_POPUP_OPT, IDI_RESIZE,         NULL,  0 },
+	{ ICO_OPT_OK,         "OK",                          SECT_POPUP SECT_POPUP_OPT, IDI_ACT_OK,         NULL,  0 },
+	{ ICO_OPT_CANCEL,     "Cancel",                      SECT_POPUP SECT_POPUP_OPT, IDI_ACT_CLOSE,      NULL,  0 },
+	{ ICO_OPT_GROUP,      "Popup Group",                 SECT_POPUP SECT_POPUP_OPT, IDI_OPT_GROUP,      NULL,  0 },
+	{ ICO_OPT_DEF,        "Show default",                SECT_POPUP SECT_POPUP_OPT, IDI_ACT_OK,         NULL,  0 },
+	{ ICO_OPT_FAV,        "Favorite Contact",            SECT_POPUP SECT_POPUP_OPT, IDI_OPT_FAVORITE,   NULL,  0 },
+	{ ICO_OPT_FULLSCREEN, "Show in Fullscreen",          SECT_POPUP SECT_POPUP_OPT, IDI_OPT_FULLSCREEN, NULL,  0 },
+	{ ICO_OPT_BLOCK,      "Blocked Contact",             SECT_POPUP SECT_POPUP_OPT, IDI_OPT_BLOCK,      NULL,  0 },
+
 	//action
-	{ ICO_ACT_REPLY,		_T("Quick Reply"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_REPLY,		NULL,			-1	},
-	{ ICO_ACT_PIN,			_T("Pin Popup"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_PIN,		NULL,			-1	},
-	{ ICO_ACT_PINNED,		_T("Pinned Popup"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_PINNED,		NULL,			-1	},
-	{ ICO_ACT_MESS,			_T("Send Message"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_MESSAGE,	NULL,			-1	},
-	{ ICO_ACT_INFO,			_T("User Details"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_INFO,		NULL,			-1	},
-	{ ICO_ACT_MENU,			_T("Contact Menu"),					_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_MENU,		NULL,			-1	},
-	{ ICO_ACT_ADD,			_T("Add Contact Permanently"),		_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_ADD,		NULL,			-1	},
-	{ ICO_ACT_CLOSE,		_T("Dismiss Popup"),				_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_CLOSE,		NULL,			-1	},
-	{ ICO_ACT_COPY,			_T("Copy to clipboard"),			_T(SECT_POPUP) _T(SECT_POPUP_ACT),	0,	IDI_ACT_COPY,		NULL,			-1	}
+	{ ICO_ACT_REPLY,      "Quick Reply",                 SECT_POPUP SECT_POPUP_ACT, IDI_ACT_REPLY,      NULL, -1 },
+	{ ICO_ACT_PIN,        "Pin Popup",                   SECT_POPUP SECT_POPUP_ACT, IDI_ACT_PIN,        NULL, -1 },
+	{ ICO_ACT_PINNED,     "Pinned Popup",                SECT_POPUP SECT_POPUP_ACT, IDI_ACT_PINNED,     NULL, -1 },
+	{ ICO_ACT_MESS,       "Send Message",                SECT_POPUP SECT_POPUP_ACT, IDI_ACT_MESSAGE,    NULL, -1 },
+	{ ICO_ACT_INFO,       "User Details",                SECT_POPUP SECT_POPUP_ACT, IDI_ACT_INFO,       NULL, -1 },
+	{ ICO_ACT_MENU,       "Contact Menu",                SECT_POPUP SECT_POPUP_ACT, IDI_ACT_MENU,       NULL, -1 },
+	{ ICO_ACT_ADD,        "Add Contact Permanently",     SECT_POPUP SECT_POPUP_ACT, IDI_ACT_ADD,        NULL, -1 },
+	{ ICO_ACT_CLOSE,      "Dismiss Popup",               SECT_POPUP SECT_POPUP_ACT, IDI_ACT_CLOSE,      NULL, -1 },
+	{ ICO_ACT_COPY,       "Copy to clipboard",           SECT_POPUP SECT_POPUP_ACT, IDI_ACT_COPY,       NULL, -1 }
 
 };
 
@@ -94,51 +91,39 @@ HICON IcoLib_GetIcon(LPCSTR pszIcon, bool big)
 
 void InitIcons()
 {
-	SKINICONDESC sid;
-	ZeroMemory(&sid, sizeof(sid));
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
-	TCHAR selfDLL[1024];
-	GetModuleFileName(hInst, selfDLL, 1024);
+	TCHAR selfDLL[MAX_PATH];
+	GetModuleFileName(hInst, selfDLL, SIZEOF(selfDLL));
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszDefaultFile = selfDLL;
 
 	for(int i=0; i < SIZEOF(icoDesc); i++) {
 		sid.pszName = icoDesc[i].pszName;
-		sid.ptszDescription = icoDesc[i].ptszDesc;		// [TRANSLATED-BY-CORE]
-		sid.ptszSection = icoDesc[i].ptszSection;		//must be always untranslatet !!!!!
-
-		if(icoDesc[i].idResource==0){
-			//use icon from icon lib
-			sid.hDefaultIcon = Skin_GetIcon(icoDesc[i].pszIcon);
-			sid.ptszDefaultFile = NULL;
-			sid.iDefaultIndex = 0;
-		}else{
-			//load and register from popup.dll
-			sid.hDefaultIcon = 0;
-			sid.ptszDefaultFile = selfDLL;
-			sid.iDefaultIndex = -icoDesc[i].idResource;
-		}
+		sid.pszDescription = icoDesc[i].ptszDesc;		// [TRANSLATED-BY-CORE]
+		sid.pszSection = icoDesc[i].ptszSection;		//must be always untranslatet !!!!!
+		sid.iDefaultIndex = -icoDesc[i].idResource;
 
 		switch (icoDesc[i].size){
 		// small and big icons
-		case -1:{
-				sid.cx = sid.cy = 0;
-				break;
-			}
+		case -1:
+			sid.cx = sid.cy = 0;
+			break;
+
 		// small icons (16x16)
-		case 0:{
-				sid.cx = sid.cy = 16;
-				break;
-			}
+		case 0:
+			sid.cx = sid.cy = 16;
+			break;
+
 		// normal icons (32x32)
-		case 1:{
-				sid.cx = sid.cy = 32;
-				break;
-			}
+		case 1:
+			sid.cx = sid.cy = 32;
+			break;
+
 		// custom icon size
-		default:{
-				sid.cx = sid.cy = icoDesc[i].size;
-				break;
-			}
+		default:
+			sid.cx = sid.cy = icoDesc[i].size;
+			break;
 		}
 		Skin_AddIcon(&sid);
 	}

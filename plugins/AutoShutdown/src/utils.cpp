@@ -274,20 +274,18 @@ int FontService_GetColor(const TCHAR *pszSection,const TCHAR *pszDescription,COL
 
 HANDLE IcoLib_AddIconRes(const char *pszDbName,const TCHAR *pszSection,const TCHAR *pszDesc,HINSTANCE hInst,WORD idRes,BOOL fLarge)
 {
-	SKINICONDESC sid;
 	TCHAR szFileName[MAX_PATH];
-	sid.cbSize=sizeof(SKINICONDESC);
-	sid.pszName=(char*)pszDbName;
-	sid.ptszSection=(TCHAR*)pszSection;
-	sid.ptszDescription=(TCHAR*)pszDesc;
-	sid.ptszDefaultFile=szFileName;
-	sid.iDefaultIndex=-idRes;
-	sid.cx=GetSystemMetrics(fLarge?SM_CXICON:SM_CXSMICON);
-	sid.cy=GetSystemMetrics(fLarge?SM_CYICON:SM_CYSMICON);
-	sid.hDefaultIcon=NULL;
-	sid.flags=SIDF_SORTED|SIDF_ALL_TCHAR;
-	if(!GetModuleFileName(hInst,szFileName,SIZEOF(szFileName)))
-		return NULL;
+	GetModuleFileName(hInst,szFileName,SIZEOF(szFileName));
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pszName = (char*)pszDbName;
+	sid.ptszSection = (TCHAR*)pszSection;
+	sid.ptszDescription = (TCHAR*)pszDesc;
+	sid.ptszDefaultFile = szFileName;
+	sid.iDefaultIndex = -idRes;
+	sid.cx = GetSystemMetrics(fLarge?SM_CXICON:SM_CXSMICON);
+	sid.cy = GetSystemMetrics(fLarge?SM_CYICON:SM_CYSMICON);
+	sid.flags = SIDF_SORTED | SIDF_ALL_TCHAR;
 	return Skin_AddIcon(&sid);
 }
 

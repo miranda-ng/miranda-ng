@@ -67,7 +67,7 @@ int __cdecl rsa_check_pub(HANDLE context, PBYTE pub, int pubLen, PBYTE sig, int 
 		Sent_NetLog("rsa_check_pub: manual accepted %d",v);
 #endif
 	}
-	if(v) {
+	if (v) {
 		DBCONTACTWRITESETTING cws;
 		cws.szModule = szModuleName;
 		cws.szSetting = "rsa_pub";
@@ -129,7 +129,7 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 		sprintf(buf,sim510,-state);
 		showPopUpDCmsg(ptr->hContact,buf);
 		ShowStatusIconNotify(ptr->hContact);
-       		if(ptr->cntx) deleteRSAcntx(ptr);
+       		if (ptr->cntx) deleteRSAcntx(ptr);
 		waitForExchange(ptr,3); // досылаем нешифровано
         	return;
         }
@@ -137,7 +137,7 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	case -4: { // соединение разорвано вручную другой стороной
 		showPopUpDC(ptr->hContact);
 		ShowStatusIconNotify(ptr->hContact);
-       		if(ptr->cntx) deleteRSAcntx(ptr);
+       		if (ptr->cntx) deleteRSAcntx(ptr);
 		waitForExchange(ptr,3); // досылаем нешифровано
 		return;
 	}
@@ -146,7 +146,7 @@ void __cdecl rsa_notify(HANDLE context, int state) {
 	}
 	showPopUpDCmsg(ptr->hContact,msg);
 	ShowStatusIconNotify(ptr->hContact);
-	if(ptr->cntx) deleteRSAcntx(ptr);
+	if (ptr->cntx) deleteRSAcntx(ptr);
 	waitForExchange(ptr,3); // досылаем нешифровано
 }
 

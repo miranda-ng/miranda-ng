@@ -199,33 +199,32 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	InitFrames();
 
+	TCHAR tszPath[MAX_PATH];
+	GetModuleFileName(hInst, tszPath, SIZEOF(tszPath));
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszDefaultFile = tszPath;
+
 	if ( Skin_GetIcon("LISTENING_TO_ICON") == NULL) {
-		SKINICONDESC sid = { sizeof(SKINICONDESC) };
-		sid.flags = SIDF_TCHAR;
-		sid.ptszSection = LPGENT("Contact List");
-		sid.ptszDescription = LPGENT("Listening to");
+		sid.pszSection = LPGEN("Contact List");
+		sid.pszDescription = LPGEN("Listening to");
 		sid.pszName = "LISTENING_TO_ICON";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LISTENINGTO));
+		sid.iDefaultIndex = -IDI_LISTENINGTO;
 		Skin_AddIcon(&sid);
 	}
-	{
-		SKINICONDESC sid = { sizeof(SKINICONDESC) };
-		sid.flags = SIDF_TCHAR;
-		sid.ptszSection = LPGENT("My Details");
-		sid.ptszDescription = LPGENT("Previous protocol");
-		sid.pszName = "MYDETAILS_PREV_PROTOCOL";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LEFT_ARROW));
-		Skin_AddIcon(&sid);
-	}
-	{
-		SKINICONDESC sid = { sizeof(SKINICONDESC) };
-		sid.flags = SIDF_TCHAR;
-		sid.ptszSection = LPGENT("My Details");
-		sid.ptszDescription = LPGENT("Next protocol");
-		sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_RIGHT_ARROW));
-		Skin_AddIcon(&sid);
-	}
+
+	sid.pszSection = LPGEN("My Details");
+	sid.pszDescription = LPGEN("Previous protocol");
+	sid.pszName = "MYDETAILS_PREV_PROTOCOL";
+	sid.iDefaultIndex = -IDI_LEFT_ARROW;
+	Skin_AddIcon(&sid);
+
+	sid.pszSection = LPGEN("My Details");
+	sid.pszDescription = LPGEN("Next protocol");
+	sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
+	sid.iDefaultIndex = -IDI_RIGHT_ARROW;
+	Skin_AddIcon(&sid);
 
 	return 0;
 }

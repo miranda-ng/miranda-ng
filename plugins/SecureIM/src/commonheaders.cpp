@@ -181,19 +181,19 @@ void InitNetlib()
 
 void DeinitNetlib()
 {
-	if(hNetlibUser)
+	if (hNetlibUser)
 		CallService(MS_NETLIB_CLOSEHANDLE, (WPARAM)hNetlibUser, 0);
 }
 
 int Sent_NetLog(const char *fmt,...)
 {
-  va_list va;
-  char szText[1024];
+	va_list va;
+	char szText[1024];
 
-  va_start(va,fmt);
-  mir_vsnprintf(szText,sizeof(szText),fmt,va);
-  va_end(va);
-  return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
+	va_start(va,fmt);
+	mir_vsnprintf(szText,sizeof(szText),fmt,va);
+	va_end(va);
+	return CallService(MS_NETLIB_LOG,(WPARAM)hNetlibUser,(LPARAM)szText);
 }
 #endif
 

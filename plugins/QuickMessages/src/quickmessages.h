@@ -38,6 +38,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "m_icolib.h"
 #include "m_message.h"
 #include "m_contacts.h"
+#include "win2k.h"
 
 #include "Utils.h"
 #include "m_msg_buttonsbar.h"
@@ -48,7 +49,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define PLGNAME "QuickMessages"
 
 extern HINSTANCE hinstance;
-extern HICON hIcon;
+extern HANDLE hIcolib;
 extern ListData* ButtonsList[100];
 extern SortedList* QuickList;
 extern BOOL g_bRClickAuto;
@@ -56,29 +57,16 @@ extern BOOL g_bLClickAuto;
 extern BOOL g_bQuickMenu;
 extern int g_iButtonsCount;
 
-//#define MIIM_STRING	0x00000040
-
-
-
-int AddIcon(HICON icon, char *name, char *description);
 int OptionsInit(WPARAM,LPARAM);
 
-
-#define IDC_MESSAGE	        1002
-#define IDC_CHATMESSAGE         1009
-
-#define SIZEOF(X)(sizeof(X)/sizeof(X[0]))
-
+#define IDC_MESSAGE      1002
+#define IDC_CHATMESSAGE  1009
 
 #define QMESSAGES_NAME "quickmessages"
 
-
 #define QMESSAGES_VERSION_URL "http://miranda.radicaled.ru/public/updater/quickmessages.txt"
-
 #define QMESSAGES_CHAGELOG_URL "http://miranda.radicaled.ru/public/quickmessages/changelog_en.txt"
-
 #define QMESSAGES_UPDATE_URL "http://miranda.radicaled.ru/public/quickmessages/"QMESSAGES_NAME".zip"
-
 #define QMESSAGES_UPDATE_URL "http://miranda.radicaled.ru/public/quickmessages/"QMESSAGES_NAME".zip"
 
 #define QMESSAGES_VERSION_PREFIX "QuickMessages "

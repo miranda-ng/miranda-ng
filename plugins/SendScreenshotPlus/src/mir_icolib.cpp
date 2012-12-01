@@ -237,125 +237,114 @@ VOID IcoLib_SetCtrlIcons(HWND hDlg, const ICONCTRL* pCtrl, BYTE numCtrls)
  *
  * @return	This function returns the HANDLE of the icon item.
  **/
+
 static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, LPTSTR szDefaultFile, INT idIcon, INT Size, HICON hDefIcon)
 {
-	HANDLE hIconHandle = NULL;
+	if (!szIconID || !szDescription || !szSection)
+		return NULL;
 
-	if (szIconID && szDescription && szSection)
-	{
-		SKINICONDESC sid;
+	SKINICONDESC sid;
 
-		ZeroMemory(&sid, sizeof(sid));
-		sid.cbSize = sizeof(sid);
-		sid.flags = SIDF_ALL_TCHAR;
-		sid.pszName = szIconID;
-		sid.ptszDescription = mir_a2t(szDescription);
-		sid.ptszSection = mir_a2t(szSection);
+	ZeroMemory(&sid, sizeof(sid));
+	sid.cbSize = sizeof(sid);
+	sid.flags = SIDF_ALL_TCHAR;
+	sid.pszName = szIconID;
+	sid.ptszDescription = mir_a2t(szDescription);
+	sid.ptszSection = mir_a2t(szSection);
 
-		if (sid.ptszDescription && sid.ptszSection)
-		{
-			switch (Size)
-			{
-				// small and big icons
-				case -1:
-					{
-						sid.cx = sid.cy = 0;
-						break;
-					}
-				// small icons (16x16)
-				case 0:
-					{
-						sid.cx = GetSystemMetrics(SM_CXSMICON);
-						sid.cy = GetSystemMetrics(SM_CYSMICON);
-						break;
-					}
-				// normal icons (32x32)
-				case 1:
-					{
-						sid.cx = GetSystemMetrics(SM_CXICON);
-						sid.cy = GetSystemMetrics(SM_CYICON);
-						break;
-					}
-				// custom icon size
-				default:
-					{
-						sid.cx = sid.cy = Size;
-						break;
-					}
-			}
+	switch (Size) {
+	// small and big icons
+	case -1:
+		sid.cx = sid.cy = 0;
+		break;
 
-			sid.ptszDefaultFile = szDefaultFile;
-			if (sid.ptszDefaultFile && sid.ptszDefaultFile[0])
-			{
-				if(idIcon < IDI_FIRST_ICON || idIcon > IDI_LASTICON) {
-					// Icon from Plugin.dll
-					sid.iDefaultIndex = idIcon - IDI_PLUG_MAIN;
-				}
-				else{
-					//UserinfoEx Icon pack
-					sid.iDefaultIndex = ICONINDEX(idIcon);
-				}
-			}
-			else
-			{
-				sid.hDefaultIcon = hDefIcon;
-				sid.iDefaultIndex = -1;
-			}
-			hIconHandle = Skin_AddIcon(&sid);
-		}
-		mir_freeAndNil(sid.ptszDescription);
-		mir_freeAndNil(sid.ptszSection);
+	// small icons (16x16)
+	case 0:
+		sid.cx = GetSystemMetrics(SM_CXSMICON);
+		sid.cy = GetSystemMetrics(SM_CYSMICON);
+		break;
+
+	// normal icons (32x32)
+	case 1:
+		sid.cx = GetSystemMetrics(SM_CXICON);
+		sid.cy = GetSystemMetrics(SM_CYICON);
+		break;
+
+	// custom icon size
+	default:
+		sid.cx = sid.cy = Size;
+		break;
 	}
+
+	sid.ptszDefaultFile = szDefaultFile;
+	if (sid.ptszDefaultFile && sid.ptszDefaultFile[0]) {
+		if(idIcon < IDI_FIRST_ICON || idIcon > IDI_LASTICON) {
+			// Icon from Plugin.dll
+			sid.iDefaultIndex = idIcon - IDI_PLUG_MAIN;
+		}
+		else{
+			//UserinfoEx Icon pack
+			sid.iDefaultIndex = ICONINDEX(idIcon);
+		}
+	}
+	else {
+		sid.hDefaultIcon = hDefIcon;
+		sid.iDefaultIndex = -1;
+	}
+
+	HANDLE hIconHandle = Skin_AddIcon(&sid);
+	mir_free(sid.ptszDescription);
+	mir_free(sid.ptszSection);
 	return hIconHandle;
 }
 
 /**
- * This function manually registers a single icon from the default icon library.
- *
- * @param		szIconID		- This is the uniquely identifying string for an icon. 
- *								  This string is the setting name in the database and should 
- *								  only use ASCII characters.
- * @param		szDescription	- This is the description displayed in the options dialog.
- * @param		szSection		- This is the subsection, where the icon is organized in the options dialog.
- * @param		idIcon			- This is the ResourceID of the icon in the default file
- * @param		Size			- This is the desired size of the icon to load.
- *								  0:	default size for small icons (16x16)
- *								  1:	default size for normal icons (32x32)
- *
- * @return	This function returns the HANDLE of the icon item.
- **/
+* This function manually registers a single icon from the default icon library.
+*
+* @param		szIconID		- This is the uniquely identifying string for an icon. 
+*								  This string is the setting name in the database and should 
+*								  only use ASCII characters.
+* @param		szDescription	- This is the description displayed in the options dialog.
+* @param		szSection		- This is the subsection, where the icon is organized in the options dialog.
+* @param		idIcon			- This is the ResourceID of the icon in the default file
+* @param		Size			- This is the desired size of the icon to load.
+*								  0:	default size for small icons (16x16)
+*								  1:	default size for normal icons (32x32)
+*
+* @return	This function returns the HANDLE of the icon item.
+**/
 HANDLE IcoLib_RegisterIconHandle(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size)
 {
 	return IcoLib_RegisterIconHandleEx(szIconID, szDescription, szSection, IcoLib_GetDefaultIconFileName(), idIcon, Size, ghDefIcon);
 }
 
 /**
- * This function manually registers a single icon from the default icon library.
- *
- * @param		szIconID		- This is the uniquely identifying string for an icon. 
- *								  This string is the setting name in the database and should 
- *								  only use ASCII characters.
- * @param		szDescription	- This is the description displayed in the options dialog.
- * @param		szSection		- This is the subsection, where the icon is organized in the options dialog.
- * @param		idIcon			- This is the ResourceID of the icon in the default file
- * @param		Size			- This is the desired size of the icon to load.
- *								  0:	default size for small icons (16x16)
- *								  1:	default size for normal icons (32x32)
- *
- * @return	 This function returns the HICON of the icon itself.
- **/
+* This function manually registers a single icon from the default icon library.
+*
+* @param		szIconID		- This is the uniquely identifying string for an icon. 
+*								  This string is the setting name in the database and should 
+*								  only use ASCII characters.
+* @param		szDescription	- This is the description displayed in the options dialog.
+* @param		szSection		- This is the subsection, where the icon is organized in the options dialog.
+* @param		idIcon			- This is the ResourceID of the icon in the default file
+* @param		Size			- This is the desired size of the icon to load.
+*								  0:	default size for small icons (16x16)
+*								  1:	default size for normal icons (32x32)
+*
+* @return	 This function returns the HICON of the icon itself.
+**/
 HICON IcoLib_RegisterIcon(LPSTR szIconID, LPSTR szDescription, LPSTR szSection, INT idIcon, INT Size)
 {
 	return IcoLib_GetIconByHandle(IcoLib_RegisterIconHandle(szIconID, szDescription, szSection, idIcon, Size));
 }
 
 /**
- * Add default icons to the skin library or load customized icons
- *
- * @param		none
- *
- * @return		nothing
- **/
+* Add default icons to the skin library or load customized icons
+*
+* @param		none
+*
+* @return		nothing
+**/
 VOID IcoLib_LoadModule()
 {
 	LPTSTR	szDefaultFile;
@@ -370,7 +359,7 @@ VOID IcoLib_LoadModule()
 
 	// load default icon if required
 	ghDefIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(IDI_PLUG_DEFAULT), IMAGE_ICON, 
-							 GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
+		GetSystemMetrics(SM_CXSMICON), GetSystemMetrics(SM_CYSMICON), 0);
 
 	for (i = 0; i < SIZEOF(icoDesc); i++) 
 	{	

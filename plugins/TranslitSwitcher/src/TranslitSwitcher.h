@@ -19,6 +19,8 @@ Boston, MA 02111-1307, USA.
 
 #define MIRANDA_VER    0x0A00
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #ifndef __TRANSLITSWIITCHER_H__
 #define __TRANSLITSWIITCHER_H__
 

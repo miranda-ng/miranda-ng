@@ -693,8 +693,8 @@ void AddMenuItem()
 	if (hMainMenuItem) return;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ALL;
-	mi.hIcon = hIconMenuSet;
+	mi.flags = CMIM_ALL | CMIF_ICONFROMICOLIB;
+	mi.icolibItem = Skin_GetIconHandle("alarms_menu_set");;
 	mi.pszName = "Set Alarm";
 	mi.pszService = MODULE "/NewAlarm";
 	mi.position = 500010000;

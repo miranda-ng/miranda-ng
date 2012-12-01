@@ -10,7 +10,7 @@ LPSTR InitKeyA(pUinKey ptr,int features) {
 		ptr->cntx = cpp_create_context(isProtoSmallPackets(ptr->hContact)?CPP_MODE_BASE64:0);
 
 	char *tmp = myDBGetString(ptr->hContact,szModuleName,"PSK");
-	if(tmp) {
+	if (tmp) {
 	    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
 	    mir_free(tmp);
 	}
@@ -18,14 +18,14 @@ LPSTR InitKeyA(pUinKey ptr,int features) {
 	LPSTR pub_text = cpp_init_keya(ptr->cntx,features);	// calculate public and private key & fill KeyA
 
 	LPSTR keysig;
-	if(features&CPP_FEATURES_NEWPG) {
-		if(features&KEY_B_SIG)
+	if (features&CPP_FEATURES_NEWPG) {
+		if (features&KEY_B_SIG)
 			keysig = (LPSTR)SIG_KEYB;
 		else
 			keysig = (LPSTR)SIG_KEYA;
 	}
 	else
-	if(isProtoSmallPackets(ptr->hContact))
+	if (isProtoSmallPackets(ptr->hContact))
 		keysig = (LPSTR)SIG_KEY4;
 	else
 		keysig = (LPSTR)SIG_KEY3;
@@ -51,7 +51,7 @@ int InitKeyB(pUinKey ptr,LPCSTR key) {
 
 	if (!cpp_keyp(ptr->cntx)) {
 		char *tmp = myDBGetString(ptr->hContact,szModuleName,"PSK");
-		if(tmp) {
+		if (tmp) {
 		    cpp_init_keyp(ptr->cntx,tmp);	// make pre-shared key from password
 		    mir_free(tmp);
 		}
@@ -161,7 +161,7 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 	LPSTR szNewMsg = NULL;
 	LPSTR szOldMsg = (ppre->flags&PREF_UTF)?cpp_decodeU(ptr->cntx,szEncMsg):cpp_decode(ptr->cntx,szEncMsg);
 
-	if(szOldMsg == NULL) {
+	if (szOldMsg == NULL) {
 		ptr->decoded=false;
 		switch(cpp_get_error(ptr->cntx)) {
 		case CPP_ERROR_BAD_LEN:
@@ -201,16 +201,16 @@ LPSTR decodeMsg(pUinKey ptr, LPARAM lParam, LPSTR szEncMsg) {
 
 BOOL LoadKeyPGP(pUinKey ptr) {
    	int mode = db_get_b(ptr->hContact,szModuleName,"pgp_mode",255);
-   	if(mode==0) {
+   	if (mode==0) {
    		DBVARIANT dbv;
    		DBGetContactSetting(ptr->hContact,szModuleName,"pgp",&dbv);
 		BOOL r=(dbv.type==DBVT_BLOB);
-		if(r) pgp_set_keyid(ptr->cntx,(PVOID)dbv.pbVal);
+		if (r) pgp_set_keyid(ptr->cntx,(PVOID)dbv.pbVal);
 		DBFreeVariant(&dbv);
 		return r;
    	}
    	else
-   	if(mode==1) {
+   	if (mode==1) {
    		LPSTR key = myDBGetStringDecode(ptr->hContact,szModuleName,"pgp");
 		if ( key ) {
    			pgp_set_key(ptr->cntx,key);

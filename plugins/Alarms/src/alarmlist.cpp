@@ -532,16 +532,11 @@ void ShowPopup(ALARM *alarm) {
 		memset(data, 0, sizeof(ALARM));
 		copy_alarm_data(data, alarm);
 
-		POPUPDATAT ppd;
-
-		ZeroMemory(&ppd, sizeof(ppd)); 
-		ppd.lchContact = 0; 
+		POPUPDATAT ppd = { 0 };
 		ppd.lchIcon = hIconMenuSet;
 
 		lstrcpy(ppd.lptzContactName, data->szTitle);
 		lstrcpy(ppd.lptzText, data->szDesc);
-		ppd.colorBack = 0;
-		ppd.colorText = 0;
 		ppd.PluginWindowProc = (WNDPROC)PopupAlarmDlgProc;
 		ppd.PluginData = data;
 		ppd.iSeconds = -1;
@@ -614,9 +609,7 @@ void DoAlarm(ALARM *alarm) {
 
 		if (alarm->action & AAF_SYSTRAY)
 		{
-			CLISTEVENT cle = {0};
-			cle.cbSize = sizeof(cle);
-			cle.hContact = 0;
+			CLISTEVENT cle = { sizeof(cle) };
 			cle.hIcon = hIconSystray;
 			cle.ptszTooltip = alarm->szTitle;
 			cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;

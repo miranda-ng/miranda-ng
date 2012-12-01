@@ -143,7 +143,7 @@ static int FAV_OnContactMenuBuild(WPARAM wParam,LPARAM lParam)
 	}
 
 	for (i=0; i < SIZEOF(rates); i++) {
-		mi.hIcon = mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8+i,TRUE,TRUE,iconsName[i],"Contact List",Translate(iconsName[i]),-IDI_FAVORITE_0 - i, &NeedFree);
+		mi.hIcon = CLUI_LoadIconFromExternalFile("clisticons.dll",8+i,TRUE,TRUE,iconsName[i],"Contact List",Translate(iconsName[i]),-IDI_FAVORITE_0 - i, &NeedFree);
 		mi.ptszName = rates[i];
 		mi.flags = CMIF_CHILDPOPUP|CMIF_TCHAR|((bContactRate == i)?CMIF_CHECKED:0);
 		mi.pszService = CLUI_FAVSETRATE;

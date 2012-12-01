@@ -71,7 +71,7 @@ void freeSupportedProtocols() {
 pSupPro getSupPro(HANDLE hContact) {
 	int j;
 	for(j=0;j<proto_cnt && !CallService(MS_PROTO_ISPROTOONCONTACT, (WPARAM)hContact, (LPARAM)proto[j].name);j++);
-	if(j==proto_cnt) return NULL;
+	if (j==proto_cnt) return NULL;
 	return &proto[j];
 }
 
@@ -84,7 +84,7 @@ pUinKey addContact(HANDLE hContact) {
 			for(j=0;j<clist_cnt;j++) {
 				if ( !clist[j].hContact ) break;
 			}
-			if(j==clist_cnt) {
+			if (j==clist_cnt) {
 				clist_cnt+=clist_inc;
 				clist = (pUinKey) mir_realloc(clist,sizeof(UinKey)*clist_cnt);
 				memset(&clist[j],0,sizeof(UinKey)*clist_inc);
@@ -117,7 +117,7 @@ void delContact(HANDLE hContact) {
 	if (hContact) {
 		int j;
 		for(j=0;j<clist_cnt;j++) {
-			if(clist[j].hContact == hContact) {
+			if (clist[j].hContact == hContact) {
 				cpp_delete_context(clist[j].cntx); clist[j].cntx = 0;
 				clist[j].hContact = 0;
 				SAFE_FREE(clist[j].tmp);
@@ -183,7 +183,7 @@ void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg) {
 
 	EnterCriticalSection(&localQueueMutex);
 
-	if(ptr->msgQueue==NULL){
+	if (ptr->msgQueue==NULL){
 		// create new
 		ptr->msgQueue = (pWM) mir_alloc(sizeof(struct waitingMessage));
 		ptrMessage = ptr->msgQueue;
@@ -201,7 +201,7 @@ void addMsg2Queue(pUinKey ptr,WPARAM wParam,LPSTR szMsg) {
 	ptrMessage->wParam = wParam;
 	ptrMessage->nextMessage = NULL;
 
-	if(wParam & PREF_UNICODE) {
+	if (wParam & PREF_UNICODE) {
 		int slen = (int)strlen(szMsg)+1;
 		int wlen = (int)wcslen((wchar_t *)(szMsg+slen))+1;
 		ptrMessage->Message = (LPSTR) mir_alloc(slen+wlen*sizeof(WCHAR));

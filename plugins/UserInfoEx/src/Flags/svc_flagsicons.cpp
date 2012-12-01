@@ -415,25 +415,25 @@ VOID InitIcons()
 		phIconHandles = (HANDLE*)mir_alloc(nCountriesCount*sizeof(HANDLE));
 		if (phIconHandles != NULL) {
 			char szId[20];
-			SKINICONDESC skid = { sizeof(skid) };
-			skid.ptszSection = LPGENT("Country Flags");
-			skid.pszName = szId;			// name to refer to icon when playing and in db
-			skid.cx = GetSystemMetrics(SM_CXSMICON); 
-			skid.cy = GetSystemMetrics(SM_CYSMICON);
-			skid.flags = SIDF_SORTED | SIDF_TCHAR;
+			SKINICONDESC sid = { sizeof(sid) };
+			sid.ptszSection = LPGENT("Country Flags");
+			sid.pszName = szId;			// name to refer to icon when playing and in db
+			sid.cx = GetSystemMetrics(SM_CXSMICON); 
+			sid.cy = GetSystemMetrics(SM_CYSMICON);
+			sid.flags = SIDF_SORTED | SIDF_TCHAR;
 
 			for (int i=0; i < nCountriesCount; i++) {
-				skid.ptszDescription = mir_a2t(LPGEN(countries[i].szName));
+				sid.ptszDescription = mir_a2t(LPGEN(countries[i].szName));
 				/* create identifier */
 				wsprintfA(szId,(countries[i].id==0xFFFF)?"%s0x%X":"%s%i","flags_",countries[i].id); /* buffer safe */
 				int index = CountryNumberToBitmapIndex(countries[i].id);
 				/* create icon */
-				skid.hDefaultIcon=ImageList_ExtractIcon(NULL, himl, index);
+				sid.hDefaultIcon = ImageList_ExtractIcon(NULL, himl, index);
 				index = CountryNumberToIndex(countries[i].id);
 
-				phIconHandles[index] = Skin_AddIcon(&skid);
-				if(skid.hDefaultIcon!=NULL) DestroyIcon(skid.hDefaultIcon);
-				mir_free(skid.ptszDescription); skid.ptszDescription = NULL;
+				phIconHandles[index] = Skin_AddIcon(&sid);
+				if(sid.hDefaultIcon!=NULL) DestroyIcon(sid.hDefaultIcon);
+				mir_free(sid.ptszDescription); sid.ptszDescription = NULL;
 			}
 		}
 		ImageList_Destroy(himl);

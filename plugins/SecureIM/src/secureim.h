@@ -132,41 +132,4 @@ const SIG signs[] = {
 #define ADV_CNT		8
 #define ALL_CNT		(IEC_CNT+ICO_CNT+POP_CNT)
 
-struct ICONS {
-	UINT key; // Resource ID
-	BYTE tbl; // Table NUM
-	BYTE idx; // Table IDX
-	char *section;
-	char *name;
-	char *text;
-};
-
-const ICONS icons[] = {
-	// Contact List
-	{IDI_CL_DIS,	TBL_IEC, IEC_CL_DIS,	MODULENAME"/Contact List", "sim_cl_dis", "Connection Disabled"},
-	{IDI_CL_EST,	TBL_IEC, IEC_CL_EST,	MODULENAME"/Contact List", "sim_cl_est", "Connection Established"},
-	// Contact Menu
-	{IDI_CM_DIS,	TBL_ICO, ICO_CM_DIS,	MODULENAME"/Contact Menu", "sim_cm_dis", "Disable Secure Connection"},
-	{IDI_CM_EST,	TBL_ICO, ICO_CM_EST,	MODULENAME"/Contact Menu", "sim_cm_est", "Establishe Secure Connection"},
-	// Message Window
-	{IDI_MW_DIS,	TBL_ICO, ICO_MW_DIS,	MODULENAME"/Message Window", "sim_mw_dis", "Connection Disabled"},
-	{IDI_MW_EST,	TBL_ICO, ICO_MW_EST,	MODULENAME"/Message Window", "sim_mw_est", "Connection Established"},
-	// popup's
-	{IDI_PU_DIS,	TBL_POP, POP_PU_DIS,	MODULENAME"/Popups", "sim_pu_dis", "Secure Connection Disabled"},
-	{IDI_PU_EST,	TBL_POP, POP_PU_EST,	MODULENAME"/Popups", "sim_pu_est", "Secure Connection Established"},
-	{IDI_PU_PRC,	TBL_POP, POP_PU_PRC,	MODULENAME"/Popups", "sim_pu_prc", "Secure Connection In Process"},
-	{IDI_PU_MSG,	TBL_POP, POP_PU_MSR,	MODULENAME"/Popups", "sim_pu_msr", "Recv Secured Message"},
-	{IDI_PU_MSG,	TBL_POP, POP_PU_MSS,	MODULENAME"/Popups", "sim_pu_mss", "Sent Secured Message"},
-	// statuses
-	{IDI_ST_DIS,	TBL_ICO, ICO_ST_DIS,	MODULENAME"/Menu State", "sim_st_dis", "Disabled"},
-	{IDI_ST_ENA,	TBL_ICO, ICO_ST_ENA,	MODULENAME"/Menu State", "sim_st_ena", "Enabled"},
-	{IDI_ST_TRY,	TBL_ICO, ICO_ST_TRY,	MODULENAME"/Menu State", "sim_st_try", "Always Try"},
-	// overlay
-	{IDI_OV_NAT,	TBL_ICO, ICO_OV_NAT,	MODULENAME"/Overlays", "sim_ov_nat", "Native mode"},
-	{IDI_OV_PGP,	TBL_ICO, ICO_OV_PGP,	MODULENAME"/Overlays", "sim_ov_pgp", "PGP mode"},
-	{IDI_OV_GPG,	TBL_ICO, ICO_OV_GPG,	MODULENAME"/Overlays", "sim_ov_gpg", "GPG mode"},
-	{IDI_OV_RSA,	TBL_ICO, ICO_OV_RSA,	MODULENAME"/Overlays", "sim_ov_rsa", "RSA/AES mode"},
-	{0}
-};
-
 #endif

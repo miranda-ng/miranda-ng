@@ -3,7 +3,7 @@
 
 // return SignID
 int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg=NULL) {
-	if(szPlainMsg) *szPlainMsg=(LPSTR)szMsg;
+	if (szPlainMsg) *szPlainMsg=(LPSTR)szMsg;
 	for(int i=0;signs[i].len;i++) {
 		if (memcmp(szMsg,signs[i].sig,signs[i].len)==0) {
 /*			for(int i=strlen(szMsg)-1;i;i--) {
@@ -12,8 +12,8 @@ int getSecureSig(LPCSTR szMsg, LPSTR *szPlainMsg=NULL) {
 				else
 					break;
 			}*/
-			if(szPlainMsg) *szPlainMsg = (LPSTR)(szMsg+signs[i].len);
-			if(signs[i].key==SiG_GAME && !bDGP)
+			if (szPlainMsg) *szPlainMsg = (LPSTR)(szMsg+signs[i].len);
+			if (signs[i].key==SiG_GAME && !bDGP)
 				return SiG_NONE;
 			return signs[i].key;
 		}
@@ -60,7 +60,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		SAFE_FREE(szUnrtfMsg);
 		int len = (int)strlen(szEncMsg)+1;
 		LPWSTR szTemp = (LPWSTR)mir_alloc(len*sizeof(WCHAR));
-	   	if(ppre->flags & PREF_UNICODE)
+	   	if (ppre->flags & PREF_UNICODE)
 	   		rtfconvW((LPWSTR)(szEncMsg+len),szTemp);
 	   	else
 	   		rtfconvA(szEncMsg,szTemp);
@@ -118,7 +118,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 		Sent_NetLog("onRecvMsg: non-secure message");
 #endif
-		if(ppre->flags & PREF_UNICODE) {
+		if (ppre->flags & PREF_UNICODE) {
 			szPlainMsg = m_awstrcat(Translate(sim402),szEncMsg);
 		}
 		else {
@@ -201,9 +201,9 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 		if (!ptr->keyLoaded && bPGPloaded) ptr->keyLoaded = LoadKeyPGP(ptr);
 		if (!ptr->keyLoaded && bGPGloaded) ptr->keyLoaded = LoadKeyGPG(ptr);
 
-		if(ptr->keyLoaded==1) szOldMsg = pgp_decode(ptr->cntx, szEncMsg);
+		if (ptr->keyLoaded==1) szOldMsg = pgp_decode(ptr->cntx, szEncMsg);
 		else
-		if(ptr->keyLoaded==2) szOldMsg = gpg_decode(ptr->cntx, szEncMsg);
+		if (ptr->keyLoaded==2) szOldMsg = gpg_decode(ptr->cntx, szEncMsg);
 
 		if (!szOldMsg) { // error while decrypting message, send error
 			SAFE_FREE(ptr->msgSplitted);
@@ -473,7 +473,7 @@ INT_PTR __cdecl onRecvMsg(WPARAM wParam, LPARAM lParam) {
 			showPopUpKR(ptr->hContact);
 
 			cpp_reset_context(ptr->cntx);
-			if(InitKeyB(ptr,szEncMsg)!=CPP_ERROR_NONE) {
+			if (InitKeyB(ptr,szEncMsg)!=CPP_ERROR_NONE) {
 #if defined(_DEBUG) || defined(NETLIB_LOG)
 				Sent_NetLog("onRecvMsg: SiG_KEYA InitKeyB error");
 #endif
@@ -618,7 +618,7 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 	    // если можно зашифровать - шифруем
             if ( isContactPGP(ptr->hContact) || isContactGPG(ptr->hContact)) {
 /*
-		if(stat==ID_STATUS_OFFLINE) {
+		if (stat==ID_STATUS_OFFLINE) {
 			if (msgbox1(0,sim110,szModuleName,MB_YESNO|MB_ICONQUESTION)==IDNO) {
 				return returnNoError(pccsd->hContact);
 			}
@@ -894,8 +894,8 @@ INT_PTR __cdecl onSendMsg(WPARAM wParam, LPARAM lParam) {
 		dbei.flags = DBEF_SENT;
 		dbei.timestamp = time(NULL);
 		dbei.eventType = EVENTTYPE_MESSAGE;
-		if(pccsd->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
-		if(pccsd->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
+		if (pccsd->wParam & PREF_RTL) dbei.flags |= DBEF_RTL;
+		if (pccsd->wParam & PREF_UTF) dbei.flags |= DBEF_UTF;
 		dbei.cbBlob = strlen((char *)pccsd->lParam) + 1;
 		if ( pccsd->wParam & PREF_UNICODE )
 			dbei.cbBlob *= ( sizeof( wchar_t )+1 );
@@ -970,7 +970,7 @@ INT_PTR __cdecl onSendFile(WPARAM wParam, LPARAM lParam) {
 	if ( isContactSecured(pccsd->hContact)&SECURED ) {
 
 		char **file=(char **)pccsd->lParam;
-		if(file_idx==100) file_idx=0;
+		if (file_idx==100) file_idx=0;
 		int i;
 		for(i=0;file[i];i++) {
 
@@ -1090,7 +1090,7 @@ int __cdecl onProtoAck(WPARAM wParam,LPARAM lParam) {
 						buf[0]='\0';
 						LPSTR p=strrchr(file_out,'.');
 						LPSTR x=strrchr(file_out,'\\');
-						if(p>x) {
+						if (p>x) {
 							strcpy(buf,p);
 							pos=p;
 						}

@@ -33,7 +33,7 @@ int CheckForDuplicate(DWORD contact_list[],DWORD lparam);
 BOOL ResaveSettings(char* szName,int iFirst,int iLimit,TCHAR* pszPrevSetting);
 void OffsetWindow(HWND parent, HWND hwnd, int dx, int dy);
 int LoadSessionToCombobox (HWND hdlg,BOOL mode,int iLimit,char* pszSetting,int iFirstNum);
-HANDLE AddIcon(HICON icon, char *name, TCHAR *description);
+HANDLE AddIcon(char *name, char *description, int idx);
 int MarkUserDefSession(int ses_count,BYTE bCheck);
 BYTE IsMarkedUserDefSession(int ses_count);
 void SavePosition(HWND hWnd, char *wndName);

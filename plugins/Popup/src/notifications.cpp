@@ -188,11 +188,11 @@ void LoadNotificationSettings(POPUPTREEDATA *ptd, char* szModul)
 HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 {
 	POPUPTREEDATA *ptd = (POPUPTREEDATA *)mir_alloc(sizeof(POPUPTREEDATA));
-	ptd->signature			= PopupNotificationData_SIGNATURE;
-	ptd->typ				= 1;
-	ptd->pszTreeRoot		= mir_a2t(notification->lpzGroup);
-	ptd->pszDescription		= mir_a2t(notification->lpzName);
-	ptd->notification		= *notification;
+	ptd->signature = PopupNotificationData_SIGNATURE;
+	ptd->typ = 1;
+	ptd->pszTreeRoot = mir_a2t(notification->lpzGroup);
+	ptd->pszDescription = mir_a2t(notification->lpzName);
+	ptd->notification = *notification;
 	if (!ptd->notification.lpzLAction) ptd->notification.lpzLAction = POPUP_ACTION_NOTHING;
 	if (!ptd->notification.lpzRAction) ptd->notification.lpzRAction = POPUP_ACTION_DISMISS;
 	LoadNotificationSettings(ptd, "PopUpNotifications");
@@ -228,8 +228,7 @@ HANDLE RegisterNotification(POPUPNOTIFICATION *notification)
 	mir_snprintf(section, sizeof(section), "PopUps/%s", notification->lpzGroup);
 	mir_snprintf(setting, sizeof(setting), "%s_%s_%s", MODULNAME, notification->lpzGroup, notification->lpzName);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = section;
 	sid.cx = sid.cy = 16;
 	sid.pszName = setting;

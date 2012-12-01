@@ -347,7 +347,6 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 {
 	char szPath[MAX_PATH],szMyPath[MAX_PATH], szFullPath[MAX_PATH],*str;
 	BOOL has_proto_icon=FALSE;
-	SKINICONDESC sid={0};
 	if (needFree) *needFree=FALSE;
 	GetModuleFileNameA(NULL, szPath, MAX_PATH);
 	str=strrchr(szPath,'\\');
@@ -359,8 +358,8 @@ static HICON LoadTransportIcon(char *filename,int i,char *IconName,TCHAR *SectNa
 	if (hi) has_proto_icon=TRUE;
 	if (hi && nf) DestroyIcon(hi);
 	if (IconName != NULL && SectName != NULL)  {
-		sid.cbSize = sizeof(sid);
-		sid.hDefaultIcon = (has_proto_icon)?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,0,(LPARAM)(-internalidx));
+		SKINICONDESC sid = { sizeof(sid) };
+		sid.hDefaultIcon = (has_proto_icon) ? NULL : LoadSkinnedProtoIcon(0, -internalidx);
 		sid.ptszSection = SectName;
 		sid.pszName = IconName;
 		sid.ptszDescription = Description;
@@ -384,7 +383,6 @@ static HICON LoadSmallIcon(HINSTANCE hInstance, LPCTSTR lpIconName)
 
 int CJabberProto::LoadAdvancedIcons(int iID)
 {
-	int i;
 	char *proto = TransportProtoTable[iID].proto;
 	char defFile[MAX_PATH] = {0};
 	TCHAR Group[255];
@@ -398,7 +396,7 @@ int CJabberProto::LoadAdvancedIcons(int iID)
 		hAdvancedStatusIcon=(HIMAGELIST)CallService(MS_CLIST_GETICONSIMAGELIST,0,0);
 
 	EnterCriticalSection(&m_csModeMsgMutex);
-	for (i=0; i<ID_STATUS_ONTHEPHONE-ID_STATUS_OFFLINE; i++) {
+	for (int i=0; i < ID_STATUS_ONTHEPHONE-ID_STATUS_OFFLINE; i++) {
 		HICON hicon;
 		BOOL needFree;
 		int n=skinStatusToJabberStatus[i];

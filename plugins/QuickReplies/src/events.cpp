@@ -35,11 +35,8 @@ INT_PTR QuickRepliesService(WPARAM, LPARAM)
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(hOnModulesLoaded);
-	HANDLE hIcon = NULL;
-	char buttonName[32];
 
-	if (!ServiceExists(MS_QUICKREPLIES_SERVICE))
-	{
+	if ( !ServiceExists(MS_QUICKREPLIES_SERVICE)) {
 		iNumber = 0;
 		hQuickRepliesService = CreateServiceFunction(MS_QUICKREPLIES_SERVICE, QuickRepliesService);
 	}
@@ -49,20 +46,23 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hOnOptInitialized = HookEvent(ME_OPT_INITIALISE, OnOptInitialized); 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
 
-	char buttonNameTranslated[32];
-	mir_snprintf(buttonName, SIZEOF(buttonName), "Button %x", iNumber + 1);
-	mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x",Translate("Button"), iNumber + 1);
+	if ( ServiceExists(MS_BB_ADDBUTTON)) {
+		char buttonNameTranslated[32], buttonName[32];
+		mir_snprintf(buttonName, SIZEOF(buttonName), "Button %x", iNumber + 1);
+		mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x",Translate("Button"), iNumber + 1);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.pszSection = "TabSRMM/Quick Replies";
-	sid.cx = sid.cy = 16;
-	sid.pszDescription = buttonNameTranslated;
-	sid.pszName = buttonName;
-	sid.hDefaultIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_QICON));
-	hIcon = Skin_AddIcon(&sid);
+		TCHAR tszPath[MAX_PATH];
+		GetModuleFileName(hInstance, tszPath, SIZEOF(tszPath));
 
-	if (ServiceExists(MS_BB_ADDBUTTON)) {
+		SKINICONDESC sid = { sizeof(sid) };
+		sid.pszSection = "TabSRMM/Quick Replies";
+		sid.cx = sid.cy = 16;
+		sid.pszDescription = buttonNameTranslated;
+		sid.pszName = buttonName;
+		sid.ptszDefaultFile = tszPath;
+		sid.iDefaultIndex = -IDI_QICON;
+		HANDLE hIcon = Skin_AddIcon(&sid);
+
 		mir_snprintf(buttonName, SIZEOF(buttonName), MODULE_NAME" %x", iNumber + 1);
 
 		BBButton bbd = {0};

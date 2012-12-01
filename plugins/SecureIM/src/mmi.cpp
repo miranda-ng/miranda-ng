@@ -136,11 +136,11 @@ LPSTR utf8_to_miranda(LPCSTR szUtfMsg, DWORD& flags) {
 // преобразуем текст из формата миранды в чистый UTF8
 LPSTR miranda_to_utf8(LPCSTR szMirMsg, DWORD flags) {
 	LPSTR szNewMsg;
-	if(flags & PREF_UTF) {
+	if (flags & PREF_UTF) {
 		szNewMsg = (LPSTR) szMirMsg;
 	}
 	else
-	if(flags & PREF_UNICODE) {
+	if (flags & PREF_UNICODE) {
 		szNewMsg = exp->utf8encode((LPCWSTR)(szMirMsg+strlen(szMirMsg)+1));
 	}
 	else {

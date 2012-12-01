@@ -35,7 +35,7 @@ BYTE isContactSecured(HANDLE hContact) {
 			r=clist[j].mode;
 			switch(r) {
 			case MODE_NATIVE:
-				if(cpp_keyx(clist[j].cntx)!=0) r|=SECURED;
+				if (cpp_keyx(clist[j].cntx)!=0) r|=SECURED;
 				break;
 			case MODE_PGP:
 				DBGetContactSetting(hContact,szModuleName,"pgp",&dbv);
@@ -48,10 +48,10 @@ BYTE isContactSecured(HANDLE hContact) {
 				DBFreeVariant(&dbv);
 				break;
 			case MODE_RSAAES:
-				if(exp->rsa_get_state(clist[j].cntx)==7) r|=SECURED;
+				if (exp->rsa_get_state(clist[j].cntx)==7) r|=SECURED;
 				break;
 			case MODE_RSA:
-				if(clist[j].cntx) r|=SECURED;
+				if (clist[j].cntx) r|=SECURED;
 				break;
 			}
 			break;

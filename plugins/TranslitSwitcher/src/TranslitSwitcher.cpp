@@ -75,15 +75,13 @@ INT_PTR ServiceInvert(WPARAM wParam, LPARAM lParam)
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
 {
-	HANDLE hSwitchIcon = NULL, hTranslitIcon = NULL, hInvertIcon = NULL;
+	hService = CreateServiceFunction(MS_TS_SWITCHLAYOUT, ServiceSwitch);
+	hService2 = CreateServiceFunction(MS_TS_TRANSLITLAYOUT, ServiceTranslit);
+	hService3 = CreateServiceFunction(MS_TS_INVERTCASE, ServiceInvert);
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
-
-	hService = CreateServiceFunction(MS_TS_SWITCHLAYOUT, ServiceSwitch);
-	hService2 = CreateServiceFunction(MS_TS_TRANSLITLAYOUT, ServiceTranslit);
-	hService3 = CreateServiceFunction(MS_TS_INVERTCASE, ServiceInvert);
 
 	hkd.pszName = "TranslitSwitcher/ConvertAllOrSelected";
 	hkd.ptszDescription = _T("Convert All / Selected");
@@ -133,25 +131,28 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
 	if (ServiceExists(MS_BB_ADDBUTTON)) {
-		SKINICONDESC sid = {0};
-		sid.cbSize = sizeof(SKINICONDESC);
-		sid.flags = SIDF_TCHAR;
+		TCHAR tszPath[MAX_PATH];
+		GetModuleFileName(hInst, tszPath, SIZEOF(tszPath));
+
+		SKINICONDESC sid = { sizeof(sid) };
+		sid.flags = SIDF_ALL_TCHAR;
 		sid.ptszSection = _T("TabSRMM/TranslitSwitcher");
 		sid.cx = sid.cy = 16;
-		sid.ptszDescription = _T("SwitchLayout and Send");
-		sid.pszName = "SwitchLayout and Send";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_SWITCHSEND));
-		hSwitchIcon = Skin_AddIcon(&sid);
+		sid.ptszDescription = _T("Switch Layout and Send");
+		sid.pszName = "Switch Layout and Send";
+		sid.ptszDefaultFile = tszPath;
+		sid.iDefaultIndex = -IDI_SWITCHSEND;
+		HANDLE hSwitchIcon = Skin_AddIcon(&sid);
 
 		sid.ptszDescription = _T("Translit and Send");
 		sid.pszName = "Translit and Send";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_TRANSLITSEND));
-		hTranslitIcon = Skin_AddIcon(&sid);
+		sid.iDefaultIndex = -IDI_TRANSLITSEND;
+		HANDLE hTranslitIcon = Skin_AddIcon(&sid);
 
 		sid.ptszDescription = _T("Invert Case and Send");
 		sid.pszName = "Invert Case and Send";
-		sid.hDefaultIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_INVERTSEND));
-		hInvertIcon = Skin_AddIcon(&sid);
+		sid.iDefaultIndex = -IDI_INVERTSEND;
+		HANDLE hInvertIcon = Skin_AddIcon(&sid);
 
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);

@@ -171,7 +171,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=1;
 
-	if(indic==1)SendMessage(hec,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hec,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hec,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// dc checkbox
@@ -180,7 +180,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=1;
 
-	if(indic==1)SendMessage(hdc,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hdc,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hdc,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// ks checkbox
@@ -189,7 +189,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=1;
 
-	if(indic==1)SendMessage(hks,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hks,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hks,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	// kr checkbox
@@ -198,7 +198,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=1;
 
-	if(indic==1)SendMessage(hkr,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hkr,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hkr,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	//ss checkbox
@@ -207,7 +207,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=0;
 
-	if(indic==1)SendMessage(hss,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hss,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hss,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	//sr checkbox
@@ -216,7 +216,7 @@ void RefreshPopupOptionsDlg(HWND hec,HWND hdc,HWND hss,HWND hsr,HWND hks,HWND hk
 	}
 	else indic=0;
 
-	if(indic==1)SendMessage(hsr,BM_SETCHECK,BST_CHECKED,0L);
+	if (indic==1)SendMessage(hsr,BM_SETCHECK,BST_CHECKED,0L);
 	else SendMessage(hsr,BM_SETCHECK,BST_UNCHECKED,0L);
 
 	DBFreeVariant(&dbv);

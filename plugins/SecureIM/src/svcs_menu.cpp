@@ -26,9 +26,9 @@ INT_PTR __cdecl Service_Status(WPARAM wParam, LPARAM lParam) {
     case STATUS_ENABLED:
     case STATUS_ALWAYSTRY:
 		pUinKey ptr = getUinKey((HANDLE)wParam);
-		if(ptr) {
+		if (ptr) {
 			ptr->status=ptr->tstatus=(BYTE)lParam;
-			if(ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
+			if (ptr->status==STATUS_ENABLED)	DBDeleteContactSetting(ptr->hContact, szModuleName, "StatusID");
 			else 				db_set_b(ptr->hContact, szModuleName, "StatusID", ptr->status);
 		}
 		break;
@@ -58,7 +58,7 @@ INT_PTR __cdecl Service_StatusTry(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM lParam) {
 
-	if(bPGPloaded) {
+	if (bPGPloaded) {
     	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp");
     	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp_mode");
     	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "pgp_abbr");
@@ -75,11 +75,11 @@ INT_PTR __cdecl Service_PGPdelKey(WPARAM wParam, LPARAM lParam) {
 INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
 
 	BOOL del = true;
-	if(bPGPloaded) {
-    	if(bPGPkeyrings) {
+	if (bPGPloaded) {
+    	if (bPGPkeyrings) {
 	    char szKeyID[128]; szKeyID[0]='\0';
     	    PVOID KeyID = pgp_select_keyid(GetForegroundWindow(),szKeyID);
-	    if(szKeyID[0]) {
+	    if (szKeyID[0]) {
     		DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
     		DBCONTACTWRITESETTING cws;
     		memset(&cws,0,sizeof(cws));
@@ -95,11 +95,11 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
 	    }
     	}
     	else
-    	if(bPGPprivkey) {
+    	if (bPGPprivkey) {
     		char KeyPath[MAX_PATH]; KeyPath[0]='\0';
-    	  	if(ShowSelectKeyDlg(0,KeyPath)) {
+    	  	if (ShowSelectKeyDlg(0,KeyPath)) {
     	  		char *publ = LoadKeys(KeyPath,false);
-    	  		if(publ) {
+    	  		if (publ) {
     				DBDeleteContactSetting((HANDLE)wParam,szModuleName,"pgp");
     		  		myDBWriteStringEncode((HANDLE)wParam,szModuleName,"pgp",publ);
     				db_set_b((HANDLE)wParam,szModuleName,"pgp_mode",1);
@@ -111,7 +111,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
     	}
 	}
 
-	if(del) Service_PGPdelKey(wParam,lParam);
+	if (del) Service_PGPdelKey(wParam,lParam);
 	else {
 		pUinKey ptr = getUinKey((HANDLE)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
@@ -123,7 +123,7 @@ INT_PTR __cdecl Service_PGPsetKey(WPARAM wParam, LPARAM lParam) {
 
 INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM lParam) {
 
-	if(bGPGloaded) {
+	if (bGPGloaded) {
     	    DBDeleteContactSetting((HANDLE)wParam, szModuleName, "gpg");
 	}
 	{
@@ -138,16 +138,16 @@ INT_PTR __cdecl Service_GPGdelKey(WPARAM wParam, LPARAM lParam) {
 INT_PTR __cdecl Service_GPGsetKey(WPARAM wParam, LPARAM lParam) {
 
 	BOOL del = true;
-	if(bGPGloaded && bGPGkeyrings) {
+	if (bGPGloaded && bGPGkeyrings) {
    		char szKeyID[128]; szKeyID[0]='\0';
 		gpg_select_keyid(GetForegroundWindow(),szKeyID);
-   		if(szKeyID[0]) {
+   		if (szKeyID[0]) {
    		    DBWriteContactSettingString((HANDLE)wParam,szModuleName,"gpg",szKeyID);
    	  		del = false;
    		}
 	}
 
-	if(del) Service_GPGdelKey(wParam,lParam);
+	if (del) Service_GPGdelKey(wParam,lParam);
 	else {
 		pUinKey ptr = getUinKey((HANDLE)wParam);
 		cpp_delete_context(ptr->cntx); ptr->cntx=0;
@@ -174,7 +174,7 @@ INT_PTR __cdecl Service_Mode(WPARAM wParam, LPARAM lParam) {
     case MODE_PGP:
     case MODE_GPG:
     		// нужно много проверок и отключение активного контекста если необходимо
-		if(ptr) {
+		if (ptr) {
 			if ( ptr->cntx ) {
 		    		cpp_delete_context(ptr->cntx);
 				ptr->cntx = 0;

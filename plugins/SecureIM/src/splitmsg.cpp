@@ -68,7 +68,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
 #endif
 	int len=0,i;
 	for ( i=0; i<part_all; i++ ) {
-		if(pm->message[i]==NULL) break;
+		if (pm->message[i]==NULL) break;
 		len+=(int)strlen(pm->message[i]);
 	}
 	if ( i==part_all ) { // combine message
@@ -79,7 +79,7 @@ LPSTR combineMessage(pUinKey ptr, LPSTR szMsg) {
 			delete pm->message[i];
 		}
 		delete pm->message;
-		if(ppm) ppm->nextMessage = pm->nextMessage;
+		if (ppm) ppm->nextMessage = pm->nextMessage;
 		else 	ptr->msgPart = pm->nextMessage;
 		delete pm;
 #if defined(_DEBUG) || defined(NETLIB_LOG)

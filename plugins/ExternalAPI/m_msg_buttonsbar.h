@@ -99,22 +99,22 @@ typedef struct {
 #define BBBF_CREATEBYID			(1<<11)  //only for tabsrmm internal use
 
 typedef struct _tagBBButton
-	{
-	int cbSize;			// size of structure
+{
+	int cbSize;           // size of structure
 
-	DWORD dwButtonID;		 // your button ID, will be combined with pszModuleName for storing settings, etc...
+	DWORD dwButtonID;     // your button ID, will be combined with pszModuleName for storing settings, etc...
 
-	char* pszModuleName;		 //module name without spaces and underline symbols (e.g. "tabsrmm")
+	char* pszModuleName;  //module name without spaces and underline symbols (e.g. "tabsrmm")
 	union{
-	char* pszTooltip;		//button's tooltip
-	TCHAR* ptszTooltip;
-		};
-	DWORD dwDefPos;			 // default order pos of button, counted from window edge (left or right)
-							 //	use value >100, because internal buttons using 10,20,30... 80, etc
-	int iButtonWidth;		// must be 0
-	DWORD bbbFlags;			 // combine of BBBF_ flags above
-	HANDLE hIcon;		//Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
-	}BBButton;
-
+		char* pszTooltip;  //button's tooltip
+		TCHAR* ptszTooltip;
+	};
+	DWORD dwDefPos;       // default order pos of button, counted from window edge (left or right)
+	                      // use value >100, because internal buttons using 10,20,30... 80, etc
+	int iButtonWidth;		 // must be 0
+	DWORD bbbFlags;       // combine of BBBF_ flags above
+	HANDLE hIcon;         // Handle to icolib registered icon, it's better to register with pszSection = "TabSRMM/Toolbar"
+}
+	BBButton;
 
 #endif  //M_MSG_BUTTONSBAR_H__

@@ -148,7 +148,7 @@ int __cdecl onRebuildContactMenu(WPARAM wParam,LPARAM lParam) {
 			}
 		}
 		if ( ptr->mode==MODE_GPG && bGPGloaded ) {
-			if(bGPGkeyrings && !isPGP) {
+			if (bGPGkeyrings && !isPGP) {
 				mi.flags = CMIM_FLAGS;
 				CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)g_hMenu[isGPG+8],(LPARAM)&mi);
 			}
