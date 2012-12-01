@@ -60,15 +60,16 @@ BOOL ModuleLoaded;
 static const PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	"Weather Protocol",
-	__VERSION_DWORD,
-	"Retrieves weather information and displays it in your contact list.",
-	"Miranda NG Team",
-	"www.miranda-ng.org",
-	"(c) 2002-2005 NoName, 2005-2010 Boris Krasnovskiy, 2012 Miranda NG Team",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_WEATHER
+	// {6B612A34-DCF2-4e32-85CF-B6FD006B745E}
+	{0x6b612a34, 0xdcf2, 0x4e32, { 0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 

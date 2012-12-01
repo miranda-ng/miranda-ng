@@ -20,9 +20,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef M_WEATHER_H__
 #define M_WEATHER_H__ 1
 
-// {6B612A34-DCF2-4e32-85CF-B6FD006B745E}
-#define MIID_WEATHER { 0x6b612a34, 0xdcf2, 0x4e32, { 0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e } } 
-
 //============  CONSTANTS  ============
 
 // name
