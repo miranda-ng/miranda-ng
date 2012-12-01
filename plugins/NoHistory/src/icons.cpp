@@ -20,22 +20,24 @@ void InitIcons()
 	sid.pszSection = MODULE;
 	sid.flags = SIDF_PATH_TCHAR;
 
-	TCHAR path[MAX_PATH]; 
+	TCHAR path[MAX_PATH];
 	GetModuleFileName(hInst,path,MAX_PATH);
 	sid.ptszDefaultFile = path;
 
-#define AddIcon(x,y,z) \
-	sid.pszDescription = x; \
-	sid.pszName = y; \
-	sid.iDefaultIndex = -z; \
-	Skin_AddIcon(&sid); \
-	sid.iDefaultIndex++;																		
+	sid.pszDescription = LPGEN("Disable");
+	sid.pszName = MODULE "_remove";
+	sid.iDefaultIndex = -IDI_HREMOVE;
+	Skin_AddIcon(&sid);
 
-	AddIcon( LPGEN("Disable"), MODULE "_remove", IDI_HREMOVE);
-	AddIcon( LPGEN("Enable"), MODULE "_keep", IDI_HKEEP);
-	AddIcon( LPGEN("Clear"), MODULE "_clear", IDI_HCLEAR);
+	sid.pszDescription = LPGEN("Enable");
+	sid.pszName = MODULE "_keep";
+	sid.iDefaultIndex = -IDI_HKEEP;
+	Skin_AddIcon(&sid);
 
-#undef	AddIcon
+	sid.pszDescription = LPGEN("Clear");
+	sid.pszName = MODULE "_clear";
+	sid.iDefaultIndex = -IDI_HCLEAR;
+	Skin_AddIcon(&sid);
 
 	ReloadIcons(0, 0);
 
