@@ -71,7 +71,6 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 void InitIcons(void)
 {
 	HINSTANCE hNewIconInst = NULL;
@@ -95,7 +94,7 @@ void InitIcons(void)
 		g_hIconInst = hNewIconInst;
 
 	TCHAR tszPath[MAX_PATH];
-	GetModuleFileName(g_hInst, tszPath, SIZEOF(tszPath));
+	GetModuleFileName(g_hIconInst, tszPath, SIZEOF(tszPath));
 
 	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = "SecureIM";

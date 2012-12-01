@@ -5,9 +5,7 @@ int hLangpack = 0;
 BOOL APIENTRY DllMain(HINSTANCE hInst, DWORD dwReason, LPVOID) {
 	g_hInst = hInst;
 	if (dwReason == DLL_PROCESS_ATTACH) {
-		INITCOMMONCONTROLSEX icce = {
-			sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES
-		};
+		INITCOMMONCONTROLSEX icce = { sizeof(icce), ICC_LISTVIEW_CLASSES | ICC_TAB_CLASSES };
 		InitCommonControlsEx(&icce);
 	}
 	return TRUE;
@@ -27,22 +25,19 @@ void AddServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
 	iService++;
 }
 
-
-void AddProtoServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction) {
-
+void AddProtoServiceFunction(LPCSTR serviceName, MIRANDASERVICE serviceFunction)
+{
 	g_hService = (HANDLE*) mir_realloc(g_hService,sizeof(HANDLE)*(iService+1));
  	g_hService[iService] = CreateProtoServiceFunction(szModuleName, serviceName, serviceFunction);
 	iService++;
 }
 
-
-void AddHookFunction(LPCSTR eventName, MIRANDAHOOK hookFunction) {
-
+void AddHookFunction(LPCSTR eventName, MIRANDAHOOK hookFunction)
+{
 	g_hHook = (HANDLE*) mir_realloc(g_hHook,sizeof(HANDLE)*(iHook+1));
 	g_hHook[iHook] = HookEvent(eventName, hookFunction);
 	iHook++;
 }
-
 
 HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WPARAM wParam=0)
 {
@@ -55,7 +50,6 @@ HANDLE AddMenuItem(LPCSTR name,int pos,HICON hicon,LPCSTR service,int flags=0,WP
 	mi.pszService = (char*)service;
 	return Menu_AddContactMenuItem(&mi);
 }
-
 
 HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WPARAM wParam=0)
 {
@@ -70,26 +64,21 @@ HANDLE AddSubItem(HANDLE rootid,LPCSTR name,int pos,int poppos,LPCSTR service,WP
 	return Menu_AddContactMenuItem(&mi);
 }
 
-
 extern "C" __declspec(dllexport) int __cdecl Load(void)
 {
+	mir_getLP(&pluginInfoEx);
+
 	DisableThreadLibraryCalls(g_hInst);
 	InitializeCriticalSection(&localQueueMutex);
 
-	{
-		char temp[MAX_PATH];
-		GetTempPath(sizeof(temp),temp);
-		GetLongPathName(temp,TEMP,sizeof(TEMP));
-		TEMP_SIZE = (int)strlen(TEMP);
-		if (TEMP[TEMP_SIZE-1]=='\\') {
-			TEMP_SIZE--;
-			TEMP[TEMP_SIZE]='\0';
-		}
+	char temp[MAX_PATH];
+	GetTempPath(sizeof(temp),temp);
+	GetLongPathName(temp,TEMP,sizeof(TEMP));
+	TEMP_SIZE = (int)strlen(TEMP);
+	if (TEMP[TEMP_SIZE-1]=='\\') {
+		TEMP_SIZE--;
+		TEMP[TEMP_SIZE]='\0';
 	}
-
-	// get memoryManagerInterface address
-	//get per-plugin langpack interface
-	mir_getLP(&pluginInfoEx);
 
 	// check for support TrueColor Icons
 	BOOL bIsComCtl6 = FALSE;
@@ -149,18 +138,18 @@ extern "C" __declspec(dllexport) int __cdecl Load(void)
 	AddServiceFunction(MODULENAME"/MODE_PGP",Service_ModePGP);
 	AddServiceFunction(MODULENAME"/MODE_GPG",Service_ModeGPG);
 	AddServiceFunction(MODULENAME"/MODE_RSA",Service_ModeRSAAES);
-
 	return 0;
 }
 
-extern "C" __declspec(dllexport) int __cdecl Unload() {
+extern "C" __declspec(dllexport) int __cdecl Unload()
+{
 	DeleteCriticalSection(&localQueueMutex);
 	return 0;
 }
 
 
-int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
-
+int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam)
+{
 #if defined(_DEBUG) || defined(NETLIB_LOG)
     InitNetlib();
     Sent_NetLog("onModuleLoaded begin");
@@ -216,10 +205,7 @@ int __cdecl onModulesLoaded(WPARAM wParam,LPARAM lParam) {
 
 			DBDeleteContactSetting(0, szModuleName, "rsa_priv_2048");
 			DBDeleteContactSetting(0, szModuleName, "rsa_pub_2048");
-//			DBDeleteContactSetting(0, szModuleName, "rsa_priv_4096");
-//			DBDeleteContactSetting(0, szModuleName, "rsa_pub_4096");
-
-			rsa_4096=1;
+			rsa_4096 = 1;
 		}
 
 		if ( !rsa_4096 ) {
