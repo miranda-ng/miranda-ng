@@ -56,7 +56,7 @@
 #include <m_utils.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
-
+#include <win2k.h>
 
 #include "collection.h"
 
