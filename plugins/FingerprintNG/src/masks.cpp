@@ -116,7 +116,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Galaxium",			_T("*Galaxium*"),							_T("Galaxium"),							_T("ClientIcons_multiproto"),	IDI_GALAXIUM,			MULTI_CASE,		TRUE	},
 	{"client_GnuGadu",			_T("Gnu Gadu*"),							_T("GNU Gadu"),							_T("ClientIcons_multiproto"),	IDI_GNUGADU,			MULTI_CASE,		TRUE	},
 	{"client_IM2",				_T("*IM2*"),								_T("IM2"),								_T("ClientIcons_multiproto"),	IDI_IM2,				MULTI_CASE,		TRUE	},
-	{"client_IMPlus",			_T("|IM+*|IMPLUS*|*IM plus*")
+	{"client_IMPlus",			_T("|IM+*|IMPLUS*|*IM plus*|@mobile")
 								_T("|*+umBU9yx9Cu+R8jvPWIZ3vWD59M=*"),		_T("IM+"),								_T("ClientIcons_multiproto"),	IDI_IMPLUS,				MULTI_CASE,		TRUE	},
 	{"client_IMVU",				_T("*IMVU*"),								_T("IMVU"),								_T("ClientIcons_multiproto"),	IDI_IMVU,				MULTI_CASE,		TRUE	},
 	{"client_IMadering",		_T("*IMadering*"),							_T("IMadering"),						_T("ClientIcons_multiproto"),	IDI_IMADERING,			MULTI_CASE,		TRUE	},
