@@ -178,28 +178,25 @@ static void Close(HWND hwndDlg, int ret)
 
 static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
-
 			Data *data = (Data *) lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR) data);
 
 			SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_USERDATA, (LONG_PTR) data);
 			data->old_edit_proc = (WNDPROC) SetWindowLongPtr(GetDlgItem(hwndDlg, IDC_OLD), GWLP_WNDPROC, 
-														  (LONG_PTR) OnlyCharsEditProc);
+				(LONG_PTR) OnlyCharsEditProc);
 
-			HICON hIcon = IcoLib_LoadIcon("spellchecker_enabled");
+			HICON hIcon = Skin_GetIcon("spellchecker_enabled");
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM) hIcon);
 			Skin_ReleaseIcon(hIcon);
 
 			SendDlgItemMessage(hwndDlg, IDC_OLD, EM_LIMITTEXT, 256, 0);
 			SendDlgItemMessage(hwndDlg, IDC_NEW, EM_LIMITTEXT, 256, 0);
 
-			if (!data->find.empty())
-			{
+			if (!data->find.empty()) {
 				scoped_free<TCHAR> tmp = data->dict->autoReplace->filterText(data->find.c_str());
 				SetDlgItemText(hwndDlg, IDC_OLD, tmp);
 			}
@@ -208,14 +205,12 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 
 			CheckDlgButton(hwndDlg, IDC_VARIABLES, data->useVariables ? BST_CHECKED : BST_UNCHECKED);
 
-			if (data->findReadOnly)
-			{
+			if (data->findReadOnly) {
 				SendDlgItemMessage(hwndDlg, IDC_OLD, EM_SETREADONLY, TRUE, 0);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_OLD_PS), FALSE);
 			}
 
-			if (!variables_enabled)
-			{
+			if (!variables_enabled) {
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VARIABLES), FALSE);
 				ShowWindow(GetDlgItem(hwndDlg, IDC_VAR_HELP), FALSE);
 
@@ -226,90 +221,74 @@ static INT_PTR CALLBACK AddReplacementDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 				rc_new.right = rc_old.right;
 
 				SetWindowPos(GetDlgItem(hwndDlg, IDC_NEW), NULL, 0, 0, 
-						   rc_new.right - rc_new.left, rc_new.bottom - rc_new.top, 
-						   SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOREDRAW | SWP_NOZORDER);
+					rc_new.right - rc_new.left, rc_new.bottom - rc_new.top, 
+					SWP_NOACTIVATE | SWP_NOMOVE | SWP_NOOWNERZORDER | SWP_NOREDRAW | SWP_NOZORDER);
 			}
-			else
-			{
+			else {
 				variables_skin_helpbutton(hwndDlg, IDC_VAR_HELP);
 				EnableWindow(GetDlgItem(hwndDlg, IDC_VAR_HELP), IsDlgButtonChecked(hwndDlg, IDC_VARIABLES));
 			}
 
 			CenterParent(hwndDlg);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_COMMAND:
-			switch(wParam)
+	case WM_COMMAND:
+		switch(wParam) {
+		case IDOK:
 			{
-				case IDOK:
-				{
-					Data *data = (Data *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+				Data *data = (Data *) GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
-					TCHAR find[256];
-					if (data->findReadOnly)
-					{
-						lstrcpyn(find, data->find.c_str(), SIZEOF(find));
-					}
-					else
-					{
-						GetDlgItemText(hwndDlg, IDC_OLD, find, SIZEOF(find));
-						lstrtrim(find);
-					}
-
-					TCHAR replace[256];
-					GetDlgItemText(hwndDlg, IDC_NEW, replace, SIZEOF(replace));
-					lstrtrim(replace);
-
-					if (!data->findReadOnly && find[0] == 0)
-					{
-						MessageBox(hwndDlg, TranslateT("The wrong word can't be empty!"), TranslateT("Wrong Correction"), 
-							MB_OK | MB_ICONERROR);
-					}
-					else if (replace[0] == 0)
-					{
-						MessageBox(hwndDlg, TranslateT("The correction can't be empty!"), TranslateT("Wrong Correction"), 
-							MB_OK | MB_ICONERROR);
-					}
-					else if (_tcscmp(find, replace) == 0)
-					{
-						MessageBox(hwndDlg, TranslateT("The correction can't be equal to the wrong word!"), TranslateT("Wrong Correction"), 
-							MB_OK | MB_ICONERROR);
-					}
-					else
-					{
-						data->callback(FALSE, data->dict, 
-									   find, replace, IsDlgButtonChecked(hwndDlg, IDC_VARIABLES), 
-									   data->find.c_str(), data->param);
-						Close(hwndDlg, 1);
-					}
-
-					break;
+				TCHAR find[256];
+				if (data->findReadOnly)
+					lstrcpyn(find, data->find.c_str(), SIZEOF(find));
+				else {
+					GetDlgItemText(hwndDlg, IDC_OLD, find, SIZEOF(find));
+					lstrtrim(find);
 				}
-				case IDCANCEL:
-				{
-					Close(hwndDlg, 0);
-					break;
+
+				TCHAR replace[256];
+				GetDlgItemText(hwndDlg, IDC_NEW, replace, SIZEOF(replace));
+				lstrtrim(replace);
+
+				if (!data->findReadOnly && find[0] == 0) {
+					MessageBox(hwndDlg, TranslateT("The wrong word can't be empty!"), TranslateT("Wrong Correction"), 
+						MB_OK | MB_ICONERROR);
 				}
-				case IDC_VARIABLES:
-				{					
-					EnableWindow(GetDlgItem(hwndDlg, IDC_VAR_HELP), IsDlgButtonChecked(hwndDlg, IDC_VARIABLES));
-					break;
+				else if (replace[0] == 0) {
+					MessageBox(hwndDlg, TranslateT("The correction can't be empty!"), TranslateT("Wrong Correction"), 
+						MB_OK | MB_ICONERROR);
 				}
-				case IDC_VAR_HELP:
-				{
-					variables_showhelp(hwndDlg, IDC_NEW, VHF_FULLDLG, NULL, "The wrong word typed by the user");
-					break;
+				else if (_tcscmp(find, replace) == 0) {
+					MessageBox(hwndDlg, TranslateT("The correction can't be equal to the wrong word!"), TranslateT("Wrong Correction"), 
+						MB_OK | MB_ICONERROR);
+				}
+				else {
+					data->callback(FALSE, data->dict, 
+						find, replace, IsDlgButtonChecked(hwndDlg, IDC_VARIABLES), 
+						data->find.c_str(), data->param);
+					Close(hwndDlg, 1);
 				}
 			}
 			break;
 
-		case WM_CLOSE:
-		{
+		case IDCANCEL:
 			Close(hwndDlg, 0);
 			break;
+
+		case IDC_VARIABLES:
+			EnableWindow(GetDlgItem(hwndDlg, IDC_VAR_HELP), IsDlgButtonChecked(hwndDlg, IDC_VARIABLES));
+			break;
+
+		case IDC_VAR_HELP:
+			variables_showhelp(hwndDlg, IDC_NEW, VHF_FULLDLG, NULL, "The wrong word typed by the user");
+			break;
 		}
+		break;
+
+	case WM_CLOSE:
+		Close(hwndDlg, 0);
+		break;
 	}
 	
 	return FALSE;

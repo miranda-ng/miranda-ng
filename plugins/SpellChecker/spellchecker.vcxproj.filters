@@ -124,9 +124,6 @@
     <ClCompile Include="src\dictionary.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\utils\mir_icons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\utils\mir_options.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

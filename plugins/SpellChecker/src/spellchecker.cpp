@@ -33,21 +33,8 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 } } // {36753AE3-840B-4797-94A5-FD9F5852B942}
-};
-
-typedef struct
-{
-	TCHAR* szDescr;
-	char* szName;
-	int   defIconID;
-} IconStruct;
-
-static IconStruct iconList[] =
-{
-	{  LPGENT("Enabled"),       "spellchecker_enabled",       IDI_CHECK         },
-	{  LPGENT("Disabled"),      "spellchecker_disabled",      IDI_NO_CHECK      },
-//	{  LPGENT("Unknown Flag"),  "spellchecker_unknown_flag",  IDI_UNKNOWN_FLAG  },
+	// {36753AE3-840B-4797-94A5-FD9F5852B942}
+	{ 0x36753ae3, 0x840b, 0x4797, { 0x94, 0xa5, 0xfd, 0x9f, 0x58, 0x52, 0xb9, 0x42 } } 
 };
 
 #define TIMER_ID 17982
@@ -59,9 +46,6 @@ static IconStruct iconList[] =
 HINSTANCE hInst;
 
 int hLangpack = 0;
-
-HANDLE hHooks[6];
-HANDLE hServices[3];
 
 HANDLE hDictionariesFolder = NULL;
 TCHAR *dictionariesFolder;
@@ -122,17 +106,6 @@ DEFINE_GUIDXXX(IID_ITextDocument,0x8CC497C0,0xA1DF,0x11CE,0x80,0x98,
 
 // Functions ////////////////////////////////////////////////////////////////////////////
 
-
-HICON IcoLib_LoadIcon(Dictionary *dict, BOOL copy)
-{
-
-	char lang[32];
-	WideCharToMultiByte(CP_ACP, 0, dict->language, -1, lang, sizeof(lang), NULL, NULL);
-	return IcoLib_LoadIcon(lang, copy);
-
-}
-
-
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) 
 {
 	hInst = hinstDLL;
@@ -146,14 +119,44 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SPELLCHECKER, MIID_LAST };
 
+///////////////////////////////////////////////////////////////////////////////////////
+
+struct
+{
+	char*  szDescr;
+	char*  szName;
+	int    defIconID;
+	HANDLE hIcolib;
+}
+static iconList[] =
+{
+	{ LPGEN("Enabled"),  "spellchecker_enabled",  IDI_CHECK    },
+	{ LPGEN("Disabled"), "spellchecker_disabled", IDI_NO_CHECK }
+};
+
 extern "C" int __declspec(dllexport) Load(void) 
 {
-
 	mir_getLP(&pluginInfo);
 
+	// icons
+	TCHAR path[MAX_PATH];
+	GetModuleFileName(hInst, path, MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszSection = LPGEN("Spell Checker");
+	sid.ptszDefaultFile = path;
+
+	for (int i = 0; i < SIZEOF(iconList); ++i) {
+		sid.pszDescription = iconList[i].szDescr;
+		sid.pszName = iconList[i].szName;
+		sid.iDefaultIndex = -iconList[i].defIconID;
+		iconList[i].hIcolib = Skin_AddIcon(&sid);
+	}
+
 	// hooks
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
 	hCheckedBmp = LoadBitmap(NULL, MAKEINTRESOURCE(OBM_CHECK));
 	if (GetObject(hCheckedBmp, sizeof(bmpChecked), &bmpChecked) == 0)
@@ -179,8 +182,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
 	// Folders plugin support
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))
-	{
+	if ( ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hDictionariesFolder = FoldersRegisterCustomPathT(LPGEN("Spell Checker"), LPGEN("Dictionaries"), DICTIONARIES_FOLDER);
 
 		dictionariesFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
@@ -196,28 +198,10 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		flagsDllFolder = (TCHAR *) mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		FoldersGetCustomPathT(hFlagsDllFolder, flagsDllFolder, MAX_PATH, _T("."));
 	}
-	else
-	{
+	else {
 		dictionariesFolder = Utils_ReplaceVarsT(DICTIONARIES_FOLDER);
 		customDictionariesFolder = Utils_ReplaceVarsT(CUSTOM_DICTIONARIES_FOLDER);
 		flagsDllFolder = Utils_ReplaceVarsT(FLAGS_DLL_FOLDER);
-	}
-
-	TCHAR path[MAX_PATH];
-	GetModuleFileName(hInst, path, MAX_PATH);
-
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(SKINICONDESC);
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = LPGENT("Spell Checker");
-	sid.ptszDefaultFile = path;
-
-	for (unsigned i = 0; i < SIZEOF(iconList); ++i)
-	{
-		sid.ptszDescription = iconList[i].szDescr;
-		sid.pszName = iconList[i].szName;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		Skin_AddIcon(&sid);
 	}
 
 	InitOptions();
@@ -226,54 +210,47 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	LoadOptions();
 
-	if (opts.use_flags)
-	{
+	if (opts.use_flags) {
 		// Load flags dll
-		TCHAR flag_file[1024];
+		TCHAR flag_file[MAX_PATH];
 		mir_sntprintf(flag_file, SIZEOF(flag_file), _T("%s\\flags_icons.dll"), flagsDllFolder);
 		HMODULE hFlagsDll = LoadLibraryEx(flag_file, NULL, LOAD_LIBRARY_AS_DATAFILE);
 
+		TCHAR path[MAX_PATH];
+		GetModuleFileName(hInst, path, MAX_PATH);
+
+		SKINICONDESC sid = { sizeof(sid) };
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
-		sid.ptszSection = _T("Languages/Flags");
+		sid.ptszSection = _T("Spellchecker/Flags");
 
 		// Get language flags
-		for(int i = 0; i < languages.getCount(); i++)
-		{
-			sid.ptszDescription = languages[i]->full_name;
+		for(int i = 0; i < languages.getCount(); i++) {
+			Dictionary *p = languages[i];
+			sid.ptszDescription = p->full_name;
 
 			char lang[32];
-			mir_snprintf(lang, SIZEOF(lang), "%S", languages[i]->language);
+			mir_snprintf(lang, SIZEOF(lang), "spell_lang_%d", i);
 			sid.pszName = lang;
 
-
-			HICON hFlag = IcoLib_LoadIcon(sid.pszName);
-			if (hFlag != NULL)
-			{
-				// Already registered
-				Skin_ReleaseIcon(hFlag);
-				continue;
-			}
-			
+			HICON hFlag;
 			if (hFlagsDll != NULL)
-				hFlag = (HICON) LoadImage(hFlagsDll, languages[i]->language, IMAGE_ICON, 16, 16, 0);
+				hFlag = (HICON)LoadImage(hFlagsDll, p->language, IMAGE_ICON, 16, 16, 0);
 			else
 				hFlag = NULL;
 
-			if (hFlag != NULL)
-			{
+			if (hFlag != NULL) {
 				sid.hDefaultIcon = hFlag;
 				sid.ptszDefaultFile = NULL;
 				sid.iDefaultIndex = 0;
 			}
-			else
-			{
+			else {
 				sid.hDefaultIcon = NULL;
 				sid.ptszDefaultFile = path;
 				sid.iDefaultIndex = - IDI_UNKNOWN_FLAG;
 			}
 
 			// Oki, lets add to IcoLib, then
-			Skin_AddIcon(&sid);
+			p->hIcolib = Skin_AddIcon(&sid);
 			
 			if (hFlag != NULL)
 				DestroyIcon(hFlag);
@@ -281,8 +258,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		FreeLibrary(hFlagsDll);
 	}
 
-	for (int j = 0; j < languages.getCount(); j++)
-	{
+	for (int j = 0; j < languages.getCount(); j++) {
 		Dictionary *dict = languages[j];
 
 		TCHAR filename[MAX_PATH];
@@ -293,25 +269,22 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 			dict->load();
 	}
 
-	hHooks[2] = HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged);
-	hHooks[3] = HookEvent(ME_MSG_WINDOWEVENT, &MsgWindowEvent);
-	hHooks[4] = HookEvent(ME_MSG_WINDOWPOPUP, &MsgWindowPopup);
-	hHooks[5] = HookEvent(ME_MSG_ICONPRESSED, &IconPressed);
+	HookEvent(ME_SKIN2_ICONSCHANGED, &IconsChanged);
+	HookEvent(ME_MSG_WINDOWEVENT, &MsgWindowEvent);
+	HookEvent(ME_MSG_WINDOWPOPUP, &MsgWindowPopup);
+	HookEvent(ME_MSG_ICONPRESSED, &IconPressed);
 
-	hServices[0] = CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
-	hServices[1] = CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
-	hServices[2] = CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
+	CreateServiceFunction(MS_SPELLCHECKER_ADD_RICHEDIT, AddContactTextBoxService);
+	CreateServiceFunction(MS_SPELLCHECKER_REMOVE_RICHEDIT, RemoveContactTextBoxService);
+	CreateServiceFunction(MS_SPELLCHECKER_SHOW_POPUP_MENU, ShowPopupMenuService);
 
-	if (ServiceExists(MS_MSG_ADDICON))
-	{
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+	if (ServiceExists(MS_MSG_ADDICON)) {
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULE_NAME;
-		sid.hIconDisabled = IcoLib_LoadIcon("spellchecker_disabled", TRUE);
+		sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
 		sid.flags = MBF_HIDDEN;
 
-		for (int i = 0; i < languages.getCount(); i++)
-		{
+		for (int i = 0; i < languages.getCount(); i++) {
 			sid.dwId = i;
 
 			char tmp[128];
@@ -319,10 +292,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 
-			if (opts.use_flags)
-				sid.hIcon = IcoLib_LoadIcon(languages[i], TRUE);
-			else
-				sid.hIcon = IcoLib_LoadIcon("spellchecker_enabled", TRUE);
+			HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
+			sid.hIcon = CopyIcon(hIcon);
+			Skin_ReleaseIcon(hIcon);
 
 			CallService(MS_MSG_ADDICON, 0, (LPARAM) &sid);
 		}
@@ -345,17 +317,13 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int IconsChanged(WPARAM wParam, LPARAM lParam) 
 {
-	if (ServiceExists(MS_MSG_MODIFYICON))
-	{
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+	if ( ServiceExists(MS_MSG_MODIFYICON)) {
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULE_NAME;
-		sid.hIconDisabled = IcoLib_LoadIcon("spellchecker_disabled", TRUE);
+		sid.hIconDisabled = Skin_GetIcon("spellchecker_disabled");
 		sid.flags = MBF_HIDDEN;
-		
 
-		for (int i = 0; i < languages.getCount(); i++)
-		{
+		for (int i = 0; i < languages.getCount(); i++) {
 			sid.dwId = i;
 
 			char tmp[128];
@@ -363,10 +331,9 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 				Translate("Spell Checker"), languages[i]->full_name);
 			sid.szTooltip = tmp;
 
-			if (opts.use_flags)
-				sid.hIcon = IcoLib_LoadIcon(languages[i], TRUE);
-			else
-				sid.hIcon = IcoLib_LoadIcon("spellchecker_enabled", TRUE);
+			HICON hIcon = (opts.use_flags) ? Skin_GetIconByHandle(languages[i]->hIcolib) : Skin_GetIcon("spellchecker_enabled");
+			sid.hIcon = CopyIcon(hIcon);
+			Skin_ReleaseIcon(hIcon);
 
 			CallService(MS_MSG_MODIFYICON, 0, (LPARAM) &sid);
 		}
@@ -378,19 +345,10 @@ int IconsChanged(WPARAM wParam, LPARAM lParam)
 
 int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-	for(i = 0; i < SIZEOF(hServices); i++)
-		DestroyServiceFunction(hServices[i]);
-
-	for(i = 0; i < SIZEOF(hHooks); i++)
-		UnhookEvent(hHooks[i]);
-
 	DeInitOptions();
 
-	if (ServiceExists(MS_MSG_REMOVEICON))
-	{
-		StatusIconData sid = {0};
-		sid.cbSize = sizeof(sid);
+	if (ServiceExists(MS_MSG_REMOVEICON)) {
+		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULE_NAME;
 		CallService(MS_MSG_REMOVEICON, 0, (LPARAM) &sid);
 	}
@@ -398,7 +356,6 @@ int PreShutdown(WPARAM wParam, LPARAM lParam)
 	mir_free(dictionariesFolder);
 	mir_free(customDictionariesFolder);
 	mir_free(flagsDllFolder);
-
 	return 0;
 }
 
@@ -1657,7 +1614,7 @@ void AddMenuForWord(Dialog *dlg, TCHAR *word, CHARRANGE &pos, HMENU hMenu, BOOL 
 	if (suggestions.count > 0)
 	{
 		InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION | MF_SEPARATOR, 0, 0);
-		for (int i = suggestions.count - 1; i >= 0; i--) 
+		for (int i = suggestions.count-1; i >= 0; i--) 
 			InsertMenu(data.hReplaceSubMenu, 0, MF_BYPOSITION, base + AUTOREPLACE_MENU_ID_BASE + i, suggestions.words[i]);
 	}
 
@@ -2130,14 +2087,16 @@ LRESULT CALLBACK MenuWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			rc.left += bmpChecked.bmWidth + 2;
 
 			// Draw icon
-			HICON hFlag = IcoLib_LoadIcon(dict);
+			if (dict->hIcolib) {
+				HICON hFlag = Skin_GetIconByHandle(dict->hIcolib);
 
-			rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
-			DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
+				rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
+				DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
 
-			Skin_ReleaseIcon(hFlag);
+				Skin_ReleaseIcon(hFlag);
 
-			rc.left += ICON_SIZE + 4;
+				rc.left += ICON_SIZE + 4;
+			}
 
 			// Draw text
 			RECT rc_text = { 0, 0, 0xFFFF, 0xFFFF };

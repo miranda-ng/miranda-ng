@@ -216,9 +216,6 @@
     <ClCompile Include="src\ardialog.cpp" />
     <ClCompile Include="src\autoreplace.cpp" />
     <ClCompile Include="src\dictionary.cpp" />
-    <ClCompile Include="..\utils\mir_icons.cpp">
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="..\utils\mir_options.cpp">
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
     </ClCompile>

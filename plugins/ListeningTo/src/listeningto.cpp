@@ -303,8 +303,24 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	// add our modules to the KnownModules list
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
-	hIcon1 = IcoLib_Register("listening_to_icon", "ListeningTo", "Listening to (enabled)", IDI_LISTENINGTO);
-	hIcon2 = IcoLib_Register("listening_off_icon", "ListeningTo", "Listening to (disabled)", IDI_LISTENINGOFF);
+	// icons
+	TCHAR tszFile[MAX_PATH];
+	GetModuleFileName(hInst, tszFile, MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.ptszDefaultFile = tszFile;
+	sid.pszSection = "ListeningTo";
+
+	sid.pszName = "listening_to_icon";
+	sid.pszDescription = LPGEN("Listening to (enabled)");
+	sid.iDefaultIndex = -IDI_LISTENINGTO;
+	hIcon1 = Skin_AddIcon(&sid);
+
+	sid.pszName = "listening_off_icon";
+	sid.pszDescription = LPGEN("Listening to (disabled)");
+	sid.iDefaultIndex = -IDI_LISTENINGOFF;
+	hIcon2 = Skin_AddIcon(&sid);
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");

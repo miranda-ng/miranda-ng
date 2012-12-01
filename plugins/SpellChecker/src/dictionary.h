@@ -38,6 +38,7 @@ public:
 	TCHAR full_name[256];
 	TCHAR source[128];
 	AutoReplaceMap *autoReplace;
+	HANDLE hIcolib;
 
 	virtual ~Dictionary() {}
 

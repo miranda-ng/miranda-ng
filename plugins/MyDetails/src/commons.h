@@ -80,7 +80,6 @@ extern long status_msg_dialog_open;
 #include "../utils/mir_smileys.h"
 #include "../utils/mir_memory.h"
 #include "../utils/mir_options.h"
-#include "../utils/mir_icons.h"
 
 #define PS_GETMYAVATARMAXSIZE "/GetMyAvatarMaxSize"
 

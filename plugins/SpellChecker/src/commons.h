@@ -64,7 +64,6 @@ using namespace std;
 
 #include "../utils/mir_memory.h"
 #include "../utils/mir_options.h"
-#include "../utils/mir_icons.h"
 #include "../utils/tstring.h"
 #include "../utils/utf8_helpers.h"
 #include "../utils/scope.h"
@@ -136,8 +135,6 @@ struct Dialog
 	HMENU hWrongWordsSubMenu;
 	vector<WrongWordPopupMenuData> *wrong_words;
 };
-
-HICON IcoLib_LoadIcon(Dictionary *dict, BOOL copy = FALSE);
 
 BOOL CenterParent(HWND hwnd);
 BOOL CreatePath(const TCHAR *path);

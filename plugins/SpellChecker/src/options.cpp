@@ -163,9 +163,8 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 	rc.left = lpdis->rcItem.left + 2;
 
 	// Draw icon
-	if (opts.use_flags)
-	{
-		HICON hFlag = IcoLib_LoadIcon(dict);
+	if (opts.use_flags) {
+		HICON hFlag = Skin_GetIcon( _T2A(dict->language));
 
 		rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
 		DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);

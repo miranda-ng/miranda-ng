@@ -191,7 +191,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\listeningto.cpp" />
-    <ClCompile Include="..\utils\mir_icons.cpp" />
     <ClCompile Include="..\utils\mir_options.cpp" />
     <ClCompile Include="src\music.cpp" />
     <ClCompile Include="src\options.cpp" />
