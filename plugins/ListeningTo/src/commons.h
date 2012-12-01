@@ -1,4 +1,4 @@
-/* 
+/*
 Copyright (C) 2006 Ricardo Pescuma Domenecci
 
 This is free software; you can redistribute it and/or
@@ -14,7 +14,7 @@ Library General Public License for more details.
 You should have received a copy of the GNU Library General Public
 License along with this file; see the file license.txt.  If
 not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
-Boston, MA 02111-1307, USA.  
+Boston, MA 02111-1307, USA.
 */
 
 
@@ -67,7 +67,6 @@ Boston, MA 02111-1307, USA.
 
 #include "../utils/mir_memory.h"
 #include "../utils/mir_options.h"
-#include "../utils/mir_icons.h"
 #include "../utils/mir_buffer.h"
 #include "../utils/utf8_helpers.h"
 
