@@ -43,19 +43,16 @@ PackUpdaterIconList iconList[] =
 
 VOID IcoLibInit()
 {
-	SKINICONDESC sid;
 	TCHAR destfile[MAX_PATH];
-		
 	GetModuleFileName(hInst, destfile, MAX_PATH);
 
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = destfile;
 	sid.ptszSection = MODULE;
 
-	for (int i = 0; i < SIZEOF(iconList); i++)
-	{
+	for (int i = 0; i < SIZEOF(iconList); i++) {
 		sid.pszName = iconList[i].szIconName;
 		sid.ptszDescription = iconList[i].tszDescr;
 		sid.iDefaultIndex = -iconList[i].IconID;

@@ -71,16 +71,16 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 struct
 {
-	TCHAR*  szDescr;
+	char*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIconLibItem;
 }
 static iconList[] =
 {
-	{ LPGENT( "Rate high" ), "rate_high", IDI_RATEHI },
-	{ LPGENT( "Rate medium" ), "rate_medium", IDI_RATEME },
-	{ LPGENT( "Rate low" ), "rate_low", IDI_RATELO },
+	{ LPGEN("Rate high"), "rate_high", IDI_RATEHI },
+	{ LPGEN("Rate medium"), "rate_medium", IDI_RATEME },
+	{ LPGEN("Rate low"), "rate_low", IDI_RATELO },
 };
 
 static void init_icolib (void)
@@ -88,15 +88,14 @@ static void init_icolib (void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.ptszSection = LPGENT("Contact Rate");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pszSection = LPGEN("Contact Rate");
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_ALL_TCHAR;
 
 	for (int i = 0; i < SIZEOF(iconList); i++ ) {
 		sid.pszName = iconList[i].szName;
-		sid.ptszDescription =  iconList[i].szDescr;
+		sid.pszDescription =  iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 	}

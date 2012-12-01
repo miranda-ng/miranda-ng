@@ -367,16 +367,14 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 void InitIcolib()
 {
 	TCHAR stzFile[MAX_PATH];
+	GetModuleFileName(hInst, stzFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = stzFile;
 	sid.ptszSection = LPGENT("Paste It");
 	sid.flags = SIDF_ALL_TCHAR;
 
-	GetModuleFileName(hInst, stzFile, MAX_PATH);
-	
 	sid.pszName = "PasteIt_main";
 	sid.ptszDescription = LPGENT("Paste It");
 	sid.iDefaultIndex = -IDI_MENU;

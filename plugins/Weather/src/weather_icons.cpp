@@ -24,24 +24,24 @@ HANDLE hIcoLibIconsChanged = NULL;
 
 struct _tag_iconList
 {
-	TCHAR*  szDescr;
+	char*  szDescr;
 	char*  szName;
 	int    defIconID;
 	HANDLE hIconLibItem;
 }
 static iconList[] =
 {
-	{	LPGENT("Protocol icon"),      "main",      IDI_ICON       },
-	{	LPGENT("Update Disabled"),    "disabled",  IDI_DISABLED   },
-	{	LPGENT("View Log"),           "log",       IDI_LOG        },
-	{	LPGENT("Update with Clear"),  "update2",   IDI_UPDATE2    },
-	{	LPGENT("View Brief"),         "brief",     IDI_S          },
-	{	LPGENT("View Complete"),      "read",      IDI_READ       },
-	{	LPGENT("Weather Update"),     "update",    IDI_UPDATE     },
-	{	LPGENT("Weather Map"),        "map",       IDI_MAP        },
-	{	LPGENT("Popup"),              "popup",     IDI_POPUP      },
-	{	LPGENT("No Popup"),           "nopopup",   IDI_NOPOPUP    },
-	{	LPGENT("Edit Settings"),      "edit",      IDI_EDIT       },
+	{	LPGEN("Protocol icon"),      "main",      IDI_ICON       },
+	{	LPGEN("Update Disabled"),    "disabled",  IDI_DISABLED   },
+	{	LPGEN("View Log"),           "log",       IDI_LOG        },
+	{	LPGEN("Update with Clear"),  "update2",   IDI_UPDATE2    },
+	{	LPGEN("View Brief"),         "brief",     IDI_S          },
+	{	LPGEN("View Complete"),      "read",      IDI_READ       },
+	{	LPGEN("Weather Update"),     "update",    IDI_UPDATE     },
+	{	LPGEN("Weather Map"),        "map",       IDI_MAP        },
+	{	LPGEN("Popup"),              "popup",     IDI_POPUP      },
+	{	LPGEN("No Popup"),           "nopopup",   IDI_NOPOPUP    },
+	{	LPGEN("Edit Settings"),      "edit",      IDI_EDIT       },
 };
 
 void InitIcons(void)
@@ -50,17 +50,16 @@ void InitIcons(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.pszName = szSettingName;
-	sid.ptszSection = _T(WEATHERPROTONAME);
-	sid.flags = SIDF_ALL_TCHAR;
+	sid.pszSection = WEATHERPROTONAME;
+	sid.flags = SIDF_PATH_TCHAR;
 
 	for (int i = 0; i < SIZEOF(iconList); i++) {
 		mir_snprintf(szSettingName, SIZEOF( szSettingName ), "%s_%s", WEATHERPROTONAME, iconList[i].szName);
 
-		sid.ptszDescription = iconList[i].szDescr;
+		sid.pszDescription = iconList[i].szDescr;
 		sid.iDefaultIndex = -iconList[i].defIconID;
 		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
 }	}

@@ -508,8 +508,7 @@ static void iconsInit(void)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_PATH_UNICODE;
 	sid.pszSection = Translate(msLastUC_ShowListName);
 	sid.ptszDefaultFile = szFile;

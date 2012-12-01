@@ -61,22 +61,17 @@ int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
 
 void SetupIcoLib()
 {
-	if (hHooks[4])
-	{
-		SKINICONDESC sid = {0};
+	if (hHooks[4]) {
 		TCHAR path[MAX_PATH];
+		GetModuleFileName(hInst, path, sizeof(path));
 
-   		GetModuleFileName(hInst, path, sizeof(path));
-
-		sid.cbSize = sizeof(sid);
+		SKINICONDESC sid = { sizeof(sid) };
 		sid.ptszSection = LPGENT("Avatar History");
 		sid.ptszDefaultFile = path;
 		sid.flags = SIDF_ALL_TCHAR;
 
-		for (unsigned i = 0; i < MAX_REGS(iconList); i++)
-		{
-			if (!iconList[i].core)
-			{
+		for (unsigned i = 0; i < MAX_REGS(iconList); i++) {
+			if (!iconList[i].core) {
 				sid.ptszDescription = iconList[i].szDescr;
 				sid.pszName = iconList[i].szName;
 				sid.iDefaultIndex = -iconList[i].defIconID;

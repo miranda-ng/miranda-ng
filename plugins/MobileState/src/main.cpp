@@ -100,14 +100,11 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
-
-	sid.ptszSection = _T("Mobile State");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
+	sid.pszSection = "Mobile State";
 	sid.ptszDefaultFile = szFile;
-
-	sid.ptszDescription = _T("Mobile State");
+	sid.pszDescription = "Mobile State";
 	sid.pszName = "mobile_icon";
 	sid.iDefaultIndex = -IDI_MOBILE;
 	Skin_AddIcon(&sid);

@@ -32,8 +32,7 @@
 
 IcqIconHandle IconLibDefine(const char *desc, const char *section, const char *module, const char *ident, const TCHAR *def_file, int def_idx)
 {
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pwszSection = make_unicode_string(section);
 	sid.pwszDescription = make_unicode_string(desc);
 	sid.flags = SIDF_ALL_TCHAR;

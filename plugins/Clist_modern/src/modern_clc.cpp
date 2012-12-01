@@ -83,10 +83,8 @@ static int clcHookModulesLoaded(WPARAM wParam,LPARAM lParam)
 	TCHAR szMyPath[MAX_PATH];
 	GetModuleFileName(g_hInst, szMyPath, SIZEOF(szMyPath));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.cx = 16;
-	sid.cy = 16;
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = szMyPath;
 	sid.flags = SIDF_PATH_TCHAR;
 

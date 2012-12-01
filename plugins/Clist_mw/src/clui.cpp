@@ -179,7 +179,6 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 {
 	char szPath[MAX_PATH],szMyPath[MAX_PATH], szFullPath[MAX_PATH],*str;
 	HICON hIcon = NULL;
-	SKINICONDESC sid = {0};
 
 	memset(szMyPath,0,SIZEOF(szMyPath));
 	memset(szFullPath,0,SIZEOF(szFullPath));
@@ -199,7 +198,7 @@ HICON LoadIconFromExternalFile(char *filename,int i,boolean UseLibrary,boolean r
 	}
 	else {
 		if (registerit && IconName != NULL && SectName != NULL) {
-			sid.cbSize = sizeof(sid);
+			SKINICONDESC sid = { sizeof(sid) };
 			sid.pszSection = SectName;
 			sid.pszName = IconName;
 			sid.pszDescription = Description;

@@ -323,8 +323,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	TCHAR buf[MAX_PATH];
 	GetModuleFileName(g_hInst, buf, SIZEOF(buf));
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszSection = _T("Favourites");
 	sid.ptszDefaultFile = buf;
 	sid.cx = sid.cy = 16;

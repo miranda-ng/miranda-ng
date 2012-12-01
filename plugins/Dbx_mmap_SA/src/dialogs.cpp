@@ -87,8 +87,7 @@ int InitMenus(WPARAM, LPARAM)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize =  sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile =  szFile;
 	sid.flags =  SIDF_ALL_TCHAR;
 	sid.ptszSection =  LPGENT("Database");

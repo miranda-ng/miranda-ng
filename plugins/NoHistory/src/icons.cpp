@@ -15,13 +15,12 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam) {
 
 void InitIcons()
 {
-	SKINICONDESC sid = { sizeof(sid) };
-
-	sid.pszSection = MODULE;
-	sid.flags = SIDF_PATH_TCHAR;
-
 	TCHAR path[MAX_PATH];
 	GetModuleFileName(hInst,path,MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pszSection = MODULE;
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.ptszDefaultFile = path;
 
 	sid.pszDescription = LPGEN("Disable");

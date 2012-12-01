@@ -243,10 +243,7 @@ static HANDLE IcoLib_RegisterIconHandleEx(LPSTR szIconID, LPSTR szDescription, L
 	if (!szIconID || !szDescription || !szSection)
 		return NULL;
 
-	SKINICONDESC sid;
-
-	ZeroMemory(&sid, sizeof(sid));
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.pszName = szIconID;
 	sid.ptszDescription = mir_a2t(szDescription);

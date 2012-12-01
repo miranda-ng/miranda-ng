@@ -109,21 +109,15 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	LPTSTR ptszCurrLayout;
 	LPSTR ptszTemp;
 
-	SKINICONDESC sid = {0};
-	TCHAR szFile[MAX_PATH];
-
-
 	//Заполняем конфигурационные строки из базы. Если их там нет - генерируем.
-	for (i = 0; i < bLayNum; i++)
-	{
+	for (i = 0; i < bLayNum; i++) {
 		ptszCurrLayout = GenerateLayoutString(hklLayouts[i]);
 		ptszTemp = GetNameOfLayout(hklLayouts[i]);
 		iRes = DBGetContactSettingTString(NULL, ModuleName, ptszTemp, &dbv);
 		if (iRes != 0)
 			ptszLayStrings[i] = ptszCurrLayout;
 		else
-			if(_tcscmp((dbv.ptszVal), ptszEmptySting) == 0)
-			{
+			if(_tcscmp((dbv.ptszVal), ptszEmptySting) == 0) {
 				ptszLayStrings[i] = ptszCurrLayout;
 				mir_free(dbv.ptszVal);
 			}
@@ -156,9 +150,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
 
 	// IcoLib support
+	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(hInst, szFile, MAX_PATH);
+
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
-	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_PATH_TCHAR;
 
 	sid.pszSection = Translate(ModuleName);
@@ -183,9 +179,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN_OPTION_FORM);
 	odp.pszTitle = ModuleName;
@@ -202,8 +196,6 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	}
 	return 0;
 }
-
-
 
 LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 {

@@ -257,19 +257,18 @@ HICON LoadSkinProtoIcon(const char* szProto, int status, bool big)
 		PROTOACCOUNT* pa = Proto_GetAccount(szProto);
 		if (pa) {
 			TCHAR szPath[MAX_PATH], szFullPath[MAX_PATH], *str;
-			SKINICONDESC sid = { 0 };
+			GetModuleFileName(hInst, szPath, MAX_PATH);
 
 			//
 			//  Queried protocol isn't in list, adding
 			//
 			TCHAR tszSection[MAX_PATH];
 			mir_sntprintf(tszSection, SIZEOF(tszSection), _T("%s%s"), _T(PROTOCOLS_PREFIX), pa->tszAccountName);
-			sid.ptszSection = tszSection;
 
-			sid.cbSize = sizeof(sid);
+			SKINICONDESC sid = { sizeof(sid) };
+			sid.ptszSection = tszSection;
 			sid.flags = SIDF_ALL_TCHAR;
 
-			GetModuleFileName(hInst, szPath, MAX_PATH);
 			str = _tcsrchr(szPath, '\\');
 			if (str != NULL)
 				*str = 0;
@@ -394,10 +393,8 @@ static INT_PTR sttLoadSkinProtoIconBig(WPARAM wParam, LPARAM lParam)
 
 int LoadSkinIcons(void)
 {
-	SKINICONDESC sid;
 	int i, j = 0;
 	char iconName[MAX_PATH], moduleName[MAX_PATH];
-	TCHAR modulePath[MAX_PATH];
 	DBVARIANT dbv;
 
 	//
@@ -442,9 +439,10 @@ int LoadSkinIcons(void)
 	CreateServiceFunction(MS_SKIN_LOADPROTOICON, sttLoadSkinProtoIcon);
 	CreateServiceFunction(MS_SKIN_LOADPROTOICONBIG, sttLoadSkinProtoIconBig);
 
-	ZeroMemory(&sid, sizeof(sid));
-	sid.cbSize = sizeof(sid);
+	TCHAR modulePath[MAX_PATH];
 	GetModuleFileName(NULL, modulePath, SIZEOF(modulePath));
+
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = modulePath;
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszName = iconName;

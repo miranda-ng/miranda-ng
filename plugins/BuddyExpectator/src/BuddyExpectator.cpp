@@ -679,9 +679,8 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	GetModuleFileName(hInst, szFile, MAX_PATH);
 
 	// IcoLib support
-	SKINICONDESC sid = {0};
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
-	sid.cbSize = sizeof(sid);
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("BuddyExpectator");
 

@@ -1075,17 +1075,16 @@ struct _tag_iconList
 }
 static const iconList[] =
 {
-	{ "Notification enabled",	ICO_NOTIFICATION_OFF,	IDI_NOTIFICATION_OFF	},
-	{ "Notification disabled",	ICO_NOTIFICATION_ON,	IDI_NOTIFICATION_ON		}
+	{ "Notification enabled",	ICO_NOTIFICATION_OFF, IDI_NOTIFICATION_OFF },
+	{ "Notification disabled",	ICO_NOTIFICATION_ON,	 IDI_NOTIFICATION_ON  }
 };
 
 void InitIcolib()
 {
 	char szFile[MAX_PATH];
 	char szSettingName[100];
-	SKINICONDESC sid = {0};
 
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.cx = sid.cy = 16;
 	sid.pszDefaultFile = szFile;
 	sid.pszName = szSettingName;

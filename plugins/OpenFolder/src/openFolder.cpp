@@ -63,8 +63,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mir_snprintf(szSettingName, sizeof( szSettingName ), "%s_%s", OPENFOLDER_MODULE_NAME, "open");
 
 	// icolib (0.7+)
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof( SKINICONDESC );
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszDefaultFile = szFile;
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.cx = sid.cy = 16;

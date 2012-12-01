@@ -175,24 +175,22 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	TCHAR szFile[MAX_PATH];
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;
-
-	sid.ptszSection = _T("Auth State");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.ptszDefaultFile = szFile;
+	sid.pszSection = "Auth State";
 
-	sid.ptszDescription = _T("Auth");
+	sid.pszDescription = LPGEN("Auth");
 	sid.pszName = "auth_icon";
 	sid.iDefaultIndex = -IDI_AUTH;
 	Skin_AddIcon(&sid);
 
-	sid.ptszDescription = _T("Grant");
+	sid.pszDescription = LPGEN("Grant");
 	sid.pszName = "grant_icon";
 	sid.iDefaultIndex = -IDI_GRANT;
 	Skin_AddIcon(&sid);
 
-	sid.ptszDescription = _T("Auth & Grant");
+	sid.pszDescription = LPGEN("Auth & Grant");
 	sid.pszName = "authgrant_icon";
 	sid.iDefaultIndex = -IDI_AUTHGRANT;
 	Skin_AddIcon(&sid);

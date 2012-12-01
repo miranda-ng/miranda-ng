@@ -75,8 +75,7 @@ void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
 	if (SectName == NULL)
 		return;
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = SectName;
 	sid.pszName = mask->szIconName;

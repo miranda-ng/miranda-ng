@@ -213,23 +213,22 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	GetModuleFileName(g_hInst, szFile, MAX_PATH);
 
 	//IcoLib support
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
-	sid.flags = SIDF_ALL_TCHAR;	
-	sid.ptszSection = LPGENT("Gender");
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.flags = SIDF_PATH_TCHAR;	
+	sid.pszSection = LPGEN("Gender");
 	sid.ptszDefaultFile = szFile;
 		
-	sid.ptszDescription = LPGENT("Male");
+	sid.pszDescription = LPGEN("Male");
 	sid.pszName = "male_icon";
 	sid.iDefaultIndex = -IDI_MALE;
 	g_hIconMale = Skin_AddIcon(&sid);
 		
-	sid.ptszDescription = LPGENT("Female");
+	sid.pszDescription = LPGEN("Female");
 	sid.pszName = "female_icon";
 	sid.iDefaultIndex = -IDI_FEMALE;
 	g_hIconFemale = Skin_AddIcon(&sid);
 		
-	sid.ptszDescription = LPGENT("No info");
+	sid.pszDescription = LPGEN("No info");
 	sid.pszName = "menu_icon";
 	sid.iDefaultIndex = -IDI_UNDEF;
 	g_hIconMenu = Skin_AddIcon(&sid);

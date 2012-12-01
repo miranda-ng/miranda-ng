@@ -4,9 +4,8 @@ HIMAGELIST himl;
 
 void addIcons(TCHAR* szModuleFileName)
 {
-	SKINICONDESC sid={0};
 	char name[32];
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.ptszSection = _T(modFullname);
 	sid.ptszDefaultFile = szModuleFileName;
 	sid.flags = SIDF_ALL_TCHAR;

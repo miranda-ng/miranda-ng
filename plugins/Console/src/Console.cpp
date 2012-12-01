@@ -127,8 +127,7 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 	TCHAR szModuleFileName[MAX_PATH];
 	GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.pszSection = "Console";
 	sid.ptszDefaultFile = szModuleFileName;
 	sid.flags = SIDF_PATH_TCHAR;

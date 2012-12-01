@@ -949,7 +949,6 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,BOOL UseLibrary,bool re
 	char szPath[MAX_PATH],szMyPath[MAX_PATH], szFullPath[MAX_PATH],*str;
 	HICON hIcon = NULL;
 	BOOL has_proto_icon = FALSE;
-	SKINICONDESC sid = {0};
 	if (needFree) *needFree = FALSE;
 	GetModuleFileNameA(GetModuleHandle(NULL), szPath, MAX_PATH);
 	GetModuleFileNameA(g_hInst, szMyPath, MAX_PATH);
@@ -977,9 +976,8 @@ HICON CLUI_LoadIconFromExternalFile(char *filename,int i,BOOL UseLibrary,bool re
 	}
 	else {
 		if (registerit && IconName != NULL && SectName != NULL)	{
-			sid.cbSize = sizeof(sid);
-			sid.cx = 16;
-			sid.cy = 16;
+			SKINICONDESC sid = { sizeof(sid) };
+			sid.cx = sid.cy = 16;
 			sid.hDefaultIcon = (has_proto_icon || !(UseLibrary&2))?NULL:(HICON)CallService(MS_SKIN_LOADPROTOICON,0,(LPARAM)(-internalidx));
 			sid.pszSection = SectName;
 			sid.pszName = IconName;
@@ -1672,11 +1670,10 @@ static BOOL FileExists(TCHAR * tszFilename)
 HANDLE RegisterIcolibIconHandle(char * szIcoID, char *szSectionName,  char * szDescription, TCHAR * tszDefaultFile, int iDefaultIndex, HINSTANCE hDefaultModuleInst, int iDefaultResource )
 {
 	TCHAR fileFull[MAX_PATH] = {0};
-	SKINICONDESC sid = {0};
 	HANDLE hIcolibItem = NULL;
-	sid.cbSize = sizeof(sid);
-	sid.cx = 16;
-	sid.cy = 16;
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.cx = sid.cy = 16;
 	sid.pszSection = szSectionName;
 	sid.pszName = szIcoID;
 	sid.flags |= SIDF_PATH_TCHAR;

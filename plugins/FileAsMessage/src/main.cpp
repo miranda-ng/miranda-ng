@@ -204,14 +204,12 @@ DWORD CreateSetting(char *name, DWORD defvalue)
 int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 {
 	int indx;
-	SKINICONDESC sid;
 	char ModuleName[MAX_PATH];
-
-	ZeroMemory(&sid, sizeof(sid));
-	sid.cbSize = sizeof(sid);
-	sid.pszSection = Translate("fileAsMessage");
 	GetModuleFileName(hInst, ModuleName, sizeof(ModuleName));
-	for(indx = 0; indx < SIZEOF(hIcons); indx++)
+
+	SKINICONDESC sid = { sizeof(sid) };
+	sid.pszSection = "fileAsMessage";
+	for(int indx = 0; indx < SIZEOF(hIcons); indx++)
 	{
 		//sid.pszSection = szIconGroup[indx];
 		sid.pszName = szIconId[indx];

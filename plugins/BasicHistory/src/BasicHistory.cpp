@@ -196,60 +196,58 @@ void InitTaskMenuItems()
 void InitIcolib()
 {
 	TCHAR stzFile[MAX_PATH];
+	GetModuleFileName(hInst, stzFile, MAX_PATH);
 
-	SKINICONDESC sid = {0};
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = stzFile;
-	sid.ptszSection = LPGENT("History");
-	sid.flags = SIDF_ALL_TCHAR;
-
-	GetModuleFileName(hInst, stzFile, MAX_PATH);
+	sid.pszSection = LPGEN("History");
+	sid.flags = SIDF_PATH_TCHAR;
 
 	iconsNum = 3;
 	hEventIcons = new HANDLE[iconsNum];
 	sid.pszName = "BasicHistory_in";
-	sid.ptszDescription = LPGENT("Incoming message");
+	sid.pszDescription = LPGEN("Incoming message");
 	sid.iDefaultIndex = -IDI_INM;
 	hEventIcons[0] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_out";
-	sid.ptszDescription = LPGENT("Outgoing message");
+	sid.pszDescription = LPGEN("Outgoing message");
 	sid.iDefaultIndex = -IDI_OUTM;
 	hEventIcons[1] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_status";
-	sid.ptszDescription = LPGENT("Statuschange");
+	sid.pszDescription = LPGEN("Statuschange");
 	sid.iDefaultIndex = -IDI_STATUS;
 	hEventIcons[2] = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_show";
-	sid.ptszDescription = LPGENT("Show Contacts");
+	sid.pszDescription = LPGEN("Show Contacts");
 	sid.iDefaultIndex = -IDI_SHOW;
 	hPlusIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_hide";
-	sid.ptszDescription = LPGENT("Hide Contacts");
+	sid.pszDescription = LPGEN("Hide Contacts");
 	sid.iDefaultIndex = -IDI_HIDE;
 	hMinusIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_findnext";
-	sid.ptszDescription = LPGENT("Find Next");
+	sid.pszDescription = LPGEN("Find Next");
 	sid.iDefaultIndex = -IDI_FINDNEXT;
 	hFindNextIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_findprev";
-	sid.ptszDescription = LPGENT("Find Previous");
+	sid.pszDescription = LPGEN("Find Previous");
 	sid.iDefaultIndex = -IDI_FINDPREV;
 	hFindPrevIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_plusex";
-	sid.ptszDescription = LPGENT("Plus in export");
+	sid.pszDescription = LPGEN("Plus in export");
 	sid.iDefaultIndex = -IDI_PLUSEX;
 	hPlusExIcon = Skin_AddIcon(&sid);
 
 	sid.pszName = "BasicHistory_minusex";
-	sid.ptszDescription = LPGENT("Minus in export");
+	sid.pszDescription = LPGEN("Minus in export");
 	sid.iDefaultIndex = -IDI_MINUSEX;
 	hMinusExIcon = Skin_AddIcon(&sid);
 }
