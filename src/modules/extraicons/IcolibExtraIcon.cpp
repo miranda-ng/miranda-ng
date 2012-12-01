@@ -19,8 +19,6 @@
 
 #include "..\..\core\commonheaders.h"
 
-#include "IcolibExtraIcon.h"
-
 #include "extraicons.h"
 #include "usedIcons.h"
 

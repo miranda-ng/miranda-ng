@@ -19,7 +19,7 @@
 
 #include "..\..\core\commonheaders.h"
 
-#include "CallbackExtraIcon.h"
+#include "extraicons.h"
 
 CallbackExtraIcon::CallbackExtraIcon(int id, const char *name, const TCHAR *description, const char *descIcon,
 		MIRANDAHOOK RebuildIcons, MIRANDAHOOK ApplyIcon, MIRANDAHOOKPARAM OnClick, LPARAM param) :

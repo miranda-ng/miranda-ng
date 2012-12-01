@@ -19,8 +19,6 @@
 
 #include "..\..\core\commonheaders.h"
 
-#include "BaseExtraIcon.h"
-#include "ExtraIcon.h"
 #include "extraicons.h"
 
 ExtraIcon::ExtraIcon(const char *name) :

@@ -21,13 +21,6 @@
 
 #include "m_cluiframes.h"
 
-#include "BaseExtraIcon.h"
-#include "CallbackExtraIcon.h"
-#include "DefaultExtraIcons.h"
-#include "ExtraIcon.h"
-#include "ExtraIconGroup.h"
-#include "IcolibExtraIcon.h"
-
 #include "extraicons.h"
 #include "usedIcons.h"
 #include "..\clist\clc.h"

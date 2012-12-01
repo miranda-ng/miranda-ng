@@ -19,9 +19,6 @@
 
 #include "..\..\core\commonheaders.h"
 
-#include "BaseExtraIcon.h"
-#include "ExtraIconGroup.h"
-
 #include "extraicons.h"
 
 #define ICON_SIZE 				16
