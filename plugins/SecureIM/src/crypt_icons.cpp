@@ -47,7 +47,7 @@ HICON mode2icon(int mode, int type)
 
 HANDLE mode2clicon(int mode, int type)
 {
-	if (!bASI)
+	if (!bASI && !(mode & SECURED))
 		return INVALID_HANDLE_VALUE;
 
 	ICON_CACHE &p = getCacheItem(mode, type);
