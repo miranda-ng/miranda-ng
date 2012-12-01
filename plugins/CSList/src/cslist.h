@@ -416,8 +416,7 @@ struct CSAMWindow
 INT_PTR __cdecl  showList(WPARAM, LPARAM, LPARAM);
 
 // protocols enumeration related functions
-void forAllProtocols(pForAllProtosFunc pFunc, void *arg);
-void addProtoStatusMenuItem( char *protoName, void *arg);
+void addProtoStatusMenuItem(char *protoName);
 
 // other functions
 void IitIcoLib();

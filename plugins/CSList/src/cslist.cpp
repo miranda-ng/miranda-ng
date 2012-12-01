@@ -94,9 +94,19 @@ static int OnInitOptions(WPARAM wparam, LPARAM lparam)
 	return 0;
 }
 
-static int OnCreateMenuItems(WPARAM wparam, LPARAM lparam)
+static int OnCreateMenuItems(WPARAM, LPARAM)
 {
-	forAllProtocols(addProtoStatusMenuItem, 0);
+	int protoCount;
+	PROTOACCOUNT** pdesc;
+	ProtoEnumAccounts(&protoCount, &pdesc);
+
+	for (int i = 0; i < protoCount; i++) {
+		char szService[100];
+		mir_snprintf(szService, SIZEOF(szService), "%s%s", pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX);
+		if ( ServiceExists(szService))
+			addProtoStatusMenuItem(pdesc[i]->szModuleName);
+	}
+
 	return 0;
 }
 
@@ -141,8 +151,10 @@ extern "C" __declspec(dllexport) int Load()
 	HookEvent(ME_OPT_INITIALISE, OnInitOptions);
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnDbChanged);
 	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, OnCreateMenuItems);
-	HookEvent(ME_SYSTEM_MODULESLOADED, OnCreateMenuItems);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreshutdown);
+
+	// if we load a plugin dynamically, it will work, otherwise fail
+	OnCreateMenuItems(0, 0);
 	return 0;
 }
 
@@ -219,24 +231,14 @@ INT_PTR showList(WPARAM wparam, LPARAM lparam, LPARAM param)
 	return 0;
 }
 
-void forAllProtocols( pForAllProtosFunc pFunc, void *arg )
-{
-	int protoCount;
-	PROTOACCOUNT** pdesc;
-	ProtoEnumAccounts(&protoCount, &pdesc);
-
-	for (int i = 0; i < protoCount; i++) {
-		char szService[100];
-		mir_snprintf(szService, SIZEOF(szService), "%s%s", pdesc[i]->szModuleName, PS_SETCUSTOMSTATUSEX);
-		if ( ServiceExists(szService))
-			pFunc(pdesc[i]->szModuleName , arg);
-	}
-}
-
-void addProtoStatusMenuItem(char *protoName, void *arg)
+void addProtoStatusMenuItem(char *protoName)
 {
 	PROTOACCOUNT *pdescr = ProtoGetAccount(protoName);
 	if (pdescr == NULL)
+		return;
+
+	HGENMENU hRoot = MO_GetProtoRootMenu(pdescr->szModuleName);
+	if (hRoot == NULL)
 		return;
 
 	char buf[200];
@@ -245,17 +247,12 @@ void addProtoStatusMenuItem(char *protoName, void *arg)
 		CreateServiceFunctionParam(buf, showList, (LPARAM)protoName);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_CHILDPOPUP | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	mi.icolibItem = forms[0].hIcoLibItem;
 	mi.ptszName = _T(MODULENAME);
 	mi.position = 2000040000;
 	mi.pszService = buf;
-	if ( CallService(MS_PROTO_ISACCOUNTLOCKED, 0, (LPARAM)pdescr->szModuleName)) {
-		TCHAR szBuffer[256];
-		mir_sntprintf(szBuffer, SIZEOF(szBuffer), TranslateT("%s (locked)"), pdescr->tszAccountName);
-		mi.ptszPopupName = szBuffer;
-	}
-	else mi.ptszPopupName = pdescr->tszAccountName;
+	mi.hParentMenu = hRoot;
 	Menu_AddStatusMenuItem(&mi);
 
 	RegisterHotkeys(buf, pdescr->tszAccountName, pdescr->iOrder);
