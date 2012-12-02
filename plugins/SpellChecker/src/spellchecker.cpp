@@ -102,8 +102,6 @@ static int IconsChanged(WPARAM wParam, LPARAM lParam)
 
 static int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	DeInitOptions();
-
 	if (ServiceExists(MS_MSG_REMOVEICON)) {
 		StatusIconData sid = { sizeof(sid) };
 		sid.szModule = MODULE_NAME;
@@ -164,7 +162,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		SKINICONDESC sid = { sizeof(sid) };
 		sid.flags = SIDF_ALL_TCHAR | SIDF_SORTED;
-		sid.ptszSection = _T("Spellchecker/Flags");
+		sid.ptszSection = _T("Spell Checker/Flags");
 
 		// Get language flags
 		for(int i = 0; i < languages.getCount(); i++) {

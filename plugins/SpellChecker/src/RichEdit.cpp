@@ -157,20 +157,6 @@ void RichEdit::GetLine(int line, TCHAR *text, size_t text_len) const
 	int lineLen = GetLineLength(line);
 	size = (unsigned) max(0, min((int)text_len - 1, min((int) size, lineLen)));
 	text[size] = _T('\0');
-
-/*
-	int len = GetLineLength(line);
-	if (len < 1)
-	{
-		text[0] = 0;
-		return;
-	}
-
-	int first = GetFirstCharOfLine(line);
-	TCHAR *tmp = GetText(first, first + GetLineLength(line));
-	lstrcpyn(text, tmp, text_len);
-	mir_free(tmp);
-*/
 }
 
 int RichEdit::GetLineLength(int line) const

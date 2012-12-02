@@ -53,9 +53,6 @@ extern Options opts;
 // Initializations needed by options
 void InitOptions();
 
-// Deinitializations needed by options
-void DeInitOptions();
-
 // Loads the options from DB
 // It don't need to be called, except in some rare cases
 void LoadOptions();

@@ -20,11 +20,7 @@ Boston, MA 02111-1307, USA.
 
 #include "commons.h"
 
-
-
 // Prototypes /////////////////////////////////////////////////////////////////////////////////////
-
-HANDLE hOptHook = NULL;
 
 Options opts;
 
@@ -86,30 +82,21 @@ void InitOptions()
 {
 	LoadOptions();
 	
-	hOptHook = HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
+	HookEvent(ME_OPT_INITIALISE, InitOptionsCallback);
 }
-
-
-void DeInitOptions()
-{
-	UnhookEvent(hOptHook);
-}
-
 
 void LoadOptions()
 {
 	LoadOpts(optionsControls, SIZEOF(optionsControls), MODULE_NAME);
 	LoadOpts(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME);
 	
-	if (languages.getCount() <= 0)
-	{
+	if (languages.getCount() <= 0) {
 		opts.default_language[0] = _T('\0');
 		return;
 	}
 
 	DBVARIANT dbv;
-	if (!db_get_ts(NULL, MODULE_NAME, "DefaultLanguage", &dbv))
-	{
+	if (!db_get_ts(NULL, MODULE_NAME, "DefaultLanguage", &dbv)) {
 		lstrcpyn(opts.default_language, dbv.ptszVal, SIZEOF(opts.default_language));
 		DBFreeVariant(&dbv);
 	}
@@ -123,7 +110,6 @@ void LoadOptions()
 		lstrcpy(opts.default_language, languages[0]->language);
 }
 
-
 static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict) 
 {
 	TEXTMETRIC tm;
@@ -131,21 +117,16 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 
 	GetTextMetrics(lpdis->hDC, &tm);
 
-
 	int foreIndex, backIndex;
-
-	if (lpdis->itemState & ODS_DISABLED)
-	{
+	if (lpdis->itemState & ODS_DISABLED) {
 		foreIndex = COLOR_GRAYTEXT;
 		backIndex = COLOR_BTNFACE;
 	}
-	else if (lpdis->itemState & ODS_SELECTED)
-	{
+	else if (lpdis->itemState & ODS_SELECTED) {
 		foreIndex = COLOR_HIGHLIGHTTEXT;
 		backIndex = COLOR_HIGHLIGHT;
 	}
-	else
-	{
+	else {
 		foreIndex = COLOR_WINDOWTEXT;
 		backIndex = COLOR_WINDOW;
 	}
@@ -159,7 +140,7 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 
 	// Draw icon
 	if (opts.use_flags) {
-		HICON hFlag = Skin_GetIcon( _T2A(dict->language));
+		HICON hFlag = Skin_GetIconByHandle(dict->hIcolib);
 
 		rc.top = (lpdis->rcItem.bottom + lpdis->rcItem.top - ICON_SIZE) / 2;
 		DrawIconEx(lpdis->hDC, rc.left, rc.top, hFlag, 16, 16, 0, NULL, DI_NORMAL);
@@ -180,7 +161,6 @@ static void DrawItem(HWND hwndDlg, LPDRAWITEMSTRUCT lpdis, Dictionary *dict)
 	SetBkColor(lpdis->hDC, clrback);
 }
 
-
 static void MeasureItem(HWND hwndDlg, LPMEASUREITEMSTRUCT lpmis)
 {
 	TEXTMETRIC tm;
@@ -192,56 +172,46 @@ static void MeasureItem(HWND hwndDlg, LPMEASUREITEMSTRUCT lpmis)
 		lpmis->itemHeight = tm.tmHeight;
 }
 
-
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
-			int i, sel = -1;
-			for(i = 0; i < languages.getCount(); i++)
-			{
-				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LONG) languages[i]->full_name);
-				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (DWORD) languages[i]);
+			int sel = -1;
+			for(int i = 0; i < languages.getCount(); i++) {
+				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_ADDSTRING, 0, (LPARAM)languages[i]->full_name);
+				SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETITEMDATA, i, (LPARAM)languages[i]);
 
-				if (lstrcmp(opts.default_language, languages[i]->language) == 0)
+				if ( !lstrcmp(opts.default_language, languages[i]->language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_SETCURSEL, sel, 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Line"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Dotted"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Dash"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Dash dot"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Dash dot dot"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Wave"));
-			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LONG) TranslateT("Thick"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Line"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Dotted"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Dash"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Dash dot"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Dash dot dot"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Wave"));
+			SendDlgItemMessage(hwndDlg, IDC_UNDERLINE_TYPE, CB_ADDSTRING, 0, (LPARAM)TranslateT("Thick"));
+		}
+		break;
 
-			break;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_GETMORE)
+			CallService(MS_UTILS_OPENURL, 1, (LPARAM) "http://wiki.services.openoffice.org/wiki/Dictionaries");
+
+		if (LOWORD(wParam) == IDC_DEF_LANG && (HIWORD(wParam) == CBN_SELCHANGE && (HWND)lParam == GetFocus())) {
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			return 0;
 		}
 
-		case WM_COMMAND:
-		{
-			if(LOWORD(wParam) == IDC_GETMORE)
-				CallService(MS_UTILS_OPENURL, 1, (LPARAM) "http://wiki.services.openoffice.org/wiki/Dictionaries");
+		break;
 
-			if (LOWORD(wParam) == IDC_DEF_LANG
-					&& (HIWORD(wParam) == CBN_SELCHANGE && (HWND)lParam == GetFocus()))
-			{
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				return 0;
-			}
-
-			break;
-		}
-
-		case WM_NOTIFY:
+	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY && languages.getCount() > 0)
-			{
+			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY && languages.getCount() > 0) {
 				int sel = SendDlgItemMessage(hwndDlg, IDC_DEF_LANG, CB_GETCURSEL, 0, 0);
 				if (sel >= languages.getCount())
 					sel = 0;
@@ -249,41 +219,33 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					(TCHAR *) languages[sel]->language);
 				lstrcpy(opts.default_language, languages[sel]->language);
 			}
-			
-			break;
 		}
+		break;
 
-		case WM_DRAWITEM:
+	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-			if(lpdis->CtlID != IDC_DEF_LANG) 
+			if (lpdis->CtlID != IDC_DEF_LANG) 
 				break;
-			if(lpdis->itemID == -1) 
+			if (lpdis->itemID == -1) 
 				break;
 
 			Dictionary *dict = (Dictionary *) lpdis->itemData;
-			
 			DrawItem(hwndDlg, lpdis, dict);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_MEASUREITEM:
-		{
-			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-			if(lpmis->CtlID != IDC_DEF_LANG) 
-				break;
+	case WM_MEASUREITEM:
+		LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+		if (lpmis->CtlID != IDC_DEF_LANG) 
+			break;
 
-			MeasureItem(hwndDlg, lpmis);
-
-				
-			return TRUE;
-		}
+		MeasureItem(hwndDlg, lpmis);
+		return TRUE;
 	}
 
 	return SaveOptsDlgProc(optionsControls, SIZEOF(optionsControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
-
 
 struct AutoreplaceData
 {
@@ -309,7 +271,6 @@ struct AutoreplaceData
 	}
 };
 
-
 static void EnableDisableCtrls(HWND hwndDlg)
 {
 	BOOL enabled = IsDlgButtonChecked(hwndDlg, IDC_AUTO_USER);
@@ -325,10 +286,7 @@ static void EnableDisableCtrls(HWND hwndDlg)
 	HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_EDIT), ListView_GetSelectedCount(hList) == 1);
 	EnableWindow(GetDlgItem(hwndDlg, IDC_REMOVE), ListView_GetSelectedCount(hList) > 0);
-
-
 }
-
 
 static void LoadReplacements(HWND hwndDlg)
 {
@@ -342,15 +300,13 @@ static void LoadReplacements(HWND hwndDlg)
 		return;
 
 	AutoreplaceData *data = (AutoreplaceData *) SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, sel, 0);
-	if (!data->initialized)
-	{
+	if (!data->initialized) {
 		data->dict->autoReplace->copyMap(&data->autoReplaceMap);
 		data->initialized = TRUE;
 	}
 
 	map<tstring,AutoReplacement>::iterator it = data->autoReplaceMap.begin();
-	for(int i = 0; it != data->autoReplaceMap.end(); it++, i++)
-	{
+	for(int i = 0; it != data->autoReplaceMap.end(); it++, i++) {
 		LVITEM item = {0};
 		item.mask = LVIF_TEXT | LVIF_PARAM;
 		item.iItem = i;
@@ -367,7 +323,6 @@ static void LoadReplacements(HWND hwndDlg)
 	EnableDisableCtrls(hwndDlg);
 }
 
-
 static void SaveNewReplacements(BOOL canceled, Dictionary *dict, 
 								const TCHAR *find, const TCHAR *replace, BOOL useVariables, 
 								const TCHAR *original_find, void *param)
@@ -383,7 +338,6 @@ static void SaveNewReplacements(BOOL canceled, Dictionary *dict,
 	data->AddWord(find, replace, useVariables);
 }
 
-
 static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 {
 	int sel = SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETCURSEL, 0, 0);
@@ -397,24 +351,17 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	BOOL useVariables = FALSE;
 
 	if (item < 0)
-	{
 		find[0] = 0;
-	}
 	else
-	{
 		ListView_GetItemText(GetDlgItem(hwndDlg, IDC_REPLACEMENTS), item, 0, find, SIZEOF(find));
-	}
 
-	if (lstrlen(find) > 0)
-	{
+	if (lstrlen(find) > 0) {
 		AutoReplacement &ar = data->autoReplaceMap[find];
 		replace = ar.replace.c_str();
 		useVariables = ar.useVariables;
 	}
 
-	if (ShowAutoReplaceDialog(hwndDlg, TRUE, data->dict, find, replace, useVariables,
-							  FALSE, &SaveNewReplacements, data))
-	{
+	if (ShowAutoReplaceDialog(hwndDlg, TRUE, data->dict, find, replace, useVariables, FALSE, &SaveNewReplacements, data)) {
 		LoadReplacements(hwndDlg);
 		SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 	}
@@ -422,22 +369,20 @@ static void ShowAddReplacement(HWND hwndDlg, int item = -1)
 	EnableDisableCtrls(hwndDlg);
 }
 
-
 static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
 {
-	switch (msg) 
-	{
-		case WM_INITDIALOG:
+	switch (msg) {
+	case WM_INITDIALOG:
 		{
 			BOOL ret = SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 
 			int sel = -1;
-			for(int i = 0; i < languages.getCount(); i++)
-			{
-				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LONG) languages[i]->full_name);
-				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (DWORD) new AutoreplaceData(languages[i]));
+			for(int i = 0; i < languages.getCount(); i++) {
+				Dictionary *p = languages[i];
+				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_ADDSTRING, 0, (LPARAM)p->full_name);
+				SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETITEMDATA, i, (LPARAM)new AutoreplaceData(p));
 
-				if (lstrcmp(opts.default_language, languages[i]->language) == 0)
+				if ( !lstrcmp(opts.default_language, p->language))
 					sel = i;
 			}
 			SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_SETCURSEL, sel, 0);
@@ -459,138 +404,108 @@ static INT_PTR CALLBACK AutoreplaceDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
 			ListView_InsertColumn(hList, 1, &col);
 
 			LoadReplacements(hwndDlg);
-
 			return ret;
 		}
 
-		case WM_COMMAND:
-		{
-			if (LOWORD(wParam) == IDC_LANGUAGE && HIWORD(wParam) == CBN_SELCHANGE)
-			{
-				LoadReplacements(hwndDlg);
-			}
-			else if (LOWORD(wParam) == IDC_ADD)
-			{
-				ShowAddReplacement(hwndDlg);
-			}
-			else if (LOWORD(wParam) == IDC_EDIT)
-			{
-				HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
-				if (ListView_GetSelectedCount(hList) != 1)
-					break;
+	case WM_COMMAND:
+		if (LOWORD(wParam) == IDC_LANGUAGE && HIWORD(wParam) == CBN_SELCHANGE)
+			LoadReplacements(hwndDlg);
+		else if (LOWORD(wParam) == IDC_ADD)
+			ShowAddReplacement(hwndDlg);
+		else if (LOWORD(wParam) == IDC_EDIT) {
+			HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
+			if (ListView_GetSelectedCount(hList) != 1)
+				break;
 
-				int sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
-				if (sel < 0)
-					break;
+			int sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+			if (sel < 0)
+				break;
 
-				ShowAddReplacement(hwndDlg, sel);
-			}
-			else if (LOWORD(wParam) == IDC_REMOVE)
-			{
-				HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
-
-				int sel = SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETCURSEL, 0, 0);
-				if (sel < 0)
-					break;
-
-				AutoreplaceData *data = (AutoreplaceData *) SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, sel, 0);
-
-				BOOL changed = FALSE;
-
-				sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
-				while(sel >= 0)
-				{
-					TCHAR tmp[256];
-					ListView_GetItemText(hList, sel, 0, tmp, SIZEOF(tmp));
-
-					data->RemoveWord(tmp);
-					changed = TRUE;
-
-					sel = SendMessage(hList, LVM_GETNEXTITEM, sel, LVNI_SELECTED);
-				}
-
-				if (changed)
-				{
-					LoadReplacements(hwndDlg);
-					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-				}
-			}
-
-			break;
+			ShowAddReplacement(hwndDlg, sel);
 		}
+		else if (LOWORD(wParam) == IDC_REMOVE) {
+			HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
 
-		case WM_NOTIFY:
+			int sel = SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETCURSEL, 0, 0);
+			if (sel < 0)
+				break;
+
+			AutoreplaceData *data = (AutoreplaceData *) SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, sel, 0);
+
+			BOOL changed = FALSE;
+
+			sel = SendMessage(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
+			while(sel >= 0) {
+				TCHAR tmp[256];
+				ListView_GetItemText(hList, sel, 0, tmp, SIZEOF(tmp));
+
+				data->RemoveWord(tmp);
+				changed = TRUE;
+
+				sel = SendMessage(hList, LVM_GETNEXTITEM, sel, LVNI_SELECTED);
+			}
+
+			if (changed) {
+				LoadReplacements(hwndDlg);
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+			}
+		}
+		break;
+
+	case WM_NOTIFY:
 		{
 			LPNMHDR lpnmhdr = (LPNMHDR)lParam;
-
-			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY && languages.getCount() > 0)
-			{
-				for(int i = 0; i < languages.getCount(); i++)
-				{
+			if (lpnmhdr->idFrom == 0 && lpnmhdr->code == PSN_APPLY && languages.getCount() > 0) {
+				for(int i = 0; i < languages.getCount(); i++) {
 					AutoreplaceData *data = (AutoreplaceData *) SendDlgItemMessage(hwndDlg, IDC_LANGUAGE, CB_GETITEMDATA, i, 0);
-					if (data->changed)
-					{
+					if (data->changed) {
 						data->dict->autoReplace->setMap(data->autoReplaceMap);
 						data->changed = FALSE;
 					}
 				}
 			}
-			else if (lpnmhdr->idFrom == IDC_REPLACEMENTS)
-			{
+			else if (lpnmhdr->idFrom == IDC_REPLACEMENTS) {
 				HWND hList = GetDlgItem(hwndDlg, IDC_REPLACEMENTS);
 
-				switch(lpnmhdr->code)
-				{
-					case LVN_ITEMCHANGED:
-					case NM_CLICK:
-						EnableDisableCtrls(hwndDlg);
-						break;
+				switch(lpnmhdr->code) {
+				case LVN_ITEMCHANGED:
+				case NM_CLICK:
+					EnableDisableCtrls(hwndDlg);
+					break;
 
-					case NM_DBLCLK:
-						LPNMITEMACTIVATE lpnmitem = (LPNMITEMACTIVATE) lParam;
-						if (lpnmitem->iItem >= 0)
-							ShowAddReplacement(hwndDlg, lpnmitem->iItem);
-						break;
+				case NM_DBLCLK:
+					LPNMITEMACTIVATE lpnmitem = (LPNMITEMACTIVATE) lParam;
+					if (lpnmitem->iItem >= 0)
+						ShowAddReplacement(hwndDlg, lpnmitem->iItem);
+					break;
 				}
 			}
 			else if (lpnmhdr->idFrom == IDC_AUTO_USER)
-			{
 				EnableDisableCtrls(hwndDlg);
-			}
-			
-			break;
 		}
+		break;
 
-		case WM_DRAWITEM:
+	case WM_DRAWITEM:
 		{
 			LPDRAWITEMSTRUCT lpdis = (LPDRAWITEMSTRUCT)lParam;
-			if(lpdis->CtlID != IDC_LANGUAGE) 
+			if (lpdis->CtlID != IDC_LANGUAGE) 
 				break;
-			if(lpdis->itemID == -1) 
+			if (lpdis->itemID == -1) 
 				break;
 
 			AutoreplaceData *data = (AutoreplaceData *) lpdis->itemData;
-			
 			DrawItem(hwndDlg, lpdis, data->dict);
-
-			return TRUE;
 		}
+		return TRUE;
 
-		case WM_MEASUREITEM:
-		{
-			LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
-			if(lpmis->CtlID != IDC_LANGUAGE) 
-				break;
+	case WM_MEASUREITEM:
+		LPMEASUREITEMSTRUCT lpmis = (LPMEASUREITEMSTRUCT)lParam;
+		if (lpmis->CtlID != IDC_LANGUAGE) 
+			break;
 
-			MeasureItem(hwndDlg, lpmis);
-
-				
-			return TRUE;
-		}
+		MeasureItem(hwndDlg, lpmis);
+		return TRUE;
 	}
-
 
 	return SaveOptsDlgProc(autoReplaceControls, SIZEOF(autoReplaceControls), MODULE_NAME, hwndDlg, msg, wParam, lParam);
 }
-
-

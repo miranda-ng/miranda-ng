@@ -144,10 +144,10 @@ static BOOL CenterParent(HWND hwnd)
 	int screenwidth  = GetSystemMetrics(SM_CXSCREEN);
 	int screenheight = GetSystemMetrics(SM_CYSCREEN);
 
-	if(x + width  > screenwidth)  x = screenwidth  - width;
-	if(y + height > screenheight) y = screenheight - height;
-	if(x < 0) x = 0;
-	if(y < 0) y = 0;
+	if (x + width  > screenwidth)  x = screenwidth  - width;
+	if (y + height > screenheight) y = screenheight - height;
+	if (x < 0) x = 0;
+	if (y < 0) y = 0;
 
 	MoveWindow(hwnd, x, y, width, height, FALSE);
 
