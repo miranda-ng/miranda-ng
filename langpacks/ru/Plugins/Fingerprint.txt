@@ -1,11 +1,11 @@
 ﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
-;  File: fingerprint.dll
-;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+
-;  Versions: 0.2.2.4
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4412
-;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FingerPrintModPlus/
-;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS
+;  File: Fingerprint.dll
+;  Module: Display client icons, Fingerprint, Fingerprint Plus, Fingerprint Mod+, FingerprintNG
+;  Versions: 0.1.0.0
+;  URL: http://miranda-ng.org/
+;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/FingerprintNG/
+;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS, Mataes
 ;============================================================
 [Icon packages]
 Пакеты значков
@@ -167,3 +167,51 @@ Fingerprint Mod+ отображает значки клиентов, испол�
 Оверлеи#2
 [Not founded icon]
 Иконка не найдена
+
+;FingerprintNG
+[Fingerprint overlays icons]
+Оверлеи значков клиентов
+[Miranda clients]
+Клиенты Miranda
+[Miranda packs overlays]
+Оверлеи сборок Miranda
+[Show Miranda version at Overlay#2]
+Значок версии на оверлее #2
+[Resource overlays]
+Оверлеи ресурсов
+[Platform overlays]
+Оверлеи платформы
+[Protocols overlays]
+Оверлеи протоколов
+[Secure overlays]
+Оверлеи шифрования
+[AIM clients]
+Клиенты AIM
+[Gadu-Gadu clients]
+Клиенты Gadu-Gadu
+[ICQ clients]
+Клиенты ICQ
+[IRC clients]
+Клиенты IRC
+[Jabber clients]
+Клиенты Jabber
+[Mail.ru Agent]
+Клиенты Mail.ru Агента
+[MSN clients]
+Клиенты MSN
+[QQ clients]
+Клиенты QQ
+[RSS clients]
+Клиенты RSS
+[Tlen clients]
+Клиенты Tlen
+[Weather clients]
+Клиенты погоды
+[Yahoo clients]
+Клиенты Yahoo
+[Multi-protocol clients]
+Мульти-протокольные клиенты
+[Other (rare) protocols]
+Клиенты редких протоколов
+[Other icons]
+Другие значки
