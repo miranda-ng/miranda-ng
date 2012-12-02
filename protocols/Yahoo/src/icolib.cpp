@@ -28,8 +28,6 @@ static IconItem iconList[] =
 	{	LPGEN("Calendar"),     "calendar",   IDI_CALENDAR   }
 };
 
-HANDLE hIconLibItem[SIZEOF(iconList)];
-
 void CYahooProto::IconsInit( void )
 {
 	Icon_Register(hInstance, "Protocols/YAHOO", iconList, SIZEOF(iconList), "YAHOO");
@@ -46,7 +44,7 @@ HANDLE CYahooProto::GetIconHandle(int iconId)
 {
 	for (unsigned i=0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
-			return hIconLibItem[i];
+			return iconList[i].hIcolib;
 
 	return NULL;
 }
