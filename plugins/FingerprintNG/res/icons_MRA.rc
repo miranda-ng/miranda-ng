@@ -42,10 +42,10 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################### Mail.ru Agent ####################################################
 //##############################################################################################################
-	IDI_MAIL_RU_MOBILE		ICON	"..\\icons\\Mail.Ru\\Mail.Ru_Mobile.ico"
-	IDI_MAIL_RU_OFFICIAL	ICON	"..\\icons\\Mail.Ru\\Mail.Ru_official.ico"
-	IDI_MAIL_RU_UNKNOWN		ICON	"..\\icons\\Mail.Ru\\Mail.Ru_unknown.ico"
-	IDI_MAIL_RU_WEBAGENT	ICON	"..\\icons\\Mail.Ru\\Mail.Ru_WebAgent.ico"
+	IDI_MAIL_RU_MOBILE		ICON	"icons\\Mail.Ru\\Mail.Ru_Mobile.ico"
+	IDI_MAIL_RU_OFFICIAL	ICON	"icons\\Mail.Ru\\Mail.Ru_official.ico"
+	IDI_MAIL_RU_UNKNOWN		ICON	"icons\\Mail.Ru\\Mail.Ru_unknown.ico"
+	IDI_MAIL_RU_WEBAGENT	ICON	"icons\\Mail.Ru\\Mail.Ru_WebAgent.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

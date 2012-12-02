@@ -28,13 +28,23 @@
 #define IDI_MIRANDA_09XX			26
 #define IDI_MIRANDA_010X			27
 
-#define IDI_MIRANDA_4s				31
-#define IDI_MIRANDA_5s				32
-#define IDI_MIRANDA_6s				33
-#define IDI_MIRANDA_7s				34
-#define IDI_MIRANDA_8s				35
-#define IDI_MIRANDA_9s				36
-#define IDI_MIRANDA_10s				37
+#define IDI_MIRANDA_IM_V4			31
+#define IDI_MIRANDA_IM_V5			32
+#define IDI_MIRANDA_IM_V6			33
+#define IDI_MIRANDA_IM_V7			34
+#define IDI_MIRANDA_IM_V8			35
+#define IDI_MIRANDA_IM_V9			36
+#define IDI_MIRANDA_IM_V10			37
+
+#define IDI_MIRANDA_NG_V1			41
+#define IDI_MIRANDA_NG_V2			42
+#define IDI_MIRANDA_NG_V3			43
+#define IDI_MIRANDA_NG_V4			44
+#define IDI_MIRANDA_NG_V5			45
+#define IDI_MIRANDA_NG_V6			46
+#define IDI_MIRANDA_NG_V7			47
+#define IDI_MIRANDA_NG_V8			48
+#define IDI_MIRANDA_NG_V9			49
 
 //##############################################################################################################
 //Jabber resource overlays

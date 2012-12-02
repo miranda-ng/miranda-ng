@@ -42,11 +42,11 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################################ Yahoo #######################################################
 //##############################################################################################################
-	IDI_YAHOO					ICON	"..\\icons\\Yahoo\\Yahoo.ico"
-	IDI_LIBYAHOO2				ICON	"..\\icons\\Yahoo\\libyahoo2.ico"
-	IDI_YAHOO_PINGBOX			ICON	"..\\icons\\Yahoo\\Yahoo PingBox.ico"
-	IDI_YAHOO_WEB				ICON	"..\\icons\\Yahoo\\Yahoo Web.ico"
-	IDI_YAHOO_GO_MOBILE			ICON	"..\\icons\\Yahoo\\Yahoo Go Mobile.ico"
+	IDI_YAHOO					ICON	"icons\\Yahoo\\Yahoo.ico"
+	IDI_LIBYAHOO2				ICON	"icons\\Yahoo\\libyahoo2.ico"
+	IDI_YAHOO_PINGBOX			ICON	"icons\\Yahoo\\Yahoo PingBox.ico"
+	IDI_YAHOO_WEB				ICON	"icons\\Yahoo\\Yahoo Web.ico"
+	IDI_YAHOO_GO_MOBILE			ICON	"icons\\Yahoo\\Yahoo Go Mobile.ico"
 
 //##############################################################################################################
 //################################################## Overlays ##################################################
@@ -55,9 +55,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################# Yahoo overlays #############################################################
 //##############################################################################################################
-	IDI_YAHOO9_OVERLAY			ICON	"..\\icons\\Yahoo\\overlay_Yahoo_v9.ico"
-	IDI_YAHOO10_OVERLAY			ICON	"..\\icons\\Yahoo\\overlay_Yahoo_v10.ico"
-	IDI_YAHOO11_OVERLAY			ICON	"..\\icons\\Yahoo\\overlay_Yahoo_v11.ico"
+	IDI_YAHOO9_OVERLAY			ICON	"icons\\Yahoo\\overlay_Yahoo_v9.ico"
+	IDI_YAHOO10_OVERLAY			ICON	"icons\\Yahoo\\overlay_Yahoo_v10.ico"
+	IDI_YAHOO11_OVERLAY			ICON	"icons\\Yahoo\\overlay_Yahoo_v11.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

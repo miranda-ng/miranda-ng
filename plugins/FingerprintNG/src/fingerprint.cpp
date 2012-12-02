@@ -102,25 +102,22 @@ void RegisterIcons()
 	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
 		Prepare(&def_kn_fp_mask[i], true);
 
-	bool bEnable = db_get_b(NULL, "Finger", "Overlay1", 1) != 0;
 	for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
-		Prepare(&def_kn_fp_overlays_mask[i], bEnable);
+		Prepare(&def_kn_fp_overlays_mask[i], true);
 
-	bEnable = db_get_b(NULL, "Finger", "Overlay2", 1) != 0;
-	if ( db_get_b(NULL, "Finger", "ShowVersion", 0)) {
+	if ( db_get_b(NULL, "Finger", "GroupMirandaVersion", 0)) {
 		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
-			Prepare(&def_kn_fp_overlays2_mask[i], bEnable);
+			Prepare(&def_kn_fp_overlays2_mask[i], true);
 	}
 	else {
 		for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
-			Prepare(&def_kn_fp_overlays2_mask[i], bEnable);
+			Prepare(&def_kn_fp_overlays2_mask[i], true);
 		for (; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	bEnable = db_get_b(NULL, "Finger", "Overlay3", 1) != 0;
 	for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
-		Prepare(&def_kn_fp_overlays3_mask[i], bEnable);
+		Prepare(&def_kn_fp_overlays3_mask[i], true);
 }
 
 /*

@@ -42,9 +42,9 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //########################################### Other ############################################################
 //##############################################################################################################
-	IDI_NOTFOUND			ICON	"..\\icons\\others\\notfound.ico"
-	IDI_UNDETECTED			ICON	"..\\icons\\others\\undetected.ico"
-	IDI_UNKNOWN				ICON	"..\\icons\\others\\unknown.ico"
+	IDI_NOTFOUND			ICON	"icons\\others\\notfound.ico"
+	IDI_UNDETECTED			ICON	"icons\\others\\undetected.ico"
+	IDI_UNKNOWN				ICON	"icons\\others\\unknown.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

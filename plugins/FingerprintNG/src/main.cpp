@@ -33,7 +33,7 @@ HANDLE getClientIconA			= NULL;
 
 HANDLE compClientServW			= NULL;
 HANDLE getClientIconW			= NULL;
-LPSTR g_szClientDescription	= NULL;
+LPSTR g_szClientDescription		= NULL;
 
 HANDLE hStaticHooks[1]			= { NULL };
 
@@ -42,15 +42,16 @@ HANDLE hStaticHooks[1]			= { NULL };
 // PluginInfo & PluginInfoEx
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	__INTERNAL_NAME_STRING,
-	__VERSION_DWORD,
-	"Fingerprint NG (client version) icons module for Miranda NG",
-	"Copyright © 2006-12 ghazan, mataes, HierOS, FYR, Bio, nullbie, faith_healer and all respective contributors.",
-	"faith_healer@miranda.im",
-	__LEGAL_COPYRIGHT_STRING,
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_THIS_PLUGIN
+	//{687364AF-58B0-4AF2-A4EE-20F40A8D9AFB}
+	{0x687364af, 0x58b0, 0x4af2, { 0xa4, 0xee, 0x20, 0xf4, 0xa, 0x8d, 0x9a, 0xfb}}
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)

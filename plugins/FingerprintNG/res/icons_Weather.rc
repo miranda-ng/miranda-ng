@@ -42,19 +42,19 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################# Weather ########################################################
 //##############################################################################################################
-	IDI_ACCU				ICON	"..\\icons\\Weather\\AccuWeather.ico"
-	IDI_GISMETEO			ICON	"..\\icons\\Weather\\gismeteo.ico"
-	IDI_INTELLI				ICON	"..\\icons\\Weather\\intelli.ico"
-	IDI_METEOGID			ICON	"..\\icons\\Weather\\meteogid.ico"
-	IDI_METEONOVOSTI		ICON	"..\\icons\\Weather\\meteonovosti.ico"
-	IDI_NOAA				ICON	"..\\icons\\Weather\\noaa.ico"
-	IDI_REALMETEO			ICON	"..\\icons\\Weather\\realmeteo.ico"
-	IDI_UNDERGROUND			ICON	"..\\icons\\Weather\\underground.ico"
-	IDI_WEATHER				ICON	"..\\icons\\Weather\\weather.ico"
-	IDI_WEATHER_CN			ICON	"..\\icons\\Weather\\weather_cn.ico"
-	IDI_WEATHERXML			ICON	"..\\icons\\Weather\\weatherxml.ico"
-	IDI_WETTER				ICON	"..\\icons\\Weather\\wetter.ico"
-	IDI_YWEATHER			ICON	"..\\icons\\Weather\\yweather.ico"
+	IDI_ACCU				ICON	"icons\\Weather\\AccuWeather.ico"
+	IDI_GISMETEO			ICON	"icons\\Weather\\gismeteo.ico"
+	IDI_INTELLI				ICON	"icons\\Weather\\intelli.ico"
+	IDI_METEOGID			ICON	"icons\\Weather\\meteogid.ico"
+	IDI_METEONOVOSTI		ICON	"icons\\Weather\\meteonovosti.ico"
+	IDI_NOAA				ICON	"icons\\Weather\\noaa.ico"
+	IDI_REALMETEO			ICON	"icons\\Weather\\realmeteo.ico"
+	IDI_UNDERGROUND			ICON	"icons\\Weather\\underground.ico"
+	IDI_WEATHER				ICON	"icons\\Weather\\weather.ico"
+	IDI_WEATHER_CN			ICON	"icons\\Weather\\weather_cn.ico"
+	IDI_WEATHERXML			ICON	"icons\\Weather\\weatherxml.ico"
+	IDI_WETTER				ICON	"icons\\Weather\\wetter.ico"
+	IDI_YWEATHER			ICON	"icons\\Weather\\yweather.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

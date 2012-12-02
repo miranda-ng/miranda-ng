@@ -42,33 +42,33 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################QQ###############################################################
 //##############################################################################################################
-	IDI_QQ					ICON	"..\\icons\\QQ\\QQ.ico"
-	IDI_QQCONCEPT			ICON	"..\\icons\\QQ\\QQ Concept.ico"
-	IDI_QQCRM				ICON	"..\\icons\\QQ\\QQ CRM.ico"
-	IDI_QQINT				ICON	"..\\icons\\QQ\\QQ International.ico"
-	IDI_QQSILVER			ICON	"..\\icons\\QQ\\QQ Silverlight.ico"
-	IDI_MOBILEQQ			ICON	"..\\icons\\QQ\\Mobile QQ.ico"
-	IDI_WEBQQ				ICON	"..\\icons\\QQ\\WebQQ.ico"
-	IDI_YAMQQ				ICON	"..\\icons\\QQ\\Yam QQ.ico"
-	IDI_TM					ICON	"..\\icons\\QQ\\TM.ico"
-	IDI_TM2008				ICON	"..\\icons\\QQ\\TM 2008.ico"
+	IDI_QQ					ICON	"icons\\QQ\\QQ.ico"
+	IDI_QQCONCEPT			ICON	"icons\\QQ\\QQ Concept.ico"
+	IDI_QQCRM				ICON	"icons\\QQ\\QQ CRM.ico"
+	IDI_QQINT				ICON	"icons\\QQ\\QQ International.ico"
+	IDI_QQSILVER			ICON	"icons\\QQ\\QQ Silverlight.ico"
+	IDI_MOBILEQQ			ICON	"icons\\QQ\\Mobile QQ.ico"
+	IDI_WEBQQ				ICON	"icons\\QQ\\WebQQ.ico"
+	IDI_YAMQQ				ICON	"icons\\QQ\\Yam QQ.ico"
+	IDI_TM					ICON	"icons\\QQ\\TM.ico"
+	IDI_TM2008				ICON	"icons\\QQ\\TM 2008.ico"
 
 //##############################################################################################################
 //########################################### QQ overlays ######################################################
 //##############################################################################################################
-	IDI_QQ_2000_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2000.ico"
-	IDI_QQ_2001_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2001.ico"
-	IDI_QQ_2002_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2002.ico"
-	IDI_QQ_2003_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2003.ico"
-	IDI_QQ_2004_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2004.ico"
-	IDI_QQ_2005_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2005.ico"
-	IDI_QQ_2006_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2006.ico"
-	IDI_QQ_2007_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2007.ico"
-	IDI_QQ_2008_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2008.ico"
-	IDI_QQ_2009_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2009.ico"
-	IDI_QQ_2010_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2010.ico"
-	IDI_QQ_2011_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2011.ico"
-	IDI_QQ_2012_OVERLAY		ICON	"..\\icons\\QQ\\overlay_QQ_2012.ico"
+	IDI_QQ_2000_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2000.ico"
+	IDI_QQ_2001_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2001.ico"
+	IDI_QQ_2002_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2002.ico"
+	IDI_QQ_2003_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2003.ico"
+	IDI_QQ_2004_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2004.ico"
+	IDI_QQ_2005_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2005.ico"
+	IDI_QQ_2006_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2006.ico"
+	IDI_QQ_2007_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2007.ico"
+	IDI_QQ_2008_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2008.ico"
+	IDI_QQ_2009_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2009.ico"
+	IDI_QQ_2010_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2010.ico"
+	IDI_QQ_2011_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2011.ico"
+	IDI_QQ_2012_OVERLAY		ICON	"icons\\QQ\\overlay_QQ_2012.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

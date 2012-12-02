@@ -744,20 +744,35 @@ int DEFAULT_KN_FP_OVERLAYS_COUNT = SIZEOF(def_kn_fp_overlays_mask);
 KN_FP_MASK def_kn_fp_overlays2_mask[] =
 {//	IconName						Mask										Icon caption							NULL ICON_RESOURCE_ID
 	{"client_debug_overlay",	_T("|*[*debug*]*|*test*|*тест*"),			_T("debug overlay"),					_T("ClientIcons_overlays"),		IDI_DEBUG_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_home_overlay",		_T("|*[*home*]*|*[*дом*]*|*[*хоме*]*"),		_T("home overlay"),						_T("ClientIcons_overlays"),		IDI_HOME_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_work_overlay",		_T("|*[*work*]*|*wrk*|*[*работа*]*|*ворк*"),_T("work overlay"),						_T("ClientIcons_overlays"),		IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 	{"client_office_overlay",	_T("|*[*office*]*|*[*офис*]*"),				_T("office overlay"),					_T("ClientIcons_overlays"),		IDI_OFFICE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 	{"client_mobile_overlay",	_T("|*[*mobile*]*|*[*pda*]*"),				_T("mobile overlay"),					_T("ClientIcons_overlays"),		IDI_MOBILE_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
-	{"client_note_overlay",		_T("|*[*note*]*|*[*laptop*]*|*[*portable*]*")
-								_T("|*[*кирпич*]*|*[*flash*]*|*[*usb*]*"),	_T("notebook overlay"),					_T("ClientIcons_overlays"),		IDI_NOTEBOOK_OVERLAY,	OVERLAYS_RESOURCE_CASE	},
+	{"client_home_overlay",		_T("|*[*home*]*|*[*дом*]*|*[*хоме*]*"),		_T("home overlay"),						_T("ClientIcons_overlays"),		IDI_HOME_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
 
-	{"client_Mir_010_over",		_T("*Miranda*0.10.*"),						_T("Miranda v0.10 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_10s,		MIRANDA_VERSION_CASE	},
-	{"client_Mir_09_over",		_T("*Miranda*0.9.*"),						_T("Miranda v0.9 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_9s,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_08_over",		_T("*Miranda*0.8.*"),						_T("Miranda v0.8 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_8s,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_07_over",		_T("*Miranda*0.7.*"),						_T("Miranda v0.7 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_7s,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_06_over",		_T("*Miranda*0.6.*"),						_T("Miranda v0.6 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_6s,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_05_over",		_T("*Miranda*0.5.*"),						_T("Miranda v0.5 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_5s,			MIRANDA_VERSION_CASE	},
-	{"client_Mir_04_over",		_T("*Miranda*0.4.*"),						_T("Miranda v0.4 #2 overlay"),			_T("ClientIcons_Miranda"),		IDI_MIRANDA_4s,			MIRANDA_VERSION_CASE	},
+	{"client_work_overlay",		_T("|*[*work*]*|*wrk*")
+								_T("|*[*работа*]*|*ворк*"),					_T("work overlay"),						_T("ClientIcons_overlays"),		IDI_WORK_OVERLAY,		OVERLAYS_RESOURCE_CASE	},
+
+	{"client_note_overlay",		_T("|*[*note*]*|*[*laptop*]*|*ноут*")
+								_T("|*[*кирпич*]*|*[*portable*]*")
+								_T("|*[*flash*]*|*[*usb*]*"),				_T("notebook overlay"),					_T("ClientIcons_overlays"),		IDI_NOTEBOOK_OVERLAY,	OVERLAYS_RESOURCE_CASE	},
+
+//	{"client_MirNG_09_over",	_T("*Miranda*NG*\?.\?\?.9.*"),	 			_T("MirandaNG v0.9 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V9,		MIRANDA_VERSION_CASE	},
+//	{"client_MirNG_08_over",	_T("*Miranda*NG*\?.\?\?.8.*"),	 			_T("MirandaNG v0.8 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V8,		MIRANDA_VERSION_CASE	},
+//	{"client_MirNG_07_over",	_T("*Miranda*NG*\?.\?\?.7.*"),	 			_T("MirandaNG v0.7 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V7,		MIRANDA_VERSION_CASE	},
+
+	{"client_MirNG_06_over",	_T("*Miranda*NG*\?.\?\?.6.*"),	 			_T("MirandaNG v0.6 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_05_over",	_T("*Miranda*NG*\?.\?\?.5.*"),	 			_T("MirandaNG v0.5 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_04_over",	_T("*Miranda*NG*\?.\?\?.4.*"),	 			_T("MirandaNG v0.4 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_03_over",	_T("*Miranda*NG*\?.\?\?.3.*"),	 			_T("MirandaNG v0.3 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_02_over",	_T("*Miranda*NG*\?.\?\?.2.*"),	 			_T("MirandaNG v0.2 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirNG_01_over",	_T("*Miranda*NG*\?.\?\?.1.*"),	 			_T("MirandaNG v0.1 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_NG_V4,		MIRANDA_VERSION_CASE	},
+
+	{"client_MirIM_010_over",	_T("*Miranda*0.10.*"),						_T("MirandaIM v0.10 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V10,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_09_over",	_T("*Miranda*0.9.*"),						_T("MirandaIM v0.9 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V9,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_08_over",	_T("*Miranda*0.8.*"),						_T("MirandaIM v0.8 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V8,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_07_over",	_T("*Miranda*0.7.*"),						_T("MirandaIM v0.7 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V7,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_06_over",	_T("*Miranda*0.6.*"),						_T("MirandaIM v0.6 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V6,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_05_over",	_T("*Miranda*0.5.*"),						_T("MirandaIM v0.5 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V5,		MIRANDA_VERSION_CASE	},
+	{"client_MirIM_04_over",	_T("*Miranda*0.4.*"),						_T("MirandaIM v0.4 #2 overlay"),		_T("ClientIcons_Miranda"),		IDI_MIRANDA_IM_V4,		MIRANDA_VERSION_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);

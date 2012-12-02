@@ -81,7 +81,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < SIZEOF(settings); i++) {
-				if (lstrcmpA(settings[i].szSetName,	"ShowVersion") == 0)
+				if (lstrcmpA(settings[i].szSetName,	"GroupMirandaVersion") == 0)
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
 				else
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);
