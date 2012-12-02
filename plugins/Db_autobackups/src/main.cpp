@@ -28,15 +28,9 @@ PLUGININFOEX pluginInfo={
 	{ 0x81c220a6, 0x226, 0x4ad6, { 0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53 } }
 };
 
-struct
-{
-	TCHAR* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] = {
-	{	_T("Backup Profile"),           "backup",         IDI_ICON1    },
-	{	_T("Save Profile As..."),       "saveas",         IDI_ICON1    }
+static IconItem iconList[] = {
+	{	LPGEN("Backup Profile"),     "backup", IDI_ICON1 },
+	{	LPGEN("Save Profile As..."), "saveas", IDI_ICON1 }
 };
 
 INT_PTR BackupServiceTrgr(WPARAM wParam, LPARAM lParam)
@@ -59,24 +53,6 @@ static int FoldersInit(void)
 	hHooks[0] = HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersGetBackupPath);
 	FoldersGetBackupPath(0, 0);
 	return 0;
-}
-
-static void IcoLibInit(void)
-{
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(hInst, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = tszFile;
-	sid.ptszSection = _T("Database/Database Backups");
-	sid.flags = SIDF_ALL_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		sid.pszName = iconList[i].szName;
-		sid.ptszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		Skin_AddIcon(&sid);
-	}
 }
 
 static void MenuInit(void)
@@ -112,7 +88,8 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 {
 	profilePath = Utils_ReplaceVarsT(_T("%miranda_userdata%"));
 
-	IcoLibInit();
+	Icon_Register(hInst, LPGEN("Database/Database Backups"), iconList, SIZEOF(iconList));
+
 	if(ServiceExists(MS_FOLDERS_REGISTER_PATH))
 		FoldersInit();
 	LoadOptions();

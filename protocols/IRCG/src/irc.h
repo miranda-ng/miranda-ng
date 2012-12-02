@@ -697,8 +697,7 @@ void	UninitContactMenus(void);
 void    WindowSetIcon(HWND hWnd, int iconId);
 void    WindowFreeIcon(HWND hWnd);
 
-void    AddIcons(void);
-void    UninitIcons(void);
+void    InitIcons(void);
 HICON   LoadIconEx(int iIndex, bool big = false);
 HANDLE  GetIconHandle(int iconId);
 void    ReleaseIconEx(HICON hIcon);

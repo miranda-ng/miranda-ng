@@ -22,6 +22,7 @@
 #include <m_ieview.h>
 #include "m_changekeyboardlayout.h"
 #include <m_popup2.h>
+#include <win2k.h>
 
 #include "resource.h"
 #include "options.h"
@@ -94,7 +95,6 @@ typedef struct
 extern HINSTANCE hInst;
 
 extern HANDLE hChangeLayout, hGetLayoutOfText, hChangeTextLayout;
-extern HANDLE hIcoLibIconsChanged;
 
 extern HICON hPopupIcon, hCopyIcon;
 

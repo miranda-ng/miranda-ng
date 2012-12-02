@@ -33,31 +33,17 @@ MYOPTIONS MyOptions = {0};
 aPopups PopupsList[POPUPS];
 LPCTSTR Title = {0}, Text = {0};
 
-PackUpdaterIconList iconList[] =
+IconItem iconList[] =
 {
-	{ "check_update",	_T("Check for pack updates"),		IDI_MENU },
-	{ "empty_folder",	_T("Clear pack updates folder"),	IDI_DELETE },
-	{ "btn_ok",			_T("'Yes' Button"),					IDI_OK },
-	{ "btn_cancel",		_T("'No' Button"),					IDI_CANCEL }
+	{ LPGEN("Check for pack updates"),    "check_update", IDI_MENU },
+	{ LPGEN("Clear pack updates folder"), "empty_folder", IDI_DELETE },
+	{ LPGEN("'Yes' Button"),              "btn_ok",       IDI_OK },
+	{ LPGEN("'No' Button"),               "btn_cancel",   IDI_CANCEL }
 };
 
 VOID IcoLibInit()
 {
-	TCHAR destfile[MAX_PATH];
-	GetModuleFileName(hInst, destfile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = destfile;
-	sid.ptszSection = MODULE;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		sid.pszName = iconList[i].szIconName;
-		sid.ptszDescription = iconList[i].tszDescr;
-		sid.iDefaultIndex = -iconList[i].IconID;
-		Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, MODULEA, iconList, SIZEOF(iconList));
 }
 
 BOOL NetlibInit()

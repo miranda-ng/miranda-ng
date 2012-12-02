@@ -76,6 +76,7 @@ using std::fstream;
 #include <m_icolib.h>
 #include "m_extraicons.h"
 #include "m_metacontacts.h"
+#include "win2k.h"
 #include "resource.h"
 
 

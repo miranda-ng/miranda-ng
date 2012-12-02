@@ -435,14 +435,14 @@ void SetShutdownToolbarButton(BOOL fActive)
 /************************* Menu Item **********************************/
 
 static HANDLE hMainMenuItem,hTrayMenuItem;
-extern HANDLE hActiveIcon,hInactiveIcon;
+extern IconItem iconList[];
 
 void SetShutdownMenuItem(BOOL fActive)
 {
 	/* main menu */
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2001090000;
-	mi.icolibItem = fActive?hActiveIcon:hInactiveIcon;
+	mi.icolibItem = fActive ? iconList[1].hIcolib : iconList[2].hIcolib;
 	mi.ptszName = fActive?_T("Stop automatic &shutdown"):_T("Automatic &shutdown..."); /* autotranslated */
 	mi.pszService = "AutoShutdown/MenuCommand";
 	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB;

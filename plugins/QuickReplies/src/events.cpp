@@ -32,6 +32,8 @@ INT_PTR QuickRepliesService(WPARAM, LPARAM)
 	return TRUE;
 }
 
+static IconItem icon = { LPGEN("Button"), "qr_button", IDI_QICON };
+
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	UnhookEvent(hOnModulesLoaded);
@@ -47,22 +49,10 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hOnButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, OnButtonPressed); 
 
 	if ( ServiceExists(MS_BB_ADDBUTTON)) {
+		Icon_Register(hInstance, "TabSRMM/Quick Replies", &icon, 1);
+
 		char buttonNameTranslated[32], buttonName[32];
-		mir_snprintf(buttonName, SIZEOF(buttonName), "Button %x", iNumber + 1);
 		mir_snprintf(buttonNameTranslated, SIZEOF(buttonNameTranslated), "%s %x",Translate("Button"), iNumber + 1);
-
-		TCHAR tszPath[MAX_PATH];
-		GetModuleFileName(hInstance, tszPath, SIZEOF(tszPath));
-
-		SKINICONDESC sid = { sizeof(sid) };
-		sid.pszSection = "TabSRMM/Quick Replies";
-		sid.cx = sid.cy = 16;
-		sid.pszDescription = buttonNameTranslated;
-		sid.pszName = buttonName;
-		sid.ptszDefaultFile = tszPath;
-		sid.iDefaultIndex = -IDI_QICON;
-		HANDLE hIcon = Skin_AddIcon(&sid);
-
 		mir_snprintf(buttonName, SIZEOF(buttonName), MODULE_NAME" %x", iNumber + 1);
 
 		BBButton bbd = {0};
@@ -70,7 +60,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISLSIDEBUTTON;
 		bbd.pszModuleName = buttonName;
 		bbd.ptszTooltip = _T("Quick Replies\r\nLeft button - open menu\r\nRight button - options page");
-		bbd.hIcon = hIcon;
+		bbd.hIcon = icon.hIcolib;
 		bbd.dwButtonID = iNumber;
 		bbd.dwDefPos = 220;
 		

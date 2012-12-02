@@ -22,7 +22,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 HINSTANCE hInst;
 static HANDLE hHookModulesLoaded;
-HANDLE hActiveIcon,hInactiveIcon;
 int hLangpack;
 
 PLUGININFOEX pluginInfo = {
@@ -37,6 +36,13 @@ PLUGININFOEX pluginInfo = {
 	UNICODE_AWARE,
 	// {9DE24579-5C5C-49aa-80E8-4D38E4344E63}
 	{0x9de24579, 0x5c5c, 0x49aa, {0x80, 0xe8, 0x4d, 0x38, 0xe4, 0x34, 0x4e, 0x63}}
+};
+
+IconItem iconList[] = 
+{
+	{ LPGEN("Header"), "AutoShutdown_Header", IDI_HEADER },
+	{ LPGEN("Active"), "AutoShutdown_Active", IDI_ACTIVE },
+	{ LPGEN("Inactive"), "AutoShutdown_Inactive", IDI_INACTIVE },
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, VOID *pReserved)
@@ -89,6 +95,8 @@ extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD m
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[]={MIID_SHUTDOWN,MIID_LAST};
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
@@ -100,9 +108,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if(InitFrame()) return 1; /* before icons */
 
 	/* shared */
-	IcoLib_AddIconRes("AutoShutdown_Header",TranslateT("Automatic Shutdown"),TranslateT("Header"),hInst,IDI_HEADER,TRUE);
-	hActiveIcon=IcoLib_AddIconRes("AutoShutdown_Active",TranslateT("Automatic Shutdown"),TranslateT("Active"),hInst,IDI_ACTIVE,FALSE);
-	hInactiveIcon=IcoLib_AddIconRes("AutoShutdown_Inactive",TranslateT("Automatic Shutdown"),TranslateT("Inactive"),hInst,IDI_INACTIVE,FALSE);
+	Icon_Register(hInst, "Automatic Shutdown", iconList, SIZEOF(iconList));
 
 	InitShutdownSvc();
 	InitWatcher(); /* before InitSettingsDlg() */

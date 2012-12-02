@@ -56,7 +56,7 @@ struct IconSourceItem
 	int          icon_size;
 };
 
-struct IconItem
+struct IcolibItem
 {
 	char*        name;
 	SectionItem* section;
@@ -90,15 +90,15 @@ int   IconSourceItem_ReleaseIcon(IconSourceItem* item);
 HICON IconSourceItem_GetIcon(IconSourceItem* item);
 IconSourceItem* GetIconSourceItem(const TCHAR* file, int indx, int cxIcon, int cyIcon);
 
-IconItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
-IconItem* IcoLib_FindIcon(const char* pszIconName);
+IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big);
+IcolibItem* IcoLib_FindIcon(const char* pszIconName);
 
-HICON IconItem_GetIcon(IconItem* item, bool big);
+HICON IconItem_GetIcon(IcolibItem* item, bool big);
 
 int SkinOptionsInit(WPARAM, LPARAM);
 
 extern CRITICAL_SECTION csIconList;
-extern LIST<IconItem> iconList;
+extern LIST<IcolibItem> iconList;
 extern LIST<SectionItem> sectionList;
 
 extern BOOL bNeedRebuild;

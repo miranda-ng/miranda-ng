@@ -426,66 +426,42 @@ static void LoadLogFonts(void)
 		LoadMsgDlgFont(FONTSECTION_CHAT, i, &aFonts[i].lf, &aFonts[i].color, CHAT_FONTMODULE);
 }
 
-struct { char *szDesc; char *szName; int id; UINT size;} static _icons[] =
+static IconItem _icons[] =
 {
-	{ LPGEN("Window Icon"), "chat_window", IDI_CHANMGR, 16 },
-	{ LPGEN("Icon overlay"), "chat_overlay", IDI_OVERLAY, 16 },
+	{ LPGEN("Window Icon"), "chat_window", IDI_CHANMGR },
+	{ LPGEN("Icon overlay"), "chat_overlay", IDI_OVERLAY },
 
-	{ LPGEN("Status 1 (10x10)"), "chat_status0", IDI_STATUS0, 16 },
-	{ LPGEN("Status 2 (10x10)"), "chat_status1", IDI_STATUS1, 16 },
-	{ LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2, 16 },
-	{ LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3, 16 },
-	{ LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4, 16 },
-	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5, 16 },
+	{ LPGEN("Status 1 (10x10)"), "chat_status0", IDI_STATUS0 },
+	{ LPGEN("Status 2 (10x10)"), "chat_status1", IDI_STATUS1 },
+	{ LPGEN("Status 3 (10x10)"), "chat_status2", IDI_STATUS2 },
+	{ LPGEN("Status 4 (10x10)"), "chat_status3", IDI_STATUS3 },
+	{ LPGEN("Status 5 (10x10)"), "chat_status4", IDI_STATUS4 },
+	{ LPGEN("Status 6 (10x10)"), "chat_status5", IDI_STATUS5 }
 };
 
-struct { char *szDesc; char *szName; int id; UINT size;} static _logicons[] =
+static IconItem _logicons[] =
 {
-	{ LPGEN("Message in (10x10)"), "chat_log_message_in", IDI_MESSAGE, 16 },
-	{ LPGEN("Message out (10x10)"), "chat_log_message_out", IDI_MESSAGEOUT, 16 },
-	{ LPGEN("Action (10x10)"), "chat_log_action", IDI_ACTION, 16 },
-	{ LPGEN("Add Status (10x10)"), "chat_log_addstatus", IDI_ADDSTATUS, 16 },
-	{ LPGEN("Remove Status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS, 16 },
-	{ LPGEN("Join (10x10)"), "chat_log_join", IDI_JOIN, 16 },
-	{ LPGEN("Leave (10x10)"), "chat_log_part", IDI_PART, 16 },
-	{ LPGEN("Quit (10x10)"), "chat_log_quit", IDI_QUIT, 16 },
-	{ LPGEN("Kick (10x10)"), "chat_log_kick", IDI_KICK, 16 },
-	{ LPGEN("Notice (10x10)"), "chat_log_notice", IDI_NOTICE, 16 },
-	{ LPGEN("Nickchange (10x10)"), "chat_log_nick", IDI_NICK, 16 },
-	{ LPGEN("Topic (10x10)"), "chat_log_topic", IDI_TOPIC, 16 },
-	{ LPGEN("Highlight (10x10)"), "chat_log_highlight", IDI_HIGHLIGHT, 16 },
-	{ LPGEN("Information (10x10)"), "chat_log_info", IDI_INFO, 16 }
+	{ LPGEN("Message in (10x10)"), "chat_log_message_in", IDI_MESSAGE },
+	{ LPGEN("Message out (10x10)"), "chat_log_message_out", IDI_MESSAGEOUT },
+	{ LPGEN("Action (10x10)"), "chat_log_action", IDI_ACTION },
+	{ LPGEN("Add Status (10x10)"), "chat_log_addstatus", IDI_ADDSTATUS },
+	{ LPGEN("Remove Status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS },
+	{ LPGEN("Join (10x10)"), "chat_log_join", IDI_JOIN },
+	{ LPGEN("Leave (10x10)"), "chat_log_part", IDI_PART },
+	{ LPGEN("Quit (10x10)"), "chat_log_quit", IDI_QUIT },
+	{ LPGEN("Kick (10x10)"), "chat_log_kick", IDI_KICK },
+	{ LPGEN("Notice (10x10)"), "chat_log_notice", IDI_NOTICE },
+	{ LPGEN("Nickchange (10x10)"), "chat_log_nick", IDI_NICK },
+	{ LPGEN("Topic (10x10)"), "chat_log_topic", IDI_TOPIC },
+	{ LPGEN("Highlight (10x10)"), "chat_log_highlight", IDI_HIGHLIGHT },
+	{ LPGEN("Information (10x10)"), "chat_log_info", IDI_INFO }
 };
 
 // add icons to the skinning module
 void Chat_AddIcons(void)
 {
-	int i;
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hIconDLL, szFile, SIZEOF(szFile));
-
-	// 16x16 icons
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "TabSRMM/Group chat windows";
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (i=0; i < SIZEOF(_icons); i++) {
-		sid.cx = sid.cy = _icons[i].size;
-		sid.pszDescription = _icons[i].szDesc;
-		sid.pszName = _icons[i].szName;
-		sid.iDefaultIndex = -_icons[i].id;
-		Skin_AddIcon(&sid);
-	}
-
-	sid.pszSection = "TabSRMM/Group chat log";
-	for (i=0; i < SIZEOF(_logicons); i++) {
-		sid.cx = sid.cy = _logicons[i].size;
-		sid.pszDescription = _logicons[i].szDesc;
-		sid.pszName = _logicons[i].szName;
-		sid.iDefaultIndex = -_logicons[i].id;
-		Skin_AddIcon(&sid);
-	}
+	Icon_Register(g_hIconDLL, "TabSRMM/Group chat windows", _icons, SIZEOF(_icons));
+	Icon_Register(g_hIconDLL, "TabSRMM/Group chat log", _logicons, SIZEOF(_logicons));
 }
 
 /*

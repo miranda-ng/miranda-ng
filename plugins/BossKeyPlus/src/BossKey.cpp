@@ -32,7 +32,7 @@
 // unique to this DLL, not to be shared
 HINSTANCE g_hInstance;
 CLIST_INTERFACE *pcli;
-HANDLE g_hmGenMenuInit, g_hIcon, g_hMenuItem, g_hHideService, g_hIsHiddenService;
+HANDLE g_hmGenMenuInit, g_hMenuItem, g_hHideService, g_hIsHiddenService;
 HWINEVENTHOOK g_hWinHook;
 HWND g_hListenWindow, hDlg, g_hDlgPass, hOldForegroundWindow;
 HWND_ITEM *g_pMirWnds; // a pretty simple linked list
@@ -596,22 +596,10 @@ static TCHAR *GetBossKeyText(void)
 	return buf;
 }
 
-static int IcoLibInit (void) // Icolib support
+static IconItem iconList[] = 
 {
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = tszFile;
-	sid.cx = sid.cy = 16;
-	sid.ptszSection = _T("BossKey");
-	sid.pszName = "hidemim";
-	sid.ptszDescription = _T("Hide Miranda NG");
-	sid.iDefaultIndex = -IDI_DLGPASSWD;
-	g_hIcon = Skin_AddIcon(&sid);
-	return 0;
-}
+	{ LPGEN("Hide Miranda NG"), "hidemim", IDI_DLGPASSWD }
+};
 
 static int GenMenuInit(WPARAM wParam, LPARAM lParam) // Modify menu item text before to show the main menu
 {
@@ -673,7 +661,7 @@ static int ModernToolbarInit(WPARAM, LPARAM) // Modern toolbar support
 	button.pszService = MS_BOSSKEY_HIDE;
 	button.pszTooltipUp = button.name = LPGEN("Hide Miranda NG");
 	button.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
-	button.hIconHandleUp = g_hIcon;
+	button.hIconHandleUp = iconList[0].hIcolib;
 	TopToolbar_AddButton(&button);
 	return 0;
 }
@@ -698,7 +686,7 @@ static int TabsrmmButtonsInit(WPARAM wParam, LPARAM lParam)
 	bbd.dwDefPos = 5000;
 	bbd.ptszTooltip = _T("Hide Miranda NG");
 	bbd.bbbFlags = BBBF_ISRSIDEBUTTON | BBBF_CANBEHIDDEN;
-	bbd.hIcon = g_hIcon;
+	bbd.hIcon = iconList[0].hIcolib;
 	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
 
 	return 0;
@@ -842,7 +830,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		DBWriteContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 0);
 	}
 
-	IcoLibInit();
+	Icon_Register(g_hInstance, "BossKey", iconList, SIZEOF(iconList));
 
 	g_hHideService = CreateServiceFunction(MS_BOSSKEY_HIDE,BossKeyHideMiranda); // Create service
 

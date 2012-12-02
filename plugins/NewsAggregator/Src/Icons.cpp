@@ -19,15 +19,7 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-struct _tag_iconList
-{
-	char*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-}
-
-static iconList[] =
+static IconItem iconList[] =
 {
 	{	LPGEN("Protocol icon"),   "main",        IDI_ICON        },
 	{	LPGEN("Check All Feeds"), "checkall",    IDI_CHECKALL    },
@@ -39,23 +31,7 @@ static iconList[] =
 
 VOID InitIcons()
 {
-	char szSettingName[100];
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.ptszSection = _T("News Aggregator");
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULE, iconList[i].szName);
-
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
-	}	
+	Icon_Register(hInst, LPGEN("News Aggregator"), iconList, SIZEOF(iconList), MODULE);
 }
 
 HICON LoadIconEx(const char* name, BOOL big)
@@ -65,11 +41,11 @@ HICON LoadIconEx(const char* name, BOOL big)
 	return Skin_GetIcon(szSettingName, big);
 }
 
-HANDLE  GetIconHandle(const char* name)
+HANDLE GetIconHandle(const char* name)
 {
-	unsigned i;
-	for (i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < SIZEOF(iconList); i++)
 		if (strcmp(iconList[i].szName, name) == 0)
-			return iconList[i].hIconLibItem;
+			return iconList[i].hIcolib;
+
 	return NULL;
 }

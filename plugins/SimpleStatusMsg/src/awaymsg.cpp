@@ -462,32 +462,32 @@ int LoadAwayMsgModule(void)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
 
-	CreateServiceFunctionEx(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
+	CreateServiceFunction(MS_AWAYMSG_SHOWAWAYMSG, GetMessageCommand);
 	mi.position = -2000005000;
 	mi.ptszName = LPGENT("Re&ad Away Message");
 	mi.pszService = MS_AWAYMSG_SHOWAWAYMSG;
 	hAwayMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
 	mi.flags |= CMIF_ICONFROMICOLIB;
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_COPYMSG, CopyAwayMsgCommand);
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle(IDI_COPY);
 	mi.ptszName = LPGENT("Copy Away Message");
 	mi.pszService = MS_SIMPLESTATUSMSG_COPYMSG;
 	hCopyMsgMenuItem = Menu_AddContactMenuItem(&mi);
 
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_GOTOURLMSG, GoToURLMsgCommand);
 	mi.position = -2000007000;
 	mi.icolibItem = GetIconHandle(IDI_GOTOURL);
 	mi.ptszName = LPGENT("&Go to URL in Away Message");
 	mi.pszService = MS_SIMPLESTATUSMSG_GOTOURLMSG;
 	hGoToURLMenuItem = Menu_AddContactMenuItem(&mi);
 
-	HookEventEx(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, AwayMsgPreBuildMenu);
 
 	// Deprecated SimpleAway services
-	CreateServiceFunctionEx(MS_SA_COPYAWAYMSG, CopyAwayMsgCommand);
-	CreateServiceFunctionEx(MS_SA_GOTOURLMSG, GoToURLMsgCommand);
+	CreateServiceFunction(MS_SA_COPYAWAYMSG, CopyAwayMsgCommand);
+	CreateServiceFunction(MS_SA_GOTOURLMSG, GoToURLMsgCommand);
 
 	return 0;
 }

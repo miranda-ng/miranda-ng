@@ -82,12 +82,12 @@ static int sttCompareIconSourceItems(const IconSourceItem* p1, const IconSourceI
 
 static LIST<IconSourceItem> iconSourceList(20, sttCompareIconSourceItems);
 
-static int sttCompareIcons(const IconItem* p1, const IconItem* p2)
+static int sttCompareIcons(const IcolibItem* p1, const IcolibItem* p2)
 {
 	return strcmp(p1->name, p2->name);
 }
 
-LIST<IconItem> iconList(20, sttCompareIcons);
+LIST<IcolibItem> iconList(20, sttCompareIcons);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 // Utility functions
@@ -447,20 +447,20 @@ static void IcoLib_RemoveSection(SectionItem* section)
 	}
 }
 
-IconItem* IcoLib_FindIcon(const char* pszIconName)
+IcolibItem* IcoLib_FindIcon(const char* pszIconName)
 {
 	int indx;
-	IconItem key = { (char*)pszIconName };
+	IcolibItem key = { (char*)pszIconName };
 	if ((indx = iconList.getIndex(&key)) != -1)
 		return iconList[ indx ];
 
 	return NULL;
 }
 
-IconItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
+IcolibItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 {
 	for (int i = 0; i < iconList.getCount(); i++) {
-		IconItem *p = iconList[i];
+		IcolibItem *p = iconList[i];
 		if ((void*)p == hIcon) {
 			big = (p->source_small == NULL);
 			return p;
@@ -478,7 +478,7 @@ IconItem* IcoLib_FindHIcon(HICON hIcon, bool &big)
 	return NULL;
 }
 
-static void IcoLib_FreeIcon(IconItem* icon)
+static void IcoLib_FreeIcon(IcolibItem* icon)
 {
 	if ( !icon) return;
 
@@ -510,9 +510,9 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 
 	mir_cslock lck(csIconList);
 
-	IconItem* item = IcoLib_FindIcon(sid->pszName);
+	IcolibItem* item = IcoLib_FindIcon(sid->pszName);
 	if (!item) {
-		item = (IconItem*)mir_calloc(sizeof(IconItem));
+		item = (IcolibItem*)mir_calloc(sizeof(IcolibItem));
 		item->name = sid->pszName;
 		iconList.insert(item);
 	}
@@ -552,7 +552,7 @@ HANDLE IcoLib_AddNewIcon(int hLangpack, SKINICONDESC* sid)
 
 	if (sid->hDefaultIcon) {
 		bool big;
-		IconItem* def_item = IcoLib_FindHIcon(sid->hDefaultIcon, big);
+		IcolibItem* def_item = IcoLib_FindHIcon(sid->hDefaultIcon, big);
 		if (def_item) {
 			item->default_icon = big ? def_item->source_big : def_item->source_small;
 			item->default_icon->ref_count++;
@@ -581,8 +581,8 @@ static INT_PTR IcoLib_RemoveIcon(WPARAM, LPARAM lParam)
 		mir_cslock lck(csIconList);
 
 		int i;
-		if ((i = iconList.getIndex((IconItem*)&lParam)) != -1) {
-			IconItem *item = iconList[ i ];
+		if ((i = iconList.getIndex((IcolibItem*)&lParam)) != -1) {
+			IcolibItem *item = iconList[ i ];
 			IcoLib_FreeIcon(item);
 			iconList.remove(i);
 			SAFE_FREE((void**)&item);
@@ -600,7 +600,7 @@ void KillModuleIcons(int hLangpack)
 
 	mir_cslock lck(csIconList);
 	for (int i = iconList.getCount()-1; i >= 0; i--) {
-		IconItem *item = iconList[i];
+		IcolibItem *item = iconList[i];
 		if ( item->hLangpack == hLangpack) {
 			IcoLib_FreeIcon(item);
 			iconList.remove(i);
@@ -612,7 +612,7 @@ void KillModuleIcons(int hLangpack)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetDefaultIcon
 
-HICON IconItem_GetDefaultIcon(IconItem* item, bool big)
+HICON IconItem_GetDefaultIcon(IcolibItem* item, bool big)
 {
 	HICON hIcon = NULL;
 
@@ -660,7 +660,7 @@ HICON IconItem_GetDefaultIcon(IconItem* item, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon
 
-HICON IconItem_GetIcon(IconItem* item, bool big)
+HICON IconItem_GetIcon(IcolibItem* item, bool big)
 {
 	DBVARIANT dbv = {0};
 	HICON hIcon = NULL;
@@ -704,7 +704,7 @@ HICON IcoLib_GetIcon(const char* pszIconName, bool big)
 		return hIconBlank;
 
 	mir_cslock lck(csIconList);
-	IconItem* item = IcoLib_FindIcon(pszIconName);
+	IcolibItem* item = IcoLib_FindIcon(pszIconName);
 	return (item) ? IconItem_GetIcon(item, big) : NULL;
 }
 
@@ -732,7 +732,7 @@ HICON IcoLib_GetIconByHandle(HANDLE hItem, bool big)
 		return NULL;
 
 	mir_cslock lck(csIconList);
-	IconItem* pi = (IconItem*)hItem;
+	IcolibItem* pi = (IcolibItem*)hItem;
 	if ( iconList.getIndex(pi) != -1)
 		return IconItem_GetIcon(pi, big);
 
@@ -762,7 +762,7 @@ static INT_PTR IcoLib_AddRef(WPARAM wParam, LPARAM)
 	mir_cslock lck(csIconList);
 
 	bool big;
-	IconItem *item = IcoLib_FindHIcon((HICON)wParam, big);
+	IcolibItem *item = IcoLib_FindHIcon((HICON)wParam, big);
 
 	INT_PTR res = 1;
 	if (item) {
@@ -865,7 +865,7 @@ void UnloadIcoLibModule(void)
 	DeleteCriticalSection(&csIconList);
 
 	for (i = iconList.getCount()-1; i >= 0; i--) {
-		IconItem* p = iconList[i];
+		IcolibItem* p = iconList[i];
 		iconList.remove(i);
 		IcoLib_FreeIcon(p);
 		mir_free(p);

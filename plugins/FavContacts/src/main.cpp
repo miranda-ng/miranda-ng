@@ -284,6 +284,12 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 
 /////////////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Favourite Contact"), "favcontacts_favourite", IDI_FAVOURITE },
+	{ LPGEN("Regular Contact"),   "favcontacts_regular",   IDI_REGULAR   },
+};
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	if (!CoreCheck()) return 1;
@@ -320,24 +326,7 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	/////////////////////////////////////////////////////////////////////////////////////
 
-	TCHAR buf[MAX_PATH];
-	GetModuleFileName(g_hInst, buf, SIZEOF(buf));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszSection = _T("Favourites");
-	sid.ptszDefaultFile = buf;
-	sid.cx = sid.cy = 16;
-	sid.flags = SIDF_ALL_TCHAR;
-
-	sid.pszName = "favcontacts_favourite";
-	sid.ptszDescription = _T("Favourite Contact");
-	sid.iDefaultIndex = -IDI_FAVOURITE;
-	g_icoFavourite = Skin_AddIcon(&sid);
-
-	sid.pszName = "favcontacts_regular";
-	sid.ptszDescription = _T("Regular Contact");
-	sid.iDefaultIndex = -IDI_REGULAR;
-	g_icoRegular = Skin_AddIcon(&sid);
+	Icon_Register(g_hInst, LPGEN("Favourites"), iconList, SIZEOF(iconList));
 
 	LoadHttpApi();
 

@@ -10,7 +10,6 @@ HINSTANCE hInst;
 HHOOK kbHook_All;
 MainOptions moOptions;
 PopupOptions poOptions, poOptionsTemp;
-HANDLE hIcoLibIconsChanged;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
@@ -65,7 +64,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 		mir_free(ptszLayStrings[i]);
 
 	UnhookEvent(hOptionsInitialize);
-	UnhookEvent(hIcoLibIconsChanged);
 	UnhookEvent(hModulesLoaded);
 	DestroyServiceFunction(hChangeLayout);
 	DestroyServiceFunction(hGetLayoutOfText);

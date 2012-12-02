@@ -70,8 +70,8 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 		{
 			hViewWnd = hwndDlg;
 			TranslateDialogDefault(hwndDlg);
-			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx("versionInfo", true));
-			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx("versionInfo"));
+			SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)LoadIconEx(IDI_VI, true));
+			SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)LoadIconEx(IDI_VI));
 
 			CHARFORMAT2 chf;
 			chf.cbSize = sizeof(chf);
@@ -192,8 +192,8 @@ INT_PTR CALLBACK DlgProcView(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 	case WM_DESTROY: 
 		hViewWnd = NULL;
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
-		ReleaseIconEx((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, 0));
 		Utils_SaveWindowPosition(hwndDlg, NULL, PluginName, "ViewInfo_");
 		if (servicemode) PostQuitMessage(0); 
 		break;
@@ -273,15 +273,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg)
-	{
+	switch (msg) {
 	case WM_CONTEXTMENU:
 		PUDeletePopUp(hWnd);
 		break;
 
 	case WM_COMMAND:
-		switch ((int)PUGetPluginData(hWnd))
-		{
+		switch ((int)PUGetPluginData(hWnd)) {
 		case 0:
 			OpenAuthUrl("http://www.miranda-vi.org/");
 			break;
@@ -301,7 +299,8 @@ LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case UM_FREEPLUGINDATA:
-		ReleaseIconEx("versionInfo");
+		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_BIG, 0));
+		Skin_ReleaseIcon((HICON)SendMessage(hWnd, WM_SETICON, ICON_SMALL, 0));
 		break;
 	}
 
@@ -321,7 +320,7 @@ void ShowMessage(int type, const TCHAR* format, ...)
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
 	{
 		_tcscpy(pi.lptzContactName, TEXT(PluginName));
-		pi.lchIcon = LoadIconEx("versionInfo");
+		pi.lchIcon = LoadIconEx(IDI_VI);
 		pi.PluginWindowProc = DlgProcPopup;
 		pi.PluginData = (void*)type;
 

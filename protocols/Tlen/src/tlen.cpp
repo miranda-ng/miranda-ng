@@ -80,36 +80,31 @@ extern "C" __declspec(dllexport) const MUUID* MirandaPluginInterfaces(void)
 	return interfaces;
 }
 
-struct
+static IconItem iconList[] =
 {
-	TCHAR*  szDescr;
-	char*  szName;
-	int	defIconID;
-	HANDLE hIconLibItem;
-}
-static iconList[] =
-{
-	{ LPGENT("Protocol icon"),          "PROTO",        IDI_TLEN		},
-	{ LPGENT("Tlen inbox"),             "MAIL",         IDI_MAIL		},
-	{ LPGENT("Group chats"),            "MUC",          IDI_MUC 		},
-	{ LPGENT("Tlen chats"),             "CHATS",        IDI_CHATS		},
-	{ LPGENT("Grant authorization"),	"GRANT",        IDI_GRANT		},
-	{ LPGENT("Request authorization"),  "REQUEST",      IDI_REQUEST	    },
-	{ LPGENT("Voice chat"),             "VOICE",        IDI_VOICE		},
-	{ LPGENT("Microphone"),             "MICROPHONE",   IDI_MICROPHONE	},
-	{ LPGENT("Speaker"),                "SPEAKER",      IDI_SPEAKER	    },
-	{ LPGENT("Send image"),             "IMAGE",        IDI_IMAGE	    }
+	{ LPGEN("Protocol icon"),          "PROTO",        IDI_TLEN       },
+	{ LPGEN("Tlen inbox"),             "MAIL",         IDI_MAIL       },
+	{ LPGEN("Group chats"),            "MUC",          IDI_MUC        },
+	{ LPGEN("Tlen chats"),             "CHATS",        IDI_CHATS      },
+	{ LPGEN("Grant authorization"),    "GRANT",        IDI_GRANT      },
+	{ LPGEN("Request authorization"),  "REQUEST",      IDI_REQUEST    },
+	{ LPGEN("Voice chat"),             "VOICE",        IDI_VOICE      },
+	{ LPGEN("Microphone"),             "MICROPHONE",   IDI_MICROPHONE },
+	{ LPGEN("Speaker"),                "SPEAKER",      IDI_SPEAKER    },
+	{ LPGEN("Send image"),             "IMAGE",        IDI_IMAGE      }
 };
 
-static HANDLE GetIconHandle(int iconId) {
-	int i;
-	for (i = 0; i < SIZEOF(iconList); i++)
+static HANDLE GetIconHandle(int iconId)
+{
+	for (int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
-			return iconList[i].hIconLibItem;
+			return iconList[i].hIcolib;
+
 	return NULL;
 }
 
-HICON GetIcolibIcon(int iconId) {
+HICON GetIcolibIcon(int iconId)
+{
 	HANDLE handle = GetIconHandle(iconId);
 	if (handle != NULL)
 		return Skin_GetIconByHandle(handle);
@@ -121,33 +116,9 @@ void ReleaseIcolibIcon(HICON hIcon) {
 	Skin_ReleaseIcon(hIcon);
 }
 
-/*
-static int TlenIconsChanged(void *ptr, WPARAM wParam, LPARAM lParam)
-{
-	return 0;
-}
-*/
-
 static void TlenRegisterIcons()
 {
-	TCHAR path[MAX_PATH], szSectionName[100];
-	mir_sntprintf(szSectionName, SIZEOF( szSectionName ), _T("%s/%s"), _T("Protocols"), _T("Tlen"));
-	GetModuleFileName(hInst, path, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.cx = sid.cy = 16;
-	sid.ptszSection = szSectionName;
-	sid.ptszDefaultFile = path;
-	sid.flags = SIDF_ALL_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++ ) {
-		char szSettingName[100];
-		mir_snprintf( szSettingName, sizeof( szSettingName ), "TLEN_%s", iconList[i].szName );
-		sid.pszName = szSettingName;
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = Skin_AddIcon(&sid);;
-	}
+	Icon_Register(hInst, "Protocols/Tlen", iconList, SIZEOF(iconList), "TLEN");
 }
 
 int TlenPrebuildContactMenu(void *ptr, WPARAM wParam, LPARAM lParam)

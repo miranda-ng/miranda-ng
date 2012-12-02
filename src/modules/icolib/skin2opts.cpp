@@ -73,7 +73,7 @@ int IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big)
 {
 	mir_cslock lck(csIconList);
 
-	IconItem *item = NULL;
+	IcolibItem *item = NULL;
 	if (szIconName)
 		item = IcoLib_FindIcon(szIconName);
 
@@ -98,7 +98,7 @@ int IcoLib_ReleaseIcon(HICON hIcon, char* szIconName, bool big)
 /////////////////////////////////////////////////////////////////////////////////////////
 // IconItem_GetIcon_Preview
 
-HICON IconItem_GetIcon_Preview(IconItem* item)
+HICON IconItem_GetIcon_Preview(IcolibItem* item)
 {
 	HICON hIcon = NULL;
 
@@ -154,7 +154,7 @@ static void LoadSectionIcons(TCHAR *filename, SectionItem* sectionActive)
 	mir_cslock lck(csIconList);
 
 	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IconItem *item = iconList[ indx ];
+		IcolibItem *item = iconList[ indx ];
 
 		if (item->default_file && item->section == sectionActive) {
 			_itot(item->default_indx, path + suffIndx, 10);
@@ -194,7 +194,7 @@ void LoadSubIcons(HWND htv, TCHAR *filename, HTREEITEM hItem)
 
 static void UndoChanges(int iconIndx, int cmd)
 {
-	IconItem *item = iconList[ iconIndx ];
+	IcolibItem *item = iconList[ iconIndx ];
 
 	if ( !item->temp_file && !item->temp_icon && item->temp_reset && cmd == ID_CANCELCHANGE)
 		item->temp_reset = FALSE;
@@ -320,7 +320,7 @@ void DoIconsChanged(HWND hwndDlg)
 
 	mir_cslock lck(csIconList); // Destroy unused icons
 	for (int indx = 0; indx < iconList.getCount(); indx++) {
-		IconItem *item = iconList[indx];
+		IcolibItem *item = iconList[indx];
 		if (item->source_small && !item->source_small->icon_ref_count) {
 			item->source_small->icon_ref_count++;
 			IconSourceItem_ReleaseIcon(item->source_small);
@@ -783,7 +783,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 				mir_cslock lck(csIconList);
 
 				for (int indx = 0; indx < iconList.getCount(); indx++) {
-					IconItem *item = iconList[indx];
+					IcolibItem *item = iconList[indx];
 					if (item->section == sectionActive) {
 						lvi.pszText = item->getDescr();
 						HICON hIcon = item->temp_icon;
@@ -843,7 +843,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 			ListView_GetItem(hPreview, &lvi);
 			{
 				mir_cslock lck(csIconList);
-				IconItem *item = iconList[ lvi.lParam ];
+				IcolibItem *item = iconList[ lvi.lParam ];
 
 				SAFE_FREE((void**)&item->temp_file);
 				SafeDestroyIcon(&item->temp_icon);
@@ -938,7 +938,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 					mir_cslock lck(csIconList);
 
 					for (int indx = 0; indx < iconList.getCount(); indx++) {
-						IconItem *item = iconList[indx];
+						IcolibItem *item = iconList[indx];
 						if (item->temp_reset) {
 							DBDeleteContactSetting(NULL, "SkinIcons", item->name);
 							if (item->source_small != item->default_icon) {
@@ -960,7 +960,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 
 		case IDC_PREVIEW:
 			if (((LPNMHDR)lParam)->code == LVN_GETINFOTIP) {
-				IconItem *item;
+				IcolibItem *item;
 				NMLVGETINFOTIP *pInfoTip = (NMLVGETINFOTIP *)lParam;
 				LVITEM lvi;
 				lvi.mask = LVIF_PARAM;
@@ -1022,7 +1022,7 @@ INT_PTR CALLBACK DlgProcIcoLibOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM
 		{
 			mir_cslock lck(csIconList);
 			for (int indx = 0; indx < iconList.getCount(); indx++) {
-				IconItem *item = iconList[indx];
+				IcolibItem *item = iconList[indx];
 
 				SAFE_FREE((void**)&item->temp_file);
 				SafeDestroyIcon(&item->temp_icon);

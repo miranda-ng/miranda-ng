@@ -27,8 +27,6 @@ RichHtmlExport::~RichHtmlExport()
 }
 
 extern HINSTANCE hInst;
-extern HANDLE *hEventIcons;
-extern HANDLE hPlusExIcon, hMinusExIcon;
 extern bool g_SmileyAddAvail;
 
 std::wstring MakeTextHtmled(const std::wstring& message, std::queue<std::pair<size_t, size_t> >* positionMap = NULL)
@@ -318,19 +316,19 @@ void RichHtmlExport::WriteHeader(const std::wstring &fileName, const std::wstrin
 		ExtractFile(IDR_CSS, css);
 	ExtractFile(IDR_JS, folder + _T("\\history.js"));
 
-	HICON ico = Skin_GetIconByHandle(hPlusExIcon);
+	HICON ico = LoadIconEx(IDI_PLUSEX);
 	IcoSave(folder + _T("\\pnode.ico"), ico);
 	Skin_ReleaseIcon(ico);
 
-	ico = Skin_GetIconByHandle(hMinusExIcon);
+	ico = LoadIconEx(IDI_MINUSEX);
 	IcoSave(folder + _T("\\mnode.ico"), ico);
 	Skin_ReleaseIcon(ico);
 
-	ico = Skin_GetIconByHandle(hEventIcons[0]);
+	ico = LoadIconEx(IDI_INM);
 	IcoSave(folder + _T("\\event0.ico"), ico);
 	Skin_ReleaseIcon(ico);
 
-	ico = Skin_GetIconByHandle(hEventIcons[1]);
+	ico = LoadIconEx(IDI_OUTM);
 	IcoSave(folder + _T("\\event1.ico"), ico);
 	Skin_ReleaseIcon(ico);
 

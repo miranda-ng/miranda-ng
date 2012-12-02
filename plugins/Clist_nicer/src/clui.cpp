@@ -100,21 +100,22 @@ static HBITMAP hbmLockedPoint = 0, hbmOldLockedPoint = 0;
 
 HICON overlayicons[10];
 
-static struct IconDesc myIcons[] = {
-	{ "CLN_online", LPGEN("Toggle show online/offline"), -IDI_HIDEOFFLINE },
-	{ "CLN_groups", LPGEN("Toggle groups"), -IDI_HIDEGROUPS },
-	{ "CLN_findadd", LPGEN("Find contacts"), -IDI_FINDANDADD },
-	{ "CLN_options", LPGEN("Open preferences"), -IDI_TBOPTIONS },
-	{ "CLN_sound", LPGEN("Toggle sounds"), -IDI_SOUNDSON },
-	{ "CLN_minimize", LPGEN("Minimize contact list"), -IDI_MINIMIZE },
-	{ "CLN_slist", LPGEN("Show tabSRMM session list"), -IDI_TABSRMMSESSIONLIST },
-	{ "CLN_menu", LPGEN("Show tabSRMM menu"), -IDI_TABSRMMMENU },
-	{ "CLN_soundsoff", LPGEN("Sounds are off"), -IDI_SOUNDSOFF },
-	{ "CLN_CLVM_select", LPGEN("Select view mode"), -IDI_CLVM_SELECT },
-	{ "CLN_CLVM_reset", LPGEN("Reset view mode"), -IDI_DELETE },
-	{ "CLN_CLVM_options", LPGEN("Configure view modes"), -IDI_CLVM_OPTIONS },
-	{ "CLN_topmenu", LPGEN("Show menu"), -IDI_TBTOPMENU },
-	{ "CLN_accounts", LPGEN("Setup accounts"), -IDI_TBACCOUNTS }
+static IconItem myIcons[] =
+{
+	{ LPGEN("Toggle show online/offline"), "CLN_online",       IDI_HIDEOFFLINE },
+	{ LPGEN("Toggle groups"),              "CLN_groups",       IDI_HIDEGROUPS },
+	{ LPGEN("Find contacts"),              "CLN_findadd",      IDI_FINDANDADD },
+	{ LPGEN("Open preferences"),           "CLN_options",      IDI_TBOPTIONS },
+	{ LPGEN("Toggle sounds"),              "CLN_sound",        IDI_SOUNDSON },
+	{ LPGEN("Minimize contact list"),      "CLN_minimize",     IDI_MINIMIZE },
+	{ LPGEN("Show tabSRMM session list"),  "CLN_slist",        IDI_TABSRMMSESSIONLIST },
+	{ LPGEN("Show tabSRMM menu"),          "CLN_menu",         IDI_TABSRMMMENU },
+	{ LPGEN("Sounds are off"),             "CLN_soundsoff",    IDI_SOUNDSOFF },
+	{ LPGEN("Select view mode"),           "CLN_CLVM_select",  IDI_CLVM_SELECT },
+	{ LPGEN("Reset view mode"),            "CLN_CLVM_reset",   IDI_DELETE },
+	{ LPGEN("Configure view modes"),       "CLN_CLVM_options", IDI_CLVM_OPTIONS },
+	{ LPGEN("Show menu"),                  "CLN_topmenu",      IDI_TBTOPMENU },
+	{ LPGEN("Setup accounts"),             "CLN_accounts",     IDI_TBACCOUNTS }
 };
 
 HWND hTbMenu, hTbGlobalStatus;
@@ -283,17 +284,12 @@ static void CacheClientIcons()
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
 		overlayicons[i - IDI_OVL_OFFLINE] = Skin_GetIcon(szBuffer);
 	}
-
-	/* !!!!!!!!!!!!!!!!!!!!!!
-	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_14"));
-	ImageList_AddIcon(himlExtraImages, (HICON)LoadSkinnedIcon(SKINICON_EVENT_URL));
-	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
-	ImageList_AddIcon(himlExtraImages, Skin_GetIcon("core_main_17"));
-	*/
 }
 
 static void InitIcoLib()
 {
+	Icon_Register(g_hInst, LPGEN("CList - Nicer/Default"), myIcons, SIZEOF(myIcons));
+
 	TCHAR szFilename[MAX_PATH];
 	GetModuleFileName(g_hInst, szFilename, MAX_PATH);
 
@@ -301,16 +297,6 @@ static void InitIcoLib()
 	char szBuffer[128];
 
 	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = LPGEN("CList - Nicer/Default");
-	sid.ptszDefaultFile = szFilename;
-	for (i=0; i < SIZEOF(myIcons); i++) {
-		sid.pszName = myIcons[i].szName;
-		sid.pszDescription = myIcons[i].szDesc;
-		sid.iDefaultIndex = myIcons[i].uId;
-		Skin_AddIcon(&sid);
-	}
-
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = LPGENT("CList - Nicer/Overlay Icons");
 	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {

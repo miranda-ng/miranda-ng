@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 struct GlobalMessageData *g_dat=NULL;
 extern PSLWA pSetLayeredWindowAttributes;
 
-HANDLE hEventSkin2IconsChanged;
-
 static int ackevent(WPARAM wParam, LPARAM lParam);
 
 extern int    Chat_ModulesLoaded(WPARAM wParam,LPARAM lParam);
@@ -43,81 +41,86 @@ static const char *chatButtonIcons[] = {"scriver_CLOSEX",
 									"chat_smiley", "chat_history", 
 									"chat_filter", "chat_settings", "chat_nicklist", "scriver_SEND"};
 
-typedef struct IconDefStruct 
+static IconItem iconList[] =
 {
-	char* section;
-	char *name;
-	int   defaultIndex;
-	char *description;
-	int size;
-} IconDef;
+	{ LPGEN("Add contact"),             "scriver_ADD",           IDI_ADDCONTACT  }, //  1
+	{ LPGEN("User's details"),          "scriver_USERDETAILS",   IDI_USERDETAILS }, //  2
+	{ LPGEN("User's history"),          "scriver_HISTORY",       IDI_HISTORY     }, //  3
+	{ LPGEN("Send message"),            "scriver_SEND",          IDI_SEND        }, //  4
+	{ LPGEN("Smiley button"),           "scriver_SMILEY",        IDI_SMILEY      }, //  5
+	{ LPGEN("User is typing"),          "scriver_TYPING",        IDI_TYPING      }, //  6
+	{ LPGEN("Typing notification off"), "scriver_TYPINGOFF",     IDI_TYPINGOFF   }, //  7
+	{ LPGEN("Unicode is on"),           "scriver_UNICODEON",     IDI_UNICODEON   }, //  8
+	{ LPGEN("Unicode is off"),          "scriver_UNICODEOFF",    IDI_UNICODEOFF  }, //  9
+	{ LPGEN("Sending"),                 "scriver_DELIVERING",    IDI_TIMESTAMP   }, // 10
+	{ LPGEN("Quote button"),            "scriver_QUOTE",         IDI_QUOTE       }, // 11
+	{ LPGEN("Close button"),            "scriver_CLOSEX",        IDI_CLOSEX      }, // 12
+	{ LPGEN("Icon overlay"),            "scriver_OVERLAY",       IDI_OVERLAY     }, // 13
+	{ LPGEN("Incoming message (10x10)"),"scriver_INCOMING",      IDI_INCOMING, 10}, // 14
+	{ LPGEN("Outgoing message (10x10)"),"scriver_OUTGOING",      IDI_OUTGOING, 10}, // 15
+	{ LPGEN("Notice (10x10)"),          "scriver_NOTICE",        IDI_NOTICE,   10}, // 16
 
-static const IconDef iconList[] = {
-	{LPGEN("Single Messaging"), "scriver_ADD", IDI_ADDCONTACT, LPGEN("Add contact")},
-	{LPGEN("Single Messaging"), "scriver_USERDETAILS", IDI_USERDETAILS, LPGEN("User's details")},
-	{LPGEN("Single Messaging"), "scriver_HISTORY", IDI_HISTORY, LPGEN("User's history")},
-	{LPGEN("Single Messaging"), "scriver_SEND", IDI_SEND, LPGEN("Send message")},
-	{LPGEN("Single Messaging"), "scriver_SMILEY", IDI_SMILEY, LPGEN("Smiley button")},
-	{LPGEN("Single Messaging"), "scriver_TYPING", IDI_TYPING, LPGEN("User is typing")},
-	{LPGEN("Single Messaging"), "scriver_TYPINGOFF", IDI_TYPINGOFF, LPGEN("Typing notification off")},
-	{LPGEN("Single Messaging"), "scriver_UNICODEON", IDI_UNICODEON, LPGEN("Unicode is on")},
-	{LPGEN("Single Messaging"), "scriver_UNICODEOFF", IDI_UNICODEOFF, LPGEN("Unicode is off")},
-	{LPGEN("Single Messaging"), "scriver_DELIVERING", IDI_TIMESTAMP, LPGEN("Sending")},
-	{LPGEN("Single Messaging"), "scriver_QUOTE", IDI_QUOTE, LPGEN("Quote button")},
-	{LPGEN("Single Messaging"), "scriver_CLOSEX", IDI_CLOSEX, LPGEN("Close button")},
-	{LPGEN("Single Messaging"), "scriver_OVERLAY", IDI_OVERLAY, LPGEN("Icon overlay")},
-	{LPGEN("Single Messaging"), "scriver_INCOMING", IDI_INCOMING, LPGEN("Incoming message (10x10)"),10},
-	{LPGEN("Single Messaging"), "scriver_OUTGOING", IDI_OUTGOING, LPGEN("Outgoing message (10x10)"),10},
-	{LPGEN("Single Messaging"), "scriver_NOTICE", IDI_NOTICE, LPGEN("Notice (10x10)"),10},
-	{LPGEN("Group Chats"), "chat_window", IDI_CHANMGR, LPGEN("Window Icon")},
-	{LPGEN("Group Chats"), "chat_fgcol", IDI_COLOR, LPGEN("Text colour")},
-	{LPGEN("Group Chats"), "chat_bkgcol", IDI_BKGCOLOR, LPGEN("Background colour")},
-	{LPGEN("Group Chats"), "chat_bold", IDI_BBOLD, LPGEN("Bold")},
-	{LPGEN("Group Chats"), "chat_italics", IDI_BITALICS, LPGEN("Italics")},
-	{LPGEN("Group Chats"), "chat_underline", IDI_BUNDERLINE, LPGEN("Underlined")},
-	{LPGEN("Group Chats"), "chat_smiley", IDI_SMILEY, LPGEN("Smiley button")},
-	{LPGEN("Group Chats"), "chat_history", IDI_HISTORY, LPGEN("Room history")},
-	{LPGEN("Group Chats"), "chat_settings", IDI_TOPICBUT, LPGEN("Room settings")},
-	{LPGEN("Group Chats"), "chat_filter", IDI_FILTER, LPGEN("Event filter disabled")},
-	{LPGEN("Group Chats"), "chat_filter2", IDI_FILTER2, LPGEN("Event filter enabled")},
-	{LPGEN("Group Chats"), "chat_nicklist", IDI_NICKLIST, LPGEN("Hide userlist")},
-	{LPGEN("Group Chats"), "chat_nicklist2", IDI_NICKLIST2, LPGEN("Show userlist")},
-	{LPGEN("Group Chats"), "chat_overlay", IDI_OVERLAY, LPGEN("Icon overlay")},
-	{LPGEN("Group Chats"), "chat_status0", IDI_STATUS0, LPGEN("Status 1 (10x10)"),10},
-	{LPGEN("Group Chats"), "chat_status1", IDI_STATUS1, LPGEN("Status 2 (10x10"),10},
-	{LPGEN("Group Chats"), "chat_status2", IDI_STATUS2, LPGEN("Status 3 (10x10)"),10},
-	{LPGEN("Group Chats"), "chat_status3", IDI_STATUS3, LPGEN("Status 4 (10x10)"),10},
-	{LPGEN("Group Chats"), "chat_status4", IDI_STATUS4, LPGEN("Status 5 (10x10)"),10},
-	{LPGEN("Group Chats"), "chat_status5", IDI_STATUS5, LPGEN("Status 6 (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_message_in", IDI_INCOMING, LPGEN("Message in (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_message_out", IDI_OUTGOING, LPGEN("Message out (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_action", IDI_ACTION, LPGEN("Action (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_addstatus", IDI_ADDSTATUS, LPGEN("Add Status (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_removestatus", IDI_REMSTATUS, LPGEN("Remove status (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_join", IDI_JOIN, LPGEN("Join (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_part", IDI_PART, LPGEN("Leave (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_quit", IDI_QUIT, LPGEN("Quit (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_kick", IDI_KICK, LPGEN("Kick (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_nick", IDI_NICK, LPGEN("Nickchange (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_notice", IDI_CHAT_NOTICE, LPGEN("Notice (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_topic", IDI_TOPIC, LPGEN("Topic (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_highlight", IDI_NOTICE, LPGEN("Highlight (10x10)"),10},
-	{LPGEN("Group Chats Log"), "chat_log_info", IDI_INFO, LPGEN("Information (10x10)"),10}
+	{ LPGEN("Window Icon"),             "chat_window",           IDI_CHANMGR     }, //  1 
+	{ LPGEN("Text colour"),             "chat_fgcol",            IDI_COLOR       }, //  2
+	{ LPGEN("Background colour"),       "chat_bkgcol",           IDI_BKGCOLOR    }, //  3
+	{ LPGEN("Bold"),                    "chat_bold",             IDI_BBOLD       }, //  4
+	{ LPGEN("Italics"),                 "chat_italics",          IDI_BITALICS    }, //  5
+	{ LPGEN("Underlined"),              "chat_underline",        IDI_BUNDERLINE  }, //  6
+	{ LPGEN("Smiley button"),           "chat_smiley",           IDI_SMILEY      }, //  7
+	{ LPGEN("Room history"),            "chat_history",          IDI_HISTORY     }, //  8
+	{ LPGEN("Room settings"),           "chat_settings",         IDI_TOPICBUT    }, //  9
+	{ LPGEN("Event filter disabled"),   "chat_filter",           IDI_FILTER      }, // 10
+	{ LPGEN("Event filter enabled"),    "chat_filter2",          IDI_FILTER2     }, // 11
+	{ LPGEN("Hide userlist"),           "chat_nicklist",         IDI_NICKLIST    }, // 12
+	{ LPGEN("Show userlist"),           "chat_nicklist2",        IDI_NICKLIST2   }, // 13
+	{ LPGEN("Icon overlay"),            "chat_overlay",          IDI_OVERLAY     }, // 14
+	{ LPGEN("Status 1 (10x10)"),        "chat_status0",          IDI_STATUS0,  10}, // 15
+	{ LPGEN("Status 2 (10x10"),         "chat_status1",          IDI_STATUS1,  10}, // 16
+	{ LPGEN("Status 3 (10x10)"),        "chat_status2",          IDI_STATUS2,  10}, // 17
+	{ LPGEN("Status 4 (10x10)"),        "chat_status3",          IDI_STATUS3,  10}, // 18
+	{ LPGEN("Status 5 (10x10)"),        "chat_status4",          IDI_STATUS4,  10}, // 19
+	{ LPGEN("Status 6 (10x10)"),        "chat_status5",          IDI_STATUS5,  10}, // 20
+	
+	{ LPGEN("Message in (10x10)"),      "chat_log_message_in",   IDI_INCOMING, 10}, //  1
+	{ LPGEN("Message out (10x10)"),     "chat_log_message_out",  IDI_OUTGOING, 10}, //  2
+	{ LPGEN("Action (10x10)"),          "chat_log_action",       IDI_ACTION,   10}, //  3
+	{ LPGEN("Add Status (10x10)"),      "chat_log_addstatus",    IDI_ADDSTATUS,10}, //  4
+	{ LPGEN("Remove status (10x10)"),   "chat_log_removestatus", IDI_REMSTATUS,10}, //  5
+	{ LPGEN("Join (10x10)"),            "chat_log_join",         IDI_JOIN,     10}, //  6
+	{ LPGEN("Leave (10x10)"),           "chat_log_part",         IDI_PART,     10}, //  7
+	{ LPGEN("Quit (10x10)"),            "chat_log_quit",         IDI_QUIT,     10}, //  8
+	{ LPGEN("Kick (10x10)"),            "chat_log_kick",         IDI_KICK,     10}, //  9
+	{ LPGEN("Nickchange (10x10)"),      "chat_log_nick",         IDI_NICK,     10}, // 10
+	{ LPGEN("Notice (10x10)"),          "chat_log_notice",    IDI_CHAT_NOTICE, 10}, // 11
+	{ LPGEN("Topic (10x10)"),           "chat_log_topic",        IDI_TOPIC,    10}, // 12
+	{ LPGEN("Highlight (10x10)"),       "chat_log_highlight",    IDI_NOTICE,   10}, // 13
+	{ LPGEN("Information (10x10)"),     "chat_log_info",         IDI_INFO,     10}, // 14
 };
+
+void RegisterIcons(void)
+{
+	HookEvent_Ex(ME_SKIN2_ICONSCHANGED, IconsChanged);
+
+	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList,    16);
+	Icon_Register(g_hInst, LPGEN("Group Chats"),      iconList+16, 20);
+	Icon_Register(g_hInst, LPGEN("Single Messaging"), iconList+36, 14);
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 HICON hIconList[SIZEOF(iconList)];
 
 BOOL IsStaticIcon(HICON hIcon) {
 	int i;
-	for (i = 0; i < SIZEOF(hIconList); i++) {
-		if (hIcon == hIconList[i]) {
+	for (i = 0; i < SIZEOF(hIconList); i++)
+		if (hIcon == hIconList[i])
 			return TRUE;
-		}
-	}
+
 	return FALSE;
 }
 
-void ReleaseIconSmart(HICON hIcon) {
+void ReleaseIconSmart(HICON hIcon)
+{
 	if (!IsStaticIcon(hIcon))
 		Skin_ReleaseIcon(hIcon);
 }
@@ -149,28 +152,6 @@ int ImageList_AddIcon_ProtoEx(HIMAGELIST hIml, const char* szProto, int status) 
  	return res;
 }
 
-void RegisterIcons(void)
-{
-	hEventSkin2IconsChanged = HookEvent_Ex(ME_SKIN2_ICONSCHANGED, IconsChanged);
-
-	TCHAR path[MAX_PATH];
-	char  szSection[200];
-	GetModuleFileName(g_hInst, path, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = path;
-	sid.pszSection = szSection;
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSection, SIZEOF(szSection), "%s/%s", LPGEN("Messaging"), iconList[i].section);
-		sid.pszName = (char*)iconList[i].name;
-		sid.cx = sid.cy = iconList[i].size;
-		sid.iDefaultIndex = -iconList[i].defaultIndex;
-		sid.pszDescription = iconList[i].description;
-		Skin_AddIcon(&sid);
-	}
-}
-
 void ReleaseIcons()
 {
 	for (int i = 0; i < SIZEOF(hIconList); i++)
@@ -184,12 +165,10 @@ void ReleaseIcons()
 
 HICON GetCachedIcon(const char *name)
 {
-	int i;
-	for (i = 0; i < SIZEOF(iconList); i++) {
-		if (!strcmp(iconList[i].name, name)) {
+	for (int i = 0; i < SIZEOF(iconList); i++)
+		if (!strcmp(iconList[i].szName, name))
 			return hIconList[i];
-		}
-	}
+
 	return NULL;
 }
 
@@ -197,7 +176,7 @@ void LoadGlobalIcons() {
 	int i;
 	int overlayIcon;
 	for (i = 0; i < SIZEOF(iconList); i++)
-		hIconList[i] = Skin_GetIcon(iconList[i].name);
+		hIconList[i] = Skin_GetIcon(iconList[i].szName);
 
 	g_dat->hMsgIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	g_dat->hMsgIconBig = LoadSkinnedIconBig(SKINICON_EVENT_MESSAGE);
@@ -231,28 +210,28 @@ static BOOL CALLBACK LangAddCallback(CHAR * str) {
 	int i, count;
 	UINT cp;
 	static struct { UINT cpId; const TCHAR *cpName; } cpTable[] = {
-		{	874,	_T("Thai") },
-		{	932,	_T("Japanese") },
-		{	936,	_T("Simplified Chinese") },
-		{	949,	_T("Korean") },
-		{	950,	_T("Traditional Chinese") },
-		{	1250,	_T("Central European") },
-		{	1251,	_T("Cyrillic") },
-		{	1252,	_T("Latin I") },
-		{	1253,	_T("Greek") },
-		{	1254,	_T("Turkish") },
-		{	1255,	_T("Hebrew") },
-		{	1256,	_T("Arabic") },
-		{	1257,	_T("Baltic") },
-		{	1258,	_T("Vietnamese") },
+		{	874,	_T("Thai") }, //
+		{	932,	_T("Japanese") }, //
+		{	936,	_T("Simplified Chinese") }, //
+		{	949,	_T("Korean") }, //
+		{	950,	_T("Traditional Chinese") }, //
+		{	1250,	_T("Central European") }, //
+		{	1251,	_T("Cyrillic") }, //
+		{	1252,	_T("Latin I") }, //
+		{	1253,	_T("Greek") }, //
+		{	1254,	_T("Turkish") }, //
+		{	1255,	_T("Hebrew") }, //
+		{	1256,	_T("Arabic") }, //
+		{	1257,	_T("Baltic") }, //
+		{	1258,	_T("Vietnamese") }, //
 		{	1361,	_T("Korean (Johab)") }
 	};
-    cp = atoi(str);
+	cp = atoi(str);
 	count = sizeof(cpTable)/sizeof(cpTable[0]);
 	for (i=0; i<count && cpTable[i].cpId!=cp; i++);
-	if (i < count) {
+	if (i < count)
         AppendMenu(g_dat->hMenuANSIEncoding, MF_STRING, cp, TranslateTS(cpTable[i].cpName));
-	}
+
 	return TRUE;
 }
 
@@ -261,9 +240,9 @@ void LoadInfobarFonts()
 	LOGFONT lf;
 	LoadMsgDlgFont(MSGFONTID_MESSAGEAREA, &lf, NULL, FALSE);
 	g_dat->minInputAreaHeight = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_AUTORESIZELINES, SRMSGDEFSET_AUTORESIZELINES) * abs(lf.lfHeight) * g_dat->logPixelSY / 72;
-	if (g_dat->hInfobarBrush != NULL) {
+	if (g_dat->hInfobarBrush != NULL)
 		DeleteObject(g_dat->hInfobarBrush);
-	}
+
 	g_dat->hInfobarBrush = CreateSolidBrush(DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_INFOBARBKGCOLOUR, SRMSGDEFSET_INFOBARBKGCOLOUR));
 }
 
@@ -323,14 +302,10 @@ void ReloadGlobals() {
 	g_dat->ieviewInstalled =  ServiceExists(MS_IEVIEW_WINDOW);
 	g_dat->flags = 0;
 	g_dat->flags2 = 0;
-//	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SENDBUTTON, SRMSGDEFSET_SENDBUTTON))
-//		g_dat->flags |= SMF_SENDBTN;
-	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE)) {
+	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AVATARENABLE, SRMSGDEFSET_AVATARENABLE))
 		g_dat->flags |= SMF_AVATAR;
-	}
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWPROGRESS, SRMSGDEFSET_SHOWPROGRESS))
 		g_dat->flags |= SMF_SHOWPROGRESS;
-
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWLOGICONS, SRMSGDEFSET_SHOWLOGICONS))
 		g_dat->flags |= SMF_SHOWICONS;
 	if (DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_SHOWTIME, SRMSGDEFSET_SHOWTIME))
@@ -431,7 +406,6 @@ void ReloadGlobals() {
 	g_dat->limitNamesLength = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITNAMESLEN, SRMSGDEFSET_LIMITNAMESLEN);
 	g_dat->limitTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITTABSNUM, SRMSGDEFSET_LIMITTABSNUM);
 	g_dat->limitChatsTabsNum = DBGetContactSettingDword(NULL, SRMMMOD, SRMSGSET_LIMITCHATSTABSNUM, SRMSGDEFSET_LIMITCHATSTABSNUM);
-
 }
 
 static int ackevent(WPARAM wParam, LPARAM lParam) {
@@ -482,9 +456,8 @@ static int ackevent(WPARAM wParam, LPARAM lParam) {
 			dbei.pBlob = (PBYTE) item->sendBuffer;
 			hNewEvent = (HANDLE) CallService(MS_DB_EVENT_ADD, (WPARAM) item->hContact, (LPARAM) & dbei);
 
-			if (item->hwndErrorDlg != NULL) {
+			if (item->hwndErrorDlg != NULL)
 				DestroyWindow(item->hwndErrorDlg);
-			}
 
 			if (RemoveSendQueueItem(item) && DBGetContactSettingByte(NULL, SRMMMOD, SRMSGSET_AUTOCLOSE, SRMSGDEFSET_AUTOCLOSE)) {
 				if (hwndSender != NULL) {

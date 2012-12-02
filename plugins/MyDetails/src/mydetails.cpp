@@ -38,6 +38,13 @@ PLUGININFOEX pluginInfo={
 	{ 0xa82baeb3, 0xa33c, 0x4036, { 0xb8, 0x37, 0x78, 0x3, 0xa5, 0xb6, 0xc2, 0xab } } // {A82BAEB3-A33C-4036-B837-7803A5B6C2AB}
 };
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Listening to"), "LISTENING_TO_ICON", IDI_LISTENINGTO },
+	{ LPGEN("Previous protocol"), "MYDETAILS_PREV_PROTOCOL", IDI_LEFT_ARROW },
+	{ LPGEN("Next protocol"), "MYDETAILS_NEXT_PROTOCOL", IDI_RIGHT_ARROW }
+};
+
 // Hooks
 HANDLE hModulesLoadedHook = NULL;
 HANDLE hPreShutdownHook = NULL;
@@ -199,33 +206,10 @@ static int MainInit(WPARAM wparam,LPARAM lparam)
 
 	InitFrames();
 
-	TCHAR tszPath[MAX_PATH];
-	GetModuleFileName(hInst, tszPath, SIZEOF(tszPath));
+	if ( Skin_GetIcon("LISTENING_TO_ICON") == NULL)
+		Icon_Register(hInst, LPGEN("Contact List"), iconList, 1);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = tszPath;
-
-	if ( Skin_GetIcon("LISTENING_TO_ICON") == NULL) {
-		sid.pszSection = LPGEN("Contact List");
-		sid.pszDescription = LPGEN("Listening to");
-		sid.pszName = "LISTENING_TO_ICON";
-		sid.iDefaultIndex = -IDI_LISTENINGTO;
-		Skin_AddIcon(&sid);
-	}
-
-	sid.pszSection = LPGEN("My Details");
-	sid.pszDescription = LPGEN("Previous protocol");
-	sid.pszName = "MYDETAILS_PREV_PROTOCOL";
-	sid.iDefaultIndex = -IDI_LEFT_ARROW;
-	Skin_AddIcon(&sid);
-
-	sid.pszSection = LPGEN("My Details");
-	sid.pszDescription = LPGEN("Next protocol");
-	sid.pszName = "MYDETAILS_NEXT_PROTOCOL";
-	sid.iDefaultIndex = -IDI_RIGHT_ARROW;
-	Skin_AddIcon(&sid);
-
+	Icon_Register(hInst, LPGEN("My Details"), iconList+1, SIZEOF(iconList)-1);
 	return 0;
 }
 

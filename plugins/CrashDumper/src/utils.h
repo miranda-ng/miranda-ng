@@ -56,6 +56,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include <m_hotkeys.h>
 #include <m_protocols.h>
 #include <m_help.h>
+#include <m_icolib.h>
 
 #include "bkstring.h"
 
@@ -171,7 +172,6 @@ void OpenAuthUrl(const char* url);
 void __cdecl VersionInfoUploadThread(void* arg);
 
 void InitIcons(void);
-HICON LoadIconEx(const char* name, bool big = false);
-HANDLE GetIconHandle(const char* name);
-void ReleaseIconEx(const char* name);
-void ReleaseIconEx(HICON hIcon);
+HICON LoadIconEx(int iconId, bool big = false);
+void  ReleaseIconEx(int iconId);
+HANDLE GetIconHandle(int iconId);

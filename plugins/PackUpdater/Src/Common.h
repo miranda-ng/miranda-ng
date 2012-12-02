@@ -78,13 +78,6 @@ struct FILEINFO
 	BYTE Force;
 };
 
-struct PackUpdaterIconList
-{
-	char*  szIconName;
-	TCHAR*  tszDescr;
-	int    IconID;
-};
-
 #define DEFAULT_REMINDER					1
 #define DEFAULT_UPDATEONSTARTUP				1
 #define DEFAULT_ONLYONCEADAY				0

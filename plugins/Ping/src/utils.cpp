@@ -315,38 +315,17 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Responding"), "ping_responding", IDI_ICON_RESPONDING },
+	{ LPGEN("Not Responding"), "ping_not_responding", IDI_ICON_NOTRESPONDING },
+	{ LPGEN("Testing"), "ping_testing", IDI_ICON_TESTING },
+	{ LPGEN("Disabled"), "ping_disabled", IDI_ICON_DISABLED },
+};
+
 void InitUtils()
 {
-	TCHAR file[MAX_PATH];
-	GetModuleFileName(hInst,file,MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszSection = LPGENT("Ping");
-	sid.flags = SIDF_PATH_TCHAR;
-
-	sid.pszDescription = LPGEN("Responding");
-	sid.pszName = "ping_responding";
-	sid.ptszDefaultFile = file;
-	sid.iDefaultIndex = -IDI_ICON_RESPONDING;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = LPGEN("Not Responding");
-	sid.pszName = "ping_not_responding";
-	sid.ptszDefaultFile = file;
-	sid.iDefaultIndex = -IDI_ICON_NOTRESPONDING;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = LPGEN("Testing");
-	sid.pszName = "ping_testing";
-	sid.ptszDefaultFile = file;
-	sid.iDefaultIndex = -IDI_ICON_TESTING;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = LPGEN("Disabled");
-	sid.pszName = "ping_disabled";
-	sid.ptszDefaultFile = file;
-	sid.iDefaultIndex = -IDI_ICON_DISABLED;
-	Skin_AddIcon(&sid);
+	Icon_Register(hInst, LPGENT("Ping"), iconList, SIZEOF(iconList));
 
 	hIconResponding = Skin_GetIcon("ping_responding");
 	hIconNotResponding = Skin_GetIcon("ping_not_responding");

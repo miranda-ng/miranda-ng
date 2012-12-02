@@ -15,10 +15,8 @@ HANDLE hTopToolbarButtonShowList;
 HANDLE hMsgWndEvent;
 HANDLE hWindowList;
 HANDLE hMenuItemRemove;
-HANDLE hIcon;
 
 const INT_PTR boo = 0;
-LIST<void> ServiceList(10,boo), HookList(10,boo);
 
 BOOL IsMessageAPI = FALSE;
 
@@ -49,6 +47,8 @@ PLUGININFOEX pluginInfo =
 	{ 0x0e5f3b9d, 0xebcd, 0x44d7, {0x93, 0x74, 0xd8, 0xe5, 0xd8, 0x8d, 0xf4, 0xe3}}
 	/* 0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3 */
 };
+
+static IconItem icon = { LPGEN("Main icon"), "recent_main", IDI_SHOWRECENT };
 
 extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
@@ -451,7 +451,7 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttbb = {0};
 	ttbb.cbSize = sizeof(ttbb);
-	ttbb.hIconHandleUp = hIcon;
+	ttbb.hIconHandleUp = icon.hIcolib;
 	ttbb.pszService = msLastUC_ShowList;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.name = ttbb.pszTooltipUp = LPGEN(msLastUC_ShowListName);
@@ -461,19 +461,17 @@ int Create_TopToolbarShowList(WPARAM wParam, LPARAM lParam)
 
 int Create_MenuitemShowList(void)
 {
-   // !!!!!!!! check it later
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.hIcon = Skin_GetIcon("recent_main");
+	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.icolibItem = icon.hIcolib;
 	mi.pszName = msLastUC_ShowListName;
 	mi.pszService = msLastUC_ShowList;
 	Menu_AddMainMenuItem(&mi);
 
-	ZeroMemory( &mi, sizeof( mi ));
-	mi.cbSize = sizeof( mi );
 	mi.position = 0xFFFFF;
-	mi.hIcon = Skin_GetIcon("recent_main");
-	mi.ptszName = _T("Toggle Ignore");
-	mi.pszService	= V_RECENTCONTACTS_TOGGLE_IGNORE;
+	mi.icolibItem = icon.hIcolib;
+	mi.pszName = "Toggle Ignore";
+	mi.pszService = V_RECENTCONTACTS_TOGGLE_IGNORE;
 	hMenuItemRemove = Menu_AddContactMenuItem(&mi);
 	return 0;
 }
@@ -503,22 +501,6 @@ int OnMsgEvent(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-static void iconsInit(void)
-{
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_UNICODE;
-	sid.pszSection = Translate(msLastUC_ShowListName);
-	sid.ptszDefaultFile = szFile;
-
-	sid.pszDescription = LPGEN("Main icon");
-	sid.pszName = "recent_main";
-	sid.iDefaultIndex = -IDI_SHOWRECENT;
-	hIcon = Skin_AddIcon(&sid);
-}
-
 static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 {
 	CLISTMENUITEM clmi = { sizeof(clmi) };
@@ -535,38 +517,9 @@ static int OnPrebuildContactMenu (WPARAM wParam, LPARAM lParam)
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	iconsInit();
 	Create_MenuitemShowList();
 	IsMessageAPI = (CallService(MS_MSG_GETWINDOWAPI, 0, 0) != CALLSERVICE_NOTFOUND);
-	//maxShownContacts = ;
 	LoadDBSettings();
-
-   /*
-  	if (ServiceExists(MS_FONT_REGISTERT)) {
-		FontIDT fid={0};
-
-		fid.cbSize=sizeof(fid);
-		fid.group = _T("Console");
-		fid.name,TranslateT = "Text";
-		fid.dbSettingsGroup = "Console";
-		fid.prefix = "ConsoleFont";
-
-		fid.backgroundGroup = _T("Console");
-		fid.backgroundName = _T("Background");
-
-		fid.flags = FIDF_DEFAULTVALID;
-
-		fid.deffontsettings.charset = DEFAULT_CHARSET;
-		fid.deffontsettings.colour = RGB(0, 0, 0);
-		fid.deffontsettings.size = 10;
-		fid.deffontsettings.style = 0;
-		_tcsncpy(fid.deffontsettings.szFace, _T("Tahoma"), LF_FACESIZE);
-
-		CallService(MS_FONT_REGISTERT,(WPARAM)&fid,0);
-
-		hHooks[i++] = HookEvent(ME_FONT_RELOAD,OnFontChange);
-	}
-	*/
 
 	// hotkeys
 	HOTKEYDESC hk = {0};
@@ -597,21 +550,22 @@ INT_PTR ToggleIgnore (WPARAM wParam, LPARAM lParam)
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP( &pluginInfo );
 
 	CoInitialize(NULL);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
-	ServiceList.insert( CreateServiceFunction(msLastUC_ShowList, OnMenuCommandShowList));
-	ServiceList.insert( CreateServiceFunction(V_RECENTCONTACTS_TOGGLE_IGNORE, ToggleIgnore));
+	Icon_Register(hInst, msLastUC_ShowListName, &icon, 1);
+
+	CreateServiceFunction(msLastUC_ShowList, OnMenuCommandShowList);
+	CreateServiceFunction(V_RECENTCONTACTS_TOGGLE_IGNORE, ToggleIgnore);
 	
-	HookList.insert( HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded));
-	HookList.insert( HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu ));
-	HookList.insert( HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList));
-	HookList.insert( HookEvent(ME_MSG_WINDOWEVENT, OnMsgEvent));
-	HookList.insert( HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged ));
-	HookList.insert( HookEvent(ME_OPT_INITIALISE, onOptInitialise));
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, OnPrebuildContactMenu);
+	HookEvent(ME_TTB_MODULELOADED, Create_TopToolbarShowList);
+	HookEvent(ME_MSG_WINDOWEVENT, OnMsgEvent);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged );
+	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 	return 0;
 }
 
@@ -619,14 +573,6 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	int i;
-
-	for (i=0; i < ServiceList.getCount(); ++i)
-		DestroyServiceFunction( ServiceList[i] );
-
-	for (i=0; i < HookList.getCount(); ++i)
-		UnhookEvent( HookList[i] );
-
 	CoUninitialize();
 	return 0;
 }

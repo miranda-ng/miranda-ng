@@ -114,6 +114,12 @@ static int Openfile(TCHAR *outputFile, int selection);
 
 static HANDLE hTTBButt = 0;
 
+static IconItem iconList[] = 
+{
+	{ "Show", "Console_Up",   IDI_BTN_UP },
+	{ "Hide", "Console_Down", IDI_BTN_DN },
+};
+
 static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 {
 	if ( !IsWindow(hwndConsole))
@@ -121,26 +127,12 @@ static int OnTTBLoaded(WPARAM wParam,LPARAM lParam)
 
 	int state = IsWindowVisible(hwndConsole);
 
+	Icon_Register(hInst, "Console", iconList, SIZEOF(iconList));
+
 	TTBButton ttbb = { 0 };
 	ttbb.cbSize = sizeof(ttbb);
-
-	TCHAR szModuleFileName[MAX_PATH];
-	GetModuleFileName(hInst, szModuleFileName, SIZEOF(szModuleFileName));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "Console";
-	sid.ptszDefaultFile = szModuleFileName;
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszDescription = "Show";
-	sid.pszName = "Console_Up";
-	sid.iDefaultIndex = -IDI_BTN_UP;
-	ttbb.hIconHandleUp = Skin_AddIcon(&sid);
-
-	sid.pszDescription = "Hide";
-	sid.pszName = "Console_Down";
-	sid.iDefaultIndex = -IDI_BTN_DN;
-	ttbb.hIconHandleDn = Skin_AddIcon(&sid);
-
+	ttbb.hIconHandleUp = iconList[0].hIcolib;
+	ttbb.hIconHandleDn = iconList[1].hIcolib;
 	ttbb.dwFlags = (state ? TTBBF_PUSHED : 0) | TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.pszService = MS_CONSOLE_SHOW_HIDE;
 	ttbb.name = LPGEN("Show/Hide Console");

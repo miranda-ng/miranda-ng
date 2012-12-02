@@ -80,31 +80,22 @@ void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon)
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMenu,(LPARAM)&mi);
 }
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Database"), "database", IDI_ICON2 },
+	{ LPGEN("Change Password"), "password", IDI_ICON3 }
+};
+
 int InitMenus(WPARAM, LPARAM)
 {
 	HookEvent(ME_OPT_INITIALISE, OptionsInit);
 
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile =  szFile;
-	sid.flags =  SIDF_ALL_TCHAR;
-	sid.ptszSection =  LPGENT("Database");
-	sid.ptszDescription = LPGENT("Database");
-	sid.pszName = "database";
-	sid.iDefaultIndex = -IDI_ICON2;
-	Skin_AddIcon(&sid);
-
-	sid.ptszDescription = LPGENT("Change Password");
-	sid.pszName = "password";
-	sid.iDefaultIndex = -IDI_ICON3;
-	HANDLE hIcon = Skin_AddIcon(&sid);
+	Icon_Register(g_hInst, LPGEN("Database"), iconList, SIZEOF(iconList));
 
 	// main menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
-	mi.icolibItem = hIcon;
+	mi.icolibItem = iconList[1].hIcolib;
 	mi.ptszName = (g_Db->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
 	mi.ptszPopupName = LPGENT("Database");
 	mi.pszService = MS_DB_CHANGEPASSWORD;

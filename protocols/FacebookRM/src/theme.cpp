@@ -24,85 +24,41 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern OBJLIST<FacebookProto> g_Instances;
 
-struct
+static IconItem icons[] =
 {
-	const char*  name;
-	char*  descr;
-	int          defIconID;
-	const char*  section;
-}
-static const icons[] =
-{
-	{ "facebook",		LPGEN("Facebook Icon"),				IDI_FACEBOOK },
-	{ "mind",			LPGEN("Mind"),						IDI_MIND },
+	{ LPGEN("Facebook Icon"),             "facebook",      IDI_FACEBOOK },
+	{ LPGEN("Mind"),                       "mind",         IDI_MIND },
 	
-	{ "authRevoke",		LPGEN("Cancel friendship"),			IDI_AUTH_REVOKE },
-	{ "authRevokeReq",	LPGEN("Cancel friendship request"),	IDI_AUTH_REVOKE },
-	{ "authAsk",		LPGEN("Request friendship"),		IDI_AUTH_ASK },
-	{ "authGrant",		LPGEN("Approve friendship"),		IDI_AUTH_GRANT },
+	{ LPGEN("Cancel friendship"),         "authRevoke",    IDI_AUTH_REVOKE },
+	{ LPGEN("Cancel friendship request"), "authRevokeReq", IDI_AUTH_REVOKE },
+	{ LPGEN("Request friendship"),        "authAsk",       IDI_AUTH_ASK },
+	{ LPGEN("Approve friendship"),        "authGrant",     IDI_AUTH_GRANT },
 	
-	{ "homepage",		LPGEN("Visit Profile"),				0, "core_main_2" },
+	{ LPGEN("Visit Profile"),             "homepage",      0  },
 };
-
-static HANDLE hIconLibItem[SIZEOF(icons)];
 
 // TODO: uninit
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, szFile, SIZEOF(szFile));
-
-	char setting_name[100];
-	char section_name[100];
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.pszName = setting_name;
-	sid.pszSection = section_name;
-    sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i=0; i<SIZEOF(icons); i++) 
-	{
-		if(icons[i].defIconID)
-		{
-			mir_snprintf(setting_name,sizeof(setting_name),"%s_%s","Facebook",icons[i].name);
-
-			if (icons[i].section)
-			{
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s/%s",LPGEN("Protocols"),
-					LPGEN("Facebook"), icons[i].section);
-			} else {
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s",LPGEN("Protocols"),
-					LPGEN("Facebook"));
-			}
-
-			sid.pszDescription = (char*)icons[i].descr;
-			sid.iDefaultIndex = -icons[i].defIconID;
-			hIconLibItem[i] = Skin_AddIcon(&sid);
-		} else { // External icons
-			hIconLibItem[i] = Skin_GetIconHandle(icons[i].section);
-		}
-	}	
+	Icon_Register(g_hInstance, "Protocols/Facebook", icons, SIZEOF(icons)-1, "Facebook");
+	icons[ SIZEOF(icons)-1 ].hIcolib = Skin_GetIconHandle("core_main_2");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
-	{
-		if(strcmp(icons[i].name,name) == 0)
-			return hIconLibItem[i];
-	}
+		if(strcmp(icons[i].szName, name) == 0)
+			return icons[i].hIcolib;
+
 	return 0;
 }
 
 char *GetIconDescription(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
-	{
-		if(strcmp(icons[i].name,name) == 0)
-			return icons[i].descr;
-	}
+		if(strcmp(icons[i].szName, name) == 0)
+			return icons[i].szDescr;
+
 	return "";
 }
 

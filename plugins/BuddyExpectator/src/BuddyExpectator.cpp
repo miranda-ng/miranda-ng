@@ -48,7 +48,6 @@ HANDLE hHookExtraIconsRebuild = NULL;
 HANDLE hHookExtraIconsApply = NULL;
 
 HICON hIcon;
-HANDLE hEnabledIcon = NULL, hDisabledIcon = NULL;
 HANDLE hExtraIcon;
 
 // Popup Actions
@@ -69,6 +68,15 @@ PLUGININFOEX pluginInfo = {
 	UNICODE_AWARE,
 	//{DDF8AEC9-7D37-49AF-9D22-BBBC920E6F05}
 	{0xddf8aec9, 0x7d37, 0x49af, {0x9d, 0x22, 0xbb, 0xbc, 0x92, 0x0e, 0x6f, 0x05}}
+};
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Tray/popup icon"), "main_icon",      IDI_MAINICON  },
+	{ LPGEN("Enabled"),         "enabled_icon",   IDI_ENABLED   },
+	{ LPGEN("Disabled"),        "disabled_icon",  IDI_DISABLED  },
+	{ LPGEN("Hide"),            "hide_icon",      IDI_HIDE      },
+	{ LPGEN("NeverHide"),       "neverhide_icon", IDI_NEVERHIDE }
 };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
@@ -480,13 +488,13 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
    {
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Disable Miss You");
-		mi.icolibItem = hEnabledIcon;
+		mi.icolibItem = iconList[1].hIcolib;
    }
    else
    {
 		mi.flags |= CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.ptszName = LPGENT("Enable Miss You");
-		mi.icolibItem = hDisabledIcon;
+		mi.icolibItem = iconList[2].hIcolib;
    }
 
    CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hContactMenu, (LPARAM)&mi);
@@ -657,6 +665,7 @@ int ModulesLoaded2(WPARAM wParam, LPARAM lParam)
 /**
  * Called when all the modules are loaded
  */
+
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	hEventUserInfoInit = HookEvent(ME_USERINFO_INITIALISE, UserinfoInit);
@@ -675,39 +684,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	////////////////////////////////////////////////////////////////////////////
 
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
-	// IcoLib support
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = LPGENT("BuddyExpectator");
-
-	sid.ptszDescription = LPGENT("Tray/popup icon");
-	sid.pszName = "main_icon";
-	sid.iDefaultIndex = -IDI_MAINICON;
-	Skin_AddIcon(&sid);
-
-	sid.ptszDescription = LPGENT("Enabled");
-	sid.pszName = "enabled_icon";
-	sid.iDefaultIndex = -IDI_ENABLED;
-	hEnabledIcon = Skin_AddIcon(&sid);
-
-	sid.ptszDescription = LPGENT("Disabled");
-	sid.pszName = "disabled_icon";
-	sid.iDefaultIndex = -IDI_DISABLED;
-	hDisabledIcon = Skin_AddIcon(&sid);
-
-	sid.ptszDescription = LPGENT("Hide");
-	sid.pszName = "hide_icon";
-	sid.iDefaultIndex = -IDI_HIDE;
-	Skin_AddIcon(&sid);
-
-	sid.ptszDescription = LPGENT("NeverHide");
-	sid.pszName = "neverhide_icon";
-	sid.iDefaultIndex = -IDI_NEVERHIDE;
-	Skin_AddIcon(&sid);
+	Icon_Register(hInst, "BuddyExpectator", iconList, SIZEOF(iconList));
 
 	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, onIconsChanged);
 
@@ -718,7 +695,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-		mi.icolibItem = hDisabledIcon;
+		mi.icolibItem = iconList[2].hIcolib;
 		mi.position = 200000;
 		mi.ptszName = LPGENT("Enable Miss You");
 		mi.pszService = "BuddyExpectator/actionMissYouClick";

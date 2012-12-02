@@ -20,13 +20,7 @@
 
 #include "gg.h"
 
-struct tagiconList
-{
-	char*	szDescr;
-	char*	szName;
-	int	defIconID;
-}
-static const iconList[] =
+static IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"),              "main",          IDI_GG               },
 	{ LPGEN("Import list from server"),    "importserver",  IDI_IMPORT_SERVER    },
@@ -51,25 +45,7 @@ HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void gg_icolib_init()
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInstance, szFile, MAX_PATH);
-
-	char szSectionName[100];
-	mir_snprintf(szSectionName, sizeof( szSectionName ), "%s/%s", LPGEN("Protocols"), LPGEN(GGDEF_PROTO));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = szSectionName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100];
-		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", GGDEF_PROTO, iconList[i].szName);
-		sid.pszName = szSettingName;
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInstance, "Protocols/" GGDEF_PROTO, iconList, SIZEOF(iconList), GGDEF_PROTO);
 }
 
 HICON LoadIconEx(const char* name, BOOL big)
@@ -81,8 +57,7 @@ HICON LoadIconEx(const char* name, BOOL big)
 
 HANDLE GetIconHandle(int iconId)
 {
-	int i;
-	for(i = 0; i < SIZEOF(iconList); i++)
+	for(int i = 0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
 			return hIconLibItem[i];
 	return NULL;

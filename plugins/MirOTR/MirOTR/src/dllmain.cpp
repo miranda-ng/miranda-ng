@@ -145,7 +145,6 @@ DLLFUNC int Unload(void)
 	otrl_userstate_free(otr_user_state);
 	lib_cs_unlock();
 
-	DeinitIcons();
 	DeinitUtils();
 
 	return 0;

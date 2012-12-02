@@ -25,8 +25,7 @@ WNDPROC mainProc;
 
 HANDLE 
 	hServiceOpenManager, hServiceShowFavMenu, hServiceCloseCurrentSession, hServiceSaveUserSession,
-	hServiceLoadLastSession, hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager,
-	hibSessions, hibSessionsLoad, hibSessionsSave, hibSessionsLoadLast, hibChecked, hibNotChecked;
+	hServiceLoadLastSession, hmSaveCurrentSession, hmLoadLastSession, hmLoadSession, hmSessionsManager;
 
 HANDLE hmTBButton[2],hiTBbutton[2],iTBbutton[2];
 
@@ -73,6 +72,15 @@ PLUGININFOEX pluginInfo = {
 		{ 0x60558872, 0x2aab, 0x45aa, { 0x88, 0x8d, 0x9, 0x76, 0x91, 0xc9, 0xb6, 0x83 } }
 };
 
+IconItem iconList[] = 
+{
+	{ LPGEN("Sessions"), "Sessions", IDD_SESSION_CHECKED },
+	{ LPGEN("Favorite Session"), "SessionMarked", IDD_SESSION_CHECKED },
+	{ LPGEN("Not favorite Session"), "SessionUnMarked", IDD_SESSION_UNCHECKED },
+	{ LPGEN("Load Session"), "SessionsLoad", IDI_SESSIONS_LOAD },
+	{ LPGEN("Save Session"), "SessionsSave", IDD_SESSIONS_SAVE },
+	{ LPGEN("Load last Session"), "SessionsLoadLast", IDD_SESSIONS_LOADLAST }
+};
 
 INT_PTR CALLBACK ExitDlgProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 {
@@ -849,22 +857,22 @@ static int CreateButtons(WPARAM wparam,LPARAM lparam)
 
 	button.pszService = MS_SESSIONS_OPENMANAGER;
 	button.pszTooltipUp = button.name = LPGEN("Open Sessions Manager");
-	button.hIconHandleUp = hibSessionsLoad;
+	button.hIconHandleUp = iconList[3].hIcolib;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	button.pszTooltipUp = button.name = LPGEN("Save Session");
-	button.hIconHandleUp = hibSessionsSave;
+	button.hIconHandleUp = iconList[4].hIcolib;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	button.pszTooltipUp = button.name = LPGEN("Restore Last Session");
-	button.hIconHandleUp = hibSessionsLoadLast;
+	button.hIconHandleUp = iconList[5].hIcolib;
 	TopToolbar_AddButton(&button);
 
 	button.pszService = MS_SESSIONS_SHOWFAVORITESMENU;
 	button.pszTooltipUp = button.name = LPGEN("Show Favorite Sessions Menu");
-	button.hIconHandleUp = hibChecked;
+	button.hIconHandleUp = iconList[1].hIcolib;
 	TopToolbar_AddButton(&button);
 	return 0;
 }
@@ -951,12 +959,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	Hotkey_Register(&hkd);
 
 	// Icons
-	hibSessions	= AddIcon("Sessions", LPGEN("Sessions"), IDD_SESSION_CHECKED);
-	hibChecked = AddIcon("SessionMarked", LPGEN("Favorite Session"), IDD_SESSION_CHECKED);
-	hibNotChecked = AddIcon("SessionUnMarked", LPGEN("Not favorite Session"), IDD_SESSION_UNCHECKED);
-	hibSessionsLoad = AddIcon("SessionsLoad", LPGEN("Load Session"), IDI_SESSIONS_LOAD);
-	hibSessionsSave = AddIcon("SessionsSave", LPGEN("Save Session"), IDD_SESSIONS_SAVE);
-	hibSessionsLoadLast = AddIcon("SessionsLoadLast", LPGEN("Load last Session"), IDD_SESSIONS_LOADLAST);
+	Icon_Register(hinstance, __INTERNAL_NAME, iconList, SIZEOF(iconList));
 
 	// Main menu
 	CLISTMENUITEM cl = { sizeof(cl) };
@@ -965,13 +968,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	cl.ptszName = _T("Save session...");
 	cl.ptszPopupName = _T("Sessions Manager");
-	cl.icolibItem = hibSessions;
+	cl.icolibItem = iconList[0].hIcolib;
 	cl.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&cl);
 
 	cl.ptszName = _T("Load session...");
 	cl.pszService = MS_SESSIONS_OPENMANAGER;
-	cl.icolibItem = hibSessionsLoad;
+	cl.icolibItem = iconList[3].hIcolib;
 	hmLoadLastSession = Menu_AddMainMenuItem(&cl);
 
 	cl.ptszName = _T("Close session");
@@ -981,14 +984,14 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	cl.ptszName = _T("Load last session");
 	cl.pszService = MS_SESSIONS_RESTORELASTSESSION;
-	cl.icolibItem = hibSessionsLoadLast;
+	cl.icolibItem = iconList[5].hIcolib;
 	cl.position = 10100000;
 	hmLoadSession = Menu_AddMainMenuItem(&cl);
 
 	ZeroMemory(&cl, sizeof(cl));
 	cl.cbSize = sizeof(cl);
 	cl.flags = CMIM_ICON;
-	cl.icolibItem = hibSessionsSave;
+	cl.icolibItem = iconList[4].hIcolib;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hmSaveCurrentSession, (LPARAM)&cl);
 
 	return 0;

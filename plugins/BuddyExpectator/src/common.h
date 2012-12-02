@@ -46,6 +46,7 @@
 #include <m_options.h>
 #include <m_protosvc.h>
 #include <m_utils.h>
+#include <win2k.h>
 #include <m_ignore.h>
 #include <m_message.h>
 #include <m_userinfo.h>

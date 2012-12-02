@@ -53,7 +53,7 @@ PLUGININFOEX pluginInfo={
 HINSTANCE hInst;
 
 static HANDLE hEnableStateChangedEvent;
-HANDLE hExtraIcon, hIcon1, hIcon2;
+HANDLE hExtraIcon;
 static HGENMENU hMainMenuGroup = NULL;
 static HANDLE hListeningInfoChangedEvent = NULL;
 
@@ -291,8 +291,14 @@ int AccListChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-
 // Called when all the modules are loaded
+
+static IconItem iconList[] = 
+{
+	{ LPGEN("Listening to (enabled)"), "listening_to_icon", IDI_LISTENINGTO },
+	{ LPGEN("Listening to (disabled)"), "listening_off_icon", IDI_LISTENINGOFF },
+};
+
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	EnableDisablePlayers();
@@ -304,23 +310,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService("DBEditorpp/RegisterSingleModule", (WPARAM) MODULE_NAME, 0);
 
 	// icons
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(hInst, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = tszFile;
-	sid.pszSection = "ListeningTo";
-
-	sid.pszName = "listening_to_icon";
-	sid.pszDescription = LPGEN("Listening to (enabled)");
-	sid.iDefaultIndex = -IDI_LISTENINGTO;
-	hIcon1 = Skin_AddIcon(&sid);
-
-	sid.pszName = "listening_off_icon";
-	sid.pszDescription = LPGEN("Listening to (disabled)");
-	sid.iDefaultIndex = -IDI_LISTENINGOFF;
-	hIcon2 = Skin_AddIcon(&sid);
+	Icon_Register(hInst, "ListeningTo", iconList, SIZEOF(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register(MODULE_NAME, "Listening to music", "listening_to_icon");
@@ -346,7 +336,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	mi.position = 500080000;
 	mi.ptszName = LPGENT("Listening to");
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = hIcon1;
+	mi.icolibItem = iconList[0].hIcolib;
 	hMainMenuGroup = Menu_AddMainMenuItem(&mi);
 
 	mi.hParentMenu = hMainMenuGroup;
@@ -508,8 +498,8 @@ int TopToolBarLoaded(WPARAM wParam, LPARAM lParam)
 
 	TTBButton ttb = {0};
 	ttb.cbSize = sizeof(ttb);
-	ttb.hIconHandleDn = hIcon1;
-	ttb.hIconHandleUp = hIcon2;
+	ttb.hIconHandleDn = iconList[0].hIcolib;
+	ttb.hIconHandleUp = iconList[1].hIcolib;
 	ttb.pszService = MS_LISTENINGTO_TTB;
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP | TTBBF_ASPUSHBUTTON | (enabled ? TTBBF_PUSHED : 0);
 	ttb.name = LPGEN("Enable/Disable sending Listening To info (to all protocols)");

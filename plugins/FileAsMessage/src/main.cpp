@@ -25,35 +25,17 @@ HANDLE hHookDbSettingChange, hHookContactAdded, hHookSkinIconsChanged;
 
 extern INT_PTR CALLBACK OptionsDlgProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
-int idIcons[5] = {IDI_PLAY, IDI_PAUSE, IDI_REFRESH, IDI_STOP, IDI_SMALLICON};
 HICON hIcons[5];
 
-char *szIconId[5] =
+static IconItem iconList[] = 
 {
-	"FePlay",
-	"FePause",
-	"FeRefresh",
-	"FeStop",
-	"FeMain"
+	{ "Play", "FePlay", IDI_PLAY },
+	{ "Pause", "FePause", IDI_PAUSE },
+	{ "Revive", "FeRefresh", IDI_REFRESH },
+	{ "Stop", "FeStop", IDI_STOP },
+	{ "Main", "FeMain", IDI_SMALLICON },
 };
-char *szIconName[5] =
-{
-	"Play",
-	"Pause",
-	"Revive",
-	"Stop",
-	"Main"
-};
-/*
-char *szIconGroup[5] =
-{
-	"gr1",
-	"gr3",
-	"gr2",
-	"gr3",
-	"gr1"
-};
-*/
+
 int iIconId[5] = {3,2,4,1,0};
 
 //
@@ -63,7 +45,7 @@ int iIconId[5] = {3,2,4,1,0};
 int OnSkinIconsChanged(WPARAM wParam,LPARAM lParam)
 {
 	for(int indx = 0; indx < SIZEOF(hIcons); indx++)
-		hIcons[indx] = Skin_GetIcon(szIconId[indx]);
+		hIcons[indx] = Skin_GetIconByHandle( iconList[indx].hIcolib );
 
 	WindowList_Broadcast(hFileList, WM_FE_SKINCHANGE, 0,0);
 
@@ -190,36 +172,15 @@ extern "C" __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD dwVersi
 {
 	return &pluginInfo;
 }
-/*
-DWORD CreateSetting(char *name, DWORD defvalue)
-{
-	if(DBGetContactSettingDword(NULL, SERVICE_NAME, name, -1) == -1)
-		DBWriteContactSettingDword(NULL, SERVICE_NAME, name, defvalue);
-	else
-		defvalue = DBGetContactSettingDword(NULL, SERVICE_NAME, name, defvalue);
-	return defvalue;
-}
-*/
 
-int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
-{
-	int indx;
-	char ModuleName[MAX_PATH];
-	GetModuleFileName(hInst, ModuleName, sizeof(ModuleName));
+//
+// Startup initializing
+//
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "fileAsMessage";
+static int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
+{
 	for(int indx = 0; indx < SIZEOF(hIcons); indx++)
-	{
-		//sid.pszSection = szIconGroup[indx];
-		sid.pszName = szIconId[indx];
-		sid.pszDescription = szIconName[indx];
-		sid.pszDefaultFile = ModuleName;
-		sid.iDefaultIndex = iIconId[indx];
-		Skin_AddIcon(&sid);
-	}
-	for(indx = 0; indx < SIZEOF(hIcons); indx++)
-		hIcons[indx] = Skin_GetIcon(szIconId[indx]);
+		hIcons[indx] = Skin_GetIconByHandle( iconList[indx].hIcolib );
 
 	hHookSkinIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnSkinIconsChanged);
 
@@ -234,21 +195,16 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 	return 0;
 }
 
-//
-// Startup initializing
-//
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
 	InitCRC32();
 
-//	for(int indx = 0; indx < ARRAY_SIZE(hIcons); indx++)
-//		hIcons[indx] = (HICON)LoadImage(hInst,MAKEINTRESOURCE(idIcons[indx]),IMAGE_ICON,GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),0);
+	Icon_Register(hInst, "fileAsMessage", iconList, SIZEOF(iconList));
 
 	hFileList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 
-	//CreateServiceFunction( SERVICE_NAME PS_GETCAPS, FEGetCaps );
 	CreateServiceFunction(SERVICE_NAME PSR_MESSAGE, OnRecvMessage);
 	CreateServiceFunction(SERVICE_NAME "/FESendFile", OnSendFile);
 	CreateServiceFunction(SERVICE_NAME "/FERecvFile", OnRecvFile);

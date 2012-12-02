@@ -20,20 +20,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern OBJLIST<TwitterProto> g_Instances;
 
-struct
+static IconItem icons[] =
 {
-	const char*  name;
-	const char*  descr;
-	int          defIconID;
-	const char*  section;
-}
-static const icons[] =
-{
-	{ "twitter",  "Twitter Icon",   IDI_TWITTER },
-	{ "tweet",    "Tweet",          IDI_TWITTER },
-	{ "reply",    "Reply to Tweet", IDI_TWITTER },
+	{ LPGEN("Twitter Icon"),   "twitter",  IDI_TWITTER },
+	{ LPGEN("Tweet"),          "tweet",    IDI_TWITTER },
+	{ LPGEN("Reply to Tweet"), "reply",    IDI_TWITTER },
 
-	{ "homepage", "Visit Homepage", 0, "core_main_2" }, 
+	{ LPGEN("Visit Homepage"), "homepage", 0 }, 
 };
 
 static HANDLE hIconLibItem[SIZEOF(icons)];
@@ -41,58 +34,18 @@ static HANDLE hIconLibItem[SIZEOF(icons)];
 // TODO: uninit
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, szFile, SIZEOF(szFile));
-
-	char setting_name[100];
-	char section_name[100];
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.pszName = setting_name;
-	sid.pszSection = section_name;
-    sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i=0; i<SIZEOF(icons); i++) 
-    {
-		if(icons[i].defIconID)
-		{
-			mir_snprintf(setting_name,sizeof(setting_name),"%s_%s","Twitter",icons[i].name);
-
-			if (icons[i].section)
-			{
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s/%s",LPGEN("Protocols"),
-					LPGEN("Twitter"), icons[i].section);
-			}
-			else
-			{
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s",LPGEN("Protocols"),
-					LPGEN("Twitter"));
-			}
-
-			sid.pszDescription = (char*)icons[i].descr;
-			sid.iDefaultIndex = -icons[i].defIconID;
-			hIconLibItem[i] = Skin_AddIcon(&sid);
-		}
-		else // External icons
-		{
-			hIconLibItem[i] = Skin_GetIconHandle(icons[i].section);
-		}
-	}	
+	Icon_Register(g_hInstance, "Protocols/Twitter", icons, SIZEOF(icons), "Twitter");
+	icons[ SIZEOF(icons)-1 ].hIcolib = Skin_GetIconHandle("core_main_2");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
-	{
-		if(strcmp(icons[i].name,name) == 0)
+		if(strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
-	}
+
 	return 0;
 }
-
-
 
 // Contact List menu stuff
 static HANDLE g_hMenuItems[2];

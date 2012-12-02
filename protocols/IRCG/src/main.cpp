@@ -89,10 +89,9 @@ static int ircProtoUninit( CIrcProto* ppro )
 
 extern "C" int __declspec(dllexport) Load(  )
 {
-
 	mir_getLP( &pluginInfo );
 
-	AddIcons();
+	InitIcons();
 	InitTimers();
 	InitServers();
 	InitContactMenus();
@@ -112,7 +111,6 @@ extern "C" int __declspec(dllexport) Load(  )
 extern "C" int __declspec(dllexport) Unload(void)
 {
 	UninitContactMenus();
-	UninitIcons();
 	UninitTimers();
 
 	g_Instances.destroy();

@@ -526,22 +526,6 @@ BYTE IsMarkedUserDefSession(int ses_count)
 	return DBGetContactSettingByte(NULL, __INTERNAL_NAME, szSessionName, 0);
 }
 
-HANDLE AddIcon(char *name, char *description, int idx)
-{
-	TCHAR tszPath[MAX_PATH];
-	GetModuleFileName(hinstance, tszPath, SIZEOF(tszPath));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = __INTERNAL_NAME;
-	sid.cx = sid.cy = 16;
-	sid.pszDescription = description;
-	sid.pszName = name;
-	sid.ptszDefaultFile = tszPath;
-	sid.iDefaultIndex = -idx;
-	return Skin_AddIcon( &sid);
-}
-
 void SavePosition(HWND hwnd, char *wndName)
 {
 	RECT rc;

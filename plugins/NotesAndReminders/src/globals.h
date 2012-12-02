@@ -138,7 +138,7 @@ extern int g_notesListGeom[4];
 extern int g_notesListColGeom[4];
 
 extern HWND HKHwnd;
-extern HANDLE hIconLibItem[];
+extern IconItem iconList[];
 
 // these defs are only used to emphasize that SYSTEMTIMEtoFILETIME/FILETIMEtoSYSTEMTIME only convert the data type,
 // it does not apply any time conversion/correction like UTC to local etc. (if input is local, then output is local too)

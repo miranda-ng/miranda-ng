@@ -2,7 +2,7 @@
 
 int hLangpack = 0;
 HINSTANCE hInst;
-HANDLE hServiceOpenFolder, hButtonTopToolbar, hIconOpenFolder;
+HANDLE hServiceOpenFolder, hButtonTopToolbar;
 
 PLUGININFOEX pluginInfoEx =
 {
@@ -17,6 +17,8 @@ PLUGININFOEX pluginInfoEx =
 	UNICODE_AWARE,    //not transient
 	MIID_OPENFOLDER // {10896143-7249-4b36-A408-6501A6B6035A}
 };
+
+static IconItem icon = { LPGEN("Open Folder"), "open", IDI_FOLDER };
 
 BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 {
@@ -45,7 +47,7 @@ static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton ttbb = { 0 };
 	ttbb.cbSize = sizeof( ttbb );
-	ttbb.hIconHandleUp = hIconOpenFolder;
+	ttbb.hIconHandleUp = icon.hIcolib;
 	ttbb.pszService = MS_OPENFOLDER_OPEN;
 	ttbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	ttbb.name = LPGEN("Open Folder");
@@ -56,22 +58,9 @@ static int ToptoolBarHook(WPARAM wParam, LPARAM lParam)
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	HookEvent(ME_TTB_MODULELOADED,ToptoolBarHook);
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName( hInst, szFile, MAX_PATH );
-
-	char szSettingName[64];
-	mir_snprintf(szSettingName, sizeof( szSettingName ), "%s_%s", OPENFOLDER_MODULE_NAME, "open");
-
+	
 	// icolib (0.7+)
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.cx = sid.cy = 16;
-	sid.ptszSection = LPGENT("Open Folder");
-	sid.pszName = szSettingName;
-	sid.ptszDescription = LPGENT("Open Folder");
-	sid.iDefaultIndex = -IDI_FOLDER;
-	hIconOpenFolder = Skin_AddIcon(&sid);
+	Icon_Register(hInst, LPGEN("Open Folder"), &icon, 1, OPENFOLDER_MODULE_NAME);
 
 	// hotkeys service (0.8+)
 	HOTKEYDESC hotkey = { 0 };
@@ -87,7 +76,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB|CMIF_TCHAR;
-	mi.icolibItem = hIconOpenFolder;
+	mi.icolibItem = icon.hIcolib;
 	mi.ptszName = LPGENT("Open Folder");
 	mi.pszService = MS_OPENFOLDER_OPEN;
 	Menu_AddMainMenuItem(&mi);

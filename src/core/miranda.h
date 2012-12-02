@@ -138,7 +138,6 @@ extern HANDLE hOkToExitEvent, hModulesLoadedEvent, hevLoadModule, hevUnloadModul
 /**** newplugins.cpp *******************************************************************/
 
 char* GetPluginNameByInstance(HINSTANCE hInstance);
-int   GetPluginLangByInstance(HINSTANCE hInstance);
 int   GetPluginFakeId(const MUUID &uuid, int hLangpack);
 
 /**** utf.cpp **************************************************************************/

@@ -993,7 +993,7 @@ private:
 	int     m_nMenuResourceItems;
 	HANDLE* m_phMenuResourceItems;
 
-	HANDLE* m_phIconLibItems;
+	HANDLE  m_hProtoIcon;
 };
 
 extern LIST<CJabberProto> g_Instances;

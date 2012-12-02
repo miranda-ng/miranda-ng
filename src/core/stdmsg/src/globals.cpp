@@ -26,43 +26,16 @@ static int dbaddedevent(WPARAM wParam, LPARAM lParam);
 static int ackevent(WPARAM wParam, LPARAM lParam);
 static int AvatarChanged(WPARAM wParam, LPARAM lParam);
 
-typedef struct IconDefStruct 
+IconItem iconList[] = 
 {
-	char *szName;
-	char *szDescr;
-	int defIconID;
-} IconList;
-
-static const IconList iconList[] = 
-{
-	{ "INCOMING", LPGEN("Incoming message (10x10)"), IDI_INCOMING },
-	{ "OUTGOING", LPGEN("Outgoing message (10x10)"), IDI_OUTGOING },
-	{ "NOTICE",   LPGEN("Notice (10x10)"),           IDI_NOTICE   },
+	{ LPGEN("Incoming message (10x10)"), "INCOMING", IDI_INCOMING, 10 },
+	{ LPGEN("Outgoing message (10x10)"), "OUTGOING", IDI_OUTGOING, 10 },
+	{ LPGEN("Notice (10x10)"),           "NOTICE",   IDI_NOTICE,   10 },
 };
-
-
-HANDLE hIconLibItem[SIZEOF(iconList)];
 
 static void InitIcons(void)
 {
-	char szSettingName[100];
-
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.pszSection = LPGEN("Messaging");
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.cx = 10; sid.cy = 10;
-
-	for (int i=0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, sizeof(szSettingName), "SRMM_%s", iconList[i].szName);
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}	
+	Icon_Register(g_hInst, LPGEN("Messaging"), iconList, SIZEOF(iconList), "SRMM");
 }
 
 static int IconsChanged(WPARAM wParam, LPARAM lParam)

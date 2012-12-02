@@ -507,6 +507,13 @@ static INT_PTR svcExtraIcon_Add(WPARAM wParam, LPARAM lParam)
 
 ///////////////////////////////////////////////////////////////////////////////
 
+static IconItem iconList[] =
+{
+	{ LPGEN("Chat Activity"), "ChatActivity",  IDI_CHAT   },
+	{ LPGEN("Male"),          "gender_male",   IDI_MALE   },
+	{ LPGEN("Female"),		  "gender_female", IDI_FEMALE }
+};
+
 void LoadExtraIconsModule()
 {
 	DWORD ret = CallService(MS_CLUI_GETCAPS, CLUICAPS_FLAGS2, 0);
@@ -525,28 +532,7 @@ void LoadExtraIconsModule()
 	hEventExtraImageListRebuilding = CreateHookableEvent(ME_CLIST_EXTRA_LIST_REBUILD);
 
 	// Icons
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(NULL, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = tszFile;
-	sid.pszSection = "Contact List";
-
-	sid.pszName = "ChatActivity";
-	sid.pszDescription = LPGEN("Chat Activity");
-	sid.iDefaultIndex = -IDI_CHAT;
-	Skin_AddIcon(&sid);
-
-	sid.pszName = "gender_male";
-	sid.pszDescription = LPGEN("Male");
-	sid.iDefaultIndex = -IDI_MALE;
-	Skin_AddIcon(&sid);
-
-	sid.pszName = "gender_female";
-	sid.pszDescription = LPGEN("Female");
-	sid.iDefaultIndex = -IDI_FEMALE;
-	Skin_AddIcon(&sid);
+	Icon_Register(NULL, "Contact List", iconList, SIZEOF(iconList));
 
 	// Hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, &ModulesLoaded);

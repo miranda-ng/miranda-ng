@@ -31,7 +31,6 @@ static HANDLE hContactMenu = NULL, hContactMenuMale = NULL, hContactMenuFemale =
 static HANDLE hSetMale = NULL, hSetFemale = NULL, hSetUndef = NULL, hGenderGetIcon = NULL;
 
 HANDLE g_hExtraIcon = NULL;
-HANDLE g_hIconMale, g_hIconFemale, g_hIconMenu;
 
 byte bEnableClistIcon = 1; // do we need clist icon?
 byte bDrawNoGenderIcon = 0; // enable icon when no info?
@@ -52,6 +51,13 @@ sizeof(PLUGININFOEX),
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,      //doesn't replace anything built-in
 	{0xfb1c17e0, 0x77fc, 0x45a7, {0x9c, 0x8b, 0xe2, 0xbe, 0xf4, 0xf5, 0x6b, 0x28}} /* FB1C17E0-77FC-45A7-9C8B-E2BEF4F56B28 */
+};
+
+static IconItem iconList[] = 
+{
+	{ LPGEN("Male"), "male_icon", IDI_MALE },
+	{ LPGEN("Female"), "female_icon", IDI_FEMALE },
+	{ LPGEN("No info"), "menu_icon", IDI_UNDEF }
 };
 
 extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
@@ -112,9 +118,9 @@ INT_PTR GetIcon(WPARAM wParam, LPARAM lParam)
 	
 	if (gender > 0) {
 		if (gender == 77)
-			return (INT_PTR)Skin_GetIconByHandle(g_hIconMale); 
+			return (INT_PTR)Skin_GetIconByHandle(iconList[0].hIcolib); 
 		if (gender == 70)
-			return (INT_PTR)Skin_GetIconByHandle(g_hIconFemale);
+			return (INT_PTR)Skin_GetIconByHandle(iconList[1].hIcolib);
 	}
 	
 	return 0;
@@ -209,29 +215,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 		HookEvent(ME_CLIST_PREBUILDCONTACTMENU, onPrebuildContactMenu);
 	bMetaAvail = (ServiceExists(MS_MC_GETMETACONTACT) != 0); 
 	
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
-
 	//IcoLib support
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;	
-	sid.pszSection = LPGEN("Gender");
-	sid.ptszDefaultFile = szFile;
-		
-	sid.pszDescription = LPGEN("Male");
-	sid.pszName = "male_icon";
-	sid.iDefaultIndex = -IDI_MALE;
-	g_hIconMale = Skin_AddIcon(&sid);
-		
-	sid.pszDescription = LPGEN("Female");
-	sid.pszName = "female_icon";
-	sid.iDefaultIndex = -IDI_FEMALE;
-	g_hIconFemale = Skin_AddIcon(&sid);
-		
-	sid.pszDescription = LPGEN("No info");
-	sid.pszName = "menu_icon";
-	sid.iDefaultIndex = -IDI_UNDEF;
-	g_hIconMenu = Skin_AddIcon(&sid);
+	Icon_Register(g_hInst, "Gender", iconList, SIZEOF(iconList));
 		
 	// Adding clist extra icon
 	g_hExtraIcon = ExtraIcon_Register("gender", "Gender", "menu_icon");
@@ -249,7 +234,7 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 		{
 			CLISTMENUITEM mi = { sizeof(mi) };
 			mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-			mi.icolibItem = g_hIconMenu;
+			mi.icolibItem = iconList[2].hIcolib;
 			mi.pszPopupName = (char*)-1;
 			mi.position = 203;
 			mi.ptszName = LPGENT("Set Gender");
@@ -261,12 +246,12 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 			mi.pszPopupName = (char*)hContactMenu;
 			
 			mi.ptszName = LPGENT("Male");
-			mi.icolibItem = g_hIconMale;
+			mi.icolibItem = iconList[0].hIcolib;
 			mi.pszService = "Gender/MenuItemSetMale";
 			hContactMenuMale = Menu_AddContactMenuItem(&mi);
 			
 			mi.ptszName = LPGENT("Female");
-			mi.icolibItem = g_hIconFemale;
+			mi.icolibItem = iconList[1].hIcolib;
 			mi.pszService = "Gender/MenuItemSetFemale";
 			hContactMenuFemale = Menu_AddContactMenuItem(&mi);
 			
@@ -281,14 +266,14 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 			mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 			mi.position = 1001;
 			mi.ptszName = LPGENT("Set Male");
-			mi.icolibItem = g_hIconMale;
+			mi.icolibItem = iconList[0].hIcolib;
 			mi.pszService = "Gender/MenuItemSetMale";
 			hContactMenuMale = Menu_AddContactMenuItem(&mi);
 			
 			mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 			mi.position = 1002;
 			mi.ptszName = LPGENT("Set Female");
-			mi.icolibItem = g_hIconFemale;
+			mi.icolibItem = iconList[1].hIcolib;
 			mi.pszService = "Gender/MenuItemSetFemale";
 			hContactMenuFemale = Menu_AddContactMenuItem(&mi);
 			

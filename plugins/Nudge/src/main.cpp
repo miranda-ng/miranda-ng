@@ -5,7 +5,7 @@
 
 
 int nProtocol = 0;
-static HANDLE g_hEventModulesLoaded = NULL, hEventOptionsInitialize = NULL, g_hIcon = NULL, g_hEventDbWindowEvent = NULL, g_hEventToolbarLoaded = NULL, g_hEventButtonPressed = NULL, g_hEventAccountsChanged = NULL;
+static HANDLE g_hEventModulesLoaded = NULL, hEventOptionsInitialize = NULL, g_hEventDbWindowEvent = NULL, g_hEventToolbarLoaded = NULL, g_hEventButtonPressed = NULL, g_hEventAccountsChanged = NULL;
 HINSTANCE hInst;
 
 NudgeElementList *NudgeList = NULL;
@@ -363,20 +363,15 @@ void RegisterToDbeditorpp(void)
         CallService("DBEditorpp/RegisterSingleModule", (WPARAM)"Nudge", 0);
 }
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Nudge as Default"), "Nudge_Default", IDI_NUDGE }
+};
+
 void LoadIcons(void)
 {
 	//Load icons
-	TCHAR szFilename[MAX_PATH];
-	GetModuleFileName(hInst,szFilename,MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = LPGEN("Nudge");
-	sid.ptszDefaultFile = szFilename;
-	sid.pszName = "Nudge_Default";
-	sid.pszDescription = LPGEN("Nudge as Default");
-	sid.iDefaultIndex = -IDI_NUDGE;
-	g_hIcon = Skin_AddIcon(&sid);
+	Icon_Register(hInst, LPGEN("Nudge"), iconList, SIZEOF(iconList));
 }
 
 // Nudge support
@@ -399,7 +394,7 @@ static int TabsrmmButtonInit(WPARAM wParam, LPARAM lParam)
 	bbd.ptszTooltip = LPGENT("Send Nudge");
 	bbd.dwDefPos = 300;
 	bbd.bbbFlags = BBBF_ISIMBUTTON|BBBF_ISLSIDEBUTTON|BBBF_CANBEHIDDEN;
-	bbd.hIcon = g_hIcon;
+	bbd.hIcon = iconList[0].hIcolib;
 	bbd.dwButtonID = 6000;
 	bbd.iButtonWidth = 0;
 	CallService (MS_BB_ADDBUTTON, 0, (LPARAM)&bbd);
@@ -550,7 +545,7 @@ void LoadPopupClass()
 		ppc.flags = PCF_TCHAR;
 		ppc.pszName = "Nudge";
 		ppc.ptszDescription = LPGENT("Show Nudge");
-		ppc.hIcon = Skin_GetIconByHandle(g_hIcon);
+		ppc.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
 		ppc.colorBack = NULL;
 		ppc.colorText = NULL;
 		ppc.iSeconds = 0;

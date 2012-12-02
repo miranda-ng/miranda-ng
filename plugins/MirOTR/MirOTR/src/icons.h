@@ -6,7 +6,6 @@
 #define ICON_OTR (MODULENAME"_otr")
 
 void InitIcons();
-void DeinitIcons();
 HICON LoadIcon(const char* name, int big);
 HANDLE GetIconHandle(const char* name);
 void ReleaseIcon(const char* name, int big);

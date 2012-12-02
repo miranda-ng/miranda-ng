@@ -27,6 +27,9 @@ HANDLE CheckThread = NULL, hNetlibUser = NULL;
 POPUP_OPTIONS PopupOptions = {0};
 aPopups PopupsList[POPUPS];
 
+/////////////////////////////////////////////////////////////////////////////////////
+// we don't use Icon_Register here because it should work under Miranda IM too
+
 struct
 {
 	char *szIconName;

@@ -58,18 +58,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD /* mira
 // MirandaInterfaces - returns the protocol interface to the core
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_SMILEY, MIID_LAST};
 
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static IconItem icon = { LPGEN("Button Smiley"), "SmileyAdd_ButtonSmiley", IDI_SMILINGICON };
+
 static int ModulesLoaded(WPARAM, LPARAM)
 {
-	char path[MAX_PATH];
-	GetModuleFileNameA(g_hInst, path, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(SKINICONDESC) };
-	sid.pszName = "SmileyAdd_ButtonSmiley";
-	sid.pszSection = "SmileyAdd";
-	sid.pszDescription = LPGEN("Button Smiley");
-	sid.pszDefaultFile = path;
-	sid.iDefaultIndex = -IDI_SMILINGICON;
-	HANDLE hSkinIcon = Skin_AddIcon(&sid);
+	Icon_Register(g_hInst, "SmileyAdd", &icon, 1);
 
 	INT_PTR temp = CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 	metaProtoName = mir_strdup(temp == CALLSERVICE_NOTFOUND ? NULL : (char*)temp);
@@ -78,7 +73,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB;
 	mi.popupPosition = 2000070050;
 	mi.position = 2000070050;
-	mi.icolibItem = hSkinIcon;
+	mi.icolibItem = icon.hIcolib;
 	mi.pszPopupName = (char*)-1;
 	mi.pszName = "Assign Smiley Category";
 	hContactMenuItem = Menu_AddContactMenuItem(&mi);

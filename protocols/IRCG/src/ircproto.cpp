@@ -78,7 +78,6 @@ CIrcProto::CIrcProto( const char* szModuleName, const TCHAR* tszUserName ) :
 	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )text );
 
 	CList_SetAllOffline(true);
-	AddIcons();
 
 	IRC_MAP_ENTRY("PING", PING)
 	IRC_MAP_ENTRY("JOIN", JOIN)

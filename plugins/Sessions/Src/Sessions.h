@@ -46,8 +46,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "Version.h"
 #include "Resource.h"
 
-extern HANDLE hibChecked;
-extern HANDLE hibNotChecked;
+extern IconItem iconList[];
 
 #define MIIM_STRING	0x00000040
 
@@ -74,7 +73,6 @@ extern BOOL g_bIncompletedSave;
 #define TIMERID_LOAD		  12
 #define TIMERID_SHOW          11
 #define TIMERID_REBUILDAFTER   14
-
 
 #define SESSIONS_NAME "sessions"
 

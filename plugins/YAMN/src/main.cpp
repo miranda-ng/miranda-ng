@@ -241,46 +241,24 @@ int SystemModulesLoaded(WPARAM, LPARAM)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-struct TIconListItem
+static IconItem iconList[] =
 {
-	char*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIcon;
-};
-
-static TIconListItem iconList[] =
-{
-
-	{ LPGEN("Check mail"),         "YAMN_Check",       IDI_CHECKMAIL,  0 },
-	{ LPGEN("Launch application"), "YAMN_Launch",      IDI_LAUNCHAPP,  0 },
-	{ LPGEN("New Mail"),           "YAMN_NewMail",     IDI_NEWMAIL,    0 },
-	{ LPGEN("Connect Fail"),       "YAMN_ConnectFail", IDI_BADCONNECT, 0 },
+	{ LPGEN("Check mail"),         "YAMN_Check",       IDI_CHECKMAIL  },
+	{ LPGEN("Launch application"), "YAMN_Launch",      IDI_LAUNCHAPP  },
+	{ LPGEN("New Mail"),           "YAMN_NewMail",     IDI_NEWMAIL    },
+	{ LPGEN("Connect Fail"),       "YAMN_ConnectFail", IDI_BADCONNECT },
 };
 
 static void LoadIcons()
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(YAMNVar.hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = "YAMN";
-
-	for (int i = 0, k = 0; i < SIZEOF(iconList); i++) {
-		sid.pszName = iconList[i].szName;
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIcon = Skin_AddIcon(&sid);
-	}
+	Icon_Register(YAMNVar.hInst, "YAMN", iconList, SIZEOF(iconList));
 }
 
 HANDLE WINAPI g_GetIconHandle( int idx )
 {
 	if ( idx >= SIZEOF(iconList))
 		return NULL;
-	return iconList[idx].hIcon;
+	return iconList[idx].hIcolib;
 }
 
 HICON WINAPI g_LoadIconEx( int idx, bool big )

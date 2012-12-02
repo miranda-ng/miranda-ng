@@ -26,13 +26,9 @@ HINSTANCE hInst;
 HCURSOR     hCurSplitNS, hCurSplitWE;
 HANDLE  g_hMainThread=NULL;
 
-extern HINSTANCE hInst;
-
 HANDLE hServiceShowContactHistory, hServiceDeleteAllContactHistory, hServiceExecuteTask;
 HANDLE *hEventIcons = NULL;
-int iconsNum;
-HANDLE hPlusIcon, hMinusIcon, hFindNextIcon, hFindPrevIcon;
-HANDLE hPlusExIcon, hMinusExIcon;
+int iconsNum = 3;
 HANDLE hToolbarButton;
 HGENMENU hContactMenu, hDeleteContactMenu;
 HGENMENU hTaskMainMenu;
@@ -193,63 +189,30 @@ void InitTaskMenuItems()
 	}
 }
 
+IconItem iconList[] =
+{
+	{ LPGEN("Incoming message"), "BasicHistory_in", IDI_INM },
+	{ LPGEN("Outgoing message"), "BasicHistory_out", IDI_OUTM },
+	{ LPGEN("Status change"),    "BasicHistory_status", IDI_STATUS },
+	{ LPGEN("Show Contacts"),    "BasicHistory_show", IDI_SHOW },
+	{ LPGEN("Hide Contacts"),    "BasicHistory_hide", IDI_HIDE },
+	{ LPGEN("Find Next"),        "BasicHistory_findnext", IDI_FINDNEXT },
+	{ LPGEN("Find Previous"),    "BasicHistory_findprev", IDI_FINDPREV },
+	{ LPGEN("Plus in export"),   "BasicHistory_plusex", IDI_PLUSEX },
+	{ LPGEN("Minus in export"),  "BasicHistory_minusex", IDI_MINUSEX },
+};										 
+
 void InitIcolib()
 {
-	TCHAR stzFile[MAX_PATH];
-	GetModuleFileName(hInst, stzFile, MAX_PATH);
+}
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = stzFile;
-	sid.pszSection = LPGEN("History");
-	sid.flags = SIDF_PATH_TCHAR;
+HICON LoadIconEx(int iconId, int big)
+{
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if ( iconList[i].defIconID == iconId)
+			return Skin_GetIconByHandle(iconList[i].hIcolib, big);
 
-	iconsNum = 3;
-	hEventIcons = new HANDLE[iconsNum];
-	sid.pszName = "BasicHistory_in";
-	sid.pszDescription = LPGEN("Incoming message");
-	sid.iDefaultIndex = -IDI_INM;
-	hEventIcons[0] = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_out";
-	sid.pszDescription = LPGEN("Outgoing message");
-	sid.iDefaultIndex = -IDI_OUTM;
-	hEventIcons[1] = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_status";
-	sid.pszDescription = LPGEN("Statuschange");
-	sid.iDefaultIndex = -IDI_STATUS;
-	hEventIcons[2] = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_show";
-	sid.pszDescription = LPGEN("Show Contacts");
-	sid.iDefaultIndex = -IDI_SHOW;
-	hPlusIcon = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_hide";
-	sid.pszDescription = LPGEN("Hide Contacts");
-	sid.iDefaultIndex = -IDI_HIDE;
-	hMinusIcon = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_findnext";
-	sid.pszDescription = LPGEN("Find Next");
-	sid.iDefaultIndex = -IDI_FINDNEXT;
-	hFindNextIcon = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_findprev";
-	sid.pszDescription = LPGEN("Find Previous");
-	sid.iDefaultIndex = -IDI_FINDPREV;
-	hFindPrevIcon = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_plusex";
-	sid.pszDescription = LPGEN("Plus in export");
-	sid.iDefaultIndex = -IDI_PLUSEX;
-	hPlusExIcon = Skin_AddIcon(&sid);
-
-	sid.pszName = "BasicHistory_minusex";
-	sid.pszDescription = LPGEN("Minus in export");
-	sid.iDefaultIndex = -IDI_MINUSEX;
-	hMinusExIcon = Skin_AddIcon(&sid);
+	return 0;
 }
 
 INT_PTR ShowContactHistory(WPARAM wParam, LPARAM lParam)
@@ -328,16 +291,22 @@ extern "C" int __declspec(dllexport) Load(void)
 	DuplicateHandle(GetCurrentProcess(),GetCurrentThread(),GetCurrentProcess(),&g_hMainThread,0,FALSE,DUPLICATE_SAME_ACCESS);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
+
 	hCurSplitNS = LoadCursor(NULL, IDC_SIZENS);
 	hCurSplitWE = LoadCursor(NULL, IDC_SIZEWE);
+
 	hServiceShowContactHistory = CreateServiceFunction(MS_HISTORY_SHOWCONTACTHISTORY, ShowContactHistory);
 	hServiceDeleteAllContactHistory = CreateServiceFunction(MS_HISTORY_DELETEALLCONTACTHISTORY, HistoryWindow::DeleteAllUserHistory);
 	hServiceExecuteTask = CreateServiceFunction(MS_HISTORY_EXECUTE_TASK, ExecuteTaskService);
+
 	Options::instance = new Options();
+
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
 	HookEvent(ME_OPT_INITIALISE, Options::InitOptions);
+
 	EventList::Init();
-	InitIcolib();
+	
+	Icon_Register(hInst, LPGEN("History"), iconList, SIZEOF(iconList));
 	return 0;
 }
 

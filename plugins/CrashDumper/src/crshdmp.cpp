@@ -72,10 +72,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirVers
 // MirandaInterfaces - returns the protocol interface to the core
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_SERVICEMODE, MIID_CRASHDUMP, MIID_LAST };
 
-HANDLE hHooks[5];
-HANDLE hServices[6];
-
-
 INT_PTR StoreVersionInfoToFile(WPARAM, LPARAM lParam)
 {
 	CreateDirectoryTree(VersionInfoFolder);
@@ -218,24 +214,24 @@ static int ToolbarModulesLoaded(WPARAM, LPARAM)
 
 	tbb.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Version Information To Clipboard");
-	tbb.hIconHandleUp = GetIconHandle("storeToClip");
+	tbb.hIconHandleUp = GetIconHandle(IDI_VITOCLIP);
 	tbb.dwFlags = TTBBF_VISIBLE;
 	TopToolbar_AddButton(&tbb);
 
 	tbb.pszService = MS_CRASHDUMPER_STORETOFILE;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Version Information To File");
-	tbb.hIconHandleUp = GetIconHandle("storeToFile");
+	tbb.hIconHandleUp = GetIconHandle(IDI_VITOFILE);
 	tbb.dwFlags = 0;
 	TopToolbar_AddButton(&tbb);
 
 	tbb.pszService = MS_CRASHDUMPER_VIEWINFO;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Show Version Information");
-	tbb.hIconHandleUp = GetIconHandle("showInfo");
+	tbb.hIconHandleUp = GetIconHandle(IDI_VISHOW);
 	TopToolbar_AddButton(&tbb);
 
 	tbb.pszService = MS_CRASHDUMPER_UPLOAD;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Upload Version Information");
-	tbb.hIconHandleUp = GetIconHandle("uploadInfo");
+	tbb.hIconHandleUp = GetIconHandle(IDI_VIUPLOAD);
 	TopToolbar_AddButton(&tbb);
 	return 0;
 }
@@ -262,10 +258,8 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	FoldersPathChanged(0, 0);
 
-
-
-	hHooks[2] = HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
-	if (hHooks[3] == NULL) hHooks[3] = HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
+	HookEvent(ME_FOLDERS_PATH_CHANGED, FoldersPathChanged);
+	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
 
 	UploadInit();
 
@@ -273,7 +267,7 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	mi.popupPosition = 2000089999;
 	mi.position = 2000089999;
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = GetIconHandle("versionInfo");
+	mi.icolibItem = GetIconHandle(IDI_VI);
 	mi.ptszName = LPGENT("Version Information");
 	mi.pszPopupName = (char *)-1;
 	HANDLE hMenuRoot = Menu_AddMainMenuItem(&mi);
@@ -284,33 +278,33 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 	mi.position = 2000089995;
 	mi.ptszName = LPGENT("Copy to clipboard");
-	mi.icolibItem = GetIconHandle("storeToClip");
+	mi.icolibItem = GetIconHandle(IDI_VITOCLIP);
 	mi.pszService = MS_CRASHDUMPER_STORETOCLIP;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 2000089996;
 	mi.ptszName = LPGENT("Store to file");
-	mi.icolibItem = GetIconHandle("storeToFile");
+	mi.icolibItem = GetIconHandle(IDI_VITOFILE);
 	mi.pszService = MS_CRASHDUMPER_STORETOFILE;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position  = 2000089997;
 	mi.ptszName = LPGENT("Show");
-	mi.icolibItem = GetIconHandle("showInfo");
+	mi.icolibItem = GetIconHandle(IDI_VISHOW);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 1;
 	mi.position  = 2000089998;
 	mi.ptszName = LPGENT("Show with DLLs");
-	mi.icolibItem = GetIconHandle("showInfo");
+	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.popupPosition = 0;
 	mi.position  = 2000089999;
 	mi.ptszName = LPGENT("Upload");
-	mi.icolibItem = GetIconHandle("uploadInfo");
+	mi.icolibItem = GetIconHandle(IDI_VIUPLOAD);
 	mi.pszService = MS_CRASHDUMPER_UPLOAD;
 	Menu_AddMainMenuItem(&mi);
 
@@ -341,12 +335,10 @@ static int ModulesLoaded(WPARAM, LPARAM)
 	hk.pszService = MS_CRASHDUMPER_VIEWINFO;
 	Hotkey_Register(&hk);
 
-	if (servicemode) ViewVersionInfo(0, 0);
-	else
-	{
-		if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
-			UploadVersionInfo(0, 0xa1);
-	}
+	if (servicemode)
+		ViewVersionInfo(0, 0);
+	else if (DBGetContactSettingByte(NULL, PluginName, "UploadChanged", 0) && !ProcessVIHash(false))
+		UploadVersionInfo(0, 0xa1);
 
 	CheckForOtherCrashReportingPlugins();
 	return 0;
@@ -354,33 +346,22 @@ static int ModulesLoaded(WPARAM, LPARAM)
 
 static int PreShutdown(WPARAM, LPARAM)
 {
-	unsigned i;
-
 	DestroyAllWindows();
 	UploadClose();
-
-	for (i=0; i<SIZEOF(hHooks); ++i)
-		UnhookEvent(hHooks[i]);
-
-	for (i=0; i<SIZEOF(hServices); ++i)
-		DestroyServiceFunction(hServices[i]);
-
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
 {
-
-
 	clsdates = DBGetContactSettingByte(NULL, PluginName, "ClassicDates", 1) != 0;
 
 	dtsubfldr = DBGetContactSettingByte(NULL, PluginName, "SubFolders", 1) != 0;
 	mir_getLP(&pluginInfoEx);
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
-	hHooks[1] = HookEvent(ME_OPT_INITIALISE, OptionsInit);
-	hHooks[3] = HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
-	hHooks[4] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);
+	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	HookEvent(ME_TTB_MODULELOADED, ToolbarModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
 
 	packlcid = (LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0);
 
@@ -388,16 +369,12 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	InitExceptionHandler();
 
-	hServices[0] = CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
-	hServices[1] = CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
-	hServices[2] = CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
-	hServices[3] = CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
-	hServices[4] = CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
-	hServices[5] = CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
-
-	//	unsigned *p = (unsigned*)0x15;
-	//	*p = 324;
-
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOFILE, StoreVersionInfoToFile);
+	CreateServiceFunction(MS_CRASHDUMPER_STORETOCLIP, StoreVersionInfoToClipboard);
+	CreateServiceFunction(MS_CRASHDUMPER_VIEWINFO, ViewVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_UPLOAD, UploadVersionInfo);
+	CreateServiceFunction(MS_CRASHDUMPER_URL, OpenUrl);
+	CreateServiceFunction(MS_SERVICEMODE_LAUNCH, ServiceModeLaunch);
 	return 0;
 }
 

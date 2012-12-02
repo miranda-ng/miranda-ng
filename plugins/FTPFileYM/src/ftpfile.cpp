@@ -70,53 +70,26 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_FTPFILE
 
 //------------ INIT FUNCTIONS ------------//
 
-struct _tag_iconList
+static IconItem iconList[] =
 {
-	char *szDescr;
-	char *szName;
-	int  defIconID;
-}
-static const iconList[6] =
-{
-	{ "Send file",			"main",			IDI_MENU		},
-	{ "Clipboard",			"clipboard",	IDI_CLIPBOARD	},
-	{ "Pause",				"pause",		IDI_PAUSE		},
-	{ "Resume",				"resume",		IDI_RESUME		},
-	{ "Delete from list",	"clear",		IDI_CLEAR		},
-	{ "Delete from FTP",	"delete",		IDI_DELETE		}
+	{ "FTP Server 1",     "ftp1", 		IDI_FTP0       },
+	{ "FTP Server 2",     "ftp2", 		IDI_FTP1       },
+	{ "FTP Server 3",     "ftp3", 		IDI_FTP2       },
+	{ "FTP Server 4",     "ftp4", 		IDI_FTP3       },
+	{ "FTP Server 5",     "ftp5", 		IDI_FTP4       },
+	{ "Send file",        "main",       IDI_MENU       },
+	{ "Clipboard",        "clipboard",  IDI_CLIPBOARD  },
+	{ "Pause",            "pause",      IDI_PAUSE      },
+	{ "Resume",           "resume",     IDI_RESUME     },
+	{ "Delete from list", "clear",      IDI_CLEAR      },
+	{ "Delete from FTP",  "delete",     IDI_DELETE     }
 };
 
 static HANDLE hIconlibItem[ServerList::FTP_COUNT + SIZEOF(iconList)];
 
 static void InitIcolib()
 {
-	char szSettingName[100];
-	char szDesc[100];
-
-	TCHAR stzFile[MAX_PATH];
-	GetModuleFileName(hInst, stzFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = stzFile;
-	sid.pszSection = MODULE;
-	sid.pszDescription = szDesc;
-	sid.pszName = szSettingName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < ServerList::FTP_COUNT; i++)  {
-		mir_snprintf(szDesc, sizeof(szDesc), Translate("FTP Server %d"), i + 1);
-		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_ftp%d", MODULE, i);
-		sid.iDefaultIndex = -(IDI_FTP0 + i);
-		hIconlibItem[i] = Skin_AddIcon(&sid);
-	}
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", MODULE, iconList[i].szName);
-		sid.pszDescription = Translate(iconList[i].szDescr);
-		sid.iDefaultIndex = -(iconList[i].defIconID);
-		hIconlibItem[i + ServerList::FTP_COUNT] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, MODULE, iconList, SIZEOF(iconList), MODULE);
 }
 
 void InitMenuItems()

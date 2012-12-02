@@ -90,53 +90,29 @@ INT_PTR PluginMenuCommandDeleteReminders(WPARAM w,LPARAM l)
 	return 0;
 }
 
-struct
+IconItem iconList[] =
 {
-	char* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] =
-{
-	{ LPGEN("New Reminder"), "AddReminder", IDI_ADDREMINDER},
-	{ LPGEN("Delete All Notes"), "DeleteIcon", IDI_DELETEICON},
-	{ LPGEN("New Note"), "NoteIcon", IDI_NOTEICON},
-	{ LPGEN("Show/Hide Notes"), "ShowHide", IDI_SHOWHIDE},
-	{ LPGEN("On Top Caption Icon"), "CaptionIcon", IDI_CAPTIONICON},
-	{ LPGEN("Delete All Reminders"), "DeleteReminder", IDI_DELETEREMINDER},
-	{ LPGEN("View Reminders"), "ViewReminders", IDI_VIEWREMINDERS},
-	{ LPGEN("Not on Top Caption Icon"), "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP},
-	{ LPGEN("Hide Note Icon"), "HideNote", IDI_HIDENOTE},
-	{ LPGEN("Remove Note Icon"), "RemoveNote", IDI_REMOVENOTE},
-	{ LPGEN("Reminder Icon"), "Reminder", IDI_REMINDER},
-	{ LPGEN("Bring All to Front"), "BringFront", IDI_BRINGFRONT},
-	{ LPGEN("Play Sound Icon"), "PlaySound", IDI_PLAYSOUND},
-	{ LPGEN("View Notes"), "ViewNotes", IDI_VIEWNOTES},
-	{ LPGEN("New Note"), "NewNote", IDI_NOTEICON},
-	{ LPGEN("New Reminder"), "NewReminder", IDI_ADDREMINDER}
+	{ LPGEN("New Reminder"),            "AddReminder",       IDI_ADDREMINDER },
+	{ LPGEN("Delete All Notes"),        "DeleteIcon",        IDI_DELETEICON },
+	{ LPGEN("New Note"),                "NoteIcon",          IDI_NOTEICON },
+	{ LPGEN("Show/Hide Notes"),         "ShowHide",          IDI_SHOWHIDE },
+	{ LPGEN("On Top Caption Icon"),     "CaptionIcon",       IDI_CAPTIONICON },
+	{ LPGEN("Delete All Reminders"),    "DeleteReminder",    IDI_DELETEREMINDER },
+	{ LPGEN("View Reminders"),          "ViewReminders",     IDI_VIEWREMINDERS },
+	{ LPGEN("Not on Top Caption Icon"), "CaptionIconNotTop", IDI_CAPTIONICONNOTTOP },
+	{ LPGEN("Hide Note Icon"),          "HideNote",          IDI_HIDENOTE },
+	{ LPGEN("Remove Note Icon"),        "RemoveNote",        IDI_REMOVENOTE },
+	{ LPGEN("Reminder Icon"),           "Reminder",          IDI_REMINDER },
+	{ LPGEN("Bring All to Front"),      "BringFront",        IDI_BRINGFRONT },
+	{ LPGEN("Play Sound Icon"),         "PlaySound",         IDI_PLAYSOUND },
+	{ LPGEN("View Notes"),              "ViewNotes",         IDI_VIEWNOTES },
+	{ LPGEN("New Note"),                "NewNote",           IDI_NOTEICON },
+	{ LPGEN("New Reminder"),            "NewReminder",       IDI_ADDREMINDER }
 };
-
-HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void InitIcons(void)
 {
-	char szSettingName[100];
-
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hinstance, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.pszSection = MODULENAME;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", MODULENAME, iconList[i].szName);
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}	
+	Icon_Register(hinstance, MODULENAME, iconList, SIZEOF(iconList), MODULENAME);
 }
 
 int OnOptInitialise(WPARAM w, LPARAM L)
@@ -160,12 +136,12 @@ int OnTopToolBarInit(WPARAM w,LPARAM L)
 	ttb.cbSize = sizeof(TTBButton);
 	ttb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 
-	ttb.hIconHandleUp = hIconLibItem[14];
+	ttb.hIconHandleUp = iconList[14].hIcolib;
 	ttb.pszService = MODULENAME"/MenuCommandAddNew";
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Note");
 	TopToolbar_AddButton(&ttb);
 
-	ttb.hIconHandleUp = hIconLibItem[15];
+	ttb.hIconHandleUp = iconList[15].hIcolib;
 	ttb.pszService = MODULENAME"/MenuCommandNewReminder";
 	ttb.name = ttb.pszTooltipUp = LPGEN("Add New Reminder");
 	TopToolbar_AddButton(&ttb);
@@ -214,56 +190,56 @@ int OnModulesLoaded(WPARAM wparam,LPARAM lparam)
 	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 
 	mi.position = 1600000000;
-	mi.icolibItem = hIconLibItem[2];
+	mi.icolibItem = iconList[2].hIcolib;
 	mi.ptszName = LPGENT("New &Note");
 	mi.pszService = MODULENAME"/MenuCommandAddNew";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600000001;
-	mi.icolibItem = hIconLibItem[0];
+	mi.icolibItem = iconList[0].hIcolib;
 	mi.ptszName = LPGENT("New &Reminder");
 	mi.pszService = MODULENAME"/MenuCommandNewReminder";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600100000;
-	mi.icolibItem = hIconLibItem[3];
+	mi.icolibItem = iconList[3].hIcolib;
 	mi.ptszName = LPGENT("&Show / Hide Notes");
 	mi.pszService = MODULENAME"/MenuCommandShowHide";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600100001;
-	mi.icolibItem = hIconLibItem[13];
+	mi.icolibItem = iconList[13].hIcolib;
 	mi.ptszName = LPGENT("Vie&w Notes");
 	mi.pszService = MODULENAME"/MenuCommandViewNotes";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600100002;
-	mi.icolibItem = hIconLibItem[1];
+	mi.icolibItem = iconList[1].hIcolib;
 	mi.ptszName = LPGENT("&Delete All Notes");
 	mi.pszService = MODULENAME"/MenuCommandDeleteAll";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600100003;
-	mi.icolibItem = hIconLibItem[11];
+	mi.icolibItem = iconList[11].hIcolib;
 	mi.ptszName = LPGENT("&Bring All to Front");
 	mi.pszService = MODULENAME"/MenuCommandBringAllFront";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600200000;
-	mi.icolibItem = hIconLibItem[6];
+	mi.icolibItem = iconList[6].hIcolib;
 	mi.ptszName = LPGENT("&View Reminders");
 	mi.pszService = MODULENAME"/MenuCommandViewReminders";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position = 1600200001;
-	mi.icolibItem = hIconLibItem[5];
+	mi.icolibItem = iconList[5].hIcolib;
 	mi.ptszName = LPGENT("D&elete All Reminders");
 	mi.pszService = MODULENAME"/MenuCommandDeleteReminders";
 	if (g_AddContListMI) Menu_AddContactMenuItem(&mi);

@@ -426,72 +426,52 @@ void RegisterFonts( void )
 
 // add icons to the skinning module
 
-struct
+static IconItem iconList[] =
 {
-	int	size;
-	char* szSection;
-	char* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] =
-{
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Window Icon"),           "chat_window",    IDI_CHANMGR    },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Text colour"),           "chat_fgcol",     IDI_COLOR      },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Background colour"),     "chat_bkgcol",    IDI_BKGCOLOR   },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Bold"),                  "chat_bold",      IDI_BBOLD      },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Italics"),               "chat_italics",   IDI_BITALICS   },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Underlined"),            "chat_underline", IDI_BUNDERLINE },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Smiley button"),         "chat_smiley",    IDI_BSMILEY    },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Room history"),          "chat_history",   IDI_HISTORY    },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Room settings"),         "chat_settings",  IDI_TOPICBUT   },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Event filter disabled"), "chat_filter",    IDI_FILTER     },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Event filter enabled"),  "chat_filter2",   IDI_FILTER2    },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Hide userlist"),         "chat_nicklist",  IDI_NICKLIST   },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Show userlist"),         "chat_nicklist2", IDI_NICKLIST2  },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Icon overlay"),          "chat_overlay",   IDI_OVERLAY    },
-	{	 0, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Close"),                 "chat_close",     IDI_CLOSE      },
+	{ LPGEN("Window Icon"),           "chat_window",           IDI_CHANMGR,     0 },
+	{ LPGEN("Text colour"),           "chat_fgcol",            IDI_COLOR,       0 },
+	{ LPGEN("Background colour"),     "chat_bkgcol",           IDI_BKGCOLOR,    0 },
+	{ LPGEN("Bold"),                  "chat_bold",             IDI_BBOLD,       0 },
+	{ LPGEN("Italics"),               "chat_italics",          IDI_BITALICS,    0 },
+	{ LPGEN("Underlined"),            "chat_underline",        IDI_BUNDERLINE,  0 },
+	{ LPGEN("Smiley button"),         "chat_smiley",           IDI_BSMILEY,     0 },
+	{ LPGEN("Room history"),          "chat_history",          IDI_HISTORY,     0 },
+	{ LPGEN("Room settings"),         "chat_settings",         IDI_TOPICBUT,    0 },
+	{ LPGEN("Event filter disabled"), "chat_filter",           IDI_FILTER,      0 },
+	{ LPGEN("Event filter enabled"),  "chat_filter2",          IDI_FILTER2,     0 },
+	{ LPGEN("Hide userlist"),         "chat_nicklist",         IDI_NICKLIST,    0 },
+	{ LPGEN("Show userlist"),         "chat_nicklist2",        IDI_NICKLIST2,   0 },
+	{ LPGEN("Icon overlay"),          "chat_overlay",          IDI_OVERLAY,     0 },
+	{ LPGEN("Close"),                 "chat_close",            IDI_CLOSE,       0 },
 
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 1 (10x10)"),      "chat_status0",   IDI_STATUS0    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 2 (10x10)"),      "chat_status1",   IDI_STATUS1    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 3 (10x10)"),      "chat_status2",   IDI_STATUS2    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 4 (10x10)"),      "chat_status3",   IDI_STATUS3    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 5 (10x10)"),      "chat_status4",   IDI_STATUS4    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats"), LPGEN("Status 6 (10x10)"),      "chat_status5",   IDI_STATUS5    },
+	{ LPGEN("Status 1 (10x10)"),      "chat_status0",          IDI_STATUS0,    10 },
+	{ LPGEN("Status 2 (10x10)"),      "chat_status1",          IDI_STATUS1,    10 },
+	{ LPGEN("Status 3 (10x10)"),      "chat_status2",          IDI_STATUS2,    10 },
+	{ LPGEN("Status 4 (10x10)"),      "chat_status3",          IDI_STATUS3,    10 },
+	{ LPGEN("Status 5 (10x10)"),      "chat_status4",          IDI_STATUS4,    10 },
+	{ LPGEN("Status 6 (10x10)"),      "chat_status5",          IDI_STATUS5,    10 },
 
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Message in (10x10)"),    "chat_log_message_in",   IDI_MESSAGE    },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Message out (10x10)"),   "chat_log_message_out",  IDI_MESSAGEOUT },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Action (10x10)"),        "chat_log_action",       IDI_ACTION     },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Add Status (10x10)"),    "chat_log_addstatus",    IDI_ADDSTATUS  },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Remove status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS  },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Join (10x10)"),          "chat_log_join",         IDI_JOIN       },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Leave (10x10)"),         "chat_log_part",         IDI_PART       },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Quit (10x10)"),          "chat_log_quit",         IDI_QUIT       },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Kick (10x10)"),          "chat_log_kick",         IDI_KICK       },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Nickchange (10x10)"),    "chat_log_nick",         IDI_NICK       },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Notice (10x10)"),        "chat_log_notice",       IDI_NOTICE     },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Topic (10x10)"),         "chat_log_topic",        IDI_TOPIC      },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Highlight (10x10)"),     "chat_log_highlight",    IDI_HIGHLIGHT  },
-	{	10, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), LPGEN("Information (10x10)"),   "chat_log_info",         IDI_INFO       }
+	{ LPGEN("Message in (10x10)"),    "chat_log_message_in",   IDI_MESSAGE,    10 },
+	{ LPGEN("Message out (10x10)"),   "chat_log_message_out",  IDI_MESSAGEOUT, 10 },
+	{ LPGEN("Action (10x10)"),        "chat_log_action",       IDI_ACTION,     10 },
+	{ LPGEN("Add Status (10x10)"),    "chat_log_addstatus",    IDI_ADDSTATUS,  10 },
+	{ LPGEN("Remove status (10x10)"), "chat_log_removestatus", IDI_REMSTATUS,  10 },
+	{ LPGEN("Join (10x10)"),          "chat_log_join",         IDI_JOIN,       10 },
+	{ LPGEN("Leave (10x10)"),         "chat_log_part",         IDI_PART,       10 },
+	{ LPGEN("Quit (10x10)"),          "chat_log_quit",         IDI_QUIT,       10 },
+	{ LPGEN("Kick (10x10)"),          "chat_log_kick",         IDI_KICK,       10 },
+	{ LPGEN("Nickchange (10x10)"),    "chat_log_nick",         IDI_NICK,       10 },
+	{ LPGEN("Notice (10x10)"),        "chat_log_notice",       IDI_NOTICE,     10 },
+	{ LPGEN("Topic (10x10)"),         "chat_log_topic",        IDI_TOPIC,      10 },
+	{ LPGEN("Highlight (10x10)"),     "chat_log_highlight",    IDI_HIGHLIGHT,  10 },
+	{ LPGEN("Information (10x10)"),   "chat_log_info",         IDI_INFO,       10 }
 };
 
 void AddIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++ ) {
-		sid.cx = sid.cy = iconList[i].size;
-		sid.pszSection = iconList[i].szSection;
-		sid.pszDescription = iconList[i].szDescr;
-		sid.pszName = iconList[i].szName;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		Skin_AddIcon(&sid);
-}	}
+	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group Chats"), iconList, 21);
+	Icon_Register(g_hInst, LPGEN("Messaging") "/" LPGEN("Group Chats Log"), iconList+21, 14);
+}
 
 // load icons from the skinning module if available
 HICON LoadIconEx( char* pszIcoLibName, BOOL big )

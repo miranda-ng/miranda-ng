@@ -100,6 +100,11 @@ int OnIconsChanged(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Popup"), "ckl_popup_icon", IDI_POPUPICON },
+	{ LPGEN("Copy to clipboard"), "ckl_copy_icon", IDI_COPYICON }
+};
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
@@ -150,25 +155,9 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	hChangeTextLayout = CreateServiceFunction(MS_CKL_CHANGETEXTLAYOUT, APIChangeTextLayout);
 
 	// IcoLib support
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
+	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	sid.pszSection = Translate(ModuleName);
-	sid.pszDescription = Translate("Popup");
-	sid.pszName = "ckl_popup_icon";
-	sid.iDefaultIndex = -IDI_POPUPICON;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = Translate("Copy to clipboard");
-	sid.pszName = "ckl_copy_icon";
-	sid.iDefaultIndex = -IDI_COPYICON;
-	Skin_AddIcon(&sid);
-
-	hIcoLibIconsChanged = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 
 	OnIconsChanged(0, 0);
 	RegPopupActions();
@@ -214,24 +203,20 @@ LRESULT CALLBACK Keyboard_Hook(int code, WPARAM wParam, LPARAM lParam)
 			lcode += wParam;
 
 		// Проверка на пустой хоткей. Иначе - пиздец, как в версии 1.4
-		if (lcode != 0)
-			if ((lcode == moOptions.dwHotkey_Layout) && (!(lParam&0x40000000)))
-			{
+		if (lcode != 0) {
+			if ((lcode == moOptions.dwHotkey_Layout) && (!(lParam & 0x40000000))) {
 				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout);
 				return 1;
 			}
-			else
-			if ((lcode == moOptions.dwHotkey_Layout2) && (!(lParam&0x40000000)))
-			{
+			if ((lcode == moOptions.dwHotkey_Layout2) && (!(lParam & 0x40000000))) {
 				ChangeLayout(NULL, TOT_Layout, moOptions.CurrentWordLayout2);
 				return 1;
 			}
-			else
-			if ((lcode == moOptions.dwHotkey_Case) && (!(lParam&0x40000000)))
-			{
+			if ((lcode == moOptions.dwHotkey_Case) && (!(lParam & 0x40000000))) {
 				ChangeLayout(NULL, TOT_Case, moOptions.CurrentWordCase);
 				return 1;
 			}
+		}
 	}
 	return CallNextHookEx(kbHook_All, code, wParam, lParam);
 }
@@ -241,43 +226,28 @@ int CALLBACK CKLPopupDlgProc(HWND hWnd, UINT uiMessage, WPARAM wParam, LPARAM lP
 	LPTSTR ptszPopupText;
 
 	ptszPopupText = (LPTSTR)CallService(MS_POPUP_GETPLUGINDATA, (WPARAM)hWnd, (LPARAM)&ptszPopupText);
-	switch(uiMessage)
-	{
-		case WM_COMMAND:
-			{
-				if (HIWORD(wParam) == STN_CLICKED)
-				{
-					if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
-						CopyTextToClipboard(ptszPopupText);
-					PUDeletePopUp(hWnd);
+	switch(uiMessage) {
+	case WM_COMMAND:
+		if (HIWORD(wParam) == STN_CLICKED) {
+			if (!IsBadStringPtr(ptszPopupText, MaxTextSize))
+				CopyTextToClipboard(ptszPopupText);
+			PUDeletePopUp(hWnd);
+		}
+		break;
 
-				}
-				break;
-			}
+	case WM_CONTEXTMENU:
+		PUDeletePopUp(hWnd);
+		break;
 
-		case WM_CONTEXTMENU:
-			{
-				PUDeletePopUp(hWnd);
-				break;
-			}
+	case UM_POPUPACTION:
+		if ((lParam == 0) && (!IsBadStringPtr(ptszPopupText, MaxTextSize)))
+			CopyTextToClipboard(ptszPopupText);
+		break;
 
-		case UM_POPUPACTION:
-			{
-				if ((lParam == 0) && (!IsBadStringPtr(ptszPopupText, MaxTextSize)))
-				{
-					CopyTextToClipboard(ptszPopupText);
-				}
-				break;
-			}
-
-		case UM_FREEPLUGINDATA:
-			{
-				mir_free(ptszPopupText);
-				return TRUE;
-			}
-
-		default:
-			break;
+	case UM_FREEPLUGINDATA:
+		mir_free(ptszPopupText);
+		return TRUE;
 	}
+
 	return DefWindowProc(hWnd, uiMessage, wParam, lParam);
 }

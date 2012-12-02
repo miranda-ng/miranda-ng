@@ -134,3 +134,5 @@ GetSubscribersCount           @131
 NotifyFastHook                @132
 db_find_first                 @133
 db_find_next                  @134
+Icon_Register                 @135
+Icon_RegisterT                @136

@@ -18,28 +18,15 @@
 
 extern HINSTANCE hInst;
 
-HANDLE IconLibDefine(char* desc, char* ident, TCHAR* def_file, int def_idx)
+static IconItem iconList[] =
 {
-  SKINICONDESC sid = { sizeof(sid) };
-  sid.pszSection = szGPGModuleName;
-  sid.pszDescription = desc;
-  sid.flags = SIDF_PATH_TCHAR;
-
-  sid.pszName = ident;
-  sid.ptszDefaultFile = def_file;
-  sid.iDefaultIndex = -def_idx;
-  sid.cx = sid.cy = 16;
-  return Skin_AddIcon(&sid);
-}
-
+	{ "Secured", "secured", IDI_SECURED },
+	{ "Unsecured", "unsecured", IDI_UNSECURED }
+};
 
 void InitIconLib()
 {
-	TCHAR lib[MAX_PATH];
-	GetModuleFileName(hInst, lib, MAX_PATH);
-
-	IconLibDefine( "Secured", "secured", lib, IDI_SECURED);
-	IconLibDefine( "Unsecured", "unsecured", lib, IDI_UNSECURED);
+	Icon_Register(hInst, szGPGModuleName, iconList, SIZEOF(iconList));
 }
 
 HICON IconLibGetIcon(const char* ident)

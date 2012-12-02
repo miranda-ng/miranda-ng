@@ -26,12 +26,11 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #define MODULE				"BasicHistory"
 extern HINSTANCE hInst;
-extern HCURSOR     hCurSplitNS, hCurSplitWE;
-extern HANDLE *hEventIcons;
+extern HCURSOR  hCurSplitNS, hCurSplitWE;
 extern int iconsNum;
-extern HANDLE hPlusIcon, hMinusIcon, hFindNextIcon, hFindPrevIcon;
 extern bool g_SmileyAddAvail;
 extern char* metaContactProto;
+extern IconItem iconList[];
 #define DM_HREBUILD  (WM_USER+11)
 #define DM_SPLITTERMOVED     (WM_USER+15)
 
@@ -56,7 +55,7 @@ HistoryWindow::HistoryWindow(HANDLE _hContact) :
 	isLoading(false),
 	isGroupImages(false),
 	allIconNumber(0), 
-	eventIcoms(NULL),
+	eventIcons(NULL),
 	bkBrush(NULL),
 	bkFindBrush(NULL),
 	hSystem(NULL),
@@ -80,13 +79,13 @@ HistoryWindow::HistoryWindow(HANDLE _hContact) :
 
 HistoryWindow::~HistoryWindow()
 {
-	if(eventIcoms != NULL)
+	if(eventIcons != NULL)
 	{
 		for(int i = 0; i < iconsNum; ++i)
-			if(eventIcoms[i] != NULL)
-				Skin_ReleaseIcon(eventIcoms[i]);
+			if(eventIcons[i] != NULL)
+				Skin_ReleaseIcon(eventIcons[i]);
 
-		delete[] eventIcoms;
+		delete[] eventIcons;
 	}
 
 	if(plusIco != NULL)
@@ -1203,8 +1202,8 @@ void HistoryWindow::Initialise()
 	ScreenToClient(hWnd, &pt);
 	listOryginalPos = pt.x;
 
-	plusIco = Skin_GetIconByHandle(hPlusIcon, 1);
-	minusIco = Skin_GetIconByHandle(hMinusIcon, 1);
+	plusIco = LoadIconEx(IDI_SHOW, 1);
+	minusIco = LoadIconEx(IDI_HIDE, 1);
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASPUSHBTN, TRUE, 0 );
 	SendDlgItemMessage( hWnd, IDC_SHOWHIDE, BUTTONSETASFLATBTN, TRUE, 0 );
 	if(hContact == NULL || Options::instance->showContacts)
@@ -1241,22 +1240,21 @@ void HistoryWindow::Initialise()
 	if(himlSmall)
 	{
 		allIconNumber = iconsNum + 3;
-		eventIcoms = new HICON[allIconNumber];
-		for(int i = 0; i < iconsNum; ++i)
-		{
-			eventIcoms[i] = hEventIcons[i] == NULL ? NULL : Skin_GetIconByHandle(hEventIcons[i]);
-			ImageList_AddIcon(himlSmall, eventIcoms[i]);
+		eventIcons = new HICON[allIconNumber];
+		for(int i = 0; i < iconsNum; ++i) {
+			eventIcons[i] = Skin_GetIconByHandle( iconList[i].hIcolib );
+			ImageList_AddIcon(himlSmall, eventIcons[i]);
 		}
 
 		int id = iconsNum;
-		eventIcoms[id] = LoadSkinnedIcon(SKINICON_EVENT_FILE);
-		ImageList_AddIcon(himlSmall, eventIcoms[id]);
+		eventIcons[id] = LoadSkinnedIcon(SKINICON_EVENT_FILE);
+		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
-		eventIcoms[++id] = LoadSkinnedIcon(SKINICON_EVENT_URL);
-		ImageList_AddIcon(himlSmall, eventIcoms[id]);
+		eventIcons[++id] = LoadSkinnedIcon(SKINICON_EVENT_URL);
+		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
-		eventIcoms[++id] = LoadSkinnedIcon(SKINICON_OTHER_WINDOWS);
-		ImageList_AddIcon(himlSmall, eventIcoms[id]);
+		eventIcons[++id] = LoadSkinnedIcon(SKINICON_OTHER_WINDOWS);
+		ImageList_AddIcon(himlSmall, eventIcons[id]);
 
 		if((isGroupImages = Options::instance->groupShowEvents) != false)
 			ListView_SetImageList(listWindow, himlSmall, LVSIL_SMALL);
@@ -1284,9 +1282,9 @@ void HistoryWindow::Initialise()
 	HIMAGELIST himlButtons = ImageList_Create(16, 16, ILC_COLOR32 | ILC_MASK, 3, 3);
 	if(himlButtons)
 	{
-		findNextIco = Skin_GetIconByHandle(hFindNextIcon);
+		findNextIco = LoadIconEx(IDI_FINDNEXT);
 		ImageList_AddIcon(himlButtons, findNextIco);
-		findPrevIco = Skin_GetIconByHandle(hFindPrevIcon);
+		findPrevIco = LoadIconEx(IDI_FINDPREV);
 		ImageList_AddIcon(himlButtons, findPrevIco);
 		configIco = LoadSkinnedIcon(SKINICON_OTHER_OPTIONS);
 		ImageList_AddIcon(himlButtons, configIco);
@@ -1608,14 +1606,14 @@ void HistoryWindow::SelectEventGroup(int sel)
 				HICON ico;
 				if(GetEventIcon(lastMe, data.eventType, imId))
 				{
-					ico = eventIcoms[imId];
+					ico = eventIcons[imId];
 				}
 				else
 				{
 					ico = GetEventCoreIcon(hDbEvent);
 					if(ico == NULL)
 					{
-						ico = eventIcoms[imId];
+						ico = eventIcons[imId];
 					}
 				}
 

@@ -40,7 +40,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_clist.h>
 #include <m_clistint.h>
 #include <m_skin.h>
-#include <m_system.h>
+#include <m_system_cpp.h>
 #include <m_options.h>
 #include <m_langpack.h>
 #include <m_protosvc.h>

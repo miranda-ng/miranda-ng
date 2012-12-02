@@ -82,7 +82,7 @@ int IcolibExtraIcon::setIcon(int id, HANDLE hContact, HANDLE hIcoLib)
 		}
 	}
 
-	IconItem *p = (IconItem*)hIcoLib;
+	IcolibItem *p = (IcolibItem*)hIcoLib;
 	char *szName = (p) ? p->name : NULL;
 	storeIcon(hContact, szName);
 

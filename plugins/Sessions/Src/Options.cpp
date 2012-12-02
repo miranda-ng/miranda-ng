@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "sessions.h"
 
 HICON hIcon;
@@ -177,8 +176,8 @@ INT_PTR CALLBACK OptionsProc(HWND hdlg,UINT msg,WPARAM wparam,LPARAM lparam)
 			g_opHdlg=hdlg;
 			bOptionsInit=TRUE;
 			TranslateDialogDefault(hdlg); 
-			hMarked = Skin_GetIconByHandle(hibChecked);
-			hNotMarked = Skin_GetIconByHandle(hibNotChecked);
+			hMarked = Skin_GetIconByHandle(iconList[1].hIcolib);
+			hNotMarked = Skin_GetIconByHandle(iconList[2].hIcolib);
 			
 			hIcon=(bChecked=IsMarkedUserDefSession(opses_count))?hMarked:hNotMarked;
 

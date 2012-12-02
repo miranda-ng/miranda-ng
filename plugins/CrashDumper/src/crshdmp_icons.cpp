@@ -17,15 +17,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "utils.h"
-#include <m_icolib.h>
 
-struct _tag_iconList
-{
-	const char*  szDescr;
-	const char*  szName;
-	int    defIconID;
-}
-static const iconList[] =
+static IconItem iconList[] =
 {
 	{ "Version Information", "versionInfo", IDI_VI       },
 	{ "Copy To Clipboard",   "storeToClip", IDI_VITOCLIP },
@@ -34,52 +27,25 @@ static const iconList[] =
 	{ "Upload",              "uploadInfo",  IDI_VIUPLOAD },
 };
 
-static HANDLE hIconLibItem[SIZEOF(iconList)];
-
 void InitIcons(void)
 {
-	char szSettingName[100];
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.pszSection = (char*)PluginName;
-
-	for (unsigned i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, iconList[i].szName);
-
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, PluginName, iconList, SIZEOF(iconList), PluginName);
 }
 
-HICON LoadIconEx(const char* name, bool big)
+HICON LoadIconEx(int iconId, bool big)
 {
-	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, name);
-	return Skin_GetIcon(szSettingName, big);
-}
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iconId)
+			return Skin_GetIconByHandle(iconList[i].hIcolib);
 
-HANDLE GetIconHandle(const char* name)
-{
-	unsigned i;
-	for (i=0; i < SIZEOF(iconList); i++)
-		if (strcmp(iconList[i].szName, name) == 0)
-			return hIconLibItem[i];
 	return NULL;
 }
 
-void ReleaseIconEx(const char* name)
+HANDLE GetIconHandle(int iconId)
 {
-	char szSettingName[100];
-	mir_snprintf(szSettingName, sizeof(szSettingName), "%s_%s", PluginName, name);
-	Skin_ReleaseIcon(szSettingName);
-}
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == iconId)
+			return iconList[i].hIcolib;
 
-void ReleaseIconEx(HICON hIcon)
-{
-	Skin_ReleaseIcon(hIcon);
+	return NULL;
 }

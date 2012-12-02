@@ -366,7 +366,5 @@ extern "C" __declspec (dllexport) int Unload(void) {
 
 	RemoveReadEvents();
 	DeleteCriticalSection(&list_cs);
-	
-	DeinitIcons();
 	return 0;
 }

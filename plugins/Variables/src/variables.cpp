@@ -550,6 +550,8 @@ int setParseOptions(struct ParseOptions *po) {
 	return 0;
 }
 
+static IconItem icon = { LPGEN("Help"), "vars_help", IDI_V };
+
 int LoadVarModule()
 {
 	if (initTokenRegister() != 0 || initContactModule() != 0)
@@ -567,21 +569,11 @@ int LoadVarModule()
 		if (hUxTheme)
 			pfnEnableThemeDialogTexture = (BOOL (WINAPI *)(HANDLE, DWORD))GetProcAddress(hUxTheme, "EnableThemeDialogTexture");
 	}
+
 	hShowHelpService = CreateServiceFunction(MS_VARS_SHOWHELP, showHelpService);
 	hShowHelpExService = CreateServiceFunction(MS_VARS_SHOWHELPEX, showHelpExService);
 
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszSection = TranslateT("Variables");
-	sid.ptszDescription = TranslateT("Help");
-	sid.pszName = "vars_help";
-	sid.ptszDefaultFile = szFile;
-	sid.iDefaultIndex = -IDI_V;
-	sid.cx = sid.cy = 16;
-	sid.flags = SIDF_ALL_TCHAR;
-	Skin_AddIcon(&sid);
+	Icon_Register(hInst, LPGEN("Variables"), &icon, 1);
 	
 	hIconsChangedHook = HookEvent(ME_SKIN2_ICONSCHANGED, iconsChanged);
 

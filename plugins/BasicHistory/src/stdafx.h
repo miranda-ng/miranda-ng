@@ -87,3 +87,5 @@
 
 #define EVENTTYPE_STATUSCHANGE          25368
 #define EVENTTYPE_SMTPSIMPLE            2350
+
+HICON LoadIconEx(int iconId, int big = 0);

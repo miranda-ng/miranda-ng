@@ -22,14 +22,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 HANDLE hIcoLibIconsChanged = NULL;
 
-struct _tag_iconList
-{
-	char*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-}
-static iconList[] =
+static IconItem iconList[] =
 {
 	{	LPGEN("Protocol icon"),      "main",      IDI_ICON       },
 	{	LPGEN("Update Disabled"),    "disabled",  IDI_DISABLED   },
@@ -46,23 +39,8 @@ static iconList[] =
 
 void InitIcons(void)
 {
-	char szSettingName[100];
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.pszSection = WEATHERPROTONAME;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, SIZEOF( szSettingName ), "%s_%s", WEATHERPROTONAME, iconList[i].szName);
-
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
-}	}
+	Icon_Register(hInst, WEATHERPROTONAME, iconList, SIZEOF(iconList), WEATHERPROTONAME);
+}
 
 HICON  LoadIconEx(const char* name, BOOL big)
 {
@@ -73,10 +51,10 @@ HICON  LoadIconEx(const char* name, BOOL big)
 
 HANDLE  GetIconHandle(const char* name)
 {
-	unsigned i;
-	for (i=0; i < SIZEOF(iconList); i++)
+	for (int i=0; i < SIZEOF(iconList); i++)
 		if (strcmp(iconList[i].szName, name) == 0)
-			return iconList[i].hIconLibItem;
+			return iconList[i].hIcolib;
+
 	return NULL;
 }
 

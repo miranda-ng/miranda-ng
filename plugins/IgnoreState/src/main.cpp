@@ -110,37 +110,12 @@ void applyExtraImage(HANDLE hContact)
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
-static struct
+static IconItem iconList[] =
 {
-	TCHAR*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-}
-iconList[] =
-{
-	{ LPGENT( "Full Ignore" ),    "ignore_full", IDI_IFULL  },
-	{ LPGENT( "Partial Ignore" ), "ignore_part", IDI_IPART  },
-	{ LPGENT( "Message Ignore" ), "ignore_mess", IDI_IMESS  },
+	{ LPGEN("Full Ignore"),    "ignore_full", IDI_IFULL },
+	{ LPGEN("Partial Ignore"), "ignore_part", IDI_IPART },
+	{ LPGEN("Message Ignore"), "ignore_mess", IDI_IMESS },
 };
-
-static VOID init_icolib (void)
-{
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(g_hInst, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = _T(MODULENAME);
-	sid.ptszDefaultFile = tszFile;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		sid.pszName = iconList[i].szName;
-		sid.ptszDescription =  iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
-	}
-}
 
 VOID fill_filter(void)
 {
@@ -161,7 +136,8 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	HookEvent(ME_OPT_INITIALISE, onOptInitialise);
 
 	//IcoLib support
-	init_icolib();
+	Icon_Register(g_hInst, MODULENAME, iconList, SIZEOF(iconList));
+
 	fill_filter();
 
 	hExtraIcon = ExtraIcon_Register("ignore", "IgnoreState", "ignore_full");

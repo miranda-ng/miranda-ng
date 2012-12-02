@@ -27,8 +27,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 static WNDPROC  OldProc;
 static WNDPROC  OldListViewProc;
 
-static HANDLE* hIconLibItems;
-
 static const CIrcProto* pZero = NULL;
 
 void CIrcProto::ReadSettings( TDbSetting* sets, int count )
@@ -191,66 +189,36 @@ static void removeSpaces( TCHAR* p )
 /////////////////////////////////////////////////////////////////////////////////////////
 // add icons to the skinning module
 
-struct
+static IconItem iconList[] =
 {
-	char*  szDescr;
-	char*  szName;
-	int    iSize;
-	int    defIconID;
-}
-static iconList[] =
-{
-	{ LPGEN("Main"),              "main",     0, IDI_MAIN    },
-	{ LPGEN("Add"),               "add",      0, IDI_ADD     },
-	{ LPGEN("Apply"),             "apply",    0, IDI_APPLY   },
-	{ LPGEN("Rename"),            "rename",   0, IDI_RENAME  },
-	{ LPGEN("Edit"),              "edit",     0, IDI_EDIT    },
-	{ LPGEN("Cancel"),            "delete",   0, IDI_DELETE  },
-	{ LPGEN("Ignore"),            "block",    0, IDI_BLOCK   },
-	{ LPGEN("Channel list"),      "list",     0, IDI_LIST    },
-	{ LPGEN("Channel manager"),   "manager",  0, IDI_MANAGER },
-	{ LPGEN("Quick connect"),     "quick",    0, IDI_QUICK   },
-	{ LPGEN("Server window"),     "server",   0, IDI_SERVER  },
-	{ LPGEN("Show channel"),      "show",     0, IDI_SHOW    },
-	{ LPGEN("Question"),          "question", 0, IDI_IRCQUESTION},
-	{ LPGEN("WhoIs"),             "whois",    0, IDI_WHOIS   },
-	{ LPGEN("Incoming DCC Chat"), "dcc",      0, IDI_DCC     },
-	{ LPGEN("Logo (48x48)"),      "logo",    48, IDI_LOGO    }
+	{ LPGEN("Main"),              "main",    IDI_MAIN,        0 },
+	{ LPGEN("Add"),               "add",     IDI_ADD,         0 },
+	{ LPGEN("Apply"),             "apply",   IDI_APPLY,       0 },
+	{ LPGEN("Rename"),            "rename",  IDI_RENAME,      0 },
+	{ LPGEN("Edit"),              "edit",    IDI_EDIT,        0 },
+	{ LPGEN("Cancel"),            "delete",  IDI_DELETE,      0 },
+	{ LPGEN("Ignore"),            "block",   IDI_BLOCK,       0 },
+	{ LPGEN("Channel list"),      "list",    IDI_LIST,        0 },
+	{ LPGEN("Channel manager"),   "manager", IDI_MANAGER,     0 },
+	{ LPGEN("Quick connect"),     "quick",   IDI_QUICK,       0 },
+	{ LPGEN("Server window"),     "server",  IDI_SERVER,      0 },
+	{ LPGEN("Show channel"),      "show",    IDI_SHOW,        0 },
+	{ LPGEN("Question"),          "question",IDI_IRCQUESTION, 0 },
+	{ LPGEN("WhoIs"),             "whois",   IDI_WHOIS,       0 },
+	{ LPGEN("Incoming DCC Chat"), "dcc",     IDI_DCC,         0 },
+	{ LPGEN("Logo (48x48)"),      "logo",    IDI_LOGO,       48 }
 };
 
-void AddIcons(void)
+void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "Protocols/IRC";
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_PATH_TCHAR;
-	hIconLibItems = new HANDLE[ SIZEOF(iconList) ];
-
-	// add them one by one
-	for ( int i=0; i < SIZEOF(iconList); i++ ) {
-		char szTemp[255];
-		mir_snprintf(szTemp, sizeof(szTemp), "IRC_%s", iconList[i].szName );
-		sid.pszName = szTemp;
-		sid.pszDescription = iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		sid.cx = sid.cy = iconList[i].iSize;
-		hIconLibItems[i] = Skin_AddIcon(&sid );
-	}
-}
-
-void UninitIcons(void)
-{
-	delete[] hIconLibItems;
+	Icon_Register(hInst, "Protocols/IRC", iconList, SIZEOF(iconList), "IRC");
 }
 
 HICON LoadIconEx( int iconId, bool big )
 {
 	for ( int i=0; i < SIZEOF(iconList); i++ )
 		if ( iconList[i].defIconID == iconId )
-			return Skin_GetIconByHandle(hIconLibItems[i], big);
+			return Skin_GetIconByHandle(iconList[i].hIcolib, big);
 
 	return NULL;
 }
@@ -259,7 +227,7 @@ HANDLE GetIconHandle( int iconId )
 {
 	for ( int i=0; i < SIZEOF(iconList); i++ )
 		if ( iconList[i].defIconID == iconId )
-			return hIconLibItems[i];
+			return iconList[i].hIcolib;
 
 	return NULL;
 }

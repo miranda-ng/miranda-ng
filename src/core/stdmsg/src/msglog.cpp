@@ -19,7 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 #include "commonheaders.h"
 
-extern HANDLE hIconLibItem[];
+extern IconItem iconList[];
 
 static int logPixelSY;
 #define LOGICON_MSG_IN      0
@@ -609,7 +609,7 @@ void LoadMsgLogIcons(void)
 	pBmpBits = (PBYTE) mir_alloc(widthBytes * bih.biHeight);
 
 	for (i = 0; i < SIZEOF(pLogIconBmpBits); i++) {
-		hIcon = Skin_GetIconByHandle(hIconLibItem[i]);
+		hIcon = Skin_GetIconByHandle(iconList[i].hIcolib);
 		pLogIconBmpBits[i] = (PBYTE) mir_alloc(RTFPICTHEADERMAXSIZE + (bih.biSize + widthBytes * bih.biHeight) * 2);
 		//I can't seem to get binary mode working. No matter.
 		rtfHeaderSize = sprintf((char*)pLogIconBmpBits[i], "{\\pict\\dibitmap0\\wbmbitspixel%u\\wbmplanes1\\wbmwidthbytes%u\\picw%u\\pich%u ", bih.biBitCount, widthBytes, bih.biWidth, bih.biHeight);

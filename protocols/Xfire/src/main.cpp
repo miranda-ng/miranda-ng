@@ -142,6 +142,8 @@ PLUGININFOEX pluginInfoEx={
 		{ 0x9b8e1735, 0x970d, 0x4ce0, { 0x93, 0xc, 0xa5, 0x61, 0x95, 0x6b, 0xdc, 0xa2 } }
 };
 
+static IconItem icon = { LPGEN("Protocol icon"), "XFIRE_main", IDI_TM };
+
 INT_PTR RecvMessage(WPARAM wParam, LPARAM lParam);
 INT_PTR SendMessage(WPARAM wParam, LPARAM lParam);
 
@@ -1361,17 +1363,7 @@ extern "C" __declspec(dllexport) int  Load(void)
 		XFireLog("Wasn't able to get GetExtendedUdpTable function");
 	}
 
-	char szFile[MAX_PATH];
-	GetModuleFileNameA(hinstance, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.ptszSection = LPGENT( "Protocols/XFire" );
-	sid.pszName = "XFIRE_main";
-	sid.ptszDescription = TranslateT("Protocol icon");
-	sid.iDefaultIndex = -IDI_TM;
-	Skin_AddIcon(&sid);
+	Icon_Register(hinstance, LPGENT("Protocols/XFire"), &icon, 1);
 
 	hExtraIcon1 = ExtraIcon_Register("xfire_game", "XFire game icon", "", ExtraListRebuild, ExtraImageApply);
 	hExtraIcon2 = ExtraIcon_Register("xfire_voice", "XFire voice icon", "", ExtraListRebuild, ExtraImageApply);

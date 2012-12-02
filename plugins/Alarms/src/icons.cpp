@@ -3,6 +3,15 @@
 
 HICON hIconMenuSet, hIconList1, hIconList2, hIconMenuShowHide, hIconSystray;
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Menu: Set Alarm"),     "alarms_menu_set", IDI_MAINMENU },
+	{ LPGEN("Reminder: Soon"),      "alarms_list1",    IDI_LIST1 },
+	{ LPGEN("Reminder: Very Soon"), "alarms_list2",    IDI_LIST2 },
+	{ LPGEN("Alarm: System Tray"),  "alarms_systray",  IDI_MAINMENU },
+	{ LPGEN("Menu: Show/Hide Reminders"), "alarms_menu_showhide", IDI_MAINMENU }
+};
+
 int ReloadIcons(WPARAM wParam, LPARAM lParam)
 {
 	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
@@ -17,51 +26,11 @@ int ReloadIcons(WPARAM wParam, LPARAM lParam)
 
 void InitIcons()
 {
-	TCHAR path[MAX_PATH];
-	GetModuleFileName(hInst, path, MAX_PATH);
+	Icon_Register(hInst, "Alarms", iconList, SIZEOF(iconList));
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = "Alarms";
-	sid.ptszDefaultFile = path;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	sid.pszDescription = LPGEN("Menu: Set Alarm");
-	sid.pszName = "alarms_menu_set";
-	sid.pszDefaultFile = "alarms.dll";
-	sid.iDefaultIndex = -IDI_MAINMENU;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = LPGEN("Reminder: Soon");
-	sid.pszName = "alarms_list1";
-	sid.pszDefaultFile = "alarms.dll";
-	sid.iDefaultIndex = -IDI_LIST1;
-
-	sid.pszDescription = LPGEN("Reminder: Very Soon");
-	sid.pszName = "alarms_list2";
-	sid.pszDefaultFile = "alarms.dll";
-	sid.iDefaultIndex = -IDI_LIST2;
-	Skin_AddIcon(&sid);
-
-	sid.pszDescription = LPGEN("Alarm: System Tray");
-	sid.pszName = "alarms_systray";
-	sid.pszDefaultFile = "alarms.dll";
-	sid.iDefaultIndex = -IDI_MAINMENU;
-	Skin_AddIcon(&sid);
-
-	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME)) {
-		sid.pszDescription = LPGEN("Menu: Show/Hide Reminders");
-		sid.pszName = "alarms_menu_showhide";
-		sid.pszDefaultFile = "alarms.dll";
-		sid.iDefaultIndex = -IDI_MAINMENU;
-		Skin_AddIcon(&sid);
-
+	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		hIconMenuShowHide = Skin_GetIcon("alarms_menu_showhide");
-	}
 
-	hIconMenuSet = Skin_GetIcon("alarms_menu_set");
-	hIconList1 = Skin_GetIcon("alarms_list1");
-	hIconList2 = Skin_GetIcon("alarms_list2");
-	hIconSystray = Skin_GetIcon("alarms_systray");
-
+	ReloadIcons(0, 0);
 	HookEvent(ME_SKIN2_ICONSCHANGED, ReloadIcons);
 }

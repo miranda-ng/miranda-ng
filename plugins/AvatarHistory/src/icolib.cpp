@@ -6,42 +6,20 @@ enum IconIndex
 	I_OVERLAY
 };
 
-typedef struct
+static IconItem iconList[] =
 {
-	TCHAR* szDescr;
-	char* szName;
-	int   defIconID;
-	BOOL  core;
-} IconStruct;
-
-static IconStruct iconList[] =
-{
-	{ LPGENT("History"),		"core_main_10",	IDI_AVATARHIST,		TRUE  },
-	{ LPGENT("Avatar Overlay"),	"avh_overlay",	IDI_AVATAROVERLAY,	FALSE  }
+	{ LPGEN("History"),        "core_main_10", IDI_AVATARHIST    },
+	{ LPGEN("Avatar Overlay"),	"avh_overlay",  IDI_AVATAROVERLAY }
 };
-
-extern HANDLE hHooks[];
 
 static HICON LoadIconEx(IconIndex i)
 {
-	HICON hIcon;
-
-	if (hHooks[4])
-		hIcon = Skin_GetIcon(iconList[(int)i].szName);
-	else
-		hIcon = (HICON)LoadImage(hInst, MAKEINTRESOURCE(iconList[(int)i].defIconID),
-			IMAGE_ICON, 0, 0, 0);
-
-	return hIcon;
+	return Skin_GetIcon(iconList[(int)i].szName);
 }
-
 
 static void ReleaseIconEx(HICON hIcon)
 {
-	if (hHooks[4])
-		Skin_ReleaseIcon(hIcon);
-	else
-		DestroyIcon(hIcon);
+	Skin_ReleaseIcon(hIcon);
 }
 
 static void IcoLibUpdateMenus()
@@ -61,24 +39,8 @@ int IcoLibIconsChanged(WPARAM wParam, LPARAM lParam)
 
 void SetupIcoLib()
 {
-	if (hHooks[4]) {
-		TCHAR path[MAX_PATH];
-		GetModuleFileName(hInst, path, sizeof(path));
-
-		SKINICONDESC sid = { sizeof(sid) };
-		sid.ptszSection = LPGENT("Avatar History");
-		sid.ptszDefaultFile = path;
-		sid.flags = SIDF_ALL_TCHAR;
-
-		for (unsigned i = 0; i < MAX_REGS(iconList); i++) {
-			if (!iconList[i].core) {
-				sid.ptszDescription = iconList[i].szDescr;
-				sid.pszName = iconList[i].szName;
-				sid.iDefaultIndex = -iconList[i].defIconID;
-				Skin_AddIcon(&sid);
-			}
-		}
-	}
+	iconList[0].hIcolib = LoadSkinnedIconHandle(SKINICON_OTHER_HISTORY);
+	Icon_Register(hInst, LPGEN("Avatar History"), iconList+1, SIZEOF(iconList)-1);
 	IcoLibUpdateMenus();
 }
 

@@ -22,8 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 HINSTANCE hInst;
 int hLangpack;
-static HANDLE hModulesLoaded = 0, hChangedIcons = 0, hAccListChanged = 0,
-			  hMainMenuItem = 0, hToolBarItem = 0, hService = 0;
+static HANDLE hMainMenuItem = 0, hToolBarItem = 0;
 HANDLE hIconLibItem;
 HWND hAddDlg;
 
@@ -134,20 +133,13 @@ static int CreateButton(WPARAM, LPARAM)
 	return 0;
 }
 
+static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
+
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
+	Icon_Register(hInst, LPGEN("AddContact+"), &icon, 1);
 
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = szFile;
-	sid.ptszSection = LPGENT("AddContact+");
-	sid.iDefaultIndex = -IDI_ADDCONTACT;
-	sid.ptszDescription = LPGENT("Add Contact");
-	sid.pszName = ICON_ADD;
-	hIconLibItem = Skin_AddIcon(&sid);
-	hChangedIcons = HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
+	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
 
 	HOTKEYDESC hkd = {0};
 	hkd.cbSize = sizeof(hkd);
@@ -174,19 +166,14 @@ extern "C" int __declspec(dllexport) Load(void)
 	icex.dwICC = ICC_USEREX_CLASSES;
 	InitCommonControlsEx(&icex);
 
-	hModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	hAccListChanged = HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
-	hService = CreateServiceFunction(MS_ADDCONTACTPLUS_SHOW, AddContactPlusDialog);
-
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
+	
+	CreateServiceFunction(MS_ADDCONTACTPLUS_SHOW, AddContactPlusDialog);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hModulesLoaded);
-	UnhookEvent(hChangedIcons);
-	UnhookEvent(hAccListChanged);
-	DestroyServiceFunction(hService);
-
 	return 0;
 }

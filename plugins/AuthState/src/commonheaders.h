@@ -44,6 +44,7 @@
 #include <m_langpack.h>
 #include <m_icolib.h>
 #include <m_cluiframes.h>
+#include <win2k.h>
 #include "resource.h"
 #include "Version.h"
 

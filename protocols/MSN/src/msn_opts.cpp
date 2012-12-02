@@ -27,52 +27,25 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Icons init
 
-struct _tag_iconList
+static IconItem iconList[] =
 {
-	const char*  szDescr;
-	const char*  szName;
-	int			 defIconID;
-}
-static const iconList[] =
-{
-	{	LPGEN("Protocol icon"),          "main",        IDI_MSN        },
-	{	LPGEN("Hotmail Inbox"),          "inbox",       IDI_INBOX      },
-	{	LPGEN("Profile"),                "profile",     IDI_PROFILE    },
-	{	LPGEN("MSN Services"),           "services",    IDI_SERVICES   },
-	{	LPGEN("Block user"),             "block",       IDI_MSNBLOCK   },
-	{	LPGEN("Invite to chat"),         "invite",      IDI_INVITE     },
-	{	LPGEN("Start Netmeeting"),       "netmeeting",  IDI_NETMEETING },
-	{	LPGEN("Contact list"),           "list_fl",     IDI_LIST_FL    },
-	{	LPGEN("Allowed list"),           "list_al",     IDI_LIST_AL    },
-	{	LPGEN("Blocked list"),           "list_bl",     IDI_LIST_BL    },
-	{	LPGEN("Relative list"),          "list_rl",     IDI_LIST_RL    },
-	{	LPGEN("Local list"),             "list_lc",     IDI_LIST_LC    },
+	{	LPGEN("Protocol icon"),    "main",        IDI_MSN        },
+	{	LPGEN("Hotmail Inbox"),    "inbox",       IDI_INBOX      },
+	{	LPGEN("Profile"),          "profile",     IDI_PROFILE    },
+	{	LPGEN("MSN Services"),     "services",    IDI_SERVICES   },
+	{	LPGEN("Block user"),       "block",       IDI_MSNBLOCK   },
+	{	LPGEN("Invite to chat"),   "invite",      IDI_INVITE     },
+	{	LPGEN("Start Netmeeting"), "netmeeting",  IDI_NETMEETING },
+	{	LPGEN("Contact list"),     "list_fl",     IDI_LIST_FL    },
+	{	LPGEN("Allowed list"),     "list_al",     IDI_LIST_AL    },
+	{	LPGEN("Blocked list"),     "list_bl",     IDI_LIST_BL    },
+	{	LPGEN("Relative list"),    "list_rl",     IDI_LIST_RL    },
+	{	LPGEN("Local list"),       "list_lc",     IDI_LIST_LC    },
 };
-
-HANDLE hIconLibItem[SIZEOF(iconList)];
-
 
 void MsnInitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	char szSectionName[100];
-	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("MSN"));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = szSectionName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100];
-		mir_snprintf(szSettingName, sizeof(szSettingName), "MSN_%s", iconList[i].szName);
-		sid.pszName = szSettingName;
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, "Protocols/MSN", iconList, SIZEOF(iconList), "MSN");
 }
 
 HICON LoadIconEx(const char* name, bool big)
@@ -86,7 +59,7 @@ HANDLE GetIconHandle(int iconId)
 {
 	for (unsigned i=0; i < SIZEOF(iconList); i++)
 		if (iconList[i].defIconID == iconId)
-			return hIconLibItem[i];
+			return iconList[i].hIcolib;
 
 	return NULL;
 }

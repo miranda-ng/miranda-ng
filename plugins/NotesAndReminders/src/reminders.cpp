@@ -2265,7 +2265,7 @@ INT_PTR CALLBACK DlgProcNewReminder(HWND Dialog,UINT Message,WPARAM wParam,LPARA
 				}
 			}
 
-			hIcon = Skin_GetIconByHandle(hIconLibItem[12]);
+			hIcon = Skin_GetIconByHandle(iconList[12].hIcolib);
 			SendDlgItemMessage(Dialog,IDC_BTN_PLAYSOUND,BM_SETIMAGE,(WPARAM)IMAGE_ICON,(LPARAM)hIcon);
 
 			if (NewReminderVisible == 2 && pEditReminder->SoundSel)
@@ -2655,9 +2655,9 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 		break;
 	case WM_INITDIALOG:
 		{
-			HICON hIcon = Skin_GetIconByHandle(hIconLibItem[6], ICON_SMALL);
+			HICON hIcon = Skin_GetIconByHandle(iconList[6].hIcolib, ICON_SMALL);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_SMALL, (LPARAM)hIcon);
-			hIcon = Skin_GetIconByHandle(hIconLibItem[6], ICON_BIG);
+			hIcon = Skin_GetIconByHandle(iconList[6].hIcolib, ICON_BIG);
 			SendMessage(Dialog, WM_SETICON, (WPARAM)ICON_BIG, (LPARAM)hIcon);
 
 			TranslateDialogDefault(Dialog);

@@ -21,7 +21,7 @@ const int vf_default = VF_VS|VF_HFL|VF_IGN|VF_CID|VF_SHOWID|VF_RECV|VF_STAT|VF_S
 HINSTANCE hinstance;
 HGENMENU hmenuVis,hmenuOff,hmenuHide,hmenuIgnore,hmenuProto,hmenuAdded,hmenuAuthReq;
 HGENMENU hmenuCopyID,hmenuRecvFiles,hmenuStatusMsg,hmenuCopyIP,hmenuCopyMirVer;
-static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS], hHooks[8], hServices[12];
+static HANDLE hIgnoreItem[9], hProtoItem[MAX_PROTOS];
 HICON hIcon[5];
 BOOL bMetaContacts;
 PROTOACCOUNT **accs;
@@ -45,36 +45,24 @@ static const statusMsg[] = {
 	{	"AdvStatus",	"activity/text",		LPGENT("Activity text"),	8	}
 };
 
-struct
-{
-	TCHAR* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] = {
-	{	_T("Hide from list"),			"miex_hidefl",			IDI_ICON0		},
-	{	_T("Show in list"),				"miex_showil",			IDI_ICON8		},
-	{	_T("Always visible"),			"miex_vis",				IDI_ICON1		},
-	{	_T("Never visible"),			"miex_invis",			IDI_ICON2		},
-	{	_T("Send 'You were added'"),    "miex_added",			IDI_ICON4		},
-	{	_T("Request authorization"),    "miex_authorization",	IDI_ICON5		},
-	{	_T("Copy to Account"),			"miex_protocol",		IDI_ICON6		},
-	{	_T("Ignore"),					"miex_ignore",			IDI_ICON7		},
-	{	_T("Browse Received Files"),    "miex_recfiles",		IDI_ICON12		},
-	{	_T("Copy MirVer"),				"miex_copymver",        IDI_ICON13		}
+static IconItem iconList[] = {
+	{ LPGEN("Hide from list"),        "miex_hidefl",        IDI_ICON0 },
+	{ LPGEN("Show in list"),          "miex_showil",        IDI_ICON8 },
+	{ LPGEN("Always visible"),        "miex_vis",           IDI_ICON1 },
+	{ LPGEN("Never visible"),         "miex_invis",         IDI_ICON2 },
+	{ LPGEN("Send 'You were added'"), "miex_added",         IDI_ICON4 },
+	{ LPGEN("Request authorization"), "miex_authorization", IDI_ICON5 },
+	{ LPGEN("Copy to Account"),       "miex_protocol",      IDI_ICON6	},
+	{ LPGEN("Ignore"),                "miex_ignore",        IDI_ICON7 },
+	{ LPGEN("Browse Received Files"), "miex_recfiles",      IDI_ICON12 },
+	{ LPGEN("Copy MirVer"),           "miex_copymver",      IDI_ICON13 }
 };
 
-struct
-{
-	TCHAR* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const overlayIconList[] = {
-	{	_T("Copy ID"),					"miex_copyid",			IDI_ICON3		},
-	{	_T("Copy Status Message"),		"miex_copysm1",			IDI_ICON9		},
-	{	_T("Copy xStatus Message"),		"miex_copysm2",			IDI_ICON10		},
-	{	_T("Copy IP"),					"miex_copyip",			IDI_ICON11		}
+static IconItem overlayIconList[] = {
+	{	LPGEN("Copy ID"),              "miex_copyid",        IDI_ICON3	},
+	{	LPGEN("Copy Status Message"),  "miex_copysm1",       IDI_ICON9 },
+	{	LPGEN("Copy xStatus Message"), "miex_copysm2",       IDI_ICON10 },
+	{	LPGEN("Copy IP"),              "miex_copyip",        IDI_ICON11 }
 };
 
 struct {
@@ -195,29 +183,26 @@ void RenameDbProto(HANDLE hContact, HANDLE hContactNew, char* oldName, char* new
 	CallService(MS_DB_CONTACT_ENUMSETTINGS, (WPARAM)hContact,(LPARAM)&dbces);
 
 	setting = settinglist.first;
-	while (setting)
-	{
-		if (!GetSetting(hContact,oldName,setting->name,&dbv))
-		{
-			switch (dbv.type)
-			{
-				case DBVT_BYTE:
-					DBWriteContactSettingByte(hContactNew, newName, setting->name, dbv.bVal);
+	while (setting) {
+		if (!GetSetting(hContact,oldName,setting->name,&dbv)) {
+			switch (dbv.type) {
+			case DBVT_BYTE:
+				DBWriteContactSettingByte(hContactNew, newName, setting->name, dbv.bVal);
 				break;
-				case DBVT_WORD:
-					DBWriteContactSettingWord(hContactNew, newName, setting->name, dbv.wVal);
+			case DBVT_WORD:
+				DBWriteContactSettingWord(hContactNew, newName, setting->name, dbv.wVal);
 				break;
-				case DBVT_DWORD:
-					DBWriteContactSettingDword(hContactNew, newName, setting->name, dbv.dVal);
+			case DBVT_DWORD:
+				DBWriteContactSettingDword(hContactNew, newName, setting->name, dbv.dVal);
 				break;
-				case DBVT_ASCIIZ:
-					DBWriteContactSettingString(hContactNew, newName, setting->name, dbv.pszVal);
+			case DBVT_ASCIIZ:
+				DBWriteContactSettingString(hContactNew, newName, setting->name, dbv.pszVal);
 				break;
-				case DBVT_UTF8:
-					DBWriteContactSettingStringUtf(hContactNew, newName, setting->name, dbv.pszVal);
+			case DBVT_UTF8:
+				DBWriteContactSettingStringUtf(hContactNew, newName, setting->name, dbv.pszVal);
 				break;
-				case DBVT_BLOB:
-					DBWriteContactSettingBlob(hContactNew, newName, setting->name, dbv.pbVal, dbv.cpbVal);
+			case DBVT_BLOB:
+				DBWriteContactSettingBlob(hContactNew, newName, setting->name, dbv.pbVal, dbv.cpbVal);
 				break;
 
 			}
@@ -229,33 +214,6 @@ void RenameDbProto(HANDLE hContact, HANDLE hContactNew, char* oldName, char* new
 	}
 	FreeModuleSettingLL(&settinglist);
 } // end code from dbe++
-
-static void IconsInit()
-{
-	int i;
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(hinstance, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = tszFile;
-	sid.cx = sid.cy = 16;
-	sid.ptszSection = LPGENT(MODULENAME);
-
-	for ( i = 0; i < SIZEOF(iconList); i++ ) {
-		sid.pszName = iconList[i].szName;
-		sid.ptszDescription =  iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		Skin_AddIcon(&sid);
-	}
-
-	for ( i = 0; i < SIZEOF(overlayIconList); i++ ) {
-		sid.pszName = overlayIconList[i].szName;
-		sid.ptszDescription =  overlayIconList[i].szDescr;
-		sid.iDefaultIndex = -overlayIconList[i].defIconID;
-		Skin_AddIcon(&sid);
-	}
-}
 
 void ShowPopup(char* szText, TCHAR* tszText, HANDLE hContact)
 {
@@ -1193,22 +1151,23 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 {
 	int pos = 1000, i = 0;
 
-	IconsInit();
+	Icon_Register(hinstance, MODULENAME, iconList, SIZEOF(iconList));
+	Icon_Register(hinstance, MODULENAME, overlayIconList, SIZEOF(overlayIconList));
 
 	bMetaContacts = ServiceExists(MS_MC_GETMETACONTACT) != 0;
 
-	hServices[0] = CreateServiceFunction(MS_SETINVIS,onSetInvis);
-	hServices[1] = CreateServiceFunction(MS_SETVIS,onSetVis);
-	hServices[2] = CreateServiceFunction(MS_HIDE,onHide);
-	hServices[3] = CreateServiceFunction(MS_IGNORE,onIgnore);
-	hServices[4] = CreateServiceFunction(MS_PROTO,onChangeProto);
-	hServices[5] = CreateServiceFunction(MS_ADDED,onSendAdded);
-	hServices[6] = CreateServiceFunction(MS_AUTHREQ,onSendAuthRequest);
-	hServices[7] = CreateServiceFunction(MS_COPYID,onCopyID);
-	hServices[8] = CreateServiceFunction(MS_RECVFILES,onRecvFiles);
-	hServices[9] = CreateServiceFunction(MS_STATUSMSG,onCopyStatusMsg);
-	hServices[10] = CreateServiceFunction(MS_COPYIP,onCopyIP);
-	hServices[11] = CreateServiceFunction(MS_COPYMIRVER,onCopyMirVer);
+	CreateServiceFunction(MS_SETINVIS,onSetInvis);
+	CreateServiceFunction(MS_SETVIS,onSetVis);
+	CreateServiceFunction(MS_HIDE,onHide);
+	CreateServiceFunction(MS_IGNORE,onIgnore);
+	CreateServiceFunction(MS_PROTO,onChangeProto);
+	CreateServiceFunction(MS_ADDED,onSendAdded);
+	CreateServiceFunction(MS_AUTHREQ,onSendAuthRequest);
+	CreateServiceFunction(MS_COPYID,onCopyID);
+	CreateServiceFunction(MS_RECVFILES,onRecvFiles);
+	CreateServiceFunction(MS_STATUSMSG,onCopyStatusMsg);
+	CreateServiceFunction(MS_COPYIP,onCopyIP);
+	CreateServiceFunction(MS_COPYMIRVER,onCopyMirVer);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_TCHAR;
@@ -1305,15 +1264,13 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	hIcon[3] = MakeHalfAlphaIcon(hIcon[1]);
 	hIcon[4] = MakeHalfAlphaIcon(hIcon[2]);
 
-	hHooks[0] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildMenu);
-	hHooks[1] = HookEvent(ME_OPT_INITIALISE,OptionsInit);
-	hHooks[2] = HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
-	hHooks[3] = HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
-	hHooks[4] = HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit);
-	if (hHooks[4])
-	{
-		hHooks[5] = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
-		hHooks[6] = HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU,BuildMenu);
+	HookEvent(ME_OPT_INITIALISE,OptionsInit);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED,ContactSettingChanged);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, EnumProtoSubmenu);
+	if (HookEvent(ME_MSG_TOOLBARLOADED, TabsrmmButtonsInit)) {
+		HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
+		HookEvent(ME_MSG_WINDOWEVENT,ContactWindowOpen);
 	}
 
 	return 0;
@@ -1328,26 +1285,13 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) int Load(void)
 {
-
 	mir_getLP(&pluginInfoEx);
-	hHooks[7] = HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED,PluginInit);
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	int i;
-	for (i = 0; i < SIZEOF(hHooks); i++)
-	{
-		if (hHooks[i])
-			UnhookEvent(hHooks[i]);
-	}
-	for (i = 0; i < SIZEOF(hServices); i++)
-	{
-		if (hServices[i])
-			DestroyServiceFunction(hServices[i]);
-	}
-
 	DestroyIcon( hIcon[3] );
 	DestroyIcon( hIcon[4] );
 	return 0;

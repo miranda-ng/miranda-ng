@@ -12,7 +12,7 @@
 
 HINSTANCE hInst;
 int hLangpack;
-HANDLE hIconHandle, hRestartMe;
+HANDLE hRestartMe;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
@@ -53,28 +53,21 @@ static INT_PTR RestartMe(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem icon = { LPGEN("Restart"), "rst_restart_icon", IDI_RESTARTICON };
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
 
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, MAX_PATH);
-
 	// IcoLib support
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = _T("Restart Plugin");
-	sid.ptszDescription = _T("Restart");
-	sid.pszName = "rst_restart_icon";
-	sid.iDefaultIndex = -IDI_RESTARTICON;
-	hIconHandle = Skin_AddIcon(&sid);
+	Icon_Register(hInst, "Restart Plugin", &icon, 1);
 
 	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
+
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -0x7FFFFFFF;
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = hIconHandle;
+	mi.icolibItem = icon.hIcolib;
 	mi.ptszName = _T("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);

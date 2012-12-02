@@ -26,15 +26,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 /////////////////////////////////////////////////////////////////////////////////////////
 // Icons init
 
-struct _tag_iconList
-{
-	const char*  szDescr;
-	const char*  szName;
-	int          defIconID;
-	const char*  szSection;
-	HANDLE       hIcolib;
-}
-static iconList[] =
+static IconItem iconList[] =
 {
 	{	LPGEN("ICQ"),                    "icq",         IDI_ICQ             },
 	{	LPGEN("Add"),                    "add",         IDI_ADD             },
@@ -51,48 +43,26 @@ static iconList[] =
 	{	LPGEN("Idle"),                   "idle",        IDI_IDLE            },
 	{	LPGEN("AOL"),                    "aol",         IDI_AOL             },
 
-	{	LPGEN("Foreground Color"),       "foreclr",     IDI_FOREGROUNDCOLOR, LPGEN("Profile Editor") },
-	{	LPGEN("Background Color"),       "backclr",     IDI_BACKGROUNDCOLOR, LPGEN("Profile Editor") },
-	{	LPGEN("Bold"),                   "bold",        IDI_BOLD,            LPGEN("Profile Editor") },
-	{	LPGEN("Not Bold"),               "nbold",       IDI_NBOLD,           LPGEN("Profile Editor") },
-	{	LPGEN("Italic"),                 "italic",      IDI_ITALIC,          LPGEN("Profile Editor") },
-	{	LPGEN("Not Italic"),             "nitalic",     IDI_NITALIC,         LPGEN("Profile Editor") },
-	{	LPGEN("Underline"),              "undrln",      IDI_UNDERLINE,       LPGEN("Profile Editor") },
-	{	LPGEN("Not Underline"),          "nundrln",     IDI_NUNDERLINE,      LPGEN("Profile Editor") },
-	{	LPGEN("Subscript"),              "sub_scrpt",   IDI_SUBSCRIPT,       LPGEN("Profile Editor") },
-	{	LPGEN("Not Subscript"),          "nsub_scrpt",  IDI_NSUBSCRIPT,      LPGEN("Profile Editor") },
-	{	LPGEN("Superscript"),            "sup_scrpt",   IDI_SUPERSCRIPT,     LPGEN("Profile Editor") },
-	{	LPGEN("Not Superscript"),        "nsup_scrpt",  IDI_NSUPERSCRIPT,    LPGEN("Profile Editor") },
-	{	LPGEN("Normal Script"),          "norm_scrpt",  IDI_NORMALSCRIPT,    LPGEN("Profile Editor") },
-	{	LPGEN("Not Normal Script"),      "nnorm_scrpt", IDI_NNORMALSCRIPT,   LPGEN("Profile Editor") },
+	{	LPGEN("Foreground Color"),       "foreclr",     IDI_FOREGROUNDCOLOR },
+	{	LPGEN("Background Color"),       "backclr",     IDI_BACKGROUNDCOLOR },
+	{	LPGEN("Bold"),                   "bold",        IDI_BOLD            },
+	{	LPGEN("Not Bold"),               "nbold",       IDI_NBOLD           },
+	{	LPGEN("Italic"),                 "italic",      IDI_ITALIC          },
+	{	LPGEN("Not Italic"),             "nitalic",     IDI_NITALIC         },
+	{	LPGEN("Underline"),              "undrln",      IDI_UNDERLINE       },
+	{	LPGEN("Not Underline"),          "nundrln",     IDI_NUNDERLINE      },
+	{	LPGEN("Subscript"),              "sub_scrpt",   IDI_SUBSCRIPT       },
+	{	LPGEN("Not Subscript"),          "nsub_scrpt",  IDI_NSUBSCRIPT      },
+	{	LPGEN("Superscript"),            "sup_scrpt",   IDI_SUPERSCRIPT     },
+	{	LPGEN("Not Superscript"),        "nsup_scrpt",  IDI_NSUPERSCRIPT    },
+	{	LPGEN("Normal Script"),          "norm_scrpt",  IDI_NORMALSCRIPT    },
+	{	LPGEN("Not Normal Script"),      "nnorm_scrpt", IDI_NNORMALSCRIPT   }
 };
 
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInstance, szFile, SIZEOF(szFile));
-
-	char szSettingName[100];
-	char szSectionName[100];
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszName = szSettingName;
-	sid.pszSection = szSectionName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		mir_snprintf(szSettingName, sizeof(szSettingName), "AIM_%s", iconList[i].szName);
-
-		if (iconList[i].szSection)
-			mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s/%s", LPGEN("Protocols"), LPGEN("AIM"), iconList[i].szSection);
-		else
-			mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("AIM"));
-
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIcolib = Skin_AddIcon(&sid);
-	}	
+	Icon_Register(hInstance, "Protocols/AIM", iconList, 14, "AIM");
+	Icon_Register(hInstance, "Protocols/AIM/Profile Editor", iconList+14, 14, "AIM");
 }
 
 HICON LoadIconEx(const char* name, bool big)

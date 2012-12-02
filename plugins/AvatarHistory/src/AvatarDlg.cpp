@@ -36,8 +36,6 @@ TCHAR * GetContactFolder(TCHAR *fn, HANDLE hContact);
 BOOL ResolveShortcut(TCHAR *shortcut, TCHAR *file);
 
 static INT_PTR ShowDialogSvc(WPARAM wParam, LPARAM lParam);
-extern HANDLE hServices[];
-extern HANDLE hHooks[];
 
 struct AvatarDialogData
 {
@@ -540,7 +538,7 @@ int PreBuildContactMenu(WPARAM wParam,LPARAM lParam)
 
 void InitMenuItem()
 {
-	hServices[2] = CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
+	CreateServiceFunction(MS_AVATARHISTORY_SHOWDIALOG, ShowDialogSvc);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.ptszName = LPGENT("View Avatar History");

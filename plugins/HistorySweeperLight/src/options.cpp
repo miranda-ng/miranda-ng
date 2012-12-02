@@ -44,42 +44,19 @@ const char* keep_strings[] =
 	"Keep 50 last events"
 };
 
-struct
+static IconItem iconList[] =
 {
-	char* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] =
-{
-	{ "Default Action", "actG", IDI_ACTG },
-	{ "Action 1", "act1", IDI_ACT1 },
-	{ "Action 2", "act2", IDI_ACT2 },
-	{ "Delete All", "actDel", IDI_ACTDEL }
+	{ "Default Action", "actG",   IDI_ACTG },
+	{ "Action 1",       "act1",   IDI_ACT1 },
+	{ "Action 2",       "act2",   IDI_ACT2 },
+	{ "Delete All",     "actDel", IDI_ACTDEL }
 };
 
 static HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.pszSection = ModuleName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i=0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100];
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, iconList[i].szName);
-		sid.pszName = szSettingName;
-
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList), ModuleName);
 }
 
 HICON LoadIconEx(const char* name)

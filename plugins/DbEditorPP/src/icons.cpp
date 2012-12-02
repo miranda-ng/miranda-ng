@@ -2,79 +2,31 @@
 
 HIMAGELIST himl;
 
+static IconItem iconList[] = 
+{
+	{ LPGENT("Closed Known Module"),   "DBE++_1", ICO_KNOWN },
+	{ LPGENT("Open Known Module"),     "DBE++_2", ICO_KNOWNOPEN },
+	{ LPGENT("Closed Unknown Module"), "DBE++_3", ICO_UNKNOWN },
+	{ LPGENT("Open Unknown Module"),   "DBE++_4", ICO_UNKNOWNOPEN },
+	{ LPGENT("Settings"),              "DBE++_5", ICO_SETTINGS },
+	{ LPGENT("Contacts Group"),        "DBE++_6", ICO_CONTACTS },
+	{ LPGENT("Unknown Contact"),       "DBE++_7", ICO_OFFLINE },
+	{ LPGENT("Known Contact"),         "DBE++_8", ICO_ONLINE },
+};
+
 void addIcons(TCHAR* szModuleFileName)
 {
-	char name[32];
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszSection = _T(modFullname);
-	sid.ptszDefaultFile = szModuleFileName;
-	sid.flags = SIDF_ALL_TCHAR;
-
-	// closed known module
-	sid.ptszDescription = LPGENT("Closed Known Module");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_KNOWN);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_KNOWN;
-	Skin_AddIcon(&sid);
-
-	// open known module
-	sid.ptszDescription = LPGENT("Open Known Module");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_KNOWNOPEN);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_KNOWNOPEN;
-	Skin_AddIcon(&sid);
-
-	// closed unknown module
-	sid.ptszDescription = LPGENT("Closed Unknown Module");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_UNKNOWN);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_UNKNOWN;
-	Skin_AddIcon(&sid);
-
-	// open unknown module
-	sid.ptszDescription = LPGENT("Open Unknown Module");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_UNKNOWNOPEN);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_UNKNOWNOPEN;
-	Skin_AddIcon(&sid);
-
-	// settings contact
-	sid.ptszDescription = LPGENT("Settings");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_SETTINGS);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_SETTINGS;
-	Skin_AddIcon(&sid);
-
-	// contact group
-	sid.ptszDescription = LPGENT("Contacts Group");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_CONTACTS);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_CONTACTS;
-	Skin_AddIcon(&sid);
-
-	// unknwon contact
-	sid.ptszDescription = LPGENT("Unknown Contact");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_OFFLINE);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_OFFLINE;
-	Skin_AddIcon(&sid);
-
-	// known contact
-	sid.ptszDescription = LPGENT("Known Contact");
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", ICO_ONLINE);
-	sid.pszName = name;
-	sid.iDefaultIndex = -ICO_ONLINE;
-	Skin_AddIcon(&sid);
+	Icon_Register(hInst, modFullname, iconList, SIZEOF(iconList));
 }
 
 HICON LoadSkinnedDBEIcon(int icon)
 {
-	char name[32];
-	mir_snprintf(name, SIZEOF(name), "DBE++_%d", icon);
-	HICON hIcon = Skin_GetIcon(name);
-	return (hIcon) ? hIcon : LoadIcon(hInst, MAKEINTRESOURCE(icon));
-}
+	for (int i=0; i < SIZEOF(iconList); i++)
+		if (iconList[i].defIconID == icon)
+			return Skin_GetIconByHandle(iconList[i].hIcolib);
 
+	return LoadIcon(hInst, MAKEINTRESOURCE(icon));
+}
 
 int AddIconToList(HIMAGELIST hil, HICON hIcon)
 {

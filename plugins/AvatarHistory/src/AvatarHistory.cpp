@@ -27,9 +27,6 @@ HINSTANCE hInst;
 
 DWORD mirVer;
 
-HANDLE hHooks[6] = {0};
-HANDLE hServices[3] = {0};
-
 HANDLE hFolder = NULL;
 
 char *metacontacts_proto = NULL;
@@ -172,14 +169,14 @@ extern "C" __declspec(dllexport) int Load(void)
 
 	LoadOptions();
 
-	hHooks[0] = HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
-	hHooks[1] = HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
-	hHooks[3] = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hHooks[4] = HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibIconsChanged);
-	hHooks[5] = HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
+	HookEvent(ME_SYSTEM_MODULESLOADED,ModulesLoaded);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, PreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SKIN2_ICONSCHANGED, IcoLibIconsChanged);
+	HookEvent(ME_CLIST_PREBUILDCONTACTMENU, PreBuildContactMenu);
 
-	hServices[0] = CreateServiceFunction(MS_AVATARHISTORY_ENABLED, IsEnabled);
-	hServices[1] = CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
+	CreateServiceFunction(MS_AVATARHISTORY_ENABLED, IsEnabled);
+	CreateServiceFunction(MS_AVATARHISTORY_GET_CACHED_AVATAR, GetCachedAvatar);
 
 	if(CallService(MS_DB_GETPROFILEPATHT, MAX_PATH, (LPARAM)profilePath) != 0)
 		_tcscpy(profilePath, _T(".")); // Failed, use current dir
@@ -206,10 +203,9 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		metacontacts_proto = (char *) CallService(MS_MC_GETPROTOCOLNAME, 0, 0);
 
-    if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
+	if (DBGetContactSettingByte(NULL, MODULE_NAME, "LogToHistory", AVH_DEF_LOGTOHISTORY))
 	{
-		char *templates[] = { "Avatar change\nchanged his/her avatar", 
-							  "Avatar removal\nremoved his/her avatar" };
+		char *templates[] = { "Avatar change\nchanged his/her avatar", "Avatar removal\nremoved his/her avatar" };
 		HICON hIcon = createDefaultOverlayedIcon(FALSE);
 		HistoryEvents_RegisterWithTemplates(MODULE_NAME, "avatarchange", "Avatar change", EVENTTYPE_AVATAR_CHANGE, hIcon, 
 			HISTORYEVENTS_FORMAT_CHAR | HISTORYEVENTS_FORMAT_WCHAR | HISTORYEVENTS_FORMAT_RICH_TEXT,
@@ -218,23 +214,14 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		DestroyIcon(hIcon);
 	}
 	
-	hHooks[2] = HookEvent(ME_AV_CONTACTAVATARCHANGED, AvatarChanged);
+	HookEvent(ME_AV_CONTACTAVATARCHANGED, AvatarChanged);
 
 	return 0;
 }
 
 static int PreShutdown(WPARAM wParam, LPARAM lParam)
 {
-	int i;
-
-	for (i = 0; i < MAX_REGS(hHooks); i++)
-		UnhookEvent(hHooks[i]);
-
-	for (i = 0; i < MAX_REGS(hServices); i++)
-		DestroyServiceFunction(hServices[i]);
-
 	WindowList_Broadcast(hAvatarWindowsList,WM_CLOSE,0,0);
-
 	return 0;
 }
 

@@ -56,7 +56,7 @@ private:
 	LONG splitterOrgY;
 	LONG splitterX;
 	LONG splitterOrgX;
-	HICON *eventIcoms;
+	HICON *eventIcons;
 	int allIconNumber;
 	HICON plusIco, minusIco, findNextIco, findPrevIco, configIco, deleteIco;
 	WNDPROC OldSplitterProc;

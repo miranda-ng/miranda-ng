@@ -24,63 +24,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 extern OBJLIST<OmegleProto> g_Instances;
 
-struct
-{
-	const char*  name;
-	const char*  descr;
-	int          defIconID;
-	const char*  section;
-}
-static const icons[] =
+static IconItem icons[] =
 {
 	{ "omegle", LPGEN("Omegle Icon"), IDI_OMEGLE },
-//	{ "homepage", LPGEN("Visit Profile"), 0, "core_main_2" }, 
 };
 
 static HANDLE hIconLibItem[SIZEOF(icons)];
 
-// TODO: uninit
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInstance, szFile, SIZEOF(szFile));
-
-	char setting_name[100];
-	char section_name[100];
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.pszName = setting_name;
-	sid.pszSection = section_name;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i=0; i<SIZEOF(icons); i++) {
-		if(icons[i].defIconID) {
-			mir_snprintf(setting_name,sizeof(setting_name),"%s_%s","Omegle",icons[i].name);
-
-			if (icons[i].section) {
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s/%s",LPGEN("Protocols"),
-					LPGEN("Omegle"), icons[i].section);
-			} else {
-				mir_snprintf(section_name,sizeof(section_name),"%s/%s",LPGEN("Protocols"),
-					LPGEN("Omegle"));
-			}
-
-			sid.pszDescription = (char*)icons[i].descr;
-			sid.iDefaultIndex = -icons[i].defIconID;
-			hIconLibItem[i] = Skin_AddIcon(&sid);
-		} else { // External icons
-			hIconLibItem[i] = Skin_GetIconHandle(icons[i].section);
-		}
-	}	
+	Icon_Register(g_hInstance, "Protocols/Omegle", icons, SIZEOF(icons), "Omegle");
 }
 
 HANDLE GetIconHandle(const char* name)
 {
 	for(size_t i=0; i<SIZEOF(icons); i++)
 	{
-		if(strcmp(icons[i].name,name) == 0)
+		if(strcmp(icons[i].szName, name) == 0)
 			return hIconLibItem[i];
 	}
 	return 0;

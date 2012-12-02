@@ -296,40 +296,15 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 	return 0;
 }
 
-struct
+static IconItem iconList[] =
 {
-	char* szDescr;
-	char* szName;
-	int   defIconID;
-}
-static const iconList[] =
-{
-	{ "Audio device is opened", "BASSSoundOnOffUp", IDI_BASSSoundOnOffUp },
-	{ "Audio device is closed", "BASSSoundOnOffDown", IDI_BASSSoundOnOffDown }
+	{ LPGEN("Audio device is opened"), "BASSSoundOnOffUp",   IDI_BASSSoundOnOffUp },
+	{ LPGEN("Audio device is closed"), "BASSSoundOnOffDown", IDI_BASSSoundOnOffDown }
 };
-
-static HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void InitIcons(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.cx = sid.cy = 16;
-	sid.pszSection = ModuleName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for (int i=0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100]; 
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", ModuleName, iconList[i].szName);
-	
-		sid.pszName = szSettingName;
-		sid.pszDescription = (char*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}	
+	Icon_Register(hInst, ModuleName, iconList, SIZEOF(iconList));
 }
 
 int OptionsInit(WPARAM wParam, LPARAM lParam)
@@ -376,8 +351,8 @@ int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 	tbb.pszService = "BASSinterface/BASSSoundOnOff";
 	tbb.pszTooltipUp = LPGEN("Audio device is opened");
 	tbb.pszTooltipDn = LPGEN("Audio device is closed");
-	tbb.hIconHandleUp = hIconLibItem[0];
-	tbb.hIconHandleDn = hIconLibItem[1];
+	tbb.hIconHandleUp = iconList[0].hIcolib;
+	tbb.hIconHandleDn = iconList[1].hIcolib;
 	tbb.dwFlags = TTBBF_SHOWTOOLTIP;
 	hTBButton = TopToolbar_AddButton(&tbb);
 	return 0;

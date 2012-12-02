@@ -21,10 +21,8 @@
 #include "clients.h"
 
 HINSTANCE g_hInst;
-static HANDLE hHookModulesLoaded = NULL;
-static HANDLE hHookExtraIconsApply = NULL, hContactSettingChanged = NULL;
-HANDLE hExtraIcon = NULL;
 int hLangpack;
+HANDLE hExtraIcon = NULL;
 
 PLUGININFOEX pluginInfo = {
     sizeof(PLUGININFOEX),
@@ -39,6 +37,8 @@ PLUGININFOEX pluginInfo = {
 	// {F0BA32D0-CD07-4A9C-926B-5A1FF21C3C10}
 	{0xf0ba32d0, 0xcd07, 0x4a9c, { 0x92, 0x6b, 0x5a, 0x1f, 0xf2, 0x1c, 0x3c, 0x10 }}
 };
+
+static IconItem icon = { LPGEN("Mobile State"), "mobile_icon", IDI_MOBILE };
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -60,11 +60,9 @@ bool hasMobileClient(HANDLE hContact, LPARAM lParam)
 		TCHAR *client = _tcslwr(NEWTSTR_ALLOCA(dbv.ptszVal));
 		DBFreeVariant(&dbv);
 
-		for (size_t i=0; i<(sizeof(clients) / sizeof(TCHAR*)); i++) {
-			if (_tcsstr(client, clients[i])) {
+		for (size_t i=0; i<(sizeof(clients) / sizeof(TCHAR*)); i++)
+			if (_tcsstr(client, clients[i]))
 				return true;
-			}
-		}		
 	}
 	return false;
 }
@@ -97,17 +95,7 @@ int onContactSettingChanged(WPARAM wParam,LPARAM lParam)
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
 	// IcoLib support
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = "Mobile State";
-	sid.ptszDefaultFile = szFile;
-	sid.pszDescription = "Mobile State";
-	sid.pszName = "mobile_icon";
-	sid.iDefaultIndex = -IDI_MOBILE;
-	Skin_AddIcon(&sid);
+	Icon_Register(g_hInst, "Mobile State", &icon, 1);
 
 	// extra icons
 	hExtraIcon = ExtraIcon_Register("mobilestate", "Mobile State", "mobile_icon");
@@ -122,28 +110,17 @@ int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-int onSystemOKToExit(WPARAM wParam,LPARAM lParam)
-{
-
-	return 0;
-}
-
 extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hHookModulesLoaded = HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
-	hContactSettingChanged = HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
-	hHookExtraIconsApply = HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
-
+	HookEvent(ME_SYSTEM_MODULESLOADED, onModulesLoaded);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, onContactSettingChanged);
+	HookEvent(ME_CLIST_EXTRA_IMAGE_APPLY, ExtraIconsApply);
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvent(hHookModulesLoaded);
-	UnhookEvent(hHookExtraIconsApply);
-	UnhookEvent(hContactSettingChanged);
-
 	return 0;
 }

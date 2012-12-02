@@ -20,49 +20,23 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "commonheaders.h"
 #include "simplestatusmsg.h"
 
-static HANDLE *hHookList = NULL;
-static HANDLE *hProtoHookList = NULL;
-static HANDLE *hServiceList = NULL;
-static int HookCount = 0;
-static int ProtoHookCount = 0;
-static int ServiceCount = 0;
+static LIST<void> arProtoHooks(5);
 
-struct
+static IconItem iconList[] =
 {
-	TCHAR *szDescr;
-	char  *szName;
-	int    defIconID;
-	HANDLE hIcolib;
-}
-static iconList[] =
-{
-	{ LPGENT("Delete Selected"),			"cross",	IDI_CROSS		},
-	{ LPGENT("Recent Message"),				"recent",	IDI_HISTORY		},
-	{ LPGENT("Predefined Message"),			"predef",	IDI_MESSAGE		},
-	{ LPGENT("Add to Predefined"),			"add",		IDI_PLUS		},
-	{ LPGENT("Clear History"),				"clear",	IDI_CHIST		},
-	{ LPGENT("Copy Away Message"),			"copy",		IDI_COPY		},
-	{ LPGENT("Change Status Message"),		"csmsg",	IDI_CSMSG,		},
-	{ LPGENT("Go to URL in Away Message"),	"gotourl",	IDI_GOTOURL		}
+	{ LPGEN("Delete Selected"),           "cross",   IDI_CROSS   },
+	{ LPGEN("Recent Message"),            "recent",  IDI_HISTORY },
+	{ LPGEN("Predefined Message"),        "predef",  IDI_MESSAGE },
+	{ LPGEN("Add to Predefined"),         "add",     IDI_PLUS    },
+	{ LPGEN("Clear History"),             "clear",   IDI_CHIST   },
+	{ LPGEN("Copy Away Message"),         "copy",    IDI_COPY    },
+	{ LPGEN("Change Status Message"),     "csmsg",   IDI_CSMSG,  },
+	{ LPGEN("Go to URL in Away Message"), "gotourl", IDI_GOTOURL }
 };
 
 void IconsInit(void)
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszDefaultFile = szFile;
-	sid.ptszSection = _T("Simple Status Message");
-	for (int i = 0; i < SIZEOF(iconList); i++) {
-		char szSettingName[100];
-		mir_snprintf(szSettingName, SIZEOF(szSettingName), "SimpleStatusMsg_%s", iconList[i].szName);
-		sid.pszName = szSettingName;
-		sid.ptszDescription = (TCHAR*)iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIcolib = Skin_AddIcon(&sid);
-	}
+	Icon_Register(g_hInst, "Simple Status Message", iconList, SIZEOF(iconList), "SimpleStatusMsg");
 }
 
 HICON LoadIconEx(const char* name)
@@ -88,55 +62,20 @@ void ReleaseIconEx(const char* name)
 	Skin_ReleaseIcon(szSettingName);
 }
 
-HANDLE HookEventEx(const char *szEvent, MIRANDAHOOK hookProc)
-{
-	HookCount++;
-	hHookList = (HANDLE *)mir_realloc(hHookList, sizeof(HANDLE) * HookCount);
-	return hHookList[HookCount - 1] = HookEvent(szEvent, hookProc);
-}
-
-void UnhookEvents(void)
-{
-	if (hHookList == NULL) return;
-	for (int i = 0; i < HookCount; ++i)
-		if (hHookList[i] != NULL) UnhookEvent(hHookList[i]);
-	mir_free(hHookList);
-	hHookList = NULL;
-	HookCount = 0;
-}
-
 HANDLE HookProtoEvent(const char *szModule, const char *szEvent, MIRANDAHOOKPARAM hookProc)
 {
 	char szProtoEvent[MAXMODULELABELLENGTH];
 	mir_snprintf(szProtoEvent, sizeof(szProtoEvent), "%s%s", szModule, szEvent);
-	ProtoHookCount++;
-	hProtoHookList = (HANDLE *)mir_realloc(hProtoHookList, sizeof(HANDLE) * ProtoHookCount);
-	return hProtoHookList[ProtoHookCount - 1] = HookEventParam(szProtoEvent, hookProc, (LPARAM)szModule);
+	HANDLE res = HookEventParam(szProtoEvent, hookProc, (LPARAM)szModule);
+	arProtoHooks.insert(res);
+	return res;
 }
 
 void UnhookProtoEvents(void)
 {
-	if (hProtoHookList == NULL) return;
-	for (int i = 0; i < ProtoHookCount; ++i)
-		if (hProtoHookList[i] != NULL) UnhookEvent(hProtoHookList[i]);
-	mir_free(hProtoHookList);
-	hProtoHookList = NULL;
-	ProtoHookCount = 0;
-}
-
-HANDLE CreateServiceFunctionEx(const char *name, MIRANDASERVICE serviceProc)
-{
-	ServiceCount++;
-	hServiceList = (HANDLE *)mir_realloc(hServiceList, sizeof(HANDLE) * ServiceCount);
-	return hServiceList[ServiceCount - 1] = CreateServiceFunction(name, serviceProc);
-}
-
-void DestroyServiceFunctionsEx(void)
-{
-	for (int i = 0; i < ServiceCount; ++i)
-		if (hServiceList[i] != NULL) DestroyServiceFunction(hServiceList[i]);
-	mir_free(hServiceList);
-	ServiceCount = 0;
+	for (int i = 0; i < arProtoHooks.getCount(); ++i)
+		UnhookEvent( arProtoHooks[i] );
+	arProtoHooks.destroy();
 }
 
 // Generate random number in a specified range

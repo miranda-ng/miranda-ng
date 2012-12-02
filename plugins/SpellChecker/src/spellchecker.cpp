@@ -259,14 +259,7 @@ static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 ////////////////////////////////////////////////////////////////////////////////////////
 
-struct
-{
-	char*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIcolib;
-}
-static iconList[] =
+static IconItem iconList[] =
 {
 	{ LPGEN("Enabled"),  "spellchecker_enabled",  IDI_CHECK    },
 	{ LPGEN("Disabled"), "spellchecker_disabled", IDI_NO_CHECK }
@@ -277,20 +270,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	mir_getLP(&pluginInfo);
 
 	// icons
-	TCHAR path[MAX_PATH];
-	GetModuleFileName(hInst, path, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.pszSection = LPGEN("Spell Checker");
-	sid.ptszDefaultFile = path;
-
-	for (int i = 0; i < SIZEOF(iconList); ++i) {
-		sid.pszDescription = iconList[i].szDescr;
-		sid.pszName = iconList[i].szName;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIcolib = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInst, LPGEN("Spell Checker"), iconList, SIZEOF(iconList));
 
 	// hooks
 	HookEvent(ME_SYSTEM_MODULESLOADED, ModulesLoaded);

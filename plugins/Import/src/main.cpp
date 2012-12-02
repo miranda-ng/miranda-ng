@@ -107,6 +107,10 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+static IconItem iconList[] = { 
+	{ LPGEN("Import..."), "import_main", -IDI_IMPORT }
+};
+
 extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP( &pluginInfo );
@@ -114,21 +118,11 @@ extern "C" __declspec(dllexport) int Load(void)
 	hImportService = CreateServiceFunction(IMPORT_SERVICE, ImportCommand);
 
 	// icon
-	TCHAR tszFile[MAX_PATH];
-	GetModuleFileName(hInst, tszFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_TCHAR;
-	sid.ptszDefaultFile = tszFile;
-	sid.pszSection = "Import";
-	sid.pszName = "import_main";
-	sid.pszDescription = LPGEN("Import...");
-	sid.iDefaultIndex = -IDI_IMPORT;
-	hIcoHandle = Skin_AddIcon(&sid);
+	Icon_Register(hInst, "Import", iconList, SIZEOF(iconList));
 	
 	// menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.icolibItem = hIcoHandle;
+	mi.icolibItem = iconList[0].hIcolib;
 	mi.pszName = LPGEN("&Import...");
 	mi.position = 500050000;
 	mi.pszService = IMPORT_SERVICE;

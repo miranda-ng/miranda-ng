@@ -1970,16 +1970,16 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	LoadAwayMsgModule();
 
-	HookEventEx(ME_TTB_MODULELOADED, AddTopToolbarButton);
+	HookEvent(ME_TTB_MODULELOADED, AddTopToolbarButton);
 
 	RegisterHotkey();
 
-	HookEventEx(ME_OPT_INITIALISE, InitOptions);
+	HookEvent(ME_OPT_INITIALISE, InitOptions);
 	h_statusmodechange = HookEvent(ME_CLIST_STATUSMODECHANGE, ChangeStatusMessage);
-	HookEventEx(ME_PROTO_ACK, ProcessProtoAck);
-	HookEventEx(ME_IDLE_CHANGED, OnIdleChanged);
+	HookEvent(ME_PROTO_ACK, ProcessProtoAck);
+	HookEvent(ME_IDLE_CHANGED, OnIdleChanged);
 
-	HookEventEx(ME_CLIST_PREBUILDSTATUSMENU, ChangeStatusMsgPrebuild);
+	HookEvent(ME_CLIST_PREBUILDSTATUSMENU, ChangeStatusMsgPrebuild);
 	ChangeStatusMsgPrebuild(0, 0);
 
 	if (ServiceExists(MS_VARS_REGISTERTOKEN))
@@ -2020,7 +2020,7 @@ static int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		g_uUpdateMsgTimer = SetTimer(NULL, 0, DBGetContactSettingWord(NULL, "SimpleStatusMsg", "UpdateMsgInt", 10) * 1000, (TIMERPROC)UpdateMsgTimerProc);
 
 	if (ServiceExists(MS_CS_SETSTATUSEX))
-		HookEventEx(ME_CS_STATUSCHANGEEX, CSStatusChange);
+		HookEvent(ME_CS_STATUSCHANGEEX, CSStatusChange);
 
 	if (accounts->statusCount == 0)
 		return 0;
@@ -2122,48 +2122,47 @@ extern "C" int __declspec(dllexport) Load(void)
 	accounts = (PROTOACCOUNTS *)mir_alloc(sizeof(PROTOACCOUNTS));
 
 	DBWriteContactSettingWord(NULL, "CList", "Status", (WORD)ID_STATUS_OFFLINE);
-	HookEventEx(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
-	HookEventEx(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
+	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
+	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
 
 
-	CreateServiceFunctionEx(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
-	CreateServiceFunctionEx(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
+	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSG, sttGetAwayMessage);
+	CreateServiceFunction(MS_AWAYMSG_GETSTATUSMSGW, sttGetAwayMessageT);
 
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_SETSTATUS, SetStatusModeFromExtern);
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_SHOWDIALOG, ShowStatusMessageDialog);
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, ChangeStatusMsg);
-	CreateServiceFunctionEx(MS_SIMPLESTATUSMSG_SHOWDIALOGINT, ShowStatusMessageDialogInternal); // internal use ONLY
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_SETSTATUS, SetStatusModeFromExtern);
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_SHOWDIALOG, ShowStatusMessageDialog);
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_CHANGESTATUSMSG, ChangeStatusMsg);
+	CreateServiceFunction(MS_SIMPLESTATUSMSG_SHOWDIALOGINT, ShowStatusMessageDialogInternal); // internal use ONLY
 
 	// Deprecated SimpleAway services
-	CreateServiceFunctionEx(MS_SA_ISSARUNNING, IsSARunning);
-	CreateServiceFunctionEx(MS_SA_CHANGESTATUSMSG, ChangeStatusMsg);
-	CreateServiceFunctionEx(MS_SA_TTCHANGESTATUSMSG, ShowStatusMessageDialogInternal);
-	CreateServiceFunctionEx(MS_SA_SHOWSTATUSMSGDIALOG, ShowStatusMessageDialog);
-	CreateServiceFunctionEx(MS_SA_SETSTATUSMODE, SetStatusModeFromExtern);
+	CreateServiceFunction(MS_SA_ISSARUNNING, IsSARunning);
+	CreateServiceFunction(MS_SA_CHANGESTATUSMSG, ChangeStatusMsg);
+	CreateServiceFunction(MS_SA_TTCHANGESTATUSMSG, ShowStatusMessageDialogInternal);
+	CreateServiceFunction(MS_SA_SHOWSTATUSMSGDIALOG, ShowStatusMessageDialog);
+	CreateServiceFunction(MS_SA_SETSTATUSMODE, SetStatusModeFromExtern);
 
-	CreateServiceFunctionEx(MS_SA_SETOFFLINESTATUS, SetOfflineStatus);
-	CreateServiceFunctionEx(MS_SA_SETONLINESTATUS, SetOnlineStatus);
-	CreateServiceFunctionEx(MS_SA_SETAWAYSTATUS, SetAwayStatus);
-	CreateServiceFunctionEx(MS_SA_SETDNDSTATUS, SetDNDStatus);
-	CreateServiceFunctionEx(MS_SA_SETNASTATUS, SetNAStatus);
-	CreateServiceFunctionEx(MS_SA_SETOCCUPIEDSTATUS, SetOccupiedStatus);
-	CreateServiceFunctionEx(MS_SA_SETFREECHATSTATUS, SetFreeChatStatus);
-	CreateServiceFunctionEx(MS_SA_SETINVISIBLESTATUS, SetInvisibleStatus);
-	CreateServiceFunctionEx(MS_SA_SETONTHEPHONESTATUS, SetOnThePhoneStatus);
-	CreateServiceFunctionEx(MS_SA_SETOUTTOLUNCHSTATUS, SetOutToLunchStatus);
+	CreateServiceFunction(MS_SA_SETOFFLINESTATUS, SetOfflineStatus);
+	CreateServiceFunction(MS_SA_SETONLINESTATUS, SetOnlineStatus);
+	CreateServiceFunction(MS_SA_SETAWAYSTATUS, SetAwayStatus);
+	CreateServiceFunction(MS_SA_SETDNDSTATUS, SetDNDStatus);
+	CreateServiceFunction(MS_SA_SETNASTATUS, SetNAStatus);
+	CreateServiceFunction(MS_SA_SETOCCUPIEDSTATUS, SetOccupiedStatus);
+	CreateServiceFunction(MS_SA_SETFREECHATSTATUS, SetFreeChatStatus);
+	CreateServiceFunction(MS_SA_SETINVISIBLESTATUS, SetInvisibleStatus);
+	CreateServiceFunction(MS_SA_SETONTHEPHONESTATUS, SetOnThePhoneStatus);
+	CreateServiceFunction(MS_SA_SETOUTTOLUNCHSTATUS, SetOutToLunchStatus);
 
-	HookEventEx(ME_SYSTEM_OKTOEXIT, OnOkToExit);
-	HookEventEx(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
+	HookEvent(ME_SYSTEM_OKTOEXIT, OnOkToExit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, OnPreShutdown);
 
 	return 0;
 }
 
 extern "C" int __declspec(dllexport) Unload(void)
 {
-	UnhookEvents();
 	UnhookEvent(h_statusmodechange);
 	UnhookProtoEvents();
-	DestroyServiceFunctionsEx();
+
 	mir_free(accounts);
 
 #ifdef _DEBUG

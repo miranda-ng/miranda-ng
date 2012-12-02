@@ -197,11 +197,39 @@ MIR_CORE_DLL(pfnExceptionFilter) GetExceptionFilter(void);
 MIR_CORE_DLL(pfnExceptionFilter) SetExceptionFilter(pfnExceptionFilter pMirandaExceptFilter);
 
 ///////////////////////////////////////////////////////////////////////////////
+// icons support
+
+extern int hLangpack;
+
+typedef struct tagIconItem
+{
+	char  *szDescr, *szName;
+	int    defIconID, size;
+	HANDLE hIcolib;
+}
+	IconItem;
+
+typedef struct tagIconItemT
+{
+	TCHAR *tszDescr;
+	char  *szName;
+	int    defIconID, size;
+	HANDLE hIcolib;
+}
+	IconItemT;
+
+#if defined( __cplusplus )
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconItemT* pIcons, size_t iCount, char *prefix = NULL, int = hLangpack);
+#else
+MIR_CORE_DLL(void) Icon_Register(HINSTANCE hInst, const char* szSection, IconItem* pIcons, size_t iCount, char *prefix, int hLangpack);
+MIR_CORE_DLL(void) Icon_RegisterT(HINSTANCE hInst, const TCHAR* szSection, IconItemT* pIcons, size_t iCount, char *prefix, int hLangpack);
+#endif
+
+///////////////////////////////////////////////////////////////////////////////
 // language packs support
 
 #define LANG_UNICODE 0x1000
-
-extern int hLangpack;
 
 MIR_CORE_DLL(void)   Langpack_SortDuplicates(void);
 MIR_CORE_DLL(int)    Langpack_GetDefaultCodePage( void );

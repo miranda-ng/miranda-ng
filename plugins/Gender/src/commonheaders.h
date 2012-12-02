@@ -48,6 +48,7 @@
 #include <m_genmenu.h>
 #include <m_icolib.h>
 #include <m_cluiframes.h>
+#include <win2k.h>
 
 //Gender SDK
 #include "m_gender.h"

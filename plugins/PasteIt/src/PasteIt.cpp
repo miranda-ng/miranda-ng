@@ -26,7 +26,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 // {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
 #define	MIID_PASTEIT { 0x1aac15e8, 0xdcec, 0x4050, { 0xb6, 0x6f, 0x2a, 0xa0, 0xe6, 0x12, 0xc, 0x22 } }
 
-
 PasteToWeb* pasteToWebs[PasteToWeb::pages];
 std::map<HANDLE, HWND>* contactWindows;
 DWORD gMirandaVersion;
@@ -38,7 +37,6 @@ HANDLE hPrebuildContactMenu;
 HANDLE hServiceContactMenu;
 HGENMENU hContactMenu;
 HGENMENU hWebPageMenus[PasteToWeb::pages];
-HANDLE hMainIcon;
 HANDLE hOptionsInit;
 HANDLE hWindowEvent = NULL;
 HINSTANCE hInst;
@@ -61,6 +59,8 @@ PLUGININFOEX pluginInfo={
 	UNICODE_AWARE, 
 	MIID_PASTEIT
 };
+
+static IconItem icon = { LPGEN("Paste It"), "PasteIt_main", IDI_MENU };
 
 XML_API xi = {0};
 int hLangpack = 0;
@@ -364,28 +364,11 @@ INT_PTR ContactMenuService(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-void InitIcolib()
-{
-	TCHAR stzFile[MAX_PATH];
-	GetModuleFileName(hInst, stzFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.cx = sid.cy = 16;
-	sid.ptszDefaultFile = stzFile;
-	sid.ptszSection = LPGENT("Paste It");
-	sid.flags = SIDF_ALL_TCHAR;
-
-	sid.pszName = "PasteIt_main";
-	sid.ptszDescription = LPGENT("Paste It");
-	sid.iDefaultIndex = -IDI_MENU;
-	hMainIcon = Skin_AddIcon(&sid);
-}
-
 void InitMenuItems()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = hMainIcon;
+	mi.icolibItem = icon.hIcolib;
 	mi.position = 3000090005;
 	mi.ptszName = _T("Paste It");
 
@@ -445,14 +428,13 @@ void InitTabsrmmButton()
 		btn.dwButtonID = 1;
 		btn.pszModuleName = MODULE;
 		btn.dwDefPos = 110;
-		btn.hIcon = hMainIcon;
+		btn.hIcon = icon.hIcolib;
 		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN | BBBF_ISCHATBUTTON;
 		btn.ptszTooltip = TranslateT("Paste It");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
+
 		if(hTabsrmmButtonPressed != NULL)
-		{
 			UnhookEvent(hTabsrmmButtonPressed);
-		}
 
 		hTabsrmmButtonPressed = HookEvent(ME_MSG_BUTTONPRESSED, TabsrmmButtonPressed);
 	}
@@ -485,7 +467,6 @@ int WindowEvent(WPARAM wParam, MessageWindowEventData* lParam)
 
 int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
-	InitIcolib();
 	InitMenuItems();
 	InitTabsrmmButton();
 	hWindowEvent = HookEvent(ME_MSG_WINDOWEVENT, (MIRANDAHOOK)WindowEvent);
@@ -497,6 +478,9 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getXI(&xi);
 	mir_getLP(&pluginInfo);
+
+	Icon_Register(hInst, LPGEN("Paste It"), &icon, 1);
+
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
   	nlu.flags = NUF_TCHAR | NUF_OUTGOING | NUF_HTTPCONNS;
@@ -526,25 +510,20 @@ extern "C" int __declspec(dllexport) Unload(void)
 	UnhookEvent(hPrebuildContactMenu);
 	UnhookEvent(hOptionsInit);
 	if(hWindowEvent != NULL)
-	{
 		UnhookEvent(hWindowEvent);
-	}
+
 	DestroyServiceFunction(hServiceContactMenu);
 	Netlib_CloseHandle(g_hNetlibUser);
 	if(hTabsrmmButtonPressed != NULL)
-	{
 		UnhookEvent(hTabsrmmButtonPressed);
-	}
+
 	for(int i=0; i < PasteToWeb::pages; ++i)
-	{
-		if(pasteToWebs[i] != NULL)
-		{
+		if(pasteToWebs[i] != NULL) {
 			delete pasteToWebs[i];
 			pasteToWebs[i] = NULL;
 		}
-	}
-	if(Options::instance != NULL)
-	{
+
+	if(Options::instance != NULL) {
 		delete Options::instance;
 		Options::instance = NULL;
 	}

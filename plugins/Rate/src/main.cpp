@@ -69,40 +69,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 ///////////////////////////////////////////////////////////////////////////////
 
-struct
-{
-	char*  szDescr;
-	char*  szName;
-	int    defIconID;
-	HANDLE hIconLibItem;
-}
-static iconList[] =
-{
-	{ LPGEN("Rate high"), "rate_high", IDI_RATEHI },
-	{ LPGEN("Rate medium"), "rate_medium", IDI_RATEME },
-	{ LPGEN("Rate low"), "rate_low", IDI_RATELO },
-};
-
-static void init_icolib (void)
-{
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(g_hInst, szFile, MAX_PATH);
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.pszSection = LPGEN("Contact Rate");
-	sid.ptszDefaultFile = szFile;
-	sid.flags = SIDF_ALL_TCHAR;
-
-	for (int i = 0; i < SIZEOF(iconList); i++ ) {
-		sid.pszName = iconList[i].szName;
-		sid.pszDescription =  iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		iconList[i].hIconLibItem = Skin_AddIcon(&sid);
-	}
-}
-
-///////////////////////////////////////////////////////////////////////////////
-
 static void setExtraIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
 {
 	if (hContact == NULL)
@@ -122,10 +88,19 @@ static void setExtraIcon(HANDLE hContact, int bRate = -1, BOOL clear = TRUE)
 		ExtraIcon_SetIcon(hExtraIcon, hContact, icon);
 }
 
+///////////////////////////////////////////////////////////////////////////////
+
+static IconItem iconList[] =
+{
+	{ LPGEN("Rate high"),   "rate_high",   IDI_RATEHI },
+	{ LPGEN("Rate medium"), "rate_medium", IDI_RATEME },
+	{ LPGEN("Rate low"),    "rate_low",    IDI_RATELO },
+};
+
 int onModulesLoaded(WPARAM wParam,LPARAM lParam)
 {
    // IcoLib support
-   init_icolib();
+	Icon_Register(g_hInst, LPGEN("Contact Rate"), iconList, SIZEOF(iconList));
 
 	// Extra icon support
 	hExtraIcon = ExtraIcon_Register("contact_rate", "Contact rate", "rate_high");

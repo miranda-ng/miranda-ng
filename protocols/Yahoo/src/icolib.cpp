@@ -17,13 +17,8 @@
 
 #include "resource.h"
 
-struct
+static IconItem iconList[] =
 {
-	const char* szDescr;
-	const char* szName;
-	int   defIconID;
-}
-static iconList[] = {
 	{	LPGEN("Main"),         "yahoo",      IDI_YAHOO      },
 	{	LPGEN("Mail"),         "mail",       IDI_INBOX      },
 	{	LPGEN("Profile"),      "profile",    IDI_PROFILE    },
@@ -37,26 +32,7 @@ HANDLE hIconLibItem[SIZEOF(iconList)];
 
 void CYahooProto::IconsInit( void )
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInstance, szFile, SIZEOF(szFile));
-
-	char szSectionName[100];
-	mir_snprintf(szSectionName, sizeof(szSectionName), "%s/%s", LPGEN("Protocols"), LPGEN("YAHOO"));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = szSectionName;
-	sid.flags = SIDF_PATH_TCHAR;
-
-	for ( int i = 0; i < SIZEOF(iconList); i++ ) {
-		char szSettingName[100];
-		mir_snprintf( szSettingName, sizeof( szSettingName ), "YAHOO_%s", iconList[i].szName );
-		
-		sid.pszName = szSettingName;
-		sid.pszDescription = (char* )iconList[i].szDescr;
-		sid.iDefaultIndex = -iconList[i].defIconID;
-		hIconLibItem[i] = Skin_AddIcon(&sid);
-	}
+	Icon_Register(hInstance, "Protocols/YAHOO", iconList, SIZEOF(iconList), "YAHOO");
 }
 
 HICON CYahooProto::LoadIconEx( const char* name, bool big )

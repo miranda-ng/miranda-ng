@@ -25,9 +25,13 @@
 
 #define MAX_MMITEMS		6
 
-static HANDLE hTtbDown = 0, hTtbUp = 0;
-
 static LIST<void> ttbButtons(1);
+
+static IconItem iconList[] = 
+{
+	{ LPGEN("Pressed toolbar icon"),  "StartupStatus/TtbDown", IDI_TTBDOWN },
+	{ LPGEN("Released toolbar icon"), "StartupStatus/TtbUp",   IDI_TTBUP   },
+};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,8 +61,8 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 		if (DBGetContactSetting(NULL, MODULENAME, setting, &dbv))
 			continue;
 
-		ttb.hIconHandleDn = hTtbDown;
-		ttb.hIconHandleUp = hTtbUp;
+		ttb.hIconHandleDn = iconList[0].hIcolib;
+		ttb.hIconHandleUp = iconList[1].hIcolib;
 		ttb.wParamDown = ttb.wParamUp = i;
 		ttb.name = ttb.pszTooltipUp = dbv.pszVal;
 		HANDLE ttbAddResult = TopToolbar_AddButton(&ttb);
@@ -73,20 +77,5 @@ int CreateTopToolbarButtons(WPARAM wParam, LPARAM lParam)
 
 void RegisterButtons()
 {
-	TCHAR szFile[MAX_PATH];
-	GetModuleFileName(hInst, szFile, SIZEOF(szFile));
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.ptszDefaultFile = szFile;
-	sid.pszSection = "Toolbar/StartupStatus";
-	sid.pszName = "StartupStatus/TtbDown";
-	sid.pszDescription = "Pressed toolbar icon";
-	sid.iDefaultIndex = -IDI_TTBDOWN;
-	sid.flags = SIDF_PATH_TCHAR;
-	hTtbDown = Skin_AddIcon(&sid);
-
-	sid.pszName = "StartupStatus/TtbUp";
-	sid.pszDescription = "Released toolbar icon";
-	sid.iDefaultIndex = -IDI_TTBUP;
-	hTtbUp = Skin_AddIcon(&sid);
+	Icon_Register(hInst, "Toolbar/StartupStatus", iconList, SIZEOF(iconList));
 }
