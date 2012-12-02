@@ -133,7 +133,6 @@
 #define IDD_WAITRESTART                 285
 #define IDD_FTMGR                       286
 #define IDD_FTPAGE                      287
-#define IDD_OPT_KEYWORDFILTER           288
 #define IDI_JOINCHAT                    289
 #define IDD_CHOOSE_FONT_EFFECT          289
 #define IDI_LEAVECHAT                   290

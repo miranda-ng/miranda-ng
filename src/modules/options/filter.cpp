@@ -24,8 +24,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "..\..\core\commonheaders.h"
 #include "filter.h"
 
-HANDLE hOptionsInitialize;
-
 CPageList filterStrings(1);
 
 void AddFilterString(const PageHash key, TCHAR *data)
@@ -151,69 +149,4 @@ void GetDialogStrings(int enableKeywordFiltering, const PageHash key, TCHAR *plu
 		
 		EnumChildWindows(hWnd, GetDialogStringsCallback, (LPARAM) key);
 	}
-}
-
-static INT_PTR CALLBACK DlgProcOptSearch(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{
-	switch (msg) {
-	case WM_INITDIALOG:
-		TranslateDialogDefault(hWnd);
-		
-		CheckDlgButton(hWnd, IDC_ENABLE_KEYWORDFILTERING, db_get_w(NULL, "Options", "EnableKeywordFiltering", TRUE) ? BST_CHECKED : BST_UNCHECKED);
-		return TRUE;
-	
-	case WM_COMMAND:
-		switch (LOWORD(wParam)) {
-		case IDC_ENABLE_KEYWORDFILTERING:
-			SendMessage(GetParent(hWnd), PSM_CHANGED, 0, 0);
-			break;
-		}
-		break;
-
-	case WM_SETFOCUS:
-		SetFocus( GetDlgItem(hWnd, IDC_ENABLE_KEYWORDFILTERING));
-		break;
-
-	case WM_NOTIFY:
-		switch(((LPNMHDR)lParam)->idFrom) {
-		case 0:
-			switch (((LPNMHDR)lParam)->code) {
-			case PSN_APPLY:
-				DBWriteContactSettingWord(NULL, "Options", "EnableKeywordFiltering", IsDlgButtonChecked(hWnd, IDC_ENABLE_KEYWORDFILTERING));
-				break;
-			}
-		}
-		break;
-	}
-	
-	return 0;
-}
-
-static int OnOptionsInitialise(WPARAM wParam, LPARAM)
-{
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
-	odp.position = -190000000;
-	odp.hInstance = hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_KEYWORDFILTER);
-	odp.pszTitle = LPGEN("Options search");
-	odp.pszGroup = LPGEN("Customize");
-	odp.groupPosition = 810000000;
-	odp.flags = ODPF_BOLDGROUPS;
-	odp.pfnDlgProc = DlgProcOptSearch;
-	Options_AddPage(wParam, &odp);
-	return 0;
-}
-
-int HookFilterEvents()
-{
-	hOptionsInitialize = HookEvent(ME_OPT_INITIALISE, OnOptionsInitialise);
-	return 0;
-}
-
-int UnhookFilterEvents()
-{
-	UnhookEvent(hOptionsInitialize);
-	return 0;
 }

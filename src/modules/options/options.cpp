@@ -773,12 +773,11 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcTab, 2);
 			TabCtrl_AdjustRect( GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
-			//!!!!!!!!!! int enableKeywordFiltering = db_get_w(NULL, "Options", "EnableKeywordFiltering", TRUE); 
-			FillFilterCombo(0, hdlg, dat); //!!!!!!!!!!  enableKeywordFiltering, 
+			FillFilterCombo(0, hdlg, dat);
 			SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
-
-			return TRUE;
 		}
+		return TRUE;
+
 	case DM_REBUILDPAGETREE:
 		{	
 			BOOL bRemoveFocusFromFilter = FALSE;
@@ -1429,11 +1428,9 @@ static int OptModulesLoaded(WPARAM, LPARAM)
 
 int ShutdownOptionsModule(WPARAM, LPARAM)
 {
-	if (IsWindow(hwndOptions)) DestroyWindow(hwndOptions);
+	if ( IsWindow(hwndOptions))
+		DestroyWindow(hwndOptions);
 	hwndOptions = NULL;
-	
-	//!!!!!!!!!! UnhookFilterEvents();
-	
 	return 0;
 }
 
@@ -1447,7 +1444,5 @@ int LoadOptionsModule(void)
 	CreateServiceFunction("Options/OptionsCommand", OpenOptionsDialog);
 	HookEvent(ME_SYSTEM_MODULESLOADED, OptModulesLoaded);
 	HookEvent(ME_SYSTEM_PRESHUTDOWN, ShutdownOptionsModule);
-	
-	//!!!!!!!!!! HookFilterEvents();
 	return 0;
 }
