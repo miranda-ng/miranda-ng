@@ -17,11 +17,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_Miranda", "icon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_MRA", "iconpacks\ClientIcons_MRA.vcxproj", "{8DE3A1E9-BCD9-429D-A81D-35B6F86AA0AA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_multiproto", "iconpacks\ClientIcons_multiprotocols.vcxproj", "{196C0237-7C8A-4887-BD0F-52E6BBE1D61B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_Multiproto", "iconpacks\ClientIcons_Multiproto.vcxproj", "{196C0237-7C8A-4887-BD0F-52E6BBE1D61B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_others", "iconpacks\ClientIcons_others.vcxproj", "{1957D0AE-B386-4BF0-A8B9-42229922BA91}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_Others", "iconpacks\ClientIcons_Others.vcxproj", "{1957D0AE-B386-4BF0-A8B9-42229922BA91}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_overlays", "iconpacks\ClientIcons_overlays.vcxproj", "{7D81F099-33CC-4FF3-A465-3943CB3F70C6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_Overlays", "iconpacks\ClientIcons_Overlays.vcxproj", "{7D81F099-33CC-4FF3-A465-3943CB3F70C6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ClientIcons_packs", "iconpacks\ClientIcons_Packs.vcxproj", "{99331043-10E4-4171-940E-D43E51B0401B}"
 EndProject
