@@ -108,7 +108,7 @@ static int OnExit(WPARAM wParam, LPARAM lParam)
 }
 
 static IconItem iconList[] = { 
-	{ LPGEN("Import..."), "import_main", -IDI_IMPORT }
+	{ LPGEN("Import..."), "import_main", IDI_IMPORT }
 };
 
 extern "C" __declspec(dllexport) int Load(void)

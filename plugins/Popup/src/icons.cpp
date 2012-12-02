@@ -32,40 +32,40 @@ Last change by : $Author: Merlin_de $
 
 #include "headers.h"
 
-static IconItem iconList[] = 
+static IconItem iconList[] =
 {
 	//toolbar
-	{ ICO_TB_POPUP_ON,    "Popups are enabled",          IDI_POPUP          },
-	{ ICO_TB_POPUP_OFF,   "Popups are disabled",         IDI_NOPOPUP        },
+	{ "Popups are enabled",          ICO_TB_POPUP_ON,    IDI_POPUP          },
+	{ "Popups are disabled",         ICO_TB_POPUP_OFF,   IDI_NOPOPUP        },
 
-	//common popup
-	{ ICO_POPUP_ON,       "Popups are enabled",          IDI_POPUP          },
-	{ ICO_POPUP_OFF,      "Popups are disabled",         IDI_NOPOPUP        },
-	{ ICO_FAV,            "With \"favourite\" overlay",  IDI_PU_FAVOURITE   },
-	{ ICO_FULLSCREEN,     "With \"fullscreen\" overlay", IDI_PU_FULLSCREEN  },
-	{ ICO_HISTORY,        "Popup History",               IDI_HISTORY        },
+	//                               common popup
+	{ "Popups are enabled",          ICO_POPUP_ON,       IDI_POPUP          },
+	{ "Popups are disabled",         ICO_POPUP_OFF,      IDI_NOPOPUP        },
+	{ "With \"favourite\" overlay",  ICO_FAV,            IDI_PU_FAVOURITE   },
+	{ "With \"fullscreen\" overlay", ICO_FULLSCREEN,     IDI_PU_FULLSCREEN  },
+	{ "Popup History",               ICO_HISTORY,        IDI_HISTORY        },
 
-	//option
-	{ ICO_OPT_RELOAD,     "Refresh skin list",           IDI_RELOAD         },
-	{ ICO_OPT_RESIZE,     "Popup Placement",             IDI_RESIZE         },
-	{ ICO_OPT_OK,         "OK",                          IDI_ACT_OK         },
-	{ ICO_OPT_CANCEL,     "Cancel",                      IDI_ACT_CLOSE      },
-	{ ICO_OPT_GROUP,      "Popup Group",                 IDI_OPT_GROUP      },
-	{ ICO_OPT_DEF,        "Show default",                IDI_ACT_OK         },
-	{ ICO_OPT_FAV,        "Favorite Contact",            IDI_OPT_FAVORITE   },
-	{ ICO_OPT_FULLSCREEN, "Show in Fullscreen",          IDI_OPT_FULLSCREEN },
-	{ ICO_OPT_BLOCK,      "Blocked Contact",             IDI_OPT_BLOCK      },
+	//                               option
+	{ "Refresh skin list",           ICO_OPT_RELOAD,     IDI_RELOAD         },
+	{ "Popup Placement",             ICO_OPT_RESIZE,     IDI_RESIZE         },
+	{ "OK",                          ICO_OPT_OK,         IDI_ACT_OK         },
+	{ "Cancel",                      ICO_OPT_CANCEL,     IDI_ACT_CLOSE      },
+	{ "Popup Group",                 ICO_OPT_GROUP,      IDI_OPT_GROUP      },
+	{ "Show default",                ICO_OPT_DEF,        IDI_ACT_OK         },
+	{ "Favorite Contact",            ICO_OPT_FAV,        IDI_OPT_FAVORITE   },
+	{ "Show in Fullscreen",          ICO_OPT_FULLSCREEN, IDI_OPT_FULLSCREEN },
+	{ "Blocked Contact",             ICO_OPT_BLOCK,      IDI_OPT_BLOCK      },
 
-	//action
-	{ ICO_ACT_REPLY,      "Quick Reply",                 IDI_ACT_REPLY      },
-	{ ICO_ACT_PIN,        "Pin Popup",                   IDI_ACT_PIN        },
-	{ ICO_ACT_PINNED,     "Pinned Popup",                IDI_ACT_PINNED     },
-	{ ICO_ACT_MESS,       "Send Message",                IDI_ACT_MESSAGE    },
-	{ ICO_ACT_INFO,       "User Details",                IDI_ACT_INFO       },
-	{ ICO_ACT_MENU,       "Contact Menu",                IDI_ACT_MENU       },
-	{ ICO_ACT_ADD,        "Add Contact Permanently",     IDI_ACT_ADD        },
-	{ ICO_ACT_CLOSE,      "Dismiss Popup",               IDI_ACT_CLOSE      },
-	{ ICO_ACT_COPY,       "Copy to clipboard",           IDI_ACT_COPY       }
+	//                               action
+	{ "Quick Reply",                 ICO_ACT_REPLY,      IDI_ACT_REPLY      },
+	{ "Pin Popup",                   ICO_ACT_PIN,        IDI_ACT_PIN        },
+	{ "Pinned Popup",                ICO_ACT_PINNED,     IDI_ACT_PINNED     },
+	{ "Send Message",                ICO_ACT_MESS,       IDI_ACT_MESSAGE    },
+	{ "User Details",                ICO_ACT_INFO,       IDI_ACT_INFO       },
+	{ "Contact Menu",                ICO_ACT_MENU,       IDI_ACT_MENU       },
+	{ "Add Contact Permanently",     ICO_ACT_ADD,        IDI_ACT_ADD        },
+	{ "Dismiss Popup",               ICO_ACT_CLOSE,      IDI_ACT_CLOSE      },
+	{ "Copy to clipboard",           ICO_ACT_COPY,       IDI_ACT_COPY       }
 
 };
 
