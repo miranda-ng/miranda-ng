@@ -82,6 +82,12 @@ static renameTable[] =
 	{ _T("dbtool.exe"),      _T("Plugins\\dbchecker.dll") },
 	{ _T("dbtool_sa.exe"),   _T("Plugins\\dbchecker.dll") },
 	
+	{ _T("clienticons_multiprotocols.dll"), _T("Icons\\Fp_ClientIcons\\clienticons_multiproto.dll") },
+	{ _T("clienticons_general.dll"),        _T("Icons\\Fp_ClientIcons\\clienticons_miranda.dll") },
+	{ _T("clienticons_skype.dll"),          _T("Icons\\Fp_ClientIcons\\clienticons_others.dll") },
+	{ _T("clienticons_voip.dll"),           _T("Icons\\Fp_ClientIcons\\clienticons_overlays.dll") },
+	{ _T("clienticons_gadu.dll"),           _T("Icons\\Fp_ClientIcons\\clienticons_gg.dll") },
+
 	{ _T("clist_classic.dll"), _T("") },
 	{ _T("chat.dll"),          _T("") },
 	{ _T("srmm.dll"),          _T("") },

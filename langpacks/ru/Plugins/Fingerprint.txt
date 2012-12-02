@@ -169,6 +169,8 @@ Fingerprint Mod+ отображает значки клиентов, испол�
 Иконка не найдена
 
 ;FingerprintNG
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Fingerprint NG отображает значки клиентов, используемых вашими собеседниками.
 [Fingerprint overlays icons]
 Оверлеи значков клиентов
 [Miranda clients]
