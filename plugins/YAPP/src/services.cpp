@@ -489,8 +489,7 @@ void InitServices()
 	
 	mi.hIcon = NULL;
 	mi.pszService = "PopUp/ToggleEnabled";
-	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) ? 
-		LPGEN("Disable Popups") : LPGEN("Enable Popups"));
+	mi.pszName = (char*)(db_get_b(0, MODULE, "Enabled", 1) ? LPGEN("Disable Popups") : LPGEN("Enable Popups"));
 	hMenuToggleOnOff = Menu_AddMainMenuItem(&mi);
 }
 

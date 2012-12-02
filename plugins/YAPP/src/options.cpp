@@ -256,50 +256,42 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		CheckDlgButton(hwndDlg, IDC_CHK_ANIMATE, options.animate);
 		CheckDlgButton(hwndDlg, IDC_CHK_TRANSBG, options.trans_bg);
-
 		return FALSE;		
+
 	case WM_COMMAND:
-		if ( HIWORD( wParam ) == CBN_SELCHANGE) {
+		if ( HIWORD( wParam ) == CBN_SELCHANGE)
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		} else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus()) {
+		else if ( HIWORD( wParam ) == EN_CHANGE && ( HWND )lParam == GetFocus())
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		} else if ( HIWORD( wParam ) == BN_CLICKED ) {
-			if (LOWORD(wParam) == IDC_BTN_PREVIEW) {
+		else if ( HIWORD( wParam ) == BN_CLICKED ) {
+			if (LOWORD(wParam) == IDC_BTN_PREVIEW)
 				ShowExamplePopups();
-			} else {
+			else {
+				HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
 				switch( LOWORD( wParam )) {
-					case IDC_RAD_NOTIMEOUT:
-						{
-							HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
-							EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
-						}
-						break;
-					case IDC_RAD_TIMEOUT:
-						{
-							HWND hw = GetDlgItem(hwndDlg, IDC_ED_TIMEOUT);
-							EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
-						}
-						break;
+				case IDC_RAD_NOTIMEOUT:
+					EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
+					break;
+				case IDC_RAD_TIMEOUT:
+					EnableWindow(hw, IsDlgButtonChecked(hwndDlg, IDC_RAD_TIMEOUT));
+					break;
 				}
 				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			}
 		}
 		break;
+
 	case WM_NOTIFY:
 		if (IsWindowVisible(hwndDlg) && ((LPNMHDR) lParam)->hwndFrom == GetDlgItem(hwndDlg, IDC_LST_STATUS)) {
 			switch (((LPNMHDR) lParam)->code) {
-				
-				case LVN_ITEMCHANGED:
-					{
-						NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
-						if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK) {
-							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-						}
-					}
-					break;
+			case LVN_ITEMCHANGED:
+				NMLISTVIEW *nmlv = (NMLISTVIEW *)lParam;
+				if ((nmlv->uNewState ^ nmlv->uOldState) & LVIS_STATEIMAGEMASK)
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+				break;
 			}
-		} else 
-		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
+		}
+		else if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
 			BOOL trans;
 			int new_val;
 			if (IsDlgButtonChecked(hwndDlg, IDC_RAD_NOTIMEOUT))
@@ -356,29 +348,30 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 }
 
 POPUPCLASS *newclasses = 0;
-static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) {
+static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
 	switch ( msg ) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault( hwndDlg );
-		{
-			if (num_classes) {
-				newclasses = (POPUPCLASS *)mir_alloc(num_classes * sizeof(POPUPCLASS));
-				memcpy(newclasses, classes, num_classes * sizeof(POPUPCLASS));
 
-				POPUPCLASS *pc;
-				int index;
-				for (int i = 0; i < num_classes; i++) {
-					pc = &newclasses[i];
-					if (pc->flags & PCF_UNICODE) {
-						index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pwszDescription);
-					} else {
-						index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription);
-					}
-					SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_SETITEMDATA, index, i);
+		if (num_classes) {
+			newclasses = (POPUPCLASS *)mir_alloc(num_classes * sizeof(POPUPCLASS));
+			memcpy(newclasses, classes, num_classes * sizeof(POPUPCLASS));
+
+			POPUPCLASS *pc;
+			int index;
+			for (int i = 0; i < num_classes; i++) {
+				pc = &newclasses[i];
+				if (pc->flags & PCF_UNICODE) {
+					index = SendDlgItemMessageW(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pwszDescription);
+				} else {
+					index = SendDlgItemMessageA(hwndDlg, IDC_LST_CLASSES, LB_ADDSTRING, 0, (LPARAM)pc->pszDescription);
 				}
+				SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_SETITEMDATA, index, i);
 			}
 		}
 		return FALSE;
+
 	case WM_COMMAND:
 		if ( LOWORD(wParam) == IDC_LST_CLASSES && HIWORD( wParam ) == LBN_SELCHANGE) {
 			int index = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETCURSEL, 0, 0);
@@ -410,45 +403,49 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			if (index != -1) {
 				int i = SendDlgItemMessage(hwndDlg, IDC_LST_CLASSES, LB_GETITEMDATA, index, 0);
 				switch(LOWORD(wParam)) {
-					case IDC_CHK_TIMEOUT: 
-						{
-							BOOL isChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT);
-							EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), isChecked);
-							if (isChecked) newclasses[i].iSeconds = 0;
-							else newclasses[i].iSeconds = -1;
-							SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, newclasses[i].iSeconds, TRUE);
-						}
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-						break;
-					case IDC_COL_TEXT:
-						newclasses[i].colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-						break;
-					case IDC_COL_BG:
-						newclasses[i].colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
-						break;
-					case IDC_BTN_PREVIEW:
-						if (newclasses[i].flags & PCF_UNICODE) {
-							POPUPCLASS pc = newclasses[i];
-							pc.PluginWindowProc = 0;
-							POPUPDATACLASS d = {sizeof(d), pc.pszName};
-							d.pwszTitle = L"Preview";
-							d.pwszText = L"The quick brown fox jumps over the lazy dog.";
-							CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
-						} else {
-							POPUPCLASS pc = newclasses[i];
-							pc.PluginWindowProc = 0;
-							POPUPDATACLASS d = {sizeof(d), pc.pszName};
-							d.pszTitle = "Preview";
-							d.pszText = "The quick brown fox jumps over the lazy dog.";
-							CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
-						}
-						break;
+				case IDC_CHK_TIMEOUT: 
+					{
+						BOOL isChecked = IsDlgButtonChecked(hwndDlg, IDC_CHK_TIMEOUT);
+						EnableWindow(GetDlgItem(hwndDlg, IDC_ED_TIMEOUT), isChecked);
+						if (isChecked) newclasses[i].iSeconds = 0;
+						else newclasses[i].iSeconds = -1;
+						SetDlgItemInt(hwndDlg, IDC_ED_TIMEOUT, newclasses[i].iSeconds, TRUE);
+					}
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					break;
+
+				case IDC_COL_TEXT:
+					newclasses[i].colorText = SendDlgItemMessage(hwndDlg, IDC_COL_TEXT, CPM_GETCOLOUR, 0, 0);
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					break;
+
+				case IDC_COL_BG:
+					newclasses[i].colorBack = SendDlgItemMessage(hwndDlg, IDC_COL_BG, CPM_GETCOLOUR, 0, 0);
+					SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+					break;
+
+				case IDC_BTN_PREVIEW:
+					if (newclasses[i].flags & PCF_UNICODE) {
+						POPUPCLASS pc = newclasses[i];
+						pc.PluginWindowProc = 0;
+						POPUPDATACLASS d = {sizeof(d), pc.pszName};
+						d.pwszTitle = L"Preview";
+						d.pwszText = L"The quick brown fox jumps over the lazy dog.";
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
+					} else {
+						POPUPCLASS pc = newclasses[i];
+						pc.PluginWindowProc = 0;
+						POPUPDATACLASS d = {sizeof(d), pc.pszName};
+						d.pszTitle = "Preview";
+						d.pszText = "The quick brown fox jumps over the lazy dog.";
+						CallService(MS_POPUP_ADDPOPUPCLASS, (WPARAM)&pc, (LPARAM)&d);
+					}
+					break;
 				}
 			}
 		}
 		break;
+
 	case WM_NOTIFY:
 		if (((LPNMHDR)lParam)->code == (unsigned)PSN_APPLY ) {
 			memcpy(classes, newclasses, num_classes * sizeof(POPUPCLASS));
@@ -464,6 +461,7 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 			return TRUE;
 		}
 		break;
+
 	case WM_DESTROY:
 		mir_free(newclasses);
 		break;
@@ -471,9 +469,9 @@ static INT_PTR CALLBACK DlgProcOptsClasses(HWND hwndDlg, UINT msg, WPARAM wParam
 	return 0;
 }
 
-int OptInit(WPARAM wParam, LPARAM lParam) {
-	OPTIONSDIALOGPAGE odp = { 0 };
-	odp.cbSize = sizeof(odp);
+int OptInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.position = -790000000;
 	odp.hInstance = hInst;
@@ -492,16 +490,9 @@ int OptInit(WPARAM wParam, LPARAM lParam) {
 	return 0;
 }
 
-HANDLE hEventOptInit;
-void InitOptions() {
-	hEventOptInit = HookEvent(ME_OPT_INITIALISE, OptInit);
-
+void InitOptions()
+{
 	// an icon for preview popups
 	hPopupIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-
 	LoadOptions();
-}
-
-void DeinitOptions() {
-	UnhookEvent(hEventOptInit);
 }

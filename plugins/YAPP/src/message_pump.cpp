@@ -149,9 +149,7 @@ unsigned __stdcall MessagePumpThread(void* param)
 
 	//if (param) SetEvent((HANDLE)param);
 
-	DeinitOptions();
 	DeinitServices();
-
 	return 0;
 }
 

@@ -31,6 +31,5 @@ extern Options options;
 void InitOptions();
 void LoadOptions();
 void LoadModuleDependentOptions();
-void DeinitOptions();
 
 #endif
