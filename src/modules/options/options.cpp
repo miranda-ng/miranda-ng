@@ -490,7 +490,7 @@ static void ExecuteFindFilterStringsTimer(HWND hdlg)
 	FilterTimerId = SetTimer(hdlg, NULL, 1, FilterSearchTimerFunc);
 }
 
-static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgData* dat)
+static void FillFilterCombo(HWND hDlg, OptionsDlgData* dat)
 {
 	HINSTANCE *KnownInstances = (HINSTANCE*)alloca(sizeof(HINSTANCE)*dat->arOpd.getCount());
 	int countKnownInst = 0;
@@ -501,8 +501,7 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 	SendDlgItemMessage(hDlg, IDC_KEYWORD_FILTER, (UINT) CB_SETITEMDATA, (WPARAM)index, (LPARAM)hInst);
 	TCHAR *tszModuleName = (TCHAR*)alloca(MAX_PATH*sizeof(TCHAR));
 	for (int i=0; i < dat->arOpd.getCount(); i++) {		
-		if ( !enableKeywordFiltering)
-			FindFilterStrings(enableKeywordFiltering, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
+		FindFilterStrings(FALSE, FALSE, hDlg, dat->arOpd[i]); // only modules name (fast enougth)
 		
 		HINSTANCE inst = dat->arOpd[i]->hInst;
 		if (inst == hInst)
@@ -537,8 +536,6 @@ static void FillFilterCombo(int enableKeywordFiltering, HWND hDlg, OptionsDlgDat
 	}
 
 	FilterLoadProgress = 100;
-	if (enableKeywordFiltering)
-		ExecuteFindFilterStringsTimer(hDlg);
 }
 
 static BOOL IsInsideTab(HWND hdlg, OptionsDlgData * dat, int i)
@@ -773,7 +770,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			MapWindowPoints(NULL, hdlg, (LPPOINT)&dat->rcTab, 2);
 			TabCtrl_AdjustRect( GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
-			FillFilterCombo(0, hdlg, dat);
+			FillFilterCombo(hdlg, dat);
 			SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
 		}
 		return TRUE;
