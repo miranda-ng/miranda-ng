@@ -152,7 +152,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Prelude",			_T("*Prelude*"),							_T("Prelude"),							_T("ClientIcons_multiproto"),	IDI_PRELUDE,			MULTI_CASE,		TRUE	},
 	{"client_Proteus",			_T("*Proteus*"),							_T("Proteus"),							_T("ClientIcons_multiproto"),	IDI_PROTEUS,			MULTI_CASE,		TRUE	},
 
-	{"client_Python",			_T("|Py*-t*|Py*t*|*Python*|*ταλιςμαη*"),	_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+	{"client_Python",			_T("|*Python*|Py*|Py*-t*|*ταλιςμαη*"),	_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
 
 	{"client_QIP_Android",		_T("QIP *Android*"),						_T("QIP Mobile Android"),				_T("ClientIcons_multiproto"),	IDI_QIP_ANDROID,		MULTI_CASE,		TRUE	},
 	{"client_QIP_iOS",			_T("|QIP*iOS*|QIP*iphone*|QIP*apple*"),		_T("QIP Mobile iOS"),					_T("ClientIcons_multiproto"),	IDI_QIP_IOS,			MULTI_CASE,		TRUE	},
