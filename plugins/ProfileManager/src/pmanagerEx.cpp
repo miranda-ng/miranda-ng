@@ -16,6 +16,7 @@ There is no warranty.
 #include <m_skin.h>
 #include <m_langpack.h>
 #include <m_system.h>
+#include <m_genmenu.h>
 #include <m_utils.h>
 #include <win2k.h>
 
@@ -27,12 +28,11 @@ TCHAR fn[MAX_PATH];
 TCHAR lmn[MAX_PATH];
 TCHAR* pathn;
 int hLangpack;
-HANDLE hLoadPM, hChangePM, hDbchecker, hRestartMe;
 
 PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"Miranda NG Profile Changer",
-	PLUGIN_MAKE_VERSION(0,0,0,4),
+	PLUGIN_MAKE_VERSION(0,0,0,5),
 	"Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.",
 	"Roman Gemini",
 	"woobind@ukr.net",
@@ -102,30 +102,30 @@ extern "C" __declspec(dllexport) int Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	hLoadPM = CreateServiceFunction("Database/LoadPM", LoadPM);
+	CreateServiceFunction("Database/LoadPM", LoadPM);
 
    // !!!!!!!! check it later
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
-	mi.ptszPopupName = LPGENT("Database");
-	mi.ptszName = LPGENT("Load profile");
+	mi.ptszPopupName = _T("Database");
+	mi.ptszName = _T("Load profile");
 	mi.pszService = "Database/LoadPM";
 	Menu_AddMainMenuItem(&mi);
 
-	hChangePM = CreateServiceFunction("Database/ChangePM", ChangePM);
+	CreateServiceFunction("Database/ChangePM", ChangePM);
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
-	mi.ptszPopupName = LPGENT("Database");
-	mi.ptszName = LPGENT("Change profile");
+	mi.ptszPopupName = _T("Database");
+	mi.ptszName = _T("Change profile");
 	mi.pszService = "Database/ChangePM";
 	Menu_AddMainMenuItem(&mi);
 
-	hDbchecker = CreateServiceFunction("Database/CheckDb", CheckDb);
+	CreateServiceFunction("Database/CheckDb", CheckDb);
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -500200000;
@@ -136,7 +136,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.pszService = "Database/CheckDb";
 	Menu_AddMainMenuItem(&mi);
 
-	hRestartMe = CreateServiceFunction("System/RestartMe", RestartMe);
+	CreateServiceFunction("System/RestartMe", RestartMe);
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.position = -500200000;
@@ -146,14 +146,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.ptszName = _T("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
+	Menu_AddTrayMenuItem(&mi);
 
 	return 0;
 }
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	DestroyServiceFunction(hLoadPM);
-	DestroyServiceFunction(hChangePM);
-
 	return 0;
 }
