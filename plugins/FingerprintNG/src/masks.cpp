@@ -601,7 +601,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_Pidgin",			_T("|*Pidgin*|*libpurple*|Purple*"),		_T("Pidgin (libpurple)"),				_T("ClientIcons_multiproto"),	IDI_PIDGIN,				MULTI_CASE	},
 
-	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*"),				_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*|Mrim*"),		_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
 
 	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Jabber"),		IDI_TWITTER,			OTHER_PROTOS_CASE,	TRUE	},
 
@@ -682,11 +682,12 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_JGmail_overlay",	_T("*JGmail*"),								_T("JGmail overlay"),					_T("ClientIcons_overlays"),		IDI_GMAIL_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_JGTalk_overlay",	_T("*JGTalk*"),								_T("JGTalk overlay"),					_T("ClientIcons_overlays"),		IDI_JGTALK_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_Jabber_overlay",	_T("|^jabber*|Miranda*Jabber*|py*jabb*"),	_T("Jabber overlay"),					_T("ClientIcons_overlays"),		IDI_JABBER_OVERLAY,		OVERLAYS_PROTO_CASE	},
-	{"client_MRA_overlay",		_T("|^MRA*|^Mail.ru*|*MRA*|*Mail.ru*IM*"),	_T("Mail.Ru Agent overlay"),			_T("ClientIcons_overlays"),		IDI_MAILRU_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_MSN_overlay",		_T("|^MSN*|*Miranda*MSN*"),					_T("MSN overlay"),						_T("ClientIcons_overlays"),		IDI_MSN_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_QQ_overlay",		_T("|Miranda*QQ*|MIM*QQ*"),					_T("QQ overlay"),						_T("ClientIcons_overlays"),		IDI_QQ_OVERLAY,			OVERLAYS_PROTO_CASE	},
 	{"client_Tlen_overlay",		_T("|^tlen*|*tlen*"),						_T("Tlen.pl overlay"),					_T("ClientIcons_overlays"),		IDI_TLEN_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_Yahoo_overlay",	_T("|^Yahoo*|*yahoo*"),						_T("Yahoo overlay"),					_T("ClientIcons_overlays"),		IDI_YAHOO_OVERLAY,		OVERLAYS_PROTO_CASE	},
+	{"client_MRA_overlay",		_T("|^MRA*|^Mail.ru*")
+								_T("|*MRA*|*Mail.ru*IM*|Mrim*"),			_T("Mail.Ru Agent overlay"),			_T("ClientIcons_overlays"),		IDI_MAILRU_OVERLAY,		OVERLAYS_PROTO_CASE	},
 
 //########################################################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		######################################################################################################################################
