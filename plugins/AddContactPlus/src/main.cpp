@@ -23,11 +23,11 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 HINSTANCE hInst;
 int hLangpack;
 static HANDLE hMainMenuItem = 0, hToolBarItem = 0;
-HANDLE hIconLibItem;
 HWND hAddDlg;
 
-PLUGININFOEX pluginInfo = {
-    sizeof(PLUGININFOEX),
+PLUGININFOEX pluginInfo =
+{
+	sizeof(PLUGININFOEX),
 	__PLUGIN_NAME,
 	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
 	__DESCRIPTION,
@@ -39,6 +39,10 @@ PLUGININFOEX pluginInfo = {
 	// {6471D451-2FE0-4ee2-850E-9F84F3C0D187}
 	{0x6471d451, 0x2fe0, 0x4ee2, {0x85, 0xe, 0x9f, 0x84, 0xf3, 0xc0, 0xd1, 0x87}}
 };
+
+static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
+
+/////////////////////////////////////////////////////////////////////////////////////////
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
@@ -53,29 +57,15 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 
 extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ADDCONTACTPLUS, MIID_LAST};
 
-INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
+/////////////////////////////////////////////////////////////////////////////////////////
+
+static INT_PTR AddContactPlusDialog(WPARAM, LPARAM)
 {
-	if(hAddDlg)
-	{
+	if(hAddDlg) {
 		SetForegroundWindow(hAddDlg); 
 		SetFocus(hAddDlg);
 	}
-	else
-	{
-		hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), NULL, AddContactDlgProc, 0);
-	}
-	return 0;
-}
-
-static int OnIconsChanged(WPARAM, LPARAM)
-{
-	if (!hMainMenuItem)
-		return 0;
-
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_ICON | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = hIconLibItem;
-	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&mi);
+	else hAddDlg = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_ADDCONTACT), NULL, AddContactDlgProc, 0);
 
 	return 0;
 }
@@ -86,35 +76,33 @@ static int OnAccListChanged(WPARAM, LPARAM)
 	int iRealAccCount, iAccCount = 0;
 
 	ProtoEnumAccounts(&iRealAccCount, &pAccounts);
-	for (int i = 0; i < iRealAccCount; i++)
-	{
-		if (!IsAccountEnabled(pAccounts[i])) continue;
+	for (int i = 0; i < iRealAccCount; i++) {
+		if ( !IsAccountEnabled(pAccounts[i]))
+			continue;
+
 		DWORD dwCaps = (DWORD)CallProtoService(pAccounts[i]->szModuleName, PS_GETCAPS, PFLAGNUM_1, 0);
 		if (dwCaps & PF1_BASICSEARCH || dwCaps & PF1_EXTSEARCH || dwCaps & PF1_SEARCHBYEMAIL || dwCaps & PF1_SEARCHBYNAME)
 			iAccCount++;
 	}
 
-	if (iAccCount)
-	{
+	if (iAccCount) {
 		if (hMainMenuItem)
 			return 0;
 
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = 500020001;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-		mi.icolibItem = hIconLibItem;
+		mi.icolibItem = icon.hIcolib;
 		mi.ptszName = LPGENT("&Add Contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 	}
-	else
-	{
+	else {
 		if (!hMainMenuItem)
 			return 0;
 
 		CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)hMainMenuItem, 0);
 		CallService(MS_TTB_REMOVEBUTTON, (WPARAM)hToolBarItem, 0);
-
 		hMainMenuItem = 0;
 	}
 
@@ -123,26 +111,18 @@ static int OnAccListChanged(WPARAM, LPARAM)
 
 static int CreateButton(WPARAM, LPARAM)
 {
-	TTBButton tbb = {0};
-	tbb.cbSize = sizeof(tbb);
+	TTBButton tbb = { sizeof(tbb) };
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
 	tbb.name = tbb.pszTooltipUp = LPGEN("Add Contact");
-	tbb.hIconHandleUp = hIconLibItem;
+	tbb.hIconHandleUp = icon.hIcolib;
 	hToolBarItem = TopToolbar_AddButton(&tbb);
 	return 0;
 }
 
-static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
-
 static int OnModulesLoaded(WPARAM, LPARAM)
 {
-	Icon_Register(hInst, LPGEN("AddContact+"), &icon, 1);
-
-	HookEvent(ME_SKIN2_ICONSCHANGED, OnIconsChanged);
-
-	HOTKEYDESC hkd = {0};
-	hkd.cbSize = sizeof(hkd);
+	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "AddContactPlus_OpenDialog";
 	hkd.ptszDescription = LPGENT("Open Add Contact Dialog");
@@ -161,10 +141,10 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	mir_getLP(&pluginInfo);
 
-	INITCOMMONCONTROLSEX icex = {0};
-	icex.dwSize = sizeof(INITCOMMONCONTROLSEX);
-	icex.dwICC = ICC_USEREX_CLASSES;
+	INITCOMMONCONTROLSEX icex = { sizeof(icex), ICC_USEREX_CLASSES };
 	InitCommonControlsEx(&icex);
+
+	Icon_Register(hInst, LPGEN("AddContact+"), &icon, 1);
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_PROTO_ACCLISTCHANGED, OnAccListChanged);
