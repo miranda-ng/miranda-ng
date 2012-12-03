@@ -49,7 +49,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_IRC_OVERLAY			ICON	"icons\\overlays\\overlay_proto_IRC.ico"
 	IDI_JABBER_OVERLAY		ICON	"icons\\overlays\\overlay_proto_Jabber.ico"
 	IDI_JGTALK_OVERLAY		ICON	"icons\\overlays\\overlay_proto_JGTalk.ico"
-	IDI_MAILRU_OVERLAY		ICON	"icons\\overlays\\overlay_proto_MailRu.ico"
+	IDI_MAILRU_OVERLAY		ICON	"icons\\overlays\\overlay_proto_MRA.ico"
 	IDI_MSN_OVERLAY			ICON	"icons\\overlays\\overlay_proto_MSN.ico"
 	IDI_QQ_OVERLAY			ICON	"icons\\overlays\\overlay_proto_QQ.ico"
 	IDI_TLEN_OVERLAY		ICON	"icons\\overlays\\overlay_proto_Tlen.ico"
