@@ -42,6 +42,12 @@ PLUGININFOEX pluginInfo = {
 	{ 0xce2c0401, 0xf9e0, 0x40d7, { 0x8e, 0x95, 0x1a, 0x41, 0x97, 0xd7, 0xab, 0x4 } }
 };
 
+static IconItem iconList[] = 
+{
+	{ LPGEN("Favourite Contact"), "favcontacts_favourite", IDI_FAVOURITE },
+	{ LPGEN("Regular Contact"),   "favcontacts_regular",   IDI_REGULAR   },
+};
+
 #define MS_FAVCONTACTS_SHOWMENU				"FavContacts/ShowMenu"
 #define MS_FAVCONTACTS_SHOWMENU_CENTERED	"FavContacts/ShowMenuCentered"
 #define MS_FAVCONTACTS_OPEN_CONTACT			"FavContacts/OpenContact"
@@ -62,7 +68,6 @@ INT_PTR svcShowMenuCentered(WPARAM wParam, LPARAM lParam);
 int ProcessSrmmEvent(WPARAM wParam, LPARAM lParam);
 int ProcessSrmmIconClick(WPARAM wParam, LPARAM lParam);
 
-HANDLE g_icoFavourite=0, g_icoRegular=0;
 float g_widthMultiplier = 0;
 int g_maxItemWidth = 0;
 
@@ -124,7 +129,7 @@ int ProcessTBLoaded(WPARAM wParam, LPARAM lParam)
 	button.pszTooltipUp = button.name = LPGEN("Favourite Contacts");
 	button.pszService = MS_FAVCONTACTS_SHOWMENU;
 	button.dwFlags = TTBBF_SHOWTOOLTIP | TTBBF_VISIBLE;
-	button.hIconHandleUp = (HANDLE)g_icoFavourite;
+	button.hIconHandleUp = iconList[0].hIcolib;
 	TopToolbar_AddButton(&button);
 	return 0;
 }
@@ -175,8 +180,8 @@ int ProcessModulesLoaded(WPARAM wParam, LPARAM lParam)
 		sid.cbSize = sizeof(sid);
 		sid.szModule = "FavContacts";
 		sid.szTooltip = "Favourite Contacts";
-		sid.hIcon = Skin_GetIconByHandle(g_icoFavourite);
-		sid.hIconDisabled = Skin_GetIconByHandle(g_icoRegular);
+		sid.hIcon = Skin_GetIconByHandle(iconList[0].hIcolib);
+		sid.hIconDisabled = Skin_GetIconByHandle(iconList[1].hIcolib);
 		CallService(MS_MSG_ADDICON, 0, (LPARAM)&sid);
 
 		HookEvent(ME_MSG_ICONPRESSED, ProcessSrmmIconClick);
@@ -283,12 +288,6 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 }
 
 /////////////////////////////////////////////////////////////////////////////////////
-
-static IconItem iconList[] = 
-{
-	{ LPGEN("Favourite Contact"), "favcontacts_favourite", IDI_FAVOURITE },
-	{ LPGEN("Regular Contact"),   "favcontacts_regular",   IDI_REGULAR   },
-};
 
 extern "C" __declspec(dllexport) int Load(void)
 {
@@ -718,7 +717,7 @@ static BOOL sttDrawItem_Contact(LPDRAWITEMSTRUCT lpdis, Options *options = NULL)
 	if (options->wMaxRecent && DBGetContactSettingByte(hContact, "FavContacts", "IsFavourite", 0))
 	{
 		DrawIconEx(hdcTemp, lpdis->rcItem.right - 18, (lpdis->rcItem.top + lpdis->rcItem.bottom - 16) / 2,
-			Skin_GetIconByHandle(g_icoFavourite), 16, 16, 0, NULL, DI_NORMAL);
+			Skin_GetIconByHandle(iconList[0].hIcolib), 16, 16, 0, NULL, DI_NORMAL);
 		lpdis->rcItem.right -= 20;
 	}
 
