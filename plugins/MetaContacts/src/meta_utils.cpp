@@ -188,7 +188,7 @@ int Meta_SetNick(char *szProto)
 {
 	CONTACTINFO ci;
 	ci.cbSize = sizeof(CONTACTINFO);
-	ci.dwFlag = CNF_DISPLAY;
+	ci.dwFlag = CNF_DISPLAY | CNF_TCHAR;
 	ci.hContact = NULL;
 	ci.szProto = szProto;
 	if (CallService(MS_CONTACT_GETCONTACTINFO,0,(LPARAM)&ci))
