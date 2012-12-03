@@ -152,7 +152,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Prelude",			_T("*Prelude*"),							_T("Prelude"),							_T("ClientIcons_multiproto"),	IDI_PRELUDE,			MULTI_CASE,		TRUE	},
 	{"client_Proteus",			_T("*Proteus*"),							_T("Proteus"),							_T("ClientIcons_multiproto"),	IDI_PROTEUS,			MULTI_CASE,		TRUE	},
 
-	{"client_Python",			_T("|*Python*|Py*|Py*-t*|*ταλιςμαη*"),	_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+	{"client_Python",			_T("|^*Pygeon*|*Python*|Py*|*ταλιςμαη*"),	_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
 
 	{"client_QIP_Android",		_T("QIP *Android*"),						_T("QIP Mobile Android"),				_T("ClientIcons_multiproto"),	IDI_QIP_ANDROID,		MULTI_CASE,		TRUE	},
 	{"client_QIP_iOS",			_T("|QIP*iOS*|QIP*iphone*|QIP*apple*"),		_T("QIP Mobile iOS"),					_T("ClientIcons_multiproto"),	IDI_QIP_IOS,			MULTI_CASE,		TRUE	},
@@ -415,6 +415,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_studivz",			_T("*studivz*"),							_T("StudiVZ"),							_T("ClientIcons_Jabber"),		IDI_STUDIVZ,			JABBER_CASE,	TRUE	},
 	{"client_tkchat",			_T("*tkchat*"),								_T("tkchat"),							_T("ClientIcons_Jabber"),		IDI_TKCHAT,				JABBER_CASE,	TRUE	},
 //	{"client_uJabber",			_T("*uJabber*"),							_T("uJabber"),							_T("ClientIcons_Jabber"),		IDI_UJABBER,			JABBER_CASE,	TRUE	},
+	{"client_uKeeper",			_T("*uKeeper*"),							_T("uKeeper"),							_T("ClientIcons_Jabber"),		IDI_UKEEPER,			JABBER_CASE,	TRUE	},
 	{"client_whoisbot",			_T("whoisbot"),								_T("Swissjabber Whois Bot"),			_T("ClientIcons_Jabber"),		IDI_WHOISBOT,			JABBER_CASE,	TRUE	},
 	{"client_xeus2",			_T("*xeus 2*"),								_T("xeus 2"),							_T("ClientIcons_Jabber"),		IDI_XEUS2,				JABBER_CASE,	TRUE	},
 	{"client_xeus",				_T("*xeus*"),								_T("xeus"),								_T("ClientIcons_Jabber"),		IDI_XEUS,				JABBER_CASE,	TRUE	},

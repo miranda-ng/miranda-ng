@@ -214,6 +214,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 	IDI_TRIPLE_SOFTWARE		ICON	"icons\\Jabber\\TripleSoftwareIM.ico"
 	IDI_TWITTER				ICON	"icons\\Jabber\\Twitter.ico"
 //	IDI_UJABBER				ICON	"icons\\Jabber\\uJabber.ico"
+	IDI_UKEEPER				ICON	"icons\\Jabber\\uKeeper.ico"
 	IDI_VACUUM				ICON	"icons\\Jabber\\Vacuum.ico"
 	IDI_VANDV				ICON	"icons\\Jabber\\V&V Messenger.ico"
 	IDI_VAYUSPHERE			ICON	"icons\\Jabber\\Vayusphere.ico"
