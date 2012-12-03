@@ -152,8 +152,6 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Prelude",			_T("*Prelude*"),							_T("Prelude"),							_T("ClientIcons_multiproto"),	IDI_PRELUDE,			MULTI_CASE,		TRUE	},
 	{"client_Proteus",			_T("*Proteus*"),							_T("Proteus"),							_T("ClientIcons_multiproto"),	IDI_PROTEUS,			MULTI_CASE,		TRUE	},
 
-	{"client_Python",			_T("|^*Pygeon*|*Python*|Py*|*ταλιςμαη*"),	_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
-
 	{"client_QIP_Android",		_T("QIP *Android*"),						_T("QIP Mobile Android"),				_T("ClientIcons_multiproto"),	IDI_QIP_ANDROID,		MULTI_CASE,		TRUE	},
 	{"client_QIP_iOS",			_T("|QIP*iOS*|QIP*iphone*|QIP*apple*"),		_T("QIP Mobile iOS"),					_T("ClientIcons_multiproto"),	IDI_QIP_IOS,			MULTI_CASE,		TRUE	},
 	{"client_QIP_Symbian",		_T("*QIP*Symbian*"),						_T("QIP Mobile Symbian"),				_T("ClientIcons_multiproto"),	IDI_QIP_SYMBIAN,		MULTI_CASE,		TRUE	},
@@ -250,7 +248,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Elmer_Bot",		_T("*Elmer*"),								_T("Elmer Bot"),						_T("ClientIcons_Jabber"),		IDI_ELMER,				JABBER_CASE,	TRUE	},
 	{"client_Emacs",			_T("|*Jabber.el*|*Emacs*"),					_T("Emacs (Jabber.el)"),				_T("ClientIcons_Jabber"),		IDI_EMACS,				JABBER_CASE,	TRUE	},
 	{"client_Exodus",			_T("*Exodus*"),								_T("Exodus"),							_T("ClientIcons_Jabber"),		IDI_EXODUS,				JABBER_CASE,	TRUE	},
-	{"client_Facebook",			_T("*Facebook*"),							_T("Facebook"),							_T("ClientIcons_Jabber"),		IDI_FACEBOOK,			JABBER_CASE,	TRUE	},
+
 	{"client_GCN",				_T("*GCN*"),								_T("GCN"),								_T("ClientIcons_Jabber"),		IDI_GCN,				JABBER_CASE,	TRUE	},
 	{"client_GMail",			_T("|*gmail.*|GMail*"),						_T("GMail"),							_T("ClientIcons_Jabber"),		IDI_GMAIL,				JABBER_CASE,	TRUE	},
 	{"client_GOIM",				_T("*GOIM*"),								_T("GOIM"),								_T("ClientIcons_Jabber"),		IDI_GOIM,				JABBER_CASE,	TRUE	},
@@ -368,7 +366,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_TransactIM",		_T("*Transact*"),							_T("TransactIM"),						_T("ClientIcons_Jabber"),		IDI_TRANSACTIM,			JABBER_CASE,	TRUE	},
 	{"client_Translate",		_T("*Translate*"),							_T("Translate component"),				_T("ClientIcons_Jabber"),		IDI_TRANSLATE,			JABBER_CASE,	TRUE	},
 	{"client_Triple",			_T("Triple*"),								_T("TripleSoftwareIM (TSIM)"),			_T("ClientIcons_Jabber"),		IDI_TRIPLE_SOFTWARE,	JABBER_CASE,	TRUE	},
-	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Jabber"),		IDI_TWITTER,			JABBER_CASE,	TRUE	},
+
 	{"client_VK",				_T("|*VKontakte*|*vk.com*"),				_T("VKontakte"),						_T("ClientIcons_Jabber"),		IDI_VK,					JABBER_CASE,	TRUE	},
 	{"client_Vacuum",			_T("*Vacuum*"),								_T("Vacuum IM"),						_T("ClientIcons_Jabber"),		IDI_VACUUM,				JABBER_CASE,	TRUE	},
 	{"client_V&V",				_T("*V&V*"),								_T("V&V Messenger"),					_T("ClientIcons_Jabber"),		IDI_VANDV,				JABBER_CASE,	TRUE	},
@@ -596,17 +594,25 @@ KN_FP_MASK def_kn_fp_mask[] =
 //########################################################################################################################################################################################################
 //#################################		OTHER CLIENTS	##################################################################################################################################################
 //########################################################################################################################################################################################################
+
 	{"client_Android",			_T("*Android*"),							_T("Android"),							_T("ClientIcons_multiproto"),	IDI_ANDROID,			MULTI_CASE,	TRUE	},
+
+	{"client_Facebook",			_T("*Facebook*"),							_T("Facebook"),							_T("ClientIcons_Jabber"),		IDI_FACEBOOK,			OTHER_PROTOS_CASE,	TRUE	},
+
 	{"client_Pidgin",			_T("|*Pidgin*|*libpurple*|Purple*"),		_T("Pidgin (libpurple)"),				_T("ClientIcons_multiproto"),	IDI_PIDGIN,				MULTI_CASE	},
 
-	{"client_Skype",			_T("*Skype**"),								_T("Skype client"),						_T("ClientIcons_Others"),		IDI_SKYPE,				OTHER_PROTOS_CASE,	TRUE	},
+	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*"),				_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+
+	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Jabber"),		IDI_TWITTER,			OTHER_PROTOS_CASE,	TRUE	},
+
+	{"client_Skype",			_T("*Skype**"),								_T("Skype"),							_T("ClientIcons_Others"),		IDI_SKYPE,				OTHER_PROTOS_CASE,	TRUE	},
 
 	{"client_Xfire",			_T("*Xfire*"),								_T("Xfire"),							_T("ClientIcons_multiproto"),	IDI_XFIRE,				OTHER_PROTOS_CASE,	TRUE	},
-
 
 //########################################################################################################################################################################################################
 //#################################		UNDEFINED CLIENTS	##############################################################################################################################################
 //########################################################################################################################################################################################################
+
 	{"client_Notfound",			_T("Notfound"),								_T("client not found"),					_T(""),							IDI_NOTFOUND,			OTHERS_CASE,	TRUE	},
 	{"client_Unknown",			_T("|*Unknown*|..."),						_T("unknown client"),					_T(""),							IDI_UNKNOWN,			OTHERS_CASE,	TRUE	},
 	{"client_Undetected",		_T("?*"),									_T("undetected client"),				_T(""),							IDI_UNDETECTED,			OTHERS_CASE,	TRUE	},
@@ -685,7 +691,9 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 //########################################################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		######################################################################################################################################
 //########################################################################################################################################################################################################
-	{"client_ICQ5_over",		_T("|ICQ*5*|icq5*"),						_T("ICQ v5.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ5_OVERLAY,		ICQ_CASE	},
+	{"client_ICQ3_over",		_T("ICQ*2003*"),							_T("ICQ 2003 overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ3_OVERLAY,		ICQ_CASE	},
+	{"client_ICQ4_over",		_T("|ICQ*4*|ICQ*lite*4*"),					_T("ICQ Lite 4 overlay"),				_T("ClientIcons_ICQ"),			IDI_ICQ4_OVERLAY,		ICQ_CASE	},
+	{"client_ICQ5_over",		_T("|ICQ*5*|ICQ*lite*5*|icq5*"),			_T("ICQ v5.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ5_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ6_over",		_T("ICQ*6*"),								_T("ICQ v6.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ6_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ7_over",		_T("ICQ*7*"),								_T("ICQ v7.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ7_OVERLAY,		ICQ_CASE	},
 	{"client_ICQ8_over",		_T("ICQ*8*"),								_T("ICQ v8.x overlay"),					_T("ClientIcons_ICQ"),			IDI_ICQ8_OVERLAY,		ICQ_CASE	},

@@ -140,6 +140,8 @@
 
 //##############################################################################################################
 //Official ICQ overlays
+#define IDI_ICQ3_OVERLAY			193
+#define IDI_ICQ4_OVERLAY			194
 #define IDI_ICQ5_OVERLAY			195
 #define IDI_ICQ6_OVERLAY			196
 #define IDI_ICQ7_OVERLAY			197
@@ -147,7 +149,6 @@
 
 //##############################################################################################################
 //Unofficial ICQ clients
-
 #define IDI_ASIA					202
 #define IDI_DICHAT					203
 #define IDI_GNOMEICU				214

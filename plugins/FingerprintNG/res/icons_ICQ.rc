@@ -64,6 +64,8 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //################################# ICQ overlays ###############################################################
 //##############################################################################################################
+	IDI_ICQ3_OVERLAY		ICON	"icons\\ICQ\\overlay_ICQ_v3.ico"
+	IDI_ICQ4_OVERLAY		ICON	"icons\\ICQ\\overlay_ICQ_v4.ico"
 	IDI_ICQ5_OVERLAY		ICON	"icons\\ICQ\\overlay_ICQ_v5.ico"
 	IDI_ICQ6_OVERLAY		ICON	"icons\\ICQ\\overlay_ICQ_v6.ico"
 	IDI_ICQ7_OVERLAY		ICON	"icons\\ICQ\\overlay_ICQ_v7.ico"
