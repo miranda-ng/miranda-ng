@@ -1125,47 +1125,6 @@ static void sttResetListOptions(HWND hwndList)
 		SendMessage(hwndList, CLM_SETTEXTCOLOR, i, GetSysColor(COLOR_WINDOWTEXT));
 }
 
-static void sttActivateOptionsPage(HWND hwnd, TCHAR *aSection, TCHAR *aPage)
-{
-	TCHAR buf[256];
-	TCHAR *section = TranslateTS(aSection);
-
-	HWND hwndTree = FindWindowEx(GetParent(hwnd), NULL, WC_TREEVIEW, NULL);
-	for (HTREEITEM htiSection = TreeView_GetRoot(hwndTree); htiSection; htiSection = TreeView_GetNextSibling(hwndTree, htiSection)) {
-		TVITEM tvi = {0};
-		tvi.mask = TVIF_TEXT;
-		tvi.hItem = htiSection;
-		tvi.pszText = buf;
-		tvi.cchTextMax = SIZEOF(buf);
-		TreeView_GetItem(hwndTree, &tvi);
-
-		if (!lstrcmp(buf, section)) {
-			if (!aPage) {
-				TreeView_Select(hwndTree, htiSection, TVGN_CARET);
-				return;
-			}
-			else TreeView_Expand(hwndTree, htiSection, TVE_EXPAND);
-
-			TCHAR *page = TranslateTS(aPage);
-			for (HTREEITEM htiPage = TreeView_GetChild(hwndTree, htiSection); htiPage; htiPage = TreeView_GetNextSibling(hwndTree, htiPage)) {
-				TVITEM tvi = {0};
-				tvi.mask = TVIF_TEXT;
-				tvi.hItem = htiPage;
-				tvi.pszText = buf;
-				tvi.cchTextMax = SIZEOF(buf);
-				TreeView_GetItem(hwndTree, &tvi);
-
-				if (!lstrcmp(buf, page)) {
-					TreeView_Select(hwndTree, htiPage, TVGN_CARET);
-					return;
-				}
-			}
-
-			break;
-		}
-	}
-}
-
 static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	static bool bInitialized = false;
@@ -1291,7 +1250,14 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARA
 					break;
 
 				case IDC_BTN_FONTS:
-					sttActivateOptionsPage(hwnd, _T("Customize"), _T("Fonts"));
+					{
+						OPENOPTIONSDIALOG ood = {0};
+						ood.cbSize = sizeof(ood);
+						ood.pszGroup = "Customize";
+						ood.pszPage = "Fonts & Colors";
+						ood.pszTab = NULL;
+						Options_Open(&ood);
+					}
 					break;
 
 				case IDC_TXT_RADIUS:
