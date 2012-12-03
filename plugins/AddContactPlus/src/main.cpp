@@ -25,6 +25,10 @@ int hLangpack;
 static HANDLE hMainMenuItem = 0, hToolBarItem = 0;
 HWND hAddDlg;
 
+static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
 PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
@@ -40,7 +44,10 @@ PLUGININFOEX pluginInfo =
 	{0x6471d451, 0x2fe0, 0x4ee2, {0x85, 0xe, 0x9f, 0x84, 0xf3, 0xc0, 0xd1, 0x87}}
 };
 
-static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfo;
+}
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,13 +56,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 	hInst = hinstDLL;
 	return TRUE;
 }
-
-extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
-{
-	return &pluginInfo;
-}
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_ADDCONTACTPLUS, MIID_LAST};
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
