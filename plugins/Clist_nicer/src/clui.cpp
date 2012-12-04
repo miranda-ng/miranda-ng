@@ -290,37 +290,24 @@ static void InitIcoLib()
 {
 	Icon_Register(g_hInst, LPGEN("CList - Nicer/Default"), myIcons, SIZEOF(myIcons));
 
-	TCHAR szFilename[MAX_PATH];
-	GetModuleFileName(g_hInst, szFilename, MAX_PATH);
-
-	int i, version = 0;
-	char szBuffer[128];
-
-	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_ALL_TCHAR;
-	sid.ptszSection = LPGENT("CList - Nicer/Overlay Icons");
-	for (i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+	for (int i = IDI_OVL_OFFLINE; i <= IDI_OVL_OUTTOLUNCH; i++) {
+		char szBuffer[128];
 		mir_snprintf(szBuffer, sizeof(szBuffer), "cln_ovl_%d", ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE));
-		sid.pszName = szBuffer;
-		sid.ptszDescription = (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR);
-		sid.iDefaultIndex = -i;
-		Skin_AddIcon(&sid);
+		IconItemT icon = { pcli->pfnGetStatusModeDescription(ID_STATUS_OFFLINE + (i - IDI_OVL_OFFLINE), GSMDF_TCHAR), szBuffer, i };
+		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Overlay Icons"), &icon, 1);
 	}
-	sid.ptszSection = LPGENT("CList - Nicer/Connecting Icons");
 
 	PROTOACCOUNT **accs = NULL;
 	int p_count = 0;
 	ProtoEnumAccounts( &p_count, &accs );
-	for (i = 0; i < p_count; i++) {
-		TCHAR szDescr[128];
-		if ( !IsAccountEnabled(accs[i]) || CallProtoService(accs[i]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
+	for (int k = 0; k < p_count; k++) {
+		if ( !IsAccountEnabled(accs[k]) || CallProtoService(accs[k]->szModuleName, PS_GETCAPS, PFLAGNUM_2, 0) == 0)
 			continue;
-		mir_snprintf(szBuffer, 128, "%s_conn", accs[i]->szModuleName );
-		sid.pszName = szBuffer;
-		mir_sntprintf(szDescr, 128, TranslateT("%s Connecting"), accs[i]->tszAccountName );
-		sid.ptszDescription = szDescr;
-		sid.iDefaultIndex = -IDI_PROTOCONNECTING;
-		Skin_AddIcon(&sid);
+
+		TCHAR szDescr[128];
+		mir_sntprintf(szDescr, 128, TranslateT("%s Connecting"), accs[k]->tszAccountName );
+		IconItemT icon = { szDescr, "conn", IDI_PROTOCONNECTING };
+		Icon_RegisterT(g_hInst, LPGENT("CList - Nicer/Connecting Icons"), &icon, 1, accs[k]->szModuleName);
 	}
 }
 
