@@ -597,13 +597,13 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_Android",			_T("*Android*"),							_T("Android"),							_T("ClientIcons_multiproto"),	IDI_ANDROID,			MULTI_CASE,	TRUE	},
 
-	{"client_Facebook",			_T("*Facebook*"),							_T("Facebook"),							_T("ClientIcons_Jabber"),		IDI_FACEBOOK,			OTHER_PROTOS_CASE,	TRUE	},
+	{"client_Facebook",			_T("*Facebook*"),							_T("Facebook"),							_T("ClientIcons_Others"),		IDI_FACEBOOK,			OTHER_PROTOS_CASE,	TRUE	},
 
 	{"client_Pidgin",			_T("|*Pidgin*|*libpurple*|Purple*"),		_T("Pidgin (libpurple)"),				_T("ClientIcons_multiproto"),	IDI_PIDGIN,				MULTI_CASE	},
 
 	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*|Mrim*"),		_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
 
-	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Jabber"),		IDI_TWITTER,			OTHER_PROTOS_CASE,	TRUE	},
+	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Others"),		IDI_TWITTER,			OTHER_PROTOS_CASE,	TRUE	},
 
 	{"client_Skype",			_T("*Skype**"),								_T("Skype"),							_T("ClientIcons_Others"),		IDI_SKYPE,				OTHER_PROTOS_CASE,	TRUE	},
 

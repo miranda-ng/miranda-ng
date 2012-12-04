@@ -5,9 +5,11 @@
 // Used by resource.rc
 //##############################################################################################################
 //Other
+#define IDI_FACEBOOK				4
 #define IDI_NOTFOUND				5
-#define IDI_UNDETECTED				6
-#define IDI_UNKNOWN					7
+#define IDI_TWITTER					6
+#define IDI_UNDETECTED				7
+#define IDI_UNKNOWN					8
 
 //##############################################################################################################
 //Skype clients
@@ -273,7 +275,6 @@
 #define IDI_EMITE					439
 #define IDI_EMPATHY					440
 #define IDI_EXODUS					441
-#define IDI_FACEBOOK				442
 #define IDI_FIRE					443
 #define IDI_GABBER					444
 #define IDI_GAJIM					445
@@ -406,7 +407,6 @@
 #define IDI_TRANSACTIM				580
 #define IDI_TRANSLATE				581
 #define IDI_TRIPLE_SOFTWARE			582
-#define IDI_TWITTER					583
 //#define IDI_UJABBER				584
 #define IDI_UKEEPER					585
 #define IDI_VACUUM					586
