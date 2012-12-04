@@ -156,12 +156,12 @@ int onPrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 	if (DBGetContactSettingByte((HANDLE)wParam,"AuthState","ShowIcons",1))
 	{
 		mi.flags |= CMIF_TCHAR | CMIM_NAME;
-		mi.ptszName = _T("Disable AuthState icons");
+		mi.ptszName = LPGENT("Disable AuthState icons");
 	}
 	else
 	{
 		mi.flags |= CMIF_TCHAR | CMIM_NAME;
-		mi.ptszName = _T("Enable AuthState icons");
+		mi.ptszName = LPGENT("Enable AuthState icons");
 	}
 
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hUserMenu, (LPARAM)&mi);
@@ -239,7 +239,7 @@ extern "C" int __declspec(dllexport) Load(void)
 		CLISTMENUITEM mi = { sizeof(mi) };
 		mi.position = -1999901005;
 		mi.flags = CMIF_TCHAR;
-		mi.ptszName = _T("Enable AuthState icons");
+		mi.ptszName = LPGENT("Enable AuthState icons");
 		mi.pszService = "AuthState/MenuItem";
 		hUserMenu = Menu_AddContactMenuItem(&mi);
 	}
