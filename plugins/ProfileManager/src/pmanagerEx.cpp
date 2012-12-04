@@ -109,8 +109,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_LoadPM));
-	mi.ptszPopupName = _T("Database");
-	mi.ptszName = _T("Load profile");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.ptszName = LPGENT("Load profile");
 	mi.pszService = "Database/LoadPM";
 	Menu_AddMainMenuItem(&mi);
 
@@ -120,8 +120,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_ChangePM));
-	mi.ptszPopupName = _T("Database");
-	mi.ptszName = _T("Change profile");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.ptszName = LPGENT("Change profile");
 	mi.pszService = "Database/ChangePM";
 	Menu_AddMainMenuItem(&mi);
 
@@ -131,8 +131,8 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.position = -500200000;
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Dbchecker));
-	mi.ptszPopupName = _T("Database");
-	mi.ptszName = _T("Check database");
+	mi.ptszPopupName = LPGENT("Database");
+	mi.ptszName = LPGENT("Check database");
 	mi.pszService = "Database/CheckDb";
 	Menu_AddMainMenuItem(&mi);
 
@@ -143,7 +143,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	mi.flags = CMIF_TCHAR;
 	mi.hIcon = LoadIcon(hInst, MAKEINTRESOURCE(IDI_Restart));
 	mi.ptszPopupName = NULL;
-	mi.ptszName = _T("Restart");
+	mi.ptszName = LPGENT("Restart");
 	mi.pszService = "System/RestartMe";
 	Menu_AddMainMenuItem(&mi);
 	Menu_AddTrayMenuItem(&mi);
