@@ -687,7 +687,8 @@ KN_FP_MASK def_kn_fp_overlays_mask[] =
 	{"client_Tlen_overlay",		_T("|^tlen*|*tlen*"),						_T("Tlen.pl overlay"),					_T("ClientIcons_overlays"),		IDI_TLEN_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_Yahoo_overlay",	_T("|^Yahoo*|*yahoo*"),						_T("Yahoo overlay"),					_T("ClientIcons_overlays"),		IDI_YAHOO_OVERLAY,		OVERLAYS_PROTO_CASE	},
 	{"client_MRA_overlay",		_T("|^MRA*|^Mail.ru*")
-								_T("|*MRA*|*Mail.ru*IM*|Mrim*"),			_T("Mail.Ru Agent overlay"),			_T("ClientIcons_overlays"),		IDI_MAILRU_OVERLAY,		OVERLAYS_PROTO_CASE	},
+								_T("|*MRA*|*Mail.ru*IM*|Mrim*")
+								_T("|*DRQZ00fz5WPn1gH+*|*nxthUwJANorB6+*"),	_T("Mail.Ru Agent overlay"),			_T("ClientIcons_overlays"),		IDI_MAILRU_OVERLAY,		OVERLAYS_PROTO_CASE	},
 
 //########################################################################################################################################################################################################
 //#################################		CLIENT VERSION OVERLAYS		######################################################################################################################################
@@ -793,12 +794,12 @@ int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);
 //########################################################################################################################################################################################################
 KN_FP_MASK def_kn_fp_overlays3_mask[] =
 {//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),						_T("iconpack name"),			IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
-	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),					_T("ClientIcons_overlays"),		IDI_SECUREIM_OVERLAY,	OVERLAYS_SECURITY_CASE	},
+	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),					_T("ClientIcons_overlays"),		IDI_SECUREIM_OVERLAY,	OVERLAYS_PLATFORM_CASE	}, //OVERLAYS_SECURITY_CASE
 
 	{"client_platform_x64",		_T("|*x64*|*64*bit*"),						_T("x64 overlay"),						_T("ClientIcons_overlays"),		IDI_PLATFORM_X64,		OVERLAYS_PLATFORM_CASE	},
 	{"client_platform_x32",		_T("|*x32*|*32*bit*|*x86*"),				_T("x32 overlay"),						_T("ClientIcons_overlays"),		IDI_PLATFORM_X32,		OVERLAYS_PLATFORM_CASE	},
 
-	{"client_Unicode",			_T("*unicode*"),							_T("Unicode overlay"),					_T("ClientIcons_overlays"),		IDI_UNICODE_CLIENT,		OVERLAYS_RESOURCE_CASE	},
+	{"client_Unicode",			_T("*unicode*"),							_T("Unicode overlay"),					_T("ClientIcons_overlays"),		IDI_UNICODE_CLIENT,		OVERLAYS_PLATFORM_CASE	},
 };
 
 int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
