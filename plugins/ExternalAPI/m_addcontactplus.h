@@ -22,10 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #ifndef M_ADDCONTACTPLUS_H__
 #define M_ADDCONTACTPLUS_H__ 1
 
-#ifndef MIID_ADDCONTACTPLUS
-#define MIID_ADDCONTACTPLUS    {0xf60714d1, 0xa44d, 0x4655, {0xb0, 0x85, 0x53, 0x1c, 0xfd, 0xf8, 0x4e, 0x67}}
-#endif
-
 // Brings up the add contact dialog
 // wParam = lParam = 0
 #define	MS_ADDCONTACTPLUS_SHOW		"AddContactPlus/Show"
