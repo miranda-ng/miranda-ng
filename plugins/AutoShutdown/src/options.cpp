@@ -103,18 +103,17 @@ static INT_PTR CALLBACK ShutdownOptDlgProc(HWND hwndDlg,UINT msg,WPARAM wParam,L
 	return FALSE;
 }
 
-static int ShutdownOptInit(WPARAM wParam,LPARAM lParam)
+static int ShutdownOptInit(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp;
-	ZeroMemory(&odp,sizeof(odp));
+	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize=sizeof(odp);
-	odp.hInstance=hInst;
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
-	odp.position=900000002;
-	odp.ptszGroup=_T("Events"); /* autotranslated */
-	odp.ptszTitle=_T("Automatic Shutdown"); /* autotranslated */
-	odp.ptszTab=_T("Automatic Shutdown");  /* autotranslated, can be made a tab */
-	odp.flags=ODPF_BOLDGROUPS|ODPF_TCHAR;
+	odp.hInstance = hInst;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SHUTDOWN);
+	odp.position = 900000002;
+	odp.ptszGroup = LPGENT("Events"); /* autotranslated */
+	odp.ptszTitle = LPGENT("Automatic Shutdown"); /* autotranslated */
+	odp.ptszTab = LPGENT("Automatic Shutdown");  /* autotranslated, can be made a tab */
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.pfnDlgProc = ShutdownOptDlgProc;
 	Options_AddPage(wParam, &odp);
 	return 0;

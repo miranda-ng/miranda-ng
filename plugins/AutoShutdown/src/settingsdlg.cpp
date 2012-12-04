@@ -443,20 +443,20 @@ void SetShutdownMenuItem(BOOL fActive)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.position = 2001090000;
 	mi.icolibItem = fActive ? iconList[1].hIcolib : iconList[2].hIcolib;
-	mi.ptszName = fActive?_T("Stop automatic &shutdown"):_T("Automatic &shutdown..."); /* autotranslated */
+	mi.ptszName = fActive ? LPGENT("Stop automatic &shutdown") : LPGENT("Automatic &shutdown..."); /* autotranslated */
 	mi.pszService = "AutoShutdown/MenuCommand";
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	if (hMainMenuItem != NULL) {
-		mi.flags |= CMIM_NAME|CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hMainMenuItem,(LPARAM)&mi);
+		mi.flags |= CMIM_NAME | CMIM_ICON;
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMainMenuItem, (LPARAM)&mi);
 	}
 	else hMainMenuItem = Menu_AddMainMenuItem(&mi);
 
 	/* tray menu */
 	mi.position = 899999;
-	if(hTrayMenuItem!=NULL) {
-		mi.flags|=CMIM_NAME|CMIM_ICON;
-		CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hTrayMenuItem,(LPARAM)&mi);
+	if(hTrayMenuItem != NULL) {
+		mi.flags |= CMIM_NAME | CMIM_ICON;
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hTrayMenuItem, (LPARAM)&mi);
 	}
 	else hTrayMenuItem = Menu_AddTrayMenuItem(&mi);
 
