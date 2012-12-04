@@ -74,8 +74,7 @@ void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
 	if (SectName == NULL)
 		return;
 
-	SKINICONDESC sid = { 0 };
-	sid.cbSize = sizeof(sid);
+	SKINICONDESC sid = { sizeof(sid) };
 	sid.flags = SIDF_ALL_TCHAR;
 	sid.ptszSection = SectName;
 	sid.pszName = mask->szIconName;
@@ -133,9 +132,6 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Miranda_Unknown",
-		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
-
 	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
 		hIconFolder = FoldersRegisterCustomPathT("Fingerprint", "Icons", _T(MIRANDA_PATH) _T("\\") DEFAULT_SKIN_FOLDER);
 		FoldersGetCustomPathT(hIconFolder, g_szSkinLib, SIZEOF(g_szSkinLib), _T(""));
@@ -143,6 +139,10 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
 
 	RegisterIcons();
+
+	hExtraIcon = ExtraIcon_Register("Client","Fingerprint","client_Miranda_Unknown",
+		OnExtraIconListRebuild,OnExtraImageApply,OnExtraIconClick);
+
 	return 0;
 }
 
@@ -201,11 +201,10 @@ int OnExtraImageApply(WPARAM wParam, LPARAM lParam)
 	if (hContact == NULL)
 		return 0;
 
-	char *szProto = (char*)CallService(MS_PROTO_GETCONTACTBASEPROTO,wParam,0);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto != NULL) {
-		DBVARIANT dbvMirVer = { 0 };
-
-		if (!DBGetContactSettingTString(hContact, szProto, "MirVer", &dbvMirVer)) {
+		DBVARIANT dbvMirVer;
+		if ( !db_get_ts(hContact, szProto, "MirVer", &dbvMirVer)) {
 			ApplyFingerprintImage(hContact, dbvMirVer.ptszVal);
 			DBFreeVariant(&dbvMirVer);
 		}

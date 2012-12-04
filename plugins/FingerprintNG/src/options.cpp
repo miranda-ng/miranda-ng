@@ -21,40 +21,38 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 //Start of header
 #include "global.h"
 
-struct _settingsInfo
+struct
 {
 	int idCtrl;
 	LPCSTR szSetName;
 }
-static settings [] =
+static settings[] =
 {
-	{IDC_GROUP_MIRANDA,				"GroupMiranda"},
-	{IDC_GROUP_MIRANDA_VERSION,		"GroupMirandaVersion"},
-	{IDC_GROUP_MIRANDA_PACKS,		"GroupMirandaPacks"},
+	{IDC_GROUP_MIRANDA,           "GroupMiranda"},
+	{IDC_GROUP_MIRANDA_VERSION,   "GroupMirandaVersion"},
+	{IDC_GROUP_MIRANDA_PACKS,     "GroupMirandaPacks"},
 	
-	{IDC_GROUP_MULTI,				"GroupMulti"},
-	{IDC_GROUP_AIM,			   		"GroupAIM"},
-	{IDC_GROUP_GG,			   		"GroupGG"},
-	{IDC_GROUP_ICQ,			   		"GroupICQ"},
-	{IDC_GROUP_IRC,			   		"GroupIRC"},
-	{IDC_GROUP_JABBER,		   		"GroupJabber"},
-	{IDC_GROUP_MRA,			   		"GroupMRA"},
-	{IDC_GROUP_MSN,			   		"GroupMSN"},
-	{IDC_GROUP_QQ,			   		"GroupQQ"},
-	{IDC_GROUP_RSS,			   		"GroupRSS"},
-	{IDC_GROUP_TLEN,				"GroupTlen"},
-	{IDC_GROUP_WEATHER,				"GroupWeather"},
-	{IDC_GROUP_YAHOO,				"GroupYahoo"},
+	{IDC_GROUP_MULTI,             "GroupMulti"},
+	{IDC_GROUP_AIM,               "GroupAIM"},
+	{IDC_GROUP_GG,                "GroupGG"},
+	{IDC_GROUP_ICQ,               "GroupICQ"},
+	{IDC_GROUP_IRC,               "GroupIRC"},
+	{IDC_GROUP_JABBER,            "GroupJabber"},
+	{IDC_GROUP_MRA,               "GroupMRA"},
+	{IDC_GROUP_MSN,               "GroupMSN"},
+	{IDC_GROUP_QQ,                "GroupQQ"},
+	{IDC_GROUP_RSS,               "GroupRSS"},
+	{IDC_GROUP_TLEN,              "GroupTlen"},
+	{IDC_GROUP_WEATHER,           "GroupWeather"},
+	{IDC_GROUP_YAHOO,             "GroupYahoo"},
 	
-	{IDC_GROUP_OTHER_PROTOS,		"GroupOtherProtos"},
-	{IDC_GROUP_OTHERS,				"GroupOthers"},
+	{IDC_GROUP_OTHER_PROTOS,      "GroupOtherProtos"},
+	{IDC_GROUP_OTHERS,            "GroupOthers"},
 
-	{IDC_GROUP_OVERLAYS_RESOURCE,	"GroupOverlaysResource"},
-	{IDC_GROUP_OVERLAYS_PLATFORM,	"GroupOverlaysPlatform"},
-	{IDC_GROUP_OVERLAYS_PROTO,		"GroupOverlaysProtos"},
-	{IDC_GROUP_OVERLAYS_SECURITY,	"GroupOtherProtos"},
-//	{IDC_GROUP_OVERLAYS_RESOURCE_ALT,	"GroupOverlays"},
-
+	{IDC_GROUP_OVERLAYS_RESOURCE, "GroupOverlaysResource"},
+	{IDC_GROUP_OVERLAYS_PLATFORM, "GroupOverlaysPlatform"},
+	{IDC_GROUP_OVERLAYS_PROTO,    "GroupOverlaysProtos"},
+	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOtherProtos"}
 };
 
 static void OptDlgChanged(HWND hwndDlg, BOOL show)
@@ -78,8 +76,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 {
 	switch(msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{
-			TranslateDialogDefault(hwndDlg);
 			for (int i = 0; i < SIZEOF(settings); i++) {
 				if (lstrcmpA(settings[i].szSetName,	"GroupMirandaVersion") == 0)
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 0);
@@ -97,8 +95,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_MIRANDA:
 		case IDC_GROUP_MIRANDA_VERSION:
 		case IDC_GROUP_MIRANDA_PACKS:
-//		case IDC_GROUP_OVERLAYS_RESOURCE_ALT:
-
 			OptDlgChanged(hwndDlg, true);
 			break;
 
@@ -123,7 +119,6 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_OVERLAYS_PLATFORM:
 		case IDC_GROUP_OVERLAYS_PROTO:
 		case IDC_GROUP_OVERLAYS_SECURITY:
-
 			OptDlgChanged(hwndDlg, false);
 			break;
 
@@ -133,15 +128,16 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		break;
 
 	case WM_NOTIFY:
-		{
-			NMHDR *hdr = (NMHDR *)lParam;
-			if (hdr && hdr->code == PSN_APPLY) {
-				for (int i = 0; i < SIZEOF(settings); i++)
-					StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
+		NMHDR *hdr = (NMHDR *)lParam;
+		if (hdr && hdr->code == PSN_APPLY) {
+			for (int i = 0; i < SIZEOF(settings); i++)
+				StoreDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName);
 
-				ClearFI();
-				RegisterIcons();
-			}
+			ClearFI();
+			RegisterIcons();
+
+			for (HANDLE hContact = db_find_first(); hContact; hContact = db_find_next(hContact))
+				OnExtraImageApply((WPARAM)hContact, 0);
 		}
 		break;
 	}
