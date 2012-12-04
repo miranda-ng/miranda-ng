@@ -42,6 +42,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //##############################################################################################################
 //############################################# Skype ##########################################################
 //##############################################################################################################
+	IDI_BLANK				ICON	"icons\\others\\_blank.ico"
 	IDI_FACEBOOK			ICON	"icons\\others\\Facebook.ico"
 	IDI_SKYPE				ICON	"icons\\others\\Skype.ico"
 	IDI_TWITTER				ICON	"icons\\others\\Twitter.ico"

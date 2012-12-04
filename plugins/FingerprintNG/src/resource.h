@@ -4,16 +4,17 @@
 // Microsoft Visual C++ generated include file.
 // Used by resource.rc
 //##############################################################################################################
-//Other
-#define IDI_FACEBOOK				4
-#define IDI_NOTFOUND				5
-#define IDI_TWITTER					6
-#define IDI_UNDETECTED				7
-#define IDI_UNKNOWN					8
+//Other icons
+#define IDI_BLANK					1
+#define IDI_NOTFOUND				2
+#define IDI_UNDETECTED				3
+#define IDI_UNKNOWN					4
 
 //##############################################################################################################
-//Skype clients
-#define IDI_SKYPE					9
+//Other clients
+#define IDI_FACEBOOK				7
+#define IDI_SKYPE					8
+#define IDI_TWITTER					9
 
 //##############################################################################################################
 //MirandaIM clients

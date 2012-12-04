@@ -278,7 +278,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_JWChat",			_T("*JWChat*"),								_T("JWChat"),							_T("ClientIcons_Jabber"),		IDI_JWCHAT,				JABBER_CASE,	TRUE	},
 	{"client_JWGC",				_T("|*JWGC*|Jabber *Gram*"),				_T("JWGC (Jabber WindowGram Client)"),	_T("ClientIcons_Jabber"),		IDI_JWGC,				JABBER_CASE,	TRUE	},
 	{"client_Jabba",			_T("*Jabba*"),								_T("Jabba"),							_T("ClientIcons_Jabber"),		IDI_JABBA,				JABBER_CASE,	TRUE	},
-	{"client_Jabber",			_T("*Jabber*client*"),						_T("Jabber client"),					_T("ClientIcons_Jabber"),		IDI_JABBER,				JABBER_CASE,	TRUE	},
+
 	{"client_JabberApplet",		_T("Jabber*Applet*"),						_T("JabberApplet"),						_T("ClientIcons_Jabber"),		IDI_JABBER_APPLET,		JABBER_CASE,	TRUE	},
 	{"client_JabberBeOS",		_T("Jabber*BeOS*"),							_T("Jabber (BeOS)"),					_T("ClientIcons_Jabber"),		IDI_JABBER_BEOS,		JABBER_CASE,	TRUE	},
 	{"client_JabberFoX",		_T("*fox*"),								_T("JabberFoX"),						_T("ClientIcons_Jabber"),		IDI_JABBERFOX,			JABBER_CASE,	TRUE	},
@@ -379,7 +379,7 @@ KN_FP_MASK def_kn_fp_mask[] =
 	{"client_Wija",				_T("*wija*"),								_T("Wija"),								_T("ClientIcons_Jabber"),		IDI_WIJA,				JABBER_CASE,	TRUE	},
 	{"client_Wildfire",			_T("Wildfire*"),							_T("Wildfire"),							_T("ClientIcons_Jabber"),		IDI_WILDFIRE,			JABBER_CASE,	TRUE	},
 	{"client_WinJab",			_T("*WinJab*"),								_T("WinJab"),							_T("ClientIcons_Jabber"),		IDI_WINJAB,				JABBER_CASE,	TRUE	},
-	{"client_XMPP",				_T("*XMPP*"),								_T("XMPP"),								_T("ClientIcons_Jabber"),		IDI_XMPP,				JABBER_CASE,	TRUE	},
+
 	{"client_Xiffian",			_T("*Xiffian*"),							_T("Xiffian"),							_T("ClientIcons_Jabber"),		IDI_XIFFIAN,			JABBER_CASE,	TRUE	},
 	{"client_Yambi",			_T("*Yambi*"),								_T("Yambi"),							_T("ClientIcons_Jabber"),		IDI_YAMBI,				JABBER_CASE,	TRUE	},
 	{"client_chat_bots",		_T("*chat*bot*"),							_T("chat bot"),							_T("ClientIcons_Jabber"),		IDI_CHAT_BOT,			JABBER_CASE,	TRUE	},
@@ -601,7 +601,11 @@ KN_FP_MASK def_kn_fp_mask[] =
 
 	{"client_Pidgin",			_T("|*Pidgin*|*libpurple*|Purple*"),		_T("Pidgin (libpurple)"),				_T("ClientIcons_multiproto"),	IDI_PIDGIN,				MULTI_CASE	},
 
-	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*|Mrim*"),		_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+	{"client_Python",			_T("|*Python*|Py*|*ταλιςμαη*"),				_T("Python-based clients"),				_T("ClientIcons_multiproto"),	IDI_PYTHON,				MULTI_CASE	},
+
+	{"client_Jabber",			_T("*Jabber*client*"),						_T("Jabber client"),					_T("ClientIcons_Jabber"),		IDI_JABBER,				JABBER_CASE,	TRUE	},
+
+	{"client_XMPP",				_T("|*XMPP*|Mrim*|*DRQZ00fz5WPn1gH+*"),		_T("XMPP client"),						_T("ClientIcons_Jabber"),		IDI_XMPP,				JABBER_CASE	},
 
 	{"client_Twitter",			_T("*Twitter*"),							_T("Twitter"),							_T("ClientIcons_Others"),		IDI_TWITTER,			OTHER_PROTOS_CASE,	TRUE	},
 
