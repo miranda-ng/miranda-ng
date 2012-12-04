@@ -24,16 +24,16 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #ifdef _DEBUG
 /* Debug: Ensure all registry calls do succeed and have valid parameters. 
  * Shows a details message box otherwise. */
-static __inline LONG regchk(LONG res,const char *pszFunc,const void *pszInfo,BOOL fInfoUnicode,const char *pszFile,unsigned int nLine)
+static __inline LONG regchk(LONG res, const char *pszFunc, const void *pszInfo, BOOL fInfoUnicode, const char *pszFile, unsigned int nLine)
 {
-	if(res!=ERROR_SUCCESS && res!=ERROR_FILE_NOT_FOUND && res!=ERROR_NO_MORE_ITEMS) {
-		TCHAR szMsg[1024],*pszInfo2;
+	if(res != ERROR_SUCCESS && res != ERROR_FILE_NOT_FOUND && res != ERROR_NO_MORE_ITEMS) {
+		TCHAR szMsg[1024], *pszInfo2;
 		char *pszErr;
-		pszErr=GetWinErrorDescription(res);
-		pszInfo2=s2t(pszInfo,fInfoUnicode,FALSE);  /* does NULL check */
-		mir_sntprintf(szMsg,SIZEOF(szMsg),_T("Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)"),pszFunc,pszInfo2,pszFile,nLine,pszErr,res);
-		MessageBox(NULL,szMsg,_T("Registry Warning"),MB_OK|MB_ICONINFORMATION|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
-		if(pszErr!=NULL) LocalFree(pszErr);
+		pszErr = GetWinErrorDescription(res);
+		pszInfo2 = s2t(pszInfo, fInfoUnicode, FALSE);  /* does NULL check */
+		mir_sntprintf(szMsg, SIZEOF(szMsg), TranslateT("Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)"), pszFunc, pszInfo2, pszFile, nLine, pszErr, res);
+		MessageBox(NULL, szMsg, TranslateT("Registry Warning"), MB_OK | MB_ICONINFORMATION | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL);
+		if(pszErr != NULL) LocalFree(pszErr);
 		mir_free(pszInfo2);  /* does NULL check */
 	}
 	return res;

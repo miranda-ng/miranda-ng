@@ -812,10 +812,10 @@ int JabberLinksUninit()
 
 /*
 static HANDLE hServiceTest;
-static int TestingService(WPARAM wParam,LPARAM lParam)
+static int TestingService(WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(wParam);
-	MessageBoxEx(NULL,(TCHAR*)lParam,_T("Testing Service"),MB_OK|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL,LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE,0,0)));
+	MessageBoxEx(NULL, (TCHAR*)lParam, TranslateT("Testing Service"), MB_OK | MB_SETFOREGROUND | MB_TOPMOST | MB_TASKMODAL, LANGIDFROMLCID((LCID)CallService(MS_LANGPACK_GETLOCALE, 0, 0)));
 	return 0;
 }
 */
