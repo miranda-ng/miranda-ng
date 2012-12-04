@@ -564,7 +564,7 @@ void FacebookProto::ProcessFriendRequests( void* )
 	}
 	
 	// Parse it
-	std::string reqs = utils::text::source_get_value(&resp.data, 2, "<div class=\"mRequestItem", "<div class=\"al aps\">");
+	std::string reqs = utils::text::source_get_value(&resp.data, 2, "<div class=\"mRequestItem", "al aps\">");
 
 	std::string::size_type pos = 0;
 	std::string::size_type pos2 = 0;
