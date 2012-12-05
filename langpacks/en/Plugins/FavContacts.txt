@@ -22,6 +22,8 @@
 ;file \plugins\FavContacts\src\favlist.h
 [<no group>]
 ;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+[Regular Contact]
 [Contact name]
 [Second line]
 [Selected contact name (color)]
@@ -32,8 +34,5 @@
 [Contact List]
 [Favourites]
 [FavContactsMenuHostWnd]
-[Favourite Contact]
-[Regular Contact]
 [&Favourite Contacts...]
 [<No group>]
-[Fonts]

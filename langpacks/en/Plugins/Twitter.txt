@@ -104,9 +104,11 @@
 [Unable to get avatar Netlib connection for Twitter]
 [%s Protocol]
 ;file \protocols\Twitter\src\theme.cpp
-[Protocols]
-[Reply...]
+[Twitter Icon]
+[Tweet]
+[Reply to Tweet]
 [Visit Homepage]
+[Reply...]
 ;file \protocols\Twitter\src\ui.cpp
 [https://api.twitter.com/]
 [https://identi.ca/api/]

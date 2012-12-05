@@ -81,6 +81,12 @@
 [AlarmsFrameContainer]
 [Frames]
 [Alarm Reminders]
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+[Reminder: Soon]
+[Reminder: Very Soon]
+[Alarm: System Tray]
+[Menu: Show/Hide Reminders]
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
 [Monday]

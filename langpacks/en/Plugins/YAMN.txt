@@ -118,7 +118,6 @@
 [Check mail]
 [Launch application]
 [Connect Fail]
-[YAMN]
 [\\Plugins\\YAMN\\*.dll]
 [dll]
 [\\Plugins\\YAMN\\]
@@ -193,6 +192,7 @@
 [Error %d-%d-%d-%d:]
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
+[YAMN]
 [Accounts]
 [General]
 [Plugins]

@@ -25,3 +25,6 @@
 [There is a maximum of 6 menu items]
 [STATIC]
 ;file \plugins\StatusPlugins\StartupStatus\startupstatus.cpp
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+[Pressed toolbar icon]
+[Released toolbar icon]

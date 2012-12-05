@@ -117,6 +117,7 @@
 [The Icons.dll was updated.]
 [Error during Icons.dll Update.]
 ;file \protocols\Xfire\src\main.cpp
+[Protocol icon]
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 [Login failed.]
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -149,7 +150,7 @@
 [&Activity Report]
 [&Rescan my Games ...]
 [Set &Nickname]
-[Protocol icon]
+[Protocols/XFire]
 [XFire does not support offline messaging!]
 [Username]
 [Unable to connect to XFire.]

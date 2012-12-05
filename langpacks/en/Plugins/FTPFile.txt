@@ -66,8 +66,8 @@
 [%d days]
 [Do you really want to cancel all running jobs?]
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
-[FTP Server %d]
 [FTP File]
+[FTP Server %d]
 [Upload file(s)]
 [Zip and upload file(s)]
 [Zip and upload folder]

@@ -41,5 +41,4 @@
 [Transfer is in progress. Do you really want to close?]
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
-[fileAsMessage]
 [File As Message...]

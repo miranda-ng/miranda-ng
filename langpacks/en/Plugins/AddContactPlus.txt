@@ -21,6 +21,6 @@
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 ;file \plugins\AddContactPlus\src\main.cpp
 [&Add Contact...]
-[AddContact+]
 [Open Add Contact Dialog]
 [Main]
+[AddContact+]

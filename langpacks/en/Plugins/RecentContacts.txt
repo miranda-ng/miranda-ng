@@ -8,12 +8,8 @@
 ;file \plugins\RecentContacts\src\options.cpp
 [Contact List]
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
-[Contact]
-[Toggle Ignore]
 [Main icon]
+[Contact]
 [Ignore Contact]
 [Show Contact]
-[Console]
-[Background]
-[Tahoma]
 [Show Recent Contacts]

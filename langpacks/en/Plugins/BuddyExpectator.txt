@@ -32,6 +32,11 @@
 [Enable Miss You]
 [Notify always]
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+[Enabled]
+[Disabled]
+[Hide]
+[NeverHide]
 [Hiding %s (%S)]
 [%d days since last message]
 [%s %s]
@@ -47,11 +52,6 @@
 [Contact still absent]
 [Miss you event]
 [Hide contact event]
-[Tray/popup icon]
-[Enabled]
-[Disabled]
-[Hide]
-[NeverHide]
 [Hide contact]
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]

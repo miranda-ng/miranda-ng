@@ -142,8 +142,6 @@
 [Microphone]
 [Speaker]
 [Send image]
-[%s/%s]
-[Protocols]
 [Incoming mail]
 [Alert]
 ;file \protocols\Tlen\src\tlen_file.cpp

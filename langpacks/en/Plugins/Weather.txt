@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
 ;langpack template for Weather
 ;file \plugins\Weather\res\resource.rc
 [Update]
@@ -12,7 +12,6 @@
 [Consider weather info updated only when condition and temperature are changed]
 [Remove old data when updating]
 [Make the contact italic when weather alert is issued]
-[Open URLs in new browser window]
 [Modes]
 [Use weather condition as protocol status]
 [Avatar only mode]

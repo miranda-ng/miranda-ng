@@ -93,8 +93,6 @@
 [Request friendship]
 [Approve friendship]
 [Visit Profile]
-[Protocols]
-[Facebook]
 [Mind...]
 [Services...]
 [Refresh Buddy List]

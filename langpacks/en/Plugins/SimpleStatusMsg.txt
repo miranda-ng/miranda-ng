@@ -141,7 +141,6 @@
 [Recent Message]
 [Predefined Message]
 [Go to URL in Away Message]
-[Simple Status Message]
 [I've been away since %time%.]
 [Give it up, I'm not in!]
 [Not right now.]

@@ -68,8 +68,6 @@
 [Address Book]
 [Set Status]
 [Calendar]
-[Protocols]
-[YAHOO]
 ;file \protocols\Yahoo\src\im.cpp
 [The message send timed out.]
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]

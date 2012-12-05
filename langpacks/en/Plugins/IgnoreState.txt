@@ -16,6 +16,9 @@
 [Authorization]
 [You Were Added]
 [Typing Notify]
+[Full Ignore]
+[Partial Ignore]
+[Message Ignore]
 ;file \plugins\IgnoreState\src\options.cpp
 [Extraicons plugin is used, use Contact list > Extraicons for customize.]
 [Contact List]

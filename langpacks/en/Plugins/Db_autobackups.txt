@@ -32,9 +32,9 @@
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup Profile]
 [Save Profile As...]
-[Database/Database Backups]
 [Database]
 [%miranda_userdata%]
+[Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
 [%s%s]
 [%s\\]

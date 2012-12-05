@@ -61,9 +61,6 @@
 [--display-charset utf-8 ]
 [-z 9 ]
 [LANGUAGE=en@quot\0LC_ALL=English\0]
-;file \plugins\New_GPG\src\icons.cpp
-[Secured]
-[Unsecured]
 ;file \plugins\New_GPG\src\init.cpp
 [<GPGdec>]
 [</GPGdec>]

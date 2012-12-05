@@ -35,9 +35,9 @@
 [On right click]
 [Preview]
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
+[Popup]
 [Changing Layout]
 [Changing Case]
-[Popup]
 [Plugins]
 [PopUps]
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp

@@ -57,6 +57,3 @@
 [Account]
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]
-[Visit Profile]
-[Protocols]
-[Omegle]

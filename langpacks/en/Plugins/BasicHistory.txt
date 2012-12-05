@@ -71,10 +71,9 @@
 [View &History]
 [Delete All User History]
 [Execute history task]
-[History]
 [Incoming message]
 [Outgoing message]
-[Statuschange]
+[Status change]
 [Show Contacts]
 [Hide Contacts]
 [Find Next]
@@ -83,6 +82,7 @@
 [Minus in export]
 [\\WinSCP\\WinSCP.exe]
 [%miranda_logpath%\\BasicHistory\\ftplog.txt]
+[History]
 ;file \plugins\BasicHistory\src\BinaryExport.h
 [bin]
 ;file \plugins\BasicHistory\src\DatExport.h
@@ -145,7 +145,6 @@
 [Message]
 [File transfer]
 [Link]
-[Status change]
 [Authorization request]
 [You were added]
 [Contacts recieved]

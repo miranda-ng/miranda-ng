@@ -21,7 +21,6 @@
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 [Custom Status List]
-[%s (locked)]
 [Add new item]
 [Add]
 [Modify item]

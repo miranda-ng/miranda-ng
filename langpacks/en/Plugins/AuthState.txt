@@ -9,9 +9,9 @@
 ;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
 [Enable AuthState icons]
-[Auth State]
 [Auth]
 [Grant]
 [Auth & Grant]
 ;file \plugins\AuthState\src\options.cpp
 [Contact List]
+[Auth State]

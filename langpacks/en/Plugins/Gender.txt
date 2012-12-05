@@ -5,7 +5,6 @@
 [Enable menu items]
 [Draw an icon when gender info not found]
 ;file \plugins\Gender\src\main.cpp
-[Gender]
 [Male]
 [Female]
 [No info]
@@ -16,3 +15,4 @@
 [Set Undefined]
 ;file \plugins\Gender\src\options.cpp
 [Plugins]
+[Gender]

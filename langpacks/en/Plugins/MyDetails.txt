@@ -76,10 +76,10 @@
 [Set My Status Message for %s...]
 [Hide My Details]
 ;file \plugins\MyDetails\src\mydetails.cpp
-[Contact List]
 [Listening to]
 [Previous protocol]
 [Next protocol]
+[Contact List]
 [Set My Nickname for %s]
 [Set My Status Message for %s]
 ;file \plugins\MyDetails\src\options.cpp

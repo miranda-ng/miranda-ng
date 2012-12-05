@@ -173,7 +173,6 @@
 [Open new conference]
 [Clear ignored conferences]
 [Concurrent sessions]
-[Protocols]
 ;file \protocols\Gadu-Gadu\src\image.cpp
 [&Image]
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
@@ -225,7 +224,7 @@
 [Notify]
 [Error]
 ;file \protocols\Gadu-Gadu\src\services.cpp
-[To remove your Gadu-Gadu avatar, you must use the MojaGeneracja.pl website.]
+[To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
 [IP Address]

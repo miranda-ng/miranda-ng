@@ -154,7 +154,6 @@
 [Blocked list]
 [Relative list]
 [Local list]
-[Protocols]
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
 [MSN Options]
