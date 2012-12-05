@@ -33,7 +33,7 @@ HANDLE hWWIExtraIcons = (HANDLE) -1;
 static HANDLE AddIcon(char *name, char *description, TCHAR *tszPath, int iDefaultIdx)
 {
 	SKINICONDESC sid = { sizeof(sid) };
-	sid.flags = SIDF_PATH_UNICODE;
+	sid.flags = SIDF_PATH_TCHAR;
 	sid.pszSection = "WhenWasIt";
 	sid.cx = sid.cy = 16;
 	sid.pszDescription = description;
@@ -74,8 +74,5 @@ int AddIcons()
 
 HANDLE GetDTBIconHandle(int dtb)
 {
-	if (dtb >= cDTB || dtb < 0)
-		return hDTBMore;
-
-	return hDTB[dtb];
+	return ((dtb >= cDTB || dtb < 0) ? hDTBMore : hDTB[dtb]);
 }

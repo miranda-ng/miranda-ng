@@ -39,8 +39,6 @@ void PopupNotifyNoBirthdays()
 	_tcscpy(pd.lptzContactName, TranslateT("WhenWasIt"));
 	_tcscpy(pd.lptzText, TranslateT("No upcoming birthdays."));
 	PUAddPopUpT(&pd);
-
-	Skin_ReleaseIcon(pd.lchIcon);
 }
 
 TCHAR *BuildDTBText(int dtb, TCHAR *name, TCHAR *text, int size)
@@ -87,10 +85,10 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 	POPUPDATAT pd = {0};
 	FillPopupData(pd, dtb);
 	pd.lchContact = hContact;
-	pd.PluginWindowProc = (WNDPROC)DlgProcPopup;
+	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dtb);
 	
-	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
 	switch (toupper(gender)) {
 	case _T('M'):
@@ -104,13 +102,12 @@ int PopupNotifyBirthday(HANDLE hContact, int dtb, int age)
 		break;
 	}
 	if (dtb > 0)
-		_stprintf(pd.lptzText, TranslateT("%s\n%s will be %d years old."), text, sex, age);
+		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s will be %d years old."), text, sex, age);
 	else
-		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
+		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 
 	PUAddPopUpT(&pd);
 
-	Skin_ReleaseIcon(pd.lchIcon);
 	free(name);
 	return 0;
 }
@@ -132,10 +129,10 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 	POPUPDATAT pd = {0};
 	FillPopupData(pd, dab);
 	pd.lchContact = hContact;
-	pd.PluginWindowProc = (WNDPROC)DlgProcPopup;
+	pd.PluginWindowProc = DlgProcPopup;
 	pd.lchIcon = GetDTBIcon(dab);
 	
-	_stprintf(pd.lptzContactName, TranslateT("Birthday - %s"), name);
+	mir_sntprintf(pd.lptzContactName, MAX_CONTACTNAME, TranslateT("Birthday - %s"), name);
 	TCHAR *sex;
 	switch (toupper(gender)) {
 	case _T('M'): 
@@ -149,13 +146,12 @@ int PopupNotifyMissedBirthday(HANDLE hContact, int dab, int age)
 		break;
 	}
 	if (dab > 0)
-		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
+		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	else
-		_stprintf(pd.lptzText, TranslateT("%s\n%s just turned %d."), text, sex, age);
+		mir_sntprintf(pd.lptzText, MAX_SECONDLINE, TranslateT("%s\n%s just turned %d."), text, sex, age);
 	
 	PUAddPopUpT(&pd);
 
-	Skin_ReleaseIcon(pd.lchIcon);
 	free(name);
 	return 0;
 }
