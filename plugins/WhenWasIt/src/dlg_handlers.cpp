@@ -968,7 +968,7 @@ int HandlePopupClick(HWND hWnd, int action)
 	return 0;
 }
 
-INT_PTR CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK DlgProcPopup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg) {
 	case WM_COMMAND:
