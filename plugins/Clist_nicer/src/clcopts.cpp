@@ -474,6 +474,7 @@ static INT_PTR CALLBACK DlgProcDspAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam
 			cfg::dat.dualRowMode = (BYTE)SendDlgItemMessage(hwndDlg, IDC_DUALROWMODE, CB_GETCURSEL, 0, 0);
 			if (cfg::dat.dualRowMode == CB_ERR)
 				cfg::dat.dualRowMode = 0;
+			cfg::writeByte("CLC", "DualRowMode", cfg::dat.dualRowMode);
 			return TRUE;
 		}
 		break;
