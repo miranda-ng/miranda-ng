@@ -433,6 +433,8 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overl
 		}
 		break;
 	}
+	if (i == DEFAULT_KN_FP_MASK_COUNT - 1)
+		i = -1;
 
 	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
 		for (j = 0; j < DEFAULT_KN_FP_OVERLAYS_COUNT; j++) {
