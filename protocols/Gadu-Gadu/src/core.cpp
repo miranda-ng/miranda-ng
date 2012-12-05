@@ -683,13 +683,17 @@ retry:
 							|| res->seq == GG_SEQ_CHINFO)
 						{
 							// Change nickname if it's not present
-							if (__nick && (res->seq == GG_SEQ_GETNICK || res->seq == GG_SEQ_CHINFO))
-								db_set_s(hContact, m_szModuleName, GG_KEY_NICK, __nick);
+							if (__nick && (res->seq == GG_SEQ_GETNICK || res->seq == GG_SEQ_CHINFO)){
+								TCHAR* __nickT = mir_a2t(__nick);
+								db_set_ts(hContact, m_szModuleName, GG_KEY_NICK, __nickT);
+								mir_free(__nickT);
+							}
 
-							if (__nick)
+							if (__nick){
 								db_set_s(hContact, m_szModuleName, "NickName", __nick);
-							else if (res->seq == GG_SEQ_CHINFO)
+							} else if (res->seq == GG_SEQ_CHINFO) {
 								db_unset(NULL, m_szModuleName, "NickName");
+							}
 
 							// Change other info
 							if (__city)
@@ -821,23 +825,26 @@ retry:
 					// Check if groupchat
 					if (e->event.msg.recipients_count && gc_enabled && !db_get_b(NULL, m_szModuleName, GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
 					{
-						char *chat = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
+						TCHAR *chat = gc_getchat(e->event.msg.sender, e->event.msg.recipients, e->event.msg.recipients_count);
 						if (chat)
 						{
-							char id[32];
-							GCDEST gcdest = {m_szModuleName, chat, GC_EVENT_MESSAGE};
+							TCHAR id[32];
+							GCDEST gcdest = {0};
+							gcdest.pszModule = m_szModuleName;
+							gcdest.ptszID = chat;
+							gcdest.iType = GC_EVENT_MESSAGE;
 							GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 							time_t t = time(NULL);
 
-							UIN2ID(e->event.msg.sender, id);
+							UIN2IDT(e->event.msg.sender, id);
 
-							gcevent.pszUID = id;
+							gcevent.ptszUID = id;
 							TCHAR* messageT = mir_a2t(e->event.msg.message);
 							gcevent.ptszText = messageT;
 							gcevent.ptszNick = (TCHAR*) CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM) getcontact(e->event.msg.sender, 1, 0, NULL), GCDNF_TCHAR);
 							gcevent.time = (!(e->event.msg.msgclass & GG_CLASS_OFFLINE) || e->event.msg.time > (t - timeDeviation)) ? t : e->event.msg.time;
 							gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-							netlog("mainthread() (%x): Conference message to room %s & id %s.", this, chat, id);
+							netlog("mainthread() (%x): Conference message to room %S & id %S.", this, chat, id);
 							CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 							mir_free(messageT);
 						}
@@ -886,34 +893,37 @@ retry:
 			case GG_EVENT_MULTILOGON_MSG:
 				if (e->event.multilogon_msg.recipients_count && gc_enabled && !db_get_b(NULL, m_szModuleName, GG_KEY_IGNORECONF, GG_KEYDEF_IGNORECONF))
 				{
-					char *chat = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
+					TCHAR *chat = gc_getchat(e->event.multilogon_msg.sender, e->event.multilogon_msg.recipients, e->event.multilogon_msg.recipients_count);
 					if (chat)
 					{
-						char id[32];
+						TCHAR id[32];
 						DBVARIANT dbv;
-						GCDEST gcdest = {m_szModuleName, chat, GC_EVENT_MESSAGE};
+						GCDEST gcdest = {0};
+						gcdest.pszModule = m_szModuleName;
+						gcdest.ptszID = chat;
+						gcdest.iType = GC_EVENT_MESSAGE;
 						GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
 
-						UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), id);
+						UIN2IDT(db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), id);
 
-						gcevent.pszUID = id;
+						gcevent.ptszUID = id;
 						TCHAR* messageT = mir_a2t(e->event.multilogon_msg.message);
 						gcevent.ptszText = messageT;
-						TCHAR* pszValT;
-						if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ)){
-							pszValT = mir_a2t(dbv.pszVal);
-							gcevent.ptszNick = pszValT;
+						TCHAR* nickT;
+						if (!db_get_s(NULL, m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR)){
+							nickT = mir_tstrdup(dbv.ptszVal);
 							DBFreeVariant(&dbv);
 						} else {
-							gcevent.ptszNick = TranslateT("Me");
+							nickT = mir_tstrdup(TranslateT("Me"));
 						}
+						gcevent.ptszNick = nickT;
 						gcevent.time = e->event.multilogon_msg.time;
 						gcevent.bIsMe = 1;
 						gcevent.dwFlags = GCEF_ADDTOLOG;
-						netlog("mainthread() (%x): Sent conference message to room %s.", this, chat);
+						netlog("mainthread() (%x): Sent conference message to room %S.", this, chat);
 						CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 						mir_free(messageT);
-						if (pszValT != NULL) mir_free(pszValT);;
+						mir_free(nickT);
 					}
 				}
 				else if (!e->event.multilogon_msg.recipients_count && e->event.multilogon_msg.message && *e->event.multilogon_msg.message
@@ -1282,11 +1292,15 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 	type = db_get_b(hContact, m_szModuleName, "ChatRoom", 0);
 
 	// Terminate conference if contact is deleted
-	if (type && !db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_ASCIIZ) && gc_enabled)
+	if (type && !db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_TCHAR) && gc_enabled)
 	{
-		GCDEST gcdest = {m_szModuleName, dbv.pszVal, GC_EVENT_CONTROL};
+
+		GCDEST gcdest = {0};
+		gcdest.pszModule = m_szModuleName;
+		gcdest.ptszID = dbv.ptszVal;
+		gcdest.iType = GC_EVENT_CONTROL;
 		GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
-		GGGC *chat = gc_lookup(dbv.pszVal);
+		GGGC *chat = gc_lookup(dbv.ptszVal);
 
 		netlog("contactdeleted(): Terminating chat %x, id %s from contact list...", chat, dbv.pszVal);
 		if (chat)
@@ -1316,6 +1330,19 @@ int GGPROTO::contactdeleted(WPARAM wParam, LPARAM lParam)
 ////////////////////////////////////////////////////////////
 // When db settings changed
 
+static TCHAR* sttSettingToTchar( DBVARIANT* value )
+{
+	switch(value->type) {
+	case DBVT_ASCIIZ:
+		return mir_a2t(value->pszVal);
+	case DBVT_UTF8:
+		return mir_utf8decodeT(value->pszVal);
+	case DBVT_WCHAR:
+		return mir_u2t(value->pwszVal);
+	}
+	return NULL;
+}
+
 int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 {
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *) lParam;
@@ -1336,40 +1363,51 @@ int GGPROTO::dbsettingchanged(WPARAM wParam, LPARAM lParam)
 	}
 
 	// Contact is being renamed
-	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)
-		&& cws->value.pszVal)
-	{
+	if (gc_enabled && !strcmp(cws->szModule, m_szModuleName) && !strcmp(cws->szSetting, GG_KEY_NICK)){
+
+		TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
+		if(ptszVal==NULL) return 0;
+
 		// Groupchat window contact is being renamed
 		DBVARIANT dbv;
 		int type = db_get_b(hContact, m_szModuleName, "ChatRoom", 0);
-		if (type && !db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_ASCIIZ))
+		if (type && !db_get_s(hContact, m_szModuleName, "ChatRoomID", &dbv, DBVT_TCHAR))
 		{
 			// Most important... check redundancy (fucking cascading)
 			static int cascade = 0;
-			if (!cascade && dbv.pszVal)
+			if (!cascade && dbv.ptszVal)
 			{
-				GCDEST gcdest = {m_szModuleName, dbv.pszVal, GC_EVENT_CHANGESESSIONAME};
+				GCDEST gcdest = {0};
+				gcdest.pszModule = m_szModuleName;
+				gcdest.ptszID = dbv.ptszVal;
+				gcdest.iType = GC_EVENT_CHANGESESSIONAME;
 				GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
-				gcevent.pszText = cws->value.pszVal;
-				netlog("dbsettingchanged(): Conference %s was renamed to %s.", dbv.pszVal, cws->value.pszVal);
+				gcevent.dwFlags = GC_TCHAR;
+				gcevent.ptszText = ptszVal;
+				netlog("dbsettingchanged(): Conference %s was renamed.", dbv.pszVal);
 				// Mark cascading
 				/* FIXME */ cascade = 1;
 				CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 				/* FIXME */ cascade = 0;
 			}
 			DBFreeVariant(&dbv);
-		}
-		else
+		} else {
 			// Change contact name on all chats
-			gc_changenick(hContact, cws->value.pszVal);
+			gc_changenick(hContact, ptszVal);
+		}
+		mir_free(ptszVal);
 	}
 
 	// Contact list changes
 	if (!strcmp(cws->szModule, "CList"))
 	{
 		// If name changed... change nick
-		if (!strcmp(cws->szSetting, "MyHandle") && cws->value.type == DBVT_ASCIIZ && cws->value.pszVal)
-			db_set_s(hContact, m_szModuleName, GG_KEY_NICK, cws->value.pszVal);
+		if (!strcmp(cws->szSetting, "MyHandle")){
+			TCHAR* ptszVal = sttSettingToTchar(&(cws->value));
+			if(ptszVal==NULL) return 0;
+			db_set_ts(hContact, m_szModuleName, GG_KEY_NICK, ptszVal);
+			mir_free(ptszVal);
+		}
 
 		// If not on list changed
 		if (!strcmp(cws->szSetting, "NotOnList"))
@@ -1552,7 +1590,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 	hContact = (HANDLE) CallService(MS_DB_CONTACT_ADD, 0, 0);
 	if (!hContact) {
-		netlog("getcontact(): Failed to create Gadu-Gadu contact %s", szNick);
+		netlog("getcontact(): Failed to create Gadu-Gadu contact %S", szNick);
 		return NULL;
 	}
 
@@ -1572,9 +1610,7 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 
 	// If nick specified use it
 	if (szNick) {
-		char* szNickA = mir_t2a(szNick);
-		db_set_s(hContact, m_szModuleName, GG_KEY_NICK, szNickA);
-		mir_free(szNickA);
+		db_set_ts(hContact, m_szModuleName, GG_KEY_NICK, szNick);
 	} else if (isonline()) {
 		gg_pubdir50_t req;
 
@@ -1587,7 +1623,9 @@ HANDLE GGPROTO::getcontact(uin_t uin, int create, int inlist, TCHAR *szNick)
 			gg_pubdir50(sess, req);
 			gg_LeaveCriticalSection(&sess_mutex, "getcontact", 31, 1, "sess_mutex", 1);
 			gg_pubdir50_free(req);
-			db_set_s(hContact, m_szModuleName, GG_KEY_NICK, ditoa(uin));
+			TCHAR* uinT = mir_a2t(ditoa(uin));
+			db_set_ts(hContact, m_szModuleName, GG_KEY_NICK, uinT);
+			mir_free(uinT);
 			netlog("getcontact(): Search for nick on uin: %d", uin);
 		}
 	}

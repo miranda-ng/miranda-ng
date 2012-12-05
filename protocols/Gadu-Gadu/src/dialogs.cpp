@@ -133,11 +133,11 @@ int GGPROTO::options_init(WPARAM wParam, LPARAM lParam)
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTitle = m_tszUserName;
 	odp.dwInitParam = (LPARAM)this;
+	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 
 	odp.ptszTab = LPGENT("General");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GG_GENERAL);
 	odp.pfnDlgProc = gg_genoptsdlgproc;
-	odp.flags = ODPF_TCHAR | ODPF_BOLDGROUPS | ODPF_DONTTRANSLATE;
 	Options_AddPage(wParam, &odp);
 
 	odp.ptszTab = LPGENT("Conference");

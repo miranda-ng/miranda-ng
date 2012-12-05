@@ -125,18 +125,20 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			string_append_c(s, ';');
 
 			// Readup Nick
-			if (!db_get_s(hContact, "CList", "MyHandle", &dbv, DBVT_ASCIIZ) || !db_get_s(hContact, gg->m_szModuleName, GG_KEY_NICK, &dbv, DBVT_ASCIIZ))
+			if (!db_get_s(hContact, "CList", "MyHandle", &dbv, DBVT_TCHAR) || !db_get_s(hContact, gg->m_szModuleName, GG_KEY_NICK, &dbv, DBVT_TCHAR))
 			{
+				char* dbvA = mir_t2a(dbv.ptszVal);
 				DBVARIANT dbv2;
 				if (!db_get_s(hContact, gg->m_szModuleName, "NickName", &dbv2, DBVT_ASCIIZ))
 				{
 					string_append(s, dbv2.pszVal);
 					DBFreeVariant(&dbv2);
+				} else {
+					string_append(s, dbvA);
 				}
-				else
-					string_append(s, dbv.pszVal);
 				string_append_c(s, ';');
-				string_append(s, dbv.pszVal);
+				string_append(s, dbvA);
+				mir_free(dbvA);
 				DBFreeVariant(&dbv);
 			}
 			else
@@ -438,6 +440,8 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	*pfilter = '\0';
+	*str = _T('\0');
+
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
 	ofn.Flags = OFN_FILEMUSTEXIST | OFN_HIDEREADONLY;
@@ -481,8 +485,8 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	TCHAR filter[512], *pfilter;
 	FILE *f;
 
-	_tcsncpy(str, TranslateT("contacts"), sizeof(str));
-	_tcsncat(str, _T(".txt"), sizeof(str) - _tcslen(str));
+	_tcsncpy(str, TranslateT("contacts"), SIZEOF(str));
+	_tcsncat(str, _T(".txt"), SIZEOF(str) - _tcslen(str));
 
 	ofn.lStructSize = OPENFILENAME_SIZE_VERSION_400;
 	_tcsncpy(filter, TranslateT("Text files"), SIZEOF(filter));
@@ -512,7 +516,7 @@ INT_PTR GGPROTO::export_text(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrDefExt = _T("txt");
 
 #ifdef DEBUGMODE
-	netlog("export_text(%s).", str);
+	netlog("export_text(%S).", str);
 #endif
 	if (!GetSaveFileName(&ofn)) return 0;
 

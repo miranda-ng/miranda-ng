@@ -23,6 +23,10 @@
 
 GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 {
+#ifdef DEBUGMODE
+	extendedLogging = 0;
+#endif
+
 	// Init mutexes
 	InitializeCriticalSection(&sess_mutex);
 	InitializeCriticalSection(&ft_mutex);

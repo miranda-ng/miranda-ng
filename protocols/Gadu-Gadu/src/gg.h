@@ -119,7 +119,7 @@ typedef struct
 {
 	uin_t *recipients;
 	int recipients_count;
-	char id[32];
+	TCHAR id[32];
 	BOOL ignore;
 } GGGC;
 
@@ -329,7 +329,9 @@ void gg_links_instancemenu_init();
 void gg_links_init();
 void gg_links_destroy();
 
-#define UIN2ID(uin,id) _itoa(uin,id,10)
+#define UIN2ID(uin,id) _itoa(uin,id,10) //@deprecated
+#define UIN2IDA(uin,id) _itoa(uin,id,10)
+#define UIN2IDT(uin,id) _itot(uin,id,10)
 
 // Debug functions
 const char *ggdebug_eventtype(gg_event *e);
