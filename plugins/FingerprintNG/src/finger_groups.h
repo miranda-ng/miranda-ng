@@ -31,7 +31,7 @@ case GG_CASE:
 	break;
 case ICQ_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupICQ", 1))
-		return _T("Client Icons/ICQ clients");
+		return _T("Client icons/ICQ clients");
 	break;
 
 case IRC_CASE:
@@ -51,7 +51,7 @@ case MRA_CASE:
 
 case MSN_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupMSN", 1))
-		return _T("Client Icons/MSN clients");
+		return _T("Client icons/MSN clients");
 	break;
 
 case QQ_CASE:
@@ -76,9 +76,8 @@ case WEATHER_CASE:
 
 case YAHOO_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupYahoo", 1))
-		return _T("Client Icons/Yahoo clients");
+		return _T("Client icons/Yahoo clients");
 	break;
-
 
 case OTHER_PROTOS_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupOtherProtos", 1))
@@ -90,10 +89,9 @@ case OTHERS_CASE:
 		return _T("Client icons/Other icons");
 	break;
 
-
 case OVERLAYS_RESOURCE_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupOverlaysResource", 1))
-		return _T("Client Icons/Overlays/Resource");
+		return _T("Client icons/Overlays/Resource");
 	break;
 
 case OVERLAYS_PLATFORM_CASE:
