@@ -19,6 +19,30 @@
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+//##############################################################################################################
+//########################################### Other ############################################################
+//##############################################################################################################
+	IDI_BLANK			ICON	"_blank.ico"
+	IDI_NOTFOUND		ICON	"notfound.ico"
+	IDI_UNDETECTED		ICON	"undetected.ico"
+	IDI_UNKNOWN			ICON	"unknown.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE 
+BEGIN
+	IDS_IDENTIFY			"# Finger Icons #"
+END
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //

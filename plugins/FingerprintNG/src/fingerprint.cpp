@@ -50,7 +50,7 @@ void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
 		Skin_RemoveIcon(mask->szIconName);
 	mask->hIcolibItem = NULL;
 
-	if (!mask->szMask || !mask->szIconFileName || !bEnable)
+	if (!mask->szMask || !bEnable)
 		return;
 
 	size_t iMaskLen = _tcslen(mask->szMask) + 1;
@@ -60,10 +60,10 @@ void FASTCALL Prepare(KN_FP_MASK* mask, bool bEnable)
 	mask->szMaskUpper = pszNewMask;
 
 	TCHAR destfile[MAX_PATH];
-	if (*mask->szIconFileName == 0)
+	if (mask->iIconIndex == IDI_NOTFOUND || mask->iIconIndex == IDI_UNKNOWN || mask->iIconIndex == IDI_UNDETECTED)
 		GetModuleFileName(g_hInst, destfile, MAX_PATH);
 	else {
-		mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, mask->szIconFileName);
+		mir_sntprintf(destfile, SIZEOF(destfile), _T("%s"), g_szSkinLib);
 
 		struct _stat64i32 stFileInfo;
 		if ( _tstat(destfile, &stFileInfo) == -1)
@@ -132,11 +132,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnContactSettingChanged);
 	HookEvent(ME_OPT_INITIALISE, OnOptInitialise);
 
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
-		hIconFolder = FoldersRegisterCustomPathT("Fingerprint", "Icons", _T(MIRANDA_PATH) _T("\\") DEFAULT_SKIN_FOLDER);
-		FoldersGetCustomPathT(hIconFolder, g_szSkinLib, SIZEOF(g_szSkinLib), _T(""));
-	}
-	else CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
+	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)DEFAULT_SKIN_FOLDER, (LPARAM)g_szSkinLib);
 
 	RegisterIcons();
 
@@ -427,9 +423,9 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overl
 		if ( !WildCompareW(szMirVer, p.szMaskUpper))
 			continue;
 
-		if (p.szIconFileName != _T("")) {
+		if (p.iIconIndex != IDI_NOTFOUND || p.iIconIndex != IDI_UNKNOWN || p.iIconIndex != IDI_UNDETECTED) {
 			TCHAR destfile[MAX_PATH];
-			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, p.szIconFileName);
+			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s"), g_szSkinLib);
 			struct _stat64i32 stFileInfo;
 
 			if (_tstat(destfile, &stFileInfo) == -1)
@@ -447,14 +443,8 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overl
 			if ( !WildCompare(szMirVer, p.szMaskUpper))
 				continue;
 
-			if (p.szIconFileName != _T("ClientIcons_packs"))
-				break;
-
-			TCHAR destfile[MAX_PATH];
-			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s\\%s.dll"), g_szSkinLib, p.szIconFileName);
-
 			struct _stat64i32 stFileInfo;
-			if ( _tstat(destfile, &stFileInfo) != -1)
+			if ( _tstat(g_szSkinLib, &stFileInfo) != -1)
 				break;
 		}
 

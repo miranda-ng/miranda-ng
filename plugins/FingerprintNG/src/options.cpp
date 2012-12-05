@@ -55,12 +55,12 @@ static settings[] =
 //	{IDC_GROUP_OVERLAYS_SECURITY, "GroupOtherProtos"}
 };
 
-static void OptDlgChanged(HWND hwndDlg, BOOL show)
+/*static void OptDlgChanged(HWND hwndDlg, BOOL show)
 {
 	if (show)
 		ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_SHOW);
 	SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-}
+}*/
 
 static void LoadDBCheckState(HWND hwndDlg, int idCtrl, LPCSTR szSetting, BYTE bDef)
 {
@@ -85,7 +85,7 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					LoadDBCheckState(hwndDlg, settings[i].idCtrl, settings[i].szSetName, 1);
 			}
 
-			ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_HIDE);
+			//ShowWindow(GetDlgItem(hwndDlg, IDC_OPTCHANGENOTE), SW_HIDE);
 		}
 		break;
 
@@ -95,8 +95,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_MIRANDA:
 		case IDC_GROUP_MIRANDA_VERSION:
 		case IDC_GROUP_MIRANDA_PACKS:
-			OptDlgChanged(hwndDlg, true);
-			break;
+			//OptDlgChanged(hwndDlg, true);
+			//break;
 
 		case IDC_GROUP_MULTI:
 		case IDC_GROUP_AIM:
@@ -119,7 +119,8 @@ static INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		case IDC_GROUP_OVERLAYS_PLATFORM:
 		case IDC_GROUP_OVERLAYS_PROTO:
 //		case IDC_GROUP_OVERLAYS_SECURITY:
-			OptDlgChanged(hwndDlg, false);
+			//OptDlgChanged(hwndDlg, false);
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 			break;
 
 		default:
@@ -153,7 +154,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
 	odp.ptszTitle = LPGENT("Fingerprint");
 	odp.pfnDlgProc = DlgProcOptions;
-	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;;
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }

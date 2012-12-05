@@ -54,10 +54,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #include <m_icolib.h>
 #include <m_protocols.h>
 #include <m_userinfo.h>
-
-// plugins SDK
 #include <m_extraicons.h>
-#include <m_folders.h>
 
 //plugins header
 #include "version.h"
@@ -84,7 +81,6 @@ struct KN_FP_MASK
 	LPSTR	szIconName;
 	LPTSTR	szMask;
 	LPTSTR	szClientDescription;
-	LPTSTR	szIconFileName;
 	int		iIconIndex;
 	int		iSectionFlag;
 	BOOL	fNotUseOverlay;
@@ -135,7 +131,7 @@ typedef struct _foundInfo
 #define LIB_REG		2
 #define LIB_USE		3
 
-#define DEFAULT_SKIN_FOLDER		_T("Icons\\fp_ClientIcons")
+#define DEFAULT_SKIN_FOLDER		_T("Icons\\Fp_icons.dll")
 
 void ClearFI();
 

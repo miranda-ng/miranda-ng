@@ -2,21 +2,21 @@ case MIRANDA_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupMiranda", 1))
 		return _T("Client icons/Miranda clients");
 	break;
+
 case MIRANDA_VERSION_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupMirandaVersion", 1))
 		return _T("Client icons/Miranda clients");
 	break;
+
 case MIRANDA_PACKS_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupMirandaPacks", 1))
 		return _T("Client icons/Miranda clients/Pack overlays");
 	break;
 
-
 case MULTI_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupMulti", 1))
 		return _T("Client icons/Multi-proto clients");
 	break;
-
 
 case AIM_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupAIM", 1))
@@ -28,7 +28,6 @@ case GG_CASE:
 		return _T("Client icons/Gadu-Gadu clients");
 	break;
 
-	break;
 case ICQ_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupICQ", 1))
 		return _T("Client icons/ICQ clients");
@@ -103,20 +102,6 @@ case OVERLAYS_PROTO_CASE:
 	if ( db_get_b(NULL, "Finger", "GroupOverlaysProtos", 1))
 		return _T("Client icons/Overlays/Protocol");
 	break;
-
-/*
-case OVERLAYS_SECURITY_CASE:
-	if ( db_get_b(NULL, "Finger", "GroupOtherProtos", 1))
-		return _T("Client icons/Overlays/Security");
-	break;
-*/
-
-/*
-case OVERLAYS_RESOURCE_ALT_CASE:
-	if ( db_get_b(NULL, "Finger", "GroupOverlays", 1))
-		return _T("Client icons/Overlays");
-	break;
-*/
 
 default:
 	return _T("Client icons");
