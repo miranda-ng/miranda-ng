@@ -573,7 +573,7 @@ int ChangeLayout(HWND hTextWnd, BYTE TextOperation, BOOL CurrentWord)
 				if (CallService(MS_POPUP_ADDPOPUPT, (WPARAM) &pdtData, APF_NEWDATA)<0) 
 				{
 					mir_free(ptszPopupText);
-					MessageBox(NULL, ptszMBox, _T(ModuleName), MB_ICONINFORMATION);
+					MessageBox(NULL, ptszMBox, TranslateT(ModuleName), MB_ICONINFORMATION);
 				}
 			}
 			mir_free(ptszMBox);
