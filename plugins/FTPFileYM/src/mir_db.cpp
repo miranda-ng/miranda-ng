@@ -18,64 +18,39 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include "common.h"
 
-int DB::setByte(HANDLE hContact, char *szModule, char *szSetting, int iValue)
-{
-	return DBWriteContactSettingByte(hContact, szModule, szSetting, iValue);
-}
-
 int DB::setByteF(HANDLE hContact, char *szModule, char *szSetting, int id, int iValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return setByte(hContact, szModule, formSet, iValue);
-}
-
-int DB::setWord(HANDLE hContact, char *szModule, char *szSetting, int iValue)
-{
-	return DBWriteContactSettingWord(hContact, szModule, szSetting, iValue);
+	return db_set_b(hContact, szModule, formSet, iValue);
 }
 
 int DB::setWordF(HANDLE hContact, char *szModule, char *szSetting, int id, int iValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return setWord(hContact, szModule, formSet, iValue);
-}
-
-int DB::setDword(HANDLE hContact, char *szModule, char *szSetting, int iValue)
-{
-	return DBWriteContactSettingDword(hContact, szModule, szSetting, iValue);
+	return db_set_w(hContact, szModule, formSet, iValue);
 }
 
 int DB::setDwordF(HANDLE hContact, char *szModule, char *szSetting, int id, int iValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return setDword(hContact, szModule, formSet, iValue);
-}
-
-int DB::setAString(HANDLE hContact, char *szModule, char *szSetting, char *szValue)
-{
-	return DBWriteContactSettingString(hContact, szModule, szSetting, szValue);
+	return db_set_dw(hContact, szModule, formSet, iValue);
 }
 
 int DB::setAStringF(HANDLE hContact, char *szModule, char *szSetting, int id, char *szValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return setAString(hContact, szModule, formSet, szValue);
-}
-
-int DB::setString(HANDLE hContact, char *szModule, char *szSetting, TCHAR *stzValue)
-{
-	return DBWriteContactSettingTString(hContact, szModule, szSetting, stzValue);
+	return db_set_s(hContact, szModule, formSet, szValue);
 }
 
 int DB::setStringF(HANDLE hContact, char *szModule, char *szSetting, int id, TCHAR *stzValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return setString(hContact, szModule, formSet, stzValue);
+	return db_set_ts(hContact, szModule, formSet, stzValue);
 }
 
 int DB::setCryptedString(HANDLE hContact, char *szModule, char *szSetting, char *szValue)
@@ -83,43 +58,28 @@ int DB::setCryptedString(HANDLE hContact, char *szModule, char *szSetting, char 
 	char buff[256];
 	strcpy(buff, szValue);
 	CallService(MS_DB_CRYPT_ENCODESTRING, (WPARAM)sizeof(buff), (LPARAM)buff);
-	return setAString(hContact, szModule, szSetting, buff);
-}
-
-int DB::getByte(HANDLE hContact, char *szModule, char *szSetting, int iErrorValue)
-{
-	return DBGetContactSettingByte(hContact, szModule, szSetting, iErrorValue);
+	return db_set_s(hContact, szModule, szSetting, buff);
 }
 
 int DB::getByteF(HANDLE hContact, char *szModule, char *szSetting, int id, int iErrorValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return getByte(hContact, szModule, formSet, iErrorValue);
-}
-
-int DB::getWord(HANDLE hContact, char *szModule, char *szSetting, int iErrorValue)
-{
-	return DBGetContactSettingWord(hContact, szModule, szSetting, iErrorValue);
+	return db_get_b(hContact, szModule, formSet, iErrorValue);
 }
 
 int DB::getWordF(HANDLE hContact, char *szModule, char *szSetting, int id, int iErrorValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return getWord(hContact, szModule, formSet, iErrorValue);
-}
-
-int DB::getDword(HANDLE hContact, char *szModule, char *szSetting, int iErrorValue)
-{
-	return DBGetContactSettingDword(hContact, szModule, szSetting, iErrorValue);
+	return db_get_w(hContact, szModule, formSet, iErrorValue);
 }
 
 int DB::getDwordF(HANDLE hContact, char *szModule, char *szSetting, int id, int iErrorValue)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return getDword(hContact, szModule, formSet, iErrorValue);
+	return db_get_dw(hContact, szModule, formSet, iErrorValue);
 }
 
 int DB::getAString(HANDLE hContact, char *szModule, char *szSetting, char *buff)
@@ -178,20 +138,9 @@ int DB::getCryptedString(HANDLE hContact, char *szModule, char *szSetting, char 
 	return 1;
 }
 
-int DB::deleteSetting(HANDLE hContact, char *szModule, char *szSetting)
-{
-	return DBDeleteContactSetting(hContact, szModule, szSetting);
-}
-
 int DB::deleteSettingF(HANDLE hContact, char *szModule, char *szSetting, int id)
 {
 	char formSet[256];
 	mir_snprintf(formSet, sizeof(formSet), szSetting, id);
-	return deleteSetting(hContact, szModule, formSet);
-}
-
-char *DB::getProto(HANDLE hContact)
-{
-	char *szProto = GetContactProto(hContact);
-	return ((INT_PTR)szProto != CALLSERVICE_NOTFOUND) ? szProto : NULL;
+	return db_unset(hContact, szModule, formSet);
 }

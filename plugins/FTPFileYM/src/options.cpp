@@ -33,33 +33,33 @@ void Options::deinit()
 
 void Options::loadOptions()
 {
-	enabled = DB::getByte(0, MODULE, "Enabled", 0);
-	selected = DB::getByte(0, MODULE, "Selected", 0);
-	defaultFTP = DB::getByte(0, MODULE, "Default", 0);
-	bAutosend = DB::getByte(0, MODULE, "Autosend", 0) ? true : false;
-	bCloseDlg = DB::getByte(0, MODULE, "CloseDlg", 0) ? true : false;
-	bCopyLink = DB::getByte(0, MODULE, "CopyLink", 1) ? true : false;
-	bUseSubmenu = DB::getByte(0, MODULE, "UseSubmenu", 1) ? true : false;
-	bHideInactive = DB::getByte(0, MODULE, "HideInactive", 1) ? true : false;
-	bAutoDelete = DB::getByte(0, MODULE, "DeleteTimer", 0) ? true : false;
-	iDeleteTime = DB::getDword(0, MODULE, "AutoDeleteTime", 60);
-	timeRange = (ETimeRange)DB::getByte(0, MODULE, "TimeRange", TR_MINUTES);
-	iCompressionLevel = DB::getByte(0, MODULE, "CompressionLevel", 6);
-	bSetZipName = DB::getByte(0, MODULE, "SetZipName", 0) ? true : false;
+	enabled = db_get_b(0, MODULE, "Enabled", 0);
+	selected = db_get_b(0, MODULE, "Selected", 0);
+	defaultFTP = db_get_b(0, MODULE, "Default", 0);
+	bAutosend = db_get_b(0, MODULE, "Autosend", 0) ? true : false;
+	bCloseDlg = db_get_b(0, MODULE, "CloseDlg", 0) ? true : false;
+	bCopyLink = db_get_b(0, MODULE, "CopyLink", 1) ? true : false;
+	bUseSubmenu = db_get_b(0, MODULE, "UseSubmenu", 1) ? true : false;
+	bHideInactive = db_get_b(0, MODULE, "HideInactive", 1) ? true : false;
+	bAutoDelete = db_get_b(0, MODULE, "DeleteTimer", 0) ? true : false;
+	iDeleteTime = db_get_dw(0, MODULE, "AutoDeleteTime", 60);
+	timeRange = (ETimeRange)db_get_b(0, MODULE, "TimeRange", TR_MINUTES);
+	iCompressionLevel = db_get_b(0, MODULE, "CompressionLevel", 6);
+	bSetZipName = db_get_b(0, MODULE, "SetZipName", 0) ? true : false;
 }
 
 void Options::saveOptions() const
 {
-	DB::setByte(0, MODULE, "Autosend", bAutosend ? 1 : 0);
-	DB::setByte(0, MODULE, "CopyLink", bCopyLink ? 1 : 0);			
-	DB::setByte(0, MODULE, "UseSubmenu", bUseSubmenu ? 1 : 0);
-	DB::setByte(0, MODULE, "HideInactive", bHideInactive ? 1 : 0);
-	DB::setByte(0, MODULE, "CloseDlg", bCloseDlg ? 1 : 0);
-	DB::setByte(0, MODULE, "DeleteTimer", bAutoDelete ? 1 : 0);
-	DB::setDword(0, MODULE, "AutoDeleteTime", iDeleteTime);
-	DB::setByte(0, MODULE, "TimeRange", (int)timeRange);
-	DB::setByte(0, MODULE, "CompressionLevel", iCompressionLevel);
-	DB::setByte(0, MODULE, "SetZipName", bSetZipName ? 1 : 0);
+	db_set_b(0, MODULE, "Autosend", bAutosend ? 1 : 0);
+	db_set_b(0, MODULE, "CopyLink", bCopyLink ? 1 : 0);			
+	db_set_b(0, MODULE, "UseSubmenu", bUseSubmenu ? 1 : 0);
+	db_set_b(0, MODULE, "HideInactive", bHideInactive ? 1 : 0);
+	db_set_b(0, MODULE, "CloseDlg", bCloseDlg ? 1 : 0);
+	db_set_b(0, MODULE, "DeleteTimer", bAutoDelete ? 1 : 0);
+	db_set_dw(0, MODULE, "AutoDeleteTime", iDeleteTime);
+	db_set_b(0, MODULE, "TimeRange", (int)timeRange);
+	db_set_b(0, MODULE, "CompressionLevel", iCompressionLevel);
+	db_set_b(0, MODULE, "SetZipName", bSetZipName ? 1 : 0);
 }
 
 void Options::enableItems(HWND hwndDlg, bool state)
@@ -78,12 +78,10 @@ void Options::enableItems(HWND hwndDlg, bool state)
 
 INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 		{		
-			TranslateDialogDefault(hwndDlg);
-
 			for (int i = 0; i < ServerList::FTP_COUNT; i++) 
 				ComboBox_AddString(GetDlgItem(hwndDlg, IDC_FTPLIST), ftpList[i]->stzName);
 
@@ -105,180 +103,158 @@ INT_PTR CALLBACK Options::DlgProcOptsAccounts(HWND hwndDlg, UINT msg, WPARAM wPa
 			SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
 			SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
 			CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
-
-			if (ftpList.getSelected()->bEnabled) 
-			{
-				CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
-			} 
-			else 
-			{
-				CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
-				enableItems(hwndDlg, false);
-			}
-
-			return TRUE;
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED)	
-			{
-				if (LOWORD(wParam) == IDC_ENABLED)
-					enableItems(hwndDlg, IsDlgButtonChecked(hwndDlg, IDC_ENABLED) == BST_CHECKED ? true : false);
-			}
-			else if (HIWORD(wParam) == CBN_SELCHANGE) 
-			{
-				if (LOWORD(wParam) == IDC_FTPLIST)
-				{
-					opt.selected = (BYTE)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
-					CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP);	
-
-					ServerList::FTP *ftp = ftpList.getSelected();
-					SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, ftp->ftpProto, 0);
-					SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer);
-					SetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser);
-					SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass);
-					SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir);
-					SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
-					SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
-					SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
-					CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
-
-					if (ftpList.getSelected()->bEnabled) 
-					{
-						CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
-						enableItems(hwndDlg, true);
-					} 
-					else 
-					{
-						CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
-						enableItems(hwndDlg, false);
-					}
-				}
-				else if (LOWORD(wParam) == IDC_PROTOLIST)
-				{
-					int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
-					switch (sel)
-					{
-						case ServerList::FTP::FT_STANDARD:
-						case ServerList::FTP::FT_SSL_EXPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 21, FALSE); break;
-						case ServerList::FTP::FT_SSL_IMPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 990, FALSE); break;
-						case ServerList::FTP::FT_SSH: SetDlgItemInt(hwndDlg, IDC_PORT, 22, FALSE); break;
-					}
-				}
-			}
-
-			if (HIWORD(wParam)==BN_CLICKED || HIWORD(wParam)==EN_CHANGE || HIWORD(wParam)==CBN_SELCHANGE || HIWORD(wParam)==CBN_EDITCHANGE)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-		
-			return TRUE;
+		if (ftpList.getSelected()->bEnabled) 
+			CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
+		else {
+			CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
+			enableItems(hwndDlg, false);
 		}
-		case WM_NOTIFY:
-		{
-			if (((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				if (IsDlgButtonChecked(hwndDlg, IDC_ENABLED))
-					opt.enabled |= (1 << opt.selected);
-				else
-					opt.enabled &= ~(1 << opt.selected);
+		return TRUE;
 
-				if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULT))
-					opt.defaultFTP = opt.selected;
+	case WM_COMMAND:
+
+		if (HIWORD(wParam) == BN_CLICKED) {
+			if (LOWORD(wParam) == IDC_ENABLED)
+				enableItems(hwndDlg, IsDlgButtonChecked(hwndDlg, IDC_ENABLED) == BST_CHECKED ? true : false);
+		}
+		else if (HIWORD(wParam) == CBN_SELCHANGE) {
+			if (LOWORD(wParam) == IDC_FTPLIST) {
+				opt.selected = (BYTE)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST));
+				CheckDlgButton(hwndDlg, IDC_DEFAULT, opt.selected == opt.defaultFTP);	
 
 				ServerList::FTP *ftp = ftpList.getSelected();
-				GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->stzName, SIZEOF(ftp->stzName));
-				GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer, SIZEOF(ftp->szServer));
-				GetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser, SIZEOF(ftp->szUser));
-				GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass, SIZEOF(ftp->szPass));
-				GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir, SIZEOF(ftp->szDir));
-				GetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl, SIZEOF(ftp->szUrl));
-				GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod, SIZEOF(ftp->szChmod));
+				SendDlgItemMessage(hwndDlg, IDC_PROTOLIST, CB_SETCURSEL, ftp->ftpProto, 0);
+				SetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer);
+				SetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser);
+				SetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass);
+				SetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir);
+				SetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl);
+				SetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod);
+				SetDlgItemInt (hwndDlg, IDC_PORT, ftp->iPort, FALSE);
+				CheckDlgButton(hwndDlg, IDC_PASSIVE, ftp->bPassive);
 
-				ftp->ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
-				ftp->iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
-				ftp->bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;		
-
-				ComboBox_DeleteString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
-				ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected, ftp->stzName);
-				ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
-
-				ftpList.saveToDb();
-				PrebuildMainMenu();
+				if (ftpList.getSelected()->bEnabled) {
+					CheckDlgButton(hwndDlg, IDC_ENABLED, 1);	
+					enableItems(hwndDlg, true);
+				} 
+				else {
+					CheckDlgButton(hwndDlg, IDC_ENABLED, 0);
+					enableItems(hwndDlg, false);
+				}
 			}
-			return TRUE;
+			else if (LOWORD(wParam) == IDC_PROTOLIST) {
+				int sel = ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
+				switch (sel) {
+					case ServerList::FTP::FT_STANDARD:
+					case ServerList::FTP::FT_SSL_EXPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 21, FALSE); break;
+					case ServerList::FTP::FT_SSL_IMPLICIT: SetDlgItemInt(hwndDlg, IDC_PORT, 990, FALSE); break;
+					case ServerList::FTP::FT_SSH: SetDlgItemInt(hwndDlg, IDC_PORT, 22, FALSE); break;
+				}
+			}
 		}
+
+		if (HIWORD(wParam)==BN_CLICKED || HIWORD(wParam)==EN_CHANGE || HIWORD(wParam)==CBN_SELCHANGE || HIWORD(wParam)==CBN_EDITCHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+
+		return TRUE;
+
+	case WM_NOTIFY:
+		if (((LPNMHDR)lParam)->code == PSN_APPLY) {
+			if (IsDlgButtonChecked(hwndDlg, IDC_ENABLED))
+				opt.enabled |= (1 << opt.selected);
+			else
+				opt.enabled &= ~(1 << opt.selected);
+
+			if (IsDlgButtonChecked(hwndDlg, IDC_DEFAULT))
+				opt.defaultFTP = opt.selected;
+
+			ServerList::FTP *ftp = ftpList.getSelected();
+			GetDlgItemText(hwndDlg, IDC_FTPLIST, ftp->stzName, SIZEOF(ftp->stzName));
+			GetDlgItemTextA(hwndDlg, IDC_SERVER, ftp->szServer, SIZEOF(ftp->szServer));
+			GetDlgItemTextA(hwndDlg, IDC_USER, ftp->szUser, SIZEOF(ftp->szUser));
+			GetDlgItemTextA(hwndDlg, IDC_PASSWORD, ftp->szPass, SIZEOF(ftp->szPass));
+			GetDlgItemTextA(hwndDlg, IDC_DIR, ftp->szDir, SIZEOF(ftp->szDir));
+			GetDlgItemTextA(hwndDlg, IDC_URL, ftp->szUrl, SIZEOF(ftp->szUrl));
+			GetDlgItemTextA(hwndDlg, IDC_CHMOD, ftp->szChmod, SIZEOF(ftp->szChmod));
+
+			ftp->ftpProto = (ServerList::FTP::EProtoType)ComboBox_GetCurSel(GetDlgItem(hwndDlg, IDC_PROTOLIST));
+			ftp->iPort = GetDlgItemInt(hwndDlg, IDC_PORT, 0, 0);
+			ftp->bPassive = IsDlgButtonChecked(hwndDlg, IDC_PASSIVE) ? true : false;		
+
+			ComboBox_DeleteString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
+			ComboBox_InsertString(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected, ftp->stzName);
+			ComboBox_SetCurSel(GetDlgItem(hwndDlg, IDC_FTPLIST), opt.selected);
+
+			ftpList.saveToDb();
+			PrebuildMainMenu();
+		}
+		return TRUE;
 	}
-	
+
 	return FALSE;
 }
 
 INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch(msg) 
-	{
-		case WM_INITDIALOG:
-		{
-			TranslateDialogDefault(hwndDlg);
+	switch(msg) {
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
 
-			CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, opt.bAutosend ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, opt.bCopyLink ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_USESUBMENU, opt.bUseSubmenu ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_HIDEINACTIVE, opt.bHideInactive ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_CLOSEDLG, opt.bCloseDlg ? 1 : 0);
-			CheckDlgButton(hwndDlg, IDC_AUTODELETE, opt.bAutoDelete ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_URL_AUTOSEND, opt.bAutosend ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_URL_COPYTOML, opt.bCopyLink ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_USESUBMENU, opt.bUseSubmenu ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_HIDEINACTIVE, opt.bHideInactive ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_CLOSEDLG, opt.bCloseDlg ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_AUTODELETE, opt.bAutoDelete ? 1 : 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_LEVEL_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(9, 0));
-			SetDlgItemInt(hwndDlg, IDC_LEVEL, opt.iCompressionLevel, FALSE);
-			CheckDlgButton(hwndDlg, IDC_SETZIPNAME, opt.bSetZipName ? 1 : 0);
+		SendDlgItemMessage(hwndDlg, IDC_LEVEL_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(9, 0));
+		SetDlgItemInt(hwndDlg, IDC_LEVEL, opt.iCompressionLevel, FALSE);
+		CheckDlgButton(hwndDlg, IDC_SETZIPNAME, opt.bSetZipName ? 1 : 0);
 
-			SendDlgItemMessage(hwndDlg, IDC_DELETETIME_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(UD_MAXVAL, 1));
-			SetDlgItemInt(hwndDlg, IDC_DELETETIME, opt.iDeleteTime, FALSE);
+		SendDlgItemMessage(hwndDlg, IDC_DELETETIME_SPIN, UDM_SETRANGE, 0, (LPARAM)MAKELONG(UD_MAXVAL, 1));
+		SetDlgItemInt(hwndDlg, IDC_DELETETIME, opt.iDeleteTime, FALSE);
 
-			SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("minutes"));
-			SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("hours"));
-			SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("days"));
-			SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_SETCURSEL, (int)opt.timeRange, 0);
+		SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("minutes"));
+		SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("hours"));
+		SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_ADDSTRING, 0, (LPARAM)TranslateT("days"));
+		SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_SETCURSEL, (int)opt.timeRange, 0);
 
-			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETETIME), opt.bAutoDelete);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_RANGE), opt.bAutoDelete);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_DELETETIME), opt.bAutoDelete);
+		EnableWindow(GetDlgItem(hwndDlg, IDC_RANGE), opt.bAutoDelete);
+		return TRUE;
 
-			return TRUE;
+	case WM_COMMAND:
+		if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_AUTODELETE) {
+			EnableWindow(GetDlgItem(hwndDlg, IDC_DELETETIME), IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE));
+			EnableWindow(GetDlgItem(hwndDlg, IDC_RANGE), IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE));
 		}
-		case WM_COMMAND:
-		{
-			if (HIWORD(wParam) == BN_CLICKED && LOWORD(wParam) == IDC_AUTODELETE) 
-			{
-				EnableWindow(GetDlgItem(hwndDlg, IDC_DELETETIME), IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE));
-				EnableWindow(GetDlgItem(hwndDlg, IDC_RANGE), IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE));
-			}
 
-			if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE)
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+		if (HIWORD(wParam) == BN_CLICKED || HIWORD(wParam) == EN_CHANGE)
+			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 
-			return TRUE;
+		return TRUE;
+
+	case WM_NOTIFY:
+		if(((LPNMHDR)lParam)->code == PSN_APPLY) {
+			opt.bAutosend = IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND) ? true : false;
+			opt.bCopyLink = IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOML) ? true : false;
+			opt.bUseSubmenu = IsDlgButtonChecked(hwndDlg, IDC_USESUBMENU) ? true : false;
+			opt.bHideInactive = IsDlgButtonChecked(hwndDlg, IDC_HIDEINACTIVE) ? true : false;
+			opt.bCloseDlg = IsDlgButtonChecked(hwndDlg, IDC_CLOSEDLG) ? true : false;
+			opt.bAutoDelete = IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE) ? true : false;
+			opt.iCompressionLevel = GetDlgItemInt(hwndDlg, IDC_LEVEL, 0, FALSE);
+			opt.bSetZipName = IsDlgButtonChecked(hwndDlg, IDC_SETZIPNAME) ? true : false;
+			opt.iDeleteTime = GetDlgItemInt(hwndDlg, IDC_DELETETIME, 0, FALSE);
+			opt.timeRange = (Options::ETimeRange)SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_GETCURSEL, 0, 0);
+			opt.saveOptions();
+
+			if (opt.bAutoDelete) deleteTimer.start();
+			else deleteTimer.stop();
+
+			PrebuildMainMenu();
 		}
-		case WM_NOTIFY:
-		{
-			if(((LPNMHDR)lParam)->code == PSN_APPLY) 
-			{
-				opt.bAutosend = IsDlgButtonChecked(hwndDlg, IDC_URL_AUTOSEND) ? true : false;
-				opt.bCopyLink = IsDlgButtonChecked(hwndDlg, IDC_URL_COPYTOML) ? true : false;
-				opt.bUseSubmenu = IsDlgButtonChecked(hwndDlg, IDC_USESUBMENU) ? true : false;
-				opt.bHideInactive = IsDlgButtonChecked(hwndDlg, IDC_HIDEINACTIVE) ? true : false;
-				opt.bCloseDlg = IsDlgButtonChecked(hwndDlg, IDC_CLOSEDLG) ? true : false;
-				opt.bAutoDelete = IsDlgButtonChecked(hwndDlg, IDC_AUTODELETE) ? true : false;
-				opt.iCompressionLevel = GetDlgItemInt(hwndDlg, IDC_LEVEL, 0, FALSE);
-				opt.bSetZipName = IsDlgButtonChecked(hwndDlg, IDC_SETZIPNAME) ? true : false;
-				opt.iDeleteTime = GetDlgItemInt(hwndDlg, IDC_DELETETIME, 0, FALSE);
-				opt.timeRange = (Options::ETimeRange)SendDlgItemMessage(hwndDlg, IDC_RANGE, CB_GETCURSEL, 0, 0);
-				opt.saveOptions();
-
-				if (opt.bAutoDelete) deleteTimer.start();
-				else deleteTimer.stop();
-
-				PrebuildMainMenu();
-			}
-			return TRUE;
-		}
+		return TRUE;
 	}
 
 	return FALSE;
@@ -286,9 +262,7 @@ INT_PTR CALLBACK Options::DlgProcOptsAdvanced(HWND hwndDlg, UINT msg, WPARAM wPa
 
 int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp = {0};
-
-	odp.cbSize = sizeof(odp);
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.position = 100000000;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
@@ -304,6 +278,5 @@ int Options::InitOptions(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ADVANCED);
 	odp.pfnDlgProc = Options::DlgProcOptsAdvanced;
 	Options_AddPage(wParam, &odp);
-
 	return 0;
 }

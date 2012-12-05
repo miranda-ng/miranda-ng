@@ -41,7 +41,7 @@ DBEntry *DBEntry::getFirts()
 DBEntry *DBEntry::getNext(DBEntry *entry)
 {
 	char szValue[256];
-	int count = DB::getDword(0, MODULE_FILES, "NextFileID", 0);
+	int count = db_get_dw(0, MODULE_FILES, "NextFileID", 0);
 
 	for (; entryID < count; entryID++) 
 	{
@@ -80,7 +80,7 @@ void DBEntry::cleanupDB()
 		entry = getNext(entry);
 	}
 
-	DB::setDword(0, MODULE_FILES, "NextFileID", count);
+	db_set_dw(0, MODULE_FILES, "NextFileID", count);
 }
 
 DBEntry *DBEntry::get(int fileID)
@@ -136,7 +136,7 @@ void DBEntry::add(GenericJob *job)
 		return;
 
 	Lock *lock = new Lock(mutexDB);
-	int id = DB::getDword(0, MODULE_FILES, "NextFileID", 0);
+	int id = db_get_dw(0, MODULE_FILES, "NextFileID", 0);
 	DB::setByteF(0, MODULE_FILES, "Ftp%d", id, job->iFtpNum);
 	DB::setAStringF(0, MODULE_FILES, "Filename%d", id, job->szSafeFileName);
 
@@ -147,7 +147,7 @@ void DBEntry::add(GenericJob *job)
 		DB::setDwordF(0, MODULE_FILES, "DeleteTS%d", id, deleteTS);
 	}
 	
-	DB::setDword(0, MODULE_FILES, "NextFileID", id + 1);
+	db_set_dw(0, MODULE_FILES, "NextFileID", id + 1);
 	job->fileID = id;
 
 	delete lock;	

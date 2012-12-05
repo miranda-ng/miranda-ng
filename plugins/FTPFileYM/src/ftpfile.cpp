@@ -85,8 +85,6 @@ static IconItem iconList[] =
 	{ "Delete from FTP",  "delete",     IDI_DELETE     }
 };
 
-static HANDLE hIconlibItem[ServerList::FTP_COUNT + SIZEOF(iconList)];
-
 static void InitIcolib()
 {
 	Icon_Register(hInst, MODULE, iconList, SIZEOF(iconList), MODULE);
@@ -98,12 +96,13 @@ void InitMenuItems()
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ROOTPOPUP | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
-	mi.icolibItem = hIconlibItem[ServerList::FTP_COUNT];
+	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File");
 
 	hMainMenu = Menu_AddMainMenuItem(&mi);
-	if (opt.bUseSubmenu) hMenu = Menu_AddContactMenuItem(&mi);
+	if (opt.bUseSubmenu)
+		hMenu = Menu_AddContactMenuItem(&mi);
 
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
@@ -126,7 +125,7 @@ void InitMenuItems()
 			mi.hParentMenu = hMenu;
 		}
 
-		mi.icolibItem = hIconlibItem[i];
+		mi.icolibItem = iconList[i].hIcolib;
 		mi.popupPosition = i + 1000;
 		hSubMenu[i] = Menu_AddContactMenuItem(&mi);
 
@@ -168,7 +167,7 @@ void InitMenuItems()
 	memset(&mi, 0, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | CMIF_ROOTHANDLE | CMIF_TCHAR;
-	mi.icolibItem = hIconlibItem[ServerList::FTP_COUNT];
+	mi.icolibItem = iconList[ServerList::FTP_COUNT].hIcolib;
 	mi.position = 3000090001;
 	mi.ptszName = LPGENT("FTP File manager");
 	mi.pszService = MS_FTPFILE_SHOWMANAGER;
@@ -200,7 +199,7 @@ void InitTabsrmmButton()
 		btn.dwButtonID = 1;
 		btn.pszModuleName = MODULE;
 		btn.dwDefPos = 105;
-		btn.hIcon = hIconlibItem[ServerList::FTP_COUNT];
+		btn.hIcon = iconList[ServerList::FTP_COUNT].hIcolib;
 		btn.bbbFlags = BBBF_ISARROWBUTTON | BBBF_ISIMBUTTON | BBBF_ISLSIDEBUTTON | BBBF_CANBEHIDDEN;
 		btn.ptszTooltip = TranslateT("FTP File");
 		CallService(MS_BB_ADDBUTTON, 0, (LPARAM)&btn);
@@ -214,7 +213,7 @@ int PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	bool bIsContact = false;
 
-	char *szProto = DB::getProto((HANDLE)wParam);
+	char *szProto = GetContactProto((HANDLE)wParam);
 	if (szProto) bIsContact = (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_IM) ? true : false;
 
 	bool bHideRoot = opt.bHideInactive;

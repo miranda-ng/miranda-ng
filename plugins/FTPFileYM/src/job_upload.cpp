@@ -80,7 +80,7 @@ void UploadJob::autoSend()
 {
 	if (this->hContact != NULL)
 	{
-		char *szProto = DB::getProto(this->hContact);
+		char *szProto = GetContactProto(this->hContact);
 		if (szProto)
 		{
 			DBEVENTINFO dbei = {0};

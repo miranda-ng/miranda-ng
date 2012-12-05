@@ -57,9 +57,9 @@ void ServerList::saveToDb() const
 	DB::setWordF(0, MODULE, "FtpProto%d", opt.selected, ftp->ftpProto);
 	DB::setWordF(0, MODULE, "Port%d", opt.selected, ftp->iPort);
 	DB::setByteF(0, MODULE, "Passive%d", opt.selected, ftp->bPassive);	
-	DB::setByte(0, MODULE, "Selected", opt.selected);
-	DB::setByte(0, MODULE, "Enabled", opt.enabled);
-	DB::setByte(0, MODULE, "Default", opt.defaultFTP);
+	db_set_b(0, MODULE, "Selected", opt.selected);
+	db_set_b(0, MODULE, "Enabled", opt.enabled);
+	db_set_b(0, MODULE, "Default", opt.defaultFTP);
 }
 
 ServerList::FTP::FTP(int index)
