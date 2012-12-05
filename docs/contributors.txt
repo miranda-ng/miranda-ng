@@ -2,11 +2,14 @@
 
 Bartosz Białek aka Dezeath
 Vadim Dashevsky aka watcher
+Alexander Gluzsky aka sss
+Vladislav Grishenko aka theMIROn
 George Hazan aka ghazan
 Ekaterina Gritsenko aka Tuarisa
 Alexey Koulakov aka Awkward
 Michael Kunz aka Protogenes
 Dmitry Kuzkin aka Bio
+Alexander Lantsev aka Unsane
 Eugene Lishnevsky aka elishnevsky
 Tobias Weimer aka Wishmaster aka Freak_TheMighty
 Vlad Mironov aka mironych
@@ -23,7 +26,6 @@ Ricardo Domenecci aka pescuma
 Gennady Feldman aka gena01
 Martin Öberg aka Strickz
 Denis Stanishevskiy aka std
-Vladislav Grishenko aka theMIROn
 Richard Hughes aka Cyreve
 Santithorn Bunchua aka keh
 Sam Kothari aka egoDust
