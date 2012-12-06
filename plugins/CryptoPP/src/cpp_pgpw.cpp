@@ -258,7 +258,7 @@ LPSTR __cdecl pgp_decode(HANDLE context, LPCSTR szEncMsg)
 
 	if (szOldMsg) {
 		if ( !is_7bit_string(szOldMsg) && !is_utf8_string(szOldMsg) ) {
-			size_t slen = strlen(szOldMsg)+1;
+			int slen = (int)strlen(szOldMsg)+1;
 			LPWSTR wszMsg = (LPWSTR) alloca(slen*sizeof(WCHAR));
 			MultiByteToWideChar(CP_ACP, 0, szOldMsg, -1, wszMsg, slen*sizeof(WCHAR));
 			szNewMsg = _strdup(utf8encode(wszMsg));

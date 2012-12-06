@@ -2,7 +2,7 @@
 
 struct
 {
-	UINT key; // Resource ID
+	int  key; // Resource ID
 	BYTE tbl; // Table NUM
 	BYTE idx; // Table IDX
 	char *section;

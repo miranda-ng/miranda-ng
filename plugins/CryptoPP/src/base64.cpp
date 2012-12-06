@@ -11,7 +11,7 @@ string base64encode(const string buf)
 }
 
 
-char *base64encode(const char *inBuffer, const int count) {
+char *base64encode(const char *inBuffer, const size_t count) {
 
 	int srcIndex = 0, destIndex = 0, remainder = count % 3;
 	char *outBuffer = (char *) malloc(count*2+1);

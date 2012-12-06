@@ -784,35 +784,26 @@ void ListReminders(void)
 
 void GetTriggerTimeString(const ULARGE_INTEGER *When, char *s, UINT strSize, BOOL bUtc)
 {
-	SYSTEMTIME tm;
+	SYSTEMTIME tm = { 0 };
 	LCID lc = GetUserDefaultLCID();
 
 	*s = 0;
 
-	memset(&tm, 0, sizeof(tm));
 	if (bUtc)
 		FileTimeToTzLocalST((const FILETIME*)When, &tm);
 	else
 		FILETIMEtoSYSTEMTIME((FILETIME*)When, &tm);
 
-	if ( GetDateFormat(lc, DATE_LONGDATE, &tm, NULL, s, strSize) )
-	{
+	if ( GetDateFormat(lc, DATE_LONGDATE, &tm, NULL, s, strSize)) {
 		// append time
-		{
-			int n = strlen(s);
-			s[n++] = ' ';
-			s[n] = 0;
+		int n = (int)strlen(s);
+		s[n++] = ' ';
+		s[n] = 0;
 
-			if ( !GetTimeFormat(lc, LOCALE_NOUSEROVERRIDE|TIME_NOSECONDS, &tm, NULL, s+n, strSize-n) )
-			{
-				mir_snprintf(s+n, strSize-n, "%02d:%02d", tm.wHour, tm.wMinute);
-			}
-		}
+		if ( !GetTimeFormat(lc, LOCALE_NOUSEROVERRIDE|TIME_NOSECONDS, &tm, NULL, s+n, strSize-n) )
+			mir_snprintf(s+n, strSize-n, "%02d:%02d", tm.wHour, tm.wMinute);
 	}
-	else
-	{
-		mir_snprintf(s, strSize, "%d-%02d-%02d %02d:%02d", tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute);
-	}
+	else mir_snprintf(s, strSize, "%d-%02d-%02d %02d:%02d", tm.wYear, tm.wMonth, tm.wDay, tm.wHour, tm.wMinute);
 }
 
 
@@ -2488,14 +2479,14 @@ static void InitListView(HWND AHLV)
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 0;
 		lvTIt.pszText = S1;
-		lvTIt.cchTextMax = strlen(S1);
+		lvTIt.cchTextMax = (int)strlen(S1);
 		ListView_InsertItem(AHLV,&lvTIt);
 		lvTIt.mask = LVIF_TEXT;
 		S = GetPreviewString(pReminder->Reminder);
 		lvTIt.iItem = I;
 		lvTIt.iSubItem = 1;
 		lvTIt.pszText = S;
-		lvTIt.cchTextMax = strlen(S);
+		lvTIt.cchTextMax = (int)strlen(S);
 		ListView_SetItem(AHLV,&lvTIt);
 
 		I++;
@@ -2666,13 +2657,13 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Reminder text");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_reminderListColGeom[1];
 			ListView_InsertColumn(H,0,&lvCol);
 			lvCol.mask = LVCF_TEXT | LVCF_WIDTH;
 			S = Translate("Date of activation");
 			lvCol.pszText = S;
-			lvCol.cchTextMax = strlen(S);
+			lvCol.cchTextMax = (int)strlen(S);
 			lvCol.cx = g_reminderListColGeom[0];
 			ListView_InsertColumn(H,0,&lvCol);
 			InitListView(H);
@@ -2870,10 +2861,10 @@ void Send(char *user, char *host, char *Msg, char *server)
 	ch = (char*)malloc(strlen(user) + strlen(host) + 16);
 	ch = (char*)realloc(ch,sprintf(ch,"rcpt to:%s@%s\r\n",user,host));
 	WS_Send(S,"mail from: \r\n",13);
-	WS_Send(S,ch,strlen(ch));
+	WS_Send(S,ch,(int)strlen(ch));
 	WS_Send(S,"data\r\n",6);
 	WS_Send(S,"From:<REM>\r\n\r\n",14);
-	WS_Send(S,Msg,strlen(Msg));
+	WS_Send(S,Msg,(int)strlen(Msg));
 	WS_Send(S,"\r\n.\r\n",5);
 	WS_Send(S,"quit\r\n",6);
 	SAFE_FREE((void**)&ch);

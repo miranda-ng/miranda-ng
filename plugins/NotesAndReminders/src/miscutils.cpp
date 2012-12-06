@@ -101,7 +101,7 @@ void ReadSettingBlob(HANDLE hContact, char *ModuleName, char *SettingName, WORD 
 
 void WriteSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,const int *Value, int Size)
 {
-	WriteSettingBlob(hContact,ModuleName,SettingName,sizeof(int)*Size,(void*)Value);
+	WriteSettingBlob(hContact, ModuleName, SettingName, WORD(sizeof(int)*Size), (void*)Value);
 }
 
 bool ReadSettingIntArray(HANDLE hContact,char *ModuleName,char *SettingName,int *Value, int Size)

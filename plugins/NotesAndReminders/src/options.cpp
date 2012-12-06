@@ -303,12 +303,10 @@ void LoadNRFont(int i, LOGFONT *lf, COLORREF *colour)
 static void TrimString(TCHAR *s)
 {
 	if (!s || !*s)
-	{
 		return;
-	}
 
 	TCHAR *start = s;
-	UINT n = _tcslen(s) - 1;
+	UINT n = UINT(_tcslen(s) - 1);
 
 	TCHAR *end = s + n;
 
