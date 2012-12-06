@@ -221,7 +221,3 @@ void DrawAlpha(HDC hdcwnd, PRECT rc, DWORD basecolor, int alpha, DWORD basecolor
 void CustomizeButton(HWND hWnd, bool bIsSkinned, bool bIsThemed, bool bIsFlat);
 
 void FreeAndNil( void** );
-
-#if _MSC_VER >= 1500
-	#define wEffects wReserved
-#endif

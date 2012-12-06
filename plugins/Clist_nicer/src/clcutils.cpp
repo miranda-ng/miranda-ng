@@ -24,7 +24,7 @@ UNICODE done
 
 */
 #include <commonheaders.h>
-#include <richedit.h>
+
 #include "../coolsb/coolscroll.h"
 
 #ifndef SPI_GETDESKWALLPAPER
