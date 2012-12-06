@@ -413,7 +413,7 @@ BOOL __inline WildCompareProcW(LPWSTR wszName, LPWSTR wszMask)
 
 static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
 {
-	short i = 0, j = -1, k = -1, n = -1;
+	int i = 0, j = -1, k = -1, n = -1;
 
 	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 		KN_FP_MASK& p = def_kn_fp_mask[i];
@@ -423,17 +423,17 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overl
 		if ( !WildCompareW(szMirVer, p.szMaskUpper))
 			continue;
 
-		if (p.iIconIndex != IDI_NOTFOUND || p.iIconIndex != IDI_UNKNOWN || p.iIconIndex != IDI_UNDETECTED) {
+		if (p.iIconIndex != IDI_NOTFOUND && p.iIconIndex != IDI_UNKNOWN && p.iIconIndex != IDI_UNDETECTED) {
 			TCHAR destfile[MAX_PATH];
 			mir_sntprintf(destfile, SIZEOF(destfile), _T("%s"), g_szSkinLib);
-			struct _stat64i32 stFileInfo;
 
-			if (_tstat(destfile, &stFileInfo) == -1)
+			struct _stat64i32 stFileInfo;
+			if ( _tstat(destfile, &stFileInfo) == -1)
 				i = NOTFOUND_MASK_NUMBER;
 		}
 		break;
 	}
-	if (i == DEFAULT_KN_FP_MASK_COUNT)
+	if (i == DEFAULT_KN_FP_MASK_COUNT-1)
 		i = -1;
 
 	if (!def_kn_fp_mask[i].fNotUseOverlay && i < DEFAULT_KN_FP_MASK_COUNT) {
