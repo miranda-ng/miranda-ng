@@ -55,6 +55,7 @@ typedef struct
 
 	LPTIME_ZONE_INFORMATION (*getTzi)(HANDLE hTZ);
 	LPCTSTR (*getTzName)(HANDLE hTZ);
+	LPCTSTR (*getTzDescription)(LPCTSTR TZname);
 
 #ifdef __cplusplus
 	int printDateTimeByContact (HANDLE hContact, LPCTSTR szFormat, LPTSTR szDest, int cbDest, DWORD dwFlags)

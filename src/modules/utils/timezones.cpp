@@ -129,6 +129,18 @@ static LPCTSTR timeapiGetTzName(HANDLE hTZ)
 	return tz->tszName;
 }
 
+static LPCTSTR timeapiGetTzDescription(LPCTSTR TZname)
+{
+	for (int i=0; i < g_timezonesBias.getCount(); i++)
+	{
+		MIM_TIMEZONE *tz = g_timezonesBias[i];
+
+		if (!lstrcmp(tz->tszName, TZname))
+			return tz->szDisplay;
+	}
+	return _T("");
+}
+
 static void CalcTsOffset(MIM_TIMEZONE *tz)
 {
 	SYSTEMTIME st, stl;
@@ -466,6 +478,7 @@ static INT_PTR GetTimeApi(WPARAM, LPARAM lParam)
 	tmi->timeStampToTimeZoneTimeStamp = timeapiTimeStampToTimeZoneTimeStamp;
 	tmi->getTzi = timeapiGetTzi;
 	tmi->getTzName = timeapiGetTzName;
+	tmi->getTzDescription = timeapiGetTzDescription;
 
 	return TRUE;
 }
