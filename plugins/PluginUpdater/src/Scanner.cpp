@@ -95,7 +95,7 @@ static renameTable[] =
 	{ _T("clienticons_multiproto.dll"),     _T("") },
 	{ _T("clienticons_multiprotocols.dll"), _T("") },
 	{ _T("clienticons_others.dll"),         _T("") },
-	{ _T("clienticons_overlsys.dll"),       _T("") },
+	{ _T("clienticons_overlays.dll"),       _T("") },
 	{ _T("clienticons_packs.dll"),          _T("") },
 	{ _T("clienticons_qq.dll"),             _T("") },
 	{ _T("clienticons_rss.dll"),            _T("") },
