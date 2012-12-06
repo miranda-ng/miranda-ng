@@ -56,7 +56,10 @@
 #include <direct.h>
 #include <math.h>
 #include <shlwapi.h>
+#include <Richedit.h>
+
 #include "resource.h"
+
 #include <newpluginapi.h>
 #include <win2k.h>
 #include <m_clist.h>

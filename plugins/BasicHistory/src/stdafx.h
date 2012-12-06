@@ -30,6 +30,7 @@
 #include <locale>
 #include <string>
 #include <fstream>
+#include <functional>
 
 #define MIRANDA_VER		0x0A00
 

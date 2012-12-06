@@ -34,10 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include <tchar.h>
 
-#if _MSC_VER < 1400
-#	include <malloc.h>   // to avoid a crazy bug in VS2003 header files
-#endif
-
 #ifndef __GNUC__
 #	ifdef _DEBUG
 #		define _CRTDBG_MAP_ALLOC

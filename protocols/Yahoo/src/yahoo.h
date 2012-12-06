@@ -26,6 +26,7 @@
 #include <time.h>
 
 #include <windows.h>
+#include <shlwapi.h>
 
 /*
  * Yahoo Services

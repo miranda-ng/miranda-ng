@@ -73,6 +73,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "m_stdhdr.h"
 
 #include <windows.h>
+#include <Shlwapi.h>
 #include <commctrl.h>
 #include <uxtheme.h>
 #include <vssym32.h>

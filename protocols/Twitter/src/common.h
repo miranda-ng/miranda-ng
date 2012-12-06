@@ -32,6 +32,7 @@ using std::list;
 using std::min;
 
 #include <windows.h>
+#include <Shlwapi.h>
 
 #include "resource.h"
 

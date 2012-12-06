@@ -13,7 +13,6 @@
 
 #include "yahoo.h"
 
-#include <shlwapi.h>
 #include <win2k.h>
 
 #include <m_idle.h>

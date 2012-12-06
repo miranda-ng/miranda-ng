@@ -546,7 +546,7 @@ File created by Christian Kästner, and tweaked a bit by Richard Hughes*/
 	#endif 	/* __ITaskbarList3_INTERFACE_DEFINED__ */
 #endif  /* _SHLOBJ_H_ */
 
-#ifndef FTA_Exclude
+#ifndef FILETYPEATTRIBUTEFLAGS
 	#define FTA_Exclude               0x00000001
 	#define FTA_Show                  0x00000002
 	#define FTA_HasExtension          0x00000004

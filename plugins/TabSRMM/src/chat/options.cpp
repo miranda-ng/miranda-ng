@@ -40,8 +40,6 @@
 #undef Translate
 
 #define TranslateA(s)   ((char*)CallService(MS_LANGPACK_TRANSLATESTRING,0,(LPARAM)(s)))
-#include <shlobj.h>
-#include <shlwapi.h>
 
 extern HBRUSH 			hListBkgBrush;
 extern HICON			hIcons[30];

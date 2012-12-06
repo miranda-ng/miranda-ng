@@ -34,7 +34,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "hdr/modern_skinengine.h"
 #include "hdr/modern_commonprototypes.h"
-#include <shlwapi.h>
 #include "hdr/modern_sync.h"
 //Implementation
 

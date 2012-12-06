@@ -21,8 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "../commonheaders.h"
 #include "chat.h"
-#include <shlobj.h>
-#include <shlwapi.h>
 
 #define UM_CHECKSTATECHANGE (WM_USER+100)
 

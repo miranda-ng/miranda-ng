@@ -40,7 +40,6 @@
 #include "..\commonheaders.h"
 #include <math.h>
 #include <mbstring.h>
-#include <shlwapi.h>
 
 /*
  * The code for streaming the text is to a large extent copied from

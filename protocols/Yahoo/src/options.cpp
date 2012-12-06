@@ -14,8 +14,6 @@
 #include "yahoo.h"
 #include "resource.h"
 
-#include <shlwapi.h>
-
 #include <m_langpack.h>
 #include <m_utils.h>
 #include <m_options.h>
