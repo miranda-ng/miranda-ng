@@ -21,6 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2A737817-2443-48FF-A2E8-CA8D69E450F3}</ProjectGuid>
     <RootNamespace>GTalkExt</RootNamespace>
+    <ProjectName>GTalkExt</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">

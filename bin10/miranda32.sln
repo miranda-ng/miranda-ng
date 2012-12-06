@@ -42,31 +42,29 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MSN", "..\protocols\MSN\msn
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_nicer", "..\plugins\clist_nicer\clist_nicer_10.vcxproj", "{3C42510C-A29E-4A53-899C-203BFA874E0B}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icons_pack\ICONS.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_ICQ", "..\protocols\IcqOscarJ\icons_pack\ICONS_10.vcxproj", "{E98A8615-1082-1979-D6D8-F763F13BFCBD}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xStatus_Jabber", "..\protocols\JabberG\jabber_xstatus\JABBER_XSTATUS_10.vcxproj", "{6BBEEA1E-3C87-6CD1-F32A-027C3EC5320E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Cln_skinedit", "..\plugins\clist_nicer\skineditor\skinedit_10.vcxproj", "{987F026D-EB1F-4013-ADA8-2406ACCDA526}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_AIM", "..\protocols\AimOscar\proto_aim\Proto_AIM_10.vcxproj", "{975505EA-F0C7-4DAC-A95E-75249615F30C}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_GG", "..\protocols\Gadu-Gadu\proto_gg\Proto_GG_10.vcxproj", "{33912E32-3B68-4E2C-82AE-64C06EE987A7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\IcqOscarJ\proto_icq\Proto_ICQ.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_ICQ", "..\protocols\IcqOscarJ\proto_icq\Proto_ICQ_10.vcxproj", "{DB3B0449-E576-4BBB-8B08-AB9E914D39CA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_IRC", "..\protocols\IRCG\proto_irc\Proto_IRC_10.vcxproj", "{DD667247-3712-4355-9774-7E6ACAF2275E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Jabber", "..\protocols\JabberG\proto_jabber\Proto_Jabber_10.vcxproj", "{1AA0A504-0644-4F00-A1AD-F55D69E50DD0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_MSN", "..\protocols\MSN\proto_msn\Proto_MSN_10.vcxproj", "{7BC6C3E7-2B17-4718-A82E-084798710E14}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Proto_Yahoo", "..\protocols\Yahoo\proto_yahoo\Proto_Yahoo_10.vcxproj", "{BFEBA9D5-CAB7-42C0-BE0B-0888A7A458AB}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_mw", "..\plugins\Clist_mw\clist_mw_10.vcxproj", "{56997126-0098-407A-94E1-7C5748C1C9EF}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_modern", "..\plugins\Clist_modern\clist_modern_10.vcxproj", "{D9057E63-AAAA-4FE7-800A-20C02F4761F3}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\ICONS_10.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdUserInfo", "..\src\core\stduserinfo\stduserinfo_10.vcxproj", "{1C856B14-54CD-4D07-B18B-5F7DB073AB51}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -125,26 +123,28 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdAway", "..\src\core\stda
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TopToolBar", "..\plugins\TopToolBar\TopToolBar_10.vcxproj", "{ECE691D0-BFB3-483B-A699-084269EFCE89}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbChecker", "..\plugins\DbChecker\dbchecker_10.vcxproj", "{A2E9DA24-95E4-4414-94AF-488A382E276A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdchat\stdchat.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdChat", "..\src\core\stdchat\stdchat_10.vcxproj", "{268BD296-8DD3-4715-A386-CF120398EC98}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdClist", "..\src\core\stdclist\stdclist_10.vcxproj", "{E71C1722-A41D-4475-87F4-29961A3654BB}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdmsg\stdmsg.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StdMsg", "..\src\core\stdmsg\stdmsg_10.vcxproj", "{F47EAB99-C78F-4A92-87D5-B0E16FE5A133}"
 	ProjectSection(ProjectDependencies) = postProject
 		{D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60} = {D9EFEA4B-B817-4DE1-BD62-68A5DB8F5F60}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\NOVA\ICONS_NOVA_10.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_10.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -394,14 +394,6 @@ Global
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|Win32.Build.0 = Release|Win32
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.ActiveCfg = Release|x64
 		{D9057E63-AAAA-4FE7-800A-20C02F4761F3}.Release|x64.Build.0 = Release|x64
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.ActiveCfg = Debug|Win32
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.Build.0 = Debug|Win32
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.ActiveCfg = Debug|x64
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.Build.0 = Debug|x64
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.ActiveCfg = Release|Win32
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
-		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
 		{1C856B14-54CD-4D07-B18B-5F7DB073AB51}.Debug|Win32.ActiveCfg = Debug|Win32
 		{1C856B14-54CD-4D07-B18B-5F7DB073AB51}.Debug|Win32.Build.0 = Debug|Win32
 		{1C856B14-54CD-4D07-B18B-5F7DB073AB51}.Debug|x64.ActiveCfg = Debug|x64
@@ -537,6 +529,14 @@ Global
 		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|Win32.Build.0 = Release|Win32
 		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.ActiveCfg = Release|x64
 		{F553F140-B7D3-4984-90B1-00D4831B8A6E}.Release|x64.Build.0 = Release|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|Win32.Build.0 = Debug|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.ActiveCfg = Debug|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Debug|x64.Build.0 = Debug|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.ActiveCfg = Release|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
+		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
