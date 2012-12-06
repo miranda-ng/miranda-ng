@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>AutoShutdown</ProjectName>
-    <ProjectGuid>{F8776664-EFE8-CDD6-ACFD-3136E7FE2724}</ProjectGuid>
+    <ProjectGuid>{3F8EF54D-0593-4048-B0E5-C938F99B29F3}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
