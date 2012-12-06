@@ -3,6 +3,7 @@
 
 int hLangpack;
 HINSTANCE g_hInstance;
+TIME_API tmi = {0};
 
 CSkype* g_skype;
 
@@ -343,6 +344,9 @@ extern "C" int __declspec(dllexport) Load(void)
 {
 	if (!StartSkypeRuntime())
 		return 1;
+
+	mir_getTMI(&tmi);
+	mir_getLP(&pluginInfo);
 
 	g_skype = new CSkype();
 	char *keyBuf = LoadKeyPair();

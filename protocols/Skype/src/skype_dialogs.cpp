@@ -377,7 +377,10 @@ INT_PTR CALLBACK CSkypeProto::OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 										text = L"Female";
 										break;
 									}
-								//} else if (!strcmp(setting[lvi.iItem].szDbSetting, "Timezone")) {
+								} else if (!strcmp(setting[lvi.iItem].szDbSetting, "Timezone")) {
+									HANDLE hTimeZone = tmi.createByContact ? tmi.createByContact(NULL, 0) : 0;
+									LPCTSTR TzDescr = tmi.getTzDescription(tmi.getTzName(hTimeZone));
+									text = mir_tstrdup(TzDescr);
 								} else {
 									wchar_t tmp[10];
 									_ltot(ppro->GetSettingByte(setting[lvi.iItem].szDbSetting), tmp, 10);

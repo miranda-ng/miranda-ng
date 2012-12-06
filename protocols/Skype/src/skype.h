@@ -41,6 +41,7 @@
 //#include <m_hotkeys.h>
 //#pragma warning(pop)
 #include <win2k.h>
+#include <m_timezones.h>
 
 #include <io.h>
 #include <fcntl.h>

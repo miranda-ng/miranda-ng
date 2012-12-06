@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME				"Skype Plugin"
+#define __PLUGIN_NAME				"Skype Protocol"
 #define __INTERNAL_NAME				"Skype"
 #define __FILENAME					"Skype.dll"
 #define __DESCRIPTION 				"Provides basic support for Skype protocol."
