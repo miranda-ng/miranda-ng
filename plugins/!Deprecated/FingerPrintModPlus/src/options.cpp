@@ -144,7 +144,7 @@ int OnOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.ptszGroup = LPGENT("Customize");
+	odp.ptszGroup = LPGENT("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_DIALOG);
 	odp.ptszTitle = LPGENT("Fingerprint");
 	odp.pfnDlgProc = DlgProcOptions;

@@ -444,7 +444,7 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
 	odp.hInstance   = hInst;
-	odp.ptszGroup   = LPGENT("Plugins");
+	odp.ptszGroup   = LPGENT("Contacts");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPANEL);
 	odp.ptszTitle   = LPGENT("Buddy Expectator");
 	odp.pfnDlgProc  = OptionsFrameProc;

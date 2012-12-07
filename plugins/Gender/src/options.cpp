@@ -83,7 +83,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_GENDER_OPT);
 	odp.pszTitle = LPGEN("Gender");
 	odp.pfnDlgProc = DlgProcOptions;

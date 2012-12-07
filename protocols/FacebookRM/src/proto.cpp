@@ -434,7 +434,7 @@ int FacebookProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 	odp.position    = 271830;
 	if (ServiceExists(MS_POPUP_ADDPOPUPT))
-		odp.ptszGroup   = LPGENT("Popups");
+		odp.ptszGroup   = LPGENT("PopUps");
 	odp.ptszTab     = LPGENT("Events");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_EVENTS);
 	odp.pfnDlgProc  = FBEventsProc;

@@ -117,7 +117,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_RATE_OPT);
 	odp.pszTitle = MODULENAME;
 	odp.pfnDlgProc = DlgProcOptions;

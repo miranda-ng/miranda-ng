@@ -272,7 +272,7 @@ static int ExtraImgOptInit(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_EXTRAIMG);
 	odp.position = 900000002;
-	odp.pszGroup = LPGEN("Contact List");  /* autotranslated */
+	odp.pszGroup = LPGEN("Icons");  /* autotranslated */
 	odp.pszTitle = LPGEN("Country Flags"); /* autotranslated */
 	odp.pszTab = LPGEN("Country Flags");   /* autotranslated, can be made a tab */
 	odp.flags = ODPF_BOLDGROUPS;

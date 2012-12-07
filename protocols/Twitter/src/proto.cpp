@@ -363,7 +363,7 @@ int TwitterProto::OnOptionsInit(WPARAM wParam,LPARAM lParam)
 
 	if(ServiceExists(MS_POPUP_ADDPOPUPT)) 
 	{
-		odp.ptszTab     = LPGENT("Popups");
+		odp.ptszTab     = LPGENT("PopUps");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS_POPUPS);
 		odp.pfnDlgProc  = popup_options_proc;
 		Options_AddPage(wParam, &odp);

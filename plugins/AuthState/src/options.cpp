@@ -84,7 +84,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Icons");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_AUTHSTATE_OPT);
 	odp.pszTitle = LPGEN("Auth State");
 	odp.pfnDlgProc = DlgProcOptions;

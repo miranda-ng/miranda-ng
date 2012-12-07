@@ -278,7 +278,7 @@ int ProcessOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.position = 100000000;
 	odp.hInstance = g_hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.pszTitle = LPGEN("Favourites");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;

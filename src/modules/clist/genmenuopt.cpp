@@ -863,11 +863,11 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
-	odp.pszGroup = LPGEN("Customize");
 
 	odp.position = -1000000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_GENMENU);
 	odp.pszTitle = LPGEN("Menus");
+	odp.pszGroup = LPGEN("Customize");
 	odp.pfnDlgProc = GenMenuOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
@@ -876,6 +876,7 @@ int GenMenuOptInit(WPARAM wParam, LPARAM)
 	odp.groupPosition = 1000000;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_PROTOCOLORDER);
 	odp.pszTitle = LPGEN("Accounts");
+	odp.pszGroup = LPGEN("Contact List");
 	odp.pfnDlgProc = ProtocolOrderOpts;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);

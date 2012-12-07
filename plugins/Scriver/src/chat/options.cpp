@@ -766,7 +766,7 @@ static int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 		odp.hInstance = g_hInst;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONSPOPUP);
 		odp.pszTitle = LPGEN("Messaging");
-		odp.pszGroup = LPGEN("Popups");
+		odp.pszGroup = LPGEN("PopUps");
 		odp.pfnDlgProc = DlgProcOptionsPopup;
 		odp.flags = ODPF_BOLDGROUPS;
 		odp.ptszTab = NULL;

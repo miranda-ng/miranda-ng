@@ -2161,7 +2161,7 @@ static int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
-	odp.pszGroup = LPGEN("Customize");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.pszTitle = LPGEN("Avatars");
 
 	odp.pszTab = LPGEN("Protocols");

@@ -1059,7 +1059,7 @@ int OptionsInitialize(WPARAM wParam, LPARAM lParam)
 
 	if (ServiceExists(MS_POPUP_ADDPOPUP)) {
 		odp.pszTitle = LPGEN("Status Notify");
-		odp.pszGroup = LPGEN("Popups");
+		odp.pszGroup = LPGEN("PopUps");
 		odp.pszTab = LPGEN("General");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProcPopUpOpts;

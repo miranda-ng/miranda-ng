@@ -137,8 +137,8 @@ int OnOptionsInitialise(WPARAM wParam, LPARAM lParam)
 	odp.position = 100000000;
 	odp.hInstance = hInstance;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_WWI);
-	odp.pszTitle = LPGEN("When Was It");
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszTitle = LPGEN("Birthdays");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.groupPosition = 910000000;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;

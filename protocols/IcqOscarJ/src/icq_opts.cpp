@@ -609,7 +609,7 @@ int CIcqProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUPS);
 		odp.groupPosition = 900000000;
 		odp.pfnDlgProc = DlgProcIcqPopupOpts;
-		odp.ptszGroup = LPGENT("Popups");
+		odp.ptszGroup = LPGENT("PopUps");
 		odp.ptszTab = NULL;
 		Options_AddPage(wParam, &odp);
 	}

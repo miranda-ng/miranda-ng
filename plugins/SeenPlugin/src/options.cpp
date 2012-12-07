@@ -467,7 +467,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
 	odp.hInstance = hInstance;
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_SETTINGS);
-	odp.ptszGroup = LPGENT("Services");
+	odp.ptszGroup = LPGENT("Contacts");
 	odp.ptszTitle = LPGENT("Last seen");
 	odp.pfnDlgProc = OptsSettingsDlgProc;
 	Options_AddPage(wparam,&odp);

@@ -1466,7 +1466,7 @@ int OptionsInitialize(WPARAM wParam,LPARAM /*lParam*/)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MSGEXPORT);
 	odp.flags = ODPF_BOLDGROUPS|ODPF_TCHAR;
 	odp.ptszTitle = LPGENT("Message export");
-	odp.ptszGroup = LPGENT("Plugins");
+	odp.ptszGroup = LPGENT("History");
 	odp.groupPosition = 100000000;
 	odp.pfnDlgProc = DlgProcMsgExportOpts;
 	Options_AddPage(wParam,&odp);

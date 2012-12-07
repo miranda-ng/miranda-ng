@@ -1300,7 +1300,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 	odp.position = 95400;
 	odp.hInstance = ghInst;
 	odp.pszTitle = MODNAME;
-	odp.pszGroup = LPGEN("Plugins");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.cbSize = sizeof(odp);
 
 	// Common page
@@ -1334,7 +1334,7 @@ static INT OnInitOptions(WPARAM wParam, LPARAM lParam)
 	// Popups page
 	if (ServiceExists(MS_POPUP_ADDPOPUPT)) {
 		odp.pszTitle = MODNAME;
-		odp.pszGroup = LPGEN("Popups");
+		odp.pszGroup = LPGEN("PopUps");
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_POPUP);
 		odp.pfnDlgProc = DlgProc_Popups;
 		odp.flags = ODPF_BOLDGROUPS;

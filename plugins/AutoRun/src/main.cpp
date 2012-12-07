@@ -108,7 +108,7 @@ static int AutorunOptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_AUTORUN);
 	odp.pszTitle = LPGEN(ModuleName);
-	odp.pszGroup = LPGEN("Events");
+	odp.pszGroup = LPGEN("Services");
 	odp.pfnDlgProc = DlgProcAutorunOpts;
 	odp.flags = ODPF_BOLDGROUPS;	
 	Options_AddPage(wParam, &odp);

@@ -80,7 +80,7 @@ int OptInit(WPARAM wParam,LPARAM lParam)
 		odp.cbSize=sizeof(odp);
 		odp.position=0;
 		odp.hInstance=hInst;
-		odp.ptszGroup = LPGENT("Popups");
+		odp.ptszGroup = LPGENT("PopUps");
 		odp.ptszTitle = LPGENT("Avatar Change");
 		odp.pfnDlgProc = PopupsDlgProc;
 		odp.pszTemplate = MAKEINTRESOURCEA(IDD_POPUPS);

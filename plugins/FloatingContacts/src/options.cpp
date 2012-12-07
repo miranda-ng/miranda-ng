@@ -108,7 +108,7 @@ OnOptionsInitialize
 	odp.hInstance   =  hInst;
 	odp.pszTemplate =  MAKEINTRESOURCEA(IDD_OPT_FLTCONT);
 	odp.pszTitle    =  LPGEN("Floating Contacts");
-	odp.pszGroup    =  LPGEN("Plugins");
+	odp.pszGroup    =  LPGEN("Contact List");
 	odp.pszTab      =  LPGEN("Main Features");
 	odp.flags       =  ODPF_BOLDGROUPS;
 	odp.pfnDlgProc  =  (DLGPROC)OptWndProc;
