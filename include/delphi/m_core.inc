@@ -75,9 +75,9 @@ type
   end;
 
 
-function db_free(dbv:PDBVARIANT):int_ptr; stdcall;
+function db_free(dbv:PDBVARIANT):uint_ptr; stdcall;
                  external CoreDLL name 'db_free';
-function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
+function db_unset(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):uint_ptr; stdcall;
                   external CoreDLL name 'db_unset';
 
 function db_find_first(const szModule:pAnsiChar=nil):THANDLE; stdcall;
@@ -91,34 +91,34 @@ function db_get_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pA
                   external CoreDLL name 'db_get_w';
 function db_get_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:dword):dword; stdcall;
                    external CoreDLL name 'db_get_dw';
-function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
+function db_get(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):uint_ptr; stdcall;
                 external CoreDLL name 'db_get';
-function db_get_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):int_ptr; stdcall;
+function db_get_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):uint_ptr; stdcall;
                   external CoreDLL name 'db_get_s';
 function db_get_sa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pAnsiChar; stdcall;
                    external CoreDLL name 'db_get_sa';
 function db_get_wsa(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                     external CoreDLL name 'db_get_wsa';
 
-function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;
+function db_set_b(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):uint_ptr; stdcall;
                   external CoreDLL name 'db_set_b';
-function db_set_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):int_ptr; stdcall;
+function db_set_w(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):uint_ptr; stdcall;
                   external CoreDLL name 'db_set_w';
-function db_set_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):int_ptr; stdcall;
+function db_set_dw(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):uint_ptr; stdcall;
                    external CoreDLL name 'db_set_dw';
-function db_set_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
+function db_set_s(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
                   external CoreDLL name 'db_set_s';
-function db_set_ws(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):int_ptr; stdcall;
+function db_set_ws(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):uint_ptr; stdcall;
                    external CoreDLL name 'db_set_ws';
-function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
+function db_set_utf(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
                     external CoreDLL name 'db_set_utf';
-function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
+function db_set_blob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):uint_ptr; stdcall;
                      external CoreDLL name 'db_set_blob';
 
 // Aliases
-function DBFreeVariant(dbv:PDBVARIANT):int_ptr; stdcall;
+function DBFreeVariant(dbv:PDBVARIANT):uint_ptr; stdcall;
                  external CoreDLL name 'db_free';
-function DBDeleteContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):int_ptr; stdcall;
+function DBDeleteContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):uint_ptr; stdcall;
                   external CoreDLL name 'db_unset';
 
 function DBGetContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:int):int; stdcall;
@@ -127,28 +127,28 @@ function DBGetContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; con
                                  external CoreDLL name 'db_get_w';
 function DBGetContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; errorValue:dword):dword; stdcall;
                                   external CoreDLL name 'db_get_dw';
-function DBGetContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):int_ptr; stdcall;
+function DBGetContactSetting(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT):uint_ptr; stdcall;
                              external CoreDLL name 'db_get';
-function DBGetContactSettingStr(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):int_ptr; stdcall;
+function DBGetContactSettingStr(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; dbv:PDBVARIANT; const nType:int):uint_ptr; stdcall;
                                 external CoreDLL name 'db_get_s';
 function DBGetContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pAnsiChar; stdcall;
                                    external CoreDLL name 'db_get_sa';
 function DBGetContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar):pWideChar; stdcall;
                                     external CoreDLL name 'db_get_wsa';
 
-function DBWriteContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):int_ptr; stdcall;
+function DBWriteContactSettingByte(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:byte):uint_ptr; stdcall;
                                    external CoreDLL name 'db_set_b';
-function DBWriteContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):int_ptr; stdcall;
+function DBWriteContactSettingWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:word):uint_ptr; stdcall;
                                    external CoreDLL name 'db_set_w';
-function DBWriteContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):int_ptr; stdcall;
+function DBWriteContactSettingDWord(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:dword):uint_ptr; stdcall;
                                     external CoreDLL name 'db_set_dw';
-function DBWriteContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
+function DBWriteContactSettingString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
                                      external CoreDLL name 'db_set_s';
-function DBWriteContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):int_ptr; stdcall;
+function DBWriteContactSettingWString(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pWideChar):uint_ptr; stdcall;
                                       external CoreDLL name 'db_set_ws';
-function DBWriteContactSettingUTF8String(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):int_ptr; stdcall;
+function DBWriteContactSettingUTF8String(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; const val:pAnsiChar):uint_ptr; stdcall;
                                          external CoreDLL name 'db_set_utf';
-function DBWriteContactSettingBlob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):int_ptr; stdcall;
+function DBWriteContactSettingBlob(hContact:THANDLE; const szModule:pAnsiChar; const szSetting:pAnsiChar; val:pointer; len:uint):uint_ptr; stdcall;
                                    external CoreDLL name 'db_set_blob';
 
 
@@ -164,16 +164,16 @@ type
   TMIRANDAHOOKOBJ         = function(ptr:pointer;wParam:WPARAM;lParam:LPARAM): int; cdecl;
   TMIRANDAHOOKOBJPARAM    = function(ptr:pointer;wParam:WPARAM;lParam,lParam1: LPARAM): int; cdecl;
 
-  TMIRANDASERVICE         = function(wParam: WPARAM; lParam: LPARAM): int_ptr; cdecl;
-  TMIRANDASERVICEPARAM    = function(wParam:WPARAM;lParam,lParam1:LPARAM):int_ptr; cdecl;
-  TMIRANDASERVICEOBJ      = function(ptr:pointer;wParam,lParam:LPARAM):int_ptr; cdecl;
-  TMIRANDASERVICEOBJPARAM = function(ptr:pointer;wParam:WPARAM;lParam,lParam1:LPARAM):int_ptr; cdecl;
+  TMIRANDASERVICE         = function(wParam: WPARAM; lParam: LPARAM): uint_ptr; cdecl;
+  TMIRANDASERVICEPARAM    = function(wParam:WPARAM;lParam,lParam1:LPARAM):uint_ptr; cdecl;
+  TMIRANDASERVICEOBJ      = function(ptr:pointer;wParam,lParam:LPARAM):uint_ptr; cdecl;
+  TMIRANDASERVICEOBJPARAM = function(ptr:pointer;wParam:WPARAM;lParam,lParam1:LPARAM):uint_ptr; cdecl;
 
 const
   {$IFDEF WIN64}
-  CALLSERVICE_NOTFOUND = int_ptr($8000000000000000);
+  CALLSERVICE_NOTFOUND = uint_ptr($8000000000000000);
   {$ELSE}
-  CALLSERVICE_NOTFOUND = int_ptr($80000000);
+  CALLSERVICE_NOTFOUND = uint_ptr($80000000);
   {$ENDIF}
 
 function CreateHookableEvent(const name: PAnsiChar): THANDLE; stdcall;
@@ -219,9 +219,9 @@ function DestroyServiceFunction(hService:THANDLE):int; stdcall;
 function ServiceExists(const name:PAnsiChar):int; stdcall;
                        external CoreDLL name 'ServiceExists';
 
-function CallService(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
+function CallService(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):uint_ptr; stdcall;
                      external CoreDLL name 'CallService';
-function CallServiceSync(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):int_ptr; stdcall;
+function CallServiceSync(const name:PAnsiChar; wParam:WPARAM; lParam:LPARAM):uint_ptr; stdcall;
                          external CoreDLL name 'CallServiceSync';
 
 function CallFunctionAsync(ptr1,ptr2:pointer):int; stdcall;
@@ -231,9 +231,9 @@ procedure KillModuleServices(hInst:HINST); stdcall;
 procedure KillObjectServices(var ptr); stdcall;
                              external CoreDLL name 'KillObjectServices';
 
-function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
+function CallContactService(hContact:THANDLE;const name:PAnsiChar;wParam:WPARAM;lParam:LPARAM):uint_ptr; cdecl;
                             external CoreDLL name 'CallContactService';
-function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):int_ptr; cdecl;
+function CallProtoService(const szModule:PAnsiChar;const szService:PAnsiChar;wParam:WPARAM;lParam:LPARAM):uint_ptr; cdecl;
                           external CoreDLL name 'CallProtoService';
 
 
@@ -507,9 +507,9 @@ type
   pThreadFuncEx    = function (ptr:pointer):uint_ptr; stdcall;
   pThreadFuncOwner = function (owner:pointer;param:pointer):uint_ptr; cdecl;
 
-function Thread_Push(hInst:HINST; Owner:pointer):int_ptr; stdcall;
+function Thread_Push(hInst:HINST; Owner:pointer):uint_ptr; stdcall;
                      external CoreDLL name 'Thread_Push';
-function Thread_Pop():int_ptr; stdcall;
+function Thread_Pop():uint_ptr; stdcall;
                     external CoreDLL name 'Thread_Pop';
 procedure Thread_Wait(); stdcall;
                       external CoreDLL name 'Thread_Wait';
