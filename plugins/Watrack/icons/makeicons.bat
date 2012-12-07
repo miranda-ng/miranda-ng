@@ -1,9 +1,9 @@
 rem @echo off
 if /i '%1' == 'fpc' (
-  set OUTDIR="..\..\..\bin10\Release\Icons"
+  set OUTDIR="..\..\..\bin%2\Release\Icons"
   set FPCBIN=fpc.exe
 ) else if /i '%1' == 'fpc64' (
-  set OUTDIR="..\..\..\bin10\Release64\Icons"
+  set OUTDIR="..\..\..\bin%2\Release64\Icons"
   set FPCBIN=ppcrossx64.exe
 )
 if not exist %OUTDIR% mkdir %OUTDIR%
