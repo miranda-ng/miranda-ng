@@ -143,12 +143,12 @@ int AddDebugLogMessage(const TCHAR* fmt, ...) {
 	va_list va;
 
 	va_start(va,fmt);
-	_vsntprintf(tszText, sizeof(tszText), fmt, va);
+	_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);
 #else
-	_tcsncpy(tszFinal, tszText, sizeof(tszFinal));
+	_tcsncpy(tszFinal, tszText, SIZEOF(tszFinal));
 #endif
 
 
@@ -172,7 +172,7 @@ int AddErrorLogMessageA(const char* fmt, ...) {
 #ifdef MODULENAME
 	mir_snprintf(szFinal, sizeof(szFinal), "%s: %s", MODULENAME, szText);
 #else
-	strncpy(szFinal, szText, sizeof(szFinal));
+	strncpy(szFinal, szText, SIZEOF(szFinal));
 #endif
 	res = WriteToDebugLogA(szFinal);
 	MessageBoxA(NULL, szFinal, "Error", MB_OK|MB_ICONERROR);
@@ -188,12 +188,12 @@ int AddErrorLogMessage(const TCHAR* fmt, ...) {
 	va_list va;
 
 	va_start(va,fmt);
-	_vsntprintf(tszText, sizeof(tszText), fmt, va);
+	_vsntprintf(tszText, SIZEOF(tszText), fmt, va);
 	va_end(va);
 #ifdef MODULENAME
 	mir_sntprintf(tszFinal, SIZEOF(tszFinal), _T("%s: %s"), MODULENAME, tszText);
 #else
-	_tcsncpy(tszFinal, tszText, sizeof(tszFinal));
+	_tcsncpy(tszFinal, tszText, SIZEOF(tszFinal));
 #endif
 
 
