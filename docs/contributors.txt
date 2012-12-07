@@ -17,6 +17,7 @@ Alexey Oblezov aka faith_healer
 Victor Pavlychko aka nullbie
 Robert Pösel aka Robyer
 Ivan Rozhuk aka rozhuk
+Alexander Shorin aka Kxepal
 Artem Shpynov aka FYR
 Kirill Volinsky aka Mataes
 
