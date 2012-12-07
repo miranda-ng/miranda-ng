@@ -124,7 +124,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
     </Link>
@@ -137,7 +137,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>..\..\bin10\make_ver.bat</Command>
+      <Command>..\..\build\make_ver.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -165,12 +165,12 @@
       <ImportLibrary>$(IntDir)$(TargetName)64.lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/ignore:4197 %(AdditionalOptions)</AdditionalOptions>
       <DelayLoadDLLs>miranda64.exe</DelayLoadDLLs>
     </Link>
     <PreBuildEvent>
-      <Command>..\..\bin10\make_ver.bat</Command>
+      <Command>..\..\build\make_ver.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -200,7 +200,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda32.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <DelayLoadDLLs>miranda32.exe</DelayLoadDLLs>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
@@ -214,7 +214,7 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>..\..\bin10\make_ver.bat</Command>
+      <Command>..\..\build\make_ver.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -245,12 +245,12 @@
       <ImportLibrary>$(IntDir)$(TargetName)64.lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>miranda64.lib;ws2_32.lib;comctl32.lib;winmm.lib;version.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
       <DelayLoadDLLs>miranda64.exe</DelayLoadDLLs>
     </Link>
     <PreBuildEvent>
-      <Command>..\..\bin10\make_ver.bat</Command>
+      <Command>..\..\build\make_ver.bat</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

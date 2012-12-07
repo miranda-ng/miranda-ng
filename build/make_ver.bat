@@ -4,7 +4,7 @@ cd /d %~dp0
 for /F "tokens=2,3" %%i in (..\include\m_version.h) do if "%%i"=="MIRANDA_VERSION_FILEVERSION" (set OldVer=%%j)
 echo %OldVer%
 
-for /F "tokens=1,2" %%i in ('svn info miranda32.sln') do call :AddBuild %%i %%j
+for /F "tokens=1,2" %%i in ('svn info build.no') do call :AddBuild %%i %%j
 goto :eof
 
 :AddBuild
