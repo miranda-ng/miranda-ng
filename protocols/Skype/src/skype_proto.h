@@ -24,36 +24,41 @@ struct LanguagesListEntry {
 	char ISOcode[3];
 };
 
+#define LI_STRING        0
+#define LI_LIST          1
+#define LI_NUMBER        2
+
 struct SettingItem
 {
   const TCHAR *szDescription;
   const char *szDbSetting;
   int dbType;              //DBVT_ constant
+  unsigned displayType;    //LI_ constant
 };
 
 const SettingItem setting[]={
-  {LPGENT("Full name"),		"Nick",			DBVT_WCHAR},
-  {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR},
+  {LPGENT("Full name"),		"Nick",			DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Mood"),			"XStatusMsg",	DBVT_WCHAR,	LI_STRING},
 
-  {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR},
-  {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR},
-  {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR},
-  {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR},
-  {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR},
-  {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR},
+  {LPGENT("Mobile phone"),	"Cellular",		DBVT_WCHAR,	LI_NUMBER},
+  {LPGENT("Home phone"),	"Phone",		DBVT_WCHAR,	LI_NUMBER},
+  {LPGENT("Office phone"),	"CompanyPhone",	DBVT_WCHAR,	LI_NUMBER},
+  {LPGENT("E-mail 1"),		"e-mail0",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("E-mail 2"),		"e-mail1",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("E-mail 3"),		"e-mail2",		DBVT_WCHAR,	LI_STRING},
 
-  {LPGENT("Country"),		"Country",		DBVT_WCHAR},
-  {LPGENT("State"),			"State",		DBVT_WCHAR},
-  {LPGENT("City"),			"City",			DBVT_WCHAR},
-  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE},
-  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR},
-  {LPGENT("Gender"),		"Gender",		DBVT_BYTE},
-  {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE},
-  {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE},
-  {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD},
-  {LPGENT("Language"),		"Language1",	DBVT_WCHAR},
+  {LPGENT("Country"),		"Country",		DBVT_WCHAR,	LI_LIST},
+  {LPGENT("State"),			"State",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("City"),			"City",			DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Time zone"),		"Timezone",		DBVT_BYTE,	LI_LIST},
+  {LPGENT("Homepage"),		"Homepage",		DBVT_WCHAR,	LI_STRING},
+  {LPGENT("Gender"),		"Gender",		DBVT_BYTE,	LI_LIST},
+  {LPGENT("Birth day"),		"BirthDay",		DBVT_BYTE,	LI_NUMBER},
+  {LPGENT("Birth month"),	"BirthMonth",	DBVT_BYTE,	LI_NUMBER},
+  {LPGENT("Birth year"),	"BirthYear",	DBVT_WORD,	LI_NUMBER},
+  {LPGENT("Language"),		"Language1",	DBVT_WCHAR,	LI_LIST},
 
-  {LPGENT("About"),			"About",		DBVT_WCHAR}
+  {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
 };
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
