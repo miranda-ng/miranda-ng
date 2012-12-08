@@ -76,8 +76,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FltContacts", "..\plugins\F
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Folders", "..\plugins\Folders\folders_10.vcxproj", "{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Gender", "..\plugins\Gender\gender_10.vcxproj", "{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkList", "..\plugins\HistoryLinkListPlus\linklist_10.vcxproj", "{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HistorySweeperLight", "..\plugins\HistorySweeperLight\historysweeperlight_10.vcxproj", "{9DE1F0B0-B9D1-4681-82E7-13CC3E047445}"
@@ -647,14 +645,6 @@ Global
 		{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}.Release|Win32.Build.0 = Release|Win32
 		{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}.Release|x64.ActiveCfg = Release|x64
 		{019FAEBD-BD7B-4470-A15B-A7DB1787E6BD}.Release|x64.Build.0 = Release|x64
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Debug|Win32.ActiveCfg = Debug|Win32
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Debug|Win32.Build.0 = Debug|Win32
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Debug|x64.ActiveCfg = Debug|x64
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Debug|x64.Build.0 = Debug|x64
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Release|Win32.ActiveCfg = Release|Win32
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Release|Win32.Build.0 = Release|Win32
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Release|x64.ActiveCfg = Release|x64
-		{9DF8913A-99A3-40D2-86FE-585EBDDCABB2}.Release|x64.Build.0 = Release|x64
 		{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}.Debug|Win32.ActiveCfg = Debug|Win32
 		{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}.Debug|Win32.Build.0 = Debug|Win32
 		{850EC838-0EAD-45EB-6F1B-16DC90DCE18D}.Debug|x64.ActiveCfg = Debug|x64
