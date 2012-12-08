@@ -69,7 +69,7 @@ var
   hExtWindowIE, hExtEventIE, hExtNavigateIE, hExtOptChangedIE: THandle;
   hExtWindow, hExtEvent, hExtNavigate, hExtOptChanged: THandle;
 
-function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): int_ptr;
+function _ExtWindow(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): uint_ptr;
 var
   par: PIEVIEWWINDOW;
   ExtGrid: TExternalGrid;
@@ -133,17 +133,17 @@ begin
   //end;
 end;
 
-function ExtWindowNative(wParam:WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function ExtWindowNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
   Result := _ExtWindow(wParam,lParam,gmNative);
 end;
 
-function ExtWindowIEView(wParam:WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function ExtWindowIEView(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
   Result := _ExtWindow(wParam,lParam,gmIEView);
 end;
 
-function _ExtEvent(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): int_ptr; cdecl;
+function _ExtEvent(wParam:WPARAM; lParam: LPARAM; GridMode: TExGridMode): uint_ptr; cdecl;
 var
   event: PIEVIEWEVENT;
   customEvent: PIEVIEWEVENTDATA;
@@ -216,7 +216,7 @@ begin
         ExtGrid.EndUpdate;
       end;
       IEE_GET_SELECTION: begin
-        Result := int_ptr(ExtGrid.GetSelection(boolean(event.dwFlags and IEEF_NO_UNICODE)));
+        Result := uint_ptr(ExtGrid.GetSelection(boolean(event.dwFlags and IEEF_NO_UNICODE)));
       end;
       IEE_SAVE_DOCUMENT: begin
         ExtGrid.SaveSelected;
@@ -226,17 +226,17 @@ begin
   //end;
 end;
 
-function ExtEventNative(wParam:WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function ExtEventNative(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
   Result := _ExtEvent(wParam,lParam,gmNative);
 end;
 
-function ExtEventIEView(wParam:WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function ExtEventIEView(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
   Result := _ExtEvent(wParam,lParam,gmIEView);
 end;
 
-function ExtNavigate(wParam:WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function ExtNavigate(wParam:WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 begin
   Result := 0;
   //try

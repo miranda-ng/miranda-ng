@@ -157,7 +157,7 @@ end;
 
 // MS_HISTORY_SHOWCONTACTHISTORY service
 // show history called by miranda
-function HppShowHistory(wParam { hContact } : WPARAM; lParam { 0 } : LPARAM): int_ptr; cdecl;
+function HppShowHistory(wParam { hContact } : WPARAM; lParam { 0 } : LPARAM): uint_ptr; cdecl;
 begin
   OpenContactHistory(wParam);
   Result := 0;
@@ -165,14 +165,14 @@ end;
 
 // MS_HPP_GETVERSION service
 // See m_historypp.inc for details
-function HppGetVersion(wParam { 0 } : WPARAM; lParam { 0 } : LPARAM): int_ptr; cdecl;
+function HppGetVersion(wParam { 0 } : WPARAM; lParam { 0 } : LPARAM): uint_ptr; cdecl;
 begin
   Result := hppVersion;
 end;
 
 // MS_HPP_SHOWGLOBALSEARCH service
 // See m_historypp.inc for details
-function HppShowGlobalSearch(wParam { 0 } : WPARAM; lParam { 0 } : LPARAM): int_ptr; cdecl;
+function HppShowGlobalSearch(wParam { 0 } : WPARAM; lParam { 0 } : LPARAM): uint_ptr; cdecl;
 begin
   if not Assigned(fmGlobalSearch) then
   begin
@@ -187,7 +187,7 @@ end;
 
 // MS_HPP_OPENHISTORYEVENT service
 // See m_historypp.inc for details
-function HppOpenHistoryEvent(wParam { POpenEventParams } : WPARAM; lParam: LPARAM): int_ptr; cdecl;
+function HppOpenHistoryEvent(wParam { POpenEventParams } : WPARAM; lParam: LPARAM): uint_ptr; cdecl;
 var
   wHistory: THistoryFrm;
   hDbEvent: THandle;
@@ -219,7 +219,7 @@ end;
 
 // MS_HPP_EMPTYHISTORY service
 // See m_historypp.inc for details
-function HppEmptyHistory(wParam { hContact } : WPARAM; lParam { 0 } : LPARAM): int_ptr; cdecl;
+function HppEmptyHistory(wParam { hContact } : WPARAM; lParam { 0 } : LPARAM): uint_ptr; cdecl;
 var
   wHistory: THistoryFrm;
 begin
