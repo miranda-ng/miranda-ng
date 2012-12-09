@@ -44,7 +44,7 @@ extern "C" BOOL APIENTRY DllMain( HMODULE hModule, DWORD  ul_reason_for_call, LP
 {
 	hInst = hModule;
 	DisableThreadLibraryCalls(hInst);
-    return TRUE;
+	return TRUE;
 }
 
 extern "C" YAPP_API PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
@@ -108,7 +108,7 @@ static void InitFonts()
 	_tcscpy(font_id_time.backgroundName, _T("Background"));
 	font_id_time.order = 2;
 	FontRegisterT(&font_id_time);
-		
+
 	colour_id_bg.cbSize = sizeof(ColourIDT);
 	_tcscpy(colour_id_bg.group, LPGENT("Popups"));
 	_tcscpy(colour_id_bg.name, LPGENT("Background"));
@@ -144,7 +144,7 @@ static void InitFonts()
 	colour_id_titleunderline.defcolour = GetSysColor(COLOR_3DSHADOW);
 	colour_id_titleunderline.order = 3;
 	ColourRegisterT(&colour_id_titleunderline);
-		
+
 	ReloadFont(0, 0);
 }
 
@@ -156,7 +156,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		lstPopupHistory.SetRenderer(RENDER_HISTORYPP);
 
 	HookEvent(ME_FONT_RELOAD, ReloadFont);
-	
+
 	LoadModuleDependentOptions(); 
 
 	if (GetModuleHandle(_T("neweventnotify")))

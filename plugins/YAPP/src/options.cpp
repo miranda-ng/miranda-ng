@@ -164,18 +164,17 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 			SendMessage(hwndList,LVM_SETEXTENDEDLISTVIEWSTYLE, 0,LVS_EX_FULLROWSELECT | LVS_EX_CHECKBOXES);
 
-			LVCOLUMN lvc = {0}; 
+			LVCOLUMN lvc = {0};
 			// Initialize the LVCOLUMN structure.
 			// The mask specifies that the format, width, text, and
 			// subitem members of the structure are valid. 
-			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM; 
+			lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 			lvc.fmt = LVCFMT_LEFT;
-	  
+
 			lvc.iSubItem = 0;
 			lvc.pszText = TranslateT("Status");	
 			lvc.cx = 200;     // width of column in pixels
 			ListView_InsertColumn(hwndList, 0, &lvc);
-
 
 			LVITEM lvI = {0};
 
@@ -256,7 +255,7 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 
 		CheckDlgButton(hwndDlg, IDC_CHK_ANIMATE, options.animate);
 		CheckDlgButton(hwndDlg, IDC_CHK_TRANSBG, options.trans_bg);
-		return FALSE;		
+		return FALSE;
 
 	case WM_COMMAND:
 		if ( HIWORD( wParam ) == CBN_SELCHANGE)
@@ -323,9 +322,9 @@ static INT_PTR CALLBACK DlgProcOpts1(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 			options.right_icon = (SendDlgItemMessage(hwndDlg, IDC_CMB_ICON, CB_GETCURSEL, 0, 0) == 1);
 			options.av_layout = (PopupAvLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_AV, CB_GETCURSEL, 0, 0);
 			options.time_layout = (PopupTimeLayout)SendDlgItemMessage(hwndDlg, IDC_CMB_TIME, CB_GETCURSEL, 0, 0);
-			
+
 			new_val = GetDlgItemInt(hwndDlg, IDC_ED_TRANS, &trans, FALSE);
-			if (trans) options.opacity = new_val;			
+			if (trans) options.opacity = new_val;
 			options.border = IsDlgButtonChecked(hwndDlg, IDC_CHK_BORDER) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_BORDER)) ? true : false;
 			options.round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERS) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERS))  ? true : false;
 			options.av_round = IsDlgButtonChecked(hwndDlg, IDC_CHK_ROUNDCORNERSAV) && IsWindowEnabled(GetDlgItem(hwndDlg, IDC_CHK_ROUNDCORNERSAV))  ? true : false;
@@ -492,6 +491,8 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 
 void InitOptions()
 {
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+
 	// an icon for preview popups
 	hPopupIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
 	LoadOptions();
