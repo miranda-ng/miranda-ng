@@ -131,7 +131,7 @@ int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 		}
 	}
 	if (!Found){
-		MessageBoxA(0, "Sorry, but your database encrypted with unknown module", "Error", MB_OK);
+		MessageBox(0, TranslateT("Sorry, but your database encrypted with unknown module"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		bCheckingPass = 0;
 		return 0;
 	}
@@ -167,14 +167,14 @@ int SelectEncoder()
 	int i;
 
 	if (arCryptors.getCount() == 0){
-		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK);
+		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
 	uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
 	if (uid == 0){
-		MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
+		MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK | MB_ICONINFORMATION);
 		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
 		CryptoEngine = arCryptors[0]->cryptor;
 	}
@@ -188,7 +188,7 @@ int SelectEncoder()
 			}
 		}
 		if (!Found){
-			MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK);
+			MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK | MB_ICONINFORMATION);
 			DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
 			CryptoEngine = arCryptors[0]->cryptor;
 		}
@@ -262,7 +262,7 @@ void CDdxMmapSA::EncryptDB()
 		return;
 
 	if (memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0){
-		MessageBox(0, TranslateT("DB is already secured!"), TranslateT("Error"), MB_OK);
+		MessageBox(0, TranslateT("DB is already secured!"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return;
 	}
 
