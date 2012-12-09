@@ -122,6 +122,7 @@ static renameTable[] =
 	
 	{ _T("clist_classic.dll"),              _T("") },
 	{ _T("chat.dll"),                       _T("") },
+	{ _T("gender.dll"),                     _T("") },
 	{ _T("srmm.dll"),                       _T("") },
 	{ _T("extraicons.dll"),                 _T("") },
 };
