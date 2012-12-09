@@ -9,6 +9,7 @@
 #include <commctrl.h>
 #include <string>
 #include <map>
+#include <xfunctional> 
 #include "resource.h"
 #include <time.h>
 
