@@ -53,30 +53,24 @@ wchar_t* CSkypeProto::GetSettingString(const char *setting, wchar_t* errorValue)
 	return this->GetSettingString(NULL, setting, errorValue);
 }
 
-wchar_t* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue)
+char* CSkypeProto::GetDecodeSettingString(HANDLE hContact, const char *setting, char* errorValue)
 {
 	DBVARIANT dbv = {0};
-	wchar_t* result = NULL;
+	char* result = NULL;
 
-	if ( !::DBGetContactSettingWString(hContact, this->m_szModuleName, setting, &dbv))
+	if ( !::DBGetContactSettingString(hContact, this->m_szModuleName, setting, &dbv))
 	{
-		result = ::mir_wstrdup(dbv.pwszVal);
+		result = ::mir_strdup(dbv.pszVal);
 		::DBFreeVariant(&dbv);
 
 		::CallService(
 			MS_DB_CRYPT_DECODESTRING,
-			::wcslen(result) + 1,
+			::strlen(result),
 			reinterpret_cast<LPARAM>(result));
 	}
-	else
-		result = ::mir_wstrdup(errorValue);
+	else result = ::mir_strdup(errorValue);
 
 	return result;
-}
-
-wchar_t* CSkypeProto::GetDecodeSettingString(const char *setting, wchar_t* errorValue)
-{
-	return this->GetDecodeSettingString(NULL, setting, errorValue);
 }
 
 //
@@ -121,22 +115,17 @@ bool CSkypeProto::SetSettingString(const char *szSetting, const wchar_t* value)
 	return this->SetSettingString(NULL, szSetting, value);
 }
 
-bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, const wchar_t* value)
+bool CSkypeProto::SetDecodeSettingString(HANDLE hContact, const char *setting, const char* value)
 {
-	if(::wcscmp(value, L"") != 0)
+	if( ::strcmp(value, ""))
 	{
-		wchar_t* result = ::mir_wstrdup(value);
-		::CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(result), reinterpret_cast<LPARAM>(result));
+		mir_ptr<char> result (::mir_strdup(value));
+		::CallService(MS_DB_CRYPT_ENCODESTRING, strlen(result), LPARAM((char*)result));
 		
-		return !this->SetSettingString(hContact, setting, result);
+		return !db_set_s(hContact, m_szModuleName, setting, result);
 	}
 	
-	return !this->SetSettingString(hContact, setting, value);
-}
-
-bool CSkypeProto::SetDecodeSettingString(const char *setting, const wchar_t* value)
-{
-	return this->SetDecodeSettingString(NULL, setting, value);
+	return !this->SetSettingString(hContact, setting, L"");
 }
 
 //

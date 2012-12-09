@@ -117,8 +117,7 @@ void CAccount::BlockWhileLoggingOut()
 
 bool CAccount::IsOnline()
 {
-	return this->isLoggedIn;
-		//(CAccount::STATUS)this->GetUintProp(CAccount::P_STATUS) == Account::LOGGED_IN;
+	return (this == NULL) ? false : this->isLoggedIn;
 }
 
 // CContactGroup

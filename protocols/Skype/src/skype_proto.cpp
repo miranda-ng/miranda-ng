@@ -196,6 +196,7 @@ HANDLE __cdecl CSkypeProto::SearchByEmail(const TCHAR* email)
 
 	return (HANDLE)SKYPE_SEARCH_BYEMAIL;
 }
+
 HANDLE __cdecl CSkypeProto::SearchByName(const TCHAR* nick, const TCHAR* firstName, const TCHAR* lastName) 
 { 
 	PROTOSEARCHRESULT isr = {0};
@@ -209,6 +210,7 @@ HANDLE __cdecl CSkypeProto::SearchByName(const TCHAR* nick, const TCHAR* firstNa
 
 	return (HANDLE)SKYPE_SEARCH_BYNAMES;
 }
+
 HWND   __cdecl CSkypeProto::SearchAdvanced( HWND owner ) { return 0; }
 
 HWND   __cdecl CSkypeProto::CreateExtendedSearchUI( HWND owner ){ return 0; }
@@ -261,11 +263,9 @@ int CSkypeProto::SetStatus(int new_status)
 	int old_status = this->m_iStatus;
 	this->m_iDesiredStatus = new_status;
 
-	switch (new_status)
-	{
+	switch (new_status) {
 	case ID_STATUS_OFFLINE:
-		if ( this->account->IsOnline())
-		{
+		if	(this->account->IsOnline()) {
 			this->account->SetAvailability(CContact::OFFLINE);
 			this->account->Logout(true);
 			this->account->BlockWhileLoggingOut();
@@ -295,8 +295,7 @@ int CSkypeProto::SetStatus(int new_status)
 	}
 
 	this->SetSettingWord("Status", this->m_iStatus);
-	this->SendBroadcastAsync(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 
-
+	this->SendBroadcast(NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)old_status, this->m_iStatus); 
 	return 0;
 }
 
@@ -347,53 +346,29 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	//WaitForSingleObject(&this->signin_lock, INFINITE);
-
-	this->account->LoginWithPassword(::mir_u2a(this->password), false, false);
+	this->account.fetch();
+	this->account->LoginWithPassword(this->password, false, false);
 	this->account->BlockWhileLoggingIn();
 	if ( !this->rememberPassword)
-	{
-		for (int i = ::wcslen(this->password); i >= 0; i--)
-			this->password[i] = L'\0';
-	}
+		memset(this->password, 0, strlen(this->password));
 
-	if (this->account->isLoggedOut)
-	{
+	if (this->account->isLoggedOut) {
 		this->m_iStatus = ID_STATUS_OFFLINE;
-		this->SendBroadcast(
-			ACKTYPE_LOGIN,
-			ACKRESULT_FAILED,
-			NULL, 
-			this->SkypeToMirandaLoginError(this->account->logoutReason));
-		this->ShowNotification(
-			NULL, 
-			::mir_a2u(this->account->logoutReasonString));
-	}
-	else
-	{
-		g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
-		fetch(g_skype->inbox);
-		g_skype->SetOnConversationAddedCallback(
-			(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, this);
-		for (uint i = 0 ; i < g_skype->inbox.size(); i++)
-		{
-			g_skype->inbox[i]->SetOnMessageReceivedCallback(
-				(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
-		}
-
-		this->SetStatus(this->m_iDesiredStatus);
-		this->ForkThread(&CSkypeProto::LoadContactList, this);
-		//this->LoadContactList(this);
-		
-		/*this->account.fetch();
-		this->account->SetOnAccountChangedCallback(
-			(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, this);*/
-
-		this->ForkThread(&CSkypeProto::LoadOwnInfo, this);
-		//this->LoadOwnInfo(this);
+		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, this->SkypeToMirandaLoginError(this->account->logoutReason));
+		this->ShowNotification(NULL, ::mir_a2u(this->account->logoutReasonString));
+		return;
 	}
 
-	//ReleaseMutex(this->signin_lock);
+	g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
+	fetch(g_skype->inbox);
+	g_skype->SetOnConversationAddedCallback((CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, this);
+	for (uint i = 0 ; i < g_skype->inbox.size(); i++)
+		g_skype->inbox[i]->SetOnMessageReceivedCallback((CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
+
+	this->SetStatus(this->m_iDesiredStatus);
+
+	this->LoadContactList(this);
+	this->LoadOwnInfo(this);
 }
 
 bool CSkypeProto::SignIn(bool isReadPassword)
@@ -410,15 +385,13 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 	}
 	else if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
 	{
-		/*this->m_iStatus = ID_STATUS_CONNECTING;
-		this->SendBroadcast(ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)ID_STATUS_OFFLINE, this->m_iStatus); */
 		if (isReadPassword)
-			this->password = this->GetDecodeSettingString(SKYPE_SETTINGS_PASSWORD);				
-		if (::wcscmp(this->password, L"") == 0)
+			this->password = this->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);				
+		if ( !::strcmp(this->password, ""))
 			this->RequestPassword();
 		else
 		{
-			this->ForkThread(&CSkypeProto::SignInAsync, this);
+			this->ForkThread(&CSkypeProto::SignInAsync, 0);
 			//this->SignInAsync(this);
 			return true;
 		}

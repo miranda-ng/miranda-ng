@@ -125,7 +125,7 @@ public:
 	int __cdecl OnContactDeleted(WPARAM, LPARAM);
 	int __cdecl OnOptionsInit(WPARAM, LPARAM);
 	int __cdecl OnUserInfoInit(WPARAM, LPARAM);
-	int __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
+	INT_PTR __cdecl OnAccountManagerInit(WPARAM wParam, LPARAM lParam);
 
 	// instances
 	static CSkypeProto* InitSkypeProto(const char* protoName, const wchar_t* userName);
@@ -154,7 +154,7 @@ protected:
 	CContactGroup::Ref authWaitList;
 
 	wchar_t	*login;
-	wchar_t *password;
+	char *password;
 	bool	rememberPassword;
 	void	RequestPassword();
 
@@ -275,10 +275,10 @@ protected:
 	// services
 	static LIST<void> serviceList;
 
-	int __cdecl GetAvatarInfo(WPARAM, LPARAM);
-	int __cdecl GetAvatarCaps(WPARAM, LPARAM);
-	int __cdecl GetMyAvatar(WPARAM, LPARAM);
-	int __cdecl SetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarInfo(WPARAM, LPARAM);
+	INT_PTR __cdecl GetAvatarCaps(WPARAM, LPARAM);
+	INT_PTR __cdecl GetMyAvatar(WPARAM, LPARAM);
+	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	// icons
 	static _tag_iconList iconList[];
@@ -316,8 +316,7 @@ protected:
 	DWORD	GetSettingDword(HANDLE hContact, const char *setting, DWORD errorValue = 0);
 	wchar_t*	GetSettingString(const char *setting, wchar_t* errorValue = NULL);
 	wchar_t*	GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
-	wchar_t*	GetDecodeSettingString(const char *setting, wchar_t* errorValue = NULL);
-	wchar_t*	GetDecodeSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
+	char*	GetDecodeSettingString(HANDLE hContact, const char *setting, char* errorValue = NULL);
 	//
 	bool	SetSettingByte(const char *setting, BYTE value);
 	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value);
@@ -327,8 +326,7 @@ protected:
 	bool	SetSettingDword(HANDLE hContact, const char *setting, DWORD value);
 	bool	SetSettingString(const char *setting, const wchar_t* value);
 	bool	SetSettingString(HANDLE hContact, const char *setting, const wchar_t* value);
-	bool	SetDecodeSettingString(const char *setting, const wchar_t* value);
-	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, const wchar_t* value);
+	bool	SetDecodeSettingString(HANDLE hContact, const char *setting, const char* value);
 	//
 	void	DeleteSetting(const char *setting);
 	void	DeleteSetting(HANDLE hContact, const char *setting);

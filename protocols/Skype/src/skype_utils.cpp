@@ -342,8 +342,7 @@ void CSkypeProto::HookEvent(const char* szEvent, SkypeEventFunc handler)
 
 int CSkypeProto::SendBroadcast(HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam)
 {
-	ACKDATA ack = {0};
-	ack.cbSize = sizeof(ACKDATA);
+	ACKDATA ack = { sizeof(ACKDATA) };
 	ack.szModule = this->m_szModuleName;
 	ack.hContact = hContact;
 	ack.type = type;
@@ -422,16 +421,12 @@ void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, i
 {
 	if (::Miranda_Terminated()) return;
 
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1) )
-	{
-		MessageBoxW(
-			NULL, 
-			message, 
-			TranslateT("Skype Protocol"), 
-			MB_OK);
-	}
-	else
-	{
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
+		MessageBoxW(NULL, message, TranslateT("Skype Protocol"), MB_OK);
+	else {
+		if ( !sid)
+			sid = L"";
+
 		POPUPDATAT_V2 ppd = {0};
 		ppd.cbSize = sizeof(POPUPDATAT_V2);
 		ppd.lchContact = NULL;

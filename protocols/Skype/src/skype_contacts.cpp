@@ -664,10 +664,10 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		(CContactGroup::OnContactListChanged)&CSkypeProto::OnContactListChanged, 
 		this);
 	this->commonList->GetContacts(this->contactList);
-    Sid::fetch(this->contactList);	
+	Sid::fetch(this->contactList);	
 
-    for (unsigned int i = 0; i < this->contactList.size(); i++)
-    {
+	for (unsigned int i = 0; i < this->contactList.size(); i++)
+	{
 		CContact::Ref contact = this->contactList[i];
 		contact->SetOnContactChangedCallback(
 			(CContact::OnContactChanged)&CSkypeProto::OnContactChanged, 

@@ -8,7 +8,7 @@ void CSkypeProto::InitServiceList()
 		::CreateServiceFunction("Skype/MenuChoose", CSkypeProto::MenuChooseService));
 }
 
-int __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 {
 	PROTO_AVATAR_INFORMATIONW *pai = (PROTO_AVATAR_INFORMATIONW*)lParam;
 
@@ -32,7 +32,7 @@ int __cdecl CSkypeProto::GetAvatarInfo(WPARAM, LPARAM lParam)
 	return GAIR_NOAVATAR;
 }
 
-int __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 {
 	switch (wParam)
 	{
@@ -76,7 +76,7 @@ int __cdecl CSkypeProto::GetAvatarCaps(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 {
 	if (!wParam) return -2;
 
@@ -92,7 +92,7 @@ int __cdecl CSkypeProto::GetMyAvatar(WPARAM wParam, LPARAM lParam)
 	return -1;
 }
 
-int __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
+INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 {
 	wchar_t *path = (wchar_t *)lParam;
 	int iRet = -1;
