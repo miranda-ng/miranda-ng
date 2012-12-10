@@ -15,24 +15,8 @@
 Настройки
 [Confirm deletion of items]
 Подтверждать удаление пунктов
-[Delete entries in ICQ Custom status menu after Import]
-После импорта, удалять тексты статусов в списке ICQ
-[Menu item placement]
-Положение пункта в меню
-[Global Status Menu]
-В глобальном статусе
-[At the top]
-Сверху
-[At the bottom]
-Снизу
-[ICQ Status Menu]
-В статусе ICQ
-[Hide "Custom status" menu]
-Скрыть выбор статуса
-[(ICQ Plus/eternity mods only)]
-(только в ICQ plus моде)
-[Note: Some options may require restart of Miranda IM]
-Некоторые изменения вступят после перезапуска программы
+[Delete entries in Custom status menu after Import]
+После импорта удалять тексты статусов в списке
 [Add new item]
 Добавить новый пункт
 [Modify selected item]
@@ -47,16 +31,8 @@
 Очистить хСтатус (поставить в Нет) и закрыть
 [Set custom status to selected one and close]
 Уст. хСтатус на выбранный и закрыть
-[Do you want to delete old DB entries after Import?]
-Вы хотите удалить старые записи из базы данных после импорта?
 [Undo changes]
 Отменить изменения
-[Show Custom Status List]
-Показать пользовательский список статусов
-[Global Status Menu at the top]
-Вверху в меню глобального статуса
-[Global Status Menu at the bottom]
-Внизу в меню глобального статуса
 [Regular statuses]
 Частые статусы
 [Set/unset current item as favorite]
@@ -69,10 +45,6 @@
 Нет записей в базе данных.\nНажмите на кнопку "Добавить новый пункт" для заполнения списка.
 [Modify item]
 Изменить пункт
-[Note: This option requires newest version of ICQ plugin to work properly. Check details at the plugin homepage.]
-Для нормальной работы, эта настройка требует самую новую версию модуля ICQ. Детали на домашней странице модуля.
-[Allow extra ICQ Custom status items (ICQ Plus only)]
-Разрешить доп. хСтатусы (только в ICQ Plus)
 [Remember last window position]
 Помнить последнее положение окна
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
