@@ -171,7 +171,7 @@ var
 implementation
 
 uses
-  HistoryGrid, hpp_messages, hpp_contacts, hpp_events, hpp_forms, 
+  HistoryGrid, hpp_messages, hpp_contacts, hpp_events, hpp_forms,
   {hpp_database,} hpp_options, hpp_services;
 
 {$R *.DFM}
@@ -598,7 +598,7 @@ end;
 
 procedure TEventDetailsFrm.HMEventDeleted(var Message: TMessage);
 begin
-  if Cardinal(Message.WParam) = ParentForm.History[ParentForm.GridIndexToHistory(FItem)] then
+  if uint_ptr(Message.WParam) = ParentForm.History[ParentForm.GridIndexToHistory(FItem)] then
     Close;
 end;
 

@@ -5192,7 +5192,7 @@ end;
 procedure THistoryGrid.SetRichRTL(RTL: Boolean; RichEdit: THPPRichEdit; ProcessTag: Boolean = True);
 var
   pf: PARAFORMAT2;
-  ExStyle: DWord;
+  ExStyle: uint_ptr;
 begin
   // we use RichEdit.Tag here to save previous RTL state to prevent from
   // reapplying same state, because SetRichRTL is called VERY OFTEN
@@ -5202,7 +5202,7 @@ begin
   ZeroMemory(@pf, SizeOf(pf));
   pf.cbSize := SizeOf(pf);
   pf.dwMask := PFM_RTLPARA;
-  ExStyle := DWord(GetWindowLongPtr(RichEdit.Handle, GWL_EXSTYLE)) and
+  ExStyle := uint_ptr(GetWindowLongPtr(RichEdit.Handle, GWL_EXSTYLE)) and
     not(WS_EX_RTLREADING or WS_EX_LEFTSCROLLBAR or WS_EX_RIGHT or WS_EX_LEFT);
   if RTL then
   begin
@@ -5864,15 +5864,15 @@ end;
 
 procedure THistoryGrid.SetBorderStyle(Value: TBorderStyle);
 var
-  Style, ExStyle: DWord;
+  Style, ExStyle: uint_ptr;
 begin
   if FBorderStyle = Value then
     exit;
   FBorderStyle := Value;
   if HandleAllocated then
   begin
-    Style   := DWord(GetWindowLongPtr(Handle, GWL_STYLE)) and WS_BORDER;
-    ExStyle := DWord(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and not WS_EX_CLIENTEDGE;
+    Style   := uint_ptr(GetWindowLongPtr(Handle, GWL_STYLE)) and WS_BORDER;
+    ExStyle := uint_ptr(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and not WS_EX_CLIENTEDGE;
     if Ctl3D and NewStyleControls and (FBorderStyle = bsSingle) then
     begin
       Style := Style and not WS_BORDER;
@@ -5885,12 +5885,12 @@ end;
 
 procedure THistoryGrid.CMBiDiModeChanged(var Message: TMessage);
 var
-  ExStyle: Cardinal;
+  ExStyle: uint_ptr;
 begin
   // inherited;
   if HandleAllocated then
   begin
-    ExStyle := DWord(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and
+    ExStyle := uint_ptr(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and
       not(WS_EX_RTLREADING or WS_EX_LEFTSCROLLBAR or WS_EX_RIGHT or WS_EX_LEFT);
     AddBiDiModeExStyle(ExStyle);
     SetWindowLongPtr(Handle, GWL_EXSTYLE, ExStyle);
@@ -5899,12 +5899,12 @@ end;
 
 procedure THistoryGrid.CMCtl3DChanged(var Message: TMessage);
 var
-  Style, ExStyle: DWord;
+  Style, ExStyle: uint_ptr;
 begin
   if HandleAllocated then
   begin
-    Style   := DWord(GetWindowLongPtr(Handle, GWL_STYLE)) and WS_BORDER;
-    ExStyle := DWord(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and not WS_EX_CLIENTEDGE;
+    Style   := uint_ptr(GetWindowLongPtr(Handle, GWL_STYLE)) and WS_BORDER;
+    ExStyle := uint_ptr(GetWindowLongPtr(Handle, GWL_EXSTYLE)) and not WS_EX_CLIENTEDGE;
     if Ctl3D and NewStyleControls and (FBorderStyle = bsSingle) then
     begin
       Style := Style and not WS_BORDER;

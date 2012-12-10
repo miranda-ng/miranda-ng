@@ -1086,7 +1086,7 @@ begin
     exit;
   for i := 0 to Grid.Count - 1 do
   begin
-    if (Items[i].hDBEvent = Cardinal(M.LParam)) then
+    if (Items[i].hDBEvent = uint_ptr(M.LParam)) then
     begin
       Grid.Delete(i);
       exit;
