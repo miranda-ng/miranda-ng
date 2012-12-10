@@ -19,6 +19,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "commonheaders.h"
 #include "m_skin_eng.h"
+#include "m_tipper.h"
 
 /*-------------------------------------------------------------------------------------------------------------------*/
 //GLOBAL
@@ -1427,13 +1428,11 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 								ti.rcItem.bottom = TooltipPosition.y + 10;
 								ti.cbSize = sizeof( ti );
 								TooltipText = variables_parsedup(Traffic_TooltipFormat, NULL, NULL);
-#ifdef _UNICODE
-								CallService("mToolTip/ShowTipW", (WPARAM)TooltipText, (LPARAM)&ti);
-#else
-								CallService("mToolTip/ShowTip", (WPARAM)TooltipText, (LPARAM)&ti);
-#endif
+
+								CallService(MS_TIPPER_SHOWTIPW, (WPARAM)TooltipText, (LPARAM)&ti);
+
 								TooltipShowing = TRUE;
-								free(TooltipText);
+								mir_free(TooltipText);
 							}
 						}
 					}
