@@ -20,9 +20,6 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#define MIRANDA_VER 0x0900
-#define MIRANDA_CUSTOM_LP
-
 #ifndef _WIN64
 	#define _USE_32BIT_TIME_T
 #endif
@@ -51,7 +48,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_cluiframes.h>
-#include <m_database.h>
 #include <m_fontservice.h>
 #include <m_popup.h>
 #include <m_skin.h>

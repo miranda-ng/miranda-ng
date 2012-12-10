@@ -306,13 +306,13 @@ typedef int (/*__stdcall*/ *tPaintCallbackProc)(HWND hWnd, HDC hDC, RECT * rcPai
 
 __inline BOOL isSkinEngineEnabled()
 {
-	return ServiceExists(MS_SKINENG_REGISTERPAINTSUB) && !DBGetContactSettingByte(NULL, "ModernData", "DisableEngine", FALSE);
+	return ServiceExists(MS_SKINENG_REGISTERPAINTSUB) && !db_get_b(NULL, "ModernData", "DisableEngine", FALSE);
 }
 
 
 __inline BOOL isLayeredEnabled()
 {
-	return isSkinEngineEnabled() && DBGetContactSettingByte(NULL, "ModernData", "EnableLayering", TRUE);
+	return isSkinEngineEnabled() && db_get_b(NULL, "ModernData", "EnableLayering", TRUE);
 }
 
 int __inline SkinEngUpdateImageFrame(HWND hwnd, RECT * rcUpdate, DWORD dwFlags, void * CallBackData)

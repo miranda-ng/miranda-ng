@@ -117,8 +117,6 @@ __declspec(dllexport) PLUGININFOEX *MirandaPluginInfoEx(DWORD mirandaVersion)
     return &pluginInfoEx;
 }
 
-__declspec(dllexport) const MUUID interfaces[] = {MIID_TRAFFICCOUNTER, MIID_LAST};
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
@@ -209,28 +207,28 @@ int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam)
 	CreateProtocolList();
 
 	// Читаем флаги
-	unOptions.Flags = DBGetContactSettingDword(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
-	Stat_SelAcc = DBGetContactSettingWord(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, 0x01);
+	unOptions.Flags = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, 0x0882);
+	Stat_SelAcc = db_get_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, 0x01);
 
 	//settings for notification
-	Traffic_PopupBkColor = DBGetContactSettingDword(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_BKCOLOR,RGB(200,255,200));
-	Traffic_PopupFontColor = DBGetContactSettingDword(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_FONTCOLOR,RGB(0,0,0));
+	Traffic_PopupBkColor = db_get_dw(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_BKCOLOR,RGB(200,255,200));
+	Traffic_PopupFontColor = db_get_dw(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_FONTCOLOR,RGB(0,0,0));
 	//
-	Traffic_Notify_time_value = DBGetContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_TIME_VALUE,10);
+	Traffic_Notify_time_value = db_get_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_TIME_VALUE,10);
 	//
-	Traffic_Notify_size_value = DBGetContactSettingWord(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_SIZE_VALUE,100);
+	Traffic_Notify_size_value = db_get_w(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_SIZE_VALUE,100);
 	//
 	//popup timeout
-	Traffic_PopupTimeoutDefault = DBGetContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_DEFAULT,1);
-	Traffic_PopupTimeoutValue = DBGetContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_VALUE,5);
+	Traffic_PopupTimeoutDefault = db_get_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_DEFAULT,1);
+	Traffic_PopupTimeoutValue = db_get_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_VALUE,5);
 	
 	// Формат счётчика для каждого активного протокола
-	if (DBGetContactSettingTString(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0)
+	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, &dbv) == 0)
 	{
 		if(lstrlen(dbv.ptszVal) > 0)
 			lstrcpyn(Traffic_CounterFormat, dbv.ptszVal, SIZEOF(Traffic_CounterFormat));
 		//
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else //defaults here
 	{
@@ -243,22 +241,22 @@ int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam)
 	}
 
 	// Формат всплывающих подсказок
-	if (DBGetContactSettingTString(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0)
+	if (db_get_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, &dbv) == 0)
 	{
 		if(lstrlen(dbv.ptszVal) > 0)
 			lstrcpyn(Traffic_TooltipFormat, dbv.ptszVal, SIZEOF(Traffic_TooltipFormat));
 		//
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else //defaults here
 	{
 		_tcscpy(Traffic_TooltipFormat, _T("Traffic Counter"));
 	}
 
-	Traffic_AdditionSpace = DBGetContactSettingByte(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
+	Traffic_AdditionSpace = db_get_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, 0);
 
 	// Счётчик времени онлайна
-	OverallInfo.Total.Timer = DBGetContactSettingDword(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
+	OverallInfo.Total.Timer = db_get_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, 0);
 
 	//register traffic font
 	TrafficFontID.cbSize = sizeof(FontIDT);
@@ -635,8 +633,8 @@ static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, 
 					GetWindowText(GetDlgItem(hwndDlg, IDC_EDIT_TOOLTIP_FORMAT), Traffic_TooltipFormat, 512);
 
 					// Ключевой цвет
-					UseKeyColor = DBGetContactSettingByte(NULL, "ModernSettings", "UseKeyColor", 1);
-					KeyColor = DBGetContactSettingDword(NULL, "ModernSettings", "KeyColor", 0);
+					UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
+					KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
 
 					// Перерисовываем фрейм
 					UpdateTrafficWindowSize();
@@ -706,7 +704,7 @@ void SaveSettings(BYTE OnlyCnt)
 	unsigned short int i;
 
 	// Сохраняем счётчик времени онлайна
-	DBWriteContactSettingDword(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
+	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOTAL_ONLINE_TIME, OverallInfo.Total.Timer);
 
 	if (OnlyCnt) return;
 
@@ -714,30 +712,30 @@ void SaveSettings(BYTE OnlyCnt)
 	for (i = 0; i < NumberOfAccounts; i++)
 	{
 		if (!ProtoList[i].name) continue;
-		DBWriteContactSettingByte(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, ProtoList[i].Flags);
+		db_set_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, ProtoList[i].Flags);
 	}
 
 	//settings for notification
-	DBWriteContactSettingDword(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_BKCOLOR,Traffic_PopupBkColor);
-	DBWriteContactSettingDword(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_FONTCOLOR,Traffic_PopupFontColor);
+	db_set_dw(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_BKCOLOR,Traffic_PopupBkColor);
+	db_set_dw(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_FONTCOLOR,Traffic_PopupFontColor);
 	//
-	DBWriteContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_TIME_VALUE,Traffic_Notify_time_value);
+	db_set_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_TIME_VALUE,Traffic_Notify_time_value);
 	//
-	DBWriteContactSettingWord(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_SIZE_VALUE,Traffic_Notify_size_value);
+	db_set_w(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_NOTIFY_SIZE_VALUE,Traffic_Notify_size_value);
 	//
 	//popup timeout
-	DBWriteContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_DEFAULT,Traffic_PopupTimeoutDefault);
-	DBWriteContactSettingByte(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_VALUE,Traffic_PopupTimeoutValue);
+	db_set_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_DEFAULT,Traffic_PopupTimeoutDefault);
+	db_set_b(NULL,TRAFFIC_SETTINGS_GROUP,SETTINGS_POPUP_TIMEOUT_VALUE,Traffic_PopupTimeoutValue);
 	//
 	// Формат счётчиков
-	DBWriteContactSettingTString(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
+	db_set_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_COUNTER_FORMAT, Traffic_CounterFormat);
 
-	DBWriteContactSettingTString(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
+	db_set_ts(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_TOOLTIP_FORMAT, Traffic_TooltipFormat);
 
-	DBWriteContactSettingByte(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
+	db_set_b(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_ADDITION_SPACE, Traffic_AdditionSpace);
 	// Сохраняем флаги
-	DBWriteContactSettingDword(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
-	DBWriteContactSettingWord(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
+	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_w(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_STAT_ACC_OPT, Stat_SelAcc);
 }
 
 /*--------------------------------------------------------------------------------------------*/
@@ -813,8 +811,8 @@ int PaintTrafficCounterWindow(HWND hwnd, HDC hDC)
 	DWORD SummarySession, SummaryTotal;
 
 	BYTE ClistModernPresent = (GetModuleHandleA("clist_modern.dll") || GetModuleHandleA("clist_modern_dora.dll"))
-			&& !DBGetContactSettingByte(NULL, "ModernData", "DisableEngine", 0)
-			&& DBGetContactSettingByte(NULL, "ModernData", "EnableLayering", 1);
+			&& !db_get_b(NULL, "ModernData", "DisableEngine", 0)
+			&& db_get_b(NULL, "ModernData", "EnableLayering", 1);
 
 	GetClientRect (hwnd, &rect);
 	height = rect.bottom - rect.top;
@@ -1217,8 +1215,8 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 
 		case WM_PAINT:
 			{
-				if (  !DBGetContactSettingByte(NULL, "ModernData", "DisableEngine", 0)
-					&& DBGetContactSettingByte(NULL, "ModernData", "EnableLayering", 1)
+				if (  !db_get_b(NULL, "ModernData", "DisableEngine", 0)
+					&& db_get_b(NULL, "ModernData", "EnableLayering", 1)
 					&& ServiceExists(MS_SKINENG_INVALIDATEFRAMEIMAGE))
 					CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)TrafficHwnd, 0);
 				else
@@ -1234,7 +1232,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 			return 1;
 
 		case WM_LBUTTONDOWN :
-			if (DBGetContactSettingByte(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT))
+			if (db_get_b(NULL,"CLUI","ClientAreaDrag",SETTING_CLIENTDRAG_DEFAULT))
 			{
 				ClientToScreen(GetParent(hwnd),&p);
 				return SendMessage(GetParent(hwnd), WM_SYSCOMMAND, SC_MOVE|HTCAPTION,MAKELPARAM(p.x,p.y));
@@ -1497,7 +1495,7 @@ INT_PTR MenuCommand_TrafficShowHide(WPARAM wParam,LPARAM lParam)
 		ShowWindow(TrafficHwnd, unOptions.FrameIsVisible ? SW_SHOW : SW_HIDE);
 	else
 		CallService(MS_CLIST_FRAMES_SHFRAME, (WPARAM)Traffic_FrameID, 0);
-	DBWriteContactSettingDword(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
+	db_set_dw(NULL, TRAFFIC_SETTINGS_GROUP, SETTINGS_WHAT_DRAW, unOptions.Flags);
 	//
 	return 0;
 }
@@ -1579,7 +1577,7 @@ void CreateProtocolList(void)
 		ProtoList[i].tszAccountName = (TCHAR*)mir_alloc(sizeof(TCHAR) * (1 + _tcslen(acc[i]->tszAccountName)));
 		_tcscpy(ProtoList[i].tszAccountName, acc[i]->tszAccountName);
 		//
-		ProtoList[i].Flags = DBGetContactSettingByte(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
+		ProtoList[i].Flags = db_get_b(NULL, ProtoList[i].name, SETTINGS_PROTO_FLAGS, 3);
 		ProtoList[i].CurrentRecvTraffic = 
 			ProtoList[i].CurrentSentTraffic = 
 			ProtoList[i].Session.Timer = 0;
@@ -1660,8 +1658,8 @@ int UpdateFonts(WPARAM wParam, LPARAM lParam)
 	Traffic_BkColor = CallService(MS_COLOUR_GETT, (WPARAM)&TrafficBackgroundColorID, 0);
 
 	// Ключевой цвет
-	UseKeyColor = DBGetContactSettingByte(NULL, "ModernSettings", "UseKeyColor", 1);
-	KeyColor = DBGetContactSettingDword(NULL, "ModernSettings", "KeyColor", 0);
+	UseKeyColor = db_get_b(NULL, "ModernSettings", "UseKeyColor", 1);
+	KeyColor = db_get_dw(NULL, "ModernSettings", "KeyColor", 0);
 
 	UpdateTrafficWindowSize();
 	return 0;
