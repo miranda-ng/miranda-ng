@@ -160,10 +160,10 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 						lvi.pszText = TranslateTS(StatusList[Index(i)].lpzStandardText);
 						lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-						if (!DBGetContactSettingTString(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) 
+						if (!db_get_ts(hContact, MODULE, StatusList[Index(i)].lpzSkinSoundName, &dbv)) 
 						{
 							_tcscpy(buff, dbv.ptszVal);
-							DBFreeVariant(&dbv);
+							db_free(&dbv);
 						}
 						else
 							_tcscpy(buff, TranslateT(DEFAULT_SOUND));
@@ -181,10 +181,10 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				lvi.pszText = TranslateT("From offline");
 				lvi.iItem = ListView_InsertItem(hList, &lvi);
 
-				if (!DBGetContactSettingTString(hContact, MODULE, "UserFromOffline", &dbv)) 
+				if (!db_get_ts(hContact, MODULE, "UserFromOffline", &dbv)) 
 				{
 					_tcscpy(buff, dbv.ptszVal);
-					DBFreeVariant(&dbv);
+					db_free(&dbv);
 				}
 				else
 					_tcscpy(buff, TranslateT(DEFAULT_SOUND));
@@ -244,12 +244,12 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				}
 				case IDC_CHECK_NOTIFYSOUNDS:
 				{
-					DBWriteContactSettingByte(hContact, MODULE, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
+					db_set_b(hContact, MODULE, "EnableSounds", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYSOUNDS) ? 1 : 0);
 					break;
 				}
 				case IDC_CHECK_NOTIFYPOPUPS:
 				{
-					DBWriteContactSettingByte(hContact, MODULE, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
+					db_set_b(hContact, MODULE, "EnablePopups", IsDlgButtonChecked(hwndDlg, IDC_CHECK_NOTIFYPOPUPS) ? 1 : 0);
 					break;
 				}
 			} 
@@ -274,9 +274,9 @@ INT_PTR CALLBACK DlgProcSoundUIPage(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					if (!_tcscmp(buff, TranslateT(DEFAULT_SOUND))) 
 					{
 						if (lvi.lParam == ID_STATUS_FROMOFFLINE)
-							DBDeleteContactSetting(hContact, MODULE, "UserFromOffline");
+							db_unset(hContact, MODULE, "UserFromOffline");
 						else 
-							DBDeleteContactSetting(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
+							db_unset(hContact, MODULE, StatusList[Index(lvi.lParam)].lpzSkinSoundName);
 					}
 					else 
 					{
@@ -638,24 +638,24 @@ INT_PTR CALLBACK DlgProcFiltering(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 							if (hItem)
 							{
 								if (GetExtraImage(hList, hItem, EXTRA_IMAGE_SOUND) == EXTRA_IMAGE_SOUND) 
-									DBDeleteContactSetting(hContact, MODULE, "EnableSounds");
+									db_unset(hContact, MODULE, "EnableSounds");
 								else 
-									DBWriteContactSettingByte(hContact, MODULE, "EnableSounds", 0);
+									db_set_b(hContact, MODULE, "EnableSounds", 0);
 
 								if (GetExtraImage(hList, hItem, EXTRA_IMAGE_POPUP) == EXTRA_IMAGE_POPUP) 
-									DBDeleteContactSetting(hContact, MODULE, "EnablePopups");
+									db_unset(hContact, MODULE, "EnablePopups");
 								else 
-									DBWriteContactSettingByte(hContact, MODULE, "EnablePopups", 0);
+									db_set_b(hContact, MODULE, "EnablePopups", 0);
 
 								if (GetExtraImage(hList, hItem, EXTRA_IMAGE_XSTATUS) == EXTRA_IMAGE_XSTATUS) 
-									DBDeleteContactSetting(hContact, MODULE, "EnableXStatusNotify");
+									db_unset(hContact, MODULE, "EnableXStatusNotify");
 								else
-									DBWriteContactSettingByte(hContact, MODULE, "EnableXStatusNotify", 0);
+									db_set_b(hContact, MODULE, "EnableXStatusNotify", 0);
 
 								if (GetExtraImage(hList, hItem, EXTRA_IMAGE_LOGGING) == EXTRA_IMAGE_LOGGING) 
-									DBDeleteContactSetting(hContact, MODULE, "EnableLogging");
+									db_unset(hContact, MODULE, "EnableLogging");
 								else
-									DBWriteContactSettingByte(hContact, MODULE, "EnableLogging", 0);
+									db_set_b(hContact, MODULE, "EnableLogging", 0);
 
 							}
 						} while(hContact = db_find_next(hContact));

@@ -41,14 +41,14 @@ static struct {
 	TCHAR *Text;
 	int Action;
 } PopupActions[] = {
-	_T("Open message window"), PCA_OPENMESSAGEWND,
-	_T("Close popup"), PCA_CLOSEPOPUP,
-	_T("Open contact details window"), PCA_OPENDETAILS,
-	_T("Open contact menu"), PCA_OPENMENU,
-	_T("Open contact history"), PCA_OPENHISTORY,
-	_T("Do nothing"), PCA_DONOTHING
+	LPGENT("Open message window"), PCA_OPENMESSAGEWND,
+	LPGENT("Close popup"), PCA_CLOSEPOPUP,
+	LPGENT("Open contact details window"), PCA_OPENDETAILS,
+	LPGENT("Open contact menu"), PCA_OPENMENU,
+	LPGENT("Open contact history"), PCA_OPENHISTORY,
+	LPGENT("Do nothing"), PCA_DONOTHING
 };
 
-INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 #endif

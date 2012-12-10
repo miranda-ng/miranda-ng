@@ -59,12 +59,12 @@ void ReceivedAwayMessage(HWND hWnd, LPARAM lParam, PLUGINDATA * pdp)
 	DBVARIANT dbv;
 	HANDLE hContact = PUGetContact(hWnd);
 
-	if ( DBGetContactSettingTString(hContact, MODULE, "LastPopupText", &dbv))
+	if ( db_get_ts(hContact, MODULE, "LastPopupText", &dbv))
 		return;
 
 	TCHAR stzText[MAX_SECONDLINE], *tszStatus = (TCHAR*)ack->lParam;
 	_tcscpy(stzText, dbv.ptszVal);
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 
 	if (tszStatus == NULL || *tszStatus == 0)
 		return;
@@ -83,7 +83,7 @@ void PopupAction(HWND hWnd, BYTE action)
 	if (hContact && hContact != INVALID_HANDLE_VALUE) {
 		switch (action) {
 		case PCA_OPENMESSAGEWND:
-			CallServiceSync(ServiceExists("SRMsg/LaunchMessageWindow") ? "SRMsg/LaunchMessageWindow" : MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
+			CallServiceSync(MS_MSG_SENDMESSAGET, (WPARAM)hContact, 0);
 			break;
 
 		case PCA_OPENMENU:
@@ -115,7 +115,7 @@ void PopupAction(HWND hWnd, BYTE action)
 	}
 }
 
-INT_PTR CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PLUGINDATA *pdp = NULL;
 

@@ -103,66 +103,66 @@ void LoadOptions()
 
 void SaveTemplates()
 {
-	db_set_ws(0, MODULE, "TPopupDelimiter", templates.PopupDelimiter);
-	db_set_ws(0, MODULE, "TPopupChange", templates.PopupNewXstatus);
-	db_set_ws(0, MODULE, "TPopupChangeMsg", templates.PopupNewMsg);
-	db_set_ws(0, MODULE, "TPopupRemoval", templates.PopupRemove);
-	db_set_ws(0, MODULE, "TLogDelimiter", templates.LogDelimiter);
-	db_set_ws(0, MODULE, "TLogChange", templates.LogNewXstatus);
-	db_set_ws(0, MODULE, "TLogChangeMsg", templates.LogNewMsg);
-	db_set_ws(0, MODULE, "TLogRemoval", templates.LogRemove);
-	db_set_ws(0, MODULE, "TLogOpening", templates.LogOpening);
-	DBWriteContactSettingByte(0, MODULE, "TPopupFlags", templates.PopupFlags);
-	DBWriteContactSettingByte(0, MODULE, "TLogFlags", templates.LogFlags);
+	db_set_ts(0, MODULE, "TPopupDelimiter", templates.PopupDelimiter);
+	db_set_ts(0, MODULE, "TPopupChange", templates.PopupNewXstatus);
+	db_set_ts(0, MODULE, "TPopupChangeMsg", templates.PopupNewMsg);
+	db_set_ts(0, MODULE, "TPopupRemoval", templates.PopupRemove);
+	db_set_ts(0, MODULE, "TLogDelimiter", templates.LogDelimiter);
+	db_set_ts(0, MODULE, "TLogChange", templates.LogNewXstatus);
+	db_set_ts(0, MODULE, "TLogChangeMsg", templates.LogNewMsg);
+	db_set_ts(0, MODULE, "TLogRemoval", templates.LogRemove);
+	db_set_ts(0, MODULE, "TLogOpening", templates.LogOpening);
+	db_set_b(0, MODULE, "TPopupFlags", templates.PopupFlags);
+	db_set_b(0, MODULE, "TLogFlags", templates.LogFlags);
 
 	for (int i = 0; i < ProtoTemplates.getCount(); i++) {
 		PROTOTEMPLATE *prototemplate = ProtoTemplates[i];
 		TCHAR str[MAX_PATH];
 		mir_sntprintf(str, SIZEOF(str), _T("%s_TSMChange"), prototemplate->ProtoName);
 		char *szstr = mir_t2a(str);
-		db_set_ws(0, MODULE, szstr, prototemplate->ProtoTemplate);
+		db_set_ts(0, MODULE, szstr, prototemplate->ProtoTemplate);
 	}
 }
 
 void SaveOptions() 
 {
 	// IDD_OPT_POPUP
-	DBWriteContactSettingByte(0, MODULE, "Colors", opt.Colors);
-	DBWriteContactSettingByte(0, MODULE, "ShowGroup", opt.ShowGroup);
-	DBWriteContactSettingByte(0, MODULE, "ShowStatus", opt.ShowStatus);
-	DBWriteContactSettingByte(0, MODULE, "UseAlternativeText", opt.UseAlternativeText);
-	DBWriteContactSettingByte(0, MODULE, "ShowPreviousStatus", opt.ShowPreviousStatus);
-	DBWriteContactSettingByte(0, MODULE, "ReadAwayMsg", opt.ReadAwayMsg);
-	DBWriteContactSettingDword(0, MODULE, "PopupTimeout", opt.PopupTimeout);
-	DBWriteContactSettingByte(0, MODULE, "LeftClickAction", opt.LeftClickAction);
-	DBWriteContactSettingByte(0, MODULE, "RightClickAction", opt.RightClickAction);
+	db_set_b(0, MODULE, "Colors", opt.Colors);
+	db_set_b(0, MODULE, "ShowGroup", opt.ShowGroup);
+	db_set_b(0, MODULE, "ShowStatus", opt.ShowStatus);
+	db_set_b(0, MODULE, "UseAlternativeText", opt.UseAlternativeText);
+	db_set_b(0, MODULE, "ShowPreviousStatus", opt.ShowPreviousStatus);
+	db_set_b(0, MODULE, "ReadAwayMsg", opt.ReadAwayMsg);
+	db_set_dw(0, MODULE, "PopupTimeout", opt.PopupTimeout);
+	db_set_b(0, MODULE, "LeftClickAction", opt.LeftClickAction);
+	db_set_b(0, MODULE, "RightClickAction", opt.RightClickAction);
 	// IDD_OPT_XPOPUP
-	DBWriteContactSettingByte(0, MODULE, "PDisableForMusic", opt.PDisableForMusic);
-	DBWriteContactSettingByte(0, MODULE, "PTruncateMsg", opt.PTruncateMsg);
-	DBWriteContactSettingDword(0, MODULE, "PMsgLen", opt.PMsgLen);
+	db_set_b(0, MODULE, "PDisableForMusic", opt.PDisableForMusic);
+	db_set_b(0, MODULE, "PTruncateMsg", opt.PTruncateMsg);
+	db_set_dw(0, MODULE, "PMsgLen", opt.PMsgLen);
 	// IDD_OPT_GENERAL
-	DBWriteContactSettingByte(0, MODULE, "FromOffline", opt.FromOffline);
-	DBWriteContactSettingByte(0, MODULE, "AutoDisable", opt.AutoDisable);
-	DBWriteContactSettingByte(0, MODULE, "HiddenContactsToo", opt.HiddenContactsToo);
-	DBWriteContactSettingByte(0, MODULE, "UseIndSounds", opt.UseIndSnd);
-	DBWriteContactSettingByte(0, MODULE, "BlinkIcon", opt.BlinkIcon);
-	DBWriteContactSettingByte(0, MODULE, "BlinkIcon_Status", opt.BlinkIcon_Status);
-	DBWriteContactSettingByte(0, MODULE, "Log", opt.Log);
+	db_set_b(0, MODULE, "FromOffline", opt.FromOffline);
+	db_set_b(0, MODULE, "AutoDisable", opt.AutoDisable);
+	db_set_b(0, MODULE, "HiddenContactsToo", opt.HiddenContactsToo);
+	db_set_b(0, MODULE, "UseIndSounds", opt.UseIndSnd);
+	db_set_b(0, MODULE, "BlinkIcon", opt.BlinkIcon);
+	db_set_b(0, MODULE, "BlinkIcon_Status", opt.BlinkIcon_Status);
+	db_set_b(0, MODULE, "Log", opt.Log);
 	db_set_ws(0, MODULE, "LogFilePath", opt.LogFilePath);
 	// IDD_AUTODISABLE
-	DBWriteContactSettingByte(0, MODULE, "OnlyGlobalChanges", opt.OnlyGlobalChanges);
-	DBWriteContactSettingByte(0, MODULE, "DisablePopupGlobally", opt.DisablePopupGlobally);
-	DBWriteContactSettingByte(0, MODULE, "DisableSoundGlobally", opt.DisableSoundGlobally);
+	db_set_b(0, MODULE, "OnlyGlobalChanges", opt.OnlyGlobalChanges);
+	db_set_b(0, MODULE, "DisablePopupGlobally", opt.DisablePopupGlobally);
+	db_set_b(0, MODULE, "DisableSoundGlobally", opt.DisableSoundGlobally);
 	// IDD_OPT_XLOG
-	DBWriteContactSettingByte(0, MODULE, "EnableLogging", opt.EnableLogging);
-	DBWriteContactSettingByte(0, MODULE, "PreventIdentical", opt.PreventIdentical);
-	DBWriteContactSettingByte(0, MODULE, "KeepInHistory", opt.KeepInHistory);
-	DBWriteContactSettingByte(0, MODULE, "LDisableForMusic", opt.LDisableForMusic);
-	DBWriteContactSettingByte(0, MODULE, "LTruncateMsg", opt.LTruncateMsg);
-	DBWriteContactSettingDword(0, MODULE, "LMsgLen", opt.LMsgLen);	
+	db_set_b(0, MODULE, "EnableLogging", opt.EnableLogging);
+	db_set_b(0, MODULE, "PreventIdentical", opt.PreventIdentical);
+	db_set_b(0, MODULE, "KeepInHistory", opt.KeepInHistory);
+	db_set_b(0, MODULE, "LDisableForMusic", opt.LDisableForMusic);
+	db_set_b(0, MODULE, "LTruncateMsg", opt.LTruncateMsg);
+	db_set_dw(0, MODULE, "LMsgLen", opt.LMsgLen);	
 	//IDD_OPT_SMPOPUP
-	DBWriteContactSettingByte(0, MODULE, "IgnoreEmpty", opt.IgnoreEmpty);
-	DBWriteContactSettingByte(0, MODULE, "PopupOnConnect", opt.PopupOnConnect);	
+	db_set_b(0, MODULE, "IgnoreEmpty", opt.IgnoreEmpty);
+	db_set_b(0, MODULE, "PopupOnConnect", opt.PopupOnConnect);	
 }
 
 INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam) 
@@ -277,7 +277,7 @@ INT_PTR CALLBACK DlgProcGeneralOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX2; i++) 
 				{
 					wsprintfA(status, "%d", i);
-					DBWriteContactSettingByte(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
+					db_set_b(NULL, MODULE, status, (BYTE)IsDlgButtonChecked(hwndDlg, i));
 				}
 				opt.FromOffline = IsDlgButtonChecked(hwndDlg, IDC_CHK_FROMOFFLINE);
 
@@ -452,12 +452,12 @@ INT_PTR CALLBACK DlgProcPopUpOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 					ctlColour = SendDlgItemMessage(hwndDlg, (i+2000), CPM_GETCOLOUR, 0, 0);
 					StatusList[Index(i)].colorBack = SendDlgItemMessage(hwndDlg, (i+2000), CPM_GETCOLOUR, 0, 0);
 					wsprintfA(str, "%ibg", i);
-					DBWriteContactSettingDword(0, MODULE, str, ctlColour);
+					db_set_dw(0, MODULE, str, ctlColour);
 
 					ctlColour = SendDlgItemMessage(hwndDlg, (i+1000), CPM_GETCOLOUR, 0, 0);
 					StatusList[Index(i)].colorText = ctlColour;
 					wsprintfA(str, "%itx", i);
-					DBWriteContactSettingDword(0, MODULE, str, ctlColour);
+					db_set_dw(0, MODULE, str, ctlColour);
 				}
 
 				if (IsDlgButtonChecked(hwndDlg, IDC_USEOWNCOLORS))
@@ -526,12 +526,12 @@ INT_PTR CALLBACK DlgProcAutoDisableOpts(HWND hwndDlg, UINT msg, WPARAM wParam, L
 					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
 					{
 						wsprintfA(str, "p%d", i);
-						DBWriteContactSettingByte(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
+						db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i));
 					}
 					for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++) 
 					{
 						wsprintfA(str, "s%d", i);
-						DBWriteContactSettingByte(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i+2000));
+						db_set_b(NULL, MODULE, str, IsDlgButtonChecked(hwndDlg, i+2000));
 					}
 
 					SaveOptions();
@@ -758,9 +758,9 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 				mir_sntprintf(protoname, SIZEOF(protoname), _T("%s_TSMChange"), protos[i]->tszAccountName);
 				char *szprotoname = mir_t2a(protoname);
 				DBVARIANT dbVar = {0};
-				DBGetContactSettingTString(NULL, MODULE, szprotoname, &dbVar);
+				db_get_ts(NULL, MODULE, szprotoname, &dbVar);
 				if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-					DBFreeVariant(&dbVar);
+					db_free(&dbVar);
 					_tcsncpy(prototemplate->ProtoTemplate, TranslateT(DEFAULT_POPUP_STATUSMESSAGE), SIZEOF(prototemplate->ProtoTemplate));
 				}
 				else _tcsncpy(prototemplate->ProtoTemplate, dbVar.ptszVal, SIZEOF(prototemplate->ProtoTemplate));
@@ -860,7 +860,7 @@ INT_PTR CALLBACK DlgProcSMPopupOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 				char dbSetting[128];
 				mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", (char *)lvItem.lParam);
-				DBWriteContactSettingByte(NULL, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
+				db_set_b(NULL, MODULE, dbSetting, (BYTE)ListView_GetCheckState(hList, lvItem.iItem));
 			}
 		}
 

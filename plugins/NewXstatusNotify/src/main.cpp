@@ -97,9 +97,9 @@ bool IsNewExtraStatus(HANDLE hContact, char *szSetting, TCHAR *newStatusTitle)
 	DBVARIANT dbv;
 	bool result = true;
 
-	if ( !DBGetContactSettingTString(hContact, MODULE, szSetting, &dbv)) {
+	if ( !db_get_ts(hContact, MODULE, szSetting, &dbv)) {
 		result = _tcscmp(newStatusTitle, dbv.ptszVal) ? true : false;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return result;
@@ -283,7 +283,7 @@ static int CompareStatusMsg(STATUSMSGINFO *smi, DBCONTACTWRITESETTING *cws_new) 
 		else if (dbv_old.type == DBVT_WCHAR)
 			ret = (lstrcmpW(cws_new->value.pwszVal, dbv_old.pwszVal) ? CheckStrW(cws_new->value.pwszVal, 1, 2) : 0);
 
-		DBFreeVariant(&dbv_old);
+		db_free(&dbv_old);
 	}
 	else {
 		if (cws_new->value.type == DBVT_DELETED)
@@ -319,10 +319,9 @@ BOOL TimeoutCheck()
 
 TCHAR* AddCR(const TCHAR *statusmsg)
 {
-	TCHAR *tmp;
 	const TCHAR *found;
 	int i = 0, len = lstrlen(statusmsg), j;
-	tmp = (TCHAR*)mir_alloc(1024 * sizeof(TCHAR));
+	TCHAR *tmp = (TCHAR*)mir_alloc(1024 * sizeof(TCHAR));
 	*tmp = _T('\0');
 	while((found = _tcsstr((statusmsg + i), _T("\n"))) != NULL && _tcslen(tmp) + 1 < 1024){
 		j = (int)(found - statusmsg);
@@ -346,18 +345,15 @@ TCHAR* AddCR(const TCHAR *statusmsg)
 TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 {
 	TCHAR tmp[1024];
-	TCHAR *str;
-	int i;
-	int len;
 
 	if (tmplt == NULL || tmplt[0] == _T('\0'))
 		return NULL;
 
-	str = (TCHAR*)mir_alloc(2048 * sizeof(TCHAR));
+	TCHAR *str = (TCHAR*)mir_alloc(2048 * sizeof(TCHAR));
 	str[0] = _T('\0');
-	len = lstrlen(tmplt);
+	int len = lstrlen(tmplt);
 
-	for (i = 0; i < len; i++) {
+	for (int i = 0; i < len; i++) {
 		tmp[0] = _T('\0');
 
 		if (tmplt[i] == _T('%')) {
@@ -428,6 +424,11 @@ TCHAR* GetStr(STATUSMSGINFO *n, const TCHAR *tmplt)
 	return str;
 }
 
+bool SkipHiddenContact(HANDLE hContact)
+{
+	return (!opt.HiddenContactsToo && (db_get_b(hContact, "CList", "Hidden", 0) == 1));
+}
+
 int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 {
 	if ( !strcmp(cws->szSetting, "Status")) {
@@ -435,12 +436,10 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		if (newStatus < ID_STATUS_MIN || newStatus > ID_STATUS_MAX)
 			return 0;
 
-		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, "Protocol", "p", &dbv)) {
-			BOOL temp = strcmp(cws->szModule, dbv.pszVal) != 0;
-			DBFreeVariant(&dbv);
-			if (temp)
-				return 0;
+		char *proto = GetContactProto(hContact);
+		if(strcmp(cws->szModule,proto))
+		{
+			return 0;
 		}
 
 		WORD oldStatus = DBGetContactSettingRangedWord(hContact, "UserOnline", "OldStatus", ID_STATUS_OFFLINE, ID_STATUS_MIN, ID_STATUS_MAX);
@@ -448,7 +447,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 			return 0;
 
 		//If we get here, the two stauses differ, so we can proceed.
-		DBWriteContactSettingWord(hContact, "UserOnline", "OldStatus", newStatus);
+		db_set_w(hContact, "UserOnline", "OldStatus", newStatus);
 
 		//If *Miranda* ignores the UserOnline event, exit!
 		if (CallService(MS_IGNORE_ISIGNORED, (WPARAM)hContact, IGNOREEVENT_USERONLINE))
@@ -458,21 +457,22 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 		NotifyEventHooks(hHookContactStatusChanged, (WPARAM)hContact, (LPARAM)MAKELPARAM(oldStatus, newStatus));
 		return 1;
 	}
+	else if ( !strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg")) {
+		if(SkipHiddenContact(hContact))
+			return 0;
 
-	if ( !strcmp(cws->szModule, "CList") && !strcmp(cws->szSetting, "StatusMsg")) {
-		STATUSMSGINFO smi;
+		char *proto = GetContactProto(hContact);
+		if(!proto)
+			return 0;
+
+		char dbSetting[128];
+		mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", proto);
+		if (!db_get_b(NULL, MODULE, dbSetting, 1))
+			return 0;
+
 		BOOL retem = TRUE, rettime = TRUE;
-
-		DBVARIANT dbv;
-		if ( !DBGetContactSettingString(hContact, "Protocol", "p", &dbv)) {
-			char dbSetting[128];
-			mir_snprintf(dbSetting, SIZEOF(dbSetting), "%s_enabled", dbv.pszVal);
-			db_free(&dbv);
-			
-			if (!db_get_b(NULL, MODULE, dbSetting, 1))
-				return 0;
-		}
-		smi.proto = GetContactProto(hContact);
+		STATUSMSGINFO smi;
+		smi.proto = proto;
 
 		//don't show popup when mradio connecting and disconnecting
 		if (_stricmp(smi.proto, "mRadio") == 0 && !cws->value.type == DBVT_DELETED) {
@@ -494,7 +494,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 				return FreeSmiStr(&smi);
 
 			if (cws->value.type == DBVT_DELETED)
-				DBDeleteContactSetting(smi.hContact, "UserOnline", "OldStatusMsg");
+				db_unset(smi.hContact, "UserOnline", "OldStatusMsg");
 			else {
 				DBCONTACTWRITESETTING cws_old;
 				cws_old.szModule = "UserOnline";
@@ -512,30 +512,32 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 			char status[8];
 			mir_snprintf(status, SIZEOF(status), "%d", IDC_CHK_STATUS_MESSAGE);
 			if ( db_get_b(hContact, MODULE, "EnablePopups", 1) && db_get_b(0, MODULE, status, 1) && retem && rettime) {
-				POPUPDATAT ppd = {0};
 				char* protoname = (char*)CallService(MS_PROTO_GETCONTACTBASEACCOUNT, (WPARAM)smi.hContact, 0);
-				PROTOACCOUNT* pdescr = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)protoname);
+				PROTOACCOUNT* pdescr = ProtoGetAccount(protoname);
 				protoname = mir_t2a(pdescr->tszAccountName);
 				protoname = (char*)mir_realloc(protoname, lstrlenA(protoname) + lstrlenA("_TSMChange") + 1);
 				lstrcatA(protoname, "_TSMChange");
 				TCHAR *str;
 				DBVARIANT dbVar = {0};
-				DBGetContactSettingTString(NULL, MODULE, protoname, &dbVar);
-				if (lstrcmp(dbVar.ptszVal, NULL) == 0) {
-					DBFreeVariant(&dbVar);
+				if (!db_get_ts(NULL, MODULE, protoname, &dbVar)) {
+					str = GetStr(&smi, dbVar.ptszVal);
+					db_free(&dbVar);
+				}
+				else
+				{
 					str = GetStr(&smi, TranslateT(DEFAULT_POPUP_STATUSMESSAGE));
 				}
-				else str = GetStr(&smi, dbVar.ptszVal);
 				mir_free(protoname);
 
+				POPUPDATAT ppd = {0};
 				ppd.lchContact = smi.hContact;
-				ppd.lchIcon = LoadSkinnedProtoIcon(smi.proto, DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE));
+				ppd.lchIcon = LoadSkinnedProtoIcon(smi.proto, db_get_w(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE));
 				lstrcpyn(ppd.lptzContactName, smi.cust, MAX_CONTACTNAME);
 				lstrcpyn(ppd.lptzText, str, MAX_SECONDLINE);
 				switch (opt.Colors) {
 				case POPUP_COLOR_OWN:
-					ppd.colorBack = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorBack;
-					ppd.colorText = StatusList[Index(DBGetContactSettingWord(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorText;
+					ppd.colorBack = StatusList[Index(db_get_w(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorBack;
+					ppd.colorText = StatusList[Index(db_get_w(smi.hContact, smi.proto, "Status", ID_STATUS_ONLINE))].colorText;
 					break;
 				case POPUP_COLOR_WINDOWS:
 					ppd.colorBack = GetSysColor(COLOR_BTNFACE);
@@ -545,7 +547,7 @@ int ProcessStatus(DBCONTACTWRITESETTING *cws, HANDLE hContact)
 					ppd.colorBack = ppd.colorText = 0;
 					break;
 				}
-				ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+				ppd.PluginWindowProc = PopupDlgProc;
 				ppd.PluginData = NULL;
 				ppd.iSeconds = opt.PopupTimeout;
 				PUAddPopUpT(&ppd);
@@ -570,7 +572,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	DBCONTACTWRITESETTING *cws = (DBCONTACTWRITESETTING *)lParam;
-	if (DBGetContactSettingWord(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+	if (db_get_w(hContact, szProto, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
 		if (ProcessExtraStatus(cws, hContact))
 			return 0;
 
@@ -592,7 +594,7 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 				opt.PopupAutoDisabled = hlpDisablePopup;
 
 				if (hlpDisablePopup) {
-					DBWriteContactSettingByte(0, MODULE, "OldPopupStatus", hlpPopupStatus);
+					db_set_b(0, MODULE, "OldPopupStatus", hlpPopupStatus);
 					CallService(MS_POPUP_QUERY, PUQS_DISABLEPOPUPS, 0);
 				}
 				else {
@@ -616,12 +618,12 @@ int StatusModeChanged(WPARAM wParam, LPARAM lParam)
 				opt.SoundAutoDisabled = hlpDisableSound;
 
 				if (hlpDisableSound) {
-					DBWriteContactSettingByte(0, MODULE, "OldUseSound", hlpUseSound);
-					DBWriteContactSettingByte(0, "Skin", "UseSound", FALSE);
+					db_set_b(0, MODULE, "OldUseSound", hlpUseSound);
+					db_set_b(0, "Skin", "UseSound", FALSE);
 				}
 				else {
 					if (hlpUseSound == FALSE)
-						DBWriteContactSettingByte(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
+						db_set_b(0, "Skin", "UseSound", db_get_b(0, MODULE, "OldUseSound", 1));
 				}
 			}
 		}
@@ -638,15 +640,15 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 	POPUPDATAT ppd = {0};
 	ppd.lchContact = hContact;
 	ppd.lchIcon = LoadSkinnedProtoIcon(szProto, newStatus);
-	_tcscpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_TCHAR));
+	_tcsncpy(ppd.lptzContactName, (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GSMDF_TCHAR), MAX_CONTACTNAME);
 
 	if (opt.ShowGroup) { //add group name to popup title
 		DBVARIANT dbv;
-		if (!DBGetContactSettingTString(hContact, "CList", "Group", &dbv)) {
+		if (!db_get_ts(hContact, "CList", "Group", &dbv)) {
 			_tcscat(ppd.lptzContactName, _T(" ("));
 			_tcscat(ppd.lptzContactName, dbv.ptszVal);
 			_tcscat(ppd.lptzContactName, _T(")"));
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -692,7 +694,7 @@ void ShowStatusChangePopup(HANDLE hContact, char *szProto, WORD oldStatus, WORD 
 		break;
 	}
 
-	ppd.PluginWindowProc = (WNDPROC)PopupDlgProc;
+	ppd.PluginWindowProc = PopupDlgProc;
 
 	PLUGINDATA *pdp = (PLUGINDATA *)mir_alloc(sizeof(PLUGINDATA));
 	pdp->oldStatus = oldStatus;
@@ -713,10 +715,7 @@ void BlinkIcon(HANDLE hContact, char* szProto, WORD status)
 	cle.flags = CLEF_ONLYAFEW | CLEF_TCHAR;
 	cle.hContact = hContact;
 	cle.hDbEvent = hContact;
-	if (opt.BlinkIcon_Status)
-		cle.hIcon = LoadSkinnedProtoIcon(szProto, status);
-	else
-		cle.hIcon = LoadSkinnedIcon(SKINICON_OTHER_USERONLINE);
+	cle.hIcon = (opt.BlinkIcon_Status ? LoadSkinnedProtoIcon(szProto, status) : LoadSkinnedIcon(SKINICON_OTHER_USERONLINE));
 	cle.pszService = "UserOnline/Description";
 	cle.ptszTooltip = stzTooltip;
 
@@ -730,13 +729,13 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 	DBVARIANT dbv;
 	if (opt.UseIndSnd) {
 		TCHAR stzSoundFile[MAX_PATH] = {0};
-		if (!DBGetContactSettingTString(hContact, MODULE, "UserFromOffline", &dbv) && oldStatus == ID_STATUS_OFFLINE) {
+		if (!db_get_ts(hContact, MODULE, "UserFromOffline", &dbv) && oldStatus == ID_STATUS_OFFLINE) {
 			_tcscpy(stzSoundFile, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
-		else if (!DBGetContactSettingTString(hContact, MODULE, StatusList[Index(newStatus)].lpzSkinSoundName, &dbv)) {
+		else if (!db_get_ts(hContact, MODULE, StatusList[Index(newStatus)].lpzSkinSoundName, &dbv)) {
 			lstrcpy(stzSoundFile, dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 
 		if (stzSoundFile[0]) {
@@ -751,17 +750,17 @@ void PlayChangeSound(HANDLE hContact, WORD oldStatus, WORD newStatus)
 	char szSoundFile[MAX_PATH] = {0};
 
 	if (!db_get_b(0, "SkinSoundsOff", "UserFromOffline", 0) && 
-		!DBGetContactSettingString(0,"SkinSounds", "UserFromOffline", &dbv) &&
+		!db_get_s(0,"SkinSounds", "UserFromOffline", &dbv) &&
 		oldStatus == ID_STATUS_OFFLINE) 
 	{
 		strcpy(szSoundFile, "UserFromOffline");
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 	else if (!db_get_b(0, "SkinSoundsOff", StatusList[Index(newStatus)].lpzSkinSoundName, 0) &&
 		!DBGetContactSetting(0, "SkinSounds", StatusList[Index(newStatus)].lpzSkinSoundName, &dbv))
 	{
 		strcpy(szSoundFile, StatusList[Index(newStatus)].lpzSkinSoundName);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	if (szSoundFile[0])
@@ -776,7 +775,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 	char buff[8], szProto[64], szSubProto[64];
 	bool bEnablePopup = true, bEnableSound = true;
 
-	char *hlpProto = GetContactProto((HANDLE)wParam);
+	char *hlpProto = GetContactProto(hContact);
 	if (hlpProto == NULL || opt.TempDisabled)
 		return 0;
 
@@ -791,12 +790,12 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 			// read last online proto for metaconatct if exists,
 			// to avoid notifying when meta went offline but default contact's proto still online
 			DBVARIANT dbv;
-			if (!DBGetContactSettingString(hContact, szProto, "LastOnline", &dbv)) {
+			if (!db_get_s(hContact, szProto, "LastOnline", &dbv)) {
 				strcpy(szSubProto, dbv.pszVal);
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
-		else DBWriteContactSettingString(hContact, szProto, "LastOnline", szSubProto);
+		else db_set_s(hContact, szProto, "LastOnline", szSubProto);
 
 		if (!db_get_b(0, MODULE, szSubProto, 1))
 			return 0;
@@ -814,7 +813,7 @@ int ContactStatusChanged(WPARAM wParam, LPARAM lParam)
 			return 0; // "Notify when a contact changes to one of..." is unchecked
 	}
 
-	if (!opt.HiddenContactsToo && (db_get_b(hContact, "CList", "Hidden", 0) == 1))
+	if (SkipHiddenContact(hContact))
 		return 0;
 
 	// we don't want to be notified if new chatroom comes online
@@ -868,8 +867,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) is back online!"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Online"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOnline", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Online"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "global.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Online"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("global.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40072bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40072tx", COLOR_TX_DEFAULT);
 
@@ -882,8 +881,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) went offline! :("), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Offline"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOffline", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Offline"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "offline.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Offline"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("offline.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40071bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40071tx", COLOR_TX_DEFAULT);
 
@@ -896,8 +895,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) hides in shadows..."), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Invisible"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserInvisible", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Invisible"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "invisible.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Invisible"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("invisible.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40078bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40078tx", COLOR_TX_DEFAULT);
 
@@ -910,8 +909,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) feels talkative!"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Free for chat"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserFreeForChat", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Free For Chat"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "free4chat.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Free For Chat"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("free4chat.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40077bg", COLOR_BG_AVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40077tx", COLOR_TX_DEFAULT);
 
@@ -924,8 +923,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) went Away"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Away"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserAway", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Away"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "away.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Away"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("away.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40073bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40073tx", COLOR_TX_DEFAULT);
 
@@ -938,8 +937,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) isn't there anymore!"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("NA"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserNA", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Not Available"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "na.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Not Available"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("na.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40075bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40075tx", COLOR_TX_DEFAULT);
 
@@ -952,8 +951,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) has something else to do."), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Occupied"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOccupied", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Occupied"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "occupied.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Occupied"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("occupied.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40076bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40076tx", COLOR_TX_DEFAULT);
 
@@ -966,8 +965,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) doesn't want to be disturbed!"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("DND"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserDND", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Do Not Disturb"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "dnd.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Do Not Disturb"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("dnd.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40074bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40074tx", COLOR_TX_DEFAULT);
 
@@ -980,8 +979,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) is eating something"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("Out to lunch"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOutToLunch", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: Out To Lunch"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "lunch.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: Out To Lunch"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("lunch.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40080bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40080tx", COLOR_TX_DEFAULT);
 
@@ -994,8 +993,8 @@ void InitStatusList()
 	lstrcpyn(StatusList[index].lpzUStatusText, TranslateT("(U) had to answer the phone"), MAX_STATUSTEXT);
 	lstrcpyn(StatusList[index].lpzStandardText, TranslateT("On the phone"), MAX_STANDARDTEXT);
 	lstrcpynA(StatusList[index].lpzSkinSoundName, "UserOnThePhone", MAX_SKINSOUNDNAME);
-	lstrcpynA(StatusList[index].lpzSkinSoundDesc, Translate("User: On The Phone"), MAX_SKINSOUNDDESC);
-	lstrcpynA(StatusList[index].lpzSkinSoundFile, "phone.wav", MAX_PATH);
+	lstrcpyn(StatusList[index].lpzSkinSoundDesc, LPGENT("User: On The Phone"), MAX_SKINSOUNDDESC);
+	lstrcpyn(StatusList[index].lpzSkinSoundFile, _T("phone.wav"), MAX_PATH);
 	StatusList[index].colorBack = db_get_dw(NULL, MODULE, "40079bg", COLOR_BG_NAVAILDEFAULT);
 	StatusList[index].colorText = db_get_dw(NULL, MODULE, "40079tx", COLOR_TX_DEFAULT);
 
@@ -1020,7 +1019,7 @@ int ProtoAck(WPARAM wParam,LPARAM lParam)
 
 		if (newStatus == ID_STATUS_OFFLINE) {
 			//The protocol switched to offline. Disable the popups for this protocol
-			DBWriteContactSettingByte(NULL, MODULE, szProto, 0);
+			db_set_b(NULL, MODULE, szProto, 0);
 		}
 		else if (oldStatus < ID_STATUS_ONLINE && newStatus >= ID_STATUS_ONLINE) {
 			//The protocol changed from a disconnected status to a connected status.
@@ -1035,16 +1034,16 @@ int ProtoAck(WPARAM wParam,LPARAM lParam)
 INT_PTR EnableDisableMenuCommand(WPARAM wParam, LPARAM lParam)
 {
 	opt.TempDisabled = !opt.TempDisabled;
-	DBWriteContactSettingByte(0, MODULE, "TempDisable", opt.TempDisabled);
+	db_set_b(0, MODULE, "TempDisable", opt.TempDisabled);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_TCHAR;
 	if (opt.TempDisabled) {
-		mi.ptszName = _T("Enable status notification");
+		mi.ptszName = LPGENT("Enable status notification");
 		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_OFF);
 	}
 	else {
-		mi.ptszName = _T("Disable status notification");
+		mi.ptszName = LPGENT("Disable status notification");
 		mi.icolibItem = GetIconHandle(ICO_NOTIFICATION_ON);
 	}
 
@@ -1081,12 +1080,12 @@ void InitIcolib()
 void InitSound()
 {
 	for (int i = ID_STATUS_MIN; i <= ID_STATUS_MAX; i++)
-		SkinAddNewSoundEx(StatusList[Index(i)].lpzSkinSoundName, LPGEN("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
+		SkinAddNewSoundExT(StatusList[Index(i)].lpzSkinSoundName, LPGENT("Status Notify"), StatusList[Index(i)].lpzSkinSoundDesc);
 
-	SkinAddNewSoundEx("UserFromOffline", LPGEN("Status Notify"), LPGEN("User: from offline (has priority!)"));
-	SkinAddNewSoundEx(XSTATUS_SOUND_CHANGED, LPGEN("Status Notify"), LPGEN("Extra status changed"));
-	SkinAddNewSoundEx(XSTATUS_SOUND_MSGCHANGED, LPGEN("Status Notify"), LPGEN("Extra status message changed"));
-	SkinAddNewSoundEx(XSTATUS_SOUND_REMOVED, LPGEN("Status Notify"), LPGEN("Extra status removed"));
+	SkinAddNewSoundExT("UserFromOffline", LPGENT("Status Notify"), LPGENT("User: from offline (has priority!)"));
+	SkinAddNewSoundExT(XSTATUS_SOUND_CHANGED, LPGENT("Status Notify"), LPGENT("Extra status changed"));
+	SkinAddNewSoundExT(XSTATUS_SOUND_MSGCHANGED, LPGENT("Status Notify"), LPGENT("Extra status message changed"));
+	SkinAddNewSoundExT(XSTATUS_SOUND_REMOVED, LPGENT("Status Notify"), LPGENT("Extra status removed"));
 }
 
 int InitTopToolbar(WPARAM, LPARAM)
@@ -1119,7 +1118,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)&count, (LPARAM)&accounts);
 	for (int i = 0; i < count; i++)
 		if (IsAccountEnabled(accounts[i]))
-			DBWriteContactSettingByte(NULL, MODULE, accounts[i]->szModuleName, 0);
+			db_set_b(NULL, MODULE, accounts[i]->szModuleName, 0);
 
 	if (ServiceExists(MS_MC_GETPROTOCOLNAME))
 		strcpy(szMetaModuleName, (char *)CallService(MS_MC_GETPROTOCOLNAME, 0, 0));

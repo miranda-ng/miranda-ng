@@ -115,8 +115,8 @@ typedef struct tagSTATUS
 	TCHAR lpzUStatusText[MAX_STATUSTEXT];
 	TCHAR lpzStandardText[MAX_STANDARDTEXT];
 	char lpzSkinSoundName[MAX_SKINSOUNDNAME];
-	char lpzSkinSoundDesc[MAX_SKINSOUNDDESC];
-	char lpzSkinSoundFile[MAX_PATH];
+	TCHAR lpzSkinSoundDesc[MAX_SKINSOUNDDESC];
+	TCHAR lpzSkinSoundFile[MAX_PATH];
 	COLORREF colorBack;
 	COLORREF colorText;
 } STATUS;

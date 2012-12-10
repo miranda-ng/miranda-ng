@@ -142,9 +142,9 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	case TYPE_JABBER_MOOD:
 	case TYPE_JABBER_ACTIVITY:
 		mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", xsc->szProto, (xsc->type == TYPE_JABBER_MOOD) ? "mood" : "activity", "icon");
-		if (!DBGetContactSettingString(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
+		if (!db_get_s(xsc->hContact, "AdvStatus", szSetting, &dbv)) {
 			ppd.lchIcon = Skin_GetIcon(dbv.pszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 		break;
 
@@ -156,7 +156,7 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	}
 
 	if (ppd.lchIcon == NULL)
-		ppd.lchIcon = LoadSkinnedProtoIcon(xsc->szProto, DBGetContactSettingWord(xsc->hContact, xsc->szProto, "Status", ID_STATUS_ONLINE));
+		ppd.lchIcon = LoadSkinnedProtoIcon(xsc->szProto, db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_ONLINE));
 
 	switch (opt.Colors) {
 	case POPUP_COLOR_OWN:
@@ -175,9 +175,9 @@ void ShowPopup(XSTATUSCHANGE *xsc)
 	TCHAR *ptszGroup = NULL, 
 		   *ptszNick = (TCHAR *)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)xsc->hContact, GSMDF_TCHAR);
 	if (opt.ShowGroup) { //add group name to popup title
-		if (!DBGetContactSettingTString(xsc->hContact, "CList", "Group", &dbv)) {
+		if (!db_get_ts(xsc->hContact, "CList", "Group", &dbv)) {
 			ptszGroup = NEWTSTR_ALLOCA(dbv.ptszVal);
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 
@@ -318,7 +318,7 @@ void ExtraStatusChanged(XSTATUSCHANGE *xsc)
 	wsprintfA(buff, "%d", ID_STATUS_EXTRASTATUS); 
 
 	if (( db_get_b(0, MODULE, buff, 1) == 0)
-		 || (DBGetContactSettingWord(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		 || (db_get_w(xsc->hContact, xsc->szProto, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 		 || (!opt.HiddenContactsToo && db_get_b(xsc->hContact, "CList", "Hidden", 0))
 		 || (opt.TempDisabled))
 		return;
@@ -387,14 +387,14 @@ TCHAR *GetIcqXStatus(HANDLE hContact, char *szProto, char *szValue, TCHAR *buff,
 
 	int statusID = db_get_b(hContact, szProto, "XStatusId", -1);
 	if (statusID != -1) {
-		if (!DBGetContactSettingTString(hContact, szProto, szValue, &dbv)) {
+		if (!db_get_ts(hContact, szProto, szValue, &dbv)) {
 			if ((strcmp(szValue, "XStatusName") == 0) && dbv.ptszVal[0] == 0)
 				GetDefaultXstatusName(statusID, szProto, buff, bufflen);
 			else
 				_tcsncpy(buff, dbv.ptszVal, bufflen);
 
 			buff[bufflen - 1] = 0;
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 		}
 	}
 	
@@ -408,10 +408,10 @@ TCHAR *GetJabberAdvStatusText(HANDLE hContact, char *szProto, char *szSlot, char
 	buff[0] = 0;
 
 	mir_snprintf(szSetting, SIZEOF(szSetting), "%s/%s/%s", szProto, szSlot, szValue);
-	if ( !DBGetContactSettingTString(hContact, "AdvStatus", szSetting, &dbv)) {
+	if ( !db_get_ts(hContact, "AdvStatus", szSetting, &dbv)) {
 		_tcsncpy(buff, dbv.ptszVal, bufflen);
 		buff[bufflen - 1] = 0;
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 	}
 
 	return buff;

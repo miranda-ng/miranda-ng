@@ -46,9 +46,9 @@ TCHAR *db2t(DBVARIANT *dbv)
 int DBGetStringDefault(HANDLE hContact, const char *szModule, const char *szSetting, TCHAR *setting, int size, const TCHAR *defaultValue)
 {
 	DBVARIANT dbv;
-	if ( !DBGetContactSettingTString(hContact, szModule, szSetting, &dbv)) {
+	if ( !db_get_ts(hContact, szModule, szSetting, &dbv)) {
 		_tcsncpy(setting, dbv.ptszVal, size);
-		DBFreeVariant(&dbv);
+		db_free(&dbv);
 		return 0;
 	} 
 
