@@ -323,7 +323,7 @@ int TrafficCounterModulesLoaded(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
-static BOOL CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
@@ -418,7 +418,7 @@ static BOOL CALLBACK DlgProcPopupsTraffic(HWND hwndDlg, UINT msg, WPARAM wParam,
 	return 0;
 }
 
-static BOOL CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK DlgProcTCOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	WORD i, j, l;
 	BOOL result;
@@ -1223,8 +1223,7 @@ LRESULT CALLBACK TrafficCounterWndProc_MW(HWND hwnd, UINT msg, WPARAM wParam, LP
 					CallService(MS_SKINENG_INVALIDATEFRAMEIMAGE, (WPARAM)TrafficHwnd, 0);
 				else
 				{
-					HDC hdc;
-					hdc = GetDC(hwnd);
+					HDC hdc = GetDC(hwnd);
 					PaintTrafficCounterWindow(hwnd, hdc);
 					ReleaseDC(hwnd, hdc);
 				}
@@ -1491,7 +1490,7 @@ void CreateTrafficWindow(HWND hCluiWnd)
 	UpdateNotifyTimer();
 }
 
-int MenuCommand_TrafficShowHide(WPARAM wParam,LPARAM lParam)
+INT_PTR MenuCommand_TrafficShowHide(WPARAM wParam,LPARAM lParam)
 {
 	unOptions.FrameIsVisible = !unOptions.FrameIsVisible;
 	if (Traffic_FrameID == NULL)
@@ -1509,7 +1508,7 @@ void Traffic_AddMainMenuItem(void)
 	mi.position = -0x7FFFFFFF;
 	mi.flags = 0;
 	mi.hIcon = NULL;
-	mi.pszName = Translate("Toggle traffic counter");
+	mi.pszName = LPGEN("Toggle traffic counter");
 	mi.pszService="TrafficCounter/ShowHide";
 
 	hTrafficMainMenuItem = Menu_AddMainMenuItem(&mi);
@@ -1533,17 +1532,16 @@ void NotifyOnSend(void)
 	ZeroMemory(&ppd, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	_tcscpy(ppd.lptzContactName, TranslateT("Traffic counter notification"));
+	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"), MAX_CONTACTNAME);
 	//
-	_stprintf(ppd.lptzText, TranslateT("%d kilobytes sent"),
+	mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d kilobytes sent"),
 		notify_send_size = OverallInfo.CurrentSentTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
-	if (Traffic_PopupTimeoutDefault) ppd.iSeconds = 0;
-		else ppd.iSeconds = Traffic_PopupTimeoutValue;
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0); 
+	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
+	PUAddPopUpT(&ppd);
 }
 
 void NotifyOnRecv(void)
@@ -1553,17 +1551,16 @@ void NotifyOnRecv(void)
 	ZeroMemory(&ppd, sizeof(ppd));
 	ppd.lchContact = NULL;
 	ppd.lchIcon = LoadSkinnedIcon(SKINICON_EVENT_MESSAGE);
-	_tcscpy(ppd.lptzContactName, TranslateT("Traffic counter notification"));
+	_tcsncpy(ppd.lptzContactName, TranslateT("Traffic counter notification"),MAX_CONTACTNAME);
 	//
-	_stprintf(ppd.lptzText,TranslateT("%d kilobytes received"),
+	mir_sntprintf(ppd.lptzText, MAX_SECONDLINE, TranslateT("%d kilobytes received"),
 		notify_recv_size = OverallInfo.CurrentRecvTraffic >> 10);
 	//
 	ppd.colorBack = Traffic_PopupBkColor;
 	ppd.colorText = Traffic_PopupFontColor;
 	ppd.PluginWindowProc = NULL;
-	if (Traffic_PopupTimeoutDefault) ppd.iSeconds = 0;
-		else ppd.iSeconds = Traffic_PopupTimeoutValue;
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0); 
+	ppd.iSeconds = (Traffic_PopupTimeoutDefault ? 0 : Traffic_PopupTimeoutValue);
+	PUAddPopUpT(&ppd); 
 }
 
 void CreateProtocolList(void)
@@ -1571,7 +1568,7 @@ void CreateProtocolList(void)
 	int i;
 	PROTOACCOUNT **acc;
 	//
-	CallService(MS_PROTO_ENUMACCOUNTS, (WPARAM)(int*)&NumberOfAccounts, (LPARAM)(PROTOACCOUNT***)&acc);
+	ProtoEnumAccounts(&NumberOfAccounts,&acc);
 	//
 	ProtoList = (PROTOLIST*)mir_alloc(sizeof(PROTOLIST)*(NumberOfAccounts));
 	//

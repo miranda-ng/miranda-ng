@@ -80,6 +80,6 @@ unsigned short int TrafficWindowHeight(void);
 int TrafficCounter_Draw(HWND, HDC);
 int PaintTrafficCounterWindow(HWND, HDC);
 // Вспомогательные функции
-int MenuCommand_TrafficShowHide(WPARAM, LPARAM);
+INT_PTR MenuCommand_TrafficShowHide(WPARAM, LPARAM);
 
 #endif;

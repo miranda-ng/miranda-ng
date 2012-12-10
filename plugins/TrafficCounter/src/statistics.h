@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define STAT_UNITS_MB 2
 #define STAT_UNITS_ADAPTIVE 3
 
-BOOL CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 void Stat_ReadFile(BYTE);
 void Stat_Show(HWND);
 void Stat_UpdateTotalTraffic(HWND, DWORD, DWORD);

@@ -149,7 +149,7 @@ union
 
 PROTOLIST *ProtoList; // Данные обо всех аккаунтах.
 PROTOLIST OverallInfo; // Суммарные данные по видимым аккаунтам.
-BYTE NumberOfAccounts;
+int NumberOfAccounts;
 WORD Stat_SelAcc; // Выбранные аккаунты в окне статистики
 HWND TrafficHwnd;
 DWORD mirandaVer;
