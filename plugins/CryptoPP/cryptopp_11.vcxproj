@@ -221,6 +221,11 @@
     <ResourceCompile Include="res\resource.rc" />
     <ResourceCompile Include="res\version.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="crypto\cryptlib_11.vcxproj">
+      <Project>{290c5ed4-71a7-4040-ad26-4820cf7a9e60}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
