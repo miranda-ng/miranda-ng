@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Class Form">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Helper">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
+    </Filter>
+    <Filter Include="Class Send">
+      <UniqueIdentifier>{2e2953d9-74f5-47c7-a652-0da67d678000}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\UAboutForm.cpp">
+      <Filter>Class Form</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UMainForm.cpp">
+      <Filter>Class Form</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ctrl_button.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dlg_msgbox.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mir_icolib.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\mir_string.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSend.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSendEmail.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSendFile.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSendFTPFile.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSendHTTPServer.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CSendImageShack.cpp">
+      <Filter>Class Send</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Main.cpp">
+      <Filter>Class Form</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\UAboutForm.h">
+      <Filter>Class Form</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UMainForm.h">
+      <Filter>Class Form</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ctrl_button.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\dlg_msgbox.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mir_icolib.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\mir_string.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSend.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSendEmail.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSendFile.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSendFTPFile.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSendHTTPServer.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\CSendImageShack.h">
+      <Filter>Class Send</Filter>
+    </ClInclude>
+    <ClInclude Include="src\global.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Main.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Helper</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\resource.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>

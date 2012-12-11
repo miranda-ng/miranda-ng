@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{bbbab72c-66ee-48bb-8146-6d77f1246b99}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{0ba7f79c-77dc-4771-ab7e-0a80d36ff344}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{58ddc992-d18e-44d2-90c4-98bf35c13102}</UniqueIdentifier>
+      <Extensions>ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe</Extensions>
+    </Filter>
+    <Filter Include="Parse">
+      <UniqueIdentifier>{c92d28b1-a1b2-48e8-bc84-c58d24e60e7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TriggerPlugin">
+      <UniqueIdentifier>{68dc4171-ed30-45bd-aaef-98c9b9bfc2f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="External">
+      <UniqueIdentifier>{85d92491-9930-4020-9632-66d1c5eebd74}</UniqueIdentifier>
+      <Extensions>*.cpp</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\contact.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\help.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\lookup3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\options.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\tokenregister.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\variables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\enumprocs.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_alias.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_external.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_inet.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_logic.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_math.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_metacontacts.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_miranda.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_regexp.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_str.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_system.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_variables.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\parse_xml.cpp">
+      <Filter>Parse</Filter>
+    </ClCompile>
+    <ClCompile Include="src\action_variables.cpp">
+      <Filter>TriggerPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\condition_variables.cpp">
+      <Filter>TriggerPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="src\trigger_variables.cpp">
+      <Filter>TriggerPlugin</Filter>
+    </ClCompile>
+    <ClCompile Include="..\helpers\gen_helpers.cpp">
+      <Filter>External</Filter>
+    </ClCompile>
+    <ClCompile Include="src\stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\contact.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\variables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\enumprocs.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_alias.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_external.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_inet.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_logic.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_math.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_metacontacts.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_miranda.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_regexp.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_str.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_system.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_variables.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\parse_xml.h">
+      <Filter>Parse</Filter>
+    </ClInclude>
+    <ClInclude Include="src\trigger_variables.h">
+      <Filter>TriggerPlugin</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\Variables.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+    <ResourceCompile Include="res\version.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
