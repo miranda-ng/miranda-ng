@@ -125,7 +125,7 @@ int GetStringFromDatabase(HANDLE hContact, char *szModule, char *szSettingName, 
 	int res = 1;
 	size_t len;
 	dbv.type = DBVT_ASCIIZ;
-	if (DBGetContactSetting(hContact, szModule, szSettingName, &dbv) == 0)
+	if (db_get(hContact, szModule, szSettingName, &dbv) == 0)
 		{
 			res = 0;
 			size_t tmp = strlen(dbv.pszVal);
@@ -161,10 +161,10 @@ TCHAR *GetContactName(HANDLE hContact, char *szProto)
 {
 	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = (szProto) ? szProto : GetContactProto(hContact);
-	ctInfo.dwFlag = CNF_DISPLAY | CNF_UNICODE;
+	ctInfo.dwFlag = CNF_DISPLAY | CNF_TCHAR;
 	ctInfo.hContact = hContact;
 	//_debug_message("retrieving contact name for %d", hContact);
-	int ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
+	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
 	//_debug_message("	contact name %s", ctInfo.pszVal);
 	TCHAR *buffer;
 	if ( !ret)
@@ -186,9 +186,9 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 {
 	CONTACTINFO ctInfo = { sizeof(ctInfo) };
 	ctInfo.szProto = szProto;
-	ctInfo.dwFlag = CNF_UNIQUEID | CNF_UNICODE;
+	ctInfo.dwFlag = CNF_UNIQUEID | CNF_TCHAR;
 	ctInfo.hContact = hContact;
-	int ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
+	INT_PTR ret = CallService(MS_CONTACT_GETCONTACTINFO, 0, (LPARAM) &ctInfo);
 	TCHAR *buffer;
 	if ( !ret) {
 		TCHAR tmp[16];
@@ -221,24 +221,21 @@ TCHAR *GetContactID(HANDLE hContact, char *szProto)
 HANDLE GetContactFromID(TCHAR *szID, char *szProto)
 {
 	HANDLE hContact = db_find_first();
-	TCHAR *szHandle;
 
-	int found = 0;
 	while (hContact) {
-		char *szProto = GetContactProto(hContact);
-		szHandle = GetContactID(hContact, szProto);
-		if (szHandle && !_tcsicmp(szHandle, szID) && !_stricmp(szProto, szProto))
-			found = 1;
-
+		char *m_szProto = GetContactProto(hContact);
+		TCHAR *szHandle = GetContactID(hContact, szProto);
 		if (szHandle)
+		{
+			bool found = (!_tcsicmp(szHandle, szID) && !_stricmp(szProto, m_szProto));
 			free(szHandle);
-
-		if (found)
-			break;
+			if (found)
+				return hContact;
+		}
 
 		hContact = db_find_next(hContact);
 	}
-	return hContact;
+	return NULL;
 }
 
 HANDLE GetContactFromID(TCHAR *szID, wchar_t *szProto)
