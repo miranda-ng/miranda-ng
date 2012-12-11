@@ -49,27 +49,29 @@ static void JabberListFreeItemInternal(JABBER_LIST_ITEM *item)
 	if (item == NULL)
 		return;
 
-	if (item->jid) mir_free(item->jid);
-	if (item->nick) mir_free(item->nick);
-
 	JABBER_RESOURCE_STATUS* r = item->resource;
 	for (int i=0; i < item->resourceCount; i++, r++)
 		JabberListFreeResourceInternal(r);
-	if (item->resource) mir_free(item->resource);
 
 	JabberListFreeResourceInternal(&item->itemResource);
 	
-	if (item->group) mir_free(item->group);
 	if (item->photoFileName) {
-		DeleteFile(item->photoFileName);
+		if (item->list == LIST_VCARD_TEMP)
+			DeleteFile(item->photoFileName);
 		mir_free(item->photoFileName);
 	}
-	if (item->messageEventIdStr) mir_free(item->messageEventIdStr);
-	if (item->name) mir_free(item->name);
-	if (item->type) mir_free(item->type);
-	if (item->service) mir_free(item->service);
-	if (item->password) mir_free(item->password);
-	if (item->list==LIST_ROSTER && item->ft) delete item->ft;
+
+	mir_free(item->jid);
+	mir_free(item->nick);
+	mir_free(item->resource);
+	mir_free(item->group);
+	mir_free(item->messageEventIdStr);
+	mir_free(item->name);
+	mir_free(item->type);
+	mir_free(item->service);
+	mir_free(item->password);
+	if (item->list == LIST_ROSTER && item->ft)
+		delete item->ft;
 	mir_free(item);
 }
 

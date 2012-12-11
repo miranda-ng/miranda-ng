@@ -845,31 +845,30 @@ int CJabberProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 	if ( !CallService(MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName))
 		return 0;
 
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = hInst;
-	odp.dwInitParam = (LPARAM)this;
-
 	HANDLE hContact = (HANDLE)lParam;
-	if (hContact) {
-		char *szProto = GetContactProto(hContact);
-		if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
-			odp.pfnDlgProc = JabberUserInfoDlgProc;
-			odp.position = -2000000000;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_JABBER);
-			odp.pszTitle = LPGEN("Account");
-			UserInfo_AddPage(wParam, &odp);
-
-			odp.pfnDlgProc = JabberUserPhotoDlgProc;
-			odp.position = 2000000000;
-			odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
-			odp.pszTitle = LPGEN("Photo");
-			UserInfo_AddPage(wParam, &odp);
-		}
-	} 
-	else {
+	if (hContact == NULL) { 
 		// Show our vcard
 		OnUserInfoInit_VCard(wParam, lParam);
+		return 0;
+	}
+
+	char *szProto = GetContactProto(hContact);
+	if (szProto != NULL && !strcmp(szProto, m_szModuleName)) {
+		OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+		odp.hInstance = hInst;
+		odp.dwInitParam = (LPARAM)this;
+
+		odp.pfnDlgProc = JabberUserInfoDlgProc;
+		odp.position = -2000000000;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_INFO_JABBER);
+		odp.pszTitle = LPGEN("Account");
+		UserInfo_AddPage(wParam, &odp);
+
+		odp.pfnDlgProc = JabberUserPhotoDlgProc;
+		odp.position = 2000000000;
+		odp.pszTemplate = MAKEINTRESOURCEA(IDD_VCARD_PHOTO);
+		odp.pszTitle = LPGEN("Photo");
+		UserInfo_AddPage(wParam, &odp);
 	}
 
 	return 0;

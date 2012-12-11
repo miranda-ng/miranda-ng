@@ -708,16 +708,12 @@ LBL_Ret:
 			}
 			if (item != NULL) {
 				hasPhoto = TRUE;
-				if (item->photoFileName)
+				if (item->photoFileName && _tcscmp(item->photoFileName, szAvatarFileName))
 					DeleteFile(item->photoFileName);
 				replaceStrT(item->photoFileName, szAvatarFileName);
 				Log("Contact's picture saved to " TCHAR_STR_PARAM, szAvatarFileName);
-
-				if (JGetWord(hContact, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE) {
-					char szHashValue[ MAX_PATH ];
-					if (JGetStaticString("AvatarHash", hContact, szHashValue, sizeof(szHashValue)))
-						OnIqResultGotAvatar(hContact, o, xmlGetText(m));
-			}	}
+				OnIqResultGotAvatar(hContact, o, xmlGetText(m));
+			}
 
 			db_free(&dbv);
 	}	}
