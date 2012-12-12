@@ -102,7 +102,7 @@ project_files.push(trunk+"\\plugins\\ImportTXT\\importtxt.dpr");
 project_files.push(trunk+"\\plugins\\QuickSearch\\quicksearch.dpr");
 project_files.push(trunk+"\\plugins\\ShlExt\\shlext.dpr");
 project_files.push(trunk+"\\plugins\\Watrack\\watrack.dpr");
-project_files.push(trunk+"\\protocols\\mRadio\\mradio.dpr");
+project_files.push(trunk+"\\plugins\\mRadio\\mradio.dpr");
 
 //create Enumerator with project files from sln and dpr file find results, sorted alphabetically
 files=new Enumerator(project_files.sort());
@@ -155,6 +155,9 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     //init arrays with files to parse
     resourcefiles=new Array();
     sourcefiles=new Array();
+    versionfile=new Array();
+    //init array with muuid+"head"
+    head=new Array();
     //init array with strings from parsed files
     foundstrings=new Array();
     //find a name of our plugin
@@ -173,9 +176,16 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     //define langpack filename. File will be overwritten!
     langpack=langpackfilepath+"\\"+plugin+".txt";
     //get MUUID of plugin and put into array as a first string.
-    GetMUUID(pluginpath,foundstrings);
+    GetMUUID(pluginpath,head);
+
     //put a name of plugin into array as second string
-    foundstrings.push(";langpack template for "+plugin);
+    //foundstrings.push(";langpack template for "+plugin);
+
+    //Get info from version.h
+    //First, locate a version.h file
+    FindFiles(pluginpath,"^version.h$",versionfile);
+    //Parse version.h file
+    ParseVersion_h(versionfile,head);
     //find all *.rc files and list files in array
     FindFiles(pluginpath,"\\.rc$",resourcefiles);
     //find all source files and list files in array
@@ -184,17 +194,19 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     ParseFiles(resourcefiles,foundstrings,ParseRCFile);
     //Parse files "sourcefiles", put result into "foundstrings" using "ParseSourceFile" function
     ParseFiles(sourcefiles,foundstrings,ParseSourceFile);
-    //Parsing all sources done. If we still have only two strings in array [0] is muuid, [1] - plugin name, so we didn't find any string and generating file is useless, return from function and out log
-    if (!foundstrings[2]) {
+    //Now we have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
+    nodupes=eliminateDuplicates(foundstrings);
+    //combine head and translated strings.
+    plugintemplate=head.concat(nodupes);
+    //Parsing all sources done and plugintepmlate are ready. If we still have head with 8 strings, so we didn't find any string and generating file is useless, return from function and out log
+    if (!plugintemplate[7]) {
         if (log=="yes") WScript.Echo("Nothing to translate in "+plugin);
         return;
         }
-    //Now we have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
-    nodupes=eliminateDuplicates(foundstrings);
     //logging results
-    if (log=="yes") WScript.Echo("Writing "+nodupes.length+" strings for "+plugin);
+    if (log=="yes") WScript.Echo("Writing "+plugintemplate.length+" strings for "+plugin);
     //finally, write "nodupes" array to file
-    WriteToFile(nodupes,langpack);
+    WriteToFile(plugintemplate,langpack);
 };  
 
 //Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
@@ -366,6 +378,7 @@ function ParseRCFile(RC_File,array) {
           // check for some garbage like "List1","Tab1" etc. in *.rc files, we do not need this.
             switch (regexpstring[1]) {
             case "List1": {break};
+            case "List2": {break};
             case "Tab1":  {break};
             case "Tree1": {break};
             case "Tree2": {break};
@@ -416,6 +429,47 @@ function ParseSourceFile (SourceFile,array) {
  //close file, we've finish.
  sourcefile_stream.Close();
 };
+
+//Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.
+function ParseVersion_h (VersionFile,array) {
+//If file zero size, return;
+if (!FSO.GetFileName(VersionFile)) return;
+//open file
+versionfile_stream=FSO.GetFile(VersionFile).OpenAsTextStream(ForReading, TristateUseDefault);
+//read file fully into var
+allstrings=versionfile_stream.ReadAll();
+//define RegExp for var defines.
+var filename=/(?:#define\s+__FILENAME\s+")(.+)(?=")/m;
+var pluginname=/(?:#define\s+__PLUGIN_NAME\s+")(.+)(?=")/i;
+var author=/(?:#define\s+__AUTHOR\s+")(.+)(?=")/i;
+var MAJOR_VERSION=/(?:#define\s+__MAJOR_VERSION\s+)(\d+)/i;
+var MINOR_VERSION=/(?:#define\s+__MINOR_VERSION\s+)(\d+)/i;
+var RELEASE_NUM=/(?:#define\s+__RELEASE_NUM\s+)(\d+)/i;
+var BUILD_NUM=/(?:#define\s+__BUILD_NUM\s+)(\d+)/i;
+var description=/(?:#define\s+__DESCRIPTION\s+")(.+)(?=")/i;
+//exec RegExps
+filename=filename.exec(allstrings);
+pluginname=pluginname.exec(allstrings);
+MAJOR_VERSION=MAJOR_VERSION.exec(allstrings);
+MINOR_VERSION=MINOR_VERSION.exec(allstrings);
+RELEASE_NUM=RELEASE_NUM.exec(allstrings);
+BUILD_NUM=BUILD_NUM.exec(allstrings);
+author=author.exec(allstrings);
+description=description.exec(allstrings);
+
+//add a header start mark
+array.push(";============================================================");
+//push results of regexp vars into array
+if (filename) array.push(";  File: "+filename[1]); else array.push(";  File: "+plugin+".dll");
+if (pluginname) array.push(";  Plugin: "+pluginname[1]); else array.push(";  Plugin: "+plugin);
+if (MAJOR_VERSION) array.push(";  Version: "+MAJOR_VERSION[1]+"."+MINOR_VERSION[1]+"."+RELEASE_NUM[1]+"."+BUILD_NUM[1]); else array.push(";  Version: x.x.x.x");
+if (author) array.push(";  Authors: "+author[1]); else array.push(";  Authors: ");
+//add a header end mark
+array.push(";============================================================");
+if (description) array.push("["+description[1]+"]");
+//close file
+versionfile_stream.Close();
+}
 
 //Removes duplicates, not mine, found at http://dreaminginjavascript.wordpress.com/2008/08/22/eliminating-duplicates/
 function eliminateDuplicates(arr) {
