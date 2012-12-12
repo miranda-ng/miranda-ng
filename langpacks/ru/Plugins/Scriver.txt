@@ -124,6 +124,8 @@
 Сохранять журнал
 [Trim to]
 Лимит
+[&Open link]
+&Открыть ссылку
 
 ;  Беседы — набирает текст
 [Show typing notification switch in the status bar]
