@@ -1,6 +1,5 @@
 ;#muuid not found, please specify manually!
-;langpack template for mradio
-;file \protocols\mRadio\mradio.rc
+;file \plugins\mRadio\mradio.rc
 [Add Station]
 [Station Name]
 [Station URL (required)]
@@ -34,19 +33,19 @@
 [URL]
 [Custom INI file]
 [*]
-;file \protocols\mRadio\i_bass.inc
+;file \plugins\mRadio\i_bass.inc
 [Sorry!]
 [Oops! BASS error]
 [BASS.DLL not found! Choose BASS.dll path manually]
 [Choose BASS.dll path]
-;file \protocols\mRadio\i_frameapi.inc
+;file \plugins\mRadio\i_frameapi.inc
 [Mute]
-;file \protocols\mRadio\i_myservice.inc
+;file \plugins\mRadio\i_myservice.inc
 [Advanced]
-;file \protocols\mRadio\i_optdlg.inc
+;file \plugins\mRadio\i_optdlg.inc
 [Add]
 [Delete]
-;file \protocols\mRadio\i_service.inc
+;file \plugins\mRadio\i_service.inc
 [Radio station URL]
-;file \protocols\mRadio\mradio.dpr
+;file \plugins\mRadio\mradio.dpr
 [%s server connection]

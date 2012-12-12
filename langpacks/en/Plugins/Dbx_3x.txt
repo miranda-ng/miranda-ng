@@ -1,5 +1,10 @@
 #muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
-;langpack template for Dbx_3x
+;============================================================
+;  File: Dbx_3x.dll
+;  Plugin: Dbx_3x
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\Db3x\res\resource.rc
 [Yes]
 [No]

@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for TooltipNotify
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: TooltipNotify
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
 [OK]
 [Allow tooltip notifications for the following users:]
@@ -43,7 +48,7 @@
 [Tooltip Notify: Offline]
 [Tooltip Notify: Other]
 [Tooltip Notify: Typing]
-[Customize]
+[PopUps]
 [%d%%]
 [** New contacts **]
 [** Unknown contacts **]

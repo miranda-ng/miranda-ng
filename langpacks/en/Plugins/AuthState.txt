@@ -1,5 +1,11 @@
 #muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
-;langpack template for AuthState
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization State
+;  Version: 0.0.2.0
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[If contact didn't authorized you this plugin puts an icon in front of contacts name.]
 ;file \plugins\AuthState\res\authstate.rc
 [Show Auth icon]
 [Show Grant icon]
@@ -13,5 +19,5 @@
 [Grant]
 [Auth & Grant]
 ;file \plugins\AuthState\src\options.cpp
-[Contact List]
+[Icons]
 [Auth State]

@@ -1,5 +1,11 @@
 #muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
-;langpack template for Weather
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Retrieves weather information and displays it in your contact list.]
 ;file \plugins\Weather\res\resource.rc
 [Update]
 [Brief Info]

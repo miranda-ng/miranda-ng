@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for CryptoPP
+;============================================================
+;  File: CryptoPP.dll
+;  Plugin: CryptoPP
+;  Version: 1.0.4.4
+;  Authors: 
+;============================================================
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
 [Enter passphrase for the secret key of user:]
 [User ID]

@@ -1,5 +1,11 @@
 #muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
-;langpack template for SeenPlugin
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last Seen Mod
+;  Version: 5.0.4.7
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
 [Last seen menuitem]
@@ -58,7 +64,7 @@
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [uxtheme.dll]
-[Services]
+[Contacts]
 [PopUps]
 ;file \plugins\SeenPlugin\src\seen.h
 [Debug]

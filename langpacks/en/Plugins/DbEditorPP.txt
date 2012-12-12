@@ -1,5 +1,11 @@
 ;#muuid not found, please specify manually!
-;langpack template for DbEditorPP
+;============================================================
+;  File: Svc_dbepp.dll
+;  Plugin: Database Editor++
+;  Version: 3.2.0.0
+;  Authors: Bio, Jonathan Gordon
+;============================================================
+[Advanced Database Editor.]
 ;file \plugins\DbEditorPP\res\resource.rc
 [Case Sensitive]
 [Module Name]

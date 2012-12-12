@@ -1,5 +1,4 @@
 ;#muuid not found, please specify manually!
-;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
 [Events to react on]

@@ -1,5 +1,11 @@
 #muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
-;langpack template for IEView
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
 [Copy Link]

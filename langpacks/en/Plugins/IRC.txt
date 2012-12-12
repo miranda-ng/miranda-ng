@@ -1,5 +1,10 @@
 #muuid {92382b4d-5572-48a0-b0b9-1336a601d689}
-;langpack template for IRC
+;============================================================
+;  File: IRC.dll
+;  Plugin: IRC protocol
+;  Version: x.x.x.x
+;  Authors: Miranda team
+;============================================================
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
 [&Edit]

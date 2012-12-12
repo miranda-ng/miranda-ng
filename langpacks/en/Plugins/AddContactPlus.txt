@@ -1,5 +1,11 @@
 #muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
-;langpack template for AddContactPlus
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: AddContact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Bia³ek
+;============================================================
+[Provides the ability to quickly add new contacts.]
 ;file \plugins\AddContactPlus\res\resource.rc
 [Add Contact\nAdd a contact to your contact list]
 [Account:]

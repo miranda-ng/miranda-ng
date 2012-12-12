@@ -1,5 +1,11 @@
 #muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
-;langpack template for ChangeKeyboardLayout
+;============================================================
+;  File: ChangeKeyboardLayout.dll
+;  Plugin: Change Keyboard Layout
+;  Version: 0.0.1.5
+;  Authors: Yasnovidyashii
+;============================================================
+[Plugin for changing keyboard layout of text (multilayout).]
 ;file \plugins\ChangeKeyboardLayout\res\ChangeKeyboardLayout.rc
 [Hotkeys]
 [Changing layout:]
@@ -38,7 +44,7 @@
 [Popup]
 [Changing Layout]
 [Changing Case]
-[Plugins]
+[Message Sessions]
 [PopUps]
 ;file \plugins\ChangeKeyboardLayout\src\main.cpp
 [`1234567890- = \\qwertyuiop[]asdfghjkl;'zxcvbnm,./~!@#$%^&*()_+|QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>?]

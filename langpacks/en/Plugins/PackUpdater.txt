@@ -1,5 +1,11 @@
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
-;langpack template for PackUpdater
+;============================================================
+;  File: PackUpdater.dll
+;  Plugin: PackUpdater
+;  Version: 0.0.1.1
+;  Authors: Mataes, ZERO_BiT
+;============================================================
+[Simple updater for Miranda IM premodified packs.]
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Update]
 [View info]

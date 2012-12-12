@@ -1,5 +1,11 @@
 #muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
-;langpack template for Alarms
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
 ;file \plugins\Alarms\res\resource.rc
 [New]
 [Delete]

@@ -1,5 +1,11 @@
 #muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
-;langpack template for AssocMgr
+;============================================================
+;  File: AssocMgr.dll
+;  Plugin: File Association Manager
+;  Version: 0.1.1.0
+;  Authors: H. Herkenrath
+;============================================================
+[Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 [Miscellaneous]

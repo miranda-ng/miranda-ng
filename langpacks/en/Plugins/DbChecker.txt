@@ -1,5 +1,11 @@
 #muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
-;langpack template for DbChecker
+;============================================================
+;  File: dbchecker.dll
+;  Plugin: Database Checker
+;  Version: x.x.x.x
+;  Authors: George Hazan
+;============================================================
+[Miranda NG Database Checker.]
 ;file \plugins\DbChecker\res\resource.rc
 [whiterect]
 [Welcome to the Miranda Database Wizard]

@@ -1,5 +1,11 @@
 #muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
-;langpack template for BuddyExpectator
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy Expectator+
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after ]
 [Show a popup]
@@ -61,7 +67,7 @@
 [Delete the contact]
 [Contact name]
 [has returned after being absent since %d days]
-[Plugins]
+[Contacts]
 [Buddy Expectator]
 [PopUps]
 [not detected]

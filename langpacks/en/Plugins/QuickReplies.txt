@@ -1,5 +1,11 @@
 #muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
-;langpack template for QuickReplies
+;============================================================
+;  File: quickreplies.dll
+;  Plugin: Quick Replies
+;  Version: 0.8.1.0
+;  Authors: Unsane
+;============================================================
+[Plugin for quick insert (or sending) pre-defined messages in message input area.]
 ;file \plugins\QuickReplies\res\resources.rc
 [Send replies immediately]
 [- Add your replies, one per line.]

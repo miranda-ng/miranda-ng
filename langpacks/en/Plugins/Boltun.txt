@@ -1,5 +1,11 @@
 #muuid {488c5c84-56da-434f-96f1-b18900def760}
-;langpack template for Boltun
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[Boltun, the chat bot in the russian language.]
 ;file \plugins\Boltun\res\Boltun.rc
 [Boltun]
 [Boltun Autochat everybody]

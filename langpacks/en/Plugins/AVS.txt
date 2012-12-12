@@ -1,5 +1,11 @@
 #muuid {e00f1643-263c-4599-b84b-053e5c511d29}
-;langpack template for AVS
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Loads and manages contact pictures for other plugins.]
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
 [Set default picture]
@@ -87,7 +93,7 @@
 [Global avatar for %s accounts]
 [avs_loaderthread_%d]
 [\\Avatars]
-[Customize]
+[Contacts]
 [Avatars]
 [Protocols]
 [Contact Avatars]

@@ -1,5 +1,10 @@
 #muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
-;langpack template for MetaContacts
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts Plugin
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
 ;file \plugins\MetaContacts\res\MetaContacts.rc
 [Please select a MetaContact:]
 [&Ok]

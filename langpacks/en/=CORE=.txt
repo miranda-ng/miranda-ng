@@ -1218,14 +1218,14 @@ Miranda Language Pack Version 1
 [FirstName LastName]
 ['(Unknown Contact)' (not moveable)]
 ['(Unknown Contact)']
-[Customize]
-[Contacts]
+[Contact names]
 ;file \src\modules\clist\genmenu.cpp
 [%s (%d, id %x)]
 [Menu Icons/%s]
 ;file \src\modules\clist\genmenuopt.cpp
 [-----------------------------------]
 [Menus]
+[Customize]
 [Accounts]
 ;file \src\modules\clist\groups.cpp
 [New Group]
@@ -1412,6 +1412,7 @@ Miranda Language Pack Version 1
 [%s, %d]
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
+[Contacts]
 ;file \src\modules\netlib\netlibhttp.cpp
 [(no user)]
 [(exist)]

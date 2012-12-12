@@ -1,5 +1,10 @@
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
-;langpack template for Import
+;============================================================
+;  File: Import.dll
+;  Plugin: Import
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
 [From a Miranda NG database.]

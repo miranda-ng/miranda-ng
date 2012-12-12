@@ -1,5 +1,11 @@
 ;#muuid not found, please specify manually!
-;langpack template for FTPFile
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
 [Host name]

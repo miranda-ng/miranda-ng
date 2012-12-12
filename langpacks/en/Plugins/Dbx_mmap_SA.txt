@@ -1,5 +1,10 @@
 #muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
-;langpack template for Dbx_mmap_SA
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG secure database driver
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [EN]
 [OK]
@@ -64,8 +69,9 @@
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
 [cryptors\\*.dll]
 [cryptors\\%s]
-[Crypto modules not found]
+[Sorry, but your database encrypted with unknown module]
 [Error]
+[Crypto modules not found]
 [Crypto module hasn't been chosen, using first one found]
 [Notice]
 [DB is already secured!]

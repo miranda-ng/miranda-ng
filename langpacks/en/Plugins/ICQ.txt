@@ -1,5 +1,10 @@
 #muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
-;langpack template for ICQ
+;============================================================
+;  File: ICQ.dll
+;  Plugin: ICQ
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \protocols\IcqOscarJ\res\resources.rc
 [ICQ Number:]
 [Password:]
@@ -707,7 +712,7 @@
 [Contacts]
 [Features]
 [Privacy]
-[Popups]
+[PopUps]
 ;file \protocols\IcqOscarJ\src\icq_popups.cpp
 [Popup Title]
 [Sample Note]

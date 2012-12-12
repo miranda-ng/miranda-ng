@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for TrafficCounter
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: TrafficCounter
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 [Accounts]

@@ -1,5 +1,11 @@
 #muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}
-;langpack template for Twitter
+;============================================================
+;  File: Twitter.dll
+;  Plugin: Twitter
+;  Version: 1.1.0.0
+;  Authors: dentist, omniwolf, Thief
+;============================================================
+[Twitter protocol plugin for Miranda NG.]
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
 [Create a new Twitter account]
@@ -96,7 +102,7 @@
 [Send Tweet...]
 [Network]
 [Basic]
-[Popups]
+[PopUps]
 [%s server connection]
 [Unable to get Netlib connection for Twitter]
 [Twitter]

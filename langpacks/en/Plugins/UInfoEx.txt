@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for UInfoEx
+;============================================================
+;  File: UInfoEx.dll
+;  Plugin: UInfoEx
+;  Version: 0.8.4.2
+;  Authors: DeathAxe, Yasnovidyashii, Merlin, K. Romanov, Kreol
+;============================================================
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Origin]
@@ -327,10 +332,10 @@
 [mBirthday]
 [UserInfo (default)]
 [This is the reminder message]
-[Plugins]
+[Contacts]
 [Advanced]
 [Details Dialog]
-[Popups]
+[PopUps]
 ;file \plugins\UserInfoEx\src\psp_origin.cpp
 [ - ]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp

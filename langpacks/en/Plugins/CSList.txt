@@ -1,5 +1,11 @@
 #muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
-;langpack template for CSList
+;============================================================
+;  File: CSList.dll
+;  Plugin: Custom Status List mod
+;  Version: 0.1.1.0
+;  Authors: Mataes, jarvis
+;============================================================
+[This plugin offers simple management functions to keep your extra statuses on one place.]
 ;file \plugins\CSList\res\cslist.rc
 [A]
 [M]

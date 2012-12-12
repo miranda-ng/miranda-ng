@@ -1,5 +1,4 @@
 #muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
-;langpack template for NewEventNotify
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 [Show entry in the PopUps menu]

@@ -1,5 +1,11 @@
 #muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
-;langpack template for Quotes
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates and economic quotes.]
 ;file \plugins\Quotes\res\Forex.rc
 [OK]
 [Use contact specific settings]

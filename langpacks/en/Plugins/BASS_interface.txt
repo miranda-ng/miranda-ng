@@ -1,5 +1,11 @@
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
-;langpack template for BASS_interface
+;============================================================
+;  File: BASS_interface.dll
+;  Plugin: BASS_interface
+;  Version: 0.0.0.13
+;  Authors: tico-tico
+;============================================================
+[un4seen's BASS interface Miranda NG plugin.]
 ;file \plugins\BASS_interface\res\Bass.rc
 [un4seen's bass interface]
 [bass.dll loading error]

@@ -1,5 +1,11 @@
 ;#muuid not found, please specify manually!
-;langpack template for SplashScreen
+;============================================================
+;  File: AdvSplashScreen.dll
+;  Plugin: Splash Screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Shows a splash at Miranda startup.]
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
 [Show splash]

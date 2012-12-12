@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for SecureIM
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: 
+;============================================================
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
 [Enable Secure Offline messages]
@@ -103,7 +108,7 @@
 [Load Public Key File]
 [Services]
 ;file \plugins\SecureIM\src\popupOptions.cpp
-[Popups]
+[PopUps]
 ;file \plugins\SecureIM\src\rtfconv.cpp
 [rtfconv.dll]
 [plugins\\rtfconv.dll]

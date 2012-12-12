@@ -1,5 +1,10 @@
 #muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
-;langpack template for SmileyAdd
+;============================================================
+;  File: SmileyAdd.dll
+;  Plugin: SmileyAdd
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
 [Specify Smiley Pack for each category]

@@ -1,5 +1,10 @@
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
-;langpack template for MRA
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 [Password:]
@@ -111,7 +116,7 @@
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 ;file \protocols\MRA\src\MraPopUp.cpp
-[Popups]
+[PopUps]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [E-mail address]

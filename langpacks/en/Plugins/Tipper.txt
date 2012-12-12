@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for Tipper
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
 [Layout]

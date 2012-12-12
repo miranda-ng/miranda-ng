@@ -1,5 +1,4 @@
 ;#muuid not found, please specify manually!
-;langpack template for shlext
 ;file \plugins\ShlExt\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 [Only if/when the contact list is using them]

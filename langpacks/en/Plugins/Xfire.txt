@@ -1,5 +1,4 @@
 ;#muuid not found, please specify manually!
-;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 [Loginname:]

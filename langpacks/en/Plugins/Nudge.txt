@@ -1,5 +1,4 @@
 #muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
-;langpack template for Nudge
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 [Specify options for each protocol]

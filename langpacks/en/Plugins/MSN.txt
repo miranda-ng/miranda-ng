@@ -1,5 +1,10 @@
 #muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
-;langpack template for MSN
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \protocols\MSN\res\msn.rc
 [MSN]
 [Live ID:]

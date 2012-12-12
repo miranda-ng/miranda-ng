@@ -1,5 +1,4 @@
 ;#muuid not found, please specify manually!
-;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 [Width (Pixels)]

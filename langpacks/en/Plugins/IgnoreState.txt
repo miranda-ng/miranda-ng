@@ -1,5 +1,11 @@
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
-;langpack template for IgnoreState
+;============================================================
+;  File: IgnoreState.dll
+;  Plugin: IgnoreState
+;  Version: 0.0.3.0
+;  Authors: Kildor
+;============================================================
+[Shows ignore state of contact in contacts list.]
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
 [Use]
@@ -21,4 +27,4 @@
 [Message Ignore]
 ;file \plugins\IgnoreState\src\options.cpp
 [Extraicons plugin is used, use Contact list > Extraicons for customize.]
-[Contact List]
+[Icons]

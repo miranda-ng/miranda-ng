@@ -1,5 +1,10 @@
 #muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
-;langpack template for CmdLine
+;============================================================
+;  File: CmdLine.dll
+;  Plugin: CmdLine
+;  Version: 0.0.4.1
+;  Authors: Cristian Libotean
+;============================================================
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 [Available commands: ]

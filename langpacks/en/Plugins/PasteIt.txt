@@ -1,5 +1,11 @@
 ;#muuid not found, please specify manually!
-;langpack template for PasteIt
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste It
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
 [Default web page]

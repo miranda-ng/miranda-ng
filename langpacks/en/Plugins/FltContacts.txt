@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for FltContacts
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating Contacts
+;  Version: x.x.x.x
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 [Hide offline contacts]
@@ -63,7 +68,7 @@
 [Offline contacts to whom you have a different visibility]
 [Contacts which are 'not on list']
 [Floating Contacts]
-[Plugins]
+[Contact List]
 [Main Features]
 [Appearance]
 [shlwapi]

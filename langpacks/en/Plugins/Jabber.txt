@@ -1,5 +1,10 @@
 #muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
-;langpack template for Jabber
+;============================================================
+;  File: Jabber.dll
+;  Plugin: Jabber
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \protocols\JabberG\res\jabber.rc
 [Tags:]
 [OK]

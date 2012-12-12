@@ -1,5 +1,10 @@
 #muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
-;langpack template for YAMN
+;============================================================
+;  File: YAMN.dll
+;  Plugin: YAMN
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\YAMN\res\YAMN.rc
 [List4]
 [List5]

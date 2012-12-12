@@ -1,5 +1,11 @@
 #muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
-;langpack template for SpellChecker
+;============================================================
+;  File: SpellChecker.dll
+;  Plugin: Spell Checker
+;  Version: 0.2.6.0
+;  Authors: Ricardo Pescuma Domenecci, FREAK_THEMIGHTY
+;============================================================
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
 ;file \plugins\SpellChecker\res\resource.rc
 [Replacements]
 [Enable auto-replacements]

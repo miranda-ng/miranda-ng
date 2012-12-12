@@ -1,5 +1,11 @@
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
-;langpack template for NewsAggregator
+;============================================================
+;  File: NewsAggregator.dll
+;  Plugin: NewsAggregator
+;  Version: 0.0.0.1
+;  Authors: Mataes, FREAK_THEMIGHTY
+;============================================================
+[RSS/Atom news aggregator.]
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]

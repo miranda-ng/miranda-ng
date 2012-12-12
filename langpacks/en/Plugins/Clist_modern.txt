@@ -1,5 +1,10 @@
 #muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
-;langpack template for Clist_modern
+;============================================================
+;  File: Clist_modern.dll
+;  Plugin: Clist_modern
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
 [Window behaviour:]

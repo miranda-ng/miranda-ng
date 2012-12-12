@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for SendSS
+;============================================================
+;  File: SendSS.dll
+;  Plugin: Send Screenshot+
+;  Version: 0.8.0.0
+;  Authors: Merlin
+;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 [All]

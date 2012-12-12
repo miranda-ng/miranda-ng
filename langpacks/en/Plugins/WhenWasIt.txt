@@ -1,5 +1,10 @@
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
-;langpack template for WhenWasIt
+;============================================================
+;  File: WhenWasIt.dll
+;  Plugin: WhenWasIt
+;  Version: 0.3.3.4
+;  Authors: Cristian Libotean
+;============================================================
 ;file \plugins\WhenWasIt\res\WhenWasIt.rc
 [Notify of birthdays using:]
 [  ]
@@ -77,8 +82,7 @@
 [Birthdays]
 [Birthday list]
 [Check for birthdays]
-[When Was It]
-[Contact List]
+[Contacts]
 ;file \plugins\WhenWasIt\src\notifiers.cpp
 [No upcoming birthdays.]
 [%s has birthday in %d days.]

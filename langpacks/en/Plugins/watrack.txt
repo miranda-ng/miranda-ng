@@ -1,5 +1,4 @@
 ;#muuid not found, please specify manually!
-;langpack template for watrack
 ;file \plugins\Watrack\kolframe\frm.rc
 [Frame refresh time]
 [...]

@@ -1,5 +1,10 @@
 #muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
-;langpack template for Dbx_mmap
+;============================================================
+;  File: Dbx_mmap.dll
+;  Plugin: Dbx_mmap
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\Db3x_mmap\res\db3x_mmap.rc
 [Yes]
 [No]

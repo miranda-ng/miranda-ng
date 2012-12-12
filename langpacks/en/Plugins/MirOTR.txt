@@ -1,5 +1,10 @@
 ;#muuid not found, please specify manually!
-;langpack template for MirOTR
+;============================================================
+;  File: MirOTR.dll
+;  Plugin: MirOTR
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [Generating new private key - please wait.]
 [Default Policy]

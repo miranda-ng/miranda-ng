@@ -1,5 +1,10 @@
 #muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
-;langpack template for YAPP
+;============================================================
+;  File: yapp.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.10
+;  Authors: Scott Ellis
+;============================================================
 ;file \plugins\YAPP\res\yapp.rc
 [Close]
 [Case sensitive]

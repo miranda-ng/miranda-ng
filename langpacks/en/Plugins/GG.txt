@@ -1,5 +1,10 @@
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
-;langpack template for GG
+;============================================================
+;  File: GG.dll
+;  Plugin: GG
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
 ;file \protocols\Gadu-Gadu\res\resource.rc
 [Gadu-Gadu User Details]
 [Gadu-Gadu Number:]

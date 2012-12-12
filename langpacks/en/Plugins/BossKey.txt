@@ -1,5 +1,11 @@
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
-;langpack template for BossKey
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Anti-Boss plugin.]
 ;file \plugins\BossKeyPlus\res\BossKey.rc
 [Trigger when Miranda is hiding]
 [Trigger when Miranda is showing]
