@@ -103,6 +103,8 @@
 Непрочтённые сообщения при входе (Экспериментально)
 [Enable groupchats support (EXPERIMENTAL)]
 Поддержка конференций (Экспериментально)
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Поддержка пользовательских смайлов (Экспериментально!)
 [Automatically close chat windows (on website) (NOT WORKING)]
 Автоматически закрывать окна чата (на сайте) (НЕ РАБОТАЕТ)
 [Photos]
