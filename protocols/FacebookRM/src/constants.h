@@ -62,6 +62,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define DEFAULT_DISCONNECT_CHAT			0
 #define DEFAULT_MAP_STATUSES			0
 #define DEFAULT_LOAD_MOBILE				0
+#define DEFAULT_CUSTOM_SMILEYS			0
 
 #define DEFAULT_EVENT_NOTIFICATIONS_ENABLE  1
 #define DEFAULT_EVENT_FEEDS_ENABLE          1

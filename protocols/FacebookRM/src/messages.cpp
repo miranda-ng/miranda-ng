@@ -54,6 +54,8 @@ void FacebookProto::SendMsgWorker(void *p)
 	}
 	else if ( !DBGetContactSettingString(data->hContact,m_szModuleName,FACEBOOK_KEY_ID,&dbv))
 	{
+		//parseSmileys(data->msg, data->hContact);
+
 		int retries = 5;
 		std::string error_text = "";
 		bool result = false;
@@ -179,4 +181,54 @@ void FacebookProto::MessagingWorker(void *p)
 		facy.chat_mark_read( data->user_id );
 
 	delete data;
+}
+
+void FacebookProto::parseSmileys(std::string message, HANDLE hContact)
+{
+	if (!DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS))
+		return;
+
+	HANDLE nlc = NULL;
+	std::string::size_type pos = 0;
+	bool anything = false;
+	while ((pos = message.find("[[", pos)) != std::string::npos) {
+		std::string::size_type pos2 = message.find("]]", pos);
+		if (pos2 == std::string::npos)
+			break;
+
+		std::string smiley = message.substr(pos, pos2+2-pos);
+		pos = pos2;
+		
+		std::string url = "http://graph.facebook.com/%s/picture";
+		utils::text::replace_first(&url, "%s", smiley.substr(2, smiley.length()-4));
+
+
+		size_t slen = smiley.length();
+		size_t rlen = Netlib_GetBase64EncodedBufferSize(slen);
+		char* buf = (char*)mir_alloc(rlen);
+
+		NETLIBBASE64 nlb = { buf, (int)rlen, (PBYTE)smiley.c_str(), (int)slen };
+		CallService(MS_NETLIB_BASE64ENCODE, 0, LPARAM(&nlb));
+
+		std::string b64 = buf;
+		b64 = utils::url::encode(b64);
+
+		std::tstring filename = GetAvatarFolder() + L"\\smileys\\" + (TCHAR*)_A2T(b64.c_str()) + _T(".jpg");
+		FILE *f = _tfopen(filename.c_str(), _T("r"));
+		if (!f) {
+			facy.save_url(url, filename, nlc);
+
+			TCHAR *path = _tcsdup(filename.c_str());
+
+			SMADD_CONT cont;
+			cont.cbSize = sizeof(SMADD_CONT);
+			cont.hContact = hContact;
+			cont.type = 1;
+			cont.path = path;
+
+			CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+			mir_free(path);
+		} else
+			fclose(f);
+	}
 }

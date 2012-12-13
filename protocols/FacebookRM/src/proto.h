@@ -184,6 +184,7 @@ public:
 	bool GetDbAvatarInfo(PROTO_AVATAR_INFORMATIONT &ai, std::string *url);
 	void CheckAvatarChange(HANDLE hContact, std::string image_url);
 	void ToggleStatusMenuItems( BOOL bEnable );
+	void parseSmileys(std::string message, HANDLE hContact);
 
 	// Handles, Locks
 	HGENMENU m_hMenuRoot;
@@ -200,6 +201,7 @@ public:
 	std::string last_status_msg_;
 	std::tstring def_avatar_folder_;
 	HANDLE  hAvatarFolder_;
+	HANDLE	hSmileysFolder_;
 	std::vector<HANDLE> avatar_queue;
 
 	static void CALLBACK APC_callback(ULONG_PTR p);

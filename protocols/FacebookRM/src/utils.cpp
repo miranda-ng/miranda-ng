@@ -134,7 +134,7 @@ unsigned int utils::text::count_all(std::string* data, std::string term)
 	return count;
 }
 
-void utils::text::append_ordinal(unsigned int value, std::string* data)
+void utils::text::append_ordinal(unsigned long value, std::string* data)
 {
 	if (value >= 128 && value <= 2047)
 	{ // U+0080 .. U+07FF
@@ -195,6 +195,24 @@ std::string utils::text::special_expressions_decode(std::string data)
 			}
 			
 			utils::text::append_ordinal(udn, &new_string);
+			continue;
+		}
+
+		if (data.at(i) == -19 && (i+2) < data.length()) {
+			std::string chs = data.substr(i, i+2).c_str();
+			unsigned char a[4] = {0};
+			memcpy(&a[1], chs.c_str(), 3);
+			
+			new_string += "\\u";
+			utils::text::append_ordinal((unsigned long)a, &new_string);
+			
+			/*u = reinterpret_cast<unsigned char&>(data.at(i+1));
+			utils::text::append_ordinal(u, &new_string);
+
+			u = reinterpret_cast<unsigned char&>(data.at(i+2));
+			utils::text::append_ordinal(u, &new_string);*/
+
+			i += 2;
 			continue;
 		}
 

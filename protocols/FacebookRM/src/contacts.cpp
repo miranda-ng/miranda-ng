@@ -154,6 +154,20 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 					DBWriteContactSettingTString(hContact,m_szModuleName,"MirVer", _T(FACEBOOK_NAME));
 				DBFreeVariant(&dbv);
 			}
+
+
+			std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
+			TCHAR *path = _tcsdup(foldername.c_str());
+	
+			if (DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
+				SMADD_CONT cont;
+				cont.cbSize = sizeof(SMADD_CONT);
+				cont.hContact = hContact;
+				cont.type = 0;
+				cont.path = path;
+				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
+				mir_free(path);
+			}
 		}
 
 		if (DBGetContactSettingWord(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)

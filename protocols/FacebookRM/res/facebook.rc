@@ -156,7 +156,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 400, 0, 0x1
 BEGIN
-    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,93
+    GROUPBOX        "Advanced Settings",IDC_STATIC,7,7,291,104
     CONTROL         "Force secure (HTTPS) connection",IDC_SECURE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,32,267,10
     CONTROL         "Post Miranda statuses to Wall",IDC_SET_STATUS,"Button",BS_AUTOCHECKBOX | BS_TOP | WS_TABSTOP,17,56,267,10
     CONTROL         "Enable logging for debugging purposes",IDC_LOGGING,
@@ -167,6 +167,8 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,68,267,10
     CONTROL         "Map non-standard statuses to Invisible (instead of Online)",IDC_MAP_STATUSES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,81,267,10
+    CONTROL         "Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)",IDC_CUSTOM_SMILEYS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,95,267,10
 END
 
 

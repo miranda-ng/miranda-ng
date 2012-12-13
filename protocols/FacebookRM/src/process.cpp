@@ -390,10 +390,13 @@ void FacebookProto::ProcessUnreadMessages( void* )
 				}
 
 				std::string message_text = messagesgroup.substr(pos3, messagesgroup.find( "<\\/div", pos3 ) + 6 - pos3);
+				LOG("Got unread message: \"%s\"", message_text.c_str());
 				message_text = utils::text::source_get_value( &message_text, 2, "\\\">", "<\\/div" );
 				message_text = utils::text::trim(
 								utils::text::special_expressions_decode(
 									utils::text::remove_html( message_text )) );
+
+				parseSmileys(message_text, hContact);
 
 				if (!message_attachments.empty()) {
 					if (!message_text.empty())
@@ -453,6 +456,8 @@ void FacebookProto::ProcessMessages( void* data )
 
 			// TODO: if contact is newly added, get his user info
 			// TODO: maybe create new "receiveMsg" function and use it for offline and channel messages?
+
+			parseSmileys(messages[i]->message_text, hContact);
 
 			PROTORECVEVENT recv = {0};
 			recv.flags = PREF_UTF;

@@ -60,6 +60,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define FACEBOOK_KEY_DISCONNECT_CHAT		"DisconnectChatEnable"
 #define FACEBOOK_KEY_MAP_STATUSES			"MapStatuses"
 #define FACEBOOK_KEY_LOAD_MOBILE			"LoadMobile"
+#define FACEBOOK_KEY_CUSTOM_SMILEYS			"CustomSmileys"
 
 #define FACEBOOK_KEY_POLL_RATE				"PollRate" // [HIDDEN]
 #define FACEBOOK_KEY_TIMEOUTS_LIMIT			"TimeoutsLimit" // [HIDDEN]
