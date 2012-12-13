@@ -158,11 +158,14 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 		if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
 			if ( !_tcscmp(ffd.cFileName, _T(".")) || !_tcscmp(ffd.cFileName, _T("..")))
 				continue;
-			if ( !_tcsicmp(ffd.cFileName, _T("Profiles")))
-				continue;
+
+			// we need to skip profile folder
+			TCHAR tszProfilePath[MAX_PATH];
+			CallService(MS_DB_GETPROFILEPATHT, SIZEOF(tszProfilePath), (LPARAM)tszProfilePath);
 
 			mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
-			ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
+			if (0 != _tcsicmp(tszBuf, tszProfilePath))
+				ScanFolder(tszBuf, cbBaseLen, level+1, tszBaseUrl, hashes, UpdateFiles);
 			continue;
 		}
 
@@ -190,7 +193,7 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 			ServListEntry *item = hashes.find(&tmp);
 			if (item == NULL) {
 				TCHAR *p = _tcsrchr(tszNewName, '.');
-				if (p[-1] != 'w')
+				if (p[-1] != 'w' && p[-1] != 'W')
 					continue;
 	
 				int iPos = int(p - key)-1;
