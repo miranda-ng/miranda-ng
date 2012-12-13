@@ -387,7 +387,7 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 	{
 		if (isReadPassword)
 			this->password = this->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);				
-		if ( !::strcmp(this->password, ""))
+		if ( !::lstrcmpA(this->password, ""))
 			this->RequestPassword();
 		else
 		{
