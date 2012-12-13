@@ -373,7 +373,7 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 
 bool CSkypeProto::SignIn(bool isReadPassword)
 {
-	if (::wcscmp(this->login, L"") == 0)
+	if (!this->login)
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
