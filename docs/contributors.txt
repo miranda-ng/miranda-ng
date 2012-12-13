@@ -11,7 +11,6 @@ Michael Kunz aka Protogenes
 Dmitry Kuzkin aka Bio
 Alexander Lantsev aka Unsane
 Eugene Lishnevsky aka elishnevsky
-Tobias Weimer aka Wishmaster aka Freak_TheMighty
 Vlad Mironov aka mironych
 Alexey Oblezov aka faith_healer
 Victor Pavlychko aka nullbie
@@ -20,6 +19,7 @@ Ivan Rozhuk aka rozhuk
 Alexander Shorin aka Kxepal
 Artem Shpynov aka FYR
 Kirill Volinsky aka Mataes
+Tobias Weimer aka Wishmaster / Freak_TheMighty
 
 
 People that previously used to develop Miranda IM Project:
