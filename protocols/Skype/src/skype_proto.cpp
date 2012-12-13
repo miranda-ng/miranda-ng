@@ -373,14 +373,14 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 
 bool CSkypeProto::SignIn(bool isReadPassword)
 {
-	if (!this->login)
+	if (!this->login || !::lstrcmp(this->login, L""))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
 		::MessageBox(
 			NULL, 
 			TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."),
-			_T("Skype"),
+			_T(MODULE),
 			MB_OK);
 	}
 	else if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
