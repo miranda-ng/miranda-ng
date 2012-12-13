@@ -153,6 +153,10 @@ protected:
 	CContactGroup::Ref commonList;
 	CContactGroup::Ref authWaitList;
 
+	// account
+	bool	IsOnline();
+	void	OnAccountChanged(int prop);
+
 	wchar_t	*login;
 	char *password;
 	bool	rememberPassword;
@@ -162,8 +166,7 @@ protected:
 	bool	SignIn(bool isReadPassword = true);
 	void __cdecl SignInAsync(void*);
 
-	bool	IsOnline();
-
+	static wchar_t* LogoutReasons[];
 	static LanguagesListEntry languages[223];
 
 	// messages
@@ -232,7 +235,7 @@ protected:
 	void	UpdateOwnProfile();	
 	void	UpdateOwnAbout();	
 
-	void	OnAccountChanged(int prop);
+	void	OnProfileChanged(int prop);
 
 	void __cdecl LoadOwnInfo(void*);
 

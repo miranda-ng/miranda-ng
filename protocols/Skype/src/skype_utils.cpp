@@ -1,5 +1,36 @@
 #include "skype_proto.h"
 
+wchar_t* CSkypeProto::LogoutReasons[] = 
+{
+	LPGENW("LOGOUT_CALLED")												/* LOGOUT_CALLED				*/,
+	LPGENW("HTTPS_PROXY_AUTH_FAILED")									/* HTTPS_PROXY_AUTH_FAILED		*/,
+	LPGENW("SOCKS_PROXY_AUTH_FAILED")									/* SOCKS_PROXY_AUTH_FAILED		*/,
+	LPGENW("P2P_CONNECT_FAILED")										/* P2P_CONNECT_FAILED			*/,
+	LPGENW("SERVER_CONNECT_FAILED")										/* SERVER_CONNECT_FAILED		*/,
+	LPGENW("SERVER_OVERLOADED")											/* SERVER_OVERLOADED			*/,
+	LPGENW("DB_IN_USE")													/* DB_IN_USE					*/,
+	LPGENW("Invalid skypename")											/* INVALID_SKYPENAME			*/,
+	LPGENW("Invalid email")												/* INVALID_EMAIL				*/,
+	LPGENW("Unacceptable password")										/* UNACCEPTABLE_PASSWORD		*/,
+	LPGENW("SKYPENAME_TAKEN")											/* SKYPENAME_TAKEN				*/,
+	LPGENW("REJECTED_AS_UNDERAGE")										/* REJECTED_AS_UNDERAGE			*/,
+	LPGENW("NO_SUCH_IDENTITY")											/* NO_SUCH_IDENTITY				*/,
+	LPGENW("Incorrect password")										/* INCORRECT_PASSWORD			*/,
+	LPGENW("Too many login attempts")									/* TOO_MANY_LOGIN_ATTEMPTS		*/,
+	LPGENW("PASSWORD_HAS_CHANGED")										/* PASSWORD_HAS_CHANGED			*/,
+	LPGENW("PERIODIC_UIC_UPDATE_FAILED")								/* PERIODIC_UIC_UPDATE_FAILED	*/,
+	LPGENW("DB_DISK_FULL")												/* DB_DISK_FULL					*/,
+	LPGENW("DB_IO_ERROR")												/* DB_IO_ERROR					*/,
+	LPGENW("DB_CORRUPT")												/* DB_CORRUPT					*/,
+	LPGENW("DB_FAILURE")												/* DB_FAILURE					*/,
+	LPGENW("INVALID_APP_ID")											/* INVALID_APP_ID				*/,
+	LPGENW("APP_ID_FAILURE")											/* APP_ID_FAILURE				*/,
+	LPGENW("UNSUPPORTED_VERSION")										/* UNSUPPORTED_VERSION			*/,
+	LPGENW("ATO (Account TakeOver) detected, account blocked")			/* ATO_BLOCKED					*/,
+	LPGENW("Logout from another instance")								/* REMOTE_LOGOUT				*/,
+	LPGENW("")															/* ACCESS_TOKEN_RENEWAL_FAILED 	*/
+};
+
 LanguagesListEntry CSkypeProto::languages[] = 
 {
 	{"Abkhazian", "ab"},
@@ -411,6 +442,10 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 	case CAccount::INCORRECT_PASSWORD:
 	case CAccount::UNACCEPTABLE_PASSWORD:
 		loginError = LOGINERR_WRONGPASSWORD;
+		break;
+
+	case CAccount::INVALID_APP_ID:
+		loginError = 1001;
 		break;
 	}
 

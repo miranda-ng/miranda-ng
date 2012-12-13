@@ -57,9 +57,6 @@ void CSkype::SetOnConversationAddedCallback(OnConversationAdded callback, CSkype
 
 CAccount::CAccount(unsigned int oid, SERootObject* root) : Account(oid, root) 
 {
-	this->isLoggedIn = false;
-	this->isLoggedOut = false;
-
 	this->proto = NULL;
 	this->callback == NULL;
 }
@@ -72,52 +69,8 @@ void CAccount::SetOnAccountChangedCallback(OnAccountChanged callback, CSkypeProt
 
 void CAccount::OnChange(int prop)
 {
-  if (prop == CAccount::P_STATUS)
-  {
-	  CAccount::STATUS loginStatus;
-	  this->GetPropStatus(loginStatus);
-	  if (loginStatus == CAccount::LOGGED_IN)  
-		  this->isLoggedIn = true;
-		
-		if (loginStatus == CAccount::LOGGED_OUT) 
-		{ 
-			CAccount::LOGOUTREASON whyLogout;
-			this->GetPropLogoutreason(whyLogout);
-			this->logoutReason = whyLogout;
-			if (whyLogout != Account::LOGOUT_CALLED)
-			{
-				// todo: rewrite!!
-				strcpy(this->logoutReasonString, (const char*)tostring(whyLogout));
-			}
-			this->isLoggedIn = false;
-			this->isLoggedOut = true;
-		}
-	}
-  else
-  {
-	  if (this->proto)
-		  (proto->*callback)(prop);
-  }
-}
-
-void CAccount::BlockWhileLoggingIn()
-{
-	this->isLoggedIn = false;
-	this->isLoggedOut = false;
-	while (!this->isLoggedIn && !this->isLoggedOut) 
-		Sleep(1); 
-}
-
-void CAccount::BlockWhileLoggingOut()
-{
-	this->isLoggedOut = false;
-	while ( !this->isLoggedOut) 
-		Sleep(1);
-}
-
-bool CAccount::IsOnline()
-{
-	return (this == NULL) ? false : this->isLoggedIn;
+  if (this->proto)
+	  (proto->*callback)(prop);
 }
 
 // CContactGroup

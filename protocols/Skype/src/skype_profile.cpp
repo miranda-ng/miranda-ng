@@ -313,7 +313,7 @@ void CSkypeProto::UpdateOwnProfile()
 	}
 }
 
-void CSkypeProto::OnAccountChanged(int prop)
+void CSkypeProto::OnProfileChanged(int prop)
 {
 	switch(prop)
 	{

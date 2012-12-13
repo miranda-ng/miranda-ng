@@ -265,10 +265,9 @@ int CSkypeProto::SetStatus(int new_status)
 
 	switch (new_status) {
 	case ID_STATUS_OFFLINE:
-		if	(this->account->IsOnline()) {
+		if	(this->IsOnline()) {
 			this->account->SetAvailability(CContact::OFFLINE);
 			this->account->Logout(true);
-			this->account->BlockWhileLoggingOut();
 
 			this->m_iStatus = new_status;
 			this->SetAllContactStatus(ID_STATUS_OFFLINE);
@@ -346,29 +345,20 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	this->account.fetch();
-	this->account->LoginWithPassword(this->password, false, false);
-	this->account->BlockWhileLoggingIn();
-	if ( !this->rememberPassword)
-		memset(this->password, 0, strlen(this->password));
-
-	if (this->account->isLoggedOut) {
-		this->m_iStatus = ID_STATUS_OFFLINE;
-		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, this->SkypeToMirandaLoginError(this->account->logoutReason));
-		this->ShowNotification(NULL, ::mir_a2u(this->account->logoutReasonString));
-		return;
-	}
-
 	g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
 	fetch(g_skype->inbox);
-	g_skype->SetOnConversationAddedCallback((CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, this);
+	g_skype->SetOnConversationAddedCallback(
+		(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, 
+		this);
 	for (uint i = 0 ; i < g_skype->inbox.size(); i++)
-		g_skype->inbox[i]->SetOnMessageReceivedCallback((CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
+		g_skype->inbox[i]->SetOnMessageReceivedCallback(
+		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived,
+		this);
 
 	this->SetStatus(this->m_iDesiredStatus);
 
-	this->LoadContactList(this);
 	this->LoadOwnInfo(this);
+	this->LoadContactList(this);
 }
 
 bool CSkypeProto::SignIn(bool isReadPassword)
@@ -391,19 +381,16 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 			this->RequestPassword();
 		else
 		{
-			this->ForkThread(&CSkypeProto::SignInAsync, 0);
-			//this->SignInAsync(this);
+			this->account.fetch();
+			this->account->SetOnAccountChangedCallback(
+				(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged,
+				this);
+			this->account->LoginWithPassword(this->password, false, false);
 			return true;
 		}
 	}
 
 	return false;
-}
-
-bool  CSkypeProto::IsOnline()
-{
-	return this->account && this->account->IsOnline();
-	//return this->m_iStatus != ID_STATUS_OFFLINE;
 }
 
 void CSkypeProto::RequestPassword()

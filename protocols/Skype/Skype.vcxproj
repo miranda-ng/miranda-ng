@@ -188,6 +188,7 @@
   <ItemGroup>
     <ClCompile Include="src\aes\aes.c" />
     <ClCompile Include="src\skype.cpp" />
+    <ClCompile Include="src\skype_account.cpp" />
     <ClCompile Include="src\skype_contacts.cpp" />
     <ClCompile Include="src\skype_database.cpp" />
     <ClCompile Include="src\skype_dialogs.cpp" />
