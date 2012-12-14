@@ -1204,7 +1204,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 
 	pos += 100000; // insert separator
 	ood.cbSize = sizeof(ood);
-	ood.pszGroup = "Events";
+	ood.pszGroup = "Contacts";
 	ood.pszPage = "Ignore";
 	AddSubmenuItem(hmenuIgnore, LPGENT("Open ignore settings"), Skin_GetIcon("miex_ignore"), 0, "Opt/OpenOptions", pos, (int)&ood );
 
