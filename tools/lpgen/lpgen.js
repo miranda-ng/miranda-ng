@@ -194,15 +194,19 @@ function GeneratePluginTranslate (pluginpath,langpackfilepath,vcxprojfile) {
     ParseFiles(resourcefiles,foundstrings,ParseRCFile);
     //Parse files "sourcefiles", put result into "foundstrings" using "ParseSourceFile" function
     ParseFiles(sourcefiles,foundstrings,ParseSourceFile);
-    //Now we have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
+    //Parsing all sources done and head are ready (if version.h exist and plugin are not Pascal). If we still have head with 7 strings (version.h parsed OK, gives us 6 stings + 1 first string always exist in head - MUUID) or head have only one string (version.h wasn't found and head have only MUUID) AND didn't find anything in *.RC and source files, so we didn't find any string and generating file is useless, return from function and out log
+    if ((head.length==7 || head.length==1) && foundstrings.length==0) {
+        if (log=="yes") WScript.Echo("!!!Nothing to translate in "+plugin+"!!!");
+        return;
+        };
+    //Suppose that we parse Pascal plugin, thus head have only one string with MUUID, push a plugin name there
+    if (head.length==1 & foundstrings.length>0) {
+        head.push(";langpack template for "+plugin);
+        };
+    //We have all strings in "foundstrings", next we remove duplicate strings from array and put results into "nodupes"
     nodupes=eliminateDuplicates(foundstrings);
     //combine head and translated strings.
     plugintemplate=head.concat(nodupes);
-    //Parsing all sources done and plugintepmlate are ready. If we still have head with 8 strings, so we didn't find any string and generating file is useless, return from function and out log
-    if (!plugintemplate[7]) {
-        if (log=="yes") WScript.Echo("Nothing to translate in "+plugin);
-        return;
-        }
     //logging results
     if (log=="yes") WScript.Echo("Writing "+plugintemplate.length+" strings for "+plugin);
     //finally, write "nodupes" array to file

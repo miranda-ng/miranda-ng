@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for importtxt
 ;file \plugins\ImportTXT\ImpTxtDlg.rc
 [Start]
 [Close]

@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for historypp
 ;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
 [Appearance options]
 [Show event icons]

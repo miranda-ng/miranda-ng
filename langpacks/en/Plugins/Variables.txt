@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]
 [Auto parse]

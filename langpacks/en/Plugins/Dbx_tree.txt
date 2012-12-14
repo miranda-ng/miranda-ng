@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for Dbx_tree
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
 [Next >]

@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for actman
 ;file \plugins\Actman\options.rc
 [Delete]
 [&Change]

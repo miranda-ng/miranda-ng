@@ -1,4 +1,5 @@
 #muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;langpack template for Scriver
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 [Automatically pop up the window when]

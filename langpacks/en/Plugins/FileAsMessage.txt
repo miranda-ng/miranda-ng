@@ -1,4 +1,5 @@
 #muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 [Size:]

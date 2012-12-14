@@ -1655,6 +1655,7 @@ Miranda Language Pack Version 1
 ["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp
 ;#muuid not found, please specify manually!
+;langpack template for actman
 ;file \plugins\Actman\options.rc
 [Delete]
 [&Change]
@@ -4038,6 +4039,7 @@ Miranda Language Pack Version 1
 [Contour heavy]
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h
 #muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;langpack template for Clist_mw
 ;file \plugins\Clist_mw\res\resource.rc
 [Settings]
 [Background colour:]
@@ -4255,6 +4257,7 @@ Miranda Language Pack Version 1
 [Statushelper]
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;langpack template for Clist_nicer
 ;file \plugins\Clist_nicer\res\resource.rc
 [Copy to clipboard]
 [Continue]
@@ -4748,6 +4751,7 @@ Miranda Language Pack Version 1
 ;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
 [CoolSBSubclassPtr]
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;langpack template for Cln_skinedit
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
 [General]
@@ -4900,6 +4904,7 @@ Miranda Language Pack Version 1
 [Save log to file]
 [txt]
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;langpack template for Contacts
 ;file \plugins\ContactsPlus\res\contacts.rc
 [&A]
 [6]
@@ -5565,6 +5570,7 @@ Miranda Language Pack Version 1
 [current database]
 [Set Password]
 ;#muuid not found, please specify manually!
+;langpack template for Dbx_tree
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
 [Next >]
@@ -5682,6 +5688,7 @@ Miranda Language Pack Version 1
 [Database AutoBackups]
 [Services]
 ;#muuid not found, please specify manually!
+;langpack template for EmLanProto
 ;file \protocols\EmLanProto\res\amdproto.rc
 [OK]
 [This window is shown only once]
@@ -5736,6 +5743,7 @@ Miranda Language Pack Version 1
 [Use secure connection also for channel requests]
 [Also disconnect chat when going to offline]
 [Map non-standard statuses to Invisible (instead of Online)]
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
 ;file \protocols\FacebookRM\src\chat.cpp
 [Admin]
 [Normal]
@@ -5769,6 +5777,7 @@ Miranda Language Pack Version 1
 [Multichat]
 ;file \protocols\FacebookRM\src\messages.cpp
 [You cannot send messages when you are offline.]
+[.jpg]
 ;file \protocols\FacebookRM\src\process.cpp
 [Contact is back on server-list.]
 [Contact is no longer on server-list.]
@@ -5802,6 +5811,7 @@ Miranda Language Pack Version 1
 [Check Friends Requests]
 [Check Newsfeeds]
 #muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;langpack template for FavContacts
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
 [Show second line]
@@ -5839,6 +5849,7 @@ Miranda Language Pack Version 1
 [&Favourite Contacts...]
 [<No group>]
 #muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
 [Size:]
@@ -7112,6 +7123,7 @@ Miranda Language Pack Version 1
 [Bin Converter]
 [Done!\n'ip-to-country.bin' has been created in current directory.]
 #muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}
+;langpack template for FlashAvatars
 ;file \plugins\FlashAvatars\src\cflash.cpp
 [%miranda_avatarcache%]
 [%s\\%s]
@@ -7380,24 +7392,6 @@ Miranda Language Pack Version 1
 ;file \plugins\FTPFileYM\src\utils.cpp
 [file.zip]
 [...]
-#muuid {fb1c17e0-77fc-45a7-9c8b-e2bef4f56b28}
-;langpack template for Gender
-;file \plugins\Gender\res\gender.rc
-[Plugin settings]
-[Enable menu items]
-[Draw an icon when gender info not found]
-;file \plugins\Gender\src\main.cpp
-[Male]
-[Female]
-[No info]
-[Set Gender]
-[Undefined]
-[Set Male]
-[Set Female]
-[Set Undefined]
-;file \plugins\Gender\src\options.cpp
-[Plugins]
-[Gender]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 ;============================================================
 ;  File: GG.dll
@@ -7660,6 +7654,7 @@ Miranda Language Pack Version 1
 [Bad old e-mail or password]
 [Your e-mail has been changed.]
 ;#muuid not found, please specify manually!
+;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]
@@ -7763,6 +7758,7 @@ Miranda Language Pack Version 1
 [/UnreadThreads%]
 [Unread threads:]
 ;#muuid not found, please specify manually!
+;langpack template for historypp
 ;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
 [Appearance options]
 [Show event icons]
@@ -9164,6 +9160,7 @@ Miranda Language Pack Version 1
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
 ;#muuid not found, please specify manually!
+;langpack template for importtxt
 ;file \plugins\ImportTXT\ImpTxtDlg.rc
 [Start]
 [Close]
@@ -11891,6 +11888,7 @@ Miranda Language Pack Version 1
 [Status]
 [PopUps]
 ;#muuid not found, please specify manually!
+;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
 [Events to react on]
@@ -12080,6 +12078,7 @@ Miranda Language Pack Version 1
 [SYSTEM\\CurrentControlSet\\Control\\ProductOptions]
 [ProductType]
 #muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;langpack template for LinkList
 ;file \plugins\HistoryLinkListPlus\res\linklist.rc
 [Close]
 [Search for:]
@@ -12185,6 +12184,7 @@ Miranda Language Pack Version 1
 [RTF File\0*.rtf\0All Files\0*.*\0\0]
 [Save RTF File]
 #muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;langpack template for ListeningTo
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 [Enable sending listening information to contacts:]
@@ -12335,7 +12335,7 @@ Miranda Language Pack Version 1
 [ntdll.dll]
 ;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
 [unexpected profiler failure\n]
-;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp_10.cpp
+;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
 [Miranda ListeningTo Winamp Plugin]
 [Copyright (C) 2006 Ricardo Pescuma Domenecci]
 ;#muuid not found, please specify manually!
@@ -12538,6 +12538,7 @@ Miranda Language Pack Version 1
 [Out to Lunch]
 [IDLE]
 ;#muuid not found, please specify manually!
+;langpack template for MimCmd
 ;file \plugins\CmdLine\MimCmd\src\commands.cpp
 [No help for '%s'.]
 [Available commands: ]
@@ -12754,6 +12755,7 @@ Miranda Language Pack Version 1
 ;file \plugins\MobileState\src\main.cpp
 [Mobile State]
 #muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 [`]
@@ -12932,6 +12934,7 @@ Miranda Language Pack Version 1
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
 ;#muuid not found, please specify manually!
+;langpack template for mradio
 ;file \plugins\mRadio\mradio.rc
 [Add Station]
 [Station Name]
@@ -12983,6 +12986,7 @@ Miranda Language Pack Version 1
 ;file \plugins\mRadio\mradio.dpr
 [%s server connection]
 #muuid {46102b07-c215-4162-9c83-d377881da7cc}
+;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 [Use internal viewer]
@@ -13423,6 +13427,7 @@ Miranda Language Pack Version 1
 ;file \plugins\mTextControl\src\textcontrol.cpp
 [Tahoma]
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
 [OK]
@@ -13507,6 +13512,7 @@ Miranda Language Pack Version 1
 [Set My Status Message for %s]
 ;file \plugins\MyDetails\src\options.cpp
 #muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+;langpack template for NewEventNotify
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
 [Show entry in the PopUps menu]
@@ -13925,6 +13931,7 @@ Miranda Language Pack Version 1
 [These variables are available:\r\n\r\n\\r\n%N\textra status name (Xstatus, Mood, Activity)\r\n\\r\n%T\textra status title\r\n\\r\n%I\textra status text\r\n\\r\n%D\tdelimiter\r\n\\r\n%B\tline break (can be used as delimiter)]
 [These variables are available:\r\n\r\n\\r\n%n\tNew Status Message\r\n\\r\n%o\tOld Status Message\r\n\\r\n%c\tCustom Nickname\r\n\\r\n\\n\tline break\r\n\\r\n\\t\ttab stop]
 ;#muuid not found, please specify manually!
+;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
 [Œ ]
 [Load from file]
@@ -14179,6 +14186,7 @@ Miranda Language Pack Version 1
 [Choose file to import keys from]
 [Keys import result]
 #muuid {b25e8c7b-292b-495a-9fb8-a4c3d4eeb04b}
+;langpack template for NoHistory
 ;file \plugins\NoHistory\res\NoHistory.rc
 [Keep history for this contact]
 [Disable history for this contact]
@@ -14199,6 +14207,7 @@ Miranda Language Pack Version 1
 [History]
 [Logging]
 ;#muuid not found, please specify manually!
+;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
 [Width (Pixels)]
@@ -14371,6 +14380,7 @@ Miranda Language Pack Version 1
 [Date of activation]
 [Are you sure you want to delete this reminder?]
 #muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;langpack template for Nudge
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
 [Specify options for each protocol]
@@ -14426,6 +14436,7 @@ Miranda Language Pack Version 1
 [Events]
 [Window Shaking]
 #muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+;langpack template for Omegle
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
 [Visible name:]
@@ -14714,6 +14725,7 @@ Miranda Language Pack Version 1
 ;file \plugins\PasteIt\src\PasteToWeb2.h
 [wklej.to]
 #muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+;langpack template for Ping
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 [Timeout]
@@ -15040,7 +15052,6 @@ Miranda Language Pack Version 1
 [srmm.dll]
 [extraicons.dll]
 [%s\\*]
-[Profiles]
 [.dll]
 [.exe]
 [%s\\Temp\\%s.zip]
@@ -15062,6 +15073,7 @@ Miranda Language Pack Version 1
 ;file \plugins\PluginUpdater\src\Minizip\ioapi.c
 [r+b]
 #muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
+;langpack template for PManagerEx
 ;file \plugins\ProfileManager\src\pmanagerEx.cpp
 [open]
 [/ForceShowPM]
@@ -15319,6 +15331,7 @@ Miranda Language Pack Version 1
 [Favourite]
 [Block]
 #muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;langpack template for QuickContacts
 ;file \plugins\QuickContacts\res\resource.rc
 [Last Sent]
 [Enable last-sent-to]
@@ -15357,6 +15370,7 @@ Miranda Language Pack Version 1
 [Ctrl+H]
 [Ctrl+M]
 #muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+;langpack template for QuickMessages
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [+]
 [-]
@@ -15422,6 +15436,7 @@ Miranda Language Pack Version 1
 [Message Sessions]
 [Quick Replies]
 ;#muuid not found, please specify manually!
+;langpack template for quicksearch
 ;file \plugins\QuickSearch\qs.rc
 [*]
 [<]
@@ -15761,6 +15776,7 @@ Miranda Language Pack Version 1
 [Rate low]
 [Contact Rate]
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;langpack template for RecentContacts
 ;file \plugins\RecentContacts\res\resource.rc
 [Plugin settings]
 [Number shown contacts:\n (0 to show all)]
@@ -15781,6 +15797,7 @@ Miranda Language Pack Version 1
 ["%s" /restart:%d /profile=%s]
 [Restart]
 #muuid {84636f78-2057-4302-8a65-23a16d46844c}
+;langpack template for Scriver
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 [Automatically pop up the window when]
@@ -16841,6 +16858,7 @@ Miranda Language Pack Version 1
 ;file \plugins\Sessions\Src\Utils.cpp
 [Session Before Last Crash]
 ;#muuid not found, please specify manually!
+;langpack template for shlext
 ;file \plugins\ShlExt\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
 [Only if/when the contact list is using them]
@@ -16893,6 +16911,7 @@ Miranda Language Pack Version 1
 [Simple Auto Replier]
 [Plugins]
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [&Cancel]
 [Retrieving %s message...]
@@ -19627,6 +19646,7 @@ Miranda Language Pack Version 1
 [November]
 [December]
 #muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 [Password:]
@@ -20874,6 +20894,7 @@ Miranda Language Pack Version 1
 [open]
 [User Guide]
 ;#muuid not found, please specify manually!
+;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]
 [Auto parse]
@@ -21145,6 +21166,7 @@ Miranda Language Pack Version 1
 [<unknown version>]
 [{%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x}]
 ;#muuid not found, please specify manually!
+;langpack template for watrack
 ;file \plugins\Watrack\kolframe\frm.rc
 [Frame refresh time]
 [...]
@@ -21289,6 +21311,7 @@ Miranda Language Pack Version 1
 [''Music'' status is set]
 [XStatus is empty or ''Music'']
 ;#muuid not found, please specify manually!
+;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
 [Port]
@@ -21830,6 +21853,7 @@ Miranda Language Pack Version 1
 ;file \plugins\WhenWasIt\src\utils.cpp
 [%ld]
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 [Popup delay settings]
@@ -21864,6 +21888,7 @@ Miranda Language Pack Version 1
 [PopUps]
 [WUMF: Show connections]
 ;#muuid not found, please specify manually!
+;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 [Loginname:]

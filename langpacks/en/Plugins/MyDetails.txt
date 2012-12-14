@@ -1,4 +1,5 @@
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
 [OK]

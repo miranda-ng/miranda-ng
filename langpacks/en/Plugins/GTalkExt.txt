@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
 [Popup notifications (needs popup plugin)]

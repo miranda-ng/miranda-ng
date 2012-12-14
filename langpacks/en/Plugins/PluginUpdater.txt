@@ -135,7 +135,6 @@
 [srmm.dll]
 [extraicons.dll]
 [%s\\*]
-[Profiles]
 [.dll]
 [.exe]
 [%s\\Temp\\%s.zip]

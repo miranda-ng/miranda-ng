@@ -1,4 +1,5 @@
 #muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;langpack template for RecentContacts
 ;file \plugins\RecentContacts\res\resource.rc
 [Plugin settings]
 [Number shown contacts:\n (0 to show all)]

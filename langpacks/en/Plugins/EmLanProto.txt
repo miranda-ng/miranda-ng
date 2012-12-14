@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for EmLanProto
 ;file \protocols\EmLanProto\res\amdproto.rc
 [OK]
 [This window is shown only once]

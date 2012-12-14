@@ -1,4 +1,5 @@
 ;#muuid not found, please specify manually!
+;langpack template for mradio
 ;file \plugins\mRadio\mradio.rc
 [Add Station]
 [Station Name]
