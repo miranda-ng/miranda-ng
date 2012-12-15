@@ -46,7 +46,7 @@ int MRadio::GetData()
 		{
 			if (strcmp("mRadio", proto) == 0) 
 			{
-				WORD status = DBGetContactSettingWord(hContact, proto, "Status", ID_STATUS_OFFLINE); 
+				WORD status = db_get_w(hContact, proto, "Status", ID_STATUS_OFFLINE); 
 				if (status == ID_STATUS_ONLINE)
 					break;
 			}
@@ -58,7 +58,7 @@ int MRadio::GetData()
 	if (hContact)
 	{
 		DBVARIANT dbv = {0};
-		if (!DBGetContactSettingString(hContact, "mRadio", "Nick", &dbv))
+		if (!db_get_s(hContact, "mRadio", "Nick", &dbv))
 		{	
 			listening_info.cbSize = sizeof(listening_info);
 			listening_info.dwFlags = LTI_TCHAR;
@@ -66,7 +66,7 @@ int MRadio::GetData()
 			listening_info.ptszType = mir_tstrdup(_T("Radio"));
 			listening_info.ptszTitle = mir_a2t(dbv.pszVal);
 
-			DBFreeVariant(&dbv);
+			db_free(&dbv);
 			return 1;
 		}
 	}

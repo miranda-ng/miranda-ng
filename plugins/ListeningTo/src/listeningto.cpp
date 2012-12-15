@@ -76,6 +76,7 @@ BOOL    ListeningToEnabled(char *proto, BOOL ignoreGlobal = FALSE);
 INT_PTR ListeningToEnabled(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam);
 INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam);
+TCHAR*	GetParsedFormat(LISTENINGTOINFO *lti);
 INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam);
 INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam);
 INT_PTR GetUnknownText(WPARAM wParam,LPARAM lParam);
@@ -116,8 +117,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 {
 	return &pluginInfo;
 }
-
-extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = { MIID_LISTENINGTO, MIID_LAST };
 
 extern "C" int __declspec(dllexport) Load(void)
 {
@@ -320,11 +319,11 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		char *proto = GetContactProto(hContact);
 		if (proto != NULL) {
 			DBVARIANT dbv;
-			if (!DBGetContactSettingTString(hContact, proto, "ListeningTo", &dbv)) {
+			if (!db_get_ts(hContact, proto, "ListeningTo", &dbv)) {
 				if (dbv.ptszVal != NULL && dbv.ptszVal[0] != 0)
 					SetExtraIcon(hContact, TRUE);
 
-				DBFreeVariant(&dbv);
+				db_free(&dbv);
 			}
 		}
 
@@ -531,24 +530,20 @@ BOOL ListeningToEnabled(char *proto, BOOL ignoreGlobal)
 	if (proto == NULL || proto[0] == 0)
 	{
 		// Check all protocols
-		BOOL enabled = TRUE;
-
 		for (unsigned int i = 1; i < proto_items.size(); ++i)
 		{
 			if (!ListeningToEnabled(proto_items[i].proto, TRUE))
 			{
-				enabled = FALSE;
-				break;
+				return FALSE;
 			}
 		}
-
-		return enabled;
+		return TRUE;
 	}
 	else
 	{
 		char setting[256];
 		mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
-		return (BOOL) DBGetContactSettingByte(NULL, MODULE_NAME, setting, FALSE);
+		return (BOOL) db_get_b(NULL, MODULE_NAME, setting, FALSE);
 	}
 }
 
@@ -696,7 +691,7 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			}
 
 			TCHAR *fr[] = {
-				_T("listening"), (TCHAR *) GetParsedFormat(0, (WPARAM) lti),
+				_T("listening"), GetParsedFormat(lti),
 				_T("artist"), UNKNOWN(lti->ptszArtist),
 				_T("album"), UNKNOWN(lti->ptszAlbum),
 				_T("title"), UNKNOWN(lti->ptszTitle),
@@ -724,17 +719,27 @@ void SetListeningInfo(char *proto, LISTENINGTOINFO *lti)
 			mir_free(fr[1]);
 		}
 	}
-	else if (ProtoServiceExists(proto, PS_SETAWAYMSGT))
+	else if (ProtoServiceExists(proto, PS_SETAWAYMSGT) || ProtoServiceExists(proto, PS_SETAWAYMSG))
 	{
 		int status = CallProtoService(proto, PS_GETSTATUS, 0, 0);
 		if (lti == NULL)
 		{
-			CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM) status, 0);
+			INT_PTR ret = CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM) status, 0);
+			if(ret == CALLSERVICE_NOTFOUND)
+			{
+				CallProtoService(proto, PS_SETAWAYMSG, (WPARAM)status, 0);
+			}
 		}
 		else
 		{
-			TCHAR *fr = (TCHAR *)GetParsedFormat(0, (WPARAM) lti);
-			CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM)status, (LPARAM)fr);
+			TCHAR *fr = GetParsedFormat(lti);
+			INT_PTR ret = CallProtoService(proto, PS_SETAWAYMSGT, (WPARAM)status, (LPARAM)fr);
+			if(ret == CALLSERVICE_NOTFOUND)
+			{
+				char *info = mir_t2a(fr);
+				CallProtoService(proto, PS_SETAWAYMSG, (WPARAM)status, (LPARAM)info);
+				mir_free(info);
+			}
 			mir_free(fr);
 		}
 	}
@@ -759,12 +764,13 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 	{
 		if (!ProtoServiceExists(proto, PS_SET_LISTENINGTO) &&
 			!ProtoServiceExists(proto, PS_SETCUSTOMSTATUSEX) &&
-			!ProtoServiceExists(proto, PS_SETAWAYMSGT)) // by yaho
+			!ProtoServiceExists(proto, PS_SETAWAYMSGT) && // by yaho
+			!ProtoServiceExists(proto, PS_SETAWAYMSG))
 			return 0;
 
 		char setting[256];
 		mir_snprintf(setting, sizeof(setting), "%sEnabled", proto);
-		DBWriteContactSettingByte(NULL, MODULE_NAME, setting, (BOOL) lParam);
+		db_set_b(NULL, MODULE_NAME, setting, (BOOL) lParam);
 
 		// Modify menu info
 		ProtocolInfo *info = GetProtoInfo(proto);
@@ -776,10 +782,7 @@ INT_PTR EnableListeningTo(WPARAM wParam,LPARAM lParam)
 					| (opts.enable_sending ? 0 : CMIF_GRAYED);
 			CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM) info->hMenu, (LPARAM) &clmi);
 
-			if (!opts.enable_sending || !lParam)
-				SetListeningInfo(proto, NULL);
-			else
-				SetListeningInfo(proto, GetListeningInfo());
+			SetListeningInfo(proto,(opts.enable_sending && lParam) ? GetListeningInfo() : NULL);
 		}
 
 		// Set all protos info
@@ -816,13 +819,8 @@ INT_PTR GetTextFormat(WPARAM wParam,LPARAM lParam)
 	return ( INT_PTR )mir_tstrdup(opts.templ);
 }
 
-INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
+TCHAR *GetParsedFormat(LISTENINGTOINFO *lti)
 {
-	if (!loaded)
-		return NULL;
-
-	LISTENINGTOINFO *lti = (LISTENINGTOINFO *) lParam;
-
 	if (lti == NULL)
 		return NULL;
 
@@ -840,7 +838,12 @@ INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
 
 	Buffer<TCHAR> ret;
 	ReplaceTemplate(&ret, NULL, opts.templ, fr, MAX_REGS(fr));
-	return (int) ret.detach();
+	return ret.detach();
+}
+
+INT_PTR GetParsedFormat(WPARAM wParam,LPARAM lParam)
+{
+	return ( INT_PTR )GetParsedFormat((LISTENINGTOINFO *) lParam);
 }
 
 INT_PTR GetOverrideContactOption(WPARAM wParam,LPARAM lParam)
@@ -863,7 +866,7 @@ void SetListeningInfos(LISTENINGTOINFO *lti)
 	char *info = NULL;
 
 	if (lti) {
-		fr = (TCHAR *)GetParsedFormat(0, (WPARAM) lti);
+		fr = GetParsedFormat(lti);
 		if (fr) info = mir_t2a(fr);
 	}
 
