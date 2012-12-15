@@ -756,8 +756,30 @@ Unicode сборка
 Списки приватности не сохранены, отменить изменения и выйти?
 [No list selected]
 Список не выбран
+[If:]
+Если:
+[Then:]
+Тогда:
+[then]
+то
 [Else]
 Иначе
+[allow]
+разрешить
+[deny]
+запретить
+[then allow]
+то разрешить
+[incoming presences]
+входящее присутствие
+[outgoing presences]
+исходящее присутствие
+[Incoming presence]
+Вход. присутствие
+[Outgoing presence]
+Nсход. присутствие
+[following stanza types:]
+Следующие типы событий:
 [Can't remove active or default list]
 Невозможно удалить активный или стандартный список
 [If group is ']
