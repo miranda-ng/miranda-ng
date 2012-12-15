@@ -756,6 +756,10 @@ Unicode сборка
 Списки приватности не сохранены, отменить изменения и выйти?
 [No list selected]
 Список не выбран
+[Privacy rule]
+Правило приватности
+[Warning: privacy lists were changed on server.]
+Внимание: списки приватности сохранены на сервере.
 [If:]
 Если:
 [Then:]
@@ -768,8 +772,8 @@ Unicode сборка
 разрешить
 [deny]
 запретить
-[then allow]
-то разрешить
+[queries]
+запросы
 [incoming presences]
 входящее присутствие
 [outgoing presences]
