@@ -1,106 +1,232 @@
-﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Module: Notes and Reminders
-;  Versions: 0.0.2.4-0.0.4.2
+;  Versions: 0.0.2.4-0.0.5.1
 ;============================================================
-[Sticky Notes]
-Заметки
-[Notes & Reminders]
-Заметки и напоминания
-[Notes && Reminders]
-Заметки и напоминания
-[&New Note]
-&Создать заметку
-[&Show / Hide Notes]
-&Показать/скрыть заметки
-[&Delete All Notes]
-&Удалить все заметки
-[&New Reminder]
-&Новое напоминание
-[&View Reminders]
-&Просмотр напоминаний
-[&Delete All Reminders]
-&Удалить все напоминания
-[Remove Note]
-Удалить заметку
-[Hide Note]
-Скрыть заметку
-[Togle On Top]
-Всегда сверху
-[C&ut]
-В&ырезать
-[&Add Reminder]
-&Добавить напоминание
-[Add Reminder]
-Добавить напоминание
-[Trigger On Time && Date:]
-Срабатывать в:
-[Reminder Note:]
-Текст напоминания:
-[Reoccurence]
-Повторять
-[Reminders List]
-Список напоминаний
-[Date of activation]
-Дата активизации
-[Reminder text]
-Текст напоминания
-[Add New]
-Новое
-[Add New Reminder]
-Добавить новое напоминание
-[Delete Reminder]
-Удалить напоминание
-[Delete All Reminders]
-Удалить все напоминания
-[&Dismiss]
-&Завершить
-[Notify me Again in]
-Напомнить через
-[After :]
-После:
-[Note Colors]
-Цвет заметки
-[Note Caption Color]
-Цвет заголовка заметки:
-[Note Body Color]
-Цвет тела заметки:
-[Note Fonts]
-Шрифт заметки
-[Sample Text Caption]
-Текст заголовка:
-[Sample Text Body]
-Текста тела:
-[Pick Font for Caption]
-Шрифт заголовка
-[Pick Font for Body]
-Шрифт тела
-[New note Hot Key]
-Новая заметка:
-[Show/Hide Notes Hot Key]
-Показать/скрыть заметки:
-[New Reminder Hot Key]
-Новое напоминание:
-[Note Transparency (Windows 2K && XP)]
-Прозрачность заметок (2000 && XP):
 [Default Note Size]
 Размер заметки
 [Width (Pixels)]
-Ширина (пикселей):
+Ширина
 [Height (Pixels)]
-Высота (пикселей):
-[Startup options]
-При запуске
-[Show notes at startup]
-Показать заметки
-[Add Contact list menu items]
-Добавить пункты в меню контакта
-[Use this sound for reminders :]
-Звук для напоминаний:
-[Sound...]
-Звук...
-[Send Reminders through E-mail / SMS :]
-Отправить напомин. по E-mail/SMS
+Высота
+[Notes Appearance]
+Вид заметок
 [Show Scrollbars]
-Показать прокрутку
+Показывать полосу прокрутки
+[Show Buttons]
+Показывать кнопки
+[Title Date]
+Формат даты
+[Title Time]
+Формат времени
+[Startup options]
+Настройки старта
+[Hide notes at startup]
+Скрывать заметки во время старта
+[Add Contact list menu items]
+Добавить элементы в меню контакт листа
+[(Requires Miranda restart)]
+(Требует перезапуска Miranda NG)
+[Reminder options]
+Запоминать настройки
+[Use MCI to play alert sounds]
+Использовать драйвер MCI
+[Note Transparency (Minimum Win 2k/XP)]
+Прозрачносить заметок (требуется Win 2000 и выше)
+[0%]
+0%
+[100%]
+100%
+[Send Reminders through E-mail / SMS :]
+Отправлять напоминание по e-mail / SMS:
+[Open links with this program instead:]
+Открывать ссылки в:
+[...]
+…
+[Reset to defaults]
+Сбросить
+[(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
+
+[Trigger On Time && Date:]
+Дата &и время запуска:
+[Date]
+Дата
+[Time]
+Время
+[Reminder Note:]
+Напоминание:
+[None]
+Никогда
+[Daily]
+Дней
+[Weekly]
+Недель
+[Monthly]
+Месяцев
+[Repeat Alert Sound]
+Повторить сигнал
+[Use Sound]
+Использовать сигнал
+[&Add Reminder]
+&Добавить напоминание
+[&Close]
+&Закрыть
+[&View Reminders]
+&Просмотр напоминаний
+[After:]
+После:
+[On Time && Date:]
+Дата &и время
+[&Remind Again]
+&Напомнить ещё раз
+[&Create Note]
+&Создать заметку
+[Add New]
+Добавить…
+[Edi&t Reminder]
+Ред&актировать напоминание
+[New &Reminder]
+Новое &напоминание
+[&Delete Reminder]
+&Удалить напоминание
+[D&elete All Reminders]
+У&далить всё
+[&Hide Note]
+&Скрыть заметки
+[&Always On Top]
+&«Всегда сверху»
+[&New Note]
+Новая заметка
+[&Delete Note]
+&Удалить заметку
+[Undo]
+Отменить
+[&Copy]
+&Копировать
+[&Paste]
+&Вставить
+[C&ut]
+В&ырезать
+[C&lear]
+О&чистить
+[&View Notes]
+&Показать заметки
+[&Bring All To Front]
+
+[Edi&t Note]
+Редактирова&ть
+[&Visible]
+
+[Always &On Top]
+«Всегда &сверху»
+[Delete &All Notes]
+Удалить все заметки
+[&Show / Hide Notes]
+&Показать / Скрыть заметки
+[New Note]
+Новая заметка
+[Toggle Notes Visibility]
+
+[Bring All Notes to Front]
+
+[New Reminder]
+Новое напоминание
+[StickyNotes]
+Заметки
+[Are you sure you want to delete all notes?]
+Уверены, что хотите удалить все заметки?!
+[Are you sure you want to delete all reminders?]
+Уверены, что хотите удалить все напоминания?!
+[Delete All Notes]
+Удалить все заметки
+[Show/Hide Notes]
+Показать/Скрыть заметки
+[Delete All Reminders]
+Удалить все напоминания
+[View Reminders]
+Просмотр напоминаний
+[Bring All to Front]
+«Всегда сверху»
+[View Notes]
+Просмотреть заметки
+[Add New Note]
+Добавить заметку…
+[Add New Reminder]
+Добавить напоминание…
+[Alerts]
+Сигнал
+[Reminder triggered]
+Срабативание напоминания
+[Reminder triggered (Alternative 1)]
+Срабативание напоминания (Альтернатива 1)
+[Reminder triggered (Alternative 2)]
+Срабативание напоминания (Альтернатива 2)
+[Notes && Reminders]
+Заметки & и Напоминания
+[New &Note]
+Новая &заметка
+[Vie&w Notes]
+Про&смотр заметок
+[&Delete All Notes]
+&Удалить все заметки
+[&Bring All to Front]
+&«Всегда сверху»
+[StickyNote]
+Заметка
+[Are you sure you want to delete this note?]
+Уверены, что хотите удалить заметку?
+[Notes]
+Заметка
+[Note text]
+Заметка
+[Date/Title]
+Дата/заголовок
+[Sticky Note Caption]
+Заголовок
+[Sticky Note Background Color]
+
+[Sticky Note Body]
+Окно
+[Select Executable]
+Выбрать программу…
+[Reminder]
+Напоминание
+[Minutes]
+Минуты
+[Hours]
+Часов
+[Hour]
+Час
+[Day]
+День
+[Days]
+Дней
+[Week]
+Неделя
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Указанное время недействительно из-за перехода на «летнее время»
+[The specified time is invalid.]
+Указанное время недействительно
+[The specified time offset is invalid.]
+
+[&Update Reminder]
+&Обновить напоминание
+[Every]
+Всегда
+[Seconds]
+Секунд
+[Never]
+Никогда
+[Default]
+Стандартный
+[Alternative 1]
+Альтернативный 1
+[Alternative 2]
+Альтернативный 2
+[Reminder text]
+Текст напоминания
+[Date of activation]
+Дата активации
+[Are you sure you want to delete this reminder?]
+Уверены, что хотите удалить это напоминание?
