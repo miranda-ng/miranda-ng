@@ -50,7 +50,7 @@ struct ServListEntry
 	}
 
 	~ServListEntry()
-	{	
+	{
 		if (m_bNeedFree)
 			mir_free(m_name);
 	}
@@ -83,7 +83,8 @@ static renameTable[] =
 	{ _T("newnr.dll"),                      _T("Plugins\\notesreminders.dll") },
 	{ _T("dbtool.exe"),                     _T("Plugins\\dbchecker.dll") },
 	{ _T("dbtool_sa.exe"),                  _T("Plugins\\dbchecker.dll") },
-	
+	{ _T("bclist.dll"),                     _T("Plugins\\Clist_blind.dll") },
+
 	{ _T("clienticons_general.dll"),        _T("Icons\\fp_icons.dll") },
 	{ _T("clienticons_miranda.dll"),        _T("Icons\\fp_icons.dll") },
 	{ _T("fp_icq.dll"),                     _T("Icons\\fp_icons.dll") },
@@ -119,7 +120,7 @@ static renameTable[] =
 	{ _T("fp_tlen.dll"),                    _T("") },
 	{ _T("fp_weather.dll"),                 _T("") },
 	{ _T("fp_yahoo.dll"),                   _T("") },
-	
+
 	{ _T("clist_classic.dll"),              _T("") },
 	{ _T("chat.dll"),                       _T("") },
 	{ _T("gender.dll"),                     _T("") },
@@ -188,14 +189,14 @@ static void ScanFolder(const TCHAR *tszFolder, size_t cbBaseLen, int level, cons
 		mir_sntprintf(tszBuf, SIZEOF(tszBuf), _T("%s\\%s"), tszFolder, ffd.cFileName);
 
 		// this file is not marked for deletion
-		if (tszNewName[0]) { 
+		if (tszNewName[0]) {
 			ServListEntry tmp(tszNewName);
 			ServListEntry *item = hashes.find(&tmp);
 			if (item == NULL) {
 				TCHAR *p = _tcsrchr(tszNewName, '.');
 				if (p[-1] != 'w' && p[-1] != 'W')
 					continue;
-	
+
 				int iPos = int(p - key)-1;
 				strdel(p-1, 1);
 				if ((item = hashes.find(&tmp)) == NULL)
