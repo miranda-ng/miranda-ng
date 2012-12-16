@@ -357,6 +357,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BasicHistory", "..\plugins\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BASS_interface", "..\plugins\BASS_interface\Bass_interface_10.vcxproj", "{3933E789-D185-41DC-8169-9FF4365B6015}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_10.vcxproj", "{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1581,6 +1583,14 @@ Global
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|Win32.Build.0 = Release|Win32
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.ActiveCfg = Release|x64
 		{3933E789-D185-41DC-8169-9FF4365B6015}.Release|x64.Build.0 = Release|x64
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.Build.0 = Debug|Win32
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.ActiveCfg = Debug|x64
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.Build.0 = Debug|x64
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.ActiveCfg = Release|Win32
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.Build.0 = Release|Win32
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.ActiveCfg = Release|x64
+		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

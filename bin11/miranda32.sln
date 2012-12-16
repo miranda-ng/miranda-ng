@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio Express 2012 for Windows Desktop
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AVS", "..\plugins\AVS\avs_11.vcxproj", "{7711F563-6473-4ABD-B5E3-477CE8384AD6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Zlib", "..\plugins\Zlib\zlib_11.vcxproj", "{E2A369CD-EDA3-414F-8AD0-E732CD7EE68C}"
@@ -145,6 +145,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins\TabSRMM\TabSRMM_icons\NOVA\ICONS_NOVA_11.vcxproj", "{F553F140-B7D3-4984-90B1-00D4831B8A6E}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_11.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_11.vcxproj", "{2E15C462-A150-4A37-ACD6-FBAECF1724F5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -537,6 +539,14 @@ Global
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|Win32.Build.0 = Debug|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.ActiveCfg = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Debug|x64.Build.0 = Debug|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.ActiveCfg = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|Win32.Build.0 = Release|Win32
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.ActiveCfg = Release|x64
+		{2E15C462-A150-4A37-ACD6-FBAECF1724F5}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

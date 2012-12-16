@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectName>Clist_blind</ProjectName>
-    <ProjectGuid>{5F09C93B-463A-4BF5-A85E-6E4E916AA8F8}</ProjectGuid>
+    <ProjectGuid>{2E15C462-A150-4A37-ACD6-FBAECF1724F5}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
