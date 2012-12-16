@@ -3,6 +3,7 @@
 
 int hLangpack;
 HINSTANCE g_hInstance;
+XML_API  xi = {0};
 TIME_API tmi = {0};
 
 CSkype* g_skype;
@@ -347,6 +348,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!StartSkypeRuntime())
 		return 1;
 
+	mir_getXI(&xi);
 	mir_getTMI(&tmi);
 	mir_getLP(&pluginInfo);
 

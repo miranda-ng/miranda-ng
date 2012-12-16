@@ -45,18 +45,15 @@ INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM w
 	{
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));			
-			{
-				TCHAR data[128];
-				::mir_free(proto->login);
-				GetDlgItemText(hwnd, IDC_SL, data, SIZEOF(data));
-				proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
-				proto->login = ::mir_wstrdup(data);
-			}
-			{
-				char data[128];
-				GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
-				proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
-			}
+
+			char data[128];
+			::mir_free(proto->login);
+			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
+			::DBWriteContactSettingString(NULL, proto->m_szModuleName, "sid", data);
+			proto->login = ::mir_strdup(data);
+
+			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
+			proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
 
 			proto->SetSettingByte("RememberPassword", true);
 
@@ -118,18 +115,15 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
 		{
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			{
-				wchar_t data[128];
-				::mir_free(proto->login);
-				GetDlgItemText(hwnd, IDC_SL, data, SIZEOF(data));
-				proto->SetSettingString(SKYPE_SETTINGS_LOGIN, data);
-				proto->login = ::mir_wstrdup(data);
-			}
-			{
-				char data[128];
-				GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
-				proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
-			}
+			
+			char data[128];
+			::mir_free(proto->login);
+			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
+			::DBWriteContactSettingString(NULL, proto->m_szModuleName, "sid", data);
+			proto->login = ::mir_strdup(data);
+
+			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
+			proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
 
 			proto->SetSettingByte("RememberPassword", true);
 

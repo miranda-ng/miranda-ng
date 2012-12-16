@@ -157,8 +157,8 @@ protected:
 	bool	IsOnline();
 	void	OnAccountChanged(int prop);
 
-	wchar_t	*login;
-	char *password;
+	char	*login;
+	char	*password;
 	bool	rememberPassword;
 	void	RequestPassword();
 
@@ -170,8 +170,9 @@ protected:
 	static LanguagesListEntry languages[223];
 
 	// messages
-	void	OnMessageReceived(CMessage::Ref message);
-	void	OnConversationAdded(CConversation::Ref conversation);
+	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
+	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
 
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
@@ -298,6 +299,11 @@ protected:
 	// database
 	HANDLE AddDataBaseEvent(HANDLE hContact, WORD type, DWORD time, DWORD flags, DWORD cbBlob, PBYTE pBlob);
 	void RaiseMessageReceivedEvent(
+		DWORD timestamp, 
+		const char* sid, 
+		const char* nick, 
+		const char* message = "");
+	void RaiseMessageSendedEvent(
 		DWORD timestamp, 
 		const char* sid, 
 		const char* nick, 

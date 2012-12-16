@@ -345,18 +345,8 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	/*g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
-	fetch(g_skype->inbox);
-	g_skype->SetOnConversationAddedCallback(
-		(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, 
-		this);
-	for (uint i = 0 ; i < g_skype->inbox.size(); i++)
-		g_skype->inbox[i]->SetOnMessageReceivedCallback(
-		(CConversation::OnMessageReceived)&CSkypeProto::OnMessageReceived,
-		this);*/
-
-	g_skype->SetOnMessageReceivedCallback(
-		(CSkype::OnMessageReceived)&CSkypeProto::OnMessageReceived,
+	g_skype->SetOnMessageCallback(
+		(CSkype::OnMessaged)&CSkypeProto::OnMessage,
 		this);
 
 	this->SetStatus(this->m_iDesiredStatus);
@@ -367,7 +357,7 @@ void __cdecl CSkypeProto::SignInAsync(void*)
 
 bool CSkypeProto::SignIn(bool isReadPassword)
 {
-	if (!this->login || !::lstrcmp(this->login, L""))
+	if (!this->login || !::lstrcmpA(this->login, ""))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
@@ -377,7 +367,7 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 			_T(MODULE),
 			MB_OK);
 	}
-	else if (g_skype->GetAccount(::mir_u2a(this->login), this->account))
+	else if (g_skype->GetAccount(this->login, this->account))
 	{
 		if (isReadPassword)
 			this->password = this->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);				
@@ -405,29 +395,4 @@ void CSkypeProto::RequestPassword()
 		NULL, 
 		CSkypeProto::SkypePasswordProc, 
 		LPARAM(this));
-}
-
-void CSkypeProto::OnMessageReceived(CMessage::Ref message)
-{
-	SEIntList propIds;
-	SEIntDict propValues;
-	propIds.append(CMessage::P_AUTHOR);
-	propIds.append(CMessage::P_AUTHOR_DISPLAYNAME);
-	propIds.append(CMessage::P_BODY_XML);
-	propValues = message->GetProps(propIds);
-
-	uint timestamp;
-	message->GetPropTimestamp(timestamp);
-
-	this->RaiseMessageReceivedEvent(
-		(DWORD)timestamp, 
-		(const char*)propValues[0], 
-		(const char*)propValues[1], 
-		(const char*)propValues[2]);
-}
-
-void CSkypeProto::OnConversationAdded(CConversation::Ref conversation)
-{
-	//conversation->SetOnMessageReceivedCallback(
-	//	(CConversation::OnMessageReceived)&CSkypeProto::OnMessageReceived, this);
 }

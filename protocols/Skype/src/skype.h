@@ -39,6 +39,7 @@
 #include <m_utils.h>
 #include <m_system_cpp.h>
 //#include <m_hotkeys.h>
+#include <m_xml.h>
 //#pragma warning(pop)
 #include <win2k.h>
 #include <m_timezones.h>

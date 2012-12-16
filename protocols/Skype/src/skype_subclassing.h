@@ -125,8 +125,7 @@ private:
 class CSkype : public Skype
 {
 public:
-	typedef void (CSkypeProto::* OnMessageReceived)(CMessage::Ref message);
-	typedef void (CSkypeProto::* OnConversationAdded)(CConversation::Ref conversation);
+	typedef void (CSkypeProto::* OnMessaged)(CConversation::Ref conversation, CMessage::Ref message);
 
 	CAccount*		newAccount(int oid);
 	CContactGroup*	newContactGroup(int oid);
@@ -139,22 +138,15 @@ public:
 
 	CSkype(int num_threads = 1);
 
-	void SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto);
-	void SetOnConversationAddedCallback(OnConversationAdded callback, CSkypeProto* proto);
+	void SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto);
 
 private:
-	CSkypeProto* proto;
-	OnMessageReceived	onMessageReceivedCallback;
-	OnConversationAdded onConversationAddedCallback;
+	CSkypeProto*	proto;
+	OnMessaged		onMessagedCallback;
 
 	void OnMessage(
 		const MessageRef & message,
 		const bool & changesInboxTimestamp,
 		const MessageRef & supersedesHistoryMessage,
 		const ConversationRef & conversation);
-
-	void OnConversationListChange(
-		const ConversationRef &conversation, 
-		const Conversation::LIST_TYPE &type, 
-		const bool &added);
 };

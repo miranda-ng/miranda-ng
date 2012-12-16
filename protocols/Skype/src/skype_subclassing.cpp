@@ -5,8 +5,7 @@
 CSkype::CSkype(int num_threads) : Skype(num_threads)
 {
 	this->proto = NULL;
-	this->onMessageReceivedCallback = NULL;
-	this->onConversationAddedCallback = NULL;
+	this->onMessagedCallback = NULL;
 }
 
 CAccount* CSkype::newAccount(int oid) 
@@ -49,43 +48,16 @@ void CSkype::OnMessage (
     skype->GetUnixTimestamp(now);
     conversation->SetConsumedHorizon(now);*/
 
-	Message::TYPE messageType;
-	message->GetPropType(messageType);
+	if (this->proto)
+		(proto->*onMessagedCallback)(conversation->ref(), message->ref());
 
-	Message::SENDING_STATUS sendingStatus;
-	message->GetPropSendingStatus(sendingStatus);
-
-	if (messageType == Message::POSTED_TEXT && !sendingStatus)
-	{
-		if (this->proto)
-			(proto->*onMessageReceivedCallback)(message->ref());
-	}
+	
 }
 
-void CSkype::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
+void CSkype::SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto)
 {
 	this->proto = proto;
-	this->onMessageReceivedCallback = callback;
-}
-
-void CSkype::OnConversationListChange(
-	const ConversationRef &conversation, 
-	const Conversation::LIST_TYPE &type, 
-	const bool &added)
-{
-	if ((type == Conversation::INBOX_CONVERSATIONS) && (added) && (!inbox.contains(conversation)))
-	{
-		conversation.fetch();
-		inbox.append(conversation);
-		if (this->proto)
-			(proto->*onConversationAddedCallback)(conversation->ref());
-	}
-}
-
-void CSkype::SetOnConversationAddedCallback(OnConversationAdded callback, CSkypeProto* proto)
-{
-	this->proto = proto;
-	this->onConversationAddedCallback = callback;
+	this->onMessagedCallback = callback;
 }
 
 // CAccount
