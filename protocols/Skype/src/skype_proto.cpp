@@ -345,14 +345,18 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
+	/*g_skype->GetConversationList(g_skype->inbox, CConversation::INBOX_CONVERSATIONS);
 	fetch(g_skype->inbox);
 	g_skype->SetOnConversationAddedCallback(
 		(CSkype::OnConversationAdded)&CSkypeProto::OnConversationAdded, 
 		this);
 	for (uint i = 0 ; i < g_skype->inbox.size(); i++)
 		g_skype->inbox[i]->SetOnMessageReceivedCallback(
-		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived,
+		(CConversation::OnMessageReceived)&CSkypeProto::OnMessageReceived,
+		this);*/
+
+	g_skype->SetOnMessageReceivedCallback(
+		(CSkype::OnMessageReceived)&CSkypeProto::OnMessageReceived,
 		this);
 
 	this->SetStatus(this->m_iDesiredStatus);
@@ -403,13 +407,27 @@ void CSkypeProto::RequestPassword()
 		LPARAM(this));
 }
 
-void CSkypeProto::OnOnMessageReceived(const char *sid, const char *text)
+void CSkypeProto::OnMessageReceived(CMessage::Ref message)
 {
-	this->RaiseMessageReceivedEvent(time(NULL), sid, sid, text);
+	SEIntList propIds;
+	SEIntDict propValues;
+	propIds.append(CMessage::P_AUTHOR);
+	propIds.append(CMessage::P_AUTHOR_DISPLAYNAME);
+	propIds.append(CMessage::P_BODY_XML);
+	propValues = message->GetProps(propIds);
+
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);
+
+	this->RaiseMessageReceivedEvent(
+		(DWORD)timestamp, 
+		(const char*)propValues[0], 
+		(const char*)propValues[1], 
+		(const char*)propValues[2]);
 }
 
 void CSkypeProto::OnConversationAdded(CConversation::Ref conversation)
 {
-	conversation->SetOnMessageReceivedCallback(
-		(CConversation::OnMessageReceived)&CSkypeProto::OnOnMessageReceived, this);
+	//conversation->SetOnMessageReceivedCallback(
+	//	(CConversation::OnMessageReceived)&CSkypeProto::OnMessageReceived, this);
 }

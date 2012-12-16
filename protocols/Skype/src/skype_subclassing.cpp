@@ -5,7 +5,8 @@
 CSkype::CSkype(int num_threads) : Skype(num_threads)
 {
 	this->proto = NULL;
-	this->callback == NULL;
+	this->onMessageReceivedCallback = NULL;
+	this->onConversationAddedCallback = NULL;
 }
 
 CAccount* CSkype::newAccount(int oid) 
@@ -28,9 +29,43 @@ CConversation* CSkype::newConversation(int oid)
 	return new CConversation(oid, this); 
 }
 
+CMessage* CSkype::newMessage(int oid) 
+{ 
+	return new CMessage(oid, this); 
+}
+
 CContactSearch*	CSkype::newContactSearch(int oid)
 {
 	return new CContactSearch(oid, this);
+}
+
+void CSkype::OnMessage (
+	const MessageRef & message,
+	const bool & changesInboxTimestamp,
+	const MessageRef & supersedesHistoryMessage,
+	const ConversationRef & conversation)
+{
+    /*uint now;
+    skype->GetUnixTimestamp(now);
+    conversation->SetConsumedHorizon(now);*/
+
+	Message::TYPE messageType;
+	message->GetPropType(messageType);
+
+	Message::SENDING_STATUS sendingStatus;
+	message->GetPropSendingStatus(sendingStatus);
+
+	if (messageType == Message::POSTED_TEXT && !sendingStatus)
+	{
+		if (this->proto)
+			(proto->*onMessageReceivedCallback)(message->ref());
+	}
+}
+
+void CSkype::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
+{
+	this->proto = proto;
+	this->onMessageReceivedCallback = callback;
 }
 
 void CSkype::OnConversationListChange(
@@ -43,14 +78,14 @@ void CSkype::OnConversationListChange(
 		conversation.fetch();
 		inbox.append(conversation);
 		if (this->proto)
-			(proto->*callback)(conversation->ref());
+			(proto->*onConversationAddedCallback)(conversation->ref());
 	}
 }
 
 void CSkype::SetOnConversationAddedCallback(OnConversationAdded callback, CSkypeProto* proto)
 {
 	this->proto = proto;
-	this->callback = callback;
+	this->onConversationAddedCallback = callback;
 }
 
 // CAccount
@@ -186,26 +221,8 @@ CConversation::CConversation(unsigned int oid, SERootObject* root) : Conversatio
 
 void CConversation::OnMessage(const MessageRef & message)
 {
-	Message::TYPE messageType;
-	message->GetPropType(messageType);
-
-	Message::SENDING_STATUS sendingStatus;
-	message->GetPropSendingStatus(sendingStatus);
-
-	if (messageType == Message::POSTED_TEXT && !sendingStatus)
-	{
-		SEIntList propIds;
-		SEIntDict propValues;
-		propIds.append(Message::P_AUTHOR);
-		propIds.append(Message::P_BODY_XML);
-		propValues = message->GetProps(propIds);
-	
-		//if (propValues[0] != myAccountName)
-		{
-			if (this->proto)
-				(proto->*callback)((const char*)propValues[0], (const char*)propValues[1]);
-		}
-	}
+	if (this->proto)
+		(proto->*callback)(message->ref());
 }
 
 void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
@@ -213,3 +230,7 @@ void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSk
 	this->proto = proto;
 	this->callback = callback;
 }
+
+// CMessage
+
+CMessage::CMessage(unsigned int oid, SERootObject* root) : Message(oid, root) { }

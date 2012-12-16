@@ -170,7 +170,7 @@ protected:
 	static LanguagesListEntry languages[223];
 
 	// messages
-	void	OnOnMessageReceived(const char *sid, const char *text);
+	void	OnMessageReceived(CMessage::Ref message);
 	void	OnConversationAdded(CConversation::Ref conversation);
 
 	// contacts
