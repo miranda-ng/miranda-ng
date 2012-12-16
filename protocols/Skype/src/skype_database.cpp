@@ -27,7 +27,7 @@ void CSkypeProto::RaiseAuthRequestEvent(
 
 	CCSDATA ccs = {0};
 	ccs.szProtoService = PSR_AUTH;
-	ccs.hContact = this->AddContactBySid(::mir_a2u(sid), ::mir_a2u(nick));
+	ccs.hContact = this->AddContactBySid(sid, ::mir_a2u(nick));
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	pre.timestamp = timestamp;
@@ -64,7 +64,7 @@ void CSkypeProto::RaiseMessageReceivedEvent(
 
 	CCSDATA ccs = {0};
 	ccs.szProtoService = PSR_MESSAGE;
-	ccs.hContact = this->AddContactBySid(::mir_a2u(sid), ::mir_a2u(nick));
+	ccs.hContact = this->AddContactBySid(sid, ::mir_a2u(nick));
 	ccs.wParam = 0;
 	ccs.lParam = (LPARAM)&pre;
 	pre.flags = PREF_UTF;

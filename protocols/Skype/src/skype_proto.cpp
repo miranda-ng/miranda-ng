@@ -44,7 +44,7 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	return this->AddContactBySid(psr->id, psr->nick, 0);
+	return this->AddContactBySid(::mir_u2a(psr->id), psr->nick, 0);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 

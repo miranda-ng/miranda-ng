@@ -452,7 +452,7 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 	return loginError;
 }
 
-void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, int flags)
+void CSkypeProto::ShowNotification(const char *sid, const wchar_t *message, int flags)
 {
 	if (::Miranda_Terminated()) return;
 
@@ -460,12 +460,12 @@ void CSkypeProto::ShowNotification(const wchar_t *sid, const wchar_t *message, i
 		MessageBoxW(NULL, message, TranslateT("Skype Protocol"), MB_OK);
 	else {
 		if ( !sid)
-			sid = L"";
+			sid = "";
 
 		POPUPDATAT_V2 ppd = {0};
 		ppd.cbSize = sizeof(POPUPDATAT_V2);
 		ppd.lchContact = NULL;
-		lstrcpyn(ppd.lpwzContactName, sid, MAX_CONTACTNAME);
+		lstrcpyn(ppd.lpwzContactName, ::mir_a2u(sid), MAX_CONTACTNAME);
 		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = Skin_GetIcon("Skype_main");
 		ppd.colorBack = ppd.colorText = 0;
