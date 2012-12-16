@@ -445,7 +445,7 @@ void JustSaveReminders(void)
 		{
 			// huston, we have a problem, strip some reminder text
 			n = 0xfffe;
-			ValueName[0xffff] = 0;
+			Value[0xffff] = 0;
 		}
 
 		sprintf(ValueName, "RemindersData%d", ReminderCount - I - 1); // do not want to reverse in DB
