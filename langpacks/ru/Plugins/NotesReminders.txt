@@ -1,9 +1,11 @@
-#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
 ;============================================================
 ;  File: NotesReminders.dll
 ;  Module: Notes and Reminders
 ;  Versions: 0.0.2.4-0.0.5.1
 ;============================================================
+[Notes & Reminders]
+Заметки и напоминания
 [Default Note Size]
 Размер заметки
 [Width (Pixels)]
@@ -13,41 +15,43 @@
 [Notes Appearance]
 Вид заметок
 [Show Scrollbars]
-Показывать полосу прокрутки
+Прокрутка
 [Show Buttons]
-Показывать кнопки
+Кнопки
 [Title Date]
-Формат даты
+Дата
 [Title Time]
-Формат времени
+Время
 [Startup options]
-Настройки старта
+Настройки запуска
 [Hide notes at startup]
-Скрывать заметки во время старта
-[Add Contact list menu items]
-Добавить элементы в меню контакт листа
+Скрывать заметки на старте
 [(Requires Miranda restart)]
-(Требует перезапуска Miranda NG)
+(Требует перезапуск Miranda NG)
 [Reminder options]
-Запоминать настройки
+Настройки напоминаний
+[Add Reminder closes dialog]
+Диалог закрытия напоминаний
 [Use MCI to play alert sounds]
 Использовать драйвер MCI
-[Note Transparency (Minimum Win 2k/XP)]
-Прозрачносить заметок (требуется Win 2000 и выше)
 [0%]
 0%
 [100%]
 100%
+[Add Contact list menu items]
+Элементы в меню
+[Note Transparency (Minimum Win 2k/XP)]
+Прозрачносить заметок (требуется Win 2000 и выше)
 [Send Reminders through E-mail / SMS :]
-Отправлять напоминание по e-mail / SMS:
+Отправлять на e-mail / SMS:
 [Open links with this program instead:]
 Открывать ссылки в:
 [...]
 …
 [Reset to defaults]
-Сбросить
+по умолчанию
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-
+Позволяет различным звукам проигрываться одновременно (возможны нежеланные последствия, если установлен модуль пользовательских звуков.)
 [Trigger On Time && Date:]
 Дата &и время запуска:
 [Date]
@@ -57,7 +61,7 @@
 [Reminder Note:]
 Напоминание:
 [None]
-Никогда
+Нет
 [Daily]
 Дней
 [Weekly]
@@ -65,11 +69,11 @@
 [Monthly]
 Месяцев
 [Repeat Alert Sound]
-Повторить сигнал
+Повторять сигнал
 [Use Sound]
 Использовать сигнал
 [&Add Reminder]
-&Добавить напоминание
+&Добавить
 [&Close]
 &Закрыть
 [&View Reminders]
@@ -100,8 +104,16 @@
 Новая заметка
 [&Delete Note]
 &Удалить заметку
+[Custom...]
+Изменить…
+[Reset]
+Сбросить
+[Paste Title]
+Вставить заголовок
+[Reset Title]
+Сбросить заготовок
 [Undo]
-Отменить
+Откатить
 [&Copy]
 &Копировать
 [&Paste]
@@ -113,11 +125,11 @@
 [&View Notes]
 &Показать заметки
 [&Bring All To Front]
-
+Переместить на передний план
 [Edi&t Note]
-Редактирова&ть
+Редактирова&ть заметку
 [&Visible]
-
+&Видимость
 [Always &On Top]
 «Всегда &сверху»
 [Delete &All Notes]
@@ -129,7 +141,7 @@
 [Toggle Notes Visibility]
 
 [Bring All Notes to Front]
-
+Переместить заметки на передний план
 [New Reminder]
 Новое напоминание
 [StickyNotes]
@@ -147,7 +159,7 @@
 [View Reminders]
 Просмотр напоминаний
 [Bring All to Front]
-«Всегда сверху»
+Переместить на передний план
 [View Notes]
 Просмотреть заметки
 [Add New Note]
@@ -163,7 +175,7 @@
 [Reminder triggered (Alternative 2)]
 Срабативание напоминания (Альтернатива 2)
 [Notes && Reminders]
-Заметки & и Напоминания
+Заметки &и напоминания
 [New &Note]
 Новая &заметка
 [Vie&w Notes]
@@ -171,11 +183,13 @@
 [&Delete All Notes]
 &Удалить все заметки
 [&Bring All to Front]
-&«Всегда сверху»
+&Переместить на передний план
 [StickyNote]
 Заметка
 [Are you sure you want to delete this note?]
 Уверены, что хотите удалить заметку?
+[Background Color]
+Цвет фона
 [Notes]
 Заметка
 [Note text]
@@ -184,8 +198,6 @@
 Дата/заголовок
 [Sticky Note Caption]
 Заголовок
-[Sticky Note Background Color]
-
 [Sticky Note Body]
 Окно
 [Select Executable]
@@ -193,7 +205,7 @@
 [Reminder]
 Напоминание
 [Minutes]
-Минуты
+Минут
 [Hours]
 Часов
 [Hour]
@@ -213,11 +225,11 @@
 [&Update Reminder]
 &Обновить напоминание
 [Every]
-Всегда
+Каждые
 [Seconds]
 Секунд
 [Never]
-Никогда
+Не использовать
 [Default]
 Стандартный
 [Alternative 1]
@@ -225,7 +237,7 @@
 [Alternative 2]
 Альтернативный 2
 [Reminder text]
-Текст напоминания
+Напоминание
 [Date of activation]
 Дата активации
 [Are you sure you want to delete this reminder?]
