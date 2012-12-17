@@ -81,7 +81,7 @@ static INT_PTR srvPcharToTchar(WPARAM wParam, LPARAM lParam)
 /////////////////////////////////////////////////////////////////////////////////////////
 
 static INT_PTR srvReloadLangpack(WPARAM wParam, LPARAM lParam)
-{	
+{
 	ReloadLangpack(( TCHAR* )lParam);
 	return 0;
 }
