@@ -206,7 +206,7 @@ protected:
 	bool	IsProtoContact(HANDLE hContact);
 	HANDLE	GetContactBySid(const char* sid);
 	HANDLE	GetContactFromAuthEvent(HANDLE hEvent);
-	HANDLE	AddContactBySid(const char* skypeName, const wchar_t* nick, DWORD flags = 0);
+	HANDLE	AddContactBySid(const char* sid, const char* nick, DWORD flags = 0);
 
 	int		SkypeToMirandaStatus(CContact::AVAILABILITY availability);
 	CContact::AVAILABILITY MirandaToSkypeStatus(int status);
@@ -251,7 +251,7 @@ protected:
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
-	void ShowNotification(const char *sid, const wchar_t *message, int flags = 0);
+	void ShowNotification(const char *nick, const wchar_t *message, int flags = 0);
 
 	// instances
 	static LIST<CSkypeProto> instanceList;

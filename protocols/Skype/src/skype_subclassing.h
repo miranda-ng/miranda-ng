@@ -7,6 +7,8 @@
 
 struct CSkypeProto;
 
+class CSkype;
+
 class CMessage : public Message
 {
 public:
@@ -26,6 +28,8 @@ public:
 	typedef DRefs<CConversation, Conversation> Refs;
 
 	CConversation(unsigned int oid, SERootObject* root);
+
+	static CConversation::Ref FindBySid(CSkype *skype, SEString sid);
 
 	void SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto);
 

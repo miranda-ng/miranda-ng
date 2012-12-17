@@ -44,7 +44,8 @@ CSkypeProto::~CSkypeProto()
 
 HANDLE __cdecl CSkypeProto::AddToList(int flags, PROTOSEARCHRESULT* psr) 
 {
-	return this->AddContactBySid(::mir_u2a(psr->id), psr->nick, 0);
+	//todo:ref
+	return this->AddContactBySid(::mir_u2a(psr->id), ::mir_u2a(psr->nick), 0);
 }
 
 HANDLE __cdecl CSkypeProto::AddToListByEvent(int flags, int iContact, HANDLE hDbEvent) 
@@ -233,8 +234,9 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 { 
 	int result = ::InterlockedIncrement((LONG volatile*)&dwCMDNum);
 
-	CConversation::Ref conversation;
-	g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
+	CConversation::Ref conversation = CConversation::FindBySid(
+		g_skype,
+		::DBGetString(hContact, this->m_szModuleName, "sid"));
 	if (conversation) 
 	{
 		Message::Ref message;
@@ -307,22 +309,27 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 { 
 	if (hContact && this->IsOnline() && this->m_iStatus != ID_STATUS_INVISIBLE)
 	{
-		CConversation::Ref conversation;
-		g_skype->GetConversationByIdentity(::mir_u2a(this->GetSettingString(hContact, "sid")), conversation);
-		if (conversation) 
+		if (::strcmp(::DBGetString(hContact, this->m_szModuleName, "sid"), this->login) != 0)
 		{
-			switch (type) 
+			CConversation::Ref conversation = CConversation::FindBySid(
+				g_skype,
+				::DBGetString(hContact, this->m_szModuleName, "sid"));
+			if (conversation) 
 			{
-				case PROTOTYPE_SELFTYPING_ON:
-					conversation->SetMyTextStatusTo(Participant::WRITING);
-					return 0;
+				switch (type) 
+				{
+					case PROTOTYPE_SELFTYPING_ON:
+						conversation->SetMyTextStatusTo(Participant::WRITING);
+						return 0;
 
-				case PROTOTYPE_SELFTYPING_OFF:
-					conversation->SetMyTextStatusTo(Participant::READING); // mb TEXT_UNKNOWN?
-					return 0;
+					case PROTOTYPE_SELFTYPING_OFF:
+						conversation->SetMyTextStatusTo(Participant::READING); // mb TEXT_UNKNOWN?
+						return 0;
+				}
 			}
 		}
 	}
+
 	return 1; 
 }
 
@@ -379,6 +386,57 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 			this->account->SetOnAccountChangedCallback(
 				(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged,
 				this);
+			//
+			if (this->hNetlibUser)
+			{
+				NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
+				if (
+					!::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetlibUser, (LPARAM)&nlus) && 
+					nlus.useProxy) 
+				{
+					char address[MAX_PATH];
+					::mir_snprintf(address, MAX_PATH, "%s:%d", nlus.szProxyServer, nlus.wProxyPort);
+
+					switch (nlus.proxyType)
+					{
+					case PROXYTYPE_HTTP:
+					case PROXYTYPE_HTTPS:
+						g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
+						g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
+						g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
+						if (nlus.useProxyAuth)
+						{
+							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER, nlus.szProxyAuthUser);
+							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD, nlus.szProxyAuthPassword);
+						}
+						break;
+
+					case PROXYTYPE_SOCKS4:
+					case PROXYTYPE_SOCKS5:
+						g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
+						g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
+						g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
+						if (nlus.useProxyAuth)
+						{
+							g_skype->SetStr(SETUPKEY_SOCKS_PROXY_USER, nlus.szProxyAuthUser);
+							g_skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD, nlus.szProxyAuthPassword);
+						}
+						break;
+
+					default:
+						g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
+						g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
+						g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
+						g_skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
+						g_skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
+						g_skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
+						g_skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
+						g_skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
+						break;
+					}
+				}
+			}
+			//
 			this->account->LoginWithPassword(this->password, false, false);
 			return true;
 		}

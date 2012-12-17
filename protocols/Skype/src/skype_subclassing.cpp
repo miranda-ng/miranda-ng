@@ -197,6 +197,17 @@ void CConversation::OnMessage(const MessageRef & message)
 		(proto->*callback)(message->ref());
 }
 
+CConversation::Ref CConversation::FindBySid(CSkype *skype, SEString sid)
+{
+	SEStringList participants;
+	participants.append(sid);
+	
+	CConversation::Ref conversation;
+	skype->GetConversationByParticipants(participants, conversation);
+
+	return conversation;
+}
+
 void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
 {
 	this->proto = proto;

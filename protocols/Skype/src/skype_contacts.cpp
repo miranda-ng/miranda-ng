@@ -565,7 +565,7 @@ HANDLE CSkypeProto::GetContactFromAuthEvent(HANDLE hEvent)
 	return ::DbGetAuthEventContact(&dbei);
 }
 
-HANDLE CSkypeProto::AddContactBySid(const char* sid, const wchar_t* nick, DWORD flags)
+HANDLE CSkypeProto::AddContactBySid(const char* sid, const char* nick, DWORD flags)
 {
 	HANDLE hContact = this->GetContactBySid(sid);
 	if ( !hContact)
@@ -574,7 +574,7 @@ HANDLE CSkypeProto::AddContactBySid(const char* sid, const wchar_t* nick, DWORD 
 		::CallService(MS_PROTO_ADDTOCONTACT, (WPARAM)hContact, (LPARAM)this->m_szModuleName);
 
 		::DBWriteContactSettingString(hContact, this->m_szModuleName, "sid", sid);
-		this->SetSettingString(hContact, "Nick", nick);
+		::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", nick);
 		
 		CContact::Ref contact;
 		if (g_skype->GetContact(sid, contact))
@@ -690,13 +690,13 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		SEString data;
 
 		contact->GetPropSkypename(data);
-		const char *sid = (const char *)data;
+		char *sid = ::mir_strdup((const char *)data);
 
 		contact->GetPropDisplayname(data);
-		wchar_t *nick = ::mir_utf8decodeW((const char *)data);
+		char *nick = ::mir_strdup((const char *)data);
 
 		contact->GetPropFullname(data);
-		wchar_t *name = ::mir_utf8decodeW((const char *)data);
+		char *name = ::mir_strdup((const char *)data);
 
 		DWORD flags = 0;
 		CContact::AVAILABILITY availability;
@@ -706,7 +706,8 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		{
 			flags |= 256;
 			contact->GetPropPstnnumber(data);
-			sid = (const char *)data;
+			::mir_free(sid);
+			sid = ::mir_strdup((const char *)data);
 		}
 		else if (availability == CContact::PENDINGAUTH)
 			flags = PALF_TEMPORARY;
