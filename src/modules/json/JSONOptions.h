@@ -8,13 +8,11 @@
  *  that you don't have to remember them, or look them up all the time
  */
 
-
 /*
  *  JSON_LIBRARY must be declared if libjson is compiled as a static or dynamic 
  *  library.  This exposes a C-style interface, but none of the inner workings of libjson
  */
 #define JSON_LIBRARY
-
 
 /*
  *  JSON_DEBUG is used to perform extra error checking.  Because libjson usually 
@@ -26,7 +24,6 @@
  */
 //#define JSON_DEBUG
 
-
 /*
  *  JSON_SAFE performs similarly to JSON_DEBUG, except this option does protect
  *  from the errors that it encounters.  This option is recommended for those who
@@ -34,14 +31,12 @@
  */
 #define JSON_SAFE
 
-
 /*
  *  JSON_STDERROR routes error messages to cerr instead of a callback, this 
  *  option hides the callback registering function.  This will usually display
  *  messages in the console
  */
 //#define JSON_STDERROR
-
 
 /*
  *  JSON_PREPARSE causes all parsing to be done immediately.  By default, libjson
@@ -52,7 +47,6 @@
  */
 //#define JSON_PREPARSE
 
-
 /*
  *  JSON_LESS_MEMORY will force libjson to let go of memory as quickly as it can
  *  this is recommended for software that has to run on less than optimal machines.
@@ -62,14 +56,12 @@
  */
 //#define JSON_LESS_MEMORY
 
-
 /*
  *  JSON_UNICODE tells libjson to use wstrings instead of regular strings, this
  *  means that libjson supports the full array of unicode characters, but also takes
  *  much more memory and processing power.
  */
 //#define JSON_UNICODE
-
 
 /*
  *  JSON_REF_COUNT causes libjson to reference count JSONNodes, which makes copying
@@ -78,13 +70,11 @@
  */
 #define JSON_REF_COUNT
 
-
 /*
  *  JSON_BINARY is used to support binary, which is base64 encoded and decoded by libjson,
  *  if this option is not turned on, no base64 support is included
  */
 //#define JSON_BINARY
-
 
 /*
  *  JSON_MEMORY_CALLBACKS exposes functions to register callbacks for allocating, resizing,
@@ -102,7 +92,6 @@
  */
 //#define JSON_MEMORY_MANAGE
 
-
 /*
  *  JSON_MUTEX_CALLBACKS exposes functions to register callbacks to lock and unlock
  *  mutexs and functions to lock and unlock JSONNodes and all of it's children.  This 
@@ -113,14 +102,12 @@
  */
 //#define JSON_MUTEX_CALLBACKS
 
-
 /*
  *  JSON_MUTEX_MANAGE lets you set mutexes and forget them, libjson will not only keep
  *  track of the mutex, but also keep a count of how many nodes are using it, and delete
  *  it when there are no more references
  */
 //#define JSON_MUTEX_MANAGE
-
 
 /*
  *  JSON_ISO_STRICT turns off all code that uses non-standard C++.  This removes all
@@ -134,13 +121,11 @@
  */
 //#define JSON_ITERATORS
 
-
 /*
  *  JSON_WRITER turns on libjson's writing capabilties.  Without this libjson can only
  *  read and parse json, this allows it to write back out
  */
 #define JSON_WRITER
-
 
 /*
  *  JSON_NEWLINE affects how libjson writes.  If this option is turned on, libjson
@@ -149,14 +134,12 @@
  */
 //#define JSON_NEWLINE "\r\n"  //\r\n is standard for most windows and dos programs
 
-
 /*
  *  JSON_COMMENTS tells libjson to store and write comments.  libjson always supports
  *  parsing json that has comments in it as it simply ignores them, but with this option
  *  it keeps the comments and allows you to insert further comments
  */
 //#define JSON_COMMENTS
-
 
 /*
  *  JSON_INDENT affects how libjson writes.  If this option is turned on, libjson
@@ -165,14 +148,12 @@
  */
 //#define JSON_INDENT "    "
 
-
 /*
  *  JSON_WRITE_BASH_COMMENTS will cause libjson to write all comments in bash (#) style
  *  if this option is not turned on, then it will use C-style comments.  Bash comments are
  *  all single line
  */
 //#define JSON_WRITE_BASH_COMMENTS
-
 
 /*
  *  JSON_WRITE_SINGLE_LINE_COMMENTS will cause libjson to write all comments in using //
@@ -181,12 +162,10 @@
  */
 //#define JSON_WRITE_SINGLE_LINE_COMMENTS
 
-
 /*
  *  JSON_VALIDATE turns on validation features of libjson.  This option requires JSON_SAFE
  */
 //#define JSON_VALIDATE
-
 
 /*
  *  JSON_CASE_INSENSITIVE_FUNCTIONS turns on funtions for finding child nodes in a case-
@@ -194,14 +173,12 @@
  */
 //#define JSON_CASE_INSENSITIVE_FUNCTIONS
 
-
 /*
  *  JSON_UNIT_TEST is used to maintain and debug the libjson.  It makes all private
  *  members and functions public so that tests can do checks of the inner workings
  *  of libjson.  This should not be turned on by end users.
  */
 //#define JSON_UNIT_TEST
-
 
 /*
  *  JSON_INDEX_TYPE allows you th change the size type for the children functions. If this 
@@ -211,4 +188,3 @@
 //#define JSON_INDEX_TYPE unsigned int
 
 #endif
-
