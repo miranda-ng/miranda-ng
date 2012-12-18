@@ -58,7 +58,6 @@ static const PLUGININFOEX pluginInfo =
 
 int MSN_GCEventHook(WPARAM wParam, LPARAM lParam);
 int MSN_GCMenuHook(WPARAM wParam, LPARAM lParam);
-int MSN_ChatInit(WPARAM wParam, LPARAM lParam);
 
 /////////////////////////////////////////////////////////////////////////////
 // Protocol instances

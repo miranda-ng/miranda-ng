@@ -223,8 +223,6 @@ CJabberProto::~CJabberProto()
 	DestroyHookableEvent(m_hEventNudge);
 	DestroyHookableEvent(m_hEventXStatusIconChanged);
 	DestroyHookableEvent(m_hEventXStatusChanged);
-	if (m_hInitChat)
-		DestroyHookableEvent(m_hInitChat);
 
 	CleanLastResourceMap();
 
@@ -295,11 +293,6 @@ int CJabberProto::OnModulesLoadedEx(WPARAM, LPARAM)
 
 		JHookEvent(ME_GC_EVENT, &CJabberProto::JabberGcEventHook);
 		JHookEvent(ME_GC_BUILDMENU, &CJabberProto::JabberGcMenuHook);
-
-		char szEvent[ 200 ];
-		mir_snprintf(szEvent, sizeof szEvent, "%s\\ChatInit", m_szModuleName);
-		m_hInitChat = CreateHookableEvent(szEvent);
-		JHookEvent(szEvent, &CJabberProto::JabberGcInit);
 	}
 
 	if (ServiceExists(MS_MSG_ADDICON)) {

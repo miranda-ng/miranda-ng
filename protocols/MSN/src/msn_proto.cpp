@@ -205,8 +205,7 @@ CMsnProto::~CMsnProto()
 
 int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	if (msnHaveChatDll)
-	{
+	if (msnHaveChatDll) {
 		GCREGISTER gcr = {0};
 		gcr.cbSize = sizeof(GCREGISTER);
 		gcr.dwFlags = GC_TYPNOTIF | GC_CHANMGR | GC_TCHAR;
@@ -219,11 +218,6 @@ int CMsnProto::OnModulesLoaded(WPARAM, LPARAM)
 
 		HookProtoEvent(ME_GC_EVENT, &CMsnProto::MSN_GCEventHook);
 		HookProtoEvent(ME_GC_BUILDMENU, &CMsnProto::MSN_GCMenuHook);
-
-		char szEvent[200];
-		mir_snprintf(szEvent, sizeof szEvent, "%s\\ChatInit", m_szModuleName);
-		hInitChat = CreateHookableEvent(szEvent);
-		HookProtoEvent(szEvent, &CMsnProto::MSN_ChatInit);
 	}
 
 	HookProtoEvent(ME_IDLE_CHANGED, &CMsnProto::OnIdleChanged);

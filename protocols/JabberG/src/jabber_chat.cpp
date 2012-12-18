@@ -120,10 +120,9 @@ int JabberGcGetStatus(JABBER_RESOURCE_STATUS *r)
 	return JabberGcGetStatus(r->affiliation, r->role);
 }
 
-int CJabberProto::JabberGcInit(WPARAM wParam, LPARAM)
+int CJabberProto::GcInit(JABBER_LIST_ITEM* item)
 {
 	int i;
-	JABBER_LIST_ITEM* item = (JABBER_LIST_ITEM*)wParam;
 	GCSESSION gcw = {0};
 	GCEVENT gce = {0};
 
@@ -196,7 +195,7 @@ void CJabberProto::GcLogCreate(JABBER_LIST_ITEM* item)
 	if (item->bChatActive)
 		return;
 
-	NotifyEventHooks(m_hInitChat, (WPARAM)item, 0);
+	GcInit(item);
 }
 
 void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type)
@@ -205,70 +204,64 @@ void CJabberProto::GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_
 
 	TCHAR buf[512] = _T("");
 
-	switch (type)
-	{
-		case INFO_BAN:
-			if (m_options.GcLogBans)
-			{
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s in now banned."), user->resourceName);
+	switch (type) {
+	case INFO_BAN:
+		if (m_options.GcLogBans)
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s in now banned."), user->resourceName);
+		break;
+
+	case INFO_STATUS:
+		if (m_options.GcLogStatuses) {
+			if (user->statusMessage) {
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s with message: %s"),
+					user->resourceName,
+					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR),
+					user->statusMessage);
 			}
-			break;
-		case INFO_STATUS:
-			if (m_options.GcLogStatuses)
-			{
-				if (user->statusMessage)
-				{
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s with message: %s"),
-						user->resourceName,
-						CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR),
-						user->statusMessage);
-				} else
-				{
-					mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s"),
-						user->resourceName,
-						CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR));
-				}
+			else {
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("User %s changed status to %s"),
+					user->resourceName,
+					CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, user->status, GSMDF_TCHAR));
 			}
-			break;
-		case INFO_CONFIG:
-			if (m_options.GcLogConfig)
-			{
-				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Room configuration was changed."));
+		}
+		break;
+	case INFO_CONFIG:
+		if (m_options.GcLogConfig)
+			mir_sntprintf(buf, SIZEOF(buf), TranslateT("Room configuration was changed."));
+		break;
+
+	case INFO_AFFILIATION:
+		if (m_options.GcLogAffiliations) {
+			TCHAR *name = NULL;
+			switch (user->affiliation) {
+				case AFFILIATION_NONE:		name = TranslateT("None"); break;
+				case AFFILIATION_MEMBER:	name = TranslateT("Member"); break;
+				case AFFILIATION_ADMIN:		name = TranslateT("Admin"); break;
+				case AFFILIATION_OWNER:		name = TranslateT("Owner"); break;
+				case AFFILIATION_OUTCAST:	name = TranslateT("Outcast"); break;
 			}
-			break;
-		case INFO_AFFILIATION:
-			if (m_options.GcLogAffiliations)
-			{
-				TCHAR *name = NULL;
-				switch (user->affiliation)
-				{
-					case AFFILIATION_NONE:		name = TranslateT("None"); break;
-					case AFFILIATION_MEMBER:	name = TranslateT("Member"); break;
-					case AFFILIATION_ADMIN:		name = TranslateT("Admin"); break;
-					case AFFILIATION_OWNER:		name = TranslateT("Owner"); break;
-					case AFFILIATION_OUTCAST:	name = TranslateT("Outcast"); break;
-				}
-				if (name) mir_sntprintf(buf, SIZEOF(buf), TranslateT("Affiliation of %s was changed to '%s'."), user->resourceName, name);
+			if (name)
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Affiliation of %s was changed to '%s'."), user->resourceName, name);
+		}
+		break;
+
+	case INFO_ROLE:
+		if (m_options.GcLogRoles) {
+			TCHAR *name = NULL;
+			switch (user->role) {
+				case ROLE_NONE:			name = TranslateT("None"); break;
+				case ROLE_VISITOR:		name = TranslateT("Visitor"); break;
+				case ROLE_PARTICIPANT:	name = TranslateT("Participant"); break;
+				case ROLE_MODERATOR:    name = TranslateT("Moderator"); break;
 			}
-			break;
-		case INFO_ROLE:
-			if (m_options.GcLogRoles)
-			{
-				TCHAR *name = NULL;
-				switch (user->role)
-				{
-					case ROLE_NONE:			name = TranslateT("None"); break;
-					case ROLE_VISITOR:		name = TranslateT("Visitor"); break;
-					case ROLE_PARTICIPANT:	name = TranslateT("Participant"); break;
-					case ROLE_MODERATOR:    name = TranslateT("Moderator"); break;
-				}
-				if (name) mir_sntprintf(buf, SIZEOF(buf), TranslateT("Role of %s was changed to '%s'."), user->resourceName, name);
-			}
-			break;
+			
+			if (name)
+				mir_sntprintf(buf, SIZEOF(buf), TranslateT("Role of %s was changed to '%s'."), user->resourceName, name);
+		}
+		break;
 	}
 
-	if (*buf)
-	{
+	if (*buf) {
 		GCDEST gcd = { m_szModuleName, 0, 0 };
 		gcd.ptszID = item->jid;
 		GCEVENT gce = {0};

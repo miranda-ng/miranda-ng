@@ -39,10 +39,8 @@ HANDLE CMsnProto::MSN_GetChatInernalHandle(HANDLE hContact)
 	return result;
 }
 
-
-int CMsnProto::MSN_ChatInit(WPARAM wParam, LPARAM)
+int CMsnProto::MSN_ChatInit(ThreadData *info)
 {
-	ThreadData *info = (ThreadData*)wParam;
 	InterlockedIncrement(&sttChatID);
 	_ltot(sttChatID, info->mChatID, 10);
 
@@ -95,7 +93,7 @@ void CMsnProto::MSN_ChatStart(ThreadData* info)
 
 	MSN_StartStopTyping(info, false);
 
-	NotifyEventHooks(hInitChat, (WPARAM)info, 0);
+	MSN_ChatInit(info);
 
 	// add all participants onto the list
 	GCDEST gcd = { m_szModuleName, { NULL }, GC_EVENT_JOIN };

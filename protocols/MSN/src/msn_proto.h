@@ -185,7 +185,6 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	HANDLE		hNetlibUser;
 	HANDLE		hNetlibUserHttps;
 	HANDLE		hHttpsConnection;
-	HANDLE		hInitChat;
 	HANDLE		hMSNNudge;
 
 	HANDLE		hMSNAvatarsFolder;
@@ -419,6 +418,7 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Chat support
 
+	int  MSN_ChatInit(ThreadData* info);
 	void MSN_ChatStart(ThreadData* info);
 	void MSN_KillChatSession(TCHAR* id);
 
@@ -426,7 +426,6 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	int __cdecl MSN_GCEventHook(WPARAM wParam, LPARAM lParam);
 	int __cdecl MSN_GCMenuHook(WPARAM wParam, LPARAM lParam);
-	int __cdecl MSN_ChatInit(WPARAM wParam, LPARAM lParam);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN contact list
@@ -451,18 +450,18 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 
 	void     AddDelUserContList(const char* email, const int list, const int netId, const bool del);
 
-	void	 MSN_CreateContList(void);
-	void	 MSN_CleanupLists(void);
-	void	 MSN_FindYahooUser(const char* email);
-	bool	 MSN_RefreshContactList(void);
+	void     MSN_CreateContList(void);
+	void     MSN_CleanupLists(void);
+	void     MSN_FindYahooUser(const char* email);
+	bool     MSN_RefreshContactList(void);
 
-	bool	 MSN_IsMyContact(HANDLE hContact);
-	bool	 MSN_IsMeByContact(HANDLE hContact, char* szEmail  = NULL);
+	bool     MSN_IsMyContact(HANDLE hContact);
+	bool     MSN_IsMeByContact(HANDLE hContact, char* szEmail  = NULL);
 	bool     MSN_AddUser(HANDLE hContact, const char* email, int netId, int flags, const char *msg = NULL);
 	void     MSN_AddAuthRequest(const char *email, const char *nick, const char *reason);
-	void	 MSN_SetContactDb(HANDLE hContact, const char *szEmail);
-	HANDLE	 MSN_HContactFromEmail(const char* msnEmail, const char* msnNick = NULL, bool addIfNeeded = false, bool temporary = false);
-	HANDLE	 AddToListByEmail(const char *email, const char *nick, DWORD flags);
+	void     MSN_SetContactDb(HANDLE hContact, const char *szEmail);
+	HANDLE   MSN_HContactFromEmail(const char* msnEmail, const char* msnNick = NULL, bool addIfNeeded = false, bool temporary = false);
+	HANDLE   AddToListByEmail(const char *email, const char *nick, DWORD flags);
 
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN server groups
@@ -484,7 +483,7 @@ struct CMsnProto : public PROTO_INTERFACE, public MZeroedObject
 	/////////////////////////////////////////////////////////////////////////////////////////
 	//	MSN Authentication
 
-	int		MSN_GetPassportAuth(void);
+	int   MSN_GetPassportAuth(void);
 	char*	GenerateLoginBlob(char* challenge);
 	char*	HotmailLogin(const char* url);
 	void	FreeAuthTokens(void);

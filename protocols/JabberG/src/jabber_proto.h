@@ -226,7 +226,6 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 
 	int  __cdecl JabberGcEventHook(WPARAM, LPARAM);
 	int  __cdecl JabberGcMenuHook(WPARAM, LPARAM);
-	int  __cdecl JabberGcInit(WPARAM, LPARAM);
 
 	// Google Shared Status
 	BOOL m_bGoogleSharedStatus;
@@ -441,6 +440,7 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 
 	//---- jabber_chat.cpp ---------------------------------------------------------------
 
+	int    GcInit(JABBER_LIST_ITEM* item);
 	void   GcLogCreate(JABBER_LIST_ITEM* item);
 	void   GcLogUpdateMemberStatus(JABBER_LIST_ITEM* item, const TCHAR *resource, const TCHAR *nick, const TCHAR *jid, int action, HXML reason, int nStatusCode = -1);
 	void   GcLogShowInformation(JABBER_LIST_ITEM *item, JABBER_RESOURCE_STATUS *user, TJabberGcLogInfoType type);
@@ -985,7 +985,6 @@ private:
 	CRITICAL_SECTION m_csSerial;
 	unsigned int m_nSerial;
 
-	HANDLE   m_hInitChat;
 	HGENMENU m_hPrivacyMenuRoot;
 	BOOL     m_menuItemsStatus;
 	LIST<void> m_hPrivacyMenuItems;
