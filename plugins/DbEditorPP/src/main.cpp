@@ -10,7 +10,6 @@ HANDLE hTTBButt = NULL;
 BOOL bServiceMode = FALSE;
 BOOL usePopUps;
 HWND hwnd2watchedVarsWindow;
-int UDB;
 int hLangpack;
 BYTE nameOrder[NAMEORDERCOUNT];
 HANDLE hUserMenu;
@@ -239,25 +238,6 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		DBFreeVariant(&dbv);
 	}
 
-	// check DB engine for unicode support
-	UDB = FALSE;
-
-	if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR)) {
-		DBCONTACTGETSETTING cgs;
-		dbv.type = 0;
-
-		if (DBGetContactSettingByte(NULL,modname,"WarnOnDelete",-1) == -1)
-			DBWriteContactSettingByte(NULL,modname,"WarnOnDelete",1);
-
-		cgs.szModule = modname;
-		cgs.szSetting = "WarnOnDelete";
-		cgs.pValue = &dbv;
-
-		if (!CallService(MS_DB_CONTACT_GETSETTING_STR, 0,(LPARAM)&cgs))
-			if (dbv.type == DBVT_BYTE)
-				UDB = TRUE;
-	}
-
 	hTTBHook = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
 	if ( bServiceMode )
@@ -398,32 +378,18 @@ int WriteBlobFromString(HANDLE hContact,const char *szModule,const char *szSetti
 int GetSetting(HANDLE hContact, const char *szModule, const char *szSetting, DBVARIANT *dbv)
 {
 	DBCONTACTGETSETTING cgs;
-
-	cgs.szModule=szModule;
-	cgs.szSetting=szSetting;
-	cgs.pValue=dbv;
+	cgs.szModule = szModule;
+	cgs.szSetting = szSetting;
+	cgs.pValue = dbv;
 	dbv->type = 0;
-
-	if (UDB)
-		return CallService(MS_DB_CONTACT_GETSETTING_STR,(WPARAM)hContact,(LPARAM)&cgs);
-	else
-	{
-		int rr = CallService(MS_DB_CONTACT_GETSETTING,(WPARAM)hContact,(LPARAM)&cgs);
-
-		if 	(dbv->type != DBVT_UTF8)
-			return rr;
-		else
-			return 1;
-	}
+	return CallService(MS_DB_CONTACT_GETSETTING_STR,(WPARAM)hContact,(LPARAM)&cgs);
 }
-
 
 int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char* Value, int length)
 {
-    DBVARIANT dbv = {0};
+	DBVARIANT dbv = {0};
 
-	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv))
-	{
+	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
 		switch(dbv.type) {
 		case DBVT_ASCIIZ:
 			strncpy(Value, dbv.pszVal, length);
@@ -464,8 +430,7 @@ int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHA
 {
 	DBVARIANT dbv ={0};
 
-	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv))
-	{
+	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv)) {
 		switch(dbv.type) {
 		case DBVT_UTF8:
 			{
@@ -475,6 +440,7 @@ int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHA
 				wcsncpy((WCHAR*)Value, wc, length);
 			}
 			break;
+
 		case DBVT_ASCIIZ:
 			{
 				int len = (int)strlen(dbv.pszVal) + 1;
@@ -483,12 +449,15 @@ int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHA
 				wcsncpy((WCHAR*)Value, wc, length);
 			}
 			break;
+
 		case DBVT_DWORD:
 			_itow(dbv.dVal,Value,10);
 			break;
+
 		case DBVT_BYTE:
 			_itow(dbv.bVal,Value,10);
 			break;
+
 		case DBVT_WORD:
 			_itow(dbv.wVal,Value,10);
 			break;
@@ -506,33 +475,29 @@ int GetValueW(HANDLE hContact, const char* szModule, const char* szSetting, WCHA
 	return 0;
 }
 
-
 char *u2a( wchar_t* src )
 {
-    if (src)
-    {
-		int cbLen = WideCharToMultiByte( CP_ACP, 0, src, -1, NULL, 0, NULL, NULL );
-		char* result = (char*)mir_calloc((cbLen+1)*sizeof(char));
-		if ( result == NULL )
-			return NULL;
+    if (!src)
+		 return NULL;
 
-		WideCharToMultiByte( CP_ACP, 0, src, -1, result, cbLen, NULL, NULL );
-		result[ cbLen ] = 0;
-		return result;
-	}
-	else
+	int cbLen = WideCharToMultiByte( CP_ACP, 0, src, -1, NULL, 0, NULL, NULL );
+	char* result = (char*)mir_calloc((cbLen+1)*sizeof(char));
+	if ( result == NULL )
 		return NULL;
-}
 
+	WideCharToMultiByte( CP_ACP, 0, src, -1, result, cbLen, NULL, NULL );
+	result[ cbLen ] = 0;
+	return result;
+}
 
 wchar_t *a2u( char* src , wchar_t *buffer, int len )
 {
-    wchar_t *result = buffer;
+	wchar_t *result = buffer;
 	if ( result == NULL || len < 3)
 		return NULL;
 
 	MultiByteToWideChar( CP_ACP, 0, src, -1, result, len - 1 );
-		result[ len - 1 ] = 0;
+	result[ len - 1 ] = 0;
 
 	return result;
 }
@@ -551,7 +516,6 @@ int mir_snwprintf(WCHAR *buffer, size_t count, const WCHAR* fmt, ...)
 	return len;
 }
 
-
 int GetDatabaseString(HANDLE hContact, const char *szModule, const char* szSetting, WCHAR *Value, int length, BOOL unicode)
 {
 	if (unicode)
@@ -560,10 +524,8 @@ int GetDatabaseString(HANDLE hContact, const char *szModule, const char* szSetti
 		return GetValue(hContact, szModule, szSetting, (char*)Value, length);
 }
 
-
 WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode)
 {
-
 	int i, r = 0;
 	static WCHAR res[512];
 	char *proto = (char*)szProto;
@@ -638,8 +600,5 @@ WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode)
 		}
 	}
 
-	if (unicode)
-		return nick_unknownW;
-	else
-		return (WCHAR*)nick_unknown;
+	return (unicode) ? nick_unknownW : (WCHAR*)nick_unknown;
 }
