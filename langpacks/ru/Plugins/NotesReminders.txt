@@ -15,7 +15,7 @@
 [Notes Appearance]
 Вид заметок
 [Show Scrollbars]
-Прокрутка
+Прокрутки
 [Show Buttons]
 Кнопки
 [Title Date]
@@ -34,24 +34,18 @@
 Диалог закрытия напоминаний
 [Use MCI to play alert sounds]
 Использовать драйвер MCI
-[0%]
-0%
-[100%]
-100%
 [Add Contact list menu items]
-Элементы в меню
+Пункт в главном меню
 [Note Transparency (Minimum Win 2k/XP)]
 Прозрачносить заметок (требуется Win 2000 и выше)
 [Send Reminders through E-mail / SMS :]
-Отправлять на e-mail / SMS:
+Напоминания на e-mail / SMS:
 [Open links with this program instead:]
 Открывать ссылки в:
-[...]
-…
 [Reset to defaults]
-по умолчанию
+Сбросить
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-Позволяет различным звукам проигрываться одновременно (возможны нежеланные последствия, если установлен модуль пользовательских звуков.)
+Позволяет различным звукам проигрываться одновременно (возможны нежеланные последствия, если установлен модуль пользовательских звуков)
 [Trigger On Time && Date:]
 Дата &и время запуска:
 [Date]
@@ -77,7 +71,7 @@
 [&Close]
 &Закрыть
 [&View Reminders]
-&Просмотр напоминаний
+&Просмотреть напоминаний
 [After:]
 После:
 [On Time && Date:]
@@ -95,7 +89,7 @@
 [&Delete Reminder]
 &Удалить напоминание
 [D&elete All Reminders]
-У&далить всё
+У&далить все напоминания
 [&Hide Note]
 &Скрыть заметки
 [&Always On Top]
@@ -133,7 +127,7 @@
 [Always &On Top]
 «Всегда &сверху»
 [Delete &All Notes]
-Удалить все заметки
+Удалить &все заметки
 [&Show / Hide Notes]
 &Показать / Скрыть заметки
 [New Note]
@@ -157,7 +151,7 @@
 [Delete All Reminders]
 Удалить все напоминания
 [View Reminders]
-Просмотр напоминаний
+Просмотреть напоминаний
 [Bring All to Front]
 Переместить на передний план
 [View Notes]
