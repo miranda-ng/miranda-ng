@@ -13,6 +13,54 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CHATROOM_INVITE DIALOGEX 0, 0, 190, 179
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_CLIPCHILDREN | WS_CAPTION | WS_SYSMENU
+EXSTYLE WS_EX_TOPMOST
+CAPTION "Invite Contact To Chat"
+FONT 8, "MS Shell Dlg", 0, 0, 0x0
+BEGIN
+    LTEXT           "sid",-1,7,128,43,9
+    PUSHBUTTON      "&Invite",IDOK,29,159,46,14
+    PUSHBUTTON      "&Cancel",IDCANCEL,112,159,45,14
+    CONTROL         "",IDC_CCLIST,"CListControl",WS_TABSTOP | 0x16f,7,4,174,119,WS_EX_CLIENTEDGE
+    EDITTEXT        IDC_EDITSCR,7,138,121,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Add",IDC_ADDSCR,133,136,49,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_CHATROOM_INVITE, DIALOG
+    BEGIN
+        RIGHTMARGIN, 188
+        TOPMARGIN, 4
+        BOTTOMMARGIN, 173
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
@@ -221,7 +269,7 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
-#endif    // Русский (Россия) resources
+#endif    // Russian (Russia) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

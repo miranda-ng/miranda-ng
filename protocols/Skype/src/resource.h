@@ -1,11 +1,12 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by protocols\Skype\res\Resource.rc
+// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_SKYPEACCOUNT                9
 #define IDD_OPTIONS                     10
 #define IDD_INFO_SKYPE                  11
 #define IDD_OWNINFO_SKYPE               12
+#define IDD_CHATROOM_INVITE             40
 #define IDI_ICON                        101
 #define IDR_RUNTIME                     102
 #define IDI_AUTH_GRANT                  103
@@ -13,6 +14,9 @@
 #define IDI_AUTH_REVOKE                 105
 #define IDD_PASSWORDREQUEST             106
 #define IDR_KEY                         107
+#define IDC_CCLIST                      173
+#define IDC_EDITSCR                     174
+#define IDC_ADDSCR                      175
 #define IDC_SN                          1001
 #define IDC_PW                          1002
 #define IDC_SL                          1003

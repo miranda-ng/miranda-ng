@@ -534,7 +534,7 @@ HANDLE CSkypeProto::GetContactBySid(const char *sid)
 	HANDLE hContact = db_find_first();
 	while (hContact)
 	{
-		if  (this->IsProtoContact(hContact))
+		if  (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
 			if (::strcmp(sid, ::DBGetString(hContact, this->m_szModuleName, "sid")) == 0)
 				return hContact;
@@ -693,10 +693,10 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		char *sid = ::mir_strdup((const char *)data);
 
 		contact->GetPropDisplayname(data);
-		char *nick = ::mir_strdup((const char *)data);
+		char *nick = ::mir_utf8decodeA((const char *)data);
 
 		contact->GetPropFullname(data);
-		char *name = ::mir_strdup((const char *)data);
+		char *name = ::mir_utf8decodeA((const char *)data);
 
 		DWORD flags = 0;
 		CContact::AVAILABILITY availability;

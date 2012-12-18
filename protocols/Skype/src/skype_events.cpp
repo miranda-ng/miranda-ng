@@ -2,8 +2,10 @@
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
+	this->RegisterChat();
 	this->HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
+	
 	this->login = ::DBGetString(NULL, this->m_szModuleName, "sid");
 	this->rememberPassword = this->GetSettingByte("RememberPassword") > 0;
 

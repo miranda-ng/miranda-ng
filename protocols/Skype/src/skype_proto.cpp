@@ -343,6 +343,9 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	case EV_PROTO_ONEXIT: 
 		return this->OnPreShutdown(wParam, lParam);
 
+	case EV_PROTO_ONMENU:
+		this->OnInitStatusMenu();
+
 	case EV_PROTO_ONCONTACTDELETED:
 		return this->OnContactDeleted(wParam, lParam);
 	}

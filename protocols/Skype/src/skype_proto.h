@@ -61,6 +61,19 @@ const SettingItem setting[]={
   {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
 };
 
+struct InviteChatParam
+{
+	TCHAR		*id;
+	HANDLE		hContact;
+	CSkypeProto *ppro;
+
+	InviteChatParam(const TCHAR *id, HANDLE hContact, CSkypeProto *ppro)
+		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
+
+	~InviteChatParam()
+	{ mir_free(id); }
+};
+
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
@@ -140,11 +153,16 @@ public:
 	static HANDLE GetIconHandle(const char *name);
 
 	// menus
+	void OnInitStatusMenu();
 	static void InitMenus();
 	static void UninitMenus();
 
+	int __cdecl InviteCommand(WPARAM, LPARAM);
+
 	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
+
+	bool	IsOnline();
 
 protected:
 	DWORD   dwCMDNum;
@@ -154,7 +172,7 @@ protected:
 	CContactGroup::Ref authWaitList;
 
 	// account
-	bool	IsOnline();
+
 	void	OnAccountChanged(int prop);
 
 	char	*login;
@@ -173,6 +191,16 @@ protected:
 	void	OnMessage(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageSended(CConversation::Ref conversation, CMessage::Ref message);
 	void	OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message);
+
+	// chat
+	bool IsChatRoom(HANDLE hContact);
+	
+	void ChatValidateContact(HANDLE hItem, HWND hwndList);
+	void ChatPrepare(HANDLE hItem, HWND hwndList);
+	void FillChatList(HANDLE hItem, HWND hwndList, SEStringList &chatTargets);
+	
+	void RegisterChat();
+	void StartChat(SEStringList &chatTargets);
 
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
@@ -288,6 +316,7 @@ protected:
 	static _tag_iconList iconList[];
 
 	// menu
+	HGENMENU m_hMenuRoot;
 	static HANDLE hChooserMenu;
 	static HANDLE hPrebuildMenuHook;
 	static HANDLE g_hContactMenuItems[CMITEMS_COUNT];
@@ -346,4 +375,5 @@ protected:
 	static INT_PTR CALLBACK SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };

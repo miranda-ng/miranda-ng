@@ -436,3 +436,98 @@ int __cdecl CSkypeProto::OnUserInfoInit(WPARAM wParam, LPARAM lParam)
 
 	return 0;
 }
+
+INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	InviteChatParam *param = (InviteChatParam *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+
+	switch (msg) 
+	{
+	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		param = (InviteChatParam*)lParam;
+
+//		WindowSetIcon(hwndDlg, "msn");
+		break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_NCDESTROY:
+//		WindowFreeIcon(hwndDlg);
+		delete param;
+		break;
+
+	case WM_NOTIFY:
+	{
+		NMCLISTCONTROL* nmc = (NMCLISTCONTROL*)lParam;
+		if (nmc->hdr.idFrom == IDC_CCLIST)
+		{
+			switch (nmc->hdr.code) 
+			{
+			case CLN_NEWCONTACT:
+				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
+				{
+					param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom);
+				}
+				break;
+
+			case CLN_LISTREBUILT:
+				if (param) 
+					param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom);
+				break; 
+			}
+		}
+	}
+	break;
+
+	case WM_COMMAND:
+		{
+			switch (LOWORD(wParam)) 
+			{
+			case IDC_ADDSCR:
+				if (param->ppro->IsOnline())
+				{
+					wchar_t sid[SKYPE_SID_LIMIT];
+					::GetDlgItemText(hwndDlg, IDC_EDITSCR, sid, SIZEOF(sid));
+
+					CLCINFOITEM cii = {0};
+					cii.cbSize = sizeof(cii);
+					cii.flags = CLCIIF_CHECKBOX | CLCIIF_BELOWCONTACTS;
+					cii.pszText = ::wcslwr(sid);
+
+					HANDLE hItem = (HANDLE)::SendDlgItemMessage(
+						hwndDlg, 
+						IDC_CCLIST, 
+						CLM_ADDINFOITEM, 
+						0, 
+						(LPARAM)&cii);
+					::SendDlgItemMessage(hwndDlg, IDC_CCLIST, CLM_SETCHECKMARK, (LPARAM)hItem, 1);
+				}
+				break;
+
+			case IDOK:
+				{
+					char sid[SKYPE_SID_LIMIT] = "";
+					HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
+
+					SEStringList chatTargets;
+					param->ppro->FillChatList(NULL, hwndList, chatTargets);
+					param->ppro->StartChat(chatTargets);
+				}
+
+				EndDialog(hwndDlg, IDOK);
+				break;
+
+			case IDCANCEL:
+				EndDialog(hwndDlg, IDCANCEL);
+				break;
+			}
+		}
+		break;
+	}
+	return FALSE;
+}

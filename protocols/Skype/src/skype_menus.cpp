@@ -106,6 +106,17 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+int CSkypeProto::InviteCommand(WPARAM, LPARAM)
+{
+	::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_CHATROOM_INVITE), 
+		NULL, 
+		CSkypeProto::InviteToChatProc, 
+		LPARAM(new InviteChatParam(NULL, NULL, this)));
+	return 0;
+}
+
 int CSkypeProto::PrebuildContactMenu(WPARAM wParam, LPARAM lParam)
 {
 	for (size_t i=0; i<SIZEOF(g_hContactMenuItems); i++)
@@ -164,4 +175,40 @@ void  CSkypeProto::InitMenus()
 void  CSkypeProto::UninitMenus()
 {
 	::UnhookEvent(CSkypeProto::hPrebuildMenuHook);
+}
+
+void CSkypeProto::OnInitStatusMenu()
+{
+	char text[ 200 ];
+	strcpy(text, m_szModuleName);
+	char* tDest = text + strlen(text);
+
+	CLISTMENUITEM mi = { sizeof(mi) };
+	mi.pszService = text;
+
+	HGENMENU hJabberRoot = ::MO_GetProtoRootMenu(m_szModuleName);
+	if (hJabberRoot == NULL) {
+		mi.ptszName = m_tszUserName;
+		mi.position = -1999901006;
+		mi.hParentMenu = HGENMENU_ROOT;
+		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
+		mi.icolibItem = CSkypeProto::GetIconHandle("main");
+		hJabberRoot = m_hMenuRoot = ::Menu_AddProtoMenuItem(&mi);
+	}
+	else {
+		if (m_hMenuRoot)
+			::CallService(MS_CLIST_REMOVEMAINMENUITEM, (WPARAM)m_hMenuRoot, 0);
+		m_hMenuRoot = NULL;
+	}
+
+	mi.hParentMenu = hJabberRoot;
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_CHILDPOPUP | CMIF_TCHAR;	
+
+	// Invite Command
+	strcpy(tDest, "/InviteCommand");
+	this->CreateService(tDest, &CSkypeProto::InviteCommand);
+	mi.ptszName = LPGENT("Invite to conference");
+	mi.position = 200001;
+	mi.icolibItem = CSkypeProto::GetIconHandle("confInvite");
+	::Menu_AddProtoMenuItem(&mi);
 }

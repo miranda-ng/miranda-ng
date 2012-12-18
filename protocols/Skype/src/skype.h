@@ -60,7 +60,7 @@ extern "C"
 #include "..\..\..\skypekit\key.h"
 
 #define MODULE "Skype"
-#define SKYPE_LOGIN_LIMIT 128
+#define SKYPE_SID_LIMIT 128
 #define SKYPE_PASSWORD_LIMIT 128
 #define SKYPE_SETTINGS_NAME "Name"
 #define SKYPE_SETTINGS_STATUS "Status"
@@ -74,6 +74,8 @@ extern "C"
 #define CMI_AUTH_REVOKE 0
 #define CMI_AUTH_REQUEST 1
 #define CMI_AUTH_GRANT 2
+
+#define SMI_CHAT_INVOKE 0
 
 #define CMITEMS_COUNT 3
 
