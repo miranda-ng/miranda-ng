@@ -170,7 +170,7 @@ extern HIMAGELIST himl2;
 extern int Mode;
 extern int Hex;
 extern int Order;
-extern BOOL UDB, UOS;
+extern BOOL UDB;
 
 extern BOOL usePopUps;
 

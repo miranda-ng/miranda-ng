@@ -65,67 +65,34 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 
 			// contacts name
-			if (UOS)
-			{
-				DBVARIANT dbv ={0};
-				WCHAR nick[256];
-				WCHAR protoW[256]; // unicode proto
+			DBVARIANT dbv ={0};
+			WCHAR nick[256];
+			WCHAR protoW[256]; // unicode proto
 
-				if (szProto[0])
-					a2u(szProto, protoW, SIZEOF(protoW));
-				else
-					protoW[0] = 0;
-
-				if (!szProto[0] || !loaded)
-				{
-					if (protoW)
-					{
-						if (Order)
-							mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s %s", protoW, GetContactName(hContact, szProto, 1), L"(UNLOADED)");
-						else
-							mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
-					}
-					else
-						wcscpy(nick, nick_unknownW);
-				}
-				else
-				{
-					if (Order)
-						mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s", protoW, GetContactName(hContact, szProto, 1));
-					else
-						mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
-				}
-
-				index = SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
-				SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
-			}
+			if (szProto[0])
+				a2u(szProto, protoW, SIZEOF(protoW));
 			else
-			{
-				char nick[256];
+				protoW[0] = 0;
 
-				if (!szProto[0] || !loaded)
-				{
-					if (szProto[0])
-					{
-						if (Order)
-							mir_snprintf(nick, SIZEOF(nick), "(%s) %s %s", szProto, (char*)GetContactName(hContact, szProto, 0), "(UNLOADED)");
-						else
-							mir_snprintf(nick, SIZEOF(nick), "%s (%s) %s", (char*)GetContactName(hContact, szProto, 0), szProto, "(UNLOADED)");
-					}
+			if (!szProto[0] || !loaded) {
+				if (protoW) {
+					if (Order)
+						mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s %s", protoW, GetContactName(hContact, szProto, 1), L"(UNLOADED)");
 					else
-						strcpy(nick, nick_unknown);
+						mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 				}
 				else
-				{
-					if (Order)
-						mir_snprintf(nick, SIZEOF(nick), "(%s) %s", szProto, (char*)GetContactName(hContact, szProto, 0));
-					else
-						mir_snprintf(nick, SIZEOF(nick), "%s (%s)", (char*)GetContactName(hContact, szProto, 0), szProto);
-				}
-
-				index = SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
-				SendMessage(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
+					wcscpy(nick, nick_unknownW);
 			}
+			else {
+				if (Order)
+					mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s", protoW, GetContactName(hContact, szProto, 1));
+				else
+					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
+			}
+
+			index = SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_ADDSTRING, 0, (LPARAM)nick);
+			SendMessageW(GetDlgItem(hwnd, IDC_CONTACTS), CB_SETITEMDATA, index, (LPARAM)hContact);
 
 			hContact = db_find_next(hContact);
 		}
@@ -185,13 +152,9 @@ INT_PTR CALLBACK copyModDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPara
 
 void copyModuleMenuItem(char* module, HANDLE hContact)
 {
-	HWND hwnd;
 	ModuleAndContact *mac = (ModuleAndContact *)mir_calloc(sizeof(ModuleAndContact));
 	mac->hContact = hContact;
 	strncpy(mac->module, module, 255);
 
-	if (UOS)
-		hwnd = CreateDialogParamW(hInst, MAKEINTRESOURCEW(IDD_COPY_MOD), 0, copyModDlgProc, (LPARAM)mac);
-	else
-		hwnd = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_COPY_MOD), 0, copyModDlgProc, (LPARAM)mac);
+	CreateDialogParamW(hInst, MAKEINTRESOURCEW(IDD_COPY_MOD), 0, copyModDlgProc, (LPARAM)mac);
 }

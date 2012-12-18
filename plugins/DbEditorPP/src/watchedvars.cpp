@@ -70,23 +70,19 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 	if (!hContact)
 		lvItem.pszText = "NULL";
 	else
-		lvItem.pszText = (char*)GetContactName(hContact,NULL,UOS);
+		lvItem.pszText = (char*)GetContactName(hContact, NULL, 1);
 
 	index = ListView_InsertItem(hwnd2list,&lvItem);
 
-	if (UOS)
-	{
-		WCHAR* ptszText = mir_a2u(lvItem.pszText);
-		ListView_SetItemTextW(hwnd2list, index, 0, ptszText);
-		mir_free(ptszText);
-		}
+	WCHAR* ptszText = mir_a2u(lvItem.pszText);
+	ListView_SetItemTextW(hwnd2list, index, 0, ptszText);
+	mir_free(ptszText);
 
 	ListView_SetItemText(hwnd2list,index,1,module);
 	ListView_SetItemText(hwnd2list,index,2,setting);
 
-	switch (dbv->type)
-	{
-		case DBVT_BLOB:
+	switch (dbv->type) {
+	case DBVT_BLOB:
 		{
 			int j;
 			char *data = NULL;
@@ -104,42 +100,37 @@ void addwatchtolist(HWND hwnd2list, struct DBsetting *lParam)
 			mir_free(data);
 		}
 		break;
-		case DBVT_BYTE:
-			mir_snprintf(data, 32, "0x%02X (%s)", dbv->bVal, itoa(dbv->bVal,tmp,10));
-			ListView_SetItemText(hwnd2list,index,4,data);
-			ListView_SetItemText(hwnd2list,index,3,"BYTE");
-		break;
-		case DBVT_WORD:
-			mir_snprintf(data, 32, "0x%04X (%s)", dbv->wVal, itoa(dbv->wVal,tmp,10));
-			ListView_SetItemText(hwnd2list,index,4,data);
-			ListView_SetItemText(hwnd2list,index,3,"WORD");
-		break;
-		case DBVT_DWORD:
-			mir_snprintf(data, 32, "0x%08X (%s)", dbv->dVal, itoa(dbv->dVal,tmp,10));
-			ListView_SetItemText(hwnd2list,index,4,data);
-			ListView_SetItemText(hwnd2list,index,3,"DWORD");
-		break;
-		case DBVT_ASCIIZ:
-			ListView_SetItemText(hwnd2list,index,4,dbv->pszVal);
-			ListView_SetItemText(hwnd2list,index,3,"STRING");
-		break;
-		case DBVT_UTF8:
-			{
-				if (UOS)
-				{
-					int length = (int)strlen(dbv->pszVal) + 1;
-					WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
-					MultiByteToWideChar(CP_UTF8, 0, dbv->pszVal, -1, wc, length);
-					ListView_SetItemTextW(hwnd2list,index,4,wc);
-				}
-				else {
-					// convert from UTF8
-					ListView_SetItemText(hwnd2list,index,4,dbv->pszVal);
-				}
-				ListView_SetItemText(hwnd2list,index,3,"UNICODE");
-			}
+
+	case DBVT_BYTE:
+		mir_snprintf(data, 32, "0x%02X (%s)", dbv->bVal, itoa(dbv->bVal,tmp,10));
+		ListView_SetItemText(hwnd2list,index,4,data);
+		ListView_SetItemText(hwnd2list,index,3,"BYTE");
 		break;
 
+	case DBVT_WORD:
+		mir_snprintf(data, 32, "0x%04X (%s)", dbv->wVal, itoa(dbv->wVal,tmp,10));
+		ListView_SetItemText(hwnd2list,index,4,data);
+		ListView_SetItemText(hwnd2list,index,3,"WORD");
+		break;
+
+	case DBVT_DWORD:
+		mir_snprintf(data, 32, "0x%08X (%s)", dbv->dVal, itoa(dbv->dVal,tmp,10));
+		ListView_SetItemText(hwnd2list,index,4,data);
+		ListView_SetItemText(hwnd2list,index,3,"DWORD");
+		break;
+
+	case DBVT_ASCIIZ:
+		ListView_SetItemText(hwnd2list,index,4,dbv->pszVal);
+		ListView_SetItemText(hwnd2list,index,3,"STRING");
+		break;
+
+	case DBVT_UTF8:
+		int length = (int)strlen(dbv->pszVal) + 1;
+		WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
+		MultiByteToWideChar(CP_UTF8, 0, dbv->pszVal, -1, wc, length);
+		ListView_SetItemTextW(hwnd2list,index,4,wc);
+		ListView_SetItemText(hwnd2list,index,3,"UNICODE");
+		break;
 	}
 }
 

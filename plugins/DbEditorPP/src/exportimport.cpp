@@ -415,41 +415,35 @@ void importSettings(HANDLE hContact, char *importstring )
 			i = i + (int)strlen("CONTACT:");
 			len = (int)strlen(&importstring[i]);
 
-			if (len > 10)
-			{
+			if (len > 10) {
 				char uid[256]="",szUID[256]="",szProto[512]="";
 				char *p1,*p2;
 
 				p1 = strrchr(&importstring[i], '>*{');
 				p2 = strrchr(&importstring[i], '}*');
 
-				if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(szUID))
-				{
+				if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(szUID)) {
 					strncpy(szUID, p1+1, p2-p1-2);
 
 					p1 = strrchr(&importstring[i], ')*<');
 					p2 = strrchr(&importstring[i], '>*{');
 
-					if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(uid))
-					{
+					if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(uid)) {
 						strncpy(uid, p1+1, p2-p1-3);
 
 						p1 = strrchr(&importstring[i], ' *(');
 						p2 = strrchr(&importstring[i], ')*<');
 
-						if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(szProto))
-						{
+						if (p1 && p2 && p1+3 < p2 && p2-p1 < SIZEOF(szProto)) {
 							char *protouid;
 							strncpy(szProto, p1+1, p2-p1-3);
 
 							protouid = (char*)CallProtoService(szProto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-							if ((int)protouid!=CALLSERVICE_NOTFOUND)
-							{
+							if ((INT_PTR)protouid != CALLSERVICE_NOTFOUND) {
 								if (!mir_strcmp(protouid, uid))
         							hContact = CheckNewContact(szProto, uid, szUID);
         					}
-	        				else
-        						hContact = CheckNewContact(szProto, uid, szUID);
+	        				else hContact = CheckNewContact(szProto, uid, szUID);
 						}
 					}
 				}

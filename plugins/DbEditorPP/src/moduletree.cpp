@@ -57,65 +57,37 @@ int doContacts(HWND hwnd2Tree,HTREEITEM contactsRoot,ModuleSettingLL *modlist, H
 			lParam->type |= EMPTY;
 
 		// contacts name
-		if (UOS)
+		DBVARIANT dbv ={0};
+		WCHAR nick[256];
+		WCHAR protoW[256]; // unicode proto
+
+		if (szProto)
+			a2u(szProto, protoW, SIZEOF(protoW));
+		else
+			protoW[0] = 0;
+
+		if (!szProto || !loaded)
 		{
-			DBVARIANT dbv ={0};
-			WCHAR nick[256];
-			WCHAR protoW[256]; // unicode proto
+			tvi.item.iSelectedImage = (tvi.item.iImage = 4);
 
-			if (szProto)
-				a2u(szProto, protoW, SIZEOF(protoW));
-			else
-				protoW[0] = 0;
-
-			if (!szProto || !loaded)
-			{
-				tvi.item.iSelectedImage = (tvi.item.iImage = 4);
-
-				if (protoW) {
-					if (Order)
-						mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s %s", protoW, GetContactName(hContact, szProto, 1), L"(UNLOADED)");
-					else
-						mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
-				}
-				else wcscpy(nick, nick_unknownW);
-			}
-			else {
-				tvi.item.iSelectedImage = (tvi.item.iImage = icon); //GetProtoIcon(szProto, 7));
+			if (protoW) {
 				if (Order)
-					mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s", protoW, GetContactName(hContact, szProto, 1));
+					mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s %s", protoW, GetContactName(hContact, szProto, 1), L"(UNLOADED)");
 				else
-					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
+					mir_snwprintf(nick, SIZEOF(nick), L"%s (%s) %s", GetContactName(hContact, szProto, 1), protoW, L"(UNLOADED)");
 			}
-
-			tvi.item.pszText = (char*)nick;
-			contact = TreeView_InsertItemW(hwnd2Tree, &tvi);
+			else wcscpy(nick, nick_unknownW);
 		}
 		else {
-			char nick[256];
-
-			if (!szProto[0] || !loaded) {
-				tvi.item.iSelectedImage = (tvi.item.iImage = 4);
-
-				if (szProto[0]) {
-					if (Order)
-						mir_snprintf(nick, SIZEOF(nick), "(%s) %s %s", szProto, (char*)GetContactName(hContact, szProto, 0), "(UNLOADED)");
-					else
-						mir_snprintf(nick, SIZEOF(nick), "%s (%s) %s", (char*)GetContactName(hContact, szProto, 0), szProto, "(UNLOADED)");
-				}
-				else strcpy(nick, nick_unknown);
-			}
-			else {
-				tvi.item.iSelectedImage = (tvi.item.iImage = icon); //GetProtoIcon(szProto, 7));
-				if (Order)
-					mir_snprintf(nick, SIZEOF(nick), "(%s) %s", szProto, (char*)GetContactName(hContact, szProto, 0));
-				else
-					mir_snprintf(nick, SIZEOF(nick), "%s (%s)", (char*)GetContactName(hContact, szProto, 0), szProto);
-			}
-
-			tvi.item.pszText = nick;
-			contact = TreeView_InsertItem(hwnd2Tree, &tvi);
+			tvi.item.iSelectedImage = (tvi.item.iImage = icon); //GetProtoIcon(szProto, 7));
+			if (Order)
+				mir_snwprintf(nick, SIZEOF(nick), L"(%s) %s", protoW, GetContactName(hContact, szProto, 1));
+			else
+				mir_snwprintf(nick, SIZEOF(nick), L"%s (%s)", GetContactName(hContact, szProto, 1), protoW);
 		}
+
+		tvi.item.pszText = (char*)nick;
+		contact = TreeView_InsertItemW(hwnd2Tree, &tvi);
 
 		itemscount++;
 
@@ -230,10 +202,7 @@ void doItems(HWND hwnd2Tree,ModuleSettingLL *modlist, int count)
 		}
 	}
 
-	if (UOS)
-		SetWindowText(hwnd, Translate("Database Editor++ (unicode mode)"));
-	else
-		SetWindowText(hwnd, Translate("Database Editor++ (ansi mode)"));
+	SetWindowText(hwnd, TranslateT("Database Editor++"));
 }
 
 int findItemInTree(HWND hwnd2Tree, HANDLE hContact, char* module)
@@ -744,12 +713,9 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 						}
 
 						lvi.iItem = 0;
-						lvi.pszText = (char*)GetContactName(hContact,NULL,UOS);
+						lvi.pszText = (char*)GetContactName(hContact, NULL, FALSE);
 
-						if (UOS)
-							index = ListView_InsertItemW(hwnd2Settings,&lvi);
-						else
-							index = ListView_InsertItem(hwnd2Settings,&lvi);
+						index = ListView_InsertItem(hwnd2Settings, &lvi);
 
 						mir_snprintf(data, SIZEOF(data), "0x%08X (%ld)", hContact, hContact);
 
@@ -805,10 +771,7 @@ void moduleListWM_NOTIFY(HWND hwnd,UINT msg,WPARAM wParam,LPARAM lParam)// hwnd 
 			TreeView_GetItem(((LPNMHDR)lParam)->hwndFrom,&tvi);
 			mtis = (ModuleTreeInfoStruct *)ptvdi->item.lParam;
 
-			if (UOS)
-				newtext = u2a((WCHAR*)ptvdi->item.pszText);
-			else
-				newtext = mir_tstrdup(ptvdi->item.pszText);
+			newtext = u2a((WCHAR*)ptvdi->item.pszText);
 
 			if (!newtext || // edit control failed
 				!mtis->type || // its a root item

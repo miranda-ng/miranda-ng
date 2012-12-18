@@ -198,16 +198,14 @@ INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			hwnd2mainWindow = hwnd;
 			// do the icon
 			SendMessage(hwnd,WM_SETICON,ICON_BIG,(LPARAM)LoadIcon(hInst,MAKEINTRESOURCE(ICO_REGEDIT)));
-			if (UOS)
-				SetWindowText(hwnd, Translate("Database Editor++ (unicode mode)"));
-			else
-				SetWindowText(hwnd, Translate("Database Editor++ (ansi mode)"));
+			SetWindowText(hwnd, TranslateT("Database Editor++"));
+
 			// setup the splitter
 			SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_USERDATA,(LPARAM)DBGetContactSettingWord(NULL, modname, "Splitter", 300));
 			SendMessage(hwnd, GC_SPLITTERMOVED, 0,0);
 			SplitterSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_SPLITTER),GWLP_WNDPROC,(LONG)SplitterSubclassProc);
 			// module tree
-			TreeView_SetUnicodeFormat(GetDlgItem(hwnd,IDC_MODULES), UOS);
+			TreeView_SetUnicodeFormat(GetDlgItem(hwnd,IDC_MODULES), TRUE);
 			ModuleTreeSubClass=(WNDPROC)SetWindowLongPtr(GetDlgItem(hwnd,IDC_MODULES),GWLP_WNDPROC,(LONG)ModuleTreeSubclassProc);
 			//setting list
 			setupSettingsList(GetDlgItem(hwnd,IDC_SETTINGS));

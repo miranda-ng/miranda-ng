@@ -6,26 +6,25 @@ static BOOL Convert(HANDLE hContact, char* module, char* setting, int value, int
     int Result = 1;
 	char temp[64];
 
-	switch (toType)
-	{
-		case 0:
-			if (value > 0xFF)
-				Result = 0;
-			else
-				DBWriteContactSettingByte(hContact, module, setting, (BYTE)value);
+	switch (toType) {
+	case 0:
+		if (value > 0xFF)
+			Result = 0;
+		else
+			DBWriteContactSettingByte(hContact, module, setting, (BYTE)value);
 		break;
-		case 1:
-			if (value > 0xFFFF)
-				Result = 0;
-			else
-				DBWriteContactSettingWord(hContact, module, setting, (WORD)value);
+	case 1:
+		if (value > 0xFFFF)
+			Result = 0;
+		else
+			DBWriteContactSettingWord(hContact, module, setting, (WORD)value);
 		break;
-		case 2:
-			DBWriteContactSettingDword(hContact, module, setting, (DWORD)value);
+	case 2:
+		DBWriteContactSettingDword(hContact, module, setting, (DWORD)value);
 		break;
-		case 3:
-			DBDeleteContactSetting(hContact, module, setting);
-			DBWriteContactSettingString(hContact, module, setting, itoa(value,temp,10));
+	case 3:
+		DBDeleteContactSetting(hContact, module, setting);
+		DBWriteContactSettingString(hContact, module, setting, itoa(value,temp,10));
 		break;
 	}
 	return Result;
@@ -37,51 +36,47 @@ BOOL convertSetting(HANDLE hContact, char* module, char* setting, int toType) //
 	DBVARIANT dbv = {0};
 	BOOL Result = 0;
 
-	if (!GetSetting(hContact, module, setting, &dbv))
-	{
-		switch (dbv.type)
-		{
-			case DBVT_BYTE:
-				Result = Convert(hContact, module, setting, dbv.bVal, toType);
-				break;
+	if (!GetSetting(hContact, module, setting, &dbv)) {
+		switch (dbv.type) {
+		case DBVT_BYTE:
+			Result = Convert(hContact, module, setting, dbv.bVal, toType);
+			break;
 
-			case DBVT_WORD:
-				Result = Convert(hContact, module, setting, dbv.wVal, toType);
-				break;
+		case DBVT_WORD:
+			Result = Convert(hContact, module, setting, dbv.wVal, toType);
+			break;
 
-			case DBVT_DWORD:
-				Result = Convert(hContact, module, setting, dbv.dVal, toType);
-				break;
+		case DBVT_DWORD:
+			Result = Convert(hContact, module, setting, dbv.dVal, toType);
+			break;
 
-			case DBVT_ASCIIZ:
-				if (toType == 4) // convert to UNICODE
-				{
-					int len = (int)strlen(dbv.pszVal) + 1;
-					WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
-					MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
-					Result = !DBWriteContactSettingWString(hContact, module, setting, wc);
-				}
-				else
-				if (strlen(dbv.pszVal) < 11 && toType != 3)
-				{
-					int val = atoi(dbv.pszVal);
-					if (val == 0 && dbv.pszVal[0] != '0')
-						break;
+		case DBVT_ASCIIZ:
+			if (toType == 4) // convert to UNICODE
+			{
+				int len = (int)strlen(dbv.pszVal) + 1;
+				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
+				MultiByteToWideChar(CP_ACP, 0, dbv.pszVal, -1, wc, len);
+				Result = !DBWriteContactSettingWString(hContact, module, setting, wc);
+			}
+			else if (strlen(dbv.pszVal) < 11 && toType != 3) {
+				int val = atoi(dbv.pszVal);
+				if (val == 0 && dbv.pszVal[0] != '0')
+					break;
 
-					Result = Convert(hContact, module, setting, val, toType);
-				}
-				break;
-			case DBVT_UTF8:
-				if (toType == 3 && UOS) // convert to ANSI
-				{
-					int len = (int)strlen(dbv.pszVal) + 1;
-					char *sz = (char*)_alloca(len*3);
-					WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
-					MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
-					WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
-					Result = !DBWriteContactSettingString(hContact, module, setting, sz);
-				}
-				break;
+				Result = Convert(hContact, module, setting, val, toType);
+			}
+			break;
+
+		case DBVT_UTF8:
+			if (toType == 3) { // convert to ANSI
+				int len = (int)strlen(dbv.pszVal) + 1;
+				char *sz = (char*)_alloca(len*3);
+				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
+				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
+				WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
+				Result = !DBWriteContactSettingString(hContact, module, setting, sz);
+			}
+			break;
 		}
 
 		if (!Result)
@@ -205,17 +200,11 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 					else
 					{
 						char *tmp = (((struct DBsetting*)lParam)->dbv.pszVal);
-						if (UOS)
-						{
-							int length = (int)strlen(tmp) + 1;
-							WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
-							MultiByteToWideChar(CP_UTF8, 0, tmp, -1, wc, length);
-							SendMessageW(GetDlgItem(hwnd, IDC_STRING), WM_SETTEXT, 0, (LPARAM)wc);
-						}
-						else {
-							// convert from UTF8
-							SetDlgItemText(hwnd, IDC_STRING, tmp);
-						}
+						int length = (int)strlen(tmp) + 1;
+						WCHAR *wc = (WCHAR*)_alloca(length*sizeof(WCHAR));
+						MultiByteToWideChar(CP_UTF8, 0, tmp, -1, wc, length);
+						SendMessageW(GetDlgItem(hwnd, IDC_STRING), WM_SETTEXT, 0, (LPARAM)wc);
+
 						SetWindowText(hwnd, Translate("Edit UNICODE value"));
 						SetDlgItemText(hwnd, IDC_SETTINGNAME, ((struct DBsetting*)lParam)->setting);
 					}
@@ -331,7 +320,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 					valueLength = GetWindowTextLength(GetDlgItem(hwnd, valueID));
 
-					if (dbsetting->dbv.type == DBVT_UTF8 && UOS)
+					if (dbsetting->dbv.type == DBVT_UTF8)
 						valueLength *= sizeof(WCHAR);
 
 					if (settingLength)
@@ -355,7 +344,7 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 
 						if (valueLength)
 						{
-							if (dbsetting->dbv.type == DBVT_UTF8 && UOS)
+							if (dbsetting->dbv.type == DBVT_UTF8)
 								SendMessageW(GetDlgItem(hwnd, valueID), WM_GETTEXT, valueLength+2, (LPARAM)value);
 							else
 								GetWindowText(GetDlgItem(hwnd, valueID), value, valueLength+1);
@@ -406,17 +395,10 @@ INT_PTR CALLBACK EditSettingDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM l
 							break;
 							case 3:
 								if (dbsetting->dbv.type == DBVT_UTF8)
-								{
-									if (UOS)
-										DBWriteContactSettingWString(dbsetting->hContact, dbsetting->module, setting, (WCHAR*)value);
-									else
-										DBWriteContactSettingStringUtf(dbsetting->hContact, dbsetting->module, setting, value);
-								}
-								else
-								if (dbsetting->dbv.type == DBVT_BLOB)
+									DBWriteContactSettingWString(dbsetting->hContact, dbsetting->module, setting, (WCHAR*)value);
+								else if (dbsetting->dbv.type == DBVT_BLOB)
 									WriteBlobFromString(dbsetting->hContact,dbsetting->module,setting,value,valueLength);
-								else
-								if (dbsetting->dbv.type == DBVT_ASCIIZ)
+								else if (dbsetting->dbv.type == DBVT_ASCIIZ)
 									DBWriteContactSettingString(dbsetting->hContact, dbsetting->module, setting, value);
 							break;
 						}
@@ -450,7 +432,7 @@ void editSetting(HANDLE hContact, char* module, char* setting)
 		dbsetting->module = mir_tstrdup(module);
 		dbsetting->setting = mir_tstrdup(setting);
 
-		if (dbv.type == DBVT_UTF8 && UOS)
+		if (dbv.type == DBVT_UTF8)
 			CreateDialogParamW(hInst, MAKEINTRESOURCEW(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);
 		else
 			CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_EDIT_SETTING), hwnd2mainWindow, EditSettingDlgProc, (LPARAM)dbsetting);

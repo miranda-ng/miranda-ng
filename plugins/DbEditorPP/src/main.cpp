@@ -249,18 +249,14 @@ int ModulesLoaded(WPARAM wParam,LPARAM lParam)
 		if (DBGetContactSettingByte(NULL,modname,"WarnOnDelete",-1) == -1)
 			DBWriteContactSettingByte(NULL,modname,"WarnOnDelete",1);
 
-		cgs.szModule=modname;
-		cgs.szSetting="WarnOnDelete";
-		cgs.pValue=&dbv;
+		cgs.szModule = modname;
+		cgs.szSetting = "WarnOnDelete";
+		cgs.pValue = &dbv;
 
 		if (!CallService(MS_DB_CONTACT_GETSETTING_STR, 0,(LPARAM)&cgs))
 			if (dbv.type == DBVT_BYTE)
 				UDB = TRUE;
 	}
-
-	// check OS support for unicode
-	// useless if DB doesnt not support unicode
-	UOS = (UDB && IsCP_UTF8() && IsWinVerNT());
 
 	hTTBHook = HookEvent(ME_TTB_MODULELOADED, OnTTBLoaded);
 
@@ -429,17 +425,6 @@ int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char*
 	if (Value && length >= 10 && !GetSetting(hContact, szModule, szSetting, &dbv))
 	{
 		switch(dbv.type) {
-		case DBVT_UTF8:
-			if (UOS)
-			{
-				int len = (int)strlen(dbv.pszVal)+1;
-				char *sz = (char*)_alloca(len*3);
-				WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
-				MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
-				WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
-				strncpy(Value, sz, length);
-				break;
-			}// else fall through
 		case DBVT_ASCIIZ:
 			strncpy(Value, dbv.pszVal, length);
 			break;
@@ -451,6 +436,14 @@ int GetValue(HANDLE hContact, const char* szModule, const char* szSetting, char*
 			break;
 		case DBVT_WORD:
 			_itoa(dbv.wVal,Value,10);
+			break;
+		case DBVT_UTF8:
+			int len = (int)strlen(dbv.pszVal)+1;
+			char *sz = (char*)_alloca(len*3);
+			WCHAR *wc = (WCHAR*)_alloca(len*sizeof(WCHAR));
+			MultiByteToWideChar(CP_UTF8, 0, dbv.pszVal, -1, wc, len);
+			WideCharToMultiByte(CP_ACP, 0, wc, -1, sz, len, NULL, NULL);
+			strncpy(Value, sz, length);
 			break;
 		}
 
@@ -577,51 +570,41 @@ WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode)
 	char name[256];
 
 	if (hContact && !proto)
-	{
 		if (GetValue(hContact,"Protocol","p",name,SIZEOF(name)))
 			proto = name;
-	}
 
-	if (proto)
-	{
-
-		for(i=0;i<NAMEORDERCOUNT-1;i++)
-		{
+	if (proto) {
+		for(i=0; i < NAMEORDERCOUNT-1; i++) {
 			switch(nameOrder[i])  {
-				case 0: // custom name
-				{
-					r = GetDatabaseString(hContact,"CList","MyHandle",res,SIZEOF(res),unicode);
+			case 0: // custom name
+				r = GetDatabaseString(hContact,"CList","MyHandle",res,SIZEOF(res),unicode);
+				break;
+
+			case 1: // nick
+				r = GetDatabaseString(hContact,proto,"Nick",res,SIZEOF(res),unicode);
+				break;
+
+			case 2: // First Name
+				r = GetDatabaseString(hContact,proto,"FirstName",res,SIZEOF(res),unicode);
+				break;
+
+			case 3: // E-mail
+				r = GetDatabaseString(hContact,proto,"e-mail",res,SIZEOF(res),unicode);
+				break;
+
+			case 4: // Last Name
+				if (GetDatabaseString(hContact,proto,"LastName",res,SIZEOF(res),unicode))
 					break;
-				}
-				case 1: // nick
-				{
-					r = GetDatabaseString(hContact,proto,"Nick",res,SIZEOF(res),unicode);
-					break;
-				}
-				case 2: // First Name
-				{
-					r = GetDatabaseString(hContact,proto,"FirstName",res,SIZEOF(res),unicode);
-					break;
-				}
-				case 3: // E-mail
-				{
-					r = GetDatabaseString(hContact,proto,"e-mail",res,SIZEOF(res),unicode);
-					break;
-				}
-				case 4: // Last Name
-				{
-					if (GetDatabaseString(hContact,proto,"LastName",res,SIZEOF(res),unicode))
-					break;
-				}
-				case 5: // Unique id
+
+			case 5: // Unique id
 				{
 					// protocol must define a PFLAG_UNIQUEIDSETTING
 					char *uid = (char*)CallProtoService(proto,PS_GETCAPS,PFLAG_UNIQUEIDSETTING,0);
-					if ((int)uid!=CALLSERVICE_NOTFOUND && uid)
+					if ((INT_PTR)uid != CALLSERVICE_NOTFOUND && uid)
 						r = GetDatabaseString(hContact,proto,uid,res,SIZEOF(res),unicode);
 					break;
 				}
-				case 6: // first + last name
+			case 6: // first + last name
 				{
 					int len = 0;
 
@@ -635,8 +618,7 @@ WCHAR *GetContactName(HANDLE hContact, const char *szProto, int unicode)
 					else
 						res[0] = 0;
 
-					if (len && len < SIZEOF(res) - 2)
-					{
+					if (len && len < SIZEOF(res) - 2) {
 						if (unicode)
 							wcscat(res,L" ");
 						else
