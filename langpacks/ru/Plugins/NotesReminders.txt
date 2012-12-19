@@ -15,7 +15,7 @@
 [Notes Appearance]
 Вид заметок
 [Show Scrollbars]
-Прокрутки
+Прокрутка
 [Show Buttons]
 Кнопки
 [Title Date]
@@ -45,7 +45,7 @@
 [Reset to defaults]
 Сбросить
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
-Позволяет различным звукам проигрываться одновременно (возможны нежеланные последствия, если установлен модуль пользовательских звуков)
+Позволяет различным звукам проигрываться одновременно (возможны нежеланные последствия, если установлен модуль пользовательских звуков.)
 [Trigger On Time && Date:]
 Дата &и время запуска:
 [Date]
@@ -71,7 +71,7 @@
 [&Close]
 &Закрыть
 [&View Reminders]
-&Просмотреть напоминаний
+&Просмотр напоминаний
 [After:]
 После:
 [On Time && Date:]
@@ -151,7 +151,7 @@
 [Delete All Reminders]
 Удалить все напоминания
 [View Reminders]
-Просмотреть напоминаний
+Просмотр напоминаний
 [Bring All to Front]
 Переместить на передний план
 [View Notes]
