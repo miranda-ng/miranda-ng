@@ -33,7 +33,6 @@
 
 #define MIRANDA_VER 0x0A00
 
-// http://miranda.svn.sourceforge.net/viewvc/miranda/trunk/miranda/include/?sortby = file
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_system_cpp.h>

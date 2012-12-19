@@ -211,12 +211,6 @@ INT_PTR CMraProto::MraZhuki(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR CMraProto::MraChat(WPARAM wParam, LPARAM lParam)
-{
-	MraMPopSessionQueueAddUrl(hMPopSessionQueue, MRA_CHAT_URL, sizeof(MRA_CHAT_URL));
-	return 0;
-}
-
 INT_PTR CMraProto::MraWebSearch(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_UTILS_OPENURL, TRUE, (LPARAM)MRA_SEARCH_URL);
@@ -329,7 +323,7 @@ INT_PTR CMraProto::MraSendPostcard(WPARAM wParam, LPARAM lParam)
 
 			if ( GetContactFirstEMail((HANDLE)wParam, FALSE, szEMail, SIZEOF(szEMail), &dwEMailSize)) {
 				BuffToLowerCase(szEMail, szEMail, dwEMailSize);
-				dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname = %s&rcptemail = %s", GetContactNameA((HANDLE)wParam), szEMail);
+				dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA((HANDLE)wParam), szEMail);
 				MraMPopSessionQueueAddUrl(hMPopSessionQueue, szUrl, dwUrlSize);
 			}
 		}

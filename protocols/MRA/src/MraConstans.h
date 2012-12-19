@@ -65,8 +65,6 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_MY_WORLD_STR                     L"My World"
 #define MRA_ZHUKI                            "/Zhuki"
 #define MRA_ZHUKI_STR                        L"Zhuki"
-#define MRA_CHAT                             "/Chat"
-#define MRA_CHAT_STR                         L"Chat"
 #define MRA_WEB_SEARCH                       "/WebSearch"
 #define MRA_WEB_SEARCH_STR                   L"Web search"
 #define MRA_UPD_ALL_USERS_INFO               "/UpdateAllUsersInfo"
@@ -76,11 +74,11 @@ static const LPSTR lpcszMailRuDomains[] =
 #define MRA_REQ_AUTH_FOR_ALL                 "/ReqAuthForAll"
 #define MRA_REQ_AUTH_FOR_ALL_STR             L"Request authorization for all"
 
-#define MRA_MPOP_AUTH_URL                    "http://swa.mail.ru/cgi-bin/auth?Login = %s&agent = %s&page = %s"
+#define MRA_MPOP_AUTH_URL                    "http://swa.mail.ru/cgi-bin/auth?Login=%s&agent=%s&page=%s"
 
 #define MRA_WIN_INBOX_URL                    "http://win.mail.ru/cgi-bin/start"
 #define MRA_PDA_INBOX_URL                    "http://pda.mail.ru/cgi-bin/start"
-#define MRA_EDIT_PROFILE_URL                 "http://win.mail.ru/cgi-bin/userinfo?mra = 1"
+#define MRA_EDIT_PROFILE_URL                 "http://win.mail.ru/cgi-bin/userinfo?mra=1"
 #define MRA_CHAT_URL                         "http://chat.mail.ru"
 #define MRA_ZHUKI_URL                        "http://zhuki.mail.ru"
 #define MRA_SEARCH_URL                       "http://go.mail.ru"

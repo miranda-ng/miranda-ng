@@ -109,7 +109,7 @@ INT_PTR CALLBACK MraSelectEMailDlgProc(HWND hWndDlg, UINT message, WPARAM wParam
 					{
 						size_t dwUrlSize;
 						CHAR szUrl[BUFF_SIZE_URL];
-						dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname = %s&rcptemail = %s", GetContactNameA(dat->hContact), szEMail);
+						dwUrlSize = mir_snprintf(szUrl, SIZEOF(szUrl), "http://cards.mail.ru/event.html?rcptname=%s&rcptemail=%s", GetContactNameA(dat->hContact), szEMail);
 						dat->ppro->MraMPopSessionQueueAddUrl(dat->ppro->hMPopSessionQueue, szUrl, dwUrlSize);
 					}
 					break;

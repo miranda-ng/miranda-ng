@@ -15,7 +15,6 @@ GUI_DISPLAY_ITEM gdiMenuItems[] =
 	{ MRA_MY_ANSWERS,         MRA_MY_ANSWERS_STR,         IDI_MRA_ANSWERS,    &CMraProto::MraAnswers },
 	{ MRA_MY_WORLD,           MRA_MY_WORLD_STR,           IDI_MRA_WORLD,      &CMraProto::MraWorld },
 	{ MRA_ZHUKI,              MRA_ZHUKI_STR,              IDI_MRA_ZHUKI,      &CMraProto::MraZhuki },
-	{ MRA_CHAT,               MRA_CHAT_STR,               IDI_MRA_CHAT,       &CMraProto::MraChat },
 	{ MRA_WEB_SEARCH,         MRA_WEB_SEARCH_STR,         IDI_MRA_WEB_SEARCH, &CMraProto::MraWebSearch },
 	{ MRA_UPD_ALL_USERS_INFO, MRA_UPD_ALL_USERS_INFO_STR, IDI_PROFILE,        &CMraProto::MraUpdateAllUsersInfo },
 	{ MRA_CHK_USERS_AVATARS,  MRA_CHK_USERS_AVATARS_STR,  IDI_PROFILE,        &CMraProto::MraCheckUpdatesUsersAvt },
