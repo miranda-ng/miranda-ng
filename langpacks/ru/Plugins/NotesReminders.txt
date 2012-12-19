@@ -237,9 +237,9 @@
 [Are you sure you want to delete this reminder?]
 Уверены, что хотите удалить это напоминание?
 [On Top Caption Icon]
-Закрепить
+Прикрепить
 [Not on Top Caption Icon]
-Открепить
+Отцепить
 [Hide Note Icon]
 Скрыть заметку
 [Remove Note Icon]
