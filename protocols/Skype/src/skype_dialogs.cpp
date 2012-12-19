@@ -471,13 +471,13 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
 				{
-					param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom);
+					 param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom);
 				}
 				break;
 
 			case CLN_LISTREBUILT:
 				if (param) 
-					param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom);
+					 param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom);
 				break; 
 			}
 		}
@@ -514,9 +514,9 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					char sid[SKYPE_SID_LIMIT] = "";
 					HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
 
-					SEStringList chatTargets;
-					param->ppro->FillChatList(NULL, hwndList, chatTargets);
-					param->ppro->StartChat(chatTargets);
+					SEStringList inviteContacts;
+					 param->ppro->GetInviteContacts(NULL, hwndList, inviteContacts);
+					 param->ppro->StartChat(NULL, inviteContacts);
 				}
 
 				EndDialog(hwndDlg, IDOK);

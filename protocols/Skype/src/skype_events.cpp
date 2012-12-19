@@ -2,7 +2,8 @@
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	this->RegisterChat();
+	this->InitChat();
+
 	this->HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
 	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
 	
@@ -28,10 +29,10 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 
 void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref message)
 {
-	uint timestamp;
-	message->GetPropTimestamp(timestamp);
+	SEString data;	
 
-	SEString data;
+	uint timestamp;
+	message->GetPropTimestamp(timestamp);	
 
 	message->GetPropAuthor(data);
 	char *sid = ::mir_strdup((const char*)data);
@@ -39,43 +40,67 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	message->GetPropBodyXml(data);
 	char *text = ::mir_strdup((const char*)data);
 
-	Participant::Refs participants;
-	conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+	CConversation::TYPE type;
+	conversation->GetPropType(type);
+	if (type == CConversation::DIALOG)
+	{
+		CParticipant::Refs participants;
+		conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
 		
-	for (uint i = 0; i < participants.size(); i ++)
-	{			
-		participants[i]->GetPropIdentity(data);
-		char *contactSid = ::mir_strdup((const char *)data);
-		//todo: get nickname
-		this->RaiseMessageSendedEvent(
-			timestamp,
-			contactSid,
-			contactSid,
-			text);
+		for (uint i = 0; i < participants.size(); i ++)
+		{
+			participants[i]->GetPropIdentity(data);
+			char *contactSid = ::mir_strdup((const char *)data);
+			//todo: get nickname
+			this->RaiseMessageSendedEvent(
+				timestamp,
+				contactSid,
+				contactSid,
+				text);
+		}
+	}
+	else
+	{
+		conversation->GetPropIdentity(data);
+		char *chatID = ::mir_utf8encode((const char*)data);
+
+		this->ChatEvent(chatID, sid, /*GC_EVENT_MESSAGE*/0x0040, text);
 	}
 }
 
 void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::Ref message)
 {
+	SEString data;
+
 	uint timestamp;
 	message->GetPropTimestamp(timestamp);
 
-	SEString data;
-
 	message->GetPropAuthor(data);
 	char *sid = ::mir_strdup((const char*)data);
-
-	message->GetPropAuthorDisplayname(data);
-	char *nick = ::mir_strdup((const char*)data);
-
+		
 	message->GetPropBodyXml(data);
-	char *text = ::mir_strdup((const char*)data);
+	char *text = ::mir_utf8decodeA((const char*)data);
 
-	this->RaiseMessageReceivedEvent(
-		(DWORD)timestamp, 
-		sid, 
-		nick, 
-		text);
+	CConversation::TYPE type;
+	conversation->GetPropType(type);
+	if (type == CConversation::DIALOG)
+	{
+		message->GetPropAuthorDisplayname(data);
+		char *nick = ::mir_strdup((const char*)data);	
+
+		this->RaiseMessageReceivedEvent(
+			(DWORD)timestamp, 
+			sid, 
+			nick, 
+			text);
+	}
+	else
+	{
+		conversation->GetPropIdentity(data);
+		char *chatID = ::mir_strdup((const char*)data);
+
+		this->ChatEvent(chatID, sid, /*GC_EVENT_MESSAGE*/ 0x0040, text);
+	}
 
 	/*const char *msg = (const char*)propValues[2];
 	int len = ::strlen(msg) + 8;

@@ -18,6 +18,9 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
+	// Chat
+	this->CreateService(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
+	this->CreateService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
 	// Avatar API
 	this->CreateService(PS_GETAVATARINFOT, &CSkypeProto::GetAvatarInfo);
 	this->CreateService(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);

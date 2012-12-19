@@ -28,6 +28,11 @@ CConversation* CSkype::newConversation(int oid)
 	return new CConversation(oid, this); 
 }
 
+CParticipant* CSkype::newParticipant(int oid) 
+{ 
+	return new CParticipant(oid, this); 
+}
+
 CMessage* CSkype::newMessage(int oid) 
 { 
 	return new CMessage(oid, this); 
@@ -162,6 +167,10 @@ void CContactSearch::SetOnContactFindedCallback(OnContactFinded callback)
 {
 	this->ContactFindedCallback = callback;
 }
+
+// CParticipant
+
+CParticipant::CParticipant(unsigned int oid, SERootObject* root) : Participant(oid, root) { }
 
 // CContact
 

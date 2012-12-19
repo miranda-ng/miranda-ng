@@ -19,6 +19,15 @@ public:
 	CMessage(unsigned int oid, SERootObject* root);
 };
 
+class CParticipant : public Participant
+{
+public:
+	typedef DRef<CParticipant, Participant> Ref;
+	typedef DRefs<CParticipant, Participant> Refs;
+
+	CParticipant(unsigned int oid, SERootObject* root);
+};
+
 class CConversation : public Conversation
 {
 public:
@@ -135,7 +144,8 @@ public:
 	CContactGroup*	newContactGroup(int oid);
 	CConversation*	newConversation(int oid);
 	CContactSearch*	newContactSearch(int oid);
-	CContact*		newContact(int oid);
+	CParticipant*	newParticipant(int oid);
+	CContact*		newContact(int oid);	
 	CMessage*		newMessage(int oid);
 
 	CConversation::Refs inbox;

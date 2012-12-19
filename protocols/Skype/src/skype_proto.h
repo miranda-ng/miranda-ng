@@ -63,15 +63,15 @@ const SettingItem setting[]={
 
 struct InviteChatParam
 {
-	TCHAR		*id;
+	char		*id;
 	HANDLE		hContact;
 	CSkypeProto *ppro;
 
-	InviteChatParam(const TCHAR *id, HANDLE hContact, CSkypeProto *ppro)
-		: id(mir_tstrdup(id)), hContact(hContact), ppro(ppro) {}
+	InviteChatParam(const char *id, HANDLE hContact, CSkypeProto *ppro)
+		: id(::mir_strdup(id)), hContact(hContact), ppro(ppro) {}
 
 	~InviteChatParam()
-	{ mir_free(id); }
+	{ ::mir_free(id); }
 };
 
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
@@ -197,10 +197,18 @@ protected:
 	
 	void ChatValidateContact(HANDLE hItem, HWND hwndList);
 	void ChatPrepare(HANDLE hItem, HWND hwndList);
-	void FillChatList(HANDLE hItem, HWND hwndList, SEStringList &chatTargets);
+	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &inviteContacts);
 	
-	void RegisterChat();
-	void StartChat(SEStringList &chatTargets);
+	void InitChat();
+	void StartChat(HANDLE hContact, SEStringList &invitedContacts);
+	void ChatEvent(const char *chatID, const char *sid, int evt, const char* msg);
+	void ChatLeave(const char *chatID);
+
+	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
+	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
+
+	int __cdecl OnGCMenuHook(WPARAM, LPARAM lParam);
+	int __cdecl OnGCEventHook(WPARAM, LPARAM lParam);
 
 	// contacts
 	void	UpdateContactAboutText(HANDLE hContact, CContact::Ref contact);
