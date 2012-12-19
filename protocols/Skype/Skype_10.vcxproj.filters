@@ -92,12 +92,4 @@
       <Filter>Resource Filess</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="res\Main.ico" />
-    <None Include="res\auth_grant.ico" />
-    <None Include="res\auth_request.ico" />
-    <None Include="res\auth_revoke.ico" />
-    <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe" />
-    <None Include="..\..\..\SkypeKit\keypair.bin" />
-  </ItemGroup>
 </Project>
