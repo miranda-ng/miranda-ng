@@ -236,3 +236,13 @@
 Дата активации
 [Are you sure you want to delete this reminder?]
 Уверены, что хотите удалить это напоминание?
+[On Top Caption Icon]
+Закрепить
+[Not on Top Caption Icon]
+Открепить
+[Hide Note Icon]
+Скрыть заметку
+[Remove Note Icon]
+Удалить заметку
+[Reminder Icon]
+Напоминание
