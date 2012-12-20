@@ -106,7 +106,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int CSkypeProto::InviteCommand(WPARAM, LPARAM)
+INT_PTR CSkypeProto::InviteCommand(WPARAM, LPARAM)
 {
 	::DialogBoxParam(
 		g_hInstance, 

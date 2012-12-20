@@ -210,7 +210,7 @@ public:
 	static void InitMenus();
 	static void UninitMenus();
 
-	int __cdecl InviteCommand(WPARAM, LPARAM);
+	INT_PTR __cdecl InviteCommand(WPARAM, LPARAM);
 
 	static CSkypeProto* GetInstanceByHContact(HANDLE hContact);
 	static int PrebuildContactMenu(WPARAM wParam, LPARAM lParam);
