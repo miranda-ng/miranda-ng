@@ -22,7 +22,21 @@ int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 
 int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 {
-	this->RevokeAuth(wParam, lParam);
+	HANDLE hContact = (HANDLE)wParam;
+	if (hContact && this->IsOnline())
+	{
+		if (this->IsChatRoom(hContact))
+		{
+			char *chatID = ::DBGetString(hContact, this->m_szModuleName, "ChatRoomID");
+			this->LeaveChat(chatID);
+
+			CConversation::Ref conversation;
+			g_skype->GetConversationByIdentity(chatID, conversation);
+			conversation->Delete();
+		}
+		else
+			this->RevokeAuth(wParam, lParam);
+	}
 
 	return 0;
 }
@@ -38,7 +52,7 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	char *sid = ::mir_strdup((const char*)data);
 
 	message->GetPropBodyXml(data);
-	char *text = ::mir_strdup((const char*)data);
+	char *text = ::mir_utf8decodeA((const char*)data);
 
 	CConversation::TYPE type;
 	conversation->GetPropType(type);
@@ -62,9 +76,16 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 	else
 	{
 		conversation->GetPropIdentity(data);
-		char *chatID = ::mir_utf8encode((const char*)data);
+		char *cid = ::mir_strdup((const char*)data);
 
-		this->ChatEvent(chatID, sid, /*GC_EVENT_MESSAGE*/0x0040, text);
+		/*HANDLE hContact = this->GetChatRoomByID(cid);
+		if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		{
+			this->JoinChat(cid);
+		}*/
+		this->SendChatMessage(cid, sid, text);
+
+		::mir_free(cid);
 	}
 }
 
@@ -86,7 +107,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	if (type == CConversation::DIALOG)
 	{
 		message->GetPropAuthorDisplayname(data);
-		char *nick = ::mir_strdup((const char*)data);	
+		char *nick = ::mir_utf8encode((const char*)data);	
 
 		this->RaiseMessageReceivedEvent(
 			(DWORD)timestamp, 
@@ -97,9 +118,16 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 	else
 	{
 		conversation->GetPropIdentity(data);
-		char *chatID = ::mir_strdup((const char*)data);
+		char *cid = ::mir_strdup((const char*)data);
 
-		this->ChatEvent(chatID, sid, /*GC_EVENT_MESSAGE*/ 0x0040, text);
+		/*HANDLE hContact = this->GetChatRoomByID(cid);
+		if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+		{
+			this->JoinChat(cid);
+		}*/
+		this->SendChatMessage(cid, sid, text);
+
+		::mir_free(cid);
 	}
 
 	/*const char *msg = (const char*)propValues[2];
@@ -119,11 +147,110 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	CMessage::SENDING_STATUS sendingStatus;
 	message->GetPropSendingStatus(sendingStatus);
 
-	if (messageType == CMessage::POSTED_TEXT)
+	switch (messageType)
 	{
+	case CMessage::POSTED_EMOTE:
+	case CMessage::POSTED_TEXT:
 		if (sendingStatus == CMessage::SENT)
 			this->OnMessageSended(conversation, message);
 		else if (!sendingStatus)
 			this->OnMessageReceived(conversation, message);
+		break;
+
+	case CMessage::ADDED_CONSUMERS:
+		{
+			SEString data;
+
+			conversation->GetPropIdentity(data);
+			char *cid = ::mir_strdup(data);
+
+			HANDLE hContact = this->GetChatRoomByID(cid);
+			if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+			{
+				this->StartChat(cid);
+				
+				CParticipant::Refs participants;
+				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
+				for (uint i = 0; i < participants.size(); i++)
+				{
+					participants[i]->GetPropIdentity(data);
+					this->AddChatContact(cid, data);
+				}
+			}
+
+			{
+				message->GetPropIdentities(data);
+
+				StringList alreadyInChat(this->GetChatUsers(cid), " ");
+				StringList needToAdd(data, " ");
+				
+				for (int i = 0; i < needToAdd.getCount(); i++)
+				{
+					char *sid = needToAdd[i];
+					if (::stricmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
+						this->AddChatContact(cid, sid);
+				}
+			}
+		}
+		break;
+
+	case CMessage::RETIRED:
+		{
+		SEString data;
+
+			conversation->GetPropIdentity(data);
+			char *cid = ::mir_strdup(data);
+
+			StringList alreadyInChat(this->GetChatUsers(cid), " ");
+			
+			message->GetPropAuthor(data);	
+			char *sid = ::mir_strdup(data);
+			if (::stricmp(sid, this->login) != 0 && alreadyInChat.contains(sid))
+				this->RemoveChatContact(cid, sid);
+		}
+		break;
+	case CMessage::RETIRED_OTHERS:
+		{
+			SEString data;
+
+			conversation->GetPropIdentity(data);
+			char *cid = ::mir_strdup(data);
+
+			message->GetPropIdentities(data);
+
+			StringList alreadyInChat(this->GetChatUsers(cid), " ");
+			StringList needToKick(data, " ");
+				
+			for (int i = 0; i < needToKick.getCount(); i++)
+			{
+				char *sid = needToKick[i];
+				if (::stricmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
+					this->KickChatContact(cid, sid);
+			}
+		}
+		break;
+
+	case CMessage::SPAWNED_CONFERENCE:
+		{
+			SEString data;
+			conversation->GetPropIdentity(data);
+			char *cid = ::mir_strdup(data);
+
+			/*HANDLE hContact = this->GetChatRoomByID(cid);
+			if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
+			{
+				this->JoinChat(cid);
+			}*/
+		}
+		break;
+
+	//case CMessage::REQUESTED_AUTH:
+	//	break;
+
+	//case CMessage::GRANTED_AUTH:
+	//	break;
+
+	//case CMessage::BLOCKED:
+	//	break;
 	}
 }

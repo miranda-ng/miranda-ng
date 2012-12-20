@@ -531,16 +531,17 @@ bool CSkypeProto::IsProtoContact(HANDLE hContact)
 
 HANDLE CSkypeProto::GetContactBySid(const char *sid)
 {
-	HANDLE hContact = db_find_first();
+	HANDLE hContact = ::db_find_first();
 	while (hContact)
 	{
 		if  (this->IsProtoContact(hContact) && !this->IsChatRoom(hContact))
 		{
-			if (::strcmp(sid, ::DBGetString(hContact, this->m_szModuleName, "sid")) == 0)
+			char *contactSid = ::DBGetString(hContact, this->m_szModuleName, "sid");
+			if (contactSid && ::strcmp(sid, contactSid) == 0)
 				return hContact;
 		}
 
-		hContact = db_find_next(hContact);
+		hContact = ::db_find_next(hContact);
 	}
 
 	return 0;
@@ -720,6 +721,44 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		this->UpdateContactStatus(hContact, contact);
 		this->UpdateContactStatusMessage(hContact, contact);
 	}
+
+	CConversation::Refs conversations;
+	g_skype->GetConversationList(conversations);
+	for (uint i = 0; i < conversations.size(); i++)
+	{
+		CConversation::TYPE type;
+		conversations[i]->GetPropType(type);
+
+		CConversation::MY_STATUS status;
+		conversations[i]->GetPropMyStatus(status);
+		if (type == CConversation::CONFERENCE)
+		{
+			SEString data;
+
+			conversations[i]->GetPropIdentity(data);
+			char *cid = ::mir_strdup((const char *)data);
+
+			conversations[i]->GetPropDisplayname(data);
+			char *name = ::mir_utf8decodeA((const char *)data);
+
+			HANDLE hContact = this->AddChatRoomByID(cid, name);
+
+			CConversation::LOCAL_LIVESTATUS live;
+			conversations[i]->GetPropLocalLivestatus(live);
+
+			if (status == CConversation::CONSUMER)// && live != CConversation::NONE)
+			{
+				this->JoinToChat(cid, false);
+			}
+		}
+	}
+
+	/*CConversation::Refs conversations;
+	g_skype->GetConversationList(conversations);
+	for (uint i = 0; i < conversations.size(); i++)
+	{
+		conversations[i]->Delete();
+	}*/
 
 	// raise auth event for all non auth contacts
 	CContact::Refs authContacts;

@@ -189,6 +189,12 @@ BEGIN
     EDITTEXT        IDC_SL,84,17,123,13,ES_AUTOHSCROLL
     LTEXT           "Password:",IDC_STATIC,17,35,61,8
     EDITTEXT        IDC_PW,84,33,123,13,ES_PASSWORD | ES_AUTOHSCROLL
+    GROUPBOX        "Connection",IDC_STATIC,7,69,291,47
+    LTEXT           "Use port",IDC_STATIC,17,81,44,8
+    EDITTEXT        IDC_PORT,84,79,40,14,ES_AUTOHSCROLL
+    LTEXT           "for incoming connections",IDC_STATIC,130,81,158,8
+    CONTROL         "Use ports 80 and 443 as alternative incoming",IDC_USE_ALT_PORTS,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,17,97,271,10
 END
 
 

@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by e:\Projects\C++\MirandaNG\protocols\Skype\res\Resource.rc
+// Used by D:\Projects\CPlusPlus\MirandaNG\protocols\Skype\res\Resource.rc
 //
 #define IDD_SKYPEACCOUNT                9
 #define IDD_OPTIONS                     10
@@ -32,6 +32,9 @@
 #define IDC_SAVE                        1013
 #define IDC_LIST                        1014
 #define IDC_UPLOADING                   1015
+#define IDC_PORT                        1016
+#define IDC_CHECK1                      1017
+#define IDC_USE_ALT_PORTS               1017
 
 // Next default values for new objects
 // 
@@ -39,7 +42,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        108
 #define _APS_NEXT_COMMAND_VALUE         40001
-#define _APS_NEXT_CONTROL_VALUE         1016
+#define _APS_NEXT_CONTROL_VALUE         1018
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif

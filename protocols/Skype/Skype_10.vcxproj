@@ -210,6 +210,14 @@
     <ResourceCompile Include="res\Version.rc" />
     <ResourceCompile Include="res\Resource.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\SkypeKit\keypair.bin" />
+    <None Include="..\..\..\SkypeKit\SDK\bin\windows-x86\windows-x86-skypekit.exe" />
+    <None Include="res\auth_grant.ico" />
+    <None Include="res\auth_request.ico" />
+    <None Include="res\auth_revoke.ico" />
+    <None Include="res\Main.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

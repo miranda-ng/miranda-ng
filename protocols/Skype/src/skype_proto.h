@@ -11,6 +11,59 @@ typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFunc)(WPARAM, LPARAM);
 typedef int     (__cdecl CSkypeProto::* SkypeEventFunc)(WPARAM, LPARAM);
 typedef INT_PTR (__cdecl CSkypeProto::* SkypeServiceFuncParam)(WPARAM, LPARAM, LPARAM);
 
+struct StringList : public LIST<char>
+{
+	static int compare(const char* p1, const char* p2)
+	{ return _stricmp(p1, p2); }
+
+	StringList() : LIST<char>(2, compare) {}
+	StringList(const char* string, const char *delimeters) : LIST<char>(2, compare) 
+	{
+		char *data = ::mir_strdup(string);
+		if (data)
+		{
+			char *p = ::strtok(data, delimeters);
+			if (p)
+			{
+				this->insert(::mir_strdup(p));
+				while (p = strtok(NULL, delimeters))
+				{
+					this->insert(::mir_strdup(p));
+				}
+			}
+			::mir_free(data);
+		}
+	}
+	~StringList() { destroy(); }
+
+	void destroy( void )
+	{
+		for (int i=0; i < count; i++)
+			mir_free(items[i]);
+
+		List_Destroy((SortedList*)this);
+	}
+
+	int insertn(const char* p) { return insert(mir_strdup(p)); }
+
+	int remove(int idx)
+	{
+		mir_free(items[idx]);
+		return List_Remove((SortedList*)this, idx);
+	}
+
+	int remove(const char* p)
+	{
+		int idx;
+		return  List_GetIndex((SortedList*)this, (char*)p, &idx) == 1 ? remove(idx) : -1;
+	}
+
+	bool contains(char* p)
+	{
+		return indexOf(p) >= 0;
+	}
+};
+
 struct _tag_iconList
 {
 	wchar_t*	Description;
@@ -194,15 +247,26 @@ protected:
 
 	// chat
 	bool IsChatRoom(HANDLE hContact);
+	HANDLE GetChatRoomByID(const char *cid);
+	HANDLE	AddChatRoomByID(const char* cid, const char* name, DWORD flags = 0);
 	
-	void ChatValidateContact(HANDLE hItem, HWND hwndList);
-	void ChatPrepare(HANDLE hItem, HWND hwndList);
-	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &inviteContacts);
+	char *CSkypeProto::GetChatUsers(const char *cid);
+
+	void ChatValidateContact(HANDLE hItem, HWND hwndList, const char *contacts);
+	void ChatPrepare(HANDLE hItem, HWND hwndList, const char *contacts);
+
+	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &invitedContacts);
 	
 	void InitChat();
-	void StartChat(HANDLE hContact, SEStringList &invitedContacts);
-	void ChatEvent(const char *chatID, const char *sid, int evt, const char* msg);
-	void ChatLeave(const char *chatID);
+	char *StartChat(const char *cid);
+	void JoinToChat(const char *cid, bool showWindow = true);
+	void LeaveChat(const char *cid);
+
+	void RaiseChatEvent(const char *cid, const char *sid, int evt, const char *message = NULL);
+	void SendChatMessage(const char *cid, const char *sid, const char *message);
+	void AddChatContact(const char *cid, const char *sid);
+	void KickChatContact(const char *cid, const char *sid);
+	void RemoveChatContact(const char *cid, const char *sid);
 
 	INT_PTR __cdecl OnJoinChat(WPARAM wParam, LPARAM);
 	INT_PTR __cdecl OnLeaveChat(WPARAM wParam, LPARAM);
@@ -289,6 +353,10 @@ protected:
 
 	void ShowNotification(const char *nick, const wchar_t *message, int flags = 0);
 
+	//
+	static char CharBase64[];
+	static ULONG Base64Encode(char *inputString, char *outputBuffer, SIZE_T nMaxLength);
+
 	// instances
 	static LIST<CSkypeProto> instanceList;
 	static int CompareProtos(const CSkypeProto *p1, const CSkypeProto *p2);
@@ -360,9 +428,9 @@ protected:
 	WORD	GetSettingWord(HANDLE hContact, const char *setting, WORD errorValue = 0);
 	DWORD	GetSettingDword(const char *setting, DWORD defVal = 0);
 	DWORD	GetSettingDword(HANDLE hContact, const char *setting, DWORD errorValue = 0);
-	wchar_t*	GetSettingString(const char *setting, wchar_t* errorValue = NULL);
-	wchar_t*	GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
-	char*	GetDecodeSettingString(HANDLE hContact, const char *setting, char* errorValue = NULL);
+	wchar_t *GetSettingString(const char *setting, wchar_t* errorValue = NULL);
+	wchar_t *GetSettingString(HANDLE hContact, const char *setting, wchar_t* errorValue = NULL);
+	char	*GetDecodeSettingString(HANDLE hContact, const char *setting, char* errorValue = NULL);
 	//
 	bool	SetSettingByte(const char *setting, BYTE value);
 	bool	SetSettingByte(HANDLE hContact, const char *setting, BYTE value);

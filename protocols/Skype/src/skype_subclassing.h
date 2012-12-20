@@ -44,7 +44,8 @@ public:
 
 private:
 	CSkypeProto* proto;
-	OnMessageReceived callback;
+	OnMessageReceived messageReceivedCallback;
+	
 	void OnMessage(const MessageRef & message);
 };
 
@@ -105,10 +106,7 @@ public:
 	typedef DRefs<CContactGroup, ContactGroup> Refs;
 	CContactGroup(unsigned int oid, SERootObject* root);
 
-	//CContact::Refs ContactList;
 	void SetOnContactListChangedCallback(OnContactListChanged callback, CSkypeProto* proto);
-
-	//bool Contains(const ContactRef& contact);
 
 private:
 	CSkypeProto* proto;

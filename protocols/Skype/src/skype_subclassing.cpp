@@ -55,8 +55,6 @@ void CSkype::OnMessage (
 
 	if (this->proto)
 		(proto->*onMessagedCallback)(conversation->ref(), message->ref());
-
-	
 }
 
 void CSkype::SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto)
@@ -99,11 +97,6 @@ void CContactGroup::SetOnContactListChangedCallback(OnContactListChanged callbac
 	this->callback = callback;
 }
 
-//bool CContactGroup::Contains(const ContactRef& contact)
-//{
-//	return this->ContactList.contains(contact);
-//}
-
 void CContactGroup::OnChange(const ContactRef& contact)
 {
 	if (this->proto)
@@ -132,10 +125,6 @@ void CContactSearch::OnChange(int prop)
 				(proto->*SearchCompletedCallback)(this->hSearch);
 		}
 	}
-
-	//SEString value = GetProp(prop);
-	//List_String dbg = getPropDebug(prop, value);
-	//fprintf(stdout,"CONTACTSEARCH.%d:%s = %s\n", getOID(), (const char*)dbg[1], (const char*)dbg[2]);
 }
 
 void CContactSearch::OnNewResult(const ContactRef& contact, const uint& rankValue)
@@ -197,13 +186,13 @@ void CContact::OnChange(int prop)
 CConversation::CConversation(unsigned int oid, SERootObject* root) : Conversation(oid, root) 
 {
 	this->proto = NULL;
-	this->callback == NULL;
+	this->messageReceivedCallback = NULL;
 }
 
 void CConversation::OnMessage(const MessageRef & message)
 {
 	if (this->proto)
-		(proto->*callback)(message->ref());
+		(proto->*messageReceivedCallback)(message->ref());
 }
 
 CConversation::Ref CConversation::FindBySid(CSkype *skype, SEString sid)
@@ -220,7 +209,7 @@ CConversation::Ref CConversation::FindBySid(CSkype *skype, SEString sid)
 void CConversation::SetOnMessageReceivedCallback(OnMessageReceived callback, CSkypeProto* proto)
 {
 	this->proto = proto;
-	this->callback = callback;
+	this->messageReceivedCallback = callback;
 }
 
 // CMessage

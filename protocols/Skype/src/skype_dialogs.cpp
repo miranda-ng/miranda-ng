@@ -89,10 +89,20 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 				SetDlgItemTextA(hwnd, IDC_PW, data);
 				::mir_free(data);
 			}
+			{
+				int port;
+				g_skype->GetInt(SETUPKEY_PORT, port);
+				SetDlgItemInt(hwnd, IDC_PORT, proto->GetSettingWord("Port", port), FALSE);
+			}
+			{
+				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, proto->GetSettingByte("UseAlternativePorts", 1));
+			}
 
 			if (proto->m_iStatus != ID_STATUS_OFFLINE) {
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
+				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0); 
+				SendMessage(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), EM_SETREADONLY, 1, 0); 
 			}
 		}
 		return TRUE;
@@ -105,6 +115,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 				{
 				case IDC_SL:
 				case IDC_PW:
+				case IDC_PORT:
+				case IDC_USE_ALT_PORTS:
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 			}
@@ -124,6 +136,9 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 
 			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
 			proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
+
+			proto->SetSettingWord("Port", GetDlgItemInt(hwnd, IDC_PORT, NULL, FALSE));
+			proto->GetSettingByte("UseAlternativePorts", IsDlgButtonChecked( hwnd, IDC_USE_ALT_PORTS ) > 0);
 
 			proto->SetSettingByte("RememberPassword", true);
 
@@ -471,13 +486,33 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 			case CLN_NEWCONTACT:
 				if (param && (nmc->flags & (CLNF_ISGROUP | CLNF_ISINFO)) == 0) 
 				{
-					 param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom);
+					char *contacts = NULL;
+					if (param->id)
+					{
+						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
+						if (hContact && ::DBGetContactSettingWord(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						{
+							contacts = param->ppro->GetChatUsers(param->id);
+						}
+					}
+					param->ppro->ChatValidateContact(nmc->hItem, nmc->hdr.hwndFrom, contacts);
 				}
 				break;
 
 			case CLN_LISTREBUILT:
 				if (param) 
-					 param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom);
+				{
+					char *contacts = NULL;
+					if (param->id)
+					{
+						HANDLE hContact = param->ppro->GetChatRoomByID(param->id);
+						if (hContact && ::DBGetContactSettingWord(hContact, param->ppro->m_szModuleName, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
+						{
+							contacts = param->ppro->GetChatUsers(param->id);
+						}
+					}
+					param->ppro->ChatPrepare(NULL, nmc->hdr.hwndFrom, contacts);
+				}
 				break; 
 			}
 		}
@@ -511,12 +546,35 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 			case IDOK:
 				{
-					char sid[SKYPE_SID_LIMIT] = "";
 					HWND hwndList = ::GetDlgItem(hwndDlg, IDC_CCLIST);
 
-					SEStringList inviteContacts;
-					 param->ppro->GetInviteContacts(NULL, hwndList, inviteContacts);
-					 param->ppro->StartChat(NULL, inviteContacts);
+					SEStringList invitedContacts;
+					param->ppro->GetInviteContacts(NULL, hwndList, invitedContacts);
+
+					CConversation::Ref conversation;
+					char *chatID = ::mir_strdup(param->id);
+					if (chatID)
+					{
+						g_skype->GetConversationByIdentity(chatID, conversation);
+						conversation->AddConsumers(invitedContacts);
+					}
+					else
+					{
+						chatID = param->ppro->StartChat(NULL);
+
+						g_skype->GetConversationByIdentity(chatID, conversation);
+						conversation->AddConsumers(invitedContacts);
+					
+						/*SEString data;
+
+						conversation->GetPropIdentity(data);
+						char *cid = ::mir_strdup((const char *)data);
+
+						for (uint i = 0; i < invitedContacts.size(); i++)
+						{
+							param->ppro->AddChatContact(cid, invitedContacts[i]);
+						}*/
+					}
 				}
 
 				EndDialog(hwndDlg, IDOK);

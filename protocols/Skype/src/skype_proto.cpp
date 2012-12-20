@@ -29,6 +29,11 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 
 	this->InitNetLib();
 	this->InitCustomFolders();
+
+	//
+	g_skype->SetOnMessageCallback(
+		(CSkype::OnMessaged)&CSkypeProto::OnMessage,
+		this);
 }
 
 CSkypeProto::~CSkypeProto()
@@ -243,7 +248,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 	if (conversation) 
 	{
 		Message::Ref message;
-		conversation->PostText(msg, message);
+		conversation->PostText(::mir_utf8encode(msg), message);
 	}
 
 	this->SendBroadcastAsync(
@@ -358,10 +363,6 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	g_skype->SetOnMessageCallback(
-		(CSkype::OnMessaged)&CSkypeProto::OnMessage,
-		this);
-
 	this->SetStatus(this->m_iDesiredStatus);
 
 	this->LoadOwnInfo(this);
@@ -393,12 +394,17 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 				(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged,
 				this);
 			//
+			int port;
+			g_skype->GetInt(SETUPKEY_PORT, port);
+			g_skype->SetInt(SETUPKEY_PORT, this->GetSettingWord("Port", port));
+			g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
+			//
 			if (this->hNetlibUser)
 			{
 				NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-				if (
-					!::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetlibUser, (LPARAM)&nlus) && 
-					nlus.useProxy) 
+				::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetlibUser, (LPARAM)&nlus);
+
+				if (nlus.useProxy) 
 				{
 					char address[MAX_PATH];
 					::mir_snprintf(address, MAX_PATH, "%s:%d", nlus.szProxyServer, nlus.wProxyPort);
@@ -413,7 +419,12 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 						if (nlus.useProxyAuth)
 						{
 							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER, nlus.szProxyAuthUser);
-							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD, nlus.szProxyAuthPassword);
+
+							char *encodedPass = new char[MAX_PATH];
+
+							CSkypeProto::Base64Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
+
+							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD, encodedPass);
 						}
 						break;
 

@@ -474,3 +474,54 @@ void CSkypeProto::ShowNotification(const char *nick, const wchar_t *message, int
 		::CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	}
 }
+
+char CSkypeProto::CharBase64[] = 
+{
+	'A','B','C','D','E','F','G','H','I','J','K','L','M  ','N','O','P',
+	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c  ','d','e','f',
+	'g','h','i','j','k','l','m','n','o','p','q','r','s  ','t','u','v',
+	'w','x','y','z','0','1','2','3','4','5','6','7','8  ','9','+','/'
+};
+
+ULONG CSkypeProto::Base64Encode(char *inputString, char *outputBuffer, SIZE_T nMaxLength)
+{
+	int outpos = 0;
+	char chr[3], enc[4];
+
+	for (uint i = 0; i < ::strlen(inputString); i += 3)
+	{
+		if (outpos + 4 >= nMaxLength)
+			break;
+
+		chr[0] = inputString[i];
+		chr[1] = inputString[i+1];
+		chr[2] = inputString[i+2];
+
+		enc[0] = chr[0] >> 2;
+		enc[1] = ((chr[0] & 0x03) << 4) | (chr[1] >> 4);
+		enc[2] = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6);
+		enc[3] = chr[2] & 0x3F;
+
+		outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[0]];
+		outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[1]];
+
+		if (i + 1 >= ::strlen(inputString))
+		{
+			outputBuffer[outpos++] = '=';
+			outputBuffer[outpos++] = '=';
+		}
+		else if (i + 2 >= ::strlen(inputString))
+		{
+			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[2]];
+			outputBuffer[outpos++] = '=';
+		}
+		else
+		{
+			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[2]];
+			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[3]];
+		}
+	}
+
+	outputBuffer[outpos] = 0;
+	return outpos;
+}
