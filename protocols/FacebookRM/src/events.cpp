@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 int FacebookProto::Log(const char *fmt,...)
 {
-	if ( !getByte( FACEBOOK_KEY_LOGGING_ENABLE, 0 ))
+	if (!getByte(FACEBOOK_KEY_LOGGING_ENABLE, 0))
 		return EXIT_SUCCESS;
 
 	va_list va;
@@ -35,7 +35,11 @@ int FacebookProto::Log(const char *fmt,...)
 	mir_vsnprintf(text,sizeof(text),fmt,va);
 	va_end(va);
 
-	return utils::debug::log( m_szModuleName, text );
+	// Write into network log
+	CallService(MS_NETLIB_LOG, (WPARAM)m_hNetlibUser, (LPARAM)text);
+
+	// Write into log file
+	return utils::debug::log(m_szModuleName, text);
 }
 
 LRESULT CALLBACK PopupDlgProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
