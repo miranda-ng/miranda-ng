@@ -139,8 +139,8 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		BBButton bbd = {0};
 		bbd.cbSize = sizeof(BBButton);
 		bbd.bbbFlags = BBBF_ISIMBUTTON | BBBF_ISCHATBUTTON | BBBF_ISRSIDEBUTTON;
-		bbd.pszModuleName = "SwitchLayout and Send";
-		bbd.ptszTooltip = TranslateT("SwitchLayout and Send");
+		bbd.pszModuleName = "Switch Layout and Send";
+		bbd.ptszTooltip = TranslateT("Switch Layout and Send");
 		bbd.hIcon = iconList[0].hIcolib;
 		bbd.dwButtonID = 1;
 		bbd.dwDefPos = 30;

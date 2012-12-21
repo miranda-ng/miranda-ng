@@ -487,7 +487,7 @@ VOID SwitchLayout(BOOL lastword)
 					ZeroMemory(&pd, sizeof(pd));
 					pd.cbSize = sizeof(POPUPDATAT_V2);
 					pd.lchContact = NULL; //(HANDLE)wParam;
-					pd.lchIcon = Skin_GetIcon("SwitchLayout and Send");
+					pd.lchIcon = Skin_GetIcon("Switch Layout and Send");
 					lstrcpyn(pd.lptzText, buf, SIZEOF(pd.lptzText));
 					lstrcpyn(pd.lptzContactName, TranslateT("TranslitSwitcher"), SIZEOF(pd.lptzContactName));
 					pd.colorBack = pd.colorText = 0;
@@ -762,7 +762,7 @@ void InvertCase(BOOL lastword)
 int OnButtonPressed(WPARAM wParam, LPARAM lParam)
 {
 	CustomButtonClickData *cbcd = (CustomButtonClickData *)lParam;
-	if (lstrcmpA(cbcd->pszModule, "SwitchLayout and Send") == 0)
+	if (lstrcmpA(cbcd->pszModule, "Switch Layout and Send") == 0)
 	{
 		HWND hEdit = GetDlgItem(cbcd->hwndFrom, IDC_MESSAGE);
 		if (!hEdit) hEdit = GetDlgItem(cbcd->hwndFrom, IDC_CHATMESSAGE);
