@@ -52,7 +52,7 @@ void IcoLibInit()
 	sid.flags = SIDF_PATH_TCHAR;
 	sid.cx = sid.cy = 16;
 	sid.ptszDefaultFile = destfile;
-	sid.pszSection = MODNAME;
+	sid.pszSection = MODULEA;
 
 	for (int i = 0; i < SIZEOF(iconList); i++) {
 		sid.pszName = iconList[i].szIconName;
