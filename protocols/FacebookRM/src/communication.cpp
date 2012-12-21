@@ -561,7 +561,7 @@ void facebook_client::store_headers( http::response* resp, NETLIBHTTPHEADER* hea
 				parent->Log("      Deleted cookie '%s'", cookie_name.c_str());
 				cookies.erase( cookie_name );
 			} else {
-				parent->Log("      New cookie '%s': %s", cookie_name.c_str(), cookie_value.c_str());
+				parent->Log("      New cookie '%s'", cookie_name.c_str());
 				cookies[cookie_name] = cookie_value;
 			}
 		}
