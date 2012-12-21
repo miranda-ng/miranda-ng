@@ -20,7 +20,7 @@
 
 #include "gg.h"
 
-static IconItem iconList[] =
+extern IconItem iconList[] =
 {
 	{ LPGEN("Protocol icon"),              "main",          IDI_GG               },
 	{ LPGEN("Import list from server"),    "importserver",  IDI_IMPORT_SERVER    },

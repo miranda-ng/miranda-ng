@@ -295,6 +295,7 @@ extern HINSTANCE hInstance;
 extern CLIST_INTERFACE *pcli;
 extern list_t g_Instances;
 extern PLUGININFOEX pluginInfo;
+extern IconItem iconList[];
 
 // Screen saver
 #ifndef SPI_GETSCREENSAVERRUNNING

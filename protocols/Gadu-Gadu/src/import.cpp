@@ -610,7 +610,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
 	mi.hParentMenu = hRoot;
 	mi.position = 2000500001;
-	mi.icolibItem = GetIconHandle(IDI_IMPORT_SERVER);
+	mi.icolibItem = iconList[1].hIcolib;
 	mi.pszName = LPGEN("Import List From &Server");
 	mi.pszService = service;
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
@@ -620,7 +620,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::import_text);
 
 	mi.position = 2000500002;
-	mi.icolibItem = GetIconHandle(IDI_IMPORT_TEXT);
+	mi.icolibItem = iconList[2].hIcolib;
 	mi.pszName = LPGEN("Import List From &Text File...");
 	mi.pszService = service;
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
@@ -630,7 +630,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::remove_server);
 
 	mi.position = 2000500003;
-	mi.icolibItem = GetIconHandle(IDI_REMOVE_SERVER);
+	mi.icolibItem = iconList[3].hIcolib;
 	mi.pszName = LPGEN("&Remove List From Server");
 	mi.pszService = service;
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
@@ -640,7 +640,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::export_server);
 
 	mi.position = 2005000001;
-	mi.icolibItem = GetIconHandle(IDI_EXPORT_SERVER);
+	mi.icolibItem = iconList[4].hIcolib;
 	mi.pszName = LPGEN("Export List To &Server");
 	mi.pszService = service;
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
@@ -650,7 +650,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::export_text);
 
 	mi.position = 2005000002;
-	mi.icolibItem = GetIconHandle(IDI_EXPORT_TEXT);
+	mi.icolibItem = iconList[5].hIcolib;
 	mi.pszName = LPGEN("Export List To &Text File...");
 	mi.pszService = service;
 	hMainMenu[6] = Menu_AddProtoMenuItem(&mi);

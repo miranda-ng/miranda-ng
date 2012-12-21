@@ -76,7 +76,7 @@ int GGPROTO::img_init()
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIF_ICONFROMICOLIB;
 	mi.position = -2000010000;
-	mi.icolibItem = GetIconHandle(IDI_IMAGE);
+	mi.icolibItem = iconList[11].hIcolib;
 	mi.pszName = LPGEN("&Image");
 	mi.pszService = service;
 	mi.pszContactOwner = m_szModuleName;
