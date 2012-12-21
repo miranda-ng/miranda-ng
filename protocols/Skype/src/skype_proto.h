@@ -259,7 +259,7 @@ protected:
 	void GetInviteContacts(HANDLE hItem, HWND hwndList, SEStringList &invitedContacts);
 	
 	void InitChat();
-	char *StartChat(const char *cid);
+	char *StartChat(const char *cid, const SEStringList &invitedContacts);
 	void JoinToChat(const char *cid, bool showWindow = true);
 	void LeaveChat(const char *cid);
 

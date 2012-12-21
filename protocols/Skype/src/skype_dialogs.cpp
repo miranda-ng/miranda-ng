@@ -556,7 +556,6 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					SEStringList invitedContacts;
 					param->ppro->GetInviteContacts(NULL, hwndList, invitedContacts);
 
-					CConversation::Ref conversation;
 					char *chatID = ::mir_strdup(param->id);
 
 					if (chatID)
@@ -566,19 +565,18 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 							param->ppro->AddChatContact(chatID, invitedContacts[i]);
 						}
 
+						CConversation::Ref conversation;
 						g_skype->GetConversationByIdentity(chatID, conversation);
 						conversation->AddConsumers(invitedContacts);
 					}
 					else
 					{
-						chatID = param->ppro->StartChat(NULL);
+						chatID = param->ppro->StartChat(NULL, invitedContacts);
+
 						for (uint i = 0; i < invitedContacts.size(); i++)
 						{
 							param->ppro->AddChatContact(chatID, invitedContacts[i]);
 						}
-
-						g_skype->GetConversationByIdentity(chatID, conversation);
-						conversation->AddConsumers(invitedContacts);
 					}
 				}
 

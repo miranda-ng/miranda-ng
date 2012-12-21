@@ -170,7 +170,8 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 			HANDLE hContact = this->GetChatRoomByID(cid);
 			if ( !hContact || ::DBGetContactSettingWord(hContact, this->m_szModuleName, "Status", ID_STATUS_OFFLINE) == ID_STATUS_OFFLINE)
 			{
-				this->StartChat(cid);
+				SEStringList empty;
+				this->StartChat(cid, empty);
 				
 				CParticipant::Refs participants;
 				conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);

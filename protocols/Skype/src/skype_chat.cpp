@@ -137,7 +137,7 @@ void CSkypeProto::InitChat()
 	this->HookEvent(ME_GC_BUILDMENU, &CSkypeProto::OnGCMenuHook);
 }
 
-char *CSkypeProto::StartChat(const char *cid)
+char *CSkypeProto::StartChat(const char *cid, const SEStringList &invitedContacts)
 {
 	char *chatID;
 	SEString data;
@@ -163,8 +163,14 @@ char *CSkypeProto::StartChat(const char *cid)
 		chatID = ::mir_strdup(data);
 	}	
 
+	conversation->AddConsumers(invitedContacts);
+
 	conversation->GetPropDisplayname(data);
-	char *chatName = ::mir_utf8decodeA(data);
+	char *chatName;
+	if (data.length())
+		chatName = ::mir_utf8decodeA(data);
+	else
+		chatName = Translate("New conference");
 
 	GCSESSION gcw = {0};
 	gcw.cbSize = sizeof(gcw);
@@ -372,6 +378,17 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 					CMessage::Ref message;
 					char *text = ::mir_utf8encode(gch->pszText);
 					conversation->PostText(text, message);
+					
+					char *nick = (char *)::DBGetString(NULL, this->m_szModuleName, "Nick");
+					if (::stricmp(nick, "") == 0)
+					{
+						nick = this->login;
+					}
+
+					this->SendChatMessage(
+						chatID, 
+						nick, 
+						gch->pszText);
 				}
 			}
 			break;

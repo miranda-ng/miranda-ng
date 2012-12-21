@@ -742,6 +742,7 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 			char *name = ::mir_utf8decodeA(data);
 
 			HANDLE hContact = this->AddChatRoomByID(cid, name);
+			//::DBWriteContactSettingString(hContact, this->m_szModuleName, "Nick", name);
 
 			CConversation::LOCAL_LIVESTATUS live;
 			conversations[i]->GetPropLocalLivestatus(live);
