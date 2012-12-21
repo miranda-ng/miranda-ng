@@ -142,7 +142,7 @@ void CSkypeProto::UpdateOwnHomepage()
 		this->DeleteSetting("Homepage");
 	else
 		this->SetSettingString("Homepage", homepage);
-	::mir_free(homepage);	
+	::mir_free(homepage);
 }
 
 void CSkypeProto::UpdateOwnLanguages()
@@ -153,7 +153,7 @@ void CSkypeProto::UpdateOwnLanguages()
 	char* isocode = ::mir_utf8decodeA((const char*)data);
 	if (strcmp(isocode, "") == 0)
 	{
-		this->DeleteSetting("Language1");	
+		this->DeleteSetting("Language1");
 	}
 	else
 	{
@@ -208,7 +208,7 @@ void CSkypeProto::UpdateOwnOfficePhone()
 	if (wcscmp(phone, L"") == 0)
 		this->DeleteSetting("CompanyPhone");
 	else
-		this->SetSettingString("CompanyPhone", phone);		
+		this->SetSettingString("CompanyPhone", phone);
 	::mir_free(phone);
 }
 
@@ -220,7 +220,7 @@ void CSkypeProto::UpdateOwnState()
 	if (wcscmp(state, L"") == 0)
 		this->DeleteSetting("State");
 	else
-		this->SetSettingString("State", state);		
+		this->SetSettingString("State", state);
 	::mir_free(state);
 }
 
@@ -259,7 +259,7 @@ void CSkypeProto::UpdateOwnTimezone()
 		uint mins = ::abs((int)(diffmin % 60));
 		wchar_t timeshift[7];
 		::mir_sntprintf(timeshift, SIZEOF(timeshift), _T("%s%d:%02d"), sign, hours, mins);
-			
+
 		wchar_t *szMin = wcschr(timeshift, ':');
 		int nTz = ::_wtoi(timeshift) * -2;
 		nTz += (nTz < 0 ? -1 : 1) * (szMin ? _ttoi( szMin + 1 ) / 30 : 0);
@@ -375,5 +375,5 @@ void CSkypeProto::OnProfileChanged(int prop)
 
 void __cdecl CSkypeProto::LoadOwnInfo(void*)
 {
-	this->UpdateOwnProfile();	
+	this->UpdateOwnProfile();
 }
