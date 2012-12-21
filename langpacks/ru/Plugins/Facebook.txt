@@ -133,3 +133,11 @@
 Обновление списка друзей...
 [Services]
 Службы
+[Wall Posts]
+Сообщения со стены
+[Apps and Games]
+Приложения и игры
+[Facebook Icon]
+Значок Facebook
+[Mind]
+Мнение

@@ -604,7 +604,7 @@ int LoadNetlibModule(void)
 			case 0x05:
 				connectionTimeout = 1000;
 				break;
-			
+
 			default:    // all other editions have connection limit of 10 / sec
 				connectionTimeout = 150;
 				break;

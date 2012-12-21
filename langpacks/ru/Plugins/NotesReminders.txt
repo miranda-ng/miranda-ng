@@ -246,3 +246,5 @@
 Удалить заметку
 [Reminder Icon]
 Напоминание
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+Заметки и напоминания для Miranda NG.

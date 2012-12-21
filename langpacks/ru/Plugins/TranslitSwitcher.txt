@@ -20,7 +20,7 @@
 Инвертировать регистр последнего слова / Выделенного
 [Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
 Позволяет сменить раскладку или транлитерировать или изменить регистр введённого текста в окне сообщений с поддержкой SmileyAdd.
-[SwitchLayout and Send]
+[Switch Layout and Send]
 Сменить раскладку и отправить снова
 [Translit and Send]
 Транслитерировать и отправить снова

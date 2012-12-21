@@ -21,7 +21,7 @@ static PLUGININFOEX pluginInfo =
 	sizeof(PLUGININFOEX),
 	"Sticky Notes & Reminders",
 	PLUGIN_MAKE_VERSION(0,0,5,1),
-	"Sticky Notes & Reminders Implementation for Miranda IM.",
+	"Sticky Notes & Reminders Implementation for Miranda NG.",
 	"Joe Kucera, Lubomir Kolev Ivanov, Georg Fischer",
 	"jokusoftware@users.sourceforge.net; d00mEr@dir.bg",
 	"(C) 2003,2005 Joe Kucera, Lubomir Ivanov",
