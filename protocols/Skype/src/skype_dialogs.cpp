@@ -459,12 +459,17 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 	switch (msg) 
 	{
 	case WM_INITDIALOG:
-		TranslateDialogDefault(hwndDlg);
+		{
+			TranslateDialogDefault(hwndDlg);
 
-		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
-		param = (InviteChatParam*)lParam;
+			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+			param = (InviteChatParam*)lParam;
 
-//		WindowSetIcon(hwndDlg, "msn");
+			HWND hwndClist = GetDlgItem(hwndDlg, IDC_CCLIST);
+			SetWindowLongPtr(hwndClist, GWL_STYLE, GetWindowLongPtr(hwndClist, GWL_STYLE) & ~CLS_HIDEOFFLINE);
+
+	//		WindowSetIcon(hwndDlg, "msn");
+		}
 		break;
 
 	case WM_CLOSE:
@@ -553,27 +558,27 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 					CConversation::Ref conversation;
 					char *chatID = ::mir_strdup(param->id);
+
 					if (chatID)
 					{
+						for (uint i = 0; i < invitedContacts.size(); i++)
+						{
+							param->ppro->AddChatContact(chatID, invitedContacts[i]);
+						}
+
 						g_skype->GetConversationByIdentity(chatID, conversation);
 						conversation->AddConsumers(invitedContacts);
 					}
 					else
 					{
 						chatID = param->ppro->StartChat(NULL);
+						for (uint i = 0; i < invitedContacts.size(); i++)
+						{
+							param->ppro->AddChatContact(chatID, invitedContacts[i]);
+						}
 
 						g_skype->GetConversationByIdentity(chatID, conversation);
 						conversation->AddConsumers(invitedContacts);
-					
-						/*SEString data;
-
-						conversation->GetPropIdentity(data);
-						char *cid = ::mir_strdup((const char *)data);
-
-						for (uint i = 0; i < invitedContacts.size(); i++)
-						{
-							param->ppro->AddChatContact(cid, invitedContacts[i]);
-						}*/
 					}
 				}
 

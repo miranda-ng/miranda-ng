@@ -691,13 +691,13 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 		SEString data;
 
 		contact->GetPropSkypename(data);
-		char *sid = ::mir_strdup((const char *)data);
+		char *sid = ::mir_strdup(data);
 
 		contact->GetPropDisplayname(data);
-		char *nick = ::mir_utf8decodeA((const char *)data);
+		char *nick = ::mir_utf8decodeA(data);
 
 		contact->GetPropFullname(data);
-		char *name = ::mir_utf8decodeA((const char *)data);
+		char *name = ::mir_utf8decodeA(data);
 
 		DWORD flags = 0;
 		CContact::AVAILABILITY availability;
@@ -736,10 +736,10 @@ void __cdecl CSkypeProto::LoadContactList(void*)
 			SEString data;
 
 			conversations[i]->GetPropIdentity(data);
-			char *cid = ::mir_strdup((const char *)data);
+			char *cid = ::mir_strdup(data);
 
 			conversations[i]->GetPropDisplayname(data);
-			char *name = ::mir_utf8decodeA((const char *)data);
+			char *name = ::mir_utf8decodeA(data);
 
 			HANDLE hContact = this->AddChatRoomByID(cid, name);
 

@@ -7,8 +7,8 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->m_tszUserName = mir_tstrdup(userName);
 	this->m_szModuleName = mir_strdup(protoName);
 	this->m_szProtoName = mir_strdup(protoName);
-	//_strlwr(m_szProtoName);
-	//this->m_szProtoName[0] = toupper(m_szProtoName[0]);
+	::strlwr(m_szProtoName);
+	this->m_szProtoName[0] = ::toupper(m_szProtoName[0]);
 
 	//this->login = NULL;
 	this->password = NULL;
@@ -248,7 +248,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 	if (conversation) 
 	{
 		Message::Ref message;
-		conversation->PostText(::mir_utf8encode(msg), message);
+		conversation->PostText(msg, message);
 	}
 
 	this->SendBroadcastAsync(

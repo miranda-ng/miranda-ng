@@ -60,7 +60,8 @@ struct StringList : public LIST<char>
 
 	bool contains(char* p)
 	{
-		return indexOf(p) >= 0;
+		int idx;
+		return List_GetIndex((SortedList*)this, (char*)p, &idx) == 1;
 	}
 };
 

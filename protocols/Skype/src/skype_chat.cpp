@@ -54,7 +54,8 @@ void CSkypeProto::ChatValidateContact(HANDLE hItem, HWND hwndList, const char *c
 {
 	if ( !this->IsProtoContact(hItem) || this->IsChatRoom(hItem)) 
 	{
-		/*char *sid = ::DBGetString(hItem, this->m_szModuleName, "sid");
+		/*HANDLE hContact = (HANDLE)::SendMessage(hwndList, CLM_GETNEXTITEM, CLGN_NEXT, (LPARAM)hItem);
+		char *sid = ::DBGetString(hContact, this->m_szModuleName, "sid");
 		if (!sid)
 			::SendMessage(hwndList, CLM_DELETEITEM, (WPARAM)hItem, 0);
 		else if(contacts && ::strstr(contacts, sid))*/
@@ -159,11 +160,11 @@ char *CSkypeProto::StartChat(const char *cid)
 		conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY,  1);
 
 		conversation->GetPropIdentity(data);
-		char *chatID = ::mir_strdup(data);
+		chatID = ::mir_strdup(data);
 	}	
 
 	conversation->GetPropDisplayname(data);
-	char *chatName = ::mir_utf8decodeA((const char *)data);
+	char *chatName = ::mir_utf8decodeA(data);
 
 	GCSESSION gcw = {0};
 	gcw.cbSize = sizeof(gcw);
@@ -369,7 +370,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 				if (g_skype->GetConversationByIdentity(chatID, conversation, false))
 				{
 					CMessage::Ref message;
-					char *text = ::mir_utf8encode(gch->pszText);					
+					char *text = ::mir_utf8encode(gch->pszText);
 					conversation->PostText(text, message);
 				}
 			}
