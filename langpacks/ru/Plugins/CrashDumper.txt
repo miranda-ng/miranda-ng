@@ -34,8 +34,10 @@ Miranda NG была завершена аварийно. Необходим dbgh
 В буфер обмена
 [To File]
 В файл
-[View Version Information ]
+[View Version Information]
 Информация о версиях
+[View Version Information (wth DLLs)]
+Информация о версиях (с библиотеками)
 [Upload automatically when changed]
 Загружать автоматически при изменениях
 [VersionInfo upload successful,\n %d old plugins]
