@@ -26,24 +26,20 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -97,7 +93,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -125,7 +121,7 @@
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
     </Link>
   </ItemDefinitionGroup>
@@ -152,7 +148,7 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <SubSystem>Windows</SubSystem>
       <BaseAddress>0x5130000</BaseAddress>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -179,11 +175,11 @@
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
       <BaseAddress>0x5130000</BaseAddress>
       <SubSystem>Windows</SubSystem>
-      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin11\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\zlib\zlib_11.vcxproj">
+    <ProjectReference Include="..\zlib\zlib_10.vcxproj">
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
@@ -321,7 +317,7 @@
     <ClCompile Include="src\FreeImageToolkit\Resize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\FreeImage.rc" />
+    <ResourceCompile Include="res\AdvaImg.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
