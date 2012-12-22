@@ -85,7 +85,7 @@ static int OnInitOptions(WPARAM wparam, LPARAM lparam)
 	odp.cbSize = sizeof(odp);
 	odp.position = 955000000;
 	odp.hInstance = g_hInst;
-	odp.pszTemplate = MAKEINTRESOURCEA( IDD_OPTIONS );
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = MODULENAME;
 	odp.pfnDlgProc = CSOptionsProc;
 	odp.pszGroup = LPGEN("Status");
@@ -140,7 +140,7 @@ extern "C" __declspec(dllexport) int Load()
 
 	for (int i=0; i < SIZEOF(forms); i++) {
 		char szSettingName[64];
-		mir_snprintf( szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, forms[i].pszIconIcoLib );
+		mir_snprintf(szSettingName, SIZEOF(szSettingName), "%s_%s", __INTERNAL_NAME, forms[i].pszIconIcoLib);
 
 		sid.pszName = szSettingName;
 		sid.ptszDescription = forms[i].ptszDescr;
@@ -176,7 +176,7 @@ void RegisterHotkeys(char buf[200], TCHAR* accName, int Number)
 	hotkey.ptszDescription = accName;
 	hotkey.ptszSection = LPGENT("Custom Status List");
 	hotkey.pszService = buf;
-	hotkey.DefHotKey = HOTKEYCODE( HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0'+Number);
+	hotkey.DefHotKey = HOTKEYCODE( HOTKEYF_CONTROL | HOTKEYF_SHIFT, '0' + Number);
 	Hotkey_Register(&hotkey);
 }
 
