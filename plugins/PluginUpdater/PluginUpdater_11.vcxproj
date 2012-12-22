@@ -225,12 +225,6 @@
       <Project>{e2a369cd-eda3-414f-8ad0-e732cd7ee68c}</Project>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="res\btnClose.ico" />
-    <None Include="res\btnOk.ico" />
-    <None Include="res\delete.ico" />
-    <None Include="res\menu.ico" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
