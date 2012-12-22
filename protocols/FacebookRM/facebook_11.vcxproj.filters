@@ -122,13 +122,13 @@
     <ClInclude Include="src\utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\resource.h">
-      <Filter>Resource Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\theme.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -141,21 +141,6 @@
     </None>
     <None Include="src\JSON_CAJUN\writer.inl">
       <Filter>Source Files\JSON_CAJUN</Filter>
-    </None>
-    <None Include="res\facebook.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\mind.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\auth_grant.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\auth_ask.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="res\auth_revoke.ico">
-      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

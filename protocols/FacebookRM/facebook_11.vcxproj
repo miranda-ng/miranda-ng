@@ -221,11 +221,6 @@
     <ClInclude Include="src\version.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\auth_ask.ico" />
-    <None Include="res\auth_grant.ico" />
-    <None Include="res\auth_revoke.ico" />
-    <None Include="res\facebook.ico" />
-    <None Include="res\mind.ico" />
     <None Include="src\JSON_CAJUN\elements.inl" />
     <None Include="src\JSON_CAJUN\reader.inl" />
     <None Include="src\JSON_CAJUN\writer.inl" />
