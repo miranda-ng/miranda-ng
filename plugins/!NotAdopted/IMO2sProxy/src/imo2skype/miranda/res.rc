@@ -1,0 +1,145 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Österreich) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEA)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN_AUSTRIAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOGEX 0, 0, 287, 224
+STYLE WS_CHILD
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Account information",IDC_STATIC,7,7,273,31
+    LTEXT           "Username:",IDC_STATIC,17,20,53,9
+    EDITTEXT        IDC_USERNAME,74,18,56,12,ES_AUTOHSCROLL
+    LTEXT           "Password:",IDC_STATIC,135,20,47,9
+    EDITTEXT        IDC_PASSWORD,185,18,56,12,ES_PASSWORD | ES_AUTOHSCROLL
+    CONTROL         "Support for Voicecalls via imo.im Flash in Internet Explorer",
+                    IDC_INTERACT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,42,
+                    273,9
+    CONTROL         "Ignore server timestamp and use current time for messages",
+                    IDC_CURRTIMESTAMP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    7,60,273,10
+    CONTROL         "Log traffic to file:",IDC_LOG,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,71,110,10
+    EDITTEXT        IDC_LOGFILE,119,71,128,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_OPEN,248,71,14,12
+    LTEXT           "Status:",IDC_STATIC,126,140,29,10
+    LTEXT           "Stopped",IDC_STATUSSOCKS,157,140,54,9,SS_SUNKEN
+    GROUPBOX        "Socket Proxy",IDC_STATIC,7,129,273,45
+    LTEXT           "Bind to address:",IDC_STATIC,17,157,73,9
+    COMBOBOX        IDC_BINDIP,95,155,75,12,CBS_DROPDOWN | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Port:",IDC_STATIC,179,157,31,9
+    EDITTEXT        IDC_BINDPORT,211,155,31,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Use Socket Proxy",IDC_USESOCKS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,18,140,81,9
+    PUSHBUTTON      "Start",IDC_STARTSOCKS,216,137,30,12
+    PUSHBUTTON      "Stop",IDC_STOPSOCKS,246,137,30,12,WS_DISABLED
+    GROUPBOX        "Skype compatible communication API",IDC_STATIC,7,177,
+                    273,40
+    LTEXT           "Caution: Don't use this if you have the Skype application running!",
+                    IDC_STATIC,13,188,260,8
+    LTEXT           "Status:",IDC_STATIC,126,201,29,10
+    LTEXT           "Stopped",IDC_STATUSCOMM,158,201,54,9,SS_SUNKEN
+    CONTROL         "Use compatible comm API",IDC_USECOMM,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,18,201,105,9
+    PUSHBUTTON      "Start",IDC_STARTCOMM,216,198,30,12
+    PUSHBUTTON      "Stop",IDC_STOPCOMM,246,198,30,12,WS_DISABLED
+    CONTROL         "Console",IDC_CONSOLE,"Button",BS_AUTOCHECKBOX | 
+                    BS_PUSHLIKE | WS_TABSTOP,216,87,45,11
+    GROUPBOX        "Skype Plugin 0.0.0.46+ internal communication link",
+                    IDC_STATIC,7,102,273,25
+    LTEXT           "Status:",IDC_STATIC,126,113,29,10
+    LTEXT           "Stopped",IDC_STATUSSKYPEPL,158,113,54,9,SS_SUNKEN
+    CONTROL         "Use plugin link",IDC_USESKYPEPL,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,18,113,105,9
+    PUSHBUTTON      "Start",IDC_STARTSKYPEPL,216,110,30,12
+    PUSHBUTTON      "Stop",IDC_STOPSKYPEPL,246,110,30,12,WS_DISABLED
+    CONTROL         "Use Netlib instead of WinInet (Experimental)",
+                    IDC_USENETLIB,"Button",BS_AUTOCHECKBOX | WS_DISABLED | 
+                    WS_TABSTOP,7,51,273,9
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 280
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 217
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Deutsch (Österreich) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
