@@ -89,7 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Debug</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x86.lib;skypekit-cppwrapper_2_lib_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -116,7 +116,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Debug</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x64.lib;skypekit-cppwrapper_2_lib_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreAllDefaultLibraries>
       </IgnoreAllDefaultLibraries>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
@@ -144,7 +144,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x86.lib;skypekit-cppwrapper_2_lib_x86.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Release</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
@@ -170,7 +170,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <AdditionalOptions>/PDBALTPATH:%_PDB%</AdditionalOptions>
-      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib.lib;skypekit-cppwrapper_2_lib.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Shlwapi.lib;Ws2_32.lib;Advapi32.lib;skypekit-cyassl_lib_x64.lib;skypekit-cppwrapper_2_lib_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProfileDir)..\..\bin10\lib;$(SolutionDir)..\..\SkypeKit\SDK\lib\Release</AdditionalLibraryDirectories>
       <ImportLibrary>$(IntDir)$(TargetName).lib</ImportLibrary>
     </Link>
