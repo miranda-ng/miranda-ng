@@ -50,7 +50,7 @@ char *gg_status2db(int status, const char *suffix)
 //////////////////////////////////////////////////////////
 // gets protocol status
 
-char* GGPROTO::getstatusmsg(int status)
+TCHAR* GGPROTO::getstatusmsg(int status)
 {
 	switch(status) {
 	case ID_STATUS_ONLINE:
@@ -100,16 +100,17 @@ int GGPROTO::refreshstatus(int status)
 	}
 	else
 	{
-		char *szMsg = NULL;
+		TCHAR *szMsg = NULL;
 		// Select proper msg
 		gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 69, "modemsg_mutex", 1);
-		szMsg = mir_strdup(getstatusmsg(status));
+		szMsg = getstatusmsg(status);
 		gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 69, 1, "modemsg_mutex", 1);
-		if (szMsg)
+		char *szMsg_utf8 = mir_utf8encodeT(szMsg);
+		if (szMsg_utf8)
 		{
 			netlog("refreshstatus(): Setting status and away message.");
 			gg_EnterCriticalSection(&sess_mutex, "refreshstatus", 70, "sess_mutex", 1);
-			gg_change_status_descr(sess, status_m2gg(status, szMsg != NULL), szMsg);
+			gg_change_status_descr(sess, status_m2gg(status, szMsg_utf8 != NULL), szMsg_utf8);
 			gg_LeaveCriticalSection(&sess_mutex, "refreshstatus", 70, 1, "sess_mutex", 1);
 		}
 		else
@@ -122,7 +123,7 @@ int GGPROTO::refreshstatus(int status)
 		// Change status of the contact with our own UIN (if got yourself added to the contact list)
 		changecontactstatus( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), status_m2gg(status, szMsg != NULL), szMsg, 0, 0, 0, 0);
 		broadcastnewstatus(status);
-		mir_free(szMsg);
+		mir_free(szMsg_utf8);
 	}
 
 	return TRUE;
@@ -326,12 +327,12 @@ INT_PTR GGPROTO::setmyavatar(WPARAM wParam, LPARAM lParam)
 INT_PTR GGPROTO::getmyawaymsg(WPARAM wParam, LPARAM lParam)
 {
 	INT_PTR res = 0;
-	char *szMsg;
+	TCHAR *szMsg;
 
 	gg_EnterCriticalSection(&modemsg_mutex, "refreshstatus", 72, "modemsg_mutex", 1);
 	szMsg = getstatusmsg(wParam ? gg_normalizestatus(wParam) : m_iStatus);
 	if (isonline() && szMsg)
-		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_a2u(szMsg) : (INT_PTR)mir_strdup(szMsg);
+		res = (lParam & SGMA_UNICODE) ? (INT_PTR)mir_t2u(szMsg) : (INT_PTR)mir_t2a(szMsg);
 	gg_LeaveCriticalSection(&modemsg_mutex, "refreshstatus", 72, 1, "modemsg_mutex", 1);
 	return res;
 }

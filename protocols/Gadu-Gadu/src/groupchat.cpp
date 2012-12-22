@@ -65,7 +65,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		char service[64];
 
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
 		mi.hParentMenu = hRoot;
 
 		// Conferencing
@@ -73,7 +73,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		createObjService(service, &GGPROTO::gc_openconf);
 		mi.position = 2000050001;
 		mi.icolibItem = iconList[14].hIcolib;
-		mi.pszName = LPGEN("Open &conference...");
+		mi.ptszName = LPGENT("Open &conference...");
 		mi.pszService = service;
 		hMainMenu[0] = Menu_AddProtoMenuItem(&mi);
 
@@ -82,7 +82,7 @@ void GGPROTO::gc_menus_init(HGENMENU hRoot)
 		createObjService(service, &GGPROTO::gc_clearignored);
 		mi.position = 2000050002;
 		mi.icolibItem = iconList[15].hIcolib;
-		mi.pszName = LPGEN("&Clear ignored conferences");
+		mi.ptszName = LPGENT("&Clear ignored conferences");
 		mi.pszService = service;
 		hMainMenu[1] = Menu_AddProtoMenuItem(&mi);
 	}
@@ -186,19 +186,19 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		// Get rid of CRLF at back
 		lc = (int)_tcslen(gch->ptszText) - 1;
 		while(lc >= 0 && (gch->ptszText[lc] == '\n' || gch->ptszText[lc] == '\r')) gch->ptszText[lc --] = 0;
-		char* pszText = mir_t2a(gch->ptszText);
 
 		gcevent.time = time(NULL);
 		gcevent.bIsMe = 1;
 		gcevent.dwFlags = GC_TCHAR | GCEF_ADDTOLOG;
-		netlog("gc_event(): Sending conference message to room %S, \"%s\".", gch->pDest->ptszID, pszText);
+		netlog("gc_event(): Sending conference message to room %S, \"%S\".", gch->pDest->ptszID, gch->ptszText);
 		CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gcevent);
 		mir_free(nickT);
 		
+		char* pszText_utf8 = mir_utf8encodeT(gch->ptszText);
 		gg_EnterCriticalSection(&sess_mutex, "gc_event", 57, "sess_mutex", 1);
-		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)pszText);
+		gg_send_message_confer(sess, GG_CLASS_CHAT, chat->recipients_count, chat->recipients, (BYTE*)pszText_utf8);
 		gg_LeaveCriticalSection(&sess_mutex, "gc_event", 57, 1, "sess_mutex", 1);
-		mir_free(pszText);
+		mir_free(pszText_utf8);
 		
 		return 1;
 	}
@@ -210,9 +210,7 @@ int GGPROTO::gc_event(WPARAM wParam, LPARAM lParam)
 		if ((uin = _ttoi(gch->ptszUID)) && (hContact = getcontact(uin, 1, 0, NULL)))
 			CallService(MS_MSG_SENDMESSAGE, (WPARAM)hContact, 0);
 	}
-	char* pszText = mir_t2a(gch->ptszText);
-	netlog("gc_event(): Unhandled event %d, chat %x, uin %d, text \"%s\".", gch->pDest->iType, chat, uin, pszText);
-	mir_free(pszText);
+	netlog("gc_event(): Unhandled event %d, chat %x, uin %d, text \"%S\".", gch->pDest->iType, chat, uin, gch->ptszText);
 
 	return 0;
 }
@@ -401,7 +399,7 @@ TCHAR* GGPROTO::gc_getchat(uin_t sender, uin_t *recipients, int recipients_count
 	CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gcevent);
 	CallServiceSync(MS_GC_EVENT, SESSION_ONLINE, (LPARAM)&gcevent);
 
-	netlog("gc_getchat(): Returning new chat window %s, count %d.", chat->id, chat->recipients_count);
+	netlog("gc_getchat(): Returning new chat window %S, count %d.", chat->id, chat->recipients_count);
 	list_add(&chats, chat, 0);
 	return chat->id;
 }
@@ -517,6 +515,7 @@ static INT_PTR CALLBACK gg_gc_openconfdlg(HWND hwndDlg, UINT message, WPARAM wPa
 							gcdest.ptszID = chat;
 							gcdest.iType = GC_EVENT_CONTROL;
 							GCEVENT gcevent = {sizeof(GCEVENT), &gcdest};
+							gcevent.dwFlags = GC_TCHAR;
 							CallServiceSync(MS_GC_EVENT, WINDOW_VISIBLE, (LPARAM)&gcevent);
 						}
 						free(participants);
@@ -683,7 +682,7 @@ int GGPROTO::gc_changenick(HANDLE hContact, TCHAR *ptszNick)
 					gce.dwFlags = GC_TCHAR;
 					gce.ptszText = ptszNick;
 
-					netlog("gc_changenick(): Found room %S with uin %d, sending nick change %s.", chat->id, uin, id);
+					netlog("gc_changenick(): Found room %S with uin %d, sending nick change %S.", chat->id, uin, id);
 					CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 					break;

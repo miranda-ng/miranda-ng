@@ -379,7 +379,7 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 	int file_fd, avatardatalen, datalen, contentlen, contentendlen, res = 0, repeat = 0;
 
 	netlog("setavatarthread(): started. Trying to set user avatar.");
-	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {

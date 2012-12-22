@@ -361,7 +361,7 @@ char* GGPROTO::oauth_header(const char *httpmethod, const char *url)
 	char *res, uin[32], *password = NULL, *token = NULL, *token_secret = NULL;
 	DBVARIANT dbv;
 
-	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, (WPARAM)(int)strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);
@@ -395,7 +395,7 @@ int GGPROTO::oauth_receivetoken()
 	int res = 0;
 	HANDLE nlc = NULL;
 
-	UIN2ID( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
+	UIN2IDA( db_get_dw(NULL, m_szModuleName, GG_KEY_UIN, 0), uin);
 	if (!db_get_s(NULL, m_szModuleName, GG_KEY_PASSWORD, &dbv, DBVT_ASCIIZ)) {
 		CallService(MS_DB_CRYPT_DECODESTRING, strlen(dbv.pszVal) + 1, (LPARAM)dbv.pszVal);
 		password = mir_strdup(dbv.pszVal);

@@ -263,6 +263,19 @@ typedef struct
 #define GG_KEY_RECONNINTERVAL		"ReconnectInterval"
 #define GG_KEYDEF_RECONNINTERVAL	3000
 
+
+#define GG_KEY_PD_NICKNAME			"NickName"		// GG Public directory: Nick name
+#define GG_KEY_PD_FIRSTNAME			"FirstName"		// GG Public directory: First name
+#define GG_KEY_PD_LASTNAME			"LastName"		// GG Public directory: Last name
+#define GG_KEY_PD_FAMILYNAME		"FamilyName"	// GG Public directory: Family name
+#define GG_KEY_PD_CITY				"City"			// GG Public directory: City
+#define GG_KEY_PD_FAMILYCITY		"CityOrigin"	// GG Public directory: Family city
+
+#define GG_KEY_PD_AGE				"Age"			// GG Public directory: Age
+#define GG_KEY_PD_BIRTHYEAR			"BirthYear"		// GG Public directory: Birth year
+#define GG_KEY_PD_GANDER			"Gender"		// GG Public directory: Gander
+
+
 // chpassdlgproc() multipurpose dialog proc modes
 #define GG_USERUTIL_PASS	0
 #define GG_USERUTIL_CREATE	1
@@ -330,7 +343,6 @@ void gg_links_instancemenu_init();
 void gg_links_init();
 void gg_links_destroy();
 
-#define UIN2ID(uin,id) _itoa(uin,id,10) //@deprecated
 #define UIN2IDA(uin,id) _itoa(uin,id,10)
 #define UIN2IDT(uin,id) _itot(uin,id,10)
 

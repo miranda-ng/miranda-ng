@@ -74,10 +74,10 @@ int GGPROTO::img_init()
 
 	// Send image contact menu item
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.position = -2000010000;
 	mi.icolibItem = iconList[11].hIcolib;
-	mi.pszName = LPGEN("&Image");
+	mi.ptszName = LPGENT("&Image");
 	mi.pszService = service;
 	mi.pszContactOwner = m_szModuleName;
 	hImageMenuItem = Menu_AddContactMenuItem(&mi);
@@ -848,18 +848,19 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 	}
 
 	if (res != 0) {
-		char image_msg[MAX_PATH + 11];
-		mir_snprintf(image_msg, SIZEOF(image_msg), "[img]%s[/img]", (char*)_T2A(szPath));
+		TCHAR image_msg[MAX_PATH + 11];
+		mir_sntprintf(image_msg, SIZEOF(image_msg), _T("[img]%s[/img]"), szPath);
 
 		PROTORECVEVENT pre = {0};
+		pre.flags = PREF_TCHAR;
 		pre.timestamp = time(NULL);
-		pre.szMessage = image_msg;
+		pre.tszMessage = image_msg;
 		ProtoChainRecvMsg(hContact, &pre);
-		netlog("img_displayasmsg(): Image saved to %s.", szPath);
+		netlog("img_displayasmsg(): Image saved to %S.", szPath);
 	}
 	else
 	{
-		netlog("img_displayasmsg(): Cannot save image to %s.", szPath);
+		netlog("img_displayasmsg(): Cannot save image to %S.", szPath);
 	}
 
 	return 0;
@@ -969,7 +970,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		FILE *fp = _tfopen(szFileName, _T("rb"));
 		if (!fp) {
 			free(dat);
-			netlog("img_loadpicture(): fopen(\"%s\", \"rb\") failed.", szFileName);
+			netlog("img_loadpicture(): fopen(\"%S\", \"rb\") failed.", szFileName);
 			return NULL;
 		}
 		fseek(fp, 0, SEEK_END);
@@ -978,7 +979,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Zero file size \"%s\" failed.", szFileName);
+			netlog("img_loadpicture(): Zero file size \"%S\" failed.", szFileName);
 			return NULL;
 		}
 		// Maximum acceptable image size
@@ -986,7 +987,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		{
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Image size of \"%s\" exceeds 255 KB.", szFileName);
+			netlog("img_loadpicture(): Image size of \"%S\" exceeds 255 KB.", szFileName);
 			MessageBox(NULL, TranslateT("Image exceeds maximum allowed size of 255 KB."), m_tszUserName, MB_OK | MB_ICONEXCLAMATION);
 			return NULL;
 		}
@@ -997,7 +998,7 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 			free(dat->lpData);
 			fclose(fp);
 			free(dat);
-			netlog("img_loadpicture(): Reading file \"%s\" failed.", szFileName);
+			netlog("img_loadpicture(): Reading file \"%S\" failed.", szFileName);
 			return NULL;
 		}
 		fclose(fp);

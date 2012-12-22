@@ -110,16 +110,20 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			DBVARIANT dbv;
 
 			// Readup FirstName
-			if (!db_get_s(hContact, gg->m_szModuleName, "FirstName", &dbv, DBVT_ASCIIZ))
+			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_FIRSTNAME, &dbv, DBVT_WCHAR))
 			{
+				char* pszValA = mir_t2a(dbv.ptszVal);
 				string_append(s, dbv.pszVal);
+				mir_free(pszValA);
 				DBFreeVariant(&dbv);
 			}
 			string_append_c(s, ';');
 			// Readup LastName
-			if (!db_get_s(hContact, gg->m_szModuleName, "LastName", &dbv, DBVT_ASCIIZ))
+			if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_LASTNAME, &dbv, DBVT_WCHAR))
 			{
+				char* pszValA = mir_t2a(dbv.ptszVal);
 				string_append(s, dbv.pszVal);
+				mir_free(pszValA);
 				DBFreeVariant(&dbv);
 			}
 			string_append_c(s, ';');
@@ -129,9 +133,11 @@ char *gg_makecontacts(GGPROTO *gg, int cr)
 			{
 				char* dbvA = mir_t2a(dbv.ptszVal);
 				DBVARIANT dbv2;
-				if (!db_get_s(hContact, gg->m_szModuleName, "NickName", &dbv2, DBVT_ASCIIZ))
+				if (!db_get_s(hContact, gg->m_szModuleName, GG_KEY_PD_NICKNAME, &dbv2, DBVT_WCHAR))
 				{
-					string_append(s, dbv2.pszVal);
+					char* pszValA = mir_t2a(dbv2.ptszVal);
+					string_append(s, pszValA);
+					mir_free(pszValA);
 					DBFreeVariant(&dbv2);
 				} else {
 					string_append(s, dbvA);
@@ -293,8 +299,16 @@ void GGPROTO::parsecontacts(char *contacts)
 				db_set_s(hContact, "CList", "Group", CreateGroup(strGroup));
 
 			// Write misc data
-			if (hContact && strFirstName) db_set_s(hContact, m_szModuleName, "FirstName", strFirstName);
-			if (hContact && strLastName) db_set_s(hContact, m_szModuleName, "LastName", strLastName);
+			if (hContact && strFirstName){
+				TCHAR *tstrFirstName = mir_a2t(strFirstName);
+				db_set_ts(hContact, m_szModuleName, GG_KEY_PD_FIRSTNAME, tstrFirstName);
+				mir_free(tstrFirstName);
+			}
+			if (hContact && strLastName){
+				TCHAR *tstrLastName = mir_a2t(strLastName);
+				db_set_ts(hContact, m_szModuleName, GG_KEY_PD_LASTNAME, tstrLastName);
+				mir_free(tstrLastName);
+			}
 			if (hContact && strPhone) db_set_s(hContact, "UserInfo", "MyPhone0", strPhone); // Store now in User Info
 			if (hContact && strMail) db_set_s(hContact, "UserInfo", "Mye-mail0", strMail); // Store now in User Info
 		}
@@ -440,7 +454,7 @@ INT_PTR GGPROTO::import_text(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	*pfilter = '\0';
-	*str = _T('\0');
+	*str = '\0';
 
 	ofn.lpstrFilter = filter;
 	ofn.lpstrFile = str;
@@ -607,11 +621,11 @@ void GGPROTO::import_init(HGENMENU hRoot)
 	createObjService(service, &GGPROTO::import_server);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE;
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTHANDLE | CMIF_TCHAR;
 	mi.hParentMenu = hRoot;
 	mi.position = 2000500001;
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.pszName = LPGEN("Import List From &Server");
+	mi.ptszName = LPGENT("Import List From &Server");
 	mi.pszService = service;
  	hMainMenu[2] = Menu_AddProtoMenuItem(&mi);
 
@@ -621,7 +635,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2000500002;
 	mi.icolibItem = iconList[2].hIcolib;
-	mi.pszName = LPGEN("Import List From &Text File...");
+	mi.ptszName = LPGENT("Import List From &Text File...");
 	mi.pszService = service;
 	hMainMenu[3] = Menu_AddProtoMenuItem(&mi);
 
@@ -631,7 +645,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2000500003;
 	mi.icolibItem = iconList[3].hIcolib;
-	mi.pszName = LPGEN("&Remove List From Server");
+	mi.ptszName = LPGENT("&Remove List From Server");
 	mi.pszService = service;
 	hMainMenu[4] = Menu_AddProtoMenuItem(&mi);
 
@@ -641,7 +655,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2005000001;
 	mi.icolibItem = iconList[4].hIcolib;
-	mi.pszName = LPGEN("Export List To &Server");
+	mi.ptszName = LPGENT("Export List To &Server");
 	mi.pszService = service;
 	hMainMenu[5] = Menu_AddProtoMenuItem(&mi);
 
@@ -651,7 +665,7 @@ void GGPROTO::import_init(HGENMENU hRoot)
 
 	mi.position = 2005000002;
 	mi.icolibItem = iconList[5].hIcolib;
-	mi.pszName = LPGEN("Export List To &Text File...");
+	mi.ptszName = LPGENT("Export List To &Text File...");
 	mi.pszService = service;
 	hMainMenu[6] = Menu_AddProtoMenuItem(&mi);
 }

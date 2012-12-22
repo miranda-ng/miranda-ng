@@ -60,6 +60,7 @@ GGPROTO::GGPROTO(const char* pszProtoName, const TCHAR* tszUserName)
 	createProtoService(PS_SETMYAVATART, &GGPROTO::setmyavatar);
 
 	createProtoService(PS_GETMYAWAYMSG, &GGPROTO::getmyawaymsg);
+	createProtoService(PS_SETAWAYMSGT, (GGServiceFunc)&GGPROTO::SetAwayMsg);
 	createProtoService(PS_CREATEACCMGRUI, &GGPROTO::get_acc_mgr_gui);
 
 	createProtoService(PS_LEAVECHAT, &GGPROTO::leavechat);
@@ -327,13 +328,13 @@ HANDLE GGPROTO::SearchBasic(const PROTOCHAR *id)
 		return (HANDLE)1;
 	}
 
-	TCHAR *ida = mir_tstrdup(id);
+	char *id_utf8 = mir_utf8encodeT(id);
 
 	// Add uin and search it
-	gg_pubdir50_add(req, GG_PUBDIR50_UIN, _T2A(ida));
+	gg_pubdir50_add(req, GG_PUBDIR50_UIN, id_utf8);
 	gg_pubdir50_seq_set(req, GG_SEQ_SEARCH);
 
-	mir_free(ida);
+	mir_free(id_utf8);
 
 	gg_EnterCriticalSection(&sess_mutex, "SearchBasic", 50, "sess_mutex", 1);
 	if (!gg_pubdir50(sess, req))
@@ -377,31 +378,31 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 		return (HANDLE)1;
 	}
 
-	// Add uin and search it
+	// Add nick,firstName,lastName and search it
 	if (nick)
 	{
-		char *nickA = mir_t2a(nick);
-		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickA);
-		strncat(data, nickA, sizeof(data) - strlen(data));
-		mir_free(nickA);
+		char *nick_utf8 = mir_utf8encodeT(nick);
+		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nick_utf8);
+		strncat(data, nick_utf8, sizeof(data) - strlen(data));
+		mir_free(nick_utf8);
 	}
 	strncat(data, ".", sizeof(data) - strlen(data));
 
 	if (firstName)
 	{
-		char *firstNameA = mir_t2a(firstName);
-		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstNameA);
-		strncat(data, firstNameA, sizeof(data) - strlen(data));
-		mir_free(firstNameA);
+		char *firstName_utf8 = mir_utf8encodeT(firstName);
+		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
+		strncat(data, firstName_utf8, sizeof(data) - strlen(data));
+		mir_free(firstName_utf8);
 	}
 	strncat(data, ".", sizeof(data) - strlen(data));
 
 	if (lastName)
 	{
-		char *lastNameA = mir_t2a(lastName);
-		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastNameA);
-		strncat(data, lastNameA, sizeof(data) - strlen(data));
-		mir_free(lastNameA);
+		char *lastName_utf8 = mir_utf8encodeT(lastName);
+		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
+		strncat(data, lastName_utf8, sizeof(data) - strlen(data));
+		mir_free(lastName_utf8);
 	}
 	strncat(data, ".", sizeof(data) - strlen(data));
 
@@ -437,7 +438,8 @@ HANDLE GGPROTO::SearchByName(const PROTOCHAR *nick, const PROTOCHAR *firstName, 
 HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 {
 	gg_pubdir50_t req;
-	char text[64], data[512] = "\0";
+	TCHAR text[64];
+	char data[800] = "\0";
 	unsigned long crc;
 
 	// Check if connected
@@ -453,42 +455,50 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 	}
 
 	// Fetch search data
-	GetDlgItemTextA(hwndDlg, IDC_FIRSTNAME, text, sizeof(text));
-	if (strlen(text))
+	GetDlgItemText(hwndDlg, IDC_FIRSTNAME, text, sizeof(text));
+	if (_tcslen(text))
 	{
-		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, text);
-		strncat(data, text, sizeof(data) - strlen(data));
+		char *firstName_utf8 = mir_utf8encodeT(text);
+		gg_pubdir50_add(req, GG_PUBDIR50_FIRSTNAME, firstName_utf8);
+		strncat(data, firstName_utf8, sizeof(data) - strlen(data));
+		mir_free(firstName_utf8);
 	}
 	/* 1 */ strncat(data, ".", sizeof(data) - strlen(data));
 
-	GetDlgItemTextA(hwndDlg, IDC_LASTNAME, text, sizeof(text));
-	if (strlen(text))
+	GetDlgItemText(hwndDlg, IDC_LASTNAME, text, sizeof(text));
+	if (_tcslen(text))
 	{
-		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, text);
-		strncat(data, text, sizeof(data) - strlen(data));
+		char *lastName_utf8 = mir_utf8encodeT(text);
+		gg_pubdir50_add(req, GG_PUBDIR50_LASTNAME, lastName_utf8);
+		strncat(data, lastName_utf8, sizeof(data) - strlen(data));
+		mir_free(lastName_utf8);
 	}
 	/* 2 */ strncat(data, ".", sizeof(data) - strlen(data));
 
-	GetDlgItemTextA(hwndDlg, IDC_NICKNAME, text, sizeof(text));
-	if (strlen(text))
+	GetDlgItemText(hwndDlg, IDC_NICKNAME, text, sizeof(text));
+	if (_tcslen(text))
 	{
-		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, text);
-		strncat(data, text, sizeof(data) - strlen(data));
+		char *nickName_utf8 = mir_utf8encodeT(text);
+		gg_pubdir50_add(req, GG_PUBDIR50_NICKNAME, nickName_utf8);
+		strncat(data, nickName_utf8, sizeof(data) - strlen(data));
+		mir_free(nickName_utf8);
 	}
 	/* 3 */ strncat(data, ".", sizeof(data) - strlen(data));
 
-	GetDlgItemTextA(hwndDlg, IDC_CITY, text, sizeof(text));
-	if (strlen(text))
+	GetDlgItemText(hwndDlg, IDC_CITY, text, sizeof(text));
+	if (_tcslen(text))
 	{
-		gg_pubdir50_add(req, GG_PUBDIR50_CITY, text);
-		strncat(data, text, sizeof(data) - strlen(data));
+		char *city_utf8 = mir_utf8encodeT(text);
+		gg_pubdir50_add(req, GG_PUBDIR50_CITY, city_utf8);
+		strncat(data, city_utf8, sizeof(data) - strlen(data));
+		mir_free(city_utf8);
 	}
 	/* 4 */ strncat(data, ".", sizeof(data) - strlen(data));
 
-	GetDlgItemTextA(hwndDlg, IDC_AGEFROM, text, sizeof(text));
-	if (strlen(text))
+	GetDlgItemText(hwndDlg, IDC_AGEFROM, text, sizeof(text));
+	if (_tcslen(text))
 	{
-		int yearTo = atoi(text);
+		int yearTo = _tstoi(text);
 		int yearFrom;
 		time_t t = time(NULL);
 		struct tm *lt = localtime(&t);
@@ -507,10 +517,12 @@ HWND GGPROTO::SearchAdvanced(HWND hwndDlg)
 			yearFrom = 0;
 		else
 			yearFrom = ay - yearFrom;
-		mir_snprintf(text, sizeof(text), "%d %d", yearFrom, yearTo);
+		mir_sntprintf(text, sizeof(text), _T("%d %d"), yearFrom, yearTo);
 
-		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, text);
-		strncat(data, text, sizeof(data) - strlen(data));
+		char *age_utf8 = mir_utf8encodeT(text);
+		gg_pubdir50_add(req, GG_PUBDIR50_BIRTHYEAR, age_utf8);
+		strncat(data, age_utf8, sizeof(data) - strlen(data));
+		mir_free(age_utf8);
 	}
 	/* 5 */ strncat(data, ".", sizeof(data) - strlen(data));
 
@@ -625,12 +637,21 @@ void __cdecl GGPROTO::sendackthread(void *ack)
 int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 {
 	uin_t uin;
+	char* msg_utf8;
 
-	if (msg && isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
+	if ( flags & PREF_TCHAR )
+		msg_utf8 = mir_utf8encodeT( ( wchar_t* )&msg[ strlen( msg )+1 ] );
+	else if ( flags & PREF_UTF )
+		msg_utf8 = mir_strdup(msg);
+	else
+		msg_utf8 = mir_utf8encode(msg);
+
+
+	if (msg_utf8 && isonline() && (uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0)))
 	{
 		int seq;
 		gg_EnterCriticalSection(&sess_mutex, "SendMsg", 53, "sess_mutex", 1);
-		seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg);
+		seq = gg_send_message(sess, GG_CLASS_CHAT, uin, (BYTE*)msg_utf8);
 		gg_LeaveCriticalSection(&sess_mutex, "SendMsg", 53, 1, "sess_mutex", 1);
 		if (!db_get_b(NULL, m_szModuleName, GG_KEY_MSGACK, GG_KEYDEF_MSGACK))
 		{
@@ -646,8 +667,10 @@ int GGPROTO::SendMsg(HANDLE hContact, int flags, const char *msg)
 				forkthread(&GGPROTO::sendackthread, ack);
 			}
 		}
+		mir_free(msg_utf8);
 		return seq;
 	}
+	mir_free(msg_utf8);
 	return 0;
 }
 
@@ -714,56 +737,53 @@ HANDLE GGPROTO::GetAwayMsg(HANDLE hContact)
 //////////////////////////////////////////////////////////
 // when away message is being set
 
-int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
+int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 {
 	int status = gg_normalizestatus(iStatus);
-	char **szMsg;
-	char *msg = mir_t2a(msgt);
+	TCHAR **msgPtr;
 
-	netlog("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%s\").", iStatus, msg);
+	netlog("SetAwayMsg(): PS_SETAWAYMSG(%d, \"%S\").", iStatus, newMsg);
 
 	gg_EnterCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, "modemsg_mutex", 1);
-	// Select proper msg
+	// Select proper our msg ptr
 	switch(status)
 	{
 		case ID_STATUS_ONLINE:
-			szMsg = &modemsg.online;
+			msgPtr = &modemsg.online;
 			break;
 		case ID_STATUS_AWAY:
-			szMsg = &modemsg.away;
+			msgPtr = &modemsg.away;
 			break;
 		case ID_STATUS_DND:
-			szMsg = &modemsg.dnd;
+			msgPtr = &modemsg.dnd;
 			break;
 		case ID_STATUS_FREECHAT:
-			szMsg = &modemsg.freechat;
+			msgPtr = &modemsg.freechat;
 			break;
 		case ID_STATUS_INVISIBLE:
-			szMsg = &modemsg.invisible;
+			msgPtr = &modemsg.invisible;
 			break;
 		default:
 			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 1, "modemsg_mutex", 1);
-			mir_free(msg);
 			return 1;
 	}
 
 	// Check if we change status here somehow
-	if (*szMsg && msg && !strcmp(*szMsg, msg)
-		|| !*szMsg && (!msg || !*msg))
+	if (*msgPtr && newMsg && !_tcscmp(*msgPtr, newMsg)
+		|| !*msgPtr && (!newMsg || !*newMsg))
 	{
 		if (status == m_iDesiredStatus && m_iDesiredStatus == m_iStatus)
 		{
 			netlog("SetAwayMsg(): Message hasn't been changed, return.");
 			gg_LeaveCriticalSection(&modemsg_mutex, "SetAwayMsg", 55, 2, "modemsg_mutex", 1);
-			mir_free(msg);
 			return 0;
 		}
 	}
 	else
 	{
-		if (*szMsg)
-			mir_free(*szMsg);
-		*szMsg = msg && *msg ? mir_strdup(msg) : NULL;
+		if (*msgPtr)
+			mir_free(*msgPtr);
+		*msgPtr = newMsg && *newMsg ? mir_tstrdup(newMsg) : NULL;
 #ifdef DEBUGMODE
 		netlog("SetAwayMsg(): Message changed.");
 #endif
@@ -774,7 +794,6 @@ int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *msgt)
 	if (status == m_iDesiredStatus)
 		refreshstatus(status);
 
-	mir_free(msg);
 	return 0;
 }
 

@@ -132,8 +132,8 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	int contactdeleted(WPARAM wParam, LPARAM lParam);
 	int dbsettingchanged(WPARAM wParam, LPARAM lParam);
 	void notifyall();
-	void changecontactstatus(uin_t uin, int status, const char *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version);
-	char *getstatusmsg(int status);
+	void changecontactstatus(uin_t uin, int status, const TCHAR *idescr, int time, uint32_t remote_ip, uint16_t remote_port, uint32_t version);
+	TCHAR *getstatusmsg(int status);
 	void dccstart();
 	void dccconnect(uin_t uin);
 	int gettoken(GGTOKEN *token);
@@ -223,7 +223,6 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	TCHAR * gc_getchat(uin_t sender, uin_t *recipients, int recipients_count);
 	GGGC *gc_lookup(TCHAR *id);
 	int gc_changenick(HANDLE hContact, TCHAR *ptszNick);
-	#define UIN2ID(uin,id) _itoa(uin,id,10)
 
 	int __cdecl gc_event(WPARAM wParam, LPARAM lParam);
 
@@ -271,12 +270,12 @@ struct GGPROTO : public PROTO_INTERFACE, public MZeroedObject
 	UINT_PTR timer;
 	struct
 	{
-		char *online;
-		char *away;
-		char *dnd;
-		char *freechat;
-		char *invisible;
-		char *offline;
+		TCHAR *online;
+		TCHAR *away;
+		TCHAR *dnd;
+		TCHAR *freechat;
+		TCHAR *invisible;
+		TCHAR *offline;
 	} modemsg;
 	HANDLE netlib;
 	HGENMENU hMenuRoot;

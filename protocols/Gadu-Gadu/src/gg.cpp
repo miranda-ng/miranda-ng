@@ -237,12 +237,12 @@ static int gg_prebuildcontactmenu(WPARAM wParam, LPARAM lParam)
 		return 0;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB;
+	mi.flags = CMIM_NAME | CMIM_FLAGS | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	if ( db_get_dw(hContact, gg->m_szModuleName, GG_KEY_UIN, 0) == db_get_b(NULL, gg->m_szModuleName, GG_KEY_UIN, 0) ||
 		db_get_b(hContact, gg->m_szModuleName, "ChatRoom", 0) ||
 		db_get_b(hContact, "CList", "NotOnList", 0))
 		mi.flags |= CMIF_HIDDEN;
-	mi.pszName = db_get_b(hContact, gg->m_szModuleName, GG_KEY_BLOCK, 0) ? LPGEN("&Unblock") : LPGEN("&Block");
+	mi.ptszName = db_get_b(hContact, gg->m_szModuleName, GG_KEY_BLOCK, 0) ? LPGENT("&Unblock") : LPGENT("&Block");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)gg->hBlockMenuItem, (LPARAM)&mi);
 	return 0;
 }
@@ -269,10 +269,10 @@ void GGPROTO::block_init()
 	createObjService(service, &GGPROTO::blockuser);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags = CMIF_ICONFROMICOLIB;
+	mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	mi.position = -500050000;
 	mi.icolibItem = iconList[8].hIcolib;
-	mi.pszName = LPGEN("&Block");
+	mi.ptszName = LPGENT("&Block");
 	mi.pszService = service;
 	mi.pszContactOwner = m_szModuleName;
 	hBlockMenuItem = Menu_AddContactMenuItem(&mi);
