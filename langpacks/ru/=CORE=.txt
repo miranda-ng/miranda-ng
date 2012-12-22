@@ -779,8 +779,6 @@ URL:
 Главные значки
 [Main Menu]
 Главное меню
-[MainMenu]
-Главное меню
 [Male]
 Мужской
 [Menu Icons]
