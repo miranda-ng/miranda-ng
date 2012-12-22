@@ -1781,8 +1781,6 @@ GMT-09:00 Аляска
 Перегрузить
 [Display time:]
 Отображать:
-[Extraicons plugin is used, use Contact list > Extraicons for customize.]
-Используется служба экстра значков. Для настройки слота используйте Список контактов - Экстра значки.
 [Copy to clipboard]
 Копировать в буфер обмена
 [Use protocol smileys]
