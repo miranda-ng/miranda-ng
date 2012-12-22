@@ -98,7 +98,14 @@ void  html_decode(char* str)
 				char* s = strchr(p, ';');
 				if (s)
 				{
-					*q = (char)atoi(p+2);
+					wchar_t t[2] = { (wchar_t)atoi(p+2), 0 };
+					char *t1 = mir_utf8encodeW(t);
+					if (t1 && *t1)
+					{
+						strcpy(q, t1);
+						q += strlen(t1) - 1;
+					}
+					mir_free(t1);
 					p = s;
 				}
 				else
