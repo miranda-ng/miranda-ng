@@ -12,15 +12,6 @@
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
 
-/////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
-LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
-#pragma code_page(1252)
-#endif //_WIN32
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -269,7 +260,7 @@ BEGIN
     CONTROL         "Disable checking",IDC_DISABLECHECKING,"Button",BS_AUTORADIOBUTTON,16,33,71,10
 END
 
-IDD_SETSTSMSGDIALOG DIALOG  0, 0, 240, 126
+IDD_SETSTSMSGDIALOG DIALOG 0, 0, 240, 126
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Set status message"
 FONT 8, "MS Shell Dlg"
@@ -361,7 +352,7 @@ BEGIN
     GROUPBOX        "Dial-Up",IDC_STATIC,7,156,266,43
     LTEXT           "Consider connection lost after",IDC_STATIC,17,168,122,8
     EDITTEXT        IDC_PINGCOUNT,140,165,22,14,ES_AUTOHSCROLL | ES_NUMBER
-    LTEXT           "failed pings",IDC_STATIC,165,168,108,8
+    LTEXT           "failed pings",IDC_STATIC,165,168,101,8
     EDITTEXT        IDC_CNTDELAY,16,180,22,14,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Continuously check interval (secs)",IDC_STATIC,41,183,160,8
 END
@@ -522,11 +513,6 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
