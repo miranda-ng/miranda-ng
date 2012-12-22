@@ -75,7 +75,7 @@ static int s_rgnMirandaFontId[FLT_FONTIDS]  =
 //
 
 static
-LRESULT
+INT_PTR
 APIENTRY
 OptWndProc
 	( IN HWND hwndDlg
@@ -85,7 +85,7 @@ OptWndProc
 	);
 
 static
-LRESULT
+INT_PTR
 APIENTRY
 OptSknWndProc
 	( IN HWND hwndDlg
@@ -111,12 +111,12 @@ OnOptionsInitialize
 	odp.pszGroup    =  LPGEN("Contact List");
 	odp.pszTab      =  LPGEN("Main Features");
 	odp.flags       =  ODPF_BOLDGROUPS;
-	odp.pfnDlgProc  =  (DLGPROC)OptWndProc;
+	odp.pfnDlgProc  =  OptWndProc;
 	Options_AddPage(wParam, &odp);
 
 	odp.pszTemplate =  MAKEINTRESOURCEA(IDD_OPT_SKIN);
 	odp.pszTab      =  LPGEN("Appearance");
-	odp.pfnDlgProc  =  (DLGPROC)OptSknWndProc;
+	odp.pfnDlgProc  =  OptSknWndProc;
 	Options_AddPage(wParam, &odp);
 
 	return 0;
@@ -301,7 +301,7 @@ GetFontSetting
 }
 
 static
-LRESULT
+INT_PTR
 APIENTRY
 OptWndProc
 	( IN HWND hwndDlg
@@ -484,7 +484,7 @@ OptWndProc
 }
 
 static
-LRESULT
+INT_PTR
 APIENTRY
 OptSknWndProc
 	( IN HWND hwndDlg
