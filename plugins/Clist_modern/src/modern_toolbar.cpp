@@ -62,7 +62,7 @@ static int Modern_InitButtons(WPARAM, LPARAM)
 		tbb.cbSize = sizeof(tbb);
 
 		if (BTNS[i].pszButtonID) {
-			tbb.name = LPGEN(BTNS[i].pszButtonID);
+			tbb.name = LPGEN(BTNS[i].pszButtonName);
 			tbb.pszService = BTNS[i].pszServiceName;
 			tbb.pszTooltipUp = LPGEN(BTNS[i].pszTooltipUp);
 			tbb.pszTooltipDn = LPGEN(BTNS[i].pszTooltipDn);
