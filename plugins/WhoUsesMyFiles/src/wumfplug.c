@@ -275,12 +275,12 @@ static INT_PTR WumfMenuCommand(WPARAM wParam,LPARAM lParam)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	if (WumfOptions.PopupsEnabled == TRUE) { 
 		WumfOptions.PopupsEnabled = FALSE;
-		mi.pszName = Translate("Enable WUMF popups");
+		mi.pszName = LPGEN("Enable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
 	}
 	else {
 		WumfOptions.PopupsEnabled = TRUE;
-		mi.pszName = Translate("Disable WUMF popups");
+		mi.pszName = LPGEN("Disable WUMF popups");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
 	}
 	DBWriteContactSettingByte(NULL, ModuleName, POPUPS_ENABLED, (BYTE)WumfOptions.PopupsEnabled);
@@ -566,9 +566,9 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
     odp.position=945000000;
     odp.hInstance=hInst;
     odp.pszTemplate=MAKEINTRESOURCE(IDD_OPTIONS);
-    odp.pszTitle="Wumf";
+    odp.pszTitle=LPGEN("Wumf");
     odp.pfnDlgProc=OptionsDlgProc;
-	odp.pszGroup=Translate("Services");
+	odp.pszGroup=LPGEN("Services");
 	odp.flags=ODPF_BOLDGROUPS;
     Options_AddPage(wparam, &odp);
 	return 0;
@@ -585,19 +585,19 @@ __declspec(dllexport) int Load(void)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
 		if (WumfOptions.PopupsEnabled == FALSE) { 
-			mi.pszName = Translate("Enable WUMF popups");
+			mi.pszName = LPGEN("Enable WUMF popups");
 			mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_NOPOPUP));
 		}
 		else {
-			mi.pszName = Translate("Disable WUMF popups");
+			mi.pszName = LPGEN("Disable WUMF popups");
 			mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_POPUP));
 		}
 		mi.pszService = MS_WUMF_SWITCHPOPUP;
 		mi.popupPosition = 1999990000;
-		mi.pszPopupName = Translate("PopUps");
-		hMenuItem = (HANDLE)Menu_AddMainMenuItem(&mi);
+		mi.pszPopupName = LPGEN("PopUps");
+		hMenuItem =  Menu_AddMainMenuItem(&mi);
 
-		mi.pszName = Translate("WUMF: Show connections");
+		mi.pszName = LPGEN("WUMF: Show connections");
 		mi.hIcon = LoadIcon(hInst,MAKEINTRESOURCE(IDI_DRIVE));
 		mi.pszService = MS_WUMF_CONNECTIONSSHOW;
 		mi.popupPosition = 1999990000;
