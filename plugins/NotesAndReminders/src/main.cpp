@@ -48,7 +48,7 @@ INT_PTR PluginMenuCommandAddNew(WPARAM w,LPARAM l)
 
 INT_PTR PluginMenuCommandDeleteAll(WPARAM w,LPARAM l)
 {
-	if (g_Stickies && MessageBox(NULL, TranslateT("Are you sure you want to delete all notes?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (g_Stickies && MessageBox(NULL, TranslateT("Are you sure you want to delete all notes?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteNotes();
 	return 0;
 }
@@ -85,7 +85,7 @@ INT_PTR PluginMenuCommandViewReminders(WPARAM w,LPARAM l)
 
 INT_PTR PluginMenuCommandDeleteReminders(WPARAM w,LPARAM l)
 {
-	if (RemindersList && MessageBox(NULL, TranslateT("Are you sure you want to delete all reminders?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (RemindersList && MessageBox(NULL, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 		DeleteReminders();
 	return 0;
 }

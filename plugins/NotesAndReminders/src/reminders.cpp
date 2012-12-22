@@ -2763,7 +2763,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 					return TRUE;
 				}
 			case IDM_DELETEALLREMINDERS:
-				if (RemindersList && MessageBox(Dialog, TranslateT("Are you sure you want to delete all reminders?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
+				if (RemindersList && MessageBox(Dialog, TranslateT("Are you sure you want to delete all reminders?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 				{
 					SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 					DeleteReminders();
@@ -2779,7 +2779,7 @@ INT_PTR CALLBACK DlgProcViewReminders(HWND Dialog,UINT Message,WPARAM wParam,LPA
 					{
 						I = ListView_GetSelectionMark(H);
 						if (I != -1
-							&& MessageBox(Dialog, TranslateT("Are you sure you want to delete this reminder?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
+							&& MessageBox(Dialog, TranslateT("Are you sure you want to delete this reminder?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 						{
 							SetDlgItemText(Dialog,IDC_REMINDERDATA,_T(""));
 							DeleteReminder((REMINDERDATA*)TreeGetAt(RemindersList, I));

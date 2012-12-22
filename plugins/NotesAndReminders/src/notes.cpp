@@ -703,7 +703,7 @@ void PurgeNotes(void)
 
 void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
-	if (MessageBox(hdlg, TranslateT("Are you sure you want to delete this note?"), _T(SECTIONNAME), MB_OKCANCEL) == IDOK)
+	if (MessageBox(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 	{
 		DestroyWindow(hdlg);
 		TreeDelete(&g_Stickies,SN);
