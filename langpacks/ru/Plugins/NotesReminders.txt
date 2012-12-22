@@ -248,3 +248,5 @@
 Напоминание
 [Sticky Notes & Reminders Implementation for Miranda NG.]
 Заметки и напоминания для Miranda NG.
+[Play Sound Icon]
+Проиграть звук
