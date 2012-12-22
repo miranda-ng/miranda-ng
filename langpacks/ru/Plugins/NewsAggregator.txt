@@ -171,3 +171,15 @@ RSS не смог найти IP-адрес, соответствующий им�
 Экспорт каналов
 [Check Feed]
 Проверить
+[Check feed]
+Проверить канал
+[Change feed]
+Изменить канал
+[Change Feed]
+Изменить канал
+[0 - check manually]
+0 - проверять вручную
+[Feed Tag Help]
+Помощь по тегам канала
+[#<title># - The title of the item.\r\n#<description># - The item synopsis.\r\n#<link># - The URL of the item.\r\n#<author># - Email address of the author of the item.\r\n#<comments># - URL of a page for comments relating to the item.\r\n#<guid># - A string that uniquely identifies the item.\r\n#<category># - Specify one or more categories that the item belongs to.]
+#<title># - заголовок новости.\r\n#<description># - текст новости.\r\n#<link># - URL новости.\r\n#<author># - E-mail автора новости.\r\n#<comments># - URL страницы с комментариями к новости.\r\n#<guid># - идентификатор новости.\r\n#<category># - категории новости.
