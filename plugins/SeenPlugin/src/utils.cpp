@@ -371,6 +371,7 @@ LBL_charPtr:
 
 		case 'P':
 			_tcscpy(szdbsetting, ci.szProto ? _A2T(ci.szProto) : (wantempty ? _T("") : _T("ProtoUnknown")));
+			charPtr = szdbsetting;
 			goto LBL_charPtr;
 
 		case 'b':

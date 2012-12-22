@@ -70,7 +70,12 @@ void FileWrite(HANDLE hcontact)
 
 	HANDLE fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
 	if (fhout == INVALID_HANDLE_VALUE){
-		CreateDirectoryTreeT(szout);
+		TCHAR fullpath[1024];
+		_tcscpy(fullpath, szout);
+		TCHAR *dirpath = _tcsrchr(fullpath, '\\');
+		if (dirpath != NULL)
+			*dirpath = '\0';
+		CreateDirectoryTreeT(fullpath);
 		fhout = CreateFile(szout, GENERIC_WRITE, 0, NULL, OPEN_ALWAYS, 0, NULL);
 		if (fhout == INVALID_HANDLE_VALUE)
 			return;
