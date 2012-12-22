@@ -35,10 +35,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			bInitializing = true;
 			fill_filter();
 
-			SendDlgItemMessage(hwndDlg,IDC_NOTICE, WM_SETTEXT,0,(LPARAM)TranslateT("Extraicons plugin is used, use Contact list > Extraicons for customize."));
-			ShowWindow(GetDlgItem(hwndDlg, IDC_NOTICE), SW_SHOW);
-			EnableWindow(GetDlgItem(hwndDlg, IDC_ADVICON), 0);
-
 			SetWindowLongPtr(hTree,GWL_STYLE,GetWindowLongPtr(hTree,GWL_STYLE)|TVS_NOHSCROLL);
 
 			HIMAGELIST himlButtonIcons = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,2,2);
@@ -66,11 +62,6 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
-		case IDC_ADVICON:
-			if ((HIWORD(wParam) == EN_CHANGE) && (!bInitializing) || (HIWORD(wParam) == CBN_SELENDOK))
-				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
-			break;
-
 		case IDC_IGNORE_IGNOREALL:
 			EnableWindow(GetDlgItem(hwndDlg, IDC_FILTER),  !IsDlgButtonChecked(hwndDlg,IDC_IGNORE_IGNOREALL));
 			SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
@@ -118,7 +109,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = g_hInst;
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszGroup = LPGEN("Icons");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_RATE_OPT);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_IGNORE_OPT);
 	odp.pszTitle = MODULENAME;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
