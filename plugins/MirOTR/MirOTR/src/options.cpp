@@ -115,7 +115,7 @@ extern "C" int OpenOptions(WPARAM wParam, LPARAM lParam)
 	odp.cbSize      = sizeof(odp);
 	odp.position    = 100;
 	odp.hInstance   = hInst;
-	odp.ptszGroup   = LPGENT("Plugins"); //"Plugins"
+	odp.ptszGroup   = LPGENT("Services");
 	odp.ptszTitle   = _T(MODULENAME);
 	odp.flags       = ODPF_BOLDGROUPS|ODPF_TCHAR;
 

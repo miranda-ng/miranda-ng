@@ -1370,7 +1370,7 @@ int Meta_OptInit(WPARAM wParam, LPARAM lParam)
 
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("MetaContacts");
-	odp.pszGroup = LPGEN("Contact List");
+	odp.pszGroup = LPGEN("Contacts");
 	odp.pszTab = LPGEN("General");
 	odp.pfnDlgProc = DlgProcOpts;
 	Options_AddPage(wParam, &odp);

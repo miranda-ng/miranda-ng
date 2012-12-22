@@ -87,7 +87,7 @@ INT OptInit(WPARAM wParam,LPARAM lParam)
 	odp.cbSize = sizeof(odp);
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCE(IDD_OPTIONS);
-	odp.pszGroup = LPGEN("Services");
+	odp.pszGroup = LPGEN("Database");
 	odp.pszTitle = modFullname;
 	odp.pfnDlgProc = DlgProcOpts;
 	odp.flags = ODPF_BOLDGROUPS;

@@ -52,7 +52,7 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR;
 	odp.ptszTitle = LPGENT("Database Features");
-	odp.ptszGroup = LPGENT("Services");
+	odp.ptszGroup = LPGENT("Database");
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
 	return 0;

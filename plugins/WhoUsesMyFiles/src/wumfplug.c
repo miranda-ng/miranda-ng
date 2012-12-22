@@ -568,7 +568,7 @@ int OptionsInit(WPARAM wparam,LPARAM lparam)
     odp.pszTemplate=MAKEINTRESOURCE(IDD_OPTIONS);
     odp.pszTitle="Wumf";
     odp.pfnDlgProc=OptionsDlgProc;
-	odp.pszGroup=Translate("Plugins");
+	odp.pszGroup=Translate("Services");
 	odp.flags=ODPF_BOLDGROUPS;
     Options_AddPage(wparam, &odp);
 	return 0;

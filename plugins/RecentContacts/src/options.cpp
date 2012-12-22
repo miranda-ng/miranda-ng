@@ -62,7 +62,7 @@ int onOptInitialise(WPARAM wParam, LPARAM lParam)
 	OPTIONSDIALOGPAGE odp = { 0 };
    odp.cbSize = sizeof(odp);
    odp.hInstance = hInst;
-   odp.pszGroup = LPGEN("Contact List");
+   odp.pszGroup = LPGEN("Contacts");
    odp.pszTemplate = MAKEINTRESOURCEA(IDD_LASTUC_OPT);
    odp.pszTitle = msLastUC_ShowListName;
    odp.pfnDlgProc = DlgProcOptions;

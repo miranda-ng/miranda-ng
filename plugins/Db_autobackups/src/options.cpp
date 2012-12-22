@@ -348,7 +348,7 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszTitle = LPGEN("Database AutoBackups");
-	odp.pszGroup = LPGEN("Services");
+	odp.pszGroup = LPGEN("Database");
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pfnDlgProc = DlgProcOptions;
 	Options_AddPage(wParam, &odp);
