@@ -141,3 +141,5 @@
 Значок Facebook
 [Mind]
 Мнение
+[Other Event]
+Другое событие
