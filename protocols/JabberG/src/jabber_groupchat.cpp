@@ -303,7 +303,7 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 		info.saveRecent(0);
 	}
 
-	TCHAR text[512];
+	TCHAR text[JABBER_MAX_JID_LEN + 1];
 	mir_sntprintf(text, SIZEOF(text), _T("%s@%s/%s"), room, server, nick);
 
 	JABBER_LIST_ITEM* item = ListAdd(LIST_CHATROOM, text);
@@ -317,14 +317,14 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 		x << XCHILD(_T("password"), info.password);
 
 	if (m_options.GcLogChatHistory) {
-		char setting[MAXMODULELABELLENGTH];
+		char setting[JABBER_MAX_JID_LEN + 14 + 1];
 		mir_snprintf(setting, SIZEOF(setting), "muc_%s@%s_lastevent", _T2A(room), _T2A(server));
 		time_t lasteventtime = this->JGetDword(NULL, setting, 0);
 		if (lasteventtime > 0) {
 			_tzset();
 			lasteventtime += _timezone + 1;
 			struct tm* time = localtime(&lasteventtime);
-			TCHAR lasteventdate[40];
+			TCHAR lasteventdate[20 + 1];
 			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
 				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
 			x << XCHILD(_T("history")) << XATTR(_T("since"), lasteventdate);
@@ -1240,18 +1240,19 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	time_t msgTime = 0;
 	for (int i = 1; (xNode = xmlGetNthChild(node, _T("x"), i)) != NULL; i++)
 		if ((p = xmlGetAttrValue(xNode, _T("xmlns"))) != NULL)
-			if ( !_tcscmp(p, _T("jabber:x:delay")) && msgTime==0)
-				if ((p = xmlGetAttrValue(xNode, _T("stamp"))) != NULL) {
+			if (!_tcscmp(p, _T("jabber:x:delay")) && !msgTime)
+				if ((p = xmlGetAttrValue(xNode, _T("stamp"))) != NULL)
 					msgTime = JabberIsoToUnixTime(p);
-					if (m_options.GcLogChatHistory && msgTime > 0) {
-						char setting[MAXMODULELABELLENGTH];
-						mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
-						this->JSetDword(NULL, setting, msgTime);
-				}	}
 
 	time_t now = time(NULL);
-	if (msgTime == 0 || msgTime > now)
+	if (!msgTime || msgTime > now)
 		msgTime = now;
+
+	if (m_options.GcLogChatHistory) {
+		char setting[JABBER_MAX_JID_LEN + 14 + 1];
+		mir_snprintf(setting, sizeof(setting), "muc_%s_lastevent", _T2A(gcd.ptszID));
+		this->JSetDword(NULL, setting, msgTime);
+	}
 
 	if (resource != NULL) {
 		JABBER_RESOURCE_STATUS* r = GcFindResource(item, resource);
