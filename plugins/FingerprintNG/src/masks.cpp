@@ -792,8 +792,6 @@ int DEFAULT_KN_FP_OVERLAYS2_COUNT = SIZEOF(def_kn_fp_overlays2_mask);
 //#############################################################################################################################################################################
 KN_FP_MASK def_kn_fp_overlays3_mask[] =
 {//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),					IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
-	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_PLATFORM_CASE	},
-
 	{"client_platform_x64",		_T("|*x64*|*64*bit*"),						_T("x64 overlay"),					IDI_PLATFORM_X64,		OVERLAYS_PLATFORM_CASE	},
 	{"client_platform_x32",		_T("|*x32*|*32*bit*|*x86*"),				_T("x32 overlay"),					IDI_PLATFORM_X32,		OVERLAYS_PLATFORM_CASE	},
 
@@ -801,3 +799,14 @@ KN_FP_MASK def_kn_fp_overlays3_mask[] =
 };
 
 int DEFAULT_KN_FP_OVERLAYS3_COUNT = SIZEOF(def_kn_fp_overlays3_mask);
+
+//#############################################################################################################################################################################
+//#############################################################################################################################################################################
+//##############################	 OVERLAYS LAYER #4		###################################################################################################################
+//#############################################################################################################################################################################
+KN_FP_MASK def_kn_fp_overlays4_mask[] =
+{//	{"Client_IconName",			_T("|^*Mask*|*names*"),						_T("Icon caption"),					IDI_RESOURCE_ID,		CLIENT_CASE,	OVERLAY?	},
+	{"client_SecureIM_over",	_T("*Secure*IM*"),							_T("SecureIM overlay"),				IDI_SECUREIM_OVERLAY,	OVERLAYS_PLATFORM_CASE	},
+};
+
+int DEFAULT_KN_FP_OVERLAYS4_COUNT = SIZEOF(def_kn_fp_overlays4_mask);

@@ -98,10 +98,10 @@ void RegisterIcons()
 		HeapDestroy(hHeap);
 	hHeap = HeapCreate(HEAP_NO_SERIALIZE, 0, 0);
 
-	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
+	for (i = 0; i < DEFAULT_KN_FP_MASK_COUNT; i++)
 		Prepare(&def_kn_fp_mask[i], true);
 
-	for (i=0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
+	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS_COUNT; i++)
 		Prepare(&def_kn_fp_overlays_mask[i], true);
 
 	if ( db_get_b(NULL, "Finger", "GroupMirandaVersion", 0)) {
@@ -109,14 +109,17 @@ void RegisterIcons()
 			Prepare(&def_kn_fp_overlays2_mask[i], true);
 	}
 	else {
-		for (i=0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
+		for (i = 0; i < DEFAULT_KN_FP_OVERLAYS2_NO_VER_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], true);
 		for (; i < DEFAULT_KN_FP_OVERLAYS2_COUNT; i++)
 			Prepare(&def_kn_fp_overlays2_mask[i], false);
 	}
 
-	for (i=0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
+	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS3_COUNT; i++)
 		Prepare(&def_kn_fp_overlays3_mask[i], true);
+
+	for (i = 0; i < DEFAULT_KN_FP_OVERLAYS4_COUNT; i++)
+		Prepare(&def_kn_fp_overlays4_mask[i], true);
 }
 
 /*
@@ -411,9 +414,9 @@ BOOL __inline WildCompareProcW(LPWSTR wszName, LPWSTR wszMask)
 	}
 }
 
-static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
+static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
-	int i = 0, j = -1, k = -1, n = -1;
+	int i = 0, j = -1, k = -1, n = -1, m = -1;
 
 	for (i=0; i < DEFAULT_KN_FP_MASK_COUNT; i++) {
 		KN_FP_MASK& p = def_kn_fp_mask[i];
@@ -467,31 +470,42 @@ static void MatchMasks(TCHAR* szMirVer, short *base, short *overlay,short *overl
 			if ( WildCompareW(szMirVer, p.szMaskUpper))
 				break;
 		}
+
+		for (m = 0; m < DEFAULT_KN_FP_OVERLAYS4_COUNT; m++) {
+			KN_FP_MASK& p = def_kn_fp_overlays4_mask[m];
+			if (p.hIcolibItem == NULL)
+				continue;
+
+			if ( WildCompareW(szMirVer, p.szMaskUpper))
+				break;
+		}
 	}
 
 	*base = (i < DEFAULT_KN_FP_MASK_COUNT) ? i : -1;
 	*overlay = (j < DEFAULT_KN_FP_OVERLAYS_COUNT) ? j : -1;
 	*overlay2 = (k < DEFAULT_KN_FP_OVERLAYS2_COUNT) ? k : -1;
 	*overlay3 = (n < DEFAULT_KN_FP_OVERLAYS3_COUNT) ? n : -1;
+	*overlay4 = (m < DEFAULT_KN_FP_OVERLAYS4_COUNT) ? m : -1;
 }
 
 /*	GetIconsIndexesA
 *	Retrieves Icons indexes by Mirver
 */
 
-void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
+void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
 	if (strcmp(szMirVer, "?") == 0) {
 		*base = UNKNOWN_MASK_NUMBER;
 		*overlay = -1;
 		*overlay2 = -1;
 		*overlay3 = -1;
+		*overlay4 = -1;
 		return;
 	}
 
 	LPTSTR tszMirVerUp = mir_a2t(szMirVer);
 	_tcsupr(tszMirVerUp);
-	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3);
+	MatchMasks(tszMirVerUp, base, overlay, overlay2, overlay3, overlay4);
 	mir_free(tszMirVerUp);
 }
 
@@ -499,7 +513,7 @@ void FASTCALL GetIconsIndexesA(LPSTR szMirVer, short *base, short *overlay,short
 *	Retrieves Icons indexes by Mirver
 */
 
-void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,short *overlay2,short *overlay3)
+void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay, short *overlay2, short *overlay3, short *overlay4)
 {
 	if (wcscmp(wszMirVer, L"?") == 0)
 	{
@@ -507,12 +521,13 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 		*overlay = -1;
 		*overlay2 = -1;
 		*overlay3 = -1;
+		*overlay4 = -1;
 		return;
 	}
 
 	LPWSTR wszMirVerUp = NEWWSTR_ALLOCA(wszMirVer);
 	_wcsupr(wszMirVerUp);
-	MatchMasks(wszMirVerUp, base, overlay, overlay2, overlay3);
+	MatchMasks(wszMirVerUp, base, overlay, overlay2, overlay3, overlay4);
 }
 
 /*
@@ -520,7 +535,7 @@ void FASTCALL GetIconsIndexesW(LPWSTR wszMirVer, short *base, short *overlay,sho
 * returns hIcon of joined icon by given indexes
 */
 
-HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3)
+HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, short overlay3, short overlay4)
 {
 	HICON hIcon = NULL;	// returned HICON
 	HICON hTmp = NULL;
@@ -528,6 +543,7 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 	HICON icOverlay = NULL;
 	HICON icOverlay2 = NULL;
 	HICON icOverlay3 = NULL;
+	HICON icOverlay4 = NULL;
 
 	KN_FP_MASK* mainMask = &(def_kn_fp_mask[base]);
 	icMain = Skin_GetIconByHandle(mainMask->hIcolibItem);
@@ -536,9 +552,11 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 		KN_FP_MASK* overlayMask = (overlay != -1) ? &(def_kn_fp_overlays_mask[overlay]) : NULL;
 		KN_FP_MASK* overlay2Mask = (overlay2 != -1) ? &(def_kn_fp_overlays2_mask[overlay2]) : NULL;
 		KN_FP_MASK* overlay3Mask = (overlay3 != -1) ? &(def_kn_fp_overlays3_mask[overlay3]) : NULL;
+		KN_FP_MASK* overlay4Mask = (overlay4 != -1) ? &(def_kn_fp_overlays4_mask[overlay4]) : NULL;
 		icOverlay = (overlayMask == NULL) ? NULL : Skin_GetIconByHandle(overlayMask->hIcolibItem);
 		icOverlay2 = (overlay2Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay2Mask->hIcolibItem);
 		icOverlay3 = (overlay3Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay3Mask->hIcolibItem);
+		icOverlay4 = (overlay4Mask == NULL) ? NULL : Skin_GetIconByHandle(overlay4Mask->hIcolibItem);
 
 		hIcon = icMain;
 
@@ -557,6 +575,11 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 			hIcon = CreateJoinedIcon(hIcon, icOverlay3);
 			if (hTmp) DestroyIcon(hTmp);
 		}
+
+		if (overlay4Mask) {
+			hIcon = CreateJoinedIcon(hIcon, icOverlay4);
+			if (hTmp) DestroyIcon(hTmp);
+		}
 	}
 
 	if (hIcon == icMain)
@@ -566,6 +589,7 @@ HICON FASTCALL CreateIconFromIndexes(short base, short overlay, short overlay2, 
 	Skin_ReleaseIcon(icOverlay);
 	Skin_ReleaseIcon(icOverlay2);
 	Skin_ReleaseIcon(icOverlay3);
+	Skin_ReleaseIcon(icOverlay4);
 	return hIcon;
 }
 
@@ -585,11 +609,11 @@ INT_PTR ServiceGetClientIconA(WPARAM wParam, LPARAM lParam)
 
 	HICON hIcon = NULL;			// returned HICON
 	int NoCopy = (int)lParam;	// noCopy
-	short base, overlay, overlay2, overlay3;
+	short base, overlay, overlay2, overlay3, overlay4;
 
-	GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3);
+	GetIconsIndexesA(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
 	if (base != -1)
-		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
+		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
 	return (INT_PTR)hIcon;
 }
 
@@ -679,12 +703,12 @@ INT_PTR ServiceGetClientIconW(WPARAM wParam, LPARAM lParam)
 	if (wszMirVer == NULL)
 		return 0;
 
-	short base, overlay, overlay2, overlay3;
-	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3);
+	short base, overlay, overlay2, overlay3, overlay4;
+	GetIconsIndexesW(wszMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
 
 	HICON hIcon = NULL;			// returned HICON
 	if (base != -1)
-		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
+		hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
 
 	return (INT_PTR)hIcon;
 }
@@ -1045,13 +1069,13 @@ HICON FASTCALL CreateJoinedIcon(HICON hBottom, HICON hTop)
 
 HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 {
-	short base, overlay, overlay2, overlay3;
-	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3);
+	short base, overlay, overlay2, overlay3, overlay4;
+	GetIconsIndexes(szMirVer, &base, &overlay, &overlay2, &overlay3, &overlay4);
 	if (base == -1 || nFICount == 0xFFFF)
 		return INVALID_HANDLE_VALUE;
 
-	// MAX: 1024 + 256 + 128 + 128
-	DWORD val = (base << 22) | ((overlay & 0xFF) << 14) | ((overlay2 & 0x7F) << 7) | (overlay3 & 0x7F);
+	// MAX: 256 + 64 + 64 + 64 + 64
+	DWORD val = (base << 24) | ((overlay & 0x3F) << 18) | ((overlay2 & 0x3F) << 12) | ((overlay3 & 0x3F) << 6) | (overlay4 & 0x3F);
 
 	int i;
 	HANDLE hFoundImage = INVALID_HANDLE_VALUE;
@@ -1063,7 +1087,7 @@ HANDLE FASTCALL GetIconIndexFromFI(LPTSTR szMirVer)
 	}
 
 	if (hFoundImage == INVALID_HANDLE_VALUE && i == nFICount) { //not found - then add
-		HICON hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3);
+		HICON hIcon = CreateIconFromIndexes(base, overlay, overlay2, overlay3, overlay4);
 
 		fiList = (FOUNDINFO*)mir_realloc(fiList, sizeof(FOUNDINFO) * (nFICount + 1));
 		fiList[nFICount].dwArray = val;

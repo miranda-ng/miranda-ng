@@ -174,9 +174,10 @@ extern KN_FP_MASK
 	def_kn_fp_overlays_mask[], 
 	def_kn_fp_overlays1_mask[], 
 	def_kn_fp_overlays2_mask[],
-	def_kn_fp_overlays3_mask[];
+	def_kn_fp_overlays3_mask[],
+	def_kn_fp_overlays4_mask[];
 
-extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP_OVERLAYS2_COUNT, DEFAULT_KN_FP_OVERLAYS3_COUNT;
+extern int DEFAULT_KN_FP_MASK_COUNT, DEFAULT_KN_FP_OVERLAYS_COUNT, DEFAULT_KN_FP_OVERLAYS2_COUNT, DEFAULT_KN_FP_OVERLAYS3_COUNT, DEFAULT_KN_FP_OVERLAYS4_COUNT;
 
 #define UNKNOWN_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 2)								// second from end
 #define NOTFOUND_MASK_NUMBER (DEFAULT_KN_FP_MASK_COUNT - 3)								// third from end
