@@ -27,49 +27,51 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include "version.h"
 
 const JabberFeatCapPair g_JabberFeatCapPairs[] = {
-	{	_T(JABBER_FEAT_DISCO_INFO),           JABBER_CAPS_DISCO_INFO,           _T("Supports Service Discovery info"), },
-	{	_T(JABBER_FEAT_DISCO_ITEMS),          JABBER_CAPS_DISCO_ITEMS,          _T("Supports Service Discovery items list"), },
-	{	_T(JABBER_FEAT_ENTITY_CAPS),          JABBER_CAPS_ENTITY_CAPS,          _T("Can inform about its Jabber capabilities"), },
-	{	_T(JABBER_FEAT_SI),                   JABBER_CAPS_SI,                   _T("Supports stream initiation (for filetransfers for ex.)"), },
-	{	_T(JABBER_FEAT_SI_FT),                JABBER_CAPS_SI_FT,                _T("Supports stream initiation for file transfers"), },
-	{	_T(JABBER_FEAT_BYTESTREAMS),          JABBER_CAPS_BYTESTREAMS,          _T("Supports file transfers via SOCKS5 Bytestreams"), },
-	{	_T(JABBER_FEAT_IBB),                  JABBER_CAPS_IBB,                  _T("Supports file transfers via In-Band Bytestreams"), },
-	{	_T(JABBER_FEAT_OOB),                  JABBER_CAPS_OOB,                  _T("Supports file transfers via Out-of-Band Bytestreams"), },
-	{	_T(JABBER_FEAT_OOB2),                 JABBER_CAPS_OOB,                  _T("Supports file transfers via Out-of-Band Bytestreams"), },
-	{	_T(JABBER_FEAT_COMMANDS),             JABBER_CAPS_COMMANDS,             _T("Supports execution of Ad-Hoc commands"), },
-	{	_T(JABBER_FEAT_REGISTER),             JABBER_CAPS_REGISTER,             _T("Supports in-band registration"), },
-	{	_T(JABBER_FEAT_MUC),                  JABBER_CAPS_MUC,                  _T("Supports multi-user chat"), },
-	{	_T(JABBER_FEAT_CHATSTATES),           JABBER_CAPS_CHATSTATES,           _T("Can report chat state in a chat session"), },
-	{	_T(JABBER_FEAT_LAST_ACTIVITY),        JABBER_CAPS_LAST_ACTIVITY,        _T("Can report information about the last activity of the user"), },
-	{	_T(JABBER_FEAT_VERSION),              JABBER_CAPS_VERSION,              _T("Can report own version information"), },
-	{	_T(JABBER_FEAT_ENTITY_TIME),          JABBER_CAPS_ENTITY_TIME,          _T("Can report local time of the user"), },
-	{	_T(JABBER_FEAT_PING),                 JABBER_CAPS_PING,                 _T("Can send and receive ping requests"), },
-	{	_T(JABBER_FEAT_DATA_FORMS),           JABBER_CAPS_DATA_FORMS,           _T("Supports data forms"), },
-	{	_T(JABBER_FEAT_MESSAGE_EVENTS),       JABBER_CAPS_MESSAGE_EVENTS,       _T("Can request and respond to events relating to the delivery, display, and composition of messages"), },
-	{	_T(JABBER_FEAT_VCARD_TEMP),           JABBER_CAPS_VCARD_TEMP,           _T("Supports vCard"), },
-	{	_T(JABBER_FEAT_AVATAR),               JABBER_CAPS_AVATAR,               _T("Supports iq-based avatars"), },
-	{	_T(JABBER_FEAT_XHTML),                JABBER_CAPS_XHTML,                _T("Supports XHTML formatting of chat messages"), },
-	{	_T(JABBER_FEAT_AGENTS),               JABBER_CAPS_AGENTS,               _T("Supports Jabber Browsing"), },
-	{	_T(JABBER_FEAT_BROWSE),               JABBER_CAPS_BROWSE,               _T("Supports Jabber Browsing"), },
-	{	_T(JABBER_FEAT_FEATURE_NEG),          JABBER_CAPS_FEATURE_NEG,          _T("Can negotiate options for specific features"), },
-	{	_T(JABBER_FEAT_AMP),                  JABBER_CAPS_AMP,                  _T("Can request advanced processing of message stanzas"), },
-	{	_T(JABBER_FEAT_USER_MOOD),            JABBER_CAPS_USER_MOOD,            _T("Can report information about user moods"), },
-	{	_T(JABBER_FEAT_USER_MOOD_NOTIFY),     JABBER_CAPS_USER_MOOD_NOTIFY,     _T("Receives information about user moods"), },
-	{	_T(JABBER_FEAT_PUBSUB),			      JABBER_CAPS_PUBSUB,               _T("Supports generic publish-subscribe functionality"), },
-	{	_T(JABBER_FEAT_SECUREIM),             JABBER_CAPS_SECUREIM,             _T("Supports SecureIM plugin for Miranda NG"), },
-	{	_T(JABBER_FEAT_PRIVACY_LISTS),	      JABBER_CAPS_PRIVACY_LISTS,        _T("Can block communications from particular other users using Privacy lists"), },
-	{	_T(JABBER_FEAT_MESSAGE_RECEIPTS),     JABBER_CAPS_MESSAGE_RECEIPTS,     _T("Supports Message Receipts"), },
-	{	_T(JABBER_FEAT_USER_TUNE),            JABBER_CAPS_USER_TUNE,            _T("Can report information about the music to which a user is listening"), },
-	{	_T(JABBER_FEAT_USER_TUNE_NOTIFY),     JABBER_CAPS_USER_TUNE_NOTIFY,     _T("Receives information about the music to which a user is listening"), },
-	{	_T(JABBER_FEAT_PRIVATE_STORAGE),      JABBER_CAPS_PRIVATE_STORAGE,      _T("Supports private XML Storage (for bookmakrs and other)"), },
-	{	_T(JABBER_FEAT_ATTENTION),            JABBER_CAPS_ATTENTION,            _T("Supports attention requests ('nudge')"), },
-	{	_T(JABBER_FEAT_ATTENTION_0),          JABBER_CAPS_ATTENTION_0,          _T("Supports attention requests ('nudge')"), },
-	{	_T(JABBER_FEAT_USER_ACTIVITY),        JABBER_CAPS_USER_ACTIVITY,        _T("Can report information about user activity"), },
-	{	_T(JABBER_FEAT_USER_ACTIVITY_NOTIFY), JABBER_CAPS_USER_ACTIVITY_NOTIFY, _T("Receives information about user activity"), },
-	{	_T(JABBER_FEAT_MIRANDA_NOTES),        JABBER_CAPS_MIRANDA_NOTES,        _T("Supports Miranda NG notes extension"), },
-	{	_T(JABBER_FEAT_JINGLE),               JABBER_CAPS_JINGLE,               _T("Supports Jingle"), },
-	{	_T(JABBER_FEAT_ROSTER_EXCHANGE),      JABBER_CAPS_ROSTER_EXCHANGE,      _T("Supports Roster Exchange"), },
-	{	_T(JABBER_FEAT_GTALK_PMUC),           JABBER_CAPS_GTALK_PMUC,           _T("Supports GTalk private multi-user chat"), },
+	{	_T(JABBER_FEAT_DISCO_INFO),           JABBER_CAPS_DISCO_INFO,           _T("Supports Service Discovery info") },
+	{	_T(JABBER_FEAT_DISCO_ITEMS),          JABBER_CAPS_DISCO_ITEMS,          _T("Supports Service Discovery items list") },
+	{	_T(JABBER_FEAT_ENTITY_CAPS),          JABBER_CAPS_ENTITY_CAPS,          _T("Can inform about its Jabber capabilities") },
+	{	_T(JABBER_FEAT_SI),                   JABBER_CAPS_SI,                   _T("Supports stream initiation (for filetransfers for ex.)") },
+	{	_T(JABBER_FEAT_SI_FT),                JABBER_CAPS_SI_FT,                _T("Supports stream initiation for file transfers") },
+	{	_T(JABBER_FEAT_BYTESTREAMS),          JABBER_CAPS_BYTESTREAMS,          _T("Supports file transfers via SOCKS5 Bytestreams") },
+	{	_T(JABBER_FEAT_IBB),                  JABBER_CAPS_IBB,                  _T("Supports file transfers via In-Band Bytestreams") },
+	{	_T(JABBER_FEAT_OOB),                  JABBER_CAPS_OOB,                  _T("Supports file transfers via Out-of-Band Bytestreams") },
+	{	_T(JABBER_FEAT_OOB2),                 JABBER_CAPS_OOB,                  _T("Supports file transfers via Out-of-Band Bytestreams") },
+	{	_T(JABBER_FEAT_COMMANDS),             JABBER_CAPS_COMMANDS,             _T("Supports execution of Ad-Hoc commands") },
+	{	_T(JABBER_FEAT_REGISTER),             JABBER_CAPS_REGISTER,             _T("Supports in-band registration") },
+	{	_T(JABBER_FEAT_MUC),                  JABBER_CAPS_MUC,                  _T("Supports multi-user chat") },
+	{	_T(JABBER_FEAT_CHATSTATES),           JABBER_CAPS_CHATSTATES,           _T("Can report chat state in a chat session") },
+	{	_T(JABBER_FEAT_LAST_ACTIVITY),        JABBER_CAPS_LAST_ACTIVITY,        _T("Can report information about the last activity of the user") },
+	{	_T(JABBER_FEAT_VERSION),              JABBER_CAPS_VERSION,              _T("Can report own version information") },
+	{	_T(JABBER_FEAT_ENTITY_TIME),          JABBER_CAPS_ENTITY_TIME,          _T("Can report local time of the user") },
+	{	_T(JABBER_FEAT_PING),                 JABBER_CAPS_PING,                 _T("Can send and receive ping requests") },
+	{	_T(JABBER_FEAT_DATA_FORMS),           JABBER_CAPS_DATA_FORMS,           _T("Supports data forms") },
+	{	_T(JABBER_FEAT_MESSAGE_EVENTS),       JABBER_CAPS_MESSAGE_EVENTS,       _T("Can request and respond to events relating to the delivery, display, and composition of messages") },
+	{	_T(JABBER_FEAT_VCARD_TEMP),           JABBER_CAPS_VCARD_TEMP,           _T("Supports vCard") },
+	{	_T(JABBER_FEAT_AVATAR),               JABBER_CAPS_AVATAR,               _T("Supports iq-based avatars") },
+	{	_T(JABBER_FEAT_XHTML),                JABBER_CAPS_XHTML,                _T("Supports XHTML formatting of chat messages") },
+	{	_T(JABBER_FEAT_AGENTS),               JABBER_CAPS_AGENTS,               _T("Supports Jabber Browsing") },
+	{	_T(JABBER_FEAT_BROWSE),               JABBER_CAPS_BROWSE,               _T("Supports Jabber Browsing") },
+	{	_T(JABBER_FEAT_FEATURE_NEG),          JABBER_CAPS_FEATURE_NEG,          _T("Can negotiate options for specific features") },
+	{	_T(JABBER_FEAT_AMP),                  JABBER_CAPS_AMP,                  _T("Can request advanced processing of message stanzas") },
+	{	_T(JABBER_FEAT_USER_MOOD),            JABBER_CAPS_USER_MOOD,            _T("Can report information about user moods") },
+	{	_T(JABBER_FEAT_USER_MOOD_NOTIFY),     JABBER_CAPS_USER_MOOD_NOTIFY,     _T("Receives information about user moods") },
+	{	_T(JABBER_FEAT_PUBSUB),               JABBER_CAPS_PUBSUB,               _T("Supports generic publish-subscribe functionality") },
+	{	_T(JABBER_FEAT_SECUREIM),             JABBER_CAPS_SECUREIM,             _T("Supports SecureIM plugin for Miranda NG") },
+	{	_T(JABBER_FEAT_PRIVACY_LISTS),        JABBER_CAPS_PRIVACY_LISTS,        _T("Can block communications from particular other users using Privacy lists") },
+	{	_T(JABBER_FEAT_MESSAGE_RECEIPTS),     JABBER_CAPS_MESSAGE_RECEIPTS,     _T("Supports Message Receipts") },
+	{	_T(JABBER_FEAT_USER_TUNE),            JABBER_CAPS_USER_TUNE,            _T("Can report information about the music to which a user is listening") },
+	{	_T(JABBER_FEAT_USER_TUNE_NOTIFY),     JABBER_CAPS_USER_TUNE_NOTIFY,     _T("Receives information about the music to which a user is listening") },
+	{	_T(JABBER_FEAT_PRIVATE_STORAGE),      JABBER_CAPS_PRIVATE_STORAGE,      _T("Supports private XML Storage (for bookmakrs and other)") },
+	{	_T(JABBER_FEAT_ATTENTION),            JABBER_CAPS_ATTENTION,            _T("Supports attention requests ('nudge')") },
+	{	_T(JABBER_FEAT_ATTENTION_0),          JABBER_CAPS_ATTENTION_0,          _T("Supports attention requests ('nudge')") },
+	{	_T(JABBER_FEAT_ARCHIVE_AUTO),         JABBER_CAPS_ARCHIVE_AUTO,         _T("Supports chat history retrieving") },
+	{	_T(JABBER_FEAT_ARCHIVE_MANAGE),       JABBER_CAPS_ARCHIVE_MANAGE,       _T("Supports chat history management") },
+	{	_T(JABBER_FEAT_USER_ACTIVITY),        JABBER_CAPS_USER_ACTIVITY,        _T("Can report information about user activity") },
+	{	_T(JABBER_FEAT_USER_ACTIVITY_NOTIFY), JABBER_CAPS_USER_ACTIVITY_NOTIFY, _T("Receives information about user activity") },
+	{	_T(JABBER_FEAT_MIRANDA_NOTES),        JABBER_CAPS_MIRANDA_NOTES,        _T("Supports Miranda NG notes extension") },
+	{	_T(JABBER_FEAT_JINGLE),               JABBER_CAPS_JINGLE,               _T("Supports Jingle") },
+	{	_T(JABBER_FEAT_ROSTER_EXCHANGE),      JABBER_CAPS_ROSTER_EXCHANGE,      _T("Supports Roster Exchange") },
+	{	_T(JABBER_FEAT_GTALK_PMUC),           JABBER_CAPS_GTALK_PMUC,           _T("Supports GTalk private multi-user chat") },
 	{	NULL,                                 0,                                NULL}
 };
 
@@ -150,12 +152,15 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
 		HXML feature;
 		for (int i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
 			const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
-			if (featureName) {
-				for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
-					if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
-						jcbCaps |= g_JabberFeatCapPairs[j].jcbCap;
-						break;
-		}	}	}	}
+			if (!featureName)
+				continue;
+
+			for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++)
+				if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
+					jcbCaps |= g_JabberFeatCapPairs[j].jcbCap;
+					break;
+				}
+		}
 
 		// no version info support and no XEP-0115 support?
 		if (r && r->dwVersionRequestTime == -1 && !r->version && !r->software && !r->szCapsNode) {
@@ -167,6 +172,7 @@ void CJabberProto::OnIqResultCapsDiscoInfo(HXML, CJabberIqInfo* pInfo)
 		if ( !m_clientCapsManager.SetClientCaps(pInfo->GetIqId(), jcbCaps))
 			if (r)
 				r->jcbCachedCaps = jcbCaps;
+
 		JabberUserInfoUpdate(pInfo->GetHContact());
 	}
 	else {
@@ -244,7 +250,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 
 			TCHAR queryNode[512];
 			mir_sntprintf(queryNode, SIZEOF(queryNode), _T("%s#%s"), r->szCapsNode, r->szCapsVer);
-			m_ThreadInfo->send(XmlNodeIq(pInfo) << XQUERY(_T(JABBER_FEAT_DISCO_INFO)) << XATTR(_T("node"), queryNode));
+			m_ThreadInfo->send( XmlNodeIq(pInfo) << XQUERY(_T(JABBER_FEAT_DISCO_INFO)) << XATTR(_T("node"), queryNode));
 
 			bRequestSent = TRUE;
 		}

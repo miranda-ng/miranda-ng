@@ -276,8 +276,8 @@ static void sttFillResourceInfo(CJabberProto* ppro, HWND hwndTree, HTREEITEM hti
 		for (i = 0; g_JabberFeatCapPairs[i].szFeature; i++) 
 			if (jcb & g_JabberFeatCapPairs[i].jcbCap) {
 				TCHAR szDescription[ 1024 ];
-				if (g_JabberFeatCapPairs[i].szDescription)
-					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].szDescription), g_JabberFeatCapPairs[i].szFeature);
+				if (g_JabberFeatCapPairs[i].tszDescription)
+					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s (%s)"), TranslateTS(g_JabberFeatCapPairs[i].tszDescription), g_JabberFeatCapPairs[i].szFeature);
 				else
 					mir_sntprintf(szDescription, SIZEOF(szDescription), _T("%s"), g_JabberFeatCapPairs[i].szFeature);
 				sttFillInfoLine(hwndTree, htiCaps, NULL, NULL, szDescription, sttInfoLineId(resource, INFOLINE_CAPS, i));

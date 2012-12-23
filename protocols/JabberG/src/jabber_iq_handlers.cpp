@@ -391,7 +391,7 @@ BOOL CJabberProto::OnIqRequestLastActivity(HXML, CJabberIqInfo *pInfo)
 // XEP-0199: XMPP Ping support
 BOOL CJabberProto::OnIqRequestPing(HXML, CJabberIqInfo *pInfo)
 {
-	m_ThreadInfo->send(XmlNodeIq(_T("result"), pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID));
+	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID));
 	return TRUE;
 }
 
@@ -505,7 +505,7 @@ BOOL CJabberProto::OnIqRequestAvatar(HXML, CJabberIqInfo *pInfo)
 	fclose(in);
 
 	char* str = JabberBase64Encode(buffer, bytes);
-	m_ThreadInfo->send(XmlNodeIq(_T("result"), pInfo) << XQUERY(_T(JABBER_FEAT_AVATAR)) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
+	m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo) << XQUERY(_T(JABBER_FEAT_AVATAR)) << XCHILD(_T("query"), _A2T(str)) << XATTR(_T("mimetype"), szMimeType));
 	mir_free(str);
 	mir_free(buffer);
 	return TRUE;

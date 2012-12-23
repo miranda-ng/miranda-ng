@@ -279,7 +279,7 @@ void CJabberProto::OnIqResultPrivacyLists(HXML iqNode, CJabberIqInfo* pInfo)
 			if (m_pDlgPrivacyLists) {
 				int iqId = SerialNext();
 				IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultPrivacyList);
-				m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS)) << XCHILD(_T("list")) << XATTR(_T("name"), listName));
+				m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVACY_LISTS)) << XCHILD(_T("list")) << XATTR(_T("name"), listName));
 	}	}	}
 
 	const TCHAR *szName = NULL;

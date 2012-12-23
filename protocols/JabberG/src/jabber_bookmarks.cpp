@@ -272,7 +272,7 @@ void CJabberDlgBookmarks::UpdateData()
 
 	int iqId = m_proto->SerialNext();
 	m_proto->IqAdd(iqId, IQ_PROC_DISCOBOOKMARKS, &CJabberProto::OnIqResultDiscoBookmarks);
-	m_proto->m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE)) 
+	m_proto->m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T(JABBER_FEAT_PRIVATE_STORAGE)) 
 		<< XCHILDNS(_T("storage"), _T("storage:bookmarks")));
 }
 

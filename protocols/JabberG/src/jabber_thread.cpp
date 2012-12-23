@@ -478,7 +478,7 @@ LBL_FatalError:
 					if (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_PING) {
 						CJabberIqInfo* pInfo = m_iqManager.AddHandler(&CJabberProto::OnPingReply, JABBER_IQ_TYPE_GET, NULL, 0, -1, this);
 						pInfo->SetTimeout(m_options.ConnectionKeepAliveTimeout);
-						info->send(XmlNodeIq(pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID) << XCHILDNS(_T("ping"), _T(JABBER_FEAT_PING)));
+						info->send( XmlNodeIq(pInfo) << XATTR(_T("from"), m_ThreadInfo->fullJID) << XCHILDNS(_T("ping"), _T(JABBER_FEAT_PING)));
 					}
 					else info->send(" \t ");
 					continue;
@@ -627,7 +627,7 @@ recvRest:
 void CJabberProto::PerformRegistration(ThreadData* info)
 {
 	iqIdRegGetReg = SerialNext();
-	info->send(XmlNodeIq(_T("get"), iqIdRegGetReg, NULL) << XQUERY(_T(JABBER_FEAT_REGISTER)));
+	info->send( XmlNodeIq(_T("get"), iqIdRegGetReg, NULL) << XQUERY(_T(JABBER_FEAT_REGISTER)));
 
 	SendMessage(info->reg_hwndDlg, WM_JABBER_REGDLG_UPDATE, 50, (LPARAM)TranslateT("Requesting registration instruction..."));
 }
@@ -637,7 +637,7 @@ void CJabberProto::PerformIqAuth(ThreadData* info)
 	if (info->type == JABBER_SESSION_NORMAL) {
 		int iqId = SerialNext();
 		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetAuth);
-		info->send(XmlNodeIq(_T("get"), iqId) << XQUERY(_T("jabber:iq:auth")) << XCHILD(_T("username"), info->username));
+		info->send( XmlNodeIq(_T("get"), iqId) << XQUERY(_T("jabber:iq:auth")) << XCHILD(_T("username"), info->username));
 	}
 	else if (info->type == JABBER_SESSION_REGISTER)
 		PerformRegistration(info);
@@ -1886,7 +1886,7 @@ BOOL CJabberProto::OnProcessJingle(HXML node)
 			LPCTSTR from = xmlGetAttrValue(node, _T("from"));
 			if (szAction && !_tcscmp(szAction, _T("session-initiate"))) {
 				// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
-				m_ThreadInfo->send(XmlNodeIq(_T("result"), idStr, from));
+				m_ThreadInfo->send( XmlNodeIq(_T("result"), idStr, from));
 		
 				XmlNodeIq iq(_T("set"), SerialNext(), from);
 				HXML jingleNode = iq << XCHILDNS(_T("jingle"), _T(JABBER_FEAT_JINGLE));

@@ -197,6 +197,17 @@ JABBER_RESOURCE_STATUS* CJabberProto::ResourceInfoFromJID(const TCHAR *jid)
 	return r;
 }
 
+JABBER_LIST_ITEM* CJabberProto::GetItemFromContact(HANDLE hContact)
+{
+	DBVARIANT dbv;
+	if (JGetStringT(hContact, "jid", &dbv))
+		return NULL;
+
+	JABBER_LIST_ITEM *pItem = ListGetItemPtr(LIST_ROSTER, dbv.ptszVal);
+	db_free(&dbv);
+	return pItem;
+}
+
 TCHAR* JabberPrepareJid(LPCTSTR jid)
 {
 	if ( !jid) return NULL;
@@ -1251,6 +1262,31 @@ static VOID CALLBACK sttRebuildInfoFrameApcProc(void* param)
 void CJabberProto::RebuildInfoFrame()
 {
 	CallFunctionAsync(sttRebuildInfoFrameApcProc, this);
+}
+
+////////////////////////////////////////////////////////////////////////
+// time2str & str2time
+
+TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen)
+{
+	struct tm* T = localtime(&_time);
+	mir_sntprintf(buf, bufLen, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
+		T->tm_year+1900, T->tm_mon+1, T->tm_mday, T->tm_hour, T->tm_min, T->tm_sec);
+	return buf;
+}
+
+time_t str2time(const TCHAR *buf)
+{
+	struct tm T = { 0 };
+	if ( _stscanf(buf, _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec) != 6) {
+		int boo;
+		if ( _stscanf(buf, _T("%04d-%02d-%02dT%02d:%02d:%02d.%dZ"), &T.tm_year, &T.tm_mon, &T.tm_mday, &T.tm_hour, &T.tm_min, &T.tm_sec, &boo) != 7)
+			return 0;
+	}
+
+	T.tm_year -= 1900;
+	T.tm_mon--;
+	return mktime(&T);
 }
 
 ////////////////////////////////////////////////////////////////////////

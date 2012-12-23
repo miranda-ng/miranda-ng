@@ -183,6 +183,7 @@ struct JABBER_LIST_ITEM
 	BOOL bAutoJoin;
 
 	BOOL bUseResource;
+	BOOL bHistoryRead;
 };
 
 struct JABBER_HTTP_AVATARS

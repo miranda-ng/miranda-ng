@@ -323,11 +323,9 @@ void CJabberProto::GroupchatJoinRoom(const TCHAR *server, const TCHAR *room, con
 		if (lasteventtime > 0) {
 			_tzset();
 			lasteventtime += _timezone + 1;
-			struct tm* time = localtime(&lasteventtime);
+
 			TCHAR lasteventdate[20 + 1];
-			mir_sntprintf(lasteventdate, SIZEOF(lasteventdate), _T("%04d-%02d-%02dT%02d:%02d:%02dZ"), 
-				time->tm_year+1900, time->tm_mon+1, time->tm_mday, time->tm_hour, time->tm_min, time->tm_sec);
-			x << XCHILD(_T("history")) << XATTR(_T("since"), lasteventdate);
+			x << XCHILD(_T("history")) << XATTR(_T("since"), time2str(lasteventtime, lasteventdate, SIZEOF(lasteventdate)));
 		}
 	}
 
@@ -1088,7 +1086,7 @@ void CJabberProto::GroupchatProcessPresence(HXML node)
 			// Request room config
 			int iqId = SerialNext();
 			IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc);
-			m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(xmlnsOwner));
+			m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(xmlnsOwner));
 		}
 
 		mir_free(room);

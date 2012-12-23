@@ -115,7 +115,7 @@ int CJabberProto::AdHoc_RequestListOfCommands(TCHAR * szResponder, HWND hwndDlg)
 {
 	int iqId = (int)hwndDlg;
 	IqAdd(iqId, IQ_PROC_DISCOCOMMANDS, &CJabberProto::OnIqResult_ListOfCommands);
-	m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId, szResponder) << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS))
+	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szResponder) << XQUERY(_T(JABBER_FEAT_DISCO_ITEMS))
 		<< XATTR(_T("node"), _T(JABBER_FEAT_COMMANDS)));
 	return iqId;
 }
@@ -183,17 +183,16 @@ int CJabberProto::AdHoc_OnJAHMCommandListResult(HWND hwndDlg, HXML iqNode, Jabbe
 		if (queryNode && xmlGetChild(queryNode ,0) && validResponse) {
 			dat->CommandsNode = xi.copyNode(queryNode);
 
-			nodeIdx = 1;
 			int ypos = 20;
 			for (nodeIdx = 1; ; nodeIdx++) {
 				HXML itemNode = xmlGetNthChild(queryNode, _T("item"), nodeIdx);
-				if (itemNode) {
-					const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
-					if ( !name) name = xmlGetAttrValue(itemNode, _T("node"));
-					ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg,IDC_FRAME), TranslateTS(name), nodeIdx, ypos, (nodeIdx==1) ? 1 : 0);
-					dat->CurrentHeight = ypos;
-				}
-				else break;
+				if (!itemNode)
+					break;
+
+				const TCHAR *name = xmlGetAttrValue(itemNode, _T("name"));
+				if ( !name) name = xmlGetAttrValue(itemNode, _T("node"));
+				ypos = AdHoc_AddCommandRadio(GetDlgItem(hwndDlg,IDC_FRAME), TranslateTS(name), nodeIdx, ypos, (nodeIdx==1) ? 1 : 0);
+				dat->CurrentHeight = ypos;
 		}	}
 
 		if (nodeIdx>1) {

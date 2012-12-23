@@ -151,8 +151,8 @@ JABBER_LIST_ITEM *CJabberProto::ListAdd(JABBER_LIST list, const TCHAR *jid)
 			bUseResource=TRUE;
 		}
 	}
-	item = (JABBER_LIST_ITEM*)mir_alloc(sizeof(JABBER_LIST_ITEM));
-	ZeroMemory(item, sizeof(JABBER_LIST_ITEM));
+	
+	item = (JABBER_LIST_ITEM*)mir_calloc(sizeof(JABBER_LIST_ITEM));
 	item->list = list;
 	item->jid = s;
 	item->itemResource.status = ID_STATUS_OFFLINE;

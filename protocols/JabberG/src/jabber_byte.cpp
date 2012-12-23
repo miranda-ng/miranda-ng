@@ -444,7 +444,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 
 	if (jbt == NULL) return;
 	if ((buffer=(char*)mir_alloc(JABBER_NETWORK_BUFFER_SIZE)) == NULL) {
-		m_ThreadInfo->send(XmlNodeIq(_T("error"), jbt->iqId, jbt->srcJID)
+		m_ThreadInfo->send( XmlNodeIq(_T("error"), jbt->iqId, jbt->srcJID)
 			<< XCHILD(_T("error")) << XATTRI(_T("code"), 406) << XATTR(_T("type"), _T("auth"))
 			<< XCHILDNS(_T("not-acceptable"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 		return;
@@ -494,7 +494,7 @@ void CJabberProto::ByteSendViaProxy(JABBER_BYTE_TRANSFER *jbt)
 	(this->*jbt->pfnFinal)((jbt->state == JBT_DONE) ? TRUE : FALSE, jbt->ft);
 	jbt->ft = NULL;
 	if ( !validStreamhost)
-		m_ThreadInfo->send(XmlNodeIq(_T("error"), jbt->iqId, jbt->srcJID)
+		m_ThreadInfo->send( XmlNodeIq(_T("error"), jbt->iqId, jbt->srcJID)
 			<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
 			<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 }
@@ -688,7 +688,7 @@ void __cdecl CJabberProto::ByteReceiveThread(JABBER_BYTE_TRANSFER *jbt)
 	if ( !validStreamhost && szId && from) {
 		Log("bytestream_recv_connection session not completed");
 
-		m_ThreadInfo->send(XmlNodeIq(_T("error"), szId, from)
+		m_ThreadInfo->send( XmlNodeIq(_T("error"), szId, from)
 			<< XCHILD(_T("error")) << XATTRI(_T("code"), 404) << XATTR(_T("type"), _T("cancel"))
 			<< XCHILDNS(_T("item-not-found"), _T("urn:ietf:params:xml:ns:xmpp-stanzas")));
 	}

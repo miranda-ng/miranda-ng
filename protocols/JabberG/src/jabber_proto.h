@@ -397,6 +397,14 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 
 	void   ContactMenuAdhocCommands(struct CJabberAdhocStartupParams* param);
 
+	//---- jabber_archive.c --------------------------------------------------------------
+
+	void   EnableArchive(bool bEnable);
+	void   RetrieveMessageArchive(HANDLE hContact, JABBER_LIST_ITEM *pItem);
+
+	void   OnIqResultGetCollection(HXML iqNode);
+	void   OnIqResultGetCollectionList(HXML iqNode);
+
 	//---- jabber_bookmarks.c ------------------------------------------------------------
 
 	INT_PTR    __cdecl OnMenuHandleBookmarks(WPARAM wParam, LPARAM lParam);
@@ -893,6 +901,7 @@ struct CJabberProto : public PROTO_INTERFACE, public MZeroedObject
 
 	//---- jabber_util.c -----------------------------------------------------------------
 
+	JABBER_LIST_ITEM* GetItemFromContact(HANDLE hContact);
 	JABBER_RESOURCE_STATUS* ResourceInfoFromJID(const TCHAR *jid);
 
 	void   SerialInit(void);

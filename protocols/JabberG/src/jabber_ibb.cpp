@@ -56,7 +56,7 @@ BOOL CJabberProto::OnFtHandleIbbIq(HXML iqNode, CJabberIqInfo* pInfo)
 			bOk = OnIbbRecvdData(xmlGetText(pInfo->GetChildNode()), sid, seq);
 
 		if (bOk)
-			m_ThreadInfo->send(XmlNodeIq(_T("result"), pInfo));
+			m_ThreadInfo->send( XmlNodeIq(_T("result"), pInfo));
 		else
 			m_ThreadInfo->send(
 				XmlNodeIq(_T("error"), pInfo) 
@@ -151,7 +151,7 @@ void __cdecl CJabberProto::IbbReceiveThread(JABBER_IBB_TRANSFER *jibb)
 	jibb->hEvent = NULL;
 
 	if (jibb->state == JIBB_ERROR)
-		m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext(), jibb->dstJID) << XCHILDNS(_T("close"), _T(JABBER_FEAT_IBB)) << XATTR(_T("sid"), jibb->sid));
+		m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), jibb->dstJID) << XCHILDNS(_T("close"), _T(JABBER_FEAT_IBB)) << XATTR(_T("sid"), jibb->sid));
 
 	if (jibb->bStreamClosed && jibb->dwTransferredSize == ft->dwExpectedRecvFileSize)
 		jibb->state = JIBB_DONE;

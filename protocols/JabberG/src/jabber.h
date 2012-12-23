@@ -745,6 +745,9 @@ TCHAR*        __stdcall JabberStripJid(const TCHAR *jid, TCHAR* dest, size_t des
 int           __stdcall JabberGetPictureType(const char* buf);
 int           __stdcall JabberGetPacketID(HXML n);
 
+TCHAR* time2str(time_t _time, TCHAR *buf, size_t bufLen);
+time_t str2time(const TCHAR*);
+
 #define JabberUnixToDosT JabberUnixToDosW
 #define JabberBase64DecodeT JabberBase64DecodeW
 

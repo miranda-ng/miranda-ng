@@ -467,7 +467,7 @@ int CJabberProto::SearchRenewFields(HWND hwndDlg, JabberSearchData * dat)
 
 	int iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_GETSEARCHFIELDS, &CJabberProto::OnIqResultGetSearchFields);
-	m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId, szServerName) << XQUERY(_T("jabber:iq:search")));
+	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, szServerName) << XQUERY(_T("jabber:iq:search")));
 	return iqId;
 }
 

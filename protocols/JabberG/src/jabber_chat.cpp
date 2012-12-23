@@ -854,18 +854,18 @@ public:
 
 void CJabberProto::AdminSet(const TCHAR *to, const TCHAR *ns, const TCHAR *szItem, const TCHAR *itemVal, const TCHAR *var, const TCHAR *varVal)
 {
-	m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext(), to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(szItem, itemVal) << XATTR(var, varVal));
+	m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(szItem, itemVal) << XATTR(var, varVal));
 }
 
 void CJabberProto::AdminSetReason(const TCHAR *to, const TCHAR *ns, const TCHAR *szItem, const TCHAR *itemVal, const TCHAR *var, const TCHAR *varVal , const TCHAR *rsn)
-{   m_ThreadInfo->send(XmlNodeIq(_T("set"), SerialNext(), to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(szItem, itemVal) << XATTR(var, varVal) << XCHILD(_T("reason"), rsn));
+{   m_ThreadInfo->send( XmlNodeIq(_T("set"), SerialNext(), to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(szItem, itemVal) << XATTR(var, varVal) << XCHILD(_T("reason"), rsn));
 }
 
 void CJabberProto::AdminGet(const TCHAR *to, const TCHAR *ns, const TCHAR *var, const TCHAR *varVal, JABBER_IQ_PFUNC foo)
 {
 	int id = SerialNext();
 	IqAdd(id, IQ_PROC_NONE, foo);
-	m_ThreadInfo->send(XmlNodeIq(_T("get"), id, to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(var, varVal));
+	m_ThreadInfo->send( XmlNodeIq(_T("get"), id, to) << XQUERY(ns) << XCHILD(_T("item")) << XATTR(var, varVal));
 }
 
 // Member info dialog
@@ -1548,7 +1548,7 @@ int CJabberProto::JabberGcEventHook(WPARAM, LPARAM lParam)
 	case GC_USER_CHANMGR:
 		int iqId = SerialNext();
 		IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultGetMuc);
-		m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(xmlnsOwner));
+		m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, item->jid) << XQUERY(xmlnsOwner));
 		break;
 	}
 

@@ -67,16 +67,21 @@ void CJabberProto::OnIqResultServerDiscoInfo(HXML iqNode)
 							<< XQUERY(_T(JABBER_FEAT_GTALK_SHARED_STATUS)) << XATTR(_T("version"), _T("2")));
 			}
 		}
+
 		if (m_ThreadInfo) {
 			HXML feature;
 			for (i = 1; (feature = xmlGetNthChild(query, _T("feature"), i)) != NULL; i++) {
 				const TCHAR *featureName = xmlGetAttrValue(feature, _T("var"));
-				if (featureName) {
-					for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++) {
-						if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
-							m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
-							break;
-		}	}	}	}	}
+				if (!featureName)
+					continue;
+
+				for (int j = 0; g_JabberFeatCapPairs[j].szFeature; j++)
+					if ( !_tcscmp(g_JabberFeatCapPairs[j].szFeature, featureName)) {
+						m_ThreadInfo->jabberServerCaps |= g_JabberFeatCapPairs[j].jcbCap;
+						break;
+					}	
+			}
+		}
 
 		OnProcessLoginRq(m_ThreadInfo, JABBER_LOGIN_SERVERINFO);
 }	}
@@ -126,9 +131,11 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 
 	info->dwLoginRqs |= rq;
 
-	if ((info->dwLoginRqs & JABBER_LOGIN_ROSTER) && (info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS) &&
-		(info->dwLoginRqs & JABBER_LOGIN_SERVERINFO) && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ))
-	{
+	DWORD dwMask = JABBER_LOGIN_ROSTER | JABBER_LOGIN_BOOKMARKS | JABBER_LOGIN_SERVERINFO;
+	if ((info->dwLoginRqs & dwMask) == dwMask && !(info->dwLoginRqs & JABBER_LOGIN_BOOKMARKS_AJ)) {
+		if (info->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO)
+			EnableArchive(m_options.EnableMsgArchive != 0);
+
 		if (jabberChatDllPresent && m_options.AutoJoinBookmarks) {
 			LIST<JABBER_LIST_ITEM> ll(10);
 			LISTFOREACH(i, this, LIST_BOOKMARK)
@@ -153,7 +160,8 @@ void CJabberProto::OnProcessLoginRq(ThreadData* info, DWORD rq)
 					TCHAR* nick = JabberNickFromJID(m_szJabberJID);
 					GroupchatJoinRoom(server, p, nick, item->password, true);
 					mir_free(nick);
-			}	}
+				}
+			}
 
 			ll.destroy();
 		}
@@ -196,7 +204,7 @@ void CJabberProto::OnLoggedIn()
 	m_ThreadInfo->jabberServerCaps = JABBER_RESOURCE_CAPS_NONE;
 	iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_NONE, &CJabberProto::OnIqResultServerDiscoInfo);
-	m_ThreadInfo->send(XmlNodeIq(_T("get"), iqId, _A2T(m_ThreadInfo->server)) << XQUERY(_T(JABBER_FEAT_DISCO_INFO)));
+	m_ThreadInfo->send( XmlNodeIq(_T("get"), iqId, _A2T(m_ThreadInfo->server)) << XQUERY(_T(JABBER_FEAT_DISCO_INFO)));
 
 	QueryPrivacyLists(m_ThreadInfo);
 

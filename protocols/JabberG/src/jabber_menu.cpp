@@ -1085,6 +1085,10 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 		if ( !hDialogsList)
 			hDialogsList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST, 0, 0);
 		WindowList_Add(hDialogsList, event->hwndWindow, event->hContact);
+
+		JABBER_LIST_ITEM *pItem = GetItemFromContact(event->hContact);
+		if (pItem && (m_ThreadInfo->jabberServerCaps & JABBER_CAPS_ARCHIVE_AUTO) && m_options.EnableMsgArchive)
+			RetrieveMessageArchive(event->hContact, pItem);
 	}
 	else if (event->uType == MSG_WINDOW_EVT_CLOSING) {
 		if (hDialogsList)
@@ -1110,12 +1114,11 @@ int CJabberProto::OnProcessSrmmEvent(WPARAM, LPARAM lParam)
 				r->bMessageSessionActive = FALSE;
 				JabberCapsBits jcb = GetResourceCapabilites(jid, TRUE);
 
-				if (jcb & JABBER_CAPS_CHATSTATES) {
-					int iqId = SerialNext();
+				if (jcb & JABBER_CAPS_CHATSTATES)
 					m_ThreadInfo->send(
-						XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID(iqId)
+						XmlNode(_T("message")) << XATTR(_T("to"), jid) << XATTR(_T("type"), _T("chat")) << XATTRID( SerialNext())
 							<< XCHILDNS(_T("gone"), _T(JABBER_FEAT_CHATSTATES)));
-	}	}	}	}
+	}	}	}
 
 	return 0;
 }

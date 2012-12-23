@@ -213,6 +213,7 @@ struct CJabberOptions
 	CMOption<BYTE> UseTLS;
 	CMOption<BYTE> AcceptNotes;
 	CMOption<BYTE> AutosaveNotes;
+	CMOption<BYTE> EnableMsgArchive;
 	CMOption<BYTE> RcMarkMessagesAsRead;
 	CMOption<DWORD> ConnectionKeepAliveInterval;
 	CMOption<DWORD> ConnectionKeepAliveTimeout;
@@ -238,6 +239,7 @@ struct CJabberOptions
 		DisableFrame(proto, "DisableFrame", TRUE),
 		EnableAvatars(proto, "EnableAvatars", TRUE),
 		EnableRemoteControl(proto, "EnableRemoteControl", FALSE),
+		EnableMsgArchive(proto, "EnableMsgArchive", FALSE),
 		EnableUserActivity(proto, "EnableUserActivity", TRUE),
 		EnableUserMood(proto, "EnableUserMood", TRUE),
 		EnableUserTune(proto, "EnableUserTune", FALSE),

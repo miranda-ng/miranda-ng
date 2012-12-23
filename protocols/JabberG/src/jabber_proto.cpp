@@ -636,7 +636,7 @@ int __cdecl CJabberProto::FileDeny(HANDLE, HANDLE hTransfer, const TCHAR *)
 
 	switch (ft->type) {
 	case FT_OOB:
-		m_ThreadInfo->send(XmlNodeIq(_T("error"), ft->iqId, ft->jid) << XCHILD(_T("error"), _T("File transfer refused")) << XATTRI(_T("code"), 406));
+		m_ThreadInfo->send( XmlNodeIq(_T("error"), ft->iqId, ft->jid) << XCHILD(_T("error"), _T("File transfer refused")) << XATTRI(_T("code"), 406));
 		break;
 
 	case FT_BYTESTREAM:
@@ -900,7 +900,7 @@ HANDLE __cdecl CJabberProto::SearchByEmail(const TCHAR *email)
 
 	int iqId = SerialNext();
 	IqAdd(iqId, IQ_PROC_GETSEARCH, &CJabberProto::OnIqResultSetSearch);
-	m_ThreadInfo->send(XmlNodeIq(_T("set"), iqId, _A2T(szServerName)) << XQUERY(_T("jabber:iq:search"))
+	m_ThreadInfo->send( XmlNodeIq(_T("set"), iqId, _A2T(szServerName)) << XQUERY(_T("jabber:iq:search"))
 		<< XCHILD(_T("email"), email));
 	return (HANDLE)iqId;
 }

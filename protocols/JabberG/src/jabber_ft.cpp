@@ -491,7 +491,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 			item->jibb = jibb;
 			JForkThread((JThreadFunc)&CJabberProto::IbbReceiveThread, jibb);
 
-			m_ThreadInfo->send(XmlNodeIq(_T("result"), id, from));
+			m_ThreadInfo->send( XmlNodeIq(_T("result"), id, from));
 			return TRUE;
 		}
 		// stream already open
@@ -507,7 +507,7 @@ BOOL CJabberProto::FtHandleIbbRequest(HXML iqNode, BOOL bOpen)
 		item->jibb->bStreamClosed = TRUE;
 		SetEvent(item->jibb->hEvent);
 
-		m_ThreadInfo->send(XmlNodeIq(_T("result"), id, from));
+		m_ThreadInfo->send( XmlNodeIq(_T("result"), id, from));
 		return TRUE;
 	}
 
