@@ -6,6 +6,7 @@
 #include <malloc.h>
 #include <shlwapi.h>
 #include <tlhelp32.h>
+#include <string>
 
 //#pragma warning(push)
 //#	pragma warning(disable:4312)

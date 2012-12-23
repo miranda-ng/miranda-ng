@@ -109,7 +109,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 			(DWORD)timestamp, 
 			sid, 
 			nick, 
-			text);
+			CSkypeProto::RemoveHtml(text));
 	}
 	else
 	{

@@ -525,3 +525,51 @@ ULONG CSkypeProto::Base64Encode(char *inputString, char *outputBuffer, SIZE_T nM
 	outputBuffer[outpos] = 0;
 	return outpos;
 }
+
+char *CSkypeProto::RemoveHtml(char *text)
+{
+	std::string new_string = "";
+	std::string data = text;
+
+	for (std::string::size_type i = 0; i < data.length(); i++)
+	{
+		if (data.at(i) == '<' && data.at(i+1) != ' ')
+		{
+			i = data.find(">", i);
+			if (i == std::string::npos)
+				break;
+
+			continue;
+		}
+
+		if (data.at(i) == '&') {
+			std::string::size_type begin = i;
+			i = data.find(";", i);
+			if (i == std::string::npos) {
+				i = begin;
+			} else {
+				std::string entity = data.substr(begin+1, i-begin-1);
+
+				bool found = false;
+				for (int j=0; j<SIZEOF(htmlEntities); j++)
+				{
+					if (!stricmp(entity.c_str(), htmlEntities[j].entity)) {						
+						new_string += htmlEntities[j].symbol;
+						found = true;
+						break;
+					}
+				}
+				
+				if (found)
+					continue;
+				else
+					i = begin;
+			}
+		}
+
+		new_string += data.at(i);
+	}
+	
+	::mir_free(text);
+	return ::mir_strdup(new_string.c_str());
+}

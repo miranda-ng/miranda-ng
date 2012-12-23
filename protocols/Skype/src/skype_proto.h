@@ -115,6 +115,23 @@ const SettingItem setting[]={
   {LPGENT("About"),			"About",		DBVT_WCHAR,	LI_STRING}
 };
 
+struct HtmlEntity
+{
+	const char *entity;
+	char symbol;
+};
+
+const HtmlEntity htmlEntities[]={
+	{"nbsp",	' '},
+	{"amp",		'&'},
+	{"quot",	'"'},
+	{"lt",		'<'},
+	{"gt",		'>'},
+	{"apos",	'\''},
+	{"copy",	'©'},
+	// TODO: add more
+};
+
 struct InviteChatParam
 {
 	char		*id;
@@ -357,6 +374,8 @@ protected:
 	//
 	static char CharBase64[];
 	static ULONG Base64Encode(char *inputString, char *outputBuffer, SIZE_T nMaxLength);
+
+	static char *RemoveHtml(char *data);
 
 	// instances
 	static LIST<CSkypeProto> instanceList;
