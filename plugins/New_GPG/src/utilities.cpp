@@ -690,13 +690,10 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 					p1 = data.find(_T("Encoding: "), p1);
 					p1 = data.find(_T("\n"), p1);
 				}
-				p1+=2;
+				p1+=3;
 				wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
-				wstring data2 = data.substr(p1, p2-p1);
-				for(std::wstring::size_type i = data2.find(_T("\r")); i != std::wstring::npos; i = data2.find(_T("\r"), i+1))
-					data2.erase(i, 1);
-				for(std::wstring::size_type i = data2.find(_T("\n")); i != std::wstring::npos; i = data2.find(_T("\n"), i+1))
-					data2.erase(i, 1);
+				wstring data2 = data.substr(p1, p2-p1-2);
+				strip_line_term(data2);
 				HXML encrypted_data = xi.addChild(node, _T("x"), data2.c_str());
 				xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:encrypted"));
 				return FALSE;
@@ -783,7 +780,7 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 					cmd += _T(" --default-key ");
 					cmd += path_c;
 					mir_free(path_c);
-					cmd += _T(" --batch --yes -a -s \"");
+					cmd += _T(" --batch --yes -a -b -s \"");
 					cmd += path_out;
 					cmd += _T("\" ");
 					gpg_execution_params params;
@@ -822,9 +819,9 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						debuglog<<time_str()<<": info: Failed to read prescense sign from file\n";
 						return FALSE;
 					}
-					if(data.find(_T("-----BEGIN PGP MESSAGE-----")) != wstring::npos && data.find(_T("-----END PGP MESSAGE-----")) != wstring::npos)
+					if(data.find(_T("-----BEGIN PGP SIGNATURE-----")) != wstring::npos && data.find(_T("-----END PGP SIGNATURE-----")) != wstring::npos)
 					{
-						wstring::size_type p1 = data.find(_T("-----BEGIN PGP MESSAGE-----")) + _tcslen(_T("-----BEGIN PGP MESSAGE-----"));
+						wstring::size_type p1 = data.find(_T("-----BEGIN PGP SIGNATURE-----")) + _tcslen(_T("-----BEGIN PGP SIGNATURE-----"));
 						if(data.find(_T("Version: "), p1) != wstring::npos)
 						{
 							p1 = data.find(_T("Version: "), p1);
@@ -851,9 +848,14 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						}
 						else
 							p1+=1;
-						wstring::size_type p2 = data.find(_T("-----END PGP MESSAGE-----"));
-						HXML encrypted_data = xi.addChild(node, _T("x"), data.substr(p1, p2-p1).c_str());
-						xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
+						p1++;
+						wstring::size_type p2 = data.find(_T("-----END PGP SIGNATURE-----"));
+						{
+							std::wstring tmp = data.substr(p1, p2-p1);
+							strip_line_term(tmp);
+							HXML encrypted_data = xi.addChild(node, _T("x"), tmp.c_str());
+							xi.addAttr(encrypted_data, _T("xmlns"), _T("jabber:x:signed"));
+						}
 					}
 					return FALSE;
 				}
@@ -883,22 +885,45 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 					LPCTSTR value = xi.getAttrValue(local_node, name);
 					if(_tcsstr(value, _T("jabber:x:signed")))
 					{
+						std::wstring status_str;
+						HXML local_node2 = node;
+						for(int n = 0; n <= xi.getChildCount(node); n++)
+						{
+							LPCTSTR nodename2 = xi.getName(local_node2);
+							if(_tcsstr(nodename2, _T("status")))
+							{
+								LPCTSTR status = xi.getText(local_node2);
+								status_str = status;
+								break;
+							}
+							local_node2 = xi.getChild(node, n);
+						}
 						LPCTSTR data = xi.getText(local_node);
-						wstring sign = _T("-----BEGIN PGP MESSAGE-----\n\n");
-						wstring file = toUTF16(get_random(10));
+						wstring sign = _T("-----BEGIN PGP SIGNATURE-----\n\n");
+						wstring file = toUTF16(get_random(10)), status_file = toUTF16(get_random(10));
 						sign += data;
-						sign += _T("\n-----END PGP MESSAGE-----\n");
+						sign += _T("\n-----END PGP SIGNATURE-----\n");
 						TCHAR *path_c = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
-						wstring path_out = path_c;
+						wstring path_out = path_c, status_file_out = path_c;
 						mir_free(path_c);
-						path_out += _T("\\tmp\\");
+						path_out += L"\\tmp\\";
 						path_out += file;
+						path_out += L".sig";
+						status_file_out += L"\\tmp\\";
+						status_file_out += status_file;
+						status_file_out += L".status";
 //						sign_file_mutex.lock();
 						DeleteFile(path_out.c_str());
+						DeleteFile(status_file_out.c_str());
 						wfstream f(path_out.c_str(), std::ios::out);
 						while(!f.is_open())
 							f.open(path_out.c_str(), std::ios::out);
 						f<<toUTF8(sign).c_str();
+						f.close();
+						f.open(status_file_out.c_str(), std::ios::out);
+						while(!f.is_open())
+							f.open(status_file_out.c_str(), std::ios::out);
+						f<<toUTF8(status_str).c_str();
 						f.close();
 						if(_waccess(path_out.c_str(), 0) == -1)
 						{
@@ -912,9 +937,12 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 						{ //gpg
 							string out;
 							DWORD code;
-							wstring cmd = _T(" --verify -a \"");
+							wstring cmd = L" --verify -a \"";
 							cmd += path_out;
-							cmd += _T("\"");
+							cmd += L"\"";
+							cmd += L" \"";
+							cmd += status_file_out;
+							cmd += L"\"";
 							gpg_execution_params params;
 							pxResult result;
 							params.cmd = &cmd;
@@ -936,6 +964,7 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 								return FALSE;
 							}
 							DeleteFile(path_out.c_str());
+							DeleteFile(status_file_out.c_str());
 							if(out.find("key ID ") != string::npos)
 							{
 								//need to get hcontact here, i can get jid from hxml, and get handle from jid, maybe exists better way ?
@@ -1791,4 +1820,32 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 	mir_snprintf(msg, 511, "we have succesfully processed %d keys", processed_keys);
 	MessageBoxA(NULL, msg, Translate("Keys import result"), MB_OK);
 	return 0;
+}
+
+void fix_line_term(std::string &s)
+{
+	for(std::string::size_type s1 = s.find("\r\r", 0); s1 != string::npos; s1 = s.find("\r\r", s1))
+		s.erase(s1, 1);
+}
+
+void fix_line_term(std::wstring &s)
+{
+	for(std::wstring::size_type s1 = s.find(_T("\r\r"), 0); s1 != wstring::npos; s1 = s.find(_T("\r\r"), s1))
+		s.erase(s1, 1);
+}
+
+void strip_line_term(std::wstring &s)
+{
+	for(std::wstring::size_type i = s.find(_T("\r")); i != std::wstring::npos; i = s.find(_T("\r"), i+1))
+		s.erase(i, 1);
+	for(std::wstring::size_type i = s.find(_T("\n")); i != std::wstring::npos; i = s.find(_T("\n"), i+1))
+		s.erase(i, 1);
+}
+
+void strip_line_term(std::string &s)
+{
+	for(std::string::size_type i = s.find("\r"); i != std::string::npos; i = s.find("\r", i+1))
+		s.erase(i, 1);
+	for(std::string::size_type i = s.find("\n"); i != std::string::npos; i = s.find("\n", i+1))
+		s.erase(i, 1);
 }

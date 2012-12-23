@@ -333,6 +333,7 @@ void RecvMsgSvc_func(HANDLE hContact, std::wstring str, char *msg, DWORD flags, 
 					}
 					else
 					{
+						fix_line_term(str);
 						if(bAppendTags)
 						{
 							str.insert(0, inopentag);
@@ -780,7 +781,10 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	path.append(_T(".asc"));
 	wfstream f(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
 	while(!f.is_open())
+	{
+		boost::this_thread::sleep(boost::posix_time::milliseconds(100));
 		f.open(path.c_str(), std::ios::in | std::ios::ate | std::ios::binary);
+	}
 	str.clear();
 	if(f.is_open())
 	{
@@ -821,6 +825,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	HistoryLog(hContact, db_event((char*)str_event.c_str(), 0,0, dbflags|DBEF_SENT));
 	if(!(flags & PREF_UTF))
 		flags |= PREF_UTF; 
+	fix_line_term(str);
 	sent_msgs.push_back((HANDLE)CallContactService(hContact, PSS_MESSAGE, (WPARAM)flags, (LPARAM)toUTF8(str).c_str()));
 	mir_free(msg);
 	return;

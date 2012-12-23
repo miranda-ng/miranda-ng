@@ -100,5 +100,9 @@ public:
 	}
 };
 void HistoryLog(HANDLE, db_event);
+void fix_line_term(std::string &s);
+void fix_line_term(std::wstring &s);
+void strip_line_term(std::wstring &s);
+void strip_line_term(std::string &s);
 
 #endif

@@ -140,6 +140,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	storeOutput(readstdout,aoutput);
 
+	fix_line_term(*aoutput);
+
 	debuglog<<time_str()<<": gpg out: "<<aoutput->c_str();
 
 	WaitForSingleObject(pri.hProcess,INFINITE);
