@@ -410,7 +410,11 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 					_tcscpy(tmp2, ptmp);
 					mir_free(ptmp);
 					_tcscat(tmp2, _T("\\"));
-					_tcscat(tmp2, _T("temporary_exported.asc"));
+					TCHAR *tmp3 = mir_a2t(get_random(5).c_str());
+					_tcscat(tmp2, tmp3);
+					_tcscat(tmp2, _T(".asc"));
+					mir_free(tmp3);
+					//_tcscat(tmp2, _T("temporary_exported.asc"));
 					DeleteFile(tmp2);
 					wfstream f(tmp2, std::ios::out);
 					while(!f.is_open())
@@ -443,6 +447,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 				}
 				if(result == pxNotFound)
 					return 1;
+				DeleteFile(tmp2);
 				//TODO: check gpg output for errors
 				{
 					char *tmp = NULL;
@@ -543,7 +548,7 @@ int RecvMsgSvc(WPARAM w, LPARAM l)
 				s2 += _tcslen(_T("-----END PGP PRIVATE KEY BLOCK-----"));
 			}
 			new_key.append(str.substr(s1,s2-s1));
-			new_key_hcnt_mutex.lock();
+			//new_key_hcnt_mutex.lock();
 			new_key_hcnt = ccs->hContact;
 			ShowNewKeyDialog();
 			HistoryLog(ccs->hContact, db_event(msg, 0, 0, dbflags));

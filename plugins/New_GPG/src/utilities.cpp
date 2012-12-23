@@ -272,6 +272,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 				}
 				if(_tcsstr(filename, _T(".gpg"))) //decrypt it
 				{ //process encrypted file
+					HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
 					if(_waccess(f->tszCurrentFile, 0) == -1)
 					{
 						if(errno == ENOENT)
@@ -518,7 +519,7 @@ int onSendFile(WPARAM w, LPARAM l)
 	CCSDATA *ccs=(CCSDATA*)l;
 	if(isContactSecured(ccs->hContact))
 	{
-		
+		HistoryLog(ccs->hContact, db_event(Translate("encrypting file for transfer"), 0, 0, DBEF_SENT));
 		DWORD flags = (DWORD)ccs->wParam; //check for PFTS_UNICODE here
 		int i;
 //		if(flags & PFTS_UNICODE) //this does not work ....

@@ -71,6 +71,12 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 4, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = TranslateT("Accounts");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 5, &col);
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_FULLROWSELECT);
 		int i = 1, iRow = 0;
 		{ 
@@ -121,6 +127,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					p = out.find(" ", p2);
 					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
 					ListView_SetItemText(hwndList, iRow, 0, tmp);
+					std::wstring key_id = tmp;
 					mir_free(tmp);
 					p = out.find("uid  ", p);
 					p2 = out.find_first_not_of(" ", p+5);
@@ -144,6 +151,33 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
 					ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
 					ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
+					{ //get accounts
+						int count = 0;
+						PROTOACCOUNT **accounts;
+						ProtoEnumAccounts(&count, &accounts);
+						std::wstring accs;
+						for(int i = 0; i < count; i++)
+						{
+							std::string setting = toUTF8(accounts[i]->tszAccountName);
+							setting += "(";
+							setting += accounts[i]->szModuleName;
+							setting += ")" ;
+							setting += "_KeyID";
+							TCHAR *str = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), _T(""));
+							if(key_id == str)
+							{
+								if(accs.empty())
+									accs += accounts[i]->tszAccountName;
+								else
+								{
+									accs += _T(",");
+									accs += accounts[i]->tszAccountName;
+								}
+							}
+						}
+						ListView_SetItemText(hwndList, iRow, 5, (TCHAR*)accs.c_str());
+						ListView_SetColumnWidth(hwndList, 5, LVSCW_AUTOSIZE);
+					}
 					i++;
 				}
 			}
@@ -1123,7 +1157,7 @@ static INT_PTR CALLBACK DlgProcNewKeyDialog(HWND hwndDlg, UINT msg, WPARAM wPara
   case WM_INITDIALOG:
     {
 		hContact = new_key_hcnt;
-		new_key_hcnt_mutex.unlock();
+		//new_key_hcnt_mutex.unlock();
 		SetWindowPos(hwndDlg, 0, new_key_rect.left, new_key_rect.top, 0, 0, SWP_NOSIZE|SWP_SHOWWINDOW);
 		TranslateDialogDefault(hwndDlg);
 		TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
