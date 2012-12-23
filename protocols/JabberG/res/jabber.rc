@@ -226,16 +226,17 @@ BEGIN
     DEFPUSHBUTTON   "Complete",IDC_COMPLETE,150,203,46,14,NOT WS_VISIBLE | WS_DISABLED
 END
 
-IDD_PASSWORD DIALOGEX 0, 0, 286, 63
+IDD_PASSWORD DIALOGEX 0, 0, 288, 86
 STYLE DS_SETFONT | DS_MODALFRAME | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_POPUP | WS_VISIBLE | WS_CAPTION
 CAPTION "Jabber Password"
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
     EDITTEXT        IDC_JID,7,7,272,12,ES_READONLY | NOT WS_BORDER | NOT WS_TABSTOP
     EDITTEXT        IDC_PASSWORD,7,22,272,12,ES_PASSWORD | ES_AUTOHSCROLL
-    CONTROL         "Save password for this session",IDC_SAVEPASSWORD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,42,157,14
-    DEFPUSHBUTTON   "OK",IDOK,175,42,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,229,42,50,14
+    CONTROL         "Remember password for this session",IDC_SAVEPASSWORD, "Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,42,272,14
+    CONTROL         "Save password permanently",IDC_SAVE_PERM,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,56,272,12
+    DEFPUSHBUTTON   "OK",IDOK,175,70,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,229,70,50,14
 END
 
 IDD_DATAFORM_TEST DIALOGEX 0, 0, 153, 148
@@ -848,8 +849,10 @@ BEGIN
 
     IDD_PASSWORD, DIALOG
     BEGIN
+        RIGHTMARGIN, 286
         VERTGUIDE, 7
         VERTGUIDE, 279
+        BOTTOMMARGIN, 63
         HORZGUIDE, 42
         HORZGUIDE, 56
     END
@@ -937,19 +940,19 @@ IDI_SEND_NOTE           ICON                    "send_note.ico"
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "..\\src\\resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""winres.h""\r\n"
     "#include ""richedit.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -971,3 +974,4 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
+
