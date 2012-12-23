@@ -64,8 +64,10 @@
 Пароль не может быть изменен
 [Save password]
 Сохранить пароль
-[Save password for this session]
-Сохранить пароль для этой сессии
+[Remember password for this session]
+Запомнить пароль для этой сессии
+[Save password permanently]
+Сохранить пароль
 [Use Domain Login]
 Доменный логин
 [Jabber Password]
