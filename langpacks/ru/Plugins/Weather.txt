@@ -47,8 +47,8 @@
 По умолчанию
 [Weather condition was not logged.]
 Журнал погоды не ведется.
-[No information available.\nPlease update weather condition first.]
-Информация недоступна \nПредварительно обновите данные о погоде.
+[No information available.\r\nPlease update weather condition first.]
+Информация недоступна.\r\nПредварительно обновите данные о погоде.
 [Brief Weather Information]
 Краткая информация о погоде
 [Read More]
