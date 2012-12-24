@@ -214,6 +214,8 @@ TLS
 Выключить фрейм
 [Security]
 Безопасность
+[Enable server-side history]
+Включить историю на сервере (XEP-0136) (только при поддержке на стороне сервера)
 [Allow servers to request version (XEP-0092)]
 Отвечать серверу на запросы о версиях ПО (XEP-0092)
 [Show information about operating system in version replies]
