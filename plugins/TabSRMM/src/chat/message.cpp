@@ -84,13 +84,10 @@ static int ReadInteger(const char* p, int* result)
 
 TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 {
-	char *p1;
-	int*  pIndex;
 	int i, iRemoveChars, cp = CP_ACP;
 	char InsertThis[50];
 	BOOL bJustRemovedRTF = TRUE;
 	BOOL bTextHasStarted = FALSE;
-	TCHAR *ptszResult; //, *d;
 	int iUcMode = 0;
 
 	if (!pszText)
@@ -98,20 +95,20 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 
 	// create an index of colors in the module and map them to
 	// corresponding colors in the RTF color table
-	pIndex = (int *)mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount);
+	mir_ptr<int> pIndex((int*)mir_alloc(sizeof(int) * MM_FindModule(si->pszModule)->nColorCount));
 	for (i=0; i < MM_FindModule(si->pszModule)->nColorCount ; i++)
 		pIndex[i] = -1;
 
 	CreateColorMap(pszText, pIndex, si);
 
 	// scan the file for rtf commands and remove or parse them
-	p1 = strstr(pszText, "\\pard");
+	char *p1 = strstr(pszText, "\\ltrpar");
 	if (p1 == NULL) {
-		mir_free(pIndex);
-		return FALSE;
+		if ((p1 = strstr(pszText, "\\pard")) == NULL)
+			return FALSE;
+		p1 += 5;
 	}
-
-	p1 += 5;
+	else p1 += 7;
 
 	MoveMemory(pszText, p1, lstrlenA(p1) + 1);
 	p1 = pszText;
@@ -293,9 +290,7 @@ TCHAR* Chat_DoRtfToTags(char* pszText, SESSION_INFO* si)
 		} else p1++;
 	}
 
-	mir_free(pIndex);
-	ptszResult = mir_utf8decodeW(pszText);
-	return ptszResult;
+	return mir_utf8decodeW(pszText);
 }
 
 static DWORD CALLBACK Chat_Message_StreamCallback(DWORD_PTR dwCookie, LPBYTE pbBuff, LONG cb, LONG * pcb)

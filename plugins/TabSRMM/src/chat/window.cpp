@@ -3153,44 +3153,41 @@ LABEL_SHOWWINDOW:
 					ShowWindow(dat->pContainer->hwnd, SW_MINIMIZE);
 					return FALSE;
 
-				case IDOK: {
-					char*  		pszRtf;
-					TCHAR* 		ptszText/*, *p1*/;
-					MODULEINFO*	mi;
-					bool		fSound = true;
+				case IDOK:
+					if (GetSendButtonState(hwndDlg) != PBS_DISABLED) {
+						MODULEINFO *mi = MM_FindModule(si->pszModule);
 
-					if (GetSendButtonState(hwndDlg) == PBS_DISABLED)
-						break;
+						mir_ptr<char> pszRtf( Chat_Message_GetFromStream(hwndDlg, si));
+						SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
 
-					mi = MM_FindModule(si->pszModule);
+						mir_ptr<TCHAR> ptszText( Chat_DoRtfToTags(pszRtf, si));
+						if ((TCHAR*)ptszText == NULL)
+							break;
 
-					pszRtf = Chat_Message_GetFromStream(hwndDlg, si);
-					SM_AddCommand(si->ptszID, si->pszModule, pszRtf);
-					ptszText = Chat_DoRtfToTags(pszRtf, si);
-					DoTrimMessage(ptszText);
+						DoTrimMessage(ptszText);
 
-					if (mi && mi->bAckMsg) {
-						Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, FALSE);
-						SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
-					} else SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
+						if (mi && mi->bAckMsg) {
+							Utils::enableDlgControl(hwndDlg, IDC_CHAT_MESSAGE, FALSE);
+							SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, EM_SETREADONLY, TRUE, 0);
+						}
+						else SendDlgItemMessage(hwndDlg, IDC_CHAT_MESSAGE, WM_SETTEXT, 0, (LPARAM)_T(""));
 
-					Utils::enableDlgControl(hwndDlg, IDOK, FALSE);
+						Utils::enableDlgControl(hwndDlg, IDOK, FALSE);
 
-					if (ptszText[0] == '/' || si->iType == GCW_SERVER)
-						fSound = false;
-					DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
-					mi->idleTimeStamp = time(0);
-					mi->lastIdleCheck = 0;
-					SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
-					if (dat && dat->pContainer) {
-						if (fSound && !nen_options.iNoSounds && !(dat->pContainer->dwFlags & CNT_NOSOUND))
-							SkinPlaySound("ChatSent");
+						bool fSound = true;
+						if (ptszText[0] == '/' || si->iType == GCW_SERVER)
+							fSound = false;
+						DoEventHookAsync(hwndDlg, si->ptszID, si->pszModule, GC_USER_MESSAGE, NULL, ptszText, 0);
+						mi->idleTimeStamp = time(0);
+						mi->lastIdleCheck = 0;
+						SM_BroadcastMessage(si->pszModule, GC_UPDATESTATUSBAR, 0, 1, TRUE);
+						if (dat && dat->pContainer)
+							if (fSound && !nen_options.iNoSounds && !(dat->pContainer->dwFlags & CNT_NOSOUND))
+								SkinPlaySound("ChatSent");
+
+						SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
 					}
-					mir_free(pszRtf);
-					mir_free(ptszText);
-					SetFocus(GetDlgItem(hwndDlg, IDC_CHAT_MESSAGE));
-				}
-				break;
+					break;
 
 				case IDC_SHOWNICKLIST:
 					if (!IsWindowEnabled(GetDlgItem(hwndDlg, IDC_SHOWNICKLIST)))
