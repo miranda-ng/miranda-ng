@@ -156,7 +156,7 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 			}
 
 
-			std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
+			/*std::tstring foldername = GetAvatarFolder() + L"\\smileys\\";
 			TCHAR *path = _tcsdup(foldername.c_str());
 	
 			if (DBGetContactSettingByte(NULL,m_szModuleName,FACEBOOK_KEY_CUSTOM_SMILEYS, DEFAULT_CUSTOM_SMILEYS)) {
@@ -167,7 +167,7 @@ void FacebookProto::SetAllContactStatuses(int status, bool reset_client)
 				cont.path = path;
 				CallService(MS_SMILEYADD_LOADCONTACTSMILEYS, 0, (LPARAM)&cont);
 				mir_free(path);
-			}
+			}*/
 		}
 
 		if (DBGetContactSettingWord(hContact,m_szModuleName,"Status",ID_STATUS_OFFLINE) != status)
