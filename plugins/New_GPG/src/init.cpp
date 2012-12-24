@@ -83,6 +83,7 @@ void init_vars()
 	bAutoExchange = DBGetContactSettingByte(NULL, szGPGModuleName, "bAutoExchange", 0);
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 	debuglog.init();
+	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001?true:false;
 	bJabberAPI = DBGetContactSettingByte(NULL, szGPGModuleName, "bJabberAPI", bIsMiranda09?1:0);
 	bPresenceSigning = DBGetContactSettingByte(NULL, szGPGModuleName, "bPresenceSigning", 0);
 	bFileTransfers = DBGetContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 0);
@@ -122,9 +123,9 @@ static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	void InitCheck();
 	void FirstRun();
-	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001?true:false;
 	FirstRun();
-	InitCheck();
+	if(!DBGetContactSettingByte(NULL, szGPGModuleName, "FirstRun", 1))
+		InitCheck();
 	InitIconLib();
 	if(ServiceExists(MS_MSG_ADDICON)) 
 	{

@@ -691,16 +691,16 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
   case WM_INITDIALOG:
     {
 		TranslateDialogDefault(hwndDlg);
-		TCHAR *path = new TCHAR [MAX_PATH];
+		TCHAR *path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 		bool gpg_exists = false, lang_exists = false;
 		{
-			char *mir_path = new char [MAX_PATH];
+			char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
 			CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
 			SetCurrentDirectoryA(mir_path);
 			tmp = mir_a2t(mir_path);
 			mir_free(mir_path);
 			mir_realloc(path, (_tcslen(path)+128)*sizeof(TCHAR));
-			TCHAR *gpg_path = new TCHAR [MAX_PATH], *gpg_lang_path = new TCHAR [MAX_PATH];
+			TCHAR *gpg_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH), *gpg_lang_path = (TCHAR*)mir_alloc(sizeof(TCHAR) * MAX_PATH);
 			_tcscpy(gpg_path, tmp);
 			_tcscat(gpg_path, _T("\\GnuPG\\gpg.exe"));
 			_tcscpy(gpg_lang_path, tmp);
@@ -737,7 +737,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		}
 		else
 			tmp = mir_wstrdup(path);
-		delete [] path;
+		mir_free(path);
 		SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 		bool bad_version = false;
 		if(gpg_exists && lang_exists)
@@ -785,9 +785,9 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			wstring path_ = _wgetenv(_T("APPDATA"));
 			path_ += _T("\\GnuPG");
 			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
+			SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists?tmp:_T("gpg"));
+			mir_free(tmp);
 		}
-		SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists?tmp:_T("gpg"));
-		mir_free(tmp);
 		if(gpg_exists && lang_exists && !bad_version)
 			MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
 		extern bool bIsMiranda09;
@@ -1139,6 +1139,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 	  break;
   case WM_DESTROY:
 	  hwndSetDirs = NULL;
+	  void InitCheck();
+	  InitCheck();
 	  break;
 
   }
