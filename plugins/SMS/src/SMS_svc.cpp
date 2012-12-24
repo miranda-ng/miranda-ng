@@ -1,4 +1,4 @@
-#include "main.h"
+#include "common.h"
 
 
 
@@ -39,16 +39,14 @@ int LoadModules(void)
 	mi.ptszName=SMS_SEND_STR;
 	mi.pszService=szServiceFunction;
 	mi.flags=(CMIF_UNICODE);
-	CallService(MS_CLIST_ADDMAINMENUITEM,0,(LPARAM)&mi);
+	Menu_AddMainMenuItem(&mi);
 
 	mi.position=-2000070000;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 	mi.ptszName=SMS_SEND_CM_STR;
 	mi.pszService=szServiceFunction;
-	mi.flags=(CMIF_UNICODE);
-	ssSMSSettings.hContactMenuItems[0]=(HANDLE)CallService(MS_CLIST_ADDCONTACTMENUITEM,0,(LPARAM)&mi);
-
-
+	mi.flags=(CMIF_UNICODE);	
+	ssSMSSettings.hContactMenuItems[0]=Menu_AddContactMenuItem(&mi);
 
 	SkinAddNewSoundEx("RecvSMSMsg",PROTOCOL_NAMEA,Translate("Incoming SMS Message"));
 	SkinAddNewSoundEx("RecvSMSConfirmation",PROTOCOL_NAMEA,Translate("Incoming SMS Confirmation"));

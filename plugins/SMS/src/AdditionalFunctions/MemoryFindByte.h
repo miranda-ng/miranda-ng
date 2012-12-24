@@ -15,7 +15,7 @@ __inline LPVOID MemoryFindByte(SIZE_T dwFrom,LPCVOID lpcSource,SIZE_T dwSourceSi
 	{
 		if (dwFrom<dwSourceSize)
 		{
-			lpRet=memchr((LPCVOID)(((SIZE_T)lpcSource)+dwFrom),chWhatFind,(dwSourceSize-dwFrom));
+			lpRet=(LPVOID)memchr((LPCVOID)(((SIZE_T)lpcSource)+dwFrom),chWhatFind,(dwSourceSize-dwFrom));
 		}
 	}
 return(lpRet);

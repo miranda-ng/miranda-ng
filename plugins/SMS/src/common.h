@@ -1,16 +1,20 @@
-#ifndef _MAIN_H
-#define _MAIN_H
+#ifndef _COMMON_H
+#define _COMMON_H
+
+#define _WIN32_WINNT 	0x0500
+#define _WIN32_IE 		0x0400
+
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
+#define VC_EXTRALEAN
 
 
-
-
-#define _USE_32BIT_TIME_T
+//////#define _USE_32BIT_TIME_T
 #define _CRT_SECURE_NO_WARNINGS
 
-#define UNICODE
-#define _UNICODE
+//#define UNICODE
+//#define _UNICODE
 
-#ifdef NDEBUG
+/*#ifdef NDEBUG
 	#pragma optimize("gsy",on)
 	#pragma comment(linker,"/subsystem:Windows,5")
 	#pragma comment(linker,"/version:5")
@@ -28,46 +32,47 @@
 	//#pragma comment(linker,"/noentry")
 	//#pragma comment(linker,"/ENTRY:DllMain")
 
-#define CRTDLL
+//#define CRTDLL
 
-#define MIRANDA_VER 0x0800
+#define MIRANDA_VER 0x0A00
 
-
-#include "resource.h"
 #include <windows.h>
 #include <commctrl.h>
 #include <stdio.h>
 #include <time.h>
-#ifdef NDEBUG
+/*#ifdef NDEBUG
 	#include <..\minicrt\minicrt.h>
 #else
 	#include <..\minicrt\timefuncs.h>
 #endif //_DEBUG*/
 
-#include <ListMT.h>
-#include <DebugFunctions.h>
-#include <MemoryCompare.h>
-#include <MemoryFind.h>
-#include <MemoryFindByte.h>
-#include <BuffToLowerCase.h>
-#include "newpluginapi.h"
-#include "m_database.h"
-#include "m_clist.h"
-#include "m_langpack.h"
-#include "m_history.h"
-#include "m_protomod.h"
-#include "m_autoreplacer.h"
-#include "resource.h"
-#include "m_skin.h"
-#include "m_protosvc.h"
-#include "m_icq.h"
-#include "m_protosvc.h"
-#include "m_system.h"
-#include "m_utils.h"
-#include "m_options.h"
-#include "m_updater.h"
-#include "win2k.h"
+#include "AdditionalFunctions/ListMT.h"
+#include "AdditionalFunctions/DebugFunctions.h"
+#include "AdditionalFunctions/MemoryCompare.h"
+#include "AdditionalFunctions/MemoryFind.h"
+#include "AdditionalFunctions/MemoryFindByte.h"
+#include "AdditionalFunctions/BuffToLowerCase.h"
 
+#include <newpluginapi.h>
+#include <m_database.h>
+#include <m_clist.h>
+#include <m_langpack.h>
+#include <m_history.h>
+#include <m_protomod.h>
+#include <m_autoreplacer.h>
+#include <m_skin.h>
+#include <m_protosvc.h>
+#include <m_icq.h>
+#include <m_protosvc.h>
+#include <m_system.h>
+#include <m_utils.h>
+#include <m_options.h>
+#include <win2k.h>
+
+#include "resource.h"
+#include "version.h"
+
+extern HINSTANCE hInst;
 
 // структура содержащая информацию по построению меню или расширеных иконок
 struct GUI_DISPLAY_ITEM
@@ -87,12 +92,9 @@ struct SERVICE_ITEM
 };
 
 
-
-
 #include "SMSConstans.h"
 #include "senddlg.h"
 #include "recvdlg.h"
-
 
 
 #define MAIN_MENU_ITEMS_COUNT		1
@@ -222,13 +224,6 @@ int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam);
 
 
 void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPWSTR lpwszMessage,SIZE_T dwMessageSize);
-
-
-
-
-
-
-
 
 
 

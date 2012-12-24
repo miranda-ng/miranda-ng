@@ -25,7 +25,7 @@ All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
 
-#include "main.h"
+#include "common.h"
 
 
 
@@ -93,7 +93,7 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 	switch(message){
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg); //Translate intially - bid
-		AddWinHandle(GetDlgItem(hWndDlg,IDC_MESSAGE));
+		////////AddWinHandle(GetDlgItem(hWndDlg,IDC_MESSAGE));
 		
 		psswdWindowData=(SEND_SMS_WINDOW_DATA*)lParam;
 		SetWindowLongPtr(hWndDlg,GWL_USERDATA,(LONG_PTR)lParam);
@@ -516,7 +516,7 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 	case WM_CLOSE:
 		DeleteObject((HFONT)SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_MESSAGE,WM_GETFONT,0,0));
 		DeleteObject(psswdWindowData->hBkgBrush);
-		RemWinHandle(GetDlgItem(hWndDlg,IDC_MESSAGE));
+		////////RemWinHandle(GetDlgItem(hWndDlg,IDC_MESSAGE));
 		KillTimer(GetParent(hWndDlg),TIMERID_MSGSEND);
 		SendSMSWindowRemove(hWndDlg);
 		break;

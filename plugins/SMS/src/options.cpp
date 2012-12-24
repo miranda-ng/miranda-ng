@@ -24,7 +24,7 @@ For any comments, problems, etc. contact me at Miranda-IM forums or E-Mail or IC
 All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
-#include "main.h"
+#include "common.h"
 
 
 
@@ -110,7 +110,8 @@ int OptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
 	odp.ptszTitle=PROTOCOL_DISPLAY_NAME_ORIGW;
 	odp.pfnDlgProc=DlgProcEditorOptions;
-	CallService(MS_OPT_ADDPAGE,wParam,(LPARAM)&odp);
-return(0);
+	
+	Options_AddPage(wParam, &odp);	
+	return 0;
 }
 

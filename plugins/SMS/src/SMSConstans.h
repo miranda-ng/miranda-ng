@@ -32,7 +32,6 @@
 #define MIN_SMS_DBEVENT_LEN					4				// для фильтрации событий авторизации от джабер плагина
 #define MAX_PHONE_LEN						MAX_PATH
 #define PHONES_MIN_COUNT					4 //internal	// колличество элементов обязательно проверяемых при извлечении email адреса из инфы юзера
-#define SMS_PLUGIN_UPDATER_ID				4187 //появляется после первого выкладывания на сайт
 
 
 

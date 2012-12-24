@@ -6,7 +6,7 @@
 #endif // _MSC_VER > 1000
 
 
-#include <InterlockedFunctions.h>
+#include "InterlockedFunctions.h"
 
 #if defined(_MSC_VER)
 #if _MSC_VER >= 800

@@ -1,13 +1,13 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
 //
 // Generated from the TEXTINCLUDE 2 resource.
 //
-#include <windows.h>
+#include "afxres.h"
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
@@ -23,54 +23,14 @@ LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Version
-//
-
-VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,2,5,3
- PRODUCTVERSION 0,2,5,3
- FILEFLAGSMASK 0x3fL
-#ifdef _DEBUG
- FILEFLAGS 0x1L
-#else
- FILEFLAGS 0x0L
-#endif
- FILEOS 0x40004L
- FILETYPE 0x1L
- FILESUBTYPE 0x0L
-BEGIN
-    BLOCK "StringFileInfo"
-    BEGIN
-        BLOCK "000004b0"
-        BEGIN
-            VALUE "Comments", "Send and receive SMS messages"
-            VALUE "CompanyName", " "
-            VALUE "FileDescription", "Miranda SMS plugin"
-            VALUE "FileVersion", "0.2.5.3"
-            VALUE "InternalName", "sms plugin"
-            VALUE "LegalCopyright", "Copyright © 2002-3 Ariel Shulman (Original by Richard Hughes), 2007-2009 Rozhuk Ivan (Ivan 83)"
-            VALUE "OriginalFilename", "sms.dll"
-            VALUE "ProductName", "Miranda NG"
-            VALUE "ProductVersion", "0.2.5.3"
-        END
-    END
-    BLOCK "VarFileInfo"
-    BEGIN
-        VALUE "Translation", 0x0, 1200
-    END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Icon
 //
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_SMSNOTSENT          ICON                    "res\\SMSNOTSENT.ico"
-IDI_SMSSENT             ICON                    "res\\SMSSENT.ico"
-IDI_HALFTICK            ICON                    "res\\halftick.ico"
+IDI_SMSNOTSENT          ICON                    "SMSNOTSENT.ico"
+IDI_SMSSENT             ICON                    "SMSSENT.ico"
+IDI_HALFTICK            ICON                    "halftick.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -257,12 +217,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 
 1 TEXTINCLUDE 
 BEGIN
-    "resource.h\0"
+    "..\\src\\resource.h\0"
 END
 
 2 TEXTINCLUDE 
 BEGIN
-    "#include <windows.h>\r\n"
+    "#include ""afxres.h""\r\n"
     "\0"
 END
 

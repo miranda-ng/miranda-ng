@@ -25,12 +25,12 @@ All the information needed you can find at www.nuke007.tk
 Enjoy the code and use it smartly!
 */
 
-#include "main.h"
+#include "common.h"
 
 
 
 
-
+/*
 extern "C" __declspec(naked) void __cdecl _chkstk()
 {
 	#define _PAGESIZE_ 4096
@@ -140,42 +140,45 @@ extern "C" void __declspec(naked) __cdecl _aulldiv()
 
 
 
+*/
 
+int hLangpack;
+HINSTANCE hInst;
 
-MM_INTERFACE mmi;
-PLUGINLINK *pluginLink;
 SMS_SETTINGS ssSMSSettings;
 
 
-PLUGININFOEX pluginInfoEx={
+PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
-	PROTOCOL_DISPLAY_NAME_ORIG" (Unicode)",
-	PLUGIN_VERSION_DWORD,
-	"Send SMS text messages to mobile phones through the IM networks",
-	"Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan",
-	"Rozhuk_I@mail.ru",
-	"© 2001-2 Richard Hughes, 2003 Ariel Shulman, 2007-2009 Rozhuk Ivan (Rozhuk_I@mail.ru)",
-	"http://miranda-icq.sourceforge.net/",
-	UNICODE_AWARE,		//not transient
-	0,		//doesn't replace anything built-in
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
+	UNICODE_AWARE,
 	// {70AC2AC9-85C6-4624-9B05-24733FEBB052}
 	SMS_GUID
 };
 
 
-extern "C" __declspec(dllexport) const MUUID interfaces[]={SMS_GUID,MIID_LAST};
+extern "C" __declspec(dllexport) const MUUID interfaces[] = {SMS_GUID,MIID_LAST};
 
-
+extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+{
+	return &pluginInfo;
+}
 
 int		OnModulesLoaded		(WPARAM wParam,LPARAM lParam);
 int		OnPreShutdown		(WPARAM wParam,LPARAM lParam);
 void	VersionConversions();
 
-
-
 BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID lpvReserved)
 {
-    switch(dwReason){
+    hInst = hInstance;
+
+	switch(dwReason){
 	case DLL_PROCESS_ATTACH:
 		ZeroMemory(&ssSMSSettings,sizeof(ssSMSSettings));
 		ssSMSSettings.hInstance=hInstance;
@@ -189,36 +192,13 @@ BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID lpvReserved)
 	case DLL_THREAD_DETACH:
 		break;
     }
-return(TRUE);
+
+	return(TRUE);
 }
 
-__declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
+extern "C" int __declspec(dllexport) Load(void)
 {
-	if (mirandaVersion<MIN_MIR_VER_VERSION_DWORD)
-	{
-		MessageBox(NULL,TEXT("Pleace, update your Miranda NG, SMS will not load with this version."),NULL,(MB_OK|MB_ICONERROR));
-		return(NULL);
-	}
-return(&pluginInfoEx);
-}
-
-__declspec(dllexport) PLUGININFO* MirandaPluginInfo(DWORD mirandaVersion)
-{
-return((PLUGININFO*)MirandaPluginInfoEx(mirandaVersion));
-}
-
-
-__declspec(dllexport) const MUUID* MirandaPluginInterfaces()
-{
-return(interfaces);
-}
-
-
-
-int __declspec(dllexport) Load(PLUGINLINK *link)
-{
-	pluginLink=link;
-	mir_getMMI(&mmi);
+	mir_getLP(&pluginInfo);
 
 	ssSMSSettings.hHookModulesLoaded=HookEvent(ME_SYSTEM_MODULESLOADED,OnModulesLoaded);
 	ssSMSSettings.hHookPreShutdown=HookEvent(ME_SYSTEM_PRESHUTDOWN,OnPreShutdown);
@@ -228,21 +208,19 @@ int __declspec(dllexport) Load(PLUGINLINK *link)
 
 	LoadServices();
 
-return(0);
+	return 0;
 }
 
-int __declspec(dllexport) Unload(void)
+extern "C" int __declspec(dllexport) Unload(void)
 {
 	UnloadServices();
 
 	if (ssSMSSettings.hHookPreShutdown)		{UnhookEvent(ssSMSSettings.hHookPreShutdown);	ssSMSSettings.hHookPreShutdown=NULL;}
 	if (ssSMSSettings.hHookModulesLoaded)	{UnhookEvent(ssSMSSettings.hHookModulesLoaded);	ssSMSSettings.hHookModulesLoaded=NULL;}
 
-	SecureZeroMemory(pluginLink,sizeof(pluginLink));
-	SecureZeroMemory(&mmi,sizeof(pluginLink));
-
-return(0);
+	return 0;
 }
+
 
 
 int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
@@ -251,9 +229,7 @@ int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	LoadModules();
 
-	CallService(MS_UPDATE_REGISTERFL,(WPARAM)SMS_PLUGIN_UPDATER_ID,(LPARAM)&pluginInfoEx);
-
-return(0);
+	return(0);
 }
 
 
