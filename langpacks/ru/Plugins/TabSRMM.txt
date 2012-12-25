@@ -1222,7 +1222,7 @@ ID пользователя в панели статуса
 [Flash text label on tabs]
 Мигание текста на вкладке
 [Single row tab control (*)]
-Закладки в один ряд (*)
+Вкладки в один ряд (*)
 [Close button on tabs]
 Кнопка "Закрыть" на вкладках
 [Use button tabs (*)]
