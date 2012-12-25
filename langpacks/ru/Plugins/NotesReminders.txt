@@ -37,7 +37,7 @@
 [Add Contact list menu items]
 Пункт в главном меню
 [Note Transparency (Minimum Win 2k/XP)]
-Прозрачносить заметок (требуется Win 2000 и выше)
+Прозрачность заметок (требуется Win 2000 и выше)
 [Send Reminders through E-mail / SMS :]
 Напоминания на e-mail / SMS:
 [Open links with this program instead:]

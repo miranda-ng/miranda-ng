@@ -59,7 +59,7 @@ OTR-Идентификация с: %s (%s)
 Отпечаток '%s' используется в беседе с '%s'. Он не может быть удалён!
 [Fingerprint '%s' still in use in conversation with '%s'. You cannot delete it!]
 Отпечаток '%s' уже используется в беседе с '%s'. Вы не можете его удалить!
-[[OTR inline] ]
+[OTR inline]
 Встроенный OTR:
 [Authentication from %s]
 Идентификация от %s
@@ -130,7 +130,7 @@ OTR непроверен
 [Generate new private key]
 Генерация нового частного ключа
 [Question / Answer]
-Вопрс / Ответ
+Вопрос / Ответ
 [Cannot start OTR for '%s'. SecureIM is already running]
 Невозможно запустить OTR для '%s'. Уже запущен SecureIM.
 [OTR: SecureIM installed]

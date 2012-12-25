@@ -777,7 +777,7 @@ TABSRMM: Набирает
 [* Message Input Area]
 Поле ввода сообщения
 [\nStyles and effects are disabled for this font.]
-Для этого шрифта найстройка стилей и эффектов отключена.
+Для этого шрифта настройка стилей и эффектов отключена.
 [Window caption (skinned mode)]
 Заголовок (режим скина)
 [Common colors]
@@ -909,7 +909,7 @@ TABSRMM: Набирает
 [Disable Flashing]
 Выключить мигание
 [Show Multisend Contact List]
-Показывать окно мультиоправки
+Показывать окно мультиотправки
 [&User]
 &Пользователь
 [&Messaging settings...]

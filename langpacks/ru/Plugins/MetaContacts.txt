@@ -216,7 +216,7 @@ Meta ID
 [Reset All]
 Сброс
 [Subcontact's MetaContact not found - deleting MetaContact data]
-Субконтакты в метаконтакте не найдены - данные матаконтакта будут удалены
+Субконтакты в метаконтакте не найдены - данные метаконтакта будут удалены
 [MetaContact number of contacts < 0 - deleting MetaContact]
 Количество контактов в метаконтакте < 0 - метаконтакт будет удалён
 [MetaContact default contact number out of range - deleting MetaContact]
