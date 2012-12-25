@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"SMS plugin"
 #define __INTERNAL_NAME				"SMS plugin"
 #define __FILENAME					"sms.dll"
-#define __DESCRIPTION 				"Send SMS text messages to mobile phones through the IM networks"
+#define __DESCRIPTION 				"Send SMS text messages to mobile phones through the IM networks."
 #define __AUTHOR					"Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan"
 #define __AUTHOREMAIL				"Rozhuk_I@mail.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/"

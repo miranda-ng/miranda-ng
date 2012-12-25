@@ -1,9 +1,12 @@
-﻿;============================================================
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;============================================================
 ;  File: SMS.dll
 ;  Module: SMS
 ;  Versions: 0.2.4.8
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=589
 ;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+Отсылка SMS сообщений на мобильные телефоны посредством IM сетей.
 [Send &SMS...]
 Послать SMS
 [&SMS Message]

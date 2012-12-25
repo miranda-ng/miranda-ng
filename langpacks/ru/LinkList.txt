@@ -50,7 +50,6 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FlashAvatars.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FltContacts.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Folders.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/FtpFile.txt
-https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Gender.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/GG.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/GTalkExt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/HistoryPP.txt
@@ -71,6 +70,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ListeningTo.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/MenuEx.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/MetaContacts.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/MirOTR.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/MobileState.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/ModernOpt.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/MRA.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/mRadio.txt
@@ -90,7 +90,6 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/Omegle.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/OpenFolder.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PackUpdater.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PasteIt.txt
-https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PingPlugin.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PluginUpdater.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PManagerEx.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/PopUp.txt
@@ -114,6 +113,7 @@ https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SimpleAR.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SimpleStatusMsg.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SMCN.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SmileyAdd.txt
+https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SMS.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SpellChecker.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/SplashScreen.txt
 https://mysvn.ru/ghazan/myranda/trunk/langpacks/ru/Plugins/StartupStatus.txt
