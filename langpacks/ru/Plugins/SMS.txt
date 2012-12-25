@@ -57,8 +57,8 @@ SMS от %s
 начало
 [End]
 конец
-[Show server notifications:]
-Показать ответ сервера:
+[Show server notifications]
+Показать ответ сервера
 [Chars:]
 Знаки:
 [Save number]
