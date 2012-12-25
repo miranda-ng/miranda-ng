@@ -344,7 +344,7 @@ static int StatusModeChange(WPARAM wParam, LPARAM lParam)
 	if (GetStatusModeByte(statusMode, "Ignore"))
 		ChangeAllProtoMessages(szProto, statusMode, NULL);
 
-	else if (bScreenSaverRunning || ( !GetAsyncKeyState(VK_CONTROL) && GetStatusModeByte(statusMode, "NoDlg", true))) {
+	else if (bScreenSaverRunning || GetStatusModeByte(statusMode, "NoDlg", true)) {
 		TCHAR *msg = GetAwayMessage(statusMode, szProto);
 		ChangeAllProtoMessages(szProto, statusMode, msg);
 		mir_free(msg);
