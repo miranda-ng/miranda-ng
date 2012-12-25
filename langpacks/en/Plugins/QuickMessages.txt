@@ -40,4 +40,4 @@
 [You win!]
 [New Button]
 [New Menu Entry]
-[Plugins]
+[Message Sessions]

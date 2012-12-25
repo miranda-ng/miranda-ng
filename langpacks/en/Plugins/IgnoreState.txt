@@ -8,9 +8,6 @@
 [Shows ignore state of contact in contacts list.]
 ;file \plugins\IgnoreState\res\ignore.rc
 [Plugin settings]
-[Use]
-[slot to draw the icon]
-[Warning: classic contact list plugin doesn`t have ability to use extraicons]
 [Filtered events:]
 [Use Miranda ignore settings for All Contacts]
 ;file \plugins\IgnoreState\src\main.cpp
@@ -26,5 +23,4 @@
 [Partial Ignore]
 [Message Ignore]
 ;file \plugins\IgnoreState\src\options.cpp
-[Extraicons plugin is used, use Contact list > Extraicons for customize.]
 [Icons]

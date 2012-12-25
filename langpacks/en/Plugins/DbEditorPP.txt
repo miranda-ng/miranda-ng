@@ -153,8 +153,6 @@
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 [Confirm Contact Delete]
-[Database Editor++ (unicode mode)]
-[Database Editor++ (ansi mode)]
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
@@ -164,7 +162,7 @@
 [HANDLE]
 [Add module to contact "%s"]
 ;file \plugins\DbEditorPP\src\options.cpp
-[Services]
+[Database]
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 [Data]

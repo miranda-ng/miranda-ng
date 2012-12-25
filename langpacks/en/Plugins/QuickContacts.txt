@@ -15,7 +15,6 @@
 [But keep subcontacts of protocols in above list if meta is hidden]
 [Show all contacts (Ctrl+A)]
 ;file \plugins\QuickContacts\src\options.cpp
-[Plugins]
 [Quick Contacts]
 ;file \plugins\QuickContacts\src\quickcontacts.cpp
 [Open dialog]

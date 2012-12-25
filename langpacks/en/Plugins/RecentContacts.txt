@@ -6,7 +6,7 @@
 [Format of date and time\n(Look to readme for placeholders help)]
 [Hide offline contacts]
 ;file \plugins\RecentContacts\src\options.cpp
-[Contact List]
+[Contacts]
 ;file \plugins\RecentContacts\src\RecentContacts.cpp
 [Main icon]
 [Contact]

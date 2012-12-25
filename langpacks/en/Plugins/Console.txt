@@ -36,7 +36,7 @@
 [%s\n]
 [%s - %s\\%s]
 [Miranda Console]
-[Network]
+[Services]
 [Console]
 [Text]
 [Background]

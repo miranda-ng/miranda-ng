@@ -47,7 +47,6 @@
 [Database is marked as belonging to an unknown version of Miranda]
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
-[Services]
 [Database]
 [Change Password]
 [Change password]

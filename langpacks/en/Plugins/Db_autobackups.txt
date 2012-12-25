@@ -68,4 +68,3 @@
 [Select Backup Folder]
 [Error Creating Backup Folder]
 [Database AutoBackups]
-[Services]

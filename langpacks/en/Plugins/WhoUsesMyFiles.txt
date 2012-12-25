@@ -30,6 +30,7 @@
 [Enable WUMF popups]
 [Disable WUMF popups]
 [Show connections list]
-[Plugins]
+[Wumf]
+[Services]
 [PopUps]
 [WUMF: Show connections]

@@ -139,7 +139,7 @@
 [MirOTRPopUpMenuProcessor]
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
-[Plugins]
+[Services]
 [READ privkey]
 ;file \plugins\MirOTR\MirOTR\src\otr.cpp
 [OTR_GUI_POLICY]

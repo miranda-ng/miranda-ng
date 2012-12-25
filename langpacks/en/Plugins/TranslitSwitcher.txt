@@ -26,4 +26,3 @@
 [Translit Last / Selected]
 [Invert Case All / Selected]
 [Invert Case Last / Selected]
-[SwitchLayout and Send]

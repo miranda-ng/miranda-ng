@@ -93,6 +93,8 @@
 [dbtool.exe]
 [Plugins\\dbchecker.dll]
 [dbtool_sa.exe]
+[bclist.dll]
+[Plugins\\Clist_blind.dll]
 [clienticons_general.dll]
 [Icons\\fp_icons.dll]
 [clienticons_miranda.dll]
