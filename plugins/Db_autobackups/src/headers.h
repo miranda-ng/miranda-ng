@@ -43,6 +43,7 @@ int SetBackupTimer(void);
 int OptionsInit(WPARAM wParam, LPARAM lParam);
 int LoadOptions(void);
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle);
+void BackupThread(void* backup_filename);
 
 extern HINSTANCE hInst;
 extern TCHAR* profilePath;

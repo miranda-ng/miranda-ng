@@ -30,11 +30,10 @@ INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 {
 	HWND progress_dialog = 0;
 	TCHAR fname_buff[MAX_PATH], szFilter[128];
-	int i;
 	OPENFILENAME ofn = {0};
 	CallService(MS_DB_GETPROFILENAMET,MAX_PATH,(LPARAM)fname_buff);
 
-	i = mir_sntprintf(szFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda Databases")) + 1;
+	int i = mir_sntprintf(szFilter, 64, _T("%s (*.dat)"), TranslateT("Miranda Databases")) + 1;
 	_tcscpy(szFilter + i, _T("*.dat")); 
 	i += 6;
 	i += mir_sntprintf(szFilter + i, 48, _T("%s (*.*)"), TranslateT("All Files")) + 1;
@@ -50,7 +49,7 @@ INT_PTR DBSaveAs(WPARAM wParam, LPARAM lParam)
 	ofn.lpstrDefExt = _T("dat");
 
 	if (GetSaveFileName(&ofn))
-		Backup(fname_buff);
+		mir_forkthread(BackupThread, (void*)fname_buff);
 
 	return 0;
 }
@@ -64,18 +63,16 @@ struct FileNameFound_Tag
 int RotateBackups(HWND progress_dialog, DWORD start_time)
 {
 	TCHAR backupfilename1[MAX_PATH] = {0}, backupfilename2[MAX_PATH] = {0}, backupfolderTmp[MAX_PATH] = {0};
-	TCHAR* backupfolder;
 	unsigned int i = 0;
 	HWND prog = GetDlgItem(progress_dialog, IDC_PROGRESS);
 	MSG msg;
 
 	WIN32_FIND_DATA FindFileData;
-	HANDLE hFind;
 
-	backupfolder = Utils_ReplaceVarsT(options.folder);
+	TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
 	
 	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\*"), backupfolder);
-	hFind = FindFirstFile(backupfolderTmp, &FindFileData);
+	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE) 
 		return 0;
 	_tcscpy(FileNameFound.Name, _T(""));
@@ -118,6 +115,11 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 	}
 	mir_free(backupfolder);
 	return 0;
+}
+
+void BackupThread(void* backup_filename)
+{
+	Backup((TCHAR*)backup_filename);
 }
 
 int Backup(TCHAR* backup_filename)
@@ -205,7 +207,7 @@ int Backup(TCHAR* backup_filename)
 VOID CALLBACK TimerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime) {
 	time_t t = time(0), diff = t - (time_t)DBGetContactSettingDword(0, "AutoBackups", "LastBackupTimestamp", (DWORD)t);
 	if(diff > (time_t)(options.period * (options.period_type == PT_MINUTES ? 60 : (options.period_type == PT_HOURS ? 60 * 60 : 60 * 60 * 24 ))))
-		Backup(NULL);
+		mir_forkthread(BackupThread, NULL);
 }
 
 int SetBackupTimer(void)
@@ -225,6 +227,6 @@ int SetBackupTimer(void)
 
 INT_PTR ABService(WPARAM wParam, LPARAM lParam)
 {
-	Backup((TCHAR*)wParam);
+	mir_forkthread(BackupThread, (void*)wParam);
 	return 0;
 }

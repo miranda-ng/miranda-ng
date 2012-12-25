@@ -35,9 +35,9 @@ static IconItem iconList[] = {
 
 INT_PTR BackupServiceTrgr(WPARAM wParam, LPARAM lParam)
 {
-	if(wParam & ACT_PERFORM) {
-		return Backup(NULL);
-	}
+	if(wParam & ACT_PERFORM)
+		mir_forkthread(BackupThread, NULL);
+
 	return 0;
 }
 
@@ -101,7 +101,7 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 
 	hHooks[1] = HookEvent(ME_OPT_INITIALISE, OptionsInit);
 	if(options.backup_types & BT_START)
-		Backup(NULL);
+		mir_forkthread(BackupThread, NULL);
 	return 0;
 }
 
@@ -111,14 +111,14 @@ int PreShutdown(WPARAM wParam, LPARAM lParam) {
 	if(options.backup_types & BT_EXIT)
 	{
 		options.disable_popups = 1; // Don't try to show popups on exit
-		Backup(NULL);
+		mir_forkthread(BackupThread, NULL);
 	}
 	return 0;
 }
 
 void SysInit()
 {
-	mir_getLP( &pluginInfo );
+	mir_getLP(&pluginInfo);
 	OleInitialize(0);
 
 	hServices[0] = CreateServiceFunction(MS_AB_BACKUP, ABService);
