@@ -4,8 +4,8 @@
 
 HINSTANCE hInst;
 
+TCHAR *profilePath;
 int hLangpack;
-TCHAR* profilePath;
 
 HANDLE hFolder;
 HANDLE hHooks[4];
@@ -20,10 +20,7 @@ PLUGININFOEX pluginInfo={
 	"chaos.persei@gmail.com",
 	__COPYRIGHTS,
 	"http://miranda-ng.org/",
-	UNICODE_AWARE,		//doesn't replace anything built-in
-    // Generate your own unique id for your plugin.
-    // Do not use this UUID!
-    // Use uuidgen.exe to generate the uuuid
+	UNICODE_AWARE,
     // {81C220A6-0226-4ad6-BFCA-217B17A16053}
 	{ 0x81c220a6, 0x226, 0x4ad6, { 0xbf, 0xca, 0x21, 0x7b, 0x17, 0xa1, 0x60, 0x53 } }
 };
@@ -107,7 +104,8 @@ static int ModulesLoad(WPARAM wParam, LPARAM lParam)
 
 // can't do this on unload, since other plugins will be have already been unloaded, but their hooks
 // for setting changed event not cleared. the backup on exit function will write to the db, calling those hooks.
-int PreShutdown(WPARAM wParam, LPARAM lParam) {
+int PreShutdown(WPARAM wParam, LPARAM lParam)
+{
 	if(options.backup_types & BT_EXIT)
 	{
 		options.disable_popups = 1; // Don't try to show popups on exit
@@ -131,7 +129,7 @@ void SysInit()
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD fdwReason,LPVOID lpvReserved)
 {
-	hInst=hinstDLL;
+	hInst = hinstDLL;
 	return TRUE;
 }
 
@@ -149,16 +147,14 @@ extern "C" __declspec(dllexport) int Load(void)
 
 extern "C" __declspec(dllexport) int Unload(void)
 {
-	int i;
-
 	OleUninitialize();
 
-	for (i=0; i<SIZEOF(hHooks); ++i)
+	for (int i = 0; i < SIZEOF(hHooks); ++i)
 	{
 		if (hHooks[i])
 			UnhookEvent(hHooks[i]);
 	}
-	for (i=0; i<SIZEOF(hServices); ++i)
+	for (int i = 0; i < SIZEOF(hServices); ++i)
 	{
 		if (hServices[i])
 			DestroyServiceFunction(hServices[i]);
@@ -180,10 +176,10 @@ void ShowPopup(TCHAR* text, TCHAR* header)
 
 int CreateDirectoryTree(TCHAR *szDir)
 {
-	TCHAR *pszLastBackslash, szTestDir[ MAX_PATH ];
+	TCHAR szTestDir[MAX_PATH];
 
-	lstrcpyn( szTestDir, szDir, SIZEOF( szTestDir ));
-	pszLastBackslash = _tcsrchr( szTestDir, '\\' );
+	lstrcpyn(szTestDir, szDir, SIZEOF(szTestDir));
+	TCHAR *pszLastBackslash = _tcsrchr( szTestDir, '\\' );
 	if ( pszLastBackslash == NULL )
 		return 0;
 
@@ -195,9 +191,7 @@ int CreateDirectoryTree(TCHAR *szDir)
 
 HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
 {
-	TOOLINFO ti = { 0 };
-	HWND hwndTT;
-    hwndTT = CreateWindowEx(WS_EX_TOPMOST,
+    HWND hwndTT = CreateWindowEx(WS_EX_TOPMOST,
         TOOLTIPS_CLASS, NULL,
         WS_POPUP | TTS_NOPREFIX,
         CW_USEDEFAULT, CW_USEDEFAULT,
@@ -207,6 +201,7 @@ HWND CreateToolTip(HWND hwndParent, LPTSTR ptszText, LPTSTR ptszTitle)
     SetWindowPos(hwndTT, HWND_TOPMOST, 0, 0, 0, 0,
         SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE);
 
+	TOOLINFO ti = {0};
     ti.cbSize = sizeof(TOOLINFO);
     ti.uFlags = TTF_SUBCLASS | TTF_CENTERTIP;
     ti.hwnd = hwndParent;
