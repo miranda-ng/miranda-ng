@@ -93,9 +93,9 @@ ID сообщения:
 СМС сообщение не послано
 [SMS Message Sent]
 СМС сообщение послано
-[Save window position per contact:]
-Сохранять позицию окна поконтактно:
-[Auto popup on new message:]
-Автоокно на новое сообщение:
+[Save window position per contact]
+Сохранять позицию окна поконтактно
+[Auto popup on new message]
+Автоокно на новое сообщение
 [Use Signature]
 Использовать подпись
