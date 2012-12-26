@@ -110,7 +110,19 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 					break;
 
 				case IDC_TAGHELP:
-					MessageBox(hwndDlg, TranslateT(TAGSHELP), TranslateT("Feed Tag Help"), MB_OK);
+					{
+						TCHAR tszTagHelp[1024];
+						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+							_T("#<title>#"),			TranslateT("The title of the item."),
+							_T("#<description>#"),		TranslateT("The item synopsis."),
+							_T("#<link>#"),	TranslateT("The URL of the item."),
+							_T("#<author>#"),		TranslateT("Email address of the author of the item."),
+							_T("#<comments>#"),				TranslateT("URL of a page for comments relating to the item."),
+							_T("#<guid>#"),				TranslateT("A string that uniquely identifies the item."),
+							_T("#<category>#"),				TranslateT("Specify one or more categories that the item belongs to.")
+						);
+						MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
+					}
 					break;
 
 				case IDC_RESET:
@@ -290,7 +302,19 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 				case IDC_TAGHELP:
-					MessageBox(hwndDlg, TranslateT(TAGSHELP), TranslateT("Feed Tag Help"), MB_OK);
+					{
+						TCHAR tszTagHelp[1024];
+						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+							_T("#<title>#"),			TranslateT("The title of the item."),
+							_T("#<description>#"),		TranslateT("The item synopsis."),
+							_T("#<link>#"),	TranslateT("The URL of the item."),
+							_T("#<author>#"),		TranslateT("Email address of the author of the item."),
+							_T("#<comments>#"),				TranslateT("URL of a page for comments relating to the item."),
+							_T("#<guid>#"),				TranslateT("A string that uniquely identifies the item."),
+							_T("#<category>#"),				TranslateT("Specify one or more categories that the item belongs to.")
+						);
+						MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
+					}
 					break;
 
 				case IDC_RESET:
@@ -460,7 +484,19 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 					}
 
 				case IDC_TAGHELP:
-					MessageBox(hwndDlg, TranslateT(TAGSHELP), TranslateT("Feed Tag Help"), MB_OK);
+					{
+						TCHAR tszTagHelp[1024];
+						mir_sntprintf(tszTagHelp, SIZEOF(tszTagHelp), _T("%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s"),
+							_T("#<title>#"),			TranslateT("The title of the item."),
+							_T("#<description>#"),		TranslateT("The item synopsis."),
+							_T("#<link>#"),	TranslateT("The URL of the item."),
+							_T("#<author>#"),		TranslateT("Email address of the author of the item."),
+							_T("#<comments>#"),				TranslateT("URL of a page for comments relating to the item."),
+							_T("#<guid>#"),				TranslateT("A string that uniquely identifies the item."),
+							_T("#<category>#"),				TranslateT("Specify one or more categories that the item belongs to.")
+						);
+						MessageBox(hwndDlg, tszTagHelp, TranslateT("Feed Tag Help"), MB_OK);
+					}
 					break;
 
 				case IDC_RESET:
