@@ -69,7 +69,7 @@ int RotateBackups(HWND progress_dialog, DWORD start_time)
 	WIN32_FIND_DATA FindFileData;
 
 	TCHAR *backupfolder = Utils_ReplaceVarsT(options.folder);
-	
+
 	mir_sntprintf(backupfolderTmp, SIZEOF(backupfolderTmp), _T("%s\\*"), backupfolder);
 	HANDLE hFind = FindFirstFile(backupfolderTmp, &FindFileData);
 	if (hFind == INVALID_HANDLE_VALUE) 
