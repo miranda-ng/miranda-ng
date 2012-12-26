@@ -1915,6 +1915,126 @@ URL от %s
 Замбия
 [Zimbabwe]
 Зимбабве
+[Aland Islands]
+Аландские о-ва
+[American Samoa]
+Американское Самоа
+[Antarctica]
+Антарктида
+[Bolivia, Plurinational State of]
+Боливия
+[Bonaire, Sint Eustatius and Saba]
+Бонайре, Синт-Эстатиус и Саба
+[Bouvet Island]
+о. Буве
+[British Indian Ocean Territory]
+Британская территория в Индийском океане
+[Brunei Darussalam]
+Бруней
+[Cape Verde]
+Кабо-Верде
+[Chile]
+Чили
+[Christmas Island]
+о. Рождества
+[Cocos (Keeling) Islands]
+Кокосовые о-ва
+[Congo]
+Конго, Республика
+[Congo, the Democratic Republic of the]
+Конго, Демократическая Республика
+[Cote d'Ivoire]
+Кот-д’Ивуар
+[Cyprus]
+Кипр
+[Falkland Islands (Malvinas)]
+Фолклендские о-ва
+[Faroe Islands]
+Фарерские о-ва
+[French Southern Territories]
+Французские Южные и Антарктические территории
+[Guam]
+Гуам
+[Guernsey]
+о. Гернси
+[Heard Island and McDonald Islands]
+о. Херд и о-ва Макдональд
+[Holy See (Vatican City State)]
+Ватикан
+[Iran, Islamic Republic of]
+Иран
+[Isle of Man]
+о. Мэн
+[Jersey]
+о. Джерси
+[Korea, Democratic People's Republic of]
+КНДР, Северная Корея
+[Korea, Republic of]
+Корея, Республика (Южная Корея)
+[Lao People's Democratic Republic]
+Лаос
+[Libya]
+Ливия
+[Macao]
+Макао
+[Macedonia, The Former Yugoslav Republic of]
+Македония
+[Mayotte]
+Майотта
+[Montenegro]
+Черногория
+[Norfolk Island]
+о. Норфолк
+[Northern Mariana Islands]
+Северные Марианские о-ва
+[Palestinian Territory, Occupied]
+Палестинские территории
+[Pitcairn]
+Питкэрн
+[Reunion]
+о. Реюньон
+[Russian Federation]
+Россия
+[Saint Barthelemy]
+Сен-Бартелеми
+[Saint Helena, Ascension and Tristan da Cunha]
+о-ва Св. Елены, Вознесения и Тристан-да-Кунья
+[Saint Martin (French part)]
+Сен-Мартен
+[Samoa]
+Самоа
+[Serbia]
+Сербия
+[Sint Maarten (Dutch part)]
+Синт-Маартен
+[South Georgia and the South Sandwich Islands]
+Южная Георгия и Южные Сандвичевы о-ва
+[South Sudan]
+Южный Судан
+[Svalbard and Jan Mayen]
+Шпицберген и Ян-Майен
+[Taiwan, Province of China]
+Тайвань
+[Tanzania, United Republic of]
+Танзания
+[Timor-Leste]
+Восточный Тимор
+[United States]
+США
+[United States Minor Outlying Islands]
+Внешние малые о-ва США
+[Venezuela, Bolivarian Republic of]
+Венесуэла
+[Viet Nam]
+Вьетнам
+[Virgin Islands, British]
+Британские Виргинские о-ва
+[Virgin Islands, U.S.]
+Виргинские о-ва (США)
+[Wallis and Futuna]
+о-ва Валлис и Футуна
+[Western Sahara]
+Сахарская Арабская Демократическая Республика
 [Unknown]
 Неизвестно
 [Menu Objects]
