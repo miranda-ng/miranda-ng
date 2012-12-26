@@ -3,7 +3,7 @@ Language: German (DE)
 Locale: 0407
 Authors: Wishmaster, Miranda-im.de Projekt Sprachdatei - diverse Autoren
 Author-email: wishmaster51 at googlemail.com
-Last-Modified-Using: Miranda NG 0.92.2
+Last-Modified-Using: Miranda NG 0.93.5
 ; License: Creative Commons 3.0 (Attribution-Noncommercial-Share Alike)
 Plugins-included: AIM,ActMan,ActMan_Hooks
 
@@ -550,7 +550,7 @@ Customize
 [Daily]
 Täglich
 [Database]
-Profildatei
+Datenbank
 [Date:]
 Datum:
 [Date]
@@ -1049,7 +1049,7 @@ Information
 [Insert Emoticon]
 Emoticon einfügen
 [Install Database Settings]
-Profildateieinstellungen installieren
+Datenbankeinstellungen installieren
 [Input]
 Eingabe
 [Instant messages]
@@ -3975,8 +3975,8 @@ Einstellungen
 Einstellungen\nHier können Sie Ihre Miranda NG Einstellungen anpassen
 [Please select a subentry from the list]
 Bitte einen Unterpunkt aus der Baumstruktur auswählen.
-[Show expert options]
-Erweiterte Einstellungen
+[Switch to simple options]
+Einfache Ansicht der Einstellungen
 [<all modules>]
 <Alle Module>
 [<core modules>]
@@ -4026,8 +4026,6 @@ Hier können Sie einzelne Plugins ein- oder ausschalten.
 Besuchen Sie die offizielle Miranda NG Webseite
 [Switch to classic options]
 Klassische Ansicht der Einstellungen
-[View help online]
-Onlinehilfe aufrufen
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 Es wurden noch nicht alle Änderungen gespeichert.\nSollen diese nun übernommen werden, bevor in den erweiterten Modus gewechselt wird?
 
@@ -4495,7 +4493,7 @@ Miranda NG Profilmanager
 [Miranda Profiles from]
 Miranda-Profile von
 [Select or create your Miranda NG user profile]
-Zum Starten ein Miranda NG Profil auswählen oder neu erstellen
+Miranda NG Profil auswählen oder neu erstellen
 
 [My Profiles]
 Meine Profile
@@ -4517,7 +4515,7 @@ z. B. Arbeitsplatz
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
 Sie können auch einen anderen Treiber für Ihr Profil verwenden, wenn Sie sich unsicher sind, verwenden Sie den Standard-Treiber.
 [e.g. Miranda Database]
-z. B. db3x mmap driver
+z. B. Miranda Datenbank
 
 [Are you sure you want to remove profile \"%s.dat\"?]
 Sind Sie sich sicher, dass Sie Ihr Profil \"%s.dat\" löschen möchten?
@@ -4533,36 +4531,6 @@ Ausfüh&ren
 [&Exit]
 B&eenden
 
-[RES0]
-RES0
-[RES2/VisMode]
-RES2/Sichtbarkeit
-[Advanced #%u]
-Erweitert #%u
-[Advanced #1 (ICQ X-Status)]
-Erweitert #1 (ICQ-XStatus)
-[advanced #1]
-Erweitert #1
-[Advanced #1]
-Erweitert #1
-[advanced #2]
-Erweitert #2
-[Advanced #2]
-Erweitert #2
-[Advanced #3]
-Erweitert #3
-[Advanced #4]
-Erweitert #4
-[Advanced 1]
-Erweitert 1
-[Advanced 2]
-Erweitert 2
-[Advanced 3]
-Erweitert 3
-[Advanced 4]
-Erweitert 4
-[Advanced 5]
-Erweitert 5
 
 ; Name, UIN, E-Mail, Account
 [%s requested authorization\n%u (%s) on %s]
@@ -4690,9 +4658,9 @@ Ausgewähltes Profil konnte nicht geöffnet werden. Wichtige Teile der Benutzerd
 [Unable to verify the selected profile.  You may wish to try and fix this profile via dbtool.  Visit http://www.miranda-ng.org for more information.]
 Überprüfung des gewählten Profils nicht möglich.  Bitte das DB-Tool zum Reparieren nutzen. Siehe http://www.miranda-ng.org für mehr Informationen.
 [Miranda has detected corruption in your database. This corruption maybe fixed by DbChecker plugin.  Please download it from http://miranda-ng.org/. Miranda will now shutdown.]
-Miranda hat Fehler in der Profildatei entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
+Miranda hat Fehler in der Datenbank entdeckt. Diese Fehler könnten mit dem DbChecker Plugin repariert werden. Bitte von http://miranda-ng.org/ herunterladen. Miranda NG wird beendet.
 [Database Panic]
-Profildateiprobleme
+Datenbankprobleme
 
 ; dbini.c
 [Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
@@ -5015,7 +4983,7 @@ Eine Datei mit neuen Profileinstellungen wurde im Miranda NG Verzeichnis gefunde
 [Do you want to import the settings now?]
 Möchten Sie die Einstellungen jetzt importieren?
 [Database settings are being imported from]
-Profileinstellungen werden importiert von
+Datenbankeinstellungen werden importiert von
 [This file wishes to change the setting]
 Diese Datei möchte die Einstellungen ändern
 [to the value]
@@ -5026,7 +4994,7 @@ Diese Änderungen zulassen?
 Änderung Profileinstellungen
 
 [Database Import Complete]
-Profilimport abgeschlossen
+Datenbank-Import abgeschlossen
 [The import has completed from]
 Der Import wurde abgeschlossen von
 [What do you want to do with the file now?]
@@ -5095,7 +5063,7 @@ Schnellsuche-Text:
 Schnellsuche-Text
 
 [Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
-Miranda konnte keinen gültigen Profiltreiber finden, es kann kein neues Profil erstellt werden. Installieren Sie die Datei dbx_3x.dll.
+Miranda konnte keinen gültigen Datenbanktreiber finden, es kann kein neues Profil erstellt werden. Installieren Sie die Datei dbx_3x.dll.
 [Total size:]
 Gesamtgröße:
 [Last modified:]
@@ -5169,6 +5137,22 @@ Miranda versucht, Ihre Profilstruktur anzupassen.\nEs kann das Profil %s nicht a
 
 [Download more plugins]
 Weitere Plugins herunterladen
+
+
+
+
+
+
+[Select the extra icons to be shown in the contact list:]
+Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden sollen:
+[* only the first %d icons will be shown]
+Hinweis: Nur die ersten %d Icons werden angezeigt!
+[Ungroup]
+Gruppierung aufheben
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+Wählen Sie mehrere Elemente mit gedrückter SHIFT- oder STRG-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
+
+
 
 [Contact List]
 Kontaktliste
@@ -5256,6 +5240,8 @@ Teilweise verdeckte Fenster in Vordergrund bringen, anstatt sie zu verstecken
 Andocken aktivieren
 [Translucency options (Windows 2000/XP only)]
 Transparenz (ab Windows 2000)
+[Translucency options (Windows 2000/XP+)]
+Transparenz (Windows 2000/XP+)
 [Fade contact list in/out]
 Ein-/Ausblenden animieren
 [Transparent contact list]
@@ -7073,7 +7059,7 @@ Zeitdifferenz ist größer als 1h, Zeit wurde nicht synchronisiert!
 [Could not connect to any of the servers in the database!]
 Konnte keine Verbindung zu einem Server aufbauen!
 [Could not find any address in the database!]
-Konnte keine Adresse in der Profildatei finden!
+Konnte keine Adresse in der Datenbank finden!
 [Synchronization statistics]
 Synchronisationsstatistik
 [Client originate date and time:]
@@ -7115,7 +7101,7 @@ Dieses Plugin empfängt die genaue Uhrzeit von einem Zeitserver und aktualisiert
 ; Autor: Thief
 ; Übersetzung: Weishaupt am 27.09.06
 
-[If contact didn't authorized you this plugin puts an icon in front of contacts name]
+[If contact didn't authorized you this plugin puts an icon in front of contacts name.]
 Falls ein Kontakt Sie nicht autorisiert hat, zeigt dieses Plugin ein Icon vor seinem Namen an.
 [Grant]
 Kontakt ist nicht autorisiert
@@ -8187,336 +8173,13 @@ Verstecken bei keiner Nachr. seit
 [Use Popups colors]
 Popup-Farben verwenden
 
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions]
+Reagiert auf die Rückkehr von Kontakten nach einer langen Abwesenheit mit Benachrichtigungen und anderen Aktionen
+
 ; ##############################################
 ; End of langpack: Buddy_Expectator
 ; ##############################################
-; Start of langpack: C6 (Letzte Änderung: 15:26, 29. Apr. 2011 )
 
-; Pluginname: C6 Protocol
-; Version: 0.3.0.0
-; Dateiname: c6.dll
-; Download (alte Version): http://addons.miranda-im.org/details.php?action=viewfile&id=2450
-; Aktuelle Version: http://r3vindt.altervista.org/
-; Übersetzung: 18.04.2009 von Sebijk
-
-[C6 Protocol]
-C6-Protokoll
-[Atlantide/C6 Protocol for Miranda NG]
-Atlantide/C6-Protokoll für Miranda NG
-
-[Invite User]
-Benutzer einladen
-[New Room]
-Neuer Raum
-[Set Status Message]
-Statusnachricht setzen
-[Secretariat]
-Sekretariat
-[Select User]
-Benutzer auswählen
-[View Profile]
-Profil ansehen
-
-[Chat Invite Event]
-Chateinladungs-Ereignisse
-[Invitation]
-Einladungen
-[Load C6 Contacts]
-C6-Kontakte laden
-[Load Contact List]
-Kontaktliste laden
-[Load from file]
-Aus Datei laden
-[Read Online Message]
-Onlinenachricht lesen
-[Save C6 Contacts]
-C6-Kontakte speichern
-[Save Contact List]
-Kontaktliste speichern
-[Save on file]
-Speichern in Datei
-[Web Details]
-Web-Details
-[Web Search]
-Websuche
-[client-to-client connections]
-Client-zu-Client-Verbindungen
-[server connection]
-Server-Verbindung
-
-[(*) required restart]
-(*) benötigt Neustart
-[(Modify My Details)]
-(Meine Details ändern)
-[0 rooms]
-0 Räume
-;[Argument]
-[Automatic Connected with Last Nick (only New Login)]
-Automatisch mit dem letzten Nicknamen verbinden (nur beim neuen Login)
-[Automatic Remove Avatar Unused on Exit]
-Unbenutzte Avatare beim Beenden automatisch entfernen
-;[Avatar Unused Cleaning]
-[Blacklist]
-Schwarze Liste
-;[C6]
-[C6 Account Setup]
-C6-Konto konfigurieren
-[C6 UniqueKey or Nick:]
-C6-UniqueKey oder Nick:
-[C6 UniqueKey or Nickname:]
-C6-UniqueKey oder Nickname:
-[Choose WhiteList or BlackList]
-Weiße oder Schwarze Liste wählen
-[Cinema:]
-Video:
-[Clean]
-Leeren
-[Clear Msg]
-Nachrichten leeren
-[Comment:]
-Kommentar:
-[Create !]
-Erstellen !
-[Create a new C6 messenger account using the C6 website]
-Ein neues C6-Messengerkonto über die C6-Website erstellen
-[Deliver them on Mail Box]
-Auf dem E-Mail-Postfach ausliefern
-[Deliver them on Miranda NG]
-Auf Miranda NG ausliefern
-;[Dislike:]
-[Enable Avatar Support (*)]
-Avatar-Unterstützung aktivieren (*)
-[Enable Server-side contact list]
-Serverseitige Kontaktliste aktivieren
-;[Flags:]
-[Force Auth request (*)]
-Autorisierungsanfrage erzwingen (*)
-[Get Extended Capabilities from Server (reconnection request)]
-Erweiterte Fähigkeiten vom Server holen (Verbindungswiederherstellungsanfrage)
-[Groupchat Invite]
-Gruppenchat-Einladung
-[IP Visible]
-IP-Adresse zeigen
-[Ignore Message]
-Ignorier-Nachricht
-[Insert nick]
-Nickname eingeben
-[Invisible Status in Advanced Search]
-Unsichtbarkeitsstatus in der erweiterten Suche
-[Invite !]
-Einladen !
-[Invite Message]
-Einladungsnachricht
-;[Kind]
-[Last Online:]
-Zuletzt online:
-;[Load Preferred Search]
-[Manage C6 Server Contacts]
-C6-Serverkontakte verwalten
-[Music:]
-Musik:
-[No Notification and authorization]
-Keine Benachrichtigung und Autorisierung
-[No Secretariat (use Contact List)]
-Kein Sekretariat (Kontaktliste verwenden)
-[Notification when someone insert you in own contact list]
-Status in der erweiterten Suche unsichtbar machen
-[Offline Messages]
-Offlinenachrichten
-[Permissions]
-Rechte
-[Please enter your C6 account details to continue:]
-Bitte geben Sie Ihre C6-Kontodaten zum Fortfahren ein:
-[Popup Messages]
-Popup-Nachrichten
-;[Programme]
-[Required always your authorization]
-Benötigt immer Ihre Autorisierung
-[Reset Search]
-Suche zurücksetzen
-[Room Create]
-Raum erstellen
-[Room Name]
-Raumname
-[Save Preferred Search]
-Bevorzugte Suche speichern
-[Save server data on File]
-Serverdaten speichern auf Datei
-[Secretariat Not Visible]
-Sekretariat nicht sichtbar
-[Send Typing Notification (*)]
-Tippbenachrichtigungen senden (*)
-[ServerList]
-Serverliste
-[Show Welcome Message Periodically]
-Willkommensnachricht immer anzeigen
-[Use BBCodes (for Text Formatting)]
-BBCodes benutzen (für Textformatierung)
-[Use Default Log]
-Standard-Log benutzen
-[Whitelist]
-Weiße Liste
-[Work:]
-Arbeiten
-;[XCAP]
-
-[%d room(s)]
-%d Raum/Räume
-[C6 Private]
-C6 privat
-[C6 Public]
-C6 öffentlich
-[Cinema/Tv]
-Kino/TV
-[Cities]
-Städte
-[Create Room]
-Raum erstellen
-;[Entry Into...]
-;[Hi Tech]
-[Invite from %s]
-Einladung vom %s
-[Loading...]
-Laden...
-[Netfriend Private]
-Netfriend privat
-[Netfriend Public]
-Netfriend öffentlich
-[No Room Name Specified]
-Kein Raumname spezifiziert
-[No Update]
-Kein Update
-[Online Message]
-Onlinenachricht
-[Reply To...]
-Antworten zu...
-[Room create by]
-Raum erstellt von
-[Try To enter in This Room?\nWarning: It Can be a Private NetFriend Room.]
-Möchten Sie diesen Raum betreten?\nWarnung: Es könnte eventuell ein privater Netfriend-Raum sein.
-[Update every 1 Minute]
-minütlich aktualisieren
-[Update every 3 Minutes]
-alle 3 Minuten aktualisieren
-[Update every 5 Minutes]
-alle 5 Minuten aktualisieren
-[Warning: The content of this Room is not controlled by Virgilio]
-Warnung: Der Inhalt des Raums wird nicht von Virgilio kontrolliert
-[Welcome]
-Willkommen
-[set Password for Room]
-Kennwort für Raum setzen
-
-[Failed Connected.]
-Fehler beim Verbinden.
-
-[%i[Ignored]%I]
-%i[Ignoriert]%I
-[&Invite User...]
-Kontakt e&inladen
-[&Leave Room]
-Raum ver&lassen
-[Guest]
-Gast
-;[Impossible operation]
-;[Leader]
-;[Mod]
-;[Screened]
-[is not Ignored]
-wird nicht ignoriert
-[now is Ignored]
-wird nun ignoriert
-
-[BlackList]
-Schwarze Liste
-[Get List from Server...]
-Liste vom Server holen...
-[The changes you have made require you to reconnect to the C6 Messenger network before they take effect]
-Die Änderungen erfordern eine Neueinwahl zum C6-Messenger
-[WhiteList]
-Weiße Liste
-; protocols/oc6/c6_server.c
-[Invalid Packet/Protocol.]
-Falsches Paket/Protokoll.
-[Login: INVALID NAME.]
-Anmeldung: Ungültiger Name.
-[Login: No User.]
-Anmeldung: Kein Benutzer.
-[Login: Password Error.]
-Anmeldung: Kennwortfehler.
-[Login: User is already connected.]
-Anmeldung: Benutzer ist bereits verbunden.
-[Login: You have not entered a nick name.]
-Anmeldung: Sie haben keinen Nicknamen eingegeben.
-[Login: You have not entered a password.]
-Anmeldung: Sie haben kein Kennwort eingegeben.
-;[No Thread]
-[Packet Error, Close Connenction.]
-Paketfehler, Verbindung geschlossen.
-;[Room Create Busy.]
-[Room does not Exist.]
-Raum existiert nicht.
-[Room has Error.]
-Raum hat Fehler.
-[Room is Full.]
-Raum ist voll.
-[Server Maintenance.]
-Server-Wartungsarbeiten.
-[Socket Error, Close Connenction.]
-Socketfehler, Verbindung geschlossen.
-[This Room required a password]
-Dieser Raum benötigt ein Kennwort
-[Unable to connect to login server.]
-Es konnte keine Verbindung zum Anmeldeserver hergestellt werden.
-[User is Banned !]
-Benutzer ist gebannt!
-[You are banned from:]
-Sie wurden verbannt von:
-[has Added you to Contact List]
-hat Sie in der Kontaktliste hinzugefügt
-[requests Authorization in Server List]
-fragt nach der Autorisierung in der Serverliste
-
-[Cinema]
-Video
-[Contact is Offline, message sended anyway.]
-Kontakt ist offline, Nachricht wurde trotzdem gesendet
-;[Dislike]
-[File Transfer: No Memory available.]
-Dateitransfer: Nicht genügend Arbeitsspeicher verfügbar.
-[Men]
-Männer
-[Message in Secretariat]
-Nachricht im Sekretariat
-[Messages to contacts must be shorter than 512 characters.]
-Nachrichten an Kontakte müssen kürzer als 512 Zeichen sein.
-
-[Sorry, You are in My Ignore List!]
-Entschuldigung, aber Sie sind in meiner Ignorierliste!
-
-[http Request failed: 1]
-HTTP-Request fehlgeschlagen: 1
-[http Request failed: 2]
-HTTP-Request fehlgeschlagen: 2
-
-[Last Nick (only New Login)]
-Letzten Nick verwenden (nur beim neuen Login)
-[No Secretariat (use clist)]
-Kein Sekretariat verwenden (clist benutzen)
-[Secretariat Not Visible]
-Sekretariat verstecken
-[Use BBCodes]
-BBCodes verwenden
-[Use New Room (*)]
-Neuen Raum verwenden (*)
-[Get Extended Capabilities from Server (XCAP) (*)]
-Erweiterte Fähigkeiten vom Server holen (XCAP) (*)
-[Avatar Support (*)]
-Avatar-Unterstützung aktivieren (*)
-
-; ##############################################
-; End of langpack: C6
-; ##############################################
 ; Start of langpack: CList_Nicer (Letzte Änderung: 23:21, 4. Sep. 2011 )
 
 ; Pluginname: CList Nicer+ aka Clist_nicer
@@ -8533,11 +8196,6 @@ Avatar-Unterstützung aktivieren (*)
 ; Autor: Nightwish, Pixel
 ; Übersetzung 29.10.2005 von Dober
 
-; Pluginname: Clist Nicer+ YM
-; Version: 1.0.0.0
-; Dateiname: clist_nicer.dll
-; Autor: yaho
-; Übersetzung: 27.05.08 von 0123hallo
 
 ; clcopts.cpp
 [Contact rows]
@@ -8671,20 +8329,7 @@ Metakontakticons anstelle der Icons der Unterkontakte verwenden
 Überlagerungsicons über Avatare zeichnen
 [Replace status icons with xStatus]
 Ersetze Status- durch XStatusicons
-[Extra icons (drag items to reorder them)]
-Extraicons (Einträge sind sortierbar)
-[Client (fingerprint required)]
-Client (erfordert Fingerprint-Plugin)
-[Telephone]
-Telefon
-[Reserved #1]
-Reserviert #1
-[Reserved #2]
-Reserviert #2
-[Reserved, unused]
-Reserviert #0 (unbenutzt)
-[Extra icon size]
-Größe der Extraicons
+
 [Draw a border around avatars]
 Rand um Avatare zeichnen
 [Rounded avatars]
@@ -9066,7 +8711,7 @@ Popups an / aus
 [Open Miranda folder]
 Öffne Miranda-Hauptverzeichnis
 [Open database editor]
-Öffne Profildatei-Editor
+Öffne Datenbank-Editor
 [Open Jabber bookmarks]
 Öffne Jabber-Lesezeichen
 [Popups are off]
@@ -9508,28 +9153,7 @@ Versuchintervall (in ms.)
 ; ##############################################
 ; End of langpack: ContactVisibility
 ; ##############################################
-; Start of langpack: Contact_merge_plugin_cleaner (Letzte Änderung: 03:41, 18. Sep. 2010 )
 
-; Pluginname: Contact merge plugin cleaner
-; Version: 0.0.1.0
-; Dateiname: cleanMergeContacts.dll
-; Autor: Spin
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2343
-; Übersetzung: 13.10.05 von FREAK_THEMIGHTY
-; Besonderheiten: Entwicklung eingestellt!
-
-[Clear all MergeContacts database entries]
-Alle MergeContacts Datenbankeinträge löschen
-[I will delete all database entries related to the\nMerge Contacts plugin now (cleans merged hierarchy as well).\nProceed?]
-Ich will alle Datenbankeinträge des MergeContacts Plugins löschen.\n(dies beinhaltet auch den zusammengeführten Verlauf).\nFortfahren?
-[Please confirm]
-Bitte bestätigen
-[Done. Please restart Miranda.]
-Erledigt. Bitte Miranda neustarten.
-
-; ##############################################
-; End of langpack: Contact_merge_plugin_cleaner
-; ##############################################
 ; Start of langpack: Contacts (Letzte Änderung: 12:16, 20. Nov. 2011 )
 
 ; Pluginname: Contacts+
@@ -9539,8 +9163,8 @@ Erledigt. Bitte Miranda neustarten.
 ; Autor: Todor Totev, Joe Kucera
 ; Übersetzung: 19.07.05 von andydu
 
-[Allows you to send and receive contacts]
-Über das Kontextmenü der Kontakte können Kontakte versendet und empfangen werden. Die Kontakte werden dann in die Kontaktliste des Empfängers eingetragen.***
+[Allows you to send and receive contacts.]
+Über das Kontextmenü der Kontakte können Kontakte versendet und empfangen werden.
 
 [Contacts from]
 Kontakte von
@@ -9828,8 +9452,8 @@ Dienst, der diverse Werkzeuge im Bezug auf Länder bereitstellt, insbesondere di
 ; Übersetzung: 06.04.2008 R(i)SK
 
 
-[Crash Dumper for Miranda NG]
-Crash Dumper für Miranda NG
+[Crash Dumper for Miranda NG.]
+Crash Dumper für Miranda NG.
 [Crash Dumper HTTP connections]
 Crash-Dumper-HTTP-Verbindungen
 
@@ -9917,12 +9541,17 @@ Versionsinformation hochladen
 ; Übersetzung: Foso am 02.02.07, Update: kaye_styles am 23.07.08
 ; Besonderheiten: Einige Header sind unübersetzt!
 
-[Allow extra ICQ Custom status items (ICQ Plus only)]
-Extra ICQ-Custom-Status-Elemente erlauben (nur ICQ Plus)
+
+[List settings]
+Listeneinstellungen
+[Confirm deletion of items]
+Löschen von Einträgen bestätigen
+[Delete entries in Custom status menu after Import]
+Einträge im Custom-Status-Menü nach Importieren entfernen
 [Remember last window position]
 Letzte Fensterposition merken
-[Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
-Hinweis: Menüpunkte sind nur sichtbar, wenn mindestens ein ICQ-Account richtig eingestellt ist. Prüfen Sie, ob mindestens ein Konto mit UIN ausgefüllt ist.
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
+Hinweis: Menüpunkte sind nur sichtbar, wenn mindestens ein Account richtig eingestellt ist. Prüfen Sie, ob mindestens ein Konto mit UIN ausgefüllt ist.
 
 [Add new item]
 Hinzufügen
@@ -9939,7 +9568,7 @@ Liste filtern
 [Idle default]
 Abw. Standard
 [Import statuses from database]
-Status aus der Profildatei importieren
+Status aus der Datenbank importieren
 [Modify selected item]
 Eintrag bearbeiten
 [Regular statuses]
@@ -9957,20 +9586,8 @@ Zeige XStatus-Liste
 [Whether or not watch custom status changes and add them into list]
 XStatus-Änderungen beobachten und zur Liste hinzufügen
 
-[Confirm deletion of items]
-Löschen bestätigen
 [Custom Status List]
-XStatus-Liste
-[Delete entries in ICQ Custom status menu after Import]
-Einträge im ICQ-XStatus-Menü nach Importieren entfernen
-[Global Status Menu at the bottom]
-Statusmenüeintrag am Ende positionieren
-[Global Status Menu at the top]
-Statusmenüeintrag am Anfang positionieren
-[List settings]
-Listeneinstellungen
-[Menu item placement]
-Menüeintragsplatzierung
+Custom-Status-Liste
 [No items available in the database.\nClick the Add button to define some.]
 Keine Einträge in der Datenbank.\nKlicken Sie auf das Pluszeichen, um welche hinzuzufügen.
 [Note: This option requires newest version of ICQ plugin to work properly. Check details at the plugin homepage.]
@@ -9981,68 +9598,11 @@ Favorit
 [Main Icon]
 Haupticon
 
-[Keep your ICQ Custom statuses in an integrated, easy to use manager. This plugin offers simple management functions to keep your extra statuses on one place.]
-Verwalte deine ICQ-XStatus in einem integrierten und einfach zu nutzenden Manager. Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche Sie alle XStatus in einem Platz verwalten lassen.
+[This plugin offers simple management functions to keep your extra statuses on one place.]
+Dieses Plugin stellt einfache Managementfunktionalitäten zur Verfügung, welche Sie alle XStatus in einem Platz verwalten lassen.
 
 ; ##############################################
 ; End of langpack: Custom_Status_List
-; ##############################################
-; Start of langpack: Custom_User_Details (Letzte Änderung: 03:38, 18. Sep. 2010 )
-
-; Pluginname: Custom User Details
-; Version: 0.0.6.2
-; Dateiname: customuserdetails.dll
-; Autor: JdGordon
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=976
-; Übersetzung: 19.06.06 von Weishaupt
-
-[Contacts.csv]
-Kontakte.csv
-[Export CSV file]
-Exportiere CSV-Datei
-[Import CSV file]
-Importiere CSV-Datei
-[Export vCard file]
-Exportiere vCard
-[Import vCard file]
-Importiere vCard
-[Open Vcard file for: ]
-Offne vCard fur:
-[Summary of Updates]
-Zusammenfassung des Updates
-[Timezone not set]
-Zeitzone nicht eingestellt
-[Protocol Email:]
-Protokoll-E-Mail:
-[Custom Email1:]
-zusätzl. E-Mail 1:
-[Custom Email2:]
-zusätzl. E-Mail 2:
-[Mobile:]
-Mobiltelefon:
-[Postal Code:]
-Postleitzahl:
-[Date Of Birth:]
-Geburtsdatum:
-[DD-MM-YYYY]
-TT-MM-JJJJ
-[Web Page]
-Homepage:
-[Personal:]
-Persönlich:
-[Go!]
-Los!
-[View/Change My &Details]
-Ansehen/Ändern meiner &Details
-[From Update:]
-Aus dem Update:
-[Current Info:]
-Aktuelle Informationen:
-[Mass &Update]
-Alles &updaten
-
-; ##############################################
-; End of langpack: Custom_User_Details
 ; ##############################################
 ; Start of langpack: Custom_profile_folders (Letzte Änderung: 11:42, 23. Aug. 2011 )
 
@@ -10075,13 +9635,13 @@ Einige Änderungen wurden nicht gespeichert. Änderungen speichern?
 Änderungen nicht gespeichert
 
 [{\\*\\generator Msftedit 5.41.21.2500;}\\viewkind4\\uc1\\pard\\nowidctlpar\\ri-1686\\f0\\fs20 Don't forget to click on \\i Apply\\i0  to save the changes. If you don't then the changes won't\n]
-{\\*\\generator Msftedit 5.41.21.2500;}\\viewkind4\\uc1\\pard\\nowidctlpar\\ni-1686\\f0\\fs20 Vergessen Sie nicht die Werte mit \\i Übernehmen\\i0  in der Profildatei zu speichern! Sonst gelten die Werte nur\n
+{\\*\\generator Msftedit 5.41.21.2500;}\\viewkind4\\uc1\\pard\\nowidctlpar\\ni-1686\\f0\\fs20 Vergessen Sie nicht die Werte mit \\i Übernehmen\\i0  in der Datenbank zu speichern! Sonst gelten die Werte nur\n
 [be saved to the database, they will only be valid for this session.\\par\\pard\\nowidctlpar\\ul\\b\\par\n]
 solange diese Einstellungsseite angezeigt wird.\\par\\pard\\nowidctlpar\\ul\\b\\par\n
 [Variable string\\ulnone\\b0\\tab\\tab\\ul\\b What it expands to:\\ulnone\\b0\\par\n]
 Variablenstring\\ulnone\\b0\\tab\\tab\\ul\\b Wird erweitert zu:\\ulnone\\b0\\par\n
 [%miranda_userdata%\\tab Expands to the private profile data directory.\\par%miranda_path%\\tab Expands to your miranda path (e.g: c:\\\\program files\\\\Miranda NG).\\par%profile_path%\\tab\\tab Expands to your profile path - the value found in mirandaboot.ini,\\par\\tab\\tab\\tab\\ul ProfileDir\\ulnone  section (usually inside miranda's folder).\\par\\pard\\nowidctlpar\\ri-696 %current_profile%\\tab Expands to your current profile name without the extenstion.\\par\\tab\\tab\\tab (e.g.\\b default\\b0  if your your profile is \\i default.dat\\i0 ).\\par\\par\n]
-%miranda_userdata%\\tab Wird erweitert zum privaten Profilordner.\\par%miranda_path%\\tab wird erweitert zu dem Miranda NG Verzeichnis (zum Beispiel: c:\\\\program files\\\\Miranda NG).\\par%profile_path%\\tab\\tab wird erweitert zu Ihrem Profildateipfad - dem Eintrag in der Datei mirandaboot.ini,\\par\\tab\\tab\\tab\\ul Zeile 12 ProfileDir\\ulnone  (Datei befindet sich im Miranda NG Ordner).\\par\\pard\\nowidctlpar\\ni-696 %current_profile%\\tab wird erweitert zu dem Namen Ihrer Profildatei ohne die Dateiendung.\\par\\tab\\tab\\tab (zum Beispiel \\b default\\b0,  wenn Ihre Profildatei \\i default.dat\\i0 ).\\par\\par\n
+%miranda_userdata%\\tab Wird erweitert zum privaten Profilordner.\\par%miranda_path%\\tab wird erweitert zu dem Miranda NG Verzeichnis (zum Beispiel: c:\\\\program files\\\\Miranda NG).\\par%profile_path%\\tab\\tab wird erweitert zu Ihrem Datenbankpfad - dem Eintrag in der Datei mirandaboot.ini,\\par\\tab\\tab\\tab\\ul Zeile 12 ProfileDir\\ulnone  (Datei befindet sich im Miranda NG Ordner).\\par\\pard\\nowidctlpar\\ni-696 %current_profile%\\tab wird erweitert zu dem Namen Ihrer Datenbank ohne die Dateiendung.\\par\\tab\\tab\\tab (zum Beispiel \\b default\\b0,  wenn Ihre Datenbank \\i default.dat\\i0 ).\\par\\par\n
 [\\ul\\b Environment variables\\par\n]
 \\ul\\b Umgebungsvariablen\\par\n
 [\\ulnone\\b0 The plugin can also expand environment variables; the variables are specified like in any other\n]
@@ -10109,26 +9669,7 @@ Dienst, welcher es Plugins erlaubt Daten in vom Nutzer gewählten Verzeichnissen
 ; ##############################################
 ; End of langpack: Custom_profile_folders
 ; ##############################################
-; Start of langpack: CycleAvatars (Letzte Änderung: 03:37, 18. Sep. 2010 )
 
-; Pluginname: CycleAvatars
-; Version: 0.0.0.2
-; Dateiname: CycleAvatars.dll
-; Autor: pitris
-; Link: http://pitris.me.cz/scripts/redir.php?application=CAvatars&url=/programs/cycleavatars.zip
-; Übersetzung: 09.11.07 von Foso
-; Besonderheiten: Entwicklung eingestellt!
-
-[Note: Timer changes and enabling/disabling need restart of the plugin.]
-Achtung: Timeränderugen und de-/aktivieren benötigt einen Neustart.
-[Avatars Directory:]
-Avatarverzeichnis:
-[Enable CycleAvatars for this protocol]
-CycleAvatars für dieses Protokoll aktivieren
-
-; ##############################################
-; End of langpack: CycleAvatars
-; ##############################################
 ; Start of langpack: DBEditor (Letzte Änderung: 12:11, 20. Nov. 2011 )
 
 ; Pluginname: Database Editor ++
@@ -10155,12 +9696,8 @@ Lade Module...
 Fehler beim Laden der Modulliste
 [Couldn't open file for writing]
 Konnte nicht in Datei schreiben
-[Database Editor++ (unicode mode)]
-Profildatei-Editor++ (Unicode-Modus)
-[Database Editor++ (ansi mode)]
-Profildatei-Editor++  (ANSI-Modus)
 [Database Editor++]
-Profildatei-Editor++
+Datenbank-Editor++
 
 [Add module to contact "%s"]
 Modul zum Kontakt "%s" hinzufügen
@@ -10327,7 +9864,7 @@ Alle anzeigen
 Alle löschen
 
 [Entire &Database]
-Gesamte &Profildatei
+Gesamte &Datenbank
 [All &Settings]
 Alle Ein&stellungen
 [All &Contacts]
@@ -10403,9 +9940,9 @@ Modul hinzufügen
 [Find and Replace]
 Suchen und Ersetzen
 [Database Editor++ Search and Replace]
-Profildatei-Editor++ Suchen und Ersetzen
+Datenbank-Editor++ Suchen und Ersetzen
 [Database Editor++ Find Dialog]
-Profildatei-Editor++ Suche
+Datenbank-Editor++ Suche
 
 [Search For]
 Suchen nach
@@ -10432,7 +9969,7 @@ E&rsetzen
 [Finished. %d items found]
 Beendet. %d Einträge gefunden
 [Enter a string to search the DB for]
-Geben Sie einen Suchstring für die Profildatei ein
+Geben Sie einen Suchstring für die Datenbank ein
 [Found Module "%s" in contact "%s"]
 Modul "%s" gefunden im Kontakt "%s"
 [Found Setting "%s" in module "%s" in contact "%s"]
@@ -10456,11 +9993,11 @@ Suche nach: %s
 Fehler beim Laden der Einstellungsliste
 
 [Delete module from Database]
-Modul aus der Profildatei löschen
+Modul aus der Datenbank löschen
 [Delete module from all contacts (Includes Setting)]
 Modul von allen Kontakten löschen (inkl. Einstell.)
 [Delete module from Database... Loading]
-Modul aus der Profildatei löschen... Lade
+Modul aus der Datenbank löschen... Lade
 
 [Copy module to contact]
 Modul zu Kontakt kopieren
@@ -10477,28 +10014,28 @@ Zu importierende Einstellungen hier einfügen.
 Zeilenumbru&ch
 
 [Watched Database Variables]
-Beobachtete Profildatei-Variablen
+Beobachtete Datenbank-Variablen
 [Watch Window]
 Beobachtungsliste
 [Reload Watch List]
 Beobachtungsliste aktualisieren
 
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Profildateieinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Byte) %d
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Byte) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Profildateieinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Word) %d
+Datenbankeinstellung geändert:\nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (Word) %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Profildateieinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (DWord) 0x%X
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: (DWord) 0x%X
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Profildateieinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: "%s"
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert: "%s"
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Profildateieinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert (UTF8): "%s"
+Datenbankeinstellung geändert: \nModul: "%s" , Einstellung: "%s"\nNeuer Wert (UTF8): "%s"
 
 [Open Database Editor]
-Öffne Profildatei-Editor++
+Öffne Datenbank-Editor++
 
-[Advanced Database Editor. More advanced & bugfixed by Bio. [Jan 28 2008  19:04:36]]
-Erweiterte Datenbank-Editor. Mehr gefixt und erweitert von Bio. [28.01.2008  19:04:36]
+[Advanced Database Editor.]
+Erweiterte Datenbank-Editor.
 
 ; ##############################################
 ; End of langpack: DBEditor
@@ -10529,7 +10066,7 @@ Kontaktstrukturen beschädigt, nachfolgende Einträge wurden ignoriert
 [Invalid offset found]
 Ungültiger Offset gefunden
 [Error reading, database truncated? (%u)]
-Fehler beim Einlesen, Profil unvollständig (%u)
+Fehler beim Einlesen, Datenbank unvollständig (%u)
 [Can't write to working file, aggressive mode may be too aggressive now (%u)]
 Kann nicht in Arbeitskopie schreiben, gründlicher Modus evtl. jetzt zu gründlich (%u)
 [Can't write to output file - disk full? (%u)]
@@ -10569,7 +10106,7 @@ Arbeitskopie für gründliche Suche kann nicht gelöscht werden.
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
 Es wurden Fehler gefunden, und Sie haben ausgewahlt, keine Sicherungskopie der Originaldatei zu machen. Diese Fehler konnen zu Datenverlust fuhren! Wollen Sie eine Sicherheitskopie der Originaldatei beibehalten?
 [Miranda Database Tool]
-Miranda-Profildateitool
+Miranda-Datenbanktool
 [%s\\Backup of %s]
 %s\\Sicherheitskopie von %s
 [%s\\Backup (%d) of %s]
@@ -10585,15 +10122,15 @@ Ausgabedatei konnte nicht umbenannt werden
 &Fertig
 
 [Database is newly created and has no data to process]
-Profildatei wurde neu erstellt und hat keine Daten zum Verarbeiten
+Datenbank wurde neu erstellt und hat keine Daten zum Verarbeiten
 [Processing completed successfully]
 Verarbeitung wurde erfolgreich beendet
 [Database is corrupted and too small to contain any recoverable data]
-Profildatei ist beschädigt und zu klein um irgendwelche Daten wiederherzustellen
+Datenbank ist beschädigt und zu klein um irgendwelche Daten wiederherzustellen
 [Database signature is corrupted, automatic repair is impossible]
-Profildateisignatur ist beschädigt, automatische Reparatur nicht möglich
+Datenbanksignatur ist beschädigt, automatische Reparatur nicht möglich
 [Database is marked as belonging to an unknown version of Miranda]
-Profildatei gehört zu einer unbekannten Mirandaversion
+Datenbank gehört zu einer unbekannten Mirandaversion
 [(Working Copy).dat]
 (Arbeitskopie).dat
 [Creating working database (aggressive mode)]
@@ -10630,29 +10167,29 @@ Die Verarbeitung wurde noch nicht beendet. Wenn Sie den Vorgang jetzt abbrechen,
 Die Verarbeitung wurde noch nicht beendet. Wenn Sie jetzt zurückgehen, wird die Originaldatei wiederhergestellt, und die Änderungen gehen verloren. Wollen Sie jetzt zurückgehen?
 
 [Welcome to the Miranda Database Wizard]
-Willkommen zum Miranda-Profildateireparaturtool
+Willkommen zum Miranda-Datenbankreparaturtool
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Profildatei auf mögliche Fehler und versucht diese zu beheben.
+Die Verwendung dieses Tools löscht unnütze Einträge, die beim normalen Gebrauch entstehen können, untersucht die Datenbank auf mögliche Fehler und versucht diese zu beheben.
 [To continue, click Next.]
 Um fortzufahren, drücken Sie "Weiter".
 [This programme is licenced under the terms of the GNU General Public License.]
 Dieses Programm wurde unter der GNU General Public License lizenziert.
 
 [Select Miranda Profile]
-Miranda-Profildatei auswählen
+Miranda-Datenbank auswählen
 [You can choose the Miranda profile database to compact or repair.]
-Profildatei zum Komprimieren oder zur Fehlersuche auswählen
+Datenbank zum Komprimieren oder zur Fehlersuche auswählen
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-&Profildatei aus unten stehender Liste auswählen, oder klicken Sie auf "Andere..." für einen anderen Ordner.
+&Datenbank aus unten stehender Liste auswählen, oder klicken Sie auf "Andere..." für einen anderen Ordner.
 [&File:]
 &Datei:
 [&Other...]
 &Andere...
 
 [Error Opening Database]
-Fehler beim Öffnen der Profildatei
+Fehler beim Öffnen der Datenbank
 [There was an error opening the profile database given.]
-Es ist ein Fehler beim Öffnen der Profildatei aufgetreten
+Es ist ein Fehler beim Öffnen der Datenbank aufgetreten
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
 Klicken Sie auf "Weiter", um es erneut zu versuchen, oder auf "Zurück", um eine andere Datei auszuwählen.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
@@ -10661,7 +10198,7 @@ Evtl. wird das Profil im Moment von Miranda verwendet. Beenden Sie Miranda und k
 [File Access Options]
 Dateizugriffseinstellungen
 [You can select low level options to determine how the database is processed.]
-Hier können Sie die Einstellungen für die Arbeitsweise des Profildateitools festlegen.
+Hier können Sie die Einstellungen für die Arbeitsweise des Datenbanktools festlegen.
 [Create backup]
 Sicherheitskopie erstellen
 [Creates a backup copy of the database before any of the requested changes are made.]
@@ -10669,11 +10206,11 @@ Erstellt eine Sicherheitskopie, bevor irgendwelche Änderungen vorgenommen werde
 [Aggressively find corruption]
 Gründliche Fehlersuche
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Untersucht die Profildatei auf Einträge, auf die keine Verweise existieren. Diese Option ist nur erforderlich, wenn Sie den Verdacht haben, Ihr Profil könnte beschädigt sein.
+Untersucht die Datenbank auf Einträge, auf die keine Verweise existieren. Diese Option ist nur erforderlich, wenn Sie den Verdacht haben, Ihr Profil könnte beschädigt sein.
 [Check consistency only]
 Nur Konsistenz prüfen
 [Just checks that the database is valid, without writing anything to the disk.]
-Schnelle Überprüfung der Profildatei, schreibt keine Daten auf die Festplatte.
+Schnelle Überprüfung der Datenbank, schreibt keine Daten auf die Festplatte.
 
 [Cleaning Options]
 Säuberungseinstellungen
@@ -10682,7 +10219,7 @@ Sie können auswählen, welche evtl. überflüssigen Einträge entfernt werden.
 [Erase all histories]
 Verlauf löschen
 [Removes all the saved history for all contacts in the database.]
-Entfernt die Verläufe sämtlicher Kontakte aus der Profildatei.
+Entfernt die Verläufe sämtlicher Kontakte aus der Datenbank.
 [Mark all events read]
 Alle Ereignisse als gelesen markieren
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
@@ -10704,11 +10241,11 @@ Alle Arbeitsschritte wurden beendet.
 [Launch Miranda with this profile]
 Starte Miranda mit diesem Profil
 [Launches Miranda with the profile that was just worked on.]
-Starte Miranda mit der verarbeiteten Profildatei.
+Starte Miranda mit der verarbeiteten Datenbank.
 [Backup:]
 Sicherheitskopie:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Die Verarbeitung der Profildatei wurde beendet. Klicken Sie auf "Weiter", um das Tool mit einer anderen Profildatei neu zu starten, oder auf "Fertig", um das Profildateitool zu beenden.
+Die Verarbeitung der Datenbank wurde beendet. Klicken Sie auf "Weiter", um das Tool mit einer anderen Datenbank neu zu starten, oder auf "Fertig", um das Datenbanktool zu beenden.
 
 [Total size]
 Gesamtgröße
@@ -10732,7 +10269,7 @@ Benutzerdaten beschädigt, dies kann größere Probleme verursachen
 Mehr als ein Benutzerkontakt: Nur den ersten beibehalten.
 
 [Database worker thread activated]
-Profildateiverarbeitungsfunktion gestartet
+Datenbankverarbeitungsfunktion gestartet
 [Processing aborted by user]
 Verarbeitung von Benutzer abgebrochen
 [All tasks completed but with %d error%s]
@@ -10745,56 +10282,7 @@ Benötigte Zeit: %d Sekunden
 ; ##############################################
 ; End of langpack: DBTool
 ; ##############################################
-; Start of langpack: DbExport (Letzte Änderung: 03:36, 18. Sep. 2010 )
 
-; Pluginname: dbExport
-; Version: 1.0.0.1
-; Dateiname: dbexport.dll
-; Autor: Luca "Hrk" Santarelli
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=429
-; Übersetzung: 19.06.06 von Weishaupt
-; Besonderheiten: Entwicklung eingestellt!
-
-[I could not open file '%s' for writing.\nCheck disk space and your write privileges.]
-Fehler: In Datei '%s' konnte nicht geschrieben werden.\nSchreibschutz und freien Speicher prüfen!
-
-[&Export to autoexec.ini...]
-&Exportiere in autoexec.ini...
-
-[Exports your settings into an autoexec_<yourname>.ini file.]
-Exportiert alle Einstellungen in eine autoexec_<Profilname>.ini Datei.
-
-; ##############################################
-; End of langpack: DbExport
-; ##############################################
-; Start of langpack: Dbx_rw (Letzte Änderung: 08:29, 18. Apr. 2011 )
-
-; Pluginname: dbRW Database Driver
-; Version: 1.4.0.0
-; SQLite: 3.7.6.2 Alpha #1
-; Dateiname: dbx_rw.dll
-; Autor: Robert Rainwater
-#muuid {f3ca0e5e-249a-40f0-8d74-80a80ef0c83d}
-; Übersetzung: CHEF-KOCH am 22.07.2010
-
-[Loading dbRW v%s alpha #%s (SQLite v%s)]
-Lade dbRW v%s alpha #%s (SQLite v%s)
-[Loading dbRW v%s (SQLite v%s)]
-Lade dbRW v%s (SQLite v%s)
-[dbRW unloaded sucessfully]
-dbRW vollständig entladen
-
-[Attempt to add invalid event for contact(%d)]
-Versuch, ein ungültige Ereignis für Kontakt (% d) hinzuzufügen
-[Error adding event(#%d,%s)]
-Fehler beim Hinzufügen eines Ereignisses (#%d,%s)
-
-[Miranda NG database driver engine powered by SQLite v]
-Miranda NG Datenbanktreiber, basierend auf der SQLite Engine v
-
-; ##############################################
-; End of langpack: Dbx_rw
-; ##############################################
 ; Start of langpack: Dbx_tree (Letzte Änderung: 19:08, 23. Nov. 2010 )
 
 ; Pluginname: dbx_tree
@@ -10836,88 +10324,13 @@ Versuche fehlerhafte UTF-8-Einstellung \"%hs\" im Modul \"%hs\" zu schreiben.
 [The dbx_tree plugin cannot be loaded. It requires Miranda NG 0.8.0.0 or later.]
 Das dbx_tree-Plugin konnte nicht geladen werden. Es benötigt mindestens Miranda NG 0.8.0.0 oder höhere Versionen.
 
-[Provides extended Miranda database support - build Jul 19 2010 @ 12:51:53]
-Bietet erweiterte Miranda-Datenbankunterstützung - Erstellt Jul 19 2010 @ 12:51:53
+[Provides extended Miranda database support.]
+Bietet erweiterte Miranda-Datenbankunterstützung.
 
 ; ##############################################
 ; End of langpack: Dbx_tree
 ; ##############################################
-; Start of langpack: Display_Control (Letzte Änderung: 20:50, 7. Jul. 2011 )
 
-; Pluginname: Display Control
-; Version: 0.1.1.30
-; Dateiname: DspControl.dll
-; Autor: FlexLabs
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=3232
-; Übersetzung: 17.11.06 von Weishaupt
-; Besonderheiten: Entwicklung eingestellt!
-
-[Triggers]
-Auslöser
-[Display Control enabled]
-Display Control aktiviert
-[Status trigger]
-Status Auslöser
-[Event type trigger]
-Ereignistyp Auslöser
-[You were added]
-Du wurdest hinzugefügt
-[Auth. request]
-Autorisierungsanfrage
-[Time trigger]
-Zeit Auslöser
-[Enable plugin:]
-Aktiviere Plugin:
-[Protocol trigger]
-Protokoll Auslöser
-[Select when do you want the plugin to turn on your screen. Treat the following options as event triggers. Select only the options that you want to trigger the screen to turn on.]
-Wähle bei welchen Ereignissen, der Bildschirm wieder aktiviert werden soll.
-[Enter the range in time, when you want your screen turning on. Note that starting time can be higher then the ending time.]
-Gebe den Zeitraum ein indem dein Bildschirm wieder aktiviert werden soll. Die Startzeit kann höher sein als die Endzeit.
-[Show hidden]
-Zeige versteckte Kontakte
-[To enable or disable the plugin for an individual contact, click on the icon to the right of it. Clicking on the group's icon, enables/disables the plugin for all the contacts in that group.]
-Um das Plugin für bestimmte Kontakte zu de-/aktivieren, klicke auf der rechten Seite auf das Icon. Klickst du auf das Gruppen-Icon, de-/aktivierst du das Plugin für alle Kontakte der Gruppe.
-
-; ##############################################
-; End of langpack: Display_Control
-; ##############################################
-; Start of langpack: Docking (Letzte Änderung: 03:35, 18. Sep. 2010 )
-
-; Pluginname: Docking
-; Version: 0.1.2.0
-; Dateiname: docking.dll
-; Autor: Karl Einholz
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2241
-; Übersetzung: Karl Einholz
-; Besonderheiten: Entwicklung eingestellt!
-
-[&Enable Docking]
-&Docking Aktivieren´
-[don't dock between &Monitors]
-nicht zwischen &Monitoren docken
-[Edge &sensitivity]
-&Empfindlichkeit
-
-; ##############################################
-; End of langpack: Docking
-; ##############################################
-; Start of langpack: Elizatalk (Letzte Änderung: 03:34, 18. Sep. 2010 )
-
-; Pluginname: Elizatalk
-; Version: 0.0.0.1
-; Dateiname: elizatalk.dll
-; Autor: Jens Theess (j.theess@tu-bs.de)
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=323
-; Übersetzung: 09.07.05 von baphomet
-; Besonderheiten: Entwicklung eingestellt! - Sie auch Anna the Alice Bot.
-
-[Warn contacts Eliza is chatting]
-Kontakte informieren, dass mit Eliza gechattet wird
-
-; ##############################################
-; End of langpack: Elizatalk
-; ##############################################
 ; Start of langpack: EmLanBackup (Letzte Änderung: 03:34, 18. Sep. 2010 )
 
 ; Pluginname: EmLanBackup - (modification of Anders Nilsson's UINBackup plugin)
@@ -10936,65 +10349,7 @@ EmLan Kontakte importieren
 ; ##############################################
 ; End of langpack: EmLanBackup
 ; ##############################################
-; Start of langpack: Emoticons (Letzte Änderung: 21:05, 13. Okt. 2010 )
 
-; Pluginname: Emoticons
-; Version: 0.3.0.0
-; Dateiname: emoticons.dll (Ansi), emoticonsW.dll (Unicode)
-; Autor: pescuma
-; Link: http://pescuma.mirandaim.ru/miranda/
-; Übersetzung: 29.01.08 von Tuxman
-
-[Embed videos]
-Videos einbetten
-[Enable custom smileys]
-Benutzerdefinierte Smileys aktivieren
-[by %s]
-von %s
-[Replace emoticons in text input area too]
-Emoticons auch im Texteingabefeld ersetzen
-[Use default emoticon pack for unknown protocols]
-Normales Emoticon-Paket für unbekannte Protokolle nutzen
-[Only replace emoticons surrounded by spaces]
-Nur Emoticons innerhalb von Leerzeichen ersetzen
-[Download more emoticon packs]
-Weitere Emoticon-Pakete herunterladen
-[Protocols Configuration]
-Protokollkonfiguration
-[Emoticon Packs]
-Emoticon-Pakete
-
-; ##############################################
-; End of langpack: Emoticons
-; ##############################################
-; Start of langpack: ExtApp (Letzte Änderung: 03:33, 18. Sep. 2010 )
-
-; Pluginname: ExtApp
-; Version: 0.0.0.4
-; Dateiname: ExtApp.dll
-; Autor: Birger Fricke
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=156
-; Übersetzung: 19.06.06 von Weishaupt
-; Besonderheiten: Entwicklung eingestellt!
-
-[External Apps.]
-Externes Programm
-[Application]
-Programm
-[Contact Menu Item]
-Menüpunkt
-[(&& for mnemonic)]
-(&& für Hotkey)
-[E&xternal App.]
-E&xternes Progr.
-[Select external application file]
-Externes Programm auswählen
-[This plugin allows you to call external applications from the contact list.]
-Dieses Plugin ermöglicht es, externe Programme über die Kontaktliste aufzurufen.
-
-; ##############################################
-; End of langpack: ExtApp
-; ##############################################
 ; Start of langpack: Extended_Idle_System (Letzte Änderung: 20:36, 4. Jan. 2011 )
 
 ; Pluginname: Extended Idle System
@@ -11033,29 +10388,7 @@ Benutze aktuelle Statusnachricht als Abwesenheitsnachricht
 ; ##############################################
 ; End of langpack: Extended_Idle_System
 ; ##############################################
-; Start of langpack: Extra_Icons_Service (Letzte Änderung: 03:32, 18. Sep. 2010 )
 
-; Pluginname: Extra Icons Service
-; Version(en): 0.2.5.0 (offiziell) & 0.2.5.1 (inoffiziell)
-; Dateiname: extraicons.dll
-#muuid {112f7d30-cd19-4c74-a03b-bfbb76b75bc4}
-; Autor: Pescuma
-; Link: http://forums.Miranda NG.org/showthread.php?t=21365
-; Übersetzung: 15.04.09 von Baschti
-; Besonderheiten: Entwicklung eingestellt!
-
-[Select the extra icons to be shown in the contact list:]
-Wählen Sie die Extraicons aus, welche in der Kontaktliste angezeigt werden sollen:
-[* only the first %d icons will be shown]
-Hinweis: Nur die ersten %d Icons werden angezeigt!
-[Ungroup]
-Gruppierung aufheben
-[You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)]
-Wählen Sie mehrere Elemente mit gedrückter SHIFT- oder STRG-Taste aus. Drücken Sie anschließend die rechte Maustaste, um die ausgewählten Elemente zu gruppieren.
-
-; ##############################################
-; End of langpack: Extra_Icons_Service
-; ##############################################
 ; Start of langpack: FTP_File_YM (Letzte Änderung: 17:37, 29. Sep. 2010 )
 
 ; Pluginname: FTP File
@@ -11257,7 +10590,7 @@ Keine Dateien...
 ; Start of langpack: Facebook (Letzte Änderung: 22:07, 1. Feb. 2012 )
 
 ; Pluginname: Facebook Protokoll
-; Version: 0.0.7.1
+; Version: 0.0.9.3
 ; Dateiname: facebook.dll
 #muuid {dde897ad-e40a-4e2c-98d8-d20b575e96bc}
 ; Autor(en) jarvis, robyer
@@ -11289,15 +10622,10 @@ Sichere Verbindung auch für Channel-Zugriffe verwenden
 Miranda Status auf die Pinnwand setzen
 [Also disconnect chat when going to offline]
 Chatverbindung im 'Offline' Status trennen
-[Automatically close chat windows (on website) (NOT WORKING)]
-Automatisch Chatfenster schließen (auf der Webseite) (FUNKTIONIERT NICHT)
 [Map non-standard statuses to Invisible (instead of Online)]
 Nicht-Standard Status auf 'Unsichtbar' setzen (anstatt 'Online')
-[Get unread messages on login (EXPERIMENTAL)]
-Ungelesene Nachrichten nach Login abrufen (EXPERIMENTELL!)
-[Enable groupchats support (EXPERIMENTAL)]
-Gruppenchat-Unterstützung aktivieren (EXPERIMENTELL!)
-
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Unterstützung für Custom Smileys aktivieren  (EXPERIMENTELL + BUGGY!)
 
 
 
@@ -11473,29 +10801,6 @@ Keine Nachrichten in der Liste
 ; ##############################################
 ; End of langpack: Fast_Messages
 ; ##############################################
-; Start of langpack: Fetion (Letzte Änderung: 03:32, 18. Sep. 2010 )
-
-; Pluginname: Fetion
-; Version: 0.0.0.16
-; Dateiname: fetion.dll
-; Autor: starkwong
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=3816
-; Übersetzung: 13.04.09 von Sebijk
-; Zur Vervollständigung ist MirandaQQ2 als Sprachpaket erforderlich
-; Besonderheiten: Entwicklung eingestellt!
-
-[You did not enter your password in options.]
-Sie haben kein Kennwort in den Einstellungen eingegeben.
-[Fetion ID]
-Fetion-ID
-[Switch Send Mode to SMS]
-SMS als Sendungsmethode
-[Qun Messaging Font]
-Qun-Schriftnachricht
-
-; ##############################################
-; End of langpack: Fetion
-; ##############################################
 ; Start of langpack: File_Association_Manager (Letzte Änderung: 18:10, 8. Okt. 2011 )
 
 ; Pluginname: File Association Manager
@@ -11559,30 +10864,82 @@ Miranda NG-Datenbank
 ; End of langpack: File_Association_Manager
 ; ##############################################
 
-; Start of langpack: Fingerprint_Mod (Letzte Änderung: 12:10, 20. Nov. 2011 )
+; Start of langpack: FingerprintNG (Letzte Änderung: 12:10, 20. Nov. 2011 )
 
-; Pluginname: Fingerprint Mod
-; Version: 0.2.2.4
+; Pluginname: FingerprintNG
+; Version: 0.1.0.0
 ; Dateiname: fingerprint.dll
 ; Autor(en): Artem Shpynov aka FYR, Bio, Faith Healer, HierOS
 #muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
-; SVN: http://miranda-plugins.googlecode.com/svn/trunk/fingerprint_mod
 ; Übersetzung: 09.08.2010 von FREAK_THEMIGHTY
 
-[Showing groups]
-Gruppen anzeigen
-[icon slot]
-Icon-Slot
-[Official]
-Offizielle
-[Unofficial]
-Inoffizielle
-[Undetected client]
-Unerkannter Client
-[Not founded icon]
-Icon nicht gefunden
-[Show Version as Overlay#2]
-Zeige Version als Overlay#2
+[fingerprint overlays icons]
+Fingerprint Overlay Icons
+[Miranda clients]
+Miranda Clients
+[Miranda packs overlays]
+Miranda Paket-Overlays
+[Show Miranda version at Overlay#2]
+Miranda-Version als Overlay #2 anzeigen
+[Resource overlays]
+Standort-Overlays
+[Platform overlays]
+Platform-Overlays
+[Protocols overlays]
+Protokolle-Overlays
+[secure overlays]
+Sichere Overlays
+
+[select protocols]
+Protokolle auswählen
+[AIM clients]
+AIM Clients
+[Gadu-Gadu clients]
+Gadu-Gadu Clients
+[ICQ clients]
+ICQ Clients
+[ICQ official clients]
+ICQ offizielle Clients
+[IRC clients]
+IRC Clients
+[Jabber clients]
+Jabber Clients
+[Mail.ru Agent]
+Mail.ru Agent
+[MSN clients]
+MSN Clients
+[MRA clients]
+MRA Clients
+[QQ clients]
+QQ Clients
+[RSS clients]
+RSS Clients
+[Tlen clients]
+Tlen Clients
+[Weather clients]
+Weather Clients
+[Yahoo clients]
+Yahoo Clients
+[multi-protocol clients]
+Multi-protokoll Clients
+[Other (rare) protocols]
+Andere (seltene) Protokolle
+[Other icons]
+Andere Icons
+[platform]
+Plattform
+[resource]
+Standort
+[security]
+Sicherheit
+[other protocols]
+andere Protokolle
+
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+Hinweis: Miranda NG muss für diese Änderungen neu gestrtet werden.
+
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Fingerprint NG (client version) Icon Modul für Miranda NG.
 
 ; ##############################################
 ; End of langpack: Fingerprint_Mod
@@ -11824,7 +11181,7 @@ Speichere Bild auf die Festplatte
 Bild empfangen
 [Message with [img] BBCode]
 Nachrichten mit [img] BBCode
-[Provides support for Gadu-Gadu protocol]
+[Provides support for Gadu-Gadu protocol.]
 Bietet Unterstützung für das Gadu-Gadu-Protokoll an.
 
 
@@ -13230,9 +12587,9 @@ Nachrichten von
 (Unbekannte Kontakte)'
 
 [Database Login]
-Profildateilogin
+Datenbanklogin
 [Database:]
-Profildatei:
+Datenbank:
 [&User Name:]
 Ben&utzername:
 [&Password:]
@@ -15082,24 +14439,6 @@ Zeitüberschreitung bei der Registrierung
 ; ##############################################
 ; End of langpack: IAX
 ; ##############################################
-; Start of langpack: ICQCorp (Letzte Änderung: 03:23, 18. Sep. 2010 )
-
-; Pluginname: ICQ Corp2
-; Version: 0.0.1.1
-; Dateiname: icq corp.dll
-; Autor: Eugene Tarasenko, Scherbina Vladimir, aka Sad
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2435
-; Übersetzung: Sebijk
-; Besonderheiten: Entwicklung eingestellt!
-
-[Send messages only via server]
-Sende Nachr. nur über den Server
-[Connect timeout (p2p mode only):]
-Verbindungs-Timeout (P2P-Modus):
-
-; ##############################################
-; End of langpack: ICQCorp
-; ##############################################
 ; Start of langpack: ICQOscarJ (Letzte Änderung: 14:23, 13. Feb. 2012 )
 
 ; Pluginname: ICQOscarJ Protocol
@@ -15125,8 +14464,6 @@ Ein neues ICQ-Konto über die ICQ-Webseite erstellen ...
 ICQ-Nummer oder Passwort vergessen? Hier klicken ...
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
 Tipp: Benutzen Sie Port 0 für eine zufällige Portwahl. Benutzen Sie Port 80 oder 443 bei Problemen mit einem HTTP-Proxyserver.
-[Secure Connection (SSL) [experimental]]
-Sichere Verbindung (SSL)
 [Secure Connection (SSL)]
 Sichere Verbindung (SSL)
 [Secure (MD5) login]
@@ -15743,15 +15080,15 @@ Freiwilligen-Org.
 [Custom Status]
 XStatus
 [%s Custom Status]
-%s XStatus
+%s Custom Status
 [Show custom status details]
-XStatus-Details anzeigen
+Custom-Status-Details anzeigen
 [Custom Status "%s" Details]
-XStatus "%s" Details
+Custom-Status "%s" Details
 [Message:]
 Nachricht:
 [Retrieving custom status details...]
-Empfange XStatus-Details ...
+Empfange Custom-Status-Details ...
 [ICQ accepts only up to 8 characters in password.]
 ICQ akzeptiert nur eine Passwortlänge von 8 Zeichen.
 
@@ -16123,66 +15460,11 @@ Das Thema ist %s.
 [Message Log]
 Nachrichtenverlauf
 
-[IE Based Chat Log (1.2.0.1 Mar 23 2009)]
-Internet-Explorer-basierter Chatlog (1.2.0.1 März 23 2009)
+[IE Based Chat Log.]
+Internet-Explorer-basierter Chatlog.
 
 ; ##############################################
 ; End of langpack: IEView
-; ##############################################
-; Start of langpack: IEView_History_Viewer (Letzte Änderung: 22:59, 27. Okt. 2010 )
-
-; Pluginname: IEView History Viewer
-; Version: 0.0.1.6
-; Dateiname: iehistory.dll
-; Autor: elbis
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2553
-; Übersetzung: Dober 02.07.06
-; Besonderheiten: Entwicklung eingestellt!
-
-[First event shown in page]
-Erstes Ereignis wird auf der Seite angezeigt
-[Last event shown in page]
-Letztes Ereignis wird auf der Seite angezeigt
-[Out of a total of]
-Aus einer Gesamtmenge von
-; [You can't close the window now, wait for all events to load.]
-[Text search]
-Textsuche
-[Time search]
-Zeitsuche
-[Search finished. No more entries ...]
-Suche beendet. Keine weiteren Einträge...
-
-[&Prev]
-Zurück
-[&Next]
-Weiter
-
-[Number of events to load]
-Anzahl der Ereignisse zum Laden
-[Load all events]
-Alle Ereignisse laden
-[Load only ]
-Lade nur
-[events per page.]
-Ereignisse pro Seite
-[Show last page first]
-Letzte Seite zuerst anzeigen
-[RTL is default text direction.]
-RTL ist Standardtextrichtung
-[Load items in background]
-Einträge im Hintergrund laden
-
-[&Find next]
-Weitersuchen
-[Text :]
-Text:
-
-[View contact's history]
-Verlauf
-
-; ##############################################
-; End of langpack: IEView_History_Viewer
 ; ##############################################
 ; Start of langpack: IM2SMS (Letzte Änderung: 03:22, 18. Sep. 2010 )
 
@@ -16907,8 +16189,6 @@ Die Einstellungen befinden sich unter 'Kontaktliste -> Extraicons'.
 Gefiltere Ereignisse:
 [Use Miranda ignore settings for All Contacts]
 Verwende die Miranda-Einstellungen für alle Kontakte
-[Warning: classic contact list plugin doesn`t have ability to use extraicons]
-Warnung: clist_classic unterstützt nicht die Verwendung von Extraicons
 
 [Full Ignore]
 Vollständiges Ignorieren
@@ -16969,11 +16249,11 @@ Wählen Sie dies, wenn Sie selbst auswählen wollen, was importiert werden soll.
 [Choose how you would like to import:]
 Art des Imports auswählen
 [From a Miranda NG database.]
-Eine Miranda NG-Profildatei.
+Eine Miranda NG-Datenbank.
 [From a Mirabilis ICQ (99a or later) database.]
-Eine ICQ-Profildatei (99a o. höher, NICHT ICQLite!).
+Eine ICQ-Datenbank (99a o. höher, NICHT ICQLite!).
 [From a Mirabilis ICQ (99a - 2003a) database.]
-Eine ICQ-Profildatei (99a - 2003a).
+Eine ICQ-Datenbank (99a - 2003a).
 [Use the Find/Add contacts tool to populate my contact list.]
 'Kontakte suchen/hinzufügen'-Dialog benutzen.
 [Miranda has found Mirabilis ICQ databases corresponding to the following ICQ numbers. Please select the one you wish to import, or click "Other Database" if your database is not listed.]
@@ -16999,14 +16279,14 @@ Nur seit:
 [The given file does not exist. Please check that you have entered the name correctly.]
 Die angegebene Datei existiert nicht. Bitte eingegebenen Dateinamen überprüfen.
 [Mirabilis Import]
-ICQ Import
+Mirabilis Import
 [Mirabilis ICQ database indexes (*.idx)\0*.IDX\0All Files (*)\0*\0]
-ICQ-Datenbankindizes (*.idx)\0*.IDX\0Alle Dateien (*)\0*\0
+Mirabilis-ICQ-Datenbankindizes (*.idx)\0*.IDX\0Alle Dateien (*)\0*\0
 [Mirabilis ICQ database indexes (*.idx)]
-ICQ-Datenbanken (*.idx)
+Mirabilis-ICQ-Datenbanken (*.idx)
 
-[Miranda NGport]
-Miranda NGport
+[Miranda Import]
+Miranda Import
 [Miranda NG database]
 Miranda NG Datenbank
 
@@ -17025,7 +16305,7 @@ URLs gesendet
 [URLs received]
 URLs erhalten
 [&Other Database...]
-Andere &Profildatei...
+Andere &Datenbank...
 [&Other Profile...]
 Anderes &Profil
 [Import completed]
@@ -17331,28 +16611,6 @@ Möglicherweise sind die Einstellungen von InetAccess, die Sie benutzen, inkompa
 ; ##############################################
 ; End of langpack: InetAccess
 ; ##############################################
-; Start of langpack: Invisible4Invisible (Letzte Änderung: 03:20, 18. Sep. 2010 )
-
-; Pluginname: Invisible 4 Invisible
-; Version: 0.0.1.7
-; Dateiname: inv4inv.dll
-; Autor: remickk
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2981
-; Übersetzung: walla am 22.02.07
-; Besonderheiten: Entwicklung eingestellt!
-
-[Active Protocols:]
-Aktive Protokolle:
-[Stay Visible for ICQ contact who went Invisible but is Always Visible for us]
-Unsichtbare Kontakte die trotzdem sichtbar sind ausnehmen.
-[Enable Invisible 4 Invisible]
-Aktiviere Invisible 4 Invisible
-[Disable Invisible 4 Invisible]
-Deaktiviere Invisible 4 Invisible
-
-; ##############################################
-; End of langpack: Invisible4Invisible
-; ##############################################
 ; Start of langpack: Jabber (Letzte Änderung: 22:58, 7. Jan. 2012 )
 
 ; Pluginname: Jabber Protocol
@@ -17534,6 +16792,8 @@ Empfang von Aktivität aktivieren
 Notizen empfangen
 [Automatically save received notes]
 Empfangene Notizen automatisch speichern
+[Enable server-side history]
+Server-seitigen Verlauf aktivieren
 
 [Server options]
 Servereinstellungen
@@ -18137,13 +17397,13 @@ ausgehenden Status
 Querys
 
 [Roster editor\nView and modify your server-side contact list.]
-Serverseitige Kontaktliste\nAnzeigen und Änderung der serverseitigen Kontaktliste. (Jabberjargon: Roster)
+Serverseitige Kontaktliste\nAnzeigen und Änderung der serverseitigen Kontaktliste.
 [Roster editor]
 Serverseitige Kontaktliste
 [Roster Editor]
 Serverseitige Kontaktliste
 [View and modify your server-side contact list.]
-Anzeigen und Änderung der serverseitigen Kontaktliste (Jabberjargon: Roster)
+Anzeigen und Änderung der serverseitigen Kontaktliste.
 
 [XML Console]
 XML-Konsole
@@ -18319,8 +17579,10 @@ Jabber-Link-Protokoll
 ;Einloggen
 [Jabber Password]
 Jabber-Passwort
-[Save password for this session]
-Passwort für diese Sitzung speichern
+[Remember password for this session]
+Passwort für diese Sitzung behalten
+[Save password permanently] 
+Passwort dauerhaft speichern
 
 ;Icons
 [Moods]
@@ -18717,44 +17979,6 @@ Voice Call aktivieren
 [This is a meebo server]
 Das ist ein meebo-Server
 
-; Diese Optionen sind erst ab der Version 0.8 von Miranda NG mit dem Meebo Plugin für Jabber sichtbar
-[Automatically authorize meebo me contacts]
-Alle Kontakte automatisch autorisieren
-[Remove meebo me contacts that don't have history when they go offline]
-meebo-me-Kontakte immer entfernen, wenn sie offline gehen und keine Verlaufsliste haben
-[Remove meebo me contacts that have history when they go offline]
-meebo-me-Kontakte immer entfernen, wenn sie offline gehen und eine Verlaufsliste haben
-[Move meebo me contacts to group:]
-meebo-me-Kontakte verschieben in:
-
-; [JABBER] User info dialog
-[Resources:]
-Standorte:
-[Subscription type:]
-Autorisierungstyp
-[Last logoff time:]
-Letzte Abmeldung:
-[none ( not on roster )]
-Keine (nicht in Server-Kontaktliste)
-
-; Experte-Einstellungen (nur für GMail & GTalk Mod und ältere Jabber-Versionen)
-[Specify external address]
-Externe Adresse eingeben
-[Allow file sending through bytestream proxy server]
-Dateitransfer über Bytestream-Proxyserver aktivieren
-[Disable main menu]
-Hauptmenüeintrag deaktivieren
-[Add room to Bookmarks when adding to roster]
-Konferenz den Lesezeichen hinzufügen, wenn im Roster
-[Validate contacts being added]
-Existenz hinzugefügter Kontakte überprüfen
-[Messaging language:]
-Nachrichtensprache:
-[Press here to download OpenSSL, required for SSL & TLS support]
-Hier klicken für OpenSSL, benötigt für SSL & TLS Untersützung
-[Note: Only JPGs and GIFs Image size max 64x64 File size max 6kB]
-Hinweis: Nur JPGs und GIFs, Bildgrösse max. 64x64, Dateigrösse max. 6kB
-
 ; ##############################################
 ; End of langpack: Jabber
 ; ##############################################
@@ -18823,7 +18047,7 @@ Max. Protokollverbindungszeit (Sek.)
 
 [Reconnecting]
 Wiederverbindung
-[Ignore locked status of protocols]
+[Ignore locked status of accounts]
 Gesperrten Status des Konten ignorieren
 [Set protocol offline before a connection attempt]
 Protokoll vor einem Verbindungsversuch offline setzen
@@ -18893,9 +18117,6 @@ Internetverbindung verloren
 ; End of langpack: KeepStatus
 ; ##############################################
 
-; ##############################################
-; End of langpack: KexX
-; ##############################################
 ; Start of langpack: Keyboard_Notify_Ext (Letzte Änderung: 21:14, 7. Jul. 2011 )
 
 ; Pluginname: Keyboard Notify Ext.
@@ -19224,8 +18445,6 @@ Solange kein anderer XStatus gesetzt ist, XStatus auf 'Musik' und Musikinfo setz
 
 [Apply template for info from contacts (overrides contacts template)]
 Vorlage anderer Kontakte durch eigene Vorlage überschreiben
-[Show advanced icon in slot]
-Zeige Icon in Slot
 
 [ Listening to ]
  Was ich gerade hore
@@ -19390,7 +18609,7 @@ Verlaufstatistik im Hauptmenü (Miranda neu starten, damit Änderung wirksam wir
 [Open output after run]
 Öffne Ausgabe nach Durchführung
 [Read history from database (recomnended)]
-Lese Verlauf aus der Profildatei (empfohlen)
+Lese Verlauf aus der Datenbank (empfohlen)
 [Read exported history]
 Lese exportierten Verlauf
 [&Run Log Statistics]
@@ -19434,7 +18653,7 @@ Fehler in %s in Zeile %d.\nKonnte Nickname und Zeit nicht trennen.\nÜberspringe
 [Error in %s on line %d.\nFound a message thas sent at this hour: %d\nMaybe you have wrong time format.\nSkipping this file...]
 Fehler in %s in Zeile %d.\nFand eine Nachricht, die zu dieser Stunde: %d gesendet wurde\nVielleicht haben Sie ein falsches Zeitformat.\nÜberspringe diese Datei...
 [Could not find MsgExportDir in database.]
-Konnte MsgExportDir in Profildatei nicht finden.
+Konnte MsgExportDir in Datenbank nicht finden.
 [Could not find %s]
 Konnte %s nicht finden
 [big bug error :-(]
@@ -21519,9 +20738,9 @@ Max Zeilen-Breite muss mindestens %d betragen
 [Exporting old messages]
 Exportiere alte Nachrichten
 [Reading database information ( Phase 1 of 2 )]
-Lese Profildatei-Informationen (Phase 1 von 2)
+Lese Datenbank-Informationen (Phase 1 von 2)
 [Sorting and writing database information ( Phase 2 of 2 )]
-Sortiere und schreibe Profildateiinformationen (Phase 2 von 2)
+Sortiere und schreibe Datenbankinformationen (Phase 2 von 2)
 ; Folder Browse dialog
 [Select Destination Directory]
 Wähle Zielverzeichnis
@@ -21791,7 +21010,7 @@ Dieser Kontakt ist bereits einem Metakontakt zugeordnet.\nSie können keinen Kon
 [Multiple MetaContacts]
 Mehrfache Metakontakte
 [Either there is no MetaContact in the database (in this case you should first convert a contact into one)\n]
-Es existiert kein Metakontakt in der Profildatei (Bitte zuerst einen Kontakt zu einen Metakontakt umwandeln)\n
+Es existiert kein Metakontakt in der Datenbank (Bitte zuerst einen Kontakt zu einen Metakontakt umwandeln)\n
 [No suitable MetaContact found]
 Kein entsprechender Metakontakt gefunden
 [a contact]
@@ -21894,7 +21113,7 @@ Rang:
 <Standard>
 
 [Error - Database corruption.\nPlugin disabled.]
-Fehler - Profildateikorruption.\nPlugin deaktiviert.
+Fehler - Datenbankkorruption.\nPlugin deaktiviert.
 
 [There was a problem in assigning the contact to the MetaContact]
 Bei der Zuweisung des Kontakts zum Metakontakt ist ein Fehler aufgetreten
@@ -22584,15 +21803,15 @@ Sicherheitskopie des Profils erstellen
 
 ; Icons:
 [Database Backups]
-Profildateisicherung
+Datenbanksicherung
 
 ; Verzeichisse:
 [Backup Folder]
 Sicherungsordner
 
 ;dbx_mmap_sa
-[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encoding.]
-Stellt Unterstützung für die Miranda-Profildatei bereit: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt. Erweiterte Modifikation mit Verschlüsselung.
+[Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
+Stellt Unterstützung für die Miranda-Datenbank bereit: Globale Einstellungen, Kontakte, Verlauf, Einstellungen pro Kontakt. Erweiterte Modifikation mit Verschlüsselung.
 
 ;login window
 [Login to Miranda NG]
@@ -22624,7 +21843,7 @@ Alte, leicht zu knackende Verschlüsselung
 
 ;options -> Database Features
 [Database Features]
-Profildateifunktionen
+Datenbank-Funktionen
 [Save Profile as...]
 Profil speichern unter...
 [Save Profile As...]
@@ -22636,15 +21855,15 @@ Verschlüsselung des Profils
 
 ;db_autobackup
 [DB Autobackuper default plugins for Secured DataBase]
-Standardplugin des SecuredMMAP-Datenbanktreibers für die automatische Profildateisicherung.
+Standardplugin des SecuredMMAP-Datenbanktreibers für die automatische Datenbanksicherung.
 [Database backuped]
-Profildatei gesichert
+Datenbank gesichert
 [Database AutoBackups]
-Profildateisicherung
+Datenbank-AutoBackups
 [Backup progress]
 Fortschritt der Sicherung
 [Copying database file...]
-Kopiere Profildatei...
+Kopiere Datenbank...
 [Rotating backup files...]
 Rotiere Sicherungsdateien...
 [Crypto modules not found]
@@ -22831,7 +22050,7 @@ Skinvorschau
 [Frame Titles Color]
 Titelzeilenfarbe
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Profildatei vor dem Übernehmen des Skins!
+WARNUNG: Skins können Ihre Einstellungen überschreiben. Es ist nicht möglich, dies rückgängig zu machen. Sichern Sie Ihre Datenbank vor dem Übernehmen des Skins!
 [* Restart may be required for all changes to take effect]
 * Evtl. Neustart erforderl. um alle Änderungen zu übernehmen
 
@@ -22958,8 +22177,8 @@ Keine Extraicons für Unterkontakte
 Offlineunterkontakte ausblenden
 [MetaContacts stuff]
 Einstellungen für Metakontakte
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://Miranda NG.org/download]
-Für weitere Einstellungen wird MetaContacts benötigt:\n\nhttp://Miranda NG.org/download
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://Miranda-ng.org/download]
+Für weitere Einstellungen wird MetaContacts benötigt:\n\nhttp://Miranda-ng.org/download
 [Subcontacts indent:]
 Unterkontakte einrücken um Pixel:
 
@@ -23002,7 +22221,7 @@ Aero Glass aktivieren (ab Windows Vista)
 [Order of items:]
 Reihenfolge der Elemente:
 [Min row height:]
-Min. Zeilenhöhe:
+Minimale Zeilenhöhe:
 [Row border:]
 Randabstand:
 [Variable row height]
@@ -23011,8 +22230,8 @@ Variable Zeilenhöhe
 Linke Elemente links ausrichten
 [Align right items to right]
 Rechte Elemente rechts ausrichten
-[Compact mode\n(Show avatars and additional text\non selected contacts only)]
-Kompaktmodus\n(Avatar und zusätzlichen Text nur\nbeim ausgewählten Kontakt anzeigen)
+[Compact mode\n(Show avatars and additional text on selected contacts only)]
+Kompaktmodus\n(Avatar und zusätzlichen Text nur beim ausgewählten Kontakt anzeigen)
 [Right margin:]
 Rechter Rand:
 
@@ -23085,7 +22304,7 @@ Icon für Gruppen verstecken
 [Always show "Always visibile" icon]
 Dauerhaftes "Immer-sichtbar"-Icon
 [Use extra status icon instead protocol]
-Nutze spez. Statusicon anstatt Protokoll (Nur bei ICQ-XStatus)
+Nutze extra Statusicon anstatt Protokoll
 [Draw normal status as overlay]
 Normalen Status als Overlay
 
@@ -23132,10 +22351,6 @@ Statusanzeige, falls keine Abwesenheitsnachricht
 Grafiksmileys in der dritten Zeile
 [Show third line]
 Dritte Zeile anzeigen
-
-; resource.rc:IDD_OPT_ITEM_EXTRAICONS
-[Contact List Extra Icons]
-Extraicons in Kontaktliste
 
 ; resource.rc:IDD_OPT_ROWTMPL
 ; [Row template]
@@ -24268,13 +23483,13 @@ Statusnachrichten
 [Extra status log]
 Extra Status Verlauf
 [Enable logging extra status to message window]
-XStatus-Aufzeichnung im Nachrichtenfenster aktivieren
+Extra Status-Aufzeichnung im Nachrichtenfenster aktivieren
 [Prevent identical logs]
 Identische Aufzeichnungen verhindern
 [Keep events in history]
 Ereignisse im Verlauf behalten
 [Disable for extra status 'Music']
-Für den XStatus 'Musik' deaktivieren
+Für den Extra Status 'Musik' deaktivieren
 [Truncate message length to:]
 Länge der Nachricht kürzen auf:
 [New status:]
@@ -24314,11 +23529,11 @@ entfernte %N
 [has %N @ %T%D%I]
 hat %N @ %T%D%I
 [Extra status changed]
-XStatus wurde geändert
+Extra Status wurde geändert
 [Extra status removed]
-XStatus wurde entfernt
+Extra Status wurde entfernt
 [Extra status message changed]
-XStatusnachricht wurde geändert
+Extra Statusnachricht wurde geändert
 [This is status message]
 Dies ist eine Statusnachricht
 
@@ -24354,9 +23569,9 @@ Gehen Sie zu Customize -> Klänge und wählen Sie die Klänge aus
 
 
 [Extra status notify]
-XStatusbenachrichtigung
+Extrastatusbenachrichtigung
 [Extra status logging]
-XStatusaufzeichnung
+Extrastatusaufzeichnung
 
 [Disable when my status is:]
 Deaktivieren, wenn mein Status:
@@ -24378,7 +23593,7 @@ Statusnachricht lesen
 
 ;Variables help text xstatus.h
 [These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
-Diese Variablen stehen zur Verfügung:\r\n\r\n\%N\tXStatusname (XStatus, Mood, Activity)\r\n\%T\tXStatustitel\r\n\%I\tXStatustext\r\n\%D\tTrennzeichen\r\n\%B\tZeilenumbruch (kann als Trennzeichen benutzt werden)
+Diese Variablen stehen zur Verfügung:\r\n\r\n\%N\tExtra StatusName (XStatus, Mood, Activity)\r\n\%T\tXStatustitel\r\n\%I\tXStatustext\r\n\%D\tTrennzeichen\r\n\%B\tZeilenumbruch (kann als Trennzeichen benutzt werden)
 [These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\\n\tline break\r\n\\\t\ttab stop]
 Diese Variablen stehen zur Verfügung:\r\n\r\n\%n\tNeue Statusnachricht\r\n\%o\tAlte Statusnachricht\r\n\%c\tEigener Nickname\r\n\\\n\tZeilenumbruch\r\n\\\tTabstopp
 [These variables are available:\r\n\r\n%n ... new XStatus name\r\n%o ... old XStatus name\r\n%d ... XStatus details (title[separator]message)\r\n%b ... line break (can be used as separator)]
@@ -27819,8 +27034,6 @@ Offlineschl.-Timeout:
 Verschlüsselter Dateiversand
 [Always show status icons in contact list]
 Status immer in der Kontaktliste anzeigen
-[Contact List Icon slot]
-Kontaktlistenicon-Slot
 [Context Menu only for "Miranda" clients]
 Kontaktmenü nur für Miranda-Clients anz.
 [Status in Context Menu]
@@ -28560,37 +27773,7 @@ Protokoll-E-Mail-Adresse
 ; ##############################################
 ; End of langpack: ShowUIN
 ; ##############################################
-; Start of langpack: Show_Contact_Gender (Letzte Änderung: 12:10, 20. Nov. 2011 )
 
-; Pluginname: Show Contact Gender
-; Version: 0.0.2.1
-; Dateiname: gender.dll
-#muuid {fb1c17e0-77fc-45a7-9c8b-e2bef4f56b28}
-; Autor(en): Thief, idea by nile, icons by a0x
-; Übersetzung: 27.01.07 von Foso
-
-[Enable menu items]
-Menüeintrag aktivieren
-[Draw an icon when gender info not found]
-Icon anzeigen, wenn Geschlecht nicht spezifiziert
-[Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
-Achtung: Wenn das Icon nicht sichtbar ist, wechseln Sie den Slot. Vielleicht wird er von einem anderen Plugin benutzt.
-
-
-
-[Set Gender]
-Geschlecht setzen
-[Undefined]
-Undefiniert
-[No info]
-Keine Information
-
-[Shows contacts gender as an icon in contact list]
-Zeigt das Geschlecht eines Kontaktes in der Kontaktliste an.
-
-; ##############################################
-; End of langpack: Show_Contact_Gender
-; ##############################################
 ; Start of langpack: Shutdown (Letzte Änderung: 02:48, 18. Sep. 2010 )
 
 ; Pluginname: Shutdown
@@ -30490,7 +29673,7 @@ Setzen auf XStatus-Name: XStatus-Nachricht
 [Get status messages for these protocols:]
 Statusnachricht für diese Protokolle abrufen:
 [This feature is mainly for use with protocols that store status messages on server rather then in database (like ICQ). Don't enable it for MSN or Jabber - they already save the status message in database and won't work correctly if you enable this.]
-Diese Funktion ist hauptsächlich für Protokolle geeignet, welche die Statusnachrichten auf dem Server anstatt in der Profildatei speichern (wie ICQ). Aktivieren Sie dies NICHT für MSN oder Jabber - diese speichern die Statusnachrichten bereits in der Datenbank und funktionieren nicht mehr korrekt, wenn Sie dies aktivieren.
+Diese Funktion ist hauptsächlich für Protokolle geeignet, welche die Statusnachrichten auf dem Server anstatt in der Datenbank speichern (wie ICQ). Aktivieren Sie dies NICHT für MSN oder Jabber - diese speichern die Statusnachrichten bereits in der Datenbank und funktionieren nicht mehr korrekt, wenn Sie dies aktivieren.
 
 ; ##############################################
 ; End of langpack: Status_Message_Retriever
@@ -34243,9 +33426,9 @@ Fehler beim Schreiben. Kein Platz mehr?
 Ein Kontakt hat einen zu langen Alias oder Gruppennamen.\nDieser Kontakt wurde nicht gesichert.
 ;[No contacts found]
 [%d contact saved\nThere are %d contacts in the database]
-%d von %d Kontakten aus der Profildatei wurde gesichert.
+%d von %d Kontakten aus der Datenbank wurde gesichert.
 [%d contacts saved\nThere are %d contacts in the database]
-%d von %d Kontakten aus der Profildatei wurden gesichert.
+%d von %d Kontakten aus der Datenbank wurden gesichert.
 [Backup done]
 Backup fertig
 [No contacts found]
@@ -34273,9 +33456,9 @@ Fehler, zu viele Zeichen
 [Too long UIN]
 ICQ-Nummer zu lang
 [%d contact imported\nThere are %d contacts in the database]
-%d von %d Kontakten in der Profildatei wurde importiert.
+%d von %d Kontakten in der Datenbank wurde importiert.
 [%d contacts imported\nThere are %d contacts in the database]
-%d von %d Kontakten in der Profildatei wurden importiert.
+%d von %d Kontakten in der Datenbank wurden importiert.
 [Import successfull]
 Import erfolgreich
 [No contacts imported]
@@ -34284,7 +33467,7 @@ Keine Kontakte importiert
 ICQ-kompatible Zeichentrennung (CRCRLF statt CRLF)
 
 [Imports and exports the ICQ contacts in the database from/to a clb file.]
-Import und Export der ICQ Kontakte der Profildatei von/in eine clb-Datei.
+Import und Export der ICQ Kontakte der Datenbank von/in eine clb-Datei.
 
 ; ##############################################
 ; End of langpack: UINBackup
@@ -34608,12 +33791,6 @@ Kaskadieren:
 [Country Flags]
 Länderflaggen
 
-;Extraicons
-[This options require a contact list which supports extra icons.]
-Diese Einstellungen setzen eine Kontaktliste voraus, die Extraicons unterstützt.
-[Replace the following default icons:]
-Ersetze folgende Standardicons:
-
 ;Icons
 [Check file version of default IconPack to prevent wrong icon display]
 Version des Standardiconpacks überprüfen, um falsche Icons zu vermeiden
@@ -34632,7 +33809,7 @@ Erweitertes "send/receive e-mail"-Modul aktivieren (*)
 Zeitzone auf der Basis der jeweiligen Windows-Zeitzone setzen
 
 [(*) Requires Miranda to be restarted.]
-(*) Erfordert einen Neustart von Miranda NG.
+(*) Erfordert einen Neustart von Miranda.
 [Reset factory defaults]
 Urzustand wiederherstellen
 
@@ -34703,8 +33880,6 @@ Tage vorher.
 Birthday-Kompatibilitätsmodus:
 [UserInfo (default)]
 UserInfo (Standard)
-[CList extra icon:]
-CList-Extraicon:
 
 [&Export Group]
 Exportiere Gruppe
@@ -34959,7 +34134,7 @@ Protokoll '%s' ist offline.
 [Upload Details]
 Profil hochladen
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Profildatei gespeichert.
+Es besteht momentan keine Verbindung mit dem ICQ-Netzwerk.\nUm das Profil hochladen zu können, muss vorher eine Verbindung aufgebaut werden.\n\nDas Profil wird nur in der Datenbank gespeichert.
 [Uploading]
 Lade hoch
 [Creating the imagelist failed!]
@@ -34977,7 +34152,7 @@ ICQ-Profil hochladen
 [Upload failed]
 Hochladen fehlgeschlagen
 [Your details were not uploaded successfully.\nThey were written to database only.]
-Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Profildatei gespeichert.
+Das Profil konnte nicht erfolgreich hochgeladen werden.\nEs wurde nur lokal in der Datenbank gespeichert.
 [The selected contact is no SubContact of this MetaContact anymore]
 Ausgewählter Kontakt ist kein Unterkontakt dieses Metakontakts mehr
 [Warning, some of the changes to the TreeView were not saved correctly!]
@@ -36376,7 +35551,7 @@ XStatus-Nachricht setzen
 "Ich höre gerade"-Nachricht setzen
 
 [Save events in database]
-Ereignisse in Profildatei speichern
+Ereignisse in Datenbank speichern
 [Music Info Request]
 Musikinfoanfrage
 [Music Info]
@@ -37122,8 +36297,7 @@ Wetter-Info nur als geändert betrachten wenn Bedingung und Temperatur geändert
 Beim Aktualisieren alte Daten löschen
 [Make the contact italic when weather alert is issued]
 Kontakt kursiv darstellen, wenn ein Wetteralarm auftritt
-[Open URLs in new browser window]
-URLs in neuem Browser-Fenster öffnen
+
 
 [Modes]
 Modi
@@ -38849,10 +38023,6 @@ Keine Popups für Unterkontakte zeigen
 Popups auch zeigen, wenn keine nahen Geburtstage
 [Popup mouse click]
 Mausklick auf Popup
-[Use slot]
-Verwende
-[to draw icon.]
-für Icons.
 [Play sounds when there are]
 Klang spielen, wenn nur noch
 [days or less to birthday.]
@@ -38869,8 +38039,6 @@ Stunden.
 Nur 1x am Tag benachrichtigen
 [By default use]
 Benutze
-[Contact list icon]
-Kontaktlisten-Icon
 [to save birthday data.]
 zum Speichern der Geburtstagsdaten.
 [Upcoming age]
@@ -38918,10 +38086,10 @@ Importiere Geburtstage aus Datei: %s
 [Done importing birthdays]
 Import der Geburtstage abgeschlossen
 [Could not find UID '%s [%s]' in current database, skipping]
-Kann die UID '%s [%s]' nicht in der aktuellen Profildatei finde, überspringe
+Kann die UID '%s [%s]' nicht in der aktuellen Datenbank finde, überspringe
 ;ANSI version - please don't mix
 [Could not find UID '%s [%S]' in current database, skipping]
-Kann die UID '%s [%S]' nicht in der aktuellen Profildatei finde, überspringe
+Kann die UID '%s [%S]' nicht in der aktuellen Datenbank finde, überspringe
 ;UNICODE version - please don't mix
 ;UNICODE Version - Bitte nicht vermischen!
 [%s protocol]
