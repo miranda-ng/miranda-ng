@@ -24,9 +24,9 @@ var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
 //plugins path
 var plugins=FSO.BuildPath(trunk,"langpacks\\ru\\Plugins\\");
-//init translate db arrays
-CoreTranslateDB=new Array;
-DupesTranslateDB=new Array;
+//init translate dictionaries
+CoreTranslateDict=WScript.CreateObject("Scripting.Dictionary");
+DupesTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
@@ -44,7 +44,7 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 //when /plugin: specified, parse only this path and quit
 if (WScript.Arguments.Named.Item("path")) {
     //First, generate DB of translations from Core and Dupes files
-    DupesAndCoreTranslationDB();
+    DupesAndCoreTranslation();
     //Path from command line:
     var cmdline_file=new String(WScript.Arguments.Named.Item("path"));
     //init array for our file translation
@@ -67,7 +67,7 @@ if (WScript.Arguments.Named.Item("path")) {
 
 if (log=="yes") WScript.Echo("Translation begin");
 //Generate Translation DB as two-dimensional array of Dupes and Core translations.
-DupesAndCoreTranslationDB ();
+DupesAndCoreTranslation ();
 
 //Array for translated core
 Traslate_Core=new Array;
@@ -113,17 +113,17 @@ if (log=="yes") WScript.Echo("Translation end");
 //*********************************************************************************//
 
 //Generate DB with translations from Core and Dupes files
-function DupesAndCoreTranslationDB () {
+function DupesAndCoreTranslation () {
 //path variables
 var CoreTranslateFile=FSO.BuildPath(trunk,"langpacks\\ru\\=CORE=.txt");
 var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\ru\\=DUPES=.txt");
-//Generate Core and Dupes translate DBs
-GenerateTransalteArray(CoreTranslateFile,CoreTranslateDB);
-GenerateTransalteArray(DupesTranslateFile,DupesTranslateDB);
+//Generate Core and Dupes translate dictionaries
+GenerateTransalteDict(CoreTranslateFile,CoreTranslateDict);
+GenerateTransalteDict(DupesTranslateFile,DupesTranslateDict);
 }
 
-//Generate two-dimensional array with english sting + translated string from langpack file
-function GenerateTransalteArray (file,array) {
+//Generate Dictionary with english sting + translated string from file
+function GenerateTransalteDict (file,dictionary) {
 //if file does not exist, it's a core, we do not need do the job again, so return.
 if (!FSO.FileExists(file)) return;
 //open file
@@ -132,28 +132,26 @@ var translatefile=FSO.GetFile(file).OpenAsTextStream(ForReading, TristateUseDefa
 var translatefiletext=translatefile.ReadAll();
 //"find" - RegularExpression, first string have to start with [ and end with]. Next string - translation
 var find=/(^\[.+?\])\r\n(.+?)(?=\r)/mg;
-//While our "find" RegExp return a results, push strings into array.
+//While our "find" RegExp return a results, add strings into dictionary.
 while ((string = find.exec(translatefiletext)) != null) {
     //first, init empty var
     var string;
-    //now, push first match as original string [....], second match is a translation
-    array.push([string[1],string[2]]);
+    //first match as original string [....], is a key of dictionary, second match is a translation - item of key in dictionary 
+    var key=string[1];
+    var item=string[2];
+    //add key-item pair into dictionary
+    dictionary.Add(key,item)
     }
-//close file 
+//close file
 translatefile.Close();
 }
 
 //Generate array with stirngs from translation template, adding founded translation, if exist.
 function TranslateTemplateFile(Template_file,array) {
- //init Arrays:
- //1) PluginTranslate from plugins translate file
- PluginTranslateDB=new Array;
- //2) Global translate DB
- GlobalPluginTranslateDB=new Array;
- //Generate PluginTranslate DB
- GenerateTransalteArray(FSO.BuildPath(plugins,FSO.GetFileName(Template_file)),PluginTranslateDB);
- //Concatenate three translate DB in order: Plugin transalte, than Dupes and ending with Core translate DB
- GlobalPluginTranslateDB=PluginTranslateDB.concat(DupesTranslateDB).concat(CoreTranslateDB);
+ //Init PluginTranslate Dictionary from plugins translate file
+ var PluginTranslateDict=WScript.CreateObject("Scripting.Dictionary");
+ //Generate PluginTranslate Dictionary
+ GenerateTransalteDict(FSO.BuildPath(plugins,FSO.GetFileName(Template_file)),PluginTranslateDict);
  //If file zero size, return;
  if (FSO.GetFile(Template_file).Size==0) return;  
  //access file
@@ -171,28 +169,30 @@ function TranslateTemplateFile(Template_file,array) {
      //If current line is english string covered by [], try to find translation in global db
      if (englishstring) {
             //uncomment next string for more verbose log output
-            //if (log=="yes") WScript.Echo("lookin for "+englishstring);
-            
-            //add string  to array, firstly find our string in global translate DB
-            //if translation not found (thus, FindTranslation return nothing), empty line will be added.
-            array.push(FindTranslation(englishstring,GlobalPluginTranslateDB));
+            //if (log=="yes") WScript.Echo("lookin for "+englishstring);        
+            //firstly find our string exist in Plugin translate DB dictionary
+            if (PluginTranslateDict.Exists(line)) {
+                //yes, we have translation, put translation into array
+                array.push(PluginTranslateDict.Item(line));
+                } else {
+                //If we do not foud sting in plugin translation, check Dupes and if found, put to array
+                if (DupesTranslateDict.Exists(line)) {
+                    array.push(DupesTranslateDict.Item(line));
+                    } else {
+                    //not found in dupes? Check CORE
+                    if (CoreTranslateDict.Exists(line)) {
+                        array.push(CoreTranslateDict.Item(line));
+                        } else {
+                            //no translation found, put empty line
+                            array.push("");
+                            }
+                    }
+                }
             }
     }  
  //closing file
  template_file_stream.Close();
 };
-
-//Cycle trough array and find translation for given string in translate_array
-function FindTranslation (string, translate_array) {
-//cycle trough array length
-for (i=0;i<=translate_array.length-1;i++) {
-    //check if the string match our first [0] colomn of array with english strings
-    if (translate_array[i][0]==string) {
-        //yes, we we have this string, so return second [1] colomn of array
-        return translate_array[i][1]
-        }
-    };
-}
 
 //Recourse find all files in "path" with file RegExp mask "name" and return file list into filelistarray
 function FindFiles (path,name,filelistarray) {
