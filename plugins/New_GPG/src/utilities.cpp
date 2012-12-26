@@ -255,157 +255,160 @@ int onProtoAck(WPARAM w, LPARAM l)
 		case ACKRESULT_SUCCESS:
 			{
 				PROTOFILETRANSFERSTATUS *f = (PROTOFILETRANSFERSTATUS*) ack->hProcess;
-				TCHAR *filename = NULL;
-				if(f->flags & PFTS_UNICODE)
+				if((f->flags & PFTS_SENDING) != PFTS_SENDING)
 				{
-					if(f->tszCurrentFile && f->tszCurrentFile[0])
-						filename = mir_wstrdup(f->tszCurrentFile);
-					if(!filename)
-						return 0;
-				}
-				else
-				{
-					if(f->szCurrentFile && f->szCurrentFile[0])
-						filename = mir_utf8decodeT(f->szCurrentFile);
-					if(!filename)
-						return 0;
-				}
-				if(_tcsstr(filename, _T(".gpg"))) //decrypt it
-				{ //process encrypted file
-					HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
-					if(_waccess(f->tszCurrentFile, 0) == -1)
+					TCHAR *filename = NULL;
+					if(f->flags & PFTS_UNICODE)
 					{
-						if(errno == ENOENT)
+						if(f->tszCurrentFile && f->tszCurrentFile[0])
+							filename = mir_wstrdup(f->tszCurrentFile);
+						if(!filename)
 							return 0;
 					}
-					string out;
-					DWORD code;
-					pxResult result;
-					wstring cmd = _T(" -o ");
-					wstring file = filename;
-					wstring::size_type p1 = file.rfind(_T(".gpg"));
-					file.erase(p1, _tcslen(_T(".gpg")));
-					if(_waccess(file.c_str(), 0) != -1)
+					else
 					{
-						if(MessageBox(0, _T("Target file exists, do you want to replace it ?"), _T("Warning"), MB_YESNO) == IDNO)
+						if(f->szCurrentFile && f->szCurrentFile[0])
+							filename = mir_utf8decodeT(f->szCurrentFile);
+						if(!filename)
 							return 0;
 					}
-					DeleteFile(file.c_str());
-					file.insert(0, _T("\""));
-					file.insert(file.length(), _T("\" "));
-					cmd += file;
-					extern TCHAR *password;
-					{ // password
-						TCHAR *pass = NULL;
-						char *keyid = UniGetContactSettingUtf(ack->hContact, szGPGModuleName, "KeyID", "");
-						if(strlen(keyid) > 0)
+					if(_tcsstr(filename, _T(".gpg"))) //decrypt it
+					{ //process encrypted file
+						HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
+						if(_waccess(f->tszCurrentFile, 0) == -1)
 						{
-							string dbsetting = "szKey_";
-							dbsetting += keyid;
-							dbsetting += "_Password";
-							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-							if(_tcslen(pass) > 0)
-								debuglog<<time_str()<<": info: found password in database for key id: "<<keyid<<", trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
+							if(errno == ENOENT)
+								return 0;
 						}
-						else
-						{
-							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-							if(_tcslen(pass) > 0)
-								debuglog<<time_str()<<": info: found password for all keys in database, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
-						}
-						if(_tcslen(pass) > 0)
-						{
-							cmd += _T("--passphrase \"");
-							cmd += pass;
-							cmd += _T("\" ");
-						}
-						else if(password)
-						{
-							debuglog<<time_str()<<": info: found password in memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
-							cmd += _T("--passphrase \"");
-							cmd += password;
-							cmd += _T("\" ");
-						}
-						else
-							debuglog<<time_str()<<": info: passwords not found in database or memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with out password\n";
-						mir_free(pass);
-						mir_free(keyid);
-					}
-					cmd += _T(" -d \"");
-					cmd += filename;
-					cmd += _T("\"");
-					gpg_execution_params params;
-					params.cmd = &cmd;
-					params.useless = "";
-					params.out = &out;
-					params.code = &code;
-					params.result = &result;
-					boost::thread *gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
-					if(!gpg_thread->timed_join(boost::posix_time::minutes(15)))
-					{
-						delete gpg_thread;
-						TerminateProcess(params.hProcess, 1);
-						params.hProcess = NULL;
-						debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-						return 0;
-					}
-					while(out.find("public key decryption failed: bad passphrase") != string::npos)
-					{
-						extern bool _terminate;
-						extern HANDLE new_key_hcnt;
-						extern boost::mutex new_key_hcnt_mutex;
-						debuglog<<time_str()<<": info: failed to decrypt messaage from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" password needed, trying to get one\n";
-						if(_terminate)
-							break;
-						{ //save inkey id
-							string::size_type s = out.find(" encrypted with ");
-							s = out.find(" ID ", s);
-							s += strlen(" ID ");
-							string::size_type s2 = out.find(",",s);
-							if(metaIsProtoMetaContacts(ack->hContact))
-								DBWriteContactSettingString(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
-							else
-								DBWriteContactSettingString(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
-						}
-						void ShowLoadKeyPasswordWindow();
-						new_key_hcnt_mutex.lock();
-						new_key_hcnt = ack->hContact;
-						ShowLoadKeyPasswordWindow();
-						wstring cmd2 = cmd;
-						if(password)
-						{
-							debuglog<<time_str()<<": info: found password in memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<"\n";
-							wstring tmp = _T("--passphrase \"");
-							tmp += password;
-							tmp += _T("\" ");
-							cmd2.insert(0, tmp);
-						}
-						out.clear();
-						gpg_execution_params params;
+						string out;
+						DWORD code;
 						pxResult result;
-						params.cmd = &cmd2;
+						wstring cmd = _T(" -o ");
+						wstring file = filename;
+						wstring::size_type p1 = file.rfind(_T(".gpg"));
+						file.erase(p1, _tcslen(_T(".gpg")));
+						if(_waccess(file.c_str(), 0) != -1)
+						{
+							if(MessageBox(0, _T("Target file exists, do you want to replace it ?"), _T("Warning"), MB_YESNO) == IDNO)
+								return 0;
+						}
+						DeleteFile(file.c_str());
+						file.insert(0, _T("\""));
+						file.insert(file.length(), _T("\" "));
+						cmd += file;
+						extern TCHAR *password;
+						{ // password
+							TCHAR *pass = NULL;
+							char *keyid = UniGetContactSettingUtf(ack->hContact, szGPGModuleName, "KeyID", "");
+							if(strlen(keyid) > 0)
+							{
+								string dbsetting = "szKey_";
+								dbsetting += keyid;
+								dbsetting += "_Password";
+								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
+								if(_tcslen(pass) > 0)
+									debuglog<<time_str()<<": info: found password in database for key id: "<<keyid<<", trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
+							}
+							else
+							{
+								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
+								if(_tcslen(pass) > 0)
+									debuglog<<time_str()<<": info: found password for all keys in database, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
+							}
+							if(_tcslen(pass) > 0)
+							{
+								cmd += _T("--passphrase \"");
+								cmd += pass;
+								cmd += _T("\" ");
+							}
+							else if(password)
+							{
+								debuglog<<time_str()<<": info: found password in memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with password\n";
+								cmd += _T("--passphrase \"");
+								cmd += password;
+								cmd += _T("\" ");
+							}
+							else
+								debuglog<<time_str()<<": info: passwords not found in database or memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" with out password\n";
+							mir_free(pass);
+							mir_free(keyid);
+						}
+						cmd += _T(" -d \"");
+						cmd += filename;
+						cmd += _T("\"");
+						gpg_execution_params params;
+						params.cmd = &cmd;
 						params.useless = "";
 						params.out = &out;
 						params.code = &code;
 						params.result = &result;
-						gpg_thread = gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
-						if(!gpg_thread->timed_join(boost::posix_time::seconds(15)))
+						boost::thread *gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
+						if(!gpg_thread->timed_join(boost::posix_time::minutes(15)))
 						{
 							delete gpg_thread;
 							TerminateProcess(params.hProcess, 1);
 							params.hProcess = NULL;
 							debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-							DeleteFile(filename);
 							return 0;
 						}
-						if(result == pxNotFound)
+						while(out.find("public key decryption failed: bad passphrase") != string::npos)
 						{
-							DeleteFile(filename);
-							return 0;
+							extern bool _terminate;
+							extern HANDLE new_key_hcnt;
+							extern boost::mutex new_key_hcnt_mutex;
+							debuglog<<time_str()<<": info: failed to decrypt messaage from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<" password needed, trying to get one\n";
+							if(_terminate)
+								break;
+							{ //save inkey id
+								string::size_type s = out.find(" encrypted with ");
+								s = out.find(" ID ", s);
+								s += strlen(" ID ");
+								string::size_type s2 = out.find(",",s);
+								if(metaIsProtoMetaContacts(ack->hContact))
+									DBWriteContactSettingString(metaGetMostOnline(ack->hContact), szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
+								else
+									DBWriteContactSettingString(ack->hContact, szGPGModuleName, "InKeyID", out.substr(s, s2-s).c_str());
+							}
+							void ShowLoadKeyPasswordWindow();
+							new_key_hcnt_mutex.lock();
+							new_key_hcnt = ack->hContact;
+							ShowLoadKeyPasswordWindow();
+							wstring cmd2 = cmd;
+							if(password)
+							{
+								debuglog<<time_str()<<": info: found password in memory, trying to decrypt message from "<<(TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)<<"\n";
+								wstring tmp = _T("--passphrase \"");
+								tmp += password;
+								tmp += _T("\" ");
+								cmd2.insert(0, tmp);
+							}
+							out.clear();
+							gpg_execution_params params;
+							pxResult result;
+							params.cmd = &cmd2;
+							params.useless = "";
+							params.out = &out;
+							params.code = &code;
+							params.result = &result;
+							gpg_thread = gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
+							if(!gpg_thread->timed_join(boost::posix_time::seconds(15)))
+							{
+								delete gpg_thread;
+								TerminateProcess(params.hProcess, 1);
+								params.hProcess = NULL;
+								debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+								DeleteFile(filename);
+								return 0;
+							}
+							if(result == pxNotFound)
+							{
+								DeleteFile(filename);
+								return 0;
+							}
 						}
-					}
-					DeleteFile(filename);
-					mir_free(filename);
+						DeleteFile(filename);
+						mir_free(filename);
+				}
 			}
 		}
 		break;
@@ -467,7 +470,6 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	path_out += file_out;
 	DeleteFile(path_out.c_str());
 	cmd += _T("\" ");
-	mir_free(temp);
 	cmd += _T(" -e \"");
 	cmd += filename;
 	cmd += _T("\" ");
@@ -477,7 +479,6 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 	params.out = &out;
 	params.code = &code;
 	params.result = &result;
-	mir_free(keyid);
 	delete [] file_out;
 	boost::thread *gpg_thread = new boost::thread(boost::bind(&pxEexcute_thread, &params));
 	if(!gpg_thread->timed_join(boost::posix_time::seconds(180)))
