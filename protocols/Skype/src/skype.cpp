@@ -337,8 +337,10 @@ int StartSkypeRuntime()
     }
     CloseHandle(snapshot);
 
-	mir_sntprintf(param, SIZEOF(param), L"-p -P %d", port);
+	wchar_t* tszUserFolder = Utils_ReplaceVarsT(_T("%miranda_userdata%\\SkypeKit"));
+	mir_sntprintf(param, SIZEOF(param), L"-p -P %d -f %s", port, tszUserFolder);
 	int startingrt = CreateProcess(szFilename, param, NULL, NULL, FALSE, CREATE_NEW_CONSOLE, NULL, NULL, &cif, &pi);
+	mir_free(tszUserFolder);
 
 	return startingrt;
 }
