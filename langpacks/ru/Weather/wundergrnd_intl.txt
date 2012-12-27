@@ -506,3 +506,5 @@
 Снег, 80% вероятность осадков
 [Snow 70% Chance Of Precipitation]
 Снег, 70% вероятность осадков
+[Light Blowing Snow]
+Метель
