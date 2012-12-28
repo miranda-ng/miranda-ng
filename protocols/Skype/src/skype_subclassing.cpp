@@ -1,11 +1,6 @@
-#include "skype_subclassing.h"
+#include "skype.h"
 
-#include <win2k.h>
-#include <ShellAPI.h>
-#include <shlwapi.h>
-#include <tlhelp32.h>
 #include "base64/base64.h"
-#include "..\..\..\skypekit\key.h"
 extern "C" 
 { 
 #include "aes\aes.h" 

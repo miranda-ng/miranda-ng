@@ -15,8 +15,8 @@ void CSkypeProto::InitNetLib()
 
 	this->Log(
 		L"Setting protocol/module name to '%s/%s'", 
-		::mir_a2u(this->m_szProtoName), 
-		::mir_a2u(this->m_szModuleName));
+		_A2T(this->m_szProtoName), 
+		_A2T(this->m_szModuleName));
 }
 
 void CSkypeProto::UninitNetLib()

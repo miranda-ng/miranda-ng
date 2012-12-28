@@ -3,8 +3,9 @@
 #define MIRANDA_VER 0x0A00
 
 #include <windows.h>
-#include <malloc.h>
 #include <shlwapi.h>
+#include <ShellAPI.h>
+#include <malloc.h>
 #include <tlhelp32.h>
 #include <string>
 
