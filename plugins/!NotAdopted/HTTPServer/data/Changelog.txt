@@ -1,0 +1,206 @@
+
+
+Version 0.0.1.0
+
+This is a beta version.
+Some features are not yet implemented.
+A shared file will only be remove when the maximum downloads has been reached.
+Suggestions and contributions are welcome.
+
+
+Version 0.0.2.0
+
+[+] You can change the default port used in Miranda options network "incoming connections"
+[+] Popup the message dialog with link when new file is shared.
+[!] Crash sometimes when share was about to be removed.
+[*] xsl file changed so that it shows link to file.
+
+
+Version 0.0.3.0
+
+[+] Uses popup plugin if installed to show when the HTTP server is accessed.
+[!] File path was not stored correctly, which meant that only files in the plugin folder could be shared.
+
+
+Version 0.0.4.0
+
+[!] Server did not use any port if you did not set a "incoming connections" port in the options.
+[+] More error dialog boxes if there is something that failes when initilizing. e.i. unable to bind port
+
+
+Version 0.0.4.1
+
+[+] If the open file dialog in "HTTP Share new file" fails an error message is displayed
+[!] Shutdown while file transfer is in progress is now handled correctly
+
+
+Version 0.0.4.2
+
+[!] "HTTP Share new file" only worked on Windows XP.
+
+
+Version 0.0.5.0
+
+[+] HTTP Server can now be accessed by multiply users simultaniously.
+[+] HTTP Server "statistics view" includes shares and current useres accessing the server.
+[+] Share can be removed from "statistics view"
+
+
+Version 0.0.6.0
+
+[!] Max downloads was not decreased so a share was never removed.
+[!] First share could not be removed then max downloads got to zero.
+[!] If a share was deleted while a download was in progress the download would not be stopped
+[*] Outgoing connections options has been removed.
+[+] Basic MIME support. Based on file extension.
+
+
+Version 0.0.7.0
+
+[+] In the "statistics view" you can copy a link to your shares.
+[+] Correct handling of UTF-8 encoded URIs in GET requests.fixes spaces and none US-ASCII characters.
+[!] Only masks 255.255.255.255 and 0.0.0.0 worked correctly any other was interpreted like 255.255.255.255.
+
+
+Version 0.0.8.0
+
+[+] Popup when a share is removed
+[!] Fixed bug in UTF-8 handling. Basically %?? part of handling did not work
+[!] Some spelling errors corrected.
+[*] Homepage link in options updated
+[*] Some internal Elements.
+
+
+Version 0.0.9.0
+
+[+] Downloads can be resumed. Tested with ( IE 6.0, Mozilla, wget and FlashGet )
+[+] You can drag and drop file to the "statistics view"
+[+] Logs server requests to file ( optional default yes )
+[+] Right click on popup shows "statistics view"
+[+] The HTTP server can be enabled and disable from the main menu
+[+] The user list shows which Agent he is using.
+[+] "New share" menu item added to Right click menu.
+[+] "Edit share" menu item added to Right click menu.
+[+] Experimental external ip detection (known not to work well under windows 98)
+[+] Error dialogs when the link copy to clipboard fails
+[*] Some internal Elements.
+[!] Tab order in "statistics view"
+
+
+Version 0.1.0.0
+
+[+] Stores the position of the "statistics view"
+[+] New button in the "share new file dialog" to toggle the mask between 0.0.0.0 and 255.255.255.255
+[+] You can drag and drop files to the lower part of the "share new file dialog"
+[+] New button in option page to open the log file.
+[+] The state of the HTTP server is keep between sessions.
+[+] The popups can be disabled in the options.
+[+] HTTP Error codes are returned for some errors..
+[*] Web based ip detection. ( see help )
+[*] When logging trailing new lines in GET request will be removed.
+[!] Clicking "Set to default" did not enable apply button.
+[!] Closed and Open the "statistics view" while downloads in progresse then auto update diden work.
+
+
+Version 0.1.1.0
+
+[+] Speed control, Set the maximum bandwidth that you wish the server shout use.
+[+] Speed control can be set active only when your status is online.
+[!] After a file had been accessed thru the server it was locked. Introduced in 1.0.0
+[!] Some missing translation was added
+[!] Some people where unable to set another port then the default 80.
+
+
+Version 0.1.1.1
+
+[!] Unable to changed port realy fixed now. To make it short.
+           Now it works with both the Latest nightly and Miranda V.0.3.2.
+
+
+Version 0.1.1.2
+
+[!] With the Nightly build after 18 Jan. external ip detection diden work
+
+
+Version 0.1.1.3
+
+[!] Fixed the incorrect Content-Length header in HTTP 206 Partial Content responces
+	Now the download can be resumed in any download manager without getting an "incorrect file size" or "file size changed" messages.
+	
+
+Version 0.1.1.4
+
+[+] Service MS_HTTP_ACCEPT_CONNECTIONS now accepts wParam.
+    By default it toggles HTTP server state.
+    Now you can force enable server passing wParam as TRUE.
+
+
+Version 0.1.1.5
+
+[+] Added possibility to share directories
+[+] If no index.html exists a directory index is created
+
+
+Version 0.1.1.6
+
+[+] The generated index.html looks nicer and can be customized
+
+
+Version 0.1.1.7
+
+[!] Fixed some security issues
+[+] Crystal Icon set included
+    Thanks to Everaldo Coelho (www.everaldo.com) who released them under GPL
+[*] Fixed serveral bugs
+[+] On Kennet's advice (and with his help) the index generation was rewritten.
+    The generated file is now an XML like the configuration file. It is easier to maintain
+    and more flexible.
+[+] Applied chronon's modifications to make it work with his Send Screenshot plugin
+[!] Only the shares which are accessible by a user are shown on the index
+[+] Files and Folders starting with an @ are not shown in the index and create no popups
+    They are also hidden in the statistics view but can be revealed
+[+] The column widths in statistics view are preserved
+
+
+Version 0.1.1.9
+
+[!] Fixed the disappearing statistics view bug
+[!] Browsers display the right error message
+[+] Maximum number of connections can be defined (total & per user)
+[+] Index creation can be disabled now
+[+] The user can decide now if the generated index shoud be a HTML or a XML
+    HTMLs are just for compatibility, it is recommended to use the XMLs
+    By default it sends XML to MSIE	and Firefox and HTML to Opera and other browsers
+[+] "Open in Browser" menu entry in statistics view
+[!] External IP is updated if it is older than 10 minutes
+
+
+Version 0.1.1.91
+
+[!] When updating to a new version the shared files list is not cleared
+
+
+Version 0.1.2.0
+
+contributed by Vapik:
+[+] The browser is now redirected when trying to access a directory without the trailing slash 
+[+] The error messages which are shown by the browser contain the version number of the plugin
+
+
+Version 0.1.2.1
+
+[!] Fixed several bugs (external IP generation, config files > 10kb,...)
+[!] Made HTTP-"Not Modified" response work again
+[+] Added [FileModified] and [FileCreated] tags to index (added the first one to the default templates)
+[+] Enhanced the controls in the statistic view
+[+] Multiple files can be selected & shared at once in the share new file dialog
+[+] Multiple files can be dropped into the statistic view (the default settings are used)
+[+] Fixed popup clicks (left opens the statistics view / right hides the popup)
+[+] Share names & requests are automatically converted to lowercase (to make it case insensitive)
+[+] Added "Default download limit" option
+[-] Removed "detect brower" option (which tried to detect whether a browser supports XSLT)
+
+
+Version 0.1.2.2
+
+[!] Recompiled with new Miranda headers.
