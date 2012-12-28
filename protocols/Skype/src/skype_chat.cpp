@@ -3,6 +3,23 @@
 #include <m_message.h>
 #include <m_history.h>
 
+char *CSkypeProto::Groups[] = 
+{ 
+	"Creator",
+	"Admin",
+	"Speaker",
+	"Writer",
+	"Retried",
+	"Outlaw"
+};
+
+#define SKYPE_CHAT_GROUP_OWNER		0
+#define SKYPE_CHAT_GROUP_ADMIN		1
+#define SKYPE_CHAT_GROUP_SPEAKER	2
+#define SKYPE_CHAT_GROUP_WIRTER		3
+#define SKYPE_CHAT_GROUP_RETRIED	4
+#define SKYPE_CHAT_GROUP_OUTLAW		5
+
 bool CSkypeProto::IsChatRoom(HANDLE hContact)
 {
 	return ::DBGetContactSettingByte(hContact, this->m_szModuleName, "ChatRoom", 0) > 0;
@@ -145,16 +162,16 @@ char *CSkypeProto::StartChat(const char *cid, const SEStringList &invitedContact
 
 	if (cid)
 	{
-		g_skype->GetConversationByIdentity(cid, conversation);
+		this->skype->GetConversationByIdentity(cid, conversation);
 		conversation->GetJoinBlob(data);
-		g_skype->GetConversationByBlob(data, conversation, false);
+		this->skype->GetConversationByBlob(data, conversation, false);
 		conversation->Join();
 
 		chatID = ::mir_strdup(cid);
 	}
 	else
 	{
-		g_skype->CreateConference(conversation);
+		this->skype->CreateConference(conversation);
 		conversation->SetOption(CConversation::P_OPT_JOINING_ENABLED,	true);
 		conversation->SetOption(CConversation::P_OPT_ENTRY_LEVEL_RANK,	CParticipant::WRITER);
 		conversation->SetOption(CConversation::P_OPT_DISCLOSE_HISTORY,  1);
@@ -186,12 +203,11 @@ char *CSkypeProto::StartChat(const char *cid, const SEStringList &invitedContact
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
 	gce.pDest = &gcd;
-	gce.pszStatus = ::Translate("Me");
-	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
-
-	gcd.iType = GC_EVENT_ADDGROUP;
-	gce.pszStatus = ::Translate("Others");
-	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
+	{
+		gce.pszStatus = Translate(CSkypeProto::Groups[i]);
+		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	}
 
 	gcd.iType = GC_EVENT_CONTROL;
 	::CallServiceSync(MS_GC_EVENT, SESSION_INITDONE, (LPARAM)&gce);
@@ -210,9 +226,9 @@ void CSkypeProto::JoinToChat(const char *cid, bool showWindow)
 	SEString data;
 	CConversation::Ref conversation;
 
-	g_skype->GetConversationByIdentity(cid, conversation);
+	this->skype->GetConversationByIdentity(cid, conversation);
 	conversation->GetJoinBlob(data);
-	g_skype->GetConversationByBlob(data, conversation, false);
+	this->skype->GetConversationByBlob(data, conversation, false);
 	conversation->Join();
 
 	conversation->GetPropDisplayname(data);
@@ -232,12 +248,13 @@ void CSkypeProto::JoinToChat(const char *cid, bool showWindow)
 	GCEVENT gce = {0};
 	gce.cbSize = sizeof(GCEVENT);
 	gce.pDest = &gcd;
-	gce.pszStatus = ::Translate("Me");
-	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
 
 	gcd.iType = GC_EVENT_ADDGROUP;
-	gce.pszStatus = ::Translate("Others");
-	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
+	for (int i = 0; i < SIZEOF(CSkypeProto::Groups); i++)
+	{
+		gce.pszStatus = Translate(CSkypeProto::Groups[i]);
+		CallServiceSync(MS_GC_EVENT, NULL, (LPARAM)&gce);
+	}
 
 	gcd.iType = GC_EVENT_CONTROL;
 	::CallServiceSync(MS_GC_EVENT, showWindow ? SESSION_INITDONE : WINDOW_HIDDEN, (LPARAM)&gce);
@@ -249,7 +266,20 @@ void CSkypeProto::JoinToChat(const char *cid, bool showWindow)
 	for (uint i = 0; i < participants.size(); i++)
 	{
 		participants[i]->GetPropIdentity(data);
-		this->AddChatContact(cid, ::mir_strdup(data));
+		
+		CParticipant::RANK rank;
+		participants[i]->GetPropRank(rank);
+
+		CContact::Ref contact;
+		CContact::AVAILABILITY status;
+		this->skype->GetContact(data, contact);
+		contact->GetPropAvailability(status);
+
+		this->AddChatContact(
+			cid, 
+			::mir_strdup(data),
+			CParticipant::GetRankName(rank),
+			this->SkypeToMirandaStatus(status));
 	}
 
 	::mir_free(chatName);
@@ -272,7 +302,7 @@ void CSkypeProto::LeaveChat(const char *cid)
 	::mir_free(chatID);
 }
 
-void CSkypeProto::RaiseChatEvent(const char *cid, const char *sid, int evt, const char *message)
+void CSkypeProto::RaiseChatEvent(const char *cid, const char *sid, int evt, const DWORD itemData, const char *status, const char *message)
 {
 	char *idt = ::mir_strdup(cid);
 	char *snt = ::mir_strdup(sid);
@@ -290,7 +320,8 @@ void CSkypeProto::RaiseChatEvent(const char *cid, const char *sid, int evt, cons
 	gce.pszNick = nick;
 	gce.pszUID = snt;
 	gce.bIsMe = ::stricmp(sid, this->login) == 0;
-	gce.pszStatus = gce.bIsMe ? ::Translate("Me") : ::Translate("Others");
+	gce.dwItemData = itemData;
+	gce.pszStatus = status;	
 	gce.pszText = message;
 	gce.time = time(NULL);
 	::CallServiceSync(MS_GC_EVENT, 0, (LPARAM)&gce);
@@ -301,12 +332,14 @@ void CSkypeProto::RaiseChatEvent(const char *cid, const char *sid, int evt, cons
 
 void CSkypeProto::SendChatMessage(const char *cid, const char *sid, const char *message)
 {
-	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, message);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_MESSAGE, 0, NULL, message);
 }
 
-void CSkypeProto::AddChatContact(const char *cid, const char *sid)
+void CSkypeProto::AddChatContact(const char *cid, const char *sid, const char *group, const WORD status)
 {
 	this->RaiseChatEvent(cid, sid, GC_EVENT_JOIN);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_ADDSTATUS, 0, CSkypeProto::Groups[SKYPE_CHAT_GROUP_WIRTER]);
+	this->RaiseChatEvent(cid, sid, GC_EVENT_SETCONTACTSTATUS, status);
 }
 
 void CSkypeProto::KickChatContact(const char *cid, const char *sid)
@@ -360,7 +393,7 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 		case GC_SESSION_TERMINATE:
 			{
 				CConversation::Ref conversation;
-				if (g_skype->GetConversationByIdentity(chatID, conversation, false))
+				if (this->skype->GetConversationByIdentity(chatID, conversation, false))
 				{
 					Participant::Refs participants;
 					conversation->GetParticipants(participants, CConversation::MYSELF);
@@ -373,22 +406,11 @@ int __cdecl CSkypeProto::OnGCEventHook(WPARAM, LPARAM lParam)
 			if (gch->pszText && gch->pszText[0]) 
 			{
 				CConversation::Ref conversation;
-				if (g_skype->GetConversationByIdentity(chatID, conversation, false))
+				if (this->skype->GetConversationByIdentity(chatID, conversation, false))
 				{
 					CMessage::Ref message;
 					char *text = ::mir_utf8encode(gch->pszText);
 					conversation->PostText(text, message);
-					
-					char *nick = (char *)::DBGetString(NULL, this->m_szModuleName, "Nick");
-					if (::stricmp(nick, "") == 0)
-					{
-						nick = this->login;
-					}
-
-					this->SendChatMessage(
-						chatID, 
-						nick, 
-						gch->pszText);
 				}
 			}
 			break;

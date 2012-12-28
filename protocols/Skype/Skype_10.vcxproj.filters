@@ -57,13 +57,19 @@
     <ClCompile Include="src\skype_profile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\aes\aes.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\skype_account.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\skype_chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\skype_runtime.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\aes\aes.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\base64\base64.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -81,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\skype_subclassing.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\base64\base64.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

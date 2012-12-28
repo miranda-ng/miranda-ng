@@ -110,7 +110,7 @@ INT_PTR __cdecl CSkypeProto::SetMyAvatar(WPARAM, LPARAM lParam)
 		wchar_t *avatarPath = this->GetContactAvatarFilePath(NULL);
 		if (::wcscmp(path, avatarPath) && !::CopyFile(path, avatarPath, FALSE))
 		{
-			this->Log("Failed to copy our avatar to local storage.");
+			this->Log(L"Failed to copy our avatar to local storage.");
 			return iRet;
 		}
 		// need to validate avatar Skype::ValidateAvatar

@@ -31,6 +31,21 @@ wchar_t* CSkypeProto::LogoutReasons[] =
 	LPGENW("")															/* ACCESS_TOKEN_RENEWAL_FAILED 	*/
 };
 
+wchar_t* CSkypeProto::ValidationReasons[] = 
+{
+	LPGENW("NOT_VALIDATED")												/* NOT_VALIDATED				*/,
+	LPGENW("Validation succeeded")										/* VALIDATED_OK					*/,
+	LPGENW("Password is too short")										/* TOO_SHORT					*/,
+	LPGENW("The value exceeds max size limit for the given property")	/* TOO_LONG						*/,
+	LPGENW("Value contains illegal characters")							/* CONTAINS_INVALID_CHAR		*/,
+	LPGENW("Value contains whitespace")									/* CONTAINS_SPACE				*/,
+	LPGENW("Password cannot be the same as skypename")					/* SAME_AS_USERNAME				*/,
+	LPGENW("Value has invalid format")									/* INVALID_FORMAT				*/,
+	LPGENW("Value contains invalid word")								/* CONTAINS_INVALID_WORD		*/,
+	LPGENW("Password is too simple")									/* TOO_SIMPLE					*/,
+	LPGENW("Value starts with an invalid character")					/* STARTS_WITH_INVALID_CHAR		*/,
+};
+
 LanguagesListEntry CSkypeProto::languages[] = 
 {
 	{"Abkhazian", "ab"},
@@ -304,10 +319,11 @@ void CSkypeProto::InitCustomFolders()
 		return;
 
 	bInitDone = true;
-	if (ServiceExists(MS_FOLDERS_REGISTER_PATH)) {
+	if (::ServiceExists(MS_FOLDERS_REGISTER_PATH))
+	{
 		TCHAR AvatarsFolder[MAX_PATH];
 		mir_sntprintf(AvatarsFolder, SIZEOF(AvatarsFolder), _T("%%miranda_avatarcache%%\\") _T(TCHAR_STR_PARAM), this->m_szModuleName);
-		hAvatarsFolder = FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars", AvatarsFolder);
+		hAvatarsFolder = ::FoldersRegisterCustomPathT(this->m_szModuleName, "Avatars", AvatarsFolder);
 	}
 }
 
@@ -452,12 +468,12 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 	return loginError;
 }
 
-void CSkypeProto::ShowNotification(const char *nick, const wchar_t *message, int flags)
+void CSkypeProto::ShowNotification(const wchar_t *message, int flags, const char *nick)
 {
 	if (::Miranda_Terminated()) return;
 
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPT) || !DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
-		MessageBoxW(NULL, message, TranslateT("Skype Protocol"), MB_OK);
+	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
+		::MessageBoxW(NULL, message, TranslateT("Skype Protocol"), MB_OK | flags);
 	else {
 		if ( !nick)
 			nick = "";
@@ -467,63 +483,12 @@ void CSkypeProto::ShowNotification(const char *nick, const wchar_t *message, int
 		ppd.lchContact = NULL;
 		lstrcpyn(ppd.lpwzContactName, ::mir_a2u(nick), MAX_CONTACTNAME);
 		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
-		ppd.lchIcon = Skin_GetIcon("Skype_main");
+		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 		ppd.colorBack = ppd.colorText = 0;
 		ppd.iSeconds = 0;
 
 		::CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	}
-}
-
-char CSkypeProto::CharBase64[] = 
-{
-	'A','B','C','D','E','F','G','H','I','J','K','L','M  ','N','O','P',
-	'Q','R','S','T','U','V','W','X','Y','Z','a','b','c  ','d','e','f',
-	'g','h','i','j','k','l','m','n','o','p','q','r','s  ','t','u','v',
-	'w','x','y','z','0','1','2','3','4','5','6','7','8  ','9','+','/'
-};
-
-ULONG CSkypeProto::Base64Encode(char *inputString, char *outputBuffer, SIZE_T nMaxLength)
-{
-	int outpos = 0;
-	char chr[3], enc[4];
-
-	for (uint i = 0; i < ::strlen(inputString); i += 3)
-	{
-		if (outpos + 4 >= nMaxLength)
-			break;
-
-		chr[0] = inputString[i];
-		chr[1] = inputString[i+1];
-		chr[2] = inputString[i+2];
-
-		enc[0] = chr[0] >> 2;
-		enc[1] = ((chr[0] & 0x03) << 4) | (chr[1] >> 4);
-		enc[2] = ((chr[1] & 0x0F) << 2) | (chr[2] >> 6);
-		enc[3] = chr[2] & 0x3F;
-
-		outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[0]];
-		outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[1]];
-
-		if (i + 1 >= ::strlen(inputString))
-		{
-			outputBuffer[outpos++] = '=';
-			outputBuffer[outpos++] = '=';
-		}
-		else if (i + 2 >= ::strlen(inputString))
-		{
-			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[2]];
-			outputBuffer[outpos++] = '=';
-		}
-		else
-		{
-			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[2]];
-			outputBuffer[outpos++] = CSkypeProto::CharBase64[enc[3]];
-		}
-	}
-
-	outputBuffer[outpos] = 0;
-	return outpos;
 }
 
 char *CSkypeProto::RemoveHtml(char *text)
@@ -572,4 +537,68 @@ char *CSkypeProto::RemoveHtml(char *text)
 	
 	::mir_free(text);
 	return ::mir_strdup(new_string.c_str());
+}
+
+int CSkypeProto::SkypeToMirandaStatus(CContact::AVAILABILITY availability)
+{
+	int status = ID_STATUS_OFFLINE;
+
+	switch (availability)
+	{
+	case CContact::ONLINE:
+	case CContact::SKYPE_ME:
+		status = ID_STATUS_ONLINE;
+		break;
+
+	case CContact::ONLINE_FROM_MOBILE:
+	case CContact::SKYPE_ME_FROM_MOBILE:
+		status = ID_STATUS_ONTHEPHONE;
+		break;
+
+	case CContact::AWAY:
+	case CContact::AWAY_FROM_MOBILE:
+		status = ID_STATUS_AWAY;
+		break;
+
+	case CContact::DO_NOT_DISTURB:
+	case CContact::DO_NOT_DISTURB_FROM_MOBILE:
+		status = ID_STATUS_DND;
+		break;
+
+	case CContact::SKYPEOUT:
+		status = ID_STATUS_OUTTOLUNCH;
+		break;
+
+	case CContact::CONNECTING:
+		status = ID_STATUS_CONNECTING;
+		break;
+	}
+
+	return status;
+}
+
+CContact::AVAILABILITY CSkypeProto::MirandaToSkypeStatus(int status)
+{
+	CContact::AVAILABILITY availability = CContact::UNKNOWN;
+
+	switch(status)
+	{
+	case ID_STATUS_ONLINE:
+		availability = CContact::ONLINE;
+		break;
+
+	case ID_STATUS_AWAY:
+		availability = CContact::AWAY;
+		break;
+
+	case ID_STATUS_DND:
+		availability = CContact::DO_NOT_DISTURB;
+		break;
+
+	case ID_STATUS_INVISIBLE:
+		availability = CContact::INVISIBLE;
+		break;
+	}
+
+	return availability;
 }

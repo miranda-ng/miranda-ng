@@ -77,7 +77,7 @@ int CSkypeProto::GrantAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-	if (g_skype->GetContact(sid, contact))
+	if (this->skype->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(true))
 		{
@@ -94,7 +94,7 @@ int CSkypeProto::RevokeAuth(WPARAM wParam, LPARAM lParam)
 	CContact::Ref contact;
 	HANDLE hContact = (HANDLE)wParam;
 	SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-	if (g_skype->GetContact(sid, contact))
+	if (this->skype->GetContact(sid, contact))
 	{
 		if (contact->SetBuddyStatus(false))
 		{
@@ -192,7 +192,7 @@ void CSkypeProto::OnInitStatusMenu()
 		mi.position = -1999901006;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
-		mi.icolibItem = CSkypeProto::GetIconHandle("main");
+		mi.icolibItem = CSkypeProto::GetIconHandle("Skype_main");
 		hJabberRoot = m_hMenuRoot = ::Menu_AddProtoMenuItem(&mi);
 	}
 	else {

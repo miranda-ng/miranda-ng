@@ -1,73 +1,6 @@
 #include "skype_proto.h"
 
-INT_PTR CALLBACK CSkypeProto::SkypeAccountProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
-{
-	CSkypeProto *proto;
-
-	switch (message)
-	{
-	case WM_INITDIALOG:
-	{
-		TranslateDialogDefault(hwnd);
-
-		proto = reinterpret_cast<CSkypeProto*>(lparam);
-		SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
-
-		wchar_t* sid = proto->GetSettingString(SKYPE_SETTINGS_LOGIN);
-		SetDlgItemText(hwnd, IDC_SL, sid);
-		::mir_free(sid);
-
-		char* pwd = proto->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);
-		SetDlgItemTextA(hwnd, IDC_PW, pwd);
-		::mir_free(pwd);
-
-		if ( proto->m_iStatus != ID_STATUS_OFFLINE) {
-			SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
-			SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
-		}
-	}
-	return TRUE;
-
-	case WM_COMMAND:
-	{
-		if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
-		{
-			switch(LOWORD(wparam)) {
-			case IDC_SL:
-			case IDC_PW:
-				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
-			}
-		}
-	}
-	break;
-
-	case WM_NOTIFY:
-	{
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY) {
-			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));			
-
-			char data[128];
-			::mir_free(proto->login);
-			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
-			::DBWriteContactSettingString(NULL, proto->m_szModuleName, "sid", data);
-			proto->login = ::mir_strdup(data);
-
-			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
-			proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
-
-			proto->SetSettingByte("RememberPassword", true);
-
-			return TRUE;
-		}
-	}
-	break;
-
-	}
-
-	return FALSE;
-}
-
-INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam)
+INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	CSkypeProto *proto;
 
@@ -77,8 +10,8 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 		{
 			TranslateDialogDefault(hwnd);
 
-			proto = reinterpret_cast<CSkypeProto*>(lparam);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, lparam);
+			proto = reinterpret_cast<CSkypeProto*>(lParam);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
 				wchar_t* data = proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L"");
 				SetDlgItemText(hwnd, IDC_SL, data);
@@ -91,40 +24,89 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 			}
 			{
 				int port;
-				g_skype->GetInt(SETUPKEY_PORT, port);
+				proto->skype->GetInt(SETUPKEY_PORT, port);
 				SetDlgItemInt(hwnd, IDC_PORT, proto->GetSettingWord("Port", port), FALSE);
+				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETLIMITTEXT, 5, 0);
 			}
 			{
 				CheckDlgButton(hwnd, IDC_USE_ALT_PORTS, proto->GetSettingByte("UseAlternativePorts", 1));
 			}
-
-			if (proto->m_iStatus != ID_STATUS_OFFLINE) {
+			if (proto->IsOnline()) 
+			{
 				SendMessage(GetDlgItem(hwnd, IDC_SL), EM_SETREADONLY, 1, 0);
 				SendMessage(GetDlgItem(hwnd, IDC_PW), EM_SETREADONLY, 1, 0); 
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0); 
 				SendMessage(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), EM_SETREADONLY, 1, 0); 
+				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
+			}
+			else if (proto->GetSettingWord("Status") > 0)
+			{
+				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
 			}
 		}
 		return TRUE;
 
 	case WM_COMMAND: 
 		{
-			if (HIWORD(wparam) == EN_CHANGE && reinterpret_cast<HWND>(lparam) == GetFocus())
+			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+			switch(LOWORD(wParam))
 			{
-				switch(LOWORD(wparam))
+			case IDC_SL:
 				{
-				case IDC_SL:
-				case IDC_PW:
-				case IDC_PORT:
-				case IDC_USE_ALT_PORTS:
+					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+
+					if ( !proto->IsOnline() && proto->GetSettingWord("Status") == 0)
+					{
+						char data[128];
+						GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
+						EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), ::strlen(data));
+					}
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				}
+				break;
+
+			case IDC_PW:
+				{
+					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				}
+				break;
+
+			case IDC_PORT:
+			case IDC_USE_ALT_PORTS:
+				SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
+				break;
+
+			case IDC_REGISTER:
+				{
+					char sid[128], pwd[128];
+					GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
+					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
+						
+					CSkype::VALIDATERESULT reason;
+					proto->skype->ValidatePassword(sid, pwd, reason);
+						
+					if (reason == CSkype::VALIDATED_OK)
+					{
+						CAccount::Ref account;
+						proto->skype->GetAccount(sid, proto->account);
+						proto->account->SetStrProperty(CAccount::P_FULLNAME, sid);
+						proto->account->SetOnAccountChangedCallback(
+							(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged, proto);
+						proto->account->Register(pwd, false, false);
+					}
+					else
+					{
+						proto->ShowNotification(CSkypeProto::ValidationReasons[reason]);
+					}
 				}
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lparam)->code == PSN_APPLY)
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
 		{
 			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
 			
@@ -148,6 +130,35 @@ INT_PTR CALLBACK CSkypeProto::SkypeOptionsProc(HWND hwnd, UINT message, WPARAM w
 	}
 
 	return FALSE;
+}
+
+INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
+{
+	return (int)::CreateDialogParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
+		(HWND)lParam, 
+		&CSkypeProto::SkypeMainOptionsProc, 
+		(LPARAM)this);
+}
+
+int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
+{
+	OPTIONSDIALOGPAGE odp = {0};
+	odp.cbSize = sizeof(odp);
+	odp.hInstance = g_hInstance;
+	odp.ptszTitle = m_tszUserName;
+	odp.dwInitParam = LPARAM(this);
+	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
+
+	odp.position = 271828;
+	odp.ptszGroup = LPGENT("Network");
+	odp.ptszTab = LPGENT("Account");
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pfnDlgProc = SkypeMainOptionsProc;
+	::Options_AddPage(wParam, &odp);
+
+	return 0;
 }
 
 INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -214,34 +225,6 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM w
 	}
 
 	return FALSE;
-}
-
-INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
-{
-	return (int)CreateDialogParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
-		(HWND)lParam, 
-		&CSkypeProto::SkypeAccountProc, (LPARAM)this);
-}
-
-int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
-{
-	OPTIONSDIALOGPAGE odp = {0};
-	odp.cbSize = sizeof(odp);
-	odp.hInstance = g_hInstance;
-	odp.ptszTitle = m_tszUserName;
-	odp.dwInitParam = LPARAM(this);
-	odp.flags = ODPF_BOLDGROUPS | ODPF_TCHAR | ODPF_DONTTRANSLATE;
-
-	odp.position = 271828;
-	odp.ptszGroup = LPGENT("Network");
-	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
-	odp.pfnDlgProc = SkypeOptionsProc;
-	Options_AddPage(wParam, &odp);
-
-	return 0;
 }
 
 INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -562,11 +545,21 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 					{
 						for (uint i = 0; i < invitedContacts.size(); i++)
 						{
-							param->ppro->AddChatContact(chatID, invitedContacts[i]);
+							CContact::Ref contact;
+							CContact::AVAILABILITY status;
+							param->ppro->skype->GetContact(invitedContacts[i], contact);
+							contact->GetPropAvailability(status);
+
+							//todo: fix rank
+							param->ppro->AddChatContact(
+								chatID, 
+								invitedContacts[i], 
+								CParticipant::GetRankName(CParticipant::SPEAKER),
+								status);
 						}
 
 						CConversation::Ref conversation;
-						g_skype->GetConversationByIdentity(chatID, conversation);
+						param->ppro->skype->GetConversationByIdentity(chatID, conversation);
 						conversation->AddConsumers(invitedContacts);
 					}
 					else
@@ -575,7 +568,17 @@ INT_PTR CALLBACK CSkypeProto::InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wP
 
 						for (uint i = 0; i < invitedContacts.size(); i++)
 						{
-							param->ppro->AddChatContact(chatID, invitedContacts[i]);
+							CContact::Ref contact;
+							CContact::AVAILABILITY status;
+							param->ppro->skype->GetContact(invitedContacts[i], contact);
+							contact->GetPropAvailability(status);
+
+							//todo: fix rank
+							param->ppro->AddChatContact(
+								chatID, 
+								invitedContacts[i], 
+								CParticipant::GetRankName(CParticipant::SPEAKER),
+								status);
 						}
 					}
 				}

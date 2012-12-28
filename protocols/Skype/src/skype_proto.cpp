@@ -4,11 +4,12 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 {
 	this->m_iVersion = 2;
 	this->m_iStatus = ID_STATUS_OFFLINE;
-	this->m_tszUserName = mir_tstrdup(userName);
-	this->m_szModuleName = mir_strdup(protoName);
-	this->m_szProtoName = mir_strdup(protoName);
+
+	this->m_tszUserName =	::mir_tstrdup(userName);
+	this->m_szModuleName =	::mir_strdup(protoName);
+	this->m_szProtoName =	::mir_strdup(protoName);
 	::strlwr(m_szProtoName);
-	this->m_szProtoName[0] = ::toupper(m_szProtoName[0]);
+	this->m_szProtoName[0] = ::toupper(this->m_szProtoName[0]);
 
 	//this->login = NULL;
 	this->password = NULL;
@@ -18,7 +19,7 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->SetAllContactStatus(ID_STATUS_OFFLINE);
 
 	this->CreateService(PS_CREATEACCMGRUI, &CSkypeProto::OnAccountManagerInit);
-	// Chat
+	// Chat API
 	this->CreateService(PS_JOINCHAT, &CSkypeProto::OnJoinChat);
 	this->CreateService(PS_LEAVECHAT, &CSkypeProto::OnLeaveChat);
 	// Avatar API
@@ -26,21 +27,11 @@ CSkypeProto::CSkypeProto(const char* protoName, const TCHAR* userName)
 	this->CreateService(PS_GETAVATARCAPS, &CSkypeProto::GetAvatarCaps);
 	this->CreateService(PS_GETMYAVATART, &CSkypeProto::GetMyAvatar);
 	this->CreateService(PS_SETMYAVATART, &CSkypeProto::SetMyAvatar);
-
-	this->InitNetLib();
-	this->InitCustomFolders();
-
-	//
-	g_skype->SetOnMessageCallback(
-		(CSkype::OnMessaged)&CSkypeProto::OnMessage,
-		this);
 }
 
 CSkypeProto::~CSkypeProto()
 {
-	this->UninitNetLib();
-
-	CloseHandle(this->signin_lock);
+	::CloseHandle(this->signin_lock);
 
 	::mir_free(this->login);
 	::mir_free(this->password);
@@ -133,7 +124,8 @@ int __cdecl CSkypeProto::AuthRequest(HANDLE hContact, const TCHAR* szMessage)
 	{
 		CContact::Ref contact;
 		SEString sid(::mir_u2a(this->GetSettingString(hContact, "sid")));
-		if (g_skype->GetContact(sid, contact)) {
+		if (this->skype->GetContact(sid, contact)) 
+		{
 			contact->SetBuddyStatus(Contact::AUTHORIZED_BY_ME);
 			contact->SendAuthRequest(::mir_utf8encodeW(szMessage));
 		}
@@ -243,7 +235,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 	int result = ::InterlockedIncrement((LONG volatile*)&dwCMDNum);
 
 	CConversation::Ref conversation = CConversation::FindBySid(
-		g_skype,
+		this->skype,
 		::DBGetString(hContact, this->m_szModuleName, "sid"));
 	if (conversation) 
 	{
@@ -255,8 +247,7 @@ int    __cdecl CSkypeProto::SendMsg(HANDLE hContact, int flags, const char* msg)
 		hContact,
 		ACKTYPE_MESSAGE,
 		ACKRESULT_SUCCESS,
-		(HANDLE)result,
-		0);
+		(HANDLE)result, 0);
 	
 	return result; 
 }
@@ -273,9 +264,11 @@ int CSkypeProto::SetStatus(int new_status)
 	int old_status = this->m_iStatus;
 	this->m_iDesiredStatus = new_status;
 
-	switch (new_status) {
+	switch (new_status)
+	{
 	case ID_STATUS_OFFLINE:
-		if	(this->IsOnline()) {
+		if	(this->IsOnline()) 
+		{
 			this->account->SetAvailability(CContact::OFFLINE);
 			this->account->Logout(true);
 
@@ -289,7 +282,6 @@ int CSkypeProto::SetStatus(int new_status)
 		{
 			this->m_iStatus = ID_STATUS_CONNECTING;
 			if ( !this->SignIn()) return 0;
-
 		}
 		else
 		{
@@ -320,7 +312,7 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 		if (::strcmp(::DBGetString(hContact, this->m_szModuleName, "sid"), this->login) != 0)
 		{
 			CConversation::Ref conversation = CConversation::FindBySid(
-				g_skype,
+				this->skype,
 				::DBGetString(hContact, this->m_szModuleName, "sid"));
 			if (conversation) 
 			{
@@ -331,7 +323,7 @@ int    __cdecl CSkypeProto::UserIsTyping( HANDLE hContact, int type )
 						return 0;
 
 					case PROTOTYPE_SELFTYPING_OFF:
-						conversation->SetMyTextStatusTo(Participant::READING); // mb TEXT_UNKNOWN?
+						conversation->SetMyTextStatusTo(Participant::READING); //todo: mb TEXT_UNKNOWN?
 						return 0;
 				}
 			}
@@ -363,29 +355,25 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 
 void __cdecl CSkypeProto::SignInAsync(void*)
 {
-	this->SetStatus(this->m_iDesiredStatus);
-
 	this->LoadOwnInfo(this);
 	this->LoadContactList(this);
 }
 
 bool CSkypeProto::SignIn(bool isReadPassword)
 {
-	if (!this->login || !::lstrcmpA(this->login, ""))
+	if ( !this->login || !::strlen(this->login))
 	{
 		this->m_iStatus = ID_STATUS_OFFLINE;
 		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-		::MessageBox(
-			NULL, 
-			TranslateT("You have not entered a Skype name.\nConfigure this in Options->Network->Skype and try again."),
-			_T(MODULE),
-			MB_OK);
+		this->ShowNotification(
+			TranslateT("You have not entered a Skype name.\n\
+						Configure this in Options->Network->Skype and try again."));
 	}
-	else if (g_skype->GetAccount(this->login, this->account))
+	else if (this->skype->GetAccount(this->login, this->account))
 	{
 		if (isReadPassword)
 			this->password = this->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);				
-		if ( !::lstrcmpA(this->password, ""))
+		if ( !this->password || !::strlen(this->password))
 			this->RequestPassword();
 		else
 		{
@@ -395,64 +383,11 @@ bool CSkypeProto::SignIn(bool isReadPassword)
 				this);
 			//
 			int port;
-			g_skype->GetInt(SETUPKEY_PORT, port);
-			g_skype->SetInt(SETUPKEY_PORT, this->GetSettingWord("Port", port));
-			g_skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
+			this->skype->GetInt(SETUPKEY_PORT, port);
+			this->skype->SetInt(SETUPKEY_PORT, this->GetSettingWord("Port", port));
+			this->skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
 			//
-			if (this->hNetlibUser)
-			{
-				NETLIBUSERSETTINGS nlus = { sizeof(NETLIBUSERSETTINGS) };
-				::CallService(MS_NETLIB_GETUSERSETTINGS, (WPARAM)this->hNetlibUser, (LPARAM)&nlus);
-
-				if (nlus.useProxy) 
-				{
-					char address[MAX_PATH];
-					::mir_snprintf(address, MAX_PATH, "%s:%d", nlus.szProxyServer, nlus.wProxyPort);
-
-					switch (nlus.proxyType)
-					{
-					case PROXYTYPE_HTTP:
-					case PROXYTYPE_HTTPS:
-						g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 1);
-						g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 0);
-						g_skype->SetStr(SETUPKEY_HTTPS_PROXY_ADDR, address);
-						if (nlus.useProxyAuth)
-						{
-							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_USER, nlus.szProxyAuthUser);
-
-							char *encodedPass = new char[MAX_PATH];
-
-							CSkypeProto::Base64Encode(nlus.szProxyAuthPassword, encodedPass, MAX_PATH);
-
-							g_skype->SetStr(SETUPKEY_HTTPS_PROXY_PWD, encodedPass);
-						}
-						break;
-
-					case PROXYTYPE_SOCKS4:
-					case PROXYTYPE_SOCKS5:
-						g_skype->SetInt(SETUPKEY_HTTPS_PROXY_ENABLE, 0);
-						g_skype->SetInt(SETUPKEY_SOCKS_PROXY_ENABLE, 1);
-						g_skype->SetStr(SETUPKEY_SOCKS_PROXY_ADDR, address);
-						if (nlus.useProxyAuth)
-						{
-							g_skype->SetStr(SETUPKEY_SOCKS_PROXY_USER, nlus.szProxyAuthUser);
-							g_skype->SetStr(SETUPKEY_SOCKS_PROXY_PWD, nlus.szProxyAuthPassword);
-						}
-						break;
-
-					default:
-						g_skype->Delete(SETUPKEY_HTTPS_PROXY_ENABLE);
-						g_skype->Delete(SETUPKEY_HTTPS_PROXY_ADDR);
-						g_skype->Delete(SETUPKEY_HTTPS_PROXY_USER);
-						g_skype->Delete(SETUPKEY_HTTPS_PROXY_PWD);
-						g_skype->Delete(SETUPKEY_SOCKS_PROXY_ENABLE);
-						g_skype->Delete(SETUPKEY_SOCKS_PROXY_ADDR);
-						g_skype->Delete(SETUPKEY_SOCKS_PROXY_USER);
-						g_skype->Delete(SETUPKEY_SOCKS_PROXY_PWD);
-						break;
-					}
-				}
-			}
+			this->InitProxy();
 			//
 			this->account->LoginWithPassword(this->password, false, false);
 			return true;

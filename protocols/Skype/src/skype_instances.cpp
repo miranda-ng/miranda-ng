@@ -9,8 +9,13 @@ LIST<CSkypeProto> CSkypeProto::instanceList(1, CSkypeProto::CompareProtos);
 
 CSkypeProto* CSkypeProto::InitSkypeProto(const char* protoName, const wchar_t* userName)
 {
-	if (CSkypeProto::instanceList.getCount() > 0) {
-		MessageBox(NULL, TranslateT("SkypeKit will only permit you to login to one account at a time. Adding multiple instances of SkypeKit is prohibited in the licence agreement and standard distribution terms."), _T(MODULE), MB_OK | MB_ICONWARNING);
+	if (CSkypeProto::instanceList.getCount() > 0) 
+	{
+		CSkypeProto::ShowNotification(
+			::TranslateT("SkypeKit will only permit you to login to one account at a time. \
+						  Adding multiple instances of SkypeKit is prohibited in the licence \
+						  agreement and standard distribution terms."), 
+			MB_ICONWARNING);
 		return NULL;
 	}
 	CSkypeProto *ppro = new CSkypeProto(protoName, userName);

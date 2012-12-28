@@ -26,6 +26,8 @@ public:
 	typedef DRefs<CParticipant, Participant> Refs;
 
 	CParticipant(unsigned int oid, SERootObject* root);
+
+	static SEString GetRankName(CParticipant::RANK rank);
 };
 
 class CConversation : public Conversation
@@ -58,7 +60,9 @@ public:
 	typedef DRefs<CContact, Contact> Refs;
 
 	CContact(unsigned int oid, SERootObject* root);
-	
+
+	/*bool SentAuthRequest(SEString message);*/
+
 	void SetOnContactChangedCallback(OnContactChanged callback, CSkypeProto* proto);
 
 private:
@@ -152,6 +156,8 @@ public:
 
 	void SetOnMessageCallback(OnMessaged callback, CSkypeProto* proto);
 
+	static CSkype *GetInstance(HINSTANCE hInstance, const wchar_t *profileName, const wchar_t *dbPath);
+
 private:
 	CSkypeProto*	proto;
 	OnMessaged		onMessagedCallback;
@@ -161,4 +167,8 @@ private:
 		const bool & changesInboxTimestamp,
 		const MessageRef & supersedesHistoryMessage,
 		const ConversationRef & conversation);
+
+		static BOOL IsRunAsAdmin();
+		static char *LoadKeyPair(HINSTANCE hInstance);
+		static int	StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, int &port, const wchar_t *dbPath);
 };

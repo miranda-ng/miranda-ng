@@ -2,9 +2,13 @@
 
 int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 {
-	this->InitChat();
+	this->InitSkype();
 
-	this->HookEvent(ME_OPT_INITIALISE, &CSkypeProto::OnOptionsInit);
+	//this->InitChat();
+	this->InitNetLib();
+	this->InitCustomFolders();
+
+	this->HookEvent(ME_OPT_INITIALISE,		&CSkypeProto::OnOptionsInit);
 	this->HookEvent(ME_USERINFO_INITIALISE, &CSkypeProto::OnUserInfoInit);
 	
 	this->login = ::DBGetString(NULL, this->m_szModuleName, "sid");
@@ -16,6 +20,10 @@ int CSkypeProto::OnModulesLoaded(WPARAM, LPARAM)
 int CSkypeProto::OnPreShutdown(WPARAM, LPARAM)
 {
 	this->SetStatus(ID_STATUS_OFFLINE);
+
+	this->UninitNetLib();
+
+	this->UninitSkype();
 
 	return 0;
 }
@@ -31,7 +39,7 @@ int CSkypeProto::OnContactDeleted(WPARAM wParam, LPARAM lParam)
 			this->LeaveChat(chatID);
 
 			CConversation::Ref conversation;
-			g_skype->GetConversationByIdentity(chatID, conversation);
+			this->skype->GetConversationByIdentity(chatID, conversation);
 			conversation->RetireFrom();
 			conversation->Delete();
 		}
@@ -62,16 +70,16 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 		CParticipant::Refs participants;
 		conversation->GetParticipants(participants, CConversation::OTHER_CONSUMERS);
 		
-		for (uint i = 0; i < participants.size(); i ++)
+		//for (uint i = 0; i < participants.size(); i ++)
 		{
-			participants[i]->GetPropIdentity(data);
+			participants[0]->GetPropIdentity(data);
 			char *contactSid = ::mir_strdup(data);
 			//todo: get nickname
 			this->RaiseMessageSendedEvent(
 				timestamp,
 				contactSid,
 				contactSid,
-				text);
+				CSkypeProto::RemoveHtml(text));
 		}
 	}
 	else
@@ -79,7 +87,18 @@ void CSkypeProto::OnMessageSended(CConversation::Ref conversation, CMessage::Ref
 		conversation->GetPropIdentity(data);
 		char *cid = ::mir_strdup(data);
 
-		this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
+		//this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
+
+		char *nick = (char *)::DBGetString(NULL, this->m_szModuleName, "Nick");
+		if (::stricmp(nick, "") == 0)
+		{
+			nick = sid;
+		}
+
+		this->SendChatMessage(
+			cid, 
+			nick, 
+			CSkypeProto::RemoveHtml(::mir_utf8decodeA(text)));
 
 		::mir_free(cid);
 	}
@@ -116,7 +135,7 @@ void CSkypeProto::OnMessageReceived(CConversation::Ref conversation, CMessage::R
 		conversation->GetPropIdentity(data);
 		char *cid = ::mir_strdup(data);
 
-		this->SendChatMessage(cid, sid, ::mir_utf8decodeA(text));
+		this->SendChatMessage(cid, sid, CSkypeProto::RemoveHtml(::mir_utf8decodeA(text)));
 
 		::mir_free(cid);
 	}
@@ -141,7 +160,7 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 	message->GetPropConsumptionStatus(status);
 
 	// it's old message (hystory sync)
-	if (status == CMessage::CONSUMED) return;
+	if (status == CMessage::CONSUMED && sendingStatus != CMessage::SENT) return;
 
 	switch (messageType)
 	{
@@ -178,7 +197,20 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				for (uint i = 0; i < participants.size(); i++)
 				{
 					participants[i]->GetPropIdentity(data);
-					this->AddChatContact(cid, data);
+
+					CContact::Ref contact;
+					CContact::AVAILABILITY status;
+					this->skype->GetContact(data, contact);
+					contact->GetPropAvailability(status);
+
+					CParticipant::RANK rank;
+					participants[i]->GetPropRank(rank);
+
+					this->AddChatContact(
+						cid, 
+						data, 
+						CParticipant::GetRankName(rank),
+						status);
 				}
 			}
 
@@ -192,7 +224,19 @@ void CSkypeProto::OnMessage(CConversation::Ref conversation, CMessage::Ref messa
 				{
 					char *sid = needToAdd[i];
 					if (::stricmp(sid, this->login) != 0 && !alreadyInChat.contains(sid))
-						this->AddChatContact(cid, sid);
+					{
+						CContact::Ref contact;
+						CContact::AVAILABILITY status;
+						this->skype->GetContact(sid, contact);
+						contact->GetPropAvailability(status);
+
+						//todo: fix rank
+						this->AddChatContact(
+							cid, 
+							sid, 
+							CParticipant::GetRankName(CParticipant::WRITER),
+							status);
+					}
 				}
 			}
 		}

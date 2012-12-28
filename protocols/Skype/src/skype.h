@@ -54,10 +54,7 @@
 #include "resource.h"
 #include "version.h"
 #include "skype_subclassing.h"
-extern "C"
-{
-#include "aes\aes.h"
-}
+
 #include "..\..\..\skypekit\key.h"
 
 #define MODULE "Skype"
@@ -80,5 +77,4 @@ extern "C"
 
 #define CMITEMS_COUNT 3
 
-extern CSkype* g_skype;
 extern HINSTANCE g_hInstance;

@@ -12,9 +12,14 @@ void CSkypeProto::OnAccountChanged(int prop)
 		{
 			this->ForkThread(&CSkypeProto::SignInAsync, 0);
 			//this->SignInAsync(this);
+
+			CContact::AVAILABILITY status;
+			this->account->GetPropAvailability(status);
+			if (status != CContact::CONNECTING && status >= CContact::ONLINE)
+				this->SetStatus(this->SkypeToMirandaStatus(status));
 		}
 
-		if ((loginStatus == CAccount::LOGGED_OUT || loginStatus == CAccount::LOGGED_OUT_AND_PWD_SAVED))
+		if (loginStatus == CAccount::LOGGED_OUT)
 		{
 			CAccount::LOGOUTREASON whyLogout;
 			this->account->GetPropLogoutreason(whyLogout);
@@ -27,13 +32,23 @@ void CSkypeProto::OnAccountChanged(int prop)
 					NULL, 
 					this->SkypeToMirandaLoginError(whyLogout));
 			
-				this->ShowNotification(NULL, CSkypeProto::LogoutReasons[whyLogout - 1]);
+				this->ShowNotification(CSkypeProto::LogoutReasons[whyLogout - 1]);
 			}
 		}
 		break;
 
-	default :
-		OnProfileChanged(prop);
+	//case CAccount::P_AVATAR_IMAGE:
+	case CAccount::P_AVATAR_TIMESTAMP:
+		this->UpdateProfileAvatar(this->account.fetch());
+		break;
+
+	//case CAccount::P_MOOD_TEXT:
+	case CAccount::P_MOOD_TIMESTAMP:
+		this->UpdateProfileStatusMessage(this->account.fetch());
+		break;
+
+	case CAccount::P_PROFILE_TIMESTAMP:
+		this->UpdateProfile(this->account.fetch());
 	}
 }
 
