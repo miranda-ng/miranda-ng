@@ -863,8 +863,6 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Ник:
 [No data transferred]
 Данные не переданы
-[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-Модуль отображения окна сообщений не загружен. Пожалуйста, установите/включите какой-либо модуль, например, "srmm.dll"
 [No Tick]
 Не отмечено
 [No times]
