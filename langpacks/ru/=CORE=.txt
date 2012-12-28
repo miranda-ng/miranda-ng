@@ -803,14 +803,10 @@ URL:
 Miranda NG не может открыть этот профиль
 [Miranda can't understand that profile]
 Miranda не может распознать этот профиль
-[Miranda IM %s Now Available]
-Доступна Miranda IM %s
 [Miranda NG Options]
 Настройки Miranda NG
 [Miranda NG Profile Manager]
 Менеджер профилей Miranda NG
-[Miranda IM v%s Now Available]
-Доступна Miranda IM v%s
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda не может открыть '%s', так как модули для поддержки профилей не установлены.\nВам нужно установить dbx_3x.dll или подобный модуль.
 [Miranda Profiles from]
@@ -2370,7 +2366,7 @@ Miranda не может загрузить модуль Chat, потому чт�
 [Messaging Log]
 Журнал
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Если вы используете Windows 95 или WINE, проверьте наличие файла riched20.dll. Нажмите "Да" для продолжения загрузки Miranda IM.
+Miranda не смогла загрузить встроенную систему сообщений, так как отсутствует riched20.dll. Если вы используете Windows 95 или WINE, проверьте наличие файла riched20.dll. Нажмите "Да" для продолжения загрузки Miranda NG.
 [An unknown error has occured.]
 Неизвестная ошибка.
 [Save the window size and location individually for each contact]
