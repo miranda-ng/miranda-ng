@@ -24867,6 +24867,14 @@ Beim Start
 [Update icons]
 Icons aktuallisieren
 
+[Files source]
+Quelle der Dateien
+[Stable version]
+Stabile Version
+[Development version (less stable)]
+Entwicklungs-Version (weniger stabil)
+[Custom version]
+Eigene Version
 
 [Message boxes (*)]
 Nachrichtenboxen (*)
