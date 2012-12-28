@@ -61,7 +61,7 @@ static int BugCommandEvent(WPARAM wParam, LPARAM lParam)
 
 static INT_PTR BugCommand(WPARAM, LPARAM)
 {
-	NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://trac.mysvn.ru/ghazan/myranda/report");
+	NotifyEventHooks(hBugEvent, 0, (LPARAM)"http://bugs.miranda-ng.org");
 	return 0;
 }
 
