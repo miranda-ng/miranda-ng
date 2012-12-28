@@ -928,8 +928,8 @@ Miranda не можа адкрыць '%s'\nЁн недаступны ці зан
 Адкрыць...
 [Options search]
 Пошук па наладах
-[Options\nConfigure your Miranda Instant Messenger options]
-Налады\nАсноўны дыялог налад Miranda IM
+[Options\nConfigure your Miranda NG options]
+Налады\nАсноўны дыялог налад Miranda NG
 [Options]
 Налады
 [Or enter a full international number:]
