@@ -1,0 +1,108 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Deutsch (Deutschland) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
+#ifdef _WIN32
+LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPT_MDYNDNS DIALOGEX 0, 0, 280, 240
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_VISIBLE
+EXSTYLE WS_EX_CONTROLPARENT
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
+BEGIN
+    GROUPBOX        "DynDns",IDC_STATIC,22,25,235,143
+    RTEXT           "Username:",IDC_STATIC,40,55,70,8
+    RTEXT           "Password:",IDC_STATIC,40,80,70,8
+    RTEXT           "Domain alias:",IDC_STATIC,40,105,70,10
+    EDITTEXT        IDC_USERNAME,120,50,100,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_PASSWORD,120,75,100,14,ES_PASSWORD | ES_AUTOHSCROLL
+    EDITTEXT        IDC_DOMAIN,120,100,100,14,ES_AUTOHSCROLL
+    CONTROL         "Register new account on dyndns.org",IDC_CREATEACCOUNT,
+                    "Hyperlink",WS_GROUP | 0x1,30,135,219,10
+    CONTROL         103,IDC_DynDNS,"Static",SS_BITMAP,26,20,95,18,WS_EX_TRANSPARENT
+END
+
+IDD_OPT_POPUPS DIALOG  0, 0, 317, 141
+STYLE DS_SETFONT | WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "Delay",IDC_STATIC,160,46,137,55
+    CONTROL         "&From PopUp plugin",IDC_DELAY_POPUP,"Button",BS_AUTORADIOBUTTON,167,60,125,10
+    CONTROL         "&Custom",IDC_DELAY_CUSTOM,"Button",BS_AUTORADIOBUTTON,167,73,98,10
+    CONTROL         "P&ermanent",IDC_DELAY_PERMANENT,"Button",BS_AUTORADIOBUTTON,167,87,123,10
+    EDITTEXT        IDC_DELAY,270,71,21,14,ES_AUTOHSCROLL | ES_NUMBER
+    GROUPBOX        "Colours",IDC_STATIC,15,46,137,55
+    LTEXT           "Background",IDC_STATIC,53,63,95,8
+    LTEXT           "Text",IDC_STATIC,53,82,96,8
+    CONTROL         "",IDC_COLORBKG,"ColourPicker",WS_TABSTOP,23,61,24,12
+    GROUPBOX        "General Options",IDC_STATIC,15,1,282,40
+    CONTROL         "",IDC_COLORTXT,"ColourPicker",WS_TABSTOP,23,79,24,12
+    PUSHBUTTON      "Preview",IDC_PREVIEW,132,112,50,14
+    CONTROL         "Enable error popups",IDC_ENABLEPOPUP,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,13,267,10
+    CONTROL         "Enable updating notification",IDC_ENABLEUPDATEPOPUP,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,23,26,267,10
+END
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.\0"
+END
+
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_DynDNS              BITMAP                  "dyndns.bmp"
+#endif    // Deutsch (Deutschland) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

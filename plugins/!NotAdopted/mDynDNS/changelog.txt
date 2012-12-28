@@ -1,0 +1,17 @@
+mDynDNS: 0.8.1.1
++ added mDynDNS as 'KnownModules' in database
++ updater support for http://merlins-miranda.googlecode.com
+! minor option page changes
+! move option page from 'Network' to 'Services'
++ added UUID for Miranda 0.8
+! convert Project from Dev-C++ IDE to vc2008 (.cpp)
++ SVN added http://merlins-miranda.googlecode.com
+
+http://addons.miranda-im.org/details.php?action=viewfile&id=3157
+mDynDNS: 0.0.1.1
++ Langpack added
++ Source added
+! Some code cleaning
+
+mDynDNS: 0.0.1.0
++ Initial release
