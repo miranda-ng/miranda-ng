@@ -224,8 +224,8 @@ Authors: Jerbifor,Inha
 <невядома>
 [A file containing new database settings has been placed in the Miranda NG directory.]
 Файл з новымі наладамі базы дадзеных быў змешчаны ў каталог Miranda.
-[A new version of Miranda IM is now available.  Click the download button to download this new update.]
-Даступная новая версія Miranda IM. Націсніце кнопку "Пампаваць", каб адкрыць старонку загрузкі.
+[A new version of Miranda NG is now available.  Click the download button to download this new update.]
+Даступная новая версія Miranda NG. Націсніце кнопку "Пампаваць", каб адкрыць старонку загрузкі.
 [A&ccept]
 &Прыняць
 [About Miranda NG]
@@ -808,14 +808,12 @@ URL:
 Miranda NG не можа адкрыць гэты профіль
 [Miranda can't understand that profile]
 Miranda не можа распазнаць гэты профіль
-[Miranda IM %s Now Available]
-Даступная Miranda NG %s
+
 [Miranda NG Options]
 Налады Miranda
 [Miranda NG Profile Manager]
 Мэнэджар профіляў Miranda
-[Miranda IM v%s Now Available]
-Даступная Miranda IM v%s
+
 [Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
 Miranda не можа адкрыць '%s', бо модулі для падтрымкі профіляў не ўсталяваны.\nВам трэба ўсталяваць dbx_3x.dll ці падобны модуль.
 [Miranda Profiles from]
@@ -825,7 +823,7 @@ Miranda не можа адкрыць '%s', бо модулі для падтры
 [Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
 Miranda не можа адкрыць '%s', профіль у невядомым фармаце.\nЭтот профіль таксама можа быць пашкоджаны, паспрабуйце выправіць яго з дапамогай dbtool.
 [Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
-Miranda не можа адкрыць '%s'\nЁн недаступны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda IM
+Miranda не можа адкрыць '%s'\nЁн недаступны ці заняты іншым прыкладаннем, ці іншай копіяй Miranda NG
 [Miranda Website]
 Сайт Miranda
 [Mmm...food.]
@@ -4467,8 +4465,7 @@ Miranda знайшла пашкоджанні ў Вашай базе. Яны м�
 %s (Імя модуля не ўнікальна)
 [%s (Module Offset not unique)]
 %s (Зрушэнне модуля не ўнікальна)
-[The db3x_mmap plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Драйвер базы db3x_mmap не можа быць загружаны. Ен патрабуе Miranda IM 0.7.0.0 ці вышэй.
+
 [Copying database file...]
 Капіяванне файла базы...
 [Backups]
@@ -5685,8 +5682,7 @@ xСтатусы
 Рэзерваванне адменена карыстачом!\nНезавершаная копія будзе выдалена!
 [An error occured while writing the database backup!]
 Памылка пры спробе запісу копіі базы дадзеных!
-[The db3x plugin cannot be loaded. It requires Miranda IM 0.6.1.0 or later.]
-Модуль базы не можа быць загружаны. Патрабуецца Miranda IM 0.6.1.0 ці старэй.
+
 [db3xSA Plugin]
 Модуль db3xSA
 [Fatal error!]
@@ -6468,7 +6464,7 @@ AIM Папярэджанне
 (%s) Атрыманне %s
 [A message has been dropped. You are exceeding the server speed limit.]
 Усе паведамленні скінуты. Вы перавысілі абмежаванне хуткасці сервера.
-[A restart of Miranda IM is required for changes to take effect.]
+[A restart of Miranda NG is required for changes to take effect.]
 Змены набудуць моц пасля перазапуску праграмы.
 [Administrator]
 Адміністратар
@@ -6912,7 +6908,7 @@ Miranda NG запусціцца аўтаматычна пасля загрузк
 Спасылка
 [Registered associations for Miranda NG:]
 Зарэгістраваныя асацыяцыі для Miranda NG:
-[&Start Miranda IM automatically when the Computer starts (using current profile)]
+[&Start Miranda NG automatically when the Computer starts (using current profile)]
 &Загружаць праграму пры запуску кампутара (выкарыстоўваючы бягучы профіль)
 [File Types]
 Тыпы файлаў
@@ -7584,18 +7580,17 @@ Windows не актыўны
 Спытаць пароль:
 [Change status back]
 Вярнуць папярэдні статус
-[Miranda IM is locked. Enter password to unlock it.]
-Miranda IM заблакавана!\n Увядзіце пароль для разблакоўкі.
+[Miranda NG is locked. Enter password to unlock it.]
+Miranda заблакавана!\n Увядзіце пароль для разблакоўкі.
 [Use default status message]
 Статуснае паведамленне па змаўчанні
-[The BossKey+ cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Немагчыма загрузіць BossKey+. Неабходна Miranda IM версіі 0.7.0.0 і вышэй.
-[Hide Miranda IM]
-Схаваць Miranda IM
+
+[Hide Miranda NG]
+Схаваць Miranda NG
 [get the BossKey name]
 Атрымаць клавішу блакавання з BossKey+
-[Miranda IM is locked.\nEnter password to unlock it.]
-Miranda IM заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
+[Miranda NG is locked.\nEnter password to unlock it.]
+Miranda заблакавана.\n Увядзіце ваш пароль для разблакоўкі.
 [Password is not correct!\nPlease, enter correct password.]
 Няправільны пароль!\n Увядзіце правільны пароль.
 [Miranda is started]
@@ -8352,12 +8347,14 @@ Miranda IM заблакавана.\n Увядзіце ваш пароль для
 ;#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;============================================================
 ;  File: clist_mw.dll
-;  Module:  Miranda IM Contact List
+;  Module:  MultiWindow Contact List
 ;  Versions: 0.9.0.0
 ;  URL: http://code.google.com/p/miranda/downloads/list
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/mwclist/
 ;  Authors: Bethoven
 ;============================================================
+[Displays contacts, event notifications, protocol status with MW modifications.]
+Паказвае кантакты, з'явы, статусы протоколаў. MW мадыфікацыя.
 [Backgrounds]
 Фоны
 [TitleBarFont]
@@ -8397,6 +8394,8 @@ _Безпротокола_
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/plugins/clist_nicer/
 ;  Authors: Pixel, egoDust, cyreve, Nightwish
 ;============================================================
+[Displays contacts, event notifications, protocol status.]
+Паказвае кантакты, з'явы, статусы протоколаў.
 [&Skinned frame]
 Скін фрэйма
 [Skinned frame]
@@ -8890,7 +8889,7 @@ xСтатус
 [Chat room/IRC channel activity]
 Чат/Актыўнасць у чаце
 [Open Miranda folder]
-Адкрыць тэчку Miranda IM
+Открыть папку Miranda NG
 [Open database editor]
 Адкрыць рэдактар базы дадзеных
 [Toogle popups]
@@ -8906,11 +8905,20 @@ xСтатус
 
 #muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;============================================================
+;  File: Cln_skinedit.dll
+;  Plugin: Allow inline skin item editing for clist nicer+
+;  Versions: 0.0.0.1
+;  URL: http://wiki.miranda-ng.org/index.php?title=Plugin:Cln_skinedit
+;  Source: https://mysvn.ru/ghazan/myranda/trunk/plugins/Clist_nicer/skineditor/
+;  Authors: Nightwish, Pixel
 ;============================================================
-;#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+[Allows inline skin item editing for clist nicer+.]
+Рэдактар шкурак для CList Nicer+.
+
+#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;============================================================
 ;  File: CmdLine.dll
-;  Module: Command line support for Miranda IM
+;  Module: Command line support for Miranda NG
 ;  Versions: 0.0.4.1
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3477
 ;  Source: https://svn.asylum-studios.org/loki/trunk/plugins/CmdLine/ Login: guest Pass: guestpas
@@ -9147,14 +9155,14 @@ Miranda была зачынена ці адбылася памылка пры ч
 #muuid {f62c1d7a-ffa4-4065-a2514c9dd9101cc8}
 ;===========================================================
 ;  File: crashdumper.dll
-;  Module: Crash Dumper for Miranda IM by borkra
+;  Module: Crash Dumper for Miranda NG by borkra
 ;===========================================================
 [Crash Dumper]
 Справаздача пра памылкі
-[Crash Dumper for Miranda IM]
+[Crash Dumper for Miranda NG.]
 Модуль стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
 [Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
-Miranda IM была завершана аварыйна. Неабходзен dbghelp.dll v6.8 для падавання справаздачы пра крытычную памылку
+Miranda была завершана аварыйна. Неабходзен dbghelp.dll v6.8 для падавання справаздачы пра крытычную памылку
 [VersionInfo stored into file %s]
 Версіі захаваны ў файле %s
 [VersionInfo file %s is inaccessible]
@@ -9198,7 +9206,7 @@ Miranda IM была завершана аварыйна. Неабходзен db
 [Crash Dumper HTTP connections]
 HTTP далучэнне Crash Dumper
 [Miranda crashed. Crash report stored in the folder:\n %s]
-Крытычная памылка Miranda IM. Справаздача пра памылку захаваны ў тэчцы:\n %s
+Крытычная памылка Miranda NG. Справаздача пра памылку захаваны ў тэчцы:\n %s
 [Miranda Crash Dumper]
 Справаздача пра памылкі
 [Version Information To Clipboard]
@@ -9222,7 +9230,7 @@ HTTP далучэнне Crash Dumper
 [Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
 Папярэджанне: Уключайце гэту опцыю толькі тады, калі няма іншага спосабу атрымаць справаздачу пра памылку. Вы атрымаеце на шмат больш справаздач пра памылкі чым чакалі ці пра якія трэба турбуецца.
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda IM была завершана аварыйна. Справаздача захаваны ў \n %s\n\n Ці жадаеце вы захаваць яго ў буфер абмену?
+Miranda  NG была завершана аварыйна. Справаздача захаваны ў \n %s\n\n Ці жадаеце вы захаваць яго ў буфер абмену?
 [Disable Crash Reporting]
 Выключыць справаздачы пра памылкі
 [Notify only if crash stops Miranda]
@@ -9268,22 +9276,6 @@ Miranda IM была завершана аварыйна. Справаздача 
 Пацвярджаць выдаленне пунктаў
 [Delete entries in ICQ Custom status menu after Import]
 Пасля імпарту, выдаляць тэксты статутаў у спісе ICQ
-[Menu item placement]
-Становішча пункта ў меню
-[Global Status Menu]
-У глабальным статуце
-[At the top]
-Зверху
-[At the bottom]
-Знізу
-[ICQ Status Menu]
-У статуце ICQ
-[Hide "Custom status" menu]
-Схаваць выбар статуту
-[(ICQ Plus/eternity mods only)]
-(толькі ў ICQ plus модзе)
-[Note: Some options may require restart of Miranda IM]
-Некаторыя змены ўступяць пасля перазапуску праграмы
 [Add new item]
 Дадаць новы пункт
 [Modify selected item]
@@ -9298,16 +9290,8 @@ Miranda IM была завершана аварыйна. Справаздача 
 Ачысціць хстатус (паставіць у Няма) і зачыніць
 [Set custom status to selected one and close]
 Вуснаў. хстатус на абраны і зачыніць
-[Do you want to delete old DB entries after Import?]
-Вы жадаеце выдаліць старыя запісы з базы дадзеных пасля імпарту?
 [Undo changes]
 Адмяніць змены
-[Show Custom Status List]
-Паказаць карыстацкі спіс статутаў
-[Global Status Menu at the top]
-Угары ў меню глабальнага статуту
-[Global Status Menu at the bottom]
-Унізе ў меню глабальнага статуту
 [Regular statuses]
 Частыя статуты
 [Set/unset current item as favorite]
@@ -9320,10 +9304,6 @@ Miranda IM была завершана аварыйна. Справаздача 
 Няма запісаў у базе дадзеных.\n Націсніце на кнопку "Дадаць новы пункт" для запаўнення спісу.
 [Modify item]
 Змяніць пункт
-[Note: This option requires newest version of ICQ plugin to work properly. Check details at the plugin homepage.]
-Для звычайнай працы, гэта налада патрабуе найноўшую версію модуля ICQ. Дэталі на хатняй старонцы модуля.
-[Allow extra ICQ Custom status items (ICQ Plus only)]
-Дазволіць дап. хстатусы (толькі ў ICQ Plus)
 [Remember last window position]
 Памятаць апошняе становішча акна
 [Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
@@ -10091,8 +10071,9 @@ Null Mod кантэкст
 ;==========================================================
 [db3x Plugin]
 Модуль db3x
-[The db3x plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Немагчыма загрузіць модуль db3x. Неабходна Miranda IM версіі 0.7.0.0 ці пазней.
+
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Падтрымка базы Miranda NG.
 [Backup periodically:]
 Рэзерваваць перыядычна:
 [Backup when Miranda exits]
@@ -10114,10 +10095,10 @@ db3x драйвер
 ;==========================================================
 [db3x_mmap Plugin]
 Модуль db3x_mmap
-[Disk is full. Miranda IM will now shutdown.]
+[Disk is full. Miranda will now shutdown.]
 Дыск поўны. Miranda завяршае працу.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-Падтрымка базы Miranda IM.
+Падтрымка базы Miranda NG.
 #muuid {28ff9b91-3e4d-4f1c-b47cc641b037ff40}
 ;===========================================================
 ;  File: dbx_mmap_sa.dll
@@ -10135,8 +10116,8 @@ db3x драйвер
 Усталяваць пароль
 [Too many errors!]
 Занадта шмат памылак!
-[Login to Miranda IM]
-Уваход у Miranda IM
+[Login to Miranda NG]
+Уваход у Miranda NG
 [Provides Miranda database support: global settings, contacts, history, settings per contact. Enhanced modification with Encryption support.]
 Падтрымка базы дадзеных Miranda IM. Пашыраная мадыфікацыя з падтрымкай шыфравання.
 [DB is already secured!]
@@ -10164,7 +10145,12 @@ db3x драйвер
 
 #muuid {28f45248-8c9c-4bee-9307-7bcf3e12bf99}
 ;============================================================
+;  File: Dbx_tree.dll
+;  Plugin: Provides extended Miranda database support
+;  Versions: 0.0.0.18
 ;============================================================
+[Provides extended Miranda database support.]
+Пашыраны драйвер базы для Miranda NG.
 #muuid {81c220a6-0226-4ad6-bfca217b17a16053}
 ;===========================================================
 ;  File: db_autobackups.dll
@@ -10199,7 +10185,7 @@ db3x драйвер
 [username for currently logged-on Windows user]
 імя бягучага карыстача сістэмы
 [Miranda Databases]
-Базы дадзеных Miranda IM
+Базы данных Miranda NG
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 ;============================================================
 ;  File: facebook.dll
@@ -10209,6 +10195,8 @@ db3x драйвер
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
 ;  Authors: Robyer
 ;============================================================
+[Facebook protocol plugin for Miranda NG.]
+Падтрымка пратакола Facebook в Miranda NG.
 [Default group for newly added contacts:]
 Дадаваць кантакты ў групу:
 [User-Agent:]
@@ -10347,11 +10335,7 @@ db3x драйвер
 [Regular Contact]
 Звычайны кантакт
 [Dim idle contact icons]
-#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
-;============================================================
-;  File: fileAsMessage.dll
-;============================================================
-Прыцьміць кантакты ў чаканні
+
 
 #muuid {687364af-58b0-4af2-a4ee20f40a8d9afb}
 ;===========================================================
@@ -10362,143 +10346,28 @@ db3x драйвер
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FingerPrintModPlus/
 ;  Authors: Artem Shpynov aka FYR, Bio, Faith Healer, HierOS
 ;===========================================================
-[Icon packages]
-Пакеты значкоў
-[Client Icons/Mail.ru Agent]
-Кліенты/Mail.ru агент
-[Fingerprint (client version) icons module set extra icon of your buddies according to their client version]
-Fingerprint адлюстроўвае значкі кліентаў, выкарыстоўваных Вашымі суразмоўцамі.
-[Client Icons/C6]
-Кліенты/C6
-[Client Icons/AIM]
-Кліенты/AIM
-[Client Icons/ICQ]
-Кліенты/ICQ
-[Client Icons/IRC]
-Кліенты/IRC
-[Client Icons/JABBER]
-Кліенты/Jabber
-[Client Icons/Miranda]
-Кліенты/Miranda
-[Client Icons/Mobile]
-Кліенты/Мабільныя
-[Client Icons/MSN]
-Кліенты/MSN
-[Client Icons/Other]
-Кліенты/Іншыя
-[Client Icons/SKYPE]
-Кліенты/Skype
-[Client Icons/Yahoo]
-Кліенты/Yahoo
-[Client Icons/QQ]
-Кліенты/QQ
-[Client Icons/Weather]
-Кліенты/Надвор'е
-[Unknown for protocol]
-Невядома пратаколу
-[Unknown for fingerprint]
-Невядома модулю fingerprint
-[on Java]
-на Java
-[on Flash]
-на Flash
-[on Windows]
-на Windows
-[on MacOS]
-на MacOS
-[on Linux]
-на Linux
-[Client Icons/Gadu-Gadu]
-Кліенты/Gadu-Gadu
-[Client Icons/Multi-Protocol]
-Кліенты/Мульты-пратакол
-[Client Icons/Miranda/overlays#1]
-Кліенты/Miranda/аверлэй#1
-[Client Icons/Miranda/overlays#2]
-Кліенты/Miranda/аверлэй#2
-[Web-based]
-на Web аснове
-[Show pack icon (if available)]
-Значок зборкі (калі ёсць)
-[Base Icon]
-Базавы значок
-[Show in options icon group:]
-Групы ў наладах:
+
 [Show Miranda version]
-Паказваць версію Miranda IM
-[Show unicode flag]
-Юнікод
-[Show unknown]
-Невядомыя
-[Fingerprint icons]
-Значкі кліентаў
-[Show one icon]
-Адзін значок
-[Client (default)]
-Кліент (па змаўчанні)
-[Show protocol]
-Пратакол
-[Show version]
-Версія
-[Multi-Protocol]
-Мульты-пратакол
-[Show +secure]
-Паказваць шыфраванне
-[Extra icon slot (restart required):]
-Слот (патрабуецца перазапуск):
-[Show Jabber resource]
-Jabber рэсурс
-[Client Icons/Web-based]
-Кліенты/Web
-[Client Icons/Miranda/pack overlays]
-Кліенты/Miranda/аверлэі зборак
-[Client Icons/Multi-Protocol/overlays]
-Кліенты/Мульты-пратакол/аверлэі
-[Fingerprint Plus (client version) icons module set extra icon of your buddies according to their client version]
-Значкі кліентаў+ адлюстроўвае дадатковы значок для Вашых кантактаў у адпаведнасці з іх версіяй кліента
-[Show jabber transport]
-Транспарт Jabber
-[Never show news]
-Не паказваць навіны
-[Client Icons/JABBER/bots]
-Кліенты/Jabber/боты
-[Client Icons/JABBER/services]
-Кліенты/Jabber/службы
+Паказваць версію Miranda
+
 [Pack overlays]
 Аверлэі зборак
-[Icon group options will be fully applied after restart]
-Групы значкоў з'явяцца пасля перазапуску праграмы
+
 [Fingerprint]
 Значкі кліентаў
-[Fingerprint Plus]
-Значкі кліентаў (плюс)
+
 [Fingerprint Mod]
 Значкі кліентаў (мод)
-[Fingerprint Mod+]
-Значкі кліентаў (мод +)
-[Showing groups]
-Паказваць групы
-[Show Version as Overlay#2]
-Значок версіі як аверлэй #2
-[Fingerprint Mod+ (client version) icons module set extra icon of your buddies according to their client version.]
-Fingerprint Mod+ адлюстроўвае значкі кліентаў, выкарыстоўваных вашымі суразмоўцамі.
+
 [Undetected client]
 Нязнойдзены кліент
-[on Vista]
-на Vista
+
 [Unknown client]
 Невядомы кліент
-[on Symbian]
-на Symbian
+
 [Platform]
 Аперацыйная сістэма
-[Official]
-Афіцыйныя
-[Unofficial]
-Неафіцыйныя
 
-[Not founded icon]
-Абразок не знойдзен
 
 ;FingerprintNG
 [Fingerprint NG (client version) icons module for Miranda NG.]
@@ -10590,8 +10459,7 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 У наступным слоце:
 [Use &unknown flag if the country can not be determined]
 Паказ. unknown  сцяг, калі краіну нельга вызначыць
-[The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль нацыянальных сцягоў не можа быць загружаны. Для яго працы неабходна Miranda IM %hs ці вышэй.
+
 [Faroe Islands]
 О-ў Фара
 [Saipan Island (Northern Mariana Islands)]
@@ -10686,8 +10554,7 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 Паказваць адключаных
 [Hide when a fullscreen app is active]
 Хаваць у поўнаэкранным рэжыме
-[Floating Contacts plugin for Miranda]
-Модуль плывучых кантактаў для Miranda IM
+
 [same]
 тыя ж
 [as:]
@@ -11919,7 +11786,7 @@ HTML файл
 [Make sure you have CAPS LOCK turned off.]
 Пераканаецеся, што CAPS LOCK выключаны.
 [Miranda's settings used]
-Выкарыстоўваюцца налады Miranda IM
+Выкарыстоўваюцца налады Miranda
 [Nick Font Color]
 Колер ніка
 [Nick Font]
@@ -11963,7 +11830,7 @@ HTML файл
 [System Message]
 Сістэмнае паведамленне
 [Use Miranda default settings]
-Выкарыстоўваць налады Miranda IM
+Выкарыстоўваць налады Miranda
 [You were added by %s (%s%s%d)]
 Вас дадаў(а) %s (%s%s%d)
 [You Were Added Message Sample]
@@ -12061,7 +11928,7 @@ Wiki-старонка дадатковых параметраў
 Пры загрузцы/выйсці:
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 Выкарыстоўваць НЕБЯСПЕЧНЫ рэжым (хутчэй, але небяспечней для БД)
-[* Note: Miranda IM will have to be restarted for changes to take effect.]
+[* Note: Miranda NG will have to be restarted for changes to take effect.]
 * Змены набудуць моц пасля перазапуску праграмы.
 [Older than 1 Day]
 Старэй 1 дня
@@ -13604,8 +13471,7 @@ CTCP %s запыт пасланы для %s
 Увод каманды
 [Please enter the reply]
 Увядзіце адказ
-[The IRC protocol could not be loaded as it is dependant on Miranda IM version %s or later.\n\nDo you want to download an update from the Miranda website now?]
-IRC пратакол не загружаны, бо патрабуецца Miranda IM версіі %s ці пазней.\n\n Загрузіць абнаўленне з сайта праграмы?
+
 [Please complete all fields]
 Запоўніце ўсе палі
 [<Resolved IP: ]
@@ -13742,8 +13608,7 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Ігнараваць ->
 [Connecting to]
 Злучэнне з
-[This protocol is dependent on another plugin named 'Chat'\nPlease download it from the Miranda IM website!]
-Гэты пратакол патрабуе наяўнасці модуля chat.\n Калі ласка, загрузіце яго з сайта Miranda IM.
+
 [Please choose an IRC-network to go online. This network will be the default.]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
 [Default network]
@@ -13996,8 +13861,7 @@ ID карыстача
 Памылка DCC: Немагчыма адкрыць лакальны порт для пасіўнай перадачы файлаў
 [IRC Protocol Plugin]
 Модуль пратаколу IRC
-[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Немагчыма загрузіць IRC пратакол. Патрабуецца Miranda IM версіі 0.7.0.0 і вышэй.
+
 [Cyrillic (KOI8R)]
 Кірыліца KOI8-R
 [Cyrillic (Windows)]
@@ -14168,8 +14032,7 @@ Nickserv забіць фантому
 Адчапіць нік ад бягучага
 [Type new server address here]
 Новы адрас сервера
-[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.8.0.9 or later.]
-Немагчыма загрузіць модуль пратаколу IRC. Патрабуецца Miranda IM версіі 0.8.0.9 ці вышэй.
+
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Немагчыма ўсталяваць далучэнне. Вы не ўвялі ўсе неабходныя дадзеныя (нік, User ID і імя)
 [Alternate nick]
@@ -14190,12 +14053,7 @@ Nickserv забіць фантому
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 [Automatically accept chat requsts from...]
 Аўтаматычна прымаць уваходныя запыты ад...
-[The IRC protocol can not connect as this version requires features in newer versions of Miranda IM.\nPlease download an upgradeded version from the Miranda IM website!]
-Пратакол IRC не можа далучыцца, таму што гэта версія выкарыстоўвае магчымасці з новых версій Miranda IM.\n\n Калі ласка, абновіце праграму з сайта.
-[The IRC protocol could not be loaded as it is dependant on features in newer versions of Miranda IM.\n\nDo you want to download an update of Miranda IM now?.]
-Пратакол IRC не можа быць загружаны, таму што ён залежыць ад магчымасцяў новых версій Miranda IM.\n\n Загрузіць новую версію Miranda IM?
-[The IRC protocol requires features found in newer versions of Miranda IM.\n\nDo you want to download it from the Miranda IM web site now?]
-Пратакол IRC мае патрэбу ў функцыях новых версій Miranda IM.\n\n Загрузіць новую версію з сайта праграмы?
+
 [IRC protocol]
 Пратакол IRC
 [Failed to connect to]
@@ -15399,7 +15257,7 @@ JID / URL:
 Памылка %d паўстала падчас працэсу блакавання
 [Quit Miranda NG]
 Зачыніць Miranda
-[Please confirm Miranda IM shutdown]
+[Please confirm Miranda NG shutdown]
 Пацвердзіце выключэнне праграмы
 [I agree]
 Я згодны
@@ -15539,8 +15397,7 @@ Jabber памылка
 Статус усталяваны
 [Giving up]
 Спыняю
-[KeepStatus requires at least v0.3.1 (final) of Miranda IM, get it at www.miranda-im.org]
-KeepStatus патрабуе прынамсі Miranda IM версіі 0.3.1 (фінал)
+
 [connection lost]
 злучэнне страчана
 [each retry]
@@ -15821,8 +15678,7 @@ Dial-Up (прачытайце keepstatus.txt)
 Модуль кіравання лакалізацыямі
 [Language Pack Manager Plugin]
 Модуль кіравання лакалізацыямі
-[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль кіравання лакалізацыямі не можа быць загружаны. Патрабуецца версія Miranda IM %hs ці вышэй.
+
 [Language Pack Update HTTP connection]
 Падлучэнні модуля лакалізацый (HTTP)
 [Installed Languages]
@@ -15856,7 +15712,7 @@ Dial-Up (прачытайце keepstatus.txt)
 [Select your language]
 Абярыце вашу мову
 [Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Miranda даступная на шматлікіх мовах.\n Тут вы бачыце спіс даступных лакалізацый на сайце Miranda IM, калі ласка абярыце вашу асноўную мову:
+Miranda даступная на шматлікіх мовах.\n Тут вы бачыце спіс даступных лакалізацый на сайце Miranda, калі ласка абярыце вашу асноўную мову:
 [Download &all languages]
 Загрузіць усе лакалізацыі
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
@@ -15874,7 +15730,7 @@ Miranda даступная на шматлікіх мовах.\n Тут вы б�
 #muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
 ;============================================================
 ;  File: linklist.dll
-;  Module: History Linklist Plugin for Miranda IM
+;  Module: History Linklist Plugin for Miranda NG
 ;  Versions: 0.1.1.1-0.1.1.2
 ;============================================================
 [Generates a list of extracted URIs from the history.]
@@ -15950,7 +15806,7 @@ e-mail адрасы
 [Matches for searchtext]
 Выяўлена супадзенняў пры пошуку
 [Miranda Linklist]
-Часопіс спасылак Miranda IM
+Спіс спасылак Miranda NG
 [outgoing]
 выходныя
 [Processing history...]
@@ -16331,7 +16187,7 @@ Meta ID
 ;#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;============================================================
 ;  File: MirOTR.dll
-;  Module: OTR (Off-the-Record) plugin for Miranda IM (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE))private
+;  Module: OTR (Off-the-Record) plugin for Miranda NG (using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE))private
 ;  Versions: 0.11.0.2
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=4424
 ;  Source: http://code.google.com/p/mirotr/
@@ -16540,15 +16396,15 @@ OTR-статут
 ;===========================================================
 [Support for new options design.]
 Падтрымка новага дызайну налад.
-[Visit official Miranda IM website]
-Афіцыйны сайт Miranda IM
+[Visit official Miranda NG website]
+Афіцыйны сайт Miranda NG
 [Switch to classic options]
 Класічны выгляд налад
 [View help online]
 Анлайн-даведка
 [Setup your account information to start messaging.]
 Наладзьце ўліковыя запісы для пачатку зносін.
-[Change the look of Miranda IM according to your taste.]
+[Change the look of Miranda NG according to your taste.]
 Змяняйце вонкавы выгляд праграмы на свой густ.
 [Configure behaviour of your contact list.]
 Наладзьце паводзіны вашага спісу кантактаў.
@@ -16558,7 +16414,7 @@ OTR-статут
 Заблакуйце карыстачоў і падзеі, якія вам не падабаюцца.
 [Set your status messages and idle reporting.]
 Усталюйце статусныя паведамленні і паведамленні адсутнасці.
-[Miranda IM is all about plugins. Manage all the plugins you have here.]
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
 Кіраванне вашымі дадатковымі модулямі.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 У вас ёсць не захаваныя змены.\n Ці жадаеце вы іх ужыць перад пераключэннем?
@@ -17306,8 +17162,7 @@ UTF8 у новых файлах
 ;============================================================
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 Для сеціва MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
-[The MSN protocol plugin cannot be loaded. It requires Miranda IM 0.10.0.2 or later.]
-Немагчыма загрузіць модуль пратаколу MSN. Неабходна версія Miranda IM 0.10.0.2 ці старэй.
+
 [Setup Live &Alerts]
 Налады Live &Alerts
 [Run the following application when new Hotmail arrives]
@@ -18760,8 +18615,7 @@ Wave файлы
 ;  Module: PackUpdater
 ;  Versions: 	0.0.6
 ;============================================================
-[Simple updater for Miranda IM premodified packs.]
-Просты модуль для абнаўленняў зборак Miranda IM.
+
 [Pack Updater]
 Абнаўленне зборкі
 [Check for pack updates]
@@ -19017,8 +18871,8 @@ HTTP падлучэнне Plugin Updater
 ;  Versions: 0.0.0.2
 ;  URL: http://woobind.org.ua/forum/index.php?board=13.0
 ;============================================================
-[Closes Miranda IM and starts Profile Manager]
-Зачыняе Miranda IM і запускае мэнэджар профіляў
+[Closes Miranda NG and starts Profile Manager]
+Зачыняе Miranda NG і запускае мэнэджар профіляў
 [Adds a menu item to change or load a different profile of Miranda IM.]
 Дадае пункт меню, для змены ці загрузкі іншага профіля Miranda IM.
 [&Change Profile...]
@@ -19242,7 +19096,7 @@ History++ для гісторыі вокнаў
 [Start the popups in the monitor that contains]
 Паказваць вокны на экране, які змяшчае
 [Miranda's window]
-Акно Miranda IM
+Вакно Miranda NG
 [the active window]
 Актыўнае акно
 [Disable &popup module]
@@ -20682,8 +20536,8 @@ SecureIM (выключаны)
 Ключ прыняты...
 [SecureIM]
 Шыфраванне
-[SecureIM plugin for Miranda IM]
-Падтрымка шыфравання ў Miranda IM
+[SecureIM plugin for Miranda NG.]
+Падтрымка шыфравання ў Miranda
 [Incoming Secure Message]
 Уваходнае шыфраванае паведамленне
 [Outgoing Secure Message]
@@ -21045,7 +20899,7 @@ LastSeen: Змена статусу карыстача
 [Send using:]
 Спосаб адпраўкі:
 [Miranda's File Transfer.]
-Перадача файлаў Miranda IM
+Перадача файлаў Miranda NG
 [Send to default email client.]
 Адправіць праз e-mail кліент
 [Method for capturing the screenshot:]
@@ -21161,7 +21015,7 @@ HTTP Server не загружаны!
 [Transparent &Background]
 Празрысты фон
 [Miranda is exiting]
-Miranda IM выходзіць
+Miranda выходзіць
 [Could not create main dialog.]
 Немагчыма стварыць галоўны дыялог.
 [Close all capture dialogs and edit windows now, after that press OK.]
@@ -21169,7 +21023,7 @@ Miranda IM выходзіць
 [Not a supported file type.]
 Тып файла не падтрымліваецца.
 [Could not register miranda service MS_SENDSS_SENDDESKTOP.]
-Немагчыма звязаць службу Miranda IM MS_SENDSS_SENDDESKTOP.
+Немагчыма звязаць службу Miranda MS_SENDSS_SENDDESKTOP.
 [Starting upload!]
 Пачатак запампоўкі!
 [Send screenshot to <unknown> - Capture Options]
@@ -21561,7 +21415,7 @@ URL у статутным паведамленні
 ;  URL: http://miranda-im.org/download/details.php?action=viewfile&id=540
 ;===========================================================
 [Smiley support for Miranda Instant Messanger]
-Падтрымка смайлаў у Miranda IM.
+Падтрымка смайлаў у Miranda NG.
 [Specify library for each category]
 Розныя для розных катэгорый
 [(Leave blank to disable for this category)]
@@ -21823,13 +21677,13 @@ HTTP далучэнне SmileyAdd
 ;  URL: http://dev.mirandaim.ru/~thief/
 ;============================================================
 [Shows a splash at Miranda startup.]
-Паказвае ўсплывальнае акно пры старце Miranda IM.
+Паказвае ўсплывальнае акно пры старце Miranda NG.
 [Splash Screen]
 Застаўка
 [Splash Options]
 Налады застаўкі
 [Show Miranda Version]
-Паказваць версію Miranda IM
+Паказваць версію Miranda NG
 [Show splash]
 Застаўка
 [Show random splash]
@@ -22379,7 +22233,7 @@ RTL шаблоны
 [entries]
 пунктаў
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Налады, адзначаныя (*) набудуць моц толькі пасля перазапуску Miranda IM.
+Налады, адзначаныя (*) набудуць моц толькі пасля перазапуску Miranda NG.
 [More about advanced tweaks]
 Падрабязней пра дадатковыя налады
 [Revert to (safe) defaults]
@@ -22646,8 +22500,8 @@ ID бягучага кантакту (калі вызначаны). Напрык
 Памылка фільтра падзей
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
 Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
-[IM and group chat module for Miranda IM.]
-Модуль асабістых і групавых чатаў для Miranda IM.
+[IM and group chat module for Miranda NG.]
+Модуль асабістых і групавых чатаў для Miranda NG.
 [Message windows - IM]
 Вокны паведамленняў - IM
 [Send nudge]
@@ -23705,7 +23559,7 @@ It will be sent as soon as possible and a popup will inform you about the result
 [Clist event]
 Падзея спісу
 [Miranda uptime]
-Час працы Miranda IM
+Час працы Miranda
 [Hide offline]
 Схаваць адключаных
 [Append protocol name]
@@ -23715,7 +23569,7 @@ It will be sent as soon as possible and a popup will inform you about the result
 [Log on:]
 У сеткі:
 [Miranda uptime:]
-Час працы Miranda IM:
+Час працы Miranda:
 [Idle:]
 У чаканні:
 [ ago]
@@ -23753,7 +23607,7 @@ It will be sent as soon as possible and a popup will inform you about the result
 [You must enter a label]
 Вы павінны ўвесці пазнаку
 [You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Вам патрэбен модуль advaimg.dll для падтрымкі скінаў. Ён ёсць у апошніх альфа зборках Miranda IM.
+Вам патрэбен модуль advaimg.dll для падтрымкі скінаў. Ён ёсць у апошніх альфа зборках Miranda.
 [Empty message]
 Пустое паведамленне
 [Tooltips View]
@@ -24491,7 +24345,7 @@ P2P далучэнні
 ;#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;============================================================
 ;  File: ttnotify.dll
-;  Module: Tooltip notify plugin for Miranda IM
+;  Module: Tooltip notify plugin for Miranda NG
 ;  Versions: 0.0.6.0
 ;============================================================
 [Tooltip Notify]
@@ -24625,7 +24479,7 @@ URL:
 [Use Windows Timezone]
 Гадзінны пояс Windows
 [(*) Requires Miranda to be restarted.]
-(*) Патрабуецца перазапуск Miranda IM.
+(*) Патрабуецца перазапуск Miranda.
 [Reset factory defaults]
 Налады па змаўчанні
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
@@ -24992,7 +24846,7 @@ URL:
 ;  URL:http://code.google.com/p/alfamar/
 ;============================================================
 [This plug-in adds the main menu item used to view miranda-im pack user guide]
-Гэта ўбудова дадае пункт у галоўнае меню для прагляду кіраўніцтва карыстальніка па зборцы Miranda IM.
+Гэта ўбудова дадае пункт у галоўнае меню для прагляду кіраўніцтва карыстальніка па зборцы Miranda NG.
 [User Guide]
 Кіраўніцтва
 
@@ -25062,7 +24916,7 @@ x - y - ...
 [location of last occurrence of character y in string x]
 месца апошняга ўваходжання знака y у радку x
 [get the version of Miranda]
-атрымаць версію Miranda IM
+атрымаць версію Miranda NG
 [protocol name of protocol id x]
 імя пратаколу id x
 [cpu load of process x (without extension) (x is optional)]
@@ -25232,7 +25086,7 @@ y, калі w > x, інакш z
 [Mathematical Functions]
 Матэматычныя функцыі
 [Miranda Related]
-Што адносіцца да Miranda IM
+Адносіцца да Miranda NG
 [Regular Expressions]
 Рэгулярныя выразы
 [String Functions]
@@ -25256,7 +25110,7 @@ y, калі w > x, інакш z
 [%true%]
 лагічнае ПРАЎДА
 [--- Special characters ---\n\nThe following characters have a special meaning in a formatting string:\n\n?<function>(<arguments>)\nThis will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\n\n!<function>(<arguments>)\nThis will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\n\n%<field>%\nThis will parse the given field. Example: I installed Miranda at: %mirandapath%.\n\n`<string>`\nThis will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\n\n#<comment>\nThis will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\n\n\n--- Contacts ---\n\nWhenever a functions requires a contact as an argument, you can specify it in two ways:\n\n(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\n\n(2) Using the contact function:\n?contact(x,y)\nA contact will be searched which will have value x for its property y, y can be one of the following:\nfirst, last, nick, email, id or display\n\nFor example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.]
---- Адмысловыя знакі ---\n\nНаступныя знакі маюць адмысловае значэнне ў радку фарматавання:\n\n?<функцыя>(<аргументы>)\nАпрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\n\n!<функцыя>(<аргументы>)\nАпрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\n\n%<поле>%\nАпрацуе гэта поле . Прыклад: Я ўсталяваў Miranda IM у: %mirandapath%.\n\n`<радок>`\nНе апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху ўсталёўкі.\n\n#<каментар>\nДаданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\n\n\n--- Кантакты ---\n\nКалі функцыі неабходзен кантакт як аргумент, яго можна атрымаць двума шляхамі:\n\n(1) выкарыстоўваючы ўнікальны id (UIN для ICQ, e-mail для MSN) ці id кантакту, наступным за id пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\n\n(2) выкарыстоўваючы функцыю contact:\n?contact(x,y)\nВерне кантакт са значэннем x уласцівасці y, y можа быць адным з:\nfirst, last, nick, email, id ці display\n\nПрыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.
+--- Адмысловыя знакі ---\n\nНаступныя знакі маюць адмысловае значэнне ў радку фарматавання:\n\n?<функцыя>(<аргументы>)\nАпрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\n\n!<функцыя>(<аргументы>)\nАпрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\n\n%<поле>%\nАпрацуе гэта поле . Прыклад: Я ўсталяваў Miranda NG у: %mirandapath%.\n\n`<радок>`\nНе апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху ўсталёўкі.\n\n#<каментар>\nДаданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\n\n\n--- Кантакты ---\n\nКалі функцыі неабходзен кантакт як аргумент, яго можна атрымаць двума шляхамі:\n\n(1) выкарыстоўваючы ўнікальны id (UIN для ICQ, e-mail для MSN) ці id кантакту, наступным за id пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\n\n(2) выкарыстоўваючы функцыю contact:\n?contact(x,y)\nВерне кантакт са значэннем x уласцівасці y, y можа быць адным з:\nfirst, last, nick, email, id ці display\n\nПрыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.
 [Automatically strip white space]
 Аўтаматычна абразаць прабелы
 [Test area]
@@ -25278,7 +25132,7 @@ y, калі w > x, інакш z
 [Automatically strip ]
 Аўтаматычна падразаць
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
-Служба зменных падстаўляе розным маркерам адпаведныя значэнні. Прыклад: Я выкарыстоўваю Miranda IM версіі %mirandaversion%. У маркер %mirandaversion% будзе падстаўлены адпаведны нумар версіі вашай Miranda IM. Наступны спіс паказвае ўсе даступныя маркеры.
+Служба зменных падстаўляе розным маркерам адпаведныя значэнні. Прыклад: Я выкарыстоўваю Miranda NG версіі %mirandaversion%. У маркер %mirandaversion% будзе падстаўлены адпаведны нумар версіі вашай Miranda IM. Наступны спіс паказвае ўсе даступныя маркеры.
 [Tokens]
 Маркеры
 [user defined]
@@ -25348,9 +25202,9 @@ Y, калі x ПРАЎДА, інакш z
 [get the contact display name]
 атрымаць адлюстроўванае імя кантакту
 [get the date and time (using Miranda format)]
-атрымаць дату і час (выкарыстоўваецца фармат Miranda IM)
+атрымаць дату і час (выкарыстоўваецца фармат Miranda NG)
 [--- Special characters ---\r\n\r\n\The following characters have a special meaning in a formatting string:\r\n\r\n\?<function>(<arguments>)\r\n\This will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n\!<function>(<arguments>)\r\n\This will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n\%<field>%\r\n\This will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n\`<string>`\r\n\This will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n\#<comment>\r\n\This will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n\--- Contacts ---\r\n\r\n\Whenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n\(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n\(2) Using the contact function:\r\n\?contact(x,y)\r\n\A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\first, last, nick, email, id or display\r\n\r\n\For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\]
---- Адмысловыя знакі ---\r\n\r\n\Наступныя знакі маюць адмысловае значэнне ў радку фарматавання:\r\n\r\n\?<функцыя>(<аргументы>)\r\n\Апрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\r\n\r\n\!<функцыя>(<аргументы>)\r\n\Апрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\r\n\r\n\%<поле>%\r\n\Апрацуе гэта поле. Прыклад: Я ўсталяваў Miranda IM у: %mirandapath%.\r\n\r\n\`<радок>`\r\n\Не апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху ўсталёўкі.\r\n\r\n\#<каментар>\r\n\Даданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\r\n\r\n\r\n\--- Кантакты ---\r\n\r\n\Калі функцыі неабходзен кантакт як аргумент, яго можна атрымаць двума шляхамі:\r\n\r\n\(1) выкарыстоўваючы ўнікальны id (UIN для ICQ, e-mail для MSN) ці id кантакту, наступным за id пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\r\n\r\n\(2) выкарыстоўваючы функцыю contact:\r\n\?contact(x,y)\nВернет кантакт са значэннем x уласцівасці y, y можа быць адным з:\r\n\first, last, nick, email, id ці display\r\n\r\n\Прыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.\
+--- Адмысловыя знакі ---\r\n\r\n\Наступныя знакі маюць адмысловае значэнне ў радку фарматавання:\r\n\r\n\?<функцыя>(<аргументы>)\r\n\Апрацоўка функцыі з зададзенымі аргументамі, вынік апрацоўваецца зноў. Прыклад: сёння ?cdate(yyyy/MM/dd).\r\n\r\n\!<функцыя>(<аргументы>)\r\n\Апрацоўка функцыі з зададзенымі аргументамі, вынік НЕ апрацоўваецца зноў. Прыклад: Уваходнае паведамленне: !message(,first,rcvd,unread).\r\n\r\n\%<поле>%\r\n\Апрацуе гэта поле. Прыклад: Я ўсталяваў Miranda NG у: %mirandapath%.\r\n\r\n\`<радок>`\r\n\Не апрацуе гэты радок, функцыю, поле ці адмысловы знак у радку. Прыклад: Выкарыстоўвайце `%mirandapath%` для паказу шляху ўсталёўкі.\r\n\r\n\#<каментар>\r\n\Даданне каментара. Усё за знакам # да канца радка будзе выдалена. Прыклад: %dbprofile% #гэта бескарысны каментар.\r\n\r\n\r\n\--- Кантакты ---\r\n\r\n\Калі функцыі неабходзен кантакт як аргумент, яго можна атрымаць двума шляхамі:\r\n\r\n\(1) выкарыстоўваючы ўнікальны id (UIN для ICQ, e-mail для MSN) ці id кантакту, наступным за id пратаколу ў фармаце <PROTOID:UNIQUEID>, напрыклад, <MSN:miranda@hotmail.com> ці <ICQ:123456789>.\r\n\r\n\(2) выкарыстоўваючы функцыю contact:\r\n\?contact(x,y)\nВернет кантакт са значэннем x уласцівасці y, y можа быць адным з:\r\n\first, last, nick, email, id ці display\r\n\r\n\Прыклад: ?contact(miranda@hotmail.com,email) ці ?contact(Miranda,nick). Функцыя contact вяртае ўнікальны кантакт, знойдзены па зададзеных аргументах, або не вяртае нічога, калі не знойдзена ніводнага ці знойдзена некалькі кантактаў.\
 [get parent metacontact of contact x]
 вяртае бацькоўскі метакантакт субкантакту x
 [get default subcontact x]
@@ -26218,7 +26072,7 @@ URL дап. інфармацыі
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
 Пратакол надвор'я не можа знайсці ніводнага INI файла надвор'я на вашым кампутары.  Для ўсталёўкі INI надвор'і і даданні горада вынікайце гэтым указанням:
 [Click here to download a weather ini file from Miranda file listing]
-Націсніце тут для загрузкі INI надвор'і са спісу файлаў Miranda IM
+Націсніце тут для загрузкі INI надвор'і са спісу файлаў Miranda NG
 [Extract the weather ini file from archive to this directory]
 Выміце INI надвор'і з архіва ў гэту дырэкторыю
 [Click here to load the data from the new ini file into memory]
@@ -26472,7 +26326,7 @@ Weather: Надвор'е змянілася
 [Modes]
 Рэжымы
 [Update weather information on startup]
-Абнаўляць надвор'е пры запуску Miranda IM
+Абнаўляць надвор'е пры запуску Miranda NG
 [2 chars]
 2 знака
 [3 chars]
@@ -27952,7 +27806,7 @@ WUMF: Бягучыя злучэнні
 [&Calendar]
 &Каляндар
 [[miranda] Got conference invite to room: %s with msg: %s]
-(Miranda IM) Атрымана запрашэнне ў пакой %s:%s
+(Miranda NG) Атрымана запрашэнне ў пакой %s:%s
 [I am sorry, but i can't join your conference since this feature is not currently implemented in my client.]
 Прабачыце, але я не магу да вас далучыцца, бо гэта магчымасць яшчэ не рэалізавана.
 [Please install png2dib.dll for avatar support. ]
@@ -27968,7 +27822,7 @@ WUMF: Бягучыя злучэнні
 [From: %s\nSubject: %s]
 Ад: %s\nТема: %s
 [[miranda] Got webcam invite. (not currently supported)]
-(Miranda IM) Запрашэнне ў відэаканферэнцыю (пакуль не падтрымліваецца)
+(Miranda NG) Запрашэнне ў відэаканферэнцыю (пакуль не падтрымліваецца)
 [Yahoo Ping Error]
 Yahoo памылка пінгу
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
@@ -28107,8 +27961,6 @@ Yahoo
 Стварыць новы ўліковы запіс Yahoo
 [mail]
 пошта
-[Yahoo plugin cannot be loaded. It requires Miranda IM 0.8.0.24 or later.]
-Модуль Yahoo не можа быць загружаны. Патрабуецца Miranda IM версіі 0.8.0.24 ці вышэй.
 [AutoLogin to Yahoo Website(s)]
 Аўтаматычна далучацца да Yahoo сайту(ам)
 #muuid {b047a7e5-027a-4cfc-8b18eda8345d2790}
@@ -28142,8 +27994,8 @@ Yahoo
 Не паказваць секунды
 [Check &mail (All Account)]
 Праверыць пошту
-[Mail notifier and browser for Miranda IM. Included POP3 protocol.]
-Апавяшчэнне і прагляд новай пошты для Miranda IM. Убудаваны пратакол POP3.
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+Апавяшчэнне і прагляд новай пошты для Miranda NG. Убудаваны пратакол POP3.
 [Launch Application]
 Запусціць прыкладанне
 [YAMN: new mail]
