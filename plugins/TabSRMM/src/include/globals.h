@@ -110,20 +110,20 @@ public:
 
 	HWND        g_hwndHotkeyHandler;
 	HICON       g_iconIn, g_iconOut, g_iconErr, g_iconContainer, g_iconStatus;
-	HICON		g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
+	HICON       g_iconOverlayDisabled, g_iconOverlayEnabled, g_iconClock;
 	HCURSOR     hCurSplitNS, hCurSplitWE, hCurHyperlinkHand;
 	HBITMAP     g_hbmUnknown;
 	int         g_MetaContactsAvail, g_SmileyAddAvail, g_WantIEView, g_PopupAvail, g_PopupWAvail, g_WantHPP;
 	int         g_FlashAvatarAvail;
 	HIMAGELIST  g_hImageList;
 	HICON       g_IconMsgEvent, g_IconTypingEvent, g_IconFileEvent, g_IconSend;
-	HICON		g_IconMsgEventBig, g_IconTypingEventBig;
+	HICON       g_IconMsgEventBig, g_IconTypingEventBig;
 	HICON       g_IconFolder, g_IconChecked, g_IconUnchecked;
 	HMENU       g_hMenuContext, g_hMenuContainer, g_hMenuEncoding, g_hMenuTrayUnread;
 	HMENU       g_hMenuFavorites, g_hMenuRecent, g_hMenuTrayContext;
 	HICON       g_buttonBarIcons[NR_BUTTONBARICONS];
 	HICON       g_sideBarIcons[NR_SIDEBARICONS];
-	HANDLE		g_buttonBarIconHandles[23];
+	HANDLE      g_buttonBarIconHandles[23];
 	// dynamic options, need reload when options change
 	int         m_SendOnShiftEnter;
 	int         m_SendOnEnter;

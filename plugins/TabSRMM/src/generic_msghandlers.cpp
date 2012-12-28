@@ -1665,7 +1665,9 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				}
 			}
 			if ((GetForegroundWindow() != hwndContainer) || (dat->pContainer->hwndStatus == 0) || (dat->pContainer->hwndActive != hwndDlg))
-				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM) PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
+				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)
+					((PluginConfig.g_IconTypingEventBig != NULL) ? PluginConfig.g_IconTypingEventBig : PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]));
+
 			dat->showTyping = 1;
 		}
 	}
