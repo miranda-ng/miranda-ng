@@ -46,6 +46,18 @@ wchar_t* CSkypeProto::ValidationReasons[] =
 	LPGENW("Value starts with an invalid character")					/* STARTS_WITH_INVALID_CHAR		*/,
 };
 
+wchar_t* CSkypeProto::PasswordChangeReasons[] = 
+{
+	LPGENW("Password change succeeded")									/* PWD_OK						*/,
+	LPGENW("")															/* PWD_CHANGING					*/,
+	LPGENW("Old password was incorrect")								/* PWD_INVALID_OLD_PASSWORD		*/,
+	LPGENW("Failed to verify password. No connection to server")		/* PWD_SERVER_CONNECT_FAILED	*/,
+	LPGENW("Password was set but server didn't like it much")			/* PWD_OK_BUT_CHANGE_SUGGESTED	*/,
+	LPGENW("New password was exactly the same as old one")				/* PWD_MUST_DIFFER_FROM_OLD		*/,
+	LPGENW("The new password was unacceptable")							/* PWD_INVALID_NEW_PWD			*/,
+	LPGENW("Account was currently not logged in")						/* PWD_MUST_LOG_IN_TO_CHANGE	*/,
+};
+
 LanguagesListEntry CSkypeProto::languages[] = 
 {
 	{"Abkhazian", "ab"},
@@ -468,20 +480,21 @@ int CSkypeProto::SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason)
 	return loginError;
 }
 
-void CSkypeProto::ShowNotification(const wchar_t *message, int flags, const char *nick)
+void CSkypeProto::ShowNotification(const wchar_t *caption, const wchar_t *message, int flags, HANDLE hContact)
 {
 	if (::Miranda_Terminated()) return;
 
 	if ( !::ServiceExists(MS_POPUP_ADDPOPUPT) || !::DBGetContactSettingByte(NULL, "PopUp", "ModuleIsEnabled", 1))
-		::MessageBoxW(NULL, message, TranslateT("Skype Protocol"), MB_OK | flags);
-	else {
-		if ( !nick)
-			nick = "";
-
+		::MessageBoxW(NULL, message, caption, MB_OK | flags);
+	else 
+	{
 		POPUPDATAT_V2 ppd = {0};
 		ppd.cbSize = sizeof(POPUPDATAT_V2);
-		ppd.lchContact = NULL;
-		lstrcpyn(ppd.lpwzContactName, ::mir_a2u(nick), MAX_CONTACTNAME);
+		ppd.lchContact = hContact;
+		if (!hContact)
+		{
+			lstrcpyn(ppd.lpwzContactName, caption, MAX_CONTACTNAME);
+		}
 		lstrcpyn(ppd.lpwzText, message, MAX_SECONDLINE);
 		ppd.lchIcon = ::Skin_GetIcon("Skype_main");
 		ppd.colorBack = ppd.colorText = 0;
@@ -489,6 +502,11 @@ void CSkypeProto::ShowNotification(const wchar_t *message, int flags, const char
 
 		::CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
 	}
+}
+
+void CSkypeProto::ShowNotification(const wchar_t *message, int flags, HANDLE hContact)
+{
+	CSkypeProto::ShowNotification(TranslateT("Skype Protocol"), message, flags, hContact);
 }
 
 char *CSkypeProto::RemoveHtml(char *text)

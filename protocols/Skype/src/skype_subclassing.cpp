@@ -245,7 +245,7 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
         while (::Process32Next(snapshot, &entry) == TRUE) {
             if (::wcsicmp(entry.szExeFile, L"SkypeKit.exe") == 0) {  
                 HANDLE hProcess = ::OpenProcess(PROCESS_ALL_ACCESS, FALSE, entry.th32ProcessID);
-				port += rand() % 1000;
+				port += rand() % 8963 + 1000;
                 ::CloseHandle(hProcess);
 				break;
             }

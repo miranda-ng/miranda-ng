@@ -81,7 +81,7 @@ void CSkypeProto::InitProxy()
 	}
 }
 
-void CSkypeProto::Log(const wchar_t* fmt, ...)
+void CSkypeProto::Log(const wchar_t *fmt, ...)
 {
 	va_list va;
 	wchar_t msg[1024];

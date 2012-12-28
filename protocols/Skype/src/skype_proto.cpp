@@ -267,7 +267,7 @@ int CSkypeProto::SetStatus(int new_status)
 	switch (new_status)
 	{
 	case ID_STATUS_OFFLINE:
-		if	(this->IsOnline()) 
+		if	(this->IsOnline() || this->m_iStatus == ID_STATUS_CONNECTING) 
 		{
 			this->account->SetAvailability(CContact::OFFLINE);
 			this->account->Logout(true);
@@ -281,7 +281,7 @@ int CSkypeProto::SetStatus(int new_status)
 		if (old_status == ID_STATUS_OFFLINE && !this->IsOnline())
 		{
 			this->m_iStatus = ID_STATUS_CONNECTING;
-			if ( !this->SignIn()) return 0;
+			if ( !this->SignIn(this->m_iDesiredStatus)) return 0;
 		}
 		else
 		{
@@ -351,58 +351,4 @@ int    __cdecl CSkypeProto::OnEvent(PROTOEVENTTYPE eventType, WPARAM wParam, LPA
 	}
 
 	return 1;
-}
-
-void __cdecl CSkypeProto::SignInAsync(void*)
-{
-	this->LoadOwnInfo(this);
-	this->LoadContactList(this);
-}
-
-bool CSkypeProto::SignIn(bool isReadPassword)
-{
-	if ( !this->login || !::strlen(this->login))
-	{
-		this->m_iStatus = ID_STATUS_OFFLINE;
-		this->SendBroadcast(ACKTYPE_LOGIN, ACKRESULT_FAILED, NULL, LOGINERR_BADUSERID);
-		this->ShowNotification(
-			TranslateT("You have not entered a Skype name.\n\
-						Configure this in Options->Network->Skype and try again."));
-	}
-	else if (this->skype->GetAccount(this->login, this->account))
-	{
-		if (isReadPassword)
-			this->password = this->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD);				
-		if ( !this->password || !::strlen(this->password))
-			this->RequestPassword();
-		else
-		{
-			this->account.fetch();
-			this->account->SetOnAccountChangedCallback(
-				(CAccount::OnAccountChanged)&CSkypeProto::OnAccountChanged,
-				this);
-			//
-			int port;
-			this->skype->GetInt(SETUPKEY_PORT, port);
-			this->skype->SetInt(SETUPKEY_PORT, this->GetSettingWord("Port", port));
-			this->skype->SetInt(SETUPKEY_DISABLE_PORT80, (int)!this->GetSettingByte("UseAlternativePorts", 1));
-			//
-			this->InitProxy();
-			//
-			this->account->LoginWithPassword(this->password, false, false);
-			return true;
-		}
-	}
-
-	return false;
-}
-
-void CSkypeProto::RequestPassword()
-{
-	::DialogBoxParam(
-		g_hInstance, 
-		MAKEINTRESOURCE(IDD_PASSWORDREQUEST), 
-		NULL, 
-		CSkypeProto::SkypePasswordProc, 
-		LPARAM(this));
 }

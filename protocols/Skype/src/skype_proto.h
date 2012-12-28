@@ -145,6 +145,40 @@ struct InviteChatParam
 	{ ::mir_free(id); }
 };
 
+struct PasswordRequestBoxParam
+{
+	char		*login;
+	char		*password;
+	bool		rememberPassword;
+	bool		showRememberPasswordBox;
+
+	PasswordRequestBoxParam(const char *login, bool showRememberPasswordBox = true, bool rememberPassword = false) :
+		login(::mir_strdup(login)),
+		password(NULL),
+		rememberPassword(rememberPassword), 
+		showRememberPasswordBox(showRememberPasswordBox) { }
+
+	~PasswordRequestBoxParam()
+	{ 
+		if (login) ::mir_free(login);
+		if (password) ::mir_free(password); 
+	}
+};
+
+struct PasswordChangeBoxParam
+{
+	char		*password;
+	char		*password2;
+
+	PasswordChangeBoxParam() { }
+
+	~PasswordChangeBoxParam()
+	{ 
+		if (password) ::mir_free(password); 
+		if (password2) ::mir_free(password2);
+	}
+};
+
 struct CSkypeProto : public PROTO_INTERFACE, public MZeroedObject
 {
 public:
@@ -249,14 +283,16 @@ protected:
 	char	*login;
 	char	*password;
 	bool	rememberPassword;
-	void	RequestPassword();
+	bool	RequestPassword(PasswordRequestBoxParam &param);
+	bool	ChangePassword(PasswordChangeBoxParam &param);
 
 	HANDLE	signin_lock;
-	bool	SignIn(bool isReadPassword = true);
+	bool	SignIn(int status);
 	void __cdecl SignInAsync(void*);
 
 	static wchar_t* LogoutReasons[];
 	static wchar_t* ValidationReasons[];
+	static wchar_t* PasswordChangeReasons[];
 	static LanguagesListEntry languages[223];
 
 	// messages
@@ -353,7 +389,8 @@ protected:
 
 	int SkypeToMirandaLoginError(CAccount::LOGOUTREASON logoutReason);
 
-	static void ShowNotification(const wchar_t *message, int flags = 0, const char *nick = NULL);
+	static void ShowNotification(const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
+	static void ShowNotification(const wchar_t *caption, const wchar_t *message, int flags = 0, HANDLE hContact = NULL);
 
 	static char *RemoveHtml(char *data);
 
@@ -398,7 +435,7 @@ protected:
 	INT_PTR __cdecl SetMyAvatar(WPARAM, LPARAM);
 
 	// icons
-	static _tag_iconList iconList[];
+	static _tag_iconList IconList[];
 
 	// menu
 	HGENMENU m_hMenuRoot;
@@ -456,7 +493,8 @@ protected:
 
 	// dialog procs
 	static INT_PTR CALLBACK SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wparam, LPARAM lparam);
-	static INT_PTR CALLBACK SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+	static INT_PTR CALLBACK SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK OwnSkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 	static INT_PTR CALLBACK InviteToChatProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

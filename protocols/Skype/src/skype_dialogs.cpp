@@ -2,29 +2,37 @@
 
 INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto *proto;
+	CSkypeProto *proto = reinterpret_cast<CSkypeProto*>(::GetWindowLongPtr(hwnd, GWLP_USERDATA));
 
 	switch (message)
 	{
 	case WM_INITDIALOG:
 		{
-			TranslateDialogDefault(hwnd);
+			::TranslateDialogDefault(hwnd);
 
-			proto = reinterpret_cast<CSkypeProto*>(lParam);
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
+			proto = (CSkypeProto*)lParam;
+			::SetWindowLongPtr(hwnd, GWLP_USERDATA, lParam);
 			{
-				wchar_t* data = proto->GetSettingString(SKYPE_SETTINGS_LOGIN, L"");
-				SetDlgItemText(hwnd, IDC_SL, data);
-				::mir_free(data);
+				char *sid = ::DBGetString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_LOGIN);
+				SetDlgItemTextA(hwnd, IDC_SL, sid);
+				::mir_free(sid);
 			}
 			{
-				char *data = proto->GetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, "");
-				SetDlgItemTextA(hwnd, IDC_PW, data);
-				::mir_free(data);
+				char *pwd = ::DBGetString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD);
+
+				if (pwd)
+				{
+					::CallService(
+						MS_DB_CRYPT_DECODESTRING,
+						::strlen(pwd),
+						reinterpret_cast<LPARAM>(pwd));
+				}
+
+				SetDlgItemTextA(hwnd, IDC_PW, pwd);
+				::mir_free(pwd);
 			}
 			{
-				int port;
-				proto->skype->GetInt(SETUPKEY_PORT, port);
+				int port = rand() % 10000 + 10000;
 				SetDlgItemInt(hwnd, IDC_PORT, proto->GetSettingWord("Port", port), FALSE);
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETLIMITTEXT, 5, 0);
 			}
@@ -38,6 +46,7 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 				SendMessage(GetDlgItem(hwnd, IDC_PORT), EM_SETREADONLY, 1, 0); 
 				SendMessage(GetDlgItem(hwnd, IDC_USE_ALT_PORTS), EM_SETREADONLY, 1, 0); 
 				EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), FALSE); 
+				EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), TRUE);
 			}
 			else if (proto->GetSettingWord("Status") > 0)
 			{
@@ -48,8 +57,6 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 	case WM_COMMAND: 
 		{
-			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-
 			switch(LOWORD(wParam))
 			{
 			case IDC_SL:
@@ -58,9 +65,9 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 
 					if ( !proto->IsOnline() && proto->GetSettingWord("Status") == 0)
 					{
-						char data[128];
-						GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
-						EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), ::strlen(data));
+						char sid[128];
+						GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
+						EnableWindow(GetDlgItem(hwnd, IDC_REGISTER), ::strlen(sid));
 					}
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
@@ -69,6 +76,12 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 			case IDC_PW:
 				{
 					if ((HIWORD(wParam) != EN_CHANGE || (HWND)lParam != GetFocus())) return 0;
+					if (proto->IsOnline())
+					{
+						char pwd[128];
+						GetDlgItemTextA(hwnd, IDC_SL, pwd, SIZEOF(pwd));
+						EnableWindow(GetDlgItem(hwnd, IDC_CHANGE_PWD), ::strlen(pwd));
+					}
 					SendMessage(GetParent(hwnd), PSM_CHANGED, 0, 0);
 				}
 				break;
@@ -101,28 +114,45 @@ INT_PTR CALLBACK CSkypeProto::SkypeMainOptionsProc(HWND hwnd, UINT message, WPAR
 						proto->ShowNotification(CSkypeProto::ValidationReasons[reason]);
 					}
 				}
+
+			case IDC_CHANGE_PWD:
+				{
+					char sid[128], pwd[128];
+					GetDlgItemTextA(hwnd, IDC_SL, sid, SIZEOF(sid));
+					GetDlgItemTextA(hwnd, IDC_PW, pwd, SIZEOF(pwd));
+
+					PasswordChangeBoxParam param;
+					if (proto->ChangePassword(param))
+					{
+						proto->account->ChangePassword(param.password, param.password2);
+					}
+				}
+				break;
 			}
 		}
 		break;
 
 	case WM_NOTIFY:
-		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY)
+		if (reinterpret_cast<NMHDR*>(lParam)->code == PSN_APPLY && !proto->IsOnline())
 		{
-			proto = reinterpret_cast<CSkypeProto*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
-			
 			char data[128];
-			::mir_free(proto->login);
 			GetDlgItemTextA(hwnd, IDC_SL, data, SIZEOF(data));
 			::DBWriteContactSettingString(NULL, proto->m_szModuleName, "sid", data);
+			::mir_free(proto->login);
 			proto->login = ::mir_strdup(data);
 
 			GetDlgItemTextA(hwnd, IDC_PW, data, sizeof(data));
-			proto->SetDecodeSettingString(NULL, SKYPE_SETTINGS_PASSWORD, data);
+			::CallService(MS_DB_CRYPT_ENCODESTRING, strlen(data), LPARAM((char*)data));
+			::DBWriteContactSettingString(NULL, proto->m_szModuleName, SKYPE_SETTINGS_PASSWORD, data);
 
-			proto->SetSettingWord("Port", GetDlgItemInt(hwnd, IDC_PORT, NULL, FALSE));
-			proto->GetSettingByte("UseAlternativePorts", IsDlgButtonChecked( hwnd, IDC_USE_ALT_PORTS ) > 0);
-
-			proto->SetSettingByte("RememberPassword", true);
+			HWND item = GetDlgItem(hwnd, IDC_PORT);
+			if (item)
+			{
+				BOOL error;
+				int port = GetDlgItemInt(hwnd, IDC_PORT, &error, FALSE);
+				proto->SetSettingWord("Port", port);
+				proto->GetSettingByte("UseAlternativePorts", IsDlgButtonChecked( hwnd, IDC_USE_ALT_PORTS ) > 0);
+			}
 
 			return TRUE;
 		}
@@ -136,7 +166,7 @@ INT_PTR __cdecl CSkypeProto::OnAccountManagerInit(WPARAM wParam, LPARAM lParam)
 {
 	return (int)::CreateDialogParam(
 		g_hInstance, 
-		MAKEINTRESOURCE(IDD_SKYPEACCOUNT), 
+		MAKEINTRESOURCE(IDD_ACCMGR), 
 		(HWND)lParam, 
 		&CSkypeProto::SkypeMainOptionsProc, 
 		(LPARAM)this);
@@ -154,45 +184,42 @@ int __cdecl CSkypeProto::OnOptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.position = 271828;
 	odp.ptszGroup = LPGENT("Network");
 	odp.ptszTab = LPGENT("Account");
-	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_MAIN);
 	odp.pfnDlgProc = SkypeMainOptionsProc;
 	::Options_AddPage(wParam, &odp);
 
 	return 0;
 }
 
-INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK CSkypeProto::SkypePasswordRequestProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	CSkypeProto* ppro = (CSkypeProto*)::GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
+	PasswordRequestBoxParam *param = reinterpret_cast<PasswordRequestBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
 
-	switch (msg) {
+	switch (msg) 
+	{
 	case WM_INITDIALOG:
 		::TranslateDialogDefault(hwndDlg);
 
-		ppro = (CSkypeProto*)lParam;
-		::SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
+		param = (PasswordRequestBoxParam *)lParam;
+		::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 		{
-			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)CSkypeProto::iconList[0].Handle);
-			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)CSkypeProto::iconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG,	(LPARAM)CSkypeProto::IconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL,	(LPARAM)CSkypeProto::IconList[0].Handle);
 
-			wchar_t skypeName[MAX_PATH];
+			wchar_t title[MAX_PATH];
 			::mir_sntprintf(
-				skypeName, 
+				title, 
 				MAX_PATH, 
-				TranslateT("Enter a password for Skype Name %s:"), 
-				ppro->login);
-			::SetDlgItemText(hwndDlg, IDC_INSTRUCTION, skypeName);
+				::TranslateT("Enter a password for Skype Name %s:"), 
+				::mir_a2u(param->login));
+			::SetDlgItemText(hwndDlg, IDC_INSTRUCTION, title);
 
 			::SendDlgItemMessage(hwndDlg, IDC_PASSWORD, EM_LIMITTEXT, 128 - 1, 0);
 
-			::CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, ppro->GetSettingByte(NULL, "RememberPassword", 0));
+			::CheckDlgButton(hwndDlg, IDC_SAVEPASSWORD, param->rememberPassword);
+			::ShowWindow(::GetDlgItem(hwndDlg, IDC_SAVEPASSWORD), param->showRememberPasswordBox); 
 		}
 		break;
-
-	//case WM_DESTROY:
-		//ppro->m_hIconProtocol->ReleaseIcon(true);
-		//ppro->m_hIconProtocol->ReleaseIcon();
-		//break;
 
 	case WM_CLOSE:
 		EndDialog(hwndDlg, 0);
@@ -200,23 +227,21 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM w
 
 	case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) {
+			switch (LOWORD(wParam)) 
+			{
 			case IDOK:
-				ppro->rememberPassword = ::IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD) > 0;
-				ppro->SetSettingByte("RememberPassword", ppro->rememberPassword);
+				{
+					param->rememberPassword = ::IsDlgButtonChecked(hwndDlg, IDC_SAVEPASSWORD) > 0;
 
-				::mir_free(ppro->password);
-				char password[SKYPE_PASSWORD_LIMIT];
-				::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, sizeof(password));
-				ppro->password = ::mir_strdup(password);
+					char password[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, password, SIZEOF(password));
+					param->password = ::mir_strdup(password);
 
-				ppro->SignIn(false);
-
-				::EndDialog(hwndDlg, IDOK);
+					::EndDialog(hwndDlg, IDOK);
+				}
 				break;
 
 			case IDCANCEL:
-				ppro->SetStatus(ID_STATUS_OFFLINE);
 				::EndDialog(hwndDlg, IDCANCEL);
 				break;
 			}
@@ -225,6 +250,81 @@ INT_PTR CALLBACK CSkypeProto::SkypePasswordProc(HWND hwndDlg, UINT msg, WPARAM w
 	}
 
 	return FALSE;
+}
+
+bool CSkypeProto::RequestPassword(PasswordRequestBoxParam &param)
+{
+	int value = ::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_PASSWORD_REQUEST), 
+		NULL, 
+		CSkypeProto::SkypePasswordRequestProc, 
+		(LPARAM)&param);
+	return value == 1;
+}
+
+INT_PTR CALLBACK CSkypeProto::SkypePasswordChangeProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	PasswordChangeBoxParam *param = reinterpret_cast<PasswordChangeBoxParam*>(::GetWindowLongPtr(hwndDlg, GWLP_USERDATA));
+
+	switch (msg) 
+	{
+	case WM_INITDIALOG:
+		::TranslateDialogDefault(hwndDlg);
+
+		param = (PasswordChangeBoxParam *)lParam;
+		::SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		{
+			::SendMessage(hwndDlg, WM_SETICON, ICON_BIG,	(LPARAM)CSkypeProto::IconList[0].Handle);
+			::SendMessage(hwndDlg, WM_SETICON, ICON_SMALL,	(LPARAM)CSkypeProto::IconList[0].Handle);
+		}
+		break;
+
+	case WM_CLOSE:
+		EndDialog(hwndDlg, 0);
+		break;
+
+	case WM_COMMAND:
+		{
+			switch (LOWORD(wParam)) 
+			{
+			case IDOK:
+				{
+					char oldPwd[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD, oldPwd, SIZEOF(oldPwd));
+					param->password = ::mir_strdup(oldPwd);
+
+					char pwd1[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD2, pwd1, SIZEOF(pwd1));
+					param->password2 = ::mir_strdup(pwd1);
+
+					char pwd2[SKYPE_PASSWORD_LIMIT];
+					::GetDlgItemTextA(hwndDlg, IDC_PASSWORD3, pwd2, SIZEOF(pwd2));
+
+					::EndDialog(hwndDlg, IDOK);
+				}
+				break;
+
+			case IDCANCEL:
+				::EndDialog(hwndDlg, IDCANCEL);
+				break;
+			}
+		}
+		break;
+	}
+
+	return FALSE;
+}
+
+bool CSkypeProto::ChangePassword(PasswordChangeBoxParam &param)
+{
+	int value = ::DialogBoxParam(
+		g_hInstance, 
+		MAKEINTRESOURCE(IDD_PASSWORD_CHANGE), 
+		NULL, 
+		CSkypeProto::SkypePasswordChangeProc, 
+		(LPARAM)&param);
+	return value == 1;
 }
 
 INT_PTR CALLBACK CSkypeProto::SkypeDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
