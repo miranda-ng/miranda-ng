@@ -385,10 +385,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
           if (!wndData->SendContacts(hwndDlg))
             break;
 
-          if (g_SendAckSupported)
-            SetTimer(hwndDlg,TIMERID_MSGSEND,DBGetContactSettingDword(NULL,"SRMsg","MessageTimeout",TIMEOUT_MSGSEND),NULL);
-          else
-            SetTimer(hwndDlg,TIMERID_MSGSEND,1000,NULL); // wait one second - if no error occures
+          SetTimer(hwndDlg,TIMERID_MSGSEND,DBGetContactSettingDword(NULL,"SRMsg","MessageTimeout",TIMEOUT_MSGSEND),NULL);
 
           break;
         }
@@ -457,9 +454,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
       dbei.cbSize = sizeof(dbei);
       dbei.szModule =GetContactProto(ackData->hContact);
       dbei.eventType = EVENTTYPE_CONTACTS;
-      dbei.flags = DBEF_SENT;
-      if (g_UnicodeCore && g_Utf8EventsSupported)
-        dbei.flags |= DBEF_UTF;
+      dbei.flags = DBEF_SENT| DBEF_UTF;
       dbei.timestamp = time(NULL);
       //make blob
       TCTSend* maSend = (TCTSend*)_alloca(ackData->nContacts*sizeof(TCTSend));
@@ -469,10 +464,7 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
       int i;
       for (i=0; i<ackData->nContacts; i++)
       { // prepare data & count size
-        if (g_UnicodeCore && g_Utf8EventsSupported)
-          maSend[i].mcaNick = make_utf8_string((WCHAR*)GetContactDisplayNameT(ackData->aContacts[i]));
-        else
-          maSend[i].mcaNick = (unsigned char*)null_strdup((char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ackData->aContacts[i], 0));
+        maSend[i].mcaNick = make_utf8_string((WCHAR*)GetContactDisplayNameT(ackData->aContacts[i]));
         maSend[i].mcaUIN = GetContactUID(ackData->aContacts[i], FALSE);
         dbei.cbBlob += (DWORD)strlennull(maSend[i].mcaUIN) + (DWORD)strlennull((char*)maSend[i].mcaNick) + 2;
       }

@@ -28,9 +28,6 @@ HINSTANCE hInst;
 
 int hLangpack;
 
-int g_NewProtoAPI = TRUE;
-
-int g_SendAckSupported = TRUE;
 int g_Utf8EventsSupported = TRUE;
 
 HANDLE ghSendWindowList;

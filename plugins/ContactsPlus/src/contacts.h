@@ -72,6 +72,3 @@
 
 // Global Variables
 extern int g_UnicodeCore;
-extern int g_NewProtoAPI;
-extern int g_SendAckSupported;
-extern int g_Utf8EventsSupported;
