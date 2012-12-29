@@ -9,7 +9,7 @@
 [Light Thunderstorm]
 Небольшая гроза
 [Light Drizzle Mist]
-Легкая дымка, морось
+Легкая морось, дымка
 [Light Showers Rain Mist]
 Слабые дожди, дымка
 [Mostly Sunny]
@@ -508,3 +508,5 @@
 Снег, 70% вероятность осадков
 [Light Blowing Snow]
 Метель
+[Snow Freezing Rain Mist]
+Снег с дождём, дымка
