@@ -179,7 +179,7 @@ static void ShowConsole(int show)
 	if (hMenu)
 	{
 		CLISTMENUITEM mi = { sizeof(mi) };
-		mi.ptszName = (show) ? _T("Hide Console") : _T("Show Console");
+		mi.ptszName = (show) ? LPGENT("Hide Console") : LPGENT("Show Console");
 		mi.flags = CMIM_NAME | CMIF_TCHAR;
 		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hMenu, (LPARAM)&mi);
 	}
@@ -229,15 +229,15 @@ typedef struct
 static controlinfo ctrls[] =
 {
 	// IDC_SCROLL & IDC_PAUSE must be first
-	{IDC_SCROLL, IDI_SCROLL, BUTTONSETASFLATBTN, _T("Scrolling (Ctrl+Q)")},
-	{IDC_PAUSE, IDI_STARTED, BUTTONSETASFLATBTN, _T("Pause logging(Ctrl+P)")},
-	{IDC_SAVE, IDI_SAVE, BUTTONSETASFLATBTN, _T("Save log to file (Ctrl+S)")},
-	{IDC_COPY, IDI_COPY, BUTTONSETASFLATBTN, _T("Copy selected log (Ctrl+C)")},
-	{IDC_DELETE, IDI_DELETE, BUTTONSETASFLATBTN, _T("Delete selected (Del)")},
-	{IDC_OPTIONS, IDI_OPTIONS, BUTTONSETASFLATBTN, _T("Log options (Ctrl+O)")},
-	{IDC_STARTALL, IDI_START, BUTTONSETASFLATBTN, _T("Start logging in all tabs")},
-	{IDC_PAUSEALL, IDI_PAUSE, BUTTONSETASFLATBTN, _T("Pause logging in all tabs")},
-	{IDC_CLOSE, IDI_CLOSE, BUTTONSETASFLATBTN, _T("Close tab (Ctrl+W)")},
+	{IDC_SCROLL, IDI_SCROLL, BUTTONSETASFLATBTN, LPGENT("Scrolling (Ctrl+Q)")},
+	{IDC_PAUSE, IDI_STARTED, BUTTONSETASFLATBTN, LPGENT("Pause logging(Ctrl+P)")},
+	{IDC_SAVE, IDI_SAVE, BUTTONSETASFLATBTN, LPGENT("Save log to file (Ctrl+S)")},
+	{IDC_COPY, IDI_COPY, BUTTONSETASFLATBTN, LPGENT("Copy selected log (Ctrl+C)")},
+	{IDC_DELETE, IDI_DELETE, BUTTONSETASFLATBTN, LPGENT("Delete selected (Del)")},
+	{IDC_OPTIONS, IDI_OPTIONS, BUTTONSETASFLATBTN, LPGENT("Log options (Ctrl+O)")},
+	{IDC_STARTALL, IDI_START, BUTTONSETASFLATBTN, LPGENT("Start logging in all tabs")},
+	{IDC_PAUSEALL, IDI_PAUSE, BUTTONSETASFLATBTN, LPGENT("Pause logging in all tabs")},
+	{IDC_CLOSE, IDI_CLOSE, BUTTONSETASFLATBTN, LPGENT("Close tab (Ctrl+W)")},
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -559,11 +559,10 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 				}
 
 				if (dst - buf > 0 && OpenClipboard(hwndDlg)) {
-					HGLOBAL hClipboardData;
-					TCHAR* pchData;
 					EmptyClipboard();
-					if (hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst-buf+1)*sizeof(TCHAR))) {
-						pchData = (TCHAR*)GlobalLock(hClipboardData);
+					HGLOBAL hClipboardData = GlobalAlloc(GMEM_DDESHARE, (dst-buf+1)*sizeof(TCHAR));
+					if (hClipboardData) {
+						TCHAR *pchData = (TCHAR*)GlobalLock(hClipboardData);
 						_tcscpy(pchData, buf);
 						GlobalUnlock(hClipboardData);
 						SetClipboardData(CF_UNICODETEXT,hClipboardData);
@@ -600,12 +599,11 @@ static INT_PTR CALLBACK LogDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,LPARA
 			}
 			case IDC_SAVE:
 			{
-				FILE *fp;
 				TCHAR szFile[MAX_PATH];
 
 				if (!Openfile(szFile, ListView_GetSelectedCount(dat->hList))) break;
 
-				fp = _tfopen(szFile, _T("wt"));
+				FILE *fp = _tfopen(szFile, _T("wt"));
 				if (fp) {
 					int idx = 0;
 					TCHAR szText[128];
@@ -680,11 +678,7 @@ static INT_PTR CALLBACK ConsoleDlgProc(HWND hwndDlg,UINT message,WPARAM wParam,L
 		//TabCtrl_SetMinTabWidth(hTabs, 100);
 
 		// restore position
-		{
-			SAVEWINDOWPOS swp;
-			swp.hwnd=hwndDlg; swp.hContact=NULL; swp.szModule="Console"; swp.szNamePrefix="Console";
-			CallService(MS_UTILS_RESTOREWINDOWPOSITION, RWPF_HIDDEN, (LPARAM)&swp);
-		}
+		Utils_RestoreWindowPositionEx(hwndDlg,RWPF_HIDDEN,NULL,"Console","Console");
 
 		CallService(MS_DB_GETPROFILENAMET,(WPARAM)MAX_PATH,(LPARAM)name);
 
@@ -1365,7 +1359,6 @@ TCHAR *addstring(TCHAR *str, TCHAR *add) {
 
 static int Openfile(TCHAR *outputFile, int selection)
 {
-	OPENFILENAME ofn = {0};
 	TCHAR filename[MAX_PATH+2] = _T("");
 	TCHAR *title;
 
@@ -1384,7 +1377,9 @@ static int Openfile(TCHAR *outputFile, int selection)
 	else
 		title = TranslateT("Save log to file");
 
+	OPENFILENAME ofn = {0};
 	ofn.lStructSize = sizeof(ofn);
+	ofn.hwndOwner = hwndConsole;
 	ofn.lpstrFile = filename;
 	ofn.lpstrFilter = filter;
 	ofn.Flags = OFN_HIDEREADONLY | OFN_SHAREAWARE | OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT;
