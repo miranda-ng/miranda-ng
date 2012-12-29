@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "..\src\resource.h"
 
@@ -11,6 +11,13 @@
 
 /////////////////////////////////////////////////////////////////////////////
 #undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Neutral resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEU)
+LANGUAGE LANG_NEUTRAL, SUBLANG_NEUTRAL
+#pragma code_page(1252)
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -37,42 +44,33 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
 IDD_OPTIONS DIALOGEX 0, 0, 312, 249
-STYLE DS_FIXEDSYS | DS_CENTER | WS_CHILD
+STYLE DS_SETFONT | DS_FIXEDSYS | DS_CENTER | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
-FONT 8, "MS Shell Dlg"
+FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    GROUPBOX        "Contact List Window Start Position",IDC_STATIC,6,65,298,
-                    114,WS_TABSTOP
-    EDITTEXT        IDC_CLTOP,117,89,26,12,ES_AUTOHSCROLL
-    CONTROL         "Left",IDC_CLALIGN1,"Button",BS_AUTORADIOBUTTON | 
-                    WS_GROUP | WS_TABSTOP,151,118,58,10
-    CONTROL         "Right",IDC_CLALIGN2,"Button",BS_AUTORADIOBUTTON | 
-                    WS_TABSTOP,216,118,71,10
-    EDITTEXT        IDC_CLBOTTOM,117,103,26,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_CLSIDE,117,116,26,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_CLWIDTH,117,130,26,12,ES_AUTOHSCROLL
-    CONTROL         "Pixels from Top",IDC_CLTOPENABLE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,22,91,64,10
-    CONTROL         "Pixels from Bottom",IDC_CLBOTTOMENABLE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,22,105,73,10
-    CONTROL         "Pixels from Side",IDC_CLSIDEENABLE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,22,118,65,10
-    CONTROL         "Width",IDC_CLWIDTHENABLE,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,22,131,35,10
-    CONTROL         "Always start...",IDC_CLSTATEENABLE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,22,144,59,10
-    CONTROL         "Minimized to System Tray",IDC_CLSTATE0,"Button",
-                    BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,117,145,180,
-                    10
-    CONTROL         "Opened",IDC_CLSTATE2,"Button",BS_AUTORADIOBUTTON | 
-                    WS_TABSTOP,117,156,180,10
+    GROUPBOX        "Contact List Window Start Position",IDC_STATIC,6,54,298,131,WS_TABSTOP
+    EDITTEXT        IDC_CLTOP,121,68,26,12,ES_AUTOHSCROLL
+    CONTROL         "Left",IDC_CLALIGN1,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,151,104,58,10
+    CONTROL         "Right",IDC_CLALIGN2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,216,104,71,10
+    EDITTEXT        IDC_CLBOTTOM,121,86,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CLSIDE,121,102,26,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_CLWIDTH,121,119,26,12,ES_AUTOHSCROLL
+    CONTROL         "Pixels from Top",IDC_CLTOPENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,70,98,10
+    CONTROL         "Pixels from Bottom",IDC_CLBOTTOMENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,88,100,10
+    CONTROL         "Pixels from Side",IDC_CLSIDEENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,104,100,10
+    CONTROL         "Width",IDC_CLWIDTHENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,120,99,10
+    CONTROL         "Always start...",IDC_CLSTATEENABLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,18,137,273,10
+    CONTROL         "Minimized to System Tray",IDC_CLSTATE0,"Button",BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP,27,151,262,10
+    CONTROL         "Opened",IDC_CLSTATE2,"Button",BS_AUTORADIOBUTTON | WS_TABSTOP,27,164,261,10
 END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -80,7 +78,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
@@ -90,3 +88,19 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+#endif    // Neutral resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
