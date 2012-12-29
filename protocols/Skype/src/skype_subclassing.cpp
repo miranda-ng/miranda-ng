@@ -259,7 +259,12 @@ int CSkype::StartSkypeRuntime(HINSTANCE hInstance, const wchar_t *profileName, i
 		NULL, NULL, FALSE, 
 		CREATE_NEW_CONSOLE, 
 		NULL, NULL, &cif, &pi);
+	DWORD rterr = GetLastError();
 
+	//if (startingrt && rterr == ERROR_SUCCESS)
+		//return 1;
+	//else
+		//return 0;
 	return startingrt;
 }
 
@@ -271,7 +276,9 @@ CSkype *CSkype::GetInstance(HINSTANCE hInstance, const wchar_t *profileName, con
 	char *keyPair = CSkype::LoadKeyPair(hInstance);
 
 	CSkype *skype = new CSkype();
-	skype->init(keyPair, "127.0.0.1", port);
+	TransportInterface::Status status = skype->init(keyPair, "127.0.0.1", port, 0, 2, 3);
+	if (status != TransportInterface::OK)
+		return NULL;
 	skype->start();
 
 	free(keyPair);
