@@ -145,6 +145,7 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 	if(metaIsProtoMetaContacts(hContact))
 		hContact = metaGetMostOnline(hContact);
 	char *szMessage;
+	std::string key_id_str;
 	{
 		LPSTR proto = GetContactProto(hContact);
 		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
@@ -155,6 +156,8 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 			acc_str += "(";
 			acc_str += acc->szModuleName;
 			acc_str += ")" ;
+			key_id_str = acc_str;
+			key_id_str += "_KeyID";
 			acc_str += "_GPGPubKey";
 		}
 		szMessage = UniGetContactSettingUtf(NULL, szGPGModuleName, acc_str.empty()?"GPGPubKey":acc_str.c_str(), "");
@@ -169,14 +172,27 @@ INT_PTR SendKey(WPARAM w, LPARAM l)
 		BYTE enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 		CallContactService(hContact, PSS_MESSAGE, (WPARAM)PREF_UTF, (LPARAM)szMessage);
-		HistoryLog(hContact, db_event("Public key sent", 0, 0, DBEF_SENT));
+		std::string msg = "Public key ";
+		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, key_id_str.c_str(), "");
+		if(!keyid[0])
+		{
+			mir_free(keyid);
+			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+		}
+		msg += keyid;
+		mir_free(keyid);
+		msg += " sent";
+		mir_free(szMessage);
+		szMessage = mir_strdup(msg.c_str());
+		HistoryLog(hContact, db_event(szMessage, 0, 0, DBEF_SENT));
 		DBWriteContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", enc);
 	}
-	mir_free(szMessage);
+	else
+		mir_free(szMessage);
 	return 0;
 }
 
-extern HANDLE hLoadPublicKey, hToggleEncryption;
+extern HANDLE hLoadPublicKey, hToggleEncryption, hSendKey;
 
 INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 {
@@ -208,7 +224,6 @@ INT_PTR ToggleEncryption(WPARAM w, LPARAM l)
 	setSrmmIcon(hContact);
 	setClistIcon(hContact);
 	enc = enc?0:1;
-
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	enc?mi.pszName="Turn off GPG encryption":mi.pszName="Turn on GPG encryption";
@@ -222,6 +237,31 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	if(metaIsProtoMetaContacts(hContact))
 		hContact = metaGetMostOnline(hContact);
 	
+	{
+		CLISTMENUITEM mi2 = { sizeof(mi2) };
+		LPSTR proto = GetContactProto(hContact);
+		PROTOACCOUNT *acc = (PROTOACCOUNT*)CallService(MS_PROTO_GETACCOUNT, 0, (LPARAM)proto);
+		std::string setting;
+		if(acc)
+		{
+			setting = toUTF8(acc->tszAccountName);
+			setting += "(";
+			setting += acc->szModuleName;
+			setting += ")" ;
+			setting += "_KeyID";
+		}
+		char *keyid = keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, setting.c_str(), "");
+		if(!keyid[0])
+		{
+			mir_free(keyid);
+			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+		}
+		TCHAR buf[128] = {0};
+		mir_sntprintf(buf, 127 * sizeof(TCHAR), _T("%s: %s"), TranslateT("Send publick key"), toUTF16(keyid).c_str());
+		mi2.ptszName = buf;
+		mi2.flags = CMIM_NAME | CMIF_TCHAR;
+		CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hSendKey, (LPARAM)&mi2);
+	}
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME;
 	TCHAR *tmp = UniGetContactSettingUtf(hContact, szGPGModuleName, "GPGPubKey", _T(""));
