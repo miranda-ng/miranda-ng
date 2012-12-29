@@ -180,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="src\resource.h" />
     <ClInclude Include="src\Version.h" />
+    <ClInclude Include="src\Common.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
