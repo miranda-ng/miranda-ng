@@ -24818,7 +24818,7 @@ Unsicher
 ; Pluginname: PluginUpdater
 ; Version: 0.0.0.9
 ; Dateiname: pluginupdater.dll
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+#muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ; Autor(en): Mataes, ZERO_BiT
 ; Übersetzung: CHEF-KOCH am 11.09.2010
 
