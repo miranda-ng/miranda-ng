@@ -533,6 +533,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  params.out = &out;
 				  params.code = &code;
 				  params.result = &result;
+				  extern HFONT bold_font;
+				  SendMessage(GetDlgItem(hwndDlg, IDC_GENERATING_KEY), WM_SETFONT, (WPARAM)bold_font, true);
 				  SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_KEY), Translate("Generating new random key, please wait"));
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_GENERATE_KEY), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDC_OTHER), 0);
@@ -1411,6 +1413,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 				  params.out = &out;
 				  params.code = &code;
 				  params.result = &result;
+				  extern HFONT bold_font;
+				  SendMessage(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), WM_SETFONT, (WPARAM)bold_font, true);
 				  SetWindowTextA(GetDlgItem(hwndDlg, IDC_GENERATING_TEXT), Translate("Generating new key, please wait..."));
 				  EnableWindow(GetDlgItem(hwndDlg, IDCANCEL), 0);
 				  EnableWindow(GetDlgItem(hwndDlg, IDOK), 0);

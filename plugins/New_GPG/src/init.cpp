@@ -23,6 +23,7 @@ TCHAR *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = 
 list <JabberAccount*> Accounts;
 
 HINSTANCE hInst;
+HFONT bold_font = NULL;
 HANDLE hLoadPubKey = NULL, hToggleEncryption = NULL, hOnPreBuildContactMenu = NULL, hSendKey = NULL, g_hCLIcon = NULL, hExportGpgKeys = NULL, hImportGpgKeys = NULL;
 RECT key_from_keyserver_rect = {0}, firstrun_rect = {0}, new_key_rect = {0}, key_gen_rect = {0}, load_key_rect = {0}, import_key_rect = {0}, key_password_rect = {0}, load_existing_key_rect = {0};
 XML_API xi = {0};
@@ -102,6 +103,7 @@ void init_vars()
 	load_existing_key_rect.left = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadExistingKeyWindowX", 0);
 	load_existing_key_rect.top = DBGetContactSettingDword(NULL, szGPGModuleName, "LoadExistingKeyWindowY", 0);
 	tabsrmm_used = isTabsrmmUsed();
+	bold_font = CreateFont(14, 0, 0, 0, 600, 0, 0, 0, DEFAULT_CHARSET, 0, 0, 0, 0, _T("Arial"));
 }
 
 static int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
