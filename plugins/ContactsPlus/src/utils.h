@@ -37,8 +37,6 @@ char *GetContactUID(HANDLE hContact, int bTchar);
 TCHAR *GetContactDisplayNameT(HANDLE hContact);
 TCHAR* MirandaStatusToStringT(int mirandaStatus);
 
-HANDLE __fastcall SRCFindFirstContact();
-HANDLE __fastcall SRCFindNextContact(HANDLE hContact);
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv);
 TCHAR* DBGetContactSettingStringT(HANDLE hContact, const char *szModule,const char* szSetting, TCHAR* szDef);
 int DBWriteContactSettingStringT(HANDLE hContact, const char *szModule, const char* szSetting, TCHAR* szValue);

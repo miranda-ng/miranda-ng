@@ -115,16 +115,6 @@ TCHAR* MirandaStatusToStringT(int mirandaStatus)
   return (TCHAR *)CallService(MS_CLIST_GETSTATUSMODEDESCRIPTION, mirandaStatus, g_UnicodeCore ? GSMDF_UNICODE : 0);
 }
 
-HANDLE __fastcall SRCFindFirstContact()
-{
-  return db_find_first();
-}
-
-HANDLE __fastcall SRCFindNextContact(HANDLE hContact)
-{
-  return db_find_next(hContact);
-}
-
 int DBGetContactSettingT(HANDLE hContact, const char *szModule, const char* szSetting, DBVARIANT *dbv)
 {
   if (ServiceExists(MS_DB_CONTACT_GETSETTING_STR))

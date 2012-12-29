@@ -188,31 +188,31 @@ static void ResetListOptions(HWND hwndList)
 
 static HANDLE FindNextClistContact(HWND hList, HANDLE hContact, HANDLE *phItem)
 {
-  HANDLE hNextContact = SRCFindNextContact(hContact);
-  HANDLE hNextItem = NULL;
+	HANDLE hNextContact = db_find_next(hContact);
+	HANDLE hNextItem = NULL;
   
-  while (hNextContact && !(hNextItem = (HANDLE)SendMessageT(hList, CLM_FINDCONTACT, (WPARAM)hNextContact,0)))
-    hNextContact = SRCFindNextContact(hNextContact);
+	while (hNextContact && !(hNextItem = (HANDLE)SendMessageT(hList, CLM_FINDCONTACT, (WPARAM)hNextContact,0)))
+		hNextContact = db_find_next(hNextContact);
 
-  if (phItem)
-    *phItem = hNextItem;
+	if (phItem)
+		*phItem = hNextItem;
 
-  return hNextContact;
+	return hNextContact;
 }
 
 
 static HANDLE FindFirstClistContact(HWND hList, HANDLE *phItem)
 {
-  HANDLE hContact = SRCFindFirstContact();
-  HANDLE hItem = (HANDLE)SendMessageT(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
+	HANDLE hContact = db_find_first();
+	HANDLE hItem = (HANDLE)SendMessageT(hList, CLM_FINDCONTACT, (WPARAM)hContact, 0);
 
-  if (hContact && !hItem)
-    return FindNextClistContact(hList, hContact, phItem);
+	if (hContact && !hItem)
+		return FindNextClistContact(hList, hContact, phItem);
   
-  if (phItem)
-    *phItem = hItem;
+	if (phItem)
+		*phItem = hItem;
 
-  return hContact;
+	return hContact;
 }
 
 
@@ -299,21 +299,6 @@ INT_PTR CALLBACK SendDlgProc( HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPar
     case WM_TIMER:
       if (wParam == TIMERID_MSGSEND) 
       {
-        if (!g_SendAckSupported)
-        { // old Miranda has this ack unimplemented, we need to send it by ourselves
-          ACKDATA ack = {0};
-
-          ack.cbSize = sizeof(ACKDATA);
-          ack.type = ACKTYPE_CONTACTS;
-          ack.result = ACKRESULT_SUCCESS;
-          ack.hContact = wndData->hContact;
-          while (wndData->uacklist.Count)
-          { // the uack gets empty after processing all messages :)
-            ack.hProcess = wndData->uacklist.Items[0];
-            SendMessageT(hwndDlg, HM_EVENTSENT, NULL, (WPARAM)&ack); // this removes the ack from our array
-          }
-          break;
-        }
         KillTimer(hwndDlg,wParam);
         wndData->ShowErrorDlg(hwndDlg, "The contacts send timed out.", TRUE);
       }

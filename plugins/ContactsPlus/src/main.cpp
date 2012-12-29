@@ -107,48 +107,37 @@ static int HookDBEventAdded(WPARAM wParam, LPARAM lParam)
 
 static void ProcessUnreadEvents(void)
 {
-  DBEVENTINFO dbei = {0};
-  HANDLE hDbEvent,hContact;
+	DBEVENTINFO dbei = {0};
+	dbei.cbSize = sizeof(dbei);
 
-  dbei.cbSize = sizeof(dbei);
+	HANDLE hContact = db_find_first();
+	while (hContact)
+	{
+		HANDLE hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);
 
-  hContact = SRCFindFirstContact();
-  while (hContact)
-  {
-    hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDFIRSTUNREAD,(WPARAM)hContact,0);
-
-    while (hDbEvent)
-    {
-      dbei.cbBlob=0;
-      CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
-      if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)
-      { //process the event
-        HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
-      }
-      hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
-    }
-    hContact = SRCFindNextContact(hContact);
-  }
+		while (hDbEvent)
+		{
+			dbei.cbBlob=0;
+			CallService(MS_DB_EVENT_GET,(WPARAM)hDbEvent,(LPARAM)&dbei);
+			if (!(dbei.flags&(DBEF_SENT|DBEF_READ)) && dbei.eventType==EVENTTYPE_CONTACTS)
+			{
+				//process the event
+				HookDBEventAdded((WPARAM)hContact, (LPARAM)hDbEvent);
+			}
+			hDbEvent = (HANDLE)CallService(MS_DB_EVENT_FINDNEXT,(WPARAM)hDbEvent,0);
+		}
+		hContact = db_find_next(hContact);
+	}
 }
 
 
 static bool CheckContactsServiceSupport(const char* szProto)
 {
-  if (g_NewProtoAPI)
-  { // there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)
-    if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)
-      return true;
-  }
-  else
-  { // check the real send service (only 0.7.x and older)
-    char serstr[MAX_PATH+30];
-
-    strcpy(serstr, szProto);
-    strcat(serstr, PSS_CONTACTS);
-    if (ServiceExists(serstr))
-      return true;
-  }
-  return false;
+	// there is no way to determine if the service exists (only proto_interface call is supported by 0.8+)
+	if (CallProtoService(szProto, PS_GETCAPS, PFLAGNUM_1, 0) & PF1_CONTACTSEND)
+		return true;
+	else
+		return false;
 }
 
 
