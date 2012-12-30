@@ -23,6 +23,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 #include "Common.h"
 #include "m_clui.h"
+#include "m_clist.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -196,7 +197,8 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 	}
 	HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
 	MoveWindow(hClist, (int)db_get_dw(NULL, "CList", "x", 100), (int)db_get_dw(NULL, "CList", "y", 100), (int)clWidth, (int)db_get_dw(NULL, "CList", "Height", 0), 0);
-
+	if(clEnableState == 1 && clState == 0)
+		CallService(MS_CLIST_SHOWHIDE, 0, 0);
 	return 0;
 }
 
