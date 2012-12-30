@@ -650,15 +650,7 @@ void SendMsgSvc_func(HANDLE hContact, char *msg, DWORD flags)
 	}
 	if(bStripTags && bAppendTags)
 	{
-		std::wstring::size_type p;
-		for(p = str.find(inopentag); p != std::wstring::npos; p = str.find(inopentag))
-			str.erase(p, _tcslen(inopentag));
-		for(p = str.find(inclosetag); p != std::wstring::npos; p = str.find(inclosetag))
-			str.erase(p, _tcslen(inclosetag));
-		for(p = str.find(outopentag); p != std::wstring::npos; p = str.find(outopentag))
-			str.erase(p, _tcslen(outopentag));
-		for(p = str.find(outclosetag); p != std::wstring::npos; p = str.find(outclosetag))
-			str.erase(p, _tcslen(outclosetag));
+		strip_tags(str);
 	}
 /*	for(std::wstring::size_type i = str.find(_T("\r\n")); i != std::wstring::npos; i = str.find(_T("\r\n"), i+1))
 		str.replace(i, 2, _T("\n")); */

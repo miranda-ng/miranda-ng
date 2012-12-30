@@ -1890,3 +1890,28 @@ void strip_line_term(std::string &s)
 	for(std::string::size_type i = s.find("\n"); i != std::string::npos; i = s.find("\n", i+1))
 		s.erase(i, 1);
 }
+
+void strip_tags(std::wstring &str)
+{
+	std::wstring::size_type p;
+	if(_tcslen(inopentag))
+	{
+		for(p = str.find(inopentag); p != std::wstring::npos; p = str.find(inopentag))
+			str.erase(p, _tcslen(inopentag));
+	}
+	if(_tcslen(inclosetag))
+	{
+		for(p = str.find(inclosetag); p != std::wstring::npos; p = str.find(inclosetag))
+			str.erase(p, _tcslen(inclosetag));
+	}
+	if(_tcslen(outopentag))
+	{
+		for(p = str.find(outopentag); p != std::wstring::npos; p = str.find(outopentag))
+			str.erase(p, _tcslen(outopentag));
+	}
+	if(_tcslen(outclosetag))
+	{
+		for(p = str.find(outclosetag); p != std::wstring::npos; p = str.find(outclosetag))
+			str.erase(p, _tcslen(outclosetag));
+	}
+}

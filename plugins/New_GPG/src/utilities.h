@@ -43,7 +43,7 @@ public:
 	{
 		eventType = EVENTTYPE_MESSAGE;
 		flags = 0;
-		timestamp = 0;
+		timestamp = time(0);
 		szModule = 0;
 		cbSize = 0;
 		cbBlob = strlen(msg)+1;
@@ -81,7 +81,7 @@ public:
 			eventType = type;
 		else
 			eventType = EVENTTYPE_MESSAGE;
-		timestamp = 0;
+		timestamp = time(0);
 		szModule = 0;
 		cbSize = 0;
 	}
@@ -104,5 +104,6 @@ void fix_line_term(std::string &s);
 void fix_line_term(std::wstring &s);
 void strip_line_term(std::wstring &s);
 void strip_line_term(std::string &s);
+void strip_tags(std::wstring &s);
 
 #endif
