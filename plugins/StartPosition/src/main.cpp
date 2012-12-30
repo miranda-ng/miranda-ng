@@ -22,6 +22,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 */
 
 #include "Common.h"
+#include "m_clui.h"
 
 HINSTANCE hInst;
 int hLangpack;
@@ -59,27 +60,27 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		{
 			TranslateDialogDefault(hwndDlg);
 
-			if(DBGetContactSettingByte(NULL, "WindowStartPosition", "CLState", 2))
+			if(db_get_b(NULL, MODULE_NAME, "CLState", 2))
 				CheckRadioButton(hwndDlg, IDC_CLSTATE0, IDC_CLSTATE2, IDC_CLSTATE2);
 			else
 				CheckRadioButton(hwndDlg, IDC_CLSTATE0, IDC_CLSTATE2, IDC_CLSTATE0);
 
-			if(DBGetContactSettingByte(NULL, "WindowStartPosition", "CLAlign", 1))
+			if(db_get_b(NULL, MODULE_NAME, "CLAlign", 1))
 				CheckRadioButton(hwndDlg, IDC_CLALIGN1, IDC_CLALIGN2, IDC_CLALIGN2);
 			else
 				CheckRadioButton(hwndDlg, IDC_CLALIGN1, IDC_CLALIGN2, IDC_CLALIGN1);
 			
-			CheckDlgButton(hwndDlg, IDC_CLSTATEENABLE, DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableState", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLSTATEENABLE, DBGetContactSettingByte(NULL, MODULE_NAME, "CLEnableState", 0) ? BST_CHECKED : BST_UNCHECKED);
 			
-			CheckDlgButton(hwndDlg, IDC_CLTOPENABLE, DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableTop", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLBOTTOMENABLE, DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableBottom", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLSIDEENABLE, DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableSide", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLWIDTHENABLE, DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableWidth", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLTOPENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLBOTTOMENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 0) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLSIDEENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableSide", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLWIDTHENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0) ? BST_CHECKED : BST_UNCHECKED);
 
-			SetDlgItemInt(hwndDlg, IDC_CLTOP, DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsTop", 3), TRUE);
-			SetDlgItemInt(hwndDlg, IDC_CLBOTTOM, DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsBottom", 3), TRUE);
-			SetDlgItemInt(hwndDlg, IDC_CLSIDE, DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsSide", 3), TRUE);
-			SetDlgItemInt(hwndDlg, IDC_CLWIDTH, DBGetContactSettingDword(NULL, "WindowStartPosition", "CLWidth", 180), FALSE);
+			SetDlgItemInt(hwndDlg, IDC_CLTOP, db_get_dw(NULL, MODULE_NAME, "CLpixelsTop", 3), TRUE);
+			SetDlgItemInt(hwndDlg, IDC_CLBOTTOM, db_get_dw(NULL, MODULE_NAME, "CLpixelsBottom", 3), TRUE);
+			SetDlgItemInt(hwndDlg, IDC_CLSIDE, db_get_dw(NULL, MODULE_NAME, "CLpixelsSide", 3), TRUE);
+			SetDlgItemInt(hwndDlg, IDC_CLWIDTH, db_get_dw(NULL, MODULE_NAME, "CLWidth", 180), FALSE);
 
 			return TRUE;
 		}
@@ -92,32 +93,32 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 				case PSN_APPLY:
 				{
 					/*begin uninstall old settings*/
-					if(DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableTop", dbERROR) == dbERROR) {
-						DBDeleteContactSetting(NULL, "WindowStartPosition", "CLEnable");
-						DBDeleteContactSetting(NULL, "WindowStartPosition", "CLuseLastWidth");
+					if(db_get_b(NULL, MODULE_NAME, "CLEnableTop", dbERROR) == dbERROR) {
+						db_unset(NULL, MODULE_NAME, "CLEnable");
+						db_unset(NULL, MODULE_NAME, "CLuseLastWidth");
 					}
 					/*end uninstall old settings*/
 
 					if(IsDlgButtonChecked(hwndDlg, IDC_CLSTATE2))
-						DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLState", 2);
+						db_set_b(NULL, MODULE_NAME, "CLState", 2);
 					else
-						DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLState", 0);
+						db_set_b(NULL, MODULE_NAME, "CLState", 0);
 
 					if(IsDlgButtonChecked(hwndDlg, IDC_CLALIGN1))
-						DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLAlign", 0);
+						db_set_b(NULL, MODULE_NAME, "CLAlign", 0);
 					else
-						DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLAlign", 1);
+						db_set_b(NULL, MODULE_NAME, "CLAlign", 1);
 
-					DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLEnableState", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE));
+					db_set_b(NULL, MODULE_NAME, "CLEnableState", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSTATEENABLE));
 
-					DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLEnableTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLTOPENABLE));
-					DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLEnableBottom", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLBOTTOMENABLE));
-					DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLEnableSide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
-					DBWriteContactSettingByte(NULL, "WindowStartPosition", "CLEnableWidth", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLWIDTHENABLE));
-					DBWriteContactSettingDword(NULL, "WindowStartPosition", "CLWidth", GetDlgItemInt(hwndDlg, IDC_CLWIDTH, NULL, FALSE));
-					DBWriteContactSettingDword(NULL, "WindowStartPosition", "CLpixelsTop", GetDlgItemInt(hwndDlg, IDC_CLTOP, NULL, TRUE));
-					DBWriteContactSettingDword(NULL, "WindowStartPosition", "CLpixelsBottom", GetDlgItemInt(hwndDlg, IDC_CLBOTTOM, NULL, TRUE));
-					DBWriteContactSettingDword(NULL, "WindowStartPosition", "CLpixelsSide", GetDlgItemInt(hwndDlg, IDC_CLSIDE, NULL, TRUE));
+					db_set_b(NULL, MODULE_NAME, "CLEnableTop", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLTOPENABLE));
+					db_set_b(NULL, MODULE_NAME, "CLEnableBottom", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLBOTTOMENABLE));
+					db_set_b(NULL, MODULE_NAME, "CLEnableSide", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
+					db_set_b(NULL, MODULE_NAME, "CLEnableWidth", (BYTE)IsDlgButtonChecked(hwndDlg, IDC_CLWIDTHENABLE));
+					db_set_dw(NULL, MODULE_NAME, "CLWidth", GetDlgItemInt(hwndDlg, IDC_CLWIDTH, NULL, FALSE));
+					db_set_dw(NULL, MODULE_NAME, "CLpixelsTop", GetDlgItemInt(hwndDlg, IDC_CLTOP, NULL, TRUE));
+					db_set_dw(NULL, MODULE_NAME, "CLpixelsBottom", GetDlgItemInt(hwndDlg, IDC_CLBOTTOM, NULL, TRUE));
+					db_set_dw(NULL, MODULE_NAME, "CLpixelsSide", GetDlgItemInt(hwndDlg, IDC_CLSIDE, NULL, TRUE));
 
 					return TRUE;
 				}
@@ -135,7 +136,7 @@ int OptInit(WPARAM wParam, LPARAM lParam)
 	odp.hInstance = hInst;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPTIONS);
 	odp.pszGroup = LPGEN("Contact List");
-	odp.pszTitle = LPGEN("Window Start Position");
+	odp.pszTitle = LPGEN("Start Position");
 	odp.pfnDlgProc = OptionsDlgProc;
 	odp.flags = ODPF_BOLDGROUPS;
 	Options_AddPage(wParam, &odp);
@@ -149,50 +150,52 @@ int onModulesLoaded(WPARAM wParam, LPARAM lParam)
 
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
 
-	int clEnableTop = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableTop", 1);
-	int clEnableBottom = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableBottom", 1);
-	int clEnableSide = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableSide", 1);
-	int clEnableWidth = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableWidth", 0);
+	BYTE clEnableTop = db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1);
+	BYTE clEnableBottom = db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 1);
+	BYTE clEnableSide = db_get_b(NULL, MODULE_NAME, "CLEnableSide", 1);
+	BYTE clEnableWidth = db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0);
 
-	int clTop = DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsTop", 3);
-	int clBottom = DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsBottom", 3);
-	int clSide = DBGetContactSettingDword(NULL, "WindowStartPosition", "CLpixelsSide", 3);
-	int clAlign = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLAlign", RIGHT);
-	int clWidth = DBGetContactSettingDword(NULL, "WindowStartPosition", "CLWidth", 180);
+	DWORD clTop = db_get_dw(NULL, MODULE_NAME, "CLpixelsTop", 3);
+	DWORD clBottom = db_get_dw(NULL, MODULE_NAME, "CLpixelsBottom", 3);
+	DWORD clSide = db_get_dw(NULL, MODULE_NAME, "CLpixelsSide", 3);
+	BYTE clAlign = db_get_b(NULL, MODULE_NAME, "CLAlign", RIGHT);
+	DWORD clWidth = db_get_dw(NULL, MODULE_NAME, "CLWidth", 180);
 
-	int clEnableState = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLEnableState", 0);
-	int clState = DBGetContactSettingByte(NULL, "WindowStartPosition", "CLState", 2);
+	BYTE clEnableState = db_get_b(NULL, MODULE_NAME, "CLEnableState", 0);
+	BYTE clState = db_get_b(NULL, MODULE_NAME, "CLState", 2);
 
-	if(clEnableState)
-		DBWriteContactSettingByte(NULL,"CList", "State", (BYTE)clState);
+	if(clEnableState == 1)
+		db_set_b(NULL,"CList", "State", clState);
 
-	if(clEnableWidth) {
-		if(clWidth > 0)
-			DBWriteContactSettingDword(NULL, "CList", "Width", clWidth);
-	} else {
-		clWidth = DBGetContactSettingDword(NULL, "CList", "Width", 180);
-	}
+	if(clEnableWidth == 1 && clWidth > 0)
+		db_set_dw(NULL, "CList", "Width", clWidth);
+	else
+		clWidth = db_get_dw(NULL, "CList", "Width", 180);
 
-	if(clEnableTop || clEnableBottom || clEnableSide)
-		DBWriteContactSettingByte(NULL,"CList", "Docked", 0);
-	
-	if(clEnableTop)
-		DBWriteContactSettingDword(NULL, "CList", "y", clTop);
+	if(clEnableTop == 1 || clEnableBottom == 1 || clEnableSide == 1)
+		db_set_b(NULL,"CList", "Docked", 0);
+		db_set_b(NULL,"CLUI", "AutoSize", 0);
+		db_set_b(NULL,"CLUI", "DockToSides", 0);
+
+	if(clEnableTop == 1)
+		db_set_dw(NULL, "CList", "y", clTop);
 
 	//thx ValeraVi
-	if(clEnableBottom) {
-		if(clEnableTop)
-			DBWriteContactSettingDword(NULL, "CList", "Height", (WorkArea.bottom - WorkArea.top - clTop - clBottom));
+	if(clEnableBottom == 1) {
+		if(clEnableTop == 1)
+			db_set_dw(NULL, "CList", "Height", (WorkArea.bottom - WorkArea.top - (LONG)clTop - (LONG)clBottom));
 		else
-			DBWriteContactSettingDword(NULL, "CList", "y", (WorkArea.bottom - clBottom - (int)DBGetContactSettingDword(NULL, "CList", "Height", 0)));
+			db_set_dw(NULL, "CList", "y", (WorkArea.bottom - (LONG)clBottom - (LONG)db_get_dw(NULL, "CList", "Height", 0)));
 	}
 
-	if(clEnableSide) {
+	if(clEnableSide == 1 ) {
 		if(clAlign == LEFT)
-			DBWriteContactSettingDword(NULL, "CList", "x", (WorkArea.left + clSide));
+			db_set_dw(NULL, "CList", "x", (WorkArea.left + clSide));
 		else
-			DBWriteContactSettingDword(NULL, "CList", "x", (WorkArea.right - clWidth - clSide));
+			db_set_dw(NULL, "CList", "x", (WorkArea.right - clWidth - clSide));
 	}
+	HWND hClist = (HWND)CallService(MS_CLUI_GETHWND, 0, 0);
+	MoveWindow(hClist, (int)db_get_dw(NULL, "CList", "x", 100), (int)db_get_dw(NULL, "CList", "y", 100), (int)clWidth, (int)db_get_dw(NULL, "CList", "Height", 0), 0);
 
 	return 0;
 }
