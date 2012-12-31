@@ -32,7 +32,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include "resource.h"
 #include "version.h"
 
-#define MODULE_NAME "WindowStartPosition"
+#define MODULE_NAME "StartPosition"
 
 #define dbERROR -999999
 #define RIGHT 1

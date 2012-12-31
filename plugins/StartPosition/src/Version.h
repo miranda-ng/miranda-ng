@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME				"Window Start Position"
+#define __PLUGIN_NAME				"Start Position"
 #define __INTERNAL_NAME				"StartPosition"
 #define __FILENAME					"StartPosition.dll"
 #define __DESCRIPTION 				"Plugin supports starting position of Contact List relative to the the taskbar and screen side."
