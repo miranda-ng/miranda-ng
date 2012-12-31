@@ -489,7 +489,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 				EnableMenuItem(submenu, ID_MENU_TOGGLE, MF_BYCOMMAND | MF_GRAYED);
 			}
 
-			CallService(MS_LANGPACK_TRANSLATEMENU,(WPARAM)submenu,0);
+			TranslateMenu(submenu);
 
 			//ClientToScreen(list_hwnd, &pt);
 			GetCursorPos(&pt);

@@ -300,10 +300,13 @@ INT_PTR CALLBACK DlgProcDestEdit(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM l
 }
 
 BOOL Edit(HWND hwnd, PINGADDRESS &addr) {
-	add_edit_addr = addr;
-	if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK) {
-		addr = add_edit_addr;
-		return TRUE;
+	if(&addr != NULL)
+	{
+		add_edit_addr = addr;
+		if(DialogBox(hInst, MAKEINTRESOURCE(IDD_DIALOG3), hwnd, DlgProcDestEdit) == IDOK) {
+			addr = add_edit_addr;
+			return TRUE;
+		}
 	}
 	return FALSE;
 }
@@ -361,7 +364,7 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					PINGADDRESS temp = *item;
 					if(Edit(hwndDlg, temp)) {
 						*item = temp;
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel, (LPARAM)0);
+						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel, 0);
 						SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel, (LPARAM)item->pszLabel);
 						SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel, (LPARAM)item);
 						SendMessage(hw, LB_SETCURSEL, (WPARAM)sel, 0);
@@ -443,31 +446,34 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if(sel2 != LB_ERR) {
 						PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2, 0),
 							*item2 = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2 + 1, 0);
-						add_edit_addr = *item;					
-						*item = *item2;					
-						*item2 = add_edit_addr;
+						if(item && item2)
+						{
+							add_edit_addr = *item;					
+							*item = *item2;					
+							*item2 = add_edit_addr;
 
-						// keep indexes the same, as they're used for sorting the binary tree
-						int index = item->index, index2 = item2->index;						
-						item->index = index2;
-						item2->index = index;
+							// keep indexes the same, as they're used for sorting the binary tree
+							int index = item->index, index2 = item2->index;						
+							item->index = index2;
+							item2->index = index;
 
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
-						SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-						SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 + 1), (LPARAM)0);
-						SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
-						SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
-						SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
+							SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 + 1), (LPARAM)0);
+							SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 + 1), (LPARAM)item2->pszLabel);
+							SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 + 1), (LPARAM)item2);
+							SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 + 1), 0);
 
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-						EnableWindow(hw, (sel2 + 1 > 0));
-						hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-						int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-						EnableWindow(hw, (sel2 + 1 < count - 1));
+							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
+							EnableWindow(hw, (sel2 + 1 > 0));
+							hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
+							int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
+							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
+							EnableWindow(hw, (sel2 + 1 < count - 1));
 
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+						}
 					}				
 				}
 				break;
@@ -478,33 +484,37 @@ static INT_PTR CALLBACK DlgProcOpts2(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 					if(sel2 != LB_ERR) {
 						PINGADDRESS *item = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2, 0),
 							*item2 = (PINGADDRESS *)SendMessage(hw, LB_GETITEMDATA, sel2 - 1, 0);
-						add_edit_addr = *item;					
-						*item = *item2;					
-						*item2 = add_edit_addr;
 
-						// keep indexes the same, as they're used for sorting the binary tree
-						int index = item->index, index2 = item2->index;						
-						item->index = index2;
-						item2->index = index;
+						if (item && item2)
+						{
+							add_edit_addr = *item;					
+							*item = *item2;					
+							*item2 = add_edit_addr;
 
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
-						SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
-						SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
+							// keep indexes the same, as they're used for sorting the binary tree
+							int index = item->index, index2 = item2->index;						
+							item->index = index2;
+							item2->index = index;
 
-						SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 - 1), (LPARAM)0);
-						SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
-						SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
+							SendMessage(hw, LB_DELETESTRING, (WPARAM)sel2, (LPARAM)0);
+							SendMessage(hw, LB_INSERTSTRING, (WPARAM)sel2, (LPARAM)item->pszLabel);
+							SendMessage(hw, LB_SETITEMDATA, (WPARAM)sel2, (LPARAM)item);
 
-						SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
+							SendMessage(hw, LB_DELETESTRING, (WPARAM)(sel2 - 1), (LPARAM)0);
+							SendMessage(hw, LB_INSERTSTRING, (WPARAM)(sel2 - 1), (LPARAM)item2->pszLabel);
+							SendMessage(hw, LB_SETITEMDATA, (WPARAM)(sel2 - 1), (LPARAM)item2);
 
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
-						EnableWindow(hw, (sel2 - 1 > 0));
-						hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
-						int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
-						hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
-						EnableWindow(hw, (sel2 - 1 < count - 1));
+							SendMessage(hw, LB_SETCURSEL, (WPARAM)(sel2 - 1), 0);
+
+							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTUP);
+							EnableWindow(hw, (sel2 - 1 > 0));
+							hw = GetDlgItem(hwndDlg, IDC_LST_DEST);
+							int count = SendMessage(hw, LB_GETCOUNT, 0, 0);
+							hw = GetDlgItem(hwndDlg, IDC_BTN_DESTDOWN);
+							EnableWindow(hw, (sel2 - 1 < count - 1));
 		
-						SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+							SendMessage( GetParent( hwndDlg ), PSM_CHANGED, 0, 0 );
+						}
 					}				
 				}
 
