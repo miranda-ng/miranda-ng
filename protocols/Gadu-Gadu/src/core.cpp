@@ -436,7 +436,7 @@ retry:
 				}
 			}
 			if (!perror) {
-				mir_sntprintf(error, SIZEOF(error), TranslateT("Connection cannot be established because of error:\n\t%s"), _tcserror(errno));
+				mir_sntprintf(error, SIZEOF(error), TranslateT("Connection cannot be established. errno=%d: %s"),errno, strerror(errno));
 				perror = error;
 			}
 			netlog("mainthread() (%x): %s", this, perror);

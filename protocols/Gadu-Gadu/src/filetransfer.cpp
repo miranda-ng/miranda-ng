@@ -680,7 +680,10 @@ HANDLE GGPROTO::dccfileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	// Open file for appending and check if ok
 	if ((dcc->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
-		netlog("dccfileallow(): Failed to create file \"%s\".", fileName);
+		netlog("dccfileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
+		TCHAR error[512];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create transfer file. ERROR: %d: %s (dcc)\n%s"), errno, _tcserror(errno), szPath);
+		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		ProtoBroadcastAck(m_szModuleName, dcc->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc, 0);
 		// Free transfer
 		gg_free_dcc(dcc);
@@ -728,7 +731,10 @@ HANDLE GGPROTO::dcc7fileallow(HANDLE hTransfer, const PROTOCHAR* szPath)
 	// Open file for appending and check if ok
 	if ((dcc7->file_fd = _open(fileName, _O_WRONLY | _O_APPEND | _O_BINARY | _O_CREAT, _S_IREAD | _S_IWRITE)) == -1)
 	{
-		netlog("dcc7fileallow(): Failed to create file \"%s\".", fileName);
+		netlog("dcc7fileallow(): Failed to create file \"%s\". errno=%d: %s", fileName, errno, strerror(errno));
+		TCHAR error[512];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create transfer file. ERROR: %d: %s (dcc7)\n%s"), errno, _tcserror(errno), szPath);
+		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		gg_dcc7_reject(dcc7, GG_DCC7_REJECT_USER);
 		ProtoBroadcastAck(m_szModuleName, dcc7->contact, ACKTYPE_FILE, ACKRESULT_FAILED, dcc7, 0);
 		// Free transfer

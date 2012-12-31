@@ -272,11 +272,11 @@ int gg_img_saveimage(HWND hwnd, GGIMAGEENTRY *dat)
 		{
 			fwrite(dat->lpData, dat->nSize, 1, fp);
 			fclose(fp);
-			gg->netlog("gg_img_saveimage(): Image saved to %s.", szFileName);
+			gg->netlog("gg_img_saveimage(): Image saved to %S.", szFileName);
 		}
 		else
 		{
-			gg->netlog("gg_img_saveimage(): Cannot save image to %s.", szFileName);
+			gg->netlog("gg_img_saveimage(): Cannot save image to %S.", szFileName);
 			MessageBox(hwnd, TranslateT("Image cannot be written to disk."), gg->m_tszUserName, MB_OK | MB_ICONERROR);
 		}
 	}
@@ -825,8 +825,17 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 		tPathLen = _tcslen(szPath);
 	}
 
-	if ( _taccess(szPath, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
+	if ( _taccess(szPath, 0)){
+		int ret = CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
+		if (ret == 0){
+			netlog("getAvatarFilename(): Created new directory for image cache: %S.", szPath);
+		} else {
+			netlog("getAvatarFilename(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
+			TCHAR error[512];
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
+			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
+		}
+	}
 
 	mir_sntprintf(szPath + tPathLen, MAX_PATH - tPathLen, _T("\\%s"), dat->lpszFileName);
 	if ((pImgext = gg_img_hasextension(szPath)) == NULL)
@@ -844,6 +853,12 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 		if (fp) {
 			res = fwrite(dat->lpData, dat->nSize, 1, fp) > 0;
 			fclose(fp);
+		} else {
+			netlog("img_displayasmsg(): Cannot open file %S for write image. errno=%d: %s", szPath, errno, strerror(errno));
+			TCHAR error[512];
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Cannot save received image to file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
+			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
+			return 0;
 		}
 	}
 
@@ -970,7 +985,10 @@ void* GGPROTO::img_loadpicture(gg_event* e, TCHAR *szFileName)
 		FILE *fp = _tfopen(szFileName, _T("rb"));
 		if (!fp) {
 			free(dat);
-			netlog("img_loadpicture(): fopen(\"%S\", \"rb\") failed.", szFileName);
+			netlog("img_loadpicture(): fopen(\"%S\", \"rb\") failed. errno=%d: %s", szFileName, errno, strerror(errno));
+			TCHAR error[512];
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not open image file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFileName);
+			showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 			return NULL;
 		}
 		fseek(fp, 0, SEEK_END);

@@ -39,8 +39,17 @@ void GGPROTO::getAvatarFilename(HANDLE hContact, TCHAR *pszDest, int cbLen)
 		tPathLen = (int)_tcslen(pszDest);
 	}
 
-	if (_taccess(pszDest, 0))
-		CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+	if (_taccess(pszDest, 0)) {
+		int ret = CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)pszDest);
+		if (ret == 0){
+			netlog("getAvatarFilename(): Created new directory for avatar cache: %S.", pszDest);
+		} else {
+			netlog("getAvatarFilename(): Can not create directory for avatar cache: %S. errno=%d: %s", pszDest, errno, strerror(errno));
+			TCHAR error[512];
+			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create avatars cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pszDest);
+			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
+		}
+	}
 
 	switch (db_get_b(hContact, m_szModuleName, GG_KEY_AVATARTYPE, GG_KEYDEF_AVATARTYPE)) {
 		case PA_FORMAT_JPEG: avatartype = _T("jpg"); break;
@@ -264,6 +273,11 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
+					} else {
+						netlog("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
+						TCHAR error[512];
+						mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), pai.filename);
+						showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 					}
 				}
 				else netlog("avatarrequestthread(): Invalid response code from HTTP request");
@@ -383,7 +397,10 @@ void __cdecl GGPROTO::setavatarthread(void *param)
 
 	file_fd = _topen(szFilename, _O_RDONLY | _O_BINARY, _S_IREAD);
 	if (file_fd == -1) {
-		netlog("setavatarthread(): Failed to open avatar file (%s).", strerror(errno));
+		netlog("setavatarthread(): Failed to open avatar file errno=%d: %s.", errno, strerror(errno));
+		TCHAR error[512];
+		mir_sntprintf(error, SIZEOF(error), TranslateT("Can not open avatar file. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szFilename);
+		showpopup(m_tszUserName, error, GG_POPUP_ERROR);
 		mir_free(szFilename);
 		int prevType = db_get_b(NULL, m_szModuleName, GG_KEY_AVATARTYPEPREV, -1);
 		if (prevType != -1)
