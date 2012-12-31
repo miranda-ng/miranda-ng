@@ -4,7 +4,7 @@
 ;  Module: Window Start Position	
 ;  Versions: 0.2.0.3
 ;============================================================
-[Start Position]
+[Start position]
 Начальная позиция
 [Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
 Модуль позволяет установить начальную позицию контактного листа относительно панели задач и краёв экрана.
