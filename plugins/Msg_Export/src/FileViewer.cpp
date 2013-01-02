@@ -930,19 +930,18 @@ LRESULT CALLBACK EditSubclassProc( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lP
 			return 0;
 		}
 
-		FINDTEXT ft = { 0 };
-
 		if( fr->Flags & FR_FINDNEXT)
 		{
+			FINDTEXT ft = { 0 };
 			ft.lpstrText = fr->lpstrFindWhat;
 
 			SendMessage(hwnd, EM_EXGETSEL, 0, (LPARAM)&ft.chrg);
 			ft.chrg.cpMin = ft.chrg.cpMax+1;
 			ft.chrg.cpMax = -1;
-			LRESULT res = SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
+			LRESULT res = SendMessage(hwnd, EM_FINDTEXTW, (WPARAM)fr->Flags,(LPARAM)&ft);
 			if(res == -1) {
 				ft.chrg.cpMin = 0;
-				res = (int)SendMessage(hwnd, EM_FINDTEXT, (WPARAM)fr->Flags,(LPARAM)&ft);
+				res = (int)SendMessage(hwnd, EM_FINDTEXTW, (WPARAM)fr->Flags,(LPARAM)&ft);
 				if(res == -1)
 				{
 					MessageBox( hwnd , LPGENT("Search string was not found !"),MSG_BOX_TITEL,MB_OK );
