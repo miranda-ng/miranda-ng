@@ -216,7 +216,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &WorkArea, 0);
 
 	BYTE clEnableTop = db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1);
-	BYTE clEnableBottom = db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 1);
+	BYTE clEnableBottom = db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 0);
 	BYTE clEnableSide = db_get_b(NULL, MODULE_NAME, "CLEnableSide", 1);
 	BYTE clEnableWidth = db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0);
 
