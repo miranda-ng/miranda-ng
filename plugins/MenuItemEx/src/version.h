@@ -2,7 +2,7 @@
 #define __VERSION_STRING            "1.3.0.9"
 #define __VERSION_DWORD             0x01030009
 
-#define __PLUGIN_NAME "MenuItemEx"
+#define __PLUGIN_NAME "Menu Item Ext"
 #define __WEB "http://miranda-ng.org/"
 #define __DESC "Adds some useful options to a contacts menu."
 #define __AUTHORS "Heiko Schillinger, Baloo, Billy_Bons, Robert Posel"
