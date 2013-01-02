@@ -43,7 +43,7 @@ extern OPTIONS opt;
 
 PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
-	"NewXstatusNotify YM",
+	"(x)Status Notify",
 	__VERSION_DWORD,
 	"Notifies you when a contact changes his/her (X)status or status message.",
 	"Luca Santarelli, Vasilich, yaho",
