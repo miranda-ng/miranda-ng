@@ -10,7 +10,7 @@
 	#define _finally __finally 
 #endif
 
-#define YAMN_SHORTNAME "YAMN tweety"
+#define YAMN_SHORTNAME "Mail Notifier"
 #define YAMN_FILENAME "yamn"
 
 
