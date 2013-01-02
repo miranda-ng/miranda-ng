@@ -47,6 +47,8 @@ static CRITICAL_SECTION trayLockCS;
 
 #define initcheck if ( !fTrayInited) return
 
+#define SIZEOFNID ((cli.shellVersion >= 5) ? NOTIFYICONDATA_V2_SIZE : NOTIFYICONDATA_V1_SIZE)
+
 static BOOL fTrayInited = FALSE;
 
 static TCHAR* sttGetXStatus(const char* szProto)
@@ -182,22 +184,22 @@ TCHAR* fnTrayIconMakeTooltip(const TCHAR *szPrefix, const char *szProto)
 
 int fnTrayIconAdd(HWND hwnd, const char *szProto, const char *szIconProto, int status)
 {
-	NOTIFYICONDATA nid = { 0 };
-	int i;
 	initcheck 0;
 	lock;
+
+	int i;
 	for (i=0; i < cli.trayIconCount; i++)
 		if (cli.trayIcon[i].id == 0)
 			break;
 
 	cli.trayIcon[i].id = TRAYICON_ID_BASE + i;
-	cli.trayIcon[i].szProto = (char *) szProto;
+	cli.trayIcon[i].szProto = (char*) szProto;
 	cli.trayIcon[i].hBaseIcon = cli.pfnGetIconFromStatusMode(NULL, szIconProto ? szIconProto : cli.trayIcon[i].szProto, status);
 
-	nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATA_V1_SIZE;
+	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = hwnd;
 	nid.uID = cli.trayIcon[i].id;
-	nid.uFlags = mToolTipTrayTips ? NIF_ICON | NIF_MESSAGE : NIF_ICON | NIF_MESSAGE | NIF_TIP;
+	nid.uFlags = NIF_ICON | NIF_MESSAGE | (mToolTipTrayTips ? 0 : NIF_TIP);
 	nid.uCallbackMessage = TIM_CALLBACK;
 	nid.hIcon = cli.trayIcon[i].hBaseIcon;
 
@@ -227,8 +229,7 @@ void fnTrayIconRemove(HWND hwnd, const char *szProto)
 	for (i=0; i < cli.trayIconCount; i++) {
 		struct trayIconInfo_t* pii = &cli.trayIcon[i];
 		if (pii->id != 0 && !lstrcmpA(szProto, pii->szProto)) {
-			NOTIFYICONDATA nid = { 0 };
-			nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATA_V1_SIZE;
+			NOTIFYICONDATA nid = { SIZEOFNID };
 			nid.hWnd = hwnd;
 			nid.uID = pii->id;
 			Shell_NotifyIcon(NIM_DELETE, &nid);
@@ -308,7 +309,7 @@ int fnTrayIconInit(HWND hwnd)
 
 int fnTrayIconDestroy(HWND hwnd)
 {
-	NOTIFYICONDATA nid = { 0 };
+	NOTIFYICONDATA nid = { SIZEOFNID };
 	int i;
 	initcheck 0;
 	lock;
@@ -316,7 +317,6 @@ int fnTrayIconDestroy(HWND hwnd)
 	if (cli.trayIconCount == 1)
 		SetTaskBarIcon(NULL, NULL);
 
-	nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATA_V1_SIZE;
 	nid.hWnd = hwnd;
 	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
@@ -356,18 +356,17 @@ static VOID CALLBACK RefreshTimerProc(HWND, UINT, UINT_PTR, DWORD)
 
 int fnTrayIconUpdate(HICON hNewIcon, const TCHAR *szNewTip, const char *szPreferredProto, int isBase)
 {
-	NOTIFYICONDATA nid = { 0 };
-	int i;
-
 	initcheck -1;
 	lock;
-	nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATA_V1_SIZE;
+
+	NOTIFYICONDATA nid = { SIZEOFNID };
 	nid.hWnd = cli.hwndContactList;
-	nid.uFlags = mToolTipTrayTips ? NIF_ICON : NIF_ICON | NIF_TIP;
+	nid.uFlags = NIF_ICON | (mToolTipTrayTips ? 0 : NIF_TIP);
 	nid.hIcon = hNewIcon;
 	if ( !hNewIcon)
 	{ ulock; return -1; }
 
+	int i;
 	for (i=0; i < cli.trayIconCount; i++) {
 		if (cli.trayIcon[i].id == 0)
 			continue;
@@ -663,7 +662,6 @@ static void CALLBACK TrayHideToolTipTimerProc(HWND hwnd, UINT, UINT_PTR, DWORD)
 static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 {
 	if ( !g_trayTooltipActive && !cli.bTrayMenuOnScreen) {
-		CLCINFOTIP ti = {0};
 		POINT pt;
 		GetCursorPos(&pt);
 		if (abs(pt.x - tray_hover_pos.x) <= TOOLTIP_TOLERANCE && abs(pt.y - tray_hover_pos.y) <= TOOLTIP_TOLERANCE) {
@@ -673,18 +671,15 @@ static void CALLBACK TrayToolTipTimerProc(HWND hwnd, UINT, UINT_PTR id, DWORD)
 				if (n >= 0 && n < cli.trayIconCount)
 					szTipCur = cli.trayIcon[n].ptszToolTip;
 			}
+			CLCINFOTIP ti = { sizeof(ti) };
 			ti.rcItem.left = pt.x - 10;
 			ti.rcItem.right = pt.x + 10;
 			ti.rcItem.top = pt.y - 10;
 			ti.rcItem.bottom = pt.y + 10;
-			ti.cbSize = sizeof(ti);
 			ti.isTreeFocused = GetFocus() == cli.hwndContactList ? 1 : 0;
 			if (CallService("mToolTip/ShowTipW", (WPARAM)szTipCur, (LPARAM)&ti) == CALLSERVICE_NOTFOUND)
-			{
-				char* p = mir_u2a(szTipCur);
-				CallService("mToolTip/ShowTip", (WPARAM)p, (LPARAM)&ti);
-				mir_free(p);
-			}
+				CallService("mToolTip/ShowTip", (WPARAM)(char*)_T2A(szTipCur), (LPARAM)&ti);
+
 			GetCursorPos(&tray_hover_pos);
 			SetTimer(cli.hwndContactList, TIMERID_TRAYHOVER_2, 600, TrayHideToolTipTimerProc);
 			g_trayTooltipActive = TRUE;
@@ -871,7 +866,7 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 
 	if (msn->dwInfoFlags & NIIF_INTERN_UNICODE) {
 		NOTIFYICONDATAW nid = {0};
-		nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATAW_V1_SIZE;
+		nid.cbSize = (cli.shellVersion >= 5) ? NOTIFYICONDATAW_V2_SIZE : NOTIFYICONDATAW_V1_SIZE;
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
@@ -883,11 +878,9 @@ int fnCListTrayNotify(MIRANDASYSTRAYNOTIFY* msn)
 		nid.dwInfoFlags = (msn->dwInfoFlags & ~NIIF_INTERN_UNICODE);
 		return Shell_NotifyIconW(NIM_MODIFY, &nid) == 0;
 	}
-	else
-
-	{
+	else {
 		NOTIFYICONDATAA nid = { 0 };
-		nid.cbSize = (cli.shellVersion >= 5) ? sizeof(nid) : NOTIFYICONDATAA_V1_SIZE;
+		nid.cbSize = (cli.shellVersion >= 5) ? NOTIFYICONDATAA_V2_SIZE : NOTIFYICONDATAA_V1_SIZE;
 		nid.hWnd = cli.hwndContactList;
 		nid.uID = iconId;
 		nid.uFlags = NIF_INFO;
