@@ -77,7 +77,7 @@ INT_PTR CALLBACK OptionsDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			EnableWindow(GetDlgItem(hwndDlg, IDC_CLALIGNRIGHT), IsDlgButtonChecked(hwndDlg, IDC_CLSIDEENABLE));
 
 			CheckDlgButton(hwndDlg, IDC_CLTOPENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableTop", 1) ? BST_CHECKED : BST_UNCHECKED);
-			CheckDlgButton(hwndDlg, IDC_CLBOTTOMENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 1) ? BST_CHECKED : BST_UNCHECKED);
+			CheckDlgButton(hwndDlg, IDC_CLBOTTOMENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableBottom", 0) ? BST_CHECKED : BST_UNCHECKED);
 			CheckDlgButton(hwndDlg, IDC_CLWIDTHENABLE, db_get_b(NULL, MODULE_NAME, "CLEnableWidth", 0) ? BST_CHECKED : BST_UNCHECKED);
 
 			SetDlgItemInt(hwndDlg, IDC_CLTOP, db_get_dw(NULL, MODULE_NAME, "CLpixelsTop", 3), TRUE);
