@@ -40,7 +40,7 @@ static const PLUGININFOEX pluginInfoEx =
 	sizeof(PLUGININFOEX),
 	"SmileyAdd",
 	__VERSION_DWORD,
-	"Smiley support for Miranda Instant Messanger",
+	"Smiley support for Miranda NG.",
 	"Peacow, nightwish, bid, borkra",
 	"borkra@miranda-im.org",
 	"Copyright© 2004 - 2012 Boris Krasnovskiy, portions by Rein-Peter de Boer",
