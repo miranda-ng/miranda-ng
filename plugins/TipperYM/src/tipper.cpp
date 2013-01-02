@@ -50,7 +50,7 @@ int hLangpack;
 PLUGININFOEX pluginInfoEx =
 {
 	sizeof(PLUGININFOEX),
-	"Tipper YM",
+	"Tipper",
 	__VERSION_DWORD,
 	"Tool Tip notification windows.",
 	"Scott Ellis, yaho",
