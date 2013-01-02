@@ -200,9 +200,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_UNCHECKED);
 		}
-		SendDlgItemMessage(hdlg, (42071), CPM_SETCOLOUR, 0, PopupsList[0].colorBack);
-		SendDlgItemMessage(hdlg, (41071), CPM_SETCOLOUR, 0, PopupsList[0].colorText);
-		for (i = 1; i < POPUPS; i++) 
+		for (i = 0; i < POPUPS; i++) 
 		{
 			SendDlgItemMessage(hdlg, (i+42071), CPM_SETCOLOUR, 0, PopupsList[i].colorBack);
 			SendDlgItemMessage(hdlg, (i+41071), CPM_SETCOLOUR, 0, PopupsList[i].colorText);
@@ -234,32 +232,18 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				EnableWindow(GetDlgItem(hdlg, (i+1024)), TRUE);
 		}
 		if (!(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
-		{
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-		}
 		else
-		{
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), (MyOptions.DefColors == byCOLOR_OWN));
-			EnableWindow(GetDlgItem(hdlg, (42071)), (MyOptions.DefColors == byCOLOR_OWN));
-		}
+
 		return TRUE;
 	}
 	case WM_SHOWWINDOW:
 		if (!(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
-		{
 			EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-			EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-		}
 		else
-		{
 			EnableWindow(GetDlgItem(hdlg, (40071)), TRUE);
-			EnableWindow(GetDlgItem(hdlg, (41071)), (MyOptions.DefColors == byCOLOR_OWN));
-			EnableWindow(GetDlgItem(hdlg, (42071)), (MyOptions.DefColors == byCOLOR_OWN));
-		}
+
 		return TRUE;
 	case WM_COMMAND:
 	{
@@ -301,17 +285,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 					break;
 				MyOptions.DefColors = byCOLOR_OWN;
 				bEnableOthers = TRUE;
-				if (!(DBGetContactSettingDword(NULL, "PopUp", "Actions", 0) & 1)  || !ServiceExists(MS_POPUP_REGISTERACTIONS))
-				{
-					EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-					EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-				}
-				else
-				{
-					EnableWindow(GetDlgItem(hdlg, (41071)), bEnableOthers);
-					EnableWindow(GetDlgItem(hdlg, (42071)), bEnableOthers);
-				}
-				for (i = 1; i < POPUPS; i++) 
+				for (i = 0; i < POPUPS; i++) 
 				{
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), bEnableOthers); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), bEnableOthers); //Text

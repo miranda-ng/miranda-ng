@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME				"PackUpdater"
+#define __PLUGIN_NAME				"Pack Updater"
 #define __INTERNAL_NAME				"PackUpdater"
 #define __FILENAME					"PackUpdater.dll"
 #define __DESCRIPTION 				"Simple updater for Miranda IM premodified packs."
