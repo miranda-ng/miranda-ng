@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
 #define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME				"NewsAggregator"
+#define __PLUGIN_NAME				"News Aggregator"
 #define __INTERNAL_NAME				"NewsAggregator"
 #define __FILENAME					"NewsAggregator.dll"
 #define __DESCRIPTION 				"RSS/Atom news aggregator."
