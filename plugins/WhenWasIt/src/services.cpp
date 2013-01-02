@@ -187,8 +187,6 @@ void ShowPopupMessage(TCHAR *title, TCHAR *message, HANDLE icon)
 	pd.colorText = commonData.foreground;
 	pd.colorBack = commonData.background;
 	PUAddPopUpT(&pd);
-
-	Skin_ReleaseIcon(pd.lchIcon);
 }
 
 DWORD WINAPI RefreshUserDetailsWorkerThread(LPVOID param)
