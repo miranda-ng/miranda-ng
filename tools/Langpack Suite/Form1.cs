@@ -77,6 +77,11 @@ namespace Langpack_Suite
             culture = CultureInfo.CurrentCulture;
             if (culture.ToString() == "ru-RU")
             {
+                LanguageComboBox.SelectedIndex = 2;
+            }
+            else
+            if (culture.ToString() == "uk-UA")
+            {
                 LanguageComboBox.SelectedIndex = 1;
             }
             else
