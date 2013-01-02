@@ -196,9 +196,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 			CheckDlgButton(hdlg, IDC_USEPOPUPCOLORS, BST_CHECKED);
 			CheckDlgButton(hdlg, IDC_USEWINCOLORS, BST_UNCHECKED);
 		}
-		SendDlgItemMessage(hdlg, (42071), CPM_SETCOLOUR, 0, PopupsList[0].colorBack);
-		SendDlgItemMessage(hdlg, (41071), CPM_SETCOLOUR, 0, PopupsList[0].colorText);
-		for (i = 1; i < POPUPS; i++) {
+		for (i = 0; i < POPUPS; i++) {
 			SendDlgItemMessage(hdlg, (i+42071), CPM_SETCOLOUR, 0, PopupsList[i].colorBack);
 			SendDlgItemMessage(hdlg, (i+41071), CPM_SETCOLOUR, 0, PopupsList[i].colorText);
 			EnableWindow(GetDlgItem(hdlg, (i+42071)), (PopupOptions.DefColors == byCOLOR_OWN));
@@ -229,14 +227,10 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 		}
 
 		EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-		EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-		EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
 		return TRUE;
 
 	case WM_SHOWWINDOW:
 		EnableWindow(GetDlgItem(hdlg, (40071)), FALSE);
-		EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-		EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
 		return TRUE;
 
 	case WM_COMMAND:
@@ -272,10 +266,7 @@ INT_PTR CALLBACK DlgPopUpOpts(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lParam)
 
 				PopupOptions.DefColors = byCOLOR_OWN;
 
-				EnableWindow(GetDlgItem(hdlg, (41071)), FALSE);
-				EnableWindow(GetDlgItem(hdlg, (42071)), FALSE);
-
-				for (i = 1; i < POPUPS; i++) {
+				for (i = 0; i < POPUPS; i++) {
 					EnableWindow(GetDlgItem(hdlg, (i+42071)), TRUE); //Background
 					EnableWindow(GetDlgItem(hdlg, (i+41071)), TRUE); //Text
 				}

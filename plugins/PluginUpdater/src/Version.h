@@ -10,7 +10,7 @@
 #define __STRINGIFY(x)            __STRINGIFY_IMPL(x)
 #define __VERSION_STRING          __STRINGIFY(__FILEVERSION_DOTS)
 
-#define __PLUGIN_NAME             "PluginUpdater"
+#define __PLUGIN_NAME             "Plugin Updater"
 #define __INTERNAL_NAME           "PluginUpdater"
 #define __FILENAME                "PluginUpdater.dll"
 #define __DESCRIPTION             "Plugin updater for Miranda NG."
