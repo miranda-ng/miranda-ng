@@ -934,7 +934,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 							if(_tcsstr(nodename2, _T("status")))
 							{
 								LPCTSTR status = xi.getText(local_node2);
-								status_str = status;
+								if(status)
+									status_str = status;
 								break;
 							}
 							local_node2 = xi.getChild(node, n);
