@@ -174,11 +174,9 @@ static void InitStickyNoteLogFont(STICKYNOTEFONT *pCustomFont, LOGFONT *lf)
 {
 	if (!pCustomFont->size)
 	{
-		HDC hdc;
-
 		SystemParametersInfo(SPI_GETICONTITLELOGFONT, sizeof(LOGFONT), &lf, FALSE);
 		lf->lfHeight = 10;
-		hdc = GetDC(0);
+		HDC hdc = GetDC(0);
 		lf->lfHeight = -MulDiv(lf->lfHeight,GetDeviceCaps(hdc, LOGPIXELSY), 72);
 		ReleaseDC(0, hdc);
 	}
@@ -705,7 +703,8 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 {
 	if (MessageBox(hdlg, TranslateT("Are you sure you want to delete this note?"), TranslateT(SECTIONNAME), MB_OKCANCEL) == IDOK)
 	{
-		DestroyWindow(hdlg);
+		if (SN->SNHwnd)
+			DestroyWindow(SN->SNHwnd);
 		TreeDelete(&g_Stickies,SN);
 		SAFE_FREE((void**)&SN->data);
 		if (SN->pCustomFont)
@@ -715,6 +714,7 @@ void OnDeleteNote(HWND hdlg, STICKYNOTE *SN)
 		}
 		SAFE_FREE((void**)&SN);
 		JustSaveNotes();
+		NOTIFY_LIST();
 	}
 }
 
@@ -723,13 +723,11 @@ void DeleteNotes(void)
 	PurgeNotes();
 	WriteSettingInt(0, MODULENAME, "NotesData", 0);
 	PurgeNotesTree();
+	NOTIFY_LIST();
 }
 
 void ShowHideNotes(void)
 {
-	TREEELEMENT *TTE;
-	int bShow;
-	UINT nHideCount, nVisCount;
 	BOOL Visible;
 
 	if (!g_Stickies)
@@ -738,8 +736,8 @@ void ShowHideNotes(void)
 	// if some notes are hidden but others visible then first make all visible
 	// only toggle vis state if all are hidden or all are visible
 
-	nHideCount = nVisCount = 0;
-	TTE = g_Stickies;
+	UINT nHideCount  = 0, nVisCount = 0;
+	TREEELEMENT *TTE = g_Stickies;
 	while (TTE)
 	{
 		if (((STICKYNOTE*)TTE->ptrdata)->Visible)
@@ -757,7 +755,7 @@ void ShowHideNotes(void)
 	else
 		Visible = TRUE;
 
-	bShow = Visible ? SW_SHOWNA : SW_HIDE;
+	int bShow = Visible ? SW_SHOWNA : SW_HIDE;
 
 	TTE = g_Stickies;
 	while (TTE)
