@@ -89,6 +89,7 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "proto.h"
 #include "theme.h"
 #include "ui.h"
+#include "version.h"
 
 // Protocol limits
 #define MAX_SCREEN_NAME_LENGTH      97

@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
-#include "version.h"
 
 char AIM_CAP_MIRANDA[16] = "MirandaA";
 
@@ -37,7 +36,6 @@ OBJLIST<CAimProto> g_Instances(1, sttCompareProtocols);
 /////////////////////////////////////////////////////////////////////////////////////////
 // Dll entry point
 
-extern "C"
 BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD /*fdwReason*/,LPVOID /*lpvReserved*/)
 {
 	hInstance = hinstDLL;
@@ -50,21 +48,22 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL,DWORD /*fdwReason*/,LPVOID /*lpvReserved*
 static const PLUGININFOEX pluginInfo =
 {
 	sizeof(PLUGININFOEX),
-	"AIM Protocol",
-	__VERSION_DWORD,
-	"Provides support for AOL Instant Messenger (AIM) protocol.",
-	"Boris Krasnovskiy, Aaron Myles Landwehr",
-	"borkra@miranda-im.org",
-	"© 2008-2011 Boris Krasnovskiy, 2005-2006 Aaron Myles Landwehr",
-	"http://miranda-ng.org/",
+	__PLUGIN_NAME,
+	PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM),
+	__DESCRIPTION,
+	__AUTHOR,
+	__AUTHOREMAIL,
+	__COPYRIGHT,
+	__AUTHORWEB,
 	UNICODE_AWARE,
-	{0x3750a5a3, 0xbf0d, 0x490e, {0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3}} // {3750A5A3-BF0D-490e-B65D-41AC4D29AEB3}
+	// {3750A5A3-BF0D-490e-B65D-41AC4D29AEB3}
+	{0x3750a5a3, 0xbf0d, 0x490e, {0xb6, 0x5d, 0x41, 0xac, 0x4d, 0x29, 0xae, 0xb3}}
 };
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion)
 {
 	*(unsigned long*)(&AIM_CAP_MIRANDA[8]) = _htonl(mirandaVersion);
-	*(unsigned long*)(&AIM_CAP_MIRANDA[12]) = _htonl(__VERSION_DWORD);
+	*(unsigned long*)(&AIM_CAP_MIRANDA[12]) = _htonl(PLUGIN_MAKE_VERSION(__MAJOR_VERSION, __MINOR_VERSION, __RELEASE_NUM, __BUILD_NUM));
 	return &pluginInfo;
 }
 
