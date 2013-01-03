@@ -17,8 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
-#include "snac.h"
-#include "packets.h"
 
 SNAC::SNAC(char* buf,unsigned short length)
 {

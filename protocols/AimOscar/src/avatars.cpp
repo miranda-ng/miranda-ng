@@ -17,9 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
-#include "avatars.h"
-
-#include "m_folders.h"
 
 void __cdecl CAimProto::avatar_request_thread(void* param)
 {

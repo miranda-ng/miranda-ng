@@ -18,7 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "aim.h"
-#include "utility.h"
 
 void CAimProto::broadcast_status(int status)
 {

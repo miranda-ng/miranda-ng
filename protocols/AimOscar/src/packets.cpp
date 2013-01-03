@@ -17,7 +17,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
-#include "packets.h"
 
 int aim_writesnac(unsigned short service, unsigned short subgroup,unsigned short &offset, char* out, unsigned short id)
 {

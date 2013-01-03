@@ -69,11 +69,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_system_cpp.h>
 #include <m_imgsrvc.h>
 #include <win2k.h>
+#include <m_genmenu.h>
+#include <m_cluiframes.h>
+#include <m_extraicons.h>
 
-//independent includes
-#include "flap.h"
-#include "snac.h"
-#include "tlv.h"
+#include "m_folders.h"
+#include "m_assocmgr.h"
 
 //rest of includes
 #include "avatars.h"
@@ -82,7 +83,10 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include "direct_connect.h"
 #include "conv.h"
 #include "file.h"
+#include "flap.h"
 #include "links.h"
+#include "snac.h"
+#include "tlv.h"
 #include "packets.h"
 #include "proxy.h"
 #include "resource.h"

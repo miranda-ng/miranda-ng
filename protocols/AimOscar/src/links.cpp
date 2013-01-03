@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "aim.h"
-#include "links.h"
-#include "m_assocmgr.h"
 
 static HANDLE hServiceParseLink;
 

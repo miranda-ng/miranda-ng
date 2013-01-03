@@ -17,8 +17,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 
-#include "m_genmenu.h"
-
 CAimProto::CAimProto(const char* aProtoName, const TCHAR* aUserName)
 	: chat_rooms(5)
 {

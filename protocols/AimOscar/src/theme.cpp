@@ -18,11 +18,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "aim.h"
 
-#include <m_cluiframes.h>
-#include "m_extraicons.h"
-
-#include "theme.h"
-
 /////////////////////////////////////////////////////////////////////////////////////////
 // Icons init
 
