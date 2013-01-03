@@ -1,13 +1,8 @@
 /*
+AddContact+ plugin for Miranda NG
 
-Miranda IM: the free IM client for Microsoft* Windows*
-
-Copyright 2000-2011 Miranda ICQ/IM project,
-all portions of this codebase are copyrighted to the people
-listed in contributors.txt.
-
-Portions of this code modified for AddContact+ plugin
 Copyright (C) 2007-2011 Bartosz 'Dezeath' Bia³ek
+Copyright (C) 2012-2013 Miranda NG Team
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -298,7 +293,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					{
 						MessageBox(NULL,
 							TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
-							TranslateT("Add Contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 						break;
 					}
 
@@ -313,7 +308,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						{
 							MessageBox(NULL,
 								TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
-								TranslateT("Add Contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+								TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 							break;
 						}
 						psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(MYPROTOSEARCHRESULT));
@@ -326,7 +321,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						{
 							MessageBox(NULL,
 								TranslateT("The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly."),
-								TranslateT("Add Contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+								TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 							break;
 						}
 						psr = (PROTOSEARCHRESULT*)mir_calloc(sizeof(TLEN_SEARCH_RESULT));
@@ -349,7 +344,7 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 					{
 						MessageBox(NULL,
 							TranslateT("The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly."),
-							TranslateT("Add Contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
+							TranslateT("Add contact"), MB_OK | MB_ICONWARNING | MB_SETFOREGROUND | MB_TOPMOST);
 						break;
 					}
 

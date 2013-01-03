@@ -1,8 +1,8 @@
 /*
-
-AddContact+ plugin for Miranda IM
+AddContact+ plugin for Miranda NG
 
 Copyright (C) 2007-2011 Bartosz 'Dezeath' Bia³ek
+Copyright (C) 2012-2013 Miranda NG Team
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ int hLangpack;
 static HANDLE hMainMenuItem = 0, hToolBarItem = 0;
 HWND hAddDlg;
 
-static IconItem icon = { LPGEN("Add Contact"), ICON_ADD, IDI_ADDCONTACT };
+static IconItem icon = { LPGEN("Add contact"), ICON_ADD, IDI_ADDCONTACT };
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
@@ -93,7 +93,7 @@ static int OnAccListChanged(WPARAM, LPARAM)
 		mi.position = 500020001;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 		mi.icolibItem = icon.hIcolib;
-		mi.ptszName = LPGENT("&Add Contact...");
+		mi.ptszName = LPGENT("&Add contact...");
 		mi.pszService = MS_ADDCONTACTPLUS_SHOW;
 		hMainMenuItem = Menu_AddMainMenuItem(&mi);
 	}
@@ -114,7 +114,7 @@ static int CreateButton(WPARAM, LPARAM)
 	TTBButton tbb = { sizeof(tbb) };
 	tbb.dwFlags = TTBBF_VISIBLE | TTBBF_SHOWTOOLTIP;
 	tbb.pszService = MS_ADDCONTACTPLUS_SHOW;
-	tbb.name = tbb.pszTooltipUp = LPGEN("Add Contact");
+	tbb.name = tbb.pszTooltipUp = LPGEN("Add contact");
 	tbb.hIconHandleUp = icon.hIcolib;
 	hToolBarItem = TopToolbar_AddButton(&tbb);
 	return 0;
@@ -125,7 +125,7 @@ static int OnModulesLoaded(WPARAM, LPARAM)
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "AddContactPlus_OpenDialog";
-	hkd.ptszDescription = LPGENT("Open Add Contact Dialog");
+	hkd.ptszDescription = LPGENT("Open add contact dialog");
 	hkd.ptszSection = LPGENT("Main");
 	hkd.pszService = MS_ADDCONTACTPLUS_SHOW;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL | HOTKEYF_SHIFT, 'C') | HKF_MIRANDA_LOCAL;
