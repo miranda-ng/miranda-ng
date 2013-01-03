@@ -12,7 +12,6 @@
 #include <shellapi.h>
 
 #include <newpluginapi.h>
-#include <m_system.h>
 #include <m_database.h>
 #include <m_options.h>
 #include <m_skin.h>
