@@ -22,8 +22,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 // to enable all 0.9 core functions
 #define MIRANDA_VER 0x0A00
 
-#include <m_stdhdr.h>
-
 #include <windows.h>
 #include <commctrl.h>
 
@@ -39,8 +37,6 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 #include <m_message.h>
 #include <m_protocols.h>
 #include <m_protosvc.h>
-#include <m_skin.h>
-#include <m_utils.h>
 #include <m_addcontact.h>
 
 #include "m_toptoolbar.h"
