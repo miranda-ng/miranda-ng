@@ -1,0 +1,215 @@
+﻿#muuid  {e4058506-6494-4d60-9cf4-40bf545f78bd}
+;  File: QuickSearch.dll
+;  Module: Quick Search, Quick Search Mod
+[Global QuickSearch hotkey]
+Глабальная камбінацыя
+[Local QuickSearch hotkey]
+Лакальная камбінацыя
+[Show Offline contacts]
+Паказваць адключаных
+[New column]
+Новы
+[Set Item]
+Усталяваць
+[wParam type:]
+wParam тып:
+[lParam type:]
+lParam тып:
+[Sort by Status]
+Сартаваць па статуце
+[Don't Use Tool Window Style]
+Выкарыстоўваць тэмы Windows
+[Draw Grid]
+Маляваць сетку
+[integer value]
+цэлы лік
+[Save Item]
+Захаваць значэнне
+[ClientID]
+Кліент
+[Quick Search]
+Пошук па спісе
+[Search on:]
+Шукаць у  
+[Quick Search:]
+Хуткі пошук:
+[UID:]
+Карыстач:
+[E-mail Address:]
+E-mail:
+[MirandaV]
+Версія Miranda
+[Ext IP]
+Вонкавы IP
+[Last Event]
+З'яўленні
+[Online Since]
+У сеткі з:
+[Quick Search Options]
+Налады хуткага пошуку
+[&New]
+&Новае
+[D&n]
+Зн
+[Setting:]
+Парам.:
+[De&fault]
+Змаўчанні
+[&Set Item]
+Дадаць
+[At Start Sort by Status]
+Сартаваць па стане
+[Global scope hotkey:]
+Гарачая клавіша:
+[Miranda scope hotkey:]
+... у Miranda:
+[Add Item to Main Menu]
+Дадаць пункт у меню
+[Show Only Users in List]
+Толькі кантакты са спісу
+[Add Button to TopToolBar]
+Кнопка на Панэлі кнопак
+[Additional Options]
+Дадатковыя параметры
+[Columns && Data]
+Калонкі і дадзеныя
+[Auto Close mode]
+Зачыняць аўтаматычна
+[InfoType:]
+Тып пёр.:
+[Module/InfoType]
+Модуль/Тып пёр.
+[Not Selected]
+Не абрана
+[FIRSTNAME]
+Імя
+[LASTNAME]
+Прозвішча
+[CUSTOMNICK]
+Свая "назва"
+[EMAIL]
+Пошта
+[CITY]
+Горад
+[STATE]
+Штат
+[COUNTRY]
+Краіна
+[PHONE]
+Тэлефон
+[HOMEPAGE]
+Сайт
+[ABOUT]
+Пра сябе
+[GENDER]
+Падлога
+[AGE]
+Узрост
+[FIRSTLAST]
+Імя Прозвішча
+[UNIQUEID]
+Ідэнтыфікатар
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.]
+Модуль дазволіць вам хутка знайсці нік, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады.
+[This Plugin allow you to quick search for nickname,firstname, lastname, email, uin in your contact list.And now you may add any setting to display - for exampleusers version of miranda,group or city.Press F3 for activate...]
+Модуль дазволіць вам хутка знайсці мянушку, імя, прозвішча, e-mail, uin у вашым спісе кантактаў. Зараз вы можаце дадаць любы радок, каб адлюстроўваць, напрыклад, версіі Miranda, групы ці гарады. Націсніце F3 для запуску.
+[New Column]
+Дадаць
+[Save Column]
+Захаваць
+[Column Up]
+Вышэй
+[Column Down]
+Ніжэй
+[Delete Column]
+Выдаліць калонку
+[Only Users in List]
+Толькі ў спісе
+[Show Client Icons]
+Значкі кліентаў
+[Item in Main Menu]
+Пункт у галоўным меню
+[Button on TopToolBar]
+Кнопка ў  Панэлі кнопак
+[Tool Window Style]
+Акно ў стылі панэлі
+[Global scope hotkey]
+Глабальнае спалучэнне
+[Miranda scope hotkey]
+Спалучэнне ў Miranda
+[CSV with headers]
+CSV з загалоўкамі
+[Skip minimized columns]
+Ігнор утоеных калонак
+[Copy line to CSV]
+Капіяваць у CSV
+[Save search pattern]
+Захаваць маску пошуку
+[QuickSearch error]
+Памылка хуткага пошуку
+[Quick Search Mod]
+Хуткі пошук (мод)
+[Script]
+Скрыпт
+[Int]
+Цэлае
+[ContactInfo]
+Дадзеныя кантакту
+[LastEvent]
+Апошняя падзея
+[TimeStamp]
+Час
+[Script Editor]
+Рэдактар скрыптоў
+[Normal foreground]
+Звычайны тэкст
+[Odd background]
+Фон няцотных радкоў
+[Odd foreground]
+Тэкст няцотных радкоў
+[Disabled account background]
+Фон адключаных уліковых запісаў
+[Disabled account foreground]
+Тэкст адключаных уліковых запісаў
+[Deleted account background]
+Фон выдаленых уліковых запісаў
+[Deleted account foreground]
+Тэкст выдаленых уліковых запісаў
+[Not-in-list contact background]
+Фон кантактаў не ў спісе
+[Not-in-list contact foreground]
+Тэкст кантактаў не ў спісе
+[C&onvert to Meta]
+Пераўтварыць у метакантакт
+[Some of selected contacts in different metacontacts already]
+Некаторыя з вылучаных кантактаў ужо знаходзяцца ў іншых метакантактах
+[Do you really want to delete selected contacts?]
+Вы жадаеце выдаліць вылучаныя кантакты?
+[One or more contacts in same Meta already. Try to convert anyway?]
+Адзін ці некалькі кантактаў у падобным метакантакце. Усё адно пераўтварыць?
+[Metacontact background]
+Фон метакантактаў
+[Metacontact foreground]
+Тэкст метакантактаў
+[SubMetacontact background]
+Фон субкантактаў
+[SubMetacontact foreground]
+Тэкст субкантактаў
+[%u users found (%u) Online: %u]
+%u карыстачоў знойдзена (з %u) У сеткі: %u
+[Colorize]
+Дадаць колер
+[Metacontact]
+Метакантакт
+[Hidden contact background]
+Фон утоеных кантактаў
+[Hidden contact foreground]
+Тэкст утоеных кантактаў
+[QuickSearch window hotkey]
+Адчыніць акно хуткага пошуку
+[Previous item]
+Папярэдняе супадзенне
+[Next item]
+Наступнае супадзенне
+[Open main window]
+Адкрыць асноўнае акно

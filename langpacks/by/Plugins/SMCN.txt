@@ -1,0 +1,70 @@
+﻿;  File: smcn.dll, smcnotify.dll (???)
+;  Module: StatusMessageChangeNotify
+[Status Message Change Notify]
+Апавяшчэнне пра змену статутнага паведамлення
+[Enable &status message change notification]
+Вкл. апавяшчэнне пра змену статутнага паведамлення
+[Disable &status message change notification]
+Выкл. апавяшчэнне пра змену статутнага паведамлення
+[View Status Message History]
+Гісторыя статутных паведамленняў
+[List Contacts with Status Message]
+Статус.паведамленні кантактаў
+[Disable SMCN PopUps]
+Выкл. успл. акна пра змену статусу
+[Enable SMCN PopUps]
+Вкл. успл. акна пра змену статусу
+[Status Message Changed]
+Статутнае паведамленне змянілася
+[changes his/her status message to:]
+памяняў(а) статутнае паведамленне на:
+[cleares his/her status message]
+выдаліў(а) статутнае паведамленне
+[changes his/her status message:]
+памяняў(а) статутнае паведамленне:
+[<empty status message>]
+<пустое статутнае паведамленне>
+[Old status message]
+Старое статутнае паведамленне
+[New status message]
+Новае статутнае паведамленне
+[List Status Messages]
+Паказаць статутныя паведамленні
+[Go To URL in Status Message]
+URL у статутным паведамленні
+[Status Message History]
+Гісторыя статутных паведамленняў
+[Use OSD]
+Выкарыстоўваць OSD
+[Do not notify and log when status message is empty]
+Не апавяшчаць і не запісваць пустыя паведамленні
+[Show status message changes in message window]
+Паказваць змены статусаў у акне паведамленняў
+[Message cleared]
+Паведамленне выдалена
+[Message changed]
+Паведамленне змянілася
+[%n New Status Message]
+%n Новае статутнае паведамленне
+[%o Old Status Message]
+%o Старое статутнае паведамленне
+[%D/%M/%Y day/month/year]
+%D/%M/%Y  дзень/месяц/год
+[%c Custom nickname]
+%c Свой нік
+[%H:%m Time (in 24h format)]
+%H:%m Час (фармат 24г)
+[%h:%m %a (in 12h format)]
+%h:%m %a (фармат 12г)
+[\\n line break]
+\\n новая лінія
+[\\t tab stop]
+\\t табулятар
+[View status message history]
+Гісторыя статутных паведамленняў
+[Clear history]
+Ачысціць
+[Do not log empty status messages]
+Не запісваць пустыя статутныя паведамленні
+[Only if status message has changed]
+Толькі калі статутнае паведамленне змянілася

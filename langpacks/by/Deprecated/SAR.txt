@@ -1,0 +1,28 @@
+﻿;  File: sar.dll
+;  Module: Smart Auto Replier
+[Advanced autoreplier plugin which is capable to execute custom actions depending on incoming messages.]
+Перадавы модуль аўтаадказнік, здольны выконваць розныя дзеянні ў залежнасці ад уваходных паведамленняў
+[Smart Auto Replier]
+Разумны аўтаадказнік
+[Enable Smart Auto Replier]
+Уключыць аўтаадказнік
+[Disable Smart Auto Replier]
+Выключыць аўтаадказнік
+[Reply action:]
+Затрымка адказу:
+[Do not execute actions if conversation window with user is opened]
+Не выконваць дзеянні, калі акно кантакту адкрыта
+[Smart Auto Replier settings]
+Налады аўтаадказніка
+[Rule action]
+Кіравала
+[Use only custom rules]
+Выкарыстоўваць толькі абранае правіла
+[Please, choose contact to apply rule to]
+Калі ласка, абярыце кантакт якому ўжываецца правіла
+[Generated autoreply by SAR plugin:\n]
+Згенераваны аўтаадказ ад SAR модуля:\n
+[Smart Auto Replier script]
+Рыпанне аўтаадказніка
+[Internal error]
+Унутраная памылка

@@ -1,0 +1,79 @@
+﻿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+;  File: fileAsMessage.dll
+;  Module: Send files as a message between two Miranda NG on top of any IM protocol
+[File As Message]
+Файл праз паведамленне
+[File tranfer by using the messaging services - as plain text.]
+Перадача файлаў праз паведамленні - просты тэкст.
+[fileAsMessage]
+Файл праз паведамленні
+[File As Message...]
+Файл праз паведамленне..
+[file As Message]
+Файлы праз паведамленні
+[Chunk size]
+Памер часткі
+[Delays between sends]
+Пауза паміж перадачамі
+[Transfer settings]
+налады перадачы
+[Unsent]
+Не перадана
+[Sent]
+Адпраўлена
+[To send]
+Да адпраўкі
+[Received]
+прынята
+[Use only alphanumeric encoding on transfer]
+Толькі літарна-цыфравая кадоўка для перадачы
+[Extra options: Events > File Transfers, "Receiving files" group]
+Дад. налады: Падзеі> Перадача файлаў, "Прыём файлаў"
+[Revive]
+Зноўку
+[File already exists. Overwrite?]
+Файл ужо існуе. Перазапісаць?
+[Request sent. Awaiting of acceptance..]
+Запрос адпраулены. Чакаем...
+[Size: %d bytes]
+Памер: %d байт
+[Couldn't open a file]
+Не аттымалася адчыніць файл
+[Received successfully]
+Прынята паспяхова
+[Requesting of missing chunks]
+Запыт адсутных частак
+[Sent successfully]
+Паслана паспяхова
+[Paused, 'coz connection dropped]
+Спынена, з-за абрыва злучэння
+[Transfer is in progress. Do you really want to close?]
+Ідзе перадача файла. Спыніць?
+[Cancelled by user]
+Адменена
+[Cancelled by remote user]
+Адменена другім кантактам
+[Recv file]
+Прыём файла
+[Select a file]
+Абярыце файл
+[Incoming file...]
+Уваходны файл...
+[Synchronizing...]
+Синхранізацыя...
+[Paused...]
+Пауза...
+[New incoming file request. Do you want proceed?]
+Новы уваходны файл. Хочаце пацягнуць?
+[Incoming file request. Do you want proceed?]
+Уваходны файл. Хочаце працягнуць?
+[Unknown command for "file As Message" was received]
+Невядомая каманда для "file As Message"
+[Failed on file initialization]
+Памылка пры ініцыялізацыі файла
+[Can't get a file size]
+Не магу атрымаць памер файла
+[Save as]
+Захаваць як
+[Revive a transfer]
+Аднавіць перадачу

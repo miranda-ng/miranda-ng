@@ -1,0 +1,23 @@
+﻿;#muuid {0286947d-3140-4222-b5ad2c92315e1c1e}
+;  File: TranslitSwitcher.dll
+;  Module: TranslitSwitcher
+[TranslitSwitcher]
+Транслітарацыя і змена раскладкі
+[Convert All / Selected]
+Змяніць раскладку ўсяго тэксту / Вылучанага
+[Convert Last / Selected]
+Змяніць раскладку апошняга слова / Вылучанага
+[Translit All / Selected]
+Транслітарацыя ўсяго тэксту / Вылучанага
+[Translit Last / Selected]
+Транслітарацыя апошняга слова / Вылучанага
+[Invert Case All / Selected]
+Інвертаваць рэгістр усяго тэксту / Вылучанага
+[Invert Case Last / Selected]
+Інвертаваць рэгістр апошняга слова / Вылучанага
+[SwitchLayout and Send]
+Змяніць раскладку і адправіць ізноў
+[Translit and Send]
+Транслітараваць і адправіць ізноў
+[Invert Case and Send]
+Інвертаваць рэгістр і адправіць ізноў

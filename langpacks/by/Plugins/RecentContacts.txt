@@ -1,0 +1,15 @@
+﻿#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;  File: RecentContacts.dll
+;  Module: Recent Contacts
+[Recent Contacts]
+Апошнія кантакты
+[Main icon]
+Галоўны значок
+[Format of date and time\n(Look to readme for placeholders help)]
+Формат часу і даты\n(Фармат глядзіце ў readme)
+[Number shown contacts:\n (0 to show all)]
+Колькасць кантактаў\n (0 - паказвае ўсе)
+[Adds a menu item in main menu, which open the window with list of last used contacts names, sorted in order from most recent to least.]
+Дадае пункт ў галоўнае меню, які адчыняе дыялог з апошнімі кантактамі.
+[Show Recent Contacts]
+Паказаць апошнія кантакты

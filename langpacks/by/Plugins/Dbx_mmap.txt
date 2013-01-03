@@ -1,0 +1,9 @@
+﻿;#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}
+;  File: db3x_mmap.dll
+;  Module: Miranda mmap database driver
+[db3x_mmap Plugin]
+Модуль db3x_mmap
+[Disk is full. Miranda will now shutdown.]
+Дыск поўны. Miranda завяршае працу.
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Падтрымка базы Miranda NG.

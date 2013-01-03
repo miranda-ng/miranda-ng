@@ -1,0 +1,93 @@
+﻿#muuid {6f376b33-d3f4-4c4f-a96b-77da08043b06}
+;  File: importtxt.dll
+;  Module: Imports history saved in TXT files from other clients
+[Imports history saved in TXT files from other clients]
+Імпартуе гісторыю з тэкставых файлаў
+[Import history to ]
+Імпартаваць гісторыю ў
+[Import history]
+Імпарт гісторыі
+[Choose a file...]
+Абярыце файл...
+[Choose a pattern...]
+Абярыце шаблон...
+[Choose a file for import...]
+Абярыце файл для імпарту...
+[Text files (*.txt)]
+Тэкставыя файлы (*.txt)
+[All files (*.*)]
+Усе файлы (*.*)
+[Error in cfg file: ]
+Памылка ў cfg файле:
+[No Files Patterns Found]
+Не знойдзены файлы шаблонаў
+[No messages in this file]
+У гэтым файле няма паведамленняў
+[Import started...]
+Імпарт запушчаны...
+[Added: %d messages]
+Дададзена: %d паведамленняў
+[Duplicates: %d messages]
+Дублікатаў: %d паведамленняў
+[In: %d:%d:%d]
+За: %d:%d:%d
+[Import not finished. Do you realy want close?]
+Імпарт не скончаны. Вы сапраўды жадаеце зачыніць?
+[Error adding message to DB]
+Памылка дадання паведамлення ў Базу
+[Error opening file]
+Памылка адкрыцця файла
+[Error mapping file]
+Памылка адлюстравання файла
+[Error mapping]
+Памылка адлюстравання
+[Header not found]
+Загаловак не знойдзены
+[Import Text Files Wizard]
+Майстар Імпарту Тэкставых Файлаў
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+Гэты майстар дапаможа вам імпартаваць паведамленні з некаторых іншых кліентаў і модуляў Miranda IM, якія захоўваюць іх у тэкставых файлах.
+[Click ""Next"" to choose the information you wish to import, or click ""Cancel"" to exit the wizard and continue using Miranda.]
+Націсніце "Далей" каб абраць інфармацыю для імпартавання, ці "Адмена" каб выйсці з гэтага майстра.
+[Choose type of imported files:]
+Абярыце тып імпартуемых файлаў:
+[Select files or the whole directory for import:]
+Абярыце файлы ці цэлую дырэкторыю для імпарту:
+[Files...]
+Файлы...
+[Directory...]
+Дырэкторыя...
+[All previous chosen files will try to import to this protocol.]
+Усё раней абраныя файлы будуць імпартаваны ў гэты пратакол.
+[Select protocol or account:]
+Абярыце пратакол ці акаўнт:
+[Click "Next" to start Import or "Cancel" to Abort.]
+Націсніце "Далей" для пачатку Імпарту ці "Адмена" для выйсця.
+[Select folder for import...]
+Абярыце тэчку для імпарту...
+[File: %s]
+Файл: %s
+[To: %s]
+У: %s
+[Can''t determine destination contact]
+Не магу вызначыць кантакт прызначэння
+[Default extension]
+Пашырэнне па змаўчанні
+[Its not %s file]
+Гэта не файл %s
+[Duplicate:]
+Дублікат:
+[Your version of Miranda don't support XML parsing]
+Ваша версія Miranda не падтрымлівае працу з XML
+[Check for duplicates]
+Правяраць дублікаты
+[Check messages for duplicates]
+Правяраць паведамленні на дублікаты
+[Show duplicates]
+Выводзіць дублікаты
+[Error at initialization XML parser]
+Памылка ініцыялізацыі XML-модуля
+[Import history to %s (%s)]
+Імпартаваць гісторыю ў %s (%s)
+[Can't determine destination contact]
+Не атрымоўваецца вызначыць кантакт для імпарту

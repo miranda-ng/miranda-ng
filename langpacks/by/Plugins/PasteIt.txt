@@ -1,0 +1,77 @@
+﻿#muuid {1AAC15E8-DCEC-4050-B66F2AA0E6120C22}
+;  File: PasteIt.dll
+;  Module: Paste It
+[Uploads the text to web page and sends the URL to your friends.]
+Загружае тэкст на вэб-старонку і адпраўляе URL сябрам.
+[Paste It - Select file]
+Paste It - Абраць файл
+[Paste It HTTP connections]
+HTTP далучэнне Paste It
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільны нумар.
+[Invalid codepage]
+Няслушная кодавая старонка
+[You can only paste 1 file]
+Вы можаце змесцаваць толькі 1 файл
+[Cannot get data from clipboard]
+Не магчыма атрымаць дадзеныя з буфера абмену
+[File size is %dKB, do you realy want to paste such large file?]
+Памер файла %dKB, вы сапраўды жадаеце змесцаваць такі вялікі файл?
+[Cannot read file '%s']
+Немагчыма прачытаць файл '%s'
+[File size is larger then 10MB, cannot be send]
+Файл памерам больш 10MB, не можа быць адпраўлены
+[Cannot open file '%s']
+Немагчыма адкрыць файл '%s'
+[File '%s' is empty]
+Файл '%s' пусты
+[Error during sending text to web page: %s]
+Памылка пры адпраўцы тэксту на web-старонку: %s
+[Error during sending text to web page]
+Памылка пры адпраўцы тэксту на web-старонку
+[Error during getting user key from web page: %s]
+Памылка пры атрыманні ключа карыстача ад web-старонкі: %s
+[Paste from clipboard]
+Уставіць з буфера
+[Paste from file]
+Уставіць з файла
+[Default web page]
+Стандартная web-старонка
+[Default file encoding]
+Стандартная кадоўка файла
+[Auto-detect UTF-8]
+Аўтавызначэнне UTF-8
+[Show confirmation dialog box]
+Паказваць дыялогавае акно пацверджання
+[Web page settings]
+Налады web-старонкі
+[Web page to configure]
+Web-старонка для налады
+[Default formatting]
+Фарматаванне па змаўчанні
+[Auto-detect format from file extension]
+Аўтаматычнае вызначэнне фармату па пашырэнні файла
+[Public paste]
+Уставіць публічна
+[Paste expire date]
+Уставіць на тэрмін
+[Login as guest]
+Увайсці як госць
+[User key]
+Ключ карыстача
+[Get user key]
+Атрымаць ключ карыстача
+[Configure formatting]
+Наладзіць фарматаванне
+[Download more]
+Загрузіць больш
+[Login to pastebin.com]
+Увайсці на pastebin.com
+[Encoding]
+Кадаванне
+[Recode]
+Запіс
+[10 minutes]
+10 хвілін
+[1 month]
+1 месяц

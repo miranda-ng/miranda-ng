@@ -1,0 +1,47 @@
+﻿#muuid {08b86253-ec6e-4d09-b7a9-64acdf0627b8}
+;  File: GTalkExt.dll
+;  Module: GTalk extensions for Jabber protocol
+[subject\n    %s\nfrom\n%s\n%s\n]
+тэма\n    %s\nад\n%s\n%s\n
+[subject\n    %s\nfrom\n%s]
+тэма\n    %s\nад\n%s
+[You've received an e-mail\n%s unread threads]
+Вам прыйшла пошта\nНепрачытаных ланцужкоў: %s
+[Unread threads:]
+Непрачытаных ланцужкоў:
+[GMail notifications]
+Апавяшчэнні пра пошту GMail
+[Popup notifications (needs popup plugin)]
+Усплывальныя апавяшчэнні (патрабуецца ўбудова ўсплывальных вокнаў)
+[Notify in contact list]
+Апавяшчаць у спісе кантактаў
+[Clear pseudocontact history before adding new events]
+Чысціць гісторыю псеўдакантакту перад даданнем новых падзей
+[Notify in fullscreen mode too]
+Таксама апавяшчаць і ў поўнаэкранным рэжыме
+[NOTE\n\nThis will work only if this Jabber account is actually GTalk]
+NOTE\n\nГэта будзе працаваць, толькі калі гэты Jabber-акаўнт гэта насамрэч GTalk
+[Use this if your popup plugin does not correctly detect fullscreen mode. It will take away your keyboard focus]
+Выкарыстоўвайце гэта калі ваша плагін ўсплывальных вокнаў няслушна вызначае поўнаэкранны рэжым. Яно адбярэ ў вас фокус уводу
+[Supress foreign popups for pseudocontact]
+Хаваць староннія усплывальныя вокны для псеўдакантакту
+[0 means default timeout]
+0 - працягласць па змаўчанні
+[If both colors set to the same value, default colors will be used]
+Калі абодва колеры аднолькавыя, будуць скарыстаны колеры па змаўчанні
+[Mark history event read when popup closed]
+Пры зачыненні ўсплывальнага акна пазначаць падзею прачытаным
+[Try to login before open mailbox]
+Спрабаваць залагініцца перад пераходам у паштовую скрыню
+[This works only if password is saved in the database. Has no effect on links in pseudocontact message log]
+Гэта працуе толькі калі пароль захаваны ў БД. Не ўплывае на спасылкі ў журнале паведамленняў псеўдакантакту
+[Open mailbox]
+Адкрыць паштовую скрыню
+[Add message snip to notification]
+Дадаць у апавяшчэнне фрагмент ліста
+[Choose GMail view you use in web interface]
+Абярыце выгляд GMail, выкарыстоўваны ў вэб-інтэрфейсе
+[I don't know]
+Я не ведаю
+[Standard view]
+Стандартны

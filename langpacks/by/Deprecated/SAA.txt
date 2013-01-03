@@ -1,0 +1,106 @@
+﻿;  File: saa.dll
+;  Module: Smart Auto Away
+[Smart Auto Away]
+Пашыранае чаканне
+[&Idle]
+&Просты
+[Apply to all protocols]
+Ужыць да ўсіх
+[Requested Status:]
+Запытаны статус:
+[Current Status:]
+Бягучы статус:
+[Not Idle]
+Няма прастою
+[Short Idle]
+Кароткі просты
+[Long Idle]
+Доўгі просты
+[Only if my requested status is:]
+Толькі калі мой статус
+[If Windows is inactive]
+Калі Windows неактыўная
+[Use GetLastInputInfo()]
+Ужыв. GetLastInputInfo()
+[If Miranda is inactive]
+Калі Miranda неактыўная
+[Force short idle if:]
+Кароткі просты, калі:
+[Workstation is Locked (2K/XP)]
+Сістэма блакавана (2K/XP)
+[Inactivity times:]
+Неактыўна пасля:
+[Short idle after]
+Кар. просты
+[Long idle after]
+Даўжынь. просты
+[Do not share my idle info.]
+Не сумяшчаць інфармацыю пра прастой
+[Do not set "Not Idle" automaticaly]
+Не ўсталёўваць "Няма прастою" аўтамат.
+[Set "Not Idle" on manual status change]
+"Няма прастою" пры ручной змене
+[Simulate Idle]
+Сімуляцыя прастою
+[Be Not Idle]
+Няма прастою
+[Be Short Idle]
+Кар. просты
+[Be Long Idle]
+Даўжынь. просты
+[Disable Idle menu. (restart is required)]
+Выключыць меню (патрэбен рэстарт)
+[Use:]
+Ужыв.:
+[Too Fast!]
+Занадта хутка!
+[If my current status is:]
+Калі мой бягучы статус:
+[Do not reconnect after fatal error]
+Не перадалучацца пасля памылкі
+[Keep main status offline*]
+Захоўваць галоўны статус не ў сеткі*
+[* Setting this option may confuse other plugins]
+* Можа канфліктаваць з іншымі модулямі
+[-- Time Zone --]
+-- Гадзінны пояс --
+[total bias]
+абсалютнае зрушэнне
+[time zone name]
+гадзінны пояс
+[reconnect after]
+перадалучыць праз
+[Smart Auto Away Module]
+Модуль Пашыранага чакання
+[%s cannot set status messages]
+%s не выкарыстоўвае статутных паведамленняў
+[I am here]
+Я тут
+[I am back]
+Я вярнуўся
+[I am distracted]
+Я адцягнены
+[I am sleeping]
+Я сплю
+[I came back on %H:%M:%S%b%Z (%z)]
+Я вярнуўся з %H:%M:%S%b%Z (%z)
+[I am distracted since %H:%M:%S%b%Z (%z)]
+Я адцягнены з %H:%M:%S%b%Z (%z)
+[I fell asleep on %H:%M:%S %d %E %Y (%W)%b%Z (%z)]
+Я сплю з %H:%M:%S %d %E %Y (%W)%b%Z (%z)
+[Set the default status message after ]
+Усталяваць стандартнае статутнае паведамленне пасля:
+[Variables to use]
+Выкарыстоўваныя зменныя
+[Time Zone]
+Гадзінны пояс
+[Reconnect after]
+Переподключиться пасля
+[Localized Date (Long)]
+Лакальная дата (пашырана)
+[Localized Date (Short)]
+Лакальная дата (скарочана)
+[Localized Time (Long)]
+Лакальны час (пашырана)
+[Localized Time (no Seconds)]
+Лакальны час (скарочана)

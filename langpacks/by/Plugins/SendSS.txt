@@ -1,0 +1,169 @@
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;  File: sendss.dll
+;  Module: Send ScreenShot
+[SendSS]
+Адправіць скрыншот
+[Send using:]
+Спосаб адпраўкі:
+[Miranda's File Transfer.]
+Перадача файлаў Miranda NG
+[Send to default email client.]
+Адправіць праз e-mail кліент
+[Method for capturing the screenshot:]
+Метад атрымання скрыншота:
+[Internal function.]
+Унутраная функцыя
+[PrintScreen Emulation. (waste clipboard content)]
+Эмуляцыя PrintScreen (змесціва буфера абмену)
+[Take a screenshot]
+Зрабіць скрыншот
+[Send Screenshot]
+Адправіць скрыншот
+[Send desktop screenshot]
+Адправіць скрыншот экрана
+[Open again]
+Адкрыць ізноў
+[&Emulate Send button click.]
+Пасылаць аўтаматычна
+[Send B&y :]
+Праз:
+[Single &Window]
+Адно акно
+[Time (secs) :]
+Секунд :
+[&Desktop]
+Працоўны стол
+[Size (HxW) :]
+Памер (HxW) :
+[Caption :]
+Загаловак :
+[E&xplore]
+Агляд
+[&Capture]
+Захоп
+[<Unknown Contact>]
+<Невядомы кантакт>
+[Drag&&Drop the target on the desired window.]
+Перацягнеце прыцэл на патрэбнае акно.
+[Use Edit&or]
+Рэдактар
+[&Fill description textbox.]
+Запоўніць радкі апісання.
+[&Format :]
+Фармат :
+[Delete &after send]
+Выдаліць пасля адпраўкі
+[Send screenshot to <Unknow Contact> - Capture Options]
+Адправіць скрыншот: <Невядомы кантакт> - Налады захопу
+[Ti&med capture]
+Затрымка захопу
+[JPG &Quality :]
+Якасць JPG :
+[C&lient Area]
+Змесціва
+[&Just save it]
+Толькі зах.
+[Area]
+Вобласць
+[Could not start the HTTP Server plugin.]
+Не магу запусціць модуль HTTP Сервер.
+[FTP File is not loaded!]
+FTP File не загружаны!
+[HTTP Server is not loaded!]
+HTTP Server не загружаны!
+[New width?]
+Новая шырыня?
+[Select a target window.]
+Абярыце акно для адпраўкі.
+[Send the screenshot?]
+Паслаць скрыншот?
+[Set &Width]
+Шырыня
+[Set C&olor]
+Колер
+[Set Width]
+Шырыня
+[Type the text to be draw:]
+Набярыце тэкст:
+[Upload completed!]
+Загрузка завершана!
+[&Crop tool]
+Абразаць
+[&Ellipse tool]
+Эліпс
+[&Line tool]
+Лінія
+[&Pen tool]
+Ручка
+[&Rectangle tool]
+Прастакутнік
+[&Set Width]
+Шырыня
+[&Text tool]
+Тэкст
+[&Tools]
+Прылады
+[A&bout]
+Пра праграму
+[C&hoose]
+Выбар
+[Clo&se]
+Зачыніць
+[Close&&S&end]
+Зачыніць&&Паслаць
+[Close&&Sa&ve]
+Зачыніць&&Захаваць
+[Des&tination Folder :]
+Тэчка прызначэння:
+[Destination for the image file(s):]
+Прызначэнне малюнкаў:
+[Fille&d]
+Запаўняць
+[Transparent &Background]
+Празрысты фон
+[Miranda is exiting]
+Miranda выходзіць
+[Could not create main dialog.]
+Немагчыма стварыць галоўны дыялог.
+[Close all capture dialogs and edit windows now, after that press OK.]
+Зачыніць усе дыялогі захопу і вокны рэдактара, пасля націску OK.
+[Not a supported file type.]
+Тып файла не падтрымліваецца.
+[Could not register miranda service MS_SENDSS_SENDDESKTOP.]
+Немагчыма звязаць службу Miranda MS_SENDSS_SENDDESKTOP.
+[Starting upload!]
+Пачатак запампоўкі!
+[Send screenshot to <unknown> - Capture Options]
+Паслаць здымак <unknown> - Налады захопу
+[Could not add a share to the FTP File plugin.]
+Немагчыма дадаць рэсурс у модуль FTP File.
+[Could not add a share to the HTTP Server plugin.]
+Немагчыма дадаць рэсурс у модуль HTTP Server.
+[C&olor]
+Колер
+[Selection Tool]
+Вылучэнне
+[Tool &Options]
+Налады
+[&Capture Again]
+Захапіць ізноў
+[&Crop]
+Абразаць
+[&Ellipse]
+Авал
+[&Line]
+Радок
+[&Pen]
+Ручка
+[&Text]
+Тэкст
+[<unknow>]
+<невядома>
+[JPG Quality]
+JPG якасць
+[Print&Screen Emulation]
+Эмуляцыя скрыншота
+[(Unknow Contact)]
+(Невядомы кантакт)
+[<Unknow Contact>]
+(Невядомы кантакт)

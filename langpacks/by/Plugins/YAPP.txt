@@ -1,0 +1,51 @@
+﻿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;  File: yapp.dll
+;  Module: Yet Another Popup Plugin
+[Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
+Yet Another Popup Plugin - Падае службу ўсплывальных паведамленняў іншым модулям
+[Set timeout:]
+Працягласць:
+[Never timeout]
+Увесь час
+[Disable when]
+Выключыць калі
+[Full-screen app running]
+Поўнаэкраннае прыкладанне
+[Global hover]
+Агульнае навядзенне
+[No time]
+Без часу
+[Time on left]
+Час злева
+[Time on right]
+Час справа
+[Time above avatar]
+Час над аватарам
+[Width:]
+Шырыня:
+[Maximum height:]
+Макс. вышыня:
+[Padding:]
+Прамежак:
+[Set timeout]
+Усталяваць таймаўт
+[Timeout value (0 = default):]
+Таймаўт (0 = па змаўчанні):
+[Vertical indent:]
+Вертык. водступ:
+[The quick brown fox jumped over the lazy dog.]
+З'ясі ж яшчэ гэтых мяккіх французскіх булак ды выпі яду!
+[Example With a Long Title]
+Прыклад з доўгім загалоўкам
+[Thequickbrownfoxjumpedoverthelazydog.]
+Съешьжеещеэтихмягкихфранцузскихбулокдавыпеййаду!
+[An avatar.]
+З аватарам
+[First line]
+Першы радок
+[Title underline]
+Падкрэсленне загалоўка
+[Popup history]
+Гісторыя ўсплывальных вокнаў
+[Enable Popups]
+Уключыць усплывальныя вокны

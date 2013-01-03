@@ -1,0 +1,41 @@
+﻿;#muuid {c64cc8e0-cf03-474a-8b118bd4565ccf04}
+;  Module: SplashScreen.dll
+;  Plugin: Splash Screen
+[Shows a splash at Miranda startup.]
+Паказвае ўсплывальнае акно пры старце Miranda NG.
+[Splash Screen]
+Застаўка
+[Splash Options]
+Налады застаўкі
+[Show Miranda Version]
+Паказваць версію Miranda NG
+[Show splash]
+Застаўка
+[Show random splash]
+Паказваць выпадковую застаўку
+[Fade in:]
+З'яўленне:
+[Fade out:]
+Знікненне:
+[steps]
+крокаў
+[Preview...]
+Прагляд...
+[Fade In]
+Пры з'яўленні
+[Fade Out]
+Пры знікненні
+[Fade step:]
+Крокі зацьмення:
+[Fade:]
+Зацьменне:
+[msecs]
+мсек.
+[Show Splash]
+Паказаць
+[Splash:]
+Застаўка:
+[SplashScreen]
+Застаўка
+[Graphic files]
+Графічныя файлы

@@ -1,0 +1,171 @@
+﻿#muuid {eebc474c-b0ad-470f-99a89dd9210ce233}
+;  File: mradio.dll
+;  Module: mRadio
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Гэты модуль дазваляе праслухоўваць і запісваць інтэрнэт радыё. Гэтак жа можа прайграваць лакальныя файлы.
+[mRadio Mod]
+Пратакол mRadio
+[REC]
+Запіс
+[Cave]
+Пячора
+[Arena]
+Арэна
+[Genre]
+Жанр
+[Plain]
+Раўніна
+[Alley]
+Алея
+[Dizzy]
+Галавакружэнне
+[Generic]
+Агульны
+[Bathroom]
+Ванная
+[Parking Lot]
+Стаянка
+[Stone Corridor]
+Каменны калідор
+[Sewer Pipe]
+Вадасцёкавая труба
+[Auditorium]
+Аўдыторыя
+[Carpeted Hallway]
+Пакрыты калідор
+[Play from first]
+Гуляць спачатку
+[Shuffle playlist]
+Перамяшаць плэйліст
+[Loop single media]
+Зацыкленне
+[Station Name]
+Імя станцыі
+[Timeout, ms (5000)]
+Таймаўт, мс (5000)
+[Hallway]
+Пярэдні пакой
+[Mountains]
+Горы
+[Use EAX]
+Выкарыстоўваць EAX
+[Under Water]
+Пад вадой
+[Station URL (required)]
+Спасылка на станцыю (патрабуецца)
+[To INI]
+У файл
+[Buffer, ms (5000)]
+Буфер, мс (5000)
+[Add station]
+Дадаць станцыю
+[Add Station]
+Дадаць станцыю
+[Bitrate]
+Бітрэйт
+[Stone Room]
+Пакой з каменя
+[Living Room]
+Гасціная
+[Drugged]
+Запазненне
+[Record path]
+Шлях да запісу
+[Padded Cell]
+Абітая камера
+[Autoconnect last station]
+далучацца да апошняй станцыі
+[Concert Hall]
+Канцэртны хол
+[Psychotic]
+Псіхатычны
+[Forrest]
+Лес
+[To list]
+У спіс
+[Hangar]
+Ангар
+[Offline station as Offline]
+Станцыя "не ў сеткі" як "не ў сеткі"
+[Protocol depending status]
+Статус, залежны ад пратаколу
+[Continuous record]
+Бесперапынны запіс
+[Quarry]
+Кар'ер
+[Sorry!]
+Выбачыце!
+[BASS.DLL not found!]
+BASS.DLL не знойдзены!
+[Station]
+Станцыя
+[Custom INI file]
+Абраны INI файл
+[Start record]
+Пачаць запіс
+[Stop record]
+Спыніць запіс
+[Currently played URL]
+Прайграваны URL
+[Current stream title]
+Бягучы загаловак
+[Station/playlist URL]
+URL станцыі/плэйліста
+[Currently used decoder]
+Бягучы дэкодар
+[connecting]
+далучаецца
+[aborting]
+адключаецца
+[Can't initialize device]
+Не магу ініцыялізаваць прыладу
+[Can't connect to net. Please, clear 'Work offline' option in Internet settings]
+Не атрымоўваецца далучыцца да сеткі. Калі ласка, прыбярыце галку 'Працаваць аўтаномна' у наладах Internet Explorer
+[Start broadcasting]
+Пачатак вяшчання
+[Stop broadcasting]
+Прыпынак вяшчання
+[Start/Stop broadcasting]
+Пачатак/Прыпынак вяшчання
+[Start/Stop Record]
+Пачаць/Спыніць запіс
+[Record]
+Запіс
+[Status message template]
+Шаблон паведамлення статусу
+[Equalizer presets]
+Перадусталёўкі эквалайзера
+[Export All]
+Экспартаваць усё
+[Current status]
+Бягучы статус
+[Broadcast ON]
+Вяшчанне вкл.
+[Broadcast OFF]
+Вяшчанне выкл.
+[Add EQ preset]
+Дадаць наладу эквалайзера
+[Delete EQ preset]
+Выдаліць наладу эквалайзера
+[BASS library path (empty for default)]
+Шлях да бібліятэкі BASS (па змаўчанні пуста)
+[Tries to connect]
+Спроб далучэнняў
+[Mute]
+Вкл/выкл гук
+[mRadio volume control]
+Узровень гучнасці mRadio
+[Import File]
+Імпартаваць файл
+[Play Station]
+Станцыі
+[Forced Mono]
+Прымусова Mono
+[Play/Pause]
+Прайграванне/Паўза
+[Oops! BASS error]
+Памылка бібліятэкі BASS
+[Mute with Miranda]
+Адключаць з іншымі гукамі Miranda NG
+[Advanced]
+Дадаткова

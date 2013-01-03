@@ -1,0 +1,348 @@
+﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;  File: mra.dll
+;  Module: mail.ru Agent
+[Provides support for Mail.ru agent Instant Messenger protocol.]
+Модуль пратаколу Mail.ru Агент
+[Display &Inbox]
+Адкрыць уваходныя
+[Display &Inbox status]
+Паказаць стан скрыні
+[Send SMS]
+Адправіць SMS
+[Edit &Profile]
+Рэдагаваць анкету
+[My Album]
+Мой альбом
+[My Blog]
+Мой блог
+[My Video]
+Маё відэа
+[My Answers]
+Мае адказы
+[My World]
+Мой свет
+[Zhuki]
+Жукі
+[Web search]
+Пошук у вэбе
+[Update all users info]
+Абнавіць інфармацыю ўсіх карыстачоў
+[Check updates users avatars]
+Праверыць абнаўленні выяў карыстачоў
+[Request authorization for all]
+Запытаць аўтарызацыю ва ўсіх
+[&Send postcard]
+Адправіць паштоўку
+[&View Album]
+Паглядзець альбом
+[&Read Blog]
+Блог
+[View Video]
+Паглядзець  відэа
+[Answers]
+Адказы
+[World]
+Свет
+[Mail box deleted]
+Паштовая скрыня выдалены
+[Contact not on server]
+Кантакт адсутнічае на серверы
+[Not authorized]
+Не аўтарызаваны
+[Phone/SMS only contact]
+Тэлефонны/SMS кантакт
+[plugin connections]
+злучэнні модуля
+[From: %s\r\nSubject: %s\r\n%s]
+Ад: %s\r\nТэма: %s\r\n%s
+[Unread mail is available: %lu/%lu messages]
+Непрачытаная пошта: %lu/%lu паведамленняў
+[No unread mail is available\r\nTotal messages: %lu]
+Непрачытанай пошты няма\r\nУсiх паведамленняў: %lu
+[Server error: cant get MPOP key for web authorize]
+Памылка сервера: не магчыма атрымаць MPOP ключ для вэб аўтарызацыі
+[Offline message processing error, message will not deleted from server]
+Памылка пры апрацоўцы афлайнавага паведамлення, яно не будзе выдалена з сервера
+[Undefined message deliver error, time out]
+Невядомая памылка пры дастаўцы паведамлення, час чакання мінула
+[Please, setup e-mail in options]
+Калі ласка, увядзіце e-mail у наладах
+[Please, setup password in options]
+Калі ласка, увядзіце пароль у наладах
+[Can't connect to MRIM server, error]
+Немагчыма далучыцца да сервера паведамленняў, памылка
+[NLB data corrupted]
+Дадзеныя ад сервера балансавання нагрузкі пашкоджаны
+[Can't get data for NLB, error]
+Немагчыма атрымаць дадзеныя ад сервера балансавання нагрузкі, памылка
+[Can't connect to NLB server, error]
+Немагчыма далучыцца да сервера балансавання нагрузкі, памылка
+[Disconnected, socket error]
+Адключана, памылка сокета
+[Disconnected, socket read error]
+Адключана, памылка сокета пры атрыманні дадзеных
+[Logon error: invalid login/password]
+Памылка пры праверкі імя карыстача/пароля
+[Another user connected with your login]
+Карыстач адключаны з-за паралельнага ўваходу з яго лагінам
+[Message rejected - no such user]
+Паведамленне не дастаўлена - карыстач не існуе
+[Offline messages limit exceeded]
+Перавышаны мяжа захоўваемых паведамленняў
+[Message is too large]
+Занадта вялікае паведамленне
+[User does not accept offline messages]
+Карыстач не можа прымаць паведамленні калі яго няма ў сеткі
+[User does not accept offline flash animation]
+Карыстач не можа прымаць флэш калі яго няма ў сеткі
+[Undefined message deliver error, code: %lu]
+Паведамленне не дастаўлена, невядомая памылка, код: %lu
+[MRIM_CS_MESSAGE_STATUS: not found in queue]
+MRIM_CS_MESSAGE_STATUS: не знойдзены ў чэргі
+[Sended data is invalid]
+Перададзеныя дадзеныя былі некарэктныя
+[User does not registred]
+Карыстач не зарэгістраваны
+[Invalid user name]
+Некарэктнае імя карыстача
+[User allready added]
+Карыстач ужо ёсць у кантакт-лісце
+[Group limit is 20]
+Перавышана максімальна дапушчальная колькасць груп (20)
+[MRIM_CS_*_CONTACT_ACK: not found in queue]
+MRIM_CS_*_CONTACT_ACK: не знойдзены ў чэргі
+[MRIM_ANKETA_INFO: not found in queue]
+MRIM_ANKETA_INFO: не знойдзена ў чэргі
+[MRIM_CS_SMS_ACK: not found in queue]
+MRIM_CS_SMS_ACK: не знойдзены ў чэргі
+[File transfer: error]
+Перадача файлаў: памылка
+[File transfer: incompatible versions]
+Перадача файлаў: не сумяшчальныя версіі
+[MRIM_CS_FILE_TRANSFER_ACK: unknown error, code: %lu]
+MRIM_CS_FILE_TRANSFER_ACK: невядомая памылка, код: %lu
+[MRIM_CS_*_CONTACT_ACK: unknown server error, code: %lu]
+MRIM_CS_*_CONTACT_ACK: невядомая памылка сервера, код: %lu
+[MRIM_CS_GAME: unknown internal game message code: %lu]
+MRIM_CS_GAME: невядомы ўнутраны код гульнявога паведамлення: %lu
+[MRIM_CS_CONTACT_LIST2: unknown server error, code: %lu]
+MRIM_CS_CONTACT_LIST2: невядомая памылка сервера, код: %lu
+[MRIM_CS_CONTACT_LIST2: bad contact list]
+MRIM_CS_CONTACT_LIST2: знойдзены кантакт-ліст некарэктны
+[MRIM_CS_CONTACT_LIST2: internal server error]
+MRIM_CS_CONTACT_LIST2: унутраная памылка сервера
+[Mail.ru System notify]
+Сістэмнае апавяшчэнне ад адміністрацыі Mail.ru
+[Avatars: can't add request to queue, error]
+Аватары: немагчыма дадаць запыт у чаргу, памылка
+[Avatars: can't connect to server, error]
+Аватары: немагчыма далучыцца да сервера, памылка
+[Avatars: error on send HTTP request]
+Аватары: памылка пры адпраўцы HTTP запыту
+[Avatars: error on receive HTTP answer]
+Аватары: памылка пры атрыманні HTTP адказу
+[Avatars: cant open file %S, error %lu: %s]
+Аватары: немагчыма адкрыць файл %S, памылка %lu: %s
+[Avatars: error on receive file data]
+Аватары: памылка пры атрыманні змесціва файла
+[Avatars: cant write file data, error]
+Аватары: немагчыма запісаць дадзеныя ў файл, памылка
+[Avatars: server return HTTP code: %lu]
+Аватары: сервер вярнуў HTTP код: %lu
+[You cannot send when you are offline.]
+Вы не можаце адпраўляць паведамленні пакуль не далучыліся.
+[Cant allocate buffer for convert to unicode.]
+Не атрымалася вылучыць буфер для пераўтварэння ў юнікод
+[Select e-mail]
+Выбар электроннай пошты
+[Your contact wakes you]
+Ваш суразмоўца будзіць вас
+[invisible status changed]
+статус нябачнасці змяніўся
+[Files exchange: cant create listen soscket, will try connect to remonte host. Error]
+Абмен файламі: Памылка
+[MraFilesQueueConnectionReceived: connection accepted, but pExtra=NULL, this is miranda bug.]
+MraFilesQueueConnectionReceived: уваходнае далучэнне прынята, але pExtra=NULL, гэта памылка ў Miranda.
+[Receive files: error]
+Атрыманне файлаў: памылка
+[Receive files: error on receive file data]
+Атрыманне файлаў: памылка пры атрыманні змесціва файла
+[Receive files: cant write file data, error]
+Атрыманне файлаў: немагчыма запісаць дадзеныя ў файл, памылка
+[Receive files: cant allocate disk space for file, size %lu bytes, error %lu: %s]
+Атрыманне файлаў: не атрымалася вылучыць месца на дыску для файла, памерам %lu байт, памылка %lu: %s
+[Receive files: cant open file %S, error %lu: %s]
+Атрыманне файлаў: немагчыма адкрыць файл %S, памылка %lu: %s
+[Receive files: request for file %S not sended, error %lu: %s]
+Атрыманне файлаў: запыт на атрыманне файла %S не адпраўлены, памылка %lu: %s
+[Send files: file send request not received, error]
+Адпраўка файлаў: запыт на адпраўку файла не атрыманы, памылка
+[Send files: error on send file data]
+Адпраўка файлаў: памылка пры адпраўцы змесціва файла
+[Send files: cant read file data, error]
+Адпраўка файлаў: немагчыма прачытаць змесціва файла, памылка
+[Send files: cant open file %S, error %lu: %s]
+Адпраўка файлаў: немагчыма адкрыць файл %S, памылка %lu: %s
+[Send files: requested file: %S - not found in send files list.]
+Адпраўка файлаў: запытаны файл: %S - не знойдзены сярод файлаў падрыхтаваных да адпраўкі
+[Send files: bad file send request - invalid header]
+Адпраўка файлаў: запыт на перадачу файла - хібны загаловак
+[Send files: bad file send request - to small packet]
+Адпраўка файлаў: запыт на перадачу файла - занадта маленькі з запытам
+[Create a new Mail.ru account using the Mail.ru website]
+Зарэгістраваць новы конт Mail.ru
+[Retrieve a lost password]
+Забыліся пароль?
+[Example: Petrov_Ivan@mail.ru]
+Прыклад: Petrov_Ivan@mail.ru
+[Enable avatars support (loading)]
+Уключыць падтрымку выяў (загружаць)
+[Use keep-alive connections]
+Выкарыстоўваць сталыя злучэнні (keep-alive)
+[Updates check interval, min]
+Інтэрвал праверкі абнаўленняў, мінуць
+[Return absolute path]
+Вяртаць абсалютны шлях
+[Delete avatar file with contact]
+Выдаляць файл выявы разам з кантактам
+[Automatic request authorization on logon]
+Аўтаматычна запытваць аўтарызацыю пры далучэнні
+[Automatic add contacts to server list on logon]
+Аўтаматычна дадаваць кантакты на сервер пры далучэнні
+[Automatic grand authorization to users in contact list]
+Аўтаматычна аўтарызоўваць карыстачоў са спісу
+[Automatic grand authorization to new users]
+Аўтаматычна аўтарызоўваць новых карыстачоў
+[Disable spam check]
+Не правяраць на спам
+[Hide menu items for non MRA contacts]
+Хаваць опцыі меню для не MRA кантактаў
+[Notify about new mail if increment]
+Апавяшчаць толькі пра новую пошту
+[Notify about new mail tray icon]
+Паказваць значок у трэі пры прыходзе пошты
+[Click to Inbox]
+Праверыць пошту пстрычкай
+[Show received Formated text (RTF receive)]
+Паказваць прыняты фарматаваны тэкст
+[Send Formated text (send RTF)]
+Адпраўляць Фарматаваны тэкст
+[Anti spam]
+Антыспам
+[Enable Anti Spam]
+Уключыць антыспам
+[Check temp contacts]
+Правяраць часовыя кантакты са спісу
+[Delete spam bot contacts]
+Выдаляць кантакты спам ботаў са спісу
+[Max. language changes in message (0 - disabled)]
+Макс. колькасць змены моў у паведамленні (0 - выкл)
+[Show pop up]
+Паказваць усплывальныя вокны
+[Write to system history]
+Запісваць у сістэмную гісторыю
+[Send spam report to server]
+Пажаліцца на спам
+[Bad words list]
+Спіс дрэнных слоў
+[Spam bot blocked]
+Спам бот заблакаваны
+[Spam bot contact deleted]
+Кантакт спам бота выдалены са спісу
+[Files exchange]
+Абмен файламі
+[Enable direct connections]
+Дазволіць прамыя далучэнні
+[No out connection on send]
+Забараніць выходныя далучэнні пры адпраўцы
+[No out connection on receive]
+Забараніць выходныя далучэнні пры атрыманні
+[Out connections: ignory additional ports (443, 2041)]
+Выходныя далучэнні: ігнараваць дап. порты (443, 2041)
+[Hide my IP addresses]
+Хаваць мае IP адрасы
+[Add extra address]
+Дадаць дадатковыя адрасы
+[Enable MRIM proxy connections]
+Дазволіць выкарыстанне MRIM проксі
+[File send block size:]
+Памер блока пры адпраўцы:
+[512 - 65536 bytes]
+512 - 65536 байт
+[PopUp type]
+Тып акна
+[Popup settings]
+Налады ўсплывальнага акна
+[NewMail]
+Новая пошта
+; X Statuses
+[Compass]
+Компас
+[Walking]
+Шпацырую
+[Shrimp]
+Крэветка
+[Got lost]
+Заблудзіўся
+[In institute]
+У інстытуце
+[At school]
+У школе
+[Wrong number]
+Памыліліся нумарам
+[Malicious]
+Яхідны
+[Imp]
+Чарцяня
+[Blind]
+Сляпы
+[Almost crying]
+Стрымліваю слёзы
+[Fearful]
+Спалоханы
+[Vampire]
+Вампір
+[Ass]
+Азадак
+[Cool!]
+Клас!
+[Peace!]
+Свету-свет!
+[Cock a snook]
+Дуля
+[Get out]
+Адваліце
+[Death]
+Смерць
+[Rocket]
+Ракета
+[Devil-fish]
+Васьміножка
+[Heavy metal]
+Металіст
+[Things look bad]
+Адстой
+[Squirrel]
+Вавёрка
+[Star]
+Зорка
+[Provides support for Mail.ru agent Instant Messenger protocol]
+Падтрымка пратаколу Mail.ru Агента
+[MRA]
+Mail.ru Агент
+[MRA Avatars plugin connections]
+MRA далучэнне для аватараў
+[MRA Avatars]
+MRA Аватары   
+[MRA plugin connections]
+MRA далучэнне
+[AvatarsPath]
+Шлях да аватараў
+[The changes you have made require you to reconnect to the network before they take effect]
+Зробленыя вамі змены набудуць моц пасля наступнага далучэння (Mail.ru Агент)
+[Connections]
+Злучэнні
+[Ignory non AlphaNumeric characters]
+Ігнараваць знакі не якія з'яўляюцца літарай/лічбай пры праверцы
+[Leave empty if you dont want change password]
+Пакіньце пустым калі не жадаеце змяняць пароль

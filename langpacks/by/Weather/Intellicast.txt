@@ -1,0 +1,112 @@
+﻿;  File: Intellicast.ini
+;  Module: weather
+[Ceiling]
+Вышыня аблокаў
+[Mon]
+ПН
+[Tue]
+АЎТ
+[Wed]
+СР
+[Thu]
+ЧЦ
+[Fri]
+ПТ
+[Sat]
+СБ
+[Sun]
+НД
+[Full]
+Поўня
+[Sunny]
+Сонечна
+[Waning Crescent]
+Зыходзячы Месяц
+[Waning Gibbous]
+Зыхоздячы Месяц
+[Waxing Crescent]
+Набягаючы Месяц
+[Waxing Gibbous]
+Набягаючы Месяц
+[Last Quarter]
+апошняя чвэрць Месяца
+[First Quarter]
+Першая чвэрць Месяца
+[Partly Sunny]
+Месцамі сонечна
+[Mostly Sunny]
+Пераважна сонечна
+[Partly Cloudy]
+Месцамі хмарна
+[Mostly Cloudy]
+Пераважна хмарна
+[Mostly Clear]
+Пераважна ясна
+[Scattered Thunderstorms]
+Рэдкія навальніцы
+[Feel]
+Адчуванне
+[Forecast Day 1]
+Прагноз: Дзень 1
+[Forecast Day 2]
+Прагноз: Дзень 2
+[Forecast Day 3]
+Прагноз: Дзень 3
+[Forecast Day 4]
+Прагноз: Дзень 4
+[Forecast Day 5]
+Прагноз: Дзень 5
+[Forecast Day 6]
+Прагноз: Дзень 6
+[Forecast Day 7]
+Прагноз: Дзень 7
+[Forecast Day 8]
+Прагноз: Дзень 8
+[Forecast Day 9]
+Прагноз: Дзень 9
+[Forecast Day 10]
+Прагноз: Дзень 10
+[Forecast today]
+Прагноз: сёння
+[Heat Index]
+Індэкс спякоты
+[Moon]
+Месяц
+[MoonRise]
+Месяц: узыход
+[MoonSet]
+Месяц: заход
+[Update1]
+Аднавіць 1
+[Update2]
+Аднавіць 2
+[Wind Chill]
+З улікам ветра
+[Wind Direction]
+Вецер: кірунак
+[Wind Speed]
+Вецер: хуткасць
+[WindDir1]
+Вецер: кірунак 1
+[WindDir2]
+Вецер: кірунак 2
+[Broken Clouds]
+З праясненнямі
+[Scattered Clouds]
+Зменная воблачнасць
+[North]
+Поўнач
+[East]
+Усход
+[South]
+Поўдзень
+[West]
+Захад
+[Northwest]
+Паўночны захад
+[Northeast]
+Паўночны ўсход
+[Southwest]
+Паўднёвы захад
+[Southeast]
+Паўднёвы ўсход

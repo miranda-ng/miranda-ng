@@ -1,0 +1,5 @@
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;  File: New_GPG.dll
+;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM
+[New GPG encryption support plugin, based on code from old GPG plugin and SecureIM.]
+Модуль шыфравання GPG, заснаваны на зыходных кодах старога GPG модуля і SecureIM.

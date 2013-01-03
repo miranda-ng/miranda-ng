@@ -1,0 +1,45 @@
+﻿#muuid {b1902a52-9114-4d7e-ac2e-b3a52e01d574}
+;  File: menuex.dll
+;  Module: MenuItemEx
+[Adds some useful options to a contacts menu.]
+Дадае дадатковыя пункты меню кантактаў.
+[Shown menu items]
+Паказаны пункты меню
+[Show alpha icons]
+Альфа-значкі
+[Show alpha icon]
+Альфа-значок
+[Copy Status Message (SMR needed)]
+Капіяваць статут (патрэбен SMR)
+[MenuItemEx]
+Дап. пункты меню
+[Set user properties by contact menu]
+Усталёўвае налады бачнасці для карыстачоў у спісе кантактаў
+[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
+Дадае кантэкстныя меню: "Прынятыя файлы", "Сайт", "Апошні раз у сеткі" і "Капіяваць IP адрас".
+[Hide menu item if directory does not exist]
+Схаваць пункт меню, калі каталог не існуе
+[Last Status]
+Апошні статут
+[Copy to Account]
+Капіяваць ва ўліковы запіс
+[Copy to Account (Ctrl+click for move to Account)]
+Капіяваць у вул. запіс (Ctrl+клік - перасоўванне)
+[* Use Ctrl+click to see popup with the copied text]
+* Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
+[Show in list]
+Паказваць у спісе
+[Add message name]
+Загаловак паведамлення
+[Add item name]
+Дадаць імя элемента
+[Do you want to send authorization request\nto new contact?]
+Ці жадаеце вы паслаць запыт аўтарызацыі\n новаму кантакту?
+[Open ignore settings]
+Адкрыць налады ігнаравання
+[Copy xStatus Message]
+Капіяваць паведамленне Хстатусу
+[Show ID in menu item]
+Паказаць ID у кантэкстным меню
+[Trim too long ID]
+Абразаць доўгі ID

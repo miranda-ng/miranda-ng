@@ -1,0 +1,23 @@
+﻿;#muuid {0f6c73b4-2b2b-711d-fbb6-bb267dfd7208}
+;  Module: AsSingleWindow.dll
+;  Plugin: AsSingleWindow
+[AsSingleWindow]
+Як_адно_вакно
+[Makes easier windows manipulation: allows you to move, minimize and activate Miranda's windows as if it were a single window.]
+Палягчае маніпуляцыі з вокнамі, як быццам гэта адно акно.
+[Windows Moving]
+Перамяшчэнне вокнаў
+[Contact-list on the right]
+Спіс кантактаў справа
+[Contact-list on the left]
+Спіс кантактаў злева
+[Don't merge windows]
+Не "склейваць" вокны
+[At opening one more message window]
+Пры адкрыцці больш аднаго акна
+[Merge windows in opening order]
+"Прыляпляць" вокны ў парадку адкрыцця
+[Merge only first window]
+"Прыляпляць" толькі першае акно
+[Don't merge windows until closing]
+Адключыць "злепванне" да зачынення

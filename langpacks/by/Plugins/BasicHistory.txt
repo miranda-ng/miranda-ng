@@ -1,0 +1,182 @@
+﻿;#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;  File: BasicHistory.dll
+;  Plugin: Basic History
+[History viewer for Miranda NG.]
+Праглядчык гісторыі для Miranda NG
+[Number of history items to delete: %d.\nAre you sure you want to do this?]
+Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
+[You have reached the end of the group.]
+Вы дасягнулі канца групы
+[Invalid event number]
+Непрымальны нумар падзеі
+[Enter filter name]
+Увядзіце імя фільтра
+[Filter name exists]
+Назва фільтра існуе
+[Event already exists]
+Падзея ўжо існуе
+[File do not exist. Enter correct file path.]
+Файл адсутнічае. Увядзі дакладны шлях да файла.
+[Invalid file]
+Няслушны файл
+[Invalid '%s' value.]
+Няслушнае значэнне '%s'.
+[Invalid '%s' value.\n%s]
+Няслушнае значэнне '%s'.\n%s
+[At least one contact should be selected.]
+Павінен быць абраны, хоць бы адзін кантакт
+[To create session open WinSCP, click New Session,  enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+Для стварэння сесіі, адкрыйце WinSCP, націсніце "Новая сесія", увядзіце дату і захаваеце пад вызначаным імем. Памятайце, калі FTP сервер выкарыстоўвае пароль, тыя Вы павінны захаваць яго ў WinSCP.
+[FTP path must contains '/' instead '\\' and starts from '/'.]
+FTP шлях павінен утрымоўваць '/' замест '\ \' і пачынацца з '/'.
+[Outgoing background]
+Выходны фон
+[Incoming background]
+Уваходны фон
+[Window background]
+Фон вакна
+[Open global history]
+Глабальная гісторыя
+[Find Previous]
+Знайсці папярэдняе
+[Switch All Contacts]
+Усе кантакты
+[Switch Match Case]
+Улічваць рэгістр
+[Switch Match Whole Word]
+Слова цалкам
+[Show/Hide Contacts]
+Паказаць/схаваць кантакты
+[Switch Only Incomming Messages]
+Толькі ўваходныя паведамленні
+[Switch Only Outgoing Messages]
+Толькі выходныя паведамленні
+[Show contact list]
+Паказаць спіс
+[Hide contact list]
+Схаваць спіс
+[Hide Contacts]
+Схаваць кантакты
+[Show Contacts]
+Паказаць кантакты
+[Match Case]
+Улічваць рэгістр
+[Match Whole Word]
+Слова цалкам
+[Only Incomming Messages]
+Толькі ўваходныя паведамленні
+[Only Outgoing Messages]
+Толькі выходныя паведамленні
+[Save window position as default]
+Захаваць становішча акна
+[Save window position for all contacts]
+Захаваць становішча акна для ўсіх кантактаў
+[Delete All User History]
+Выдаліць усю гісторыю карыстача
+[Always show contact list]
+Заўсёды паказваць спіс кантактаў
+[New messages on top]
+Новыя паведамленні зверху
+[Delta time to group messages:]
+Абмежаваць час для паведамленняў:
+[Limit messages to:]
+Абмежаваць паведамленні да:
+[Search forward in list group]
+Шукаць далей у групе
+[Search forward in message window]
+Шукаць далей у акне паведамленняў
+[Only Selected Group]
+Толькі абраная група
+[Switch Only Selected Group]
+Толькі абраныя групы
+[Default history events]
+Падзеі па змаўчанні
+[Default Event Filter]
+Фільтр падзей
+[Custom filters]
+Свае фільтры
+[Add filter]
+Стварыць фільтр
+[Delete filter]
+Выдаліць фільтр
+[Add event]
+Стварыць падзею
+[Delete event]
+Выдаліць падзею
+[Contacts recieved]
+Атрыманне кантактаў
+[Show groups in contact list]
+Паказваць групы ў спісе кантактаў
+[Rich Html]
+Паўнавартасны HTML
+[Plain Html]
+Чысты HTML
+[Export To Rich Html]
+Экспарт у паўнавартасны HTML
+[Export To Plain Html]
+Экспарт у чысты HTML
+[Export To Txt]
+Экспарт у тэкст
+[File encoding*]
+Кадоўка файла*
+[External CSS file]
+Вонкавы файл CSS
+[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+* Абярыце кадоўку з выпадальнага спісу ці ўвядзіце імя кадоўкі праз кропку з коскі, імя выкарыстоўваецца ў загалоўка тыпу змесціва.
+[WinSCP path]
+Шлях да WinSCP
+[WinSCP log path]
+Шлях да логаў WinSCP
+[Add task]
+Дадаць задачу
+[Edit task]
+Рэд. задачу
+[Delete task]
+Выд. задачу
+[Action type]
+Тып дзеяння
+[Events older than*]
+Падзеі старэй чым*
+[Events older than]
+Падзеі старэй чым
+[Triger type]
+Паводзіны
+[Delta time]
+Праз час
+[Export to]
+Экспартаваць у
+[Compress output files]
+Сціснуць файлы
+[Upload to FTP (WinSCP requred)]
+Заліць на FTP (патрабуецца WinSCP)
+[Upload to FTP]
+Заліць на FTP
+[Session name]
+Імя сесіі
+[Path to output file**]
+Шлях да файла**
+[Path to output file]
+Шлях да файла
+[* Use negative values to filter younger events]
+* Адмоўныя значэнні для фільтравання ранніх падзей
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+** <date> - устаўляе дату, <ext> - пашырэнне, <contact> - імя кантакту
+[Execute task for specified contacts]
+Выконваць задачу для вызначаных кантактаў
+[Export and Delete]
+Экспартаваць і выдаліць
+[Minute]
+Хвіліны
+[Hour]
+Гадзіны
+[At Start]
+Пры запуску
+[At Finish]
+Пры выйсці
+[Delta time (minutes)]
+Праз час (хвіліны)
+[Delta time (hours)]
+Праз час (гадзіны)
+[Task]
+Заданне
+

@@ -1,0 +1,753 @@
+﻿#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}
+;  File: icq.dll
+;  Module: IcqOscarJ Protocol
+[Enable popup support]
+Уключыць усплывальныя вокны
+[Display popup when spambot is detected]
+Акно пры выяўленні спамбота
+[Look && Feel]
+Адлюстраванне
+[Fatal]
+Фатальная памылка
+[Spam detected]
+Выяўлены спам
+[Back Color]
+Колер фону
+[&Use Windows colors]
+&Колеры Windows
+[Use system &icons]
+Сістэмныя значкі
+[(*) Timeouts require Popup v. 1.0.1.9 or later]
+(*) Патрабуецца Popup 1.0.1.9+, YAPP ці сумяшчальны модуль
+[Sample Note]
+Прыклад нататкі
+[Sample Warning]
+Прыклад папярэджання
+[Sample Error]
+Прыклад памылкі
+[Sample Fatal]
+Прыклад фатальнай памылкі
+[Sample Spambot]
+Прыклад спамбота
+[ICQ number:]
+Нумар ICQ:
+[Retrieve a lost password or ICQ number]
+Нагадаць пароль ці нумар ICQ
+[Create a new ICQ account using the ICQ website]
+Стварыць конт на сайце ICQ
+[Login Server:]
+Сервер:
+[Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
+Для далучэння да выпадковага порта пакажыце порт 0. Спрабуйце порты 443 ці 80, калі ў вас праблемы з далучэннем праз проксі.
+[Secure Connection (SSL)]
+Бяспечнае злучэнне (SSL)
+[Secure (MD5) login]
+Бяспечны ўваход (MD5)
+[Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
+Падтрымліваць далучэнне (калі вы выкарыстоўваеце проксі-сервер і часта раз'ядноўваецеся)
+[Ignore concurrent error messages]
+Не паказваць акно памылкі, пакуль не зачынена папярэдняе
+[Show connection error messages:]
+Паказваць памылкі далучэння:
+[Display all problems]
+Усе праблемы
+[Display problems causing possible loss of data]
+Праблемы з магчымай стратай дадзеных
+[Display explanations for disconnection]
+Тлумачэнні пра раз'яднанне
+[Display problems requiring user intervention]
+Патрабуецца ўмяшанне карыстача
+[Do not display any problems (not recommended)]
+Схаваць усе памылкі (не рэкамендуецца)
+[ICQ contacts stored on server]
+Кантакты ICQ на серверы
+[Enable server-side contact lists *]
+Выкарыстоўваць спіс на серверы *
+[Add contacts to the server's list when I add them to mine]
+Дадаваць кантакты на сервер, калі я дадаю іх у свой спіс
+[Update my contacts' details from the server *]
+Абнаўляць дадзеныя пра кантакты з сервера *
+[Update contacts' details on the server's list when I change them in mine]
+Абнаўляць дадзеныя пра кантакты на серверы, калі я іх змяняю ў сваім спісе
+[Manage server's list...]
+Кіраванне спісам...
+[ICQ avatars]
+Аватары ICQ
+[Enable avatar support]
+Уключыць падтрымку аватараў
+[Check avatar validity before saving *]
+Правяраць цэласнасць аватара перад захаваннем *
+[Load avatars automatically (like ICQ Lite)]
+Загружаць аватары аўтаматычна (як ICQ Lite)
+[You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
+Немагчыма ўключыць/выключыць спіс на серверы падчас далучэння да сеткі ICQ.
+[Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
+Заўвага: Налады, адзначаныя зорачкай, маюць пабочныя эфекты, якія могуць быць не дакументаваны ў даведцы.
+[Enable unicode messaging support]
+Уключыць падтрымку Unicode
+[Send all messages in unicode if possible]
+Адсылаць у Unicode (калі магчыма)
+[Use this codepage for Ansi <-> Unicode translation :]
+Перакадоўка ANSI <-> Unicode :
+[System default codepage]
+Сістэмная кадоўка
+[Make me temporarily visible to contacts I send message to]
+Станавіцца бачным для кантакту, якому пасылаеце паведамленне
+[Notify me when a message delivery has failed (recommended)]
+Апавяшчаць пра няўдалую дастаўку паведамленняў (рэкамендуецца)
+[Use only server's acknowledgement (faster)]
+Толькі пацверджанне прыёму з сервера (хутчэй)
+[Peer-to-peer Messaging]
+Абмен паведамленнямі паміж карыстачамі
+[Enable peer-to-peer message connections]
+Прамыя злучэнні кліент-кліент
+[Passive mode, i.e. do not initiate new connections]
+Пасіўны рэжым (не ініцыяваць далучэнні)
+[Extra Features]
+Дадатковыя магчымасці
+[Enable Custom status support for xtraz]
+Уключыць падтрымку хстатусаў для дадаткаў
+[Enable Custom status support for moods]
+Уключыць падтрымку хстатусаў для настрояў
+[Reset Custom status on status change]
+Скінуць xСтатус пры змене статусу
+[Auto-retrieve Custom status details]
+Аўтазагрузка хстатусаў
+[Block known Spam Bots]
+Блок. вядомыя спамботы
+[Enable AIM contacts support]
+Уключыць падтрымку кантактаў AIM
+[Direct connections]
+Прамыя злучэнні
+[Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
+Важна: ужыванне прамых злучэнняў адкрые вашы IP адрасы для іншых карыстачоў (але неабходна для некаторых функцый)
+[Allow direct connections with any user]
+Прамыя злучэнні з любымі карыстачамі
+[Allow direct connections with users on my contact list]
+Прамыя злучэнні з карыстачамі са спісу кантактаў
+[Allow direct connections only when I authorize or initiate them]
+Прамыя злучэнні толькі калі я дазваляю ці ўсталёўваю іх
+[Contact List Authorization]
+Аўтарызацыя
+[All users may add me to their Contact List]
+Усе карыстачы могуць дадаць мяне ў спіс
+[I want to be asked when someone wants to add me to their Contact List]
+Патрабуецца мой дазвол
+[Misc Settings]
+Іншыя налады
+[Allow others to view my Online / Offline status from the web (Web Aware)]
+Паказваць мой статус на сайтах (Web Aware)
+[Allow others to view my primary e-mail address]
+Паказаць іншым мой асноўны паштовы адрас
+[Only reply to status message requests from users on my contact list]
+Адказваць на запыт статуснага паведамлення толькі карыстачам са спісу
+[Only reply to status message request from visible contacts]
+Адказваць на запыт статуснага паведамлення толькі бачным кантактам
+[Support for ICQ network, enhanced.]
+Пашыраная падтрымка сеткі ICQ.
+[ICQ XStatus]
+хстатус ICQ
+[Show custom status details]
+Падрабязны xСтатус
+[Add to server list]
+Дадаць у спіс на серверы
+[Manage ICQ Server Contacts]
+Кіраванне кантактамі на серверы
+[Select contacts to store:]
+Кантакты для запампоўкі:
+[Select contacts you want to store on server.]
+Абярыце кантакты для захоўвання на серверы.
+[Ready...]
+Гатова...
+[Synchronize]
+Сінхранізаваць
+[Cleaning groups]
+Чышчу групы
+[Updating group "%s"...]
+Абнаўляю групу "%s"...
+[Deleting group "%s"...]
+Выдаляю групу "%s"...
+[Adding group "%s"...]
+Дадаю групу "%s"...
+[Moving %s to group "%s"...]
+Перамяшчаю %s у групу "%s"...
+[Uploading %s...]
+Загружаю %s...
+[Deleting %s...]
+Выдаляю %s...
+[No upload group available]
+Няма групы для загрузкі
+[Adding %s to visible list...]
+Дадаю %s у спіс бачнасці...
+[Adding %s to invisible list...]
+Дадаю %s у спіс нябачнасці...
+[Deleting %s from visible list...]
+Выдаляю %s са спісу бачнасці...
+[Deleting %s from invisible list...]
+Выдаляю %s са спісу нябачнасці...
+[All operations complete]
+Усе аперацыі завершаны
+[You have to be online to sychronize the server-list !]
+Вы павінны быць далучаны для сінхранізацыі спісу на серверы
+[NOT FOUND]
+НЕ ЗНОЙДЗЕНА
+[ALREADY EXISTS]
+УЖО ІСНУЕ
+[INVALID DATA]
+НЯВЕРНЫЯ ДАДЗЕНЫЯ
+[LIST FULL]
+СПІС ПОЎНЫ
+[FAILED]
+НЯЎДАЧА
+[Upload FAILED]
+Загрузка не атрымалася
+[UIN:]
+Нумар:
+[Protocol Version:]
+Версія пратаколу:
+[User Client:]
+Кліент:
+[Member since:]
+Удзельнік з:
+[Idle since:]
+Прастойвае з:
+[Personal]
+Асабістае
+[First name]
+Імя
+[Last name]
+Прозвішча
+[Street]
+Вуліца
+[City]
+Горад
+[State]
+Штат
+[Phone number]
+Тэлефон
+[Fax number]
+Факс
+[Cellular number]
+Мабільны тэлефон
+[Personal Detail]
+Асабістыя дадзеныя
+[Month of birth]
+Месяц нараджэння
+[Day of birth]
+Дзень нараджэння
+[Marital Status]
+Сямейнае становішча
+[Open relationship]
+У актыўным пошуку
+[Spoken language 1]
+Валодае Мовай 1
+[Spoken language 2]
+Валодае Мовай 2
+[Spoken language 3]
+Валодае Мовай 3
+[Originally from]
+Па паходжанні
+[Level]
+Ступень
+[Associated degree]
+Сярэднеспецыяльнае
+[Bachelor's degree]
+Бакалаўр
+[Elementary]
+Пачатковая школа
+[High-school]
+Сярэдняя школа
+[Master's degree]
+Магістр
+[PhD]
+Кандыдат навук
+[Postdoctoral]
+Доктар
+[University / College]
+Універсітэт/Каледж
+[Institute]
+ВНУ
+[Degree]
+Ступень
+[Graduation Year]
+Год канчатка
+[Company name]
+Імя кампаніі
+[Company homepage]
+Сайт кампаніі
+[Company street]
+Адрас кампаніі
+[Company city]
+Горад
+[Company state]
+Штат
+[Company phone]
+Тэлефон
+[Company fax]
+Факс
+[Company ZIP/postcode]
+Індэкс
+[Company country]
+Краіна
+[Company department]
+Дэпартамент
+[Company position]
+Пасада
+[Company industry]
+Выгляд дзейнасці
+[Agriculture]
+Сельская гаспадарка
+[Arts]
+Мастацтва
+[Construction]
+Будаўніцтва
+[Consumer Goods]
+Спажывецкія тавары
+[Corporate Services]
+Карпаратыўныя паслугі
+[Finance]
+Фінансы
+[High Tech]
+Высокія тэхналогіі
+[Legal]
+Юрыспрудэнцыя
+[Medical & Health Care]
+Медыцына і ахова здароўя
+[Non-Profit Organization Management]
+Некамерцыйная арганізацыя кіравання
+[Recreation, Travel & Entertainment]
+Адпачынак, вандраванні і забаўкі
+[Service Industry]
+Сфера абслугоўвання
+[Transportation]
+Транспарт
+[Personal Interests]
+Персанальныя інтарэсы
+[Interest areas 1]
+Цікаўлюся 1
+[Interest areas 2]
+Цікаўлюся 2
+[Interest areas 3]
+Цікаўлюся 3
+[Interest areas 4]
+Цікаўлюся 4
+[Interest category 1]
+Катэгорыя 1
+[Interest category 2]
+Катэгорыя 2
+[Interest category 3]
+Катэгорыя 3
+[Interest category 4]
+Катэгорыя 4
+[Audio and Visual]
+Гук і візуалізацыя
+[Business Services]
+Бізнэс паслугі
+[Culture]
+Культура
+[Ecology]
+Экалогія
+[Finance and Corporate]
+Фінансы і карпарацыя
+[Health and Beauty]
+Здароўе і прыгажосць
+[Home Automation]
+Хатняя аўтаматызацыя
+[Household Products]
+Хатнія прадукты
+[ICQ - Help]
+ICQ-дапамога
+[Mail Order Catalog]
+Заказ тавараў па пошце
+[Movies and TV]
+Кіно і ТБ
+[News and Media]
+Навіны і СМІ
+[Outdoors]
+Адпачынак на прыродзе
+[Pets and Animals]
+Жывёлы
+[Retail Stores]
+Раздробны гандаль
+[Science]
+Навука
+[Sporting and Athletic]
+Спорт і атлетыка
+[%s Details]
+%s Дэталі
+[ (DC Established)]
+ (DC усталявана)
+[ScreenName:]
+Імя AIM:
+[Organisation:]
+Арганізацыя:
+[Language:]
+Мова:
+[Interests]
+Інтарэсы:
+[Category:]
+Катэгорыя:
+[60-above]
+60 і больш
+[Fan Clubs]
+Фан-клуб
+[Taking a bath]
+У ваннай
+[Tired]
+Стаміўся
+[Drinking beer]
+П'ю піва
+[Thinking]
+Думаю
+[Watching TV]
+Гляджу тэлевізар
+[Listening to music]
+Слухаю музыку
+[Shooting]
+Фатаграфую
+[Gaming]
+Гуляю
+[Studying]
+Вучуся
+[Shopping]
+Шопінг
+[Feeling sick]
+Хварэю
+[Surfing]
+Серфінг
+[Browsing]
+Блукаю
+[Picnic]
+Пікнік
+[I'm high]
+Дзьмухаю
+[To be or not to be]
+Быць альбо не быць?
+[Watching pro7 on TV]
+Гляджу тэлевізар
+[Having fun]
+Весялюся
+[Hot Dog]
+Хот-дог
+[Rough]
+Грубіянскі
+[Rock On]
+Рок On
+[Baby]
+Немаўля
+[Soccer]
+Футбол
+[Pirate]
+Пірат
+[Cyclop]
+Цыклоп
+[Monkey]
+Малпа
+[Birdie]
+Птушанятка
+[Cool]
+Стромкі
+[Evil]
+Дэман
+[Scooter]
+Скутар
+[Money]
+Грошы
+[Pilot]
+Пілот
+[Afro]
+Афрыканец
+[St. Patrick]
+Св. Патрык
+[Headmaster]
+Дырэктар
+[Lips]
+Вусны
+[Ice-Cream]
+Марозіва
+[Pink Lady]
+Ружовая
+[Up yours]
+Ідзі ты
+[Dog]
+Сабака
+[Candy]
+Цукерка
+[Crazy Professor]
+Звар'яцелы прафесар
+[Ninja]
+Ніндзя
+[Cocktail]
+Тусуюся
+[Punch]
+Кулак
+[Donut]
+Пончык
+[Feeling Good]
+Зэба
+[Lollypop]
+Лядзяш
+[Oink Oink]
+Хру-хру
+[Kitty]
+Котачка
+[Sumo]
+Сумо
+[Broken hearted]
+Разбітае сэрца
+[@home]
+Дома
+[@work]
+Праца
+[Strawberry]
+Трускаўка
+[Angel]
+Анёл
+[Pizza]
+Піца
+[Snoring]
+Храпу
+[On my mobile]
+З мабільніка
+[Beetle]
+Жук
+[Double Rainbow]
+Вясёлка
+[Basketball]
+Баскетбол
+[Cupid shot me]
+Закаханы
+[Celebrating]
+Святкую
+[Sushi]
+Сушы
+[Writing]
+Пішу
+[ICQ Number:]
+Нумар ICQ:
+[Create a new ICQ account]
+Стварыць новы конт ICQ
+[ICQ accepts only up to 8 characters in password.]
+ICQ прымае максімум 8 знакаў у паролі.
+[Are you sure you want to revoke user's authorisation (this will remove you from his/her list on some clients) ?]
+Вы сапраўды жадаеце адклікаць аўтарызацыю (гэта працэдура можа выдаліць вас з чужога спісу кантактаў на некаторых кліентах) ?
+[Unable to connect to migrated ICQ communication server]
+Немагчыма далучыцца да мігрыраванага серверу зносін ICQ
+[Unable to connect to ICQ communication server]
+Немагчыма далучыцца да сервера зносін ICQ
+[You could not sign on because the server returned invalid data. Try again.]
+Вы не ўвайшлі ў сетку, бо сервер вярнуў няслушныя дадзеныя. Паспрабуйце пазней.
+[You have been disconnected from the ICQ network because the current server shut down.]
+Вас раз'ядналі ад сеткі ICQ таму што бягучы сервер быў выключаны.
+[Connection failed.\nYour ICQ number or password was rejected (%d).]
+Няўдалае далучэнне.\nВаш нумар ці пароль не прыняты серверам (%d).
+[Connection failed.\nServer has too many connections from your IP (%d).]
+Няўдалае далучэнне.\nВельмі шмат далучэнняў з вашага IP (%d).
+[Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
+Няўдалае далучэнне.\nВы занадта часта далучаецеся,\nпаспрабуйце праз 10-20 мінуць (%d).
+[Connection failed.\nThe server did not accept this client version.]
+Няўдалае далучэнне.\nСервер не прыняў гэту версію кліента.
+[The server sent warning, this version is getting old.\nTry to look for a new one.]
+Сервер паслаў папярэджанне, гэта версія кліента старая.\nПашукайце новую версію.
+[Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
+Няўдалае далучэнне.\nСервер вас не прыняў па невядомым чынніку.\nГэта можа здарыцца, калі ваш нумар ужо далучаны.
+[Connection failed.\nSecure (MD5) login is not supported on this account.]
+Няўдалае далучэнне.\nБяспечны уваход (MD5) не падтрымліваецца на гэтым конце.
+[Connection failed.\nUnknown error during sign on: 0x%02x]
+Няўдалае далучэнне.\nНевядомая памылка пры ўваходзе: 0x%02x
+[You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
+Сервер зачыніў злучэнне, бо вы ўвайшлі з іншага месца выкарыстоўваючы той жа нумар ICQ.
+[Unknown runtime error: 0x%02x]
+Невядомая памылка: 0x%02x
+[A server migration has failed because the server returned invalid data. You must reconnect manually.]
+Пераход з сервера на сервер не атрымаўся бо сервер вярнуў няслушныя дадзеныя. Вам трэба далучыцца ўручную.
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
+Вы адпраўляеце занадта хутка. Паспрабуйце адправіць паведамленне пазней.\r\nSNAC(4.1) памылка x02
+[You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
+Вы адпраўляеце занадта хутка. Паспрабуйце адправіць паведамленне пазней.\r\nSNAC(4.1) памылка x03
+[The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
+Гэты карыстач сышоў з сеткі. Паспрабуйце адправіць афлайн-паведамленне.\r\nSNAC(4.1) памылка x04
+[The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
+Кліент атрымальніка не падтрымлівае гэты тып паведамлення.\r\nSNAC(4.1) памылка x09
+[You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
+Вы адправілі занадта доўгае паведамленне. Кліент атрымальніка не падтрымлівае яго.\r\nSNAC(4.1) Error x0A
+[The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
+Фармат SNAC не прыняты серверам.\nSNAC(4.1) памылка x0E
+[The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
+Карыстач часова недаступны. Паспрабуйце адправіць паведамленне пазней.\r\nSNAC(4.1) Error x13
+[SNAC(4.1) SENDMSG Error (x%02x)]
+SNAC(4.1) Памылка SENDMSG (x%02x)
+[** This message was blocked by the ICQ server ** The message was invalid.]
+** Гэта паведамленне было заблакавана серверам ICQ ** Паведамленне мела няслушны фармат.
+[** This message was blocked by the ICQ server ** The message was too long.]
+** Гэта паведамленне было заблакавана серверам ICQ ** Паведамленне было занадта доўгім.
+[** This message was blocked by the ICQ server ** The sender has flooded the server.]
+** Гэта паведамленне было заблакавана серверам ICQ ** Адпраўнік закідаў сервер паведамленнямі.
+[** This message was blocked by the ICQ server ** You are too evil.]
+** Гэта паведамленне было заблакавана серверам ICQ ** Нядобры вы чалавек...
+[** Unknown missed message event.]
+** Невядомая страчаная падзея.
+[User "%s" was removed from server list.]
+Карыстач "%s" быў выдалены са спісу на серверы.
+[Server contact list is unavailable, Miranda will use local contact list.]
+Спіс кантактаў на серверы недаступны, Miranda будзе выкарыстоўваць лакальны.
+[Updating of server contact failed.]
+Не атрымалася абнавіць кантакт на серверы.
+[Adding of privacy item to server list failed.]
+Не атрымалася дадаць запіс прыватнасці.
+[Removing of privacy item from server list failed.]
+Не атрымалася выдаліць запіс прыватнасці.
+[Adding of contact to server list failed.]
+Не атрымалася дадаць кантакт на сервер.
+[Adding of group to server list failed.]
+Не атрымалася дадаць групу на сервер.
+[Removing of contact from server list failed.]
+Не атрымалася выдаліць кантакт з сервера.
+[Updating of group on server list failed.]
+Не атрымалася абнавіць групу на серверы.
+[Removing of group from server list failed.]
+Не атрымалася выдаліць групу з сервера.
+[Moving of user to another group on server list failed.]
+Не атрымалася перамясціць кантакт у іншую групу на серверы.
+[Renaming of server group failed.]
+Не атрымалася пераназваць групу на серверы.
+[Your file transfer has been aborted because one of the files that you selected to send is no longer readable from the disk. You may have deleted or moved it.]
+Перадача файла была адменена, таму што адзін з абраных файлаў не чытаецца з дыска, бо быў перамешчаны ці выдалены.
+[Your file receive has been aborted because Miranda could not open the destination file in order to write to it. You may be trying to save to a read-only folder.]
+Перадача файла была адменена, таму што немагчыма адкрыць лакальны файл на запіс. Хутчэй за ўсё, вы спрабуеце захаваць файл у тэчку дзе няма права на запіс.
+[Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
+Няўдалае далучэнне.\&nПаслядоўнасць уваходу не атрымалася па невядомым чынніку.\nПаспрабуйце пазней.
+[Server rate warning -> slowing down the process.]
+Папярэджанне сервера пра хуткасць -> запавольваюся...
+[You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
+Вы не ўвялі нумар ICQ.\nНаладзьце яго ў частцы Налады->Сетка->ICQ і паспрабуйце зноў.
+[The receiver has an invalid user ID.]
+Няслушная ідэнтыфікацыя атрымальніка.
+[Bad data (internal error #1)]
+Некарэктныя дадзеныя (унутраная памылка №1)
+[Bad data (internal error #2)]
+Некарэктныя дадзеныя (унутраная памылка №2)
+[Confirmation]
+Пацверджанне
+[ICQ Warning]
+Папярэджанне ICQ
+[ICQ Error]
+Памылка ICQ
+[ICQ Fatal]
+Фатальная памылка ICQ
+[ICQ Note]
+Інфармацыя ICQ
+[The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
+Сервер не адказаў на спробу далучэння. Магчыма, ён часова недаступны. Паспрабуйце пазней.
+[The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
+Спроба далучэння з серверам перапынілася з памылкай. Магчыма, знікла далучэнне да лакальнай сеткі.
+[Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
+Не атрымалася дазволіць імя сервера ў IP адрас. Хутчэй за ўсё гэта злучана з адсутнасцю далучэння да Інтэрнэту (напрыклад, ваш мадэм адключыўся). Калі вы выкарыстоўваеце проксі, паспрабуйце ўключыць опцыю "Вызначаць імёны хастоў праз проксі": Налады->Сетка.
+[Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
+Не атрымалася далучыцца да сервера. Магчыма, сервер не працуе. Калі ласка, паспрабуйце далучыцца пазней.
+[Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
+Ваш проксі сервер адпрэчыў імя і пароль. Калі ласка, праверце іх: Налады->Сетка.
+[The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
+Сервер, да якога вы спрабуеце далучыцца, не існуе. Праверце сервер: Налады->Сетка->ICQ.
+[Please authorize me to add you to my contact list.]
+Дазволіце, калі ласка, дадаць Вас у спіс.
+[You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
+Змены набудуць моц пры наступным уваходзе ў сетку ICQ.
+[Some options are greyed out because they can only be changed when you are online.]
+Некаторыя налады можна змяняць толькі пасля далучэння да сеткі ICQ.
+[Your connection with the ICQ server was abortively closed]
+далучэнне да ICQ серверу зачынена.
+[Unable to connect to ICQ login server]
+Немагчыма далучыцца да сервера ICQ
+[Contact deleted & further events blocked.]
+Кантакт выдалены, новыя падзеі заблакаваны.
+[The ICQ server does not support passwords longer than 8 characters. Please use a shorter password.]
+Сервер ICQ не падтрымлівае паролі даўжынёй больш 8 знакаў. Выкарыстоўвайце пароль па карацей.
+[The password does not match the password you originally entered. Check Caps Lock and try again.]
+Пароль не супадае з паролем, уведзеным раней. Праверце Caps Lock і паспрабуйце зноў.
+[The password does not match your current password. Check Caps Lock and try again.]
+Пароль не супадае з існым. Праверце Caps Lock і паспрабуйце зноў.
+[You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
+Вы зрабілі змены, але не захавалі іх на серверы. Зачыніць акно?
+[Contact "%s" has closed the message window.]
+Кантакт "%s" зачыніў акно паведамленняў.
+[The contact does not support receiving offline messages.]
+Кантакт не падтрымлівае прыём афлайн паведамленняў.
+[The messaging service is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x05]
+Служба адпраўкі паведамленняў часова не даступная. Паспрабуйце пазней.\r\nSNAC(4.1) Памылка x05
+[Contact "%s" lost its authorization in the server list.]
+Кантакт "%s" страціў аўтарызацыю ў спісе на серверы.
+[Contact "%s" was authorized in the server list.]
+Кантакт "%s" аўтарызаваны ў спісе на серверы.
+[Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
+Вы ўпэўнены, што жадаеце адклікаць аўтарызацыю? (выдаліць вас са спісу кантактаў на некаторых кліентах)?
+[Failed to Initialize File Transfer. No valid files were specified.]
+Памылка ініцыялізацыі перадачы файлаў. Файл не паказаны.
+[%s has closed the message window.]
+%s зачыніў акно гутаркі.
+[The file transfer failed: Proxy error]
+Перадача файла не атрымалася: Памылка проксі
+[The file transfer failed: Invalid request]
+Перадача файла не атрымалася: Няправільны запыт
+[The file transfer failed: Proxy unavailable]
+Перадача файла не атрымалася: Проксі недаступны
+[The files are too big to be sent at once. Files bigger than 4GB can be sent only separately.]
+Занадта вялікія файлы не могуць быць адпраўлены за раз. Файлы больш 4 Гб могуць быць дасланы толькі асобна.
+[Failed to Initialize File Transfer. Unable to bind local port and File proxy unavailable.]
+Немагчыма пачаць перадачу файла. Немагчыма прызначыць лакальны порт, і файлавы проксі недаступны.
+[Connection lost during file transfer.]
+Злучэнне страчана пры перадачы файла.
+[File transfer negotiation failed for unknown reason.]
+Перадача файла не атрымалася па невядомым чынніку.
+[The checksum of file "%s" does not match, the file is probably damaged.]
+Кантрольная сума файла "%s" не супадае, файл можа быць пашкоджаны.
+[Error uploading avatar to server, server refused to accept the image.]
+Памылка загрузкі аватара на сервер, сервер не прыняў малюнак.
+[Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
+Не атрымалася вылучыць порт для злучэнняў паміж кліентамі. Усе функцыі ICQ будуць даступныя, але магчымыя праблемы з перадачай файлаў.\n\nЕсли у вас усталяваны брандмаўар (firewall), наладзьце ў ім некалькі портаў і пакажыце іх у наладах (Сетка - злучэнні паміж карыстачамі)
+[Spambot Detected]
+Выяўлены спамбот
+[Connection failed.\nThe server is temporarily unavailable (%d).]
+Памылка далучэння.\nСервер часова недаступны (%d).
+[Error uploading avatar to server, server temporarily unavailable.]
+Памылка загрузкі аватара на сервер. Сервер часова недаступны.
+[Failed to request offline messages. They may be received next time you log in.]
+Памылка запыту афлайн паведамленняў. Яны могуць быць атрыманы пры наступным далучэнні.
+[Secure login failed.\nInvalid key length.]
+Памылка абароненага ўваходу.\nНяверная даўжыня ключа
+[Secure login failed.\nInvalid server response.]
+Памылка абароненага ўваходу.\nНяверны адказ сервера.
+[The contact's information was too big and was truncated.]
+Інфармацыя пра кантакт занадта доўгая і была абрэзана.
+[The file transfer was aborted by the other user.]
+Перадача файла перапынена карыстачом на тым боку.
+[Custom Status "%s" Details]
+xСтатус "%s"
+[Retrieving custom status details...]
+Запыт тэксту хстатуса...
+[Please re-type your new password:]
+Паўторыце ваш новы пароль:
+[Enter your current password:]
+Увядзіце бягучы пароль:
+[Enter ICQ Password]
+Увядзіце пароль ICQ
+[Confirm Password Change]
+Пацвердзіць змену пароля
+[Enter a password for UIN %u:]
+Увядзіце пароль для %u:
+[Remember this session password]
+Запомніць пароль сеансу
+[Enter a password for UIN %d:]
+Увядзіце пароль для нумара %d:
+[Greeting card:]
+Паштоўка:
+[Incoming URL:]
+Уваходны URL:
+[<invalid>]
+<няверна>
+[<unremovable once applied>]
+<нельга выдаліць пасля ўводу>
+[IcqAccountChooser]
+Выбар конта ICQ
+[Open ICQ profile]
+Профіль на сайце ICQ

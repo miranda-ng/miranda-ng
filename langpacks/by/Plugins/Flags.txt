@@ -1,0 +1,33 @@
+﻿#muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
+;  File: flags.dll
+;  Module: Country Flags
+[Docs]
+Дакументацыя
+[Country Flags Plugin]
+Модуль нацыянальных сцягоў
+[Show country flag as &extra image on contact list]
+Паказваць сцяг, як дап. значок у кантакт-лісце
+[Use &IP-to-country database for country detection]
+Выкарыстоўваць базу IP для вызначэння краіны
+[Include &IP-to-country lookup in country detection]
+Выкарыстоўваць базу IP для вызначэння краіны
+[In following contact list &column:]
+У наступным слоце:
+[Use &unknown flag if the country can not be determined]
+Паказ. unknown  сцяг, калі краіну нельга вызначыць
+[Faroe Islands]
+О-ў Фара
+[Saipan Island (Northern Mariana Islands)]
+Сайпанскія о-ў (Паўночна Марыянска Выспы)
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+Служба, якая дадае нацыянальныя сцягі як значкі, і ip-у краіну базу дадзеных.
+[Guantanamo Bay]
+Бухта Гуантанама
+[Australian Antarctic Territory]
+Аўстралійска Антарктычная Тэрыторыя
+[Advanced #%u]
+Пашыраны #%u
+[Falkland Islands (Malvinas)]
+О-ў Фалклэнд (Малвінас)
+[Service offering misc country utilities and especially flag icons.]
+Сэрвіс для адлюстравання сцягоў кантактаў, зыходзячы з іх IP-адрасоў.

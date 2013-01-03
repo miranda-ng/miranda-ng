@@ -1,0 +1,235 @@
+﻿#muuid {842a6668-f9da-4968-bfd7-d2bd9df848ee}
+;  File: NotesReminders.dll
+;  Module: Notes and Reminders
+[Notes & Reminders]
+Нататкі і напамінкі
+[Default Note Size]
+Памер нататкі
+[Width (Pixels)]
+Шырыня
+[Height (Pixels)]
+Вышыня
+[Notes Appearance]
+Выгляд нататак
+[Show Scrollbars]
+Прагорткі
+[Show Buttons]
+Кнопкі
+[Title Date]
+Дата
+[Title Time]
+Час
+[Startup options]
+Налады запуску
+[Hide notes at startup]
+Хаваць нататкі на старце
+[(Requires Miranda restart)]
+(Патрабуе перазапуск Miranda NG)
+[Reminder options]
+Налады напамінкаў
+[Add Reminder closes dialog]
+Дыялог зачынення напамінкаў
+[Use MCI to play alert sounds]
+Выкарыстоўваць драйвер MCI
+[Add Contact list menu items]
+Пункт у галоўным меню
+[Note Transparency (Minimum Win 2k/XP)]
+Празрыстасць нататак (патрабуецца Win 2000 і вышэй)
+[Send Reminders through E-mail / SMS :]
+Напамінкі на e-mail / SMS:
+[Open links with this program instead:]
+Адкрываць спасылкі ў:
+[Reset to defaults]
+Скінуць
+[(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
+Дазваляе розным гукам прайгравацца адначасова (магчымыя нежаданыя наступствы, калі ўсталяваны модуль карыстацкіх гукаў)
+[Trigger On Time && Date:]
+Дата &і час запуску:
+[Date]
+Дата
+[Time]
+Час
+[Reminder Note:]
+Напамінак:
+[None]
+Не
+[Daily]
+Дзён
+[Weekly]
+Тыдняў
+[Monthly]
+Месяцаў
+[Repeat Alert Sound]
+Паўтараць сігнал
+[Use Sound]
+Выкарыстоўваць сігнал
+[&Add Reminder]
+&Дадаць
+[&Close]
+&Зачыніць
+[&View Reminders]
+&Прагледзець напамінкаў
+[After:]
+Пасля:
+[On Time && Date:]
+Дата &і час
+[&Remind Again]
+&Нагадаць яшчэ раз
+[&Create Note]
+&Стварыць нататку
+[Add New]
+Дадаць…
+[Edi&t Reminder]
+Рэд&актаваць напамінак
+[New &Reminder]
+Новы &напамінак
+[&Delete Reminder]
+&Выдаліць напамінак
+[D&elete All Reminders]
+Выдаліць усе напамінкі
+[&Hide Note]
+&Схаваць нататкі
+[&Always On Top]
+&«Заўсёды зверху»
+[&New Note]
+Новая нататка
+[&Delete Note]
+&Выдаліць нататку
+[Custom...]
+Змяніць…
+[Reset]
+Скінуць
+[Paste Title]
+Уставіць загаловак
+[Reset Title]
+Скінуць нарыхтовак
+[Undo]
+Адкаціць
+[&Copy]
+&Капіяваць
+[&Paste]
+&Уставіць
+[C&ut]
+Выразаць
+[C&lear]
+Пра&чысціць
+[&View Notes]
+&Паказаць нататкі
+[&Bring All To Front]
+Перамясціць на пярэдні план
+[Edi&t Note]
+Рэдагаваць нататку
+[&Visible]
+&Бачнасць
+[Always &On Top]
+«Заўсёды &зверху»
+[Delete &All Notes]
+Выдаліць &усе нататкі
+[&Show / Hide Notes]
+&Паказаць / Схаваць нататкі
+[New Note]
+Новая нататка
+[Toggle Notes Visibility]
+
+[Bring All Notes to Front]
+Перамясціць нататкі на пярэдні план
+[New Reminder]
+Новы напамінак
+[StickyNotes]
+Нататкі
+[Are you sure you want to delete all notes?]
+Упэўнены, што жадаеце выдаліць усе нататкі?!
+[Are you sure you want to delete all reminders?]
+Упэўнены, што жадаеце выдаліць усе напамінкі?!
+[Delete All Notes]
+Выдаліць усе нататкі
+[Show/Hide Notes]
+Паказаць/Схаваць нататкі
+[Delete All Reminders]
+Выдаліць усе напамінкі
+[View Reminders]
+Прагледзець напамінкаў
+[Bring All to Front]
+Перамясціць на пярэдні план
+[View Notes]
+Прагледзець нататкі
+[Add New Note]
+Дадаць нататку…
+[Add New Reminder]
+Дадаць напамінак…
+[Alerts]
+Сігнал
+[Reminder triggered]
+Спрацоўванне напамінку
+[Reminder triggered (Alternative 1)]
+Спрацоўванне напамінку (Альтэрнатыва 1)
+[Reminder triggered (Alternative 2)]
+Спрацоўванне напамінку (Альтэрнатыва 2)
+[Notes && Reminders]
+Нататкі &і напамінкі
+[New &Note]
+Новая &нататка
+[Vie&w Notes]
+Пра&агляд нататак
+[&Delete All Notes]
+&Выдаліць усе нататкі
+[&Bring All to Front]
+&Перамясціць на пярэдні план
+[StickyNote]
+Нататка
+[Are you sure you want to delete this note?]
+Упэўнены, што жадаеце выдаліць нататку?
+[Background Color]
+Колер фону
+[Notes]
+Нататка
+[Note text]
+Нататка
+[Date/Title]
+Дата/загаловак
+[Sticky Note Caption]
+Загаловак
+[Sticky Note Body]
+Акно
+[Select Executable]
+Абраць праграму…
+[Reminder]
+Напамінак
+[Minutes]
+Мінуць
+[Hours]
+Гадзін
+[Hour]
+Гадзіна
+[Day]
+Дзень
+[Days]
+Дзён
+[Week]
+Тыдзень
+[The specified time is invalid due to begin of daylight saving (summer time).]
+Паказаны час несапраўдна з-за пераходу на «летні час»
+[The specified time is invalid.]
+Паказаны час несапраўдна
+[The specified time offset is invalid.]
+
+[&Update Reminder]
+&Абнавіць напамінак
+[Every]
+Кожныя
+[Seconds]
+Секунд
+[Never]
+Не выкарыстоўваць
+[Default]
+Стандартны
+[Alternative 1]
+Альтэрнатыўны 1
+[Alternative 2]
+Альтэрнатыўны 2
+[Reminder text]
+Напамінак
+[Date of activation]
+Дата актывацыі
+[Are you sure you want to delete this reminder?]
+Упэўнены, што жадаеце выдаліць гэты напамінак?

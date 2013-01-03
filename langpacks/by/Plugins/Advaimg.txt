@@ -1,0 +1,5 @@
+﻿#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
+;  Module: advaimg.dll
+;  Plugin: Provides generic image services for Miranda NG
+[Generic image services for Miranda NG.]
+Агульная служба малюнкаў у Miranda NG

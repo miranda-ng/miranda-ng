@@ -1,0 +1,145 @@
+﻿#muuid {ed39af7c-becd-404e-9499-4d04f711b9cb}
+;  File: msg_export.dll
+;  Module: Message Export
+[Exports every message, URL or File you receive to a text file.\r\nMessages are exported to one file per user, users may be set to use the same file.]
+Экспарт паведамленняў, спасылак ці прынятых файлаў у тэкставы файл.\r\n Паведамленні могуць экспартавацца як пакантактна, так і ў адзін агульны файл.
+[Open E&xported History]
+Экспартаваная гісторыя
+[Message export]
+Экспарт паведамленняў
+[Export directory]
+Каталог экспарту
+[Default file]
+Імя файла
+[Export format]
+Фармат экспарту
+[Max column width]
+Макс. шырыня радка
+[Time format]
+Фармат часу
+[Auto filename]
+Аўта імёны
+[Export all history]
+Экспарт гісторыі
+[You have unapplyed changes do you wish to apply these first ?]
+Ёсць незахаваныя змены, ужыць?
+[No contacts found to export]
+Няма кантактаў для экспарту
+[Failed to export at least one contact]
+Не атрымалася экспартаваць прынамсі 1 кантакт
+[Max line width must be at least %d]
+Макс шырыня радка павінна быць не меней %d
+[Exporting old messages]
+Экспарт старых паведамленняў
+[Reading database information ( Phase 1 of 2 )]
+Крок 1: Чытанне базы дадзеных
+[Sorting and writing database information ( Phase 2 of 2 )]
+Крок 2: Сартаванне і запіс інфармацыі
+[Select Destination Directory]
+Абраць тэчку для запісу
+[The following user added you to their contact list:]
+Карыстач дадаў вас у свой спіс кантактаў:
+[The following user made an authorization request:]
+Наступны карыстач запытаў аўтарызацыю:
+[Message has not been saved !]
+Паведамленне не было захавана !
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Не атрымалася атрымаць шлях да Msg_Export.dll\n Калі ласка знайдзіце Msg_Export.txt самастойна
+[Failed to move to the end of the file :\n]
+Не атрымалася перайсці да канца файла:\n
+[Failed to open or create file :\n]
+Не атрымалася адкрыць ці стварыць файл :\n
+[Nick      :]
+Псеўданім :
+[FirstName :]
+Імя       :
+[LastName  :]
+Прозвішча   :
+[e-mail    :]
+e-mail    :
+[Reason    :]
+Чыннік   :
+[Failed to write message to the file :\n]
+Не атрымалася запісаць паведамленне ў файл:\n
+[Failed to write URL/File to the file :\n]
+Не атрымалася запісаць перадачу файла ці URL у файл:\n
+[URL: ]
+URL: 
+[File: ]
+Файл: 
+[Description: ]
+Апісанне :
+[EmailExpress from:]
+EmailExpress ад:
+[No from address]
+без адрасу
+[Failed to write EmailExpress to the file :\n]
+Не атрымалася запісаць EmailExpress у файл:\n
+[Failed to write SMS to the file :\n]
+Не атрымалася запісаць SMS у файл:\n
+[Replace miranda history]
+Замяніць гісторыю
+[Use internal viewer]
+Унутраны прагляд
+[You need to restart miranda to change the history function]
+Змены функцыі гісторыі набудуць моц пасля перазапуску Miranda
+[History file for %s (%s)]
+Файл гісторыі для %s (%s)
+[Find...]
+Знайсці...
+[External]
+Вонкавы
+[Search string was not found !]
+Радок не знойдзена!
+[File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+Імя файла для карыстача "%s" змянілася !\n\n старое імя:\t%s\n новае імя:\t%s\n\n Пераназваць файл?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Не атрымалася пераназваць файл\n\n старое імя:\t%s\n новае імя:\t%s\n\n Памылка: %s
+[No to A&ll]
+Няма для ўсіх
+[Color...]
+Колер...
+[Font...]
+Шрыфт
+[Failed to delete the file]
+Не атрымалася выдаліць файл
+[Prompt to delete file]
+Запыт на выдаленне
+[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+Не атрымалася замяніць гісторыю ў Miranda.\r\n Хутчэй за ўсё, гэта выклікана зменамі ў Miranda.
+[User has been deleted do you want to delete the file ?]
+Карыстач быў выдалены. Выдаліць яго файл?
+[Syntax highlight]
+Падсвятленне сінтаксісу
+[File viewer]
+Прагляд файлаў
+[Append extra new line]
+Дап. пераклад радка
+[WebPager from:]
+WebPager ад:
+[Export selected]
+Экспарт абранага
+[Set to default filename]
+Імя файла па змаўчанні
+[Use << and >>]
+Знакі << і >>
+[When filename changes]
+Пры пераназванні файла
+[When user is deleted]
+Пры выдаленні карыстача
+[Prompt for action]
+Спытаць
+[Rename file]
+Пераназваць файл
+[Delete file]
+Выдаліць файл
+[Export Protocols]
+Экспарт пратаколаў
+[Use UTF8 in new files]
+UTF8 у новых файлах
+[&External]
+Вонкавае
+[Message export2]
+Экспарт паведамленняў 2
+[Message export (mod by ring0)]
+Экспарт паведамленняў (мод ад ring0)

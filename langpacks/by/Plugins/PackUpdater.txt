@@ -1,0 +1,67 @@
+﻿;#muuid {29517BE5-779A-48E5-8950CB4DE1D43172}
+;  File: PackUpdater.dll
+;  Module: PackUpdater
+[Pack Updater]
+Абнаўленне зборкі
+[Check for pack updates]
+Праверыць абнаўленні зборкі
+[Downloading pack updates...]
+Загрузка абноўленай зборкі...
+[No updates found.]
+Абнаўленняў няма.
+[View info]
+Інфармацыя
+[An error occured while downloading the update.]
+Падчас загрузкі абнаўлення адбылася памылка.
+[URL for checking updates not found.]
+Спасылка для праверкі абнаўленняў не знойдзена.
+[Downloading version info...]
+Загрузка інфармацыі пра версіі...
+[Name of Update's file is not supported.]
+Імя файла абнаўлення не падтрымліваецца.
+[Download complete. Start updating? All your data will be saved and Miranda IM will be closed.]
+Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda IM зачынена.
+[You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
+Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
+[No files for update.]
+Няма файлаў для абнаўлення.
+[Update checking already started!]
+Абнаўленне ўжо запушчана!
+[Automatically check for pack updates]
+Аўтаматычна правяраць абнаўленні зборкі
+[Pack update options]
+Налады абнаўлення зборкі
+[Remind about not installed pack update]
+Нагадваць пра неўсталяванае абнаўленне
+[Message boxes (*)]
+Дыялогі (*)
+[Info messages]
+Інфа паведамленні
+[Progress dialogs]
+Дыялогі прагрэсу
+[* Needs popup actions to be enabled]
+* Неабходны ўключаныя дзеянні успл. вокнаў
+[Not sets for "Message boxes"]
+Не ўсталёўвае для "Дыялогі"
+[Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed.]
+Загрузкі завершаны. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda IM зачынена.
+[Clear pack updates folder]
+Ачысціць тэчку з абнаўленнямі зборкі
+[Downloading update...]
+Загрузка абнаўлення...
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda IM with Administrator's rights.]
+Абнаўленне не магчыма!\n Вы не маеце адміністратарскіх правоў.\n Калі ласка, запусціце Miranda IM з правамі адміністратара.
+[Boxes]
+Вокны
+[Message boxes]
+Дыялогі
+[Pack Updater HTTP connection]
+HTTP падлучэнне Pack Updater
+[Updates found!]
+Знойдзены абнаўленні!
+[PackUpdater has detected updated versions\nof the following Miranda components:]
+Былі знойдзены абноўленыя версіі наступных модуляў:
+['Yes' Button]
+Кнопка 'Так'
+['No' Button]
+Кнопка 'Не'

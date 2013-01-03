@@ -1,0 +1,16 @@
+﻿;==========================================================
+;  File: magneticwindows.dll
+;  Module: Magnetic Windows
+;  Autor: Protogenes
+;  Link: http://addons.miranda-im.org/details.php?action=viewfile&id=2871
+;==========================================================
+[%d pix]
+%d точак
+[Magnetic Windows]
+Ліпкія вокны
+[Snap windows]
+Прымацаваць
+[Alternate behauvior of shift key: move windows together by default]
+Чаргаваць рэжым клавішай SHIFT: рухаць вокны разам па змаўчанні
+[For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)]
+Для модуля Scriver: аўтаматычна ўтрымліваць CTRL пакуль перамяшчаеце/калібруеце. (пераканайцеся, што вы выкарыстоўваеце Scriver!)

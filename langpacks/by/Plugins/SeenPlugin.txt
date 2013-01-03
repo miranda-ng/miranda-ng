@@ -1,0 +1,121 @@
+﻿;#muuid {2d506d46-c94e-4ef8-8537f11233a80381}
+;  File: seenplugin.dll
+;  Module: Last Seen Plugin (NSN Compatible)
+[Last seen plugin]
+Апошняе з'яўленне
+[Last seen options]
+Параметры апошняга з'яўлення
+[Last seen menuitem]
+Пункт меню апошняга з'яўлення
+[Userinfo tab]
+Закладка ў інфармацыі пра кантакт
+[year (4 digits)]
+год (4 лічбы)
+[year (2 digits)]
+год (2 лічбы)
+[month]
+месяц
+[username]
+карыстач
+[UIN/handle]
+нумар/апрацоўнік
+[external IP]
+вонкавы IP
+[internal IP]
+унутраны IP
+[tabulator]
+табуляцыя
+[Ignore contacts going offline]
+Ігнараваць якія сыходзяць з сеткі
+[Enable 'Missed Ones' feature]
+Дазволіць функцыю 'Прапушчаныя'
+[You missed following contacts:]
+Прапушчаны наступныя кантакты:
+[hours (24)]
+гадзіны (24)
+[hours (12)]
+гадзіны (12)
+[weekday (full)]
+дзень тыдня (full)
+[weekday (abbreviated)]
+дзень тыдня (abbreviated)
+[name of month]
+назва месяца
+[short name of month]
+назва месяца
+[Count times]
+Колькасць уваходаў у сетку
+[last seen history]
+гісторыя апошняй сустрэчы
+[Log to history]
+Запісваць гісторыю
+[Maximum size]
+Максімальны памер
+[Variable list]
+Зменныя
+[Protocols to watch:]
+Пратаколы для назірання:
+[Alert when user status changes]
+Папярэджваць пры змене статусу
+[Log when a user was last seen online and which users were online while you were away]
+Запамінае, калі карыстач апошні раз з'яўляўся ў сеткі і хто быў у сеткі, пакуль вы адсутнічалі.
+[User Logged In]
+Карыстач Падлучаны
+[User Logged Off]
+Карыстач Адключаны
+[User status change]
+Змена статусу карыстача
+[Changed to Online]
+Змена: У сеткі
+[Changed to Offline]
+Змена: Адключаны
+[For non-watched protocols]
+Для не прагляданых пратаколаў
+[Enable Idle support]
+Вкл. рэжым чакання
+[Disable CList Notifications]
+Выкл. апавяшчэнні спісу кантактаў
+[For watched protocols]
+Для прагляданых пратаколаў
+[Popup interoperability missing or disabled. You need Popups plugin]
+Усплывальныя вокны адсутнічаюць ці адключаны. Неабходзен модуль усплывальных вокнаў
+[LastSeen]
+Апошняе з'яўленне
+[Reset colors]
+Скід кветак
+[PopUp Colors]
+Колеры вокнаў
+[Use popups]
+Успл. акна
+[-- Date --]
+-- Дата --
+[-- Time --]
+-- Час --
+[-- User --]
+-- Карыстач --
+[-- Format --]
+-- Фармат --
+[Old status]
+Стары статус
+[Client info]
+Кліент
+[for empty string]
+для пустога радка
+[instead of]
+замест
+[Note:]
+Нататка:
+[LastSeen: User status change]
+LastSeen: Змена статусу карыстача
+[<never seen>]
+<ніколі не з'яўляўся>
+[Last seen plugin mod (NSNCompat)]
+Апошняе з'яўленне (mod NSNCompat)
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+Імя:%t%N%b Статус:%t%s%b Дата:%t%d.%m.%Y%b Час:%t%H:%M:%S%b Папярэдні статус:%t%o%b%b%P ID:%t%u%b Вонкавы IP:%t%i%b Унутраны IP:%t%r%b Кліент: %t%C%b%b Паведамленне статусу:%t%T
+[Last Seen Variables]
+Зменныя
+[%i(%r)%bWas %o]
+%i(%r)%b быў %o
+[%n is %s (%u)]
+%n %s (%u)

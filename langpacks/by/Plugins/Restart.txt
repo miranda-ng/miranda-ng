@@ -1,0 +1,8 @@
+﻿;  File: restart.dll
+;  Module: Restart plugin
+[Adds Restart menu item.]
+Дадае пункт Перазапуск ў галоўнае меню.
+[Restart Plugin]
+Дадатак Перазапуск
+[Restart Miranda]
+Перазапусціць праграму

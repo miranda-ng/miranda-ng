@@ -1,0 +1,97 @@
+﻿#muuid {cf97fd5d-b911-47a8-af03-d21968b5b894}
+;  File: SMS.dll
+;  Module: SMS
+[Send SMS text messages to mobile phones through the IM networks.]
+Дасылка SMS паведамленняў на мабільныя тэлефоны пасродкам IM сеціваў.
+[Send &SMS...]
+Паслаць SMS
+[&SMS Message]
+Паведамленне SMS
+[Can't load SMS Plugin, ICQ protocol must be loaded.]
+Немагчыма загрузіць модуль SMS. Павінен быць запушчаны ICQ пратакол.
+[SMS Plugin Error]
+Памылка модуля SMS
+[From %s on ICQ:\r\n\r\n]
+Ад %s у ICQ:\r\n\r\n
+[SMS Plugin]
+Модуль SMS
+[Multiple >>]
+Некалькім>>
+[<< Single]
+<<Аднаму
+[SMS message didn't send by ICQ to %s because:\r\n]
+SMS праз ICQ для %s не было паслана па чынніку:\r\n
+[SMS Confirmation from %s]
+SMS пацверджанне ад %s
+[SMS Message from %s]
+SMS ад %s
+[Add Number To The Multiple List]
+Дадаць нумар да спісу тэлефонаў для адпраўкі
+[Save Number To The User's Details Phonebook]
+Захаваць нумар у спісе тэлефонаў профіля
+[Show/Hide Multiple List]
+паказвае/прыбірае спіс тэлефонаў для адпраўкі
+[Shows How Much Chars You've Typed]
+Паказвае, колькі знакаў набрана
+[The SMS message send to %s timed out.]
+Мінуў час пасылкі SMS да %s,
+[Error - Message too long]
+Памылка - паведамленне занадта доўгае
+[Message is too long, press OK to continue.]
+Паведамленне занадта доўгае, націсніце OK для працягу
+[Valid phone numbers are of the form '+(country code)(phone number)'. The contents of the phone number portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+Правільныя нумары тэлефонаў павінны быць у форме '+(код краіны)(нумар тэлефона)'. змесціва часткі 'нумар тэлефона' залежыць ад нацыянальных стандартаў, але часта першы нуль апускаецца.
+[No Numbers]
+Няма нумароў
+[There must be numbers in the list first.]
+У спісе павінны быць нумары.
+[Use Signature?]
+Паставіць подпіс?
+[Put signature at the:]
+Паставіць подпіс у:
+[Begining]
+пачатак
+[End]
+канец
+[Show server notifications]
+Паказаць адказ сервера
+[Chars:]
+Знакі:
+[Save number]
+Захаваць нумар
+[Add number to list]
+Дадаць нумар да спісу
+[Message received:]
+Паведамленне прынята:
+[Message ID:]
+ID паведамленні:
+[Network:]
+Аператар:
+[&Try again]
+Паспрабаваць яшчэ
+[Enter message:]
+Паведамленне
+[Incoming SMS Confirmation]
+Пацверджанне SMS дастаўкі
+[The SMS message send timed out]
+Ліміт часу адпраўкі SMS
+[Invalid phone number]
+Няслушны нумар тэлефона
+[Received SMS]
+Атрыманае SMS
+[Received SMS Confirmation]
+Атрыманае SMS пацверджанні
+[Read Next]
+Наступнае
+[SMS message didn't send by ICQ to %s because :\r\n]
+СМС для %s не адпраўлена праз ICQ з-за:\r\n
+[SMS Message Didn't Send]
+СМС паведамленне не паслана
+[SMS Message Sent]
+СМС паведамленне паслана
+[Save window position per contact]
+Захоўваць пазіцыю акна пакантактна
+[Auto popup on new message]
+Вакно на новае паведамленне
+[Use Signature]
+Выкарыстоўваць подпіс

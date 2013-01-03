@@ -1,0 +1,123 @@
+﻿#muuid {ebf19652-e434-4d79-989791a0ff226f51}
+;  File: NewXstatusNotifyW.dll
+;  Module: NewXstatusNotify YM
+[Notifies you when a contact changes his/her (X)status or status message.]
+Апавяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
+[Notifies you when a contact changes his/her (X)status or status message.]
+Апавяшчае вас пра змены статусу і xСтатуса кантактаў.
+[<error>]
+<памылка>
+[%s is now %s]
+%s цяпер %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s змяніў(а): %s (быў(а): %s).\r\n
+[Disable globally]
+Адключыць цалкам
+[Can't open the log file!]
+Не магу адкрыць файл лога!
+[Remove:]
+Выдаленне:
+[On opening ML:]
+Адкрыццё акна:
+[Disable all]
+Адключыць усё
+[Enable all]
+Уключыць усё
+[NewXstatusNotify]
+Апавяшчэнне пра змену статусаў
+[Reset templates]
+Скінуць шаблоны
+[Do you want to reset all templates to default?]
+Вы жадаеце скінуць усе шаблоны на стандартныя?
+[Disable for extra status 'Music']
+Адключыць для дап. статусу "Музыка"
+[New status:]
+Новы статус:
+[New message:]
+Новае паведамленне:
+[Title - text delimiter:]
+Загаловак-тэкст падзельнік:
+[changed %N to: %T%D%I]
+змяніў(а) %N на: %T%D%I
+[changed %N message to:%D%I]
+змяніў(а) паведамленне %N на:%D%I
+[removed %N]
+выдаліў(а) %N
+[These variables are available:\r\n\r\n\%N\textra status name (Xstatus, Mood, Activity)\r\n\%T\textra status title\r\n\%I\textra status text\r\n\%D\tdelimiter\r\n\%B\tline break (can be used as delimiter)]
+Даступныя зменныя:\r\n\r\n\%N\tназва дап. статусу (хстатус, Настрой, Занятак)\r\n\%T\tзагаловак дап. статусу\r\n\%I\tтэкст дап. статусу\r\n\%D\tпадзельнік\r\n\%B\tпарыў радка (можа выкарыстоўвацца як падзельнік)
+[Automatically turn off Popups and Sounds on status change]
+Выключаць успл. акна і гукі пры змене статусу
+[Don't notify me for people not in my Contact List]
+Не апавяшчаць мяне пра кантакты не са спісу кантактаў
+[Go to Customize -> Sound to select the sounds]
+Налада гукаў: Тонкая налада -> Гукі
+[Disable when my status is:]
+Адключаць, калі мой статус:
+[Disable only if I change global status]
+Адключаць, толькі пры змене глабальнага статусу
+[Extra status notify]
+Дап. статусы
+[Extra status logging]
+Запіс дап. статусаў
+[Prevent identical logs]
+Прадухіляць аднолькавыя запісы
+[Keep events in history]
+Захоўваць падзеі ў гісторыю
+[changed %N @ %T%D%I]
+змяніў(а) %N @ %T%D%I
+[changed %N message @ %I]
+змяніў(а) паведамленне %N @ %I
+[has %N @ %T%D%I]
+%N @ %T%D%I
+[Xstatus]
+хстатус
+[Show available variables]
+Даступныя зменныя
+[Reset all templates to default]
+Скінуць усе шаблоны на стандартныя
+[Extra status changed]
+Дап. статус зменены
+[Extra status message changed]
+Зменена паведамленне дап. статусу
+[Extra status removed]
+Дап. статус выдалены
+[Popup text]
+Тэкст усплывальных вокнаў
+[Use Popup colours]
+Колеры ўсплывальных вокнаў
+[Show contact group name]
+Паказваць імя групы кантакту
+[Show status description]
+Паказваць апісанне статусу
+[Use alternative descriptions]
+Выкарыстоўваць альтэрнатыўнае апісанне
+[Extra status log]
+Запіс дап. статусаў
+[Enable logging extra status to message window]
+Уключыць запіс дап. статусаў у акно паведамленняў
+[Toggle status notification]
+Вкл/Выкл апавяшчэнні пра змену статусу
+[Status notification enabled]
+Апавяшчэнні пра змену статусу ўключаны
+[Status notification disabled]
+Апавяшчэнні пра змену статусу выключаны
+[NewStatusNotify]
+Апавяшчэнне пра змену статусаў
+[Notification enabled]
+Апавяшчэнне ўключана
+[Notification disabled]
+Апавяшчэнне выключана
+[Disable status notification]
+Выключыць апавяшчэнні пра змену статусу
+[Enable status notification]
+Уключыць апавяшчэнні пра змену статусу
+[Wave Files]
+Wave файлы
+[changed his/her status message to %n]
+змяніў(а) статуснае паведамленне на %n
+[Disable protocols which you don't wish to be notified for:]
+Выключыць апавяшчэнні для пратаколаў:
+[These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
+Даступныя зменныя:\r\n\r\n\%n\t Новае паведамленне статусу\r\n\%o\t Старое паведамленне статусу\r\n\%c\t Нікнэйм\r\n\\n\t Парыў радка\r\n\\t\t Табуляцыя
+[This is status message]
+Гэта паведамленне статусу

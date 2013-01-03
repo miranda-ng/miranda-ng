@@ -1,0 +1,67 @@
+﻿#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;  Module: toptoolbar.dll
+;  Plugin: TopToolBar
+[Hide Offline Users]
+Схаваць адключаных
+[Show All Users]
+Показваць усіх
+[Show Groups]
+Показваць групы
+[Hide Groups]
+Схаваць групы
+[Enable Sounds]
+Уключыць гукі
+[Buttons Order && Visibility]
+Паслядоўнасць і бачнасць кнопак
+[Buttons order:]
+Паказваць кнопкі:
+[Groups On/Off]
+Групы ўкл/выкл
+[Sounds Enable/Disable]
+Грукі ўкл/выкл
+[Show Options Page]
+Налады Miranda
+[Show only Online Users]
+Паказаць толькі анлайн
+[Minimize Button]
+Згарнуць
+[Up:]
+Вышэй:
+[Down:]
+Ніжэй:
+[Separator Button]
+Падзельнік
+[Add Separator]
+Дадаць падзельнік
+[Launch Button]
+Кнопкі запуску
+[Add Launch]
+Дадаць запуск
+[Del Sep/Launch Button]
+Выдаліць падзельнік/кнопку
+[Execute Path]
+Шлях запуску
+[Button width]
+Шырыня кнопкі
+[Button height]
+Вышыня кнопкі
+[Interval between buttons]
+Прамежак
+[WUMF: Show connections list]
+Спіс бягучых далучэнняў
+[ToptoolBar adds buttons in top frame for fast access.]
+Модуль дадае панэль кнопак для хуткага доступу да функцый Miranda і Вашых праграм.
+[Network Connections]
+Сеткавыя далучэнні
+[Use flat mode]
+Кнопкі без мяжы
+[Auto resize]
+Аўтапамер
+[Single line]
+У адзін радок
+[Select Directory]
+Абярыце тэчку
+[Separator]
+Падзельнік
+[TopToolbar]
+Панэль кнопак

@@ -1,0 +1,571 @@
+﻿#muuid {fc6c81f4-837e-4430-9601-a0aa43177ae3}
+;  File: watrack.dll
+;  Module: Winamp Track
+[Clear xStatus before set new one]
+Чысціць хстатус перад усталёўкай новага
+[Emulate Multimedia keys]
+Эмуляцыя мультымедыйных клавіш
+[xStatus will cleared before text changing and restored with new text later.]
+хстатус будзе вычышчаны перад зменай тэксту і адноўлены з новым тэкстам пазней
+[Paste played music info into message window or status text]
+Устаўляе інфармацыю пра прайграваную музыку ў акно паведамлення ці ў статуснае паведамленне
+[Use XStatus]
+Выкарыстоўваць хстатус
+[If this option is "ON", XStatus doesn't depend of protocol status.]
+Калі ўключана гэта опцыя, xСтатус не будзе залежаць ад статусу пратаколу.
+[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+Выкарыстоўваць модуль "Variables" ці няма. Гэты модуль дазваляе вам ператвараць радкі, выкарыстоўваць матэматычныя функцыі і функцыі даты. Без гэтага модуля, WATrack будзе працаваць хутчэй.
+[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
+Замяняць "_" (падкрэсленне) прабеламі ў тэксце, часам можа быць карысна.
+[Check file date and time to tag updates while playing.]
+Правяраць дату і час файла, каб адсочваць змену тэгаў.
+[Report on some errors.]
+Паказваць інфармацыю пра памылкі.
+[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
+Спрабаваць выкарыстоўваць OLE інтэрфейс, каб атрымаць больш інфармацыі з прайгравальніка. Калі гэта опцыя выключана, WATrack павінен працаваць хутчэй.
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
+Час абнаўлення інфармацыі пра музыку, статыстыкі, і паведамленняў статусу ў секундах. Калі роўна 0, аўтаматычнае абнаўленне выключана. Калі значэнне > 499, час будзе лічыцца ў мс.
+[Text insertion to other Apps]
+Устаўка ў іншыя прыкладанні
+[Share music list]
+Падзяляцца музыкай з:
+[Save events in database]
+Захоўваць падзеі ў базе
+[Music Info Request]
+Запыты інфармацыі
+[Request Error]
+Памылкі
+[Save ignored requests]
+Захоўваць праігнараваныя запыты
+[Answer to ignored requests]
+Адказваць на ігнаруемыя запыты
+[Use frame]
+Выкарыстоўваць фрэйм
+[Show info in the frame]
+Паказваць інфармацыю
+[Show controls in the frame]
+Паказваць панэль кіравання
+[Show volume controls]
+Паказваць рэгулятар гучнасці
+[Use Picture]
+малюнак
+[Use cover instead of picture]
+Вокладка замест малюнка
+[Show trackbar]
+Паказваць трэкбар
+[Cover padding]
+Краі вокладкі
+[Frame refresh time]
+Абнаўленне фрэйма, сек
+[Hide frame when no music played]
+Хаваць фрэйм калі нічога не гуляе
+[Center horizontally]
+Цэнтраваць гарызантальна
+[Center vertically]
+Цэнтраваць вертыкальна
+[Use styled trackbar]
+Вык. стылізаваны паўзунок
+[Use buttons gap]
+Пропуск паміж кнопкамі
+[Frame template]
+Шаблон акна
+[Text effect]
+Эфект тэксту
+[Text movement]
+Перасоўванне тэксту
+[Text rotation speed (1-20)]
+Хуткасць перасоўвання (1-20)
+[Scroll step]
+Крок прагорткі
+[Scroll gap]
+Парыў прагорткі
+[Minimum scroll tail]
+Мінімальная рэштка
+[Wrap]
+Пераносіць
+[Roll]
+Пракручваць
+[PingPong]
+Пінг Понг
+[Hide frame when player not found]
+Хаваць фрэйм калі прайгравальнік не знойдзены
+[Pause Hovered]
+Паўза наведзена
+[Prev Hovered]
+Назад наведзена
+[Play Hovered]
+Пуск наведзена
+[Stop Hovered]
+Стоп наведзена
+[Next Hovered]
+Наперад наведзена
+[Prev Pushed]
+Назад націснута
+[Play Pushed]
+Пуск націснута
+[Stop Pushed]
+Стоп націснута
+[Next Pushed]
+Наперад націснута
+[Volume Down]
+Гучнасць уніз
+[Volume Up]
+Гучнасць угару
+[Volume Down Hovered]
+Гучнасць уніз наведзена
+[Volume Up Hovered]
+Гучнасць угару наведзена
+[Volume Down Pushed]
+Гучнасць уніз націснута
+[Volume Up Pushed]
+Гучнасць угару націснута
+[song year (date)]
+Год песні (дата)
+[player window title]
+Загаловак акна прайгравальніка
+[width, video only]
+Шырыня акна, толькі для відэа
+[player version]
+Версія прайгравальніка
+[VBR or not (empty)]
+Зменны бітрэйт ці няма (будзе пуста)
+[player version in text format]
+Версія прайгравальніка ў тэкставым фармаце
+[player status (stopped,playing,paused)]
+Статус прайгравальніка (спынены, гуляе, паўза)
+[player name]
+Назва прайгравальніка
+[time/length * 100%]
+Час/даўжыня x 100%
+["mono"/"stereo"]
+"мана"/"стэрэа"
+[height, video only]
+Вышыня акна, толькі для відэа
+[FPS (frames per second), video only]
+FPS (кадраў у секунду), толькі для відэа
+[media file name]
+Імя файла
+[codec, video only]
+Кодэк, толькі для відэа
+[Color codes]
+Коды кветак
+[File size]
+Памер файла
+[FileSize text format]
+Адлюстраванне памеру файла
+[Formats]
+Фарматы
+[Player name letters]
+Літары ў назве плэера
+[Players list]
+Плэеры
+[Popup Title / Text]
+Загаловак і тэкст усплывальных вокнаў
+[Frame Text]
+Тэкст у фрэйме
+[Export Text]
+Тэкст для экспарту
+[Postfix]
+Выгляд
+[Refresh time, sec]
+Час абнаўлення, сек
+[Report]
+Справаздача
+[Report Items]
+Лік запісаў
+[Report file]
+Файл справаздачы
+[Report format]
+Фармат справаздачы
+[Show in report]
+Паказваць у справаздачы
+[Sort]
+Сартаванне
+[Sort log file]
+Сартаваць логі
+[Statistic log file]
+Лог статыстыкі
+[Autosort period, days]
+Аўтасартаванне, дні
+[Template file]
+Файл шаблону
+[Export default]
+Экспарт
+[Freq. album]
+Каханы альбом
+[by Length]
+па даўжыні
+[Unicode to Ansi translation codepage:]
+Кодавая старонка перакладу юнікод - ANSI:
+[VBR macro]
+Адлюстраванне VBR
+[[X]Status Title / Text]
+Загаловак xСтатуса / тэкст
+[\[X\]Status Title / Text]
+Загаловак і тэкст статусу
+[Insert in messages]
+Устаўляць у паведамленні
+[Use status messages]
+Выкарыстоўваць паведамлення статусу
+[Independed XStatus]
+Незалежны хстатус
+[Use process implantation]
+Убудоўвацца ў працэс
+[Simple Template mode]
+Рэжым простых шаблонаў
+[Use existing XStatus]
+Выкарыстоўваць бягучы xСтатус
+[Only if 'Music' status was set]
+Толькі пры статуце "Музыка"
+[Keep 'Music' status]
+Пакідаць статус "Музыка"
+[Replace underlines with spaces]
+Замяняць падкрэсленні прабеламі
+[Check file time]
+Правяраць час файла
+[Other thread handle check]
+Праверка ў асобным струмені
+[Keep old file]
+Абнаўленне файлаў
+[No Music]
+Няма музыкі
+[No player]
+Няма плэера
+[User message]
+Карыстачу
+[Channel message]
+У чат
+[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+Калі ўключана, хстатус не зменіцца, але паведамленне xСтатуса будзе заменена па шаблоне WATrack
+[Keep 'Music' XStatus]
+Пакідаць xСтатус "Музыка"
+[No-music text]
+Калі няма музыкі
+[No-player text]
+Калі плэер не ўключаны
+[Protocol list]
+Пратаколы
+[Use Status:]
+Статус:
+[Text+Graph]
+Тэкст і графіка
+[Use external style]
+Выкарыстоўваць вонкавы стыль
+[Add report file ext.]
+Дадаць да справаздачы пашырэнне
+[Freq. artists]
+Каханыя выканаўцы
+[Freq. paths]
+Каханыя шляхі
+[Freq. songs]
+Каханыя трэкі
+[Last played songs]
+Апошнія трэкі
+[Song time]
+Час трэка
+[VBR or CBR]
+VBR ці CBR
+[VBR or empty]
+VBR ці пуста
+[Show file name in info]
+Паказваць імя файла
+[Global hotkey]
+Глабальныя
+[Only if messages not used]
+Калі павед. не выкарыстоўваецца
+[Don't use]
+Не выкарыстоўваць
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled.]
+Час абнаўлення інфармацыі пра музыку і статусных паведамленняў. Калі роўна 0, аўтаматычнае абнаўленне забаронена.
+[All uppercase]
+Усе загалоўныя
+[Do not change]
+Не змяняць
+[All lowercase]
+Усе маленькія
+[lowercase %type%]
+маленькі %type%
+[If this option is "ON", you can paste music info to your message window pressing hotkey.]
+Калі опцыя ўключана, вы можаце ўстаўляць інфармацыю пра музыку ў акно паведамленняў, націснуўшы на гарачыя клавішы.
+[If this option is "ON", status text will be replaced by music info.]
+Калі опцыя ўключана, тэкст статусаў будзе замешчаны на інфармацыю пра музыку
+[If this option is "ON", all plugin settings saved in ini-file. They deleted from Miranda DB. Else ini-file will be deleted.]
+Калі опцыя ўключана, усе налады захаваюцца ў INI-файле і сатруцца з базы Miranda, інакш - выдаліцца INI-файл (калі быў).
+[If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
+Калі опцыя ўключана, модуль паспрабуе атрымаць інфармацыю пра музыку ад плэера, працуе не з усімі плэерамі
+[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+Калі опцыя ўключана, xСтатус змяняецца толькі пры ўжо ўсталяваным у "Музыка" статуце.
+[If this option is "ON", XStatus doesn't depend of ICQ's status.]
+Калі ўключана гэта опцыя, xСтатус не залежыць ад статусу ICQ.
+[If this option is "ON", XStatus not changed when player shutdowned.]
+Калі опцыя ўключана, хстатус не зменіцца пры выключэнні плэера.
+[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+Калі опцыя ўключана, xСтатус для ICQ заменіцца на "Музыка" і яго тэкст зменіцца на інфармацыю пра музыку
+[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+Калі опцыя ўключана, то будзе ўжыты адзін шаблон для ўсіх пратаколаў, а таксама плэераў і статусаў. Старонка налады шаблонаў зменіцца пасля перазагрузкі
+[Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
+Убудоўвацца ў працэс прайгравальніка для палягчэння атрымання інфармацыі. Можа справакаваць трывогу фаервола ці антывіруса.
+[Keep opened file as active, not newly founded.]
+Выкарыстоўваць адкрыты файл у якасці актыўнага, а не новаствораны.
+[Use this option if WATrack freeze while player running. Slower processing.]
+Уключыце, калі WATrack падвісае падчас прайгравання. Больш нагрузкі на працэсар.
+[Use "Variables" plugin]
+Выкарыстоўваць модуль Variables
+[Sorry, but i don't use WATrack right now!]
+Выбачыце, але цяпер я не выкарыстоўваю модуль WATrack!
+[Next track]
+След. трэк
+[Show player]
+Паказ. плэер
+[bitrate]
+Бітрэйт
+[by Count]
+па рахунку
+[by Date]
+па даце
+[by Path]
+па шляху
+[by Title]
+па назве
+[comment from tag]
+Каментар з тэгаў
+[current song position (sec)]
+Бягучая пазіцыя (сек)
+[Disable Log]
+Адключыць лог
+[Error report]
+Паказваць памылкі
+[Get Info from player]
+Інфармацыя з плэера
+[media file size]
+Памер медыяфайла
+[media file type]
+Тып медыяфайла
+[media file]
+імя медыяфайла
+[No Player]
+Няма плэера
+[number of channels]
+Колькасць аўдыёканалаў
+[Open report]
+Адкрыць справаздачу
+[Reverse order]
+Зваротны парадак
+[samplerate]
+Чашчыня
+[song title]
+Назва песні
+[song year]
+год песні
+[total song length (sec)]
+Працягласць песні/відэа (сек)
+[track number]
+Нумар трэка
+[Try to use OLE interface]
+Выкарыстоўваць метад OLE
+[player status (stopped, playing, paused)]
+статус плэера (спынены, гуляе, на паўзе)
+[player]
+плэер
+[Independed Xstatus]
+Незалежны хстатус
+["Variables" ANSI output]
+Выводзіць "Variables" у ANSI
+[FPS (Frames per second)]
+FPS (кадраў у секунду)
+[If Variables service used, returned value will be in ANSI encoding (default is UTF8)]
+Калі выкарыстоўваецца модуль Variables, якія вяртаюцца значэнні будуць у кадоўцы ANSI (па змаўчанні - UTF8)
+[Save settings in INI-file]
+Захоўваць налады ў файле
+[VBR or not]
+VBR ці няма
+[video codec]
+відэакодэк
+[video height]
+вышыня відэакадра
+[video width]
+шырыня відэакадра
+[Show by request only]
+Паказваць толькі па запыце
+[second line]
+другі радок
+[Cover filenames]
+Імёны файлаў з вокладкамі
+[Music Info]
+Інфармацыя пра трэк
+[Align text to center]
+Тэкст па цэнтры
+[Create WATrack report]
+Стварыць справаздачу
+[Get user's Music Info]
+Атрымаць інфармацыю пра трэк
+[WATrack Macro Info]
+Дапамога па зменных
+[Lyric from ID3v2 tag]
+Тэкст песні з ID3v2 тэга
+[Cover file path]
+Шлях да вокладкі дыска
+[Player volume (0-15)]
+Гучнасць плэера (0-15)
+[Player homepage URL]
+Хатняя старонка плэера
+[player status (not translated)]
+Стан плэера (без перакладу)
+[Format text Info]
+Фармат тэксту
+[Controls]
+Кіраванне
+[Frame Controls]
+Кнопкі кіравання
+[Plugin Enabled]
+Модуль уключаны
+[Plugin Disabled]
+Модуль выключаны
+[Create Report]
+Стварыць справаздачу
+[Context menu]
+Кантэкстнае меню
+[/me listening "%title%"]
+/я слухаю "%title%"
+[Report file name not defined]
+Назва файла справаздачы не паказана
+[Status Template]
+Шаблон xСтатуса
+[XStatus Title]
+Паведамленне xСтатуса
+['mono' / 'stereo']
+мана/стэрэа
+[- "mono" / "stereo"]
+- мана / стэрэа
+[- artist]
+- артыст
+[- bitrate]
+- бітрэйт
+[- current song position (sec)]
+- пазіцыя песні ў секундах
+[- player version]
+- версія плэера
+[- player]
+- плэер
+[- song title]
+- загаловак
+[- total song length (sec)]
+- даўжыня песні ў секундах
+[- track number]
+- нумар трэка
+[  Refresh time (sec) is time to refresh music info and status messages. If zero, automatic refresh is disabled.\n  Only if 'Music' status was set - change your status if Music XStatus sets already.\n  Keep 'Music' XStatus - if player stopped or shutdowned, save or not 'Music' XStatus (changes to empty).\n  If text after processing is empty, the status message does not changes.\n  If settings saved in ini-file, its will be deleted from Miranda DB. Else ini-file will be deleted.]
+ Час абнаўлення (сек) - абнаўленне інфармацыі ў статусных паведамленнях. Калі нуль, аўтаабнаўленне выключана\n Працуе, толькі калі xСтатус "Музыка".\n Калі плэер выключаны ці спынены, xСтатус прыбіраецца.\n Калі тэкст пусты, статуснае паведамленне не змяняецца.\n Калі налады захоўваюцца ў ini файле, яны выдаляцца з базы Miranda, інакш ini файл будзе выдалены.
+["Variables" module use]
+Выкарыстоўваць "Variables"
+[Acoustic]
+Акустыка
+[Use ICQ XStatus]
+Выкарыстоўваць xCтатус ICQ
+[Winamp Track]
+Цяпер гуляе (WATrack)
+[Pause Pushed]
+Паўза націснута
+[-default-]
+Па змаўчанні
+[Global WATrack hotkey]
+Агульная камбінацыя
+[WATrack data insert hotkey]
+Устаўка інфармацыі
+[WATrack popup hotkey]
+Усплывальнае акно
+[Switch ON these modules]
+Вкл./выкл. модуляў Watrack
+[Modules]
+Модулі
+[Statistic]
+Статыстыка
+[Export text template]
+Шаблон тэксту экспарту 
+[Use listening info]
+Выкарыстоўваць "Listening To"
+[If this option is "ON", "Listening To" protocol property will be filled by music info.]
+Калі опцыя ўключана, тое поле "Listening To" будзе запоўнена інфармацыяй пра музыку.
+[Enable Status message]
+Уключыць паведамленне статусу
+[Enable XStatus message]
+Уключыць паведамленне Хстатуса
+[Enable Tunes message]
+Уключыць паведамленне мелодыі
+[Tunes]
+Мелодыі
+[Check all marked players for active (started and playing) or stop at first founded]
+Правярае ўсе абраныя плэеры на прадмет актыўнасці (запуску і прайграванні) ці спыняецца на першым знойдзеным
+[Check all players]
+Правяраць усе плэеры
+[Emulate multimedia keys presses to control palyer]
+Эмуляцыя націскаў мультымедыйных клавіш, для кіравання прайгравальнікам
+[User music info text]
+Інфармацыя пра музыку карыстача
+[(%artist%, %title%, %album% and %year% macros can be used only)]
+(выкарыстоўваюцца толькі макрасы %artist%, %title%, %album% і %year%)
+[Disable Plugin]
+Адключыць модуль
+[Enable Plugin]
+Уключыць модуль
+[Don't forget to enter Login and Password to use Last.fm service]
+Не забудзьцеся ўвесці лагін і пароль, што б карыстацца сэрвісам Last.fm
+[Attempts]
+спроб
+[Disable scrobbling]
+Адключыць скробблінг
+[Enable scrobbling]
+Уключыць скробблінг
+[no language]
+не абрана
+[Content language]
+Мова змесціва
+[Artist]
+Артыст
+[Album]
+Альбом
+[Track]
+Трэк
+[Get Artist Info]
+Інфа пра артыста
+[Get Track Info]
+Інфа пра трэк
+[Get Album Info]
+Інфа пра альбом
+[Music Statistic]
+Музычная статыстыка
+[Status (common)]
+Статус (агульнае)
+[Status (templates)]
+Статус (шаблоны)
+[Set XStatus when...]
+Усталёўваць хстатус калі
+[XStatus is empty or 'Music']
+няма хстатуса ці хстатус "Музыка"
+['Music' status is set]
+усталяваны хстатус "Музыка"
+[any XStatus is set]
+усталяваны любы хстатус
+[Players list\n(F1 for note)]
+Спіс плэераў\n(Націсніце F1 для дап. інф.)
+[Chat Template]
+Шаблон для чатаў
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Гэта спрошчаная версія рэдактара шаблонаў. Дадзеныя шаблоны будуць скарыстаны для ўсіх пратаколаў.
+[No any special notes for this player]
+Дадатковая інфармацыя адсутнічае
+[popup test]
+Усплывальнае акно
+[Frame (main)]
+Фрэйм (асноўнае)
+[Frame (text)]
+Фрэйм (тэкст)
+[Manual element placement]
+Размясціць элементы ўручную
+[Alpha]
+Альфа
+[Hide when no player]
+Хаваць калі плэер не знойдзены
+[Hide when no music]
+Хаваць калі нічога не прайграваецца
+[Use popup action buttons]
+Выкарыстоўваць кнопкі дзеянняў

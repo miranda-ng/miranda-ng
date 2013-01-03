@@ -1,0 +1,68 @@
+﻿;  File: yweather.ini
+;  Module: weather
+[Feel]
+Адчуванне
+[Forecast Day 1]
+Прагноз: Дзень 1
+[Forecast Day 1 Condition]
+Прагноз: Дзень 1 Умовы
+[Forecast Day 1 Date]
+Прагноз: Дзень 1 дата
+[Forecast Day 1 Day]
+Прагноз: Дзень 1 дзень
+[Forecast Day 1 High]
+Прагноз: Дзень 1 Макс
+[Forecast Day 1 Low]
+Прагноз: Дзень 1 Мін
+[Heat Index]
+Індэкс спякоты
+[Wind Direction]
+Вецер: кірунак
+[Wind Speed]
+Вецер: хуткасць
+[Wind Direction Degrees]
+Вецер: кірунак (град)
+[Mon]
+ПН
+[Tue]
+АЎТ
+[Wed]
+СР
+[Thu]
+ЧЦ
+[Fri]
+ПТ
+[Sat]
+СБ
+[Sun]
+НД
+[Sunny]
+Сонечна
+[Partly Sunny]
+Месцамі сонечна
+[Mostly Sunny]
+Пераважна сонечна
+[Partly Cloudy]
+Месцамі хмарна
+[Mostly Cloudy]
+Пераважна хмарна
+[Mostly Clear]
+Пераважна ясна
+[Scattered Clouds]
+Зменная воблачнасць
+[North]
+Поўнач
+[East]
+Усход
+[South]
+Поўдзень
+[West]
+Захад
+[Northwest]
+Паўночны захад
+[Northeast]
+Паўночны ўсход
+[Southwest]
+Паўднёвы захад
+[Southeast]
+Паўднёвы ўсход

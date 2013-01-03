@@ -1,0 +1,67 @@
+﻿;#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+;  File: ChangeKeyboardLayout.dll
+;  Module: Change Keyboard Layout
+[Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
+Усталюеце канфігурацыйныя радкі для невядомых раскладак(Дадаткі->Змена раскладак)!
+[Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
+Канфігурацыйныя радкі вядомых раскладак заменены. Адрэдагуйце, калі ласка, радкі для невядомых радкоў, калі такія маюцца.
+[Options:]
+Налады:
+[Hotkey for changing layout of text:]
+Гарачая клавіша:
+[Layout of text is current the layout]
+Раскладка тэксту - бягучая раскладка
+["Current word" mode]
+Рэжым "бягучага слова"
+[Log operations:]
+Дзеянні над часопісам:
+[Copy result to clipboard]
+Капіяваць вынік у буфер абмену
+[Show result in MessageBox()]
+Паказаць вынік у MessageBox()
+[Strings for keyboard layouts:]
+Радкі для раскладак клавіятуры:
+[ChangeKeyboardLayout]
+Змена раскладкі
+[HotKey for changing layout of text:]
+Гарачая кнопка для змены:
+[Plugin for changing keyboard layout of text (multilayout).]
+Дадатак для змены раскладак тэксту.
+[Changing layout:]
+Змена раскладкі:
+[Changing layout (alternative):]
+Змена раскладкі (альтэрнатыўна):
+[Changing case:]
+Змяняць пры:
+[Log operations]
+Дзеянні над часопісам
+[Show result in PopUp]
+Паказаць вынік у акне
+[Layout of text is the current layout]
+Раскладка тэксту гэта бягучая раскладка
+[Two-way changing layout (experimental)]
+Двухбаковая змена раскладкі
+[Strings for keyboard layouts]
+Радкі для раскладак клавіятуры
+[Changing Case]
+Інвертаваць рэгістр
+[Changing Layout]
+Змена раскладкі
+[PopUp colours]
+Колеры успл. вокнаў
+[Windows colours]
+Колеры Windows
+[Custom colours]
+Наладзіць колеры
+[Inverting lettercase:]
+Інвертаваць рэгістр:
+[Set Caps Lock state when inverting lettercase:]
+Усталяваць стан Caps Lock пры інвертаванні рэгістра:
+[Invert current state]
+Інвертаваць бягучы стан
+[Switch off]
+Выключыць
+[Leave as it is]
+Пакінуць як ёсць
+[Change active keyboard layout in system]
+Змяняць актыўную раскладку клавіятуры

@@ -1,0 +1,42 @@
+﻿#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;  File: quickcontacts.dll
+[Open contact-specific windows by hotkey.]
+Шпаркія кантакты, на гарачыя клавішы.
+[Quick Contacts]
+Шпаркія кантакты
+[Open dialog]
+Адкрыць дыялог
+[Open Quick Contacts dialog]
+Адкрыць дыялог хуткіх кантактаў
+[Quick Contacts...]
+Шпаркія кантакты...
+[Enter Username:]
+Увядзіце імя карыстача:
+[Show all contacts (Ctrl+A)]
+Паказаць усе кантакты (Ctrl+A)
+[Send file (Ctrl+F)]
+Паслаць файл (Ctrl+F)
+[Send URL (Ctrl+U)]
+Паслаць URL (Ctrl+U)
+[Open userinfo (Ctrl+I)]
+Адкрыць дадзеныя карыстача (Ctrl+I)
+[Open history (Ctrl+H)]
+Адкрыць гісторыю (Ctrl+H)
+[Open contact menu (Ctrl+M)]
+Адкрыць меню кантакту (Ctrl+M)
+[ Last Sent ]
+Апошняя адпраўленая падзея
+[Show offline contacts on these protocols:]
+Паказваць адкл.кантакты для гэтых пратаколаў:
+[But hide them if protocol is offline]
+Але хаваць іх, калі пратакол адключаны
+[Append group name to contact name]
+Дадаваць групу для імя кантакту
+[But show it as a column ...]
+Але паказваць яе, як калонку...
+[... on left side of name]
+... злева ад імя
+[Hide subcontacts]
+Хаваць суб-кантакты
+[But keep subcontacts of protocols in above list if meta is hidden]
+Але паказваць, калі метакантакт схаваны

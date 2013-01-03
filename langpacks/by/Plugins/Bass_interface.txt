@@ -1,0 +1,37 @@
+﻿;#muuid {2f07ea05-05b5-4ff0-875dc590da2ddac1}
+;  File: Bass_interface.dll
+;  Plugin: Bass interface
+[un4seen's BASS interface Miranda NG plugin.]
+Падтрымка бібліятэкі bass для Miranda NG.
+[un4seen's bass version: %d.%d.%d.%d]
+Версія бібліятэкі BASS: %d.%d.%d.%d
+[Volume:]
+Узровень гучнасці:
+[Current bass.dll path:]
+Бягучы шлях да bass.dll:
+[bass.dll loading error]
+Памылка загрузкі бібліятэкі bass.dll
+[un4seen's bass interface]
+Падтрымка бібліятэкі BASS
+[Maximum number of bass internal channels:]
+Максімальная колькасць каналаў:
+[Bass Interface]
+Бібліятэка BASS
+[Output device:]
+Прылада высновы:
+[Quiet time:]
+Ціхая гадзіна:
+[download bass library]
+загрузіць бібліятэку bass
+[--default device--]
+--прылада па змаўчанні--
+[No sound]
+Няма гуку
+[Play only if]
+Граць, калі
+[Audio device is opened]
+Аўдыё прылада ўключана
+[Audio device is closed]
+Аўдыё прылада выключана
+[Open/close audio device]
+Вкл/выкл аўдыё прыладу

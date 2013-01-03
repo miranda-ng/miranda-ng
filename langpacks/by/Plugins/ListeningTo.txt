@@ -1,0 +1,83 @@
+﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;  File: ListeningTo
+;  Module: listeningto.dll
+[Handle listening information to/for contacts]
+Адпраўляе інфармацыю пра праслухоўваемую музыку Вашым кантактам.
+[Send to all protocols]
+Адпраўляць усім пратаколам
+[Send to %s]
+Адпраўляць у %s
+[Enable/Disable sending Listening To info (to all protocols)]
+Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
+[Listening info]
+Музыка ў статусе
+[ Listening to information ]
+ Праслухоўваная музыка 
+[Enable sending listening information to contacts:]
+Уключыць адпраўку інфармацыі кантактам
+[You also have to enable it per protocol in the main menu]
+Налада па пратаколах знаходзіцца ў галоўным меню
+[ XStatus ]
+ хстатус 
+[For protocols that don't support listening to but support XStatus:]
+Пры адсутнасці прамой падтрымкі пратаколам, але падтрымцы хстатусаў:
+[Set XStatus to Music and show listening info]
+Усталяваць хстатус "Музыка" і паказваць інфармацыю пра музыку
+[If other XStatus is not set, set XStatus to Music and show listening info]
+Калі ёсць хстатус, але ён не "Музыка", тое выканаць папярэдні пункт
+[If XStatus is Music, show listening info]
+Калі хстатус "Музыка", тое паказваць інфармацыю пра музыку
+[Apply template for info from contacts (overrides contacts template)]
+Ужыць шаблон для інфармацыі ад кантактаў
+[Show advanced icon in slot]
+Дап. значок у слоце
+[ Listening to ]
+ Праслухоўваная музыка 
+[Variables:]
+Зменныя:
+[%artist% - Artist name]
+%artist% - імя артыста
+[%album% - Album name]
+%album% - імя альбома
+[%title% - Song title]
+%title% - назва песні
+[%track% - Track number]
+%track% - № трэка
+[%year% - Song year]
+%year% - год выпуску
+[%genre% - Song genre]
+%genre% - жанр песні
+[%length% - Song length]
+%length% - даўжыня песні
+[%player% - Player name]
+%player% - назва плэера
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - тып прайграванага (музыка, відэа, радыё і г.д.)
+[When variable not found, use:]
+Калі зменная невядомая, адсылаць:
+[Other Variables:]
+Астатнія зменныя:
+[%listening% - Listening to info (as set above)]
+%listening% -  наладжаная вышэй інфармацыя
+[When nothing is playing, replace %listening% with:]
+Калі нічога не грае, пісаць:
+[Players]
+Плэеры
+[Get info from WATrack plugin]
+Атрымаць інфармацыю з модуля WATrack
+[Get info from these players:]
+Атрымліваць інфармацыю з плэераў:
+[Windows Media Player]
+Прайгравальнік Windows Media
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (усталюйце модуль уручную)
+[Other players]
+Астатнія плэеры
+[Ask for new info every]
+Абнаўленне разоў у
+[Allow auto-loading plugins into players (affect players with *)]
+Аўтаматычна загружаць модулі ў плэеры (толькі для пазначаных *)
+[Toggle send to all protocols]
+Вкл./выкл. адпраўляць усім пратаколам
+[Don't send to any protocols]
+Не адпраўляць усім пратаколам

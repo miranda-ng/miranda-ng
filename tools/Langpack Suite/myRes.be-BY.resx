@@ -1,0 +1,312 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AssignLang" xml:space="preserve">
+    <value>Пакет абраны...</value>
+  </data>
+  <data name="AssignLangBtn" xml:space="preserve">
+    <value>Абраць</value>
+  </data>
+  <data name="AutoModeBtn" xml:space="preserve">
+    <value>Аўтаматычны</value>
+  </data>
+  <data name="ComFound" xml:space="preserve">
+    <value>Знойдзены закаментаваныя радкі...</value>
+  </data>
+  <data name="CommentFindBtn" xml:space="preserve">
+    <value>Пошук закаментаванага</value>
+  </data>
+  <data name="ComNotFound" xml:space="preserve">
+    <value>Закаментаваныя радкі не знойдзены!</value>
+  </data>
+  <data name="CoreNotFound" xml:space="preserve">
+    <value>Файл =CORE=.txt не знойдзены...</value>
+  </data>
+  <data name="CreateLangpackBtn" xml:space="preserve">
+    <value>Згенераваць пакет</value>
+  </data>
+  <data name="Done" xml:space="preserve">
+    <value>Выканана!</value>
+  </data>
+  <data name="DupesFindBtn" xml:space="preserve">
+    <value>Пошук дубляў</value>
+  </data>
+  <data name="DupesNotFound" xml:space="preserve">
+    <value>Файл =DUPES=.txt не знойдзены...</value>
+  </data>
+  <data name="DupFound" xml:space="preserve">
+    <value>Дублі знойдзены...</value>
+  </data>
+  <data name="DupNotFound" xml:space="preserve">
+    <value>Дублі не знойдзены!</value>
+  </data>
+  <data name="DupStop" xml:space="preserve">
+    <value>Праца спынена.</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Памылка</value>
+  </data>
+  <data name="File2NotFound" xml:space="preserve">
+    <value>.txt не знойдзены...</value>
+  </data>
+  <data name="FileNotFound" xml:space="preserve">
+    <value> не знойдзены...</value>
+  </data>
+  <data name="FileText" xml:space="preserve">
+    <value>Файл </value>
+  </data>
+  <data name="FindLang" xml:space="preserve">
+    <value>Пошук пакета...</value>
+  </data>
+  <data name="GenStop" xml:space="preserve">
+    <value>Генерацыя спынена.</value>
+  </data>
+  <data name="GenText" xml:space="preserve">
+    <value>Генерацыя пакета...</value>
+  </data>
+  <data name="groupBox1" xml:space="preserve">
+    <value>Выбар файла пакета</value>
+  </data>
+  <data name="groupBox2" xml:space="preserve">
+    <value>Файл выніку</value>
+  </data>
+  <data name="groupBox5" xml:space="preserve">
+    <value>Рэжым працы</value>
+  </data>
+  <data name="HeadNotFound" xml:space="preserve">
+    <value>Файл =HEAD=.txt не знойдзены...</value>
+  </data>
+  <data name="Inf" xml:space="preserve">
+    <value>Інфармацыя</value>
+  </data>
+  <data name="label1" xml:space="preserve">
+    <value>Назва пакета:</value>
+  </data>
+  <data name="label2" xml:space="preserve">
+    <value>Імя:</value>
+  </data>
+  <data name="label3" xml:space="preserve">
+    <value>Файл LinkList.txt утрымоўвае спасылкі на асобныя файлы
+лакалізацыі і можа быць скарыстаны ў любой праграме
+для загрузкі файлаў з сеткі. Загружаныя файлы могуць
+быць скарыстаны для генерацыі поўнай лакалізацыі ці
+якая складаецца толькі з выкарыстоўваных Вамі модуляў
+(інфармацыя будзе ўзята з version info файла, пры яго 
+наяўнасці).</value>
+  </data>
+  <data name="label4" xml:space="preserve">
+    <value>URL сайта з зыходнікамі:</value>
+  </data>
+  <data name="LangNotFound" xml:space="preserve">
+    <value>Пакет не знойдзены...</value>
+  </data>
+  <data name="LangPathLbl" xml:space="preserve">
+    <value>не абраны</value>
+  </data>
+  <data name="LanguageLbl" xml:space="preserve">
+    <value>Мова інтэрфейсу:</value>
+  </data>
+  <data name="LinkListGen" xml:space="preserve">
+    <value>Генерацыя LinkList...</value>
+  </data>
+  <data name="LinkListGenBtn" xml:space="preserve">
+    <value>Стварыць файл</value>
+  </data>
+  <data name="ManualModeBtn" xml:space="preserve">
+    <value>Ручны</value>
+  </data>
+  <data name="NotOpen" xml:space="preserve">
+    <value>Немагчыма адкрыць файл.</value>
+  </data>
+  <data name="NotTransFound" xml:space="preserve">
+    <value>Знойдзены неперакладзеныя радкі...</value>
+  </data>
+  <data name="NotTranslFindBtn" xml:space="preserve">
+    <value>Пошук неперакладзенага</value>
+  </data>
+  <data name="NotTransNotFound" xml:space="preserve">
+    <value>Неперакладзеныя радкі не знойдзены!</value>
+  </data>
+  <data name="NotWrite" xml:space="preserve">
+    <value>Немагчыма запісаць файл.</value>
+  </data>
+  <data name="OwnFileCheckBox" xml:space="preserve">
+    <value>Дадаць свой файл у пакет</value>
+  </data>
+  <data name="PlugLink" xml:space="preserve">
+    <value>Запіс файлаў з тэчкі Plugins...</value>
+  </data>
+  <data name="RootLink" xml:space="preserve">
+    <value>Запіс файлаў з каранёвай тэчкі...</value>
+  </data>
+  <data name="SelectOwnFileBtn" xml:space="preserve">
+    <value>Абраць</value>
+  </data>
+  <data name="tabPage1" xml:space="preserve">
+    <value>Генератар</value>
+  </data>
+  <data name="tabPage2" xml:space="preserve">
+    <value>Спіс файлаў</value>
+  </data>
+  <data name="tabPage3" xml:space="preserve">
+    <value>Пошук дубляў</value>
+  </data>
+  <data name="VersionNotFound" xml:space="preserve">
+    <value>Файл =VERSION=.txt не знойдзены...</value>
+  </data>
+  <data name="VIGen" xml:space="preserve">
+    <value>Знойдзены файл VersionInfo.txt, будзе згенераваны кароткі пакет...</value>
+  </data>
+  <data name="WeatherLink" xml:space="preserve">
+    <value>Запіс файлаў з тэчкі Weather...</value>
+  </data>
+  <data name="WOVIGen" xml:space="preserve">
+    <value>VersionInfo.txt не знойдзены, будзе згенераваны поўны пакет...</value>
+  </data>
+  <data name="WrongSelect" xml:space="preserve">
+    <value>Тэчка абрана няслушна...</value>
+  </data>
+  <data name="PlugLinkNotFound" xml:space="preserve">
+    <value>Падтэчка Plugins не знойдзена...</value>
+  </data>
+  <data name="WeatherLinkNotFound" xml:space="preserve">
+    <value>Падтэчка Weather не знойдзена...</value>
+  </data>
+  <data name="GetVICheckBox" xml:space="preserve">
+    <value>Запампаваць файл VI з Інтэрнэту ці поўны шлях</value>
+  </data>
+  <data name="label6" xml:space="preserve">
+    <value>напрыклад,  http://www.miranda-vi.org/report/mataes</value>
+  </data>
+  <data name="tipper" xml:space="preserve">
+    <value>Спіс аргументаў каманднага радка</value>
+  </data>
+  <data name="VarHead" xml:space="preserve">
+    <value>Аргументы</value>
+  </data>
+  <data name="VarText" xml:space="preserve">
+    <value>\q - ціхая генерацыя
+\n - імя файла пакета
+\o - шлях да файла для ўключэння ў пакет
+\u - спасылка на VI з miranda-vi.org ці поўны лакальны шлях
+\l - шлях выходнага файла пакета
+
+Прыклад, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+  </data>
+</root>

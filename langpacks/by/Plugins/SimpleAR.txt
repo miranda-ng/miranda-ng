@@ -1,0 +1,39 @@
+﻿#muuid {46bf191f-8dfb-4656-88b2-4c20be4cfa44}
+;  File: simplear.dll
+;  Module: Simple Auto Replier
+[Simple Auto Replier.]
+Просты аўтаадказнік.
+[Simple Auto Replier]
+Аўтаадказнік
+[Disable Auto&reply]
+Адключыць аўтаадказ
+[Enable Auto&reply]
+Уключыць аўтаадказ
+[Enable Auto Replier]
+Аўтаадказ уключаны
+[No-repeat Interval:]
+Не паўтараць:
+[Reply Message Heading:]
+Загаловак аўтаадказу:
+[Dear %user%, the owner left the following message:]
+Вітаю %user%, %username% пакінуў Вам паведамленне:
+[Reply Message when]
+Аўтаадказ калі
+[I am currently away. I will reply to you when I am back.]
+Цяпер мяне няма на месцы, адкажу як толькі вярнуся.
+[I am currently very busy and can't spare any time to talk with you. Sorry...]
+Прашу не турбаваць.
+[I am not available right now.]
+Мяне няма.
+[I am now doing something, I will talk to you later.]
+Цяпер я чымсьці заняты, пагаворым пазней.
+[I am on the phone right now. I will get back to you very soon.]
+Выбачыце, цяпер я кажу па тэлефоне.
+[I am having meal right now. I will get back to you very soon.]
+Я абедаю, пагаворым пазней.
+[Turn on Autoanswer]
+Уключыць аўтаадказ
+[Turn off Autoanswer]
+Адключыць аўтаадказ
+[mins]
+мін.

@@ -1,0 +1,9 @@
+﻿#muuid {72765A6F-B017-42f1-B30F-5E0941273A3F}
+;  File: FlashAvatars.dll
+;  Module: Flash avatars service
+[Load and manage flash avatars]
+Загружае і паказвае Flash аватары
+[Load and display flash avatars]
+Загружае і паказвае Flash аватары
+[Flash Avatars]
+Падлучэнне Flash Avatars

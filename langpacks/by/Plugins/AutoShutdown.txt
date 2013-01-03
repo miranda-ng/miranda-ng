@@ -1,0 +1,5 @@
+﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
+;  File: AutoShutdown.dll
+;  Plugin: Adds the possibility to shutdown the computer when a specified event occurs
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Дадае магчымасць кіравання камп'ютара праз Miranda NG.

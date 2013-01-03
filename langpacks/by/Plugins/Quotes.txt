@@ -1,0 +1,165 @@
+﻿#muuid {e882056d-0d1d-4131-9a98404cbaea6a9c}
+;  File: quotes.dll
+;  Module: Quotes
+[Show currency rates and economic quotes.]
+Модуль адлюстравання курсаў валют і катыровак.
+[&Choose Quotes to watch in contact list:]
+&Абярыце катыроўкі для назірання ў спісе кантактаў:
+[&Refresh Quotes Every:]
+&Абнаўляць катыроўкі кожныя:
+[&Refresh Rates Every:]
+&Абнаўляць курсы кожныя:
+[&Display in Contact List as:]
+&Паказваць у спісе як:
+[&Status Message:]
+&Паведамленне статусу:
+[&Variables...]
+&Зменныя...
+[V&ariables...]
+Зменныя...
+[&Convert:]
+З:
+[&into:]
+у:
+[&Watched currency rates:]
+&Адсочваныя курсы валют:
+[Open Log File...]
+Адкрыць файл гісторыі...
+[Use &Internal History]
+Выкарыстоўваць унутраную гісторыю
+[&Format:]
+&Фармат:
+[&Add to History only if Value Changed]
+Дадаваць у гісторыю, толькі калі змянілася значэнне
+[Use &External File]
+Выкарыстоўваць &вонкавы файл
+[&Select File:]
+&Шлях да файла:
+[F&ormat:]
+Фармат:
+[&Browse...]
+&Агляд...
+[Add to &Log only if Value Changed]
+Дадаваць у файл, толькі калі змянілася значэнне
+[Source of Information]
+Крыніца інфармацыі
+[Rate Value]
+Бягучае значэнне катыроўкі/курсу
+[Previous Rate Value]
+Папярэдняе значэнне катыроўкі/курсу
+[Fetch Time]
+Час абнаўлення
+[Fetch Date]
+Дата абнаўлення
+[Fetch Time and Date]
+Дата і час абнаўлення
+[Percentage Character (%)]
+Знак %
+[Tabulation]
+Табуляцыя
+[Left slash (\\)]
+Знак \\
+[From Currency Full Name]
+Поўная назва зыходнай валюты
+[From Currency Short Name]
+Кароткая назва зыходнай валюты
+[Into Currency Full Name]
+Поўная назва мэтавай валюты
+[Into Currency Short Name]
+Кароткая назва мэтавай валюты
+[Short notation for "%f/%i"]
+Кароткае пазначэнне "%f/%i"
+[Quote Symbol]
+Знак катыроўкі
+[Quote Name]
+Назва катыроўкі
+[Show currency rates and economic quotes]
+Дазваляе назіраць за зменамі курсаў валют і біржавых катыровак
+[Quote/Rate up]
+Значэнне вырасла
+[Quote/Rate down]
+Значэнне звалілася
+[Quote/Rate not changed]
+Значэнне не змянілася
+[Quote Section]
+Частка катыровак
+[Quotes HTTP connections]
+HTTP далучэнне Quotes
+[&to:]
+у:
+[Currency Converter...]
+Канвертар валют...
+[Currency Converter]
+Канвертар валют
+[Chart...]
+Дыяграма...
+[There is no possibility to build chart for this quote.]
+Няма магчымасці пабудаваць дыяграму для гэтай катыроўкі/курсу валют.
+[Refresh All Quotes\\Rates]
+Абнавіць усе катыроўкі\\курсы валют
+[Info provided by]
+Інфармацыя прадстаўлена
+[Rate Fetch Time:]
+Час абнаўлення:
+[Current Rate:]
+Бягучае значэнне:
+[Previous Rate:]
+Папярэдняе значэнне:
+[Quote\\Rate Info]
+Інфармацыя пра катыроўку\\курсе валют
+[&Watched Quotes:]
+&Адсочваныя катыроўкі:
+[Export All Quotes]
+Экспарт усіх катыровак
+[Import All Quotes]
+Імпарт усіх катыровак
+[Swap button]
+Памяняць месцамі
+[&Advanced Settings...]
+Дадатковыя налады...
+[Variables Allowed: %miranda_userdata%,%quotename%]
+Падтрымоўваныя зменныя: %miranda_userdata%,%quotename%
+[Use contact specific settings]
+Уласныя налады ў кантакту
+[Show &Popup Window]
+Паказваць усплывальнае акно
+[Show Popup Window Only if Value &Changed]
+Паказваць усплывальнае акно толькі, калі змянілася значэнне
+[Popup settings...]
+Налады успл. вокнаў...
+[Edit Settings...]
+Налады...
+[Quotes]
+Катыроўкі
+[Quote]
+Катыроўка
+[Popup Window Settings]
+Налады ўсплывальных вокнаў
+[Use user-defined colours]
+Наладзіць колеры
+[Open Price]
+Кошт на адкрыццё
+[Percent Change to After Hours]
+Адсотак змен за апошнюю гадзіну
+[Percent Change to Yesterday Close]
+Адсотак змен з учорашняга зачынення
+[Current = %r\\nPrevious = %p]
+Бягучы = %r\\n Папярэдні = %p
+[&Tendency:]
+&Тэндэнцыя:
+[Type &Stock Name or Symbol:]
+Назва катыроўкі:
+[Day's High]
+Максімальнае значэнне за дзень
+[Day's Low]
+Мінімальнае значэнне за дзень
+[Previous Close]
+Значэнне на папярэдняе зачыненне
+[Change]
+Змена
+[Status &Message:]
+Паведамленне &статусу:
+[Enter positive number.]
+Увядзіце станоўчую лічбу.
+[Error occurred during site access.]
+Памылка пры доступе да сайта.

@@ -1,0 +1,99 @@
+﻿#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;  File: facebook.dll
+;  Module: Facebook
+[Facebook protocol plugin for Miranda NG.]
+Падтрымка пратакола Facebook у Miranda NG.
+[Default group for newly added contacts:]
+Дадаваць кантакты ў групу:
+[User-Agent:]
+Кліент:
+[Set Facebook status through Miranda status]
+Усталёўваць статус Facebook праз Miranda
+[Create a new Facebook account]
+Стварыць новы конт Facebook
+[What's on your mind?]
+Пра што вы думаеце?
+[Mind...]
+Думаю...
+[Set Facebook status through Miranda status (TBD)]
+Усталёўваць статус Facebook праз Miranda (TBD)
+[Show cookies]
+Паказваць cookies
+[No cookies available.]
+Не cookies.
+[Facebook Protocol]
+Пратакол Facebook
+[Enable loggin for debugging purposes]
+Уключыць адлюстраванне памылак
+[Info Dialog]
+Інфармацыя
+[Probably wrong password entered, please try again.]
+Няправільны пароль, паспрабуйце зноў.
+[Enable popup notifications for others minds]
+Уключыць popup апавяшчэнні
+[Force secure (HTTPS) connection]
+Бяспечнае злучэнне (HTTPS)
+[Automatically close chat windows on website]
+Аўтаматычна зачыняць чат у браўзары
+[Post Miranda statuses to Wall]
+Публікаваць статусы Miranda на сцяну
+[Enable logging for debugging purposes]
+Журналяванне для адладкі
+[News feeds]
+Навіны
+[Client notifications]
+Апавяшчэнні кліента
+[Timeout (sec.)]
+Працягласць (сек.)
+[(0 = default, -1 = infinite)]
+(0 = змаўчанне, -1 = бясконца)
+[Request following types of News Feed items]
+Запытваць выгляды навін:
+[Use balloon notifications in system tray instead of popups]
+Апавяшчаць падказкай у трэі замест усплывальных вокнаў
+[Most Recent]
+Нядаўнія абнаўленні
+[Status Updates]
+Абнаўленні статусу
+[Top News]
+Папулярныя навіны
+[Sample event]
+Прыклад падзеі
+[Sample newsfeed]
+Прыклад навіны
+[Sample notification]
+Прыклад апавяшчэння
+[Please enter a username.]
+Калі ласка, увядзіце імя карыстача.
+[Please enter a password.]
+Калі ласка, увядзіце пароль.
+[Sample request]
+Прыклад запыту
+[Visit Profile]
+Мой профіль
+[News Feed]
+Навіны
+[News Feed types to notify:]
+Апавяшчаць пра тыпы навін:
+[Contacts Settings]
+Налады кантактаў
+[Default group:]
+Група:
+[Automatically set 'Ignore status change' flag]
+Аўтаматычна ўключаць ігнараванне змены статутаў
+[Use bigger avatars]
+Вялікія аватары
+[Load contacts with 'On the Mobile' status]
+Загружаць кантакты "з мабільнага"
+[Use secure connection also for channel requests]
+Бяспечнае злучэнне таксама для запытаў канала
+[Also disconnect chat when going to offline]
+Адключаць чат на сайце пры сыходзе ў афлайн
+[Automatically close chat windows (on website)]
+Аўтаматычна зачыняць акно чата (на сайце)
+[Map non-standard statuses to Invisible (instead of Online)]
+Нестандартныя статуты, як Нябачны (замест 'У сеткі')
+[Get unread messages on login (EXPERIMENTAL)]
+Не прачытаныя паведамленні пры ўваходзе (Эксперыментальна)
+[Enable groupchats support (EXPERIMENTAL)]
+Падтрымка канферэнцый (Эксперыментальна)

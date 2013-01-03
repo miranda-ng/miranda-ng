@@ -1,0 +1,17 @@
+﻿#muuid {47d489d3-310d-4ef6-bd05-699fffd5a4aa}
+;  File: zeronotify.dll
+;  Module: Zero Notifications
+[Adds options to automatically disable notifications when a protocol is in a certain status.]
+Аўтаматычная забарона розных падзей, у залежнасці ад вызначанага статусу
+[Zero Notifications]
+Забарона апавяшчэнняў
+[Disable &Sounds]
+Забараніць гукі
+[Enable &Sounds]
+Дазволіць гукі
+[No sounds when:]
+Няма гукаў, калі:
+[No SysTray blink when:]
+Няма мігцення ў трэі:
+[No CLIST blink when:]
+Няма мігцення ў СК:

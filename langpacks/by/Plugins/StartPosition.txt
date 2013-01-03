@@ -1,0 +1,23 @@
+﻿#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;  File: start_position.dll
+;  Module: Window Start Position	
+[Start position]
+Пачатковае становішча
+[Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
+Дадатак дазваляе усталяваць становішча спісу кантактаў адносна краёў экрана.
+[Always start...]
+Пры запуску...
+[Contact List Window Start Position]
+Пачатковае становішча спісу кантактаў
+[Minimized to System Tray]
+Скрытая ў трэй
+[Opened]
+Адчынена
+[Pixels from Bottom]
+Кропак знізу
+[Pixels from Side]
+Кропак збоку
+[Pixels from Top]
+Кропак зверху
+[Window Start Position]
+Пачатковае становішча

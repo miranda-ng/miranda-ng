@@ -1,0 +1,95 @@
+﻿#muuid {da0b09f5-9c66-488c-ae37-8a5f191c9079}
+;  File: linklist.dll
+;  Module: History Linklist Plugin for Miranda NG
+[Generates a list of extracted URIs from the history.]
+Стварае і паказвае спіс спасылак з гісторыі кантакту.
+[&Clear Search Results]
+&Ачысціць вынікі пошуку
+[&Incoming Messages Only]
+Толькі ўваходныя паведамленні
+[&Mail-Addresses Only]
+Толькі e-mail адрасы
+[&Outgoing Messages Only]
+Толькі выходныя паведамленні
+[&Webaddresses Only]
+Толькі вэб-адрасы
+[All directions]
+Усе кірункі
+[All types]
+Усе выгляды
+[Backgroundcolour]
+Фон
+[Colour Select]
+Выбар колеру
+[Deep search]
+Глыбокі пошук
+[Incoming only]
+Толькі ўваходныя
+[Linklist Plugin]
+Linklist Модуль
+[Mail addresses only]
+Толькі e-mail адрасы
+[Message &Direction]
+Кірунак &паведамленняў
+[Message &Type]
+Тып &паведамленняў
+[Message types]
+Тыпы паведамленняў
+[Open in new Window]
+Адкрыць у новым акне
+[Open links always in a new window]
+Заўсёды адкрываць спасылкі ў новым акне
+[Outgoing only]
+Толькі выходныя
+[Parting line]
+Частка. лінію
+[Plugin Default]
+Па змаўчанні
+[Save window position individually for each contact]
+Захоўваць пазіцыю акна асобна для кожнага кантакту
+[Show Message]
+Паказаць паведамленне
+[Show whole Message on 'mouse over' event]
+Паказваць поўнае паведамленне пры навядзенні мышы
+[Show...]
+Паказваць...
+[Textcolour]
+Колер тэксту
+[Update list on new events]
+Аўтаматычнае абнаўленне спісу пры новых падзеях
+[Use Miranda Settings]
+Выкарыстоўваць налады праграмы
+[Web addresses only]
+Толькі вэб-адрасы
+[History Linklist]
+Гісторыя спасылак
+[&Create Linklist]
+&Стварыць Лінк-ліст
+[No Miranda Settings specified!]
+Налады праграмы не вызначаны!
+[incoming]
+уваходныя
+[mailaddresses]
+e-mail адрасы
+[Matches for searchtext]
+Выяўлена супадзенняў пры пошуку
+[Miranda Linklist]
+Спіс спасылак Miranda NG
+[outgoing]
+выходныя
+[Processing history...]
+Апрацоўка гісторыі...
+[Processing list...]
+Апрацоўка спісу...
+[search options]
+параметры пошуку
+[History is empty!]
+Гісторыя пустая!
+[Could not create window!]
+Немагчыма стварыць акно!
+[No messages found!\nPlease change current filter options.]
+Паведамленняў не знойдзена!\n Калі ласка, зменіце бягучыя параметры фільтра.
+[There are no links in history!]
+Спасылак у гісторыі не знойдзена!
+[Unable to load the Rich Edit control!]
+Сродкі рэдагавання не загружаны!

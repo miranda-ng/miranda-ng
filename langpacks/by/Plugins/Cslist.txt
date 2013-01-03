@@ -1,0 +1,47 @@
+﻿;#muuid {c8cc7414-6507-4af6-925a83c1d2f7be8c}
+;  File: cslist.dll
+;  Module: Custom Status List
+[Custom Status List]
+Карыстацкі спіс статутаў
+[Keep your ICQ Custom statuses in an integrated, easy to use manager. This plugin offers simple management functions to keep your extra statuses on one place.]
+Гэты модуль падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
+[List settings]
+Налады
+[Confirm deletion of items]
+Пацвярджаць выдаленне пунктаў
+[Delete entries in ICQ Custom status menu after Import]
+Пасля імпарту, выдаляць тэксты статутаў у спісе ICQ
+[Add new item]
+Дадаць новы пункт
+[Modify selected item]
+Змяніць абраны пункт
+[Delete selected item]
+Выдаліць абраны пункт
+[Import statuses from database]
+Імпарт статутаў з базы дадзеных
+[Close without changing custom status]
+Зачыніць без змен
+[Clear custom status (reset to None) and close]
+Ачысціць хстатус (паставіць у Няма) і зачыніць
+[Set custom status to selected one and close]
+Вуснаў. хстатус на абраны і зачыніць
+[Undo changes]
+Адмяніць змены
+[Regular statuses]
+Частыя статуты
+[Set/unset current item as favorite]
+Усталяваць/прыбраць абраны пункт як абраны
+[Filter list]
+Фільтр
+[Main Icon]
+Галоўны значок
+[No items available in the database.\nClick the Add button to define some.]
+Няма запісаў у базе дадзеных.\n Націсніце на кнопку "Дадаць новы пункт" для запаўнення спісу.
+[Modify item]
+Змяніць пункт
+[Remember last window position]
+Памятаць апошняе становішча акна
+[Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
+Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін уліковы запіс з UIN.
+[Do you want old database entries to be deleted after Import?]
+Вы жадаеце выдаліць запісы старой базы дадзеных пасля імпарту?

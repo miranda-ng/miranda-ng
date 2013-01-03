@@ -1,0 +1,91 @@
+﻿#muuid {f62c1d7a-ffa4-4065-a2514c9dd9101cc8}
+;  File: crashdumper.dll
+;  Module: Crash Dumper for Miranda NG by borkra
+[Crash Dumper]
+Справаздача пра памылкі
+[Crash Dumper for Miranda NG.]
+Модуль стварэння справаздач пра памылкі ў выпадку аварыйнага завяршэння працы праграмы. Падтрымка www.miranda-vi.org
+[Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
+Miranda была завершана аварыйна. Неабходзен dbghelp.dll v6.8 для падавання справаздачы пра крытычную памылку
+[VersionInfo stored into file %s]
+Версіі захаваны ў файле %s
+[VersionInfo file %s is inaccessible]
+Файл %s недаступны
+[Store to file]
+Захаваць у файл
+[Store to clipboard]
+Капіяваць у буфер абмену
+[Get Version Info]
+Атрымаць інфармацыю пра версіі
+[Show with DLLs]
+З бібліятэкамі
+[Show Version Information]
+Паказаць версіі
+[Upload Version Information]
+Загрузіць версіі
+[Crash Report write location is inaccesible]
+Шлях для запісу справаздачы пра памылку недаступны
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+Усталявана больш аднаго модуля справаздач пра памылкі. Гэта вядзе да немагчымасці стварэння справаздач
+[To Clipboard]
+У буфер абмену
+[To File]
+У файл
+[View Version Information ]
+Інфармацыя пра версіі
+[View Version Information (with DLLs)]
+Інфармацыя пра версіі(p бібліятэками)
+[Upload automatically when changed]
+Загружаць аўтаматычна пры зменах
+[VersionInfo upload successful,\n %d old plugins]
+Версіі паспяхова загружаны,\n%d старых модуляў
+[Cannot upload VersionInfo. Incorrect username or password]
+Нельга загрузіць інфармацыю пра версіі. Няправільнае імя карыстача ці пароль
+[Cannot upload VersionInfo. User is banned]
+Нельга загрузіць інфармацыю пра версіі. Карыстач забанены
+[Cannot upload VersionInfo. Daily upload limit exceeded]
+Нельга загрузіць інфармацыю пра версіі. Дзённы ліміт загрузак вычарпаны
+[Cannot upload VersionInfo. Unknown error]
+Нельга загрузіць інфармацыю пра версіі. Невядомая памылка
+[Cannot upload VersionInfo. Host unreachable.]
+Нельга загрузіць інфармацыю пра версіі. Хост недаступны
+[Crash Dumper HTTP connections]
+HTTP далучэнне Crash Dumper
+[Miranda crashed. Crash report stored in the folder:\n %s]
+Крытычная памылка Miranda NG. Справаздача пра памылку захаваны ў тэчцы:\n %s
+[Miranda Crash Dumper]
+Справаздача пра памылкі
+[Version Information To Clipboard]
+Версіі ў буфер абмену
+[Version Information To File]
+Версіі ў файл
+[Support for miranda-vi.org]
+Падтрымка miranda-vi.org
+[Crash Report]
+Справаздача пра памылку
+[Crash Reports]
+Справаздачы пра памылкі
+[Trap all possible exceptions]
+Лавіць усе магчымыя выключэнні
+[Open crash report directory]
+Тэчка захавання справаздач
+[Open miranda-vi.org]
+Адкрыць miranda-vi.org
+[Use classic dates]
+Класічны фармат часу і даты
+[Caution: Do not enable this option unless there is no other way you can  get a crash report When in use you will get much more crash reports then you expect or need to worry about]
+Папярэджанне: Уключайце гэту опцыю толькі тады, калі няма іншага спосабу атрымаць справаздачу пра памылку. Вы атрымаеце на шмат больш справаздач пра памылкі чым чакалі ці пра якія трэба турбуецца.
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+Miranda  NG была завершана аварыйна. Справаздача захаваны ў \n %s\n\n Ці жадаеце вы захаваць яго ў буфер абмену?
+[Disable Crash Reporting]
+Выключыць справаздачы пра памылкі
+[Notify only if crash stops Miranda]
+Апавяшчаць толькі калі Miranda "валіцца"
+[Copy To Clipboard]
+Капіяваць у буфер
+[Copy Version Info to clipboard]
+Капіяваць версіі ў буфер абмену
+[Show Version Info]
+Паказаць версіі
+[Create reports in subfolders naming as current date]
+Рабіць справаздачы ў тэчкі, названыя датай

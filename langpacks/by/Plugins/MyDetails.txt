@@ -1,0 +1,109 @@
+﻿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;  File: mydetails.dll
+;  Module: My Details 
+[<no status name>]
+<няма імя статусу>
+[Hide My Details]
+Схаваць мае дэталі
+[Main Window/Backgrnd]
+Галоўнае акно/Фон
+;[MyDetails/Backgrnd]
+[Set My Avatar for %s...]
+Змяніць мой аватар для %s...
+[Set My Nickname for %s...]
+Змяніць мой нік для %s...
+[Set My Status Message for %s...]
+Змяніць статутнае паведамленне для %s...
+[Show My Details]
+Паказаць мае дэталі
+[Set My Nickname for %s]
+Змяніць мой нік для %s
+[Set My Status Message for %s]
+Усталяваць статус для %s
+[ Avatar ]
+Аватар
+[ Frame Options ]
+Опцыі акна
+[ General ]
+Агульныя
+[ Protocol ]
+Пратакол
+[&Offline]
+Адключаны
+[Align text to right]
+Выраўнаваць справа
+[Allow it to grow]
+Расцягнуць аватар
+[Auto-resize frame]
+Выраўноўваць фрэйм
+[Avatar popup]
+Аватар
+[Background Color:]
+Колер залівання:
+[Bottom:]
+Ніз:
+[Context popup]
+Кантэкст
+[Custom size:]
+Памер аватара:
+[Cycle through protocols]
+Змена пратаколаў
+[Cycle through protocols every:]
+Змяняць пратаколы кожныя:
+[Don't cycle through protocols]
+Не змяняць пратаколы
+[Global on avatar]
+Глабальны аватар
+[Global on nickname]
+Глабальны нік
+[Global on status]
+Глабальны статут
+[Global on status message]
+Глабальнае статутнае паведамленне
+[Nick popup]
+Нік
+[Replace Smileys]
+Замяняць смайлы
+[Right:]
+Права:
+[Set My Nickname]
+Мой нік
+[Set My Status Message for All Status]
+Статутнае паведамленне для ўсіх статусаў
+[Show previous protocol]
+Паказаць папярэдні пратакол
+[Status message popup]
+Статутнае паведамленне
+[Status popup]
+Статус
+[Top:]
+Верх:
+[Use contact list smileys]
+Смайлікі спісу кантактаў
+[Use free space (under avatar) to other texts]
+Ужыв. вольнае месца (пад аватарамі) для тэксту
+[Set My Avatar...]
+Змяніць мой аватар...
+[Set My Nickname...]
+Змяніць мой нік...
+[Set My Status Message...]
+Змяніць статутнае паведамленне...
+[Show next protocol]
+Паказаць наступны пратакол
+[Enable Listening To]
+Уключыць Цяпер слухаю
+[Enable Listening To for %s]
+Уключыць Цяпер слухаю для %s
+[Show and allows you to edit your details for all protocols.]
+Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
+;0.0.1.10
+[Show protocol cycle button]
+Кнопка пераключэння пратаколу
+[Previous protocol]
+Папярэдні пратакол
+[Next protocol]
+Наступны пратакол
+[Unread Email Count]
+Лічыльнік непрачытанай пошты
+[MyDetails]
+Мае дэталі

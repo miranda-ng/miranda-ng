@@ -1,0 +1,83 @@
+﻿;#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;  File: simplestatusmsg.dll
+;  Module: Provides a simple way to set status and away messages
+[Provides a simple way to set status and away messages]
+Хуткая змена статусаў і прадусталяваных паведамленняў статусу
+[Do not change status message]
+Не змяняць паведамленне статусу
+[Update variables in status messages every]
+Абнаўляць зменныя ў паведамленнях кожныя
+[Show 'Go to URL in Away Message' item in contact menu]
+Паказваць 'Адкрыць спасылку' у меню кантакту
+[&Go to URL in Away Message]
+&Адкрыць спасылку
+[Max length:]
+Макс. даўжыня:
+[Pop up dialog box]
+Паказаць дыялогавае акно
+[Always set the same message]
+Заўсёды ўсталёўваць гэта паведамленне
+[Pop up dialog asking for new message]
+Дыялог для новых паведамленняў
+[Set an empty message]
+Вуснаў. пустое паведамленне
+[Use default message]
+Ужыв. стандартнае паведамленне
+[Use last message]
+Ужыв. апошняе паведамленне
+[Use last message set for this status]
+Ужыв. апошняе паведамленне для гэтага статусу
+[Set the following message:]
+Вуснаў. наступнае паведамленне:
+[Apply to all]
+Для ўсіх
+[Put default message in message list]
+Стандартнае паведамленне ў спіс
+[%s Status Message: %s]
+%s Статутнае паведамленне: %s
+[Co&py to Clipboard]
+Скапіяваць у буфер
+[Retrieving status message for %s...]
+Атрыманне паведамлення статусу для %s...
+[Show status list]
+Спіс статусаў
+[Show status profiles in status list]
+Паказваць профілі ў статус лісце
+[Show icons in status list]
+Значкі ў спісе статусаў
+[Show icons in message list]
+Значкі ў спісе паведамленняў
+[Show next to cancel button]
+Паказаць за кнопкай Адмена
+[Flat, next to cancel button]
+Гладка, за кнопкай Адмена
+[Show in message list]
+Паказаць у спісе паведамленняў
+[Clear History]
+Ачысціць
+[Store up to]
+Захоўваць
+[recent messages (0 = disable)]
+апошніх паведамленняў (0=адключыць)
+[Automatically close dialog window after]
+Аўтаматычна зачыняць акно пасля
+[Leave last played track's title after exiting the player]
+Пакідаць апошні трэк, пасля выключэння плэера
+[Remember last dialog window position]
+Памятаць апошнюю пазіцыю акна
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Выдаляць знакі звароту карэткі (CR = '\\r' = #0D) з паведамленняў статусу
+[Show 'Copy Away Message' item in contact menu]
+'Скапіяваць паведамленне статусу' у меню кантакту
+[Copy Away Message]
+Скапіяваць паведамленне статусу
+[Show 'Status Message...' item in status menu]
+Паказваць 'Паведамленне статусу' у кантэкстным меню
+[Clear Predefined]
+Ачысціць
+[Add to Predefined]
+У Прадусталяваныя
+[Status Message...]
+Паведамленне статусу...
+[* This feature is available only when using StartupStatus plugin.]
+* Гэта магчымасць даступная толькі пры выкарыстанні дадатку StartupStatus

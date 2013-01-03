@@ -1,0 +1,1437 @@
+﻿#muuid {6ca5f042-7a7f-47cc-a715fc8c46fbf434}
+;  File: tabsrmm.dll
+;  Module: Tabbed SRMM
+[Message window options]
+Налады вакна паведамленняў
+[Message window behaviour]
+Паводзіны вакна паведамленняў
+[Always flash contact list and tray icon for new messages]
+Заўсёды міргаць значком у трэі і спісе кантактаў пры новым паведамленні
+[Delete temporary contacts on close]
+Выдаляць часовыя кантакты пры зачыненні
+[Sending messages]
+Адпраўка паведамленняў
+[Send on SHIFT - Enter]
+Пасылаць па "Shift+Enter"
+[Enable \"Paste and send\" feature]
+Уключыць функцыю \"уставіць і адправіць\"
+[Allow BBCode formatting in outgoing messages]
+Дазволіць BB-коды для выходных паведамленняў
+[Other options]
+Іншыя параметры
+[Automatically split long messages (experimental, use with care)]
+Аўтаматычна падзяляць доўгія паведамленні (эксперыментальна)
+[Size and scaling options for the bottom avatar display]
+Налады памеру і маштабаванні аватара ў ніжняй частцы акна
+[Avatar options (size and scaling only for bottom avatar display)]
+Налады памеру і маштабаванні аватара ў ніжняй частцы акна
+[Maximum display height (pixels)]
+Максімальная вышыня (у пікселях)
+[Try to keep original size]
+Захоўваць арыгінальны памер
+[Help on this]
+Апісанне налад
+[Reset all hidden warnings]
+Скінуць усе ўтоеныя папярэджанні
+[Tabs and layout]
+Укладкі і размяшчэнне
+[Tab options]
+Налады ўкладак
+[Show status text on tabs]
+Паказваць тэкст статусу ва ўкладцы
+[Prefer xStatus icons when available]
+Паказваць значок хстатуса, калі даступна (замест статусу)
+[Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
+Паказваць падказку на ўкладках (патрабуецца модуль mToolTip ці Tipper)
+[How to create tabs and windows for incoming messages]
+Налады стварэння ўкладак і вокнаў для ўваходных паведамленняў
+[ALWAYS activate new message sessions (has PRIORITY over the options below)]
+Заўсёды ствараць укладку пры новым паведамленні (мае прыярытэт над наступнымі опцыямі)
+[Automatically create new message sessions without activating them]
+Аўтаматычна ствараць новыя ўкладкі, без актывацыі
+[New windows are minimized (the option above MUST be active)]
+Ствараць новыя вокны згорнутымі (опцыя вышэй павінна быць уключана)
+[Activate a minimized window when a new tab is created inside it]
+Адкрыць згорнутае акно пры стварэнні новай укладкі ўсярэдзіне гэтага акна
+[Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
+Аўтаматычная змена ўкладак у згорнутым акне пры ўваходных паведамленнях (ігнаруецца пры выкарыстанні Aero Peek)
+[Miscellaneous options]
+Іншыя параметры
+[Remember and set keyboard layout per contact]
+Запамінаць раскладку клавіятуры поконтактно
+[Close button only hides message windows]
+Кнопка зачыніць толькі хавае вокны паведамленняў
+[Allow TAB key in typing area (this will disable focus selection by TAB key)]
+Дазволіць табуляцыю ўсярэдзіне поля ўводу паведамленняў (адключыць пераключэнне фокусу па Tab клавішы)
+[Add offline contacts to multisend list]
+Дадаць у спіс рассылання афлайн кантакты
+[ESC key behavior]
+Паводзіны пры націску ESC
+[Normal - close tab, if last tab is closed also close the window]
+Зачыніць укладку, калі апошняя ўкладка - зачыніць акно
+[Minimize the window to the task bar]
+Згарнуць акно на панэль задач
+[Close or hide window, depends on the close button setting above]
+Зачыніць ці схаваць акно, залежыць ад налады кнопкі зачынення
+[Setup status modes for automatic tab creation...]
+Cтатусы для аўтаматычнага стварэння ўкладак
+[Limit nicknames on tabs to]
+Абмежаваць даўжыню нікаў ва ўкладках да
+[Containers]
+Кантэйнеры
+[To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
+Для налады выкарыстоўвайце дыялог "Налады кантэйнера". Ён даступны:\n1. З сістэмнага меню кантэйнера (Atl+стрэлка).\n2. Па правай пстрычцы на ўкладцы ці панэлі кнопак у вакне гутаркі.
+[Tabs should be used in the following way]
+Укладкі могуць выкарыстоўвацца ў адным з наступных рэжымаў:
+[Use contact list groups for organizing tabs (one window per group)]
+Групоўка ўкладак аналагічна групам спісу кантактаў (1 акно = 1 група)
+[Tabbed interface, limit the maximum number of tabs per window to:]
+Вокны з укладкамі, максімальная колькасць укладак у акне:
+[No tabs at all, each session has its own top level window]
+Без укладак, кожная гутарка асобнае акно
+[Default mode (tabbed interface, manual assignments)]
+Па змаўчанні (рэжым укладак, ручное размеркаванне ўкладак)
+[Container flashing]
+Мігценне кантэйнераў
+[Flash containers]
+Міргаць кантэйнерам
+[Flash interval]
+Інтэрвал мігцення
+[times]
+раз
+[Windows Aero settings]
+Налады Aero
+[Use Aero UI elements(only when not using a custom skin)]
+Выкарыстоўваць Aero Glass у акне паведамлення (толькі без скінаў)
+[Milky Glass]
+Малочнае шкло
+[Carbon]
+Карбон
+[Semi transparent, custom colors]
+Напаўпразрысты, колеры карыстача
+[Silver shadow]
+Срэбны цень
+[Custom (use own gradient colors)]
+Карыстацкі (уласныя каляровыя градыенты)
+[Use Windows 7 task bar enhancements (restart required)]
+Выкарыстоўваць магчымасці панэлі задач Windows 7 (патрабуецца перазапуск)
+[Help on containers]
+Дадатковая інфармацыя
+[Message log]
+Лог
+[Message log appearance]
+Вонкавы выгляд лога
+[Draw grid lines]
+Маляваць лініі сеткі
+[Use Message Grouping]
+Групаваць паведамленні
+[Indent message body]
+Водступ цела паведамленняў
+[Simple text formatting (*bold* etc.)]
+Простае фарматаванне (*тоўсты* і да т.п.)
+[Support BBCode formatting]
+Падтрымка BB-кодаў
+[Place a separator in the log after a window lost its foreground status]
+Ставіць падзельнік у логе пасля таго, як акно губляе фокус
+[Only place a separator when an incoming event is announced with a popup]
+Ставіць падзельнік толькі пры падзеі, які суправаджаецца успл. акном
+[RTL is default text direction]
+RTL па змаўчанні
+[Use normal templates (uncheck to use simple templates if your template set supports them)]
+Звычайныя шаблоны (адключыце для простых шаблонаў, калі ваш шаблон гэта падтрымлівае)
+[Support for external plugins]
+Падтрымка вонкавых модуляў
+[Show events at the new line (IEView Compatibility Mode)]
+Паказваць падзеі ў новым радку (Рэжым сумяшчальнасці з IEView)
+[Underline timestamp/nickname (IEView Compatibility Mode)]
+Падкрэсліваць час/нік (Рэжым сумяшчальнасці з IEView)
+[Show timestamp after nickname (IEView Compatibility Mode)]
+Паказваць час пасля ніка (Рэжым сумяшчальнасці з IEView)
+[Automatically copy selected text]
+Аўтаматычна капіяваць вылучаны тэкст
+[Additional events to show]
+Паказваць дадатковыя падзеі
+[Show file events]
+Перадачы файлаў
+[Timestamp settings (note: timstamps also depend on your templates)]
+Адлюстраванне часу (таксама залежыць ад вашых шаблонаў)
+[Show timestamps]
+Паказваць час
+[Show dates in timestamps]
+Паказваць дату 
+[Show seconds in timestamps]
+Паказваць секунды
+[Use contacts local time (if timezone info available)]
+Лакальны час кантакту (калі даступны гадзінны пояс)
+[Message log icons]
+Значкі лога паведамленняў
+[Event type icons in the message log]
+Значкі тыпаў падзей у логе
+[Text symbols as event markers]
+Тэкст. знакі як маркеры падзей
+[Use Incoming/Outgoing Icons]
+Выкарыстоўваць значкі ўваходнага/выходнага паведамлення
+[Indent values]
+Інтэрвалы водступаў
+[Left/Right]
+Злева|Справа
+[px]
+тчк
+[Global message log display]
+Асноўны лог паведамленняў
+[History++ plugin]
+Модуль History++
+[IEView plugin]
+Модуль IEView
+[Template sets]
+Наборы шаблонаў
+[Standard templates...]
+Стандартныя шаблоны
+[RTL templates...]
+RTL шаблоны
+[Always trim message log to]
+Заўсёды абмяжоўваць лог да
+[Template Set Editor]
+Рэдактар шаблонаў
+[Message In]
+Паведамленне ув.
+[Message Out]
+Паведамленне вын.
+[Group In (Start)]
+Група ув. (старт)
+[Group Out (Start)]
+Група вын. (старт)
+[Group In (Inner)]
+Група ув. (усярэдзіне)
+[Group Out (Inner)]
+Група вын. (усярэдзіне)
+[Error message]
+Паведамленне пра памылку
+[Edit template]
+Рэдагаваць шаблон
+[Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
+Падвойны клік для рэдагавання. Абярыце шаблон са спісу і націсніце "Абнавіць прадпрагляд" для адлюстравання прыкладу паведамлення.
+[Get more help on variables]
+Дапамога па зменных шаблонаў
+[Reset all templates...]
+Скінуць усе шаблоны
+[Update Preview]
+Абнавіць прадпрагляд
+[Save Template]
+Захаваць шаблон
+[Forget]
+Адмяніць
+[Revert to Default]
+Вярнуць па змаўчанні
+[Define up to 5 colors which you can use with some variables]
+Абярыце да 5 кветак, для выкарыстання са зменнымі
+[You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
+Вы абралі вонкавы модуль для адлюстравання паведамленняў у логе. Большасць налад на гэтай старонцы для лога па змаўчанні і не будуць мець эфекту. Для змены вонкавага выгляду лога паведамленняў Вы павінны наладзіць IEView ці History++.
+[Tool bar]
+Панэль кнопак
+[Insert Separator]
+Уставіць падзельнік
+[Protocol Button]
+Меню кантакту
+[Info button]
+Інфармацыя пра кантакт
+[<Separator>]
+<Падзельнік>
+[Edit user notes]
+Рэдагаваць нататкі пра карыстача
+[Bold text]
+Тоўсты
+[Italic text]
+Курсіў
+[Underlined text]
+Падкрэслены
+[Strike-through text]
+Перакрэслены
+[Select font color]
+Выбар колеру
+[Change background color]
+Змяніць колер фону
+[Insert [img] tag / surround selected text with [img][/img]]
+Уставіць тэг [img] / пазначыць вылучаны тэкст [img][/img]
+[Event filter - right click to setup, left click to activate/deactivate]
+Фільтр падзей - пстрычка правай кнопкай для налады, левай - вкл/выкл
+[Toggle nick list]
+Вкл/выкл спіс удзельнікаў
+[Message Log Options]
+Налады гутарак
+[Quote last message OR selected text]
+Цытаваць апошняе паведамленне ці абраны тэкст
+[Close tab]
+Зачыніць укладку
+[Send message\nClick dropdown arrow for sending options]
+Адправіць
+[Show in IM chats]
+Паказваць у звычайным акне
+[Show in chat rooms]
+Паказваць у акне чата
+[Hide if there isn't enough space]
+Хаваць, калі недастаткова месцы
+[Gap between buttons:]
+Прамежак кнопак:
+[Advanced tweaks]
+Дадатковыя налады
+[Message window tweaks]
+Налады акна паведамленняў
+[Show client icon in status bar (fingerprint plugin required)]
+Паказваць значок кліента ў панэлі статусу (неабходзен модуль Fingerprint)
+[Enable typing sounds]
+Уключыць гук набору тэксту
+[Disable animated GIF avatars (will not affect already open message windows)]
+Адключыць анімаваныя GIF-аватары (не паўплывае на ўжо адкрытыя вокны паведамленняў)
+[Close current tab on send]
+Зачыняць укладку пры адпраўцы
+[Automatic keyboard layout: Do not load the system default for new contacts]
+Аўтаматычная раскладка клавіятуры: не загружаць раскладку сістэмы па змаўчанні для новых кантактаў
+[Enable unattended send (experimental feature, required for multisend and send later) (*)]
+Уключыць аўтаматычную адпраўку (эксперыментальная опцыя, неабходна для мультыадпраўкі і адпраўкі з затрымкай) (*)
+[Error feedback]
+Памылкі дастаўкі паведамленняў
+[Disable error popups on sending failures]
+Адключыць усплывальныя вокны пра няўдалую дастаўку
+[Message send timeout]
+Таймаўт адпраўкі
+[Input history size]
+Памер гісторыі ўводу
+[entries]
+пунктаў
+[Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
+Налады, адзначаныя (*) набудуць моц толькі пасля перазапуску Miranda NG.
+[More about advanced tweaks]
+Падрабязней пра дадатковыя налады
+[Revert to (safe) defaults]
+Налады па змаўчанні
+[Event notifications]
+Апавяшчэнні
+[Event notify options]
+Налады апавяшчэнняў
+[Disable notifications]
+Выключыць апавяшчэнні
+[Disable event notifications for instant messages]
+Выключыць апавяшчэнні пра падзеі паведамленняў
+[Disable event notifications for group chats]
+Выключыць апавяшчэнні пра падзеі групавых чатаў
+[Disable notifications for non-message events]
+Выключыць апавяшчэнні для ўсіх падзей, акрамя паведамленняў
+[Show a preview of the event]
+Прадпрагляд падзеі
+[Don't announce event when message dialog is open]
+Не апавяшчаць, калі адкрыта акно паведамленняў
+[Don't announce events from RSS protocols]
+Не апавяшчаць пра падзеі ў пратаколе RSS
+[Enable the system tray icon]
+Уключыць значок у трэі
+[Left click actions (popups only)]
+Дзеянні па левай пстрычцы (усплывальныя вокны)
+[Dismiss event]
+Адхіліць падзею
+[Open event]
+Адкрыць падзею
+[Right click actions (popups only)]
+Дзеянні па правай пстрычцы (усплывальныя вокны)
+[Timeout actions (popups only)]
+Дзеянні па таймаўце (усплывальныя вокны)
+[Combine notifications for the same contact]
+Злучаць апавяшчэнні аднаго кантакту
+[Merge new events for the same contact into existing popup]
+Дадаваць новыя падзеі ва ўжо існае ўсплывальнае акно
+[Remove popups under following conditions]
+Прыбіраць усплывальныя вокны пры ўмовах
+[Remove popups for a contact when the message window is focused]
+Прыбіраць, калі вакно гутаркі апынецца ў фокусе
+[Remove popups for a contact when I start typing a reply]
+Прыбіраць, калі я пачынаю набіраць адказ
+[Remove popups for a contact when I send a reply]
+Прыбіраць, калі я пасылаю адказ
+[Limit message preview to]
+Ліміт прадпрагляду
+[Only show event notifications when my status is...]
+Паказваць апавяшчэнні пра падзеі, калі мой статус...
+[Choose status modes]
+Выбар рэжымаў статусу
+[Choose modes]
+Рэжымы статусу
+[All modes]
+Усе статусы
+[Timeout (seconds, 0 = default, -1 = no timeout)]
+Таймаўт (сек., 0=па змаўчанні, -1=утрыманне)
+[Use the message log color theme for group chat popups]
+Выкарыстоўваць колеру лога паведамленняў для успл. вокнаў чатаў
+[New messages: ]
+Новыя паведамленні: 
+[Message window skin]
+Скін акна паведамленняў
+[Skin root folder]
+Тэчка скінаў
+[Selected skin]
+Абраны скін
+[<no skin>]
+<без скіна>
+[Reload active skin]
+Перагрузіць скін
+[Before you can load or unload a skin, you must close all message windows.]
+Перад зменай скіна, неабходна зачыніць усе вокны паведамленняў.
+[Close open message windows now]
+Зачыніць адкапанае акно паведамленняў цяпер
+[Load fonts and colors provided by skin]
+Загружаць шрыфты і колеры са скіна
+[Load templates provided by skin (use with care, will overwrite your templates)]
+Загружаць шаблоны са скіна (асцярожна, гэта перапіша Вашы шаблоны)
+[Theme support]
+Падтрымка схем
+[You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
+Тут вы можаце экспартаваць і імпартаваць усе свае налады кветак і шрыфтоў. Створаны файл схемы (*.tabsrmm) вы можаце выкарыстоўваць у іншым профілі ці як заўгодна.
+[Export to a file...]
+Экспартаваць...
+[Import from a file...]
+Імпартаваць...
+[tabSRMM themes]
+Тэмы tabSRMM
+[Send typing notifications to the following users when you are typing a message to the them:]
+Пасылаць апавяшчэнні набору паказаным кантактам у той час, калі вы набіраеце ім паведамленне:
+[          Show typing notifications in the message window]
+        Паказваць апавяшчэнне пра набор у акне паведамленняў
+[Flash window once on typing events (only if flashing enabled)]
+Міргаць адзін раз (калі мігценне ўключана)
+[          Show typing notifications in the contact list and tray]
+        Паказваць апавяшчэнне пра набор у спісе кантактаў і трэі
+[Show typing notification when message dialog is open]
+Апавяшчаць пра набор тэксту, калі акно гутаркі адкрыта
+[Show balloon tooltip in the system tray]
+Паказваць падказкі ў трэі
+[          Show popups when a user is typing]
+        Усплывальныя вокны, калі карыстач набірае тэкст
+[Always, but no popup when window is focused]
+Заўсёды, але не паказваць калі акно ў фокусе
+[Only when no message window is open]
+Толькі калі не адкрыта акно паведамленняў
+[More about typing notifications]
+Дадатковая інфармацыя
+[Window layout tweaks]
+Выгляд укладак
+[NOTE: some settings will not affect open containers.]
+Некаторыя налады не закрануць адкрытыя кантэйнеры
+[Tab layout tweaks]
+Налады выгляду ўкладак
+[Default width for fixed (single row) tabs]
+Стандартная шырыня для фіксаваных (адзін радок) укладак
+[Tab text label padding vertical]
+Вертыкальнае запаўненне імя
+[Tab page padding:]
+Запаўненне ўкладак:
+[Bottom tabs vertical adjustment:]
+Вертыкальнае становішча ніжніх укладак
+[inner]
+усярэдзіне
+[outer]
+знадворку
+[Open new chat rooms in the default container]
+Адкрываць чаты і гутаркі ў адным акне
+[Create tabs or windows for highlight events]
+Ствараць укладку ці акно пры падсветленай падзеі
+[Activate chat window on highlight]
+Актываваць акно чата пры падсветленай падзеі
+[Colorize nicknames in member list]
+Каляровыя нікі ў спісе карыстачоў
+[Show topic as status message on the contact list]
+Паказаць тэму чат-пакоі ў спісе кантактаў як паведамленне статусу
+[Hide or show the window by double click in the contact list]
+Адкрыць ці схаваць акно чата па падвойнай пстрычцы ў спісе кантактаў
+[Sync splitter position with standard IM sessions]
+Сінхранізаваць пазіцыю падзельніка са стандартам
+[Show contact's status modes if supported by the protocol]
+Паказваць значкі статусаў, калі падтрымліваецца пратаколам
+[Display contact's status icon before user role icon]
+Паказваць значок статусу перад значком ролі
+[Use IRC style status indicators in the user list]
+IRC-стыль (тэкставы) індыкатараў роляў удзельнікаў у спісе
+[Use alternative sorting method in member list]
+Альтэрнатыўнае сартаванне нікаў у спісе
+[Timestamp only when event time differs]
+Падстаўляць час, калі ёсць змены
+[Timestamp has same color as the event]
+Час таго ж колеры, што і падзея
+[Add a colon (:) to auto-completed user names]
+Дадаваць ":" да імёнаў карыстачоў
+[Start private conversation on doubleclick in nick list (insert nick if unchecked)]
+Прыват пры падвойнай пстрычцы ў спісе нікаў (інакш устаўляць нік)
+[Use IRC style status indicators in the log]
+IRC-стыль(тэкставы) індыкатараў роляў у логе чата
+[Allow clickable user names in the message log]
+Нікі клікабельныя як гіперспасылкі
+[Colorize user names in message log]
+Каляровыя нікі ў чаце
+[Scale down icons to 10x10 pixels in the chat log]
+Змяняць дазвол значкоў на 10х10 у акне чата
+[Support the math module plugin]
+Падтрымка матэматычнага модуля
+[Log formatting]
+Фармат лога
+[Log files]
+Файлы лога
+[Maximum size for log files (in kB)]
+Максімальны памер лога (у кб)
+[Open log file base folder]
+Адкрыць тэчку з логамі чатаў
+[Group chat log formatting]
+Фарматаванне лога чатаў
+[Timestamp (window)]
+Час (акно)
+[Timestamp (logfile)]
+Час (файл)
+[Maximum number of events in the message window]
+Максімальная колькасць падзей у акне чатаў
+[Groupchat userlist row height (pixels)]
+Вышыня пунктаў спісу карыстачоў (пікс.)
+[nick of current contact (if defined)]
+нік бягучага кантакту (калі вызначаны)
+[protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
+назва пратаколу бягучага кантакту (калі вызначана). Назва ўліковага запісу выкарыстоўваецца калі пратакол падтрымлівае мультиаккаунтность
+[UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
+ID бягучага кантакту (калі вызначаны). Напрыклад, UIN для ICQ, JID для Jabber і г.д.
+[any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
+любая зменная асяроддзі, вызначаная ў бягучай Windows сесіі (напрыклад, %systemroot%, %allusersprofile% і г.д.)
+[day of month, 1-31]
+дзень месяца, 1-31
+[day of month, 01-31]
+дзень месяца, 01-31
+[month number, 1-12]
+нумар месяца, 1-12
+[month number, 01-12]
+нумар месяца, 01-12
+[abbreviated month name]
+скарочаная назва месяца
+[full month name]
+поўная назва месяца
+[year without century, 01-99]
+год з 2-х лічбаў, 01-99
+[year with century, 1901-9999]
+год з 4-х лічбаў, 1901-9999
+[abbreviated weekday name]
+скарочаная назва дня тыдня
+[full weekday name]
+поўная назва дня тыдня
+[Events and filters]
+Падзеі і фільтры
+[Default settings for known event types]
+Налады для вядомых тыпаў падзей
+[Show when filter is active]
+Паказваць пры вкл. фільтры
+[Show Popup]
+Успл. акно
+[Notify in tray]
+У трэі
+[Highlight event]
+Падсвятленне
+[Suppress tray notifications for focused channel windows]
+Выключыць апавяшчэнні ў трэі пры актыўным акне чата
+[Do not show popups when the channel window is not open]
+Выключыць усплывальныя вокны пры зачыненым акне чата
+[Line markers in the message log]
+Маркеры радкоў у чаце:
+[No markers]
+Без маркераў
+[Show as icons]
+Абразкі
+[Show as text symbols]
+Тэкставыя знакі
+[Highlighting]
+Падсвятленне
+[Highlight user names]
+Падсвятленне імёнаў карыстачоў
+[Enable highlighting for user names]
+Уключыць падсвятленне для імёнаў карыстачоў
+[Also look in user ids]
+Правяраць у ID карыстачоў
+[Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
+Імёны для падсвятлення, дапушчаюцца маскі выгляду * і ?, некалькі слоў для падсвятлення падзяляюцца прабеламі
+[Highlight message text]
+Падсвятленне тэксту ў паведамленні
+[Enable highlighting for message text]
+Уключыць падсвятленне тэксту ў паведамленні
+[Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
+Словы для падсвятлення, дапушчаюцца маскі выгляду * і ?, некалькі слоў для падсвятлення падзяляюцца прабеламі. Пакіньце пустым, калі жадаеце падсвятляць свой нік.
+[Highlight messages containing my own nick name]
+Падсвятляць паведамленні, якія змяшчаюць свой нік
+[%s: Chat Room (%u user%s)]
+%s: Чат-пакой (%u карыстачоў)
+[%s: Chat Room (%u users%s)]
+%s: Чат-пакой (%u карыстачоў%s)
+[, event filter active]
+, фільтр падзей уключаны
+[Event filter error]
+Памылка фільтра падзей
+[The filter canoot be enabled, because there are no event types selected either global or for this chat room]
+Нельга ўключыць фільтр, бо не абраны ніводны тып падзей, як глабальна так і для гэтага чата
+[IM and group chat module for Miranda NG.]
+Модуль асабістых і групавых чатаў для Miranda NG.
+[Message windows - IM]
+Вокны паведамленняў - IM
+[Send nudge]
+Страсянуць
+[Contact's messaging prefs]
+Налада лога кантакту
+[Toggle multi send]
+Вкл/выкл мультыадпраўку
+[Toggle text direction]
+Пераключыць кірунак тэксту
+[Toggle send later]
+Вкл/выкл адпраўку з затрымкай
+[Show user details]
+Паказаць інфармацыю пра кантакт
+[Send a file]
+Паслаць файл
+[Most recent unread session]
+Апошнія непрачытаныя паведамленні
+[Quote message]
+Цытаваць паведамленне
+[Message windows - all]
+Вокны паведамленняў - усё
+[Paste and send]
+Уставіць і адправіць
+[Smiley selector]
+Выбар смайліка
+[Container options]
+Налады кантэйнера
+[Clear message log]
+Ачысціць лог паведамленняў
+[Toggle info panel]
+Пераключыць інфа-панэль
+[Toggle tool bar]
+Пераключыць панэль кнопак
+[Show message history]
+Паказаць гісторыю паведамленняў
+[Collapse side bar]
+Згарнуць бакавую панэль
+[Message windows - groupchats]
+Гутаркі - чаты
+[Toggle filter]
+Пераключыць фільтр
+[Show server window]
+Паказаць акно сервера
+[Contact started typing]
+Кантакт пачаў набор паведамлення
+[Contact stopped typing]
+Кантакт скончыў набор паведамлення
+[TABSRMM: Typing]
+TABSRMM: Набірае
+[Animated Tray]
+Трэй
+[Frame 1]
+Кадр 1
+[Frame 2]
+Кадр 2
+[Frame 3]
+Кадр 3
+[Frame 4]
+Кадр 4
+[Group chat log]
+лог чата
+[Remove Status (10x10)]
+Выдаліць статус (10х10)
+[Group chat windows]
+Вокны чата
+[Message delivery error]
+Памылка адпраўкі паведамлення
+[Statuschange]
+Змена статусу
+[Image tag]
+Малюнак
+[Quote text]
+Цытата
+[Save and close]
+Захаваць і зачыніць
+[Format bold]
+Тоўсты
+[Format italic]
+Курсіў
+[Format underline]
+Падкрэслены
+[Font color]
+Колер шрыфта
+[Font face]
+Тып шрыфта
+[Format strike-through]
+Перакрэслены
+[Static container icon]
+Статычны значок кантэйнера
+[Sounds (status bar)]
+Гукі (панэль статусаў)
+[Pulldown Arrow]
+Стрэлка ўніз
+[Left Arrow]
+Стрэлка налева
+[Right Arrow]
+Стрэлка направа
+[Up Arrow]
+Стрэлка ўгару
+[Session List]
+Спіс сесій
+[Clock symbol (for the info panel clock)]
+Значок гадзін (для інфа-панэлі)
+[Feature enabled (used as overlay)]
+Магчымасць уключана (выкарыстоўваецца як аверлэй)
+[Feature disabled (used as overlay)]
+Магчымасць выключана (выкарыстоўваецца як аверлэй)
+[Data path]
+Дадзеныя гутарак
+[Skins root]
+Скіны гутарак
+[Saved Avatars]
+Аватары
+[Group chat logs root]
+Тэчка лога чатаў
+[TabSRMM]
+Гутаркі
+[* Message Input Area]
+Поле ўводу паведамлення
+[\nStyles and effects are disabled for this font.]
+Для гэтага шрыфта налада стыляў і эфектаў адключана.
+[Window caption (skinned mode)]
+Загаловак (рэжым скіна)
+[Common colors]
+Агульныя колеры
+[Toolbar background high]
+Верхні фон панэлі прылад
+[Toolbar background low]
+Ніжні фон панэлі прылад
+[Window fill color]
+Колер залівання акна
+[Text area borders]
+Межы вобласці тэксту
+[Aero glow effect]
+Колер свячэння Aero эфекту
+[Generic text color (only when fill color is set)]
+Агульны колер тэксту (калі ўсталяваны колер залівання)
+[Info Panel]
+Інфа-панэль
+[Contacts local time]
+Час кантакту
+[Panel background low]
+Ніжні фон панэлі
+[Panel background high]
+Верхні фон панэлі
+[Normal text]
+Тэкст звычайнай укладкі
+[Active text]
+Тэкст актыўнай укладкі
+[Hovered text]
+Тэкст падсветленай укладкі
+[Unread text]
+Тэкст непрачытанай укладкі
+[Active background]
+Фон актыўнай укладкі
+[Hovered background]
+Фон падсветленай укладкі
+[Unread background]
+Фон непрачытанай укладкі
+[>> Outgoing messages]
+>> Выходныя паведамленні
+[>> Outgoing misc events]
+>> Выходныя падзеі
+[<< Incoming messages]
+<< Уваходныя паведамленні
+[<< Incoming misc events]
+<< Уваходныя падзеі
+[>> Outgoing name]
+>> Выходнае імя
+[>> Outgoing timestamp]
+>> Выходны час
+[<< Incoming name]
+<< Уваходнае імя
+[<< Incoming timestamp]
+<< Уваходны час
+[>> Outgoing messages (old)]
+>> Выходныя паведамленні (старыя)
+[>> Outgoing misc events (old)]
+>> Выходныя падзеі (старыя)
+[<< Incoming messages (old)]
+<< Уваходныя паведамленні (старыя)
+[<< Incoming misc events (old)]
+<< Уваходныя падзеі (старыя)
+[>> Outgoing name (old)]
+>> Выходнае імя (старое)
+[>> Outgoing timestamp (old)]
+>> Выходны час (старое)
+[<< Incoming name (old)]
+<< Уваходнае імя (старое)
+[<< Incoming timestamp (old)]
+<< Уваходны час (старое)
+[* Status changes]
+Змены статусу
+[* Dividers]
+Падзельнікі
+[* Error and warning Messages]
+Памылкі і папярэджанні
+[* Symbols (incoming)]
+Знакі (уваходныя)
+[* Symbols (outgoing)]
+Знакі (выходныя)
+[Horizontal Grid Lines]
+Гарызантальныя лініі сеткі лога
+[Chat log symbols (Webdings)]
+Знакі ў чаце (шрыфт Webdings)
+[Channel operators]
+Адміністратары
+[Half operators]
+Мадэратары
+[Voiced]
+Карыстачы з правам голасу
+[Extended mode 1]
+Пашыраны рэжым 1
+[Extended mode 2]
+Пашыраны рэжым 2
+[Selection background]
+Фон абранага
+[Incremental search highlight]
+Падсвятленне пошуку
+[Stay on Top]
+Па-над усіх вокнамі
+[Container Options...]
+Налады кантэйнера
+[Save Message Log As...]
+Захаваць гісторыю як...
+[Close Message Session\tCtrl-W]
+Зачыніць сеанс\tCtrl+W
+[Close Container\tAlt-F4]
+Зачыніць кантэйнер\tAlt+F4
+[&View]
+&Выгляд
+[Show Menu Bar]
+Паказваць меню
+[Show Status Bar]
+Паказваць радок статусу
+[Info Panel...]
+Інфа-панэль
+[Place ToolBar at bottom]
+Змясціць панэль прылад уніз
+[Title Bar]
+Загаловак
+[Tabs at Bottom]
+Укладкі знізу
+[Vertical maximize]
+Расцягваць па вертыкалі
+[Window Flashing]
+Мігценне акна
+[Use default Value]
+Па змаўчанні
+[Flash until focused]
+Міргаць да актывацыі
+[Disable Flashing]
+Выключыць мігценне
+[Show Multisend Contact List]
+Паказваць акно мультыадпраўкі
+[&User]
+&Карыстач
+[&Messaging settings...]
+Налады гутарак
+[Message &Log]
+&Гутаркі
+[&Message Log Settings]
+Налады гутарак
+[&Global...]
+Глабальна...
+[&For this Contact...]
+Для гэтага кантакту...
+[&Container]
+Кантэйнер
+[Container options...]
+Налады кантэйнера
+[Event Popups]
+Налады апавяшчэння
+[Disable all Event Popups]
+Выключыць усё успл. акна
+[Show Popups if Window is minimized]
+Паказваць, калі акно мінімізавана
+[Show Popups if Window is unfocused]
+Паказваць, калі не ў фокусе
+[Show Popups if Window is focused]
+Паказваць, калі ў фокусе
+[Show Popups for all inactive sessions]
+Паказваць для ўсіх вокнаў гутаркі, калі яны неактыўныя
+[Save current Window Position as Default]
+Захаваць бягучую пазіцыю акна
+[About tabSRMM...]
+Пра модуль tabSRMM...
+[&Room]
+Чат-пакой
+[Save and close session]
+Захаваць набранае і зачыніць акно
+[Send &Default]
+Пасылаць звычайна
+[Send to &multiple Users]
+Паслаць некалькім
+[Send to &Container]
+Паслаць усяму кантэйнеру
+[Send &Later]
+Паслаць &пазней
+[Force &ANSI]
+Прымусова ANSI
+[Send unsafe (ignore Timeouts)]
+Адпраўляць небяспечна (без таймаўтаў)
+[Send Nudge]
+Страсянуць
+[Today]
+Сёння
+[Yesterday]
+Учора
+[changed status from %s to %s.]
+змяняе статус з %s на %s.
+[signed off.]
+адключаны(а).
+[signed on and is now %s.]
+далучаны(а) (%s).
+[Add this contact permanently to your contact list]
+Дадаць гэты кантакт у спіс кантактаў
+[Do not add this contact permanently]
+Не дадаваць гэты кантакт у спіс
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
+UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nПравай кнопкай - кіраванне метакантактам\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
+[UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
+UID: %s (SHIFT+клік -> капіяваць у буфер)\nКлік - Інфармацыя пра карыстача\nСтрэлка ўніз - даданне/выдаленне карыстача з абранага.
+[Default Color]
+Колер па змаўчанні
+[Blue]
+Сіні
+[Magenta]
+Пурпурны
+[Cyan]
+Галубай
+[White]
+Белы
+[Clear all Formatting]
+Ачысціць фарматаванне
+[Show Contact Picture]
+Адлюстраванне аватара
+[Hidden for this Contact]
+Схаваць для гэтага кантакту
+[Visible for this Contact]
+Адлюстраваць для гэтага кантакту
+[Contact Picture Settings...]
+Налады аватара
+[Always keep the button bar at full width]
+Панэль кнопак у поўную шырыню
+[Save this Picture As...]
+Захаваць малюнак як...
+[Set Your Avatar...]
+Змяніць аватар
+[Add Contact to Favorites]
+Дадаць кантакт да абраных
+[Remove Contact from Favorites]
+Выдаліць кантакт з абраных
+[Copyright © 2004-2010 by the Miranda IM project. More  \ndetailed copyright information can be found in the included README file.\n\nThis software is distributed and licensed under the terms of the GNU General Public License V2 or any later version.]
+Аўтарскія правы © 2004-2010 праект Miranda IM. Дэталёвая  \nінфармацыя знаходзіцца ў файле Readme.\n\nГэта праграмнае забеспячэнне падаецца пад ліцэнзіяй GNU General Public License V2 ці навей.
+[Click for contact menu\nClick dropdown for window settings]
+Меню кантакту\nСтрэлка ўніз - налады акна
+[Splitter Position]
+Падзельнікі
+[Send Text Formatting]
+Адпраўка фарматавання тэксту
+[This Contact]
+Гэты кантакт
+[Global Setting]
+Глабальныя налады
+[Message Session...]
+Гутарка...
+[Rich Edit file]
+Файл RTF
+[Image files]
+Файлы малюнкаў
+[JPEG-compressed images]
+Файлы jpeg
+[Customize the panel]
+Наладзіць інфа-панэль
+[Scope of settings]
+Параметры
+[Set panel visibility for this %s]
+Бачнасць панэлі для %s
+[contact]
+кантакту
+[chat room]
+чата
+[Inherit from container setting]
+Налады кантэйнера
+[Always off]
+Заўсёды выключана
+[Always on]
+Заўсёды ўключана
+[Use global or private panel height]
+Глабальная ці свая вышыня панэлі
+[Use default size]
+Стандартны памер
+[Use private size]
+Свой памер
+[Set size to]
+Усталяваць памер
+[Compact (1 Line)]
+Кампактны (1 радок)
+[Normal (2 Lines)]
+Звычайны (2 радкі)
+[Large]
+Вялікі
+[Tip: To use a custom size you can always drag the bottom edge of the panel]
+Рада: Вы можаце задаваць свой памер, пацягнуўшы за ніжні край панэлі 
+[Do not synchronize the panel height with group chat windows]
+Не сінхранізаваць вышыню панэлі з акном чата
+[Do not synchronize the panel height with IM windows]
+Не сінхранізаваць вышыню панэлі з акном кантактаў
+[Show picture for this contact]
+Малюнак для гэтага кантакту
+[Use Global Setting]
+Глабальныя налады
+[Show always (if present)]
+Паказваць заўсёды (калі ёсць)
+[Never show it at all]
+Ніколі не паказваць
+[Note: All settings are applied immediately]
+Нататка: Усе параметры ўступаюць у сілу неадкладна
+[\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
+\\tab \\ul\\b Паведамленне статусу:\\ul0\\b0 \\par %s
+[\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
+\\par\\par\\tab \\ul\\b хстатус:\\ul0\\b0 \\par 
+[\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
+\\par\\par\\tab \\ul\\b Слухае:\\ul0\\b0 \\par %s
+[\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
+\\par\\par\\ul\\b Кліент:\\ul0\\b0  %s
+[No status message]
+Няма паведамлення статусу
+[Open History...]
+Адкрыць гісторыю...
+[Messaging Settings...]
+Налады перапіскі...
+[Open User Details...]
+Пра карыстача...
+[Room Settings...]
+Налады пакоя..
+[The container is using private settings. The panel  height  will not be shared with other containers.]
+Кантэйнер выкарыстоўвае асобныя налады. Вышыня панэлі не ўжываецца да іншых кантэйнераў.
+[Character Encoding]
+Кадоўка
+[Freeze Log]
+Замарозіць лог
+[Leave Chat Room]
+Пакінуць чат-пакой
+[Save Tab Position]
+Захаваць пазіцыю
+[Clear saved Tab Position]
+Ачысціць захаваную
+[Attach to]
+Аб'яднаць з:
+[Default container]
+Кантэйнер по змаўчанню
+[Chat Rooms]
+Чат-пакоі
+[Attach to Container...]
+Далучыць да кантэйнера
+[Close Container]
+Зачыніць кантэйнер
+[Select container for %s]
+Абярыце кантэйнер для %s
+[Available containers]
+Даступныя кантэйнеры
+[Create a new container]
+Стварыць новы кантэйнер
+[Create new]
+Стварыць
+[This name is already in use]
+Гэта імя ўжо выкарыстоўваецца
+[You cannot delete the default container]
+Немагчыма выдаліць кантэйнер па змаўчанні
+[You cannot rename the default container]
+Нельга пераназваць гэты кантэйнер
+[Paste formatted Text]
+Уставіць фарматаваны тэкст
+[Paste and Send immediately]
+Уставіць і адправіць
+[Copy all]
+Капіяваць усё
+[Select all]
+Вылучыць усё
+[Show Message Length Indicator]
+Індыкатар даўжыні паведамлення
+[Hide titlebar]
+Схаваць загаловак акна
+[Set Position for this Session]
+Усталяваць пазіцыю для гэтай сесіі
+[Set and Save for all Sessions]
+Усталяваць і захаваць для ўсіх сесій
+[Set and Save for this Contact only]
+Усталяваць і захаваць для гэтага кантакту
+[Revert to old Position]
+Вярнуць папярэднюю пазіцыю
+[Configure container options for\n%s]
+Налады для кантэйнера\n%s
+[Only show tab bar when it's needed]
+Панэль укладак толькі калі патрабуецца
+[Container stays on top]
+Кантэйнер па-над усіх вокнамі
+[Close or hide inactive container after]
+Зачыняць ці хаваць неактыўны кантэйнер пасля
+[sec. (0=never)]
+сек. (0=ніколі)
+[Automatically size input area (*)]
+Аўтаматычны памер вобласці ўводу паведамленняў (*)
+[When checked, this container will use private settings, otherwise settings are shared among containers.]
+Адзначце, каб кантэйнер выкарыстоўваў свае ўласныя налады, інакш налады ўжываюцца для ўсіх кантэйнераў.
+[Options marked with an asterisk (*) do not affect open message windows.]
+Налады, адзначаныя (*) не дастасуюцца да адкрытаму акну паведамленняў.
+[Window layout]
+Акно
+[Hide the status bar]
+Схаваць панэль статусу
+[Hide the menu bar]
+Схаваць меню
+[User ID in status bar]
+ID карыстача ў панэлі статусу
+[Hide the tool bar]
+Схаваць панэль кнопак
+[Place the tool bar at the bottom (*)]
+Панэль кнопак знізу (*)
+[Show the info panel]
+Паказаць інфа-панэль
+[Tabs and switch bar]
+Укладкі і панэль пераключэння
+[Tab location]
+Размяшчэнне ўкладак
+[Tabs at the top]
+Укладкі зверху
+[Tabs at the bottom]
+Укладкі ўнізе
+[Switch bar on the left side]
+Панэль пераключэння злева
+[Switch bar on the right side]
+Панэль пераключэння справа
+[When using the switch bar, use the following layout]
+Пры выкарыстанні панэлі пераключэння, выкарыстоўвайце наступнае месцаванне
+[Like tabs, vertical text orientation]
+Як укладкі,вертыкальная арыентацыя тэксту
+[Compact layout, horizontal buttons]
+Кампактнае месцаванне, гарызантальныя кнопкі
+[Advanced layout with avatars]
+Пашыранае месцаванне з аватарамі
+[Advanced with avatars, vertical orientation]
+Пашыранае месцаванне з аватарамі, вертыкальная арыентацыя
+[Flash event icon on tab]
+Мігценне значка абразка на ўкладцы
+[Flash text label on tabs]
+Мігценне тэксту на ўкладцы
+[Single row tab control (*)]
+Закладкі ў адзін шэраг (*)
+[Close button on tabs]
+Кнопка "Зачыніць" на ўкладках
+[Use button tabs (*)]
+Укладкі - кнопкі (*)
+[Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
+Абярыце параметры для карыстацкага інтэрфейсу з укладкамі. Не ўсе параметры могуць быць ужыты да адкрытага акна. Вам можа запатрабавацца зачыніць і зноў адкрыць іх.
+[Enable popups if minimized]
+Уключыць, калі згорнута
+[Enable popups if unfocused]
+Уключыць, калі акно не ў фокусе
+[Enable popups if focused]
+Уключыць, калі акно ў фокусе
+[Show popups for inactive tabs in active containers]
+Уключыць для неактыўных укладак актыўнага кантэйнера
+[Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
+Абярыце, калі вы жадаеце бачыць апавяшчэнні падзей (успл. акна) для гэтага кантэйнера. Налады ўжывуцца да ўсіх укладак.
+[Use default setting]
+Па змаўчанні
+[Disable flashing]
+Выключыць мігценне
+[Hide title bar]
+Схаваць загаловак
+[Title bar format]
+Фармат загалоўка:
+[Available formats]
+Даступныя фарматы
+[Window size and theme]
+Памер акна і схема
+[Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
+Выкарыстоўвайце для ўказання асабістых тэм лога паведамленняў для гэтага кантэйнера. Гэты не будзе мець эфекту пры выкарыстанні IEView ці іншага праглядніка лога паведамленняў і НЕ варта блытаць са скінамі.
+[Use global container size and position]
+Агульны памер і пазіцыя кантэйнераў
+[Save current as global]
+Захаваць бягучае для ўсіх
+[You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
+Можна абраць індывідуальную схему (файл .tabsrmm), якая заменіць схему лога паведамленняў у гэтым кантэйнеры. Пры змене опцыі неабходна зачыніць і зноў адкрыць усе вокны паведамленняў.
+[This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
+Гэта опцыя патрабуе Windows 2000 ці навей і можа быць недаступная пры выкарыстанні скіна кантэйнера.
+[Contact avatars]
+Аватары кантактаў
+[Show contact avatars]
+Паказваць аватары
+[Globally on]
+Паказваць заўсёды
+[On, if present]
+Паказваць толькі калі ёсць
+[On, if present, always in bottom display]
+Паказваць у ніжнім акне, калі ёсць
+[Globally OFF]
+Не паказваць
+[Show my own avatars]
+Мой аватар
+[Don't show them]
+Не паказваць
+[Show avatars on task bar (Win 7, large task bar required)]
+Адлюстроўваць аватары на панэлі задач Win7
+[Sound notifications]
+Гукавыя апавяшчэнні
+[Enable sound effects]
+Уключыць гукавыя эфекты
+[Play sounds when minimized]
+Апавяшчаць калі кантэйнер згорнуць
+[Play sounds when not focused]
+Апавяшчаць калі кантэйнер не ў фокусе
+[Play sounds for inactive tabs in active containers]
+Апавяшчаць для неактыўных укладак кантэйнера
+[Play sounds for the active tab / window]
+Апавяшчаць для актыўных укладак/вокнаў
+[Set messaging options for %s]
+Налады гутарак для %s
+[Message log view mode (does not affect open windows)]
+Рэжым лога паведамленняў (не ўплывае на адкрытыя вокны)
+[Force Default Message Log]
+лог па змаўчанні
+[Force History++]
+Прымусова History++
+[Force History++ (plugin missing)]
+Прымусова History++ (модуль адсутнічае)
+[Force IEView]
+Прымусова IEView
+[Force IEView (plugin missing)]
+Прымусова IEView (модуль адсутнічае)
+[Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
+Абярыце, як адлюстроўваць лог. Не працуе, калі адзін з пералічаных модуляў не ўсталяваны.
+[Send text formatting method]
+Метад адпраўкі фарматавання
+[BBCode]
+СТСТ-коды ([b][i][u])
+[Force Off]
+Выключыць
+[You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
+Змена адпраўкі інфармацыі пра фармат тэксту. "Выключыць" - адключае фарматаванне для гэтага кантакту.
+[ANSI codepage]
+Кодавая старонка ANSI
+[Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
+Кодавая старонка ANSI для перакадавання не-Юнікод паведамленняў.
+[Info panel mode]
+Рэжым інфа панэлі
+[Always Off]
+Заўсёды выключана
+[Always On]
+Заўсёды ўключана
+[Show avatar in message window]
+Аватар у акне паведамленняў
+[Force ANSI send / receive]
+Прыём/адпраўка заўсёды ў ANSI
+[Ignore sending timeouts]
+Ігнараваць таймаўт адпраўкі
+[Load only actual history]
+Толькі актуальная гісторыя
+[Use private splitter position]
+Уласны падзельнік
+[Contact is a favorite contact]
+Кантакт знаходзіцца ў абраным
+[You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
+Вы можаце індывідуальна наладзіць лог паведамленняў для гэтага кантакту. Запоўненыя значэнні ўзяты з глабальных налад (Гутаркі->лог)
+[Use different icons to mark incoming and outgoing messages]
+Розныя значкі для ўваходных і выходных паведамленняў
+[Date and time]
+Дата і час
+[Show seconds in timestamp]
+Паказваць секунды
+[Show date in timestamps]
+Паказваць дату 
+[Use contacts local time]
+Выкарыстоўваць лакальны час кантакту
+[Display grid lines]
+Адлюстроўваць лініі сеткі
+[Message grouping]
+Групоўка паведамленняў
+[Support BBCODE]
+Падтрымка BB-кодаў
+[Log status changes (in open message windows only)]
+Запісваць змены статусу (толькі для адкрытых вокнаў паведамленняў)
+[Use normal templates (uncheck to use simple templates)]
+Звычайныя шаблоны (адкл. для выкарыстання простых шаблонаў)
+[Revert to global options]
+Вярнуць глабальныя налады
+[Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
+Гук: %s. Клік для пераключэння статусу, SHIFT+клік для ўсіх адкрытых кантэйнераў
+[Sending typing notifications is %s.]
+Адпраўка апавяшчэння пра набор: %s.
+[Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
+Спіс укладак.\nНажміце левай кнопкай мышы, каб адкрыць спіс укладак.\nНажміце правай кнопкай мышы, каб атрымаць доступ да абранага і хутка наладзіць паводзіны акна паведамленняў
+[Last received: %s at %s]
+Апошняе паведамленне было атрымана %s у %s
+[Selection copied to clipboard]
+Вылучаны тэкст скапіяваны ў буфер
+[Send later]
+Паслаць пазней
+[&Send later job list...]
+Задачы для адпраўкі з затрымкай
+[Queued send jobs]
+Чарга задач для адпраўкі
+[Filter by contact:]
+Фільтр па кантактах:
+[<All contacts>]
+<Усе кантакты>
+[Queued jobs]
+Чарга задач
+[Original timestamp]
+Арыгінальная пазнака часу
+[Last send info]
+Інфармацыя пра апошнюю адпраўку
+[Mark Selected for Removal]
+Адзначыць абраныя для выдалення
+[Rest Selected]
+Скінуць абраныя
+[Hold Selected]
+Затрымаць абраныя
+[Resume Selected]
+Аднавіць абраныя
+[Cancel all Multisend Jobs]
+Адмяніць усе задачы
+[Copy Message to Clipboard]
+Капіяваць паведамленне
+[Display popups for failed jobs]
+Усплывальныя вокны для нявыкананых задач
+[Display popups for completed jobs]
+Усплывальныя вокны для выкананых задач
+[\n(Sent delayed. Original timestamp %s)]
+\n(Адпраўлена з затрымкай. Час адпраўкі %s)
+[There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
+Адпраўляецца %d паведамленняў. Даўжыня паведамлення: %d байт, абмежаванне даўжыні: %d байт\n\n%d паведамленняў у чэргі для наступнай дастаўкі
+[There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes]
+Адпраўляецца %d паведамленняў. Даўжыня паведамлення: %d байт, абмежаванне даўжыні: %d байт.
+[Message successfully queued for later delivery.
+It will be sent as soon as possible and a popup will inform you about the result.]
+Паведамленне змешчана ў чаргу для наступнай дастаўкі.
+Яно будзе дастаўлена як мага раней і Вы убдете апавешчаны ўсплывальным акном.
+[A send later job completed successfully.\nThe original message: %s]
+Задача адпраўкі з затрымкай паспяхова выканана. \nАрыгінальнае паведамленне: %s
+[Pending]
+У чаканні
+[tabSRMM Warning Message]
+Папярэджанне акна паведамленняў
+[Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
+Папярэджанне Aero peek|Вы ўключылі выкарыстанне асаблівасцяў Aero Peek і выкарыстоўваеце скін вакна гутаркі\n\nГэта можа прывесці да малаважных візуальных скажэнняў у хуткім праглядзе.
+[Do not show this message again]
+Не паказваць ізноў
+[Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
+Зачыненне акна|Вы збіраецеся зачыніць акно з некалькімі ўкладкамі.\n\nПарацягнуць?
+[Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
+Зачыненне налад|Каб паказаць змены, злучаныя з імпартам схемы, у акне налад, яно павінна быць зачынена пасля загрузкі схемы \\b1 і незахаваныя змены могуць быць страчаны\\b0 .\n\nВы жадаеце працягнуць?
+[Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
+Загрузка схемы|Загрузка кветак і шрыфтоў можа змяніць налады, усталяваныя Вашым скінам.\n\nВы жадаеце працягнуць?
+[Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
+Праблема з наладамі|Опцыя \\b1 Гісторыя->Імітаваць API IEView\\b0  актыўная і ўбудова History++ актыўны. Гэта можа выклікаць праблемы, пры выкарыстанні IEView у якасці лога паведамленняў.\n\nНужно скарэктаваць налады (неабходзен перазапуск)?
+[Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
+Рэдагаванне нататак пра карыстача|Вы знаходзіцеся ў рэжыме рэдагавання нататак пра карыстача, націсніце на кнопку яшчэ раз ці выкарыстоўвайце гарачую клавішу (па змаўчанні: Alt-N), каб захаваць нататкі і вярнуцца ў звычайны рэжым набору паведамленняў
+[No compatible popup plugin was found. The event notification\nsystem is not available.]
+Убудова ўсплывальных вокнаў не знойдзены. Апавяшчэнні недаступныя.
+[Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
+Праверка версіі набору значкоў|Усталяваны набор значкоў састарэлы і можа быць несумяшчальны з модулем TabSRMM версіі 3.\n\n \\b1 Адсутныя ці недарэчныя значкі могуць выклікаць праблемы з усталяваным наборам.\\b0
+[A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
+Не атрымалася перадаць паведамленні пасля зачынення акна гутаркі. Магчыма, вам трэба адправіць яго яшчэ раз
+[A message delivery has failed.\nClick to open the message window.]
+Дастаўка паведамлення не атрымалася.\nНажміце для адкрыцця акна гутаркі
+[The send later feature is not available on this protocol.]
+Дастаўка з затрымкай не падтрымліваецца дадзеным пратаколам
+[A message failed to send successfully.]
+Адпраўка паведамлення не атрымалася
+[WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
+УВАГА: Паведамленне, якія вы жадаеце ўставіць, перавышае абмежаванне памеру пратаколу. Яно будзе пабіта і даслана часткамі па %d знакаў.
+[The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
+Паведамленне, якія вы жадаеце ўставіць, перавышае абмежаванне памеру пратаколу. Будуць адпраўлены толькі першыя %d знакаў
+[Autoscrolling is disabled (press F12 to enable it)]
+Аўтапрагортка адключана (націсніце F12 для ўключэння)
+[Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
+Аўтапрагортка адключана, %d паведамленняў у чэргі (націсніце F12 для ўключэння)
+[Delivery failure: %s]
+Дастаўка не атрымалася: %s
+[The message send timed out]
+час адпраўкі мінула
+[Multisend: failed sending to: %s]
+Мультыадпраўка: немагчыма адправіць: %s
+[Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
+Праблема канфігурацыі|Аўтаматычная адпраўка адключана. \\b1Отправка з затрымкай\\b0 і \\b1мультиотправка\\b0 залежаць ад яе.\n\nВы павінны ўключыць яе \\b1Настройки->Гутаркі->Дадатковыя налады\\b0. Пасля змены гэтай опцыі, патрабуецца перазапуск.
+[You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
+Вы збіраецеся змяніць стан аднаго ці некалькіх элементаў у чэргі адпраўкі. Патрабаванае дзеянне(я) будзе выканана пры наступнай запланаванай апрацоўцы чаргі. Гэта дзеянне не можа быць адменена.
+[Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
+Шаблоны скінуты. Калі ласка, зачыніце і адкрыйце зноў усе вокны паведамленняў.  Гэта акно цяпер будзе зачынена.
+[This will reset the template set to the default built-in templates. Are you sure you want to do this?]
+Выдаленне ўсіх шаблонаў і скід на шаблоны па змаўчанні. Вы ўпэўнены, што жадаеце гэтага?
+[There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
+У чэргі ёсць неадпраўленыя паведамленні, якія чакаюць пацверджанні.\nКалі вы зачыніце акно, Miranda паспрабуе адправіць іх, але не зможа папярэдзіць пра магчымыя памылкі.\nВы сапраўды жадаеце зачыніць акно(а)?
+[You haven't selected any contacts from the list. Click the checkbox box next to a name to send the message to that person.]
+Вы не абралі ніводнага кантакту са спісу. Адзначце тыя кантакты, якім вы жадаеце паслаць паведамленне.
+[Message window warning]
+Папярэджанне акна гутаркі
+[Unknown module or contact]
+Невядомы модуль ці кантакт
+[Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
+Або модуль узварушэння не ўсталяваны, або пратакол кантакту не падтрымлівае адпраўку падзеі ўзварушэння.
+[tabSRMM Information]
+Інфармацыя tabSRMM
+[Contact not on list. You may add it...]
+Кантакт не ў спісе. Вы можаце дадаць яго...
+[\n\nClient: ]
+\n\nКліент: 
+[%s has entered text.]
+%s увёў(а) тэкст.
+[%s is typing a message.]
+%s набірае паведамленне.
+[Chat room %s]
+Чат-пакой %s
+[%d Unread]
+%d непрачытана
+[%d User(s)]
+%d карыстачоў
+[Previews not availble when using History++ plugin for message log display.]
+Прадпрагляд недаступны пры выкарыстанні History++ у якасці лога паведамленняў.
+[TabSRMM warning message]
+Папярэджанне
+[tabSRMM]
+Гутаркі
+[Recent Sessions]
+Апошнія сеансы
+[Show the Tray Icon]
+Паказваць абразок у трэі
+[Disable All Event Notifications]
+Выключыць усе апавяшчэнні
+[Don't create Windows automatically]
+Не ствараць вокны аўтаматычна
+[Hide all Message Containers]
+Схаваць усе кантэйнеры
+[Restore all Message Containers]
+Аднавіць усе кантэйнеры
+[Don't play Sounds]
+Выключыць гукі
+[Be "Super Quiet"]
+Быць "вельмі ціхім"
+[%s%s says:%s %s]
+%s%s піша:%s %s
+[Status text:]
+Тэкст статусу:
+[Look up \'%s\':]
+Пагледзіце \'%s\':
+[Edit Highlight List...]
+Рэдагаваць спіс падсвятлення
+[Highlight User...]
+Падсвятляць карыстачоў
+[, %d %s, %d %s idle]
+, %d %s, %d %s не актыўны
+[%s on %s%s]
+%s у %s%s
+[, %d %s idle]
+, %d %s не актыўны
+[Topic is: %s]
+Тэма: %s
+[no topic set.]
+тэма не ўсталявана.
+[  Show these events]
+  Паказваць элементы

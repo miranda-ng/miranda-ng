@@ -1,0 +1,71 @@
+﻿#muuid {687364af-58b0-4af2-a4ee20f40a8d9afb}
+;  File: fingerprint.dll
+;  Module: Fingerprint Plus, Fingerprint Mod+
+[Show Miranda version]
+Паказваць версію Miranda
+[Pack overlays]
+Аверлэі зборак
+[Fingerprint]
+Значкі кліентаў
+[Fingerprint Mod]
+Значкі кліентаў (мод)
+[Undetected client]
+Нязнойдзены кліент
+[Unknown client]
+Невядомы кліент
+[Platform]
+Аперацыйная сістэма
+[Fingerprint NG (client version) icons module for Miranda NG.]
+Fingerprint NG адлюстроўвае значкі кліентаў, выкарыстоўваных вашымі суразмоўцамі.
+[Fingerprint overlays icons]
+Аверлэі значкоў кліентаў
+[Client icons]
+Кліенты
+[Miranda clients]
+Кліенты Miranda
+[Miranda packs overlays]
+Аверлэі зборак Miranda
+[Show Miranda version at Overlay#2]
+Значок версіі на аверлэі #2
+[Resource overlays]
+Аверлэі рэсурсаў
+[Platform overlays]
+Аверлэі платформы
+[Protocols overlays]
+Аверлэі пратаколаў
+[Secure overlays]
+Аверлэі шыфравання
+[AIM clients]
+Кліенты AIM
+[Gadu-Gadu clients]
+Кліенты Gadu-Gadu
+[ICQ clients]
+Кліенты ICQ
+[IRC clients]
+Кліенты IRC
+[Jabber clients]
+Кліенты Jabber
+[MRA clients]
+Кліенты MRA
+[MSN clients]
+Кліенты MSN
+[QQ clients]
+Кліенты QQ
+[RSS clients]
+Кліенты RSS
+[Tlen clients]
+Кліенты Tlen
+[Weather clients]
+Кліенты надвор'я
+[Yahoo clients]
+Кліенты Yahoo
+[Multi-protocol clients]
+Мульты-пратакольныя кліенты
+[Multi-proto clients]
+Мульты-пратакол
+[Other (rare) protocols]
+Кліенты рэдкіх пратаколаў
+[Other icons]
+Іншыя значкі
+[Other protocols]
+Іншыя пратаколы

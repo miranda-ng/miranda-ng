@@ -1,0 +1,57 @@
+﻿#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;  Module: Boltun.dll
+;  Plugin: Boltun
+[Boltun]
+Балбатун
+[Boltun/Auto Chat]
+Балбатун/Аўта гутарка
+[Boltun/Not to Chat]
+Балбатун/Не размаўляць
+[Boltun Autochat everybody]
+Балбатун кажа з усімі
+[Boltun Autochat anybody not in contact list]
+Балбатун кажа з усімі, хто не ў спісе кантактаў
+[Boltun Autochat everybody while away]
+Балбатун кажа з усімі, калі мяне няма
+[Warn contacts Boltun is chatting]
+Папярэджваць пра гутарку з Балбатуном
+[Time of pauses before answer]
+Паўза перад адказам
+[Warning text]
+Тэкст папярэджання
+[Base of remarks]
+База рэплік
+[Boltun Error]
+Памылка Балбатуна
+[Can't load SmartBot.dll]
+Не магу загрузіць SmartBot.dll
+[Failed to load base of remarks from %s]
+Памылка пры загрузцы базы рэплік %s
+[Boltun Autochat everybody not in contact list]
+Балбатун кажа з усімі, хто не ў спісе кантактаў
+[Mark replied messages as read]
+Адзначаць паведамленні як прачытаныя
+[Time before the answer]
+Час перад адказам
+[Typing time depends on message length (in chars)]
+Час друку залежыць ад даўжыні паведамлення (у літарах)
+[Typing and thinking time can be much longer]
+Час друку і абдумвання можа павялічвацца
+[Typing time (for a message of 4 words):]
+Час набору (для 4-х слоў):
+[Thinking time:]
+Час абдумвання адказу:
+[Stay silent, if have no good aswers]
+Маўчаць, калі няма добрых адказаў
+[Start answers with a lowercase letter]
+Пачынаць адказы з маленькай літары.
+[Don't use "I don't understand"-like answers]
+Не выкарыстоўваць адказы тыпу "Не зразумеў?"
+[Boltun, the chat bot in the russian language.]
+Балбатун, чат-бот для рускай мовы.
+[Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
+Балбатун, чат-бот для рускай мовы, выкарыстоўваецца рухавічок SmartBot ад ProVirus.
+[Engine Settings]
+Налады рухавічка
+[Message sessions]
+Гутаркі

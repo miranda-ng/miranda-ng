@@ -1,0 +1,7 @@
+﻿#muuid {3613f2d9-c040-4361-a44f-df7b5aaacf6e}
+;  File: cryptopp.dll
+;  Module: Crypto++ implementation for SecureIM
+[Crypto++ library for SecureIM plugin]
+Служба шыфравання для модуля SecureIM
+[Crypto++]
+Шыфраванне++

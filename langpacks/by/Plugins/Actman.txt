@@ -1,0 +1,243 @@
+﻿#muuid {9584da04-fb4f-40c1-9325e4f9caafcb5d}
+;  Module: actman.dll
+;  Plugin: ActionManager
+[Contact window]
+Вакно кантакту
+[Text insert]
+Устаўка тэксту
+[vars]
+змен.
+[Result action]
+Вынік дзеяння
+[Window option]
+Налады вакна
+[Show in popup]
+Паказваць ва ўспл. вакне
+[Start hidden]
+Запуск утоеным
+[Show in messagebox]
+Паказваць у звычайным акне
+[Start maximized]
+Запуск разгорнутым
+[Continued]
+Працягнуты
+[Parallel]
+Паралельны
+[Condition]
+Умовы
+[Insert into message]
+Уставіць у паведамленне
+[parameter]
+параметр
+[Process time, ms]
+Час працэсу, мсек
+[No Description]
+Няма апісання
+[Process options]
+Налады працэсу
+[Do not show]
+Не паказваць
+[Current path]
+Бягучы шлях
+[Start normal]
+Звычайны запуск
+[last result]
+апошні вынік
+[structure]
+структура
+[Structure]
+Структура
+[Link to action]
+Спасылка на дзеянне
+[Plugin for manage hotkeys to open contact window, insert text, run program and call services]
+Модуль для кіравання "гарачымі" клавішамі і дзеяннямі, такімі як адкрыццё гутаркі, устаўка тэксту, запуск іншых праграм і выклік сэрвісаў.
+[Action manager]
+Мэнэджар дзеянняў
+[Copy to]
+Капіяваць у
+[Paste from as]
+Уставіць як
+[Variables (below)]
+Зменныя (ніжэй)
+[Variables script]
+Скрыпт зменных
+[Other Action groups]
+Іншыя групы дзеянняў
+[Operation]
+Аперацыя
+[Last result]
+Апошні вынік
+[Own settings]
+Свае налады
+[Array]
+Масіў
+[Message title]
+Загаловак вакна
+[OK, Cancel]
+ОК, Адмена
+[Abort, Retry, Ignore]
+Перапыніць, Паўтор, Прапусціць
+[Yes, No, Cancel]
+Так, Не, Адмена
+[Yes, No]
+Так, Не
+[Retry, Cancel]
+Паўтор, Адмена
+[not defined]
+не вызначана
+[Result as integer]
+Вынік як цэлае
+[Keep Last Result]
+Захоўваць апошні вынік
+[Keep handle only]
+Захоўваць handle, не адкрываючы вокны
+[Variables mark]
+Зменныя
+[C&ancel]
+Адмена
+[Structure Editor]
+Рэдактар структур
+[Result as structure]
+Вынік як структура
+[Byte Array]
+Масіў байт
+[Word Array]
+Масіў слоў
+[Pointer to bytes]
+Паказальнік на байты
+[Pointer to words]
+Паказальнік на словы
+[Data length]
+даўжыня
+['<proto>' in service name will be replaced by protocol name for contact handle in parameter]
+'<proto>' у назве службы будзе замяняцца імем пратаколу з параметраў кантакту
+[Paste from]
+Уставіць з
+[Service result]
+Вынік выкліку службы
+[Free memory]
+чысціць памяць
+[Integer]
+Цэлае
+[Append]
+Даданне
+[Append data to file]
+Дадаць змесціва ў файл
+[Choose action]
+Абярыце аперацыю
+[A&ppend]
+Д&адаць
+[Action "$" exists, do you want to rewrite it?]
+Дзеянне "$" ужо існуе, ці жадаеце вы перапісаць яго?
+[Text <last> replacing\r\nby last result\r\n\r\nText <param> replacing\r\nby parameter]
+Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nТэкст <param> замяняецца\r\nпараметрам
+[^s - selected (and replaced) part\r\n^e - replaced by empty string\r\n^v - paste text from Clipboard\r\n^t - replaced by tabulation\r\n^l - replaced by last result as unicode\r\n^h - replaced by last result as hex\r\n^a - in the end: autosend\r\n^f(name\[,str\])\r\n     paste line from text file.\r\n     brackets contents must be w/o spaces]
+^s - вылучаемая (і заменная) частка\r\n^e - замяняецца пустым радком\r\n^v - устаўка тэксту з буфера абмену\r\n^t - замяняецца на табуляцыю\r\n^l - замяняецца апошнім вынікам у Юнікодзе\r\n^h - замяняецца апошнім вынікам у hex\r\n^a - у канцы: аўтаадпраўка\r\n^f(name\[,str\])\r\n     устаўка радка з тэкставага файла.\r\n     утрыманне дужак павінна быць без прабелаў
+[Text <last> replacing\r\nby last result\r\n\r\nReturns:\r\n--------\r\nOK\t= 1\r\nCANCEL\t= 2\r\nABORT\t= 3\r\nRETRY\t= 4\r\nIGNORE\t= 5\r\nYES\t= 6\r\nNO\t= 7\r\nCLOSE\t= 8]
+Тэкст <last> замяняецца\r\nапошнім вынікам\r\n\r\nЯкое вяртаецца:\r\n--------\r\nOK\t\t= 1\r\nАдмена\t\t= 2\r\nПерапыніць\t= 3\r\nПаўтор\t\t= 4\r\nПрапусціць\t= 5\r\nТак\t\t= 6\r\nНе\t\t= 7\r\nЗачыніць\t\t= 8
+[Don't use Variables]
+Выключыць зменныя
+[Contact list format]
+Фармат спісу кантактаў
+[Active accounts only]
+Толькі дзейсныя конты
+[Dropdown list format]
+Выгляд выпадальнага спісу
+[Apply format]
+Ужыць фармат
+[You can use %name%, %uid%, %account% and %group% macros]
+Вы можаце выкарыстоўваць зменныя %name%, %uid%, %account% і %group%
+[Use Byte array/pointer for ANSI strings\n\Use Word array/pointer for Unicode strings\n\n\$## replaces by byte with hex value ##\n\$#### replaces by word with hex value #### (for Unicode strings only)\n\n\All data length calculating in bytes]
+Выкарыстоўваць масіў байт/паказальнік на байты для радкоў у ANSI\n Выкарыстоўваць масіў слоў/паказальнік на словы для радкоў у Unicode\n$## замяняецца байтам з шаснаццатковым значэннем ##\n$#### замяняецца словам з шаснаццатковым значэннем #### (толькі для радкоў у Unicode)\n Уся даўжыня дадзеных вылічаецца ў байтах
+[New]
+Новы
+[Hooks]
+Хукі
+[Event]
+Падзея
+[hook sample]
+прыклад хука
+[Packed structure]
+Пакаваная структура
+[NativeInt]
+Сістэмнае цэлае
+[Starting from]
+Пачаць з
+[Starting after]
+Пачаць пасля
+[Start immediately]
+Пачаць неадкладна
+[Since/after]
+з/пасля
+[Repeat, times]
+Кольк. паўтораў
+[Interval]
+Інтэрвал
+[Break on non-zero result]
+Спыніць пры ненулявым выніку
+[Task sample]
+Прыклад задання
+[Send event on start time]
+Адсылаць падзею пры старце задання
+[Send event just once]
+Адсылаць толькі пры першым запуску
+[Use Actions]
+Выкарыстанне дзеянняў
+[Action list]
+Спіс дзеянняў
+[Where to use]
+Месца выкарыстання
+[CList Modern toolbar]
+Панэль кнопак спісу кантактаў Modern
+[TabSRMM toolbar]
+Панэль кнопак акна паведамленняў TabSRMM
+[Core Hotkey]
+Гарачая клавіша
+[Tray menu]
+Меню трэя
+[2 state button/item]
+2 становішчы кнопкі/пункта
+[Save button/item state]
+Захоўваць становішча кнопкі/пункта
+[Normal button tooltip]
+Падказка да кнопкі ў звычайным становішчы
+[Pressed button tooltip]
+Падказка да кнопкі ў націснутым становішчы
+[Separated]
+Падзельнік
+[Root popup:]
+Корань падменю:
+[Menu item name:]
+Назва пункта меню:
+[Show only if variables return 1]
+Паказваць толькі пры вяртанні 1
+[Contact related]
+Па кантактам
+[Registered actions]
+Зарэгістраваныя дзеянні
+[Menu icons]
+Абразкі меню
+[Data align]
+Выраўнаванне дадзеных
+[Native]
+Змаўчанне
+[Packed]
+Спакаваныя
+[2 bytes]
+2 байта
+[4 bytes]
+4 байта
+[8 bytes]
+8 байт
+[alias]
+імя
+[type]
+тып
+[length]
+даўжыня
+[data]
+дадзеныя
+[Structure help]
+Дапамога па структуры
+[Descr]
+Апісанне

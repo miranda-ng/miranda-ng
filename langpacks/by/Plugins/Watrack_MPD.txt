@@ -1,0 +1,21 @@
+﻿#muuid {692e87d0-6c71-4cdc-9e36-2b2d69fbdc4c}
+;  File: Watrack_MPD.dll
+;  Plugin: Music Player Daemon support for Watrack
+[Port]
+Порт
+[Password]
+Пароль
+[mpd гэта невялікі музычны плэер для *nix без графічнага інтэрфейсу.\nвыкарыстоўвае невялікую колькасць памяці, не нагружае працэсар.]
+[Unknown track]
+Невядомая дарожка
+[Unknown artist]
+Невядомы выканаўца
+[Unknown genre]
+Невядомы жанр
+[Unknown album]
+Невядомы альбом
+[Unknown year]
+Невядомы год
+[Plugins]
+Дадаткі
+
