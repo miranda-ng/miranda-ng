@@ -2,14 +2,14 @@
 ;============================================================
 ;  File: addcontactplus.dll
 ;  Plugin: AddContact+
-;  Versions: 0.9.9.0
-;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3842
-;  Source: http://dezeath.googlecode.com/svn/trunk/AddContactPlus/
-;  Authors: Dezeath
+;  Versions: 0.9.9.1
+;  URL: http://miranda-ng.org/distr/x32/Plugins/addcontactplus.zip
+;  Source: http://svn.miranda-ng.org/main/trunk/plugins/AddContactPlus/
+;  Authors: Dezeath, Miranda NG Team
 ;============================================================
 [Add Contact\nAdd a contact to your contact list]
 Добавить контакт\nДобавить контакт в контактный лист
-[&Add Contact...]
+[&Add contact...]
 &Добавить контакт...
 [Provides the ability to quickly add new contacts.]
 Предоставляет возможность быстро добавить контакт.
@@ -17,5 +17,7 @@
 Контакт не может быть добавлен в ваш контакт лист. Если вы не подключены к этой сети, попробуйте подключиться. Также, убедитесь, что вы вписали правильный ID пользователя.
 [Add temporarily]
 Добавить временно
-[Open Add Contact Dialog]
+[Open add contact dialog]
 Открыть диалог добавления контакта
+[Add contact]
+Добавить контакт
