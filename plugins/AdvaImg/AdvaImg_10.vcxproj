@@ -317,7 +317,6 @@
     <ClCompile Include="src\FreeImageToolkit\Resize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\AdvaImg.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>
