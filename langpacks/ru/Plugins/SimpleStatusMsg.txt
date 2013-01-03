@@ -9,6 +9,8 @@
 ;============================================================
 [Provides a simple way to set status and away messages.]
 Быстрая смена статусов и предустановленных сообщений статуса.
+[Simple Status Message]
+Сообщение статуса
 [Behaviour on status change]
 Поведение при изменении статуса
 [Global status change]
@@ -18,7 +20,7 @@
 [Do not set status message]
 Не устанавливать сообщение статуса
 [Update variables in status messages every]
-Обновлять переменные в сообщениях каждые
+Обновлять переменные каждые:
 [Do not update variables during idle]
 Не обновлять переменные в режиме ожидания
 [Do not update variables on ICQ status message requests]
@@ -117,3 +119,13 @@
 <Последний>
 [Open Status Message Dialog]
 Открыть диалог сообщения статуса
+[Delete Selected]
+Удалить выбранное
+[Recent Message]
+Последнее сообщение
+[Predefined Message]
+Предустановленное сообщение
+[Change Status Message]
+Сменить сообщение статуса
+[Go to URL in Away Message]
+Перейти по ссылки в сообщении отсутствия

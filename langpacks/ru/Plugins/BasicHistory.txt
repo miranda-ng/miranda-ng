@@ -222,3 +222,13 @@ Dat (мКонтакты)
 Не показывать рамку строки поиска
 [History task]
 История
+[Plus in export]
+Плюс в экспорте
+[Minus in export]
+Минус в экспорте
+[Open History]
+Открыть историю
+[Find window]
+Окно поиска
+[Contact list background]
+Фон списка контактов
