@@ -149,7 +149,7 @@ const
 
 const
   hppName       = 'History++';
-  hppShortName  = 'History++ (2in1)';
+  hppShortName  = 'History++';
   hppShortNameV = hppShortName{$IFDEF ALPHA}+' [alpha '+{$I 'alpha.inc'}+']'{$ENDIF};
   hppDBName     = 'HistoryPlusPlus';
   hppVerMajor   = {MAJOR_VER}1{/MAJOR_VER};
