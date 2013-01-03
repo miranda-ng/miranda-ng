@@ -79,8 +79,7 @@ namespace Langpack_Suite
             {
                 LanguageComboBox.SelectedIndex = 2;
             }
-            else
-            if (culture.ToString() == "uk-UA")
+            else if (culture.ToString() == "uk-UA")
             {
                 LanguageComboBox.SelectedIndex = 1;
             }
@@ -787,6 +786,8 @@ namespace Langpack_Suite
             if (LanguageComboBox.SelectedIndex == 0)
                 culture = CultureInfo.CreateSpecificCulture("en-EN");
             if (LanguageComboBox.SelectedIndex == 1)
+                culture = CultureInfo.CreateSpecificCulture("uk-UA");
+            if (LanguageComboBox.SelectedIndex == 2)
                 culture = CultureInfo.CreateSpecificCulture("ru-RU");
             adjustCulture();
 
