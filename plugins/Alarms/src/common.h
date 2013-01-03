@@ -10,27 +10,18 @@
 
 #include <windows.h>
 #include <shellapi.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <commctrl.h>
 
 #include <newpluginapi.h>
 #include <m_system.h>
 #include <m_database.h>
 #include <m_options.h>
 #include <m_skin.h>
-#include <m_contacts.h>
 #include <m_protomod.h>
-#include <m_protosvc.h>
 #include <m_langpack.h>
 #include <m_popup.h>
-#include <m_utils.h>
 #include <m_idle.h>
-#include <m_clist.h>
 #include <m_clui.h>
-#include <m_clc.h>
 #include <m_cluiframes.h>
-#include <m_genmenu.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
 #include <win2k.h>
