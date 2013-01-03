@@ -27,27 +27,18 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <windows.h>
 #include <vssym32.h>
 
-#include <ctype.h>
 #include <fcntl.h>
 #include <io.h>
-#include <prsht.h>
 #include <richedit.h>
 #include <sys/stat.h>
 #include <time.h>
 
-//Miranda IM includes
-#ifdef _MSC_VER
-#pragma warning( disable: 4100 )
-#endif
-
+//Miranda NG includes
 #include <newpluginapi.h>
 #include <m_avatars.h>
 #include <m_button.h>
 #include <m_chat.h>
-#include <m_clc.h>
-#include <m_clist.h>
 #include <m_clistint.h>
-#include <m_clui.h>
 #include <m_database.h>
 #include <m_history.h>
 #include <m_idle.h>
@@ -59,18 +50,13 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 #include <m_protocols.h>
 #include <m_protomod.h>
 #include <m_protosvc.h>
-#include <m_skin.h>
-#include <statusmodes.h>
 #include <m_system.h>
 #include <m_userinfo.h>
 #include <m_addcontact.h>
 #include <m_icolib.h>
-#include <m_utils.h>
 #include <m_system_cpp.h>
 #include <m_imgsrvc.h>
 #include <win2k.h>
-#include <m_genmenu.h>
-#include <m_cluiframes.h>
 #include <m_extraicons.h>
 
 #include "m_folders.h"
