@@ -1,5 +1,5 @@
 /*
-   Authorization State plugin for Miranda-IM (www.miranda-im.org)
+   Authorization State plugin for Miranda NG (www.miranda-ng.org)
    (c) 2006-2010 by Thief
 
    This program is free software; you can redistribute it and/or modify
@@ -15,12 +15,6 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   File name      : $URL: http://svn.miranda.im/mainrepo/authstate/trunk/options.cpp $
-   Revision       : $Rev: 1686 $
-   Last change on : $Date: 2010-10-06 08:26:58 +0200 (Ср, 06 окт 2010) $
-   Last change by : $Author: ghazan $
-
 */
 
 #include "commonheaders.h"
