@@ -1653,20 +1653,20 @@ void TSAPI DM_Typing(TWindowData *dat, bool fForceOff)
 				if (!(dat->pContainer->dwFlags & CNT_NOFLASH) && PluginConfig.m_FlashOnMTN)
 					ReflashContainer(dat->pContainer);
 			}
+
 			if (dat->pContainer->hwndActive != hwndDlg) {
 				if (dat->mayFlashTab)
 					dat->iFlashIcon = PluginConfig.g_IconTypingEvent;
 				HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
-			} else {         // active tab may show icon if status bar is disabled
+			}
+			else {         // active tab may show icon if status bar is disabled
 				if (!hwndStatus) {
-					if (TabCtrl_GetItemCount(GetParent(hwndDlg)) > 1 || !(dat->pContainer->dwFlags & CNT_HIDETABS)) {
+					if (TabCtrl_GetItemCount(GetParent(hwndDlg)) > 1 || !(dat->pContainer->dwFlags & CNT_HIDETABS))
 						HandleIconFeedback(dat, PluginConfig.g_IconTypingEvent);
-					}
 				}
 			}
 			if ((GetForegroundWindow() != hwndContainer) || (dat->pContainer->hwndStatus == 0) || (dat->pContainer->hwndActive != hwndDlg))
-				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)
-					((PluginConfig.g_IconTypingEventBig != NULL) ? PluginConfig.g_IconTypingEventBig : PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]));
+				SendMessage(hwndContainer, DM_SETICON, (WPARAM)dat, (LPARAM)PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]);
 
 			dat->showTyping = 1;
 		}

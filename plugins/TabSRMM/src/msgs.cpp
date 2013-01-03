@@ -901,7 +901,7 @@ void TSAPI CreateImageList(BOOL bInitial)
 	if ((HICON)CALLSERVICE_NOTFOUND == PluginConfig.g_IconTypingEventBig)
 		PluginConfig.g_IconTypingEventBig = 0;
 	PluginConfig.g_IconSend = PluginConfig.g_buttonBarIcons[9];
-	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[5];
+	PluginConfig.g_IconTypingEvent = PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING];
 }
 
 int TABSRMM_FireEvent(HANDLE hContact, HWND hwnd, unsigned int type, unsigned int subType)
@@ -1112,7 +1112,8 @@ static int TSAPI LoadFromIconLib()
 	PluginConfig.g_buttonBarIconHandles[1] = Skin_GetIconHandle("core_main_8");
 	PluginConfig.g_buttonBarIconHandles[20] = Skin_GetIconHandle("core_main_9");
 
-	PluginConfig.g_buttonBarIcons[5] = PluginConfig.g_buttonBarIcons[12] = Skin_GetIcon("core_main_23");
+	PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING] = 
+		PluginConfig.g_buttonBarIcons[12] = Skin_GetIcon("core_main_23");
 	PluginConfig.g_IconChecked = Skin_GetIcon("core_main_19");
 	PluginConfig.g_IconUnchecked = Skin_GetIcon("core_main_20");
 	PluginConfig.g_IconFolder = Skin_GetIcon("core_main_5");

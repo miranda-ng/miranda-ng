@@ -1957,7 +1957,7 @@ buttons_done:
 			 * default handling (no win7 taskbar)
 			 */
 			if ((HICON)lParam == PluginConfig.g_buttonBarIcons[ICON_DEFAULT_TYPING]) {              // always set typing icon, but don't save it...
-				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, lParam);
+				SendMessage(hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)PluginConfig.g_IconTypingEventBig);
 				SendMessage(hwndDlg, WM_SETICON, ICON_SMALL, lParam);
 				break;
 			}
