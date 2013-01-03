@@ -25,14 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __BUILD_NUM					0
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
-
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
 
 #define __PLUGIN_NAME				"File Association Manager"
-#define __INTERNAL_NAME				"AssocMgr"
 #define __FILENAME					"AssocMgr.dll"
 #define __DESCRIPTION 				"Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen."
 #define __AUTHOR					"H. Herkenrath"
