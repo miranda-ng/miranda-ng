@@ -77,7 +77,7 @@ char *CPop3Client::Connect(const char* servername,const int port,BOOL UseSSL, BO
 		NetClient->Send("STLS\r\n");
 		free(temp);
 		temp=RecvRest(NetClient->Recv(),POP3_SEARCHACK);
-		if (AckFlag==POP3_FOK){ // Ok, we are going to tls
+		if (AckFlag==POP3_FOK) { // Ok, we are going to tls
 			try {
 				NetClient->SSLify();
 			} catch (...) {

@@ -32,7 +32,7 @@ static INT_PTR Service_GetStatus(WPARAM wParam, LPARAM lParam)
 static INT_PTR Service_SetStatus(WPARAM wParam, LPARAM lParam)
 {	
 	int newstatus = (wParam != ID_STATUS_OFFLINE)?ID_STATUS_ONLINE:ID_STATUS_OFFLINE;
-	if (newstatus != YAMN_STATUS){
+	if (newstatus != YAMN_STATUS) {
 		int oldstatus = YAMN_STATUS;
 		YAMN_STATUS = newstatus;
 		ProtoBroadcastAck(YAMN_DBMODULE, NULL, ACKTYPE_STATUS, ACKRESULT_SUCCESS, (HANDLE)oldstatus, newstatus);
@@ -124,7 +124,8 @@ static INT_PTR ContactApplication(WPARAM wParam, LPARAM lParam)
 }
 
 DWORD WINAPI SWMRGWaitToRead(PSWMRG pSWMRG, DWORD dwTimeout);
-static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam){
+static INT_PTR AccountMailCheck(WPARAM wParam, LPARAM lParam)
+{
 	//This service will check/sincronize the account pointed by wParam
 	HACCOUNT ActualAccount = (HACCOUNT)wParam;
 	HANDLE ThreadRunningEV;
@@ -367,10 +368,11 @@ void HookEvents(void)
 		hookData[i].hookHandle = HookEvent(hookData[i].hookName, hookData[i].mirandaFunction);
 	}
 }
-void UnhookEvents(void){
-	for (int i = 0;i<(sizeof(hookData)/sizeof(hookData[0]));i++) {
-		if (hookData[i].hookHandle) UnhookEvent(hookData[i].hookHandle);
-	}
+void UnhookEvents(void)
+{
+	for (int i = 0;i<(sizeof(hookData)/sizeof(hookData[0]));i++)
+		if (hookData[i].hookHandle)
+			UnhookEvent(hookData[i].hookHandle);
 }
 
 typedef struct { HANDLE serviceHandle;	const char *serviceName; MIRANDASERVICE serviceFunction;} ServiceDataType;

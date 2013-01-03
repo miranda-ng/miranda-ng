@@ -358,7 +358,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	EnumSystemCodePages(EnumSystemCodePagesProc, CP_INSTALLED);
 	CodePageNamesSupp = new _tcptable[CPLENSUPP];
 	for (i = 0, k = 0; i < CPLENALL; i++) {
-		if (CodePageNamesAll[i].isValid){
+		if (CodePageNamesAll[i].isValid) {
 			CodePageNamesSupp[k] = CodePageNamesAll[i];
 			k++;
 	}	}
@@ -441,7 +441,7 @@ static void UnloadPlugins()
 			iDllPlugins --;
 		}
 	}
-	if (hDllPlugins){
+	if (hDllPlugins) {
 		free((void *)hDllPlugins);
 		hDllPlugins = NULL;
 	}

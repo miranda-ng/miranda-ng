@@ -847,7 +847,7 @@ LRESULT CALLBACK NewMailPopUpProc(HWND hWnd,UINT msg,WPARAM wParam,LPARAM lParam
 			{
 				HANDLE hContact = 0;
 				HACCOUNT Account;
-				if (PluginParam){
+				if (PluginParam) {
 					PYAMN_MAILSHOWPARAM MailParam = new YAMN_MAILSHOWPARAM;
 					memcpy(MailParam,(PINT_PTR)PluginParam,sizeof(YAMN_MAILSHOWPARAM));
 					hContact = MailParam->account->hContact;
@@ -1084,7 +1084,7 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	//datein = "      ManySpaces  1.5   Jan 2060 05::";
 	//datein = "Xxx,  35 February 20 :29:10 ";
 	//datein = "01.12.2007 (22:38:17)"; //
-	if (datein){
+	if (datein) {
 		char tmp [64];
 		while (  datein[0]==' ')  datein++; // eat leading spaces
 		strncpy(tmp,datein,63); tmp [63]=0;
@@ -1092,14 +1092,14 @@ ULONGLONG MimeDateToFileTime(char *datein)
 			day = tmp;
 		} else {
 			int i = 0;
-			while (tmp[i]==' ')i++; if (day = strchr(&tmp[i],' ')){day[0]=0; day++;}
+			while (tmp[i]==' ')i++; if (day = strchr(&tmp[i],' ')) {day[0]=0; day++;}
 		}
-		if (day)   {while (  day[0]==' ')  day++;if (month= strchr(day,  ' ')){month[0]=0; month++;}}
+		if (day) {while (  day[0]==' ')  day++;if (month= strchr(day,  ' ')) {month[0]=0; month++;}}
 		if (month) {while (month[0]==' ')month++;if (year = strchr(month,' ')) { year[0]=0; year++;}}
-		if (year)  {while ( year[0]==' ') year++;if (time = strchr(year, ' ')) { time[0]=0; time++;}}
-		if (time)  {while ( time[0]==' ') time++;if (shift= strchr(time, ' ')){shift[0]=0; shift++;shift[5]=0;}}
+		if (year) {while ( year[0]==' ') year++;if (time = strchr(year, ' ')) { time[0]=0; time++;}}
+		if (time) {while ( time[0]==' ') time++;if (shift= strchr(time, ' ')) {shift[0]=0; shift++;shift[5]=0;}}
 
-		if (year){
+		if (year) {
 			st.wYear = atoi(year);
 			if (strlen(year)<4)	if (st.wYear<70)st.wYear += 2000; else st.wYear += 1900;
 		};
@@ -1110,14 +1110,14 @@ ULONGLONG MimeDateToFileTime(char *datein)
 			h = time;
 			if (m = strchr(h,':')) {
 				m[0]=0; m++;
-				if (s = strchr(m,':')){s[0] = 0; s++;}
+				if (s = strchr(m,':')) {s[0] = 0; s++;}
 			} else s=0;
 			st.wHour = atoi(h);
 			st.wMinute = m?atoi(m):0;
 			st.wSecond = s?atoi(s):0;
 		} else {st.wHour=st.wMinute=st.wSecond=0;}
 
-		if (shift){
+		if (shift) {
 			if (strlen(shift)<4) {
 				//has only hour
 				wShiftSeconds = (atoi(shift))*3600;
@@ -1141,7 +1141,8 @@ ULONGLONG MimeDateToFileTime(char *datein)
 	return res;
 }
 
-void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateout){
+void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateout)
+{
 	int localeID = CallService(MS_LANGPACK_GETLOCALE,0,0);
 	//int localeID = MAKELCID(LANG_URDU, SORT_DEFAULT);
 	if (localeID==CALLSERVICE_NOTFOUND) localeID=LOCALE_USER_DEFAULT;
@@ -1154,7 +1155,7 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateo
 	WORD wTodayYear, wTodayMonth, wTodayDay;
 	FILETIME ft;
 	BOOL willShowDate = !(optDateTime&SHOWDATENOTODAY);
-	if (!willShowDate){
+	if (!willShowDate) {
 		GetLocalTime(&st);
 		wTodayYear = st.wYear;
 		wTodayMonth = st.wMonth;
@@ -1174,7 +1175,7 @@ void FileTimeToLocalizedDateTime(LONGLONG filetime, WCHAR *dateout, int lendateo
 			dateout[lendateout-1]=0;
 			int templen = 0;
 			if (!willShowDate) willShowDate = (wTodayYear!=st.wYear)||(wTodayMonth!=st.wMonth)||(wTodayDay!=st.wDay);
-			if (willShowDate){
+			if (willShowDate) {
 				templen = GetDateFormatW(localeID,(optDateTime&SHOWDATELONG)?DATE_LONGDATE:DATE_SHORTDATE,&st,NULL,dateout,lendateout-2);
 				dateout[templen-1] = ' ';
 			}
@@ -1396,7 +1397,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				}
 				//if (!hasBody) if (!strcmp(Header->name,"Body")) hasBody = true;
 				int count = 0; WCHAR **split=0;
-				if (str2){
+				if (str2) {
 					int ofs = 0;
 					while (str2[ofs]) {
 						if ((str2[ofs]==0x266A)||(str2[ofs]==0x25D9)||(str2[ofs]==0x25CB)||
@@ -1440,12 +1441,12 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				if (str1) free(str1);
 				if (str2) free(str2);
 			}
-			if (body){
+			if (body) {
 				WCHAR *bodyDecoded = 0;
 				char *localBody=0;
 				if (contentType) {
 					if (!_strnicmp(contentType,"text",4)) {
-						if (transEncoding){
+						if (transEncoding) {
 							if (!_stricmp(transEncoding,"base64")) {
 								int size = (int)strlen(body)*3/4+5;
 								localBody = new char[size+1];
@@ -1475,7 +1476,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				MailParam->mail->Flags |= YAMN_MSG_BODYREQUESTED;
 				CallService(MS_YAMN_ACCOUNTCHECK,(WPARAM)MailParam->account,0);
 			} else {
-				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN){
+				if (MailParam->mail->Flags & YAMN_MSG_UNSEEN) {
 					MailParam->mail->Flags&=~YAMN_MSG_UNSEEN; //mark the message as seen
 					HWND hMailBrowser;
 					if (hMailBrowser=WindowList_Find(YAMNVar.NewMailAccountWnd,MailParam->account)) {
@@ -1580,7 +1581,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 				MoveWindow(GetDlgItem(hDlg,IDC_SPLITTER),5,localSplitPos,HeadSizeX-10,2,TRUE);
 				MoveWindow(hEdit,5,localSplitPos+6,HeadSizeX-10,HeadSizeY-localSplitPos-11,TRUE);	//where to put text window while resizing
 				MoveWindow(hList,  5         ,5     ,HeadSizeX-10    ,(isBodyShown?localSplitPos:HeadSizeY)-10,TRUE);	//where to put headers list window while resizing
-				//if (changeX){
+				//if (changeX) {
 					if (GetClientRect(hList,&coord)) {
 						localSizeX=coord.right-coord.left;
 					} else localSizeX=HeadSizeX;
@@ -1607,7 +1608,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
 						int nReturnCmd = TrackPopupMenu( hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL );
 						DestroyMenu( hMenu );
-						if (nReturnCmd>0){
+						if (nReturnCmd>0) {
 							int courRow=0;
 							size_t sizeNeeded = 0;
 							TCHAR headname[64]={0}, headvalue[256]={0}; 
@@ -1647,7 +1648,7 @@ INT_PTR CALLBACK DlgProcYAMNShowMessage(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 	return 0;
 }
 
-DWORD WINAPI ShowEmailThread(LPVOID Param){
+DWORD WINAPI ShowEmailThread(LPVOID Param) {
 	struct MailShowMsgWinParam MyParam;
 	MyParam=*(struct MailShowMsgWinParam *)Param;
 
@@ -1656,7 +1657,7 @@ DWORD WINAPI ShowEmailThread(LPVOID Param){
 	#endif
 	SCIncFcn(MyParam.account->UsingThreads);
 	SetEvent(MyParam.ThreadRunningEV);
-	if (MyParam.mail->MsgWindow){
+	if (MyParam.mail->MsgWindow) {
 		//if (!BringWindowToTop(MyParam.mail->MsgWindow)) {
 		if (!SetForegroundWindow(MyParam.mail->MsgWindow)) {
 			SendMessage(MyParam.mail->MsgWindow,WM_DESTROY,0,0);
@@ -2401,7 +2402,7 @@ INT_PTR CALLBACK DlgProcYAMNMailBrowser(HWND hDlg,UINT msg,WPARAM wParam,LPARAM 
 						AppendMenu(hMenu, MF_STRING, (UINT_PTR)0, TranslateT("Cancel"));
 						int nReturnCmd = TrackPopupMenu( hMenu, TPM_RETURNCMD, pt.x, pt.y, 0, hDlg, NULL );
 						DestroyMenu( hMenu );
-						if (nReturnCmd>0){
+						if (nReturnCmd>0) {
 							int courRow=0;
 							size_t sizeNeeded = 0;
 							TCHAR from[128]={0}, subject[256]={0}, size[16]={0}, date[64]={0};

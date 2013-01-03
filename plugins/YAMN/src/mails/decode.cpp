@@ -303,13 +303,13 @@ int DecodeQuotedPrintable(char *Src,char *Dst,int DstLen, BOOL isQ)
 	for (int Counter=0;((char)*Src!=0) && DstLen && (Counter++<DstLen);Src++,Dst++)
 		if (*Src=='=')
 		{
-			if (!isQ){
-				if (Src[1]==0x0D){
+			if (!isQ) {
+				if (Src[1]==0x0D) {
 					Src++; Src++;
 					if (Src[0]==0x0A) Src++;
 					goto CopyCharQuotedPrintable;
 				}
-				if (Src[1]==0x0A){
+				if (Src[1]==0x0A) {
 					Src++; Src++;
 					goto CopyCharQuotedPrintable;
 				}
@@ -455,7 +455,7 @@ void ConvertCodedStringToUnicode(char *stream,WCHAR **storeto,DWORD cp,int mode)
 	size_t tempstoreLength = wcslen(tempstore);
 	
 	size_t outind = 0;
-	while(*start!=0){
+	while(*start!=0) {
 		if (CODES(start)) {
 			finder=start+2;finderend=finder;
 			while(!CODED(finderend) && !EOS(finderend)) finderend++;

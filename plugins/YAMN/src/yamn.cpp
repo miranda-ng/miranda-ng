@@ -205,7 +205,7 @@ void CALLBACK TimerProc(HWND, UINT, UINT, DWORD)
 				{
 					goto ChangeIsCountingStatusLabel;
 				}
-				if (ActualAccount->TimeLeft){
+				if (ActualAccount->TimeLeft) {
 					ActualAccount->TimeLeft--;
 					isAccountCounting = TRUE;
 				}
@@ -239,10 +239,10 @@ ChangeIsCountingStatusLabel:
 #ifdef DEBUG_SYNCHRO
 			DebugLog(SynchroFile, "TimerProc:ActualAccountSO-read done\n");
 #endif
-			if (((ActualAccount->isCounting)!=0)!=isAccountCounting){
+			if (((ActualAccount->isCounting)!=0)!=isAccountCounting) {
 				ActualAccount->isCounting=isAccountCounting;
 				WORD cStatus = DBGetContactSettingWord(ActualAccount->hContact, YAMN_DBMODULE, "Status", 0);
-				switch (cStatus){
+				switch (cStatus) {
 					case ID_STATUS_ONLINE:
 					case ID_STATUS_OFFLINE:
 						DBWriteContactSettingWord(ActualAccount->hContact, YAMN_DBMODULE, "Status", isAccountCounting?ID_STATUS_ONLINE:ID_STATUS_OFFLINE);

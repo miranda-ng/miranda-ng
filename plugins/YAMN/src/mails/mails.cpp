@@ -155,7 +155,7 @@ INT_PTR DeleteAccountMailSvc(WPARAM wParam,LPARAM lParam)
 	HYAMNMAIL OldMail=(HYAMNMAIL)lParam;
 	struct CMimeItem *TH;
 
-	if (Plugin->MailFcn!=NULL){
+	if (Plugin->MailFcn!=NULL) {
 		if (Plugin->MailFcn->DeleteMailFcnPtr!=NULL) {
 			//Let plugin delete its own CMimeMsgQueue derived structure
 			Plugin->MailFcn->DeleteMailFcnPtr(OldMail);
@@ -435,7 +435,7 @@ void WINAPI TranslateHeaderFcn(char *stream,int len,struct CMimeItem **head)
 					while (!DOTLINE(finder+1))finder++;
 					if (ENDLINE(finder))finder--;
 					prev2 = finder;
-					if (prev2>prev1){ // yes, we have body
+					if (prev2>prev1) { // yes, we have body
 						if (NULL==(Item->Next=new struct CMimeItem))	break; // Cant create new item?!
 						Item=Item->Next;
 						Item->Next=NULL;//just in case;

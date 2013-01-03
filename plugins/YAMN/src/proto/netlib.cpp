@@ -62,7 +62,7 @@ HANDLE RegisterNLClient(const char *name)
 }
 
 //Move connection to SSL
-void CNLClient::SSLify() throw(DWORD){
+void CNLClient::SSLify() throw(DWORD) {
 #ifdef DEBUG_COMM
 	SSL_DebugLog("Staring SSL...");
 #endif

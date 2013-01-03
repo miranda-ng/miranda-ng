@@ -201,7 +201,7 @@ char *ExtractFromContentType(char *ContentType,char *value)
 	char *lowered = _strdup(ContentType);
 	ToLower(lowered);
 	char *finder=strstr(lowered,value);
-	if (finder==NULL){
+	if (finder==NULL) {
 		free (lowered);
 		return NULL;
 	}
@@ -531,7 +531,7 @@ void ParseAPart(APartDataType *data)
 			while(ENDLINEWS(finder)) finder++;
 
 			//at the start of line
-			if (finder>data->Src){
+			if (finder>data->Src) {
 				if (*(finder-2)=='\r' || *(finder-2)=='\n') 
 					*(finder-2)=0;
 				if (*(finder-1)=='\r' || *(finder-1)=='\n') 
@@ -572,7 +572,7 @@ void ParseAPart(APartDataType *data)
 				finder++;
 				if (ENDLINE(finder)) {
 					// end of headers. message body begins
-					if (finder>data->Src){
+					if (finder>data->Src) {
 						if (*(finder-2)=='\r' || *(finder-2)=='\n') 
 							*(finder-2)=0;
 						if (*(finder-1)=='\r' || *(finder-1)=='\n') 
@@ -584,7 +584,7 @@ void ParseAPart(APartDataType *data)
 					while (!EOS(finder+1))finder++;
 					if (ENDLINE(finder))finder--;
 					prev2 = finder;
-					if (prev2>prev1){ // yes, we have body
+					if (prev2>prev1) { // yes, we have body
 						data->body = prev1;
 					}
 					break; // there is nothing else
@@ -616,7 +616,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 	APartDataType *partData = new APartDataType[numparts];
 	memset(partData, 0, sizeof(APartDataType)*numparts);
 	partData[0].Src = courbond = srcback;
-	for (i=1;(courbond=strstr(courbond,bond));i++,courbond+=sizebond){
+	for (i=1;(courbond=strstr(courbond,bond));i++,courbond+=sizebond) {
 		*(courbond-2) = 0;
 		partData[i].Src = courbond+sizebond;
 		while (ENDLINE(partData[i].Src)) partData[i].Src++;
@@ -624,12 +624,12 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 	size_t resultSize=0;
 	for (i=0;i<numparts;i++) {
 		ParseAPart(&partData[i]);
-		if (partData[i].body){
-			if (partData[i].TransEnc){
+		if (partData[i].body) {
+			if (partData[i].TransEnc) {
 				if (!_stricmp(partData[i].TransEnc,"base64")) partData[i].TransEncType=TE_BASE64;
 				else if (!_stricmp(partData[i].TransEnc,"quoted-printable"))partData[i].TransEncType=TE_QUOTEDPRINTABLE;
 			}
-			if (partData[i].ContType){
+			if (partData[i].ContType) {
 				char *CharSetStr;
 				if (NULL!=(CharSetStr=ExtractFromContentType(partData[i].ContType,"charset=")))
 				{
@@ -639,7 +639,7 @@ WCHAR *ParseMultipartBody(char *src, char *bond)
 			}
 			if (partData[i].ContType && !_strnicmp(partData[i].ContType,"text",4)) {
 				char *localBody=0;
-				switch (partData[i].TransEncType){
+				switch (partData[i].TransEncType) {
 					case TE_BASE64:
 					{
 						int size =partData[i].bodyLen*3/4+5;
@@ -674,42 +674,42 @@ FailBackRaw:
 	dest = new WCHAR[resultSize+1];
 	size_t destpos = 0;
 	for (i=0;i<numparts;i++) {
-		if (i){ // part before first boudary should not have headers
-			char infoline[104]; size_t linesize = 0;
+		if (i) { // part before first boudary should not have headers
+			char infoline[1024]; size_t linesize = 0;
 			_snprintf(infoline,100,"%s %d",Translate("Part"),i);
 			linesize = strlen(infoline);
-			if (partData[i].TransEnc){
-				_snprintf(infoline+linesize,100-linesize,"; %s",partData[i].TransEnc);
+			if (partData[i].TransEnc) {
+				_snprintf(infoline+linesize, sizeof(infoline)-linesize,"; %s",partData[i].TransEnc);
 				linesize = strlen(infoline);
 			}
-			if (partData[i].ContType){
+			if (partData[i].ContType) {
 				char *CharSetStr=strchr(partData[i].ContType,';');
-				if (CharSetStr){
+				if (CharSetStr) {
 					CharSetStr[0]=0;
-					_snprintf(infoline+linesize,100-linesize,"; %s",partData[i].ContType);
+					_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",partData[i].ContType);
 					linesize = strlen(infoline);
 					partData[i].ContType=CharSetStr+1;
-					if (NULL!=(CharSetStr=ExtractFromContentType(partData[i].ContType,"charset=")))
-					{
-						_snprintf(infoline+linesize,100-linesize,"; %s",CharSetStr);
+					if (NULL!=(CharSetStr=ExtractFromContentType(partData[i].ContType,"charset="))) {
+						_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",CharSetStr);
 						linesize = strlen(infoline);
 						delete[] CharSetStr;
 					}
-					if (NULL!=(CharSetStr=ExtractFromContentType(partData[i].ContType,"name=")))
-					{
-						_snprintf(infoline+linesize,100-linesize,"; \"%s\"",CharSetStr);
+					if (NULL!=(CharSetStr=ExtractFromContentType(partData[i].ContType,"name="))) {
+						_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; \"%s\"",CharSetStr);
 						linesize = strlen(infoline);
 						delete[] CharSetStr;
 					}
-				} else {
-					_snprintf(infoline+linesize,100-linesize,"; %s",partData[i].ContType);
+				}
+				else {
+					_snprintf(infoline+linesize,sizeof(infoline)-linesize,"; %s",partData[i].ContType);
 					linesize = strlen(infoline);
 				}
 			}
 			sprintf(infoline+linesize,".\r\n");
-			{WCHAR *temp=0;
+			{
+				WCHAR *temp=0;
 				dest[destpos] = dest[destpos+1] = dest[destpos+2] = 0x2022; // bullet;
-				destpos+=3;
+				destpos += 3;
 				ConvertStringToUnicode(infoline,CP_ACP,&temp);
 				size_t wsize = wcslen(temp);
 				wcscpy(&dest[destpos],temp);
@@ -717,7 +717,8 @@ FailBackRaw:
 				delete[] temp;
 			}
 		} // if (i)
-		if (partData[i].wBody){
+
+		if (partData[i].wBody) {
 			size_t wsize = wcslen(partData[i].wBody);
 			wcscpy(&dest[destpos],partData[i].wBody);
 			destpos += wsize;
