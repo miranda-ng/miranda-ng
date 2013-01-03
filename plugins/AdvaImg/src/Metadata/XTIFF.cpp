@@ -123,7 +123,7 @@ tiff_read_geotiff_profile(TIFF *tif, FIBITMAP *dib) {
 			if(TIFFGetField(tif, fieldInfo->field_tag, &params)) {
 				// create a tag
 				FITAG *tag = FreeImage_CreateTag();
-				if (!tag)
+				if(!tag)
 					return;
 
 				WORD tag_id = (WORD)fieldInfo->field_tag;
@@ -147,7 +147,7 @@ tiff_read_geotiff_profile(TIFF *tif, FIBITMAP *dib) {
 			if(TIFFGetField(tif, fieldInfo->field_tag, &tag_count, &data)) {
 				// create a tag
 				FITAG *tag = FreeImage_CreateTag();
-				if (!tag)
+				if(!tag)
 					return;
 
 				WORD tag_id = (WORD)fieldInfo->field_tag;
@@ -315,7 +315,7 @@ tiff_read_exif_tag(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib, TagLib& t
 	// build FreeImage tag from Tiff Tag data we collected
 
 	FITAG *fitag = FreeImage_CreateTag();
-	if (!fitag) {
+	if(!fitag) {
 		if(mem_alloc) {
 			_TIFFfree(raw_data);
 		}
@@ -452,7 +452,9 @@ tiff_read_exif_tag(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib, TagLib& t
 			break;
 
 		default: {
-			size_t length = strlen((char*)raw_data) + 1;
+			// remember that raw_data = _TIFFmalloc(value_size * value_count);
+			const int value_size = _TIFFDataSize(fip->field_type);
+			size_t length = value_size * value_count;
 			FreeImage_SetTagType(fitag, FIDT_ASCII);
 			FreeImage_SetTagLength(fitag, (DWORD)length);
 			FreeImage_SetTagCount(fitag, (DWORD)length);
@@ -514,18 +516,18 @@ tiff_read_exif_tags(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib) {
 			// test if tag value is set
 			// (lifted directly form LibTiff _TIFFWriteDirectory)
 
-			if ( fld->field_bit == FIELD_CUSTOM ) {
+			if( fld->field_bit == FIELD_CUSTOM ) {
 				int ci, is_set = FALSE;
 
-				for ( ci = 0; ci < td->td_customValueCount; ci++ ) {
+				for( ci = 0; ci < td->td_customValueCount; ci++ ) {
 					is_set |= (td->td_customValues[ci].info == fld);
 				}
 
-				if ( !is_set ) {
+				if( !is_set ) {
 					continue;
 				}
 
-			} else if (!TIFFFieldSet(tif, fld->field_bit)) {
+			} else if(!TIFFFieldSet(tif, fld->field_bit)) {
 				continue;
 			}
 
@@ -558,6 +560,8 @@ skip_write_field(TIFF* tif, uint32 tag) {
 		case TIFFTAG_PHOTOMETRIC:
 		case TIFFTAG_PLANARCONFIG:
 		case TIFFTAG_ROWSPERSTRIP:
+		case TIFFTAG_STRIPBYTECOUNTS:
+		case TIFFTAG_STRIPOFFSETS:
 		case TIFFTAG_RESOLUTIONUNIT:
 		case TIFFTAG_XRESOLUTION:
 		case TIFFTAG_YRESOLUTION:
@@ -639,7 +643,7 @@ tiff_write_exif_tags(TIFF *tif, TagLib::MDMODEL md_model, FIBITMAP *dib) {
 			// check for identical formats
 
 			// (enum value are the sames between FREE_IMAGE_MDTYPE and TIFFDataType types)
-			if ((int)tif_tag_type != (int)tag_type) {
+			if((int)tif_tag_type != (int)tag_type) {
 				// skip tag or _TIFFmemcpy will fail
 				continue;
 			}

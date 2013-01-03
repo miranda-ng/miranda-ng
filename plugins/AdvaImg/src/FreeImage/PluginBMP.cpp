@@ -213,7 +213,7 @@ LoadPixelDataRLE4(FreeImageIO *io, fi_handle handle, int width, int height, FIBI
 		height = abs(height);
 
 		pixels = (BYTE*)malloc(width * height * sizeof(BYTE));
-		if (!pixels) throw(1);
+		if(!pixels) throw(1);
 		memset(pixels, 0, width * height * sizeof(BYTE));
 
 		BYTE *q = pixels;
@@ -313,7 +313,7 @@ LoadPixelDataRLE4(FreeImageIO *io, fi_handle handle, int width, int height, FIBI
 
 				BOOL hinibble = TRUE;
 
-				for (int cols = 0; cols < width; cols++) {
+				for (int cols = 0; cols < width; cols++){
 					if (hinibble) {
 						dst[cols >> 1] = (src[cols] << 4);
 					} else {
@@ -352,7 +352,7 @@ LoadPixelDataRLE8(FreeImageIO *io, fi_handle handle, int width, int height, FIBI
 	int bits = 0;
 
 	for (;;) {
-		if ( io->read_proc(&status_byte, sizeof(BYTE), 1, handle) != 1) {
+		if( io->read_proc(&status_byte, sizeof(BYTE), 1, handle) != 1) {
 			return FALSE;
 		}
 
@@ -520,7 +520,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 
 				switch (compression) {
 					case BI_RGB :
-						if ( LoadPixelData(io, handle, dib, height, pitch, bit_count)) {
+						if( LoadPixelData(io, handle, dib, height, pitch, bit_count) ) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding BMP data";
@@ -528,7 +528,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 						break;
 
 					case BI_RLE4 :
-						if ( LoadPixelDataRLE4(io, handle, width, height, dib)) {
+						if( LoadPixelDataRLE4(io, handle, width, height, dib) ) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE4 BMP data";
@@ -536,7 +536,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 						break;
 
 					case BI_RLE8 :
-						if ( LoadPixelDataRLE8(io, handle, width, height, dib)) {
+						if( LoadPixelDataRLE8(io, handle, width, height, dib) ) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE8 BMP data";
@@ -597,7 +597,7 @@ LoadWindowsBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bit
 
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, bitfields[0], bitfields[1], bitfields[2]);
 				} else {
-					if ( bit_count == 32 ) {
+					if( bit_count == 32 ) {
 						dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 					} else {
 						dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
@@ -747,7 +747,7 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 						return dib;
 
 					case BI_RLE4 :
-						if ( LoadPixelDataRLE4(io, handle, width, height, dib)) {
+						if( LoadPixelDataRLE4(io, handle, width, height, dib) ) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE4 BMP data";
@@ -755,7 +755,7 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 						break;
 
 					case BI_RLE8 :
-						if ( LoadPixelDataRLE8(io, handle, width, height, dib)) {
+						if( LoadPixelDataRLE8(io, handle, width, height, dib) ) {
 							return dib;
 						} else {
 							throw "Error encountered while decoding RLE8 BMP data";
@@ -805,7 +805,7 @@ LoadOS22XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 			case 24 :
 			case 32 :
 			{
-				if ( bit_count == 32 ) {
+				if( bit_count == 32 ) {
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 				} else {
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
@@ -951,7 +951,7 @@ LoadOS21XBMP(FreeImageIO *io, fi_handle handle, int flags, unsigned bitmap_bits_
 			case 24 :
 			case 32 :
 			{
-				if ( bit_count == 32 ) {
+				if( bit_count == 32 ) {
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 				} else {
 					dib = FreeImage_AllocateHeader(header_only, width, height, bit_count, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
@@ -1082,7 +1082,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// check the signature
 
-		if ((bitmapfileheader.bfType != 0x4D42) && (bitmapfileheader.bfType != 0x4142)) {
+		if((bitmapfileheader.bfType != 0x4D42) && (bitmapfileheader.bfType != 0x4142)) {
 			FreeImage_OutputMessageProc(s_format_id, FI_MSG_ERROR_MAGIC_NUMBER);
 			return NULL;
 		}

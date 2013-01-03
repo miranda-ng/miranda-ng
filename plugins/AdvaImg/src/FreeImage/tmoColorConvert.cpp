@@ -61,10 +61,10 @@ static const float CIE_y_b = 0.060F;
 static const float CIE_x_w = 0.3127F;	// Illuminant D65
 static const float CIE_y_w = 0.3290F;
 
-static const float CIE_D = ( CIE_x_r*(CIE_y_g - CIE_y_b) + CIE_x_g*(CIE_y_b - CIE_y_r) + CIE_x_b*(CIE_y_r - CIE_y_g));
-static const float CIE_C_rD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_g - CIE_y_b) - CIE_y_w*(CIE_x_g - CIE_x_b) + CIE_x_g*CIE_y_b - CIE_x_b*CIE_y_g));
-static const float CIE_C_gD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_b - CIE_y_r) - CIE_y_w*(CIE_x_b - CIE_x_r) - CIE_x_r*CIE_y_b + CIE_x_b*CIE_y_r));
-static const float CIE_C_bD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_r - CIE_y_g) - CIE_y_w*(CIE_x_r - CIE_x_g) + CIE_x_r*CIE_y_g - CIE_x_g*CIE_y_r));
+static const float CIE_D = ( CIE_x_r*(CIE_y_g - CIE_y_b) + CIE_x_g*(CIE_y_b - CIE_y_r) + CIE_x_b*(CIE_y_r - CIE_y_g) );
+static const float CIE_C_rD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_g - CIE_y_b) - CIE_y_w*(CIE_x_g - CIE_x_b) + CIE_x_g*CIE_y_b - CIE_x_b*CIE_y_g) );
+static const float CIE_C_gD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_b - CIE_y_r) - CIE_y_w*(CIE_x_b - CIE_x_r) - CIE_x_r*CIE_y_b + CIE_x_b*CIE_y_r) );
+static const float CIE_C_bD = ( (1/CIE_y_w) * ( CIE_x_w*(CIE_y_r - CIE_y_g) - CIE_y_w*(CIE_x_r - CIE_x_g) + CIE_x_r*CIE_y_g - CIE_x_g*CIE_y_r) );
 
 /**
 RGB to XYZ (no white balance)
@@ -275,7 +275,7 @@ ClampConvertRGBFTo24(FIBITMAP *src) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	FIBITMAP *dst = FreeImage_Allocate(width, height, 24, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-	if (!dst) return NULL;
+	if(!dst) return NULL;
 
 	const unsigned src_pitch  = FreeImage_GetPitch(src);
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
@@ -321,7 +321,7 @@ ConvertRGBFToY(FIBITMAP *src) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	FIBITMAP *dst = FreeImage_AllocateT(FIT_FLOAT, width, height);
-	if (!dst) return NULL;
+	if(!dst) return NULL;
 
 	const unsigned src_pitch  = FreeImage_GetPitch(src);
 	const unsigned dst_pitch  = FreeImage_GetPitch(dst);
@@ -415,8 +415,8 @@ static void findMaxMinPercentile(FIBITMAP *Y, float minPrct, float *minLum, floa
 
 	std::sort(vY.begin(), vY.end());
 	
-	*minLum = vY.at( int(minPrct * vY.size()));
-	*maxLum = vY.at( int(maxPrct * vY.size()));
+	*minLum = vY.at( int(minPrct * vY.size()) );
+	*maxLum = vY.at( int(maxPrct * vY.size()) );
 }
 
 /**
@@ -444,7 +444,7 @@ NormalizeY(FIBITMAP *Y, float minPrct, float maxPrct) {
 	int pitch = FreeImage_GetPitch(Y);
 
 	// find max & min luminance values
-	if ((minPrct > 0) || (maxPrct < 1)) {
+	if((minPrct > 0) || (maxPrct < 1)) {
 		maxLum = 0, minLum = 0;
 		findMaxMinPercentile(Y, minPrct, &minLum, maxPrct, &maxLum);
 	} else {

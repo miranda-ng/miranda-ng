@@ -220,7 +220,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		SwapLong(&type);
 #endif
 
-		if ((type != ID_ILBM) && (type != ID_PBM))
+		if((type != ID_ILBM) && (type != ID_PBM))
 			return NULL;
 
 		size -= 4;
@@ -266,7 +266,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 				depth = planes > 8 ? 24 : 8;
 
-				if ( depth == 24 ) {
+				if( depth == 24 ) {
 					dib = FreeImage_Allocate(width, height, depth, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 				} else {
 					dib = FreeImage_Allocate(width, height, depth);
@@ -358,7 +358,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 									// t = [0..127] => copy the next t+1 bytes literally
 									unsigned size_to_read = t + 1;
 
-									if ((size_to_read + x) > src_size) {
+									if((size_to_read + x) > src_size) {
 										// sanity check for buffer overruns 
 										size_to_read = src_size - x;
 										io->read_proc(src + x, size_to_read, 1, handle);
@@ -373,7 +373,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 									io->read_proc(&b, 1, 1, handle);
 									unsigned size_to_copy = (unsigned)(-(int)t + 1);
 
-									if ((size_to_copy + x) > src_size) {
+									if((size_to_copy + x) > src_size) {
 										// sanity check for buffer overruns 
 										size_to_copy = src_size - x;
 										memset(src + x, b, size_to_copy);

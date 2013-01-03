@@ -153,7 +153,7 @@ _tiffWriteProc(thandle_t handle, void *buf, tmsize_t size) {
 static toff_t
 _tiffSeekProc(thandle_t handle, toff_t off, int whence) {
 	fi_TIFFIO *fio = (fi_TIFFIO*)handle;
-	fio->io->seek_proc(fio->handle, off, whence);
+	fio->io->seek_proc(fio->handle, (long)off, whence);
 	return fio->io->tell_proc(fio->handle);
 }
 
@@ -450,7 +450,7 @@ static FIBITMAP*
 CreateImageType(BOOL header_only, FREE_IMAGE_TYPE fit, int width, int height, uint16 bitspersample, uint16 samplesperpixel) {
 	FIBITMAP *dib = NULL;
 
-	if ((width < 0) || (height < 0)) {
+	if((width < 0) || (height < 0)) {
 		// check for malicious images
 		return NULL;
 	}
@@ -462,7 +462,7 @@ CreateImageType(BOOL header_only, FREE_IMAGE_TYPE fit, int width, int height, ui
 
 		if(bpp == 16) {
 			
-			if ((samplesperpixel == 2) && (bitspersample == 8)) {
+			if((samplesperpixel == 2) && (bitspersample == 8)) {
 				// 8-bit indexed + 8-bit alpha channel -> convert to 8-bit transparent
 				dib = FreeImage_AllocateHeader(header_only, width, height, 8);
 			} else {
@@ -562,7 +562,7 @@ ReadImageType(TIFF *tiff, uint16 bitspersample, uint16 samplesperpixel) {
 						break;
 					case 48:
 						// 3 x half float => convert to RGBF
-						if ((samplesperpixel == 3) && (bitspersample == 16)) {
+						if((samplesperpixel == 3) && (bitspersample == 16)) {
 							fit = FIT_RGBF;
 						}
 						break;
@@ -683,7 +683,7 @@ WriteCompression(TIFF *tiff, uint16 bitspersample, uint16 samplesperpixel, uint1
 	} else if ((flags & TIFF_LZW) == TIFF_LZW) {
 		compression = COMPRESSION_LZW;
 	} else if ((flags & TIFF_JPEG) == TIFF_JPEG) {
-		if (((bitsperpixel == 8) && (photometric != PHOTOMETRIC_PALETTE)) || (bitsperpixel == 24)) {
+		if(((bitsperpixel == 8) && (photometric != PHOTOMETRIC_PALETTE)) || (bitsperpixel == 24)) {
 			compression = COMPRESSION_JPEG;
 			// RowsPerStrip must be multiple of 8 for JPEG
 			uint32 rowsperstrip = (uint32) -1;
@@ -736,7 +736,7 @@ WriteCompression(TIFF *tiff, uint16 bitspersample, uint16 samplesperpixel, uint1
 		// and many palette-color images. But natural 24-bit color images and some 8-bit 
 		// grayscale images do much better with differencing.
 
-		if ((bitspersample == 8) || (bitspersample == 16)) {
+		if((bitspersample == 8) || (bitspersample == 16)) {
 			if ((bitsperpixel >= 8) && (photometric != PHOTOMETRIC_PALETTE)) {
 				TIFFSetField(tiff, TIFFTAG_PREDICTOR, 2);
 			} else {
@@ -746,13 +746,20 @@ WriteCompression(TIFF *tiff, uint16 bitspersample, uint16 samplesperpixel, uint1
 			TIFFSetField(tiff, TIFFTAG_PREDICTOR, 1);
 		}
 	}
-	else if(compression == COMPRESSION_CCITTFAX3) {
-		// try to be compliant with the TIFF Class F specification
-		// that documents the TIFF tags specific to FAX applications
-		// see http://palimpsest.stanford.edu/bytopic/imaging/std/tiff-f.html
-		uint32 group3options = GROUP3OPT_2DENCODING | GROUP3OPT_FILLBITS;	
-		TIFFSetField(tiff, TIFFTAG_GROUP3OPTIONS, group3options);	// 2d-encoded, has aligned EOL
-		TIFFSetField(tiff, TIFFTAG_FILLORDER, FILLORDER_LSB2MSB);	// lsb-to-msb fillorder
+	else if((compression == COMPRESSION_CCITTFAX3) || (compression == COMPRESSION_CCITTFAX4)) {
+		uint32 imageLength = 0;
+		TIFFGetField(tiff, TIFFTAG_IMAGELENGTH, &imageLength);
+		// overwrite previous RowsPerStrip
+		TIFFSetField(tiff, TIFFTAG_ROWSPERSTRIP, imageLength);
+
+		if(compression == COMPRESSION_CCITTFAX3) {
+			// try to be compliant with the TIFF Class F specification
+			// that documents the TIFF tags specific to FAX applications
+			// see http://palimpsest.stanford.edu/bytopic/imaging/std/tiff-f.html
+			uint32 group3options = GROUP3OPT_2DENCODING | GROUP3OPT_FILLBITS;	
+			TIFFSetField(tiff, TIFFTAG_GROUP3OPTIONS, group3options);	// 2d-encoded, has aligned EOL
+			TIFFSetField(tiff, TIFFTAG_FILLORDER, FILLORDER_LSB2MSB);	// lsb-to-msb fillorder
+		}
 	}
 }
 
@@ -793,7 +800,7 @@ tiff_read_xmp_profile(TIFF *tiff, FIBITMAP *dib) {
 	if (TIFFGetField(tiff, TIFFTAG_XMLPACKET, &profile_size, &profile) == 1) {
 		// create a tag
 		FITAG *tag = FreeImage_CreateTag();
-		if (!tag) return FALSE;
+		if(!tag) return FALSE;
 
 		FreeImage_SetTagID(tag, TIFFTAG_XMLPACKET);	// 700
 		FreeImage_SetTagKey(tag, g_TagLib_XMPFieldName);
@@ -832,7 +839,7 @@ tiff_read_exif_profile(TIFF *tiff, FIBITMAP *dib) {
 	if(TIFFGetField(tiff, TIFFTAG_EXIFIFD, &exif_offset)) {
 
 		// read EXIF tags
-		if (!TIFFReadEXIFDirectory(tiff, exif_offset)) {
+		if(!TIFFReadEXIFDirectory(tiff, exif_offset)) {
 			return FALSE;
 		}
 
@@ -877,7 +884,7 @@ tiff_write_iptc_profile(TIFF *tiff, FIBITMAP *dib) {
 			uint32 iptc_size = profile_size;
 			iptc_size += (4-(iptc_size & 0x03)); // Round up for long word alignment
 			BYTE *iptc_profile = (BYTE*)malloc(iptc_size);
-			if (!iptc_profile) {
+			if(!iptc_profile) {
 				free(profile);
 				return FALSE;
 			}
@@ -986,16 +993,21 @@ MimeType() {
 
 static BOOL DLL_CALLCONV
 Validate(FreeImageIO *io, fi_handle handle) {	
-	BYTE tiff_id1[] = { 0x49, 0x49, 0x2A, 0x00 };
-	BYTE tiff_id2[] = { 0x4D, 0x4D, 0x00, 0x2A };
+	BYTE tiff_id1[] = { 0x49, 0x49, 0x2A, 0x00 };	// Classic TIFF, little-endian
+	BYTE tiff_id2[] = { 0x4D, 0x4D, 0x00, 0x2A };	// Classic TIFF, big-endian
+	BYTE tiff_id3[] = { 0x49, 0x49, 0x2B, 0x00 };	// Big TIFF, little-endian
+	BYTE tiff_id4[] = { 0x4D, 0x4D, 0x00, 0x2B };	// Big TIFF, big-endian
 	BYTE signature[4] = { 0, 0, 0, 0 };
 
 	io->read_proc(signature, 1, 4, handle);
 
 	if(memcmp(tiff_id1, signature, 4) == 0)
 		return TRUE;
-
 	if(memcmp(tiff_id2, signature, 4) == 0)
+		return TRUE;
+	if(memcmp(tiff_id3, signature, 4) == 0)
+		return TRUE;
+	if(memcmp(tiff_id4, signature, 4) == 0)
 		return TRUE;
 
 	return FALSE;
@@ -1046,7 +1058,7 @@ static void * DLL_CALLCONV
 Open(FreeImageIO *io, fi_handle handle, BOOL read) {
 	// wrapper for TIFF I/O
 	fi_TIFFIO *fio = (fi_TIFFIO*)malloc(sizeof(fi_TIFFIO));
-	if (!fio) return NULL;
+	if(!fio) return NULL;
 	fio->io = io;
 	fio->handle = handle;
 
@@ -1106,7 +1118,7 @@ IsValidBitsPerSample(uint16 photometric, uint16 bitspersample, uint16 samplesper
 	switch(bitspersample) {
 		case 1:
 		case 4:
-			if ((photometric == PHOTOMETRIC_MINISWHITE) || (photometric == PHOTOMETRIC_MINISBLACK) || (photometric == PHOTOMETRIC_PALETTE)) { 
+			if((photometric == PHOTOMETRIC_MINISWHITE) || (photometric == PHOTOMETRIC_MINISBLACK) || (photometric == PHOTOMETRIC_PALETTE)) { 
 				return TRUE;
 			} else {
 				return FALSE;
@@ -1155,12 +1167,12 @@ FindLoadMethod(TIFF *tif, FREE_IMAGE_TYPE image_type, int flags) {
 	switch(photometric) {
 		// convert to 24 or 32 bits RGB if the image is full color
 		case PHOTOMETRIC_RGB:
-			if ((image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
+			if((image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
 				// load 48-bit RGB and 64-bit RGBA without conversion 
 				loadMethod = LoadAsGenericStrip;
 			} 
 			else if(image_type == FIT_RGBF) {
-				if ((samplesperpixel == 3) && (bitspersample == 16)) {
+				if((samplesperpixel == 3) && (bitspersample == 16)) {
 					// load 3 x 16-bit half as RGBF
 					loadMethod = LoadAsHalfFloat;
 				}
@@ -1182,7 +1194,7 @@ FindLoadMethod(TIFF *tif, FREE_IMAGE_TYPE image_type, int flags) {
 			// to avoid multiple conversions. Conversion can be done by changing 
 			// the profile from it's original CMYK to an RGB profile with an 
 			// apropriate color management system. Works with non-tiled TIFFs.
-			if (!bIsTiled) {
+			if(!bIsTiled) {
 				loadMethod = LoadAsCMYK;
 			}
 			break;
@@ -1192,7 +1204,7 @@ FindLoadMethod(TIFF *tif, FREE_IMAGE_TYPE image_type, int flags) {
 			// When samplesperpixel = 2 and bitspersample = 8, set the image as a
 			// 8-bit indexed image + 8-bit alpha layer image
 			// and convert to a 8-bit image with a transparency table
-			if ((samplesperpixel > 1) && (bitspersample == 8)) {
+			if((samplesperpixel > 1) && (bitspersample == 8)) {
 				loadMethod = LoadAs8BitTrns;
 			} else {
 				loadMethod = LoadAsGenericStrip;
@@ -1203,7 +1215,7 @@ FindLoadMethod(TIFF *tif, FREE_IMAGE_TYPE image_type, int flags) {
 			break;
 	}
 
-	if ((loadMethod == LoadAsGenericStrip) && bIsTiled) {
+	if((loadMethod == LoadAsGenericStrip) && bIsTiled) {
 		loadMethod = LoadAsTiled;
 	}
 
@@ -1249,7 +1261,7 @@ ReadThumbnail(FreeImageIO *io, fi_handle handle, void *data, TIFF *tiff, FIBITMA
 
 	// ... or read the first subIFD
 
-	if (!thumbnail) {
+	if(!thumbnail) {
 		uint16 subIFD_count = 0;
 		uint64* subIFD_offsets = NULL;
 		// ### Theoretically this should also read the first subIFD from a Photoshop-created file with "pyramid".
@@ -1276,7 +1288,7 @@ ReadThumbnail(FreeImageIO *io, fi_handle handle, void *data, TIFF *tiff, FIBITMA
 	
 	// ... or read Photoshop thumbnail
 
-	if (!thumbnail) {
+	if(!thumbnail) {
 		uint32 ps_size = 0;
 		void *ps_data = NULL;
 
@@ -1399,7 +1411,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			
 			uint32 *raster = NULL;
 
-			if (!header_only) {
+			if(!header_only) {
 
 				raster = (uint32*)_TIFFmalloc(width * height * sizeof(uint32));
 				if (raster == NULL) {
@@ -1443,7 +1455,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			ReadResolution(tif, dib);
 
-			if (!header_only) {
+			if(!header_only) {
 
 				// read the raster lines and save them in the DIB
 				// with RGB mode, we have to change the order of the 3 samples RGB
@@ -1636,7 +1648,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					alpha = FreeImage_Allocate(width, height, 8);
 				}
 					
-				if (!alpha) {
+				if(!alpha) {
 					FreeImage_OutputMessageProc(s_format_id, "Failed to allocate temporary alpha channel");
 				} else {
 					alpha_bits = FreeImage_GetScanLine(alpha, height - 1);
@@ -1658,7 +1670,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			ReadResolution(tif, dib);
 
-			if (!header_only) {
+			if(!header_only) {
 
 				// calculate the line + pitch (separate for scr & dest)
 
@@ -1706,7 +1718,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 									for(BYTE *pixel = bits, *al_pixel = alpha_bits, *src_pixel =  buf + l * src_line; pixel < bits + dib_pitch; pixel += dibBpp, al_pixel += alpha_Bpp, src_pixel += srcBpp) {
 										// copy pixel byte by byte
 										BYTE b = 0;
-										for ( ; b < dibBpp; ++b) {
+										for( ; b < dibBpp; ++b) {
 											pixel[b] =  src_pixel[b];
 										}
 										// TODO write the remaining bytes to extra channel(s)
@@ -1814,7 +1826,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 				free(buf);
 			
-				if (!asCMYK) {
+				if(!asCMYK) {
 					ConvertCMYKtoRGBA(dib);
 					
 					// The ICC Profile is invalid, clear it
@@ -1862,7 +1874,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			ReadPalette(tif, photometric, bitspersample, dib);
 	
-			if (!header_only) {
+			if(!header_only) {
 				// calculate the line + pitch (separate for scr & dest)
 
 				const tmsize_t src_line = TIFFScanlineSize(tif);
@@ -2000,7 +2012,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			ReadPalette(tif, photometric, bitspersample, dib);
 
 			// get the tile geometry
-			if (!TIFFGetField(tif, TIFFTAG_TILEWIDTH, &tileWidth) || !TIFFGetField(tif, TIFFTAG_TILELENGTH, &tileHeight)) {
+			if(!TIFFGetField(tif, TIFFTAG_TILEWIDTH, &tileWidth) || !TIFFGetField(tif, TIFFTAG_TILELENGTH, &tileHeight)) {
 				throw "Invalid tiled TIFF image";
 			}
 
@@ -2142,7 +2154,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			ReadResolution(tif, dib);
 
-			if (!header_only) {
+			if(!header_only) {
 
 				// calculate the line + pitch (separate for scr & dest)
 
@@ -2268,7 +2280,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 			bitspersample = bitsperpixel / samplesperpixel;
 			photometric	= GetPhotometric(dib);
 
-			if ((bitsperpixel == 8) && FreeImage_IsTransparent(dib)) {
+			if((bitsperpixel == 8) && FreeImage_IsTransparent(dib)) {
 				// 8-bit transparent picture : convert later to 8-bit + 8-bit alpha
 				samplesperpixel = 2;
 				bitspersample = 8;
@@ -2276,7 +2288,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 			else if(bitsperpixel == 32) {
 				// 32-bit images : check for CMYK or alpha transparency
 
-				if ((((iccProfile->flags & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) || ((flags & TIFF_CMYK) == TIFF_CMYK))) {
+				if((((iccProfile->flags & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) || ((flags & TIFF_CMYK) == TIFF_CMYK))) {
 					// CMYK support
 					photometric = PHOTOMETRIC_SEPARATED;
 					TIFFSetField(out, TIFFTAG_INKSET, INKSET_CMYK);
@@ -2301,7 +2313,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 
 			samplesperpixel = 4;
 			bitspersample = bitsperpixel / samplesperpixel;
-			if ((((iccProfile->flags & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) || ((flags & TIFF_CMYK) == TIFF_CMYK))) {
+			if((((iccProfile->flags & FIICC_COLOR_IS_CMYK) == FIICC_COLOR_IS_CMYK) || ((flags & TIFF_CMYK) == TIFF_CMYK))) {
 				// CMYK support
 				photometric = PHOTOMETRIC_SEPARATED;
 				TIFFSetField(out, TIFFTAG_INKSET, INKSET_CMYK);
@@ -2321,7 +2333,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 			samplesperpixel = 3;
 			bitspersample = bitsperpixel / samplesperpixel;
 			// the library converts to and from floating-point XYZ CIE values
-			if ((flags & TIFF_LOGLUV) == TIFF_LOGLUV) {
+			if((flags & TIFF_LOGLUV) == TIFF_LOGLUV) {
 				photometric	= PHOTOMETRIC_LOGLUV;
 				TIFFSetField(out, TIFFTAG_SGILOGDATAFMT, SGILOGDATAFMT_FLOAT);
 				// TIFFSetField(out, TIFFTAG_STONITS, 1.0);   // assume unknown 
@@ -2421,7 +2433,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 
 		// thumbnail tag
 
-		if ((ifd == 0) && (ifdCount > 1)) {
+		if((ifd == 0) && (ifdCount > 1)) {
 			uint16 nsubifd = 1;
 			uint64 subifd[1];
 			subifd[0] = 0;
@@ -2442,7 +2454,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 				case 4 :
 				case 8 :
 				{
-					if ((bitsperpixel == 8) && FreeImage_IsTransparent(dib)) {
+					if((bitsperpixel == 8) && FreeImage_IsTransparent(dib)) {
 						// 8-bit transparent picture : convert to 8-bit + 8-bit alpha
 
 						// get the transparency table
@@ -2564,7 +2576,7 @@ SaveOneTIFF(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flag
 
 		// write out the directory tag if we wrote a page other than -1 or if we have a thumbnail to write later
 
-		if ( (page >= 0) || ((ifd == 0) && (ifdCount > 1)) ) {
+		if( (page >= 0) || ((ifd == 0) && (ifdCount > 1)) ) {
 			TIFFWriteDirectory(out);
 			// else: TIFFClose will WriteDirectory
 		}
@@ -2594,7 +2606,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		}
 
 		bResult = SaveOneTIFF(io, bitmap, handle, page, flags, data, ifd, ifdCount);
-		if (!bResult) {
+		if(!bResult) {
 			return FALSE;
 		}
 	}

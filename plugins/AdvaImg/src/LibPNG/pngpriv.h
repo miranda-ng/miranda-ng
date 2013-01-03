@@ -2,11 +2,11 @@
 /* pngpriv.h - private declarations for use inside libpng
  *
  * For conditions of distribution and use, see copyright notice in png.h
- * Copyright (c) 1998-2011 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2012 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
- * Last changed in libpng 1.5.7 [December 15, 2011]
+ * Last changed in libpng 1.5.10 [March 29, 2012]
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
@@ -131,6 +131,46 @@
 /* pngconf.h does not set PNG_DLL_EXPORT unless it is required, so: */
 #ifndef PNG_DLL_EXPORT
 #  define PNG_DLL_EXPORT
+#endif
+
+/* SECURITY and SAFETY:
+ *
+ * By default libpng is built without any internal limits on image size,
+ * individual heap (png_malloc) allocations or the total amount of memory used.
+ * If PNG_SAFE_LIMITS_SUPPORTED is defined, however, the limits below are used
+ * (unless individually overridden).  These limits are believed to be fairly
+ * safe, but builders of secure systems should verify the values against the
+ * real system capabilities.
+ */
+
+#ifdef PNG_SAFE_LIMITS_SUPPORTED
+   /* 'safe' limits */
+#  ifndef PNG_USER_WIDTH_MAX
+#     define PNG_USER_WIDTH_MAX 1000000
+#  endif
+#  ifndef PNG_USER_HEIGHT_MAX
+#     define PNG_USER_HEIGHT_MAX 1000000
+#  endif
+#  ifndef PNG_USER_CHUNK_CACHE_MAX
+#     define PNG_USER_CHUNK_CACHE_MAX 128
+#  endif
+#  ifndef PNG_USER_CHUNK_MALLOC_MAX
+#     define PNG_USER_CHUNK_MALLOC_MAX 8000000
+#  endif
+#else
+   /* values for no limits */
+#  ifndef PNG_USER_WIDTH_MAX
+#     define PNG_USER_WIDTH_MAX 0x7fffffff
+#  endif
+#  ifndef PNG_USER_HEIGHT_MAX
+#     define PNG_USER_HEIGHT_MAX 0x7fffffff
+#  endif
+#  ifndef PNG_USER_CHUNK_CACHE_MAX
+#     define PNG_USER_CHUNK_CACHE_MAX 0
+#  endif
+#  ifndef PNG_USER_CHUNK_MALLOC_MAX
+#     define PNG_USER_CHUNK_MALLOC_MAX 0
+#  endif
 #endif
 
 /* This is used for 16 bit gamma tables - only the top level pointers are const,
@@ -426,6 +466,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_BACKGROUND_IS_GRAY     0x800
 #define PNG_HAVE_PNG_SIGNATURE    0x1000
 #define PNG_HAVE_CHUNK_AFTER_IDAT 0x2000 /* Have another chunk after IDAT */
+#define PNG_HAVE_iCCP             0x4000
 
 /* Flags for the transformations the PNG library does on the image data */
 #define PNG_BGR                 0x0001
@@ -532,7 +573,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
 #define PNG_ROWBYTES(pixel_bits, width) \
     ((pixel_bits) >= 8 ? \
     ((png_size_t)(width) * (((png_size_t)(pixel_bits)) >> 3)) : \
-    (( ((png_size_t)(width) * ((png_size_t)(pixel_bits))) + 7) >> 3))
+    (( ((png_size_t)(width) * ((png_size_t)(pixel_bits))) + 7) >> 3) )
 
 /* PNG_OUT_OF_RANGE returns true if value is outside the range
  * ideal-delta..ideal+delta.  Each argument is evaluated twice.
@@ -540,7 +581,7 @@ typedef PNG_CONST png_uint_16p FAR * png_const_uint_16pp;
  * integers, "value" a variable. Added to libpng-1.2.6 JB
  */
 #define PNG_OUT_OF_RANGE(value, ideal, delta) \
-   ( (value) < (ideal)-(delta) || (value) > (ideal)+(delta))
+   ( (value) < (ideal)-(delta) || (value) > (ideal)+(delta) )
 
 /* Conversions between fixed and floating point, only defined if
  * required (to make sure the code doesn't accidentally use float
@@ -952,8 +993,8 @@ PNG_EXTERN void png_do_write_interlace PNGARG((png_row_infop row_info,
 /* Unfilter a row: check the filter value before calling this, there is no point
  * calling it for PNG_FILTER_VALUE_NONE.
  */
-PNG_EXTERN void png_read_filter_row PNGARG((png_structp pp, png_row_infop row_info,
-    png_bytep row, png_const_bytep prev_row, int filter));
+PNG_EXTERN void png_read_filter_row PNGARG((png_structp pp, png_row_infop
+    row_info, png_bytep row, png_const_bytep prev_row, int filter));
 
 PNG_EXTERN void png_read_filter_row_up_neon PNGARG((png_row_infop row_info,
     png_bytep row, png_const_bytep prev_row));
@@ -1218,10 +1259,8 @@ PNG_EXTERN void png_handle_zTXt PNGARG((png_structp png_ptr, png_infop info_ptr,
     png_uint_32 length));
 #endif
 
-#ifdef PNG_HANDLE_AS_UNKNOWN_SUPPORTED
 PNG_EXTERN void png_handle_unknown PNGARG((png_structp png_ptr,
     png_infop info_ptr, png_uint_32 length));
-#endif
 
 PNG_EXTERN void png_check_chunk_name PNGARG((png_structp png_ptr,
     png_uint_32 chunk_name));
@@ -1354,6 +1393,13 @@ PNG_EXTERN void png_check_IHDR PNGARG((png_structp png_ptr,
     png_uint_32 width, png_uint_32 height, int bit_depth,
     int color_type, int interlace_type, int compression_type,
     int filter_type));
+
+/* Added at libpng version 1.5.10 */
+#if defined(PNG_READ_CHECK_FOR_INVALID_INDEX_SUPPORTED) || \
+    defined(PNG_WRITE_CHECK_FOR_INVALID_INDEX_SUPPORTED)
+PNG_EXTERN void png_do_check_palette_indexes PNGARG((png_structp png_ptr,
+    png_row_infop row_info));
+#endif
 
 /* Free all memory used by the read (old method - NOT DLL EXPORTED) */
 PNG_EXTERN void png_read_destroy PNGARG((png_structp png_ptr,
@@ -1536,7 +1582,7 @@ PNG_EXTERN void png_ascii_from_fixed PNGARG((png_structp png_ptr,
 #define PNG_FP_IS_ZERO(state) (((state) & PNG_FP_Z_MASK) == PNG_FP_SAW_DIGIT)
 #define PNG_FP_IS_POSITIVE(state) (((state) & PNG_FP_NZ_MASK) == PNG_FP_Z_MASK)
 #define PNG_FP_IS_NEGATIVE(state) (((state) & PNG_FP_NZ_MASK) == PNG_FP_NZ_MASK)
- 
+
 /* The actual parser.  This can be called repeatedly, it updates
  * the index into the string and the state variable (which must
  * be initialzed to 0).  It returns a result code, as above.  There

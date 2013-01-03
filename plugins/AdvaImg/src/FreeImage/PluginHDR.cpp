@@ -127,7 +127,7 @@ rgbe_GetLine(FreeImageIO *io, fi_handle handle, char *buffer, int length) {
 	int i;
 	memset(buffer, 0, length);
 	for(i = 0; i < length; i++) {
-		if (!io->read_proc(&buffer[i], 1, 1, handle))
+		if(!io->read_proc(&buffer[i], 1, 1, handle))
 			return FALSE;
 		if(buffer[i] == 0x0A)
 			break;
@@ -196,7 +196,7 @@ rgbe_ReadHeader(FreeImageIO *io, fi_handle handle, unsigned *width, unsigned *he
 	header_info->exposure = 1.0;
 
 	// get the first line
-	if (!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
+	if(!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
 		return rgbe_Error(rgbe_read_error, NULL);
 
 	// check the signature
@@ -208,19 +208,19 @@ rgbe_ReadHeader(FreeImageIO *io, fi_handle handle, unsigned *width, unsigned *he
 	else {
 		header_info->valid |= RGBE_VALID_PROGRAMTYPE;
 		for(i = 0; i < sizeof(header_info->programtype) - 1; i++) {
-			if ((buf[i+2] == 0) || isspace(buf[i+2]))
+			if((buf[i+2] == 0) || isspace(buf[i+2]))
 				break;
 			header_info->programtype[i] = buf[i+2];
 		}
 		header_info->programtype[i] = 0;
 	}
 
-	for (;;) {
+	for(;;) {
 		// get next line
-		if (!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
+		if(!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
 			return rgbe_Error(rgbe_read_error, NULL);
 
-		if ((buf[0] == 0) || (buf[0] == '\n')) {
+		if((buf[0] == 0) || (buf[0] == '\n')) {
 			// end of header so break out of loop
 			bHeaderFound = TRUE;
 			break;
@@ -236,17 +236,17 @@ rgbe_ReadHeader(FreeImageIO *io, fi_handle handle, unsigned *width, unsigned *he
 			header_info->exposure = tempf;
 			header_info->valid |= RGBE_VALID_EXPOSURE;
 		}
-		else if ((buf[0] == '#') && (buf[1] == 0x20)) {
+		else if((buf[0] == '#') && (buf[1] == 0x20)) {
 			header_info->valid |= RGBE_VALID_COMMENT;
 			strcpy(header_info->comment, buf);
 		}
 	}
-	if (!bHeaderFound || !bFormatFound) {
+	if(!bHeaderFound || !bFormatFound) {
 		return rgbe_Error(rgbe_format_error, "invalid header");
 	}
 
 	// get next line
-	if (!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
+	if(!rgbe_GetLine(io, handle, buf, HDR_MAXLINE))
 		return rgbe_Error(rgbe_read_error, NULL);
 
 	// get the image width & height
@@ -364,14 +364,14 @@ rgbe_ReadPixels_RLE(FreeImageIO *io, fi_handle handle, FIRGBF *data, int scanlin
 			free(scanline_buffer);
 			return rgbe_Error(rgbe_read_error,NULL);
 		}
-		if ((rgbe[0] != 2) || (rgbe[1] != 2) || (rgbe[2] & 0x80)) {
+		if((rgbe[0] != 2) || (rgbe[1] != 2) || (rgbe[2] & 0x80)) {
 			// this file is not run length encoded
 			rgbe_RGBEToFloat(data, rgbe);
 			data ++;
 			free(scanline_buffer);
 			return rgbe_ReadPixels(io, handle, data, scanline_width * num_scanlines - 1);
 		}
-		if ((((int)rgbe[2]) << 8 | rgbe[3]) != scanline_width) {
+		if((((int)rgbe[2]) << 8 | rgbe[3]) != scanline_width) {
 			free(scanline_buffer);
 			return rgbe_Error(rgbe_format_error,"wrong scanline width");
 		}
@@ -394,7 +394,7 @@ rgbe_ReadPixels_RLE(FreeImageIO *io, fi_handle handle, FIRGBF *data, int scanlin
 				if(buf[0] > 128) {
 					// a run of the same value
 					count = buf[0] - 128;
-					if ((count == 0) || (count > ptr_end - ptr)) {
+					if((count == 0) || (count > ptr_end - ptr)) {
 						free(scanline_buffer);
 						return rgbe_Error(rgbe_format_error, "bad scanline data");
 					}
@@ -404,12 +404,12 @@ rgbe_ReadPixels_RLE(FreeImageIO *io, fi_handle handle, FIRGBF *data, int scanlin
 				else {
 					// a non-run
 					count = buf[0];
-					if ((count == 0) || (count > ptr_end - ptr)) {
+					if((count == 0) || (count > ptr_end - ptr)) {
 						free(scanline_buffer);
 						return rgbe_Error(rgbe_format_error, "bad scanline data");
 					}
 					*ptr++ = buf[1];
-					if (--count > 0) {
+					if(--count > 0) {
 						if(io->read_proc(ptr, 1, sizeof(BYTE) * count, handle) < 1) {
 							free(scanline_buffer);
 							return rgbe_Error(rgbe_read_error, NULL);
@@ -530,7 +530,7 @@ rgbe_WritePixels_RLE(FreeImageIO *io, fi_handle handle, FIRGBF *data, unsigned s
 		// first red, then green, then blue, then exponent
 		for(int i = 0; i < 4; i++) {
 			BOOL bOK = rgbe_WriteBytes_RLE(io, handle, &buffer[i*scanline_width], scanline_width);
-			if (!bOK) {
+			if(!bOK) {
 				free(buffer);
 				return bOK;
 			}
@@ -606,7 +606,7 @@ static FIBITMAP * DLL_CALLCONV
 Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	FIBITMAP *dib = NULL;
 
-	if (!handle) {
+	if(!handle) {
 		return NULL;
 	}
 
@@ -624,7 +624,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 		// allocate a RGBF image
 		dib = FreeImage_AllocateHeaderT(header_only, FIT_RGBF, width, height);
-		if (!dib) {
+		if(!dib) {
 			throw FI_MSG_ERROR_MEMORY;
 		}
 
@@ -640,7 +640,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		
 		for(unsigned y = 0; y < height; y++) {
 			FIRGBF *scanline = (FIRGBF*)FreeImage_GetScanLine(dib, height - 1 - y);
-			if (!rgbe_ReadPixels_RLE(io, handle, scanline, width, 1)) {
+			if(!rgbe_ReadPixels_RLE(io, handle, scanline, width, 1)) {
 				FreeImage_Unload(dib);
 				return NULL;
 			}
@@ -659,9 +659,11 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 static BOOL DLL_CALLCONV
 Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void *data) {
-	if (!dib) return FALSE;
+	if(!dib) return FALSE;
 
-	if(FreeImage_GetImageType(dib) != FIT_RGBF) {
+	FREE_IMAGE_TYPE src_type = FreeImage_GetImageType(dib);
+	if(src_type != FIT_RGBF) {
+		FreeImage_OutputMessageProc(s_format_id, "FREE_IMAGE_TYPE: Unable to convert from type %d to type %d.\n No such conversion exists.", src_type, FIT_RGBF);
 		return FALSE;
 	}
 
@@ -676,7 +678,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 	rgbe_WriteMetadata(dib, &header_info);
 	// fill a comment
 	sprintf(header_info.comment, "# Made with FreeImage %s", FreeImage_GetVersion());
-	if (!rgbe_WriteHeader(io, handle, width, height, &header_info)) {
+	if(!rgbe_WriteHeader(io, handle, width, height, &header_info)) {
 		return FALSE;
 	}
 
@@ -684,7 +686,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 	for(unsigned y = 0; y < height; y++) {
 		FIRGBF *scanline = (FIRGBF*)FreeImage_GetScanLine(dib, height - 1 - y);
-		if (!rgbe_WritePixels_RLE(io, handle, scanline, width, 1)) {
+		if(!rgbe_WritePixels_RLE(io, handle, scanline, width, 1)) {
 			return FALSE;
 		}
 	}

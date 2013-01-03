@@ -38,7 +38,7 @@ FreeImage_ToneMapping(FIBITMAP *dib, FREE_IMAGE_TMO tmo, double first_param, dou
 		switch(tmo) {
 			// Adaptive logarithmic mapping (F. Drago, 2003)
 			case FITMO_DRAGO03:
-				if ((first_param == 0) && (second_param == 0)) {
+				if((first_param == 0) && (second_param == 0)) {
 					// use default values (gamma = 2.2, exposure = 0)
 					return FreeImage_TmoDrago03(dib, 2.2, 0);
 				} else {
@@ -48,7 +48,7 @@ FreeImage_ToneMapping(FIBITMAP *dib, FREE_IMAGE_TMO tmo, double first_param, dou
 				break;
 			// Dynamic range reduction inspired by photoreceptor phhysiology (E. Reinhard, 2005)
 			case FITMO_REINHARD05:
-				if ((first_param == 0) && (second_param == 0)) {
+				if((first_param == 0) && (second_param == 0)) {
 					// use default values by setting intensity to 0 and contrast to 0
 					return FreeImage_TmoReinhard05(dib, 0, 0);
 				} else {
@@ -58,7 +58,7 @@ FreeImage_ToneMapping(FIBITMAP *dib, FREE_IMAGE_TMO tmo, double first_param, dou
 				break;
 			// Gradient Domain HDR Compression (R. Fattal, 2002)
 			case FITMO_FATTAL02:
-				if ((first_param == 0) && (second_param == 0)) {
+				if((first_param == 0) && (second_param == 0)) {
 					// use default values by setting color saturation to 0.5 and attenuation to 0.85
 					return FreeImage_TmoFattal02(dib, 0.5, 0.85);
 				} else {

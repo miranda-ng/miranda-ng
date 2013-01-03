@@ -1168,7 +1168,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 //					io->seek_proc( handle, 122, SEEK_CUR );
 //					found = TRUE;
 					BYTE data[ 2 ];
-					if ( io->read_proc( data, 2, 1, handle ) ) {
+					if( io->read_proc( data, 2, 1, handle ) ) {
 						io->seek_proc( handle, -2, SEEK_CUR );
 						
 						if ( data[0] == 0xFF && data[1] == 0xD8 ) {

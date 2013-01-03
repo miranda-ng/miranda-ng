@@ -29,7 +29,7 @@
 void DLL_CALLCONV
 FreeImage_ConvertLine1To4(BYTE *target, BYTE *source, int width_in_pixels) {
 	BOOL hinibble = TRUE;
-	for (int cols = 0; cols < width_in_pixels; cols++) {
+	for (int cols = 0; cols < width_in_pixels; cols++){
 		if (hinibble == TRUE){
 			target[cols >> 1] = ((source[cols >> 3] & (0x80 >> (cols & 0x07))) != 0 ? 15 : 0) << 4;
 		} 
@@ -46,7 +46,7 @@ FreeImage_ConvertLine8To4(BYTE *target, BYTE *source, int width_in_pixels, RGBQU
 	BOOL hinibble = TRUE;
 	BYTE index;
 
-	for (int cols = 0; cols < width_in_pixels; cols++) {
+	for (int cols = 0; cols < width_in_pixels; cols++){
 		index = GREY(palette[source[cols]].rgbRed, palette[source[cols]].rgbGreen, palette[source[cols]].rgbBlue);
 		if (hinibble) {
 			target[cols >> 1] = (index & 0xF0);
@@ -140,7 +140,7 @@ FreeImage_ConvertLine32To4(BYTE *target, BYTE *source, int width_in_pixels) {
 
 FIBITMAP * DLL_CALLCONV
 FreeImage_ConvertTo4Bits(FIBITMAP *dib) {
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	const int bpp = FreeImage_GetBPP(dib);
 

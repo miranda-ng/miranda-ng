@@ -45,6 +45,12 @@
     <Filter Include="Toolkit Files">
       <UniqueIdentifier>{8a30217b-8369-4504-a6b0-5cd09f8b95a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{e2db5718-8b21-4fb0-967d-d19bddf27c1f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{066db7d3-0d3c-4ca7-b3dc-20f052f3aa4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\FreeImage\BitmapAccess.cpp">
@@ -437,13 +443,13 @@
     <ClCompile Include="src\FreeImage\ConversionUINT16.cpp">
       <Filter>Source Files\Conversion</Filter>
     </ClCompile>
+    <ClCompile Include="src\FreeImageToolkit\Background.cpp">
+      <Filter>Toolkit Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\AdvaImg.rc">
-      <Filter>Source Files</Filter>
-    </ResourceCompile>
     <ResourceCompile Include="res\Version.rc">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
@@ -519,9 +525,6 @@
     <ClInclude Include="src\FreeImageToolkit\Resize.h">
       <Filter>Toolkit Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\version.h">
-      <Filter>Source Files\LibJPEG\Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\LibPNG\pngpriv.h">
       <Filter>Source Files\LibPNG\Header Files</Filter>
     </ClInclude>
@@ -533,6 +536,9 @@
     </ClInclude>
     <ClInclude Include="src\LibPNG\pngdebug.h">
       <Filter>Source Files\LibPNG\Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

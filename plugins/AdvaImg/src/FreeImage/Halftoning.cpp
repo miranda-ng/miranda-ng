@@ -176,7 +176,7 @@ static FIBITMAP* OrderedDispersedDot(FIBITMAP *dib, int order) {
 	BYTE *matrix = (BYTE*)malloc(l*l * sizeof(BYTE));
 	for(int i = 0; i < l*l; i++) {
 		// according to "Purdue University: Digital Image Processing Laboratory: Image Halftoning, April 30th, 2006
-		matrix[i] = (BYTE)( 255 * (((double)dithervalue(i / l, i % l, order) + 0.5) / (l*l)));
+		matrix[i] = (BYTE)( 255 * (((double)dithervalue(i / l, i % l, order) + 0.5) / (l*l)) );
 	}
 
 	// perform the dithering
@@ -312,7 +312,7 @@ FIBITMAP * DLL_CALLCONV
 FreeImage_Dither(FIBITMAP *dib, FREE_IMAGE_DITHER algorithm) {
 	FIBITMAP *input = NULL, *dib8 = NULL;
 
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	const unsigned bpp = FreeImage_GetBPP(dib);
 
@@ -401,7 +401,7 @@ FIBITMAP * DLL_CALLCONV
 FreeImage_Threshold(FIBITMAP *dib, BYTE T) {
 	FIBITMAP *dib8 = NULL;
 
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	const unsigned bpp = FreeImage_GetBPP(dib);
 

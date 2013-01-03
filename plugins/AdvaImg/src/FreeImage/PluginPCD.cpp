@@ -155,7 +155,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	try {
 		// allocate the dib and write out the header
 		dib = FreeImage_AllocateHeader(header_only, width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
-		if (!dib) throw FI_MSG_ERROR_DIB_MEMORY;
+		if(!dib) throw FI_MSG_ERROR_DIB_MEMORY;
 
 		if(header_only) {
 			return dib;
@@ -173,7 +173,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		BYTE *y1 = (BYTE*)malloc(width * sizeof(BYTE));
 		BYTE *y2 = (BYTE*)malloc(width * sizeof(BYTE));
 		BYTE *cbcr = (BYTE*)malloc(width * sizeof(BYTE));
-		if (!y1 || !y2 || !cbcr) throw FI_MSG_ERROR_MEMORY;
+		if(!y1 || !y2 || !cbcr) throw FI_MSG_ERROR_MEMORY;
 
 		BYTE *yl[] = { y1, y2 };
 

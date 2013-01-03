@@ -31,7 +31,7 @@ FreeImage_ConvertToRGBF(FIBITMAP *dib) {
 	FIBITMAP *src = NULL;
 	FIBITMAP *dst = NULL;
 
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	const FREE_IMAGE_TYPE src_type = FreeImage_GetImageType(dib);
 
@@ -41,9 +41,9 @@ FreeImage_ConvertToRGBF(FIBITMAP *dib) {
 		{
 			// allow conversion from 24- and 32-bit
 			const FREE_IMAGE_COLOR_TYPE color_type = FreeImage_GetColorType(dib);
-			if ((color_type != FIC_RGB) && (color_type != FIC_RGBALPHA)) {
+			if((color_type != FIC_RGB) && (color_type != FIC_RGBALPHA)) {
 				src = FreeImage_ConvertTo24Bits(dib);
-				if (!src) return NULL;
+				if(!src) return NULL;
 			} else {
 				src = dib;
 			}
@@ -83,7 +83,7 @@ FreeImage_ConvertToRGBF(FIBITMAP *dib) {
 	const unsigned height = FreeImage_GetHeight(src);
 
 	dst = FreeImage_AllocateT(FIT_RGBF, width, height);
-	if (!dst) {
+	if(!dst) {
 		if(src != dib) {
 			FreeImage_Unload(src);
 		}

@@ -61,7 +61,7 @@ ls_jpeg_error_exit (j_common_ptr cinfo) {
 	(*cinfo->err->output_message)(cinfo);
 
 	// allow JPEG with a premature end of file
-	if ((cinfo)->err->msg_parm.i[0] != 13) {
+	if((cinfo)->err->msg_parm.i[0] != 13) {
 	
 		// let the memory manager delete any temp files before we die
 		jpeg_destroy(cinfo);
@@ -171,7 +171,7 @@ LosslessTransform(const FilenameIO *filenameIO, FREE_IMAGE_JPEG_OPERATION operat
 
 		// crop option
 		if(crop != NULL) {
-			if (!jtransform_parse_crop_spec(&transfoptions, crop)) {
+			if(!jtransform_parse_crop_spec(&transfoptions, crop)) {
 				FreeImage_OutputMessageProc(FIF_JPEG, "Bogus crop argument %s", crop);
 				throw(1);
 			}
@@ -180,14 +180,14 @@ LosslessTransform(const FilenameIO *filenameIO, FREE_IMAGE_JPEG_OPERATION operat
 		// Open the input file
 		if(bUseUnicode) {
 #ifdef _WIN32
-			if ((fp = _wfopen(filenameIO->wsrc_file, L"rb")) == NULL) {
+			if((fp = _wfopen(filenameIO->wsrc_file, L"rb")) == NULL) {
 				FreeImage_OutputMessageProc(FIF_JPEG, "Cannot open input file for reading");
 			}
 #else
 			fp = NULL;
 #endif // _WIN32
 		} else {
-			if ((fp = fopen(filenameIO->src_file, "rb")) == NULL) {
+			if((fp = fopen(filenameIO->src_file, "rb")) == NULL) {
 				FreeImage_OutputMessageProc(FIF_JPEG, "Cannot open %s for reading", filenameIO->src_file);
 			}
 		}
@@ -211,7 +211,7 @@ LosslessTransform(const FilenameIO *filenameIO, FREE_IMAGE_JPEG_OPERATION operat
 
 		// Prepare transformation workspace
 		// Fails right away if perfect flag is TRUE and transformation is not perfect
-		if ( !jtransform_request_workspace(&srcinfo, &transfoptions)) {
+		if( !jtransform_request_workspace(&srcinfo, &transfoptions) ) {
 			FreeImage_OutputMessageProc(FIF_JPEG, "Transformation is not perfect");
 			throw(1);
 		}
@@ -237,14 +237,14 @@ LosslessTransform(const FilenameIO *filenameIO, FREE_IMAGE_JPEG_OPERATION operat
 		// Open the output file
 		if(bUseUnicode) {
 #ifdef _WIN32
-			if ((fp = _wfopen(filenameIO->wdst_file, L"wb")) == NULL) {
+			if((fp = _wfopen(filenameIO->wdst_file, L"wb")) == NULL) {
 				FreeImage_OutputMessageProc(FIF_JPEG, "Cannot open output file for writing");
 			}
 #else
 			fp = NULL;
 #endif // _WIN32
 		} else {
-			if ((fp = fopen(filenameIO->dst_file, "wb")) == NULL) {
+			if((fp = fopen(filenameIO->dst_file, "wb")) == NULL) {
 				FreeImage_OutputMessageProc(FIF_JPEG, "Cannot open %s for writing", filenameIO->dst_file);
 			}
 		}

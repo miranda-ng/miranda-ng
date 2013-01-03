@@ -47,7 +47,7 @@ CONVERT_TYPE<Tdst, Tsrc>::convert(FIBITMAP *src, FREE_IMAGE_TYPE dst_type) {
 
 	dst = FreeImage_AllocateT(dst_type, width, height, bpp, 
 			FreeImage_GetRedMask(src), FreeImage_GetGreenMask(src), FreeImage_GetBlueMask(src));
-	if (!dst) return NULL;
+	if(!dst) return NULL;
 
 	// convert from src_type to dst_type
 	
@@ -86,7 +86,7 @@ CONVERT_TO_BYTE<Tsrc>::convert(FIBITMAP *src, BOOL scale_linear) {
 	// allocate a 8-bit dib
 
 	dst = FreeImage_AllocateT(FIT_BITMAP, width, height, 8, 0, 0, 0);
-	if (!dst) return NULL;
+	if(!dst) return NULL;
 
 	// build a greyscale palette
 	RGBQUAD *pal = FreeImage_GetPalette(dst);
@@ -160,7 +160,7 @@ CONVERT_TO_COMPLEX<Tsrc>::convert(FIBITMAP *src) {
 	// allocate dst image
 
 	dst = FreeImage_AllocateT(FIT_COMPLEX, width, height);
-	if (!dst) return NULL;
+	if(!dst) return NULL;
 
 	// convert from src_type to FIT_COMPLEX
 	
@@ -236,7 +236,7 @@ FIBITMAP* DLL_CALLCONV
 FreeImage_ConvertToStandardType(FIBITMAP *src, BOOL scale_linear) {
 	FIBITMAP *dst = NULL;
 
-	if (!src) return NULL;
+	if(!src) return NULL;
 
 	// convert from src_type to FIT_BITMAP
 
@@ -306,7 +306,7 @@ FIBITMAP* DLL_CALLCONV
 FreeImage_ConvertToType(FIBITMAP *src, FREE_IMAGE_TYPE dst_type, BOOL scale_linear) {
 	FIBITMAP *dst = NULL;
 
-	if (!FreeImage_HasPixels(src)) return NULL;
+	if(!FreeImage_HasPixels(src)) return NULL;
 
 	// convert from src_type to dst_type
 

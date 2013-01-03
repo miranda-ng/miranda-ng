@@ -100,7 +100,7 @@ CalculateImageOffset(std::vector<FIBITMAP*>& vPages, int nIndex ) {
     // calculate the ICO header size
     dwSize = sizeof(ICONHEADER); 
     // add the ICONDIRENTRY's
-    dwSize += (DWORD)( vPages.size() * sizeof(ICONDIRENTRY));
+    dwSize += (DWORD)( vPages.size() * sizeof(ICONDIRENTRY) );
     // add the sizes of the previous images
     for(int k = 0; k < nIndex; k++) {
 		FIBITMAP *icon_dib = (FIBITMAP*)vPages[k];
@@ -232,7 +232,7 @@ Open(FreeImageIO *io, fi_handle handle, BOOL read) {
 		SwapIconHeader(lpIH);
 #endif
 
-		if (!(lpIH->idReserved == 0) || !(lpIH->idType == 1)) {
+		if(!(lpIH->idReserved == 0) || !(lpIH->idType == 1)) {
 			// Not an ICO file
 			free(lpIH);
 			return NULL;
@@ -295,7 +295,7 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 		return NULL;
 	}
 
-	if ( bmih.biBitCount <= 8 ) {
+	if( bmih.biBitCount <= 8 ) {
 		// read the palette data
 		io->read_proc(FreeImage_GetPalette(dib), CalculateUsedPaletteEntries(bit_count) * sizeof(RGBQUAD), 1, handle);
 #if FREEIMAGE_COLORORDER == FREEIMAGE_COLORORDER_RGB
@@ -339,7 +339,7 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 	// bitmap has been loaded successfully!
 
 	// convert to 32bpp and generate an alpha channel
-	if ((flags & ICO_MAKEALPHA) == ICO_MAKEALPHA) {
+	if((flags & ICO_MAKEALPHA) == ICO_MAKEALPHA) {
 		FIBITMAP *dib32 = FreeImage_ConvertTo32Bits(dib);
 		FreeImage_Unload(dib);
 
@@ -350,7 +350,7 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 		int width_and	= WidthBytes(width);
 		BYTE *line_and	= (BYTE *)malloc(width_and);
 
-		if ( line_and == NULL ) {
+		if( line_and == NULL ) {
 			FreeImage_Unload(dib32);
 			return NULL;
 		}
@@ -361,7 +361,7 @@ LoadStandardIcon(FreeImageIO *io, fi_handle handle, int flags, BOOL header_only)
 			io->read_proc(line_and, width_and, 1, handle);
 			for(int x = 0; x < width; x++) {
 				quad->rgbReserved = (line_and[x>>3] & (0x80 >> (x & 0x07))) != 0 ? 0 : 0xFF;
-				if ( quad->rgbReserved == 0 ) {
+				if( quad->rgbReserved == 0 ) {
 					quad->rgbBlue ^= 0xFF;
 					quad->rgbGreen ^= 0xFF;
 					quad->rgbRed ^= 0xFF;
@@ -409,7 +409,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				io->seek_proc(handle, 0, SEEK_SET);
 				io->seek_proc(handle, icon_list[page].dwImageOffset, SEEK_CUR);
 
-				if ((icon_list[page].bWidth == 0) && (icon_list[page].bHeight == 0)) {
+				if((icon_list[page].bWidth == 0) && (icon_list[page].bHeight == 0)) {
 					// Vista icon support
 					dib = FreeImage_LoadFromHandle(FIF_PNG, io, handle, header_only ? FIF_LOAD_NOPIXELS : PNG_DEFAULT);
 				}
@@ -530,7 +530,7 @@ SaveStandardIcon(FreeImageIO *io, FIBITMAP *dib, fi_handle handle) {
 #endif
 	// AND mask
 	BYTE *and_mask = (BYTE*)malloc(size_and);
-	if (!and_mask) {
+	if(!and_mask) {
 		return FALSE;
 	}
 
@@ -642,14 +642,14 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 	std::vector<FIBITMAP*> vPages;
 	int k;
 
-	if (!dib || !handle || !data) {
+	if(!dib || !handle || !data) {
 		return FALSE;
 	}
 
 	// check format limits
 	unsigned w = FreeImage_GetWidth(dib);
 	unsigned h = FreeImage_GetHeight(dib);
-	if ((w < 16) || (w > 256) || (h < 16) || (h > 256) || (w != h)) {
+	if((w < 16) || (w > 256) || (h < 16) || (h > 256) || (w != h)) {
 		FreeImage_OutputMessageProc(s_format_id, "Unsupported icon size: width x height = %d x %d", w, h);
 		return FALSE;
 	}
@@ -667,7 +667,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		// load all icons
 		for(k = 0; k < icon_header->idCount; k++) {
 			icon_dib = Load(io, handle, k, flags, data);
-			if (!icon_dib) {
+			if(!icon_dib) {
 				throw FI_MSG_ERROR_DIB_MEMORY;
 			}
 			vPages.push_back(icon_dib);
@@ -694,7 +694,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		// save the icon descriptions
 
 		ICONDIRENTRY *icon_list = (ICONDIRENTRY *)malloc(icon_header->idCount * sizeof(ICONDIRENTRY));
-		if (!icon_list) {
+		if(!icon_list) {
 			throw FI_MSG_ERROR_MEMORY;
 		}
 		memset(icon_list, 0, icon_header->idCount * sizeof(ICONDIRENTRY));
@@ -710,7 +710,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			icon_list[k].bReserved		= 0;
 			icon_list[k].wPlanes		= bmih->biPlanes;
 			icon_list[k].wBitCount		= bmih->biBitCount;
-			if ( (icon_list[k].wPlanes * icon_list[k].wBitCount) >= 8 ) {
+			if( (icon_list[k].wPlanes * icon_list[k].wBitCount) >= 8 ) {
 				icon_list[k].bColorCount = 0;
 			} else {
 				icon_list[k].bColorCount = (BYTE)(1 << (icon_list[k].wPlanes * icon_list[k].wBitCount));
@@ -731,7 +731,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		for(k = 0; k < icon_header->idCount; k++) {
 			icon_dib = (FIBITMAP*)vPages[k];
 			
-			if ((icon_list[k].bWidth == 0) && (icon_list[k].bHeight == 0)) {
+			if((icon_list[k].bWidth == 0) && (icon_list[k].bHeight == 0)) {
 				// Vista icon support
 				FreeImage_SaveToHandle(FIF_PNG, icon_dib, io, handle, PNG_DEFAULT);
 			}

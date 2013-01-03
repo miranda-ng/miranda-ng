@@ -312,14 +312,24 @@ typedef struct tagTagInfo {
 
 
 /**
-	Class to hold tag information (based on Meyers’ Singleton).<br>
+Class to hold tag information (based on Meyers’ Singleton).<br>
 
-	Sample usage :<br>
-	<code>
-	TagLib& s = TagLib::instance();
-	TagInfo *tag_info = s.getTagInfo(EXIF_MAIN, 0x0100);
-	</code>
+Sample usage :<br>
+<code>
+TagLib& s = TagLib::instance();
+TagInfo *tag_info = s.getTagInfo(EXIF_MAIN, 0x0100);
+</code>
 
+Note on multi-threaded applications : 
+
+The singleton pattern must be carefully constructed in multi-threaded applications. 
+If two threads are to execute the creation method at the same time when a singleton 
+does not yet exist, they both must check for an instance of the singleton and then 
+only one should create the new one.
+The classic solution to this problem is to use mutual exclusion on the class that 
+indicates that the object is being instantiated.
+The FreeImage solution is to instantiate the singleton before any other thread is launched, 
+i.e. inside the FreeImage_Initialise function (see Plugin.cpp). 
 */
 
 class TagLib {

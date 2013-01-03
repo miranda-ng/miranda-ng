@@ -53,7 +53,7 @@ FindChar(FreeImageIO *io, fi_handle handle, BYTE look_for) {
 	BYTE c;
 	io->read_proc(&c, sizeof(BYTE), 1, handle);
 	while(c != look_for) {
-		if ( io->read_proc(&c, sizeof(BYTE), 1, handle) != 1 )
+		if( io->read_proc(&c, sizeof(BYTE), 1, handle) != 1 )
 			return FALSE;
 	}
 	return TRUE;
@@ -62,14 +62,14 @@ FindChar(FreeImageIO *io, fi_handle handle, BYTE look_for) {
 // find start of string, read data until ending quote found, allocate memory and return a string
 static char *
 ReadString(FreeImageIO *io, fi_handle handle) {
-	if ( !FindChar(io, handle,'"') )
+	if( !FindChar(io, handle,'"') )
 		return NULL;
 	BYTE c;
 	std::string s;
 	io->read_proc(&c, sizeof(BYTE), 1, handle);
 	while(c != '"') {
 		s += c;
-		if ( io->read_proc(&c, sizeof(BYTE), 1, handle) != 1 )
+		if( io->read_proc(&c, sizeof(BYTE), 1, handle) != 1 )
 			return NULL;
 	}
 	char *cstr = (char *)malloc(s.length()+1);
@@ -166,16 +166,16 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		BOOL header_only = (flags & FIF_LOAD_NOPIXELS) == FIF_LOAD_NOPIXELS;
 		
 		//find the starting brace
-		if ( !FindChar(io, handle,'{') )
+		if( !FindChar(io, handle,'{') )
 			throw "Could not find starting brace";
 
 		//read info string
 		str = ReadString(io, handle);
-		if (!str)
+		if(!str)
 			throw "Error reading info string";
 
 		int width, height, colors, cpp;
-		if ( sscanf(str, "%d %d %d %d", &width, &height, &colors, &cpp) != 4 ) {
+		if( sscanf(str, "%d %d %d %d", &width, &height, &colors, &cpp) != 4 ) {
 			free(str);
 			throw "Improperly formed info string";
 		}
@@ -193,7 +193,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			FILE_RGBA rgba;
 
 			str = ReadString(io, handle);
-			if (!str)
+			if(!str)
 				throw "Error reading color strings";
 
 			std::string chrs(str,cpp); //create a string for the color chars using the first cpp chars
@@ -207,14 +207,14 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			}
 
 			//prefer the color visual
-			if ( strstr(keys," c ") ) {
+			if( strstr(keys," c ") ) {
 				char *clr = strstr(keys," c ") + 3;
 				while( *clr == ' ' ) clr++; //find the start of the hex rgb value
-				if ( *clr == '#' ) {
+				if( *clr == '#' ) {
 					int red = 0, green = 0, blue = 0, n;
 					clr++;
 					//end string at first space, if any found
-					if ( strchr(clr,' ') )
+					if( strchr(clr,' ') )
 						*(strchr(clr,' ')) = '\0';
 					//parse hex color, it can be #rgb #rrggbb #rrrgggbbb or #rrrrggggbbbb
 					switch( strlen(clr) ) {
@@ -239,14 +239,14 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 							n = 0;
 							break;
 					}
-					if ( n != 3 ) {
+					if( n != 3 ) {
 						free(str);
 						throw "Improperly formed hex color value";
 					}
 					rgba.r = (BYTE)red;
 					rgba.g = (BYTE)green;
 					rgba.b = (BYTE)blue;
-				} else if ( !strncmp(clr,"None",4) || !strncmp(clr,"none",4) ) {
+				} else if( !strncmp(clr,"None",4) || !strncmp(clr,"none",4) ) {
 					rgba.r = rgba.g = rgba.b = 0xFF;
 				} else {
 					char *tmp = clr;
@@ -256,8 +256,8 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 					//part of the color name.  How many named color end with a 1 or 2 character
 					//word? Probably none in our list at least.
 					while( (tmp = strchr(tmp,' ')) != NULL ) {
-						if ( tmp[1] != ' ' ) {
-							if ( (tmp[2] == ' ') || (tmp[2] != ' ' && tmp[3] == ' ') ) {
+						if( tmp[1] != ' ' ) {
+							if( (tmp[2] == ' ') || (tmp[2] != ' ' && tmp[3] == ' ') ) {
 								tmp[0] = '\0';
 								break;
 							}
@@ -288,7 +288,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			rawpal[chrs] = rgba;
 
 			//build palette if needed
-			if ( colors <= 256 ) {
+			if( colors <= 256 ) {
 				RGBQUAD *pal = FreeImage_GetPalette(dib);
 				pal[i].rgbBlue = rgba.b;
 				pal[i].rgbGreen = rgba.g;
@@ -308,7 +308,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		for(int y = 0; y < height; y++ ) {
 			BYTE *line = FreeImage_GetScanLine(dib, height - y - 1);
 			str = ReadString(io, handle);
-			if (!str)
+			if(!str)
 				throw "Error reading pixel strings";
 			char *pixel_ptr = str;
 
@@ -317,7 +317,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 				std::string chrs(pixel_ptr,cpp);
 				FILE_RGBA rgba = rawpal[chrs];
 
-				if ( colors > 256 ) {
+				if( colors > 256 ) {
 					line[FI_RGBA_BLUE] = rgba.b;
 					line[FI_RGBA_GREEN] = rgba.g;
 					line[FI_RGBA_RED] = rgba.r;
@@ -338,7 +338,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	} catch(const char *text) {
        FreeImage_OutputMessageProc(s_format_id, text);
 
-       if ( dib != NULL )
+       if( dib != NULL )
            FreeImage_Unload(dib);
 
        return NULL;
@@ -355,7 +355,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		footer[] = "\"\n};\n",
 		buf[256]; //256 is more then enough to sprintf 4 ints into, or the base-92 chars and #rrggbb line
 
-		if ( io->write_proc(header, (unsigned int)strlen(header), 1, handle) != 1 )
+		if( io->write_proc(header, (unsigned int)strlen(header), 1, handle) != 1 )
 			return FALSE;
 
 		int width = FreeImage_GetWidth(dib), height = FreeImage_GetHeight(dib), bpp = FreeImage_GetBPP(dib);
@@ -378,7 +378,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			for(x = 0; x < width; x++ ) {
 				FILE_RGB rgb;
 				DWORDRGBA u;
-				if ( bpp > 8 ) {
+				if( bpp > 8 ) {
 					u.rgba.b = rgb.b = line[FI_RGBA_BLUE];
 					u.rgba.g = rgb.g = line[FI_RGBA_GREEN];
 					u.rgba.r = rgb.r = line[FI_RGBA_RED];
@@ -391,7 +391,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					rgb.r = pal[u.index].rgbRed;
 					line++;
 				}
-				if ( color2chrs.find(u.index) == color2chrs.end() ) { //new color
+				if( color2chrs.find(u.index) == color2chrs.end() ) { //new color
 					std::string chrs(Base92(num_colors));
 					color2chrs[u.index] = chrs;
 					chrs2color[num_colors] = rgb;
@@ -403,22 +403,22 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 		int cpp = (int)(log((double)num_colors)/log(92.0)) + 1;
 
 		sprintf(buf, "%d %d %d %d", FreeImage_GetWidth(dib), FreeImage_GetHeight(dib), num_colors, cpp );
-		if ( io->write_proc(buf, (unsigned int)strlen(buf), 1, handle) != 1 )
+		if( io->write_proc(buf, (unsigned int)strlen(buf), 1, handle) != 1 )
 			return FALSE;
 
-		if ( io->write_proc(start_colors, (unsigned int)strlen(start_colors), 1, handle) != 1 )
+		if( io->write_proc(start_colors, (unsigned int)strlen(start_colors), 1, handle) != 1 )
 			return FALSE;
 
 		//write colors, using map of chrs->rgb
 		for(x = 0; x < num_colors; x++ ) {
 			sprintf(buf, "%*s c #%02x%02x%02x", cpp, Base92(x), chrs2color[x].r, chrs2color[x].g, chrs2color[x].b );
-			if ( io->write_proc(buf, (unsigned int)strlen(buf), 1, handle) != 1 )
+			if( io->write_proc(buf, (unsigned int)strlen(buf), 1, handle) != 1 )
 				return FALSE;
-			if ( x == num_colors - 1 ) {
-				if ( io->write_proc(start_pixels, (unsigned int)strlen(start_pixels), 1, handle) != 1 )
+			if( x == num_colors - 1 ) {
+				if( io->write_proc(start_pixels, (unsigned int)strlen(start_pixels), 1, handle) != 1 )
 					return FALSE;
 			} else {
-				if ( io->write_proc(new_line, (unsigned int)strlen(new_line), 1, handle) != 1 )
+				if( io->write_proc(new_line, (unsigned int)strlen(new_line), 1, handle) != 1 )
 					return FALSE;
 			}
 		}
@@ -429,7 +429,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 			BYTE *line = FreeImage_GetScanLine(dib, height - y - 1);
 			for(x = 0; x < width; x++ ) {
 				DWORDRGBA u;
-				if ( bpp > 8 ) {
+				if( bpp > 8 ) {
 					u.rgba.b = line[FI_RGBA_BLUE];
 					u.rgba.g = line[FI_RGBA_GREEN];
 					u.rgba.r = line[FI_RGBA_RED];
@@ -440,14 +440,14 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 					line++;
 				}
 				sprintf(buf, "%*s", cpp, (char *)color2chrs[u.index].c_str());
-				if ( io->write_proc(buf, cpp, 1, handle) != 1 )
+				if( io->write_proc(buf, cpp, 1, handle) != 1 )
 					return FALSE;
 			}
-			if ( y == height - 1 ) {
-				if ( io->write_proc(footer, (unsigned int)strlen(footer), 1, handle) != 1 )
+			if( y == height - 1 ) {
+				if( io->write_proc(footer, (unsigned int)strlen(footer), 1, handle) != 1 )
 					return FALSE;
 			} else {
-				if ( io->write_proc(new_line, (unsigned int)strlen(new_line), 1, handle) != 1 )
+				if( io->write_proc(new_line, (unsigned int)strlen(new_line), 1, handle) != 1 )
 					return FALSE;
 			}
 		}

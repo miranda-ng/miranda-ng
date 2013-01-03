@@ -57,7 +57,7 @@ FIBITMAP* J2KImageToFIBITMAP(int format_id, const opj_image_t *image) {
 
 		BOOL bIsValid = TRUE;
 		for(int c = 0; c < numcomps - 1; c++) {
-			if (	(image->comps[c].dx == image->comps[c+1].dx) && 
+			if(	(image->comps[c].dx == image->comps[c+1].dx) && 
 				(image->comps[c].dy == image->comps[c+1].dy) &&
 				(image->comps[c].prec == image->comps[c+1].prec) ) {
 				continue;
@@ -67,7 +67,7 @@ FIBITMAP* J2KImageToFIBITMAP(int format_id, const opj_image_t *image) {
 			}
 		}
 		bIsValid &= ((numcomps == 1) || (numcomps == 3) || (numcomps == 4));
-		if (!bIsValid) {
+		if(!bIsValid) {
 			if(numcomps) {
 				FreeImage_OutputMessageProc(format_id, "Warning: image contains %d greyscale components. Only the first will be loaded.\n", numcomps);
 				numcomps = 1;
@@ -106,7 +106,7 @@ FIBITMAP* J2KImageToFIBITMAP(int format_id, const opj_image_t *image) {
 		} else {
 			throw FI_MSG_ERROR_UNSUPPORTED_FORMAT;
 		}
-		if (!dib) {
+		if(!dib) {
 			throw FI_MSG_ERROR_DIB_MEMORY;
 		}
 		
@@ -398,7 +398,7 @@ opj_image_t* FIBITMAPToJ2KImage(int format_id, FIBITMAP *dib, const opj_cparamet
 		}
 		// create the image 
 		image = opj_image_create(numcomps, &cmptparm[0], color_space);
-		if (!image) {
+		if(!image) {
 			throw FI_MSG_ERROR_DIB_MEMORY;
 		}
 

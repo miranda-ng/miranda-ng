@@ -84,9 +84,9 @@ pcx_validate(FreeImageIO *io, fi_handle handle) {
 		// version
 		if(signature[1] <= 5) {
 			// encoding
-			if ((signature[2] == 0) || (signature[2] == 1)) {
+			if((signature[2] == 0) || (signature[2] == 1)) {
 				// bits per pixel per plane
-				if ((signature[3] == 1) || (signature[3] == 8)) {
+				if((signature[3] == 1) || (signature[3] == 8)) {
 					return TRUE;
 				}
 			}
@@ -339,7 +339,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	BYTE *ReadBuf = NULL; // buffer;
 	BOOL bIsRLE;		  // True if the file is run-length encoded
 
-	if (!handle) {
+	if(!handle) {
 		return NULL;
 	}
 
@@ -351,7 +351,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		long start_pos = io->tell_proc(handle);
 		BOOL validated = pcx_validate(io, handle);		
 		io->seek_proc(handle, start_pos, SEEK_SET);
-		if (!validated) {
+		if(!validated) {
 			throw FI_MSG_ERROR_MAGIC_NUMBER;
 		}
 
@@ -478,10 +478,10 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		// ---------------
 
 		line = (BYTE*)malloc(linelength * sizeof(BYTE));
-		if (!line) throw FI_MSG_ERROR_MEMORY;
+		if(!line) throw FI_MSG_ERROR_MEMORY;
 		
 		ReadBuf = (BYTE*)malloc(IO_BUF_SIZE * sizeof(BYTE));
-		if (!ReadBuf) throw FI_MSG_ERROR_MEMORY;
+		if(!ReadBuf) throw FI_MSG_ERROR_MEMORY;
 		
 		bits = FreeImage_GetScanLine(dib, height - 1);
 
@@ -513,7 +513,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 			unsigned x, y, written;
 
 			buffer = (BYTE*)malloc(width * sizeof(BYTE));
-			if (!buffer) throw FI_MSG_ERROR_MEMORY;
+			if(!buffer) throw FI_MSG_ERROR_MEMORY;
 
 			for (y = 0; y < height; y++) {
 				written = readline(*io, handle, line, linelength, bIsRLE, ReadBuf, &ReadPos);
@@ -553,7 +553,7 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 
 			free(buffer);
 
-		} else if ((header.planes == 3) && (header.bpp == 8)) {
+		} else if((header.planes == 3) && (header.bpp == 8)) {
 			BYTE *pline;
 
 			for (unsigned y = 0; y < height; y++) {

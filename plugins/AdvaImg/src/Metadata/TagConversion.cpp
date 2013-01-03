@@ -39,7 +39,7 @@ ConvertAnyTag(FITAG *tag) {
 	static std::string buffer;
 	DWORD i;
 
-	if (!tag)
+	if(!tag)
 		return NULL;
 
 	buffer.erase();
@@ -197,7 +197,7 @@ ConvertAnyTag(FITAG *tag) {
 		
 		case FIDT_LONG8:	// N x 64-bit unsigned integer 
 		{
-			FIUINT64 *pvalue = (FIUINT64 *)FreeImage_GetTagValue(tag);
+			UINT64 *pvalue = (UINT64 *)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%ld", pvalue[0]);
 			buffer += format;
@@ -210,7 +210,7 @@ ConvertAnyTag(FITAG *tag) {
 
 		case FIDT_IFD8:		// N x 64-bit unsigned integer (offset)
 		{
-			FIUINT64 *pvalue = (FIUINT64 *)FreeImage_GetTagValue(tag);
+			UINT64 *pvalue = (UINT64 *)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%X", pvalue[0]);
 			buffer += format;
@@ -223,7 +223,7 @@ ConvertAnyTag(FITAG *tag) {
 
 		case FIDT_SLONG8:	// N x 64-bit signed integer
 		{
-			FIINT64 *pvalue = (FIINT64 *)FreeImage_GetTagValue(tag);
+			INT64 *pvalue = (INT64 *)FreeImage_GetTagValue(tag);
 
 			sprintf(format, "%ld", pvalue[0]);
 			buffer += format;
@@ -259,7 +259,7 @@ ConvertExifTag(FITAG *tag) {
 	char format[MAX_TEXT_EXTENT];
 	static std::string buffer;
 
-	if (!tag)
+	if(!tag)
 		return NULL;
 
 	buffer.erase();
@@ -993,7 +993,7 @@ ConvertExifGPSTag(FITAG *tag) {
 	char format[MAX_TEXT_EXTENT];
 	static std::string buffer;
 
-	if (!tag)
+	if(!tag)
 		return NULL;
 
 	buffer.erase();

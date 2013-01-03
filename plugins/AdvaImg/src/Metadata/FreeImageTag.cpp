@@ -81,11 +81,11 @@ FreeImage_DeleteTag(FITAG *tag) {
 
 FITAG * DLL_CALLCONV 
 FreeImage_CloneTag(FITAG *tag) {
-	if (!tag) return NULL;
+	if(!tag) return NULL;
 
 	// allocate a new tag
 	FITAG *clone = FreeImage_CreateTag();
-	if (!clone) return NULL;
+	if(!clone) return NULL;
 
 	try {
 		// copy the tag
@@ -97,7 +97,7 @@ FreeImage_CloneTag(FITAG *tag) {
 		// tag key
 		if(src_tag->key) {
 			dst_tag->key = (char*)malloc((strlen(src_tag->key) + 1) * sizeof(char));
-			if (!dst_tag->key) {
+			if(!dst_tag->key) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 			strcpy(dst_tag->key, src_tag->key);
@@ -105,7 +105,7 @@ FreeImage_CloneTag(FITAG *tag) {
 		// tag description
 		if(src_tag->description) {
 			dst_tag->description = (char*)malloc((strlen(src_tag->description) + 1) * sizeof(char));
-			if (!dst_tag->description) {
+			if(!dst_tag->description) {
 				throw FI_MSG_ERROR_MEMORY;
 			}
 			strcpy(dst_tag->description, src_tag->description);
@@ -118,7 +118,7 @@ FreeImage_CloneTag(FITAG *tag) {
 		dst_tag->length = src_tag->length;
 		// tag value
 		dst_tag->value = (BYTE*)malloc(src_tag->length * sizeof(BYTE));
-		if (!dst_tag->value) {
+		if(!dst_tag->value) {
 			throw FI_MSG_ERROR_MEMORY;
 		}
 		memcpy(dst_tag->value, src_tag->value, src_tag->length);
@@ -253,7 +253,7 @@ FreeImage_SetTagValue(FITAG *tag, const void *value) {
 			case FIDT_ASCII:
 			{
 				tag_header->value = (char*)malloc((tag_header->length + 1) * sizeof(char));
-				if (!tag_header->value) {
+				if(!tag_header->value) {
 					return FALSE;
 				}
 				char *src_data = (char*)value;
@@ -267,7 +267,7 @@ FreeImage_SetTagValue(FITAG *tag, const void *value) {
 
 			default:
 				tag_header->value = malloc(tag_header->length * sizeof(BYTE));
-				if (!tag_header->value) {
+				if(!tag_header->value) {
 					return FALSE;
 				}
 				memcpy(tag_header->value, value, tag_header->length);

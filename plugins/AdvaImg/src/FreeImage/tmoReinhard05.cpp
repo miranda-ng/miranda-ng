@@ -59,7 +59,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 
 	// check input parameters 
 
-	if ((FreeImage_GetImageType(dib) != FIT_RGBF) || (FreeImage_GetImageType(Y) != FIT_FLOAT)) {
+	if((FreeImage_GetImageType(dib) != FIT_RGBF) || (FreeImage_GetImageType(Y) != FIT_FLOAT)) {
 		return FALSE;
 	}
 
@@ -81,7 +81,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 	// get statistics about the data (but only if its really needed)
 
 	f = exp(-f);
-	if ((m == 0) || (a != 1) && (c != 1)) {
+	if((m == 0) || (a != 1) && (c != 1)) {
 		// avoid these calculations if its not needed after ...
 		LuminanceFromY(Y, &maxLum, &minLum, &Lav, &Llav);
 		k = (log(maxLum) - Llav) / (log(maxLum) - log(minLum));
@@ -103,7 +103,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 	bits  = (BYTE*)FreeImage_GetBits(dib);
 	Ybits = (BYTE*)FreeImage_GetBits(Y);
 
-	if ((a == 1) && (c == 0)) {
+	if((a == 1) && (c == 0)) {
 		// when using default values, use a fastest code
 
 		for(y = 0; y < height; y++) {
@@ -113,7 +113,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 			for(x = 0; x < width; x++) {
 				I_a = Y[x];	// luminance(x, y)
 				for (i = 0; i < 3; i++) {
-					*color /= ( *color + pow(f * I_a, m));
+					*color /= ( *color + pow(f * I_a, m) );
 					
 					max_color = (*color > max_color) ? *color : max_color;
 					min_color = (*color < min_color) ? *color : min_color;
@@ -131,7 +131,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 		// channel averages
 
 		Cav[0] = Cav[1] = Cav[2] = 0;
-		if ((a != 1) && (c != 0)) {
+		if((a != 1) && (c != 0)) {
 			// channel averages are not needed when (a == 1) or (c == 0)
 			bits = (BYTE*)FreeImage_GetBits(dib);
 			for(y = 0; y < height; y++) {
@@ -164,7 +164,7 @@ ToneMappingReinhard05(FIBITMAP *dib, FIBITMAP *Y, float f, float m, float a, flo
 					I_l = c * *color + (1-c) * L;
 					I_g = c * Cav[i] + (1-c) * Lav;
 					I_a = a * I_l + (1-a) * I_g;
-					*color /= ( *color + pow(f * I_a, m));
+					*color /= ( *color + pow(f * I_a, m) );
 					
 					max_color = (*color > max_color) ? *color : max_color;
 					min_color = (*color < min_color) ? *color : min_color;
@@ -215,17 +215,17 @@ User parameters control intensity, contrast, and level of adaptation
 */
 FIBITMAP* DLL_CALLCONV 
 FreeImage_TmoReinhard05Ex(FIBITMAP *src, double intensity, double contrast, double adaptation, double color_correction) {
-	if (!FreeImage_HasPixels(src)) return NULL;
+	if(!FreeImage_HasPixels(src)) return NULL;
 
 	// working RGBF variable
 	FIBITMAP *dib = NULL, *Y = NULL;
 
 	dib = FreeImage_ConvertToRGBF(src);
-	if (!dib) return NULL;
+	if(!dib) return NULL;
 
 	// get the Luminance channel
 	Y = ConvertRGBFToY(dib);
-	if (!Y) {
+	if(!Y) {
 		FreeImage_Unload(dib);
 		return NULL;
 	}

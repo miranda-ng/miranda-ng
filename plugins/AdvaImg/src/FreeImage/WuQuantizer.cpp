@@ -66,7 +66,7 @@ WuQuantizer::WuQuantizer(FIBITMAP *dib) {
 	// Allocate Qadd
 	Qadd = (WORD *)malloc(sizeof(WORD) * width * height);
 
-	if (!gm2 || !wt || !mr || !mg || !mb || !Qadd) {
+	if(!gm2 || !wt || !mr || !mg || !mb || !Qadd) {
 		if(gm2)	free(gm2);
 		if(wt)	free(wt);
 		if(mr)	free(mr);
@@ -127,10 +127,10 @@ WuQuantizer::Hist3D(LONG *vwt, LONG *vmr, LONG *vmg, LONG *vmb, float *m2, int R
 		}
 	}
 
-	if ( ReserveSize > 0 ) {
+	if( ReserveSize > 0 ) {
 		int max = 0;
 		for(i = 0; i < SIZE_3D; i++) {
-			if ( vwt[i] > max ) max = vwt[i];
+			if( vwt[i] > max ) max = vwt[i];
 		}
 		max++;
 		for(i = 0; i < ReserveSize; i++) {

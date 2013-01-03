@@ -269,8 +269,8 @@ FreeImage_OpenMultiBitmap(FREE_IMAGE_FORMAT fif, const char *filename, BOOL crea
 				header->node = node;
 				header->fif = fif;
 				header->io = io.get ();
-				header->handle = handle;						
-				header->changed = FALSE;						
+				header->handle = handle;
+				header->changed = FALSE;
 				header->read_only = read_only;
 				header->m_cachefile = NULL;
 				header->cache_fif = fif;
@@ -344,13 +344,13 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 		BOOL read_only = FALSE;	// modifications (if any) will be stored into the memory cache
 
 		if (io && handle) {
-		
+
 			// retrieve the plugin list to find the node belonging to this plugin
 			PluginList *list = FreeImage_GetPluginList();
-		
+
 			if (list) {
 				PluginNode *node = list->FindNodeFromFIF(fif);
-			
+
 				if (node) {
 					std::auto_ptr<FIMULTIBITMAP> bitmap (new FIMULTIBITMAP);
 					std::auto_ptr<MULTIBITMAPHEADER> header (new MULTIBITMAPHEADER);
@@ -359,13 +359,13 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 					header->m_filename = NULL;
 					header->node = node;
 					header->fif = fif;
-					header->handle = handle;						
-					header->changed = FALSE;						
+					header->handle = handle;
+					header->changed = FALSE;
 					header->read_only = read_only;	
 					header->m_cachefile = NULL;
 					header->cache_fif = fif;
 					header->load_flags = flags;
-							
+
 					// store the MULTIBITMAPHEADER in the surrounding FIMULTIBITMAP structure
 
 					bitmap->data = header.get();
@@ -400,7 +400,7 @@ FreeImage_OpenMultiBitmapFromHandle(FREE_IMAGE_FORMAT fif, FreeImageIO *io, fi_h
 
 BOOL DLL_CALLCONV
 FreeImage_SaveMultiBitmapToHandle(FREE_IMAGE_FORMAT fif, FIMULTIBITMAP *bitmap, FreeImageIO *io, fi_handle handle, int flags) {
-	if (!bitmap || !bitmap->data || !io || !handle) {
+	if(!bitmap || !bitmap->data || !io || !handle) {
 		return FALSE;
 	}
 
@@ -546,7 +546,7 @@ FreeImage_CloseMultiBitmap(FIMULTIBITMAP *bitmap, int flags) {
 					if (success) {
 						remove(header->m_filename);
 						success = (rename(spool_name.c_str(), header->m_filename) == 0) ? TRUE:FALSE;
-						if (!success) {
+						if(!success) {
 							FreeImage_OutputMessageProc(header->fif, "Failed to rename %s to %s", spool_name.c_str(), header->m_filename);
 						}
 					} else {
@@ -647,12 +647,12 @@ FreeImage_SavePageToBlock(MULTIBITMAPHEADER *header, FIBITMAP *data) {
 	FIMEMORY *hmem = FreeImage_OpenMemory();
 	if(hmem==NULL) return NULL;
 	// save the file to memory
-	if (!FreeImage_SaveToMemory(header->cache_fif, data, hmem, 0)) {
+	if(!FreeImage_SaveToMemory(header->cache_fif, data, hmem, 0)) {
 		FreeImage_CloseMemory(hmem);
 		return NULL;
 	}
 	// get the buffer from the memory stream
-	if (!FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size)) {
+	if(!FreeImage_AcquireMemory(hmem, &compressed_data, &compressed_size)) {
 		FreeImage_CloseMemory(hmem);
 		return NULL;
 	}

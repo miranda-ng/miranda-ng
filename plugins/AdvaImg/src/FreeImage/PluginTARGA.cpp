@@ -176,7 +176,7 @@ FIBITMAP* TargaThumbnail::toFIBITMAP() {
 		
 	const unsigned line_size = _depth * _w / 8;
 	FIBITMAP* dib = FreeImage_Allocate(_w, _h, _depth);
-	if (!dib) {
+	if(!dib) {
 		return NULL;
 	}
 
@@ -1203,14 +1203,14 @@ saveRLE(FIBITMAP* dib, FreeImageIO* io, fi_handle handle) {
 
 			// read next pixel from dib
 
-			if ( x + 1*pixel_size < line_size) {
+			if( x + 1*pixel_size < line_size) {
 				AssignPixel(next, (bits + x + 1*pixel_size), pixel_size);
 
 			} else {
 				// last pixel in line
 
 				// include current pixel and flush
-				if (!has_rle) {
+				if(!has_rle) {
 
 					writeToPacket(packet, current, pixel_size);
 					packet += pixel_size;
@@ -1231,7 +1231,7 @@ saveRLE(FIBITMAP* dib, FreeImageIO* io, fi_handle handle) {
 
 				// has rle
 
-				if (!has_rle) {
+				if(!has_rle) {
 					// flush non rle packet
 
 					flushPacket(line, pixel_size, packet_begin, packet, packet_count, has_rle);

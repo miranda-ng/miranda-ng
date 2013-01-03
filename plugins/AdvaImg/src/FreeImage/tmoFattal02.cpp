@@ -54,7 +54,7 @@ static FIBITMAP* GaussianLevel5x5(FIBITMAP *dib) {
 
 		h_dib = FreeImage_AllocateT(image_type, width, height);
 		v_dib = FreeImage_AllocateT(image_type, width, height);
-		if (!h_dib || !v_dib) throw(1);
+		if(!h_dib || !v_dib) throw(1);
 
 		const unsigned pitch = FreeImage_GetPitch(dib) / sizeof(float);
 
@@ -166,7 +166,7 @@ static FIBITMAP* GradientLevel(FIBITMAP *H, float *avgGrad, int k) {
 		const unsigned height = FreeImage_GetHeight(H);
 
 		G = FreeImage_AllocateT(image_type, width, height);
-		if (!G) throw(1);
+		if(!G) throw(1);
 		
 		const unsigned pitch = FreeImage_GetPitch(H) / sizeof(float);
 		
@@ -246,7 +246,7 @@ static FIBITMAP* PhiMatrix(FIBITMAP **gradients, float *avgGrad, int nlevels, fl
 
 	try {
 		phi = (FIBITMAP**)malloc(nlevels * sizeof(FIBITMAP*));
-		if (!phi) throw(1);
+		if(!phi) throw(1);
 		memset(phi, 0, nlevels * sizeof(FIBITMAP*));
 
 		for(int k = nlevels-1; k >= 0; k--) {
@@ -266,7 +266,7 @@ static FIBITMAP* PhiMatrix(FIBITMAP **gradients, float *avgGrad, int nlevels, fl
 			if(ALPHA == 0) ALPHA = EPSILON;
 
 			phi[k] = FreeImage_AllocateT(FIT_FLOAT, width, height);
-			if (!phi[k]) throw(1);
+			if(!phi[k]) throw(1);
 			
 			src_pixel = (float*)FreeImage_GetBits(Gk);
 			dst_pixel = (float*)FreeImage_GetBits(phi[k]);
@@ -283,9 +283,9 @@ static FIBITMAP* PhiMatrix(FIBITMAP **gradients, float *avgGrad, int nlevels, fl
 			}
 
 			if(k < nlevels-1) {
-				// compute PHI(k) = L( PHI(k+1)) * phi(k)
+				// compute PHI(k) = L( PHI(k+1) ) * phi(k)
 				FIBITMAP *L = FreeImage_Rescale(phi[k+1], width, height, FILTER_BILINEAR);
-				if (!L) throw(1);
+				if(!L) throw(1);
 
 				src_pixel = (float*)FreeImage_GetBits(L);
 				dst_pixel = (float*)FreeImage_GetBits(phi[k]);
@@ -345,9 +345,9 @@ static FIBITMAP* Divergence(FIBITMAP *H, FIBITMAP *PHI) {
 		const unsigned height = FreeImage_GetHeight(H);
 
 		Gx = FreeImage_AllocateT(image_type, width, height);
-		if (!Gx) throw(1);
+		if(!Gx) throw(1);
 		Gy = FreeImage_AllocateT(image_type, width, height);
-		if (!Gy) throw(1);
+		if(!Gy) throw(1);
 		
 		const unsigned pitch = FreeImage_GetPitch(H) / sizeof(float);
 		
@@ -377,20 +377,20 @@ static FIBITMAP* Divergence(FIBITMAP *H, FIBITMAP *PHI) {
 		// calculate the divergence
 
 		divG = FreeImage_AllocateT(image_type, width, height);
-		if (!divG) throw(1);
+		if(!divG) throw(1);
 		
 		gx  = (float*)FreeImage_GetBits(Gx);
 		gy  = (float*)FreeImage_GetBits(Gy);
 		divg = (float*)FreeImage_GetBits(divG);
 
-		for(unsigned y0 = 0; y0 < height; y0++) {
+		for(unsigned y = 0; y < height; y++) {
 			for(unsigned x = 0; x < width; x++) {				
 				// backward difference approximation
 				// divG = Gx(x, y) - Gx(x-1, y) + Gy(x, y) - Gy(x, y-1)
-				const unsigned index = y0*pitch + x;
+				const unsigned index = y*pitch + x;
 				divg[index] = gx[index] + gy[index];
 				if(x > 0) divg[index] -= gx[index-1];
-				if(y0 > 0) divg[index] -= gy[index-pitch];
+				if(y > 0) divg[index] -= gy[index-pitch];
 			}
 		}
 
@@ -421,7 +421,7 @@ static FIBITMAP* LogLuminance(FIBITMAP *Y) {
 	try {
 		// get the luminance channel
 		FIBITMAP *H = FreeImage_Clone(Y);
-		if (!H) throw(1);
+		if(!H) throw(1);
 
 		const unsigned width  = FreeImage_GetWidth(H);
 		const unsigned height = FreeImage_GetHeight(H);
@@ -446,7 +446,7 @@ static FIBITMAP* LogLuminance(FIBITMAP *Y) {
 		// normalize to range 0..100 and take the logarithm
 		const float scale = 100.F / (maxLum - minLum);
 		bits = (BYTE*)FreeImage_GetBits(H);
-		for(unsigned y0 = 0; y0 < height; y0++) {
+		for(unsigned y = 0; y < height; y++) {
 			float *pixel = (float*)bits;
 			for(unsigned x = 0; x < width; x++) {
 				const float value = (pixel[x] - minLum) * scale;
@@ -509,7 +509,7 @@ static FIBITMAP* tmoFattal02(FIBITMAP *Y, float alpha, float beta) {
 	try {
 		// get the normalized luminance
 		FIBITMAP *H = LogLuminance(Y);
-		if (!H) throw(1);
+		if(!H) throw(1);
 		
 		// get the number of levels for the pyramid
 		const unsigned width = FreeImage_GetWidth(H);
@@ -522,19 +522,19 @@ static FIBITMAP* tmoFattal02(FIBITMAP *Y, float alpha, float beta) {
 
 		// create the Gaussian pyramid
 		pyramid = (FIBITMAP**)malloc(nlevels * sizeof(FIBITMAP*));
-		if (!pyramid) throw(1);
+		if(!pyramid) throw(1);
 		memset(pyramid, 0, nlevels * sizeof(FIBITMAP*));
 
-		if (!GaussianPyramid(H, pyramid, nlevels)) throw(1);
+		if(!GaussianPyramid(H, pyramid, nlevels)) throw(1);
 
 		// calculate gradient magnitude and its average value on each pyramid level
 		gradients = (FIBITMAP**)malloc(nlevels * sizeof(FIBITMAP*));
-		if (!gradients) throw(1);
+		if(!gradients) throw(1);
 		memset(gradients, 0, nlevels * sizeof(FIBITMAP*));
 		avgGrad = (float*)malloc(nlevels * sizeof(float));
-		if (!avgGrad) throw(1);
+		if(!avgGrad) throw(1);
 
-		if (!GradientPyramid(pyramid, nlevels, gradients, avgGrad)) throw(1);
+		if(!GradientPyramid(pyramid, nlevels, gradients, avgGrad)) throw(1);
 
 		// free the Gaussian pyramid
 		for(k = 0; k < nlevels; k++) {
@@ -544,7 +544,7 @@ static FIBITMAP* tmoFattal02(FIBITMAP *Y, float alpha, float beta) {
 
 		// compute the gradient attenuation function PHI(x, y)
 		phy = PhiMatrix(gradients, avgGrad, nlevels, alpha, beta);
-		if (!phy) throw(1);
+		if(!phy) throw(1);
 
 		// free the gradient pyramid
 		for(k = 0; k < nlevels; k++) {
@@ -556,7 +556,7 @@ static FIBITMAP* tmoFattal02(FIBITMAP *Y, float alpha, float beta) {
 		// compute gradients in x and y directions, attenuate them with the attenuation matrix, 
 		// then compute the divergence div G from the attenuated gradient. 
 		divG = Divergence(H, phy);
-		if (!divG) throw(1);
+		if(!divG) throw(1);
 
 		// H & phy no longer needed
 		FreeImage_Unload(H); H = NULL;
@@ -564,7 +564,7 @@ static FIBITMAP* tmoFattal02(FIBITMAP *Y, float alpha, float beta) {
 
 		// solve the PDE (Poisson equation) using a multigrid solver and 3 cycles
 		FIBITMAP *U = FreeImage_MultigridPoissonSolver(divG, 3);
-		if (!U) throw(1);
+		if(!U) throw(1);
 
 		FreeImage_Unload(divG);
 
@@ -618,21 +618,21 @@ FreeImage_TmoFattal02(FIBITMAP *dib, double color_saturation, double attenuation
 	FIBITMAP *Yout = NULL;
 	FIBITMAP *dst = NULL;
 
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	try {
 
 		// convert to RGBF
 		src = FreeImage_ConvertToRGBF(dib);
-		if (!src) throw(1);
+		if(!src) throw(1);
 
 		// get the luminance channel
 		Yin = ConvertRGBFToY(src);
-		if (!Yin) throw(1);
+		if(!Yin) throw(1);
 
 		// perform the tone mapping
 		Yout = tmoFattal02(Yin, alpha, beta);
-		if (!Yout) throw(1);
+		if(!Yout) throw(1);
 
 		// clip low and high values and normalize to [0..1]
 		//NormalizeY(Yout, 0.001F, 0.995F);

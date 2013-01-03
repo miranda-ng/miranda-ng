@@ -58,12 +58,12 @@ Combine1(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 	BOOL value;
 
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 1) || (FreeImage_GetBPP(src_dib) != 1)) {
+	if((FreeImage_GetBPP(dst_dib) != 1) || (FreeImage_GetBPP(src_dib) != 1)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -97,12 +97,12 @@ Combine4(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 	BOOL bOddStart, bOddEnd;
 
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 4) || (FreeImage_GetBPP(src_dib) != 4)) {
+	if((FreeImage_GetBPP(dst_dib) != 4) || (FreeImage_GetBPP(src_dib) != 4)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -196,12 +196,12 @@ Combine4(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 static BOOL 
 Combine8(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 8) || (FreeImage_GetBPP(src_dib) != 8)) {
+	if((FreeImage_GetBPP(dst_dib) != 8) || (FreeImage_GetBPP(src_dib) != 8)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -238,12 +238,12 @@ Combine8(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned 
 static BOOL 
 Combine16_555(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 16) || (FreeImage_GetBPP(src_dib) != 16)) {
+	if((FreeImage_GetBPP(dst_dib) != 16) || (FreeImage_GetBPP(src_dib) != 16)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -298,12 +298,12 @@ Combine16_555(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsi
 static BOOL 
 Combine16_565(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 16) || (FreeImage_GetBPP(src_dib) != 16)) {
+	if((FreeImage_GetBPP(dst_dib) != 16) || (FreeImage_GetBPP(src_dib) != 16)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -362,12 +362,12 @@ Combine16_565(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsi
 static BOOL 
 Combine24(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 24) || (FreeImage_GetBPP(src_dib) != 24)) {
+	if((FreeImage_GetBPP(dst_dib) != 24) || (FreeImage_GetBPP(src_dib) != 24)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -404,12 +404,12 @@ Combine24(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned
 static BOOL 
 Combine32(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y, unsigned alpha) {
 	// check the bit depth of src and dst images
-	if ((FreeImage_GetBPP(dst_dib) != 32) || (FreeImage_GetBPP(src_dib) != 32)) {
+	if((FreeImage_GetBPP(dst_dib) != 32) || (FreeImage_GetBPP(src_dib) != 32)) {
 		return FALSE;
 	}
 
 	// check the size of src image
-	if ((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
+	if((x + FreeImage_GetWidth(src_dib) > FreeImage_GetWidth(dst_dib)) || (y + FreeImage_GetHeight(src_dib) > FreeImage_GetHeight(dst_dib))) {
 		return FALSE;
 	}
 
@@ -459,7 +459,7 @@ CombineSameType(FIBITMAP *dst_dib, FIBITMAP *src_dib, unsigned x, unsigned y) {
 	unsigned dst_pitch  = FreeImage_GetPitch(dst_dib);
 	
 	// check the size of src image
-	if ((x + src_width > dst_width) || (y + src_height > dst_height)) {
+	if((x + src_width > dst_width) || (y + src_height > dst_height)) {
 		return FALSE;
 	}	
 
@@ -493,7 +493,7 @@ Works with any bitmap type.
 FIBITMAP * DLL_CALLCONV 
 FreeImage_Copy(FIBITMAP *src, int left, int top, int right, int bottom) {
 
-	if (!FreeImage_HasPixels(src)) 
+	if(!FreeImage_HasPixels(src)) 
 		return NULL;
 
 	// normalize the rectangle
@@ -506,7 +506,7 @@ FreeImage_Copy(FIBITMAP *src, int left, int top, int right, int bottom) {
 	// check the size of the sub image
 	int src_width  = FreeImage_GetWidth(src);
 	int src_height = FreeImage_GetHeight(src);
-	if ((left < 0) || (right > src_width) || (top < 0) || (bottom > src_height)) {
+	if((left < 0) || (right > src_width) || (top < 0) || (bottom > src_height)) {
 		return NULL;
 	}
 
@@ -608,7 +608,7 @@ FreeImage_Copy(FIBITMAP *src, int left, int top, int right, int bottom) {
 	
 	// copy background color 
 	RGBQUAD bkcolor; 
-	if ( FreeImage_GetBackgroundColor(src, &bkcolor)) {
+	if( FreeImage_GetBackgroundColor(src, &bkcolor) ) {
 		FreeImage_SetBackgroundColor(dst, &bkcolor); 
 	}
 	
@@ -639,13 +639,13 @@ BOOL DLL_CALLCONV
 FreeImage_Paste(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha) {
 	BOOL bResult = FALSE;
 
-	if (!FreeImage_HasPixels(src) || !FreeImage_HasPixels(dst)) return FALSE;
+	if(!FreeImage_HasPixels(src) || !FreeImage_HasPixels(dst)) return FALSE;
 
 	// check the size of src image
-	if ((left < 0) || (top < 0)) {
+	if((left < 0) || (top < 0)) {
 		return FALSE;
 	}
-	if ((left + FreeImage_GetWidth(src) > FreeImage_GetWidth(dst)) || (top + FreeImage_GetHeight(src) > FreeImage_GetHeight(dst))) {
+	if((left + FreeImage_GetWidth(src) > FreeImage_GetWidth(dst)) || (top + FreeImage_GetHeight(src) > FreeImage_GetHeight(dst))) {
 		return FALSE;
 	}
 
@@ -704,7 +704,7 @@ FreeImage_Paste(FIBITMAP *dst, FIBITMAP *src, int left, int top, int alpha) {
 			return FALSE;
 		}
 
-		if (!clone) return FALSE;
+		if(!clone) return FALSE;
 
 		// paste src to dst
 		switch(FreeImage_GetBPP(dst)) {

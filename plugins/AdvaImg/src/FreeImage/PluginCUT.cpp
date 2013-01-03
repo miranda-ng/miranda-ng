@@ -105,7 +105,7 @@ static FIBITMAP * DLL_CALLCONV
 Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 	FIBITMAP *dib = NULL;
 
-	if (!handle) {
+	if(!handle) {
 		return NULL;
 	}
 

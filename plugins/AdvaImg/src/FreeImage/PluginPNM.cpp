@@ -37,7 +37,7 @@ GetInt(FreeImageIO *io, fi_handle handle) {
 
     // skip forward to start of next number
 
-    if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+    if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
     while (1) {
         // eat comments
@@ -48,7 +48,7 @@ GetInt(FreeImageIO *io, fi_handle handle) {
             firstchar = TRUE;
 
             while (1) {
-				if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+				if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
 				if (firstchar && c == ' ') {
 					// loop off 1 sp after #
@@ -66,7 +66,7 @@ GetInt(FreeImageIO *io, fi_handle handle) {
             break;
 		}
 
-        if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
     }
 
     // we're at the start of a number, continue until we hit a non-number
@@ -76,7 +76,7 @@ GetInt(FreeImageIO *io, fi_handle handle) {
     while (1) {
         i = (i * 10) + (c - '0');
 
-        if (!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
+        if(!io->read_proc(&c, 1, 1, handle)) throw FI_MSG_ERROR_PARSING;
 
         if (c < '0' || c > '9')
             break;
@@ -239,9 +239,9 @@ Load(FreeImageIO *io, fi_handle handle, int page, int flags, void *data) {
 		int height = GetInt(io, handle);
 		int maxval = 1;
 
-		if ((id_two == '2') || (id_two == '5') || (id_two == '3') || (id_two == '6')) {
+		if((id_two == '2') || (id_two == '5') || (id_two == '3') || (id_two == '6')) {
 			maxval = GetInt(io, handle);
-			if ((maxval <= 0) || (maxval > 65535)) {
+			if((maxval <= 0) || (maxval > 65535)) {
 				FreeImage_OutputMessageProc(s_format_id, "Invalid max value : %d", maxval);
 				throw (const char*)NULL;
 			}
@@ -539,7 +539,7 @@ Save(FreeImageIO *io, FIBITMAP *dib, fi_handle handle, int page, int flags, void
 
 	char buffer[256];	// temporary buffer whose size should be enough for what we need
 
-	if (!dib || !handle) return FALSE;
+	if(!dib || !handle) return FALSE;
 	
 	FREE_IMAGE_TYPE image_type = FreeImage_GetImageType(dib);
 

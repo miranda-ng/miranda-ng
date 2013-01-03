@@ -108,7 +108,7 @@ FreeImage_Invert(FIBITMAP *src) {
 				return FALSE;
 		}
 	}
-	else if ((image_type == FIT_UINT16) || (image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
+	else if((image_type == FIT_UINT16) || (image_type == FIT_RGB16) || (image_type == FIT_RGBA16)) {
 		// Calculate the number of words per pixel (1 for 16-bit, 3 for 48-bit or 4 for 64-bit)
 		const unsigned wordspp = (FreeImage_GetLine(src) / width) / sizeof(WORD);
 
@@ -149,11 +149,11 @@ FreeImage_AdjustCurve(FIBITMAP *src, BYTE *LUT, FREE_IMAGE_COLOR_CHANNEL channel
 	unsigned x, y;
 	BYTE *bits = NULL;
 
-	if (!FreeImage_HasPixels(src) || !LUT || (FreeImage_GetImageType(src) != FIT_BITMAP))
+	if(!FreeImage_HasPixels(src) || !LUT || (FreeImage_GetImageType(src) != FIT_BITMAP))
 		return FALSE;
 
 	int bpp = FreeImage_GetBPP(src);
-	if ((bpp != 8) && (bpp != 24) && (bpp != 32))
+	if((bpp != 8) && (bpp != 24) && (bpp != 32))
 		return FALSE;
 
 	// apply the LUT
@@ -271,7 +271,7 @@ BOOL DLL_CALLCONV
 FreeImage_AdjustGamma(FIBITMAP *src, double gamma) {
 	BYTE LUT[256];		// Lookup table
 
-	if (!FreeImage_HasPixels(src) || (gamma <= 0))
+	if(!FreeImage_HasPixels(src) || (gamma <= 0))
 		return FALSE;
 	
 	// Build the lookup table
@@ -302,7 +302,7 @@ FreeImage_AdjustBrightness(FIBITMAP *src, double percentage) {
 	BYTE LUT[256];		// Lookup table
 	double value;
 
-	if (!FreeImage_HasPixels(src))
+	if(!FreeImage_HasPixels(src))
 		return FALSE;
 	
 	// Build the lookup table
@@ -328,7 +328,7 @@ FreeImage_AdjustContrast(FIBITMAP *src, double percentage) {
 	BYTE LUT[256];		// Lookup table
 	double value;
 
-	if (!FreeImage_HasPixels(src))
+	if(!FreeImage_HasPixels(src))
 		return FALSE;
 	
 	// Build the lookup table
@@ -357,7 +357,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
 	BYTE *bits = NULL;
 	unsigned x, y;
 
-	if (!FreeImage_HasPixels(src) || !histo) return FALSE;
+	if(!FreeImage_HasPixels(src) || !histo) return FALSE;
 
 	unsigned width  = FreeImage_GetWidth(src);
 	unsigned height = FreeImage_GetHeight(src);
@@ -377,7 +377,7 @@ FreeImage_GetHistogram(FIBITMAP *src, DWORD *histo, FREE_IMAGE_COLOR_CHANNEL cha
 		}
 		return TRUE;
 	}
-	else if ((bpp == 24) || (bpp == 32)) {
+	else if((bpp == 24) || (bpp == 32)) {
 		int bytespp = bpp / 8;	// bytes / pixel
 
 		// clear histogram array

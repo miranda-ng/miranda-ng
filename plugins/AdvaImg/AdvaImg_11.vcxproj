@@ -189,6 +189,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\FreeImageToolkit\Background.cpp" />
     <ClCompile Include="src\FreeImage\BitmapAccess.cpp" />
     <ClCompile Include="src\FreeImage\ColorLookup.cpp" />
     <ClCompile Include="src\FreeImage\ConversionFloat.cpp" />
@@ -321,7 +322,6 @@
     <ClCompile Include="src\FreeImageToolkit\Resize.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\AdvaImg.rc" />
     <ResourceCompile Include="res\Version.rc" />
   </ItemGroup>
   <ItemGroup>

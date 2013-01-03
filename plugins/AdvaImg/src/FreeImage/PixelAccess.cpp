@@ -29,19 +29,20 @@
 
 BYTE * DLL_CALLCONV
 FreeImage_GetBits(FIBITMAP *dib) {
-	if (!FreeImage_HasPixels(dib)) {
+	if(!FreeImage_HasPixels(dib)) {
 		return NULL;
 	}
 	// returns the pixels aligned on a FIBITMAP_ALIGNMENT bytes alignment boundary
 	size_t lp = (size_t)FreeImage_GetInfoHeader(dib);
 	lp += sizeof(BITMAPINFOHEADER) + sizeof(RGBQUAD) * FreeImage_GetColorsUsed(dib);
+	lp += FreeImage_HasRGBMasks(dib) ? sizeof(DWORD) * 3 : 0;
 	lp += (lp % FIBITMAP_ALIGNMENT ? FIBITMAP_ALIGNMENT - lp % FIBITMAP_ALIGNMENT : 0);
 	return (BYTE *)lp;
 }
 
 BYTE * DLL_CALLCONV
 FreeImage_GetScanLine(FIBITMAP *dib, int scanline) {
-	if (!FreeImage_HasPixels(dib)) {
+	if(!FreeImage_HasPixels(dib)) {
 		return NULL;
 	}
 	return CalculateScanLine(FreeImage_GetBits(dib), FreeImage_GetPitch(dib), scanline);
@@ -51,10 +52,10 @@ BOOL DLL_CALLCONV
 FreeImage_GetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
 	BYTE shift;
 
-	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
+	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
-	if ((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
+	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
 		BYTE *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
@@ -80,10 +81,10 @@ FreeImage_GetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
 
 BOOL DLL_CALLCONV
 FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
-	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
+	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
-	if ((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
+	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
 		BYTE *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
@@ -91,7 +92,7 @@ FreeImage_GetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 			{
 				bits += 2*x;
 				WORD *pixel = (WORD *)bits;
-				if ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
+				if((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
 					value->rgbBlue		= (BYTE)((((*pixel & FI16_565_BLUE_MASK) >> FI16_565_BLUE_SHIFT) * 0xFF) / 0x1F);
 					value->rgbGreen		= (BYTE)((((*pixel & FI16_565_GREEN_MASK) >> FI16_565_GREEN_SHIFT) * 0xFF) / 0x3F);
 					value->rgbRed		= (BYTE)((((*pixel & FI16_565_RED_MASK) >> FI16_565_RED_SHIFT) * 0xFF) / 0x1F);
@@ -132,10 +133,10 @@ BOOL DLL_CALLCONV
 FreeImage_SetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
 	BYTE shift;
 
-	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
+	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
-	if ((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
+	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
 		BYTE *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
@@ -162,10 +163,10 @@ FreeImage_SetPixelIndex(FIBITMAP *dib, unsigned x, unsigned y, BYTE *value) {
 
 BOOL DLL_CALLCONV
 FreeImage_SetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
-	if (!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
+	if(!FreeImage_HasPixels(dib) || (FreeImage_GetImageType(dib) != FIT_BITMAP))
 		return FALSE;
 
-	if ((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
+	if((x < FreeImage_GetWidth(dib)) && (y < FreeImage_GetHeight(dib))) {
 		BYTE *bits = FreeImage_GetScanLine(dib, y);
 
 		switch(FreeImage_GetBPP(dib)) {
@@ -173,7 +174,7 @@ FreeImage_SetPixelColor(FIBITMAP *dib, unsigned x, unsigned y, RGBQUAD *value) {
 			{
 				bits += 2*x;
 				WORD *pixel = (WORD *)bits;
-				if ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
+				if((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK)) {
 					*pixel = ((value->rgbBlue >> 3) << FI16_565_BLUE_SHIFT) |
 						((value->rgbGreen >> 2) << FI16_565_GREEN_SHIFT) |
 						((value->rgbRed >> 3) << FI16_565_RED_SHIFT);

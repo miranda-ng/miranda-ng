@@ -96,6 +96,12 @@ Allocate a FIBITMAP of type FIT_BITMAP, with possibly no pixel data
 */
 DLL_API FIBITMAP * DLL_CALLCONV FreeImage_AllocateHeader(BOOL header_only, int width, int height, int bpp, unsigned red_mask FI_DEFAULT(0), unsigned green_mask FI_DEFAULT(0), unsigned blue_mask FI_DEFAULT(0));
 
+/**
+Helper for 16-bit FIT_BITMAP
+@see FreeImage_GetRGBMasks
+*/
+DLL_API BOOL DLL_CALLCONV FreeImage_HasRGBMasks(FIBITMAP *dib);
+
 #if defined(__cplusplus)
 }
 #endif
@@ -174,7 +180,7 @@ MAXMIN(const T* L, long n, T& max, T& min) {
 	long k1, k2;
 
 	i1 = 0; i2 = 0; min = L[0]; max = L[0]; j = 0;
-	if ((n % 2) != 0)  j = 1;
+	if((n % 2) != 0)  j = 1;
 	for(i = j; i < n; i+= 2) {
 		k1 = i; k2 = i+1;
 		x1 = L[k1]; x2 = L[k2];
@@ -252,7 +258,7 @@ CalculateUsedBits(int bits) {
 
 inline unsigned
 CalculateLine(unsigned width, unsigned bitdepth) {
-	return (unsigned)( ((unsigned __int64)width * bitdepth + 7) / 8 );
+	return (unsigned)( ((unsigned long long)width * bitdepth + 7) / 8 );
 }
 
 inline unsigned
@@ -456,8 +462,8 @@ A Standard Default Color Space for the Internet - sRGB.
 #define RGB565(b, g, r) ((((b) >> 3) << FI16_565_BLUE_SHIFT) | (((g) >> 2) << FI16_565_GREEN_SHIFT) | (((r) >> 3) << FI16_565_RED_SHIFT))
 #define RGB555(b, g, r) ((((b) >> 3) << FI16_555_BLUE_SHIFT) | (((g) >> 3) << FI16_555_GREEN_SHIFT) | (((r) >> 3) << FI16_555_RED_SHIFT))
 
-#define FORMAT_RGB565(dib) ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) &&(FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) &&(FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK))
-#define RGBQUAD_TO_WORD(dib, color) (FORMAT_RGB565(dib) ? RGB565((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed) : RGB555((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed))
+#define IS_FORMAT_RGB565(dib) ((FreeImage_GetRedMask(dib) == FI16_565_RED_MASK) && (FreeImage_GetGreenMask(dib) == FI16_565_GREEN_MASK) && (FreeImage_GetBlueMask(dib) == FI16_565_BLUE_MASK))
+#define RGBQUAD_TO_WORD(dib, color) (IS_FORMAT_RGB565(dib) ? RGB565((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed) : RGB555((color)->rgbBlue, (color)->rgbGreen, (color)->rgbRed))
 
 #define CREATE_GREYSCALE_PALETTE(palette, entries) \
 	for (unsigned i = 0, v = 0; i < entries; i++, v += 0x00FFFFFF / (entries - 1)) { \

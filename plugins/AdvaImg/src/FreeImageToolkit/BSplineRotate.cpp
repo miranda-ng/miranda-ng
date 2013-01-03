@@ -556,7 +556,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 
 	// allocate output image
 	FIBITMAP *dst = FreeImage_Allocate(width, height, bpp);
-	if (!dst)
+	if(!dst)
 		return NULL;
 	// buid a grey scale palette
 	RGBQUAD *pal = FreeImage_GetPalette(dst);
@@ -566,7 +566,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 
 	// allocate a temporary array
 	ImageRasterArray = (double*)malloc(width * height * sizeof(double));
-	if (!ImageRasterArray) {
+	if(!ImageRasterArray) {
 		FreeImage_Unload(dst);
 		return NULL;
 	}
@@ -583,7 +583,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 	// convert between a representation based on image samples
 	// and a representation based on image B-spline coefficients
 	bResult = SamplesToCoefficients(ImageRasterArray, width, height, spline);
-	if (!bResult) {
+	if(!bResult) {
 		FreeImage_Unload(dst);
 		free(ImageRasterArray);
 		return NULL;
@@ -611,7 +611,7 @@ Rotate8Bit(FIBITMAP *dib, double angle, double x_shift, double y_shift, double x
 			x1 = x0 + a11 * (double)x;
 			y1 = y0 + a21 * (double)x;
 			if(use_mask) {
-				if ((x1 <= -0.5) || (((double)width - 0.5) <= x1) || (y1 <= -0.5) || (((double)height - 0.5) <= y1)) {
+				if((x1 <= -0.5) || (((double)width - 0.5) <= x1) || (y1 <= -0.5) || (((double)height - 0.5) <= y1)) {
 					p = 0;
 				}
 				else {
@@ -652,7 +652,7 @@ FreeImage_RotateEx(FIBITMAP *dib, double angle, double x_shift, double y_shift, 
 	BYTE *src_bits, *dst_bits;
 	FIBITMAP *src8 = NULL, *dst8 = NULL, *dst = NULL;
 
-	if (!FreeImage_HasPixels(dib)) return NULL;
+	if(!FreeImage_HasPixels(dib)) return NULL;
 
 	try {
 
@@ -666,20 +666,20 @@ FreeImage_RotateEx(FIBITMAP *dib, double angle, double x_shift, double y_shift, 
 			}
 			return dst_8;
 		}
-		if ((bpp == 24) || (bpp == 32)) {
+		if((bpp == 24) || (bpp == 32)) {
 			// allocate dst image
 			int width  = FreeImage_GetWidth(dib);
 			int height = FreeImage_GetHeight(dib);
-			if ( bpp == 24 ) {
+			if( bpp == 24 ) {
 				dst = FreeImage_Allocate(width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 			} else {
 				dst = FreeImage_Allocate(width, height, bpp, FI_RGBA_RED_MASK, FI_RGBA_GREEN_MASK, FI_RGBA_BLUE_MASK);
 			}
-			if (!dst) throw(1);
+			if(!dst) throw(1);
 
 			// allocate a temporary 8-bit dib (no need to build a palette)
 			src8 = FreeImage_Allocate(width, height, 8);
-			if (!src8) throw(1);
+			if(!src8) throw(1);
 
 			// process each channel separately
 			// -------------------------------
@@ -698,7 +698,7 @@ FreeImage_RotateEx(FIBITMAP *dib, double angle, double x_shift, double y_shift, 
 
 				// process channel
 				dst8 = Rotate8Bit(src8, angle, x_shift, y_shift, x_origin, y_origin, ROTATE_CUBIC, use_mask);
-				if (!dst8) throw(1);
+				if(!dst8) throw(1);
 
 				// insert channel to destination dib
 				for(y = 0; y < height; y++) {

@@ -4,6 +4,7 @@
 // Design and implementation by
 // - Hervé Drolon (drolon@infonie.fr)
 // - Detlev Vendt (detlev.vendt@brillit.de)
+// - Carsten Klein (cklein05@users.sourceforge.net)
 //
 // This file is part of FreeImage 3
 //
@@ -33,7 +34,7 @@
 */
 class CWeightsTable
 {
-/** 
+/**
   Sampled filter weight table.<br>
   Contribution information for a single pixel
 */
@@ -41,8 +42,8 @@ typedef struct {
 	/// Normalized weights of neighboring pixels
 	double *Weights;
 	/// Bounds of source pixels window
-	unsigned Left, Right;   
-} Contribution;  
+	unsigned Left, Right;
+} Contribution;
 
 private:
 	/// Row (or column) of contribution weights 
@@ -100,7 +101,8 @@ public:
  CResizeEngine<br>
  This class performs filtered zoom. It scales an image to the desired dimensions with 
  any of the CGenericFilter derived filter class.<br>
- It works with 8-, 24- and 32-bit buffers.<br><br>
+ It works with FIT_BITMAP buffers, WORD buffers (FIT_UINT16, FIT_RGB16, FIT_RGBA16) 
+ and float buffers (FIT_FLOAT, FIT_RGBF, FIT_RGBAF).<br><br>
 
  <b>References</b> : <br>
  [1] Paul Heckbert, C code to zoom raster images up or down, with nice filtering. 
@@ -117,29 +119,77 @@ private:
 
 public:
 
-    /// Constructor
+	/**
+	Constructor
+	@param filter FIR /IIR filter to be used
+	*/
 	CResizeEngine(CGenericFilter* filter):m_pFilter(filter) {}
 
-    /// Destructor
+	/// Destructor
 	virtual ~CResizeEngine() {}
 
-    /** Scale an image to the desired dimensions
+	/** Scale an image to the desired dimensions.
+
+	Method CResizeEngine::scale, as well as the two filtering methods
+	CResizeEngine::horizontalFilter and CResizeEngine::verticalFilter take
+	four additional parameters, that define a rectangle in the source
+	image to be rescaled.
+
+	These are src_left, src_top, src_width and src_height and should work
+	like these of function FreeImage_Copy. However, src_left and src_top are
+	actually named src_offset_x and src_offset_y in the filtering methods.
+
+	Additionally, since src_height and dst_height are always the same for
+	method horizontalFilter as src_width and dst_width are always the same
+	for verticalFilter, these have been stripped down to a single parameter
+	height and width for horizontalFilter and verticalFilter respectively.
+
+	Currently, method scale is called with the actual size of the source
+	image. However, in a future version, we could provide a new function
+	called FreeImage_RescaleRect that rescales only part of an image. 
+
 	@param src Pointer to the source image
 	@param dst_width Destination image width
 	@param dst_height Destination image height
+	@param src_left Left boundary of the source rectangle to be scaled
+	@param src_top Top boundary of the source rectangle to be scaled
+	@param src_width Width of the source rectangle to be scaled
+	@param src_height Height of the source rectangle to be scaled
 	@return Returns the scaled image if successful, returns NULL otherwise
 	*/
-	FIBITMAP* scale(FIBITMAP *src, unsigned dst_width, unsigned dst_height);
+	FIBITMAP* scale(FIBITMAP *src, unsigned dst_width, unsigned dst_height, unsigned src_left, unsigned src_top, unsigned src_width, unsigned src_height);
 
 private:
 
-    /// Performs horizontal image filtering
-	void horizontalFilter(FIBITMAP *src, unsigned src_width, unsigned src_height, FIBITMAP *dst, unsigned dst_width, unsigned dst_height);
+	/**
+	Performs horizontal image filtering
+	@param src
+	@param height
+	@param src_width
+	@param src_offset_x
+	@param src_offset_y
+	@param src_pal
+	@param dst
+	@param dst_width
+	*/
+	void horizontalFilter(FIBITMAP * const src, const unsigned height, const unsigned src_width,
+			const unsigned src_offset_x, const unsigned src_offset_y, const RGBQUAD * const src_pal,
+			FIBITMAP * const dst, const unsigned dst_width);
 
-    /// Performs vertical image filtering
-    void verticalFilter(FIBITMAP *src, unsigned src_width, unsigned src_height, FIBITMAP *dst, unsigned dst_width, unsigned dst_height);
+	/**
+	Performs vertical image filtering
+	@param src
+	@param width
+	@param src_height
+	@param src_offset_x
+	@param src_offset_y
+	@param src_pal
+	@param dst
+	@param dst_height
+	*/
+	void verticalFilter(FIBITMAP * const src, const unsigned width, const unsigned src_height,
+			const unsigned src_offset_x, const unsigned src_offset_y, const RGBQUAD * const src_pal,
+			FIBITMAP * const dst, const unsigned dst_height);
 };
-
-
 
 #endif //   _RESIZE_H_
