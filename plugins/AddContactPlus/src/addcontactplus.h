@@ -19,23 +19,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 */
 
-// to enable all 0.9 core functions
-#define MIRANDA_VER 0x0A00
-
 #include <windows.h>
 #include <commctrl.h>
 
 #include <win2k.h>
 #include <newpluginapi.h>
-#include <m_system.h>
-#include <m_clist.h>
 #include <m_database.h>
 #include <m_genmenu.h>
 #include <m_hotkeys.h>
 #include <m_icolib.h>
 #include <m_langpack.h>
 #include <m_message.h>
-#include <m_protocols.h>
 #include <m_protosvc.h>
 #include <m_addcontact.h>
 
