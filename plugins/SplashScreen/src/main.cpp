@@ -1,5 +1,5 @@
 /*
-   Splash Screen Plugin for Miranda-IM (www.miranda-im.org)
+   Splash Screen Plugin for Miranda NG (www.miranda-ng.org)
    (c) 2004-2007 nullbie, (c) 2005-2007 Thief
 
    This program is free software; you can redistribute it and/or modify
@@ -15,12 +15,6 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   File name      : $URL: http://svn.miranda.im/mainrepo/splashscreen/trunk/src/main.cpp $
-   Revision       : $Rev: 1586 $
-   Last change on : $Date: 2010-04-09 13:34:01 +0400 (Пт, 09 апр 2010) $
-   Last change by : $Author: Thief $
-
 */
 
 #include "headers.h"
@@ -64,10 +58,11 @@ PLUGININFOEX pluginInfo={
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	MIID_SPLASHSCREEN
+	// C64CC8E0-CF03-474A-8B11-8BD4565CCF04
+	{0xc64cc8e0, 0xcf03, 0x474a, {0x8b, 0x11, 0x8b, 0xd4, 0x56, 0x5c, 0xcf, 0x04}}
 };
 
-extern "C" BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	hInst = hinstDLL;
 	return TRUE;
@@ -83,7 +78,7 @@ void SplashMain()
 		CallService(MS_SYSTEM_GETVERSIONTEXT, MAX_PATH, (LPARAM)szVersion);
 
 		#ifdef _DEBUG
-			mir_sntprintf(szLogFile, SIZEOF(szLogFile), _T("%s\\%s.log"), szMirDir, _T(__INTERNAL_NAME));
+			mir_sntprintf(szLogFile, SIZEOF(szLogFile), _T("%s\\%s.log"), szMirDir, _T(__PLUGIN_NAME));
 			initLog();
 			TCHAR* mirandaVerString = mir_a2t(szVersion);
 			logMessage(_T("Miranda version"), mirandaVerString);
@@ -125,8 +120,8 @@ void SplashMain()
 				{
 					FreeLibrary(hAdvaimg); hAdvaimg = NULL;
 					MessageBox(NULL,
-					_T("Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds."),
-					_T("Error"),
+					TranslateT("Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds."),
+					TranslateT("Error"),
 					MB_OK | MB_ICONSTOP);
 				}
 				#ifdef _DEBUG
@@ -137,7 +132,6 @@ void SplashMain()
 		}
 
 		//for 9x "alfa" testing
-		//MyUpdateLayeredWindow = 0;
 		DBVARIANT dbv = {0};
 		DBGetContactSettingTString(NULL, MODNAME, "VersionPrefix", &dbv);
 		if (lstrcmp(dbv.ptszVal, NULL) == 0)
@@ -344,7 +338,7 @@ int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 		mi.hIcon = LoadSkinnedIcon(SKINICON_OTHER_MIRANDA);
 		mi.hotKey = 0;
 		mi.position = -0x7FFFFFFF;
-		mi.ptszName = _T("Call Splash Service");
+		mi.ptszName = LPGENT("Call Splash Service");
 		mi.pszService = "Splash/Test";
 		Menu_AddMainMenuItem(&mi);
 	#endif

@@ -1,5 +1,5 @@
 /*
-Splash Screen Plugin for Miranda-IM (www.miranda-im.org)
+Splash Screen Plugin for Miranda NG (www.miranda-ng.org)
 (c) 2004-2007 nullbie, (c) 2005-2007 Thief
 
 This program is free software; you can redistribute it and/or modify
@@ -15,14 +15,6 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-File name      : $URL: http://svn.miranda.im/mainrepo/splashscreen/trunk/src/options.cpp $
-Revision       : $Rev: 951 $
-Last change on : $Date: 2007-10-16 18:46:53 +0400 (Вт, 16 окт 2007) $
-Last change by : $Author: Thief $
-
-DESCRIPTION: Options dialog handling code
-
 */
 
 #include "headers.h"

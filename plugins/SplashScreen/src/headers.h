@@ -1,5 +1,5 @@
 /*
-   Splash Screen Plugin for Miranda-IM (www.miranda-im.org)
+   Splash Screen Plugin for Miranda NG (www.miranda-ng.org)
    (c) 2004-2007 nullbie, (c) 2005-2007 Thief
 
    This program is free software; you can redistribute it and/or modify
@@ -15,17 +15,10 @@
    You should have received a copy of the GNU General Public License
    along with this program; if not, write to the Free Software
    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-   File name      : $URL: http://svn.miranda.im/mainrepo/splashscreen/trunk/src/headers.h $
-   Revision       : $Rev: 1587 $
-   Last change on : $Date: 2010-04-09 14:01:30 +0400 (Пт, 09 апр 2010) $
-   Last change by : $Author: Thief $
 */
 
 #ifndef HEADERS_H
 #define HEADERS_H
-
-#define MIRANDA_VER    0x0A00
 
 #define _WIN32_WINNT 0x0500
 #define WINVER 0x0400
@@ -34,20 +27,18 @@
 #define _CRT_SECURE_NO_DEPRECATE
 
 #include <windows.h>
-#include <stdio.h>
-#include <commctrl.h>
+#include <tchar.h>
 #include <time.h>
-#include <mmsystem.h>
+#include <dshow.h>
 
 // Miranda API headers
 #include <win2k.h>
 #include <newpluginapi.h>
 #include <m_database.h>
 #include <m_options.h>
-#include <m_utils.h>
 #include <m_langpack.h>
-#include <m_system.h>
 #include <m_png.h>
+
 #include "m_splash.h"
 
 // Common headers
