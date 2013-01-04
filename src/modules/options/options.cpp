@@ -152,32 +152,6 @@ static BOOL CALLBACK BoldGroupTitlesEnumChildren(HWND hwnd, LPARAM lParam)
 	return TRUE;
 }
 
-struct MoveChildParam
-{
-	HWND hDlg;
-	POINT offset;
-};
-
-static BOOL CALLBACK MoveEnumChildren(HWND hwnd, LPARAM lParam)
-{
-	struct MoveChildParam * param = (struct MoveChildParam *) lParam;
-
-	RECT rcWnd;
-	GetWindowRect(hwnd, &rcWnd);
-
-	HWND hwndParent = GetParent(hwnd);
-	if (hwndParent != param->hDlg)
-		return TRUE;	// Do not move subchilds
-
-	POINT pt = { 0, 0 };
-
-	ClientToScreen(hwndParent, &pt);
-	OffsetRect(&rcWnd, -pt.x, -pt.y);
-
-	SetWindowPos(hwnd, NULL, rcWnd.left + param->offset.x, rcWnd.top + param->offset.y, 0, 0, SWP_NOZORDER | SWP_NOACTIVATE | SWP_NOSIZE);
-	return TRUE;
-}
-
 #define OPTSTATE_PREFIX "s_"
 
 static void SaveOptionsTreeState(HWND hdlg)
@@ -771,7 +745,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			TabCtrl_AdjustRect( GetDlgItem(hdlg, IDC_TAB), FALSE, &dat->rcTab);
 
 			FillFilterCombo(hdlg, dat);
-			SendMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
+			PostMessage(hdlg, DM_REBUILDPAGETREE, 0, 0);
 		}
 		return TRUE;
 
@@ -815,7 +789,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 			
 			_tcslwr_locale(dat->szFilterString); //all strings are stored as lowercase ... make sure filter string is lowercase too
 
-			ShowWindow(hwndTree, SW_HIDE);	 //deleteall is annoyingly visible
+			SendMessage(hwndTree, WM_SETREDRAW, FALSE, 0);
 			
 			HWND oldWnd = NULL;
 			HWND oldTab = NULL;
@@ -948,7 +922,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 			SendDlgItemMessage(hdlg, IDC_KEYWORD_FILTER, CB_SETEDITSEL, 0, oldSel); //but don't select any of the text
 			
-			ShowWindow(hwndTree, SW_SHOW);
+			SendMessage(hwndTree, WM_SETREDRAW, TRUE, 0);
 		}
 		break;
 
@@ -1195,7 +1169,6 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (LOWORD(wParam) == IDOK)
 					DestroyWindow(hdlg);
 			}
-			break;
 		}
 		break;
 
@@ -1248,33 +1221,32 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 
 void OpenAccountOptions(PROTOACCOUNT* pa)
 {
-	OptionsPageInit opi = { 0 };
 	if (pa->ppro == NULL)
 		return;
 
+	OptionsPageInit opi = { 0 };
 	pa->ppro->OnEvent(EV_PROTO_ONOPTIONS, (WPARAM)&opi, 0);
-	if (opi.pageCount > 0) {
-		TCHAR tszTitle[ 100 ];
-		OPENOPTIONSDIALOG ood = { 0 };
-		PROPSHEETHEADER psh = { 0 };
+	if (opi.pageCount == 0)
+		return;
 
-		mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%s options"), pa->tszAccountName);
-		
-		ood.cbSize = sizeof(ood);
-		ood.pszGroup = LPGEN("Network");
-		ood.pszPage = mir_t2a(pa->tszAccountName);
+	TCHAR tszTitle[ 100 ];
+	mir_sntprintf(tszTitle, SIZEOF(tszTitle), TranslateT("%s options"), pa->tszAccountName);
 
-		psh.dwSize = sizeof(psh);
-		psh.dwFlags = PSH_PROPSHEETPAGE|PSH_NOAPPLYNOW;
-		psh.hwndParent = NULL;
-		psh.nPages = opi.pageCount;
-		psh.pStartPage = (LPCTSTR)&ood;
-		psh.pszCaption = tszTitle;
-		psh.ppsp = (PROPSHEETPAGE*)opi.odp;
-		hwndOptions = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
-		mir_free((void*)ood.pszPage);
-		FreeOptionsData(&opi);
-}	}
+	OPENOPTIONSDIALOG ood = { sizeof(ood) };
+	ood.pszGroup = LPGEN("Network");
+	ood.pszPage = mir_t2a(pa->tszAccountName);
+
+	PROPSHEETHEADER psh = { sizeof(psh) };
+	psh.dwFlags = PSH_PROPSHEETPAGE|PSH_NOAPPLYNOW;
+	psh.hwndParent = NULL;
+	psh.nPages = opi.pageCount;
+	psh.pStartPage = (LPCTSTR)&ood;
+	psh.pszCaption = tszTitle;
+	psh.ppsp = (PROPSHEETPAGE*)opi.odp;
+	hwndOptions = CreateDialogParam(hInst, MAKEINTRESOURCE(IDD_OPTIONSPAGE), NULL, OptionsDlgProc, (LPARAM)&psh);
+	mir_free((void*)ood.pszPage);
+	FreeOptionsData(&opi);
+}
 
 static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszPage, const char *pszTab, bool bSinglePage = false)
 {
@@ -1299,26 +1271,28 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 	else {
 		OptionsPageInit opi = { 0 };
 		NotifyEventHooks(hOptionsInitEvent, (WPARAM)&opi, 0);
-		if (opi.pageCount > 0) {
-			OPENOPTIONSDIALOG ood = { 0 };
-			ood.pszGroup = pszGroup;
-			ood.pszPage = pszPage;
-			ood.pszTab = pszTab;
+		if (opi.pageCount == 0)
+			return;
 
-			PROPSHEETHEADER psh = { 0 };
-			psh.dwSize = sizeof(psh);
-			psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
-			psh.nPages = opi.pageCount;
-			psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
-			psh.pszCaption = TranslateT("Miranda NG Options");
-			psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
+		OPENOPTIONSDIALOG ood = { sizeof(ood) };
+		ood.pszGroup = pszGroup;
+		ood.pszPage = pszPage;
+		ood.pszTab = pszTab;
 
-			hwndOptions = CreateDialogParam(hInst, 
-				MAKEINTRESOURCE(bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS), 
-				NULL, OptionsDlgProc, (LPARAM)&psh);
+		PROPSHEETHEADER psh = { 0 };
+		psh.dwSize = sizeof(psh);
+		psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
+		psh.nPages = opi.pageCount;
+		psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
+		psh.pszCaption = TranslateT("Miranda NG Options");
+		psh.ppsp = (PROPSHEETPAGE*)opi.odp;		  //blatent misuse of the structure, but what the hell
 
-			FreeOptionsData(&opi);
-}	}	}
+		hwndOptions = CreateDialogParam(hInst, 
+			MAKEINTRESOURCE(bSinglePage ? IDD_OPTIONSPAGE : IDD_OPTIONS), 
+			NULL, OptionsDlgProc, (LPARAM)&psh);
+
+		FreeOptionsData(&opi);
+}	}
 
 static INT_PTR OpenOptions(WPARAM wParam, LPARAM lParam)
 {
