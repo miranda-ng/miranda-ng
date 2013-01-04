@@ -92,9 +92,9 @@
 [Message is too large]
 Занадта вялікае паведамленне
 [User does not accept offline messages]
-Карыстач не можа прымаць паведамленні калі яго няма ў сеткі
+Карыстач не можа прымаць паведамленні калі адключаны
 [User does not accept offline flash animation]
-Карыстач не можа прымаць флэш калі яго няма ў сеткі
+Карыстач не можа прымаць флэш калі яадключаны
 [Undefined message deliver error, code: %lu]
 Паведамленне не дастаўлена, невядомая памылка, код: %lu
 [MRIM_CS_MESSAGE_STATUS: not found in queue]
@@ -205,17 +205,17 @@ MraFilesQueueConnectionReceived: уваходнае далучэнне прын�
 Вяртаць абсалютны шлях
 [Delete avatar file with contact]
 Выдаляць файл выявы разам з кантактам
-[Automatic request authorization on logon]
+[Automatically request authorization on logon]
 Аўтаматычна запытваць аўтарызацыю пры далучэнні
-[Automatic add contacts to server list on logon]
+[Automatically add contacts to server list on logon]
 Аўтаматычна дадаваць кантакты на сервер пры далучэнні
-[Automatic grand authorization to users in contact list]
+[Automatically grant authorization to users in contact list]
 Аўтаматычна аўтарызоўваць карыстачоў са спісу
-[Automatic grand authorization to new users]
+[Automatically grant authorization to new users]
 Аўтаматычна аўтарызоўваць новых карыстачоў
 [Disable spam check]
 Не правяраць на спам
-[Hide menu items for non MRA contacts]
+[Hide menu items for non-MRA contacts]
 Хаваць опцыі меню для не MRA кантактаў
 [Notify about new mail if increment]
 Апавяшчаць толькі пра новую пошту
@@ -223,9 +223,9 @@ MraFilesQueueConnectionReceived: уваходнае далучэнне прын�
 Паказваць значок у трэі пры прыходзе пошты
 [Click to Inbox]
 Праверыць пошту пстрычкай
-[Show received Formated text (RTF receive)]
+[Show received formatted text (receive RTF)]
 Паказваць прыняты фарматаваны тэкст
-[Send Formated text (send RTF)]
+[Send formatted text (send RTF)]
 Адпраўляць Фарматаваны тэкст
 [Anti spam]
 Антыспам
@@ -346,3 +346,5 @@ MRA далучэнне
 Ігнараваць знакі не якія з'яўляюцца літарай/лічбай пры праверцы
 [Leave empty if you dont want change password]
 Пакіньце пустым калі не жадаеце змяняць пароль
+[Notify me when a message delivery has failed]
+Апавясціць, калі паведамленне не дайшло

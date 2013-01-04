@@ -44,7 +44,7 @@ E-mail:
 [Last Event]
 З'яўленні
 [Online Since]
-У сеткі з:
+Далучаны:
 [Quick Search Options]
 Налады хуткага пошуку
 [&New]
@@ -196,7 +196,7 @@ CSV з загалоўкамі
 [SubMetacontact foreground]
 Тэкст субкантактаў
 [%u users found (%u) Online: %u]
-%u карыстачоў знойдзена (з %u) У сеткі: %u
+%u карыстачоў знойдзена (з %u) Далучаны: %u
 [Colorize]
 Дадаць колер
 [Metacontact]

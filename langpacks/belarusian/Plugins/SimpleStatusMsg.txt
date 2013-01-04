@@ -1,4 +1,4 @@
-﻿;#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+﻿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;  File: simplestatusmsg.dll
 ;  Module: Provides a simple way to set status and away messages
 [Provides a simple way to set status and away messages]

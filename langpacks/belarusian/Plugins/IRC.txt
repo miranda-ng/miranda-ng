@@ -240,7 +240,6 @@ DCC-запыт на перадачу файла пасланы %s [%s]
 Ігнараваць ->
 [Connecting to]
 Злучэнне з
-
 [Please choose an IRC-network to go online. This network will be the default.]
 Абярыце IRC сетка. Гэта сетка будзе абрана па змаўчанні.
 [Default network]
@@ -557,7 +556,7 @@ ID карыстача
 [Invite to channel]
 Запрасіць у чат-пакой
 [Online detection mode]
-Рэжым вызначэння ў сеткі
+Рэжым выяўлення далучаных
 [Wildcard enabled network search]
 Wildcard пошук па сетцы
 [menu1]
@@ -684,7 +683,6 @@ Nickserv забіць фантому
 Налады не захаваны.\n\n Поле "Псеўданім" павінна ўтрымоўваць прынамсі чатыры знака (уключаючы маскі), і супадаць з псеўданімам па змаўчанні для гэтага кантакту.
 [Automatically accept chat requsts from...]
 Аўтаматычна прымаць уваходныя запыты ад...
-
 [IRC protocol]
 Пратакол IRC
 [Failed to connect to]

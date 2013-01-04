@@ -1,4 +1,4 @@
-﻿#muuid {1AAC15E8-DCEC-4050-B66F2AA0E6120C22}
+﻿#muuid {1AAC15E8-DCEC-4050-B66F-2AA0E6120C22}
 ;  File: PasteIt.dll
 ;  Module: Paste It
 [Uploads the text to web page and sends the URL to your friends.]
@@ -7,10 +7,7 @@
 Paste It - Абраць файл
 [Paste It HTTP connections]
 HTTP далучэнне Paste It
-[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
-Вы ўвялі няслушную кодавую старонку. Абярыце кодавую старонку з выпадальнага спісу ці ўвядзіце правільны нумар.
-[Invalid codepage]
-Няслушная кодавая старонка
+
 [You can only paste 1 file]
 Вы можаце змесцаваць толькі 1 файл
 [Cannot get data from clipboard]

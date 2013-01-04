@@ -1,6 +1,8 @@
-﻿;#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
+﻿#muuid {12d8faad-78ab-4e3c-9854-320e9ea5cc9f}
 ;  File: MirOTR.dll
 ;  Module: OTR (Off-the-Record) plugin for Miranda NG 
+[OTR (Off-the-Record) plugin for Miranda NG\r\n(using some code and ideas from SecureIM, Pidgin-OTR and old Miranda OTR (by SJE)).]
+Модуль OTR (Off-the-Record) для Miranda NG\r\n(ужытыя код і ідэі з SecureIM, Pidgin-OTR і старога дадатку Miranda OTR (ад SJE).
 [Also remove OTR system messages]
 Выдаліць сістэмныя паведамленні OTR
 [OTR Authenticate: %s (%s)]
@@ -51,7 +53,7 @@ OTR-Ідэнтыфікацыя з: %s (%s)
 Адбітак '%s' выкарыстоўваецца ў гутарцы з '%s'. Ён не можа быць выдалены!
 [Fingerprint '%s' still in use in conversation with '%s'. You cannot delete it!]
 Адбітак '%s' ужо выкарыстоўваецца ў гутарцы з '%s'. Вы не можаце яго выдаліць!
-[[OTR inline] ]
+[OTR inline]
 Убудаваны OTR:
 [Authentication from %s]
 Ідэнтыфікацыя ад %s
@@ -182,7 +184,7 @@ OTR-статут
 [Opportunistic]
 Авантурыстычная
 [End sessions when contacts go offline]
-Спыніць сесію, калі кантакт сыходзіць з сеткі
+Спыніць сесію, калі кантакт адключаецца
 [Timeout FINISHED sessions back to PLAINTEXT (TAKE CARE!)]
 Вяртаць завершаныя сесіі ў звычайны тэкст па тайм-аўту
 [Fingerprint]

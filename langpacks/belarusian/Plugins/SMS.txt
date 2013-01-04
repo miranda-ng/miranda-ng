@@ -2,7 +2,7 @@
 ;  File: SMS.dll
 ;  Module: SMS
 [Send SMS text messages to mobile phones through the IM networks.]
-Дасылка SMS паведамленняў на мабільныя тэлефоны пасродкам IM сеціваў.
+Дасылка SMS паведамленняў на мабільныя тэлефоны пасродкам IM сетак.
 [Send &SMS...]
 Паслаць SMS
 [&SMS Message]

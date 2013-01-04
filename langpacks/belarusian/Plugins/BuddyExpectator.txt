@@ -1,4 +1,4 @@
-﻿;#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+﻿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;  File: buddyexpectator.dll
 ;  Module: Buddyexpectator plugin
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
@@ -88,7 +88,7 @@
 [Last input message]
 Апошняе ўведзенае паведамленне
 [Last seen online]
-Апошні раз у сеткі
+Апошні раз далучаны
 [Note: in additional you may specify any sound  on 'Sounds' panel]
 Дадаткова вы можаце наладзіць гукі ў панэлі "Гукі"
 [Notify after an absence of ]

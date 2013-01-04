@@ -1,6 +1,8 @@
-﻿;#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
+﻿#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}
 ;  File: ClientChangeNotify.dll
 ;  Module: ClientChangeNotify
+[ClientChangeNotify plugin for Miranda NG.]
+Апавяшчэнне пра змену кліента.
 [%s (was %s)]
 %s (быў %s)
 [) changed client to ]

@@ -1,6 +1,8 @@
-﻿;#muuid {23d4f302-d513-45b7-9027-445f29557311}
+﻿#muuid {23d4f302-d513-45b7-9027-445f29557311}
 ;  File: Console.dll
 ;  Module: Console log window for Miranda
+[Console log window for Miranda.]
+Дадатак вакна кансолі Miranda NG.
 [Scrolling (Ctrl+Q)]
 Пракручваць (Ctrl+Q)
 [Pause logging(Ctrl+P)]

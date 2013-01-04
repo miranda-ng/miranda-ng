@@ -3,6 +3,8 @@
 ;  Module: IEview provides IE engine to display message log.
 [IEView]
 Журнал IEView
+[IE Based Chat Log.]
+Журнал на IE рухавічку.
 [Currently the following BBCodes are supported: [b][i][u][img][size][color]]
 Падтрымліваюцца [b][i][u][img][size][color] BBCodes
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color]]

@@ -1,4 +1,4 @@
-﻿;#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+﻿#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 ;  File: Clist_nicer.dll
 ;  Module: Nicer Contact list
 [Displays contacts, event notifications, protocol status.]
@@ -100,11 +100,11 @@
 [Toggle group mode]
 Паказаць/схаваць групы
 [Toggle groups]
-Вкл/Выкл групы
+Укл/Выкл групы
 [Toggle show online/offline]
-Вкл/Выкл карыстачоў не ў сеткі
+Укл/Выкл адключаных карыстачоў
 [Toggle sounds]
-Вкл/выкл гукі
+Укл/выкл гукі
 [Thin border]
 Тонкая рамка
 [Tool Window]
@@ -198,7 +198,7 @@
 [CList - Nicer]
 Спіс кантактаў
 [Hide as offline]
-Прят. як не ў сеткі
+Хаваць як адключаных
 [Hide numbers when all offline]
 Хаваць лічыльнік калі ўсё адключаны
 [Hide this contact from the list]
@@ -306,7 +306,7 @@
 [Suppress auth requests]
 Замкне "Запыт аўтарызацыі"
 [Suppress online notifications]
-Забарона "Ў сеткі"
+Забарона "Далучаны"
 [Synchronzie floater visibility with contact list]
 Сінхранізаваць бачнасць са спісам кантактаў
 [Then by]
@@ -324,7 +324,7 @@
 [Use metacontact protocol icons instead of subcontacts]
 Значок пратаколу метакантакту замест субкантакту
 [Use per protocol/contact skinning]
-Исп. скіны для пратаколаў/кантактаў
+Вык. скіны для пратаколаў/кантактаў
 [Use these settings to skin the entire background]
 Выкарыстоўваць дадзеныя налады для ўсяго фону
 [When possible, draw status icons in avatar space]
@@ -364,7 +364,7 @@ xСтатус
 [Not yet supported]
 Не падтрымліваецца
 [Offline contact]
-Кантакт не ў сеткі
+Адключаны кантакт
 [Reserved, unused]
 Дап. слот, не выкарыстоўваецца
 [Rounded corners]
@@ -419,6 +419,10 @@ xСтатус
 Хаваць аўтаматычна
 [Availability of a status message will be used for row height calculations]
 Вышыня радка будзе вылічацца з улікам даступнасці паведамлення статусу
+[Color 1]
+Колер 1
+[Color 2]
+Колер 2
 [Consider status message]
 Улічваць статусныя паведамленні
 [Contact display]
@@ -474,7 +478,7 @@ xСтатус
 [Use contact groups]
 Групы кантактаў
 [Show only online contacts]
-Толькі кантакты ў сеткі
+Толькі далучаныя кантакты
 [Auto expand groups]
 Аўтаматычна расчыняць групы
 [And finally by]

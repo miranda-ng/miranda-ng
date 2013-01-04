@@ -1,4 +1,4 @@
-﻿;#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+﻿#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
 ;  File: clist_mw.dll
 ;  Module:  MultiWindow Contact List
 [Displays contacts, event notifications, protocol status with MW modifications.]

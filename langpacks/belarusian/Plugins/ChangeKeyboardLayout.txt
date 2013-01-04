@@ -1,6 +1,8 @@
-﻿;#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+﻿#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;  File: ChangeKeyboardLayout.dll
 ;  Module: Change Keyboard Layout
+[Plugin for changing keyboard layout of text (multilayout).]
+Дадатак для змены раскладак тэксту
 [Set strings for unknown layouts (Plugins->ChangeKeyboardLayout)!]
 Усталюеце канфігурацыйныя радкі для невядомых раскладак(Дадаткі->Змена раскладак)!
 [Strings for known layouts has been replaced. Please modify strings for unknown layouts if you have one!]
@@ -25,8 +27,6 @@
 Змена раскладкі
 [HotKey for changing layout of text:]
 Гарачая кнопка для змены:
-[Plugin for changing keyboard layout of text (multilayout).]
-Дадатак для змены раскладак тэксту.
 [Changing layout:]
 Змена раскладкі:
 [Changing layout (alternative):]

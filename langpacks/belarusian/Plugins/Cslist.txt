@@ -1,8 +1,8 @@
-﻿;#muuid {c8cc7414-6507-4af6-925a83c1d2f7be8c}
+﻿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;  File: cslist.dll
 ;  Module: Custom Status List
 [Custom Status List]
-Карыстацкі спіс статутаў
+Карыстацкі спіс статусаў
 [Keep your ICQ Custom statuses in an integrated, easy to use manager. This plugin offers simple management functions to keep your extra statuses on one place.]
 Гэты модуль падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
 [List settings]
@@ -41,7 +41,7 @@
 Змяніць пункт
 [Remember last window position]
 Памятаць апошняе становішча акна
-[Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
+[Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 Нататка: Пункты меню адлюстроўваюцца толькі пры наяўнасці хоць бы аднаго правільна ўсталяванага ўліковага запісу ICQ. Праверце, калі ў вас ёсць прынамсі адзін уліковы запіс з UIN.
 [Do you want old database entries to be deleted after Import?]
 Вы жадаеце выдаліць запісы старой базы дадзеных пасля імпарту?

@@ -59,7 +59,7 @@
 Захоўваць гісторыю ў гісторыі Miranda і гісторыю аватараў у тэчцы кантакту, выкарыстоўваючы цэтлікі
 [All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
 Усе аватары захоўваюцца як <Профіль>\\Avatars History\\<Пратакол>\\<Хэш аватара> і маюць цэтлік у гісторыі <Профіль>\\Avatars History\\<Пратакол>\\<ID кантакту>\\<Час>
-[Store history avatars in per contact folders using shortcut]
+[Store history avatars in per contact folders using shortcuts]
 Захоўваць гісторыю для кожнага кантакту, выкарыстоўваючы цэтлікі
 [History is stored only in disk. It can be seen by Avatar History internal viewer.]
 Гісторыя захоўваецца толькі на дыск. Яе можна прагледзець убудаваным прагляднікам.

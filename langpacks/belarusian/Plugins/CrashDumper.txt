@@ -31,10 +31,10 @@ Miranda была завершана аварыйна. Неабходзен dbghe
 У буфер абмену
 [To File]
 У файл
-[View Version Information ]
+[View Version Information]
 Інфармацыя пра версіі
 [View Version Information (with DLLs)]
-Інфармацыя пра версіі(p бібліятэками)
+Інфармацыя пра версіі(з бібліятэкамі)
 [Upload automatically when changed]
 Загружаць аўтаматычна пры зменах
 [VersionInfo upload successful,\n %d old plugins]

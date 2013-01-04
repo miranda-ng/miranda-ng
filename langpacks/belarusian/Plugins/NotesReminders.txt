@@ -233,3 +233,17 @@
 Дата актывацыі
 [Are you sure you want to delete this reminder?]
 Упэўнены, што жадаеце выдаліць гэты напамінак?
+[On Top Caption Icon]
+Прычапіць
+[Not on Top Caption Icon]
+Адчапіць
+[Hide Note Icon]
+Схаваць нататку
+[Remove Note Icon]
+выдаліць нататку
+[Reminder Icon]
+Напамінак
+[Sticky Notes & Reminders Implementation for Miranda NG.]
+Нататкі і напамінкі для Miranda NG.
+[Play Sound Icon]
+Проиграть гук

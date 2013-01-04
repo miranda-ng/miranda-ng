@@ -1,4 +1,4 @@
-﻿;#muuid {0324785e-74ce-4600-b781-851773b3efc5}
+﻿#muuid {0324785e-74ce-4600-b781-851773b3efc5}
 ;  File: contacts.dll
 ;  Module: Contacts
 [&Details]

@@ -150,7 +150,7 @@
 [Infobar status message]
 Інфа-Панэль: статутнае паведамленне
 [User list members (online)]
-Чальцы спісу (у сеткі)
+Удзельнікі спісу (далучаныя)
 [User list background (selected)]
 Фон спісу (абрана)
 [User list lines]

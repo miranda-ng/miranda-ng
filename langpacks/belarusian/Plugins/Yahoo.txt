@@ -1,4 +1,4 @@
-﻿#muuid {0aa7bfea-1fc7-45f0-906e2a46b6e119cf}
+﻿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;  File: yahoo.dll
 ;  Module: Yahoo Protocol
 [Yahoo Protocol support via libyahoo2 library.]
@@ -140,15 +140,15 @@ Yahoo Японія
 [Yahoo Ignore]
 Yahoo Ігнор
 [You need to be connected to Yahoo to add to Ignore List.]
-Вы павінны быць у сеткі для даданне ў спіс ігнаравання.
+Вы павінны далучыцца для дадання ў спіс ігнаравання.
 [You need to be connected to Yahoo to remove from the Ignore List.]
-Вы павінны быць у сеткі для выдалення са спісу ігнаравання.
+Вы павінны далучыцца для выдалення са спісу ігнаравання.
 [&Show Profile]
 Профіль
 [Calendar Reminder]
 Каляндар напамінкаў
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння да сеткі.
+Немагчыма далучыцца да сервера Yahoo. Праверце налады, і станы далучэння.
 [Custom error %s]
 Памылка %s
 [Server Connection Error: %s]
@@ -158,7 +158,7 @@ Yahoo Ігнор
 [Unknown error %s]
 Невядомая памылка %s
 [You have been logged out of the yahoo service.]
-Вы адключаны ад сеткі Yahoo.
+Вы адключаны Yahoo.
 [Yahoo Detail]
 Yahoo дэталі
 [Yahoo Directory Search]

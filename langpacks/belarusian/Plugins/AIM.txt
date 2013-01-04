@@ -1,5 +1,5 @@
 ﻿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
-;  Module: Aim.dll
+;  File: Aim.dll
 ;  Plugin: AIM Protocol
 [(seconds)]
 (секунды)
@@ -71,14 +71,17 @@ AIM Опцыі
 Стварыць новы конт AIM
 [*Applied upon reconnect]
 *Патрабуецца перазапуск
+
 [Aim Protocol]
 AIM пратакол
+
 [No information has been provided by the server.]
 Сервер не падаў ніякай інфармацыі.
 [[Auto-Response]:]
 (Аўтаадказ):
 [[Auto-Response]: ]
 (Аўтаадказ):
+
 [Add To Server List]
 Дадаць у спіс на серверы
 [Check Mail]
@@ -202,7 +205,7 @@ AOL® Лагін
 [Confirm Delete]
 Пацвердзіце выдаленне
 [Currently Offline]
-Цяпер не ў сеткі
+Зараз адключаны
 [Do you want to disable the AIM protocol (requires restart)?]
 Вы жадаеце выключыць пратакол AIM (патрабуецца рэстарт)?
 [Enable Warn User menu item for contacts]
@@ -420,4 +423,4 @@ AIM логы
 [Not Normal Script]
 Не стандартны скрыпт
 [*AimOSCAR must be reconnected  for some option to take effect.]
-*AimOSCAR павінен быць перадалучаны для ўступа ў сілу змен.
+* Змены адбудуцца пасля наступнага далучэння да AimOSCAR.

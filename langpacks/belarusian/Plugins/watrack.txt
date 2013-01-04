@@ -199,8 +199,6 @@ FPS (кадраў у секунду), толькі для відэа
 Кодавая старонка перакладу юнікод - ANSI:
 [VBR macro]
 Адлюстраванне VBR
-[[X]Status Title / Text]
-Загаловак xСтатуса / тэкст
 [\[X\]Status Title / Text]
 Загаловак і тэкст статусу
 [Insert in messages]

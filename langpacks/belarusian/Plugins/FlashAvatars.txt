@@ -6,4 +6,4 @@
 [Load and display flash avatars]
 Загружае і паказвае Flash аватары
 [Flash Avatars]
-Падлучэнне Flash Avatars
+Далучэнне Flash Avatars

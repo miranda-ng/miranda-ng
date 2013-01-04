@@ -92,8 +92,48 @@
 [Automatically close chat windows (on website)]
 Аўтаматычна зачыняць акно чата (на сайце)
 [Map non-standard statuses to Invisible (instead of Online)]
-Нестандартныя статуты, як Нябачны (замест 'У сеткі')
+Нестандартныя статусы, як Нябачны (замест 'Далучаны')
 [Get unread messages on login (EXPERIMENTAL)]
 Не прачытаныя паведамленні пры ўваходзе (Эксперыментальна)
 [Enable groupchats support (EXPERIMENTAL)]
 Падтрымка канферэнцый (Эксперыментальна)
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+Падтрымка карыстацкіх смайлаў (Эксперыментальна!)
+[Automatically close chat windows (on website) (NOT WORKING)]
+Аўтаматычна зачыняць вокны чата (на сайце) (НЕ ПРАЦУЕ)
+[Photos]
+Фатаграфіі
+[Links]
+Спасылкі
+[Request friendship]
+Дадаць ў сябры
+[Approve friendship]
+Дадаць ў сябры
+[Cancel friendship]
+Выдаліць з сяброў
+[Cancel friendship request]
+Скасаваць запыт сяброўства
+[Check Friends Requests]
+Праверыць запыты сяброўства
+[Check Newsfeeds]
+Праверыць навіны
+[Refresh Buddy List]
+Абнавіць спіс сяброў
+[Checking friend requests...]
+Праверка запытаў сяброўства...
+[Loading newsfeeds...]
+Загрузка навін...
+[Refreshing buddy list...]
+Абнаўленне спісу сяброў...
+[Services]
+Службы
+[Wall Posts]
+Паведамленні са сцяны
+[Apps and Games]
+Прыкладанні і гульні
+[Facebook Icon]
+Значок Facebook
+[Mind]
+Меркаванне
+[Other Event]
+Іншая падзея

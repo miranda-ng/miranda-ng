@@ -1,6 +1,8 @@
 ﻿#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;  File: Sessions
 ;  Module: Sessions.dll
+[Sessions Manager for Miranda NG.]
+Мэнэджар сесій Miranda NG.
 [Sessions]
 Сесіі
 [Action on Startup]
@@ -61,8 +63,6 @@
 Сесія да апошняга збою
 [Sessions Manager]
 Мэнэджар сесій
-[Sessions Manager for Miranda NG.]
-Мэнэджар сесій Miranda NG.
 [Last Sessions is empty]
 Апошняя сесія пустая
 [No sessions to open]

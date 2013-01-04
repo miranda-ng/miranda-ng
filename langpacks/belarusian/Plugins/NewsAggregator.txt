@@ -89,6 +89,8 @@
 &Дадаць...
 [&Export...]
 &Экспарт
+[MyFeeds]
+МаеКаналы
 [OPML File]
 Файл OPML
 [Feed ID]
@@ -165,3 +167,27 @@ RSS не змог знайсці IP-адрас, які адпавядае імя
 Экспарт каналаў
 [Check Feed]
 Праверыць
+[Check feed]
+Праверыць канал
+[Change feed]
+Змяніць канал
+[Change Feed]
+Змяніць канал
+[0 - check manually]
+0 - правяраць уручную
+[Feed Tag Help]
+Дапамога па тэгам
+[The title of the item.]
+Загаловак навіны.
+[The item synopsis.]
+Тэкст навіны.
+[The URL of the item.]
+URL навіны.
+[Email address of the author of the item.]
+E-mail аўтара навіны.
+[URL of a page for comments relating to the item.]
+URL старонкі з коментарыями да навіны.
+[A string that uniquely identifies the item.]
+ID навіны.
+[Specify one or more categories that the item belongs to.]
+Катэгорыі навіны.

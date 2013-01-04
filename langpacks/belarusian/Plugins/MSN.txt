@@ -1,8 +1,10 @@
-﻿#muuid {97724af9-f3fb-47d3-a3bfeaa935c74e6d}
+﻿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;  File: msn.dll
 ;  Module: MSN Protocol
+[Adds support for communicating with users of the MSN Messenger network.]
+Падтрымка пратакола MSN для Miranda NG.
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
-Для сеціва MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
+Для MSN таймаўт адпраўлення паведамлення павінен быць не меней, чым 60 секунд. Калі ласка, наладзьце ваш модуль паведамленняў.
 [Setup Live &Alerts]
 Налады Live &Alerts
 [Run the following application when new Hotmail arrives]
@@ -124,7 +126,7 @@
 [Set Nickname]
 Увод ніка
 [User not online]
-Карыстач не ў сеткі
+Карыстач не далучаны
 [Live Alert]
 Live апавяшчэнне
 [Live Mail]
@@ -231,3 +233,9 @@ MSN Чат
 Шлюз:
 [View &Profile]
 Прагледзець &профіль
+[Convert to Chat]
+Канвертаваць у чат
+[Create &Chat]
+Стварыць &чат
+[Place:]
+Месца:

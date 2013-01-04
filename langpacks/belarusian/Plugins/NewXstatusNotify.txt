@@ -1,9 +1,9 @@
-﻿#muuid {ebf19652-e434-4d79-989791a0ff226f51}
+﻿#muuid {ebf19652-e434-4d79-9897-91a0ff226f51}
 ;  File: NewXstatusNotifyW.dll
 ;  Module: NewXstatusNotify YM
 [Notifies you when a contact changes his/her (X)status or status message.]
 Апавяшчае вас пра змены статусаў, хстатусаў ці статусных паведамленняў.
-[Notifies you when a contact changes his/her (X)status or status message.]
+[Notifies you when a contact changes his/her (X)status.]
 Апавяшчае вас пра змены статусу і xСтатуса кантактаў.
 [<error>]
 <памылка>
@@ -47,8 +47,8 @@
 Даступныя зменныя:\r\n\r\n\%N\tназва дап. статусу (хстатус, Настрой, Занятак)\r\n\%T\tзагаловак дап. статусу\r\n\%I\tтэкст дап. статусу\r\n\%D\tпадзельнік\r\n\%B\tпарыў радка (можа выкарыстоўвацца як падзельнік)
 [Automatically turn off Popups and Sounds on status change]
 Выключаць успл. акна і гукі пры змене статусу
-[Don't notify me for people not in my Contact List]
-Не апавяшчаць мяне пра кантакты не са спісу кантактаў
+[Notify me for people not in my Contact List]
+Апавяшчаць мяне пра кантакты не ў спісе
 [Go to Customize -> Sound to select the sounds]
 Налада гукаў: Тонкая налада -> Гукі
 [Disable when my status is:]
@@ -57,6 +57,8 @@
 Адключаць, толькі пры змене глабальнага статусу
 [Extra status notify]
 Дап. статусы
+[Extra status]
+xСтатус
 [Extra status logging]
 Запіс дап. статусаў
 [Prevent identical logs]
@@ -115,8 +117,8 @@
 Wave файлы
 [changed his/her status message to %n]
 змяніў(а) статуснае паведамленне на %n
-[Disable protocols which you don't wish to be notified for:]
-Выключыць апавяшчэнні для пратаколаў:
+[Enable/Disable protocols which you don't wish to be notified for:]
+Выключыць/Уключыць апавяшчэнні для пратаколаў:
 [These variables are available:\r\n\r\n\%n\tNew Status Message\r\n\%o\tOld Status Message\r\n\%c\tCustom Nickname\r\n\\n\tline break\r\n\\t\ttab stop]
 Даступныя зменныя:\r\n\r\n\%n\t Новае паведамленне статусу\r\n\%o\t Старое паведамленне статусу\r\n\%c\t Нікнэйм\r\n\\n\t Парыў радка\r\n\\t\t Табуляцыя
 [This is status message]

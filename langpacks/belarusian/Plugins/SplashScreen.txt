@@ -1,4 +1,4 @@
-﻿;#muuid {c64cc8e0-cf03-474a-8b118bd4565ccf04}
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
 ;  Module: SplashScreen.dll
 ;  Plugin: Splash Screen
 [Shows a splash at Miranda startup.]

@@ -53,8 +53,8 @@
 Старэй 6 месяцаў (180 дзён)
 [Older than 1 Year (364 days)]
 Старэй 1 гады (364 дня)
-[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda IM startup/shutdown.]
-Гэты модуль можа чысціць сістэмную гісторыю, гісторыю ўсіх кантактаў ці толькі абранага; чысціць гісторыю больш старую чым вызначаны час; і можа рабіць гэта пры запуску/выключэнні праграмы.
+[This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
+Гэты модуль можа чысціць сістэмную гісторыю, гісторыю ўсіх кантактаў ці толькі абраных; чысціць гісторыю больш старую чым вызначаны час; і можа рабіць гэта пры запуску/выключэнні праграмы.
 [Sweep history at Miranda shutdown]
 Чысціць гісторыю пры выйсці
 [Sweep history at Miranda startup]

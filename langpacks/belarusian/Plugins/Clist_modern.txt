@@ -163,8 +163,10 @@
 Дазволіць унутраныя запыты статусных паведамленняў
 [Remove away message if contact became offline]
 Выдаліць статуснае паведамленне, калі кантакт афлайн
-[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-im.org/download]
-Для дадатковых магчымасцяў загрузіце модуль MetaContacts.\nhttp://addons.miranda-im.org/
+[Use improved search method in contactlist]
+Пошук па спісе з фільтраваннем вынікаў
+[For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
+Для дадатковых магчымасцяў загрузіце модуль MetaContacts.\n\nhttp://miranda-ng.org
 [MetaContacts stuff]
 Метакантакты
 [Use 'Meta' protocol icons for Metacontacts]
@@ -176,7 +178,7 @@
 [Hide all 'Extra icons' for subcontacts]
 Схаваць дадатковыя значкі для субкантактаў
 [Hide offline subcontacts.]
-Хаваць субкантакты не ў сеткі
+Хаваць адключаныя субкантакты
 [Subcontacts indent:]
 Водступ субкантактаў:
 [Row items]
@@ -450,7 +452,7 @@
 [Hide Contact &Avatar]
 Схаваць аватар
 [Show even if offline]
-Паказваць, нават калі не ў сеткі
+Паказваць адключаных
 [Low]
 Нізкі
 [High]

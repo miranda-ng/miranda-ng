@@ -16,17 +16,19 @@
 [Set user properties by contact menu]
 Усталёўвае налады бачнасці для карыстачоў у спісе кантактаў
 [Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
-Дадае кантэкстныя меню: "Прынятыя файлы", "Сайт", "Апошні раз у сеткі" і "Капіяваць IP адрас".
+Дадае кантэкстныя меню: "Прынятыя файлы", "Сайт", "Апошняе далучэнне" і "Капіяваць IP адрас".
 [Hide menu item if directory does not exist]
 Схаваць пункт меню, калі каталог не існуе
 [Last Status]
-Апошні статут
+Апошні статуs
 [Copy to Account]
 Капіяваць ва ўліковы запіс
 [Copy to Account (Ctrl+click for move to Account)]
 Капіяваць у вул. запіс (Ctrl+клік - перасоўванне)
 [* Use Ctrl+click to see popup with the copied text]
 * Выкарыстоўвайце Ctrl+клік для паказу ўсплывальнага акна са скапіяваным тэкстам
+[Hide contact on 'Ignore all']
+Хаваць пры 'Ignore all'
 [Show in list]
 Паказваць у спісе
 [Add message name]
@@ -43,3 +45,5 @@
 Паказаць ID у кантэкстным меню
 [Trim too long ID]
 Абразаць доўгі ID
+[Automatically refresh contact's details after they come online]
+Аўтаматычна аднаўляць дэталі кантактаў пры далучэнні

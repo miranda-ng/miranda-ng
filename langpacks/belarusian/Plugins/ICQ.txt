@@ -80,7 +80,7 @@
 [Load avatars automatically (like ICQ Lite)]
 Загружаць аватары аўтаматычна (як ICQ Lite)
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-Немагчыма ўключыць/выключыць спіс на серверы падчас далучэння да сеткі ICQ.
+Немагчыма ўключыць/выключыць спіс на серверы падчас далучэння да ICQ.
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
 Заўвага: Налады, адзначаныя зорачкай, маюць пабочныя эфекты, якія могуць быць не дакументаваны ў даведцы.
 [Enable unicode messaging support]
@@ -144,7 +144,7 @@
 [Only reply to status message request from visible contacts]
 Адказваць на запыт статуснага паведамлення толькі бачным кантактам
 [Support for ICQ network, enhanced.]
-Пашыраная падтрымка сеткі ICQ.
+Падтрымка пратакола ICQ, пашырана.
 [ICQ XStatus]
 хстатус ICQ
 [Show custom status details]
@@ -339,6 +339,14 @@
 Катэгорыя 3
 [Interest category 4]
 Катэгорыя 4
+[50's]
+50-е
+[60's]
+60-е
+[70's]
+70-е
+[80's]
+80-е
 [Audio and Visual]
 Гук і візуалізацыя
 [Business Services]
@@ -538,7 +546,7 @@ ICQ прымае максімум 8 знакаў у паролі.
 [You could not sign on because the server returned invalid data. Try again.]
 Вы не ўвайшлі ў сетку, бо сервер вярнуў няслушныя дадзеныя. Паспрабуйце пазней.
 [You have been disconnected from the ICQ network because the current server shut down.]
-Вас раз'ядналі ад сеткі ICQ таму што бягучы сервер быў выключаны.
+Вас адключылі ад ICQ таму што бягучы сервер быў выключаны.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
 Няўдалае далучэнне.\nВаш нумар ці пароль не прыняты серверам (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
@@ -566,7 +574,7 @@ ICQ прымае максімум 8 знакаў у паролі.
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
 Вы адпраўляеце занадта хутка. Паспрабуйце адправіць паведамленне пазней.\r\nSNAC(4.1) памылка x03
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Гэты карыстач сышоў з сеткі. Паспрабуйце адправіць афлайн-паведамленне.\r\nSNAC(4.1) памылка x04
+Гэты карыстач адключыўся. Паспрабуйце адправіць афлайн-паведамленне.\r\nSNAC(4.1) памылка x04
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
 Кліент атрымальніка не падтрымлівае гэты тып паведамлення.\r\nSNAC(4.1) памылка x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
@@ -654,7 +662,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
 Змены набудуць моц пры наступным уваходзе ў сетку ICQ.
 [Some options are greyed out because they can only be changed when you are online.]
-Некаторыя налады можна змяняць толькі пасля далучэння да сеткі ICQ.
+Некаторыя налады можна змяняць толькі пасля далучэння да ICQ.
 [Your connection with the ICQ server was abortively closed]
 далучэнне да ICQ серверу зачынена.
 [Unable to connect to ICQ login server]
@@ -704,7 +712,7 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 [Error uploading avatar to server, server refused to accept the image.]
 Памылка загрузкі аватара на сервер, сервер не прыняў малюнак.
 [Miranda was unable to allocate a port to listen for direct peer-to-peer connections between clients. You will be able to use most of the ICQ network without problems but you may be unable to send or receive files.\n\nIf you have a firewall this may be blocking Miranda, in which case you should configure your firewall to leave some ports open and tell Miranda which ports to use in M->Options->ICQ->Network.]
-Не атрымалася вылучыць порт для злучэнняў паміж кліентамі. Усе функцыі ICQ будуць даступныя, але магчымыя праблемы з перадачай файлаў.\n\nЕсли у вас усталяваны брандмаўар (firewall), наладзьце ў ім некалькі портаў і пакажыце іх у наладах (Сетка - злучэнні паміж карыстачамі)
+Не атрымалася вылучыць порт для злучэнняў паміж кліентамі. Усе функцыі ICQ будуць даступныя, але магчымыя праблемы з перадачай файлаў.\n\nКалі ў вас усталяваны брандмаўар (firewall), наладзьце ў ім некалькі портаў і пакажыце іх у наладах (Сетка - злучэнні паміж карыстачамі)
 [Spambot Detected]
 Выяўлены спамбот
 [Connection failed.\nThe server is temporarily unavailable (%d).]
@@ -721,6 +729,10 @@ SNAC(4.1) Памылка SENDMSG (x%02x)
 Інфармацыя пра кантакт занадта доўгая і была абрэзана.
 [The file transfer was aborted by the other user.]
 Перадача файла перапынена карыстачом на тым боку.
+[Unable to connect to ICQ login server, SSL could not be negotiated]
+Немагчыма наладзіць SSL злучэнне з серверам ICQ
+[Failed to create the correct sub-group, the using closest parent group.]
+Не атрымалася зрабіць падгрупу, будзе выкарыстована ближэйшая група.
 [Custom Status "%s" Details]
 xСтатус "%s"
 [Retrieving custom status details...]

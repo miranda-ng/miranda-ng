@@ -130,7 +130,7 @@ Miranda не можа распазнаць імя сервера Gadu-Gadu па 
 [You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
 Вы павінны адключыцца перад зменай параметраў карыстача.\nВырабіць адключэнне?
 [Server hostname %s is invalid. Using default hostname provided by the network.]
-Імя сервера %s няслушна. Выкарыстоўваю сервер сеткі па змаўчанні.
+Імя сервера %s няслушна. Выкарыстоўваю імя сервера па змаўчанні.
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Вонкавы хост для прамых далучэнняў %s няслушны. Перанакіраванне на вонкавы хост выключана.
 [Change Gadu-Gadu password]

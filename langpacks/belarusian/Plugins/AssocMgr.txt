@@ -1,4 +1,4 @@
-﻿;#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+﻿#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;  File: assocmgr.dll
 ;  Plugin: File Association Manager
 [Handles file type associations and URLs like aim, ymsgr, xmpp, wpmsg, gg, tlen.]
@@ -65,18 +65,18 @@ Miranda NG запусціцца аўтаматычна пасля загрузк
 Пашырэнне
 [&Add to Contact List...]
 &Дадаць у спіс кантактаў...
-[Miranda IM could not open file]
-Miranda IM не можа адкрыць файл
-[Miranda IM could not open URL]
-Miranda IM не можа адкрыць спасылку
-[Miranda IM Database]
-База дадзеных Miranda IM
+[Miranda NG could not open file]
+Miranda NG не можа адкрыць файл
+[Miranda NG could not open URL]
+Miranda NG не можа адкрыць спасылку
+[Miranda NG Database]
+База дадзеных Miranda NG
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі спісу аўтазапуску.\n\n Чыннік: %s
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 Адбылася памылка запісу для мадыфікацыі асацыяцый файлаў/спасылак.\n\n Чыннік: %s
-[The File Association Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль асацыяцый не можа быць загружаны. Патрабуецца версія Miranda IM %hs ці пазней.
+[The File Association Manager Plugin can not be loaded. It requires Miranda NG %hs or later.]
+Модуль асацыяцый не можа быць загружаны. Патрабуецца версія Miranda NG %hs ці пазней.
 [%hs files]
 %hs файлы
 [Autostart Error]

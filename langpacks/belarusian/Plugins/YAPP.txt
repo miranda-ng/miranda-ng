@@ -37,8 +37,7 @@ Yet Another Popup Plugin - Падае службу ўсплывальных па
 З'ясі ж яшчэ гэтых мяккіх французскіх булак ды выпі яду!
 [Example With a Long Title]
 Прыклад з доўгім загалоўкам
-[Thequickbrownfoxjumpedoverthelazydog.]
-Съешьжеещеэтихмягкихфранцузскихбулокдавыпеййаду!
+
 [An avatar.]
 З аватарам
 [First line]

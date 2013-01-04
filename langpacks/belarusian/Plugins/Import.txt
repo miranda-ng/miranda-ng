@@ -35,7 +35,7 @@
 &Іншая база...
 [&Other Profile...]
 &Іншы профіль..
-[This wizard will help you import contacts and message history from Mirabilis ICQ, as well as letting you import from other Miranda IM profiles.]
+[This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 Гэты майстар дапаможа вам імпартаваць кантакты і гісторыю з Mirabilis ICQ, а таксама з іншых профіляў Miranda.
 [If you wish to import more information, click "Next" to return to the start of the wizard, otherwise click "Finish" to start using Miranda.]
 Націсніце "Далей", каб імпартаваць яшчэ адну базу, ці "Завяршыць", каб запусціць Miranda IM
@@ -54,7 +54,7 @@ Miranda знайшла наступныя профілі. Абярыце про�
 [Select this if you want to import contacts but don't want to import any message history.]
 Абярыце гэту опцыю, каб імпартаваць толькі кантакты (без гісторыі паведамленняў).
 [Miranda has now been configured to automatically download the contacts in your server-side contact list the next time you connect to ICQ.]
-Miranda зараз наладжана на аўтаматычную загрузку спісу кантактаў з сервера пры наступным далучэнні да сеткі ICQ.
+Miranda зараз наладжана на аўтаматычную загрузку спісу кантактаў з сервера пры наступным далучэнні да ICQ.
 [If you want to change the way Miranda handles server-side contacts at a later time, you can do this in the "ICQ Contacts" page in the Miranda options.]
 Змяніць налады спісаў на серверы можна ў частцы "Налады->ICQ, Кантакты."
 [&Filename:]
@@ -67,7 +67,7 @@ Miranda зараз наладжана на аўтаматычную загруз
 Увага: ICQ запушчана. Імпарт будзе ненадзейны
 [Custom import]
 Імпарт уручную
-[Select this if you want to cutomize what to import.]
+[Select this if you want to customize what to import.]
 Абярыце гэту опцыю, каб паказаць, што менавіта імпартаваць
 [Import additional modules settings (for new contacts only)]
 Імпарт налад модуляў (толькі для новых кантактаў)
@@ -319,3 +319,9 @@ ICQ Кантакты і гісторыя не будуць імпартаван�
 Імпарт кантактаў і паведамленняў
 [Last import]
 Апошні імпарт
+[< &Back]
+< &Назад
+[&Next >]
+&Далей >
+[Import...]
+Импарт...

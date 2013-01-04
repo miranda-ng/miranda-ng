@@ -84,8 +84,8 @@
 Улічваць памылкі ўваходу
 [Set protocol offline before a connection attempt]
 Адключаць пратакол перад далучэннем
-[Ignore locked status of protocols]
-Ігнараваць блакаваныя пратаколы
+[Ignore locked status of accounts]
+Ігнараваць блакаваныя конты
 [Max. retries]
 Макс. спроб
 [Delay between retries (secs)]
@@ -103,7 +103,7 @@
 [Dial-Up]
 Выдалены доступ
 [KeepStatus, A connection checker, for use with (or without) StartupStatus and/or AdvancedAutoAway.]
-Правярае наяўнасць далучэння да сеткі і аўтаматычна перадалучае пры парывах.
+Правярае наяўнасць далучэння і аўтаматычна перадалучае пры парывах.
 [Increase exponential]
 Экспанентна
 [Initial delay]

@@ -1,4 +1,4 @@
-﻿#muuid {144e80a2-d198-428b-acbe9d55dacc7fde}
+﻿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;  File: jabber.dll
 ;  Module: Jabber protocol
 [Jabber protocol plugin for Miranda NG.]
@@ -53,8 +53,16 @@
 Пароль не можа быць зменены
 [Save password]
 Захаваць пароль
+[Remember password for this session]
+Захаваць пароль для гэтай сесіі
+[Save password permanently]
+Захаваць пароль
 [Use Domain Login]
 Даменны лагін
+[Jabber Password]
+Jabber Пароль
+[Enter password for]
+Увядзіце пароль для
 [Priority:]
 Прыярытэт:
 [Resource:]
@@ -74,17 +82,17 @@
 [Language for human-readable resources:]
 Мова для бачных чалавеку рэсурсаў:
 [You can change your password only when you are online]
-Каб змяніць пароль, вам трэба далучыцца да сеткі
+Каб змяніць пароль, вам трэба далучыцца
 [You must be online]
-Вам трэба далучыцца да сеціва
+Вам трэба далучыцца
 [Use custom connection host and port:]
 Налада далучэння (вузел і порт):
 [Secure XMPP Network (old style)]
-Абароненае сеціва XMPP (стары стыль)
+Абароненае XMPP (стары стыль)
 [Public XMPP Network]
-Публічнае сеціва XMPP
+Публічнае XMPP
 [Secure XMPP Network]
-Абароненае сеціва XMPP
+Абароненае XMPP
 [Click here to download OpenSSL, required for Google Talk support]
 Загрузіць OpenSSL (неабходны для падтрымкі Google Talk)
 [LiveJournal Talk]
@@ -139,6 +147,8 @@
 Перадача праз струменевы проксі (bytestream):
 [Specify external address:]
 Вонкавы адрас:
+[Hint:]
+Нататка:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
 Адключыце ўсе опцыі, калі ў вас праблемы з адпраўкай файлаў. Могуць з'явіцца праблемы з перадачай вялікіх файлаў.
 [Log chat state changes]
@@ -179,6 +189,8 @@
 Выключыць фрэйм
 [Security]
 Бяспека
+[Enable server-side history]
+Уключыць гісторыю на серверы (XEP-0136)
 [Allow servers to request version (XEP-0092)]
 Адказваць на запыты пра версіі (XEP-0092)
 [Show information about operating system in version replies]
@@ -417,6 +429,10 @@ Jabber Ad-Hoc каманды на
 Статус:\t
 [Removing]
 Выдаленне
+[Real JID:]
+Дзейсны JID:
+
+;  абразкі
 [Send note]
 Адправіць нататку
 [Multi-User Conference]
@@ -427,18 +443,22 @@ Jabber Ad-Hoc каманды на
 Заняткі
 [Moods]
 Настроі
+[transport]
+транспарт
+
+;  пра кантакт
 [<No photo>]
 <Няма фота>
 [both]
 у абодва бакі
 [Last logoff time]
-Час выйсця:
+Адключаны:
 [Last active resource]
 Апошні актыўны рэсурс
 [<no information available>]
 <няма інфармацыі>
 [Logoff message]
-Паведамленне выйсця
+Паведамленне адключэння
 [Resource]
 Рэсурс
 [Software]
@@ -463,6 +483,15 @@ Jabber vCard: рэдагаванне тэлефона
 Пэйджар
 [Text/Messaging]
 Тэкставыя зносіны
+[BBS]
+BBS
+[Modem]
+Мадэм
+[ISDN]
+Нумар
+[PCS]
+PCS
+;  CAPs
 [Supports private XML Storage (for bookmakrs and other)]
 Захоўванне XML (для закладак і інш.)
 [Receives information about the music to which a user is listening]
@@ -575,6 +604,8 @@ Unicode зборка
 Прыём інфармацыі пра занятак карыстача
 [Tune]
 Мелодыя
+
+;  Меню пратакола
 [Services...]
 Службы...
 [Service Discovery]
@@ -689,8 +720,34 @@ Unicode зборка
 Спісы прыватнасці не захаваны, адмяніць змены і выйсці?
 [No list selected]
 Спіс не абраны
+[Privacy rule]
+Правила прыватнасці
+[Warning: privacy lists were changed on server.]
+Увага: спісы прыватнасці захаваны на серверы.
+[If:]
+Калі:
+[Then:]
+Тады:
+[then]
+тады
 [Else]
 Інакш
+[allow]
+можна
+[deny]
+нельга
+[queries]
+запыты
+[incoming presences]
+уваходная прысутнасць
+[outgoing presences]
+выходная прысутнаст
+[Incoming presence]
+Уваходная прысутнасць
+[Outgoing presence]
+Выходная прысутнасць
+[following stanza types:]
+Наступныя тыпы з'яў:
 [Can't remove active or default list]
 Немагчыма выдаліць актыўны ці стандартны спіс
 [If group is ']
@@ -791,8 +848,14 @@ XML Кансоль
 Спіс агентаў
 [Downloading...]
 Загрузка...
+[Uploading...]
+Выгрузка...
+[XML for MS Excel (UTF-8 encoded)]
+XML для MS Excel (кадзіроўка UTF-8)
 [Please wait for room list to download.]
 Калі ласка, пачакайце пакуль спіс пакояў загрузіцца.
+
+;  Заняткі
 [Doing chores]
 Гаспадару
 [buying groceries]
@@ -937,6 +1000,8 @@ XML Кансоль
 рыбалка
 [smoking]
 куру
+
+;  Настроі
 [Sad]
 Сумны
 [Shy]
@@ -1210,13 +1275,15 @@ Jabber памылка
 [Jabber Protocol Option]
 Налады пратаколу Jabber
 [These changes will take effect the next time you connect to the Jabber network.]
-Змены будуць ужытыя пры наступным уваходзе ў сеціва Jabber.
+Змены будуць ужытыя пры наступным уваходзе ў Jabber.
 [Incoming groupchat invitation.]
 Запрашэнне ў канферэнцыю.
 [Sending Ad-Hoc command to]
 Адправіць Ad-Hoc каманду
 [Requesting command list. Please wait...]
 Запыт спісу каманд. Пачакайце...
+
+;  пра статусы ў чатах
 [User %s changed status to %s]
 %s змяніў статус на %s.
 [User %s in now banned.]
@@ -1233,12 +1300,16 @@ Jabber памылка
 Чыннік выспятку
 [Reason to destroy]
 Чыннік знішчэння
+
+;  гутаркі
 [Last active]
 Апошні актыўны
 [Highest priority (server's choice)]
 Найвысокі прыярытэт (выбар сервера)
 [No activity yet, use server's choice]
 Актыўнага няма, выкарыстоўвайце выбар сервера
+
+; Пошук
 [Search service]
 Служба пошуку
 [Redirect]

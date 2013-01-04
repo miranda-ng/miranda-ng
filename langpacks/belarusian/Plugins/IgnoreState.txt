@@ -1,4 +1,4 @@
-﻿;#muuid {a6872bcd-f2a1-41b8-b2f1dd7cec055734}
+﻿#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;  File: IgnoreState.dll
 ;  Module: Show ignore state of contact in contacts list
 [IgnoreState]

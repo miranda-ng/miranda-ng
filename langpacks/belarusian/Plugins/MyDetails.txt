@@ -60,6 +60,8 @@
 Глабальны статут
 [Global on status message]
 Глабальнае статутнае паведамленне
+[Left:]
+Лева:
 [Nick popup]
 Нік
 [Replace Smileys]
@@ -69,7 +71,7 @@
 [Set My Nickname]
 Мой нік
 [Set My Status Message for All Status]
-Статутнае паведамленне для ўсіх статусаў
+Статуснае паведамленне для ўсіх статусаў
 [Show previous protocol]
 Паказаць папярэдні пратакол
 [Status message popup]
@@ -94,7 +96,7 @@
 Уключыць Цяпер слухаю
 [Enable Listening To for %s]
 Уключыць Цяпер слухаю для %s
-[Show and allows you to edit your details for all protocols.]
+[Shows and allows you to edit your details for all protocols.]
 Модуль дазваляе паказваць і рэдагаваць вашы дэталі для ўсіх пратаколаў.
 ;0.0.1.10
 [Show protocol cycle button]
@@ -106,4 +108,6 @@
 [Unread Email Count]
 Лічыльнік непрачытанай пошты
 [MyDetails]
+Мае дэталі
+[My Details]
 Мае дэталі

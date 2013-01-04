@@ -1,4 +1,4 @@
-﻿#muuid {eebc474c-b0ad-470f-99a89dd9210ce233}
+﻿#muuid {eebc474c-b0ad-470f-99a8-9dd9210ce233}
 ;  File: mradio.dll
 ;  Module: mRadio
 [This plugin plays and records Internet radio streams. Also local media files can be played.]
@@ -86,7 +86,7 @@
 [Hangar]
 Ангар
 [Offline station as Offline]
-Станцыя "не ў сеткі" як "не ў сеткі"
+Адключаная станцыя як "Адключаны"
 [Protocol depending status]
 Статус, залежны ад пратаколу
 [Continuous record]
@@ -101,6 +101,8 @@ BASS.DLL не знойдзены!
 Станцыя
 [Custom INI file]
 Абраны INI файл
+[Radio station URL]
+URL станцыі
 [Start record]
 Пачаць запіс
 [Stop record]
@@ -120,7 +122,7 @@ URL станцыі/плэйліста
 [Can't initialize device]
 Не магу ініцыялізаваць прыладу
 [Can't connect to net. Please, clear 'Work offline' option in Internet settings]
-Не атрымоўваецца далучыцца да сеткі. Калі ласка, прыбярыце галку 'Працаваць аўтаномна' у наладах Internet Explorer
+Не атрымоўваецца далучыцца. Калі ласка, прыбярыце галку 'Працаваць аўтаномна' у наладах Internet Explorer
 [Start broadcasting]
 Пачатак вяшчання
 [Stop broadcasting]
@@ -169,3 +171,5 @@ URL станцыі/плэйліста
 Адключаць з іншымі гукамі Miranda NG
 [Advanced]
 Дадаткова
+[Stop]
+Спыніць

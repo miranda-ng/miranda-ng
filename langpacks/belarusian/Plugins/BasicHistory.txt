@@ -1,4 +1,4 @@
-﻿;#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+﻿#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;  File: BasicHistory.dll
 ;  Plugin: Basic History
 [History viewer for Miranda NG.]

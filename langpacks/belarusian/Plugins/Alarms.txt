@@ -1,8 +1,7 @@
-﻿;#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+﻿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;  File: alarms.dll
 ;  Plugin: Set once-off, daily, weekly and weekday alarms.
-[Sets once-off, daily, weekly and weekday alarms.]
-Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
+
 [&New Alarm...]
 &Новы напамінак...
 [&Suspend]
@@ -95,6 +94,8 @@
 Напамінкі/Фон абранага
 [Snooze time:]
 Адкласці:
+[Sets once-off, daily, weekly and weekday alarms.]
+Усталёўка штодзённых, штотыднёвых і разавых апавяшчэнняў.
 [5 mins]
 5 хвілін
 [15 mins]
@@ -103,3 +104,5 @@
 30 хвілін
 [1 week]
 1 тыдзень
+[New]
+Стварыць

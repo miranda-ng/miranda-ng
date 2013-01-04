@@ -11,8 +11,10 @@
 Windows не актыўны
 [Miranda is inactive]
 Праграма неактыўная
-[Anti-Boss plugin]
-Дазваляе па націску "гарачай клавішы" хаваць Miranda IM ад старонніх вачэй
+[Anti-Boss plugin.]
+Дазваляе па націску "гарачай клавішы" хаваць Miranda NG ад старонніх вачэй
+[BossKey]
+АнтыБос
 [(Previous Status)]
 (Папярэдні)
 [...set the status message to:]

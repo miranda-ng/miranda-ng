@@ -86,7 +86,7 @@ Tlen запрашэнне галасавога чата
 [Alert policy]
 Палітыка апавяшчэння
 [These changes will take effect the next time you connect to the Tlen network.]
-Змены набудуць моц, пасля таго як Вы перападключыцеся да сеткі Tlen.
+Змены набудуць моц, пасля таго як Вы перападключыцеся Tlen.
 [Voice Chat]
 Галасавы чат
 [Voice chat]
@@ -163,3 +163,11 @@ P2P далучэнні
 Пакінуць паведамленне статусу пасля адключэння
 [Anonymous nicknames are not allowed in this chat room.]
 Ананімныя псеўданімы забаронены ў гэтым пакоі.
+[...Status...]
+...Статус...
+[Event Filter]
+Фільтр падзей
+[Topic:]
+Тэма:
+[User JID:]
+Карыстач:

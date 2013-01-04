@@ -1,4 +1,4 @@
-﻿#muuid {687364af-58b0-4af2-a4ee20f40a8d9afb}
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;  File: fingerprint.dll
 ;  Module: Fingerprint Plus, Fingerprint Mod+
 [Show Miranda version]
@@ -7,8 +7,6 @@
 Аверлэі зборак
 [Fingerprint]
 Значкі кліентаў
-[Fingerprint Mod]
-Значкі кліентаў (мод)
 [Undetected client]
 Нязнойдзены кліент
 [Unknown client]
@@ -69,3 +67,5 @@ Fingerprint NG адлюстроўвае значкі кліентаў, выка�
 Іншыя значкі
 [Other protocols]
 Іншыя пратаколы
+[Client not found]
+Нязнойдзены кліент

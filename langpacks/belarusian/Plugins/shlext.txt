@@ -32,6 +32,6 @@
 [Do not show status icons in menus]
 Не паказваць у меню значкі статусу
 [Do not show contacts that are offline, even if my contact list does]
-Не паказваць кантакты, не змешчаныя ў сеткі
+Не паказваць адключаныя кантакты
 [Shell context menus for transfers]
 Кантэкстнае меню абалонкі

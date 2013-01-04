@@ -20,7 +20,7 @@ URL:
 [Create a new Twitter account]
 Стварыць новы ўліковы запіс Twitter
 [Please cycle your connection for these changes to take effect]
-Калі ласка, переподключитесь што б змены ўступілі з сілу
+Змены ўступяць у сілу пры наступным далучэнні
 [%s avatar connection]
 далучэнне аватараў %s
 [Send Tweet]

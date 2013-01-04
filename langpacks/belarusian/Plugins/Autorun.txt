@@ -1,4 +1,4 @@
-﻿;#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+﻿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;  File: autorun.dll
 ;  Plugin: Autorun
 [Autorun]

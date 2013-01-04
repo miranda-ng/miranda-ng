@@ -1,4 +1,4 @@
-﻿;#muuid {e00f1643-263c-4599-b84b053e5c511d29}
+﻿#muuid {e00f1643-263c-4599-b84b053e5c511d29}
 ;  File: avs.dll
 ;  Plugin: Avatar service
 [Loads and manages contact pictures for other plugins.]

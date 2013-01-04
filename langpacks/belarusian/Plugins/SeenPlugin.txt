@@ -1,4 +1,4 @@
-﻿;#muuid {2d506d46-c94e-4ef8-8537f11233a80381}
+﻿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;  File: seenplugin.dll
 ;  Module: Last Seen Plugin (NSN Compatible)
 [Last seen plugin]
@@ -26,7 +26,7 @@
 [tabulator]
 табуляцыя
 [Ignore contacts going offline]
-Ігнараваць якія сыходзяць з сеткі
+Ігнараваць кантакты, што адключаюцца
 [Enable 'Missed Ones' feature]
 Дазволіць функцыю 'Прапушчаныя'
 [You missed following contacts:]
@@ -39,6 +39,20 @@
 дзень тыдня (full)
 [weekday (abbreviated)]
 дзень тыдня (abbreviated)
+[Mon.]
+Пн.
+[Tue.]
+Аўт.
+[Wed.]
+Ср.
+[Thu.]
+Чц.
+[Fri.]
+Пт.
+[Sat.]
+Сб.
+[Sun.]
+Нд.
 [name of month]
 назва месяца
 [short name of month]
@@ -57,8 +71,8 @@
 Пратаколы для назірання:
 [Alert when user status changes]
 Папярэджваць пры змене статусу
-[Log when a user was last seen online and which users were online while you were away]
-Запамінае, калі карыстач апошні раз з'яўляўся ў сеткі і хто быў у сеткі, пакуль вы адсутнічалі.
+[Logs when a user was last seen online and which users were online while you were away.]
+Запамінае, калі карыстач апошні раз далучаўся і хто быў далучаны, пакуль вы адсутнічалі.
 [User Logged In]
 Карыстач Падлучаны
 [User Logged Off]
@@ -66,7 +80,7 @@
 [User status change]
 Змена статусу карыстача
 [Changed to Online]
-Змена: У сеткі
+Змена: Далучаны
 [Changed to Offline]
 Змена: Адключаны
 [For non-watched protocols]

@@ -14,7 +14,7 @@
 [In following contact list &column:]
 У наступным слоце:
 [Use &unknown flag if the country can not be determined]
-Паказ. unknown  сцяг, калі краіну нельга вызначыць
+Паказаць невядомы сцяг, калі краіну нельга вызначыць
 [Faroe Islands]
 О-ў Фара
 [Saipan Island (Northern Mariana Islands)]
