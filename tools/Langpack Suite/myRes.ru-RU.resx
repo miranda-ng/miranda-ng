@@ -306,7 +306,11 @@
 \o - путь к файлу для включения в ленгпак
 \u - ссылка на ВИ с miranda-vi.org или полный локальный путь
 \l - путь выходного файла ленгпака
+\p - доступный языковой пакет
 
-Пример, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+Пример, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
+  </data>
+  <data name="AvailLangpacks" xml:space="preserve">
+    <value>Доступные пакеты:</value>
   </data>
 </root>

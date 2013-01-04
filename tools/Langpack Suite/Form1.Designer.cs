@@ -31,6 +31,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.CreateLangpackBtn = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.LangpacksComboBox = new System.Windows.Forms.ComboBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.LangpackNameEdit = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.InfMessageLangBox = new System.Windows.Forms.TextBox();
@@ -78,7 +80,8 @@
             // 
             // CreateLangpackBtn
             // 
-            this.CreateLangpackBtn.Location = new System.Drawing.Point(99, 187);
+            this.CreateLangpackBtn.Enabled = false;
+            this.CreateLangpackBtn.Location = new System.Drawing.Point(99, 208);
             this.CreateLangpackBtn.Name = "CreateLangpackBtn";
             this.CreateLangpackBtn.Size = new System.Drawing.Size(141, 31);
             this.CreateLangpackBtn.TabIndex = 1;
@@ -88,26 +91,47 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.LangpacksComboBox);
+            this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.LangpackNameEdit);
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(6, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(317, 58);
+            this.groupBox2.Size = new System.Drawing.Size(317, 75);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Output File";
             // 
+            // LangpacksComboBox
+            // 
+            this.LangpacksComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.LangpacksComboBox.FormattingEnabled = true;
+            this.LangpacksComboBox.Location = new System.Drawing.Point(129, 13);
+            this.LangpacksComboBox.Name = "LangpacksComboBox";
+            this.LangpacksComboBox.Size = new System.Drawing.Size(168, 21);
+            this.LangpacksComboBox.TabIndex = 11;
+            this.LangpacksComboBox.SelectedIndexChanged += new System.EventHandler(this.LangpacksComboBox_SelectedIndexChanged);
+            // 
+            // label7
+            // 
+            this.label7.Location = new System.Drawing.Point(6, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(125, 18);
+            this.label7.TabIndex = 10;
+            this.label7.Text = "Available Langpacks:";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // LangpackNameEdit
             // 
-            this.LangpackNameEdit.Location = new System.Drawing.Point(129, 22);
+            this.LangpackNameEdit.Location = new System.Drawing.Point(129, 44);
             this.LangpackNameEdit.Name = "LangpackNameEdit";
-            this.LangpackNameEdit.Size = new System.Drawing.Size(151, 20);
+            this.LangpackNameEdit.Size = new System.Drawing.Size(168, 20);
             this.LangpackNameEdit.TabIndex = 1;
-            this.LangpackNameEdit.Text = "Langpack_russian";
+            this.LangpackNameEdit.Text = "Langpack_";
             // 
             // label1
             // 
-            this.label1.Location = new System.Drawing.Point(6, 25);
+            this.label1.Location = new System.Drawing.Point(6, 47);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(125, 13);
             this.label1.TabIndex = 0;
@@ -117,7 +141,7 @@
             // InfMessageLangBox
             // 
             this.InfMessageLangBox.BackColor = System.Drawing.SystemColors.Control;
-            this.InfMessageLangBox.Location = new System.Drawing.Point(7, 224);
+            this.InfMessageLangBox.Location = new System.Drawing.Point(7, 245);
             this.InfMessageLangBox.Multiline = true;
             this.InfMessageLangBox.Name = "InfMessageLangBox";
             this.InfMessageLangBox.ReadOnly = true;
@@ -133,7 +157,7 @@
             this.tabControl1.Location = new System.Drawing.Point(-3, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(337, 321);
+            this.tabControl1.Size = new System.Drawing.Size(337, 344);
             this.tabControl1.TabIndex = 8;
             // 
             // tabPage1
@@ -147,7 +171,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(329, 295);
+            this.tabPage1.Size = new System.Drawing.Size(329, 318);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Generator";
             // 
@@ -156,7 +180,7 @@
             this.groupBox3.Controls.Add(this.OwnFileCheckBox);
             this.groupBox3.Controls.Add(this.SelectOwnFileBtn);
             this.groupBox3.Controls.Add(this.OwnFileEdit);
-            this.groupBox3.Location = new System.Drawing.Point(6, 130);
+            this.groupBox3.Location = new System.Drawing.Point(6, 151);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(317, 53);
             this.groupBox3.TabIndex = 5;
@@ -197,7 +221,7 @@
             this.groupBox6.Controls.Add(this.label6);
             this.groupBox6.Controls.Add(this.VIURLTextBox);
             this.groupBox6.Controls.Add(this.GetVICheckBox);
-            this.groupBox6.Location = new System.Drawing.Point(6, 61);
+            this.groupBox6.Location = new System.Drawing.Point(6, 82);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(317, 67);
             this.groupBox6.TabIndex = 8;
@@ -243,7 +267,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(329, 295);
+            this.tabPage2.Size = new System.Drawing.Size(329, 318);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "LinkListGen";
             // 
@@ -306,7 +330,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(329, 295);
+            this.tabPage3.Size = new System.Drawing.Size(329, 318);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Dupes Search";
             // 
@@ -431,7 +455,7 @@
             // 
             // label5
             // 
-            this.label5.Location = new System.Drawing.Point(83, 327);
+            this.label5.Location = new System.Drawing.Point(83, 351);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(119, 18);
             this.label5.TabIndex = 9;
@@ -447,7 +471,7 @@
             "Русский",
             "Українська",
             "Беларускі"});
-            this.LanguageComboBox.Location = new System.Drawing.Point(204, 324);
+            this.LanguageComboBox.Location = new System.Drawing.Point(204, 348);
             this.LanguageComboBox.Name = "LanguageComboBox";
             this.LanguageComboBox.Size = new System.Drawing.Size(121, 21);
             this.LanguageComboBox.TabIndex = 10;
@@ -456,7 +480,7 @@
             // VarButton
             // 
             this.VarButton.Image = ((System.Drawing.Image)(resources.GetObject("VarButton.Image")));
-            this.VarButton.Location = new System.Drawing.Point(7, 322);
+            this.VarButton.Location = new System.Drawing.Point(7, 346);
             this.VarButton.Name = "VarButton";
             this.VarButton.Size = new System.Drawing.Size(22, 22);
             this.VarButton.TabIndex = 11;
@@ -467,7 +491,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(329, 348);
+            this.ClientSize = new System.Drawing.Size(329, 373);
             this.Controls.Add(this.VarButton);
             this.Controls.Add(this.LanguageComboBox);
             this.Controls.Add(this.label5);
@@ -536,6 +560,8 @@
         private System.Windows.Forms.TextBox VIURLTextBox;
         private System.Windows.Forms.CheckBox GetVICheckBox;
         private System.Windows.Forms.Button VarButton;
+        public System.Windows.Forms.ComboBox LangpacksComboBox;
+        private System.Windows.Forms.Label label7;
     }
 }
 

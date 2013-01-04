@@ -34,6 +34,18 @@ namespace Langpack_Suite
             tipper.ReshowDelay = 500;
             tipper.ShowAlways = true;
  
+            DirectoryInfo root = Directory.GetParent(Directory.GetCurrentDirectory());
+            string[] dirs = Directory.GetDirectories(root.ToString());
+            foreach (string dir in dirs)
+            {
+                if (!dir.Equals(Directory.GetCurrentDirectory()) && File.Exists(dir + "\\=HEAD=.txt"))
+                {
+                    int pos = dir.LastIndexOf('\\');
+                    string item = dir.Substring(pos + 1);
+                    LangpacksComboBox.Items.Add(item);
+                }
+            }
+
             for (int i = 1; i < arguments.Length; i++)
             {
                 string key = arguments[i].Substring(0, 2);
@@ -51,7 +63,7 @@ namespace Langpack_Suite
                     if (fname.Contains("\\"))
                         OwnFileEdit.Text = fname;
                     else
-                        OwnFileEdit.Text = Directory.GetCurrentDirectory() + "\\" + fname;
+                        OwnFileEdit.Text = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text + "\\" + fname;
                     OwnFileCheckBox.Checked = true;
                     OwnFilesCheckBoxChange();
                 }
@@ -65,6 +77,12 @@ namespace Langpack_Suite
                 if (key.Equals("\\l"))
                 {
                     output = arguments[i].Substring(2);
+                }
+                if (key.Equals("\\p"))
+                {
+                    string fname = arguments[i].Substring(2);
+                    LangpacksComboBox.Text = fname;
+                    LangpacksComboBoxChange();
                 }
             }
             if (quiet)
@@ -151,7 +169,8 @@ namespace Langpack_Suite
             NotTranslFindBtn.Text = CurrentText;
             CurrentText = rm.GetString("CommentFindBtn", culture);
             CommentFindBtn.Text = CurrentText;
-            
+            CurrentText = rm.GetString("AvailLangpacks", culture);
+            label7.Text = CurrentText;
         }
 
         private void GenerateLang()
@@ -169,7 +188,7 @@ namespace Langpack_Suite
 
             InfMessageLangBox.Text = LocaleText + "\r\n";
 
-            FolderName = Directory.GetCurrentDirectory();
+            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
             if (output == "")
                 output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
             if (File.Exists(output))
@@ -631,7 +650,7 @@ namespace Langpack_Suite
             SelectOwnFilesOpenFileDialog.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
             SelectOwnFilesOpenFileDialog.FilterIndex = 1;
             SelectOwnFilesOpenFileDialog.RestoreDirectory = true;
-            SelectOwnFilesOpenFileDialog.InitialDirectory = Directory.GetCurrentDirectory();
+            SelectOwnFilesOpenFileDialog.InitialDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
             if (SelectOwnFilesOpenFileDialog.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -665,7 +684,7 @@ namespace Langpack_Suite
             string LocaleText = rm.GetString("LinkListGen", culture);
             InfMessageLinkBox.Text = LocaleText + "\r\n";
 
-            FolderName = Directory.GetCurrentDirectory();
+            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
             if (File.Exists(FolderName + "\\LinkList.txt"))
                 File.Delete(FolderName + "\\LinkList.txt");
 
@@ -736,7 +755,7 @@ namespace Langpack_Suite
             string FolderName = "";
             InfMessageFindBox.Text = "";
 
-            FolderName = Directory.GetCurrentDirectory();
+            FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
             DirectoryInfo RootDir = new DirectoryInfo(FolderName);
             ResourceManager rm = new ResourceManager("LangpackSuite.myRes", typeof(MainForm).Assembly);
             string LocaleText = rm.GetString("FindLang", culture);
@@ -822,6 +841,17 @@ namespace Langpack_Suite
             string LocaleText = rm.GetString("VarText", culture);
             string LocaleHead = rm.GetString("VarHead", culture);
             MessageBox.Show(LocaleText, LocaleHead);
+        }
+
+        private void LangpacksComboBoxChange()
+        {
+            LangpackNameEdit.Text = "Langpack_" + LangpacksComboBox.Text;
+            CreateLangpackBtn.Enabled = true;
+        }
+
+        private void LangpacksComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            LangpacksComboBoxChange();
         }
     }
 }

@@ -304,7 +304,11 @@ from the version info file, if available).</value>
 \o - Path for adding own File
 \u - link to VI from miranda-vi.org or full local path
 \l - Output Langpack path
+\p - Avaliable Langpack folder name
 
-Example, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
+Example, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
+  </data>
+  <data name="AvailLangpacks" xml:space="preserve">
+    <value>Available Langpacks:</value>
   </data>
 </root>
