@@ -7,7 +7,7 @@
 //* Usage:        "cscript /nologo lpgen.js /log:"yes"" to enable console logging  *//
 //* Usage:        "cscript /nologo lpgen.js /path:"path_to_folder"" for one plugin *//
 //* Usage:        Double click to choose folder for one plugin template generation *//
-//* Requirements: for batch mode: create folder ..\..\langpacks\en\Plugins         *//
+//* Requirements: for batch mode: create folder ..\..\langpacks\english\Plugins         *//
 //* Author:       BasiL                                                            *//
 //**********************************************************************************//
 
@@ -34,8 +34,8 @@ var core=FSO.BuildPath(trunk,"src");
 var protocols=FSO.BuildPath(trunk,"Protocols");
 //plugins path
 var plugins=FSO.BuildPath(trunk,"Plugins");
-//langpack folder "\langpacks\en\" in trunk folder
-var langpack_en=FSO.BuildPath(trunk,"langpacks\\en");
+//langpack folder "\langpacks\english\" in trunk folder
+var langpack_en=FSO.BuildPath(trunk,"langpacks\\english");
 
 //*********************************************************************************//
 //                         Checking command line parameters                       *//

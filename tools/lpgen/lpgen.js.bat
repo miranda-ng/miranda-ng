@@ -1,3 +1,3 @@
 rem echo off
 cscript /nologo lpgen.js
-copy ..\..\langpacks\en\"=CORE=.txt" +..\..\langpacks\en\Plugins\*.txt ..\..\langpacks\en\Langpack_english.txt
+copy ..\..\langpacks\english\"=CORE=.txt" +..\..\langpacks\english\Plugins\*.txt ..\..\langpacks\english\Langpack_english.txt

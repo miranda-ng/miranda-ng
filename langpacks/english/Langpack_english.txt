@@ -1733,7 +1733,7 @@ Miranda Language Pack Version 1
 #muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
 ;============================================================
 ;  File: AddContactPlus.dll
-;  Plugin: AddContact+
+;  Plugin: Add contact+
 ;  Version: 0.9.9.1
 ;  Authors: Bartosz 'Dezeath' Bia³ek
 ;============================================================
@@ -1755,11 +1755,11 @@ Miranda Language Pack Version 1
 [Please authorize my request and add me to your contact list.]
 [None]
 [The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
-[Add Contact]
+[Add contact]
 [The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
 ;file \plugins\AddContactPlus\src\main.cpp
-[&Add Contact...]
-[Open Add Contact Dialog]
+[&Add contact...]
+[Open add contact dialog]
 [Main]
 [AddContact+]
 #muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}
@@ -1788,10 +1788,11 @@ Miranda Language Pack Version 1
 #muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
 ;  File: AIM.dll
-;  Plugin: AIM
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
+[Provides support for AOL Instant Messenger (AIM) protocol.]
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 [Screen Name:]
@@ -2245,7 +2246,7 @@ Miranda Language Pack Version 1
 #muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;============================================================
 ;  File: AuthState.dll
-;  Plugin: Authorization State
+;  Plugin: Authorization state
 ;  Version: 0.0.2.0
 ;  Authors: Thief, idea by snwbrdr
 ;============================================================
@@ -3066,7 +3067,7 @@ Miranda Language Pack Version 1
 #muuid {2f07ea05-05b5-4ff0-875d-c590da2ddac1}
 ;============================================================
 ;  File: BASS_interface.dll
-;  Plugin: BASS_interface
+;  Plugin: BASS interface
 ;  Version: 0.0.0.13
 ;  Authors: tico-tico
 ;============================================================
@@ -7603,11 +7604,14 @@ Miranda Language Pack Version 1
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [%miranda_avatarcache%]
 [%s\\%s]
+[Can not create avatars cache directory. ERROR: %d: %s\n%s]
 [jpg]
 [gif]
 [png]
 [\\%s.%s]
 [\\%s avatar.%s]
+[Can not create avatar file. ERROR: %d: %s\n%s]
+[Can not open avatar file. ERROR: %d: %s\n%s]
 ;file \protocols\Gadu-Gadu\src\core.cpp
 [Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
@@ -7623,7 +7627,7 @@ Miranda Language Pack Version 1
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 [<none>]
 [Server hostname %s is invalid. Using default hostname provided by the network.]
-[Connection cannot be established because of error:\n\t%s]
+[Connection cannot be established. errno=%d: %s]
 [, %s %s]
 [, %s %d]
 [Age:]
@@ -7663,6 +7667,9 @@ Miranda Language Pack Version 1
 [Ignore]
 [Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
+;file \protocols\Gadu-Gadu\src\filetransfer.cpp
+[Can not create transfer file. ERROR: %d: %s (dcc)\n%s]
+[Can not create transfer file. ERROR: %d: %s (dcc7)\n%s]
 ;file \protocols\Gadu-Gadu\src\gg.cpp
 [WinSock %u: Unknown error.]
 [WinSock %d: %s]
@@ -7724,29 +7731,32 @@ Miranda Language Pack Version 1
 [Select picture to send]
 [bmp]
 [jpeg]
+[Can not create image cache directory. ERROR: %d: %s\n%s]
 [\\%s]
 [%.*s (%u)%s]
+[Cannot save received image to file. ERROR: %d: %s\n%s]
 [[img]%s[/img]]
 [.bmp]
 [.gif]
 [.jpg]
 [.png]
+[Can not open image file. ERROR: %d: %s\n%s]
 [Image exceeds maximum allowed size of 255 KB.]
 ;file \protocols\Gadu-Gadu\src\import.cpp
 [You have to be connected before you can import/export contacts from/to server.]
-[List cannot be imported because of error:\n\t%s]
-[List cannot be removeed because of error:\n\t%s]
+[List cannot be imported because of error:\n\t%s (Error: %d)]
+[List cannot be removeed because of error: %s (Error: %d)]
 [Text files]
 [ (*.txt)]
 [*.TXT]
 [All Files]
 [ (*)]
 [txt]
-[List cannot be imported from file "%s" because of error:\n\t%s]
+[List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [contacts]
 [.txt]
-[List cannot be exported to file "%s" because of error:\n\t%s]
-[List cannot be exported because of error:\n\t%s]
+[List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
+[List cannot be exported because of error:\n\t%s (Error: %d)]
 [Import List From &Server]
 [Import List From &Text File...]
 [&Remove List From Server]
@@ -7755,7 +7765,7 @@ Miranda Language Pack Version 1
 ;file \protocols\Gadu-Gadu\src\links.cpp
 [Gadu-Gadu Link Protocol]
 ;file \protocols\Gadu-Gadu\src\ownerinfo.cpp
-[Password could not be reminded because of error:\n\t%s]
+[Password could not be reminded because of error:\n\t%s (Error: %d)]
 [Password was sent to your e-mail.]
 ;file \protocols\Gadu-Gadu\src\popups.cpp
 [%s/%s]
@@ -9179,7 +9189,7 @@ Miranda Language Pack Version 1
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 ;============================================================
 ;  File: IgnoreState.dll
-;  Plugin: IgnoreState
+;  Plugin: Ignore State
 ;  Version: 0.0.3.0
 ;  Authors: Kildor
 ;============================================================
@@ -12004,7 +12014,7 @@ Miranda Language Pack Version 1
 ;#muuid not found, please specify manually!
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: KeepStatus
+;  Plugin: Keep Status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================
@@ -12488,7 +12498,7 @@ Miranda Language Pack Version 1
 ;#muuid not found, please specify manually!
 ;============================================================
 ;  File: MenuEx.dll
-;  Plugin: MenuItemEx
+;  Plugin: Menu Item Ext
 ;  Version: x.x.x.x
 ;  Authors: 
 ;============================================================
@@ -12548,7 +12558,7 @@ Miranda Language Pack Version 1
 #muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;============================================================
 ;  File: MetaContacts.dll
-;  Plugin: MetaContacts Plugin
+;  Plugin: MetaContacts
 ;  Version: 0.14.0.13
 ;  Authors: J. Schaal & S. Ellis
 ;============================================================
@@ -13730,7 +13740,7 @@ Miranda Language Pack Version 1
 #muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
-;  Plugin: NewsAggregator
+;  Plugin: News Aggregator
 ;  Version: 0.0.0.1
 ;  Authors: Mataes, FREAK_THEMIGHTY
 ;============================================================
@@ -13778,6 +13788,21 @@ Miranda Language Pack Version 1
 [Enter Feed URL]
 [Enter checking interval]
 [Enter message format]
+[%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
+[#<title>#]
+[The title of the item.]
+[#<description>#]
+[The item synopsis.]
+[#<link>#]
+[The URL of the item.]
+[#<author>#]
+[Email address of the author of the item.]
+[#<comments>#]
+[URL of a page for comments relating to the item.]
+[#<guid>#]
+[A string that uniquely identifies the item.]
+[#<category>#]
+[Specify one or more categories that the item belongs to.]
 [Feed Tag Help]
 [Are you sure?]
 [Tags Mask Reset]
@@ -13839,14 +13864,7 @@ Miranda Language Pack Version 1
 [author]
 [comments]
 [guid]
-[#<title>#]
 [empty]
-[#<link>#]
-[#<description>#]
-[#<author>#]
-[#<comments>#]
-[#<guid>#]
-[#<category>#]
 [Atom 3]
 [rel]
 [self]
@@ -14145,6 +14163,7 @@ Miranda Language Pack Version 1
 [</GPGdec>]
 [<GPGenc>]
 [</GPGenc>]
+[Arial]
 [GPG Turn off encryption]
 [GPG Turn on encryption]
 [GPG encryption status]
@@ -14302,6 +14321,8 @@ Miranda Language Pack Version 1
 [Where is no public or private key.]
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts ?]
+[%s: %s]
+[Send publick key]
 [.gpg]
 [ -o ]
 [Target file exists, do you want to replace it ?]
@@ -14655,7 +14676,7 @@ Miranda Language Pack Version 1
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
-;  Plugin: PackUpdater
+;  Plugin: Pack Updater
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
@@ -14975,7 +14996,7 @@ Miranda Language Pack Version 1
 #muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
-;  Plugin: PluginUpdater
+;  Plugin: Plugin Updater
 ;  Version: 0.1.0.2
 ;  Authors: Mataes, George Hazan
 ;============================================================
@@ -17474,6 +17495,28 @@ Miranda Language Pack Version 1
 [yes]
 [Timeout]
 [end]
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+;============================================================
+;  File: StartPosition.dll
+;  Plugin: Start Position
+;  Version: 0.2.0.3
+;  Authors: Felipe Brahm - souFrag
+;============================================================
+[Plugin supports starting position of Contact List relative to the the taskbar and screen side.]
+;file \plugins\StartPosition\res\resource.rc
+[Contact List Window Start Position]
+[Left]
+[Right]
+[Pixels from Top]
+[Pixels from Bottom]
+[Pixels from Side]
+[Width]
+[Always start...]
+[Minimized to System Tray]
+[Opened]
+;file \plugins\StartPosition\src\main.cpp
+[Contact List]
+[Start position]
 ;#muuid not found, please specify manually!
 ;============================================================
 ;  File: StartupStatus.dll
