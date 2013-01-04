@@ -279,14 +279,15 @@ int OnPreBuildContactMenu(WPARAM w, LPARAM l)
 
 
 list<wstring> transfers;
-extern bool bFileTransfers;
+
+DWORD file_msg_state = -1;
 
 int onProtoAck(WPARAM w, LPARAM l)
 {
 	ACKDATA *ack=(ACKDATA*)l;
 	CCSDATA *ccs=(CCSDATA*)ack->lParam;
 
-	if(ack->type == ACKTYPE_FILE && bFileTransfers)
+	if(ack->type == ACKTYPE_FILE)
 	{
 		switch(ack->result)
 		{
@@ -314,6 +315,15 @@ int onProtoAck(WPARAM w, LPARAM l)
 					}
 					if(_tcsstr(filename, _T(".gpg"))) //decrypt it
 					{ //process encrypted file
+						if(!bFileTransfers && !bSameAction)
+						{
+							void ShowEncryptedFileMsgBox();
+							ShowEncryptedFileMsgBox();
+						}
+						if(!bFileTransfers && bSameAction)
+							return 0;
+						if(file_msg_state < 1)
+							return 0;
 						HistoryLog(ack->hContact, db_event("Recieved encrypted file, trying to decrypt", 0,0, 0));
 						if(_waccess(f->tszCurrentFile, 0) == -1)
 						{
@@ -1916,4 +1926,72 @@ void strip_tags(std::wstring &str)
 		for(p = str.find(outclosetag); p != std::wstring::npos; p = str.find(outclosetag))
 			str.erase(p, _tcslen(outclosetag));
 	}
+}
+
+
+static INT_PTR CALLBACK DlgProcEncryptedFileMsgBox(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	char *inkeyid = NULL;
+  switch (msg)
+  {
+  case WM_INITDIALOG:
+    {
+		TranslateDialogDefault(hwndDlg);
+		file_msg_state = -1;
+      return TRUE;
+    }
+    
+ 
+  case WM_COMMAND:
+    {
+      switch (LOWORD(wParam))
+      {
+      case IDC_IGNORE:
+		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
+		  {
+			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 1);
+			  bSameAction = true;
+		  }
+		  DestroyWindow(hwndDlg);
+		  break;
+
+	  case IDC_DECRYPT:
+		  file_msg_state = 1;
+		  if(IsDlgButtonChecked(hwndDlg, IDC_REMEMBER))
+		  {
+			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 1);
+			  bFileTransfers = true;
+			  DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
+			  bSameAction = false;
+		  }
+			  
+		  DestroyWindow(hwndDlg);
+		  break;
+
+	  default:
+		break;
+      }
+      
+      break;
+    }
+    
+  case WM_NOTIFY:
+    {
+	}
+    break;
+  case WM_CLOSE:
+	  DestroyWindow(hwndDlg);
+	  break;
+  case WM_DESTROY:
+	  {
+	  }
+	  break;
+  }
+  return FALSE;
+}
+
+void ShowEncryptedFileMsgBox()
+{
+	extern HINSTANCE hInst;
+	DialogBox(hInst, MAKEINTRESOURCE(IDD_ENCRYPTED_FILE_MSG_BOX), NULL, DlgProcEncryptedFileMsgBox);
 }

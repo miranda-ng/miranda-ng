@@ -17,7 +17,7 @@
 #include "commonheaders.h"
 
 //global variables
-bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bMetaContacts = false, bFileTransfers = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
+bool bAppendTags = false, bDebugLog = false, bJabberAPI = false, bPresenceSigning = false, bIsMiranda09 = false, bMetaContacts = false, bFileTransfers = false, bSameAction = false, bAutoExchange = false, bStripTags = false, tabsrmm_used = false;
 TCHAR *inopentag = NULL, *inclosetag = NULL, *outopentag = NULL, *outclosetag = NULL, *password = NULL;
 
 list <JabberAccount*> Accounts;
@@ -82,6 +82,7 @@ void init_vars()
 	outclosetag = UniGetContactSettingUtf(NULL, szGPGModuleName, "szOutCloseTag", _T("</GPGenc>"));
 	bDebugLog = DBGetContactSettingByte(NULL, szGPGModuleName, "bDebugLog", 0);
 	bAutoExchange = DBGetContactSettingByte(NULL, szGPGModuleName, "bAutoExchange", 0);
+	bSameAction = DBGetContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
 	password = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
 	debuglog.init();
 	bIsMiranda09 = (DWORD)CallService(MS_SYSTEM_GETVERSION, 0, 0) >= 0x00090001?true:false;

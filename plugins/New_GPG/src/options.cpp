@@ -463,7 +463,13 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			if(bDebugLog)
 				debuglog.init();
 			bJabberAPI = CheckStateStoreDB(hwndDlg, IDC_JABBER_API, "bJabberAPI");
+			bool old_bFileTransfers = DBGetContactSettingByte(NULL, szGPGModuleName, "bFileTransfers", 0);
 			bFileTransfers = CheckStateStoreDB(hwndDlg, IDC_FILE_TRANSFERS, "bFileTransfers");
+			if(bFileTransfers != old_bFileTransfers)
+			{
+				DBWriteContactSettingByte(NULL, szGPGModuleName, "bSameAction", 0);
+				bSameAction = false;
+			}
 			bAutoExchange = CheckStateStoreDB(hwndDlg, IDC_AUTO_EXCHANGE, "bAutoExchange");
 			{
 				TCHAR tmp[512];

@@ -16,6 +16,7 @@
 #define IDD_IMPORT_KEY                  112
 #define IDI_UNSECURED                   113
 #define IDD_OPT_GPG_ADVANCED            113
+#define IDD_ENCRYPTED_FILE_MSG_BOX      114
 #define IDC_SET_BIN_PATH                1016
 #define IDC_SET_HOME_DIR                1017
 #define IDC_BIN_PATH                    1018
@@ -38,6 +39,7 @@
 #define IDC_IGNORE_KEY                  1026
 #define IDC_SELECT_EXISTING             1026
 #define IDC_KEY_EMAIL                   1026
+#define IDC_IGNORE                      1026
 #define IDC_DELETE_KEY_BUTTON           1027
 #define IDC_IN_CLOSE_TAG                1027
 #define IDC_KEY_REAL_NAME               1027
@@ -58,6 +60,7 @@
 #define IDC_OTHER                       1046
 #define IDC_LOG_FILE_SET                1046
 #define IDC_IMPORT                      1046
+#define IDC_DECRYPT                     1046
 #define IDC_SAVE_PASSWORD               1047
 #define IDC_DEBUG_LOG                   1048
 #define IDC_JABBER_API                  1049
@@ -78,6 +81,8 @@
 #define IDC_STRIP_TAGS                  1067
 #define IDC_CHECK1                      1068
 #define IDC_PRESCENSE_SUBSCRIPTION      1068
+#define IDC_REMEMBRE                    1068
+#define IDC_REMEMBER                    1068
 #define IDC_GENERATING_KEY              1069
 #define IDC_GENERATING_TEXT             1070
 #define IDC_KEY_ID                      1071
@@ -88,7 +93,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        114
+#define _APS_NEXT_RESOURCE_VALUE        115
 #define _APS_NEXT_COMMAND_VALUE         40001
 #define _APS_NEXT_CONTROL_VALUE         1073
 #define _APS_NEXT_SYMED_VALUE           101
