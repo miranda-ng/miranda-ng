@@ -79,17 +79,17 @@ namespace Langpack_Suite
             {
                 LanguageComboBox.SelectedIndex = 1;
             }
-            if (culture.ToString() == "uk-UA")
+            else if (culture.ToString() == "uk-UA")
             {
                 LanguageComboBox.SelectedIndex = 2;
             }
-            if (culture.ToString() == "be-BY")
+            else if (culture.ToString() == "be-BY")
             {
                 LanguageComboBox.SelectedIndex = 3;
             }
             else
             {
-                culture = CultureInfo.CreateSpecificCulture("en-EN");
+                culture = CultureInfo.CreateSpecificCulture("en-US");
                 LanguageComboBox.SelectedIndex = 0;
             }
             adjustCulture();
@@ -788,7 +788,7 @@ namespace Langpack_Suite
         private void LanguageComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (LanguageComboBox.SelectedIndex == 0)
-                culture = CultureInfo.CreateSpecificCulture("en-EN");
+                culture = CultureInfo.CreateSpecificCulture("en-US");
             if (LanguageComboBox.SelectedIndex == 1)
                 culture = CultureInfo.CreateSpecificCulture("ru-RU");
             if (LanguageComboBox.SelectedIndex == 2)

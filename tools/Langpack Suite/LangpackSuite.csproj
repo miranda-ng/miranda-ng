@@ -81,16 +81,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>myRes.resx</DependentUpon>
     </Compile>
-    <Compile Include="myRes.ru-RU.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>myRes.ru-RU.resx</DependentUpon>
-    </Compile>
-    <Compile Include="myRes.uk-UA.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>myRes.uk-UA.resx</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs">
       <Generator>ResXFileCodeGenerator</Generator>
     </Compile>
