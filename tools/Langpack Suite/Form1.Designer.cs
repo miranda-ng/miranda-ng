@@ -444,8 +444,9 @@
             this.LanguageComboBox.FormattingEnabled = true;
             this.LanguageComboBox.Items.AddRange(new object[] {
             "English",
+            "Русский",
             "Українська",
-            "Русский"});
+            "Беларускі"});
             this.LanguageComboBox.Location = new System.Drawing.Point(204, 324);
             this.LanguageComboBox.Name = "LanguageComboBox";
             this.LanguageComboBox.Size = new System.Drawing.Size(121, 21);

@@ -99,6 +99,7 @@
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="myRes.be-BY.resx" />
     <EmbeddedResource Include="myRes.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>myRes.uk-UA.Designer.cs</LastGenOutput>
