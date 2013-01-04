@@ -424,7 +424,7 @@ int onProtoAck(WPARAM w, LPARAM l)
 							}
 							out.clear();
 							gpg_execution_params params;
-							pxResult result;
+							//pxResult result;
 							params.cmd = &cmd2;
 							params.useless = "";
 							params.out = &out;
@@ -437,16 +437,17 @@ int onProtoAck(WPARAM w, LPARAM l)
 								TerminateProcess(params.hProcess, 1);
 								params.hProcess = NULL;
 								debuglog<<time_str()<<": GPG execution timed out, aborted\n";
-								DeleteFile(filename);
+								//DeleteFile(filename);
 								return 0;
 							}
 							if(result == pxNotFound)
 							{
-								DeleteFile(filename);
+								//DeleteFile(filename);
 								return 0;
 							}
 						}
-						DeleteFile(filename);
+						if(result == pxSuccess)
+							DeleteFile(filename);
 						mir_free(filename);
 				}
 			}
