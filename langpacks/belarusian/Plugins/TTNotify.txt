@@ -1,12 +1,12 @@
-﻿;#muuid {5906a545-f31a-4726-b48f-03a09f060318}
+﻿#muuid {5906a545-f31a-4726-b48f-03a09f060318}
 ;  File: ttnotify.dll
 ;  Module: Tooltip notify plugin for Miranda NG
 [Tooltip Notify]
 Апавяшчэнні
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Апавяшчэнні ў трэі пры змене статуту кантакту.
+Апавяшчэнні ў трэі пры змене статусу кантакту.
 [Notify upon the following contact status changes]
-Апавяшчаць пра змену статутаў наступных кантактаў
+Апавяшчаць пра змену статусаў наступных кантактаў
 [All other]
 Іншае
 [Duration]
@@ -14,9 +14,9 @@
 [Show tooltip for]
 Паказваць:
 [Duration x2 upon online event]
-У 2 разу даўжэй для "Ў сеткі"
+У 2 разы даўжэй для "Далучаны"
 [Work in conjunction with 'Suppress online notification']
-Працаваць разам з "Забаронай апавяшчэнняў пра выйсце ў сетку"
+Працаваць разам з "Забаронай апавяшчэнняў пра далучэнні"
 [Default positioning]
 Пазіцыя па змаўчанні
 [[Hint: right-click on the tooltip to move it when in custom placement mode]]
@@ -46,15 +46,15 @@
 [Obey 'Suppress online notification' settings]
 Уключыць часовую забарону апавяшчэнняў
 [Tooltip Notify: Offline]
-Апавяшчэнні: Афлайн
+Апавяшчэнні: Адключыўся
 [Tooltip Notify: Online]
-Апавяшчэнні: Анлайн
+Апавяшчэнні: Далучаны
 [Tooltip Notify: Other]
 Апавяшчэнні: Іншае
 [Tooltip Notify: Typing]
 Апавяшчэнні: Друкуе
 [Other Status]
-Іншы статут
+Іншы статус
 [is]
 зараз
 [Choose contacts...]
