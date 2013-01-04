@@ -91,7 +91,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	if (hPluginUpdaterFolder)
 		OnFoldersChanged(0, 0);
 	else {
-		mir_ptr<TCHAR> tszFolder( Utils_ReplaceVarsT(_T("%miranda_userdata%\\"DEFAULT_UPDATES_FOLDER)));
+		mir_ptr<TCHAR> tszFolder( Utils_ReplaceVarsT(_T("%miranda_path%\\"DEFAULT_UPDATES_FOLDER)));
 		lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));
 	}
 
