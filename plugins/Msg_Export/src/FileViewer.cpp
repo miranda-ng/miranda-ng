@@ -532,9 +532,9 @@ bool bOpenExternaly( HANDLE hContact )
 		return true;
 	}
 	tstring sTmp = sFileViewerPrg;
-	sTmp += _T(" ");
+	sTmp += _T(" \"");
 	sTmp += sPath;
-	//sTmp += '\"';
+	sTmp += '\"';
 
 	STARTUPINFO sStartupInfo = { 0 };
 	GetStartupInfo(&sStartupInfo); // we parse oure owne info on
@@ -1071,9 +1071,6 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 		{
 			SetWindowLongPtr(hwndDlg,GWLP_USERDATA,lParam);
 			CLHistoryDlg * pclDlg = (CLHistoryDlg *)lParam;
-#ifdef _UNICODE
-			EnableWindow( GetDlgItem( hwndDlg , IDC_FV_FIND ) , FALSE );
-#endif
 			SendMessage(hwndDlg, WM_SETICON, ICON_BIG,
 				(LPARAM)LoadIcon( hInstance, MAKEINTRESOURCE(IDI_EXPORT_MESSAGE)));
 
