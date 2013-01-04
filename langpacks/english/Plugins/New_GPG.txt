@@ -66,6 +66,7 @@
 [</GPGdec>]
 [<GPGenc>]
 [</GPGenc>]
+[Arial]
 [GPG Turn off encryption]
 [GPG Turn on encryption]
 [GPG encryption status]
@@ -223,6 +224,8 @@
 [Where is no public or private key.]
 ;file \plugins\New_GPG\src\utilities.cpp
 [Do you want to toggle encryption for all subcontacts ?]
+[%s: %s]
+[Send publick key]
 [.gpg]
 [ -o ]
 [Target file exists, do you want to replace it ?]

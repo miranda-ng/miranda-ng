@@ -1,7 +1,7 @@
 #muuid {968def4a-bc60-4266-ac08-754ce721db5f}
 ;============================================================
 ;  File: PluginUpdater.dll
-;  Plugin: PluginUpdater
+;  Plugin: Plugin Updater
 ;  Version: 0.1.0.2
 ;  Authors: Mataes, George Hazan
 ;============================================================

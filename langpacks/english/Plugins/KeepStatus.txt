@@ -1,7 +1,7 @@
 ;#muuid not found, please specify manually!
 ;============================================================
 ;  File: KeepStatus.dll
-;  Plugin: KeepStatus
+;  Plugin: Keep Status
 ;  Version: 0.8.0.97
 ;  Authors: P Boon
 ;============================================================

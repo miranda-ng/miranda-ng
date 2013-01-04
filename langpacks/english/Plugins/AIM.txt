@@ -1,10 +1,11 @@
 #muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
 ;  File: AIM.dll
-;  Plugin: AIM
-;  Version: x.x.x.x
-;  Authors: 
+;  Plugin: AIM protocol
+;  Version: 0.11.0.1
+;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
+[Provides support for AOL Instant Messenger (AIM) protocol.]
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 [Screen Name:]
