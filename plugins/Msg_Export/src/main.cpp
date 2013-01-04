@@ -45,6 +45,8 @@ static HANDLE hServiceFunc = 0;
 
 static HANDLE hOpenHistoryMenuItem = 0;
 
+HANDLE hInternalWindowList = NULL;
+
 /////////////////////////////////////////////////////
 // Remember to update the Version in the resource !!!
 /////////////////////////////////////////////////////
@@ -105,6 +107,8 @@ static INT_PTR ShowExportHistory(WPARAM wParam,LPARAM /*lParam*/)
 
 int nSystemShutdown(WPARAM /*wparam*/,LPARAM /*lparam*/)
 {
+	WindowList_Broadcast(hInternalWindowList,WM_CLOSE,0,0);
+
 	if( hEventOptionsInitialize )
 	{
 		UnhookEvent(hEventOptionsInitialize);
@@ -180,34 +184,29 @@ int MainInit(WPARAM /*wparam*/,LPARAM /*lparam*/)
 		MessageBox( NULL , LPGENT("Failed to HookEvent ME_OPT_INITIALISE") , MSG_BOX_TITEL , MB_OK );
 
 
-	CLISTMENUITEM mi = { sizeof(mi) };
-	mi.flags=0;
-	mi.pszContactOwner=NULL;    //all contacts
-	mi.hIcon=LoadIcon(hInstance,MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 
-	if( bReplaceHistory )
+	if( !bReplaceHistory )
 	{
-		mi.position= 1000090000;
-		mi.pszName=LPGEN("View &History");
-		mi.pszService=MS_HISTORY_SHOWCONTACTHISTORY;
-	}
-	else
-	{
+		CLISTMENUITEM mi = { sizeof(mi) };
+		mi.flags=0;
+		mi.pszContactOwner=NULL;    //all contacts
+		mi.hIcon=LoadIcon(hInstance,MAKEINTRESOURCE(IDI_EXPORT_MESSAGE));
 		mi.position = 1000090100;
 		mi.pszName=LPGEN("Open E&xported History");
 		mi.pszService=MS_SHOW_EXPORT_HISTORY;
+		hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
+
+		if( !hOpenHistoryMenuItem )
+			MessageBox( NULL , LPGENT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)") , MSG_BOX_TITEL , MB_OK );
 	}
-	hOpenHistoryMenuItem  = Menu_AddContactMenuItem(&mi);
 
-	if( !hOpenHistoryMenuItem )
-		MessageBox( NULL , LPGENT("Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)") , MSG_BOX_TITEL , MB_OK );
 
-/*
+
 	hEventSystemShutdown = HookEvent( ME_SYSTEM_SHUTDOWN , nSystemShutdown );
 
 	if( !hEventSystemShutdown )
-		MessageBox( NULL , "Failed to HookEvent ME_SYSTEM_SHUTDOWN" , MSG_BOX_TITEL , MB_OK );
-*/
+		MessageBox( NULL , _T("Failed to HookEvent ME_SYSTEM_SHUTDOWN") , MSG_BOX_TITEL , MB_OK );
+
 
 /*
 	_TCHAR szBuf[ 10000 ];
@@ -312,7 +311,7 @@ int __declspec(dllexport)Load()
 		return 0;
 	}
 
-	nMaxLineWidth = DBGetContactSettingWord( NULL , MODULE , "MaxLineWidth" , nMaxLineWidth );
+	nMaxLineWidth = db_get_w( NULL , MODULE , "MaxLineWidth" , nMaxLineWidth );
 	if( nMaxLineWidth < 5 )
 		nMaxLineWidth = 5;
 
@@ -322,18 +321,18 @@ int __declspec(dllexport)Load()
 	sTimeFormat = _DBGetString( NULL , MODULE , "TimeFormat" , _T("d s") );
 
 	sFileViewerPrg = _DBGetString( NULL , MODULE , "FileViewerPrg" , _T("") );
-	bUseInternalViewer( DBGetContactSettingByte( NULL , MODULE , "UseInternalViewer" , bUseInternalViewer() ) != 0 );
+	bUseInternalViewer( db_get_b( NULL , MODULE , "UseInternalViewer" , bUseInternalViewer() ) != 0 );
 
-	bReplaceHistory = DBGetContactSettingByte( NULL , MODULE , "ReplaceHistory" , bReplaceHistory ) != 0;
-	bAppendNewLine = DBGetContactSettingByte( NULL , MODULE , "AppendNewLine" , bAppendNewLine ) != 0;
-	bUseUtf8InNewFiles = DBGetContactSettingByte( NULL , MODULE , "UseUtf8InNewFiles" , bUseUtf8InNewFiles ) != 0;
-	bUseLessAndGreaterInExport = DBGetContactSettingByte( NULL , MODULE , "UseLessAndGreaterInExport" , bUseLessAndGreaterInExport ) != 0;
+	bReplaceHistory = db_get_b( NULL , MODULE , "ReplaceHistory" , bReplaceHistory ) != 0;
+	bAppendNewLine = db_get_b( NULL , MODULE , "AppendNewLine" , bAppendNewLine ) != 0;
+	bUseUtf8InNewFiles = db_get_b( NULL , MODULE , "UseUtf8InNewFiles" , bUseUtf8InNewFiles ) != 0;
+	bUseLessAndGreaterInExport = db_get_b( NULL , MODULE , "UseLessAndGreaterInExport" , bUseLessAndGreaterInExport ) != 0;
 
-	enRenameAction = (ENDialogAction)DBGetContactSettingByte( NULL , MODULE , "RenameAction" , enRenameAction );
-	enDeleteAction = (ENDialogAction)DBGetContactSettingByte( NULL , MODULE , "DeleteAction" , enDeleteAction );;
+	enRenameAction = (ENDialogAction)db_get_b( NULL , MODULE , "RenameAction" , enRenameAction );
+	enDeleteAction = (ENDialogAction)db_get_b( NULL , MODULE , "DeleteAction" , enDeleteAction );;
 
 	// Plugin sweeper support
-	DBWriteContactSettingTString(NULL,"Uninstall","Message Export",_T(MODULE));
+	db_set_ts(NULL,"Uninstall","Message Export",_T(MODULE));
 
 	if( bReplaceHistory )
 	{
@@ -365,6 +364,8 @@ int __declspec(dllexport)Load()
 	{
 		MessageBox( NULL , LPGENT("Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY") , MSG_BOX_TITEL , MB_OK );
 	}
+	
+	hInternalWindowList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 
 	return 0;
 }
@@ -384,10 +385,6 @@ int __declspec(dllexport)Load()
 
 __declspec(dllexport)int Unload(void)
 {
-	//if( !hEventSystemShutdown ) // we will try to unload anyway 
-	{
-		nSystemShutdown(0,0);
-	}
 	Uninitilize();
 	bUseInternalViewer( false );
 	return 0;

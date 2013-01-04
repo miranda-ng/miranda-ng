@@ -26,4 +26,6 @@
 
 extern HINSTANCE hInstance;
 
+extern HANDLE hInternalWindowList;
+
 #endif

@@ -293,7 +293,7 @@ tstring _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting
 	tstring ret;
 	DBVARIANT dbv = {0};
 	//DBGetContactSetting
-	if( ! DBGetContactSettingWString( hContact , szModule , szSetting , &dbv ) )
+	if( ! db_get_ws( hContact , szModule , szSetting , &dbv ) )
 	{
 		if( dbv.type != DBVT_WCHAR)
 		{
@@ -307,7 +307,7 @@ tstring _DBGetStringW(HANDLE hContact,const char *szModule,const char *szSetting
 	}
 	else
 		ret = pszError;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return ret;
 }
 
@@ -315,7 +315,7 @@ string _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting 
 {
 	string ret;
 	DBVARIANT dbv = {0};
-	if( ! DBGetContactSetting( hContact , szModule , szSetting , &dbv ) )
+	if( ! db_get( hContact , szModule , szSetting , &dbv ) )
 	{
 		if( dbv.type != DBVT_ASCIIZ)
 		{
@@ -329,7 +329,7 @@ string _DBGetStringA(HANDLE hContact,const char *szModule,const char *szSetting 
 	}
 	else
 		ret = pszError;
-	DBFreeVariant(&dbv);
+	db_free(&dbv);
 	return ret;
 }
 
@@ -699,7 +699,7 @@ tstring GetFilePathFromUser( HANDLE hContact )
 		}
 
 		// Store the Filename used so that we can check if it changes.
-		DBWriteContactSettingTString( hContact , MODULE , "PrevFileName" , sNoDBPath.c_str() );
+		db_set_ts( hContact , MODULE , "PrevFileName" , sNoDBPath.c_str() );
 	}
 
 	return sFilePath;
@@ -782,7 +782,7 @@ void ReplaceDefines( HANDLE hContact , tstring & sTarget )
 		string sProto = _DBGetStringA( hContact , "Protocol" , "p" , "" );
 		if( bUINUsed || ( bIdentifierUsed && sProto == "ICQ" ) )
 		{
-			DWORD dwUIN = DBGetContactSettingDword(hContact, sProto.c_str(), "UIN", 0);
+			DWORD dwUIN = db_get_dw(hContact, sProto.c_str(), "UIN", 0);
 			tstring sReplaceUin;
 			if( dwUIN )
 			{
@@ -975,11 +975,10 @@ void DisplayErrorDialog( const _TCHAR * pszError , tstring& sFilePath , DBEVENTI
 
 		if( GetSaveFileName(&ofn) )
 		{
-			HANDLE hf;              // file handle
-			hf = CreateFile(ofn.lpstrFile, GENERIC_WRITE, 
+			HANDLE hf = CreateFile(ofn.lpstrFile, GENERIC_WRITE, 
 				  0, (LPSECURITY_ATTRIBUTES) NULL,
 				  CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL,
-				  (HANDLE) NULL);
+				  (HANDLE) NULL); // file handle
 
 			bWriteTextToFile( hf , sError.c_str() , false );
 			if( dbei )
@@ -1128,13 +1127,13 @@ void ExportDBEventInfo(HANDLE hContact, DBEVENTINFO &dbei )
 				ReplaceAll( output , pszReplaceList[nCur] , _DBGetString( hContact , sProto.c_str() , pszReplaceListA[nCur] , _T("") ) );
 			}
 
-			_sntprintf( szTemp , sizeof( szTemp ) , _T("%d") , DBGetContactSettingDword(hContact, sProto.c_str(), "UIN", 0) );
+			_sntprintf( szTemp , sizeof( szTemp ) , _T("%d") , db_get_dw(hContact, sProto.c_str(), "UIN", 0) );
 			ReplaceAll( output , _T("%UIN%") , szTemp );
 			
-			_sntprintf( szTemp , sizeof( szTemp ) , _T("%d") , DBGetContactSettingWord(hContact, sProto.c_str(), "Age", 0));
+			_sntprintf( szTemp , sizeof( szTemp ) , _T("%d") , db_get_w(hContact, sProto.c_str(), "Age", 0));
 			ReplaceAll( output , _T("%Age%") , szTemp );
 
-			szTemp[0] = (_TCHAR)DBGetContactSettingByte(hContact, sProto.c_str(), "Gender", 0);
+			szTemp[0] = (_TCHAR)db_get_b(hContact, sProto.c_str(), "Gender", 0);
 			szTemp[1] = 0;
 			ReplaceAll( output , _T("%Gender%") , szTemp );
 
@@ -1432,7 +1431,7 @@ int nExportEvent(WPARAM wparam,LPARAM lparam)
 {
 	HANDLE hContact = (HANDLE)wparam;
 
-	if( ! DBGetContactSettingByte(hContact,MODULE,"EnableLog",1) )
+	if( ! db_get_b(hContact,MODULE,"EnableLog",1) )
 		return 0;
 
 	DBEVENTINFO dbei={0};
@@ -1459,7 +1458,7 @@ int nExportEvent(WPARAM wparam,LPARAM lparam)
 		if( dbei.eventType != EVENTTYPE_STATUSCHANGE )
 		{
 			_snprintf( szTemp , sizeof( szTemp ) , "DisableProt_%s" , dbei.szModule );
-			if( DBGetContactSettingByte(NULL,MODULE,szTemp,1) )
+			if( db_get_b(NULL,MODULE,szTemp,1) )
 			{
 				ExportDBEventInfo( hContact , dbei );
 			}
@@ -1616,27 +1615,27 @@ SuperBreak:
 
 int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 {
+	HANDLE hContact = (HANDLE)wparam;
+	
+	HWND hInternalWindow = WindowList_Find(hInternalWindowList,hContact);
+	if(hInternalWindow)
+		CloseWindow(hInternalWindow);
+
 	if( enDeleteAction == eDANothing )
 		return 0;
 
-	HANDLE hContact = (HANDLE)wparam;
-
 	tstring sFilePath = GetFilePathFromUser( hContact );
 
-	{ // Test if there is another user using this file 
-		HANDLE hOtherContact = db_find_first();
-		for(;;)
+	{ // Test if there is another user using this file
+		for(HANDLE hOtherContact = db_find_first();hOtherContact;hOtherContact = db_find_next(hOtherContact))
 		{
 			if( hContact != hOtherContact && sFilePath == GetFilePathFromUser( hOtherContact ) )
 			{
 				return 0; // we found another contact abort mission :-)
 			}
-
-			if( ! hOtherContact )
-				break;
-			hOtherContact = db_find_next(hOtherContact);
 		}
 	}
+
 
 	// Test to see if there is a file to delete
 	HANDLE hPrevFile = CreateFile( sFilePath.c_str() , 
@@ -1687,19 +1686,19 @@ int nContactDeleted(WPARAM wparam,LPARAM /*lparam*/)
 
 void SaveSettings()
 {
-	DBWriteContactSettingWord( NULL , MODULE , "MaxLineWidth" , (WORD) nMaxLineWidth );
-	DBWriteContactSettingTString( NULL , MODULE , "ExportDir" , sExportDir.c_str() );
-	DBWriteContactSettingTString( NULL , MODULE , "DefaultFile" , sDefaultFile.c_str() );
-	DBWriteContactSettingTString( NULL , MODULE , "TimeFormat" , sTimeFormat.c_str() );
+	db_set_w( NULL , MODULE , "MaxLineWidth" , (WORD) nMaxLineWidth );
+	db_set_ts( NULL , MODULE , "ExportDir" , sExportDir.c_str() );
+	db_set_ts( NULL , MODULE , "DefaultFile" , sDefaultFile.c_str() );
+	db_set_ts( NULL , MODULE , "TimeFormat" , sTimeFormat.c_str() );
 
-	DBWriteContactSettingTString( NULL , MODULE , "FileViewerPrg" , sFileViewerPrg.c_str() );
-	DBWriteContactSettingByte( NULL , MODULE , "UseInternalViewer" , bUseInternalViewer() );
-	DBWriteContactSettingByte( NULL , MODULE , "ReplaceHistory" , bReplaceHistory );
-	DBWriteContactSettingByte( NULL , MODULE , "AppendNewLine" , bAppendNewLine );
-	DBWriteContactSettingByte( NULL , MODULE , "UseUtf8InNewFiles" , bUseUtf8InNewFiles );
-	DBWriteContactSettingByte( NULL , MODULE , "UseLessAndGreaterInExport" , bUseLessAndGreaterInExport );
+	db_set_ts( NULL , MODULE , "FileViewerPrg" , sFileViewerPrg.c_str() );
+	db_set_b( NULL , MODULE , "UseInternalViewer" , bUseInternalViewer() );
+	db_set_b( NULL , MODULE , "ReplaceHistory" , bReplaceHistory );
+	db_set_b( NULL , MODULE , "AppendNewLine" , bAppendNewLine );
+	db_set_b( NULL , MODULE , "UseUtf8InNewFiles" , bUseUtf8InNewFiles );
+	db_set_b( NULL , MODULE , "UseLessAndGreaterInExport" , bUseLessAndGreaterInExport );
 
-	DBWriteContactSettingByte( NULL , MODULE , "RenameAction" , (BYTE)enRenameAction );
-	DBWriteContactSettingByte( NULL , MODULE , "DeleteAction" , (BYTE)enDeleteAction );
+	db_set_b( NULL , MODULE , "RenameAction" , (BYTE)enRenameAction );
+	db_set_b( NULL , MODULE , "DeleteAction" , (BYTE)enDeleteAction );
 }
 

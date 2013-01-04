@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "src/resource.h"
+#include "..\src\resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -16,10 +16,8 @@
 // Neutral (Default) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NEUD)
-#ifdef _WIN32
 LANGUAGE LANG_NEUTRAL, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -65,25 +63,23 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// Danish resources
+// Danish (Denmark) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DAN)
-#ifdef _WIN32
 LANGUAGE LANG_DANISH, SUBLANG_DEFAULT
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE 
+STRINGTABLE
 BEGIN
     ID_EDIT_COPY            "Copies the selection and puts it on the Clipboard\nCopy"
 END
 
-#endif    // Danish resources
+#endif    // Danish (Denmark) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -91,10 +87,8 @@ END
 // German (Germany) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_DEU)
-#ifdef _WIN32
 LANGUAGE LANG_GERMAN, SUBLANG_GERMAN
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -126,13 +120,11 @@ END
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -140,7 +132,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_OPT_MSGEXPORT DIALOGEX 0, 0, 314, 240
-STYLE DS_SETFONT | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE
+STYLE DS_SETFONT | DS_3DLOOK | DS_FIXEDSYS | DS_CENTER | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
@@ -154,10 +146,10 @@ BEGIN
     PUSHBUTTON      "Browse",IDC_FILE_VIEWER_BROWSE,141,74,43,14
     EDITTEXT        IDC_MAX_CLOUMN_WIDTH,264,11,39,14,ES_AUTOHSCROLL | ES_NUMBER
     COMBOBOX        IDC_EXPORT_TIMEFORMAT,246,29,57,122,CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL | WS_TABSTOP
-    CONTROL         "Use UTF8 in new files",IDC_USE_UTF8_IN_NEW_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,46,85,10
-    CONTROL         "Append extra new line",IDC_APPEND_NEWLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,59,86,10
+    CONTROL         "Use UTF8 in new files",IDC_USE_UTF8_IN_NEW_FILES,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,46,102,10
+    CONTROL         "Append extra new line",IDC_APPEND_NEWLINE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,59,102,10
     CONTROL         "Use << and >>",IDC_USE_LESS_AND_GREATER_IN_EXPORT,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,72,63,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,201,72,102,10
     CONTROL         "List1",IDC_MAP_USER_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,5,100,304,120
     PUSHBUTTON      "Auto filename",IDC_AUTO_FILENAME,5,226,63,14
     PUSHBUTTON      "Clear all",IDC_CLEAR_ALL,86,226,63,14
@@ -181,7 +173,7 @@ BEGIN
     LTEXT           "",IDC_EXP_ALL_STATUS,7,31,238,8
 END
 
-IDD_FILE_VIEWER DIALOG  0, 0, 346, 259
+IDD_FILE_VIEWER DIALOG 0, 0, 346, 259
 STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "History file for %s (%s format %s)"
 FONT 8, "MS Sans Serif"
@@ -197,16 +189,16 @@ STYLE DS_SETFONT | DS_3DLOOK | DS_CENTER | WS_CHILD | WS_VISIBLE
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "Prompt for action",IDC_FC_PROMPT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,51,53,69,10
-    GROUPBOX        "When filename changes",IDC_STATIC,43,38,100,56
-    CONTROL         "Rename file",IDC_FC_RENAME,"Button",BS_AUTORADIOBUTTON,51,66,53,10
-    CONTROL         "Do nothing",IDC_FC_NOTHING,"Button",BS_AUTORADIOBUTTON,51,79,51,10
-    GROUPBOX        "When user is deleted",IDC_STATIC,171,39,100,56
-    CONTROL         "Prompt for action",IDC_FD_PROMPT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,180,53,69,10
-    CONTROL         "Delete file",IDC_FD_DELETE,"Button",BS_AUTORADIOBUTTON,180,66,47,10
-    CONTROL         "Do nothing",IDC_FD_NOTHING,"Button",BS_AUTORADIOBUTTON,180,79,51,10
-    CONTROL         "List1",IDC_EXPORT_PROTOS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,44,101,227,106
-    PUSHBUTTON      "Debug",IDC_DEBUG_INFO,237,214,32,10
+    GROUPBOX        "When filename changes",IDC_STATIC,13,9,131,56
+    CONTROL         "Prompt for action",IDC_FC_PROMPT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,24,24,114,10
+    CONTROL         "Rename file",IDC_FC_RENAME,"Button",BS_AUTORADIOBUTTON,24,37,80,10
+    CONTROL         "Do nothing",IDC_FC_NOTHING,"Button",BS_AUTORADIOBUTTON,24,50,78,10
+    GROUPBOX        "When user is deleted",IDC_STATIC,153,10,147,56
+    CONTROL         "Prompt for action",IDC_FD_PROMPT,"Button",BS_AUTORADIOBUTTON | WS_GROUP,161,24,131,10
+    CONTROL         "Delete file",IDC_FD_DELETE,"Button",BS_AUTORADIOBUTTON,161,37,131,10
+    CONTROL         "Do nothing",IDC_FD_NOTHING,"Button",BS_AUTORADIOBUTTON,161,50,131,10
+    CONTROL         "List1",IDC_EXPORT_PROTOS,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | WS_TABSTOP,13,72,287,144
+    PUSHBUTTON      "Debug",IDC_DEBUG_INFO,263,222,37,13
 END
 
 
@@ -216,7 +208,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPT_MSGEXPORT, DIALOG
     BEGIN
@@ -249,6 +241,18 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 252
     END
+
+    IDD_OPT_MSGEXPORT2, DIALOG
+    BEGIN
+        VERTGUIDE, 13
+        VERTGUIDE, 24
+        VERTGUIDE, 138
+        VERTGUIDE, 144
+        VERTGUIDE, 153
+        VERTGUIDE, 161
+        VERTGUIDE, 292
+        VERTGUIDE, 300
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -267,7 +271,7 @@ IDI_EXPORT_MESSAGE      ICON                    "export_m.ico"
 // Menu
 //
 
-IDR_MSG_EXPORT MENU 
+IDR_MSG_EXPORT MENU
 BEGIN
     POPUP "UserList"
     BEGIN
@@ -280,7 +284,7 @@ BEGIN
     END
 END
 
-IDR_FV_EDIT MENU 
+IDR_FV_EDIT MENU
 BEGIN
     POPUP "1"
     BEGIN
@@ -288,18 +292,16 @@ BEGIN
     END
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.K.) resources
+// English (United Kingdom) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENG)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -310,7 +312,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_UK
 // remains consistent on all systems.
 IDI_TICK                ICON                    "tick.ico"
 IDI_NOTICK              ICON                    "notick.ico"
-#endif    // English (U.K.) resources
+#endif    // English (United Kingdom) resources
 /////////////////////////////////////////////////////////////////////////////
 
 

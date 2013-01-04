@@ -142,12 +142,12 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	}
 	if( lParamSort == 3 )
 	{
-		DWORD dwUin1 = DBGetContactSettingDword(
+		DWORD dwUin1 = db_get_dw(
 			(HANDLE)lParam1, 
 			_DBGetStringA( (HANDLE)lParam1 , "Protocol" , "p" , "" ).c_str(), 
 			"UIN", 
 			0);
-		DWORD dwUin2 = DBGetContactSettingDword(
+		DWORD dwUin2 = db_get_dw(
 			(HANDLE)lParam2, 
 			_DBGetStringA( (HANDLE)lParam2 , "Protocol" , "p" , "" ).c_str(), 
 			"UIN", 
@@ -457,14 +457,14 @@ BOOL bApplyChanges( HWND hwndDlg )
 		{
 			HANDLE hUser = (HANDLE)sItem.lParam;
 			if( _tcslen( szTemp ) > 0 )
-				DBWriteContactSettingTString( hUser , MODULE , "FileName" , szTemp );
+				db_set_ts( hUser , MODULE , "FileName" , szTemp );
 			else
 				DBDeleteContactSetting( hUser , MODULE , "FileName" );
 
 			if( sItem.iImage )
 				DBDeleteContactSetting( hUser , MODULE , "EnableLog" ); // default is Enabled !!
 			else
-				DBWriteContactSettingByte( hUser , MODULE , "EnableLog",0);
+				db_set_b( hUser , MODULE , "EnableLog",0);
 		}
 	}
 	UpdateFileToColWidth();
@@ -739,7 +739,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					sItem.mask = LVIF_TEXT | LVIF_PARAM | LVIF_IMAGE;
 					sItem.iItem = nUser;
 					sItem.iSubItem = 0;
-					sItem.iImage = DBGetContactSettingByte(hContact,MODULE,"EnableLog",1);
+					sItem.iImage = db_get_b(hContact,MODULE,"EnableLog",1);
 					sItem.lParam = (LPARAM) hContact;
 
 
@@ -761,7 +761,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts(HWND hwndDlg, UINT msg, WPARAM wPar
 					ListView_SetItem( hMapUser , &sItem );
 				
 
-					DWORD dwUIN = DBGetContactSettingDword(hContact, sTmpA.c_str(), "UIN", 0);
+					DWORD dwUIN = db_get_dw(hContact, sTmpA.c_str(), "UIN", 0);
 					_TCHAR szTmp[50];
 					_sntprintf( szTmp , sizeof(szTmp) ,_T("%d") , dwUIN );
 					sItem.iSubItem = 3;
@@ -1247,9 +1247,9 @@ BOOL bApplyChanges2( HWND hwndDlg )
 		if( ::SendMessage(hMapUser, LVM_GETITEMA, 0, (LPARAM)&sItem ) )
 		{
 			if( sItem.iImage )
-				DBDeleteContactSetting( NULL , MODULE , szTemp ); // default is Enabled !!
+				db_unset( NULL , MODULE , szTemp ); // default is Enabled !!
 			else
-				DBWriteContactSettingByte( NULL , MODULE , szTemp,0);
+				db_set_b( NULL , MODULE , szTemp,0);
 		}
 	}
 	SaveSettings();
@@ -1351,7 +1351,7 @@ static INT_PTR CALLBACK DlgProcMsgExportOpts2(HWND hwndDlg, UINT msg, WPARAM wPa
 				{
 					_snprintf(szTemp , sizeof( szTemp ) , "DisableProt_%s" , proto[i]->szModuleName);
 					sItem.pszText = proto[i]->szModuleName;
-					sItem.iImage = DBGetContactSettingByte(NULL,MODULE,szTemp,1);
+					sItem.iImage = db_get_b(NULL,MODULE,szTemp,1);
 					::SendMessage( hMapUser , LVM_INSERTITEMA , 0 ,(LPARAM)&sItem );
 					sItem.iItem++;
 				}

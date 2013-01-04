@@ -215,8 +215,8 @@ int CLStreamRTFInfo::nOptimalReadLen = 3300;
 
 int CLStreamRTFInfo::nWriteHeader( char * pszTarget , int nLen )
 {
-	COLORREF cMyText = DBGetContactSettingDword(NULL,"SRMsg","Font3Col",RGB(64,0,128));
-	COLORREF cYourText = DBGetContactSettingDword(NULL,"SRMsg","Font0Col",RGB(240,0,0));
+	COLORREF cMyText = db_get_dw(NULL,"SRMsg","Font3Col",RGB(64,0,128));
+	COLORREF cYourText = db_get_dw(NULL,"SRMsg","Font0Col",RGB(240,0,0));
 
 /* original header !!
 			"{\\rtf1\\ansi\\deff0{\\fonttbl{\\f0\\fnil\\fcharset0 Courier New;}}\r\n"
@@ -1032,14 +1032,14 @@ void SetRichEditFont(HWND hRichEdit, bool bUseSyntaxHL )
 	CHARFORMAT ncf = { 0 };
 	ncf.cbSize = sizeof( CHARFORMAT );
 	ncf.dwMask = CFM_BOLD | CFM_FACE | CFM_ITALIC | CFM_SIZE | CFM_UNDERLINE;
-	ncf.dwEffects = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "TEffects" , 0 );
-	ncf.yHeight = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "THeight" , 165 );
+	ncf.dwEffects = db_get_dw( NULL , MODULE , szFileViewDB "TEffects" , 0 );
+	ncf.yHeight = db_get_dw( NULL , MODULE , szFileViewDB "THeight" , 165 );
 	_tcscpy( ncf.szFaceName  , _DBGetString( NULL , MODULE , szFileViewDB "TFace" , _T("Courier New")).c_str() );
 
 	if( ! bUseSyntaxHL )
 	{
 		ncf.dwMask |= CFM_COLOR;
-		ncf.crTextColor = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "TColor" , 0 );
+		ncf.crTextColor = db_get_dw( NULL , MODULE , szFileViewDB "TColor" , 0 );
 	}
 	SendMessage(hRichEdit, EM_SETCHARFORMAT, (WPARAM)SCF_ALL, (LPARAM)&ncf);
 
@@ -1089,36 +1089,27 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 			InsertMenu( hSysMenu , 0 , MF_SEPARATOR | MF_BYPOSITION , 0 , 0 );
 
-			BYTE bUseCC = (BYTE)DBGetContactSettingByte( NULL , MODULE , szFileViewDB "UseCC" , 0 );
+			BYTE bUseCC = (BYTE)db_get_b( NULL , MODULE , szFileViewDB "UseCC" , 0 );
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseCC ? MF_CHECKED : 0 ) , ID_FV_COLOR, LPGENT("Color...") );
 
 			if( bUseCC )
 			{
 				SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 ,
-					DBGetContactSettingDword( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) )
+					db_get_dw( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) )
 				);
 			}
 
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION , ID_FV_FONT, LPGENT("Font...") );
 
 
-			bool bUseSyntaxHL = DBGetContactSettingByte( NULL , MODULE , szFileViewDB "UseSyntaxHL" , 1 )!=0;
+			bool bUseSyntaxHL = db_get_b( NULL , MODULE , szFileViewDB "UseSyntaxHL" , 1 )!=0;
 			InsertMenu( hSysMenu , 0 , MF_STRING | MF_BYPOSITION | ( bUseSyntaxHL ? MF_CHECKED : 0 ) , ID_FV_SYNTAX_HL, LPGENT("Syntax highlight") );
 
 			SetRichEditFont( hRichEdit , bUseSyntaxHL );
 
 			TranslateDialogDefault(hwndDlg);
-
-			int cx= DBGetContactSettingDword( NULL , MODULE , szFileViewDB "cx" , 0 );
-			int cy= DBGetContactSettingDword( NULL , MODULE , szFileViewDB "cy" , 0 );
-
-			if( cx > 0 && cy > 0)
-			{
-				int x = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "x" , 0 );
-				int y = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "y" , 0 );
-
-				SetWindowPos( hwndDlg , NULL , x , y , cx , cy , SWP_NOZORDER );
-			}
+			
+			Utils_RestoreWindowPosition(hwndDlg,pclDlg->hContact,MODULE,szFileViewDB);
 
 			pclDlg->sPath = GetFilePathFromUser( pclDlg->hContact );
 
@@ -1145,6 +1136,8 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				}
 			}
 
+			
+			WindowList_Add(hInternalWindowList,hwndDlg,pclDlg->hContact);
 			return TRUE;
 		}
 		case WM_RELOAD_FILE:
@@ -1170,20 +1163,8 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
       }
       case WM_DESTROY:
 		{
-			RECT rSize;
-			if( GetWindowRect( hwndDlg , &rSize ) )
-			{
-				// first we make sure the window has resonable dimentions.
-				// if it is minimized it will not have that.
-				if( rSize.left <= -32000 || rSize.top <= -32000 )
-					return 0;
-				if( rSize.right <= -32000 || rSize.bottom <= -32000 )
-					return 0;
-				DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "x" , rSize.left );
-				DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "y" , rSize.top );
-				DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "cx" , rSize.right - rSize.left );
-				DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "cy" , rSize.bottom - rSize.top );
-			}
+			Utils_SaveWindowPosition(hwndDlg,pclDlg->hContact,MODULE,szFileViewDB);
+			WindowList_Remove(hInternalWindowList,hwndDlg);
 			return 0;
 		}
 		case WM_SYSCOMMAND:
@@ -1197,7 +1178,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				LOGFONT lf = { 0 };
 				lf.lfHeight = 14L;
 
-				{	DWORD dwEffects = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "TEffects" , 0 );
+				{	DWORD dwEffects = db_get_dw( NULL , MODULE , szFileViewDB "TEffects" , 0 );
 					lf.lfWeight = (dwEffects & CFE_BOLD) ? FW_BOLD : 0;
 					lf.lfUnderline = (dwEffects & CFE_UNDERLINE) != 0;
 					lf.lfStrikeOut = (dwEffects & CFE_STRIKEOUT) != 0;
@@ -1208,7 +1189,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 				cf.lStructSize = sizeof( cf );
 				cf.hwndOwner = hwndDlg;
 				cf.lpLogFont = &lf;
-				cf.rgbColors = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "TColor" , 0 );
+				cf.rgbColors = db_get_dw( NULL , MODULE , szFileViewDB "TColor" , 0 );
 				cf.Flags = CF_EFFECTS | CF_SCREENFONTS | CF_INITTOLOGFONTSTRUCT;
 
 				if( ChooseFont( &cf ) )
@@ -1218,30 +1199,30 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 										   (lf.lfStrikeOut 	   ? CFE_STRIKEOUT : 0) |
 										   (lf.lfUnderline    ?  CFE_UNDERLINE : 0);
 
-					DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "TEffects" , dwEffects );
-					DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "THeight" , cf.iPointSize * 2 );
-					DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "TColor" , cf.rgbColors );
-					DBWriteContactSettingTString( NULL , MODULE , szFileViewDB "TFace" , lf.lfFaceName );
+					db_set_dw( NULL , MODULE , szFileViewDB "TEffects" , dwEffects );
+					db_set_dw( NULL , MODULE , szFileViewDB "THeight" , cf.iPointSize * 2 );
+					db_set_dw( NULL , MODULE , szFileViewDB "TColor" , cf.rgbColors );
+					db_set_ts( NULL , MODULE , szFileViewDB "TFace" , lf.lfFaceName );
 					SetRichEditFont( hRichEdit , bUseSyntaxHL );
 				}
 				return TRUE;
 			}
 			else if ((wParam & 0xFFF0) == ID_FV_COLOR)
 			{
-				BYTE bUseCC = ! DBGetContactSettingByte( NULL , MODULE , szFileViewDB "UseCC" , 0 );
+				BYTE bUseCC = ! db_get_b( NULL , MODULE , szFileViewDB "UseCC" , 0 );
 				if( bUseCC )
 				{
 					CHOOSECOLOR cc = {0};
 					cc.lStructSize = sizeof( cc );
 					cc.hwndOwner = hwndDlg;
-					cc.rgbResult = DBGetContactSettingDword( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) );
+					cc.rgbResult = db_get_dw( NULL , MODULE , szFileViewDB "CustomC" , RGB(255,255,255) );
 					cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;
 					static COLORREF MyCustColors[16] = { 0xFFFFFFFF };
 					cc.lpCustColors = MyCustColors;
 					if( ChooseColor( &cc ) )
 					{
 						SendMessage( hRichEdit , EM_SETBKGNDCOLOR, 0 , cc.rgbResult );
-						DBWriteContactSettingDword( NULL , MODULE , szFileViewDB "CustomC" , cc.rgbResult );
+						db_set_dw( NULL , MODULE , szFileViewDB "CustomC" , cc.rgbResult );
 					}
 					else
 					{
@@ -1254,7 +1235,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 					SendMessage( hRichEdit , EM_SETBKGNDCOLOR, TRUE , 0 );
 				}
 				CheckMenuItem( hSysMenu , ID_FV_COLOR , MF_BYCOMMAND | (bUseCC ? MF_CHECKED : 0) );
-				DBWriteContactSettingByte( NULL , MODULE , szFileViewDB "UseCC" , bUseCC );
+				db_set_b( NULL , MODULE , szFileViewDB "UseCC" , bUseCC );
 				return TRUE;
 			}
 			else if ((wParam & 0xFFF0) == ID_FV_SYNTAX_HL)
@@ -1266,7 +1247,7 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 				bUseSyntaxHL = !bUseSyntaxHL;
 				CheckMenuItem( hSysMenu , ID_FV_SYNTAX_HL , MF_BYCOMMAND | (bUseSyntaxHL ? MF_CHECKED : 0) );
-				DBWriteContactSettingByte( NULL , MODULE , szFileViewDB "UseSyntaxHL" , bUseSyntaxHL );
+				db_set_b( NULL , MODULE , szFileViewDB "UseSyntaxHL" , bUseSyntaxHL );
 
 				if( bUseSyntaxHL )
 					bLoadFile(hwndDlg , pclDlg );
@@ -1387,6 +1368,14 @@ static INT_PTR CALLBACK DlgProcFileViewer(HWND hwndDlg, UINT msg, WPARAM wParam,
 
 bool bShowFileViewer( HANDLE hContact )
 {
+	HWND hInternalWindow = WindowList_Find(hInternalWindowList,hContact);
+	if(hInternalWindow)
+	{
+		SetForegroundWindow(hInternalWindow);
+		SetFocus(hInternalWindow);
+		return true;
+	}
+
 	CLHistoryDlg * pcl = new CLHistoryDlg( hContact );
 	pcl->hWnd = CreateDialogParam( hInstance,MAKEINTRESOURCE(IDD_FILE_VIEWER),NULL,DlgProcFileViewer,(LPARAM)pcl);
 	if( pcl->hWnd )
