@@ -41,24 +41,24 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			DBFreeVariant(&dbv);
 		}
 
-		if ( !ppro->GetString( "Nick", &dbv )) {
+		if ( !ppro->GetString("Nick", &dbv )) {
 			SetDlgItemTextA(hwndDlg,IDC_NICK,dbv.pszVal);
 			DBFreeVariant(&dbv);
 		}
 
 		if ( !ppro->GetString( YAHOO_PASSWORD, &dbv )) {
 			//bit of a security hole here, since it's easy to extract a password from an edit box
-			CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbv.pszVal )+1, ( LPARAM )dbv.pszVal );
+			CallService( MS_DB_CRYPT_DECODESTRING, strlen( dbv.pszVal )+1, (LPARAM)dbv.pszVal );
 			SetDlgItemTextA( hwndDlg, IDC_PASSWORD, dbv.pszVal );
 			DBFreeVariant( &dbv );
 		}
 
-		//SetButtonCheck( hwndDlg, IDC_DISABLE_UTF8, ppro->GetByte( "DisableUTF8", 0 )); 
-		SetButtonCheck( hwndDlg, IDC_USE_YAB, ppro->GetByte( "UseYAB", 1 )); 
-		SetButtonCheck( hwndDlg, IDC_SHOW_AVATARS, ppro->GetByte( "ShowAvatars", 1 )); 
-		SetButtonCheck( hwndDlg, IDC_MAIL_AUTOLOGIN, ppro->GetByte( "MailAutoLogin", 1 )); 
-		SetButtonCheck( hwndDlg, IDC_DISABLEYAHOOMAIL, !ppro->GetByte( "DisableYahoomail", 0 ));
-		SetButtonCheck( hwndDlg, IDC_SHOW_ERRORS, ppro->GetByte( "ShowErrors", 1 )); 
+		//SetButtonCheck( hwndDlg, IDC_DISABLE_UTF8, ppro->GetByte("DisableUTF8", 0)); 
+		SetButtonCheck( hwndDlg, IDC_USE_YAB, ppro->GetByte("UseYAB", 1 )); 
+		SetButtonCheck( hwndDlg, IDC_SHOW_AVATARS, ppro->GetByte("ShowAvatars", 1 )); 
+		SetButtonCheck( hwndDlg, IDC_MAIL_AUTOLOGIN, ppro->GetByte("MailAutoLogin", 1 )); 
+		SetButtonCheck( hwndDlg, IDC_DISABLEYAHOOMAIL, !ppro->GetByte("DisableYahoomail", 0));
+		SetButtonCheck( hwndDlg, IDC_SHOW_ERRORS, ppro->GetByte("ShowErrors", 1 )); 
 
 		return TRUE;
 
@@ -67,9 +67,9 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 		switch ( LOWORD( wParam )) {
  		case IDC_NEWYAHOOACCOUNTLINK:
  			CallService( MS_UTILS_OPENURL, 1, 
-				ppro->GetByte( "YahooJapan", 0 ) ?
+				ppro->GetByte("YahooJapan", 0) ?
 					(LPARAM)"http://edit.yahoo.co.jp/config/eval_register" :
-					(LPARAM)"http://edit.yahoo.com/config/eval_register" );
+					(LPARAM)"http://edit.yahoo.com/config/eval_register");
  			return TRUE;
  
 		//case IDC_DISABLE_UTF8: 
@@ -104,17 +104,17 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			if ( ppro->GetString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 				
-			if ( dbv.pszVal != NULL )
+			if ( dbv.pszVal != NULL)
 				DBFreeVariant( &dbv );
 			
 			ppro->SetString( YAHOO_LOGINID, str );
 
 			GetDlgItemTextA( hwndDlg, IDC_PASSWORD, str, sizeof( str ));
-			CallService( MS_DB_CRYPT_ENCODESTRING, sizeof( str ),( LPARAM )str );
+			CallService( MS_DB_CRYPT_ENCODESTRING, sizeof( str ),(LPARAM)str );
 			dbv.pszVal = NULL;
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
-			if ( dbv.pszVal != NULL )
+			if ( dbv.pszVal != NULL)
 				DBFreeVariant( &dbv );
 			
 			ppro->SetString( YAHOO_PASSWORD, str );
@@ -123,10 +123,10 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			
 			if (str[0] == '\0') {
 				/* Check for empty Nick, if so delete the key in the DB */
-				DBDeleteContactSetting( NULL, ppro->m_szModuleName, "Nick" );
+				DBDeleteContactSetting( NULL, ppro->m_szModuleName, "Nick");
 			} else {
 				/* otherwise save the new Nick */
-				ppro->SetString( "Nick", str );
+				ppro->SetString("Nick", str );
 			}
 
 			//ppro->SetByte("DisableUTF8", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_DISABLE_UTF8 )); 
@@ -141,10 +141,10 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			}
 			
 			/*if ( restartRequired )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate("The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
 			else */
 			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
 
 			return TRUE;
 		  }
@@ -174,13 +174,13 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			DBFreeVariant( &dbv );
 		}
 		else SetDlgItemTextA( hwndDlg, IDC_LOGINSERVER, 
-						ppro->GetByte( "YahooJapan", 0 ) 
+						ppro->GetByte("YahooJapan", 0) 
 						?  YAHOO_DEFAULT_JAPAN_LOGIN_SERVER
 						: YAHOO_DEFAULT_LOGIN_SERVER );
 
 		SetDlgItemInt( hwndDlg, IDC_YAHOOPORT, ppro->GetWord( NULL, YAHOO_LOGINPORT, YAHOO_DEFAULT_PORT ), FALSE );
 		
-		SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ));
+		SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte("YahooJapan", 0));
 		return TRUE;
 
 	case WM_COMMAND:
@@ -224,7 +224,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			if ( ppro->GetString( YAHOO_LOGINSERVER, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 				
-			if ( dbv.pszVal != NULL )
+			if ( dbv.pszVal != NULL)
 				DBFreeVariant( &dbv );
 
 			ppro->SetString( YAHOO_LOGINSERVER, str );
@@ -238,10 +238,10 @@ static INT_PTR CALLBACK DlgProcYahooOptsConn(HWND hwndDlg, UINT msg, WPARAM wPar
 			ppro->SetByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
 
 			/*if ( restartRequired )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate("The changes you have made require you to restart Miranda NG before they take effect"), Translate("YAHOO Options"), MB_OK );
 			else */
 			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
 
 			return TRUE;
 		}
@@ -265,7 +265,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 		ppro = ( CYahooProto* )lParam;
 		SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-		if ( ppro->GetByte( "IgnoreUnknown", 0 )) {
+		if ( ppro->GetByte("IgnoreUnknown", 0)) {
 			CheckDlgButton(hwndDlg, IDC_OPT_IGN_UNKNOWN, 1);
 
 			EnableWindow( GetDlgItem(hwndDlg, IDC_IGN_ADD), 0);
@@ -322,7 +322,7 @@ static INT_PTR CALLBACK DlgProcYahooOptsIgnore(HWND hwndDlg, UINT msg, WPARAM wP
 				}
 				ppro->IgnoreBuddy(id, 0);
 				SendMessageA(GetDlgItem(hwndDlg,IDC_YIGN_LIST), LB_ADDSTRING, 0, (LPARAM)id);
-				SetDlgItemTextA( hwndDlg, IDC_YIGN_EDIT, "" );
+				SetDlgItemTextA( hwndDlg, IDC_YIGN_EDIT, "");
 			}
 			break;
 

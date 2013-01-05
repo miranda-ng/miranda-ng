@@ -79,7 +79,7 @@ int yahoo_tcp_readline(char *ptr, int maxlen, int fd)
 		} while(rc == -1 && (errno == EINTR || errno == EAGAIN)); /* this is bad - it should be done asynchronously */
 
 		if (rc == 1) {
-			if(c == '\r')			/* get rid of \r */
+			if (c == '\r')			/* get rid of \r */
 				continue;
 			*ptr = c;
 			if (c == '\n')
@@ -116,7 +116,7 @@ int url_to_host_port_path(const char *url, char *host, int *port, char *path)
 	 * http://hostname:port/path:foo
 	 */
 
-	if(strstr(url, "http://") == url) {
+	if (strstr(url, "http://") == url) {
 		urlcopy = strdup(url+7);
 	} else {
 		WARNING(("Weird url - unknown protocol: %s", url));
@@ -193,7 +193,7 @@ char *yahoo_urldecode(const char *instr)
 
 	while(instr[ipos]) {
 		while(instr[ipos] && instr[ipos]!='%')
-			if(instr[ipos]=='+') {
+			if (instr[ipos]=='+') {
 				str[bpos++]=' ';
 				ipos++;
 			} else
@@ -201,7 +201,7 @@ char *yahoo_urldecode(const char *instr)
 		if (!instr[ipos])
 			break;
 		
-		if(instr[ipos+1] && instr[ipos+2]) {
+		if (instr[ipos+1] && instr[ipos+2]) {
 			ipos++;
 			entity[0]=instr[ipos++];
 			entity[1]=instr[ipos++];
@@ -240,7 +240,7 @@ char *yahoo_xmldecode(const char *instr)
 
 	while(instr[ipos]) {
 		while(instr[ipos] && instr[ipos]!='&')
-			if(instr[ipos]=='+') {
+			if (instr[ipos]=='+') {
 				str[bpos++]=' ';
 				ipos++;
 			} else
@@ -249,7 +249,7 @@ char *yahoo_xmldecode(const char *instr)
 			break;
 		ipos++;
 
-		if(instr[ipos] == '#') {
+		if (instr[ipos] == '#') {
 			ipos++;
 			epos=0;
 			while(instr[ipos] != ';')
@@ -290,7 +290,7 @@ static void connect_complete(int fd, int error, void *data)
 {
 	struct callback_data *ccd = (struct callback_data *) data;
 	
-	if(error == 0 && fd > 0)
+	if (error == 0 && fd > 0)
 		write(fd, ccd->request, strlen(ccd->request));
 	
 	FREE(ccd->request);
@@ -386,7 +386,7 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 
 	struct url_data *ud = (struct url_data *) data;
 
-	if(error || fd < 0) {
+	if (error || fd < 0) {
 		ud->callback(id, fd, error, filename, filesize, ud->user_data);
 		FREE(ud);
 		return;
@@ -400,20 +400,20 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 		if ( !strncasecmp(buff, "Content-length:", 
 				strlen("Content-length:"))) {
 			tmp = strrchr(buff, ' ');
-			if(tmp)
+			if (tmp)
 				filesize = atol(tmp);
 		}
 
 		if ( !strncasecmp(buff, "Content-disposition:", 
 				strlen("Content-disposition:"))) {
 			tmp = strstr(buff, "name=");
-			if(tmp) {
+			if (tmp) {
 				tmp+=strlen("name=");
-				if(tmp[0] == '"') {
+				if (tmp[0] == '"') {
 					char *tmp2;
 					tmp++;
 					tmp2 = strchr(tmp, '"');
-					if(tmp2)
+					if (tmp2)
 						*tmp2 = '\0';
 				} else {
 					char *tmp2;
@@ -422,7 +422,7 @@ static void yahoo_got_url_fd(int id, int fd, int error, void *data)
 						tmp2 = strchr(tmp, '\r');
 					if (!tmp2)
 						tmp2 = strchr(tmp, '\n');
-					if(tmp2)
+					if (tmp2)
 						*tmp2 = '\0';
 				}
 

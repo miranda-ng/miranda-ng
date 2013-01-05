@@ -78,7 +78,7 @@ void __cdecl CYahooProto::server_main(void *empty)
 		for(l=m_connections; l; ) {
 			struct _conn *c = ( _conn * )l->data;
 			//LOG(("Connection tag:%d id:%d fd:%d remove:%d", c->tag, c->id, c->fd, c->remove));
-			if(c->remove) {
+			if (c->remove) {
 				YList *n = y_list_next(l);
 				//LOG(("Removing id:%d fd:%d tag:%d", c->id, c->fd, c->tag));
 				m_connections = y_list_remove_link(m_connections, l);
@@ -86,13 +86,13 @@ void __cdecl CYahooProto::server_main(void *empty)
 				FREE(c);
 				l=n;
 			} else {
-				if(c->cond & YAHOO_INPUT_READ) {
-					//LOG(( "[YAHOO_INPUT_READ] Waiting on read. Tag: %d fd: %d", c->tag, c->fd ));
+				if (c->cond & YAHOO_INPUT_READ) {
+					//LOG(("[YAHOO_INPUT_READ] Waiting on read. Tag: %d fd: %d", c->tag, c->fd ));
 					nls.hReadConns[ridx++] = (HANDLE)c->fd;
 				}
 
-				if(c->cond & YAHOO_INPUT_WRITE) {
-					//LOG(( "[YAHOO_INPUT_WRITE] Waiting on write. Tag: %d fd: %d", c->tag, c->fd ));
+				if (c->cond & YAHOO_INPUT_WRITE) {
+					//LOG(("[YAHOO_INPUT_WRITE] Waiting on write. Tag: %d fd: %d", c->tag, c->fd ));
 					nls.hWriteConns[widx++] =(HANDLE) c->fd;
 				}
 
@@ -160,12 +160,12 @@ void __cdecl CYahooProto::server_main(void *empty)
 				continue;
 
 			/* are we waiting for a Read request? */
-			if(c->cond & YAHOO_INPUT_READ) {
+			if (c->cond & YAHOO_INPUT_READ) {
 				
 				for (i = 0; i  < ridx; i++) {
 					if ((HANDLE)c->fd == nls.hReadConns[i]) {
 						if (nls.hReadStatus[i]) {
-							//LOG(( "[YAHOO_INPUT_READ] Read Ready. Tag: %d fd: %d", c->tag, c->fd ));
+							//LOG(("[YAHOO_INPUT_READ] Read Ready. Tag: %d fd: %d", c->tag, c->fd ));
 							yahoo_callback(c, YAHOO_INPUT_READ);
 						}
 					}//if c->fd=
@@ -174,12 +174,12 @@ void __cdecl CYahooProto::server_main(void *empty)
 			}
 
 			/* are we waiting for a Write request? */
-			if(c->cond & YAHOO_INPUT_WRITE) {
+			if (c->cond & YAHOO_INPUT_WRITE) {
 				
 				for (i = 0; i  < widx; i++) {
 					if ((HANDLE)c->fd == nls.hWriteConns[i]) {
 						if (nls.hWriteStatus[i]) {
-							//LOG(( "[YAHOO_INPUT_WRITE] Write ready. Tag: %d fd: %d", c->tag, c->fd ));
+							//LOG(("[YAHOO_INPUT_WRITE] Write ready. Tag: %d fd: %d", c->tag, c->fd ));
 							yahoo_callback(c, YAHOO_INPUT_WRITE);
 						}
 					} // if c->fd == nls

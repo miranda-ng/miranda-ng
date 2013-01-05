@@ -35,17 +35,17 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	const char	*c = msg;
 	int 		oidx = 0;
 	PROTORECVEVENT 	pre;
-	HANDLE 			hContact;
+	HANDLE 			hContact = NULL;
 
 
 	LOG(("YAHOO_GOT_IM id:%s %s: %s (len: %d) tm:%lu stat:%i utf8:%i buddy_icon: %i", me, who, msg, lstrlenA(msg), tm, stat, utf8, buddy_icon));
 
-	if(stat == 2) {
+	if (stat == 2) {
 		char z[1024];
 
 		snprintf(z, sizeof z, "Error sending message to %s", who);
 		LOG((z));
-		ShowError(Translate("Yahoo Error"), z);
+		ShowError( TranslateT("Yahoo Error"), _A2T(z));
 		return;
 	}
 
@@ -54,7 +54,7 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 		return;
 	}
 
-	if (GetByte( "IgnoreUnknown", 0 )) {
+	if (GetByte("IgnoreUnknown", 0)) {
 
 		/*
 		* Check our buddy list to see if we have it there. And if it's not on the list then we don't accept any IMs.
@@ -145,10 +145,10 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	if (buddy_icon < 0) return;
 
 	//?? Don't generate floods!!
-	DBWriteContactSettingByte(hContact, m_szModuleName, "AvatarType", (BYTE)buddy_icon);
+	db_set_b(hContact, m_szModuleName, "AvatarType", (BYTE)buddy_icon);
 	if (buddy_icon != 2) {
 		reset_avatar(hContact);
-	} else if (DBGetContactSettingDword(hContact, m_szModuleName,"PictCK", 0) == 0) {
+	} else if (db_get_dw(hContact, m_szModuleName,"PictCK", 0) == 0) {
 		/* request the buddy image */
 		request_avatar(who); 
 	} 
@@ -182,7 +182,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 	char *msg;
 	int  bANSI;
 
-	bANSI = 0;/*GetByte( "DisableUTF8", 0 );*/
+	bANSI = 0;/*GetByte("DisableUTF8", 0);*/
 
 	if (!m_bLoggedIn) {/* don't send message if we not connected! */
 		YForkThread( &CYahooProto::im_sendackfail, hContact );

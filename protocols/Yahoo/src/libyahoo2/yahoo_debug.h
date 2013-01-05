@@ -26,33 +26,33 @@
 #endif
 
 /*
-#define NOTICE(x) if(yahoo_get_log_level() >= YAHOO_LOG_NOTICE) { yahoo_log_message x; yahoo_log_message("\n"); }
+#define NOTICE(x) if (yahoo_get_log_level() >= YAHOO_LOG_NOTICE) { yahoo_log_message x; yahoo_log_message("\n"); }
 
-#define LOG(x) if(yahoo_get_log_level() >= YAHOO_LOG_INFO) { yahoo_log_message("%s:%d: ", __FILE__, __LINE__); \
+#define LOG(x) if (yahoo_get_log_level() >= YAHOO_LOG_INFO) { yahoo_log_message("%s:%d: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message("\n"); }
 
-#define WARNING(x) if(yahoo_get_log_level() >= YAHOO_LOG_WARNING) { yahoo_log_message("%s:%d: warning: ", __FILE__, __LINE__); \
+#define WARNING(x) if (yahoo_get_log_level() >= YAHOO_LOG_WARNING) { yahoo_log_message("%s:%d: warning: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message("\n"); }
 
-#define DEBUG_MSG(x) if(yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { yahoo_log_message("%s:%d: debug: ", __FILE__, __LINE__); \
+#define DEBUG_MSG(x) if (yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { yahoo_log_message("%s:%d: debug: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message("\n"); }
 */
-#define NOTICE(x) if(yahoo_get_log_level() >= YAHOO_LOG_NOTICE) { yahoo_log_message x; yahoo_log_message(" "); }
+#define NOTICE(x) if (yahoo_get_log_level() >= YAHOO_LOG_NOTICE) { yahoo_log_message x; yahoo_log_message(" "); }
 
-#define LOG(x) if(yahoo_get_log_level() >= YAHOO_LOG_INFO) { yahoo_log_message("%s:%d: ", __FILE__, __LINE__); \
+#define LOG(x) if (yahoo_get_log_level() >= YAHOO_LOG_INFO) { yahoo_log_message("%s:%d: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message(" "); }
 
-#define WARNING(x) if(yahoo_get_log_level() >= YAHOO_LOG_WARNING) { yahoo_log_message("%s:%d: warning: ", __FILE__, __LINE__); \
+#define WARNING(x) if (yahoo_get_log_level() >= YAHOO_LOG_WARNING) { yahoo_log_message("%s:%d: warning: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message(" ");	}
 
-#define DEBUG_MSG(x) if(yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { yahoo_log_message("%s:%d: debug: ", __FILE__, __LINE__); \
+#define DEBUG_MSG(x) if (yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { yahoo_log_message("%s:%d: debug: ", __FILE__, __LINE__); \
 	yahoo_log_message x; \
 	yahoo_log_message(" "); }
 
-#define DEBUG_MSG1(x) if(yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { \
+#define DEBUG_MSG1(x) if (yahoo_get_log_level() >= YAHOO_LOG_DEBUG) { \
 	yahoo_log_message x; }

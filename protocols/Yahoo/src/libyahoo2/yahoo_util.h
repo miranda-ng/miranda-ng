@@ -25,7 +25,7 @@
 #if HAVE_GLIB
 # include <glib.h>
 
-# define FREE(x)	if(x) {g_free(x); x=NULL;}
+# define FREE(x)	if (x) {g_free(x); x=NULL;}
 
 # define y_new		g_new
 # define y_new0		g_new0
@@ -50,7 +50,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 
-# define FREE(x)		if(x) {free(x); x=NULL;}
+# define FREE(x)		if (x) {free(x); x=NULL;}
 
 # define y_new(type, n)		(type *)malloc(sizeof(type) * (n))
 # define y_new0(type, n)	(type *)calloc((n), sizeof(type))

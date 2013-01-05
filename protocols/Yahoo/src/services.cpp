@@ -32,17 +32,17 @@ void CYahooProto::logoff_buddies()
 {
 	//set all contacts to 'offline'
 	HANDLE hContact = db_find_first();
-	while ( hContact != NULL ) 
+	while ( hContact != NULL) 
 	{
 		if (IsMyContact(hContact)) {
 			SetWord( hContact, "Status", ID_STATUS_OFFLINE );
 			SetDword(hContact, "IdleTS", 0);
 			SetDword(hContact, "PictLastCheck", 0);
 			SetDword(hContact, "PictLoading", 0);
-			DBDeleteContactSetting(hContact, "CList", "StatusMsg" );
-			DBDeleteContactSetting(hContact, m_szModuleName, "YMsg" );
-			DBDeleteContactSetting(hContact, m_szModuleName, "YGMsg" );
-			//DBDeleteContactSetting(hContact, m_szModuleName, "MirVer" );
+			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+			DBDeleteContactSetting(hContact, m_szModuleName, "YMsg");
+			DBDeleteContactSetting(hContact, m_szModuleName, "YGMsg");
+			//DBDeleteContactSetting(hContact, m_szModuleName, "MirVer");
 		}
 
 		hContact = db_find_next(hContact);
@@ -100,7 +100,7 @@ int __cdecl CYahooProto::OnContactDeleted( WPARAM wParam, LPARAM lParam )
 	}
 
 	// he is not a permanent contact!
-	if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0) != 0) {
+	if (db_get_b(hContact, "CList", "NotOnList", 0) != 0) {
 		DebugLog("[YahooContactDeleted] Not a permanent buddy!!!");
 		return 0;
 	}
@@ -130,21 +130,21 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 			CYahooProto* ppro = ( CYahooProto* )lParam;
 			SetWindowLongPtr( hwndDlg, GWLP_USERDATA, lParam );
 
-			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx( "yahoo", true ));
-			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx( "yahoo" ));
+			SendMessage( hwndDlg, WM_SETICON, ICON_BIG, (LPARAM)ppro->LoadIconEx("yahoo", true ));
+			SendMessage( hwndDlg, WM_SETICON, ICON_SMALL, (LPARAM)ppro->LoadIconEx("yahoo"));
 
 			if ( !DBGetContactSettingString( NULL, ppro->m_szModuleName, YAHOO_CUSTSTATDB, &dbv )) {
 				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, dbv. pszVal );
 
-				EnableWindow( GetDlgItem( hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0 );
+				EnableWindow( GetDlgItem( hwndDlg, IDOK ), lstrlenA(dbv.pszVal) > 0);
 				DBFreeVariant( &dbv );
 			}
 			else {
-				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, "" );
+				SetDlgItemTextA( hwndDlg, IDC_CUSTSTAT, "");
 				EnableWindow( GetDlgItem( hwndDlg, IDOK ), FALSE );
 			}
 
-			CheckDlgButton( hwndDlg, IDC_CUSTSTATBUSY,  ppro->GetByte( "BusyCustStat", 0 ));
+			CheckDlgButton( hwndDlg, IDC_CUSTSTATBUSY,  ppro->GetByte("BusyCustStat", 0));
 		}
 		return TRUE;
 
@@ -208,11 +208,11 @@ static INT_PTR CALLBACK DlgProcSetCustStat(HWND hwndDlg, UINT msg, WPARAM wParam
 INT_PTR __cdecl CYahooProto::SetCustomStatCommand( WPARAM wParam, LPARAM lParam )
 {
 	if ( !m_bLoggedIn ) {
-		ShowNotification(Translate("Yahoo Error"), Translate("You need to be connected to set the custom message"), NIIF_ERROR);
+		ShowNotification( TranslateT("Yahoo Error"), TranslateT("You need to be connected to set the custom message"), NIIF_ERROR);
 		return 0;
 	}
 	
-	HWND hwndSetCustomStatus = CreateDialogParam(hInstance, MAKEINTRESOURCE( IDD_SETCUSTSTAT ), NULL, DlgProcSetCustStat, ( LPARAM )this );
+	HWND hwndSetCustomStatus = CreateDialogParam(hInstance, MAKEINTRESOURCE( IDD_SETCUSTSTAT ), NULL, DlgProcSetCustStat, (LPARAM)this );
 	SetForegroundWindow( hwndSetCustomStatus );
 	SetFocus( hwndSetCustomStatus );
  	ShowWindow( hwndSetCustomStatus, SW_SHOW );
@@ -228,7 +228,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 
 	DebugLog("[YahooOpenURL] url: %s Auto Login: %d", url, autoLogin);
 	
-	if (autoLogin && GetByte( "MailAutoLogin", 0 ) && m_bLoggedIn && m_id > 0) {
+	if (autoLogin && GetByte("MailAutoLogin", 0) && m_bLoggedIn && m_id > 0) {
 		char  *y, *t, *u;
 		
 		y = yahoo_urlencode(yahoo_get_cookie(m_id, "y"));
@@ -247,7 +247,7 @@ void CYahooProto::OpenURL(const char *url, int autoLogin)
 
 	DebugLog("[YahooOpenURL] url: %s Final URL: %s", url, tUrl);
 	
-	CallService( MS_UTILS_OPENURL, TRUE, ( LPARAM )tUrl );    
+	CallService( MS_UTILS_OPENURL, TRUE, (LPARAM)tUrl );    
 }
 
 //=======================================================
@@ -289,7 +289,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 	DBVARIANT dbv;
 	
 	if ( GetString( YAHOO_LOGINID, &dbv ) != 0)	{
-		ShowError(Translate("Yahoo Error"), Translate("Please enter your yahoo id in Options/Network/Yahoo"));
+		ShowError( TranslateT("Yahoo Error"), TranslateT("Please enter your yahoo id in Options/Network/Yahoo"));
 		return 0;
 	}
 
@@ -306,7 +306,7 @@ INT_PTR __cdecl CYahooProto::OnShowMyProfileCommand( WPARAM wParam, LPARAM lPara
 //=======================================================
 INT_PTR __cdecl CYahooProto::OnGotoMailboxCommand( WPARAM wParam, LPARAM lParam )
 {
-	if (GetByte( "YahooJapan", 0 ))
+	if (GetByte("YahooJapan", 0))
 		OpenURL("http://mail.yahoo.co.jp/", 1);
 	else
 		OpenURL("http://mail.yahoo.com/", 1);
@@ -332,7 +332,7 @@ INT_PTR __cdecl CYahooProto::OnCalendarCommand( WPARAM wParam, LPARAM lParam )
 INT_PTR __cdecl CYahooProto::OnRefreshCommand( WPARAM wParam, LPARAM lParam )
 {
 	if ( !m_bLoggedIn ) {
-		ShowNotification(Translate("Yahoo Error"), Translate("You need to be connected to refresh your buddy list"), NIIF_ERROR);
+		ShowNotification(TranslateT("Yahoo Error"), TranslateT("You need to be connected to refresh your buddy list"), NIIF_ERROR);
 		return 0;
 	}
 
@@ -382,7 +382,7 @@ void CYahooProto::MenuMainInit( void )
 	mi.pszService = servicefunction;
 
 	HGENMENU hRoot = MO_GetProtoRootMenu( m_szModuleName );
-	if ( hRoot == NULL ) {
+	if ( hRoot == NULL) {
 		mi.position = 500015000;
 		mi.hParentMenu = HGENMENU_ROOT;
 		mi.flags = CMIF_ICONFROMICOLIB | CMIF_ROOTPOPUP | CMIF_TCHAR | CMIF_KEEPUNTRANSLATED;
@@ -392,7 +392,7 @@ void CYahooProto::MenuMainInit( void )
 	}
 	else {
 		if ( mainMenuRoot )
-			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
+			CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0);
 		mainMenuRoot = NULL;
 	}
 		
@@ -405,7 +405,7 @@ void CYahooProto::MenuMainInit( void )
 	
 	mi.position = 290000;
 	mi.icolibItem = GetIconHandle( IDI_SET_STATUS );
-	mi.pszName = LPGEN( "Set &Custom Status" );
+	mi.pszName = LPGEN("Set &Custom Status");
 	
 	menuItemsAll[0] = Menu_AddProtoMenuItem(&mi);
 
@@ -415,7 +415,7 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 290005;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
-	mi.pszName = LPGEN( "&Edit My Profile" );
+	mi.pszName = LPGEN("&Edit My Profile");
 	menuItemsAll[1] = Menu_AddProtoMenuItem(&mi);
 
 	// Show My profile
@@ -424,7 +424,7 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 290006;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
-	mi.pszName = LPGEN( "&My Profile" );
+	mi.pszName = LPGEN("&My Profile");
 	menuItemsAll[2] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Yahoo mail 
@@ -433,7 +433,7 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 290010;
 	mi.icolibItem = GetIconHandle( IDI_INBOX );
-	mi.pszName = LPGEN( "&Yahoo Mail" );
+	mi.pszName = LPGEN("&Yahoo Mail");
 	menuItemsAll[3] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Address Book    
@@ -442,7 +442,7 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 290015;
 	mi.icolibItem = GetIconHandle( IDI_YAB );
-	mi.pszName = LPGEN( "&Address Book" );
+	mi.pszName = LPGEN("&Address Book");
 	menuItemsAll[4] = Menu_AddProtoMenuItem(&mi);
 
 	// Show Calendar
@@ -451,9 +451,9 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 290017;
 	mi.icolibItem = GetIconHandle( IDI_CALENDAR );
-	mi.pszName = LPGEN( "&Calendar" );
+	mi.pszName = LPGEN("&Calendar");
 	menuItemsAll[5] = Menu_AddProtoMenuItem(&mi);
-	strcpy( tDest, "/JoinChatRoom" );
+	strcpy( tDest, "/JoinChatRoom");
 	YCreateService("/JoinChatRoom", &CYahooProto::CreateConference);
 
 	mi.position = 290018;
@@ -468,7 +468,7 @@ void CYahooProto::MenuMainInit( void )
 
 	mi.position = 500090015;
 	mi.icolibItem = GetIconHandle( IDI_REFRESH );
-	mi.pszName = LPGEN( "&Refresh" );
+	mi.pszName = LPGEN("&Refresh");
 	menuItemsAll[7] = Menu_AddProtoMenuItem(&mi);
 	*/
 }
@@ -490,7 +490,7 @@ void CYahooProto::MenuContactInit( void )
 
 	mi.position = -2000006000;
 	mi.icolibItem = GetIconHandle( IDI_PROFILE );
-	mi.pszName = LPGEN( "&Show Profile" );
+	mi.pszName = LPGEN("&Show Profile");
 	hShowProfileMenuItem = Menu_AddContactMenuItem(&mi);
 	
 }
@@ -498,9 +498,9 @@ void CYahooProto::MenuContactInit( void )
 void CYahooProto::MenuUninit( void )
 {
 	if ( mainMenuRoot )
-		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0 );
+		CallService( MS_CLIST_REMOVEMAINMENUITEM, ( WPARAM )mainMenuRoot, 0);
 	
-	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )hShowProfileMenuItem, 0 );
+	CallService( MS_CLIST_REMOVECONTACTMENUITEM, ( WPARAM )hShowProfileMenuItem, 0);
 }
 
 int __cdecl CYahooProto::OnPrebuildContactMenu(WPARAM wParam, LPARAM)
@@ -551,26 +551,26 @@ void CYahooProto::LoadYahooServices( void )
 	//----| Set resident variables |------------------------------------------------------
 	
 	mir_snprintf( path, sizeof( path ), "%s/Status", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 
 	mir_snprintf( path, sizeof( path ), "%s/YStatus", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 
 	mir_snprintf( path, sizeof( path ), "%s/YAway", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 
 	mir_snprintf( path, sizeof( path ), "%s/Mobile", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 	
 	mir_snprintf( path, sizeof( path ), "%s/YGMsg", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 	
 	mir_snprintf( path, sizeof( path ), "%s/IdleTS", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 	
 	mir_snprintf( path, sizeof( path ), "%s/PictLastCheck", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 
 	mir_snprintf( path, sizeof( path ), "%s/PictLoading", m_szModuleName );
-	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, ( LPARAM )path );
+	CallService( MS_DB_SETSETTINGRESIDENT, TRUE, (LPARAM)path );
 }

@@ -34,7 +34,7 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 		break;
 
 	case WM_NOTIFY:
-		if (( ( LPNMHDR )lParam )->idFrom == 0 ) {
+		if (( ( LPNMHDR )lParam )->idFrom == 0) {
 			switch (( ( LPNMHDR )lParam )->code ) {
 			case PSN_PARAMCHANGED:
 				SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (( PSHNOTIFY* )lParam )->lParam );
@@ -113,13 +113,13 @@ static INT_PTR CALLBACK YahooUserInfoDlgProc( HWND hwndDlg, UINT msg, WPARAM wPa
 
 int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 {
-	//if ( !JCallService( MS_PROTO_ISPROTOCOLLOADED, 0, ( LPARAM )m_szModuleName ))
+	//if ( !JCallService( MS_PROTO_ISPROTOCOLLOADED, 0, (LPARAM)m_szModuleName ))
 	//	return 0;
 
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof( odp );
 	odp.hInstance = hInstance;
-	odp.dwInitParam = ( LPARAM )this;
+	odp.dwInitParam = (LPARAM)this;
 
 	HANDLE hContact = ( HANDLE )lParam;
 	if ( IsMyContact(hContact)) {

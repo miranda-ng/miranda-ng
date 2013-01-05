@@ -44,7 +44,7 @@ char * y_string_append(char * string, char * append)
 	int size = strlen(string) + strlen(append) + 1;
 	char * new_string = y_renew(char, string, size);
 
-	if(new_string == NULL) {
+	if (new_string == NULL) {
 		new_string = y_new(char, size);
 		strcpy(new_string, string);
 		FREE(string);
@@ -60,7 +60,7 @@ char * y_string_append(char * string, char * append)
 	unsigned int n, i = 0;
 	char *result = NULL;
 
-	if(in == NULL || *in == '\0')
+	if (in == NULL || *in == '\0')
 		return "";
 	
 	result = y_new(char, strlen(in) * 2 + 1);
@@ -86,7 +86,7 @@ char * y_utf8_to_str(const char *in)
 	unsigned int n;
 	char *result = NULL;
 
-	if(in == NULL || *in == '\0')
+	if (in == NULL || *in == '\0')
 		return "";
 	
 	result = y_new(char, strlen(in) + 1);
@@ -122,13 +122,13 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 	char *s, *p;
 	int i=0;
 	int l = strlen(sep);
-	if(nelem <= 0) {
+	if (nelem <= 0) {
 		char * s;
 		nelem=0;
 		if (*str) {
 			for(s=strstr(str, sep); s; s=strstr(s+l, sep),nelem++)
 				;
-			if(strcmp(str+strlen(str)-l, sep))
+			if (strcmp(str+strlen(str)-l, sep))
 				nelem++;
 		}
 	}
@@ -142,7 +142,7 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 		vector[i][len] = '\0';
 	}
 
-	if(i<nelem && *str) /* str didn't end with sep, and str isn't empty */
+	if (i<nelem && *str) /* str didn't end with sep, and str isn't empty */
 		vector[i++] = strdup(p);
 			
 	vector[i] = NULL;
@@ -153,7 +153,7 @@ char ** y_strsplit(char * str, char * sep, int nelem)
 void * y_memdup(const void * addr, int n)
 {
 	void * new_chunk = malloc(n);
-	if(new_chunk)
+	if (new_chunk)
 		memcpy(new_chunk, addr, n);
 	return new_chunk;
 }

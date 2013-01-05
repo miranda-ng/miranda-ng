@@ -29,7 +29,7 @@
 
 CYahooProto::CYahooProto( const char* aProtoName, const TCHAR* aUserName ) :
 	m_bLoggedIn( FALSE ), 
-	poll_loop( 0 ),
+	poll_loop( 0),
 	m_chatrooms(3, ChatRoom::compare) 
 {
 	m_iVersion = 2;
@@ -80,7 +80,7 @@ int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	YHookEvent( ME_CLIST_PREBUILDCONTACTMENU, 	&CYahooProto::OnPrebuildContactMenu );
 
 	TCHAR tModuleDescr[ 100 ];
-	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT( "%s plugin connections" ), m_tszUserName);
+	mir_sntprintf(tModuleDescr, SIZEOF(tModuleDescr), TranslateT("%s plugin connections"), m_tszUserName);
 
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
@@ -102,7 +102,7 @@ int CYahooProto::OnModulesLoadedEx( WPARAM, LPARAM )
 	nlu.pfnHttpGatewayUnwrapRecv = YAHOO_httpGatewayUnwrapRecv;
 #endif
 
-	m_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, ( LPARAM )&nlu );
+	m_hNetlibUser = ( HANDLE )CallService( MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu );
 	MenuContactInit();
 
 	return 0;
@@ -128,7 +128,7 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 	char *id = psr->flags & PSR_UNICODE ? mir_utf8encodeW((wchar_t*)psr->id) : mir_utf8encode((char*)psr->id);
 	HANDLE hContact = getbuddyH(id);
 	if (hContact != NULL) {
-		if (DBGetContactSettingByte(hContact, "CList", "NotOnList", 0)) {
+		if (db_get_b(hContact, "CList", "NotOnList", 0)) {
 			DebugLog("[YahooAddToList] Temporary Buddy:%s already on our buddy list", id);
 			//return 0;
 		} else {
@@ -154,14 +154,14 @@ HANDLE __cdecl CYahooProto::AddToListByEvent( int flags, int /*iContact*/, HANDL
 		return 0;
 
 	DBEVENTINFO dbei = { sizeof( dbei ) };
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( LPARAM )hDbEvent, 0 )) == -1 ) {
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, (LPARAM)hDbEvent, 0)) == -1 ) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get blob size.");
 		return 0;
 	}
 
 	DebugLog("[YahooAddToListByEvent] Got blob size: %lu", dbei.cbBlob);
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, ( LPARAM )&dbei )) {
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hDbEvent, (LPARAM)&dbei )) {
 		DebugLog("[YahooAddToListByEvent] ERROR: Can't get event.");
 		return 0;
 	}
@@ -197,11 +197,11 @@ int CYahooProto::Authorize( HANDLE hdbe )
 	}
 
 	DBEVENTINFO dbei = { sizeof(dbei) };
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 )
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0)) == -1 )
 		return 1;
 
 	dbei.pBlob = ( PBYTE )_alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei ))
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, (LPARAM)&dbei ))
 		return 1;
 
 	if (dbei.eventType != EVENTTYPE_AUTHREQUEST)
@@ -241,13 +241,13 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	memset( &dbei, 0, sizeof( dbei ));
 	dbei.cbSize = sizeof( dbei );
 
-	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0 )) == -1 ) {
+	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0)) == -1 ) {
 		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
 	}
 
 	dbei.pBlob = ( PBYTE )alloca( dbei.cbBlob );
-	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, ( LPARAM )&dbei )) {
+	if ( CallService( MS_DB_EVENT_GET, ( WPARAM )hdbe, (LPARAM)&dbei )) {
 		DebugLog("YahooAuthDeny - Can't get db event!");
 		return 1;
 	}
@@ -517,7 +517,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 		if (err != 0) {
 			BroadcastStatus(ID_STATUS_OFFLINE);
 
-			ShowError(Translate("Yahoo Login Error"), errmsg);
+			ShowError( TranslateT("Yahoo Login Error"), _A2T(errmsg));
 			return 0;
 		}
 
@@ -534,7 +534,7 @@ int __cdecl CYahooProto::SetStatus( int iNewStatus )
 			DBFreeVariant(&dbv);
 		}
 
-		//DBWriteContactSettingWord(NULL, m_szModuleName, "StartupStatus", status);
+		//db_get_w(NULL, m_szModuleName, "StartupStatus", status);
 		m_startStatus = iNewStatus;
 
 		//reset the unread email count. We'll get a new packet since we are connecting.
@@ -621,7 +621,7 @@ void __cdecl CYahooProto::get_status_thread(HANDLE hContact)
 
 	FREE(sm);
 
-	SendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, ( LPARAM )( TCHAR* )_A2T(fm));
+	SendBroadcast( hContact, ACKTYPE_AWAYMSG, ACKRESULT_SUCCESS, ( HANDLE )1, (LPARAM)( TCHAR* )_A2T(fm));
 }
 
 HANDLE __cdecl CYahooProto::GetAwayMsg( HANDLE hContact )
@@ -687,9 +687,9 @@ int __cdecl CYahooProto::SetAwayMsg( int status, const PROTOCHAR* msg )
 	/* now decide what we tell the server */
 	if (c != 0) {
 		m_startMsg = strdup(c);
-		if(status == ID_STATUS_ONLINE) {
+		if (status == ID_STATUS_ONLINE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 0);
-		} else if(status != ID_STATUS_INVISIBLE) {
+		} else if (status != ID_STATUS_INVISIBLE) {
 			set_status(YAHOO_CUSTOM_STATUS, c, 1);
 		}
     } else {
@@ -744,8 +744,8 @@ int __cdecl CYahooProto::UserIsTyping( HANDLE hContact, int type )
 int __cdecl CYahooProto::OnEvent( PROTOEVENTTYPE eventType, WPARAM wParam, LPARAM lParam )
 {
 	switch( eventType ) {
-		case EV_PROTO_ONLOAD:    return OnModulesLoadedEx( 0, 0 );
-		//case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0 );
+		case EV_PROTO_ONLOAD:    return OnModulesLoadedEx( 0, 0);
+		//case EV_PROTO_ONEXIT:    return OnPreShutdown( 0, 0);
 		case EV_PROTO_ONOPTIONS: return OnOptionsInit( wParam, lParam );
 
 		case EV_PROTO_ONMENU:
@@ -795,7 +795,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBFreeVariant(&dbv);
 			}
 
-			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte( "YahooJapan", 0 ));
+			SetButtonCheck( hwndDlg, IDC_YAHOO_JAPAN, ppro->GetByte("YahooJapan", 0));
 			return TRUE;
 		}
 
@@ -804,8 +804,8 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			CallService( MS_UTILS_OPENURL,
 							1,
 							(( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ) == 1) ?
-							( LPARAM ) "http://edit.yahoo.co.jp/config/eval_register" :
-							( LPARAM ) "http://edit.yahoo.com/config/eval_register"
+							(LPARAM) "http://edit.yahoo.co.jp/config/eval_register" :
+							(LPARAM) "http://edit.yahoo.com/config/eval_register"
 						);
 			return TRUE;
 		}
@@ -836,7 +836,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			if ( ppro->GetString( YAHOO_LOGINID, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
 
-			if ( dbv.pszVal != NULL )
+			if ( dbv.pszVal != NULL)
 				DBFreeVariant( &dbv );
 
 			ppro->SetString(YAHOO_LOGINID, str);
@@ -845,7 +845,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			dbv.pszVal = NULL;
 			if ( ppro->GetString( YAHOO_PASSWORD, &dbv ) || lstrcmpA( str, dbv.pszVal ))
 				reconnectRequired = TRUE;
-			if ( dbv.pszVal != NULL )
+			if ( dbv.pszVal != NULL)
 				DBFreeVariant( &dbv );
 
 			if (reconnectRequired ) {
@@ -857,7 +857,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 			ppro->SetByte("YahooJapan", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_YAHOO_JAPAN ));
 
 			if ( reconnectRequired && ppro->m_bLoggedIn )
-				MessageBoxA( hwndDlg, Translate( "The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
+				MessageBoxA( hwndDlg, Translate("The changes you have made require you to reconnect to the Yahoo network before they take effect"), Translate("YAHOO Options"), MB_OK );
 
 			return TRUE;
 		}

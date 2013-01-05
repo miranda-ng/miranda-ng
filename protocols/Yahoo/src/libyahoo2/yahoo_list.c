@@ -226,7 +226,7 @@ YList *y_list_insert_sorted(YList * list, void *data, YListCompFunc comp)
 
 	n->next = l;
 
-	if(n->prev) {
+	if (n->prev) {
 		n->prev->next = n;
 		return list;
 	} else {

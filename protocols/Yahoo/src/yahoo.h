@@ -78,7 +78,7 @@ extern "C"
 
 extern int do_yahoo_debug;
 
-#define LOG(x) if(do_yahoo_debug) { YAHOO_DEBUGLOG("%s:%d: ", __FILE__, __LINE__); \
+#define LOG(x) if (do_yahoo_debug) { YAHOO_DEBUGLOG("%s:%d: ", __FILE__, __LINE__); \
 	YAHOO_DEBUGLOG x; \
 	YAHOO_DEBUGLOG(" ");}
 
@@ -95,7 +95,7 @@ extern int do_yahoo_debug;
 
 #define STYLE_DEFAULTBGCOLOUR     RGB(173,206,247)
 
-#define LocalEventUnhook(hook)	if(hook) UnhookEvent(hook)
+#define LocalEventUnhook(hook)	if (hook) UnhookEvent(hook)
 
 struct _conn {
 	unsigned int tag;

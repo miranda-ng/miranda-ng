@@ -1995,7 +1995,7 @@ static void yahoo_process_logon(struct yahoo_input_data *yid, struct yahoo_packe
 		case 60: /* SMS -> 1 MOBILE USER */
 			/* sometimes going offline makes this 2, but invisible never sends it */
 			//NOTICE(("key %d:%s", pair->key, pair->value));
-			if (atoi(pair->value) > 0 )
+			if (atoi(pair->value) > 0)
 				mobile = 1;
 			break;
 			
@@ -2132,7 +2132,7 @@ static void yahoo_process_status(struct yahoo_input_data *yid, struct yahoo_pack
 		case 60: /* SMS -> 1 MOBILE USER */
 			/* sometimes going offline makes this 2, but invisible never sends it */
 			NOTICE(("key %d:%s", pair->key, pair->value));
-			if (atoi(pair->value) > 0 )
+			if (atoi(pair->value) > 0)
 				mobile = 1;
 			break;
 		case 16: /* Custom error message */
@@ -2421,7 +2421,7 @@ GET /config/pwtoken_login?src=ymsgr&ts=1195577376&token=token HTTP/1.1
 		 **/
 	yss = yd->server_settings;
 	
-	if (yd->pw_token == NULL ) {
+	if (yd->pw_token == NULL) {
 
 		c = yahoo_urlencode(yd->password);
 		

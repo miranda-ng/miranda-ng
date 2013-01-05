@@ -57,7 +57,7 @@ struct CYahooProto : public PROTO_INTERFACE, public MZeroedObject
 	virtual	int    __cdecl FileDeny( HANDLE hContact, HANDLE hTransfer, const PROTOCHAR* szReason );
 	virtual	int    __cdecl FileResume( HANDLE hTransfer, int* action, const PROTOCHAR** szFilename );
 
-	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL );
+	virtual	DWORD_PTR __cdecl GetCaps( int type, HANDLE hContact = NULL);
 	virtual	HICON  __cdecl GetIcon( int iconIndex );
 	virtual	int    __cdecl GetInfo( HANDLE hContact, int infoType );
 
@@ -268,9 +268,9 @@ struct CYahooProto : public PROTO_INTERFACE, public MZeroedObject
 
 	int    SendBroadcast( HANDLE hContact, int type, int result, HANDLE hProcess, LPARAM lParam );
 
-	int    ShowNotification(const char *title, const char *info, DWORD flags);
-	void   ShowError(const char *title, const char *buff);
-	int    ShowPopup( const char* nickname, const char* msg, const char *szURL );
+	int    ShowNotification(const TCHAR *title, const TCHAR *info, DWORD flags);
+	void   ShowError(const TCHAR *title, const TCHAR *buff);
+	int    ShowPopup( const TCHAR* nickname, const TCHAR* msg, const char *szURL );
 	bool   IsMyContact(HANDLE hContact);
 
 	#ifdef __GNUC__

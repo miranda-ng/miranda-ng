@@ -145,7 +145,7 @@ static INT_PTR CALLBACK YahooSearchAdvancedDlgProc(HWND hwndDlg, UINT msg, WPARA
 HWND __cdecl CYahooProto::CreateExtendedSearchUI( HWND parent )
 {
 	if ( parent && hInstance )
-		return CreateDialogParam( hInstance, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, YahooSearchAdvancedDlgProc, ( LPARAM )this );
+		return CreateDialogParam( hInstance, MAKEINTRESOURCE(IDD_SEARCHUSER), parent, YahooSearchAdvancedDlgProc, (LPARAM)this );
 
 	return 0;
 }
