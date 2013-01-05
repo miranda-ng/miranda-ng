@@ -660,7 +660,7 @@ INT_PTR CALLBACK AccMgrDlgProc(HWND hwndDlg, UINT message, WPARAM wParam, LPARAM
 			for (i=0; i < accounts.getCount(); i++) {
 				PROTOACCOUNT *p = accounts[i];
 				PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(p->szProtoName);
-				if (pd == NULL || pd->type != PROTOTYPE_PROTOCOL)
+				if (pd != NULL && pd->type != PROTOTYPE_PROTOCOL)
 					continue;
 
 				int iItem = SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)p->tszAccountName);
