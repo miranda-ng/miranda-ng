@@ -83,8 +83,9 @@ static renameTable[] =
 	{ _T("newnr.dll"),                      _T("Plugins\\notesreminders.dll") },
 	{ _T("dbtool.exe"),                     _T("Plugins\\dbchecker.dll") },
 	{ _T("dbtool_sa.exe"),                  _T("Plugins\\dbchecker.dll") },
-	{ _T("bclist.dll"),                     _T("Plugins\\Clist_blind.dll") },
+	{ _T("bclist.dll"),                     _T("Plugins\\clist_blind.dll") },
 
+	{ _T("proto_newsaggr.dll"),             _T("Icons\\proto_newsaggregator.dll") },
 	{ _T("clienticons_general.dll"),        _T("Icons\\fp_icons.dll") },
 	{ _T("clienticons_miranda.dll"),        _T("Icons\\fp_icons.dll") },
 	{ _T("fp_icq.dll"),                     _T("Icons\\fp_icons.dll") },
