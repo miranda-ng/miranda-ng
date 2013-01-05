@@ -1094,9 +1094,11 @@ DWORD CMraProto::ProtoBroadcastAckAsync(HANDLE hContact, int type, int hResult, 
 	ack->cbSize = sizeof(ACKDATA);
 	ack->szModule = m_szModuleName; ack->hContact = hContact;
 	ack->type = type; ack->result = hResult;
-	ack->hProcess = hProcess; ack->lParam = lParam;
-	if (paramSize)
-		memcpy(ack+1, (void*)lParam, paramSize);
+	ack->hProcess = hProcess;
+	if (paramSize) {
+		ack->lParam = (LPARAM)(ack+1);
+		memcpy((void*)ack->lParam, (void*)lParam, paramSize);
+	}
 	mir_forkthread(FakeThread, ack);
 	return 0;
 }
