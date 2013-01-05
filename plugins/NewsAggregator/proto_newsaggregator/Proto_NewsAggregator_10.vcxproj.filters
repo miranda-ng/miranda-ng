@@ -16,7 +16,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="res\Proto_NewsAggr.rc">
+    <ResourceCompile Include="res\Proto_NewsAggregator.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
