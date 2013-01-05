@@ -15,7 +15,7 @@ int LoadServices(void)
 		CopyMemory(pszServiceFunctionName,siPluginServices[i].lpszName,(lstrlenA(siPluginServices[i].lpszName)+1));
 		CreateServiceFunction(szServiceFunction,(MIRANDASERVICE)siPluginServices[i].lpFunc);
 	}
-return(0);
+	return 0;
 }
 
 
@@ -56,7 +56,7 @@ int LoadModules(void)
 
 	RestoreUnreadMessageAlerts();
 
-return(0);
+	return 0;
 }
 
 
@@ -101,7 +101,7 @@ void UnloadServices()
 int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam)
 {
 	CListShowMenuItem(ssSMSSettings.hContactMenuItems[0],(BOOL)GetContactPhonesCount((HANDLE)wParam));
-return(0);
+	return 0;
 }
 
 
@@ -133,7 +133,7 @@ int SendSMSMenuCommand(WPARAM wParam,LPARAM lParam)
 			}
 		}
 	}
-return(0);
+	return 0;
 }
 
 

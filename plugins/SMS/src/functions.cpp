@@ -131,31 +131,19 @@ return((lpwszOutBuff-lpcOutBuff));
 }
 
 
-BOOL IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen)
+bool IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen)
 {
-	BOOL bRet;
+	if (dwStringLen <= 1)
+		return false;
 
-	if (dwStringLen>1)
-	{// country code
-		WCHAR wChar;
-
-		bRet=TRUE;
-		for(SIZE_T i=0;i<dwStringLen;i++)
-		{
-			wChar=(*lpwszString++);
-			if (wChar<'0' || wChar>'9')
+	for(SIZE_T i=0; i < dwStringLen; i++) {
+		WCHAR wChar=(*lpwszString++);
+		if (wChar<'0' || wChar>'9')
 			if (wChar!='+' && wChar!='S' && wChar!='M' && wChar!=' ' && wChar!='(' && wChar!=')')
-			{
-				bRet=FALSE;
-				break;
-			}
-		}
-	}else{
-		bRet=FALSE;
+				return false;
 	}
-return(bRet);
+	return true;
 }
-
 
 
 DWORD GetContactPhonesCountParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName)
@@ -165,82 +153,61 @@ DWORD GetContactPhonesCountParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValu
 	WCHAR wszPhone[MAX_PHONE_LEN];
 	SIZE_T i,dwPhoneSize;
 
-	if (DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
-	{
-		if (IsPhoneW(wszPhone,dwPhoneSize)) dwRet++;
-	}
+	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
+		if ( IsPhoneW(wszPhone,dwPhoneSize))
+			dwRet++;
 
-	for (i=0;TRUE;i++)
-	{
+	for (i=0; i <= PHONES_MIN_COUNT; i++) {
 		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
-		if (DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
-		{
-			if (IsPhoneW(wszPhone,dwPhoneSize)) dwRet++;
-		}else{
-			if (i>PHONES_MIN_COUNT) break;
-		}
+		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhone,SIZEOF(wszPhone),&dwPhoneSize))
+			if ( IsPhoneW(wszPhone,dwPhoneSize))
+				dwRet++;
 	}
-return(dwRet);
+	return dwRet;
 }
 
 
 DWORD GetContactPhonesCount(HANDLE hContact)
 {
-	DWORD dwRet=0;
-	LPSTR lpszProto;
-
-	lpszProto=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-	if (lpszProto)
-	{
-		dwRet+=GetContactPhonesCountParam(hContact,lpszProto,"Phone");
-		dwRet+=GetContactPhonesCountParam(hContact,lpszProto,"Cellular");
-		dwRet+=GetContactPhonesCountParam(hContact,lpszProto,"Fax");
+	DWORD dwRet = 0;
+	LPSTR lpszProto = GetContactProto(hContact);
+	if (lpszProto) {
+		dwRet += GetContactPhonesCountParam(hContact,lpszProto,"Phone");
+		dwRet += GetContactPhonesCountParam(hContact,lpszProto,"Cellular");
+		dwRet += GetContactPhonesCountParam(hContact,lpszProto,"Fax");
 	}
-	dwRet+=GetContactPhonesCountParam(hContact,"UserInfo","MyPhone");
-	dwRet+=GetContactPhonesCountParam(hContact,"UserInfo","Phone");
-	dwRet+=GetContactPhonesCountParam(hContact,"UserInfo","Cellular");
-	dwRet+=GetContactPhonesCountParam(hContact,"UserInfo","Fax");
-
-return(dwRet);
+	dwRet += GetContactPhonesCountParam(hContact,"UserInfo","MyPhone");
+	dwRet += GetContactPhonesCountParam(hContact,"UserInfo","Phone");
+	dwRet += GetContactPhonesCountParam(hContact,"UserInfo","Cellular");
+	dwRet += GetContactPhonesCountParam(hContact,"UserInfo","Fax");
+	return dwRet;
 }
 
 
 BOOL IsContactPhoneParam(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
-	BOOL bRet=FALSE;
 	char szBuff[MAX_PATH];
 	WCHAR wszPhoneLocal[MAX_PHONE_LEN];
 	SIZE_T i,dwPhoneSizeLocal;
 
-	if (DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
-	if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal))
-	{
-		dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
+	if ( DB_GetStaticStringW(hContact,lpszModule,lpszValueName,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
+	if ( IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
+		dwPhoneSizeLocal = CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
 		if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize)==CSTR_EQUAL)
-		{
-			bRet=TRUE;
-		}
+			return TRUE;
 	}
 
-	for (i=0;bRet==FALSE;i++)
-	{
+	for (i=0; i <= PHONES_MIN_COUNT; i++) {
 		mir_snprintf(szBuff,sizeof(szBuff),"%s%ld",lpszValueName,i);
-		if (DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal))
-		{
-			if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal))
-			{
+		if ( DB_GetStaticStringW(hContact,lpszModule,szBuff,wszPhoneLocal,SIZEOF(wszPhoneLocal),&dwPhoneSizeLocal)) {
+			if (IsPhoneW(wszPhoneLocal,dwPhoneSizeLocal)) {
 				dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,wszPhoneLocal,dwPhoneSizeLocal);
-				if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize)==CSTR_EQUAL)
-				{
-					bRet=TRUE;
-					break;
-				}
+				if (MemoryCompare(wszPhoneLocal,dwPhoneSizeLocal,lpwszPhone,dwPhoneSize) == CSTR_EQUAL)
+					return TRUE;
 			}
-		}else{
-			if (i>PHONES_MIN_COUNT) break;
 		}
 	}
-return(bRet);
+	return FALSE;
 }
 
 
@@ -253,8 +220,7 @@ BOOL IsContactPhone(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 
 	dwPhoneSizeLocal=CopyNumberW(wszPhoneLocal,lpwszPhone,dwPhoneSize);
 	lpszProto=(LPSTR)CallService(MS_PROTO_GETCONTACTBASEPROTO,(WPARAM)hContact,0);
-	if (lpszProto)
-	{
+	if (lpszProto) {
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Phone",wszPhoneLocal,dwPhoneSizeLocal);
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Cellular",wszPhoneLocal,dwPhoneSizeLocal);
 		if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,lpszProto,"Fax",wszPhoneLocal,dwPhoneSizeLocal);
@@ -264,7 +230,7 @@ BOOL IsContactPhone(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 	if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,"UserInfo","Cellular",wszPhoneLocal,dwPhoneSizeLocal);
 	if (bRet==FALSE) bRet=IsContactPhoneParam(hContact,"UserInfo","Fax",wszPhoneLocal,dwPhoneSizeLocal);
 
-return(bRet);
+	return bRet;
 }
 
 
@@ -273,17 +239,14 @@ return(bRet);
 //If no one has this number function returns NULL.
 HANDLE HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize)
 {
-	HANDLE hContact=NULL;
-
-	if (lpwszPhone && dwPhoneSize)
-	{
+	if (lpwszPhone && dwPhoneSize) {
 		//check not already on list
-		for(hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDFIRST,0,0);hContact!=NULL;hContact=(HANDLE)CallService(MS_DB_CONTACT_FINDNEXT,(WPARAM)hContact,0))
-		{
-			if (IsContactPhone(hContact,lpwszPhone,dwPhoneSize)) break;
-		}
+		for (HANDLE hContact = db_find_first(); hContact != NULL; hContact = db_find_next(hContact))
+			if (IsContactPhone(hContact,lpwszPhone,dwPhoneSize))
+				return hContact;
 	}
-return(hContact);
+
+	return NULL;
 }
 
 
@@ -295,104 +258,85 @@ BOOL GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventTy
 	SIZE_T dwPhoneSizeRet=0;
 	UINT iIconRet=0;
 
-	if (lpszMessage && dwMessageSize)
-	{
-		LPSTR lpsz;
-
-		if (MemoryCompare(lpszMessage,10,"SMS From: ",10)==CSTR_EQUAL)
-		{
-			lpsz=(LPSTR)MemoryFind(10,lpszMessage,dwMessageSize,"\r\n",2);
-			if (lpsz)
-			{
-				if (lpwszPhone && dwPhoneSize)
-				{
-					dwPhoneSizeRet=MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),min((SIZE_T)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,dwPhoneSize);
-					dwPhoneSizeRet=CopyNumberW(lpwszPhone,lpwszPhone,dwPhoneSizeRet);
+	if (lpszMessage && dwMessageSize) {
+		if ( MemoryCompare(lpszMessage,10,"SMS From: ",10) == CSTR_EQUAL) {
+			LPSTR lpsz = (LPSTR)strstr(lpszMessage+10, "\r\n");
+			if (lpsz) {
+				if (lpwszPhone && dwPhoneSize) {
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+10),min((SIZE_T)(lpsz-(lpszMessage+10)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 			}
-			iIconRet=0;
-			dwEventTypeRet=ICQEVENTTYPE_SMS;
-			bRet=TRUE;
-		}else
-		if (MemoryCompare(lpszMessage,23,"SMS Confirmation From: ",23)==CSTR_EQUAL)
-		{
-			lpsz=(LPSTR)MemoryFind(23,lpszMessage,dwMessageSize,"\r\n",2);
-			if (lpsz)
-			{
-				if (lpwszPhone && dwPhoneSize)
-				{
-					dwPhoneSizeRet=MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),min((SIZE_T)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,dwPhoneSize);
-					dwPhoneSizeRet=CopyNumberW(lpwszPhone,lpwszPhone,dwPhoneSizeRet);
+			iIconRet = 0;
+			dwEventTypeRet = ICQEVENTTYPE_SMS;
+			bRet = TRUE;
+		}
+		else if (MemoryCompare(lpszMessage,23,"SMS Confirmation From: ",23) == CSTR_EQUAL) {
+			LPSTR lpsz = (LPSTR)strstr(lpszMessage+23, "\r\n");
+			if (lpsz) {
+				if (lpwszPhone && dwPhoneSize) {
+					dwPhoneSizeRet = MultiByteToWideChar(CP_UTF8,0,(lpszMessage+23),min((SIZE_T)(lpsz-(lpszMessage+23)),dwPhoneSize),lpwszPhone,dwPhoneSize);
+					dwPhoneSizeRet = CopyNumberW(lpwszPhone, lpwszPhone, dwPhoneSizeRet);
 				}
 
-				lpsz+=2;
+				lpsz += 2;
 				if (MemoryCompare(lpsz,24,"SMS was sent succesfully",24)==CSTR_EQUAL)
-				{
-					iIconRet=IDI_SMSSENT;
-				}else{
-					iIconRet=IDI_SMSNOTSENT;
-				}
+					iIconRet = IDI_SMSSENT;
+				else
+					iIconRet = IDI_SMSNOTSENT;
 			}
-			dwEventTypeRet=ICQEVENTTYPE_SMSCONFIRMATION;
-			bRet=TRUE;
+			dwEventTypeRet = ICQEVENTTYPE_SMSCONFIRMATION;
+			bRet = TRUE;
 		}
 	}
 
-	if (pdwPhoneSizeRet)	(*pdwPhoneSizeRet)=dwPhoneSizeRet;
-	if (pdwEventType)		(*pdwEventType)=dwEventTypeRet;
-	if (piIcon)				(*piIcon)=iIconRet;
+	if (pdwPhoneSizeRet)	*pdwPhoneSizeRet = dwPhoneSizeRet;
+	if (pdwEventType)		*pdwEventType = dwEventTypeRet;
+	if (piIcon)				*piIcon = iIconRet;
 
-return(bRet);
+	return bRet;
 }
 
 BOOL GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDataSize,const char *tag1,...)
 {
-	BOOL bRet=FALSE;
-	int thisLevel=0;
-	LPSTR lpszFindTag=(LPSTR)tag1,lpszTagStart,lpszTagEnd=lpszXML,lpszDataStart=NULL;
-	va_list va;
+	BOOL bRet = FALSE;
+	int thisLevel = 0;
+	LPSTR lpszFindTag = (LPSTR)tag1, lpszTagEnd = lpszXML, lpszDataStart = NULL;
 
+	va_list va;
 	va_start(va,tag1);
-	while(TRUE)
-	{
-		lpszTagStart=(LPSTR)MemoryFindByte((lpszTagEnd-lpszXML),lpszXML,dwXMLSize,'<');
-		if (lpszTagStart)
-		{
-			lpszTagEnd=(LPSTR)MemoryFindByte((lpszTagStart-lpszXML),lpszXML,dwXMLSize,'>');
-			if (lpszTagEnd)
-			{
-				lpszTagStart++;
-				lpszTagEnd--;
-				if ((*((BYTE*)lpszTagStart))=='/')
-				{
-					if (--thisLevel<0)
-					{
-						if (lpszDataStart)
-						{
-							if (plpszData) (*plpszData)=lpszDataStart;
-							if (pdwDataSize) (*pdwDataSize)=((lpszTagStart-1)-lpszDataStart);
-							bRet=TRUE;
-						}
-						break;
-					}
-				}else{
-					if (++thisLevel==1)
-					if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL)
-					{
-						lpszFindTag=va_arg(va,LPSTR);
-						if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
-						thisLevel=0;
-					}
+	while (TRUE) {
+		LPSTR lpszTagStart = (LPSTR)MemoryFindByte(lpszTagEnd-lpszXML, lpszXML, dwXMLSize, '<');
+		if (!lpszTagStart)
+			break;
+
+		lpszTagEnd = (LPSTR)MemoryFindByte(lpszTagStart-lpszXML, lpszXML, dwXMLSize, '>');
+		if (!lpszTagEnd)
+			break;
+
+		lpszTagStart++;
+		lpszTagEnd--;
+		if ((*((BYTE*)lpszTagStart)) == '/') {
+			if (--thisLevel < 0) {
+				if (lpszDataStart) {
+					if (plpszData) (*plpszData)=lpszDataStart;
+					if (pdwDataSize) (*pdwDataSize)=((lpszTagStart-1)-lpszDataStart);
+					bRet=TRUE;
 				}
-			}else{
 				break;
 			}
-		}else{
-			break;
+		}
+		else {
+			if (++thisLevel==1)
+			if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszFindTag,-1,lpszTagStart,((lpszTagEnd+1)-lpszTagStart))==CSTR_EQUAL) {
+				lpszFindTag=va_arg(va,LPSTR);
+				if (lpszFindTag==NULL) lpszDataStart=(lpszTagEnd+2);
+				thisLevel=0;
+			}
 		}
 	}
 	va_end(va);
-return(bRet);
+	return bRet;
 }
 
 
@@ -405,7 +349,7 @@ BOOL GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBu
 
 
 	va_start(va,tag1);
-	while(TRUE)
+	while (TRUE)
 	{
 		lpszTagStart=(LPSTR)MemoryFindByte((lpszTagEnd-lpszXML),lpszXML,dwXMLSize,'<');
 		if (lpszTagStart)
@@ -465,7 +409,7 @@ return(bRet);
 	va_list va;
 
 	va_start(va,tag1);
-	while(TRUE)
+	while (TRUE)
 	{
 		lpwszTagStart=(LPWSTR)MemoryFind((lpwszTagEnd-lpwszXML),lpwszXML,dwXMLSize,L"<",2);
 		if (lpwszTagStart)
@@ -532,51 +476,43 @@ return(bRet);
 DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCount,LPVOID *plpInReplaceItems,SIZE_T *pdwInReplaceItemsCounts,LPVOID *plpOutReplaceItems,SIZE_T *pdwOutReplaceItemsCounts,LPVOID lpOutBuff,SIZE_T dwOutBuffSize,SIZE_T *pdwOutBuffSize)
 {
 	DWORD dwRetErrorCode=NO_ERROR;
-	LPBYTE *plpszFounded,lpszMessageConvertedCur,lpszMessageCur,lpszMessageCurPrev,lpszMessageConvertedMax;
+	LPBYTE *plpszFound,lpszMessageConvertedCur,lpszMessageCur,lpszMessageCurPrev,lpszMessageConvertedMax;
 	SIZE_T i,dwFirstFoundedIndex=0,dwFoundedCount=0,dwMemPartToCopy;
 
-#ifdef _DEBUG //check tables
-	for(i=0;i<dwReplaceItemsCount;i++)
-	{
-		if (lstrlen((LPTSTR)plpInReplaceItems[i])!=(pdwInReplaceItemsCounts[i]/sizeof(TCHAR))) DebugBreak();
-		if (lstrlen((LPTSTR)plpOutReplaceItems[i])!=(pdwOutReplaceItemsCounts[i]/sizeof(TCHAR))) DebugBreak();
-	}
-#endif
-
-	plpszFounded=(LPBYTE*)MEMALLOC((sizeof(LPBYTE)*dwReplaceItemsCount));
+	plpszFound=(LPBYTE*)MEMALLOC((sizeof(LPBYTE)*dwReplaceItemsCount));
 
 	lpszMessageCurPrev=(LPBYTE)lpInBuff;
 	lpszMessageConvertedCur=(LPBYTE)lpOutBuff;
 	lpszMessageConvertedMax=(((LPBYTE)lpOutBuff)+dwOutBuffSize);
-	for(i=0;i<dwReplaceItemsCount;i++)
-	{// loking for in first time
-		plpszFounded[i]=(LPBYTE)MemoryFind((lpszMessageCurPrev-(LPBYTE)lpInBuff),lpInBuff,dwInBuffSize,plpInReplaceItems[i],pdwInReplaceItemsCounts[i]);
-		if (plpszFounded[i]) dwFoundedCount++;
+
+	// looking for in first time
+	for (i=0; i < dwReplaceItemsCount; i++) {
+		plpszFound[i] = (LPBYTE)strstr((LPCSTR)lpInBuff + (lpszMessageCurPrev-(LPBYTE)lpInBuff), (LPCSTR)plpInReplaceItems[i]);
+		if (plpszFound[i])
+			dwFoundedCount++;
 	}
 
-	while(dwFoundedCount)
-	{
-		for(i=0;i<dwReplaceItemsCount;i++)
-		{// looking for first to replace
-			if (plpszFounded[i] && (plpszFounded[i]<plpszFounded[dwFirstFoundedIndex] || plpszFounded[dwFirstFoundedIndex]==NULL)) dwFirstFoundedIndex=i;
-		}
+	while (dwFoundedCount) {
+		// looking for first to replace
+		for(i=0; i < dwReplaceItemsCount; i++)
+			if (plpszFound[i] && (plpszFound[i] < plpszFound[dwFirstFoundedIndex] || plpszFound[dwFirstFoundedIndex] == NULL))
+				dwFirstFoundedIndex = i;
 
-		if (plpszFounded[dwFirstFoundedIndex])
-		{// in founded
-			dwMemPartToCopy=(plpszFounded[dwFirstFoundedIndex]-lpszMessageCurPrev);
-			if (lpszMessageConvertedMax>(lpszMessageConvertedCur+(dwMemPartToCopy+pdwInReplaceItemsCounts[dwFirstFoundedIndex])))
-			{
+		// in founded
+		if (plpszFound[dwFirstFoundedIndex]) {
+			dwMemPartToCopy=(plpszFound[dwFirstFoundedIndex]-lpszMessageCurPrev);
+			if (lpszMessageConvertedMax > (lpszMessageConvertedCur+(dwMemPartToCopy+pdwInReplaceItemsCounts[dwFirstFoundedIndex]))) {
 				CopyMemory(lpszMessageConvertedCur,lpszMessageCurPrev,dwMemPartToCopy);lpszMessageConvertedCur+=dwMemPartToCopy;
 				CopyMemory(lpszMessageConvertedCur,plpOutReplaceItems[dwFirstFoundedIndex],pdwOutReplaceItemsCounts[dwFirstFoundedIndex]);lpszMessageConvertedCur+=pdwOutReplaceItemsCounts[dwFirstFoundedIndex];
-				lpszMessageCurPrev=(plpszFounded[dwFirstFoundedIndex]+pdwInReplaceItemsCounts[dwFirstFoundedIndex]);
+				lpszMessageCurPrev=(plpszFound[dwFirstFoundedIndex]+pdwInReplaceItemsCounts[dwFirstFoundedIndex]);
 
 				for(i=0;i<dwReplaceItemsCount;i++)
 				{// loking for in next time
-					if (plpszFounded[i] && plpszFounded[i]<lpszMessageCurPrev)
+					if (plpszFound[i] && plpszFound[i]<lpszMessageCurPrev)
 					{
 						dwFoundedCount--;
-						plpszFounded[i]=(LPBYTE)MemoryFind((lpszMessageCurPrev-(LPBYTE)lpInBuff),lpInBuff,dwInBuffSize,plpInReplaceItems[i],pdwInReplaceItemsCounts[i]);
-						if (plpszFounded[i]) dwFoundedCount++;
+						plpszFound[i] = (LPBYTE)strstr((LPCSTR)lpInBuff + (lpszMessageCurPrev-(LPBYTE)lpInBuff), (LPCSTR)plpInReplaceItems[i]);
+						if (plpszFound[i]) dwFoundedCount++;
 					}
 				}
 			}else{
@@ -593,7 +529,7 @@ DWORD ReplaceInBuff(LPVOID lpInBuff,SIZE_T dwInBuffSize,SIZE_T dwReplaceItemsCou
 	CopyMemory(lpszMessageConvertedCur,lpszMessageCurPrev,(lpszMessageCur-lpszMessageCurPrev));lpszMessageConvertedCur+=(lpszMessageCur-lpszMessageCurPrev);
 	(*((WORD*)lpszMessageConvertedCur))=0;
 
-	MEMFREE(plpszFounded);
+	MEMFREE(plpszFound);
 
 	if (pdwOutBuffSize) (*pdwOutBuffSize)=(lpszMessageConvertedCur-((LPBYTE)lpOutBuff));
 
@@ -679,14 +615,14 @@ void LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour)
 LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	LRESULT lrRet=0;
-	WNDPROC OldMessageEditProc=(WNDPROC)GetWindowLongPtr(hwnd,GWL_USERDATA);
+	WNDPROC OldMessageEditProc=(WNDPROC)GetWindowLongPtr(hwnd, GWLP_USERDATA);
 
 	switch(message){
 	case WM_CHAR:
 		if (wParam=='\n' && GetKeyState(VK_CONTROL)&0x8000)
 		{
 			PostMessage(GetParent(hwnd),WM_COMMAND,IDOK,0);
-			return(0);
+			return 0;
 		}
 		break;
 	}
@@ -729,7 +665,7 @@ int RefreshAccountList(WPARAM eventCode,LPARAM lParam)
 	ssSMSSettings.dwSMSAccountsCount=dwSMSAccountsCount;
 	SendSMSWindowsUpdateAllAccountLists();
 
-return(0);
+return 0;
 }
 
 //This function free the global account list. 

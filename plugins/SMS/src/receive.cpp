@@ -141,36 +141,31 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 		if ((ack->result==ACKRESULT_FAILED) || GetXMLFieldEx(lpszXML,dwXMLSize,&lpszData,&dwDataSize,"sms_response","deliverable",NULL))
 		{
 			HWND hWndDlg=SendSMSWindowHwndByHProcessGet(ack->hProcess);
-			if (hWndDlg)
-			{
+			if (hWndDlg) {
 				char szNetwork[MAX_PATH];
 
 				KillTimer(hWndDlg,wParam);
 				GetXMLFieldExBuff(lpszXML,dwXMLSize,szNetwork,sizeof(szNetwork),NULL,"sms_response","network",NULL);
 
-				if (ack->result==ACKRESULT_FAILED || CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"no",2)==CSTR_EQUAL)
-				{	
+				if (ack->result==ACKRESULT_FAILED || CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"no",2)==CSTR_EQUAL) {	
 					HWND hwndTimeOut;
 					char szBuff[1024];
 					WCHAR wszErrorMessage[1028];
 					LPSTR lpszErrorDescription;
 
-					if (SendSMSWindowMultipleGet(hWndDlg))
-					{
+					if (SendSMSWindowMultipleGet(hWndDlg)) {
 						TVITEM tvi;
 						tvi.mask=TVIF_TEXT;
 						tvi.hItem=SendSMSWindowHItemSendGet(hWndDlg);
 						tvi.pszText=wszPhone;
 						tvi.cchTextMax=SIZEOF(wszPhone);
 						TreeView_GetItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvi);
-					}else{
-						GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(szPhone));
 					}
+					else GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(szPhone));
 
-					if (ack->result==ACKRESULT_FAILED)
-					{
+					if (ack->result == ACKRESULT_FAILED)
 						lpszErrorDescription=lpszXML;
-					}else{
+					else {
 						lpszErrorDescription=szBuff;
 						GetXMLFieldExBuff(lpszXML,dwXMLSize,szBuff,sizeof(szBuff),NULL,"sms_response","error","params","param",NULL);
 					}
@@ -180,31 +175,29 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 					EnableWindow(hWndDlg,FALSE);
 					hwndTimeOut=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT),hWndDlg,SMSTimedOutDlgProc);
 					SET_DLG_ITEM_TEXTW(hwndTimeOut,IDC_STATUS,wszErrorMessage);
-				}else{
+				}
+				else {
 					SendSMSWindowDBAdd(hWndDlg);
-					if (SendSMSWindowMultipleGet(hWndDlg))
-					{
-						if (SendSMSWindowNextHItemGet(hWndDlg,SendSMSWindowHItemSendGet(hWndDlg)))
-						{
+					if ( SendSMSWindowMultipleGet(hWndDlg)) {
+						if ( SendSMSWindowNextHItemGet(hWndDlg,SendSMSWindowHItemSendGet(hWndDlg))) {
 							SendSMSWindowAsSentSet(hWndDlg);
 							SendSMSWindowHItemSendSet(hWndDlg,SendSMSWindowNextHItemGet(hWndDlg,SendSMSWindowHItemSendGet(hWndDlg)));
 							SendSMSWindowNext(hWndDlg);
-						}else{
-							SendSMSWindowRemove(hWndDlg);
 						}
-					}else{
-						if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"yes",3)==CSTR_EQUAL || CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"smtp",4)==CSTR_EQUAL)
-						{
+						else SendSMSWindowRemove(hWndDlg);
+					}
+					else {
+						if ( CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"yes",3)==CSTR_EQUAL ||
+							  CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"smtp",4)==CSTR_EQUAL) {
 							char szSource[MAX_PATH],szMessageID[MAX_PATH];
 
-							if (DB_SMS_GetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK))
-							{	
+							if (DB_SMS_GetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK)) {	
 								HWND hwndAccepted=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSACCEPT),hWndDlg,SMSAcceptedDlgProc);
-								if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"yes",3)==CSTR_EQUAL)
-								{
+								if (CompareStringA(MAKELANGID(LANG_ENGLISH,SUBLANG_ENGLISH_US),NORM_IGNORECASE,lpszData,dwDataSize,"yes",3)==CSTR_EQUAL) {
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szSource,sizeof(szSource),NULL,"sms_response","source",NULL);
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szMessageID,sizeof(szMessageID),NULL,"sms_response","message_id",NULL);
-								}else{
+								}
+								else {
 									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_SOURCE,TranslateW(L"From:"));
 									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_MESSAGEID,TranslateW(L"To:"));
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szSource,sizeof(szSource),NULL,"sms_response","from",NULL);
@@ -213,18 +206,16 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_NETWORK,szNetwork);
 								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_SOURCE,szSource);
 								SET_DLG_ITEM_TEXTA(hwndAccepted,IDC_MESSAGEID,szMessageID);
-							}else{
-								SendSMSWindowRemove(hWndDlg);
 							}
-						}else{
-							SendSMSWindowRemove(hWndDlg);
+							else SendSMSWindowRemove(hWndDlg);
 						}
+						else SendSMSWindowRemove(hWndDlg);
 					}
 				}
 			}
 		}
 	}
-return(0);
+	return 0;
 }
 
 //Handles new SMS messages added to the database
@@ -304,7 +295,7 @@ int handleNewMessage(WPARAM wParam,LPARAM lParam)
 			MEMFREE(dbei.pBlob);
 		}
 	}
-return(0);
+	return 0;
 }
 
 

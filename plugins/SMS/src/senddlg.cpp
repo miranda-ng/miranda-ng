@@ -51,24 +51,15 @@ typedef struct
 	DBEVENTINFO		*pdbei;
 } SEND_SMS_WINDOW_DATA;
 
-
-
 void			AddContactPhonesToCombo		(HWND hWnd,HANDLE hContact);
 void			SendSMSWindowFillTreeView	(HWND hWnd);
 SIZE_T			GetSMSMessageLenMax			(HWND hWndDlg);
 
-#define GET_WINDOW_DATA(hWndDlg)	((SEND_SMS_WINDOW_DATA*)GetWindowLongPtr(hWndDlg,GWL_USERDATA))
-
-
-
-
+#define GET_WINDOW_DATA(hWndDlg)	((SEND_SMS_WINDOW_DATA*)GetWindowLongPtr(hWndDlg,GWLP_USERDATA))
 
 DWORD SendSMSWindowInitialize()
 {
-	DWORD dwRetErrorCode;
-
-	dwRetErrorCode=ListMTInitialize(&ssSMSSettings.lmtSendSMSWindowsListMT,0);
-return(dwRetErrorCode);
+	return ListMTInitialize(&ssSMSSettings.lmtSendSMSWindowsListMT, 0);
 }
 
 void SendSMSWindowDestroy()
@@ -76,17 +67,14 @@ void SendSMSWindowDestroy()
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
 
 	ListMTLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
-	while(ListMTItemGetFirst(&ssSMSSettings.lmtSendSMSWindowsListMT,NULL,(LPVOID*)&psswdWindowData)==NO_ERROR)
-	{// цикл
+	while (ListMTItemGetFirst(&ssSMSSettings.lmtSendSMSWindowsListMT, NULL, (LPVOID*)&psswdWindowData) == NO_ERROR)
 		SendSMSWindowRemove(psswdWindowData->hWnd);
-	}
+
 	ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 	ListMTDestroy(&ssSMSSettings.lmtSendSMSWindowsListMT);
 }
 
-
-
-BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
@@ -96,15 +84,11 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 		////////AddWinHandle(GetDlgItem(hWndDlg,IDC_MESSAGE));
 		
 		psswdWindowData=(SEND_SMS_WINDOW_DATA*)lParam;
-		SetWindowLongPtr(hWndDlg,GWL_USERDATA,(LONG_PTR)lParam);
-
+		SetWindowLongPtr(hWndDlg, GWLP_USERDATA, (LONG_PTR)lParam);
 		{
-			WNDPROC OldEditWndProc;
-
-			OldEditWndProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWL_WNDPROC,(LONG_PTR)MessageSubclassProc);
-			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWL_USERDATA,(LONG_PTR)OldEditWndProc);
+			WNDPROC OldEditWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE), GWLP_WNDPROC, (LONG_PTR)MessageSubclassProc);
+			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE), GWLP_USERDATA, (LONG_PTR)OldEditWndProc);
 		}
-		
 		SendMessage(hWndDlg,WM_SETICON,ICON_BIG,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_SMS));
 		SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_HISTORY,BM_SETIMAGE,IMAGE_ICON,(LPARAM)LoadSkinnedIcon(SKINICON_OTHER_HISTORY));
 		{
@@ -181,7 +165,7 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 			SetWindowPos(hWndDlg,0,200,200,400,350,SWP_NOZORDER);
 		}
 		InvalidateRect(GetDlgItem(hWndDlg,IDC_MESSAGE),NULL,FALSE);
-		return(TRUE);
+		return TRUE;
 	case WM_GETMINMAXINFO:
 		if (psswdWindowData->bMultiple)
 		{
@@ -322,25 +306,25 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 		case IDC_MULTIPLE:
 			SendSMSWindowMultipleSet(hWndDlg,!psswdWindowData->bMultiple);
 			break;
+
 		case IDC_ADDNUMBER:
 			{	
 				WCHAR wszPhone[MAX_PHONE_LEN];
-				if (IsPhoneW(wszPhone,GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(wszPhone))))
-				{
-					TVINSERTSTRUCT tvis={0};
-
-					tvis.item.mask=(TVIF_TEXT|TVIF_IMAGE|TVIF_SELECTEDIMAGE);
-					tvis.hInsertAfter=TVI_SORT;
-					tvis.item.pszText=wszPhone;
-					TreeView_InsertItem(GetDlgItem(hWndDlg,IDC_NUMBERSLIST),&tvis);
-				}else{
-					MessageBox(hWndDlg,TranslateW(L"The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only."),TranslateW(L"Invalid Phone Number"),MB_OK);
+				if (IsPhoneW(wszPhone,GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(wszPhone)))) {
+					TVINSERTSTRUCT tvis = {0};
+					tvis.item.mask = TVIF_TEXT | TVIF_IMAGE | TVIF_SELECTEDIMAGE;
+					tvis.hInsertAfter = TVI_SORT;
+					tvis.item.pszText = wszPhone;
+					TreeView_InsertItem( GetDlgItem(hWndDlg,IDC_NUMBERSLIST), &tvis);
 				}
+				else MessageBox(hWndDlg,TranslateW(L"The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only."),TranslateW(L"Invalid Phone Number"),MB_OK);
 			}
 			break;
+
 		case IDC_HISTORY:
 			CallService(MS_HISTORY_SHOWCONTACTHISTORY,(WPARAM)psswdWindowData->hMyContact,0);
 			break;
+
 		case IDOK:
 			if ((SIZE_T)GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE) > GetSMSMessageLenMax(hWndDlg))
 			{
@@ -521,10 +505,10 @@ BOOL CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 		SendSMSWindowRemove(hWndDlg);
 		break;
 	}
-return(FALSE);
+return FALSE;
 }
 
-BOOL CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg){
 	case WM_INITDIALOG:
@@ -536,7 +520,7 @@ BOOL CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 			SetWindowPos(hWndDlg,0,(rcParent.left+rcParent.right-(rc.right-rc.left))/2,(rcParent.top+rcParent.bottom-(rc.bottom-rc.top))/2,0,0,SWP_NOZORDER|SWP_NOSIZE);
 			KillTimer(GetParent(hWndDlg),TIMERID_MSGSEND);
 		}
-		return(TRUE);
+		return TRUE;
 	case WM_COMMAND:
 		switch(LOWORD(wParam)){
 		case IDOK:
@@ -550,23 +534,24 @@ BOOL CALLBACK SMSTimedOutDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		}
 		break;
 	}
-return(FALSE);
+	return FALSE;
 } 
 
-BOOL CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lParam)
 {
 	switch(msg){
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hWndDlg); 
 		{
 			RECT rc,rcParent;
-			TranslateDialogDefault(hWndDlg); 
 			GetWindowRect(hWndDlg,&rc);
 			GetWindowRect(GetParent(hWndDlg),&rcParent);
 			SetWindowPos(hWndDlg,0,(rcParent.left+rcParent.right-(rc.right-rc.left))/2,(rcParent.top+rcParent.bottom-(rc.bottom-rc.top))/2,0,0,SWP_NOZORDER|SWP_NOSIZE);
 		}
-		return(TRUE);
+		return TRUE;
+	
 	case WM_COMMAND:
-		switch(LOWORD(wParam)){
+		switch(LOWORD(wParam)) {
 		case IDOK:
 			SendSMSWindowRemove(GetParent(hWndDlg));
 			DestroyWindow(hWndDlg);
@@ -574,7 +559,7 @@ BOOL CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM lPar
 		}
 		break;
 	}
-return(FALSE);
+	return FALSE;
 }
 
 //SMS Send window list functions
@@ -587,12 +572,10 @@ HWND SendSMSWindowAdd(HANDLE hContact)
 	SEND_SMS_WINDOW_DATA *psswdWindowData;
 
 	psswdWindowData=(SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
-	if (psswdWindowData)
-	{
-		psswdWindowData->hMyContact=hContact;
-		psswdWindowData->hWnd=CreateDialogParam(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMS),NULL,SendSmsDlgProc,(LPARAM)psswdWindowData);
-		if (psswdWindowData->hWnd)
-		{
+	if (psswdWindowData) {
+		psswdWindowData->hMyContact = hContact;
+		psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), NULL, SendSmsDlgProc, (LPARAM)psswdWindowData);
+		if (psswdWindowData->hWnd) {
 			WCHAR wszTitle[MAX_PATH];
 			LPWSTR lpwszContactDisplayName;
 
@@ -608,18 +591,17 @@ HWND SendSMSWindowAdd(HANDLE hContact)
 			AddContactPhonesToCombo(psswdWindowData->hWnd,hContact);
 			SetFocus(GetDlgItem(psswdWindowData->hWnd,IDC_MESSAGE));
 			hRet=psswdWindowData->hWnd;
-		}else{
-			MEMFREE(psswdWindowData);
 		}
+		else MEMFREE(psswdWindowData);
 	}
-return(hRet);
+	return hRet;
 }
 
 //This function close the SMS send window that given, and remove it from the list.
 //The function gets the HWND of the window that should be removed and return void
 void SendSMSWindowRemove(HWND hWndDlg)
 {
-	SEND_SMS_WINDOW_DATA *psswdWindowData=GET_WINDOW_DATA(hWndDlg);
+	SEND_SMS_WINDOW_DATA *psswdWindowData = GET_WINDOW_DATA(hWndDlg);
 
 	if (psswdWindowData)
 	{
@@ -675,7 +657,7 @@ HWND SendSMSWindowHwndByHProcessGet(HANDLE hProcess)
 			hRet=psswdWindowData->hWnd;
 			break;
 		}
-	}while(ListMTIteratorMoveNext(&lmtiIterator));
+	}while (ListMTIteratorMoveNext(&lmtiIterator));
 	ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 return(hRet);		
 }
@@ -886,7 +868,7 @@ HWND SendSMSWindowIsOtherInstanceHContact(HANDLE hContact)
 			hRet=psswdWindowData->hWnd;
 			break;
 		}
-	}while(ListMTIteratorMoveNext(&lmtiIterator));
+	}while (ListMTIteratorMoveNext(&lmtiIterator));
 	ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 return(hRet);
 }
@@ -1000,7 +982,7 @@ void SendSMSWindowsUpdateAllAccountLists()
 		{
 			SendSMSWindowUpdateAccountList(psswdWindowData->hWnd);
 		}
-	}while(ListMTIteratorMoveNext(&lmtiIterator));
+	}while (ListMTIteratorMoveNext(&lmtiIterator));
 	ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 }
 //////////////////////////////////////////////////////////////////////////////////////////

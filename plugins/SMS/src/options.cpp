@@ -26,44 +26,35 @@ Enjoy the code and use it smartly!
 */
 #include "common.h"
 
+WORD wSMSSignControlsList[] = { IDC_BEGIN, IDC_END, IDC_SIGNATURE, IDC_SIGNGROUP };
 
-
-WORD wSMSSignControlsList[]={
-						IDC_BEGIN,
-						IDC_END,
-						IDC_SIGNATURE,
-						IDC_SIGNGROUP
-};
-
-
-BOOL CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	WCHAR wszSign[1024];
+
 	switch(msg){
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hWndDlg);
-		{	
-			WCHAR wszSign[1024];
-			BOOL bSignBebefore,bUseSign;
 
-			if (DB_SMS_GetStaticStringW(NULL,"Signature",wszSign,SIZEOF(wszSign),NULL)==FALSE)
-			{
-				mir_sntprintf(wszSign,SIZEOF(wszSign),TranslateW(L"From %s:\r\n\r\n"),GetContactNameW(NULL));
-			}
-			SET_DLG_ITEM_TEXTW(hWndDlg,IDC_SIGNATURE,wszSign);
+		if (DB_SMS_GetStaticStringW(NULL,"Signature",wszSign,SIZEOF(wszSign),NULL)==FALSE)
+			mir_sntprintf(wszSign,SIZEOF(wszSign),TranslateW(L"From %s:\r\n\r\n"),GetContactNameW(NULL));
 
-			bUseSign=DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
+		SET_DLG_ITEM_TEXTW(hWndDlg,IDC_SIGNATURE,wszSign);
+		{
+			BOOL bUseSign = DB_SMS_GetByte(NULL,"UseSignature",SMS_DEFAULT_USESIGNATURE);
 			CHECK_DLG_BUTTON(hWndDlg,IDC_USESIGNATURE,bUseSign);
 			EnableControlsArray(hWndDlg,(WORD*)&wSMSSignControlsList,SIZEOF(wSMSSignControlsList),bUseSign);
 
-			bSignBebefore=DB_SMS_GetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
+			BOOL bSignBebefore=DB_SMS_GetByte(NULL,"SignaturePos",SMS_DEFAULT_SIGNATUREPOS);
 			CHECK_DLG_BUTTON(hWndDlg,IDC_BEGIN,bSignBebefore);
 			CHECK_DLG_BUTTON(hWndDlg,IDC_END,(!bSignBebefore));
-
-			CHECK_DLG_BUTTON(hWndDlg,IDC_SHOWACK,DB_SMS_GetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK));
-			CHECK_DLG_BUTTON(hWndDlg,IDC_AUTOPOP,DB_SMS_GetByte(NULL,"AutoPopup",SMS_DEFAULT_AUTOPOP));
-			CHECK_DLG_BUTTON(hWndDlg,IDC_SAVEWINPOS,DB_SMS_GetByte(NULL,"SavePerContact",SMS_DEFAULT_SAVEWINPOS));
 		}
-		return(TRUE);
+
+		CHECK_DLG_BUTTON(hWndDlg,IDC_SHOWACK,DB_SMS_GetByte(NULL,"ShowACK",SMS_DEFAULT_SHOWACK));
+		CHECK_DLG_BUTTON(hWndDlg,IDC_AUTOPOP,DB_SMS_GetByte(NULL,"AutoPopup",SMS_DEFAULT_AUTOPOP));
+		CHECK_DLG_BUTTON(hWndDlg,IDC_SAVEWINPOS,DB_SMS_GetByte(NULL,"SavePerContact",SMS_DEFAULT_SAVEWINPOS));
+		return TRUE;
+
 	case WM_COMMAND:
 		SendMessage(GetParent(hWndDlg),PSM_CHANGED,0,0);
 		switch(LOWORD(wParam)){
@@ -72,45 +63,38 @@ BOOL CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPARAM
 			break;
 		}
 		break;
+
 	case WM_NOTIFY:
 		switch(((LPNMHDR)lParam)->idFrom){
 		case 0:
 			switch (((LPNMHDR)lParam)->code){
 			case PSN_APPLY:
-				{
-					WCHAR wszSign[1024];
+				GET_DLG_ITEM_TEXTW(hWndDlg,IDC_SIGNATURE,wszSign,SIZEOF(wszSign));
+				DB_SMS_SetStringW(NULL,"Signature",wszSign);
 
-					GET_DLG_ITEM_TEXTW(hWndDlg,IDC_SIGNATURE,wszSign,SIZEOF(wszSign));
-					DB_SMS_SetStringW(NULL,"Signature",wszSign);
-
-					DB_SMS_SetByte(NULL,"UseSignature",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_USESIGNATURE));
-					DB_SMS_SetByte(NULL,"SignaturePos",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_BEGIN));
-					DB_SMS_SetByte(NULL,"ShowACK",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_SHOWACK));
-					DB_SMS_SetByte(NULL,"AutoPopup",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_AUTOPOP));
-					DB_SMS_SetByte(NULL,"SavePerContact",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_SAVEWINPOS));
-				}
-				return(TRUE);
+				DB_SMS_SetByte(NULL,"UseSignature",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_USESIGNATURE));
+				DB_SMS_SetByte(NULL,"SignaturePos",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_BEGIN));
+				DB_SMS_SetByte(NULL,"ShowACK",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_SHOWACK));
+				DB_SMS_SetByte(NULL,"AutoPopup",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_AUTOPOP));
+				DB_SMS_SetByte(NULL,"SavePerContact",IS_DLG_BUTTON_CHECKED(hWndDlg,IDC_SAVEWINPOS));
+				return TRUE;
 			}
-			break;
 		}
 		break;
 	}
-return(FALSE);
+	return FALSE;
 }
 
 int OptInitialise(WPARAM wParam,LPARAM lParam)
 {
-	OPTIONSDIALOGPAGE odp={0};
-
-	odp.cbSize=sizeof(odp);
-	odp.position=910000000;
-	odp.hInstance=ssSMSSettings.hInstance;
-	odp.ptszGroup=TranslateW(L"Events");
-	odp.flags=(ODPF_BOLDGROUPS|ODPF_UNICODE);
-	odp.pszTemplate=MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
-	odp.ptszTitle=PROTOCOL_DISPLAY_NAME_ORIGW;
-	odp.pfnDlgProc=DlgProcEditorOptions;
-	
+	OPTIONSDIALOGPAGE odp = { sizeof(odp) };
+	odp.position = 910000000;
+	odp.hInstance = ssSMSSettings.hInstance;
+	odp.pszGroup = "Events";
+	odp.flags = ODPF_BOLDGROUPS;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
+	odp.ptszTitle = PROTOCOL_DISPLAY_NAME_ORIGW;
+	odp.pfnDlgProc = DlgProcEditorOptions;
 	Options_AddPage(wParam, &odp);	
 	return 0;
 }

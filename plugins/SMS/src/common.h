@@ -40,18 +40,11 @@
 #include <commctrl.h>
 #include <stdio.h>
 #include <time.h>
-/*#ifdef NDEBUG
-	#include <..\minicrt\minicrt.h>
-#else
-	#include <..\minicrt\timefuncs.h>
-#endif //_DEBUG*/
 
 #include "AdditionalFunctions/ListMT.h"
 #include "AdditionalFunctions/DebugFunctions.h"
 #include "AdditionalFunctions/MemoryCompare.h"
-#include "AdditionalFunctions/MemoryFind.h"
 #include "AdditionalFunctions/MemoryFindByte.h"
-#include "AdditionalFunctions/BuffToLowerCase.h"
 
 #include <newpluginapi.h>
 #include <m_database.h>
@@ -179,53 +172,46 @@ BOOL	DB_SetStringExW(HANDLE hContact,LPSTR lpszModule,LPSTR lpszValueName,LPWSTR
 #define DB_SMS_SetStringW(Contact,valueName,parValue) DBWriteContactSettingWString(Contact,PROTOCOL_NAMEA,valueName,parValue)
 #define DB_SMS_SetStringExW(Contact,valueName,parValue,parValueSize) DB_SetStringExW(Contact,PROTOCOL_NAMEA,valueName,parValue,parValueSize)
 
+LRESULT CALLBACK MessageSubclassProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
 
-LPSTR			GetModuleName					(HANDLE hContact);
-void			EnableControlsArray				(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
-void			CListShowMenuItem				(HANDLE hMenuItem,BOOL bShow);
-//Decleration of function that returns received string with only numbers
-SIZE_T			CopyNumberA						(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen);
-SIZE_T			CopyNumberW						(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen);
-BOOL			IsPhoneW						(LPWSTR lpwszString,SIZE_T dwStringLen);
-DWORD			GetContactPhonesCount			(HANDLE hContact);
-BOOL			IsContactPhone					(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
-//Decleration of function that returns HANDLE of contact by his cellular number
-HANDLE			HContactFromPhone				(LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
-BOOL			GetDataFromMessage				(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,SIZE_T *pdwPhoneSizeRet,UINT *piIcon);
-//Decleration of function that gets a XML string and return the asked tag.
-BOOL			GetXMLFieldEx					(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDataSize,const char *tag1,...);
-BOOL			GetXMLFieldExBuff				(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet,const char *tag1,...);
-//BOOL			GetXMLFieldExW					(LPWSTR lpwszXML,SIZE_T dwXMLSize,LPWSTR *plpwszData,SIZE_T *pdwDataSize,const WCHAR *tag1,...);
-//BOOL			GetXMLFieldExBuffW				(LPWSTR lpwszXML,SIZE_T dwXMLSize,LPWSTR lpwszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet,const WCHAR *tag1,...);
-DWORD			DecodeXML						(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
-DWORD			EncodeXML						(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
-void			LoadMsgDlgFont					(int i,LOGFONT *lf,COLORREF *colour);
-LRESULT CALLBACK MessageSubclassProc			(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam);
-int				RefreshAccountList				(WPARAM eventCode,LPARAM lParam);
-void			FreeAccountList					();
-//BOOL			IsModuleInAccountList			(LPSTR lpszModule);
+LPSTR  GetModuleName(HANDLE hContact);
+void   EnableControlsArray(HWND hWndDlg,WORD *pwControlsList,SIZE_T dwControlsListCount,BOOL bEnabled);
+void   CListShowMenuItem(HANDLE hMenuItem,BOOL bShow);
 
+// Declaration of function that returns received string with only numbers
+SIZE_T CopyNumberA(LPSTR lpszOutBuff,LPSTR lpszBuff,SIZE_T dwLen);
+SIZE_T CopyNumberW(LPWSTR lpcOutBuff,LPWSTR lpcBuff,SIZE_T dwLen);
+bool   IsPhoneW(LPWSTR lpwszString,SIZE_T dwStringLen);
+DWORD  GetContactPhonesCount(HANDLE hContact);
+BOOL   IsContactPhone(HANDLE hContact,LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
 
+// Declaration of function that returns HANDLE of contact by his cellular number
+HANDLE HContactFromPhone(LPWSTR lpwszPhone,SIZE_T dwPhoneSize);
+BOOL   GetDataFromMessage(LPSTR lpszMessage,SIZE_T dwMessageSize,DWORD *pdwEventType,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,SIZE_T *pdwPhoneSizeRet,UINT *piIcon);
 
+// Declaration of function that gets a XML string and return the asked tag.
+BOOL   GetXMLFieldEx(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR *plpszData,SIZE_T *pdwDataSize,const char *tag1,...);
+BOOL   GetXMLFieldExBuff(LPSTR lpszXML,SIZE_T dwXMLSize,LPSTR lpszBuff,SIZE_T dwBuffSize,SIZE_T *pdwBuffSizeRet,const char *tag1,...);
+DWORD  DecodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
+DWORD  EncodeXML(LPTSTR lptszMessage,SIZE_T dwMessageSize,LPTSTR lptszMessageConverted,SIZE_T dwMessageConvertedBuffSize,SIZE_T *pdwMessageConvertedSize);
+void   LoadMsgDlgFont(int i,LOGFONT *lf,COLORREF *colour);
+int    RefreshAccountList(WPARAM eventCode,LPARAM lParam);
+void   FreeAccountList();
 
-int				OptInitialise	(WPARAM wParam,LPARAM lParam);
+int    OptInitialise(WPARAM wParam,LPARAM lParam);
 
-int				LoadServices	();
-int				LoadModules		();
-void			UnloadModules	();
-void			UnloadServices	();
+int    LoadServices();
+int    LoadModules();
+void   UnloadModules();
+void   UnloadServices();
 
-int handleAckSMS(WPARAM wParam,LPARAM lParam);
-int handleNewMessage(WPARAM wParam,LPARAM lParam);
-void RestoreUnreadMessageAlerts();
+int    handleAckSMS(WPARAM wParam,LPARAM lParam);
+int    handleNewMessage(WPARAM wParam,LPARAM lParam);
+void   RestoreUnreadMessageAlerts();
 
-//Decleration of Menu SMS send click function
-int SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam);
+// Declaration of Menu SMS send click function
+int    SmsRebuildContactMenu(WPARAM wParam,LPARAM lParam);
 
-
-void StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPWSTR lpwszMessage,SIZE_T dwMessageSize);
-
-
-
+void   StartSmsSend(HWND hWndDlg,SIZE_T dwModuleIndex,LPWSTR lpwszPhone,SIZE_T dwPhoneSize,LPWSTR lpwszMessage,SIZE_T dwMessageSize);
 
 #endif

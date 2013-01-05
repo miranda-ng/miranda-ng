@@ -67,7 +67,7 @@ __inline DWORD ListMTInitialize(PCLIST_MT pclmtListMT,DWORD dwSpinCount)
 	if (TRUE)
 #endif
 	{
-		InterlockedExchangePointer(&pclmtListMT->nCount,NULL);
+		InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
 		pclmtListMT->plmtiFirst=NULL;
 		pclmtListMT->plmtiLast=NULL;
 		dwRetErrorCode=NO_ERROR;
@@ -80,7 +80,7 @@ return(dwRetErrorCode);
 
 __inline void ListMTDestroy(PCLIST_MT pclmtListMT)
 {
-	InterlockedExchangePointer(&pclmtListMT->nCount,NULL);
+	InterlockedExchangePointer((volatile PVOID*)&pclmtListMT->nCount,NULL);
 	pclmtListMT->plmtiFirst=NULL;
 	pclmtListMT->plmtiLast=NULL;
 	DeleteCriticalSection(&pclmtListMT->cs);

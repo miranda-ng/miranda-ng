@@ -37,15 +37,9 @@ typedef struct
 	HANDLE			hContact;
 } RECV_SMS_WINDOW_DATA;
 
-
-
-BOOL CALLBACK	RecvSmsDlgProc	(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam);
-#define GET_WINDOW_DATA(hWndDlg)	((RECV_SMS_WINDOW_DATA*)GetWindowLongPtr(hWndDlg,GWL_USERDATA))
-
-
-
-
-
+INT_PTR CALLBACK	RecvSmsDlgProc	(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam);
+#define GET_WINDOW_DATA(hWndDlg)	((RECV_SMS_WINDOW_DATA*)GetWindowLongPtr(hWndDlg,GWLP_USERDATA))
+												 
 DWORD RecvSMSWindowInitialize()
 {
 	DWORD dwRetErrorCode;
@@ -60,7 +54,7 @@ void RecvSMSWindowDestroy()
 	RECV_SMS_WINDOW_DATA *prswdWindowData;
 
 	ListMTLock(&ssSMSSettings.lmtRecvSMSWindowsListMT);
-	while(ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT,NULL,(LPVOID*)&prswdWindowData)==NO_ERROR)
+	while (ListMTItemGetFirst(&ssSMSSettings.lmtRecvSMSWindowsListMT,NULL,(LPVOID*)&prswdWindowData)==NO_ERROR)
 	{// цикл
 		RecvSMSWindowRemove(prswdWindowData->hWnd);
 	}
@@ -69,7 +63,7 @@ void RecvSMSWindowDestroy()
 }
 
 
-BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam)
+INT_PTR CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	RECV_SMS_WINDOW_DATA *prswdWindowData=GET_WINDOW_DATA(hWndDlg);
 
@@ -78,15 +72,11 @@ BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 		TranslateDialogDefault(hWndDlg); //Translate intially - bid
 
 		prswdWindowData=(RECV_SMS_WINDOW_DATA*)lParam;
-		SetWindowLongPtr(hWndDlg,GWL_USERDATA,(LONG_PTR)lParam);
-
+		SetWindowLongPtr(hWndDlg,GWLP_USERDATA,(LONG_PTR)lParam);
 		{
-			WNDPROC OldEditWndProc;
-
-			OldEditWndProc=(WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWL_WNDPROC,(LONG_PTR)MessageSubclassProc);
-			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWL_USERDATA,(LONG_PTR)OldEditWndProc);
+			WNDPROC OldEditWndProc = (WNDPROC)SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWLP_WNDPROC,(LONG_PTR)MessageSubclassProc);
+			SetWindowLongPtr(GetDlgItem(hWndDlg,IDC_MESSAGE),GWLP_USERDATA,(LONG_PTR)OldEditWndProc);
 		}
-
 		{
 			HFONT hFont;
 			LOGFONT lf;
@@ -106,9 +96,9 @@ BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 		}
 		InvalidateRect(GetDlgItem(hWndDlg,IDC_MESSAGE),NULL,FALSE);
 		break;
+
 	case WM_CTLCOLORSTATIC:
-		if ((HWND)lParam==GetDlgItem(hWndDlg,IDC_MESSAGE))
-		{	
+		if ((HWND)lParam==GetDlgItem(hWndDlg,IDC_MESSAGE)) {	
 			COLORREF colour;
 
 			LoadMsgDlgFont(MSGFONTID_YOURMSG,NULL,&colour);
@@ -117,10 +107,12 @@ BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 			return((BOOL)prswdWindowData->hBkgBrush);
 		}
 		break;
+
 	case WM_GETMINMAXINFO:
 		((LPMINMAXINFO)lParam)->ptMinTrackSize.x=300; 
 		((LPMINMAXINFO)lParam)->ptMinTrackSize.y=230;
 		break;
+
 	case WM_SIZE:
 		{
 			int cx,cy;
@@ -151,9 +143,8 @@ BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 				hContact=HContactFromPhone(wszPhone,GET_DLG_ITEM_TEXTW(hWndDlg,IDC_NUMBER,wszPhone,SIZEOF(wszPhone)));
 				hwndSendSms=SendSMSWindowIsOtherInstanceHContact(hContact);
 				if (hwndSendSms)
-				{
 					SetFocus(hwndSendSms);
-				}else{
+				else {
 					hwndSendSms=SendSMSWindowAdd(prswdWindowData->hContact);
 					SET_DLG_ITEM_TEXTW(hwndSendSms,IDC_ADDRESS,wszPhone);
 				}
@@ -163,12 +154,14 @@ BOOL CALLBACK RecvSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM lPar
 			break;
 		}
 		break;
+
 	case WM_CLOSE:
 		DeleteObject(prswdWindowData->hBkgBrush);
 		RecvSMSWindowRemove(hWndDlg);
 		break;
 	}
-return(FALSE);
+
+	return FALSE;
 }
 
 //SMS Receive window list functions

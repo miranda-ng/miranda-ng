@@ -193,7 +193,7 @@ BOOL WINAPI DllMain(HINSTANCE hInstance,DWORD dwReason,LPVOID lpvReserved)
 		break;
     }
 
-	return(TRUE);
+	return TRUE;
 }
 
 extern "C" int __declspec(dllexport) Load(void)
@@ -229,7 +229,7 @@ int OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 
 	LoadModules();
 
-	return(0);
+	return 0;
 }
 
 
@@ -241,7 +241,7 @@ int OnPreShutdown(WPARAM wParam,LPARAM lParam)
 	SendSMSWindowDestroy();
 	FreeAccountList();
 
-return(0);
+	return 0;
 }
 
 
