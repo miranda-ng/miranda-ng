@@ -35,7 +35,9 @@ static TCHAR name1[256];
 INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam) 
 {
 	PROTOSEARCHRESULT *psr = (PROTOSEARCHRESULT*)lParam;
-	WIDATA *sData;
+
+	if(!psr || !psr->email)
+		return 0;
 
 	// search for existing contact
 	HANDLE hContact = db_find_first();
@@ -75,7 +77,7 @@ INT_PTR WeatherAddToList(WPARAM wParam, LPARAM lParam)
 	GetSvc(svc);
 	// set settings by obtaining the default for the service 
 	if (psr->lastName[0] != 0) {
-		sData = GetWIData(svc);
+		WIDATA *sData = GetWIData(svc);
 		db_set_ts(hContact, WEATHERPROTONAME, "MapURL", sData->DefaultMap);
 		db_set_s(hContact, WEATHERPROTONAME, "InfoURL", sData->DefaultURL);
 	}
