@@ -361,6 +361,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\C
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "StartPosition", "..\plugins\StartPosition\StartPosition_10.vcxproj", "{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SMS", "..\plugins\SMS\sms_10.vcxproj", "{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -1601,6 +1603,14 @@ Global
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Release|Win32.Build.0 = Release|Win32
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Release|x64.ActiveCfg = Release|x64
 		{046C5F80-ABE5-488F-BFC8-B024D4AACC8C}.Release|x64.Build.0 = Release|x64
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Debug|Win32.Build.0 = Debug|Win32
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Debug|x64.ActiveCfg = Debug|x64
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Debug|x64.Build.0 = Debug|x64
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|Win32.ActiveCfg = Release|Win32
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|Win32.Build.0 = Release|Win32
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|x64.ActiveCfg = Release|x64
+		{B5887781-C5FD-4A2C-BC5D-CC98E462ADA6}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

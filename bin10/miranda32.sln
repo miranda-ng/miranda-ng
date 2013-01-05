@@ -146,8 +146,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TabSRMM_icons", "..\plugins
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Toolbar_icons", "..\plugins\Clist_modern\icons_pack\Toolbar_icons_10.vcxproj", "{796B43EF-DACE-4145-8571-31886F45A2C0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Clist_blind", "..\plugins\Clist_blind\Clist_blind_10.vcxproj", "{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -539,14 +537,6 @@ Global
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|Win32.Build.0 = Release|Win32
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.ActiveCfg = Release|x64
 		{796B43EF-DACE-4145-8571-31886F45A2C0}.Release|x64.Build.0 = Release|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.ActiveCfg = Debug|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|Win32.Build.0 = Debug|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.ActiveCfg = Debug|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Debug|x64.Build.0 = Debug|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.ActiveCfg = Release|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|Win32.Build.0 = Release|Win32
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.ActiveCfg = Release|x64
-		{A6A38A40-56AD-48A0-8FB3-3B4B59FF4C5D}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
