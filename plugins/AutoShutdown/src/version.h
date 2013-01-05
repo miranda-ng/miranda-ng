@@ -25,14 +25,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define __BUILD_NUM					2
 
 #define __FILEVERSION_STRING		__MAJOR_VERSION,__MINOR_VERSION,__RELEASE_NUM,__BUILD_NUM
-#define __FILEVERSION_DOTS			__MAJOR_VERSION.__MINOR_VERSION.__RELEASE_NUM.__BUILD_NUM
 
-#define __STRINGIFY_IMPL(x)			#x
-#define __STRINGIFY(x)				__STRINGIFY_IMPL(x)
-#define __VERSION_STRING			__STRINGIFY(__FILEVERSION_DOTS)
-
-#define __PLUGIN_NAME				"AutoShutdown"
-#define __INTERNAL_NAME				"AutoShutdown"
+#define __PLUGIN_NAME				"Auto shutdown"
 #define __FILENAME					"AutoShutdown.dll"
 #define __DESCRIPTION 				"Adds the possibility to shutdown the computer when a specified event occurs."
 #define __AUTHOR					"H. Herkenrath"

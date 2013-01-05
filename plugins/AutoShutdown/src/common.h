@@ -19,11 +19,8 @@ along with this program (Shutdown-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-#include <stdio.h>  /* for mir_sntprintf() */
 #include <time.h>   /* for mktime(),time() */
-#include <tchar.h>
 #include <windows.h>
-#include <commctrl.h>
 
 /* WinXP+: shutdown reason codes */
 #if defined(EWX_RESTARTAPPS)   /* new MS Platform SDK */
@@ -40,17 +37,12 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <ras.h>       /* for RasEnumConnections(), RasHangUp() */
 #include <raserror.h>  /* error codes for RAS */
 
-#define MIRANDA_VER  0x0A00
 #include <newpluginapi.h>
-#include <m_utils.h>
 #include <m_database.h>
-#include <m_clist.h>
 #include <m_clui.h>
 #include <m_langpack.h>
-#include <m_system.h>
 #include <m_skin.h>
 #include <m_protosvc.h>
-#include <m_protocols.h>
 #include <m_options.h>
 #include <m_message.h>
 #include <m_file.h>
@@ -60,9 +52,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #include <m_clistint.h>
 #include <m_fontservice.h>
 #include <m_icolib.h>
-#include <m_clc.h>
-#include <m_genmenu.h>
-#include <m_button.h>
 #include <m_hotkeys.h>
 
 #include <m_weather.h>
