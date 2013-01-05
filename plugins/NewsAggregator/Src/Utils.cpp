@@ -33,7 +33,7 @@ VOID NetlibInit()
 	NETLIBUSER nlu = {0};
 	nlu.cbSize = sizeof(nlu);
 	nlu.flags = NUF_OUTGOING | NUF_INCOMING | NUF_HTTPCONNS | NUF_TCHAR;	// | NUF_HTTPGATEWAY;
-	nlu.ptszDescriptiveName = TranslateT("NewsAggr HTTP connection");
+	nlu.ptszDescriptiveName = TranslateT("NewsAggregator HTTP connection");
 	nlu.szSettingsModule = MODULE;
 	hNetlibUser = (HANDLE)CallService(MS_NETLIB_REGISTERUSER, 0, (LPARAM)&nlu);
 }

@@ -34,39 +34,39 @@ VOID InitMenu()
 	mi.position=10100001;
 	mi.icolibItem = GetIconHandle("main");
 	mi.ptszName = LPGENT("Check All Feeds");
-	mi.pszService = MS_NEWSAGGR_CHECKALLFEEDS;
+	mi.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
 	hService2[0] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100002;
 	mi.icolibItem = GetIconHandle("addfeed");
 	mi.ptszName = LPGENT("Add Feed");
-	mi.pszService = MS_NEWSAGGR_ADDFEED;
+	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
 	hService2[1] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100003;
 	mi.icolibItem = GetIconHandle("importfeeds");
 	mi.ptszName = LPGENT("Import Feeds");
-	mi.pszService = MS_NEWSAGGR_IMPORTFEEDS;
+	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
 	hService2[2] = Menu_AddMainMenuItem(&mi);
 
 	mi.position=10100004;
 	mi.icolibItem = GetIconHandle("exportfeeds");
 	mi.ptszName = LPGENT("Export Feeds");
-	mi.pszService = MS_NEWSAGGR_EXPORTFEEDS;
+	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
 	hService2[3] = Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
 	mi.position=-0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Check feed");
-	mi.pszService = MS_NEWSAGGR_CHECKFEED;
+	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
 	hService2[4] = Menu_AddContactMenuItem(&mi);
 
 	// adding contact menu items
 	mi.position=-0x7FFFFFFA;
 	//mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Change feed");
-	mi.pszService = MS_NEWSAGGR_CHANGEFEED;
+	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
 	hService2[5] = Menu_AddContactMenuItem(&mi);
 
 	ZeroMemory(&mi, sizeof(mi));

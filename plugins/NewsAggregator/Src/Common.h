@@ -17,48 +17,35 @@ not, write to the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
 Boston, MA 02111-1307, USA.  
 */
 
-#define MIRANDA_VER    0x0A00
-
 // Windows Header Files:
 #include <windows.h>
 #include <commctrl.h>
 #include <time.h>
 #include <fcntl.h>
 #include <io.h>
-#include <errno.h>
-#include <string.h>
-#include <stdlib.h>
 #include <sys\stat.h>
 #include <mshtml.h>
 
 // Miranda header files
 #include <newpluginapi.h>
 #include <m_clist.h>
-#include <m_skin.h>
 #include <m_langpack.h>
 #include <m_options.h>
 #include <m_database.h>
-#include <m_utils.h>
-#include <m_system.h>
-#include <m_popup.h>
-#include <m_hotkeys.h>
 #include <m_netlib.h>
 #include <m_icolib.h>
 #include <m_message.h>
 #include <win2k.h>
-#include <m_protocols.h>
 #include <m_protomod.h>
-#include <m_protosvc.h>
 #include <m_xml.h>
 #include <m_avatars.h>
 
 #include <m_folders.h>
-#include <m_popup.h>
 
 #include "version.h"
 #include "resource.h"
 
-#define MODULE	"NewsAggr"
+#define MODULE	"NewsAggregator"
 #define TAGSDEFAULT "#<title>#\r\n#<link>#\r\n#<description>#"
 #define DEFAULT_AVATARS_FOLDER "NewsAggregator"
 extern HINSTANCE hInst;
@@ -135,27 +122,27 @@ time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
 VOID CheckCurrentFeed (HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 
-// ===============  NewsAggr SERVICES  ================
+// ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_CHECKALLFEEDS	"NEWSAGGR/CheckAllFeeds"
+#define MS_NEWSAGGREGATOR_CHECKALLFEEDS	"NewsAggregator/CheckAllFeeds"
 
 // Add new Feed channel
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_ADDFEED	"NEWSAGGR/AddNewsFeed"
+#define MS_NEWSAGGREGATOR_ADDFEED	"NewsAggregator/AddNewsFeed"
 
 // Add new Feed channel
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_CHANGEFEED	"NEWSAGGR/ChangeNewsFeed"
+#define MS_NEWSAGGREGATOR_CHANGEFEED	"NewsAggregator/ChangeNewsFeed"
 
 // Import Feed chanels from file
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_IMPORTFEEDS	"NEWSAGGR/ImportFeeds"
+#define MS_NEWSAGGREGATOR_IMPORTFEEDS	"NewsAggregator/ImportFeeds"
 
 // Export Feed chanels to file
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_EXPORTFEEDS	"NEWSAGGR/ExportFeeds"
+#define MS_NEWSAGGREGATOR_EXPORTFEEDS	"NewsAggregator/ExportFeeds"
 
 // Check Feed info
 // WPARAM = LPARAM = NULL
-#define MS_NEWSAGGR_CHECKFEED	"NEWSAGGR/CheckFeed"
+#define MS_NEWSAGGREGATOR_CHECKFEED	"NewsAggregator/CheckFeed"

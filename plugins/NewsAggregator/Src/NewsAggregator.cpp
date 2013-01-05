@@ -100,12 +100,12 @@ extern "C" __declspec(dllexport) int Load(void)
 	hProtoService[6] = CreateProtoServiceFunction(MODULE, PS_GETAVATARINFOT, NewsAggrGetAvatarInfo);
 	hProtoService[7] = CreateProtoServiceFunction(MODULE, PSR_MESSAGE, NewsAggrRecvMessage);
 
-	hService[0] = CreateServiceFunction(MS_NEWSAGGR_CHECKALLFEEDS, CheckAllFeeds);
-	hService[1] = CreateServiceFunction(MS_NEWSAGGR_ADDFEED, AddFeed);
-	hService[2] = CreateServiceFunction(MS_NEWSAGGR_IMPORTFEEDS, ImportFeeds);
-	hService[3] = CreateServiceFunction(MS_NEWSAGGR_EXPORTFEEDS, ExportFeeds);
-	hService[4] = CreateServiceFunction(MS_NEWSAGGR_CHECKFEED, CheckFeed);
-	hService[5] = CreateServiceFunction(MS_NEWSAGGR_CHANGEFEED, ChangeFeed);
+	hService[0] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKALLFEEDS, CheckAllFeeds);
+	hService[1] = CreateServiceFunction(MS_NEWSAGGREGATOR_ADDFEED, AddFeed);
+	hService[2] = CreateServiceFunction(MS_NEWSAGGREGATOR_IMPORTFEEDS, ImportFeeds);
+	hService[3] = CreateServiceFunction(MS_NEWSAGGREGATOR_EXPORTFEEDS, ExportFeeds);
+	hService[4] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKFEED, CheckFeed);
+	hService[5] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
 
 	return 0;
 }
