@@ -1,7 +1,7 @@
 ﻿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;============================================================
 ;  File: ListeningTo
-;  Module: listeningtoW.dll
+;  Module: listeningto.dll
 ;  Versions: 0.3.0.0
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3693
 ;  Source: http://pescuma.googlecode.com/svn/trunk/Miranda/Plugins/listeningto/
@@ -89,3 +89,7 @@ foobar2000 (установите модуль вручную)
 Вкл./выкл. отправлять всем протоколам
 [Don't send to any protocols]
 Не отправлять всем протоколам
+[Listening to (enabled)]
+Музыка (включено)
+[Listening to (disabled)]
+Музыка (выключено)
