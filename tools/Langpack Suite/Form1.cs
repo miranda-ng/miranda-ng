@@ -237,7 +237,7 @@ namespace Langpack_Suite
             if (vitype)
                 vipath = VIURLTextBox.Text;
             else
-                vipath = FolderName + "\\VersionInfo.txt";
+                vipath = Directory.GetCurrentDirectory() + "\\VersionInfo.txt";
 
             if (File.Exists(vipath))
             {
