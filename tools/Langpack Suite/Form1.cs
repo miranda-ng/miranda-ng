@@ -19,7 +19,7 @@ namespace Langpack_Suite
         private CultureInfo culture;
         public FolderBrowserDialog LangpackFolder;
         public String[] arguments;
-        public bool vitype, quiet = false;
+        public bool vitype, quiet = false, outfile = false;
         public string output = ""; 
         Searcher search;
         ToolTip tipper;
@@ -77,6 +77,7 @@ namespace Langpack_Suite
                 if (key.Equals("\\l"))
                 {
                     output = arguments[i].Substring(2);
+                    outfile = true;
                 }
                 if (key.Equals("\\p"))
                 {
@@ -189,7 +190,8 @@ namespace Langpack_Suite
             InfMessageLangBox.Text = LocaleText + "\r\n";
 
             FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
-            output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
+            if (!outfile)
+                output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
             if (File.Exists(output))
                 File.Delete(output);
 
