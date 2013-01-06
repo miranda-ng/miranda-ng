@@ -982,7 +982,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (wParam != IDC_TAB) {
 					TVITEM tvi;
 					tvi.hItem = dat->hCurrentPage = TreeView_GetSelection(hwndTree);
-					if (tvi.hItem != NULL) {
+					if (tvi.hItem != NULL) {					
 						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
 						TreeView_GetItem(hwndTree, &tvi);
 						dat->currentPage = tvi.lParam;
@@ -1008,23 +1008,17 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 					break;
 				}
 				if (opd->hwnd == NULL) {
-					RECT rcPage;
-					RECT rc;
-					int w, h;
-
 					opd->hwnd = CreateDialogIndirectParamA(opd->hInst, opd->pTemplate, hdlg, opd->dlgProc, opd->dwInitParam);
 					if (opd->flags & ODPF_BOLDGROUPS)
 						EnumChildWindows(opd->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
+
+					RECT rcPage;
 					GetClientRect(opd->hwnd, &rcPage);
-					opd->width = rcPage.right;
-					opd->height = rcPage.bottom;
+					int w = opd->width = rcPage.right;
+					int h = opd->height = rcPage.bottom;
+
+					RECT rc;
 					GetWindowRect(opd->hwnd, &rc);
-
-					opd->height = opd->height;
-					opd->width = opd->width;
-
-					w = opd->width;
-					h = opd->height;
 
 					opd->offsetX = 0;
 					opd->offsetY = 0;
@@ -1038,49 +1032,49 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-w)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-h)>>1, w, h, 0);
 						ThemeDialogBackground(opd->hwnd, FALSE);
 					}
+				}
 
-					if (wParam != IDC_TAB) {
-						opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
-						if (opd->insideTab) {
-							// Make tabbed pane
-							int pages = 0, sel = 0;
-							HWND hwndTab = GetDlgItem(hdlg, IDC_TAB);
-							TabCtrl_DeleteAllItems(hwndTab);
+				if (wParam != IDC_TAB) {
+					opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
+					if (opd->insideTab) {
+						// Make tabbed pane
+						int pages = 0, sel = 0;
+						HWND hwndTab = GetDlgItem(hdlg, IDC_TAB);
+						TabCtrl_DeleteAllItems(hwndTab);
 
-							TCITEM tie;
-							tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
-							tie.iImage = -1;
-							for (int i=0; i < dat->arOpd.getCount(); i++) {
-								if ( !CheckPageShow(hdlg, dat, i))
-									continue;
+						TCITEM tie;
+						tie.mask = TCIF_TEXT | TCIF_IMAGE | TCIF_PARAM;
+						tie.iImage = -1;
+						for (int i=0; i < dat->arOpd.getCount(); i++) {
+							if ( !CheckPageShow(hdlg, dat, i))
+								continue;
 
-								OptionsPageData *p = dat->arOpd[i];
-								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
-									continue;
+							OptionsPageData *p = dat->arOpd[i];
+							if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
+								continue;
 
-								tie.pszText = TranslateTH(opd->hLangpack, opd->ptszTab);
-								tie.lParam = i;
-								TabCtrl_InsertItem(hwndTab, pages, &tie);
-								if ( !lstrcmp(opd->ptszTab, p->ptszTab))
-									sel = pages;
-								pages++;
-							}
-							TabCtrl_SetCurSel(hwndTab, sel);
-							ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
+							tie.pszText = TranslateTH(p->hLangpack, p->ptszTab);
+							tie.lParam = i;
+							TabCtrl_InsertItem(hwndTab, pages, &tie);
+							if ( !lstrcmp(opd->ptszTab, p->ptszTab))
+								sel = pages;
+							pages++;
 						}
-
-						if (opd->insideTab) 
-							ThemeDialogBackground(opd->hwnd, TRUE);
-						else 
-							ThemeDialogBackground(opd->hwnd, FALSE);
+						TabCtrl_SetCurSel(hwndTab, sel);
+						ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
 					}
 
-					ShowWindow(opd->hwnd, SW_SHOW);
-					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE)
-						PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
-					else
-						SetFocus(hwndTree);
+					if (opd->insideTab) 
+						ThemeDialogBackground(opd->hwnd, TRUE);
+					else 
+						ThemeDialogBackground(opd->hwnd, FALSE);
 				}
+
+				ShowWindow(opd->hwnd, SW_SHOW);
+				if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE)
+					PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
+				else
+					SetFocus(hwndTree);
 			}
 		}
 		break;
