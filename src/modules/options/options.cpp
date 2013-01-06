@@ -882,22 +882,21 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (fullTitle) mir_free(fullTitle);
 				fullTitle = NULL;
 			}
-			{
-				char str[128];
-				TVITEMA tvi;
-				tvi.mask = TVIF_TEXT | TVIF_STATE;
-				tvi.pszText = str;
-				tvi.cchTextMax = SIZEOF(str);
-				tvi.hItem = TreeView_GetRoot(hwndTree);
-				while (tvi.hItem != NULL) {
-					if (SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
-						char buf[130];
-						mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
-						if ( !db_get_b(NULL, "Options", buf, 1))
-							TreeView_Expand(hwndTree, tvi.hItem, TVE_COLLAPSE);
-					}
-					tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
+			
+			char str[128];
+			TVITEMA tvi;
+			tvi.mask = TVIF_TEXT | TVIF_STATE;
+			tvi.pszText = str;
+			tvi.cchTextMax = SIZEOF(str);
+			tvi.hItem = TreeView_GetRoot(hwndTree);
+			while (tvi.hItem != NULL) {
+				if ( SendMessageA(hwndTree, TVM_GETITEMA, 0, (LPARAM)&tvi)) {
+					char buf[130];
+					mir_snprintf(buf, SIZEOF(buf), "%s%s", OPTSTATE_PREFIX, str);
+					if ( !db_get_b(NULL, "Options", buf, 1))
+						TreeView_Expand(hwndTree, tvi.hItem, TVE_COLLAPSE);
 				}
+				tvi.hItem = TreeView_GetNextSibling(hwndTree, tvi.hItem);
 			}
 
 			if (dat->hCurrentPage == NULL) {
@@ -980,69 +979,69 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 				if (opd && opd->hwnd != NULL)
 					ShowWindow(opd->hwnd, SW_HIDE);
 				
-				if ((wParam != IDC_TAB)) {
+				if (wParam != IDC_TAB) {
 					TVITEM tvi;
 					tvi.hItem = dat->hCurrentPage = TreeView_GetSelection(hwndTree);
-					if (tvi.hItem == NULL) break;
-					tvi.mask = TVIF_HANDLE|TVIF_PARAM;
-					TreeView_GetItem(hwndTree, &tvi);
-					dat->currentPage = tvi.lParam;
+					if (tvi.hItem != NULL) {
+						tvi.mask = TVIF_HANDLE | TVIF_PARAM;
+						TreeView_GetItem(hwndTree, &tvi);
+						dat->currentPage = tvi.lParam;
+					}
 					ShowWindow( GetDlgItem(hdlg, IDC_TAB), SW_HIDE);
 				} 
 				else {
 					TCITEM tie;
-					TVITEM tvi;
-
 					tie.mask = TCIF_PARAM;
 					TabCtrl_GetItem( GetDlgItem(hdlg, IDC_TAB), TabCtrl_GetCurSel( GetDlgItem(hdlg, IDC_TAB)), &tie);
 					dat->currentPage = tie.lParam;
 
+					TVITEM tvi;
 					tvi.hItem = dat->hCurrentPage;
 					tvi.mask = TVIF_PARAM;
 					tvi.lParam = dat->currentPage;
 					TreeView_SetItem(hwndTree, &tvi);
 				}
-				{
-					OptionsPageData* p = dat->getCurrent();
-					if (p == NULL) {
-						ShowWindow( GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
-						break;
+
+				opd = dat->getCurrent();
+				if (opd == NULL) {
+					ShowWindow( GetDlgItem(hdlg, IDC_STNOPAGE), SW_SHOW);
+					break;
+				}
+				if (opd->hwnd == NULL) {
+					RECT rcPage;
+					RECT rc;
+					int w, h;
+
+					opd->hwnd = CreateDialogIndirectParamA(opd->hInst, opd->pTemplate, hdlg, opd->dlgProc, opd->dwInitParam);
+					if (opd->flags & ODPF_BOLDGROUPS)
+						EnumChildWindows(opd->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
+					GetClientRect(opd->hwnd, &rcPage);
+					opd->width = rcPage.right;
+					opd->height = rcPage.bottom;
+					GetWindowRect(opd->hwnd, &rc);
+
+					opd->height = opd->height;
+					opd->width = opd->width;
+
+					w = opd->width;
+					h = opd->height;
+
+					opd->offsetX = 0;
+					opd->offsetY = 0;
+
+					opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
+					if (opd->insideTab) {
+						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-w)>>1, dat->rcTab.top, w, h, 0);
+						ThemeDialogBackground(opd->hwnd, TRUE);
 					}
-					if (p->hwnd == NULL) {
-						RECT rcPage;
-						RECT rc;
-						int w, h;
-
-						p->hwnd = CreateDialogIndirectParamA(p->hInst, p->pTemplate, hdlg, p->dlgProc, p->dwInitParam);
-						if (p->flags & ODPF_BOLDGROUPS)
-							EnumChildWindows(p->hwnd, BoldGroupTitlesEnumChildren, (LPARAM)dat->hBoldFont);
-						GetClientRect(p->hwnd, &rcPage);
-						p->width = rcPage.right;
-						p->height = rcPage.bottom;
-						GetWindowRect(p->hwnd, &rc);
-
-						p->height = p->height;
-						p->width = p->width;
-
-						w = p->width;
-						h = p->height;
-
-						p->offsetX = 0;
-						p->offsetY = 0;
-
-						p->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
-						if (p->insideTab) {
-							SetWindowPos(p->hwnd, HWND_TOP, (dat->rcTab.left+dat->rcTab.right-w)>>1, dat->rcTab.top, w, h, 0);
-							ThemeDialogBackground(p->hwnd, TRUE);
-						}
-						else {
-							SetWindowPos(p->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-w)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-h)>>1, w, h, 0);
-							ThemeDialogBackground(p->hwnd, FALSE);
-						}
+					else {
+						SetWindowPos(opd->hwnd, HWND_TOP, (dat->rcDisplay.left+dat->rcDisplay.right-w)>>1, (dat->rcDisplay.top+dat->rcDisplay.bottom-h)>>1, w, h, 0);
+						ThemeDialogBackground(opd->hwnd, FALSE);
 					}
+
 					if (wParam != IDC_TAB) {
-						p->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
-						if (p->insideTab) {
+						opd->insideTab = IsInsideTab(hdlg, dat, dat->currentPage);
+						if (opd->insideTab) {
 							// Make tabbed pane
 							int pages = 0, sel = 0;
 							HWND hwndTab = GetDlgItem(hdlg, IDC_TAB);
@@ -1055,7 +1054,7 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								if ( !CheckPageShow(hdlg, dat, i))
 									continue;
 
-								opd = dat->arOpd[i];
+								OptionsPageData *p = dat->arOpd[i];
 								if ( lstrcmp(opd->ptszTitle, p->ptszTitle) || lstrcmpnull(opd->ptszGroup, p->ptszGroup))
 									continue;
 
@@ -1067,18 +1066,20 @@ static INT_PTR CALLBACK OptionsDlgProc(HWND hdlg, UINT message, WPARAM wParam, L
 								pages++;
 							}
 							TabCtrl_SetCurSel(hwndTab, sel);
-							ShowWindow(hwndTab, p->insideTab ? SW_SHOW : SW_HIDE);
+							ShowWindow(hwndTab, opd->insideTab ? SW_SHOW : SW_HIDE);
 						}
 
-						if (p->insideTab) 
-							ThemeDialogBackground(p->hwnd, TRUE);
+						if (opd->insideTab) 
+							ThemeDialogBackground(opd->hwnd, TRUE);
 						else 
-							ThemeDialogBackground(p->hwnd, FALSE);
+							ThemeDialogBackground(opd->hwnd, FALSE);
 					}
 
-					ShowWindow(p->hwnd, SW_SHOW);
-					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE) PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
-					else SetFocus(hwndTree);
+					ShowWindow(opd->hwnd, SW_SHOW);
+					if (((LPNMTREEVIEW)lParam)->action == TVC_BYMOUSE)
+						PostMessage(hdlg, DM_FOCUSPAGE, 0, 0);
+					else
+						SetFocus(hwndTree);
 				}
 			}
 		}
@@ -1279,8 +1280,7 @@ static void OpenOptionsNow(int hLangpack, const char *pszGroup, const char *pszP
 		ood.pszPage = pszPage;
 		ood.pszTab = pszTab;
 
-		PROPSHEETHEADER psh = { 0 };
-		psh.dwSize = sizeof(psh);
+		PROPSHEETHEADER psh = { sizeof(psh) };
 		psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
 		psh.nPages = opi.pageCount;
 		psh.pStartPage = (LPCTSTR)&ood;	  //more structure misuse
