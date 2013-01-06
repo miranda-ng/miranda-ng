@@ -34,9 +34,6 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	char 		*umsg;
 	const char	*c = msg;
 	int 		oidx = 0;
-	PROTORECVEVENT 	pre;
-	HANDLE 			hContact = NULL;
-
 
 	LOG(("YAHOO_GOT_IM id:%s %s: %s (len: %d) tm:%lu stat:%i utf8:%i buddy_icon: %i", me, who, msg, lstrlenA(msg), tm, stat, utf8, buddy_icon));
 
@@ -103,19 +100,19 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 	/* Need to strip off formatting stuff first. Then do all decoding/converting */
 	LOG(("%s: %s", who, umsg));
 
+	HANDLE hContact = add_buddy(who, who, protocol, PALF_TEMPORARY);
 	//SetWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
 
+	PROTORECVEVENT pre;
 	pre.flags = (utf8) ? PREF_UTF : 0;
 
 	if (tm) {
 		HANDLE hEvent = (HANDLE)CallService(MS_DB_EVENT_FINDLAST, (WPARAM)hContact, 0);
 
 		if (hEvent) { // contact has events
-			DBEVENTINFO dbei;
 			DWORD dummy;
-
-			dbei.cbSize = sizeof (DBEVENTINFO);
+			DBEVENTINFO dbei = { sizeof (dbei) };
 			dbei.pBlob = (BYTE*)&dummy;
 			dbei.cbBlob = 2;
 			if (!CallService(MS_DB_EVENT_GET, (WPARAM)hEvent, (LPARAM)&dbei)) 
@@ -128,8 +125,8 @@ void CYahooProto::ext_got_im(const char *me, const char *who, int protocol, cons
 		if ((DWORD)tm < pre.timestamp)
 			pre.timestamp = tm;
 		
-	} else
-		pre.timestamp = (DWORD)time(NULL);
+	}
+	else pre.timestamp = (DWORD)time(NULL);
 
 	pre.szMessage = umsg;
 	pre.lParam = 0;
