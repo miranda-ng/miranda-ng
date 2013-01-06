@@ -1817,14 +1817,12 @@ void OptCheckBox_Save(HWND hwnd, struct OptCheckBox *cb)
 {
 	DWORD value = IsDlgButtonChecked(hwnd, cb->idc) == BST_CHECKED;
 
-	if (cb->dwBit)
-	{
+	if (cb->dwBit) {
 		DWORD curValue = OptCheckBox_LoadValue(cb);
 		value = value ? (curValue | cb->dwBit) : (curValue & ~cb->dwBit);
 	}
 
-	switch (cb->dbType)
-	{
+	switch (cb->dbType) {
 	case DBVT_BYTE:
 		db_set_b(NULL, cb->dbModule, cb->dbSetting, (BYTE)value);
 		break;
@@ -1836,8 +1834,7 @@ void OptCheckBox_Save(HWND hwnd, struct OptCheckBox *cb)
 		break;
 	}
 
-	switch (cb->valueType)
-	{
+	switch (cb->valueType) {
 	case CBVT_CHAR:
 		*cb->charValue = (char)value;
 		break;
@@ -1856,35 +1853,36 @@ void OptCheckBox_Save(HWND hwnd, struct OptCheckBox *cb)
 	}
 }
 
+static struct OptCheckBox opts[]  = 
+{
+	//{IDC_, def, bit, dbtype, dbmodule, dbsetting, valtype, pval},
+	{ IDC_ONTOP, SETTING_ONTOP_DEFAULT, 0, DBVT_BYTE, "CList", "OnTop"},
+	{ IDC_SHOWPROTO, SETTING_SBARSHOW_DEFAULT, 2, DBVT_BYTE, "CLUI","SBarShow"},
+	{ IDC_SHOWSTATUS, SETTING_SBARSHOW_DEFAULT, 4, DBVT_BYTE, "CLUI","SBarShow"},
+	{ IDC_AUTOHIDE, SETTING_AUTOHIDE_DEFAULT, 0, DBVT_BYTE, "CList", "AutoHide"},
+	{ IDC_FADEINOUT, SETTING_FADEIN_DEFAULT, 0, DBVT_BYTE, "CLUI", "FadeInOut"},
+	{ IDC_TRANSPARENT, SETTING_TRANSPARENT_DEFAULT, 0, DBVT_BYTE, "CList", "Transparent"},
+	{ IDC_SHOWGROUPCOUNTS, GetDefaultExStyle(), CLS_EX_SHOWGROUPCOUNTS, DBVT_DWORD, "CLC", "ExStyle"},
+	{ IDC_HIDECOUNTSWHENEMPTY, GetDefaultExStyle(), CLS_EX_HIDECOUNTSWHENEMPTY, DBVT_DWORD, "CLC", "ExStyle"},
+	{ IDC_MINIMODE, SETTING_COMPACTMODE_DEFAULT, 0, DBVT_BYTE, "CLC", "CompactMode"},
+	{ IDC_SHOW_AVATARS, SETTINGS_SHOWAVATARS_DEFAULT, 0, DBVT_BYTE, "CList","AvatarsShow"},
+	{ IDC_SHOW_ANIAVATARS, FALSE, 0, DBVT_BYTE, "CList","AvatarsAnimated"},
+	{ IDC_SHOW, SETTING_SHOWTIME_DEFAULT, 0, DBVT_BYTE, "CList", "ContactTimeShow"},
+};
+
 static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	struct OptCheckBox opts[]  = 
-	{
-		//{IDC_, def, bit, dbtype, dbmodule, dbsetting, valtype, pval},
-		{IDC_ONTOP, SETTING_ONTOP_DEFAULT, 0, DBVT_BYTE, "CList", "OnTop"},
-		{IDC_AUTOHIDE, SETTING_AUTOHIDE_DEFAULT, 0, DBVT_BYTE, "CList", "AutoHide"},
-		{IDC_FADEINOUT, SETTING_FADEIN_DEFAULT, 0, DBVT_BYTE, "CLUI", "FadeInOut"},
-		{IDC_TRANSPARENT, SETTING_TRANSPARENT_DEFAULT, 0, DBVT_BYTE, "CList", "Transparent"},
-		{IDC_SHOWGROUPCOUNTS, GetDefaultExStyle(), CLS_EX_SHOWGROUPCOUNTS, DBVT_DWORD, "CLC", "ExStyle"},
-		{IDC_HIDECOUNTSWHENEMPTY, GetDefaultExStyle(), CLS_EX_HIDECOUNTSWHENEMPTY, DBVT_DWORD, "CLC", "ExStyle"},
-		{IDC_MINIMODE, SETTING_COMPACTMODE_DEFAULT, 0, DBVT_BYTE, "CLC", "CompactMode"},
-		{IDC_SHOW_AVATARS, SETTINGS_SHOWAVATARS_DEFAULT, 0, DBVT_BYTE, "CList","AvatarsShow"},
-		{IDC_SHOW_ANIAVATARS, FALSE, 0, DBVT_BYTE, "CList","AvatarsAnimated"},
-		{IDC_SHOW, SETTING_SHOWTIME_DEFAULT, 0, DBVT_BYTE, "CList", "ContactTimeShow"},
-	};
-
 	static bool bInit = true;
 
 	switch (msg) {
 	case WM_INITDIALOG:
+		TranslateDialogDefault(hwndDlg);
+		bInit = true;
 		{
-			bInit = true;
-
 			int i=0;
 			int item;
 			int s1, s2, s3;
 
-			TranslateDialogDefault(hwndDlg);
 			for (i=0; i < SIZEOF(opts); ++i)
 				OptCheckBox_Load(hwndDlg, opts+i);
 
@@ -1893,15 +1891,13 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETRANGE,0,MAKELONG(900,1));
 			SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_SETPOS,0,MAKELONG(db_get_w(NULL,"CList","HideTime",SETTING_HIDETIME_DEFAULT),0));
 
-			if ( !IsWinVer2000Plus())
-			{
+			if ( !IsWinVer2000Plus()) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_FADEINOUT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSPARENT),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_DROPSHADOW),FALSE);
 			}
 
-			if ( !IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT))
-			{
+			if ( !IsDlgButtonChecked(hwndDlg,IDC_TRANSPARENT)) {
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC11),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_STATIC12),FALSE);
 				EnableWindow(GetDlgItem(hwndDlg,IDC_TRANSACTIVE),FALSE);
@@ -1915,9 +1911,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_SETPOS,TRUE,db_get_b(NULL,"CList","AutoAlpha",SETTING_AUTOALPHA_DEFAULT));
 			SendMessage(hwndDlg,WM_HSCROLL,0x12345678,0);
 
-
-			for (i=0; i < SIZEOF(sortby); i++)
-			{
+			for (i=0; i < SIZEOF(sortby); i++) {
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
 				SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETITEMDATA,item,0);
 				item = SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_ADDSTRING,0,(LPARAM)TranslateTS(sortby[i]));
@@ -1930,8 +1924,7 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			s2 = db_get_b(NULL,"CList","SortBy2",SETTING_SORTBY2_DEFAULT);
 			s3 = db_get_b(NULL,"CList","SortBy3",SETTING_SORTBY3_DEFAULT);
 
-			for (i=0; i < SIZEOF(sortby); i++)
-			{
+			for (i=0; i < SIZEOF(sortby); i++) {
 				if (s1 == sortbyValue[i])
 					SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_SETCURSEL,i,0);
 				if (s2 == sortbyValue[i])
@@ -1941,23 +1934,24 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 			}
 
 			bInit = false;
-			return TRUE;
 		}
+		return TRUE;
 
 	case WM_DESTROY:
 		bInit = true;
 		break;
 
 	case WM_HSCROLL:
-		{	char str[10];
-		sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS,0,0)/255);
-		SetDlgItemTextA(hwndDlg,IDC_INACTIVEPERC,str);
-		sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0)/255);
-		SetDlgItemTextA(hwndDlg,IDC_ACTIVEPERC,str);
-		if (wParam != 0x12345678)
-			if ( !bInit) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
-		break;
+		{
+			char str[10];
+			sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS,0,0)/255);
+			SetDlgItemTextA(hwndDlg,IDC_INACTIVEPERC,str);
+			sprintf(str,"%d%%",100*SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0)/255);
+			SetDlgItemTextA(hwndDlg,IDC_ACTIVEPERC,str);
+			if (wParam != 0x12345678)
+				if ( !bInit) SendMessage(GetParent(hwndDlg), PSM_CHANGED, (WPARAM)hwndDlg, 0);
 		}
+		break;
 
 	case WM_COMMAND:
 		switch (LOWORD(wParam)) {
@@ -1978,55 +1972,47 @@ static INT_PTR CALLBACK DlgProcModernOptions(HWND hwndDlg, UINT msg, WPARAM wPar
 		break;
 
 	case WM_NOTIFY:
-		{
-			switch (((LPNMHDR) lParam)->idFrom)
-			{
-			case 0:
-				switch (((LPNMHDR) lParam)->code)
+		switch (((LPNMHDR) lParam)->idFrom) {
+		case 0:
+			switch (((LPNMHDR) lParam)->code) {
+			case PSN_APPLY:
+				g_mutex_bChangingMode = TRUE;
 				{
-				case PSN_APPLY:
+					for (int i=0; i < SIZEOF(opts); ++i)
+						OptCheckBox_Save(hwndDlg, opts+i);
+
+					SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg,IDC_ONTOP)?HWND_TOPMOST:HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
+					db_set_w(NULL,"CList","HideTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_GETPOS,0,0));
+
+					db_set_b(NULL,"CList","Alpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0));
+					db_set_b(NULL,"CList","AutoAlpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS,0,0));
 					{
-						int i;
-
-						g_mutex_bChangingMode = TRUE;
-
-						for (i=0; i < SIZEOF(opts); ++i)
-							OptCheckBox_Save(hwndDlg, opts+i);
-
-						SetWindowPos(pcli->hwndContactList, IsDlgButtonChecked(hwndDlg,IDC_ONTOP)?HWND_TOPMOST:HWND_NOTOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
-						db_set_w(NULL,"CList","HideTime",(WORD)SendDlgItemMessage(hwndDlg,IDC_HIDETIMESPIN,UDM_GETPOS,0,0));
-
-						db_set_b(NULL,"CList","Alpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSACTIVE,TBM_GETPOS,0,0));
-						db_set_b(NULL,"CList","AutoAlpha",(BYTE)SendDlgItemMessage(hwndDlg,IDC_TRANSINACTIVE,TBM_GETPOS,0,0));
-
-						{
-							int s1 = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_GETCURSEL,0,0);
-							int s2 = SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_GETCURSEL,0,0);
-							int s3 = SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_GETCURSEL,0,0);
-							if (s1 >= 0) s1 = sortbyValue[s1];
-							if (s2 >= 0) s2 = sortbyValue[s2];
-							if (s3 >= 0) s3 = sortbyValue[s3];
-							db_set_b(NULL,"CList","SortBy1",(BYTE)s1);
-							db_set_b(NULL,"CList","SortBy2",(BYTE)s2);
-							db_set_b(NULL,"CList","SortBy3",(BYTE)s3);
-						}
-
-						ClcOptionsChanged();
-						AniAva_UpdateOptions();
-						ske_LoadSkinFromDB();
-						CLUI_UpdateLayeredMode();
-						CLUI_ChangeWindowMode();
-						SendMessage(pcli->hwndContactTree,WM_SIZE,0,0);	//forces it to send a cln_listsizechanged
-						CLUI_ReloadCLUIOptions();
-						cliShowHide(0,1);
-						g_mutex_bChangingMode = FALSE;
-						return TRUE;
+						int s1 = SendDlgItemMessage(hwndDlg,IDC_CLSORT1,CB_GETCURSEL,0,0);
+						int s2 = SendDlgItemMessage(hwndDlg,IDC_CLSORT2,CB_GETCURSEL,0,0);
+						int s3 = SendDlgItemMessage(hwndDlg,IDC_CLSORT3,CB_GETCURSEL,0,0);
+						if (s1 >= 0) s1 = sortbyValue[s1];
+						if (s2 >= 0) s2 = sortbyValue[s2];
+						if (s3 >= 0) s3 = sortbyValue[s3];
+						db_set_b(NULL,"CList","SortBy1",(BYTE)s1);
+						db_set_b(NULL,"CList","SortBy2",(BYTE)s2);
+						db_set_b(NULL,"CList","SortBy3",(BYTE)s3);
 					}
+
+					ClcOptionsChanged();
+					AniAva_UpdateOptions();
+					ske_LoadSkinFromDB();
+					CLUI_UpdateLayeredMode();
+					CLUI_ChangeWindowMode();
+					SendMessage(pcli->hwndContactTree,WM_SIZE,0,0);	//forces it to send a cln_listsizechanged
+					CLUI_ReloadCLUIOptions();
+					cliShowHide(0,1);
 				}
-				break;
+				g_mutex_bChangingMode = FALSE;
+				return TRUE;
 			}
 			break;
 		}
+		break;
 	}
 
 	return FALSE;
