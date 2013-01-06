@@ -222,7 +222,7 @@ int __cdecl CYahooProto::SendMsg( HANDLE hContact, int flags, const char* pszSrc
 
 int __cdecl CYahooProto::RecvMsg( HANDLE hContact, PROTORECVEVENT* pre )
 {
-	DBDeleteContactSetting(hContact, "CList", "Hidden");
+	db_unset(hContact, "CList", "Hidden");
 
 	// NUDGES
 	if ( !lstrcmpA(pre->szMessage, "<ding>")  && ServiceExists("NUDGE/Send")) {

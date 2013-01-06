@@ -125,12 +125,12 @@ DWORD CYahooProto::SetDword( HANDLE hContact, const char* valueName, DWORD parVa
 
 WORD CYahooProto::SetWord( HANDLE hContact, const char* valueName, int parValue )
 {
-	return db_get_w( hContact, m_szModuleName, valueName, parValue );
+	return db_set_w( hContact, m_szModuleName, valueName, parValue );
 }
 
 WORD CYahooProto::GetWord( HANDLE hContact, const char* valueName, int parDefltValue )
 {
-	return db_set_w( hContact, m_szModuleName, valueName, parDefltValue );
+	return db_get_w( hContact, m_szModuleName, valueName, parDefltValue );
 }
 
 DWORD CYahooProto::Set_Protocol( HANDLE hContact, int protocol )

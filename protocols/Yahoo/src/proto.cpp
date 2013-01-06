@@ -136,7 +136,7 @@ HANDLE CYahooProto::AddToList( int flags, PROTOSEARCHRESULT* psr )
 			mir_free(id);
 			return 0;
 		}
-	} else if (flags & PALF_TEMPORARY ) { /* not on our list */
+	} else if (flags & PALF_TEMPORARY) { /* not on our list */
 		DebugLog("[YahooAddToList] Adding Temporary Buddy:%s ", id);
 	}
 
@@ -237,10 +237,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 	if ( !m_bLoggedIn )
 		return 1;
 
-	DBEVENTINFO dbei;
-	memset( &dbei, 0, sizeof( dbei ));
-	dbei.cbSize = sizeof( dbei );
-
+	DBEVENTINFO dbei = { sizeof( dbei ) };
 	if (( dbei.cbBlob = CallService( MS_DB_EVENT_GETBLOBSIZE, ( WPARAM )hdbe, 0)) == -1 ) {
 		DebugLog("[YahooAuthDeny] ERROR: Can't get blob size");
 		return 1;
@@ -288,7 +285,7 @@ int CYahooProto::AuthDeny( HANDLE hdbe, const TCHAR* reason )
 int __cdecl CYahooProto::AuthRecv(HANDLE hContact, PROTORECVEVENT* pre)
 {
 	DebugLog("[YahooRecvAuth] ");
-	DBDeleteContactSetting(hContact,"CList","Hidden");
+	db_unset(hContact,"CList","Hidden");
 
 	Proto_AuthRecv(m_szModuleName, pre);
 	return 0;
@@ -416,7 +413,7 @@ int __cdecl CYahooProto::RecvContacts( HANDLE /*hContact*/, PROTORECVEVENT* )
 
 int __cdecl CYahooProto::RecvFile( HANDLE hContact, PROTORECVFILET* evt )
 {
-	DBDeleteContactSetting(hContact, "CList", "Hidden");
+	db_unset(hContact, "CList", "Hidden");
 
 	return Proto_RecvFile(hContact, evt);
 }
@@ -849,7 +846,7 @@ INT_PTR CALLBACK first_run_dialog(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM 
 				DBFreeVariant( &dbv );
 
 			if (reconnectRequired ) {
-				DBDeleteContactSetting(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
+				db_unset(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
 			}
 
 			CallService(MS_DB_CRYPT_ENCODESTRING, sizeof(str), (LPARAM) str);

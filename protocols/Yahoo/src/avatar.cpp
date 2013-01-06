@@ -421,7 +421,7 @@ void CYahooProto::ext_got_picture(const char *me, const char *who, const char *p
 						}*/
 						
 						LOG(("[ext_yahoo_got_picture] Buddy: %s told us this is bad??Expired??. Re-uploading", who));
-						DBDeleteContactSetting(NULL, m_szModuleName, "AvatarURL");
+						db_unset(NULL, m_szModuleName, "AvatarURL");
 						
 						if (!DBGetContactSettingTString(NULL, m_szModuleName, "AvatarFile", &dbv2)) {
 							db_set_s(NULL, m_szModuleName, "AvatarInv", who);
@@ -540,7 +540,7 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 	if (cksum != 0) {
 		LOG(("[ext_yahoo_got_picture_upload] Updating Checksum to: %d", cksum));
 		SetDword("AvatarHash", cksum);
-		DBDeleteContactSetting(NULL, m_szModuleName, "TMPAvatarHash");
+		db_unset(NULL, m_szModuleName, "TMPAvatarHash");
 
 		// This is only meant for message sessions, but we don't got those in miranda yet
 		//YAHOO_bcast_picture_checksum(cksum);
@@ -561,7 +561,7 @@ void CYahooProto::ext_got_picture_upload(const char *me, const char *url,unsigne
 		//void yahoo_send_picture_info(int id, const char *me, const char *who, const char *pic_url, int cksum)
 		yahoo_send_picture_info(m_id, dbv.pszVal, 2, url, cksum);
 
-		DBDeleteContactSetting(NULL, m_szModuleName, "AvatarInv");
+		db_unset(NULL, m_szModuleName, "AvatarInv");
 		DBFreeVariant(&dbv);
 	}
 }
@@ -832,10 +832,10 @@ INT_PTR __cdecl CYahooProto::SetMyAvatar(WPARAM wParam, LPARAM lParam)
 		DebugLog("[Deleting Avatar Info]");	
 
 		/* remove ALL our Avatar Info Keys */
-		DBDeleteContactSetting(NULL, m_szModuleName, "AvatarFile");	
-		DBDeleteContactSetting(NULL, m_szModuleName, "AvatarHash");
-		DBDeleteContactSetting(NULL, m_szModuleName, "AvatarURL");	
-		DBDeleteContactSetting(NULL, m_szModuleName, "AvatarTS");	
+		db_unset(NULL, m_szModuleName, "AvatarFile");	
+		db_unset(NULL, m_szModuleName, "AvatarHash");
+		db_unset(NULL, m_szModuleName, "AvatarURL");	
+		db_unset(NULL, m_szModuleName, "AvatarTS");	
 
 		/* Send a Yahoo packet saying we don't got an avatar anymore */
 		yahoo_send_picture_status(m_id, 0);

@@ -123,7 +123,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			
 			if (str[0] == '\0') {
 				/* Check for empty Nick, if so delete the key in the DB */
-				DBDeleteContactSetting( NULL, ppro->m_szModuleName, "Nick");
+				db_unset( NULL, ppro->m_szModuleName, "Nick");
 			} else {
 				/* otherwise save the new Nick */
 				ppro->SetString("Nick", str );
@@ -137,7 +137,7 @@ static INT_PTR CALLBACK DlgProcYahooOpts(HWND hwndDlg, UINT msg, WPARAM wParam, 
 			ppro->SetByte("ShowErrors", ( BYTE )IsDlgButtonChecked( hwndDlg, IDC_SHOW_ERRORS )); 
 
 			if (reconnectRequired ) {
-				DBDeleteContactSetting(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
+				db_unset(NULL, ppro->m_szModuleName, YAHOO_PWTOKEN);
 			}
 			
 			/*if ( restartRequired )

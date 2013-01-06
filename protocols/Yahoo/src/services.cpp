@@ -39,10 +39,10 @@ void CYahooProto::logoff_buddies()
 			SetDword(hContact, "IdleTS", 0);
 			SetDword(hContact, "PictLastCheck", 0);
 			SetDword(hContact, "PictLoading", 0);
-			DBDeleteContactSetting(hContact, "CList", "StatusMsg");
-			DBDeleteContactSetting(hContact, m_szModuleName, "YMsg");
-			DBDeleteContactSetting(hContact, m_szModuleName, "YGMsg");
-			//DBDeleteContactSetting(hContact, m_szModuleName, "MirVer");
+			db_unset(hContact, "CList", "StatusMsg");
+			db_unset(hContact, m_szModuleName, "YMsg");
+			db_unset(hContact, m_szModuleName, "YGMsg");
+			//db_unset(hContact, m_szModuleName, "MirVer");
 		}
 
 		hContact = db_find_next(hContact);

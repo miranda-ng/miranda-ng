@@ -312,23 +312,18 @@ HANDLE CYahooProto::getbuddyH(const char *yahoo_id)
 
 HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int protocol, DWORD flags )
 {
-	HANDLE hContact;
-	char *yid = strdup(yahoo_id);
-	
+	char *yid = NEWSTR_ALLOCA(yahoo_id);
 	strlwr(yid);
 	
-	hContact = getbuddyH(yid);
+	HANDLE hContact = getbuddyH(yid);
 	if (hContact != NULL) {
 		LOG(("[add_buddy] Found buddy id: %s, handle: %p", yid, hContact));
-		if ( !( flags & PALF_TEMPORARY ) && db_get_b( hContact, "CList", "NotOnList", 1 )) 
-		{
+		if ( !(flags & PALF_TEMPORARY) && db_get_b(hContact, "CList", "NotOnList", 1)) {
 			LOG(("[add_buddy] Making Perm id: %s, flags: %lu", yahoo_id, flags));
-			DBDeleteContactSetting( hContact, "CList", "NotOnList");
-			DBDeleteContactSetting( hContact, "CList", "Hidden");
-
+			db_unset( hContact, "CList", "NotOnList");
+			db_unset( hContact, "CList", "Hidden");
 		}
 		
-		FREE(yid);
 		return hContact;
 	}
 
@@ -344,12 +339,11 @@ HANDLE CYahooProto::add_buddy( const char *yahoo_id, const char *yahoo_name, int
 	else
 		SetStringUtf( hContact, "Nick", yahoo_id );
 
-	if (flags & PALF_TEMPORARY ) {
+	if (flags & PALF_TEMPORARY) {
 		db_set_b( hContact, "CList", "NotOnList", 1 );
 		db_set_b( hContact, "CList", "Hidden", 1 );
 	}	
 	
-	FREE(yid);
 	return hContact;
 }
 
@@ -377,9 +371,6 @@ const char* CYahooProto::find_buddy( const char *yahoo_id)
 /* Other handlers */
 void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, const char *msg, int away, int idle, int mobile, int utf8)
 {
-	HANDLE 	hContact = 0;
-	time_t  idlets = 0;
-	
 	YAHOO_DEBUGLOG("[ext_status_changed] %s (prot: %d) with msg %s utf8: %d, stat: %s (%d), away: %d, idle: %d seconds", 
 						who, 
 						protocol, 
@@ -390,12 +381,10 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 						away, 
 						idle);
 	
-	hContact = getbuddyH(who);
+	HANDLE hContact = getbuddyH(who);
 	if (hContact == NULL) {
 		YAHOO_DEBUGLOG("Buddy Not Found. Adding...");
 		hContact = add_buddy(who, who, protocol, 0);
-/*	} else {
-		YAHOO_DEBUGLOG("Buddy Found On My List! Buddy %p", hContact);*/
 	}
 	
 	if (!mobile)
@@ -415,14 +404,16 @@ void CYahooProto::ext_status_changed(const char *who, int protocol, int stat, co
 		else
 			db_set_s( hContact, "CList", "StatusMsg", msg);
 	}
-	else DBDeleteContactSetting(hContact, "CList", "StatusMsg");
+	else db_unset(hContact, "CList", "StatusMsg");
 
 	if (stat == YAHOO_STATUS_OFFLINE) {
 		/*
 		 * Delete the IdleTS if the user went offline
 		 */
-		DBDeleteContactSetting(hContact, m_szModuleName, "IdleTS");
-	} else {
+		db_unset(hContact, m_szModuleName, "IdleTS");
+	}
+	else {
+		time_t idlets = 0;
 		if ( (away == 2) || (stat == YAHOO_STATUS_IDLE) || (idle > 0)) {
 			/* TODO: set Idle=-1, because of key 138=1 and don't set idlets then */
 			if (stat > 0) {
@@ -538,7 +529,7 @@ void CYahooProto::ext_status_logon(const char *who, int protocol, int stat, cons
 		if (s != NULL) 
 			SetString( hContact, "MirVer", s);
 		else
-			DBDeleteContactSetting( hContact, m_szModuleName, "MirVer");
+			db_unset( hContact, m_szModuleName, "MirVer");
 	
 	} else {
 		Set_Protocol(hContact, protocol);
@@ -653,7 +644,7 @@ void CYahooProto::ext_got_stealth(char *stealthlist)
 				//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 				/* need to delete the ApparentMode thingy */
 				if (GetWord(hContact, "ApparentMode", 0))
-					DBDeleteContactSetting(hContact, m_szModuleName, "ApparentMode");
+					db_unset(hContact, m_szModuleName, "ApparentMode");
 			}
 
 			DBFreeVariant( &dbv );
@@ -702,7 +693,7 @@ void CYahooProto::ext_got_buddies(YList * buds)
 			//LOG(("Resetting STEALTH for id = %s", dbv.pszVal));
 			/* need to delete the ApparentMode thingy */
 			if (GetWord(hContact, "ApparentMode", 0))
-				DBDeleteContactSetting(hContact, m_szModuleName, "ApparentMode");
+				db_unset(hContact, m_szModuleName, "ApparentMode");
 		}
 
 		//if (bud->auth)
@@ -774,8 +765,8 @@ void CYahooProto::ext_buddy_added(char *myid, char *who, char *group, int status
 	case 0: /* we are ok */
 	case 2: /* seems that we ok, not sure what this means.. we already on buddy list? */
 	case 40: /* When adding MSN Live contacts we get this one? */
-		DBDeleteContactSetting( hContact, "CList", "NotOnList");
-		DBDeleteContactSetting( hContact, "CList", "Hidden");
+		db_unset( hContact, "CList", "NotOnList");
+		db_unset( hContact, "CList", "Hidden");
 		break;
 
 	case 1:  /* invalid ID? */
@@ -839,7 +830,7 @@ void CYahooProto::ext_contact_added(const char *myid, const char *who, const cha
 	if (strcmp(myid, m_yahoo_id))
 		SetString(hContact, "MyIdentity", myid);
 	else
-		DBDeleteContactSetting(hContact, m_szModuleName, "MyIdentity");
+		db_unset(hContact, m_szModuleName, "MyIdentity");
 
 	//SetWord(hContact, "yprotoid", protocol);
 	Set_Protocol(hContact, protocol);
@@ -1176,7 +1167,7 @@ void CYahooProto::ext_login_response(int succ, const char *url)
 	} 
 	else mir_sntprintf(buff, SIZEOF(buff), TranslateT("Could not log in, unknown reason: %d."), succ);
 
-	DBDeleteContactSetting(NULL, m_szModuleName, YAHOO_PWTOKEN);
+	db_unset(NULL, m_szModuleName, YAHOO_PWTOKEN);
 	
 	YAHOO_DEBUGLOG("ERROR: %s", buff);
 	
