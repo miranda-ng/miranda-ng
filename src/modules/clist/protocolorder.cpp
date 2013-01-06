@@ -125,7 +125,11 @@ int FillTree(HWND hwnd)
 			continue;
 
 		PROTOACCOUNT *pa = accounts[idx];
-		if ( !cli.pfnGetProtocolVisibility(pa->szModuleName))
+		if ( !Proto_IsAccountEnabled(pa))
+			continue;
+
+		PROTOCOLDESCRIPTOR *pd = Proto_IsProtocolLoaded(pa->szProtoName);
+		if (pd == NULL || pd->type != PROTOTYPE_PROTOCOL)
 			continue;
 
 		ProtocolData *PD = (ProtocolData*)mir_alloc(sizeof(ProtocolData));
