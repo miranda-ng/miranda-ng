@@ -1,0 +1,597 @@
+﻿;============================================================
+;  File: userinfoex.dll
+;  Module: UserInfoEx
+;  Versions: 0.8.4.2
+;============================================================
+[Contact: %s (%S)]
+Kontakt: %s (%S)
+[Settings: %S]
+Ustawienie: %S
+[Events: %S]
+Zdarzenie: %S
+[Importing...\nPlease wait!]
+Importowanie...\nProszę poczekać!
+[Setting/Event (20/100)]
+Ustawienia/Zdarzenia (20/100)
+[added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
+Dodano kontaktów: %u / %u\nDodano ustawień: %u / %u\nDodano zdarzeń: %u / %u\nPowielonych zdarzeń: %u
+[Country Flags]
+Flagi krajów
+[Show country flag as &status icon on message window]
+Pokaż ikone kraju w oknie wiadomości
+[Show 'Restart' menu item]
+Pokaż 'Restart' w menu
+[&Export User Details]
+Eksportuj dane kontaktu
+[&Import User Details]
+Importuj dane kontaktu
+[Buttons]
+Przyciski
+[AccountMenu]
+Menu konta
+[Edit Contact Information]
+Edytuj informacje o kontakcie
+[View personal user details and more]
+Pokaż osobiste dane użytkownika
+[&Update]
+Aktualizuj
+[Naming]
+Imię i nazwisko
+[Second name:]
+Drugie imię:
+[Prefix:]
+Prefiks:
+[Display Name:]
+Wyświetlana nazwa:
+[Your contact's local time is:]
+Czas lokalny twojego kontaktu:
+[Marital status:]
+Stan cywilny:
+[Person]
+Osoba
+[not found]
+nie znaleziono
+[Anniversaries]
+Rocznice
+[Remind me]
+Przypomnij mi
+[days before.]
+dni przed.
+[Origin]
+Pochodzenie
+[County/State:]
+Hrabstwo/Stan:
+[Birthday]
+Urodziny
+[Reminder settings:]
+Ustawienia przypominania:
+[Contact added to ContactList:]
+Kontakt został dodany do listy kontaktów:
+[Office:]
+Urząd:
+[Superior:]
+Kierownik:
+[Assistant:]
+Asystent:
+[1. language:]
+1. język:
+[2. language:]
+2. język:
+[3. language:]
+3. język
+[Company]
+Spółka
+[Language skills]
+Znane języki
+[Enter a category for this number:]
+Wpisz kategorię dla tego numeru
+[Add E-Mail]
+Dodaj e-mail
+[Enter a representitive name for the e-mail address here.]
+Podaj nazwę dla adresu e-mail.
+[Enter the e-mail address here.]
+Wpisz adres e-mail tutaj.
+[Show menu items]
+Pokaż wpisy menu
+[hours]
+godziny
+[CList extra icon:]
+Ikona listy:
+[Icon flashing on event]
+Migające ikony przy zdarzeniu
+[Perform check on each startup]
+Sprawdzaj na starcie
+[Time of last check:]
+Czas ostatniego sprawdzenia:
+[Birthday compatibility mode:]
+Tryb kompatybilności urodzin:
+[Automatically backup and keep protocol based birthdays up to date]
+Automatycznie twórz kopie bezpieczeństwa i aktualizuj dane o urodzinach
+[Play sound]
+Odtwarzaj dźwięk
+[Use ignore list]
+Użyj listy blokowania
+[What do you want to export?]
+Co chcesz wyeksportować?
+[Contact Information]
+Informacje o kontakcie 
+[Contact History]
+Historia kontaktu
+[Birthday popup colours]
+Kolory popupów urodzin
+[Show reminder messages as popups (if reminder is enabled)]
+Pokaż wiad. przypominacza w popupach (jeśli jest włączony)
+[Anniversary popup colours]
+Kolory popupów rocznic
+[Address]
+Adres
+[Phone]
+Telefon
+[e-mail]
+E-mail
+[Add Affiliation]
+Przynależność
+[Add Past]
+Przeszłość
+[Add Interest]
+Zainteresowanie
+[Select Modules]
+Wybierz moduły
+[Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
+Sprawdź moduły w drzewku które chcesz wyeksportować wraz z kontaktem. Aby dodać nowy wpis na nowej liście będziesz musiał eksportować co najmniej moduły protokołu.
+[Check all]
+Zaznacz wszystkie
+[Uncheck all]
+Odznacz wszystkie
+[Add Anniversary]
+Dodaj rocznicę
+[You can edit the annviversary here.]
+Tutaj możesz edytować rocznice.
+[Enter a name for the anniversary here please:]
+Podaj nazwę rocznicy:
+[Select a date here:]
+Wybierz datę:
+[Remind me of this anniversary.]
+Przypominaj o tej rocznicy.
+[Anniversary list]
+Lista rocznic
+[No anniversaries to remind of]
+Brak rocznic do przypomnienia
+[This list gives you some overview about all your contact's anniversaries.]
+Ta lista daje ci podgląd na wszystkie rocznice twoich kontaktów.
+[Statistics:]
+Statystyki
+[with birthday:]
+z urodzinami:
+[female:]
+kobiet:
+[male:]
+mężczyzn:
+[number of contacts:]
+liczba kontaktów:
+[average age:]
+średni wiek:
+[Show &during the next]
+Pokazuj przez następne
+[day(s)]
+dni.
+[Reminder]
+Przypomnienie
+[Popup this dialog on a contact's anniversary]
+Wyświetl to okno przy rocznicy kontaktu
+[Reset factory defaults]
+Przywróć domyślne
+[Check file version of default IconPack to prevent wrong icon display]
+Sprawdź wersję domyślnej paczki ikon aby zapobiec ich błędnemu wyświetlaniu
+[Copy UserInfo and mBirthday module from SubContact to set missing information]
+Kopiuj moduły UserInfo i mBirthday z subkontaktów aby ustawić brakujące informacje
+[MetaContacts]
+Metakontakty
+[Scan SubContacts for missing information]
+Skanuj subkontakty żeby znaleźć brakujące informacje
+[Display icons on each dialog button]
+Pokazuj ikony na każdym przycisku
+[(*) Requires Miranda to be restarted.]
+(*) Miranda musi zostać zrestartowana.
+[Enable extended 'GetContactInfo' module (*)]
+Włącz rozszerzony moduł "GetContactInfo" (*)
+[Use Windows Timezone]
+Użyj strefy czasowej z Windows
+[Enable extended 'send/receive email' service (*)]
+Włącz rozszerzoną usługę "wyślij/odbierz email" (*)
+[Protocol's information]
+Informacje o protokole
+[Custom information]
+Własne informacje
+[Overwritten information]
+Nadpisanie informacji
+[Changed information]
+Zmiana informacji
+[Enable colours to give information about information's status.]
+Włącz kolory do informowania o statusie.
+[Make protocol based contact information readonly.]
+Informacje oparte na protokole kontaktu tylko do odczytu.
+[Enable groups in details dialog's treeview.]
+Włącz grupy w drzewku okna szczegółów.
+[Sort all tree items alphabetically.]
+Sortuj wpisy alfabetycznie.
+[Info of a MetaContact's SubContact]
+Info o subkontaktach metakontaktów
+[Common]
+Wspólne
+[Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
+Zmień dane ICQ używając UserInfoEx. (Wyłączone jeśli ICQ tego nie obsługuje)
+[Make item labels readonly.]
+Etykiety wpisów tylko do odczytu.
+[Importing contacts. Please wait...]
+Import kontaktów. Proszę czekać...
+[Enable contact menu items to export/import vCards]
+Dodaj wpisy importu/eksportu vCard w menu kontaktów
+[Cascade main menu items]
+Kaskaduj wpisy w menu
+[Cascade contact menu:]
+Kaskaduj menu kontaktu:
+[Ex-/Import items]
+Eks/Import wpisów
+[Cascading menu items is available only if the genmenu plugin is installed.]
+Kaskadowanie wpisów w menu jest możliwe tylko jeśli masz wtyczkę genmenu.
+[Homepage]
+Strona WWW
+[E-Mail]
+E-Mail
+[Replace the following default icons:]
+Zamień następujące domyślne ikony:
+[This options require a contact list which supports extra icons.]
+Ta opcja wymaga listy kontaktów obsługującej dodatkowe ikony.
+[Question]
+Pytanie
+[All Contacts]
+Wszystkie kontakty
+[Required modules]
+Wymagane moduły
+[Optional modules]
+Opcjonalne moduły
+[Shows Miranda's installation directory.]
+Pokaż katalog instalacyjny Mirandy
+[Shows the directory with all your Miranda's profiles.]
+Pokaż katalog wszystkich twoich profili.
+[Import complete]
+Import zakończony
+[all Contacts]
+Wszystkie kontakty
+[Select a destination file...]
+Wybierz miejsce przeznaczenia pliku...
+[Import User Details from VCard]
+Importuj dane użytkownika z wizytówki
+[%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
+%s wprowadził nową datę urodzenia przez protokół.\nJest to %s. Poprzednio było to %s.\n\nCzy chcesz zmienić datę urodzenia tego kontaktu?
+[Rename Item]
+Zmień nazwę przedmiotu
+[Hide Item]
+Ukryj przedmiot
+[Show Items:]
+Pokaż przedmiot:
+[Reset to defaults]
+Ustaw domyślnie
+[The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
+Numer telefonu powinien zaczynać się od + i składać się tylko z\nnumerów, spacji, nawiasów i łączników.
+[Syntax Error]
+Błąd składni
+[Choose the item to display.]
+Wybierz przedmiot do wyświetlenia
+[Edit the currently displayed item.]
+Edytuj obecnie wyświetlany przedmiot.
+[Add a new custom item.]
+Dodaj nowy, własny przedmiot.
+[Delete the selected item.]
+Skasuj zaznaczony przedmiot
+[Do you really want to delete the current selected item?\n\t%s\n\t%s]
+Czy na prawdę chcesz skasować obecnie zaznaczony przedmiot?\n\t%s\n\t%s
+[Removes an item from the list]
+Usuń przedmiot z listy
+[All contacts]
+Wszystkie kontakty
+[Birthdays only]
+Tylko urodziny
+[Anniversaries only]
+Tylko rocznice
+[Disabled reminder]
+Przypominanie wyłączone
+[Upload Details]
+Wyślij dane
+[You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
+Obecnie nie jesteś podłączony do sieci ICQ.\n Musisz być online aby uaktualnić informacje na serwer.\n\nTwoje zmian zostaną zapisane tylko do bazy danych.
+[Uploading]
+Wysyłanie
+[Contact (private)]
+Kontakt (Prywatne)
+[Contact (Work)]
+Kontakt (Praca)
+[About]
+O kontakcie
+[IM Naming]
+Nazewnictwo IM
+[Timezone]
+Strefa czasowa
+[Marital status]
+Stan cywilny
+[Anniversary]
+Rocznica
+[Export: Modules]
+Eksport: Moduły
+[Export: Folder]
+Eksport: Folder
+[Aquarius]
+Wodnik
+[Aries]
+Baran
+[Cancer]
+Rak
+[Capricorn]
+Koziorożec
+[Gemini]
+Bliźnięta
+[Leo]
+Lew
+[Libra]
+Waga
+[Pisces]
+Ryby
+[Sagittarius]
+Strzelec
+[Scorpio]
+Skorpion
+[Taurus]
+Byk
+[Virgo]
+Panna
+[Details Infobar]
+Infobar - dane
+[Phone Infobar]
+Infobar - telefon
+[E-Mail Infobar]
+Infobar - E-mail
+[Export VCard]
+Eksport VCard
+[Import VCard]
+Import VCard
+[Anniversary Infobar]
+Infobar - rocznice
+[Export]
+Eksport
+[Goto]
+Idź do
+[Custom Phone]
+Telefon
+[Ex-/Import]
+Eks/Import
+[Backup Birthday]
+Przywróć urodziny
+[Birthday today]
+Dzisiejsze urodziny
+[Birthday tomorrow]
+Jutrzejsze urodziny
+[Birthday in 2 days]
+Urodziny w ciągu 2 dni
+[Birthday in 3 days]
+Urodziny w ciągu 3 dni
+[Birthday in 4 days]
+Urodziny w ciągu 4 dni
+[Birthday in 5 days]
+Urodziny w ciągu 5 dni
+[Birthday in 6 days]
+Urodziny w ciągu 6 dni
+[Birthday in 7 days]
+Urodziny w ciągu 7 dni
+[Birthday in 8 days]
+Urodziny w ciągu 8 dni
+[Birthday in 9 days]
+Urodziny w ciągu 9 dni
+[Birthday later]
+Późniejsze urodziny
+[Anniversary today]
+Dzisiejsze rocznice
+[Anniversary tomorrow]
+Jutrzejsze rocznice
+[Anniversary in 2 days]
+Rocznice w ciągu 2 dni
+[Anniversary in 3 days]
+Rocznice w ciągu 3 dni
+[Anniversary in 4 days]
+Rocznice w ciągu 4 dni
+[Anniversary in 5 days]
+Rocznice w ciągu 5 dni
+[Anniversary in 6 days]
+Rocznice w ciągu 6 dni
+[Anniversary in 7 days]
+Rocznice w ciągu 7 dni
+[Anniversary in 8 days]
+Rocznice w ciągu 8 dni
+[Anniversary in 9 days]
+Rocznice w ciągu 9 dni
+[Anniversary later]
+Późniejsze rocznice
+[Ex-/Import contact]
+Import / Eksport
+[Export all contacts]
+Eksportuj wszystkie kontakty
+[Import all contacts]
+Importuj wszystkie kontakty
+[Backup birthdays]
+Przywróć urodziny
+[Check anniversaries]
+Sprawdź rocznice
+[&Export group]
+Eksportuj grupę
+[Ready]
+Gotowy
+[Reminder disabled]
+Przypominanie wyłączone 
+[Bithdays only]
+Tylko urodziny
+[everything]
+Wszystko
+[mBirthday (default)]
+mBirthday (domyślnie)
+[Extended UserInfo]
+Dane kontaktu
+[Details Dialog]
+Szczegóły okna
+[Open in Browser]
+Otwórz w przeglądarce
+[Primary e-mail]
+Pierwszy e-mail
+[Secondary e-mail]
+Drugi e-mail
+[Tertiary e-mail]
+Trzeci e-mail
+[My Notes:]
+Moje notatki:
+[Add a new anniversary]
+Dodaj nową rocznicę
+[Delete an existing anniversary]
+Usuń istniejącą rocznicę
+[Unspecified]
+Nieokreślone
+[Do you really want to delete the %s?]
+Czy na prawdę chcesz skasować %s?
+[Edit Category]
+Edytuj kategorię
+[Edit Value]
+Edytuj wartość
+[Your png2dib.dll is either obsolete or damaged.]
+Plik png2dib.dll jest nieaktualny lub uszkodzony.
+[Memory allocation error!]
+Błąd alokacji pamięci!
+[User has no valid homepage]
+Użytkownik nie podał strony domowej
+[View Homepage]
+Pokaż stronę domową
+[&Homepage]
+Strona domowa
+[%s has birthday today.]
+%s ma dziś urodziny.
+[an anniversary]
+rocznica
+[He]
+On
+[She]
+Ona
+[He/She]
+On/Ona
+[%s has the following anniversaries:]
+%s obchodzi następujące rocznice:
+[%d. %s today]
+%d. %s dziś
+[%d. %s tomorrow]
+%d. %s jutro
+[%d. %s in %d days]
+%d. %s w %d dniach
+[%s has birthday tomorrow.]
+%s ma jutro urodziny.
+[\n%s becomes %d years old.]
+\n%s ma teraz %d urodziny.
+[%s has birthday in %d days.]
+%s ma urodziny w przeciągu %d dni
+[Check birthdays]
+Sprawdź urodziny
+[Birthday reminder]
+Przypominanie o urodzinach
+[Birthday reminder: it's coming]
+Przypominanie o urodzinach: nadchodzących
+[Anniversary Reminder]
+Przypominanie o rocznicach
+[TreeView]
+"Widok drzewa"
+[Popup Anniversary list]
+Lista rocznic
+[Refresh Contact Details]
+Odśwież detale kontaktu
+[UserInfoEx]
+Rozszerzone dane kontkatu
+[Replace progress dialogs with popups]
+Nadpisz dialogi popupów
+[Replace message boxes with popups]
+Nadpisz okienka wiadomości popupów
+[Cascade:]
+Kaskada:
+[Show Menu Item]
+Pokaż w menu
+[UserInfo (default)]
+UserInfo (domyślny)
+[Use Zodiac as default avatar]
+Użyj znak zodiaku jako domyślny awatar
+[Anniversary Editor\nAdd/Edit your anniversary here.]
+Edytor Rocznic\nDodaj/Edytuj rocznice tutaj.
+[Zodiac:]
+Znak zodiaku:
+[Don't remind me of this anniversary.]
+Nie przypominaj mi o tej rocznicy.
+[Affiliation]
+Przynależność
+[Just from the beginning.]
+Jestem początkujący.
+[Delete an entry]
+Usuń rocznicę
+[<Unspecified>]
+<Nieokreślony>
+[Address & Contact]
+Adres i Kontakt
+[Do you really want to delete this entry?]
+Czy napewno chcesz usunąć te dane?
+[Interest]
+Zainteresowanie
+[Enter your phone number\nand don't worry about formating.]
+Wpisz swój numer telefonu\ni nie martw się o formatowanie.
+[Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
+Wpisz swój pełny adres e-mail.\n(np.: bunnyhoney@o2.pl)
+[Use global reminder settings.]
+Użyj globalnych opcji przypomnienia.
+[Adapt propertysheet pages to aero mode.]
+Dostosuj do trybu aero.
+[Update custom birthday]
+Aktualizacja rocznic
+[Backing up and syncing all birthdays complete!]
+Wykonywanie kopii zapasowych i synchronizacji wszystkich urodzin kompletny!
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
+[b]%s (%S)...[/b]\n%d do odświeżenia
+[Grender]
+Płeć
+[Reminder (uinfoex)]
+Rocznice (uinfoex)
+[Homepage (uinfoex)]
+Strona domowa (uinfoex)
+[&Export Group]
+Eksportuj grupę
+[&Import Group]
+Importuj grupę
+[AnnivList]
+Lista rocznic
+[&Save changes]
+Zapisz zmiany
+[This is the reminder message]
+To jest wiadomość przypominająca
+[Upcomming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+Nadchodzące rocznice\nTa lista pokazuje informacje o wszystkich rocznicach kontaktów.
+[Proto]
+Protokół
+[Age/Nr.]
+Wiek/Nr.
+[Single]
+Singiel
+[Close relationships]
+Bliskie stosunki
+[Engaged]
+Zaręczony(-a)
+[Married]
+Żonaty/Mężatka
+[Divorced]
+Rozwiedziony(-a)
+[Separated]
+W separacji
+[Widowed]
+Wdowa/Wdowiec
+[Down arrow]
+Strzałka w dół
+[Gives extended ability to edit information about your contacts locally. It does not matter what information your contact gives about himself. If you know more you can add more.]
+Daje szerokie możliwości edytowania (lokalnego) informacji o kontaktach. Nie ważne, co dany kontakt pisze o sobie. Jeśli wiesz więcej, możesz to dopisać.

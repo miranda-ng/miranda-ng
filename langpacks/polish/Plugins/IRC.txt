@@ -1,0 +1,7 @@
+﻿;===========================================================
+;  File: IRC.dll
+;  Module: IRC Protocol
+;  Versions: 0.9.26.0
+;===========================================================
+[IRC protocol for Miranda IM]
+Wsparcie dla protokołu IRC.

@@ -1,0 +1,299 @@
+﻿;============================================================
+;  File: YAMN.dll
+;  Module: Yet Another Mail Notifier
+;  Versions: 0.1.2.5
+;============================================================
+[%d new mail message(s), %d total]
+Nowych wiadomości: %d, Łącznie: %d
+[- new mail message(s)]
+- nowych wiadomości E-mail
+[%s : %d new mail message(s), %d total]
+%s: nowych wiadomości: %d, Łącznie: %d
+[ - connection error]
+ - błąd połączenia
+[%s - %d new mail messages, %d total]
+Konto: %s, Nowych wiadomości: %d, Łącznie: %d
+[%s - %d new mails, %d total]
+Konto: %s, Nowych wiadomości: %d, Łącznie: %d
+[- new mail(s)]
+- nowych wiadomości
+[%s : %d new mail(s), %d total]
+%s : %d nowych wiaodmości, Łącznie: %d
+[%d new mail(s), %d total]
+Nowych wiadomości: %d, Łącznie: %d
+[No new mail, %d spam(s)]
+Brak nowych wiadomości, Spam: %d
+[No new mail]
+Brak nowych wiadomości
+[Invalid]
+Niewłaściwe
+[Header]
+Nagłówek
+[Value]
+Wartość
+[Run application]
+Uruchom aplikację
+[Delete selected]
+Usuń zaznaczone
+[From]
+Od
+[Subject]
+Temat
+[Date]
+Data
+[Do you really want to delete %d selected mails?]
+Naprawdę chcesz usunąć %d zaznaczonych maili?
+[Delete confirmation]
+Potwierdzenie usunięcia
+[Part]
+Część
+[Disconnected]
+Rozłączony
+[Found new version of account book, not compatible with this version of YAMN.]
+Znaleziono nową wersję książki kont, niekompatybilną z tą wersją YAMN.
+[YAMN (internal POP3) read error]
+YAMN (wewnętrzny POP3) błąd odczytu
+[Error reading account file. Account file corrupted.]
+Błąd odczytu pliku konta. Plik konta uszkodzony.
+[Memory allocation error while data reading]
+Błąd alokacji pamięci podczas odczytu danych
+[Reading file error. File already in use?]
+Błąd odczytu pliku. Plik jest obecnie w użyciu?
+[Error while copying data to disk occured. File in use?]
+Błąd podczas kopiowania danych na dysk. Plik w użyciu?
+[POP3 plugin- write file error]
+Wtyczka POP3 - bład zapisu pliku
+[Connecting to server]
+Łączenie do serwera
+[Entering POP3 account]
+Wchodzenie na konto POP3
+[Searching for new mail]
+Przeszukiwanie skrzynki
+[Reading body %s]
+Odczytytwanie treści %s
+[Reading new mails (%d%% done)]
+Odczyt nowych wiadomości (zakończono %d%%
+[Deleting requested mails]
+Usuwanie wybranych wiadomości
+[Deleting spam]
+Usuwawanie spamu
+[Memory allocation error.]
+Błąd alokacji pamięci.
+[Account is about to be stopped.]
+Konto jest zatrzymywane.
+[Cannot connect to POP3 server.]
+Nie można połączyć się do serwera POP3.
+[Cannot allocate memory for received data.]
+Nie można zaalokować pamięci dla otrzymanych danych.
+[Cannot login to POP3 server.]
+Nie można zalogować się do serwera POP3
+[Bad user or password.]
+Zła nazwa użytkownika lub hasło.
+[Server does not support APOP authorization.]
+Serwer nie wspiera autoryzacji APOP
+[Error while executing POP3 command.]
+Błąd podczas wykonywania polecenia POP3
+[Cannot connect to server with NetLib.]
+Nie można podłączć się do serwera z NetLib.
+[Cannot send data.]
+Nie można wysłać danych.
+[Cannot receive data.]
+Nie można otrzymać danych.
+[OpenSSL not loaded.]
+OpenSSL niezaładowany.
+[Windows socket 2.0 init failed.]
+Błąd inicjalizacji Windows socket 2.0.
+[DNS lookup error.]
+Błąd wyszukiwania DNS.
+[Error while creating base socket.]
+Błąd podczas tworzenia bazowego socket'u.
+[Error connecting to server with socket.]
+Błąd podczas łączenia do serwera za pomocą socket'u.
+[Error while creating SSL structure.]
+Błąd podczas tworzenia struktury SSL.
+[Error connecting socket with SSL.]
+Błąd łączenia socket'u z SSL.
+[Server rejected connection with SSL.]
+Serwer odrzucił połączenie z SSL.
+[Cannot write SSL data.]
+Nie można zapisać danych SSL.
+[Cannot read SSL data.]
+Nie można odczytać danych SSL.
+[Error %d-%d-%d-%d:]
+Błąd %d-%d-%d-%d:
+[No account selected]
+Nie zaznaczono konta
+[Accounts]
+Konta
+[Time left to next check [s]: %d]
+Czas do następnego sprawdzenia [s]: %d
+[Account Test]
+Test konta
+[Account Test (failed)]
+Test konta (nieudany)
+[You have N new mails]
+Masz N nowych maili
+[Connection failed message]
+Wiadomośc o nieudanym połączeniu
+[Select executable used for notification]
+Wybierz plik wykonywalny używany do powiadomienia
+[Do you really want to delete this account?]
+Na prawdę chcesz usunąć to konto?
+[Delete account confirmation]
+Potwierdzenie usunięcia konta
+[Please wait while no account is in use.]
+Proszę zaczekać, aż żadne konto nie będzie w użyciu.
+[This is not a valid number value]
+Ta wartość nie jest wartością liczbową
+[Input error]
+Błąd wejścia
+[At least one mail notification event must be checked]
+Przynajmniej jeden rodzaj powiadomienia o mailu musi być zaznaczony
+[Please select application to run]
+Proszę wybrać aplikację do uruchomienia
+[Cannot allocate memory space for new account]
+Nie można zaalokować pamięci dla nowego konta
+[Memory error]
+Błąd pamięci
+[Installed plugins]
+Zainstalowane wtyczki
+[Contact:]
+Kontakt:
+[Check this account]
+Sprawdź to konto
+[Check interval [min]:]
+Odstęp sprawdzania [min]:
+[New mail notifications]
+Zawiadomienia o nowych mailach
+[Sound notification]
+Zawiadomienie dźwiękowe
+[Message notification]
+Zawiadomienie wiadomością
+[Tray icon notification]
+Powiadomiaj ikoną w zasobniku
+[Keyboard Flash]
+Miganie klawiaturą
+[Application execution:]
+Wykonanie aplikacji:
+[Single popup]
+Jeden popup
+[Multi popup]
+Więcej popupów
+[Use contact notification for this account]
+Użyj powiadomienia kontaktu dla tego konta
+[Replace nick name]
+Zastąp przydomek
+[Disable Events]
+Wyłącz zdarzenia
+[No new mail notifications]
+Powiadomienie o braku nowych wiadomości E-mail
+[Popup if no mail]
+Popup jeśli brak maili
+[Persistant message]
+Powtarzająca się wiadomość
+[Server:]
+Serwer:
+[User:]
+Użytkownik:
+[Default codepage:]
+Domyślna strona kodowa:
+[APOP auth]
+Autoryzacja APOP
+[Disable STLS]
+Wyłącz STLS
+[Startup check]
+Sprawdź przy starcie
+[Auto retrieve body]
+Automatycznie pobierz treść
+[Check from menu]
+Sprawdź z menu
+[Check while...]
+Sprawdź, gdy...
+[Connection failure notifications]
+Powiadomienia o niepowodzeniu połączenia
+[Sound notification if failed]
+Powiadomienie dźwiękiem, gdy niepowodzenie
+[Message notification if failed]
+Powiadomienie wiadomością, jeśli niepowodzenie
+[Tray icon notification if failed]
+Powiadomienie ikoną w zasobniku, jeśli niepowodzenie
+[Popup notification if failed]
+Popup gdy niepowodzenie
+[Reset counter]
+Resetuj licznik
+[Check while ...]
+Sprawdź, gdy...
+[Hotkey for mail check:]
+Skrót dla sprawdzenia mailu:
+[TopToolBar button "Check mail"]
+Przycisk paska narzędzi "Sprawdź pocztę"
+[YAMN General Options]
+Ogólne Opcje YAMN
+[Enable YAMN Main Menu (Require Restart)]
+Włącz Główne Menu YAMN (Wymagany Restart)
+[MailBrowser Options]
+Opcje przeglądania wiaodmości
+[Enable Close on Delete Button]
+Włącz przycisk 'Zamknij przy Usuwaniu'
+[Show long localised date]
+Pokaż długi, lokalny format daty
+[Don't show today's date]
+Nie pokazuj dzisiejszej daty
+[Date/Time Representation]
+Reprezentacja daty/czasu
+[Don't show seconds]
+Nie pokazuj sekund
+[Show YAMN as a Protocol  (Require Restart)]
+Pokaż YAMN jako Protokłół (Wymagany Restart)
+[Mail notifier and browser for Miranda IM. Included POP3 protocol.]
+Powiadamiacz i przeglądarka maili dla Mirandy. Dołączony protokół POP3.
+[Check &mail (All Account)]
+Sprawdź wiadomości E-mail
+[Check &mail (This Account)]
+Sprawdź wiadomości E-mail
+[Launch application]
+Włącz aplikacje
+[Check mail]
+Sprawdź wiadomości E-mail
+[Do you also want to remove native YAMN plugins settings?]
+Chcesz również usunąć natywne ustawienia wtyczki YAMN?
+[YAMN uninstalling]
+Deinstalacja YAMN
+[YAMN: new mail]
+YAMN: nowy E-mail
+[YAMN: connect failed]
+YAMN: połączenie nieudane
+[User Name:]
+Login:
+[Codepage:]
+Kodowanie:
+[Execute Application]
+Uruchom program
+[Mail Notifications]
+Powiadomienie
+[Use custom colour]
+Użyj własnych kolorów
+[..s Popup duration]
+.. czas trwania popupu
+[Only check when ...]
+Sprawdź, gdy ...
+[Tray Icon]
+Ikona w zasobniku
+[You have N new mail messages]
+Masz N nowych wiadomości E-mail
+[No new mail message]
+Brak nowych wiadomości E-mail
+[Searching for new mail message]
+Przeszukiwanie skrzynki
+[YAMN]
+Notyfikacja E-mail
+[YAMN: new mail message]
+Notyfikacja Mail: nowa wiadomość E-mail
+[Launch Application]
+Uruchom aplikacje
+[Connect Fail]
+Błąd połączenia
+[Copy Selected]
+Kopiuj zaznaczone
+[Delete Selected]
+Usuń wybrane

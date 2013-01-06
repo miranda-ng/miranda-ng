@@ -1,0 +1,9 @@
+﻿;============================================================
+;  Module: addcontactplus.dll
+;============================================================
+[User ID:]
+ID użytkownika:
+[Account:]
+Konto:
+[&Add Contact Manually...]
+Dodaj kontakt ręcznie...

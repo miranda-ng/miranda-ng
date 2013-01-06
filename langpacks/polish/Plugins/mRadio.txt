@@ -1,0 +1,149 @@
+﻿;============================================================
+;  File: mradio.dll
+;  Module: mRadio, mRadio Mod
+;  Versions: 0.0.1.7
+;============================================================
+[mRadio volume control]
+Pasek głośności mRadio
+[Import File]
+Importuj z pliku
+[Frame background]
+Tło ramki
+[Mute]
+Wycisz
+[BASS library path (empty for default)]
+Ścieżka biblioteki BASS (domyślnie puste)
+[Add Station]
+Dodawanie stacji
+[Station Name]
+Nazwa stacji
+[Station URL (required)]
+URL do stacji (wymagany)
+[Add station]
+Dodaj stacje
+[To list]
+Do listy
+[Genre]
+Gatunek
+[To INI]
+Do pliku
+[Play from first]
+Graj jako pierwszy
+[OFF]
+Wył.
+[Record path]
+Zapisz do:
+[Volume]
+Głośność
+[Use EAX]
+Włącz EAX
+[Continuous record]
+Ciągłe nagrywanie
+[Autoconnect last station]
+Włącz ostatnio graną stacje
+[Offline station as Offline]
+Wyłączona stacja jako Rozłączona
+[Generic]
+Ogólny
+[Padded Cell]
+Wyściełana cela
+[Room]
+Pokój
+[Bathroom]
+Łazienka
+[Living Room]
+Duży pokój
+[Stone Room]
+Pomieszczenie z kamienia
+[Auditorium]
+Audytorium
+[Concert Hall]
+Sala koncertowa
+[Cave]
+Jaskinia
+[Hallway]
+Hangar
+[Arena]
+Arena
+[City]
+Miasto
+[Carpeted Hallway]
+Hol wyłożony wykładziną
+[Stone Corridor]
+Korytarz z kamienia
+[Alley]
+Alejka
+[Forrest]
+Las
+[Mountains]
+Góry
+[Quarry]
+Kamieniołom
+[Plain]
+Równiena
+[Parking Lot]
+Parking
+[Sewer Pipe]
+Kanalizacja ściekowa
+[Under Water]
+Pod wodą
+[Drugged]
+Przygłuszony
+[Dizzy]
+Przestrzeny
+[Psychotic]
+Psychotyczny
+[connecting]
+Łączenie...
+[aborting]
+Zatrzymano
+[mRadio Mod]
+Protokół mRadio
+[Shuffle playlist]
+Tasuj playliste
+[Status message template]
+Szablon Statusu
+[Export All]
+Eksportuj wszystko
+[Equalizer presets]
+Ustawienia poczatkowe Eq.
+[Start broadcasting]
+Graj
+[Stop broadcasting]
+Stop
+[Start record]
+Nagrywaj
+[Stop record]
+Przerwij nagrywanie
+[Record]
+Zgrywanie
+[Loop single media]
+Pętla jednego utworu
+[Broadcast ON]
+Graj
+[Broadcast OFF]
+Przerwij granie
+[Add EQ preset]
+Dodaj ustawienie EQ
+[Delete EQ preset]
+Usuń ustawienie EQ
+[Start/Stop Record]
+Nagrywaj/Przerwij nagrywanie
+[Start/Stop broadcasting]
+Graj/Stop
+[Technical]
+Techniczne
+[Station URL]
+URL stacji:
+[Forced Mono]
+Wymuś Mono
+[Tries to connect]
+Prób łączenia
+[Play/Pause]
+Odtwarzanie/Pauza
+[%s server connection]
+Połączenie %s
+[Play Station]
+Odtwórz
+[This plugin plays and records Internet radio streams. Also local media files can be played.]
+Ta wtyczka odtwarza i nagrywa strumienie audycji radiowych z Internetu. Potrafi także odtwarzać pliki lokalne.

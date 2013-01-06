@@ -1,0 +1,27 @@
+﻿;============================================================
+;  File: IgnoreState.dll
+;  Module: Show ignore state of contact in contacts list
+;  Versions: 0.0.3.0
+;============================================================
+[Plugin settings]
+Ustawienia
+[Use]
+Użyj
+[slot to draw the icon]
+slotu do wyświetlenia ikony
+[Warning: classic contact list plugin doesn`t have ability to use extraicons]
+Uwaga: plugin klasycznej listy kontaktów nie wspiera extraicons
+[Filtered events:]
+Filtrowane zdarzenia:
+[Use Miranda ignore settings for All Contacts]
+Użyj opcji ignorowania Mirandy dla wszystkich kontaktów
+[Extraicons plugin is used, use Contact list > Extraicons for customize.]
+Plugin Extraicons jest włączony, dostosuj opcje wyświetlania ikon w Lista kontaktów -> Dodatkowe ikony.
+[Full Ignore]
+Pełne ignorowanie
+[Partial Ignore]
+Częściowe ignorowanie
+[Message Ignore]
+Ignorowanie wiadomości
+[Show ignore state of contact in contacts list.]
+Pokazuje ignorowanych na liście kontaktów.

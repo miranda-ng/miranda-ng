@@ -1,0 +1,21 @@
+﻿;============================================================
+;  File: pmanager.dll
+;  Module: Miranda IM Profile Changer by Roman Gemini
+;  Versions: 0.0.0.3
+;============================================================
+[Closes Miranda IM and starts Profile Manager]
+Zamknij Mirandę IM i uruchom managera profili
+[&Change Profile...]
+&Zmień profil...
+[Are you sure want to change your profile? Miranda will be closed.]
+Jesteś pewien że chcesz zmienić profil? Miranda zostanie zamknięta.
+[&Show Profile Manager...]
+&Pokaż managera profili...
+[Starts Profile Manager]
+Uruchom managera profili
+[Profile manager]
+Manager profili
+[Load profile]
+Uruchom profil
+[Change profile]
+Zmień profil

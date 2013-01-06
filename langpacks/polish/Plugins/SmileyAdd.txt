@@ -1,0 +1,65 @@
+﻿;============================================================
+;  File: SmileyAdd.dll, SmileyAddW.dll
+;  Module: SmileyAdd
+;  Versions: 0.2.3.16
+;============================================================
+[Show Smiley Selection Window]
+Pokaż okno wyboru emotek
+[SmileyAdd HTTP connections]
+Połączenie HTTP SmileyAdd
+[Smiley support for Miranda Instant Messanger]
+Wsparcie dla emotikon w Mirandzie IM
+[Button Smiley]
+Przycisk emotek
+[Assign Smiley Category]
+Przypisz kategorię emotek
+[Smileys]
+Emotikony
+[Smiley Packs]
+Paczka emotek
+[Smiley Categories]
+Kategorie emotikon
+[Specify Smiley Pack for each category]
+Określ paczkę emotek dla każdej z kategorii
+[Replace only smileys surrounded by spaces]
+Zamień tylko emotikony oddzielone spacjami
+[Scale smiley to textheight]
+Skaluj emotikony do wysokości tekstu
+[Disable custom smileys]
+Wyłącz własne emotikony
+[High Quality smiley scaling]
+Skalowanie emot HQ
+[Min smiley height]
+Minimalna wysokość emotów
+[Max "Custom Smiley" height]
+Maksymalna wysokość emotów
+[Smiley Selector]
+Okno wyboru emotikon
+[Surround inserted smiley with spaces]
+Odzielaj wstawione emotikony spacjami
+[Use first smiley for selection size]
+Pierwsza emotka określa rozmiar zaznaczenia
+[IEView style window]
+Styl okna jak w IEView
+[Input Area]
+Pole wpisywania
+[Enable Smileys]
+Włącz emotikony
+[Don't replace at cursor]
+Nie zamieniaj przy kursorze
+[Built-In Message Dialog Support]
+Wbudowane wsparcie dla okna rozmowy
+[Disable]
+Wyłącz
+[Smiley Button]
+Przycisk emotek
+[Max Custom smiley height]
+Maks. wysokość emotikon
+[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+Wystąpiły problemy z wczytaniem paczki emotikon (powinny już działać).\nPo szczegóły zajrzyj do dziennika.
+[Standard]
+Standardowe
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Paczka emotikon %s nie odnaleziona.\nZaznacz prawidłową paczke emotikon Opcje | Personalizacja | Emotkiony.
+[Smiley support for Miranda Instant Messanger.]
+Obsługa emotek w Mirandzie IM.

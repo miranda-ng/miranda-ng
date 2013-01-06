@@ -1,0 +1,327 @@
+﻿;============================================================
+;  File: gg.dll
+;============================================================
+[Contact list]
+Lista kontaktów
+[Provides support for Gadu-Gadu protocol]
+Wsparcie dla protokołu Gadu-Gadu
+[Public Info]
+Katalog publiczny
+[Family name:]
+Nazwisko rodz.:
+[Origin city:]
+Miasto rodz.:
+[Birth year:]
+Rok urodzenia:
+[Gadu-Gadu connection]
+Połączenie Gadu-Gadu
+[Ex.]
+Eks.
+[Friends only]
+Tylko dla znajomych
+[Show offline users with status message as invisible in contact list]
+Pokazuj użytkowników z opisem statusu jako Niewidocznych
+[Ignore incoming conference messages]
+Ignoruj nadchodzące wiadomości konferencyjne
+[Automatically pop up the window when a image is received]
+Automatycznie pokazuj popup kiedy obraz jest dostarczany
+[Receive image and after image is received use:]
+Odbieraj nadchodzące obrazki za pomocą metody:
+[Popup window]
+Wyskakujące okno
+[Message with [img] BBCode]
+Wiadomość z tagiem [img]
+[Show links from unknown contacts]
+Pokazuj linki od nieznajomych
+[Gadu-Gadu Number:]
+Numer Gadu-Gadu:
+[Gadu-Gadu Number]
+Numer Gadu-Gadu
+[Gadu-Gadu User Details]
+Dane użytkownika Gadu-Gadu
+[Lost Gadu-Gadu Password?]
+Zgóbiłeś hadło Gadu-Gadu?
+[Retrieve password]
+Przypomnij hasło
+[Create new account]
+Utwórz nowe konto
+[Remove account]
+Usuń konto
+[Change e-mail]
+Zmień e-mail
+[Change status safely]
+Bezpiecznie zmieniaj status
+[Show connection errors]
+Pokazuj błędy połączenia
+[Leave last status message after disconnected]
+Pozostaw ostatni opis przed rozłączeniem
+[After disconnection leave away message of status:]
+Po rozłączeniu się zostaw opis następującego statusu:
+[Manually specify connection servers' hosts]
+Podaj adresy hostów serwerów ręcznie
+[Use SSL secure connection]
+Używaj szyfrowanego połączenia SSL
+[Use direct connections]
+Używaj połączeń bezpośrednich
+[Use forwarding]
+Używaj forwardowania
+[* new line is separator\n** hostname:port format]
+* nowa linia - separator\n** format nazwa hosta:port
+[Import List From &Server]
+Importuj listę z &serwera
+[Import List From &Text File...]
+Importuj listę z pliku
+[&Remove List From Server]
+&Usuń listę z serwera
+[Export List To &Server]
+Eksportuj listę do &serwera
+[Export List To &Text File...]
+Eksportuj listę do pliku
+[Text files]
+Pliki tekstowe
+[Import list from server]
+Import listę z serwera
+[Import list from text file]
+Import listy z pliku
+[Remove list from server]
+Usuń listę z serwera
+[Export list to server]
+Eksport listę na serwer
+[Export list to text file]
+Eksport listę do pliku
+[Account settings]
+Ustawienia konta
+[Blocked to this contact]
+Ten kontakt mnie zablokował
+[Previous image]
+Poprzedni obrazek
+[Next image]
+Następny obrazek
+[Send image]
+Wyślij obrazek
+[Save image]
+Zapisz obrazek
+[Delete image]
+Usuń obrazek
+[Gadu-Gadu Error]
+Błąd Gadu-Gadu
+[Connection cannot be established because of error:\n\t%s]
+Połączenie nie może być nawiązane z powodu błędu:\n\t%s
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Miranda nie mogła ustalić IP serwera Gadu-Gadu na podstawie nazwy hosta.
+[Received invalid server response.]
+Otrzymano niepoprawną odpowiedź od serwera.
+[Cannot establish secure connection.]
+Nie można nawiązać bezpiecznego połączenia.
+[Server disconnected asking you for changing your e-mail.]
+Serwer rozłączył się prosząc o zmianę Twojego adresu e-mail.
+[Too many login attempts with invalid password.]
+Za dużo prób połączeń z podaniem błędnego hasła.
+[Gadu-Gadu servers are now down. Try again later.]
+Serwery Gadu-Gadu są teraz wyłączone. Spróbuj póź?niej.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+Twój numer i hasło zostały odrzucone przez serwer Gadu-Gadu. Sprawdź dane logowania M->Opcje->Sieć->Gadu-Gadu i spróbuj ponownie.
+[Connecting to Gadu-Gadu hub failed.]
+Połączenie z hubem Gadu-Gadu nie udało się.
+[Token retrieval failed because of error:\n\t%s]
+Nie można było pobrać tokena z powodu błędu:\n\t%s
+[Enter token to continue]
+Wprowadź token aby kontynuować
+[You have to be connected before you can import/export contacts from/to server.]
+Połącz się przed importem/eksportem kontaktów z/na serwer.
+[List cannot be exported because of error:\n\t%s]
+Lista nie może być wyeksportowana z powodu błędu:\n\t%s
+[List cannot be exported to file "%s" because of error:\n\t%s]
+Lista nie może być wyeksportowana do pliku "%s" z powodu błędu:\n\t%s
+[List cannot be imported because of error:\n\t%s]
+Lista nie może być zaimportowana z powodu błędu:\n\t%s
+[List cannot be imported from file "%s" because of error:\n\t%s]
+Lista nie może być zaimportowana z pliku "%s" z powodu błędu:\n\t%s
+[List remove successful.]
+Lista została usunięta pomyślnie.
+[List export successful.]
+Lista została wyeksportowana pomyślnie.
+[List import successful.]
+Lista została zaimportowana pomyślnie.
+[contacts]
+kontakty
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Twoje hasło zostanie wysłane na twój e-mail rejestracyjny.\nChcesz kontynuować ?
+[You need to specify your registration e-mail first.]
+Musisz najpierw wpisać w konfiguracji swój e-mail rejestracyjny.
+[Password could not be reminded because of error:\n\t%s]
+Hasło nie może zostać wysłane z powodu błędu:\n\t%s
+[Password was sent to your e-mail.]
+Hasło zostało wysłane na Twój e-mail.
+[Your info cannot be uploaded because of error:\n\t%s]
+Twoje dane nie może być wysłane z powodu błędu:\n\t%s
+[Your info has been uploaded to public catalog.]
+Twoje dane zostały wysłane do katalogu publicznego.
+[Your password cannot be changed because of error:\n\t%s]
+Twoje hasło nie może być zmienione z powodu błędu:\n\t%s
+[Your password has been changed.]
+Twoje hasło zostało zmienione.
+[Your e-mail cannot be changed because of error:\n\t%s]
+Twój e-mail nie może być zmieniony z powodu błędu:\n\t%s
+[Your e-mail has been changed.]
+Twój e-mail został zmieniony.
+[Cannot register new account because of error:\n\t%s]
+Nie można zarejestrować konta z powodu błędu:\n\t%s
+[Registration rejected]
+Rejestracja została odrzucona
+[You have registered new account.\nPlease fill up your personal details in "M->Change my details..."]
+Zarejestrowałeś nowe konto.\nProszę wypełnij informację o sobie w "M->Zmień moje dane..."
+[Your account cannot be removed because of error:\n\t%s]
+Twoje konto nie może być usunięte z powodu błędu:\n\t%s
+[Bad number or password]
+Zły numer lub hasło
+[Bad old e-mail or password]
+Zły stary e-mail lub hasło
+[Bad e-mail or password]
+Zły e-mail lub hasło
+[Invalid data entered]
+Wprowadzono złe dane
+[Your account has been removed.]
+Twoje konto zostało usunięte.
+[Passwords do not match.]
+Hasła różnią się od siebie.
+[Password too short.]
+Hasło za krótkie.
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Powinieneś się rozłączyć przed wszelkimi trwałymi zmianami Twojego konta.\nCzy chcesz się rozłączyć ?
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Adres serwera %s jest nieprawidłowy. Użyty zostanie adres podany przez sieć.
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Adres zewnętrzny dla połączeń bezpośrednich %s jest nieprawidłowy. Forwardowanie zostanie wyłączone.
+[Change Gadu-Gadu password]
+Zmień hasło Gadu-Gadu
+[Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
+Zmiana hasła Gadu-Gadu\nTwoje aktualne hasło zostanie zmienione
+[Change Gadu-Gadu e-mail]
+Zmień e-mail Gadu-Gadu
+[Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
+Zmiana e-mailu Gadu-Gadu\nTwój aktualny e-mail zostanie zmieniony
+[New password:]
+Nowe hasło:
+[Confirm password:]
+Potwierdź hasło:
+[New e-mail:]
+Nowy e-mail:
+[Yes, I want to remove my account]
+Tak, chcę usunąć moje konto
+[Remove Gadu-Gadu account]
+Usuń konto Gadu-Gadu
+[Remove Gadu-Gadu account\nThis will remove your Gadu-Gadu account]
+Usuwanie konta Gadu-Gadu\nTwoje konto Gadu-Gadu zostanie usunięte
+[Create Gadu-Gadu account]
+Utwórz konto Gadu-Gadu
+[Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
+Tworzenie konta Gadu-Gadu\nTwoje nowe konto Gadu-Gadu zostanie utworzone
+[Age from:]
+Wiek od:
+[to:]
+do:
+[Search online users only]
+Szukaj tylko wśród połączonych
+[&Image]
+Wyślij obrazek
+[Image saved.]
+Zapisano obrazek.
+[Image cannot be written to disk.]
+Nie można zapisać obrazka na dysku.
+[Image from %s]
+Obrazek od %s
+[Image for %s]
+Obrazek dla %s
+[Image files (*.bmp,*.jpg,*.gif)]
+Pliki obrazów (*.bmp,*.jpg,*.gif)
+[Image files (*.bmp,*.jpg,*.gif,*.png)]
+Pliki obrazów (*.bmp,*.jpg,*.gif,*.png)
+[Select picture to send]
+Wybierz obrazek do wysłania
+[Could not load image. Image might have unsupported file format.]
+Nie można załadować obrazka. Wybrany plik może mieć nieznany format.
+[Image exceeds maximum allowed size of 255 KB.]
+Rozmiar pliku obrazka przekracza maksymalny dozwolony rozmiar 255 KB.
+[Open new conference]
+Nowa konferencja
+[Open new conference\nSelect conference participants]
+Otwórz nową konferencje\nWybierz uczestników konferencji
+[Open &conference...]
+Otwórz &konferencję...
+[&Clear ignored conferences]
+&Wyczyść ignorowane
+[Clear ignored conferences]
+Czyść ignorowane konferencje
+[Me]
+Ja
+[%s initiated the conference.]
+%s zainicjował(a) konferencję.
+[This is my own conference.]
+To jest moja własna konferencja.
+[Participants]
+Uczestnicy
+[You have to be connected to open new conference.]
+Musisz być połączony, żeby otworzyć nową konferencję
+[All ignored conferences are now unignored and the conference policy will act again.]
+Wszystkie ignorowane konferencje zostały zresetowane.
+[There are no ignored conferences.]
+Nie ma ignorowanych konferencji.
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s zainicjował(a) konferencję z %d uczestnikami - %d nieznany(ch).\nChcesz dołączyć do tej konferencji ?
+[Conference policy]
+Reguły konferencji
+[Ask]
+Pytaj
+[Allow]
+Zezwól
+[if total participant count greater than:]
+jeśli całkowita liczba uczestników przekracza:
+[if unknown participant count greater than:]
+jeśli liczba nieznanych przekracza:
+[in other case]
+w innym wypadku
+[Browse Chatrooms]
+Szukaj pokoji
+[Registered Transports]
+Rejestruj Transport
+[<Last Status>]
+<Ostatni status>
+[Gadu-Gadu Protocol]
+Protokół Gadu-Gadu
+[Update avatars]
+Aktualizuj awatary
+[Delete avatars]
+Usuń awatary
+[To remove your Gadu-Gadu avatar, you must use the MojaGeneracja.pl website.]
+Aby usunąć swój awatar Gadu-Gadu musisz użyć serwisu MojaGeneracja.pl.
+[Advanced Configuration]
+Zaawansowana konfiguracja
+[Images]
+Obrazki
+[Internal IP:]
+IP wewnętrzne:
+[Client Name]
+Nazwa Klienta
+[IP Address]
+Adres IP
+[Login Time]
+Czas Zalogowania
+[There are no active concurrent sessions for this account.]
+Nie ma aktywnych równoległych sesji logowania do tego konta.
+[You have to be logged in to view concurrent sessions.]
+Musisz bya zalogowany, aby zobaczya równoległe sesje.
+[Concurrent &sessions]
+Równoległe &sesje
+[Concurrent Sessions]
+Równoległe Sesje
+[Concurrent %s Login Sessions\nView information on active concurrent sessions]
+Równoległe Sesje Logowania %s\nWyświetl informacje o aktywnych równoległych sesjach
+[Sign out all sessions]
+Wyloguj wszystkie sesje
+[sign out]
+wyloguj
+[You have logged in at another location]
+Właśnie zalogowałeś się w innym miejscu
+[You are logged in at another location]
+Jesteś zalogowany w innym miejscu

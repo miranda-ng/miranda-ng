@@ -1,0 +1,231 @@
+﻿;============================================================
+;  File: variables.dll
+;  Module: variables
+;  Versions: 0.2.3.8
+;============================================================
+[Token]
+Wyrażenie
+[Tokens]
+Wyrażenia
+[%subject%]
+%subject%
+[%extratext%]
+%extratext%
+[Variables Help]
+Pomoc zmiennych
+[Variables (Unicode)]
+Zmienne (Unicode)
+[Adds support for dynamic variables in strings for plugins]
+Dodaje wsparcie dla dynamicznych zmienny w tekstach dla wtyczek
+[Stopped]
+Zatrzymane
+[Paused]
+Pauza
+[Parse]
+Przetwarzaj
+[Auto parse]
+Automatyczne przetwarzanie
+[Parse the following string at startup]
+Przetwórz następujący tekst na starcie
+[Automatically strip "end of line" characters]
+Automatycznie usuń znaki końca linii
+[Automatically strip white space]
+Automatycznie usuń białe spacje
+[Test area]
+Obszar testowy
+[Click on the help button to get more information]
+Kliknij na przycisk pomocy aby uzyskać więcej informacji
+[Parse options]
+Opcje przetwarzania
+[Automatically strip all non-parsing characters]
+Automatycznie usuń wszystkie nieprzetwarzalne znaki
+[Trigger when the following string changes]
+Zainicjuj po zmianie następującego tekstu
+[Please enter your input below]
+Podaj poniżej swój tekst
+[ClistControl]
+ClistControl
+[Don't set a contact]
+Nie ustawiaj kontaktu
+[Set to the following contact]
+Ustaw dla następującego kontaktu
+[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+Wyrażenie %subject% jest tłumaczone dla wybranego kontaktu, zależnie od sytuacji, w której tekst jest przetwarzany. Użyj tego okna do symulacji kontaktu, do którego tłumaczone jest %subject%. Przykład użycia tego wyrażenia: !cinfo(%subject%,display).
+[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+Wyrażenie %extratext% jest tłumaczone na tekst zależny od tego przy jakiej sytuacji jest przetarzane. Użyj tego okienka do symulacji tekstu, do którego tłumaczy %extratext%.
+[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+Wtyczka Variables tłumaczy różne wyrażenia na ustaloną wartość. Na przykład: Używam Mirandy w wersji %mirandaversion%. Fragment %mirandaversion% zostanie przetłumaczony na prawidłowy numer wersji. Ta lista przetstawia wszystkie możliwe wyrażenia.
+[--- Special characters ---\r\n\r\n\The following characters have a special meaning in a formatting string:\r\n\r\n\?<function>(<arguments>)\r\n\This will parse the function given the arguments, the result will be parsed again. Example: Today is ?cdate(yyyy/MM/dd).\r\n\r\n\!<function>(<arguments>)\r\n\This will parse the function given the arguments, the result will not be parsed again. Example: Message waiting: !message(,first,rcvd,unread).\r\n\r\n\%<field>%\r\n\This will parse the given field. Example: I installed Miranda at: %mirandapath%.\r\n\r\n\`<string>`\r\n\This will not parse the given string, any function, field or special character in the string will shown in the result without being translated. Example: Use `%mirandapath%` to show the installation path.\r\n\r\n\#<comment>\r\n\This will add a comment in the formatting string. Everything from the # character to the end of the line will be removed. Example: %dbprofile% #this is a useless comment.\r\n\r\n\r\n\--- Contacts ---\r\n\r\n\Whenever a functions requires a contact as an argument, you can specify it in two ways:\r\n\r\n\(1) Using a unique id (UIN for ICQ, email for MSN) or, a protocol id followed by a unique id in the form <PROTOID:UNIQUEID>, for example <MSN:miranda@hotmail.com> or <ICQ:123456789>.\r\n\r\n\(2) Using the contact function:\r\n\?contact(x,y)\r\n\A contact will be searched which will have value x for its property y, y can be one of the following:\r\n\first, last, nick, email, id or display\r\n\r\n\For example: ?contact(miranda@hotmail.com,email) or ?contact(Miranda,nick). The contact function will return either a unique contact according to the arguments or nothing if none or multiple contacts exists with the given property.\]
+--- Znaki specjalne ---\r\n\r\n\Następujące znaki mają specjalne znaczenie w formatowaniu stringów:\r\n\r\n\?<funkcja>(<argument>)\r\n\Będzie analizować funkcję z uwagi na argumenty, wynik będzie ponownie analizowany. Przykład: Dzisiaj jest ?cdate(yyyy/MM/dd).\r\n\r\n\!<funkcja>(<argument>)\r\n\Będzie analizować funkcję z uwagi na argumenty, wynik nie będzie ponownie analizowany. Przykład: Wiadomość czeka: !message(,first,rcvd,unread).\r\n\r\n\%<field>%\r\n\Będzie analizować w danej dziedzinie. Przykład: zainstalowałem Mirandę w: %mirandapath%.\r\n\r\n\`<string>`\r\n\Nie przetworzy podanego łańcucha znaków, żadnych funkcji, pól lub znaków specjalnych w ciągu będą widoczne w wynikach bez translacji. Przykład: Użycie `%mirandapath%` by pokazać ścieżkę instalacji.\r\n\r\n\#<comment>\r\n\Doda komentarz w formatowaniu stringu. Wszystko od znaku # do końca linii będą usuwane. Przykład: %dbprofile% #To jest bezużyteczny komentarz.\r\n\r\n\r\n\---Kontakty ---\r\n\r\n\Gdy wymaga funkcji kontaktu jako argument, można określić na dwa sposoby:\r\n\r\n\(1) Korzystanie z unikatowego id (UIN dla GG, email dla MSN) lub, w id protokołu występuje niepowtarzalny id w postaci <PROTOID:UNIQUEID>, dla przykładu <MSN:miranda@hotmail.com> lub <GG:123456789>.\r\n\r\n\(2) Korzystanie z funkcji kontaktu:\r\n\?contact(x,y)\r\n\Będą przeszukiwane kontakty, które będą miały wartość x dla jego własności y, y mogą być jedną z następujących czynności:\r\n\first, last, nick, email, id lub display\r\n\r\n\Dla przykładu: ?contact(miranda@hotmail.com,email) lub ?contact(Miranda,nick). Funkcja kontaktu zwróci również wyjątkowy kontakt zgodnie z argumentami lub bez, jeżeli nie istnieje lub jeżeli istnieje z wieloma kontaktami bieżącej własności.\
+[External Applications]
+Aplikacje zewnętrzne
+[Internet Related]
+Spokrewnione z internetem
+[Logical Expressions]
+Wyrażenia logiczne
+[Mathematical Functions]
+Funkcje matematyczne
+[Miranda Related]
+Spokrewnione z Mirandą
+[String Functions]
+Funkcje stringów
+[System Functions]
+Funkcje systemowe
+[Regular Expressions]
+Wyrażenia regularne
+[shows y if x is TRUE, otherwise it shows z]
+pokaż y jeżeli x jest TRUE, w innym wypadku pokaż z
+[shows x if x is TRUE, otherwise it shows y (if(x,x,y))]
+pokaż x jeżeli x jest TRUE, w innym wypadku pokaż y (if(x,x,y))
+[y if w > x, else z]
+y, jeżeli w > x, w innym wypadku pokaż z
+[y if string length of w > x, else z]
+y, jeżeli długość ciągu znaków w > x, w innym wypadku pokaż z
+[x if x is TRUE, else z]
+x jeżeli x jest True, w innym wypadku pokaż z
+[Y if x is TRUE, else z]
+Y, jeżeli x jest TRUE, w innym wypadku pokaż z
+[TRUE if x = y]
+TRUE, jeżeli x = y
+[y if w = x, else z]
+y, jeżeli w = x, w innym wypadku pokaż z
+[TRUE if x is longer than y]
+TRUE, jeżeli x jest dłuższy niż y
+[TRUE if file x exists]
+TRUE, jeżeli plik x istnieje
+[current date in format y (y is optional)]
+aktualna data w formacie  y (y jest opcjonalne)
+[retrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+pobiera nazwę piosenki aktualnie odtwarzanej w Winamp (kompatybilny z Simple Status Message)
+[retrieves song name of the song currently playing in Winamp]
+pobiera nazwę piosenki aktualnie odtwarzanej w Winamp
+[TRUE if the first z characters of x equal y, ignoring case]
+TRUE, jeżeli pierszy znak z spośród x = y, ignorując przypadek
+[TRUE if x equals y]
+TRUE, jeżeli x jest równe y
+[TRUE if x > y]
+TRUE, jeżeli x > y
+[length of x]
+długość x
+[TRUE if directory x exists]
+TRUE, jeżeli katalog x istnieje
+[get the version of Miranda]
+wersja Mirandy IM
+[protocol name of protocol id x]
+nazwa protokołu po id x
+[trims x to length y, keeping last y characters]
+przytnij x do długości y, trzymając ostatni znak y
+[current time in format y (y is optional)]
+aktualny czas w formacie y (y jest opcjonalne)
+[repeats x y times]
+powtórz x y razy
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+pobiera aktualny status Winamp (Odtwarzanie/Pauza/Zatrzymanie)
+[performs logical AND (x && y && ...)]
+wykonuje logiczne AND (x && y && ...)
+[performs w, then shows z and performs y while x is TRUE]
+wykonuje w, następnie pokazuje i wykonuje y, podczas gdy x jest TRUE
+[the first argument parsed successfully]
+pierwszy argument analizowany z powodzeniem
+[performs logical NOT (!x)]
+wykonuje logiczny NOT (!x)
+[performs logical OR (x || y || ...)]
+wykonuje logiczny OR (x || y || ...)
+[performs logical XOR (x ^ y)]
+wykonuje logiczny XOR (x ^ y)
+[x divided by y]
+x oddzielonych przez y
+[maximum value of (decimal) arguments]
+maksymalna wartość agrumentu (po przecinku)
+[minimum value of (decimal) arguments]
+minimalna wartość argumentu (po przecinku)
+[x modulo y (remainder of x divided by y)]
+x modułu y (pozostały x dzieli się przez y)
+[x times y]
+x, y razy
+[x times y divided by z]
+x, y razy oddzielonych przez z
+[random number]
+losowa liczba
+[Miranda Core Global]
+Globalne
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache]
+powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\AvatarCache
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs]
+powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%\\Logs
+[path to current miranda profile]
+ścieżka do bieżącego profilu mirandy
+[name of current miranda profile (filename, without extension)]
+nazwa aktualnego profilu mirandy (nazwa pliku bez rozszerzenia)
+[will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
+powróci analizowany ciąg %miranda_profile%\\Profiles\\%miranda_profilename%
+[Miranda Core OS]
+OS
+["Desktop" folder for currently logged-on Windows user]
+folder "Pulpit" aktualnie zalogowanego użytkownika Windows
+[same as environment variable %APPDATA% for currently logged-on Windows user]
+takie samo zmienne środowisko %APPDATA% dla aktualnie zalogowanego użytkownika Windows
+["My Documents" folder for currently logged-on Windows user]
+folder "Moje dokumenty" aktualnie zalogowanego użytkownika Windows
+[number of contacts with property y described by x, example: (unregistered,nick)]
+liczba kontaktów y opisanej przez x, przykład: (unregistered,nick)
+[Currently played URL]
+Aktualnie odtwarzany URL
+[Currently used decoder]
+Aktualnie używany kodek
+[Current status]
+Aktualny status
+[Current stream title]
+Aktualny tytuł strumienia
+[Station/playlist URL]
+Ścieżka/URL do playlisty/stacji
+[info property y of contact x]
+info y kontaktu x
+[translates status code x into a status description]
+tłumaczenie kodu statusu x do opisu statusu
+[user name]
+nazwa użytkownika
+[uptime in seconds]
+uptime w sekundach
+[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+y > 0: numer linii y z pliku x, y = 0: całego pliku, y < 0: linii y licząc od końca, y = r: losowa linia
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+format żądania znacznika x (sekund od 1/1/1970) w formacie daty y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+format żądania znacznika x (sekund od 1/1/1970) w formacie czasu y
+[get last seen time of contact x in format y (y is optional)]
+pobiera czas ostatnio widzianego kontaktu x w formacie y (y jest opcjonalny) 
+[get last seen date of contact x in format y (y is optional)]
+pobiera datę ostatnio widzianego kontaktu x w formacie y (y jest opcjonalny) 
+[text from clipboard]
+tekst ze schowka
+[computer name]
+nazwa komputera
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+liczba sekund pomiędzy datą x i y (x i y w formacie: M/d/rr H:m:s
+[translates x]
+tłumaczenie x
+[TRUE if service function is exists]
+TRUE, jeżeli usługa istnieje
+[TRUE if x equals y, ignoring case]
+TRUE, jeżeli x = y, ignorując przypadek
+[get the contact display name]
+pobiera nazwę wyświetlaną kontaktu
+[get the date and time (using Miranda format)]
+pobiera datę i godzinę (w formacie Mirandy)
+[db profile path]
+ścieżka bazy danych profilu
+[db profile name]
+nazwa bazy danych profilu
+[db setting z of module y of contact x and return w if z isn't exist (w is optional)]
+ustawienia bazy danych z, modułu y, kontaktu x oraz powróć jeżeli nie istnieje (w jest opcjonalne)
+[get last seen status of contact x]
+pobierz ostatnio widziny status kontaktu x
+[trims x to length y, keeping first y characters]
+przytnij x do długości y, trzymając pierwszy znak y
+[the number of lines in string x]
+liczba lini w ciągu x
+[TRUE if process x is running]
+TRUE, jeżeli proces x jest uruchomiony
+[Adds support for dynamic variables in strings for plugins.]
+Dodaje dla wtyczek obsługę zmiennych dynamicznych w łańcuchach.

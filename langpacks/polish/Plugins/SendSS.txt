@@ -1,0 +1,151 @@
+﻿;============================================================
+;  File: sendss.dll
+;  Module: Send ScreenShot
+;  Versions: 0.8.0.0
+;============================================================
+[ (primary)]
+ (podstawowy)
+[" Window]
+* Okno
+[%s (%i):\nAn internal GC error occurred.]
+%s (%i):\nWystąpił wewnętrzny błąd GC.
+[%s (%i):\nContact has no open GC session.]
+%s (%i):\nKontakt nie ma otworzonych sesji GC.
+[%s (%i):\nCould not add a share to the FTP File plugin.]
+%s (%i):\nNie można dodać zasobu do wtyczki FTP File.
+[%s (%i):\nCould not add a share to the HTTP Server plugin.]
+%s (%i):\nNie można dodać zasobu do wtyczki serwera HTTP.
+[%s (%i):\nFile transfer denied.]
+%s (%i):\nTransfer pliku odrzucony.
+[%s (%i):\nYou appear to be using the wrong version of GC API]
+%s (%i):\nUżywasz niewłaściwej wersji GC API
+[&Capture]
+Uchwyć
+[&Fill description textbox.]
+Wypełnij pole opisu.
+[< Copyright]
+< Prawa aut.
+[<entire desktop>]
+<cały pulpit>
+[<Only save>]
+<Tylko zapisz>
+[A recipient did not appear in the address list]
+Odbiorca nie pojawił się na liście adresów
+[A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
+Odbiorca odpowiada więcej niż jednej strukturze opisującej odbiorców, przez co nie ustawiono MAPI_DIALOG
+[Abord]
+Przerwany
+[An unknown error has occured.]
+Nieznany błąd.
+[C&lient Area]
+Obszar klienta
+[Cant create a Screenshot]
+Nie można utworzyć zrzutu ekranu
+[Caption :]
+Uchwyć :
+[Capture]
+Uchwyć
+[Copyright]
+Prawa aut.
+[Could not create main dialog.]
+Nie można utworzyć głównego okna.
+[Could not register miranda service.]
+Nie można zarejestrować usługi Mirandy.
+[Could not start the HTTP Server plugin.]
+Nie można uruchomić wtyczki serwera HTTP.
+[Credits]
+Autorzy
+[Delete &after send]
+Usuń po wysłaniu
+[Delete after send]
+Usuń po wysłaniu
+[Dialog]
+Okno
+[Drag&&Drop the target on the desired window.]
+Umieść celownik na odpowiednie okno.
+[E&xplore]
+Przeglądaj
+[Email transfer]
+Transfer Email
+[Fatal error, image services not found. Send Screenshot will be disabled.]
+Błąd, usługa obrazków nie została znaleziona. Send Screenshot zostanie wyłączony.
+[Fill description textbox.]
+Uzupełnik pole z opisem.
+[for Client area ]
+dla pola Klienta
+[FTP File]
+Plik FTP
+[FTPFile transfer]
+Transfer FTP
+[HTTP Server]
+Serwer HTTP
+[HTTPServer transfer]
+Transfer HTTP
+[Image upload]
+Wgraj obrazek
+[One or more recipients were invalid or did not resolve to any address]
+Jeden lub więcej odbiorców jest niewłaściwych albo nie ma przypisanego adresu
+[One or more unspecified errors occurred]
+Wystąpił jeden lub więcej nieokreślonych błędów
+[Open again]
+Otwórz ponownie
+[Open Folder]
+Otwórz folder
+[Screenshot ]
+Zrzut ekranu
+[Select a target window.]
+Wybierz okno.
+[Send B&y :]
+Wyślij przez :
+[Send desktop screenshot]
+Wyślij zrzut pulpitu
+[Send screenshot to\n]
+Wyślij zrzut do\n
+[Send screenshot to\n<unknown>]
+Wyślij zrzut ekranu do\n<nieznany>
+[Send screenshot]
+Wyślij zrzut ekranu
+[SendScreenshot - Error]
+SendScreenshot - Błąd
+[SendSS HTTP connections]
+Połączenie HTTP SendSS
+[Size (HxW) :]
+Rozmiar  (HxW) :
+[Take a screenshot]
+Zrób zrzut ekranu
+[Target Tool]
+Celownik
+[TEXT]
+TEKST
+[The specified attachment could not be opened]
+Nie można otworzyć wskazanego załącznika
+[The specified attachment was not found]
+Nie znalezniono wskazanego załącznika
+[The text in the message was too large]
+Wiadomość zbyt długa
+[The user canceled one of the dialog boxes]
+Użytkownik zamknął jedno z okien
+[There was insufficient memory to proceed]
+Brak wystarczającej ilości pamięci, żeby kontynuować
+[There was no default logon, and the user failed to log on successfully when the logon dialog box was displayed]
+Nie było domyślnego loginu, próba automatycznego zalogowania nie powiodła się, gdy pojawiło się okno logowania
+[There were too many file attachments]
+Zbyt dużo załączników
+[There were too many recipients]
+Zbyt wielu odbiorców
+[Ti&med capture]
+Czas uchwycenia
+[Time (secs) :]
+Czas (sek) :
+[Unable to initiate %s.]
+Nie można zainicjować %s.
+[Unknown Error]
+Nieznany błąd
+[Upload server did not respond timely.]
+Serwer nie odpowiada.
+[Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'#1#]
+Ostrzeżenie: Nie znaleziono IconPacka w katalogach: 'customize\\icons', 'icons' oraz 'plugins'#1#]
+[Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
+Ostrzeżenie: Wersja twojego obecnego IconPacka różni się od wersji, dla której przeznaczony jest UserInfoEx.\nNiektóre ikony mogą nie być wyświetlane poprawnie
+[Send Screenshot]
+Wyślij zrzut ekranu

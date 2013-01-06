@@ -1,0 +1,788 @@
+﻿;============================================================
+;  File: Weather.dll
+;  Module: Weather
+;  Versions: 0.3.8.18
+;============================================================
+[Moonrise]
+Księżyc - wschód
+[Moonset]
+Księżyc - zachód
+[Brief Info]
+Krótkie Info
+[Webpage]
+Strona WEB
+[Update weather information on startup]
+Aktualizacja informacji o pogodzie na starcie
+[Update weather information every]
+Aktualizuj informacje o pogodzie cały czas
+[Consider weather info updated only when condition and temperature are changed]
+Aktualizuj informacje o pogodzie tylko w razie zmiany warunków i pogody
+[Remove old data when updating]
+Usuwanie starych danych podczas aktualizowania
+[Make the contact italic when weather alert is issued]
+Wyświetl kontakt kursywą jeśli ogłoszono alarm pogodowy
+[Open URLs in new browser window]
+Otwieranie adresów URL w nowym oknie przeglądarki
+[Modes]
+Tryby
+[Use weather condition as protocol status]
+Ustaw warunki pogodowe jako status protokołu
+[Avatar only mode]
+Tylko tryb awataru
+[Units]
+Jednostki
+[Temperature]
+Temperatura
+[Celsius]
+Celsjusz
+[Fahrenheit]
+Fahrenheit
+[Degree sign:]
+Znak stopni:
+[Wind]
+Wiatr
+[km]
+km
+[miles]
+mil
+[Pressure]
+Ciśnienie
+[Day/Month]
+Dzień/Miesiąc
+[No change]
+Brak zmian
+[2 chars]
+2 znaki
+[3 chars]
+3 znaki
+[Avatar size]
+Wielkość awataru
+[Do not append units to values]
+Nie dodawaj jednostek do liczb
+[Edit Weather Station]
+Edytuj stację pogodową
+[Weather Station]
+Stacja pogodowa
+[City name]
+Nazwa miasta
+[Log Information]
+Informacje
+[Use internal history]
+Użyj wewnętrznej historii
+[Use external file]
+Korzystanie z zewnętrznego pliku
+[Overwrite file upon update]
+Zastąp plik po aktualizacji
+[Path:]
+Ścieżka:
+[Link Settings]
+Ustawienia łącza
+[More Info URL]
+Więcej Info
+[Update Weather]
+Aktualizuj prognozę
+[Remove Old Data then Update]
+Usuń stare dane i aktualizuj
+[Brief Information]
+Krótka informacja
+[Read Complete Forecast]
+Pokaż całą prognozę
+[Weather Map]
+Mapa pogodowa
+[Other Options]
+Inne opcje
+[Set as default station]
+Ustaw jako domyślną stacje
+[Disable automatic update for this station]
+Wyłącz automatyczną aktualizację dla tej stacji
+[Disable PopUp for this station]
+Wyłącz Popup dla tej stacji
+[PopUp Options]
+Opcje Popup
+[Popup only when condition changes]
+Tylko przy zmianie warunków
+[Popup Actions]
+Akcje Popup
+[Left Click]
+Lewy przycisk
+[Right Click]
+Prawy przycisk
+[Popup Delay]
+Opóźnienie Popup
+[Popup Text]
+Tekst popupu
+[Popup Title]
+Tytuł popupu
+[Updates]
+Aktualizacje
+[Errors]
+Błędy
+[Brief Info Title]
+Info w tytule
+[Note Text]
+Zwykłe info
+[Extra Text]
+Dodatkowe info
+[External Log]
+Zew. dziennik
+[History Log]
+Historia
+[Variable List]
+Lista zmiennych
+[More Variables]
+Więcej zmiennych
+[Sunset]
+Słońce - zachód
+[Feel-like]
+Odczuwalność
+[Today's Low]
+Dzisiejszy niż
+[Today's High]
+Dzisiejszy wyż
+[Sunrise]
+Słońce - wschód
+[Dewpoint]
+Temperatura rosy
+[Humidity]
+Wilgotność
+[Weather Protocol INI Setup]
+Ustawienia INI protokołu pogody
+[Install and load your weather ini file here]
+Zainstaluj i wczytaj tutaj plik ini
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Protokół pogody nie może znaleźć pliku INI na komputerze. Aby ustawić plik INI i dodać stacje pogodowe, wykonaj następujące kroki:
+[Click here to download a weather ini file from Miranda file listing]
+Kliknij tu żeby ściągnąć plik ini ze strony Mirandy
+[Extract the weather ini file from archive to this directory]
+Wypakuj plik ini z archiwum do tego katalogu
+[Click here to load the data from the new ini file into memory]
+Kliknij tutaj żeby wczytać dane z nowego pliku ini do pamięci
+[Add new weather station and close this dialog]
+Dodaj nową stację pogodową i zamknij to okienko
+[Total INI files]
+Razem plików INI
+[Total memory used]
+Razem używanej pamięci
+[Reload INI]
+Odśwież INI
+[Menu]
+Menu
+[Dismiss PopUp]
+Odrzuć Popup
+[Open brief information]
+Otwórz krótkie informacje
+[Open complete forecast]
+Otwórz kompletną prognoze
+[Open weather map]
+Otwórz mape pogodową
+[View history]
+Pokaż historię
+[Open log file]
+Otwórz raport pliku
+[Show user menu]
+Pokaż menu użytkownika
+[Show user detail]
+Pokaż dane użytkownika
+[To old setting]
+Do poprzednich ustawień
+[To default]
+Do domyślnych
+[Weather Condition Changed]
+Warunki pogodowe uległy zmianie
+[Weather Alert Issued]
+Ogłoszone alarmy pogodowe
+[Invalid ID format, missing \"/\" (10)]
+Nieprawidłowy format ID, brakuje \"/\" (10)
+[Invalid service (11)]
+Nieprawidłowy serwis (11)
+[Invalid station (12)]
+Nieprawidłowa stacja (12)
+[Weather service ini for this station is not found (20)]
+Nie odnaleziono stacji dla usługi pogoda INI (20)
+[Netlib error - check your internet connection (30)]
+Błąd Netlib - sprawdź połączenie internetowe (30)
+[Empty data is retrieved (40)]
+Zwrócono puste dane (40)
+[Document not found (42)]
+Nie znaleziono dokumentu (42)
+[Document too short to contain any weather data (43)]
+Dokument jest za krótki żeby przechowywać dane pogodowe (43)
+[Unknown error (99)]
+Nieznany błąd (99)
+[HTTP Error: No content (204)]
+Błąd HTTP: Brak zawartości (204)
+[HTTP Error: Data moved (301)]
+Błąd HTTP: Przeniesiono dane (301)
+[HTTP Error: Use proxy (305)]
+Błąd HTTP: Użyj proxy (305)
+[HTTP Error: Temporary redirect (307)]
+Błąd HTTP: Tymczasowe przekierowanie (307)
+[HTTP Error: Bad request (400)]
+Błąd HTTP: Nieprawidłowe żądanie (400)
+[HTTP Error: Unauthorized (401)]
+Błąd HTTP: Brak autoryzacji (401)
+[HTTP Error: Payment required (402)]
+Błąd HTTP: Wymagana opłata (402)
+[HTTP Error: Forbidden (403)]
+Błąd HTTP: Brak dostępu (403)
+[HTTP Error: Not found (404)]
+Błąd HTTP: Nie znaleziono (409)
+[HTTP Error: Method not allowed (405)]
+Błąd HTTP: Niedozwolona metoda (405)
+[HTTP Error: Proxy authentication required (407)]
+Błąd HTTP: Wymagana autoryzacja proxy (407)
+[HTTP Error: Gone (410)]
+Błąd HTTP: Zniknął (usunięto) (410)
+[HTTP Error: Internal server error (500)]
+Błąd HTTP: Wewnętrzny błąd serwera (500)
+[HTTP Error: Bad gateway (502)]
+Błąd HTTP: Zła bramka (502)
+[HTTP Error: Service unavailable (503)]
+Błąd HTTP: Usługa niedostępna (503)
+[HTTP Error: Gateway timeout (504)]
+Błąd HTTP: Przekroczono czas oczekiwania bramki (504)
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+%c\nTemperatura: %t\nOdczuwalne: %f\nCiśnienie: %p\nWiatr: %i  %w\nWilgotność: %m\nPunkt rosy: %e\nWidoczność: %v\n\nWschód Słońca: %r\nZachód Słońca: %y\n\nPogoda na 5 dni:\n%[Pogoda na dzień 1]\n%[Pogoda na dzień 2]\n%[Pogoda na dzień 3]\n%[Pogoda na dzień 4 4]\n%[Pogoda na dzień 5]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+Odczuwalne: %f\nCiśnienie:%p\nWiatr: %i  %w\nWilgotność: %m\nPunkt rosy: %e\nWidoczność: %v\n\nWschód słońca: %r\nZachód słońca: %y\n\nPogoda na 5 dni:\n%[Pogoda na dzień 1]\n%[Pogoda na dzień 2]\n%[Pogoda na dzień 3]\n%[Pogoda na dzień 4]\n%[Pogoda na dzień 5]
+[Weather Condition for %n as of %u]
+Warunki pogodowe dla %n na %u
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (odczuwalne %f)	Wiatr: %i %w	Wilgotność: %m]
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n na %u:	%c, %t (odczuwalne %f)	Wiatr: %i %w	Wilgotność: %m
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nDzisiaj:  Wyż %h, Niż %l
+[Current weather information for %s.]
+Aktualne informacje o pogodzie dla miejscowości %s.
+[%s is now the default weather station]
+%s jest obecnie domyślną stację meteo
+[Weather Protocol]
+Protokół pogodowy
+[Please try again after weather update is completed.]
+Proszę spróbować ponownie po aktualizacji pogody.
+[<Enter station name here>]
+<Wpisz nazwę stacji tutaj>
+[<Enter station ID here>]
+<Wpisz ID stacji tutaj>
+[Weather condition was not logged.]
+Nie zarejestrowano sytuacji pogodowej.
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+Nie ustawiono adresu strony z kompletną prognozą. Możesz go ustawić w okienku edycji ustawień.
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+Nie ustawiono adresu mapy pogodowej. Możesz go ustawić w okienku edycji ustawień.
+[Get city name from ID]
+Pobierz nazwę miasta od ID
+[Weather INI information]
+Informacja pogodowa INI
+[View webpage]
+Pokaż strone internetową
+[Reset to default]
+Domyślne ustawienia
+[Text Files]
+Pliki tekstowe
+[<unknown time>]
+<nieznany czas>
+[<Error>]
+<Błąd>
+[HTTP Error %i]
+Błąd HTTP %i
+[<Enter city name here>]
+<Wpisz nazwę miasta tutaj>
+[Error when obtaining data: %s]
+Błąd podczas odczytywania danych: %s
+[Weather HTTP connections]
+Połączenie HTTP
+[Update Disabled]
+Aktualizacja wyłączona
+[View Log]
+Pokaż raport
+[Update with Clear]
+Aktualizacja z czyszczeniem
+[View Brief]
+Pokaż krótko
+[View Complete]
+Pokaż całkowicie
+[Weather Update]
+Aktualizuj pogode
+[Popup]
+Popup
+[No Popup]
+Brak Popup
+[Edit Settings]
+Edytuj ustawienia
+[The corresponding INI file for "%s" is not found.]
+Zgodny plik INI dla \"%s\" nie został znaleziony.
+[Weather INI information for "%s":]
+Inofrmacja pogodowa INI dla \"%s\":
+[Internal Name:]
+Nazwa krajowa:
+[INI Version:]
+Wersja INI:
+[File Name:]
+Nazwa pliku:
+[Item Count:]
+Pozycja liczy:
+[Memory Used:]
+Pamięć używana:
+[Here is a list of custom variables that are currently available]
+Poniżej znajduje się lista niestandardowych zmiennych, które są obecnie dostępne
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Nie znaleziono plików aktualizacji. Proszę sprawdzić folder Plugins\\Weather.
+[Invalid ini format for: %s]
+Niepoprawny format INI dla: %s
+[All update data has been reloaded.]
+Wszystkie aktualizacje danych zostały przeładowane.
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\tstan obecny\n%d\taktualna data\n%e\tpunkt rosy\n%f\todczuwalna temp.\n%h\tdzisiejszy wyż\n%i\tkierunek wiatru\n%l\tdzisiejszy niż\n%m\twilgotność\n%n\tnazwa stacji\n%p\tciśnienie\n%r\twchód słońca\n%s\tID stacji\n%t\ttemperatura\n%u\tczas aktualizacji\n%v\twidoczność\n%w\tprędkość wiatru\n%y\tzachód słońca
+[Weather Protocol Text Preview]
+Podgląd tekstu protokołu pogody
+[This is the name of the city]
+To jest nazwa miasta
+[Here is a short weather description]
+Oto krótki opis pogody
+[%[..]\tcustom variables]
+%[..]\twłasne zmienne
+[Station ID]
+ID stacji
+[Auto Update Enabled]
+Auto aktualizacja włączona
+[Auto Update Disabled]
+Auto aktualizacja wyłączona
+[Disable &weather notification]
+Wyłącz powiadomienie o pogodzie
+[Enable &weather notification]
+Włącz powiadomienie o pogodzie
+[Enable/Disable Weather Update]
+Włącz/Wyłacz aktualizacje pogodowe
+[Weather Notification]
+Powiadomienie o pogodzie
+[Display in a frame]
+Ekran w ramce
+[Unable to retrieve weather information for %s]
+Nie można pobrać informacji o pogodzie dla %s
+[Current condition for %n]
+Aktualny stan dla %n
+[Last update on:   %u]
+Ostatnia aktualizacja:   %u
+[Variable]
+Zmienna
+[Retrieving new data, please wait...]
+Pobieranie nowych danych, proszę czekać...
+[More Info]
+Więcej Info
+[No information available.\nPlease update weather condition first.]
+Brak informacji.\nZaktualizuj informacje o warunkach pogodowych.
+[Data Not Available]
+Dane niedostępne
+[&Local Time]
+Czasu lokalnego
+[N]
+Północny
+[W]
+Zachodni
+[S]
+Południowy
+[E]
+Wschodni
+[NW]
+Północno-zachodni
+[NE]
+Północno-wschodni
+[SW]
+Południowo-zachodni
+[SE]
+Południowo-wschodni
+[NNW]
+Północny północny zachód
+[NNE]
+Północny północny wschód
+[SSW]
+Południowy południowy zachód
+[SSE]
+Południowy południowy wschodni
+[ENE]
+Wschodni północny wschód
+[WSW]
+Zachodni południowy zachodni
+[WNW]
+Zachodni północny zachodni
+[ESE]
+Wschodni południowy zachodni
+[North]
+Północny
+[East]
+Wschodni
+[South]
+Południowy
+[West]
+Zachodni
+[Northwest]
+Północny zachód
+[Northeast]
+Północny wschód
+[Southwest]
+Południowy zachód
+[Southeast]
+Południowy wschód
+[North Northwest]
+Północny północny zachód
+[North Northeast]
+Północny północny wschód
+[South Southwest]
+Południowy południowy zachód
+[South Southeast]
+Południowy południowy wschód
+[East Northeast]
+Wschodni północny wschodni
+[West Southwest]
+Zachodni południowy zachodni
+[West Northwest]
+Zachodni północny zachodni
+[East Southeast]
+Wschodni południowo wschodni
+[Waxing Crescent]
+Dąży do pierwszej kwadry
+[New Moon]
+Nów
+[First Quarter]
+Pierwsza kwadra
+[Waxing Gibbous]
+Poszerzony Księżyc
+[Full Moon]
+Pełnia
+[Waning Gibbous]
+Garbaty Księżyc
+[Last Quarter]
+Ostatnia kwadra
+[Waning Crescent]
+Dąży do nowiu
+[Update All Weather]
+Aktualizuj całą pogodę
+[Remove Old Data then Update All]
+Unuń stare dane po aktualizacji
+[Frame Font]
+Tekst ramki
+[Frame Title Font]
+Tekst tytułu ramki
+[Condition]
+Stan
+[Moon]
+Księżyc
+[Wind Direction]
+Kierunek wiatru
+[Wind Direction DEG]
+Kierunek wiatru DEG
+[Wind Speed]
+Prędkość wiatru
+[Forecast Day 1]
+Prognoza, na
+[Forecast Day 2 Day]
+Prognoza, dzień 2
+[Forecast Day 3 Day]
+Prognoza, dzień 3
+[Forecast Day 4 Day]
+Prognoza, dzień 4
+[Forecast Day 5 Day]
+Prognoza, dzień 5
+[Forecast Day 6 Day]
+Prognoza, dzień 6
+[Forecast Day 2]
+Prognoza na
+[Forecast Day 3]
+Prognoza na
+[Forecast Day 4]
+Prognoza na
+[Forecast Day 5]
+Prognoza na
+[Forecast Day 6]
+Prognoza na
+[Feel]
+Odczówalna
+[Wind Gusts]
+Wiart
+[Pressure Tendency]
+Tendęcja ciśnienia
+[Precipitation]
+Opady
+[Local Time]
+Czas lokalny
+[Heat Index]
+Indeks ciepła
+[Forecast Day 1 Condition]
+Prognoza, dzień 1 Stan
+[Forecast Day 2 Condition]
+Prognoza, dzień 2 Stan
+[Forecast Day 3 Condition]
+Prognoza, dzień 3 Stan
+[Forecast Day 4 Condition]
+Prognoza, dzień 4 Stan
+[Forecast Day 5 Condition]
+Prognoza, dzień 5 Stan
+[Forecast Day 1 Date]
+Prognoza, dzień 1 Data
+[Forecast Day 2 Date]
+Prognoza, dzień 2 Data
+[Forecast Day 3 Date]
+Prognoza, dzień 3 Data
+[Forecast Day 4 Date]
+Prognoza, dzień 4 Data
+[Forecast Day 5 Date]
+Prognoza, dzień 5 Data
+[Forecast Day 1 Day]
+Prognoza, dzień 1
+[Forecast Day 2 Day]
+Prognoza, dzień 2
+[Forecast Day 3 Day]
+Prognoza, dzień 3
+[Forecast Day 4 Day]
+Prognoza, dzień 4
+[Forecast Day 5 Day]
+Prognoza, dzień 5
+[Forecast Day 1 High]
+Prognoza, dzień 1 Temp. max.
+[Forecast Day 2 High]
+Prognoza, dzień 2 Temp. max.
+[Forecast Day 3 High]
+Prognoza, dzień 3 Temp. max.
+[Forecast Day 4 High]
+Prognoza, dzień 4 Temp. max.
+[Forecast Day 5 High]
+Prognoza, dzień 5 Temp. max.
+[Forecast Day 1 Low]
+Prognoza, dzień 1 Temp. min.
+[Forecast Day 2 Low]
+Prognoza, dzień 2 Temp. min.
+[Forecast Day 3 Low]
+Prognoza, dzień 3 Temp. min.
+[Forecast Day 4 Low]
+Prognoza, dzień 4 Temp. min.
+[Forecast Day 5 Low]
+Prognoza, dzień 5 Temp. min.
+[Forecast Day 1 Night Condition]
+Prognoza, noc 1 Stan
+[Forecast Day 2 Night Condition]
+Prognoza, noc 2 Stan
+[Forecast Day 3 Night Condition]
+Prognoza, noc 3 Stan
+[Forecast Day 4 Night Condition]
+Prognoza, noc 4 Stan
+[Forecast Day 5 Night Condition]
+Prognoza, noc 5 Stan
+[Forecast Day 1 Night High]
+Prognoza, noc 1 Temp. max.
+[Forecast Day 2 Night High]
+Prognoza, noc 2 Temp. max.
+[Forecast Day 3 Night High]
+Prognoza, noc 3 Temp. max.
+[Forecast Day 4 Night High]
+Prognoza, noc 4 Temp. max.
+[Forecast Day 5 Night High]
+Prognoza, noc 5 Temp. max.
+[Forecast Day 1 Night Low]
+Prognoza, noc 1 Temp. min.
+[Forecast Day 2 Night Low]
+Prognoza, noc 2 Temp. min.
+[Forecast Day 3 Night Low]
+Prognoza, noc 3 Temp. min.
+[Forecast Day 4 Night Low]
+Prognoza, noc 4 Temp. min.
+[Forecast Day 5 Night Low]
+Prognoza, noc 5 Temp. min.
+[Forecast Day 1 Night Precipitation]
+Prognoza, noc 1 Opady
+[Forecast Day 2 Night Precipitation]
+Prognoza, noc 2 Opady
+[Forecast Day 3 Night Precipitation]
+Prognoza, noc 3 Opady
+[Forecast Day 4 Night Precipitation]
+Prognoza, noc 4 Opady
+[Forecast Day 5 Night Precipitation]
+Prognoza, noc 5 Opady
+[Forecast Day 1 Night Precipitation]
+Prognoza, noc 1 Opady
+[Forecast Day 1 Night Text]
+Prognoza, noc 1
+[Forecast Day 2 Night Text]
+Prognoza, noc 2
+[Forecast Day 3 Night Text]
+Prognoza, noc 3
+[Forecast Day 4 Night Text]
+Prognoza, noc 4
+[Forecast Day 5 Night Text]
+Prognoza, noc 5
+[Forecast Day 1 Night Wind Direction]
+Prognoza, noc 1 Wiatr - kierunek
+[Forecast Day 2 Night Wind Direction]
+Prognoza, noc 2 Wiatr - kierunek
+[Forecast Day 3 Night Wind Direction]
+Prognoza, noc 3 Wiatr - kierunek
+[Forecast Day 4 Night Wind Direction]
+Prognoza, noc 4 Wiatr - kierunek
+[Forecast Day 5 Night Wind Direction]
+Prognoza, noc 5 Wiatr - kierunek
+[Forecast Day 1 Night Wind Speed]
+Prognoza, noc 1 Wiatr - szybkość
+[Forecast Day 2 Night Wind Speed]
+Prognoza, noc 2 Wiatr - szybkość
+[Forecast Day 3 Night Wind Speed]
+Prognoza, noc 3 Wiatr - szybkość
+[Forecast Day 4 Night Wind Speed]
+Prognoza, noc 4 Wiatr - szybkość
+[Forecast Day 5 Night Wind Speed]
+Prognoza, noc 5 Wiatr - szybkość
+[Forecast Day 1 Precipitation]
+Prognoza, dzień 1 Opady
+[Forecast Day 2 Precipitation]
+Prognoza, dzień 2 Opady
+[Forecast Day 3 Precipitation]
+Prognoza, dzień 3 Opady
+[Forecast Day 4 Precipitation]
+Prognoza, dzień 4 Opady
+[Forecast Day 5 Precipitation]
+Prognoza, dzień 5 Opady
+[Forecast Day 1 Text]
+Prognoza, dzień 1
+[Forecast Day 2 Text]
+Prognoza, dzień 2
+[Forecast Day 3 Text]
+Prognoza, dzień 3
+[Forecast Day 4 Text]
+Prognoza, dzień 4
+[Forecast Day 5 Text]
+Prognoza, dzień 5
+[Forecast Day 1 Wind Direction]
+Prognoza, dzień 1 Wiatr - kierunek
+[Forecast Day 2 Wind Direction]
+Prognoza, dzień 2 Wiatr - kierunek
+[Forecast Day 3 Wind Direction]
+Prognoza, dzień 3 Wiatr - kierunek
+[Forecast Day 4 Wind Direction]
+Prognoza, dzień 4 Wiatr - kierunek
+[Forecast Day 5 Wind Direction]
+Prognoza, dzień 5 Wiatr - kierunek
+[Forecast Day 1 Wind Speed]
+Prognoza, dzień 1 Wiatr - szybkość
+[Forecast Day 2 Wind Speed]
+Prognoza, dzień 2 Wiatr - szybkość
+[Forecast Day 3 Wind Speed]
+Prognoza, dzień 3 Wiatr - szybkość
+[Forecast Day 4 Wind Speed]
+Prognoza, dzień 4 Wiatr - szybkość
+[Forecast Day 5 Wind Speed]
+Prognoza, dzień 5 Wiatr - szybkość
+[[weather.dll] Condition]
+[weather.dll] Kondycja
+[[weather.dll] Humidity]
+[weather.dll] Wilgotność
+[[weather.dll] Max/Min temperature]
+[weather.dll] Maks/Min temperatura
+[[weather.dll] Moon]
+[weather.dll] Faza księżyca
+[[weather.dll] Pressure]
+[weather.dll] Ciśnienie]
+[[weather.dll] Sunrise]
+[weather.dll] Wschód słońca
+[[weather.dll] Sunset]
+[weather.dll] Zachód słońca
+[[weather.dll] Temperature]
+[weather.dll] Temperatura
+[[weather.dll] Update time]
+[weather.dll] Czas aktualizacji
+[[weather.dll] UV Index]
+[weather.dll] Promieniowanie UV
+[[weather.dll] Visibility]
+[weather.dll] Widoczność
+[[weather.dll] Wind]
+[weather.dll] Wiatr
+[Last message]
+Ostatnia wiadomość
+[Do not display fractional values]
+Nie wyświetlaj ułamkowych wartości
+[Day]
+Dzień
+[Night]
+Noc
+[Author]
+Autor
+[File Version]
+Wersja pliku
+[INI Version]
+Wersja INI
+[Display Name]
+Wyświetlana nazwa
+[File Name]
+Nazwa pliku
+[Steady]
+Stały
+[Sunday]
+Niedziela
+[Monday]
+Poniedziałek
+[Tuesday]
+Wtorek
+[Wednesday]
+Środa
+[Thursday]
+Czwartek
+[Friday]
+Piątek
+[Saturday]
+Sobota
+[Retrieve weather information and display them in your contact list]
+Pobiera informacje o pogodzie i wyświetla je na liście kontaktów
+
+;===============Warunki pogodowe===============
+
+[# Weather Sunny 1 #]
+Rozpogodzenia
+[# Weather Sunny 2 #]
+Przejaśnienia
+[# Weather Sunny 3 #]
+Przewaznie slonecznie
+[# Weather Sunny 4 #]
+Slonecznie, bezchmurnie
+[# Weather Sunny 5 #]
+Pogodnie
+[# Weather Sunny 6 #]
+Przejasnienia
+[# Weather Sunny 6 #]
+bezchmurnie
+[# Weather Partly Cloudy 1 #]
+Umiarkowane zachmurzenie
+[# Weather Partly Cloudy 2 #]
+Pogodnie, Rozwoj Chmur
+[# Weather Partly Cloudy 3 #]
+Niewielkie zachmurzenie
+[# Weather Partly Cloudy 4 #]
+Przewaznie bezchmurnie
+[# Weather Cloudy 1 #]
+Duze zachmurzenie
+[# Weather Cloudy 2 #]
+Pochmurno
+[# Weather Rain 1 #]
+Mozliwe Opady Przelotne
+[# Weather Rain 2 #]
+Okresami deszcz
+[# Weather Rain 3 #]
+Deszcz przelotny
+[# Weather Rain Shower 1 #]
+Slaba mzawka
+[# Weather Snow 1 #]
+zamiec
+[# Weather Snow Shower 1 #]
+okresami snieg
+[# Weather Snow Shower 2 #]
+okresami slaby snieg
+[# Weather Snow Shower 3 #]
+mozliwy przelotny snieg
+[# Weather Lightning 1 #]
+Mozliwe burze
+[# Weather Lightning 2 #]
+Ulewy/burze
+[# Weather Lightning 3 #]
+wichura
+[# Weather Fog 1 #]
+Mgla
+[# Weather Fog 2 #]
+zamglenia

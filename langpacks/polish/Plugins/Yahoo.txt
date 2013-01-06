@@ -1,0 +1,7 @@
+﻿;===========================================================
+;  File: yahoo.dll
+;  Module: Yahoo Protocol Beta/Nightly
+;  Versions: 0.9.26.0
+;===========================================================
+[Yahoo Protocol support via libyahoo2 library. \[Built: Jul 30 2011 18:41:05\]]
+Wsparcie dla protokołu Yahoo dzięki bibliotece libyahoo2. (Utworzone: 30 czerw. 2011 18:41:05)

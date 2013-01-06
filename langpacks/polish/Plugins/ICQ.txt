@@ -1,0 +1,7 @@
+﻿;===========================================================
+;  File: ICQ.dll
+;  Module: IcqOscarJ Protocol
+;  Versions: 0.9.26.0
+;===========================================================
+[Support for ICQ network, enhanced.]
+Wsparcie dla protokołu ICQ, rozszerzone.

@@ -1,0 +1,35 @@
+﻿;============================================================
+;  Module: AdvSplashScreen.dll
+;  Plugin: Splash Screen
+;  Versions: 0.1.2.1
+;============================================================
+[Shows a splash at Miranda startup]
+Pokaż splash przy starcie Mirandy
+[Splash Options]
+Opcje splash
+[Show Miranda Version]
+Pokaż wersję Mirandy
+[Show splash]
+Pokaż splash
+[Show random splash]
+Pokaż losowy splash
+[Fade in:]
+Przygasanie poczatkowe:
+[Fade out:]
+Przygasanie końcowe:
+[steps]
+krok
+[Preview...]
+Podgląd...
+[Fade In]
+Przygasanie poczatkowe:
+[Fade Out]
+Przygasanie końcowe:
+[Fade step:]
+Kroki przygasania:
+[Fade:]
+Przygasanie:
+[msecs]
+ms
+[Show Splash]
+Pokaż splash

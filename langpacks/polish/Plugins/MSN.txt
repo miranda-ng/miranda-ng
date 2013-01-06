@@ -1,0 +1,7 @@
+﻿;============================================================
+;  File: msn.dll
+;  Module: MSN Protocol
+;  Versions: 0.9.26.0
+;============================================================
+[Adds support for communicating with users of the MSN Messenger network]
+Dodaje wsparcie komunikacji z użytkownikami sieci MSN Messenger

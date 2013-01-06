@@ -1,0 +1,85 @@
+﻿;============================================================
+;  File: pingproto.dll
+;  Module: Ping Protocol
+;  Versions: 1.0.0.3
+;============================================================
+[PING]
+Ping
+[Enable All Pings]
+Włącz Wszystkie Pingi
+[Disable All Pings]
+Wyłącz Wszystkie Pingi
+[Graph]
+Wykres
+[Edit...]
+Edycja...
+[Install the FontService plugin to change the font and font colour.]
+Zainstaluj wtyczkę FontService aby zmienić czcionkę i jej kolor. 
+[PING Destinations]
+Pinguj adresy docelowe
+[Ping Plugin]
+Wtyczka Ping
+[Ping labelled IP addresses or domain names.]
+Pinguj zaznaczone adresy IP lub nazwy domen.
+[Failed to initialize. Plugin disabled.]
+Nieudana inicjalizacja. Wtyczka wyłączona.
+[Delay between pings (secs):]
+Opóźnienie pomiędzy pingami (sek):
+[Ping timeout (secs):]
+Timeout pingu (sek):
+[Log to File]
+Log do Pliku
+[Log Filename:]
+Nazwa pliku Logu
+[Reply]
+Odpowiedź
+[Block Repetitions]
+Blokuj powtórzenia
+[View Log]
+Pokaż Log
+[Interface]
+Interfejs
+[Do not change icon when testing]
+Nie zmieniaj ikony podczas testu
+[Use the Customize/Fonts options to change text size and colour.]
+Rozmiar i kolor tekstu zmienisz w Personalizacja -> Czcionka.
+[Row height:]
+Wysokość wiersza:
+[Repeats for success/failure:]
+Odpowiedzi na sukces/porażkę:
+[Attach to contact list]
+Załącz do listy kontaktów
+[Ping Destinations]
+Cele pingów
+[Ping Destination]
+Cel pingów
+[Address:]
+Adres:
+[Control Protocol:]
+Kontroluj protokół:
+[Set my status to:]
+Ustaw mój status na:
+[On success, if my status is:]
+Po sukcesie, jeśli mój status to:
+[Execute the following command on double-click:]
+Wykonaj tę komendę po podwójnym kliknięciu:
+[Disable all pings]
+Wyłącz wszystkie pingi:
+[Enable all pings]
+Włącz wszystkie pingi
+[Options...]
+Opcje...
+[Destinations...]
+Cele...
+[Show/Hide &Ping Window]
+Pokaż/Ukryj okno Pingu
+[Host %s requests that you reduce the amount of traffic you are sending.]
+Host %s prosi o zredukowanie produkowanego przez ciebie ruchu.
+[Unknown Address]
+Nieznany Adres
+[Responding]
+Odpowiadaj
+[Not Responding]
+Nie Odpowiadaj
+[Testing]
+Testowanie

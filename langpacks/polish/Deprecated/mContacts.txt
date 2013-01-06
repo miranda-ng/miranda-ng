@@ -1,0 +1,89 @@
+﻿;============================================================
+;  File: mContacts.dll
+;  Module: mContacts
+;  Versions: 0.0.1.1
+;============================================================
+[&Import contact history]
+Importuj historię kontaktu
+[&Export contact history]
+Eksportuj historię kontaktu
+[&Delete contact history]
+Usuń historię kontaktu
+[&Export contact list]
+Eksportuj listę kontaktów
+[&Import contact list]
+Importuj listę kontaktów
+[Export contact list]
+Eksportuj listę kontaktów
+[While exporting MIM will be completely blocked until finished.]
+Podczas eksportu Miranda IM będzie całkowicie zablokowana do momentu zakończenia czynności.
+[Are You sure?]
+Czy jesteś pewien?
+[Select export file name]
+Wybierz nazwę pliku
+[INI Files]
+Pliki INI
+[Export history (if available)?]
+Eksportuj historię (jeśli dostępna)?
+[Contact list is empty.\nNothing to export.]
+Lista kontaktów jest pusta.\nNie ma nic do eksportowania.
+[Nothing was exported.]
+Nic nie zostało wyeksportowane.
+[Exported:]
+Wyeksportowano:
+[contact(s).]
+kontakt(y),
+['Export contact list' is busy.]
+'Eksportuj listę kontaktów" jest zajęta.
+[Import contact list]
+Importuj listę kontaktów
+[While importing MIM will be completely blocked until finished.]
+Podczas import Miranda IM będzie całkowicie zablokowana do momentu zakończenia czynności.
+[Select import file name]
+Wybierz nazwę pliku
+[Import history (if available, can take a while)?]
+Importuj historię (jeśli dostępna, może chwilę potrwać)?
+[To import:]
+Do importy:
+[Nothing was imported.]
+Nic nie zostało importowane.
+[Imported:]
+Zaimportowano:
+['Import contact list' is busy.]
+'Import listy kontaktów" jest zajęty.
+[DAT Files]
+Pliki DAT
+[Export contact history]
+Eksportowanie historii kontaktu
+[There was an error during contact history export.]
+Wystąpił błąd podczas eksportu historii kontaktu.
+[history event(s).]
+wpisów w historii.
+['Export contact history' is busy.]
+'Eksportowanie historii kontaktu' jest zajeta.
+[Import contact history]
+Import historii kontaktu
+[There was an error during contact history import.]
+Wystąpił błąd podczas importu historii kontaktu.
+[Delete whole history from selected contact, are you realy sure?]
+Usunąć całą historię od wybranego kontaktu, czy naprawdę jesteś pewien?
+[Delete contact history]
+Usuń historię kontaktu
+[Whole history from selected contact has been deleted.]
+Cała historia z wybranego kontaktu została usunięta.
+[Protocol independent contact list/history import/export.]
+Protokół niezależny listy kontaktów/historii importu/eksportu.
+[&Delete whole history from all contacts]
+Usunąć całą historię wszystkich kontaktów
+[Delete whole history from all contacts (including system history), are you realy sure?]
+Usunąć całą historię wszystkich kontaktów (w tym system historii), czy naprawdę jesteś pewien?
+[Delete whole history]
+Usuń całą historię
+[Whole history from all contacts has been deleted.]
+Cała historia wszystkich kontaktów została usunięta.
+[Only merge history (don't add new contacts)?]
+Tylko połączenie historii (nie dodawać nowych kontaktów)?
+[Merge history if contact already on list?]
+Połączyć historię jeśli kontakt jest już na liście?
+[Check for history events duplicates?]
+Sprawdzić występowanie duplikatów zdarzeń w historii?

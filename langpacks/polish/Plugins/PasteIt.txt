@@ -1,0 +1,85 @@
+﻿;============================================================
+;  File: pasteit.dll
+;  Module: PasteIt
+;  Versions: 1.0.0.3
+;============================================================
+[Paste It]
+Wklej To
+[Uploads the text to web page and sends the URL to your friends.]
+Umieszcza tekst na stronie www i wysyła link do twoich przyjaciół.
+[Paste It - Select file]
+Wklej To - Wybierz plik
+[Paste It HTTP connections]
+Wklej To połączenia HTTP
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+Wprowadziłeś nieprawidłową stronę kodową. Wybierz ją z combo boxa lub wprowadź poprawną liczbę.
+[Invalid codepage]
+Nieprawidłowa strona kodowa
+[You can only paste 1 file]
+Możesz wkleić tylko 1 plik
+[Cannot get data from clipboard]
+Nie można pobrać danych ze schowka
+[File size is %dKB, do you realy want to paste such large file?]
+Rozmiar pliku wynosi %dKB, napewno chcesz wkleić tak duży plik?
+[Cannot read file '%s']
+Nie można wczytać pliku '%s'
+[File size is larger then 10MB, cannot be send]
+Rozmiar pliku jest większy niż 10MB, nie może zostać wysłany
+[Cannot open file '%s']
+Nie można otworzyć pliku '%s'
+[File '%s' is empty]
+Plik '%s' jest pusty
+[Error during sending text to web page: %s]
+Błąd podczas wysyłania tekstu do strony www: %s
+[Error during sending text to web page]
+Błąd podczas wysyłania tekstu do strony www
+[Error during getting user key from web page: %s]
+Błąd podczas pobierania klucza użytkownika ze strony www: %s
+[Paste from clipboard]
+Wklej ze schowka
+[Paste from file]
+Wklej z pliku
+[Default web page]
+Domyślna strona www
+[Default file encoding]
+Domyślne kodowanie pliku
+[Auto-detect UTF-8]
+Auto-wykrywanie UTF-8
+[Show confirmation dialog box]
+Pokaż okno potwierdzenia
+[Web page settings]
+Ustawienia strony www
+[Web page to configure]
+Strona www do konfiguracji
+[Default formatting]
+Domyślne formatowanie
+[Auto-detect format from file extension]
+Auto-wykrywanie formatu z rozszerzenia pliku
+[Public paste]
+Publiczna wklejka
+[Paste expire date]
+Data ważności wklejki
+[Login as guest]
+Zaloguj się jako gość
+[User key]
+Klucz użytkownika
+[Get user key]
+Pobierz klucz
+[Configure formatting]
+Konfiguruj formatowanie
+[Download more]
+Pobierz więcej
+[Login to pastebin.com]
+Logowanie do pastebin.com
+[Encoding]
+Kodowanie
+[Recode]
+Zmień kodowanie
+[10 minutes]
+10 munut
+[1 hour]
+1 godzina
+[1 day]
+1 dzień
+[1 month]
+1 miesiąc

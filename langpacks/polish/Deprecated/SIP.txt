@@ -1,0 +1,17 @@
+﻿;============================================================
+;  File: sipw.dll
+;  Module: SIP Protocol
+;  Versions: 0.1.4
+;============================================================
+[Domain:]
+Domena:
+[Registrar:]
+Rejestruj:
+[Proxy Server:]
+Serwer proxy:
+[STUN Server:]
+Serwer STUN:
+[Publish status]
+Publikuj status
+[Send keep-alives]
+Wyślij utrzymywanie aktywności

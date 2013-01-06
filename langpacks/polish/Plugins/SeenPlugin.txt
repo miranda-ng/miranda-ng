@@ -1,0 +1,107 @@
+﻿;============================================================
+;  File: seenplugin.dll
+;  Module: Last Seen Plugin
+;  Versions: 5.0.4.7
+;============================================================
+[last seen history]
+Historia Last seen
+[Send Instant Message]
+Wyślij szybką wiadomość
+[Last seen plugin]
+Wtyczka Last seen
+[Log when a user was last seen online and which users were online while you were away]
+Zapisuje kiedy użytkownik był połączony po raz ostatni i którzy użytkownicy byli online kiedy ciebie nie było
+[LastSeen: User status change]
+LastSeen: Zmiana statusu użytkownika
+[Last seen menuitem]
+Last seen - wpis w menu
+[Userinfo tab]
+Karta danych kontaktu
+[Ignore contacts going offline]
+Ignoruj rozłączające się kontakty
+[Enable 'Missed Ones' feature]
+Włącz funkcję "Przegapieni"
+[Last seen options]
+Opcje Last seen
+[Count times]
+Licz ile razy
+[Variable list]
+Zmienne
+[Protocols to watch:]
+Protokoły do obserwowania:
+[Log to history]
+Zapisuj do historii
+[Maximum size]
+Maks. rozmiar
+[You missed following contacts:]
+Przegapiłeś następujące kontakty:
+[Test\nTest]
+Test\nTest
+[Alert when user status changes]
+Alarmuj kiedy użytkownik zmieni status
+[-- Date --]
+-- Data -- 
+[year (4 digits)]
+rok (4 znaki)
+[year (2 digits)]
+rok (2 znaki)
+[name of month]
+nazwa miesiąca
+[short name of month]
+krótka nazwa miesiąca
+[weekday (full)]
+dzień tygodnia (cały)
+[weekday (abbreviated)]
+dzień tygodnia (skrócony)
+[-- Time --]
+-- Czas -- 
+[hours (24)]
+godziny (24)
+[hours (12)]
+godziny (12)
+[-- User --]
+-- Użytkownik -- 
+[username]
+nazwa
+[UIN/handle]
+UIN/nazwa użytkonika
+[status]
+status
+[external IP]
+zewnętrzne IP
+[internal IP]
+wewnętrzne IP
+[-- Format --]
+-- Format --
+[tabulator]
+tabulator
+[line break]
+koniec linii
+[Enable Idle support]
+Włącz wsparcie dla bezczynności
+[Use popups]
+Użyj popup
+[PopUp Colors]
+Kolory
+[Reset colors]
+Resetuj
+[Disable CList Notifications]
+Wyłącz notywikacje CList
+[For watched protocols]
+Dla podglądanych protokołów
+[For non-watched protocols]
+Dla niepodglądanych protokołów
+[Last Seen Variables]
+Zmienne Last Seen
+[Old status]
+Stary status
+[Client info]
+Informacje o kliencie
+[Changed to Online]
+Zmiana na Połączony
+[User Logged In]
+Użytkownik zalogowany
+[User Logged Off]
+Użytkownik wylogowany
+[User status change]
+Zmiana statusu użytkownika

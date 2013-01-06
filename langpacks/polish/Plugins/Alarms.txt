@@ -1,0 +1,33 @@
+﻿;============================================================
+;  Module: alarms.dll
+;  Plugin: Alarms
+;  Versions: 0.4.0.5
+;============================================================
+[Alarms]
+Alarmy
+[use popup plugin]
+Użyj wtyczki Popup
+[Loop sound]
+Zapetl dźwięk alarmu
+[Default snooze:]
+Domyślny czas drzemki:
+[Reminder Frame]
+Ramka przypomnienia
+[Row Height:]
+Wysokość wiersza:
+[Intend:]
+Intend:
+[Auto hide/show]
+Auto ukrywanie
+[Hide/show with clist]
+Pokaż/ukryj wraz z listą kontaktów
+[Auto size verically]
+Automatyczna wysokośc
+[Period (hours):]
+Okres
+[Alert Window]
+Okno alarmu
+[Transparency (%):]
+Przezroczystość (%):
+[Don't steal focus unless idle]
+Nie centruj chyba że Miranda IM jest bezczynna

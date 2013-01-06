@@ -1,0 +1,17 @@
+﻿;============================================================
+;  File: Bonsai.dll
+;  Module: Bonsai
+;  Versions: 0.0.2.4
+;============================================================
+[Options group and title]
+Tytuł i grupa opcji
+[&Save]
+Zapis
+[This will reset all plugins to their default group and title.\nDo you wish to reset all plugins to their default group and title ?]
+To przywróci wszystkim wtyczkom domyślne grupy i tytuły.\nCzy na pewno chcesz to zrobić?
+[Proceed ?]
+Kontynuować?
+[Do you want to save the changes now ?]
+Chcesz teraz zapisać zmiany?
+[Arrange Options]
+Opcje Bonsai

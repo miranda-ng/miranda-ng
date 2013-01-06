@@ -1,0 +1,131 @@
+﻿;============================================================
+;  File: spellchecker.dll, spellcheckerW.dll
+;  Module: Spell Checker
+;  Versions: 0.2.5.0
+;============================================================
+[Ignore all]
+Ignoruj wszystkie
+[Spell Checker]
+Sprawdzanie pisowni
+[Line]
+Linia
+[Dotted]
+Kropkowany
+[Dash]
+Kreska
+[Dash dot]
+Kreska kropka
+[Dash dot dot]
+Kreska kropka kropka
+[Wave]
+Fala
+[Thick]
+Gruby
+[ Spell Checker ]
+ Sprawdzanie pisowni
+[Default language:]
+Domyślny język:
+[Auto-replace words with dictionary suggestions]
+Automatycznie zastępuj sugestiami ze słownika
+[Auto-replace words with user defined replacements]
+Automatycznie zastępuj własnymi sugestiami
+[Ignore words in UPPER CASE]
+Ignoruj wyrazy pisane WIELKIMI LITERAMI
+[Download more dictionaries]
+Pobierz więcej słowników
+[ Advanced ]
+ Zaawansowane 
+[Underline type:]
+Styl podkreślenia:
+[Show corrections in submenu]
+Pokaż korekty w podmenu
+[Show all corrections in context menu (takes more time to show)]
+Pokaż wszystkie poprawki w menu kontekstowym (zabiera więcej czasu)
+[Show wrong word]
+Pokaż błędny wyraz
+[Use flags]
+Użyj flagi
+[Use input language to select dictionary]
+Wybierz język, aby wybrać słownik
+[Use dictionaries from other programs]
+Użyj słownika z innego programu
+[Add auto-replace word]
+Dodaj wyraz autokorekty
+[Wrong word]
+Zły wyraz
+[OLD WORD]
+STARY WYRAZ
+[Correction:]
+Korekta:
+[Dictionaries]
+Słowniki
+[Custom Dictionaries]
+Własny słownik
+[Flags DLL]
+Flags.dll
+[Languages/Flags]
+Język/Flagi
+[Other...]
+Inne...
+[Always replace with]
+Zawsze zastępuj
+[Add to dictionary]
+Dodaj do słownika
+[Corrections]
+Korekty
+[Wrong word: %s]
+Błędny wyraz: %s
+[Language:]
+Język:
+[Enable spell checking]
+Włącz sprawdzanie pisowni
+[Wrong words]
+Błędne wyrazy
+[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
+Nie można znaleźć okna rozmowy. Oznacza to zazwyczaj jedną z dwóch rzeczy:\n- W tabSRMM opcja "Włącz API" jest wyłączona lub\n- Używasz SRMM (które nie obsługuje sprawdzanie pisowni)
+[Unknown Flag]
+Nieznana flaga
+[Spell Checker/Flags]
+Sprawdzanie pisowni/Flagi
+[Auto-correct words]
+Automatycznie poprawiaj wyrazy
+[Show all corrections]
+Pokaż wszystkie korekty
+[Flag icons]
+Ikona flagi
+[The correction can't be an empty word!]
+Korekta nie może być pustym słowem!
+[The correction can't be the equal to the wrong word!]
+Korekta nie może być równa złym słowem!
+[Wrong Correction]
+Zła korekta
+[Auto-replacements]
+Automatyczna zamiana
+[Correction]
+Korekta
+[No separators and all lowercase chars]
+Bez separatorów i wszystkich małych znaków
+[Use variables in correction]
+Użyj zmiennej w korekcie
+[Spell checker for the message windows. Uses Hunspell to do the checking.]
+Sprawdzanie pisowni w oknie rozmowy. Używa Hunspell do sprawdzania.
+[Replacements]
+Zamiennik
+[Ignore words with numbers]
+Ignoruj słowa z cyframi
+[Ask before sending a message with spelling errors]
+Pytaj przed wysłaniem wiadomości z błędami ortograficznymi
+[Enable auto-replacements]
+Włącz automatyczną zamiane
+[Avoid removing underscores (slows down checking of long texts)]
+Unikaj usuwania podkreślenia (spawalnia sprawdzanie długich tekstów)
+[Enable/disable spell checker]
+Włącz/wyłącz sprawdzanie pisowni
+[Languages]
+Języki
+[Flags]
+Flagi
+[Language]
+Język
+[Wrong word:]
+Złe słowo:

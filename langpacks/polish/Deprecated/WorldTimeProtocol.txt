@@ -1,0 +1,67 @@
+﻿;============================================================
+;  File: WorldTime.dll
+;  Module: World Time Protocol
+;  Versions: 0.3.1.0
+;============================================================
+[World Time]
+Czas na Świecie
+[Configuration]
+Konfiguracja
+[Times]
+Czasy
+[Engine]
+Silnik
+[Engine/Voice]
+Silnik/Głos
+[Engine Settings]
+Ustawienia silnika
+[Welcome Message]
+Wiadomość Powitalna
+[Status Changes]
+Zmiany statusu
+[Occuring Events]
+Wystepujące zdarzenia
+[Authorisation Request]
+Wymagana autoryzacja
+[Added to Contact List]
+Dodane do listy kontaktowej
+[Announce status changes on connect]
+Powiadomienie o zmianie statusu przy łączeniu
+[Message Events]
+Zdarzenia wiadomości
+[Ignore event if message dialog is open]
+Ignoruj zdarzenie gdy okno rozmowy jest otwarte
+[Read message if less characters than]
+Czytaj wiadomość jeśli jest mniej znaków niż
+[Ignore event if message dialog is focused]
+Ignoruj zdarzenie gdy okno jest wyśrodkowane
+[Remove]
+Usuń
+[Format Date]
+Format daty
+[and Time]
+i czasu
+[%n = label]
+%n = etykieta
+[%d = date]
+%d = data
+[%t = time]
+%t = czas
+[Contact List:]
+Lista kontaktów:
+[Hide in status bar and status menu (requires restart - uncheck to set icons)]
+Ukryj protokół w pasku i menu statusu (wymaga restartu - odznacz żeby anulować)
+[%o = offset]
+%o = offset
+[Time Details]
+Dane czasu
+[Alphabetical]
+Alfabetycznie
+[Geographical]
+Geograficznie
+[Sort Order:]
+Sortuj w porządku:
+[World Time Protocol]
+Protokół Czasu na Świecie
+[Adds 'contacts' showing the time at specified locations around the world.]
+Dodaj 'kontakty' pokazujące czas w określonej lokacji wokół świata.

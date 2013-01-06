@@ -1,0 +1,351 @@
+﻿;============================================================
+;  File: Tipper.dll
+;  Module: Tipper, Tipper YM
+;  Versions: 2.1.0.4
+;============================================================
+[Parse Tipper variables first]
+Analizuj zmienne Tippera jako pierwsze
+[Tipper smileys]
+Emotikony Tippera
+[Do you want to import selected skin setting? Current setting will be overwritten.]
+Chcesz zaimportować ustawienia wybranej skórki? Obecne ustawienia zostaną nadpisane.
+[Tipper skin import]
+Import skórki Tippera
+[Select image]
+Wybierz obraz
+[You must enter a label]
+Musisz podać etykietę
+[Centre]
+Środek
+[Left avatar]
+Awatar po lewej
+[Right avatar]
+Awatar po prawej
+[Sidebar]
+Boczny pasek
+[Animation]
+Animacja
+[Fade]
+Wygasanie
+[Tooltips]
+Podpowiedzi
+[Tooltip skin]
+Skórka podpowiedzi
+[Tray tooltip]
+Podpowiedź w zasobniku
+[Extra]
+Dodatkowe
+[ ago]
+ temu
+[Log on:]
+Zalogowany:
+[Unread emails:]
+Nieprzeczytane emaile:
+[XStatus:]
+xStatus:
+[Activity:]
+Aktywność:
+[Copy all items with labels]
+Kopiuj wszystkie wpisy z etykietami
+[Copy all items]
+Kopiuj wszystkie wpisy
+[Copy avatar]
+Kopiuj awatar
+[Fav. contacts]
+Ulub. kontakty
+[Miranda uptime:]
+Czas działania Mirandy:
+[Text indent:]
+Wcięcie tekstu:
+[Max width:]
+Maks. szerokość:
+[Max height:]
+Maks. wysokość:
+[Show if list not focused]
+Pokaż jeśli lista jest nieaktywna
+[General padding:]
+Ogólne dopełnienie:
+[Hover time:]
+Wyświetl podpowiedź po:
+[Status bar tips]
+Podpowiedzi paska statusu
+[Alignment]
+Wyrównanie
+[Labels:]
+Etykiety:
+[Values:]
+Wartości:
+[Min width:]
+Min. szerokość:
+[Min height:]
+Min. wysokość:
+[Sidebar width:]
+Szerokość bocznego paska:
+[Text padding:]
+Dopełnienie tekstu:
+[Outer avatar padding:]
+Zewnętrzne dopełnienie awatara:
+[Round corners (avatar)]
+Zaokrąglone rogi (awatara)
+[Avatar border]
+Obramowanie awatara
+[Title indent:]
+Wcięcie tytułu:
+[Value indent:]
+Wcięcie wartości:
+[Inner avatar padding:]
+Wewnętrzne dopełnienie awatara:
+[Substitution]
+Zastępstwo
+[Label:]
+Etykieta:
+[Contact protocol module]
+Moduł protokołu kontaktu
+[Module:]
+Moduł:
+[Setting or prefix:]
+Ustawienie/prefiks:
+[Translation:]
+Tłumaczenie:
+[Value:]
+Wartość:
+[Draw a line above]
+Rysuj linię powyżej
+[Value on a new line]
+Wartość w nowej linii
+[Predefined items:]
+Predefiniowane elementy:
+[Advanced options]
+Zaawansowane opcje
+[Disable in invisible status]
+Wyłącz pobieranie opisu przy statusie "Niewidoczny"
+[Retrieve XStatus details if auto-retrieve is disabled]
+Pobierz szczegóły xStatus, jeśli auto-pobieranie jest wyłączone
+[Smileys support]
+Wsparcie dla emotikon
+[Country flag]
+Flaga kraju
+[Show tooltip after all content is ready (avatar && status message)]
+Pokaż tooltip gdy zawartość będzie gotowa ( awatar i status wiadomości)
+[Retrieve new status message]
+Pobierz nowe opisy statusów
+[Status bar and tray tooltip]
+Pasek statusu i podpowiedzi w zasobniku
+[Limit status messages in status bar and tray tooltips to:]
+Limituj opisy w podpowiedzi w zasobniku sytemowym do:
+[Replace only isolated smileys]
+Zamień tylko odizolowane emotikony
+[Use background image]
+Użyj obrazu tła
+[Use glyph transformation]
+Użyj transformacji glyph
+[Skin items]
+Elementy skórki
+[Export to skin file]
+Eksportuj do pliku skórki
+[Load from skin file]
+Załaduj skórkę z pliku
+[Opacity(%):]
+Krycie (%):
+[Transparent background]
+Przezroczyste tło
+[Transparency]
+Przezroczystość
+[Shadow]
+Cień
+[Round corners (window)]
+Zaokrąglone rogi (okna)
+[Background image]
+Obraz tła
+[Margins]
+Marginesy
+[Show effect]
+Pokaż efekt
+[Aero Glass (Vista+)]
+Aero Glass (Vista+)
+[Enable tray tooltips]
+Włącz podpowiedzi w zasobniku
+[Handle tray tooltips by Tipper]
+Rozszerzona podpowiedź w zasobniku
+[Favourite contacts]
+Ulubione kontakty
+[Expand to second level after:]
+Rozszerz podpowiedź po:
+[Use status bar setting]
+Użyj ustawienia paska statusu
+[Hide offline]
+Ukryj niepołączonych
+[Append protocol name]
+Dopisz nazwę protokołu
+[%dh %dm]
+%dh %dm
+[%dm]
+%dm
+[You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
+Potrzebujesz wtyczki advaimg.dll dla zaawansowanych opcji skórki. Najnowszą wersję znajdziesz w buildach alpha Mirandy. 
+[Tipper error]
+Błąd Tippera
+[Reload skin list]
+Przeładuj skórke
+[Jabber activity]
+Aktywność Jabber
+[Apply skin]
+Zatwierdz skórke
+[Add item]
+Dodaj element
+[# Solid color fill]
+# Podstawowa
+[Add separator]
+Dodaj separator
+[Tipper skins]
+Skórki Tippera
+[Enable skin coloring]
+Włącz kolorowanie skórki
+[Load tooltip proportions]
+Włącz proporcje tooltipa
+[Load fonts and colors]
+Włącz czcionki i kolory
+[No preview]
+Brak obrazka
+[Skin option]
+Opcje skórki
+[Animation speed:]
+Szybkość animacji:
+[First level tooltip]
+Podstawowy Tooltip
+[Second level tooltip]
+Rozszerzony Tooltip
+[Hide offline protocols]
+Ukryj Rozłączone protokoły
+[Number of contacts]
+Ilość kontaktów
+[Logon time]
+Czas od zalogowania
+[Unread emails]
+Nieprzeczytane emaile
+[Status message]
+Opis
+[Miranda uptime]
+Czas działania
+[Clist event]
+Lista zdarzeń
+[Invalid Substitution]
+Nieprawidłowe zastępstwo
+[<No Label>]
+<Brak etykiety>
+[Icon on left]
+Ikona po lewej
+[Icon on right]
+Ikona po prawej
+[No icon]
+Brak ikony
+[No title]
+Brak tytułu
+[Bottom right]
+Dolny prawy róg
+[Bottom left]
+Dolny lewy róg
+[Top right]
+Górny prawy róg
+[Top left]
+Górny lewy róg
+[No avatar]
+Brak awatara
+[Tooltips View]
+Widok podpowiedzi
+[Content]
+Treść
+[Tooltips Content]
+Zawartość podpowiedzi
+[Empty message]
+Pusta wiadomość
+[Tray title]
+Tytuł w zasobniku
+[Labels]
+Etykiety
+[Values]
+Wartości
+[Dimensions]
+Rozmiar
+[Browse...]
+Przeglądaj...
+[Keep original avatar size]
+Oryginalny rozmiar awatara
+[Max avatar size:]
+Maks. rozmiar awatara:
+[Background image:]
+Obraz tła:
+[Stretch]
+Rozciągnij
+[Protocol lock status]
+Zmiana statusu protokołu
+[Avatar padding:]
+Dopełnienie awatara:
+[Item]
+Pozycja
+[Substitutions]
+Zastępowany tekst
+[Edit...]
+Edytuj...
+[[No translation]]
+<brak tłumaczenia>
+[<prefix>Day|Month|Year to age]
+<prefiks>Dzień|Miesiąc|Rok dla wieku
+[<prefix>Day|Month|Year to date]
+<prefiks>Dzień|Miesiąc|Rok dla daty
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefiks>Dzień|Miesiąc|Rok|Godzina|Minuta|Sekunda dla różnicy czasu
+[<prefix>Hours|Minutes to time]
+<prefiks>Godziny|Minuty dla czasu
+[<prefix>Hours|Minutes|Seconds to time]
+<prefiks>Godziny|Minuty|Sekundy dla czasu
+[BYTE to Male/Female (ICQ)]
+BYTE dla Płci (ICQ)
+[BYTE to Yes/No]
+BYTE dla Tak/Nie
+[BYTE timezone to time]
+BYTE strefy czasowej dla czasu
+[DWORD to ip address]
+DWORD dla adresu IP
+[DWORD seconds to time difference]
+DWORD sekund dla różnicy czasu
+[DWORD timestamp to date (short)]
+DWORD znacznika czasu dla daty (krótki)
+[DWORD timestamp to date (long)]
+DWORD znacznika czasu dla daty (długi)
+[DWORD timestamp to time]
+DWORD znacznika czasu dla czasu
+[DWORD timestamp to time (no seconds)]
+DWORD znacznika czasu dla czasu (bez sekund)
+[DWORD timestamp to time difference]
+DWORD znacznika czasu dla różnicy czasu
+[WORD to country name]
+WORD dla nazwy kraju
+[WORD to status description]
+WORD dla opisu statusu
+[xStatus: empty xStatus name to default name]
+xStatus: pusta nazwa xStatus jako domyślna nazwa
+[<prefix>Day|Month to days to next birthday]
+<prefiks>Dzień|Miesiąc dla dnia następnej rocznicy
+[BYTE to language (ICQ)]
+BYTE dla języka (ICQ)
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD dla nazwy dnia (0..6, 0 to Niedziela)
+[WORD to name of a month (1..12, 1 is January)]
+WORD dla nazwy miesiąca (1..12, 1 to Styczeń)
+[Get more skins]
+Pobierz więcej skórek...
+[Identifier]
+Identyfikator
+[Cannot obtain required interfaces!\nTooltips will not be available until you upgrade Miranda IM to the newest version.]
+Nie można uruchomić wymaganej usługi!\nTooltips nie będzie dostępny dopuki Miranda IM nie zostanie zaktualizowana do najnowszej wersji.
+[Bottom]
+Dół
+[Extra status]
+xStatus
+[Tool Tip notification windows]
+Okienka typu ToolTip z powiadomieniami oraz innymi informacjami
+[Disable status message retrieving in all statuses]
+Wyłącz pobieranie opisów dla wszystkich statusów
+[Disable status message retrieving in invisible status]
+Wyłącz pobieranie opisu dla niewidocznych

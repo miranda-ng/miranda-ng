@@ -1,0 +1,11 @@
+﻿;============================================================
+;  File: autorun.dll
+;  Module: AutoRun
+;  Versions: 0.1.0.1
+;============================================================
+[Autorun]
+Automatyczne uruchamianie
+[Launch Miranda IM at system startup]
+Uruchom Mirandę IM przy starcie systemu
+[Note: At startup Miranda IM will use current profile]
+Wiadomość: Przy starcie Miranda IM użyje obecnego profilu

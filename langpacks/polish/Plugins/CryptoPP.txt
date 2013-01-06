@@ -1,0 +1,7 @@
+﻿;===========================================================
+;  File: cryptopp.dll
+;  Module: Crypto++
+;  Versions: 1.0.4.3
+;===========================================================
+[Crypto++ library for SecureIM plugin (May 18 2009)]
+Biblioteka Crypto++ dla wtyczki SecureIM (18 maj 2009)

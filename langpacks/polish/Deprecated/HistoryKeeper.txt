@@ -1,0 +1,83 @@
+﻿;============================================================
+;  File: historykeeperW.dll
+;  Module: History Keeper
+;  Versions: 0.2.1.0
+;============================================================
+[is now listening to %new%]
+słucha teraz %new%
+[stopped listening to music]
+przestał(-a) słuchać muzyki
+[changed his/her %s to %%new%%: %%msg%% (was %%old%%)]
+zmienił(-a) swój/swoją %s na %%new%%: %%msg%% (był(-a) %%old%%)
+[X-Status Message]
+Opis xStatus
+[Speak]
+Rozmowa
+[changed his/her %s to %%new%% (was %%old%%)]
+zmienił(-a) swój %s na %%new%% (było %%old%%)
+[%%contact%% changed his/her %s to %%new%%]
+%%contact%% zmienił swój %s na %%new%%
+[Log when contacts change their %s]
+Loguj kiedy kontakty zmienią swój %s
+[Log when contacts remove their %s]
+Loguj kiedy kontakty usuną swój %s
+[Announce when contacts change their %s]
+Informuj kiedy kontakty zmienią swój %s
+[Announce when contacts remove their %s]
+Informuj kiedy kontakty usuną swój %s
+[Show when contacts change their %s]
+Pokaż kiedy kontakty zmienią swój %s
+[Show when contacts remove their %s]
+Pokaż kiedy kontakty usuną swój %s
+[Show history]
+Pokaż historię
+[Contact Name]
+Nazwa kontaktu
+[ Tracking ]
+ Śledzenie
+[ Actions ]
+ Akcje
+[ Track ]
+ Śledzenie 
+[Wait]
+Czekaj
+[s before notifying (to avoid duplications)]
+s przed powiadomieniem (żeby uniknąć duplikatów)
+[Don't notify on protocol connection]
+Nie powiadamiaj przy łączeniu z siecią
+[ Protocols ]
+ Protokoły 
+[Enable tracking for these protocols:]
+Włącz śledzenie dla tych protokołów:
+[ Log to file ]
+ Zapisuj do pliku 
+[Filename:]
+Nazwa pliku:
+[Log to History]
+Zapisuj do historii
+[Log to File]
+Zapisuj do pliku
+[Notify using Popups]
+Powiadamiaj używając popupów
+[Notify using Sounds]
+Powiadamiaj używając dźwięków
+[Notify using Speak plugin]
+Powiadamiaj używając wtyczki Speak
+[Ignore %s changes]
+Ignoruj zmiany %s
+[Log %s changes]
+Pokazuj zmiany %s
+[Don't log %s changes]
+Nie pokazuj zmian %s
+[Notify %s changes]
+Powiadamiaj o zmianach %s
+[Don't notify %s changes]
+Nie powiadamiaj o zmianie %s
+[%s change]
+Zmiana %s
+[%s removal]
+Usunięcie %s
+[X-Status]
+xStatus
+[Listening]
+Utwór

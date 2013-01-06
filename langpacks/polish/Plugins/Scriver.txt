@@ -1,0 +1,121 @@
+﻿;============================================================
+;  File: scriver.dll
+;  Module: Scriver (Unicode)
+;  Versions: 2.9.0.6
+;============================================================
+[Scriver - send and receive instant messages]
+Scriver - wysyłaj i odbieraj wiadomości
+[Automatically pop up the window when]
+Automatycznie pokaż okno gdy
+[and stay minimized]
+i pozostaw zminimalizowane
+[Save size and location for each contact]
+Zapisz rozmiar i położenie okna dla każdego kontaktu
+[Minimize on send]
+Minimalizuj po wysłaniu
+[Hide windows on close]
+Ukryj okna przy zamykaniu
+[Auto resize input area]
+Automatycznie dopasuj rozmiar pola do wprowadzania tekstu
+[Remember unsent messages]
+Zapamiętaj niewysłane wiadomości
+[Delete temporary contacts on closing]
+Kasuj niezapisane kontakty przy zamykaniu
+[Enable tabs]
+Włącz zakładki
+[Always show tab bar]
+Zawsze pokazuj pasek zakładek
+[Tabs at bottom]
+Zakładki na dole okna
+[Limit names on tabs to]
+Ogranicz długość nazw do
+[&Show close button on each tab]
+Pokaż przycisk zamykania na każdej zakładce
+[Switch to active tab]
+Przełącz na aktywną zakładkę
+[Limit number of tabs per window to]
+Ogranicz liczbę zakładek w oknie do
+[Use separate windows for group chats]
+Użyj oddzielnych okien dla rozmów grupowych
+[Limit number of group chats tabs per window to]
+Ogranicz liczbę zakładek rozmów grupowych do
+[Show titlebar]
+Pokaż pasek tytułowy
+[Show toolbar]
+Pokaż pasek narzędziowy
+[Show infobar]
+Pokaż pasek informacyjny
+[Show progress indicator]
+Pokaż pasek postępu
+[Event Log]
+Dziennik zdarzeń
+[Enable IEView]
+Włącz IEView
+[Show date]
+Pokaż datę
+[Long date format]
+Długi format daty
+[Relative date]
+Data względna
+[Enable message grouping]
+Włącz grupowanie wiadomości
+[Mark follow-up msgs with timestamp]
+Dodaj czas do kolejnych wiadomości
+[Start message text on a new line]
+Umieść wiadomość w nowej linii
+[Show lines between messages]
+Pokaż linie między wiadomościami
+[Indent text]
+Wcięcie tekstu
+[Customize fonts and colors]
+Dopasuj czcionki i kolory
+[Preload]
+Wczytywanie
+[Unread events only]
+Tylko nie przeczytane zdarzenia
+[Last]
+Ostatnie
+[Events in the last]
+Zdarzenia z ostatnich
+[Group Chat]
+Rozmowy grupowe
+[Appearance and functionality of chat windows]
+Wygląd i zachowanie okien rozmowy
+[Flash when someone speaks]
+Migaj, kiedy ktoś pisze
+[Flash when a word is highlighted]
+Migaj, kiedy słowo jest podkreślone
+[Show chat user list]
+Pokaż listę rozmówców
+[Enable button context menus]
+Włącz menu kontekstowe przycisku
+[Show topic on your contact list (if supported)]
+Pokaż temat na liście kontaktów (jeśli obsługiwane)
+[Do not play sounds when focused]
+Nie odtwarzaj dźwięków, jeśli okno jest aktywne
+[Do not pop up when joining]
+Nie aktywuj okna przy dołączaniu
+[Show and hide by double clicking in the contact list]
+Pokaż/ukryj okno przy podwójnym kliknięciu na liście kontaktów
+[Show contact statuses (if supported)]
+Pokaż statusy kontaktów (jeśli obsługiwane)
+[Display contact status icon before role icon]
+Wyświetle ikonę statusu przed ikoną roli kontaktu
+[Add \':\' to auto-completed names]
+Dodawaj \':\' do automatycznie uzypełnianych nazw
+[User list row height]
+Wysokość linii listy użytkowników
+[Group Chat Log]
+Dziennik rozmów grupowych
+[Timestamp has same colour as event]
+Czas ma taki sam kolor jak zdarzenie
+[Limit user names to 20 characters]
+Ogranicz długość nazwy użytkowników do 20 znaków
+[Strip colors from messages]
+Usuń kolor z wiadomości
+[Enable \'event filter\' for new rooms]
+Włącz "filtr zdarzeń" dla nowych pokoi
+[Save logs]
+Zapisuj dziennik
+[Trim to]
+Ogranicz do

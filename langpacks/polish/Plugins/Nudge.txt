@@ -1,0 +1,69 @@
+﻿;============================================================
+;  File: nudge.dll
+;  Module: nudge
+;  Versions: 0.0.1.19
+;============================================================
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Nie możesz wysyłać za dużo nudge'ów (tylko 1 co %d sek., zostało %d sek.)
+[Nudge : Shake contact list/chat window]
+Nudge: Zatrzęś listą/oknem rozmowy
+[Nudge : Send a nudge]
+Nudge: wyślij nudge
+[Send &Nudge]
+Wyślij nudge
+[You received a nudge]
+Otrzymałeś nudge
+[You sent a nudge]
+Wysłałeś nudge
+[Window Shaking]
+Potrząsanie oknem
+[Allow nudges when you're:]
+Zezwól na nudge kiedy jesteś:
+[Popup options]
+Opcje popupów
+[Popup duration]
+Czas wyś. popupów
+[Protocol options]
+Opcje protokołu
+[Specify options for each protocol]
+Ustaw każdy protokół osobno
+[Enable clist shaking]
+Włącz potrząsanie listą
+[Enable message window shaking]
+Włącz potrząsanie oknem rozmowy
+[Treat nudge as a message]
+Traktuj nudge jako wiadomość
+[Sending text]
+Wysyłany tekst
+[Receiving text]
+Odbierany tekst
+[Allow sending* one nudge to the same contact every :]
+Zezwól na wysyłanie* nudge'ów do tego samego kontaktu co:
+[Allow receiving one nudge from the same contact every :]
+Zezwól na odbieranie nudge'ów od jednego kontaktu co:
+[Show as status change]
+Pokaż jako zmianę statusu
+[Auto resend nudge after]
+Auto. odpowiedz nudgem po
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* Opóźnienie wysyłania nudge'ów jest stałe i nie można go zmienić.
+[Shaking Clist Options]
+Opcje potrząsania listą
+[Shaking Message Window Options]
+Opcje potrząsania oknem rozmowy
+[Number of moves]
+Liczba ruchów
+[Width of move]
+Szer. ruchu
+[Shake the contact list]
+Potrząśnij listą
+[Shake the chat window]
+Potrząśnij oknem rozmowy
+[Nudge]
+Poproś o uwagę
+[Nudge as Default]
+Nudge jako domyślny
+[Nudge for]
+Nudge dla
+[Nudge : Default]
+Nudge: Domyślny
