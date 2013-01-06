@@ -736,6 +736,7 @@ HANDLE GGPROTO::GetAwayMsg(HANDLE hContact)
 
 //////////////////////////////////////////////////////////
 // when away message is being set
+// registered as ProtoService PS_SETAWAYMSGT
 
 int GGPROTO::SetAwayMsg(int iStatus, const PROTOCHAR *newMsg)
 {

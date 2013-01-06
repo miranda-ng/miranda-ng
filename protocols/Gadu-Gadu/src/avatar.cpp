@@ -155,6 +155,7 @@ void GGPROTO::getAvatar(HANDLE hContact, char *szAvatarURL)
 #ifdef DEBUGMODE
 	netlog("getAvatar(): start");
 #endif
+
 	if (pth_avatar.dwThreadId) {
 		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA));
 		data->hContact = hContact;
@@ -162,6 +163,8 @@ void GGPROTO::getAvatar(HANDLE hContact, char *szAvatarURL)
 		gg_EnterCriticalSection(&avatar_mutex, "getAvatar", 1, "avatar_mutex", 1);
 		list_add(&avatar_transfers, data, 0);
 		gg_LeaveCriticalSection(&avatar_mutex, "getAvatar", 1, 1, "avatar_mutex", 1);
+	} else {
+		netlog("getAvatar(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
 	}
 }
 
@@ -177,14 +180,17 @@ void GGPROTO::requestAvatar(HANDLE hContact, int iWaitFor)
 	netlog("requestAvatar(): start");
 #endif
 
-	if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)
-		&& pth_avatar.dwThreadId) {
-		GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
-		data->hContact = hContact;
-		data->iWaitFor = iWaitFor;
-		gg_EnterCriticalSection(&avatar_mutex, "requestAvatar", 2, "avatar_mutex", 1);
-		list_add(&avatar_requests, data, 0);
-		gg_LeaveCriticalSection(&avatar_mutex, "requestAvatar", 2, 1, "avatar_mutex", 1);
+	if (pth_avatar.dwThreadId) {
+		if (db_get_b(NULL, m_szModuleName, GG_KEY_ENABLEAVATARS, GG_KEYDEF_ENABLEAVATARS)) {
+			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
+			data->hContact = hContact;
+			data->iWaitFor = iWaitFor;
+			gg_EnterCriticalSection(&avatar_mutex, "requestAvatar", 2, "avatar_mutex", 1);
+			list_add(&avatar_requests, data, 0);
+			gg_LeaveCriticalSection(&avatar_mutex, "requestAvatar", 2, 1, "avatar_mutex", 1);
+		}
+	} else {
+		netlog("requestAvatar(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
 	}
 }
 
@@ -206,8 +212,11 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			list_remove(&avatar_requests, data, 0);
 			mir_free(data);
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 1, "avatar_mutex", 1);
+			
+			uin_t uin = (uin_t)db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0);
+			netlog("avatarrequestthread() new avatar_requests item for uin=%d.", uin);
+			getAvatarFileInfo( uin, &AvatarURL, &AvatarTs);
 
-			getAvatarFileInfo( db_get_dw(hContact, m_szModuleName, GG_KEY_UIN, 0), &AvatarURL, &AvatarTs);
 			if (AvatarURL != NULL && strlen(AvatarURL) > 0 && AvatarTs != NULL && strlen(AvatarTs) > 0){
 				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARURL, AvatarURL);
 				db_set_s(hContact, m_szModuleName, GG_KEY_AVATARTS, AvatarTs);
@@ -238,6 +247,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 			int result = 0;
 
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 4, 1, "avatar_mutex", 1);
+			netlog("avatarrequestthread() new avatar_transfers item for url=%s.", data->AvatarURL);
 
 			pai.cbSize = sizeof(pai);
 			pai.hContact = data->hContact;
@@ -273,6 +283,7 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 						_write(file_fd, resp->pData, resp->dataLength);
 						_close(file_fd);
 						result = 1;
+						netlog("avatarrequestthread() new avatar_transfers item. Saved data from url=%s to file=%S.", data->AvatarURL, pai.filename);
 					} else {
 						netlog("avatarrequestthread(): _topen file %S error. errno=%d: %s", pai.filename, errno, strerror(errno));
 						TCHAR error[512];
