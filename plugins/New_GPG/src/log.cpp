@@ -25,6 +25,7 @@ logtofile& logtofile::operator<<(TCHAR *buf)
 		log_mutex.lock();
 		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
 		log<<toUTF8(buf);
+		log<<"\n";
 		log.close();
 		log_mutex.unlock();
 	}
@@ -38,6 +39,7 @@ logtofile& logtofile::operator<<(char *buf)
 		log_mutex.lock();
 		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
 		log<<buf;
+		log<<"\n";
 		log.close();
 		log_mutex.unlock();
 	}
@@ -52,6 +54,7 @@ logtofile& logtofile::operator<<(string buf)
 		char *tmp = mir_utf8encode(buf.c_str());
 		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
 		log<<tmp;
+		log<<"\n";
 		log.close();
 		log_mutex.unlock();
 		mir_free(tmp);
@@ -66,6 +69,7 @@ logtofile& logtofile::operator<<(wstring buf)
 		log_mutex.lock();
 		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
 		log<<toUTF8(buf);
+		log<<"\n";
 		log.close();
 		log_mutex.unlock();
 	}

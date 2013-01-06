@@ -80,7 +80,7 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 			if(errno == ENOENT)
 			{
 				mir_free(bin_path);
-				debuglog<<time_str()<<": GPG executable not found\n";
+				debuglog<<std::string(time_str()+": GPG executable not found");
 				*result = pxNotFound;
 				return pxNotFound;
 			}
@@ -100,7 +100,7 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 		mir_free(home_dir);
 	}
 
-	debuglog<<time_str()<<": gpg in: "<<commandline<<"\n";
+	debuglog<<std::string(time_str()+": gpg in: "+toUTF8(commandline));
 
 	success = CreateProcess(NULL, (TCHAR*)commandline.c_str(), NULL, NULL, TRUE, CREATE_NEW_CONSOLE | CREATE_UNICODE_ENVIRONMENT, (void*)_T("LANGUAGE=en@quot\0LC_ALL=English\0"), NULL, &sinfo, &pri);
 
@@ -142,7 +142,7 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	fix_line_term(*aoutput);
 
-	debuglog<<time_str()<<": gpg out: "<<aoutput->c_str();
+	debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
 
 	WaitForSingleObject(pri.hProcess,INFINITE);
 
@@ -155,6 +155,11 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	*result = pxSuccess;
 //	gpg_mutex.unlock();
+	if(*aexitcode)
+	{
+		debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
+		return pxSuccessExitCodeInvalid;
+	}
 	return pxSuccess;
 }
 

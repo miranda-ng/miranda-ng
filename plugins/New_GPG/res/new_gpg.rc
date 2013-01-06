@@ -76,7 +76,7 @@ BEGIN
     RTEXT           "Key password:",IDC_STATIC,12,170,76,8
     PUSHBUTTON      "Load other",IDC_OTHER,83,152,64,14
     PUSHBUTTON      "Delete key",IDC_DELETE_KEY,149,152,70,14
-    PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,99,184,118,14
+    PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,40,184,141,14
     LTEXT           "",IDC_GENERATING_KEY,82,207,174,8
     LTEXT           "Account:",IDC_STATIC,15,12,42,8
     LTEXT           "key id: ",IDC_KEY_ID,178,12,99,8

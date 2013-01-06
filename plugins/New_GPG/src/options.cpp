@@ -278,7 +278,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						  gpg_thread.~thread();
 						  TerminateProcess(params.hProcess, 1);
 						  params.hProcess = NULL;
-						  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						  mir_free(tmp);
 						  break;
 					  }
@@ -843,7 +843,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					}
 					if((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos))
 					{
@@ -996,7 +996,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					  break;
 				  }
 				  if(result == pxNotFound)
@@ -1243,7 +1243,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							  gpg_thread.~thread();
 							  TerminateProcess(params.hProcess, 1);
 							  params.hProcess = NULL;
-							  debuglog<<time_str()<<": GPG execution timed out, aborted\n";
+							  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 							  break;
 						  }
 						  if(result == pxNotFound)
@@ -1330,7 +1330,7 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  if(key_buf.empty())
 			  {
 				  key_buf.clear();
-				  debuglog<<time_str()<<": info: Failed to read key file\n";
+				  debuglog<<std::string(time_str()+": info: Failed to read key file");
 				  break;
 			  }
 			  ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));
