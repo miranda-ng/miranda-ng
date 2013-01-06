@@ -29,7 +29,7 @@ HANDLE hChangeFeedDlgList = NULL;
 XML_API xi = {0};
 TCHAR tszRoot[MAX_PATH] = {0};
 HANDLE hUpdateMutex;
-#define NUM_SERVICES 6
+#define NUM_SERVICES 7
 HANDLE hService[NUM_SERVICES];
 
 PLUGININFOEX pluginInfoEx = {
@@ -106,6 +106,7 @@ extern "C" __declspec(dllexport) int Load(void)
 	hService[3] = CreateServiceFunction(MS_NEWSAGGREGATOR_EXPORTFEEDS, ExportFeeds);
 	hService[4] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHECKFEED, CheckFeed);
 	hService[5] = CreateServiceFunction(MS_NEWSAGGREGATOR_CHANGEFEED, ChangeFeed);
+	hService[6] = CreateServiceFunction(MS_NEWSAGGREGATOR_ENABLED, EnableDisable);
 
 	return 0;
 }

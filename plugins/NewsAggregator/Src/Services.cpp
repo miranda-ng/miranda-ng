@@ -19,13 +19,13 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-int g_nStatus = ID_STATUS_OFFLINE;
+int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
 
-void SetContactStatus(HANDLE hContact,int nNewStatus)
+void SetContactStatus(HANDLE hContact, int nNewStatus)
 {
-	if(DBGetContactSettingWord(hContact,MODULE,"Status",ID_STATUS_OFFLINE) != nNewStatus)
-		DBWriteContactSettingWord(hContact,MODULE,"Status",nNewStatus);
+	if(DBGetContactSettingWord(hContact, MODULE, "Status", ID_STATUS_ONLINE) != nNewStatus)
+		DBWriteContactSettingWord(hContact, MODULE, "Status", nNewStatus);
 }
 
 static void __cdecl WorkingThread(void* param)
@@ -43,14 +43,14 @@ static void __cdecl WorkingThread(void* param)
 	}
 }
 
-int NewsAggrInit(WPARAM wParam,LPARAM lParam)
+int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 {
-	HANDLE hContact= db_find_first();
+	HANDLE hContact = db_find_first();
 	while (hContact != NULL) 
 	{
 		if(IsMyContact(hContact)) 
 		{
-			SetContactStatus(hContact, ID_STATUS_OFFLINE);
+			SetContactStatus(hContact, ID_STATUS_ONLINE);
 		}
 		hContact = db_find_next(hContact);
 	}
@@ -72,7 +72,6 @@ int NewsAggrPreShutdown(WPARAM wParam,LPARAM lParam)
 	}
 	WindowList_Broadcast(hChangeFeedDlgList, WM_CLOSE, 0, 0);
 
-	mir_forkthread(WorkingThread, (void*)ID_STATUS_OFFLINE);
 	KillTimer(NULL, timerId);
 	NetlibUnInit();
 
@@ -112,7 +111,7 @@ INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 	}
 }
 
-INT_PTR NewsAggrSetStatus(WPARAM wp,LPARAM /*lp*/)
+INT_PTR NewsAggrSetStatus(WPARAM wp, LPARAM /*lp*/)
 {
 	int nStatus = wp;
 	if ((ID_STATUS_ONLINE == nStatus) || (ID_STATUS_OFFLINE == nStatus))
@@ -241,5 +240,30 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 INT_PTR NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam)
 {
 	CallService(MS_PROTO_RECVMSG, 0, lParam);
+	return 0;
+}
+
+void UpdateMenu(BOOL State)
+{
+	CLISTMENUITEM mi = { sizeof(mi) };
+
+	if (!State) { // to enable auto-update
+		mi.ptszName = LPGENT("Auto Update Enabled");
+		mi.icolibItem = GetIconHandle("enabled");
+	}
+	else { // to disable auto-update
+		mi.ptszName = LPGENT("Auto Update Disabled");
+		mi.icolibItem = GetIconHandle("disabled");
+	}
+
+	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
+	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hService2[0], (LPARAM)&mi);
+	db_set_b(NULL, MODULE, "AutoUpdate", !State);
+}
+
+// update the newsaggregator auto-update menu item when click on it
+INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam)
+{
+	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1));
 	return 0;
 }

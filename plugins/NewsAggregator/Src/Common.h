@@ -82,6 +82,7 @@ void UpdateThreadProc(LPVOID hWnd);
 void DestroyUpdateList(void);
 
 extern HANDLE hUpdateMutex;
+extern HANDLE hService2[7];
 
 int NewsAggrInit(WPARAM wParam,LPARAM lParam);
 INT OptInit(WPARAM wParam, LPARAM lParam);
@@ -99,14 +100,15 @@ INT_PTR NewsAggrGetStatus(WPARAM/* wp*/, LPARAM/* lp*/);
 INT_PTR NewsAggrLoadIcon(WPARAM wParam, LPARAM lParam);
 INT_PTR NewsAggrGetInfo(WPARAM wParam, LPARAM lParam);
 INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam);
-INT_PTR NewsAggrRecvMessage(WPARAM wParam,LPARAM lParam);
+INT_PTR NewsAggrRecvMessage(WPARAM wParam, LPARAM lParam);
 
-INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam);
-INT_PTR AddFeed(WPARAM wParam,LPARAM lParam);
-INT_PTR ChangeFeed(WPARAM wParam,LPARAM lParam);
-INT_PTR ImportFeeds(WPARAM wParam,LPARAM lParam);
-INT_PTR ExportFeeds(WPARAM wParam,LPARAM lParam);
-INT_PTR CheckFeed(WPARAM wParam,LPARAM lParam);
+INT_PTR CheckAllFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR AddFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR ChangeFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam);
+INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam);
+INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -121,6 +123,7 @@ VOID DeleteAllItems(HWND hwndList);
 time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
 VOID CheckCurrentFeed (HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
+void UpdateMenu(BOOL State);
 
 // ===============  NewsAggregator SERVICES  ================
 // Check all Feeds info
@@ -146,3 +149,7 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 // Check Feed info
 // WPARAM = LPARAM = NULL
 #define MS_NEWSAGGREGATOR_CHECKFEED	"NewsAggregator/CheckFeed"
+
+// Check Feed info
+// WPARAM = LPARAM = NULL
+#define MS_NEWSAGGREGATOR_ENABLED	"NewsAggregator/Enabled"

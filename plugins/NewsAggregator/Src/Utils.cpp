@@ -722,67 +722,64 @@ TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg)
 {
 	char *szData = NULL;
 	DBVARIANT dbVar = {0};
-	if (CallProtoService(MODULE, PS_GETSTATUS, 0, 0) != ID_STATUS_OFFLINE)
+	GetNewsData(tszURL, &szData, NULL, hwndDlg);
+	if (szData)
 	{
-		GetNewsData(tszURL, &szData, NULL, hwndDlg);
-		if (szData)
+		TCHAR *tszData = mir_utf8decodeT(szData);
+		if (!tszData)
+			tszData = mir_a2t(szData);
+		int bytesParsed = 0;
+		HXML hXml = xi.parseString(tszData, &bytesParsed, NULL);
+		mir_free(tszData);
+		mir_free(szData);
+		if (hXml != NULL)
 		{
-			TCHAR *tszData = mir_utf8decodeT(szData);
-			if (!tszData)
-				tszData = mir_a2t(szData);
-			int bytesParsed = 0;
-			HXML hXml = xi.parseString(tszData, &bytesParsed, NULL);
-			mir_free(tszData);
-			mir_free(szData);
-			if (hXml != NULL)
+			int childcount = 0;
+			HXML node = xi.getChild(hXml, childcount);
+			while (node)
 			{
-				int childcount = 0;
-				HXML node = xi.getChild(hXml, childcount);
-				while (node)
+				if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
 				{
-					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
+					HXML chan = xi.getChild(node, 0);
+					for (int j = 0; j < xi.getChildCount(chan); j++)
 					{
-						HXML chan = xi.getChild(node, 0);
-						for (int j = 0; j < xi.getChildCount(chan); j++)
+						HXML child = xi.getChild(chan, j);
+						if (!lstrcmpi(xi.getName(child), _T("title")))
 						{
-							HXML child = xi.getChild(chan, j);
-							if (!lstrcmpi(xi.getName(child), _T("title")))
-							{
-								TCHAR mes[MAX_PATH];
-								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
-								MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
-								TCHAR *tszTitle = (TCHAR*)xi.getText(child);
-								return tszTitle;
-							}
+							TCHAR mes[MAX_PATH];
+							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
+							TCHAR *tszTitle = (TCHAR*)xi.getText(child);
+							return tszTitle;
 						}
 					}
-					else if (!lstrcmpi(xi.getName(node), _T("feed")))
-					{
-						for (int j = 0; j < xi.getChildCount(node); j++)
-						{
-							HXML child = xi.getChild(node, j);
-							if (!lstrcmpi(xi.getName(child), _T("title")))
-							{
-								TCHAR mes[MAX_PATH];
-								mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
-								MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
-								TCHAR *tszTitle = (TCHAR*)xi.getText(child);
-								return tszTitle;
-							}
-						}
-					}
-					childcount +=1;
-					node = xi.getChild(hXml, childcount);
 				}
+				else if (!lstrcmpi(xi.getName(node), _T("feed")))
+				{
+					for (int j = 0; j < xi.getChildCount(node); j++)
+					{
+						HXML child = xi.getChild(node, j);
+						if (!lstrcmpi(xi.getName(child), _T("title")))
+						{
+							TCHAR mes[MAX_PATH];
+							mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a valid feed's address."), tszURL);
+							MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONINFORMATION);
+							TCHAR *tszTitle = (TCHAR*)xi.getText(child);
+							return tszTitle;
+						}
+					}
+				}
+				childcount +=1;
+				node = xi.getChild(hXml, childcount);
 			}
-			xi.destroyNode(hXml);
 		}
-		else
-		{
-			TCHAR mes[MAX_PATH];
-			mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a not valid feed's address."), tszURL);
-			MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
-		}
+		xi.destroyNode(hXml);
+	}
+	else
+	{
+		TCHAR mes[MAX_PATH];
+		mir_sntprintf(mes, SIZEOF(mes), TranslateT("%s\nis a not valid feed's address."), tszURL);
+		MessageBox(NULL, mes, TranslateT("New Aggregator"), MB_OK|MB_ICONERROR);
 	}
 	return NULL;
 }
@@ -793,7 +790,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 	DBVARIANT dbURL = {0};
 	if (DBGetContactSettingTString(hContact, MODULE, "URL", &dbURL))
 		return;
-	else if ((DBGetContactSettingWord(hContact, MODULE, "Status", ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE) && DBGetContactSettingByte(hContact, MODULE, "CheckState", 1) != 0)
+	else if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && db_get_b(hContact, MODULE, "CheckState", 1) != 0)
 	{
 		GetNewsData(dbURL.ptszVal, &szData, hContact, NULL);
 		DBFreeVariant(&dbURL);

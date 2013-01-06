@@ -19,59 +19,67 @@ Boston, MA 02111-1307, USA.
 
 #include "common.h"
 
-HANDLE hService2[6];
+HANDLE hService2[7];
 
 VOID InitMenu()
 {
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.pszContactOwner = MODULE;
-	mi.flags = CMIF_TCHAR|CMIF_ICONFROMICOLIB|CMIF_NOTOFFLINE;
+	mi.flags = CMIF_TCHAR | CMIF_ICONFROMICOLIB | CMIF_NOTOFFLINE;
 
 	// adding main menu items
 	mi.ptszPopupName = LPGENT("News Aggregator");
 	mi.popupPosition = 500099000;
 
-	mi.position=10100001;
+	mi.position = 10100001;
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
+		mi.ptszName = LPGENT("Auto Update Enabled");
+	else
+		mi.ptszName = LPGENT("Auto Update Disabled");
 	mi.icolibItem = GetIconHandle("main");
-	mi.ptszName = LPGENT("Check All Feeds");
-	mi.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
+	mi.pszService = MS_NEWSAGGREGATOR_ENABLED;
 	hService2[0] = Menu_AddMainMenuItem(&mi);
 
-	mi.position=10100002;
+	mi.position = 20100001;
+	mi.ptszName = LPGENT("Check All Feeds");
+	mi.pszService = MS_NEWSAGGREGATOR_CHECKALLFEEDS;
+	hService2[1] = Menu_AddMainMenuItem(&mi);
+
+	mi.position = 20100002;
 	mi.icolibItem = GetIconHandle("addfeed");
 	mi.ptszName = LPGENT("Add Feed");
 	mi.pszService = MS_NEWSAGGREGATOR_ADDFEED;
-	hService2[1] = Menu_AddMainMenuItem(&mi);
+	hService2[2] = Menu_AddMainMenuItem(&mi);
 
-	mi.position=10100003;
+	mi.position = 20100003;
 	mi.icolibItem = GetIconHandle("importfeeds");
 	mi.ptszName = LPGENT("Import Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_IMPORTFEEDS;
-	hService2[2] = Menu_AddMainMenuItem(&mi);
+	hService2[3] = Menu_AddMainMenuItem(&mi);
 
-	mi.position=10100004;
+	mi.position = 20100004;
 	mi.icolibItem = GetIconHandle("exportfeeds");
 	mi.ptszName = LPGENT("Export Feeds");
 	mi.pszService = MS_NEWSAGGREGATOR_EXPORTFEEDS;
-	hService2[3] = Menu_AddMainMenuItem(&mi);
+	hService2[4] = Menu_AddMainMenuItem(&mi);
 
 	// adding contact menu items
-	mi.position=-0x7FFFFFFA;
+	mi.position = -0x7FFFFFFA;
 	mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Check feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHECKFEED;
-	hService2[4] = Menu_AddContactMenuItem(&mi);
+	hService2[5] = Menu_AddContactMenuItem(&mi);
 
-	// adding contact menu items
-	mi.position=-0x7FFFFFFA;
-	//mi.icolibItem = GetIconHandle("checkfeed");
 	mi.ptszName = LPGENT("Change feed");
 	mi.pszService = MS_NEWSAGGREGATOR_CHANGEFEED;
-	hService2[5] = Menu_AddContactMenuItem(&mi);
+	hService2[6] = Menu_AddContactMenuItem(&mi);
 
 	ZeroMemory(&mi, sizeof(mi));
 	mi.cbSize = sizeof(mi);
 	mi.flags = CMIM_ICON;
-	mi.icolibItem = GetIconHandle("checkall");
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1))
+		mi.icolibItem = GetIconHandle("enabled");
+	else
+		mi.icolibItem = GetIconHandle("disabled");
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hService2[0], (LPARAM)&mi);
 }
