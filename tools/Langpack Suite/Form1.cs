@@ -189,8 +189,7 @@ namespace Langpack_Suite
             InfMessageLangBox.Text = LocaleText + "\r\n";
 
             FolderName = Directory.GetParent(Directory.GetCurrentDirectory()).ToString() + "\\" + LangpacksComboBox.Text;
-            if (output == "")
-                output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
+            output = FolderName + "\\" + LangpackNameEdit.Text + ".txt";
             if (File.Exists(output))
                 File.Delete(output);
 
