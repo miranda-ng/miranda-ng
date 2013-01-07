@@ -1877,30 +1877,24 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 
 void fix_line_term(std::string &s)
 {
-	for(std::string::size_type s1 = s.find("\r\r", 0); s1 != string::npos; s1 = s.find("\r\r", s1))
-		s.erase(s1, 1);
+	boost::algorithm::erase_all(s, "\r\r");
 }
 
 void fix_line_term(std::wstring &s)
 {
-	for(std::wstring::size_type s1 = s.find(_T("\r\r"), 0); s1 != wstring::npos; s1 = s.find(_T("\r\r"), s1))
-		s.erase(s1, 1);
+	boost::algorithm::erase_all(s, _T("\r\r"));
 }
 
 void strip_line_term(std::wstring &s)
 {
-	for(std::wstring::size_type i = s.find(_T("\r")); i != std::wstring::npos; i = s.find(_T("\r"), i+1))
-		s.erase(i, 1);
-	for(std::wstring::size_type i = s.find(_T("\n")); i != std::wstring::npos; i = s.find(_T("\n"), i+1))
-		s.erase(i, 1);
+	boost::algorithm::erase_all(s, _T("\r"));
+	boost::algorithm::erase_all(s, _T("\n"));
 }
 
 void strip_line_term(std::string &s)
 {
-	for(std::string::size_type i = s.find("\r"); i != std::string::npos; i = s.find("\r", i+1))
-		s.erase(i, 1);
-	for(std::string::size_type i = s.find("\n"); i != std::string::npos; i = s.find("\n", i+1))
-		s.erase(i, 1);
+	boost::algorithm::erase_all(s, "\r");
+	boost::algorithm::erase_all(s, "\n");
 }
 
 void strip_tags(std::wstring &str)
