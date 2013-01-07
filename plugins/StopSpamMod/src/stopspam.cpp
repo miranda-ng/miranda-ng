@@ -148,6 +148,9 @@ MIRANDA_HOOK_EVENT(ME_DB_EVENT_FILTER_ADD, w, l)
 		message = mir_a2u((char*)(dbei->pBlob));
 
 	// if message contains right answer...
+
+	boost::algorithm::erase_all(message, "\r");
+	boost::algorithm::erase_all(message, "\n");
 	
 	BYTE msg = 1;
 	if(gbInvisDisable)
