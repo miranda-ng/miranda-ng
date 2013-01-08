@@ -48,7 +48,7 @@ struct DetailsPageData {
 
 struct DlgProfData {
 	PROPSHEETHEADER * psh;
-	HWND hwndOK;			// handle to OK button
+	HWND hwndOK, hwndSM;
 	PROFILEMANAGERDATA * pd;
 	HANDLE hFileNotify;
 };
@@ -181,6 +181,7 @@ static INT_PTR CALLBACK DlgProfileNew(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 	case WM_SHOWWINDOW:
 		if (wParam) {
+			EnableWindow(dat->hwndSM, FALSE);
 			SetWindowText(dat->hwndOK, TranslateT("&Create"));
 			SendMessage(hwndDlg, WM_INPUTCHANGED, 0, 0);
 		}
@@ -420,6 +421,7 @@ static INT_PTR CALLBACK DlgProfileSelect(HWND hwndDlg, UINT msg, WPARAM wParam, 
 	case WM_SHOWWINDOW:
 		if (wParam) {
 			SetWindowText(dat->hwndOK, TranslateT("&Run"));
+			EnableWindow(dat->hwndSM, TRUE);
 			EnableWindow(dat->hwndOK, ListView_GetSelectedCount(hwndList) == 1);
 		}
 		break;
@@ -528,6 +530,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 			dat = (struct DetailsData*)mir_alloc(sizeof(struct DetailsData));
 			dat->prof = prof;
 			prof->hwndOK = GetDlgItem(hwndDlg, IDOK);
+			prof->hwndSM = GetDlgItem(hwndDlg, IDC_SM_COMBO);
 			EnableWindow(prof->hwndOK, FALSE);
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, (LONG_PTR)dat);
 
@@ -726,7 +729,7 @@ static INT_PTR CALLBACK DlgProfileManager(HWND hwndDlg, UINT msg, WPARAM wParam,
 		break;
 
 	case WM_DESTROY:
-		{
+		if (dat->currentPage != 1) {
 			LRESULT curSel = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETCURSEL, 0, 0);
 			if (curSel != CB_ERR) {
 				int idx = SendDlgItemMessage(hwndDlg, IDC_SM_COMBO, CB_GETITEMDATA, (WPARAM)curSel, 0);
