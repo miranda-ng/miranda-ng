@@ -790,7 +790,7 @@ VOID CheckCurrentFeed(HANDLE hContact)
 	DBVARIANT dbURL = {0};
 	if (DBGetContactSettingTString(hContact, MODULE, "URL", &dbURL))
 		return;
-	else if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && db_get_b(hContact, MODULE, "CheckState", 1) != 0)
+	else if (db_get_b(hContact, MODULE, "CheckState", 1) != 0)
 	{
 		GetNewsData(dbURL.ptszVal, &szData, hContact, NULL);
 		DBFreeVariant(&dbURL);

@@ -228,11 +228,11 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	// otherwise, cached avatar is used
 	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", 60))
 		UpdateListAdd(pai->hContact);
-	if (!ThreadRunning)
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
 		mir_forkthread(UpdateThreadProc, NULL);
 
 	DBVARIANT dbv = {0};
-	if(DBGetContactSettingTString(pai->hContact,MODULE,"ImageURL",&dbv))
+	if(DBGetContactSettingTString(pai->hContact, MODULE, "ImageURL", &dbv))
 	{
 		return GAIR_NOAVATAR;
 	}

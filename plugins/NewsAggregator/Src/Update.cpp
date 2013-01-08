@@ -39,7 +39,7 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 				if (DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60))
 				{
 					double diff = difftime(time(NULL), DBGetContactSettingDword(hContact, MODULE, "LastCheck", 0));
-					if (diff >= DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60) * 60)
+					if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && diff >= DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60) * 60)
 					{
 						UpdateListAdd(hContact);
 						HaveUpdates = TRUE;
