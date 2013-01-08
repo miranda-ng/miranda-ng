@@ -49,6 +49,7 @@ TOptionListItem m_lvItemsModPlus[] = {
 	0, LPGENT("Disable error popups on sending failures"), 0, LOI_TYPE_SETTING, (UINT_PTR)"adv_noErrorPopups", 1,
 	0, LPGENT("Automatic keyboard layout: Do not load the system default for new contacts"), 1, LOI_TYPE_SETTING, (UINT_PTR)"adv_leaveKeyboardAlone", 0,
 	0, LPGENT("Enable unattended send (experimental feature, required for multisend and send later) (*)"), 0, LOI_TYPE_SETTING, (UINT_PTR)"sendLaterAvail", 0,
+	0, LPGENT("Show client description in info panel"), 0, LOI_TYPE_SETTING, (UINT_PTR)"ShowClientDescription", 0,
 	0, NULL, 0, 0, 0, 0
 };
 
