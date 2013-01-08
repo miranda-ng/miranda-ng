@@ -326,6 +326,8 @@ RTL шаблоны
 Не загружать раскладку клавиатуры по умолчанию для новых контактов
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Включить авто отправку (необходимо для мультиотправки и отправки с задержкой) (*)
+[Show client description in info panel]
+Показать описание клиента в инфо панели
 [Error feedback]
 Ошибки доставки сообщений
 [Disable error popups on sending failures]
