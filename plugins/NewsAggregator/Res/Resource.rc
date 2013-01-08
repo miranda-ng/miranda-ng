@@ -26,11 +26,13 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON                ICON                    "Main.ico"
-IDI_CHECKALL            ICON                    "CheckAll.ico"
-IDI_ADDFEED             ICON                    "AddFeed.ico"
-IDI_IMPORTFEEDS         ICON                    "Import.ico"
-IDI_EXPORTFEEDS         ICON                    "Export.ico"
+IDI_ICON				ICON					"Main.ico"
+IDI_CHECKALL			ICON					"CheckAll.ico"
+IDI_ADDFEED				ICON					"AddFeed.ico"
+IDI_IMPORTFEEDS			ICON					"Import.ico"
+IDI_EXPORTFEEDS			ICON					"Export.ico"
+IDI_ENABLED				ICON					"Enabled.ico"
+IDI_DISABLED			ICON					"Disabled.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //

@@ -21,12 +21,14 @@ Boston, MA 02111-1307, USA.
 
 static IconItem iconList[] =
 {
-	{	LPGEN("Protocol icon"),   "main",        IDI_ICON        },
-	{	LPGEN("Check All Feeds"), "checkall",    IDI_CHECKALL    },
-	{	LPGEN("Add Feed"),        "addfeed",     IDI_ADDFEED     },
-	{	LPGEN("Import Feeds"),    "importfeeds", IDI_IMPORTFEEDS },
-	{	LPGEN("Export Feeds"),    "exportfeeds", IDI_EXPORTFEEDS },
-	{	LPGEN("Check Feed"),      "checkfeed",   IDI_CHECKALL    }
+	{LPGEN("Protocol icon"),		"main",			IDI_ICON},
+	{LPGEN("Check All Feeds"),		"checkall",		IDI_CHECKALL},
+	{LPGEN("Add Feed"),				"addfeed",		IDI_ADDFEED},
+	{LPGEN("Import Feeds"),			"importfeeds",	IDI_IMPORTFEEDS},
+	{LPGEN("Export Feeds"),			"exportfeeds",	IDI_EXPORTFEEDS},
+	{LPGEN("Check Feed"),			"checkfeed",	IDI_CHECKALL},
+	{LPGEN("Auto Update Enabled"),	"enabled",		IDI_ENABLED},
+	{LPGEN("Auto Update Disabled"),	"disabled",		IDI_DISABLED}
 };
 
 VOID InitIcons()
