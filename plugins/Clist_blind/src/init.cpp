@@ -80,7 +80,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(pluginInfo ),
 	"BClist",
 	PLUGIN_MAKE_VERSION(0, 8, 0, 1),
-	"A contact list for blind folks",
+	"A contact list for blind folks.",
 	"Ricardo Pescuma Domenecci, based on previous work from Miranda IM project",
 	"",
 	"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci",
