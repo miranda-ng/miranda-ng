@@ -22,7 +22,7 @@ Boston, MA 02111-1307, USA.
 HINSTANCE hInst = NULL;
 
 int hLangpack;
-HANDLE hOptHook = NULL,  hLoadHook = NULL, hOnPreShutdown = NULL, hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
+HANDLE hPrebuildMenuHook = NULL, hPackUpdaterFolder = NULL;
 HANDLE hProtoService[8];
 HWND hAddFeedDlg;
 HANDLE hChangeFeedDlgList = NULL;
@@ -78,9 +78,9 @@ extern "C" __declspec(dllexport) int Load(void)
 	}
 
 	// Add options hook
-	hOptHook = HookEvent(ME_OPT_INITIALISE, OptInit);
-	hLoadHook = HookEvent(ME_SYSTEM_MODULESLOADED, NewsAggrInit);
-	hOnPreShutdown = HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
+	HookEvent(ME_OPT_INITIALISE, OptInit);
+	HookEvent(ME_SYSTEM_MODULESLOADED, NewsAggrInit);
+	HookEvent(ME_SYSTEM_PRESHUTDOWN, NewsAggrPreShutdown);
 
 	hUpdateMutex = CreateMutex(NULL, FALSE, NULL);
 	hChangeFeedDlgList = (HANDLE) CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
@@ -115,10 +115,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	for (int i = 0;i<NUM_SERVICES;i++)
 		DestroyServiceFunction(hService[i]);
-
-	UnhookEvent(hOptHook);
-	UnhookEvent(hLoadHook);
-	UnhookEvent(hOnPreShutdown);
 
 	DestroyUpdateList();
 	CloseHandle(hUpdateMutex);

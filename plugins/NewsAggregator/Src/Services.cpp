@@ -21,6 +21,7 @@ Boston, MA 02111-1307, USA.
 
 int g_nStatus = ID_STATUS_ONLINE;
 UINT_PTR timerId = 0;
+HANDLE hTBButton = NULL;
 
 void SetContactStatus(HANDLE hContact, int nNewStatus)
 {
@@ -57,6 +58,8 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	NetlibInit();
 	InitIcons();
 	InitMenu();
+
+	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 
 	// timer for the first update
 	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
@@ -258,6 +261,7 @@ void UpdateMenu(BOOL State)
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB | CMIF_TCHAR;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hService2[0], (LPARAM)&mi);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, State ? TTBST_PUSHED : TTBST_RELEASED);
 	db_set_b(NULL, MODULE, "AutoUpdate", !State);
 }
 
@@ -265,5 +269,20 @@ void UpdateMenu(BOOL State)
 INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam)
 {
 	UpdateMenu(db_get_b(NULL, MODULE, "AutoUpdate", 1));
+	return 0;
+}
+
+INT_PTR OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+{
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
+	tbb.name = LPGEN("Enable/disable auto update");
+	tbb.pszService = MS_NEWSAGGREGATOR_ENABLED;
+	tbb.pszTooltipUp = LPGEN("Auto Update Enabled");
+	tbb.pszTooltipDn = LPGEN("Auto Update Disabled");
+	tbb.hIconHandleUp = GetIconHandle("enabled");
+	tbb.hIconHandleDn = GetIconHandle("disabled");
+	tbb.dwFlags = (db_get_b(NULL, MODULE, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	hTBButton = TopToolbar_AddButton(&tbb);
 	return 0;
 }
