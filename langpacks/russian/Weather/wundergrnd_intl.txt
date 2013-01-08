@@ -510,3 +510,5 @@
 Метель
 [Snow Freezing Rain Mist]
 Снег с дождём, дымка
+[Patches Fog Mist]
+Местами туман, дымка
