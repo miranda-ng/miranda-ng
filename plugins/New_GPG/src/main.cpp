@@ -66,17 +66,23 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 3, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateT("Key length");
+		col.pszText = TranslateT("Expire date");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 4, &col);
 		ZeroMemory(&col,sizeof(col));
-		col.pszText = TranslateT("Accounts");
+		col.pszText = TranslateT("Key length");
 		col.mask = LVCF_TEXT | LVCF_WIDTH;
 		col.fmt = LVCFMT_LEFT;
 		col.cx = 30;
 		ListView_InsertColumn(hwndList, 5, &col);
+		ZeroMemory(&col,sizeof(col));
+		col.pszText = TranslateT("Accounts");
+		col.mask = LVCF_TEXT | LVCF_WIDTH;
+		col.fmt = LVCFMT_LEFT;
+		col.cx = 30;
+		ListView_InsertColumn(hwndList, 6, &col);
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_FULLROWSELECT);
 		int i = 1, iRow = 0;
 		{ 
@@ -118,21 +124,82 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						break;
 					stop = p;
 					p2 = out.find("/", p) - 1;
-					TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
-					item.pszText = tmp;
-					iRow = ListView_InsertItem(hwndList, &item);
-					ListView_SetItemText(hwndList, iRow, 4, tmp);
-					mir_free(tmp);
+					TCHAR *key_len = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str()), *creation_date = NULL, *expire_date = NULL;
 					p2+=2;
 					p = out.find(" ", p2);
-					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
-					ListView_SetItemText(hwndList, iRow, 0, tmp);
-					std::wstring key_id = tmp;
-					mir_free(tmp);
+					std::wstring key_id = toUTF16(out.substr(p2,p-p2));
+					p += 1;
+					p2 = out.find(" ", p);
+					std::string::size_type p3 = out.find("\n", p);
+					if(p3 < p2)
+					{
+						p2 = p3;
+						creation_date = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
+					}
+					else
+					{
+						creation_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+						p2 = out.find("[", p2);
+						p2 = out.find("expires:", p2);
+						p2 += strlen("expires:");
+						if(p2 != std::string::npos)
+						{
+							p2++;
+							p = p2;
+							p2 = out.find("]", p);
+							expire_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+							//check expiration
+							bool expired = false;
+							{
+								boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+								TCHAR buf[5];
+								mir_sntprintf(buf, 5, _T("%s"), expire_date);
+								int year = _ttoi(buf);
+								if(year < now.date().year())
+									expired = true;
+								else if(year == now.date().year())
+								{
+									mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+									int month = _ttoi(buf);
+									if(month < now.date().month())
+										expired = true;
+									else if(month == now.date().month())
+									{
+										mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+										int day = _ttoi(buf);
+										if(day <= now.date().day_number())
+											expired = true;
+									}
+								}
+							}
+							if(expired)
+							{
+								mir_free(key_len);
+								mir_free(expire_date);
+								mir_free(creation_date);
+								//mimic normal behaviour
+								p = out.find("uid  ", p);
+								p2 = out.find_first_not_of(" ", p+5);
+								p = out.find("<", p2);
+								p++;
+								p2 = out.find(">", p);
+								//
+								continue;
+							}
+						}
+					}
+					iRow = ListView_InsertItem(hwndList, &item);
+					ListView_SetItemText(hwndList, iRow, 3, creation_date);
+					mir_free(creation_date);
+					ListView_SetItemText(hwndList, iRow, 4, expire_date);
+					mir_free(expire_date);
+					ListView_SetItemText(hwndList, iRow, 5, key_len);
+					mir_free(key_len);
+					ListView_SetItemText(hwndList, iRow, 0, (TCHAR*)key_id.c_str());
 					p = out.find("uid  ", p);
 					p2 = out.find_first_not_of(" ", p+5);
 					p = out.find("<", p2);
-					tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
+					TCHAR *tmp = mir_wstrdup(toUTF16(out.substr(p2,p-p2)).c_str());
 					ListView_SetItemText(hwndList, iRow, 2, tmp);
 					mir_free(tmp);
 					p++;
@@ -140,17 +207,6 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
 					ListView_SetItemText(hwndList, iRow, 1, tmp);
 					mir_free(tmp);
-					p = out.find("ssb  ", p2) + 6;
-					p = out.find(" ", p) + 1;
-					p2 = out.find("\n", p);
-					tmp = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
-					ListView_SetItemText(hwndList, iRow, 3, tmp);
-					mir_free(tmp);
-					ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);// not sure about this
-					ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
-					ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
 					{ //get accounts
 						int count = 0;
 						PROTOACCOUNT **accounts;
@@ -175,11 +231,17 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 								}
 							}
 						}
-						ListView_SetItemText(hwndList, iRow, 5, (TCHAR*)accs.c_str());
-						ListView_SetColumnWidth(hwndList, 5, LVSCW_AUTOSIZE);
+						ListView_SetItemText(hwndList, iRow, 6, (TCHAR*)accs.c_str());
 					}
 					i++;
 				}
+				ListView_SetColumnWidth(hwndList, 0, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 1, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 2, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 3, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 4, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 5, LVSCW_AUTOSIZE);
+				ListView_SetColumnWidth(hwndList, 6, LVSCW_AUTOSIZE);
 			}
 		}
 		{
