@@ -131,7 +131,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					p += 1;
 					p2 = out.find(" ", p);
 					std::string::size_type p3 = out.find("\n", p);
-					if(p3 < p2)
+					if((p2 != std::string::npos) && (p3 < p2))
 					{
 						p2 = p3;
 						creation_date = mir_wstrdup(toUTF16(out.substr(p,p2-p-1)).c_str());
@@ -2107,13 +2107,56 @@ void InitCheck()
 			if(MessageBoxA(0, question.c_str(), Translate("Own private key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
-		if(out.find(keyid) == string::npos)
+		if((p = out.find(keyid)) == string::npos)
 		{
 			question += keyid;
 			question += Translate(" deleted from gpg secret keyring\nDo you want to set another key ?");
 			if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
 				ShowFirstRunDialog();
 		}
+		p2 = p;
+		p = out.find("[", p);
+		p2 = out.find("\n", p2);
+		if((p != std::string::npos) && (p < p2))
+		{
+			p = out.find("expires:", p);
+			p += strlen("expires:");
+			p++;
+			p2 = out.find("]", p);
+			TCHAR *expire_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+			bool expired = false;
+			{
+				boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+				TCHAR buf[5];
+				mir_sntprintf(buf, 5, _T("%s"), expire_date);
+				int year = _ttoi(buf);
+				if(year < now.date().year())
+					expired = true;
+				else if(year == now.date().year())
+				{
+					mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+					int month = _ttoi(buf);
+					if(month < now.date().month())
+						expired = true;
+					else if(month == now.date().month())
+					{
+						mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+						int day = _ttoi(buf);
+						if(day <= now.date().day_number())
+							expired = true;
+					}
+				}
+			}
+			if(expired)
+			{
+				question += keyid;
+				question += Translate(" expired and will not work\nDo you want to set another key ?");
+				if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+					ShowFirstRunDialog();
+			}
+			mir_free(expire_date);
+		}
+		//TODO: check for expired key
 		mir_free(keyid);
 		mir_free(key);
 	}
