@@ -125,7 +125,7 @@ AIM Протокол
 [AIM Support]
 Поддержка AIM
 [AIM Account Tupe]
-Тип аккаунта(учётной записи) AIM
+Тип учётной записи AIM
 [AIM Extended Status]
 Расширенный статус AIM
 [AIM User Details]
