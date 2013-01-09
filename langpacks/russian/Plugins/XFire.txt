@@ -227,3 +227,7 @@
 Папка иконок игр
 [Buddy start a game]
 Начало игры
+[XFire game icon]
+Значок игры XFire
+[XFire voice icon]
+Значок голоса XFire

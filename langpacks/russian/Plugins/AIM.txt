@@ -124,6 +124,10 @@ AIM Смена пароля
 AIM Протокол
 [AIM Support]
 Поддержка AIM
+[AIM Account Tupe]
+Тип аккаунта(учётной записи) AIM
+[AIM Extended Status]
+Расширенный статус AIM
 [AIM User Details]
 AIM Детали пользователя
 [AIM Warning Level Change]

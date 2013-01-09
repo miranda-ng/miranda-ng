@@ -1,4 +1,4 @@
-;============================================================ 
+﻿;============================================================ 
 ;  File: New_GPG.dll 
 ;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM 
 ;  Versions: 0.9.0.0 
@@ -142,3 +142,5 @@
 Удалять все метки из исходящих сообщений
 [Turn on presence signing (Jabber)]
 Включить подпись сообщений присутствия (Jabber)
+[GPG encryption status]
+Статус шифрования GPG
