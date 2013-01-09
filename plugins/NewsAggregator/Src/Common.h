@@ -110,7 +110,7 @@ INT_PTR ImportFeeds(WPARAM wParam, LPARAM lParam);
 INT_PTR ExportFeeds(WPARAM wParam, LPARAM lParam);
 INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam);
 INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam);
-INT_PTR OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
+int OnToolbarLoaded(WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);

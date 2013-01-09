@@ -272,7 +272,7 @@ INT_PTR EnableDisable(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(TTBButton);
