@@ -4,6 +4,5 @@
 extern DWORD event_timeout;
 
 void InitOptions();
-void DeinitOptions();
 
 #endif

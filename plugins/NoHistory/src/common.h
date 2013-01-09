@@ -22,6 +22,7 @@
 #include <m_options.h>
 #include <m_message.h>
 #include <m_icolib.h>
+#include <m_extraicons.h>
 
 #include <m_utils.h>
 
