@@ -103,6 +103,7 @@ int LoadDefaultModules(void)
 
 	switch ( LoadDefaultServiceModePlugin()) {
 	case SERVICE_CONTINUE:  // continue loading Miranda normally
+	case SERVICE_ONLYDB:    // load database and go to the message cycle
 		break;
 	case SERVICE_MONOPOLY:  // unload database and go to the message cycle
 		return 0;
