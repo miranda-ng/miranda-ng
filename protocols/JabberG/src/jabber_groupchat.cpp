@@ -1241,6 +1241,8 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 			if (!_tcscmp(p, _T("jabber:x:delay")) && !msgTime)
 				if ((p = xmlGetAttrValue(xNode, _T("stamp"))) != NULL)
 					msgTime = JabberIsoToUnixTime(p);
+	if (!msgTime)
+		JabberReadXep203delay(xNode, msgTime);
 
 	time_t now = time(NULL);
 	if (!msgTime || msgTime > now)

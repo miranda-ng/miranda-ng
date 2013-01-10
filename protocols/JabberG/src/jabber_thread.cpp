@@ -71,7 +71,7 @@ static INT_PTR CALLBACK JabberPasswordDlgProc(HWND hwndDlg, UINT msg, WPARAM wPa
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		{	
+		{
 			param = (JabberPasswordDlgParam*)lParam;
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
 
@@ -122,7 +122,7 @@ static VOID CALLBACK JabberPasswordCreateDialogApcProc(void* param)
 
 static VOID CALLBACK JabberOfflineChatWindows(void* param)
 {
-	CJabberProto* ppro = (CJabberProto*)param; 
+	CJabberProto* ppro = (CJabberProto*)param;
 	GCDEST gcd = { ppro->m_szModuleName, NULL, GC_EVENT_CONTROL };
 	GCEVENT gce = { 0 };
 	gce.cbSize = sizeof(GCEVENT);
@@ -177,7 +177,7 @@ void ThreadData::xmpp_client_query(void)
 	DNS_RECORDA *results = NULL;
 	DNS_STATUS status = pDnsQuery(temp, DNS_TYPE_SRV, DNS_QUERY_STANDARD, NULL, &results, NULL);
 	if (SUCCEEDED(status) && results) {
-		LIST<DNS_SRV_DATAA> dnsList(5, CompareDNS); 
+		LIST<DNS_SRV_DATAA> dnsList(5, CompareDNS);
 
 		for (DNS_RECORDA *rec = results; rec; rec = rec->pNext) {
 			if (rec->Data.Srv.pNameTarget && rec->wType == DNS_TYPE_SRV)
@@ -346,7 +346,7 @@ LBL_FatalError:
 			if (*m_savedPassword) {
 				_tcsncpy(info->password, m_savedPassword, SIZEOF(info->password));
 				info->password[ SIZEOF(info->password)-1] = '\0';
-			} 
+			}
 			else {
 				mir_sntprintf(jidStr, SIZEOF(jidStr), _T("%s@") _T(TCHAR_STR_PARAM), info->username, info->server);
 
@@ -417,7 +417,7 @@ LBL_FatalError:
 			info->s = WsConnect(info->manualHost, info->port);
 		}
 	}
-	else 
+	else
 		info->s = WsConnect(info->manualHost, info->port);
 
 	Log("Thread type=%d server='%s' port='%d'", info->type, info->manualHost, info->port);
@@ -506,7 +506,7 @@ recvRest:
 
 			TCHAR* str;
 			str = mir_utf8decodeW(buffer);
-			
+
 			int bytesParsed = 0;
 			XmlNode root(str, &bytesParsed, tag);
 			if (root && tag)
@@ -519,9 +519,9 @@ recvRest:
 					root = XmlNode();
 					bytesParsed = 0;
 				}
-				
+
 				mir_free(str);
-				
+
 			}
 			else {
 				if (root) str[ bytesParsed ] = 0;
@@ -755,7 +755,7 @@ void CJabberProto::PerformAuthentication(ThreadData* info)
 	info->auth = auth;
 
 	if ( !request) request = auth->getInitialRequest();
-	info->send(XmlNode(_T("auth"), _A2T(request)) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-sasl")) 
+	info->send(XmlNode(_T("auth"), _A2T(request)) << XATTR(_T("xmlns"), _T("urn:ietf:params:xml:ns:xmpp-sasl"))
 		<< XATTR(_T("mechanism"), _A2T(auth->getName())));
 	mir_free(request);
 }
@@ -789,7 +789,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 				if ( !_tcscmp(xmlGetName(c), _T("method"))) {
 					if ( !_tcscmp(xmlGetText(c), _T("zlib")) && info->zlibInit() == TRUE) {
 						Log("Requesting Zlib compression");
-						info->send(XmlNode(_T("compress")) << XATTR(_T("xmlns"), _T("http://jabber.org/protocol/compress")) 
+						info->send(XmlNode(_T("compress")) << XATTR(_T("xmlns"), _T("http://jabber.org/protocol/compress"))
 							<< XCHILD(_T("method"), _T("zlib")));
 						return;
 		}	}	}	}
@@ -823,7 +823,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 				else if ( !_tcscmp(xmlGetName(c), _T("hostname"))) {
 					const TCHAR *mech = xmlGetAttrValue(c, _T("mechanism"));
 					if (mech && _tcsicmp(mech, _T("GSSAPI")) == 0) {
-						m_AuthMechs.m_gssapiHostName = mir_tstrdup(xmlGetText(c)); 
+						m_AuthMechs.m_gssapiHostName = mir_tstrdup(xmlGetText(c));
 					}
 				}
 		}	}
@@ -846,7 +846,7 @@ void CJabberProto::OnProcessFeatures(HXML node, ThreadData* info)
 	if (info->auth) { //We are already logged-in
 		info->send(
 			XmlNodeIq(m_iqManager.AddHandler(&CJabberProto::OnIqResultBind, JABBER_IQ_TYPE_SET))
-				<< XCHILDNS(_T("bind"), _T("urn:ietf:params:xml:ns:xmpp-bind")) 
+				<< XCHILDNS(_T("bind"), _T("urn:ietf:params:xml:ns:xmpp-bind"))
 				<< XCHILD(_T("resource"), info->resource));
 
 		if (m_AuthMechs.isSessionAvailable)
@@ -890,7 +890,7 @@ void CJabberProto::OnProcessError(HXML node, ThreadData* info)
 		const TCHAR *desc = xmlGetText(n);
 		if (desc)
 			pos += mir_sntprintf(buff+pos, 1024-pos, _T("%s: %s\r\n"), name, desc);
-		else 
+		else
 			pos += mir_sntprintf(buff+pos, 1024-pos, _T("%s\r\n"), name);
 
 		if ( !_tcscmp(name, _T("conflict")))
@@ -993,7 +993,7 @@ void CJabberProto::OnProcessProceed(HXML node, ThreadData* info)
 		Log("Starting TLS...");
 
 		char* gtlk = strstr(info->manualHost, "google.com");
-		bool isHosted = gtlk && !gtlk[10] && stricmp(info->server, "gmail.com") && 
+		bool isHosted = gtlk && !gtlk[10] && stricmp(info->server, "gmail.com") &&
 			stricmp(info->server, "googlemail.com");
 
 		NETLIBSSL ssl = {0};
@@ -1060,7 +1060,7 @@ void CJabberProto::OnProcessPubsubEvent(HXML node)
 		const TCHAR *szSource = XPathT(tuneNode, "source");
 		const TCHAR *szTitle = XPathT(tuneNode, "title");
 		const TCHAR *szTrack = XPathT(tuneNode, "track");
-	
+
 		TCHAR szLengthInTime[32];
 		szLengthInTime[0] = _T('\0');
 		if (szLength) {
@@ -1128,7 +1128,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 	LPCTSTR from, type, idStr, fromResource;
 	HANDLE hContact;
 
-	if ( !xmlGetName(node) || _tcscmp(xmlGetName(node), _T("message"))) 
+	if ( !xmlGetName(node) || _tcscmp(xmlGetName(node), _T("message")))
 		return;
 
 	type = xmlGetAttrValue(node, _T("type"));
@@ -1234,24 +1234,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			JSendBroadcast(hContact, ACKTYPE_MESSAGE, ACKRESULT_SUCCESS, (HANDLE)nPacketId, 0);
 	}
 
-	// XEP-0203 delay support
-	if (n = xmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"))) {
-		const TCHAR *ptszTimeStamp = xmlGetAttrValue(n, _T("stamp"));
-		if (ptszTimeStamp != NULL) {
-			// skip '-' chars
-			TCHAR* szStamp = mir_tstrdup(ptszTimeStamp);
-			int si = 0, sj = 0;
-			while (1) {
-				if (szStamp[si] == _T('-'))
-					si++;
-				else
-					if ( !(szStamp[sj++] = szStamp[si++]))
-						break;
-			};
-			msgTime = JabberIsoToUnixTime(szStamp);
-			mir_free(szStamp);
-		}
-	}
+	JabberReadXep203delay(node, msgTime);
 
 	// XEP-0224 support (Attention/Nudge)
 	if (xmlGetChildByTag(node, "attention", "xmlns", _T(JABBER_FEAT_ATTENTION)) ||
@@ -1337,7 +1320,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 				msgTime = JabberIsoToUnixTime(ptszTimeStamp);
 		}
 		else if ( !_tcscmp(ptszXmlns, _T(JABBER_FEAT_MESSAGE_EVENTS))) {
-			
+
 			// set events support only if we discovered caps and if events not already set
 			JabberCapsBits jcbCaps = GetResourceCapabilites(from, TRUE);
 			if (jcbCaps & JABBER_RESOURCE_CAPS_ERROR)
@@ -1416,11 +1399,11 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			if ((n = xmlGetChild(xNode , "password")) != NULL)
 				invitePassword = xmlGetText(n);
 		}
-		else if ( !_tcscmp(ptszXmlns, _T(JABBER_FEAT_ROSTER_EXCHANGE)) && 
+		else if ( !_tcscmp(ptszXmlns, _T(JABBER_FEAT_ROSTER_EXCHANGE)) &&
 			item != NULL && (item->subscription == SUB_BOTH || item->subscription == SUB_TO)) {
 			TCHAR chkJID[JABBER_MAX_JID_LEN] = _T("@");
-			JabberStripJid(from, chkJID + 1, SIZEOF(chkJID) - 1); 
-			for (int i = 1; ; ++i) { 
+			JabberStripJid(from, chkJID + 1, SIZEOF(chkJID) - 1);
+			for (int i = 1; ; ++i) {
 				HXML iNode = xmlGetNthChild(xNode , _T("item"), i);
 				if (iNode == NULL) break;
 				const TCHAR *action = xmlGetAttrValue(iNode, _T("action"));
@@ -1452,7 +1435,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			if ( !inviteReason)
 				inviteReason = szMessage;
 			isChatRoomInvitation = TRUE;
-		}	
+		}
 	}
 
 	if (isChatRoomInvitation) {
@@ -1480,7 +1463,7 @@ void CJabberProto::OnProcessMessage(HXML node, ThreadData* info)
 			szMessage = mir_tstrdup(_T(""));
 
 			char* buf = mir_utf8encodeW(szMessage);
-		
+
 		if (item != NULL) {
 			if (resourceStatus) resourceStatus->bMessageSessionActive = TRUE;
 			if (hContact != NULL)
@@ -1851,7 +1834,7 @@ void CJabberProto::OnProcessPresence(HXML node, ThreadData* info)
 			}
 			UpdateSubscriptionInfo(hContact, item);
 		}
-	}	
+	}
 }
 
 void CJabberProto::OnIqResultVersion(HXML /*node*/, CJabberIqInfo *pInfo)
@@ -1898,7 +1881,7 @@ BOOL CJabberProto::OnProcessJingle(HXML node)
 			if (szAction && !_tcscmp(szAction, _T("session-initiate"))) {
 				// if this is a Jingle 'session-initiate' and noone processed it yet, reply with "unsupported-applications"
 				m_ThreadInfo->send( XmlNodeIq(_T("result"), idStr, from));
-		
+
 				XmlNodeIq iq(_T("set"), SerialNext(), from);
 				HXML jingleNode = iq << XCHILDNS(_T("jingle"), _T(JABBER_FEAT_JINGLE));
 
@@ -1985,7 +1968,7 @@ void CJabberProto::OnProcessIq(HXML node)
 		HXML pFirstChild = xmlGetChild(node , 0);
 		if (pFirstChild)
 			xmlAddChild(iq, pFirstChild);
-		
+
 		iq << XCHILD(_T("error")) << XATTR(_T("type"), _T("cancel"))
 				<< XCHILDNS(_T("service-unavailable"), _T("urn:ietf:params:xml:ns:xmpp-stanzas"));
 		m_ThreadInfo->send(iq);
@@ -2124,9 +2107,9 @@ int ThreadData::send(HXML node)
 	// strip forbidden control characters from outgoing XML stream
 	TCHAR *q = str;
 	for (TCHAR *p = str; *p; ++p) {
-		
+
 			WCHAR c = *p;
-		
+
 		if (c < 0x9 || c > 0x9 && c < 0xA || c > 0xA && c < 0xD || c > 0xD && c < 0x20 || c > 0xD7FF && c < 0xE000 || c > 0xFFFD)
 			continue;
 
@@ -2134,11 +2117,11 @@ int ThreadData::send(HXML node)
 	}
 	*q = 0;
 
-	
+
 		char* utfStr = mir_utf8encodeT(str);
 		int result = send(utfStr, (int)strlen(utfStr));
 		mir_free(utfStr);
-	
+
 	xi.freeMem(str);
 	return result;
 }

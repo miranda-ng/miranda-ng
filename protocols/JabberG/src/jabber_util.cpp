@@ -1552,8 +1552,33 @@ BOOL CJabberProto::EnterString(TCHAR *result, size_t resultLen, TCHAR *caption, 
 	return bRetVal;
 }
 
+// XEP-0203 delay support
+void JabberReadXep203delay(HXML node, time_t &msgTime)
+{
+	HXML n = xmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
+	if (n == NULL)
+		return;
+
+	const TCHAR *ptszTimeStamp = xmlGetAttrValue(n, _T("stamp"));
+	if (ptszTimeStamp == NULL)
+		return;
+
+	// skip '-' chars
+	TCHAR* szStamp = NEWTSTR_ALLOCA(ptszTimeStamp);
+	int si = 0, sj = 0;
+	while (1) {
+		if (szStamp[si] == _T('-'))
+			si++;
+		else
+			if ( !(szStamp[sj++] = szStamp[si++]))
+				break;
+	};
+	msgTime = JabberIsoToUnixTime(szStamp);
+}
+
 ////////////////////////////////////////////////////////////////////////
 // Premultiply bitmap channels for 32-bit bitmaps
+
 void JabberBitmapPremultiplyChannels(HBITMAP hBitmap)
 {
 	BITMAP bmp;
