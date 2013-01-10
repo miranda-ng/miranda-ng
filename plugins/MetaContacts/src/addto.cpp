@@ -67,19 +67,20 @@ int FillList(HWND list, BOOL sort)
 		if (_tcslen(swzContactDisplayName) > 1023)
 			swzContactDisplayName[1024] = 0;
 
-		int index;
+		int pos = -1;
 		if (sort) {
+			pos = 0;
 			for (int j = 0; j < i; j++) {
 				TCHAR buff[1024];
 				SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
 				if ( _tcscmp(buff, swzContactDisplayName) > 0) {
-					index = SendMessage(list, LB_INSERTSTRING, j, (LPARAM)swzContactDisplayName);
+					pos = j;
 					break;
 				}
 			}
 		}
-		else index = SendMessage(list, LB_INSERTSTRING, (WPARAM)-1, (LPARAM)swzContactDisplayName);
 
+		int index = SendMessage(list, LB_INSERTSTRING, (WPARAM)pos, (LPARAM)swzContactDisplayName);
 		SendMessage(list, LB_SETITEMDATA, index, (LPARAM)hMetaUser);
 
 		i++;
