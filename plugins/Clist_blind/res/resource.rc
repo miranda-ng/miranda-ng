@@ -247,7 +247,7 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,22,63,142,10
     CONTROL         "Right click opens status menu",IDC_RIGHTSTATUS,"Button",
                     BS_AUTORADIOBUTTON,22,160,142,10
-    CONTROL         "Right click opens Miranda IM menu",IDC_RIGHTMIRANDA,
+    CONTROL         "Right click opens Miranda NG menu",IDC_RIGHTMIRANDA,
                     "Button",BS_AUTORADIOBUTTON,22,147,142,10
     CONTROL         "Make sections equal width",IDC_EQUALSECTIONS,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,22,78,142,10
