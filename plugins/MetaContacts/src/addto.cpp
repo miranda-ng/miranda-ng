@@ -69,12 +69,10 @@ int FillList(HWND list, BOOL sort)
 
 		int pos = -1;
 		if (sort) {
-			pos = 0;
-			for (int j = 0; j < i; j++) {
+			for (pos = 0; pos < i; pos++) {
 				TCHAR buff[1024];
-				SendMessage(list, LB_GETTEXT, j, (LPARAM)buff);
+				SendMessage(list, LB_GETTEXT, pos, (LPARAM)buff);
 				if ( _tcscmp(buff, swzContactDisplayName) > 0) {
-					pos = j;
 					break;
 				}
 			}
