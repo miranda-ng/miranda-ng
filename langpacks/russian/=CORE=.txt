@@ -1378,7 +1378,7 @@ URL от %s
 [You are visible to this person even when in invisible mode]
 Вы всегда видимы для этого человека
 [You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Здесь вы можете выбрать драйвер базы данных. Если вы не уверены какой следует выбрать - используйте драйвер по умолчанию.
+Выбор драйвера базы данных. Если вы не уверены какой следует выбрать - используйте драйвер по умолчанию.
 [You haven't filled in the search field. Please enter a search term and try again.]
 Вы не заполнили поле для поиска. Пожалуйста, введите запрос для поиска и попробуйте ещё раз.
 [You need an image services plugin to process PNG images.]
