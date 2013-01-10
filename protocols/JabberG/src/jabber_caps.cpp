@@ -395,7 +395,7 @@ JabberCapsBits CJabberProto::GetResourceCapabilites(const TCHAR *jid, BOOL appen
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
-//  CJabberClientPartialCaps class members
+//  CJabberClientPartialCaps class
 
 CJabberClientPartialCaps::CJabberClientPartialCaps(const TCHAR *szVer)
 {
@@ -467,6 +467,9 @@ CJabberClientPartialCaps* CJabberClientCaps::FindById(int nIqId)
 	return pCaps;
 }
 
+/////////////////////////////////////////////////////////////////////////////////////////
+// CJabberClientCaps class
+
 CJabberClientCaps::CJabberClientCaps(const TCHAR *szNode)
 {
 	m_szNode = mir_tstrdup(szNode);
@@ -489,14 +492,14 @@ CJabberClientCaps* CJabberClientCaps::SetNext(CJabberClientCaps *pClient)
 	return pRetVal;
 }
 
-JabberCapsBits CJabberClientCaps::GetPartialCaps(TCHAR *szVer) {
+JabberCapsBits CJabberClientCaps::GetPartialCaps(TCHAR *szVer)
+{
 	CJabberClientPartialCaps *pCaps = FindByVersion(szVer);
-	if ( !pCaps)
-		return JABBER_RESOURCE_CAPS_UNINIT;
-	return pCaps->GetCaps();
+	return (pCaps) ? pCaps->GetCaps() : JABBER_RESOURCE_CAPS_UNINIT;
 }
 
-BOOL CJabberClientCaps::SetPartialCaps(const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId /*= -1*/) {
+BOOL CJabberClientCaps::SetPartialCaps(const TCHAR *szVer, JabberCapsBits jcbCaps, int nIqId /*= -1*/)
+{
 	CJabberClientPartialCaps *pCaps = FindByVersion(szVer);
 	if ( !pCaps) {
 		pCaps = new CJabberClientPartialCaps(szVer);
@@ -505,25 +508,23 @@ BOOL CJabberClientCaps::SetPartialCaps(const TCHAR *szVer, JabberCapsBits jcbCap
 		pCaps->SetNext(m_pCaps);
 		m_pCaps = pCaps;
 	}
-	if ( !(jcbCaps & JABBER_RESOURCE_CAPS_ERROR) && m_szNode && szVer) {
-		if ( !_tcscmp(m_szNode, _T("http://miranda-im.org/caps")) && !_tcscmp(szVer, _T("0.7.0.13")))
-			jcbCaps = jcbCaps & (~JABBER_CAPS_MESSAGE_RECEIPTS);
-	}
+
 	pCaps->SetCaps(jcbCaps, nIqId);
 	return TRUE;
 }
 
-BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps) {
+BOOL CJabberClientCaps::SetPartialCaps(int nIqId, JabberCapsBits jcbCaps)
+{
 	CJabberClientPartialCaps *pCaps = FindById(nIqId);
 	if ( !pCaps)
 		return FALSE;
-	if ( !(jcbCaps & JABBER_RESOURCE_CAPS_ERROR) && m_szNode && pCaps->GetVersion()) {
-		if ( !_tcscmp(m_szNode, _T("http://miranda-im.org/caps")) && !_tcscmp(pCaps->GetVersion(), _T("0.7.0.13")))
-			jcbCaps = jcbCaps & (~JABBER_CAPS_MESSAGE_RECEIPTS);
-	}
+
 	pCaps->SetCaps(jcbCaps, -1);
 	return TRUE;
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// CJabberClientCapsManager class
 
 CJabberClientCapsManager::CJabberClientCapsManager(CJabberProto* proto)
 {
@@ -553,7 +554,8 @@ CJabberClientCaps * CJabberClientCapsManager::FindClient(const TCHAR *szNode)
 	return pClient;
 }
 
-void CJabberClientCapsManager::AddDefaultCaps() {
+void CJabberClientCapsManager::AddDefaultCaps()
+{
 	SetClientCaps(_T(JABBER_CAPS_MIRANDA_NODE), szCoreVersion, JABBER_CAPS_MIRANDA_ALL);
 
 	for (int i = 0; g_JabberFeatCapPairsExt[i].szFeature; i++)

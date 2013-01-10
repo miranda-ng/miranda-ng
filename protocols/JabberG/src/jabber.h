@@ -756,7 +756,7 @@ void JabberCopyText(HWND hwnd, TCHAR *text);
 void JabberBitmapPremultiplyChannels(HBITMAP hBitmap);
 CJabberProto *JabberChooseInstance(bool bIsLink=false);
 
-void JabberReadXep203delay(HXML node, time_t &msgTime);
+bool JabberReadXep203delay(HXML node, time_t &msgTime);
 
 //---- jabber_xml.cpp -------------------------------------------------------------------
 

@@ -1553,15 +1553,15 @@ BOOL CJabberProto::EnterString(TCHAR *result, size_t resultLen, TCHAR *caption, 
 }
 
 // XEP-0203 delay support
-void JabberReadXep203delay(HXML node, time_t &msgTime)
+bool JabberReadXep203delay(HXML node, time_t &msgTime)
 {
 	HXML n = xmlGetChildByTag(node, "delay", "xmlns", _T("urn:xmpp:delay"));
 	if (n == NULL)
-		return;
+		return false;
 
 	const TCHAR *ptszTimeStamp = xmlGetAttrValue(n, _T("stamp"));
 	if (ptszTimeStamp == NULL)
-		return;
+		return false;
 
 	// skip '-' chars
 	TCHAR* szStamp = NEWTSTR_ALLOCA(ptszTimeStamp);
@@ -1574,6 +1574,7 @@ void JabberReadXep203delay(HXML node, time_t &msgTime)
 				break;
 	};
 	msgTime = JabberIsoToUnixTime(szStamp);
+	return msgTime != 0;
 }
 
 ////////////////////////////////////////////////////////////////////////

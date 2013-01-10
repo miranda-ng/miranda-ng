@@ -1236,13 +1236,11 @@ void CJabberProto::GroupchatProcessMessage(HXML node)
 	GcLogCreate(item);
 
 	time_t msgTime = 0;
-	for (int i = 1; (xNode = xmlGetNthChild(node, _T("x"), i)) != NULL; i++)
-		if ((p = xmlGetAttrValue(xNode, _T("xmlns"))) != NULL)
-			if (!_tcscmp(p, _T("jabber:x:delay")) && !msgTime)
-				if ((p = xmlGetAttrValue(xNode, _T("stamp"))) != NULL)
-					msgTime = JabberIsoToUnixTime(p);
-	if (!msgTime)
-		JabberReadXep203delay(xNode, msgTime);
+	if ( !JabberReadXep203delay(node, msgTime)) {
+		HXML xDelay = xmlGetChildByTag(node, "x", "xmlns", _T("jabber:x:delay"));
+		if (xDelay && (p = xmlGetAttrValue(xDelay, _T("stamp"))) != NULL)
+			msgTime = JabberIsoToUnixTime(p);
+	}
 
 	time_t now = time(NULL);
 	if (!msgTime || msgTime > now)
