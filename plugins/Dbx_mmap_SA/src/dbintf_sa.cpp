@@ -27,19 +27,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 #define MoveAlong(n)   {int x=n; pBlob+=(x); ofsBlobPtr+=(x); bytesRemaining-=(x);}
 #define VLT(n) ((n==DBVT_UTF8)?DBVT_ASCIIZ:n)
 
-extern CDdxMmapSA* g_Db;
-
-int  InitDialogs(void);
-
 DBSignature dbSignatureSecured = {"Miranda ICQ SD",0x1A};
 DBSignature dbSignatureNonSecured = {"Miranda ICQ SA",0x1A};
 
-CDdxMmapSA::CDdxMmapSA(const TCHAR* tszFileName) :
+CDbxMmapSA::CDbxMmapSA(const TCHAR* tszFileName) :
 	CDb3Mmap(tszFileName)
 {
 }
 
-int CDdxMmapSA::Load(bool bSkipInit)
+int CDbxMmapSA::Load(bool bSkipInit)
 {
 	if ( CDb3Mmap::Load(bSkipInit) != ERROR_SUCCESS)
 		return 1;
@@ -52,7 +48,6 @@ int CDdxMmapSA::Load(bool bSkipInit)
 		if (!p)
 			return 1;
 
-		g_Db = this;
 		if (m_bEncoding && !CheckPassword( LOWORD(m_dbHeader.version), p+1))
 			return 1;
 
@@ -62,7 +57,7 @@ int CDdxMmapSA::Load(bool bSkipInit)
 	return 0;
 }
 
-int CDdxMmapSA::CheckDbHeaders()
+int CDbxMmapSA::CheckDbHeaders()
 {
 	if ( memcmp(m_dbHeader.signature, &dbSignatureSecured, sizeof(m_dbHeader.signature)) == 0)
 		m_bEncoding = true;
@@ -88,7 +83,7 @@ static DWORD __inline GetSettingValueLength(PBYTE pSetting)
 	return pSetting[0];
 }
 
-void CDdxMmapSA::EncodeContactSettings(HANDLE hContact)
+void CDbxMmapSA::EncodeContactSettings(HANDLE hContact)
 {
 	if (!hContact)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
@@ -146,7 +141,7 @@ void CDdxMmapSA::EncodeContactSettings(HANDLE hContact)
 	}
 }
 
-void CDdxMmapSA::DecodeContactSettings(HANDLE hContact)
+void CDbxMmapSA::DecodeContactSettings(HANDLE hContact)
 {
 	if (!hContact)
 		hContact = (HANDLE)m_dbHeader.ofsUser;
@@ -204,21 +199,21 @@ void CDdxMmapSA::DecodeContactSettings(HANDLE hContact)
 	}
 }
 
-void CDdxMmapSA::EncodeEvent(HANDLE hEvent)
+void CDbxMmapSA::EncodeEvent(HANDLE hEvent)
 {
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature = DBEVENT_SIGNATURE)
 		CryptoEngine->EncryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent,blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
 }
 
-void CDdxMmapSA::DecodeEvent(HANDLE hEvent)
+void CDbxMmapSA::DecodeEvent(HANDLE hEvent)
 {
 	DBEvent *dbe = (DBEvent*)DBRead((DWORD)hEvent,sizeof(DBEvent),NULL);
 	if (dbe->signature = DBEVENT_SIGNATURE)
 		CryptoEngine->DecryptMem(DBRead((DWORD)hEvent + offsetof(DBEvent,blob), dbe->cbBlob, NULL), dbe->cbBlob, key);
 }
 
-void CDdxMmapSA::EncodeContactEvents(HANDLE hContact)
+void CDbxMmapSA::EncodeContactEvents(HANDLE hContact)
 {
 	HANDLE hEvent = FindFirstEvent(hContact);
 	while (hEvent != 0) {
@@ -227,7 +222,7 @@ void CDdxMmapSA::EncodeContactEvents(HANDLE hContact)
 	}
 }
 
-void CDdxMmapSA::DecodeContactEvents(HANDLE hContact)
+void CDbxMmapSA::DecodeContactEvents(HANDLE hContact)
 {
 	HANDLE hEvent = FindFirstEvent(hContact);
 	while (hEvent != 0) {
@@ -236,7 +231,7 @@ void CDdxMmapSA::DecodeContactEvents(HANDLE hContact)
 	}
 }
 
-int CDdxMmapSA::WorkInitialCheckHeaders(void)
+int CDbxMmapSA::WorkInitialCheckHeaders(void)
 {
 	if (m_bEncoding) {
 		cb->pfnAddLogMessage(STATUS_SUCCESS,TranslateT("Database is Secured MMAP database"));
@@ -245,7 +240,6 @@ int CDdxMmapSA::WorkInitialCheckHeaders(void)
 		if (!p)
 			return ERROR_BAD_FORMAT;
 
-		g_Db = this;
 		if (!CheckPassword( LOWORD(m_dbHeader.version), p+1)) {
 			cb->pfnAddLogMessage(STATUS_FATAL,TranslateT("You are not authorized for access to Database"));
 			return ERROR_BAD_FORMAT;

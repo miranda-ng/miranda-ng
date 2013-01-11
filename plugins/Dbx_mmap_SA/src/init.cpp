@@ -44,14 +44,14 @@ PLUGININFOEX pluginInfo = {
 	{ 0x28ff9b91, 0x3e4d, 0x4f1c, { 0xb4, 0x7c, 0xc6, 0x41, 0xb0, 0x37, 0xff, 0x40 } }
 };
 
-LIST<CDdxMmapSA> g_Dbs(1, (LIST<CDdxMmapSA>::FTSortFunc)HandleKeySort);
+LIST<CDbxMmapSA> g_Dbs(1, (LIST<CDbxMmapSA>::FTSortFunc)HandleKeySort);
 
 /////////////////////////////////////////////////////////////////////////////////////////
 
 // returns 0 if the profile is created, EMKPRF*
 static int makeDatabase(const TCHAR *profile)
 {
-	std::auto_ptr<CDdxMmapSA> db( new CDdxMmapSA(profile));
+	std::auto_ptr<CDbxMmapSA> db( new CDbxMmapSA(profile));
 	if (db->Create() == ERROR_SUCCESS) {
 		db->CreateDbHeaders(dbSignatureNonSecured);
 		return 0;
@@ -63,7 +63,7 @@ static int makeDatabase(const TCHAR *profile)
 // returns 0 if the given profile has a valid header
 static int grokHeader(const TCHAR *profile)
 {
-	std::auto_ptr<CDdxMmapSA> db( new CDdxMmapSA(profile));
+	std::auto_ptr<CDbxMmapSA> db( new CDbxMmapSA(profile));
 	if (db->Load(true) != ERROR_SUCCESS)
 		return EGROKPRF_CANTREAD;
 
@@ -76,7 +76,7 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 	// set the memory, lists & UTF8 manager
 	mir_getLP( &pluginInfo );
 
-	std::auto_ptr<CDdxMmapSA> db( new CDdxMmapSA(profile));
+	std::auto_ptr<CDbxMmapSA> db( new CDbxMmapSA(profile));
 	if (db->Load(false) != ERROR_SUCCESS)
 		return NULL;
 
@@ -86,14 +86,14 @@ static MIDatabase* LoadDatabase(const TCHAR *profile)
 
 static int UnloadDatabase(MIDatabase* db)
 {
-	g_Dbs.remove((CDdxMmapSA*)db);
-	delete (CDdxMmapSA*)db;
+	g_Dbs.remove((CDbxMmapSA*)db);
+	delete (CDbxMmapSA*)db;
 	return 0;
 }
 
 MIDatabaseChecker* CheckDb(const TCHAR* profile, int *error)
 {
-	std::auto_ptr<CDdxMmapSA> db( new CDdxMmapSA(profile));
+	std::auto_ptr<CDbxMmapSA> db( new CDbxMmapSA(profile));
 	if (db->Load(true) != ERROR_SUCCESS) {
 		*error = EGROKPRF_CANTREAD;
 		return NULL;

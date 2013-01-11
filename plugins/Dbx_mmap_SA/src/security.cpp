@@ -57,7 +57,7 @@ void UnloadSecurity()
 	arCryptors.destroy();
 }
 
-void CDdxMmapSA::EncoderInit()
+void CDbxMmapSA::EncoderInit()
 {
 	if (!m_bEncoding) return;
 
@@ -65,7 +65,7 @@ void CDdxMmapSA::EncoderInit()
 	key = CryptoEngine->GenerateKey(encryptKey);
 }
 
-void CDdxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
+void CDbxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 
@@ -75,7 +75,7 @@ void CDdxMmapSA::EncodeCopyMemory(void * dst, void * src, size_t size )
 	CryptoEngine->EncryptMem((BYTE *)dst, (int)size, key);
 }
 
-void CDdxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
+void CDbxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 {
 	memcpy(dst, src, size);
 
@@ -85,7 +85,7 @@ void CDdxMmapSA::DecodeCopyMemory(void * dst, void * src, size_t size )
 	CryptoEngine->DecryptMem((BYTE *)dst, (int)size, key);
 }
 
-void CDdxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
+void CDbxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
 {
 	if (m_bEncoding)
 	{
@@ -102,7 +102,7 @@ void CDdxMmapSA::EncodeDBWrite(DWORD ofs, void *src, int size)
 	}
 }
 
-void CDdxMmapSA::DecodeDBWrite(DWORD ofs, void *src, int size)
+void CDbxMmapSA::DecodeDBWrite(DWORD ofs, void *src, int size)
 {
 	if (m_bEncoding) {
 		BYTE *buf = (BYTE*)GlobalAlloc(GPTR, sizeof(BYTE)*size);
@@ -115,7 +115,7 @@ void CDdxMmapSA::DecodeDBWrite(DWORD ofs, void *src, int size)
 
 int bCheckingPass = 0;
 
-int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
+int CDbxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 {
 	if (bCheckingPass)
 		return 0;
@@ -137,7 +137,8 @@ int CDdxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 	}
 
 	while(1) {
-		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, DlgStdInProc, (LPARAM)szDBName);
+		DlgStdInProcParam param = { this, szDBName };
+		int res = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_LOGIN), NULL, DlgStdInProc, (LPARAM)&param);
 		if (res == IDCANCEL) {
 			wrongPass = 0;
 			bCheckingPass = 0;
@@ -197,7 +198,7 @@ int SelectEncoder()
 	return 0;
 }
 
-void CDdxMmapSA::EncodeAll()
+void CDbxMmapSA::EncodeAll()
 {
 	HANDLE hContact;
 
@@ -214,7 +215,7 @@ void CDdxMmapSA::EncodeAll()
 	EncodeContactSettings(NULL);
 }
 
-void CDdxMmapSA::DecodeAll()
+void CDbxMmapSA::DecodeAll()
 {
 	HANDLE hContact;
 
@@ -229,7 +230,7 @@ void CDdxMmapSA::DecodeAll()
 	DecodeContactSettings(NULL);
 }
 
-void CDdxMmapSA::WritePlainHeader()
+void CDbxMmapSA::WritePlainHeader()
 {
 	DWORD bytesWritten;
 
@@ -241,7 +242,7 @@ void CDdxMmapSA::WritePlainHeader()
 	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
 }
 
-void CDdxMmapSA::WriteCryptHeader()
+void CDbxMmapSA::WriteCryptHeader()
 {
 	DWORD bytesWritten;
 
@@ -255,7 +256,7 @@ void CDdxMmapSA::WriteCryptHeader()
 	WriteFile(m_hDbFile,&m_dbHeader.version, sizeof(m_dbHeader.version),&bytesWritten,NULL);
 }
 
-void CDdxMmapSA::EncryptDB()
+void CDbxMmapSA::EncryptDB()
 {
 	int action = 0;
 	if (bEncProcess)
@@ -272,7 +273,7 @@ void CDdxMmapSA::EncryptDB()
 
 	bEncProcess = 1;
 
-	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, 0);
+	action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_NEWPASS), NULL, DlgStdNewPass, (LPARAM)this);
 	if (action != IDOK || !strlen(encryptKey)) {
 		bEncProcess = 0;
 		db_set_b(NULL, "SecureMMAP", "CryptoModule", 0);
@@ -295,7 +296,7 @@ void CDdxMmapSA::EncryptDB()
 	bEncProcess = 0;
 }
 
-void CDdxMmapSA::DecryptDB()
+void CDbxMmapSA::DecryptDB()
 {
 	char oldKey[255];
 	strcpy(oldKey, encryptKey);
@@ -325,7 +326,7 @@ void CDdxMmapSA::DecryptDB()
 	CryptoEngine = NULL;
 }
 
-void CDdxMmapSA::RecryptDB()
+void CDbxMmapSA::RecryptDB()
 {
 	EnterCriticalSection(&m_csDbAccess);
 
@@ -346,11 +347,12 @@ void CDdxMmapSA::RecryptDB()
 	LeaveCriticalSection(&m_csDbAccess);
 }
 
-void CDdxMmapSA::ChangePwd()
+void CDbxMmapSA::ChangePwd()
 {
 	char newpass[255] = {0};
 
-	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)newpass);
+	DlgChangePassParam param = { this, newpass };
+	int action = DialogBoxParam(g_hInst, MAKEINTRESOURCE(IDD_CHANGEPASS), NULL, DlgChangePass, (LPARAM)&param);
 
 	if (action == IDCANCEL || (action == IDOK && !strlen(newpass)))
 		return;

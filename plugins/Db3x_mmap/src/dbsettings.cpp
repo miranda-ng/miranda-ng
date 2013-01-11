@@ -328,7 +328,7 @@ STDMETHODIMP_(BOOL) CDb3Base::FreeVariant(DBVARIANT *dbv)
 
 STDMETHODIMP_(BOOL) CDb3Base::SetSettingResident(BOOL bIsResident, const char *pszSettingName)
 {
-	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, strlen(pszSettingName));
+	char *szSetting = m_cache->GetCachedSetting(NULL, pszSettingName, 0, (int)strlen(pszSettingName));
 	szSetting[-1] = (char)bIsResident;
 
 	mir_cslock lck(m_csDbAccess);

@@ -8,7 +8,6 @@
 
 extern LIST<CryptoModule> arCryptors;
 
-CDdxMmapSA* g_Db;
 HANDLE hSetPwdMenu;
 
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -43,7 +42,7 @@ BOOL IsDlgItemEnabled(HWND hwndDlg, int iIDCtrl)
 	return IsWindowEnabled(hwndCtrl);
 }
 
-static int OptionsInit(WPARAM wParam, LPARAM lParam)
+static int OptionsInit(void *obj, WPARAM wParam, LPARAM lParam)
 {
 	OPTIONSDIALOGPAGE odp = { 0 };
 	odp.cbSize = sizeof(odp);
@@ -54,16 +53,19 @@ static int OptionsInit(WPARAM wParam, LPARAM lParam)
 	odp.ptszTitle = LPGENT("Database Features");
 	odp.ptszGroup = LPGENT("Database");
 	odp.pfnDlgProc = DlgProcOptions;
+	odp.dwInitParam = (LPARAM)obj;
 	Options_AddPage(wParam, &odp);
 	return 0;
 }
 
-INT_PTR ChangePassword(WPARAM wParam, LPARAM lParam)
+INT_PTR ChangePassword(void* obj, LPARAM wParam, LPARAM lParam)
 {
-	if (g_Db->m_bEncoding)
-		g_Db->ChangePwd();
+	CDbxMmapSA *p = (CDbxMmapSA*)obj;
+
+	if (p->m_bEncoding)
+		p->ChangePwd();
 	else
-		g_Db->EncryptDB();
+		p->EncryptDB();
 
 	return 0;
 }
@@ -86,9 +88,11 @@ static IconItem iconList[] =
 	{ LPGEN("Change Password"), "password", IDI_ICON3 }
 };
 
-int InitMenus(WPARAM, LPARAM)
+int InitMenus(void *obj, WPARAM, LPARAM)
 {
-	HookEvent(ME_OPT_INITIALISE, OptionsInit);
+	CDbxMmapSA *p = (CDbxMmapSA*)obj;
+
+	HookEventObj(ME_OPT_INITIALISE, OptionsInit, obj);
 
 	Icon_Register(g_hInst, LPGEN("Database"), iconList, SIZEOF(iconList));
 
@@ -96,7 +100,7 @@ int InitMenus(WPARAM, LPARAM)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 	mi.icolibItem = iconList[1].hIcolib;
-	mi.ptszName = (g_Db->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
+	mi.ptszName = (p->m_bEncoding) ? LPGENT("Change password") : LPGENT("Set password");
 	mi.ptszPopupName = LPGENT("Database");
 	mi.pszService = MS_DB_CHANGEPASSWORD;
 	mi.position = 500100000;
@@ -104,11 +108,10 @@ int InitMenus(WPARAM, LPARAM)
 	return 0;
 }
 
-int InitDialogs()
+void CDbxMmapSA::InitDialogs()
 {
-	HookEvent(ME_SYSTEM_MODULESLOADED, InitMenus);
-	CreateServiceFunction(MS_DB_CHANGEPASSWORD, ChangePassword);
-	return 0;
+	HookEventObj(ME_SYSTEM_MODULESLOADED, InitMenus, this);
+	CreateServiceFunctionObj(MS_DB_CHANGEPASSWORD, ChangePassword, this);
 }
 
 int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, char* name)
@@ -121,6 +124,7 @@ int ImageList_AddIcon_IconLibLoaded(HIMAGELIST hIml, char* name)
 INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	HWND hwndList = GetDlgItem(hwndDlg, IDC_MODULES);
+	CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 	LVCOLUMN col;
 	LVITEM item;
 	int i, iRow, iIndex;
@@ -132,6 +136,8 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 	case WM_INITDIALOG:
 		hIml = ImageList_Create(16, 16, ILC_MASK | (IsWinVerXPPlus()? ILC_COLOR32 : ILC_COLOR16), 2, 0);
 		TranslateDialogDefault( hwndDlg );
+		SetWindowLongPtr(hwndDlg, GWLP_USERDATA, lParam);
+		p_Db = (CDbxMmapSA*)lParam;
 
 		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_29" );
 		ImageList_AddIcon_IconLibLoaded( hIml, "core_main_30" );
@@ -176,13 +182,13 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			mir_sntprintf(buf,SIZEOF(buf),_T("%d.%d.%d.%d"), HIBYTE(HIWORD(arCryptors[i]->cryptor->Version)), LOBYTE(HIWORD(arCryptors[i]->cryptor->Version)), HIBYTE(LOWORD(arCryptors[i]->cryptor->Version)), LOBYTE(LOWORD(arCryptors[i]->cryptor->Version)));
 			ListView_SetItemText(hwndList, iRow, 3, buf);
 
-			if (uid == arCryptors[i]->cryptor->uid && g_Db->m_bEncoding)
+			if (uid == arCryptors[i]->cryptor->uid && p_Db->m_bEncoding)
 				ListView_SetCheckState(hwndList, i, 1);
 
 			item.mask = LVIF_IMAGE;
 			item.iItem = iRow;
 			item.iSubItem = 0;
-			item.iImage = ( CryptoEngine == arCryptors[i]->cryptor && g_Db->m_bEncoding ) ? 0 : 1;
+			item.iImage = ( CryptoEngine == arCryptors[i]->cryptor && p_Db->m_bEncoding ) ? 0 : 1;
 			ListView_SetItem( hwndList, &item );
 		}
 
@@ -254,30 +260,30 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			}
 
 			if (alg > -1){
-				if (!g_Db->m_bEncoding){
+				if (!p_Db->m_bEncoding){
 					DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
-					g_Db->EncryptDB();
+					p_Db->EncryptDB();
 				}
 				else {
 					if (arCryptors[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
 						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
-						g_Db->RecryptDB();
+						p_Db->RecryptDB();
 					}
 				}
 			}
-			else if (g_Db->m_bEncoding)
-				g_Db->DecryptDB();
+			else if (p_Db->m_bEncoding)
+				p_Db->DecryptDB();
 
 			uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
 
 			for (i = 0; i < arCryptors.getCount(); i++) {
-				if (uid == arCryptors[i]->cryptor->uid && g_Db->m_bEncoding)
+				if (uid == arCryptors[i]->cryptor->uid && p_Db->m_bEncoding)
 					ListView_SetCheckState(hwndList, i, 1);
 
 				item.mask = LVIF_IMAGE;
 				item.iItem = i;
 				item.iSubItem = 0;
-				item.iImage = ( CryptoEngine == arCryptors[i]->cryptor && g_Db->m_bEncoding ) ? 0 : 1;
+				item.iImage = ( CryptoEngine == arCryptors[i]->cryptor && p_Db->m_bEncoding ) ? 0 : 1;
 
 				ListView_SetItem( hwndList, &item );
 			}
@@ -310,29 +316,32 @@ extern BOOL wrongPass;
 
 INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	HICON hIcon = 0;
 	TCHAR tszHeaderTxt[256];
 
 	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
+		{
+			HICON hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
+			SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
 
-		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+			DlgStdInProcParam *param = (DlgStdInProcParam*)lParam;
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)param->p_Db);
 
-		if (!wrongPass) {
-			mir_sntprintf(tszHeaderTxt, SIZEOF(tszHeaderTxt), _T("%s\n%s"), TranslateT("Please type in your password for"), (TCHAR*)lParam);
-			SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), tszHeaderTxt);
-		}
-		else {
-			if (wrongPass > 2) {
-				HWND hwndCtrl = GetDlgItem(hDlg, IDC_USERPASS);
-				EnableWindow(hwndCtrl, FALSE);
-				hwndCtrl = GetDlgItem(hDlg, IDOK);
-				EnableWindow(hwndCtrl, FALSE);
-				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
+			if (!wrongPass) {
+				mir_sntprintf(tszHeaderTxt, SIZEOF(tszHeaderTxt), _T("%s\n%s"), TranslateT("Please type in your password for"), param->pStr);
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), tszHeaderTxt);
 			}
-			else SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
+			else {
+				if (wrongPass > 2) {
+					HWND hwndCtrl = GetDlgItem(hDlg, IDC_USERPASS);
+					EnableWindow(hwndCtrl, FALSE);
+					hwndCtrl = GetDlgItem(hDlg, IDOK);
+					EnableWindow(hwndCtrl, FALSE);
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Too many errors!"));
+				}
+				else SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is not correct!"));
+			}
 		}
 		oldLangID = 0;
 		SetTimer(hDlg,1,200,NULL);
@@ -351,7 +360,8 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		switch( LOWORD(wParam)) {
 		case IDOK:
 			if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
-				g_Db->encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, g_Db->encryptKey, 254);
+				CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+				p_Db->encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, p_Db->encryptKey, 254);
 				EndDialog(hDlg,IDOK);
 			}
 			break;
@@ -367,7 +377,7 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case WM_DESTROY:
 		KillTimer(hDlg, 1);
-		DestroyIcon(hIcon);
+		DestroyIcon((HICON)SendMessage(hDlg, WM_GETICON, ICON_SMALL, 0));
 	}
 
 	return FALSE;
@@ -375,14 +385,12 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	HICON hIcon = 0;
-
 	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
+		SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)lParam);
 
-		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, ICON_SMALL, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2)));
 
 		SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Please enter your new password"));
 
@@ -404,6 +412,7 @@ INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 			UINT uid = LOWORD(wParam);
 			if (uid == IDOK) {
 				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
+					CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 					char pass1[255], pass2[255];
 					if (GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
 						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
@@ -414,8 +423,8 @@ INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 					else {
 						GetDlgItemTextA(hDlg, IDC_USERPASS2, pass2, 254);
 						if (!strcmp(pass1, pass2)) {
-							g_Db->encryptKeyLength = strlen(pass1);
-							strcpy(g_Db->encryptKey, pass1);
+							p_Db->encryptKeyLength = strlen(pass1);
+							strcpy(p_Db->encryptKey, pass1);
 							EndDialog(hDlg,IDOK);
 						}
 						else {
@@ -438,31 +447,31 @@ INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case WM_DESTROY:
 		KillTimer(hDlg, 1);
-		DestroyIcon(hIcon);
+		DestroyIcon((HICON)SendMessage(hDlg, WM_GETICON, ICON_SMALL, 0));
 		return FALSE;
 	}
 	return FALSE;
 }
 
-char* newPass;
-
 INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 {
-	HICON hIcon = 0;
+	static char* newPass;
+	CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
 
 	switch(uMsg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hDlg);
 
-		hIcon = LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2));
-		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)hIcon);
+		SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_SETICON, 0, (LPARAM)LoadIcon(g_hInst, MAKEINTRESOURCE(IDI_ICON2)));
 		SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Change password"));
-
-		newPass = (char*)lParam;
+		{
+			DlgChangePassParam *param = (DlgChangePassParam*)lParam;
+			newPass = param->pszNewPass;
+			SetWindowLongPtr(hDlg, GWLP_USERDATA, (LPARAM)param->p_Db);
+		}
 		oldLangID = 0;
 		SetTimer(hDlg,1,200,NULL);
 		LanguageChanged(hDlg);
-
 		return TRUE;
 
 	case WM_CTLCOLORSTATIC:
@@ -475,45 +484,45 @@ INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		return FALSE;
 
 	case WM_COMMAND:
-		{
-			UINT uid = LOWORD(wParam);
-			if (uid == IDOK) {
-				char pass1[255], pass2[255], oldpass[255];
-				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-				if (strcmp(oldpass, g_Db->encryptKey)) {
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
-					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-					break;
-				}
-				if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
-					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+		switch( LOWORD(wParam)) {
+		char pass1[255], pass2[255], oldpass[255];
+		case IDOK:
+			GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
+			if (strcmp(oldpass, p_Db->encryptKey)) {
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
+				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+				break;
+			}
+			if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
+				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 
+			}
+			else {
+				GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
+				if (!strcmp(pass1, pass2)) {
+					strcpy(newPass, pass1);
+					EndDialog(hDlg,IDOK);
 				}
 				else {
-					GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
-					if (!strcmp(pass1, pass2)) {
-						strcpy(newPass, pass1);
-						EndDialog(hDlg,IDOK);
-					}
-					else {
-						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
-						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-					}
-				}
-			}
-			else if (uid == IDCANCEL)
-				EndDialog(hDlg,IDCANCEL);
-			else if (uid == IDREMOVE) {
-				char oldpass[255];
-				GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
-				if (strcmp(oldpass, g_Db->encryptKey)) {
-					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
 					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-					break;
 				}
-				EndDialog(hDlg, IDREMOVE);
 			}
+			break;
+
+		case IDCANCEL:
+			EndDialog(hDlg,IDCANCEL);
+			break;
+
+		case IDREMOVE:
+			GetDlgItemTextA(hDlg, IDC_OLDPASS, oldpass, 254);
+			if (strcmp(oldpass, p_Db->encryptKey)) {
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Wrong password!"));
+				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+				break;
+			}
+			EndDialog(hDlg, IDREMOVE);
 		}
 		break;
 
@@ -523,6 +532,7 @@ INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case WM_DESTROY:
 		KillTimer(hDlg, 1);
+		DestroyIcon((HICON)SendMessage(hDlg, WM_GETICON, ICON_SMALL, 0));
 		return FALSE;
 	}
 	return FALSE;

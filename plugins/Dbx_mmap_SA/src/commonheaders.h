@@ -81,14 +81,26 @@ void DecodeCopyMemory(void * dst, void * src, size_t size );
 void EncodeDBWrite(DWORD ofs, void * src, size_t size);
 void DecodeDBWrite(DWORD ofs, void * src, size_t size);
 
+struct DlgStdInProcParam
+{
+	CDbxMmapSA *p_Db;
+	const TCHAR *pStr;
+};
 INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
-INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+
+struct DlgChangePassParam
+{
+	CDbxMmapSA *p_Db;
+	char *pszNewPass;
+};
 INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+
+INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
 
 extern DBSignature dbSignature, dbSignatureSecured, dbSignatureNonSecured;
 
-extern LIST<CDdxMmapSA> g_Dbs;
+extern LIST<CDbxMmapSA> g_Dbs;
 
 int InitPreset();
 void UninitPreset();

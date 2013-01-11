@@ -25,9 +25,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "..\Db3x_mmap\src\dbintf.h"
 
-struct CDdxMmapSA : public CDb3Mmap
+struct CDbxMmapSA : public CDb3Mmap
 {
-	CDdxMmapSA(const TCHAR* tszFileName);
+	CDbxMmapSA(const TCHAR* tszFileName);
 
 	int CheckPassword(WORD checkWord, TCHAR *szDBName);
 	int CheckDbHeaders(void);
@@ -70,4 +70,7 @@ protected:
 public:
 	char  encryptKey[255];
 	size_t encryptKeyLength;
+
+private:
+	void InitDialogs(void);
 };
