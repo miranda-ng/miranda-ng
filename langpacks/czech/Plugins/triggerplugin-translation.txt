@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  TriggerPlugin 0.0.0.12                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://www.cs.vu.nl/~pboon/projects.htm
 ;
 
@@ -13,22 +13,22 @@
 ; trigger_opt.c
 ;[Edit trigger]
 [Add new trigger]
-Pøidat novı spuštìè
+PÑˆidat novÑ spuÑ™tĞ¼Ğ¸
 ;[This trigger is invalidated by TriggerPlugin]
 [TriggerPlugin]
-Spouštìè
+SpouÑ™tĞ¼Ğ¸
 [<unknown trigger>]
-<neznámı spouštìè>
+<neznĞ±mÑ spouÑ™tĞ¼Ğ¸>
 [<unknown action>]
-<neznámá akce>
+<neznĞ±mĞ± akce>
 [Trigger]
-Spouštìè
+SpouÑ™tĞ¼Ğ¸
 [Action]
 Akce
 [<unkown trigger>]
-<neznámı spouštìè>
+<neznĞ±mÑ spouÑ™tĞ¼Ğ¸>
 [Triggers]
-Spouštìèe
+SpouÑ™tĞ¼Ğ¸e
 ;(DUP) [Plugins]
 
 ; act_mir_rstmsg_opts.c
@@ -51,7 +51,7 @@ Spouštìèe
 
 ; act_mir_setstatus_opts.c
 [Set custom status message]
-Zadat vlastní stavovou zprávu
+Zadat vlastnĞ½ stavovou zprĞ±vu
 
 ; act_mir_sound.c
 ;[disable sounds]
@@ -68,11 +68,11 @@ Zadat vlastní stavovou zprávu
 
 ; trg_mir_imsg.c
 [Any message]
-Jakákoli zpráva
+JakĞ±koli zprĞ±va
 [Message that contains]
-Zpráva obsahující
+ZprĞ±va obsahujĞ½cĞ½
 [Message that starts with]
-Zpráva zaèínající na
+ZprĞ±va zaĞ¸Ğ½najĞ½cĞ½ na
 ;[unknown]
 
 ; trg_sched_opts.c
@@ -91,28 +91,28 @@ Zpráva zaèínající na
 ;[Saturday]
 ;[Sunday]
 [Monthly on day]
-Kadı mìsíc kadého
+KaÑ›dÑ mĞ¼sĞ½c kaÑ›dĞ¹ho
 ;[Use Windows colours]
 [Use default text colour]
-Pouít vıchozí barvu textu
+PouÑ›Ğ½t vÑchozĞ½ barvu textu
 [Use default background colour]
-Pouít vıchozí barvu pozadí
+PouÑ›Ğ½t vÑchozĞ½ barvu pozadĞ½
 ;(LAI) [Tab1]
 ;(LAI) [List2]
 ;(LAI) [List3]
 [Use default status message]
-Pouít vıchozí stavovou zprávu
+PouÑ›Ğ½t vÑchozĞ½ stavovou zprĞ±vu
 [Disable all sounds]
-Vypnout všechny zvuky
+Vypnout vÑ™echny zvuky
 [Enable all sounds]
-Zapnout všechny zvuky
+Zapnout vÑ™echny zvuky
 ;[Play a sound]
 [If the message starts with]
-Pokud zpráva zaèíná na
+Pokud zprĞ±va zaĞ¸Ğ½nĞ± na
 [If the message contains]
-Pokud zprávu obsahuje
+Pokud zprĞ±vu obsahuje
 [Add to history]
-Pøidat do historie
+PÑˆidat do historie
 ;[Store at NULL Contact]
 ;[Store at the following contact]
 ;[Byte]
@@ -127,96 +127,96 @@ Pøidat do historie
 ;[...]
 ;[Time]
 [Trigger at the following time]
-Spustit v následujícím èase
+Spustit v nĞ±sledujĞ½cĞ½m Ğ¸ase
 ;[Background colour]
 ;[Text colour]
 [First Line]
-První øádek
+PrvnĞ½ ÑˆĞ±dek
 ;[Second Line]
 ;[Delay]
 ;[Description]
 [Trigger when the status of one the following protocols change]
-Spustit pøi zmìnì stavu nìkterého z následujících protokolù
+Spustit pÑˆi zmĞ¼nĞ¼ stavu nĞ¼kterĞ¹ho z nĞ±sledujĞ½cĞ½ch protokolÑ‰
 [When changing status from]
-Pøi zmìnì stavu z
+PÑˆi zmĞ¼nĞ¼ stavu z
 [And changing status to]
-A zmìnì stavu na
+A zmĞ¼nĞ¼ stavu na
 [Trigger when the following contacts change their status]
-Spustit akci tehdy, zmìní-li nìkterı z následujících kontaktù stav
+Spustit akci tehdy, zmĞ¼nĞ½-li nĞ¼kterÑ z nĞ±sledujĞ½cĞ½ch kontaktÑ‰ stav
 [Program to execute]
 Spustit program
 [Change status of the following protocols]
-Zmìnit stav následujících protokolù
+ZmĞ¼nit stav nĞ±sledujĞ½cĞ½ch protokolÑ‰
 [Set status to]
-Zmìnit stav na
+ZmĞ¼nit stav na
 [Trigger when a message comes in from the following contacts]
-Spustit pøi pøijetí zprávy od nìkterého z následujících kontaktù
+Spustit pÑˆi pÑˆijetĞ½ zprĞ±vy od nĞ¼kterĞ¹ho z nĞ±sledujĞ½cĞ½ch kontaktÑ‰
 [Send a message to the following contacts]
-Odeslat zprávu následujícím kontaktùm
+Odeslat zprĞ±vu nĞ±sledujĞ½cĞ½m kontaktÑ‰m
 [Message to send]
-Zpráva k odeslání
+ZprĞ±va k odeslĞ±nĞ½
 [Only accept from host]
 Pouze od hostitele
 [On port]
 Na portu
 [Trigger when a UDP packet arrives]
-Spustit po doruèení paketu UDP
+Spustit po doruĞ¸enĞ½ paketu UDP
 ;[Bind to host]
 ;[Module]
 ;[Setting]
 [Value]
 Hodnota
 [Store value as]
-Uloit hodnotu jako
+UloÑ›it hodnotu jako
 [Trigger when a status message is requested on the following protocols:]
-Spustit pøi ádosti o stavovou zprávu nìkterého z následujících protokolù:
+Spustit pÑˆi Ñ›Ğ±dosti o stavovou zprĞ±vu nĞ¼kterĞ¹ho z nĞ±sledujĞ½cĞ½ch protokolÑ‰:
 [Request status message of the following contacts]
-Poádat o stavovou zprávu následujících kontaktù
+PoÑ›Ğ±dat o stavovou zprĞ±vu nĞ±sledujĞ½cĞ½ch kontaktÑ‰
 ;[Colours]
 ;[Content]
 ;[Tabs]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Miranda: Contact status change]
-Miranda: Zmìna stavu kontaktu
+Miranda: ZmĞ¼na stavu kontaktu
 [Miranda: Exit]
-Miranda: Ukonèení
+Miranda: UkonĞ¸enĞ½
 [There are no options to configure]
-U této poloky není co nastavit.
+U tĞ¹to poloÑ›ky nenĞ½ co nastavit.
 [Miranda: Incoming message]
-Miranda: Pøíchozí zpráva
+Miranda: PÑˆĞ½chozĞ½ zprĞ±va
 [Miranda: Protocol status change]
-Miranda: Zmìna stavu protokolu
+Miranda: ZmĞ¼na stavu protokolu
 [Miranda: Startup]
-Miranda: Spuštìní
+Miranda: SpuÑ™tĞ¼nĞ½
 [Miranda: Status message request]
-Miranda: ádost o stavovou zprávu
+Miranda: Ğ‹Ğ±dost o stavovou zprĞ±vu
 ;[Trigger when a status message is requested on the following protocols]
 [Network: Incoming UDP]
-Sí: Pøíchozí paket UDP
+SĞ½Ñœ: PÑˆĞ½chozĞ½ paket UDP
 [Scheduler]
-Plánovaè
+PlĞ±novaĞ¸
 [Execute a program]
 Spustit program
 [Miranda: Change status]
-Miranda: Zmìna stavu
+Miranda: ZmĞ¼na stavu
 [Miranda: Request Status Message]
-Miranda: ádost o stavovou zprávu
+Miranda: Ğ‹Ğ±dost o stavovou zprĞ±vu
 [Miranda: Send message]
-Miranda: Odeslání zprávy
+Miranda: OdeslĞ±nĞ½ zprĞ±vy
 [Miranda: Sounds]
 Miranda: Zvuky
 [Miranda: Store DB Setting]
-Miranda: Poloka v databázi
+Miranda: PoloÑ›ka v databĞ±zi
 [Please do only use this action if you know what you are doing!]
-Tuto akci pouívejte prosím pouze tehdy, víte-li co èiníte!
+Tuto akci pouÑ›Ğ½vejte prosĞ½m pouze tehdy, vĞ½te-li co Ğ¸inĞ½te!
 [Show a PopUp]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [First line]
-První øádek
+PrvnĞ½ ÑˆĞ±dek
 ;[Triggers can only be edited when the module is disabled. Changes made cannot be undone or canceled.]
 [Output file]
-Vıstupní soubor
+VÑstupnĞ½ soubor
 ;[Contact-specific settings are not exported.]
 
 ; ---

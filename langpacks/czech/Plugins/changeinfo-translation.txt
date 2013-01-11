@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  ChangeInfo 0.3.2.0                                      |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -12,27 +12,27 @@
 
 ; db.cpp
 [This password does not match the password you originally entered. Check Caps Lock and try again.]
-Zadali jste neplatnÈ heslo. Zkontrolujte, zda nenÌ zapnut· kl·vesa CAPS LOCK a zkuste heslo zadat znovu.
+Zadali jste neplatn–π heslo. Zkontrolujte, zda nen–Ω zapnut–± kl–±vesa CAPS LOCK a zkuste heslo zadat znovu.
 [Wrong Password]
-ICQ - neplatnÈ heslo
+ICQ - neplatn–π heslo
 [The ICQ server does not support passwords longer than 9 characters. Please use a shorter password.]
-ICQ server nepodporuje hesla, jejichû dÈlka p¯esahuje 9 znak˘. Pouûijte prosÌm kratöÌ heslo.
+ICQ server nepodporuje hesla, jejich—õ d–πlka p—àesahuje 9 znak—â. Pou—õijte pros–Ωm krat—ô–Ω heslo.
 [Password too long]
-ICQ - p¯Ìliö dlouhÈ heslo
+ICQ - p—à–Ωli—ô dlouh–π heslo
 
 ; dlgproc.cpp
 [<empty>]
 <neuvedeno>
 [Unknown value]
-nezn·m· hodnota
+nezn–±m–± hodnota
 [You've made some changes to your ICQ info but it has not been saved to the server. Are you sure you want to close this dialog?]
-NÏkterÈ z informacÌ byly upraveny, ale ne uloûeny na server. Opravdu chcete toto dialogovÈ okno zav¯Ìt?
+N–ºkter–π z informac–Ω byly upraveny, ale ne ulo—õeny na server. Opravdu chcete toto dialogov–π okno zav—à–Ωt?
 [ICQ Info Not Saved]
-ICQ - neuloûenÈ informace
+ICQ - neulo—õen–π informace
 [Upload in progress...]
 Aktualizace dat na serveru...
 [Upload complete]
-Aktualizace dat dokonËena
+Aktualizace dat dokon–∏ena
 
 ; main.cpp
 [Change ICQ Details]
@@ -40,36 +40,36 @@ Upravit informace
 
 ; upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
-Moment·lnÏ nejste p¯ipojeni k sÌti ICQ. Chcete-li zaktualizovat informace na serveru, musÌte b˝t online.
+Moment–±ln–º nejste p—àipojeni k s–Ωti ICQ. Chcete-li zaktualizovat informace na serveru, mus–Ωte b—çt online.
 [Change ICQ Info]
-ICQ - aktualizace informacÌ na serveru
+ICQ - aktualizace informac–Ω na serveru
 
 ; resource.rc
 ;(DUP) [OK]
 [&Save changes]
-&Uloûit zmÏny
+&Ulo—õit zm–ºny
 ;(DUP) [Cancel]
 [Please re-type your new password in order to confirm it before it is uploaded.]
-Zadejte prosÌm znovu novÈ heslo a potvrÔte tak zmÏnu p¯ed aktualizacÌ na serveru.
+Zadejte pros–Ωm znovu nov–π heslo a potvr–øte tak zm–ºnu p—àed aktualizac–Ω na serveru.
 [Confirm New Password]
-ICQ - potvrzenÌ novÈho hesla
+ICQ - potvrzen–Ω nov–πho hesla
 
-; NEPUBLIKOVAN…
-; N·zev doplÚku
+; NEPUBLIKOVAN–ô
+; N–±zev dopl—Çku
 [Change User Details]
-ZmÏna informacÌ o uûivateli
+Zm–ºna informac–Ω o u—õivateli
 
 [Unspecified]
 <neuvedeno>
 ;(DUP) [Other]
 [Afghanistan]
-Afgh·nist·n
+Afgh–±nist–±n
 [Albania]
-Alb·nie
+Alb–±nie
 [Algeria]
-AlûÌr
+Al—õ–Ωr
 [American Samoa]
-Americk· Samoa
+Americk–± Samoa
 [Andorra]
 Andorra
 [Angola]
@@ -83,29 +83,29 @@ Antily
 [Argentina]
 Argentina
 [Armenia]
-ArmÈnie
+Arm–πnie
 [Aruba]
 Aruba
 [Ascension Island]
 Ascension
 [Australia]
-Austr·lie
+Austr–±lie
 [Austria]
 Rakousko
 [Azerbaijan]
-¡zerbajdû·n
+–ëzerbajd—õ–±n
 [Bahamas]
 Bahamy
 [Bahrain]
 Bahrajn
 [Bangladesh]
-BangladÈö
+Banglad–π—ô
 [Barbados]
 Barbados
 [Barbuda]
 Barbuda
 [Belarus]
-BÏlorusko
+B–ºlorusko
 [Belgium]
 Belgie
 [Belize]
@@ -115,17 +115,17 @@ Benin
 [Bermuda]
 Bermudy
 [Bhutan]
-Bh˙t·n
+Bh—ät–±n
 [Bolivia]
-BolÌvie
+Bol–Ωvie
 [Bosnia and Herzegovina]
 Bosna a Hercegovina
 [Botswana]
 Botswana
 [Brazil]
-BrazÌlie
+Braz–Ωlie
 [British Virgin Islands]
-PanenskÈ ostrovy (UK)
+Panensk–π ostrovy (UK)
 [Brunei]
 Brunej
 [Bulgaria]
@@ -135,31 +135,31 @@ Burkina Faso
 [Burundi]
 Burundi
 [Cambodia]
-Kambodûa
+Kambod—õa
 [Cameroon]
 Kamerun
 [Canada]
 Kanada
 [Canary Islands]
-Kan·rskÈ ostrovy
+Kan–±rsk–π ostrovy
 [Cape Verde Islands]
-KapverdskÈ soustrovÌ
+Kapverdsk–π soustrov–Ω
 [Cayman Islands]
-KajmanskÈ ostrovy
+Kajmansk–π ostrovy
 [Central African Republic]
-St¯edoafrick· republika
+St—àedoafrick–± republika
 [Chad]
-»ad
+–òad
 [Chile, Republic of]
 Chile
 [China]
-»Ìna
+–ò–Ωna
 [Christmas Island]
-V·noËnÌ ostrov
+V–±no–∏n–Ω ostrov
 [Cocos-Keeling Islands]
-KokosovÈ ostrovy
+Kokosov–π ostrovy
 [Cocos (Keeling) Islands]
-KokosovÈ ostrovy
+Kokosov–π ostrovy
 [Colombia]
 Kolumbie
 [Comoros]
@@ -173,7 +173,7 @@ Cookovy ostrovy
 [Costa Rica]
 Kostarika
 [Cote d'Ivoire (Ivory Coast)]
-Pob¯eûÌ slonoviny
+Pob—àe—õ–Ω slonoviny
 [Croatia]
 Chorvatsko
 [Cuba]
@@ -181,25 +181,25 @@ Kuba
 [Cyprus]
 Kypr
 [Czech Republic]
-»esk· republika
+–òesk–± republika
 [Denmark]
-D·nsko
+D–±nsko
 [Diego Garcia]
 Diego Garcia
 [Djibouti]
-Dûibuti
+D—õibuti
 [Dominica]
 Dominika
 [Dominican Republic]
-Dominik·nsk· republika
+Dominik–±nsk–± republika
 [Ecuador]
-Ekv·dor
+Ekv–±dor
 [Egypt]
 Egypt
 [El Salvador]
 Salvador
 [Equatorial Guinea]
-RovnÌkov· Guinea
+Rovn–Ωkov–± Guinea
 [Eritrea]
 Eritrea
 [Estonia]
@@ -207,21 +207,21 @@ Estonsko
 [Ethiopia]
 Etiopie
 [Faeroe Islands]
-FaerskÈ ostrovy
+Faersk–π ostrovy
 [Falkland Islands]
-FalklandskÈ ostrovy
+Falklandsk–π ostrovy
 [Fiji]
-Fidûi
+Fid—õi
 [Finland]
 Finsko
 [France]
 Francie
 [French Antilles]
-FrancouzskÈ Antilly
+Francouzsk–π Antilly
 [French Guiana]
-Francouzsk· Guyana
+Francouzsk–± Guyana
 [French Polynesia]
-Francouzsk· PolynÈsie
+Francouzsk–± Polyn–πsie
 [Gabon]
 Gabon
 [Gambia]
@@ -229,21 +229,21 @@ Gambie
 [Georgia]
 Gruzie
 [Germany]
-NÏmecko
+N–ºmecko
 [Ghana]
 Ghana
 [Gibraltar]
 Gibraltar
 [Greece]
-ÿecko
+–®ecko
 [Greenland]
-GrÛnsko
+Gr—Énsko
 [Grenada]
 Grenada
 [Guadeloupe]
 Guadeloupe
 [Guam, US Territory of]
-Guam (˙zemÌ USA)
+Guam (—äzem–Ω USA)
 [Guatemala]
 Guatemala
 [Guinea]
@@ -259,17 +259,17 @@ Honduras
 [Hong Kong]
 Hong Kong
 [Hungary]
-MaÔarsko
+Ma–øarsko
 [Iceland]
 Island
 [India]
 Indie
 [Indonesia]
-IndonÈsie
+Indon–πsie
 [Iran (Islamic Republic of)]
-Õr·n
+–ùr–±n
 [Iraq]
-Ir·k
+Ir–±k
 [Ireland]
 Irsko
 [Israel]
@@ -281,35 +281,35 @@ Jamajka
 [Japan]
 Japonsko
 [Jordan]
-Jord·nsko
+Jord–±nsko
 [Kazakhstan]
-Kazachst·n
+Kazachst–±n
 [Kenya]
-KeÚa
+Ke—Ça
 [Kiribati]
 Kiribati
 [Korea, North]
-SevernÌ Korea
+Severn–Ω Korea
 [Korea, South]
-JiûnÌ Korea
+Ji—õn–Ω Korea
 [Kuwait]
 Kuvajt
 [Kyrgyzstan]
-Kirgizst·n
+Kirgizst–±n
 [Laos]
 Laos
 [Latvia]
-Lotyösko
+Loty—ôsko
 [Lebanon]
 Libanon
 [Lesotho]
 Lesotho
 [Liberia]
-LibÈrie
+Lib–πrie
 [Libyan Arab Jamahiriya]
 Libye
 [Liechtenstein]
-Lichtenötejnsko
+Lichten—ôtejnsko
 [Lithuania]
 Litva
 [Luxembourg]
@@ -335,7 +335,7 @@ Marshallovy ostrovy
 [Martinique]
 Martinik
 [Mauritania]
-Mauret·nie
+Mauret–±nie
 [Mauritius]
 Mauritius
 [Mayotte Island]
@@ -343,9 +343,9 @@ Mayotte
 [Mexico]
 Mexiko
 [Micronesia, Federated States of]
-MikronÈsie
+Mikron–πsie
 [Moldova, Republic of]
-Mold·vie
+Mold–±vie
 [Monaco]
 Monako
 [Mongolia]
@@ -363,23 +363,23 @@ Namibie
 [Nauru]
 Nauru
 [Nepal]
-Nep·l
+Nep–±l
 [Netherlands]
-NizozemÌ
+Nizozem–Ω
 [Netherlands Antilles]
-NizozemskÈ Antily
+Nizozemsk–π Antily
 [Nevis]
 Nevis
 [New Caledonia]
-Nov· Kaledonie
+Nov–± Kaledonie
 [New Zealand]
-Nov˝ ZÈland
+Nov—ç Z–πland
 [Nicaragua]
 Nikaragua
 [Niger]
 Niger
 [Nigeria]
-NigÈrie
+Nig–πrie
 [Niue]
 Niue
 [Norfolk Island]
@@ -387,21 +387,21 @@ Norfolk
 [Norway]
 Norsko
 [Oman]
-Om·n
+Om–±n
 [Pakistan]
-P·kist·n
+P–±kist–±n
 [Palau]
 Palau
 [Panama]
 Panama
 [Papua New Guinea]
-Papua - Nov· Guinea
+Papua - Nov–± Guinea
 [Paraguay]
 Paraguay
 [Peru]
 Peru
 [Philippines]
-FilipÌny
+Filip–Ωny
 [Poland]
 Polsko
 [Portugal]
@@ -421,11 +421,11 @@ Rusko
 [Rwanda]
 Rwanda
 [Saint Helena]
-Svat· Helena
+Svat–± Helena
 [Saint Kitts]
-Sv. Kryötof
+Sv. Kry—ôtof
 [Saint Kitts and Nevis]
-Sv. Kryötof a Nevis
+Sv. Kry—ôtof a Nevis
 [Saint Lucia]
 Sv. Lucie
 [Saint Pierre and Miquelon]
@@ -437,9 +437,9 @@ Saipan
 [San Marino]
 San Marino
 [Sao Tome and Principe]
-Sv. Tom·ö
+Sv. Tom–±—ô
 [Saudi Arabia]
-Saudsk· Ar·bie
+Saudsk–± Ar–±bie
 [Scotland]
 Skotsko
 [Senegal]
@@ -455,33 +455,33 @@ Slovensko
 [Slovenia]
 Slovinsko
 [Solomon Islands]
-äalamounovy ostrovy
+–âalamounovy ostrovy
 [Somalia]
-Som·lsko
+Som–±lsko
 [South Africa]
-JiûnÌ Afrika
+Ji—õn–Ω Afrika
 [Spain]
-äpanÏlsko
+–âpan–ºlsko
 [Sri Lanka]
-SrÌ Lanka
+Sr–Ω Lanka
 [Sudan]
-S˙d·n
+S—äd–±n
 [Suriname]
 Surinam
 [Swaziland]
 Swazijsko
 [Sweden]
-ävÈdsko
+–âv–πdsko
 [Switzerland]
-äv˝carsko
+–âv—çcarsko
 [Syrian Arab Republic]
-S˝rie
+S—çrie
 [Taiwan]
 Taiwan
 [Tajikistan]
-T·dûikist·n
+T–±d—õikist–±n
 [Tanzania]
-Tanz·nie
+Tanz–±nie
 [Thailand]
 Thajsko
 [Tinian Island]
@@ -499,7 +499,7 @@ Tunisko
 [Turkey]
 Turecko
 [Turkmenistan]
-Turkmenist·n
+Turkmenist–±n
 [Turks and Caicos Islands]
 Turks a Caicos
 [Tuvalu]
@@ -509,39 +509,39 @@ Uganda
 [Ukraine]
 Ukrajina
 [United Arab Emirates]
-SpojenÈ arabskÈ emir·ty
+Spojen–π arabsk–π emir–±ty
 [United Kingdom]
-SpojenÈ kr·lovstvÌ
+Spojen–π kr–±lovstv–Ω
 [Uruguay]
 Uruguay
 [USA]
 USA
 [Uzbekistan]
-Uzbekist·n
+Uzbekist–±n
 [Vanuatu]
 Vanuatu
 [Vatican City]
-Vatik·n
+Vatik–±n
 [Venezuela]
 Venezuela
 [Vietnam]
 Vietnam
 [Virgin Islands (USA)]
-PanenskÈ ostrovy (USA)
+Panensk–π ostrovy (USA)
 [Wales]
 Wales
 [Wallis and Futuna Islands]
 Wallis a Futuna
 [Western Samoa]
-Z·padnÌ Samoa
+Z–±padn–Ω Samoa
 [Yemen]
 Jemen
 [Yugoslavia]
-Jugosl·vie
+Jugosl–±vie
 [Yugoslavia - Serbia]
 Srbsko
 [Yugoslavia - Montenegro]
-»ern· Hora
+–òern–± Hora
 [Zambia]
 Zambie
 [Zimbabwe]
@@ -560,7 +560,7 @@ GMT-10:00 Havaj
 [GMT-9:30]
 GMT-9:30
 [GMT-9:00 Alaska]
-GMT-9:00 Aljaöka
+GMT-9:00 Alja—ôka
 [GMT-8:30]
 GMT-8:30
 [GMT-8:00 Pacific Time; Tijuana]
@@ -572,7 +572,7 @@ GMT-7:00 Arizona; Mountain Time
 [GMT-6:30]
 GMT-6:30
 [GMT-6:00 Central Time; Central America; Saskatchewan]
-GMT-6:00 Central Time; St¯ednÌ Amerika; Saskatchewan
+GMT-6:00 Central Time; St—àedn–Ω Amerika; Saskatchewan
 [GMT-5:30]
 GMT-5:30
 [GMT-5:00 Eastern Time; Bogota; Lima; Quito]
@@ -584,7 +584,7 @@ GMT-4:00 Atlantic Time; Santiago; Caracas; La Paz
 [GMT-3:30 Newfoundland]
 GMT-3:30 Newfoundland
 [GMT-3:00 Greenland; Buenos Aires; Georgetown]
-GMT-3:00 GrÛnsko; Buenos Aires; Georgetown
+GMT-3:00 Gr—Énsko; Buenos Aires; Georgetown
 [GMT-2:30]
 GMT-2:30
 [GMT-2:00 Mid-Atlantic]
@@ -596,33 +596,33 @@ GMT-1:00 Cape Verde Islands; Azory
 [GMT-0:30]
 GMT-0:30
 [GMT+0:00 London; Dublin; Edinburgh; Lisbon; Casablanca]
-GMT+0:00 Lond˝n; Dublin; Edinburgh; Lisabon; Casablanca
+GMT+0:00 Lond—çn; Dublin; Edinburgh; Lisabon; Casablanca
 [GMT+0:30]
 GMT+0:30
 [GMT+1:00 Central European Time; West Central Africa; Warsaw]
-GMT+1:00 st¯edoevropsk˝ Ëas; z·padnÌ a st¯ednÌ Afrika; Praha
+GMT+1:00 st—àedoevropsk—ç –∏as; z–±padn–Ω a st—àedn–Ω Afrika; Praha
 [GMT+1:30]
 GMT+1:30
 [GMT+2:00 Jerusalem; Helsinki; Harare; Cairo; Bucharest; Athens]
-GMT+2:00 JeruzalÈm; Helsinki; Harare; K·hira; Bukureöù; AtÈny
+GMT+2:00 Jeruzal–πm; Helsinki; Harare; K–±hira; Bukure—ô—ú; At–πny
 [GMT+2:30]
 GMT+2:30
 [GMT+3:00 Moscow; St. Petersburg; Nairobi; Kuwait; Baghdad]
-GMT+3:00 Moskva; St. Petersburg; Nairobi; Kuvajt; Baghd·d
+GMT+3:00 Moskva; St. Petersburg; Nairobi; Kuvajt; Baghd–±d
 [GMT+3:30 Tehran]
-GMT+3:30 Teher·n
+GMT+3:30 Teher–±n
 [GMT+4:00 Baku; Tbilisi; Yerevan; Abu Dhabi; Muscat]
-GMT+4:00 Baku; Tbilisi; Jerevan; Abu DhabÌ; Muscat
+GMT+4:00 Baku; Tbilisi; Jerevan; Abu Dhab–Ω; Muscat
 [GMT+4:30 Kabul]
-GMT+4:30 K·bul
+GMT+4:30 K–±bul
 [GMT+5:00 Calcutta; Chennai; Mumbai; New Delhi; Ekaterinburg]
-GMT+5:00 Kalkata; Chennai; Mumbai; NovÈ DilÌ; JekatÏrinburg
+GMT+5:00 Kalkata; Chennai; Mumbai; Nov–π Dil–Ω; Jekat–ºrinburg
 [GMT+5:30]
 GMT+5:30
 [GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura]
 GMT+6:00 Astana; Dhaka; Almaty; Novosibirsk; Sri Jayawardenepura
 [GMT+6:30 Rangoon]
-GMT+6:30 Rang˙n
+GMT+6:30 Rang—än
 [GMT+7:00 Bankok; Hanoi; Jakarta; Krasnoyarsk]
 GMT+7:00 Bankok; Hanoj; Jakarta; Krasnojarsk
 [GMT+7:30]
@@ -636,15 +636,15 @@ GMT+9:00 Tokyo; Osaka; Soul; Sapporo; Jakutsk
 [GMT+9:30 Darwin; Adelaide]
 GMT+9:30 Darwin; Adelaide
 [GMT+10:00 East Australia; Guam; Vladivostok]
-GMT+10:00 V˝chodnÌ Austr·lie; Guam; Vladivostok
+GMT+10:00 V—çchodn–Ω Austr–±lie; Guam; Vladivostok
 [GMT+10:30]
 GMT+10:30
 [GMT+11:00 Magadan; Solomon Is.; New Caledonia]
-GMT+11:00 Magadan; äalamounovy ostr.; Nov· Kaledonie
+GMT+11:00 Magadan; –âalamounovy ostr.; Nov–± Kaledonie
 [GMT+11:30]
 GMT+11:30
 [GMT+12:00 Auckland; Wellington; Fiji; Kamchatka; Marshall Is.]
-GMT+12:00 Auckland; Wellington; Fidûi; KamËatka; Marshallovy ostr.
+GMT+12:00 Auckland; Wellington; Fid—õi; Kam–∏atka; Marshallovy ostr.
 
 ;(DUP) [Unspecified]
 ;(DUP) [Academic]
@@ -667,7 +667,7 @@ GMT+12:00 Auckland; Wellington; Fidûi; KamËatka; Marshallovy ostr.
 ;(DUP) [Military]
 ;(DUP) [Sports]
 [Other Services]
-OstatnÌ
+Ostatn–Ω
 
 ;(DUP) [Male]
 ;(DUP) [Female]
@@ -675,23 +675,23 @@ OstatnÌ
 [January]
 leden
 [February]
-˙nor
+—änor
 [March]
-b¯ezen
+b—àezen
 [April]
 duben
 [May]
-kvÏten
+kv–ºten
 [June]
-Ëerven
+–∏erven
 [July]
-Ëervenec
+–∏ervenec
 [August]
 srpen
 [September]
-z·¯Ì
+z–±—à–Ω
 [October]
-¯Ìjen
+—à–Ωjen
 [November]
 listopad
 [December]
@@ -699,161 +699,161 @@ prosinec
 
 ;(DUP) [None]
 [Afrikaans]
-afrik·nötina
+afrik–±n—ôtina
 [Albanian]
-alb·nötina
+alb–±n—ôtina
 [Arabic]
-arabötina
+arab—ôtina
 [Armenian]
-armÈnötina
+arm–πn—ôtina
 [Azerbaijani]
-·zerbajdû·nötina
+–±zerbajd—õ–±n—ôtina
 [Belorussian]
-bÏloruötina
+b–ºloru—ôtina
 [Bhojpuri]
-bhodûpuri
+bhod—õpuri
 [Bosnian]
-bosenötina
+bosen—ôtina
 [Bulgarian]
-bulharötina
+bulhar—ôtina
 [Burmese]
-barmötina
+barm—ôtina
 [Cantonese]
-kantonötina
+kanton—ôtina
 [Catalan]
-katal·nötina
+katal–±n—ôtina
 [Chamorro]
-Ëamoro
+–∏amoro
 [Chinese]
-ËÌnötina
+–∏–Ωn—ôtina
 [Croatian]
-chorvatötina
+chorvat—ôtina
 [Czech]
-Ëeötina
+–∏e—ôtina
 [Danish]
-d·nötina
+d–±n—ôtina
 [Dutch]
-holandötina
+holand—ôtina
 [English]
-angliËtina
+angli–∏tina
 [Esperanto]
 esperanto
 [Estonian]
-estonötina
+eston—ôtina
 [Farci]
-perötina (farsi)
+per—ôtina (farsi)
 [Finnish]
-finötina
+fin—ôtina
 [French]
-francouzötina
+francouz—ôtina
 [Gaelic]
-gaelötina
+gael—ôtina
 [German]
-nÏmËina
+n–ºm–∏ina
 [Greek]
-¯eËtina
+—àe–∏tina
 [Gujarati]
-gudûar·tötina
+gud—õar–±t—ôtina
 [Hebrew]
-hebrejötina
+hebrej—ôtina
 [Hindi]
-hindötina
+hind—ôtina
 [Hungarian]
-maÔarötina
+ma–øar—ôtina
 [Icelandic]
-islandötina
+island—ôtina
 [Indonesian]
-indonÈzötina
+indon–πz—ôtina
 [Italian]
-italötina
+ital—ôtina
 [Japanese]
-japonötina
+japon—ôtina
 [Khmer]
-khmerötina
+khmer—ôtina
 [Korean]
-korejötina
+korej—ôtina
 [Kurdish]
-kurdötina
+kurd—ôtina
 [Lao]
-laoötina
+lao—ôtina
 [Latvian]
-lotyöötina
+loty—ô—ôtina
 [Lithuanian]
-litevötina
+litev—ôtina
 [Macedonian]
-makedonötina
+makedon—ôtina
 [Malay]
-malajötina
+malaj—ôtina
 [Mandarin]
-mandarÌnötina
+mandar–Ωn—ôtina
 [Mongolian]
-mongolötina
+mongol—ôtina
 [Norwegian]
-norötina
+nor—ôtina
 [Persian]
-perötina
+per—ôtina
 [Polish]
-polötina
+pol—ôtina
 [Portuguese]
-portugalötina
+portugal—ôtina
 [Punjabi]
-pandû·bötina
+pand—õ–±b—ôtina
 [Romanian]
-rumunötina
+rumun—ôtina
 [Russian]
-ruötina
+ru—ôtina
 [Serbo-Croatian]
-srbochorvatötina
+srbochorvat—ôtina
 [Sindhi]
-sindhötina
+sindh—ôtina
 [Slovak]
-slovenötina
+sloven—ôtina
 [Slovenian]
-slovinötina
+slovin—ôtina
 [Somali]
-som·lötina
+som–±l—ôtina
 [Spanish]
-öpanÏlötina
+—ôpan–ºl—ôtina
 [Swahili]
-svahilötina
+svahil—ôtina
 [Swedish]
-övÈdötina
+—ôv–πd—ôtina
 [Tagalog]
-tagalötina
+tagal—ôtina
 [Taiwaness]
-tchajwanötina
+tchajwan—ôtina
 [Tamil]
-tamilötina
+tamil—ôtina
 [Tatar]
-tatarötina
+tatar—ôtina
 [Thai]
-thajötina
+thaj—ôtina
 [Turkish]
-tureËtina
+ture–∏tina
 [Ukrainian]
-ukrajinötina
+ukrajin—ôtina
 [Urdu]
 urdu
 [Vietnamese]
-vietnamötina
+vietnam—ôtina
 [Welsh]
-velötina
+vel—ôtina
 [Yiddish]
-jidiö
+jidi—ô
 [Yoruba]
-jorubötina
+jorub—ôtina
 
 ;constants.cpp
 [Personal]
-Z·kladnÌ informace
+Z–±kladn–Ω informace
 ;(DUP) [Nickname]
 [First name]
-JmÈno
+Jm–πno
 [Last name]
-P¯ÌjmenÌ
+P—à–Ωjmen–Ω
 ;(DUP) [Age]
 [Gender]
-PohlavÌ
+Pohlav–Ω
 [About]
 Informace
 [Password]
@@ -861,68 +861,68 @@ Heslo
 ;(DUP) [Password]
 ;(DUP) [Contact]
 [Primary e-mail]
-Prim·rnÌ e-mail
+Prim–±rn–Ω e-mail
 ;(DUP) [Homepage]
 [Street]
 Ulice
 [City]
-MÏsto
+M–ºsto
 [State]
-St·t
+St–±t
 [ZIP/postcode]
-PS»
+PS–ò
 [Country]
-ZemÏ
+Zem–º
 [Phone number]
 Telefon
 [Fax number]
 Fax
 [Cellular number]
-MobilnÌ telefon
+Mobiln–Ω telefon
 [Personal Detail]
 Podrobnosti
 [Timezone]
-»asovÈ p·smo
+–òasov–π p–±smo
 [Year of birth]
-Rok narozenÌ
+Rok narozen–Ω
 [Month of birth]
-MÏsÌc narozenÌ
+M–ºs–Ωc narozen–Ω
 [Day of birth]
-Den narozenÌ
+Den narozen–Ω
 [Spoken language 1]
-Ovl·danÈ jazyky (Ë.1)
+Ovl–±dan–π jazyky (–∏.1)
 [Spoken language 2]
-Ovl·danÈ jazyky (Ë.2)
+Ovl–±dan–π jazyky (–∏.2)
 [Spoken language 3]
-Ovl·danÈ jazyky (Ë.3)
+Ovl–±dan–π jazyky (–∏.3)
 ;(DUP) [Work]
 [Company name]
-N·zev firmy
+N–±zev firmy
 [Company homepage]
-Domovsk· str·nka
+Domovsk–± str–±nka
 [Company street]
 Ulice
 [Company city]
-MÏsto
+M–ºsto
 [Company state]
-St·t
+St–±t
 [Company phone]
 Telefon
 [Company fax]
 Fax
 [Company ZIP/postcode]
-PS»
+PS–ò
 [Company country]
-ZemÏ
+Zem–º
 [Company department]
-OddÏlenÌ
+Odd–ºlen–Ω
 [Company position]
-PostavenÌ
+Postaven–Ω
 [Company occupation]
 Obor
 
 ; Changeinfo+ by Bi0
 [Change Details]
-ZmÏna ˙daj˘
+Zm–ºna —ädaj—â
 
 ; ---

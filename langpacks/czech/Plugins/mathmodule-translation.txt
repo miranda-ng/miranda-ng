@@ -1,17 +1,17 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  MathModule 0.3.1.01                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1994
 ;
 
 ;(DUP) [Preview]
 [math Toolbox]
-Matematické symboly
+MatematickĞ¹ symboly
 [Displays mathematical formulas. For math-chat, use special Send-Receive-Plugin: MathSrmm]
-Umoòuje psaní matematickıch vzorcù.
+UmoÑ›Ñ‚uje psanĞ½ matematickÑch vzorcÑ‰.
 [save]
-Uloit
+UloÑ›it
 
 ; ---

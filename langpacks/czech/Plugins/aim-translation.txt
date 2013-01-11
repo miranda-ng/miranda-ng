@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  AIM Protocol 0.9.47.0                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 
@@ -15,118 +15,118 @@ Protokol AIM
 
 ; server.cpp
 [[Auto-Response]: ]
-Autom. odpovìï: 
+Autom. odpovĞ¼Ğ¿: 
 [[Auto-Response]:]
-Autom. odpovìï: 
+Autom. odpovĞ¼Ğ¿: 
 [No information has been provided by the server.]
-Server nedodal poadované informace.
+Server nedodal poÑ›adovanĞ¹ informace.
 
 ; services.cpp
 [Manage Account]
-Upravit úèet
+Upravit ÑŠĞ¸et
 [Check Mail]
-Pøeèíst poštu
+PÑˆeĞ¸Ğ½st poÑ™tu
 [Instant Idle]
-Pøejít do neèinnosti
+PÑˆejĞ½t do neĞ¸innosti
 [Read &HTML Away Message]
-&Pøeèíst autom. odpovìï
+&PÑˆeĞ¸Ğ½st autom. odpovĞ¼Ğ¿
 [Read Profile]
-Pøeèíst profil
+PÑˆeĞ¸Ğ½st profil
 [Add To Server List]
-Pøidat do seznamu na serveru
+PÑˆidat do seznamu na serveru
 
 ; windows.cpp
 [Network]
-Sítì
+SĞ½tĞ¼
 
 ; aim.rc
 [Message Delivery Confirmation]
-Potvrdit doruèení zprávy
+Potvrdit doruĞ¸enĞ½ zprĞ±vy
 [Do Not Autoreply When Away]
-Vypnout automatické odpovìdi
+Vypnout automatickĞ¹ odpovĞ¼di
 [Convert Incoming Messages to BBCode]
-Konvertovat pøíchozí zprávy do BBCode
+Konvertovat pÑˆĞ½chozĞ½ zprĞ±vy do BBCode
 [Convert Outgoing Messages to HTML]
-Konvertovat odchozí zprávy do HTML
+Konvertovat odchozĞ½ zprĞ±vy do HTML
 [Disable Account Type Icons]
-Vypnout informace o typu úètu
+Vypnout informace o typu ÑŠĞ¸tu
 [Disable Extended Status Icons]
-Vypnout rozšíøené stavové ikony
+Vypnout rozÑ™Ğ½ÑˆenĞ¹ stavovĞ¹ ikony
 [Handle aim: links on websites]
 Aktivovat podporu pro odkazy typu aim:
 [Instant Idle on Login]
-Po pøihlášení neèinnost
+Po pÑˆihlĞ±Ñ™enĞ½ neĞ¸innost
 [Force Proxy File Transfers]
-Data pøenášet jen pøes proxy server
+Data pÑˆenĞ±Ñ™et jen pÑˆes proxy server
 [Masquerade as a Sidekick/Hiptop User]
-Vydávat se za uivatele Sidekick/Hiptop
+VydĞ±vat se za uÑ›ivatele Sidekick/Hiptop
 [Check Mail on Login]
-Po pøihlášení pøeèíst poštu
+Po pÑˆihlĞ±Ñ™enĞ½ pÑˆeĞ¸Ğ½st poÑ™tu
 [Save Profile]
-Uloit profil
+UloÑ›it profil
 [Ok]
 OK
 ;(DUP) [Cancel]
 [Set Idle]
 Nastavit
 [Unset Idle]
-Zrušit
+ZruÑ™it
 [Screenname:]
-Jméno:
+JmĞ¹no:
 [Display Name:]
-Zobr. jméno:
+Zobr. jmĞ¹no:
 ;(DUP) [Password:]
 ;(DUP) [Login Server:]
 [*AimOSCAR must be reconnected  for some option to take effect.]
-* Zmìny se projeví a pøi pøíštím pøipojení do sítì AIM.
+* ZmĞ¼ny se projevĞ½ aÑ› pÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ do sĞ½tĞ¼ AIM.
 [Keep Alive Timer:]
-Udrov. spojení:
+UdrÑ›ov. spojenĞ½:
 [(seconds)]
 sek.
 [File Transfer Grace Period:]
-Zpodìní pøenosu souborù:
+ZpoÑ›dĞ¼nĞ½ pÑˆenosu souborÑ‰:
 [AIM Profile Editing Dialog]
-Úprava profilu AIM
+Ğªprava profilu AIM
 [Please enter your AIM account details to continue:]
-Zadejte prosím potøebné údaje pro pøihlášení k úètu AIM:
+Zadejte prosĞ½m potÑˆebnĞ¹ ÑŠdaje pro pÑˆihlĞ±Ñ™enĞ½ k ÑŠĞ¸tu AIM:
 [Number of Hours:]
-Poèet hodin:
+PoĞ¸et hodin:
 [Number of Minutes:]
-Poèet minut:
+PoĞ¸et minut:
 [AIM Options]
-Monosti AIM
+MoÑ›nosti AIM
 [AIM User Details]
 Informace o kontaktu
 [Advanced Options]
 Pro experty
 [AIM Account Setup]
-AIM :: Nastavení úètu
+AIM :: NastavenĞ½ ÑŠĞ¸tu
 [AIM Instant Idler]
-AIM :: Neèinnost
+AIM :: NeĞ¸innost
 
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [AOL Instant Messenger server connection]
-AIM - spojení se serverem
+AIM - spojenĞ½ se serverem
 
 [No new mail!!!!! Checked at ]
-Nemáte ádnou poštu. Èas: 
+NemĞ±te Ñ›Ğ±dnou poÑ™tu. Ğ˜as: 
 [You've got mail! Checked at ]
-Máte poštu! Èas: 
+MĞ±te poÑ™tu! Ğ˜as: 
 
 [Edit Profile]
 Upravit profil
 [Read HTML Away Message]
-Pøeèíst autom. odpovìï
+PÑˆeĞ¸Ğ½st autom. odpovĞ¼Ğ¿
 
 [Disable Avatars]
 Vypnout avatary
 [Send Keep Alive Packets]
-Udrovat spojení
+UdrÑ›ovat spojenĞ½
 
 ;nelze prelozit
 ;[Please, enter a username in the options dialog.]
-;Zadejte prosím pøihlašovací údaje pro sí AIM v nastavení programu Miranda.
+;Zadejte prosĞ½m pÑˆihlaÑ™ovacĞ½ ÑŠdaje pro sĞ½Ñœ AIM v nastavenĞ½ programu Miranda.
 
 ;(LAI) [AOL Mail]
 [AIM Icon]
@@ -142,74 +142,74 @@ Nepotvrzeno
 [Profile Editor]
 Editor profilu
 [Foreground Color]
-Barva popøedí
+Barva popÑˆedĞ½
 [Background Color]
-Barva pozadí
+Barva pozadĞ½
 [Not Bold]
-Tuèné ne
+TuĞ¸nĞ¹ ne
 [Not Italic]
-Kurzíva ne
+KurzĞ½va ne
 [Not Underline]
-Podtrené ne
+PodtrÑ›enĞ¹ ne
 [Subscript]
-Dolní index
+DolnĞ½ index
 [Not Subscript]
-Dolní index ne
+DolnĞ½ index ne
 [Superscript]
-Horní index
+HornĞ½ index
 [Not Superscript]
-Horní index ne
+HornĞ½ index ne
 [Normal Script]
-Normální písmo
+NormĞ±lnĞ½ pĞ½smo
 [Not Normal Script]
-Normální písmo ne
+NormĞ±lnĞ½ pĞ½smo ne
 
 [Screen Name:]
-Identifikátor:
+IdentifikĞ±tor:
 [Create a new AIM account]
-Zøídit novı úèet v síti AIM
+ZÑˆĞ½dit novÑ ÑŠĞ¸et v sĞ½ti AIM
 [AIM Client-to-client connection]
-AIM - pøímé spojení mezi klienty
+AIM - pÑˆĞ½mĞ¹ spojenĞ½ mezi klienty
 [Disable SSL]
 Vypnout SSL
 [Force Single Client]
-Vynutit jediného klienta
+Vynutit jedinĞ¹ho klienta
 [Manage Server Groups]
 Spravovat skupiny na serveru
 [Users who can contact me:]
 Pravidla pro komunikaci:
 [Allow all users]
-Povolit všechny uivatele
+Povolit vÑ™echny uÑ›ivatele
 [Allow only users on contact list]
-Pouze uivatelé v seznamu kontaktù
+Pouze uÑ›ivatelĞ¹ v seznamu kontaktÑ‰
 [Allow only users below]
-Povolit pouze níe uvedené
+Povolit pouze nĞ½Ñ›e uvedenĞ¹
 [Block all users]
-Blokovat všechny uivatele
+Blokovat vÑ™echny uÑ›ivatele
 [Block only users below]
-Blokovat pouze níe uvedené
+Blokovat pouze nĞ½Ñ›e uvedenĞ¹
 [Join Chat Room]
-Pøipojit se do diskuse
+PÑˆipojit se do diskuse
 [Chat Room]
-Diskusní místnost
+DiskusnĞ½ mĞ½stnost
 
 ; Description
-[Provides support for AOL® Instant Messenger (AIM) protocol]
-Implementace protokolu AIM. Umoòuje komunikaci s uivateli sítì AOL.
+[Provides support for AOLÂ® Instant Messenger (AIM) protocol]
+Implementace protokolu AIM. UmoÑ›Ñ‚uje komunikaci s uÑ›ivateli sĞ½tĞ¼ AOL.
 
 [Notify about new mail]
-Upozornit na novou poštu
+Upozornit na novou poÑ™tu
 [Allow contacts to be notified of:]
-Povolit kontaktùm upozornìní na:
+Povolit kontaktÑ‰m upozornĞ¼nĞ½ na:
 [Screen Name]
-Identifikátor
+IdentifikĞ±tor
 [Block]
 Blokovat
 [AOL Mail]
-Pošta AOL
+PoÑ™ta AOL
 [AOL Bot]
 Robot AOL
 [%s Client-to-client connection]
-%s - pøímé spojení mezi klienty
+%s - pÑˆĞ½mĞ¹ spojenĞ½ mezi klienty
 
 ; ---

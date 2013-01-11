@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Hard disc drive info 0.1.2.0                            |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2570
 ;
 
@@ -12,34 +12,34 @@ Informace o HDD
 
 ;options
 [HDD Tracking]
-Sledování HDD
+SledovĞ±nĞ½ HDD
 [HDD Temperature Tracking]
-Sledování teploty diskù
+SledovĞ±nĞ½ teploty diskÑ‰
 [Show standard popup]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [for all drives]
-všechny disky
+vÑ™echny disky
 [only for]
-jen pro è.
+jen pro Ğ¸.
 [Show warning popup if temperature is higher than]
-Zobrazit varování, pøekroèí-li teplota
+Zobrazit varovĞ±nĞ½, pÑˆekroĞ¸Ğ½-li teplota
 [Show item in the Main menu]
-Zobrazit v hlavní nabídce
+Zobrazit v hlavnĞ½ nabĞ½dce
 [Print temperature data to log-file]
-Zaznamenat informace o teplotì do souboru
+Zaznamenat informace o teplotĞ¼ do souboru
 [Time-out]
 Prodleva
 [Add hot key ('Hotkey+' plugin)]
-Klávesová zkratka (vyaduje 'Hotkey+')
+KlĞ±vesovĞ± zkratka (vyÑ›aduje 'Hotkey+')
 
 [InfoPopup]
-Další informace
+DalÑ™Ğ½ informace
 [Popup customizable by variables]
-Text oznámení
+Text oznĞ±menĞ½
 [Add to variable postfix of unit]
-Pøidat za promìnnou jednotky
+PÑˆidat za promĞ¼nnou jednotky
 [Default text]
-Vıchozí text
+VÑchozĞ½ text
 [Restore]
 Obnovit
 

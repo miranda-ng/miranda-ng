@@ -1,54 +1,54 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Custom profile folders 0.1.0.3                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; http://addons.miranda-im.org/details.php?action=viewfile&id=2521
 
 
 
 ; /folders/folders.cpp
 [Test folders]
-Testovací sloky
+TestovacĞ½ sloÑ›ky
 
 ; /folders/folders.rc:IDD_OPT_FOLDERS
 [Dialog]
 Dialog
 [Custom folders]
-Vlastní sloky
+VlastnĞ½ sloÑ›ky
 [Edit]
 Upravit
 [Cancel]
-Zrušit
+ZruÑ™it
 [Save]
-Uloit
+UloÑ›it
 [Refresh preview]
-Aktualizovat náhled
+Aktualizovat nĞ±hled
 [Preview]
-Náhled
+NĞ±hled
 [Variables help]
-Promìnné
+PromĞ¼nnĞ¹
 
 ; /folders/folders.rc:IDD_VARIABLES_HELP
 [Custom folders variables help]
-Nápovìda k promìnnım
+NĞ±povĞ¼da k promĞ¼nnÑm
 [Close]
-Zavøít
+ZavÑˆĞ½t
 
 ; /folders/hooked_events.cpp
 [Folders]
-Sloky
+SloÑ›ky
 [Customize]
-Vlastní úpravy
+VlastnĞ½ ÑŠpravy
 [Some changes weren't saved. Apply the changes now ?]
-Nìkteré ze zmìn nejsou uloeny. Chcete je uloit?
+NĞ¼kterĞ¹ ze zmĞ¼n nejsou uloÑ›eny. Chcete je uloÑ›it?
 [Changes not saved]
-Zmìny nebyly uloeny
+ZmĞ¼ny nebyly uloÑ›eny
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Avatars Cache]
-Úloištì avatarù
+ĞªloÑ›iÑ™tĞ¼ avatarÑ‰
 [Output folder]
-Vıstupní sloka
+VÑstupnĞ½ sloÑ›ka
 
 ; ---

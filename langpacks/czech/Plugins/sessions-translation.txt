@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Sessions 0.1.3.0                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -11,40 +11,40 @@ Obnovit relaci
 [&Restore Session]
 Obnovit &relaci
 [Choose session to restore from the list:]
-Zvolit relaci pro obnovení ze seznamu:
+Zvolit relaci pro obnovenĞ½ ze seznamu:
 [Save session...]
-Uloit relaci...
+UloÑ›it relaci...
 [Load session...]
-Naèíst relaci...
+NaĞ¸Ğ½st relaci...
 [Load last session]
-Naèíst poslední relaci
+NaĞ¸Ğ½st poslednĞ½ relaci
 [Only if last session present]
-Pouze pokud existuje poslední relace
+Pouze pokud existuje poslednĞ½ relace
 [Open Sessions Manager dialog]
-Otevøít okno správce relací
+OtevÑˆĞ½t okno sprĞ±vce relacĞ½
 [Restore Last Session]
-Obnovit poslední relaci
+Obnovit poslednĞ½ relaci
 [Startup delay]
-Zpodìní po startu
+ZpoÑ›dĞ¼nĞ½ po startu
 [Crash Recovery mode]
-Mód obnovení po pádu
+MÑƒd obnovenĞ½ po pĞ±du
 [Save Current Session]
-Uloit aktuální relaci
+UloÑ›it aktuĞ±lnĞ½ relaci
 [Sessions]
 Relace
 [Save only last]
-Uloit pouze poslední
+UloÑ›it pouze poslednĞ½
 [Warn, when some of LastSession contacts are hidden]
-Varovat kdy jsou nìkteré kontakty z poslední relace skryty
+Varovat kdyÑ› jsou nĞ¼kterĞ¹ kontakty z poslednĞ½ relace skryty
 [Exclude hidden contacts from session on exit]
-Pøi ukonèení vylouèit skryté kontakty z relace
+PÑˆi ukonĞ¸enĞ½ vylouĞ¸it skrytĞ¹ kontakty z relace
 [Show other warnings ("session already opened" etc...)]
-Zobrazovat ostatní varování ("relace je ji otevøena", atd...)
+Zobrazovat ostatnĞ½ varovĞ±nĞ½ ("relace je jiÑ› otevÑˆena", atd...)
 [User Sessions Management]
-Správa uivatelskıch relací
+SprĞ±va uÑ›ivatelskÑch relacĞ½
 [Action on Startup]
-Akce pøi spuštìní
+Akce pÑˆi spuÑ™tĞ¼nĞ½
 [Action on Exit]
-Akce pøi ukonèení
+Akce pÑˆi ukonĞ¸enĞ½
 
 ; ---

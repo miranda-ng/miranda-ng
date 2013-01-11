@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SMS+ 0.0.0.10                                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Tur McDonnel <tur (teĞ¸ka) mcdonnel (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -21,26 +21,26 @@ Odeslat SMS
 [Source]
 Zdroj
 [Destination_UIN]
-Cílové ICQ èíslo
+CĞ½lovĞ¹ ICQ Ğ¸Ğ½slo
 [Sender]
-Odesílatel
+OdesĞ½latel
 ;(DUP) [Message]
 [Send At]
 Odeslat v
 [Invalid ACK data!]
-Neplatné potvrzení!
+NeplatnĞ¹ potvrzenĞ½!
 [Deliver]
-Doruèit
+DoruĞ¸it
 [Error ID]
-Èíslo chyby
+Ğ˜Ğ½slo chyby
 ;(DUP) [Description]
 [Phone]
 Telefon
 [Message ID]
-ID zprávy
+ID zprĞ±vy
 ;(DUP) [Network]
 [Messages Left]
-zpráv zbıvá
+zprĞ±v zbÑvĞ±
 
 ;Options Dialog
 ;--------------------
@@ -51,15 +51,15 @@ Build
 [Sent by]
 Od
 [SMS To E-mail Gateway :]
-Brána SMS > Email
+BrĞ±na SMS > Email
 [Always Send Through E-mail Gateway]
-Vdy odesílat pøes Email bránu
+VÑ›dy odesĞ½lat pÑˆes Email brĞ±nu
 [Insert Signature In Message]
-Pøiloit ke zprávì podpis
+PÑˆiloÑ›it ke zprĞ±vĞ¼ podpis
 [Signature:]
 Podpis:
 [SMS+ Options]
-Monosti SMS+
+MoÑ›nosti SMS+
 
 ;Receive SMS Dialog
 ;--------------------
@@ -68,11 +68,11 @@ SMS od
 [From :]
 Od:
 [Phone No :]
-Èíslo telefonu:
+Ğ˜Ğ½slo telefonu:
 [Received SMS from ICQ network]
-Pøijata SMS ze sítì ICQ
+PÑˆijata SMS ze sĞ½tĞ¼ ICQ
 [Message :]
-Zpráva:
+ZprĞ±va:
 [&Show details]
 Zo&brazit detaily
 ;(DUP) [&Reply]
@@ -86,37 +86,37 @@ Poslat SMS+
 ;(DUP) [&Send]
 ;(DUP) [Message]
 [0 character(s); 0 part(s)]
-0 znak(ù); 0 èást(í)
+0 znak(Ñ‰); 0 Ğ¸Ğ±st(Ğ½)
 [To :]
 Komu:
 ;(DUP) [Phone No :]
 [Phone Number]
-Èíslo telefonu
+Ğ˜Ğ½slo telefonu
 [Send In Translit]
 Odeslat hned
 [Send Through E-mail Gateway]
-Odeslat pøes Email bránu
+Odeslat pÑˆes Email brĞ±nu
 [Deliver State]
-Prùbìh doruèení
+PrÑ‰bĞ¼h doruĞ¸enĞ½
 [Show Details]
 Zobrazit detaily
 [character(s);]
-znak(ù);
+znak(Ñ‰);
 [part(s)]
-èást(í)
+Ğ¸Ğ±st(Ğ½)
 [Request sent through E-mail Gateway!]
-Poadavek odeslán pøes Email bránu!
+PoÑ›adavek odeslĞ±n pÑˆes Email brĞ±nu!
 [Successfully delivered through E-mail Gateway!]
-Úspìšnì doruèeno pøes Email bránu!
+ĞªspĞ¼Ñ™nĞ¼ doruĞ¸eno pÑˆes Email brĞ±nu!
 [Request sent!]
-Poadavek odeslán
+PoÑ›adavek odeslĞ±n
 [Invalid ACK Data!]
-Neplatné potvrzení!
+NeplatnĞ¹ potvrzenĞ½!
 [Undeliverable!]
-Nedoruèitelné
+NedoruĞ¸itelnĞ¹
 [SMS To]
 SMS komu
 [Successfully delivered!]
-Úspìšnì doruèeno
+ĞªspĞ¼Ñ™nĞ¼ doruĞ¸eno
 
 ; ---

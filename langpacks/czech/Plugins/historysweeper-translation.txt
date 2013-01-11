@@ -1,24 +1,24 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  History Sweeper 0.2.0.2                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 ;Name of plugin, message box caption, ...
 [History Sweeper]
-Èistiè historie
+Ğ˜istiĞ¸ historie
 
 ;Questions and notifications
 [Sweep history messages?]
 Opravdu chcete odstranit historii?
 [Sweep system history?]
-Opravdu chcete odstranit historii systému?
+Opravdu chcete odstranit historii systĞ¹mu?
 [Sweep whole history?]
 Opravdu chcete odstranit CELOU historii?
 [Sweep history from selected contacts?]
-Opravdu chcete odstranit historii vybranıch kontaktù?
+Opravdu chcete odstranit historii vybranÑch kontaktÑ‰?
 
 ;Contact menu item
 ;(FIX) Sweep history [%d]
@@ -27,65 +27,65 @@ Odstranit historii [%d]
 
 ;Main menu & options items
 [Sweep system history]
-Odstranit historii systému
+Odstranit historii systĞ¹mu
 [Sweep whole history]
 Odstranit celou historii
 [Sweep history from selected contacts]
-Odstranit historii vybranıch kontaktù
+Odstranit historii vybranÑch kontaktÑ‰
 
 ;Options page items
 [Sweep history for this contacts:]
-Odstranit historii vybranım kontaktùm:
+Odstranit historii vybranÑm kontaktÑ‰m:
 ;(FIX) [Sweep history at Miranda IM startup]
 [Sweep history at Miranda startup]
-Pøi spuštìní odstranit historii
+PÑˆi spuÑ™tĞ¼nĞ½ odstranit historii
 ;(FIX) [Sweep history at Miranda IM shutdown]
 [Sweep history at Miranda shutdown]
-Pøed ukonèením odstranit historii
+PÑˆed ukonĞ¸enĞ½m odstranit historii
 [Put an item in the main menu*]
-Pøidat poloku do hlavního menu *
+PÑˆidat poloÑ›ku do hlavnĞ½ho menu *
 [Put an item in the contact menu*]
-Pøidat poloku menu kontaktùm *
+PÑˆidat poloÑ›ku menu kontaktÑ‰m *
 [Main menu action:]
-Poloky hlavního menu:
+PoloÑ›ky hlavnĞ½ho menu:
 [At Startup/Shutdown:]
-Pøi spuštìní a ukonèení:
+PÑˆi spuÑ™tĞ¼nĞ½ a ukonĞ¸enĞ½:
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
-Pouít ZRYCHLENÉ mazání (v nìkterıch pøípadech mùe mít neádoucí úèinky)
+PouÑ›Ğ½t ZRYCHLENĞ™ mazĞ±nĞ½ (v nĞ¼kterÑch pÑˆĞ½padech mÑ‰Ñ›e mĞ½t neÑ›Ğ±doucĞ½ ÑŠĞ¸inky)
 [* Note: Miranda IM will have to be restarted for changes to take effect.]
-* Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+* PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 
 ;Time intervals
 [All events]
-Všechny poloky
+VÑ™echny poloÑ›ky
 [Older than 1 Day]
-Starší ne 1 den
+StarÑ™Ğ½ neÑ› 1 den
 [Older than 3 Days]
-Starší ne 3 dny
+StarÑ™Ğ½ neÑ› 3 dny
 [Older than 7 Days]
-Starší ne 1 tıden
+StarÑ™Ğ½ neÑ› 1 tÑden
 [Older than 2 Weeks (14 days)]
-Starší ne 2 tıdny (14 dnù)
+StarÑ™Ğ½ neÑ› 2 tÑdny (14 dnÑ‰)
 [Older than 1 Month (30 days)]
-Starší ne 1 mìsíc (30 dnù)
+StarÑ™Ğ½ neÑ› 1 mĞ¼sĞ½c (30 dnÑ‰)
 [Older than 3 Months (90 days)]
-Starší ne 3 mìsíce (90 dnù)
+StarÑ™Ğ½ neÑ› 3 mĞ¼sĞ½ce (90 dnÑ‰)
 [Older than 6 Months (180 days)]
-Starší ne 6 mìsícù (180 dnù)
+StarÑ™Ğ½ neÑ› 6 mĞ¼sĞ½cÑ‰ (180 dnÑ‰)
 [Older than 1 Year (364 days)]
-Starší ne 1 rok (364 dnù)
+StarÑ™Ğ½ neÑ› 1 rok (364 dnÑ‰)
 
 [*** System History ***]
-*** historie systému ***
+*** historie systĞ¹mu ***
 [Perform custom action on entry/exit]
-Provést pøeddefinovanou akci
+ProvĞ¹st pÑˆeddefinovanou akci
 [Do not preserve any history]
-Neukládat historii
+NeuklĞ±dat historii
 [Custom Action:]
-Pøeddefinovaná akce:
+PÑˆeddefinovanĞ± akce:
 [Sweep on closing message window]
-Vymazat po zavøení komunikaèního okna
+Vymazat po zavÑˆenĞ½ komunikaĞ¸nĞ½ho okna
 [Change History Policy]
-Zmìnit zpùsob ukládání historie
+ZmĞ¼nit zpÑ‰sob uklĞ±dĞ±nĞ½ historie
 
 ; ---

@@ -1,50 +1,50 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  mPhantomUser 0.3.7.0                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; PÑˆeklad: madmojo <madmojo (zavinĞ±Ğ¸) kdynenet (teĞ¸ka) cz>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=468
 ;
 
 
 [&Phantom Users]
-&Virtuální uivatelé
+&VirtuĞ±lnĞ½ uÑ›ivatelĞ¹
 [&Add Phantom User]
-Pøid&at virtuálního uivatele
+PÑˆid&at virtuĞ±lnĞ½ho uÑ›ivatele
 [&Edit Phantom User]
-&Upravit virtuálního uivatele
+&Upravit virtuĞ±lnĞ½ho uÑ›ivatele
 [&Export Phantom Users]
-&Exportovat virtuální uivatele
+&Exportovat virtuĞ±lnĞ½ uÑ›ivatele
 [&Import Phantom Users]
-&Importovat virtuální uivatele
+&Importovat virtuĞ±lnĞ½ uÑ›ivatele
 [&Full Name]
-&Celé jméno
+&CelĞ¹ jmĞ¹no
 [&Nick Name]
-&Pøezdívka
+&PÑˆezdĞ½vka
 [Contact &Type]
 Druh kon&taktu
 [Cellular &Phone]
-Mobilní &telefon
+MobilnĞ½ &telefon
 ;(DUP) [&E-mail]
 [&Home Page]
-&Domovská stránka
+&DomovskĞ± strĞ±nka
 [&IP]
 &IP adresa
 ;(DUP) [&OK]
 ;(DUP) [Close]
 ;(DUP) [Error]
 [Invalid or empty full user name.]
-Neplatné nebo chybìjící jméno.
+NeplatnĞ¹ nebo chybĞ¼jĞ½cĞ½ jmĞ¹no.
 ;(DUP) [Open]
 ;(DUP) [Save]
 [Comma Separated Values (*.csv)]
-Poloky oddìlené èárkou (*.csv)
+PoloÑ›ky oddĞ¼lenĞ¹ Ğ¸Ğ±rkou (*.csv)
 [Import process has not completed]
-Import dat nebyl dokonèen.
+Import dat nebyl dokonĞ¸en.
 [Import process has completed.]
-Import dat byl úspìšnì dokonèen.
+Import dat byl ÑŠspĞ¼Ñ™nĞ¼ dokonĞ¸en.
 [Export process has completed.]
-Export dat byl úspìšnì dokonèen.
+Export dat byl ÑŠspĞ¼Ñ™nĞ¼ dokonĞ¸en.
 ;(DUP) [Unspecified]
 [Family]
 Rodina
@@ -54,12 +54,12 @@ Rodina
 VIP
 ;(DUP) [Other]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Add Phantom User]
-Novı virtuální uivatel
+NovÑ virtuĞ±lnĞ½ uÑ›ivatel
 [Edit Phantom User]
-Upravit virtuálního uivatele
+Upravit virtuĞ±lnĞ½ho uÑ›ivatele
 [PhantomUser]
-Virtuální uivatelé
+VirtuĞ±lnĞ½ uÑ›ivatelĞ¹
 
 ; ---

@@ -1,32 +1,32 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Wikify 1.0.1.1                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2611
 ;
 
 [Use: [[ ]] => URL0, [[[ ]]] => URL1, ...]
-Pouití: [[ ]] => URL0, [[[ ]]] => URL1, ...
+PouÑ›itĞ½: [[ ]] => URL0, [[[ ]]] => URL1, ...
 [Convert]
 Nahradit
 [Indents (: at the beginning of a new line to 3 spaces)]
-Odsazení (: na zaèátku nového øádku -> 3 mezery)
+OdsazenĞ½ (: na zaĞ¸Ğ±tku novĞ¹ho ÑˆĞ±dku -> 3 mezery)
 [Tabulator character (\\t)]
-\\t -> tabulátor
+\\t -> tabulĞ±tor
 [Standard quotations marks ("") to:]
-Standardní uvozovky (""):
+StandardnĞ½ uvozovky (""):
 [Invert ending mark]
-Obrátit ukonèující znak
+ObrĞ±tit ukonĞ¸ujĞ½cĞ½ znak
 [Switch]
 Prohodit
-[-- to —]
--- -> —
+[-- to â€”]
+-- -> â€”
 [I like it small]
-Malé je milé
+MalĞ¹ je milĞ¹
 [<!> escape tag (disables all following convertions in the message)]
-Znaèka <!> vypne všechny pøípadné následující konverze
+ZnaĞ¸ka <!> vypne vÑ™echny pÑˆĞ½padnĞ¹ nĞ±sledujĞ½cĞ½ konverze
 [Template:]
-Šablona:
+Ğ‰ablona:
 
 ; ---

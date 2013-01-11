@@ -1,4 +1,4 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Unpublished strings                                     |
 ; \----------------------------------------------------------/
 
@@ -11,22 +11,22 @@
 
 ; datastore.cpp
 [The help server replied with a failure code.]
-Chyba pøi dotazu na server s nápovìdou.
+Chyba pÑˆi dotazu na server s nĞ±povĞ¼dou.
 [Help can't connect to the server, it may be temporarily down. Please try again later.]
-Nelze se pøipojit k serveru s nápovìdou, pravdìpodobnì je doèasnì mimo provoz. Zkuste pozdìji.
+Nelze se pÑˆipojit k serveru s nĞ±povĞ¼dou, pravdĞ¼podobnĞ¼ je doĞ¸asnĞ¼ mimo provoz. Zkuste pozdĞ¼ji.
 [Help]
-Nápovìda
+NĞ±povĞ¼da
 [Help Upload failed]
-Chyba pøi aktualizaci nápovìdy
+Chyba pÑˆi aktualizaci nĞ±povĞ¼dy
 ;(DUP) [Upload complete]
 [Help Upload]
-Aktualizace nápovìdy
+Aktualizace nĞ±povĞ¼dy
 
 ; helpdlg.cpp
 [Ctl ID: %d]
 Ctl ID: %d
 [Dialog ID: <not in dialog>]
-Dialog ID: <není v dialogu>
+Dialog ID: <nenĞ½ v dialogu>
 [Dialog ID: %s]
 Dialog ID: %s
 [Type: %s]
@@ -34,25 +34,25 @@ Typ: %s
 [Module: %s]
 Modul: %s
 [No help available]
-Nápovìda není k dispozici
+NĞ±povĞ¼da nenĞ½ k dispozici
 [Downloading...]
-Stahování...
+StahovĞ±nĞ½...
 
 ; main.cpp
 [Help plugin HTTP connections]
-Help - spojení pomocí protokolu HTTP
+Help - spojenĞ½ pomocĞ½ protokolu HTTP
 
 ; options.cpp
 [Download failed\n\nPlease check your Internet connection and try again.]
-Chyba pøi stahování.\n\nZkontrolujte pøipojení k internetu a akci zopakujte.
+Chyba pÑˆi stahovĞ±nĞ½.\n\nZkontrolujte pÑˆipojenĞ½ k internetu a akci zopakujte.
 [Retry]
 Znovu
 [Downloading language list\n\nPlease wait...]
-Stahování seznamu jazykù.\n\nPoèkejte prosím...
+StahovĞ±nĞ½ seznamu jazykÑ‰.\n\nPoĞ¸kejte prosĞ½m...
 ;(DUP) [OK]
 ;(DUP) [Plugins]
 [Help Editor]
-Editor nápovìdy
+Editor nĞ±povĞ¼dy
 
 ; resource.rc
 [Choose...]
@@ -64,7 +64,7 @@ Vybrat...
 Auth:
 ;(DUP) [Path:]
 [Help Language Picker]
-Stahování nápovìdy
+StahovĞ±nĞ½ nĞ±povĞ¼dy
 
 [&What's This?]
 &Co je to?
@@ -72,91 +72,91 @@ Stahování nápovìdy
 &Co je tento dialog?
 
 ; plugin: textformat
-; název doplòku
+; nĞ±zev doplÑ‚ku
 [TextFormat]
-Formátování textu
+FormĞ±tovĞ±nĞ½ textu
 
 ; plugin: WinPopup
-; název doplòku
+; nĞ±zev doplÑ‚ku
 [WinPopup Protocol]
 Protokol WinPopup
 [Computer]
-Poèítaè
+PoĞ¸Ğ½taĞ¸
 
 ; plugin: AutoReply.dll
 [Auto Respond when in Away / NA]
-Automaticky odpovìdìt ve stavu Pryè / Nejsem tady
+Automaticky odpovĞ¼dĞ¼t ve stavu PryĞ¸ / Nejsem tady
 [Set Respond Msg]
-Nastavit automatickou odpovìï
+Nastavit automatickou odpovĞ¼Ğ¿
 
-; plugin: neznámı
+; plugin: neznĞ±mÑ
 [Recent Contacts]
-Nedávné kontakty
+NedĞ±vnĞ¹ kontakty
 
 ; plugin: services
 [(restart required)]
-(vyaduje restart)
+(vyÑ›aduje restart)
 [Available services (%d):]
-Pøehled slueb (poèet: %d)
+PÑˆehled sluÑ›eb (poĞ¸et: %d)
 [Services list]
-Seznam slueb
+Seznam sluÑ›eb
 [Total time]
-Celkovı èas
+CelkovÑ Ğ¸as
 
 [Display in a frame]
-Zobrazit v rámeèku
+Zobrazit v rĞ±meĞ¸ku
 
 ; plugin: aa_historyevents
 [Keep in database:]
-Uchovat v databázi:
+Uchovat v databĞ±zi:
 [Event types:]
-Druhy událostí:
+Druhy udĞ±lostĞ½:
 [Client Change]
-Zmìna klienta
+ZmĞ¼na klienta
 [Listening Change]
-Zmìna pøi poslechu
+ZmĞ¼na pÑˆi poslechu
 [Nickname Change]
-Zmìna pøezdívky
+ZmĞ¼na pÑˆezdĞ½vky
 [Status Change]
-Zmìna stavu
+ZmĞ¼na stavu
 [Status Message Change]
-Zmìna stavové zprávy
+ZmĞ¼na stavovĞ¹ zprĞ±vy
 [X-Status Change]
-Zmìna rozšíøeného stavu
+ZmĞ¼na rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [X-Status Message Change]
-Zmìna vlastní zprávy
+ZmĞ¼na vlastnĞ½ zprĞ±vy
 [Only add if message window is open]
-Pouze bìhem komunikace s kontaktem
+Pouze bĞ¼hem komunikace s kontaktem
 ;[Removal:]
 [Forever]
 Natrvalo
 [For 1 year]
 Po dobu 1 roku
 [For 6 months]
-Po dobu 6 mìsícù
+Po dobu 6 mĞ¼sĞ½cÑ‰
 [For 1 month]
-Po dobu 1 mìsíce
+Po dobu 1 mĞ¼sĞ½ce
 [For 1 week]
-Po dobu 1 tıdne
+Po dobu 1 tÑdne
 [For 1 day]
 Po dobu 1 dne
 [Only to view in message window]
-Pouze v rámci komunikaèního okna
+Pouze v rĞ±mci komunikaĞ¸nĞ½ho okna
 [Max 10 events]
-Max. 10 poloek
+Max. 10 poloÑ›ek
 [Max 100 events]
-Max. 100 poloek
+Max. 100 poloÑ›ek
 [Don't store]
-Neukládat
+NeuklĞ±dat
 
 ; plugin: Auto database backup 0.3.1.1
 [Auto Backups]
-Automatické zálohy
+AutomatickĞ¹ zĞ±lohy
 [Backup folder name:]
-Název sloky se zálohami: 
+NĞ±zev sloÑ›ky se zĞ±lohami: 
 [Additional command (will be executed after the backup is made):]
-Doplòkovı pøíkaz (bude proveden po dokonèení zálohování):
+DoplÑ‚kovÑ pÑˆĞ½kaz (bude proveden po dokonĞ¸enĞ½ zĞ±lohovĞ±nĞ½):
 [Wait this long for Miranda to exit (secs):]
-Jak dlouho èekat na Mirandu pro ukonèení (sek):
+Jak dlouho Ğ¸ekat na Mirandu pro ukonĞ¸enĞ½ (sek):
 
 ; ---

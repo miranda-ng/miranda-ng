@@ -1,36 +1,36 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Scriver 2.9.0.10                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3701
 ;
 
 ; globals.c
 ;(DUP) [Add contact]
 [User's details]
-Osobní údaje
+OsobnĞ½ ÑŠdaje
 [User's history]
 Historie komunikace
 ;(DUP) [Send message]
 ;(DUP) [Close session]
 ;(DUP) [Smiley button]
 [User is typing]
-Indikace psaní zprávy
+Indikace psanĞ½ zprĞ±vy
 [Unicode is on]
 Unicode: zapnuto
 [Unicode is off]
 Unicode: vypnuto
 [Sending]
-Odesílání
+OdesĞ½lĞ±nĞ½
 [Quote button]
 Citovat text
 ;(DUP) [Incoming message]
 ;(DUP) [Outgoing message]
 [Notice]
-Poznámka
+PoznĞ±mka
 [Default codepage]
-Vıchozí kódování
+VÑchozĞ½ kÑƒdovĞ±nĞ½
 
 ; msgdialog.c
 ;(DUP) [Add Contact Permanently to List]
@@ -41,15 +41,15 @@ Vıchozí kódování
 Citovat text
 ;(DUP) [Insert Emoticon]
 [Send Message]
-Odeslat zprávu
+Odeslat zprĞ±vu
 [Close Session]
-Zavøít relaci
+ZavÑˆĞ½t relaci
 [User Menu - %s]
-Uivatelské menu - %s
+UÑ›ivatelskĞ¹ menu - %s
 [User Menu - %u]
-Uivatelské menu - %u
+UÑ›ivatelskĞ¹ menu - %u
 [Sending in progress: %d message(s) left...]
-Odesílání; poèet zpráv k odeslání: %d
+OdesĞ½lĞ±nĞ½; poĞ¸et zprĞ±v k odeslĞ±nĞ½: %d
 ;(DUP) [%s is typing a message...]
 ;(DUP) [Last message received on %s at %s.]
 ;(DUP) [The message send timed out.]
@@ -58,13 +58,13 @@ Odesílání; poèet zpráv k odeslání: %d
 ;(DUP) [Today]
 ;(DUP) [Yesterday]
 [File sent]
-Odeslanı soubor
+OdeslanÑ soubor
 [File received]
-Pøijatı soubor
+PÑˆijatÑ soubor
 [URL sent]
-Odeslanı odkaz
+OdeslanÑ odkaz
 [URL received]
-Pøijatı odkaz
+PÑˆijatÑ odkaz
 
 ; msgoptions.c
 ;(DUP) [** New contacts **]
@@ -96,26 +96,26 @@ Pøijatı odkaz
 [Automatically pop up the window when]
 Automaticky vyvolat okno ve stavu
 [Stay minimized]
-Ponechat minimalizované
+Ponechat minimalizovanĞ¹
 ;(DUP) [Close the message window on send]
 ;(DUP) [Minimize the message window on send]
 ;(DUP) [Use the contact's status icon as the window icon]
 [Use tabbed mode]
-Pouít systém panelù
+PouÑ›Ğ½t systĞ¹m panelÑ‰
 [Hide tab bar if there is only one tab]
-Skrıt, je-li otevøenı pouze jeden panel
+SkrÑt, je-li otevÑˆenÑ pouze jeden panel
 [Tabs at bottom]
-Panely v dolní èásti
+Panely v dolnĞ½ Ğ¸Ğ±sti
 [Limit names on tabs to 20 characters]
-Omezit délku jména na panelu na 20 znakù
+Omezit dĞ¹lku jmĞ¹na na panelu na 20 znakÑ‰
 [Automatically switch to active tab]
-Automaticky pøepnout na aktivní panel
+Automaticky pÑˆepnout na aktivnĞ½ panel
 ;(DUP) [Cascade new windows]
 [Save splitter position for each contact]
-Uloit pozici dìlicí linky pro kadı kontakt zvláš
+UloÑ›it pozici dĞ¼licĞ½ linky pro kaÑ›dÑ kontakt zvlĞ±Ñ™Ñœ
 ;(DUP) [Support control up/down in message area to show previously sent messages]
 [Save message draft on close]
-Pøi zavøení uloit rozepsanou zprávu
+PÑˆi zavÑˆenĞ½ uloÑ›it rozepsanou zprĞ±vu
 ;(DUP) [Enable avatar support in the message window]
 ;(DUP) [Enable transparency]
 ;(DUP) [Send message on 'Enter']
@@ -126,22 +126,22 @@ Pøi zavøení uloit rozepsanou zprávu
 ;(LAI) [&Q]
 ;(DUP) [Close]
 [Enable IEView]
-Pouít doplnìk IEView
+PouÑ›Ğ½t doplnĞ¼k IEView
 ;(DUP) [Show icons]
 ;(DUP) [Show names]
 [Show times]
-Zobrazit èas
+Zobrazit Ğ¸as
 ;(DUP) [Show seconds]
 ;(DUP) [Show dates]
 ;(DUP) [Use relative timestamp]
 [Mark follow-up msgs with timestamp]
-Oznaèit seskupené zprávy èasem
+OznaĞ¸it seskupenĞ¹ zprĞ±vy Ğ¸asem
 [Start message text on a new line]
-Zaèít psát text na novém øádku
+ZaĞ¸Ğ½t psĞ±t text na novĞ¹m ÑˆĞ±dku
 ;(DUP) [Show status changes]
 ;(DUP) [Show typing notifications when a user is typing a message]
 [Update message window icons when a user is typing]
-Indikovat psaní zprávy zmìnou ikony okna
+Indikovat psanĞ½ zprĞ±vy zmĞ¼nou ikony okna
 ;(DUP) [Show typing notification when no message dialog is open]
 ;(DUP) [Flash in the system tray and in the contact list]
 ;(DUP) [Show balloon popup]
@@ -159,11 +159,11 @@ max.
 ;(DUP) [seconds.]
 ;(DUP) [An error has occured. The protocol reported the following error:]
 [while sending the following message:]
-bìhem odesílání následující zprávy:
+bĞ¼hem odesĞ½lĞ±nĞ½ nĞ±sledujĞ½cĞ½ zprĞ±vy:
 [Background colour:]
-Barva pozadí:
+Barva pozadĞ½:
 [Input area background:]
-Pozadí psaní zprávy:
+PozadĞ½ psanĞ½ zprĞ±vy:
 ;(DUP) [Incoming background:]
 ;(DUP) [Outgoing background:]
 ;(DUP) [minutes old]
@@ -188,249 +188,249 @@ Pozadí psaní zprávy:
 ;(DUP) [Paste]
 ;(DUP) [Delete]
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [Scriver]
-Odesílání a pøíjem zpráv
+OdesĞ½lĞ±nĞ½ a pÑˆĞ½jem zprĞ±v
 
 [Limit names on tabs to]
-Omezit délku jména na panelu na
+Omezit dĞ¹lku jmĞ¹na na panelu na
 [Show close button on each tab ]
-Zobrazit tlaèítko "Zavøít" na všech panelech
+Zobrazit tlaĞ¸Ğ½tko "ZavÑˆĞ½t" na vÑ™ech panelech
 [Tabs]
 Panely
 [Look And Feel]
 Vzhled
 [Outgoing URL]
-Odchozí odkaz
+OdchozĞ½ odkaz
 [Close button]
-Tlaèítko Zavøít
+TlaĞ¸Ğ½tko ZavÑˆĞ½t
 [Save size and location for each contact]
-Uloit velikost a umístìní okna pro kadı kontakt zvláš
+UloÑ›it velikost a umĞ½stĞ¼nĞ½ okna pro kaÑ›dÑ kontakt zvlĞ±Ñ™Ñœ
 [Input area background]
-Pozadí psaní zprávy
+PozadĞ½ psanĞ½ zprĞ±vy
 [Incoming background]
-Pozadí pøíchozích zpráv
+PozadĞ½ pÑˆĞ½chozĞ½ch zprĞ±v
 [Outgoing background]
-Pozadí odchozích zpráv
+PozadĞ½ odchozĞ½ch zprĞ±v
 
 [Hide containers on close]
-Pøi zavøení skrıt kontejner
+PÑˆi zavÑˆenĞ½ skrÑt kontejner
 [But be polite]
-Neobtìujícím zpùsobem
+NeobtĞ¼Ñ›ujĞ½cĞ½m zpÑ‰sobem
 [Save message draft when closing message window]
-Pøi zavøení okna uloit rozepsanou zprávu
+PÑˆi zavÑˆenĞ½ okna uloÑ›it rozepsanou zprĞ±vu
 [Indent text]
 Odsadit text o
 [Single Messaging]
-Bìnı rozhovor
+BĞ¼Ñ›nÑ rozhovor
 [Scriver - send and receive instant messages]
-Komunikaèní modul pro posílání a pøíjem zpráv
+KomunikaĞ¸nĞ½ modul pro posĞ½lĞ±nĞ½ a pÑˆĞ½jem zprĞ±v
 [User's status was changed]
-Zmìna stavu uivatele
+ZmĞ¼na stavu uÑ›ivatele
 [Send]
 Poslat
 [Quote]
 Citovat
 [Smiley]
-Smajlík
+SmajlĞ½k
 
 [Keep original avatar size]
-Nemìnit velikost avataru
+NemĞ¼nit velikost avataru
 
 [Always On Top]
-Vdy navrchu
+VÑ›dy navrchu
 [Incoming message (10x10)]
-Pøíchozí zpráva (10x10)
+PÑˆĞ½chozĞ½ zprĞ±va (10x10)
 [Outgoing message (10x10)]
-Odchozí zpráva (10x10)
+OdchozĞ½ zprĞ±va (10x10)
 
 [Show typing notification switch in the status bar]
-Pøidat do stavové lišty pøepínaè indikace psaní zprávy
+PÑˆidat do stavovĞ¹ liÑ™ty pÑˆepĞ½naĞ¸ indikace psanĞ½ zprĞ±vy
 [Navigate: Previous Tab]
-Pøejít na pøedchozí panel
+PÑˆejĞ½t na pÑˆedchozĞ½ panel
 [Navigate: Next Tab]
-Pøejít na další panel
+PÑˆejĞ½t na dalÑ™Ğ½ panel
 [Navigate: Tab %d]
-Pøejít na panel è.%d
+PÑˆejĞ½t na panel Ğ¸.%d
 [Window: Toggle Statusbar]
-Pøepnout stavovı øádek
+PÑˆepnout stavovÑ ÑˆĞ±dek
 [Window: Toggle Titlebar]
-Pøepnout záhlaví okna
+PÑˆepnout zĞ±hlavĞ½ okna
 [Window: Toggle Toolbar]
-Pøepnout nástrojovou lištu
+PÑˆepnout nĞ±strojovou liÑ™tu
 [Window: Clear Log]
-Vymazat záznam
+Vymazat zĞ±znam
 [Window: Minimize]
 Minimalizovat okno
 [Window: Close Tab]
-Zavøít panel
+ZavÑˆĞ½t panel
 [Action: Send to All]
-Poslat všem
+Poslat vÑ™em
 
 [Typing notification off]
-Indikace psaní vypnuta
+Indikace psanĞ½ vypnuta
 
 [Close Other Tabs]
-Zavøít ostatní panely
+ZavÑˆĞ½t ostatnĞ½ panely
 
 [and stay minimized]
-a zároveò minimalizovat
+a zĞ±roveÑ‚ minimalizovat
 [and do not steal focus]
-a zároveò neaktivovat
+a zĞ±roveÑ‚ neaktivovat
 
 [Remember unsent messages]
-Uloit neodeslané zprávy
+UloÑ›it neodeslanĞ¹ zprĞ±vy
 [Hide windows on close]
-Pøi zavøení okno pouze skrıt
+PÑˆi zavÑˆenĞ½ okno pouze skrÑt
 [Delete temporary contacts on closing]
-Pøi zavøení smazat doèasné kontakty
+PÑˆi zavÑˆenĞ½ smazat doĞ¸asnĞ¹ kontakty
 [Event Log]
-Záznam událostí
+ZĞ±znam udĞ±lostĞ½
 [Group Chat]
-Skupinovı rozhovor
+SkupinovÑ rozhovor
 [Group Chat Log]
-Záznam rozhovorù
+ZĞ±znam rozhovorÑ‰
 [Enable tabs]
 Zapnout panely
 [Always show tab bar]
-Trvale zobrazit lištu s panely
+Trvale zobrazit liÑ™tu s panely
 [Switch to active tab]
-Pøepínat na aktivní panel
+PÑˆepĞ½nat na aktivnĞ½ panel
 [Limit number of tabs per window to]
-Omezit poèet panelù v jednom oknì na
+Omezit poĞ¸et panelÑ‰ v jednom oknĞ¼ na
 [Use separate windows for group chats]
-Pro skupinové rozhovory pouít jiné okno
+Pro skupinovĞ¹ rozhovory pouÑ›Ğ½t jinĞ¹ okno
 [Limit number of group chats tabs per window to]
-Omezit poèet panelù v jednom oknì na
+Omezit poĞ¸et panelÑ‰ v jednom oknĞ¼ na
 [Show titlebar]
-Zobrazit záhlaví
+Zobrazit zĞ±hlavĞ½
 [Show toolbar]
-Zobrazit lištu
+Zobrazit liÑ™tu
 [Limit height to min.]
-Minimální vıška avatara
+MinimĞ±lnĞ½ vÑÑ™ka avatara
 [Use original size]
-Pouít definovanou velikost
+PouÑ›Ğ½t definovanou velikost
 [Show progress indicator]
-Zobrazit indikátor prùbìhu pøenosu
+Zobrazit indikĞ±tor prÑ‰bĞ¼hu pÑˆenosu
 [Long date format]
-Pouít dlouhı formát data
+PouÑ›Ğ½t dlouhÑ formĞ±t data
 [Relative date]
-Pouít relativní zápis data
+PouÑ›Ğ½t relativnĞ½ zĞ±pis data
 [Enable message grouping]
-Seskupovat zprávy
+Seskupovat zprĞ±vy
 [Show lines between messages]
-Jednotlivé zprávy oddìlit linkou
+JednotlivĞ¹ zprĞ±vy oddĞ¼lit linkou
 [Save logs]
-Uloit do souboru
+UloÑ›it do souboru
 [Trim to]
 Max.
 [Preload]
 Cache
 [Unread events only]
-Pouze nepøeètené události
+Pouze nepÑˆeĞ¸tenĞ¹ udĞ±losti
 [Last]
-Poslední
-;Konkrétní poèet pøedchozích událostí
+PoslednĞ½
+;KonkrĞ¹tnĞ½ poĞ¸et pÑˆedchozĞ½ch udĞ±lostĞ½
 [Events in the last]
-Pøedchozí události starší ménì ne
+PÑˆedchozĞ½ udĞ±losti starÑ™Ğ½ mĞ¹nĞ¼ neÑ›
 [User list row height]
-Vıška øádku v seznamu
+VÑÑ™ka ÑˆĞ±dku v seznamu
 
 [Appearance and functionality of chat windows]
-Nastavení vzhledu a funkcí komunikaèních oken
+NastavenĞ½ vzhledu a funkcĞ½ komunikaĞ¸nĞ½ch oken
 [Flash when someone speaks]
-Zablikat oknem pøi napsání zprávy
+Zablikat oknem pÑˆi napsĞ±nĞ½ zprĞ±vy
 [Flash when a word is highlighted]
-Zablikat oknem pøi zvıraznìní slova
+Zablikat oknem pÑˆi zvÑraznĞ¼nĞ½ slova
 [Show chat user list]
-Zobrazit seznam uivatelù v místnosti
+Zobrazit seznam uÑ›ivatelÑ‰ v mĞ½stnosti
 [Show send button]
-Zobrazit tlaèítko pro odesílání zpráv
+Zobrazit tlaĞ¸Ğ½tko pro odesĞ½lĞ±nĞ½ zprĞ±v
 [Show chat control buttons]
-Zobrazit tlaèítka øízení pravidel místnosti
+Zobrazit tlaĞ¸Ğ½tka ÑˆĞ½zenĞ½ pravidel mĞ½stnosti
 [Show text formatting buttons]
-Zobrazit tlaèítka pro formátování textu pøi psaní
+Zobrazit tlaĞ¸Ğ½tka pro formĞ±tovĞ±nĞ½ textu pÑˆi psanĞ½
 [Enable button context menus]
-Zobrazit kontextové menu u tlaèítek
+Zobrazit kontextovĞ¹ menu u tlaĞ¸Ğ½tek
 [Show topic on your contact list (if supported)]
-Zadané téma zobrazit v seznamu kontaktù (je-li to podporováno)
+ZadanĞ¹ tĞ¹ma zobrazit v seznamu kontaktÑ‰ (je-li to podporovĞ±no)
 [Do not play sounds when focused]
-Nepøehrávat zvuky, je-li okno místnosti aktivní
+NepÑˆehrĞ±vat zvuky, je-li okno mĞ½stnosti aktivnĞ½
 [Do not pop up when joining]
-Neaktivovat okno po pøíchodu do místnosti
+Neaktivovat okno po pÑˆĞ½chodu do mĞ½stnosti
 [Show and hide by double clicking in the contact list]
-Pøepnout viditelnost pøi dvojím kliknutí na uivatele v seznamu
+PÑˆepnout viditelnost pÑˆi dvojĞ½m kliknutĞ½ na uÑ›ivatele v seznamu
 [Show contact statuses (if supported)]
-Zobrazit stav úèastníkù (je-li to podporováno)
+Zobrazit stav ÑŠĞ¸astnĞ½kÑ‰ (je-li to podporovĞ±no)
 [Display contact status icon before role icon]
-Zobrazit ikonu stavu kontaktu pøed ikonou jeho role
+Zobrazit ikonu stavu kontaktu pÑˆed ikonou jeho role
 [Add \':\' to auto-completed names]
-Pøidat dvojteèku za automaticky doplnìné jméno
+PÑˆidat dvojteĞ¸ku za automaticky doplnĞ¼nĞ¹ jmĞ¹no
 [Timestamp has same colour as event]
-Pro informaci o èase pouít stejnou barvu jakou má pøíslušná událost
+Pro informaci o Ğ¸ase pouÑ›Ğ½t stejnou barvu jakou mĞ± pÑˆĞ½sluÑ™nĞ± udĞ±lost
 [Limit user names to 20 characters]
-Omezit délku jmen v záznamu na 20 znakù
+Omezit dĞ¹lku jmen v zĞ±znamu na 20 znakÑ‰
 [Strip colors from messages]
-Záznam ukládat bez kódù definující barvy
+ZĞ±znam uklĞ±dat bez kÑƒdÑ‰ definujĞ½cĞ½ barvy
 [Enable \'event filter\' for new rooms]
-Povolit \"filtrování událostí\" pro nové místnosti
+Povolit \"filtrovĞ±nĞ½ udĞ±lostĞ½\" pro novĞ¹ mĞ½stnosti
 
 [Group Chats Log]
-Záznam rozhovorù
+ZĞ±znam rozhovorÑ‰
 
 [User list members (online)]
-Seznam úèastníkù (online)
+Seznam ÑŠĞ¸astnĞ½kÑ‰ (online)
 [User list background (selected)]
-Pozadí seznamu kontaktù (vybranı)
+PozadĞ½ seznamu kontaktÑ‰ (vybranÑ)
 [User list lines]
-Linky v seznamu kontaktù
+Linky v seznamu kontaktÑ‰
 
 [(0 means default setting, -1 means indefinite time)]
-(0 = vıchozí nastavení, -1 = vypnutí prodlevy)
+(0 = vÑchozĞ½ nastavenĞ½, -1 = vypnutĞ½ prodlevy)
 
 [Action: Paste & Send]
-Vloit text a poslat
+VloÑ›it text a poslat
 [Action: Quote]
-Vloit citaci
+VloÑ›it citaci
 [Navigate: Tab 1]
-Pøejít na panel è.1
+PÑˆejĞ½t na panel Ğ¸.1
 [Navigate: Tab 2]
-Pøejít na panel è.2
+PÑˆejĞ½t na panel Ğ¸.2
 [Navigate: Tab 3]
-Pøejít na panel è.3
+PÑˆejĞ½t na panel Ğ¸.3
 [Navigate: Tab 4]
-Pøejít na panel è.4
+PÑˆejĞ½t na panel Ğ¸.4
 [Navigate: Tab 5]
-Pøejít na panel è.5
+PÑˆejĞ½t na panel Ğ¸.5
 [Navigate: Tab 6]
-Pøejít na panel è.6
+PÑˆejĞ½t na panel Ğ¸.6
 [Navigate: Tab 7]
-Pøejít na panel è.7
+PÑˆejĞ½t na panel Ğ¸.7
 [Navigate: Tab 8]
-Pøejít na panel è.8
+PÑˆejĞ½t na panel Ğ¸.8
 [Navigate: Tab 9]
-Pøejít na panel è.9
+PÑˆejĞ½t na panel Ğ¸.9
 [Window: Toggle Infobar]
-Pøepnout informaèní lištu
+PÑˆepnout informaĞ¸nĞ½ liÑ™tu
 
 [Paste && Send]
-Vloit a poslat
+VloÑ›it a poslat
 [Show infobar]
-Zobrazit informaèní lištu
+Zobrazit informaĞ¸nĞ½ liÑ™tu
 [Auto resize input area]
-Autom. mìnit velikost pole pro zadání textu
+Autom. mĞ¼nit velikost pole pro zadĞ±nĞ½ textu
 
 [Infobar contact name]
-Jméno v informaèní lištì
+JmĞ¹no v informaĞ¸nĞ½ liÑ™tĞ¼
 [Infobar status message]
-Stav v informaèní lištì
+Stav v informaĞ¸nĞ½ liÑ™tĞ¼
 
 [Min input area size]
-Min. velikost pole pro zadávání textu:
+Min. velikost pole pro zadĞ±vĞ±nĞ½ textu:
 [lines]
-øádky
+ÑˆĞ±dky
 [Customize fonts and colors]
-Upravit písmo a barvy
+Upravit pĞ½smo a barvy
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Message Export 2.14.0.0                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -14,30 +14,30 @@
 ;; Contact menu item
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Open E&xported History]
-Otevøít vye&xportovanou historii
+OtevÑˆĞ½t vye&xportovanou historii
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Main options Tree
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;(DUP) [Plugins]
 [Message export]
-Export zpráv
+Export zprĞ±v
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Main options dialog
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Static
 [Export directory]
-Sloka pro export
+SloÑ›ka pro export
 ;(DUP) [Browse]
 [Default file]
 Soubor
 [Export format]
-Vıstupní formát
+VÑstupnĞ½ formĞ±t
 [Max column width]
-Šíøka sloupce
+Ğ‰Ğ½Ñˆka sloupce
 [Time format]
-Datum, èas
+Datum, Ğ¸as
 
 ; ListCtrl
 [File]
@@ -48,58 +48,58 @@ UIN
 
 ; Buttons
 [Auto filename]
-Autom. název
+Autom. nĞ±zev
 [Clear all]
-Odstranit vše
+Odstranit vÑ™e
 ;(DUP) [Help]
 [Export all history]
-Exportovat vše
+Exportovat vÑ™e
 
 ; Errors / Questions
 [You have unapplyed changes do you wish to apply these first ?]
-Nìkteré ze zmìn nebyly potvrzeny. Chcete je potvrdit?
+NĞ¼kterĞ¹ ze zmĞ¼n nebyly potvrzeny. Chcete je potvrdit?
 [No contacts found to export]
-Nenalezeny ádné kontakty
+Nenalezeny Ñ›Ğ±dnĞ¹ kontakty
 [Failed to export at least one contact]
-Chyba pøi exportu; nenalezeny ádné kontakty.
+Chyba pÑˆi exportu; nenalezeny Ñ›Ğ±dnĞ¹ kontakty.
 [Max line width must be at least %d]
-Šíøka sloupce musí bıt nejménì %d znakù!
+Ğ‰Ğ½Ñˆka sloupce musĞ½ bÑt nejmĞ¹nĞ¼ %d znakÑ‰!
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Dialog Export all, Progress bar
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Exporting old messages]
-Export starıch zpráv
+Export starÑch zprĞ±v
 [Reading database information ( Phase 1 of 2 )]
-Naèítání informací z databáze (fáze è.1)
+NaĞ¸Ğ½tĞ±nĞ½ informacĞ½ z databĞ±ze (fĞ±ze Ğ¸.1)
 [Sorting and writing database information ( Phase 2 of 2 )]
-Tøídìní a zápis do databáze (fáze è.2)
+TÑˆĞ½dĞ¼nĞ½ a zĞ±pis do databĞ±ze (fĞ±ze Ğ¸.2)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Folder Browse dialog
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Select Destination Directory]
-Vyberte cílovou sloku
+Vyberte cĞ½lovou sloÑ›ku
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Strings written to export file
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [The following user added you to their contact list:]
-Uivatel, kterı si vás pøidal mezi kontakty:
+UÑ›ivatel, kterÑ si vĞ±s pÑˆidal mezi kontakty:
 [The following user made an authorization request:]
-Tento uivatel vás poádal o autorizaci:
+Tento uÑ›ivatel vĞ±s poÑ›Ğ±dal o autorizaci:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General Error dialogs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Message has not been saved !]
-Zpráva nebyla uloena!
+ZprĞ±va nebyla uloÑ›ena!
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
-Neplatná cesta ke knihovnì Msg_Export.dll
+NeplatnĞ± cesta ke knihovnĞ¼ Msg_Export.dll
 [Failed to move to the end of the file :\n]
-Chyba pøi pøesunu na konec souboru\n
+Chyba pÑˆi pÑˆesunu na konec souboru\n
 [Failed to open or create file :\n]
-Chyba pøi otevírání nebo vytváøení souboru:\n
+Chyba pÑˆi otevĞ½rĞ±nĞ½ nebo vytvĞ±ÑˆenĞ½ souboru:\n
 
 ;/////////////////////
 ;//  Version 1.4.0  //
@@ -111,15 +111,15 @@ Chyba pøi otevírání nebo vytváøení souboru:\n
 ;(DUP) [The following user added you to their contact list:]
 ;(DUP) [The following user made an authorization request:]
 [Nick      :]
-Pøezdívka :
+PÑˆezdĞ½vka :
 [FirstName :]
-Jméno     :
+JmĞ¹no     :
 [LastName  :]
-Pøíjmení  :
+PÑˆĞ½jmenĞ½  :
 [e-mail    :]
 E-mail    :
 [Reason    :]
-Dùvod     :
+DÑ‰vod     :
 
 ; Errors
 
@@ -131,9 +131,9 @@ Dùvod     :
 ;; General Error dialogs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Failed to write message to the file :\n]
-Chyba pøi zápisu zprávy do souboru:\n
+Chyba pÑˆi zĞ±pisu zprĞ±vy do souboru:\n
 [Failed to write URL/File to the file :\n]
-Chyba pøi zápisu adresy nebo souboru do souboru:\n
+Chyba pÑˆi zĞ±pisu adresy nebo souboru do souboru:\n
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Strings written to export file
@@ -156,13 +156,13 @@ Popis:
 [EmailExpress from:]
 EmailExpress od:
 [No from address]
-Adresa nespecifikována
+Adresa nespecifikovĞ±na
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; General Error dialogs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Failed to write EmailExpress to the file :\n]
-Chyba pøi zápisu poloky EmailExpress do souboru:\n
+Chyba pÑˆi zĞ±pisu poloÑ›ky EmailExpress do souboru:\n
 
 
 ;/////////////////////
@@ -173,7 +173,7 @@ Chyba pøi zápisu poloky EmailExpress do souboru:\n
 ;; General Error dialogs
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [Failed to write SMS to the file :\n]
-Chyba pøi zápisu poloky SMS do souboru:\n
+Chyba pÑˆi zĞ±pisu poloÑ›ky SMS do souboru:\n
 
 
 
@@ -187,9 +187,9 @@ Chyba pøi zápisu poloky SMS do souboru:\n
 [Replace miranda history]
 Nahradit historii Mirandy
 [Use internal viewer]
-Interní prohlíeè
+InternĞ½ prohlĞ½Ñ›eĞ¸
 [You need to restart miranda to change the history function]
-Nahrazení historie vyaduje restart Mirandy.
+NahrazenĞ½ historie vyÑ›aduje restart Mirandy.
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; File Viewer dialog
@@ -197,13 +197,13 @@ Nahrazení historie vyaduje restart Mirandy.
 [History file for %s (%s)]
 Historie: %s (soubor: %s)
 [Find...]
-Najít...
+NajĞ½t...
 ;(DUP) [Close]
 ;(FIX) [External]
 [&External]
-&Externí
+&ExternĞ½
 [Search string was not found !]
-Hledanı øetìzec nebyl nalezen!
+HledanÑ ÑˆetĞ¼zec nebyl nalezen!
 
 
 ;/////////////////////
@@ -211,15 +211,15 @@ Hledanı øetìzec nebyl nalezen!
 ;/////////////////////
 
 [File name for the user \"%s\" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
-Jméno kontaktu bylo zmìnìno (na \"%s\").\n\nPùvodní název:\t%s\nNovı název:\t%s\n\nChcete tento soubor pøejmenovat?
+JmĞ¹no kontaktu bylo zmĞ¼nĞ¼no (na \"%s\").\n\nPÑ‰vodnĞ½ nĞ±zev:\t%s\nNovÑ nĞ±zev:\t%s\n\nChcete tento soubor pÑˆejmenovat?
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Chyba pøi pøejmenování souboru.\n\nPùvodní název:\t%s\nNovı název:\t%s\n\nPopis chyby: %s
+Chyba pÑˆi pÑˆejmenovĞ±nĞ½ souboru.\n\nPÑ‰vodnĞ½ nĞ±zev:\t%s\nNovÑ nĞ±zev:\t%s\n\nPopis chyby: %s
 ;(DUP) [&Yes]
 [Yes to &All]
-&Ano všem
+&Ano vÑ™em
 ;(DUP) [&No]
 [No to A&ll]
-Ne vš&em
+Ne vÑ™&em
 
 ;/////////////////////
 ;//  Version 1.9.0  //
@@ -235,7 +235,7 @@ Barva...
 
 ; File Viewer menu item
 [Font...]
-Písmo...
+PĞ½smo...
 
 ;/////////////////////
 ;//  Version 1.9.5  //
@@ -243,7 +243,7 @@ Písmo...
 
 ; Errors / Questions
 [Failed to delete the file]
-Chyba pøi mazání souboru
+Chyba pÑˆi mazĞ±nĞ½ souboru
 
 ;/////////////////////
 ;//  Version 1.9.6  //
@@ -261,7 +261,7 @@ Chyba pøi mazání souboru
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [Prompt to delete file]
-Potvrdit smazání
+Potvrdit smazĞ±nĞ½
 
 ;/////////////////////
 ;//  Version 1.9.8  //
@@ -272,7 +272,7 @@ Potvrdit smazání
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
-Funkci Historie Mirandy nelze nahradit.\r\nDùvodem jsou pravdìpodobnì interní zmìny v programu.
+Funkci Historie Mirandy nelze nahradit.\r\nDÑ‰vodem jsou pravdĞ¼podobnĞ¼ internĞ½ zmĞ¼ny v programu.
 
 ;/////////////////////
 ;//  Version 2.0.1  //
@@ -283,7 +283,7 @@ Funkci Historie Mirandy nelze nahradit.\r\nDùvodem jsou pravdìpodobnì interní zm
 ;Removed : [User has been deleted do you want to delete the file ?\r\n%s]
 ;(FIX) Proc to odstranil, kdyz se pouziva?
 [User has been deleted do you want to delete the file ?\r\n%s]
-Opravdu chcete smazat historii odstranìného kontaktu?\r\n%s
+Opravdu chcete smazat historii odstranĞ¼nĞ¹ho kontaktu?\r\n%s
 ;Removed : [Failed to HookEvent ME_DB_EVENT_ADDED]
 ;Removed : [Failed to HookEvent ME_OPT_INITIALISE]
 ;Removed : [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
@@ -294,7 +294,7 @@ Opravdu chcete smazat historii odstranìného kontaktu?\r\n%s
 
 ; Errors / Questions
 [User has been deleted do you want to delete the file ?]
-Jeden z uivatelù byl odebrán ze seznamu.\nChcete smazat pøíslušnı soubor?
+Jeden z uÑ›ivatelÑ‰ byl odebrĞ±n ze seznamu.\nChcete smazat pÑˆĞ½sluÑ™nÑ soubor?
 
 ;///////////////////////
 ;//  Version 2.03.00  //
@@ -302,7 +302,7 @@ Jeden z uivatelù byl odebrán ze seznamu.\nChcete smazat pøíslušnı soubor?
 
 ; File Viewer menu item
 [Syntax highlight]
-Zvıraznìní klíèovıch slov
+ZvÑraznĞ¼nĞ½ klĞ½Ğ¸ovÑch slov
 
 ;///////////////////////
 ;//  Version 2.04.00  //
@@ -312,9 +312,9 @@ Zvıraznìní klíèovıch slov
 ;; Main options dialog
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 [File viewer]
-Prohlíeè souborù
+ProhlĞ½Ñ›eĞ¸ souborÑ‰
 [Append extra new line]
-Pøidat 1 novı øádek
+PÑˆidat 1 novÑ ÑˆĞ±dek
 
 ;///////////////////////
 ;//  Version 2.05.00  //
@@ -339,9 +339,9 @@ WebPager od:
 ;(DUP) [User &Details]
 ; These were not added in 2.06.00 but were forgotten in previous versions.
 [Export selected]
-Exportovat vybrané
+Exportovat vybranĞ¹
 [Set to default filename]
-Vıchozí název souboru
+VÑchozĞ½ nĞ±zev souboru
 
 ;///////////////////////
 ;//  Version 2.09.00  //
@@ -352,7 +352,7 @@ Vıchozí název souboru
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 [Use << and >>]
-Pouít << a >>
+PouÑ›Ğ½t << a >>
 
 ;///////////////////////
 ;//  Version 2.12.00  //
@@ -365,20 +365,20 @@ Pouít << a >>
 ;Removed : [User has been deleted do you want to delete the file ?]
 
 [When filename changes]
-Po zmìnì názvu souboru
+Po zmĞ¼nĞ¼ nĞ±zvu souboru
 [When user is deleted]
-Po odebrání kontaktu
+Po odebrĞ±nĞ½ kontaktu
 [Prompt for action]
-Dotázat se
+DotĞ±zat se
 [Rename file]
-Pøejmenovat soubor
+PÑˆejmenovat soubor
 [Do nothing]
-Nedìlat nic
+NedĞ¼lat nic
 [Delete file]
 Smazat soubor
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Message export2]
-Export zpráv 2
+Export zprĞ±v 2
 
 ; ---

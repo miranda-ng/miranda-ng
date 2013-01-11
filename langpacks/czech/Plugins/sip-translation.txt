@@ -1,60 +1,60 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SIP Protocol 0.1.6.11                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3046
 ;
 
 [Sign-in name:]
-Pøihl. jméno:
+PÑˆihl. jmĞ¹no:
 [Example: someone@example.com]
-Pøíklad: nìkdo@nìkde.cz
+PÑˆĞ½klad: nĞ¼kdo@nĞ¼kde.cz
 [Authentication settings]
-Monosti autorizace
+MoÑ›nosti autorizace
 [Automatic configuration]
-Automatická konfigurace
+AutomatickĞ± konfigurace
 [Account:]
-Úèet:
+ĞªĞ¸et:
 [Server name or IP address:]
 Server nebo IP adresa:
 [Connect using:]
 Transp. protokol:
 [Note: You have to reconnect to the SIP network before the changes take effect]
-Poznámka: Zmìny se projeví a pøi pøíštím pøipojení do sítì SIP.
+PoznĞ±mka: ZmĞ¼ny se projevĞ½ aÑ› pÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ do sĞ½tĞ¼ SIP.
 [SIP Address]
 Adresa SIP
 
 ;Sip 0.1.6.9
 [SiP Options]
-Monosti SIP
+MoÑ›nosti SIP
 [You need to reconnect SiP to apply some changes]
-Zmìny se projeví a pøi dalším pøipojení do sítì SIP
+ZmĞ¼ny se projevĞ½ aÑ› pÑˆi dalÑ™Ğ½m pÑˆipojenĞ½ do sĞ½tĞ¼ SIP
 [Connection settings:]
-Monosti pøipojení
+MoÑ›nosti pÑˆipojenĞ½
 [URI*:]
 URI:
 [login*:]
-Jméno:
+JmĞ¹no:
 [password:]
 Heslo:
 [Use logon credentials]
-Pouít pøihlaš. údaje Windows
+PouÑ›Ğ½t pÑˆihlaÑ™. ÑŠdaje Windows
 [server:]
 Server:
 [transport:]
 Transport:
 [*usually URI and login are same.]
-*URI a jméno jsou obvykle stejné
+*URI a jmĞ¹no jsou obvykle stejnĞ¹
 ;[Roaming (leave it checked if possible)]
 [Media:]
-Ostatní monosti
+OstatnĞ½ moÑ›nosti
 [SiP]
 SIP
 [Play ring on incoming calls]
-Zvonit u pøíchozích hovorù
+Zvonit u pÑˆĞ½chozĞ½ch hovorÑ‰
 [Play ring on outgoing calls]
-Zvonit u odchozích hovorù
+Zvonit u odchozĞ½ch hovorÑ‰
 [Allow audio]
 Povolit zvuk
 [Allow video]
@@ -64,29 +64,29 @@ Optimalizace zvuku a videa
 [Tuning Wizard]
 Optimalizace zvuku a videa
 [Sessions Manager]
-Správce relací
+SprĞ±vce relacĞ½
 [Add buddy]
-Pøidat kontakt...
+PÑˆidat kontakt...
 [Resync contactlist]
-Sesynchronizovat seznam kontaktù
+Sesynchronizovat seznam kontaktÑ‰
 [Download contacts from server]
-Stáhnout kontakty ze serveru
+StĞ±hnout kontakty ze serveru
 [Upload contacts to server]
-Uloit kontakty na server
+UloÑ›it kontakty na server
 [Import contacts from file]
 Importovat kontakty ze souboru
 [Export contacts to file]
 Exportovat kontakty do souboru
 ;(DUP) [Answer]
 [Terminate]
-Ukonèit
+UkonĞ¸it
 [Call]
 Volat
 [Hold]
-Pøidret
+PÑˆidrÑ›et
 ;[Refer]
 [Mute]
-Ztišit
+ZtiÑ™it
 [Speakers:]
 Reproduktory:
 [Microphone:]
@@ -94,26 +94,26 @@ Mikrofon:
 [Max A/V bitrate:]
 Max. dat. tok:
 [Speed/Quality:]
-Pásmo/kvalita:
+PĞ±smo/kvalita:
 [balanced]
-vyváeno
+vyvĞ±Ñ›eno
 [Acoustic Echo Cancelation]
-Potlaèit echo
+PotlaĞ¸it echo
 [SiP :: Add New Buddy]
-SIP :: Novı kontakt
+SIP :: NovÑ kontakt
 [Type user name you want to add (e.g. user@domain.com):]
-Zadejte identifikaèní údaje (napø. nìkdo@nìkde.cz):
+Zadejte identifikaĞ¸nĞ½ ÑŠdaje (napÑˆ. nĞ¼kdo@nĞ¼kde.cz):
 [SiP Control Panel]
 Panel protokolu SIP
 [Type URI you want to call to.]
-Zadejte prosím identifikaèní údaje volané osoby.
+Zadejte prosĞ½m identifikaĞ¸nĞ½ ÑŠdaje volanĞ¹ osoby.
 [Open session manager on incoming calls]
-Otevøít správce u pøíchozích hovorù
+OtevÑˆĞ½t sprĞ±vce u pÑˆĞ½chozĞ½ch hovorÑ‰
 [Open session manager on outgoing calls]
-Otevøít správce u odchozích hovorù
+OtevÑˆĞ½t sprĞ±vce u odchozĞ½ch hovorÑ‰
 [Automatically download server contacts on logon]
-Bìhem pøihlášení ze serveru stáhnout kontakty
+BĞ¼hem pÑˆihlĞ±Ñ™enĞ½ ze serveru stĞ±hnout kontakty
 [Append my domain to callee's URI if no domain specified]
-Není-li u volaného uvedena doména, pøiøadit vlastní
+NenĞ½-li u volanĞ¹ho uvedena domĞ¹na, pÑˆiÑˆadit vlastnĞ½
 
 ; ---

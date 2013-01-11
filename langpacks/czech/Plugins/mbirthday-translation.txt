@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  mBirthday 0.0.0.4                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -10,43 +10,43 @@
 ; last updated 21-04-2004 for v0.0.0.3
 
 [Add a mark to contact with birthday near]
-Pøidat znaèku ke kontaktu s blíícími se narozeninami
+PÑˆidat znaĞ¸ku ke kontaktu s blĞ½Ñ›Ğ½cĞ½mi se narozeninami
 
 ; ******** Options ******** 
 [Mark with]
-Znaèka:
+ZnaĞ¸ka:
 [Mark contacts with birthday near]
-Zvıraznit blíící se narozeniny
+ZvÑraznit blĞ½Ñ›Ğ½cĞ½ se narozeniny
 [Use a char mark]
-Pouít znaèku
+PouÑ›Ğ½t znaĞ¸ku
 [Add char mark before contact name]
-Pøidat znaèku pøed jméno
+PÑˆidat znaĞ¸ku pÑˆed jmĞ¹no
 [Use MultiWindow icon]
-Pouít ikonu
+PouÑ›Ğ½t ikonu
 ;(DUP) [Advanced #1]
 ;(DUP) [Advanced #2]
 [Use PopUp]
-Pouít oznámení
+PouÑ›Ğ½t oznĞ±menĞ½
 [Timeout:]
 Prodleva:
 ;(DUP) [Notify]
 [day(s) before birthday.]
-dnù pøedem
+dnÑ‰ pÑˆedem
 [Set contact status to Invisible if birthday near]
-Zmìnit stav kontaktu na 'Neviditelnı'
+ZmĞ¼nit stav kontaktu na 'NeviditelnÑ'
 
 [Set birthday date:]
-Zmìnit datum narození
+ZmĞ¼nit datum narozenĞ½
 [Use found birthday date]
-Pouít definované datum
+PouÑ›Ğ½t definovanĞ¹ datum
 [Use mBirthday date]
-Pouít datum dle mBirthday
+PouÑ›Ğ½t datum dle mBirthday
 [Do not use any birthday date]
-Ponechat bez data narození
+Ponechat bez data narozenĞ½
 [Year:]
 Rok:
 [Month:]
-Mìsíc:
+MĞ¼sĞ½c:
 [Day:]
 Den:
 ;(DUP) [Cancel]
@@ -55,20 +55,20 @@ Den:
 [day to]
 den do
 [days to]
-dnù do
+dnÑ‰ do
 [birthday...]
 . narozenin
 [year(s) old]
 let
 [Has birthday]
-má narozeniny
+mĞ± narozeniny
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [mBirthday]
 Narozeniny
 
 [&User birthday]
-&Datum narození
+&Datum narozenĞ½
 
 ; ---

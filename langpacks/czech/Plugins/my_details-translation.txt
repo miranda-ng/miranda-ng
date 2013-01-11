@@ -1,50 +1,50 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  My Details 0.0.1.11                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Odkaz: http://forums.miranda-im.org/showthread.php?t=5643
 ;
 
 
 ; /resource.rc
 [Set My Nickname]
-Nastavit pøezdívku
+Nastavit pÑˆezdĞ½vku
 ;(DUP) [Nickname:]
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 
 ; /resource.rc:IDD_OPTS
 [ General ]
-Obecné
+ObecnĞ¹
 [Cycle through protocols every:]
-Mìnit protokoly kadıch:
+MĞ¼nit protokoly kaÑ›dÑch:
 ;(DUP) [Button]
 ;(DUP) [seconds]
 [Global on avatar]
-Globální pro avatar
+GlobĞ±lnĞ½ pro avatar
 [RTL]
-Psát zprava doleva
+PsĞ±t zprava doleva
 [Align text to right]
 Zarovnat text doprava
 [Global on nickname]
-Globální pro pøezdívku
+GlobĞ±lnĞ½ pro pÑˆezdĞ½vku
 [Auto-resize frame]
-Mìnit velikost okna
+MĞ¼nit velikost okna
 [Use contact list smileys]
-Pouít smajlíky pro kontakty
+PouÑ›Ğ½t smajlĞ½ky pro kontakty
 [Global on status]
-Globální pro stav
+GlobĞ±lnĞ½ pro stav
 [Replace Smileys]
-Vykreslovat smajlíky
+Vykreslovat smajlĞ½ky
 [Resize Smileys]
-Mìnit velikost smajlíkù
+MĞ¼nit velikost smajlĞ½kÑ‰
 [Global on status message]
-Globální pro zprávu stavu
+GlobĞ±lnĞ½ pro zprĞ±vu stavu
 [ Frame Options ]
-Monosti okna
+MoÑ›nosti okna
 [Top: ]
-Nahoøe:
+NahoÑˆe:
 [Bottom:]
 Dole:
 [Left:]
@@ -52,33 +52,33 @@ Vlevo:
 [Right:]
 Vpravo:
 [Background Color:]
-Barva pozadí:
+Barva pozadĞ½:
 [ Avatar ]
 Avatar
 [Custom size:]
-Vlastní velikost:
+VlastnĞ½ velikost:
 ;(DUP) [pixels]
 [Allow it to grow]
-Povolit zvìtšování
+Povolit zvĞ¼tÑ™ovĞ±nĞ½
 [Draw border on avatar]
-Orámovat avatary
+OrĞ±movat avatary
 [Border Color:]
-Barva rámeèku:
+Barva rĞ±meĞ¸ku:
 [Round corners of avatars]
-Zaoblit rohy avatarù
+Zaoblit rohy avatarÑ‰
 [Custom corner size:]
-Velikost zakulacení:
+Velikost zakulacenĞ½:
 [Use free space (under avatar) to other texts]
-Vyuít místo pod avatarem pro další texty
+VyuÑ›Ğ½t mĞ½sto pod avatarem pro dalÑ™Ğ½ texty
 [ Protocol ]
 Protokol
 ;(DUP) [Show protocol name]
 [Set My Status Message for All Status]
-Nastavit zprávu pro všechny stavy
+Nastavit zprĞ±vu pro vÑ™echny stavy
 [Status Message:]
-Stavová zpráva:
+StavovĞ± zprĞ±va:
 [Status popup]
-Nabídka stavù
+NabĞ½dka stavÑ‰
 [&Offline]
 &Offline
 ;(DUP) [On&line]
@@ -91,48 +91,48 @@ Nabídka stavù
 ;(DUP) [On the &Phone]
 ;(DUP) [Out to &Lunch]
 [Context popup]
-Kontextová nabídka
+KontextovĞ± nabĞ½dka
 [Set My Avatar...]
 Nastavit avatar...
 [Set My Nickname...]
-Nastavit pøezdívku...
+Nastavit pÑˆezdĞ½vku...
 [Set My Status Message...]
-Zmìnit stavovou zprávu...
+ZmĞ¼nit stavovou zprĞ±vu...
 [Show next protocol]
-Zobrazit další protokol
+Zobrazit dalÑ™Ğ½ protokol
 [Show previous protocol]
-Zobrazit pøedchozí protokol
+Zobrazit pÑˆedchozĞ½ protokol
 [Cycle through protocols]
-Mìnit pravidelnì protokoly
+MĞ¼nit pravidelnĞ¼ protokoly
 [Don't cycle through protocols]
-Nemìnit protokoly
+NemĞ¼nit protokoly
 [Nick popup]
-Nabídka pøezdívky
+NabĞ½dka pÑˆezdĞ½vky
 [Status message popup]
-Nabídka stavové zprávy
+NabĞ½dka stavovĞ¹ zprĞ±vy
 [Avatar popup]
-Nabídka avataru
+NabĞ½dka avataru
 
 ; /frame.cpp
 [My Details]
-Informace o sobì
+Informace o sobĞ¼
 [Show My Details]
-Zobrazit informace o sobì
+Zobrazit informace o sobĞ¼
 ;(DUP) [Main Window/Backgrnd]
 [Set My Avatar for %s...]
 Nastavit avatar pro %s...
 [Set My Nickname for %s...]
-Nastavit pøezdívku pro %s...
+Nastavit pÑˆezdĞ½vku pro %s...
 [Set My Status Message for %s...]
-Zadat stavovou zprávu pro %s...
+Zadat stavovou zprĞ±vu pro %s...
 [Hide My Details]
-Skrıt informace o sobì
+SkrÑt informace o sobĞ¼
 
 ; /mydetails.cpp
 [Set My Nickname for %s]
-Nastavit pøezdívku pro %s
+Nastavit pÑˆezdĞ½vku pro %s
 [Set My Status Message for %s]
-Zadat stavovou zprávu pro %s
+Zadat stavovou zprĞ±vu pro %s
 
 ; /options.cpp
 ;(DUP) [Customize]
@@ -140,37 +140,37 @@ Zadat stavovou zprávu pro %s
 ; /smileys.cpp
 ;(DUP) [Contact List smileys]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [<no status message>]
-<zpráva není zadaná>
+<zprĞ±va nenĞ½ zadanĞ±>
 [Top:]
-Nahoøe:
+NahoÑˆe:
 
 [Enable Listening To]
-Povolit doplnìk Listening To
+Povolit doplnĞ¼k Listening To
 [Enable Listening To for %s]
-Povolit doplnìk Listening To pro %s
+Povolit doplnĞ¼k Listening To pro %s
 
-; Vlastní úpravy / Písma
+; VlastnĞ½ ÑŠpravy / PĞ½sma
 [Listening To]
 Poslech hudby
 
 [Show and allows you to edit your details for all protocols.]
-Souhrnné zobrazení a monost úpravy osobních informací, stavovıch zpráv apod.
+SouhrnnĞ¹ zobrazenĞ½ a moÑ›nost ÑŠpravy osobnĞ½ch informacĞ½, stavovÑch zprĞ±v apod.
 
 [Previous protocol]
-Pøedchozí protokol
+PÑˆedchozĞ½ protokol
 [Next protocol]
-Další protokol
+DalÑ™Ğ½ protokol
 
 [Show protocol cycle button]
-Umonit pøepnutí mezi protokoly
+UmoÑ›nit pÑˆepnutĞ½ mezi protokoly
 
 [<no status name>]
-<stav není zadanı>
+<stav nenĞ½ zadanÑ>
 
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [<no nickname>]
-<bez pøezdívky>
+<bez pÑˆezdĞ½vky>
 
 ; ---

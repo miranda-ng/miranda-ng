@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  OrangeSMS  0.1.0.0                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Maros Jabloncik <marosjabloncik (zavináè) gmail (teèka) com>
+; PÑˆeklad: Maros Jabloncik <marosjabloncik (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://www.prophet.ic.cz/download/
 
 
@@ -10,25 +10,25 @@
 ;Error messages
 ;--------------
 [You are not connected to the Internet.]
-Nejste pøipojenı k síti Internet.
+Nejste pÑˆipojenÑ k sĞ½ti Internet.
 [An error occured while attempting to log in.]
-Nastala chyba pøi pøihlašování.
+Nastala chyba pÑˆi pÑˆihlaÑ™ovĞ±nĞ½.
 [Could not log in (check account settings - login and password).]
-Nebylo moné se pøihlásit (zadali jste špatné jméno nebo heslo).
+Nebylo moÑ›nĞ¹ se pÑˆihlĞ±sit (zadali jste Ñ™patnĞ¹ jmĞ¹no nebo heslo).
 [Could not retrieve SMS count. It is possible, that the main page has changed. Sending of message may also not work correctly. Please contact the author of this plugin.]
-Nebylo moné zjistit poèet SMS. Je moné, e se zmìnila stránka, take nemusí fungovat ani posílání SMS. Kontaktujte prosím autora doplòku.
+Nebylo moÑ›nĞ¹ zjistit poĞ¸et SMS. Je moÑ›nĞ¹, Ñ›e se zmĞ¼nila strĞ±nka, takÑ›e nemusĞ½ fungovat ani posĞ½lĞ±nĞ½ SMS. Kontaktujte prosĞ½m autora doplÑ‚ku.
 [An error occured while sending the message.]
-Nastala chyba pøi posílání zprávy.
+Nastala chyba pÑˆi posĞ½lĞ±nĞ½ zprĞ±vy.
 [Orangeportal refused the number.]
-Orangeportal odmítl èíslo.
+Orangeportal odmĞ½tl Ğ¸Ğ½slo.
 [You did not enter the number.]
-Nezadali jste èíslo.
+Nezadali jste Ğ¸Ğ½slo.
 [You did not enter the message body.]
-Nezadali jste text zprávy.
+Nezadali jste text zprĞ±vy.
 [You did not enter a nick in options.]
-Nevyplnili jste jméno v nastavení.
+Nevyplnili jste jmĞ¹no v nastavenĞ½.
 [You did not enter a password in options.]
-Nevyplnili jste heslo v nastavení.
+Nevyplnili jste heslo v nastavenĞ½.
 [Error]
 Chyba
 
@@ -37,35 +37,35 @@ Chyba
 [Send SMS]
 Poslat SMS
 [Account:]
-Úèet:
+ĞªĞ¸et:
 [Choose your account]
-Vyberte úèet
+Vyberte ÑŠĞ¸et
 [Unknown]
-Neznámı
+NeznĞ±mÑ
 [Send]
 Poslat
 [Cancel]
-Zrušit
+ZruÑ™it
 [Message: (type without national characters!)]
-Zpráva: (zadávejte bez diakritiky!)
+ZprĞ±va: (zadĞ±vejte bez diakritiky!)
 [Remaining SMS:]
-Poèet zbıvajících SMS:
+PoĞ¸et zbÑvajĞ½cĞ½ch SMS:
 [Remaining characters:]
-Poèet zbıvajících znakù:
+PoĞ¸et zbÑvajĞ½cĞ½ch znakÑ‰:
 
 
 ;Sending Dialog
 ;--------------
 [Message successfully sent.]
-Zpráva byla úspìšnì odeslána.
+ZprĞ±va byla ÑŠspĞ¼Ñ™nĞ¼ odeslĞ±na.
 [Message not delivered!]
-Zpráva nebyla odeslána!
+ZprĞ±va nebyla odeslĞ±na!
 [Sending message...]
-Odesílám zprávu...
+OdesĞ½lĞ±m zprĞ±vu...
 [Logging to OrangePortal.sk...]
-Pøihlašuji se na OrangePortal.sk...
+PÑˆihlaÑ™uji se na OrangePortal.sk...
 [Signing off from OrangePortal.sk...]
-Odhlašuji se od OrangePortal.sk...
+OdhlaÑ™uji se od OrangePortal.sk...
 
 ;Icons
 ;-----
@@ -73,18 +73,18 @@ Odhlašuji se od OrangePortal.sk...
 Poslat SMS
 
 [Account]
-Úèet
+ĞªĞ¸et
 [Account %d]
-Úèet %d
+ĞªĞ¸et %d
 [Account Name]
-Název úètu
+NĞ±zev ÑŠĞ¸tu
 [Account Name:]
-Název úètu:
+NĞ±zev ÑŠĞ¸tu:
 [Nick:]
-Jméno:
+JmĞ¹no:
 [Password:]
 Heslo:
 [Create a new Orangeportal account]
-Zaloit novı úèet na Orangeportal.sk
+ZaloÑ›it novÑ ÑŠĞ¸et na Orangeportal.sk
 
 ; ---

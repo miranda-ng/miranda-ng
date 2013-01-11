@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  mSecure 1.0.2.0                                         |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -16,30 +16,30 @@
 [Miranda mSecure Protection]
 Miranda-IM (mSecure, ochrana heslem)
 [Enter password to load Miranda]
-Zadejte poûadovanÈ heslo.
+Zadejte po—õadovan–π heslo.
 [Profile:]
 Profil:
 ;(DUP) [Password:]
 [Wrong password. Try again.]
-Bylo zad·no neplatnÈ heslo. 
+Bylo zad–±no neplatn–π heslo. 
 [Exit]
-UkonËit
+Ukon–∏it
 ;#####
 [Protection]
 Ochrana
 [Enter password to enable profile protection]
-Ochranu aktivujete zad·nÌm hesla do textovÈho pole.
+Ochranu aktivujete zad–±n–Ωm hesla do textov–πho pole.
 [To disable profile protection leave password field blank]
-Chcete-li zruöit ochranu heslem, vymaûte obsah textovÈho pole.
+Chcete-li zru—ôit ochranu heslem, vyma—õte obsah textov–πho pole.
 ;(DUP) [Status]
 [Currently protected:]
-Heslem je chr·nÏno:
+Heslem je chr–±n–ºno:
 ;(DUP) [None]
 [Miranda startup]
-Miranda-IM - spuötÏnÌ
+Miranda-IM - spu—ôt–ºn–Ω
 
-; NEPUBLIKOVAN…
-; N·zev doplÚku
+; NEPUBLIKOVAN–ô
+; N–±zev dopl—Çku
 [mSecure]
 Ochrana heslem
 

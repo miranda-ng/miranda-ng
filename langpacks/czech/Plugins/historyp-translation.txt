@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  History+ 2.1.0.0                                        |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -11,57 +11,57 @@
 History+ [%s]
 ;system menu
 [Change &Font...]
-ZmÏnit &pÌsmo...
+Zm–ºnit &p–Ωsmo...
 [History+ Plugin &Info...]
-&Informace o doplÚku History+...
+&Informace o dopl—Çku History+...
 ;export
 [Export the selected part of the history only?]
-Chcete vyexportovat pouze oznaËenou Ë·st historie?
+Chcete vyexportovat pouze ozna–∏enou –∏–±st historie?
 [If you click "no" the whole history will be exported.]
-OdpovÌte-li "Ne", bude vyexportov·na cel· historie.
+Odpov–Ωte-li "Ne", bude vyexportov–±na cel–± historie.
 ;(DUP) [History for %s]
 ;(DUP) [Name]
 [unknown]
-nezn·m˝
+nezn–±m—ç
 ;URL in History
 [URL: %s\nDescription: %s]
 URL: %s\nPopis: %s
 ;nick,name,email,uin,reason
 [Authorisation Request by %s (%s%s%d): %s]
-é·dost o autorizaci: %s (%s%s%d): %s
+–ã–±dost o autorizaci: %s (%s%s%d): %s
 ;nick,name,email,uin
 [You were added by %s (%s%s%d)]
-%s (%s%s%d) si v·s za¯adil mezi kontakty
+%s (%s%s%d) si v–±s za—àadil mezi kontakty
 ;filename,description
 [Outgoing file transfer: %s (%s)]
-OdesÌl·nÌ souboru: %s (%s)
+Odes–Ωl–±n–Ω souboru: %s (%s)
 [Incoming file transfer: %s (%s)]
-P¯Ìjem souboru: %s (%s)
+P—à–Ωjem souboru: %s (%s)
 ;interface
 [View &History+]
 Zobrazit &historii+
 [&System History]
-Historie &systÈmu
+Historie &syst–πmu
 ;(DUP) [&Delete]
 [&Search...]
-&NajÌt...
+&Naj–Ωt...
 [Save &as...]
-&Uloûit jako...
+&Ulo—õit jako...
 ;(DUP) [&Close]
 [Save History]
-Uloûit historii
+Ulo—õit historii
 [Text file (*.txt)|*.txt|HTML file (*.htm)|*.htm;*.html]
-textov˝ soubor (*.txt)|*.txt|HTML soubor (*.htm)|*.htm;*.html
+textov—ç soubor (*.txt)|*.txt|HTML soubor (*.htm)|*.htm;*.html
 ;(DUP) [&Copy]
 [D&etails...]
 Po&drobnosti...
 [Loading full history...]
-NaËÌt·nÌ kompletnÌ historie...
+Na–∏–Ωt–±n–Ω kompletn–Ω historie...
 ;EventDetails
 [Event Details]
 Podrobnosti
 [Event Info]
-Informace o ud·losti
+Informace o ud–±losti
 [From]
 Od
 ;(DUP) [To]
@@ -73,7 +73,7 @@ Typ
 [ICQ #]
 UIN
 [More...]
-VÌce...
+V–Ωce...
 [<<]
 <<
 [>>]
@@ -81,19 +81,19 @@ VÌce...
 [ICQ Server]
 ICQ server
 [Incoming ]
-P¯ÌchozÌ
+P—à–Ωchoz–Ω
 [Outgoing ]
-OdchozÌ
+Odchoz–Ω
 ;(DUP) [File]
 [Authorisation request]
-é·dost o autorizaci
+–ã–±dost o autorizaci
 [Your were added message]
-Zpr·va o za¯azenÌ mezi kontakty
+Zpr–±va o za—àazen–Ω mezi kontakty
 ;(DUP) [URL]
 ;and finally if not already translated with the convers pluging
 [Date/Time]
-Datum a Ëas
+Datum a –∏as
 [Message]
-Zpr·va
+Zpr–±va
 
 ; ---

@@ -1,13 +1,13 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ContactVisibility 0.1.0.0                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ;
 
 [&Always Online]
-&Vdy viditelnı
+&VÑ›dy viditelnÑ
 [&Always Offline]
-&Vdy neviditelnı
+&VÑ›dy neviditelnÑ
 
 ;---

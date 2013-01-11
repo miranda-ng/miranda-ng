@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  History Linklist 0.1.1.1                                |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1762
 ;
 
@@ -17,41 +17,41 @@
 
 ;(DUP) [Error]
 [Unable to load the Rich Edit control!]
-Nelze naèíst tøídu Rich Edit!
+Nelze naĞ¸Ğ½st tÑˆĞ½du Rich Edit!
 [&Create Linklist]
-&Vytvoøit seznam odkazù
+&VytvoÑˆit seznam odkazÑ‰
 [Linklist Plugin]
-Doplnìk 'Linklist'
+DoplnĞ¼k 'Linklist'
 [History is empty!]
-Historie vybraného kontaktu je prázdná!
+Historie vybranĞ¹ho kontaktu je prĞ±zdnĞ±!
 [Processing history...]
-Zpracování historie...
+ZpracovĞ±nĞ½ historie...
 [Processing list...]
-Zpracování seznamu...
+ZpracovĞ±nĞ½ seznamu...
 [Could not create window!]
-Nelze sestavit a otevøít okno!
+Nelze sestavit a otevÑˆĞ½t okno!
 [Could not allocate memory!]
-Nelze alokovat poadovanou pamì!
+Nelze alokovat poÑ›adovanou pamĞ¼Ñœ!
 [There are no links in history!]
-Historie vybraného kontaktu neobsahuje odkazy!
+Historie vybranĞ¹ho kontaktu neobsahuje odkazy!
 [Matches for searchtext]
-Poèet poloek odpovídajících zadanému
+PoĞ¸et poloÑ›ek odpovĞ½dajĞ½cĞ½ch zadanĞ¹mu
 [No messages found!\nPlease change current filter options.]
-Hledanı øetìzec nebyl nalezen!\nPodle potøeby zmìòte kritéria hledání.
+HledanÑ ÑˆetĞ¼zec nebyl nalezen!\nPodle potÑˆeby zmĞ¼Ñ‚te kritĞ¹ria hledĞ±nĞ½.
 ;(DUP) [Date]
 [Miranda Linklist]
-Seznam odkazù v historii
+Seznam odkazÑ‰ v historii
 ;(DUP) [Filter]
 ;(DUP) [none]
 [mailaddresses]
-e-mailové adresy
+e-mailovĞ¹ adresy
 ;(DUP) [URLs]
 [incoming]
-pøíchozí
+pÑˆĞ½chozĞ½
 [outgoing]
-odchozí
+odchozĞ½
 [search options]
-monosti hledání
+moÑ›nosti hledĞ±nĞ½
 
 ;Menu
 ;----
@@ -59,21 +59,21 @@ monosti hledání
 ;(DUP) [&Search]
 ;(DUP) [&File]
 [&Options]
-M&onosti
+M&oÑ›nosti
 [&Clear Search Results]
-&Vymazat seznam nalezenıch
+&Vymazat seznam nalezenÑch
 [Message &Direction]
-&Smìr posílanıch zpráv
+&SmĞ¼r posĞ½lanÑch zprĞ±v
 [&Incoming Messages Only]
-Pouze &pøíchozí zprávy
+Pouze &pÑˆĞ½chozĞ½ zprĞ±vy
 [&Outgoing Messages Only]
-Pouze &odchozí zprávy
+Pouze &odchozĞ½ zprĞ±vy
 [Message &Type]
-&Druh zpráv
+&Druh zprĞ±v
 [&Webaddresses Only]
-Pouze &odkazy na stránky
+Pouze &odkazy na strĞ±nky
 [&Mail-Addresses Only]
-Pouze e-&mailové adresy
+Pouze e-&mailovĞ¹ adresy
 ;(DUP) [&Save]
 ;(DUP) [&Close]
 
@@ -81,83 +81,83 @@ Pouze e-&mailové adresy
 ;----------
 ;(DUP) [Copy to Clipboard]
 [Open]
-Otevøít
+OtevÑˆĞ½t
 [Open in new Window]
-Otevøít v novém oknì
+OtevÑˆĞ½t v novĞ¹m oknĞ¼
 [Show Message]
-Zobrazit zprávu
+Zobrazit zprĞ±vu
 
 ;Search Dialog
 ;-------------
 [Search for:]
 Hledat:
 [Message direction]
-Smìr posílanıch zpráv
+SmĞ¼r posĞ½lanÑch zprĞ±v
 [Message types]
-Druh zpráv
+Druh zprĞ±v
 [All directions]
-Pøijaté i odeslané
+PÑˆijatĞ¹ i odeslanĞ¹
 [Incoming only]
-Pouze pøíchozí
+Pouze pÑˆĞ½chozĞ½
 [Outgoing only]
-Pouze odchozí
+Pouze odchozĞ½
 [All types]
-Všechny druhy
+VÑ™echny druhy
 [Mail addresses only]
-Jen e-mailové adresy
+Jen e-mailovĞ¹ adresy
 [Web addresses only]
-Jen odkazy na stránky
+Jen odkazy na strĞ±nky
 [Deep search]
-Hledat i ve zprávách
+Hledat i ve zprĞ±vĞ±ch
 ;(DUP) [Search]
 ;(DUP) [Close]
 
 ;Options Dialog
 ;--------------
 [Colour Select]
-Vıbìr barev
+VÑbĞ¼r barev
 ;(DUP) [Preview]
 [Use Miranda Settings]
-Pouít nastavení Mirandy
+PouÑ›Ğ½t nastavenĞ½ Mirandy
 [Plugin Default]
-Vıchozí
+VÑchozĞ½
 ;(DUP) [Incoming messages]
 ;(DUP) [Outgoing messages]
 [Backgroundcolour]
-Barva pozadí
+Barva pozadĞ½
 [Textcolour]
 Barva textu
 [No Miranda Settings specified!]
-Nastavení Mirandy není k dispozici!
+NastavenĞ½ Mirandy nenĞ½ k dispozici!
 [General Settings]
-Obecná nastavení
+ObecnĞ± nastavenĞ½
 [Open links always in a new window]
-Otevøít vdy v novém oknì prohlíeèe
+OtevÑˆĞ½t vÑ›dy v novĞ¹m oknĞ¼ prohlĞ½Ñ›eĞ¸e
 [Update list on new events]
-Aktualizovat seznam v reálném èase
+Aktualizovat seznam v reĞ±lnĞ¹m Ğ¸ase
 [Show whole Message on 'mouse over' event]
-Zobrazit zprávu po najetí myší nad odkaz
+Zobrazit zprĞ±vu po najetĞ½ myÑ™Ğ½ nad odkaz
 [Save window position individually for each contact]
-Uloit informace o umístìní okna pro kadı kontakt zvláš
+UloÑ›it informace o umĞ½stĞ¼nĞ½ okna pro kaÑ›dÑ kontakt zvlĞ±Ñ™Ñœ
 [Show...]
 Zobrazit...
 [Parting line]
-Dìlicí linka
+DĞ¼licĞ½ linka
 [Timestamp]
-Èasovı údaj
+Ğ˜asovÑ ÑŠdaj
 [Direction]
-Smìr
+SmĞ¼r
 [Type]
 Typ
 
-; NEPUBLIKOVANÉ
-; název doplòku
+; NEPUBLIKOVANĞ™
+; nĞ±zev doplÑ‚ku
 [History Linklist]
 Odkazy v historii
 
 [Save RTF File]
-Uloit soubor ve formátu RTF
+UloÑ›it soubor ve formĞ±tu RTF
 [RTF File]
-Formát RTF (*.rtf)
+FormĞ±t RTF (*.rtf)
 
 ; ---

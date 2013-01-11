@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Birthday reminder 0.3.1.4                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 ;Main menu item
@@ -13,44 +13,44 @@ Zjistit narozeniny
 [Birthday reminder]
 Narozeniny
 [not implemented yet]
-Není implementováno
+NenĞ½ implementovĞ±no
 
 ;Sound
 [Birthday reminder: it's coming]
-Narozeniny (ji brzy!)
+Narozeniny (jiÑ› brzy!)
 
 ;Popup text on birthday
 [%s has birthday today]
-%s má dnes narozeniny
+%s mĞ± dnes narozeniny
 
 ;Popup texts before birthday
 [today]
 dnes
 [in %d days]
-za %d dnù
+za %d dnÑ‰
 ;(DUP) [He]
 ;(DUP) [She]
 ;(DUP) [He/She]
 [has birthday %s.\n%s becomes %d years old.]
-bude mít narozeniny\n(%s %s oslaví %d let).
+bude mĞ½t narozeniny\n(%s %s oslavĞ½ %d let).
 
 ;Messagebox text
 [%s has birthday %s.\n%s becomes %d years old.]
-%s bude mít narozeniny\n(%s %s oslaví %d let).
+%s bude mĞ½t narozeniny\n(%s %s oslavĞ½ %d let).
 
 ;Popup text on no birthdays
 [No birthdays]
 ---
 [to remind about]
-není co pøipomenout
+nenĞ½ co pÑˆipomenout
 
 ;Popup options dialog
 [Actions]
 Akce
 [Left click]
-Levé tlaè.
+LevĞ¹ tlaĞ¸.
 [Right click]
-Pravé tlaè.
+PravĞ¹ tlaĞ¸.
 ;(DUP) [Delay]
 ;(DUP) [Default]
 ;(DUP) [Custom]
@@ -58,63 +58,63 @@ Pravé tlaè.
 ;(DUP) [Permanent]
 ;(DUP) [Colors]
 [Default colors]
-Vıchozí barvy
+VÑchozĞ½ barvy
 [Windows colors]
 Barvy Windows
 [Custom colors]
-Vlastní barvy
+VlastnĞ½ barvy
 ;(DUP) [Background]
 ;(DUP) [Text]
 [Frequency]
-Èetnost
+Ğ˜etnost
 [Notify me every]
-Upozornit kadıch
+Upozornit kaÑ›dÑch
 ;(DUP) [hours]
 
 ;Actions comboboxes items
 [Hide popup]
-Skrıt oznámení
+SkrÑt oznĞ±menĞ½
 [Leave popup]
-Nechat bıt
+Nechat bÑt
 [User details]
-Informace o uivateli
+Informace o uÑ›ivateli
 [Message dialog]
-Napsat zprávu
+Napsat zprĞ±vu
 
 ;Options dialog
 [Choose contact to edit settings:]
-Vyberte poadovanı kontakt:
+Vyberte poÑ›adovanÑ kontakt:
 ;(DUP) [Date of birth:]
 [Remind]
-Pøipomenout
+PÑˆipomenout
 [days earlier]
-dnù dopø.
+dnÑ‰ dopÑˆ.
 [Show popup]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [Show messagebox]
-Napsat zprávu
+Napsat zprĞ±vu
 [Disable (do not notify)]
-Vypnout upozornìní
+Vypnout upozornĞ¼nĞ½
 [Get from database]
-Zjistit z databáze
+Zjistit z databĞ±ze
 [Default options]
-Vıchozí monosti
+VÑchozĞ½ moÑ›nosti
 [Source:]
 Zdroj:
 ;(DUP) [none]
 [Show main menu item (restart needed)]
-Zobrazit v hlavním menu (vyad. restart)
+Zobrazit v hlavnĞ½m menu (vyÑ›ad. restart)
 [Remind once a day]
-Pøipomenout jednou dennì
+PÑˆipomenout jednou dennĞ¼
 
 ;Contact options when empty
 [Contact options]
-Monosti
+MoÑ›nosti
 ;Contact options with user selected
 [Contact options (%s)]
-Monosti (%s)
+MoÑ›nosti (%s)
 
 [Notifies you when your buddy has a birthday. It is activated some days earlier]
-Dopøedu upozorní na blíící se narozeniny.
+DopÑˆedu upozornĞ½ na blĞ½Ñ›Ğ½cĞ½ se narozeniny.
 
 ; ---

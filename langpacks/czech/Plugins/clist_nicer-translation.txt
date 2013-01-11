@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Clist Nicer 0.9.13.0                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3703
 ;
 
@@ -10,17 +10,17 @@
 ; clcopts.c
 ;(DUP) [Contact List]
 [Display Profiles]
-Profily zobrazení
+Profily zobrazenĞ½
 ;(DUP) [Floating contacts]
 ;(DUP) [Customize]
 [Contact list skin]
-Skin seznamu kontaktù
+Skin seznamu kontaktÑ‰
 ;(DUP) [Hotkeys]
 ;(DUP) [Events]
 
 ; clistmenus.c
 [&Contact list settings...]
-&Nastavení seznamu kontaktù...
+&NastavenĞ½ seznamu kontaktÑ‰...
 
 ; clui.c
 ;(DUP) [My Contacts]
@@ -29,21 +29,21 @@ Skin seznamu kontaktù
 
 ; viewmodes.c
 [Current view mode: %s]
-Reim zobrazení: %s
+ReÑ›im zobrazenĞ½: %s
 [Sticky contacts]
-Trvalé kontakty
+TrvalĞ¹ kontakty
 [Filtering]
-Filtrování
+FiltrovĞ±nĞ½
 [Really delete this view mode? This cannot be undone]
-Opravdu chcete odstranit reim zobrazení? Tuto akci nelze vzít zpìt.
+Opravdu chcete odstranit reÑ›im zobrazenĞ½? Tuto akci nelze vzĞ½t zpĞ¼t.
 [Delete a view mode]
-Odstranit reim zobrazení
+Odstranit reÑ›im zobrazenĞ½
 [No view mode]
-<ádnı>
+<Ñ›Ğ±dnÑ>
 [Setup View Modes...]
-Nastavit reim zobrazení...
+Nastavit reÑ›im zobrazenĞ½...
 [Clear current View Mode]
-Obnovit vıchozí reim
+Obnovit vÑchozĞ½ reÑ›im
 
 ; cluiframes.c
 ;(DUP) [&FrameTitle]
@@ -54,7 +54,7 @@ Obnovit vıchozí reim
 ;(DUP) [&Floating Mode]
 ;(DUP) [&Border]
 [&Skinned frame]
-&Skin na rámeèek
+&Skin na rĞ±meĞ¸ek
 ;(DUP) [&Align]
 ;(DUP) [&Top]
 ;(DUP) [&Client]
@@ -70,7 +70,7 @@ Obnovit vıchozí reim
 ;(DUP) [Visible]
 ;(DUP) [Show TitleBar]
 [Skinned frame]
-Skin na rámeèek
+Skin na rĞ±meĞ¸ek
 ;(DUP) [Floating]
 
 ; groupmenu.c
@@ -84,7 +84,7 @@ Skin na rámeèek
 ;(DUP) [Appearance]
 ;(DUP) [&Options...]
 [&About the contact list...]
-O sezn&amu kontaktù...
+O sezn&amu kontaktÑ‰...
 ;(DUP) [&New Group]
 ;(DUP) [&Hide Offline Users]
 ;(DUP) [Hide &Offline Users out here]
@@ -98,23 +98,23 @@ O sezn&amu kontaktù...
 
 ; movetogroup.c
 [&Floating Contact]
-P&lovoucí kontakt
+P&lovoucĞ½ kontakt
 
 ; resource.rc
 [Simple layout]
-Jednoduchı vzhled
+JednoduchÑ vzhled
 [Show avatars]
 Zobrazit avatary
 [Show second text line]
-Zobrazit druhı øádek
+Zobrazit druhÑ ÑˆĞ±dek
 [Show extra icons]
-Zobrazit doplòkové ikony
+Zobrazit doplÑ‚kovĞ¹ ikony
 [Synchronzie floater visibility with contact list]
-Plovoucí kontakty zobrazovat podle hlavního seznamu
+PlovoucĞ½ kontakty zobrazovat podle hlavnĞ½ho seznamu
 [Only show contact floaters when contact list is hidden or minimized]
-Plovoucí kontakty zobrazovat pouze po skrytí hlavního seznamu
+PlovoucĞ½ kontakty zobrazovat pouze po skrytĞ½ hlavnĞ½ho seznamu
 [Support and latest version information]
-Podpora, hlášení chyb a informace o novıch verzích
+Podpora, hlĞ±Ñ™enĞ½ chyb a informace o novÑch verzĞ½ch
 ;(DUP) [Show/Hide:]
 ;(DUP) [Read Msg:]
 ;(DUP) [Net Search:]
@@ -128,13 +128,13 @@ Podpora, hlášení chyb a informace o novıch verzích
 ;(DUP) [Ask before deleting contacts]
 ;(DUP) [Disable icon blinking]
 [Apply last active view mode ]
-Pouít poslední reim zobrazení
+PouÑ›Ğ½t poslednĞ½ reÑ›im zobrazenĞ½
 [Show button bar]
-Zobrazit lištu s tlaèítky
+Zobrazit liÑ™tu s tlaĞ¸Ğ½tky
 [Show menu and status buttons]
-Zobrazit tlaèítka menu a stavu
+Zobrazit tlaĞ¸Ğ½tka menu a stavu
 [Draw sunken edge]
-Pouít zanoøenı rámeèek
+PouÑ›Ğ½t zanoÑˆenÑ rĞ±meĞ¸ek
 ;(DUP) [Single click interface]
 ;(DUP) [Always show status in tooltip]
 [Auto mode]
@@ -144,67 +144,67 @@ Zobrazovat automaticky
 ;(DUP) [Show multiple icons]
 ;(DUP) [Only when statuses differ]
 [Do not show system tray icon tooltips on mouse over]
-Nezobrazovat tipy po najetí myší nad ikonu
+Nezobrazovat tipy po najetĞ½ myÑ™Ğ½ nad ikonu
 ;(DUP) [Draw a line alongside group names]
 [Show number of contacts in a group]
-Zobrazit poèet kontaktù ve skupinì
+Zobrazit poĞ¸et kontaktÑ‰ ve skupinĞ¼
 [Hide numbers when all offline]
-Skrıt, jsou-li všichni offline
+SkrÑt, jsou-li vÑ™ichni offline
 ;(DUP) [Sort groups alphabetically]
 ;(DUP) [Quicksearch in open groups only]
 [No expand/collapse icon]
-Vypnout ikonu pro rozbalení
+Vypnout ikonu pro rozbalenĞ½
 [Center groupnames horizontally]
-Vodorovnì vystøedit název skupin
+VodorovnĞ¼ vystÑˆedit nĞ±zev skupin
 [Move events to the top of list or group]
-Posunovat události v seznamu nahoru
+Posunovat udĞ±losti v seznamu nahoru
 [Do not separate offline contacts]
-Neoddìlovat kontakty ve stavu offline
+NeoddĞ¼lovat kontakty ve stavu offline
 [Draw a border around avatars]
-Orámovat avatary
+OrĞ±movat avatary
 [Rounded avatars]
-Zaoblit okraje avatarù
+Zaoblit okraje avatarÑ‰
 [Render with GDI+]
-Vykreslovat pomocí GDI+
+Vykreslovat pomocĞ½ GDI+
 [Always align icons and text for missing avatars]
-Pokud chybí avatar, zarovnat ikonu a text pod sebe
+Pokud chybĞ½ avatar, zarovnat ikonu a text pod sebe
 [Don't request avatars for offline contacts]
-Nestahovat avatar kontaktù offline
+Nestahovat avatar kontaktÑ‰ offline
 [Display status message when available]
-Zobrazit stavovou zprávu (pokud je)
+Zobrazit stavovou zprĞ±vu (pokud je)
 [Show contacts local time]
-Zobrazit místní èas kontaktu
+Zobrazit mĞ½stnĞ½ Ğ¸as kontaktu
 [Only when timezone differs]
-Pouze pokud se liší èasová zóna
+Pouze pokud se liÑ™Ğ½ Ğ¸asovĞ± zÑƒna
 ;(DUP) [Client]
 ;(DUP) [xStatus]
 [E-Mail]
 E-mail
 [Homepage]
-Dom. stránka
+Dom. strĞ±nka
 [Reserved]
-Extra è.1
+Extra Ğ¸.1
 ;(DUP) [Phone]
 [Reserved2]
-Extra è.2
+Extra Ğ¸.2
 [Reserved3]
-Extra è.3
+Extra Ğ¸.3
 [Reserved4]
-Extra è.4
+Extra Ğ¸.4
 [Reserved5]
-Extra è.5
+Extra Ğ¸.5
 [Show status icons]
-Zobrazit stavové ikony
+Zobrazit stavovĞ¹ ikony
 [Show visibility icons]
 Zobrazit ikony viditelnosti
 [When possible, draw status icons in avatar space]
-Pokud mono vykreslit stavové ikony v rámci avataru
+Pokud moÑ›no vykreslit stavovĞ¹ ikony v rĞ±mci avataru
 [Centered when possible]
-Pokud mono vystøedit
+Pokud moÑ›no vystÑˆedit
 [Use metacontact protocol icons instead of subcontacts]
-Pouít ikonu pro metakontakt místo konkrétního protokolu
+PouÑ›Ğ½t ikonu pro metakontakt mĞ½sto konkrĞ¹tnĞ½ho protokolu
 [Use Overlay icons on avatars]
-Pouít pøekryvné ikony (na avatary)
+PouÑ›Ğ½t pÑˆekryvnĞ¹ ikony (na avatary)
 ;(DUP) [Dim idle contacts]
 ;(DUP) [Always on top]
 ;(DUP) [Minimize to tray]
@@ -220,7 +220,7 @@ Pouít pøekryvné ikony (na avatary)
 ;(DUP) [Transparent contact list]
 ;(DUP) [Fade contact list in/out]
 [Fully transparent (like TweakUI)]
-Úplnì prùhledné (jako TweakUI)
+ĞªplnĞ¼ prÑ‰hlednĞ¹ (jako TweakUI)
 ;(DUP) [Show divider between online and offline contacts]
 ;(DUP) [Hot track items as mouse passes over]
 ;(DUP) [Disable drag and drop of items]
@@ -228,9 +228,9 @@ Pouít pøekryvné ikony (na avatary)
 ;(DUP) [Show selection even when list is not focused]
 ;(DUP) [Make selection highlight translucent]
 [Use full row for selection and hottracking]
-Pøi vıbìru a hledání oznaèit celı øádek 
+PÑˆi vÑbĞ¼ru a hledĞ±nĞ½ oznaĞ¸it celÑ ÑˆĞ±dek 
 [Double click on avatar opens userinfo]
-Otevøít inf. o kontaktu dvojklikem na avatar
+OtevÑˆĞ½t inf. o kontaktu dvojklikem na avatar
 ;(DUP) [Scroll list smoothly]
 ;(DUP) [Hide vertical scroll bar]
 ;(DUP) [Grey out entire list when:]
@@ -243,7 +243,7 @@ Otevøít inf. o kontaktu dvojklikem na avatar
 ;(DUP) [Scroll with text]
 ;(DUP) [Stretch proportionally]
 [Use these settings to skin the entire background]
-Pouít toto nastavení pozadí pro celı seznam kontaktù
+PouÑ›Ğ½t toto nastavenĞ½ pozadĞ½ pro celÑ seznam kontaktÑ‰
 ;(DUP) [Show status bar]
 ;(DUP) [Show icons]
 ;(DUP) [Show protocol names]
@@ -254,56 +254,56 @@ Pouít toto nastavení pozadí pro celı seznam kontaktù
 ;(DUP) [Show bevels on panels]
 ;(DUP) [Show resize grip indicator]
 [Draw background skin]
-Pouít skin pozadí
+PouÑ›Ğ½t skin pozadĞ½
 [Show ICQ extended status icons]
-Zobrazit ikony rozšíøeného stavu ICQ
+Zobrazit ikony rozÑ™Ğ½ÑˆenĞ¹ho stavu ICQ
 [Mark protocols locked from global status changes]
-Oznaèit protokoly se zamknutım stavem
+OznaĞ¸it protokoly se zamknutÑm stavem
 [Automatically clear this view mode after]
-Automaticky vymazat vybranı reim zobrazení po
+Automaticky vymazat vybranÑ reÑ›im zobrazenĞ½ po
 [Last message ]
-Poslední zpráva 
+PoslednĞ½ zprĞ±va 
 [Load this skin on startup]
-Naèíst vybranı skin pøi spuštìní
+NaĞ¸Ğ½st vybranÑ skin pÑˆi spuÑ™tĞ¼nĞ½
 [Make selection shape equal to selected item]
-Urèit tvar vıbìru obrysem oznaèené poloky
+UrĞ¸it tvar vÑbĞ¼ru obrysem oznaĞ¸enĞ¹ poloÑ›ky
 [Blend selection with background]
-Smíchat vybranou poloku s pozadím
+SmĞ½chat vybranou poloÑ›ku s pozadĞ½m
 [Automatically fill background with wallpaper (tiled wallpaper only)]
-Autom. vyplnit pozadí obrázkem z plochy (v reimu vedle sebe)
+Autom. vyplnit pozadĞ½ obrĞ±zkem z plochy (v reÑ›imu vedle sebe)
 [Apply group indent values to background drawing]
-Zohlednit odsazení skupiny pøi vykreslování pozadí
+Zohlednit odsazenĞ½ skupiny pÑˆi vykreslovĞ±nĞ½ pozadĞ½
 [Use per protocol/contact skinning]
-Definovat skin pro kadı protokol zvláš
+Definovat skin pro kaÑ›dÑ protokol zvlĞ±Ñ™Ñœ
 [Protocol skins override status text colors]
-Urèit barvu stav. textu skinem
+UrĞ¸it barvu stav. textu skinem
 [Set all buttons to skinned mode]
-Pouít skin pro všechna tlaèítka
+PouÑ›Ğ½t skin pro vÑ™echna tlaĞ¸Ğ½tka
 [Use fast gradient drawing]
-Rychlé vykreslení gradientu
+RychlĞ¹ vykreslenĞ½ gradientu
 [Ignore selection for groups]
-Ignorovat vıbìr skupiny
+Ignorovat vÑbĞ¼r skupiny
 ;(DUP) [Messages]
 ;(DUP) [Incoming file transfers]
 ;(DUP) [URL events]
 [Suppress auth requests]
-Potlaèit ádosti o autorizaci
+PotlaĞ¸it Ñ›Ğ±dosti o autorizaci
 [Suppress added notifications]
-Potlaèit zprávy o pøidání
+PotlaĞ¸it zprĞ±vy o pÑˆidĞ±nĞ½
 [Suppress online notifications]
-Neoznamovat pøechod online
+Neoznamovat pÑˆechod online
 [Appear always online]
-Vùèi dané osobì bıt viditelnı
+VÑ‰Ğ¸i danĞ¹ osobĞ¼ bÑt viditelnÑ
 [Appear always offline (block contact)]
-Vùèi dané osobì bıt offline
+VÑ‰Ğ¸i danĞ¹ osobĞ¼ bÑt offline
 [Hide this contact from the list]
-Nezobrazovat v seznamu kontaktù
+Nezobrazovat v seznamu kontaktÑ‰
 [Show contact with priority]
-Zobrazit kontakt jako prioritní
+Zobrazit kontakt jako prioritnĞ½
 [Draw overlay icon on avatar]
-Pouít pøekryvné ikony (na avatar)
+PouÑ›Ğ½t pÑˆekryvnĞ¹ ikony (na avatar)
 [Show local time]
-Zobrazit místní èas
+Zobrazit mĞ½stnĞ½ Ğ¸as
 [Show visibility icon]
 Zobrazit ikonu viditelnosti
 ;(DUP) [OK]
@@ -319,9 +319,9 @@ Zobrazit ikonu viditelnosti
 [< Reload]
 Aktualizovat
 [Apply skin now]
-Pouít skin
+PouÑ›Ğ½t skin
 [Unload skin]
-Zrušit skin
+ZruÑ™it skin
 [Load from skin file]
 Importovat skin
 [Export to skin file]
@@ -330,7 +330,7 @@ Exportovat skin
 [Ignore none]
 Neignorovat
 [NOTE: This is work in progress. Most options here do NOT yet work as they should, because the code is not yet implemented. Please don't report these issues as bugs, because they aren't bugs, just unfinished stuff.]
-Pozn.: Tato èást NENÍ DOKONÈENA a vìtšina z nabízenıch moností zatím NEFUNGUJE, jak má. Neposílejte prosím chybová hlášení, v tomto pøípadì nejde o chybu.
+Pozn.: Tato Ğ¸Ğ±st NENĞ DOKONĞ˜ENA a vĞ¼tÑ™ina z nabĞ½zenÑch moÑ›nostĞ½ zatĞ½m NEFUNGUJE, jak mĞ±. NeposĞ½lejte prosĞ½m chybovĞ± hlĞ±Ñ™enĞ½, v tomto pÑˆĞ½padĞ¼ nejde o chybu.
 [Clist Nicer+]
 Clist Nicer+
 ;(DUP) [URL:]
@@ -338,41 +338,41 @@ Clist Nicer+
 ;(DUP) [This will erase all history and settings for this contact!]
 ;(LAI) [ms]
 [Set base visiblity on the frames menu]
-Pozn.: Viditelnost tohoto objektu nastavíte v nabídce rámeèku.
+Pozn.: Viditelnost tohoto objektu nastavĞ½te v nabĞ½dce rĞ±meĞ¸ku.
 ;(DUP) [icon when statuses differ]
 ;(DUP) [seconds, when statuses differ]
 [Alignment]
-Zarovnání
+ZarovnĞ±nĞ½
 [Margins (left/right)]
 Odstup zleva/zprava
 [Row gap]
-Odstup øádkù:
+Odstup ÑˆĞ±dkÑ‰:
 [Minimum row height:]
-Min. vıška øádku:
+Min. vÑÑ™ka ÑˆĞ±dku:
 [Group row height]
-Vıška skupiny:
+VÑÑ™ka skupiny:
 ;(DUP) [Indent groups by:]
 [Inner Row vertical padding]
-Vyplnìní øádku zevnitø
+VyplnĞ¼nĞ½ ÑˆĞ±dku zevnitÑˆ
 [First by]
-Seøadit podle
+SeÑˆadit podle
 [Then by]
-Dále podle
+DĞ±le podle
 [Finally by]
 A nakonec dle
 [Hide as offline]
-Skrıt jako offline
+SkrÑt jako offline
 [Right align contacts]
 Zarovnat kontakt vpravo
 ;(DUP) [Height]
 [Radius]
-Rádius
+RĞ±dius
 [Avatar alignment]
-Zarovnání avatarù
+ZarovnĞ±nĞ½ avatarÑ‰
 [Show second text line:]
-Zobrazit druhı øádek textu:
+Zobrazit druhÑ ÑˆĞ±dek textu:
 [Extra icon size]
-Velikost doplòkové ikony
+Velikost doplÑ‚kovĞ¹ ikony
 ;(DUP) [Border]
 ;(DUP) [Title bar text:]
 ;(DUP) [seconds]
@@ -381,11 +381,11 @@ Velikost doplòkové ikony
 [Client margins]
 Odst. od okraje
 [Embedded frames border]
-Okraj vsazenıch rámeèkù
+Okraj vsazenÑch rĞ±meĞ¸kÑ‰
 [Clip border by]
-Oøíznout okraj o
+OÑˆĞ½znout okraj o
 [Gap between frames]
-Mezera mezi rámeèky
+Mezera mezi rĞ±meĞ¸ky
 ;(DUP) [Inactive opacity:]
 ;(DUP) [000%]
 ;(DUP) [Active opacity:]
@@ -393,7 +393,7 @@ Mezera mezi rámeèky
 ;(DUP) [milliseconds]
 ;(DUP) [Background colour]
 [If you enable this, the background settings will affect the entire contact list frame.]
-Touto moností ovlivníte nastavení pozadí celého rámeèku pro seznam kontaktù.
+Touto moÑ›nostĞ½ ovlivnĞ½te nastavenĞ½ pozadĞ½ celĞ¹ho rĞ±meĞ¸ku pro seznam kontaktÑ‰.
 ;(DUP) [New]
 ;(FIX) [Using the contact list on the left side, you can select contacts which will be ]
 ;(DUP) [Protocol]
@@ -401,30 +401,30 @@ Touto moností ovlivníte nastavení pozadí celého rámeèku pro seznam kontaktù.
 [Per contact skins:]
 Skin na kontakt:
 [Corner radius]
-Zakulacení rohu
+ZakulacenĞ½ rohu
 [Group top padding]
-Vyplnìní skup. shora
+VyplnĞ¼nĞ½ skup. shora
 [Frame titlebar height]
-Vıška záhlaví rámeèku
+VÑÑ™ka zĞ±hlavĞ½ rĞ±meĞ¸ku
 [To show a previously hidden contact, navigate to Options->Events->Ignore, search the contact in the list and tick the checkbox next to its name.]
-Chcete-li zobrazit z døívìjška skrytı kontakt, zatrhnìte zaškrtávací pole vedle poadovaného kontaktu (Monosti->Události->Filtrování kontaktù).
+Chcete-li zobrazit z dÑˆĞ½vĞ¼jÑ™ka skrytÑ kontakt, zatrhnĞ¼te zaÑ™krtĞ±vacĞ½ pole vedle poÑ›adovanĞ¹ho kontaktu (MoÑ›nosti->UdĞ±losti->FiltrovĞ±nĞ½ kontaktÑ‰).
 [Show Avatar:]
 Zobrazit avatar:
 [Show 2nd line:]
-Zobrazit druhı øádek:
+Zobrazit druhÑ ÑˆĞ±dek:
 [Status mode]
 Stav
 [Floating contacts appearance]
-Vzhled plovoucích kontaktù
+Vzhled plovoucĞ½ch kontaktÑ‰
 [Behaviour]
-Chování
+ChovĞ±nĞ½
 [Profiles]
 Profily
 [Contact list layout]
-Vzhled seznamu kontaktù
+Vzhled seznamu kontaktÑ‰
 ;(DUP) [System tray icon]
 [Event area]
-Místo pro události
+MĞ½sto pro udĞ±losti
 ;(DUP) [System tray icon when using multiple protocols]
 ;(DUP) [Groups]
 [Margins and spacing]
@@ -432,9 +432,9 @@ Okraje a rozestup
 ;(DUP) [Contact List Sorting]
 ;(DUP) [Avatars]
 [Second text line]
-Druhı øádek textu
+DruhÑ ÑˆĞ±dek textu
 [Extra icons]
-Doplòkové ikony
+DoplÑ‚kovĞ¹ ikony
 ;(DUP) [Icons]
 ;(DUP) [Window]
 ;(DUP) [Translucency options (Windows 2000/XP only)]
@@ -443,24 +443,24 @@ Doplòkové ikony
 ;(DUP) [Contact List Background]
 ;(DUP) [Status Bar]
 [Available view modes]
-Pøehled reimù zobrazení
+PÑˆehled reÑ›imÑ‰ zobrazenĞ½
 [Include protocols]
-Vèetnì protokolù
+VĞ¸etnĞ¼ protokolÑ‰
 [Include groups]
-Vèetnì skupin
+VĞ¸etnĞ¼ skupin
 [Include status modes]
-Vèetnì stavu
+VĞ¸etnĞ¼ stavu
 [View mode options]
-Monosti reimu zobrazení
+MoÑ›nosti reÑ›imu zobrazenĞ½
 ;(DUP) [Skin options]
 [Ignore these events]
-Filtrování událostí
+FiltrovĞ±nĞ½ udĞ±lostĞ½
 ;(DUP) [Visibility]
 ;(DUP) [Other]
 [Display options]
-Monosti zobrazení
+MoÑ›nosti zobrazenĞ½
 [About CList Nicer+]
-O doplòku CList Nicer+
+O doplÑ‚ku CList Nicer+
 ;(DUP) [Delete Contact]
 ;(DUP) [Dialog]
 ;(DUP) [&Offline\tCtrl+0]
@@ -476,35 +476,35 @@ O doplòku CList Nicer+
 ;(DUP) [Hide Miranda]
 ;(DUP) [&New Subgroup]
 [Move marked Contacts to this Group]
-Pøesunout vybrané kontakty do této skupiny
+PÑˆesunout vybranĞ¹ kontakty do tĞ¹to skupiny
 ;(DUP) [Online]
 [Increase Button Size]
-Zvìtšit tlaèítko
+ZvĞ¼tÑ™it tlaĞ¸Ğ½tko
 [Decrease Button Size]
-Zmenšit tlaèítko
+ZmenÑ™it tlaĞ¸Ğ½tko
 [Flat Toolbar Buttons]
-Moderní tlaèítka lišty
+ModernĞ½ tlaĞ¸Ğ½tka liÑ™ty
 [Disable Visual Styles]
 Vypnout skiny
 [Skinned Tool Bar]
-Skin lišty tlaèítek
+Skin liÑ™ty tlaĞ¸Ğ½tek
 [Draw sunken Frame]
-Pouít zanoøenı rámeèek
+PouÑ›Ğ½t zanoÑˆenÑ rĞ±meĞ¸ek
 [Show Status Icons]
-Zobrazit stavové ikony
+Zobrazit stavovĞ¹ ikony
 [Show Visibility Icons]
 Zobrazit ikony viditelnosti
 [Show Metacontact proto Icons]
 Zobrazit protokoly subkontaktu
 ;(DUP) [Show Tool Bar]
 [Show additional Buttons]
-Zobrazit doplòková tlaèítka
+Zobrazit doplÑ‚kovĞ± tlaĞ¸Ğ½tka
 [Use Status Floater]
-Pouít plovoucí ukazatel stavu
+PouÑ›Ğ½t plovoucĞ½ ukazatel stavu
 [Auto-Hide Status Floater]
-Automaticky skrıt ukazatel stavu
+Automaticky skrÑt ukazatel stavu
 [Show Event Area in Floater]
-Zobrazit události v plov. ukazateli
+Zobrazit udĞ±losti v plov. ukazateli
 
 ; Skin Editor.rc
 [Gradient]
@@ -514,22 +514,22 @@ Zleva doprava
 [Right to left]
 Zprava doleva
 [Top to bottom]
-Shora dolù
+Shora dolÑ‰
 [Bottom to top]
 Zdola nahoru
 ;(DUP) [Round corners]
 [Top-Left]
-Levı horní
+LevÑ hornĞ½
 [Top-Right]
-Pravı horní
+PravÑ hornĞ½
 [Bottom-Right]
-Pravı dolní
+PravÑ dolnĞ½
 [Bottom-Left]
-Levı dolní
+LevÑ dolnĞ½
 [Transparent]
-Prùhlednost
+PrÑ‰hlednost
 [Item ignored]
-Ignorovat poloku
+Ignorovat poloÑ›ku
 [First color]
 Barva 1
 [Textcolor]
@@ -537,253 +537,253 @@ Barva textu
 [Second color]
 Barva 2
 [Alpha (percent)]
-Prùhlednost (v %)
+PrÑ‰hlednost (v %)
 [Border style]
 Vzhled okraje
 [3D border (bright / dark)]
-Barvy plastického okraje
+Barvy plastickĞ¹ho okraje
 [Skin items]
-Poloky skinu
+PoloÑ›ky skinu
 ;(DUP) [General]
 [Item colors]
 Definice barev
 [Item margins]
 Odstup od okraje
 [Item borders]
-Okraj poloky
+Okraj poloÑ›ky
 
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Add New...]
-Pøidat...
+PÑˆidat...
 [Rename...]
-Pøejmenovat...
+PÑˆejmenovat...
 [Apply this profile]
-Pouít profil
+PouÑ›Ğ½t profil
 [Groups and layout]
 Skupiny a vzhled
 [List layout]
 Vzhled seznamu
 
-; Vlastní úpravy / Písma
+; VlastnĞ½ ÑŠpravy / PĞ½sma
 [Contact list local time]
-Místní èas kontaktu
+MĞ½stnĞ½ Ğ¸as kontaktu
 [Frame titles]
-Záhlaví rámeèku
+ZĞ±hlavĞ½ rĞ±meĞ¸ku
 
 [Revert to default]
-Obnovit vıchozí
+Obnovit vÑchozĞ½
 [Add permanently]
-Pøidat natrvalo
+PÑˆidat natrvalo
 
 [Default (global setting)]
-Vıchozí (globální nastavení)
+VÑchozĞ½ (globĞ±lnĞ½ nastavenĞ½)
 [Show always when available]
-Vdy zobrazit (pokud existuje)
+VÑ›dy zobrazit (pokud existuje)
 [Hide always]
-Vdy skrıt
+VÑ›dy skrÑt
 [Never]
 Nikdy
 [Always]
-Vdy
+VÑ›dy
 [When space is available]
-Pokud to místo dovolí
+Pokud to mĞ½sto dovolĞ½
 [When needed by status message]
-Pokud to vyaduje stavová zpráva
+Pokud to vyÑ›aduje stavovĞ± zprĞ±va
 [Last Message]
-Poslední zpráva
+PoslednĞ½ zprĞ±va
 [Message Frequency]
-Èetnost zpráv
+Ğ˜etnost zprĞ±v
 [For RTL only]
 Pouze pro RTL
 [RTL TEXT only]
 Pouze pro RTL TEXT
 [Always Left]
-Vdy vlevo
+VÑ›dy vlevo
 [Always Right]
-Vdy vpravo
+VÑ›dy vpravo
 [Automatic (RTL)]
 Automaticky (RTL)
 [With Nickname - left]
-S pøezdívkou - vlevo
+S pÑˆezdĞ½vkou - vlevo
 [With Nickname - right]
-S pøezdívkou - vpravo
+S pÑˆezdĞ½vkou - vpravo
 [Far left]
-Úplnì vlevo
+ĞªplnĞ¼ vlevo
 [Far right]
-Úplnì vpravo
+ĞªplnĞ¼ vpravo
 [When space allows it]
-Pokud to místo dovolí
+Pokud to mĞ½sto dovolĞ½
 [When needed]
-Pokud je potøeba
+Pokud je potÑˆeba
 [Tool Window]
-S tenkım záhlavím
+S tenkÑm zĞ±hlavĞ½m
 [Thin border]
-Tenkı okraj
+TenkÑ okraj
 [No border]
 Bez okraje
 
-; Vlastní úpravy / Ikony
+; VlastnĞ½ ÑŠpravy / Ikony
 [%s Connecting]
-Pøipojování %s
+PÑˆipojovĞ±nĞ½ %s
 [Toggle show online/offline]
-Pøepnout online/offline
+PÑˆepnout online/offline
 [Toggle groups]
-Pøepnout skupiny
+PÑˆepnout skupiny
 [Find contacts]
 Vyhledat kontakty
 [Open preferences]
-Otevøít nastavení
+OtevÑˆĞ½t nastavenĞ½
 [Toggle sounds]
-Pøepnout zvuky
+PÑˆepnout zvuky
 [Minimize contact list]
 Minimalizovat seznam
 [Show tabSRMM session list]
-Zobrazit seznam relací tabSRMM
+Zobrazit seznam relacĞ½ tabSRMM
 [Show tabSRMM menu]
-Zobrazit nabídku tabSRMM
+Zobrazit nabĞ½dku tabSRMM
 [Sounds are off]
-Zvuky jsou vypnuté
+Zvuky jsou vypnutĞ¹
 ;(LAI) [E-mail]
 ;(LAI) [SMS]
 [Select view mode]
-Vybrat reim zobrazení
+Vybrat reÑ›im zobrazenĞ½
 [Reset view mode]
-Vıchozí reim zobrazení
+VÑchozĞ½ reÑ›im zobrazenĞ½
 [Configure view modes]
-Konfigurace reimu zobrazení
+Konfigurace reÑ›imu zobrazenĞ½
 [Show menu]
-Zobrazit nabídku
+Zobrazit nabĞ½dku
 [Contact on visible list]
-Viditelnı kontakt
+ViditelnÑ kontakt
 [Contact on invisible list or blocked]
-Neviditelnı nebo blokovanı kontakt
+NeviditelnÑ nebo blokovanÑ kontakt
 [Chat room/IRC channel activity]
 Aktivita v diskusi
 [Status Icons]
-Stavové ikony
+StavovĞ¹ ikony
 
 [Contact list display and ignore options for %s]
-Monosti zobrazení a filtrování: %s
+MoÑ›nosti zobrazenĞ½ a filtrovĞ±nĞ½: %s
 
-; kontextové menu nad clistem
+; kontextovĞ¹ menu nad clistem
 [EventArea]
-Oblast pro události
+Oblast pro udĞ±losti
 [View modes]
-Reimy zobrazení
+ReÑ›imy zobrazenĞ½
 
 [Group]
 Skupina
 
-; Nástrojová lišta
+; NĞ±strojovĞ± liÑ™ta
 [Show / hide offline contacts]
-Zobrazit / Skrıt uivatele offline
+Zobrazit / SkrÑt uÑ›ivatele offline
 [Toggle group mode]
-Pøepnout reim skupiny
+PÑˆepnout reÑ›im skupiny
 [Find and add contacts]
-Vyhledat a pøidat kontakty
+Vyhledat a pÑˆidat kontakty
 [Status menu]
-Nabídka stavù
+NabĞ½dka stavÑ‰
 [Clear view mode]
-Zrušit reim zobrazení
+ZruÑ™it reÑ›im zobrazenĞ½
 
 [No events...]
-<ádné události>
+<Ñ›Ğ±dnĞ¹ udĞ±losti>
 
-; Kontakty / Plovoucí kontatky
+; Kontakty / PlovoucĞ½ kontatky
 [Padding]
-Vyplnìní
+VyplnĞ¼nĞ½
 
-; Události / Klávesové zkratky
+; UdĞ±losti / KlĞ±vesovĞ¹ zkratky
 [Read Msg:]
-Pøeèíst zprávu:
+PÑˆeĞ¸Ğ½st zprĞ±vu:
 [Net Search:]
 Hledat na webu:
 
 ; Skin editor (cln_skinedit)
 [Raised]
-Vystouplı
+VystouplÑ
 [Bumped]
-Vystouplı (s rámováním)
+VystouplÑ (s rĞ±movĞ±nĞ½m)
 [Etched]
-Zanoøenı (s rámováním)
+ZanoÑˆenÑ (s rĞ±movĞ±nĞ½m)
 [Image items]
-Obrázky
+ObrĞ±zky
 [Not yet supported]
-<zatím mimo provoz>
+<zatĞ½m mimo provoz>
 ; Description
 [Skin editor for clist_nicer+]
-Editor skinù pro doplnìk CList Nicer+
+Editor skinÑ‰ pro doplnĞ¼k CList Nicer+
 
-; Kontakty / Profily zobrazení / Ikony
+; Kontakty / Profily zobrazenĞ½ / Ikony
 [Replace status icons with xStatus]
-Nahradit stavové ikony rozšíøenım stavem
+Nahradit stavovĞ¹ ikony rozÑ™Ğ½ÑˆenÑm stavem
 [Telephone]
 Telefon
 [Reserved, unused]
-Vyhrazeno, nepouito
+Vyhrazeno, nepouÑ›ito
 [Advanced #1 (ICQ X-Status)]
-Extra è.1 (rozšíøenı stav ICQ)
+Extra Ğ¸.1 (rozÑ™Ğ½ÑˆenÑ stav ICQ)
 [Client (fingerprint required)]
-Klient (vyaduje Fingerprint)
+Klient (vyÑ›aduje Fingerprint)
 [Reserved #1]
-Vyhrazeno è.1
+Vyhrazeno Ğ¸.1
 [Reserved #2]
-Vyhrazeno è.2
+Vyhrazeno Ğ¸.2
 [Reserved #3]
-Vyhrazeno è.3
+Vyhrazeno Ğ¸.3
 [Reserved #4]
-Vyhrazeno è.4
+Vyhrazeno Ğ¸.4
 
 [Extra icons (drag items to reorder them)]
-Doplòkové ikony (poøadí zmìníte táhnutím)
+DoplÑ‚kovĞ¹ ikony (poÑˆadĞ½ zmĞ¼nĞ½te tĞ±hnutĞ½m)
 
 [Overlay Icons]
-Pøekryvné ikony
+PÑˆekryvnĞ¹ ikony
 [Connecting Icons]
-Ikony pøipojování
+Ikony pÑˆipojovĞ±nĞ½
 
 [Enable floating contacts (required restart)]
-Zapnout plovoucí kontakty (vyaduje restart)
+Zapnout plovoucĞ½ kontakty (vyÑ›aduje restart)
 [Rounded corners]
-Zaoblené rohy
+ZaoblenĞ¹ rohy
 [Snap to edges (hold CTRL for snap between floaters)]
-Pøichytávat k okrajùm (pomocí CTRL i v rámci kontaktù)
+PÑˆichytĞ±vat k okrajÑ‰m (pomocĞ½ CTRL i v rĞ±mci kontaktÑ‰)
 [Classes]
-Tøídy
+TÑˆĞ½dy
 
 [Fill with contact list background color]
-Vyplnit barvou pozadí seznamu kontaktù
+Vyplnit barvou pozadĞ½ seznamu kontaktÑ‰
 [Show tooltips]
 Zobrazovat tipy
 [Hover time]
 Prodleva
 
 [Setup accounts]
-Konfigurace úètù
+Konfigurace ÑŠĞ¸tÑ‰
 
 [Open Find User Dialog]
-Okno pro vyhledávání
+Okno pro vyhledĞ±vĞ±nĞ½
 [Open Options Page]
-Okno pro nastavení
+Okno pro nastavenĞ½
 [Read Message]
-Pøeèíst zprávu
+PÑˆeĞ¸Ğ½st zprĞ±vu
 [Show Hide Contact List]
-Zobrazit nebo skrıt kontakty
+Zobrazit nebo skrÑt kontakty
 [Set All Offline]
-Nastavit vše offline
+Nastavit vÑ™e offline
 
 [Contact rows]
-Øádky seznamu
+Ğ¨Ğ±dky seznamu
 [Move events to the top of list\nor group]
-Posunovat události v seznamu nahoru
+Posunovat udĞ±losti v seznamu nahoru
 [Reset order and visibility to default]
-Vıchozí poøadí úètù a jejich viditelnost
+VÑchozĞ½ poÑˆadĞ½ ÑŠĞ¸tÑ‰ a jejich viditelnost
 
 [Always Hide On Taskbar]
-Nezobrazovat na hlavním panelu
+Nezobrazovat na hlavnĞ½m panelu
 
 [*** All contacts ***]
-*** všechny kontakty ***
+*** vÑ™echny kontakty ***
 
 ; ---

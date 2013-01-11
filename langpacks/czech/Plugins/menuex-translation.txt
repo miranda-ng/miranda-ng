@@ -1,60 +1,60 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  MenuItemEx 1.3.0.7                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2883
 ;
 
 [Always visible]
-Tento èlovìk mì vdy uvidí
+Tento Ğ¸lovĞ¼k mĞ¼ vÑ›dy uvidĞ½
 [Never visible]
-Tento èlovìk mì nikdy neuvidí
+Tento Ğ¸lovĞ¼k mĞ¼ nikdy neuvidĞ½
 [Hide from list]
-Skrıt
+SkrÑt
 [Shown menu items]
-Viditelné poloky v menu
+ViditelnĞ¹ poloÑ›ky v menu
 [Ignore...]
 Ignorovat...
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [MenuItemEx]
-Rozšíøení menu
+RozÑ™Ğ½ÑˆenĞ½ menu
 
 [Protocol...]
 Protokol...
 [Group...]
 Skupina...
 [Send 'You were added']
-Odeslat zprávu o zaøazení
+Odeslat zprĞ±vu o zaÑˆazenĞ½
 [Request Authorization]
-Poádat o autorizaci
+PoÑ›Ğ±dat o autorizaci
 
 [Copy ID]
-Zkopírovat ID
+ZkopĞ½rovat ID
 [Copy MirVer]
-Zkopírovat klienta
+ZkopĞ½rovat klienta
 [Copy Status Message]
-Zkopírovat zprávu stavu
+ZkopĞ½rovat zprĞ±vu stavu
 [Add protocol name]
-Pøidat název protokolu
+PÑˆidat nĞ±zev protokolu
 [Copy Status Message (SMR needed)]
-Zkopírovat zprávu stavu (vyaduje SMR)
+ZkopĞ½rovat zprĞ±vu stavu (vyÑ›aduje SMR)
 [Show alpha icons]
-Zobrazit prùhledné ikony
+Zobrazit prÑ‰hlednĞ¹ ikony
 [Show alpha icon]
-Zobrazit prùhlednou ikonu
+Zobrazit prÑ‰hlednou ikonu
 
 [Trim too long ID]
-Zkrátit pøíliš dlouhé ID
+ZkrĞ±tit pÑˆĞ½liÑ™ dlouhĞ¹ ID
 [* Use Ctrl+click to see popup with the copied text]
-* Pouít Ctrl+klik pro zobrazení oznámení se zkopírovanım textem
+* PouÑ›Ğ½t Ctrl+klik pro zobrazenĞ½ oznĞ±menĞ½ se zkopĞ½rovanÑm textem
 [Add item name]
-Pøidat název poloky
+PÑˆidat nĞ±zev poloÑ›ky
 [Copy to Account (Ctrl+click for move to Account)]
-Zkopírovat do úètu (Ctrl+klik pro pøesunutí do úètu)
+ZkopĞ½rovat do ÑŠĞ¸tu (Ctrl+klik pro pÑˆesunutĞ½ do ÑŠĞ¸tu)
 [Show ID in menu item]
-Zobrazit ID v poloce menu
+Zobrazit ID v poloÑ›ce menu
 
 ; ---

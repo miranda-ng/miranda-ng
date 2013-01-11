@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Ghostify 1.2.0.0                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=1557
 ;
 
@@ -15,37 +15,37 @@
 Ghostify
 
 [Note: You must have contact list transparency enabled to use this plugin]
-Poznámka: Doplnìk Ghostify funguje pouze tehdy, je-li okno s kontakty prùhledné.
+PoznĞ±mka: DoplnĞ¼k Ghostify funguje pouze tehdy, je-li okno s kontakty prÑ‰hlednĞ¹.
 
 [&Enable Ghostify]
 A&ktivovat Ghostify
 
 [&Unghostify on mouse hover]
-Po definované dobì zr&ušit funkci 
+Po definovanĞ¹ dobĞ¼ zr&uÑ™it funkci 
 
 [Track mouse &actions]
-Sledov&at pohyby myši
+Sledov&at pohyby myÑ™i
 
 [Pass &right mouse button to Miranda]
-Pøedat p&ravé tlaèítko myši Mirandì
+PÑˆedat p&ravĞ¹ tlaĞ¸Ğ½tko myÑ™i MirandĞ¼
 
 [Testfield]
-Zkušební pole
+ZkuÑ™ebnĞ½ pole
 
 [&Ghost delay]
-&Zp. prokliknutí
+&Zp. prokliknutĞ½
 
 [&Hover delay]
-Zpod. &detekce
+ZpoÑ›d. &detekce
 
 [&Sensitivity]
 Citlivo&st
 
 [low]
-nízká
+nĞ½zkĞ±
 
 [high]
-vysoká
+vysokĞ±
 
 ; Propably allready translated somewhere else
 ;(DUP) [second]

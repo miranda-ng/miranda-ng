@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  AutoReplacer 0.0.1.6                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=593
 ;
 
@@ -17,59 +17,59 @@
 [AutoCorrection]
 Kontrola chyb
 [AutoText]
-Nahrazování textu
+NahrazovĞ±nĞ½ textu
 
 ; Options page
 [&Enable AutoCorrection]
 &Zapnout kontrolu chyb
 [&Enable AutoText]
-Zapnout nahrazování t&extu
+Zapnout nahrazovĞ±nĞ½ t&extu
 [Correct TWo INitial &CApitals]
-&Oprava POèáteèních DVou VElkıch PÍsmen
+&Oprava POĞ¸Ğ±teĞ¸nĞ½ch DVou VElkÑch PĞsmen
 [Capitalize first letter of &sentences]
-První &slovo ve vìtì velkım písmenem
+PrvnĞ½ &slovo ve vĞ¼tĞ¼ velkÑm pĞ½smenem
 [Capitalize &names of days]
-&Názvy dnù v tıdnu velkım písmenem
+&NĞ±zvy dnÑ‰ v tÑdnu velkÑm pĞ½smenem
 [Correct accidental usage of cAPS &LOCK Key]
-Opravit náhodné zapnutí klávesy cAPS &LOCK
+Opravit nĞ±hodnĞ¹ zapnutĞ½ klĞ±vesy cAPS &LOCK
 [AutoText entries]
-Poloky k nahrazení
+PoloÑ›ky k nahrazenĞ½
 [Replace]
 Nahradit
 [With]
-Èím
+Ğ˜Ğ½m
 ;(DUP) [&Add]
 ;(DUP) [&Delete]
 [E&xceptions...]
-&Vıjimky...
+&VÑjimky...
 [Exceptions]
-Vıjimky
+VÑjimky
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 [&Capitalize]
-&První písmeno
+&PrvnĞ½ pĞ½smeno
 [&TWo INitial CApitals]
-DVì POèá&teèní VElká
+DVĞ¼ POĞ¸Ğ±&teĞ¸nĞ½ VElkĞ±
 [Do not capitalize sentences beginning with]
-Nemìnit poè. písmeno u vìt zaèínajících na
+NemĞ¼nit poĞ¸. pĞ½smeno u vĞ¼t zaĞ¸Ğ½najĞ½cĞ½ch na
 [Do not correct words beginning with]
-Neopravovat slova zaèínající na
+Neopravovat slova zaĞ¸Ğ½najĞ½cĞ½ na
 
 ;(DUP) [Help]
 [Select an item to delete.]
-Vyberte poadovanou poloku.
+Vyberte poÑ›adovanou poloÑ›ku.
 
 ; Capital
 [Change Case]
-Zmìnit malá/VELKÁ
+ZmĞ¼nit malĞ±/VELKĞ‘
 [lowercase]
-malımi
+malÑmi
 [UPPERCASE]
-VELKİMI
+VELKĞ­MI
 [iNVERTED]
-iNVERZNÌ
+iNVERZNĞœ
 [Sentence case]
-vìta
+vĞ¼ta
 [Title Case]
 nadpis
 
@@ -77,61 +77,61 @@ nadpis
 [&Import/Export...]
 &Import/Export...
 [I want to...]
- Poadovaná operace 
+ PoÑ›adovanĞ± operace 
 [import AutoText entries]
-Importovat poloky nahrazení textu
+Importovat poloÑ›ky nahrazenĞ½ textu
 [import AutoCorrection entries]
-Importovat poloky opravy chyb
+Importovat poloÑ›ky opravy chyb
 [import capitalize exception entries]
-Importovat vıjimky poèáteèních velkıch písmen
+Importovat vÑjimky poĞ¸Ğ±teĞ¸nĞ½ch velkÑch pĞ½smen
 [import two initial capitals exception entries]
-Importovat vıjimky dvou poèáteèních velkıch písmen
+Importovat vÑjimky dvou poĞ¸Ğ±teĞ¸nĞ½ch velkÑch pĞ½smen
 [export AutoText entries]
-Exportovat poloky nahrazení textu
+Exportovat poloÑ›ky nahrazenĞ½ textu
 [export AutoCorrection entries]
-Exportovat poloky opravy chyb
+Exportovat poloÑ›ky opravy chyb
 [export capitalize exception entries]
-Exportovat vıjimky poèáteèních velkıch písmen
+Exportovat vÑjimky poĞ¸Ğ±teĞ¸nĞ½ch velkÑch pĞ½smen
 [export two initial capitals exception entries]
-Exportovat vıjimky dvou poèáteèních velkıch písmen
+Exportovat vÑjimky dvou poĞ¸Ğ±teĞ¸nĞ½ch velkÑch pĞ½smen
 ;(DUP) [Path:]
 [Txt File]
-textovı soubor
+textovÑ soubor
 ;(DUP) [Invalid path and/or filename.]
 ;(DUP) [Importing sucessfully completed.]
 [Error importing AutoText entries.]
-Chyba pøi importu poloek nahrazení textu.
+Chyba pÑˆi importu poloÑ›ek nahrazenĞ½ textu.
 [Error importing AutoCorrection entries.]
-Chyba pøi importu poloek opravy chyb.
+Chyba pÑˆi importu poloÑ›ek opravy chyb.
 [Error importing exceptions entries.]
-Chyba pøi importu vıjimek.
+Chyba pÑˆi importu vÑjimek.
 [Error exporting AutoText entries.]
-Chyba pøi exportu poloek nahrazení textu.
+Chyba pÑˆi exportu poloÑ›ek nahrazenĞ½ textu.
 [Error exporting AutoCorrection entries.]
-Chyba pøi exportu poloek opravy chyb.
+Chyba pÑˆi exportu poloÑ›ek opravy chyb.
 [Error exporting exception entries.]
-Chyba pøi exportu vıjimek.
+Chyba pÑˆi exportu vÑjimek.
 [&Do it!]
-&Provést
+&ProvĞ¹st
 ;(DUP) [&Close]
 
 ; Other
 [monday]
-pondìlí
+pondĞ¼lĞ½
 [tuesday]
-úterı
+ÑŠterÑ
 [wednesday]
-støeda
+stÑˆeda
 [thursday]
-ètvrtek
+Ğ¸tvrtek
 [friday]
-pátek
+pĞ±tek
 [saturday]
 sobota
 [sunday]
-nedìle
+nedĞ¼le
 
 [Please read the readme file for help, there are instructions on how to use and how to configure the plugin.]
-Více informací, návod k pouití a jak nastavit doplnìk naleznete v souboru Readme.
+VĞ½ce informacĞ½, nĞ±vod k pouÑ›itĞ½ a jak nastavit doplnĞ¼k naleznete v souboru Readme.
 
 ; ---

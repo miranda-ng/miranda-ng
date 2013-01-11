@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Classic contact list 0.8.1.0                            |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 
@@ -14,11 +14,11 @@
 [List]
 Seznam
 [List Background]
-Pozadí seznamu
+PozadĞ½ seznamu
 [List Text]
 Text v seznamu
 [<none>]
-<ádnı>
+<Ñ›Ğ±dnÑ>
 
 ; clistmenus.c
 ;(DUP) [E&xit]
@@ -32,55 +32,55 @@ Text v seznamu
 [Offline]
 Offline
 [Connecting]
-Pøipojování
+PÑˆipojovĞ±nĞ½
 ;(DUP) [Online]
 [Away]
-Na chvíli pryè
+Na chvĞ½li pryĞ¸
 [DND]
-Nerušit!
+NeruÑ™it!
 [NA]
 Nejsem tady
 [Occupied]
-Nemám èas
+NemĞ±m Ğ¸as
 [Free for chat]
-Mám volno
+MĞ±m volno
 [Invisible]
-Neviditelnı
+NeviditelnÑ
 [Out to lunch]
-Jsem na obìdì
+Jsem na obĞ¼dĞ¼
 [On the phone]
-Mám telefon
+MĞ±m telefon
 ;(DUP) [Idle]
 [Connecting (attempt %d)]
-Pøipojování (pokus è.%d)
+PÑˆipojovĞ±nĞ½ (pokus Ğ¸.%d)
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
-Vybranı kontakt daného komunikaèního systému je uloen na centrálním serveru. Pøi pøíštím pøipojení bude odstranìn jak ze serveru, tak z vašeho seznamu.
+VybranÑ kontakt danĞ¹ho komunikaĞ¸nĞ½ho systĞ¹mu je uloÑ›en na centrĞ±lnĞ½m serveru. PÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ bude odstranĞ¼n jak ze serveru, tak z vaÑ™eho seznamu.
 ;(DUP) [Delete Contact]
 [De&lete]
 &Smazat
 [&Add permanently to list]
-Pøid&at do seznamu natrvalo
+PÑˆid&at do seznamu natrvalo
 
 ; clistopts.c
 ;(DUP) [Hotkeys]
 ;(DUP) [Events]
 [Global]
-Globální
+GlobĞ±lnĞ½
 
 ; clistsettings.c
 [(Unknown Contact)]
-(neznámı kontakt)
+(neznĞ±mÑ kontakt)
 ;(DUP) ['(Unknown Contact)']
 
 ; clisttray.c
 [&Main Menu]
-Hlavní &menu
+HlavnĞ½ &menu
 [&Status]
 &Stav
 
 ; clui.c
 [&Rename]
-Pø&ejmenovat
+PÑˆ&ejmenovat
 
 ; cluiopts.c
 ;(DUP) [Window]
@@ -88,13 +88,13 @@ Pø&ejmenovat
 
 ; groups.c
 [You already have a group with that name. Please enter a unique name for the group.]
-Skupina tého názvu u existuje. Zadejte prosím jinı název.
+Skupina tĞ¹hoÑ› nĞ±zvu uÑ› existuje. Zadejte prosĞ½m jinÑ nĞ±zev.
 [Rename Group]
-Pøejmenovat skupinu
+PÑˆejmenovat skupinu
 
 ; init.c
 [This plugin requires db3x plugin version 0.5.1.0 or later]
-Tento doplnìk vyaduje doplnìk db3x verze 0.5.1.0 nebo novìjší.
+Tento doplnĞ¼k vyÑ›aduje doplnĞ¼k db3x verze 0.5.1.0 nebo novĞ¼jÑ™Ğ½.
 
 ; resource.rc
 ;(DUP) [Hide from list only, in order to keep their history and ignore/visibility settings]
@@ -110,11 +110,11 @@ Tento doplnìk vyaduje doplnìk db3x verze 0.5.1.0 nebo novìjší.
 ;(DUP) [Disable groups]
 ;(DUP) [Ask before deleting contacts]
 [Sort contacts by name]
-Øadit kontakty dle jména
+Ğ¨adit kontakty dle jmĞ¹na
 [Sort contacts by status]
-Øadit kontakty dle stavu
+Ğ¨adit kontakty dle stavu
 [Sort contacts by protocol]
-Øadit kontakty dle protokolu
+Ğ¨adit kontakty dle protokolu
 ;(DUP) [Single click interface]
 ;(DUP) [Always show status in tooltip]
 ;(DUP) [Disable icon blinking]
@@ -138,9 +138,9 @@ Tento doplnìk vyaduje doplnìk db3x verze 0.5.1.0 nebo novìjší.
 ;(DUP) [Show title bar]
 ;(DUP) [If window is partially covered, bring to front instead of hiding]
 [Show drop shadow (restart required)]
-Zobrazit stín (vyaduje restart)
+Zobrazit stĞ½n (vyÑ›aduje restart)
 [Pin to desktop]
-Pøipíchnout na plochu
+PÑˆipĞ½chnout na plochu
 ;(DUP) [Show divider between online and offline contacts]
 ;(DUP) [Hot track items as mouse passes over]
 ;(DUP) [Disable drag and drop of items]
@@ -156,7 +156,7 @@ Pøipíchnout na plochu
 ;(DUP) [Grey out entire list when:]
 ;(DUP) [Dim idle contacts]
 [Hide vertical scroll bar]
-Skrıt svislı posuvník
+SkrÑt svislÑ posuvnĞ½k
 ;(DUP) [Typeface]
 ;(DUP) [Size]
 ;(DUP) [Style]
@@ -166,7 +166,7 @@ Skrıt svislı posuvník
 ;(DUP) [Underline]
 ;(DUP) [Gamma correction]
 [Use background image]
-Pouít na pozadí obrázek
+PouÑ›Ğ½t na pozadĞ½ obrĞ±zek
 ;(DUP) [Stretch to width]
 ;(DUP) [Stretch to height]
 ;(DUP) [Tile horizontally]
@@ -182,9 +182,9 @@ Pouít na pozadí obrázek
 ;(DUP) [Right click opens Miranda IM menu]
 ;(DUP) [Make sections equal width]
 [Show bevels on panels]
-Zobrazit efekt zkosení panelù
+Zobrazit efekt zkosenĞ½ panelÑ‰
 [Show resize grip indicator]
-Zobrazit tlaè. zmìny velik.
+Zobrazit tlaĞ¸. zmĞ¼ny velik.
 ;(DUP) [No]
 ;(DUP) [Yes]
 ;(DUP) [...]
@@ -212,7 +212,7 @@ ms (prodleva)
 ;(DUP) [same]
 ;(DUP) [as:]
 [Row height:]
-Vıška øádku:
+VÑÑ™ka ÑˆĞ±dku:
 ;(DUP) [Selected text:]
 ;(DUP) [Hottrack text:]
 ;(DUP) [Quicksearch text:]
@@ -220,7 +220,7 @@ Vıška øádku:
 ;(DUP) [Colour:]
 ;(DUP) [Background colour]
 [Selection colour]
-Barva vıbìru
+Barva vÑbĞ¼ru
 ;(DUP) [System tray icon]
 ;(DUP) [System tray icon when using multiple protocols]
 ;(DUP) [Contact List Sorting]
@@ -230,7 +230,7 @@ Barva vıbìru
 ;(DUP) [Visual]
 ;(DUP) [Fonts]
 [Rows]
-Øádky
+Ğ¨Ğ±dky
 ;(DUP) [Additional Colours]
 ;(DUP) [Contact List Background]
 ;(DUP) [&Offline\tCtrl+0]
@@ -255,79 +255,79 @@ Barva vıbìru
 ;(DUP) [&Rename Group]
 ;(DUP) [&Delete Group]
 
-; NEPUBLIKOVANÉ
-; název doplòku
+; NEPUBLIKOVANĞ™
+; nĞ±zev doplÑ‚ku
 [Classic contact list]
-Seznam kontaktù - klasickı
+Seznam kontaktÑ‰ - klasickÑ
 
 ; Kontakty / Text v seznamu
 [Standard contacts]
-Standardní kontakty
+StandardnĞ½ kontakty
 ;(DUP)[Online contacts to whom you have a different visibility]
 [Offline contacts]
 Kontakty offline
 ;(DUP)[Offline contacts to whom you have a different visibility]
 [Contacts which are 'not on list']
-Kontakty, které "nejsou v seznamu"
+Kontakty, kterĞ¹ "nejsou v seznamu"
 [Group member counts]
-Poèet èlenù ve skupinì
+PoĞ¸et Ğ¸lenÑ‰ ve skupinĞ¼
 [Dividers]
-Oddìlovaèe
+OddĞ¼lovaĞ¸e
 [Sample]
-Pøíkladovı text
+PÑˆĞ½kladovÑ text
 [Ignore for groups]
 Ignorovat u skupin
 
 ; Kontakty / Vzhled
 [My custom name (not moveable)]
-Upravené jméno (nelze pøesunout)
+UpravenĞ¹ jmĞ¹no (nelze pÑˆesunout)
 [FirstName]
-Jméno
+JmĞ¹no
 [LastName]
-Pøíjmení
+PÑˆĞ½jmenĞ½
 [Username]
-Uivatel
+UÑ›ivatel
 [FirstName LastName]
-Jméno Pøíjmení
+JmĞ¹no PÑˆĞ½jmenĞ½
 ['(Unknown Contact)' (not moveable)]
-'(neznámı kontakt)' (nelze pøesunout)
+'(neznĞ±mÑ kontakt)' (nelze pÑˆesunout)
 
 [New Group]
-nová skupina
+novĞ± skupina
 [This group]
 Tato skupina
 
-; Mazání skupiny
+; MazĞ±nĞ½ skupiny
 [Are you sure you want to delete this group?  This operation can not be undone.]
-Opravdu chcete smazat vybranou skupinu? Tuto operaci nelze vrátit.
+Opravdu chcete smazat vybranou skupinu? Tuto operaci nelze vrĞ±tit.
 [Delete Group]
 Smazat skupinu
 
-; Události / Klávesové zkratky
+; UdĞ±losti / KlĞ±vesovĞ¹ zkratky
 [Show/Hide:]
-Zobrazit/Skrıt:
+Zobrazit/SkrÑt:
 [Read Message:]
-Pøeèíst zprávu:
+PÑˆeĞ¸Ğ½st zprĞ±vu:
 [Web Search:]
 Hledat na webu:
 [Open in new browser window]
-Otevøít v novém oknì prohlíeèe
+OtevÑˆĞ½t v novĞ¹m oknĞ¼ prohlĞ½Ñ›eĞ¸e
 [Show Options]
-Monosti nastav.
+MoÑ›nosti nastav.
 
 ; Description
 [Display contacts, event notifications, protocol status]
-Zobrazuje kontakty, rùzné druhy událostí, stav protokolù...
+Zobrazuje kontakty, rÑ‰znĞ¹ druhy udĞ±lostĞ½, stav protokolÑ‰...
 
 [Contact list background:]
-Pozadí seznamu kontaktù
+PozadĞ½ seznamu kontaktÑ‰
 [Contact list:]
-Seznam kontaktù
+Seznam kontaktÑ‰
 [Window:]
 Okno
 [Ordering:]
-Zpùsob øazení
+ZpÑ‰sob ÑˆazenĞ½
 [If window is partially covered, bring iy to front]
-Je-li okno èásteènì zakryto, zobrazit na popøedí
+Je-li okno Ğ¸Ğ±steĞ¸nĞ¼ zakryto, zobrazit na popÑˆedĞ½
 
 ; ---

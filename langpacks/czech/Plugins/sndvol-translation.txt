@@ -1,31 +1,31 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  sndVol 0.0.3.0                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://faith.mirandaim.ru/archive/SoundVolume/
 ;
 
 [Sounds Volume]
-Hlasitost zvukù
+Hlasitost zvukÑ‰
 [Click to mute mRadio only, right click for mRadio settings]
-Kliknutím ztlumit mRadio, pravı klik vyvolá nastavení
+KliknutĞ½m ztlumit mRadio, pravÑ klik vyvolĞ± nastavenĞ½
 [Sound Volume]
-Hlasitost zvukù
+Hlasitost zvukÑ‰
 [Set mRadio volume]
 Nastavit hlasitost mRadia
 [Mute mRadio ]
 Ztlumit mRadio
 [Auto-preview]
-Auto-náhled
+Auto-nĞ±hled
 [Mute button]
-Tlaèítko ztlumit
+TlaĞ¸Ğ½tko ztlumit
 [ Volume ]
 Hlasitost
 [Use windows default colour]
-Pouít vıchozí barvu Windows
+PouÑ›Ğ½t vÑchozĞ½ barvu Windows
 
 [Click to toggle all sounds]
-Kliknutím zakázat/povolit všechny zvuky
+KliknutĞ½m zakĞ±zat/povolit vÑ™echny zvuky
 
 ; ---

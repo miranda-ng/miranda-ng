@@ -1,89 +1,89 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  BossKey+ 0.4.1.1                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3655
 ;
 
 
 [(Previous Status)]
-(pøedchozí stav)
+(pÑˆedchozĞ½ stav)
 [...set the status message to:]
-... nastavit zprávu stavu na:
+... nastavit zprĞ±vu stavu na:
 [and...]
 a ...
 [Disable Popups]
-Vypnout oznámení
+Vypnout oznĞ±menĞ½
 [When I return, change my status to...]
-Po návratu zmìnit stav na ...
+Po nĞ±vratu zmĞ¼nit stav na ...
 [I'm back!]
 Jsem z5!
 [When I press the hotkey, change status to:]
-Po stisku vybrané klávesy zmìnit stav na:
+Po stisku vybranĞ¹ klĞ±vesy zmĞ¼nit stav na:
 [Hotkey:]
-Klávesa:
+KlĞ±vesa:
 [BossKey]
 BossKey
 [(Current Status)]
-(aktuální stav)
+(aktuĞ±lnĞ½ stav)
 [On the Phone]
-Mám telefon
+MĞ±m telefon
 [Out to Lunch]
-Jsem na obìdì
+Jsem na obĞ¼dĞ¼
 [Be back soon!]
-Brzy budu zpìt
+Brzy budu zpĞ¼t
 [Could not get Miranda's window, Aborting...]
 Nelze zamknout okno Mirandy. To je konec...
 
 [Hide Miranda IM]
-Skrıt Mirandu
+SkrÑt Mirandu
 [When I press the hotkey:]
-Po stisku vybrané klávesy:
+Po stisku vybranĞ¹ klĞ±vesy:
 [Change only if current status is Online]
-Zmìnit pouze kdy je stávající stav online
+ZmĞ¼nit pouze kdyÑ› je stĞ±vajĞ½cĞ½ stav online
 [When I return:]
-Po návratu:
+Po nĞ±vratu:
 [Set the status message to:]
-Nastavit zprávu stavu na:
+Nastavit zprĞ±vu stavu na:
 [Request password:]
-Vyadovat heslo:
+VyÑ›adovat heslo:
 [Change status to:]
-Zmìnit stav na:
+ZmĞ¼nit stav na:
 [Change status back]
-Vrátit pùvodní stav
+VrĞ±tit pÑ‰vodnĞ½ stav
 [Add menu item in main menu (requires restart)]
-Pøidat poloku do hlavního menu (vyaduje restart programu)
+PÑˆidat poloÑ›ku do hlavnĞ½ho menu (vyÑ›aduje restart programu)
 
 [Miranda IM is locked. Enter password to unlock it.]
-Miranda je uzamèena. Zadejte poadované heslo.
+Miranda je uzamĞ¸ena. Zadejte poÑ›adovanĞ¹ heslo.
 [Please enter password!]
-Prosím zadejte heslo!
+ProsĞ½m zadejte heslo!
 [Password is not correct!]
-Zadané heslo není správné!
+ZadanĞ¹ heslo nenĞ½ sprĞ±vnĞ¹!
 
 [Hide Miranda if the computer is locked]
-Skrıt Mirandu kdy je poèítaè uzamèen
+SkrÑt Mirandu kdyÑ› je poĞ¸Ğ½taĞ¸ uzamĞ¸en
 [Change status to]
-Zmìnit stav na
+ZmĞ¼nit stav na
 
 [Go to Customize -> Hotkeys to change the hotkey]
-Zkratky zmìníte v sekci Vlastní úpravy -> Klávesové zkratky
+Zkratky zmĞ¼nĞ½te v sekci VlastnĞ½ ÑŠpravy -> KlĞ±vesovĞ¹ zkratky
 [Use built in to Miranda hotkey module]
-Pouít modul klávesovıch zkratek Mirandy
+PouÑ›Ğ½t modul klĞ±vesovÑch zkratek Mirandy
 
 ; Bosskey+ 0.4.1.1
 [Hide Miranda when:]
-Skrıt Mirandu pøi:
+SkrÑt Mirandu pÑˆi:
 [Windows is inactive]
-Windows je neaktivní
+Windows je neaktivnĞ½
 [Miranda is inactive]
-Miranda je neaktivní
+Miranda je neaktivnĞ½
 [Workstation is Locked (2000/XP+)]
-Pracovní stanice je uzamèena (2000/XP+)
+PracovnĞ½ stanice je uzamĞ¸ena (2000/XP+)
 [Miranda is started]
-Spuštìní Mirandy
+SpuÑ™tĞ¼nĞ½ Mirandy
 [Restore hiding on startup after failure]
-Obnovit skrıvání pøi startu po chybì
+Obnovit skrÑvĞ±nĞ½ pÑˆi startu po chybĞ¼
 
 ; ---

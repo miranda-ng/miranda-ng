@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Miranda to GDS 0.3                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VÐ½t Ð‰indlÐ±Ñˆ <sindlarv (zavinÐ±Ð¸) centrum (teÐ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=1965
 ;
 
@@ -13,34 +13,34 @@
 ; resource.rc
 ;(LAI) [Progress1]
 [Do not load the gds DB index plugin at startup again]
-Pøi pøíštím spuštìní Mirandy již prùvodce nenaèítat
+PÑˆi pÑˆÐ½Ñ™tÐ½m spuÑ™tÐ¼nÐ½ Mirandy jiÑ› prÑ‰vodce nenaÐ¸Ð½tat
 ;(DUP) [&Next >]
 ;(DUP) [Cancel]
 ;(DUP) [< &Back]
 [This wizard will help you index all chats from database in Google Desktop Search.]
-Tento prùvodce vám umožní naindexovat historii komunikace do programu Google Desktop Search.
+Tento prÑ‰vodce vÐ±m umoÑ›nÐ½ naindexovat historii komunikace do programu Google Desktop Search.
 ;(FIX) [Click ]
 [Click "Next" to choose the contacts you wish to index, or click "Cancel" to exit the wizard and continue using Miranda.]
-Po kliknutí na tlaèítko "Další" pøejdete k výbìru kontaktù k indexaci. Tlaèítkem "Zrušit" prùvodce ukonèíte.
+Po kliknutÐ½ na tlaÐ¸Ð½tko "DalÑ™Ð½" pÑˆejdete k vÑbÐ¼ru kontaktÑ‰ k indexaci. TlaÐ¸Ð½tkem "ZruÑ™it" prÑ‰vodce ukonÐ¸Ð½te.
 [--\nBest regards,\nVladimir Vainer]
 --\nS pozdravem,\nVladimir Vainer
 [Please check contacts you want to index:]
-Vyberte prosím požadované kontakty:
+Vyberte prosÐ½m poÑ›adovanÐ¹ kontakty:
 [Please wait, index in proccess, this may take several minutes, depending on the size of you database.]
-Poèkejte prosím. Procházení historie mùže trvat i nìkolik minut, vše záleží na velikosti databáze.
+PoÐ¸kejte prosÐ½m. ProchÐ±zenÐ½ historie mÑ‰Ñ›e trvat i nÐ¼kolik minut, vÑ™e zÐ±leÑ›Ð½ na velikosti databÐ±ze.
 [Contact:]
 Kontakt:
 ;(LAI) [Static]
 ;(DUP) [Total:]
 ;(LAI) [0/0]
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the index menu item will no longer be available.]
-Pøi pøíštím spuštìní Mirandy již tohoto prùvodce nebudete potøebovat, a proto ho doporuèujeme vypnout. Ušetøíte pamì.
+PÑˆi pÑˆÐ½Ñ™tÐ½m spuÑ™tÐ¼nÐ½ Mirandy jiÑ› tohoto prÑ‰vodce nebudete potÑˆebovat, a proto ho doporuÐ¸ujeme vypnout. UÑ™etÑˆÐ½te pamÐ¼Ñœ.
 ;(DUP) [Import completed]
 ;(DUP) [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 [Index chats from database in GDS]
 Naindexuje historii komunikace do GDS
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANÐ™
 [&Export to GDS...]
 &Exportovat do GDS...
 

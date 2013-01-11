@@ -1,86 +1,86 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  micqBirthday 0.2.9.0                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 [&Birthday List]
-Pø&ehled narozenin
+PÑˆ&ehled narozenin
 [Days]
-Dnù
+DnÑ‰
 [UNI]
 UIN
 [Full name]
-Celé jméno
+CelĞ¹ jmĞ¹no
 [Nickname]
-Pøezdívka
+PÑˆezdĞ½vka
 [Birthday]
 Narozeniny
 [Age]
-Vìk
+VĞ¼k
 [Views]
 Seznam narozenin
 [Show &all birthday dates]
-Zobr&azit všechny narozeniny
+Zobr&azit vÑ™echny narozeniny
 [Show only d&isabled birthday dates]
-Zobrazit pouze skryté narozen&iny
+Zobrazit pouze skrytĞ¹ narozen&iny
 [Show &during the next]
-Zobrazit &bìhem pøíštích
+Zobrazit &bĞ¼hem pÑˆĞ½Ñ™tĞ½ch
 [day(s)]
-dnù
+dnÑ‰
 [&Never pops up automatically on startup]
-&Nezobrazovat upozornìní automaticky pøi spuštìní
+&Nezobrazovat upozornĞ¼nĞ½ automaticky pÑˆi spuÑ™tĞ¼nĞ½
 [Never pops up automatically on &midnight]
-Nezobrazovat upozornìní auto&maticky o pùlnoci
+Nezobrazovat upozornĞ¼nĞ½ auto&maticky o pÑ‰lnoci
 [&Font]
-&Písmo...
+&PĞ½smo...
 ;(DUP) [&Message]
 ;(DUP) [Web Page Address (&URL)]
 ;(DUP) [&File]
 [&e-mail]
 &E-mail
 ;(DUP) [User &Details]
-;&Další informace
+;&DalÑ™Ğ½ informace
 ;(DUP)[View &History]
 [User &Birthday]
-Da&tum narození
+Da&tum narozenĞ½
 [D&isable Birthday]
-Skrıt narozen&iny
+SkrÑt narozen&iny
 [N/A]
 <neuvedeno>
 [%s birthday]
 %s : narozeniny
 [Use &standard birthday (from contact list data)]
-Pouít definované (&standardní zpùsob)
+PouÑ›Ğ½t definovanĞ¹ (&standardnĞ½ zpÑ‰sob)
 [Set c&ustom birthday (if standard is not available)]
-Nastavit narozeniny (nejso&u-li definované)
+Nastavit narozeniny (nejso&u-li definovanĞ¹)
 [D&isabled birthday (do not show it in birthday list)]
-Zakázat zobrazení (neuv&idíte je v seznamu)
+ZakĞ±zat zobrazenĞ½ (neuv&idĞ½te je v seznamu)
 [Notify &during the next]
-Upozornit &bìhem pøíštích
+Upozornit &bĞ¼hem pÑˆĞ½Ñ™tĞ½ch
 [&Year]
 &Rok
 [&Month]
-&Mìsíc
+&MĞ¼sĞ½c
 [&Day]
 &Den
 [&OK]
 &OK
 ;(DUP) [Close]
 [%s has birthday]
-%s má narozeniny
+%s mĞ± narozeniny
 [Birthday alert]
-Narozeniny (upozornìní)
+Narozeniny (upozornĞ¼nĞ½)
 [Birthday reminder...]
-Upozornìní na narozeniny...
+UpozornĞ¼nĞ½ na narozeniny...
 [Disable &birthday notification]
-Vypnout oznámení &narozenin
+Vypnout oznĞ±menĞ½ &narozenin
 [Enable &birthday notification]
-Zapnout oznámení &narozenin
+Zapnout oznĞ±menĞ½ &narozenin
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [micqBirthday]
 Narozeniny
 

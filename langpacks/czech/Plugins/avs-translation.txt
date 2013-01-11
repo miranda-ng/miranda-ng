@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Avatar service 0.8.0.0                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2361
 ;
 
@@ -12,71 +12,71 @@
 
 ; Common strings that belong to many files
 [Make the avatar square]
-Upravit obrázek na ètvercovı tvar
+Upravit obrĞ±zek na Ğ¸tvercovÑ tvar
 [Grow avatar to fit max allowed protocol size]
-Upravit rozmìry na max. velikost danou protokolem
+Upravit rozmĞ¼ry na max. velikost danou protokolem
 
 ; ./plugins/avs/acc.cpp
 [Protocols have different avatars]
-Jednotlivé protokoly mají definované rùzné avatary.
+JednotlivĞ¹ protokoly majĞ½ definovanĞ¹ rÑ‰znĞ¹ avatary.
 
 ; ./plugins/avs/avs.rc
 [ Background ]
-Pozadí
+PozadĞ½
 [ Options ]
-Monosti
+MoÑ›nosti
 ;(DUP) [Cancel]
 ;(DUP) [Change]
 [Color diff:]
-Rozdíl barev:
+RozdĞ½l barev:
 [Color difference allowed:]
-Povolená odchylka barev:
+PovolenĞ± odchylka barev:
 [Contact picture]
-Obrázek
+ObrĞ±zek
 ;(DUP) [Delete]
 [Delete default picture]
-Odstranit vıchozí obrázek
+Odstranit vÑchozĞ½ obrĞ±zek
 ;(DUP) [Dialog]
 [Draw avatars grayscale]
-Zobrazit v odstínech šedi
+Zobrazit v odstĞ½nech Ñ™edi
 [Make transparency proportional to color diff]
-Zprùhlednit dle barevnıch rozdílù
+ZprÑ‰hlednit dle barevnÑch rozdĞ½lÑ‰
 [Max allowed file size for avatars: (KBytes)]
-Maximální povolená velikost souboru (KB):
+MaximĞ±lnĞ½ povolenĞ± velikost souboru (KB):
 [Num of points to define bkg:]
-Mnoství bodù definujících pozadí:
+MnoÑ›stvĞ½ bodÑ‰ definujĞ½cĞ½ch pozadĞ½:
 ;(DUP) [OK]
 [Picture options]
-Monosti obrázku
+MoÑ›nosti obrĞ±zku
 [Points:]
-Poèet bodù:
+PoĞ¸et bodÑ‰:
 [Protect the picture]
-Zamknout obrázek
+Zamknout obrĞ±zek
 [Protect the picture and prevent automatic avatars from overwriting it]
-Zamknout obrázek a zabránit tak automatickému pøepisování
+Zamknout obrĞ±zek a zabrĞ±nit tak automatickĞ¹mu pÑˆepisovĞ±nĞ½
 ;(DUP) [Reset]
 ;(DUP) [Set]
 [Set as hidden]
-Nastavit jako skrytı
+Nastavit jako skrytÑ
 [Set default picture]
-Nastavit vıchozí obrázek
+Nastavit vÑchozĞ½ obrĞ±zek
 [Show warning messages]
-Zobrazit chybová hlášení
+Zobrazit chybovĞ± hlĞ±Ñ™enĞ½
 [This uses the same additional options as in \"Contact Avatars\" tab]
-* Nastavení této funkce je sdílené s panelem "Pro kontakty"
+* NastavenĞ½ tĞ¹to funkce je sdĞ½lenĞ¹ s panelem "Pro kontakty"
 ;(DUP) [Transparent]
 [Try to draw avatar background transparent (for images without transparency)]
-Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+Pokusit se zprÑ‰hlednit pozadĞ½ avataru (platĞ½ pro obrĞ±zky bez transparence)
 [Try to draw own avatar background transparent (for images without transparency)]
-Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+Pokusit se zprÑ‰hlednit pozadĞ½ avataru (platĞ½ pro obrĞ±zky bez transparence)
 [Try to make picture background transparent]
-Pokusit se zprùhlednit pozadí obrázku
+Pokusit se zprÑ‰hlednit pozadĞ½ obrĞ±zku
 [Use defaults]
-Pouít vıchozí
+PouÑ›Ğ½t vÑchozĞ½
 [Use per protocol avatars]
-Pro kadı protokol jinı avatar
+Pro kaÑ›dÑ protokol jinÑ avatar
 [When setting avatars, always make them square]
-Pøi nastavení avataru vdy zmìnit na ètvercovı tvar
+PÑˆi nastavenĞ½ avataru vÑ›dy zmĞ¼nit na Ğ¸tvercovÑ tvar
 
 ; ./plugins/avs/main.cpp
 ;(DUP) [All Files]
@@ -90,9 +90,9 @@ animace typu Flash
 ;(DUP) [GIF Bitmaps]
 ;(DUP) [JPEG Bitmaps]
 [My Avatars]
-Osobní avatary
+OsobnĞ½ avatary
 [My Global Avatar Cache]
-Úloištì avatarù
+ĞªloÑ›iÑ™tĞ¼ avatarÑ‰
 [Own Avatars]
 Pro sebe
 ;(DUP) [PNG Bitmaps]
@@ -107,29 +107,29 @@ soubory typu XML
 
 ; ./plugins/avs/options.cpp
 [Are you sure you want to remove your avatar?]
-Opravdu chcete odstranit svùj avatar?
+Opravdu chcete odstranit svÑ‰j avatar?
 [Contact has no avatar]
-<avatar není definovanı>
+<avatar nenĞ½ definovanÑ>
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Chcete odstranit i obrázek z disku (nutno provést pøi vynucené aktualizaci avataru)?
+Chcete odstranit i obrĞ±zek z disku (nutno provĞ¹st pÑˆi vynucenĞ¹ aktualizaci avataru)?
 [Global Avatar]
-Globální avatar
+GlobĞ±lnĞ½ avatar
 [Reset contact picture]
-Resetovat obrázek kontaktu
+Resetovat obrĞ±zek kontaktu
 [Set avatar options for %s]
 %s: avatar
 
 [Load and manage contact pictures for other plugins]
-Naèítá a spravuje obrázky pro ostatní doplòky
+NaĞ¸Ğ½tĞ± a spravuje obrĞ±zky pro ostatnĞ½ doplÑ‚ky
 
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
-Definuje obrázky pro kontakty bez avataru. Zaškrtnutím zobrazení\nvıchozího obrázku zapnete, odškrtnutím vypnete.
+Definuje obrĞ±zky pro kontakty bez avataru. ZaÑ™krtnutĞ½m zobrazenĞ½\nvÑchozĞ½ho obrĞ±zku zapnete, odÑ™krtnutĞ½m vypnete.
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-Upozornìní: Váš vlastní avatar urèíte pomocí funkce Nastavit\navatar ze sekce Informace o sobì v hlavní nabídce.
+UpozornĞ¼nĞ½: VĞ±Ñ™ vlastnĞ½ avatar urĞ¸Ğ½te pomocĞ½ funkce Nastavit\navatar ze sekce Informace o sobĞ¼ v hlavnĞ½ nabĞ½dce.
 
 [Global avatar]
-Globální avatar
+GlobĞ±lnĞ½ avatar
 [Global avatar for %s accounts]
-Globální avatar pro úèty na %s
+GlobĞ±lnĞ½ avatar pro ÑŠĞ¸ty na %s
 
 ; ---

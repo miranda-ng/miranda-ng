@@ -1,35 +1,35 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Extra Icons Service 0.2.5.1                             |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [You can group/ungroup icons by selecting then (CTRL+left click) and using the popup menu (right click)]
-Pro vytvoøení/zrušení skupiny si oznaète ikony (CTRL+levé tlaèítko) a pouijte kontextové menu (pravé tlaèítko)
+Pro vytvoÑˆenĞ½/zruÑ™enĞ½ skupiny si oznaĞ¸te ikony (CTRL+levĞ¹ tlaĞ¸Ğ½tko) a pouÑ›ijte kontextovĞ¹ menu (pravĞ¹ tlaĞ¸Ğ½tko)
 [* only the first %d icons will be shown]
-* bude zobrazeno pouze prvních %d ikon
+* bude zobrazeno pouze prvnĞ½ch %d ikon
 [AIM Extended Status]
-AIM rozšíøenı stav
+AIM rozÑ™Ğ½ÑˆenÑ stav
 [E-mail (uinfoex)]
 E-mail (uinfoex)
 [Jabber Activity]
 Jabber aktivita
 [AIM Account Type]
-Typ AIM úètu
+Typ AIM ÑŠĞ¸tu
 [Reminder (uinfoex)]
-Pøipomínka (uinfoex)
+PÑˆipomĞ½nka (uinfoex)
 [(uinfoex)]
 (uinfoex)
 [ICQ XStatus]
 ICQ XStatus
 [Homepage (uinfoex)]
-Domovská stránka (uinfoex)
+DomovskĞ± strĞ±nka (uinfoex)
 [Jabber Mood]
-Jabber nálada
+Jabber nĞ±lada
 
 [Select the extra icons to be shown in the contact list:]
-Zvolte doplòkové ikony které budou zobrazeny v seznamu kontaktù:
+Zvolte doplÑ‚kovĞ¹ ikony kterĞ¹ budou zobrazeny v seznamu kontaktÑ‰:
 
 ; ---

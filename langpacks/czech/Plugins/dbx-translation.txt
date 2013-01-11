@@ -1,100 +1,100 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Miranda database drivers                                |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 
 ; backup.c
 [Rotating backup files...]
-Rotování zálohovanıch souborù...
+RotovĞ±nĞ½ zĞ±lohovanÑch souborÑ‰...
 [Copying database file...]
-Kopírování souborù s profilem...
+KopĞ½rovĞ±nĞ½ souborÑ‰ s profilem...
 
 ; database.c
 [Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://www.miranda-im.org. Miranda will now shutdown.]
-Bylo zjištìno poškození databáze. Tuto chybu se mùete pokusit opravit programem DBTool, kterı je k dispozici na stránkách http://www.miranda-im.org. Miranda bude ukonèena.
+Bylo zjiÑ™tĞ¼no poÑ™kozenĞ½ databĞ±ze. Tuto chybu se mÑ‰Ñ›ete pokusit opravit programem DBTool, kterÑ je k dispozici na strĞ±nkĞ±ch http://www.miranda-im.org. Miranda bude ukonĞ¸ena.
 [Database Panic]
-Poškození databáze
+PoÑ™kozenĞ½ databĞ±ze
 
 ; options.c
 [Select Backup Folder]
-Vyberte sloku pro zálohování profilù:
+Vyberte sloÑ›ku pro zĞ±lohovĞ±nĞ½ profilÑ‰:
 [Error Creating Backup Folder]
-Chyba pøi vytváøení sloky pro zálohování
+Chyba pÑˆi vytvĞ±ÑˆenĞ½ sloÑ›ky pro zĞ±lohovĞ±nĞ½
 [Database Backups]
-Zálohování databáze
+ZĞ±lohovĞ±nĞ½ databĞ±ze
 [Backup Profile]
-Zazálohovat profil
+ZazĞ±lohovat profil
 
 ; resource.rc
 [Hours]
 hod.
 [Disable progress bar]
-Vypnout ukazatel prùbìhu
+Vypnout ukazatel prÑ‰bĞ¼hu
 [Disabled]
 Vypnuto
 [When Miranda starts]
-Pøi spuštìní Mirandy
+PÑˆi spuÑ™tĞ¼nĞ½ Mirandy
 [When Miranda exits]
-Pøi ukonèení Mirandy
+PÑˆi ukonĞ¸enĞ½ Mirandy
 [Periodically:]
 Periodicky
 [Backup NOW]
-Zazálohovat
+ZazĞ±lohovat
 [Backup to folder:]
-Sloka pro zálohování profilù:
+SloÑ›ka pro zĞ±lohovĞ±nĞ½ profilÑ‰:
 [Every:]
-Kadé:
+KaÑ›dĞ¹:
 [Number of backups to keep:]
-Poèet uloenıch kopií:
+PoĞ¸et uloÑ›enÑch kopiĞ½:
 [Automatic Backups]
-Automatické zálohování
+AutomatickĞ¹ zĞ±lohovĞ±nĞ½
 [Backup in Progress]
-Stav zálohování
+Stav zĞ±lohovĞ±nĞ½
 
 ; Description
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
-Umoòuje ètení a zápis dat do uivatelského profilu: globální nastavení, kontakty, historii a další poloky.
+UmoÑ›Ñ‚uje Ğ¸tenĞ½ a zĞ±pis dat do uÑ›ivatelskĞ¹ho profilu: globĞ±lnĞ½ nastavenĞ½, kontakty, historii a dalÑ™Ğ½ poloÑ›ky.
 
 ; Memory-Mapped Secured Database - 0.7.5.3
 ; http://addons.miranda-im.org/details.php?action=viewfile&id=3667
 [Database Features]
-Funkce databáze
+Funkce databĞ±ze
 [Database encryption]
-Šifrování databáze
+Ğ‰ifrovĞ±nĞ½ databĞ±ze
 [Enable encryption]
-Zapnout šifrování
+Zapnout Ñ™ifrovĞ±nĞ½
 [Site:]
-Stránka:
+StrĞ±nka:
 
 [Set password]
 Nastavit heslo
 [Change password]
-Zmìnit heslo
+ZmĞ¼nit heslo
 
 [Please enter your new password]
-Prosím zadejte nové heslo
+ProsĞ½m zadejte novĞ¹ heslo
 [Passwords do not match!]
-Zadaná hesla se neshodují!
+ZadanĞ± hesla se neshodujĞ½!
 [Please enter password for]
-Prosím zadejte heslo pro
+ProsĞ½m zadejte heslo pro
 [Password is not correct!]
-Zadané heslo není správné!
+ZadanĞ¹ heslo nenĞ½ sprĞ±vnĞ¹!
 
 ;db_autobackup.txt
 [Database AutoBackups]
-Záloha databáze
+ZĞ±loha databĞ±ze
 
 [Backup progress]
-Prùbìh zálohování
+PrÑ‰bĞ¼h zĞ±lohovĞ±nĞ½
 [Backup Folder]
-Sloka pro zálohování profilù
+SloÑ›ka pro zĞ±lohovĞ±nĞ½ profilÑ‰
 [Folders plugin installed.\nGo to the Customize -> Folders to change settings]
-Doplnìk Folders je nainstalován.\nNastavení zmìníte v oknì Monosti, sekci 'Vlastní úpravy' -> Sloky.
+DoplnĞ¼k Folders je nainstalovĞ±n.\nNastavenĞ½ zmĞ¼nĞ½te v oknĞ¼ MoÑ›nosti, sekci 'VlastnĞ½ ÑŠpravy' -> SloÑ›ky.
 [Database backuped]
-Databáze zálohována
+DatabĞ±ze zĞ±lohovĞ±na
 
 
 ; ---

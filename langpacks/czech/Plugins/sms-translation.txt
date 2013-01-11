@@ -1,174 +1,174 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SMS++ 0.2.5.2                                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://www.miranda.cz/forum/viewtopic.php?t=4966
 ;
 
 [%d/160]
 %d/160
 [SMS &Balance]
-&Zùstatek SMS
+&ZÑ‰statek SMS
 [SMS Message Sent]
-Zpráva SMS odeslána
+ZprĞ±va SMS odeslĞ±na
 [Sample: ICQ (SomeNick)]
-Pøíklad: ICQ (pøezdívka)
+PÑˆĞ½klad: ICQ (pÑˆezdĞ½vka)
 [Sample: ICQ (Nick [999999])]
-Pøíklad: ICQ (pøezdívka [999999])
+PÑˆĞ½klad: ICQ (pÑˆezdĞ½vka [999999])
 [Sample: ICQ (Nick [990099])]
-Pøíklad: ICQ (pøezdívka [990099])
+PÑˆĞ½klad: ICQ (pÑˆezdĞ½vka [990099])
 [Add MRA to protocols list]
-Pøidat MRA do seznamu protokolù
+PÑˆidat MRA do seznamu protokolÑ‰
 
 [Your SMS]
-Vaše SMS
+VaÑ™e SMS
 ;(DUP) [Received SMS]
 [Send &SMS...]
 Poslat &SMS
 [&SMS Message]
-Zpráva &SMS
+ZprĞ±va &SMS
 ;[Services]
-;Sluby
+;SluÑ›by
 [SMS Plugin]
 SMS
 [Sample: ICQ]
-Pøíklad: ICQ
+PÑˆĞ½klad: ICQ
 [Sample: ICQ (%d)]
-Pøíklad: ICQ (%d)
+PÑˆĞ½klad: ICQ (%d)
 [Sample: ICQ (%s)]
-Pøíklad: ICQ (%s)
+PÑˆĞ½klad: ICQ (%s)
 [Sample: ICQ (%s[%s])]
-Pøíklad: ICQ (%s[%S])
+PÑˆĞ½klad: ICQ (%s[%S])
 [SomeNick]
-Pøezdívka
+PÑˆezdĞ½vka
 [Sample: MRA (nick@mail.ru)]
-Pøíklad: MRA (pøezdívka@mail.ru)
+PÑˆĞ½klad: MRA (pÑˆezdĞ½vka@mail.ru)
 [Sample: MRA]
-Pøíklad: MRA
+PÑˆĞ½klad: MRA
 [SMS From %s (%s)]
 SMS od %s (%s)
 [SMS From %s]
 SMS od %s
 [SMS message didn't send by %s to %s because: %s]
-Zpráva SMS nebyla odeslána od %s pro %s z dùvodu: %s
+ZprĞ±va SMS nebyla odeslĞ±na od %s pro %s z dÑ‰vodu: %s
 [SMS Message from %s]
-Zpráva SMS od %s
+ZprĞ±va SMS od %s
 [SMS Confirmation from %s]
-Potvrzení SMS od %s
+PotvrzenĞ½ SMS od %s
 ;(DUP) [Incoming SMS Message]
 [Incoming SMS Confirmation]
-Pøíchozí potvrzení SMS
+PÑˆĞ½chozĞ½ potvrzenĞ½ SMS
 [Received SMS]
-Pøijatá SMS
+PÑˆijatĞ± SMS
 [Received SMS Confirmation]
-Pøijaté potvrzení SMS
+PÑˆijatĞ¹ potvrzenĞ½ SMS
 ;(DUP) [View User's History]
 [Add Number To The Multiple List]
-Pøidat èíslo do hromadného seznamu
+PÑˆidat Ğ¸Ğ½slo do hromadnĞ¹ho seznamu
 [Save Number To The User's Details Phonebook]
-Uloit èíslo do informací o kontaktu
+UloÑ›it Ğ¸Ğ½slo do informacĞ½ o kontaktu
 [Show/Hide Multiple List]
-Zobrazit/Skrıt hromadnı seznam
+Zobrazit/SkrÑt hromadnÑ seznam
 [Shows How Much Chars You've Typed]
-Zobrazit poèet napsanıch znakù
+Zobrazit poĞ¸et napsanÑch znakÑ‰
 [The SMS message send to %s timed out.]
-Vypršela platnost zprávy SMS pro %s.
+VyprÑ™ela platnost zprĞ±vy SMS pro %s.
 [The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-Telefonní èíslo musí zaèínat + a obsahovat pouze èísla, mezery, závorky a pomlèky.
+TelefonnĞ½ Ğ¸Ğ½slo musĞ½ zaĞ¸Ğ½nat + a obsahovat pouze Ğ¸Ğ½sla, mezery, zĞ±vorky a pomlĞ¸ky.
 ;(DUP) [Invalid Phone Number]
 [Message is too long, press OK to continue.]
-Zpráva je pøíliš dlouhá, pokraèujte stisknutím OK.
+ZprĞ±va je pÑˆĞ½liÑ™ dlouhĞ±, pokraĞ¸ujte stisknutĞ½m OK.
 [Error - Message too long]
-Chyba - zpráva je pøíliš dlouhá
+Chyba - zprĞ±va je pÑˆĞ½liÑ™ dlouhĞ±
 [There must be numbers in the list first.]
-V seznamu musí bıt nejprve èísla.
+V seznamu musĞ½ bÑt nejprve Ğ¸Ğ½sla.
 [No Numbers]
-ádné èísla
+Ğ‹Ğ±dnĞ¹ Ğ¸Ğ½sla
 [Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
-Správnı tvar celého èísla je '+(kód zemì)(telefonní èíslo)'. Zápis samotného telefonního èísla se liší podle zemí, ale èasto se udává bez poèáteèní nuly.
+SprĞ±vnÑ tvar celĞ¹ho Ğ¸Ğ½sla je '+(kÑƒd zemĞ¼)(telefonnĞ½ Ğ¸Ğ½slo)'. ZĞ±pis samotnĞ¹ho telefonnĞ½ho Ğ¸Ğ½sla se liÑ™Ğ½ podle zemĞ½, ale Ğ¸asto se udĞ±vĞ± bez poĞ¸Ğ±teĞ¸nĞ½ nuly.
 [Invalid phone number]
-Neplatné telefonní èíslo
+NeplatnĞ¹ telefonnĞ½ Ğ¸Ğ½slo
 [Send SMS]
 Poslat SMS
 [(Other)]
-(Jiné)
+(JinĞ¹)
 [<< Single]
-<< Jednotlivì
+<< JednotlivĞ¼
 [Multiple >>]
-Hromadnì >>
+HromadnĞ¼ >>
 
 ;SMS Options
 [Begining]
-Zaèátek
+ZaĞ¸Ğ±tek
 [End]
 Konec
 [Use Signature?]
-Pøidat podpis?
+PÑˆidat podpis?
 [Use Signature]
-Pøidat podpis
+PÑˆidat podpis
 [Put signature at the:]
-Vloit podpis na:
+VloÑ›it podpis na:
 [Show server notifications:]
-Zobrazovat oznámení serveru:
+Zobrazovat oznĞ±menĞ½ serveru:
 [Show server notifications]
-Zobrazovat oznámení serveru
+Zobrazovat oznĞ±menĞ½ serveru
 ;(DUP) [Show popups]
 [Auto open events]
-Auto-otvírání událostí
+Auto-otvĞ½rĞ±nĞ½ udĞ±lostĞ½
 [Add ICQ to protocols list]
-Pøidat ICQ do seznamu protokolù
+PÑˆidat ICQ do seznamu protokolÑ‰
 [Show UIN]
 Zobrazit UIN
 [Show Nick]
-Zobrazit pøezdívku
+Zobrazit pÑˆezdĞ½vku
 [Show e-mail]
 Zobrazit e-mail
 ;(DUP) [To:]
 ;(DUP) [Number:]
 [Enter message:]
-Zadejte zprávu:
+Zadejte zprĞ±vu:
 ;(DUP) [&Send]
 ;(DUP) [&Close]
 [Chars:]
-Znakù:
+ZnakÑ‰:
 [Save number]
-Uloit èíslo
+UloÑ›it Ğ¸Ğ½slo
 [Add number to list]
-Pøidat èíslo do seznamu
+PÑˆidat Ğ¸Ğ½slo do seznamu
 ;(DUP) [From:]
 [Message received:]
-Zpráva pøijata:
+ZprĞ±va pÑˆijata:
 ;(DUP) [&Reply]
 [Message ID:]
-Identifikátor:
+IdentifikĞ±tor:
 [Network:]
-Sítì:
+SĞ½tĞ¼:
 ;(DUP) [Source:]
 [&Try again]
 Zkusi&t znovu
 ;(DUP) [&Cancel]
 
 ; SMS++
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [SMS received event]
-pøíchozí SMS
+pÑˆĞ½chozĞ½ SMS
 [SMS succesfully sent]
-SMS úspìšnì odeslána
+SMS ÑŠspĞ¼Ñ™nĞ¼ odeslĞ±na
 [SMS sent failed]
-chyba pøi odesílání SMS
+chyba pÑˆi odesĞ½lĞ±nĞ½ SMS
 [Read Next]
-Pøeèíst další
+PÑˆeĞ¸Ğ½st dalÑ™Ğ½
 
 [Defatult SMS Account:]
-Vıchozí úèet pro posílání sms:
+VÑchozĞ½ ÑŠĞ¸et pro posĞ½lĞ±nĞ½ sms:
 [Save window position per contact:]
-Uloit pozici okna pro kadı kontakt:
+UloÑ›it pozici okna pro kaÑ›dÑ kontakt:
 [Auto popup on new message:]
-Automaticky zobrazit pøíchozí zprávu:
+Automaticky zobrazit pÑˆĞ½chozĞ½ zprĞ±vu:
 [SMS Messages]
-Zprávy SMS
+ZprĞ±vy SMS
 [By:]
-Pøes:
+PÑˆes:
 
 ; ---

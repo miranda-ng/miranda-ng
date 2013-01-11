@@ -1,34 +1,34 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ShowUIN 3.1.0.0                                         |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Soustruh <struzsky (teèka) m (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Soustruh <struzsky (teĞ¸ka) m (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2846
 ;
 
 [ShowUIN options]
-Monosti doplòku ShowUIN
+MoÑ›nosti doplÑ‚ku ShowUIN
 [Display format:]
-Formát pro zobrazení:
+FormĞ±t pro zobrazenĞ½:
 [Copy format:]
-Formát pro zkopírování do schránky:
+FormĞ±t pro zkopĞ½rovĞ±nĞ½ do schrĞ±nky:
 [Following macroses are available:]
-Jsou k dispozici následující promìnné:
+Jsou k dispozici nĞ±sledujĞ½cĞ½ promĞ¼nnĞ¹:
 [Instant messaging protocol]
 Protokol
 [Protocol UIN]
-Identifikátor kontaktu
+IdentifikĞ±tor kontaktu
 [Protocol nickname]
-Vıchozí pøezdívka kontaktu
+VÑchozĞ½ pÑˆezdĞ½vka kontaktu
 [Contact-list nickname]
-Pøezdívka zobrazená v seznamu kontaktù
+PÑˆezdĞ½vka zobrazenĞ± v seznamu kontaktÑ‰
 [Protocol first name]
-Køestní jméno kontaktu
+KÑˆestnĞ½ jmĞ¹no kontaktu
 [Protocol last name]
-Pøíjmení kontaktu
+PÑˆĞ½jmenĞ½ kontaktu
 [First + last name in one string]
-Køestní jméno a pøíjmení kontaktu
+KÑˆestnĞ½ jmĞ¹no a pÑˆĞ½jmenĞ½ kontaktu
 [Protocol e-mail address]
-E-mailová adresa kontaktu
+E-mailovĞ± adresa kontaktu
 
 ; ---

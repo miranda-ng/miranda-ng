@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  WinampNotify 1.7.5.0                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=305
 ;
 
@@ -27,22 +27,22 @@ Winamp
 ;(DUP) [On the phone]
 ;(DUP) [Out to lunch]
 [Use &hotkey to show popup]
-Pouít &klávesovou zkratku
+PouÑ›Ğ½t &klĞ±vesovou zkratku
 [Hotkey :]
-Klávesa:
+KlĞ±vesa:
 [Do not notify when a new song begins to play, only notify when the hotkey is pressed]
-Zobrazit oznámení pouze pøi pouití klávesové zkratky
+Zobrazit oznĞ±menĞ½ pouze pÑˆi pouÑ›itĞ½ klĞ±vesovĞ¹ zkratky
 [/music replacement]
-Klíèové slovo /music
+KlĞ½Ğ¸ovĞ¹ slovo /music
 [&Enable replacement]
-Aktivovat nahraz&ení
+Aktivovat nahraz&enĞ½
 [Replace "/music" text in message dialog with]
-Nahradit text '/music' v oknì se zprávou za
+Nahradit text '/music' v oknĞ¼ se zprĞ±vou za
 ;(DUP) [&Variables]
 [Advanced text options]
 Text (pro experty)
 [Put here the same title formatting from your player (You'll be able to use it on the above text)]
-Zadejte stejnı formát zobrazení jako v pøehrávaèi
+Zadejte stejnÑ formĞ±t zobrazenĞ½ jako v pÑˆehrĞ±vaĞ¸i
 
 ; Popup options page
 ;(DUP) [Colours]
@@ -53,9 +53,9 @@ Zadejte stejnı formát zobrazení jako v pøehrávaèi
 ;(DUP) [Use default &text colour]
 ;(DUP) [Timeout]
 [From PopUp plugin]
-Globální nastavení
+GlobĞ±lnĞ½ nastavenĞ½
 [Custom]
-Vlastní
+VlastnĞ½
 [Permanent]
 Trvale
 [Icon]
@@ -71,55 +71,55 @@ Ikona
 ; Variables dialog
 ;(DUP) [Variables]
 [song title (shown in the playlist)]
-název skladby (jako v seznamu)
+nĞ±zev skladby (jako v seznamu)
 [the song length]
-délka skladby
+dĞ¹lka skladby
 [samplerate (ex. 44 kHz)]
-frekvence (napø. 44 kHz)
+frekvence (napÑˆ. 44 kHz)
 [bitrate (ex. 128 kBit/s)]
-datovı tok (napø. 128 kbit/s)
+datovÑ tok (napÑˆ. 128 kbit/s)
 [channels (ex. Mono/Stereo)]
-kanály (mono/stereo)
+kanĞ±ly (mono/stereo)
 [elapsed time]
-uplynulı èas
+uplynulÑ Ğ¸as
 [remaining time]
-zbıvající èas
+zbÑvajĞ½cĞ½ Ğ¸as
 [playlist position]
-poøadí v seznamu
+poÑˆadĞ½ v seznamu
 
 ; Configure click dialog
 [Go to previous track]
-Pøejít na pøedchozí skladbu
+PÑˆejĞ½t na pÑˆedchozĞ½ skladbu
 [Go to next track]
-Pøejít na následující skladbu
+PÑˆejĞ½t na nĞ±sledujĞ½cĞ½ skladbu
 [Pause/Play]
-Pozastavit/Pøehrávat
+Pozastavit/PÑˆehrĞ±vat
 [Stop]
 Zastavit
 [Stop with fadeout]
-Zastavit se ztišením
+Zastavit se ztiÑ™enĞ½m
 [Stop after current track]
-Zastavit po aktuální skladbì
+Zastavit po aktuĞ±lnĞ½ skladbĞ¼
 ;(DUP) [Close popup]
 ;(DUP) [Icon File]
 [Close Winamp]
-Zavøít Winamp
+ZavÑˆĞ½t Winamp
 [Open file info box]
 Zobrazit informace o souboru
 [Raise volume by 1%]
-Zvıšit hlasitost o 1%
+ZvÑÑ™it hlasitost o 1%
 [Lower volume by 1%]
-Sníit hlasitost o 1%
+SnĞ½Ñ›it hlasitost o 1%
 [Open jump to time dialog]
-Otevøít okno èasového pøesunu
+OtevÑˆĞ½t okno Ğ¸asovĞ¹ho pÑˆesunu
 [Open jump to file dialog]
-Otevøít seznam souborù
+OtevÑˆĞ½t seznam souborÑ‰
 [Add current track as a bookmark]
-Pøidat skladbu mezi oblíbené
+PÑˆidat skladbu mezi oblĞ½benĞ¹
 [Close PopUp immediately after left click]
-Zavøít oznámení okamitì po kliknutí
+ZavÑˆĞ½t oznĞ±menĞ½ okamÑ›itĞ¼ po kliknutĞ½
 [Close PopUp immediately after right click]
-Zavøít oznámení okamitì po kliknutí
+ZavÑˆĞ½t oznĞ±menĞ½ okamÑ›itĞ¼ po kliknutĞ½
 ;(DUP) [&Ok]
 ;(DUP) [&Cancel]
 
@@ -129,17 +129,17 @@ Mono
 [Stereo]
 Stereo
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 ;(DUP) [Status message]
 [Append text to status message when status is]
-Pøidat zprávu stavu do oznámení; ve stavu
+PÑˆidat zprĞ±vu stavu do oznĞ±menĞ½; ve stavu
 
 [Use default &icon]
-Pouít vıchozí &ikonu
+PouÑ›Ğ½t vÑchozĞ½ &ikonu
 
 [&Disable WinampNotify popups]
-Vypnout oznámení pro &Winamp
+Vypnout oznĞ±menĞ½ pro &Winamp
 [&Enable WinampNotify popups]
-Zapnout oznámení pro &Winamp
+Zapnout oznĞ±menĞ½ pro &Winamp
 
 ; ---

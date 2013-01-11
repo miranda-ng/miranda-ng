@@ -1,71 +1,71 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  RSSNews 0.0.3.12                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=409
 ;
 
 
 ; Dialogs
 [Adding new feed]
-Pøidání zdroje
+PÑˆidĞ±nĞ½ zdroje
 [Manage feed]
-Úprava zdroje
+Ğªprava zdroje
 [Main options]
-Hlavní monosti
+HlavnĞ½ moÑ›nosti
 [Title:]
-Název:
+NĞ±zev:
 ;(DUP) [URL:]
 [Auto &discovery]
 Autom. vyhle&dat
 [Use &authentication]
-Pouít &autorizaci
+PouÑ›Ğ½t &autorizaci
 ;(DUP) [Username]
 ;(DUP) [Password]
 [Check every]
-Projít kadıch
+ProjĞ½t kaÑ›dÑch
 [minutes]
 min.
 [Maximum displayed items]
-Max. poèet zobrazenıch
+Max. poĞ¸et zobrazenÑch
 [(0 = no limit)]
-(0 = neomezenì)
+(0 = neomezenĞ¼)
 [Visualization]
 Vizualizace
 ;(DUP) [&Reset]
 [Display news using the following format:]
-Zprávy zobrazit v následujícím formátu:
+ZprĞ±vy zobrazit v nĞ±sledujĞ½cĞ½m formĞ±tu:
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Znaèky je tøeba umístit mezi #. Pøíklad: #<autor>#
+ZnaĞ¸ky je tÑˆeba umĞ½stit mezi #. PÑˆĞ½klad: #<autor>#
 ;(DUP) [&Ok]
 ;(DUP) [&Cancel]
 
 ;(DUP) [Help]
 [Example]
-Pøíklad
+PÑˆĞ½klad
 
 [Feed]
 Zdroj
 [Link]
 Adresa
 [&Add...]
-Pøid&at...
+PÑˆid&at...
 [&Edit...]
 Up&ravit...
 ;(DUP) [&Delete]
 [Retrieve news at &startup]
-Pøijímat zprávy pøi &startu
+PÑˆijĞ½mat zprĞ±vy pÑˆi &startu
 ;(DUP) [&Import...]
 [&Export...]
 &Exportovat...
 
 [RSSNews - Import]
-RSSNews - importování zdrojù
+RSSNews - importovĞ±nĞ½ zdrojÑ‰
 [Import from:]
 Importovat z:
 [&Go]
-&Provést
+&ProvĞ¹st
 ;(FIX) [Available feeds:]
 [Avaliable feeds:]
 Zdroje k dispozici:
@@ -75,7 +75,7 @@ Zdroje k importu:
 ;(DUP) [&Close]
 
 [RSSNews - Export]
-RSSNews - exportování zdrojù
+RSSNews - exportovĞ±nĞ½ zdrojÑ‰
 [Available feeds:]
 Zdroje k dispozici:
 [Feeds to be exported:]
@@ -87,38 +87,38 @@ Exportovat do:
 
 ; UI Help
 [Enter a value in Title field.]
-Zadejte název zdroje.
+Zadejte nĞ±zev zdroje.
 [Enter a value in URL field.]
 Zadejte adresu serveru.
 [Enter a value in Username field.]
-Zadejte uivatelské jméno.
+Zadejte uÑ›ivatelskĞ¹ jmĞ¹no.
 [Enter a value in Password field.]
 Zadejte heslo.
 [Select a feed to manage.]
 Vyberte ze seznamu zdroj.
 [Select a feed to delete.]
-Vyberte zdroj ke smazání.
+Vyberte zdroj ke smazĞ±nĞ½.
 ;(DUP) [Warning]
 [Invalid path and/or filename.]
-Neplatná cesta nebo název souboru.
+NeplatnĞ± cesta nebo nĞ±zev souboru.
 [Exporting sucessfully completed.]
-Export dat úspìšnì dokonèen.
+Export dat ÑŠspĞ¼Ñ™nĞ¼ dokonĞ¸en.
 [There are no items to be exported.]
-Pøed exportováním vyberte poadované zdroje.
+PÑˆed exportovĞ±nĞ½m vyberte poÑ›adovanĞ¹ zdroje.
 [RSSNews plugin did not find any feed.]
-Doplnìk RSSNews nenalezl ádnı zdroj.
+DoplnĞ¼k RSSNews nenalezl Ñ›Ğ±dnÑ zdroj.
 [Importing sucessfully completed.]
-Import dat úspìšnì dokonèen.
+Import dat ÑŠspĞ¼Ñ™nĞ¼ dokonĞ¸en.
 [There are no items to be imported.]
-Pøed importováním vyberte poadované zdroje.
+PÑˆed importovĞ±nĞ½m vyberte poÑ›adovanĞ¹ zdroje.
 [Wait...]
-Poèkejte...
+PoĞ¸kejte...
 [%s\nis a valid feed's address.]
-%s\nje platná adresa zdroje.
+%s\nje platnĞ± adresa zdroje.
 [RSSNews found a new feed's address]
-Doplnìk RSSNews nalezl adresu zdroje:
+DoplnĞ¼k RSSNews nalezl adresu zdroje:
 [Do you want to use it?]
-Chcete tento zdroj pouít?
+Chcete tento zdroj pouÑ›Ğ½t?
 
 
 ; Options pages
@@ -128,9 +128,9 @@ Novinky (RSS)
 
 ; Menu item
 [&Add new feed...]
-Pøid&at novı zdroj...
+PÑˆid&at novÑ zdroj...
 [&Check all feeds]
-Projít vše&chny zdroje
+ProjĞ½t vÑ™e&chny zdroje
 
 ; Other
 [MyFeeds]
@@ -140,18 +140,18 @@ Soubor OPML
 [Feed ID]
 ID zdroje
 [connection]
-spojení
+spojenĞ½
 
-; NEPUBLIKOVANÉ
-; Sítì
+; NEPUBLIKOVANĞ™
+; SĞ½tĞ¼
 [RSSNews connection]
-RSSNews - spojení se serverem
+RSSNews - spojenĞ½ se serverem
 
-; Doplòky / Novinky (RSS)
+; DoplÑ‚ky / Novinky (RSS)
 [E&xport...]
 E&xportovat...
 
 [Please read the readme file for help, there instructions on how to use and how to configure the plugin.]
-Informace o tom, jak nastavit a pouívat doplnìk RSSNews naleznete v souboru Readme.
+Informace o tom, jak nastavit a pouÑ›Ğ½vat doplnĞ¼k RSSNews naleznete v souboru Readme.
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Send Screenshot 0.2.6.5                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1428
 ;
 
@@ -10,57 +10,57 @@
 ; Capture Window
 ;================
 [Send screenshot to <Unknow Contact> - Capture Options]
-Odeslat obrázek (monosti snímání)
+Odeslat obrĞ±zek (moÑ›nosti snĞ½mĞ±nĞ½)
 [JPG &Quality :]
 &Kvalita JPEG:
 [Ti&med capture]
-Èasované snímání
+Ğ˜asovanĞ¹ snĞ½mĞ±nĞ½
 [Time (secs) :]
-Zpodìní (sec.):
+ZpoÑ›dĞ¼nĞ½ (sec.):
 [&Emulate Send button click.]
-&Emulovat funkci tlaèítka Odeslat
+&Emulovat funkci tlaĞ¸Ğ½tka Odeslat
 [Delete &after send]
-Po odeslání obrázek sm&azat
+Po odeslĞ±nĞ½ obrĞ±zek sm&azat
 [&Fill description textbox.]
 V&yplnit pole pro popis
 [&Desktop]
-Celá ploc&ha
+CelĞ± ploc&ha
 [Single &Window]
 Pouze o&kno
 [C&lient Area]
 Bez okraje okna
 [Drag&&Drop the target on the desired window.]
-Umístìte køí na poadované okno.
+UmĞ½stĞ¼te kÑˆĞ½Ñ› na poÑ›adovanĞ¹ okno.
 [Caption :]
-Záhlaví okna:
+ZĞ±hlavĞ½ okna:
 [Size (HxW) :]
-Velikost (v×š):
+Velikost (vĞ§Ñ™):
 [&Format :]
-&Formát:
+&FormĞ±t:
 [Send B&y :]
 &Metoda:
 [E&xplore]
-&Procházet
+&ProchĞ±zet
 [A&bout]
 O pro&gramu
 [Open again]
-Nezavírat
+NezavĞ½rat
 [&Just save it]
-Pou&ze uloit
+Pou&ze uloÑ›it
 [Use Edit&or]
-Pouít edit&or
+PouÑ›Ğ½t edit&or
 [Send Screenshot]
-Odeslat obrázek
+Odeslat obrĞ±zek
 ; Messages
 [Select a target window.]
-Vyberte prosím poadované okno.
+Vyberte prosĞ½m poÑ›adovanĞ¹ okno.
 [Could not start the HTTP Server plugin.]
-Nelze spustit doplnìk HTTP Server.
+Nelze spustit doplnĞ¼k HTTP Server.
 [Could not add a share to the HTTP Server plugin.]
-Nelze pøidat další sdílení webového serveru.
+Nelze pÑˆidat dalÑ™Ğ½ sdĞ½lenĞ½ webovĞ¹ho serveru.
 
 [<Unknown Contact>]
-<Neznámı kontakt>
+<NeznĞ±mÑ kontakt>
 [Area]
 Oblast
 
@@ -76,69 +76,69 @@ Oblast
 [&Capture Again]
 &Sejmout znovu
 [Clo&se]
-Z&avøít
+Z&avÑˆĞ½t
 [Close&&S&end]
-Zavøít a od&eslat
+ZavÑˆĞ½t a od&eslat
 [Close&&Sa&ve]
-Za&vøít a uloit
+Za&vÑˆĞ½t a uloÑ›it
 
 ;Tool Menu
 [&Tools]
-Nás&troje
+NĞ±s&troje
 [&Crop tool]
-&Oøíznutí
+&OÑˆĞ½znutĞ½
 [&Ellipse tool]
 &Elipsa
 [&Pen tool]
-&Volné kreslení
+&VolnĞ¹ kreslenĞ½
 [&Rectangle tool]
-O&bdélník
+O&bdĞ¹lnĞ½k
 [&Line tool]
-&Kreslení èar
+&KreslenĞ½ Ğ¸ar
 [&Text tool]
-Psaní &textu
+PsanĞ½ &textu
 [Selection Tool]
-Nástoj vıbìru
+NĞ±stoj vÑbĞ¼ru
 
 ;Tool options menu
 [Tool &Options]
-Nastavení nástr&oje
+NastavenĞ½ nĞ±str&oje
 [Fille&d]
-&S vyplnìním
+&S vyplnĞ¼nĞ½m
 [Transparent &Background]
-Prùhledné poza&dí
+PrÑ‰hlednĞ¹ poza&dĞ½
 [Set &Width]
-&Nastavení šíøky
+&NastavenĞ½ Ñ™Ğ½Ñˆky
 [Set C&olor]
-N&astavení barvy
+N&astavenĞ½ barvy
 
 ; Messages
 [Set Width]
-Nastavení šíøky
+NastavenĞ½ Ñ™Ğ½Ñˆky
 [New width?]
-Zadejte šíøku èáry vybraného nástroje:
+Zadejte Ñ™Ğ½Ñˆku Ğ¸Ğ±ry vybranĞ¹ho nĞ±stroje:
 [Type the text to be draw:]
-Zadejte poadovanı text:
+Zadejte poÑ›adovanÑ text:
 [Send the screenshot?]
-Chcete vybranı obrázek odeslat?
+Chcete vybranÑ obrĞ±zek odeslat?
 
 ; nepouzivane(?)
 [Print&Screen Emulation]
 Emulovat funkci Print&Screen
 [Des&tination Folder :]
-&Cílová sloka:
+&CĞ½lovĞ± sloÑ›ka:
 [C&hoose]
 V&ybrat...
 [<unknow>]
-<neznámı>
+<neznĞ±mÑ>
 [Destination for the image file(s):]
-Sloka k uloení snímanıch obrázkù:
+SloÑ›ka k uloÑ›enĞ½ snĞ½manÑch obrĞ±zkÑ‰:
 [The content of the clipboard will be not saved. (This warning appear only one time.)]
-Obrázek uloenı do schránky nelze uloit.
+ObrĞ±zek uloÑ›enÑ do schrĞ±nky nelze uloÑ›it.
 
 [Starting upload!]
-Zaèátek uploadu!
+ZaĞ¸Ğ±tek uploadu!
 [Upload completed!]
-Upload dokonèen!
+Upload dokonĞ¸en!
 
 ; ---

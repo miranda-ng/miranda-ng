@@ -1,27 +1,27 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Nudge 0.0.2.0                                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2708
 ;
 
 ; main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Upozornìní: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbıvá)
+UpozornĞ¼nĞ½: DrcnutĞ½ lze opakovat jen jednou za %d sek. (%d sek. zbÑvĞ±)
 [Nudge : Shake contact list]
-Drcnutí: Zatøesení seznamem kontaktù
+DrcnutĞ½: ZatÑˆesenĞ½ seznamem kontaktÑ‰
 [Nudge : Shake message window]
-Drcnutí: Zatøesení komunikaèním oknem
+DrcnutĞ½: ZatÑˆesenĞ½ komunikaĞ¸nĞ½m oknem
 [Nudge]
-Drcnutí
+DrcnutĞ½
 [You received a nudge]
-No tak, probuï se!
+No tak, probuĞ¿ se!
 ;(DUP) [Send &Nudge]
 
 ; nudge.cpp
 [You sent a nudge]
-Snad se probudí...
+Snad se probudĞ½...
 
 ; m_popup.h
 ;(DUP) [PopUps]
@@ -40,75 +40,75 @@ Snad se probudí...
 ;(DUP) [Popup notification]
 ;(DUP) [&Use Windows colours]
 [Specify options for each protocol]
-Definovat pro kadı protokol zvláš
+Definovat pro kaÑ›dÑ protokol zvlĞ±Ñ™Ñœ
 [Enable contact list shaking]
-Povolit zatøesení seznamem
+Povolit zatÑˆesenĞ½ seznamem
 [Enable message window shaking]
-Povolit zatøesení oknem
+Povolit zatÑˆesenĞ½ oknem
 [Treat nudge as a message]
-Povaovat drcnutí za zprávu
+PovaÑ›ovat drcnutĞ½ za zprĞ±vu
 ;(DUP) [Preview]
 ;(DUP) [s]
 [Popup duration]
-(doba trvání)
+(doba trvĞ±nĞ½)
 ;(DUP) [Background colour]
 ;(DUP) [Text colour]
 ;(DUP) [Static]
 [Sending text]
-Text pøi odeslání 
+Text pÑˆi odeslĞ±nĞ½ 
 [Receiving text]
-Text pøi pøijetí 
+Text pÑˆi pÑˆijetĞ½ 
 [Number of moves]
-Poèet posunutí
+PoĞ¸et posunutĞ½
 [Width of move]
 O kolik posunout
 [Allow nudges when you're:]
-Povolit drcnutí ve stavu:
+Povolit drcnutĞ½ ve stavu:
 ;(DUP) [Popup options]
 [Protocol options]
-Monosti protokolu
+MoÑ›nosti protokolu
 [Shaking Clist Options]
-Monosti seznamu kontaktù
+MoÑ›nosti seznamu kontaktÑ‰
 [Shaking Message Window Options]
-Monosti komunikaèního okna
+MoÑ›nosti komunikaĞ¸nĞ½ho okna
 
 [Privacy]
-Soukromí
+SoukromĞ½
 [Allow sending* one nudge to the same contact every :]
-Drcnout* do jednoho a tého kontaktu max. jednou za:
+Drcnout* do jednoho a tĞ¹hoÑ› kontaktu max. jednou za:
 [Allow receiving one nudge from the same contact every :]
-Umonit drcnutí jednomu a tému kontaktu max. jednou za:
+UmoÑ›nit drcnutĞ½ jednomu a tĞ¹muÑ› kontaktu max. jednou za:
 [Show as status change]
-Zobrazit jako zmìnu stavu
+Zobrazit jako zmĞ¼nu stavu
 [Auto resend nudge after]
 Automaticky znovu drcnout po
 
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Prodleva pro drcnutí je pevnì urèena a nemùe bıt zmìnìna.
+* Prodleva pro drcnutĞ½ je pevnĞ¼ urĞ¸ena a nemÑ‰Ñ›e bÑt zmĞ¼nĞ¼na.
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Window Shaking]
-Zatøesení oknem
+ZatÑˆesenĞ½ oknem
 [Nudge : Default]
-Drcnutí (vıchozí)
+DrcnutĞ½ (vÑchozĞ½)
 
 [Nudge as Default]
-Drcnutí jako vıchozí
+DrcnutĞ½ jako vÑchozĞ½
 [Nudge for]
-Drcnutí pro
+DrcnutĞ½ pro
 
 [Open contact list]
-Zobrazit seznam kontaktù
+Zobrazit seznam kontaktÑ‰
 [Respect ignore settings (status changes)]
-Zohlednit filtrování kontaktù (zmìny stavu)
+Zohlednit filtrovĞ±nĞ½ kontaktÑ‰ (zmĞ¼ny stavu)
 [Default Nudge]
-Vıchozí drcnutí
+VÑchozĞ½ drcnutĞ½
 [Nudge for %s]
-Drcnutí v síti %s
+DrcnutĞ½ v sĞ½ti %s
 [Show Nudge]
-Drcnutí
+DrcnutĞ½
 
 [nudge]
-Drcnutí
+DrcnutĞ½
 
 ; ---

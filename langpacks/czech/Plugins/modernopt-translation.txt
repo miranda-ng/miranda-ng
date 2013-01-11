@@ -1,46 +1,46 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Support for new options design 0.1.0.0                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 ;[Accounts]
 [Setup your account information to start messaging.]
-Zadání a správa informací k úètùm jednotlivıch sítí.
+ZadĞ±nĞ½ a sprĞ±va informacĞ½ k ÑŠĞ¸tÑ‰m jednotlivÑch sĞ½tĞ½.
 [Style]
 Vzhled
 [Change the look of Miranda IM according to your taste.]
-V této sekci lze zmìnit vzhled Mirandy.
+V tĞ¹to sekci lze zmĞ¼nit vzhled Mirandy.
 [Contacts]
 Kontakty
 [Configure behaviour of your contact list.]
-Konfigurace funkcí seznamu kontaktù.
+Konfigurace funkcĞ½ seznamu kontaktÑ‰.
 ;[Chats]
 [Customize look&&feel of your chat windows here.]
-Úprava vzhledu a chování komunikaèních oken.
+Ğªprava vzhledu a chovĞ±nĞ½ komunikaĞ¸nĞ½ch oken.
 ;[Ignore]
 [Ban those users and events, you are annoyed with.]
-Obtìuje vás nìkdo nebo nìco pøi komunikaci? Vyzkoušejte náš filtr.
+ObtĞ¼Ñ›uje vĞ±s nĞ¼kdo nebo nĞ¼co pÑˆi komunikaci? VyzkouÑ™ejte nĞ±Ñ™ filtr.
 [Status]
 Stavy
 [Set your status messages and idle reporting.]
-Definice stavovıch zpráv, nálady, automatickıch odpovìdí apod.
+Definice stavovÑch zprĞ±v, nĞ±lady, automatickÑch odpovĞ¼dĞ½ apod.
 ;[Advanced]
 [Addons]
-Doplòky
+DoplÑ‚ky
 [Miranda IM is all about plugins. Manage all the plugins you have here.]
-Miranda IM je postavena na monosti vše mìnit a rozšiøovat pomocí doplòkù.
+Miranda IM je postavena na moÑ›nosti vÑ™e mĞ¼nit a rozÑ™iÑˆovat pomocĞ½ doplÑ‚kÑ‰.
 
 [Visit official Miranda IM website]
-Pøejít na domovskou stránku projektu
+PÑˆejĞ½t na domovskou strĞ±nku projektu
 [Switch to classic options]
-Pøepnout do pùvodního zpùsobu konfigurace
+PÑˆepnout do pÑ‰vodnĞ½ho zpÑ‰sobu konfigurace
 [Use arrow keys to choose category]
-Poadovanou kategorii vyberete pomocí šipek
+PoÑ›adovanou kategorii vyberete pomocĞ½ Ñ™ipek
 [View help online]
-Zobrazit nápovìdu online
+Zobrazit nĞ±povĞ¼du online
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-Nìkteré ze zmìn nejsou uloeny.\nChcete je uloit?
+NĞ¼kterĞ¹ ze zmĞ¼n nejsou uloÑ›eny.\nChcete je uloÑ›it?
 
 ; ---

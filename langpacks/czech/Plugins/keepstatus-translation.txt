@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  KeepStatus 0.0.2.75                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=2206
 ;
 
@@ -35,80 +35,80 @@
 
 ; action_keepstatus.c
 [<from trigger>]
-<ze spouštìèe>
+<ze spouÑ™tĞ¼Ğ¸e>
 
 ; keepstatus.c
 [KeepStatus]
-Udrování stavu
+UdrÑ›ovĞ±nĞ½ stavu
 [%s Connected from another location]
-Pøipojení z jiného místa (%s)
+PÑˆipojenĞ½ z jinĞ¹ho mĞ½sta (%s)
 [%s Login error, cancel reconnecting]
-Chyba pøi pøihlášení (%s), obnovení ukonèeno
+Chyba pÑˆi pÑˆihlĞ±Ñ™enĞ½ (%s), obnovenĞ½ ukonĞ¸eno
 [%s Login error (next retry (%d) in %ds)]
-Chyba pøi pøihlášení (%s), další pokus (è.%d) za %d sek.
+Chyba pÑˆi pÑˆihlĞ±Ñ™enĞ½ (%s), dalÑ™Ğ½ pokus (Ğ¸.%d) za %d sek.
 [%s Status error (next retry (%d) in %ds)]
-Chyba stavu (%s), další pokus (è.%d) za %d sek.
+Chyba stavu (%s), dalÑ™Ğ½ pokus (Ğ¸.%d) za %d sek.
 [Status error (next retry (%d) in %ds)]
-Chyba stavu (další pokus (è.%d) za %d sek.)
+Chyba stavu (dalÑ™Ğ½ pokus (Ğ¸.%d) za %d sek.)
 [%s\t(will be set to %s)\r\n]
-%s\t(stav bude zmìnìn na '%s')\r\n
+%s\t(stav bude zmĞ¼nĞ¼n na '%s')\r\n
 [Resetting status... (last try (%d))%s]
-Reset stavu... (poslední pokus (è.%d))%s
+Reset stavu... (poslednĞ½ pokus (Ğ¸.%d))%s
 [Resetting status... (next retry (%d) in %ds)%s]
-Reset stavu... (další pokus (è.%d) za %d sek.)%s
+Reset stavu... (dalÑ™Ğ½ pokus (Ğ¸.%d) za %d sek.)%s
 [No internet connection seems available... (last try (%d))]
-Nefunguje pøipojení k internetu... (poslední pokus (è.%d))
+Nefunguje pÑˆipojenĞ½ k internetu... (poslednĞ½ pokus (Ğ¸.%d))
 [No internet connection seems available... (next retry (%d) in %ds)]
-Nefunguje pøipojení k internetu... (další pokus (è.%d) za %d sek.)
+Nefunguje pÑˆipojenĞ½ k internetu... (dalÑ™Ğ½ pokus (Ğ¸.%d) za %d sek.)
 [Status was set ok]
-Stav úspìšnì obnoven
+Stav ÑŠspĞ¼Ñ™nĞ¼ obnoven
 [Giving up]
 Stav nelze obnovit
 [KeepStatus requires at least v0.3.1 (final) of Miranda IM, get it at www.miranda-im.org]
-Doplnìk KeepStatus vyaduje program Miranda IM v0.3.1 nebo novìjší.
+DoplnĞ¼k KeepStatus vyÑ›aduje program Miranda IM v0.3.1 nebo novĞ¼jÑ™Ğ½.
 
 ; options.c
 ;(DUP) [PopUps]
 
 ; trigger_keepstatus.c
 [connection lost]
-spojení pøerušeno
+spojenĞ½ pÑˆeruÑ™eno
 [each retry]
-kadé obnovení
+kaÑ›dĞ¹ obnovenĞ½
 [, each retry]
-, kadé obnovení
+, kaÑ›dĞ¹ obnovenĞ½
 [success]
-úspìšnì obnoveno
+ÑŠspĞ¼Ñ™nĞ¼ obnoveno
 [, success]
-, úspìšnì obnoveno
+, ÑŠspĞ¼Ñ™nĞ¼ obnoveno
 [giving up]
-obnovování zrušeno
+obnovovĞ±nĞ½ zruÑ™eno
 [, giving up]
-, obnovování zrušeno
+, obnovovĞ±nĞ½ zruÑ™eno
 
 ; resource.rc
 [Check connection]
-Zajistit spojení
+Zajistit spojenĞ½
 [Increase delay exponential]
-Prodlevu postupnì zvyšovat
+Prodlevu postupnĞ¼ zvyÑ™ovat
 [Show popups]
-Zobrazovat oznámení
+Zobrazovat oznĞ±menĞ½
 [Don't reconnect if no internet connection seems available]
-Neobnovovat stav pøi odpojení od internetu
+Neobnovovat stav pÑˆi odpojenĞ½ od internetu
 [Cancel all if a protocol connects from another location]
-Pøerušit obnovení pøi pøipojení z jiného místa
+PÑˆeruÑ™it obnovenĞ½ pÑˆi pÑˆipojenĞ½ z jinĞ¹ho mĞ½sta
 [Continuously check for internet connection]
-Periodicky ovìøovat pøipojení k internetu
+Periodicky ovĞ¼Ñˆovat pÑˆipojenĞ½ k internetu
 [Do so by pinging host]
-Pomocí pøíkazu ping
+PomocĞ½ pÑˆĞ½kazu ping
 [Reconnect on APM resume]
-Obnovit pøipojení po návratu z úsporného reimu
+Obnovit pÑˆipojenĞ½ po nĞ±vratu z ÑŠspornĞ¹ho reÑ›imu
 [Stop trying to reconnect]
-Pøestat obnovovat pøipojení
+PÑˆestat obnovovat pÑˆipojenĞ½
 [Set delay to]
-Zmìnit prodlevu na
+ZmĞ¼nit prodlevu na
 [React on login errors]
-Po chybì pøi pøihlášení
+Po chybĞ¼ pÑˆi pÑˆihlĞ±Ñ™enĞ½
 ;(DUP) [after]
 ;(DUP) [Confirm resetting status]
 ;(DUP) [Monitor Miranda's activity only]
@@ -131,20 +131,20 @@ Po chybì pøi pøihlášení
 ;(DUP) [Do nothing]
 ;(DUP) [Close popup]
 [Cancel reconnecting]
-Pøerušit pøipojování
+PÑˆeruÑ™it pÑˆipojovĞ±nĞ½
 [Show when connection is lost]
-Zobrazit pøi odpojení od sítì
+Zobrazit pÑˆi odpojenĞ½ od sĞ½tĞ¼
 [Show when a connection attempt is made]
-Zobrazit pøi pokusu o navázání spojení
+Zobrazit pÑˆi pokusu o navĞ±zĞ±nĞ½ spojenĞ½
 [Show when reconnection has finished]
-Zobrazit po úspìšném navázání spojení
+Zobrazit po ÑŠspĞ¼Ñ™nĞ¹m navĞ±zĞ±nĞ½ spojenĞ½
 [Show other messages]
-Zobrazit ostatní zprávy
+Zobrazit ostatnĞ½ zprĞ±vy
 ;(DUP) [From PopUp plugin]
 ;(DUP) [Custom]
 ;(DUP) [Permanent]
 [Show additional information in popups]
-Zobrazit i další, podrobnìjší informace 
+Zobrazit i dalÑ™Ğ½, podrobnĞ¼jÑ™Ğ½ informace 
 ;(DUP) [Use Miranda's message setting]
 ;(DUP) [Use this message:]
 ;(DUP) [Specify settings for each protocol]
@@ -155,13 +155,13 @@ Zobrazit i další, podrobnìjší informace
 ;(DUP) [Enable checking]
 ;(DUP) [Disable checking]
 [connection loss is detected]
-spojení bylo pøerušeno
+spojenĞ½ bylo pÑˆeruÑ™eno
 [reconnection attempt is made]
-pokus o obnovení spojení
+pokus o obnovenĞ½ spojenĞ½
 [successfull reconnected]
-spojení úspìšnì navázáno
+spojenĞ½ ÑŠspĞ¼Ñ™nĞ¼ navĞ±zĞ±no
 [giving up reconnecting]
-konec obnovování spojení
+konec obnovovĞ±nĞ½ spojenĞ½
 ;(DUP) [Create a TopToolBar button]
 ;(DUP) [Show confirm dialog when loading]
 ;(DUP) [Create a status menu item]
@@ -183,7 +183,7 @@ Max. opak.
 [Max. delay (seconds)]
 Max. prodleva (sek.)
 [Protocols to check]
-Vybrané protokoly
+VybranĞ¹ protokoly
 ;(DUP) [seconds]
 ;(DUP) [Profile]
 ;(DUP) [minutes of inactivity]
@@ -206,13 +206,13 @@ ms
 ;(DUP) [Protocols]
 ;(DUP) [Set status message]
 [Trigger if...]
-Spustit kdy...
+Spustit kdyÑ›...
 [Protocol Connection]
-Stav protokolù
+Stav protokolÑ‰
 [General]
-Obecné
+ObecnĞ¹
 [Dial-Up (please read keepstatus.txt)]
-Vytáèené pøipojení (viz keepstatus.txt)
+VytĞ±Ğ¸enĞ¹ pÑˆipojenĞ½ (viz keepstatus.txt)
 ;(DUP) [Auto Away Rules]
 ;(DUP) [Other]
 ;(DUP) [Status on startup]
@@ -229,34 +229,34 @@ Vytáèené pøipojení (viz keepstatus.txt)
 ;(DUP) [Command Line]
 ;(DUP) [Add new profile]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [You broke the Internet!]
-Koleèko se polámalo!
+KoleĞ¸ko se polĞ±malo!
 [Initial delay (secs)]
 1. prodleva (sek.)
 [Max. delay (secs)]
 Max. prodleva (sek.)
 [Max. connecting time]
-Max. doba pøipojování
+Max. doba pÑˆipojovĞ±nĞ½
 [Set protocol offline before a connection attempt]
-Pøed obnovením pøipojení nastavit protokol offline
+PÑˆed obnovenĞ½m pÑˆipojenĞ½ nastavit protokol offline
 [Delay between retries (secs)]
-Prodleva mezi obnovením (sek.)
+Prodleva mezi obnovenĞ½m (sek.)
 [Timers]
-Èasovaèe
+Ğ˜asovaĞ¸e
 [Max. protocol connecting time]
-Max. doba pøipojení na protokol
+Max. doba pÑˆipojenĞ½ na protokol
 [Reconnecting]
-Obnovení pøipojení
+ObnovenĞ½ pÑˆipojenĞ½
 [Ignore locked status of protocols]
-Ignorovat zamknutı stav protokolù
+Ignorovat zamknutÑ stav protokolÑ‰
 [Dial-Up]
-Vytáèené spojení
+VytĞ±Ğ¸enĞ¹ spojenĞ½
 [Consider connection lost after]
-Povaovat za odpojeno po
+PovaÑ›ovat za odpojeno po
 [failed pings]
 ztrac. pak.
 [Continuously check interval (secs)]
-Interval ovìøování pøipojení (sek.)
+Interval ovĞ¼ÑˆovĞ±nĞ½ pÑˆipojenĞ½ (sek.)
 
 ; ---

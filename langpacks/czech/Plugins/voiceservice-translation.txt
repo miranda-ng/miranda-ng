@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Voice Service 0.0.0.8                                   |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+; P—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 ; Adresa: http://pescuma.mirandaim.ru/miranda/voiceservice
 ;
 
@@ -14,12 +14,12 @@
 Hovory
 ; Dialog
 [New Voice Call]
-Nov˝ hovor
+Nov—ç hovor
 [%s wants to start a voice call with you. What you want to do?]
-%s v·m vol·.
+%s v–±m vol–±.
 ;(DUP) [Answer]
 [Drop]
-OdmÌtnout
+Odm–Ωtnout
 [From now on, repeat this action for this contact]
 Pamatovat si volbu pro tento kontakt
 
@@ -37,15 +37,15 @@ Pamatovat si volbu pro tento kontakt
 [ Delay ]
  Prodleva 
 [From popup plugin]
-Glob·lnÌ nastavenÌ
+Glob–±ln–Ω nastaven–Ω
 ;(DUP) [Custom]
 ;(DUP) [Permanent]
 [ Actions ]
  Akce 
 [On right click:]
-PravÈ tlaËÌtko
+Prav–π tla–∏–Ωtko
 [On left click:]
-LevÈ tlaËÌtko
+Lev–π tla–∏–Ωtko
 ;(DUP) [Do nothing]
 ;(DUP) [Close popup]
 ;(DUP) [Preview]
@@ -54,34 +54,34 @@ LevÈ tlaËÌtko
 [Auto actions]
 Akce
 [ Automatic Actions ]
- P¯ehled akcÌ 
+ P—àehled akc–Ω 
 [Auto accept this contact calls]
-Automaticky p¯ijmout vol·nÌ
+Automaticky p—àijmout vol–±n–Ω
 [Auto drop this contacts calls]
-Automaticky odmÌtnout vol·nÌ
+Automaticky odm–Ωtnout vol–±n–Ω
 
 [ Frame ]
- R·meËek 
+ R–±me–∏ek 
 [Auto-size frame]
-Automatick· velikost
+Automatick–± velikost
 
 ; Test popup
 [Test Contact]
-TestovacÌ kontakt
+Testovac–Ω kontakt
 [Test description]
-TestovacÌ popis
+Testovac–Ω popis
 
 ; Status
 [Talking]
-MluvÌm
+Mluv–Ωm
 [Calling]
-Vol·m
+Vol–±m
 [Ended]
-ZavÏöeno
+Zav–º—ôeno
 [On Hold]
-P¯idrûeno
+P—àidr—õeno
 [Ringing]
-Vyzv·nÏnÌ
+Vyzv–±n–ºn–Ω
 
 ; Actions
 [Voice Call]
@@ -89,45 +89,45 @@ Hovor
 [Answer Voice Call]
 Zvednout
 [Hold Voice Call]
-P¯idrûet
+P—àidr—õet
 [Drop Voice Call]
-ZavÏsit
+Zav–ºsit
 
 ; Icons
 ;(DUP) [Main]
 
 ; Popups
 [Calling %s]
-Vol·m %s
+Vol–±m %s
 [Ringing call from %s]
-%s v·m vol·
+%s v–±m vol–±
 [Voice call ended]
-Hovor ukonËen
+Hovor ukon–∏en
 [Call from %s has ended]
-Hovor s %s skonËil
+Hovor s %s skon–∏il
 [Call from %s started]
-Hovor s %s zaËal
+Hovor s %s za–∏al
 [Voice call started]
-Hovor zaËal
+Hovor za–∏al
 [Call from %s is on hold]
-Hovor s %s je p¯idrûen
+Hovor s %s je p—àidr—õen
 [Voice call on hold]
-Hovor je p¯idrûen
+Hovor je p—àidr—õen
 
 ; Frame popup menu
 [Answer call]
 Zvednout
 [Drop call]
-ZavÏsit
+Zav–ºsit
 ;(DUP) [Hold call]
 
 ; Sound
 [Calling a contact]
-Vol·nÌ
+Vol–±n–Ω
 [Started talking]
-ZaË·tek hovoru
+Za–∏–±tek hovoru
 [Put a call on Hold]
-P¯idrûenÌ hovoru
+P—àidr—õen–Ω hovoru
 [End of a Call]
 Konec hovoru
 

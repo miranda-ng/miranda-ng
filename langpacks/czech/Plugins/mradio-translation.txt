@@ -1,145 +1,145 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  mRadio Mod 0.1.0.0                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Richard Ninik <nizak (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Richard NiÑ›nik <nizak (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://miranda.kom.pl/dev/bankrut/
 ;
 
 [Playing music from:]
-Pøehrávání hudby z:
+PÑˆehrĞ±vĞ±nĞ½ hudby z:
 [Can't play selected station]
-Vybranou stanici nelze pøehrát
+Vybranou stanici nelze pÑˆehrĞ±t
 ;(DUP) [Close]
 [mRadio protocol is disabled]
-Protokol mRadio není aktivní
+Protokol mRadio nenĞ½ aktivnĞ½
 [There was a problem loading BASS.DLL library]
-Chyba pøi naèítání knihovny BASS.DLL
+Chyba pÑˆi naĞ¸Ğ½tĞ±nĞ½ knihovny BASS.DLL
 [Anything = station list]
 Cokoli = seznam stanic
 [Can''t initialize device]
-Nelze inicializovat zvukové zaøízení
+Nelze inicializovat zvukovĞ¹ zaÑˆĞ½zenĞ½
 [Incorrect BASS.DLL]
-Neplatná verze knihovny BASS.DLL
+NeplatnĞ± verze knihovny BASS.DLL
 [BASS version 2.2 was not loaded]
-Systém BASS verze 2.2 nebyl naèten
+SystĞ¹m BASS verze 2.2 nebyl naĞ¸ten
 [mRadio settings]
-Nastavení mRadio
+NastavenĞ½ mRadio
 [BASS.DLL not found!]
-Nelze najít knihovnu BASS.DLL!
+Nelze najĞ½t knihovnu BASS.DLL!
 
 ; ******** User information ********
 [Stream info]
-Informace o datovém proudu
+Informace o datovĞ¹m proudu
 [Station info]
 Informace o stanici
 [Frequency:]
 Frekvence:
 [Channels:]
-Kanály:
+KanĞ±ly:
 [Bitrate:]
-Datovı tok:
+DatovÑ tok:
 [Ch. resolution:]
-Bitová hloubka:
+BitovĞ± hloubka:
 ;(DUP) [Format:]
 ;(DUP) [URL:]
 [Genre:]
-ánr:
+Ğ‹Ğ±nr:
 ;(DUP) [Bitrate:]
 [Now playing:]
-Právì hraje:
+PrĞ±vĞ¼ hraje:
 [n/a]
 neuvedeno
 [bits]
-bitù
+bitÑ‰
 
 ; ******** Options ******** 
 [Volume]
 Hlasitost
 [Equalizer]
-Ekvalizér
+EkvalizĞ¹r
 [Equalizer presets]
-Pøedvolby ekvalizéru
+PÑˆedvolby ekvalizĞ¹ru
 
 [mRadio]
-Rádia
+RĞ±dia
 
 
 ; mRadio Mod 0.0.1.4
 ;
-; Pøeklad: Vít Peèeòa <wenom64 (zavináè) gmail (teèka) com>
+; PÑˆeklad: VĞ½t PeĞ¸eÑ‚a <wenom64 (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ;
 
 [Add Station]
-Pøidat stanici
+PÑˆidat stanici
 [Station Name]
-Název stanice
+NĞ±zev stanice
 [Station URL (required)]
-Adresa stanice (povinné)
+Adresa stanice (povinnĞ¹)
 [Genre]
-ánr
+Ğ‹Ğ±nr
 [Bitrate]
-Datovı tok
+DatovÑ tok
 [Add station]
-Pøidat stanici
+PÑˆidat stanici
 [To list]
 Do CL
 [To INI]
 Do INI
 [Shuffle playlist]
-Písnièky v playlistu náhodnì
+PĞ½sniĞ¸ky v playlistu nĞ±hodnĞ¼
 [Play from first]
-Hrát od první písnièky
+HrĞ±t od prvnĞ½ pĞ½sniĞ¸ky
 ;(DUP) [Equalizer]
 [Record path]
-Nahrávat do:
+NahrĞ±vat do:
 ;(DUP) [Volume]
 [Use EAX]
-Pouít EAX
+PouÑ›Ğ½t EAX
 [Buffer, ms (5000)]
-Vyrovnávací pamì, ms (5000)
+VyrovnĞ±vacĞ½ pamĞ¼Ñœ, ms (5000)
 [PreBuf, % (75%)]
-Naplnìní pamìti, % (75%)
+NaplnĞ¼nĞ½ pamĞ¼ti, % (75%)
 [Timeout, ms (5000)]
-Èasovı limit, ms (5000)
+Ğ˜asovÑ limit, ms (5000)
 [Loop single media]
-Pøehrávat samostatné média ve smyèce 
+PÑˆehrĞ±vat samostatnĞ¹ mĞ¹dia ve smyĞ¸ce 
 [Continuous record]
-Nepøetrité nahrávání
+NepÑˆetrÑ›itĞ¹ nahrĞ±vĞ±nĞ½
 [Offline station as Offline]
-Vypnutá stanice jako offline (jinak neviditelná)
+VypnutĞ± stanice jako offline (jinak neviditelnĞ±)
 [Autoconnect last station]
-Automaticky spustit poslední stanici
+Automaticky spustit poslednĞ½ stanici
 
-; módy EAX
+; mÑƒdy EAX
 [Generic]
-Obecnı
+ObecnÑ
 [Padded Cell]
-Buòka s vıplní
+BuÑ‚ka s vÑplnĞ½
 [Room]
-Místnost
+MĞ½stnost
 [Bathroom]
 Koupelna
 [Living Room]
-Obıvací pokoj
+ObÑvacĞ½ pokoj
 [Stone Room]
-Kamenná místnost
+KamennĞ± mĞ½stnost
 [Auditorium]
-Posluchárna
+PosluchĞ±rna
 [Concert Hall]
-Koncertní hala
+KoncertnĞ½ hala
 [Cave]
-Jeskynì
+JeskynĞ¼
 [Arena]
-Aréna
+ArĞ¹na
 [Hangar]
-Hangár
+HangĞ±r
 [Carpeted Hallway]
 Hala s koberci
 [Hallway]
 Hala
 [Stone Corridor]
-Kamenná chodba
+KamennĞ± chodba
 [Alley]
 Alej
 [Forrest]
@@ -150,36 +150,36 @@ Hory
 [Quarry]
 Kamenolom
 [Plain]
-Pláò
+PlĞ±Ñ‚
 [Parking Lot]
-Parkovací místo
+ParkovacĞ½ mĞ½sto
 [Sewer Pipe]
-Odpadová roura
+OdpadovĞ± roura
 [Under Water]
 Pod vodou
 [Drugged]
-Zdrogovanı
+ZdrogovanÑ
 [Dizzy]
-Trpící závratìmi
+TrpĞ½cĞ½ zĞ±vratĞ¼mi
 [Psychotic]
-Psychotickı
+PsychotickÑ
 
 [Station]
 Stanice
 [Custom INI file]
-Vlastní INI
+VlastnĞ½ INI
 [Station URL]
 Adresa stanice
 [Start record]
-Spustit nahrávání
+Spustit nahrĞ±vĞ±nĞ½
 [Stop record]
-Ukonèit nahrávání
+UkonĞ¸it nahrĞ±vĞ±nĞ½
 
 [Status message template]
-Šablona stavové zprávy
+Ğ‰ablona stavovĞ¹ zprĞ±vy
 [Record]
-Nahrávat
+NahrĞ±vat
 [Export All]
-Exportovat vše
+Exportovat vÑ™e
 
 ; ---

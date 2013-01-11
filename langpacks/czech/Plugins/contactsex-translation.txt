@@ -1,54 +1,54 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ContactsEx 1.1.2.0                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [<unknown>]
-<neznámı>
+<neznĞ±mÑ>
 [AM]
 dop.
 [PM]
 odp.
 ;(DUP) [Browse Received Files]
 [View Homepage]
-Zobrazit domovskou stránku
+Zobrazit domovskou strĞ±nku
 [Browse Files]
-Procházet soubory
+ProchĞ±zet soubory
 [ContactsEx]
 ContactsEx
 [Folder View]
-Standardní okno
+StandardnĞ½ okno
 [Explorer View]
-Prùzkumník Windows
+PrÑ‰zkumnĞ½k Windows
 [Show Menu Item]
-Zobrazit poloku menu
+Zobrazit poloÑ›ku menu
 [Hide Menu Item]
-Skrıt poloku menu
+SkrÑt poloÑ›ku menu
 [Disable Menu Item]
-Deaktivovat poloku menu
+Deaktivovat poloÑ›ku menu
 [Last Online]
 Naposledy online
 [Last Online Options]
-Monosti
+MoÑ›nosti
 [Adds a context menu item to your contacts showing the time the contact was last online.]
-Do kontextového menu kontaktu pøidá poloku s èasem posledního pøipojení.
+Do kontextovĞ¹ho menu kontaktu pÑˆidĞ± poloÑ›ku s Ğ¸asem poslednĞ½ho pÑˆipojenĞ½.
 [Enable Last Online]
 Povolit funkci 'Naposledy online'
 [Menu item text:]
-Definice poloky menu:
+Definice poloÑ›ky menu:
 [If last online is unknown:]
-Èas posledního pøipojení neznámı:
+Ğ˜as poslednĞ½ho pÑˆipojenĞ½ neznĞ±mÑ:
 [If contact is currently online:]
-Je-li vybranı kontakt právì online:
+Je-li vybranÑ kontakt prĞ±vĞ¼ online:
 [Last Online Variables]
-Promìnné
+PromĞ¼nnĞ¹
 [Year]
 rok
 [Month (01-12)]
-mìsíc (1-12)
+mĞ¼sĞ½c (1-12)
 [Day (01-31)]
 den (1-31)
 [Hour (01-24)]
@@ -61,59 +61,59 @@ minuta (0-60)
 [Seconds (00-60)]
 sekunda (0-60)
 [Browse Files Options]
-Monosti
+MoÑ›nosti
 [Adds a "Browse Files" context menu item to your contacts.]
-Do kontextového menu kontaktu pøidá poloku 'Procházet soubory'.
+Do kontextovĞ¹ho menu kontaktu pÑˆidĞ± poloÑ›ku 'ProchĞ±zet soubory'.
 [Enable Browse Files]
-Povolit funkci 'Procházet soubory'
+Povolit funkci 'ProchĞ±zet soubory'
 [Folder view type:]
-Typ zobrazení souborù:
+Typ zobrazenĞ½ souborÑ‰:
 [If contacts directory is empty:]
-Je-li sloka se soubory prázdná:
+Je-li sloÑ›ka se soubory prĞ±zdnĞ±:
 [If contacts directory does not exist:]
-Není-li sloka se soubory vytvoøena:
+NenĞ½-li sloÑ›ka se soubory vytvoÑˆena:
 [View Homepage Options]
-Monosti
+MoÑ›nosti
 [Adds a "View Homepage" context menu item to your contacts.]
-Do kontextového menu kontaktu pøidá poloku 'Zobrazit domovskou stránku'.
+Do kontextovĞ¹ho menu kontaktu pÑˆidĞ± poloÑ›ku 'Zobrazit domovskou strĞ±nku'.
 [Enable View Homepage]
-Povolit funkci 'Zobrazit dom. stránku'
+Povolit funkci 'Zobrazit dom. strĞ±nku'
 [If contact is missing a homepage:]
-Není-li domovská stránka uvedena:
+NenĞ½-li domovskĞ± strĞ±nka uvedena:
 [Month Name]
-název mìsíce
+nĞ±zev mĞ¼sĞ½ce
 [Month Name Short]
-zkrácenı název mìsíce
+zkrĞ±cenÑ nĞ±zev mĞ¼sĞ½ce
 [Day of Week]
-název dne
+nĞ±zev dne
 [Day of Week Short]
-zkrácenı název dne
+zkrĞ±cenÑ nĞ±zev dne
 [Icon in menu item:]
-Ikona vedle poloky menu:
+Ikona vedle poloÑ›ky menu:
 [Show Icon]
 Zobrazit
 [Hide Icon]
-Skrıt
+SkrÑt
 [Copy IP]
-Zkopírovat IP adresu
+ZkopĞ½rovat IP adresu
 [Copy IP Address]
-Zkopírovat IP adresu
+ZkopĞ½rovat IP adresu
 [Copy IP Address Options]
-Monosti
+MoÑ›nosti
 [Adds a "Copy IP Adress" context menu item to your contacts.]
-Do kontextového menu kontaktu pøidá poloku 'Zkopírovat IP adresu'.
+Do kontextovĞ¹ho menu kontaktu pÑˆidĞ± poloÑ›ku 'ZkopĞ½rovat IP adresu'.
 [Enable Copy IP Address]
-Povolit funkci 'Zkopírovat IP adresu'
+Povolit funkci 'ZkopĞ½rovat IP adresu'
 [If contact's IP address is unknown:]
-V pøípadì, e IP adresu nelze zjistit:
+V pÑˆĞ½padĞ¼, Ñ›e IP adresu nelze zjistit:
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Last Status]
-poslední stav
+poslednĞ½ stav
 ;(PRB) [ContactsEx]
 ;Kontakty Extra
 ; Description
 [Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
-Do nabídky kontaktu pøidá monost procházení pøijatıch souborù, zobrazení domovské stránky, zjištìní informace o tom, kdy byl naposledy online, a zkopírování IP adresy.
+Do nabĞ½dky kontaktu pÑˆidĞ± moÑ›nost prochĞ±zenĞ½ pÑˆijatÑch souborÑ‰, zobrazenĞ½ domovskĞ¹ strĞ±nky, zjiÑ™tĞ¼nĞ½ informace o tom, kdy byl naposledy online, a zkopĞ½rovĞ±nĞ½ IP adresy.
 
 ; ---

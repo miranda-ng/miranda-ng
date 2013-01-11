@@ -1,35 +1,35 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ICQOscarJ Protocol 0.9.47.0                             |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 ; fam_04message.c
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x02]
-Posíláte zprávy pøíliš rychle. Poèkejte chvíli a zkuste znovu.\r\nSNAC(4.1) Chyba x02
+PosĞ½lĞ±te zprĞ±vy pÑˆĞ½liÑ™ rychle. PoĞ¸kejte chvĞ½li a zkuste znovu.\r\nSNAC(4.1) Chyba x02
 [You are sending too fast. Wait a while and try again.\r\nSNAC(4.1) Error x03]
-Posíláte zprávy pøíliš rychle. Poèkejte chvíli a zkuste znovu.\r\nSNAC(4.1) Chyba x03
+PosĞ½lĞ±te zprĞ±vy pÑˆĞ½liÑ™ rychle. PoĞ¸kejte chvĞ½li a zkuste znovu.\r\nSNAC(4.1) Chyba x03
 [The user has logged off. Select 'Retry' to send an offline message.\r\nSNAC(4.1) Error x04]
-Uivatel se odhlásil. Pouijte 'Znovu' k odeslání zprávy offline.\r\nSNAC(4.1) Chyba x04
+UÑ›ivatel se odhlĞ±sil. PouÑ›ijte 'Znovu' k odeslĞ±nĞ½ zprĞ±vy offline.\r\nSNAC(4.1) Chyba x04
 [The receiving client does not support this type of message.\r\nSNAC(4.1) Error x09]
-Klientskı software pøíjemce nepodporuje tento druh zprávy.\r\nSNAC(4.1) Chyba x09
+KlientskÑ software pÑˆĞ½jemce nepodporuje tento druh zprĞ±vy.\r\nSNAC(4.1) Chyba x09
 [You sent too long message. The receiving client does not support it.\r\nSNAC(4.1) Error x0A]
-Pøíliš dlouhá zpráva. Klientskı software pøíjemce nepodporuje takto dlouhé zprávy.\r\nSNAC(4.1) Chyba x0A
+PÑˆĞ½liÑ™ dlouhĞ± zprĞ±va. KlientskÑ software pÑˆĞ½jemce nepodporuje takto dlouhĞ¹ zprĞ±vy.\r\nSNAC(4.1) Chyba x0A
 ;(LAI) [The SNAC format was rejected by the server.\nSNAC(4.1) Error x0E]
 [The user is temporarily unavailable. Wait a while and try again.\r\nSNAC(4.1) Error x13]
-Uivatel není momentálnì k zastiení. Poèkejte chvíli a zkuste znovu.\r\nSNAC(4.1) Chyba x13
+UÑ›ivatel nenĞ½ momentĞ±lnĞ¼ k zastiÑ›enĞ½. PoĞ¸kejte chvĞ½li a zkuste znovu.\r\nSNAC(4.1) Chyba x13
 ;(LAI) [SNAC(4.1) SENDMSG Error (x%02x)]
 [** This message was blocked by the ICQ server ** The message was invalid.]
-** Tato zpráva byla zablokována serverem ICQ ** Neplatnı typ zprávy.
+** Tato zprĞ±va byla zablokovĞ±na serverem ICQ ** NeplatnÑ typ zprĞ±vy.
 [** This message was blocked by the ICQ server ** The message was too long.]
-** Tato zpráva byla zablokována serverem ICQ ** Zpráva je pøíliš dlouhá.
+** Tato zprĞ±va byla zablokovĞ±na serverem ICQ ** ZprĞ±va je pÑˆĞ½liÑ™ dlouhĞ±.
 [** This message was blocked by the ICQ server ** The sender has flooded the server.]
-** Tato zpráva byla zablokována serverem ICQ ** Odesílatel zahltil server.
+** Tato zprĞ±va byla zablokovĞ±na serverem ICQ ** OdesĞ½latel zahltil server.
 [** This message was blocked by the ICQ server ** You are too evil.]
-** Tato zpráva byla zablokována serverem ICQ ** Co to vlastnì dìláte?
+** Tato zprĞ±va byla zablokovĞ±na serverem ICQ ** Co to vlastnĞ¼ dĞ¼lĞ±te?
 [%s has closed the message window.]
-%s zavøel komunikaèní okno.
+%s zavÑˆel komunikaĞ¸nĞ½ okno.
  
 ; icq_filerequests.c
 [No description given]
@@ -40,21 +40,21 @@ Bez popisu
 
 ; icq_xstatus.c
 [%s Custom Status]
-%s (rozšíøenı stav)
+%s (rozÑ™Ğ½ÑˆenÑ stav)
 
 ; icqosc_svcs.c
 [User ID]
-Identifikátor
+IdentifikĞ±tor
 [The receiver has an invalid user ID.]
-Èíslo pøíjemce je neplatné.
+Ğ˜Ğ½slo pÑˆĞ½jemce je neplatnĞ¹.
 [You cannot send messages when you are offline.]
-Ve stavu offline nelze odesílat zprávy.
+Ve stavu offline nelze odesĞ½lat zprĞ±vy.
 [Messages to offline contacts must be shorter than 450 characters.]
-Zprávy pro uivatele ve stavu offline mohou mít maximálnì 450 znakù.
+ZprĞ±vy pro uÑ›ivatele ve stavu offline mohou mĞ½t maximĞ±lnĞ¼ 450 znakÑ‰.
 [Bad data (internal error #1)]
-Neplatná data (interní chyba #1)
+NeplatnĞ± data (internĞ½ chyba #1)
 [Bad data (internal error #2)]
-Neplatná data (interní chyba #2)
+NeplatnĞ± data (internĞ½ chyba #2)
 [%d Files]
 %d soubory
 
@@ -62,102 +62,102 @@ Neplatná data (interní chyba #2)
 ;(DUP) [%s server connection]
 ;(DUP) [%s client-to-client connections]
 [Request authorization]
-Poádat o autorizaci
+PoÑ›Ğ±dat o autorizaci
 [Grant authorization]
-Udìlit autorizaci
+UdĞ¼lit autorizaci
 [Revoke authorization]
 Odvolat autorizaci
 [Add to server list]
-Pøidat do seznamu na serveru
+PÑˆidat do seznamu na serveru
 [Show custom status details]
-Zobrazit rozšíøenı stav
+Zobrazit rozÑ™Ğ½ÑˆenÑ stav
 
 ; utilities.c
 [<invalid>]
-<neplatnı>
+<neplatnÑ>
 
 ; resources.rc
 [Create new account]
-Zøídit novı úèet
+ZÑˆĞ½dit novÑ ÑŠĞ¸et
 [Remember this session password]
-Zapamatovat heslo této relace
+Zapamatovat heslo tĞ¹to relace
 [Retrieve a lost password or ICQ number]
-Získat zpìt ztracené heslo nebo èíslo (UIN)
+ZĞ½skat zpĞ¼t ztracenĞ¹ heslo nebo Ğ¸Ğ½slo (UIN)
 [Create a new ICQ account using the ICQ website]
-Zøídit novı úèet prostøednictvím domovské stránky ICQ
+ZÑˆĞ½dit novÑ ÑŠĞ¸et prostÑˆednictvĞ½m domovskĞ¹ strĞ±nky ICQ
 [Secure (MD5) login]
-Zabezpeèit pøihlášení (MD5)
+ZabezpeĞ¸it pÑˆihlĞ±Ñ™enĞ½ (MD5)
 [Send 'Keep-alives' (enable this if you use a proxy server and frequently get disconnected)]
-Udrovat spojení (pomáhá pøi pøipojení pøes proxy server a èastém odpojování)
+UdrÑ›ovat spojenĞ½ (pomĞ±hĞ± pÑˆi pÑˆipojenĞ½ pÑˆes proxy server a Ğ¸astĞ¹m odpojovĞ±nĞ½)
 [Ignore concurrent error messages]
-Ignorovat soubìná chybová hlášení
+Ignorovat soubĞ¼Ñ›nĞ± chybovĞ± hlĞ±Ñ™enĞ½
 [Enable server-side contact lists *]
-Povolit ukládání seznamu kontaktù na server *
+Povolit uklĞ±dĞ±nĞ½ seznamu kontaktÑ‰ na server *
 [Add contacts to the server's list when I add them to mine]
-Aktualizovat seznam kontaktù na serveru po pøidání novıch do lokálního seznamu
+Aktualizovat seznam kontaktÑ‰ na serveru po pÑˆidĞ±nĞ½ novÑch do lokĞ±lnĞ½ho seznamu
 [Update my contacts' details from the server *]
-Aktualizovat lokální informace o kontaktech podle údajù na serveru *
+Aktualizovat lokĞ±lnĞ½ informace o kontaktech podle ÑŠdajÑ‰ na serveru *
 [Update contacts' details on the server's list when I change them in mine]
-Aktualizovat informace o kontaktech na serveru dle zmìn v lokálním seznamu
+Aktualizovat informace o kontaktech na serveru dle zmĞ¼n v lokĞ±lnĞ½m seznamu
 [Enable avatar support]
-Aktivovat podporu avatarù
+Aktivovat podporu avatarÑ‰
 [Load avatars automatically (like ICQ Lite)]
-Naèíst obrázky avatarù automaticky (jako ICQ Lite)
+NaĞ¸Ğ½st obrĞ±zky avatarÑ‰ automaticky (jako ICQ Lite)
 [Link avatars as contact photos (mToolTip photos)]
-Pouít avatary jako fotografie (foto v mToolTip)
+PouÑ›Ğ½t avatary jako fotografie (foto v mToolTip)
 [Enable unicode messaging support]
-Aktivovat podporu pro zprávy ve formátu Unicode
+Aktivovat podporu pro zprĞ±vy ve formĞ±tu Unicode
 [Send all messages in unicode if possible]
-Odesílat zprávy ve formátu Unicode (pokud to jde)
+OdesĞ½lat zprĞ±vy ve formĞ±tu Unicode (pokud to jde)
 [Make me temporarily visible to contacts I send message to]
-Doèasnì se zviditelnit osobám, kterım píšete zprávu
+DoĞ¸asnĞ¼ se zviditelnit osobĞ±m, kterÑm pĞ½Ñ™ete zprĞ±vu
 [Notify me when a message delivery has failed (recommended)]
-Upozornit pøi nedoruèení odeslané zprávy (doporuèeno)
+Upozornit pÑˆi nedoruĞ¸enĞ½ odeslanĞ¹ zprĞ±vy (doporuĞ¸eno)
 [Use only server's acknowledgement (faster)]
-Potvrdit doruèení pouze serverem (rychlejší)
+Potvrdit doruĞ¸enĞ½ pouze serverem (rychlejÑ™Ğ½)
 [Enable peer-to-peer message connections]
-Povolit pøímé spojení pøi psaní zprávy
+Povolit pÑˆĞ½mĞ¹ spojenĞ½ pÑˆi psanĞ½ zprĞ±vy
 [Passive mode, i.e. do not initiate new connections]
-Pouít pasivní reim (= neiniciovat nová spojení)
+PouÑ›Ğ½t pasivnĞ½ reÑ›im (= neiniciovat novĞ± spojenĞ½)
 [Enable Custom status support]
-Povolit definování rozšíøeného stavu
+Povolit definovĞ±nĞ½ rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [Reset Custom status on status change]
-Po zmìnì vrátit vıchozí rozšíøenı stav
+Po zmĞ¼nĞ¼ vrĞ±tit vÑchozĞ½ rozÑ™Ğ½ÑˆenÑ stav
 [Auto-retrieve Custom status details]
-Automaticky zjistit rozšíøenı stav
+Automaticky zjistit rozÑ™Ğ½ÑˆenÑ stav
 [Block known Spam Bots]
-Blokovat známé spamovací roboty
+Blokovat znĞ±mĞ¹ spamovacĞ½ roboty
 [Enable AIM support]
 Aktivovat podporu protokolu AIM
 [Allow direct connections with any user]
-Povolit pøímé spojení s kımkoli
+Povolit pÑˆĞ½mĞ¹ spojenĞ½ s kÑmkoli
 [Allow direct connections with users on my contact list]
-Povolit pøímé spojení se všemi v seznamu kontaktù
+Povolit pÑˆĞ½mĞ¹ spojenĞ½ se vÑ™emi v seznamu kontaktÑ‰
 [Allow direct connections only when I authorize or initiate them]
-Povolit pøímé spojení pouze autorizovanım nebo vlastním zprávám
+Povolit pÑˆĞ½mĞ¹ spojenĞ½ pouze autorizovanÑm nebo vlastnĞ½m zprĞ±vĞ±m
 [All users may add me to their Contact List]
-Kdokoli si mì mùe pøidat mezi své kontakty
+Kdokoli si mĞ¼ mÑ‰Ñ›e pÑˆidat mezi svĞ¹ kontakty
 [I want to be asked when someone wants to add me to their Contact List]
-Zeptat se v pøípadì, e si mì chce nìkdo pøidat mezi své kontakty
+Zeptat se v pÑˆĞ½padĞ¼, Ñ›e si mĞ¼ chce nĞ¼kdo pÑˆidat mezi svĞ¹ kontakty
 [Allow others to view my Online / Offline status from the web (Web Aware)]
-Povolit všem zjištìní aktuálního stavu z webu (online/offline, funkce Web Aware)
+Povolit vÑ™em zjiÑ™tĞ¼nĞ½ aktuĞ±lnĞ½ho stavu z webu (online/offline, funkce Web Aware)
 [Allow others to view my primary e-mail address]
-Povolit všem zjištìní primární elektronické adresy
+Povolit vÑ™em zjiÑ™tĞ¼nĞ½ primĞ±rnĞ½ elektronickĞ¹ adresy
 [Only reply to status message requests from users on my contact list]
-Zjištìní stavové zprávy povolit pouze lidem v seznamu kontaktù
+ZjiÑ™tĞ¼nĞ½ stavovĞ¹ zprĞ±vy povolit pouze lidem v seznamu kontaktÑ‰
 [Only reply to status message request from visible contacts]
-Z vıše uvedenıch pouze tìm, kteøí jsou momentálnì viditelní
+Z vÑÑ™e uvedenÑch pouze tĞ¼m, kteÑˆĞ½ jsou momentĞ±lnĞ¼ viditelnĞ½
 [Enable popup support]
-Povolit oznámení
+Povolit oznĞ±menĞ½
 ;(DUP) [Display errors using popups]
 [Display popup when spambot is detected]
-Zobrazit oznámení pøi detekci spamu
+Zobrazit oznĞ±menĞ½ pÑˆi detekci spamu
 [&Use Windows colors]
-Po&uít barvy Windows
+Po&uÑ›Ğ½t barvy Windows
 [Use system &icons]
-Pouít &ikony systému
+PouÑ›Ğ½t &ikony systĞ¹mu
 [Search online users only]
-Hledat pouze mezi uivateli online
+Hledat pouze mezi uÑ›ivateli online
 ;(DUP) [OK]
 ;(DUP) [&Send]
 ;(DUP) [Previe&w]
@@ -167,38 +167,38 @@ Synchronizovat
 ;(DUP) [Cancel]
 ;(DUP) [&Cancel]
 [Default]
-Vıchozí
+VÑchozĞ½
 [Manage server's list...]
 Kontakty na serveru...
 ;(DUP) [Set]
 ;(DUP) [Delete]
 ;(DUP) [&Save changes]
 [Please enter your ICQ account details to continue:]
-Zadejte údaje potøebné pro pøihlášení k serveru ICQ:
+Zadejte ÑŠdaje potÑˆebnĞ¹ pro pÑˆihlĞ±Ñ™enĞ½ k serveru ICQ:
 [ICQ number:]
-Identifikátor:
+IdentifikĞ±tor:
 ;(DUP) [Password:]
 [Enter a password for UIN %d:]
 Zadejte heslo pro UIN %d:
 [Hint: If you don't enter your password here, Miranda will ask for the password everytime you try to go online.]
-Tip: Pokud nezadáte heslo, Miranda vás o nìj bude ádat pøi kadém pøipojení k síti ICQ.
+Tip: Pokud nezadĞ±te heslo, Miranda vĞ±s o nĞ¼j bude Ñ›Ğ±dat pÑˆi kaÑ›dĞ¹m pÑˆipojenĞ½ k sĞ½ti ICQ.
 [Login Server:]
 Server:
 ;(DUP) [Port:]
 [Hint: Use port 0 to connect on a random port. Try port 80 or port 443 if you are having problems connecting through a http proxy server.]
-Tip: Zadáním 0 nastavíte náhodnı vybìr portu. Máte-li problémy s pøipojením pøes http proxy server, vyzkoušejte porty 80 nebo 443.
+Tip: ZadĞ±nĞ½m 0 nastavĞ½te nĞ±hodnÑ vybĞ¼r portu. MĞ±te-li problĞ¹my s pÑˆipojenĞ½m pÑˆes http proxy server, vyzkouÑ™ejte porty 80 nebo 443.
 [Show connection error messages:]
-Chybová hlášení tıkající se spojení:
+ChybovĞ± hlĞ±Ñ™enĞ½ tÑkajĞ½cĞ½ se spojenĞ½:
 [You will need to reconnect to the ICQ network for the changes you have made on this page to take effect.]
-Zmìny se projeví a pøi pøíštím pøipojení do sítì ICQ.
+ZmĞ¼ny se projevĞ½ aÑ› pÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ do sĞ½tĞ¼ ICQ.
 [You cannot enable/disable the server-side contact list while you are connected to the ICQ network.]
-Funkci ukládání kontaktù na serveru lze aktivovat nebo deaktivovat pouze po odpojení ze sítì ICQ.
+Funkci uklĞ±dĞ±nĞ½ kontaktÑ‰ na serveru lze aktivovat nebo deaktivovat pouze po odpojenĞ½ ze sĞ½tĞ¼ ICQ.
 [Note: The support is VERY limited, only messaging and status supported.]
-Poznámka: Tato funkce není dodìlaná, zatím lze pouze psát zprávy a mìnit stav.
+PoznĞ±mka: Tato funkce nenĞ½ dodĞ¼lanĞ±, zatĞ½m lze pouze psĞ±t zprĞ±vy a mĞ¼nit stav.
 [Allowing direct connections will expose your IP address but may be necessary for some ICQ features to work properly.]
-Povolení pøímého spojení je potøebné pro nìkteré z funkcí ICQ, ale zároveò pøedstavuje urèitı problém, protoe tím umoníte ostatním zjistit vaši IP adresu.
+PovolenĞ½ pÑˆĞ½mĞ¹ho spojenĞ½ je potÑˆebnĞ¹ pro nĞ¼kterĞ¹ z funkcĞ½ ICQ, ale zĞ±roveÑ‚ pÑˆedstavuje urĞ¸itÑ problĞ¹m, protoÑ›e tĞ½m umoÑ›nĞ½te ostatnĞ½m zjistit vaÑ™i IP adresu.
 [Back Color]
-Barva pozadí
+Barva pozadĞ½
 [Text Color]
 Barva textu
 ;(DUP) [Timeout (*)]
@@ -206,16 +206,16 @@ Barva textu
 ;(DUP) [Warning]
 ;(DUP) [Error]
 [Fatal]
-Závaná chyba
+ZĞ±vaÑ›nĞ± chyba
 [Spam detected]
 Detekce spamu
 ;(DUP) [(*) Timeouts require Popup v. 1.0.1.9 or later]
 [UIN:]
 UIN:
 [External IP:]
-Externí IP:
+ExternĞ½ IP:
 [Internal IP:]
-Interní IP:
+InternĞ½ IP:
 [Protocol Version:]
 Verze protokolu:
 [User Client:]
@@ -223,9 +223,9 @@ Klient:
 [Online since:]
 Online od:
 [System up since:]
-Systém bìí od:
+SystĞ¹m bĞ¼Ñ›Ğ½ od:
 [Idle since:]
-Neaktivní od:
+NeaktivnĞ½ od:
 ;(DUP) [Status:]
 ;(DUP) [Nickname:]
 ;(DUP) [First name:]
@@ -234,9 +234,9 @@ Neaktivní od:
 ;(DUP) [Gender:]
 ;(DUP) [Age:]
 [Marital status:]
-Rodinnı stav:
+RodinnÑ stav:
 [Keywords:]
-Klíè. slova:
+KlĞ½Ğ¸. slova:
 ;(DUP) [Occupation:]
 ;(DUP) [Company:]
 ;(DUP) [Department:]
@@ -249,44 +249,44 @@ Jazyk:
 ;(DUP) [State:]
 ;(DUP) [City:]
 [Interests]
-Zájmy
+ZĞ±jmy
 [Category:]
 Kategorie:
 [Past]
 Minulost
 [Homepage]
-Dom. stránka
+Dom. strĞ±nka
 [Note: Only JPGs and GIFs\nImage size max 64x64\nFile size max 6kB]
-Pozn.: Pouze JPEG nebo GIF\nMax. velikost obrázku: 64x64\nMax. velikost souboru: 6 kB
+Pozn.: Pouze JPEG nebo GIF\nMax. velikost obrĞ±zku: 64x64\nMax. velikost souboru: 6 kB
 [Select contacts to store:]
-Vyberte kontakty k uloení:
+Vyberte kontakty k uloÑ›enĞ½:
 ;(DUP) [Title:]
 ;(DUP) [Message:]
 [Please re-type your new password:]
-Zadejte prosím nové heslo znovu:
+Zadejte prosĞ½m novĞ¹ heslo znovu:
 [Enter your current password:]
-Zadejte prosím své heslo:
+Zadejte prosĞ½m svĞ¹ heslo:
 [Use this codepage for Ansi <-> Unicode translation :]
-Definice kódování pro pøevod znakù z a do Unicode:
+Definice kÑƒdovĞ±nĞ½ pro pÑˆevod znakÑ‰ z a do Unicode:
 [ICQ]
 ICQ
 [Connection settings]
-Monosti pøipojení
+MoÑ›nosti pÑˆipojenĞ½
 [ICQ contacts stored on server]
-Kontakty uloené na serveru ICQ
+Kontakty uloÑ›enĞ¹ na serveru ICQ
 [ICQ avatars]
-Obrázky avatarù
+ObrĞ±zky avatarÑ‰
 ;(DUP) [Messaging]
 [Peer-to-peer Messaging]
-Rozhovor (pøímé spojení mezi klienty)
+Rozhovor (pÑˆĞ½mĞ¹ spojenĞ½ mezi klienty)
 [Extra Features]
-Další monosti
+DalÑ™Ğ½ moÑ›nosti
 [Direct connections]
-Pøímá spojení
+PÑˆĞ½mĞ± spojenĞ½
 [Contact List Authorization]
-Autorizace kontaktù
+Autorizace kontaktÑ‰
 [Misc Settings]
-Ostatní nastavení
+OstatnĞ½ nastavenĞ½
 ;(DUP) [Options]
 [Look && Feel]
 Vzhled
@@ -296,36 +296,36 @@ Vzhled
 ;(DUP) [Background]
 ;(DUP) [Other]
 [ICQ Account Setup]
-Zøízení nového úètu (ICQ)
+ZÑˆĞ½zenĞ½ novĞ¹ho ÑŠĞ¸tu (ICQ)
 [Enter an authorization request]
-Napište ádost o autorizaci
+NapiÑ™te Ñ›Ğ±dost o autorizaci
 [Enter ICQ Password]
 Zadejte heslo pro ICQ
 [Manage ICQ Server Contacts]
-Správa kontaktù na ICQ serveru
+SprĞ±va kontaktÑ‰ na ICQ serveru
 [Confirm Password Change]
-Potvrdit zmìnu hesla
+Potvrdit zmĞ¼nu hesla
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [ICQOscarJ Protocol]
 Protokol ICQ (OscarJ)
 
 ;icq_fieldnames.c
 [Art]
-Umìní
+UmĞ¼nĞ½
 [Cars]
 Auta
 [Celebrity Fans]
 Osobnosti
 [Collections]
-Sbìratelství
+SbĞ¼ratelstvĞ½
 [Computers]
-Poèítaèe
+PoĞ¸Ğ½taĞ¸e
 [Culture & Literature]
 Kultura a literatura
 [Fitness]
-Péèe o zdraví
+PĞ¹Ğ¸e o zdravĞ½
 [Games]
 Hry
 [Hobbies]
@@ -334,580 +334,580 @@ Hobby
 [Internet]
 Internet
 [Lifestyle]
-ivotní styl
+Ğ‹ivotnĞ½ styl
 [Movies/TV]
 Filmy a televize
 [Music]
 Hudba
 [Outdoor Activities]
-Vılety, turistika
+VÑlety, turistika
 [Parenting]
-Rodièovství
+RodiĞ¸ovstvĞ½
 [Pets/Animals]
-Zvíøata
+ZvĞ½Ñˆata
 [Religion]
-Náboenství
+NĞ±boÑ›enstvĞ½
 [Science/Technology]
-Vìda a technologie
+VĞ¼da a technologie
 [Skills]
-Øemesla
+Ğ¨emesla
 [Sports]
 Sport
 [Web Design]
-Návrh webovıch stránek
+NĞ±vrh webovÑch strĞ±nek
 [Nature and Environment]
-Pøíroda a ivotní prostøedí
+PÑˆĞ½roda a Ñ›ivotnĞ½ prostÑˆedĞ½
 [News & Media]
-Noviny a èasopisy
+Noviny a Ğ¸asopisy
 ;(DUP) [Government]
 [Business & Economy]
 Obchod a ekonomika
 [Mystics]
 Mysticismus
 [Travel]
-Cestování
+CestovĞ±nĞ½
 [Astronomy]
 Astronomie
 [Space]
-Vesmír
+VesmĞ½r
 [Clothing]
-Obleèení
+ObleĞ¸enĞ½
 [Parties]
-Veèírky
+VeĞ¸Ğ½rky
 [Women]
-eny
+Ğ‹eny
 [Social science]
-Sociální vìdy
+SociĞ±lnĞ½ vĞ¼dy
 [Finance and corporate]
-Finanènictví a obchod
+FinanĞ¸nictvĞ½ a obchod
 [Entertainment]
-Zábava
+ZĞ±bava
 [Consumer electronics]
-Spotøební elektronika
+SpotÑˆebnĞ½ elektronika
 [Retail stores]
-Obchodní øetìzce
+ObchodnĞ½ ÑˆetĞ¼zce
 [Health and beauty]
-Zdraví a krása
+ZdravĞ½ a krĞ±sa
 [Media]
-Média
+MĞ¹dia
 [Household products]
-Potøeby pro domácnost
+PotÑˆeby pro domĞ±cnost
 [Mail order catalog]
-Objednávkové katalogy
+ObjednĞ±vkovĞ¹ katalogy
 [Business services]
-Sluby pro podnikání
+SluÑ›by pro podnikĞ±nĞ½
 [Audio and visual]
 Audio a video
 [Sporting and athletic]
 Atletika
 [Publishing]
-Vydávání
+VydĞ±vĞ±nĞ½
 [Home automation]
-Pomocníci v domácnosti
+PomocnĞ½ci v domĞ±cnosti
 [Elementary School]
-Základní škola
+ZĞ±kladnĞ½ Ñ™kola
 [High School]
-Støední škola
+StÑˆednĞ½ Ñ™kola
 [College]
-Vysoká škola
+VysokĞ± Ñ™kola
 [University]
 Univerzita
 [Military]
-Vojenská sluba
+VojenskĞ± sluÑ›ba
 [Past Work Place]
-Døívìjší zamìstnání
+DÑˆĞ½vĞ¼jÑ™Ğ½ zamĞ¼stnĞ±nĞ½
 [Past Organization]
-Pøedchozí organizace
+PÑˆedchozĞ½ organizace
 [Academic]
-Vızkum
+VÑzkum
 [Administrative]
 Administrativa
 [Art/Entertainment]
-Umìní a zábava
+UmĞ¼nĞ½ a zĞ±bava
 [College Student]
-Škola (VŠ)
+Ğ‰kola (VĞ‰)
 ;(DUP) [Computers]
 [Community & Social]
-Spoleèenství
+SpoleĞ¸enstvĞ½
 [Education]
-Vzdìlávání
+VzdĞ¼lĞ±vĞ±nĞ½
 [Engineering]
-Strojírenství
+StrojĞ½renstvĞ½
 [Financial Services]
-Penìní sluby
+PenĞ¼Ñ›nĞ½ sluÑ›by
 [Government]
-Státní správa
+StĞ±tnĞ½ sprĞ±va
 [High School Student]
-Škola (SŠ)
+Ğ‰kola (SĞ‰)
 [Home]
 Domov
 [ICQ - Providing Help]
-Pomoc uivatelùm ICQ
+Pomoc uÑ›ivatelÑ‰m ICQ
 [Law]
-Právo
+PrĞ±vo
 [Managerial]
 Management
 [Manufacturing]
-Vıroba
+VÑroba
 [Medical/Health]
-Zdravotnictví
+ZdravotnictvĞ½
 [Alumni Org.]
-absolventské
+absolventskĞ¹
 [Charity Org.]
-charitativní
+charitativnĞ½
 [Club/Social Org.]
-krouky
+krouÑ›ky
 [Community Org.]
-spoleèenství
+spoleĞ¸enstvĞ½
 [Cultural Org.]
-kulturní
+kulturnĞ½
 [Fan Clubs]
 fankluby
 [Fraternity/Sorority]
-bratrské
+bratrskĞ¹
 [Hobbyists Org.]
-zájmové
+zĞ±jmovĞ¹
 [International Org.]
-mezinárodní
+mezinĞ±rodnĞ½
 [Nature and Environment Org.]
-ochrana pøírody
+ochrana pÑˆĞ½rody
 [Professional Org.]
-profesní
+profesnĞ½
 [Scientific/Technical Org.]
-vìdeckotechnické
+vĞ¼deckotechnickĞ¹
 [Self Improvement Group]
-sebezdokonalovací
+sebezdokonalovacĞ½
 [Spiritual/Religious Org.]
-duchovní a náboenské
+duchovnĞ½ a nĞ±boÑ›enskĞ¹
 [Sports Org.]
-sportovní
+sportovnĞ½
 [Support Org.]
-pøíspìvkové
+pÑˆĞ½spĞ¼vkovĞ¹
 [Trade and Business Org.]
-obchodní
+obchodnĞ½
 [Union]
-odborové
+odborovĞ¹
 [Volunteer Org.]
-dobrovolnické
+dobrovolnickĞ¹
 [60-above]
-pøes šedesát
+pÑˆes Ñ™edesĞ±t
 [50's]
-50tá léta
+50tĞ± lĞ¹ta
 [60's]
-60tá léta
+60tĞ± lĞ¹ta
 [70's]
-70tá léta
+70tĞ± lĞ¹ta
 [80's]
-80tá léta
+80tĞ± lĞ¹ta
 [Non-Government Organization]
-Nestátní organizace
+NestĞ±tnĞ½ organizace
 [Professional]
-Profesní organizace
+ProfesnĞ½ organizace
 [Retail]
 Prodej
 [Retired]
-V dùchodu
+V dÑ‰chodu
 [Science & Research]
-Vìda a vızkum
+VĞ¼da a vÑzkum
 [Technical]
-Technickı obor
+TechnickÑ obor
 [University Student]
-Škola (VŠ)
+Ğ‰kola (VĞ‰)
 [Web building]
-Tvorba webovıch stránek
+Tvorba webovÑch strĞ±nek
 [Other services]
-Ostatní sluby
+OstatnĞ½ sluÑ›by
 [Single]
-svobodnı/á
+svobodnÑ/Ğ±
 [Close relationships]
-ve spoleèné domácnosti
+ve spoleĞ¸nĞ¹ domĞ±cnosti
 [Engaged]
-zadanı/á
+zadanÑ/Ğ±
 [Married]
-enatı/vdaná
+Ñ›enatÑ/vdanĞ±
 [Divorced]
-rozvedenı/á
+rozvedenÑ/Ğ±
 [Separated]
-odlouèenı/á
+odlouĞ¸enÑ/Ğ±
 [Widowed]
-ovdovìlı/á
+ovdovĞ¼lÑ/Ğ±
 
 ; ICQ OscarJ
 [Note: The options marked with an asterisk have important side-effects or caveats that may not be initially apparent documented in the help.]
-Poznámka: Monosti oznaèené hvìzdièkou nemusí fungovat stoprocentnì a autor nenese ádnou odpovìdnost za pøípadné škody.
+PoznĞ±mka: MoÑ›nosti oznaĞ¸enĞ¹ hvĞ¼zdiĞ¸kou nemusĞ½ fungovat stoprocentnĞ¼ a autor nenese Ñ›Ğ±dnou odpovĞ¼dnost za pÑˆĞ½padnĞ¹ Ñ™kody.
 ; CUSTOM STATUSES
 [Angry]
 zlost
 [Taking a bath]
 koupu se
 [Tired]
-únava
+ÑŠnava
 [Party]
-na párty
+na pĞ±rty
 [Drinking beer]
 na pivku
 [Thinking]
-pøemıšlím
+pÑˆemÑÑ™lĞ½m
 [Eating]
-jím
+jĞ½m
 [Watching TV]
-koukám na TV
+koukĞ±m na TV
 [Meeting]
-na schùzce
+na schÑ‰zce
 [Coffee]
-dávám si kafe
+dĞ±vĞ±m si kafe
 [Listening to music]
-Poslouchám hudbu
+PoslouchĞ±m hudbu
 [Business]
 Za obchodem
 [Shooting]
-fotím
+fotĞ½m
 [Having fun]
-bavím se
+bavĞ½m se
 ;(DUP) [On the phone]
 [Gaming]
 hraju hry
 [Studying]
-uèím se
+uĞ¸Ğ½m se
 [Shopping]
 nakupuju
 [Feeling sick]
-není mi dobøe
+nenĞ½ mi dobÑˆe
 [Sleeping]
-spím
+spĞ½m
 [Surfing]
 surfuju
 [Browsing]
-brouzdám po netu
+brouzdĞ±m po netu
 [Working]
 pracuju
 [Typing]
-píšu
+pĞ½Ñ™u
 [Picnic]
 piknik
 [Cooking]
-vaøím
+vaÑˆĞ½m
 [Smoking]
-kouøím
+kouÑˆĞ½m
 [I'm high]
-jsem zhulenı
+jsem zhulenÑ
 [On WC]
 jsem na WC
 [To be or not to be]
-bıt èi nebıt?
+bÑt Ğ¸i nebÑt?
 [Watching pro7 on TV]
-koukám na pro7
+koukĞ±m na pro7
 [Love]
-láska
+lĞ±ska
 
 ; init.c
 [Request authorisation]
-Poádat o autorizaci
+PoÑ›Ğ±dat o autorizaci
 [Grant authorisation]
-Udìlit autorizaci
+UdĞ¼lit autorizaci
 [Revoke authorisation]
 Odvolat autorizaci
 
 ; icq_opts.c
 [Features]
-Monosti
+MoÑ›nosti
 [System default codepage]
-Vıchozí kódování systému
+VÑchozĞ½ kÑƒdovĞ±nĞ½ systĞ¹mu
 
 ; dlgproc.c
 [<unremovable once applied>]
-<po zadání nelze odstranit>
+<po zadĞ±nĞ½ nelze odstranit>
 [You've made some changes to your ICQ details but it has not been saved to the server. Are you sure you want to close this dialog?]
-Nìkteré z údajù byly zmìnìny. Opravdu chcete tento dialog zavøít bez uloení zmìn?
+NĞ¼kterĞ¹ z ÑŠdajÑ‰ byly zmĞ¼nĞ¼ny. Opravdu chcete tento dialog zavÑˆĞ½t bez uloÑ›enĞ½ zmĞ¼n?
 [Upload FAILED]
-Chyba pøi aktualizaci dat.
+Chyba pÑˆi aktualizaci dat.
 
 ; fam_13servclist.c
 [Server contact list is unavailable, Miranda will use local contact list.]
-Seznam kontaktù na serveru není k dispozici, bude pouita lokální kopie.
+Seznam kontaktÑ‰ na serveru nenĞ½ k dispozici, bude pouÑ›ita lokĞ±lnĞ½ kopie.
 [Renaming of server contact failed.]
-Chyba pøi pøejmenovávání kontaktu na serveru.
+Chyba pÑˆi pÑˆejmenovĞ±vĞ±nĞ½ kontaktu na serveru.
 [Update of server contact's comment failed.]
-Chyba pøi aktualizaci komentáøe u kontaktu na serveru.
+Chyba pÑˆi aktualizaci komentĞ±Ñˆe u kontaktu na serveru.
 [Adding of privacy item to server list failed.]
-Chyba pøi pøidávání privátních informací ke kontaktu na serveru.
+Chyba pÑˆi pÑˆidĞ±vĞ±nĞ½ privĞ±tnĞ½ch informacĞ½ ke kontaktu na serveru.
 [Removing of privacy item from server list failed.]
-Chyba pøi odebírání privátních informací od kontaktu na serveru.
+Chyba pÑˆi odebĞ½rĞ±nĞ½ privĞ±tnĞ½ch informacĞ½ od kontaktu na serveru.
 [Adding of contact to server list failed.]
-Chyba pøi pøidávání kontaktu do seznamu na serveru.
+Chyba pÑˆi pÑˆidĞ±vĞ±nĞ½ kontaktu do seznamu na serveru.
 [Adding of group to server list failed.]
-Chyba pøi pøidávání skupiny do seznamu na serveru.
+Chyba pÑˆi pÑˆidĞ±vĞ±nĞ½ skupiny do seznamu na serveru.
 [Removing of contact from server list failed.]
-Chyba pøi odebírání kontaktu ze seznamu na serveru.
+Chyba pÑˆi odebĞ½rĞ±nĞ½ kontaktu ze seznamu na serveru.
 [Updating of group on server list failed.]
-Chyba pøi aktualizaci skupiny na serveru.
+Chyba pÑˆi aktualizaci skupiny na serveru.
 [Removing of group from server list failed.]
-Chyba pøi odebírání skupiny ze seznamu na serveru.
+Chyba pÑˆi odebĞ½rĞ±nĞ½ skupiny ze seznamu na serveru.
 [Moving of user to another group on server list failed.]
-Chyba pøi pøesouvání kontaktu na serveru z jedné skupiny do druhé.
+Chyba pÑˆi pÑˆesouvĞ±nĞ½ kontaktu na serveru z jednĞ¹ skupiny do druhĞ¹.
 [Renaming of server group failed.]
-Chyba pøi pøejmenovávání skupiny na serveru.
+Chyba pÑˆi pÑˆejmenovĞ±vĞ±nĞ½ skupiny na serveru.
 
 ; userinfotab.c
 [Member since:]
-Úèet zaloen:
+ĞªĞ¸et zaloÑ›en:
 [ScreenName:]
-Jméno:
+JmĞ¹no:
 
 ; icq_uploadui.c
 [Select contacts you want to store on server.]
-Vyberte poloky k uloení do seznamu na serveru.
+Vyberte poloÑ›ky k uloÑ›enĞ½ do seznamu na serveru.
 [Ready...]
-Pøipraven...
+PÑˆipraven...
 [Adding group \"%s\"...]
-Pøidání skupiny: \"%s\"
+PÑˆidĞ±nĞ½ skupiny: \"%s\"
 [Uploading %s...]
 Aktualizace: %s
 [Uploading %u...]
 Aktualizace: %u
 ;(LAI) [FAILED]
 [No upload group available]
-Nenalezena skupina k umístìní na server
+Nenalezena skupina k umĞ½stĞ¼nĞ½ na server
 [Deleting %s...]
-Mazání: %s
+MazĞ±nĞ½: %s
 [Deleting %u...]
-Mazání: %u
+MazĞ±nĞ½: %u
 [Moving %s to group \"%s\"...]
-Pøesun: %s do skupiny \"%s\"
+PÑˆesun: %s do skupiny \"%s\"
 [Moving %u to group \"%s\"...]
-Pøesun: %u do skupiny \"%s\"
+PÑˆesun: %u do skupiny \"%s\"
 [Adding %u to visible list...]
-Pøidání mezi viditelné: %u
+PÑˆidĞ±nĞ½ mezi viditelnĞ¹: %u
 [Adding %s to visible list...]
-Pøidání mezi viditelné: %s
+PÑˆidĞ±nĞ½ mezi viditelnĞ¹: %s
 [Adding %u to invisible list...]
-Pøidání mezi neviditelné: %u
+PÑˆidĞ±nĞ½ mezi neviditelnĞ¹: %u
 [Adding %s to invisible list...]
-Pøidání mezi neviditelné: %s
+PÑˆidĞ±nĞ½ mezi neviditelnĞ¹: %s
 [Deleting %u from visible list...]
-Odebrání z viditelnıch: %u
+OdebrĞ±nĞ½ z viditelnÑch: %u
 [Deleting %s from visible list...]
-Odebrání z viditelnıch: %us
+OdebrĞ±nĞ½ z viditelnÑch: %us
 [Deleting %u from invisible list...]
-Odebrání z neviditelnıch: %u
+OdebrĞ±nĞ½ z neviditelnÑch: %u
 [Deleting %s from invisible list...]
-Odebrání z neviditelnıch: %s
+OdebrĞ±nĞ½ z neviditelnÑch: %s
 [Cleaning groups]
 Aktualizace seznamu skupin
 [Updating group \"%s\"...]
 Aktualizace skupiny \"%s\"...
 [Deleting group \"%s\"...]
-Odebírání skupiny \"%s\"...
+OdebĞ½rĞ±nĞ½ skupiny \"%s\"...
 [All operations complete]
-Všechny akce dokonèeny
+VÑ™echny akce dokonĞ¸eny
 ;(DUP) [Close]
 [You have to be online to sychronize the server-list !]
-Seznam kontaktù lze synchronizovat pouze ve stavu online!
+Seznam kontaktÑ‰ lze synchronizovat pouze ve stavu online!
 
 ; icq_popups.c
 [Popups]
-Oznámení
+OznĞ±menĞ½
 ;(DUP) [Popup Title]
 [Sample Note]
-Náhled: Poznámka
+NĞ±hled: PoznĞ±mka
 [Sample Warning]
-Náhled: Upozornìní
+NĞ±hled: UpozornĞ¼nĞ½
 [Sample Error]
-Náhled: Chyba
+NĞ±hled: Chyba
 [Sample Fatal]
-Náhled: Závaná chyba
+NĞ±hled: ZĞ±vaÑ›nĞ± chyba
 [Sample Spambot]
-Náhled: Spam
+NĞ±hled: Spam
 
 ; chan_04close.c
 [You could not sign on because the server returned invalid data. Try again.]
-Server odpovídá na poadavek pøihlášení neplatnou sekvencí dat. Zkuste znovu.
+Server odpovĞ½dĞ± na poÑ›adavek pÑˆihlĞ±Ñ™enĞ½ neplatnou sekvencĞ½ dat. Zkuste znovu.
 [You have been disconnected from the ICQ network because the current server shut down.]
-Byli jste odpojeni od sítì ICQ. Server, ke kterému jste byli pøipojeni, nereaguje.
+Byli jste odpojeni od sĞ½tĞ¼ ICQ. Server, ke kterĞ¹mu jste byli pÑˆipojeni, nereaguje.
 [Connection failed.\nYour ICQ number or password was rejected (%d).]
-Chyba pøipojení.\nZadané UIN a heslo bylo odmítnuto serverem (%d).
+Chyba pÑˆipojenĞ½.\nZadanĞ¹ UIN a heslo bylo odmĞ½tnuto serverem (%d).
 [Connection failed.\nThe server is temporally unavailable (%d).]
-Chyba pøipojení.\nServer není doèasnì k dispozici (%d).
+Chyba pÑˆipojenĞ½.\nServer nenĞ½ doĞ¸asnĞ¼ k dispozici (%d).
 [Connection failed.\nServer has too many connections from your IP (%d).]
-Chyba pøipojení.\nK serveru je pøipojeno pøíliš mnoho klientù ze stejné IP adresy (%d).
+Chyba pÑˆipojenĞ½.\nK serveru je pÑˆipojeno pÑˆĞ½liÑ™ mnoho klientÑ‰ ze stejnĞ¹ IP adresy (%d).
 [Connection failed.\nYou have connected too quickly,\nplease wait and retry 10 to 20 minutes later (%d).]
-Chyba pøipojení.\nPoèet pøihlášení za urèitı èasovı úsek je\nomezenı a právì jste tento limit pøekroèili.\nZkuste to znovu za 10-20 minut (%d).
+Chyba pÑˆipojenĞ½.\nPoĞ¸et pÑˆihlĞ±Ñ™enĞ½ za urĞ¸itÑ Ğ¸asovÑ ÑŠsek je\nomezenÑ a prĞ±vĞ¼ jste tento limit pÑˆekroĞ¸ili.\nZkuste to znovu za 10-20 minut (%d).
 [Connection failed.\nThe server did not accept this client version.]
-Chyba pøipojení.\nServer odmítnul navázat spojení s vaším klientem, resp. touto konkrétní verzí.
+Chyba pÑˆipojenĞ½.\nServer odmĞ½tnul navĞ±zat spojenĞ½ s vaÑ™Ğ½m klientem, resp. touto konkrĞ¹tnĞ½ verzĞ½.
 [The server sent warning, this version is getting old.\nTry to look for a new one.]
-Upozornìní serveru: Verze vámi pouívaného protokolu ICQ\nje zastaralá. Podívejte se po nové.
+UpozornĞ¼nĞ½ serveru: Verze vĞ±mi pouÑ›Ğ½vanĞ¹ho protokolu ICQ\nje zastaralĞ±. PodĞ½vejte se po novĞ¹.
 [Connection failed.\nYou were rejected by the server for an unknown reason.\nThis can happen if the UIN is already connected.]
-Chyba pøipojení.\nServer odmítnul navázat spojení bez udání dùvodu.\nTento problém nastává obvykle tehdy, je-li zadanı úèet online.
+Chyba pÑˆipojenĞ½.\nServer odmĞ½tnul navĞ±zat spojenĞ½ bez udĞ±nĞ½ dÑ‰vodu.\nTento problĞ¹m nastĞ±vĞ± obvykle tehdy, je-li zadanÑ ÑŠĞ¸et online.
 [Connection failed.\nUnknown error during sign on: 0x%02x]
-Chyba pøipojení.\nNeznámı problém bìhem pøihlašování: 0x%02x
+Chyba pÑˆipojenĞ½.\nNeznĞ±mÑ problĞ¹m bĞ¼hem pÑˆihlaÑ™ovĞ±nĞ½: 0x%02x
 [You have been disconnected from the ICQ network because you logged on from another location using the same ICQ number.]
-Byli jste odpojeni od sítì ICQ. V danou chvíli je jinde pøihlášenı jinı uivatel se stejnım UIN.
+Byli jste odpojeni od sĞ½tĞ¼ ICQ. V danou chvĞ½li je jinde pÑˆihlĞ±Ñ™enÑ jinÑ uÑ›ivatel se stejnÑm UIN.
 [Unknown runtime error: 0x%02x]
-Neznámı typ chyby: 0x%02x
+NeznĞ±mÑ typ chyby: 0x%02x
 
-; Sítì / ICQ
+; SĞ½tĞ¼ / ICQ
 [Display all problems]
-Zobrazovat veškeré problémy
+Zobrazovat veÑ™kerĞ¹ problĞ¹my
 [Display problems causing possible loss of data]
-Zobrazovat problémy související se ztrátou dat
+Zobrazovat problĞ¹my souvisejĞ½cĞ½ se ztrĞ±tou dat
 [Display explanations for disconnection]
-Zobrazovat dùvody odpojení
+Zobrazovat dÑ‰vody odpojenĞ½
 [Display problems requiring user intervention]
-Zobrazovat problémy vyadující zásah uivatele
+Zobrazovat problĞ¹my vyÑ›adujĞ½cĞ½ zĞ±sah uÑ›ivatele
 
-; Zpìtná kompatibilita s verzemi < 0.3.6.12
+; ZpĞ¼tnĞ± kompatibilita s verzemi < 0.3.6.12
 [Notify me when a message delivery has failed]
-Upozornit pøi nedoruèení odeslané zprávy
+Upozornit pÑˆi nedoruĞ¸enĞ½ odeslanĞ¹ zprĞ±vy
 [Ignore concurrent errors]
-Ignorovat soub. chyb. hlášení
+Ignorovat soub. chyb. hlĞ±Ñ™enĞ½
 [Enable Custom Statuses support]
-Povolit definování rozšíøeného stavu
+Povolit definovĞ±nĞ½ rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [AIM Support]
 Podpora protokolu AIM
 [Custom Status "%s" Details]
-Rozš. stav '%s'
+RozÑ™. stav '%s'
 ; xstatus
 [Duck]
-Koupání
+KoupĞ±nĞ½
 [Beer]
 Jsem na pivku
 [Friends]
-S kamarády
+S kamarĞ±dy
 [Camera]
-Natáèím
+NatĞ±Ğ¸Ğ½m
 [Funny]
-Dobrá nálada
+DobrĞ± nĞ±lada
 [Sick]
-Není mi dobøe
+NenĞ½ mi dobÑˆe
 [Eating...yummy..]
-Pochutnávám si
+PochutnĞ±vĞ±m si
 [chat]
-Kecám
+KecĞ±m
 [WC]
 WC
 
 [ICQ Fatal]
-ICQ: Závaná chyba
+ICQ: ZĞ±vaÑ›nĞ± chyba
 
 ; tapin
-; ICQ.dll v.[b]0.3.7.1[/b] [10 Aug 2006], karta Monosti ???
+; ICQ.dll v.[b]0.3.7.1[/b] [10 Aug 2006], karta MoÑ›nosti ???
 ; [It is impossible to define ID]
 
 [ICQ Note]
-ICQ: Poznámka
+ICQ: PoznĞ±mka
 [ICQ Warning]
-ICQ: Upozornìní
+ICQ: UpozornĞ¼nĞ½
 [ICQ Error]
 ICQ: Chyba
 [The server did not respond to the connection attempt within a reasonable time, it may be temporarily down. Try again later.]
-Server ICQ nereaguje na pokus o pøipojení. Zkuste prosím danou akci zopakovat pozdìji.
+Server ICQ nereaguje na pokus o pÑˆipojenĞ½. Zkuste prosĞ½m danou akci zopakovat pozdĞ¼ji.
 [The connection with the server was abortively closed during the connection attempt. You may have lost your local network connection.]
-Pøipojování k serveru ICQ bylo pøerušeno. Nejste náhodou odpojeni od sítì?
+PÑˆipojovĞ±nĞ½ k serveru ICQ bylo pÑˆeruÑ™eno. Nejste nĞ±hodou odpojeni od sĞ½tĞ¼?
 [Miranda was unable to resolve the name of a server to its numeric address. This is most likely caused by a catastrophic loss of your network connection (for example, your modem has disconnected), but if you are behind a proxy, you may need to use the 'Resolve hostnames through proxy' option in M->Options->Network.]
-Chyba pøi pøekladu jmenného názvu serveru na IP adresu. Tento problém mùe bıt zpùsoben jak odpojením od sítì, tak napø. pouitou proxy. Pokud se vás tıká druhı pøípad, zkuste pouít funkci 'Pøekládat jména hostitelù pomocí proxy', kterou najdete v nastavení Mirandy (poloka Sí).
+Chyba pÑˆi pÑˆekladu jmennĞ¹ho nĞ±zvu serveru na IP adresu. Tento problĞ¹m mÑ‰Ñ›e bÑt zpÑ‰soben jak odpojenĞ½m od sĞ½tĞ¼, tak napÑˆ. pouÑ›itou proxy. Pokud se vĞ±s tÑkĞ± druhÑ pÑˆĞ½pad, zkuste pouÑ›Ğ½t funkci 'PÑˆeklĞ±dat jmĞ¹na hostitelÑ‰ pomocĞ½ proxy', kterou najdete v nastavenĞ½ Mirandy (poloÑ›ka SĞ½Ñœ).
 [Miranda was unable to make a connection with a server. It is likely that the server is down, in which case you should wait for a while and try again later.]
-Chyba pøi pøipojování k serveru ICQ. Zkuste prosím danou akci zopakovat pozdìji.
+Chyba pÑˆi pÑˆipojovĞ±nĞ½ k serveru ICQ. Zkuste prosĞ½m danou akci zopakovat pozdĞ¼ji.
 [Your proxy rejected the user name and password that you provided. Please check them in M->Options->Network.]
-Proxy odmítla zadané uivatelské jméno a heslo. Zkontrolujte prosím nastavení v nastavení Mirandy (poloka Sí).
+Proxy odmĞ½tla zadanĞ¹ uÑ›ivatelskĞ¹ jmĞ¹no a heslo. Zkontrolujte prosĞ½m nastavenĞ½ v nastavenĞ½ Mirandy (poloÑ›ka SĞ½Ñœ).
 [The server to which you are trying to connect does not exist. Check your spelling in M->Options->Network->ICQ.]
-Zadanı server ICQ neexistuje. Zkontrolujte prosím nastavení v nastavení Mirandy (poloka Sí->ICQ).
+ZadanÑ server ICQ neexistuje. Zkontrolujte prosĞ½m nastavenĞ½ v nastavenĞ½ Mirandy (poloÑ›ka SĞ½Ñœ->ICQ).
 
 [Connection failed.\nLogin sequence failed for unknown reason.\nTry again later.]
-Chyba pøipojení.\nPøihlášení k síti se nezdaøilo z neznámého dùvodu.\nZkuste prosím danou akci zopakovat pozdìji.
+Chyba pÑˆipojenĞ½.\nPÑˆihlĞ±Ñ™enĞ½ k sĞ½ti se nezdaÑˆilo z neznĞ±mĞ¹ho dÑ‰vodu.\nZkuste prosĞ½m danou akci zopakovat pozdĞ¼ji.
 [You have not entered a ICQ number.\nConfigure this in Options->Network->ICQ and try again.]
-Nezadali jste èíslo úètu v síti ICQ.\nOtevøete nastavení programu Miranda\na potøebné údaje doplòte (Sí->ICQ).
+Nezadali jste Ğ¸Ğ½slo ÑŠĞ¸tu v sĞ½ti ICQ.\nOtevÑˆete nastavenĞ½ programu Miranda\na potÑˆebnĞ¹ ÑŠdaje doplÑ‚te (SĞ½Ñœ->ICQ).
 
-; Vlastní úpravy / Ikony
+; VlastnĞ½ ÑŠpravy / Ikony
 [%s/Custom Status]
-%s/Rozšíøenı stav
+%s/RozÑ™Ğ½ÑˆenÑ stav
 
-; O osobì: ICQ, Jabber etc.
+; O osobĞ¼: ICQ, Jabber etc.
 [%s Details]
 %s Informace
 [%s Avatar]
 %s Avatar
 
 [Unable to connect to ICQ login server]
-Chyba pøi pøipojování k serveru ICQ
+Chyba pÑˆi pÑˆipojovĞ±nĞ½ k serveru ICQ
 [Check avatar validity before saving *]
-Pøed uloením provìøit obrázek avataru *
+PÑˆed uloÑ›enĞ½m provĞ¼Ñˆit obrĞ±zek avataru *
 
-; Informace o sobì
+; Informace o sobĞ¼
 [Marital Status]
-Rodinnı stav
+RodinnÑ stav
 [Originally from]
-Pùvodem
+PÑ‰vodem
 [Personal Interests]
-Zájmy
+ZĞ±jmy
 [Interest category 1]
-Kategorie è.1
+Kategorie Ğ¸.1
 [Interest areas 1]
-Oblast zájmù è.1
+Oblast zĞ±jmÑ‰ Ğ¸.1
 [Interest category 2]
-Kategorie è.2
+Kategorie Ğ¸.2
 [Interest areas 2]
-Oblast zájmù è.2
+Oblast zĞ±jmÑ‰ Ğ¸.2
 [Interest category 3]
-Kategorie è.3
+Kategorie Ğ¸.3
 [Interest areas 3]
-Oblast zájmù è.3
+Oblast zĞ±jmÑ‰ Ğ¸.3
 [Interest category 4]
-Kategorie è.4
+Kategorie Ğ¸.4
 [Interest areas 4]
-Oblast zájmù è.4
+Oblast zĞ±jmÑ‰ Ğ¸.4
 [Past Background]
 Minulost
 [Category 1]
-Kategorie è.1
+Kategorie Ğ¸.1
 ;[Past Background 1]
 [Category 2]
-Kategorie è.2
+Kategorie Ğ¸.2
 ;[Past Background 2]
 [Category 3]
-Kategorie è.3
+Kategorie Ğ¸.3
 ;[Past Background 3]
 [Affiliations]
 Spolky
 [Affiliation category 1]
-Kategorie è.1
+Kategorie Ğ¸.1
 [Affiliation 1]
-Spolky è.1
+Spolky Ğ¸.1
 [Affiliation category 2]
-Kategorie è.2
+Kategorie Ğ¸.2
 [Affiliation 2]
-Spolky è.2
+Spolky Ğ¸.2
 [Affiliation category 3]
-Kategorie è.3
+Kategorie Ğ¸.3
 [Affiliation 3]
-Spolky è.3
+Spolky Ğ¸.3
 
 ; Description
 [Support for ICQ network, enhanced.]
-Implementace protokolu ICQ. Umoòuje komunikaci s uivateli této sítì.
+Implementace protokolu ICQ. UmoÑ›Ñ‚uje komunikaci s uÑ›ivateli tĞ¹to sĞ½tĞ¼.
 
 ; Popup
 [Contact \"%s\" has closed the message window.]
-Kontakt '%s' zavøel komunikaèní okno.
+Kontakt '%s' zavÑˆel komunikaĞ¸nĞ½ okno.
 
 ; ICQ Plus mod
 [Searching]
-Hledám
+HledĞ±m
 [Journal]
-Deník
+DenĞ½k
 [Sex]
 Sex
 
 [Allow bigger owner avatars (up to 128x128) [experimental]]
-Zobrazit vìtší avatary (max. 128×128) - experimentální funkce
+Zobrazit vĞ¼tÑ™Ğ½ avatary (max. 128Ğ§128) - experimentĞ±lnĞ½ funkce
 
 [Confirmation]
-Potvrzení
+PotvrzenĞ½
 [Are you sure you want to revoke user's authorization (this will remove you from his/her list on some clients) ?]
-Opravdu chcete odvolat udìlenou autorizaci? Miranda se následnì pokusí odstranit váš záznam ze seznamu vybraného uivatele.
+Opravdu chcete odvolat udĞ¼lenou autorizaci? Miranda se nĞ±slednĞ¼ pokusĞ½ odstranit vĞ±Ñ™ zĞ±znam ze seznamu vybranĞ¹ho uÑ›ivatele.
 
 ; ISee 0.4.0.25
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1037
 ;
 
@@ -922,46 +922,46 @@ Opravdu chcete odvolat udìlenou autorizaci? Miranda se následnì pokusí odstranit
 
 ; IDD_OPT_ICQCONTACTS
 [Rename contacts on the server's list when I rename them in mine]
-Pøejmenovat kontakty na serveru po pøejmenování v lokálním seznamu
+PÑˆejmenovat kontakty na serveru po pÑˆejmenovĞ±nĞ½ v lokĞ±lnĞ½m seznamu
 [Other features]
-Ostatní monosti
+OstatnĞ½ moÑ›nosti
 [Enable OEM convertion in console]
 Aktivovat konverzi do OEM v konzole
 [Enable Active Status Discovery]
-Aktivovat aktivní zjišování stavu
+Aktivovat aktivnĞ½ zjiÑ™ÑœovĞ±nĞ½ stavu
 [Contacts upload delay (sec)]
-Zpodìná aktualizace kontaktù (s)
+ZpoÑ›dĞ¼nĞ± aktualizace kontaktÑ‰ (s)
 ; IDD_INFO_ICQ
 ;(DUP) [Hidden]
 
 ; init.c
 ; in Main Menu...
 [&Users Status Scan]
-Z&jistit stav kontaktù
+Z&jistit stav kontaktÑ‰
 
 ;Privacy menu
 [Privacy Settings]
-Nastavení soukromí
+NastavenĞ½ soukromĞ½
 
 [Default, corresponding to status]
-Vıchozí, odpovídá stavu
+VÑchozĞ½, odpovĞ½dĞ± stavu
 [Allow all users to see you]
-Viditelnı všem lidem
+ViditelnÑ vÑ™em lidem
 [Block all users from seeing you]
-Neviditelnı pro všechny
+NeviditelnÑ pro vÑ™echny
 [Allow only users in the Visible list to see you]
-Viditelnı pouze tìm, pro které je to povoleno
+ViditelnÑ pouze tĞ¼m, pro kterĞ¹ je to povoleno
 [Block only users in the Invisible list from seeing you]
-Neviditelnı pouze tìm, pro které to není povoleno
+NeviditelnÑ pouze tĞ¼m, pro kterĞ¹ to nenĞ½ povoleno
 [Allow only users in the Contact list to see you]
-Viditelnı pouze lidem v seznamu kontaktù
+ViditelnÑ pouze lidem v seznamu kontaktÑ‰
 [WebAware]
 Povolit funkci Web Aware (web status)
 [Show privacy tools in user's menu]
-Pøidat monosti nastavení soukromí do menu uivatele
+PÑˆidat moÑ›nosti nastavenĞ½ soukromĞ½ do menu uÑ›ivatele
 ;(DUP) [Grant authorization]
 [Remove me from user's list]
-Odebrat sebe z kontaktù uivatele
+Odebrat sebe z kontaktÑ‰ uÑ›ivatele
 
 ; in user's menu
 [Us&er Status]
@@ -969,11 +969,11 @@ Sta&v kontaktu
 
 ; PopUps
 [Users Status Scan Complete]
-Zjišování stavu dokonèeno
+ZjiÑ™ÑœovĞ±nĞ½ stavu dokonĞ¸eno
 [...was found!]
 ... nalezen!
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [ICQ Status:]
 Stav ICQ:
 [Client:]
@@ -983,251 +983,251 @@ Klient:
 Zjistit IP
 
 [Some options are greyed out because they can only be changed when you are online.]
-Pøi odpojení od sítì ICQ mohou bıt nìkteré z moností neaktivní.
+PÑˆi odpojenĞ½ od sĞ½tĞ¼ ICQ mohou bÑt nĞ¼kterĞ¹ z moÑ›nostĞ½ neaktivnĞ½.
 
-; Sítì / ICQ Kontakty
+; SĞ½tĞ¼ / ICQ Kontakty
 [Update my contacts' nicks from the server]
-Aktualizovat pøezdívky kontaktù dle údajù ze serveru
+Aktualizovat pÑˆezdĞ½vky kontaktÑ‰ dle ÑŠdajÑ‰ ze serveru
 [Add and remove my contacts from the server's list when I add/remove them from mine]
-Synchronizovat (pøidávání/odebírání) zmìny v lokálním seznamu se seznamem na serveru
+Synchronizovat (pÑˆidĞ±vĞ±nĞ½/odebĞ½rĞ±nĞ½) zmĞ¼ny v lokĞ±lnĞ½m seznamu se seznamem na serveru
 [Force update of list from server at next connect]
-Pøi pøíštím pøipojení zaktualizovat seznam dle serveru
+PÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ zaktualizovat seznam dle serveru
 [Enable Passive Status Discovery]
-Aktivovat pasivní zjišování stavu
+Aktivovat pasivnĞ½ zjiÑ™ÑœovĞ±nĞ½ stavu
 
 
 ; IcqOscarJ (Plus Mod) Protocol 0.3.8.105 #99 (rc 2)
 ;
-; Pøeklad: jarvis <jarvis (zavináè) jabber (teèka) cz>
+; PÑˆeklad: jarvis <jarvis (zavinĞ±Ğ¸) jabber (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3705
 ;
 
 [HTTP User Agent for proxy]
 HTTP agent pro proxy
 [Try to connect to next server in list if connection error occured (Server AutoChange)]
-Pøi chybì pøipojení zkusit pøipojit k dalšímu serveru (Automatická vımìna)
+PÑˆi chybĞ¼ pÑˆipojenĞ½ zkusit pÑˆipojit k dalÑ™Ğ½mu serveru (AutomatickĞ± vÑmĞ¼na)
 [Register new UIN]
-Zaregistrovat novı úèet
+Zaregistrovat novÑ ÑŠĞ¸et
 [Manage ICQ Servers List]
-Správce serverù ICQ
+SprĞ±vce serverÑ‰ ICQ
 [Servers List]
-Seznam serverù
+Seznam serverÑ‰
 [Create new UIN]
-Zøídit novı úèet
-; "  " není typo
+ZÑˆĞ½dit novÑ ÑŠĞ¸et
+; "  " nenĞ½ typo
 [UIN registration  options]
-Monosti registrace nového úètu
+MoÑ›nosti registrace novĞ¹ho ÑŠĞ¸tu
 [1. New UIN password:]
-1. Heslo nového úètu:
+1. Heslo novĞ¹ho ÑŠĞ¸tu:
 [2. Show Picture]
-2. Ukázat obrázek
+2. UkĞ±zat obrĞ±zek
 [3. Picture Content:]
-3. Text obrázku:
+3. Text obrĞ±zku:
 [4. Register]
 4. Registrovat
 [5. New UIN info]
-5. Info o novém úètu
+5. Info o novĞ¹m ÑŠĞ¸tu
 [Create a new ICQ account using the ICQ website (https://www.icq.com/register/)]
-Vytvoøit novı úèet prostøednictvím stránek ICQ (https://www.icq.com/register/)
+VytvoÑˆit novÑ ÑŠĞ¸et prostÑˆednictvĞ½m strĞ±nek ICQ (https://www.icq.com/register/)
 [Retrieve a lost password or ICQ number (https://www.icq.com/password/)]
-Obnovit ztracené heslo nebo èíslo pomocí https://www.icq.com/password/
+Obnovit ztracenĞ¹ heslo nebo Ğ¸Ğ½slo pomocĞ½ https://www.icq.com/password/
 [Enable server-side contact lists]
-Povolit ukládání seznamu kontaktù na server
+Povolit uklĞ±dĞ±nĞ½ seznamu kontaktÑ‰ na server
 [Not on list contacts]
 Kontakty mimo seznam
 [Do not add contacts that request info]
-Nepøidávat kontakty vyadující informace
+NepÑˆidĞ±vat kontakty vyÑ›adujĞ½cĞ½ informace
 [Add contacts that request info to special group:]
-Pøidávat kontakty ádající informace do skupiny:
+PÑˆidĞ±vat kontakty Ñ›Ğ±dajĞ½cĞ½ informace do skupiny:
 [add temporarily]
-pøidat jen doèasnì
+pÑˆidat jen doĞ¸asnĞ¼
 [Check avatar validity before saving]
-Zkontrolovat platnost avatarù pøed uloením
+Zkontrolovat platnost avatarÑ‰ pÑˆed uloÑ›enĞ½m
 [Main Features]
-Hlavní vlastnosti
+HlavnĞ½ vlastnosti
 [Accept RTF (if ID Miranda)]
-Pøijímat RTF (s ID Miranda)
+PÑˆijĞ½mat RTF (s ID Miranda)
 [Show DC icon in contact list]
 Ukazovat ikonu DC v seznamu
 [DC icon slot:]
-Umístìní:
+UmĞ½stĞ¼nĞ½:
 [Block unknown clients]
-Blokovat neznámé klienty
+Blokovat neznĞ±mĞ¹ klienty
 [*need restart]
-* vyaduje restart
+* vyÑ›aduje restart
 [xStatus options]
-Monosti rozšíøeného stavu
+MoÑ›nosti rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [Display Custom status icon in contact list]
-Ukazovat ikonu rozšíøeného stavu v seznamu
+Ukazovat ikonu rozÑ™Ğ½ÑˆenĞ¹ho stavu v seznamu
 [Replace Custom status name in menu*]
-Pøejmenovat poloky v nabídce stavù*
+PÑˆejmenovat poloÑ›ky v nabĞ½dce stavÑ‰*
 [Force to reread xstatus]
-Vynutit pøeèítání rozšíøeného stavu
+Vynutit pÑˆeĞ¸Ğ½tĞ±nĞ½ rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [Enable non-standart statuses*]
-Povolit nestandardní stavy*
+Povolit nestandardnĞ½ stavy*
 [Update contacts xStatuses every]
-Aktualizovat rozšíøené stavy po
+Aktualizovat rozÑ™Ğ½ÑˆenĞ¹ stavy po
 [X-Status icon slot:]
-Umístìní ikony stavu:
+UmĞ½stĞ¼nĞ½ ikony stavu:
 [Advanced Features]
-Rozšíøené vlastnosti
+RozÑ™Ğ½ÑˆenĞ¹ vlastnosti
 [Status Discovery System]
-Systém zjišování stavù
+SystĞ¹m zjiÑ™ÑœovĞ±nĞ½ stavÑ‰
 [Disable Passive Status Discovery for hidden contacts]
-Zakázat pasivní zjišování stavu pro skryté kontakty
+ZakĞ±zat pasivnĞ½ zjiÑ™ÑœovĞ±nĞ½ stavu pro skrytĞ¹ kontakty
 [ASD Options]
-Monosti aktivního zjišování stavu
+MoÑ›nosti aktivnĞ½ho zjiÑ™ÑœovĞ±nĞ½ stavu
 [Check entire list on startup]
-Pøi pøipojení zkontrolovat celı seznam
+PÑˆi pÑˆipojenĞ½ zkontrolovat celÑ seznam
 [Enable only for offline and invisible contacts (can fix some ASD problems)]
-Povolit jen pro kontakty offline a neviditelné (mùe øešit nìkteré problémy)
+Povolit jen pro kontakty offline a neviditelnĞ¹ (mÑ‰Ñ›e ÑˆeÑ™it nĞ¼kterĞ¹ problĞ¹my)
 [Disable Statuscheck in invisible status]
-Zakázat zjišování stavu v reimu neviditelnı
+ZakĞ±zat zjiÑ™ÑœovĞ±nĞ½ stavu v reÑ›imu neviditelnÑ
 [Methods]
 Metody
 [Detect via status message (some old clients)]
-Detekovat pomocí stavové zprávy (pro starší klienty)
+Detekovat pomocĞ½ stavovĞ¹ zprĞ±vy (pro starÑ™Ğ½ klienty)
 [Detect via malformed xtraz (icq6) (by [sin])]
-Detekovat pomocí porušenıch xtraz (pro ICQ 6)
+Detekovat pomocĞ½ poruÑ™enÑch xtraz (pro ICQ 6)
 [Detect via malformed url (old miranda, some other clients)]
-Detekovat pomocí porušenıch URL (pro Mirandu a nìkteré další)
+Detekovat pomocĞ½ poruÑ™enÑch URL (pro Mirandu a nĞ¼kterĞ¹ dalÑ™Ğ½)
 [Detect unauthorized contacts status (reported by D@rkNeo)]
-Detekovat stav neautorizovanıch kontaktù
+Detekovat stav neautorizovanÑch kontaktÑ‰
 [Detect via Auth server bug]
-Detekovat pomocí autorizaèní chyby serveru
+Detekovat pomocĞ½ autorizaĞ¸nĞ½ chyby serveru
 [Stealth away message request]
-Anonymní zjišování stavovıch zpráv
+AnonymnĞ½ zjiÑ™ÑœovĞ±nĞ½ stavovÑch zprĞ±v
 [Usermenu entry]
-V nabídce kontaktù
+V nabĞ½dce kontaktÑ‰
 [Global (affects every plugin)]
-Globálnì (pùsobí na všechny doplòky)
-; && není typo
+GlobĞ±lnĞ¼ (pÑ‰sobĞ½ na vÑ™echny doplÑ‚ky)
+; && nenĞ½ typo
 [Advanced Features && Users Status Scan Placement]
-Umístìní nabídek rozšíøenıch vlastností a zjišování stavu uivatelù
+UmĞ½stĞ¼nĞ½ nabĞ½dek rozÑ™Ğ½ÑˆenÑch vlastnostĞ½ a zjiÑ™ÑœovĞ±nĞ½ stavu uÑ›ivatelÑ‰
 [Main menu]
-Hlavní nabídka
+HlavnĞ½ nabĞ½dka
 [Protocol status menu]
-Nabídka protokolu
+NabĞ½dka protokolu
 [Place Users Status Scan inside Advanced Features menu]
-Umístit zjišování stavu uivatelù do nabídky rozšíøenıch moností
+UmĞ½stit zjiÑ™ÑœovĞ±nĞ½ stavu uÑ›ivatelÑ‰ do nabĞ½dky rozÑ™Ğ½ÑˆenÑch moÑ›nostĞ½
 [Enable tZer support]
 Zapnout podporu tZers
 [Always show auth items in menu]
-Vdy zobrazovat autorizaèní poloky v nabídce
+VÑ›dy zobrazovat autorizaĞ¸nĞ½ poloÑ›ky v nabĞ½dce
 [Don't send Status Message Reply (no away-message)]
-Neodpovídat na ádost o zaslání stavové zprávy
+NeodpovĞ½dat na Ñ›Ğ±dost o zaslĞ±nĞ½ stavovĞ¹ zprĞ±vy
 [Events log]
-Záznam událostí
+ZĞ±znam udĞ±lostĞ½
 [Removed himself from my Serverlist:]
-Smazal se z mého seznamu na serveru:
+Smazal se z mĞ¹ho seznamu na serveru:
 [Checking ignore state:]
-Kontroluje ignorování:
+Kontroluje ignorovĞ±nĞ½:
 [Checking real status:]
-Zjišuje skuteènı stav:
+ZjiÑ™Ñœuje skuteĞ¸nÑ stav:
 [Client change:]
-Zmìna klienta:
+ZmĞ¼na klienta:
 [Auth grant/denied:]
-Autorizace povolena/zamítnuta:
+Autorizace povolena/zamĞ½tnuta:
 [Request your info]
-Vyaduje mùj profil:
+VyÑ›aduje mÑ‰j profil:
 [Detected via ASD/PSD]
 Byl odhalen:
 [Write events to contact history (if not set writing to system history)]
-Zapisovat události do historie kontaktu (jinak ukládá do systémové historie)
+Zapisovat udĞ±losti do historie kontaktu (jinak uklĞ±dĞ± do systĞ¹movĞ¹ historie)
 [Client ID]
 Identifikace klienta
 [Client ID:]
 Klient:
 [...and if MirandaIM, use this ICQ mod:]
-....a pokud Miranda, pouít tento Mod:
+....a pokud Miranda, pouÑ›Ğ½t tento Mod:
 [original (Joe@Whale)]
-normální (Joe@Whale)
+normĞ±lnĞ½ (Joe@Whale)
 [Show my real ClientID for ICQJ Mod users]
-Ukazovat uivatelùm ICQ Mod pravou identitu
+Ukazovat uÑ›ivatelÑ‰m ICQ Mod pravou identitu
 [Send custom protocol version:]
-Vlastní verze protokolu:
+VlastnĞ½ verze protokolu:
 [(range 0-255)]
 (rozsah 0-255)
 [Capabilities]
-Pøíznaky
+PÑˆĞ½znaky
 [Send custom capabilities]
-Posílat vlastní pøíznaky
+PosĞ½lat vlastnĞ½ pÑˆĞ½znaky
 [Edit capabilities]
-Upravit pøíznaky
+Upravit pÑˆĞ½znaky
 [Manage ICQ Capabilities List]
-Správa pøíznakù sítì ICQ
+SprĞ±va pÑˆĞ½znakÑ‰ sĞ½tĞ¼ ICQ
 [Capabilities List]
-Seznam pøíznakù
+Seznam pÑˆĞ½znakÑ‰
 [Capability]
-Pøíznak
+PÑˆĞ½znak
 [Capability text:]
-Hodnota pøíznaku:
+Hodnota pÑˆĞ½znaku:
 [Allow only users in the Contact list to see you, except Invisible list users]
-Ukazovat se jen uivatelùm v mém seznamu, kromì seznamu neviditelnıch
+Ukazovat se jen uÑ›ivatelÑ‰m v mĞ¹m seznamu, kromĞ¼ seznamu neviditelnÑch
 [Send global authorization request to all users, who haven't authorized you yet]
-Zaslat ádost o autorizaci uivatelùm, kteøí mì ještì neautorizovali
+Zaslat Ñ›Ğ±dost o autorizaci uÑ›ivatelÑ‰m, kteÑˆĞ½ mĞ¼ jeÑ™tĞ¼ neautorizovali
 [Show contact's UIN in Popups]
-Ukazovat v oznamení èísla kontaktù
+Ukazovat v oznamenĞ½ Ğ¸Ğ½sla kontaktÑ‰
 [Show popups for hidden/notonlist users]
-Ukazovat oznámení pro skryté kontakty a kontakty mimo seznam
+Ukazovat oznĞ±menĞ½ pro skrytĞ¹ kontakty a kontakty mimo seznam
 [Advanced PopUps options]
-Rozšíøené monosti oznámení
+RozÑ™Ğ½ÑˆenĞ¹ moÑ›nosti oznĞ±menĞ½
 [Enabled ?]
 Zapnuto?
 [Unknown detected]
-Neznámı zjištìn
+NeznĞ±mÑ zjiÑ™tĞ¼n
 [User Found]
-Uivatel nalezen
+UÑ›ivatel nalezen
 [Active Status Scan]
-Aktivní zjišování stavu
+AktivnĞ½ zjiÑ™ÑœovĞ±nĞ½ stavu
 [Change Client]
-Zmìna klienta
+ZmĞ¼na klienta
 [Info Request]
-ádost o informace
+Ğ‹Ğ±dost o informace
 [Check Ignore State]
-Kontrola ignorování
+Kontrola ignorovĞ±nĞ½
 [Removed Himself]
 Odstranil sebe
 [XStatus Updater]
-Pøeèítaè stavù
+PÑˆeĞ¸Ğ½taĞ¸ stavÑ‰
 [Sample ...was found!]
-Náhled: Oznámení ...nalezen!
+NĞ±hled: OznĞ±menĞ½ ...nalezen!
 [Sample Users Status Scan Started]
-Náhled: Zjišování stavù spuštìno
+NĞ±hled: ZjiÑ™ÑœovĞ±nĞ½ stavÑ‰ spuÑ™tĞ¼no
 [Sample Users Status Scan Complete]
-Náhled: Zjišování stavù dokonèeno
+NĞ±hled: ZjiÑ™ÑœovĞ±nĞ½ stavÑ‰ dokonĞ¸eno
 [Sample Spambot Found]
-Náhled: Nalezen Spambot
+NĞ±hled: Nalezen Spambot
 [Sample Unknown Found]
-Náhled: Nalezen neznámı
+NĞ±hled: Nalezen neznĞ±mÑ
 [Check Your Ignore State]
-Náhled: Kontrola ignorování
+NĞ±hled: Kontrola ignorovĞ±nĞ½
 
 [ICQ Number:]
-Identifikátor:
+IdentifikĞ±tor:
 [Create a new ICQ account]
-Zøídit novı úèet v síti ICQ
+ZÑˆĞ½dit novÑ ÑŠĞ¸et v sĞ½ti ICQ
 [Associated degree]
-diplomovanı specialista
+diplomovanÑ specialista
 [Bachelor's degree]
-bakaláø
+bakalĞ±Ñˆ
 [Elementary]
-základní
+zĞ±kladnĞ½
 [High-school]
-støedoškolák
+stÑˆedoÑ™kolĞ±k
 [Master's degree]
 magistr
 [PhD]
 PhD
 ;[Postdoctoral]
 [University / College]
-vysokoškolák
+vysokoÑ™kolĞ±k
 [Agriculture]
-zemedìlství
+zemedĞ¼lstvĞ½
 [Arts]
-umìní
+umĞ¼nĞ½
 [Construction]
-stavebnictví
+stavebnictvĞ½
 ;[Consumer Goods]
 ;[Corporate Services]
 ;[Education]
@@ -1245,49 +1245,49 @@ stavebnictví
 [Transportation]
 doprava
 [Open relationship]
-volnı vztah
+volnÑ vztah
 [Company industry]
 Obor
 [Level]
-Úroveò vzdìlání
+ĞªroveÑ‚ vzdĞ¼lĞ±nĞ½
 [Institute]
-Škola
+Ğ‰kola
 [Degree]
 Titul
 [Graduation Year]
-Ukonèeno
+UkonĞ¸eno
 
 [Do not display any problems (not recommended)]
-Zamezit zobrazování chybovıch hlášení (nelze doporuèit)
+Zamezit zobrazovĞ±nĞ½ chybovÑch hlĞ±Ñ™enĞ½ (nelze doporuĞ¸it)
 
 
 [Status Icons/]
-Stavové ikony/
+StavovĞ¹ ikony/
 [/Custom Status]
-/Vlastní stav
+/VlastnĞ½ stav
 [Enable Custom status support for moods]
-Povolit podporu vlastních stavù pro moody
+Povolit podporu vlastnĞ½ch stavÑ‰ pro moody
 [Enable Custom status support for xtraz]
-Povolit podporu vlastních stavù pro xtraz
+Povolit podporu vlastnĞ½ch stavÑ‰ pro xtraz
 [Enable AIM contacts support]
-Podpora kontaktù protokolu AIM
+Podpora kontaktÑ‰ protokolu AIM
 [Contact "%s" was authorized in the server list.]
-Kontakt "%s" byl autorizován v seznamu na serveru.
+Kontakt "%s" byl autorizovĞ±n v seznamu na serveru.
 
 [Secure Connection (SSL)]
-Zabezpeèit spojení (SSL)
+ZabezpeĞ¸it spojenĞ½ (SSL)
 
 [Never use legacy messaging (server acknowledgements)]
-Nepouívat pùvodní zpùsob komunikace (s potvrzením ze serveru)
+NepouÑ›Ğ½vat pÑ‰vodnĞ½ zpÑ‰sob komunikace (s potvrzenĞ½m ze serveru)
 
 ;[Rough]
 ;[Rock On]
 [Baby]
-Dítì
+DĞ½tĞ¼
 [Soccer]
 Fotbal
 [Pirate]
-Pirát
+PirĞ±t
 ;[Cyclop]
 [Monkey]
 Opice
@@ -1295,17 +1295,17 @@ Opice
 ;[Evil]
 ;[Alien]
 [Scooter]
-Skútr
+SkÑŠtr
 [Mask]
 Maska
 [Money]
-Peníze
+PenĞ½ze
 ;[Pilot]
 ;[Afro]
 [St. Patrick]
 Sv. Patrik
 [Headmaster]
-Øeditel
+Ğ¨editel
 [Lips]
 Rty
 [Ice-Cream]
@@ -1313,46 +1313,46 @@ Zmrzlina
 ;[Pink Lady]
 ;[Up yours]
 [Laughing]
-Smích
+SmĞ½ch
 [Dog]
 Pes
 [Candy]
-Bonbón
+BonbÑƒn
 [Crazy Professor]
-Šílenı vìdec
+Ğ‰Ğ½lenÑ vĞ¼dec
 [Cocktail]
 Koktejl
 ;[Punch]
 ;[Donut]
 ;[Feeling Good]
 [Lollypop]
-Lízátko
+LĞ½zĞ±tko
 ;[Oink Oink]
 ;[Kitty]
 [Broken hearted]
-Zlomené srdce
+ZlomenĞ¹ srdce
 [@home]
 Doma
 [@work]
-V práci
+V prĞ±ci
 [Strawberry]
 Jahoda
 [Angel]
-Andílek
+AndĞ½lek
 [Snoring]
-Chrápu
+ChrĞ±pu
 [On my mobile]
 Na mobilu
 [Beetle]
 Brouk
 [Double Rainbow]
-Dvojitá duha
+DvojitĞ± duha
 [Basketball]
 Basket
 ;[Cupid shot me]
 [Celebrating]
-Slavím
+SlavĞ½m
 [Writing]
-Píšu
+PĞ½Ñ™u
 
 ; ---

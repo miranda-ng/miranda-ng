@@ -1,62 +1,62 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  ScrollLockNotify 1.0.1.3                                |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: sir-qwerty <info (zavin·Ë) qwerty (teËka) cz>
+; P—àeklad: sir-qwerty <info (zavin–±–∏) qwerty (te–∏ka) cz>
 ;
 
-; NEPUBLIKOVAN…
+; NEPUBLIKOVAN–ô
 [ScrollLockNotify - properties]
-ScrollLockNotify - nastavenÌ
+ScrollLockNotify - nastaven–Ω
 [ScrollLockNotify - Properties]
-ScrollLockNotify - nastavenÌ
+ScrollLockNotify - nastaven–Ω
 [When receiving something while Miranda is inactive:]
-Pokud byla p¯ijata ud·lost a Miranda je neaktivnÌ:
+Pokud byla p—àijata ud–±lost a Miranda je neaktivn–Ω:
 [Flash until Miranda gets activated]
-Blikat, dokud nenÌ Miranda aktivov·na
+Blikat, dokud nen–Ω Miranda aktivov–±na
 [Flash for max]
 Blikat max.
 [When receiving something while Miranda is active:]
-Pokud byla p¯ijata ud·lost a Miranda je aktivnÌ:
+Pokud byla p—àijata ud–±lost a Miranda je aktivn–Ω:
 [Don't flash]
 Neblikat
 [Flash for]
 Blikat
 [Interval (time between on / off):]
-Doba rozsvÌcenÌ (rychlost):
+Doba rozsv–Ωcen–Ω (rychlost):
 
 ;///////////////////////
 ;//  Version 1.0.1.3  //
 ;///////////////////////
 [Messages]
-Zpr·vy
+Zpr–±vy
 [URLs]
 Odkazy
 [Files]
 Soubory
 [Auth requests]
-é·dost o autorizaci
+–ã–±dost o autorizaci
 [Added notifications]
-Ozn·menÌ o p¯id·nÌ
+Ozn–±men–Ω o p—àid–±n–Ω
 
 [Flash duration]
-Doby blik·nÌ
+Doby blik–±n–Ω
 [Additional LEDs]
-DalöÌ LEDky
+Dal—ô–Ω LEDky
 [Flash when my status is]
-Blikat, kdyû je m˘j stav
+Blikat, kdy—õ je m—âj stav
 [Flash on]
-Blikat p¯i
+Blikat p—ài
 [Flash until Miranda gets focused]
 Blikat do aktivace Mirandy
 [Flash interval (speed)]
-Doba rozsvÌcenÌ (rychlost)
+Doba rozsv–Ωcen–Ω (rychlost)
 [Troubleshooting]
-Kdyû jsou problÈmy
+Kdy—õ jsou probl–πmy
 [Force newer Windows version (only try if flashing doesn't work)]
-Vnutit novÏjöÌ verzi Windows (zkuste jen kdyû LEDky neblikajÌ)
+Vnutit nov–ºj—ô–Ω verzi Windows (zkuste jen kdy—õ LEDky neblikaj–Ω)
 
 [ScrollLockNotify]
-Blik·nÌ LED kl·vesnice
+Blik–±n–Ω LED kl–±vesnice
 
 ; ---

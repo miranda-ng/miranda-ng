@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ListeningTo 0.1.2.1                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://pescuma.mirandaim.ru/miranda/listeningto
 ;
 ; ListeningTo
@@ -13,13 +13,13 @@
 
 ; Menu item
 [Send to all protocols]
-Poslat všem protokolùm
+Poslat vÑ™em protokolÑ‰m
 [Send to %s]
 Poslat %s
 
 ; Toptoolbar
 [Enable/Disable sending Listening To info (to all protocols)]
-Zapnout/vypnout posílání informací o poslechu hudby (všem protokolùm)
+Zapnout/vypnout posĞ½lĞ±nĞ½ informacĞ½ o poslechu hudby (vÑ™em protokolÑ‰m)
 
 ; Options
 ;(DUP) [Contact List]
@@ -30,88 +30,88 @@ Poslech hudby
 
 ;(DUP) [General]
 [ Listening to information ]
- Informace o pøehrávané skladbì 
+ Informace o pÑˆehrĞ±vanĞ¹ skladbĞ¼ 
 [Enable sending listening information to contacts:]
-Povolit posílání informací o poslechu hudby kontaktùm
+Povolit posĞ½lĞ±nĞ½ informacĞ½ o poslechu hudby kontaktÑ‰m
 [You also have to enable it per protocol in the main menu]
-Poznámka: Musíte povolit i jednotlivé protokoly v hlavní nabídce.
+PoznĞ±mka: MusĞ½te povolit i jednotlivĞ¹ protokoly v hlavnĞ½ nabĞ½dce.
 [ XStatus ]
- Rozšíøenı stav 
+ RozÑ™Ğ½ÑˆenÑ stav 
 [For protocols that don't support listening to but support XStatus:]
-V pøípadì protokolù, které podporují jen tzv. rozšíøenı stav (XStatus):
+V pÑˆĞ½padĞ¼ protokolÑ‰, kterĞ¹ podporujĞ½ jen tzv. rozÑ™Ğ½ÑˆenÑ stav (XStatus):
 [Set XStatus to Music and show listening info]
-Zmìnit stav na 'Poslouchám hudbu' a pøidat informaci o skladbì
+ZmĞ¼nit stav na 'PoslouchĞ±m hudbu' a pÑˆidat informaci o skladbĞ¼
 [If other XStatus is not set, set XStatus to Music and show listening info]
-Toté jako vıše, ale pouze tehdy, není-li u rozšíøenı stav pouívanı
+TotĞ¹Ñ› jako vÑÑ™e, ale pouze tehdy, nenĞ½-li uÑ› rozÑ™Ğ½ÑˆenÑ stav pouÑ›Ğ½vanÑ
 [If XStatus is Music, show listening info]
-Je-li u rozšíøenı stav 'Poslouchám hudbu', pøidat informaci o skladbì
+Je-li uÑ› rozÑ™Ğ½ÑˆenÑ stav 'PoslouchĞ±m hudbu', pÑˆidat informaci o skladbĞ¼
 ;(DUP) [Do nothing]
 ;(DUP) [ Contacts ]
 [Apply template for info from contacts (overrides contacts template)]
-Pouít šablonu na informace od kontaktu (zmìní šablonu pro kontakt)
+PouÑ›Ğ½t Ñ™ablonu na informace od kontaktu (zmĞ¼nĞ½ Ñ™ablonu pro kontakt)
 [Show advanced icon in slot]
-Pouít doplòkovou ikonu è.
+PouÑ›Ğ½t doplÑ‚kovou ikonu Ğ¸.
 
 ;(DUP) [Format]
 [ Listening to ]
  Poslech hudby 
 ;(DUP) [Template:]
 [Variables:]
-Promìnné:
+PromĞ¼nnĞ¹:
 [%artist% - Artist name]
-%artist% - jméno interpreta
+%artist% - jmĞ¹no interpreta
 [%album% - Album name]
-%album% - název alba
+%album% - nĞ±zev alba
 [%title% - Song title]
-%title% - název skladby
+%title% - nĞ±zev skladby
 [%track% - Track number]
-%track% - èíslo skladby
+%track% - Ğ¸Ğ½slo skladby
 [%year% - Song year]
-%year% - rok vydání
+%year% - rok vydĞ±nĞ½
 [%genre% - Song genre]
-%genre% - ánr
+%genre% - Ñ›Ğ±nr
 [%length% - Song length]
-%length% - délka skladby
+%length% - dĞ¹lka skladby
 [%player% - Player name]
-%player% - pøehrávaè
+%player% - pÑˆehrĞ±vaĞ¸
 [%type% - Media type (Music, Video, etc)]
-%type% - druh média (hudba, video atd.)
+%type% - druh mĞ¹dia (hudba, video atd.)
 [When variable not found, use:]
-Není-li promìnná, vloit text:
+NenĞ½-li promĞ¼nnĞ±, vloÑ›it text:
 ;(DUP) [Title:]
 ;(DUP) [Message:]
 [Variable:]
-Promìnná:
+PromĞ¼nnĞ±:
 [%listening% - Listening to info (as set above)]
-%listening% - dle šablony (viz vıše)
+%listening% - dle Ñ™ablony (viz vÑÑ™e)
 [When nothing is playing, replace %listening% with:]
-Pokud nehraje hudba, namísto %listening% pouít:
+Pokud nehraje hudba, namĞ½sto %listening% pouÑ›Ğ½t:
 
 [Players]
-Pøehrávaèe
+PÑˆehrĞ±vaĞ¸e
 [Get info from WATrack plugin]
-Pøevzít informace z doplòku WATrack
+PÑˆevzĞ½t informace z doplÑ‚ku WATrack
 [Get info from these players:]
-Pøevzít informace z tìchto pøehrávaèù:
+PÑˆevzĞ½t informace z tĞ¼chto pÑˆehrĞ±vaĞ¸Ñ‰:
 ;(LAI) [Winamp (*)]
 ;(LAI) [Windows Media Player]
 ;(LAI) [iTunes]
 [Other players]
-Jiné pøehrávaèe
+JinĞ¹ pÑˆehrĞ±vaĞ¸e
 [Ask for new info every]
-Zjistit informace kadıch
+Zjistit informace kaÑ›dÑch
 ;(DUP) [seconds]
 [Allow auto-loading plugins into players (affect players with *)]
-Povolit automatické naètení doplòkù do pøehrávaèù (tıká se poloek s *)
+Povolit automatickĞ¹ naĞ¸tenĞ½ doplÑ‚kÑ‰ do pÑˆehrĞ±vaĞ¸Ñ‰ (tÑkĞ± se poloÑ›ek s *)
 
 [foobar2000 (need to install the plugin manually)]
-foobar2000 (vyaduje ruèní instalaci)
+foobar2000 (vyÑ›aduje ruĞ¸nĞ½ instalaci)
 [%type% - Media type (Music, Radio, Video, etc)]
-%type% - druh média (hudba, rádio, video, atd.)
+%type% - druh mĞ¹dia (hudba, rĞ±dio, video, atd.)
 [Other Variables:]
-Jiné promìnné:
+JinĞ¹ promĞ¼nnĞ¹:
 [Radio]
-Rádio
+RĞ±dio
 [Video]
 Video
 

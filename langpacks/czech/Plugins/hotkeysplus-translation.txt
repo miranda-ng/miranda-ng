@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  HotKeys Plus 0.1.5.0                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2932
 ;
 
@@ -12,21 +12,21 @@
 [1st argument]
 1. argument
 [Hotkey item #%d]
-Klávesová zkratka è.%d
+KlĞ±vesovĞ± zkratka Ğ¸.%d
 [For Win9x use other plugin version.]
-Tato verze doplòku Hotkeys+ není urèena pro Windows 9x.
+Tato verze doplÑ‚ku Hotkeys+ nenĞ½ urĞ¸ena pro Windows 9x.
 [Win9x plugin version can work incorrect on newer Windows versions!\nUse Win2k/XP version instead.]
-Tato verze doplòku Hotkeys+ je urèena pro zastaralé\nWindows øady 9x. Nainstalujte si odpovídající verzi\npro Window 2000 nebo novìjší.
+Tato verze doplÑ‚ku Hotkeys+ je urĞ¸ena pro zastaralĞ¹\nWindows Ñˆady 9x. Nainstalujte si odpovĞ½dajĞ½cĞ½ verzi\npro Window 2000 nebo novĞ¼jÑ™Ğ½.
 ;(DUP) [System]
 ;(DUP) [Miranda]
 [2nd argument]
 2. argument
 [You should select any item!]
-Vyberte prosím poadovanou poloku.
+Vyberte prosĞ½m poÑ›adovanou poloÑ›ku.
 [goes]
 ->
 [Starts]
-Spustí
+SpustĞ½
 ;(DUP) [List]
 [Check]
 Kontrola
@@ -35,85 +35,85 @@ Kontrola
 ;(DUP) [Menus]
 ;(DUP) [Status]
 [Use \"Add hotkey\" item in Contact Menu]
-Nabídka 'Pøidat klávesovou zkratku'
+NabĞ½dka 'PÑˆidat klĞ±vesovou zkratku'
 [XStatus]
-Rozšíøenı stav
+RozÑ™Ğ½ÑˆenÑ stav
 [Do something]
 <bez popisu>
 ;(DUP) [Custom]
 
 [Service with such name is not registered within Miranda IM workspace!]
-Sluba s tímto názvem není v rámci programu Miranda IM zaregistrována!
+SluÑ›ba s tĞ½mto nĞ±zvem nenĞ½ v rĞ±mci programu Miranda IM zaregistrovĞ±na!
 [Show Miranda About Window]
 Zobrazit informace o programu Miranda
 [Key pressing]
-Stisknutí klávesy
+StisknutĞ½ klĞ±vesy
 [Add hotkey]
-Pøidat klávesovou zkratku
+PÑˆidat klĞ±vesovou zkratku
 ;[Single hotkey can be associated with more than one function.\nPrevious hotkey for this item - [%s] - was bound with %d items except this.\n\nPress \"Yes\" to change hotkeys also for other items that have [%s] as hotkey.\nPress \"No\" to change hotkey only for current item.]
 [This hotkey already in use!\nChoose any other one.]
-Zadaná klávesová zkratka je ji pouitá.\nDefinujte prosím jinou.
+ZadanĞ± klĞ±vesovĞ± zkratka je jiÑ› pouÑ›itĞ±.\nDefinujte prosĞ½m jinou.
 [Fill the service line!]
-Zadejte název poadované sluby.
+Zadejte nĞ±zev poÑ›adovanĞ¹ sluÑ›by.
 [The service line is empty!]
-Definujte název poadované sluby.
+Definujte nĞ±zev poÑ›adovanĞ¹ sluÑ›by.
 [Start the service \'%s\']
-Spustit slubu \'%s\'
+Spustit sluÑ›bu \'%s\'
 [You're trying to add the item equal to already existed!]
-Tato poloka ji existuje.
+Tato poloÑ›ka jiÑ› existuje.
 ;[You have added the hotkey to the hotkey group]
 [You have not closed any conversation window\nafter Miranda was started.]
-Dosud jste ještì nezavøeli ani jedno konverzaèní okno.
+Dosud jste jeÑ™tĞ¼ nezavÑˆeli ani jedno konverzaĞ¸nĞ½ okno.
 ;[Show menu\nto select item from the list\nof predefined services\nor to enter custom data\nShortcut: [Menu], [Right Click]]
 [Add new hotkey]
-Pøidat klávesovou zkratku
+PÑˆidat klĞ±vesovou zkratku
 [Invoke dialog with possibility to change\nservice name, hotkey description,\nkeys' combination and other data\nShortcut: [Double Click]]
-Úprava vybrané poloky, tj. názvu\nsluby, popisu, klávesové zkratky\na jinıch.\nAktivace: [dvojí kliknutí myší]
+Ğªprava vybranĞ¹ poloÑ›ky, tj. nĞ±zvu\nsluÑ›by, popisu, klĞ±vesovĞ¹ zkratky\na jinÑch.\nAktivace: [dvojĞ½ kliknutĞ½ myÑ™Ğ½]
 [Edit selected item in the list]
-Upravit vybranou poloku
+Upravit vybranou poloÑ›ku
 [After the pressing \'Apply\' button,\nthe hotkey will be removed\nfrom the processing procedure\nShortcut: [Del]]
-Odstranìní vybrané poloky. Akci\ndokonèíte a potvrzením pomocí\ntlaèítka \'Pouít\'.\nKlávesová zkratka: [Del]
+OdstranĞ¼nĞ½ vybranĞ¹ poloÑ›ky. Akci\ndokonĞ¸Ğ½te aÑ› potvrzenĞ½m pomocĞ½\ntlaĞ¸Ğ½tka \'PouÑ›Ğ½t\'.\nKlĞ±vesovĞ± zkratka: [Del]
 [Delete selected item in the list]
-Odstranit vybranou poloku
+Odstranit vybranou poloÑ›ku
 [So you can see what do the service\nShortcut: [Backspace]]
-Umoní vyzkoušení vybrané sluby.\nKlávesová zkratka: [Backspace]
+UmoÑ›nĞ½ vyzkouÑ™enĞ½ vybranĞ¹ sluÑ›by.\nKlĞ±vesovĞ± zkratka: [Backspace]
 [Run selected item in the list]
-Spustit vybranou poloku seznamu
+Spustit vybranou poloÑ›ku seznamu
 ;[For functions having character string as second argument:\nstatus message, URL, words to paste.\nIf function does not support text parameters,\nthe text just will be not saved.]
 [You can input text here...]
-Zde zadejte poadovanı text...
+Zde zadejte poÑ›adovanÑ text...
 
 ; Resource.rc
 
 
 [Hotkeys+]
-Klávesové zkratky+
+KlĞ±vesovĞ¹ zkratky+
 ;(DUP) [Run]
 ;(DUP) [Edit]
 [Service]
-Sluba
+SluÑ›ba
 [Fill]
 Vyplnit
 [&Clear]
 &Vymazat
 [Associated key]
-Pøiøazená klávesa
+PÑˆiÑˆazenĞ± klĞ±vesa
 [Remove items with unexisting services]
-Odebrat poloky neexistujících slueb
+Odebrat poloÑ›ky neexistujĞ½cĞ½ch sluÑ›eb
 [Set hot key]
-Nastavit klávesovou zkratku
+Nastavit klĞ±vesovou zkratku
 [Allow multiple services on single hotkey]
-Povolit více funkcí pro jednu klávesovou zkratku
+Povolit vĞ½ce funkcĞ½ pro jednu klĞ±vesovou zkratku
 [Remove same items]
-Odebrat duplicitní poloky
+Odebrat duplicitnĞ½ poloÑ›ky
 [Disable items]
-Vypnout odpovídající poloky
+Vypnout odpovĞ½dajĞ½cĞ½ poloÑ›ky
 [Drop repeated hotkeys]
-Zrušit shodné klávesové zkratky
+ZruÑ™it shodnĞ¹ klĞ±vesovĞ¹ zkratky
 [In private chat only]
-Pouze pøi soukromém rozhovoru
+Pouze pÑˆi soukromĞ¹m rozhovoru
 [Enable Contact Menu item]
-Pøidat poloku do nabídky kontaktu
+PÑˆidat poloÑ›ku do nabĞ½dky kontaktu
 [<< List]
 << seznam
 ;(DUP) [Perform]
@@ -121,49 +121,49 @@ Pøidat poloku do nabídky kontaktu
 ;(DUP) [Add...]
 ;(FIX) [Add custom...]
 [&Add custom...]
-Pøid&at vlastní...
+PÑˆid&at vlastnĞ½...
 ;(DUP) [Hotkey]
 ;(DUP) [Group]
 [Variable name for selected text]
-Název promìnné pro vybranı text
+NĞ±zev promĞ¼nnĞ¹ pro vybranÑ text
 [Scope]
-Platí v rámci
+PlatĞ½ v rĞ±mci
 [Checking]
 Kontrola
 [Items associated with the same hotkey]
-Poloky se stejnou klávesovou zkratkou
+PoloÑ›ky se stejnou klĞ±vesovou zkratkou
 [Sounds of Typing]
-Zvuk pøi psaní zprávy
+Zvuk pÑˆi psanĞ½ zprĞ±vy
 ;(DUP) [Properties]
 
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Show Miranda Support page]
-Pøejít na fórum projektu Miranda
+PÑˆejĞ½t na fÑƒrum projektu Miranda
 [Show System History]
-Zobrazit historii systému
+Zobrazit historii systĞ¹mu
 [Start VersionInfo]
-Spustit doplnìk VersionInfo
+Spustit doplnĞ¼k VersionInfo
 [Show user info window]
 Zobrazit okno 'Informace o kontaktu'
 [Open 'Find User' dialog]
-Otevøít okno 'Vyhledat kontakty'
+OtevÑˆĞ½t okno 'Vyhledat kontakty'
 [Open Options]
-Otevøít okno 'Monosti programu'
+OtevÑˆĞ½t okno 'MoÑ›nosti programu'
 [Activate Contact List]
-Aktivovat seznam kontaktù
+Aktivovat seznam kontaktÑ‰
 [Show or hide Contact List]
-Zobrazit nebo skrıt seznam kontaktù
+Zobrazit nebo skrÑt seznam kontaktÑ‰
 [Open site]
-Otevøít stránku
+OtevÑˆĞ½t strĞ±nku
 [Paste text]
-Vloit text
+VloÑ›it text
 [Report a bug]
-Nahlásit chybu
+NahlĞ±sit chybu
 [Show last closed conversation window]
-Otevøít naposledy pouité konverzaèní okno
+OtevÑˆĞ½t naposledy pouÑ›itĞ¹ konverzaĞ¸nĞ½ okno
 [Go to Miranda web-site]
-Pøejít na stránky projektu Miranda
+PÑˆejĞ½t na strĞ±nky projektu Miranda
 [Show window 'About Miranda IM']
 Zobrazit okno 'O programu'
 

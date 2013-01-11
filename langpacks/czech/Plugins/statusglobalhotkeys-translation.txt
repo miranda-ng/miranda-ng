@@ -1,37 +1,37 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Status global hotkeys 0.0.3.1                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VÐ½t Ð‰indlÐ±Ñˆ <sindlarv (zavinÐ±Ð¸) centrum (teÐ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2629
 ;
 
 [Global Hotkeys]
-Globální klávesové zkratky
+GlobÐ±lnÐ½ klÐ±vesovÐ¹ zkratky
 [Keys]
-Klávesy
+KlÐ±vesy
 [Offline:]
 Offline:
 [Online:]
 Online:
 [Away:]
-Pryè:
+PryÐ¸:
 [NA:]
 Nejsem tady:
 [Occupied:]
-Nemám èas:
+NemÐ±m Ð¸as:
 [DND:]
-Nerušit!:
+NeruÑ™it!:
 [Free for chat:]
-Mám volno:
+MÐ±m volno:
 [Invisible:]
-Neviditelný:
+NeviditelnÑ:
 [On the phone:]
-Mám telefon:
+MÐ±m telefon:
 [Out to lunch:]
-Jsem na obìdì:
+Jsem na obÐ¼dÐ¼:
 [Modifiers]
-Pøeøaïovaèe
+PÑˆeÑˆaÐ¿ovaÐ¸e
 [Ctrl]
 CTRL
 [Alt]
@@ -41,18 +41,18 @@ SHIFT
 [Win]
 WIN
 [Apply same settings to all protocols]
-Nastavit pro všechny protokoly najednou
+Nastavit pro vÑ™echny protokoly najednou
 [ICQ Custom status]
-Rozšíøený stav ICQ
+RozÑ™Ð½ÑˆenÑ stav ICQ
 [Status and key assignments]
-Stav a pøiøazené klávesy
+Stav a pÑˆiÑˆazenÐ¹ klÐ±vesy
 [Assignments:]
-Pøiøazené klávesy:
+PÑˆiÑˆazenÐ¹ klÐ±vesy:
 [Add  >>]
-Pøidat >>
+PÑˆidat >>
 [<<  Remove]
 << Odebrat
 [XStatus:]
-Rozšíøený stav:
+RozÑ™Ð½ÑˆenÑ stav:
 
 ; ---

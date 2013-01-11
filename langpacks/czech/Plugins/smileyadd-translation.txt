@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SmileyAdd 0.2.3.16                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2152
 ;
 
@@ -14,118 +14,118 @@ Upravit
 [S]
 J
 [Show Smiley Selection Window]
-Zobrazit okno s vıbìrem smajlíkù
+Zobrazit okno s vÑbĞ¼rem smajlĞ½kÑ‰
 
 ; /download.cpp
 [SmileyAdd HTTP connections]
-SmileyAdd - spojení pomocí protokolu HTTP
+SmileyAdd - spojenĞ½ pomocĞ½ protokolu HTTP
 
 ; /general.cpp
 [GDI+ not installed.\n]
-GDI+ není nainstalované.\n
+GDI+ nenĞ½ nainstalovanĞ¹.\n
 [GDI+ can be downloaded here: http://www.microsoft.com/downloads]
-GDI+ lze stáhnout na adrese http://www.microsoft.com/downloads
+GDI+ lze stĞ±hnout na adrese http://www.microsoft.com/downloads
 [Miranda SmileyAdd]
-Smajlíky
+SmajlĞ½ky
 
 ; /main.cpp
 [Button Smiley]
-Tlaèítko smajlíkù
+TlaĞ¸Ğ½tko smajlĞ½kÑ‰
 [Assign Smiley Category]
-Pøiøazení kategorie smajlíkù
+PÑˆiÑˆazenĞ½ kategorie smajlĞ½kÑ‰
 [Only one instance of SmileyAdd could be executed.\n]
-Spustit lze jen jednu instanci doplòku Smajlíky.\n
+Spustit lze jen jednu instanci doplÑ‚ku SmajlĞ½ky.\n
 [Remove duplicate instances from 'Plugins' directory]
-Odstraòte duplicitní kopie tohoto doplòku ze sloky 'Plugins'.
+OdstraÑ‚te duplicitnĞ½ kopie tohoto doplÑ‚ku ze sloÑ›ky 'Plugins'.
 
 ; /options.cpp
 [Smileys]
-Smajlíky
+SmajlĞ½ky
 [Customize]
-Vlastní úpravy
+VlastnĞ½ ÑŠpravy
 [Standard]
-Standardní
+StandardnĞ½
 [Smiley Packs]
-Sady smajlíkù
+Sady smajlĞ½kÑ‰
 [All Files]
-Všechny soubory
+VÑ™echny soubory
 
 ; /resource.rc:IDD_OPT_SMILEYS
 [Smiley Categories]
-Knihovny smajlíkù
+Knihovny smajlĞ½kÑ‰
 [Specify Smiley Pack for each category]
-Pro kadı protokol definovat jinou sadu
+Pro kaÑ›dÑ protokol definovat jinou sadu
 [Button]
-Tlaèítko
+TlaĞ¸Ğ½tko
 [...]
 ...
 [Name:]
-Název:
+NĞ±zev:
 [Author:]
 Autor:
 [Version:]
 Verze:
 [Preview]
-Náhled
+NĞ±hled
 [Display]
-Zobrazení
+ZobrazenĞ½
 [Replace isolated smileys (spaces on both sides)]
-Nahradit jen oddìlené smajlíky (mezery z obou stran)
+Nahradit jen oddĞ¼lenĞ¹ smajlĞ½ky (mezery z obou stran)
 [Scale smiley to textheight]
-Sjednotit velikost smajlíkù s textem
+Sjednotit velikost smajlĞ½kÑ‰ s textem
 [Built-In Message Dialog Support]
-Vestavìná podpora
+VestavĞ¼nĞ± podpora
 [Disable]
 Vypnout
 [Smiley Button]
-Tlaèítko se smajlíky
+TlaĞ¸Ğ½tko se smajlĞ½ky
 [Off]
 Vyp
 [Top]
-Nahoøe
+NahoÑˆe
 [Bottom]
 Dole
 [Smiley Selector]
-Pouití smajlíku
+PouÑ›itĞ½ smajlĞ½ku
 [Surround inserted smiley with spaces]
-Pøidat mezeru z kadé strany smajlíku
+PÑˆidat mezeru z kaÑ›dĞ¹ strany smajlĞ½ku
 [Use first smiley for selection size]
-Velikost smajlíku definovat dle prvního
+Velikost smajlĞ½ku definovat dle prvnĞ½ho
 [IEView style window]
 Vzhled okna nastavit dle IEView
 [Animate]
 Animovat
 ;(LAI) [-]
 [Enable Smileys]
-Povolit smajlíky
+Povolit smajlĞ½ky
 [Input Area]
-Oblast psaní zprávy
+Oblast psanĞ½ zprĞ±vy
 [Don't replace at cursor]
-Nenahrazovat bìhem psaní
+Nenahrazovat bĞ¼hem psanĞ½
 [Disable custom smileys]
-Zakázat vlastní sady smajlíkù
+ZakĞ±zat vlastnĞ½ sady smajlĞ½kÑ‰
 
 ; /services.cpp
 [default]
-vıchozí
+vÑchozĞ½
 
 ; /smileyroutines.cpp
 [Time elapsed: %u]
-Uplynulı èas: %u
+UplynulÑ Ğ¸as: %u
 
 ; /smileys.cpp
 [Nothing loaded]
-Nic se nenaèetlo
+Nic se nenaĞ¸etlo
 [Smiley Pack %s not found.\n]
-Knihovna smajlíkù %s nebyla nalezena.\n
+Knihovna smajlĞ½kÑ‰ %s nebyla nalezena.\n
 [Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Vyberte platnou knihovnu smajlíkù v Monosti | Vlastní úpravy | Smajlíky
+Vyberte platnou knihovnu smajlĞ½kÑ‰ v MoÑ›nosti | VlastnĞ½ ÑŠpravy | SmajlĞ½ky
 [Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Knihovna smajlíkù %s nebyla nalezena.\nVyberte platnou knihovnu smajlíkù v Monosti | Vlastní úpravy | Smajlíky.
+Knihovna smajlĞ½kÑ‰ %s nebyla nalezena.\nVyberte platnou knihovnu smajlĞ½kÑ‰ v MoÑ›nosti | VlastnĞ½ ÑŠpravy | SmajlĞ½ky.
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
-Nepodaøilo se naèíst poadovanou knihovnu smajlíkù.\nDalší informace naleznete v záznamu komunikace po síti.
+NepodaÑˆilo se naĞ¸Ğ½st poÑ›adovanou knihovnu smajlĞ½kÑ‰.\nDalÑ™Ğ½ informace naleznete v zĞ±znamu komunikace po sĞ½ti.
 [Name]
-Jméno
+JmĞ¹no
 [Author]
 Autor
 [Date]
@@ -133,17 +133,17 @@ Datum
 [Version]
 Verze
 [Selection]
-Vıbìr
+VÑbĞ¼r
 [Window]
 Okno
 [Smiley #%u in file %s for Smiley Pack %s not found.]
-Smajlík è.%u v souboru %s knihovny smajlíkù %s nebyl nalezen.
+SmajlĞ½k Ğ¸.%u v souboru %s knihovny smajlĞ½kÑ‰ %s nebyl nalezen.
 [Test String]
-Testovací øetìzec
+TestovacĞ½ ÑˆetĞ¼zec
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-Regulární vıraz "%s" v knihovnì smajlíkù "%s" mùe vracet "prázdné vısledky".
+RegulĞ±rnĞ½ vÑraz "%s" v knihovnĞ¼ smajlĞ½kÑ‰ "%s" mÑ‰Ñ›e vracet "prĞ±zdnĞ¹ vÑsledky".
 [Regular Expression "%s" in smiley pack "%s" malformed.]
-Regulární vıraz "%s" v knihovnì smajlíkù "%s" je neplatnı.
+RegulĞ±rnĞ½ vÑraz "%s" v knihovnĞ¼ smajlĞ½kÑ‰ "%s" je neplatnÑ.
 
 ; /smileys.h
 
@@ -152,14 +152,14 @@ Regulární vıraz "%s" v knihovnì smajlíkù "%s" je neplatnı.
 A sakra!
  
 ; SmileyAdd 0.2.3.15
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [Replace only smileys surrounded by spaces]
-Nahradit pouze smajlíky ohranièené mezerami
+Nahradit pouze smajlĞ½ky ohraniĞ¸enĞ¹ mezerami
 [Max "Custom Smiley" height]
-Max. velikost vlastních smajlíkù
+Max. velikost vlastnĞ½ch smajlĞ½kÑ‰
 [High Quality smiley scaling]
-Zapnout kvalitní pøepoèet velikosti
+Zapnout kvalitnĞ½ pÑˆepoĞ¸et velikosti
 [Min smiley height]
-Min. velikost smajlíkù
+Min. velikost smajlĞ½kÑ‰
 
 ; ---

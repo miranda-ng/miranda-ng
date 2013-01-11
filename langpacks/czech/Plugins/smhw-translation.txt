@@ -1,34 +1,34 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Status Message History 0.1.0.3                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; PÑˆeklad: MiSHAK <imishak (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://pescuma.mirandaim.ru/miranda/smh
 ;
 
 [Status Msg Change]
-Zmìna stavové zprávy
+ZmĞ¼na stavovĞ¹ zprĞ±vy
 [ Protocols ]
  Protokoly 
 [Only when the contact is not offline]
-Jen kdy kontakt není offline
+Jen kdyÑ› kontakt nenĞ½ offline
 [ History ]
  Historie 
 [changed his/her status message to %s]
-zmìnil/a jeho/její stavovou zprávu na %s
+zmĞ¼nil/a jeho/jejĞ½ stavovou zprĞ±vu na %s
 [ Tracking ]
- Sledování 
+ SledovĞ±nĞ½ 
 [Log changes to history]
-Zaznamenávat zmìny do historie
+ZaznamenĞ±vat zmĞ¼ny do historie
 [Enable tracking for these protocols:]
-Povolit sledování pro tyto protokoly:
+Povolit sledovĞ±nĞ½ pro tyto protokoly:
 [Track when contacts change their status messages]
-Sledovat zmìny stavovıch zpráv kontaktù
+Sledovat zmĞ¼ny stavovÑch zprĞ±v kontaktÑ‰
 [removed his/her status message]
-odebral/a jeho/její stavovou zprávu
+odebral/a jeho/jejĞ½ stavovou zprĞ±vu
 [Track when contacts remove their status messages]
-Sledovat odebrání stavové zprávy kontaktu
+Sledovat odebrĞ±nĞ½ stavovĞ¹ zprĞ±vy kontaktu
 [Don't save Unicode parts for 7bit ANSI history (saves db space)]
-Neukládat znaky Unicode do historie ve formátu ANSI (šetøí místo DB)
+NeuklĞ±dat znaky Unicode do historie ve formĞ±tu ANSI (Ñ™etÑˆĞ½ mĞ½sto DB)
 
 ; ---

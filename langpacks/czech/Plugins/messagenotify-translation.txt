@@ -1,31 +1,31 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Message Notify 0.3.0.2                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Soustruh <struzsky (teèka) m (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Soustruh <struzsky (teĞ¸ka) m (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2415
 ;
 
 [MessageNotify]
-Oznámení o zprávì
+OznĞ±menĞ½ o zprĞ±vĞ¼
 [Notification Options]
-Monosti oznámení
+MoÑ›nosti oznĞ±menĞ½
 [Notify if window not open]
-Zobrazit, je-li okno zavøené
+Zobrazit, je-li okno zavÑˆenĞ¹
 [Notify if window isn't 'foreground']
-Zobrazit, není-li okno v popøedí
+Zobrazit, nenĞ½-li okno v popÑˆedĞ½
 [Consider tabs]
 Vztahovat i na panely
 [Close window on right click]
-Zavøít oznámení pravım tlaèítkem myši
+ZavÑˆĞ½t oznĞ±menĞ½ pravÑm tlaĞ¸Ğ½tkem myÑ™i
 [Set timeout (otherwise, infinite)]
-Nastavit èas (jinak bude nastaven na nekoneèno)
+Nastavit Ğ¸as (jinak bude nastaven na nekoneĞ¸no)
 [Timeout (seconds, 0 == default):]
-Èas (v sekundách, 0 = vıchozí):
+Ğ˜as (v sekundĞ±ch, 0 = vÑchozĞ½):
 [Set popup colours]
-Nastavit barvy oznámení
+Nastavit barvy oznĞ±menĞ½
 
 [Include message text]
-Zobrazit text zprávy v oznámení
+Zobrazit text zprĞ±vy v oznĞ±menĞ½
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Keyboard Notify Ext. 1.5.7.6, FDD Notify 0.0.2.0        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=2071
 ;
 
@@ -11,15 +11,15 @@
 
 ; main.cpp
 [Keyboard Flash]
-Blikání klávesnicí
+BlikĞ±nĞ½ klĞ±vesnicĞ½
 [Floppy Flash]
-Blikání floppy
+BlikĞ±nĞ½ floppy
 
 ;(DUP) [Plugins]
 [simple]
-jednoduché
+jednoduchĞ¹
 [reversed]
-obrácené
+obrĞ±cenĞ¹
 [K.I.T.T.]
 Knight Rider
 
@@ -28,7 +28,7 @@ Knight Rider
 ;(DUP) [Incoming files]
 ;(DUP) [Incoming URLs]
 [Everything else]
-Všechno ostatní
+VÑ™echno ostatnĞ½
 [Num Lock]
 Num Lock
 [Caps Lock]
@@ -38,27 +38,27 @@ Scroll Lock
 ;(LAI) [Slider1]
 ;(LAI) [Spin1]
 [All other situations]
-Všechny ostatní situace
+VÑ™echny ostatnĞ½ situace
 [Screensaver is running]
-Bìící spoøiè obrazovky
+BĞ¼Ñ›Ğ½cĞ½ spoÑˆiĞ¸ obrazovky
 [Workstation is locked ]
-Uzamèená stanice (2000/XP)
+UzamĞ¸enĞ± stanice (2000/XP)
 [Fullscreen mode]
-Celoobrazovkovı reim
+CeloobrazovkovÑ reÑ›im
 [In turn]
-Na støídaèku
+Na stÑˆĞ½daĞ¸ku
 [All at the same time]
-Všechny LEDky najednou
+VÑ™echny LEDky najednou
 [In]
 V
 [Turn on without blinking]
-Zapnout bez blikání
+Zapnout bez blikĞ±nĞ½
 [Beep]
-Pípat
+PĞ½pat
 [Slow]
 Pomalu
 [seconds (0 = unlimited)]
-sek. (0 = stále)
+sek. (0 = stĞ±le)
 [sequence]
 sekvenci
 [Hz]
@@ -66,61 +66,61 @@ Hz
 [Fast]
 Rychle
 [ Notify when]
-Okolnosti pro oznámení
+Okolnosti pro oznĞ±menĞ½
 [LEDs to flash]
-Rozsvítit LEDky
+RozsvĞ½tit LEDky
 [Flash speed]
-Rychlost blikání
+Rychlost blikĞ±nĞ½
 [Seconds to wait before starting flash]
-Poèet sekund pøed zaèátkem blikání
+PoĞ¸et sekund pÑˆed zaĞ¸Ğ±tkem blikĞ±nĞ½
 [Events to react on]
-Reagovat pøi událostech
+Reagovat pÑˆi udĞ±lostech
 [Flashing effects]
-Efekty blikání
+Efekty blikĞ±nĞ½
 [Flashing time]
-Doba blikání
+Doba blikĞ±nĞ½
 [Beep the PC Speaker]
-Pouít interní reproduktor
+PouÑ›Ğ½t internĞ½ reproduktor
 ;(LAI) [Dialog]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [( 0 = no limit )]
-(0 = stále)
+(0 = stĞ±le)
 
 ; KeyboardNotify Ext. 1.5.5.0 by TioDuke
 [Rules]
 Pravidla
 [Notify when]
-Okolnosti pro oznámení
+Okolnosti pro oznĞ±menĞ½
 [Full Screen mode]
-Celoobrazovkovı reim
+CeloobrazovkovÑ reÑ›im
 [Screen Saver is running]
-Bìící spoøiè obrazovky
+BĞ¼Ñ›Ğ½cĞ½ spoÑˆiĞ¸ obrazovky
 [Workstation is Locked (2000/XP)]
-Uzamèená stanice (2000/XP)
+UzamĞ¸enĞ± stanice (2000/XP)
 [Blink if message window is open]
-Blikat pøi otevøeném kom. oknì
+Blikat pÑˆi otevÑˆenĞ¹m kom. oknĞ¼
 [Flash until]
-Doba blikání
+Doba blikĞ±nĞ½
 [If Miranda is re-attended]
-Do povšimnutí - Miranda
+Do povÑ™imnutĞ½ - Miranda
 [If Windows is re-attended]
-Do povšimnutí - Windows
+Do povÑ™imnutĞ½ - Windows
 [Events are opened]
-Do vyøešení událostí
+Do vyÑˆeÑ™enĞ½ udĞ±lostĞ½
 [End of 'notify when' conditions]
-Do skonèení 'Okolnosti pro oznámení'
+Do skonĞ¸enĞ½ 'Okolnosti pro oznĞ±menĞ½'
 [Pending Events]
-Trvající události
+TrvajĞ½cĞ½ udĞ±losti
 [Remind me every]
-Blikat kadıch
+Blikat kaÑ›dÑch
 
 [Flashing]
-Blikání
+BlikĞ±nĞ½
 [Keys to flash]
-Rozsvítit LEDky
+RozsvĞ½tit LEDky
 [In sequence]
-íalka
+Ğ‹Ğ½Ñ›alka
 [left->right]
 zleva doprava
 [right->left]
@@ -128,72 +128,72 @@ zprava doleva
 [left<->right]
 Knight Rider
 [Wait before starting flashing]
-Prodleva pøed zaèátkem blikání
+Prodleva pÑˆed zaĞ¸Ğ±tkem blikĞ±nĞ½
 
 [Incoming URLs]
-Pøíchozí - URL
+PÑˆĞ½chozĞ½ - URL
 [Custom theme]
-Vlastní sekvence
+VlastnĞ½ sekvence
 [Keyboard Notify requires WinIo.dll]
-Doplnìk Keyboard Notify vyaduje knihovnu WinIo.dll
+DoplnĞ¼k Keyboard Notify vyÑ›aduje knihovnu WinIo.dll
 [Error during initialization of WinIo]
-Chyba pøi inicializaci WinIo
+Chyba pÑˆi inicializaci WinIo
 [Themes]
-Vlastní sekvence
+VlastnĞ½ sekvence
 [Create/Edit Themes]
-Tvorba a úprava sekvence
+Tvorba a ÑŠprava sekvence
 [Theme]
 Sekvence
 [Override existing]
-Pøepsat existující
+PÑˆepsat existujĞ½cĞ½
 [     ... and not in foreground]
-      ... které není v popøedí
+      ... kterĞ¹ nenĞ½ v popÑˆedĞ½
 [Only if last is]
-Jen starší
+Jen starÑ™Ğ½
 [sec. old]
 ti sek.
 [is re-attended]
-- povšimnutí
+- povÑ™imnutĞ½
 [Accordingly to events' count]
-Podle poètu událostí
+Podle poĞ¸tu udĞ±lostĞ½
 [Message events]
-Zprávy
+ZprĞ±vy
 [File events]
-Pøenos souborù
+PÑˆenos souborÑ‰
 [URL events]
-Pøíchozí odkazy
+PÑˆĞ½chozĞ½ odkazy
 [Other events]
-Jiné události
+JinĞ¹ udĞ±losti
 [Defined programs are running]
-Bìí vybrané programy
+BĞ¼Ñ›Ğ½ vybranĞ¹ programy
 [Set program list]
-Seznam vybranıch programù
+Seznam vybranÑch programÑ‰
 
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
-Emulovat zmáèknutí kláves (vyadováno pro klávesnice typu USB)
+Emulovat zmĞ±Ğ¸knutĞ½ klĞ±ves (vyÑ›adovĞ±no pro klĞ±vesnice typu USB)
 
 [xStatuses]
 xStatus
 [Set xStatus list]
-Nastavit rozšíøené stavy
+Nastavit rozÑ™Ğ½ÑˆenĞ¹ stavy
 [Ignore others]
-Ignorovat ostatní
+Ignorovat ostatnĞ½
 [Import/Export]
 Import a export
 [Keyboard Notify Theme]
-Sekvence blikání klávesnicí
+Sekvence blikĞ±nĞ½ klĞ±vesnicĞ½
 
 [Ignore messages]
-Ignorovat zprávy
+Ignorovat zprĞ±vy
 [Ignore URLs]
 Ignorovat adresy
 [Ignore files]
 Ignorovat soubory
 
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [Import...]
 Importovat...
 [Set LEDs for events]
-Zvolit LEDky pro události
+Zvolit LEDky pro udĞ±losti
 
 ; ---

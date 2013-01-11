@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Typing Notify 0.0.1.7                                   |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -11,79 +11,79 @@
 
 ; typingnotify.c
 [Disable &typing notification]
-Vypnout &upozornÏnÌ na psanÌ
+Vypnout &upozorn–ºn–Ω na psan–Ω
 [Enable &typing notification]
-Zapnout &upozornÏnÌ na psanÌ
+Zapnout &upozorn–ºn–Ω na psan–Ω
 ;(DUP) [%s is typing a message]
 [Warning: Popup plugin not found!]
-UpozornÏnÌ: Nelze najÌt doplnÏk typu Popup!
+Upozorn–ºn–Ω: Nelze naj–Ωt dopln–ºk typu Popup!
 [Warning: Current Popup plugin version is not supported! Update it!]
-UpozornÏnÌ: Nainstalovan· verze doplÚku Popup nenÌ podporovan·.
+Upozorn–ºn–Ω: Nainstalovan–± verze dopl—Çku Popup nen–Ω podporovan–±.
 [Note: Native typing API not found! Emulating...]
-Pozn·mka: Nelze najÌt nativnÌ API! Pokus o emulaci...
+Pozn–±mka: Nelze naj–Ωt nativn–Ω API! Pokus o emulaci...
 ;(DUP) [Typing Notify]
 ;(DUP) [PopUps]
 [...is typing a message.]
-... pÌöe zpr·vu.
+... p–Ω—ôe zpr–±vu.
 [...has stopped typing.]
-... dopsal zpr·vu.
+... dopsal zpr–±vu.
 ;(DUP) [Message Session]
 [Typing Notify: is typing]
-UpozornÏnÌ na psanÌ (psanÌ zpr·vy)
+Upozorn–ºn–Ω na psan–Ω (psan–Ω zpr–±vy)
 [Typing Notify: stopped typing]
-UpozornÏnÌ na psanÌ (zpr·va dops·na)
+Upozorn–ºn–Ω na psan–Ω (zpr–±va dops–±na)
 
 ; resource.rc
 [...is &typing]
-... pÌöe zpr·&vu
+... p–Ω—ôe zpr–±&vu
 [...stopped t&yping]
-... &dopsal zpr·vu
+... &dopsal zpr–±vu
 ;(DUP) [U&se Popup colours]
 ;(DUP) [&Use Windows colours]
 [&Do not show if msg window is opened]
-&Nezobrazit, je-li okno se zpr·vou otev¯eno
+&Nezobrazit, je-li okno se zpr–±vou otev—àeno
 [Only &one popup for each contact]
-Pouze jedn&o ozn·menÌ na kontakt
+Pouze jedn&o ozn–±men–Ω na kontakt
 [Show &entry in the main menu]
-Zobrazit poloûku v hlavnÌm m&enu
+Zobrazit polo—õku v hlavn–Ωm m&enu
 [D&isable popups]
-V&ypnout ozn·menÌ
+V&ypnout ozn–±men–Ω
 ;(DUP) [From PopUp plugin]
 [From protocol]
 Dle protokolu
 ;(DUP) [Custom]
 [Flash icon in the contact &list]
-Zab&likat ikonou v seznamu kontakt˘
+Zab&likat ikonou v seznamu kontakt—â
 [Do not fl&ash if msg window is opened]
-Neblik&at, je-li okno se zpr·vou otev¯eno
+Neblik&at, je-li okno se zpr–±vou otev—àeno
 ;(DUP) [Preview]
 [Preview all]
-N·hled vöech
+N–±hled v—ôech
 [PopUp timeout (is typing)]
-Doba zobrazenÌ (p¯i psanÌ)
+Doba zobrazen–Ω (p—ài psan–Ω)
 [PopUp timeout (stopped typing)]
-Doba zobrazenÌ (po dops·nÌ)
+Doba zobrazen–Ω (po dops–±n–Ω)
 ;(DUP) [Icons]
 ;(DUP) [Contact List]
 
-; NEPUBLIKOVAN…
+; NEPUBLIKOVAN–ô
 [Set #1 (IconLib)]
-Sada Ë.1 (IconLib)
+Sada –∏.1 (IconLib)
 [Set #2]
-Sada Ë.2
+Sada –∏.2
 [Set #3]
-Sada Ë.3
+Sada –∏.3
 [Set #4]
-Sada Ë.4
+Sada –∏.4
 [Set #5]
-Sada Ë.5
+Sada –∏.5
 [Set #6]
-Sada Ë.6
+Sada –∏.6
 [Set #7]
-Sada Ë.7
+Sada –∏.7
 [Set #8]
-Sada Ë.8
+Sada –∏.8
 [Set #9]
-Sada Ë.9
+Sada –∏.9
 
 ; ---

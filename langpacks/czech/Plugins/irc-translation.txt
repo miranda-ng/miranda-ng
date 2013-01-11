@@ -1,170 +1,170 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  IRC protocol 0.9.47.0                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=550
 ;
 
 ; clist.cpp
 [CTCP chat request from %s]
-ádost CTCP Chat od %s
+Ğ‹Ğ±dost CTCP Chat od %s
 
 ; commandmonitor.cpp
 [%s sets mode %s]
-%s nastavil(a) mód %s
+%s nastavil(a) mÑƒd %s
 [%s sets mode %s%s]
-%s nastavil(a) mód %s%s
+%s nastavil(a) mÑƒd %s%s
 [CTCP FINGER requested by %s]
-ádost CTCP FINGER od %s
+Ğ‹Ğ±dost CTCP FINGER od %s
 [CTCP VERSION requested by %s]
-ádost CTCP VERSION od %s
+Ğ‹Ğ±dost CTCP VERSION od %s
 [CTCP SOURCE requested by %s]
-ádost CTCP SOURCE od %s
+Ğ‹Ğ±dost CTCP SOURCE od %s
 [CTCP USERINFO requested by %s]
-ádost CTCP USERINFO od %s
+Ğ‹Ğ±dost CTCP USERINFO od %s
 [CTCP PING requested by %s]
-ádost CTCP PING od %s
+Ğ‹Ğ±dost CTCP PING od %s
 [CTCP TIME requested by %s]
-ádost CTCP TIME od %s
+Ğ‹Ğ±dost CTCP TIME od %s
 [DCC: Chat request from %s denied]
-DCC: ádost o chat od %s odmítnuta
+DCC: Ğ‹Ğ±dost o chat od %s odmĞ½tnuta
 [DCC: File transfer request from %s denied]
-DCC: ádost o pøenos souborù od %s odmítnuta
+DCC: Ğ‹Ğ±dost o pÑˆenos souborÑ‰ od %s odmĞ½tnuta
 [DCC: Reverse file transfer request from %s denied [No local IP]]
-DCC: ádost o reverzní pøenos souborù od %s odmítnuta [není lokální IP]
+DCC: Ğ‹Ğ±dost o reverznĞ½ pÑˆenos souborÑ‰ od %s odmĞ½tnuta [nenĞ½ lokĞ±lnĞ½ IP]
 [DCC ERROR: Malformed CTCP request from %s [%s]]
-Chyba DCC: Poškozená ádost CTCP od %s [%s]
+Chyba DCC: PoÑ™kozenĞ± Ñ›Ğ±dost CTCP od %s [%s]
 [DCC: File transfer resume request from %s denied]
-DCC: ádost o navázání pøenosu souborù od %s odmítnuta
+DCC: Ğ‹Ğ±dost o navĞ±zĞ±nĞ½ pÑˆenosu souborÑ‰ od %s odmĞ½tnuta
 [CTCP %s requested by %s]
-ádost CTCP %s od %s
+Ğ‹Ğ±dost CTCP %s od %s
 [CTCP PING reply from %s: %u sec(s)]
-Odpovìï na ádost CTCP PING od %s: %u sek.
+OdpovĞ¼Ğ¿ na Ñ›Ğ±dost CTCP PING od %s: %u sek.
 [CTCP %s reply from %s: %s]
-Odpovìï na ádost CTCP %s: %s
+OdpovĞ¼Ğ¿ na Ñ›Ğ±dost CTCP %s: %s
 [Downloading list (%u%%) - %u channels]
-Stahování seznamu (%u %%) - %u kanálù
+StahovĞ±nĞ½ seznamu (%u %%) - %u kanĞ±lÑ‰
 [Downloading list - %u channels]
-Stahování seznamu - %u kanálù
+StahovĞ±nĞ½ seznamu - %u kanĞ±lÑ‰
 [Done: %u channels]
-Poèet kanálù: %u
+PoĞ¸et kanĞ±lÑ‰: %u
 [(probably truncated by server)]
-(pravdìpodobnì oøíznuto serverem)
+(pravdĞ¼podobnĞ¼ oÑˆĞ½znuto serverem)
 [User information]
-Informace o uivateli
+Informace o uÑ›ivateli
 [Change nickname]
-Zmìnit pøezdívku
+ZmĞ¼nit pÑˆezdĞ½vku
 [IRC error]
-Chyba sítì IRC
+Chyba sĞ½tĞ¼ IRC
 ;(DUP) [Unknown]
 [Please enter the hostmask (nick!user@host)\nNOTE! Contacts on your contact list are never ignored]
-Zadejte masku (pøezdívka!uiv_jméno@hostitel)\nPozn. Nelze ignorovat uivatele uvedené v seznamu kontaktù
+Zadejte masku (pÑˆezdĞ½vka!uÑ›iv_jmĞ¹no@hostitel)\nPozn. Nelze ignorovat uÑ›ivatele uvedenĞ¹ v seznamu kontaktÑ‰
 ;(DUP) [Ignore]
 [Please enter the reason]
-Zadejte prosím dùvod
+Zadejte prosĞ½m dÑ‰vod
 [Ban'n Kick]
-Zakázat a vykopnout
+ZakĞ±zat a vykopnout
 ;(LAI) [Jerk]
 ;(DUP) [Offline]
 [*Disconnected*]
 *Odpojen od serveru*
 [The usage of /AWAY in your perform buffer is restricted\n as IRC sends this command automatically.]
-/AWAY lze pouít pouze v omezeném mnoství pøípadù,\nprotoe sí IRC tento pøíkaz posílá automaticky.
+/AWAY lze pouÑ›Ğ½t pouze v omezenĞ¹m mnoÑ›stvĞ½ pÑˆĞ½padÑ‰,\nprotoÑ›e sĞ½Ñœ IRC tento pÑˆĞ½kaz posĞ½lĞ± automaticky.
 [IRC Error]
-Chyba sítì IRC
+Chyba sĞ½tĞ¼ IRC
 
 ; input.cpp
 [Ignore system is enabled]
-Systém ignorování aktivován
+SystĞ¹m ignorovĞ±nĞ½ aktivovĞ±n
 [Ignore system is disabled]
-Systém ignorování deaktivován
+SystĞ¹m ignorovĞ±nĞ½ deaktivovĞ±n
 [%s on %s is now ignored (+%s)]
-%s (na %s), aktivováno ignorování (+%s)
+%s (na %s), aktivovĞ±no ignorovĞ±nĞ½ (+%s)
 [%s is not ignored now]
-%s, zrušeno ignorování
+%s, zruÑ™eno ignorovĞ±nĞ½
 [%s was not ignored]
-%s nebyl ignorován
+%s nebyl ignorovĞ±n
 [Outgoing commands are shown]
-Zadané pøíkazy budou zobrazovány
+ZadanĞ¹ pÑˆĞ½kazy budou zobrazovĞ±ny
 [Outgoing commands are not shown]
-Zadané pøíkazy nebudou zobrazovány
+ZadanĞ¹ pÑˆĞ½kazy nebudou zobrazovĞ±ny
 [The buddy check function is enabled]
-Upozornìní na uivatele online zapnuto
+UpozornĞ¼nĞ½ na uÑ›ivatele online zapnuto
 [The buddy check function is disabled]
-Upozornìní na uivatele online vypnuto
+UpozornĞ¼nĞ½ na uÑ›ivatele online vypnuto
 [The time interval for the buddy check function is now at default setting]
-Èasovı interval sledování uivatelù online je nastaven na vıchozí hodnotu
+Ğ˜asovÑ interval sledovĞ±nĞ½ uÑ›ivatelÑ‰ online je nastaven na vÑchozĞ½ hodnotu
 [The time interval for the buddy check function is now %u seconds]
-Èasovı interval sledování uivatelù online je nyní %u sek.
+Ğ˜asovÑ interval sledovĞ±nĞ½ uÑ›ivatelÑ‰ online je nynĞ½ %u sek.
 [Channel Manager]
-Monosti kanálu
+MoÑ›nosti kanĞ±lu
 [This command is not recommended on a network of this size!\r\nIt will probably cause high CPU usage and/or high bandwidth\r\nusage for around %u to %u minute(s).\r\n\r\nDo you want to continue?]
-Tento pøíkaz nelze doporuèit na velké síti IRC serverù!\r\nVısledkem bude velmi velké vytíení jak procesoru, tak\r\ni síového pøipojení po dobu zhruba %u a %u minut.\r\n\r\nOpravdu chcete pokraèovat?
+Tento pÑˆĞ½kaz nelze doporuĞ¸it na velkĞ¹ sĞ½ti IRC serverÑ‰!\r\nVÑsledkem bude velmi velkĞ¹ vytĞ½Ñ›enĞ½ jak procesoru, tak\r\ni sĞ½ÑœovĞ¹ho pÑˆipojenĞ½ po dobu zhruba %u aÑ› %u minut.\r\n\r\nOpravdu chcete pokraĞ¸ovat?
 [IRC warning]
-Upozornìní sítì IRC
+UpozornĞ¼nĞ½ sĞ½tĞ¼ IRC
 [Aborted]
-Pøerušeno
+PÑˆeruÑ™eno
 [CTCP %s request sent to %s]
-Odeslána ádost CTCP %s -> %s
+OdeslĞ±na Ñ›Ğ±dost CTCP %s -> %s
 [DCC ERROR: Unable to automatically resolve external IP]
-Chyba DCC: Nelze automaticky pøeloit externí IP adresu
+Chyba DCC: Nelze automaticky pÑˆeloÑ›it externĞ½ IP adresu
 [DCC CHAT request sent to %s]
-Odeslána ádost o DCC CHAT -> %s
+OdeslĞ±na Ñ›Ğ±dost o DCC CHAT -> %s
 [DCC ERROR: Unable to bind port]
-Chyba DCC: Nelze navázat spojení na poadovaném portu
+Chyba DCC: Nelze navĞ±zat spojenĞ½ na poÑ›adovanĞ¹m portu
 [Input command]
-Vstupní pøíkaz
+VstupnĞ½ pÑˆĞ½kaz
 [Please enter the reply]
-Zadejte prosím odpovìï
+Zadejte prosĞ½m odpovĞ¼Ğ¿
 
 ; main.cpp
 ;(DUP) [Information]
 
 ; options.cpp
 [Main]
-Hlavní
+HlavnĞ½
 ;(DUP) [Add]
 ;(DUP) [Apply]
 ;(DUP) [Edit]
 ;(DUP) [Cancel]
 ;(DUP) [Channel list]
 [Channel manager]
-Správa kanálù
+SprĞ±va kanĞ±lÑ‰
 [Quick connect]
-Pøipojit rychle
+PÑˆipojit rychle
 [Server window]
 Okno serveru
 [Show channel]
-Zobrazit kanál
+Zobrazit kanĞ±l
 [Join channel]
-Pøijít na kanál
+PÑˆijĞ½t na kanĞ±l
 [Leave Channel]
-Opustit kanál
+Opustit kanĞ±l
 [Question]
-Otázka
+OtĞ±zka
 [Incoming DCC Chat]
-ádost o DCC Chat
+Ğ‹Ğ±dost o DCC Chat
 [Logo (48x48)]
 Logo (48x48)
 [Please complete all fields]
-Vyplòte všechna pole prosím
+VyplÑ‚te vÑ™echna pole prosĞ½m
 [<Resolved IP: ]
-<zjištìná IP: 
+<zjiÑ™tĞ¼nĞ± IP: 
 [<Automatic>]
 <automaticky>
 [<Local IP: ]
-<lokální IP: 
+<lokĞ±lnĞ½ IP: 
 [Click to set commands that will be performed for this event]
-Pøidá pøíkazy k vybrané události
+PÑˆidĞ± pÑˆĞ½kazy k vybranĞ¹ udĞ±losti
 [Click to delete the commands for this event]
-Odebere pøíkazy vybrané události
+Odebere pÑˆĞ½kazy vybranĞ¹ udĞ±losti
 [Add a new network]
-Pøidá novı server
+PÑˆidĞ± novÑ server
 [Edit this network]
-Upraví monosti vybraného serveru
+UpravĞ½ moÑ›nosti vybranĞ¹ho serveru
 [Delete this network]
-Odebere vybranıo server
+Odebere vybranÑo server
 [Off]
 Vyp
 [Auto]
@@ -179,188 +179,188 @@ Smazat server
 [Edit server]
 Upravit server
 [Add new ignore]
-Pøidá novou poloku
+PÑˆidĞ± novou poloÑ›ku
 [Edit this ignore]
-Upraví vybranou poloku
+UpravĞ½ vybranou poloÑ›ku
 [Delete this ignore]
-Odebere vybranou poloku
+Odebere vybranou poloÑ›ku
 [Ignore mask]
 Maska
 ;(DUP) [Network]
 [Add Ignore]
-Pøidat mezi ignorované
+PÑˆidat mezi ignorovanĞ¹
 [Edit Ignore]
-Upravit ignorované
+Upravit ignorovanĞ¹
 
 ; output.cpp
 [WallOps from %s: ]
 WallOps od %s: 
 [%s is away]
-%s je pryè
+%s je pryĞ¸
 [%s invites you to %s]
-%s tì zve na kanál %s
+%s tĞ¼ zve na kanĞ±l %s
 [These are online: ]
-Poèet online: 
+PoĞ¸et online: 
 [CTCP %s reply sent to %s]
-Odpovìï na ádost CTCP odeslána -> %s
+OdpovĞ¼Ğ¿ na Ñ›Ğ±dost CTCP odeslĞ±na -> %s
 [CTCP %s reply sent to %s: %s]
-Odpovìï na ádost CTCP odeslána -> %s: %s
+OdpovĞ¼Ğ¿ na Ñ›Ğ±dost CTCP odeslĞ±na -> %s: %s
 [Notice to %s: ]
-Poznámka -> %s: 
+PoznĞ±mka -> %s: 
 
 ; services.cpp
 [&Quick connect]
-&Pøipojit rychle
+&PÑˆipojit rychle
 [&Join a channel]
-Pøi&jít na kanál
+PÑˆi&jĞ½t na kanĞ±l
 [&Change your nickname]
-&Zmìnit pøezdívku
+&ZmĞ¼nit pÑˆezdĞ½vku
 [Show the &list of available channels]
-S&eznam dostupnıch kanálù
+S&eznam dostupnÑch kanĞ±lÑ‰
 [&Show the server window]
 Zobrazit okno &serveru
 [&Leave the channel]
-Odejít z kaná&lu
+OdejĞ½t z kanĞ±&lu
 [&User details]
-Informace o &uivateli
+Informace o &uÑ›ivateli
 [&Ignore]
-&Ignorování
+&IgnorovĞ±nĞ½
 [DCC ERROR: No valid files specified]
-Chyba DCC: Vybrali jste neplatné soubory
+Chyba DCC: Vybrali jste neplatnĞ¹ soubory
 [DCC reversed file transfer request sent to %s [%s]]
-Odeslána ádost o reverzní pøenos souborù pomocí DCC -> %s [%s]
+OdeslĞ±na Ñ›Ğ±dost o reverznĞ½ pÑˆenos souborÑ‰ pomocĞ½ DCC -> %s [%s]
 [DCC file transfer request sent to %s [%s]]
-Odeslána ádost o pøenos souborù pomocí DCC -> %s [%s]
+OdeslĞ±na Ñ›Ğ±dost o pÑˆenos souborÑ‰ pomocĞ½ DCC -> %s [%s]
 [DCC ERROR: Unable to bind local port]
-Chyba DCC: Nelze navázat spojení na poadovaném lokálním portu
+Chyba DCC: Nelze navĞ±zat spojenĞ½ na poÑ›adovanĞ¹m lokĞ±lnĞ½m portu
 [%s (%s) is requesting a client-to-client chat connection.]
-%s (%s) ádá o privátní diskusi (DCC Chat).
+%s (%s) Ñ›Ğ±dĞ± o privĞ±tnĞ½ diskusi (DCC Chat).
 [Please enter the hostmask (nick!user@host) \nNOTE! Contacts on your contact list are never ignored]
-Zadejte masku (pøezdívka!uiv_jméno@hostitel)\nPozn. Nelze ignorovat uivatele uvedené v seznamu kontaktù
+Zadejte masku (pÑˆezdĞ½vka!uÑ›iv_jmĞ¹no@hostitel)\nPozn. Nelze ignorovat uÑ›ivatele uvedenĞ¹ v seznamu kontaktÑ‰
 [Please enter a channel to join]
-Zadejte poadovanı kanál
+Zadejte poÑ›adovanÑ kanĞ±l
 [Please select IRC network and enter the password if needed]
-Vyberte sí serverù IRC a pokud je to nutné, zadejte heslo.
+Vyberte sĞ½Ñœ serverÑ‰ IRC a pokud je to nutnĞ¹, zadejte heslo.
 [Change nick name]
-Zmìnit pøezdívku
+ZmĞ¼nit pÑˆezdĞ½vku
 [Please enter a unique nickname]
-Vyberte jinou pøezdívku
+Vyberte jinou pÑˆezdĞ½vku
 [Kick]
 Vykopnout
 [Channel &settings]
-Monos&ti kanálu
+MoÑ›nos&ti kanĞ±lu
 [Show the server &window]
 Zo&brazit okno serveru
 [&WhoIs info]
 Informace (&WhoIs)
 [&Control]
-Øíz&ení
+Ğ¨Ğ½z&enĞ½
 [Give &Op]
-Dát &operátora
+DĞ±t &operĞ±tora
 [Take O&p]
-Vzít o&perátora
+VzĞ½t o&perĞ±tora
 [Give &Halfop]
-Dát o&mez. operátora
+DĞ±t o&mez. operĞ±tora
 [Take H&alfop]
-Vzít omez. operátor&a
+VzĞ½t omez. operĞ±tor&a
 [Give &Voice]
-Dát &hlas
+DĞ±t &hlas
 [Take V&oice]
-Vzít h&las
+VzĞ½t h&las
 [&Kick]
 Vy&kopnout
 [Ki&ck (reason)]
-&Vykopnout (+ dùvod)
+&Vykopnout (+ dÑ‰vod)
 [&Ban]
-&Zakázat
+&ZakĞ±zat
 [Ban'&n kick]
-Zakázat a vykop&nout
+ZakĞ±zat a vykop&nout
 [Ban'n kick (&reason)]
-Z&akázat a vykopnout (+ dùvod)
+Z&akĞ±zat a vykopnout (+ dÑ‰vod)
 [&Direct Connection]
-Pøímé spojení (&DCC)
+PÑˆĞ½mĞ¹ spojenĞ½ (&DCC)
 [Request &Chat]
-Poádat o &diskusi
+PoÑ›Ğ±dat o &diskusi
 [Send &File]
 Poslat sou&bor
 ;(DUP) [Add to &ignore list]
 [&Add User]
-Pøid&at mezi kontakty
+PÑˆid&at mezi kontakty
 [&Leave channel]
-Opustit kaná&l
+Opustit kanĞ±&l
 [&Show channel]
-&Zobrazit kanál
+&Zobrazit kanĞ±l
 [&Show server]
 Zobrazit okno &serveru
 [Di&sconnect]
 Odpo&jit
 [&Add to ignore list]
-Pøid&at mezi ignorované
+PÑˆid&at mezi ignorovanĞ¹
 ;(DUP) [Nickname]
 [Connecting to]
-Pøipojování k
+PÑˆipojovĞ±nĞ½ k
 [This protocol is dependent on another plugin named \'Chat\'\nPlease download it from the Miranda IM website!]
-Nainstalovanı protokol IRC vyaduje doplnìk \'Chat\'.\nTen je k dispozici na stránkách projektu Miranda IM.
+NainstalovanÑ protokol IRC vyÑ›aduje doplnĞ¼k \'Chat\'.\nTen je k dispozici na strĞ±nkĞ±ch projektu Miranda IM.
 [Please choose an IRC-network to go online. This network will be the default.]
-Do stavu online pøejdete po vıbìru sítì serverù IRC. Tato sí bude nastavena jako vıchozí.
+Do stavu online pÑˆejdete po vÑbĞ¼ru sĞ½tĞ¼ serverÑ‰ IRC. Tato sĞ½Ñœ bude nastavena jako vÑchozĞ½.
 [Default network]
-Vıchozí sí
+VÑchozĞ½ sĞ½Ñœ
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and Name).]
-Nelze navázat spojení! Nejdøíve zadejte všechny povinné údaje, tj. pøezdívku, identifikátor a jméno.
+Nelze navĞ±zat spojenĞ½! NejdÑˆĞ½ve zadejte vÑ™echny povinnĞ¹ ÑŠdaje, tj. pÑˆezdĞ½vku, identifikĞ±tor a jmĞ¹no.
 [The protocol is not online]
-Protokol není ve stavu online
+Protokol nenĞ½ ve stavu online
 [The dcc chat connection is not active]
-Privátní diskuse není aktivní
+PrivĞ±tnĞ½ diskuse nenĞ½ aktivnĞ½
 [%s server connection]
-%s - spojení se serverem
+%s - spojenĞ½ se serverem
 [%s client-to-client connections]
-%s - pøímé spojení mezi klienty
+%s - pÑˆĞ½mĞ¹ spojenĞ½ mezi klienty
 [The IRC protocol depends on another plugin called \'Chat\'\n\nDo you want to download it from the Miranda IM web site now?]
-Nainstalovanı protokol IRC vyaduje doplnìk \'Chat\'.\nChcete pøejít na stránky projektu Miranda IM a stáhnout ho?
+NainstalovanÑ protokol IRC vyÑ›aduje doplnĞ¼k \'Chat\'.\nChcete pÑˆejĞ½t na strĞ±nky projektu Miranda IM a stĞ±hnout ho?
 [Reconnecting to]
-Obnovování pøipojení k
+ObnovovĞ±nĞ½ pÑˆipojenĞ½ k
 
 ; windows.cpp
 [Please wait...]
-Poèkejte prosím...
+PoĞ¸kejte prosĞ½m...
 [Channel]
-Kanál
+KanĞ±l
 [Mode]
-Mód
+MÑƒd
 [Topic]
-Téma
+TĞ¹ma
 [Add ban/invite/exception]
-Pøidání zákazu/pozvání/vıjimky
+PÑˆidĞ±nĞ½ zĞ±kazu/pozvĞ±nĞ½/vÑjimky
 [Edit selected ban/invite/exception]
-Úprava vybraného zákazu/pozvání/vıjimky
+Ğªprava vybranĞ¹ho zĞ±kazu/pozvĞ±nĞ½/vÑjimky
 [Delete selected ban/invite/exception]
-Odstranìní vybraného zákazu/pozvání/vıjimky
+OdstranĞ¼nĞ½ vybranĞ¹ho zĞ±kazu/pozvĞ±nĞ½/vÑjimky
 [Set this topic for the channel]
-Nastaví téma kanálu
+NastavĞ½ tĞ¹ma kanĞ±lu
 [Set these modes for the channel]
-Nastaví vybrané módy kanálu
+NastavĞ½ vybranĞ¹ mÑƒdy kanĞ±lu
 [Remove ban?]
-Odstranìní zákazu
+OdstranĞ¼nĞ½ zĞ±kazu
 [Remove invite?]
-Odstranìní pozvánky
+OdstranĞ¼nĞ½ pozvĞ±nky
 [Remove exception?]
-Odstranìní vıjimky
+OdstranĞ¼nĞ½ vÑjimky
 [Edit ban]
-Úprava zákazu
+Ğªprava zĞ±kazu
 [Edit invite?]
-Úprava pozvánky
+Ğªprava pozvĞ±nky
 [Edit exception?]
-Úprava vıjimky
+Ğªprava vÑjimky
 [Please enter the hostmask (nick!user@host)]
-Zadejte masku (pøezdívka!uiv_jméno@hostitel)
+Zadejte masku (pÑˆezdĞ½vka!uÑ›iv_jmĞ¹no@hostitel)
 [Add ban]
-Pøidání zákazu
+PÑˆidĞ±nĞ½ zĞ±kazu
 [Add invite]
-Pøidání pozvánky
+PÑˆidĞ±nĞ½ pozvĞ±nky
 [Add exception]
-Pøidání vıjimky
+PÑˆidĞ±nĞ½ vÑjimky
 [You have not applied all changes!\n\nApply before exiting?]
-Nejsou uloeny všechny provedené zmìny!\n\nNechcete je pøed zavøením okna uloit?
+Nejsou uloÑ›eny vÑ™echny provedenĞ¹ zmĞ¼ny!\n\nNechcete je pÑˆed zavÑˆenĞ½m okna uloÑ›it?
 
 ; IRC.rc
 ;(DUP) [&Add]
@@ -371,100 +371,100 @@ Up&ravit
 [Enable]
 Aktivovat
 [only while connecting]
-Pouze pøi pøipojování
+Pouze pÑˆi pÑˆipojovĞ±nĞ½
 [Force visible (-i)]
 Vynutit viditelnost (-i)
 [Rejoin channel if kicked]
-Vrátit se zpìt po vykopnutí
+VrĞ±tit se zpĞ¼t po vykopnutĞ½
 [Rejoin channels on reconnect]
-Vrátit se zpìt po odpojení
+VrĞ±tit se zpĞ¼t po odpojenĞ½
 [Disable tray balloon on error]
-Vypnout oznámení o chybách
+Vypnout oznĞ±menĞ½ o chybĞ±ch
 [Show addresses]
 Zobrazit adresy
 [Use server window]
-Pouít okno serveru
+PouÑ›Ğ½t okno serveru
 [Show server window on startup]
-Zobrazit okno serveru pøi spuštìní
+Zobrazit okno serveru pÑˆi spuÑ™tĞ¼nĞ½
 ;(DUP) [Keep connection alive]
 [Automatically join on invite]
-Autom. se pøidat po pozvání
+Autom. se pÑˆidat po pozvĞ±nĞ½
 ['Old style' mode changes]
-Mìnit mód 'postaru'
+MĞ¼nit mÑƒd 'postaru'
 [Update online statuses for users]
-Aktualizovat stav lidí v seznamu
+Aktualizovat stav lidĞ½ v seznamu
 ;(LAI) [Spin1]
 [Update statuses in channel nicklist]
-Aktualizovat stav lidí na kanále
+Aktualizovat stav lidĞ½ na kanĞ±le
 ;(LAI) [Spin2]
 [Internet address]
 Adresa
 [Don't check if more than (users):]
-Nezjišovat, pøekroèí-li poèet:
+NezjiÑ™Ñœovat, pÑˆekroĞ¸Ğ½-li poĞ¸et:
 [&Set]
 Na&stavit
 [Go to the IRC protocol website for help and information]
-Další informace o protokolu IRC najdete kliknutím na tento odkaz
+DalÑ™Ğ½ informace o protokolu IRC najdete kliknutĞ½m na tento odkaz
 [SSL]
 SSL
 ;(DUP) [Basic]
 [Wildcard enabled network search]
-Pøi hledání v sítích pouít masku
+PÑˆi hledĞ±nĞ½ v sĞ½tĞ½ch pouÑ›Ğ½t masku
 [Bans]
-Zákazy
+ZĞ±kazy
 [Invites]
-Pozvání
+PozvĞ±nĞ½
 [Excepts]
-Vıjimky
+VÑjimky
 [Only Ops set topic]
-Téma urèuje op
+TĞ¹ma urĞ¸uje op
 [No external messages]
-ádné zprávy zvenku
+Ğ‹Ğ±dnĞ¹ zprĞ±vy zvenku
 [Invite only]
-Jen pro zvané
+Jen pro zvanĞ¹
 [Moderated]
-Moderovanı
+ModerovanÑ
 [Key:]
-Klíè:
+KlĞ½Ğ¸:
 [User limit:]
-Omez. poèet:
+Omez. poĞ¸et:
 [Private]
-Soukromı
+SoukromÑ
 [Secret]
-Utajenı
+UtajenÑ
 ;(DUP) [Hidden]
 [Normal]
-Normální
+NormĞ±lnĞ½
 [Send-ahead]
-Pøedem (send-ahead)
+PÑˆedem (send-ahead)
 [Attempt reverse DCC (good if firewalled)]
-Zkusit reverzní DCC (za firewallem)
+Zkusit reverznĞ½ DCC (za firewallem)
 [none]
 ---
 [everyone on the contact list]
-všech ze seznamu kontaktù
+vÑ™ech ze seznamu kontaktÑ‰
 [everyone]
-kadého
+kaÑ›dĞ¹ho
 [Disconnect DCC chats when disconnecting from server]
-Ukonèit privátní diskusi pøi odpojení od serveru
+UkonĞ¸it privĞ±tnĞ½ diskusi pÑˆi odpojenĞ½ od serveru
 [Manually set external IP:]
-Ruènì nastavit externí IP:
+RuĞ¸nĞ¼ nastavit externĞ½ IP:
 [Get IP address from server]
 Zjistit IP adresu ze serveru
 [Enable (*)]
 Aktivovat (*)
 [Ignore channel messages by default]
-Ignorovat zprávy kanálu
+Ignorovat zprĞ±vy kanĞ±lu
 [Ignore filetransfer requests]
-Ignorovat ádosti o pøenos souborù
+Ignorovat Ñ›Ğ±dosti o pÑˆenos souborÑ‰
 [Ignore DCC Chat requests]
-Ignorovat ádosti o privátní diskusi
+Ignorovat Ñ›Ğ±dosti o privĞ±tnĞ½ diskusi
 [Ignore DCC Chat requests from unknown contacts]
-Ignorovat ádosti o privátní diskusi od neznámıch
+Ignorovat Ñ›Ğ±dosti o privĞ±tnĞ½ diskusi od neznĞ±mÑch
 [(*) Queries from users on your contactlist are never ignored]
-(*) ádosti od uivatelù ze seznamu kontaktù ignorovány nejsou
+(*) Ğ‹Ğ±dosti od uÑ›ivatelÑ‰ ze seznamu kontaktÑ‰ ignorovĞ±ny nejsou
 [Queries]
-Soukr. zprávy
+Soukr. zprĞ±vy
 ;(DUP) [Messages]
 ;(DUP) [Notices]
 [CTCP]
@@ -476,91 +476,91 @@ A&ktualizovat
 ;(DUP) [&Close]
 ;(DUP) [&OK]
 [&Join]
-Pøi&jít
+PÑˆi&jĞ½t
 [C&onnect]
-Pøip&ojit
+PÑˆip&ojit
 ;(DUP) [&Deny]
 [&Accept]
-&Pøijmout
+&PÑˆijmout
 ;(LAI) [Ping]
 ;(DUP) [Version]
 ;(DUP) [Time]
 [Userinfo]
-O uivateli
+O uÑ›ivateli
 [&Query]
-&Psát soukromì
+&PsĞ±t soukromĞ¼
 ;(DUP) [&Cancel]
 [&Save]
-&Uloit
+&UloÑ›it
 [&Clear all]
-V&ymazat vše
+V&ymazat vÑ™e
 [Port range]
-Rozsah portù
+Rozsah portÑ‰
 [Nick]
-Pøezdívka
+PÑˆezdĞ½vka
 [User ID (Ident)]
-Identifikátor
+IdentifikĞ±tor
 [Full name (e-mail)]
-Celé jméno (e-mail)
+CelĞ¹ jmĞ¹no (e-mail)
 ;(DUP) [Password]
 [Server name]
-Název serveru
+NĞ±zev serveru
 [->]
 ->
 [Alternative nick]
-Alt. pøezdívka
+Alt. pÑˆezdĞ½vka
 [System]
-Systém
+SystĞ¹m
 [Port]
 Port
 [Wait (s)]
 Znovu po (s)
 [Retry count]
-Poèet pokusù
+PoĞ¸et pokusÑ‰
 ;(LAI) [Fear the monkeys!!!]
 [Check every (s):]
-Zjišovat stav kadıch (s):
+ZjiÑ™Ñœovat stav kaÑ›dÑch (s):
 ;(DUP) [Name]
 [Address]
 Adresa
 [Channels]
-Pøehled kanálù
+PÑˆehled kanĞ±lÑ‰
 [Auth]
-Ovìøení
+OvĞ¼ÑˆenĞ½
 [Server]
 Server
 ;(DUP) [User]
 [Away Info]
-Zpráva stavu 'Pryè'
+ZprĞ±va stavu 'PryĞ¸'
 ;(DUP) [Other]
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
-Pøehled informací získanı ze serveru. Vezmìte na vìdomí, e nic z toho nemusí bıt pravda...
+PÑˆehled informacĞ½ zĞ½skanÑ ze serveru. VezmĞ¼te na vĞ¼domĞ½, Ñ›e nic z toho nemusĞ½ bÑt pravda...
 [Perform on event:]
-Spustit pøi:
+Spustit pÑˆi:
 ;(LAI) [@]
 ;(LAI) [!]
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
-Pøehled moností nastavení módù kanálu. Obvykle jsou k dispozici pouze operátorùm.
+PÑˆehled moÑ›nostĞ½ nastavenĞ½ mÑƒdÑ‰ kanĞ±lu. Obvykle jsou k dispozici pouze operĞ±torÑ‰m.
 [for choosing the IRC protocol for Miranda IM. Please enter your nickname and real name]
-za pouití doplòku Protokol IRC. Nyní zadejte svou pøezdívku a skuteèné jméno.
+za pouÑ›itĞ½ doplÑ‚ku Protokol IRC. NynĞ½ zadejte svou pÑˆezdĞ½vku a skuteĞ¸nĞ¹ jmĞ¹no.
 [Thank You...]
-Díky...
+DĞ½ky...
 ;(DUP) [Full name]
 [Send mode:]
-Metoda odesílání:
+Metoda odesĞ½lĞ±nĞ½:
 [Packet size (b):]
 Velikost paketu (B):
 [Auto-accept from:]
-Automaticky pøijímat od:
+Automaticky pÑˆijĞ½mat od:
 [Ignore mask ( nick!user@host )]
-Maska (pøezdívka!uiv_jméno@hostitel)
+Maska (pÑˆezdĞ½vka!uÑ›iv_jmĞ¹no@hostitel)
 [Network (*)]
-Sí (*)
+SĞ½Ñœ (*)
 ;(LAI) [Ident]
 [User info - Required]
-Osobní informace (povinné)
+OsobnĞ½ informace (povinnĞ¹)
 [Reconnect]
-Obnovení spojení
+ObnovenĞ½ spojenĞ½
 [CTCP information]
 Informace CTCP
 [Perform]
@@ -574,84 +574,84 @@ Maska hostitele
 [Online detection mode]
 Detekce stavu online
 [User modes]
-Módy uivatelù
+MÑƒdy uÑ›ivatelÑ‰
 [Channel modes]
-Módy kanálu
+MÑƒdy kanĞ±lu
 [Client-to-Client File Transfers]
-Pøenos souborù (DCC Send/Receive)
+PÑˆenos souborÑ‰ (DCC Send/Receive)
 [Client-to-Client Protocol]
-Ostatní monosti CTCP
+OstatnĞ½ moÑ›nosti CTCP
 [Client-to-Client Chats]
-Privátní diskuse (DCC Chat)
+PrivĞ±tnĞ½ diskuse (DCC Chat)
 [Ignore users]
-Ignorování úèastníkù
+IgnorovĞ±nĞ½ ÑŠĞ¸astnĞ½kÑ‰
 [Ignore events]
-Události
+UdĞ±losti
 [Add server]
-Pøidat server
+PÑˆidat server
 [Channels on server]
-Seznam kanálù na serveru
+Seznam kanĞ±lÑ‰ na serveru
 ;(LAI) [Miranda IRC]
 [CTCP Chat Request]
-ádost CTCP Chat
+Ğ‹Ğ±dost CTCP Chat
 [&Whois]
 &Zjistit informace
 [&Op]
-Dát &operátora
+DĞ±t &operĞ±tora
 [&Deop]
-&Vzít operátora
+&VzĞ½t operĞ±tora
 [&Voice]
-&Dát hlas
+&DĞ±t hlas
 [D&evoice]
-Vzít &hlas
+VzĞ½t &hlas
 ;(FIX) [Ki&ck (Reason)]
 ;(FIX) [Ban'&n Kick]
 ;(FIX) [Ban'n Kick (&Reason)]
 [&Add contact]
-Pøid&at kontakt
+PÑˆid&at kontakt
 ;(DUP) [&Copy]
 ;(DUP) [Co&py All]
 ;(DUP) [Select &All]
 [Leave channel]
-Odejít z kanálu
+OdejĞ½t z kanĞ±lu
 [Clear log]
-Vymazat záznam
+Vymazat zĞ±znam
 [Show/Hide server]
-Zobrazit/skrıt server
+Zobrazit/skrÑt server
 ;(DUP) [Open in &new window]
 ;(DUP) [&Open in existing window]
 ;(DUP) [&Copy link]
 
 
-; NEPUBLIKOVANÉ
-; Sítì/IRC Ignorování
+; NEPUBLIKOVANĞ™
+; SĞ½tĞ¼/IRC IgnorovĞ±nĞ½
 [Flags]
-Pøíznaky
+PÑˆĞ½znaky
 [(*) blank to set this mask for all networks]
-(*) ponecháte-li prázdné, platí pro všechny sítì
+(*) ponechĞ±te-li prĞ±zdnĞ¹, platĞ½ pro vÑ™echny sĞ½tĞ¼
 
-; Sítì/IRC DCC a CTCP
+; SĞ½tĞ¼/IRC DCC a CTCP
 [Send notice]
-Poslat oznámení
+Poslat oznĞ±menĞ½
 
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
-Chyba CTCP: Od %s!%s@%s byl obdren podvodnı pøíkaz CTCP. Teoreticky mùe jít zámìrnı útok na klienta sítì IRC.
+Chyba CTCP: Od %s!%s@%s byl obdrÑ›en podvodnÑ pÑˆĞ½kaz CTCP. Teoreticky mÑ‰Ñ›e jĞ½t zĞ±mĞ¼rnÑ ÑŠtok na klienta sĞ½tĞ¼ IRC.
 
 ; retezce pro IRC 0.5.1.3 (zpetna kompatibilita)
 [Online notification of contacts]
-Upozornit na uivatele online
+Upozornit na uÑ›ivatele online
 [timer (s): ]
 doba (s): 
 [Check temporary also]
-Sledovat i doèasné
+Sledovat i doĞ¸asnĞ¹
 [Enable incoming requests]
-Povolit pøíchozí ádosti
+Povolit pÑˆĞ½chozĞ½ Ñ›Ğ±dosti
 [Automatically accept chat requests from... ]
-Automaticky pøijmout ádosti od ...
+Automaticky pÑˆijmout Ñ›Ğ±dosti od ...
 [Ignore chat requests from...]
-Ignorovat ádosti od ...
+Ignorovat Ñ›Ğ±dosti od ...
 [everyone not on the contact list]
-kadého mimo seznam kontaktù
+kaÑ›dĞ¹ho mimo seznam kontaktÑ‰
 
 [DCC'n CTCP]
 DCC a CTCP
@@ -659,9 +659,9 @@ DCC a CTCP
 ; tapin
 ; IRC.dll v.[b]0.7.0.11[/b] [27 Jul 2006], karta Extra
 [Enable Nudge support]
-Aktivovat monost drcnutí
+Aktivovat moÑ›nost drcnutĞ½
 [Enable Typing Notify support]
-Aktivovat upozornìní na psaní
+Aktivovat upozornĞ¼nĞ½ na psanĞ½
 [Auto-retrieve version details]
 Autom. zjistit informace o verzi
 
@@ -672,19 +672,19 @@ Autom. zjistit informace o verzi
 
 ; Description
 [IRC protocol for Miranda IM]
-Implementace protokolu IRC. Umoòuje komunikaci s uivateli této sítì.
+Implementace protokolu IRC. UmoÑ›Ñ‚uje komunikaci s uÑ›ivateli tĞ¹to sĞ½tĞ¼.
 
-; Sítì / IRC / Extra
+; SĞ½tĞ¼ / IRC / Extra
 [Quit message:]
-Pøi ukonèení:
+PÑˆi ukonĞ¸enĞ½:
 [Server code page:]
-Kódování serveru:
+KÑƒdovĞ±nĞ½ serveru:
 [Enable UTF8 autodetection]
 Zapnout detekci UTF-8
 [UTF-8]
 UTF-8
 [Default ANSI codepage]
-ANSI (vıchozí)
+ANSI (vÑchozĞ½)
 [Cyrillic (KOI8R)]
 cyrilice (KOI8R)
 [Cyrillic (Windows)]
@@ -694,12 +694,12 @@ cyrilice (Windows)
 Odstranit barvy
 
 [Alternate nick]
-Alt. pøezdívka
+Alt. pÑˆezdĞ½vka
 [&Join channel]
-Pøi&jít na kanál
+PÑˆi&jĞ½t na kanĞ±l
 [Invite to channel]
-Pozvat na &kanál
+Pozvat na &kanĞ±l
 [Send &notice]
-Poslat poz&námku
+Poslat poz&nĞ±mku
 
 ; ---

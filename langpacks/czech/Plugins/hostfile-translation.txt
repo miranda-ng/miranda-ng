@@ -1,41 +1,41 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  HostFile 1.0.0.0                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Martin Koníèek <konicekmartin (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Martin KonĞ½Ğ¸ek <konicekmartin (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 ;----Menu Item
 [Host &File]
-Sdílet &soubor
+SdĞ½let &soubor
 
 ;----(M)\Services  menu item
 [Enable HostFile HTTP Server]
-Povolit sdílení souborù pøes HTTP
+Povolit sdĞ½lenĞ½ souborÑ‰ pÑˆes HTTP
 [Disable HostFile HTTP Server]
-Zakázat sdílení souborù pøes HTTP
+ZakĞ±zat sdĞ½lenĞ½ souborÑ‰ pÑˆes HTTP
 
 ;----Options
 [HTTP file publishing]
-Publikování souborù pøes HTTP
+PublikovĞ±nĞ½ souborÑ‰ pÑˆes HTTP
 [HTTP Server folder]
-Sloka serveru HTTP
+SloÑ›ka serveru HTTP
 [Run server on port:]
-Port sluby HTTP:
+Port sluÑ›by HTTP:
 ;-keep spaces bellow
 [Manual IP selection]
-Ruèní vıbìr IP adresy
+RuĞ¸nĞ½ vÑbĞ¼r IP adresy
 [select Connection]
-Vıbìr pøipojení
+VÑbĞ¼r pÑˆipojenĞ½
 [set fixed IP]
-Nastavit vlastní IP
+Nastavit vlastnĞ½ IP
 [URL substitution (i.e. http://myserver.org:2222/my_directory/)]
-Nahrazování URL (napø. http://mujserver.cz:2222/moje_slozka/)
+NahrazovĞ±nĞ½ URL (napÑˆ. http://mujserver.cz:2222/moje_slozka/)
 [Show Enable/Disable Server item in (M) menu]
-Zobrazovat poloku Aktivovat/Deaktivovat server v menu
+Zobrazovat poloÑ›ku Aktivovat/Deaktivovat server v menu
 [Start server when "HostFile" clicked in contact menu]
-Spustit server po prvním pouití sdílení souborù
+Spustit server po prvnĞ½m pouÑ›itĞ½ sdĞ½lenĞ½ souborÑ‰
 [Enable HTTP Server]
 Aktivovat HTTP server
 [Disable HTTP Server]
@@ -44,18 +44,18 @@ Deaktivovat HTTP server
 [HTTP Server:]
 HTTP server:
 [running on]
-spuštìn na
+spuÑ™tĞ¼n na
 [port]
 portu
 [disabled]
-deaktivován
+deaktivovĞ±n
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Services ]
-Sluby
+SluÑ›by
 [HTTP Server root path]
-Koøenovı adresáø HTTP serveru
+KoÑˆenovÑ adresĞ±Ñˆ HTTP serveru
 [Host File]
-Sdílení po HTTP
+SdĞ½lenĞ½ po HTTP
 
 ; ---

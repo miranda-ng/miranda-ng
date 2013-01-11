@@ -1,77 +1,77 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  WinPopup Protocol 0.0.0.17                              |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Peèeòa <wenom64 (zavináè) gmail (teèka) com>
+; PÑˆeklad: VĞ½t PeĞ¸eÑ‚a <wenom64 (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://www.cherubicsoft.com/miranda/
 ;
 
-; Poslední aktualizace: 30.3.2008
+; PoslednĞ½ aktualizace: 30.3.2008
 
 [Computer,User,Group]
-Poèítaè, uivatel, skupina
+PoĞ¸Ğ½taĞ¸, uÑ›ivatel, skupina
 [Auto-reply to users with your status message while away]
-Automaticky odpovìdìt uivatelùm, pokud jsem ve stavu 'Na chvíli pryè'
+Automaticky odpovĞ¼dĞ¼t uÑ›ivatelÑ‰m, pokud jsem ve stavu 'Na chvĞ½li pryĞ¸'
 ;(DUP) [Filter Duplicate Messages (RECOMMENDED)]
 [Use Mailslot when sending (RECOMMENDED)]
-Pøi odesílání pouít Mailslot (DOPORUÈENO)
+PÑˆi odesĞ½lĞ±nĞ½ pouÑ›Ğ½t Mailslot (DOPORUĞ˜ENO)
 [Use NetBIOS when sending]
-Pøi odesílání pouít NetBIOS
+PÑˆi odesĞ½lĞ±nĞ½ pouÑ›Ğ½t NetBIOS
 [Use Messenger service when sending and receiving]
-Pøi odesílání a pøijmání pouít Kurırní slubu
+PÑˆi odesĞ½lĞ±nĞ½ a pÑˆijmĞ±nĞ½ pouÑ›Ğ½t KurÑrnĞ½ sluÑ›bu
 ;(DUP) [Nick]
 ;(DUP) [Username]
 [Add contact...]
-Pøidat kontakt...
+PÑˆidat kontakt...
 [NetBIOS names registration]
-Registrace NetBIOSovıch jmen
+Registrace NetBIOSovÑch jmen
 [Successful names]
-Pouitelná jména
+PouÑ›itelnĞ± jmĞ¹na
 [Failed names]
-Nepouitelná jména
+NepouÑ›itelnĞ± jmĞ¹na
 [Other names]
-Jiná jména
+JinĞ± jmĞ¹na
 ;(DUP) [Options]
 ;(DUP) [Status:]
 [Legacy online status detection]
-Dìdická detekce online stavu
+DĞ¼dickĞ± detekce online stavu
 [Always Online]
-Vdy online
+VÑ›dy online
 [NetBIOS names:]
-NetBIOS jména:
+NetBIOS jmĞ¹na:
 [Comment:]
-Poznámka:
+PoznĞ±mka:
 [Explore]
-Prozkoumat sdílené:
+Prozkoumat sdĞ½lenĞ¹:
 [Auto-reply]
-Automatická odpovìï
+AutomatickĞ± odpovĞ¼Ğ¿
 ;(DUP) [Cancel]
 [Cannot send message]
-Nelze odeslat zprávu
+Nelze odeslat zprĞ±vu
 [Cannot create receiving mailslot]
-Nelze vytvoøit pøíjmací mailslot
+Nelze vytvoÑˆit pÑˆĞ½jmacĞ½ mailslot
 [Cannot operate Messenger service]
-Nelze pracovat s Kurırní slubou
+Nelze pracovat s KurÑrnĞ½ sluÑ›bou
 [Cannot register NetBIOS name]
-Nelze registrovat NetBIOSové jméno
+Nelze registrovat NetBIOSovĞ¹ jmĞ¹no
 [Cannot resolve contacts IP-address. Add it anyway?]
-Nelze zjistit IP-adresu kontaktu. Pøesto ho pøidat?
+Nelze zjistit IP-adresu kontaktu. PÑˆesto ho pÑˆidat?
 [Cannot start Messenger service]
-Nelze zapnout Kurırní slubu
+Nelze zapnout KurÑrnĞ½ sluÑ›bu
 [Cannot stop Messenger service]
-Nelze zastavit Kurırní slubu
+Nelze zastavit KurÑrnĞ½ sluÑ›bu
 ;(DUP) [Error]
 [LAN adapter]
-LAN adaptér
+LAN adaptĞ¹r
 ;(DUP) [Network]
 [No progress]
-ádnı prùbìh
+Ğ‹Ğ±dnÑ prÑ‰bĞ¼h
 ;(DUP) [OK]
 [Please shutdown any other IM applications and/or Messenger service]
-Prosím vypnìte všechny ostatní IM aplikace a/nebo Kurırní slubu
+ProsĞ½m vypnĞ¼te vÑ™echny ostatnĞ½ IM aplikace a/nebo KurÑrnĞ½ sluÑ›bu
 ;(DUP) [Plugins]
 ;(DUP) [Retrieving...]
 [Unexpected service status change]
-Neoèekávaná zmìna stavu sluby
+NeoĞ¸ekĞ±vanĞ± zmĞ¼na stavu sluÑ›by
 
 ; ---

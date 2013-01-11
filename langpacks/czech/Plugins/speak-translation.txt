@@ -1,19 +1,19 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Speak 0.0.0.5                                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Tapin <tapin (zavináè) wo (teèka) cz>
+; PÑˆeklad: Tapin <tapin (zavinĞ±Ğ¸) wo (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=214
 ;
 
 [Read message if less characters than]
-Pøeèíst pøíchozí zprávu, je-li kratší ne
+PÑˆeĞ¸Ğ½st pÑˆĞ½chozĞ½ zprĞ±vu, je-li kratÑ™Ğ½ neÑ›
 [Ignore event if message dialog is open]
-Ignorovat událost, je-li konverzaèní okno otevøené
+Ignorovat udĞ±lost, je-li konverzaĞ¸nĞ½ okno otevÑˆenĞ¹
 [Ignore event if message dialog is focused]
-Ignorovat událost, je-li konverzaèní okno aktivní
+Ignorovat udĞ±lost, je-li konverzaĞ¸nĞ½ okno aktivnĞ½
 [Announce status changes on connect]
-Oznamovat zmìnu stavu pøi pøipojení
+Oznamovat zmĞ¼nu stavu pÑˆi pÑˆipojenĞ½
 ;-------------------------------------------------------------------------------
 ;
 ; Status changes
@@ -23,44 +23,44 @@ Oznamovat zmìnu stavu pøi pøipojení
 [%u is now online]
 %u je online
 [%u is away]
-%u je na chvíli pryè
+%u je na chvĞ½li pryĞ¸
 [%u is invisible]
-%u je neviditelnı
+%u je neviditelnÑ
 [%u is not available]
-%u tady není
+%u tady nenĞ½
 [%u does not want to be disturbed]
-%u nechce bıt rušen
+%u nechce bÑt ruÑ™en
 [%u is occupied]
-%u nemá èas
+%u nemĞ± Ğ¸as
 [%u is free for chat]
-%u má volno
+%u mĞ± volno
 ;
 ; Events
 ;--------
 [incoming message from %u]
-pøíchozí zpráva od %u
+pÑˆĞ½chozĞ½ zprĞ±va od %u
 [incoming U R L from %u]
-pøíchozí url adresa od %u
+pÑˆĞ½chozĞ½ url adresa od %u
 [you have been added to %u's contact list]
-%u si vás pøidal do seznamu uivatelù
+%u si vĞ±s pÑˆidal do seznamu uÑ›ivatelÑ‰
 [there is an incoming file from %u]
-%u pøíchozí soubor od
+%u pÑˆĞ½chozĞ½ soubor od
 [%u says]
-%u píše
+%u pĞ½Ñ™e
 ;
 ; Dialog text
 ;-------------
 [Speak]
-Pøeèíst
+PÑˆeĞ¸Ğ½st
 ;
 ; Engine/Voice Dialog
 ;---------------------
 [Engine/Voice]
-Rozhraní a hlas
+RozhranĞ½ a hlas
 [Engine Settings]
-Nastavení rozhraní
+NastavenĞ½ rozhranĞ½
 [Engine]
-Rozhraní
+RozhranĞ½
 [Voice]
 Hlas
 [Volume]
@@ -68,60 +68,60 @@ Hlasitost
 ;[Rate]
 ;Rychlost
 [Pitch]
-Vıška
+VÑÑ™ka
 [Test]
-Ovìøit
+OvĞ¼Ñˆit
 [testing testing 1 2 3]
-Zkouška zkouška 1 2 3
+ZkouÑ™ka zkouÑ™ka 1 2 3
 [Welcome Message]
-Uvítací zpráva
+UvĞ½tacĞ½ zprĞ±va
 ;
 ; Active Modes Dialog
 ;---------------------
 [Active Modes]
-Aktivní stavy
+AktivnĞ½ stavy
 [Offline]
 Offline
 [Online]
 Online
 [Away]
-Na chvíli pryè
+Na chvĞ½li pryĞ¸
 [Do not Disturb]
-Nerušit
+NeruÑ™it
 [Not Available]
 Nejsem tady
 [Occupied]
-Nemám èas
+NemĞ±m Ğ¸as
 [Free for Chat]
-Mám volno
+MĞ±m volno
 [Invisible]
-Neviditelnı
+NeviditelnÑ
 [Active Users]
-oznamovat zmìnu uivatelù
+oznamovat zmĞ¼nu uÑ›ivatelÑ‰
 ;(DUP) [All]
 ;(DUP) [None]
 ;
 ; Announce Dialog
 ;-----------------
 [Announce]
-Oznámení
+OznĞ±menĞ½
 [Status Changes]
-Zmìny stavu
+ZmĞ¼ny stavu
 [Status Messages]
-Stavové zprávy
+StavovĞ¹ zprĞ±vy
 [Occuring Events]
-Události
+UdĞ±losti
 [Incoming Message]
-Pøíchozí zpráva
+PÑˆĞ½chozĞ½ zprĞ±va
 [Incoming URL]
-Pøíchozí odkaz
+PÑˆĞ½chozĞ½ odkaz
 [Incoming File]
-Pøíchozí soubor
+PÑˆĞ½chozĞ½ soubor
 [Authorisation Request]
-ádost o autorizaci
+Ğ‹Ğ±dost o autorizaci
 [Added to Contact List]
-Pøidanı mezi kontakty
+PÑˆidanÑ mezi kontakty
 [Message Events]
-Události zpráv
+UdĞ±losti zprĞ±v
 
 ; ---

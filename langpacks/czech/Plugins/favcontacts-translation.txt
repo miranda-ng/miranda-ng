@@ -1,44 +1,44 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Favourite Contacts 0.0.0.4                              |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3750
 ;
 
 [Favourite Contacts]
-Oblíbené kontakty
+OblĞ½benĞ¹ kontakty
 [Favourites]
-Oblíbené
+OblĞ½benĞ¹
 
 [Hotkey shows menu centered on screen]
-Kl. zkratka zobrazí menu uprostøed obrazovky
+Kl. zkratka zobrazĞ½ menu uprostÑˆed obrazovky
 [Hide for transparent avatars]
-Skrıt pro prùhledné avatary
+SkrÑt pro prÑ‰hlednĞ¹ avatary
 [Fonts and colors can be configured in Customize > Fonts section.\n\nAlso Modern Contact List users can set up hotkeys in Events > Hotkeys2 page.]
-Písma a barvy lze nastavit v sekci Vlastní úpravy > Písma.\n\nUivatelé doplòku Modern Contact List mohou nastavit kl. zkratky v sekci Události > Klávesové zkratky.
+PĞ½sma a barvy lze nastavit v sekci VlastnĞ½ ÑŠpravy > PĞ½sma.\n\nUÑ›ivatelĞ¹ doplÑ‚ku Modern Contact List mohou nastavit kl. zkratky v sekci UdĞ±losti > KlĞ±vesovĞ¹ zkratky.
 [Draw avatar border]
-Orámovat avatary
+OrĞ±movat avatary
 [Use system colors and fonts]
-Pouít systémové písma a barvy
+PouÑ›Ğ½t systĞ¹movĞ¹ pĞ½sma a barvy
 [Menu item preview:]
-Náhled poloky menu:
+NĞ±hled poloÑ›ky menu:
 
 [Align to the right]
 Zarovnat doprava
 [Dim idle contact icons]
-Zešednout neaktivní kontakty
+ZeÑ™ednout neaktivnĞ½ kontakty
 [Multicolumn menu]
-Vícesloupcové menu
+VĞ½cesloupcovĞ¹ menu
 [Set up menu hotkey...]
-Nastavit klávesovou zkratku...
+Nastavit klĞ±vesovou zkratku...
 [Enable groups]
 Povolit skupiny
 [Configure fonts and colors...]
-Nastavit písma a barvy...
+Nastavit pĞ½sma a barvy...
 
 ; Favourite Contacts 0.0.0.4
 [recent contacts]
-posledních kontaktù
+poslednĞ½ch kontaktÑ‰
 
 ; ---

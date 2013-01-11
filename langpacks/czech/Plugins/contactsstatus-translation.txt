@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Contacts Status Notification 0.1.2.2                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=1702
 ;
 
@@ -14,137 +14,137 @@ Stav kontaktu
 [Tooltips]
 Tipy
 [Icon blinking]
-Blikání ikonou
+BlikĞ±nĞ½ ikonou
 ;(DUP) [Popups]
 ;(DUP) [Sounds]
 [Individual sounds]
-Zvuky (individuální)
+Zvuky (individuĞ±lnĞ½)
 
 ;(DUP) [Options]
 [Don't notify after protocol connection]
-Neupozoròovat ihned po pøipojení
+NeupozorÑ‚ovat ihned po pÑˆipojenĞ½
 ;(DUP) [for]
 ;(DUP) [seconds]
 [Watch selected protocols]
-Sledovat vybrané protokoly
+Sledovat vybranĞ¹ protokoly
 [Use Events/Ignore/Online settings]
-Pouít existující nastavení
+PouÑ›Ğ½t existujĞ½cĞ½ nastavenĞ½
 [Notify if protocol disconnected]
-Upozornit pøi odpojení
+Upozornit pÑˆi odpojenĞ½
 
 [Contacts notification]
-Upozornìní na kontakty
+UpozornĞ¼nĞ½ na kontakty
 [Any changes]
-Jakékoli zmìny
+JakĞ¹koli zmĞ¼ny
 [Become from Offline]
-Pøechod ze stavu Offline
+PÑˆechod ze stavu Offline
 [Go to && become from Offline]
-Pøechod do stavu xyz ze stavu Offline
+PÑˆechod do stavu xyz ze stavu Offline
 [Selected statuses]
-Pøechod do vybranıch stavù
+PÑˆechod do vybranÑch stavÑ‰
 [Everyone becomes from Offline]
-Pøechod do libov. stavu ze stavu Offline
+PÑˆechod do libov. stavu ze stavu Offline
 
 [Popup colors]
-Barvy oznámení
+Barvy oznĞ±menĞ½
 [Use color:]
-Pouít barvu:
+PouÑ›Ğ½t barvu:
 ;(DUP) [Background]
 ;(DUP) [Text]
 
 [Popup actions]
-Akce pøi oznámení
+Akce pÑˆi oznĞ±menĞ½
 ;(DUP) [Left click]
 ;(DUP) [Right click]
 [Message box]
-Dialogové okno
+DialogovĞ¹ okno
 [Contact info]
 Info o kontaktu
 ;(DUP) [Dismiss popup]
 
 [Popup options]
-Monosti oznámení
+MoÑ›nosti oznĞ±menĞ½
 [Disable popup]
-Vypnout oznámení
+Vypnout oznĞ±menĞ½
 [Custom popup delay]
-Doba zobrazení
+Doba zobrazenĞ½
 [s]
 s
 [Show protocol name]
-Zobrazit název protokolu
+Zobrazit nĞ±zev protokolu
 [Show contact's gender (if available)]
-Texty oznámení dle pohlaví (je-li mono)
+Texty oznĞ±menĞ½ dle pohlavĞ½ (je-li moÑ›no)
 [Show previous status of contact]
-Zobrazit pøedchozí stav kontaktu
+Zobrazit pÑˆedchozĞ½ stav kontaktu
 [Show away message (if available)]
-Zobrazit autom. odpovìï (existuje-li)
+Zobrazit autom. odpovĞ¼Ğ¿ (existuje-li)
 ;(DUP) [Preview]
 
 [Status: From Offline]
-Stav: Pøechod ze stavu Offline
+Stav: PÑˆechod ze stavu Offline
 [Status: Offline]
 Stav: Offline
 [Status: Online]
 Stav: Online
 [Status: Away]
-Stav: Pryè
+Stav: PryĞ¸
 [Status: DND]
-Stav: Nerušit!
+Stav: NeruÑ™it!
 [Status: NA]
 Stav: Nejsem tady
 [Status: Occupied]
-Stav: Nemám èas
+Stav: NemĞ±m Ğ¸as
 [Status: Free for chat]
-Stav: Mám volno
+Stav: MĞ±m volno
 [Status: Invisible]
-Stav: Neviditelnı
+Stav: NeviditelnÑ
 [Status: On the phone]
-Stav: Mám telefon
+Stav: MĞ±m telefon
 [Status: Out to lunch]
-Stav: Jsem na obìdì
+Stav: Jsem na obĞ¼dĞ¼
 
 [User is %s]
-Uivatel je ve stavu %s
+UÑ›ivatel je ve stavu %s
 [User going to %s]
-Uivatel pøešel do stavu %s
+UÑ›ivatel pÑˆeÑ™el do stavu %s
 [%s\nUser has been %s]
-%s\nUivatel byl ve stavu %s
+%s\nUÑ›ivatel byl ve stavu %s
 [%s\nMessage: %s]
-%s\nZpráva: %s
+%s\nZprĞ±va: %s
 [Nobody]
 nikdo
 [Some reason]
-<zadejte dùvod>
+<zadejte dÑ‰vod>
 [Enable &status change notification]
-Zapnout oznámení zmìny &stavu
+Zapnout oznĞ±menĞ½ zmĞ¼ny &stavu
 [Disable &status change notification]
-Vypnout oznámení zmìny &stavu
+Vypnout oznĞ±menĞ½ zmĞ¼ny &stavu
 [Some protocol]
 <protokol>
 
 [Color schema]
-Schéma barev
+SchĞ¹ma barev
 ;(DUP) [None]
 [Simple]
-Jednoduché
+JednoduchĞ¹
 ;(DUP) [Advanced]
 ;(DUP) [Custom]
 [Online colors:]
 Stav Online:
 [Away colors:]
-Stav Pryè:
+Stav PryĞ¸:
 [Offline colors:]
 Stav Offline:
 
 [Custom color schema]
-Vlastní schéma barev
+VlastnĞ½ schĞ¹ma barev
 [User status:]
-Stav uivatele:
+Stav uÑ›ivatele:
 [User status]
-Stav uivatele
+Stav uÑ›ivatele
 [Use colors:]
-Pouít barvy:
+PouÑ›Ğ½t barvy:
 [Custom colors:]
-Vlastní barvy:
+VlastnĞ½ barvy:
 
 ; ---

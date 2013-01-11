@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Trillian message history importer 0.2.0                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1929
 ;
 
@@ -11,9 +11,9 @@
 
 ; main.c
 [Import settings]
-Importovat nastavení
+Importovat nastavenĞ½
 [Trillian logs directory]
-Adresáø se záznamy
+AdresĞ±Ñˆ se zĞ±znamy
 ;(DUP) [Protocols]
 ;(DUP) [Contacts]
 ;(DUP) [Import]
@@ -33,54 +33,54 @@ Import historie Yahoo!
 [Import IRC history]
 Import historie IRC
 [Import IRC channel history]
-Import historie kanálu IRC
+Import historie kanĞ±lu IRC
 [Import history of existing contacts]
-Importovat historii aktuálních kontaktù
+Importovat historii aktuĞ±lnĞ½ch kontaktÑ‰
 [Add new contacts if a contact from the history is not on the list]
-Pøidat novı, není-li kontakt z historie zavedenı v seznamu
+PÑˆidat novÑ, nenĞ½-li kontakt z historie zavedenÑ v seznamu
 [Import messages]
-Importovat zprávy
+Importovat zprĞ±vy
 [Skip duplicate messages]
-Pøeskoèit duplicitní zprávy
+PÑˆeskoĞ¸it duplicitnĞ½ zprĞ±vy
 [Replace duplicate messages]
-Nahradit duplicitní zprávy
+Nahradit duplicitnĞ½ zprĞ±vy
 [Delete entries before]
-Smazat poloky pøed
+Smazat poloÑ›ky pÑˆed
 [(Must match this format exactly: MMM DD HH:mm:ss YYYY)]
-(musí pøesnì odpovídat tomuto formátu: MMM DD HH:mm:ss RRRR)
+(musĞ½ pÑˆesnĞ¼ odpovĞ½dat tomuto formĞ±tu: MMM DD HH:mm:ss RRRR)
 [Import status reports (filetransfers, away msg, etc.)]
-Importovat hlášení (pøenos souborù, stavové zprávy atd.)
+Importovat hlĞ±Ñ™enĞ½ (pÑˆenos souborÑ‰, stavovĞ¹ zprĞ±vy atd.)
 [Fast mode (backup your db!)]
-Zrychlenı reim (zálohovat profil!)
-[Try to auto-detect UTF8 strings (is slow, detects öäüßéàèç)]
-Automaticky detekovat øetìzce v UTF8 (pomalé a neúplné)
+ZrychlenÑ reÑ›im (zĞ±lohovat profil!)
+[Try to auto-detect UTF8 strings (is slow, detects Ñ†Ğ´ÑŒĞ¯Ğ¹Ğ°Ğ¸Ğ·)]
+Automaticky detekovat ÑˆetĞ¼zce v UTF8 (pomalĞ¹ a neÑŠplnĞ¹)
 [Interpret logs as UTF8 files]
-Pro import pouít kódování UTF8
+Pro import pouÑ›Ğ½t kÑƒdovĞ±nĞ½ UTF8
 [Please select the \'logs\' folder in your Trillian directory]
-Vyberte prosím adresáø \'logs\' programu Trillian.
+Vyberte prosĞ½m adresĞ±Ñˆ \'logs\' programu Trillian.
 [There's nothing to import, please\nselect a protocol.]
-Není co importovat. Vyberte poadovanı protokol.
+NenĞ½ co importovat. Vyberte poÑ›adovanÑ protokol.
 [Invalid settings]
-Neplatné nastavení
+NeplatnĞ¹ nastavenĞ½
 [Importing History]
 Import historie
 [Import in progress...]
 Import historie...
 [Overall (current protocol)]
-Celkovì (aktuální protokol)
+CelkovĞ¼ (aktuĞ±lnĞ½ protokol)
 ;(DUP) [File]
 ;(DUP) [OK]
 [WARNING: If you cancel now and continue later you might\nget duplicate entries. Cancel anyways?]
-Budete-li po pøerušení importovat data znovu,\nmohou se v databázi objevit duplicitní poloky.\nOpravdu chcete import pøerušit?
+Budete-li po pÑˆeruÑ™enĞ½ importovat data znovu,\nmohou se v databĞ±zi objevit duplicitnĞ½ poloÑ›ky.\nOpravdu chcete import pÑˆeruÑ™it?
 ;(DUP) [Warning]
 [line]
-øádek
+ÑˆĞ±dek
 [No logs found for this protocol.]
-Pro tento protokol neexistuje záznamovı soubor.
+Pro tento protokol neexistuje zĞ±znamovÑ soubor.
 [Done importing %d contact history files!]
-Dokonèen import historie. Poèet souborù: %d
+DokonĞ¸en import historie. PoĞ¸et souborÑ‰: %d
 [\nCheck your UIN and path settings. Path musst end with \\logs]
-\nOvìøte identifikátor a cestu. Cesta musí konèit øetìzcem \\logs.
+\nOvĞ¼Ñˆte identifikĞ±tor a cestu. Cesta musĞ½ konĞ¸it ÑˆetĞ¼zcem \\logs.
 [Import Trillian history/contacts...]
 Importovat data z Trillian...
 

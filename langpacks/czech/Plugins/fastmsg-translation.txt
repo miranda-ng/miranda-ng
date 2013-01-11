@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Fast Messages 0.1.2.1                                   |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3019
 ;
 
@@ -12,10 +12,10 @@
 ; *** FastMsg - Main ***
 ; FMPLUGINTITLE
 [Fast Messages]
-BleskovÈ zpr·vy
+Bleskov–π zpr–±vy
 ; FMBUTTONTOOLTIP
 [Fast Messages...]
-BleskovÈ zpr·vy...
+Bleskov–π zpr–±vy...
 
 ; *** FastMsg - Options - Buttons ***
 ; MSGBOXTEXT
@@ -28,66 +28,66 @@ BleskovÈ zpr·vy...
 ;(DUP) [Delete]
 ; MSGMOVEBUTTONTEXT
 [Move]
-P¯esunout
+P—àesunout
 ; MSGUPBUTTONTEXT, GROUPUPBUTTONTEXT
 ;(DUP) [Up]
 ; MSGDOWNBUTTONTEXT, GROUPDOWNBUTTONTEXT
 ;(DUP) [Down]
 ; MSGTEXTLABLE
 [Message Text]
-Text zpr·vy
+Text zpr–±vy
 ; MSGLISTLABLE
 [Message List]
-Seznam zpr·v
+Seznam zpr–±v
 ; MSGNOTELABLE
 [* Double click to edit message text]
-* Zpr·vu lze upravit dvojÌm kliknutÌm
+* Zpr–±vu lze upravit dvoj–Ωm kliknut–Ωm
 ; GROUPBOXTEXT
 ;(DUP) [Group]
 ; GROUPTEXTLABLE
 [Group Name]
-N·zev skupiny
+N–±zev skupiny
 ; GROUPLISTLABLE
 [Group List]
 Seznam skupin
 ; GROUPNOTELABLE
 [* Double click to edit group name]
-* N·zev skupiny lze upravit dvojÌm kliknutÌm
+* N–±zev skupiny lze upravit dvoj–Ωm kliknut–Ωm
 ; GROUPSDOWNLABLE
 [Groups down]
-Skupiny umÌstit pod zpr·vy
+Skupiny um–Ωstit pod zpr–±vy
 ; MSGSENDLABLE
 [Send messages automatically]
-Zpr·vy odesÌlat automaticky
+Zpr–±vy odes–Ωlat automaticky
 ; SCRIVEROLDBTNPOSLABLE
 [Old button position (Scriver)]
-P˘vodnÌ umÌstÏnÌ tlaËÌtka (Scriver)
+P—âvodn–Ω um–Ωst–ºn–Ω tla–∏–Ωtka (Scriver)
 
 ; *** FastMsg - Options - ToolTips ***
 ; MSGADDBUTTONTOOLTIP
 [Add message to list]
-P¯idat zpr·vu do seznamu
+P—àidat zpr–±vu do seznamu
 ; MSGDELBUTTONTOOLTIP
 [Delete message from list]
-Odebrat zpr·vu ze seznamu
+Odebrat zpr–±vu ze seznamu
 ; MSGMOVEBUTTONTOOLTIP
 [Move message]
-P¯esunout zpr·vu
+P—àesunout zpr–±vu
 ; MSGUPBUTTONTOOLTIP
 [Up message]
-Posunout zpr·vu v seznamu nahoru
+Posunout zpr–±vu v seznamu nahoru
 ; MSGDOWNBUTTONTOOLTIP
 [Down message]
-Posunout zpr·vu v seznamu dol˘
+Posunout zpr–±vu v seznamu dol—â
 ; MSGEDITBUTTONTOOLTIP
 [Edit message]
-Upravit zpr·vu
+Upravit zpr–±vu
 ; GROUPADDBUTTONTOOLTIP
 [Add group]
-P¯idat skupinu
+P—àidat skupinu
 ; GROUPEDITBUTTONTOOLTIP
 [Edit group name]
-Upravit n·zev skupiny
+Upravit n–±zev skupiny
 ; GROUPDELBUTTONTOOLTIP
 [Delete group]
 Odstranit skupinu
@@ -96,15 +96,15 @@ Odstranit skupinu
 Posunout skupinu v seznamu nahoru
 ; GROUPDOWNBUTTONTOOLTIP
 [Down group]
-Posunout skupinu v seznamu dol˘
+Posunout skupinu v seznamu dol—â
 
 ; *** FastMsg - MessageBox - Text ***
 ; MSGBOX_NOMSG
 [No messages in list]
-Seznam zpr·v je pr·zdn˝.
+Seznam zpr–±v je pr–±zdn—ç.
 ; MSGBOX_GROUPDELQUESTION
 [Delete group with all messages?]
-Opravdu chcete smazat vybranou skupinu zpr·v?
+Opravdu chcete smazat vybranou skupinu zpr–±v?
 
 ; *** FastMsg - IcoLib - Description ***
 ; FMICODESCRIPTION_MAIN
@@ -112,6 +112,6 @@ Opravdu chcete smazat vybranou skupinu zpr·v?
 
 ; Description
 [Fast messages built-in message dialog support for Miranda IM]
-Do nabÌdky komunikaËnÌho okna p¯id· poloûku pro odesÌl·nÌ kr·tk˝ch, p¯edem p¯ipraven˝ch zpr·v.
+Do nab–Ωdky komunika–∏n–Ωho okna p—àid–± polo—õku pro odes–Ωl–±n–Ω kr–±tk—çch, p—àedem p—àipraven—çch zpr–±v.
 
 ; ---

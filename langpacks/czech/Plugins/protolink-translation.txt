@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  ProtoLink 0.2.0.1                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; PÑˆeklad: madmojo <madmojo (zavinÐ±Ð¸) kdynenet (teÐ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2218
 ;
 
@@ -11,7 +11,7 @@
 [Links]
 Odkazy
 [Registered associations]
-Registrované asociace
+RegistrovanÐ¹ asociace
 [&ICQ files - .icq]
 Soubory &ICQ - .icq
 [&Yahoo links - ymsgr:]
@@ -30,6 +30,6 @@ Odkazy Jabber:
 
 ;Plugin description
 [Handle .icq files and protocol URLs like: jid: ymsgr: gg:]
-Zpracovává soubory .icq a URL typu jid: ymsgr: gg:
+ZpracovÐ±vÐ± soubory .icq a URL typu jid: ymsgr: gg:
 
 ; ---

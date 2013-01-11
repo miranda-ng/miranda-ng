@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  StartupStatus 0.8.0.43                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2207
 ;
 
@@ -31,7 +31,7 @@ Protokol
 ;(DUP) [Closing in %d]
 ;(DUP) [Close]
 [<last>]
-<minulı>
+<minulÑ>
 ;(DUP) [<current>]
 ;(DUP) [<n/a>]
 
@@ -43,27 +43,27 @@ Vpravo
 ;(DUP) [None]
 ;(DUP) [Hidden]
 [Minimized]
-Minimalizované
+MinimalizovanĞ¹
 ;(DUP) [Normal]
 [default]
-vıchozí
+vÑchozĞ½
 ;(DUP) [unknown]
 [At least one profile must exist]
-Musí bıt zaloen nejménì jeden profil!
+MusĞ½ bÑt zaloÑ›en nejmĞ¹nĞ¼ jeden profil!
 [StartupStatus]
-Stav pøi spuštìní
+Stav pÑˆi spuÑ™tĞ¼nĞ½
 [Your default profile will be changed]
-Vıchozí profil bude zmìnìn.
+VÑchozĞ½ profil bude zmĞ¼nĞ¼n.
 [Some changes you made require a restart of Miranda-IM]
-Poznámka: Provedené zmìny vyadují restart programu.
+PoznĞ±mka: ProvedenĞ¹ zmĞ¼ny vyÑ›adujĞ½ restart programu.
 [Status Profiles]
-Startovní profily
+StartovnĞ½ profily
 
 ; profiles.c
 [StatusProfiles]
-Profily stavu pøi spuštìní
+Profily stavu pÑˆi spuÑ™tĞ¼nĞ½
 [There is a maximum of 6 menu items]
-Max. poèet poloek menu je 6.
+Max. poĞ¸et poloÑ›ek menu je 6.
 
 ; resource.rc
 ;(DUP) [Check connection]
@@ -89,21 +89,21 @@ Stav okna
 [Show dialog]
 Zobrazit dialog
 [Set status to offline before exit]
-Pøed ukonèením pøejít do 'Offline'
+PÑˆed ukonĞ¸enĞ½m pÑˆejĞ½t do 'Offline'
 [Activate status profile]
 Aktivovat profil
 [Set docked]
 Zadokovat
 [Set window location]
-Umístit na souøadnice
+UmĞ½stit na souÑˆadnice
 [Set window size]
 Velikost okna
 [Allow override]
-Povolit potlaèení
+Povolit potlaĞ¸enĞ½
 [Automatically dial on startup]
-Automaticky vytáèet po spuštìní
+Automaticky vytĞ±Ğ¸et po spuÑ™tĞ¼nĞ½
 [Automatically hang up on exit]
-Automaticky zavìsit po ukonèení
+Automaticky zavĞ¼sit po ukonĞ¸enĞ½
 ;(DUP) [Use Windows colours]
 ;(DUP) [Use default colours]
 ;(DUP) [Do nothing]
@@ -123,9 +123,9 @@ Automaticky zavìsit po ukonèení
 ;(DUP) [Use same settings for all protocols]
 ;(DUP) [Ignore caps-lock, num-lock and scroll-lock keys]
 [Monitor keyboard activity]
-Monitorovat psaní na klávesnici
+Monitorovat psanĞ½ na klĞ±vesnici
 [Monitor mouse activity]
-Monitorovat pohyb myši
+Monitorovat pohyb myÑ™i
 [Enable checking]
 Zapnout kontrolu
 [Disable checking]
@@ -135,27 +135,27 @@ Vypnout kontrolu
 ;(DUP) [successfull reconnected]
 ;(DUP) [giving up reconnecting]
 [Create a TopToolBar button]
-Pøidat tlaèítko do horní lišty
+PÑˆidat tlaĞ¸Ğ½tko do hornĞ½ liÑ™ty
 [Show confirm dialog when loading]
-Po spuštìní potvrzovat stav
+Po spuÑ™tĞ¼nĞ½ potvrzovat stav
 [Create a status menu item]
-Vytvoøit poloku v hlavní nabídce
+VytvoÑˆit poloÑ›ku v hlavnĞ½ nabĞ½dce
 ;(LAI) [HotKey1]
 [Hotkey]
-Klávesy
+KlĞ±vesy
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 [Copy to Clipboard]
-Zkopírovat
+ZkopĞ½rovat
 [Create Shortcut]
-Vytvoøit zástupce
+VytvoÑˆit zĞ±stupce
 [Show CMDL]
-Pøíkazovı ø.
+PÑˆĞ½kazovÑ Ñˆ.
 ;(DUP) [Preview]
 [Variables...]
-Promìnné...
+PromĞ¼nnĞ¹...
 [Add...]
-Pøidat
+PÑˆidat
 [Del]
 Smazat
 ;(DUP) [Max. retries]
@@ -169,16 +169,16 @@ Smazat
 ;(DUP) [Only set if current status is]
 ;(DUP) [Set]
 [Command Line:]
-Pøíkazovı øádek:
+PÑˆĞ½kazovÑ ÑˆĞ±dek:
 [Profile name]
-Název profilu
+NĞ±zev profilu
 ;(DUP) [ms]
 [Set after]
 Zpozdit o
 ;(DUP) [Timeout]
 ;(DUP) [s]
 [Note: status profiles can be created in the 'Status Profiles' options screen]
-Pozn.: Profily lze vytvoøit v sekci Startovní profily.
+Pozn.: Profily lze vytvoÑˆit v sekci StartovnĞ½ profily.
 ;(DUP) [Background colour]
 ;(DUP) [Text colour]
 ;(DUP) [Use %time% for the current time, %date% for the current date]
@@ -193,12 +193,12 @@ Pozn.: Profily lze vytvoøit v sekci Startovní profily.
 ;(DUP) [Auto Away Rules]
 ;(DUP) [Other]
 [Status on startup]
-Stav po spuštìní
+Stav po spuÑ™tĞ¼nĞ½
 [Window on startup]
 Okno po startu
 ;(FIX) [Dial-up]
 [Dial-up (experimental)]
-Vytáèené spojení (experimentální)
+VytĞ±Ğ¸enĞ¹ spojenĞ½ (experimentĞ±lnĞ½)
 ;(DUP) [Delay]
 ;(DUP) [On left click]
 ;(DUP) [On right click]
@@ -207,17 +207,17 @@ Vytáèené spojení (experimentální)
 ;(DUP) [Auto Away Status Messages]
 ;(DUP) [Confirm Status]
 [Command Line]
-Pøíkazovı øádek
+PÑˆĞ½kazovÑ ÑˆĞ±dek
 [Add new profile]
-Pøidat novı profil
+PÑˆidat novÑ profil
 
 [In submenu]
 V podmenu
 
 [Create a main menu item]
-Pøidat poloku do hlavní nabídky
+PÑˆidat poloÑ›ku do hlavnĞ½ nabĞ½dky
 
 [StartupStatus, allows you to define the status Miranda should set on startup, configurable per protocol.]
-Definuje stav protokolù pøi spuštìní Mirandy.
+Definuje stav protokolÑ‰ pÑˆi spuÑ™tĞ¼nĞ½ Mirandy.
 
 ; ---

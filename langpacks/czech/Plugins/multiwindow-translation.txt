@@ -1,13 +1,13 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  MultiWindow 0.5.0.9                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinÐ±Ð¸) qwerty (teÐ¸ka) cz>
 ; Adresa: 
 ;
 
 [My contacts]
-Seznam kontaktù
+Seznam kontaktÑ‰
 
 ;(DUP) [Hide All Titlebars]
 ;(DUP) [Show All Titlebars]
@@ -35,7 +35,7 @@ Seznam kontaktù
 Okno (MW)
 ;(DUP) [Contact List]
 [Status Bar(Frames)]
-Stavová lišta (MW)
+StavovÐ± liÑ™ta (MW)
 
 
 
@@ -45,6 +45,6 @@ Stavová lišta (MW)
 ;(DUP) [Visible]
 ;(DUP) [Show TitleBar]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANÐ™
 
 ; ---

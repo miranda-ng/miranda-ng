@@ -1,15 +1,15 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Away System 0.3.1.0                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Tur McDonnel <tur (teĞ¸ka) mcdonnel (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ;
 
 ; New stuff to translate since v0.3.0.5:
 [When I'm]
 Pro
 [don't send the status message]
-neodesílat zprávu stavu
+neodesĞ½lat zprĞ±vu stavu
 
 ; In v0.3.0.0 the following strings were removed:
 ; "Could not get Miranda's window, Aborting...", "Do not pop up dialog asking for status message"
@@ -17,11 +17,11 @@ neodesílat zprávu stavu
 
 ; New stuff to translate since v0.3.0.0:
 [Status Message Dialog]
-Zpráva stavu
+ZprĞ±va stavu
 [For:]
 Pro:
 [don't pop the status message dialog]
-neotevírat okno pro zadání zprávy stavu
+neotevĞ½rat okno pro zadĞ±nĞ½ zprĞ±vy stavu
 
 ; The following are the same from Miranda's SRAway module (Read Away Message):
 ;(DUP) [%s Message for %s]
@@ -43,35 +43,35 @@ neotevírat okno pro zadání zprávy stavu
 ;, "%yourcnick%    Requester's contact list name", "%messagenum%    Number of messages from contact"
 ; New stuff to translate since v0.2.8.0:
 [Enable contact menu item]
-Povolit poloku menu v hlavní nabídce
+Povolit poloÑ›ku menu v hlavnĞ½ nabĞ½dce
 [Current time]
-Aktuální èas
+AktuĞ±lnĞ½ Ğ¸as
 [Current date]
-Dnešní datum
+DneÑ™nĞ½ datum
 [Present day]
-Den v tıdnu
+Den v tÑdnu
 [Your nickname]
-Vaše pøezdívka
+VaÑ™e pÑˆezdĞ½vka
 [Status type]
 Stav
 [Contact's nickname]
-Pøezdívka kontaktu
+PÑˆezdĞ½vka kontaktu
 [Contact's custom name]
-Pojmenování kontaktu
+PojmenovĞ±nĞ½ kontaktu
 [Contact's first name]
-Køestní jméno kontaktu
+KÑˆestnĞ½ jmĞ¹no kontaktu
 [Time of request]
-Èas poadavku
+Ğ˜as poÑ›adavku
 [Number of messages from contact]
-Poèet zpráv od uivatele
+PoĞ¸et zprĞ±v od uÑ›ivatele
 [Time that has passed until request]
-Uplynulı èas od poadavku
+UplynulÑ Ğ¸as od poÑ›adavku
 [A random line from filename]
-Náhodnı øádek ze souboru
+NĞ±hodnÑ ÑˆĞ±dek ze souboru
 [Returns line num from filename]
-Èíslo øádku v souboru
+Ğ˜Ğ½slo ÑˆĞ±dku v souboru
 [Current song playing in Winamp]
-Pøehrávaná skladba ve Winampu
+PÑˆehrĞ±vanĞ± skladba ve Winampu
 ; these 2 below should be translated so you can translate "filename" and/or "num"
 ;(LAI) [%randomline(filename)%]
 ;(LAI) [%singleline(filename,num)%]
@@ -79,41 +79,41 @@ Pøehrávaná skladba ve Winampu
 ; In v0.2.7.5 the strings "Change %s Message" and "Message...->" were removed
 ; New stuff to translate since v0.2.7.5:
 [Remember last message used for a contact when changing status message]
-Pamatovat si poslední zprávu pouitou pro kontakt pøi zmìnì zprávy stavu
+Pamatovat si poslednĞ½ zprĞ±vu pouÑ›itou pro kontakt pÑˆi zmĞ¼nĞ¼ zprĞ±vy stavu
 [Send status message on event]
-Poslat zprávu stavu pøi události
+Poslat zprĞ±vu stavu pÑˆi udĞ±losti
 [Only send status message to non-ICQ contacts]
-Poslat zprávu stavu pouze uivatelùm mimo ICQ
+Poslat zprĞ±vu stavu pouze uÑ›ivatelÑ‰m mimo ICQ
 [Once]
 Jednou
 [Every time]
-Pokadé
+PokaÑ›dĞ¹
 [Send...]
 Poslat...
 [On event...]
-Událost...
+UdĞ±lost...
 [Change %s Message for %s]
-Zmìnit zprávu stavu %s pro %s
+ZmĞ¼nit zprĞ±vu stavu %s pro %s
 [Don't send this contact my status message]
-Tomuto kontaktu neodesílat zprávu stavu
+Tomuto kontaktu neodesĞ½lat zprĞ±vu stavu
 [Send this contact the status message on event]
-Tomuto kontaktu odeslat zprávu stavu pøi události
+Tomuto kontaktu odeslat zprĞ±vu stavu pÑˆi udĞ±losti
 [Reset All]
-Vše resetovat
+VÑ™e resetovat
 [Contacts >>]
 Kontakty >>
 [Chars]
-Znakù
+ZnakÑ‰
 ;(DUP) [** All contacts **]
 [(Ungrouped)]
-(nezaøazené)
+(nezaÑˆazenĞ¹)
 [All Contacts]
-Všechny kontakty
+VÑ™echny kontakty
 ;(DUP) [Apply]
 [(group)]
 (skupina)
 [Set %s message for %s]
-Nastavit %s zprávu pro %s
+Nastavit %s zprĞ±vu pro %s
 
 ; New stuff to translate since v0.2.7.2:
 [%d seconds]
@@ -134,92 +134,92 @@ Seznam...
 
 ; New stuff to translate since v0.2.6.0:
 [More Options]
-Další monosti
+DalÑ™Ğ½ moÑ›nosti
 ; Dialogs
 [Away System]
-Automatické odpovìdi
+AutomatickĞ¹ odpovĞ¼di
 [Message:]
-Zpráva:
+ZprĞ±va:
 ;(DUP) [Save]
 ;(DUP) [Delete]
 [Default Message]
-Vıchozí zpráva
+VÑchozĞ½ zprĞ±va
 ;(DUP) [Variables]
 ;(DUP) [Reset]
 ;(DUP) [Delete Settings]
 ;(DUP) [Options]
 [By default...]
-Vıchozí stav
+VÑchozĞ½ stav
 [Use the message from last time]
-Pouít poslední odpovìï
+PouÑ›Ğ½t poslednĞ½ odpovĞ¼Ğ¿
 [Use the default message]
-Pouít vıchozí odpovìï
+PouÑ›Ğ½t vÑchozĞ½ odpovĞ¼Ğ¿
 [Never close the status message dialog]
-Nezavírat okno s vıbìrem zprávy stavu
+NezavĞ½rat okno s vÑbĞ¼rem zprĞ±vy stavu
 [Wait]
-Poèkat
+PoĞ¸kat
 [second(s) before closing the status message dialog]
-sek. pøed zavøením okna s vıbìrem zprávy stavu
+sek. pÑˆed zavÑˆenĞ½m okna s vÑbĞ¼rem zprĞ±vy stavu
 [Remember last message for each status separately]
-Pamatovat si poslední zprávu pro kadı stav zvláš
+Pamatovat si poslednĞ½ zprĞ±vu pro kaÑ›dÑ stav zvlĞ±Ñ™Ñœ
 [Remember the status message dialog's position]
-Pamatovat si pozici okna s vıbìrem zprávy stavu
+Pamatovat si pozici okna s vÑbĞ¼rem zprĞ±vy stavu
 ;(DUP) [Closing in %d]
 ;(DUP) [OK]
 [An error has occured while trying to acquire messages]
-Došlo k chybì bìhem pokusu o získání zprávy
+DoÑ™lo k chybĞ¼ bĞ¼hem pokusu o zĞ½skĞ±nĞ½ zprĞ±vy
 [-> Last%sMessage]
--> Poslední%szpráva
+-> PoslednĞ½%szprĞ±va
 ;(DUP) [Are you sure you would like to delete settings? If you continue, all of your settings will be deleted!]
 ;(DUP) [All settings will be erased after you close the options window!]
 [Please enter a title for the message before saving.]
-Pøed uloením zadejte prosím název zprávy.
+PÑˆed uloÑ›enĞ½m zadejte prosĞ½m nĞ±zev zprĞ±vy.
 [Please enter a message before saving.]
-Pøed uloením napište zprávu.
+PÑˆed uloÑ›enĞ½m napiÑ™te zprĞ±vu.
 
 ; built-in messages
 ; note to translators: The 3rd message "Gone since..." is used by default on several occassions:
 ; - when the user doesn't enter a message - when a default message is needed but there are no predefined messages available
 ; just thought you should know ;)
 [Creepy]
-Královská
+KrĞ±lovskĞ±
 [Your master, %mynick% is %statdesc% since the day that is only known as %day%... When he gets back, I'll tell him you dropped by...]
-Vaše velièenstvo, %mynick% je právì %statdesc% ode dne, známého jako %day%... A se vrátí, ihned ho upozorním, aby Vás kontaktoval...
+VaÑ™e veliĞ¸enstvo, %mynick% je prĞ±vĞ¼ %statdesc% ode dne, znĞ±mĞ¹ho jako %day%... AÑ› se vrĞ±tĞ½, ihned ho upozornĞ½m, aby VĞ±s kontaktoval...
 [Gone fragging]
 Fraguji
 [Been fragging since %time%, I'll msg you later when the adrenaline wears off.]
-Lovím fragy od %time%, ozvu se ti hned, jak ze mì vyprchá všechen adrenalin.
+LovĞ½m fragy od %time%, ozvu se ti hned, jak ze mĞ¼ vyprchĞ± vÑ™echen adrenalin.
 [Not here]
 Nejsem tu
 [Gone since %time%, will be back later.]
-Nejsem tu od %time%, pøijdu pozdìji.
+Nejsem tu od %time%, pÑˆijdu pozdĞ¼ji.
 ;(DUP) [On the phone]
 [I'm on the phone since %time%, give me a sec!]
-Telefonuji od %time%, dej mnì vteøinku!
+Telefonuji od %time%, dej mnĞ¼ vteÑˆinku!
 
 
 ; Away System MOD 0.3.4.1
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1494
 ;
 
 [Show 5 more recent messages in the list]
-Zobrazit dalších 5 naposledy pouitıch zpráv v seznamu
+Zobrazit dalÑ™Ğ½ch 5 naposledy pouÑ›itÑch zprĞ±v v seznamu
 [Log when i send the status message]
-Zapisovat odesílané stavové zprávy
+Zapisovat odesĞ½lanĞ¹ stavovĞ¹ zprĞ±vy
 [Use default nick for %mynick%]
-Pouít vıchozí pøezdívku pro promìnnou %mynick%
-;zde tlaèítko pro TTB
+PouÑ›Ğ½t vÑchozĞ½ pÑˆezdĞ½vku pro promĞ¼nnou %mynick%
+;zde tlaĞ¸Ğ½tko pro TTB
 [Send Away Msg on/off]
-Odesílat zprávy o nepøítomnosti
+OdesĞ½lat zprĞ±vy o nepÑˆĞ½tomnosti
 [Expand >>]
-Více >>
+VĞ½ce >>
 [Reduce <<]
-Ménì <<
+MĞ¹nĞ¼ <<
 [-- Recent --]
--- Naposledy pouité --
+-- Naposledy pouÑ›itĞ¹ --
 [You can use variables from "variable" plugin (look miranda-im.org in Files/Services).]
-Je mono pouít promìnné z doplòku "Variables" (ke staení na miranda-im.org v sekci Files/Services).
+Je moÑ›no pouÑ›Ğ½t promĞ¼nnĞ¹ z doplÑ‚ku "Variables" (ke staÑ›enĞ½ na miranda-im.org v sekci Files/Services).
 
 ; ---

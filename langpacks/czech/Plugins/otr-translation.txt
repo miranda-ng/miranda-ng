@@ -1,38 +1,38 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  OTR 0.5.2.0                                             |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2644
 ;
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Policy]
 Metoda
 [Prefix secure messages]
-Oznaèit šifrované zprávy
+OznaĞ¸it Ñ™ifrovanĞ¹ zprĞ±vy
 [Default Policy]
-Vıchozí metoda
+VÑchozĞ½ metoda
 [Manual]
-Ruènì
+RuĞ¸nĞ¼
 [Opportunistic]
-Na vyádání
+Na vyÑ›Ğ±dĞ±nĞ½
 [New Private Key]
-Vygenerovat soukromı klíè
+Vygenerovat soukromÑ klĞ½Ğ¸
 [Start OTR]
-Šifrovat spojení (OTR)
+Ğ‰ifrovat spojenĞ½ (OTR)
 [Stop OTR]
-Zrušit šifrování (OTR)
+ZruÑ™it Ñ™ifrovĞ±nĞ½ (OTR)
 
 [OTR]
-Mimo záznam
+Mimo zĞ±znam
 [Show start/stop inline]
 Indikovat (de)aktivaci
 [Popups Icon]
-Oznámení
+OznĞ±menĞ½
 [Secure]
-Zabezpeèeno
+ZabezpeĞ¸eno
 [Insecure]
-Není zabezpeèeno
+NenĞ½ zabezpeĞ¸eno
 
 ; ---

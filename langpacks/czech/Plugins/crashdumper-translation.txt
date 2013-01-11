@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Crash Dumper 0.0.4.16                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Trtkal <mtrakal(zavináè)trtkal(teèka)net>
+; PÑˆeklad: Trtkal <mtrakal(zavinĞ±Ğ¸)trtkal(teĞ¸ka)net>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3695
 ; Zdroj : http://code.google.com/p/mirandaimplugins/downloads/list
 ;
@@ -12,84 +12,84 @@
 [Version Information]
 Informace o verzi
 [VersionInfo stored into file %s]
-Informace o verzi ukládat do %s
+Informace o verzi uklĞ±dat do %s
 [VersionInfo file %s is inaccessible]
-Soubor Informací o verzi %s je nedostupnı
+Soubor InformacĞ½ o verzi %s je nedostupnÑ
 [Please update Crash Dumper to Unicode Version]
-Prosím aktualizujte Crash Dumper na Unicode verzi
+ProsĞ½m aktualizujte Crash Dumper na Unicode verzi
 [Store to clipboard]
-Uloit do schránky
+UloÑ›it do schrĞ±nky
 [Store to file]
-Uloit do souboru
+UloÑ›it do souboru
 [Show]
 Zobrazit
 [Show with DLLs]
 Zobrazit s DLL knihovnami
 [Upload]
-Nahrát na server
+NahrĞ±t na server
 [Get Version Info]
-Stáhnout informace o verzi
+StĞ±hnout informace o verzi
 [Version Information To Clipboard]
-Informace o verzi do schránky
+Informace o verzi do schrĞ±nky
 [Version Information To File]
 Informace o verzi do souboru
 [Show Version Information]
 Zobrazit Informace o verzi
 [Upload Version Information]
-Informace o verzi nahrát na server
+Informace o verzi nahrĞ±t na server
 [Open crash report directory]
-Otevøít sloku s vıpisem chyb
+OtevÑˆĞ½t sloÑ›ku s vÑpisem chyb
 [Open miranda-vi.org]
-Jít na miranda-vi.org
+JĞ½t na miranda-vi.org
 
 ; crashdmp.rc
 [Support for miranda-vi.org]
-Nastavení pro miranda-vi.org
+NastavenĞ½ pro miranda-vi.org
 [Username]
-Uivatelské jméno
+UÑ›ivatelskĞ¹ jmĞ¹no
 [Password]
 Heslo
 [Upload automatically when changed]
-Nahrát na server automaticky pøi zmìnì
+NahrĞ±t na server automaticky pÑˆi zmĞ¼nĞ¼
 [Trap all possible exceptions]
-Zachytit veškeré moné vıjimky
+Zachytit veÑ™kerĞ¹ moÑ›nĞ¹ vÑjimky
 [Crash Report]
-Vıpis chyb
+VÑpis chyb
 [Use classic dates]
-Pouít klasickı formát data
+PouÑ›Ğ½t klasickÑ formĞ±t data
 
 ; exhndlr.cpp
 [Crash Report write location is inaccesible]
-Crash report: nedostupná lokace zápisu
+Crash report: nedostupnĞ± lokace zĞ±pisu
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda spadla. Crash report uloen ve sloce:\n %s\n\n Chcete záznam uloit i do schránky?
+Miranda spadla. Crash report uloÑ›en ve sloÑ›ce:\n %s\n\n Chcete zĞ±znam uloÑ›it i do schrĞ±nky?
 [Miranda Crashed. dbghelp.dll v. 6.8 required to provide a crash report]
-Miranda spadla. Vyadován dbghelp.dll v. 6.8 k vytvoøení záznamu o pádu
+Miranda spadla. VyÑ›adovĞ±n dbghelp.dll v. 6.8 k vytvoÑˆenĞ½ zĞ±znamu o pĞ±du
 
 ; upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
-Informace o verzi: úspìšnì nahráno\n%d starıch pluginù
+Informace o verzi: ÑŠspĞ¼Ñ™nĞ¼ nahrĞ±no\n%d starÑch pluginÑ‰
 [Cannot upload VersionInfo. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uivatelské jméno, nebo heslo
+Informace o verzi: Nelze nahrĞ±t na server\nĞ‰patnĞ¹ uÑ›ivatelskĞ¹ jmĞ¹no, nebo heslo
 [Cannot upload VersionInfo. User is banned]
-Informace o verzi: nelze nahrát na server\nUivatel zablokován
+Informace o verzi: nelze nahrĞ±t na server\nUÑ›ivatel zablokovĞ±n
 [Cannot upload VersionInfo. Daily upload limit exceeded]
-Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání pøekroèen
+Informace o verzi: nelze nahrĞ±t na server\nDennĞ½ limit pro nahrĞ±vĞ±nĞ½ pÑˆekroĞ¸en
 [Cannot upload VersionInfo. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
+Informace o verzi: nelze nahrĞ±t na server\nNeznĞ±mĞ± chyba
 [Cannot upload VersionInfo. Host unreachable.]
-Informace o verzi: nelze nahrát na server\nServer nedostupnı
+Informace o verzi: nelze nahrĞ±t na server\nServer nedostupnÑ
 
 ; utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Máte více ne jeden crash report plugin. To povede k nefunkènosti vytváøení záznamù o pádu (crash reportù).
+MĞ±te vĞ½ce neÑ› jeden crash report plugin. To povede k nefunkĞ¸nosti vytvĞ±ÑˆenĞ½ zĞ±znamÑ‰ o pĞ±du (crash reportÑ‰).
 
 [Crash Dumper HTTP connections]
-Crash Dumper - spojení pomocí protokolu HTTP
+Crash Dumper - spojenĞ½ pomocĞ½ protokolu HTTP
 
 ; Crash Dumper 0.0.4.16
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [Notify only if crash stops Miranda]
-Oznámit jen v pøípadì ukonèení Mirandy
+OznĞ±mit jen v pÑˆĞ½padĞ¼ ukonĞ¸enĞ½ Mirandy
 
 ; ---

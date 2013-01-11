@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  MirandaComm 1.0.0.0                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; PÑˆeklad: waclaw <waclaw (zavinĞ±Ğ¸) cmail (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -10,32 +10,32 @@
 [MirandaComm - Error]
 MirandaComm - chyba
 [A fatal error has been detected. Try to restart Miranda.\nIf the problem persists, enable debug mode to get detailed error information.]
-Kritická chyba. Nyní je nutno restartovat Mirandu.\nPokud problém nezmizí, aktivujte ladicí reim a získané informace o chybách ulote.
+KritickĞ± chyba. NynĞ½ je nutno restartovat Mirandu.\nPokud problĞ¹m nezmizĞ½, aktivujte ladicĞ½ reÑ›im a zĞ½skanĞ¹ informace o chybĞ±ch uloÑ›te.
 [The person you are trying to establish an Audio Session with is not using the same audio format. Make sure that both of you have installed and selected the same audio format in the options dialog.]
-Uivatel, se kterım se pokoušíte navázat audio konferenci, nepouívá stejnı formát zvuku. Je tøeba zajistit, aby obì strany mìly nainstalovány a vybrány stejnı formát zvuku.
+UÑ›ivatel, se kterÑm se pokouÑ™Ğ½te navĞ±zat audio konferenci, nepouÑ›Ğ½vĞ± stejnÑ formĞ±t zvuku. Je tÑˆeba zajistit, aby obĞ¼ strany mĞ¼ly nainstalovĞ±ny a vybrĞ±ny stejnÑ formĞ±t zvuku.
 [Ok.]
 OK
 [Requesting Audio Session...]
-ádost o audio koferenci...
+Ğ‹Ğ±dost o audio koferenci...
 ;(DUP) [Cancel]
 [Received request for Audio Session from]
-Pøijata ádost o audio konferenci od
+PÑˆijata Ñ›Ğ±dost o audio konferenci od
 [Deny]
-Zamítnout
+ZamĞ½tnout
 [Waiting for]
-Prosím èekejte na
+ProsĞ½m Ğ¸ekejte na
 [to accept request...]
-na potvrzení ádosti...
+na potvrzenĞ½ Ñ›Ğ±dosti...
 [Establishing UDP-Connection...]
-Navazování UDP spojení...
+NavazovĞ±nĞ½ UDP spojenĞ½...
 [Remote user has cancelled/denied.]
-Uivatel pøerušil/zamítnul poadavek.
+UÑ›ivatel pÑˆeruÑ™il/zamĞ½tnul poÑ›adavek.
 [Remote user has terminated the connection.]
-Uivatel pøerušil spojení.
+UÑ›ivatel pÑˆeruÑ™il spojenĞ½.
 [&Audio Session]
 &Audio konference
 [Could not create Main Thread]
-Nelze vytvoøit hlavní vlákno
+Nelze vytvoÑˆit hlavnĞ½ vlĞ±kno
 ;(DUP) [Plugins]
 ;(LAI) [Could not create ListenSocket.]
 ;(LAI) [Could not bind to Socket.]
@@ -43,33 +43,33 @@ Nelze vytvoøit hlavní vlákno
 ;(LAI) [Could not connect to Socket.]
 ;(LAI) [Could not receive on Socket.]
 [Could not send jaja.]
-Nelze poslat potvrzení.
+Nelze poslat potvrzenĞ½.
 [Could not get the IP-Address of the person you are trying to connect to. Please ask if he/she could configure his/her ICQ client to let other users view the IP.]
-Nelze zjistit IP adresu uivatele, s kterım chcete hovoøit. Poádejte ho prosím o zmìnu nastavení ICQ klienta tak, aby bylo moné zjistit jeho IP adresu.
+Nelze zjistit IP adresu uÑ›ivatele, s kterÑm chcete hovoÑˆit. PoÑ›Ğ±dejte ho prosĞ½m o zmĞ¼nu nastavenĞ½ ICQ klienta tak, aby bylo moÑ›nĞ¹ zjistit jeho IP adresu.
 [Could not initialize WinSock.]
 Nelze inicializovat WinSock.
 [Could not send data.]
 Nelze poslat data.
 [No recording devices present.]
-Chybí potøebné záznamové zaøízení.
+ChybĞ½ potÑˆebnĞ¹ zĞ±znamovĞ¹ zaÑˆĞ½zenĞ½.
 [Accept]
-Pøijmout
+PÑˆijmout
 ;(DUP) [To:]
 [Suggested Audio Format: GSM 6.10, 8-12 kHz. Be sure to select an Audio Compression which supports recording! Also consider that the other side needs the Codec too!]
-Doporuèenı formát: GSM 6.10, 8-12 kHz. Ujistìte se, zda je formát podporován záznamovım zaøízením. Navíc je nutno vzít v potaz, e ostatní potøebují tentı kodek!
+DoporuĞ¸enÑ formĞ±t: GSM 6.10, 8-12 kHz. UjistĞ¼te se, zda je formĞ±t podporovĞ±n zĞ±znamovÑm zaÑˆĞ½zenĞ½m. NavĞ½c je nutno vzĞ½t v potaz, Ñ›e ostatnĞ½ potÑˆebujĞ½ tentÑÑ› kodek!
 [You must restart Miranda for the changes to take effect!]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 [Length of Recording Buffer]
-Vyrovn. pamì pro záznam
+Vyrovn. pamĞ¼Ñœ pro zĞ±znam
 [Compression Format...]
-Kompresní formát...
+KompresnĞ½ formĞ±t...
 [UDP Port To Listen on]
-UDP port pro pøíjem
+UDP port pro pÑˆĞ½jem
 [UDP Port To Send to]
-UDP port pro vysílání
+UDP port pro vysĞ½lĞ±nĞ½
 [256 bytes]
-256 bajtù
+256 bajtÑ‰
 [2048 bytes]
-2048 bajtù
+2048 bajtÑ‰
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Buddy Pounce 0.3.2.1                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1062
 ;
 
@@ -11,111 +11,111 @@
 
 ; dialog.c
 [Send If My Status Is...]
-Odesílání ve stavu...
+OdesĞ½lĞ±nĞ½ ve stavu...
 [Send If They Change Status to...]
-Odesílání po zmìnì stavu...
+OdesĞ½lĞ±nĞ½ po zmĞ¼nĞ¼ stavu...
 [Reuse Pounce]
-Pouití napsané zprávy
+PouÑ›itĞ½ napsanĞ¹ zprĞ±vy
 [Give Up delay]
-Zrušení odesílání po urèité dobì
+ZruÑ™enĞ½ odesĞ½lĞ±nĞ½ po urĞ¸itĞ¹ dobĞ¼
 [Confirmation Window]
-Potvrzení akce
+PotvrzenĞ½ akce
 [Send a File]
 Odeslat soubor
 [Send If My Status Is]
 Odeslat ve stavu
 [Any]
-Jakıkoli
+JakÑkoli
 ;(DUP) [Online]
 ;(DUP) [Away]
 ;(DUP) [NA]
 ;(DUP) [Occupied]
 ;(DUP) [DND]
 [Free For Chat]
-Mám volno
+MĞ±m volno
 ;(DUP) [Invisible]
 [On The Phone]
-Mám telefon
+MĞ±m telefon
 [Out To Lunch]
-Jsem na obìdì
+Jsem na obĞ¼dĞ¼
 [Send If Their Status changes]
-Odeslat po zmìnì stavu
+Odeslat po zmĞ¼nĞ¼ stavu
 [From Offline]
 Z 'Offline'
 [To Online]
 Do 'Online'
 [To Away]
-Do 'Na chvíli pryè'
+Do 'Na chvĞ½li pryĞ¸'
 [To NA]
 Do 'Nejsem tady'
 [To Occupied]
-Do 'Nemám èas'
+Do 'NemĞ±m Ğ¸as'
 [To DND]
-Do 'Nerušit'
+Do 'NeruÑ™it'
 [To Free For Chat]
-Do 'Mám volno'
+Do 'MĞ±m volno'
 [To Invisible]
-Do 'Neviditelnı'
+Do 'NeviditelnÑ'
 [To On The Phone]
-Do 'Mám telefon'
+Do 'MĞ±m telefon'
 [To Out To Lunch]
-Do 'Jsem na obìdì'
+Do 'Jsem na obĞ¼dĞ¼'
 [The Message    (%d Characters)]
-Zpráva (poèet znakù: %d)
+ZprĞ±va (poĞ¸et znakÑ‰: %d)
 [Pounce being sent to %s in %d seconds]
-Zpráva (adresát: %s, bude odesláno za %d sek.)
+ZprĞ±va (adresĞ±t: %s, bude odeslĞ±no za %d sek.)
 ;(DUP) [Retry]
 [Message successfully sent to %s]
-Zpráva úspìšnì odeslána (komu: %s)
+ZprĞ±va ÑŠspĞ¼Ñ™nĞ¼ odeslĞ±na (komu: %s)
 [Message failed to send to %s]
-Chyba pøi odesílání zprávy (komu: %s)
+Chyba pÑˆi odesĞ½lĞ±nĞ½ zprĞ±vy (komu: %s)
 
 ; resource.rc
 ;(LAI) [Spin2]
 ;(LAI) [Check1]
 [Use Advanced Dialog]
-Zobrazit více moností
+Zobrazit vĞ½ce moÑ›nostĞ½
 [Show Delivery Messages]
-Informovat o doruèení
+Informovat o doruĞ¸enĞ½
 ;(DUP) [Send]
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 [Delete Pounce]
-Smazat zprávu
+Smazat zprĞ±vu
 [Load default Settings]
-Vıchozí nastavení
+VÑchozĞ½ nastavenĞ½
 ;(DUP) [...]
 [<< Simple]
-<< Prosté
+<< ProstĞ¹
 ;(DUP) [Advanced >>]
 [Pounce being sent to]
-Pøíjemce zprávy offline:
+PÑˆĞ½jemce zprĞ±vy offline:
 [Setting text...........]
-Nastavení textu...
+NastavenĞ½ textu...
 [The Message:]
-Zpráva:
+ZprĞ±va:
 [Setting Value]
 Hodnota
 ;(DUP) [Settings]
 [Contact To Send Pounce To]
-Pøíjemce zprávy offline
+PÑˆĞ½jemce zprĞ±vy offline
 [The Message]
-Zpráva
+ZprĞ±va
 ;(DUP) [Static]
 [The Message:       (Characters:  )]
-Zpráva:       (Poèet znakù:  )
+ZprĞ±va:       (PoĞ¸et znakÑ‰:  )
 ;(FIX) [Default Settings        These settings are also used when sending a ]
 [Default Settings        These settings are also used when sending a "Simple" pounce]
-Vıchozí nastavení (platí i pro základní dialog)
+VÑchozĞ½ nastavenĞ½ (platĞ½ i pro zĞ±kladnĞ½ dialog)
 [Confirm Pounce send]
-Potvrzení odeslání
+PotvrzenĞ½ odeslĞ±nĞ½
 [Buddy Pounce]
 Komunikace offline
 [Dialog]
 Dialog
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [&Buddy Pounce]
-Zpráva o&ffline
+ZprĞ±va o&ffline
 
 ; ---

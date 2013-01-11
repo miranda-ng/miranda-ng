@@ -1,41 +1,41 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Messages Total Notify 0.0.5.3                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2918
 ;
 
 ;[Messages Total Notify]
 ;Messages Total Notify
 [Message was sent to]
-Zpráva byla odeslána pro
+ZprĞ±va byla odeslĞ±na pro
 [total messages]
-zpráv celkem
+zprĞ±v celkem
 ;(DUP) [Common]
 ;(DUP) [Settings]
 ;(DUP) [Show popup]
 ;(DUP) [Notify]
 [Show popup notify every]
-Zobrazit oznámení kadıch
+Zobrazit oznĞ±menĞ½ kaÑ›dÑch
 ;(DUP) [messages]
 [Send messages]
-Posílat zprávy
+PosĞ½lat zprĞ±vy
 [Send messages total every]
-Posílat kadıch
+PosĞ½lat kaÑ›dÑch
 [Show notify too]
-Zobrazit také oznámení
+Zobrazit takĞ¹ oznĞ±menĞ½
 [Show information after send]
-Zobrazit informace po odeslání
+Zobrazit informace po odeslĞ±nĞ½
 [Save to history]
-Uloit do historie
+UloÑ›it do historie
 [Send immediately]
-Odesílat hned
+OdesĞ½lat hned
 ;(DUP) [Sounds]
 [Play sound at popup notify]
-Pøehrát zvuk pøi oznámení	 
+PÑˆehrĞ±t zvuk pÑˆi oznĞ±menĞ½	 
 [Play sound at send messages action]
-Pøehrát zvuk pøi odeslání zprávy
+PÑˆehrĞ±t zvuk pÑˆi odeslĞ±nĞ½ zprĞ±vy
 ;(DUP) [Popup mouse click]
 ;(DUP) [Left]
 ;(DUP) [Right]
@@ -43,37 +43,37 @@ Pøehrát zvuk pøi odeslání zprávy
 ;(DUP) [Contact history]
 ;(DUP) [Message window]
 [Send messages total history]
-Poslat poèet zpráv v historii
+Poslat poĞ¸et zprĞ±v v historii
 [Send messages total to contact]
-Poslat kontaktu poèet zpráv
+Poslat kontaktu poĞ¸et zprĞ±v
 Send messages total to contact
 [Contact details window]
-Otevøít informace o kontaktu
+OtevÑˆĞ½t informace o kontaktu
 ;(DUP) [Nothing]
 [Popup colours]
-Barvy oznámení
+Barvy oznĞ±menĞ½
 ;(DUP) [Background]
 ;(DUP) [Text]
 ;(DUP) [Timeout]
 [Notify]
-Oznámení
+OznĞ±menĞ½
 [Auto send]
 Odeslat automaticky
 ;(DUP) [Information]
 [Defaults]
-Vıchozí
+VÑchozĞ½
 ;(DUP) [Preview]
 [Menu]
 Menu
 ;(DUP) [Enable contact menu item]
 ;(DUP) [Variables]
 [%n - messages total]
-%n - zpráv celkem
+%n - zprĞ±v celkem
 [%c - contact name]
-%c - jméno kontaktu
+%c - jmĞ¹no kontaktu
 ;(DUP) [Template]
 
 [Show/send the count of all messages from the history to a contact]
-Zobrazí a umoní poslat informaci o poètu zpráv uloenıch v historii.
+ZobrazĞ½ a umoÑ›nĞ½ poslat informaci o poĞ¸tu zprĞ±v uloÑ›enÑch v historii.
 
 ; ---

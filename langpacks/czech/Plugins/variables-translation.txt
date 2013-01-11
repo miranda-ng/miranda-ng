@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Variables 0.2.2.0                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2834
 ;
 
@@ -14,25 +14,25 @@
 [Auto parse]
 Automaticky zpracovat
 [Parse the following string at startup]
-Pøi spuštìní zpracovat níe uvedené
+PÑˆi spuÑ™tĞ¼nĞ½ zpracovat nĞ½Ñ›e uvedenĞ¹
 [Automatically strip "end of line" characters]
-Automaticky odstranit konce øádkù (EOL)
+Automaticky odstranit konce ÑˆĞ±dkÑ‰ (EOL)
 [Don't set a contact]
 Nenastavovat kontakt
 [Set to the following contact]
-Nastavit následující kontakt
+Nastavit nĞ±sledujĞ½cĞ½ kontakt
 [Parse]
 Zpracovat
 [Help...]
-Nápovìda...
+NĞ±povĞ¼da...
 [Close]
-Zavøít
+ZavÑˆĞ½t
 [OK]
 OK
 [Trigger when the following string changes]
-Spustit pøi zmìnì následujícího øetìzce
+Spustit pÑˆi zmĞ¼nĞ¼ nĞ±sledujĞ½cĞ½ho ÑˆetĞ¼zce
 [Please enter your input below]
-Zadejte prosím poadovanı text:
+Zadejte prosĞ½m poÑ›adovanÑ text:
 ;[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 ;[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 ;[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
@@ -47,28 +47,28 @@ Tokeny
 [Input]
 Vstup
 [Cacnel]
-Zrušit
+ZruÑ™it
 [%subject%]
 %subject%
 [%extratext%]
 %extratext%
 ;[Help]
 [Variables Help]
-Nápovìda pro doplnìk Variables
+NĞ±povĞ¼da pro doplnĞ¼k Variables
 
 ; parse_alias.c
 [stores y as alias named x]
-uloí y jako alias s názvem x
+uloÑ›Ğ½ y jako alias s nĞ±zvem x
 [user defined]
-definováno uivatelem
+definovĞ±no uÑ›ivatelem
 
 ; parse_external.c
 [External Applications]
-Externí programy
+ExternĞ½ programy
 [retrieves song name of the song currently playing in Winamp]
-Zjistí název skladby právì pøehrávané programem Winamp
+ZjistĞ½ nĞ±zev skladby prĞ±vĞ¼ pÑˆehrĞ±vanĞ¹ programem Winamp
 [retrieves current Winamp state (Playing/Paused/Stopped)]
-Zjistí aktuální stav pøehrávaèe Winamp (pøehrává/pauza/zastaveno)
+ZjistĞ½ aktuĞ±lnĞ½ stav pÑˆehrĞ±vaĞ¸e Winamp (pÑˆehrĞ±vĞ±/pauza/zastaveno)
 [Playing]
 Hraje
 [Paused]
@@ -82,19 +82,19 @@ Internet
 ;[converts each non-html character into hex format]
 ;[converts each hex value into non-html character]
 [converts a 32-bit number to IPv4 dotted notation]
-zkonvertuje 32bitové èíslo do formátu IP(v4) adresy
+zkonvertuje 32bitovĞ¹ Ğ¸Ğ½slo do formĞ±tu IP(v4) adresy
 [converts a 32-bit number (in host byte order) to IPv4 dotted notation]
-zkonvertuje 32bitové èíslo do formátu IP(v4) adresy (zohlední poøadí bajtù)
+zkonvertuje 32bitovĞ¹ Ğ¸Ğ½slo do formĞ±tu IP(v4) adresy (zohlednĞ½ poÑˆadĞ½ bajtÑ‰)
 
 ; parse_logic.c
 [Logical Expressions]
-Logické vırazy
+LogickĞ¹ vÑrazy
 [performs logical AND (x && y && ...)]
-logické AND (x && y && ...)
+logickĞ¹ AND (x && y && ...)
 [boolean FALSE]
 FALSE
 [performs w, then shows z and performs y while x is TRUE]
-smyèka FOR (provede w, pak zobrazí z a provádí y dokud je x TRUE)
+smyĞ¸ka FOR (provede w, pak zobrazĞ½ z a provĞ±dĞ½ y dokud je x TRUE)
 [y if x is TRUE, else z]
 je-li x TRUE, pak y; jinak z
 [x if x is TRUE, else z]
@@ -103,42 +103,42 @@ je-li x TRUE, pak x; jinak z
 [y if w > x, else z]
 je-li w > x, pak y; jinak z
 [y if string length of w > x, else z]
-je-li délka øetìzce w > x, pak y; jinak z
+je-li dĞ¹lka ÑˆetĞ¼zce w > x, pak y; jinak z
 [TRUE if x > y]
 je-li x > y, pak TRUE
 [TRUE if x is longer than y]
-je-li x delší ne y, pak TRUE
+je-li x delÑ™Ğ½ neÑ› y, pak TRUE
 [performs logical NOT (!x)]
-logické NOT (!x)
+logickĞ¹ NOT (!x)
 [performs logical OR (x || y || ...)]
-logické OR (x || y || ...)
+logickĞ¹ OR (x || y || ...)
 [boolean TRUE]
 TRUE
 [performs logical XOR (x ^ y)]
-logické XOR (x ^ y)
+logickĞ¹ XOR (x ^ y)
 
 ; parse_math.c
 [Mathematical Functions]
-Matematické funkce
+MatematickĞ¹ funkce
 [x + y + ...]
 x + y + ...
 [x divided by y]
-x dìleno y
+x dĞ¼leno y
 [converts decimal value x to hex value and padds to length y]
-zkonvertuje (dekadické) èíslo x na hexadecimální a vyplní zbytek do délky y
+zkonvertuje (dekadickĞ¹) Ğ¸Ğ½slo x na hexadecimĞ±lnĞ½ a vyplnĞ½ zbytek do dĞ¹lky y
 [x modulo y (remainder of x divided by y)]
-x modulo y (zbytek po dìlení)
+x modulo y (zbytek po dĞ¼lenĞ½)
 [x times y]
-x krát y
+x krĞ±t y
 [x times y divided by z]
-x krát y dìleno z
+x krĞ±t y dĞ¼leno z
 [minimum value of (decimal) arguments]
-minimální hodnota ze zadanıch (dekadickıch) argumentù
+minimĞ±lnĞ½ hodnota ze zadanÑch (dekadickÑch) argumentÑ‰
 [maximum value of (decimal) arguments]
-maximální hodnota ze zadanıch (dekadickıch) argumentù
+maximĞ±lnĞ½ hodnota ze zadanÑch (dekadickÑch) argumentÑ‰
 ;[pads decimal value x to length y with zeros]
 [random number]
-náhodné èíslo
+nĞ±hodnĞ¹ Ğ¸Ğ½slo
 [x - y - ...]
 x - y - ...
 
@@ -146,159 +146,159 @@ x - y - ...
 [Miranda Related]
 Miranda
 [translates status code x into a status description]
-pøevede stavovı kód x na popis stavu
+pÑˆevede stavovÑ kÑƒd x na popis stavu
 ;[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
 [number of contacts with property y described by x, example: (unregistered,nick)]
-poèet kontaktù s vlastností y blíe urèenou pomocí x; pøíklad: (<uiv. jméno>,<pøezdívka>)
+poĞ¸et kontaktÑ‰ s vlastnostĞ½ y blĞ½Ñ›e urĞ¸enou pomocĞ½ x; pÑˆĞ½klad: (<uÑ›iv. jmĞ¹no>,<pÑˆezdĞ½vka>)
 [info property y of contact x]
 informace y kontaktu x
 [db profile name]
-název profilu (databáze)
+nĞ±zev profilu (databĞ±ze)
 [db profile path]
-cesta k profilu (databázi)
+cesta k profilu (databĞ±zi)
 [db setting z of module y of contact x]
-pøeète z databáze hodnotu poloky z modulu y kontaktu x
+pÑˆeĞ¸te z databĞ±ze hodnotu poloÑ›ky z modulu y kontaktu x
 ;[get event for contact x (optional), according to y,z,w, see documentation]
 ;[get last seen time of contact x in format y (y is optional)]
 ;[get last seen date of contact x in format y (y is optional)]
 ;[get last seen status of contact x]
 [path to the Miranda-IM executable]
-cesta ke spustitelnému souboru Mirandy
+cesta ke spustitelnĞ¹mu souboru Mirandy
 [current status description of protocol x (without x, the global status is retrieved)]
-aktuální stav protokolu x (nezadáte-li x, pøeète globální stav)
+aktuĞ±lnĞ½ stav protokolu x (nezadĞ±te-li x, pÑˆeĞ¸te globĞ±lnĞ½ stav)
 ;[retrieves the subject, depending on situation]
 [get the version of miranda]
-zjistí verzi Mirandy
+zjistĞ½ verzi Mirandy
 
 ; parse_regexp.c
 [Regular Expressions]
-Regulární vırazy
+RegulĞ±rnĞ½ vÑrazy
 [(ANSI input only) the number of substring matches found in y with pattern x]
-(pouze pro ANSI) poèet nalezenıch øetìzcù v textu y pøi pouití masky x
+(pouze pro ANSI) poĞ¸et nalezenÑch ÑˆetĞ¼zcÑ‰ v textu y pÑˆi pouÑ›itĞ½ masky x
 ;[(ANSI input only) substring match number z found in subject y with pattern x]
 [the number of substring matches found in y with pattern x]
-poèet nalezenıch øetìzcù v textu y pøi pouití masky x
+poĞ¸et nalezenÑch ÑˆetĞ¼zcÑ‰ v textu y pÑˆi pouÑ›itĞ½ masky x
 ;[substring match number z found in subject y with pattern x]
 
 ; parse_str.c
 [Regular Expressions]
-Regulární vırazy
+RegulĞ±rnĞ½ vÑrazy
 [converts each first letter of a word to uppercase, all others to lowercase]
-zkonvertuje první písmeno slova na VELKÉ; vše ostatní zmìní na MALÉ
+zkonvertuje prvnĞ½ pĞ½smeno slova na VELKĞ™; vÑ™e ostatnĞ½ zmĞ¼nĞ½ na MALĞ™
 [converts each first letter of a word to uppercase]
-zkonvertuje první písmeno slova na VELKÉ
+zkonvertuje prvnĞ½ pĞ½smeno slova na VELKĞ™
 [inserts 'end of line' character]
-vloí znak konce øádku (EOL)
+vloÑ›Ğ½ znak konce ÑˆĞ±dku (EOL)
 [depends on calling plugin]
-závislost na doplòku
+zĞ±vislost na doplÑ‚ku
 ;[cuts x after the first line and appends y (y is optional)]
 [replaces all end of line characters by y (y is optional)]
-nahradí všechny znaky konce øádku znakem y (y není povinné)
+nahradĞ½ vÑ™echny znaky konce ÑˆĞ±dku znakem y (y nenĞ½ povinnĞ¹)
 [inserts string y at position z in string x]
-vloí øetìzec y na pozici z øetìzce x
+vloÑ›Ğ½ ÑˆetĞ¼zec y na pozici z ÑˆetĞ¼zce x
 [trims x to length y, keeping first y characters]
-oøízne x na délku y, pøièem ponechá prvních y znakù
+oÑˆĞ½zne x na dĞ¹lku y, pÑˆiĞ¸emÑ› ponechĞ± prvnĞ½ch y znakÑ‰
 [length of x]
-délka x
+dĞ¹lka x
 [the number of lines in string x]
-poèet øádkù v øetìzci x
+poĞ¸et ÑˆĞ±dkÑ‰ v ÑˆetĞ¼zci x
 [the longest string of the arguments]
-nejdelší øetìzec ze zadanıch argumentù
+nejdelÑ™Ğ½ ÑˆetĞ¼zec ze zadanÑch argumentÑ‰
 [converts x to lowercase]
-zkonvertuje x na malá písmena
+zkonvertuje x na malĞ± pĞ½smena
 ;[padds x to length y prepending character z (z is optional)]
 ;[padds x to length y appending character z (z is optional)]
 ;[padds x to length y prepending character z, or cut if x is longer (z is optional)]
 ;[padds x to length y appending character z, or cut if x is longer (z is optional)]
 [repeats x y times]
-x zopakuje y-krát
+x zopakuje y-krĞ±t
 [replace all occurenses of y in x with z, multiple y and z arguments allowed]
-nahradí všechny vıskyty y v x øetìzcem z; argumenty y a z mohou bıt vícenásobné
+nahradĞ½ vÑ™echny vÑskyty y v x ÑˆetĞ¼zcem z; argumenty y a z mohou bÑt vĞ½cenĞ±sobnĞ¹
 [trims x to length y, keeping last y characters]
-oøízne x na délku y, pøièem ponechá posledních y znakù
+oÑˆĞ½zne x na dĞ¹lku y, pÑˆiĞ¸emÑ› ponechĞ± poslednĞ½ch y znakÑ‰
 ;[moves x z charcters to the left and trims it to y characters]
 [TRUE if x equals y]
 je-li x rovno y, pak TRUE
 [TRUE if x equals y, ingnoring case]
-je-li x rovno y, pak TRUE; ignoruje rozdíly mezi malımi a velkımi písmeny
+je-li x rovno y, pak TRUE; ignoruje rozdĞ½ly mezi malÑmi a velkÑmi pĞ½smeny
 [the shortest string of the arguments]
-nejkratší øetìzec ze zadanıch argumentù
+nejkratÑ™Ğ½ ÑˆetĞ¼zec ze zadanÑch argumentÑ‰
 ;[location of first occurence of character y in string x]
 ;[location of last occurence of character y in string x]
 ;[location of first occurence of string y in x]
 ;[substring of x starting from position y to z]
 [the xth string of the arguments]
-x-tı øetìzec ze zadanıch argumentù
+x-tÑ ÑˆetĞ¼zec ze zadanÑch argumentÑ‰
 [z if y equals x, multple y and z arguments allowed]
-je-li y rovno x, pak z; argumenty y a z mohou bıt vícenásobné
+je-li y rovno x, pak z; argumenty y a z mohou bÑt vĞ½cenĞ±sobnĞ¹
 [removes white spaces in before and after x]
-odstraní netisknutelné znaky pøed a za x
+odstranĞ½ netisknutelnĞ¹ znaky pÑˆed a za x
 [inserts x tab characters (x is optional)]
-vloí x tabulátorù (x není povinné)
+vloÑ›Ğ½ x tabulĞ±torÑ‰ (x nenĞ½ povinnĞ¹)
 [converts x to upper case]
-zkonvertuje x na VELKÁ písmena
+zkonvertuje x na VELKĞ‘ pĞ½smena
 ;[words (seperated by white spaces) number y to z from string x (z is optional)]
 
 ; parse_system.c
 [System Functions]
-Systémové funkce
+SystĞ¹movĞ¹ funkce
 [computer name]
-název poèítaèe
+nĞ±zev poĞ¸Ğ½taĞ¸e
 [cpu load of process x (without extension) (x is optional)]
-indikuje vytíení CPU procesem x (bez pøípony) (x není povinné)
+indikuje vytĞ½Ñ›enĞ½ CPU procesem x (bez pÑˆĞ½pony) (x nenĞ½ povinnĞ¹)
 [current date in format y (y is optional)]
-aktuální datum ve formátu y (y není povinné)
+aktuĞ±lnĞ½ datum ve formĞ±tu y (y nenĞ½ povinnĞ¹)
 [current time in format y (y is optional)]
-aktuální èas ve formátu y (y není povinné)
+aktuĞ±lnĞ½ Ğ¸as ve formĞ±tu y (y nenĞ½ povinnĞ¹)
 [the directory y directories above x]
-vypíše adresáø umístìnı ve struktuøe y adresáøù nad x
+vypĞ½Ñ™e adresĞ±Ñˆ umĞ½stĞ¼nÑ ve struktuÑˆe y adresĞ±ÑˆÑ‰ nad x
 [strips y directories from x]
-odstraní y adresáøù z x
+odstranĞ½ y adresĞ±ÑˆÑ‰ z x
 [number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
-poèet sekund mezi daty x a y (x a y musí bıt ve formátu M/d/rr H:m:s)
+poĞ¸et sekund mezi daty x a y (x a y musĞ½ bÑt ve formĞ±tu M/d/rr H:m:s)
 [expand environment variable x]
-vypíše obsah promìnné x
+vypĞ½Ñ™e obsah promĞ¼nnĞ¹ x
 [TRUE if file x exists]
-nastaví TRUE, jestlie existuje soubor x
+nastavĞ½ TRUE, jestliÑ›e existuje soubor x
 [window title of first window of class x]
-záhlaví prvního okna tøídy x
+zĞ±hlavĞ½ prvnĞ½ho okna tÑˆĞ½dy x
 [TRUE if process x is running]
-nastaví TRUE, jestlie je spuštìnı process x
+nastavĞ½ TRUE, jestliÑ›e je spuÑ™tĞ¼nÑ process x
 [value y from registry key x (REG_SZ (string) values only]
-hodnota y klíèe x (pouze hodnoty REG_SZ (string))
+hodnota y klĞ½Ğ¸e x (pouze hodnoty REG_SZ (string))
 [formats timestamp x (seconds since 1/1/1970) in date format y]
-upraví x (poèet sekund od 1.1.1970) na datum dle formátu y
+upravĞ½ x (poĞ¸et sekund od 1.1.1970) na datum dle formĞ±tu y
 [formats timestamp x (seconds since 1/1/1970) in time format y]
-upraví x (poèet sekund od 1.1.1970) na èas dle formátu y
+upravĞ½ x (poĞ¸et sekund od 1.1.1970) na Ğ¸as dle formĞ±tu y
 ;[(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
 ;[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
 [uptime in seconds]
-doba od spuštìní poèítaèe (v sek.)
+doba od spuÑ™tĞ¼nĞ½ poĞ¸Ğ½taĞ¸e (v sek.)
 [user name]
-uivatelské jméno
+uÑ›ivatelskĞ¹ jmĞ¹no
 ;[variable set by put(s) with name x]
 ;[x, and stores y as variable named x]
 [only stores y as variables x]
-pouze uloí y jako promìnnou x
+pouze uloÑ›Ğ½ y jako promĞ¼nnou x
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [String Functions]
-Práce s øetezci
+PrĞ±ce s Ñˆetezci
 [Token]
 Token
 
 [Parse options]
-Monosti zpracování
+MoÑ›nosti zpracovĞ±nĞ½
 [Automatically strip white space]
-Automaticky odstranit netisknutelné znaky
+Automaticky odstranit netisknutelnĞ¹ znaky
 [Automatically strip all non-parsing characters]
-Automaticky odstranit všechny nezpracovatelné znaky
+Automaticky odstranit vÑ™echny nezpracovatelnĞ¹ znaky
 [Test area]
-Místo pro zkoušky
+MĞ½sto pro zkouÑ™ky
 [Click on the help button to get more information]
-Více informací se dozvíte kliknutím na tlaèítko Nápovìda
+VĞ½ce informacĞ½ se dozvĞ½te kliknutĞ½m na tlaĞ¸Ğ½tko NĞ±povĞ¼da
 
 [Open String Formatting Help]
-Otevøít nápovìdu o promìnnıch
+OtevÑˆĞ½t nĞ±povĞ¼du o promĞ¼nnÑch
 
 ; ---

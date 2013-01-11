@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Skype 0.0.0.33                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1570
 ;
 
@@ -16,23 +16,23 @@ Zavolat (Skype)
 [Call using SkypeOut]
 Zavolat (SkypeOut)
 [Hang up call (Skype)]
-Zavìsit (Skype)
+ZavĞ¼sit (Skype)
 [Hang up SkypeOut call]
-Zavìsit (SkypeOut)
+ZavĞ¼sit (SkypeOut)
 [Hold call]
-Pøidret hovor
+PÑˆidrÑ›et hovor
 [Resume call]
-Pokraèovat v hovoru
+PokraĞ¸ovat v hovoru
 ;(DUP) [&File]
 [Import Skype history]
 Importovat historii (Skype)
 [Add Skype contact]
-Pøidat kontakt Skype
+PÑˆidat kontakt Skype
 
 ; gchat.c
 ;(DUP) [Others]
 [No Topic]
-(téma není stanoveno)
+(tĞ¹ma nenĞ½ stanoveno)
 ;(DUP) [Me]
 ;(DUP) [&Invite user...]
 ;(DUP) [&Leave chat session]
@@ -44,112 +44,112 @@ Pøidat kontakt Skype
 
 ; skype.c
 [Do a SkypeOut-call]
-Zavolat pøes SkypeOut
+Zavolat pÑˆes SkypeOut
 [Phonecall]
 Hovor
 [Incoming call from %s]
-Pøíchozí hovor (%s)
+PÑˆĞ½chozĞ½ hovor (%s)
 ;(DUP) [Network]
 [This seems to be the first time that you're running the Skype protocol plugin. Do you want to enable the protocol for this Miranda-Profile? (If you chose NO, you can always enable it in the plugin options later.]
-Chcete aktivovat podporu protokolu Skype pro vybranı profil v Mirandì?
+Chcete aktivovat podporu protokolu Skype pro vybranÑ profil v MirandĞ¼?
 
 ; Skript1.rc
 [Start Skype with miranda, if it is not running using the following cmdline options:]
-Pokud ji není spuštìno, spustit Skype pøi startu Mirandy s tìmito argumenty:
+Pokud jiÑ› nenĞ½ spuÑ™tĞ¼no, spustit Skype pÑˆi startu Mirandy s tĞ¼mito argumenty:
 ;(FIX) [/NOTRAY - Skype tray icon becomes grey and is therefore ]
 [/NOTRAY - Skype tray icon becomes grey and is therefore "invisible"]
-/NOTRAY - ikona v oblasti oznámení zašedne (= prázdné místo)
+/NOTRAY - ikona v oblasti oznĞ±menĞ½ zaÑ™edne (= prĞ±zdnĞ¹ mĞ½sto)
 [/NOSPLASH - Don't show Splash screen on startup]
-/NOSPLASH - pøi spuštìní nezobrazí uvítací okno
+/NOSPLASH - pÑˆi spuÑ™tĞ¼nĞ½ nezobrazĞ½ uvĞ½tacĞ½ okno
 [/MINIMIZED - Start Skype minimized]
-/MINIMIZED - spustí program minimalizovanı
+/MINIMIZED - spustĞ½ program minimalizovanÑ
 [Shut down Skype when you close Miranda]
-Pøi ukonèení Mirandy ukonèit i Skype
+PÑˆi ukonĞ¸enĞ½ Mirandy ukonĞ¸it i Skype
 [Enable Skype Menu options (currently: Find/Add user)]
-Povolit poloky menu Skype (aktuálnì 'Najít/Pøidat')
+Povolit poloÑ›ky menu Skype (aktuĞ±lnĞ¼ 'NajĞ½t/PÑˆidat')
 ;(FIX) [Unload Skype when you change to status ]
 [Unload Skype when you change to status "offline"]
-Ukonèit program Skype po pøechodu do stavu 'Offline'
+UkonĞ¸it program Skype po pÑˆechodu do stavu 'Offline'
 [Use Skypeproxy connection over network instead of local Skype API]
-Pøipojit pomocí programu Skypeproxy namísto API Skype
+PÑˆipojit pomocĞ½ programu Skypeproxy namĞ½sto API Skype
 [This Skypeproxy requires password authentication:]
-Pøipojení pøes proxy vyaduje ovìøení heslem:
+PÑˆipojenĞ½ pÑˆes proxy vyÑ›aduje ovĞ¼ÑˆenĞ½ heslem:
 [Use Popup-Plugin (if installed) for displaying messages ]
-Zprávy zobrazovat formou oznámení (doplnìk typu PopUp)
+ZprĞ±vy zobrazovat formou oznĞ±menĞ½ (doplnĞ¼k typu PopUp)
 [Use groupchat interface for conversations - requires chat.dll (Please don't!)]
-Pro konverzaci pouít rozhraní pro více lidí (vyaduje doplnìk Chat)
+Pro konverzaci pouÑ›Ğ½t rozhranĞ½ pro vĞ½ce lidĞ½ (vyÑ›aduje doplnĞ¼k Chat)
 [Suppress all error-Messages (not recommended, but if it annoys you.. ;)]
-Zamezit zobrazování veškerıch chybovıch hlášení (nelze doporuèit)
+Zamezit zobrazovĞ±nĞ½ veÑ™kerÑch chybovÑch hlĞ±Ñ™enĞ½ (nelze doporuĞ¸it)
 [Keep requested online status on startup under every circumstance]
-Za všech okolností zajistit pøi spuštìní stav 'Online'
+Za vÑ™ech okolnostĞ½ zajistit pÑˆi spuÑ™tĞ¼nĞ½ stav 'Online'
 ;[Join conference with %s]
 [Answer call; set call to %s on hold]
-Zvednout telefon; souèasnı hovor (%s) pøidret
+Zvednout telefon; souĞ¸asnÑ hovor (%s) pÑˆidrÑ›et
 [Hang up]
-Zavìsit
+ZavĞ¼sit
 [Dial]
-Vytoèit
+VytoĞ¸it
 ;(DUP) [OK]
 [Cleanup Nicknames]
-Promazat pøezdívky
+Promazat pÑˆezdĞ½vky
 ;(DUP) [Cancel]
 ;(DUP) [Host:]
 ;(DUP) [Port:]
 [You must restart Miranda in order to let the settings take effect]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 [Try at least]
 Pokusit se
 [times to connect to Skype API before giving up]
-krát o pøipojení pomocí API Skype, pak pøestat
+krĞ±t o pÑˆipojenĞ½ pomocĞ½ API Skype, pak pÑˆestat
 [SkypeOut contacts are in status]
-Kontakty SkypeOut oznaèit jako
+Kontakty SkypeOut oznaĞ¸it jako
 [Number:]
-Èíslo:
+Ğ˜Ğ½slo:
 [Skypeproxy]
 Proxy pro Skype
 ;(DUP) [Dialog]
 [%s is calling]
-Volá: %s
+VolĞ±: %s
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [Skype protocol]
 Skype
 [Welcome!]
-Vítejte!
+VĞ½tejte!
 [Whee, Skype won't let me use the API. :(]
-Program Skype zabránil pouití aplikaèního rozhraní (API).
+Program Skype zabrĞ±nil pouÑ›itĞ½ aplikaĞ¸nĞ½ho rozhranĞ½ (API).
 [Skype default]
-Monosti
+MoÑ›nosti
 [Skype proxy]
 Proxy
 [/REMOVEABLE - For running portable skype]
-/REMOVEABLE - pro Skype na pøenosném disku
+/REMOVEABLE - pro Skype na pÑˆenosnĞ¹m disku
 [/DATAPATH - Specify the path for portable skype]
-/DATAPATH - cesta pro Skype na pøenosném disku
+/DATAPATH - cesta pro Skype na pÑˆenosnĞ¹m disku
 [Use your custom path]
-Nastavit vlastní cestu ke Skype
+Nastavit vlastnĞ½ cestu ke Skype
 [Skype advanced]
 Pro experty
 [Skype Advanced]
 Pro experty
 [Use time zone patch]
-Pouít opravu èasového pásma
+PouÑ›Ğ½t opravu Ğ¸asovĞ¹ho pĞ±sma
 [Skype Popups]
-Oznámení Skype
+OznĞ±menĞ½ Skype
 [Incoming Calls]
-Pøíchozí hovory
+PÑˆĞ½chozĞ½ hovory
 [Show incoming calls popup]
-Zobrazit oznámení o pøíchozím hovoru
+Zobrazit oznĞ±menĞ½ o pÑˆĞ½chozĞ½m hovoru
 [Incoming call from %s]
-Pøíchozí hovor (%s)
+PÑˆĞ½chozĞ½ hovor (%s)
 [Error Message]
-Chybové hlášení
+ChybovĞ¹ hlĞ±Ñ™enĞ½
 [Display Error Message]
-Zobrazit chybové hlášení
+Zobrazit chybovĞ¹ hlĞ±Ñ™enĞ½
 [Incoming Skype Call]
-Pøíchozí hovor ze Skype
+PÑˆĞ½chozĞ½ hovor ze Skype
 [Preview Error Message]
-Náhled chybového hlášení
+NĞ±hled chybovĞ¹ho hlĞ±Ñ™enĞ½
 
 ; ---

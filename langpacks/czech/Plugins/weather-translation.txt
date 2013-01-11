@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Weather Protocol 0.3.8.19                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2322
 ;
 
@@ -12,30 +12,30 @@
 
 ; weather.c
 [Weather Condition Changed]
-Poèasí (zmìna poèasí)
+PoĞ¸asĞ½ (zmĞ¼na poĞ¸asĞ½)
 [Weather Alert Issued]
-Poèasí (varování)
+PoĞ¸asĞ½ (varovĞ±nĞ½)
 
 ; weather.h
 ;(DUP) [N/A]
 [Invalid ID format, missing \"/\" (10)]
-Neplatnı formát ID, chybí \"/\" (è.10)
+NeplatnÑ formĞ±t ID, chybĞ½ \"/\" (Ğ¸.10)
 [Invalid service (11)]
-Neplatná sluba (è.11)
+NeplatnĞ± sluÑ›ba (Ğ¸.11)
 [Invalid station (12)]
-Neplatná stanice (è.12)
+NeplatnĞ± stanice (Ğ¸.12)
 [Weather service ini for this station is not found (20)]
-Nelze najít konfiguraèní soubor pro stanici (è.20)
+Nelze najĞ½t konfiguraĞ¸nĞ½ soubor pro stanici (Ğ¸.20)
 [Netlib error - check your internet connection (30)]
-Chyba pøipojení k síti (è.30)
+Chyba pÑˆipojenĞ½ k sĞ½ti (Ğ¸.30)
 [Empty data is retrieved (40)]
-Neplatná data (è.40)
+NeplatnĞ± data (Ğ¸.40)
 [Document not found (42)]
-Dokument nebyl nalezen (è.42)
+Dokument nebyl nalezen (Ğ¸.42)
 [Document too short to contain any weather data (43)]
-Dokument neobsahuje data o poèasí (è.43)
+Dokument neobsahuje data o poĞ¸asĞ½ (Ğ¸.43)
 [Unknown error (99)]
-Neznámá chyba (è.99)
+NeznĞ±mĞ± chyba (Ğ¸.99)
 ;(LAI) [HTTP Error: No content (204)]
 ;(LAI) [HTTP Error: Data moved (301)]
 ;(LAI) [HTTP Error: Use proxy (305)]
@@ -54,49 +54,49 @@ Neznámá chyba (è.99)
 ;(LAI) [HTTP Error: Gateway timeout (504)]
 ;(LAI) [%n  [%t, %c]]
 [%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-%c\nTeplota: %t\nSubj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosnı bod: %e\nViditelnost: %v\n\nVıchod slunce: %r\nZápad slunce: %y\n\nPøedpovìï na 5 dnù:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+%c\nTeplota: %t\nSubj. teplota: %f\nTlak: %p\nVĞ½tr: %i  %w\nVlhkost: %m\nRosnÑ bod: %e\nViditelnost: %v\n\nVÑchod slunce: %r\nZĞ±pad slunce: %y\n\nPÑˆedpovĞ¼Ğ¿ na 5 dnÑ‰:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
-Subj. teplota: %f\nTlak: %p\nVítr: %i  %w\nVlhkost: %m\nRosnı bod: %e\nViditelnost: %v\n\nVıchod slunce: %r\nZápad slunce: %y\n\nPøedpovìï na 5 dnù:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
+Subj. teplota: %f\nTlak: %p\nVĞ½tr: %i  %w\nVlhkost: %m\nRosnÑ bod: %e\nViditelnost: %v\n\nVÑchod slunce: %r\nZĞ±pad slunce: %y\n\nPÑˆedpovĞ¼Ğ¿ na 5 dnÑ‰:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]
 [Weather Condition for %n as of %u]
-Aktuální situace: %n, %u
+AktuĞ±lnĞ½ situace: %n, %u
 [%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+%c, %t (subj. %f)	VĞ½tr: %i %w	Vlhkost: %m
 [%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
-%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+%n v %u:	%c, %t (subj. %f)	VĞ½tr: %i %w	Vlhkost: %m
 ;(LAI) [%n   (%u)]
 [%c, %t\nToday:  High %h, Low %l]
 %c, %t\nDnes:  Max. %h, min. %l
 
 ; weather_addstn.c
 [Current weather information for %s.]
-Aktuální informace o poèasí pro %s.
+AktuĞ±lnĞ½ informace o poĞ¸asĞ½ pro %s.
 [%s is now the default weather station]
-%s je nyní vıchozí meterologická stanice
+%s je nynĞ½ vÑchozĞ½ meterologickĞ± stanice
 [Weather Protocol]
 Protokol Weather
 [Please try again after weather update is completed.]
-Prosím zkuste znovu po aktualizaci pøedpovìdi poèasí.
+ProsĞ½m zkuste znovu po aktualizaci pÑˆedpovĞ¼di poĞ¸asĞ½.
 [<Enter station name here>]
-<zde zadejte název stanice>
+<zde zadejte nĞ±zev stanice>
 [<Enter station ID here>]
-<zde zadejte identifikátor stanice>
+<zde zadejte identifikĞ±tor stanice>
 
 ; weather_contacts.c
 [Weather condition was not logged.]
-Pøedpovìï poèasí nebyla zaznamenána.
+PÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½ nebyla zaznamenĞ±na.
 [The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
-Není zadána adresa pro kompletní pøedpovìï poèasí. Z menu vyberte poloku 'Upravit nastavení' a v sekci Odkazy doplòte pøíslušnı údaj.
+NenĞ½ zadĞ±na adresa pro kompletnĞ½ pÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½. Z menu vyberte poloÑ›ku 'Upravit nastavenĞ½' a v sekci Odkazy doplÑ‚te pÑˆĞ½sluÑ™nÑ ÑŠdaj.
 [The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
-Není zadána adresa pro mapu poèasí. Z menu vyberte poloku 'Upravit nastavení' a v sekci Odkazy doplòte pøíslušnı údaj.
+NenĞ½ zadĞ±na adresa pro mapu poĞ¸asĞ½. Z menu vyberte poloÑ›ku 'Upravit nastavenĞ½' a v sekci Odkazy doplÑ‚te pÑˆĞ½sluÑ™nÑ ÑŠdaj.
 [Get city name from ID]
-Zjistit jméno mìsta dle ID
+Zjistit jmĞ¹no mĞ¼sta dle ID
 [Weather INI information]
 Informace o konfiguraci
 ;(DUP) [Browse]
 [View webpage]
-Zobrazit stránku
+Zobrazit strĞ±nku
 [Reset to default]
-Obnovit vıchozí
+Obnovit vÑchozĞ½
 ;(DUP) [Text Files]
 ;(DUP) [All Files]
 
@@ -120,175 +120,175 @@ uzly
 [km]
 km
 [miles]
-míle
+mĞ½le
 [<unknown time>]
-<neznámı èas>
+<neznĞ±mÑ Ğ¸as>
 [<Error>]
 <chyba>
 ;(LAI) [HTTP Error %i]
 
 ; weather_data.c
 [<Enter city name here>]
-<zde zadejte mìsto>
+<zde zadejte mĞ¼sto>
 [Error when obtaining data: %s]
-Chyba pøi stahování dat: %s
+Chyba pÑˆi stahovĞ±nĞ½ dat: %s
 
 ; weather_http.c
 [Weather HTTP connections]
-Weather - spojení pomocí protokolu HTTP
+Weather - spojenĞ½ pomocĞ½ protokolu HTTP
 
 ; weather_info.c
 [A list of Weather INI files currently in memory:]
-Seznam konfiguraèních souborù naètenıch v pamìti:
+Seznam konfiguraĞ¸nĞ½ch souborÑ‰ naĞ¸tenÑch v pamĞ¼ti:
 [Name\t\tAuthor\t\tFile Version\tINI ver\tItems\tDisplay Name\t\tFile Name]
-Název\t\tAutor\t\tVerze souboru\tVerze INI\tPoloek\tZobrazenı název\t\tNázev souboru
+NĞ±zev\t\tAutor\t\tVerze souboru\tVerze INI\tPoloÑ›ek\tZobrazenÑ nĞ±zev\t\tNĞ±zev souboru
 [Total INI files:\t%i]
-Poèet konfig. souborù:\t%i
+PoĞ¸et konfig. souborÑ‰:\t%i
 [Total memory used:\t%i bytes]
-Alokované pamìti:\t%i B
+AlokovanĞ¹ pamĞ¼ti:\t%i B
 [Weather INI Information]
-Informace o konfiguraèním souboru
+Informace o konfiguraĞ¸nĞ½m souboru
 [The corresponding INI file for \"%s\" is not found.]
-Odpovídající konfig. soubor pro \"%s\" nelze najít.
+OdpovĞ½dajĞ½cĞ½ konfig. soubor pro \"%s\" nelze najĞ½t.
 [Weather INI information for \"%s\":]
 Informace o konfig. souboru pro \"%s\":
 ;(DUP) [Name:]
 [Internal Name:]
-Interní název:
+InternĞ½ nĞ±zev:
 ;(DUP) [Author:]
 ;(DUP) [Version:]
 [INI Version:]
 Verze INI:
 [File Name:]
-Název souboru:
+NĞ±zev souboru:
 [Item Count:]
-Poèet poloek:
+PoĞ¸et poloÑ›ek:
 [Memory Used:]
-Alokováno pamìti:
+AlokovĞ±no pamĞ¼ti:
 ;(DUP) [bytes]
 ;(DUP) [Description:]
 [Here is a list of custom variables that are currently available]
-Seznam ostatních promìnnıch, které jsou k dispozici:
+Seznam ostatnĞ½ch promĞ¼nnÑch, kterĞ¹ jsou k dispozici:
 [More Variables]
-Další promìnné
+DalÑ™Ğ½ promĞ¼nnĞ¹
 
 ; weather_ini.c
 [No update data file is found.  Please check your Plugins\\Weather directory.]
-Nelze najít konfiguraèní soubor. Podívejte se do sloky Plugins\\Weather.
+Nelze najĞ½t konfiguraĞ¸nĞ½ soubor. PodĞ½vejte se do sloÑ›ky Plugins\\Weather.
 [Invalid ini format for: %s]
-Neplatnı formát souboru ini: %s
+NeplatnÑ formĞ±t souboru ini: %s
 [All update data has been reloaded.]
-Aktualizovaná data byla znovu naètena.
+AktualizovanĞ± data byla znovu naĞ¸tena.
 
 ; weather_opt.c
 ;(DUP) [Plugins]
 [Weather Text]
-Poèasí Texty
+PoĞ¸asĞ½ Texty
 ;(DUP) [PopUps]
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
-%c\taktuální pøedpovìï\n%d\taktuální datum\n%e\trosnı bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsmìr vìtru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvıchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost vìtru\n%y\tzápad slunce
+%c\taktuĞ±lnĞ½ pÑˆedpovĞ¼Ğ¿\n%d\taktuĞ±lnĞ½ datum\n%e\trosnÑ bod\n%f\tsubj. teplota\n%h\tdennĞ½ maximum\n%i\tsmĞ¼r vĞ¼tru\n%l\tdennĞ½ minimum\n%m\tvlhkost\n%n\tnĞ±zev stanice\n%p\ttlak\n%r\tvÑchod slunce\n%s\tIdentifikĞ±tor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost vĞ¼tru\n%y\tzĞ±pad slunce
 [Weather Protocol Text Preview]
-Poèasí - náhled
+PoĞ¸asĞ½ - nĞ±hled
 
 ; weather_popup.c
 [This is the name of the city]
-Jméno mìsta
+JmĞ¹no mĞ¼sta
 [Here is a short weather description]
-Krátkı popis poèasí
+KrĞ±tkÑ popis poĞ¸asĞ½
 [%[..]\tcustom variables]
-%[..]\tspeciální promìnné
+%[..]\tspeciĞ±lnĞ½ promĞ¼nnĞ¹
 [Variable List]
-Seznam promìnnıch
+Seznam promĞ¼nnÑch
 
 ; weather_svcs.c
 [Cannot reset status while updating weather]
-Bìhem aktualizace pøedpovìdi nelze resetovat stav
+BĞ¼hem aktualizace pÑˆedpovĞ¼di nelze resetovat stav
 [Station ID]
-Identifikátor
+IdentifikĞ±tor
 [Auto Update Disabled]
 Aktivovat automatickou aktualizaci
 [Auto Update Enabled]
 Deaktivovat automatickou aktualizaci
 [Enable &weather notification]
-Zapnout oznámení &poèasí
+Zapnout oznĞ±menĞ½ &poĞ¸asĞ½
 [Disable &weather notification]
-Vypnout oznámení &poèasí
+Vypnout oznĞ±menĞ½ &poĞ¸asĞ½
 [Update Weather]
-Aktualizovat pøedpovìï
+Aktualizovat pÑˆedpovĞ¼Ğ¿
 [Remove Old Data then Update]
-Aktualizovat vše vèetnì cache
+Aktualizovat vÑ™e vĞ¸etnĞ¼ cache
 [Brief Information]
-Zobrazit struènou pøedpovìï
+Zobrazit struĞ¸nou pÑˆedpovĞ¼Ğ¿
 [Read Complete Forecast]
-Zobrazit kompletní pøedpovìï
+Zobrazit kompletnĞ½ pÑˆedpovĞ¼Ğ¿
 [Weather Map]
-Mapa poèasí
+Mapa poĞ¸asĞ½
 [View Log]
-Zobrazit záznam
+Zobrazit zĞ±znam
 [Edit Settings]
-Upravit nastavení...
+Upravit nastavenĞ½...
 [Weather]
-Poèasí
+PoĞ¸asĞ½
 [Enable/Disable Weather Update]
-Zapnout/Vypnout aktualizaci poèasí
+Zapnout/Vypnout aktualizaci poĞ¸asĞ½
 [Update All Weather]
-Aktualizovat všechno
+Aktualizovat vÑ™echno
 [Remove Old Data then Update All]
-Aktualizovat vše vèetnì cache
+Aktualizovat vÑ™e vĞ¸etnĞ¼ cache
 [Add New Weather Station]
-Pøidat meteorologickou stanici
+PÑˆidat meteorologickou stanici
 [Reload All Update Data]
-Znovu naèíst konfiguraèní soubory
+Znovu naĞ¸Ğ½st konfiguraĞ¸nĞ½ soubory
 [Debug for INI files]
-Odladit konfiguraèní soubor
+Odladit konfiguraĞ¸nĞ½ soubor
 [Weather Notification]
-Pøedpovìï poèasí
+PÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½
 
 ; weather_update.c
 [Unable to retrieve weather information for %s]
-Nelze stáhnout pøedpovìï poèasí pro %s
+Nelze stĞ±hnout pÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½ pro %s
 
 ; weather_userinfo.c
 [Current condition for %n]
-Aktuální pøedpovìï pro %n
+AktuĞ±lnĞ½ pÑˆedpovĞ¼Ğ¿ pro %n
 [Last update on:   %u]
-Naposledy aktualizováno %u
+Naposledy aktualizovĞ±no %u
 [Variable]
-Promìnná
+PromĞ¼nnĞ±
 ;(DUP) [Information]
 [Retrieving new data, please wait...]
-Aktualizace dat, poèkejte prosím...
+Aktualizace dat, poĞ¸kejte prosĞ½m...
 ;(DUP) [More Info]
 [Brief Info]
-Struèná pø.
+StruĞ¸nĞ± pÑˆ.
 [No information available.\nPlease update weather condition first.]
-Poadované informace nejsou k dispozici.\nNejprve zaktualizujte pøedpovìï poèasí.
+PoÑ›adovanĞ¹ informace nejsou k dispozici.\nNejprve zaktualizujte pÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½.
 [Do you want to view more information?]
-Chcete si pøeèíst podrobnìjší pøedpovìï?
+Chcete si pÑˆeĞ¸Ğ½st podrobnĞ¼jÑ™Ğ½ pÑˆedpovĞ¼Ğ¿?
 [Brief information for ]
-Struèná pøedpovìï pro 
+StruĞ¸nĞ± pÑˆedpovĞ¼Ğ¿ pro 
 
 ; resource.rc
 [Show main menu items]
-Zobrazit v hlavním menu poloku "Poèasí"
+Zobrazit v hlavnĞ½m menu poloÑ›ku "PoĞ¸asĞ½"
 [Update weather information at startup]
-Aktualizovat stav poèasí pøi spuštìní
+Aktualizovat stav poĞ¸asĞ½ pÑˆi spuÑ™tĞ¼nĞ½
 [Update weather information every]
-Aktualizovat stav poèasí kadıch
+Aktualizovat stav poĞ¸asĞ½ kaÑ›dÑch
 [Consider weather info updated only when condition and temperature are changed]
-Povaovat informace o poèasí za aktualizované pouze zmìní-li se stav i teplota
+PovaÑ›ovat informace o poĞ¸asĞ½ za aktualizovanĞ¹ pouze zmĞ¼nĞ½-li se stav i teplota
 [Remove old data when updating]
-Pøi aktualizaci odstranit stará data
+PÑˆi aktualizaci odstranit starĞ± data
 [Make the contact italic when weather alert is issued]
-Zobrazit kurzívou stanici s otevøenımi informacemi o poèasí
+Zobrazit kurzĞ½vou stanici s otevÑˆenÑmi informacemi o poĞ¸asĞ½
 [Open URLs in new browser window]
-Otevøít odkazy v novém oknì prohlíeèe
+OtevÑˆĞ½t odkazy v novĞ¹m oknĞ¼ prohlĞ½Ñ›eĞ¸e
 [Do not display weather condition as protocol status]
-Nezobrazovat aktuální situaci jako stav protokolu
+Nezobrazovat aktuĞ±lnĞ½ situaci jako stav protokolu
 [Disable auto update when status changes to offline, enable when changes to other]
-Deaktivovat automatickou aktualizaci ve stavu offline, jinak aktivní
+Deaktivovat automatickou aktualizaci ve stavu offline, jinak aktivnĞ½
 [Display warning if INI file is not found at startup]
-Zobrazit upozornìní, není-li nalezen konfiguraèní soubor
+Zobrazit upozornĞ¼nĞ½, nenĞ½-li nalezen konfiguraĞ¸nĞ½ soubor
 [Celsius]
 Celsius
 [Fahrenheit]
@@ -300,41 +300,41 @@ palce
 [mm Hg (torr)]
 mm Hg (torr)
 [No change]
-beze zmìny
+beze zmĞ¼ny
 [2 chars]
 2 znaky
 [3 chars]
 3 znaky
 [Hide Weather in status bar and status menu]
-Skrıt poèasí ve stavové lištì a seznamu stavù
+SkrÑt poĞ¸asĞ½ ve stavovĞ¹ liÑ™tĞ¼ a seznamu stavÑ‰
 [When condition unavailable, use the status:]
-Není-li k dispozici pøedpovìï poèasí, nastavit:
+NenĞ½-li k dispozici pÑˆedpovĞ¼Ğ¿ poĞ¸asĞ½, nastavit:
 ;(DUP) [Online]
 [Special status]
-Speciální stav
+SpeciĞ±lnĞ½ stav
 [Disable internal station status icon selection]
-Deaktivovat pouití interních stavovıch ikon
+Deaktivovat pouÑ›itĞ½ internĞ½ch stavovÑch ikon
 [Disable support for automatic protocol icons assignment]
-Deaktivovat podporu pro autom. pøiøazení stavovıch ikon
+Deaktivovat podporu pro autom. pÑˆiÑˆazenĞ½ stavovÑch ikon
 [Use internal history]
-Pouít interní historii
+PouÑ›Ğ½t internĞ½ historii
 [Use external file]
-Pouít externí soubor
+PouÑ›Ğ½t externĞ½ soubor
 [Overwrite file upon update]
-Pøi aktualizaci pøepsat soubor
+PÑˆi aktualizaci pÑˆepsat soubor
 ;(LAI) [6]
 [Set as default station]
-Nastavit jako vıchozí stanici
+Nastavit jako vÑchozĞ½ stanici
 [Disable automatic update for this station]
 Vypnout automatickou aktualizaci
 [Disable PopUp for this station]
-Vypnout oznámení pro tuto stanici
+Vypnout oznĞ±menĞ½ pro tuto stanici
 [Enable popups]
-Povolit oznámení
+Povolit oznĞ±menĞ½
 [Popup only when condition changes]
-Oznámit pouze pøi zmìnì situace
+OznĞ±mit pouze pÑˆi zmĞ¼nĞ¼ situace
 [Use Windows colours]
-Pouít barvy Windows
+PouÑ›Ğ½t barvy Windows
 [Delay]
 Prodleva
 ;(DUP) [From PopUp plugin]
@@ -342,36 +342,36 @@ Prodleva
 ;(DUP) [Variables]
 ;(DUP) [Default]
 [Preview]
-Náhled
+NĞ±hled
 ;(DUP) [Updates]
 ;(DUP) [Alerts]
 [Errors]
 Chyby
 ;(DUP) [Contact List]
 [Brief Info Title]
-Záhlaví okna
+ZĞ±hlavĞ½ okna
 [Note Text]
 Pozn. text
 [Extra Text]
 Extra text
 [External Log]
-Externí soubor
+ExternĞ½ soubor
 [History Log]
-Interní historie
+InternĞ½ historie
 ;(DUP) [Reset]
 [Status Message]
-Stavová zpráva
+StavovĞ± zprĞ±va
 ;(DUP) [More...]
 [Click here to download a weather ini file from Miranda file listing]
-Stáhnout konfiguraèní soubor ze stránek Miranda-IM
+StĞ±hnout konfiguraĞ¸nĞ½ soubor ze strĞ±nek Miranda-IM
 [Extract the weather ini file from archive to this directory]
-Rozbalit konfiguraèní soubor do vybrané sloky
+Rozbalit konfiguraĞ¸nĞ½ soubor do vybranĞ¹ sloÑ›ky
 [Click here to load the data from the new ini file into memory]
-Naèíst data nového konfiguraèního souboru
+NaĞ¸Ğ½st data novĞ¹ho konfiguraĞ¸nĞ½ho souboru
 [Add new weather station and close this dialog]
-Pøidat novou meteorologickou stanici a zavøít dialog
+PÑˆidat novou meteorologickou stanici a zavÑˆĞ½t dialog
 [Never show this at startup again]
-Pøíštì pøi spuštìní ji nezobrazovat
+PÑˆĞ½Ñ™tĞ¼ pÑˆi spuÑ™tĞ¼nĞ½ jiÑ› nezobrazovat
 ;(DUP) [Close]
 ;(DUP) [Cancel]
 [Update]
@@ -379,123 +379,123 @@ Aktualizovat
 [Webpage]
 -> WWW
 [Change]
-Zmìnit
+ZmĞ¼nit
 [minutes.]
 min.
 [Weather status will free to change all the time if this option is enabled.]
-Tato monost zruší mapování pøeddefinovanıch stavù poèasí na stavy protokolu.
+Tato moÑ›nost zruÑ™Ğ½ mapovĞ±nĞ½ pÑˆeddefinovanÑch stavÑ‰ poĞ¸asĞ½ na stavy protokolu.
 [Temperature]
 Teplota
 [Degree sign:]
-Znaèka stupnì:
+ZnaĞ¸ka stupnĞ¼:
 [Wind]
-Vítr
+VĞ½tr
 ;(DUP) [Visibility]
 [Pressure]
 Tlak
 [Day/Month]
-Den/mìsíc
+Den/mĞ¼sĞ½c
 [Note that icon cannot be changed when this feature is enabled]
-Aktivujete-li tuto monost, nelze zmìnit ikony pro poèasí.
+Aktivujete-li tuto moÑ›nost, nelze zmĞ¼nit ikony pro poĞ¸asĞ½.
 [City name]
-Jméno mìsta
+JmĞ¹no mĞ¼sta
 [ID]
 ID
 [Path:]
 Cesta:
 [More Info URL]
-Další informace
+DalÑ™Ğ½ informace
 ;(DUP) [Background colour]
 ;(DUP) [Text colour]
 [Left Click]
-Levé tlaè.
+LevĞ¹ tlaĞ¸.
 [Right Click]
-Pravé tlaè.
+PravĞ¹ tlaĞ¸.
 ;(DUP) [seconds]
 [Popup Title]
 Nadpis
 [Popup Text]
-Samotnı text
+SamotnÑ text
 [Sunset]
-Západ slunce
+ZĞ±pad slunce
 [Feel-like]
 Subj. teplota
 [Today's Low]
-Denní minimum
+DennĞ½ minimum
 [Today's High]
-Denní maximum
+DennĞ½ maximum
 [Sunrise]
-Vıchod slunce
+VÑchod slunce
 [Dewpoint]
-Rosnı bod
+RosnÑ bod
 [Humidity]
 Vlhkost
 [Weather Protocol INI Setup]
-Nastavení konfiguraèního souboru pro poèasí
+NastavenĞ½ konfiguraĞ¸nĞ½ho souboru pro poĞ¸asĞ½
 [Install and load your weather ini file here]
-Instalace konfiguraèního souboru pro poèasí
+Instalace konfiguraĞ¸nĞ½ho souboru pro poĞ¸asĞ½
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
-Nelze najít poadovanı konfiguraèní soubor pro poèasí. Øiïte se prosím následujícími pokyny:
+Nelze najĞ½t poÑ›adovanÑ konfiguraĞ¸nĞ½ soubor pro poĞ¸asĞ½. Ğ¨iĞ¿te se prosĞ½m nĞ±sledujĞ½cĞ½mi pokyny:
 ;(DUP) [Options]
 [Units]
 Jednotky
 ;(DUP) [Advanced Options]
 [Weather Station]
-Meteorologická stanice
+MeteorologickĞ± stanice
 [Log Information]
-Záznam událostí
+ZĞ±znam udĞ±lostĞ½
 [Link Settings]
 Odkazy
 [Other Options]
-Ostatní monosti
+OstatnĞ½ moÑ›nosti
 [PopUp Options]
-Monosti oznámení
+MoÑ›nosti oznĞ±menĞ½
 ;(DUP) [Colours]
 [Popup Actions]
-Akce pøi oznámení
+Akce pÑˆi oznĞ±menĞ½
 [Popup Delay]
-Doba zobrazení
+Doba zobrazenĞ½
 [Edit Weather Station]
-Monosti stanice
+MoÑ›nosti stanice
 [Dismiss PopUp]
-Zavøít oznámení
+ZavÑˆĞ½t oznĞ±menĞ½
 [Open brief information]
-Zobrazit struènou pøedpovìï
+Zobrazit struĞ¸nou pÑˆedpovĞ¼Ğ¿
 [Open complete forecast]
-Zobrazit kompletní pøedpovìï
+Zobrazit kompletnĞ½ pÑˆedpovĞ¼Ğ¿
 [Open weather map]
-Zobrazit mapu poèasí
+Zobrazit mapu poĞ¸asĞ½
 [View history]
 Zobrazit historii
 [Open log file]
-Zobrazit záznam
+Zobrazit zĞ±znam
 [Show user menu]
-Zobrazit uivatelské menu
+Zobrazit uÑ›ivatelskĞ¹ menu
 [Show user detail]
-Zobrazit informaci o osobì
+Zobrazit informaci o osobĞ¼
 [To old setting]
-Pøedchozí nastavení
+PÑˆedchozĞ½ nastavenĞ½
 [To default]
-Vıchozí nastavení
+VÑchozĞ½ nastavenĞ½
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Miranda IM has to be restarted for the changes to take effect.]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 
 [Update weather information on startup]
-Pøi spuštìní zaktualizovat informace o poèasí
+PÑˆi spuÑ™tĞ¼nĞ½ zaktualizovat informace o poĞ¸asĞ½
 [Modes]
-Reimy
+ReÑ›imy
 [Use weather condition as protocol status]
-Zobrazit aktuální situaci jako stav protokolu
+Zobrazit aktuĞ±lnĞ½ situaci jako stav protokolu
 [Avatar only mode]
-Zobrazit pouze avatary (symboly stavu poèasí)
+Zobrazit pouze avatary (symboly stavu poĞ¸asĞ½)
 
 ; dialogy s predpovedi pocasi
 [Forecast Day %d]
-Pøedpovìï (den è.%d)
+PÑˆedpovĞ¼Ğ¿ (den Ğ¸.%d)
 [Heat Index]
-Teplotní index
+TeplotnĞ½ index
 [Condition]
 Situace
 [Feel]
@@ -505,29 +505,29 @@ Max.
 [Low]
 Min.
 [Local Time]
-Místní èas
+MĞ½stnĞ½ Ğ¸as
 [Pressure Change]
-Zmìna tlaku
+ZmĞ¼na tlaku
 [Wind Direction]
-Smìr vìtru
+SmĞ¼r vĞ¼tru
 [Wind Speed]
-Rychlost vìtru
+Rychlost vĞ¼tru
 [Zone]
-Zóna
+ZÑƒna
 [Tomorrow]
-Zítra
+ZĞ½tra
 
 ; weekdays (short)
 [Mon]
 Po
 [Tue]
-Út
+Ğªt
 [Wed]
 St
 [Thu]
-Èt
+Ğ˜t
 [Fri]
-Pá
+PĞ±
 [Sat]
 So
 [Sun]
@@ -535,27 +535,27 @@ Ne
 
 ; pressure changes
 [Rising]
-Stoupá
+StoupĞ±
 [Steady]
-Ustálenı
+UstĞ±lenÑ
 [Falling]
-Klesá
+KlesĞ±
 [rising]
-stoupá
+stoupĞ±
 [steady]
-ustálenı
+ustĞ±lenÑ
 [falling]
-klesá
+klesĞ±
 
 ; wind (short)
 [calm]
-bezvìtøí
+bezvĞ¼tÑˆĞ½
 [#Calm Weather]
-Bezvìtøí
+BezvĞ¼tÑˆĞ½
 [VAR]
-promìnlivı
+promĞ¼nlivÑ
 [#CALM Weather]
-bezvìtøí
+bezvĞ¼tÑˆĞ½
 [N]
 S
 [W]
@@ -591,43 +591,43 @@ VJV
 
 ; wind (long)
 [North]
-Severní
+SevernĞ½
 [East]
-Vıchodní
+VÑchodnĞ½
 [South]
-Jiní
+JiÑ›nĞ½
 [West]
-Západní
+ZĞ±padnĞ½
 [Northwest]
-Severozápadní
+SeverozĞ±padnĞ½
 [Northeast]
-Severovıchodní
+SeverovÑchodnĞ½
 [Southwest]
-Jihozápadní
+JihozĞ±padnĞ½
 [Southeast]
-Jihovıchodní
+JihovÑchodnĞ½
 [North Northwest]
-Severoseverozápadní
+SeveroseverozĞ±padnĞ½
 [North Northeast]
-Severoseverovıchodní
+SeveroseverovÑchodnĞ½
 [South Southwest]
-Jihojihozápadní
+JihojihozĞ±padnĞ½
 [South Southeast]
-Jihojihovıchodní
+JihojihovÑchodnĞ½
 [East Northeast]
-Vıchodovıchodoseverní
+VÑchodovÑchodosevernĞ½
 [West Southwest]
-Západozápadojiní
+ZĞ±padozĞ±padojiÑ›nĞ½
 [West Northwest]
-Západozápadoseverní
+ZĞ±padozĞ±padosevernĞ½
 [East Southeast]
-Vıchodovıchodojiní
+VÑchodovÑchodojiÑ›nĞ½
 
 ; Visibility
 [unlimited]
-bez omezení
+bez omezenĞ½
 [Unlimited]
-Bez omezení
+Bez omezenĞ½
 
 ; units not included in the plugin translation
 [hPa]
@@ -636,858 +636,858 @@ hPa
 torr
 
 ; Moon Phases
-; stáøí: 0 dnù
+; stĞ±ÑˆĞ½: 0 dnÑ‰
 [New Moon]
 nov
-; stáøí: 0 - 7,4 dnù
+; stĞ±ÑˆĞ½: 0 - 7,4 dnÑ‰
 [Waxing Crescent]
-dorùstá (srpek)
-; stáøí: 7,4 dnù
+dorÑ‰stĞ± (srpek)
+; stĞ±ÑˆĞ½: 7,4 dnÑ‰
 [First Quarter]
-první ètvr
-; stáøí: 7,4 - 14,8 dnù
+prvnĞ½ Ğ¸tvrÑœ
+; stĞ±ÑˆĞ½: 7,4 - 14,8 dnÑ‰
 [Waxing Gibbous]
-dorùstá
-; stáøí: 14,8 dnù
+dorÑ‰stĞ±
+; stĞ±ÑˆĞ½: 14,8 dnÑ‰
 [Full Moon]
-úplnìk
-; stáøí: 14,8 - 22,1 dnù
+ÑŠplnĞ¼k
+; stĞ±ÑˆĞ½: 14,8 - 22,1 dnÑ‰
 [Waning Gibbous]
-couvá
-; stáøí: 22,1 dnù
+couvĞ±
+; stĞ±ÑˆĞ½: 22,1 dnÑ‰
 [Last Quarter]
-poslední ètvr
-; stáøí: 22,1 - 29,5 dnù
+poslednĞ½ Ğ¸tvrÑœ
+; stĞ±ÑˆĞ½: 22,1 - 29,5 dnÑ‰
 [Waning Crescent]
-couvá (srpek)
+couvĞ± (srpek)
 
 ; UV Intensity
 [Moderate]
-støední
+stÑˆednĞ½
 
 [Do not display fractional values]
-Nezobrazovat zlomkové hodnoty
+Nezobrazovat zlomkovĞ¹ hodnoty
 [Avatar size]
-Velikost avatarù
+Velikost avatarÑ‰
 [Do not append units to values]
 Nezobrazovat jednotky
 [N/a]
 <neuvedeno>
 [Frame Title Font]
-Písmo v záhlaví rámeèku
+PĞ½smo v zĞ±hlavĞ½ rĞ±meĞ¸ku
 
 ; weather conditions
 ; sunny
 [Sunny]
-sluneèno
+sluneĞ¸no
 [#Clear Weather]
 jasno
 [Fair]
-pìknì
+pĞ¼knĞ¼
 [Sunny/Windy]
-sluneèno / vìtrno
+sluneĞ¸no / vĞ¼trno
 [Clear/Windy]
-jasno / vìtrno
+jasno / vĞ¼trno
 [Fair/Windy]
-pìknì / vìtrno
+pĞ¼knĞ¼ / vĞ¼trno
 [Windy]
-vìtrno
+vĞ¼trno
 
 ; partly cloudy
 [Partly Sunny]
-èásteènì sluneèno
+Ğ¸Ğ±steĞ¸nĞ¼ sluneĞ¸no
 [Mostly Cloudy]
-pøevánì oblaèno
+pÑˆevĞ±Ñ›nĞ¼ oblaĞ¸no
 [Mostly Clear]
-pøevánì jasno
+pÑˆevĞ±Ñ›nĞ¼ jasno
 [Partly Sunny/Windy]
-èásteènì sluneèno / vìtrno
+Ğ¸Ğ±steĞ¸nĞ¼ sluneĞ¸no / vĞ¼trno
 [Mostly Clear/Windy]
-pøevánì jasno / vìtrno
+pÑˆevĞ±Ñ›nĞ¼ jasno / vĞ¼trno
 [Mostly Sunny]
-pøevánì sluneèno
+pÑˆevĞ±Ñ›nĞ¼ sluneĞ¸no
 [Mostly Sunny/Windy]
-pøevánì sluneèno / vìtrno
+pÑˆevĞ±Ñ›nĞ¼ sluneĞ¸no / vĞ¼trno
 
 ; cloudy
 [Cloudy]
-oblaèno
+oblaĞ¸no
 [Overcast]
-zataeno
+zataÑ›eno
 [Cloudy/Windy]
-oblaèno / vìtrno
+oblaĞ¸no / vĞ¼trno
 [Overcast/Windy]
-zataeno / vìtrno
+zataÑ›eno / vĞ¼trno
 [Mostly Cloudy/Windy]
-pøevánì oblaèno / vìtrno
+pÑˆevĞ±Ñ›nĞ¼ oblaĞ¸no / vĞ¼trno
 ;(DUP) [Mostly Cloudy]
 
 ; rain
 [Light Drizzle]
-slabé mrholení
+slabĞ¹ mrholenĞ½
 [Drizzle]
-mrholení
+mrholenĞ½
 [Light Rain]
-slabı déš
+slabÑ dĞ¹Ñ™Ñœ
 [Rain]
-déš
+dĞ¹Ñ™Ñœ
 [Heavy Rain]
-silnı déš
+silnÑ dĞ¹Ñ™Ñœ
 [Light Rain/Fog]
-slabı déš / mlha
+slabÑ dĞ¹Ñ™Ñœ / mlha
 [Rain/Fog]
-déš / mlha
+dĞ¹Ñ™Ñœ / mlha
 [Light Drizzle/Windy]
-slabé mrholení / vìtrno
+slabĞ¹ mrholenĞ½ / vĞ¼trno
 [Drizzle/Windy]
-mrholení / vìtrno
+mrholenĞ½ / vĞ¼trno
 [Light Rain/Windy]
-slabı déš / vìtrno
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Rain/Windy]
-déš / vìtrno
+dĞ¹Ñ™Ñœ / vĞ¼trno
 [Heavy Rain/Windy]
-silnı déš / vìtrno
+silnÑ dĞ¹Ñ™Ñœ / vĞ¼trno
 [AM Light Rain]
-slabı déš (dop.)
+slabÑ dĞ¹Ñ™Ñœ (dop.)
 [PM Light Rain]
-slabı déš (odp.)
+slabÑ dĞ¹Ñ™Ñœ (odp.)
 [AM Light Rain/Windy]
-slabı déš / vìtrno (dop.)
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno (dop.)
 [PM Light Rain/Windy]
-slabı déš / vìtrno (odp.)
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno (odp.)
 
 ; showers
 [Rain Shower]
-dešová pøeháòka
+deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka
 [Showers]
-pøeháòky
+pÑˆehĞ±Ñ‚ky
 [Heavy Rain Shower]
-silná dešová pøeháòka
+silnĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka
 [Heavy Rain Shower/Windy]
-silná dešová pøeháòka / vìtrno
+silnĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Light Rain Shower]
-slabá dešová pøeháòka
+slabĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka
 [AM Shower]
-pøeháòka (dop.)
+pÑˆehĞ±Ñ‚ka (dop.)
 [PM Shower]
-pøeháòka (odp.)
+pÑˆehĞ±Ñ‚ka (odp.)
 [Scattered Shower]
-promìnlivá pøeháòka
+promĞ¼nlivĞ± pÑˆehĞ±Ñ‚ka
 [Rain Shower/Windy]
-déšová pøeháòka / vìtrno
+dĞ¹Ñ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Shower/Windy]
-pøeháòka / vìtrno
+pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Light Rain Shower/Windy]
-slabá dešová pøeháòka / vìtrno
+slabĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [AM Shower/Windy]
-pøeháòka / vìtrno (dop.)
+pÑˆehĞ±Ñ‚ka / vĞ¼trno (dop.)
 [PM Shower/Windy]
-pøeháòka / vìtrno (odp.)
+pÑˆehĞ±Ñ‚ka / vĞ¼trno (odp.)
 [Scattered Shower/Windy]
-promìnlivá pøeháòka / vìtrno
+promĞ¼nlivĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Few Showers/Windy]
-nìkolik pøehánìk / vìtrno
+nĞ¼kolik pÑˆehĞ±nĞ¼k / vĞ¼trno
 [Showers in the Vicinity]
-pøeháòky v okolí
+pÑˆehĞ±Ñ‚ky v okolĞ½
 [Thunder in the Vicinity]
-bouøe v okolí
+bouÑˆe v okolĞ½
 
 ; snow
 [Light Snow]
-slabé snìení
+slabĞ¹ snĞ¼Ñ›enĞ½
 [Snow]
-snìení
+snĞ¼Ñ›enĞ½
 [Heavy Snow]
-silné snìení
+silnĞ¹ snĞ¼Ñ›enĞ½
 [Light Snow Pellets]
-slabé snìhové kulièky
+slabĞ¹ snĞ¼hovĞ¹ kuliĞ¸ky
 [Snow Pellets]
-snìhové kulièky
+snĞ¼hovĞ¹ kuliĞ¸ky
 [Light Ice Pellets]
-slabé ledové kulièky
+slabĞ¹ ledovĞ¹ kuliĞ¸ky
 [Ice Pellets]
-ledové kulièky
+ledovĞ¹ kuliĞ¸ky
 [Wintery Weather]
-zimní poèasí
+zimnĞ½ poĞ¸asĞ½
 [Light Freezing Rain]
-slabı mrznoucí déš
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Freezing Rain]
-mrznoucí déš
+mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Flurries/Windy]
-metelice / vìtrno
+metelice / vĞ¼trno
 [Light Flurries/Windy]
-slabá metelice / vìtrno
+slabĞ± metelice / vĞ¼trno
 [Light Snow/Windy]
-slabé snìení / vìtrno
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Snow/Windy]
-snìení / vìtrno
+snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Heavy Snow/Windy]
-silné snìení / vìtrno
+silnĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Light Snow Pellets/Windy]
-slabé snìhové kulièky / vìtrno
+slabĞ¹ snĞ¼hovĞ¹ kuliĞ¸ky / vĞ¼trno
 [Snow Pellets/Windy]
-snìhové kulièky / vìtrno
+snĞ¼hovĞ¹ kuliĞ¸ky / vĞ¼trno
 [Light Ice Pellets/Windy]
-slabé ledové kulièky / vìtrno
+slabĞ¹ ledovĞ¹ kuliĞ¸ky / vĞ¼trno
 [Ice Pellets/Windy]
-ledové kulièky / vìtrno
+ledovĞ¹ kuliĞ¸ky / vĞ¼trno
 [Light Freezing Rain/Windy]
-slabı mrznoucí déš / vìtrno
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Freezing Rain/Windy]
-mrznoucí déš / vìtrno
+mrznoucĞ½ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Wintery Mix]
-zimní všehochu
+zimnĞ½ vÑ™ehochuÑœ
 [Light Snow Grains]
-slabé snìhové vloèky
+slabĞ¹ snĞ¼hovĞ¹ vloĞ¸ky
 [Snow Grains]
-snìhové vloèky
+snĞ¼hovĞ¹ vloĞ¸ky
 [Rain/Snow]
-déš / snìení
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½
 [Rain/Show/Windy]
-déš / snìení / vìtrno
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Light Rain/Freezing Rain]
-slabı déš / mrznoucí déš
+slabÑ dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Rain/Freezing Rain]
-déš / mrznoucí déš
+dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Light Rain/Freezing Rain/Windy]
-slabı déš / mrznoucí déš / vìtrno
+slabÑ dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Rain/Freezing Rain/Windy]
-déš / mrznoucí déš / vìtrno
+dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ / vĞ¼trno
 [AM Snow]
-snìení (dop.)
+snĞ¼Ñ›enĞ½ (dop.)
 [PM Snow]
-snìení (odp.)
+snĞ¼Ñ›enĞ½ (odp.)
 [AM Light Snow]
-slabé snìení (dop.)
+slabĞ¹ snĞ¼Ñ›enĞ½ (dop.)
 [PM Light Snow]
-slabé snìení (odp.)
+slabĞ¹ snĞ¼Ñ›enĞ½ (odp.)
 [Ice Crystals]
-ledové krystaly
+ledovĞ¹ krystaly
 [Ice Crystals/Windy]
-ledové krystaly / vìtrno
+ledovĞ¹ krystaly / vĞ¼trno
 
 ; snow showers
 [Snow Showers]
-snìhové pøeháòky
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Heavy Snow Shower]
-silná snìhová pøeháòka
+silnĞ± snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka
 [Heavy Snow Shower/Windy]
-silná snìhová pøeháòka / vìtrno
+silnĞ± snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [PM Snow Showers]
-snìhové pøeháòky (odp.)
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.)
 [AM Snow Showers]
-snìhové pøeháòky (dop.)
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 [Rain/Snow Showers]
-déš / snìhové pøeháòky
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Snow Showers/Windy]
-snìhové pøeháòky / vìtrno
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ¼trno
 [PM Snow Showers / Windy]
-snìhové pøeháòky (odp.) / vìtrno
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.) / vĞ¼trno
 [AM Snow Showers / Windy]
-snìhové pøeháòky (dop.) / vìtrno
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.) / vĞ¼trno
 [Rain/Snow Showers/Windy]
-déš / snìhové pøeháòky / vìtrno
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ¼trno
 [Light Snow Showers]
-slabé snìhové pøeháòky
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Light Snow Showers/Windy]
-slabé snìhové pøeháòky / vìtrno
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ¼trno
 [Flurries]
 metelice
 [Light Flurries]
-slabá metelice
+slabĞ± metelice
 [Scattered Flurries]
-promìnlivá metelice
+promĞ¼nlivĞ± metelice
 [Few Flurries]
-nìkolik metelic
+nĞ¼kolik metelic
 [Few Flurries/Windy]
-nìkolik metelic / vìtrno
+nĞ¼kolik metelic / vĞ¼trno
 [Scattered Snow Showers]
-promìnlivé snìhové pøeháòky
+promĞ¼nlivĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Scattered Snow Showers/Windy]
-promìnlivé snìhové pøeháòky / vìtrno
+promĞ¼nlivĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ¼trno
 [Few Snow Showers]
-nìkolik snìhovıch pøehánìk
+nĞ¼kolik snĞ¼hovÑch pÑˆehĞ±nĞ¼k
 [Few Snow Showers/Windy]
-nìkolik snìhovıch pøehánìk / vìtrno
+nĞ¼kolik snĞ¼hovÑch pÑˆehĞ±nĞ¼k / vĞ¼trno
 [Freezing Drizzle]
-mrznoucí mrholení
+mrznoucĞ½ mrholenĞ½
 [Light Freezing Drizzle]
-slabé mrznoucí mrholení
+slabĞ¹ mrznoucĞ½ mrholenĞ½
 [Freezing Drizzle/Windy]
-mrznoucí mrholení / vìtrno
+mrznoucĞ½ mrholenĞ½ / vĞ¼trno
 [Light Freezing Drizzle/Windy]
-slabé mrznoucí mrholení / vìtrno
+slabĞ¹ mrznoucĞ½ mrholenĞ½ / vĞ¼trno
 [Drifting Snow]
-ustupující snìení
+ustupujĞ½cĞ½ snĞ¼Ñ›enĞ½
 
 ; thunder
 [Thunderstorms]
-bouøky
+bouÑˆky
 [Scattered Thunderstorms]
-promìnlivé bouøky
+promĞ¼nlivĞ¹ bouÑˆky
 [Thunderstorms/Windy]
-bouøky / vìtrno
+bouÑˆky / vĞ¼trno
 [Scattered Thunderstorms/Windy]
-promìnlivé bouøky / vìtrno
+promĞ¼nlivĞ¹ bouÑˆky / vĞ¼trno
 [Rain/Thunder]
-déš / hømìní
+dĞ¹Ñ™Ñœ / hÑˆmĞ¼nĞ½
 [Light Thunderstorms/Rain]
-slabé bouøky / déš
+slabĞ¹ bouÑˆky / dĞ¹Ñ™Ñœ
 [Thunderstorms/Rain]
-bouøky / déš
+bouÑˆky / dĞ¹Ñ™Ñœ
 [Light Rain with Thunder]
-slabı déš s hømìním
+slabÑ dĞ¹Ñ™Ñœ s hÑˆmĞ¼nĞ½m
 [Rain with Thunder]
-déš s hømìním
+dĞ¹Ñ™Ñœ s hÑˆmĞ¼nĞ½m
 [T-Storm]
-bouøka
+bouÑˆka
 
 ; fog
 [Fog]
-hustá mlha
+hustĞ± mlha
 [Haze]
-slabé mrholení
+slabĞ¹ mrholenĞ½
 [Mist]
-mrholení
+mrholenĞ½
 [Fog/Windy]
-hustá mlha / vìtrno
+hustĞ± mlha / vĞ¼trno
 [Haze/Windy]
-slabé mrholení / vìtrno
+slabĞ¹ mrholenĞ½ / vĞ¼trno
 [Mist/Windy]
-mrholení / vìtrno
+mrholenĞ½ / vĞ¼trno
 [Partial Fog]
-místy hustá mlha
+mĞ½sty hustĞ± mlha
 [Smoke]
-kouø
+kouÑˆ
 [Foggy]
 mlhavo
 [AM Fog/PM Sun]
-mlha (dop.) / sluneèno (odp.)
+mlha (dop.) / sluneĞ¸no (odp.)
 [Blowing Sand]
-zvíøenı písek
+zvĞ½ÑˆenÑ pĞ½sek
 [Low Drifting Sand]
-nízko zvíøenı písek
+nĞ½zko zvĞ½ÑˆenÑ pĞ½sek
 [Blowing Dust]
-zvíøenı prach
+zvĞ½ÑˆenÑ prach
 [Widespread Dust/Windy]
-všudypøítomnı písek / vìtrno
+vÑ™udypÑˆĞ½tomnÑ pĞ½sek / vĞ¼trno
 [Widespread Dust]
-všudypøítomnı písek
+vÑ™udypÑˆĞ½tomnÑ pĞ½sek
 [Duststorm]
-prachová bouøe
+prachovĞ± bouÑˆe
 
 ; weather conditions / Weather Underground
 [Chance Of Rain]
-pøíleitostnì déš
+pÑˆĞ½leÑ›itostnĞ¼ dĞ¹Ñ™Ñœ
 [Pm Showers]
-pøeháòky (odp.)
+pÑˆehĞ±Ñ‚ky (odp.)
 [Am Showers]
-pøeháòky (dop.)
+pÑˆehĞ±Ñ‚ky (dop.)
 [Chance Of T-Storms]
-pøíleitostnì bouøky
+pÑˆĞ½leÑ›itostnĞ¼ bouÑˆky
 [Isolated T-Storms]
-ojedinìlé bouøky
+ojedinĞ¼lĞ¹ bouÑˆky
 [Scattered Clouds]
-støídavì oblaèno
+stÑˆĞ½davĞ¼ oblaĞ¸no
 [Showers In The Vicinity]
-pøeháòky v okolí
+pÑˆehĞ±Ñ‚ky v okolĞ½
 [Unknown Precipitation]
-sráky (blíe nespecifikované)
+srĞ±Ñ›ky (blĞ½Ñ›e nespecifikovanĞ¹)
 [Light Rain Showers]
-slabé dešové pøeháòky
+slabĞ¹ deÑ™ÑœovĞ¹ pÑˆehĞ±Ñ‚ky
 [Am Rain / Snow Showers]
-déš / snìhové pøeháòky (dop.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 [Pm Rain / Snow Showers]
-déš / snìhové pøeháòky (odp.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.)
 [Light Rain Late]
-pozdìji slabı déš
+pozdĞ¼ji slabÑ dĞ¹Ñ™Ñœ
 [Light Snow And Windy]
-slabé snìení / vìtrno
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Showers Early]
-k ránu pøeháòky
+k rĞ±nu pÑˆehĞ±Ñ‚ky
 [Snow To Rain]
-sníh s deštìm
+snĞ½h s deÑ™tĞ¼m
 [Rain And Snow And Windy]
-déš se snìhem / vìtrno
+dĞ¹Ñ™Ñœ se snĞ¼hem / vĞ¼trno
 [Rain to Snow]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Pm T-Storms]
-bouøky (odp.)
+bouÑˆky (odp.)
 [Am T-Storms]
-bouøky (dop.)
+bouÑˆky (dop.)
 [Patches Of Fog]
-protrhaná mlha
+protrhanĞ± mlha
 [Drizzle And Windy]
-mrholení / vìtrno
+mrholenĞ½ / vĞ¼trno
 [Thunderstorm]
-bouøka
+bouÑˆka
 [Am Light Rain]
-slabı déš (dop.)
+slabÑ dĞ¹Ñ™Ñœ (dop.)
 [Pm Light Rain]
-slabı déš (odp.)
+slabÑ dĞ¹Ñ™Ñœ (odp.)
 [Fair And Windy]
-pìknì / vìtrno
+pĞ¼knĞ¼ / vĞ¼trno
 [Rain And Sleet]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Light Thunderstorm Rain]
-slabá bouøka / déš
+slabĞ± bouÑˆka / dĞ¹Ñ™Ñœ
 [Light Rain Small Hail]
-slabı déš / menší kroupy
+slabÑ dĞ¹Ñ™Ñœ / menÑ™Ğ½ kroupy
 [Rain And Windy]
-déš / vìtrno
+dĞ¹Ñ™Ñœ / vĞ¼trno
 [Am Clouds / Pm Sun]
-oblaèno (dop.) / sluneèno (odp.)
+oblaĞ¸no (dop.) / sluneĞ¸no (odp.)
 [Light Rain Mist]
-mrholení / slabı déš
+mrholenĞ½ / slabÑ dĞ¹Ñ™Ñœ
 [Am Rain]
-déš (dop.)
+dĞ¹Ñ™Ñœ (dop.)
 [Pm Rain]
-déš (odp.)
+dĞ¹Ñ™Ñœ (odp.)
 [Mostly Cloudy And Windy]
-pøevánì oblaèno / vìtrno
+pÑˆevĞ±Ñ›nĞ¼ oblaĞ¸no / vĞ¼trno
 [Patches Of Fog And Windy]
-protrhaná mlha / vítr
+protrhanĞ± mlha / vĞ½tr
 [Thunderstorms And Rain]
-bouøky / déš
+bouÑˆky / dĞ¹Ñ™Ñœ
 [Thunder In The Vicinity]
-bouøe v okolí
+bouÑˆe v okolĞ½
 [Cloudy And Windy]
-oblaèno a vìtrno
+oblaĞ¸no a vĞ¼trno
 [Light Fog]
-slabá mlha
+slabĞ± mlha
 [Light Rain With Thunder]
-slabı déš s hømìním
+slabÑ dĞ¹Ñ™Ñœ s hÑˆmĞ¼nĞ½m
 [Light Rain And Windy]
-slabı déš / vìtrno
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Heavy Fog]
-velmi hustá mlha
+velmi hustĞ± mlha
 [Snow And Windy]
-snìení / vìtrno
+snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Heavy Snow Showers]
-silné snìhové pøeháòky
+silnĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Light Snow Showers Mist]
-slabé snìhové pøeháòky / mrholení
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / mrholenĞ½
 [Light Freezing Drizzle Mist]
-slabé mrznoucí mrholení
+slabĞ¹ mrznoucĞ½ mrholenĞ½
 [Light Snow Showers Low Drifting Snow Showers Mist]
-slabé snìhové pøeháòky nízko nad zemí / mrholení
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky nĞ½zko nad zemĞ½ / mrholenĞ½
 [Light Snow Showers Low Drifting Snow Showers]
-slabé snìhové pøeháòky nízko nad zemí
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky nĞ½zko nad zemĞ½
 [Heavy Snow Showers Low Drifting Snow Showers]
-silné snìhové pøeháòky nízko nad zemí
+silnĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky nĞ½zko nad zemĞ½
 [Snow Showers Low Drifting Snow Showers]
-snìhové pøeháòky nízko nad zemí
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky nĞ½zko nad zemĞ½
 [Light Rain Snow Showers Mist]
-slabé dešové a snìhové pøeháòky
+slabĞ¹ deÑ™ÑœovĞ¹ a snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Light Freezing Rain Mist]
-slabı mrznoucí déš / mrholení
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ / mrholenĞ½
 [Freezing Fog]
-mrznoucí mlha
+mrznoucĞ½ mlha
 [Heavy Snow And Windy]
-silné snìení / vìtrno
+silnĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Rain And Snow]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Light Snow Shower And Windy]
-slabé snìhové pøeháòky / vìtrno
+slabĞ¹ snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ¼trno
 
 ; weather conditions / weather.com
 [AM Showers]
-pøeháòky (dop.)
+pÑˆehĞ±Ñ‚ky (dop.)
 [PM Showers]
-pøeháòky (odp.)
+pÑˆehĞ±Ñ‚ky (odp.)
 [Scatter Showers]
-promìnlivé pøeháòky
+promĞ¼nlivĞ¹ pÑˆehĞ±Ñ‚ky
 [Rain / Wind]
-déš / vítr
+dĞ¹Ñ™Ñœ / vĞ½tr
 [Showers / Wind]
-pøeháòky / vítr
+pÑˆehĞ±Ñ‚ky / vĞ½tr
 [AM Showers / Wind]
-pøeháòky / vítr (dop.)
+pÑˆehĞ±Ñ‚ky / vĞ½tr (dop.)
 [PM Showers / Wind]
-pøeháòky / vítr (odp.)
+pÑˆehĞ±Ñ‚ky / vĞ½tr (odp.)
 [Scatter Showers / Wind]
-promìnlivé pøeháòky / vítr
+promĞ¼nlivĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr
 [Few Showers]
-nìkolik pøehánìk
+nĞ¼kolik pÑˆehĞ±nĞ¼k
 [Few Showers / Wind]
-nìkolik pøehánìk / vítr
+nĞ¼kolik pÑˆehĞ±nĞ¼k / vĞ½tr
 [Partly Cloudy]
-èásteènì oblaèno
+Ğ¸Ğ±steĞ¸nĞ¼ oblaĞ¸no
 [Partly Cloudy and Windy]
-èásteènì oblaèno a vìtrno
+Ğ¸Ğ±steĞ¸nĞ¼ oblaĞ¸no a vĞ¼trno
 [Thunder and Small Hail]
-hømìní a menší kroupy
+hÑˆmĞ¼nĞ½ a menÑ™Ğ½ kroupy
 [Thunder]
-hømìní
+hÑˆmĞ¼nĞ½
 [Mostly Cloudy and Windy]
-pøevánì oblaèno / vìtrno
+pÑˆevĞ±Ñ›nĞ¼ oblaĞ¸no / vĞ¼trno
 [Light Snow Shower]
-slabá snìhová pøeháòka
+slabĞ± snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka
 [Shallow Fog]
-slabá mlha
+slabĞ± mlha
 [Snow Shower]
-snìhová pøeháòka
+snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka
 [Rain / Snow]
-déš / snìení
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½
 [Rain / Snow Showers]
-déš / snìhové pøeháòky
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Light Rain and Windy]
-slabı déš / vìtrno
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Light Rain Shower and Windy]
-slabá dešová pøeháòka / vìtrno
+slabĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Rain and Snow]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Light Snow and Windy]
-slabé snìení / vìtrno
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [AM Clouds/PM Sun]
-oblaèno (dop.) / sluneèno (odp.)
+oblaĞ¸no (dop.) / sluneĞ¸no (odp.)
 [Light Rain and Freezing Rain]
-slabı mrznoucí déš
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Light Rain and Fog]
-slabı déš / mlha
+slabÑ dĞ¹Ñ™Ñœ / mlha
 [AM Rain/Snow Showers]
-déš / snìhové pøeháòky (dop.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 [Scattered Showers]
-promìnlivé pøeháòky
+promĞ¼nlivĞ¹ pÑˆehĞ±Ñ‚ky
 [Shower]
-pøeháòka
+pÑˆehĞ±Ñ‚ka
 [Showers Late]
-pozdìji pøeháòky
+pozdĞ¼ji pÑˆehĞ±Ñ‚ky
 [Mostly Sunny / Wind]
-pøevánì sluneèno / vítr
+pÑˆevĞ±Ñ›nĞ¼ sluneĞ¸no / vĞ½tr
 [T-Storms]
-bouøky
+bouÑˆky
 [T-Showers]
-pøeháòky / hømìní
+pÑˆehĞ±Ñ‚ky / hÑˆmĞ¼nĞ½
 [T-Showers /Wind]
-pøeháòky / hømìní / vítr
+pÑˆehĞ±Ñ‚ky / hÑˆmĞ¼nĞ½ / vĞ½tr
 [Rain / Thunder]
-déš / hømìní
+dĞ¹Ñ™Ñœ / hÑˆmĞ¼nĞ½
 [AM Clouds / PM Sun]
-oblaèno (dop.) / sluneèno (odp.)
+oblaĞ¸no (dop.) / sluneĞ¸no (odp.)
 [Scattered T-Storms]
-promìnlivé bouøky
+promĞ¼nlivĞ¹ bouÑˆky
 [Partly Cloudy / Wind]
-èásteènì oblaèno / vítr
+Ğ¸Ğ±steĞ¸nĞ¼ oblaĞ¸no / vĞ½tr
 [Mostly Cloudy / Wind]
-pøevánì oblaèno / vítr
+pÑˆevĞ±Ñ›nĞ¼ oblaĞ¸no / vĞ½tr
 [PM Rain]
-déš (odp.)
+dĞ¹Ñ™Ñœ (odp.)
 [AM Rain]
-déš (dop.)
+dĞ¹Ñ™Ñœ (dop.)
 [Sunny / Wind]
-sluneèno / vítr
+sluneĞ¸no / vĞ½tr
 [Heavy T-Storms / Wind]
-silné bouøky / vítr
+silnĞ¹ bouÑˆky / vĞ½tr
 [Cloudy / Wind]
-oblaèno / vítr
+oblaĞ¸no / vĞ½tr
 [AM Clouds / PM Sun / Wind]
-oblaèno (dop.) / sluneèno (odp.) / vítr
+oblaĞ¸no (dop.) / sluneĞ¸no (odp.) / vĞ½tr
 [T-Showers / Wind]
-pøeháòky / hømìní / vítr
+pÑˆehĞ±Ñ‚ky / hÑˆmĞ¼nĞ½ / vĞ½tr
 [PM T-Storms]
-bouøky (odp.)
+bouÑˆky (odp.)
 [AM T-Storms]
-bouøky (dop.)
+bouÑˆky (dop.)
 [Scattered T-Storms / Windy]
-promìnlivé bouøky / vìtrno
+promĞ¼nlivĞ¹ bouÑˆky / vĞ¼trno
 [Rain / Thunder / Wind]
-déš / hømìní / vítr
+dĞ¹Ñ™Ñœ / hÑˆmĞ¼nĞ½ / vĞ½tr
 [AM T-Showers]
-pøeháòky s hømìním (dop.)
+pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m (dop.)
 [PM T-Showers]
-pøeháòky s hømìním (odp.)
+pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m (odp.)
 [Scattered Strong Storms]
-promìnlivé silné bouøky
+promĞ¼nlivĞ¹ silnĞ¹ bouÑˆky
 [Scattered T-Storms / Wind]
-promìnlivé bouøky / vítr
+promĞ¼nlivĞ¹ bouÑˆky / vĞ½tr
 [T-Storms / Wind]
-bouøky / vítr
+bouÑˆky / vĞ½tr
 [Heavy Rain / Wind]
-silnı déš / vítr
+silnÑ dĞ¹Ñ™Ñœ / vĞ½tr
 [Fair and Windy]
-pìknì / vìtrno
+pĞ¼knĞ¼ / vĞ¼trno
 [AM T-Storms / Wind]
-bouøky (dop.) / vítr
+bouÑˆky (dop.) / vĞ½tr
 [PM T-Storms / Wind]
-bouøky (odp.) / vítr
+bouÑˆky (odp.) / vĞ½tr
 [Isolated T-Storms / Wind]
-ojedinìlé bouøky / vítr
+ojedinĞ¼lĞ¹ bouÑˆky / vĞ½tr
 [Partly Cloudy And Windy]
-èásteènì oblaèno a vìtrno
+Ğ¸Ğ±steĞ¸nĞ¼ oblaĞ¸no a vĞ¼trno
 [Wintry Mix]
-zimní všehochu
+zimnĞ½ vÑ™ehochuÑœ
 [AM Rain / Snow Showers]
-déš / snìhové pøeháòky (dop.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 [PM Rain / Snow Showers]
-déš / snìhové pøeháòky (odp.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.)
 [AM Rain / Snow]
-déš / snìení (dop.)
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½ (dop.)
 [PM Rain / Snow]
-déš / snìení (odp.)
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½ (odp.)
 [Light Sleet and Fog]
-slabı déš se snìhem / mlha
+slabÑ dĞ¹Ñ™Ñœ se snĞ¼hem / mlha
 [Light Freezing Rain and Fog]
-slabı mrznoucí déš / mlha
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ / mlha
 [Light Rain / Wind]
-slabı déš / vítr
+slabÑ dĞ¹Ñ™Ñœ / vĞ½tr
 [Cloudy and Windy]
-oblaèno / vìtrno
+oblaĞ¸no / vĞ¼trno
 [Rain / Freezing Rain]
-déš / mrznoucí déš
+dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Light Snow and Fog]
-slabé snìení / mlha
+slabĞ¹ snĞ¼Ñ›enĞ½ / mlha
 [Wintry Mix / Wind]
-zimní všehochu / vítr
+zimnĞ½ vÑ™ehochuÑœ / vĞ½tr
 [Light Snow and Freezing Rain]
-slabé snìení / mrznoucí déš
+slabĞ¹ snĞ¼Ñ›enĞ½ / mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Sunny and Windy]
-sluneèno / vìtrno
+sluneĞ¸no / vĞ¼trno
 [Rain and Fog]
-déš / mlha
+dĞ¹Ñ™Ñœ / mlha
 [Rain and Freezing Rain and Fog]
-déš / mrznoucí déš / mlha
+dĞ¹Ñ™Ñœ / mrznoucĞ½ dĞ¹Ñ™Ñœ / mlha
 [Snow Shower And Windy]
-snìhová pøeháòka / vìtrno
+snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Sleet And Windy]
-déš se snìhem / vìtrno
+dĞ¹Ñ™Ñœ se snĞ¼hem / vĞ¼trno
 [Blowing Snow And Windy]
-poletující sníh / vìtrno
+poletujĞ½cĞ½ snĞ½h / vĞ¼trno
 [Fog And Windy]
-hustá mlha / vìtrno
+hustĞ± mlha / vĞ¼trno
 [Heavy T-Storm And Windy]
-silné bouøky / vìtrno
+silnĞ¹ bouÑˆky / vĞ¼trno
 [Blowing Snow]
-poletující sníh
+poletujĞ½cĞ½ snĞ½h
 [Heavy Snow and Windy]
-silné snìení / vìtrno
+silnĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno
 [Rain/Wind]
-déš / vítr
+dĞ¹Ñ™Ñœ / vĞ½tr
 [Heavy T-Storm]
-silná bouøka
+silnĞ± bouÑˆka
 [AM Light Rain / Wind]
-slabı déš / vítr (dop.)
+slabÑ dĞ¹Ñ™Ñœ / vĞ½tr (dop.)
 [PM Light Rain / Wind]
-slabı déš / vítr (odp.)
+slabÑ dĞ¹Ñ™Ñœ / vĞ½tr (odp.)
 [Light Rain Shower And Windy]
-slabá dešová pøeháòka / vìtrno
+slabĞ± deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Heavy Drizzle]
-silné mrholení
+silnĞ¹ mrholenĞ½
 [Light Drizzle And Windy]
-slabé mrholení / vìtrno
+slabĞ¹ mrholenĞ½ / vĞ¼trno
 [Light Rain And Fog]
-slabı déš / mlha
+slabÑ dĞ¹Ñ™Ñœ / mlha
 [Heavy Rain And Windy]
-silnı déš / vìtrno
+silnÑ dĞ¹Ñ™Ñœ / vĞ¼trno
 [Rain Shower And Windy]
-dešová pøeháòka / vìtrno
+deÑ™ÑœovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 [Light Snow And Fog]
-slabé snìení / mlha
+slabĞ¹ snĞ¼Ñ›enĞ½ / mlha
 [Light Snow And Windy And Fog]
-slabé snìení / vìtrno / mlha
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ¼trno / mlha
 [Scattered Showers / Wind]
-promìnlivé pøeháòky / vítr
+promĞ¼nlivĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr
 [Light Rain And Windy And Fog]
-slabı déš / vìtrno / mlha
+slabÑ dĞ¹Ñ™Ñœ / vĞ¼trno / mlha
 [T-Storms Early]
-k ránu bouøky
+k rĞ±nu bouÑˆky
 [Clouds Early / Clearing Late]
-k ránu oblaèno, pozdìji vyjasnìní
+k rĞ±nu oblaĞ¸no, pozdĞ¼ji vyjasnĞ¼nĞ½
 [Snow Showers Late]
-pozdìji snìhové pøeháòky
+pozdĞ¼ji snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Rain To Snow]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Rain Early]
-k ránu déš
+k rĞ±nu dĞ¹Ñ™Ñœ
 [Light Rain Early]
-k ránu slabı déš
+k rĞ±nu slabÑ dĞ¹Ñ™Ñœ
 [Snow And Fog]
-sníh a mlha
+snĞ½h a mlha
 [Light Showers Rain]
-slabé pøeháòky a déš
+slabĞ¹ pÑˆehĞ±Ñ‚ky a dĞ¹Ñ™Ñœ
 [Light Rain / Wind Early]
-slabı déš / k ránu vítr
+slabÑ dĞ¹Ñ™Ñœ / k rĞ±nu vĞ½tr
 [mostly sunny]
-pøevánì sluneèno
+pÑˆevĞ±Ñ›nĞ¼ sluneĞ¸no
 [AM Snow Showers / Wind]
-snìhové pøeháòky (dop.) / vítr
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.) / vĞ½tr
 
 [Disable support for automatic station icon assignment]
-Deaktivovat podporu pro autom. pøiøazení ikon pro stanice
+Deaktivovat podporu pro autom. pÑˆiÑˆazenĞ½ ikon pro stanice
 
 [Rain / Snow / Wind]
-déš / snìení / vítr
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½ / vĞ½tr
 [Drifting Snow And Windy]
-poletující sníh a vìtrno
+poletujĞ½cĞ½ snĞ½h a vĞ¼trno
 [Low Drifting Snow]
-nízko poletující sníh
+nĞ½zko poletujĞ½cĞ½ snĞ½h
 [Rain Mist]
-déš a mlha
+dĞ¹Ñ™Ñœ a mlha
 [Thunderstorm Rain]
-bouøka a déš
+bouÑˆka a dĞ¹Ñ™Ñœ
 [Heavy Rain Mist]
-silnı déš a mlha
+silnÑ dĞ¹Ñ™Ñœ a mlha
 [Am Light Snow]
-slabé snìení (dop.)
+slabĞ¹ snĞ¼Ñ›enĞ½ (dop.)
 
 [Snow Shower / Wind]
-snìhová pøeháòka / vítr
+snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka / vĞ½tr
 [Snow Showers / Wind Late]
-snìhové pøeháòky / pozdìji vítr
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / pozdĞ¼ji vĞ½tr
 [Light Snow / Wind]
-slabé snìení / vítr
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ½tr
 [Snow / Wind]
-snìení / vítr
+snĞ¼Ñ›enĞ½ / vĞ½tr
 [Scattered Snow Showers / Wind]
-místy snìhové pøeháòky / vítr
+mĞ½sty snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr
 [Snow Showers Early]
-k ránu snìhové pøeháòky
+k rĞ±nu snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 
 ; Description
 [Retrieve weather information and display them in your contact list]
-Zjišování informací o poèasí a zobrazení v seznamu kontaktù.
+ZjiÑ™ÑœovĞ±nĞ½ informacĞ½ o poĞ¸asĞ½ a zobrazenĞ½ v seznamu kontaktÑ‰.
 
 [Pm Showers / Wind]
-pøeháòky (odp.) / vítr
+pÑˆehĞ±Ñ‚ky (odp.) / vĞ½tr
 [Clear / Wind]
-jasno / vítr
+jasno / vĞ½tr
 [Cloudy Early / Clearing Late / Wind]
-k ránu oblaèno / pozdìji vyjasnìní / vítr
+k rĞ±nu oblaĞ¸no / pozdĞ¼ji vyjasnĞ¼nĞ½ / vĞ½tr
 
 [Rain / Snow Showers / Wind]
-déš / snìhové pøeháòky / vítr
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr
 [Mostly Clear / Wind]
-pøevánì jasno / vítr
+pÑˆevĞ±Ñ›nĞ¼ jasno / vĞ½tr
 [Pm Light Snow]
-slabé snìení (odp.)
+slabĞ¹ snĞ¼Ñ›enĞ½ (odp.)
 
 [Thunder And Fog]
-hømìní a mlha
+hÑˆmĞ¼nĞ½ a mlha
 [Am Rain / Snow Showers / Wind]
-déš (dop.) / snìhové pøeháòky / vítr
+dĞ¹Ñ™Ñœ (dop.) / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr
 [Snow And Windy And Fog]
-sníh, vìtrno a mlha
+snĞ½h, vĞ¼trno a mlha
 [Pm Rain / Wind]
-déš / vítr (odp.)
+dĞ¹Ñ™Ñœ / vĞ½tr (odp.)
 [Rain / Snow Showers Late]
-déš, pozdìji snìhové pøeháòky
+dĞ¹Ñ™Ñœ, pozdĞ¼ji snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 
 [Am Snow Showers]
-snìhové pøeháòky (dop.)
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 [Light Snow Early]
-k ránu slabé snìení
+k rĞ±nu slabĞ¹ snĞ¼Ñ›enĞ½
 [Showers / Wind Early]
-pøeháòky / k ránu vítr
+pÑˆehĞ±Ñ‚ky / k rĞ±nu vĞ½tr
 [Showers / Wind Late]
-pøeháòky / pozdìji vítr
+pÑˆehĞ±Ñ‚ky / pozdĞ¼ji vĞ½tr
 [Light Snow With Thunder]
-slabé snìení s hømìním
+slabĞ¹ snĞ¼Ñ›enĞ½ s hÑˆmĞ¼nĞ½m
 
 [T-Storm And Windy]
-bouøka a vìtrno
+bouÑˆka a vĞ¼trno
 [Sleet]
-déš se snìhem
+dĞ¹Ñ™Ñœ se snĞ¼hem
 [Rain Late]
-pozdìji déš
+pozdĞ¼ji dĞ¹Ñ™Ñœ
 [Clear And Windy]
-jasno a vìtrno
+jasno a vĞ¼trno
 [Thunder And Hail]
-hømìní a kroupy
+hÑˆmĞ¼nĞ½ a kroupy
 
 [Rain / Wind Late]
-déš / pozdìji vítr
+dĞ¹Ñ™Ñœ / pozdĞ¼ji vĞ½tr
 [Fog Early / Clouds Late / Wind]
-k ránu mlha / pozdìji oblaèno / vítr
+k rĞ±nu mlha / pozdĞ¼ji oblaĞ¸no / vĞ½tr
 [Pm Snow]
-snìení (odp.)
+snĞ¼Ñ›enĞ½ (odp.)
 
 [Foggy / Wind]
-mlhavo / vítr
+mlhavo / vĞ½tr
 [Fog Early / Clearing Late / Wind]
-k ránu mlha / pozdìji vyjasnìní / vítr
+k rĞ±nu mlha / pozdĞ¼ji vyjasnĞ¼nĞ½ / vĞ½tr
 [Am Showers / Wind]
-pøeháòky (dop.) / vítr
+pÑˆehĞ±Ñ‚ky (dop.) / vĞ½tr
 [Am Fog / Pm Sun / Wind]
-mlha (dop.) / sluneèno (odp.) / vítr
+mlha (dop.) / sluneĞ¸no (odp.) / vĞ½tr
 
 [Am Fog / Pm Clouds]
-mlha (dop.) / oblaèno (odp.)
+mlha (dop.) / oblaĞ¸no (odp.)
 [Pm Drizzle]
-mrholení (odp.)
+mrholenĞ½ (odp.)
 [Light Rain / Fog]
-slabı déš / mlha
+slabÑ dĞ¹Ñ™Ñœ / mlha
 [Fog Early / Clearing Late]
-k ránu mlha / pozdìji vyjasnìní
+k rĞ±nu mlha / pozdĞ¼ji vyjasnĞ¼nĞ½
 [Am Rain / Snow]
-déš (dop.) / snìení
+dĞ¹Ñ™Ñœ (dop.) / snĞ¼Ñ›enĞ½
 
 [AM Drizzle]
-mrholení (dop.)
+mrholenĞ½ (dop.)
 [PM Drizzle]
-mrholení (odp.)
+mrholenĞ½ (odp.)
 [AM Fog / PM Sun]
-mlha (dop.) / sluneèno (odp.)
+mlha (dop.) / sluneĞ¸no (odp.)
 
 [AM Fog / PM Clouds]
-mlha (dop.) / oblaèno (odp.)
+mlha (dop.) / oblaĞ¸no (odp.)
 
 [Am Fog / Pm Sun]
-mlha (dop.) / sluneèno (odp.)
+mlha (dop.) / sluneĞ¸no (odp.)
 [Light Snow / Wind Early]
-slabé snìení / k ránu vítr
+slabĞ¹ snĞ¼Ñ›enĞ½ / k rĞ±nu vĞ½tr
 [Am Drizzle]
-mrholení (dop.)
+mrholenĞ½ (dop.)
 [Fog Late]
-pozdìji mlha
+pozdĞ¼ji mlha
 [Pm Snow / Wind]
-snìení (odp.) / vítr
+snĞ¼Ñ›enĞ½ (odp.) / vĞ½tr
 [Pm Snow Showers / Wind]
-snìhové pøeháòky (odp.) / vítr
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.) / vĞ½tr
 [Snow Showers / Wind Early]
-snìhové pøeháòky / k ránu vítr
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / k rĞ±nu vĞ½tr
 [Few Snow Showers / Wind]
-pár snìhovıch pøehánìk / vítr
+pĞ±r snĞ¼hovÑch pÑˆehĞ±nĞ¼k / vĞ½tr
 [PM Rain / Wind]
-déš / vítr (odp.)
+dĞ¹Ñ™Ñœ / vĞ½tr (odp.)
 [Am Rain / Wind]
-déš / vítr (dop.)
+dĞ¹Ñ™Ñœ / vĞ½tr (dop.)
 [AM Rain / Wind]
-déš / vítr (dop.)
+dĞ¹Ñ™Ñœ / vĞ½tr (dop.)
 
 [Am Light Snow / Wind]
-slabé snìení (dop.) / vítr
+slabĞ¹ snĞ¼Ñ›enĞ½ (dop.) / vĞ½tr
 [Am Snow Showers / Wind]
-snìhové pøeháòky (dop.) / vítr
+snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.) / vĞ½tr
 [Light Snow / Wind Late]
-slabé snìení / pozdìji vítr
+slabĞ¹ snĞ¼Ñ›enĞ½ / pozdĞ¼ji vĞ½tr
 [Light Snow Shower And Fog]
-slabá snìhová pøeháòka a mlha
+slabĞ± snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka a mlha
 [Light Snow Mist]
-slabé snìhové mrholení
+slabĞ¹ snĞ¼hovĞ¹ mrholenĞ½
 [Snow Grains And Windy]
-snìhové vloèky a vìtrno
+snĞ¼hovĞ¹ vloĞ¸ky a vĞ¼trno
 [Snow And Thunder And Fog]
-snìení, hømìní a mlha
+snĞ¼Ñ›enĞ½, hÑˆmĞ¼nĞ½ a mlha
 [Thunder And Snow Pellets]
-hømìní a snìhové kulièky
+hÑˆmĞ¼nĞ½ a snĞ¼hovĞ¹ kuliĞ¸ky
 [Rain / Snow Early]
-déš / k ránu snìení
+dĞ¹Ñ™Ñœ / k rĞ±nu snĞ¼Ñ›enĞ½
 [Heavy Rain Showers]
-silné dešové pøeháòky
+silnĞ¹ deÑ™ÑœovĞ¹ pÑˆehĞ±Ñ‚ky
 [Thunderstorm Rain Mist]
-bouøka a mrholení
+bouÑˆka a mrholenĞ½
 [Heavy Thunderstorms And Rain]
-silná bouøka a déš
+silnĞ± bouÑˆka a dĞ¹Ñ™Ñœ
 [Am Clouds / Pm Sun / Wind]
-oblaèno (dop.) / sluneèno (odp.) / vítr
+oblaĞ¸no (dop.) / sluneĞ¸no (odp.) / vĞ½tr
 [Sunny And Windy]
-sluneèno a vìtrno
+sluneĞ¸no a vĞ¼trno
 [Light Rain And Freezing Rain]
-slabı mrznoucí déš
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Pm Fog]
 mlha (odp.)
 [Fog Early / Clouds Late]
-k ránu mlha / pozdìji oblaèno
+k rĞ±nu mlha / pozdĞ¼ji oblaĞ¸no
 [PM Fog]
 mlha (odp.)
 [Am Fog]
@@ -1496,112 +1496,112 @@ mlha (dop.)
 mlha (dop.)
 
 [Light Freezing Rain And Windy]
-slabı, mrznoucí déš a vìtrno
+slabÑ, mrznoucĞ½ dĞ¹Ñ™Ñœ a vĞ¼trno
 [Light Snow Grains And Fog]
-slabé snìhové vloèky a mlha
+slabĞ¹ snĞ¼hovĞ¹ vloĞ¸ky a mlha
 [Am Fog / Pm Clouds / Wind]
-mlha (dop.) / oblaèno (odp.) / vítr
+mlha (dop.) / oblaĞ¸no (odp.) / vĞ½tr
 [Light Snow Late]
-pozdìji slabé snìení
+pozdĞ¼ji slabĞ¹ snĞ¼Ñ›enĞ½
 [Light Snow / Fog]
-slabé snìení / mlha
+slabĞ¹ snĞ¼Ñ›enĞ½ / mlha
 [Sleet And Freezing Rain]
-mrznoucí déš se snìhem
+mrznoucĞ½ dĞ¹Ñ™Ñœ se snĞ¼hem
 [Freezing Rain And Windy]
-mrznoucí déš a vìtrno
+mrznoucĞ½ dĞ¹Ñ™Ñœ a vĞ¼trno
 
-; Vlastní úpravy / Písma
+; VlastnĞ½ ÑŠpravy / PĞ½sma
 [Frame Font]
-Písmo v rámeèku
+PĞ½smo v rĞ±meĞ¸ku
 [Frame Background]
-Barva pozadí rámeèku
-; Vlastní úpravy / Ikony
+Barva pozadĞ½ rĞ±meĞ¸ku
+; VlastnĞ½ ÑŠpravy / Ikony
 [Update Disabled]
 Aktualizace vypnuta
 [Update with Clear]
-Úplná aktualizace
+ĞªplnĞ± aktualizace
 [View Brief]
-Struèná pøedpovìï
+StruĞ¸nĞ± pÑˆedpovĞ¼Ğ¿
 [View Complete]
-Úplná pøedpovìï
+ĞªplnĞ± pÑˆedpovĞ¼Ğ¿
 [Weather Update]
-Aktualizace pøedpovìdi
+Aktualizace pÑˆedpovĞ¼di
 [No Popup]
-Oznámení vypnuto
+OznĞ±menĞ½ vypnuto
 
 [Snow to Rain]
-sníh s deštìm
+snĞ½h s deÑ™tĞ¼m
 [Snow Shower and Windy]
-snìhová pøeháòka / vìtrno
+snĞ¼hovĞ± pÑˆehĞ±Ñ‚ka / vĞ¼trno
 
 [Chance Of Precipitation]
-pøíleitostnì sráky
+pÑˆĞ½leÑ›itostnĞ¼ srĞ±Ñ›ky
 
-;jen doplnìní
+;jen doplnĞ¼nĞ½
 [Rain/ Snow Showers]
-déš / snìhové pøeháòky
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 [Rain/ Snow/ Wind]
-déš / snìení / vìtrno
+dĞ¹Ñ™Ñœ / snĞ¼Ñ›enĞ½ / vĞ¼trno
 
 [Pm Light Snow / Wind]
-slabé snìení / vítr (odp.)
+slabĞ¹ snĞ¼Ñ›enĞ½ / vĞ½tr (odp.)
 [Light Snow And Sleet]
-slabı sníh s deštìm
+slabÑ snĞ½h s deÑ™tĞ¼m
 [Snow And Freezing Rain]
-sníh a mrznoucí déš
+snĞ½h a mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Snow And Sleet]
-sníh s deštìm
+snĞ½h s deÑ™tĞ¼m
 [Rain And Freezing Rain]
-déš a mrznoucí déš
+dĞ¹Ñ™Ñœ a mrznoucĞ½ dĞ¹Ñ™Ñœ
 [Light Freezing Rain And Sleet]
-slabı mrznoucí déš a déš se snìhem
+slabÑ mrznoucĞ½ dĞ¹Ñ™Ñœ a dĞ¹Ñ™Ñœ se snĞ¼hem
 
 [Freezing Drizzle And Windy]
-mrznoucí mrholení a vìtrno
+mrznoucĞ½ mrholenĞ½ a vĞ¼trno
 [Light Thunderstorm Rain Mist]
-slabá bouøka, déš a mlha
+slabĞ± bouÑˆka, dĞ¹Ñ™Ñœ a mlha
 [Widespread Dust And Windy]
-vìtrno, polétavı prach v ovzduší
+vĞ¼trno, polĞ¹tavÑ prach v ovzduÑ™Ğ½
 [Light Drizzle Mist]
-slabé mrholení a mlha
+slabĞ¹ mrholenĞ½ a mlha
 
 [Pm T-Showers]
-pøeháòky s hømìním (odp.)
+pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m (odp.)
 [Pm T-Showers / Wind]
-pøeháòky s hømìním (odp.) / vítr
+pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m (odp.) / vĞ½tr
 [T-Showers Early]
-k ránu pøeháòky s hømìním
+k rĞ±nu pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m
 [Fog / Wind Late]
-mlha / pozdìji vítr
+mlha / pozdĞ¼ji vĞ½tr
 [T-Storms / Wind Early]
-bouøky / k ránu vítr
+bouÑˆky / k rĞ±nu vĞ½tr
 [Thunderstorms With Hail]
-bouøky s krupobitím
+bouÑˆky s krupobitĞ½m
 [Light Thunderstorm]
-slabá bouøka
+slabĞ± bouÑˆka
 
 [Am T-Showers]
-pøeháòky s hømìním (dop.)
+pÑˆehĞ±Ñ‚ky s hÑˆmĞ¼nĞ½m (dop.)
 
 [Pm Rain / Snow Showers / Wind]
-déš / snìhové pøeháòky / vítr (odp.)
+dĞ¹Ñ™Ñœ / snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky / vĞ½tr (odp.)
 
 [Am Snow]
-snìení (dop.)
+snĞ¼Ñ›enĞ½ (dop.)
 
 [Snow Early]
-K ránu snìení
+K rĞ±nu snĞ¼Ñ›enĞ½
 [Pm Snow Showers]
-Snìhové pøeháòky (odp.)
+SnĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (odp.)
 [Am Snow Showers]
-Snìhové pøeháòky (dop.)
+SnĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky (dop.)
 
 [Rain / Snow Showers Early]
-déš / k ránu snìhové pøeháòky
+dĞ¹Ñ™Ñœ / k rĞ±nu snĞ¼hovĞ¹ pÑˆehĞ±Ñ‚ky
 
 [Full]
-úplnìk
+ÑŠplnĞ¼k
 [CALM]
-bezvìtøí
+bezvĞ¼tÑˆĞ½
 
 ; ---

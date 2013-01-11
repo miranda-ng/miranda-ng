@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  EmailExpress 0.0.1.8                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; PÑˆeklad: madmojo <madmojo (zavinĞ±Ğ¸) kdynenet (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -11,7 +11,7 @@
 EmailExpress
 ;(DUP) [From]
 [Nick Name:]
-Pøezdívka:
+PÑˆezdĞ½vka:
 [EMail:]
 E-mail:
 [ICQ # :]
@@ -20,20 +20,20 @@ ICQ:
 ;(DUP) [Time:]
 ;(DUP) [Message]
 [Subject:]
-Pøedmìt:
+PÑˆedmĞ¼t:
 ;(DUP) [&Reply]
 ;(DUP) [&Close]
 ;(DUP) [N/A]
 
 ; Tooltip
 [EmailExpress received]
-Pøijatı EmailExpress
+PÑˆijatÑ EmailExpress
 ;(DUP) [User Menu]
 ;(DUP) [View User's Details]
 ;(DUP) [View User's History]
 
 ; Sound
 [Incoming EmailExpress]
-EmailExpress (pøíchozí)
+EmailExpress (pÑˆĞ½chozĞ½)
 
 ; ---

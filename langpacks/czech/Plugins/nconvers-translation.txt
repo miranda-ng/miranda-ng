@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  nConvers++ 0.0.0.30                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1497
 ;
 
@@ -17,106 +17,106 @@
 ;(DUP) [&Send]
 ;Hints
 [Hide Buttons]
-Skrıt tlaèítka
+SkrÑt tlaĞ¸Ğ½tka
 [User Menu (Alt+U)]
-Uivatelské menu (ALT+U)
+UÑ›ivatelskĞ¹ menu (ALT+U)
 [User Info]
-Informace o uivateli
+Informace o uÑ›ivateli
 [Show History (Ctrl+H)]
 Zobrazit historii (Ctrl+H)
 [Show Internal History (Ctrl+H)]
-Zobrazit interní historii (Ctrl+H)
+Zobrazit internĞ½ historii (Ctrl+H)
 [Select Emotion]
-Vybrat smajlík
+Vybrat smajlĞ½k
 ;(DUP) [Undock]
 [Notepad]
-Poznámkovı blok
+PoznĞ±mkovÑ blok
 [Send Message (Ctrl+Enter)]
-Odeslat zprávu (CTRL+ENTER)
+Odeslat zprĞ±vu (CTRL+ENTER)
 [Close (Esc)]
-Zavøít (ESC)
+ZavÑˆĞ½t (ESC)
 ;
 [There are Some Text in Notepad]
-Poznámkovı blok obsahuje text
+PoznĞ±mkovÑ blok obsahuje text
 ;-Popup Menus
 ;mnuHistoryItem
 [&As Memo]
-J&ako poznámka
+J&ako poznĞ±mka
 [&Copy to clipboard]
-Z&kopírovat
+Z&kopĞ½rovat
 [&Quote to memo]
-&Citované jako poznámka
+&CitovanĞ¹ jako poznĞ±mka
 [Quote Message for Editing]
-Citované do odpovìdi
+CitovanĞ¹ do odpovĞ¼di
 [&Links]
 Od&kazy
 [To &Memo]
-Do pozná&mky
+Do poznĞ±&mky
 [&Bounce]
-&Vrátit zpìt
+&VrĞ±tit zpĞ¼t
 ;(DUP) [&Copy]
 [To &Clipboard]
-Do s&chránky
+Do s&chrĞ±nky
 ;(DUP) [&Quote]
 [&Delete Selected]
-O&dstranit vybrané
+O&dstranit vybranĞ¹
 [&Load 10 more recent]
-Naèíst 10 novì&jších
+NaĞ¸Ğ½st 10 novĞ¼&jÑ™Ğ½ch
 [&Log]
-&Záznam
+&ZĞ±znam
 [Clear Half]
 Vymazat polovinu
 ;(DUP) [Clear]
 ;mnuMemoMenu
 [&Emotions]
-&Smajlíci
+&SmajlĞ½ci
 [Last 5 Messages]
-Posledních 5 zpráv
+PoslednĞ½ch 5 zprĞ±v
 [&Undo]
-&Zpìt
+&ZpĞ¼t
 ;(DUP) [Undo]
 [Reverts the last action]
-Vrátí zpìt poslední krok
+VrĞ±tĞ½ zpĞ¼t poslednĞ½ krok
 [Quote Selection]
-Komentovat vybrané
+Komentovat vybranĞ¹
 [Cu&t]
 Vyjmou&t
 ;(DUP) [Cut]
 [Cuts the selection and puts it on the Clipboard]
-Vyjme vybranı text a vloí do schránky
+Vyjme vybranÑ text a vloÑ›Ğ½ do schrĞ±nky
 ;(DUP) [&Copy]
 ;(DUP) [Copy]
 [Copies the selection and puts it on the Clipboard]
-Zkopíruje vybranı text a vloí do schránky
+ZkopĞ½ruje vybranÑ text a vloÑ›Ğ½ do schrĞ±nky
 ;(DUP) [&Paste]
 ;(DUP) [Paste]
 [Inserts Clipboard contents]
-Vloí obsah schránky
+VloÑ›Ğ½ obsah schrĞ±nky
 ;(DUP) [Select &All]
 [&Settings]
-Na&stavení
+Na&stavenĞ½
 [Show Notepad]
-Zobrazit poznámkovı blok
+Zobrazit poznĞ±mkovÑ blok
 ;mnuQuickOptions
 [SendMode]
-Zpùsob odesílání
+ZpÑ‰sob odesĞ½lĞ±nĞ½
 ;(DUP) [Default]
 [Direct]
-Pøímo
+PÑˆĞ½mo
 [through Server]
-Pøes server
+PÑˆes server
 [Show Buttons]
-Zobrazit tlaèítka
+Zobrazit tlaĞ¸Ğ½tka
 [Stay on top]
-Vdy navrchu
+VÑ›dy navrchu
 [Close on send]
-Zavøít po odeslání
+ZavÑˆĞ½t po odeslĞ±nĞ½
 ;(DUP) [Use global setting]
 ;(DUP) [YES: this contact]
 ;(DUP) [NO: this contact]
 ;(DUP) [Minimize on send]
 [Use global setting]
-Pouít vıchozí nastavení
+PouÑ›Ğ½t vÑchozĞ½ nastavenĞ½
 [YES: this contact]
 Ano (pro tento kontakt)
 [NO: this contact]
@@ -125,27 +125,27 @@ Ne (tento kontakt)
 Vyjmout z doku
 ;nConvers++ Notepad
 [Close NotePad]
-Zavøít poznámkovı blok
+ZavÑˆĞ½t poznĞ±mkovÑ blok
 [Clear Memo]
-Vymazat poznámku
+Vymazat poznĞ±mku
 [Save Memo]
-Uloit poznámku
+UloÑ›it poznĞ±mku
 [Take Text From Main Edit]
-Pøevzít z hlavního textového pole
+PÑˆevzĞ½t z hlavnĞ½ho textovĞ¹ho pole
 [Send Text To Main Edit]
-Pøedat do hlavního textového pole
+PÑˆedat do hlavnĞ½ho textovĞ¹ho pole
 
 ;===nConvers::UMain
 [is now]
 je
 [is typing a message...]
-píše zprávu...
+pĞ½Ñ™e zprĞ±vu...
 [has stopped typing]
-pøestal psát
+pÑˆestal psĞ±t
 [Message from]
-Zpráva od
+ZprĞ±va od
 [&Message...]
-Z&práva...
+Z&prĞ±va...
 ;(DUP) [View &History]
 ;(DUP) [&System History]
 ;(DUP) [Message: Queued Incoming]
@@ -156,74 +156,74 @@ Z&práva...
 ;==Main module
 ;(FIX) [Timeout]
 [There is still a message in the message queue. This message wont be send if you close the message window.]
-Ve frontì k odeslání je ještì stále jedna zpráva. Pokud okno komunikace zavøete, nebude odeslána.
+Ve frontĞ¼ k odeslĞ±nĞ½ je jeÑ™tĞ¼ stĞ±le jedna zprĞ±va. Pokud okno komunikace zavÑˆete, nebude odeslĞ±na.
 [Close message window nevertheless?]
-Chcete komunikaèní okno pøesto zavøít?
+Chcete komunikaĞ¸nĞ½ okno pÑˆesto zavÑˆĞ½t?
 [There are still %d messages in the message queue. These messages wont be send if you close the message window.]
-Ve frontì k odeslání je ještì stále %d zpráv. Pokud okno zavøete, nebudou odeslány.
+Ve frontĞ¼ k odeslĞ±nĞ½ je jeÑ™tĞ¼ stĞ±le %d zprĞ±v. Pokud okno zavÑˆete, nebudou odeslĞ±ny.
 [Unsent Messages]
-Neodeslané zprávy
+NeodeslanĞ¹ zprĞ±vy
 [There are still unsent text in the message window.]
-Komunikaèní okno obsahuje rozepsanı text. Chcete ho odeslat?
+KomunikaĞ¸nĞ½ okno obsahuje rozepsanÑ text. Chcete ho odeslat?
 [Close message window?]
-Chcete zavøít kom. okno?
+Chcete zavÑˆĞ½t kom. okno?
 ;(DUP) [Retry]
 [Discard Message]
-Odstranit zprávu
+Odstranit zprĞ±vu
 [Sending Message ...]
-Odesílání zprávy...
+OdesĞ½lĞ±nĞ½ zprĞ±vy...
 [nConvers++ Notepad]
-Poznámkovı blok
+PoznĞ±mkovÑ blok
 
 ;===nConvers::ThemesForm
 [Confirm]
 Potvrdit
 [Delete Message(s)?]
-Chcete odstranit vybrané zprávy?
+Chcete odstranit vybranĞ¹ zprĞ±vy?
 [Open URL in New Window]
-Otevøít odkaz v novém oknì
+OtevÑˆĞ½t odkaz v novĞ¹m oknĞ¼
 [Open URL]
-Otevøít odkaz
+OtevÑˆĞ½t odkaz
 [Copy URL to Clipboard]
-Zkopírovat odkaz
+ZkopĞ½rovat odkaz
 [wrote]
 napsal
 
 ;===Options::Layout
 ;;
 [Store layout info]
-Informace o uspoøádání oken
+Informace o uspoÑˆĞ±dĞ±nĞ½ oken
 [Global: for all contacts]
-Uloit globálnì pro všechny kontakty
+UloÑ›it globĞ±lnĞ¼ pro vÑ™echny kontakty
 [Speciffic: for every contact]
-Uloit zvláš pro kadı kontakt
+UloÑ›it zvlĞ±Ñ™Ñœ pro kaÑ›dÑ kontakt
 ;
 [Messaging window layout]
-Uspoøádání konverzaèního okna
+UspoÑˆĞ±dĞ±nĞ½ konverzaĞ¸nĞ½ho okna
 [Straight: memo below history (messages added at bottom of log)]
-Psát pod rozhovor (zprávy se pøidávají na konec záznamu)
+PsĞ±t pod rozhovor (zprĞ±vy se pÑˆidĞ±vajĞ½ na konec zĞ±znamu)
 [Reverse: memo above history (messages added at top of log)]
-Psát nad rozhovor (zprávy se pøidávají nahoru nad záznam)
+PsĞ±t nad rozhovor (zprĞ±vy se pÑˆidĞ±vajĞ½ nahoru nad zĞ±znam)
 ;
 [Other UI elements]
-Ostatní prvky rozhraní
+OstatnĞ½ prvky rozhranĞ½
 [Show message length metter (in splitter between memo and log)]
-Zobrazit indikátor délky zprávy (mezi polem pro psaní a záznamem)
+Zobrazit indikĞ±tor dĞ¹lky zprĞ±vy (mezi polem pro psanĞ½ a zĞ±znamem)
 ;;
 [Toolbar buttons]
-Nástrojová lišta
+NĞ±strojovĞ± liÑ™ta
 ["Hide ToolBar" button]
-Tl. "Skrıt nástr. lištu"
+Tl. "SkrÑt nĞ±str. liÑ™tu"
 ["Contact Menu" button]
 Tl. "Menu kontaktu"
 ["User Info" button]
-Tl. "Inf. o uiv."
+Tl. "Inf. o uÑ›iv."
 ["History" button]
 Tl. "Historie"
 ["nHistory" button]
 Tl. "nHistory"
 ["Select Emotion" button]
-Tl. "Vybrat smajlík"
+Tl. "Vybrat smajlĞ½k"
 ["Undock" button]
 Tl. "Vyjmout z doku"
 ["Notepad" button]
@@ -232,213 +232,213 @@ Tl. "Pozn. blok"
 [nConvers++ features]
 Funkce nConvers++
 [Show lang. indicator]
-Zobrazit indikátor jazyka
+Zobrazit indikĞ±tor jazyka
 ["Fade" enabled]
-Aktivovat plynulé pøechody
+Aktivovat plynulĞ¹ pÑˆechody
 ["Flat" enabled]
-Aktivovat "moderní" vzhled
+Aktivovat "modernĞ½" vzhled
 ["Dictionary" enabled]
-Aktivovat "Slovník"
+Aktivovat "SlovnĞ½k"
 ["Joined Smilies" enabled]
-Aktivovat "Spojené smajlíky"
+Aktivovat "SpojenĞ¹ smajlĞ½ky"
 [Show spaces in history log]
-Zrušit zalamování textu v historii
+ZruÑ™it zalamovĞ±nĞ½ textu v historii
 ["Text Formatting" enabled]
-Aktivovat formátování textu
+Aktivovat formĞ±tovĞ±nĞ½ textu
 ["MS Spell Checking" enabled]
 Aktivovat kontrolu pravopisu
 
 ;===Options::Emotion Package
 ;;
 [Emotion Package]
-Balík smajlíkù
+BalĞ½k smajlĞ½kÑ‰
 [Emotion packages]
-Balíky smajlíkù
+BalĞ½ky smajlĞ½kÑ‰
 ;(DUP) [All Files]
 [Package Info]
-Informace o balíku
+Informace o balĞ½ku
 [Title]
-Název
+NĞ±zev
 ;(DUP) [Author]
 ;(DUP) [Notes]
 [NOTE! You need to restart miranda for changes on this page to take place!!!]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 
 ;===Options::Fonts & Colors
 [Fonts & Colors]
-Písma a barvy
+PĞ½sma a barvy
 ;;
 [Fonts and Colors]
-Písma a barvy
+PĞ½sma a barvy
 [Select Font]
-Vybrat písmo
+Vybrat pĞ½smo
 ;(DUP) [Fore color]
 ;(DUP) [Back color]
 [History Background]
-Pozadí záznamu zpráv
+PozadĞ½ zĞ±znamu zprĞ±v
 [Incoming message]
-Pøíchozí zpráva
+PÑˆĞ½chozĞ½ zprĞ±va
 [Outgoing message]
-Odchozí zpráva
+OdchozĞ½ zprĞ±va
 [http://www.blag.org]
 http://miranda-im.org
 [System message]
-Zpráva systému
+ZprĞ±va systĞ¹mu
 [Nick <<]
-Pøezdívka <<
+PÑˆezdĞ½vka <<
 [Own nick >>]
-Vlastní pøezdívka >>
+VlastnĞ½ pÑˆezdĞ½vka >>
 [Memo text]
-Text psaní
+Text psanĞ½
 
 ;===Options::Log
 ;(DUP) [Log]
 ;;
 [message Log display]
-Zobrazení záznamu komunikace
+ZobrazenĞ½ zĞ±znamu komunikace
 ;(DUP) [Messages Drop Shadow]
 [Notification in message log on contact Status Change]
-Upozornit v záznamu komunikace na zmìnu stavu
+Upozornit v zĞ±znamu komunikace na zmĞ¼nu stavu
 ;;
 [      Show Contact's "NICK" in log]
-Zobrazit pøezdívku v záznamu hovoru
+Zobrazit pÑˆezdĞ½vku v zĞ±znamu hovoru
 ;(DUP) [>>]
 [NICK]
-PØEZDÍVKA
+PĞ¨EZDĞVKA
 [NICK >>]
-PØEZD. >>
+PĞ¨EZD. >>
 ;(DUP) [Custom]
 ;;
 [Window Caption Elements]
-Prvky záhlaví okna
+Prvky zĞ±hlavĞ½ okna
 ;(DUP) [Username]
 ;(DUP) [UIN]
 ;(DUP) [Status]
 ;;
 [      Substitute Emotions with Images]
-Nahradit smajlíky obrázky
+Nahradit smajlĞ½ky obrĞ±zky
 [Hints on emotions]
-Zobrazit nad smajlíky nápovìdu
+Zobrazit nad smajlĞ½ky nĞ±povĞ¼du
 ;;
 [Quick / Cascaded Links in Context Menu]
-Rychlé / kaskád. odkazy v kontext. menu
+RychlĞ¹ / kaskĞ±d. odkazy v kontext. menu
 ;;
 [      URL Clicking]
-Otevøení odkazu
+OtevÑˆenĞ½ odkazu
 ;(DUP) [Allways In New Browser]
 [Allways copy link]
-Vdy zkopírovat odkaz
+VÑ›dy zkopĞ½rovat odkaz
 ;;
 [Load recent history]
-Naèíst posledních
+NaĞ¸Ğ½st poslednĞ½ch
 [messages]
-zpráv
+zprĞ±v
 [Filter Duplicate Messages (RECOMMENDED)]
-Filtrovat zdvojené zprávy (DOPORUÈENO)
+Filtrovat zdvojenĞ¹ zprĞ±vy (DOPORUĞ˜ENO)
 [Gray Recent Messages]
-Zobrazit aktuální zprávy šedivì
+Zobrazit aktuĞ±lnĞ½ zprĞ±vy Ñ™edivĞ¼
 [Max.]
 Max.
 [messages shown (blank or 0 means no restriction)]
-zpráv (bez èísla nebo 0 znamená bez omezení)
+zprĞ±v (bez Ğ¸Ğ½sla nebo 0 znamenĞ± bez omezenĞ½)
 
 ;===Options::Notifications
 [Notifications]
-Upozornìní
+UpozornĞ¼nĞ½
 ;;
 [Notification mode]
-Zpùsob upozornìní
+ZpÑ‰sob upozornĞ¼nĞ½
 [Aggressive: Bring to front steal focus from other apps]
-Agresivnì: Pøenést okno do popøedí
+AgresivnĞ¼: PÑˆenĞ¹st okno do popÑˆedĞ½
 [Flash taskbar tab (nonaggressive mode only)]
-Zablikat na hlavním panelu (vše mimo agresivního reimu)
+Zablikat na hlavnĞ½m panelu (vÑ™e mimo agresivnĞ½ho reÑ›imu)
 [Normal: Open Window Don't Steal Focus]
-Normálnì: Otevøít okno, ale nepøenést do popøedí
+NormĞ±lnĞ¼: OtevÑˆĞ½t okno, ale nepÑˆenĞ¹st do popÑˆedĞ½
 [Timid: Show Minimized and Flash Taskbar]
-Nevtíravì: Otevøít minimalizované okno a blikat
+NevtĞ½ravĞ¼: OtevÑˆĞ½t minimalizovanĞ¹ okno a blikat
 [Discreet: Flash icon on contactlist only]
-Diskrétnì: Blikat ikonou v oblasti oznámení
+DiskrĞ¹tnĞ¼: Blikat ikonou v oblasti oznĞ±menĞ½
 [Popup messaging window when flashing tray clicked]
-Otevøít konverzaèní okno po kliknutí na blikající ikonu
+OtevÑˆĞ½t konverzaĞ¸nĞ½ okno po kliknutĞ½ na blikajĞ½cĞ½ ikonu
 ;;
 ;(DUP) [Typing Notification Options]
 [Send Typing notification]
-Poslat upozornìní na psaní zprávy
+Poslat upozornĞ¼nĞ½ na psanĞ½ zprĞ±vy
 ;(DUP) [Show typing notifications when a user is typing a message]
 ;(DUP) [Update inactive message window icons when a user is typing]
 ;(DUP) [Show typing notification when no message dialog is open]
 ;(DUP) [Flash in the system tray and in the contact list]
 ;(DUP) [Show balloon popup]
 [Display change typing notification on log]
-Uloit do záznamu informaci o zmìnì nastavení
+UloÑ›it do zĞ±znamu informaci o zmĞ¼nĞ¼ nastavenĞ½
 
 
 ;===Options::Send
 ;(DUP) [Send]
 ;;
 [      Split messages (RECOMENDED)]
-Dìlit dlouhé zprávy
+DĞ¼lit dlouhĞ¹ zprĞ±vy
 [Longer than]
-Delší ne
+DelÑ™Ğ½ neÑ›
 [characters]
-znakù
+znakÑ‰
 [when sending "default way"]
-pøi odes. "vıch. zpùsobem"
+pÑˆi odes. "vÑch. zpÑ‰sobem"
 [when sending "Direct"]
-pøi odes. "pøímo"
+pÑˆi odes. "pÑˆĞ½mo"
 [when sending "trough server"]
-pøi odesílání "pøes server"
+pÑˆi odesĞ½lĞ±nĞ½ "pÑˆes server"
 ;;
 [When sending]
-Odesílání zpráv
+OdesĞ½lĞ±nĞ½ zprĞ±v
 [Wait for confirmation]
-Poèkat na potvrzení
+PoĞ¸kat na potvrzenĞ½
 [timeout]
 prodleva
 ;(DUP) [sec]
 [Close window after send]
-Zavøít okno po odeslání
+ZavÑˆĞ½t okno po odeslĞ±nĞ½
 [Minimize on send]
-Minimalizovat po odeslání
+Minimalizovat po odeslĞ±nĞ½
 [Send multiple messages interval]
-Interval odesílání více zpráv
+Interval odesĞ½lĞ±nĞ½ vĞ½ce zprĞ±v
 ;;
 [Memo customization]
-Oblast pro psaní textu
+Oblast pro psanĞ½ textu
 [Vertical scrollbar]
-Svislı posuvník
+SvislÑ posuvnĞ½k
 [Wordwrap]
 Zalam. text
 [Horisontal scrollbar]
-Vodorovnı posuvník
+VodorovnÑ posuvnĞ½k
 ;;
 [Special send shortcuts]
-Vlastní zkratky pro odeslání
+VlastnĞ½ zkratky pro odeslĞ±nĞ½
 [Double Enter Sends]
 Odeslat dvoj. ENTER
 [Single Enter Sends Ctrl+Enter adds NewLine]
-Odeslat klávesou ENTER; CTRL+ENTER = novı øádek
+Odeslat klĞ±vesou ENTER; CTRL+ENTER = novÑ ÑˆĞ±dek
 
 ;===Options::Timestamp display
 [Timestamp display]
-Zobrazení èasu
+ZobrazenĞ½ Ğ¸asu
 ;;
 [Message timestamp display]
-Zobrazení èasu ve zprávì
+ZobrazenĞ½ Ğ¸asu ve zprĞ±vĞ¼
 [Dynamic]
 Dynamicky
 [Show Hints On Hover]
 Tipy pod kurzorem
 [      Show Time]
-Èas
+Ğ˜as
 ;(DUP) [Transparent background]
 ;(DUP) [Has border]
 [As text (nondigital)]
-Jako text (neèíselnì)
+Jako text (neĞ¸Ğ½selnĞ¼)
 [Format]
-Formát
+FormĞ±t
 [Time color]
-Barva èasu
+Barva Ğ¸asu
 ;(DUP) [Background color]
 ;(DUP) [Border color]
 ;;
@@ -446,44 +446,44 @@ Barva èasu
 Datum
 ;
 [Fixed format]
-Formát
+FormĞ±t
 [Tiny]
-Drobnı
+DrobnÑ
 [Medium]
-Støední
+StÑˆednĞ½
 [Full date]
-Úplné datum
+ĞªplnĞ¹ datum
 [As text]
 Jako text
 ;(DUP) [Display]
 [Text line1 color]
-Barva 1. øádku textu
+Barva 1. ÑˆĞ±dku textu
 [Text line2 color]
-Barva 2. øádku textu
+Barva 2. ÑˆĞ±dku textu
 ;(DUP) [Background color]
 [Border color]
-Barva rámeèku
+Barva rĞ±meĞ¸ku
 [Use bigger font]
-Pouít vìtší písmo
+PouÑ›Ğ½t vĞ¼tÑ™Ğ½ pĞ½smo
 [Has border]
-S rámeèkem
+S rĞ±meĞ¸kem
 [Transparent background]
-Prùhledné pozadí
+PrÑ‰hlednĞ¹ pozadĞ½
 
 ;===Options::Window docking
 [Window docking]
-Dokování oken
+DokovĞ±nĞ½ oken
 ;;
 [      Enable Docking]
-Povolit dokování
+Povolit dokovĞ±nĞ½
 [Dock when dragging over another window if Ctrl is down]
-Dokovat pøetahované okno, je-li zmáèknuta klávesa CTRL
+Dokovat pÑˆetahovanĞ¹ okno, je-li zmĞ±Ğ¸knuta klĞ±vesa CTRL
 [Dock when dragging over another window if Ctrl is _NOT_ down]
-Dokovat pøetahované okno, není-li zmáèknuta klávesa CTRL
+Dokovat pÑˆetahovanĞ¹ okno, nenĞ½-li zmĞ±Ğ¸knuta klĞ±vesa CTRL
 [Allways Popup as Docked]
-Nové okno vdy zadokovat
+NovĞ¹ okno vÑ›dy zadokovat
 [Remember Docked Windows]
-Zapamatovat dokovaná okna
+Zapamatovat dokovanĞ± okna
 [Max together]
 max.
 
@@ -492,89 +492,89 @@ max.
 ;===Options::nHistory
 ;;
 [nHistory startup]
-Spuštìní nHistory
+SpuÑ™tĞ¼nĞ½ nHistory
 [Add "System history" Item to miranda menu]
-Pøidat do hlavního menu "Historie systému"
+PÑˆidat do hlavnĞ½ho menu "Historie systĞ¹mu"
 [Add "Global history" Item to miranda menu]
-Pøidat do hlavního menu "Globální historie"
+PÑˆidat do hlavnĞ½ho menu "GlobĞ±lnĞ½ historie"
 [Apply last filter on startup]
-Aplikovat posl. pouitı filtr
+Aplikovat posl. pouÑ›itÑ filtr
 
 ;===Options::Log
 [nHistory Log display]
-Zobrazení záznamu
+ZobrazenĞ½ zĞ±znamu
 [Messages Drop Shadow]
-Zobrazit pod zprávami stín
+Zobrazit pod zprĞ±vami stĞ½n
 [Show Contact's "NICK" in log]
-Zobrazit pøezdívku v záznamu hovoru
+Zobrazit pÑˆezdĞ½vku v zĞ±znamu hovoru
 [Substitute Emotions with Images]
-Nahradit smajlíky pomocí obrázkù
+Nahradit smajlĞ½ky pomocĞ½ obrĞ±zkÑ‰
 [URL Clicking]
-Otevøení odkazu
+OtevÑˆenĞ½ odkazu
 [Allways In New Browser]
-Vdy v novém oknì
+VÑ›dy v novĞ¹m oknĞ¼
 [Reverse message order]
-Obrátit poøadí zpráv
+ObrĞ±tit poÑˆadĞ½ zprĞ±v
 
 ;===nHistory window
 [nHistory]
 nHistory
 [events]
-událostí
+udĞ±lostĞ½
 [selected ot of]
-vybráno z
+vybrĞ±no z
 ;mnuHistoryItem
 [To &Message Window]
-&Do komunikaèního okna
+&Do komunikaĞ¸nĞ½ho okna
 ;Hints
 [Import]
 Importovat
 [Export]
 Exportovat
 [Find (Ctrl+F)]
-Najít (Ctrl+F)
+NajĞ½t (Ctrl+F)
 [Find Next (F3)]
-Najít další (F3)
+NajĞ½t dalÑ™Ğ½ (F3)
 [Filter]
 Filtr
 [Remove Filter]
 Odebrat filtr
 [Break Loading]
-Pøerušit naèítání
+PÑˆeruÑ™it naĞ¸Ğ½tĞ±nĞ½
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 ["Dictionary" (Ctrl+Space)]
-Aktivovat Slovník (CTRL+Mezerník)
+Aktivovat SlovnĞ½k (CTRL+MezernĞ½k)
 [Minimal Style]
-Úspornı styl
+ĞªspornÑ styl
 
 [Transparency (winXP+)]
-Prùhlednost (Windows XP)
+PrÑ‰hlednost (Windows XP)
 [Active]
-Aktivní
+AktivnĞ½
 [Inactive]
-Neaktivní
+NeaktivnĞ½
 [Enable Docking]
-Povolit dokování
+Povolit dokovĞ±nĞ½
 [Enable Sticking]
-Povolit pøichycení
+Povolit pÑˆichycenĞ½
 [      Enable Sticking]
-Povolit pøichycení
+Povolit pÑˆichycenĞ½
 [Check Top]
-Aktivní shora
+AktivnĞ½ shora
 [Check Left]
-Aktivní zleva
+AktivnĞ½ zleva
 [Check Right]
-Aktivní zprava
+AktivnĞ½ zprava
 [Check Bottom]
-Aktivní zdola
+AktivnĞ½ zdola
 [Stick At:]
 Tolerance:
 [Pixels]
 pix.
 [Split messages (RECOMENDED)]
-Dìlit dlouhé zprávy
+DĞ¼lit dlouhĞ¹ zprĞ±vy
 [Notification in message log on user Typing]
-Upozornit v záznamu komunikace na psaní zprávy
+Upozornit v zĞ±znamu komunikace na psanĞ½ zprĞ±vy
 
 ; ---

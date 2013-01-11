@@ -1,21 +1,21 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Language Pack Manager 1.0.2.0                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3003
 ;
 
 [Language Pack Manager]
-Správa pøekladù
+SprĞ±va pÑˆekladÑ‰
 [Helps you manage Language Packs of different languages.]
-Usnadòuje správu souborù s pøeklady v rùznıch jazycích.
+UsnadÑ‚uje sprĞ±vu souborÑ‰ s pÑˆeklady v rÑ‰znÑch jazycĞ½ch.
 [Language Pack Manager Plugin]
-Doplnìk Správa pøekladù
+DoplnĞ¼k SprĞ±va pÑˆekladÑ‰
 [The Language Pack Manager plugin can not be loaded. It requires Miranda IM %s or later.]
-Doplnìk Správa pøekladù nelze naèíst. Vyaduje program Miranda IM %s nebo novìjší.
+DoplnĞ¼k SprĞ±va pÑˆekladÑ‰ nelze naĞ¸Ğ½st. VyÑ›aduje program Miranda IM %s nebo novĞ¼jÑ™Ğ½.
 [Language Pack Update HTTP connection]
-Pøeklady - spojení pomocí protokolu HTTP
+PÑˆeklady - spojenĞ½ pomocĞ½ protokolu HTTP
 
 ; Options
 ;(DUP) [Customize]
@@ -23,79 +23,79 @@ Pøeklady - spojení pomocí protokolu HTTP
 [&Remove...]
 Odst&ranit...
 [Installed Languages]
-Nainstalované jazyky
+NainstalovanĞ¹ jazyky
 ;(DUP) [File]
 [built-in]
-interní
+internĞ½
 ;(DUP) [Author(s):]
 ;(DUP) [E-mail:]
 [Last modified using:]
-Urèeno pro:
+UrĞ¸eno pro:
 ;(DUP) [Date:]
 ;(DUP) [Version:]
 [Locale:]
 Lokalizace:
 [Incompatible]
-nekompatibilní
+nekompatibilnĞ½
 [Current]
-aktuální
+aktuĞ±lnĞ½
 [Not included:]
-V pøekladu chybí:
+V pÑˆekladu chybĞ½:
 ;(LAI) [%hs (%s)]
 [All installed plugins are included.]
-Všechny nainstalované doplòky jsou pøeloeny.
+VÑ™echny nainstalovanĞ¹ doplÑ‚ky jsou pÑˆeloÑ›eny.
 [Download more Language Packs]
-Stáhnout další pøeklady
+StĞ±hnout dalÑ™Ğ½ pÑˆeklady
 ;(DUP) [Please restart Miranda IM for your changes to take effect.]
 [Check for new &versions of Language Packs periodically]
-Pravidelnì zjišovat nové &verze pøekladù
+PravidelnĞ¼ zjiÑ™Ñœovat novĞ¹ &verze pÑˆekladÑ‰
 [&Download Language]
-Stáhnout pøekla&d
+StĞ±hnout pÑˆekla&d
 
 ; All names of the Language Packs can be translated
 [English (default)]
-Angliètina (standardní)
+AngliĞ¸tina (standardnĞ½)
 
 ; Update Notify
 [Language Pack Update Now Available]
-Nová verze pøekladu
+NovĞ± verze pÑˆekladu
 [A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-K dispozici je nová verze pøekladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlaèítko 'Instalovat'.
+K dispozici je novĞ± verze pÑˆekladu programu Miranda IM. StĞ±hnete a nainstalujete ji kliknutĞ½m na tlaĞ¸Ğ½tko 'Instalovat'.
 ;(DUP) [Language:]
 ;(DUP) [Current:]
 [New:]
-Novı:
+NovÑ:
 [&Install Now]
 &Instalovat
 ;(DUP) [Close]
 [Language Pack Update succeeded]
-Aktualizace pøekladu dokonèena
+Aktualizace pÑˆekladu dokonĞ¸ena
 [The language pack "%s" has been sucessfully downloaded and installed.]
-Pøeklad '%s' byl úspìšnì zaktualizován.
+PÑˆeklad '%s' byl ÑŠspĞ¼Ñ™nĞ¼ zaktualizovĞ±n.
 [Language Pack Update failed]
-Chyba pøi aktualizaci pøekladu
+Chyba pÑˆi aktualizaci pÑˆekladu
 [The language pack "%s" could not be downloaded or extracted.]
-Pøeklad '%s' nelze stáhnout nebo rozbalit.
+PÑˆeklad '%s' nelze stĞ±hnout nebo rozbalit.
 
 ; Download Language
 [Select your language]
-Vyberte poadovanı jazyk
+Vyberte poÑ›adovanÑ jazyk
 [Miranda IM is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-Program Miranda IM je pøe&loen do mnoha jazykù.\nVyberte si prosím ze seznamu váš mateøskı jazyk:
+Program Miranda IM je pÑˆe&loÑ›en do mnoha jazykÑ‰.\nVyberte si prosĞ½m ze seznamu vĞ±Ñ™ mateÑˆskÑ jazyk:
 [Download &all languages]
-Stáhnout všechny j&azyky
+StĞ±hnout vÑ™echny j&azyky
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovìjší pøeklad v daném jazyce. Nezapomeòte ovšem, e mùe existovat nìkolik variant pøekladù od rùznıch autorù.
+PoznĞ±mka: PomocĞ½ tĞ¹to funkce stĞ±hnete a nainstalujete nejnovĞ¼jÑ™Ğ½ pÑˆeklad v danĞ¹m jazyce. NezapomeÑ‚te ovÑ™em, Ñ›e mÑ‰Ñ›e existovat nĞ¼kolik variant pÑˆekladÑ‰ od rÑ‰znÑch autorÑ‰.
 [downloading]
-stahování dat
+stahovĞ±nĞ½ dat
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 [Language Pack Download finished]
-Stahování vybraného jazyka dokonèeno
+StahovĞ±nĞ½ vybranĞ¹ho jazyka dokonĞ¸eno
 [The download succeeded!]
-Stahování dat dokonèeno!
+StahovĞ±nĞ½ dat dokonĞ¸eno!
 [The download failed!\n\nThe language pack could not be downloaded or extracted.]
-Chyba pøi stahování dat!\n\nSoubor s pøekladem nelze stáhnout nebo rozbalit.
+Chyba pÑˆi stahovĞ±nĞ½ dat!\n\nSoubor s pÑˆekladem nelze stĞ±hnout nebo rozbalit.
 
 ; All language subcategory names on the website can be translated
 ;(DUP) [English (default)]
@@ -118,14 +118,14 @@ Chyba pøi stahování dat!\n\nSoubor s pøekladem nelze stáhnout nebo rozbalit.
 ;(DUP) [Swedish]
 ;(DUP) [Japanese]
 [Belarusian]
-bìloruština
+bĞ¼loruÑ™tina
 ;(DUP) [Danish]
 ;(DUP) [Finnish]
 ;(DUP) [Croatian]
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Czech (CZ)]
-Èeština (http://miranda.kvalitne.cz)
+Ğ˜eÑ™tina (http://miranda.kvalitne.cz)
 ;(LAI) [Nederlands]
 
 ; ---

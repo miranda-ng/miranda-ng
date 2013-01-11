@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Authorization State 0.0.2.0                             |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+; P—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3161
 ;
 
@@ -10,35 +10,35 @@
 Stav autorizace
 ;(DUP) [Auth]
 [Grant]
-Schv·lenÌ
+Schv–±len–Ω
 [Auth & Grant]
-Autorizace & Schv·lenÌ
+Autorizace & Schv–±len–Ω
 [Use]
-PouûÌt
+Pou—õ–Ωt
 [Show Auth icon]
 Zobrazit ikonu
 [Show Grant icon]
-Zobrazit ikony udÏlenÌ
+Zobrazit ikony ud–ºlen–Ω
 [Plugin settings]
-NastavenÌ doplÚku
+Nastaven–Ω dopl—Çku
 [slot to draw the icon]
-pro vykreslenÌ ikony
+pro vykreslen–Ω ikony
 [Enable Menu Item (*)]
-Zobrazit poloûku v nabÌdce (*)
+Zobrazit polo—õku v nab–Ωdce (*)
 [Show icons only for recently added contacts]
-Zobrazit ikony jen pro ned·vno p¯idanÈ kontakty
+Zobrazit ikony jen pro ned–±vno p—àidan–π kontakty
 [* Restart of Miranda required]
-* Tato zmÏna vyûaduje restart programu Miranda IM
+* Tato zm–ºna vy—õaduje restart programu Miranda IM
 [Enable AuthState icons]
 Povolit ikony Stavu autorizace
 [Disable AuthState icons]
-Zak·zat ikony Stavu autorizace
+Zak–±zat ikony Stavu autorizace
 [Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
-Pozn.: Pokud st·le nevidÌte ikony, zkuste zmÏnit slot. St·vajÌcÌ moûn· pouûÌv· jin˝ doplnÏk.
+Pozn.: Pokud st–±le nevid–Ωte ikony, zkuste zm–ºnit slot. St–±vaj–Ωc–Ω mo—õn–± pou—õ–Ωv–± jin—ç dopln–ºk.
 
 ; Authorization State 0.0.2.0
-; dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+; dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 [Extraicons plugin is used, use Contact list > Extraicons for customize.]
-DoplnÏk Extraicons je aktivnÌ, pro ˙pravy pouûijte Kontakty > DoplÚkovÈ ikony.
+Dopln–ºk Extraicons je aktivn–Ω, pro —äpravy pou—õijte Kontakty > Dopl—Çkov–π ikony.
 
 ; ---

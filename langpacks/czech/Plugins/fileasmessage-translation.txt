@@ -1,53 +1,53 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  File As Message 0.0.2.4                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VÐ½t Ð‰indlÐ±Ñˆ <sindlarv (zavinÐ±Ð¸) centrum (teÐ¸ka) cz>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1811
 ;
 
 [File As Message...]
-Soubor jako zpráva...
+Soubor jako zprÐ±va...
 [file As Message]
-Soubor jako zpráva
+Soubor jako zprÐ±va
 ;(DUP) [Perform]
 [Pause]
 Pozastavit
 [Revive a transfer]
-Obnovit pøenos
+Obnovit pÑˆenos
 ;(DUP) [Stop]
 [Recv file]
-Pøijmout soubor
+PÑˆijmout soubor
 [Send file]
 Poslat soubor
 [Couldn't open a file]
-Nelze otevøít soubor
+Nelze otevÑˆÐ½t soubor
 [Size: %d bytes]
-Velikost: %d bajtù
+Velikost: %d bajtÑ‰
 [Request sent. Awaiting of acceptance..]
-Požadavek odeslán. Èekání na odpovìï...
+PoÑ›adavek odeslÐ±n. Ð˜ekÐ±nÐ½ na odpovÐ¼Ð¿...
 [Sending...]
-Posílání dat...
+PosÐ½lÐ±nÐ½ dat...
 [Received successfully]
-Pøenos dat úspìšnì dokonèen
+PÑˆenos dat ÑŠspÐ¼Ñ™nÐ¼ dokonÐ¸en
 [Requesting of missing chunks]
-Žádost o chybìjící bloky
+Ð‹Ð±dost o chybÐ¼jÐ½cÐ½ bloky
 [Receiving...]
-Pøíjem dat...
+PÑˆÐ½jem dat...
 [Sent successfully]
-Pøenos dat úspìšnì dokonèen
+PÑˆenos dat ÑŠspÐ¼Ñ™nÐ¼ dokonÐ¸en
 [Unknown command for "file As Message" was received]
-Neznámý pøíkaz v rámci funkce "Soubor jako zpráva"
+NeznÐ±mÑ pÑˆÐ½kaz v rÐ±mci funkce "Soubor jako zprÐ±va"
 [Incoming file request. Do you want proceed?]
-Žádost o pøenos souboru. Chcete pokraèovat?
+Ð‹Ð±dost o pÑˆenos souboru. Chcete pokraÐ¸ovat?
 [Cancelled by remote user]
-Pøerušeno protistranou
+PÑˆeruÑ™eno protistranou
 [New incoming file request. Do you want proceed?]
-Nová žádost o pøenos souboru. Chcete pokraèovat?
+NovÐ± Ñ›Ð±dost o pÑˆenos souboru. Chcete pokraÐ¸ovat?
 [Paused, 'coz connection dropped]
-Spojení pøerušeno, pøenos byl pozastaven. 
+SpojenÐ½ pÑˆeruÑ™eno, pÑˆenos byl pozastaven. 
 [Failed on file initialization]
-Chyba pøi inicializaci pøenosu
+Chyba pÑˆi inicializaci pÑˆenosu
 [Paused...]
 Pozastaveno...
 [Synchronizing...]
@@ -55,43 +55,43 @@ Synchronizace...
 [Select a file]
 Vyberte soubor
 [Save as]
-Uložit jako
+UloÑ›it jako
 [Can't get a file size]
 Nelze zjistit velikost souboru
 [Cancelled by user]
-Pøerušeno uživatelem
+PÑˆeruÑ™eno uÑ›ivatelem
 [Transfer is in progress. Do you really want to close?]
-Pøenos dat ještì nebyl dokonèen. Opravdu ho chcete pøerušit?
+PÑˆenos dat jeÑ™tÐ¼ nebyl dokonÐ¸en. Opravdu ho chcete pÑˆeruÑ™it?
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANÐ™
 [Transfer settings]
-Možnosti pøenosu
+MoÑ›nosti pÑˆenosu
 [Appearance]
 Vzhled
 [Delays between sends]
-Prodleva mezi zprávami
+Prodleva mezi zprÐ±vami
 [Chunk size]
 Velikost bloku
 [Use only alphanumeric encoding on transfer]
-Pøi pøenosu použít jen alfanum. kódování
+PÑˆi pÑˆenosu pouÑ›Ð½t jen alfanum. kÑƒdovÐ±nÐ½
 [Received]
-Pøijato
+PÑˆijato
 [Unsent]
-Neodesláno
+NeodeslÐ±no
 [Sent]
-Odesláno
+OdeslÐ±no
 [To send]
-K odeslání
+K odeslÐ±nÐ½
 [Send file: %s]
 Poslat soubor: %s
 [Filename:]
-Název souboru:
+NÐ±zev souboru:
 ;(DUP) [Size:]
-[Extra options: Events » File Transfers, "Receiving files" group]
-Další možnosti -> Události / Pøenos souborù / Pøíjem souborù
+[Extra options: Events Â» File Transfers, "Receiving files" group]
+DalÑ™Ð½ moÑ›nosti -> UdÐ±losti / PÑˆenos souborÑ‰ / PÑˆÐ½jem souborÑ‰
 [Incoming file...]
-Pøíchozí soubor...
+PÑˆÐ½chozÐ½ soubor...
 [Outgoing file...]
-Odchozí soubor...
+OdchozÐ½ soubor...
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Alarms 0.2.6.1                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2163
 ;
 
@@ -12,103 +12,103 @@
 [%dm]
 %d min.
 [Events]
-Události
+UdĞ±losti
 [Alarms]
-Pøipomínky
+PÑˆipomĞ½nky
 [Hide Reminders]
-Skrıt pøipomínky
+SkrÑt pÑˆipomĞ½nky
 [Show Reminders]
-Zobrazit pøipomínky
+Zobrazit pÑˆipomĞ½nky
 ;(DUP) [Frames]
 
 [Alarm Reminders]
-Pøipomínky
+PÑˆipomĞ½nky
 
 ; /icons.cpp
 [Menu: Set Alarm]
-Menu: Nová pøipomínka
+Menu: NovĞ± pÑˆipomĞ½nka
 [Reminder: Soon]
-Pøipomínka: U brzy
+PÑˆipomĞ½nka: UÑ› brzy
 [Reminder: Very Soon]
-Pøipomínka: Za 5 minut a ménì
+PÑˆipomĞ½nka: Za 5 minut a mĞ¹nĞ¼
 [Alarm: System Tray]
-Upozornìní: Oblast pro oznámení
+UpozornĞ¼nĞ½: Oblast pro oznĞ±menĞ½
 [Menu: Show/Hide Reminders]
-Menu: Zobrazit/Skrıt pøipomínky
+Menu: Zobrazit/SkrÑt pÑˆipomĞ½nky
 
 ; /options.cpp
 [Sunday]
-nedìle
+nedĞ¼le
 [Monday]
-pondìlí
+pondĞ¼lĞ½
 [Tuesday]
-úterı
+ÑŠterÑ
 [Wednesday]
-støeda
+stÑˆeda
 [Thursday]
-ètvrtek
+Ğ¸tvrtek
 [Friday]
-pátek
+pĞ±tek
 [Saturday]
 sobota
 [Please enter a title for this alarm.]
-Zadejte prosím název pøipomínky.
+Zadejte prosĞ½m nĞ±zev pÑˆipomĞ½nky.
 [Error]
 Chyba
 [The alarm time you have selected is in the past.]
-Datum a èas musí bıt z budoucnosti. Zadejte je znovu.
+Datum a Ğ¸as musĞ½ bÑt z budoucnosti. Zadejte je znovu.
 [Set Alarm]
-Nová pøipomínka
+NovĞ± pÑˆipomĞ½nka
 
 ; /resource.rc:IDD_OPT1
 [New]
-Novı
+NovÑ
 [Delete]
 Smazat
 [Edit]
 Upravit
 [Use popup plugin]
-Pouít oznámení Mirandy
+PouÑ›Ğ½t oznĞ±menĞ½ Mirandy
 [Button]
-Tlaèítko
+TlaĞ¸Ğ½tko
 [Snooze time:]
-Standardnì odloit o:
+StandardnĞ¼ odloÑ›it o:
 [minutes]
 min.
 [Row Height:]
-Vıška øádku:
+VÑÑ™ka ÑˆĞ±dku:
 [Indent:]
 Odstup:
 [Reminder Frame]
-Okno upomínky
+Okno upomĞ½nky
 [Auto hide/show]
-Autom. zobrazit/skrıt
+Autom. zobrazit/skrÑt
 [Loop sound]
-Opakovanì pøehrávat zvuk
+OpakovanĞ¼ pÑˆehrĞ±vat zvuk
 [Period (hours):]
-S pøedstihem (hod.):
+S pÑˆedstihem (hod.):
 [Hide/show with clist]
 Dle okna s kontakty
 [Auto size vertically]
-Autom. vıška okna
+Autom. vÑÑ™ka okna
 [Transparency (%):]
-Prùhlednost (v %):
+PrÑ‰hlednost (v %):
 [Alert Window]
-Další monosti
+DalÑ™Ğ½ moÑ›nosti
 [Round corners]
 Zaoblit rohy
 [Don't steal focus unless idle]
-Okno do popøedí pouze v neèinnosti
+Okno do popÑˆedĞ½ pouze v neĞ¸innosti
 [Preview]
-Náhled
+NĞ±hled
 [Alarm]
-Pøipomínka
+PÑˆipomĞ½nka
 [OK]
 OK
 [Cancel]
-Zrušit
+ZruÑ™it
 [Title:]
-Název:
+NĞ±zev:
 [Description:]
 Popis:
 [Actions]
@@ -118,90 +118,90 @@ Zobrazit text
 [Sound:]
 Zvuk:
 [Run command:]
-Spustit pøíkaz:
+Spustit pÑˆĞ½kaz:
 [Parameters:]
 Parametry:
 [Alert 1]
-Zvuk è.1
+Zvuk Ğ¸.1
 [Alert 2]
-Zvuk è.2
+Zvuk Ğ¸.2
 [Alert 3]
-Zvuk è.3
+Zvuk Ğ¸.3
 [Speak]
-Pøeèíst
+PÑˆeĞ¸Ğ½st
 [Occurrence]
-Opakování
+OpakovĞ±nĞ½
 [Once]
 Jednou
 [Weekly]
-Co tıden
+Co tÑden
 [Daily]
-Kadı den
+KaÑ›dÑ den
 [Weekdays]
-Dny v tıdnu
+Dny v tÑdnu
 [Monthly]
-Co mìsíc
+Co mĞ¼sĞ½c
 [Yearly]
 Co rok
 [i'm hiding]
-Nikdo mì nedostane
+Nikdo mĞ¼ nedostane
 [Date and Time]
-Datum a èas
+Datum a Ğ¸as
 [Disable next occurence]
-Vypnout pøíští oznámení
+Vypnout pÑˆĞ½Ñ™tĞ½ oznĞ±menĞ½
 [Don't trigger on startup]
-Neupozoròovat pøi spuštìní
+NeupozorÑ‚ovat pÑˆi spuÑ™tĞ¼nĞ½
 [...]
 ...
 [No reminder]
-Bez upozornìní
+Bez upozornĞ¼nĞ½
 
 ; /resource.rc:IDD_ALARM
 [Dismiss]
-Vyøízeno
+VyÑˆĞ½zeno
 [Snooze]
-Odloit
+OdloÑ›it
 [Static]
-Statickı
+StatickÑ
 
 ; /resource.rc:IDD_OPTTRIGGER
 [&Suspend]
-&Odloit
+&OdloÑ›it
 [&Edit...]
 Up&ravit...
 ;(DUP) [&Delete]
 [&Options...]
-M&onosti...
+M&oÑ›nosti...
 [&New Alarm...]
-&Nová pøipomínka...
+&NovĞ± pÑˆipomĞ½nka...
  
  
 
 ; /timewindow.cpp
 [Test]
-Ovìøit
+OvĞ¼Ñˆit
 
 ; /alarm_win.cpp
 [Example Alarm]
-Ukázka pøipomínky
+UkĞ±zka pÑˆipomĞ½nky
 [Some example text. Example, example, example.]
-luouèkı kùò úpìl ïábelské ódy.
+Ğ‹luÑœouĞ¸kÑ kÑ‰Ñ‚ ÑŠpĞ¼l Ğ¿Ğ±belskĞ¹ Ñƒdy.
 [Title]
-Název
+NĞ±zev
 [Window]
 Okno
 [Background]
-Pozadí
+PozadĞ½
 
 ; /alarms.cpp
 [Set a new alarm]
-Zadat novou pøipomínku
+Zadat novou pÑˆipomĞ½nku
 
 [Default snooze:]
-Standardnì odloit o:
+StandardnĞ¼ odloÑ›it o:
 
 ; Description
 [Set once-off, daily, weekly and weekday alarms.]
-Jednorázové, denní, tıdenní a jiné varianty pøipomínek.
+JednorĞ±zovĞ¹, dennĞ½, tÑdennĞ½ a jinĞ¹ varianty pÑˆipomĞ½nek.
 
 ; ---

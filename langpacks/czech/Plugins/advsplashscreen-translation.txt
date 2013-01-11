@@ -1,58 +1,58 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Splash Screen 0.1.2.1                                   |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+; P—àeklad: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2624
 ;
 
 ;for Splash Screen v.0.1.1.2
 
 [Splash Options]
-Logo p¯i spuötÏnÌ
+Logo p—ài spu—ôt–ºn–Ω
 ;(DUP) [Appearance]
 [Splash:]
 Logo:
 ;(DUP) [Sound:]
 [Active:]
-AktivnÌ
+Aktivn–Ω
 [Show Splash]
 Zobrazit logo
 ;(DUP) [Play sound]
 [Preview...]
-N·hled...
+N–±hled...
 [Fade in:]
-N·bÏh:
+N–±b–ºh:
 [Fade out:]
-DobÏh:
+Dob–ºh:
 [Display time:]
-Doba zobrazenÌ:
+Doba zobrazen–Ω:
 [msecs]
 ms
 
 
-; NEPUBLIKOVAN…
+; NEPUBLIKOVAN–ô
 [Select splash randomly]
-N·hodnÏ vybÌrat logo
+N–±hodn–º vyb–Ωrat logo
 [PNG and BMP files]
-obr·zky typu PNG a BMP
+obr–±zky typu PNG a BMP
 [Sound files]
-zvukovÈ soubory
+zvukov–π soubory
 
 [Splash Screen]
-Logo p¯i spuötÏnÌ
+Logo p—ài spu—ôt–ºn–Ω
 [steps]
-krok˘
+krok—â
 [Show Miranda Version]
 Zobrazit verzi Mirandy
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Tento doplnÏk vyûaduje knihovnu advaimg.dll, potaûmo program Miranda IM 0.7 nebo novÏjöÌ.
+Tento dopln–ºk vy—õaduje knihovnu advaimg.dll, pota—õmo program Miranda IM 0.7 nebo nov–ºj—ô–Ω.
 ;[Prefix:]
 [Show random splash]
-Zobrazit n·hodnÈ logo
+Zobrazit n–±hodn–π logo
 [Show splash]
 Zobrazit logo
 [Shows a splash at Miranda startup]
-P¯i spuötÏnÌ Mirandy umoûnÌ zobrazit logo a p¯ehr·t zvuk.
+P—ài spu—ôt–ºn–Ω Mirandy umo—õn–Ω zobrazit logo a p—àehr–±t zvuk.
 
 ; ---

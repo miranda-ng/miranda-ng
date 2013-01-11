@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  TV plugin YM 0.1.0.8                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://miranda-easy.net/addons/plugins/tvplugin.zip
 ;
 
@@ -12,75 +12,75 @@
 
 ; General
 [TV plugin]
-TV doplnìk
+TV doplnĞ¼k
 [Program ID]
 ID programu
 ;(DUP) [Redownload TV guide]
 ;(DUP) [Show TV overview]
 ;(DUP) [Show TV guide]
 [TV overview]
-Pøehled TV programù
+PÑˆehled TV programÑ‰
 [Tv program for %s]
 TV program pro %s
 [No info available...]
-ádné informace...
+Ğ‹Ğ±dnĞ¹ informace...
 [No program is available!]
-Data programù nejsou k dispozici!
+Data programÑ‰ nejsou k dispozici!
 ;(DUP) [Backward]
 ;(DUP) [Forward]
 ;(DUP) [Close]
 [Scheduled]
-Naplánovat
+NaplĞ±novat
 [will start in %d minutes...]
-zaène za %d min...
+zaĞ¸ne za %d min...
 [TV plugin HTTP connections]
-TV doplnìk - spojení pomocí protokolu HTTP
+TV doplnĞ¼k - spojenĞ½ pomocĞ½ protokolu HTTP
 [Failed to connect to \"%s\" - Invalid response, code %d]
-Chyba pøi pøipojení k \"%s\" - neplatná odezva, kód %d
+Chyba pÑˆi pÑˆipojenĞ½ k \"%s\" - neplatnĞ± odezva, kÑƒd %d
 [Failed to connect to \"%s\" - Error code %d]
-Chyba pøi pøipojení k \"%s\" - chybovı kód %d
+Chyba pÑˆi pÑˆipojenĞ½ k \"%s\" - chybovÑ kÑƒd %d
 
 ; Options
 ;(DUP) [General]
 [Window options]
-Monosti okna
+MoÑ›nosti okna
 [Use single window mode (one window for all channels)]
-Pouít jedno okno pro všechny programy
+PouÑ›Ğ½t jedno okno pro vÑ™echny programy
 [Use multi window mode (separate window for each channel)]
-Pouít samostatné okno pro kadı program
+PouÑ›Ğ½t samostatnĞ¹ okno pro kaÑ›dÑ program
 [Save window size and position]
-Uloit velikost a pozici okna
+UloÑ›it velikost a pozici okna
 [Hide scrollbar]
-Skrıt posuvník
+SkrÑt posuvnĞ½k
 [Auto scroll to current program]
-Automaticky posunout na aktuální poøad
+Automaticky posunout na aktuĞ±lnĞ½ poÑˆad
 [TV guide options]
-Monosti TV programu
+MoÑ›nosti TV programu
 [Show original title]
-Zobrazit originální název
+Zobrazit originĞ±lnĞ½ nĞ±zev
 [Show program info]
-Zobrazit informace o poøadu
+Zobrazit informace o poÑˆadu
 [Scheduled programs]
-Naplánované poøady
+NaplĞ±novanĞ¹ poÑˆady
 [Auto mark programs as scheduled]
-Automaticky naplánovat poøady
+Automaticky naplĞ±novat poÑˆady
 [Search keywords also in program info]
-Hledat klíèová slova i v informacích o poøadu
+Hledat klĞ½Ğ¸ovĞ± slova i v informacĞ½ch o poÑˆadu
 [Keywords (separated by '|' char)]
-Klíèové slova (oddìlené znakem '|')
+KlĞ½Ğ¸ovĞ¹ slova (oddĞ¼lenĞ¹ znakem '|')
 ;(DUP) [Notification]
 ;(DUP) [Main options]
 [Notify all programs by popups]
-Upozornit na všechny poøady oznámením
+Upozornit na vÑ™echny poÑˆady oznĞ±menĞ½m
 [Notify scheduled programs by:]
-Upozornit na naplánované poøady:
+Upozornit na naplĞ±novanĞ¹ poÑˆady:
 ;(DUP) [Popup]
 [Dialog window]
-Dialogové okno
+DialogovĞ¹ okno
 [Show notification]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [min. before program start]
-min. pøed zaèátkem poøadu
+min. pÑˆed zaĞ¸Ğ±tkem poÑˆadu
 ;(DUP) [Popup options]
 ;(DUP) [Colours]
 ;(DUP) [Background colour]
@@ -90,93 +90,93 @@ min. pøed zaèátkem poøadu
 ;(DUP) [Custom]
 ;(DUP) [sec.]
 [Dialog options]
-Monosti dialogového okna
+MoÑ›nosti dialogovĞ¹ho okna
 [Drop shadow effect]
-Zobrazit stín
+Zobrazit stĞ½n
 [Opacity:]
-Neprùhlednost:
+NeprÑ‰hlednost:
 
 ; Fonts setting
 ;(DUP) [Background]
 [Even items background]
-Pozadí sudıch øádkù
+PozadĞ½ sudÑch ÑˆĞ±dkÑ‰
 [Current program background]
-Pozadí aktuálního poøadu
+PozadĞ½ aktuĞ±lnĞ½ho poÑˆadu
 [Scheduled program background]
-Pozadí naplánovaného poøadu
+PozadĞ½ naplĞ±novanĞ¹ho poÑˆadu
 ;(DUP) [Separator]
 [Time label]
-Èasovı popisek
+Ğ˜asovÑ popisek
 [Channel name]
-Název programu
+NĞ±zev programu
 ;(DUP) [Time]
 ;(DUP) [Title]
 [Original title]
-Originální název
+OriginĞ±lnĞ½ nĞ±zev
 [Subtitle]
 Titulky
 [Program info]
-Informace poøadu
+Informace poÑˆadu
 
 ; Icons setting
 ;(DUP) [Protocol icon]
 [Redownload TV guide]
-Stáhnout znovu TV program
+StĞ±hnout znovu TV program
 [Show TV overview]
-Zobrazit pøehled TV programù
+Zobrazit pÑˆehled TV programÑ‰
 [Show TV guide]
 Zobrazit TV program
 [Shift time backward]
-Posunout v èase zpìt
+Posunout v Ğ¸ase zpĞ¼t
 [Shift time forward]
-Posunout v èase dopøedu
+Posunout v Ğ¸ase dopÑˆedu
 ;(DUP) [Close]
 
 ; Sounds setting
 [Scheduled program (popup)]
-Naplánovanı program (oznámení)
+NaplĞ±novanÑ program (oznĞ±menĞ½)
 [Scheduled program (dialog)]
-Naplánovanı program (dialogové okno)
+NaplĞ±novanÑ program (dialogovĞ¹ okno)
 
 ; Custom folders setting
 [TV guide data]
 Data TV programu
 
 [Sort channels in alphabetical order (TV overview)]
-Seøadit kanály dle abecedy (pro pøehled poøadù)
+SeÑˆadit kanĞ±ly dle abecedy (pro pÑˆehled poÑˆadÑ‰)
 [keyword^t = search only in title, keyword^i = search only in info]
-klíè_slovo^t = pouze v názvu, klíè_slovo^i = pouze v informacích
+klĞ½Ğ¸_slovo^t = pouze v nĞ±zvu, klĞ½Ğ¸_slovo^i = pouze v informacĞ½ch
 [TV tuner application]
-Program pro televizní tuner
+Program pro televiznĞ½ tuner
 [Path to executable:]
-Cesta ke spustitelnému souboru:
+Cesta ke spustitelnĞ¹mu souboru:
 
 
 [Show TV schedule]
-Zobrazit naplánované poøady
+Zobrazit naplĞ±novanĞ¹ poÑˆady
 [Quick guide]
-Rychlı program
+RychlÑ program
 [Run TV application]
 Spustit TV aplikaci
 [Auto schedule programs by mean of keywords]
-Automaticky naplánovat programy dle klíèovıch slov
+Automaticky naplĞ±novat programy dle klĞ½Ğ¸ovÑch slov
 [About plugin]
-O doplòku
+O doplÑ‚ku
 [Search in title]
 Hledat v titulku
 [Search in info]
-Hledat v informacích
+Hledat v informacĞ½ch
 [Licence]
 Licence
 [Add keyword]
-Pøidat klíèové slovo
+PÑˆidat klĞ½Ğ¸ovĞ¹ slovo
 [Data for TV plugin are provided by]
-Data pro TV doplòek poskytuje
+Data pro TV doplÑ‚ek poskytuje
 [Delete keyword]
-Smazat klíèové slovo
+Smazat klĞ½Ğ¸ovĞ¹ slovo
 [URI s.r.o.]
 URI s.r.o.
 [Keywords]
-Klíèové slova
+KlĞ½Ğ¸ovĞ¹ slova
 
 ; ---

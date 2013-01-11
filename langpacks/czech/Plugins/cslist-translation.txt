@@ -1,96 +1,96 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Custom Status List 0.1.0.4                              |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Mišáèek <mike.taussick (zavináè) seznam (teèka) cz>
+; PÑˆeklad: MiÑ™Ğ±Ğ¸ek <mike.taussick (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3483
 ;
 
 [Custom Status History List]
-Historie rozšíøenıch stavù
+Historie rozÑ™Ğ½ÑˆenÑch stavÑ‰
 [Custom Status List]
-Seznam rozš. stavù
+Seznam rozÑ™. stavÑ‰
 [Custom Status List...]
-Seznam rozš. stavù...
+Seznam rozÑ™. stavÑ‰...
 [Import statuses from database]
-Vloit stavy z databáze
+VloÑ›it stavy z databĞ±ze
 [Add new item]
-Pøidat novı stav
+PÑˆidat novÑ stav
 [Modify selected item]
-Upravit oznaèenı stav
+Upravit oznaĞ¸enÑ stav
 [Delete selected item]
-Smazat oznaèenı stav
+Smazat oznaĞ¸enÑ stav
 [Set/unset current item as favorite]
-Nastavit/zrušit aktuální stav jako oblíbenı
+Nastavit/zruÑ™it aktuĞ±lnĞ½ stav jako oblĞ½benÑ
 [Whether or not to watch custom status changes and add them into list]
-Sledovat nebo nesledovat zmìny ve stavu a pøidávat je do seznamu
+Sledovat nebo nesledovat zmĞ¼ny ve stavu a pÑˆidĞ±vat je do seznamu
 [Close without changing custom status]
-Zavøít bez zmìny rozšíøeného stavu
+ZavÑˆĞ½t bez zmĞ¼ny rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [Clear custom status (reset to None) and close]
-Vyèistit rozšíøené stavy (resetovat) a zavøít
+VyĞ¸istit rozÑ™Ğ½ÑˆenĞ¹ stavy (resetovat) a zavÑˆĞ½t
 [Set custom status to selected one and close]
-Nastavit vybranı rozšíøenı stav a zavøít
+Nastavit vybranÑ rozÑ™Ğ½ÑˆenÑ stav a zavÑˆĞ½t
 [Add..]
-Pøidat..
+PÑˆidat..
 [Modify...]
 Upravit...
 [Favorite]
-Oblíbené
+OblĞ½benĞ¹
 [Favourite]
-Oblíbené
+OblĞ½benĞ¹
 [Set on idle]
-Nastavit pøi neèinnosti
+Nastavit pÑˆi neĞ¸innosti
 [Add]
-Pøidat
+PÑˆidat
 [Modify]
 Upravit
 [Cancel]
-Zrušit
+ZruÑ™it
 [Idle default]
-Neèinnı jako vıchozí
+NeĞ¸innÑ jako vÑchozĞ½
 [Icon:]
 Ikona:
 [Main Icon]
-Hlavní ikona
+HlavnĞ½ ikona
 [Watch]
 Sledovat 
 [Undo changes]
-Vrátit zmìny
+VrĞ±tit zmĞ¼ny
 ; ---
 
 [I'm High]
-Jsem zhulenı
+Jsem zhulenÑ
 
 [Hide "Custom status" menu]
-Skrıt menu "Rozšíøenı stav"
+SkrÑt menu "RozÑ™Ğ½ÑˆenÑ stav"
 [Note: This option requires newest version of ICQ plugin to work properly. Check details at the plugin homepage.]
-Pozn.: Tato volba vyaduje pro správnou funkènost nejnovìjší verzi ICQ doplòku. Detaily naleznete na domovské stránce pluginu.
+Pozn.: Tato volba vyÑ›aduje pro sprĞ±vnou funkĞ¸nost nejnovĞ¼jÑ™Ğ½ verzi ICQ doplÑ‚ku. Detaily naleznete na domovskĞ¹ strĞ±nce pluginu.
 
 [Menu item placement]
-Umístìní menu
+UmĞ½stĞ¼nĞ½ menu
 ;[Regular statuses]
 [Confirm deletion of items]
-Potvrdit smazání poloek
+Potvrdit smazĞ±nĞ½ poloÑ›ek
 [No items available in the database.\nClick the Add button to define some.]
-ádné poloky nenalezeny.\nKliknìte na tlaèítko Pøidat pro vytvoøení nové.
+Ğ‹Ğ±dnĞ¹ poloÑ›ky nenalezeny.\nKliknĞ¼te na tlaĞ¸Ğ½tko PÑˆidat pro vytvoÑˆenĞ½ novĞ¹.
 [Delete entries in ICQ Custom status menu after Import]
-Po importu smazat poloky v ICQ menu Rozšíøenı stav
+Po importu smazat poloÑ›ky v ICQ menu RozÑ™Ğ½ÑˆenÑ stav
 [List settings]
-Nastavení seznamu
+NastavenĞ½ seznamu
 [Global Status Menu at the top]
-Globální menu stavu nahoøe
+GlobĞ±lnĞ½ menu stavu nahoÑˆe
 [Global Status Menu at the bottom]
-Globální menu stavu dole
+GlobĞ±lnĞ½ menu stavu dole
 [ICQ Status Menu]
 Menu stavu ICQ
 [Filter list]
 Filtrovat seznam
 [Remember last window position]
-Pamatovat poslední pozici okna
+Pamatovat poslednĞ½ pozici okna
 [Allow extra ICQ Custom status items (ICQ Plus only)]
-Povolit další poloky Rozšíøeného stavu (Pouze ICQ Plus mod)
+Povolit dalÑ™Ğ½ poloÑ›ky RozÑ™Ğ½ÑˆenĞ¹ho stavu (Pouze ICQ Plus mod)
 [Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
-Pozn.: Poloky v menu jsou viditelné pouze pokud je aspoò jeden ICQ úèet správnì nastaven. Zkontrolujte si, zda máte vytvoøenı aspoò jeden úèet s vyplnìnım UIN.
+Pozn.: PoloÑ›ky v menu jsou viditelnĞ¹ pouze pokud je aspoÑ‚ jeden ICQ ÑŠĞ¸et sprĞ±vnĞ¼ nastaven. Zkontrolujte si, zda mĞ±te vytvoÑˆenÑ aspoÑ‚ jeden ÑŠĞ¸et s vyplnĞ¼nÑm UIN.
 
 ;[Custom Status List Release Notes]
 ;[The 0.1 branch introduces new way of storing data in the database. Please check carefully if the import was successful.]

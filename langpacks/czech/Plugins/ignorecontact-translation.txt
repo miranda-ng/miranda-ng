@@ -1,28 +1,28 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Ignore contact 1.0.2.2                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=2096
 ;
 
 [Ignore Contact]
 Ignorovat kontakt
 [Unignore Contact]
-Zrušit ignorování kontaktu
+ZruÑ™it ignorovĞ±nĞ½ kontaktu
 [Ignore Contact options]
-Monosti ignorování kontaktu
+MoÑ›nosti ignorovĞ±nĞ½ kontaktu
 [Hide contact]
-Skrıt kontakt
+SkrÑt kontakt
 [Mark contact as ignored]
-Oznaèit kontakt za ignorovanı
+OznaĞ¸it kontakt za ignorovanÑ
 [Deny existing authorization request]
-Odebrat ji pøidìlenou autorizaci
+Odebrat jiÑ› pÑˆidĞ¼lenou autorizaci
 [Do you want to move %s to ignore list?]
-Chcete zaøadit uivatele %s do seznamu ignorovanıch?
+Chcete zaÑˆadit uÑ›ivatele %s do seznamu ignorovanÑch?
 [Do you want to restore %s from ignore list?]
-Chcete vyøadit uivatele %s ze seznamu ignorovanıch?
+Chcete vyÑˆadit uÑ›ivatele %s ze seznamu ignorovanÑch?
 [Close existing message window]
-Zavøít komunikaèní okno
+ZavÑˆĞ½t komunikaĞ¸nĞ½ okno
 
 ; ---

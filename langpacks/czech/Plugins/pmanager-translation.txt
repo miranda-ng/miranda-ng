@@ -1,14 +1,14 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; | Miranda IM Profile Changer 0.0.0.2                       |
 ; \----------------------------------------------------------/
-; Pøeklad: Fille <filip.kendik (zavináè) centrum (teèka) cz>
+; PÑˆeklad: Fille <filip.kendik (zavinÐ±Ð¸) centrum (teÐ¸ka) cz>
 ; Adresa: http://miranda-planet.com/forum/index.php?autocom=downloads&showfile=1062
 ;
 
 [&Change Profile...]
-Zmìnit profil...
+ZmÐ¼nit profil...
 
 [Are you sure want to change your profile? Miranda will be closed.]
-Opravdu chcete pøepnout do jiného profilu? Miranda bude ukonèena.
+Opravdu chcete pÑˆepnout do jinÐ¹ho profilu? Miranda bude ukonÐ¸ena.
 
 ;---

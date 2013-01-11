@@ -1,19 +1,19 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  JustTabs 0.1.2.0                                        |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: Stanislav V·gner <vagner (zavin·Ë) nway (teËka) cz>
+; P—àeklad: Stanislav V–±gner <vagner (zavin–±–∏) nway (te–∏ka) cz>
 ; Adresa: http://scottellis.com.au/miranda_plugins
 ;
 
 [Messaging Tabs]
-Z·loûky zpr·v
+Z–±lo—õky zpr–±v
 [Put SRMM windows into a single frame]
-VÌce zpr·v jako z·loûky v jednom oknÏ
+V–Ωce zpr–±v jako z–±lo—õky v jednom okn–º
 [No titlebar]
-Bez z·hlavÌ
+Bez z–±hlav–Ω
 [Show contact icon on tabs]
-Zobrazit ikonu v z·loûce
+Zobrazit ikonu v z–±lo—õce
 ;(DUP) [Always on top]
 
 ; ---

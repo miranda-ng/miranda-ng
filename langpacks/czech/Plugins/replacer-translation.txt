@@ -1,23 +1,23 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  replacer 0.0.0.1                                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Cree <michal.tomasek (zavináè) gmail (teèka) com>
+; PÑˆeklad: Cree <michal.tomasek (zavinÐ±Ð¸) gmail (teÐ¸ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=4336
 ;
 [Replace with:]
 Nahradit:
 [List fo words for replace:]
-Seznam slov k nahrazení:
+Seznam slov k nahrazenÐ½:
 [Change]
-Zmìnit
+ZmÐ¼nit
 [Add text]
-Pøidat text
+PÑˆidat text
 [Delete]
 Smazat
 [Source word:]
-Zdrojové slovo:
+ZdrojovÐ¹ slovo:
 [Target word:]
-Cílové slovo:
+CÐ½lovÐ¹ slovo:
 
 ; ---

@@ -1,81 +1,81 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  WhoIsReadingMyStatusMsgNotify 0.0.1.3                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=360
 ;
 
 
 ; Default log text
 [[%day/%month/%year - %hour:%minute] %clname read your %status message]
-[%day.%month.%year %hour:%minute] %clname èetl zprávu stavu %status
+[%day.%month.%year %hour:%minute] %clname Ğ¸etl zprĞ±vu stavu %status
 
 ; Default popup text
 [%clname\r\nis reading your %status message]
-%clname\r\nète zprávu stavu %status
+%clname\r\nĞ¸te zprĞ±vu stavu %status
 
 ; Options page name
 [WhoIsReadingMyStatusMsg]
-KdopakMiToLoupePerníèek
+KdopakMiToLoupePernĞ½Ğ¸ek
 
 ; Plugin options page
 [&Log to a file]
-&Záznam
+&ZĞ±znam
 [Path :]
 Cesta:
 [&Append UIN to file name]
-K názvu souboru pøid&at UIN
+K nĞ±zvu souboru pÑˆid&at UIN
 [Text to log]
-Pouít text:
+PouÑ›Ğ½t text:
 [&Variables]
-&Promìnné
+&PromĞ¼nnĞ¹
 [Only notify if status is]
 Upozornit pouze ve stavu
 [Also notify if who read is]
-Upozornit pokud ète uivatel
+Upozornit pokud Ğ¸te uÑ›ivatel
 [Hidden]
-Skrytı
+SkrytÑ
 [Not on contact list]
-Neuvedenı mezi kontakty
+NeuvedenÑ mezi kontakty
 
 ; Popup options page
 [&Enable notification via popup]
-Zapnout upozornìní oznám&ením
+Zapnout upozornĞ¼nĞ½ oznĞ±m&enĞ½m
 [Use default &background colour]
-Pouít vıchozí &barvu pozadí
+PouÑ›Ğ½t vÑchozĞ½ &barvu pozadĞ½
 [Use default &text colour]
-Pouít vıchozí barvu &textu
+PouÑ›Ğ½t vÑchozĞ½ barvu &textu
 [Click]
-Kliknutí
+KliknutĞ½
 [&Configure]
 Na&stavit...
 
 ; Configure click dialog
 [PopUp click]
-Kliknutí na oznámení
+KliknutĞ½ na oznĞ±menĞ½
 [Open history]
-Otevøít historii
+OtevÑˆĞ½t historii
 [Open message window]
-Otevøít komunikaèní okno
+OtevÑˆĞ½t komunikaĞ¸nĞ½ okno
 [Open user details window]
-Otevøít informace o uivateli
+OtevÑˆĞ½t informace o uÑ›ivateli
 [Close popup]
-Zavøít oznámení
+ZavÑˆĞ½t oznĞ±menĞ½
 [&Ok]
 &OK
 
 ; Variables dialog
 [Variables]
-Promìnné
+PromĞ¼nnĞ¹
 [Status text]
 Text stavu
 [Name like in contact list]
-Jméno (z kontaktù)
+JmĞ¹no (z kontaktÑ‰)
 [Day (dd)]
 Den (dd)
 [Month (mm)]
-Mìsíc (mm)
+MĞ¼sĞ½c (mm)
 [Year (yyyy)]
 Rok (rrrr)
 [Hour (hh)]
@@ -83,31 +83,31 @@ Hodiny (hh)
 [Minutes (mm)]
 Minuty (mm)
 [Internal IP]
-Interní IP
+InternĞ½ IP
 [External IP]
-Externí IP
+ExternĞ½ IP
 
 ; Sound page
 [Incoming status message request]
-ádost o pøeètení stavové zprávy
+Ğ‹Ğ±dost o pÑˆeĞ¸tenĞ½ stavovĞ¹ zprĞ±vy
 
 ; OpenLog dialog
 [Log File]
-Záznamovı soubor
+ZĞ±znamovÑ soubor
 
-; doplnìní pøekladu na verzi 0.0.1.3
+; doplnĞ¼nĞ½ pÑˆekladu na verzi 0.0.1.3
 [&Disable WhoIsReading popups]
-Vypnout oznámení o ètení &stavové zprávy
+Vypnout oznĞ±menĞ½ o Ğ¸tenĞ½ &stavovĞ¹ zprĞ±vy
 [Text to log :]
-Text záznamu:
+Text zĞ±znamu:
 [Enable &XStatus notification]
-Zapnout &oznámení rozšíøeného stavu
+Zapnout &oznĞ±menĞ½ rozÑ™Ğ½ÑˆenĞ¹ho stavu
 
 ;(DUP) [Please read the readme file for help, there are instructions on how to use and how to configure the plugin.]
 [Notifies you when someone is reading your ICQ status message.]
-Upozorní v pøípadì, e nìkdo ète vaši stavovou zprávu.
+UpozornĞ½ v pÑˆĞ½padĞ¼, Ñ›e nĞ¼kdo Ğ¸te vaÑ™i stavovou zprĞ±vu.
 
 [&Enable WhoIsReading popups]
-Zapnout oznámení o ètení &stavové zprávy
+Zapnout oznĞ±menĞ½ o Ğ¸tenĞ½ &stavovĞ¹ zprĞ±vy
 
 ; ---

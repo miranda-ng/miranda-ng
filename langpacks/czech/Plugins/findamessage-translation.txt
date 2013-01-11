@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Find a Message 0.2.1.0                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -13,33 +13,33 @@
 ;(DUP) [Protocol]
 ;(DUP) [Contact]
 [Time/Date]
-Datum/èas
+Datum/Ğ¸as
 ;(DUP) [Message]
 [I/O]
 V/V
 
 ; findMessage.c
 [Search Canceled]
-Hledání pøerušeno
+HledĞ±nĞ½ pÑˆeruÑ™eno
 [Progress: %d/%d Contacts Searched. %d/%d Messages Searched]
-Vyhledávání... prohledáno %d z %d kontaktù (%d z %d zpráv)
+VyhledĞ±vĞ±nĞ½... prohledĞ±no %d z %d kontaktÑ‰ (%d z %d zprĞ±v)
 [Finished... %d Contacts Searched. %d Messages Found]
-Vısledek... prohledáno %d kontaktù (nalezeno %d zpráv)
+VÑsledek... prohledĞ±no %d kontaktÑ‰ (nalezeno %d zprĞ±v)
 
 ; main.c
 [&Find a Message]
-Na&jít zprávu
+Na&jĞ½t zprĞ±vu
 
 ; resource.rc
 [After]
 Po
 ;(LAI) [DateTimePicker1]
 [Before]
-Pøed
+PÑˆed
 [Search with case sensitivity]
-Rozlišovat malá a VELKÁ
+RozliÑ™ovat malĞ± a VELKĞ‘
 [All contacts]
-Všechny kontakty
+VÑ™echny kontakty
 ;(DUP) [OK]
 ;(DUP) [&Search]
 ;(DUP) [Cancel]
@@ -49,29 +49,29 @@ Všechny kontakty
 [Show a maximum of]
 Zobrazit max.
 [results. (0 for unlimited)]
-poloek (0 - bez omezení)
+poloÑ›ek (0 - bez omezenĞ½)
 [Sort by]
-Øadit dle
+Ğ¨adit dle
 [With AT LEAST ONE of these]
-Obsahující ALESPOÒ 1× slovo
+ObsahujĞ½cĞ½ ALESPOĞ¢ 1Ğ§ slovo
 [with ALL of these words]
-Obsahující VŠECHNA tato slova
+ObsahujĞ½cĞ½ VĞ‰ECHNA tato slova
 [with NONE of these words]
-Neobsahující ÁDNÉ ze slov
+NeobsahujĞ½cĞ½ Ğ‹Ğ‘DNĞ™ ze slov
 [with the EXACT PHRASE]
-Obsahující PRÁVÌ tuto vìtu
+ObsahujĞ½cĞ½ PRĞ‘VĞœ tuto vĞ¼tu
 [Only show messages ]
-Zobrazit pouze zprávy 
+Zobrazit pouze zprĞ±vy 
 [Contacts to search]
 Prohledat kontakty
 [Search Progress]
-Prùbìh hledání
+PrÑ‰bĞ¼h hledĞ±nĞ½
 ;(DUP) [Advanced Options]
 [Find A Message......]
-Najít zprávu
+NajĞ½t zprĞ±vu
 [Export results to a &TXT file]
 Expor&tovat do souboru...
 [&Copy this message to Clipboard]
-&Zkopírovat
+&ZkopĞ½rovat
 
 ; ---

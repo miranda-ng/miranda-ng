@@ -1,37 +1,37 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Country Flags 0.1.0.0                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3462
 ;
 
 ; --- Plugin: Country Flags 0.1.0.0 ---
 
 [Country Flags]
-Vlajky zemí
+Vlajky zemĞ½
 [Service offering misc country utilities as flag icons and a IP-to-Country database.]
-Doplnìk patøící do kategorie Sluby. Umoòuje zobrazení vlajek a zjištìní zemì podle IP adresy.
+DoplnĞ¼k patÑˆĞ½cĞ½ do kategorie SluÑ›by. UmoÑ›Ñ‚uje zobrazenĞ½ vlajek a zjiÑ™tĞ¼nĞ½ zemĞ¼ podle IP adresy.
 [Country Flags Plugin]
-Doplnìk Country Flags
+DoplnĞ¼k Country Flags
 [The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Doplnìk 'Vlajky zemí' nelze naèíst. Vyaduje program Miranda IM %hs nebo novìjší.
+DoplnĞ¼k 'Vlajky zemĞ½' nelze naĞ¸Ğ½st. VyÑ›aduje program Miranda IM %hs nebo novĞ¼jÑ™Ğ½.
 
 ; Countries
 ; Most country names are the same as used in miranda32.exe,
 ; except the following corrections:
 [Australian Antarctic Territory]
-Australské teritorium v Antarktidì
+AustralskĞ¹ teritorium v AntarktidĞ¼
 [Falkland Islands (Malvinas)]
-Falklandské ostrovy (Malvíny)
+FalklandskĞ¹ ostrovy (MalvĞ½ny)
 [Faroe Islands]
-Faerské ostrovy
+FaerskĞ¹ ostrovy
 [Guantanamo Bay]
-Guantanámo
+GuantanĞ±mo
 [Montenegro, Republic of]
-Èerná Hora
+Ğ˜ernĞ± Hora
 [Saipan Island (Northern Mariana Islands)]
-Ostrov Saipan (Severní Mariany)
+Ostrov Saipan (SevernĞ½ Mariany)
 [Samoa]
 Samoa
 [Serbia, Republic of]
@@ -41,12 +41,12 @@ Srbsko
 ;[Contact List]
 ;[Country Flags]
 [Show country flag as &status icon on message window]
-Zobrazit vlajku jako &stavovou ikonu v komunikaèním oknì
+Zobrazit vlajku jako &stavovou ikonu v komunikaĞ¸nĞ½m oknĞ¼
 [Show country flag as &extra image on contact list]
-Zobrazit vlajku jako ikonu v s&eznamu kontaktù
+Zobrazit vlajku jako ikonu v s&eznamu kontaktÑ‰
 [In following contact list &column:]
 Ikonu zobrazit ve sloup&ci:
 [Advanced #%u]
-Extra è.%u
+Extra Ğ¸.%u
 
 ; ---

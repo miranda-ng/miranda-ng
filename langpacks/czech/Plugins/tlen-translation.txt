@@ -1,24 +1,24 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Tlen Protocol 2.0.4.1                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: churchyard <churchyard (zavináè) gmail (teèka) com>
+; PÑˆeklad: churchyard <churchyard (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1485
 ;
 
 ;Options
 ;(DUP) [Username:]
 [Create a new account]
-Vytvoøit novı úèet
+VytvoÑˆit novÑ ÑŠĞ¸et
 ;(DUP) [Password:]
 ;(DUP) [Save password]
 ;(DUP) [Options]
 [Automatically reconnect after unintentional disconnection]
-Po pøerušení automaticky navázat spojení
+Po pÑˆeruÑ™enĞ½ automaticky navĞ±zat spojenĞ½
 [Leave status message after disconnection]
-Po odpojení zanechat zprávu stavu
+Po odpojenĞ½ zanechat zprĞ±vu stavu
 [<Last message>]
-<poslední zpráva>
+<poslednĞ½ zprĞ±va>
 ;(DUP) [Online]
 ;(DUP) [Away]
 ;(DUP) [NA]
@@ -30,27 +30,27 @@ Po odpojení zanechat zprávu stavu
 Ignorovat reklamy
 ;(DUP) [Automatically delete contacts not in my roster]
 [Show offline users with status messages as invisible in contact list]
-Zobrazovat offline uivatele se stavovou zprávou jako neviditelné
+Zobrazovat offline uÑ›ivatele se stavovou zprĞ±vou jako neviditelnĞ¹
 [Alert policy]
-Pravidla pro upozornìní
+Pravidla pro upozornĞ¼nĞ½
 [Accept all alerts]
-Pøijmout všechna upozornìní
+PÑˆijmout vÑ™echna upozornĞ¼nĞ½
 [Ignore alerts from unauthorized contacts]
-Ignorovat upozornìní od neautorizovanıch kontaktù
+Ignorovat upozornĞ¼nĞ½ od neautorizovanÑch kontaktÑ‰
 [Ignore all alerts]
-Ignorovat všechna upozornìní
+Ignorovat vÑ™echna upozornĞ¼nĞ½
 [Group chat policy]
 Pravidla pro diskuse
 [Always ask me]
-Vdy se zeptat
+VÑ›dy se zeptat
 [Accept invitations from authorized contacts]
-Pøijmout pozvání od autorizovanıch kontaktù
+PÑˆijmout pozvĞ±nĞ½ od autorizovanÑch kontaktÑ‰
 [Accept all invitations]
-Pøijmout všechny pozvání
+PÑˆijmout vÑ™echny pozvĞ±nĞ½
 [Ignore invitations from unauthorized contacts]
-Ignorovat pozvání od neautorizovanıch kontaktù
+Ignorovat pozvĞ±nĞ½ od neautorizovanÑch kontaktÑ‰
 [Ignore all invitation]
-Ignorovat všechna pozvání
+Ignorovat vÑ™echna pozvĞ±nĞ½
 [Voice Chats]
 Hovory
 [Voice chat policy]
@@ -61,37 +61,37 @@ Pravidla pro hovory
 ;(DUP) [Ignore invitations from unauthorized contacts]
 ;(DUP) [Ignore all invitations]
 [Recording device:]
-Záznamové zaøízení:
+ZĞ±znamovĞ¹ zaÑˆĞ½zenĞ½:
 [Playback device:]
-Pøehrávací zaøízení:
+PÑˆehrĞ±vacĞ½ zaÑˆĞ½zenĞ½:
 ;Extra
 [Expert Options]
-Monosti pro experty
+MoÑ›nosti pro experty
 ;(DUP) [Login server:]
 [Connection Host:]
-Hostitel pøipojení:
+Hostitel pÑˆipojenĞ½:
 ;(DUP) [Port:]
 ;(DUP) [Keep connection alive]
 [Enable Always Visible and Never Visible]
-Povolit vdy viditelní a vdy neviditelní
+Povolit vÑ›dy viditelnĞ½ a vÑ›dy neviditelnĞ½
 [File Transfer and Voice Chats]
-Pøenos souborù a telefonní hovory
+PÑˆenos souborÑ‰ a telefonnĞ½ hovory
 [Use proxy for incoming connections]
-Pro pøíchozí spojení pouít proxy
+Pro pÑˆĞ½chozĞ½ spojenĞ½ pouÑ›Ğ½t proxy
 [Proxy type:]
 Druh proxy:
 [Forwarding]
-Pøeposílání
+PÑˆeposĞ½lĞ±nĞ½
 ;(DUP) [Proxy server:]
 ;(DUP) [Port:]
 [Proxy requires authorization]
-Proxy vyaduje autorizaci
+Proxy vyÑ›aduje autorizaci
 ;(DUP) [Username:]
 ;(DUP) [Password:]
 ;PopUp
 ;(DUP) [General Options]
 [Enable incoming mail notification]
-Povolit oznámení o došlé poštì
+Povolit oznĞ±menĞ½ o doÑ™lĞ¹ poÑ™tĞ¼
 ;(DUP) [Colours]
 ;(DUP) [Background]
 ;(DUP) [Text]
@@ -104,7 +104,7 @@ Povolit oznámení o došlé poštì
 [Tlen login:]
 Tlen login:
 [Subscription:]
-Podepsáno:
+PodepsĞ±no:
 ;(DUP) [Nick name:]
 ;(DUP) [First name:]
 ;(DUP) [Gender:]
@@ -113,41 +113,41 @@ Podepsáno:
 ;(DUP) [E-mail:]
 ;(DUP) [City]
 [School:]
-Škola:
+Ğ‰kola:
 ;(DUP) [Occupation:]
 [Student]
 Student
 [Collage student]
-Vysokoškolskı student
+VysokoÑ™kolskÑ student
 [Farmer]
-Farmáø
+FarmĞ±Ñˆ
 [Manager]
 Manager
 [Specialist]
 Specialista
 [Clerk]
-Úøedník
+ĞªÑˆednĞ½k
 [Unemployed]
-nezamìstnanı
+nezamĞ¼stnanÑ
 [Pensioner]
 Penzista
 [Housekeeper]
-V domácnosti
+V domĞ±cnosti
 [Teacher]
-Uèitel
+UĞ¸itel
 [Doctor]
 Doktor
 ;(DUP) [Other]
 [Looking for:]
-Hledá:
+HledĞ±:
 [Somebody to talk]
 Pokec
 [Friendship]
-Pøátelství
+PÑˆĞ±telstvĞ½
 [Flirt/romance]
 Flirt/romantika
 [Love]
-Láska
+LĞ±ska
 ;(DUP) [Nothing]
 ;myInfo
 ;(DUP) [Nick name:]
@@ -156,7 +156,7 @@ Láska
 ;(DUP) [E-mail:]
 ;(DUP) [Gender:]
 [Year of birth:]
-Rok narození:
+Rok narozenĞ½:
 ;(DUP) [City]
 ;(DUP) [School:]
 ;(DUP) [Occupation:]
@@ -180,7 +180,7 @@ Rok narození:
 ;(DUP) [Nothing]
 ;(DUP) [Voice chats]
 [Save changes]
-Uloit zmìny
+UloÑ›it zmĞ¼ny
 ;Search extra
 ;(DUP) [First name:]
 ;(DUP) [Last name:]
@@ -211,14 +211,14 @@ Uloit zmìny
 ;(DUP) [Love]
 ;(DUP) [Nothing]
 [Extra Search Criterias]
-Extra kritéria pro hledání
+Extra kritĞ¹ria pro hledĞ±nĞ½
 [Plan:]
 Plan:
 ;Voice Chat Invi
 [Tlen Voice Chat Invitation]
-Pozvánka k hovoru
+PozvĞ±nka k hovoru
 [The following invitation to join a voice chat is received.]
-Pøišla vám pozvánka k hovoru.
+PÑˆiÑ™la vĞ±m pozvĞ±nka k hovoru.
 ;(DUP) [From:]
 ;menu
 ;(DUP) [Multi-User Conference]
@@ -226,75 +226,75 @@ Pøišla vám pozvánka k hovoru.
 Diskuse (Tlen)...
 
 [Log alerts as messages]
-Zaznamenat upozornìní jako zprávy
+Zaznamenat upozornĞ¼nĞ½ jako zprĞ±vy
 [Send and receive client version information]
-Odeslat a pøijmout informaci o verzi klienta
+Odeslat a pÑˆijmout informaci o verzi klienta
 [Use Nudge plugin]
-Pouít doplnìk Nudge
+PouÑ›Ğ½t doplnĞ¼k Nudge
 
-; Sítì / Tlen Extra
+; SĞ½tĞ¼ / Tlen Extra
 [P2P Connections]
-Pøímá spojení
+PÑˆĞ½mĞ± spojenĞ½
 [User list background]
-Pozadí seznamu kontaktù
+PozadĞ½ seznamu kontaktÑ‰
 [Choose font]
-Vybrat písmo
+Vybrat pĞ½smo
 [Others names]
-Ostatní jména
+OstatnĞ½ jmĞ¹na
 [User list]
-Seznam kontaktù
+Seznam kontaktÑ‰
 [User list group]
-Skupina kontaktù
+Skupina kontaktÑ‰
 [Default Log Appearence]
-Vıchozí vzhled záznamu
+VÑchozĞ½ vzhled zĞ±znamu
 [Show message on a new line]
-Zobrazit zprávy na novém øádku
+Zobrazit zprĞ±vy na novĞ¹m ÑˆĞ±dku
 [Default Event Filter]
-Vıchozí filtr událostí
+VÑchozĞ½ filtr udĞ±lostĞ½
 [Default Timestamp Settings]
-Vıchozí informace o èasu
+VÑchozĞ½ informace o Ğ¸asu
 [Default Text Formatting Filter]
-Vıchozí filtr formátování textu
+VÑchozĞ½ filtr formĞ±tovĞ±nĞ½ textu
 [Font style]
-Øez písma
+Ğ¨ez pĞ½sma
 [Default Window Flashing]
-Vıchozí stav blikání oken
+VÑchozĞ½ stav blikĞ±nĞ½ oken
 [Limit log history to (events):]
-Max. poèet zaznam. událostí:
+Max. poĞ¸et zaznam. udĞ±lostĞ½:
 [General Options]
-Obecné monosti
+ObecnĞ¹ moÑ›nosti
 
-; Oznámení / Tlen / Náhled
+; OznĞ±menĞ½ / Tlen / NĞ±hled
 ;[New mail]
-;Nová pošta
+;NovĞ± poÑ™ta
 ;[From: test@test.test]
 ;Od: test@test.test
 ;[Subject: test]
-;Vìc: test
+;VĞ¼c: test
 
-; Události / Zvuky / Tlen
+; UdĞ±losti / Zvuky / Tlen
 [Alerts]
-Upozornìní
+UpozornĞ¼nĞ½
 [Incoming mail]
-Nová pošta
+NovĞ± poÑ™ta
 [Voice chat]
-Telefonní hovor
+TelefonnĞ½ hovor
 
 [Image transfer policy]
-Pravidla pro obrázky
+Pravidla pro obrĞ±zky
 [Accept all images]
-Pøijmout všechny obrázky
+PÑˆijmout vÑ™echny obrĞ±zky
 [Ignore images from unauthorized contacts]
-Ignorovat obrázky od neautorizovanıch kontaktù
+Ignorovat obrĞ±zky od neautorizovanÑch kontaktÑ‰
 [Ignore all images]
-Ignorovat všechny obrázky
+Ignorovat vÑ™echny obrĞ±zky
 [Mail Notification]
-Oznámení nové pošty
+OznĞ±menĞ½ novĞ¹ poÑ™ty
 [Tlen Mail]
-Pošta Tlen
+PoÑ™ta Tlen
 [Tlen Chats]
 Diskuse
 [Alert]
-Upozornìní
+UpozornĞ¼nĞ½
 
 ; ---

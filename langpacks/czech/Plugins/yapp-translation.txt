@@ -1,41 +1,41 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  YAPP 0.5.0.4                                            |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2759
 ;
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Default Timeout]
-Doba zobrazení
+Doba zobrazenĞ½
 [Never timeout]
 Zobrazovat trvale
 [Set timeout:]
-Autom. skrıt po:
+Autom. skrÑt po:
 [Disable when]
-Neaktivní pøi
+NeaktivnĞ½ pÑˆi
 [Full-screen app running]
-Celoobrazovkovı reim
+CeloobrazovkovÑ reÑ›im
 ;(PRB) [Windows]
 [Maximum height:]
-Maximální vıška:
+MaximĞ±lnĞ½ vÑÑ™ka:
 [Avatar size:]
 Velikost avataru:
 [Transparency% (XP):]
-Prùhlednost v % (XP):
+PrÑ‰hlednost v % (XP):
 [Global hover]
-Nezavírat po umístìní myši
+NezavĞ½rat po umĞ½stĞ¼nĞ½ myÑ™i
 [Placement]
-Umístìní
+UmĞ½stĞ¼nĞ½
 [Bottom right]
 Vpravo dole
 [Bottom left]
 Vlevo dole
 [Top right]
-Vpravo nahoøe
+Vpravo nahoÑˆe
 [Top left]
-Vlevo nahoøe
+Vlevo nahoÑˆe
 [Icon on right]
 Ikona vpravo
 [Icon on left]
@@ -47,55 +47,55 @@ Avatar vlevo
 [No avatar]
 Bez avataru
 [Text indent:]
-Odsazení textu:
+OdsazenĞ½ textu:
 [Time on right]
-Èas vpravo
+Ğ˜as vpravo
 [Time on left]
-Èas vlevo
+Ğ˜as vlevo
 [No time]
-Bez èasu
+Bez Ğ¸asu
 [Time above avatar]
-Èas nad avatarem
+Ğ˜as nad avatarem
 [Example With a Long Title]
-Pøíklad dlouhého záhlaví
+PÑˆĞ½klad dlouhĞ¹ho zĞ±hlavĞ½
 [The quick brown fox jumped over the lazy dog.]
-luouèkı kùò úpìl ïábelské ódy.
+Ğ‹luÑœouĞ¸kÑ kÑ‰Ñ‚ ÑŠpĞ¼l Ğ¿Ğ±belskĞ¹ Ñƒdy.
 [Thequickbrownfoxjumpedoverthelazydog.]
-luouèkıkùòúpìlïábelskéódy.
+Ğ‹luÑœouĞ¸kÑkÑ‰Ñ‚ÑŠpĞ¼lĞ¿Ğ±belskĞ¹Ñƒdy.
 [An avatar.]
 avatar
 [Opacity(%):]
-Prùhlednost (%):
+PrÑ‰hlednost (%):
 [Popup History]
-Historie oznámení
+Historie oznĞ±menĞ½
 [Popup history]
-Historie oznámení
+Historie oznĞ±menĞ½
 [Round corners (window)]
 Zaoblit rohy oken
 [Round corners (avatar)]
-Zaoblit rohy avatarù
+Zaoblit rohy avatarÑ‰
 [Sidebar width:]
-Šíøka boèn. pruhu:
+Ğ‰Ğ½Ñˆka boĞ¸n. pruhu:
 
 [Padding:]
-Vyplnìní:
+VyplnĞ¼nĞ½:
 
 [Sidebar]
-Boèní pruh
+BoĞ¸nĞ½ pruh
 
 [Copy title to clipboard]
-Zkopírovat záhlaví
+ZkopĞ½rovat zĞ±hlavĞ½
 [Copy message to clipboard]
-Zkopírovat zprávu
+ZkopĞ½rovat zprĞ±vu
 [Copy timestamp to clipboard]
-Zkopírovat èasovı údaj
+ZkopĞ½rovat Ğ¸asovÑ ÑŠdaj
 
 [Title underline]
-Podtrení záhlaví
+PodtrÑ›enĞ½ zĞ±hlavĞ½
 
 [Set timeout]
-Nastavit dobu zobrazení
+Nastavit dobu zobrazenĞ½
 [Timeout value (0 = default):]
-Prodleva (0 = vıchozí):
+Prodleva (0 = vÑchozĞ½):
 
 ;---

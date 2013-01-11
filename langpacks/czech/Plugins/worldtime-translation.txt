@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  WorldTime 0.1.4.0                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -11,27 +11,27 @@
 
 ; plugwin.cpp
 [World Time]
-Svìtovı èas
+SvĞ¼tovÑ Ğ¸as
 ;(DUP) [Plugins]
 [Day]
 den
 [Night]
 noc
 [*Hide/Show &World Time Window]
-*Skrıt/Zobrazit pøehled èasù
+*SkrÑt/Zobrazit pÑˆehled Ğ¸asÑ‰
 
 ; WorldTime.rc
 [Show/hide with contact list (*if set, show/hide menu item has no effect)]
-Zobrazit/skrıt dle seznamu kontaktù (*Vypne funkci 'Skrıt poloku v ...')
+Zobrazit/skrÑt dle seznamu kontaktÑ‰ (*Vypne funkci 'SkrÑt poloÑ›ku v ...')
 [Format Date]
-Formát data
+FormĞ±t data
 ;(DUP) [Show icons]
 [Hide main menu item (requires restart)]
-Skrıt poloku v hlavním menu (restart)
+SkrÑt poloÑ›ku v hlavnĞ½m menu (restart)
 [Alphabetical]
 Dle abecedy
 [Geographical]
-Dle umístìní
+Dle umĞ½stĞ¼nĞ½
 ;(DUP) [OK]
 ;(DUP) [Remove]
 ;(DUP) [Edit]
@@ -42,18 +42,18 @@ Dle umístìní
 Zobrazit okno
 ;(DUP) [Cancel]
 [and Time]
-a èasu
+a Ğ¸asu
 ;(DUP) [Label:]
 [Sort Order:]
-Øazení:
+Ğ¨azenĞ½:
 ;(DUP) [Configuration]
 [Interface]
-Rozhraní
+RozhranĞ½
 [Times]
-Èas ve svìtì
+Ğ˜as ve svĞ¼tĞ¼
 [Time Details]
-Podrobné informace o èase
+PodrobnĞ¹ informace o Ğ¸ase
 [Testing!!!]
-Zkouška!
+ZkouÑ™ka!
 
 ; ---

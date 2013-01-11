@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  TopToolBar 0.7.3.0                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=466
 ; 
 
@@ -12,15 +12,15 @@
 
 ; InternalButtons.c
 [Hide Offline Users]
-Skrıt offline uivatele
+SkrÑt offline uÑ›ivatele
 [Show All Users]
-Zobrazit všechny uivatele
+Zobrazit vÑ™echny uÑ›ivatele
 [Show Groups]
 Zobrazit skupiny
 [Hide Groups]
-Skrıt skupiny
+SkrÑt skupiny
 [Disable Sounds]
-Zakázat zvuky
+ZakĞ±zat zvuky
 [Enable Sounds]
 Povolit zvuky
 ;(DUP) [Show Options]
@@ -31,35 +31,35 @@ Povolit zvuky
 
 ; launchbt.c
 [Separator]
-Oddìlovaè
+OddĞ¼lovaĞ¸
 ;(DUP) [Default]
 
 ; ttbopt.c
 [Select Directory]
-Vyberte sloku
+Vyberte sloÑ›ku
 [Bitmap/Icon files]
-Bitmapové obrázky èi ikony
+BitmapovĞ¹ obrĞ±zky Ğ¸i ikony
 ;(DUP) [All Files]
 [Select Up Bitmap]
-Vyberte bitmapu nezmáèknutého tlaèítka
+Vyberte bitmapu nezmĞ±Ğ¸knutĞ¹ho tlaĞ¸Ğ½tka
 [Select Down Bitmap]
-Vyberte bitmapu zmáèknutého tlaèítka
+Vyberte bitmapu zmĞ±Ğ¸knutĞ¹ho tlaĞ¸Ğ½tka
 [TopToolBar]
-Horní lišta
+HornĞ½ liÑ™ta
 [TTBBackground]
-Pozadí lišty
+PozadĞ½ liÑ™ty
 [Buttons]
-Tlaèítka
+TlaĞ¸Ğ½tka
 
 ; main.rc
 [Image Directory:]
-Sloka s obrázky:
+SloÑ›ka s obrĞ±zky:
 [Use Miranda Button Class]
-Pouít tlaèítka Mirandy
+PouÑ›Ğ½t tlaĞ¸Ğ½tka Mirandy
 [Use Flat Mode]
-Plochá tlaèítka
+PlochĞ± tlaĞ¸Ğ½tka
 [Use IcoLib (need restart!)]
-Pouít IcoLib (nutnı restart)
+PouÑ›Ğ½t IcoLib (nutnÑ restart)
 ;(DUP) [Use background bitmap]
 ;(DUP) [Stretch to width]
 ;(DUP) [Stretch to height]
@@ -68,53 +68,53 @@ Pouít IcoLib (nutnı restart)
 ;(DUP) [Scroll with text]
 ;(DUP) [Stretch proportionally]
 [Add Separator]
-+ oddìlovaè
++ oddĞ¼lovaĞ¸
 [Del Separator]
-- oddìlovaè
+- oddĞ¼lovaĞ¸
 [Add Launch]
-+ tlaèítko spuštìní
++ tlaĞ¸Ğ½tko spuÑ™tĞ¼nĞ½
 [Del Launch]
 Smazat
 ;(DUP) [Set]
 ;(DUP) [...]
 [Buttons order:]
-Poøadí tlaèítek:
+PoÑˆadĞ½ tlaĞ¸Ğ½tek:
 [Up:]
 /\\:
 [Down:]
 \\/:
 [Click on images to select new bitmaps.]
-Kliknutím na obrázek vyberte novou bitmapu
+KliknutĞ½m na obrĞ±zek vyberte novou bitmapu
 [Name: ]
-Název
+NĞ±zev
 ;(DUP) [Path:]
 [Button Height:]
-Vıška tlaèítka
+VÑÑ™ka tlaĞ¸Ğ½tka
 [Button Width: ]
-Šíøka tlaèítka
+Ğ‰Ğ½Ñˆka tlaĞ¸Ğ½tka
 ;(DUP) [Background colour:]
 ;(DUP) [Selection colour:]
 [Buttons Order && Visibility]
-Poøadí tlaèítek a jejich viditelnost
+PoÑˆadĞ½ tlaĞ¸Ğ½tek a jejich viditelnost
 [Separator Button]
-Oddìlovaèe
+OddĞ¼lovaĞ¸e
 [Launch Button]
-Tlaèítka spuštìní
+TlaĞ¸Ğ½tka spuÑ™tĞ¼nĞ½
 [TopToolBar Background]
-Pozadí horní lišty
+PozadĞ½ hornĞ½ liÑ™ty
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Show only Online Users]
-Zobrazit jen online uivatele
+Zobrazit jen online uÑ›ivatele
 [Groups On/Off]
-Skrıt/Zobrazit skupiny
+SkrÑt/Zobrazit skupiny
 [Sounds Enable/Disable]
 Zapnout/vypnout zvuky
 [Show Options Page]
-Zobrazit stránku nastavení
+Zobrazit strĞ±nku nastavenĞ½
 [Minimize Button]
-Tlaèítko minimalizace
+TlaĞ¸Ğ½tko minimalizace
 [Show Main Menu]
-Zobrazit hlavní menu
+Zobrazit hlavnĞ½ menu
 
 ; ---

@@ -1,61 +1,61 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  FTP File YM 0.3.0.3                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3797
 ;
 
 [Upload canceled]
-Upload pøerušen
+Upload pÑˆeruÑ™en
 [File upload complete]
-Upload souboru dokonèen
+Upload souboru dokonĞ¸en
 [FTP File]
-Soubory pøes FTP
+Soubory pÑˆes FTP
 [User]
-Uivatel
+UÑ›ivatel
 [Port]
 Port
 [Command after upload]
-Pøíkaz po dokonèení
+PÑˆĞ½kaz po dokonĞ¸enĞ½
 [FTP server]
 Server FTP
 [Automatically send URL to the contact]
 Automaticky odeslat odkaz kontaktu
 [Copy URL to message log]
-Zkopírovat odkaz do okna se zprávou
+ZkopĞ½rovat odkaz do okna se zprĞ±vou
 [File URL options]
 Odkaz na soubor
 [Host name]
 Adresa
 [Use passive mode]
-Pouít pasivní reim
+PouÑ›Ğ½t pasivnĞ½ reÑ›im
 [Directory on server]
-Sloka na serveru
+SloÑ›ka na serveru
 
 [FTP File Error]
-Soubory pøes FTP - chyba
+Soubory pÑˆes FTP - chyba
 [Error connecting to server]
-Chyba pøi pøipojování k serveru
+Chyba pÑˆi pÑˆipojovĞ±nĞ½ k serveru
 [FTP Server name]
-Název FTP serveru
+NĞ±zev FTP serveru
 [FTP File - Select files]
-Soubory pøes FTP - vyberte soubory
+Soubory pÑˆes FTP - vyberte soubory
 [Progress info]
-Informace o prùbìhu
+Informace o prÑ‰bĞ¼hu
 [Aborting all files...]
-Rušení všech souborù...
+RuÑ™enĞ½ vÑ™ech souborÑ‰...
 [%s (%d, %d)\n\nMore info:\n%s\n\n%s]
-%s (%d, %d)\n\nVíce info:\n%s\n\n%s
+%s (%d, %d)\n\nVĞ½ce info:\n%s\n\n%s
 [Cancel all]
-Zrušit vše
+ZruÑ™it vÑ™e
 [FTP File - %s]
-Soubory pøes FTP - %s
+Soubory pÑˆes FTP - %s
 
 [Send file]
 Poslat soubor
 [File upload complete]
-Upload souboru dokonèen
+Upload souboru dokonĞ¸en
 
 ; aktualizace na novou verzi
 ; FTP File YM 0.1.0.2
@@ -63,41 +63,41 @@ Upload souboru dokonèen
 ;[FTP Server %d]
 ;FTP Server %d
 [FTP account]
-FTP úèet
+FTP ÑŠĞ¸et
 [Account name]
-Název úètu
+NĞ±zev ÑŠĞ¸tu
 
 [Menu items options]
-Nastavení poloek v menu
+NastavenĞ½ poloÑ›ek v menu
 [Use submenu in contact menu:]
-Pouívat podmenu v menu kontaktu:
+PouÑ›Ğ½vat podmenu v menu kontaktu:
 [Always (use submenu in any situation)]
-Vdy (pouít podmenu v jakékoli situaci)
+VÑ›dy (pouÑ›Ğ½t podmenu v jakĞ¹koli situaci)
 [When more than one account is set]
-Kdy je nastaven více ne jeden úèet
+KdyÑ› je nastaven vĞ½ce neÑ› jeden ÑŠĞ¸et
 [Never (place items directly into contact menu)]
-Nikdy (umístit poloky rovnou do menu kontaktu)
+Nikdy (umĞ½stit poloÑ›ky rovnou do menu kontaktu)
 [Remove national characters from filename]
-Odebrat národní znaky z názvu souboru
+Odebrat nĞ±rodnĞ½ znaky z nĞ±zvu souboru
 [Hide inactive accounts]
-Skrıt neaktivní úèty
+SkrÑt neaktivnĞ½ ÑŠĞ¸ty
 
 [File download link]
 Odkaz na soubor
 [Autosend download link to contact]
 Automaticky poslat odkaz na soubor
 [Copy download link to message log]
-Zkopírovat odkaz na soubor do historie
+ZkopĞ½rovat odkaz na soubor do historie
 [Menu items]
-Poloky menu
+PoloÑ›ky menu
 [Use submenu (restart required)]
-Pouít podmenu (vyaduje restart)
+PouÑ›Ğ½t podmenu (vyÑ›aduje restart)
 [Close dialog after upload finishes]
-Po ukonèení pøenosu dat zavøít okno
+Po ukonĞ¸enĞ½ pÑˆenosu dat zavÑˆĞ½t okno
 
 [Automatically delete file from FTP server after (experimental):]
-Automaticky smazat soubor z FTP po (experimentální):
+Automaticky smazat soubor z FTP po (experimentĞ±lnĞ½):
 [FTP (Standard)]
-FTP (Standardní)
+FTP (StandardnĞ½)
 
 ; ---

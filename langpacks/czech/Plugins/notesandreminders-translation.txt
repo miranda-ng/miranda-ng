@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Sticky Notes & Reminders 0.0.4.5                        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=2047
 ;
 
@@ -12,43 +12,43 @@
 ;Name In Options Page
 ;--------------------
 [Notes & Reminders]
-Poznámky a pøipomínky
+PoznĞ±mky a pÑˆipomĞ½nky
 ;(DUP) [Plugins]
 ;(DUP) [Alerts]
 [Reminder Notify]
-Pøipomínky
+PÑˆipomĞ½nky
 
 ;Menu Strings
 ;------------
 [Notes && Reminders]
-Poznámky &a pøipomínky
+PoznĞ±mky &a pÑˆipomĞ½nky
 [&New Note]
-&Nová poznámka...
+&NovĞ± poznĞ±mka...
 [&Show / Hide Notes]
-Zobrazit/skrıt poznám&ky
+Zobrazit/skrÑt poznĞ±m&ky
 [&Delete All Notes]
-S&mazat všechny poznámky
+S&mazat vÑ™echny poznĞ±mky
 [&New Reminder]
-N&ová pøipomínka...
+N&ovĞ± pÑˆipomĞ½nka...
 [&View Reminders]
-Zobrazit pøipomínk&y...
+Zobrazit pÑˆipomĞ½nk&y...
 [&Delete All Reminders]
-Sm&azat všechny pøipomínky
+Sm&azat vÑ™echny pÑˆipomĞ½nky
 
 ;Note Window Popup Menu
 ;----------------------
 [Sticky Notes]
-Poznámky na ploše
+PoznĞ±mky na ploÑ™e
 [Remove Note]
-Smazat poznámku
+Smazat poznĞ±mku
 [Hide Note]
-Skrıt poznámku
+SkrÑt poznĞ±mku
 [Togle On Top]
-Vdy navrchu
+VÑ›dy navrchu
 ;(DUP) [Undo]
 ;(DUP) [&Copy]
 [&Paste]
-&Vloit
+&VloÑ›it
 [C&ut]
 Vyjmou&t
 [C&lear]
@@ -57,52 +57,52 @@ Vyjmou&t
 ;New Reminder Dialog
 ;-------------------
 [&Add Reminder]
-Pøid&at pøipomínku
+PÑˆid&at pÑˆipomĞ½nku
 [Add Reminder]
-Pøidat pøipomínku
+PÑˆidat pÑˆipomĞ½nku
 [Trigger On Time && Date:]
-Da&tum a èas vyvolání
+Da&tum a Ğ¸as vyvolĞ±nĞ½
 [Date]
 Datum
 [Time]
-Èas
+Ğ˜as
 [Reminder Note:]
-Obsah pøipomínky
+Obsah pÑˆipomĞ½nky
 [Reoccurence]
-Monosti opakování
+MoÑ›nosti opakovĞ±nĞ½
 ;(DUP) [None]
 [Daily]
-Kadı den
+KaÑ›dÑ den
 [Weekly]
-Co tıden
+Co tÑden
 [Monthly]
-Co mìsíc
+Co mĞ¼sĞ½c
 
 ;Reminder List Dialog
 ;--------------------
 [Reminders List]
-Seznam pøipomínek
+Seznam pÑˆipomĞ½nek
 [Date of activation]
-Datum vyvolání
+Datum vyvolĞ±nĞ½
 [Reminder text]
-Obsah pøipomínky
+Obsah pÑˆipomĞ½nky
 [Add New]
-Pøidat novou
+PÑˆidat novou
 [Add New Reminder]
-Pøidat novou pøipomínku
+PÑˆidat novou pÑˆipomĞ½nku
 [Delete Reminder]
-Smazat pøipomínku
+Smazat pÑˆipomĞ½nku
 [Delete All Reminders]
-Smazat všechny
+Smazat vÑ™echny
 
 ;Reminder Notify Dialog
 ;----------------------
 [&Dismiss]
-&Splnìno
+&SplnĞ¼no
 [Notify me Again in]
-Pøipomenout znovu
+PÑˆipomenout znovu
 [Reminder]
-Pøipomínka
+PÑˆipomĞ½nka
 [min.]
 min.
 [After :]
@@ -111,56 +111,56 @@ Po:
 ;Options Dialog
 ;--------------
 [Note Colors]
-Barvy poznámek
+Barvy poznĞ±mek
 [Note Caption Color]
-Barva záhlaví poznámky
+Barva zĞ±hlavĞ½ poznĞ±mky
 [Note Body Color]
-Barva tìla poznámky
+Barva tĞ¼la poznĞ±mky
 [Note Fonts]
-Písma pro poznámky
+PĞ½sma pro poznĞ±mky
 [Sample Text Caption]
-Náhled hlavièky
+NĞ±hled hlaviĞ¸ky
 [Sample Text Body]
-Náhled textu zprávy
+NĞ±hled textu zprĞ±vy
 [Pick Font for Caption]
-Písmo pro hlavièku...
+PĞ½smo pro hlaviĞ¸ku...
 [Pick Font for Body]
-Písmo pro zprávu...
+PĞ½smo pro zprĞ±vu...
 [Hot Keys]
-Klávesové zkratky
+KlĞ±vesovĞ¹ zkratky
 [New note Hot Key]
-Pro novou poznámku
+Pro novou poznĞ±mku
 [Show/Hide Notes Hot Key]
-Zobrazení/skrytí poznámek
+ZobrazenĞ½/skrytĞ½ poznĞ±mek
 [New Reminder Hot Key]
-Pro novou pøipomínku
+Pro novou pÑˆipomĞ½nku
 [Note Transparency (Windows 2K && XP)]
-Prùhlednost poznámek (pouze Windows 2000 &a XP)
+PrÑ‰hlednost poznĞ±mek (pouze Windows 2000 &a XP)
 [Default Note Size]
-Velikost poznámky
+Velikost poznĞ±mky
 [Width (Pixels)]
-Šíøka (v pixelech)
+Ğ‰Ğ½Ñˆka (v pixelech)
 [Height (Pixels)]
-Vıška (v pixelech)
+VÑÑ™ka (v pixelech)
 [Startup options]
-Monosti pøi spuštìní
+MoÑ›nosti pÑˆi spuÑ™tĞ¼nĞ½
 [Reset to defaults]
-Obnovit vıchozí
+Obnovit vÑchozĞ½
 [Show notes at startup]
-Zobrazit poznámky pøi spuštìní
+Zobrazit poznĞ±mky pÑˆi spuÑ™tĞ¼nĞ½
 [Add Contact list menu items]
-Pøidat poloky menu do seznamu kontaktù
+PÑˆidat poloÑ›ky menu do seznamu kontaktÑ‰
 [(Require Miranda restart)]
-(vyaduje restart Mirandy)
+(vyÑ›aduje restart Mirandy)
 [Send Reminders through E-mail / SMS :]
-Odeslat pøípomínky e-mailem nebo sms:
+Odeslat pÑˆĞ½pomĞ½nky e-mailem nebo sms:
 [Show Scrollbars]
-Zobrazit posuvníky
+Zobrazit posuvnĞ½ky
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Miranda Sticky Notes & Reminders]
-Poznámky na ploše a pøipomínky
+PoznĞ±mky na ploÑ™e a pÑˆipomĞ½nky
 [Add New Note]
-Pøidat novou poznámku
+PÑˆidat novou poznĞ±mku
 
 ; ---

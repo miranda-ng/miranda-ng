@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  BattleShip 0.0.1.2                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1100
 ;
 
@@ -10,140 +10,140 @@
 ;; Battleship game
 
 ["Battleship" game]
-Lodì
+LodĞ¼
 [Play "Battleship" game]
-Zahrát si hru &Lodì
+ZahrĞ±t si hru &LodĞ¼
 [&New game]
-&Nová hra
+&NovĞ± hra
 [&Ready!]
-Pøip&raven!
+PÑˆip&raven!
 [Just start a new game...]
-Nová hra mùe zaèít...
+NovĞ± hra mÑ‰Ñ›e zaĞ¸Ğ½t...
 [Arrange your ships]
-Rozmístìní lodí
+RozmĞ½stĞ¼nĞ½ lodĞ½
 [Your opponent is tired of playing]
-Protivník se pøi høe nudí
+ProtivnĞ½k se pÑˆi hÑˆe nudĞ½
 [You win!]
-Vyhráli jste!
+VyhrĞ±li jste!
 [Sorry, You lose...]
-Prohráli jste...
+ProhrĞ±li jste...
 [Your move!]
 Jste na tahu!
 [Opponent's move...]
-Táhne protivník...
+TĞ±hne protivnĞ½k...
 [Wait for answer...]
-Èekání na odpovìï...
+Ğ˜ekĞ±nĞ½ na odpovĞ¼Ğ¿...
 [Opponent is not ready. Waiting...]
-Protivník není pøipravenı. Poèkejte...
+ProtivnĞ½k nenĞ½ pÑˆipravenÑ. PoĞ¸kejte...
 [Hurry up! Opponent is ready to fight.]
-Pošpìšte si! Protivník je pøipraven.
+PoÑ™pĞ¼Ñ™te si! ProtivnĞ½k je pÑˆipraven.
 [Game in progress. Do you really want to terminate?]
-Hra ještì neskonèila. Opravdu ji chcete ukonèit?
+Hra jeÑ™tĞ¼ neskonĞ¸ila. Opravdu ji chcete ukonĞ¸it?
 [Your opponent want to restart. Do you agree?]
-Protivník chce zaèít hru znovu od zaèátku. Souhlasíte?
+ProtivnĞ½k chce zaĞ¸Ğ½t hru znovu od zaĞ¸Ğ±tku. SouhlasĞ½te?
 ;(DUP) [Do you really want to reset the game statistics?]
 [Empty]
-Prázdné
+PrĞ±zdnĞ¹
 [Injured]
-Poškození
+PoÑ™kozenĞ½
 [Sunk]
-Potopení
+PotopenĞ½
 [Miss]
-Støela mimo
+StÑˆela mimo
 [Horiz. ship: Beginning]
-Loï vodorovnì: pøíï
+LoĞ¿ vodorovnĞ¼: pÑˆĞ½Ğ¿
 [Horiz. ship: Middle]
-Loï vodorovnì: støed
+LoĞ¿ vodorovnĞ¼: stÑˆed
 [Horiz. ship: Ending]
-Loï vodorovnì: záï
+LoĞ¿ vodorovnĞ¼: zĞ±Ğ¿
 [Horiz. ship: Alone]
-Loï vodorovnì: celá loï
+LoĞ¿ vodorovnĞ¼: celĞ± loĞ¿
 [Vert. ship: Beginning]
-Loï svisle: pøíï
+LoĞ¿ svisle: pÑˆĞ½Ğ¿
 [Vert. ship: Middle]
-Loï svisle: støed
+LoĞ¿ svisle: stÑˆed
 [Vert. ship: Ending]
-Loï svisle: záï
+LoĞ¿ svisle: zĞ±Ğ¿
 [Vert. ship: Alone]
-Loï svisle: celá loï
+LoĞ¿ svisle: celĞ± loĞ¿
 [Unknown command for "Battleship" game received]
-Pøišel neznámı pøíkaz pro hru "Lodì".
+PÑˆiÑ™el neznĞ±mÑ pÑˆĞ½kaz pro hru "LodĞ¼".
 [*Battleship* There's someone who wants to play the game with you!]
-Haló! Nìkdo by si s vámi rád zahrál hru Lodì!
+HalÑƒ! NĞ¼kdo by si s vĞ±mi rĞ±d zahrĞ±l hru LodĞ¼!
 [The cool game from my childhood]
-Skvìlá hra mého dìtství
+SkvĞ¼lĞ± hra mĞ¹ho dĞ¼tstvĞ½
 [Battleship: New game]
-Lodì (nová hra)
+LodĞ¼ (novĞ± hra)
 [Battleship: Defeat]
-Lodì (poráka)
+LodĞ¼ (porĞ±Ñ›ka)
 [Battleship: Victory]
-Lodì (vítìzství)
+LodĞ¼ (vĞ½tĞ¼zstvĞ½)
 [Battleship: Game is started]
-Lodì (zaèátek hry)
+LodĞ¼ (zaĞ¸Ğ±tek hry)
 [Battleship: Your move]
-Lodì (vlastní tah)
+LodĞ¼ (vlastnĞ½ tah)
 [Battleship: You miss]
-Lodì (støela mimo)
+LodĞ¼ (stÑˆela mimo)
 [Battleship: You hit]
-Lodì (zásah lodì)
+LodĞ¼ (zĞ±sah lodĞ¼)
 [Battleship: You destroyed enemy's ship]
-Lodì (znièení lodì protivníka)
+LodĞ¼ (zniĞ¸enĞ½ lodĞ¼ protivnĞ½ka)
 [Battleship: Opp. move]
-Lodì (tah protivníka)
+LodĞ¼ (tah protivnĞ½ka)
 [Battleship: Opp. miss]
-Lodì (støela mimo protivníka)
+LodĞ¼ (stÑˆela mimo protivnĞ½ka)
 [Battleship: Opp. hit]
-Lodì (zásah lodì protivníkem)
+LodĞ¼ (zĞ±sah lodĞ¼ protivnĞ½kem)
 [Battleship: Opp. destroyed your ship]
-Lodì (znièení vlastní lodì)
+LodĞ¼ (zniĞ¸enĞ½ vlastnĞ½ lodĞ¼)
 [Battleship: Take the ship]
-Lodì (uchopení lodì)
+LodĞ¼ (uchopenĞ½ lodĞ¼)
 [Battleship: Drop the ship]
-Lodì (poloení lodì)
+LodĞ¼ (poloÑ›enĞ½ lodĞ¼)
 ;(DUP) [Do you really want to reset the game statistics?]
 [Game]
 Hra
 ;(DUP) [Games]
 [Have fun online!]
-Uijte si zábavy online!
+UÑ›ijte si zĞ±bavy online!
 [Load &skin...]
-Naèí&st téma vzhledu...
+NaĞ¸Ğ½&st tĞ¹ma vzhledu...
 [Select a skin file]
-Vybrat téma vzhledu
+Vybrat tĞ¹ma vzhledu
 ;(DUP) [&Change]
 ;(DUP) [C&lear]
 [Timeout, ms]
 Prodleva (ms)
 [Shot speed, ms]
-Rychlost støely (ms)
+Rychlost stÑˆely (ms)
 [Response delay, ms]
-Zpodìní reakce (ms)
+ZpoÑ›dĞ¼nĞ½ reakce (ms)
 [Here's a next sequence to play:]
-Struèná nápovìda ke høe:
+StruĞ¸nĞ± nĞ±povĞ¼da ke hÑˆe:
 [1. You have to make the handshake. For this you have to press "New game" button. This one sends a request to your opponent. When you got his answer the game will start.\n2. The game will start with ship arrangement. You must move all available ships from a right side into a left. Use a left-click to take/drop a ship. A right mouse button is toggle a direction of a ship.\n3. When you will finish your arrangement you have to press the "Ready!" button. If your opponent isn't ready the appropriate message will shown in the status bar.\n4. Current state of the game is reflected in the status bar.\nGood luck and have fun!]
-1. Nejdøíve je tøeba se domluvit s vybranım soupeøem. Zmáèknìte tlaèítko "Nová hra", èím dáte najevo zájem o hru. Jakmile soupeø odpoví, mùete zaèít.\n2. Dalším krokem je rozmístìní lodí. Podle libosti pøesuòte všechny zobrazené lodì po herní ploše. Levım tlaèítkem myši lodì pøesouváte, pravım mìníte jejich orientaci.\n3. Poté u zbıvá jen zmáèknutí tlaèítka "Pøipraven!". V pøípadì, e soupeø ještì nedokonèil rozmisování lodí, zobrazí se ve stavové lištì odpovídající informace.\n4. Informace o prùbìhu hry jsou zobrazovány ve stavové lištì.\n\nHodnì štìstí a radosti ze hry!
+1. NejdÑˆĞ½ve je tÑˆeba se domluvit s vybranÑm soupeÑˆem. ZmĞ±Ğ¸knĞ¼te tlaĞ¸Ğ½tko "NovĞ± hra", Ğ¸Ğ½mÑ› dĞ±te najevo zĞ±jem o hru. Jakmile soupeÑˆ odpovĞ½, mÑ‰Ñ›ete zaĞ¸Ğ½t.\n2. DalÑ™Ğ½m krokem je rozmĞ½stĞ¼nĞ½ lodĞ½. Podle libosti pÑˆesuÑ‚te vÑ™echny zobrazenĞ¹ lodĞ¼ po hernĞ½ ploÑ™e. LevÑm tlaĞ¸Ğ½tkem myÑ™i lodĞ¼ pÑˆesouvĞ±te, pravÑm mĞ¼nĞ½te jejich orientaci.\n3. PotĞ¹ uÑ› zbÑvĞ± jen zmĞ±Ğ¸knutĞ½ tlaĞ¸Ğ½tka "PÑˆipraven!". V pÑˆĞ½padĞ¼, Ñ›e soupeÑˆ jeÑ™tĞ¼ nedokonĞ¸il rozmisÑœovĞ±nĞ½ lodĞ½, zobrazĞ½ se ve stavovĞ¹ liÑ™tĞ¼ odpovĞ½dajĞ½cĞ½ informace.\n4. Informace o prÑ‰bĞ¼hu hry jsou zobrazovĞ±ny ve stavovĞ¹ liÑ™tĞ¼.\n\nHodnĞ¼ Ñ™tĞ¼stĞ½ a radosti ze hry!
 [Score %d:%d]
-Skóre %d:%d
+SkÑƒre %d:%d
 [Legend:]
 Legenda:
 [Quick Help]
-Struèná nápovìda
+StruĞ¸nĞ± nĞ±povĞ¼da
 [Clear Score]
-Vymazat skóre
+Vymazat skÑƒre
 [An offer of new game]
-Pozvánka k nové høe
+PozvĞ±nka k novĞ¹ hÑˆe
 [Arrangement is finished]
-Rozmisování dokonèeno
+RozmisÑœovĞ±nĞ½ dokonĞ¸eno
 [User Status Icon]
 Informace o stavu
 [Your pal must have a same version of the game as you. Check it up!]
-Oba dva hráèi musí mít shodnou verzi hry. Zkontrolujte to prosím!
+Oba dva hrĞ±Ğ¸i musĞ½ mĞ½t shodnou verzi hry. Zkontrolujte to prosĞ½m!
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Show buttons in the top]
-Zobrazit tlaèítka nahoøe
+Zobrazit tlaĞ¸Ğ½tka nahoÑˆe
 [BattleShip skin file (*.BSskin)]
-Téma vzhledu hry Lodì (*.BSskin)
+TĞ¹ma vzhledu hry LodĞ¼ (*.BSskin)
 [There's no response... Try again]
 Bez odezvy. Zkuste to znovu.
 

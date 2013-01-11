@@ -1,146 +1,146 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  History++ (2in1) 1.5.1.4                                |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2995
 ;
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\CustomizeFiltersForm.dfm
 [Customize Filters]
-Vlastní úprava filtrù
+VlastnĞ½ ÑŠprava filtrÑ‰
 [&Cancel]
-&Zrušit
+&ZruÑ™it
 [OK]
 OK
 [R&eset to Default]
-Obnovit vıchozí
+Obnovit vÑchozĞ½
 [Filter Properties]
 Vlastnosti filtru
 [&Name:]
-Jmé&no:
+JmĞ¹&no:
 [Include custom event type (0-65535)]
-Zahrnout vlastní typ události (0-65535)
+Zahrnout vlastnĞ½ typ udĞ±losti (0-65535)
 [Show only selected events]
-Zobrazit pouze vybrané události
+Zobrazit pouze vybranĞ¹ udĞ±losti
 [Show all except selected events]
-Zobrazit vše kromì vybranıch událostí
+Zobrazit vÑ™e kromĞ¼ vybranÑch udĞ±lostĞ½
 [Filters]
 Filtry
 [&Down]
-&Dolù
+&DolÑ‰
 [&Up]
 Nahor&u
 [&Delete]
 &Smazat
 [&Add]
-Pøid&at
+PÑˆid&at
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\CustomizeFiltersForm.pas
 [New Filter #%d]
-Novı filtr #%d
+NovÑ filtr #%d
 [Incoming & Outgoing]
-Pøíchozí a odchozí
+PÑˆĞ½chozĞ½ a odchozĞ½
 [Events]
-Události
+UdĞ±losti
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\CustomizeToolbar.dfm
 [Customize Toolbar]
-Úprava tlaèítkové lišty
+Ğªprava tlaĞ¸Ğ½tkovĞ¹ liÑ™ty
 [A&vailable buttons:]
-Tlaèítka k dispozici:
+TlaĞ¸Ğ½tka k dispozici:
 [Buttons on &toolbar:]
-Tlaèítka na lištì:
+TlaĞ¸Ğ½tka na liÑ™tĞ¼:
 [&Add >>]
-Pøidat >>
+PÑˆidat >>
 [<< &Remove]
 << Odebrat
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\CustomizeToolbar.pas
 [Event Filters]
-Filtry událostí
+Filtry udĞ±lostĞ½
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\EmptyHistoryForm.dfm
 [Empty History]
-Vymazání historie
+VymazĞ±nĞ½ historie
 [Yes]
 Ano
 [No]
 Ne
 [Cancel]
-Zrušit
+ZruÑ™it
 [Empty history of subcontacts also]
-Odstranit také historii podkontaktu
+Odstranit takĞ¹ historii podkontaktu
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\EmptyHistoryForm.pas
 [History of this contact is password protected]
-Historie tohoto kontaktu je chránìná heslem
+Historie tohoto kontaktu je chrĞ±nĞ¼nĞ± heslem
 [Do you really want to delete ALL items for this contact?]
-Opravdu chcete vymazat VŠECHNY záznamy u vybrané poloky?
+Opravdu chcete vymazat VĞ‰ECHNY zĞ±znamy u vybranĞ¹ poloÑ›ky?
 [Note: It can take several minutes for large histories]
-Upozornìní: Tato akce mùe trvat u dlouhé historie i nìkolik minut.
+UpozornĞ¼nĞ½: Tato akce mÑ‰Ñ›e trvat u dlouhĞ¹ historie i nĞ¼kolik minut.
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\EventDetailForm.dfm
 [Event Details]
 Podrobnosti
 [Prevous message]
-Pøedchozí zpráva
+PÑˆedchozĞ½ zprĞ±va
 [Prev]
-Pøedchozí
+PÑˆedchozĞ½
 [Next message]
-Další zpráva
+DalÑ™Ğ½ zprĞ±va
 [Next]
-Další
+DalÑ™Ğ½
 [Reply &Quoted]
-Odpovìdìt s &citací
+OdpovĞ¼dĞ¼t s &citacĞ½
 [&Close]
-&Zavøít
+&ZavÑˆĞ½t
 [Event Info]
-Informace o události
+Informace o udĞ±losti
 [Type:]
 Typ:
 [Date/Time:]
-Datum/èas:
+Datum/Ğ¸as:
 [From:]
 Od:
 [To:]
 Pro:
 [Show sender information]
-Zobrazit informaci o odesílateli
+Zobrazit informaci o odesĞ½lateli
 [Show receiver information]
-Zobrazit informaci o pøíjemci
+Zobrazit informaci o pÑˆĞ½jemci
 [Message direction]
-Smìr posílanıch zpráv
+SmĞ¼r posĞ½lanÑch zprĞ±v
 [&Browse Received Files]
-&Procházet pøijaté soubory
+&ProchĞ±zet pÑˆijatĞ¹ soubory
 [&Open file folder]
-&Otevøít sloku souboru
+&OtevÑˆĞ½t sloÑ›ku souboru
 [&Copy Filename]
-&Kopírovat název souboru
+&KopĞ½rovat nĞ±zev souboru
 [-]
 -
 [Open in &new window]
-Otevøít v &novém oknì
+OtevÑˆĞ½t v &novĞ¹m oknĞ¼
 [&Open in existing window]
-&Otevøít v aktuálním oknì
+&OtevÑˆĞ½t v aktuĞ±lnĞ½m oknĞ¼
 [&Copy Link]
-&Kopírovat odkaz
+&KopĞ½rovat odkaz
 [&Copy]
-Z&kopírovat
+Z&kopĞ½rovat
 [Copy All]
-Kopírovat vše
+KopĞ½rovat vÑ™e
 [Select &All]
-Vybr&at vše
+Vybr&at vÑ™e
 [Text Formatting]
-Formátování textu
+FormĞ±tovĞ±nĞ½ textu
 [Send &Message]
-Poslat zp&rávu
+Poslat zp&rĞ±vu
 [&Reply Quoted]
-Odpovìdìt s citací
+OdpovĞ¼dĞ¼t s citacĞ½
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\GlobalSearch.dfm
 [Global History Search]
-Vyhledávání v globální historii
+VyhledĞ±vĞ±nĞ½ v globĞ±lnĞ½ historii
 [Search for]
 Hledat:
 [Search]
@@ -148,177 +148,177 @@ Hledat
 [Password:]
 Heslo:
 [Search Protected Contacts]
-Vyhledávat v chránìnıch kontaktech
+VyhledĞ±vat v chrĞ±nĞ¼nÑch kontaktech
 [Starting up...]
-Zaèínáme...
+ZaĞ¸Ğ½nĞ±me...
 [No items found]
 Nic nenalezeno
 [No items for your current filter]
-Nic nenalezeno vaším aktuálním filtrem
+Nic nenalezeno vaÑ™Ğ½m aktuĞ±lnĞ½m filtrem
 [Full History Log]
-Úplnı záznam historie
+ĞªplnÑ zĞ±znam historie
 [Partial History Log]
-Èásteènı záznam historie
+Ğ˜Ğ±steĞ¸nÑ zĞ±znam historie
 [History++ export]
 History++ export
 [### (generated by history++ plugin)]
-### (vygenerovanı pluginem history++)
+### (vygenerovanÑ pluginem history++)
 [<h6>Generated by <b>History++</b> Plugin</h6>]
-<h6>Vygenerováno doplòkem <b>History++</b></h6>
+<h6>VygenerovĞ±no doplÑ‚kem <b>History++</b></h6>
 [Conversation started at %s]
-Rozhovor zaèal %s
+Rozhovor zaĞ¸al %s
 [Clear Search]
-Vymazat zadané
+Vymazat zadanĞ¹
 [Advanced Search Options]
-Další kritéria hledání
+DalÑ™Ğ½ kritĞ¹ria hledĞ±nĞ½
 [Search any word]
-Hledat jakékoli slovo
+Hledat jakĞ¹koli slovo
 [Search all words]
-Hledat všechna slova
+Hledat vÑ™echna slova
 [Search exact phrase]
-Hledat slovní spojení
+Hledat slovnĞ½ spojenĞ½
 [Search messages from]
-Hledat zprávy od
+Hledat zprĞ±vy od
 [to]
 do
 [Limit Search Range]
-Omezení rozsahu vyhledávání
+OmezenĞ½ rozsahu vyhledĞ±vĞ±nĞ½
 [Advanced search options]
-Monosti pokroèilého vyhledávání
+MoÑ›nosti pokroĞ¸ilĞ¹ho vyhledĞ±vĞ±nĞ½
 [Limit search range]
-Omezení rozsahu vyhledávání
+OmezenĞ½ rozsahu vyhledĞ±vĞ±nĞ½
 [Limit event types]
-Omezení vyhledávanıch událostí
+OmezenĞ½ vyhledĞ±vanÑch udĞ±lostĞ½
 [Search protected contacts]
-Vyhledávat v chránìnıch kontaktech
+VyhledĞ±vat v chrĞ±nĞ¼nÑch kontaktech
 [Bookmarks]
-Záloky
+ZĞ±loÑ›ky
 [Find]
-Najít
+NajĞ½t
 [Filter]
 Filtr
 [Copy]
-Zkopírovat
+ZkopĞ½rovat
 [Delete]
 Smazat
 [Save]
-Uloit
+UloÑ›it
 [Search messages matched to]
-Hledat odpovídající události:
+Hledat odpovĞ½dajĞ½cĞ½ udĞ±losti:
 [Limit Event Types]
-Omezení vyhledávanıch událostí
+OmezenĞ½ vyhledĞ±vanÑch udĞ±lostĞ½
 [Sh&ow in context]
 Zobrazit v kontextu
 [Set &Bookmark]
-Vloit záloku
+VloÑ›it zĞ±loÑ›ku
 [Speak Message]
-Pøeèíst zprávu hlasem
+PÑˆeĞ¸Ğ½st zprĞ±vu hlasem
 [Copy &Text]
-Zkopírovat &text
+ZkopĞ½rovat &text
 [&Save Selected...]
-&Uloit vybrané...
+&UloÑ›it vybranĞ¹...
 [Save History]
-Uloit historii
+UloÑ›it historii
 [&Customize...]
-Vlastní úprava...
+VlastnĞ½ ÑŠprava...
 [Toolbar]
-Lišta tlaèítek
+LiÑ™ta tlaĞ¸Ğ½tek
 [Service]
-Sluba
+SluÑ›ba
 [Hide Menu]
-Skrıt nabídku
+SkrÑt nabĞ½dku
 [&File Actions]
-&Souborové operace
+&SouborovĞ¹ operace
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\GlobalSearch.pas
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
-%.0n v %d kontaktech nalezeno. Vyhledávání v %0n polokách trvalo %.1f s
+%.0n v %d kontaktech nalezeno. VyhledĞ±vĞ±nĞ½ v %0n poloÑ›kĞ±ch trvalo %.1f s
 [All Results]
-Všechny vısledky
+VÑ™echny vÑsledky
 [System History]
-Historie systému
+Historie systĞ¹mu
 [Searching "%s"...]
-Hledání "%s"...
+HledĞ±nĞ½ "%s"...
 [Stop]
 Zastavit
 [Searching... Please wait.]
-Hledání... prosím èekejte
+HledĞ±nĞ½... prosĞ½m Ğ¸ekejte
 [Preparing search...]
-Pøíprava hledání...
+PÑˆĞ½prava hledĞ±nĞ½...
 [Searching... %.0n items in %d contacts found]
-Hledání... %.0n poloek v %d kontaktech nalezeno
+HledĞ±nĞ½... %.0n poloÑ›ek v %d kontaktech nalezeno
 [History is not protected, searching all contacts]
-Historie není chránìná, prohledávám všechny kontakty
+Historie nenĞ½ chrĞ±nĞ¼nĞ±, prohledĞ±vĞ±m vÑ™echny kontakty
 [Searching unprotected contacts only]
-Vyhledávám pouze v nechránìnıch kontaktech
+VyhledĞ±vĞ±m pouze v nechrĞ±nĞ¼nÑch kontaktech
 [Searching all contacts]
-Prohledávání všech kontaktù
+ProhledĞ±vĞ±nĞ½ vÑ™ech kontaktÑ‰
 [You have entered the wrong password.]
-Zadali jste špatné heslo.
+Zadali jste Ñ™patnĞ¹ heslo.
 [History++ Password Protection]
 History++: Ochrana heslem
 [Wrong password]
-Nesprávné heslo
+NesprĞ±vnĞ¹ heslo
 [Please wait while closing the window...]
-Prosím poèkejte, okno se zavírá...
+ProsĞ½m poĞ¸kejte, okno se zavĞ½rĞ±...
 [Partial History [%s] - [%s]]
-Èásteèná historie [%s] - [%s]
+Ğ˜Ğ±steĞ¸nĞ± historie [%s] - [%s]
 [Remove &Bookmark]
-Odstranit záloku
+Odstranit zĞ±loÑ›ku
 [Ready to search]
-Pøipraveno k vyhledávání
+PÑˆipraveno k vyhledĞ±vĞ±nĞ½
 [Click Search button to start]
-Stisknìte tlaèítko Vyhledávání
+StisknĞ¼te tlaĞ¸Ğ½tko VyhledĞ±vĞ±nĞ½
 [From %s]
 Od %s
 [To %s]
 Pro %s
 [HotSearch: %s (F3 to find next)]
-Vyhledávání: %s (F3 najde další)
+VyhledĞ±vĞ±nĞ½: %s (F3 najde dalÑ™Ğ½)
 [You have reached the end of the history.]
-U jste na konci historie.
+UÑ› jste na konci historie.
 [Do you want to continue searching at the beginning?]
-Chcete zaèít hledat od zaèátku?
+Chcete zaĞ¸Ğ½t hledat od zaĞ¸Ğ±tku?
 [History++ Search]
-History++ hledání
+History++ hledĞ±nĞ½
 [Loading...]
-Naèítání...
+NaĞ¸Ğ½tĞ±nĞ½...
 [Saving...]
-Ukládání...
+UklĞ±dĞ±nĞ½...
 [Searching...]
-Hledání...
+HledĞ±nĞ½...
 [Deleting...]
-Mazání...
+MazĞ±nĞ½...
 [Do you really want to delete selected items (%.0f)?]
-Opravdu chcete odstranit vybrané poloky? (%.0f)?
+Opravdu chcete odstranit vybranĞ¹ poloÑ›ky? (%.0f)?
 [Delete Selected]
-Smazat vybrané
+Smazat vybranĞ¹
 [Do you really want to delete selected item?]
-Opravdu chcete odstranit vybranou poloku?
+Opravdu chcete odstranit vybranou poloÑ›ku?
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\HistoryForm.dfm
 [History is empty]
-Historie je prázdná
+Historie je prĞ±zdnĞ±
 [No such items]
-ádné takové poloky
+Ğ‹Ğ±dnĞ¹ takovĞ¹ poloÑ›ky
 [>>]
 >>
 [User Details]
-Informace o uivateli
+Informace o uÑ›ivateli
 [User Menu]
-Uivatelské menu
+UÑ›ivatelskĞ¹ menu
 [Conversations]
 Konverzace
 [History Actions]
-Funkce vyhledávání
+Funkce vyhledĞ±vĞ±nĞ½
 [History Search]
 Hledat v historii
 [You need password to access this history]
-Pro pøístup k historii potøebujete heslo
+Pro pÑˆĞ½stup k historii potÑˆebujete heslo
 [Enter]
 Zadat
 [&Open]
-&Otevøít
+&OtevÑˆĞ½t
 [Export as &HTML...]
 Exportovat jako &HTML...
 [Export as &XML...]
@@ -332,27 +332,27 @@ Exportovat jako &text...
 [Empty history...]
 Odstranit historii...
 [Text direction]
-Smìr psaní textu
+SmĞ¼r psanĞ½ textu
 [Default]
-Vıchozí
+VÑchozĞ½
 [Always RTL]
-Vdy zprava doleva
+VÑ›dy zprava doleva
 [Always LTR]
-Vdy zleva doprava
+VÑ›dy zleva doprava
 [ANSI Encoding]
-Kódování
+KÑƒdovĞ±nĞ½
 [System default codepage]
-Vıchozí kódování systému
+VÑchozĞ½ kÑƒdovĞ±nĞ½ systĞ¹mu
 [Unknown codepage %u]
-Neznámá kódová stránka %u
+NeznĞ±mĞ± kÑƒdovĞ± strĞ±nka %u
 [Password protection...]
-Chránit heslem...
+ChrĞ±nit heslem...
 [Select]
 Vybrat
 [Save...]
-Uloit jako...
+UloÑ›it jako...
 [Rename &Bookmark]
-Pøejmenovat &záloku
+PÑˆejmenovat &zĞ±loÑ›ku
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\HistoryForm.pas
 [Error]
@@ -360,57 +360,57 @@ Chyba
 [&Pseudo-edit]
 &Pseudo-editace
 [%.0n items in history]
-%.0n poloek v historii
+%.0n poloÑ›ek v historii
 [Pseudo-edit mode...]
-Reim pseudo editace...
+ReÑ›im pseudo editace...
 [Full History [%s] - [%s]]
-Úplná historie [%s] - [%s]
+ĞªplnĞ± historie [%s] - [%s]
 [Phrase not found]
-Vıraz nenalezen
+VÑraz nenalezen
 [Continued from the top]
-Pokraèovat odshora
+PokraĞ¸ovat odshora
 [Continued from the bottom]
-Pokraèovat odspodu
+PokraĞ¸ovat odspodu
 [Search: %s (F3 to find next)]
-Hledat: %s (F3 najde další)
+Hledat: %s (F3 najde dalÑ™Ğ½)
 ["%s" not found]
 "%s" nenalezeno
 [You have entered the wrong password]
-Zadali jste nesprávné heslo
+Zadali jste nesprĞ±vnĞ¹ heslo
 [%d event]
-%d událost
+%d udĞ±lost
 [%0.n events (%s)]
-%0.n událostí (%s)
+%0.n udĞ±lostĞ½ (%s)
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\HistoryGrid.pas
 [Remove Bookmark]
-Odstranìní záloky
+OdstranĞ¼nĞ½ zĞ±loÑ›ky
 [Set Bookmark]
-Vloení záloky
+VloÑ›enĞ½ zĞ±loÑ›ky
 [Hide headers]
-Skrytí záhlaví
+SkrytĞ½ zĞ±hlavĞ½
 [Show headers]
-Zobrazit záhlaví ve slouèenıch oznámeních
+Zobrazit zĞ±hlavĞ½ ve slouĞ¸enÑch oznĞ±menĞ½ch
 [Running version of AniSmiley is not supported]
-Vaše verze doplòku AniSmiley není podporována
+VaÑ™e verze doplÑ‚ku AniSmiley nenĞ½ podporovĞ±na
 [Running version of SmileyAdd is not supported]
-Vaše verze doplòku SmileyAdd není podporována
+VaÑ™e verze doplÑ‚ku SmileyAdd nenĞ½ podporovĞ±na
 [Running version of Emoticons is not supported]
-Vaše verze doplòku Emoticons není podporována
+VaÑ™e verze doplÑ‚ku Emoticons nenĞ½ podporovĞ±na
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\historypp.dpr
 [View &History]
 Zobrazit &historii
 [&System History]
-Historie &systému
+Historie &systĞ¹mu
 [His&tory Search]
 Hledat v historii
 [&Empty History]
 Odstranit historii...
 [&Empty System History]
-Odstranit historii systému...
+Odstranit historii systĞ¹mu...
 [History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.]
-Doplnìk History++ nelze pouít, chybí modul Richedit 2.0 nebo novìjší.\nPokraèovat ve spouštìní Mirandy lze stiskem tlaèítka OK.
+DoplnĞ¼k History++ nelze pouÑ›Ğ½t, chybĞ½ modul Richedit 2.0 nebo novĞ¼jÑ™Ğ½.\nPokraĞ¸ovat ve spouÑ™tĞ¼nĞ½ Mirandy lze stiskem tlaĞ¸Ğ½tka OK.
 [History]
 Historie
 
@@ -418,13 +418,13 @@ Historie
 [Server]
 Server
 [(Unknown Contact)']
-(neznámı kontakt)'
+(neznĞ±mÑ kontakt)'
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_eventfilters.pas
 [Show all events]
-Zobrazit všechny události
+Zobrazit vÑ™echny udĞ±losti
 [Messages]
-Zprávy
+ZprĞ±vy
 [Link URLs]
 Odkazy
 [Files]
@@ -432,137 +432,137 @@ Soubory
 [Contacts]
 Kontakty
 [Status changes]
-Zmìny stavu
+ZmĞ¼ny stavu
 [Status message changes]
-Zmìny stavové zprávy
+ZmĞ¼ny stavovĞ¹ zprĞ±vy
 [Nick changes]
-Zmìny pøezdívky
+ZmĞ¼ny pÑˆezdĞ½vky
 [Avatar changes]
-Zmìny avataru
+ZmĞ¼ny avataru
 [WATrack notify]
-Oznámení WATrack
+OznĞ±menĞ½ WATrack
 [Voice calls]
 Hovory
 [All except changes]
-Všechno kromì zmìn
+VÑ™echno kromĞ¼ zmĞ¼n
 [All except system]
-Všechno kromì systémovıch
+VÑ™echno kromĞ¼ systĞ¹movÑch
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_events.pas
 [Unknown]
-Neznámı
+NeznĞ±mÑ
 [Incoming events]
-Pøíchozí události
+PÑˆĞ½chozĞ½ udĞ±losti
 [Outgoing events]
-Odchozí události
+OdchozĞ½ udĞ±losti
 [Message]
-Zpráva
+ZprĞ±va
 [Link]
 Adresa
 [URL]
 Odkaz
 [File transfer]
-Pøenos souboru
+PÑˆenos souboru
 [System message]
-Zpráva systému
+ZprĞ±va systĞ¹mu
 [SMS message]
-Zpráva SMS
+ZprĞ±va SMS
 [SMS]
 SMS
 [Webpager message]
-Zpráva webpageru
+ZprĞ±va webpageru
 [EMail Express message]
-Zpráva Email Express
+ZprĞ±va Email Express
 [SMTP Simple Email]
-Zpráva SMTP
+ZprĞ±va SMTP
 [Other events (unknown)]
-Jiné události (neznámé)
+JinĞ¹ udĞ±losti (neznĞ±mĞ¹)
 [Voice call]
 Hovor
 [Custom]
-Vlastní
+VlastnĞ½
 [URL: %s]
 URL: %s
 [Outgoing file transfer: %s]
-Odchozí soubory: %s
+OdchozĞ½ soubory: %s
 [Incoming file transfer: %s]
-Pøíchozí soubory: %s
+PÑˆĞ½chozĞ½ soubory: %s
 [Authorisation request by %s (%s%d): %s]
-ádost o autorizaci od %s (%s%d): %s
+Ğ‹Ğ±dost o autorizaci od %s (%s%d): %s
 [You were added by %s (%s%d)]
-%s (%s%d) si vás pøidal
+%s (%s%d) si vĞ±s pÑˆidal
 [Outgoing contacts: %s]
-Odchozí kontakty: %s
+OdchozĞ½ kontakty: %s
 [Incoming contacts: %s]
-Pøíchozí kontakty: %s
+PÑˆĞ½chozĞ½ kontakty: %s
 [Webpager message from %s (%s): %s]
-Zpráva pøes webpager od  %s (%s): %s
+ZprĞ±va pÑˆes webpager od  %s (%s): %s
 [Email express from %s (%s): %s]
-Zpráva pøes Email Express od %s (%s): %s
+ZprĞ±va pÑˆes Email Express od %s (%s): %s
 [Status change: %s]
-Zmìna stavu: %s
+ZmĞ¼na stavu: %s
 [Authorization request granted by %s (%d): %s]
-ádost o autorizaci schválil/a %s (%d): %s
+Ğ‹Ğ±dost o autorizaci schvĞ±lil/a %s (%d): %s
 [Authorization request denied by %s (%d): %s]
-ádost o autorizaci zamítl/a %s (%d): %s
+Ğ‹Ğ±dost o autorizaci zamĞ½tl/a %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-Uivatel/ka %s (%d) se odstranil/a z vašeho seznamu kontaktù: %s
+UÑ›ivatel/ka %s (%d) se odstranil/a z vaÑ™eho seznamu kontaktÑ‰: %s
 [Authorization future request by %s (%d): %s]
-Poadavek na autorizaci od %s (%d): %s
+PoÑ›adavek na autorizaci od %s (%d): %s
 [User %s (%d) changed icq client: %s]
-Uivatel %s (%d) zmìnil ICQ klienta na %s
+UÑ›ivatel %s (%d) zmĞ¼nil ICQ klienta na %s
 [Status request by %s (%d):%s]
-Poadavek na zjištìní stavu od  %s (%d):%s
+PoÑ›adavek na zjiÑ™tĞ¼nĞ½ stavu od  %s (%d):%s
 [Ignored status request by %s (%d):%s]
-Ignorovanı poadavek na zjištìní stavu od  %s (%d):%s
+IgnorovanÑ poÑ›adavek na zjiÑ™tĞ¼nĞ½ stavu od  %s (%d):%s
 [Broadcast message from %s (%s): %s]
-Hromadná zpráva od %s (%s): %s
+HromadnĞ± zprĞ±va od %s (%s): %s
 [closed chat session]
-ukonèil komunikaci
+ukonĞ¸il komunikaci
 [WATrack: information request]
-WATrack: poadavek na informaci
+WATrack: poÑ›adavek na informaci
 [Artist: %s\r\nTitle: %s\r\nAlbum: %s]
-Interpret: %s\r\nNázev: %s\r\nAlbum: %s
+Interpret: %s\r\nNĞ±zev: %s\r\nAlbum: %s
 [WATrack: %s]
 WATrack: %s
 [WATrack: request denied]
-WATrack: poadavek zamítnut
+WATrack: poÑ›adavek zamĞ½tnut
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_externalgrid.pas
 [No "%s" items]
-ádné poloky "%s"
+Ğ‹Ğ±dnĞ¹ poloÑ›ky "%s"
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_global.pas
 [Thai]
-thajština
+thajÑ™tina
 [Japanese]
-japonština
+japonÑ™tina
 [Simplified Chinese]
-èínština (zjednodušená)
+Ğ¸Ğ½nÑ™tina (zjednoduÑ™enĞ±)
 [Korean]
-korejština
+korejÑ™tina
 [Traditional Chinese]
-èínština (tradièní)
+Ğ¸Ğ½nÑ™tina (tradiĞ¸nĞ½)
 [Central European]
-støedoevropskı
+stÑˆedoevropskÑ
 [Cyrillic]
 cyrilika
 [Latin I]
-západní
+zĞ±padnĞ½
 [Greek]
-øeètina
+ÑˆeĞ¸tina
 [Turkish]
-tureètina
+tureĞ¸tina
 [Hebrew]
-hebrejština
+hebrejÑ™tina
 [Arabic]
-arabština
+arabÑ™tina
 [Baltic]
-pobaltskı
+pobaltskÑ
 [Vietnamese]
-vietnamština
+vietnamÑ™tina
 [Korean (Johab)]
-korejština (Johab)
+korejÑ™tina (Johab)
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_options.pas
 [Contact history]
@@ -570,167 +570,167 @@ Historie kontaktu
 [History search]
 Hledat v historii
 [Conversation divider]
-Oddìlovaè konverzace
+OddĞ¼lovaĞ¸ konverzace
 [Conversation icon]
 Ikona konverzace
 [Conversation summer]
-Konverzace v létì
+Konverzace v lĞ¹tĞ¼
 [Conversation autumn]
 Konverzace na podzim
 [Conversation winter]
-Konverzace v zimì
+Konverzace v zimĞ¼
 [Conversation spring]
-Konverzace na jaøe
+Konverzace na jaÑˆe
 [Conversation year]
 Konverzace v roce
 [In-place filter wait]
-Èekání filtru
+Ğ˜ekĞ±nĞ½ filtru
 [Search panel]
-Panel hledání
+Panel hledĞ±nĞ½
 [Search All Results]
-Všechny vısledky hledání
+VÑ™echny vÑsledky hledĞ±nĞ½
 [Save All]
-Uloit vše
+UloÑ›it vÑ™e
 [Search Up]
-Vyhledávat smìrem nahoru
+VyhledĞ±vat smĞ¼rem nahoru
 [Search Down]
-Vyhledávat smìrem dolù
+VyhledĞ±vat smĞ¼rem dolÑ‰
 [Delete All]
-Smazat vše
+Smazat vÑ™e
 [End of page]
-Konec stránky
+Konec strĞ±nky
 [Clear in-place filter]
-Zrušit filtrování
+ZruÑ™it filtrovĞ±nĞ½
 [Conversation hide]
-Skrıt záhlaví
+SkrÑt zĞ±hlavĞ½
 [Drop down arrow]
-Šipka další nabídky
+Ğ‰ipka dalÑ™Ğ½ nabĞ½dky
 [Bookmark enabled]
-Pøidaná záloka
+PÑˆidanĞ± zĞ±loÑ›ka
 [Bookmark disabled]
-Záloka ještì není
+ZĞ±loÑ›ka jeÑ™tĞ¼ nenĞ½
 [Incoming nick]
-Pøíchozí pøezdívka
+PÑˆĞ½chozĞ½ pÑˆezdĞ½vka
 [Divider]
-Oddìlovaè
+OddĞ¼lovaĞ¸
 [Outgoing nick]
-Odchozí pøezdívka
+OdchozĞ½ pÑˆezdĞ½vka
 [Selected text]
-Vybranı text
+VybranÑ text
 [Selected background]
-Vybrané pozadí
+VybranĞ¹ pozadĞ½
 [Incoming message]
-Pøíchozí zpráva
+PÑˆĞ½chozĞ½ zprĞ±va
 [Outgoing message]
-Odchozí zpráva
+OdchozĞ½ zprĞ±va
 [Incoming file]
-Pøíchozí soubor
+PÑˆĞ½chozĞ½ soubor
 [Outgoing file]
-Odchozí soubor
+OdchozĞ½ soubor
 [Incoming url]
-Pøíchozí odkaz
+PÑˆĞ½chozĞ½ odkaz
 [Outgoing url]
-Odchozí odkaz
+OdchozĞ½ odkaz
 [Incoming SMS Message]
-Pøíchozí SMS
+PÑˆĞ½chozĞ½ SMS
 [Outgoing SMS Message]
-Odchozí SMS
+OdchozĞ½ SMS
 [Incoming contacts]
-Odchozí kontakty
+OdchozĞ½ kontakty
 [Outgoing contacts]
-Odchozí kontakty
+OdchozĞ½ kontakty
 [Conversation header]
-Záhlaví konverzace
+ZĞ±hlavĞ½ konverzace
 [Incoming timestamp]
-Pøíchozí èasovı údaj
+PÑˆĞ½chozĞ½ Ğ¸asovÑ ÑŠdaj
 [Outgoing timestamp]
-Odchozí èasovı údaj
+OdchozĞ½ Ğ¸asovÑ ÑŠdaj
 [Grid messages]
-Zprávy v møíce
+ZprĞ±vy v mÑˆĞ½Ñ›ce
 [Grid background]
-Pozadí møíky
+PozadĞ½ mÑˆĞ½Ñ›ky
 [Incoming WATrack notify]
-Pøíchozí oznámení WATrack
+PÑˆĞ½chozĞ½ oznĞ±menĞ½ WATrack
 [Outgoing WATrack notify]
-Odchozí oznámení WATrack
+OdchozĞ½ oznĞ±menĞ½ WATrack
 [Cannot load icon pack (%s) from:\r\n%s\r\nThis can cause no icons will be shown.]
-Nelze naèíst knihovnu ikon (%s) z: \r\n%s\r\nNejspíš nebudou ádné ikony zobrazeny.
+Nelze naĞ¸Ğ½st knihovnu ikon (%s) z: \r\n%s\r\nNejspĞ½Ñ™ nebudou Ñ›Ğ±dnĞ¹ ikony zobrazeny.
 [You are using old icon pack from:\r\n%s\r\nThis can cause missing icons, so update the icon pack.]
-Pouíváte starou knihovnu ikon (%s) z: \r\n%s\r\nNìkteré ikony nebudou nejspíš zobrazeny, doporuèujeme aktualizaci.
+PouÑ›Ğ½vĞ±te starou knihovnu ikon (%s) z: \r\n%s\r\nNĞ¼kterĞ¹ ikony nebudou nejspĞ½Ñ™ zobrazeny, doporuĞ¸ujeme aktualizaci.
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\hpp_opt_dialog.rc
 [Appearance options]
-Monosti vzhledu
+MoÑ›nosti vzhledu
 [Show event icons]
-Zobrazit ikony událostí
+Zobrazit ikony udĞ±lostĞ½
 [Use RTL by default]
-Psát standardnì zprava doleva
+PsĞ±t standardnĞ¼ zprava doleva
 [Open event details by Enter]
-Zobrazit dod. informace klávesou ENTER
+Zobrazit dod. informace klĞ±vesou ENTER
 [Show events count in menu]
-Zobrazit poèet událostí v nabídce
+Zobrazit poĞ¸et udĞ±lostĞ½ v nabĞ½dce
 [Formatting options]
-Monosti formátování
+MoÑ›nosti formĞ±tovĞ±nĞ½
 [Enable BBCodes]
 Povolit BBCode
 [Enable SmileyAdd support]
-Podporovat doplnìk SmileyAdd
+Podporovat doplnĞ¼k SmileyAdd
 [Enable MathModule support]
-Podporovat doplnìk MathModule
+Podporovat doplnĞ¼k MathModule
 [Enable raw RTF support]
-Povolit RTF formátování
+Povolit RTF formĞ±tovĞ±nĞ½
 [Display changed avatars]
-Zobrazovat zmìnìné avatary
+Zobrazovat zmĞ¼nĞ¼nĞ¹ avatary
 [Message log options]
-Monosti záznamu rozhovoru
+MoÑ›nosti zĞ±znamu rozhovoru
 [Imitate IEView API]
 Imitovat IEView API
 [Group messages]
-Seskupovat zprávy
+Seskupovat zprĞ±vy
 [Disable border]
-Nezobrazovat rámeèek
+Nezobrazovat rĞ±meĞ¸ek
 [Disable scroll bar]
-Vypnout posuvník
+Vypnout posuvnĞ½k
 [History view options]
-Monosti zobrazení historie
+MoÑ›nosti zobrazenĞ½ historie
 [Recent events on top]
-Zobrazit nejnovìjší události nahoøe
+Zobrazit nejnovĞ¼jÑ™Ğ½ udĞ±losti nahoÑˆe
 [Change appearance]
-Zmìna vzhledu
+ZmĞ¼na vzhledu
 [To change fonts you need to install FontService plugin.]
-Zmìna nastavení písem vyaduje doplnìk FontService.
+ZmĞ¼na nastavenĞ½ pĞ½sem vyÑ›aduje doplnĞ¼k FontService.
 [FontService is installed. Go to Customize -> Fonts to change settings.]
-FontService je nainstalován. Pøejdìte do sekce Vlastní úpravy -> Písma a barvy.
+FontService je nainstalovĞ±n. PÑˆejdĞ¼te do sekce VlastnĞ½ ÑŠpravy -> PĞ½sma a barvy.
 [Download FontService plugin]
-Stáhnout doplnìk FontService
+StĞ±hnout doplnĞ¼k FontService
 [To change icons you need to install IcoLib plugin.]
-Zmìna nastavení ikon vyaduje doplnìk IcoLib.
+ZmĞ¼na nastavenĞ½ ikon vyÑ›aduje doplnĞ¼k IcoLib.
 [IcoLib is installed. Go to Customize -> Icons to change icons.]
-IcoLib je nainstalován. Pøejdìte do sekce Vlastní úpravy -> Ikony.
+IcoLib je nainstalovĞ±n. PÑˆejdĞ¼te do sekce VlastnĞ½ ÑŠpravy -> Ikony.
 [Download IcoLib plugin]
-Stáhnout doplnìk IcoLib
+StĞ±hnout doplnĞ¼k IcoLib
 [More info on these plugins]
-Více informací o tìchto doplòcích
+VĞ½ce informacĞ½ o tĞ¼chto doplÑ‚cĞ½ch
 [Visit Wiki page for more options]
-Navštivte Wiki stránku pro více informací
+NavÑ™tivte Wiki strĞ±nku pro vĞ½ce informacĞ½
 [Please restart Miranda IM for your changes to take effect.]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\PassCheckForm.dfm
 [Password Check]
-Ovìøení hesla
+OvĞ¼ÑˆenĞ½ hesla
 [Enter password]
 Zadejte heslo
 [To access Password Protection options you need to enter password]
-Pokraèovat v nastavení lze a po zadání hesla
+PokraĞ¸ovat v nastavenĞ½ lze aÑ› po zadĞ±nĞ½ hesla
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\PassForm.dfm
 [Password Options]
-Nastavení hesla
+NastavenĞ½ hesla
 [Protect all contacts]
-Chránit všechny kontakty
+ChrĞ±nit vÑ™echny kontakty
 [Protect only selected contacts]
-Chránit jen vybrané kontakty
+ChrĞ±nit jen vybranĞ¹ kontakty
 [Password...]
 Heslo...
 [&Refresh List]
@@ -740,35 +740,35 @@ Heslo...
 [Password not set]
 Bez hesla
 [Password set]
-Chránìno heslem
+ChrĞ±nĞ¼no heslem
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\PassNewForm.dfm
 [New Password]
-Nové heslo
+NovĞ¹ heslo
 [Enter new password]
-Zadejte nové heslo
+Zadejte novĞ¹ heslo
 [Confirm:]
-Potvrzení:
+PotvrzenĞ½:
 [Leave this fields blank to disable password]
-Nezadáte-li ádnı text, heslo odstraníte.
+NezadĞ±te-li Ñ›Ğ±dnÑ text, heslo odstranĞ½te.
 [Pay attention to CAPS LOCK button state]
-Dejte pozor na stav klávesy CAPS LOCK.
+Dejte pozor na stav klĞ±vesy CAPS LOCK.
 
 ; c:\worx\miranda_cz\to_parse\historypp\plugin\PassNewForm.pas
 [Password and Confirm fields should be similar]
-Text zadanı do pole Heslo a Potvrzení musí bıt stejnı
+Text zadanÑ do pole Heslo a PotvrzenĞ½ musĞ½ bÑt stejnÑ
 
 [Search Up (Ctrl+Up)]
-Hledat nahoru (Ctrl+šipka nahoru)
+Hledat nahoru (Ctrl+Ñ™ipka nahoru)
 [Search Down (Ctrl+Down)]
-Hledat dolù (Ctrl+šipka dolu)
+Hledat dolÑ‰ (Ctrl+Ñ™ipka dolu)
 
 ; History++ 1.5.1.3
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [HTML file]
 HTML soubor
 [Unicode text file]
-Unicode textovı soubor
+Unicode textovÑ soubor
 [RTF file]
 RTF soubor
 [XML file]
@@ -776,16 +776,16 @@ XML soubor
 [mContacts files]
 soubory mContacts
 [Open Link in New &Window]
-Otevøít odkaz v no&vém oknì
+OtevÑˆĞ½t odkaz v no&vĞ¹m oknĞ¼
 [Open &Link]
-Otevøít &odkaz
+OtevÑˆĞ½t &odkaz
 [### (generated by History++ plugin)]
-### (generováno doplòkem History++)
+### (generovĞ±no doplÑ‚kem History++)
 [Sh&ow in history]
 Z&obrazit v historii
 [<h6>Generated by <b dir="ltr">History++</b> Plugin</h6>]
-<h6>Generováno doplòkìm <b dir="ltr">History++</b></h6>
+<h6>GenerovĞ±no doplÑ‚kĞ¼m <b dir="ltr">History++</b></h6>
 [Events filter]
-Filtr událostí
+Filtr udĞ±lostĞ½
 
 ; ---

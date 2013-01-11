@@ -1,57 +1,57 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Translator 0.1.2.3                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3144
 ;
 
 [Translator]
-Pøekladaè
+PÑˆekladaĞ¸
 [Translator options]
-Monosti pøekladaèe
+MoÑ›nosti pÑˆekladaĞ¸e
 [General settings]
-Hlavní monosti
+HlavnĞ½ moÑ›nosti
 [Flush on exit]
-Zapsat pøi ukonèení
+Zapsat pÑˆi ukonĞ¸enĞ½
 [Flush to disk now]
-Zapsat na disk nyní
+Zapsat na disk nynĞ½
 [Custom code page]
-Vlastní kódová stránka
+VlastnĞ½ kÑƒdovĞ± strĞ±nka
 [Strings in memory: %d / %d]
-Øetìzce v pamìti: %d / %d
+Ğ¨etĞ¼zce v pamĞ¼ti: %d / %d
 
 [Normal mode]
-Normální mód
+NormĞ±lnĞ½ mÑƒd
 [Number of strings to keep in memory before writing to disk:]
-Poèet øetìzcù ponechanıch v pamìti pøed zápisem na disk:
+PoĞ¸et ÑˆetĞ¼zcÑ‰ ponechanÑch v pamĞ¼ti pÑˆed zĞ±pisem na disk:
 [This value is used as a minimum, the actual number might be bigger.\nWarning: setting a big number will increase memory requirements considerably.]
-Tato hodnota je pouita jako minimální, stávající hodnota mùe bıt vyšší.\nVarování: nastavením vyšší hodnoty zvıšíte poadavky na pamì.
+Tato hodnota je pouÑ›ita jako minimĞ±lnĞ½, stĞ±vajĞ½cĞ½ hodnota mÑ‰Ñ›e bÑt vyÑ™Ñ™Ğ½.\nVarovĞ±nĞ½: nastavenĞ½m vyÑ™Ñ™Ğ½ hodnoty zvÑÑ™Ğ½te poÑ›adavky na pamĞ¼Ñœ.
 
 [Log the following strings:]
-Ukládat následující øetìzce:
+UklĞ±dat nĞ±sledujĞ½cĞ½ ÑˆetĞ¼zce:
 [All strings]
-1. Všechny øetìzce
+1. VÑ™echny ÑˆetĞ¼zce
 [Only translated strings]
-2. Pouze pøeloené øetìzce
+2. Pouze pÑˆeloÑ›enĞ¹ ÑˆetĞ¼zce
 [Only untranslated strings]
-3. Pouze nepøeloené øetìzce
+3. Pouze nepÑˆeloÑ›enĞ¹ ÑˆetĞ¼zce
 
 [Translation mode]
-Pøekládací mód
+PÑˆeklĞ±dacĞ½ mÑƒd
 [Translations window]
-Pøekladové okno
+PÑˆekladovĞ¹ okno
 [Enable dynamic translation]
-Povolit dynamické pøekládání
+Povolit dynamickĞ¹ pÑˆeklĞ±dĞ±nĞ½
 [Ignore double translations]
-Ignorovat zdvojené pøeklady
+Ignorovat zdvojenĞ¹ pÑˆeklady
 [Ignore untranslated strings when building language pack]
-Ignorovat nepøeloené øetìzce pøi vytváøení jazykového balíèku
+Ignorovat nepÑˆeloÑ›enĞ¹ ÑˆetĞ¼zce pÑˆi vytvĞ±ÑˆenĞ½ jazykovĞ¹ho balĞ½Ğ¸ku
 
 [Filter entries automatically after]
-Filtrovat záznamy automaticky po
+Filtrovat zĞ±znamy automaticky po
 
 [Warning: Translation mode will increase memory requirements further.\nYou should only enable this mode if you plan to write Miranda translations.\nYou need to restart Miranda for the setting to take effect.]
-Varování: Pøekládací mód velice zvıší nároky na pamì.\nTento mód mìjte zapnutı pouze kdy plánujete pøekládat Mirandu.\nMusíte restartovat Mirandu pro uvedení této volby v platnost.
+VarovĞ±nĞ½: PÑˆeklĞ±dacĞ½ mÑƒd velice zvÑÑ™Ğ½ nĞ±roky na pamĞ¼Ñœ.\nTento mÑƒd mĞ¼jte zapnutÑ pouze kdyÑ› plĞ±nujete pÑˆeklĞ±dat Mirandu.\nMusĞ½te restartovat Mirandu pro uvedenĞ½ tĞ¹to volby v platnost.
 
 ; ---

@@ -1,15 +1,15 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Contacts+ 1.5.1.0                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1253
 ;
 
 [Incoming Contacts]
-Kontakty (pøíchozí)
+Kontakty (pÑˆĞ½chozĞ½)
 [Outgoing Contacts]
-Kontakty (odchozí)
+Kontakty (odchozĞ½)
 ;(DUP) [Error]
 
 ; receive dlg
@@ -25,42 +25,42 @@ Kontakty od
 ;(DUP) [&Details]
 ;(DUP) [Close]
 [Add to List]
-Pøidat do seznamu
+PÑˆidat do seznamu
 [User Details]
-Informace o uivateli
+Informace o uÑ›ivateli
 ;(DUP) [Send Message]
 
 ;send dlg
 [Send Contacts to]
-Odeslání kontaktních informací; pøíjemce:
+OdeslĞ±nĞ½ kontaktnĞ½ch informacĞ½; pÑˆĞ½jemce:
 [The contacts send timed out.]
-Pøekroèen èasovı limit pøi odesílání kontaktù.
+PÑˆekroĞ¸en Ğ¸asovÑ limit pÑˆi odesĞ½lĞ±nĞ½ kontaktÑ‰.
 [Contacts transfer failed!]
-Chyba pøi pøenosu kontaktù!
+Chyba pÑˆi pÑˆenosu kontaktÑ‰!
 ;(DUP) [Choose contacts to be send:]
 ;(DUP) [&Send]
 ;(DUP) [Cancel]
 ;(FIX) [Select All]
 [&Select All]
-&Vybrat vše
+&Vybrat vÑ™e
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [Send/Receive Contacts+]
-Odesílání a pøíjem kontaktù
+OdesĞ½lĞ±nĞ½ a pÑˆĞ½jem kontaktÑ‰
 
 [Contacts Send Error]
-Chyba pøi odesílání kontaktù
+Chyba pÑˆi odesĞ½lĞ±nĞ½ kontaktÑ‰
 [Contacts send error]
-Chyba pøi odesílání kontaktù
+Chyba pÑˆi odesĞ½lĞ±nĞ½ kontaktÑ‰
 [Contacts from different protocols cannot be send!]
-Kontakty nelze posílat mezi dvìma rùznımi protokoly!
+Kontakty nelze posĞ½lat mezi dvĞ¼ma rÑ‰znÑmi protokoly!
 
 ;(DUP) [Incoming Contacts]
 [Contacts received from %s]
-Seznam pøijatıch kontaktù (odesílatel: %s)
+Seznam pÑˆijatÑch kontaktÑ‰ (odesĞ½latel: %s)
 [Send contacts to %s]
-Odeslání kontaktních informací (pøíjemce: %s)
+OdeslĞ±nĞ½ kontaktnĞ½ch informacĞ½ (pÑˆĞ½jemce: %s)
 [Send contacts...]
 Poslat &kontakty...
 ;(DUP) [Error]
@@ -69,16 +69,16 @@ Poslat &kontakty...
 ;(DUP) [Nick]
 ;(DUP) [UIN]
 [Mailformed Receive Contacts Packet.]
-Obdrená zpráva s kontakty je poškozena.
+ObdrÑ›enĞ± zprĞ±va s kontakty je poÑ™kozena.
 [Add to &group:]
-Pøidat do &skupiny:
+PÑˆidat do &skupiny:
 [&Add selected]
-Pøid&at vybrané
+PÑˆid&at vybranĞ¹
 ;(DUP) [Close]
 
 ;send dlg
 [Choose contacts to be send:]
-Vyberte kontakty k odeslání:
+Vyberte kontakty k odeslĞ±nĞ½:
 ;(DUP) [&Send]
 ;(DUP) [Cancel]
 
@@ -90,8 +90,8 @@ Kontakty
 [Send contacts]
 Poslat kontakty
 [Contacts received from]
-Kontakty pøijaty od
+Kontakty pÑˆijaty od
 [Received contacts]
-Pøijaté kontakty
+PÑˆijatĞ¹ kontakty
 
 ; ---

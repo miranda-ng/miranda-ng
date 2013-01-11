@@ -1,15 +1,15 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  NewStatusNotify 1.1.2.5                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=207
-; Vıvoj: http://vasilich.org/blog/category/miranda-im/newstatusnotify/
+; VÑvoj: http://vasilich.org/blog/category/miranda-im/newstatusnotify/
 ;
 
 ; /indiv_sounds.c
 [(default sound)]
-(vıchozí zvuk)
+(vÑchozĞ½ zvuk)
 [Status]
 Stavy
 [Sound for the status]
@@ -17,130 +17,130 @@ Zvuky
 [From offline]
 Ze stavu offline
 [** All contacts **]
-** všechny kontakty **
+** vÑ™echny kontakty **
 
 ; /main.c
 [(was %s)]
-(pøedtím %s)
+(pÑˆedtĞ½m %s)
 [Enable status &notification]
-Zapnou&t oznámení stavu
+Zapnou&t oznĞ±menĞ½ stavu
 [Disable status &notification]
-Vypnou&t oznámení stavu
+Vypnou&t oznĞ±menĞ½ stavu
 [PopUps]
-Oznámení
+OznĞ±menĞ½
 [Status Notify]
-Oznámení stavu
+OznĞ±menĞ½ stavu
 [User: from offline (has priority!)]
-Uivatel: z offline (má prioritu!)
+UÑ›ivatel: z offline (mĞ± prioritu!)
 [Notify]
-Oznámení
+OznĞ±menĞ½
 [Events]
-Události
+UdĞ±losti
 [You cannot specify a value lower than %d and higher than %d.]
-Nelze zadat hodnotu niší ne %d a vyšší ne %d.
+Nelze zadat hodnotu niÑ›Ñ™Ğ½ neÑ› %d a vyÑ™Ñ™Ğ½ neÑ› %d.
 [Not a proto. Return!]
-Není protokol. Návrat.
+NenĞ½ protokol. NĞ±vrat.
 [<retrieving status message>]
-<zjišování stavové zprávy>
+<zjiÑ™ÑœovĞ±nĞ½ stavovĞ¹ zprĞ±vy>
 
  
  
 [%s is now %s]
-%s je nyní %s
+%s je nynĞ½ %s
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s zmìna na: %s (was: %s).\r\n
+%s, %s. %s zmĞ¼na na: %s (was: %s).\r\n
 [This is "from offline" status message]
-Toto je stavová zpráva "z offline"
+Toto je stavovĞ± zprĞ±va "z offline"
 [(M) is back online!]
-je opìt online
+je opĞ¼t online
 [(F) is back online!]
-je opìt online
+je opĞ¼t online
 [(U) is back online!]
-je opìt online
+je opĞ¼t online
 [Online]
 Online
 [User: Online]
 Stav (online)
 [(M) went offline! :(]
-odešel...
+odeÑ™el...
 [(F) went offline! :(]
-odešla...
+odeÑ™la...
 [(U) went offline! :(]
-odešel...
+odeÑ™el...
 [Offline]
 Offline
 [User: Offline]
 Stav (offline)
 [(M) hides in shadows...]
-je neviditelnı...
+je neviditelnÑ...
 [(F) hides in shadows...]
-je neviditelná...
+je neviditelnĞ±...
 [(U) hides in shadows...]
-je neviditelnı...
+je neviditelnÑ...
 [Invisible]
-Neviditelnı
+NeviditelnÑ
 [User: Invisible]
-Stav (neviditelnı)
+Stav (neviditelnÑ)
 [(M) feels talkative!]
-má volno
+mĞ± volno
 [(F) feels talkative!]
-má volno
+mĞ± volno
 [(U) feels talkative!]
-má volno
+mĞ± volno
 [Free for chat]
-Mám volno
+MĞ±m volno
 [User: Free For Chat]
-Stav (mám volno)
+Stav (mĞ±m volno)
 [(M) went Away]
-odbìhl pryè
+odbĞ¼hl pryĞ¸
 [(F) went Away]
-odbìhla pryè
+odbĞ¼hla pryĞ¸
 [(U) went Away]
-odbìhl pryè
+odbĞ¼hl pryĞ¸
 [Away]
-Na chvíli pryè
+Na chvĞ½li pryĞ¸
 [User: Away]
-Stav (na chvíli pryè)
+Stav (na chvĞ½li pryĞ¸)
 [(M) isn't there anymore!]
-bude pryè delší dobu
+bude pryĞ¸ delÑ™Ğ½ dobu
 [(F) isn't there anymore!]
-bude pryè delší dobu
+bude pryĞ¸ delÑ™Ğ½ dobu
 [(U) isn't there anymore!]
-bude pryè delší dobu
+bude pryĞ¸ delÑ™Ğ½ dobu
 [NA]
 Nejsem tady
 [User: Not Available]
 Stav (nejsem tady)
 [(M) has something else to do.]
-nemá èas
+nemĞ± Ğ¸as
 [(F) has something else to do.]
-nemá èas
+nemĞ± Ğ¸as
 [(U) has something else to do.]
-nemá èas
+nemĞ± Ğ¸as
 [Occupied]
-Nemám èas
+NemĞ±m Ğ¸as
 [User: Occupied]
-Stav (nemám èas)
+Stav (nemĞ±m Ğ¸as)
 [(M) doesn't want to be disturbed!]
-nechce bıt vyrušován!
+nechce bÑt vyruÑ™ovĞ±n!
 [(F) doesn't want to be disturbed!]
-nechce bıt vyrušována!
+nechce bÑt vyruÑ™ovĞ±na!
 [(U) doesn't want to be disturbed!]
-nechce bıt vyrušován!
+nechce bÑt vyruÑ™ovĞ±n!
 [DND]
-Nerušit!
+NeruÑ™it!
 [User: Do Not Disturb]
-Stav (nerušit!)
+Stav (neruÑ™it!)
 [(M) is eating something]
-je na obìdì
+je na obĞ¼dĞ¼
 [(F) is eating something]
-je na obìdì
+je na obĞ¼dĞ¼
 [(U) is eating something]
-je na obìdì
+je na obĞ¼dĞ¼
 [Out to lunch]
-Jsem na obìdì
+Jsem na obĞ¼dĞ¼
 [User: Out To Lunch]
-Stav (na obìdì)
+Stav (na obĞ¼dĞ¼)
 [(M) had to answer the phone]
 telefonuje
 [(F) had to answer the phone]
@@ -148,9 +148,9 @@ telefonuje
 [(U) had to answer the phone]
 telefonuje
 [On the phone]
-Mám telefon
+MĞ±m telefon
 [User: On The Phone]
-Stav (mám telefon)
+Stav (mĞ±m telefon)
 [<error>]
 <chyba>
 [UserInfo]
@@ -158,124 +158,124 @@ UserInfo
 
 ; /resource.rc:IDD_NSN_OPT
 [Notify when a contact changes to one of these statuses]
-Oznámení zmìny stavu ostatních kontaktù
+OznĞ±menĞ½ zmĞ¼ny stavu ostatnĞ½ch kontaktÑ‰
 [Button]
-Tlaèítko
+TlaĞ¸Ğ½tko
 [N/A]
 <neuvedeno>
 [Always when changing from offline]
-Vdy pøi pøechodu ze stavu offline
+VÑ›dy pÑˆi pÑˆechodu ze stavu offline
 [Plugin activation]
-Aktivace doplòku
+Aktivace doplÑ‚ku
 [Automatically turn off PopUps and Sounds on status change]
-Automaticky vypnout oznámení a zvuky pøi zmìnì stavu
+Automaticky vypnout oznĞ±menĞ½ a zvuky pÑˆi zmĞ¼nĞ¼ stavu
 [Configure]
 Nastavit...
 [Temporarily disable NewStatusNotify (disables popups and sounds)]
-Doèasnì deaktivovat NewStatusNotify (vypne oznámení a zvuky)
+DoĞ¸asnĞ¼ deaktivovat NewStatusNotify (vypne oznĞ±menĞ½ a zvuky)
 [Put an item in the main menu to easily enable/disable the plugin]
-Pøidat do hlavní nabídky poloku vypnutí/zapnutí doplòku
+PÑˆidat do hlavnĞ½ nabĞ½dky poloÑ›ku vypnutĞ½/zapnutĞ½ doplÑ‚ku
 [Show PopUps when I connect]
-Zobrazit oznámení pøi pøipojení
+Zobrazit oznĞ±menĞ½ pÑˆi pÑˆipojenĞ½
 [Do not warn me for people not in my Contact List]
-Nehlásit zmìny u lidí, kteøí nejsou v seznamu kontaktù
+NehlĞ±sit zmĞ¼ny u lidĞ½, kteÑˆĞ½ nejsou v seznamu kontaktÑ‰
 [Blink icon in the system tray]
-Blikat v oznamovací èásti lišty
+Blikat v oznamovacĞ½ Ğ¸Ğ±sti liÑ™ty
 [Use status icon]
-Pouít ikonu stavu
+PouÑ›Ğ½t ikonu stavu
 [Sound options]
-Zvukovı vıstup
+ZvukovÑ vÑstup
 [Use Internal &Speaker]
-Pouít &interní reproduktor
+PouÑ›Ğ½t &internĞ½ reproduktor
 [&Avoid clipping]
-Pøede&jít pøebuzení
+PÑˆede&jĞ½t pÑˆebuzenĞ½
 [To select the sounds to play, click on "Sounds" in the menu on the left.]
-Pøiøadit zvuky konkrétním událostem lze nalevo v èásti "Události/Zvuky".
+PÑˆiÑˆadit zvuky konkrĞ¹tnĞ½m udĞ±lostem lze nalevo v Ğ¸Ğ±sti "UdĞ±losti/Zvuky".
 [Use individual sounds]
-Pouít individuální zvuky
+PouÑ›Ğ½t individuĞ±lnĞ½ zvuky
 [Log]
-Záznam
+ZĞ±znam
 [&Log status changes to file]
-&Zaznamenat informace o zmìnách
+&Zaznamenat informace o zmĞ¼nĞ±ch
 
 ; /resource.rc:IDD_INFO_SOUNDS
 [&Change]
-Z&mìnit...
+Z&mĞ¼nit...
 [&Preview]
-&Pøehrát
+&PÑˆehrĞ±t
 [&Delete]
 &Smazat
 [with sounds]
 se zvuky
 [with popups]
-s oznámeními
+s oznĞ±menĞ½mi
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Individuální zvuky jsou vypnuty.\n\nChcete-li je zapnout, pøejdìte do nabídky Monosti -> Stavy -> Oznámení\na povolte "Pouít individální zvuky". Poté se vrate na tento dialog.
+IndividuĞ±lnĞ½ zvuky jsou vypnuty.\n\nChcete-li je zapnout, pÑˆejdĞ¼te do nabĞ½dky MoÑ›nosti -> Stavy -> OznĞ±menĞ½\na povolte "PouÑ›Ğ½t individĞ±lnĞ½ zvuky". PotĞ¹ se vraÑœte na tento dialog.
 
 ; /resource.rc:IDD_AUTODISABLE
 [Automatically disable sounds or popups when I change to:]
-Automaticky vypnout oznámení a zvuky pøi zmìnì mého stavu:
+Automaticky vypnout oznĞ±menĞ½ a zvuky pÑˆi zmĞ¼nĞ¼ mĞ¹ho stavu:
 [OK]
 OK
 [Sounds]
 Zvuky
 [Cancel]
-Zrušit
+ZruÑ™it
 
 ; /resource.rc:IDD_NSN_OPT_EVENTS_ENABLE
 [Enable sound notifications for this contact]
-Povolit zvuková oznámení pro tento kontakt
+Povolit zvukovĞ± oznĞ±menĞ½ pro tento kontakt
 [Enable popup notifications for this contact]
-Povolit oznámení pro tento kontakt
+Povolit oznĞ±menĞ½ pro tento kontakt
 [Contact status change notifications]
-Oznámení zmìny stavu kontatu
+OznĞ±menĞ½ zmĞ¼ny stavu kontatu
 
 ; /resource.rc:IDD_NSN_OPT_POPUP
 [Colours]
 Barvy
 [Back]
-Pozadí
+PozadĞ½
 [Text]
 Text
 [Use cus&tom colors]
-Pouít vlastní barvy
+PouÑ›Ğ½t vlastnĞ½ barvy
 [Use &Windows colours]
-Pouít barvy Windows
+PouÑ›Ğ½t barvy Windows
 [Use Pop&up colours]
-Pouít barvy Oznámení
+PouÑ›Ğ½t barvy OznĞ±menĞ½
 [Use standard &descriptions]
-Pouít stan&dardní popis stavù
+PouÑ›Ğ½t stan&dardnĞ½ popis stavÑ‰
 [Read status &message]
-Naèíst auto&matickou odpovìï
+NaĞ¸Ğ½st auto&matickou odpovĞ¼Ğ¿
 [Show &previous status too]
-Zobrazit i &pøedchozí stav
+Zobrazit i &pÑˆedchozĞ½ stav
 [Timeout]
-Doba zobrazení
+Doba zobrazenĞ½
 [&From PopUp plugin]
-G&lobální nastavení
+G&lobĞ±lnĞ½ nastavenĞ½
 [&Custom]
-&Vlastní
+&VlastnĞ½
 [P&ermanent]
 Trval&e
 [Prev&iew]
-Náhled
+NĞ±hled
 [Popups on contact status change to:]
-Oznamovat tyto zmìny stavu:
+Oznamovat tyto zmĞ¼ny stavu:
 [On left click]
-Levé tlaèítko
+LevĞ¹ tlaĞ¸Ğ½tko
 [Dismiss]
-Vyøízeno
+VyÑˆĞ½zeno
 [Open message]
-Otevøít zprávu
+OtevÑˆĞ½t zprĞ±vu
 [On right click]
-Pravé tlaèítko
+PravĞ¹ tlaĞ¸Ğ½tko
 [Open user menu]
-Otevøít uiv. menu
+OtevÑˆĞ½t uÑ›iv. menu
 [Popup title]
-Popisek oznámení
+Popisek oznĞ±menĞ½
 [Show contact &group name]
-Zobrazit pøíslušnost ke skupinì
+Zobrazit pÑˆĞ½sluÑ™nost ke skupinĞ¼
 [Use &alternative descriptions]
-Pouít alternativní popisy
+PouÑ›Ğ½t alternativnĞ½ popisy
 
 ; ---

@@ -1,172 +1,172 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Facebook Protocol 0.1.3.11                              |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=4172
 ;
 
 [New notification]
-Nové upozornìní
+NovĞ¹ upozornĞ¼nĞ½
 [Default group for newly added contacts:]
-Vıchozí skupina pro novì pøidané kontakty:
+VÑchozĞ½ skupina pro novĞ¼ pÑˆidanĞ¹ kontakty:
 [Show cookies]
 Zobrazit cookies
 [User-Agent:]
 Identifikace:
 [Create a new Facebook account]
-Zøídit novı úèet na Facebooku
+ZÑˆĞ½dit novÑ ÑŠĞ¸et na Facebooku
 [Enable logging for debugging purposes]
-Povolit záznam pro úèely ladìní
+Povolit zĞ±znam pro ÑŠĞ¸ely ladĞ¼nĞ½
 [E-mail:]
 E-mail:
 [Enable notifications]
-Povolit upozornìní
+Povolit upozornĞ¼nĞ½
 [Enable feeds]
 Povolit novinky
 [Advanced Settings]
-Pokroèilé nastavení
+PokroĞ¸ilĞ¹ nastavenĞ½
 [Share]
-Sdílet
+SdĞ½let
 [What's on your mind?]
-Co se vám honí hlavou?
+Co se vĞ±m honĞ½ hlavou?
 [Set Facebook "What's on my mind" status through Miranda status]
-Nastavit "Co se vám honí hlavou" skrz stav Mirandy
+Nastavit "Co se vĞ±m honĞ½ hlavou" skrz stav Mirandy
 [Note: This option requires restart of Miranda IM to work properly.]
-Pozn.: Tato volba vyaduje restart programu Miranda IM.
+Pozn.: Tato volba vyÑ›aduje restart programu Miranda IM.
 
 [%s server connection]
-%s - spojení se serverem
+%s - spojenĞ½ se serverem
 [Unable to get Netlib connection for Facebook]
-Facebook: Chyba pøi zpracování síové komunikace.
+Facebook: Chyba pÑˆi zpracovĞ±nĞ½ sĞ½ÑœovĞ¹ komunikace.
 
 [You have %d unseen messages]
-Máte %d nepøeètenıch zpráv
+MĞ±te %d nepÑˆeĞ¸tenÑch zprĞ±v
 [Unseen messages]
-Nepøeètené zprávy
+NepÑˆeĞ¸tenĞ¹ zprĞ±vy
 
 [Sample event]
-Ukázková událost
+UkĞ±zkovĞ± udĞ±lost
 
 [Please enter a username.]
-Zadejte uivatelské jméno.
+Zadejte uÑ›ivatelskĞ¹ jmĞ¹no.
 [Please enter a password.]
 Zadejte heslo.
 
 [Probably wrong password entered, please try again.]
-Nejspíše jste zadali špatné heslo, zkuste jej zadat znovu.
+NejspĞ½Ñ™e jste zadali Ñ™patnĞ¹ heslo, zkuste jej zadat znovu.
 [Login error, probably bad login credentials.]
-Chyba pøi pøihlašování, moná máte špatné pøihlašovací údaje.
+Chyba pÑˆi pÑˆihlaÑ™ovĞ±nĞ½, moÑ›nĞ± mĞ±te Ñ™patnĞ¹ pÑˆihlaÑ™ovacĞ½ ÑŠdaje.
 [Got new friend requests: ]
-Novıch ádostí o pøátelství: 
+NovÑch Ñ›Ğ±dostĞ½ o pÑˆĞ±telstvĞ½: 
 [Got new messages: ]
-Novıch zpráv: 
+NovÑch zprĞ±v: 
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update, or you have Facebook Lite set as default.]
-Chyba pøi pøipojování k síti Facebook. Dùvodem mohou bıt vìtší zmìny na stranì serveru, co vyaduje zároveò zmìny na stranì Mirandy, nebo také to, e máte jako vıchozí úèet Facebook Lite.
+Chyba pÑˆi pÑˆipojovĞ±nĞ½ k sĞ½ti Facebook. DÑ‰vodem mohou bÑt vĞ¼tÑ™Ğ½ zmĞ¼ny na stranĞ¼ serveru, coÑ› vyÑ›aduje zĞ±roveÑ‚ zmĞ¼ny na stranĞ¼ Mirandy, nebo takĞ¹ to, Ñ›e mĞ±te jako vÑchozĞ½ ÑŠĞ¸et Facebook Lite.
 
 [Automatically close chat windows (on website)]
-Automaticky zavírat okna se zprávou (na webu)
+Automaticky zavĞ½rat okna se zprĞ±vou (na webu)
 [Other information]
-Ostatní informace
+OstatnĞ½ informace
 [Timeout (sec.)]
-Doba zobrazení (sek.)
+Doba zobrazenĞ½ (sek.)
 [News feeds]
 Novinky
 [(0 = default, -1 = infinity)]
-(0 = vıchozí, -1 = trvale)
+(0 = vÑchozĞ½, -1 = trvale)
 [Client popups]
-Oznámení klienta
+OznĞ±menĞ½ klienta
 [Notify events]
-Oznamovat události
+Oznamovat udĞ±losti
 
 [Sample newsfeed]
-Ukázková novinka
+UkĞ±zkovĞ± novinka
 [Sample request]
-Ukázkovı poadavek
+UkĞ±zkovÑ poÑ›adavek
 [Sample notification]
-Ukázkové upozornìní
+UkĞ±zkovĞ¹ upozornĞ¼nĞ½
 
 [Contacts Settings]
-Nastavení kontaktù
+NastavenĞ½ kontaktÑ‰
 [Default group:]
-Vıchozí skupina:
+VÑchozĞ½ skupina:
 [(0 = default, -1 = infinite)]
-(0 = vıchozí, -1 = trvale)
+(0 = vÑchozĞ½, -1 = trvale)
 [Use balloon notifications in system tray instead of popups]
-Místo klasického oznámení pouít bubliny v systémové lištì
+MĞ½sto klasickĞ¹ho oznĞ±menĞ½ pouÑ›Ğ½t bubliny v systĞ¹movĞ¹ liÑ™tĞ¼
 [Post Miranda statuses to Wall]
-Odesílat stav Mirandy na zeï Facebooku
+OdesĞ½lat stav Mirandy na zeĞ¿ Facebooku
 [Miranda IM (default)]
-Miranda IM (vıchozí)
+Miranda IM (vÑchozĞ½)
 [Automatically close chat windows on website]
-Automaticky zavøít komunikaèní okno na webu
+Automaticky zavÑˆĞ½t komunikaĞ¸nĞ½ okno na webu
 [Info Dialog]
 Informace
 [Request following type of News Feed items]
-Na které z novinek upozornit:
+Na kterĞ¹ z novinek upozornit:
 [Most recent]
-Nejnovìjší
+NejnovĞ¼jÑ™Ğ½
 [Your account settings require use of secure HTTP connection. This will be enabled in Options automatically.]
-Váš úèet vyaduje zabezpeèené spojení. Aktivováno.
+VĞ±Ñ™ ÑŠĞ¸et vyÑ›aduje zabezpeĞ¸enĞ¹ spojenĞ½. AktivovĞ±no.
 [Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
-Chyba pøi pøipojování k síti Facebook. Dùvodem mohou bıt vìtší zmìny na stranì serveru, co vyaduje zároveò zmìny na stranì Mirandy.
+Chyba pÑˆi pÑˆipojovĞ±nĞ½ k sĞ½ti Facebook. DÑ‰vodem mohou bÑt vĞ¼tÑ™Ğ½ zmĞ¼ny na stranĞ¼ serveru, coÑ› vyÑ›aduje zĞ±roveÑ‚ zmĞ¼ny na stranĞ¼ Mirandy.
 
 ; Facebook Protocol RM 0.0.8.0
 [Automatically set 'Ignore status change' flag]
-Automaticky ignorovat zmìnu stavu
+Automaticky ignorovat zmĞ¼nu stavu
 [Use bigger avatars]
-Zobrazit vìtší avatary
+Zobrazit vĞ¼tÑ™Ğ½ avatary
 [Load contacts with 'On the Mobile' status]
-Naèíst i kontakty s mobilním pøipojením
+NaĞ¸Ğ½st i kontakty s mobilnĞ½m pÑˆipojenĞ½m
 [Force secure (HTTPS) connection]
-Pouít zabezpeèené spojení (HTTPS)
+PouÑ›Ğ½t zabezpeĞ¸enĞ¹ spojenĞ½ (HTTPS)
 [Use secure connection also for channel requests]
-Zabezpeèit i servisní spojení
+ZabezpeĞ¸it i servisnĞ½ spojenĞ½
 [Post Miranda status to Wall]
-Odesílat stav Mirandy na zeï Facebooku
+OdesĞ½lat stav Mirandy na zeĞ¿ Facebooku
 [Also disconnect chat when going to offline]
-Po odpojení zároveò odejít i z diskuse
+Po odpojenĞ½ zĞ±roveÑ‚ odejĞ½t i z diskuse
 [Automatically close chat windows (on website) (NOT WORKING)]
-Automaticky zavøít komunikaèní okno na webu (NEFUNKÈNÍ)
+Automaticky zavÑˆĞ½t komunikaĞ¸nĞ½ okno na webu (NEFUNKĞ˜NĞ)
 [Map non-standard statuses to Invisible (instead of Online)]
-Pro nestandardní stavy pouít Neviditelnı (nikoli Online)
+Pro nestandardnĞ½ stavy pouÑ›Ğ½t NeviditelnÑ (nikoli Online)
 [Get unread messages on login (EXPERIMENTAL)]
-Po pøipojení stáhnout nepøeètené zprávy (EXPERIMENTÁLNÍ)
+Po pÑˆipojenĞ½ stĞ±hnout nepÑˆeĞ¸tenĞ¹ zprĞ±vy (EXPERIMENTĞ‘LNĞ)
 [Enable groupchats support (EXPERIMENTAL)]
-Povolit skupinové diskuse (EXPERIMENTÁLNÍ)
+Povolit skupinovĞ¹ diskuse (EXPERIMENTĞ‘LNĞ)
 [Visit Profile]
 Zobrazit profil
 [Request friendship]
-Poádat o pøátelství
+PoÑ›Ğ±dat o pÑˆĞ±telstvĞ½
 [Cancel friendship]
-Zrušit pøátelství
+ZruÑ™it pÑˆĞ±telstvĞ½
 [Approve friendship]
-Potvrdit pøátelství
+Potvrdit pÑˆĞ±telstvĞ½
 [View &Profile]
 Zobrazit profil
 [News Feed]
 Novinky
 [Other Event]
-Ostatní
+OstatnĞ½
 [Client notifications]
-Upozornìní klienta
+UpozornĞ¼nĞ½ klienta
 [News Feed types to notify:]
-Na které z novinek upozornit:
+Na kterĞ¹ z novinek upozornit:
 [Most Recent]
-Nejnovìjší
+NejnovĞ¼jÑ™Ğ½
 [Status Updates]
-Zmìny stavu
+ZmĞ¼ny stavu
 [Top News]
-Hlavní zprávy
+HlavnĞ½ zprĞ±vy
 [Photos]
 Fotografie
 [Your account requires HTTPS connection. Activating.]
-Váš úèet vyaduje zabezpeèené spojení. Aktivováno.
+VĞ±Ñ™ ÑŠĞ¸et vyÑ›aduje zabezpeĞ¸enĞ¹ spojenĞ½. AktivovĞ±no.
 [Facebook Icon]
 Ikona
 [Mind]
-Stavová zpráva
+StavovĞ± zprĞ±va
 [Mind...]
-Stavová zpráva...
+StavovĞ± zprĞ±va...
 
 ; ---

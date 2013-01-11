@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Version Information 1.4.3.3                             |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2351
 ;
 
@@ -12,15 +12,15 @@
 
 ; CVersionInfo.cpp
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-V pøípadì, e ohlásíte chybu pomocí tohoto formuláøe, nezapomeòte se obèas podívat na webovou stránku doplòku.\nJe velmi pravdìpodobné, e programátoøi vás budou ádat o upøesnìní nebo jinou pomoc.\nV mnoha pøípadech se bez vaší asistence chybu nepodaøí opravit.
+V pÑˆĞ½padĞ¼, Ñ›e ohlĞ±sĞ½te chybu pomocĞ½ tohoto formulĞ±Ñˆe, nezapomeÑ‚te se obĞ¸as podĞ½vat na webovou strĞ±nku doplÑ‚ku.\nJe velmi pravdĞ¼podobnĞ¹, Ñ›e programĞ±toÑˆi vĞ±s budou Ñ›Ğ±dat o upÑˆesnĞ¼nĞ½ nebo jinou pomoc.\nV mnoha pÑˆĞ½padech se bez vaÑ™Ğ½ asistence chybu nepodaÑˆĞ½ opravit.
 [Information successfully written to file: \"%s\".]
-Souhrnné informace uloeny do souboru: '%s'.
+SouhrnnĞ¹ informace uloÑ›eny do souboru: '%s'.
 [Error during the creation of file \"%s\". Disk may be full or write protected.]
-Chyba pøi vytváøení souboru '%s'. Není disk chránìn proti zápisu?
+Chyba pÑˆi vytvĞ±ÑˆenĞ½ souboru '%s'. NenĞ½ disk chrĞ±nĞ¼n proti zĞ±pisu?
 [The clipboard is not available, retry.]
-Chyba pøi práci se schránkou. Zkuste pozdìji.
+Chyba pÑˆi prĞ±ci se schrĞ±nkou. Zkuste pozdĞ¼ji.
 [Information successfully copied into clipboard.]
-Poadované informace byly zkopírovány do schránky.
+PoÑ›adovanĞ¹ informace byly zkopĞ½rovĞ±ny do schrĞ±nky.
 
 ; main.cpp
 [Version Information]
@@ -29,60 +29,60 @@ Informace o verzi
 
 ; utils.cpp
 [Ok, something went wrong in the \"%s\" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]
-Chyba v nastavení '%s'. Pošlete nám prosím následující údaje:\nModul: %X\nChybovı kód: %X\nÈíslo øádku: %d
+Chyba v nastavenĞ½ '%s'. PoÑ™lete nĞ±m prosĞ½m nĞ±sledujĞ½cĞ½ ÑŠdaje:\nModul: %X\nChybovÑ kÑƒd: %X\nĞ˜Ğ½slo ÑˆĞ±dku: %d
 
 ; resource.rc
 [Add a menu item to the main Miranda Menu]
-Pøidat poloku do hlavního menu
+PÑˆidat poloÑ›ku do hlavnĞ½ho menu
 [Text file]
-Textovı soubor
+TextovÑ soubor
 [MessageBox()]
 Funkce MessageBox()
 [DialogBox]
-Dialogové okno
+DialogovĞ¹ okno
 [Show disabled plugins too]
-Vypsat i neaktivní doplòky
+Vypsat i neaktivnĞ½ doplÑ‚ky
 [OutputDebugString()]
 Funkce OutputDebugString()
 [Clipboard]
-Schránka
+SchrĞ±nka
 [Enable debug messages]
-Povolit ladicí informace
+Povolit ladicĞ½ informace
 [Forum style formatting]
-Zformátovat vıstup pomocí BBCode
+ZformĞ±tovat vÑstup pomocĞ½ BBCode
 [Also copy info to clipboard]
-Zároveò zkopírovat do schránky
+ZĞ±roveÑ‚ zkopĞ½rovat do schrĞ±nky
 [Show window in taskbar]
-Zobrazit na hlavním panelu
+Zobrazit na hlavnĞ½m panelu
 [Show version number in bold]
-Informaci o verzi zobrazit tuènì
+Informaci o verzi zobrazit tuĞ¸nĞ¼
 [Do it now]
-Provést nyní
+ProvĞ¹st nynĞ½
 ;(DUP) [Close]
 [&Copy text]
-Z&kopírovat
+Z&kopĞ½rovat
 [You will need to restart Miranda to add/remove the menu item.]
-Pøidání a odebrání poloky v menu vyaduje restart Mirandy.
+PÑˆidĞ±nĞ½ a odebrĞ±nĞ½ poloÑ›ky v menu vyÑ›aduje restart Mirandy.
 [Output to:]
-Vıstup do:
+VÑstup do:
 [Miranda Version Information]
-Informace o Mirandì
+Informace o MirandĞ¼
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Attempt to find unloadable plugins (doesn't work on Windows 98)]
-Pokusit se najít nefunkèní doplòky (nefunguje ve Windows 98)
+Pokusit se najĞ½t nefunkĞ¸nĞ½ doplÑ‚ky (nefunguje ve Windows 98)
 [Ask every time]
-Pokadé se zeptat
+PokaÑ›dĞ¹ se zeptat
 [Select output:]
-Vyberte vıstup
+Vyberte vÑstup
 [Highlight version number using]
-Zvıraznit èíslo verze pomocí
+ZvÑraznit Ğ¸Ğ½slo verze pomocĞ½
 [Suppress header information]
-Nevypisovat informace o doplòku a autorech
+Nevypisovat informace o doplÑ‚ku a autorech
 [Services]
-Sluby
+SluÑ›by
 [Upload site settings]
-Úloištì dat
+ĞªloÑ›iÑ™tĞ¼ dat
 [Upload to site]
 Poslat na server
 [Upload]
@@ -90,16 +90,16 @@ Poslat na server
 [&Save to file]
 -> &soubor
 [Aditional options:]
-Ostatní monosti
+OstatnĞ½ moÑ›nosti
 [Collects and prints information related to Miranda, the plugins and the OS.]
-Souhrn podrobnıch informací o programu Miranda, doplòcích a operaèním systému.
+Souhrn podrobnÑch informacĞ½ o programu Miranda, doplÑ‚cĞ½ch a operaĞ¸nĞ½m systĞ¹mu.
 [Show plugin UUIDs]
-Vypsat identifikátory doplòkù
+Vypsat identifikĞ±tory doplÑ‚kÑ‰
 
 [Show installed languages]
-Zobrazit nainstalované pøeklady
+Zobrazit nainstalovanĞ¹ pÑˆeklady
 [Customize using folders plugin]
-Urèit pomocí doplòku Folders
+UrĞ¸it pomocĞ½ doplÑ‚ku Folders
 
 ; nove retezce pro verzi 1.4.3.3 - Soustruh
 ; tyto retezce uz v originale presahuji vymezeny prostor (v clist_modern: Vlastni upravy - Tlacitkova lista)
@@ -116,6 +116,6 @@ Informace o verzi
 [To File]
 Do souboru
 [To Clipboard]
-Do schránky
+Do schrĞ±nky
 
 ; ---

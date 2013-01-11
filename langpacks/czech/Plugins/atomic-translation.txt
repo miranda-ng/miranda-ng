@@ -1,45 +1,45 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Atomic 0.6.0.0                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; PÑˆeklad: madmojo <madmojo (zavinĞ±Ğ¸) kdynenet (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [The addressfield is empty!]
-Zadejte prosím adresu serveru!
+Zadejte prosĞ½m adresu serveru!
 ;(DUP) [Plugins]
 [Failed to load Winsock!]
-Chyba pøi naèítání modulu Winsock!
+Chyba pÑˆi naĞ¸Ğ½tĞ±nĞ½ modulu Winsock!
 [Atomic requires another version of Winsock!]
-Atomic vyaduje novìjší verzi modulu Winsock!
+Atomic vyÑ›aduje novĞ¼jÑ™Ğ½ verzi modulu Winsock!
 [Time was successfully synchronised!]
-Èas byl úspìšnì synchronizován!
+Ğ˜as byl ÑŠspĞ¼Ñ™nĞ¼ synchronizovĞ±n!
 [Failed to set the local time!]
-Chyba pøi nastavování místního èasu!
+Chyba pÑˆi nastavovĞ±nĞ½ mĞ½stnĞ½ho Ğ¸asu!
 [Time difference was greater was 1 hour, not synchronizing clock!]
-Rozdíl èasu je vìtší ne 1 hodina; hodiny nesynchronizovány!
+RozdĞ½l Ğ¸asu je vĞ¼tÑ™Ğ½ neÑ› 1 hodina; hodiny nesynchronizovĞ±ny!
 [Could not connect to any of the servers in the database!]
-Nelze navázat spojení s ádnım ze serverù v databázi!
+Nelze navĞ±zat spojenĞ½ s Ñ›Ğ±dnÑm ze serverÑ‰ v databĞ±zi!
 [Could not find any address in the database!]
-V databázi není definovaná ádná poloka!
+V databĞ±zi nenĞ½ definovanĞ± Ñ›Ğ±dnĞ± poloÑ›ka!
 ;(DUP) [seconds]
 [Synchronization statistics]
 Statistika synchronizace
 [Client originate date and time:]
-Pùvodní datum a èas klienta:
+PÑ‰vodnĞ½ datum a Ğ¸as klienta:
 [Server receive date and time:]
-Datum a èas serveru pøi pøijetí:
+Datum a Ğ¸as serveru pÑˆi pÑˆijetĞ½:
 [Server transmit date and time:]
-Datum a èas serveru pøi odeslání:
+Datum a Ğ¸as serveru pÑˆi odeslĞ±nĞ½:
 [Client destination date and time:]
-Cílové datum a èas klienta:
+CĞ½lovĞ¹ datum a Ğ¸as klienta:
 [Round trip delay:]
-Odchylka pøi odeslání-pøijetí:
+Odchylka pÑˆi odeslĞ±nĞ½-pÑˆijetĞ½:
 [Local clock offset was:]
-Rozdíl místního a èasu na serveru:
+RozdĞ½l mĞ½stnĞ½ho a Ğ¸asu na serveru:
 [Servers]
-Èasové servery
+Ğ˜asovĞ¹ servery
 [Server A:]
 Server A:
 [Server B:]
@@ -51,18 +51,18 @@ Server D:
 [Server E:]
 Server E:
 [Test]
-Ovìøit
+OvĞ¼Ñˆit
 [Options for automatic retrievel]
-Automatická synchronizace
+AutomatickĞ± synchronizace
 [Retrive time automatically at startup]
-Synchronizovat automaticky pøi startu
+Synchronizovat automaticky pÑˆi startu
 [Wait 25 seconds before connecting]
-Pøed navázáním spojení poèkat 25 s
+PÑˆed navĞ±zĞ±nĞ½m spojenĞ½ poĞ¸kat 25 s
 [Show a message when time has been set]
-Pøi nastavení èasu zobrazit zprávu
+PÑˆi nastavenĞ½ Ğ¸asu zobrazit zprĞ±vu
 [Play a soundfile when time has been set]
-Pøi nastavení èasu pøehrát zvuk
+PÑˆi nastavenĞ½ Ğ¸asu pÑˆehrĞ±t zvuk
 [Update frequency (hours)]
-Èasovı interval (v hod.)
+Ğ˜asovÑ interval (v hod.)
 
 ; ---

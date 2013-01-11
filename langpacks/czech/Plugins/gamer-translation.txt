@@ -1,123 +1,123 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Gamer Plugin 0.0.3.1                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; PÑˆeklad: MiSHAK <imishak (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://exitus.redio.de/gamer/unicode/gamerW.zip
 ;
 
 [Gamer Plugin]
-Hráèskı doplòek
+HrĞ±Ğ¸skÑ doplÑ‚ek
 [Network interface used by games:]
-Síové rozhraní pouívané hrami:
+SĞ½ÑœovĞ¹ rozhranĞ½ pouÑ›Ğ½vanĞ¹ hrami:
 [       Enable process checking]
-       Povolit kontrolování procesù
+       Povolit kontrolovĞ±nĞ½ procesÑ‰
 [Check running processes every]
-Kontrolovat bìící procesy kadıch
+Kontrolovat bĞ¼Ñ›Ğ½cĞ½ procesy kaÑ›dÑch
 [Group name]
-Jméno skupiny
+JmĞ¹no skupiny
 [Process count]
-Poèet procesù
+PoĞ¸et procesÑ‰
 [Change Status?]
-Zmìnit stav?
+ZmĞ¼nit stav?
 [Only Message?]
-Jen zpráva?
+Jen zprĞ±va?
 [Don't change when]
-Nemìnit kdy
+NemĞ¼nit kdyÑ›
 [Set status back?]
-Navrátit pùvodní stav?
+NavrĞ±tit pÑ‰vodnĞ½ stav?
 [will be enabled]
 budou povoleny
 [will be disabled]
-budou zakázány
+budou zakĞ±zĞ±ny
 [Processlist]
 Procesy
 [.exe name]
-jméno .exe
+jmĞ¹no .exe
 [Application name]
-Jméno aplikace
+JmĞ¹no aplikace
 [While process is running:]
-Pokud je proces spuštìn:
+Pokud je proces spuÑ™tĞ¼n:
 [Popups should]
-Oznámení by mìly
+OznĞ±menĞ½ by mĞ¼ly
 [Sound should]
-Zvuky by mìly
+Zvuky by mĞ¼ly
 [be disabled]
-bıt zakázány
+bÑt zakĞ±zĞ±ny
 [be enabled]
-bıt povoleny
+bÑt povoleny
 [stay as they are]
-zùstat tak jak jsou
+zÑ‰stat tak jak jsou
 [Profile name:]
-Jméno profilu:
+JmĞ¹no profilu:
 [       Change status when running process is found]
-       Zmìnit stav pokud proces je spuštìn
+       ZmĞ¼nit stav pokud proces je spuÑ™tĞ¼n
 [Change status mode to:]
-Zmìnit stav na:
+ZmĞ¼nit stav na:
 [Dont change status, only set new message]
-Nemìnit stav, jen nastavit novou zprávu
+NemĞ¼nit stav, jen nastavit novou zprĞ±vu
 [Dont change when]
-Nemìnit status kdy jsem
+NemĞ¼nit status kdyÑ› jsem
 [Restore old status and message when application is closed]
-Navrátit pùvodní stav a zprávu po ukonèení aplikace
+NavrĞ±tit pÑ‰vodnĞ½ stav a zprĞ±vu po ukonĞ¸enĞ½ aplikace
 [If an defined application (.exe) is running, it shows the associated 'Application' string]
-Pokud je spuštena definovaná aplikace (.exe), zobrazí pøiøazenı øetìzec 'Jméno aplikace'
+Pokud je spuÑ™tena definovanĞ± aplikace (.exe), zobrazĞ½ pÑˆiÑˆazenÑ ÑˆetĞ¼zec 'JmĞ¹no aplikace'
 [Shows the current server ip playing on]
-Zobrazí IP adresu a port serveru na kterém hrajete
+ZobrazĞ½ IP adresu a port serveru na kterĞ¹m hrajete
 [Shows the map name]
-Zobrazí název mapy
+ZobrazĞ½ nĞ±zev mapy
 [Shows the mod name]
-Zobrazí jméno modifikace hry
+ZobrazĞ½ jmĞ¹no modifikace hry
 [Shows the number of players on the server]
-Zobrazí poèet hráèù na serveru
+ZobrazĞ½ poĞ¸et hrĞ±Ğ¸Ñ‰ na serveru
 [Querys the given server]
-Zjistí informace o daném serveru
+ZjistĞ½ informace o danĞ¹m serveru
 [Shows the server name]
-Zobrazí jméno serveru
+ZobrazĞ½ jmĞ¹no serveru
 [Shows the number of slots]
-Zobrazí poèet slotù
+ZobrazĞ½ poĞ¸et slotÑ‰
 
 [The network interface which was used previously wasn't found.\nTrying to find another one...]
-Døíve pouívané síové zaøízení nelze nalézt.\nProbíhá hledání jiného...
+DÑˆĞ½ve pouÑ›Ğ½vanĞ¹ sĞ½ÑœovĞ¹ zaÑˆĞ½zenĞ½ nelze nalĞ¹zt.\nProbĞ½hĞ± hledĞ±nĞ½ jinĞ¹ho...
 
 ; aktualizace na novou verzi
 ; gamer plugin 0.0.3.1
 [The status of "pushed-down" protocols won't be changed]
-Stav "zamáèknutıch" protokolù nebude mìnìn
+Stav "zamĞ±Ğ¸knutÑch" protokolÑ‰ nebude mĞ¼nĞ¼n
 [You can use different settings for every protocol.]
-Mùete pouít rùzné nastavení pro kadı protokol.
+MÑ‰Ñ›ete pouÑ›Ğ½t rÑ‰znĞ¹ nastavenĞ½ pro kaÑ›dÑ protokol.
 [Use per-protocol settings?]
-Nastavení pro kadı protokol zvláš?
+NastavenĞ½ pro kaÑ›dÑ protokol zvlĞ±Ñ™Ñœ?
 
-;jen doplnìní
+;jen doplnĞ¼nĞ½
 [Profile Name:]
-Název profilu:
+NĞ±zev profilu:
 [Add empty profile]
-Pøidat prázdnı profil
+PÑˆidat prĞ±zdnÑ profil
 [Process List]
-Seznam procesù
+Seznam procesÑ‰
 [Copy this profile]
-Zkopírovat vybranı profil
+ZkopĞ½rovat vybranÑ profil
 [       Use per-protocol settings]
-       Pouít nastavení pro kadı protokol zvláš
+       PouÑ›Ğ½t nastavenĞ½ pro kaÑ›dÑ protokol zvlĞ±Ñ™Ñœ
 [Popups should ... while process is running]
-Oznámení by mìlo ... dokud je proces spuštìn
+OznĞ±menĞ½ by mĞ¼lo ... dokud je proces spuÑ™tĞ¼n
 [Sounds should ... while process is running]
-Zvuky by mìly ... dokud je proces spuštìn
+Zvuky by mĞ¼ly ... dokud je proces spuÑ™tĞ¼n
 [Hint: Enter complete path to make sure the correct process is recognized.]
 Pozn.: Enter complete path to make sure the correct process is recognized.
 [Only message?]
-Pouze zprávu?
+Pouze zprĞ±vu?
 ;[The status of "pushed-down" protocols won't be changed]
 ;[You can use different settings for every protocol.]
 ;[Use per-protocol settings?]
 [Change status?]
-Zmìnit stav?
+ZmĞ¼nit stav?
 [Change Status]
-Zmìnit stav
+ZmĞ¼nit stav
 [Add new process to list]
-Pøidat novı proces do seznamu
+PÑˆidat novÑ proces do seznamu
 [.exe name/path]
-.exe název/cesta
+.exe nĞ±zev/cesta
 
 ; ---

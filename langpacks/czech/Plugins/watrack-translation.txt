@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Winamp Track 0.0.6.10                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://awkward.mirandaim.ru
 ;
 ; c:\worx\miranda_cz\to_parse\frame\frameunit.pas
@@ -10,65 +10,65 @@
 
 ; c:\worx\miranda_cz\to_parse\frame\frameunit.pas
 [All Bitmaps]
-Všechny bitmapy
+VÑ™echny bitmapy
 [Frame]
 Okno
 
 ; c:\worx\miranda_cz\to_parse\frame\frm.rc
 [Use frame]
-Pouít okno
+PouÑ›Ğ½t okno
 [Show info in the frame]
-Zobrazit v oknì informace
+Zobrazit v oknĞ¼ informace
 [Show controls in the frame]
-Zobrazit v oknì ovl.prvky
+Zobrazit v oknĞ¼ ovl.prvky
 [Show volume controls]
-Zobrazit v oknì hlasitost
+Zobrazit v oknĞ¼ hlasitost
 [Alpha]
-Prùhlednost
+PrÑ‰hlednost
 [Background color]
-Barva pozadí
+Barva pozadĞ½
 [Use Picture]
-Vloit obrázek
+VloÑ›it obrĞ±zek
 [...]
 ...
 [Use cover instead of picture]
-Namísto obrázku vkládat obal
+NamĞ½sto obrĞ±zku vklĞ±dat obal
 [STATIC]
-Statickı
+StatickÑ
 [Center horizontally]
-Centrovat vodorovnì
+Centrovat vodorovnĞ¼
 [Center vertically]
 Centrovat svisle
 [Bottom]
 Dole
 [Tile horizontally]
-Vodorovnì vedle sebe
+VodorovnĞ¼ vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Right]
 Vpravo
 [Stretch to width]
-Uzpùsobit na šíøku
+UzpÑ‰sobit na Ñ™Ğ½Ñˆku
 [Stretch to height]
-Uzpùsobit na vıšku
+UzpÑ‰sobit na vÑÑ™ku
 [Stretch proportionally]
-Uzpùsobit pomìrnì
+UzpÑ‰sobit pomĞ¼rnĞ¼
 [Use styled trackbar]
-Stylovat posuvník pøehrávání
+Stylovat posuvnĞ½k pÑˆehrĞ±vĞ±nĞ½
 [Show trackbar]
-Zobrazit posuvník pøehrávání
+Zobrazit posuvnĞ½k pÑˆehrĞ±vĞ±nĞ½
 [Frame refresh time]
-Obnovování okna
+ObnovovĞ±nĞ½ okna
 [Use buttons gap]
-Rozestoupit ovládací prvky
+Rozestoupit ovlĞ±dacĞ½ prvky
 [Hide frame when player not found]
-Skrıt okno, pokud není pøehrávaè nalezen
+SkrÑt okno, pokud nenĞ½ pÑˆehrĞ±vaĞ¸ nalezen
 [Hide frame when no music played]
-Skrıt okno, kdy nic nehraje
+SkrÑt okno, kdyÑ› nic nehraje
 [Cover padding]
 Okraje obalu
 [Choose font...]
-Vybrat písmo...
+Vybrat pĞ½smo...
 [Text effect]
 Efekt textu
 [Cut]
@@ -86,179 +86,179 @@ Pohyb textu
 [Text rotation speed (1-20)]
 Rychlost rotace textu (1-20)
 [Scroll step]
-Krokování
+KrokovĞ±nĞ½
 [Scroll gap]
 Prodleva
 [Minimum scroll tail]
-Minimální pøesah pro rolování
+MinimĞ±lnĞ½ pÑˆesah pro rolovĞ±nĞ½
 
 ; c:\worx\miranda_cz\to_parse\popup\popup.rc
 [Show popup]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [Show file name in info]
-Zobrazit v oznámení název souboru
+Zobrazit v oznĞ±menĞ½ nĞ±zev souboru
 [Delay]
 Prodleva
 [sec]
 sek.
 [Default]
-Vıchozí
+VÑchozĞ½
 [Custom]
-Vlastní
+VlastnĞ½
 [Permanent]
 Trvale
 [Actions]
 Akce
 [Close]
-Zavøít
+ZavÑˆĞ½t
 [Info]
 Info
 [Show player]
-Zobrazit pøehrávaè
+Zobrazit pÑˆehrĞ±vaĞ¸
 [Next track]
-Další stopa
+DalÑ™Ğ½ stopa
 [Left click]
-Levé tlaè.
+LevĞ¹ tlaĞ¸.
 [Right click]
-Pravé tlaè.
+PravĞ¹ tlaĞ¸.
 [Colors]
 Barvy
 [Background]
-Pozadí
+PozadĞ½
 [Default colors]
-Vıchozí barvy
+VÑchozĞ½ barvy
 [Windows colors]
 Barvy Windows
 [Custom colors]
-Vlastní barvy
+VlastnĞ½ barvy
 [Text]
 Text
 [Test]
-Ovìøit
+OvĞ¼Ñˆit
 [Show by request only]
-Zobrazit jen na vyádání
+Zobrazit jen na vyÑ›Ğ±dĞ±nĞ½
 [Hotkey]
-Klávesy
+KlĞ±vesy
 [Global hotkey]
-Globální klávesová zkratka
+GlobĞ±lnĞ½ klĞ±vesovĞ± zkratka
 
 ; c:\worx\miranda_cz\to_parse\popup\popups.pas
 [WATrack/Controls]
-Tlaèítka
+TlaĞ¸Ğ½tka
 [Music Info]
-Informace o hudbì
+Informace o hudbĞ¼
 
 ; c:\worx\miranda_cz\to_parse\res\dlgopt.rc
 [Refresh time, sec]
 Aktualizace (v sek.)
 [Unicode to Ansi translation codepage:]
-Kódování jazyka, definice skriptu:
+KÑƒdovĞ±nĞ½ jazyka, definice skriptu:
 [Options]
-Monosti
+MoÑ›nosti
 [Insert in messages]
-Vloit do zprávy
+VloÑ›it do zprĞ±vy
 [Use status messages]
-Pouít zprávu stavu
+PouÑ›Ğ½t zprĞ±vu stavu
 [Use XStatus]
-Pouít rozšíøenı stav
+PouÑ›Ğ½t rozÑ™Ğ½ÑˆenÑ stav
 [Independed XStatus]
-Nezávislı rozšíøenı stav
+NezĞ±vislÑ rozÑ™Ğ½ÑˆenÑ stav
 [Use process implantation]
 Implantovat proces
 [Simple Template mode]
-Reim zjednodušenıch šablon
+ReÑ›im zjednoduÑ™enÑch Ñ™ablon
 [Clear xStatus before set new one]
-Pøed nastavením rozšíøeného stavu nastavit prázdnı
+PÑˆed nastavenĞ½m rozÑ™Ğ½ÑˆenĞ¹ho stavu nastavit prĞ±zdnÑ
 [Use existing XStatus]
-Pouít existující rozš. stav
+PouÑ›Ğ½t existujĞ½cĞ½ rozÑ™. stav
 [Only if 'Music' status was set]
-Pouze pro rozšíøenı stav 'Hudba'
+Pouze pro rozÑ™Ğ½ÑˆenÑ stav 'Hudba'
 [Keep 'Music' XStatus]
-Ponechat rozšíøenı stav 'Hudba' i po vypnutí pøehrávaèe
+Ponechat rozÑ™Ğ½ÑˆenÑ stav 'Hudba' i po vypnutĞ½ pÑˆehrĞ±vaĞ¸e
 [Replace underlines with spaces]
-Nahradit podtrítka mezerami
+Nahradit podtrÑ›Ğ½tka mezerami
 [Check file time]
-Zjišovat èas ze souboru
+ZjiÑ™Ñœovat Ğ¸as ze souboru
 [Other thread handle check]
-Zjištìní handle v jiném vláknì
+ZjiÑ™tĞ¼nĞ½ handle v jinĞ¹m vlĞ±knĞ¼
 [Keep old file]
-Ponechat starı soubor
+Ponechat starÑ soubor
 [Notes]
-Poznámky
+PoznĞ±mky
 [Color]
 Barva
 [Format]
-Formát
+FormĞ±t
 [Variables]
-Promìnné
+PromĞ¼nnĞ¹
 [Normal]
-Normální
+NormĞ±lnĞ½
 [No Music]
-ádná hudba
+Ğ‹Ğ±dnĞ± hudba
 [No Player]
-ádnı pøehrávaè
+Ğ‹Ğ±dnÑ pÑˆehrĞ±vaĞ¸
 [Protocols]
 Protokoly
 [Statuses]
 Stavy
 [User message]
-Zpráva uivateli
+ZprĞ±va uÑ›ivateli
 [Channel message]
-Zpráva na kanál
+ZprĞ±va na kanĞ±l
 [Reset]
 Reset
 [Template]
-Šablona
+Ğ‰ablona
 [[X]Status Title / Text]
-Záhlaví a text rozšíøeného stavu
+ZĞ±hlavĞ½ a text rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [Video]
 Video
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-Toto je zjednodušená verze editoru. Tyto šablony budou pouity na všechny protokoly, stavy a pøehrávaèe.
+Toto je zjednoduÑ™enĞ± verze editoru. Tyto Ñ™ablony budou pouÑ›ity na vÑ™echny protokoly, stavy a pÑˆehrĞ±vaĞ¸e.
 [Chat Template]
-Šablona chatu
+Ğ‰ablona chatu
 [Popup Title / Text]
-Záhlaví a text oznámení
+ZĞ±hlavĞ½ a text oznĞ±menĞ½
 [Frame Text]
-Text v oknì
+Text v oknĞ¼
 [Export Text]
 Text k exportu
 [FileSize text format]
-Zobrazení velikosti souboru
+ZobrazenĞ½ velikosti souboru
 [File size]
 Vel. souboru
 [Bytes]
-bajtù
+bajtÑ‰
 [Kilobytes]
-kilobajtù
+kilobajtÑ‰
 [Megabytes]
-megabajtù
+megabajtÑ‰
 [Precision]
-Pøesnost
+PÑˆesnost
 [Postfix]
-Pøípona
+PÑˆĞ½pona
 [none]
 ---
 [lowercase %type%]
-%type% malımi písmeny
+%type% malÑmi pĞ½smeny
 [Formats]
-Formáty
+FormĞ±ty
 [VBR or empty]
-VBR nebo prázdné
+VBR nebo prĞ±zdnĞ¹
 [VBR or CBR]
 VBR nebo CBR
 [Players list]
-Seznam pøehrávaèù
+Seznam pÑˆehrĞ±vaĞ¸Ñ‰
 [Player name letters]
-Název pøehrávaèe
+NĞ±zev pÑˆehrĞ±vaĞ¸e
 [All uppercase]
-Vše velkımi písmeny
+VÑ™e velkÑmi pĞ½smeny
 [Do not change]
-Nemìnit
+NemĞ¼nit
 [All lowercase]
-Vše malımi písmeny
+VÑ™e malÑmi pĞ½smeny
 [Emulate Multimedia keys]
-Emulovat multimediální klávesy
+Emulovat multimediĞ±lnĞ½ klĞ±vesy
 [Check]
 Kontrola
 [None]
@@ -268,125 +268,125 @@ OK
 [WATrack Macro Info]
 Informace o makru WATrack 
 [Text insertion to other Apps]
-Vkládání textu do dalších aplikací
+VklĞ±dĞ±nĞ½ textu do dalÑ™Ğ½ch aplikacĞ½
 [Cover filenames]
-Názvy obalù
+NĞ±zvy obalÑ‰
 [Share music list]
-Sdílet seznam hudby
+SdĞ½let seznam hudby
 [Save events in database]
-Ukládat události do databáze
+UklĞ±dat udĞ±losti do databĞ±ze
 [Input]
 Vstup
 [Output]
-Vıstup
+VÑstup
 [Music Info Request]
-Poadavky na info o hudbì
+PoÑ›adavky na info o hudbĞ¼
 [Request Error]
-Chyby poadavkù
+Chyby poÑ›adavkÑ‰
 [Save ignored requests]
-Ukládat ignorované poadavky
+UklĞ±dat ignorovanĞ¹ poÑ›adavky
 [Answer to ignored requests]
-Odpovídat na ignorované poadavky
+OdpovĞ½dat na ignorovanĞ¹ poÑ›adavky
 
 ; c:\worx\miranda_cz\to_parse\stat\stat.rc
 [Disable Log]
-Vypnout záznam
+Vypnout zĞ±znam
 [Delete]
 Smazat
 [Statistic log file]
-Soubor se statistickımi údaji
+Soubor se statistickÑmi ÑŠdaji
 [Sort]
-Seøadit
+SeÑˆadit
 [Autosort period, days]
-Perioda autom. tøídìní (dny)
+Perioda autom. tÑˆĞ½dĞ¼nĞ½ (dny)
 [Report file]
-Soubor se zápisem
+Soubor se zĞ±pisem
 [Report]
-Zápis
+ZĞ±pis
 [Template file]
-Soubor šablony
+Soubor Ñ™ablony
 [Export default]
 Exportovat
 [Show in report]
-Zobrazit v zápisu
+Zobrazit v zĞ±pisu
 [Freq. songs]
-Poèet opakování písní
+PoĞ¸et opakovĞ±nĞ½ pĞ½snĞ½
 [Freq. artists]
-Poèet opakování interpretù
+PoĞ¸et opakovĞ±nĞ½ interpretÑ‰
 [Freq. album]
-Poèet opakování alba
+PoĞ¸et opakovĞ±nĞ½ alba
 [Freq. paths]
-Poèet opakování adresáøù
+PoĞ¸et opakovĞ±nĞ½ adresĞ±ÑˆÑ‰
 [Last played songs]
-Naposledy hrané písnì
+Naposledy hranĞ¹ pĞ½snĞ¼
 [Song time]
-Èas písnì
+Ğ˜as pĞ½snĞ¼
 [Sort log file]
-Seøadit záznam dle
+SeÑˆadit zĞ±znam dle
 [by Title]
-názvu
+nĞ±zvu
 [by Date]
 data
 [by Count]
-poètu
+poĞ¸tu
 [by Path]
-adresáøe
+adresĞ±Ñˆe
 [by Length]
-délky
+dĞ¹lky
 [Reverse order]
-Obrátit poøadí
+ObrĞ±tit poÑˆadĞ½
 [Report Items]
-Poèet poloek
+PoĞ¸et poloÑ›ek
 [Open report]
-Otevøít zápis
+OtevÑˆĞ½t zĞ±pis
 [Add report file ext.]
-Pøidat externí zápis
+PÑˆidat externĞ½ zĞ±pis
 
 ; c:\worx\miranda_cz\to_parse\stat\statlog.pas
 [Music Statistic]
-Hudební statistiky
+HudebnĞ½ statistiky
 [Create Report]
-Vytvoøit zápis
+VytvoÑˆit zĞ±pis
 [Statistics]
 Statistika
 
 ; c:\worx\miranda_cz\to_parse\HlpDlg.pas
 [Text format codes]
-Kódy formátù textu
+KÑƒdy formĞ±tÑ‰ textu
 
 ; c:\worx\miranda_cz\to_parse\macros.pas
 [player window title]
-záhlaví okna pøehrávaèe
+zĞ±hlavĞ½ okna pÑˆehrĞ±vaĞ¸e
 [artist]
-umìlec
+umĞ¼lec
 [song title]
-název písnì
+nĞ±zev pĞ½snĞ¼
 [album]
 album
 [genre]
-ánr
+Ñ›Ğ±nr
 [media file name]
-název souboru
+nĞ±zev souboru
 [track number]
-èíslo stopy
+Ğ¸Ğ½slo stopy
 [number of channels]
-poèet kanálù
+poĞ¸et kanĞ±lÑ‰
 [samplerate]
-vzorkovací frekvence
+vzorkovacĞ½ frekvence
 [total song length (sec)]
-celková délka (sek.)
+celkovĞ± dĞ¹lka (sek.)
 [song year (date)]
-rok písnì (datum)
+rok pĞ½snĞ¼ (datum)
 [current song position (sec)]
-aktuální pozice (sek.)
+aktuĞ±lnĞ½ pozice (sek.)
 [time/length * 100%]
-èas/délka * 100%
+Ğ¸as/dĞ¹lka * 100%
 [comment from tag]
-komentáø z tagu
+komentĞ±Ñˆ z tagu
 [player name]
-název pøehrávaèe
+nĞ±zev pÑˆehrĞ±vaĞ¸e
 [player version]
-verze pøehrávaèe
+verze pÑˆehrĞ±vaĞ¸e
 [media file size]
 velikost souboru
 [media file type]
@@ -394,142 +394,142 @@ typ souboru
 [VBR or not (empty)]
 VBR (pokud je, jinak nic)
 [player status (stopped,playing,paused)]
-stav pøehrávaèe (zastaveno, pøehrávání, pozastaveno)
+stav pÑˆehrĞ±vaĞ¸e (zastaveno, pÑˆehrĞ±vĞ±nĞ½, pozastaveno)
 [FPS (frames per second), video only]
-FPS (snímkù za sekundu), pouze pro video
+FPS (snĞ½mkÑ‰ za sekundu), pouze pro video
 [codec, video only]
 kodek, pouze pro video
 [width, video only]
-šíøka, pouze pro video
+Ñ™Ğ½Ñˆka, pouze pro video
 [height, video only]
-vıška, pouze pro video
+vÑÑ™ka, pouze pro video
 [player version in text format]
-verze pøehrávaèe v textovém formátu
+verze pÑˆehrĞ±vaĞ¸e v textovĞ¹m formĞ±tu
 [Lyric from ID3v2 tag]
 slova z ID3v2 tagu
 [Cover file path]
 cesta k souboru obalu
 [Player volume (0-15)]
-hlasitost pøehrávaèe (0-15)
+hlasitost pÑˆehrĞ±vaĞ¸e (0-15)
 [Player homepage URL]
-domovská stránka pøehrávaèe
+domovskĞ± strĞ±nka pÑˆehrĞ±vaĞ¸e
 [player status (not translated)]
-stav pøehrávaèe (nepøekládán)
+stav pÑˆehrĞ±vaĞ¸e (nepÑˆeklĞ±dĞ±n)
 
 ; c:\worx\miranda_cz\to_parse\waticons.pas
 [Prev]
-Pøedchozí
+PÑˆedchozĞ½
 [Play]
-Pøehrát
+PÑˆehrĞ±t
 [Pause]
 Pozastavit
 [Stop]
 Zastavit
 [Next]
-Další
+DalÑ™Ğ½
 [Prev Hovered]
-Pøedchozí (myš)
+PÑˆedchozĞ½ (myÑ™)
 [Play Hovered]
-Pøehrát (myš)
+PÑˆehrĞ±t (myÑ™)
 [Pause Hovered]
-Pozastavit (myš)
+Pozastavit (myÑ™)
 [Stop Hovered]
-Zastavit (myš)
+Zastavit (myÑ™)
 [Next Hovered]
-Další (myš)
+DalÑ™Ğ½ (myÑ™)
 [Prev Pushed]
-Pøedchozí (stisknuto)
+PÑˆedchozĞ½ (stisknuto)
 [Play Pushed]
-Pøehrát (stisknuto)
+PÑˆehrĞ±t (stisknuto)
 [Pause Pushed]
 Pozastasvit  (stisknuto)
 [Stop Pushed]
 Zastavit (stisknuto)
 [Next Pushed]
-Další (stisknuto)
+DalÑ™Ğ½ (stisknuto)
 [Volume Down]
 Hlasitost -
 [Volume Up]
 Hlasitost +
 [Volume Down Hovered]
-Hlasitost - (myš)
+Hlasitost - (myÑ™)
 [Volume Up Hovered]
-Hlasitost + (myš)
+Hlasitost + (myÑ™)
 [Slider]
-Posuvník
+PosuvnĞ½k
 [Volume Down Pushed]
 Hlasitost - (stisknuto)
 [Volume Up Pushed]
 Hlasitost + (stisknuto)
 [WATrack/Frame Controls]
-Ovládací prvky
+OvlĞ±dacĞ½ prvky
 
 
 
 ; untranslated
 [Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
-Rychlost aktualizace (sekundy) je doba, po které se zaktualizují informace o hudbì, statistiky a zprávy stavu. Je-li nataveno na nulu, je auktualizace vypnuta. Je-li hodnota vyšší ne 499, pak jsou èasovımi jednotkami milisekundy.
+Rychlost aktualizace (sekundy) je doba, po kterĞ¹ se zaktualizujĞ½ informace o hudbĞ¼, statistiky a zprĞ±vy stavu. Je-li nataveno na nulu, je auktualizace vypnuta. Je-li hodnota vyÑ™Ñ™Ğ½ neÑ› 499, pak jsou Ğ¸asovÑmi jednotkami milisekundy.
 [If this option is "ON", XStatus doesn't depend of protocol status.]
-Jestlie je tato monost zapnuta, nezávisí rozšíøenı stav na stavu protokolu.
+JestliÑ›e je tato moÑ›nost zapnuta, nezĞ±visĞ½ rozÑ™Ğ½ÑˆenÑ stav na stavu protokolu.
 [Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
-Jestlie je tato monost zapnuta, je moné pouívat transformaèní, datové a matematické funkce. Je-li podpora neaktivní, bude pracovat WATrack rychleji.
+JestliÑ›e je tato moÑ›nost zapnuta, je moÑ›nĞ¹ pouÑ›Ğ½vat transformaĞ¸nĞ½, datovĞ¹ a matematickĞ¹ funkce. Je-li podpora neaktivnĞ½, bude pracovat WATrack rychleji.
 [Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
-Umoòuje infiltraci do procesu pøehrávaèe, díky èemu lze získávat snáze informace, ale nemusí se líbit vašemu antiviru èi osobnímu firewallu.
+UmoÑ›Ñ‚uje infiltraci do procesu pÑˆehrĞ±vaĞ¸e, dĞ½ky Ğ¸emuÑ› lze zĞ½skĞ±vat snĞ±ze informace, ale nemusĞ½ se lĞ½bit vaÑ™emu antiviru Ğ¸i osobnĞ½mu firewallu.
 [Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
-Nahrazuje "_" podtrítka ve vkládaném textu èi zprávì stavu, nìkdy se mùe hodit.
+Nahrazuje "_" podtrÑ›Ğ½tka ve vklĞ±danĞ¹m textu Ğ¸i zprĞ±vĞ¼ stavu, nĞ¼kdy se mÑ‰Ñ›e hodit.
 [Check file date and time to tag updates while playing.]
-Zjišuje datum a èas souboru, snáze pak aktualizuje èas pøi pøehrávání.
+ZjiÑ™Ñœuje datum a Ğ¸as souboru, snĞ±ze pak aktualizuje Ğ¸as pÑˆi pÑˆehrĞ±vĞ±nĞ½.
 [Report on some errors.]
-Hlásí urèité chyby.
+HlĞ±sĞ½ urĞ¸itĞ¹ chyby.
 [Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
-Pokusí se pouít OLE rozhraní pro získání více informací z pøehrávaèe. Je-li monost vypnuta, bude WATrack fungovat rychleji.
+PokusĞ½ se pouÑ›Ğ½t OLE rozhranĞ½ pro zĞ½skĞ±nĞ½ vĞ½ce informacĞ½ z pÑˆehrĞ±vaĞ¸e. Je-li moÑ›nost vypnuta, bude WATrack fungovat rychleji.
 [If this option is "ON", all plugin settings saved in ini-file.]
-Jestlie je tato monost zapnuta, bude doplnìk ukládat svá nastavení do INI souboru.
+JestliÑ›e je tato moÑ›nost zapnuta, bude doplnĞ¼k uklĞ±dat svĞ± nastavenĞ½ do INI souboru.
 [If this option is "ON", you can paste music info to your message window pressing hotkey.]
-Jestlie je tato monost zapnuta, mùete vloit informaci o hudbì do zprávy pomocí klávesové zkratky
+JestliÑ›e je tato moÑ›nost zapnuta, mÑ‰Ñ›ete vloÑ›it informaci o hudbĞ¼ do zprĞ±vy pomocĞ½ klĞ±vesovĞ¹ zkratky
 [If this option is "ON", status text will be replaced by music info.]
-Jestlie je tato monost zapnuta, bude hláška stavu nahrazena informací o hudbì
+JestliÑ›e je tato moÑ›nost zapnuta, bude hlĞ±Ñ™ka stavu nahrazena informacĞ½ o hudbĞ¼
 [If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
-Jestlie je tato monost zapnuta, bude rozšíøenı stav zmìnìn na "Poslouchám hudbu" a hláška stavu bude nahrazena informací o hudbì
+JestliÑ›e je tato moÑ›nost zapnuta, bude rozÑ™Ğ½ÑˆenÑ stav zmĞ¼nĞ¼n na "PoslouchĞ±m hudbu" a hlĞ±Ñ™ka stavu bude nahrazena informacĞ½ o hudbĞ¼
 [If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
-Jestlie je tato monost zapnuta, pokusí se doplnìk získat informace o neznámém hudebním formátu z pøehrávaèe (ne všechny pøehrávaèe fungují!)
+JestliÑ›e je tato moÑ›nost zapnuta, pokusĞ½ se doplnĞ¼k zĞ½skat informace o neznĞ±mĞ¹m hudebnĞ½m formĞ±tu z pÑˆehrĞ±vaĞ¸e (ne vÑ™echny pÑˆehrĞ±vaĞ¸e fungujĞ½!)
 [If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
-Jestlie je tato monost zapnuta, bude rozšíøenı stav zmìnìn na "Poslouchám hudbu" pouze tehdy, byl-li takto zmìnìn u pøedtím ruènì.
+JestliÑ›e je tato moÑ›nost zapnuta, bude rozÑ™Ğ½ÑˆenÑ stav zmĞ¼nĞ¼n na "PoslouchĞ±m hudbu" pouze tehdy, byl-li takto zmĞ¼nĞ¼n uÑ› pÑˆedtĞ½m ruĞ¸nĞ¼.
 [If this option is "ON", XStatus not changed when player shutdowned.]
-Jestlie je tato monost zapnuta, bude rozšíøenı stav ponechán i po vypnutí pøehrávaèe
+JestliÑ›e je tato moÑ›nost zapnuta, bude rozÑ™Ğ½ÑˆenÑ stav ponechĞ±n i po vypnutĞ½ pÑˆehrĞ±vaĞ¸e
 [If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
-Jestlie je tato monost zapnuta, bude pouita na všechny protokoly, pøehrávaèe a stavy jedna šablona. Záloka se šablonami se zmìní po restartu.
+JestliÑ›e je tato moÑ›nost zapnuta, bude pouÑ›ita na vÑ™echny protokoly, pÑˆehrĞ±vaĞ¸e a stavy jedna Ñ™ablona. ZĞ±loÑ›ka se Ñ™ablonami se zmĞ¼nĞ½ po restartu.
 [xStatus will cleared before text changing and restored with new text later.]
-Rozšíøenı stav bude na chvilku zmìnìn na bìnı a poté se zpìt zmìní na "Poslouchám hudbu". Donutíte tak nìkteré klienty pøeèíst si váš rozšíøenı stav, ale zpùsobuje záplavy.
+RozÑ™Ğ½ÑˆenÑ stav bude na chvilku zmĞ¼nĞ¼n na bĞ¼Ñ›nÑ a potĞ¹ se zpĞ¼t zmĞ¼nĞ½ na "PoslouchĞ±m hudbu". DonutĞ½te tak nĞ¼kterĞ¹ klienty pÑˆeĞ¸Ğ½st si vĞ±Ñ™ rozÑ™Ğ½ÑˆenÑ stav, ale zpÑ‰sobuje zĞ±plavy.
 [Keep opened file as active, not newly founded.]
-Ponechat otevøenı soubor jako aktivní, ne novì vytvoøenı.
+Ponechat otevÑˆenÑ soubor jako aktivnĞ½, ne novĞ¼ vytvoÑˆenÑ.
 [Use this option if WATrack freeze while player running. Slower processing.]
-Pouijte tuto volbu, pokud Sledování hudby zmrzne zatímco pøehrávaè bìí. Pomalejší zpracování.
+PouÑ›ijte tuto volbu, pokud SledovĞ±nĞ½ hudby zmrzne zatĞ½mco pÑˆehrĞ±vaĞ¸ bĞ¼Ñ›Ğ½. PomalejÑ™Ğ½ zpracovĞ±nĞ½.
 [If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
-Jestlie je tato monost zapnuta, nezmìní se typ rozšíøeného stavu, ale jen zpráva daná šablonou.
+JestliÑ›e je tato moÑ›nost zapnuta, nezmĞ¼nĞ½ se typ rozÑ™Ğ½ÑˆenĞ¹ho stavu, ale jen zprĞ±va danĞ± Ñ™ablonou.
 [Frame]
 Okno
 [Frame 2]
 Okno 2
 
 [Enable Plugin]
-Povolit doplnìk
+Povolit doplnĞ¼k
 [Disable Plugin]
-Zakázat doplnìk
+ZakĞ±zat doplnĞ¼k
 [Get user's Music Info]
-Zjistit zde informace o hudbì
+Zjistit zde informace o hudbĞ¼
 [Plugin Enabled]
-Doplnìk povolen
+DoplnĞ¼k povolen
 [Plugin Disabled]
-Doplnìk zakázán
+DoplnĞ¼k zakĞ±zĞ±n
 [Text format codes\n{b}text{/b}\tbold\n{i}text{/i}\titalic\n{u}text{/u}\tundeline\n{cf##}text{/cf}\ttext color\n{bg##}text{/bg}\tbackground color\ntext - user text\n## - color number (1-16)\nColor 0 is background color\nColor 17 is default text color]
-Kódy formátù textu\n{b}text{/b}\ttuèné\n{i}text{/i}\tkurzíva\n{u}text{/u}\tpodtrené\n{cf##}text{/cf}\tbarva textu\n{bg##}text{/bg}\tbarva pozadí\ntext - user text\n## - barva èíslo (1-16)\nBarva èíslo 0 je pozadí\nBarva èíslo 17 je vıchozí barva textu
-;názvy vìtví options, nelze se spolehnout na lomítkované cesty, pøekládají se jen koneèné vìtve
+KÑƒdy formĞ±tÑ‰ textu\n{b}text{/b}\ttuĞ¸nĞ¹\n{i}text{/i}\tkurzĞ½va\n{u}text{/u}\tpodtrÑ›enĞ¹\n{cf##}text{/cf}\tbarva textu\n{bg##}text{/bg}\tbarva pozadĞ½\ntext - user text\n## - barva Ğ¸Ğ½slo (1-16)\nBarva Ğ¸Ğ½slo 0 je pozadĞ½\nBarva Ğ¸Ğ½slo 17 je vÑchozĞ½ barva textu
+;nĞ±zvy vĞ¼tvĞ½ options, nelze se spolehnout na lomĞ½tkovanĞ¹ cesty, pÑˆeklĞ±dajĞ½ se jen koneĞ¸nĞ¹ vĞ¼tve
 [Frame Controls]
-Ovládací prvky
+OvlĞ±dacĞ½ prvky
 [Controls]
-Tlaèítka
+TlaĞ¸Ğ½tka
 [Winamp Track]
-Sledování hudby
+SledovĞ±nĞ½ hudby
 
 ; ---

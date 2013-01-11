@@ -1,55 +1,55 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Last Seen 5.0.1.1 + Last seen plugin mod 5.0.4.7        |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [Last seen]
-Naposledy spatøen
+Naposledy spatÑˆen
 [Last seen options]
-Nastavení
+NastavenĞ½
 [Last seen menuitem]
-Poloky menu
+PoloÑ›ky menu
 [Userinfo tab]
-Záloka s informacemi o uivateli
+ZĞ±loÑ›ka s informacemi o uÑ›ivateli
 [Log to file]
-Uloit záznam
+UloÑ›it zĞ±znam
 [year (4 digits)]
-rok (4 èíslice)
+rok (4 Ğ¸Ğ½slice)
 [year (2 digits)]
-rok (2 èíslice)
+rok (2 Ğ¸Ğ½slice)
 [month]
-mìsíc
+mĞ¼sĞ½c
 ;(DUP) [day]
 ;(DUP) [minutes]
 ;(DUP) [seconds]
 [username]
-uivatelské jméno
+uÑ›ivatelskĞ¹ jmĞ¹no
 [UIN/handle]
-UIN (ident. èíslo)
+UIN (ident. Ğ¸Ğ½slo)
 [status]
 stav
 [external IP]
-externí IP
+externĞ½ IP
 [internal IP]
-interní IP
+internĞ½ IP
 [line break]
-další øádek
+dalÑ™Ğ½ ÑˆĞ±dek
 [tabulator]
-tabulátor
+tabulĞ±tor
 ;(DUP) [<unknown>]
 ;New 4.0.2
 ;--------------------
 [Ignore contacts going offline]
-Ignorovat pøechod do stavu offline
+Ignorovat pÑˆechod do stavu offline
 ;New 4.0.3
 ;--------------------
 [Enable 'Missed Ones' feature]
-Aktivovat funkci 'Zmeškané kontakty'
+Aktivovat funkci 'ZmeÑ™kanĞ¹ kontakty'
 [You missed following contacts:]
-Zmeškali jste tyto kontakty:
+ZmeÑ™kali jste tyto kontakty:
 ;New 4.0.4
 ;--------------------
 [Show icon]
@@ -67,33 +67,33 @@ hodiny (12)
 ;New 4.0.6
 ;--------------------
 [weekday (full)]
-název dne (celı)
+nĞ±zev dne (celÑ)
 [weekday (abbreviated)]
-název dne (zkrácenı)
+nĞ±zev dne (zkrĞ±cenÑ)
 [Monday]
-pondìlí
+pondĞ¼lĞ½
 [Tuesday]
-úterı
+ÑŠterÑ
 [Wednesday]
-støeda
+stÑˆeda
 [Thursday]
-ètvrtek
+Ğ¸tvrtek
 [Friday]
-pátek
+pĞ±tek
 [Saturday]
 sobota
 [Sunday]
-nedìle
+nedĞ¼le
 [Mon.]
 po
 [Tue.]
-út
+ÑŠt
 [Wed.]
 st
 [Thu.]
-èt
+Ğ¸t
 [Fri.]
-pá
+pĞ±
 [Sat.]
 so
 [Sun.]
@@ -101,9 +101,9 @@ ne
 ;New 4.0.7
 ;--------------------
 [name of month]
-název mìsíce (celı)
+nĞ±zev mĞ¼sĞ½ce (celÑ)
 [short name of month]
-název mìsíce (zkrácenı)
+nĞ±zev mĞ¼sĞ½ce (zkrĞ±cenÑ)
 ;(DUP) [January]
 ;(DUP) [February]
 ;(DUP) [March]
@@ -119,22 +119,22 @@ název mìsíce (zkrácenı)
 [Jan.]
 led
 [Feb.]
-úno
+ÑŠno
 [Mar.]
-bøe
+bÑˆe
 [Apr.]
 dub
 ;(DUP) [May]
 [Jun.]
-èen
+Ğ¸en
 [Jul.]
-èec
+Ğ¸ec
 [Aug.]
 srp
 [Sep.]
-záø
+zĞ±Ñˆ
 [Oct.]
-øíj
+ÑˆĞ½j
 [Nov.]
 lis
 [Dec.]
@@ -142,65 +142,65 @@ pro
 ;New 4.1.1
 ;--------------------
 [Count times]
-Zaznamenat poèet
+Zaznamenat poĞ¸et
 ;New 5.0.0.0
 ;--------------------
 [last seen history]
-Historie zmìn stavu
+Historie zmĞ¼n stavu
 [Log to history]
-Záznam do historie
+ZĞ±znam do historie
 [Maximum size]
 Max. velikost
 [Variable list]
-Promìnné
+PromĞ¼nnĞ¹
 [Protocols to watch:]
 Sledovat protokoly:
 [Alert when user status changes]
-Upozornit pøi zmìnì stavu
+Upozornit pÑˆi zmĞ¼nĞ¼ stavu
 ;New 5.0.1.1
 ;--------------------
 [Send Instant Message]
-Odeslat zprávu
+Odeslat zprĞ±vu
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Last seen plugin]
-Sledování zmìny stavu
+SledovĞ±nĞ½ zmĞ¼ny stavu
 [-- Date --]
 -- Datum --
 [-- Time --]
--- Èas --
+-- Ğ˜as --
 [-- User --]
--- Uivatel --
+-- UÑ›ivatel --
 [-- Format --]
--- Formátování --
+-- FormĞ±tovĞ±nĞ½ --
 [Last Seen Variables]
-Last Seen - seznam promìnnıch
+Last Seen - seznam promĞ¼nnÑch
 [LastSeen: User status change]
-Naposledy spatøen: Zmìna stavu
+Naposledy spatÑˆen: ZmĞ¼na stavu
 
 [Enable Idle support]
-Detekovat stav neèinnosti
+Detekovat stav neĞ¸innosti
 [Use popups]
-Pouít oznámení
+PouÑ›Ğ½t oznĞ±menĞ½
 [PopUp Colors]
-Barvy oznámení
+Barvy oznĞ±menĞ½
 [Reset colors]
-Vıchozí barvy
+VÑchozĞ½ barvy
 [Disable CList Notifications]
-Vypnout oznámení seznamu kontaktù
+Vypnout oznĞ±menĞ½ seznamu kontaktÑ‰
 [For watched protocols]
-Pro sledované protokoly
+Pro sledovanĞ¹ protokoly
 [For non-watched protocols]
-Pro nesledované protokoly
+Pro nesledovanĞ¹ protokoly
 [nick]
-pøezdívka
+pÑˆezdĞ½vka
 [Old status]
-pùvodní stav
+pÑ‰vodnĞ½ stav
 [Client info]
 klient
 [Note:]
 Pozn.:
 [for empty string instead of]
-pro prázdnı øetìzec namísto
+pro prĞ±zdnÑ ÑˆetĞ¼zec namĞ½sto
 
 ; ---

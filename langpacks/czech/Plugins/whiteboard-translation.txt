@@ -1,48 +1,48 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Whiteboard 0.1.0.2                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://deathdemon.int.ru
 ;
 
 [Whiteboard]
-Kreslení
+KreslenĞ½
 
 [%s - Whiteboard]
-%s - Kreslení
+%s - KreslenĞ½
 [&Close]
-&Zavøít
+&ZavÑˆĞ½t
 ;(DUP) [&Copy]
 ;(DUP) [&Delete]
 ;(DUP) [&Edit]
 ;(DUP) [&File]
 [&Load...]
-N&aèíst...
+N&aĞ¸Ğ½st...
 [&New]
-&Novı
+&NovÑ
 [&Paste]
-&Vloit
+&VloÑ›it
 [&Redo]
-&Dopøedu
+&DopÑˆedu
 [&Save As...]
-Uloit j&ako...
+UloÑ›it j&ako...
 ;(DUP) [&Undo]
 ;(DUP) [Cu&t]
 ;(DUP) [Select &All]
 
 [Whiteboard error]
-Kreslení - chyba
+KreslenĞ½ - chyba
 
 [Whiteboard plugin requires DataAsMessage v0.1.0.2 or above to work properly.]
-Doplnìk 'Kreslení' vyaduje pro svùj bìh 'DataAsMessage v0.1.0.2' nebo novìjší.
+DoplnĞ¼k 'KreslenĞ½' vyÑ›aduje pro svÑ‰j bĞ¼h 'DataAsMessage v0.1.0.2' nebo novĞ¼jÑ™Ğ½.
 [Whiteboard: Start of the session]
-Kreslení: Zaèátek relace
+KreslenĞ½: ZaĞ¸Ğ±tek relace
 
 [Brush]
-Štìtec
+Ğ‰tĞ¼tec
 [Can't save the file]
-Nelze uloit soubor
+Nelze uloÑ›it soubor
 [Drag tool]
 Ruka
 [Ellipse]
@@ -50,29 +50,29 @@ Elipsa
 [Eraser]
 Guma
 [File was loaded successfully]
-Soubor byl úspìšnì naèten
+Soubor byl ÑŠspĞ¼Ñ™nĞ¼ naĞ¸ten
 [File was saved successfully]
-Soubor byl úspìšnì uloen
+Soubor byl ÑŠspĞ¼Ñ™nĞ¼ uloÑ›en
 ;(DUP) [Line]
 [Magnifier]
 Lupa
 [Pick color]
-Kapátko
+KapĞ±tko
 [Rectangle]
-Ètyøúhelník
+Ğ˜tyÑˆÑŠhelnĞ½k
 ;(DUP) [Select]
 [Text]
 Text
 [There was an error loading the file]
-Chyba pøi naèítání souboru
+Chyba pÑˆi naĞ¸Ğ½tĞ±nĞ½ souboru
 [You will lose all unsaved changes. Do you really want to close the window?]
-Všechny neuloené zmìny budou ztraceny. Urèitì chcete zavøít okno?
+VÑ™echny neuloÑ›enĞ¹ zmĞ¼ny budou ztraceny. UrĞ¸itĞ¼ chcete zavÑˆĞ½t okno?
 [You will lose all unsaved changes. Do you really want to load another drawing?]
-Všechny neuloené zmìny budou ztraceny. Urèitì chcete naèíst jiné kreslení?
+VÑ™echny neuloÑ›enĞ¹ zmĞ¼ny budou ztraceny. UrĞ¸itĞ¼ chcete naĞ¸Ğ½st jinĞ¹ kreslenĞ½?
 [You will lose all unsaved changes. Do you really want to reset the drawing?]
-Všechny neuloené zmìny budou ztraceny. Urèitì chcete resetovat kreslení?
+VÑ™echny neuloÑ›enĞ¹ zmĞ¼ny budou ztraceny. UrĞ¸itĞ¼ chcete resetovat kreslenĞ½?
 
 [PopUps]
-Oznámení
+OznĞ±menĞ½
 
 ; ---

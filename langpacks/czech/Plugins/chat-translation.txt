@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Chat 0.8.0.0                                            |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 
@@ -35,35 +35,35 @@
 
 ; main.c
 [Miranda could not load the Chat plugin because Microsoft Rich Edit v 3 is missing.\nIf you are using Windows 95/98/NT or WINE please upgrade your Rich Edit control.\n\nDo you want to download an update now?.]
-Doplnìk Chat nelze pouít, protoe chybí tøída Microsoft Rich Edit v3.\nPouíváte-li Windows 95/98/NT nebo WINE, je tøeba aktualizovat knihovnu\nRiched20.dll. Chcete ji stáhnout hned teï?
+DoplnĞ¼k Chat nelze pouÑ›Ğ½t, protoÑ›e chybĞ½ tÑˆĞ½da Microsoft Rich Edit v3.\nPouÑ›Ğ½vĞ±te-li Windows 95/98/NT nebo WINE, je tÑˆeba aktualizovat knihovnu\nRiched20.dll. Chcete ji stĞ±hnout hned teĞ¿?
 ;(DUP) [Information]
 
 ; options.c
 [Chat windows]
-Diskusní okna
+DiskusnĞ½ okna
 [Window Icon]
 Ikona okna
 ;(DUP) [Bold]
 [Italics]
-Kurzíva
+KurzĞ½va
 [Underlined]
-Podtrené
+PodtrÑ›enĞ¹
 [Smiley button]
-Smajlík
+SmajlĞ½k
 [Room history]
-Historie místnosti
+Historie mĞ½stnosti
 [Room settings]
-Nastavení místnosti
+NastavenĞ½ mĞ½stnosti
 [Event filter disabled]
-Filtrování událostí deaktivováno
+FiltrovĞ±nĞ½ udĞ±lostĞ½ deaktivovĞ±no
 [Event filter enabled]
-Filtrování událostí aktivováno
+FiltrovĞ±nĞ½ udĞ±lostĞ½ aktivovĞ±no
 [Hide userlist]
-Skrıt seznam úèastníkù 
+SkrÑt seznam ÑŠĞ¸astnĞ½kÑ‰ 
 [Show userlist]
-Zobrazit seznam úèastníkù 
+Zobrazit seznam ÑŠĞ¸astnĞ½kÑ‰ 
 [Icon overlay]
-Pøekryvná ikona
+PÑˆekryvnĞ± ikona
 ;(DUP) [Close]
 ;(LAI) [Status 1 (10x10)]
 ;(LAI) [Status 2 (10x10)]
@@ -72,7 +72,7 @@ Pøekryvná ikona
 ;(LAI) [Status 5 (10x10)]
 ;(LAI) [Status 6 (10x10)]
 [Chat log]
-Záznam diskuse
+ZĞ±znam diskuse
 ;(LAI) [Message in (10x10)]
 ;(LAI) [Message out (10x10)]
 ;(LAI) [Action (10x10)]
@@ -88,63 +88,63 @@ Záznam diskuse
 ;(LAI) [Highlight (10x10)]
 ;(LAI) [Information (10x10)]
 [Options for using a tabbed interface]
-Nastavení funkcí systému záloek
+NastavenĞ½ funkcĞ½ systĞ¹mu zĞ±loÑ›ek
 [Appearance and functionality of chat room windows]
-Nastavení vzhledu a funkcí komunikaèních oken
+NastavenĞ½ vzhledu a funkcĞ½ komunikaĞ¸nĞ½ch oken
 [Appearance of the message log]
-Nastavení vzhledu záznamu komunikace
+NastavenĞ½ vzhledu zĞ±znamu komunikace
 [Default events to show in new chat rooms if the \'event filter\' is enabled]
-Vıchozí nastavení zobrazení událostí pøi aktivovaném \"filtrování událostí\"
+VÑchozĞ½ nastavenĞ½ zobrazenĞ½ udĞ±lostĞ½ pÑˆi aktivovanĞ¹m \"filtrovĞ±nĞ½ udĞ±lostĞ½\"
 [Icons to display in the message log]
-Monosti zobrazení ikon v záznamu komunikace
+MoÑ›nosti zobrazenĞ½ ikon v zĞ±znamu komunikace
 [Icons to display in the tray]
-Monosti zobrazení ikon v oznamovací oblasti
+MoÑ›nosti zobrazenĞ½ ikon v oznamovacĞ½ oblasti
 [Pop-ups to display]
-Monosti zobrazení oken s oznámením
+MoÑ›nosti zobrazenĞ½ oken s oznĞ±menĞ½m
 ;(DUP) [Select Folder]
 [Chat]
 Diskuse
 ;(DUP) [Events]
 [Chat Log]
-Záznam diskuse
+ZĞ±znam diskuse
 ;(DUP) [Popups]
 ;(DUP) [Incoming message]
 [Message is highlighted]
-Zvıraznìní zprávy
+ZvÑraznĞ¼nĞ½ zprĞ±vy
 [User has performed an action]
-Provedení akce
+ProvedenĞ½ akce
 [User has joined]
-Pøíchod na kanál
+PÑˆĞ½chod na kanĞ±l
 [User has left]
-Odchod z kanálu
+Odchod z kanĞ±lu
 [User has kicked some other user]
-Vykopnutí z kanálu
-[User´s status was changed]
-Zmìna stavu
+VykopnutĞ½ z kanĞ±lu
+[UserÒ‘s status was changed]
+ZmĞ¼na stavu
 [User has changed name]
-Zmìna pøezdívky
+ZmĞ¼na pÑˆezdĞ½vky
 [User has sent a notice]
-Odeslání poznámky
+OdeslĞ±nĞ½ poznĞ±mky
 [User has disconnected]
-Odpojení uivatele
+OdpojenĞ½ uÑ›ivatele
 [The topic has been changed]
-Zmìna tématu diskuse
+ZmĞ¼na tĞ¹matu diskuse
 
 ; tools.c
 [%s wants your attention in %s]
-%s ádá o pozornost na kanále %s
+%s Ñ›Ğ±dĞ± o pozornost na kanĞ±le %s
 [%s speaks in %s]
-%s píše (na %s)
+%s pĞ½Ñ™e (na %s)
 [%s has joined %s]
-%s pøišel (na %s)
+%s pÑˆiÑ™el (na %s)
 [%s has left %s]
-%s odešel (z %s)
+%s odeÑ™el (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
 [Notice from %s]
-Poznámka (napsal: %s)
+PoznĞ±mka (napsal: %s)
 [Topic change in %s]
-Zmìna tématu na %s
+ZmĞ¼na tĞ¹matu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables \'%s\' status for %s in %s]
@@ -152,17 +152,17 @@ Informace (na %s)
 [%s disables \'%s\' status for %s in %s]
 %s deaktivuje \'%s\' (-> %s, na %s)
 [%s says: %s]
-%s píše: %s
+%s pĞ½Ñ™e: %s
 [%s has left (%s)]
-%s odešel (%s)
+%s odeÑ™el (%s)
 [%s has disconnected (%s)]
 %s se odpojil (%s)
 [%s kicked %s (%s)]
 %s vykopnul %s (%s)
 [The topic is \'%s\']
-Téma je \'%s\'
+TĞ¹ma je \'%s\'
 [The topic is \'%s\' (set by %s)]
-Téma je \'%s\' (autor: %s)
+TĞ¹ma je \'%s\' (autor: %s)
 [%s %c %s\n]
 %s %c %s\n
 [%s %s\n]
@@ -171,35 +171,35 @@ Téma je \'%s\' (autor: %s)
 
 ; window.c
 [Insert a smiley]
-Vloí vybranı smajlík
+VloÑ›Ğ½ vybranÑ smajlĞ½k
 [Make the text bold (CTRL+B)]
-Zmìní styl písma na tuèné (CTRL+B)
+ZmĞ¼nĞ½ styl pĞ½sma na tuĞ¸nĞ¹ (CTRL+B)
 [Make the text italicized (CTRL+I)]
-Zmìní styl písma na kurzívu (CTRL+I)
+ZmĞ¼nĞ½ styl pĞ½sma na kurzĞ½vu (CTRL+I)
 [Make the text underlined (CTRL+U)]
-Zmìní styl písma na podtrené (CTRL+U)
+ZmĞ¼nĞ½ styl pĞ½sma na podtrÑ›enĞ¹ (CTRL+U)
 [Select a background color for the text (CTRL+L)]
-Zmìní barvu pozadí textu (CTRL+L)
+ZmĞ¼nĞ½ barvu pozadĞ½ textu (CTRL+L)
 [Select a foreground color for the text (CTRL+K)]
-Zmìní barvu textu (CTRL+K)
+ZmĞ¼nĞ½ barvu textu (CTRL+K)
 [Show the history (CTRL+H)]
-Zobrazí historii (CTRL+H)
+ZobrazĞ½ historii (CTRL+H)
 [Show/hide the nicklist (CTRL+N)]
-Zobrazí/skryje seznam úèastníkù (CTRL+N)
+ZobrazĞ½/skryje seznam ÑŠĞ¸astnĞ½kÑ‰ (CTRL+N)
 [Control this room (CTRL+O)]
-Monosti øízení kanálu (CTRL+O)
+MoÑ›nosti ÑˆĞ½zenĞ½ kanĞ±lu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
-Aktivuje/deaktivuje filtrování událostí (CTRL+F)
+Aktivuje/deaktivuje filtrovĞ±nĞ½ udĞ±lostĞ½ (CTRL+F)
 [Close current tab (CTRL+F4)]
-Zavøe vybranou záloku (CTRL+F4)
+ZavÑˆe vybranou zĞ±loÑ›ku (CTRL+F4)
 [%s: Chat Room (%u user)]
-%s: kanál (úèastníkù: %u)
+%s: kanĞ±l (ÑŠĞ¸astnĞ½kÑ‰: %u)
 [%s: Chat Room (%u users)]
-%s: kanál (úèastníkù: %u)
+%s: kanĞ±l (ÑŠĞ¸astnĞ½kÑ‰: %u)
 [%s: Message Session]
 %s: rozhovor
 [%s: Message Session (%u users)]
-%s: rozhovor (úèastníkù: %u)
+%s: rozhovor (ÑŠĞ¸astnĞ½kÑ‰: %u)
 
 ; chat.rc
 ;(LAI) [Tab1]
@@ -216,260 +216,260 @@ Zavøe vybranou záloku (CTRL+F4)
 ;(LAI) [Spin2]
 ;(LAI) [Custom1]
 [Enable highlighting]
-Aktivovat zvırazòování
+Aktivovat zvÑrazÑ‚ovĞ±nĞ½
 ;(LAI) [Spin1]
 [Enable logging to disk]
-Aktivovat záznam
+Aktivovat zĞ±znam
 [Use same style as in the message log]
-Pouít nastavení pro záznam komunikace
+PouÑ›Ğ½t nastavenĞ½ pro zĞ±znam komunikace
 [Use default colours]
-Pouít vıchozí barvy
+PouÑ›Ğ½t vÑchozĞ½ barvy
 [Use custom colours]
-Pouít vlastní barvy
+PouÑ›Ğ½t vlastnĞ½ barvy
 ;(LAI) [Custom2]
 ;(DUP) [OK]
 ;(DUP) [&Send]
 ;(DUP) [...]
 [Userlist row distance (pixels):]
-Odstup uivatelù v seznamu (v pix.):
+Odstup uÑ›ivatelÑ‰ v seznamu (v pix.):
 [Add new rooms to group:]
-Nové místnosti do skupiny:
+NovĞ¹ mĞ½stnosti do skupiny:
 [Log background]
-Pozadí záznamu
+PozadĞ½ zĞ±znamu
 [Message background]
-Pozadí konverzace
+PozadĞ½ konverzace
 [Userlist background]
-Pozadí seznamu kontaktù
+PozadĞ½ seznamu kontaktÑ‰
 [Timestamp]
-Èasovı údaj
+Ğ˜asovÑ ÑŠdaj
 [Other name]
-Ost. jména
+Ost. jmĞ¹na
 [Your name]
-Vl. jméno
+Vl. jmĞ¹no
 [Limit log text to (events):]
-Max. poèet zazn. událostí:
+Max. poĞ¸et zazn. udĞ±lostĞ½:
 [Trim to (kB)]
 Max. (kB)
 [Log timestamp]
-Èasovı údaj v záznamu
+Ğ˜asovÑ ÑŠdaj v zĞ±znamu
 [Words to highlight (wildcards allowed)]
-Zvıraznìná slova (masky jsou povoleny)
+ZvÑraznĞ¼nĞ± slova (masky jsou povoleny)
 [Log directory]
-Sloka pro záznam
+SloÑ›ka pro zĞ±znam
 [Timeout (s)]
 Prodleva (s)
 ;(DUP) [Text]
 ;(DUP) [Background]
 [(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
-(*) Tato funkce vyaduje doplnìk typu Popup (0 = vıchozí nastavení, -1 = vypnutí prodlevy)
+(*) Tato funkce vyÑ›aduje doplnĞ¼k typu Popup (0 = vÑchozĞ½ nastavenĞ½, -1 = vypnutĞ½ prodlevy)
 ;(DUP) [Options]
 ;(DUP) [Other]
 [Fonts 'n Colors]
-Písma a barvy
+PĞ½sma a barvy
 [Log Options]
-Monosti záznamu
+MoÑ›nosti zĞ±znamu
 [Popups for the Chat plugin]
-Oznamovací okna
+OznamovacĞ½ okna
 [Clear lo&g]
-Vy&mazat záznam
+Vy&mazat zĞ±znam
 [Co&py all]
-Zko&pírovat vše
+Zko&pĞ½rovat vÑ™e
 [Open a &new browser window]
-Otevøít v &novém oknì
+OtevÑˆĞ½t v &novĞ¹m oknĞ¼
 [&Open in current browser window]
-&Otevøít v aktuálním oknì
+&OtevÑˆĞ½t v aktuĞ±lnĞ½m oknĞ¼
 ;(DUP) [&Copy link]
 [Undo  ]
-Zpìt 
+ZpĞ¼t 
 [Redo]
 Znovu
 [Copy]
-Zkopírovat
+ZkopĞ½rovat
 [Cut]
 Vyjmout
 [Paste]
-Vloit
+VloÑ›it
 ;(DUP) [Select All]
 [Clear]
 Vymazat
 [&Close tab]
-&Zavøít záloku
+&ZavÑˆĞ½t zĞ±loÑ›ku
 [C&lose other tabs]
-Zavøít ostatní zá&loky
+ZavÑˆĞ½t ostatnĞ½ zĞ±&loÑ›ky
 [&Open at this position]
-&Otevøít na stejném místì
+&OtevÑˆĞ½t na stejnĞ¹m mĞ½stĞ¼
 
 
-; NEPUBLIKOVANÉ
-; Události/Diskuse/Monosti
+; NEPUBLIKOVANĞ™
+; UdĞ±losti/Diskuse/MoÑ›nosti
 [Send message by pressing the Enter key]
-Odeslat zprávu klávesou ENTER
+Odeslat zprĞ±vu klĞ±vesou ENTER
 [Send message by pressing the Enter key twice]
-Odeslat zprávu dvojitım ENTER
+Odeslat zprĞ±vu dvojitÑm ENTER
 [Flash window when someone speaks]
-Zablikat oknem pøi napsání zprávy
+Zablikat oknem pÑˆi napsĞ±nĞ½ zprĞ±vy
 [Flash window when a word is highlighted]
-Zablikat oknem pøi zvıraznìní slova
+Zablikat oknem pÑˆi zvÑraznĞ¼nĞ½ slova
 [Show list of users in the chat room]
-Zobrazit seznam uivatelù v místnosti
+Zobrazit seznam uÑ›ivatelÑ‰ v mĞ½stnosti
 [Show button for sending messages]
-Zobrazit tlaèítko pro odesílání zpráv
+Zobrazit tlaĞ¸Ğ½tko pro odesĞ½lĞ±nĞ½ zprĞ±v
 [Show name of the chat room in the top left of the window]
-Zobrazit název místnosti v levé horní èasti okna
+Zobrazit nĞ±zev mĞ½stnosti v levĞ¹ hornĞ½ Ğ¸asti okna
 [Show buttons for controlling the chat room]
-Zobrazit tlaèítka øízení pravidel místnosti
+Zobrazit tlaĞ¸Ğ½tka ÑˆĞ½zenĞ½ pravidel mĞ½stnosti
 [Show buttons for formatting the text you are typing]
-Zobrazit tlaèítka pro formátování textu pøi psaní
+Zobrazit tlaĞ¸Ğ½tka pro formĞ±tovĞ±nĞ½ textu pÑˆi psanĞ½
 [Show button menus when right clicking the buttons]
-Zobrazit kontextové menu u tlaèítek
+Zobrazit kontextovĞ¹ menu u tlaĞ¸Ğ½tek
 [Show lines in the userlist]
-Zobrazit linky v seznamu uivatelù
+Zobrazit linky v seznamu uÑ›ivatelÑ‰
 [Show new windows cascaded]
-Skládat nová okna kaskádnì nad sebe
+SklĞ±dat novĞ± okna kaskĞ±dnĞ¼ nad sebe
 [Save the size and position of chat rooms]
-Uloit informaci o velikosti a umístìní separátnì pro kadé okno
+UloÑ›it informaci o velikosti a umĞ½stĞ¼nĞ½ separĞ±tnĞ¼ pro kaÑ›dĞ¹ okno
 [Do not play sounds when the chat room is focused]
-Nepøehrávat zvuky, je-li okno místnosti aktivní
+NepÑˆehrĞ±vat zvuky, je-li okno mĞ½stnosti aktivnĞ½
 [Do not pop up the window when joining a chat room]
-Neaktivovat okno po pøíchodu do místnosti
+Neaktivovat okno po pÑˆĞ½chodu do mĞ½stnosti
 [Toggle the visible state when double clicking in the contact list]
-Pøepnout viditelnost pøi dvojím kliknutí na uivatele v seznamu
+PÑˆepnout viditelnost pÑˆi dvojĞ½m kliknutĞ½ na uÑ›ivatele v seznamu
 [Prefix all events with a timestamp]
-Pøed kadou událost pøidat informaci o èase
+PÑˆed kaÑ›dou udĞ±lost pÑˆidat informaci o Ğ¸ase
 [Only prefix with timestamp if it has changed]
-Informaci o èase pøidat pouze pokud se zmìní
+Informaci o Ğ¸ase pÑˆidat pouze pokud se zmĞ¼nĞ½
 [Indent the second line of a message]
-Odsadit druhı øádek dlouhé zprávy
+Odsadit druhÑ ÑˆĞ±dek dlouhĞ¹ zprĞ±vy
 [Limit user names in the message log to 20 characters]
-Omezit délku jmen v záznamu na 20 znakù
+Omezit dĞ¹lku jmen v zĞ±znamu na 20 znakÑ‰
 [Add \':\' to auto-completed user names]
-Pøidat dvojteèku za automaticky doplnìné jméno
+PÑˆidat dvojteĞ¸ku za automaticky doplnĞ¼nĞ¹ jmĞ¹no
 [Strip colors from messages in the log]
-Záznam ukládat bez kódù definující barvy
+ZĞ±znam uklĞ±dat bez kÑƒdÑ‰ definujĞ½cĞ½ barvy
 [Enable the \'event filter\' for new rooms]
-Povolit \"filtrování událostí\" pro nové místnosti
+Povolit \"filtrovĞ±nĞ½ udĞ±lostĞ½\" pro novĞ¹ mĞ½stnosti
 [Show topic changes]
-Zobrazit informaci o zmìnì tématu
+Zobrazit informaci o zmĞ¼nĞ¼ tĞ¹matu
 [Show users joining]
-Zobrazit informaci o pøíchodu uivatelù
+Zobrazit informaci o pÑˆĞ½chodu uÑ›ivatelÑ‰
 [Show users disconnecting]
-Zobrazit informaci o odpojení uivatelù
+Zobrazit informaci o odpojenĞ½ uÑ›ivatelÑ‰
 [Show messages]
-Zobrazit zprávy
+Zobrazit zprĞ±vy
 [Show actions]
 Zobrazit akce
 [Show users leaving]
-Zobrazit informaci o odchodu uivatelù
+Zobrazit informaci o odchodu uÑ›ivatelÑ‰
 [Show users being kicked]
-Zobrazit informaci o vykopnutí uivatelù
+Zobrazit informaci o vykopnutĞ½ uÑ›ivatelÑ‰
 [Show notices]
-Zobrazit poznámky
+Zobrazit poznĞ±mky
 [Show users changing name]
-Zobrazit informaci o zmìnì jména
+Zobrazit informaci o zmĞ¼nĞ¼ jmĞ¹na
 [Show information messages]
-Zobrazit informativní zprávy
+Zobrazit informativnĞ½ zprĞ±vy
 [Show status changes of users]
-Zobrazit informaci o zmìnì stavu uivatelù
+Zobrazit informaci o zmĞ¼nĞ¼ stavu uÑ›ivatelÑ‰
 [Show icon for topic changes]
-Zobrazit ikonu k informaci o zmìnì tématu
+Zobrazit ikonu k informaci o zmĞ¼nĞ¼ tĞ¹matu
 [Show icon for users joining]
-Zobrazit ikonu k informaci o pøíchodu uivatelù
+Zobrazit ikonu k informaci o pÑˆĞ½chodu uÑ›ivatelÑ‰
 [Show icon for users disconnecting]
-Zobrazit ikonu k informaci o odpojení uivatelù
+Zobrazit ikonu k informaci o odpojenĞ½ uÑ›ivatelÑ‰
 [Show icon for messages]
-Zobrazit ikonu k textu zprávy
+Zobrazit ikonu k textu zprĞ±vy
 [Show icon for actions]
 Zobrazit ikonu k textu akce
 [Show icon for highlights]
-Zobrazit ikonu ke zvıraznìní
+Zobrazit ikonu ke zvÑraznĞ¼nĞ½
 [Show icon for users leaving]
-Zobrazit ikonu k informaci o odchodu uivatelù
+Zobrazit ikonu k informaci o odchodu uÑ›ivatelÑ‰
 [Show icon for users kicking other user]
-Zobrazit ikonu k informaci o vykopnutí
+Zobrazit ikonu k informaci o vykopnutĞ½
 [Show icon for notices ]
-Zobrazit ikonu k textu poznámky
+Zobrazit ikonu k textu poznĞ±mky
 [Show icon for name changes]
-Zobrazit ikonu k informaci o zmìnì jména
+Zobrazit ikonu k informaci o zmĞ¼nĞ¼ jmĞ¹na
 [Show icon for information messages]
-Zobrazit ikonu k textu informativní zprávy
+Zobrazit ikonu k textu informativnĞ½ zprĞ±vy
 [Show icon for status changes]
-Zobrazit ikonu k informaci o zmìnì stavu
+Zobrazit ikonu k informaci o zmĞ¼nĞ¼ stavu
 [Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze pøi neaktivním oknì s diskusí
+Zobrazit ikonu v ozn. oblasti pouze pÑˆi neaktivnĞ½m oknĞ¼ s diskusĞ½
 [Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì tématu
+Zobrazit ikonu v ozn. oblasti pÑˆi zmĞ¼nĞ¼ tĞ¹matu
 [Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti pøi pøíchodu uivatelù
+Zobrazit ikonu v ozn. oblasti pÑˆi pÑˆĞ½chodu uÑ›ivatelÑ‰
 [Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti pøi odpojení uivatelù
+Zobrazit ikonu v ozn. oblasti pÑˆi odpojenĞ½ uÑ›ivatelÑ‰
 [Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti pøi pøijetí zprávy
+Zobrazit ikonu v ozn. oblasti pÑˆi pÑˆijetĞ½ zprĞ±vy
 [Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti pøi akci
+Zobrazit ikonu v ozn. oblasti pÑˆi akci
 [Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti pøi zvıraznìní
+Zobrazit ikonu v ozn. oblasti pÑˆi zvÑraznĞ¼nĞ½
 [Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti pøi odchodu uivatelù
+Zobrazit ikonu v ozn. oblasti pÑˆi odchodu uÑ›ivatelÑ‰
 [Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti pøi vykopnutí uivatelù
+Zobrazit ikonu v ozn. oblasti pÑˆi vykopnutĞ½ uÑ›ivatelÑ‰
 [Show icon in tray for notices ]
-Zobrazit ikonu v ozn. oblasti u poznámky
+Zobrazit ikonu v ozn. oblasti u poznĞ±mky
 [Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì jména
+Zobrazit ikonu v ozn. oblasti pÑˆi zmĞ¼nĞ¼ jmĞ¹na
 [Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti pøi pøijetí informativní zprávy
+Zobrazit ikonu v ozn. oblasti pÑˆi pÑˆijetĞ½ informativnĞ½ zprĞ±vy
 [Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì stavu
+Zobrazit ikonu v ozn. oblasti pÑˆi zmĞ¼nĞ¼ stavu
 [Show pop-ups only when the chat room is not active]
-Zobrazit oznámení pouze pøi neaktivním oknì s diskusí
+Zobrazit oznĞ±menĞ½ pouze pÑˆi neaktivnĞ½m oknĞ¼ s diskusĞ½
 [Show pop-up for topic changes]
-Zobrazit oznámení pøi zmìnì tématu
+Zobrazit oznĞ±menĞ½ pÑˆi zmĞ¼nĞ¼ tĞ¹matu
 [Show pop-up for users joining]
-Zobrazit oznámení pøi pøíchodu uivatelù
+Zobrazit oznĞ±menĞ½ pÑˆi pÑˆĞ½chodu uÑ›ivatelÑ‰
 [Show pop-up for users disconnecting]
-Zobrazit oznámení pøi odpojení uivatelù
+Zobrazit oznĞ±menĞ½ pÑˆi odpojenĞ½ uÑ›ivatelÑ‰
 [Show pop-up for messages]
-Zobrazit oznámení pøi pøijetí zprávy
+Zobrazit oznĞ±menĞ½ pÑˆi pÑˆijetĞ½ zprĞ±vy
 [Show pop-up for actions]
-Zobrazit oznámení pøi akci
+Zobrazit oznĞ±menĞ½ pÑˆi akci
 [Show pop-up for highlights]
-Zobrazit oznámení pøi zvıraznìní
+Zobrazit oznĞ±menĞ½ pÑˆi zvÑraznĞ¼nĞ½
 [Show pop-up for users leaving]
-Zobrazit oznámení pøi odchodu uivatelù
+Zobrazit oznĞ±menĞ½ pÑˆi odchodu uÑ›ivatelÑ‰
 [Show pop-up for users kicking other user]
-Zobrazit oznámení pøi vykopnutí uivatelù
+Zobrazit oznĞ±menĞ½ pÑˆi vykopnutĞ½ uÑ›ivatelÑ‰
 [Show pop-up for notices ]
-Zobrazit oznámení u poznámky
+Zobrazit oznĞ±menĞ½ u poznĞ±mky
 [Show pop-up for name changes]
-Zobrazit oznámení pøi zmìnì jména
+Zobrazit oznĞ±menĞ½ pÑˆi zmĞ¼nĞ¼ jmĞ¹na
 [Show pop-up for information messages]
-Zobrazit oznámení pøi pøijetí informativní zprávy
+Zobrazit oznĞ±menĞ½ pÑˆi pÑˆijetĞ½ informativnĞ½ zprĞ±vy
 [Show pop-up for status changes]
-Zobrazit oznámení pøi zmìnì stavu
+Zobrazit oznĞ±menĞ½ pÑˆi zmĞ¼nĞ¼ stavu
 [Use a tabbed interface]
-Pouít systém záloek
+PouÑ›Ğ½t systĞ¹m zĞ±loÑ›ek
 [Close tab on doubleclick]
-Zavøít záloku dvojím kliknutím
+ZavÑˆĞ½t zĞ±loÑ›ku dvojĞ½m kliknutĞ½m
 [Restore previously open tabs when showing the window]
-Obnovit všechny záloky z poslední relace
+Obnovit vÑ™echny zĞ±loÑ›ky z poslednĞ½ relace
 [Show tabs at the bottom]
-Zobrazit záloky v dolní èásti okna
+Zobrazit zĞ±loÑ›ky v dolnĞ½ Ğ¸Ğ±sti okna
 
-; pøezdívka/kontextové menu
+; pÑˆezdĞ½vka/kontextovĞ¹ menu
 [Add to &ignore list]
-Pøidat mezi &ignorované
+PÑˆidat mezi &ignorovanĞ¹
 
-; Události/Záznam diskuse
+; UdĞ±losti/ZĞ±znam diskuse
 [Others nicknames]
-Ostatní pøezdívky
+OstatnĞ½ pÑˆezdĞ½vky
 [User kicked ...]
-Vykopnutí
+VykopnutĞ½
 [User is now known as ...]
-Zmìna pøezdívky
+ZmĞ¼na pÑˆezdĞ½vky
 [Notice from user]
-Poznámka
+PoznĞ±mka
 [The topic is ...]
-Zobrazení tématu
+ZobrazenĞ½ tĞ¹matu
 [Information messages]
 Informace
 [User enables status for ...]
@@ -477,91 +477,91 @@ Aktivace stavu pro ...
 [User disables status for ...]
 Deaktivace stavu pro ...
 [Action message]
-Upozornìní
+UpozornĞ¼nĞ½
 [Highlighted message]
-Zvıraznìná zpráva
+ZvÑraznĞ¼nĞ± zprĞ±va
 [Message typing area]
-Oblast se zprávou
+Oblast se zprĞ±vou
 [User list members (Online)]
-Seznam úèastníkù (online)
+Seznam ÑŠĞ¸astnĞ½kÑ‰ (online)
 [User list members (away)]
-Seznam úèastníkù (pryè)
+Seznam ÑŠĞ¸astnĞ½kÑ‰ (pryĞ¸)
 [User list members]
-Seznam úèastníkù
+Seznam ÑŠĞ¸astnĞ½kÑ‰
 [User list statuses]
-Stav úèastníkù
+Stav ÑŠĞ¸astnĞ½kÑ‰
 
 ; retezce pro Chat 0.2.1.3 (zpetna kompatibilita)
 [Userlist user indent (pixels):]
-Odsazení uivatelù v seznamu (v pix.):
+OdsazenĞ½ uÑ›ivatelÑ‰ v seznamu (v pix.):
 [Userlist lines]
 Linky v seznamu kont.
 
 ; novinky pro Chat 0.3.2.1
-; Události/Diskuse/Monosti
+; UdĞ±losti/Diskuse/MoÑ›nosti
 [Show the topic of the room on your contact list (if supported)]
-Zadané téma zobrazit v seznamu kontaktù (je-li to podporováno)
+ZadanĞ¹ tĞ¹ma zobrazit v seznamu kontaktÑ‰ (je-li to podporovĞ±no)
 [Timestamp has same colour as the event]
-Pro informaci o èase pouít stejnou barvu jakou má pøíslušná událost
+Pro informaci o Ğ¸ase pouÑ›Ğ½t stejnou barvu jakou mĞ± pÑˆĞ½sluÑ™nĞ± udĞ±lost
 
 [Message Background]
-Pozadí konverzace
+PozadĞ½ konverzace
 [Userlist Background]
-Pozadí seznamu kontaktù
+PozadĞ½ seznamu kontaktÑ‰
 [Userlist Lines]
-Linky v seznamu kontaktù
+Linky v seznamu kontaktÑ‰
 
 [Status 1 (10x10)]
-Stav è.1 (10x10)
+Stav Ğ¸.1 (10x10)
 [Status 2 (10x10)]
-Stav è.2 (10x10)
+Stav Ğ¸.2 (10x10)
 [Status 3 (10x10)]
-Stav è.3 (10x10)
+Stav Ğ¸.3 (10x10)
 [Status 4 (10x10)]
-Stav è.4 (10x10)
+Stav Ğ¸.4 (10x10)
 [Status 5 (10x10)]
-Stav è.5 (10x10)
+Stav Ğ¸.5 (10x10)
 [Status 6 (10x10)]
-Stav è.6 (10x10)
+Stav Ğ¸.6 (10x10)
 [Message in (10x10)]
-Pøíchozí zpráva (10x10)
+PÑˆĞ½chozĞ½ zprĞ±va (10x10)
 [Message out (10x10)]
-Odchozí zpráva (10x10)
+OdchozĞ½ zprĞ±va (10x10)
 [Action (10x10)]
 Akce (10x10)
 [Add Status (10x10)]
-Pøidat stav (10x10)
+PÑˆidat stav (10x10)
 [Remove status (10x10)]
 Odebrat stav (10x10)
 [Join (10x10)]
-Pøidat (10x10)
+PÑˆidat (10x10)
 [Leave (10x10)]
 Opustit (10x10)
 [Quit (10x10)]
-Ukonèit (10x10)
+UkonĞ¸it (10x10)
 [Kick (10x10)]
 Vykopnout (10x10)
 [Nickchange (10x10)]
-Zmìna pøezdívky (10x10)
+ZmĞ¼na pÑˆezdĞ½vky (10x10)
 [Notice (10x10)]
-Poznámka (10x10)
+PoznĞ±mka (10x10)
 [Topic (10x10)]
-Téma (10x10)
+TĞ¹ma (10x10)
 [Highlight (10x10)]
-Zvıraznìní (10x10)
+ZvÑraznĞ¼nĞ½ (10x10)
 [Information (10x10)]
 Informace (10x10)
 
 [Unique id]
-Identifikátor
+IdentifikĞ±tor
 [Nick name]
-Pøezdívka
+PÑˆezdĞ½vka
 
 [Group chats]
-Skupinové rozhovory
+SkupinovĞ¹ rozhovory
 [Chat Module]
-Skupinovı rozhovor
+SkupinovÑ rozhovor
 [Userlist Background (selected)]
-Pozadí seznamu kontaktù (vybranı)
+PozadĞ½ seznamu kontaktÑ‰ (vybranÑ)
 
 ; ---

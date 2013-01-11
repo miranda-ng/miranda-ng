@@ -1,65 +1,65 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SecureIM 1.0.11.0                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2445
 ;
 
 
 ; c:\worx\miranda_cz\to_parse\SecureIM\language.cpp
 [SecureIM established...]
-Šifrované spojení navázáno...
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no...
 [Key exchange failed...]
-Chyba pøi vımìnì klíèù...
+Chyba pÑˆi vÑmĞ¼nĞ¼ klĞ½Ğ¸Ñ‰...
 [Key from disabled...]
-Deaktivován cizí klíè...
+DeaktivovĞ±n cizĞ½ klĞ½Ğ¸...
 [Sended back message received...]
-Pøijata odpovìï...
+PÑˆijata odpovĞ¼Ğ¿...
 [Sending back secure message...]
-Odesílání šifrované odpovìdi...
+OdesĞ½lĞ±nĞ½ Ñ™ifrovanĞ¹ odpovĞ¼di...
 [SecureIM disabled...]
-Šifrování vypnuto...
+Ğ‰ifrovĞ±nĞ½ vypnuto...
 [Sending Key...]
-Odesílání klíèe...
+OdesĞ½lĞ±nĞ½ klĞ½Ğ¸e...
 [Key Received...]
-Klíè pøijat...
+KlĞ½Ğ¸ pÑˆijat...
 [Sending Message...]
-Odesílání zprávy...
+OdesĞ½lĞ±nĞ½ zprĞ±vy...
 [Message Received...]
-Pøijata zpráva...
+PÑˆijata zprĞ±va...
 [Encrypting File:]
-Šifrování souboru:
+Ğ‰ifrovĞ±nĞ½ souboru:
 [Decrypting File:]
-Dešifrování souboru:
+DeÑ™ifrovĞ±nĞ½ souboru:
 [Bad key received...]
-Obdren špatnı klíè...
+ObdrÑ›en Ñ™patnÑ klĞ½Ğ¸...
 [SecureIM: Error while decrypting the message.]
-Chyba pøi dešifrování zprávy.
+Chyba pÑˆi deÑ™ifrovĞ±nĞ½ zprĞ±vy.
 [SecureIM: Error while decrypting the message, bad message length.]
-Chyba pøi dešifrování zprávy, špatná délka.
+Chyba pÑˆi deÑ™ifrovĞ±nĞ½ zprĞ±vy, Ñ™patnĞ± dĞ¹lka.
 [SecureIM: Error while decrypting the message, bad message CRC.]
-Chyba pøi dešifrování zprávy, chyba CRC.
+Chyba pÑˆi deÑ™ifrovĞ±nĞ½ zprĞ±vy, chyba CRC.
 [User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
-Uivatel neodpovídá na vımìnu klíèù!\r\nChcete zprávu odeslat nešifrovanou?
+UÑ›ivatel neodpovĞ½dĞ± na vÑmĞ¼nu klĞ½Ğ¸Ñ‰!\r\nChcete zprĞ±vu odeslat neÑ™ifrovanou?
 [SecureIM not enabled! You Must Enable SecureIM with this user...]
-SecureIM není povoleno! S tímto uivatelem musíte SecureIM povolit!
+SecureIM nenĞ½ povoleno! S tĞ½mto uÑ›ivatelem musĞ½te SecureIM povolit!
 [Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
-Nemohu poslat šifrovanou zprávu!\nUivatel je ve stavu offline a platnost klíèe vypršela.\nChcete poslat zprávu bez šifrování?
+Nemohu poslat Ñ™ifrovanou zprĞ±vu!\nUÑ›ivatel je ve stavu offline a platnost klĞ½Ğ¸e vyprÑ™ela.\nChcete poslat zprĞ±vu bez Ñ™ifrovĞ±nĞ½?
 [SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
-SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
+SecureIM nebyl nahrĞ±n. Knihovna cryptopp.dll chybĞ½/Ñ™patnĞ± verze!
 [SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
-SecureIM nemùe naèíst PGP/GPG klíè! Zkontrolujte PGP/GPG nastavení!
+SecureIM nemÑ‰Ñ›e naĞ¸Ğ½st PGP/GPG klĞ½Ğ¸! Zkontrolujte PGP/GPG nastavenĞ½!
 [SecureIM can't encrypt message! Check trust of PGP/GPG key!]
-SecureIM nemùe zašifrovat zprávu! Zkontrolujte dùvìryhodnost PGP/GPG klíèe!
+SecureIM nemÑ‰eÑ› zaÑ™ifrovat zprĞ±vu! Zkontrolujte dÑ‰vĞ¼ryhodnost PGP/GPG klĞ½Ğ¸e!
 [Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
-Nelze poslat šifrovanou zprávu!\nChcete poslat vaší zpráv nešifrovanou?
+Nelze poslat Ñ™ifrovanou zprĞ±vu!\nChcete poslat vaÑ™Ğ½ zprĞ±v neÑ™ifrovanou?
 [General]
-Obecné
+ObecnĞ¹
 [Protocols]
 Protokoly
 [Nickname]
-Pøezdívka
+PÑˆezdĞ½vka
 [UIN/Email/Jid/...]
 UIN/Email/Jid/...
 [Status]
@@ -67,244 +67,244 @@ Stavy
 [PSK]
 PSK
 [Name]
-Jméno
+JmĞ¹no
 [Password is too short!]
-Heslo je pøíliš krátké!
+Heslo je pÑˆĞ½liÑ™ krĞ±tkĞ¹!
 [Off]
 Vyp
 [PGP]
 PGP 
 [Key ID]
-ID klíèe
+ID klĞ½Ğ¸e
 [Keyrings loaded.]
-Klíèenka naètena.
+KlĞ½Ğ¸enka naĞ¸tena.
 [Keyrings not loaded!]
-Klíèenka nebyla naètena!
+KlĞ½Ğ¸enka nebyla naĞ¸tena!
 [PGP SDK v%i.%i.%i found.]
 Nalezen PGP SDK v.%i.%i.%i
 [PGP SDK not found!]
 PGP SDK nenalezen!
 [This version not supported!]
-Tato verze není podporována!
+Tato verze nenĞ½ podporovĞ±na!
 [(none)]
-(není)
+(nenĞ½)
 [Private key loaded.]
-Osobní klíèe nahrány.
+OsobnĞ½ klĞ½Ğ¸e nahrĞ±ny.
 [Private key not loaded!]
-Osobní klíèe nenahrány!
+OsobnĞ½ klĞ½Ğ¸e nenahrĞ±ny!
 [The new settings will become valid when you restart MirandaIM!]
-Nové nastavení se projeví a po restartu Mirandy!
+NovĞ¹ nastavenĞ½ se projevĞ½ aÑ› po restartu Mirandy!
 [Keyrings disabled!]
-Klíèenka vypnuta!
+KlĞ½Ğ¸enka vypnuta!
 [UTF8]
 UTF8
 [Mode]
-Mód
+MÑƒd
 [Native]
-Nativní
+NativnĞ½
 [Disabled]
 Vypnuto
 [Create SecureIM connection]
-Navázat šifrované spojení
+NavĞ±zat Ñ™ifrovanĞ¹ spojenĞ½
 [Disable SecureIM connection]
-Zrušit šifrované spojení
+ZruÑ™it Ñ™ifrovanĞ¹ spojenĞ½
 [SecureIM status (disabled)]
 Stav SecureIM (vypnuto)
 [SecureIM status (enabled)]
 Stav SecureIM (zapnuto)
 [SecureIM status (always try)]
-Stav SecureIM (zkus vdy)
+Stav SecureIM (zkus vÑ›dy)
 [Load PGP Key]
-Naèíst PGP klíè
+NaĞ¸Ğ½st PGP klĞ½Ğ¸
 [Unload PGP Key]
-Odstranit PGP klíè
+Odstranit PGP klĞ½Ğ¸
 [Load GPG Key]
-Nahrát GPG klíè
+NahrĞ±t GPG klĞ½Ğ¸
 [Unload GPG Key]
-Opustit GPG klíè
+Opustit GPG klĞ½Ğ¸
 [Delete RSA Key]
-Smazat RSA klíè
+Smazat RSA klĞ½Ğ¸
 [SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
-Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
+Nemohu deÑ™ifrovat tuto zprĞ±vu - namĞ±te instalovĞ±n PGP. VĞ½ce informacĞ½ na www.pgp.com nebo na www.gnupg.org
 [SecureIM received unencryped message:\n]
-SecureIM pøijal nešifrovanou zprávu:\n
+SecureIM pÑˆijal neÑ™ifrovanou zprĞ±vu:\n
 [SecureIM received encryped message:\n]
-SecureIM pøijal šifrovanou zprávu:\n
+SecureIM pÑˆijal Ñ™ifrovanou zprĞ±vu:\n
 [SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
-SecureIM pøijal RSA veøejnı klíèod "%s"\n\nSHA1: %s\n\nChcete pøijmout tento klíè??
+SecureIM pÑˆijal RSA veÑˆejnÑ klĞ½Ğ¸od "%s"\n\nSHA1: %s\n\nChcete pÑˆijmout tento klĞ½Ğ¸??
 
 ; c:\worx\miranda_cz\to_parse\SecureIM\options.cpp
 [-----BEGIN PGP PRIVATE KEY BLOCK-----]
------ZAÈÁTEK BLOKU SOUKROMÉHO PGP KLÍÈE-----
+-----ZAĞ˜Ğ‘TEK BLOKU SOUKROMĞ™HO PGP KLĞĞ˜E-----
 [-----END PGP PRIVATE KEY BLOCK-----]
------KONEC BLOKU SOUKROMÉHO PGP KLÍÈE-----
+-----KONEC BLOKU SOUKROMĞ™HO PGP KLĞĞ˜E-----
 [-----BEGIN PGP PUBLIC KEY BLOCK-----]
------ZAÈÁTEK BLOKU VEØEJNÉHO PGP KLÍÈE-----
+-----ZAĞ˜Ğ‘TEK BLOKU VEĞ¨EJNĞ™HO PGP KLĞĞ˜E-----
 [-----END PGP PUBLIC KEY BLOCK-----]
------KONEC BLOKU VEØEJNÉHO PGP KLÍÈE-----
+-----KONEC BLOKU VEĞ¨EJNĞ™HO PGP KLĞĞ˜E-----
 [Services]
-Sluby
+SluÑ›by
 
 ; c:\worx\miranda_cz\to_parse\SecureIM\popupOptions.cpp
 [Popups]
-Oznámení
+OznĞ±menĞ½
 
 ; c:\worx\miranda_cz\to_parse\SecureIM\resource.rc
 [User List]
-Seznam uivatelù
+Seznam uÑ›ivatelÑ‰
 [Enable Secure Offline messages]
-Šifrovat zprávy offline
+Ğ‰ifrovat zprĞ±vy offline
 [Enable Secure File Transfer]
-Šifrovat pøenos souborù
+Ğ‰ifrovat pÑˆenos souborÑ‰
 [Always show status icons in contact list]
-Ukázat stavovou ikonu v kontaktech
+UkĞ±zat stavovou ikonu v kontaktech
 [Miranda Client Detection]
 Detekovat Mirandu          
 [Status in Context Menu]
-Stav v kontextovém menu
+Stav v kontextovĞ¹m menu
 [Disable encryption for game plugins]
-Vypnout šifrování pro herní doplòky
+Vypnout Ñ™ifrovĞ±nĞ½ pro hernĞ½ doplÑ‚ky
 [Always secured if possible]
-Pokud lze, šifrovat vdy
+Pokud lze, Ñ™ifrovat vÑ›dy
 [Contact List Icon slot]
 Pozice pro ikonu
 [Key Exchange Timeout :]
-Doba pro vımìnu klíèe:
+Doba pro vÑmĞ¼nu klĞ½Ğ¸e:
 [sec]
 sek.
 [Offline Key Timeout :]
-Offline klíè vyprší za:
+Offline klĞ½Ğ¸ vyprÑ™Ğ½ za:
 [days]
-dnù
+dnÑ‰
 [Reset All]
-Vše resetovat
+VÑ™e resetovat
 [Split Messages]
-Rozdìlit zprávy
+RozdĞ¼lit zprĞ±vy
 [Online:]
 Online:
 [Offline:]
 Offline:
 [RSA Key]
-RSA klíè
+RSA klĞ½Ğ¸
 [Set &keyrings...]
-Nastavit &klíèenku...
+Nastavit &klĞ½Ğ¸enku...
 [Disable keyrings use]
-Vypnout pouití klíèenky
+Vypnout pouÑ›itĞ½ klĞ½Ğ¸enky
 [Load &Private key]
-Nahrát &Soukromı klíè
+NahrĞ±t &SoukromÑ klĞ½Ğ¸
 [Basic]
-Obecné
+ObecnĞ¹
 [Executable:]
 Program gpg.exe:
 [...]
 ...
 [Home Directory:]
-Dom. adresáø:
+Dom. adresĞ±Ñˆ:
 [Key Assignment]
-Pøiøazení klíèù
+PÑˆiÑˆazenĞ½ klĞ½Ğ¸Ñ‰
 [Debug]
 Debug
 [Log to File]
 Do souboru
 [Save Pass]
-Uloit heslo
+UloÑ›it heslo
 [Back]
-Pozadí
+PozadĞ½
 [Text]
 Text
 [Key agreement colors]
-Potvrzení klíèù
+PotvrzenĞ½ klĞ½Ğ¸Ñ‰
 [Secure connection colors]
-Šifrované spojení
+Ğ‰ifrovanĞ¹ spojenĞ½
 [Send/Receive encrypted colors]
-Šifrované odesílání a pøíjem
+Ğ‰ifrovanĞ¹ odesĞ½lĞ±nĞ½ a pÑˆĞ½jem
 [SecureIM PopUp Colors]
-Nastavení barev
+NastavenĞ½ barev
 [Preview]
-Náhled
+NĞ±hled
 [Events]
-Události
+UdĞ±losti
 [PopUp Timeout]
-Doba zobrazení
+Doba zobrazenĞ½
 [Time in Seconds]
-Èas v sekundách
+Ğ˜as v sekundĞ±ch
 [0 = Default PopUp Timeout Value]
-0 = vıchozí hodnota
+0 = vÑchozĞ½ hodnota
 [Show a popup on established connection]
-Indikovat vytvoøení spojení
+Indikovat vytvoÑˆenĞ½ spojenĞ½
 [Show a popup on disabled connection]
-Indikovat zrušení spojení
+Indikovat zruÑ™enĞ½ spojenĞ½
 [Show a popup on key send]
-Indikovat odesílání klíèe
+Indikovat odesĞ½lĞ±nĞ½ klĞ½Ğ¸e
 [Show a popup on key received]
-Indikovat pøíjem klíèe
+Indikovat pÑˆĞ½jem klĞ½Ğ¸e
 [Show a popup on each secure send]
-Indikovat odesílání šifrované zprávy
+Indikovat odesĞ½lĞ±nĞ½ Ñ™ifrovanĞ¹ zprĞ±vy
 [Show a popup on each secure receive]
-Indikovat pøíjem šifrované zprávy
+Indikovat pÑˆĞ½jem Ñ™ifrovanĞ¹ zprĞ±vy
 [Please type in your password]
-Zadejte prosím své heslo
+Zadejte prosĞ½m svĞ¹ heslo
 [OK]
 OK
 [Cancel]
-Zrušit
+ZruÑ™it
 [Username:]
-Uivatel:
+UÑ›ivatel:
 [Password:]
 Heslo:
 [Native SecureIM]
-Nativní SecureIM
+NativnĞ½ SecureIM
 [Always Try to Establish Secure IM]
-Vdy se pokusit pouít SecureIM
+VÑ›dy se pokusit pouÑ›Ğ½t SecureIM
 [Secure IM Enabled]
 Povolit SecureIM
 [Secure IM Disabled]
-Zakázat SecureIM
+ZakĞ±zat SecureIM
 [Pre-shared key]
-Pøedsdílenı klíè (PSK)
+PÑˆedsdĞ½lenÑ klĞ½Ğ¸ (PSK)
 [Set key]
-Nastavit klíè
+Nastavit klĞ½Ğ¸
 [Delete key]
-Smazat klíè
+Smazat klĞ½Ğ¸
 
 ; c:\worx\miranda_cz\to_parse\SecureIM\secureim.h
 [Connection Disabled]
-Bez šifrování
+Bez Ñ™ifrovĞ±nĞ½
 [Connection Established (valid prime)]
-Šifrované spojení navázáno
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no
 [Establishe Secure Connection]
-Šifrované spojení navázáno
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no
 [Key Exchange]
-Vımìna klíèe
+VÑmĞ¼na klĞ½Ğ¸e
 [Connection Established (ver <= 1.0.4.4c)]
-Šifrované spojení navázáno (ver <= 1.0.4.4c)
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no (ver <= 1.0.4.4c)
 [Connection Established (ver >= 1.0.5.0)]
-Šifrované spojení navázáno (ver >= 1.0.5.0)
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no (ver >= 1.0.5.0)
 [PGP Key]
-PGP klíè
+PGP klĞ½Ğ¸
 [GPG Key]
-GPG klíè
+GPG klĞ½Ğ¸
 [flag Disabled]
-pøíznak Vypnuto
+pÑˆĞ½znak Vypnuto
 [flag Enabled]
-pøíznak Zapnuto
+pÑˆĞ½znak Zapnuto
 [flag Always Try]
-pøíznak Vdy zkusit
+pÑˆĞ½znak VÑ›dy zkusit
 [flag PGP Key]
-pøíznak PGP klíè
+pÑˆĞ½znak PGP klĞ½Ğ¸
 [flag GPG Key]
-pøíznak GPG klíè
+pÑˆĞ½znak GPG klĞ½Ğ¸
 [Recv Secured MSG (popup)]
-Pøíjem šifrované zprávy (oznámení)
+PÑˆĞ½jem Ñ™ifrovanĞ¹ zprĞ±vy (oznĞ±menĞ½)
 [Send Secured MSG (popup)]
-Poslání šifrované zprávy (oznámení)
+PoslĞ±nĞ½ Ñ™ifrovanĞ¹ zprĞ±vy (oznĞ±menĞ½)
 [Recv Key (popup)]
-Pøíjem klíèe (oznámení)
+PÑˆĞ½jem klĞ½Ğ¸e (oznĞ±menĞ½)
 [Send Key (popup)]
-Vyslání klíèe (oznámení)
+VyslĞ±nĞ½ klĞ½Ğ¸e (oznĞ±menĞ½)
 [Connection Established (popup)]
-Šifrované spojení navázáno (oznámení)
+Ğ‰ifrovanĞ¹ spojenĞ½ navĞ±zĞ±no (oznĞ±menĞ½)
 [Connection Disabled (popup)]
-Šifrované spojení zrušeno (oznámení)
+Ğ‰ifrovanĞ¹ spojenĞ½ zruÑ™eno (oznĞ±menĞ½)
 
 ; ---

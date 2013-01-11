@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  RePosition 0.1.0.5                                      |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: waclaw <waclaw (zavin·Ë) cmail (teËka) cz>
+; P—àeklad: waclaw <waclaw (zavin–±–∏) cmail (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -11,36 +11,36 @@ Obnova pozice
 [&RePosition Miranda]
 &Obnovit pozici Mirandy
 [&Save Miranda Position]
-&Uloûit pozici Mirandy
+&Ulo—õit pozici Mirandy
 [Miranda's visible again.\nEnjoy youself!]
-Miranda je znovu vidÏt. Uûijte si to!
+Miranda je znovu vid–ºt. U—õijte si to!
 [Miranda's position has been restored!]
 Pozice Mirandy byla obnovena!
 [Miranda is outside the visible area.\nIts position won't be stored.]
-Miranda je mimo viditelnou oblast.\nPozici nenÌ moûnÈ obnovit.
+Miranda je mimo viditelnou oblast.\nPozici nen–Ω mo—õn–π obnovit.
 [Miranda's actual position has been saved!]
-SouËasn· pozice Mirandy byla uloûena!
+Sou–∏asn–± pozice Mirandy byla ulo—õena!
 ;0.1.0.3
 ;The following were changed due to mistypes and bad memory. :-)
 [Show &Messages]
-Zobrazit ko&ment·¯e
+Zobrazit ko&ment–±—àe
 [Save on &exit]
-Uloûit pozici p¯i ukonË&enÌ
+Ulo—õit pozici p—ài ukon–∏&en–Ω
 [Re&Position on start]
-Obnovit &pozici p¯i startu
+Obnovit &pozici p—ài startu
 [&Save position]
-&Uloûit pozici
+&Ulo—õit pozici
 [You can save Miranda's actual position by clicking here.]
-KliknutÌm sem lze uloûit souËasnou pozici Mirandy.
+Kliknut–Ωm sem lze ulo—õit sou–∏asnou pozici Mirandy.
 [&Save position now]
-U&loûit pozici nynÌ
+U&lo—õit pozici nyn–Ω
 [&RePosition now]
-&Obnovit pozici nynÌ
+&Obnovit pozici nyn–Ω
 ;0.1.0.4
 ;It's ages that this can be translated, but I never put the sentence here. :-)
 ;Note: *every* plugin's description can be translated even if the author
 ;doesn't write the string in the langpack! It's automatic.
 [Wanna RePosition Miranda inside the visible screen area? Just do it!]
-Chcete mÌt umÌstÏnou Mirandu ve viditelnÈ Ë·sti obrazovky? Tak pouûijte tohle!
+Chcete m–Ωt um–Ωst–ºnou Mirandu ve viditeln–π –∏–±sti obrazovky? Tak pou—õijte tohle!
 
 ; ---

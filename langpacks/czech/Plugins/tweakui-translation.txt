@@ -1,38 +1,38 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  TweakUI 0.0.0.5 beta                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Stanislav Vágner <vagner (zavináè) nway (teèka) cz>
+; PÑˆeklad: Stanislav VĞ±gner <vagner (zavinĞ±Ğ¸) nway (teĞ¸ka) cz>
 ; Adresa: http://www.volumna.com.br/pessoal/angelo/
 ;
 
 [TweakUI]
-Vylepšení
+VylepÑ™enĞ½
 [Tweaks for user interface.]
-Vylepšení uivatelského rozhraní.
+VylepÑ™enĞ½ uÑ›ivatelskĞ¹ho rozhranĞ½.
 ;(DUP) [Border]
 [Use default border]
-Pouít vıchozí okraj
+PouÑ›Ğ½t vÑchozĞ½ okraj
 ;(DUP) [No border]
 [Thin-line border]
-Slabı okraj
+SlabÑ okraj
 [Double border]
-Dvojitı okraj
+DvojitÑ okraj
 [Static edge]
-Pevnı okraj
+PevnÑ okraj
 [Sunken edge]
-Spodní okraj
+SpodnĞ½ okraj
 [All border's changes will hide the titlebar.]
-Všechny okraje záhlaví oken budou zmìnìna.
+VÑ™echny okraje zĞ±hlavĞ½ oken budou zmĞ¼nĞ¼na.
 [Translucency]
-Prùhlednost
+PrÑ‰hlednost
 [Make main window transparent, but let contacts opaque]
-Nastavit prùhlednost hlavního okna kromì kontaktù
+Nastavit prÑ‰hlednost hlavnĞ½ho okna kromĞ¼ kontaktÑ‰
 [Contact's opacity:]
-Úroveò neprùhlednosti
+ĞªroveÑ‚ neprÑ‰hlednosti
 [Disable background picture]
-Vypnout obrázek na pozadí
+Vypnout obrĞ±zek na pozadĞ½
 [Some changes need a Miranda restart to take effect]
-Zmìny se projeví a po restartu Mirandy
+ZmĞ¼ny se projevĞ½ aÑ› po restartu Mirandy
 
 ; ---

@@ -1,32 +1,32 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  AdvancedAutoAway 0.0.2.22                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2205
 ;
 
 ; /StatusPlugins/commonstatus.c
 [I've been away since %time%.]
-Jsem pryè od %time%
+Jsem pryĞ¸ od %time%
 [Give it up, I'm not in!]
 Vzdejte to, nejsem tu!
 [Not right now.]
-Teï ne, prosím.
+TeĞ¿ ne, prosĞ½m.
 [Give a guy some peace, would ya?]
-Nechte mì prosím chvíli o samotì, ano?
+Nechte mĞ¼ prosĞ½m chvĞ½li o samotĞ¼, ano?
 [I'm a chatbot!]
-Kecám, a se mi od klávesnice práší!
+KecĞ±m, aÑ› se mi od klĞ±vesnice prĞ±Ñ™Ğ½!
 [Yep, I'm here.]
-Jasnì, jsem tu.
+JasnĞ¼, jsem tu.
 [Nope, not here.]
 Ne, nejsem tady
 [I'm hiding from the mafia.]
-Skrıvám se pøed mafií.
+SkrÑvĞ±m se pÑˆed mafiĞ½.
 [That'll be the phone.]
-Právì telefonuji
+PrĞ±vĞ¼ telefonuji
 [Mmm...food.]
-Mòam... jídlo
+MÑ‚am... jĞ½dlo
 [idleeeeeeee]
 Chrrrrrrrrrrrr
 
@@ -36,53 +36,53 @@ Protokol
 [Status]
 Stavy
 [Message]
-Zpráva
+ZprĞ±va
  
  
 [Closing in %d]
-Zavøe se za %d sek.
+ZavÑˆe se za %d sek.
 [Close]
-Zavøít
+ZavÑˆĞ½t
 [%s (%s)]
 %s (%s)
 [<last>]
-<minulı>
+<minulÑ>
 [<current>]
-<souèasnı>
+<souĞ¸asnÑ>
 [<n/a>]
 <neuvedeno>
 
 ; /StatusPlugins/resource.rc:IDD_OPT_KS_BASIC
 [Check connection]
-Zajistit spojení
+Zajistit spojenĞ½
 [Button]
-Tlaèítko
+TlaĞ¸Ğ½tko
 [Max. retries]
 Max. opak.
 [Protocol Connection]
-Stav protokolù
+Stav protokolÑ‰
 [Delay between retries (secs)]
-Prodleva mezi obnovením (sek.)
+Prodleva mezi obnovenĞ½m (sek.)
 [Show popups]
-Zobrazovat oznámení
+Zobrazovat oznĞ±menĞ½
 [General]
-Obecné
+ObecnĞ¹
 [Protocols to check]
-Vybrané protokoly
+VybranĞ¹ protokoly
 [Dial-Up]
-Vytáèené spojení
+VytĞ±Ğ¸enĞ¹ spojenĞ½
 [Don't reconnect if no internet connection seems available]
-Neobnovovat stav pøi odpojení od internetu
+Neobnovovat stav pÑˆi odpojenĞ½ od internetu
 [Continuously check for internet connection]
-Periodicky ovìøovat pøipojení k internetu
+Periodicky ovĞ¼Ñˆovat pÑˆipojenĞ½ k internetu
 [Do so by pinging host]
-Pomocí pøíkazu ping
+PomocĞ½ pÑˆĞ½kazu ping
 
 ; /StatusPlugins/resource.rc:IDD_CONFIRMDIALOG
 [Confirm Status]
-Potvrzení stavu
+PotvrzenĞ½ stavu
 [Cancel]
-Zrušit
+ZruÑ™it
 [Profile]
 Profil
 
@@ -90,41 +90,41 @@ Profil
 [after]
 po
 [minutes of inactivity]
-min. neèinnosti
+min. neĞ¸innosti
 [minutes of level 1 mode]
-min. v módu Level 1
+min. v mÑƒdu Level 1
 [Confirm resetting status]
-Potvrdit návrat do pùvodního stavu
+Potvrdit nĞ±vrat do pÑ‰vodnĞ½ho stavu
 [Only set if current status is]
 Nastavit pouze tehdy, je-li stav
 [Monitor Miranda's activity only]
 Monitorovat pouze program Miranda
 [Reset status on return]
-Po návratu obnovit pùvodní stav
+Po nĞ±vratu obnovit pÑ‰vodnĞ½ stav
 [when screen saver engages]
-pøi aktivaci spoøièe obrazovky
+pÑˆi aktivaci spoÑˆiĞ¸e obrazovky
 [Set]
 Nastavit
 [only set when inactive]
-pouze tehdy, je-li neaktivní
+pouze tehdy, je-li neaktivnĞ½
 [when workstation is locked]
-pøi zamknutí poèítaèe
+pÑˆi zamknutĞ½ poĞ¸Ğ½taĞ¸e
 
 ; /StatusPlugins/resource.rc:IDD_CMDLOPTIONS
 [Command Line]
-Pøíkazovı øádek
+PÑˆĞ½kazovÑ ÑˆĞ±dek
 [OK]
 OK
 [Copy to Clipboard]
-Zkopírovat
+ZkopĞ½rovat
 [Command Line:]
-Pøíkazovı øádek:
+PÑˆĞ½kazovÑ ÑˆĞ±dek:
 [Create Shortcut]
-Vytvoøit zástupce
+VytvoÑˆit zĞ±stupce
 [Add new profile]
-Pøidat novı profil
+PÑˆidat novÑ profil
 [Profile name]
-Název profilu
+NĞ±zev profilu
 
 ; /StatusPlugins/resource.rc:IDD_OPT_STARTUPSTATUS
 [Set window state]
@@ -132,114 +132,114 @@ Stav okna
 [Show dialog]
 Zobrazit dialog
 [Set status to offline before exit]
-Pøed ukonèením pøejít do 'Offline'
+PÑˆed ukonĞ¸enĞ½m pÑˆejĞ½t do 'Offline'
 [Show CMDL]
-Pøíkazovı ø.
+PÑˆĞ½kazovÑ Ñˆ.
 ;(DUP) [Activate status profile]
 [Set docked]
 Zadokovat
 [Other]
-Ostatní
+OstatnĞ½
 [Status on startup]
-Stav po spuštìní
+Stav po spuÑ™tĞ¼nĞ½
 [ms]
 ms
 ;(DUP) [Set after]
 [Timeout]
-Doba zobrazení
+Doba zobrazenĞ½
 [s]
 s
 [Set window location]
-Umístit na souøadnice
+UmĞ½stit na souÑˆadnice
 [Set window size]
 Velikost okna
 [Allow override]
-Povolit potlaèení
+Povolit potlaĞ¸enĞ½
 ;(DUP) [Note: status profiles can be created in the 'Status Profiles' options screen]
 [Window on startup]
 Okno po startu
 [Automatically dial on startup]
-Automaticky vytáèet po spuštìní
+Automaticky vytĞ±Ğ¸et po spuÑ™tĞ¼nĞ½
 [Automatically hang up on exit]
-Automaticky zavìsit po ukonèení
+Automaticky zavĞ¼sit po ukonĞ¸enĞ½
 [Dial-up (experimental)]
-Vytáèené spojení (experimentální)
+VytĞ±Ğ¸enĞ¹ spojenĞ½ (experimentĞ±lnĞ½)
 
 ; /StatusPlugins/resource.rc:IDD_PUOPT_KEEPSTATUS
 [Background colour]
-Barva pozadí
+Barva pozadĞ½
 [Text colour]
 Barva textu
 [Use Windows colours]
-Pouít barvy Windows
+PouÑ›Ğ½t barvy Windows
 [Use default colours]
-Pouít vıchozí barvy
+PouÑ›Ğ½t vÑchozĞ½ barvy
 [Delay]
 Prodleva
 [On left click]
-Levé tlaèítko
+LevĞ¹ tlaĞ¸Ğ½tko
 [On right click]
-Pravé tlaèítko
+PravĞ¹ tlaĞ¸Ğ½tko
 [Do nothing]
-Nedìlat nic
+NedĞ¼lat nic
 [Close popup]
-Zavøít oznámení
+ZavÑˆĞ½t oznĞ±menĞ½
 [Cancel reconnecting]
-Pøerušit pøipojování
+PÑˆeruÑ™it pÑˆipojovĞ±nĞ½
 [Colours]
 Barvy
 [Preview]
-Náhled
+NĞ±hled
 [Events]
-Události
+UdĞ±losti
 [Show when connection is lost]
-Zobrazit pøi odpojení od sítì
+Zobrazit pÑˆi odpojenĞ½ od sĞ½tĞ¼
 [Show when a connection attempt is made]
-Zobrazit pøi pokusu o navázání spojení
+Zobrazit pÑˆi pokusu o navĞ±zĞ±nĞ½ spojenĞ½
 [Show when reconnection has finished]
-Zobrazit po úspìšném navázání spojení
+Zobrazit po ÑŠspĞ¼Ñ™nĞ¹m navĞ±zĞ±nĞ½ spojenĞ½
 [Show other messages]
-Zobrazit ostatní zprávy
+Zobrazit ostatnĞ½ zprĞ±vy
 [From PopUp plugin]
-Globální nastavení
+GlobĞ±lnĞ½ nastavenĞ½
 [Custom]
-Vlastní
+VlastnĞ½
 [Permanent]
 Trvale
 [Show additional information in popups]
-Zobrazit i další, podrobnìjší informace 
+Zobrazit i dalÑ™Ğ½, podrobnĞ¼jÑ™Ğ½ informace 
 
 ; /StatusPlugins/resource.rc:IDD_OPT_AUTOAWAYMSG
 [Use Miranda's message setting]
-Pouít vıchozí nastavení Mirandy
+PouÑ›Ğ½t vÑchozĞ½ nastavenĞ½ Mirandy
 [Use this message:]
-Pouít následující zprávu:
+PouÑ›Ğ½t nĞ±sledujĞ½cĞ½ zprĞ±vu:
 [Use %time% for the current time, %date% for the current date]
-%time% = aktuální èas, %date% = aktuální datum
+%time% = aktuĞ±lnĞ½ Ğ¸as, %date% = aktuĞ±lnĞ½ datum
 [Variables...]
-Promìnné...
+PromĞ¼nnĞ¹...
 
 ; /StatusPlugins/resource.rc:IDD_OPT_GENAUTOAWAY
 [Specify settings for each protocol]
-Nastavit pro kadı protokol zvláš
+Nastavit pro kaÑ›dÑ protokol zvlĞ±Ñ™Ñœ
 [Use same settings for all protocols]
-Nastavit pro všechny protokoly stejnì
+Nastavit pro vÑ™echny protokoly stejnĞ¼
 [Ignore caps-lock, num-lock and scroll-lock keys]
-Ignorovat klávesy CAPS-, NUM- a SCROLL-LOCK
+Ignorovat klĞ±vesy CAPS-, NUM- a SCROLL-LOCK
 [Check interval (secs)]
-Interval zjišování stavu (v sek.)
+Interval zjiÑ™ÑœovĞ±nĞ½ stavu (v sek.)
 [Confirm dialog timeout (secs)]
-Dialog zavøít po (v sek.)
+Dialog zavÑˆĞ½t po (v sek.)
 [You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
-Po aktivaci monosti 'Zmìnit mùj stav na' na stránce 'Neèinnost' je nastavení doplòku AdvancedAutoAway ignorováno.
+Po aktivaci moÑ›nosti 'ZmĞ¼nit mÑ‰j stav na' na strĞ±nce 'NeĞ¸innost' je nastavenĞ½ doplÑ‚ku AdvancedAutoAway ignorovĞ±no.
 [Monitor keyboard activity]
-Monitorovat psaní na klávesnici
+Monitorovat psanĞ½ na klĞ±vesnici
 [Monitor mouse activity]
-Monitorovat pohyb myši
+Monitorovat pohyb myÑ™i
 [Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
-Ignorovat klávesy CRTL, ALT, SHIFT, TAB, ESC a WIN
+Ignorovat klĞ±vesy CRTL, ALT, SHIFT, TAB, ESC a WIN
 [Ignore any key combination with above keys]
-Ignorovat kombinace s vıše uvedenımi klávesami
+Ignorovat kombinace s vÑÑ™e uvedenÑmi klĞ±vesami
 
 ; /StatusPlugins/resource.rc:IDD_OPT_KS_ACTION
 [Protocols]
@@ -249,37 +249,37 @@ Zapnout kontrolu
 [Disable checking]
 Vypnout kontrolu
 [Set status message]
-Nastavit stavové zprávy
+Nastavit stavovĞ¹ zprĞ±vy
 
 ; /StatusPlugins/resource.rc:IDD_OPT_KS_TRIGGER
 [connection loss is detected]
-spojení bylo pøerušeno
+spojenĞ½ bylo pÑˆeruÑ™eno
 [reconnection attempt is made]
-pokus o obnovení spojení
+pokus o obnovenĞ½ spojenĞ½
 [successfull reconnected]
-spojení úspìšnì navázáno
+spojenĞ½ ÑŠspĞ¼Ñ™nĞ¼ navĞ±zĞ±no
 [giving up reconnecting]
-konec obnovování spojení
+konec obnovovĞ±nĞ½ spojenĞ½
 [Trigger if...]
-Spustit kdy...
+Spustit kdyÑ›...
 
 ; /StatusPlugins/resource.rc:IDD_OPT_STATUSPROFILES
 [Add...]
-Pøidat
+PÑˆidat
 [Del]
 Smazat
 [Create a TopToolBar button]
-Pøidat tlaèítko do horní lišty
+PÑˆidat tlaĞ¸Ğ½tko do hornĞ½ liÑ™ty
 [Show confirm dialog when loading]
-Po spuštìní potvrzovat stav
+Po spuÑ™tĞ¼nĞ½ potvrzovat stav
 [Create a main menu item]
-Pøidat poloku do hlavní nabídky
+PÑˆidat poloÑ›ku do hlavnĞ½ nabĞ½dky
  
  
 [Status Profiles]
-Startovní profily
+StartovnĞ½ profily
 [Hotkey]
-Klávesy
+KlĞ±vesy
 [In submenu]
 V podmenu
  
@@ -289,41 +289,41 @@ V podmenu
 [Max. delay (secs)]
 Max. prodleva (sek.)
 [Increase delay exponential]
-Prodlevu postupnì zvyšovat
+Prodlevu postupnĞ¼ zvyÑ™ovat
 [Cancel all if a protocol connects from another location]
-Pøerušit obnovení pøi pøipojení z jiného místa
+PÑˆeruÑ™it obnovenĞ½ pÑˆi pÑˆipojenĞ½ z jinĞ¹ho mĞ½sta
 [Reconnect on APM resume]
-Obnovit pøipojení po návratu z úsporného reimu
+Obnovit pÑˆipojenĞ½ po nĞ±vratu z ÑŠspornĞ¹ho reÑ›imu
 [Stop trying to reconnect]
-Pøestat obnovovat pøipojení
+PÑˆestat obnovovat pÑˆipojenĞ½
 [Set delay to]
-Zmìnit prodlevu na
+ZmĞ¼nit prodlevu na
 [React on login errors]
-Po chybì pøi pøihlášení
+Po chybĞ¼ pÑˆi pÑˆihlĞ±Ñ™enĞ½
 [seconds]
 sek.
 [Set protocol offline before a connection attempt]
-Pøed obnovením pøipojení nastavit protokol offline
+PÑˆed obnovenĞ½m pÑˆipojenĞ½ nastavit protokol offline
 [Max. protocol connecting time (secs)]
-Maximální èas protokolu na pøipojení (sek.)
+MaximĞ±lnĞ½ Ğ¸as protokolu na pÑˆipojenĞ½ (sek.)
 [Timers]
-Èasovaèe
+Ğ˜asovaĞ¸e
 [Reconnecting]
-Obnovení pøipojení
+ObnovenĞ½ pÑˆipojenĞ½
 [Ignore locked status of protocols]
-Ignorovat zamknutı stav protokolù
+Ignorovat zamknutÑ stav protokolÑ‰
 [Consider connection lost after]
-Povaovat za odpojeno po
+PovaÑ›ovat za odpojeno po
 [failed pings]
 ztrac. pak.
 [Continuously check interval (secs)]
-Interval ovìøování pøipojení (sek.)
+Interval ovĞ¼ÑˆovĞ±nĞ½ pÑˆipojenĞ½ (sek.)
  
  
 
 ; /StatusPlugins/AdvancedAutoAway/advancedautoaway.c
 [default]
-vıchozí
+vÑchozĞ½
 
 ; /StatusPlugins/AdvancedAutoAway/options.c
 [minutes of %s mode]
@@ -331,12 +331,12 @@ min. ve stavu '%s'
 [Rules]
 Pravidla
 [Status Messages]
-Stavové zprávy
+StavovĞ¹ zprĞ±vy
 [Auto Away Rules]
-Zmìna stavu Pravidla
+ZmĞ¼na stavu Pravidla
 [Auto Away]
-Automatické stavy
+AutomatickĞ¹ stavy
 [Auto Away General]
-Zmìna stavu Obecné
+ZmĞ¼na stavu ObecnĞ¹
 
 ; ---

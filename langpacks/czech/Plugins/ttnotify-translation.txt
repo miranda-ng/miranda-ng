@@ -1,23 +1,23 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Tooltip Notify 0.6.0.46                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1290
 ;
 
 ; ******** Plugin ******** 
 [Tooltip Notify]
-Zmìna stavu
+ZmĞ¼na stavu
 ;(FIX) [Shows a small tooltip above system tray area when a contact status is changed]
 [Shows a small tooltip above system tray area when a contact status is changed.]
-Pøi pøechodu do vybraného stavu zobrazí v oznamovací oblasti pøíslušnou informaci.
+PÑˆi pÑˆechodu do vybranĞ¹ho stavu zobrazĞ½ v oznamovacĞ½ oblasti pÑˆĞ½sluÑ™nou informaci.
 
 
 ; ******** Options ******** 
 
 [Notify upon the following contact status changes]
-Upozornìní pøi pøechodu do vybraného stavu
+UpozornĞ¼nĞ½ pÑˆi pÑˆechodu do vybranĞ¹ho stavu
 ;(DUP) [Online]
 ;(DUP) [Offline]
 ;(DUP) [Away]
@@ -27,80 +27,80 @@ Upozornìní pøi pøechodu do vybraného stavu
 ;(DUP) [Free for chat]
 ;(DUP) [Invisible]
 [All other]
-Ostatní
+OstatnĞ½
 ;(DUP) [Unknown]
 [Select protocols]
 Vybrat protokoly
 
 [Duration]
-Doba trvání
+Doba trvĞ±nĞ½
 [Show tooltip for]
 Zobrazit na
 ;(DUP) [ms]
 [Duration x2 upon online event]
-Pøi pøechodu do online 2× déle
+PÑˆi pÑˆechodu do online 2Ğ§ dĞ¹le
 
 ;(DUP) [Misc]
 [Obey 'Suppress online notification' settings]
-Zohlednit stav 'Neoznamovat pøechod do online'
+Zohlednit stav 'Neoznamovat pÑˆechod do online'
 [Default positioning]
-Vıchozí umístìní
+VÑchozĞ½ umĞ½stĞ¼nĞ½
 [[Hint: right-click on the tooltip to move it when in custom placement mode]]
-Tip: Kliknete-li pravım tlaèítkem nad oknem, lze zmìnit jeho umístìní
+Tip: Kliknete-li pravÑm tlaĞ¸Ğ½tkem nad oknem, lze zmĞ¼nit jeho umĞ½stĞ¼nĞ½
 
 ;(DUP) [Translucency options (Windows 2000/XP only)]
 [Transparent tooltip]
-Míra prùhlednosti
+MĞ½ra prÑ‰hlednosti
 
 
 [%s is %s]
 %s je %s
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Auto positioning]
-Autom. umístìní
+Autom. umĞ½stĞ¼nĞ½
 [Double click on tooltip]
-Dvojím kliknutím
+DvojĞ½m kliknutĞ½m
 [Shows/Hides CList]
-Zobrazit/skrıt seznam
+Zobrazit/skrÑt seznam
 [Opens message dialog]
-Otevøít okno a psát
+OtevÑˆĞ½t okno a psĞ±t
 [Contact is Online]
 XYZ je online
 [Choose]
 Vybrat
 [Background color:]
-Barva pozadí:
+Barva pozadĞ½:
 [Text color:]
 Barva txt:
 [Notify upon the following events]
-Upozornìní na události
+UpozornĞ¼nĞ½ na udĞ±losti
 [Suppress notifications upon connection for]
-Zpozdit upozornìní na pøipojení o
+Zpozdit upozornĞ¼nĞ½ na pÑˆipojenĞ½ o
 [Prefix proto name]
 Indik. protokol
 [Transparent input]
-Prùhlednı vstup
+PrÑ‰hlednÑ vstup
 [Font:]
-Písmo:
+PĞ½smo:
 
 [Tooltip Notify: Online]
-Zmìna stavu (pøechod online)
+ZmĞ¼na stavu (pÑˆechod online)
 [Tooltip Notify: Offline]
-Zmìna stavu (pøechod offline)
+ZmĞ¼na stavu (pÑˆechod offline)
 [Tooltip Notify: Other]
-Zmìna stavu (ostatní)
+ZmĞ¼na stavu (ostatnĞ½)
 [Tooltip Notify: Typing]
-Zmìna stavu (psaní zprávy)
+ZmĞ¼na stavu (psanĞ½ zprĞ±vy)
 
 [Choose contacts...]
 Vyberte kontakty...
 [Allow tooltip notifications for the following users:]
-U vybranıch kontaktù povolit upozornìní na zmìnu stavu:
+U vybranÑch kontaktÑ‰ povolit upozornĞ¼nĞ½ na zmĞ¼nu stavu:
 [Proto: %s is %s]
 Proto: %s je %s
 
 [Behavior]
-Chování
+ChovĞ±nĞ½
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Tipper YM 2.0.4.14                                      |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; PÑˆeklad: sir-qwerty <info (zavinĞ±Ğ¸) qwerty (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3717
 ;
 
@@ -16,30 +16,30 @@
 
 ; c:\worx\miranda_cz\to_parse\tipper\mir_smileys.cpp
 [Tipper smileys]
-Smajlíky v tipech
+SmajlĞ½ky v tipech
 ;(DUP) [...]
 
 ; c:\worx\miranda_cz\to_parse\tipper\options.cpp
 [Do you want to import selected skin setting? Current setting will be overwritten.]
-Pøejete si importovat vybrané nastavení skinu? Stávající nastavení budou pøepsána.
+PÑˆejete si importovat vybranĞ¹ nastavenĞ½ skinu? StĞ±vajĞ½cĞ½ nastavenĞ½ budou pÑˆepsĞ±na.
 [Tipper skin import]
-Import skinu rychlé tipù
+Import skinu rychlĞ¹ tipÑ‰
 [Select image]
-Vybrat obrázek
+Vybrat obrĞ±zek
 [Last message: (%sys:last_msg_reltime% ago)]
-Poslední zpráva: (pøed %sys:last_msg_reltime%)
+PoslednĞ½ zprĞ±va: (pÑˆed %sys:last_msg_reltime%)
 [Status message:]
-Zpráva stavu:
+ZprĞ±va stavu:
 ;(DUP) [status]
 ;(DUP) [Status:]
 ;(DUP) [Client:]
 [Idle:]
-Neèinnost:
+NeĞ¸innost:
 ;(DUP) [Name:]
 [You must enter a label]
-Musíte zadat titulek
+MusĞ½te zadat titulek
 [Invalid Substitution]
-Neplatná substituce
+NeplatnĞ± substituce
 ;(DUP) [Add]
 ;(DUP) [Remove]
 ;(DUP) [Edit]
@@ -67,7 +67,7 @@ Centrovat
 ;(DUP) [Left avatar]
 ;(DUP) [Right avatar]
 [Max avatar size:]
-Maximální rozmìr avatara:
+MaximĞ±lnĞ½ rozmĞ¼r avatara:
 ;(DUP) [Avatar size:]
 ;(DUP) [Background]
 ;(DUP) [Sidebar]
@@ -75,53 +75,53 @@ Maximální rozmìr avatara:
 [Animation]
 Animace
 [Fade]
-Slábnutí
+SlĞ±bnutĞ½
 ;(DUP) [Appearance]
 ;(DUP) [Tooltips]
 ;(DUP) [Customize]
 [Tooltip skin]
-Skin tipù
+Skin tipÑ‰
 ;(DUP) [Content]
 [Tray tooltip]
-Oznamovací oblast
+OznamovacĞ½ oblast
 [Extra]
-Další
+DalÑ™Ğ½
 
 ; c:\worx\miranda_cz\to_parse\tipper\options.h
 [Stretch both directions]
-Roztáhnout v obou smìrech
+RoztĞ±hnout v obou smĞ¼rech
 ;(DUP) [Stretch to width]
 ;(DUP) [Stretch to height]
 [Tile both directions]
-Opakovat v obou smìrech
+Opakovat v obou smĞ¼rech
 ;(DUP) [Tile horizontally]
 ;(DUP) [Tile vertically]
 [Number of contacts]
-Poèet kontaktù
+PoĞ¸et kontaktÑ‰
 [Protocol lock status]
-Stav uzamèení protokolu
+Stav uzamĞ¸enĞ½ protokolu
 [Logon time]
-Èas pøihlášení
+Ğ˜as pÑˆihlĞ±Ñ™enĞ½
 [Unread emails]
-Nepøeètené e-maily
+NepÑˆeĞ¸tenĞ¹ e-maily
 [Status]
 Stavy
 [Status message]
-Zpráva stavu
+ZprĞ±va stavu
 [Extra status]
-Rozšíøenı stav
+RozÑ™Ğ½ÑˆenÑ stav
 ;(DUP) [Listening to]
 [Favourite contacts]
-Oblíbené kontakty
+OblĞ½benĞ¹ kontakty
 [Miranda uptime]
-Doba bìhu Mirandy
+Doba bĞ¼hu Mirandy
 [Clist event]
-Událost v seznamu kontaktù
+UdĞ±lost v seznamu kontaktÑ‰
 [Jabber activity]
 Jabber aktivita
 ;(DUP) [Gender]
 [Country flag]
-Vlajka státu
+Vlajka stĞ±tu
 ;(DUP) [Client]
 
 ; c:\worx\miranda_cz\to_parse\tipper\popwin.cpp
@@ -131,30 +131,30 @@ Tipy
 [ ago]
  
 [Log on:]
-Pøihlášení:
+PÑˆihlĞ±Ñ™enĞ½:
 [Unread emails:]
-Nepøeètené e-maily:
+NepÑˆeĞ¸tenĞ¹ e-maily:
 ;(DUP) [XStatus:]
 [title]
 titulek
 [Mood:]
-Nálada:
+NĞ±lada:
 [Activity:]
-Èinnost:
+Ğ˜innost:
 [Listening to:]
 Poslech hudby:
 [Copy all items with labels]
-Zkopírovat všechny poloky s názvy
+ZkopĞ½rovat vÑ™echny poloÑ›ky s nĞ±zvy
 [Copy all items]
-Zkopírovat všechny poloky
+ZkopĞ½rovat vÑ™echny poloÑ›ky
 [Copy avatar]
-Zkopírovat avatar
+ZkopĞ½rovat avatar
 [Fav. contacts]
-Oblíbené kontakty
+OblĞ½benĞ¹ kontakty
 ;(DUP) [%s (%s)]
 ;(DUP) [Other]
 [Miranda uptime:]
-Doba bìhu Mirandy:
+Doba bĞ¼hu Mirandy:
 
 ; c:\worx\miranda_cz\to_parse\tipper\predef_items.cpp
 ;(DUP) [Birthday]
@@ -166,44 +166,44 @@ Narozeniny:
 ;(DUP) [Idle]
 ;(DUP) [IP:]
 [IP internal]
-IP interní
+IP internĞ½
 [IP internal:]
-IP interní:
+IP internĞ½:
 [Last message]
-Poslední zpráva
+PoslednĞ½ zprĞ±va
 ;(DUP) [Name]
 [Number of received messages]
-Poèet pøijatıch zpráv
+PoĞ¸et pÑˆijatÑch zprĞ±v
 [Number of msg [IN]:]
-Poèet zpráv [pøijatıch]:
+PoĞ¸et zprĞ±v [pÑˆijatÑch]:
 [Number of sended messages]
-Poèet odeslanıch zpráv
+PoĞ¸et odeslanÑch zprĞ±v
 [Number of msg [OUT]:]
-Poèet zpráv [odeslanıch]:
+PoĞ¸et zprĞ±v [odeslanÑch]:
 [XStatus title]
-Název rozšíøeného stavu
+NĞ±zev rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [XStatus title:]
-Název rozšíøeného stavu:
+NĞ±zev rozÑ™Ğ½ÑˆenĞ¹ho stavu:
 [XStatus text]
-Zpráva rozšíøeného stavu
+ZprĞ±va rozÑ™Ğ½ÑˆenĞ¹ho stavu
 [XStatus text:]
-Zpráva rozšíøeného stavu:
+ZprĞ±va rozÑ™Ğ½ÑˆenĞ¹ho stavu:
 [[jabber.dll] Activity title]
-[jabber.dll] Název aktivity
+[jabber.dll] NĞ±zev aktivity
 [Activity title:]
-Název aktivity:
+NĞ±zev aktivity:
 [[jabber.dll] Activity text]
-[jabber.dll] Zpráva aktivity
+[jabber.dll] ZprĞ±va aktivity
 [Activity text:]
-Zpráva aktivity:
+ZprĞ±va aktivity:
 [[seenplugin.dll] Last seen time]
-[seenplugin.dll] Naposledy spatøen
+[seenplugin.dll] Naposledy spatÑˆen
 [Last seen time:]
-Naposledy spatøen:
+Naposledy spatÑˆen:
 [[seenplugin.dll] Last seen status]
-[seenplugin.dll] Naposledy spatøenı stav
+[seenplugin.dll] Naposledy spatÑˆenÑ stav
 [Last seen status:]
-Naposledy spatøenı stav:
+Naposledy spatÑˆenÑ stav:
 [[weather.dll] Condition]
 [weather.dll] Situace
 [Condition:]
@@ -215,37 +215,37 @@ Vlhkost:
 [[weather.dll] Max/Min temperature]
 [weather.dll] Max/min teplota
 [[weather.dll] Moon]
-[weather.dll] Mìsíc
+[weather.dll] MĞ¼sĞ½c
 [Moon:]
-Mìsíc:
+MĞ¼sĞ½c:
 [[weather.dll] Pressure]
 [weather.dll] Tlak
 [Pressure:]
 Tlak:
 [[weather.dll] Sunrise]
-[weather.dll] Vıchod slunce
+[weather.dll] VÑchod slunce
 [Sunrise:]
-Vıchod slunce:
+VÑchod slunce:
 [[weather.dll] Sunset]
-[weather.dll] Západ slunce
+[weather.dll] ZĞ±pad slunce
 [Sunset:]
-Západ slunce:
+ZĞ±pad slunce:
 [[weather.dll] Temperature]
 [weather.dll] Teplota
 [Temperature:]
 Teplota:
 [[weather.dll] Update time]
-[weather.dll] Èas aktualizace
+[weather.dll] Ğ˜as aktualizace
 [Update time:]
-Èas aktualizace:
+Ğ˜as aktualizace:
 [[weather.dll] Visibility]
 [weather.dll] Viditelnost
 [Visibility:]
 Viditelnost:
 [[weather.dll] Wind]
-[weather.dll] Vítr
+[weather.dll] VĞ½tr
 [Wind:]
-Vítr:
+VĞ½tr:
 
 ; c:\worx\miranda_cz\to_parse\tipper\resource.rc
 ;(DUP) [Options]
@@ -254,39 +254,39 @@ Vítr:
 ;(DUP) [Window]
 ;(DUP) [Max width:]
 [Max height:]
-Max. vıška:
+Max. vÑÑ™ka:
 [Show if list not focused]
-I neaktivní seznam
+I neaktivnĞ½ seznam
 [General padding:]
-Obecné odsazení
+ObecnĞ¹ odsazenĞ½
 [Hover time:]
 Prodleva:
 [Status bar tips]
-Tipy stavové lišty
+Tipy stavovĞ¹ liÑ™ty
 ;(DUP) [Alignment]
 [Labels:]
 Titulky:
 [Values:]
 Hodnoty:
 [Min width:]
-Min. šíøka:
+Min. Ñ™Ğ½Ñˆka:
 [Min height:]
-Min. vıška:
+Min. vÑÑ™ka:
 ;(DUP) [Sidebar width:]
 [Text padding:]
-Odsazení textu:
+OdsazenĞ½ textu:
 [Outer avatar padding:]
-Vnìjší okraj avataru:
+VnĞ¼jÑ™Ğ½ okraj avataru:
 ;(DUP) [Round corners (avatar)]
 ;(DUP) [Keep original avatar size]
 [Avatar border]
-Orámovat avatary
+OrĞ±movat avatary
 [Title indent:]
-Odsazení titulku:
+OdsazenĞ½ titulku:
 [Value indent:]
-Odsazení obsahu:
+OdsazenĞ½ obsahu:
 [Inner avatar padding:]
-Vnitøní okraj avataru:
+VnitÑˆnĞ½ okraj avataru:
 [Substitution]
 Substituce
 ;(DUP) [Label:]
@@ -297,39 +297,39 @@ Modul:
 [Setting or prefix:]
 Volba nebo prefix:
 [Translation:]
-Pøeklad:
+PÑˆeklad:
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 [Item]
-Poloka
+PoloÑ›ka
 [Value:]
 Hodnota:
 [Draw a line above]
-Nad polokou vykreslit èáru 
+Nad poloÑ›kou vykreslit Ğ¸Ğ±ru 
 [Value on a new line]
-Odsadit na novı øádek
+Odsadit na novÑ ÑˆĞ±dek
 [Predefined items:]
-Pøeddefinované poloky:
+PÑˆeddefinovanĞ¹ poloÑ›ky:
 ;(DUP) [Items]
 [Substitutions]
 Substituce
 ;(DUP) [Up]
 ;(DUP) [Down]
 [Advanced options]
-Pokroèilé monosti
+PokroĞ¸ilĞ¹ moÑ›nosti
 [Disable status message retrieve in invisible status]
-Nezjišovat zprávu stavu ve stavu Neviditelnı
+NezjiÑ™Ñœovat zprĞ±vu stavu ve stavu NeviditelnÑ
 [Retrieve XStatus details if auto-retrieve is disabled]
-Zjišovat rozšíøenı stav i kdy je automatika vypnuta
+ZjiÑ™Ñœovat rozÑ™Ğ½ÑˆenÑ stav i kdyÑ› je automatika vypnuta
 ;(DUP) [Extra icons]
 [Smileys support]
-Podpora smajlíkù
+Podpora smajlĞ½kÑ‰
 ;(DUP) [Enable SmileyAdd support]
 [Resize smileys]
-Mìnit velikost smajlíkù
+MĞ¼nit velikost smajlĞ½kÑ‰
 ;(DUP) [Use protocol smileys]
 [Replace only isolated smileys]
-Nahradit jen oddìlené smajlíky
+Nahradit jen oddĞ¼lenĞ¹ smajlĞ½ky
 ;(DUP) [Use background image]
 ;(DUP) [Picture options]
 [Use glyph transformation]
@@ -342,42 +342,42 @@ Nastavit okraje
 ;(DUP) [Effects]
 ;(DUP) [Border]
 [Shadow]
-Stín
+StĞ½n
 ;(DUP) [Round corners (window)]
 ;(DUP) [Background image]
 [Margins]
 Okraje
 [Show effect]
-Efekt zobrazení
+Efekt zobrazenĞ½
 ;(DUP) [Type]
 [Effect speed:]
 Rychlost efektu:
 [Enable tray tooltip]
 Povolit tipy v oznam.oblasti
 [Enable extended tray tooltip]
-Povolit rozš. tipy oznam.oblasti
+Povolit rozÑ™. tipy oznam.oblasti
 [Expand tooltip after:]
 Zobrazit tipy po:
 ;(DUP) [ms]
 [Use status bar setting]
-Pøevzít nastavení stavové lišty
+PÑˆevzĞ½t nastavenĞ½ stavovĞ¹ liÑ™ty
 [Basic tooltip]
-Základní tip
+ZĞ±kladnĞ½ tip
 [Expanded tooltip]
-Rozšíøenı tip
+RozÑ™Ğ½ÑˆenÑ tip
 [Hide offline protocols]
-Skrıt offline protokoly
+SkrÑt offline protokoly
 [Hide offline]
-Skrıt offline
+SkrÑt offline
 [Append protocol name]
-Pøipojit název protokolu
+PÑˆipojit nĞ±zev protokolu
 
 ; c:\worx\miranda_cz\to_parse\tipper\subst.cpp
 ;(DUP) [proto]
 ;(DUP) [%dh %dm]
 ;(DUP) [%dm]
 [%dd]
-%d dní
+%d dnĞ½
 
 ; c:\worx\miranda_cz\to_parse\tipper\tipper.cpp
 ;(DUP) [Dividers]
@@ -389,13 +389,13 @@ Hodnoty
 [Tray title]
 Titulek oznam.oblasti
 [You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
-Pro správné zobrazení pokroèilıch prvkù ve skinu potøebujete doplnìk advaimg.dll, kterı získáte z experimentálních sestavení Mirandy.
+Pro sprĞ±vnĞ¹ zobrazenĞ½ pokroĞ¸ilÑch prvkÑ‰ ve skinu potÑˆebujete doplnĞ¼k advaimg.dll, kterÑ zĞ½skĞ±te z experimentĞ±lnĞ½ch sestavenĞ½ Mirandy.
 [Tipper error]
-Chyba tipù
+Chyba tipÑ‰
 
 ; c:\worx\miranda_cz\to_parse\tipper\translations.cpp
 [[No translation]]
-(bez pøekladu)
+(bez pÑˆekladu)
 ;(DUP) [s]
 ;(DUP) [Yes]
 ;(DUP) [No]
@@ -404,124 +404,124 @@ Chyba tipù
 [BYTE to Yes/No]
 definice ano/ne (BYTE)
 [BYTE to Male/Female (ICQ)]
-rozlišení pohlaví v síti ICQ (BYTE)
+rozliÑ™enĞ½ pohlavĞ½ v sĞ½ti ICQ (BYTE)
 [BYTE timezone to time]
-èasová zóna (BYTE)
+Ğ¸asovĞ± zÑƒna (BYTE)
 [WORD to status description]
 popis stavu (WORD)
 [WORD to country name]
-název zemì (WORD)
+nĞ±zev zemĞ¼ (WORD)
 [DWORD to ip address]
 IP adresa (DWORD)
 [DWORD timestamp to date (short)]
-èasovı údaj pro datum, zkrácenı (DWORD)
+Ğ¸asovÑ ÑŠdaj pro datum, zkrĞ±cenÑ (DWORD)
 [DWORD timestamp to date (long)]
-èasovı údaj pro datum, dlouhı (DWORD)
+Ğ¸asovÑ ÑŠdaj pro datum, dlouhÑ (DWORD)
 [DWORD timestamp to time]
-èasovı údaj pro èas (DWORD)
+Ğ¸asovÑ ÑŠdaj pro Ğ¸as (DWORD)
 [DWORD timestamp to time (no seconds)]
-èasovı údaj pro èas, bez sekund (DWORD)
+Ğ¸asovÑ ÑŠdaj pro Ğ¸as, bez sekund (DWORD)
 [DWORD timestamp to time difference]
-èasovı údaj pro èasovı rozdíl (DWORD)
+Ğ¸asovÑ ÑŠdaj pro Ğ¸asovÑ rozdĞ½l (DWORD)
 [DWORD seconds to time difference]
-poèet sekund pro èasovı rozdíl (DWORD)
+poĞ¸et sekund pro Ğ¸asovÑ rozdĞ½l (DWORD)
 [<prefix>Day|Month|Year to date]
-<prefix>den|mìsíc|rok pro datum
+<prefix>den|mĞ¼sĞ½c|rok pro datum
 [<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
-<prefix>den|mìsíc|rok|hodiny|minuty|sekundy pro èasovı rozdíl
+<prefix>den|mĞ¼sĞ½c|rok|hodiny|minuty|sekundy pro Ğ¸asovÑ rozdĞ½l
 [<prefix>Day|Month|Year to age]
-<prefix>den|mìsíc|rok pro datum narození
+<prefix>den|mĞ¼sĞ½c|rok pro datum narozenĞ½
 [<prefix>Day|Month to days to next birthday]
-<prefix>den|mìsíc pro poèet dnù do pøíštích narozenin
+<prefix>den|mĞ¼sĞ½c pro poĞ¸et dnÑ‰ do pÑˆĞ½Ñ™tĞ½ch narozenin
 [<prefix>Hours|Minutes to time]
-<prefix>hodiny|minuty pro èas
+<prefix>hodiny|minuty pro Ğ¸as
 [<prefix>Hours|Minutes|Seconds to time]
-<prefix>hodiny|minuty|sekundy pro èas
+<prefix>hodiny|minuty|sekundy pro Ğ¸as
 [xStatus: empty xStatus name to default name]
-xStatus: pouze název rozšíøeného stavu
+xStatus: pouze nĞ±zev rozÑ™Ğ½ÑˆenĞ¹ho stavu
 
 ; 2.0.4.14
 [# Solid color fill]
-# Celkové Vyplnìní barvou
+# CelkovĞ¹ VyplnĞ¼nĞ½ barvou
 
 [Reload skin list]
-Obnovit seznam skinù
+Obnovit seznam skinÑ‰
 [Apply skin]
-Pouít skin
+PouÑ›Ğ½t skin
 [Get more skins]
-Získat více skinù
+ZĞ½skat vĞ½ce skinÑ‰
 
 [No preview]
-ádnı náhled
+Ğ‹Ğ±dnÑ nĞ±hled
 
 [Skin option]
-Nastavení skinu
+NastavenĞ½ skinu
 [Enable skin coloring]
-Povolit obarvení skinu
+Povolit obarvenĞ½ skinu
 [Load tooltip proportions]
-Naèíst velikosti tipu
+NaĞ¸Ğ½st velikosti tipu
 [Load fonts and colors]
-Naèíst písma a barvy
+NaĞ¸Ğ½st pĞ½sma a barvy
 
 [Animation speed:]
 Rychlost animace:
 
 [Add item]
-Pøidat poloku
+PÑˆidat poloÑ›ku
 [Add separator]
-Pøidat oddìlovaè
+PÑˆidat oddĞ¼lovaĞ¸
 
 [Preset items:]
-Pøeddefinované poloky:
+PÑˆeddefinovanĞ¹ poloÑ›ky:
 
 [Identifier]
-Identifikátor
+IdentifikĞ±tor
 [UV Index:]
 UV Index:
 [[weather.dll] UV Index]
 [weather.dll] UV Index
 
 [WORD to name of a day (0..6, 0 is Sunday)]
-WORD na název dne (0..6, 0 je nedìle)
+WORD na nĞ±zev dne (0..6, 0 je nedĞ¼le)
 [WORD to name of a month (1..12, 1 is January)]
-WORD na název mìsíce (1..12, 1 je leden)
+WORD na nĞ±zev mĞ¼sĞ½ce (1..12, 1 je leden)
 [BYTE to language (ICQ)]
 BYTE na jazyk (ICQ)
 
 
 [Enable tray tooltips]
-Povolit tipy oznamovací oblasti
+Povolit tipy oznamovacĞ½ oblasti
 [Handle tray tooltips by Tipper]
-Tipy oznamovací oblasti skrz Tipper
+Tipy oznamovacĞ½ oblasti skrz Tipper
 [Expand to second level after:]
-Rozšíøit na druhou úrovìò po:
+RozÑ™Ğ½Ñˆit na druhou ÑŠrovĞ¼Ñ‚ po:
 
 [First level tooltip]
-Tip první úrovnì
+Tip prvnĞ½ ÑŠrovnĞ¼
 [Second level tooltip]
-Tip druhé úrovnì
+Tip druhĞ¹ ÑŠrovnĞ¼
 
 
 [Show tooltip after all content is ready (avatar && status message)]
-Zobrazit tip a po naètení celého obsahu (avatar && zpráva stavu)
+Zobrazit tip aÑ› po naĞ¸tenĞ½ celĞ¹ho obsahu (avatar && zprĞ±va stavu)
 [Disable status message retrieve in all statuses]
-Vypnout naèítání zprávy stavu ve všech stavech
+Vypnout naĞ¸Ğ½tĞ±nĞ½ zprĞ±vy stavu ve vÑ™ech stavech
 
 [Status bar and tray tooltip]
-Tipy stavového øádku a oznamovací oblasti
+Tipy stavovĞ¹ho ÑˆĞ±dku a oznamovacĞ½ oblasti
 [Limit status messages in status bar and tray tooltips to:]
-Omezit délku zprávy stavu v tipech stavového øádku a oznamovací oblasti na:
+Omezit dĞ¹lku zprĞ±vy stavu v tipech stavovĞ¹ho ÑˆĞ±dku a oznamovacĞ½ oblasti na:
 
 ; Tipper 0.4.1.9
 [Dimensions]
-Rozmìry
+RozmĞ¼ry
 [Avatar padding:]
-Vıplò u avatarù:
+VÑplÑ‚ u avatarÑ‰:
 [Background image:]
-Obrázek na pozadí:
+ObrĞ±zek na pozadĞ½:
 [Stretch]
 Upravit velikost
 [XP+]
-Windows XP nebo novìjší
+Windows XP nebo novĞ¼jÑ™Ğ½
 
 ; ---

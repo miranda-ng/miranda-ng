@@ -1,19 +1,19 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  PluginUninstaller 1.1.2.1                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [PluginUninstaller]
-Odinstalování doplòkù
+OdinstalovĞ±nĞ½ doplÑ‚kÑ‰
 [Extends the plugin options and offers the possibility to directly remove plugins and delete all associated settings and files.]
-Rozšiøuje práci s doplòky o monost je odebrat a smazat pøíslušná nastavení z databáze s profilem.
+RozÑ™iÑˆuje prĞ±ci s doplÑ‚ky o moÑ›nost je odebrat a smazat pÑˆĞ½sluÑ™nĞ± nastavenĞ½ z databĞ±ze s profilem.
 
 ; Options (all other strings are from default plugin options dialog)
 [Plugins: active %d/%d, size %d KB/%d KB]
-Doplòky: aktivních %d z %d; velikost %d kB, celkovì %d kB
+DoplÑ‚ky: aktivnĞ½ch %d z %d; velikost %d kB, celkovĞ¼ %d kB
 [%s (Original: %s)]
 %s (%s)
 [%d KB]
@@ -21,9 +21,9 @@ Doplòky: aktivních %d z %d; velikost %d kB, celkovì %d kB
 [(%s)]
 (%s)
 [More Information]
-Další informace
+DalÑ™Ğ½ informace
 [License]
-Licenèní ujednání
+LicenĞ¸nĞ½ ujednĞ±nĞ½
 ;(DUP) [%s (%s)]
 [&Remove Plugin...]
 Odeb&rat
@@ -32,20 +32,20 @@ Odeb&rat
 [&Disable Plugin]
 De&aktivovat
 [&More Plugins...]
-&Další doplòky...
+&DalÑ™Ğ½ doplÑ‚ky...
 [Remove Plugin]
-Odebrání doplòku
+OdebrĞ±nĞ½ doplÑ‚ku
 [Are you sure that the plugin \"%s\" shall be removed?]
-Opravdu chcete odebrat doplnìk \"%s\"?
+Opravdu chcete odebrat doplnĞ¼k \"%s\"?
 [Delete &settings (recommended)]
-&Smazat pøíslušná nastavení
+&Smazat pÑˆĞ½sluÑ™nĞ± nastavenĞ½
 [&Restart Miranda IM]
 &Restartovat program Miranda IM
 
 ; Uninstalling
 [Miranda IM is going to be restarted...]
-Program Miranda IM bude restartován...
+Program Miranda IM bude restartovĞ±n...
 [The plugin file \"%s\" could not be removed!]
-Doplnìk, resp. soubor \"%s\" nelze smazat!
+DoplnĞ¼k, resp. soubor \"%s\" nelze smazat!
 
 ; ---

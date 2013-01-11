@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Gmail Multiple Notifier 0.2.3.1                         |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: churchyard <churchyard (zavináè) gmail (teèka) com>
+; PÑˆeklad: churchyard <churchyard (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1988
 ;
 
@@ -12,7 +12,7 @@
 [GmailMNotifier]
 GmailMNotifier
 [Gmail Account]
-Úèet na Gmailu
+ĞªĞ¸et na Gmailu
 ;(DUP) [Name:]
 ;(DUP) [Password:]
 ;(DUP) [Add]
@@ -20,10 +20,10 @@ GmailMNotifier
 ;(DUP) [Delete]
 ;(DUP) [Configuration]
 [Check Gmail Inbox every]
-Zkontrolovat kadıch
+Zkontrolovat kaÑ›dÑch
 ;(DUP) [minutes]
 [Notifier on:]
-Oznámení:
+OznĞ±menĞ½:
 [System Tray]
 Oznam. obl.
 [PopUp Plugin]
@@ -36,38 +36,38 @@ Txt|Poz:
 [On DBClick:]
 Dvojklikem:
 [Login using default browser]
-Pøihlásit (vıchozí prohlíeè)
+PÑˆihlĞ±sit (vÑchozĞ½ prohlĞ½Ñ›eĞ¸)
 [Login using Internet Explorer]
-Pøihlásit (Internet Explorer)
+PÑˆihlĞ±sit (Internet Explorer)
 [Run]
 Spustit
 [custom program]
 libov. program
 [Use online contacts when no new mail]
-Pouít online kontakty, kdy nemáte novı mail
+PouÑ›Ğ½t online kontakty, kdyÑ› nemĞ±te novÑ mail
 [Enable icon selection and icon in status bar (restart)]
-Zobrazit ikonu ve stavové lištì (restart)
+Zobrazit ikonu ve stavovĞ¹ liÑ™tĞ¼ (restart)
 [This is a shared computer so disable Auto Login]
-Nepøihlašovat automaticky (veøejnı poèítaè)
+NepÑˆihlaÑ™ovat automaticky (veÑˆejnÑ poĞ¸Ğ½taĞ¸)
 [Log unread threads into database (enable history)]
-Zapsat nepøeètené zprávy do databáze (historie)
+Zapsat nepÑˆeĞ¸tenĞ¹ zprĞ±vy do databĞ±ze (historie)
 
 ;menu item
 [&Check All Gmail Inboxes]
-&Zkontrolovat všechny úèty (Gmail)
+&Zkontrolovat vÑ™echny ÑŠĞ¸ty (Gmail)
 [&Check Gmail Inbox]
-&Zkontrolovat úèet (Gmail)
+&Zkontrolovat ÑŠĞ¸et (Gmail)
 
 ;messages on contact
 [Checking...]
-Kontrolování...
+KontrolovĞ±nĞ½...
 [Can't open Internet!]
-Chyba pøipojení k internetu!
+Chyba pÑˆipojenĞ½ k internetu!
 [Can't reach server!]
-Chyba pøipojení k serveru!
+Chyba pÑˆipojenĞ½ k serveru!
 [Can't get rss feed!]
-Nelze pøeèíst kanál RSS!
+Nelze pÑˆeĞ¸Ğ½st kanĞ±l RSS!
 [Wrong name or password!]
-Neplatné jméno nebo heslo!
+NeplatnĞ¹ jmĞ¹no nebo heslo!
 
 ; ---

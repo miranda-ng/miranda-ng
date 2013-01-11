@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Quick Contacts 0.0.3.0                                  |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2904
 ;
 
@@ -11,24 +11,24 @@
 ; http://pescuma.mirandaim.ru/miranda/quickcontacts
 
 [Quick Contacts]
-Rychlé kontakty
+RychlĞ¹ kontakty
 
 ; Hotkey description
 [Open dialog]
-Otevøít dialog
+OtevÑˆĞ½t dialog
 [Open Quick Contacts dialog]
-Otevøít dialog s kontakty
+OtevÑˆĞ½t dialog s kontakty
 
 ; Menu item
 [Quick Contacts...]
-Rychlé kontakty...
+RychlĞ¹ kontakty...
 
 ; Main dialog
 ;(FIX) [Enter Username:]
 [Enter username:]
-Zadejte uivatele:
+Zadejte uÑ›ivatele:
 [Show all contacts]
-Zobrazit všechny kontakty
+Zobrazit vÑ™echny kontakty
 
 ; Tooltips
 ;(DUP) [Send message]
@@ -39,35 +39,35 @@ Poslat soubor
 [Send URL]
 Poslat odkaz
 [Open userinfo]
-Otevøít informace o kontaktu
+OtevÑˆĞ½t informace o kontaktu
 [Open history]
-Otevøít historii
+OtevÑˆĞ½t historii
 ;(DUP) [Open contact menu]
 
 ; Options
 [ Last Sent ]
- Poslední odeslané 
+ PoslednĞ½ odeslanĞ¹ 
 [Enable last-sent-to]
-Povolit funkci 'Poslední odeslané'
+Povolit funkci 'PoslednĞ½ odeslanĞ¹'
 [recognize all messages sent]
-Vzít všechny poslané zprávy
+VzĞ½t vÑ™echny poslanĞ¹ zprĞ±vy
 [recognize messages sent with hotkey only]
-Vzít jen zprávy odeslané tímto doplòkem
+VzĞ½t jen zprĞ±vy odeslanĞ¹ tĞ½mto doplÑ‚kem
 [ Contacts ]
  Kontakty 
 [Show offline contacts on these protocols:]
 Pro tyto protokoly zobrazit kontakty offline:
 [But hide them if protocol is offline]
-Skrıt kontakty, je-li danı protokol offline
+SkrÑt kontakty, je-li danÑ protokol offline
 [Append group name to contact name]
-Ke jménu pøidat pøíslušnou skupinu
+Ke jmĞ¹nu pÑˆidat pÑˆĞ½sluÑ™nou skupinu
 [But show it as a column ...]
-Zobrazit jako samostatnı sloupec ...
+Zobrazit jako samostatnÑ sloupec ...
 [... on left side of name]
-... vlevo od jména
+... vlevo od jmĞ¹na
 [Hide subcontacts]
-Skrıt podkontakty
+SkrÑt podkontakty
 [But keep subcontacts of protocols in above list if meta is hidden]
-Je-li Meta skryto, ponechat podkontakty vybranıch protokolù
+Je-li Meta skryto, ponechat podkontakty vybranÑch protokolÑ‰
 
 ; ---

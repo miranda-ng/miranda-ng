@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  History viewer 0.1.3.0                                  |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: Mareman <Mareman (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: Mareman <Mareman (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=529
 ;
 
@@ -10,11 +10,11 @@
 [History]
 Historie
 [Message history [%s]]
-Historie zpr·v
+Historie zpr–±v
 [&Search... ]
-&NajÌt...
+&Naj–Ωt...
 [Show:]
-Uk·zat:
+Uk–±zat:
 [last 100]
 jen 100
 [last 200]
@@ -22,66 +22,66 @@ jen 200
 [last 500]
 jen 500
 [All]
-vöechno
+v—ôechno
 ;(DUP) [Close]
 ;(DUP) [&Copy]
 ;(DUP) [Co&py All]
 [Copy to msg]
-ZkopÌrovat do zpr·vy
+Zkop–Ωrovat do zpr–±vy
 ;(DUP) [Select &All]
 ;(DUP) [Delete]
 [Find what:]
-NajÌt:
+Naj–Ωt:
 [Whole word]
-Pouze cel· slova
+Pouze cel–± slova
 [Case sensitive]
-Rozliöovat mal· a VELK¡
+Rozli—ôovat mal–± a VELK–ë
 [Backward]
-P¯edchozÌ
+P—àedchoz–Ω
 [Forward]
-DalöÌ
+Dal—ô–Ω
 ;(DUP) [&Find Next]
 ;(DUP) [Cancel]
 [Display items]
-ZobrazenÌ poloûek
+Zobrazen–Ω polo—õek
 [Show date/time]
-Zobrazit datum a Ëas
+Zobrazit datum a –∏as
 [Format:]
-Form·t:
+Form–±t:
 [Scale:]
-MÏ¯Ìtko:
+M–º—à–Ωtko:
 ;(DUP) [Show names]
 [Display messages]
-ZobrazenÌ zpr·v
+Zobrazen–Ω zpr–±v
 [Reverse order (last event on top)]
-Obr·tit po¯adÌ
+Obr–±tit po—àad–Ω
 [Limit number of messages at startup]
-Limit naËtenÌ zpr·v po spuötÏnÌ
+Limit na–∏ten–Ω zpr–±v po spu—ôt–ºn–Ω
 [Colors]
 Barvy
 [Use plain fonts and colors]
-PouûÌt z·kladnÌ pÌsma a barvy
+Pou—õ–Ωt z–±kladn–Ω p–Ωsma a barvy
 ;(DUP) [Other]
 [Remember window position and size for each contact]
-Pamatovat pozici okna pro kaûd˝ kontakt
+Pamatovat pozici okna pro ka—õd—ç kontakt
 [Show loading progress indicator]
-Uk·zat indik·tor pr˘bÏhu naËtenÌ
+Uk–±zat indik–±tor pr—âb–ºhu na–∏ten–Ω
 [Left align message 'body']
-Zarovnat tÏla zpr·v vlevo
+Zarovnat t–ºla zpr–±v vlevo
 [Use SmileyAdd to replace smileys]
-PouûÌt doplnÏk SmileyAdd
+Pou—õ–Ωt dopln–ºk SmileyAdd
 [Use Textformat to add formatting]
-PouûÌt doplnÏk TextFormat
+Pou—õ–Ωt dopln–ºk TextFormat
 
-; NEPUBLIKOVAN…
+; NEPUBLIKOVAN–ô
 [History Viewer (History#)]
 Historie (History Viewer)
 
 [Authorization request by (%s) (%d)]
-é·dost o autorizaci: %s (%d)
+–ã–±dost o autorizaci: %s (%d)
 
 ; Description
 [Replaces the standard history viewer]
-Nahrazuje standardnÌ (v˝chozÌ) prohlÌûeË historie.
+Nahrazuje standardn–Ω (v—çchoz–Ω) prohl–Ω—õe–∏ historie.
 
 ; ---

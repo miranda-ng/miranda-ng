@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Send/Receive Messages 0.9.22.0                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: https://miranda.svn.sourceforge.net/svnroot/miranda
 ;
 
@@ -16,154 +16,154 @@
 ;(DUP) [View User's Details]
 ;(DUP) [View User's History]
 [Last message received on %s at %s.]
-Poslední zpráva pøijata %s v %s.
+PoslednĞ½ zprĞ±va pÑˆijata %s v %s.
 [signed off (was %s)]
-(odhlášení, pøedchozí stav: %s)
+(odhlĞ±Ñ™enĞ½, pÑˆedchozĞ½ stav: %s)
 [signed on (%s)]
-(pøihlášení, souèasnı stav: %s)
+(pÑˆihlĞ±Ñ™enĞ½, souĞ¸asnÑ stav: %s)
 [is now %s (was %s)]
-(souèasnı stav: %s, pøedchozí stav: %s)
+(souĞ¸asnÑ stav: %s, pÑˆedchozĞ½ stav: %s)
 [The message send timed out.]
-Pøekroèen èasovı limit odeslání zprávy.
+PÑˆekroĞ¸en Ğ¸asovÑ limit odeslĞ±nĞ½ zprĞ±vy.
 [%s is typing a message...]
-%s píše zprávu...
+%s pĞ½Ñ™e zprĞ±vu...
 
 ; msgoptions.c
 [** New contacts **]
-** nové kontakty **
+** novĞ¹ kontakty **
 ;(DUP) [** Unknown contacts **]
 [Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
+Zobrazit oznĞ±menĞ½ bublinami (nepodporovĞ±no)
 [Messaging]
 Rozhovor
 ;(DUP) [Events]
 [Messaging Log]
-Záznam rozhovoru
+ZĞ±znam rozhovoru
 [Typing Notify]
-Psaní zprávy
+PsanĞ½ zprĞ±vy
 
 ; msgs.c
 [Message from %s]
-Zpráva od: %s
+ZprĞ±va od: %s
 [%s is typing a message]
-%s píše zprávu
+%s pĞ½Ñ™e zprĞ±vu
 [Typing Notification]
-Upozornìní na psaní zprávy
+UpozornĞ¼nĞ½ na psanĞ½ zprĞ±vy
 [&Message]
-&Zpráva
+&ZprĞ±va
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna riched20.dll, co znemoòuje pouití interního modulu pro zprávy. Pokud pouíváte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
+ChybĞ½ knihovna riched20.dll, coÑ› znemoÑ›Ñ‚uje pouÑ›itĞ½ internĞ½ho modulu pro zprĞ±vy. Pokud pouÑ›Ğ½vĞ±te Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
 [Information]
 Informace
 [Messages]
-Zprávy
+ZprĞ±vy
 [Incoming (Focused Window)]
-Pøíchozí (aktivní okno)
+PÑˆĞ½chozĞ½ (aktivnĞ½ okno)
 [Incoming (Unfocused Window)]
-Pøíchozí (neaktivní okno)
+PÑˆĞ½chozĞ½ (neaktivnĞ½ okno)
 [Incoming (New Session)]
-Pøíchozí (nová konverzace)
+PÑˆĞ½chozĞ½ (novĞ± konverzace)
 [Outgoing]
-Odchozí
+OdchozĞ½
 
 ; msgtimedout.c
 [An unknown error has occured.]
-Neznámá chyba.
+NeznĞ±mĞ± chyba.
 
 ; resource.rc
 [Close the message window on send]
-Zavøít okno kliknutím na 'Poslat'
+ZavÑˆĞ½t okno kliknutĞ½m na 'Poslat'
 [Minimize the message window on send]
-Minimalizovat okno kliknutím na 'Poslat'
+Minimalizovat okno kliknutĞ½m na 'Poslat'
 [Use the contact's status icon as the window icon]
-Pouít v lištì okna ikonu aktuálního stavu
+PouÑ›Ğ½t v liÑ™tĞ¼ okna ikonu aktuĞ±lnĞ½ho stavu
 [Save the window size and location individually for each contact]
-Uloit velikost a umístìní okna pro kadı kontakt zvláš
+UloÑ›it velikost a umĞ½stĞ¼nĞ½ okna pro kaÑ›dÑ kontakt zvlĞ±Ñ™Ñœ
 [Cascade new windows]
-Skládat okna kaskádnì
+SklĞ±dat okna kaskĞ±dnĞ¼
 [Show 'Send' button]
-Zobrazit tlaèítko 'Poslat'
+Zobrazit tlaĞ¸Ğ½tko 'Poslat'
 [Show username on top row]
-Zobrazit nahoøe pøezdívku
+Zobrazit nahoÑˆe pÑˆezdĞ½vku
 [Show toolbar buttons on top row]
-Zobrazit nahoøe lištu s tlaèítky
+Zobrazit nahoÑˆe liÑ™tu s tlaĞ¸Ğ½tky
 [Send message on double 'Enter']
-Odeslat zprávu dvojitım ENTER
+Odeslat zprĞ±vu dvojitÑm ENTER
 [Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
+Odeslat zprĞ±vu klĞ±vesou ENTER
 [Show character count]
-Zobrazit poèet napsanıch znakù
+Zobrazit poĞ¸et napsanÑch znakÑ‰
 [Support control up/down in message area to show previously sent messages]
-Pouít kombinaci kláves CTRL+Nahoru/Dolù k zobrazení pøedešlıch zpráv
+PouÑ›Ğ½t kombinaci klĞ±ves CTRL+Nahoru/DolÑ‰ k zobrazenĞ½ pÑˆedeÑ™lÑch zprĞ±v
 [Delete temporary contacts when closing message window]
-Smazat doèasné kontakty po zavøení okna pro rozhovor
+Smazat doĞ¸asnĞ¹ kontakty po zavÑˆenĞ½ okna pro rozhovor
 [Enable avatar support in the message window]
-Aktivovat zobrazení avatarù v oknì pro rozhovor
+Aktivovat zobrazenĞ½ avatarÑ‰ v oknĞ¼ pro rozhovor
 [Limit avatar height to ]
-Max. vıška obrázku avataru
+Max. vÑÑ™ka obrĞ±zku avataru
 ;(LAI) [&D]
 ;(LAI) [&H]
 ;(DUP) [Show icons]
 [Show names]
-Zobrazit jména
+Zobrazit jmĞ¹na
 [Show timestamp]
-Zobrazit èas
+Zobrazit Ğ¸as
 [Show dates]
 Zobrazit datum
 [Load unread events only]
-Pouze nepøeètené události
+Pouze nepÑˆeĞ¸tenĞ¹ udĞ±losti
 [Load number of previous events]
-Konkrétní poèet pøedchozích událostí
+KonkrĞ¹tnĞ½ poĞ¸et pÑˆedchozĞ½ch udĞ±lostĞ½
 ;(LAI) [Spin1]
 [Load previous events less than]
-Pøedchozí události starší ménì ne
+PÑˆedchozĞ½ udĞ±losti starÑ™Ğ½ mĞ¹nĞ¼ neÑ›
 [Show status changes]
-Zobrazit zmìny stavu
+Zobrazit zmĞ¼ny stavu
 [Show seconds]
 Zobrazit sek.
 [Show typing notifications when a user is typing a message]
-Zobrazit upozornìní v pøípadì, e protistrana píše zprávu
+Zobrazit upozornĞ¼nĞ½ v pÑˆĞ½padĞ¼, Ñ›e protistrana pĞ½Ñ™e zprĞ±vu
 [Update inactive message window icons when a user is typing]
-Aktualizovat ikony neaktivního okna, je-li otevøeno
+Aktualizovat ikony neaktivnĞ½ho okna, je-li otevÑˆeno
 [Show typing notification when no message dialog is open]
-Zobrazit upozornìní i v pøípadì, e není otevøeno okno
+Zobrazit upozornĞ¼nĞ½ i v pÑˆĞ½padĞ¼, Ñ›e nenĞ½ otevÑˆeno okno
 [Flash in the system tray and in the contact list]
-Blikat v oblasti oznámení a oknì s kontakty
+Blikat v oblasti oznĞ±menĞ½ a oknĞ¼ s kontakty
 [Show balloon popup]
-Oznámit pomocí bubliny
+OznĞ±mit pomocĞ½ bubliny
 [Try again]
 Opakovat
 ;(DUP) [&Send]
 ;(DUP) [Cancel]
 ;(DUP) [Close]
 [Choose font...]
-Vybrat písmo...
+Vybrat pĞ½smo...
 [Show warning when message has not been received after]
-Zobrazit upozornìní v pøípadì, e zpráva nebyla doruèena do
+Zobrazit upozornĞ¼nĞ½ v pÑˆĞ½padĞ¼, Ñ›e zprĞ±va nebyla doruĞ¸ena do
 [seconds.]
 sek.
 [pixels.]
-pixelù
+pixelÑ‰
 [Automatically popup window when:]
-Automaticky vyvolat okno pøi:
+Automaticky vyvolat okno pÑˆi:
 [An error has occured. The protocol reported the following error:]
-Došlo k chybì. Pøíslušnı protokol zahlásil následující problém:
+DoÑ™lo k chybĞ¼. PÑˆĞ½sluÑ™nÑ protokol zahlĞ±sil nĞ±sledujĞ½cĞ½ problĞ¹m:
 ;(DUP) [Background colour:]
 [minutes old]
 min.
 [Send typing notifications to the following users when you are typing a message to them:]
-Poslat upozornìní na psaní zprávy tìmto vybranım kontaktùm:
+Poslat upozornĞ¼nĞ½ na psanĞ½ zprĞ±vy tĞ¼mto vybranÑm kontaktÑ‰m:
 [Message Window Options]
-Monosti rozhovoru
+MoÑ›nosti rozhovoru
 [Message Window Event Log]
-Záznam událostí
+ZĞ±znam udĞ±lostĞ½
 ;(DUP) [Fonts]
 [Load History Events]
-Naètení historie
+NaĞ¸tenĞ½ historie
 [Typing Notification Options]
-Upozornìní na psaní zprávy
+UpozornĞ¼nĞ½ na psanĞ½ zprĞ±vy
 [Send Error]
-Chyba pøi odesílání
+Chyba pÑˆi odesĞ½lĞ±nĞ½
 [Message Session]
 Rozhovor
 ;(DUP) [C&lear Log]
@@ -174,62 +174,62 @@ Rozhovor
 ;(DUP) [&Open in existing window]
 ;(DUP) [&Copy link]
 
-; NEPUBLIKOVANÉ
-; Název doplòku
+; NEPUBLIKOVANĞ™
+; NĞ±zev doplÑ‚ku
 [Send/Receive Messages]
-Odesílání a pøíjem zpráv
+OdesĞ½lĞ±nĞ½ a pÑˆĞ½jem zprĞ±v
 
-; Události / Záznam rozhovoru
+; UdĞ±losti / ZĞ±znam rozhovoru
 [Outgoing messages]
-Odchozí zprávy
+OdchozĞ½ zprĞ±vy
 [Outgoing files]
-Odchozí soubory
+OdchozĞ½ soubory
 [Incoming messages]
-Pøíchozí zprávy
+PÑˆĞ½chozĞ½ zprĞ±vy
 [Incoming files]
-Pøíchozí soubory
+PÑˆĞ½chozĞ½ soubory
 [Outgoing name]
-Odchozí jméno
+OdchozĞ½ jmĞ¹no
 [Outgoing time]
-Odchozí èas
+OdchozĞ½ Ğ¸as
 [Outgoing colon]
-Odchozí dvojteèka
+OdchozĞ½ dvojteĞ¸ka
 [Incoming name]
-Pøíchozí jméno
+PÑˆĞ½chozĞ½ jmĞ¹no
 [Incoming time]
-Pøíchozí èas
+PÑˆĞ½chozĞ½ Ğ¸as
 [Incoming colon]
-Pøíchozí dvojteèka
+PÑˆĞ½chozĞ½ dvojteĞ¸ka
 [Message area]
-Oblast se zprávou
+Oblast se zprĞ±vou
 [Notices]
-Poznámky
+PoznĞ±mky
 
 [Select multiple fonts by dragging or by using the control key]
-Táhnutím myši nebo pomocí kláves vyberete více poloek najednou.
+TĞ±hnutĞ½m myÑ™i nebo pomocĞ½ klĞ±ves vyberete vĞ½ce poloÑ›ek najednou.
 
 [Send and receive instant messages]
-Komunikaèní modul pro posílání a pøíjem zpráv
+KomunikaĞ¸nĞ½ modul pro posĞ½lĞ±nĞ½ a pÑˆĞ½jem zprĞ±v
 
 [Message window behaviour:]
-Chování komunikaèního okna
+ChovĞ±nĞ½ komunikaĞ¸nĞ½ho okna
 [Messaging:]
 Rozhovor
 [Save the window position for each contact]
-Uloit pozici okna pro kadı kontakt zvláš
+UloÑ›it pozici okna pro kaÑ›dÑ kontakt zvlĞ±Ñ™Ñœ
 
 [Instant messages]
-Zprávy
+ZprĞ±vy
 [Message send error]
-Chyba pøi odesílání
+Chyba pÑˆi odesĞ½lĞ±nĞ½
 [Max Number of Flashes]
-Max. poèet bliknutí
+Max. poĞ¸et bliknutĞ½
 [In background]
-Na pozadí
+Na pozadĞ½
 [Show Formatting]
-Zobrazit formátování
+Zobrazit formĞ±tovĞ±nĞ½
 
 [&Open link]
-&Otevøít odkaz
+&OtevÑˆĞ½t odkaz
 
 ; ---

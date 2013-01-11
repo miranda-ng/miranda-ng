@@ -1,31 +1,31 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  TipInfo 2.1.0.0                                         |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Tur McDonnel <tur (teĞ¸ka) mcdonnel (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [Retrieving mode message...]
-Zjištìní automatické odpovìdi...
+ZjiÑ™tĞ¼nĞ½ automatickĞ¹ odpovĞ¼di...
 [No ICQ user]
-Nepouívá ICQ
+NepouÑ›Ğ½vĞ± ICQ
 [Tool Tip]
 Tip
 [Tooltip info]
-Monosti tipù
+MoÑ›nosti tipÑ‰
 [Show tooltip even if list is not focused]
-Zobrazit tip i tehdy, není-li okno aktivní
+Zobrazit tip i tehdy, nenĞ½-li okno aktivnĞ½
 [Show tooltip over contacts]
-Zobrazit tip u kontaktù
+Zobrazit tip u kontaktÑ‰
 [Show tooltip over groups]
 Zobrazit popisek u skupin
 [ms tooltip delay]
-ms (prodleva zobrazení)
+ms (prodleva zobrazenĞ½)
 [See tipinfo_info.txt for the descriptions]
-Kompletní seznam promìnnıch naleznete v dokumentaci.
+KompletnĞ½ seznam promĞ¼nnÑch naleznete v dokumentaci.
 [Remove %break in front of %smsg if not needed]
-Odstranit øádkování pøed %smsg pokud není potøeba
+Odstranit ÑˆĞ±dkovĞ±nĞ½ pÑˆed %smsg pokud nenĞ½ potÑˆeba
 [No information available]
 Informace nejsou k dispozici
 

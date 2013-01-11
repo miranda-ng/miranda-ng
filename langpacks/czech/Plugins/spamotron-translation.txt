@@ -1,85 +1,85 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Spam-o-tron 0.0.4.3                                     |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Cree <michal.tomasek (zavináè) gmail (teèka) com>
+; PÑˆeklad: Cree <michal.tomasek (zavinĞ±Ğ¸) gmail (teĞ¸ka) com>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=4286
 ;
 
 [Do not send more than]
-Neposílat více ne
+NeposĞ½lat vĞ½ce neÑ›
 [times a day]
-krát dennì
+krĞ±t dennĞ¼
 [Contact approved]
-Kontakt schválen
+Kontakt schvĞ±len
 [Preview]
-Náhled
+NĞ±hled
 [messages to one contact per day]
-zpráv jednomu kontaktu za den
+zprĞ±v jednomu kontaktu za den
 [Settings]
-Nastavení
+NastavenĞ½
 [Default timeout]
-Vıchozí doba zobrazení
+VÑchozĞ½ doba zobrazenĞ½
 [Background]
-Pozadí
+PozadĞ½
 [Foreground]
-Popøedí
+PopÑˆedĞ½
 [Add permanently to list on verified]
-Po schválení pøidat do seznamu na trvalo
+Po schvĞ±lenĞ½ pÑˆidat do seznamu na trvalo
 [Flood protection]
-Ochrana proti zahlcení
+Ochrana proti zahlcenĞ½
 [Do not reply to messages with words in this list:]
-Neodpovídat na zprávy obsahující slova z tohoto seznamu:
+NeodpovĞ½dat na zprĞ±vy obsahujĞ½cĞ½ slova z tohoto seznamu:
 [Windows colors]
 Barvy Windows
 [Log actions to system history]
-Zaznamenat události do historie systému
+Zaznamenat udĞ±losti do historie systĞ¹mu
 [Contact blocked]
-Kontakt zablokován
+Kontakt zablokovĞ±n
 [Outgoing message]
-Odchozí zpráva
+OdchozĞ½ zprĞ±va
 [Hide contact until verified]
-Skrıt kontakt dokud není schválen
+SkrÑt kontakt dokud nenĞ½ schvĞ±len
 [Challenge sent]
-Vızva odeslána
+VÑzva odeslĞ±na
 [Appearance]
 Vzhled
 [Enabled accounts:]
-Povolené úèty:
+PovolenĞ¹ ÑŠĞ¸ty:
 [Do not reply to the same message more than]
-Neodpovídat na stejnou zprávu více ne
+NeodpovĞ½dat na stejnou zprĞ±vu vĞ½ce neÑ›
 [Default colors]
-Vıchozí barvy
+VÑchozĞ½ barvy
 [Enable popup notifications]
-Povolit oznámení
+Povolit oznĞ±menĞ½
 [Timeout]
-Doba zobrazení
+Doba zobrazenĞ½
 [Auto approve on:]
-Automaticky schválit pøi:
+Automaticky schvĞ±lit pÑˆi:
 [Analyze]
 Analyzovat
 [Response: (saved in %response% variable)]
-Odpovìï: (uloeno v promìné %response%)
+OdpovĞ¼Ğ¿: (uloÑ›eno v promĞ¼nĞ¹ %response%)
 [Reply on success:]
-Odpovìï pøi schválení:
+OdpovĞ¼Ğ¿ pÑˆi schvĞ±lenĞ½:
 [Incoming message with any word from list:]
-Pøíchozí zpráva obsahující slovo z tohoto seznamu:
+PÑˆĞ½chozĞ½ zprĞ±va obsahujĞ½cĞ½ slovo z tohoto seznamu:
 [Send challenge on authorization request:]
-Odeslat vızvu pøi poadavku o autorizaci:
+Odeslat vÑzvu pÑˆi poÑ›adavku o autorizaci:
 [Keep blocked messages in contact history]
-Ponechat blokované zprávy v historii kontaktu
+Ponechat blokovanĞ¹ zprĞ±vy v historii kontaktu
 [and mark them unread after approval]
-a po schválení je oznaèit jako nepøeètené
+a po schvĞ±lenĞ½ je oznaĞ¸it jako nepÑˆeĞ¸tenĞ¹
 [Send challenge on incoming message:]
-Odeslat vızvu pøi pøíchozí zprávì:
+Odeslat vÑzvu pÑˆi pÑˆĞ½chozĞ½ zprĞ±vĞ¼:
 [Case-sensitive]
-Rozlišovat velikost písmen
+RozliÑ™ovat velikost pĞ½smen
 [Mode:]
-Mód:
+MÑƒd:
 [Math expression]
-Matematickı vıraz
+MatematickÑ vÑraz
 [Filtering options]
-Monosti filtrování
+MoÑ›nosti filtrovĞ±nĞ½
 
 ;[Ham]
 ;Ham
@@ -89,7 +89,7 @@ Monosti filtrování
 [Will be automatically evaluated from %mathexpr%]
 Bude automaticky vyhodnocen z %mathexpr%
 [Learned ham messages:]
-Nauèenıch ham zpráv:
+NauĞ¸enÑch ham zprĞ±v:
 
 ;[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
 ;Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
@@ -101,38 +101,38 @@ Nauèenıch ham zpráv:
 ;Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
 
 [Do not send challenge request if message score above]
-Neodesílat vızvu pokud má zpráva index nad
+NeodesĞ½lat vÑzvu pokud mĞ± zprĞ±va index nad
 [Auto-learn messages from contacts if not approved in]
-Automaticky brát zprávy od kontaktù nepotvrzenıch do
+Automaticky brĞ±t zprĞ±vy od kontaktÑ‰ nepotvrzenÑch do
 [days as spam]
-dnù jako spam
+dnÑ‰ jako spam
 [Auto approve contact if message score below]
-Schválit kontakt pokud má zpráva index pod
+SchvĞ±lit kontakt pokud mĞ± zprĞ±va index pod
 [Learn message:]
 Learn message:
 [Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
-Nezapínejte ádnou z tìchto voleb dokud Spam-o-tron nepozná alespoò 20 zpráv jako ham a 50 zpráv jako spam.
+NezapĞ½nejte Ñ›Ğ±dnou z tĞ¼chto voleb dokud Spam-o-tron nepoznĞ± alespoÑ‚ 20 zprĞ±v jako ham a 50 zprĞ±v jako spam.
 [Verified.]
-Schválen.
+SchvĞ±len.
 [Auto-learn messages from approved contacts as ham]
-Automaticky urèovat zprávy od schválenıch kontaktù jako ham
+Automaticky urĞ¸ovat zprĞ±vy od schvĞ±lenÑch kontaktÑ‰ jako ham
 [and learn as ham]
-a urèit jako ham
+a urĞ¸it jako ham
 
 [Learned spam messages:]
-Nauèenıch spam zpráv:
+NauĞ¸enÑch spam zprĞ±v:
 
 [Auto-learn outgoing messages as ham]
-Automaticky urèovat odchozí zprávy jako ham
+Automaticky urĞ¸ovat odchozĞ½ zprĞ±vy jako ham
 [will be saved in %mathexpr%]
-bude uloen v %mathexpr%
+bude uloÑ›en v %mathexpr%
 [Learning options]
-Nastavení uèení
+NastavenĞ½ uĞ¸enĞ½
 [Their message was]
-Pøíchozí zpráva byla
+PÑˆĞ½chozĞ½ zprĞ±va byla
 [Sending plain challenge to %s.]
-Odesílám jednoduchou vızvu pro %s.
+OdesĞ½lĞ±m jednoduchou vÑzvu pro %s.
 [Sending math expression challenge to %s.]
-Odesílám matematickı vıraz pro %s.
+OdesĞ½lĞ±m matematickÑ vÑraz pro %s.
 
 ; ---

@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Merge Contacts 0.2.5                                    |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1985
 ;
 
@@ -11,88 +11,88 @@
 [Could not get status icon]
 Nelze zjistit stavovou ikonu
 [This value is invalid.\nEnter a number between (and including) 0 and 7.]
-Zadaná hodnota je neplatná.\nÈíslo musí bıt z rozsahu 0-7 (vèetnì).
+ZadanĞ± hodnota je neplatnĞ±.\nĞ˜Ğ½slo musĞ½ bÑt z rozsahu 0-7 (vĞ¸etnĞ¼).
 [This value is invalid.\nEnter a number between (and including) 0 and 60000.]
-Zadaná hodnota je neplatná.\nÈíslo musí bıt z rozsahu 0-60000 (vèetnì).
+ZadanĞ± hodnota je neplatnĞ±.\nĞ˜Ğ½slo musĞ½ bÑt z rozsahu 0-60000 (vĞ¸etnĞ¼).
 [This is a main contact all sub contacts will\nbe removed as well. Proceed?]
-Zároveò s hlavním kontaktem budou z hierarchie odebrány\ni všechny pøíslušné vedlejší kontakty. Chcete pokraèovat?
+ZĞ±roveÑ‚ s hlavnĞ½m kontaktem budou z hierarchie odebrĞ±ny\ni vÑ™echny pÑˆĞ½sluÑ™nĞ¹ vedlejÑ™Ğ½ kontakty. Chcete pokraĞ¸ovat?
 ;(DUP) [Information]
 ;(DUP) [Error]
 ;(DUP) [OK]
 ;(DUP) [Cancel]
 ;Tooltip i.e. "ICQ message from X"
 [message from]
-zpráva od
+zprĞ±va od
 
 ;Options dialog
 ;Info text
 [Contact hierarchy]
-Hierarchie kontaktù
+Hierarchie kontaktÑ‰
 ;(DUP) [Protocol]
 ;Buttons
 [Insert as main contact]
-Pøidat jako vıchozí
+PÑˆidat jako vÑchozĞ½
 [Insert as sub contact]
-Pøidat jako vedlejší
+PÑˆidat jako vedlejÑ™Ğ½
 [Remove selected]
-Odstranit vybrané
+Odstranit vybranĞ¹
 ;Settings
 [Contact Menu]
 Menu kontaktu
 ;(DUP) [General]
 ;(DUP) [Appearance]
 [Show main contact status in contact menus]
-Zobrazit stav vıchozího kontaktu v nabídce
+Zobrazit stav vÑchozĞ½ho kontaktu v nabĞ½dce
 [Automatically open main contact window on doubleclick (if online)]
-Dvojím kliknutím otevøít okno pro vıchozí kontakt (je-li online)
+DvojĞ½m kliknutĞ½m otevÑˆĞ½t okno pro vÑchozĞ½ kontakt (je-li online)
 [Select next online contact if main contact is offline]
-Vybrat další z kontaktù online, je-li vıchozí offline
+Vybrat dalÑ™Ğ½ z kontaktÑ‰ online, je-li vÑchozĞ½ offline
 [Forward all received messages to the main contact]
-Pøeposílat všechny pøijaté zprávy vıchozímu kontaktu
+PÑˆeposĞ½lat vÑ™echny pÑˆijatĞ¹ zprĞ±vy vÑchozĞ½mu kontaktu
 [Dynamically set the best contact as main]
-Dynamicky nastavovat vıchozí kontakt
+Dynamicky nastavovat vÑchozĞ½ kontakt
 [Prefer main contact to others (e.g. show main contact status as long as not offline)]
-Upøednostòovat vıchozí kontakt (tj. zobrazovat stav vıchozího kontaktu mimo offline)
+UpÑˆednostÑ‚ovat vÑchozĞ½ kontakt (tj. zobrazovat stav vÑchozĞ½ho kontaktu mimo offline)
 [Show a different icon for merged contacts]
-Pro slouèené kontakty pouít jinou ikonu 
+Pro slouĞ¸enĞ¹ kontakty pouÑ›Ğ½t jinou ikonu 
 [Icon change delay (set higher if the new icons don't always show)]
-Zpodìní pøi zmìnì ikony (máte-li problém, nastavte vyšší hodnotu)
+ZpoÑ›dĞ¼nĞ½ pÑˆi zmĞ¼nĞ¼ ikony (mĞ±te-li problĞ¹m, nastavte vyÑ™Ñ™Ğ½ hodnotu)
 ;(DUP) [milliseconds]
 [Show number of sub contacts as name postfix (i.e. "Name [2]")]
-Zobrazit poèet slouèenıch kontaktù (pøíklad: 'Pepa [2]')
+Zobrazit poĞ¸et slouĞ¸enÑch kontaktÑ‰ (pÑˆĞ½klad: 'Pepa [2]')
 [Show a '*' symbol as postfix]
-Zobrazit znak hvìzdièka za pøezdívkou
+Zobrazit znak hvĞ¼zdiĞ¸ka za pÑˆezdĞ½vkou
 [* May require you to close and restart Miranda]
-* Tato zmìna vyaduje restart programu Miranda IM.
+* Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 ;(DUP) [status]
 [hierarchy]
 hierarchie
 [Priorize contacts by]
-Priorita kontaktù dle
+Priorita kontaktÑ‰ dle
 ;Info
 [Enter the contact information above or drag any contact out of the contact list window to enter its information in the form. Then select if you wish to add the contact as a main or sub contact.]
-Zadejte poadované informace o kontaktu (tip: pøetáhnutím kontaktu ze seznamu je lze doplnit automaticky). Poté je nutno definovat, jde-li o kontakt hlavní nebo vedlejší.
+Zadejte poÑ›adovanĞ¹ informace o kontaktu (tip: pÑˆetĞ±hnutĞ½m kontaktu ze seznamu je lze doplnit automaticky). PotĞ¹ je nutno definovat, jde-li o kontakt hlavnĞ½ nebo vedlejÑ™Ğ½.
 [Doubleclick on a sub contact to swap it with the main contact.]
-Vedlejší kontakt zmìníte na hlavní dvojím kliknutím.
+VedlejÑ™Ğ½ kontakt zmĞ¼nĞ½te na hlavnĞ½ dvojĞ½m kliknutĞ½m.
 [Number of contacts to show in contact menus:]
-Max. poèet kontaktù zobrazenıch v nabídce:
+Max. poĞ¸et kontaktÑ‰ zobrazenÑch v nabĞ½dce:
 [Status information might be wrong until you re-logon.]
-Stav nemusí odpovídat skuteènosti; pøihlašte se znovu.
+Stav nemusĞ½ odpovĞ½dat skuteĞ¸nosti; pÑˆihlaÑ™te se znovu.
 ;Errors
 [This contact is not on your list...]
-Vybranı kontakt není v seznamu...
+VybranÑ kontakt nenĞ½ v seznamu...
 [This contact is allready a sub contact.\nDelete it first and reinsert it here...]
-Vybranı kontakt ji existuje jako vedlejší.\nOdstraòte ho a znovu pøidejte...
+VybranÑ kontakt jiÑ› existuje jako vedlejÑ™Ğ½.\nOdstraÑ‚te ho a znovu pÑˆidejte...
 [This contact is allready a main contact.\nDelete it first and reinsert it here...]
-Vybranı kontakt ji existuje jako hlavní.\nOdstraòte ho a znovu pøidejte...
+VybranÑ kontakt jiÑ› existuje jako hlavnĞ½.\nOdstraÑ‚te ho a znovu pÑˆidejte...
 [No main contact selected for this sub contact!\nPlease select a contact from the list]
-Vybranı kontakt nemá definovanı hlavní kontakt!\nVyberte prosím jeden ze seznamu.
+VybranÑ kontakt nemĞ± definovanÑ hlavnĞ½ kontakt!\nVyberte prosĞ½m jeden ze seznamu.
 [Invalid main contact!]
-Neplatnı vıchozí kontakt
+NeplatnÑ vÑchozĞ½ kontakt
 
 ;Options group
 [Merge Contacts]
-Kontakty (slouèené)
+Kontakty (slouĞ¸enĞ¹)
 ;Options tabs
 [Hierarchy]
 Hierarchie
@@ -100,22 +100,22 @@ Hierarchie
 
 ;Contact menu items
 [Sub contacts:]
-Vedlejší kontakty:
+VedlejÑ™Ğ½ kontakty:
 [Show all sub contacts]
-Zobrazit všechny kontakty
+Zobrazit vÑ™echny kontakty
 
 ;Select contact dialog
 ;Title
 [Merged Contact]
-Slouèenı kontakt
+SlouĞ¸enÑ kontakt
 [Please select the sub contact you wish to send a message to.]
-Vyberte prosím kontakt, kterému chcete poslat zprávu.
+Vyberte prosĞ½m kontakt, kterĞ¹mu chcete poslat zprĞ±vu.
 ;Main contact prefix
 [MAIN]
-Hlavní
+HlavnĞ½
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Enter the contact information above or drag'n'drop any contact from the contact list.]
-Poadované kontakty slouèíte pøetáhnutím ze seznamu (pøes sebe).
+PoÑ›adovanĞ¹ kontakty slouĞ¸Ğ½te pÑˆetĞ±hnutĞ½m ze seznamu (pÑˆes sebe).
 
 ; ---

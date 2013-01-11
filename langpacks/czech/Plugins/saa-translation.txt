@@ -1,14 +1,14 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Smart Auto Away 0.0.2.5                                 |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1704
 ;
 
 ; /aa_utils.c
 [Reconnect after ]
-Obnovit spojení po
+Obnovit spojenĞ½ po
 ; [%s%d min ]
 ; [%s%d sec]
 ; [%s (Too fast!)]
@@ -19,7 +19,7 @@ dop.
 
 ; /autoaway.c
 [Smart Auto Away]
-Zmìna stavu (vylepšená)
+ZmĞ¼na stavu (vylepÑ™enĞ±)
 [Status]
 Stavy
 ; [%s WakeningUp: %s]
@@ -40,33 +40,33 @@ Stavy
 [Statuses]
 Stavy
 [Idle]
-Neèinnost
+NeĞ¸innost
 [Status Messages]
-Stavové zprávy
+StavovĞ¹ zprĞ±vy
 [Reconnect]
-Obnovení spojení
+ObnovenĞ½ spojenĞ½
 
 ; /globals.h
 [-- Date --]
 -- Datum --
 [year (4 digits)]
-rok (4 èíslice)
+rok (4 Ğ¸Ğ½slice)
 [year (2 digits)]
-rok (2 èíslice)
+rok (2 Ğ¸Ğ½slice)
 [month]
-mìsíc
+mĞ¼sĞ½c
 [name of month]
-název mìsíce (celı)
+nĞ±zev mĞ¼sĞ½ce (celÑ)
 [short name of month]
-název mìsíce (zkrácenı)
+nĞ±zev mĞ¼sĞ½ce (zkrĞ±cenÑ)
 [day]
 den
 [weekday (full)]
-název dne (celı)
+nĞ±zev dne (celÑ)
 [weekday (abbreviated)]
-název dne (zkrácenı)
+nĞ±zev dne (zkrĞ±cenÑ)
 [-- Time --]
--- Èas --
+-- Ğ˜as --
 [hours (24)]
 hodiny (24)
 [hours (12)]
@@ -78,17 +78,17 @@ min.
 [seconds]
 sek.
 [-- Time Zone --]
--- Èasové pásmo --
+-- Ğ˜asovĞ¹ pĞ±smo --
 [total bias]
-rozdíl mezi pásmy
+rozdĞ½l mezi pĞ±smy
 [time zone name]
-název èasového pásma
+nĞ±zev Ğ¸asovĞ¹ho pĞ±sma
 [-- Format --]
--- Formátování --
+-- FormĞ±tovĞ±nĞ½ --
 [tabulator]
-tabulátor
+tabulĞ±tor
 [line break]
-další øádek
+dalÑ™Ğ½ ÑˆĞ±dek
 
 ; /idle.c
 ; [%s: Restoring the default "StatusMessage": %s]
@@ -97,19 +97,19 @@ další øádek
 
 ; /idleMenu.c
 [&Idle]
-Neè&innost
+NeĞ¸&innost
 
 ; /idleMessages.c
 [Set the default status message after ]
-Nastavit vıchozí zprávu stavu po 
+Nastavit vÑchozĞ½ zprĞ±vu stavu po 
 
  
 [I am here: %s]
-Bìná práce: %s
+BĞ¼Ñ›nĞ± prĞ±ce: %s
 [Short Idle: %s]
-Krátká nepøítomnost: %s
+KrĞ±tkĞ± nepÑˆĞ½tomnost: %s
 [Long Idle: %s]
-Delší nepøítomnost: %s
+DelÑ™Ğ½ nepÑˆĞ½tomnost: %s
 ; [%s cannot set status messages]
 
 ; /reconnect.c
@@ -134,109 +134,109 @@ Delší nepøítomnost: %s
 
 ; /saa-res.rc:IDD_OPT_SMARTAUTOAWAY
 [Static]
-Statickı
+StatickÑ
 [Requested Status:]
-Poadovanı stav:
+PoÑ›adovanÑ stav:
 [Current Status:]
-Souèasnı stav:
+SouĞ¸asnÑ stav:
 [Apply to all protocols]
-Pro všechny protokoly
+Pro vÑ™echny protokoly
 
 ; /saa-res.rc:IDD_OPT_SAA_AA
 [Short Idle]
-Krátká nepøítomnost
+KrĞ±tkĞ± nepÑˆĞ½tomnost
 [Change my status mode to:]
-Zmìnit stav na:
+ZmĞ¼nit stav na:
 [Button]
-Tlaèítko
+TlaĞ¸Ğ½tko
 [Only if my requested status is:]
-Pouze tehdy, je-li poadovanı stav
+Pouze tehdy, je-li poÑ›adovanÑ stav
 [Online]
 Online
 [Away]
-Na chvíli pryè
+Na chvĞ½li pryĞ¸
 [N/A]
 <neuvedeno>
 [Invisible]
-Neviditelnı
+NeviditelnÑ
 [Occupied]
-Nemám èas
+NemĞ±m Ğ¸as
 [DND]
-Nerušit!
+NeruÑ™it!
 [On the phone]
-Mám telefon
+MĞ±m telefon
 [Out to lunch]
-Jsem na obìdì
+Jsem na obĞ¼dĞ¼
 [Free for chat]
-Mám volno
+MĞ±m volno
 [Offline]
 Offline
 [Long Idle]
-Delší nepøítomnost
+DelÑ™Ğ½ nepÑˆĞ½tomnost
 
 ; /saa-res.rc:IDD_OPT_SAA_RECONNECT
 [reconnect after]
-znovu pøipojit po
+znovu pÑˆipojit po
 [If my current status is:]
-Pouze tehdy, je-li souèasnı stav
+Pouze tehdy, je-li souĞ¸asnÑ stav
 [Too Fast!]
-Pøíliš rychle!
+PÑˆĞ½liÑ™ rychle!
 [Do not reconnect after fatal error]
-Neobnovovat spojení po závané chybì
+Neobnovovat spojenĞ½ po zĞ±vaÑ›nĞ¹ chybĞ¼
 [Keep main status offline*]
-Udrovat globální stav offline*
+UdrÑ›ovat globĞ±lnĞ½ stav offline*
 [* Setting this option may confuse other plugins]
-* Tato monost nemusí fungovat správnì se všemi doplòky
+* Tato moÑ›nost nemusĞ½ fungovat sprĞ±vnĞ¼ se vÑ™emi doplÑ‚ky
 
 ; /saa-res.rc:IDD_OPT_SAA_IDLE
 [Enable]
 Aktivovat
 [If Windows is inactive]
-Pokud jsou neaktivní Windows
+Pokud jsou neaktivnĞ½ Windows
 [If Miranda is inactive]
-Pokud je neaktivní Miranda
+Pokud je neaktivnĞ½ Miranda
 [Use GetLastInputInfo()]
 Fce GetLastInputInfo()
 [Force short idle if:]
-Stav 'Na chvíli pryè'
+Stav 'Na chvĞ½li pryĞ¸'
 [Screen Saver is running]
-Bìící spoøiè obrazovky
+BĞ¼Ñ›Ğ½cĞ½ spoÑˆiĞ¸ obrazovky
 [Workstation is Locked (2K/XP)]
-Poèítaè je zamèen (2000/XP)
+PoĞ¸Ğ½taĞ¸ je zamĞ¸en (2000/XP)
 [Inactivity times:]
-Doba neèinnosti
+Doba neĞ¸innosti
 [Short idle after]
-Krátká nepøítomnost po
+KrĞ±tkĞ± nepÑˆĞ½tomnost po
 [Long idle after]
-Delší nepøítomnost po
+DelÑ™Ğ½ nepÑˆĞ½tomnost po
 [min.]
 min.
 [Do not share my idle info.]
-Nezveøejòovat informace o neèinnosti
+NezveÑˆejÑ‚ovat informace o neĞ¸innosti
 [Do not set "Not Idle" automaticaly]
-Nepøecházet z reimu neèinnosti automaticky
+NepÑˆechĞ±zet z reÑ›imu neĞ¸innosti automaticky
 [Set "Not Idle" on manual status change]
-Nenastavovat nepøítomnost pøi manuální zmìnì
+Nenastavovat nepÑˆĞ½tomnost pÑˆi manuĞ±lnĞ½ zmĞ¼nĞ¼
 [Simulate Idle]
-Simulace neèinnosti
+Simulace neĞ¸innosti
 [Be Not Idle]
-Bìná práce
+BĞ¼Ñ›nĞ± prĞ±ce
 [Be Short Idle]
-Krátká nepøít.
+KrĞ±tkĞ± nepÑˆĞ½t.
 [Be Long Idle]
-Delší nepøít.
+DelÑ™Ğ½ nepÑˆĞ½t.
 [Disable Idle menu. (restart is required)]
-Vypnout poloku menu (vyaduje restart)
+Vypnout poloÑ›ku menu (vyÑ›aduje restart)
 
 ; /saa-res.rc:IDD_OPT_SAA_IDLEMESSAGES
 [Use:]
-Pouít:
+PouÑ›Ğ½t:
 [?]
 ?
 
 ; /saamain.c
 [Smart Auto Away Module]
-Vylepšená zmìna stavu
+VylepÑ™enĞ± zmĞ¼na stavu
 ; [%s\n%s Type:%d\nLastReqStatus: %s\n]
 ; [%s  %d. %s\n]
 ; [%d\t%d\t%s]

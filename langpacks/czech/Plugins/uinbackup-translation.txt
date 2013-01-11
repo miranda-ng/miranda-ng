@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  UINBackup 0.4.2.1                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=197
 ;
 
@@ -11,68 +11,68 @@ Exportovat kontakty
 [Import contacts]
 Importovat kontakty
 [Show the export menuitem (requires restart of Miranda)]
-Zobrazit poloku Exportovat (vyaduje restart Mirandy)
+Zobrazit poloÑ›ku Exportovat (vyÑ›aduje restart Mirandy)
 [Show the import menuitem (requires restart of Miranda)]
-Zobrazit poloku Importovat (vyaduje restart Mirandy)
+Zobrazit poloÑ›ku Importovat (vyÑ›aduje restart Mirandy)
 [Browse]
-Procházet
+ProchĞ±zet
 [Autoimport a clb file on startup]
-Pøi spuštìní autom. importovat
+PÑˆi spuÑ™tĞ¼nĞ½ autom. importovat
 [Error writing to the file. Is the disk full?]
-Chyba pøi zápisu do souboru. Zaplnìnı disk?
+Chyba pÑˆi zĞ±pisu do souboru. ZaplnĞ¼nÑ disk?
 ;(DUP) [Error]
 [One contact had too long nickname or groupname.\nThe contact was not saved.]
-Pøíliš dlouhá pøezdívka nebo název skupiny.\nDanı kontakt nebyl uloen.
+PÑˆĞ½liÑ™ dlouhĞ± pÑˆezdĞ½vka nebo nĞ±zev skupiny.\nDanÑ kontakt nebyl uloÑ›en.
 [No contacts found]
-Nebyly nalezeny ádné kontakty
+Nebyly nalezeny Ñ›Ğ±dnĞ¹ kontakty
 [%d contact saved\nThere are %d contacts in the database]
-Poèet uloenıch kontatkù: %d\nCelkovı poèet kontaktù v databázi: %d
+PoĞ¸et uloÑ›enÑch kontatkÑ‰: %d\nCelkovÑ poĞ¸et kontaktÑ‰ v databĞ±zi: %d
 [%d contacts saved\nThere are %d contacts in the database]
-Poèet uloenıch kontatkù: %d\nCelkovı poèet kontaktù v databázi: %d
+PoĞ¸et uloÑ›enÑch kontatkÑ‰: %d\nCelkovÑ poĞ¸et kontaktÑ‰ v databĞ±zi: %d
 [Backup done]
-Zálohování dokonèeno
+ZĞ±lohovĞ±nĞ½ dokonĞ¸eno
 [Done]
-Dokonèeno
+DokonĞ¸eno
 ;(DUP) [No contacts found]
 [%s on line %d]
-%s na øádku è.%d
+%s na ÑˆĞ±dku Ğ¸.%d
 [Too many errors, no more error messages will be shown.]
-Pøíliš mnoho chyb; zastavení jejich vıpisu.
+PÑˆĞ½liÑ™ mnoho chyb; zastavenĞ½ jejich vÑpisu.
 [Warning]
-Upozornìní
+UpozornĞ¼nĞ½
 [Insufficient memory available]
-Nedostatek pamìti
+Nedostatek pamĞ¼ti
 [A critical error occured.\nTry to do the operation one more time.]
-Došlo k závané chybì.\nZkuste akci zopakovat.
+DoÑ™lo k zĞ±vaÑ›nĞ¹ chybĞ¼.\nZkuste akci zopakovat.
 [Critical error]
-Závaná chyba
+ZĞ±vaÑ›nĞ± chyba
 [Warning, strange sequence]
-Upozornìní; neplatná posloupnost
+UpozornĞ¼nĞ½; neplatnĞ± posloupnost
 [Syntax error, early line break]
-Chyba syntaxe; neplatnı znak ukonèení øádku
+Chyba syntaxe; neplatnÑ znak ukonĞ¸enĞ½ ÑˆĞ±dku
 [Syntax error, too many \";\" characters]
-Chyba syntaxe; pøíliš mnoho znakù ';' za sebou
+Chyba syntaxe; pÑˆĞ½liÑ™ mnoho znakÑ‰ ';' za sebou
 [Warning, strange character sequence]
-Upozornìní; neplatná posloupnost znakù
+UpozornĞ¼nĞ½; neplatnĞ± posloupnost znakÑ‰
 [Error, too many characters]
-Chyba; pøíliš mnoho znakù
+Chyba; pÑˆĞ½liÑ™ mnoho znakÑ‰
 [Too long UIN]
-Pøíliš dlouhé UIN
+PÑˆĞ½liÑ™ dlouhĞ¹ UIN
 [%d contact imported\nThere are %d contacts in the database]
-Poèet importovanıch kontatkù: %d\nCelkovı poèet kontaktù v databázi: %d
+PoĞ¸et importovanÑch kontatkÑ‰: %d\nCelkovÑ poĞ¸et kontaktÑ‰ v databĞ±zi: %d
 [%d contacts imported\nThere are %d contacts in the database]
-Poèet importovanıch kontatkù: %d\nCelkovı poèet kontaktù v databázi: %d
+PoĞ¸et importovanÑch kontatkÑ‰: %d\nCelkovÑ poĞ¸et kontaktÑ‰ v databĞ±zi: %d
 [Import successfull]
-Import úspìšnì dokonèen
+Import ÑŠspĞ¼Ñ™nĞ¼ dokonĞ¸en
 [No contacts imported]
-Nebyly importovány ádné kontakty
+Nebyly importovĞ±ny Ñ›Ğ±dnĞ¹ kontakty
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [Use ICQ style linebreaks (CRCRLF, default is CRLF)]
-Pouít ukonèení øádkù ICQ (CRCRLF, standardnì CRLF)
+PouÑ›Ğ½t ukonĞ¸enĞ½ ÑˆĞ±dkÑ‰ ICQ (CRCRLF, standardnĞ¼ CRLF)
 [UINBackup]
-Záloha UIN
+ZĞ±loha UIN
 [Contactlist backup (*.clb)\0*.clb\0All files (*.*)\0*.*\0]
-Záloha kontaktù (*.clb)\0*.clb\0Všechny soubory (*.*)\0*.*\0
+ZĞ±loha kontaktÑ‰ (*.clb)\0*.clb\0VÑ™echny soubory (*.*)\0*.*\0
 
 ; ---

@@ -1,23 +1,23 @@
-Popis:     Èeskı pøeklad komunikátoru Miranda-IM
-Autoøi:    Vít Šindláø & další (viz langpack_czech.txt)
+ï»¿Popis:     Ğ˜eskÑ pÑˆeklad komunikĞ±toru Miranda-IM
+AutoÑˆi:    VĞ½t Ğ‰indlĞ±Ñˆ & dalÑ™Ğ½ (viz langpack_czech.txt)
 Verze:     2.19.x
-Poadavky: Miranda-IM 0.9.47 nebo novìjší
+PoÑ›adavky: Miranda-IM 0.9.47 nebo novĞ¼jÑ™Ğ½
 
 
- Tento pøeklad je šíøen pod hlavièkou licence GPL. Nejnovìjší oficiálnì vydanou 
-verzi najdete na èeskıch stránkách http://miranda.kvalitne.cz, pøíp. i na 
-stránkách projektu Miranda-IM. Zde hledejte v sekci Lokalizace (Localisation) 
+ Tento pÑˆeklad je Ñ™Ğ½Ñˆen pod hlaviĞ¸kou licence GPL. NejnovĞ¼jÑ™Ğ½ oficiĞ±lnĞ¼ vydanou 
+verzi najdete na Ğ¸eskÑch strĞ±nkĞ±ch http://miranda.kvalitne.cz, pÑˆĞ½p. i na 
+strĞ±nkĞ±ch projektu Miranda-IM. Zde hledejte v sekci Lokalizace (Localisation) 
 na adrese http://www.miranda-im.org.
 
 
-1. Ruèní instalace
+1. RuĞ¸nĞ½ instalace
 
- Soubor "langpack_czech.txt" zkopírujte do stejného adresáøe, ve kterém se 
-nachází Miranda (miranda32.exe, obvykle C:\Program Files\Miranda). Poté staèí
-Mirandu ukonèit a znovu spustit. To je vše.
+ Soubor "langpack_czech.txt" zkopĞ½rujte do stejnĞ¹ho adresĞ±Ñˆe, ve kterĞ¹m se 
+nachĞ±zĞ½ Miranda (miranda32.exe, obvykle C:\Program Files\Miranda). PotĞ¹ staĞ¸Ğ½
+Mirandu ukonĞ¸it a znovu spustit. To je vÑ™e.
 
 
-2. Seznam pøeloenıch doplòkù
+2. Seznam pÑˆeloÑ›enÑch doplÑ‚kÑ‰
 
 AdvancedAutoAway, AIM, Alarms, Alternative Browse Received Files, Atomic, 
 Authorization State, AutoReplacer, AutoReply, Autorun, AutoShutdown, Auto 
@@ -59,20 +59,20 @@ WinampNotify, WinPopup Protocol, WorldTime, XFire Protocol, XStatus Notify,
 Yahoo, YAMN, YAPP
 
 
-3. Upozornìní
+3. UpozornĞ¼nĞ½
 
-3.1 Tento pøeklad je pøipraven a odzkoušen pod Windows 2000, XP a Vista pro 
-schéma: Standardní nastavení. Jakékoli jiné nastavení nebo téma mùe zpùsobit 
-rùzná zalomení textu, neèitelnost nìkterıch øetìzcù a další nepøíjemnosti. Pokud 
-naleznete problém tohoto typu, napište o nìm prosím mnì nebo autorovi pøekladu 
-pøíslušného doplòku (adresu autora najdete v souboru langpack_czech.txt, 
-hledejte název konkrétního doplòku).
+3.1 Tento pÑˆeklad je pÑˆipraven a odzkouÑ™en pod Windows 2000, XP a Vista pro 
+schĞ¹ma: StandardnĞ½ nastavenĞ½. JakĞ¹koli jinĞ¹ nastavenĞ½ nebo tĞ¹ma mÑ‰Ñ›e zpÑ‰sobit 
+rÑ‰znĞ± zalomenĞ½ textu, neĞ¸itelnost nĞ¼kterÑch ÑˆetĞ¼zcÑ‰ a dalÑ™Ğ½ nepÑˆĞ½jemnosti. Pokud 
+naleznete problĞ¹m tohoto typu, napiÑ™te o nĞ¼m prosĞ½m mnĞ¼ nebo autorovi pÑˆekladu 
+pÑˆĞ½sluÑ™nĞ¹ho doplÑ‚ku (adresu autora najdete v souboru langpack_czech.txt, 
+hledejte nĞ±zev konkrĞ¹tnĞ½ho doplÑ‚ku).
 
-3.2 Pøeklad nìkterıch doplòkù, pøíp. samotné Mirandy nemusí bıt nutnì vdy 
-dokonèen. Dùvody mohou bıt rùzné, ale pøesto bych rád uvítal komentáøe, hlášení 
-chyb a návrhy na zlepšení.
+3.2 PÑˆeklad nĞ¼kterÑch doplÑ‚kÑ‰, pÑˆĞ½p. samotnĞ¹ Mirandy nemusĞ½ bÑt nutnĞ¼ vÑ›dy 
+dokonĞ¸en. DÑ‰vody mohou bÑt rÑ‰znĞ¹, ale pÑˆesto bych rĞ±d uvĞ½tal komentĞ±Ñˆe, hlĞ±Ñ™enĞ½ 
+chyb a nĞ±vrhy na zlepÑ™enĞ½.
  
 
 4. Historie
 
- Popis zmìn najdete v souboru langpack_czech_history.txt.
+ Popis zmĞ¼n najdete v souboru langpack_czech_history.txt.

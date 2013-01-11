@@ -1,33 +1,33 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  Miranda Text Control 0.0.1.10                           |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: VÌt äindl·¯ <sindlarv (zavin·Ë) centrum (teËka) cz>
+; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
 ; Adresa: 
 ;
 
 ; plugin: mTextControl
 [Text Display]
-ZobrazenÌ textu
+Zobrazen–Ω textu
 [In-text objects]
 Objekty v textu
 [Autodetect]
 Zjistit automaticky
 [Display technique]
-Metoda zobrazenÌ
+Metoda zobrazen–Ω
 [Simple text renderer (faster, RTL, no fancy stuff)]
-Z·kladnÌ vykreslov·nÌ textu (rychlÈ, bez par·diËek, RTL)
+Z–±kladn–Ω vykreslov–±n–Ω textu (rychl–π, bez par–±di–∏ek, RTL)
 [Advanced text renderer (smilies, bbcodes, no RTL)]
-VylepöenÈ vykreslov·nÌ textu (smajlÌci, BBCodes, bez RTL)
+Vylep—ôen–π vykreslov–±n–Ω textu (smajl–Ωci, BBCodes, bez RTL)
 [Left-To-Right]
 Zleva doprava
 [Right-To-Left]
 Zprava doleva (RTL)
 [SmileyAdd Smilies]
-SmajlÌci (SmileyAdd)
+Smajl–Ωci (SmileyAdd)
 [BBCodes]
 BBCodes
 [MathModule Formulas]
-MatematickÈ vzorce (MathModule)
+Matematick–π vzorce (MathModule)
 
 ; ---

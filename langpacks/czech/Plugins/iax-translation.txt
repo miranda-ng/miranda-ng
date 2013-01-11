@@ -1,65 +1,65 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  IAX 0.0.3.0                                             |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3198
 ;
 
-; Sítì / IAX / Nastavení
+; SĞ½tĞ¼ / IAX / NastavenĞ½
 [Login]
-Pøihlášení
+PÑˆihlĞ±Ñ™enĞ½
 [*Source port:]
 *Zdroj. port:
 [Caller ID]
-Identifikátor
+IdentifikĞ±tor
 [Devices]
-Zaøízení
+ZaÑˆĞ½zenĞ½
 [Input:]
 Vstup:
 [Output:]
-Vıstup:
+VÑstup:
 [Mic boost]
-Zesílit mikrofon
+ZesĞ½lit mikrofon
 [Call Window]
-Okno pro volání
+Okno pro volĞ±nĞ½
 [Popup on incoming call]
-Oznámit pøíchozí hovor
+OznĞ±mit pÑˆĞ½chozĞ½ hovor
 [Popup on outgoing call]
-Oznámit odchozí hovor
+OznĞ±mit odchozĞ½ hovor
 
-; Sítì / IAX / Kodeky
+; SĞ½tĞ¼ / IAX / Kodeky
 [Codecs]
 Kodeky
 [Allowed]
-Povolené
+PovolenĞ¹
 [Preferred]
-Pøednostnì
+PÑˆednostnĞ¼
 [(*Changes will take effect after restart)]
-* Poznámka: Zmìna poloky vyaduje restart.
+* PoznĞ±mka: ZmĞ¼na poloÑ›ky vyÑ›aduje restart.
 [Changes will take effect after restart]
-* Poznámka: Veškeré zmìny vyadují restart.
+* PoznĞ±mka: VeÑ™kerĞ¹ zmĞ¼ny vyÑ›adujĞ½ restart.
 
-; nabídka
+; nabĞ½dka
 [Answer Call]
 Zvednout telefon
 [Dial Number]
-Vytoèit èíslo
+VytoĞ¸it Ğ¸Ğ½slo
 
-; Okno pro volání
+; Okno pro volĞ±nĞ½
 [Keypad]
-Klávesnice
+KlĞ±vesnice
 [Hang Up]
-Zavìsit
+ZavĞ¼sit
 [Answer]
 Zvednout
 
-; Vlastní úpravy / Zvuky
+; VlastnĞ½ ÑŠpravy / Zvuky
 [Key Press]
-Stisk klávesy
+Stisk klĞ±vesy
 [Ring (Inbound)]
-Vyzvánìní (pøíchozí)
+VyzvĞ±nĞ¼nĞ½ (pÑˆĞ½chozĞ½)
 [Ring (Outbound)]
-Vyzvánìní (odchozí)
+VyzvĞ±nĞ¼nĞ½ (odchozĞ½)
 
 ; ---

@@ -1,12 +1,12 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Alternative Browse Received Files 0.0.1.1               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Martin Koníèek <konicekmartin (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Martin KonĞ½Ğ¸ek <konicekmartin (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [Browse Received Files]
-Procházet pøijatımi soubory
+ProchĞ±zet pÑˆijatÑmi soubory
 
 ; ---

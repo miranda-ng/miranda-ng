@@ -1,47 +1,47 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  shlext 2.0.0.9                                          |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; PÑˆeklad: waclaw <waclaw (zavinĞ±Ğ¸) cmail (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=534
 ;
 
 [Problem, registration missing/deleted.]
-Nalezen problém, registrace byla ztracena/smazána.
+Nalezen problĞ¹m, registrace byla ztracena/smazĞ±na.
 [Successfully created shell registration.]
-Integrace do prostøedí byla provedena úspìšnì.
+Integrace do prostÑˆedĞ½ byla provedena ÑŠspĞ¼Ñ™nĞ¼.
 [Not Approved]
 Nebylo odsouhlaseno
 [Approved]
 Odsouhlaseno
 [Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
-Opravdu chcete smazat všechna nastavení ve vašem profilu a všechny poloky registru vytvoøené pro spolupráci s Explorerem?
+Opravdu chcete smazat vÑ™echna nastavenĞ½ ve vaÑ™em profilu a vÑ™echny poloÑ›ky registru vytvoÑˆenĞ¹ pro spoluprĞ±ci s Explorerem?
 [Disable/Remove shlext]
-Zakázat/odstranit shlext
+ZakĞ±zat/odstranit shlext
 [Shell context menus]
-Kontextové nabídky
+KontextovĞ¹ nabĞ½dky
 
 [Clear entries]
-Vymazat poloky
+Vymazat poloÑ›ky
 [Recently]
-Èasto pouívané
+Ğ˜asto pouÑ›Ğ½vanĞ¹
 
 [Display contacts in their assigned groups (if any)]
-Zobrazit kontakt v jeho vlastní skupinì (pokud v nìjaké je)
+Zobrazit kontakt v jeho vlastnĞ½ skupinĞ¼ (pokud v nĞ¼jakĞ¹ je)
 [Only if/when the contact list is using them]
-Pouze kdy seznam kontaktù skupiny pouívá
+Pouze kdyÑ› seznam kontaktÑ‰ skupiny pouÑ›Ğ½vĞ±
 [Display hidden, ignored or temporary contacts]
-Zobrazovat skryté, ignorované nebo doèasné kontakty
+Zobrazovat skrytĞ¹, ignorovanĞ¹ nebo doĞ¸asnĞ¹ kontakty
 [Shell Status]
-Stav integrace v prostøedí
+Stav integrace v prostÑˆedĞ½
 [Do not display the profile name in use]
-Nezobrazovat název pouívaného profilu
+Nezobrazovat nĞ±zev pouÑ›Ğ½vanĞ¹ho profilu
 [Contact Status]
 Stav kontaktu
 [Show contacts that you have set privacy rules for]
-Zobrazit kontakty pro které existují soukromá práva
+Zobrazit kontakty pro kterĞ¹ existujĞ½ soukromĞ± prĞ±va
 [Do not show status icons in menus]
-Nezobrazovat v nabídce ikonu stavu
+Nezobrazovat v nabĞ½dce ikonu stavu
 [Do not show contacts that are offline, even if my contact list does]
 Nezobrazovat offline kontakty 
 

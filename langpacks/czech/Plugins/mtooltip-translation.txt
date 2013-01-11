@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+Ôªø; /----------------------------------------------------------\
 ; |  mToolTip 0.0.1.4                                        |
 ; \----------------------------------------------------------/
 ;
-; P¯eklad: sir-qwerty <info (zavin·Ë) qwerty (teËka) cz>
+; P—àeklad: sir-qwerty <info (zavin–±–∏) qwerty (te–∏ka) cz>
 ; Adresa: 
 ;
 
@@ -12,7 +12,7 @@
 ;New v0.0.0.8
 
 [Show various contact infos as tooltip]
-Zobrazuje souhrn informacÌ o kontaktu
+Zobrazuje souhrn informac–Ω o kontaktu
 
 ; ******** User information ******** 
 [Photo]
@@ -32,40 +32,40 @@ Vyberte fotku
 
 ; ******** Options ******** 
 [mToolTip info]
-Moûnosti zobrazenÌ
+Mo—õnosti zobrazen–Ω
 ;(DUP) [Show tooltip even if list is not focused]
 ;(DUP) [Show tooltip over groups]
 [Show: Retrieving mode message... (%smsg)]
-Zobrazit informaci o naËÌt·nÌ zpr·vy stavu
+Zobrazit informaci o na–∏–Ωt–±n–Ω zpr–±vy stavu
 [Remove empty lines]
-Odstranit pr·zdnÈ ¯·dky
+Odstranit pr–±zdn–π —à–±dky
 [Tooltip message]
 Text tipu
 [Variable not available]
-Nedefin. promÏnn·:
+Nedefin. prom–ºnn–±:
 ;(FIX) [Tooltip delay]
 [Tooltip delay:]
 Zpozdit tip:
 [mToolTip look]
-NastavenÌ vzhledu
+Nastaven–Ω vzhledu
 [Background color]
-Barva pozadÌ
+Barva pozad–Ω
 [Text color]
 Barva textu
 [Max width]
-Max.öÌ¯ka
+Max.—ô–Ω—àka
 [Transparency]
-Pr˘hlednost
+Pr—âhlednost
 
 ;New v0.0.0.3
 
 [Fixed width]
-Pevn· öÌ¯ka
+Pevn–± —ô–Ω—àka
 
 ;New v0.0.0.4
 
 [Show tooltip over statusbar]
-Zobrazit tip na stavovÈ liötÏ
+Zobrazit tip na stavov–π li—ôt–º
 
 ;New v0.0.0.6
 
@@ -87,48 +87,48 @@ Autom. velikost fotky
 %%<b>ID:</b>%tab%tab%id|%%%%|
 %#<b>IP:</b>%tab%tab%ip|%%%% |%realip|(%%%%)|
 %%<b>Mobil:</b>%tab%cell|%%%%|
-%#<b>Narozeniny:</b>%tab%bday|%%??%%-|%bmonth|%%??%%|-%byear|%%????%%|%age| (%%%%)|%dtb|, do dalöÌch: <b>%%%%</b>|
+%#<b>Narozeniny:</b>%tab%bday|%%??%%-|%bmonth|%%??%%|-%byear|%%????%%|%age| (%%%%)|%dtb|, do dal—ô–Ωch: <b>%%%%</b>|
 %%%iuser||%inetwork||%ilog||%line%
-%%<b>ICQ uûivatel:</b>%tab%iuser|%%%%|
-%%<b>ICQ sÌù:</b>%tab%inetwork|%%%%|%icount| (<b>%%%%</b> user(s))|
-%%<b>Reûim kan·lu:</b>%tab%imode|%%%%|
-%%<b>Z·znam:</b>%tab%ilog|%%%%|
+%%<b>ICQ u—õivatel:</b>%tab%iuser|%%%%|
+%%<b>ICQ s–Ω—ú:</b>%tab%inetwork|%%%%|%icount| (<b>%%%%</b> user(s))|
+%%<b>Re—õim kan–±lu:</b>%tab%imode|%%%%|
+%%<b>Z–±znam:</b>%tab%ilog|%%%%|
 %%%ihost||%line%
 %%%ihost||<b>Maska:</b>
 %%%ihost|%%%%|
 %%%itopic||%line%
-%%%itopic||<b>TÈma kan·lu:</b>
+%%%itopic||<b>T–πma kan–±lu:</b>
 %%%itopic|%%%%|
 %#%logondate||%logontime||%idledate||%idletime||%mver||%line%
-%%<b>P¯ihl·öenÌ:</b>%tab%logondate|%%%%|%logonTime| @ %%%%|%logonsince| (p¯ed %%%%)|
-%%<b>NeËinn˝ od:</b>%tab%idledate|%%%%|%idleTime| @ %%%%|%idlesince| (p¯ed %%%%)|
+%%<b>P—àihl–±—ôen–Ω:</b>%tab%logondate|%%%%|%logonTime| @ %%%%|%logonsince| (p—àed %%%%)|
+%%<b>Ne–∏inn—ç od:</b>%tab%idledate|%%%%|%idleTime| @ %%%%|%idlesince| (p—àed %%%%)|
 %%<b>Klient:</b>%tab%tab%mver|%%%%|
 %#%lastmsg||%lastmsgdate||%lastmsgtime||%line%
-%#<b>PoslednÌ zpr·va</b> (%lastmsgdate|%%%%| @ %lastmsgtime|%%%%|):%lastmsg||
+%#<b>Posledn–Ω zpr–±va</b> (%lastmsgdate|%%%%| @ %lastmsgtime|%%%%|):%lastmsg||
 %#%lastmsg|%%%%|%lastmsgdate||%lastmsgtime||
 %%%smsg||%line%
-%%<b>Zpr·va stavu:</b>%smsg||
+%%<b>Zpr–±va stavu:</b>%smsg||
 %%%smsg|%%%%|
-%%PoËasÌ pro %iname|<b>%%%%</b>|%wUpdate| aktualizov·no %%%%|:
+%%Po–∏as–Ω pro %iname|<b>%%%%</b>|%wUpdate| aktualizov–±no %%%%|:
 %#%wcon|%%%%|%wvisibility|, viditelnost: %%%%|
 %#<b>Teplota:</b> %wtemp|%%%%|%wfltemp| (%%%%)|%wlow|, min: %%%%|%whigh|, max: %%%%|
-%#<b>VÌtr:</b> %wwindspeed|%%%%|%wwdirection| (smÏr: %%%%)|
+%#<b>V–Ωtr:</b> %wwindspeed|%%%%|%wwdirection| (sm–ºr: %%%%)|
 %%<b>Tlak:</b> %wpressure|%%%%|
 %%<b>Vlhkost vzduchu:</b> %whumidity|%%%%|
-%%V˝chod slunce v %wSunrise|%%%%|
-%%Z·pad slunce v %wSunset|%%%%|
+%%V—çchod slunce v %wSunrise|%%%%|
+%%Z–±pad slunce v %wSunset|%%%%|
 
 ;New v0.0.0.9
 
 ;(DUP) [Advanced Options]
 [Font & Text color]
-PÌsmo a text
+P–Ωsmo a text
 [Border light color]
-SvÏtl˝ okraj
+Sv–ºtl—ç okraj
 [Border dark color]
-Tmav˝ okraj
+Tmav—ç okraj
 [Line]
-ÿ·dek
+–®–±dek
 [%smsg timeout:]
 Zpozdit %smsg:
 [Round corners]
@@ -136,23 +136,23 @@ Zaoblit rohy
 [Text to border space]
 Odst. textu od okraje:
 [mToolTip advanced]
-Moûnosti pro experty
+Mo—õnosti pro experty
 [mToolTip protocol]
 Definice dle protokolu
 [mToolTip text]
-Zobrazen˝ text
+Zobrazen—ç text
 [<Default>]
-<v˝chozÌ>
+<v—çchoz–Ω>
 ;(DUP) [Default]
 ;(DUP) [Variables]
 ;(DUP) [Save]
 [mToolTip - Variables]
-mToolTip - promÏnnÈ
+mToolTip - prom–ºnn–π
 ;(DUP) [Close]
 [mToolTip - Font & Text color selection]
-mToolTip - v˝bÏr pÌsma a barvy textu
+mToolTip - v—çb–ºr p–Ωsma a barvy textu
 [Font name]
-N·zev pÌsma
+N–±zev p–Ωsma
 [Font size]
 Velikost
 ;(DUP) [Text color]
@@ -164,7 +164,7 @@ Velikost
 
 ;(DUP) [Link]
 [Photo selection]
-V˝bÏr fotky
+V—çb–ºr fotky
 ;(DUP) [Border]
 [ICQ web photo]
 Fotka (ICQ)
@@ -174,20 +174,20 @@ Fotka (ICQ)
 ;New v0.0.1.1
 
 [Bar color]
-Barva liöty
+Barva li—ôty
 [Photo border (default)]
-Okraj fotky (v˝chozÌ)
+Okraj fotky (v—çchoz–Ω)
 [Birthday!]
 Narozeniny!
 
 ;New v0.0.1.3
 [PNG Bitmaps]
-obr·zky typu PNG
+obr–±zky typu PNG
 
-; NEPUBLIKOVAN…
-; n·zev doplÚku
+; NEPUBLIKOVAN–ô
+; n–±zev dopl—Çku
 ;(LAI) [mToolTip]
 [Line color]
-Barva ¯·dku
+Barva —à–±dku
 
 ; ---

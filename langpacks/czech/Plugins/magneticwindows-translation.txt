@@ -1,18 +1,18 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Magnetic Windows 0.0.4.1                                |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Soustruh <struzsky (teèka) m (zavináè) seznam (teèka) cz>
+; PÑˆeklad: Soustruh <struzsky (teĞ¸ka) m (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2871
 ;
 
 [Magnetic Windows]
-Magnetická okna
+MagnetickĞ± okna
 [Snap windows]
-Pøichycení oken
+PÑˆichycenĞ½ oken
 [Alternate behauvior of shift key: move windows together by default]
-Alternativní chování klávesy SHIFT: Ve vıchozím nastavení pøichytit okna
+AlternativnĞ½ chovĞ±nĞ½ klĞ±vesy SHIFT: Ve vÑchozĞ½m nastavenĞ½ pÑˆichytit okna
 [For Scriver users: automatically hold down the CTRL key while moving/sizing. (make sure you use Scriver!)]
-Pro uivatele doplòku Scriver: Pøi pøesunu a zmìnì velikosti automaticky drte klávesu CTRL (jen pro Scriver!)
+Pro uÑ›ivatele doplÑ‚ku Scriver: PÑˆi pÑˆesunu a zmĞ¼nĞ¼ velikosti automaticky drÑ›te klĞ±vesu CTRL (jen pro Scriver!)
 
 ; ---

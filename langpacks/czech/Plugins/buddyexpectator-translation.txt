@@ -1,19 +1,19 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  Buddy Expectator+ 0.0.1.0                               |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3356
 ;
 
 ;Translation template for BuddyExpectator+ plugin v0.0.1.0
 ;please do NOT change %#x in your translation
 [Buddy Expectator]
-Tak ty iješ, Karle
+Tak ty Ñ›ijeÑ™, Karle
 [has gone online for the first time.]
-je poprvé online!
+je poprvĞ¹ online!
 [has returned after a long absence.]
-je znovu online po delší dobì.
+je znovu online po delÑ™Ğ½ dobĞ¼.
 [has returned after being absent since %#x]
 je znovu online od %#x
 ;[has not returned after being absent since %#x]
@@ -22,49 +22,49 @@ je znovu online od %#x
 ;[not found]
 [This contact has been absent for an extended period of time.]
 [BuddyExpectator: contact returned]
-Tak ty iješ, Karle (návrat kontaktu)
+Tak ty Ñ›ijeÑ™, Karle (nĞ±vrat kontaktu)
 [BuddyExpectator: contact still absent]
-Tak ty iješ, Karle (kontakt je stále mimo)
+Tak ty Ñ›ijeÑ™, Karle (kontakt je stĞ±le mimo)
 
 ;dialogs
 [Last seen online]
 Naposledy online
 ;[Last input message]
 [Return notification]
-Návrat po kratší dobì
+NĞ±vrat po kratÑ™Ğ½ dobĞ¼
 [When a contact returns after ]
-Vrátí-li se kontakt po dobì
+VrĞ±tĞ½-li se kontakt po dobĞ¼
 [or comes online for the first time]
-nebo se objeví poprvé online
+nebo se objevĞ½ poprvĞ¹ online
 [Show a popup]
-Zobrazit oznámení
+Zobrazit oznĞ±menĞ½
 [Add an event (flashing icon) to the contact]
-Pøidat blikající ikonu ke kontaktu
+PÑˆidat blikajĞ½cĞ½ ikonu ke kontaktu
 [On event action (double click) or popup click:]
-Kliknutím na oznámení nebo dvojím na kontakt:
+KliknutĞ½m na oznĞ±menĞ½ nebo dvojĞ½m na kontakt:
 [Open User Details]
-Otevøít inf. o kontaktu
+OtevÑˆĞ½t inf. o kontaktu
 [Open message window]
-Otevøít komunikaèní okno
+OtevÑˆĞ½t komunikaĞ¸nĞ½ okno
 [Long time no see]
-Návrat po dlouhé dobì
+NĞ±vrat po dlouhĞ¹ dobĞ¼
 [When a contact is absent for]
-Chybí-li kontakt delší dobu ne
+ChybĞ½-li kontakt delÑ™Ğ½ dobu neÑ›
 ;(DUP) [Do nothing]
 [Delete the contact]
 Odstranit kontakt
 
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [months]
-mìs.
+mĞ¼s.
 [weeks]
-tıd.
+tÑd.
 [years]
 let
 [Use Popups colors]
-Pouít vıchozí barvy
+PouÑ›Ğ½t vÑchozĞ½ barvy
 [Use Windows colors]
-Pouít barvy Windows
+PouÑ›Ğ½t barvy Windows
 
 ; ---

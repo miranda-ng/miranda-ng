@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  SETI@Home 1.4.1.0                                       |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
@@ -14,9 +14,9 @@
 
 ; seti.c
 [Server is down or lagging]
-Server nereaguje nebo je pøetíenı
+Server nereaguje nebo je pÑˆetĞ½Ñ›enÑ
 [Server error code]
-Chybovı kód serveru
+ChybovÑ kÑƒd serveru
 [Cannot write to file]
 Nelze zapsat do souboru
 ;(DUP) [Plugins]
@@ -25,43 +25,43 @@ Nelze zapsat do souboru
 Zobrazit web se statistikou
 ;(LAI) [Spin1]
 [Suppress error messages]
-Potlaèit chybová hlášení
+PotlaĞ¸it chybovĞ± hlĞ±Ñ™enĞ½
 [Disable main menu items]
-Vypnout poloky v hlavním menu
+Vypnout poloÑ›ky v hlavnĞ½m menu
 [Use MultiWindow]
-Pouít více oken
+PouÑ›Ğ½t vĞ½ce oken
 [Update data on start-up]
-Pøi spuštìní zaktualizovat data
+PÑˆi spuÑ™tĞ¼nĞ½ zaktualizovat data
 ;(DUP) [Always on top]
 [Use Miranda colors]
-Pouít vıchozí barvy
+PouÑ›Ğ½t vÑchozĞ½ barvy
 [Show/Hide statistics window:]
-Zobrazit/skrıt okno se statistikou:
+Zobrazit/skrÑt okno se statistikou:
 ;(LAI) [HotKey2]
 [Save SETI@Home statistics to file:]
-Uloit statistiku SETI do souboru:
+UloÑ›it statistiku SETI do souboru:
 ;(DUP) [Name]
 ;(DUP) [Country]
 [Recent Av. Credit]
-Prùmìrnı kredit
+PrÑ‰mĞ¼rnÑ kredit
 [Archived Classic SETI WU]
-Archivovanı Classic SETI WU
+ArchivovanÑ Classic SETI WU
 [Archived Classic SETI CPU Time]
-Archivovanı Classic SETI CPU Time
+ArchivovanÑ Classic SETI CPU Time
 [Team]
 Skupina
 [No. Of Members]
-Poèet èlenù
+PoĞ¸et Ğ¸lenÑ‰
 [Group Total Credit ]
-Celkovı kredit skupiny
+CelkovÑ kredit skupiny
 [Group Recent Av. Credit]
-Prùmìrnı kredit skupiny
+PrÑ‰mĞ¼rnÑ kredit skupiny
 ;(DUP) [Close]
 ;(DUP) [ID:]
 ;(DUP) [minutes]
 ;(FIX) [Hide statistics window]
 [&Hide statistics window]
-&Skrıt okno se statistikou
+&SkrÑt okno se statistikou
 ;(DUP) [Background Color:]
 ;(LAI) [Seti@Home]
 [Statistics]
@@ -69,14 +69,14 @@ Statistika
 ;(DUP) [Colors]
 ;(DUP) [Logging]
 [&Hide Window]
-&Skrıt okno
+&SkrÑt okno
 [&Update Statistics]
 Zakt&ualizovat statistiku
 ;(FIX) [&Unstick/Stick to front]
 [Disable Stick to front]
-Pøepno&ut vdy navrchu
+PÑˆepno&ut vÑ›dy navrchu
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [%s Enable Statistics]
 %s Statistika
 [Text Color:]
@@ -84,12 +84,12 @@ Barva textu:
 [Update statistics every]
 Aktualizovat statistiku po
 [Reset crash detection]
-Obnovit detekci pádu systému
+Obnovit detekci pĞ±du systĞ¹mu
 [Total Credit]
-Celkovı kredit
+CelkovÑ kredit
 [Reg. Date]
 Datum registrace
-; Statistika / Kontextové menu
+; Statistika / KontextovĞ¹ menu
 [&Open statistics web page]
 Z&obrazit web se statistikou
 [&Show statistics window]
@@ -97,6 +97,6 @@ Zobrazit okno se &statistikou
 [&Open statistics]
 Z&obrazit statistiku
 [Hide statistics]
-Skrıt statistiku
+SkrÑt statistiku
 
 ; ---

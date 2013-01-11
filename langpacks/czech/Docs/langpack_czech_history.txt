@@ -1,4 +1,4 @@
-langpack_czech history
+Ôªølangpack_czech history
 ======================
 
 Legenda
@@ -28,61 +28,61 @@ Historie
 
 2012-11-06
 - (*) MSN Protocol 0.9.47.0
-  - p¯id·no [Local list]
+  - p—àid–±no [Local list]
 
 - (*) Clist Nicer
-  - p¯id·no [*** All contacts ***]
+  - p—àid–±no [*** All contacts ***]
 
 - (*) Avatar service
-  - doplnÏno [Global avatar], [Global avatar for %s accounts]
+  - dopln–ºno [Global avatar], [Global avatar for %s accounts]
 
 - (*) Miranda IM core 0.10.x
-  - doplnÏno [Open mailbox]
+  - dopln–ºno [Open mailbox]
 
 2012-05-09
 - (*) Miranda IM core 0.9.x
-  - doplnÏna vÏtöina chybÏjÌcÌch ¯etÏzc˘ (Robyer)
+  - dopln–ºna v–ºt—ôina chyb–ºj–Ωc–Ωch —àet–ºzc—â (Robyer)
 
 2012-05-09  
 - (*) DBTool
-  - doplnÏno nÏkolik chybÏjÌcÌch ¯etÏzc˘ (Robyer)
+  - dopln–ºno n–ºkolik chyb–ºj–Ωc–Ωch —àet–ºzc—â (Robyer)
 
 2012-04-12:
 - (*) Weather Protocol 0.3.8.19
-  - upraven p¯eklad f·zÌ mÏsÌce
+  - upraven p—àeklad f–±z–Ω m–ºs–Ωce
 
 - (*) Jabber Protocol 0.9.47.0
-  - p¯id·no [First, save the list], [Please save list before activating], [Add
+  - p—àid–±no [First, save the list], [Please save list before activating], [Add
     JID]
 
 2012-04-06:
 - (*) Weather Protocol 0.3.8.19
-  - doplnÏno [Full], [CALM]
+  - dopln–ºno [Full], [CALM]
 
 - (*) Jabber Protocol 0.9.47.0
-  - p¯id·no [Supports Roster Exchange], [Supports Jingle], [Supports Miranda IM
+  - p—àid–±no [Supports Roster Exchange], [Supports Jingle], [Supports Miranda IM
     notes extension], [Supports GTalk private multi-user chat]
 
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Are you sure you want to delete group '%s'?  This operation can not
+  - p—àid–±no [Are you sure you want to delete group '%s'?  This operation can not
     be undone.]
 
 2012-04-04:
 - (*) Tipper 0.4.1.9
-  - opraveno nÏkolik p¯eklep˘ a chyb
+  - opraveno n–ºkolik p—àeklep—â a chyb
 
 2012-04-03:
 - (*) Tlen Protocol 2.0.4.1
-  - nÏkolik oprav a p¯id·no [Image transfer policy], [Accept all images],
+  - n–ºkolik oprav a p—àid–±no [Image transfer policy], [Accept all images],
     [Ignore images from unauthorized contacts], [Ignore all images], [Mail
     Notification], [Tlen Mail], [Tlen Chats], [Alert]
 
 - (*) Tipper 0.4.1.9
-  - p¯id·no [Dimensions], [Avatar padding:], [Background image:], [Stretch]
+  - p—àid–±no [Dimensions], [Avatar padding:], [Background image:], [Stretch]
 
 - (*) PopUp Plus 2.1.1.6
-  - spousta oprav a ˙prav, mj. i rozchozenÌ p¯ekladu Jabberwocky :)
-  - doplnÏnÌ [Enable this notification], [Mouse Actions Overwrite],
+  - spousta oprav a —äprav, mj. i rozchozen–Ω p—àekladu Jabberwocky :)
+  - dopln–ºn–Ω [Enable this notification], [Mouse Actions Overwrite],
     [LeftButton], [MiddleButton], [RightButton], [no overwrite], [Quick reply],
     [Pin popup], [Copy to clipboard], [Per-contact settings], [Show default],
     [Show always], [Ignore fullscreen], [Never show], [Slide Popup], [No
@@ -97,40 +97,40 @@ Historie
     Contact], [Show in Fullscreen], [Blocked Contact], [Quick Reply]
 
 - (*) Modern Contact List '09  0.9.0.11
-  - opÏt p·r oprav, kontrola konzistence, zkr·cenÌ nÏkolika text˘
-  - p¯id·no [Event Area Background], [View Mode Background], [Menu Background],
+  - op–ºt p–±r oprav, kontrola konzistence, zkr–±cen–Ω n–ºkolika text—â
+  - p—àid–±no [Event Area Background], [View Mode Background], [Menu Background],
     [Frames TitleBar BackGround], [ToolBar Background], [Status Overlay]
 
 - (*) AIM Protocol 0.9.47.0
-  - opravy + p¯id·no [Notify about new mail], [Allow contacts to be notified
+  - opravy + p—àid–±no [Notify about new mail], [Allow contacts to be notified
     of:], [Screen Name], [Block], [AOL Mail], [AOL Bot], [%s Client-to-client
     connection]
 
 - (*) Miranda IM core 0.9.x
-  - opraveno p·r drobnostÌ a p¯id·no [Leave chat], [Move to Group], [Expanded],
+  - opraveno p–±r drobnost–Ω a p—àid–±no [Leave chat], [Move to Group], [Expanded],
     [Show title]
 
 2012-03-30:
 - (*) History Sweeper 0.2.0.2
-  - p¯id·no [*** System History ***], [Perform custom action on entry/exit],
+  - p—àid–±no [*** System History ***], [Perform custom action on entry/exit],
     [Do not preserve any history], [Custom Action:], [Sweep on closing message
     window], [Change History Policy]
 
 - (*) StartupStatus 0.8.0.43
-  - zkr·cenÌ a optimalizace nÏkter˝ch text˘
+  - zkr–±cen–Ω a optimalizace n–ºkter—çch text—â
 
 - (*) Updater 0.6.1.4
-  - doplnÏno [Don't unzip]
+  - dopln–ºno [Don't unzip]
 
 - (*) Weather Protocol 0.3.8.19
-  - doplnÏno [Rain / Snow Showers Early]
+  - dopln–ºno [Rain / Snow Showers Early]
 
 2012-03-29:
 - (*) Facebook Protocol 0.1.3.11
-  - drobnÈ ˙pravy ve formulaci
+  - drobn–π —äpravy ve formulaci
 
 - (*) Gadu-Gadu 0.9.47.0
-  - p¯id·no [Concurrent &sessions], [Concurrent Sessions], [Concurrent Gadu
+  - p—àid–±no [Concurrent &sessions], [Concurrent Sessions], [Concurrent Gadu
     Gadu Login Sessions], [View information on active concurrent sessions],
     [Client Name], [IP Address], [Login Time], [You have to logged in to view
     concurrent sessions.], [There are no active concurrent sessions for this
@@ -138,48 +138,48 @@ Historie
     create new Gadu-Gadu account], [Concurrent sessions]
 
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Disable icons]
+  - p—àid–±no [Disable icons]
 
 - (*) ICQOscarJ Protocol 0.9.47.0
-  - doplnÏno [Never use legacy messaging (server acknowledgements)]
+  - dopln–ºno [Never use legacy messaging (server acknowledgements)]
 
 - (*) MSN Protocol 0.9.47.0
-  - p¯id·no [Invite Contact To Chat], [Place:]
+  - p—àid–±no [Invite Contact To Chat], [Place:]
 
 - (*) Weather Protocol 0.3.8.19
-  - drobnÈ ˙pravy formulace
+  - drobn–π —äpravy formulace
 
 - (*) Scriver 2.9.0.10
-  - p¯id·no [Min input area size], [lines], [Customize fonts and colors]
+  - p—àid–±no [Min input area size], [lines], [Customize fonts and colors]
 
 - (*) Yahoo Protocol 0.9.47.0
-  - aktualizov·no
-  - p¯id·no [AutoLogin to Yahoo Website(s)], [Ignore List]
+  - aktualizov–±no
+  - p—àid–±no [AutoLogin to Yahoo Website(s)], [Ignore List]
 
 2012-03-28:
 - (*) Facebook Protocol 0.1.3.11
-  - p¯id·no [Contacts Settings], [Default group:], [(0 = default, -1 =
+  - p—àid–±no [Contacts Settings], [Default group:], [(0 = default, -1 =
     infinite)], [Use balloon notifications in system tray instead of popups],
-    [Post Miranda statuses to Wall] - dodal Jake (<xJake (zavin·Ë) seznam (teËka) cz>)
-  - aktualizov·no, p¯id·na podpora pro Robyerovu modifikaci Facebook Protocol RM 0.0.8.0
+    [Post Miranda statuses to Wall] - dodal Jake (<xJake (zavin–±–∏) seznam (te–∏ka) cz>)
+  - aktualizov–±no, p—àid–±na podpora pro Robyerovu modifikaci Facebook Protocol RM 0.0.8.0
 
 - (*) Jabber Protocol 0.9.47.0
-  - doplnÏno [Keep contacts assigned to local groups (ignore roster group)]
+  - dopln–ºno [Keep contacts assigned to local groups (ignore roster group)]
 
 - (*) MSN Protocol 0.9.47.0
-  - doplnÏno [Create &Chat]
+  - dopln–ºno [Create &Chat]
 
 - (*) Nudge 0.0.2.0
-  - aktualizace + p¯id·no [Open contact list], [Respect ignore settings (status
+  - aktualizace + p—àid–±no [Open contact list], [Respect ignore settings (status
     changes)], [Default Nudge], [Nudge for %s], [Show Nudge]
 
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Download more plugins], [Re&ad Status Message], [Don't send to any
+  - p—àid–±no [Download more plugins], [Re&ad Status Message], [Don't send to any
     protocols], [Toggle send to all protocols]
 
 2011-05-30:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Become idle if application full screen], [Open Logging Options],
+  - p—àid–±no [Become idle if application full screen], [Open Logging Options],
     [Use Custom Login (Domain login picked up automatically)], [Received bytes],
     [Sent bytes], [Additional data due to proxy communication], [Text dumps
     where available], [Auto-detect text], [Calling modules' names], [Run
@@ -189,47 +189,47 @@ Historie
     [Select program to be run], [Select where log file will be created]
 
 - (*) Clist Nicer 0.9.13.0
-  - p¯id·no [Always Hide On Taskbar]
+  - p—àid–±no [Always Hide On Taskbar]
 
 - (*) Jabber Protocol 0.9.22.0
-  - p¯id·no [%s connection], [Use Domain Login], [Supports private multi-user chat]
+  - p—àid–±no [%s connection], [Use Domain Login], [Supports private multi-user chat]
 
 - (*) SRMM 0.9.22.0
-  - p¯id·no [&Open link]
+  - p—àid–±no [&Open link]
 
 2011-05-24:
 - (*) Weather Protocol
-  - p¯id·no [Snow Early], [Pm Snow Showers], [Am Snow Showers] (<tapin
-    (zavin·Ë) wo (teËka) cz>)
+  - p—àid–±no [Snow Early], [Pm Snow Showers], [Am Snow Showers] (<tapin
+    (zavin–±–∏) wo (te–∏ka) cz>)
 
 2011-02-17:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Miranda Profiles from], [Select or create your Miranda IM user
+  - p—àid–±no [Miranda Profiles from], [Select or create your Miranda IM user
     profile], [Modified]
 
 2011-02-02:
 - (*) Jabber Protocol 0.9.16.0
-  - p¯id·no [Disable frame], [Enable XMPP link processing (requires Association
+  - p—àid–±no [Disable frame], [Enable XMPP link processing (requires Association
     Manager)], [Allow servers to request version (XEP-0092)], [Domain/Server:]
 
 - (*) Tooltip Notify 0.6.0.46
-  - p¯id·no [Behavior]
+  - p—àid–±no [Behavior]
 
 2011-01-21:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Set custom time zone], [<unspecified>]
+  - p—àid–±no [Set custom time zone], [<unspecified>]
 
 2010-11-30:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [Add to contact list if authorized]
+  - p—àid–±no [Add to contact list if authorized]
 
 2010-11-22:
 - (*) Send/Receive Messages 0.9.11.2
-  - p¯id·no [Instant messages], [Message send error], [Max Number of Flashes],
+  - p—àid–±no [Instant messages], [Message send error], [Max Number of Flashes],
     [In background], [Show Formatting]
 
 - (*) Clist Nicer 0.9.11.0
-  - p¯id·no [Contact rows], [Move events to the top of list\nor group], [Reset
+  - p—àid–±no [Contact rows], [Move events to the top of list\nor group], [Reset
     order and visibility to default]
 
 2010-09-29:
@@ -238,53 +238,53 @@ Historie
 - (+) Facebook Protocol 0.1.2.0, Sessions 0.1.3.0
   - dodal Robyer
 - (*) History keeper
-  - doplnÏnÌ p¯ekladu v˝chozÌch ¯etÏzc˘ v öablonÏ (Robyer)
+  - dopln–ºn–Ω p—àekladu v—çchoz–Ωch —àet–ºzc—â v —ôablon–º (Robyer)
 - (*) SMS++, Simple Status Message, Custom status list
-  - DrobnÈ opravy a ˙pravy (Robyer)
+  - Drobn–π opravy a —äpravy (Robyer)
 
 2010-09-17:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no [&Support]
+  - p—àid–±no [&Support]
 
 - (*) DBTool
-  - Opraven ¯etÏzec zp˘sobujÌcÌ p·d p¯i vytv·¯enÌ z·lohy profilu. (Robyer)
+  - Opraven —àet–ºzec zp—âsobuj–Ωc–Ω p–±d p—ài vytv–±—àen–Ω z–±lohy profilu. (Robyer)
 
 2010-09-01:
 - (*) Miranda IM core 0.9.x
-  - p¯id·ny ¯etÏzce pro autorizaci a hur· do ökoly!
+  - p—àid–±ny —àet–ºzce pro autorizaci a hur–± do —ôkoly!
 
 2010-08-27:
-- (*) SjednocenÌ vöech "Status message" na "Zpr·va stavu" Ëi "Stavov· zpr·va".
+- (*) Sjednocen–Ω v—ôech "Status message" na "Zpr–±va stavu" –∏i "Stavov–± zpr–±va".
 
 2010-08-27:
 - (*) Miranda IM core 0.9.x
-  - p¯id·no nÏkolik nov˝ch ¯etÏzc˘ (Robyer)
+  - p—àid–±no n–ºkolik nov—çch —àet–ºzc—â (Robyer)
 - (*) Modern Contact list 0.9.0.8
-  - oprava p¯ekladu "Rychlost" a "PoËet zpr·v" na "Priorita kontaktu" (Robyer)
-  - doplnÏnÌ p¯ekladu (Robyer)
+  - oprava p—àekladu "Rychlost" a "Po–∏et zpr–±v" na "Priorita kontaktu" (Robyer)
+  - dopln–ºn–Ω p—àekladu (Robyer)
 - (*) Typing Notify, Tabsrmm
-  - zmÏna p¯ekladu "ZpoûdÏnÌ ozn·menÌ" na "Doba zobrazenÌ" (Robyer)
+  - zm–ºna p—àekladu "Zpo—õd–ºn–Ω ozn–±men–Ω" na "Doba zobrazen–Ω" (Robyer)
 - (+) Extra Icons Service 0.2.5.1
   - dodal Robyer
 - (*) Simple Status Message 1.9.0.0
-  - zmÏna n·zvu (d¯Ìve SimpleAway)
-  - aktualizace p¯ekladu (Robyer)
+  - zm–ºna n–±zvu (d—à–Ωve SimpleAway)
+  - aktualizace p—àekladu (Robyer)
 - (*) Weather 0.3.8.18
-  - vy¯eöeno konfliktnÌ [Calm] a [Clear] poËasÌ (Robyer)
-  - doplnÏnÌ chybÏjÌcÌch ¯etÏzc˘ (Robyer)
+  - vy—àe—ôeno konfliktn–Ω [Calm] a [Clear] po–∏as–Ω (Robyer)
+  - dopln–ºn–Ω chyb–ºj–Ωc–Ωch —àet–ºzc—â (Robyer)
 - (*) ICQ, Jabber, TabSRMM, VoiceService
-  - zmÏna n·zv˘ stav˘ na velkÈ poË·teËnÌ pÌsmeno (Robyer)
-  - doplnÏnÌ chybÏjÌcÌch stav˘ a p¯eformulov·nÌ do spisovnÈ podoby (Robyer)
+  - zm–ºna n–±zv—â stav—â na velk–π po–∏–±te–∏n–Ω p–Ωsmeno (Robyer)
+  - dopln–ºn–Ω chyb–ºj–Ωc–Ωch stav—â a p—àeformulov–±n–Ω do spisovn–π podoby (Robyer)
 - (*) Jabber
-  - zmÏna p¯ekladu "Zaloûit diskusi" na "Zaloûit/p¯ipojit k diskusi" (Robyer)
+  - zm–ºna p—àekladu "Zalo—õit diskusi" na "Zalo—õit/p—àipojit k diskusi" (Robyer)
 - (*) History++, Voice Service
-  - drobnÈ zmÏny (Robyer)
+  - drobn–π zm–ºny (Robyer)
 - (*) History Keeper
   - oprava [Removal:] -> [Removal] (Robyer)
 - (*) Avatar service, Avatar History ALA mod, Memory-Mapped Secured Database,
       ICQ, MSN, FTP File YM, Custom Status List, mRadio Mod, Nudge, 
       Quick Search Mod, Tipper, Translator, TV Plugin, UserInfoEx, 
-  - aktualizace/doplnÏnÌ p¯ekladu pro aktu·lnÌ verze (Robyer)
+  - aktualizace/dopln–ºn–Ω p—àekladu pro aktu–±ln–Ω verze (Robyer)
 
 2010-04-23:
 - (*) TabSRMM 2.2.1.17
@@ -293,34 +293,34 @@ Historie
 2010-04-20:
 - (*) Nudge 0.0.1.19, History Keeper 0.2.1.0, Quick Search Mod 1.4.1.17,
       sndVol 0.0.3.0, SmileyAdd 0.2.3.15, MenuItemEx 1.3.0.7
-  - aktualizace p¯ekladu (Robyer)
+  - aktualizace p—àekladu (Robyer)
 - (*) Translator 0.1.2.3
-  - zmÏna formulace jednoho ¯etÏzce (Robyer)
+  - zm–ºna formulace jednoho —àet–ºzce (Robyer)
 - (*) Tipper 2.0.4.14
-  - aktualizace p¯ekladu a p¯id·no [%dd] (Robyer)
+  - aktualizace p—àekladu a p—àid–±no [%dd] (Robyer)
 
 2010-04-19:
 - (*) Weather Protocol
-  - p¯id·no [Am Snow] (<tapin (zavin·Ë) wo (teËka) cz>)
+  - p—àid–±no [Am Snow] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2009-08-28:
 - (*) MSN Protocol
-  - doplnÏno [Unread mail is available: %d in Inbox and %d in other folders).]
+  - dopln–ºno [Unread mail is available: %d in Inbox and %d in other folders).]
 
 - (+) Miranda IM Profile Changer 0.0.0.2
-  - dodal Fille <filip.kendik (zavin·Ë) centrum (teËka) cz>
+  - dodal Fille <filip.kendik (zavin–±–∏) centrum (te–∏ka) cz>
 
 2009-08-27:
 - (*) SMS++ 0.2.5.2
-  - doplnÏno [Defatult SMS Account:], [Save window position per contact:],
+  - dopln–ºno [Defatult SMS Account:], [Save window position per contact:],
     [Auto popup on new message:], [SMS Messages], [By:]
-  - v nÏkter˝ch sekcÌch p¯eformulov·no
+  - v n–ºkter—çch sekc–Ωch p—àeformulov–±no
 
 - (*) MSN Protocol 0.8.5.0
-  - doplnÏno [Open &Hotmail Inbox]
+  - dopln–ºno [Open &Hotmail Inbox]
 
 - (*) Gadu-Gadu 0.0.5.3
-  - doplnÏno [Show links from unknown contacts], [Message with [img] BBCode],
+  - dopln–ºno [Show links from unknown contacts], [Message with [img] BBCode],
     [Gadu Gadu connection], [Clear ignored conferences]
 
 2009-08-26:
@@ -328,118 +328,118 @@ Historie
       Database Editor++, Favourite Contacts 0.0.0.4, History++ (2in1) 1.5.1.3,
       Keyboard Notify Ext., MSN Protocol, My Details, Quick Search 1.4.0.16,
       SmileyAdd 0.2.3.15, SMS++, UserInfoEx 0.8.1.3, XFire Protocol 0.1.5.8
-  - aktualizace p¯ekladu
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace p—àekladu
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) AwaySystemEx 0.0.1.2, Import TXT 0.0.1.9
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2009-08-13:
 - (+) TweakUI 0.0.0.5 beta, JustTabs 0.1.2.0
-  - dodal Stanislav V·gner <vagner (zavin·Ë) nway (teËka) cz>
+  - dodal Stanislav V–±gner <vagner (zavin–±–∏) nway (te–∏ka) cz>
 
 2009-08-06:
 - (*) Miranda IM core 0.8.x
-  - p¯id·no [Open...]
+  - p—àid–±no [Open...]
 
 2009-08-05:
 - (*) TabSRMM 2.2.1.17
-  - p¯id·no [History:], [Tabs:], [Message sending:], [Notifications:], [Esc
+  - p—àid–±no [History:], [Tabs:], [Message sending:], [Notifications:], [Esc
     closes sessions (minimizes window, if disabled)], [Always pop up and
     activate new windows], [Send message on Ctrl+Enter (always enabled)], [Send
     on Shift+Enter], [Send message on Enter], [Send message on double Enter],
     [Use tabbed interface], [Create new tabs without activating them], [Pop up
     minimized window when a new tab is created], [Automatically switch tabs in
     minimized windows], [Don't announce when dialog is open]
-  - zmÏnÏno: z·loûky -> panely
-  - nÏkolik dalöÌch drobn˝ch ˙prav
+  - zm–ºn–ºno: z–±lo—õky -> panely
+  - n–ºkolik dal—ô–Ωch drobn—çch —äprav
 
 - (*) Send/Receive Messages 0.8.0.0
-  - p¯id·no [Message window behaviour:], [Messaging:], [Save the window
+  - p—àid–±no [Message window behaviour:], [Messaging:], [Save the window
     position for each contact]
 
 - (*) PopUp Plus, History++ (2in1)
-  - glob·lnÏ zmÏnÏno: "VlastnÌ ˙pravy -> PÌsma" -> "VlastnÌ ˙pravy -> PÌsma a
+  - glob–±ln–º zm–ºn–ºno: "Vlastn–Ω —äpravy -> P–Ωsma" -> "Vlastn–Ω —äpravy -> P–Ωsma a
     barvy"
 
 - (*) Classic contact list 0.8.1.0
-  - p¯id·no [Contact list background:], [Contact list:], [Window:],
+  - p—àid–±no [Contact list background:], [Contact list:], [Window:],
     [Ordering:], [If window is partially covered, bring iy to front]
 
 2009-07-29:
 - (*) Miranda IM core 0.8.x
-  - p¯id·no [Miranda was unable to open '%s'\nIt's inaccessible or used by
+  - p—àid–±no [Miranda was unable to open '%s'\nIt's inaccessible or used by
     other application or Miranda instance], [Miranda can't open that profile],
     [Account Order && Visibility], [Upgrading account], [Upgrade]
 
 2009-07-27:
 - (*) Miranda IM core 0.8.x
-  - p¯id·no [Latest Version:]
+  - p—àid–±no [Latest Version:]
 
 2009-07-15:
 - (*) Jabber Protocol
-  - doplnÏnÌ Ë·sti t˝kajÌcÌ se klientskÈho softwaru
+  - dopln–ºn–Ω –∏–±sti t—çkaj–Ωc–Ω se klientsk–πho softwaru
 
 - (*) Miranda IM core 0.8.x
-  - ˙prava sekce t˝kajÌcÌ se importu poloûek do datab·ze
+  - —äprava sekce t—çkaj–Ωc–Ω se importu polo—õek do datab–±ze
 
 2009-07-13:
 - (*) History Keeper 0.2.0.0
-  - drobnÈ opravy a ˙pravy
+  - drobn–π opravy a —äpravy
 
 - (*) Miranda IM core 0.8.x
-  - zmÏna formulace [No data transferred]
-  - p¯id·no [bytes]
+  - zm–ºna formulace [No data transferred]
+  - p—àid–±no [bytes]
 
 2009-07-07:
 - (*) ICQOscarJ Protocol
-  - p¯id·no [Do not display any problems (not recommended)]
-  - dodal Vaöek (ICQ #311804446)
+  - p—àid–±no [Do not display any problems (not recommended)]
+  - dodal Va—ôek (ICQ #311804446)
 
 2009-07-03:
 - (*) Scriver
-  - drobn· zmÏna ve formulaci
-  - p¯id·no [Infobar contact name], [Infobar status message]
+  - drobn–± zm–ºna ve formulaci
+  - p—àid–±no [Infobar contact name], [Infobar status message]
 
 - (*) Miranda IM core 0.8.x
-  - doplnÏno chybÏjÌcÌ [Headers], [Generic text], [Small text]
-  - drobn· zmÏna ve formulaci
+  - dopln–ºno chyb–ºj–Ωc–Ω [Headers], [Generic text], [Small text]
+  - drobn–± zm–ºna ve formulaci
 
 - (*) Popup Plus
-  - p¯id·no [Process Miranda IM tray notifications]
-  - dodal Vaöek (ICQ #311804446)
+  - p—àid–±no [Process Miranda IM tray notifications]
+  - dodal Va—ôek (ICQ #311804446)
 
 2009-07-02:
 - (*) Miranda IM core 0.8.x
-  - dalöÌ drobnÈ ˙pravy a opravy
+  - dal—ô–Ω drobn–π —äpravy a opravy
 
 - (*) ICQOscarJ Protocol
-  - p¯id·ny poloûky t˝kajÌcÌ se profese apod.
+  - p—àid–±ny polo—õky t—çkaj–Ωc–Ω se profese apod.
 
 - (*) Jabber Protocol 0.8.1.0
   - aktualizace
-  - mimo jinÈ pokusnÏ slouËen p¯eklad Agents/Transports/Services do jednoho
-    v˝razu Sluûby
-  - taktÈû Resources zmÏnÏn na UmÌstÏnÌ (tam, kde to p¯ispÌv· k lepöÌmu
-    pochopenÌ danÈ funkce
+  - mimo jin–π pokusn–º slou–∏en p—àeklad Agents/Transports/Services do jednoho
+    v—çrazu Slu—õby
+  - takt–π—õ Resources zm–ºn–ºn na Um–Ωst–ºn–Ω (tam, kde to p—àisp–Ωv–± k lep—ô–Ωmu
+    pochopen–Ω dan–π funkce
 
 - (*) MSN Protocol
-  - doplnÏno <nothing playing>] a [%s plugin HTTPS connections]
+  - dopln–ºno <nothing playing>] a [%s plugin HTTPS connections]
 
 - (*) Scriver
   - aktualizace
 
 - (*) weather
-  - p¯id·no [Do not display fractional values]
+  - p—àid–±no [Do not display fractional values]
   - opraveno [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint ...
 
 2009-07-01:
 - (*) Miranda IM core 0.8.x
-  - p¯id·no velkÈ mnoûstvÌ nov˝ch text˘
-  - upraven p¯eklad Filtrov·nÌ kontakt˘ -> Filtrov·nÌ (neb uû se net˝k· pouze
-    kontakt˘)
-  - ¯ada dalöÌch ˙prav a oprav, hlavnÏ v souvislosti s nov˝m zp˘sobem
-    konfigurace a p¯Ìpravou na vyd·nÌ ofici·lnÌ stabilnÌ verze p¯ekladu
+  - p—àid–±no velk–π mno—õstv–Ω nov—çch text—â
+  - upraven p—àeklad Filtrov–±n–Ω kontakt—â -> Filtrov–±n–Ω (neb u—õ se net—çk–± pouze
+    kontakt—â)
+  - —àada dal—ô–Ωch —äprav a oprav, hlavn–º v souvislosti s nov—çm zp—âsobem
+    konfigurace a p—à–Ωpravou na vyd–±n–Ω ofici–±ln–Ω stabiln–Ω verze p—àekladu
 
 - (*) AIM OSCAR Plugin 0.8.3.0, Avatar service, Chat 0.8.0.0,
   ICQOscarJ Protocol 0.5.0.8, IRC protocol 0.8.1.0, MSN Protocol 0.8.3.0,
@@ -449,95 +449,95 @@ Historie
 - (+) Support for new options design 0.1.0.0
 
 - (*) Modern Contact List '08  0.8.0.166, XStatus Notify, tabSRMM
-  - aktualizace + oprava konzistence p¯ekladu stavovÈ liöty
+  - aktualizace + oprava konzistence p—àekladu stavov–π li—ôty
 
 2009-03-16:
 - (*) weather
-  - p¯id·no [Pm Rain / Snow Showers / Wind]
+  - p—àid–±no [Pm Rain / Snow Showers / Wind]
 
 - (*) Crash Dumper
-  - p¯id·no [Crash Dumper HTTP connections]
+  - p—àid–±no [Crash Dumper HTTP connections]
 
 - (*) FTP File YM 0.2.0.0
-  - p¯id·no [File download link], [Autosend download link to contact], [Copy
+  - p—àid–±no [File download link], [Autosend download link to contact], [Copy
     download link to message log], [Menu items], [Use submenu (restart
     required)], [Close dialog after upload finishes]
 
 - (+) Last seen plugin mod 5.0.4.7
-  - p¯id·no [Enable Idle support], [Use popups], [PopUp Colors], [Reset
+  - p—àid–±no [Enable Idle support], [Use popups], [PopUp Colors], [Reset
     colors], [Disable CList Notifications], [For watched protocols], [For
     non-watched protocols], [nick], [Old status], [Client info], [Note:], [for
     empty string instead of]
 
 - (*) TV plugin YM 0.0.0.8
-  - drobnÈ ˙pravy
-  - p¯id·no [Sort channels in alphabetical order (TV overview)], [keyword^t =
+  - drobn–π —äpravy
+  - p—àid–±no [Sort channels in alphabetical order (TV overview)], [keyword^t =
     search only in title, keyword^i = search only in info], [TV tuner
     application], [Path to executable:]
 
 - (*) UserInfoEx
-  - drobnÈ ˙pravy
-  - p¯id·no [Popup Anniversary list]
+  - drobn–π —äpravy
+  - p—àid–±no [Popup Anniversary list]
 
 2009-03-13:
 - (*) Scriver 2.8.0.27
-  - p¯id·no [(0 means default setting, -1 means indefinite time)]
+  - p—àid–±no [(0 means default setting, -1 means indefinite time)]
 
 - (*) Miranda IM Database Tool 0.8.2.0
-  - doplnÏno o chybÏjÌcÌ texty
+  - dopln–ºno o chyb–ºj–Ωc–Ω texty
 
 - (*) My Details
-  - p¯id·no [<no status name>]
+  - p—àid–±no [<no status name>]
 
 - (*) Jabber Protocol
-  - drobn· oprava
-  - p¯id·no [Services...], [Set mood...], [Set activity...], [Send Note], [Send
+  - drobn–± oprava
+  - p—àid–±no [Services...], [Set mood...], [Set activity...], [Send Note], [Send
     note], [Incoming note from %s], [Incoming note: %s\n\n%s\nTags: %s], [Send
     note to %s], [All tags], [Tags:]
 
 2009-03-11:
 - (*) Weather Protocol 0.3.8.14
-  - p¯id·no [Frame Title Font]
+  - p—àid–±no [Frame Title Font]
 
 - (*) Scriver
-  - p¯id·no [User list members (online)], [User list background (selected)],
+  - p—àid–±no [User list members (online)], [User list background (selected)],
     [User list lines]
 
 - (*) Modern Contact List '08
-  - opravy kl·vesov˝ch zkratek a drobn˝ch chybek
-  - p¯id·no [&Contact rate (Low)], [&Contact rate (Medium)], [&Contact rate
+  - opravy kl–±vesov—çch zkratek a drobn—çch chybek
+  - p—àid–±no [&Contact rate (Low)], [&Contact rate (Medium)], [&Contact rate
     (High)], [Other Status], [Menu text], [Selected menu text], [Frame title
     text], [Statusbar text], [3rd party frames transparent back colour]
 
 - (*) Miranda
-  - opravy kl·vesov˝ch zkratek a drobn˝ch chybek
-  - p¯id·no [Locked status], [Add binding], [Text Effect], [Effect:], [Base
+  - opravy kl–±vesov—çch zkratek a drobn—çch chybek
+  - p—àid–±no [Locked status], [Add binding], [Text Effect], [Effect:], [Base
     colour:], [Secondary colour:], [Font Effect]
 
 - (*) Jabber Protocol
-  - nÏkolik drobn˝ch ˙prav a oprav
+  - n–ºkolik drobn—çch —äprav a oprav
 
 - (*) History++
-  - nÏkolik drobn˝ch ˙prav a oprav
+  - n–ºkolik drobn—çch —äprav a oprav
 
 2009-03-10:
 - (*) My Details
-  - p¯id·no [Show protocol cycle button]
+  - p—àid–±no [Show protocol cycle button]
 
 - (*) Jabber Protocol 0.8.0.21
-  - p¯id·no [Receive notes], [Automatically save received notes]
+  - p—àid–±no [Receive notes], [Automatically save received notes]
 
 - (*) Clist Nicer 0.8.0.4
-  - p¯id·no [Open Find User Dialog], [Open Options Page], [Read Message], [Show
+  - p—àid–±no [Open Find User Dialog], [Open Options Page], [Read Message], [Show
     Hide Contact List], [Set All Offline]
 
 - (*) Modern Contact List '08  0.8.0.165
-  - ˙prava p¯ekladu [Contact List/Avatar Overlay], [Contact List/Status Overlay]
+  - —äprava p—àekladu [Contact List/Avatar Overlay], [Contact List/Status Overlay]
     a [Tray]
 
 - (*) Miranda
-  - nÏkolik drobn˝ch ˙prav a oprav
-  - nicmÈnÏ i p¯es to nefunguje p¯eklad ˙vodnÌho textu okna s ˙Ëty
+  - n–ºkolik drobn—çch —äprav a oprav
+  - nicm–πn–º i p—àes to nefunguje p—àeklad —ävodn–Ωho textu okna s —ä–∏ty
 
 2009-01-28:
 - (*) Tabsrmm, History++, clist_modern, clist_mw, Custom status list, SecureIM,
@@ -546,67 +546,67 @@ Historie
 
 2009-01-13:
 - (*) Scriver
-  - p¯id·n zbytek p¯ekladu p¯ejmenovan˝ch funkcÌ
+  - p—àid–±n zbytek p—àekladu p—àejmenovan—çch funkc–Ω
 
 - (*) Jabber Protocol 0.8.0.20
-  - p¯id·nÌ p·r drobnostÌ ze sekce Ikony
+  - p—àid–±n–Ω p–±r drobnost–Ω ze sekce Ikony
 
 - (*) My Details 0.0.1.11
-  - totÈû jako u Jabberu
+  - tot–π—õ jako u Jabberu
 
 2009-01-12:
 - (*) Scriver 2.8.0.25
-  - aktualizace p¯ekladu; jak vidno, t˝m scriveru pokraËuje v dlouholetÈ
-    öpatnÈ tradici p¯ejmenov·v·nÌ funkcÌ
-  - v p¯ÌpadÏ relativnÌho Ëasu ˙prava p¯ekladu IEview tak, aby byla zachov·na
+  - aktualizace p—àekladu; jak vidno, t—çm scriveru pokra–∏uje v dlouholet–π
+    —ôpatn–π tradici p—àejmenov–±v–±n–Ω funkc–Ω
+  - v p—à–Ωpad–º relativn–Ωho –∏asu —äprava p—àekladu IEview tak, aby byla zachov–±na
     konzistence
-  - zb˝v· p¯eloûit Chat Log options
+  - zb—çv–± p—àelo—õit Chat Log options
 
 - (*) clist_modern
-  - aktualizace Trtkal <mtrakal(zavin·Ë)trtkal(teËka)net>
+  - aktualizace Trtkal <mtrakal(zavin–±–∏)trtkal(te–∏ka)net>
 
-- sedm˝m rokem p¯ekl·d·m tenhle program...
+- sedm—çm rokem p—àekl–±d–±m tenhle program...
 
 2008-11-20:
 - (+) shlext 2.0.0.9
-  - dodal waclaw <waclaw (zavin·Ë) cmail (teËka) cz>
+  - dodal waclaw <waclaw (zavin–±–∏) cmail (te–∏ka) cz>
 
 2008-10-22:
 - (*) Crash Dumper 0.0.4.5
-  - aktualizace Trtkal <mtrakal(zavin·Ë)trtkal(teËka)net>
+  - aktualizace Trtkal <mtrakal(zavin–±–∏)trtkal(te–∏ka)net>
 
 2008-09-27:
 - (*) Jabber Protocol
-  - doplnÏnÌ p¯ekladu v sekci Mood/Activities
-  - p¯id·no [Set Mood]
+  - dopln–ºn–Ω p—àekladu v sekci Mood/Activities
+  - p—àid–±no [Set Mood]
 
 - (*) Miranda
-  - p¯id·no [Transfer completed.], [Transfer and virus scan complete], [of]
+  - p—àid–±no [Transfer completed.], [Transfer and virus scan complete], [of]
 
 2008-09-26:
 - (*) Weather Protocol 0.3.8.7
-  - p¯id·no [N/a]
+  - p—àid–±no [N/a]
 
 - (*) MSN Protocol
-  - p¯id·no [Live ID]
+  - p—àid–±no [Live ID]
 
 - (*) Jabber Protocol
-  - p¯id·na cel· hromada text˘, t˝kajÌcÌch se r˘zn˝ch ËinnostÌ
+  - p—àid–±na cel–± hromada text—â, t—çkaj–Ωc–Ωch se r—âzn—çch –∏innost–Ω
 
 - (*) Miranda
-  - drobn· zmÏna formulace
+  - drobn–± zm–ºna formulace
 
 2008-09-25:
 - (*) Scriver
-  - p¯id·no [and stay minimized], [and do not steal focus]
+  - p—àid–±no [and stay minimized], [and do not steal focus]
 
 - (*) MSN Protocol 0.8.1.0
-  - p¯id·no [Create a new Windows Live account], [Live ID:]
+  - p—àid–±no [Create a new Windows Live account], [Live ID:]
 
 - (*) Jabber Protocol 0.8.0.19
-  - nÏkolik drobn˝ch ˙prav a oprav, jeötÏ jich ale hodnÏ zb˝v·...
-  - Robyer dodal 7.8. hromadu nov˝ch ¯etÏzc˘ (uff, sorry za to zpoûdÏnÌ...)
-  - p¯id·no [Enable XMPP server ping (XEP-0199)], [Accept HTTP Authentication
+  - n–ºkolik drobn—çch —äprav a oprav, je—ôt–º jich ale hodn–º zb—çv–±...
+  - Robyer dodal 7.8. hromadu nov—çch —àet–ºzc—â (uff, sorry za to zpo—õd–ºn–Ω...)
+  - p—àid–±no [Enable XMPP server ping (XEP-0199)], [Accept HTTP Authentication
     requests (XEP-0070)], [Doing chores], [Drinking], [Exercises], [Grooming],
     [Having appointment], [Relaxing], [Traveling], [Mood: %s], [Activity: %s],
     [Activities], [Frame text], [Frame title], [Error occured during processing
@@ -616,7 +616,7 @@ Historie
     activity]
 
 - (*) Miranda
-  - doplnÏnÌ p¯ekladu o [Check for Update], [No Update Available], [You are
+  - dopln–ºn–Ω p—àekladu o [Check for Update], [No Update Available], [You are
     running the latest version of Miranda IM.  No update is available at this
     time.], [Configure your Miranda Instant Messenger options], [Options
     search], [Enable keyword search in options dialog], [If this option is
@@ -625,88 +625,88 @@ Historie
 
 2008-09-19:
 - (*) Crash Dumper 0.0.4.4
-  - aktualizace Trtkal <mtrakal(zavin·Ë)trtkal(teËka)net>
+  - aktualizace Trtkal <mtrakal(zavin–±–∏)trtkal(te–∏ka)net>
 
 2008-09-01:
 - (*) TabSRMM  2.2.1.9 (0.8 #21)
-  - aktualizace na poslednÌ verzi (historicky poprvÈ za pouûitÌ Stark Wongova Miranda translatoru .NET)
+  - aktualizace na posledn–Ω verzi (historicky poprv–π za pou—õit–Ω Stark Wongova Miranda translatoru .NET)
 - (+) Orange SMS 0.1.0.0
-  - dodal Maroö JablonËÌk <marosjabloncik (zavin·Ë) gmail (teËka) com>
+  - dodal Maro—ô Jablon–∏–Ωk <marosjabloncik (zavin–±–∏) gmail (te–∏ka) com>
 
 2008-08-12:
 - (*) clist_modern  0.8.0.159 (0.8 #20)
-  - aktualizace na poslednÌ verzi
+  - aktualizace na posledn–Ω verzi
 
 2008-08-04:
 - (*) BossKey+ 0.4.0.8
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) TV plugin 0.0.0.1
-  - p¯eloûil Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - p—àelo—õil Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2008-07-30:
-- (+) CrashDumper 0.0.4.2, p¯eloûil Trtkal
+- (+) CrashDumper 0.0.4.2, p—àelo—õil Trtkal
 
 2008-07-22:
 - (*) Miranda
-  - doplnÏnÌ p¯ekladu o [Clear completed], [Tranfer completed.], [No data
+  - dopln–ºn–Ω p—àekladu o [Clear completed], [Tranfer completed.], [No data
     transferred], [Transfer completed, open file.], [Transfer completed, open
     folder.]
 
 2008-06-17:
 - (*) UserInfoEx 0.7.0.1
-  - doplnÏnÌ p¯ekladu ikonek, kter˝ vypadl z d˘vodu zmÏny p¯ekladov˝ch fcÌ ve
-    zdrojovÈm kÛdu
+  - dopln–ºn–Ω p—àekladu ikonek, kter—ç vypadl z d—âvodu zm–ºny p—àekladov—çch fc–Ω ve
+    zdrojov–πm k—Édu
 
 2008-06-16:
 - (*) UserInfoEx 0.7.0.1
-  - aktualizace na novÈ zkuöebnÌ sestavenÌ, kterÈ jiû nepadn· s Mirandou 0.8
+  - aktualizace na nov–π zku—ôebn–Ω sestaven–Ω, kter–π ji—õ nepadn–± s Mirandou 0.8
 
 - (*) TabSRMM
-  - ˙prava termÌnu Input history size
+  - —äprava term–Ωnu Input history size
   
 2008-06-13:
 - (*) Weather Protocol 0.3.8.2
-  - p¯id·no [Avatar size], [Do not append units to values]
+  - p—àid–±no [Avatar size], [Do not append units to values]
 
 2008-06-01:
 - (*) Weather Protocol
-  - p¯id·no [Pm T-Showers], [Pm T-Showers / Wind], [T-Showers Early], [Fog /
+  - p—àid–±no [Pm T-Showers], [Pm T-Showers / Wind], [T-Showers Early], [Fog /
     Wind Late], [T-Storms / Wind Early], [Thunderstorms With Hail], [Light
     Thunderstorm]
-  - aktualizace p¯ekladu: <tapin (zavin·Ë) wo (teËka) cz>
-  - n·slednÏ p¯id·no [Am T-Showers]
+  - aktualizace p—àekladu: <tapin (zavin–±–∏) wo (te–∏ka) cz>
+  - n–±sledn–º p—àid–±no [Am T-Showers]
 
 2008-05-30:
 - (*) Weather Protocol
-  - p¯id·no [Freezing Drizzle And Windy], [Light Thunderstorm Rain Mist],
+  - p—àid–±no [Freezing Drizzle And Windy], [Light Thunderstorm Rain Mist],
     [Widespread Dust And Windy], [Light Drizzle Mist]
-  - aktualizace p¯ekladu: <tapin (zavin·Ë) wo (teËka) cz>
+  - aktualizace p—àekladu: <tapin (zavin–±–∏) wo (te–∏ka) cz>
 
 2008-05-28:
 - (*) Version Information 1.4.3.3
-  - aktualizace p¯ekladu: <struzsky (teËka) m (zavin·Ë) seznam (teËka) cz>
+  - aktualizace p—àekladu: <struzsky (te–∏ka) m (zavin–±–∏) seznam (te–∏ka) cz>
 
 2008-05-15:
 - (*) KeepStatus
-  - opraven p¯eklep (2 roky star˝!)
-  - pouûÌv· ten p¯eklad v˘bec nÏkdo?
+  - opraven p—àeklep (2 roky star—ç!)
+  - pou—õ–Ωv–± ten p—àeklad v—âbec n–ºkdo?
 
 2008-05-14:
-- opravy duplicit a nÏkolika p¯eklep˘ (dÌky Qwerù·kovi!)
+- opravy duplicit a n–ºkolika p—àeklep—â (d–Ωky Qwer—ú–±kovi!)
 
 2008-05-12:
 - (*) Weather Protocol
-  - p¯id·no [Pm Light Snow / Wind], [Light Snow And Sleet], [Snow And Freezing
+  - p—àid–±no [Pm Light Snow / Wind], [Light Snow And Sleet], [Snow And Freezing
     Rain], [Snow And Sleet], [Rain And Freezing Rain], [Light Freezing Rain And
-    Sleet] (<tapin (zavin·Ë) wo (teËka) cz>)
+    Sleet] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) NewStatusNotify
-  - aktualizace na 1.1.2.5 podle str·nky autora http://vasilich.org/blog/
+  - aktualizace na 1.1.2.5 podle str–±nky autora http://vasilich.org/blog/
   
 2008-05-09:
 - (*) History++
-  - aktualizace na 1.5.1.1 (po dlouhÈ dobÏ ve filelistingu)
+  - aktualizace na 1.5.1.1 (po dlouh–π dob–º ve filelistingu)
 
 - (*) TabSRMM
   - aktualizace na 2.2.1.3 (v0.8 #14)
@@ -716,50 +716,50 @@ Historie
 
 2008-05-06:
 - (*) XFire Protocol
-  - MessageBox: Okno se zpr·vou -> InformaËnÌ okno
-  - je ovöem ot·zka, kdy tento v˝znam zaËne kolidovat s jin˝mi
+  - MessageBox: Okno se zpr–±vou -> Informa–∏n–Ω okno
+  - je ov—ôem ot–±zka, kdy tento v—çznam za–∏ne kolidovat s jin—çmi
 
 2008-05-05:
 - (*) Weather Protocol, ContactsMenuItemEx, Gamer Plugin
-  - dalöÌ opravy a ˙pravy dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dal—ô–Ω opravy a —äpravy dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) Translator 0.1.2.2, SMS++ 0.2.5.0, XFire Protocol 0.1.3.11, Auto database
       backup 0.3.1.1
-  - p¯eloûil Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - p—àelo—õil Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Favourite Contacts (Unicode) 0.0.0.3, Gamer Plugin 0.0.3.1,
       NewEventNotify, FTP File YM (Unicode) 0.1.0.2, Quick Search mod 1.4.0.6,
       Authorization State
-  - opravy a ˙pravy dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - opravy a —äpravy dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2008-05-03:
 - (+) IcqOscarJ (Plus Mod) Protocol 0.3.8.105 #99 (rc 2)
-  - p¯eloûil jarvis <jarvis (zavin·Ë) jabber (teËka) cz>
+  - p—àelo—õil jarvis <jarvis (zavin–±–∏) jabber (te–∏ka) cz>
 
 2008-05-02: 2.18.1
 - (*) AIM OSCAR Plugin, MSN Protocol, Jabber Protocol
-  - doplnÏny texty pro lepöÌ kompatibilitu s ¯adou 0.7.x
+  - dopln–ºny texty pro lep—ô–Ω kompatibilitu s —àadou 0.7.x
 
 2008-04-25
 - (*) Tipper YM
-   - p¯echod z p˘vodnÌho Tipperu na Tipper Yaho Mod, aktualizace
+   - p—àechod z p—âvodn–Ωho Tipperu na Tipper Yaho Mod, aktualizace
    
-- (*) glob·lnÏ
-   - zmÏny dalöÌch v˝skyt˘ "tÈma" -> "skin"
-   - zmÏna terminologie "zakulatit, kulatÈ" -> "zaoblit, zaoblenÈ"
-   - zmÏna terminologie "rychl· n·povÏda, anotace, titulek" -> "tip"
+- (*) glob–±ln–º
+   - zm–ºny dal—ô–Ωch v—çskyt—â "t–πma" -> "skin"
+   - zm–ºna terminologie "zakulatit, kulat–π" -> "zaoblit, zaoblen–π"
+   - zm–ºna terminologie "rychl–± n–±pov–ºda, anotace, titulek" -> "tip"
   
 2008-04-24
 - (*) tabSRMM, SmileyAdd, AuthState, clist_modern
-   - aktualizace na nejnovÏjöÌ verze po obnovenÌ str·nky Addons
+   - aktualizace na nejnov–ºj—ô–Ω verze po obnoven–Ω str–±nky Addons
    
 2008-04-23
 - (*) tabSRMM
-  - zmÏna [Start private conversation on ...]: zapoËnete -> zah·jÌte
+  - zm–ºna [Start private conversation on ...]: zapo–∏nete -> zah–±j–Ωte
 
 - (*) History++ (2in1)
-  - p¯id·no [Events filter], [Log default], [History default]
-  - zmÏna [Conversation started at %s]: zapoËat -> zaËal
+  - p—àid–±no [Events filter], [Log default], [History default]
+  - zm–ºna [Conversation started at %s]: zapo–∏at -> za–∏al
 
 2008-04-22
 - (*) Miranda
@@ -788,14 +788,14 @@ Historie
 - (*) Weather Protocol
   - pridano [Chance Of Precipitation]
   - odstraneny nadbytecne zavorky z [%c\nTemperature... a [Feel-Like: %f ...
-  - aktualizace p¯ekladu: Soustruh
+  - aktualizace p—àekladu: Soustruh
 
 2008-03-30
 - (-) Path
   - preklad smazan, dneska uz nema zadnou relevanci
 
 - (+) WinPopup Protocol 0.0.0.17
-  - p¯eloûil VÌt PeËeÚa <wenom64 (zavin·Ë) gmail (teËka) com>
+  - p—àelo—õil V–Ωt Pe–∏e—Ça <wenom64 (zavin–±–∏) gmail (te–∏ka) com>
 
 2008-03-21
 - (*) Weather Protocol
@@ -803,7 +803,7 @@ Historie
 
 2008-03-20
 - (+) mRadio mod 0.0.0.15
-  - p¯eloûil VÌt PeËeÚa <wenom64 (zavin·Ë) gmail (teËka) com>
+  - p—àelo—õil V–Ωt Pe–∏e—Ça <wenom64 (zavin–±–∏) gmail (te–∏ka) com>
   - doplneno nekolik chybejicich textu
 
 2008-03-14
@@ -822,7 +822,7 @@ Historie
   - preklad [to] zmenen z "komu" na "do" (tyka se i History++)
 
 - (*) Custom Status List 0.0.0.18
-  - aktualizace na poslednÌ verzi novÈ v˝vojovÈ vÏtve
+  - aktualizace na posledn–Ω verzi nov–π v—çvojov–π v–ºtve
 
 2008-03-12
 - (*) Clist Nicer 0.8.0.3
@@ -885,11 +885,11 @@ Historie
     you absolutely sure?]
 
 2008-02-10
-- (*) Glob·lnÌ zmÏna skloÚov·nÌ avatar/avatara -> avatar/avataru, radÌ ⁄J» (Qwerty)
+- (*) Glob–±ln–Ω zm–ºna sklo—Çov–±n–Ω avatar/avatara -> avatar/avataru, rad–Ω –™J–ò (Qwerty)
   
 2008-01-28
 - (*) Birthday reminder, UserInfoEx
-  - ˙prava formulace hl·öenÌ narozenin, snad uû je to mÈnÏ kostrbatÈ. (Qwerty)
+  - —äprava formulace hl–±—ôen–Ω narozenin, snad u—õ je to m–πn–º kostrbat–π. (Qwerty)
 
 2008-01-25
 - (*) ClientChangeNotify 0.1.1.2
@@ -900,44 +900,44 @@ Historie
     pcre3.dll to use regular expressions here)], [Don't notify for contacts with
     disabled status notification], [Enable notification], [Ignore these clients
     (separated by semicolons):]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) ContactsMenuItemEx 1.3.0.3
   - nove pridano
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) Favourite Contacts (Unicode) 0.0.0.2
   - nove pridano
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Send Screenshot 0.2.6.5
   - pridano [Starting upload!], [Upload completed!]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Contacts+ 1.5.1.0
   - slouceni Contacts a Contacts+
   - pridano [Contacts], [Send contacts], [Contacts received from], [Received
     contacts]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) BossKey+ 0.4.0.5b
   - pridano [Hide Miranda if the computer is locked], [Change status to], [Go to
     Customize -> Hotkeys to change the hotkey], [Use built in to Miranda hotkey
     module (restart required)]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) NewEventNotify 0.2.1.0
   - pridano [No popups for read messages], [Number of new message: ], [
     requested authorization], [ added you to the contact list]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) FTP File YM (Unicode) 0.1.0.0
   - pridano [Upload canceled], [Send file], [File upload complete]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Winamp Track 0.0.6.8
   - pridano [All Bitmaps], [Other thread handle check], [Keep old file]
-  - dodal Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - dodal Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2008-01-23
 - (*) MSN Protocol 0.7.1.4
@@ -952,20 +952,20 @@ Historie
 
 2008-01-14
 - (*) New Away System 0.3.8.2
-  - aktualizace p¯ekladu na poslednÌ verzi (Qwerty)
+  - aktualizace p—àekladu na posledn–Ω verzi (Qwerty)
 
-- (*) glob·lnÌ zmÏna terminologie
-  - [status message] hl·öka stavu -> zpr·va stavu (Qwerty) 
+- (*) glob–±ln–Ω zm–ºna terminologie
+  - [status message] hl–±—ôka stavu -> zpr–±va stavu (Qwerty) 
 
 - (*) Spell Checker 0.1.0.0
-  - aktualizace na prvnÌ stabilnÌ verzi (Qwerty) 
+  - aktualizace na prvn–Ω stabiln–Ω verzi (Qwerty) 
 
 2008-01-07:
 - (*) Weather Protocol 0.3.7.1
   - pridano [Light Freezing Rain And Windy], [Light Snow Grains And Fog], [Am
     Fog / Pm Clouds / Wind], [Light Snow Late], [Light Snow / Fog], [Sleet And
     Freezing Rain], [Freezing Rain And Windy]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
   - aktualizace na zaklade nove verze doplnku
 
 2007-12-06:
@@ -977,7 +977,7 @@ Historie
 
 2007-11-28:
 - (*) SimpleAway 1.7.5.0
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2007-11-22:
 - (*) tabSRMM
@@ -990,13 +990,13 @@ Historie
 - (*) Weather Protocol
   - pridano: [Light Rain And Freezing Rain], [Pm Fog], [Fog Early / Clouds
     Late], [PM Fog], [Am Fog], [AM Fog]
-  - oprava: preh·Úka -> p¯eh·Úka
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+  - oprava: preh–±—Çka -> p—àeh–±—Çka
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-11-13:
 - (*) tabSRMM, Away System, MultiWindow Contact List, Database Editor++,
       dbExport, Miranda IM Database Tool, Clist modern layered
-  - oprava preklepu na zaklade pripominek od <plm (zavin·Ë) centrum (teËka) cz>
+  - oprava preklepu na zaklade pripominek od <plm (zavin–±–∏) centrum (te–∏ka) cz>
   - slouceni prekladu Away System a Away System MOD
 
 2007-11-11:
@@ -1006,7 +1006,7 @@ Historie
     Windy], [Snow And Thunder And Fog], [Thunder And Snow Pellets], [Rain / Snow
     Early], [Heavy Rain Showers], [Thunderstorm Rain Mist], [Heavy Thunderstorms
     And Rain], [Am Clouds / Pm Sun / Wind], [Sunny And Windy]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-11-06:
 - (*) Weather Protocol
@@ -1014,14 +1014,14 @@ Historie
 
 2007-11-04:
 - (*) Miranda
-  - pridano [Outgoing Message] (<lukas2007 (zavin·Ë) mizoch (teËka) info>)
+  - pridano [Outgoing Message] (<lukas2007 (zavin–±–∏) mizoch (te–∏ka) info>)
   - dale pridano [Incoming Message], [Incoming URL], [Outgoing URL], [Incoming
     File], [Outgoing File]
 
 - (*) Weather Protocol
   - pridano [Am Fog / Pm Sun], [Light Snow / Wind Early], [Am Drizzle], [Fog
     Late], [Pm Snow / Wind], [Pm Snow Showers / Wind], [Snow Showers / Wind
-    Early], [Few Snow Showers / Wind] (<tapin (zavin·Ë) wo (teËka) cz>)
+    Early], [Few Snow Showers / Wind] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-10-24: 2.18.0
 - (*) ICQOscarJ Protocol, WATrack
@@ -1038,7 +1038,7 @@ Historie
   - oprava prekladu
 
 - (*) Clist_modern
-  - ˙prava v clistech volby fontu uûivatel˘ s v˝jimkou ve viditelnosti (Qwerty)
+  - —äprava v clistech volby fontu u—õivatel—â s v—çjimkou ve viditelnosti (Qwerty)
 
 - (*) tabSRMM, IEView
   - uprava prekladu polozek pro zaznam
@@ -1122,14 +1122,14 @@ Historie
   - pridano [Nick:\t\t], [Status:\t\t], [Status text:\t], [Role:\t\t],
     [Affiliation:\t], [Real JID:\t], [Visitors], [Participant], [Moderators],
     [Member]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) History++ (2in1) 1.5.0.117
   - pridano [Appearance options], [Message log options], [Formatting options],
     [Search Up (Ctrl+Up)], [Search Down (Ctrl+Down)], [Limit Event Types],
     [Limit event types], [Search messages matched to], [HTML file], [RTF file],
     [XML file], [Unicode text file]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Miranda database driver
   - pridano [Database Features], [Database encryption], [Enable encryption],
@@ -1138,11 +1138,11 @@ Historie
     correct!], [Database AutoBackups], [Backup progress], [Backup Folder],
     [Folders plugin installed.\nGo to the Customize -> Folders to change
     settings]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Variables
   - pridano [Open String Formatting Help]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Avatar History
   - pridano [MetaContacts have special handling: the info is always copied from
@@ -1157,45 +1157,45 @@ Historie
     this contact).\nIf at some point you wish to revert this action, you must
     use Database Editor.\n\nAre you sure you want to delete this avatar
     forever?]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2007-10-12:
 - (+) Whiteboard 0.1.0.2
-  - nove prelozil Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - nove prelozil Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) NewStatusNotify
   - pridano [(M) hides in shadows...], [(F) hides in shadows...],
     [(U) hides in shadows...]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) WhoIsReadingMyStatusMsg
   - pridano [&Enable WhoIsReading popups]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Message Notify 0.3.0.2
   - pridano [Include message text]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Gamer plugin
   - pridano [The network interface which was used previously wasn't
     found.\nTrying to find another one...]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Bosskey+
   - pridano [Miranda IM is locked. Enter password to unlock it.], [Please enter
     password!], [Password is not correct!]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) FtpFile
   - pridano [FTP File Error], [Error connecting to server], [FTP Server name],
     [FTP File - Select files], [Progress info], [Aborting all files...], [%s
     (%d, %d)\n\nMore info:\n%s\n\n%s], [Cancel all], [FTP File - %s]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) SmileyAdd
   - pridano [Smiley Pack %s not found.\nSelect correct Smiley Pack in the
     Miranda Options | Customize | Smileys.]
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2007-10-11:
 - (*) YAPP 0.5.0.4
@@ -1206,14 +1206,14 @@ Historie
   - drobna zmena formulace
 
 - (+) ShowUIN 3.1.0.0
-  - p¯eklad dodal: Soustruh
+  - p—àeklad dodal: Soustruh
 
 - (*) Fingerprint Plus
-  - aktualizace p¯ekladu: Soustruh
+  - aktualizace p—àekladu: Soustruh
 
 2007-10-04:
 - (*) Fingerprint Plus 1.0.8.0
-  - p¯eklad dodal: Soustruh
+  - p—àeklad dodal: Soustruh
 
 2007-10-03:
 - (*) Clist Nicer 0.8.0.0
@@ -1274,20 +1274,20 @@ Historie
 
 2007-08-31:
 - (*) WhenWasIt birthday reminder
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [%S protocol], [Please select the module where you want the date of
     birth to be saved.\n"UserInfo" is the default location.\nUse "Protocol
     module" to make the data visible in User Details.\n"mBirthday module" uses
     the same module as mBirthday plugin.], [Set birthday:],
     
 - (*) New Away System
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [Use the default setting], [Set %s message for the contact],
     [ message], [ for ], [ protocol], [Don't send the status message to selected
     contact(s)], [Send an autoreply to selected contact(s)], [Save As &New]
 
 - (*) Winamp Track 0.0.6.7
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [genre], [album], [height, video only], [width, video only], [player
     version], [player status (not translated)], [time/length * 100%], [player
     window title], [samplerate], [Text format codes\n{b}text{/b}\tbold\n{i}text
@@ -1303,11 +1303,11 @@ Historie
     path], [Player homepage URL], [track number]
 
 - (*) SOMWO 0.1.0.2
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [SOMWO Options], [Show new Statusmsg on change]
 
 - (*) Send Screenshot 0.2.6.3
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [Send screenshot to <Unknow Contact> - Capture Options], [Ti&med
     capture], [Time (secs) :], [Open again], [Use Edit&or], [<Unknown Contact>],
     [Area], [&Action], [&Capture Again], [&Crop tool], [&Ellipse tool], [&Pen
@@ -1318,7 +1318,7 @@ Historie
     time.)]
 
 - (*) Quick Search mod 1.4.0.6
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
   - pridano [QuickSearch], [Show Offline contacts], [Global scope hotkey],
     [Miranda scope hotkey], [New Column], [Save Column], [Delete Column],
     [Column Up], [Column Down], [Save Item], [Sort by Status], [Only Users in
@@ -1333,13 +1333,13 @@ Historie
 
 2007-08-24:
 - (+) Messages Total Notify 0.0.5.3
-  - novy preklad: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - novy preklad: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) Avatar History 0.0.2.8
-  - novy preklad: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - novy preklad: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) New Away System 0.3.7.8
-  - zaktualizoval Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - zaktualizoval Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Clist Nicer
   - nekolik drobnych zmen v souvislosti s pripravou na finalni build 0.7
@@ -1354,34 +1354,34 @@ Historie
 
 2007-08-21:
 - (*) BossKey+ 0.3.0.11
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) FTP File YM 0.0.2.4
-  - novy preklad: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - novy preklad: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) GoMoku 0.0.2.2
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) ICQOscarJ Protocol 0.3.10.5
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) MenuItemEx 1.2.1.11
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (+) sndVol 0.0.2.2
-  - novy preklad: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - novy preklad: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Version Information 1.4.2.3
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Winamp Track 0.0.6.6
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) WhenWasIt birthday reminder 0.2.2.3
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Splash Screen 0.1.2.1
-  - aktualizace prekladu: Robyer <robyer (zavin·Ë) seznam (teËka) cz>
+  - aktualizace prekladu: Robyer <robyer (zavin–±–∏) seznam (te–∏ka) cz>
 
 2007-08-20:
 - (*) Jabber Protocol
@@ -1492,24 +1492,24 @@ Historie
 - (*) Weather Protocol
   - pridano [Am Fog / Pm Clouds], [Pm Drizzle], [Light Rain / Fog],
     [Fog Early / Clearing Late], [Am Rain / Snow]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-08-14:
 - (+) Authorization State 0.0.1.3
-  - p¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+  - p—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 
 - (+) Status Message History 0.1.0.3
-  - p¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+  - p—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 
 - (+) Gamer Plugin 0.0.2.3
-  - p¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+  - p—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 
 - (+) MirPy Scripting Plugin 0.1.3.1
-  - p¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+  - p—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 
 2007-08-10:
 - (+) Voice Service 0.0.0.8
-  - p¯eklad: MiSHAK <imishak (zavin·Ë) gmail (teËka) com>
+  - p—àeklad: MiSHAK <imishak (zavin–±–∏) gmail (te–∏ka) com>
 
 - (*) Miranda
   - pridano [File Already Exists]
@@ -1518,22 +1518,22 @@ Historie
   - pridano [Chat session dropped due to inactivity]
 
 2007-08-09:
-- vy¯eöenÌ kolidujÌcÌch duplicit (Qwerty)
+- vy—àe—ôen–Ω koliduj–Ωc–Ωch duplicit (Qwerty)
 
 - (*) IEView 1.0.9.10
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
 
 - (*) tabSRMM 1.1.1.2 
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
 
 - (*) SmileyAdd 0.1.12.15a
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
   
 2007-08-07:
 - (*) Clist_modern
-  - aktualizace na poslednÌ verzi (Qwerty)
-  - "Reûimy zobrazenÌ" p¯ejmenov·no na "Pohledy"
-  - "Okna p¯ejmenov·no" dle clist_nicer na "R·meËky"
+  - aktualizace na posledn–Ω verzi (Qwerty)
+  - "Re—õimy zobrazen–Ω" p—àejmenov–±no na "Pohledy"
+  - "Okna p—àejmenov–±no" dle clist_nicer na "R–±me–∏ky"
   
 2007-08-03:
 - (*) MSN Protocol 0.7.1.1
@@ -1551,7 +1551,7 @@ Historie
 - (*) Weather Protocol
   - pridano [Foggy / Wind], [Fog Early / Clearing Late / Wind],
     [Am Showers / Wind], [Am Fog / Pm Sun / Wind]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-08-01:
 - (*) ICQOscarJ Protocol 0.3.10.5
@@ -1562,7 +1562,7 @@ Historie
 - (*) Weather Protocol
   - pridano [Rain / Wind Late], [Foggy / Wind],
     [Fog Early / Clouds Late / Wind], [Pm Snow]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-07-12:
 - (*) Miranda IM Database Tool
@@ -1591,7 +1591,7 @@ Historie
 2007-06-18:
 - (*) Weather Protocol
   - pridano [T-Storm And Windy], [Sleet], [Rain Late], [Clear And Windy],
-    [Thunder And Hail] (<tapin (zavin·Ë) wo (teËka) cz>)
+    [Thunder And Hail] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-06-14:
 - (*) Jabber Protocol
@@ -1622,7 +1622,7 @@ Historie
 - (*) Weather Protocol
   - pridano [Am Snow Showers], [Light Snow Early], [Showers / Wind Early],
     [Showers / Wind Late], [Light Snow With Thunder], [Snow And Thunder And Fog]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-05-29: 2.16.2
 - (*) OTR 0.5.2.0
@@ -1630,32 +1630,32 @@ Historie
     [Insecure]
 
 - (*) Popup Plus
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
 
 - (*) SecureIM 
-  - p¯eklad n·zvu ikonek (Qwerty)
+  - p—àeklad n–±zvu ikonek (Qwerty)
 
 - (*) UserInfoEx
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
 
 - (*) WATrack
-  - aktualizace na poslednÌ verzi (Qwerty)
+  - aktualizace na posledn–Ω verzi (Qwerty)
 
 - (*) Weather Protocol
   - pridano [Thunder And Fog], [Am Rain / Snow Showers / Wind], [Snow And Windy
     And Fog], [Pm Rain / Wind], [Rain / Snow Showers Late]
-  - opraven preklep v [Snow Showers Early] (<tapin (zavin·Ë) wo (teËka) cz>)
+  - opraven preklep v [Snow Showers Early] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-05-25:
 - (*) YAPP
   - oprava ")" -> "]"
 
 - (*) Updater
-  - opraveno "pozvrzeni" na "potvrzeni" (<tapin (zavin·Ë) wo (teËka) cz>)
+  - opraveno "pozvrzeni" na "potvrzeni" (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) Weather Protocol
   - pridano [Rain / Snow Showers / Wind], [Mostly Clear / Wind], [Pm Light Snow]
-    (<tapin (zavin·Ë) wo (teËka) cz>)
+    (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-05-24:
 - (*) Weather Protocol
@@ -1689,7 +1689,7 @@ Historie
 2007-04-23:
 - (*) Weather Protocol
   - pridano [Pm Showers / Wind], [Clear / Wind], [Cloudy Early / Clearing Late
-    / Wind] (<tapin (zavin·Ë) wo (teËka) cz>)
+    / Wind] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2007-04-10:
 - (*) MSN Protocol 0.7.1.0
@@ -1715,7 +1715,7 @@ Historie
   - novy preklad
 
 - (+) Custom Status History List 0.0.0.5
-  - p¯eloûil VÌt PeËeÚa <wenom64 (zavin·Ë) gmail (teËka) com>
+  - p—àelo—õil V–Ωt Pe–∏e—Ça <wenom64 (zavin–±–∏) gmail (te–∏ka) com>
 
 2007-03-22:
 - (*) Version Information 1.4.1.2
@@ -1750,7 +1750,7 @@ Historie
   - pridano [Unique id] a [Nick name]
 
 - (*) PopUp plus 2.1.0.1 (qwerty)
-  - aktualizace na koneËnÏ stabilnÌ verze
+  - aktualizace na kone–∏n–º stabiln–Ω verze
 
 2007-03-09:
 - (*) Fingerprint 0.1.1.0
@@ -1774,7 +1774,7 @@ Historie
   - pridano [Add to server list]
 
 - (*) Clist_modern (qwerty)
-  - zpÏtnÈ doplnÏnÌ zaveden˝ch ¯etÏzc˘, kterÈ vypadly kv˘li fci  mi.pszName=(""); 
+  - zp–ºtn–π dopln–ºn–Ω zaveden—çch —àet–ºzc—â, kter–π vypadly kv—âli fci  mi.pszName=(""); 
   
 2007-03-07:
 - (*) Clist Nicer
@@ -1784,14 +1784,14 @@ Historie
   - doplneno nekolik retezcu tykajici se XEP-0048
   - zmena prekladu Agents, tady ale bude treba zapracovat; nejasne
 
-- (*) glob·lnÏ (qwerty)
-  - vyËiötÏnÌ kolidujÌcÌch duplicit
-  - veökerÈ skiny jsou teÔ opravdu "skiny"
-  - "message log" je z·znam komunikace
-  - "message window" je komunikaËnÌ okno
+- (*) glob–±ln–º (qwerty)
+  - vy–∏i—ôt–ºn–Ω koliduj–Ωc–Ωch duplicit
+  - ve—ôker–π skiny jsou te–ø opravdu "skiny"
+  - "message log" je z–±znam komunikace
+  - "message window" je komunika–∏n–Ω okno
 
 - (*) Clist_modern (qwerty)
-  - aktualizace na poslednÌ verzi 
+  - aktualizace na posledn–Ω verzi 
 
 2007-02-27:
 - (*) tabSRMM, ContactsEx, UserInfoEx, History++ (2in1)
@@ -1988,7 +1988,7 @@ Historie
 
 2007-02-06:
 - (*) Scriver 2.5.9.15
-  - aktualizace p¯ekladu
+  - aktualizace p—àekladu
 
 - (*) HotKeys Plus
   - dokonceno
@@ -2080,7 +2080,7 @@ Historie
 - (*) Weather Protocol
   - pridano [Rain / Snow / Wind], [Drifting Snow And Windy],
   [Low Drifting Snow], [Rain Mist], [Thunderstorm Rain], [Heavy Rain Mist],
-  [Am Light Snow] (<tapin (zavin·Ë) wo (teËka) cz>)
+  [Am Light Snow] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) Miranda
   - pridany retezce tykajici se prenosu dat
@@ -2095,27 +2095,27 @@ Historie
 
 2007-01-19:
 - (*)  Spellchecker 0.0.2.1
-  - aktualizace, p¯eloûena vlastnÌ ˙prava ikon (sir-qwerty)
+  - aktualizace, p—àelo—õena vlastn–Ω —äprava ikon (sir-qwerty)
 
 - (*)  SmileyAdd 0.1.12.11
-  - aktualizace, Ëistka star˝ch ¯etÏzc˘ (sir-qwerty)
+  - aktualizace, –∏istka star—çch —àet–ºzc—â (sir-qwerty)
 
 - (*)  UserInfoEx 0.1.2.26
-  - aktualizace, navr·cenÌ nezachytiteln˝ch ¯etÏzc˘ (sir-qwerty)
+  - aktualizace, navr–±cen–Ω nezachytiteln—çch —àet–ºzc—â (sir-qwerty)
 
 - (*) History++ (2in1) 1.5.0.112
-  - pous o p¯eloûenÌ nep¯eloûiteln˝ch ¯etÏzc˘, nahl·öeno do bugtrackeru (sir-qwerty)
+  - pous o p—àelo—õen–Ω nep—àelo—õiteln—çch —àet–ºzc—â, nahl–±—ôeno do bugtrackeru (sir-qwerty)
 
 2006-12-12:
 - (*)  UserInfoEx 0.1.2.24
   - aktualizace (sir-qwerty)
 
-- (*) vöe
-  - z·mÏna "horkÈ kl·vesy" -> "kl·vesovÈ zkratky". PrvnÌ pokus o glob·lnÌ unifikaci v˝razu
+- (*) v—ôe
+  - z–±m–ºna "hork–π kl–±vesy" -> "kl–±vesov–π zkratky". Prvn–Ω pokus o glob–±ln–Ω unifikaci v—çrazu
   
 2006-12-07:
 - (*) Fingerprint 0.1.0.50
-  - doplneny 2 nove retezce <struzsky (teËka) m (zavin·Ë) seznam (teËka) cz>
+  - doplneny 2 nove retezce <struzsky (te–∏ka) m (zavin–±–∏) seznam (te–∏ka) cz>
 
 2006-11-30:
 - (*) Skype 0.0.0.33
@@ -2138,7 +2138,7 @@ Historie
 
 2006-11-27:
 - (*) Advanced Auto Away 0.0.2.22
-  - aktualizace letnÌ verze (sir-qwerty)
+  - aktualizace letn–Ω verze (sir-qwerty)
   
 - (*) Tipper 0.3.0.2
   - aktualizace (sir-qwerty)
@@ -2154,19 +2154,19 @@ Historie
   - oprava prekladu [Example With a Long Title]: titulek -> zahlavi
 
 - (*) Spell Checker 0.0.1.4
-  - aktualizace zatÌm stabilizovan· verze (sir-qwerty)
+  - aktualizace zat–Ωm stabilizovan–± verze (sir-qwerty)
 
 - (*) Clist modern layered 0.4.3.60
-  - zmÏna termÌnu TÈma -> Skin seznamu kontakt˘, aktualizace (sir-qwerty)
+  - zm–ºna term–Ωnu T–πma -> Skin seznamu kontakt—â, aktualizace (sir-qwerty)
 
 - (*) tabSRMM 1.1.0.12
   - aktualizace (sir-qwerty)
 
 - (+) Folders 0.1.0.3
-  - nov˝ p¯eklad (sir-qwerty)
+  - nov—ç p—àeklad (sir-qwerty)
 
 - (*) Language
-  - v seznamu p¯eloûen˝ch doplÚk˘ budou od tÈto chvÌle preferov·ny pouze unicode varianty. Pro uûivatele se fakticky nic nemÏnÌ
+  - v seznamu p—àelo—õen—çch dopl—Çk—â budou od t–πto chv–Ωle preferov–±ny pouze unicode varianty. Pro u—õivatele se fakticky nic nem–ºn–Ω
  
 2006-11-15:
 - (*) Variables 0.2.2.0
@@ -2192,7 +2192,7 @@ Historie
 
 2006-11-03:
 - (+) Spell Checker 0.0.0.6
-  - p¯eloûil Qwerty
+  - p—àelo—õil Qwerty
 
 2006-10-31:
 - (*) Weather Protocol 0.3.5.13
@@ -2203,11 +2203,11 @@ Historie
 
 2006-10-18:
 - (+) SOMWO 0.0.7.1
-  - p¯eloûil Ji¯Ì Kocman <jirka (zavin·Ë) iis (teËka) cz>
+  - p—àelo—õil Ji—à–Ω Kocman <jirka (zavin–±–∏) iis (te–∏ka) cz>
 
 2006-10-16
 - (*) WATrack 0.0.4.23
-  - velk· aktualizace p¯ekladu na nejnovÏjöÌ betu(sir-qwerty)
+  - velk–± aktualizace p—àekladu na nejnov–ºj—ô–Ω betu(sir-qwerty)
 
 2006-10-11:
 - (*) Clist modern layered, MultiWindow Contact List, Clist Nicer
@@ -2258,8 +2258,8 @@ Historie
   - doplneni chybejiciho [<retrieving status message>]
 
 - (*) Clist modern layered
-  - opraven chybny preklad [Closed group member counts] <michal (teËka) t
-  (zavin·Ë) kladno (teËka) cz>
+  - opraven chybny preklad [Closed group member counts] <michal (te–∏ka) t
+  (zavin–±–∏) kladno (te–∏ka) cz>
 
 2006-09-15:
 - (*) Version Information
@@ -2277,14 +2277,14 @@ Historie
 
 2006-09-14:
 - (+) Name Day script 1.0.0.0
-  - preklad poslal Libor PolË·k <e1ko.gm (zavin·Ë) gmail (teËka) com>
+  - preklad poslal Libor Pol–∏–±k <e1ko.gm (zavin–±–∏) gmail (te–∏ka) com>
 
 - (+) Import Gaim History 0.0.2.1
-  - preklad poslal Libor PolË·k <e1ko.gm (zavin·Ë) gmail (teËka) com>
+  - preklad poslal Libor Pol–∏–±k <e1ko.gm (zavin–±–∏) gmail (te–∏ka) com>
 
 2006-09-13:
 - (+) Message Notify 0.0.6.2
-  - preklad poslal Soustruh <struzsky (teËka) m (zavin·Ë) seznam (teËka) cz>
+  - preklad poslal Soustruh <struzsky (te–∏ka) m (zavin–±–∏) seznam (te–∏ka) cz>
 
 - (*) Version Information 1.3.0.0
   - preklad doplnen o [Services] a [Upload site settings]
@@ -2333,17 +2333,17 @@ Historie
 
 2006-08-29:
 - (*) SecureIM
-  - doplneno [Always secured if possible] (<Ludek.Vydra (zavin·Ë) k2atmitec
-  (teËka) cz>)
+  - doplneno [Always secured if possible] (<Ludek.Vydra (zavin–±–∏) k2atmitec
+  (te–∏ka) cz>)
 
 2006-08-28:
 - (*) Weather Protocol
   - pridano [Snow Showers Late], [Rain To Snow], [Rain Early], [Light Rain
   Early], [Snow And Fog], [Light Showers Rain], [Light Rain / Wind Early]
-  (<tapin (zavin·Ë) wo (teËka) cz>)
+  (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (+) Magnetic Windows 0.0.4.1
-  - preklad poslal Soustruh <struzsky (teËka) m (zavin·Ë) seznam (teËka) cz>
+  - preklad poslal Soustruh <struzsky (te–∏ka) m (zavin–±–∏) seznam (te–∏ka) cz>
 
 2006-08-24:
 - (*) Tooltip Notify 0.2.0.2
@@ -2380,7 +2380,7 @@ Historie
 2006-08-22:
 - (*) Weather Protocol
   - pridano [Light Rain And Windy And Fog], [T-Storms Early], [Clouds Early /
-  Clearing Late] (<tapin (zavin·Ë) wo (teËka) cz>)
+  Clearing Late] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2006-08-18:
 - (*) SiP 0.1.6.9
@@ -2411,7 +2411,7 @@ Historie
 - (*) Weather Protocol
   - pridano [Light Rain And Fog], [Heavy Rain And Windy], [Rain Shower And
   Windy], [Light Snow And Fog], [Light Snow And Windy And Fog], [Scattered
-  Showers / Wind] (<tapin (zavin·Ë) wo (teËka) cz>)
+  Showers / Wind] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2006-08-16:
 - (*) TabSRMM
@@ -2426,7 +2426,7 @@ Historie
 2006-08-14:
 - (*) IRC
   - pridano [Enable Nudge support], [Enable Typing Notify support],
-  [Auto-retrieve version details] z nejake modifikace (<tapin (zavin·Ë) wo (teËka) cz>)
+  [Auto-retrieve version details] z nejake modifikace (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) Miranda-IM, Sticky Notes & Reminders, Status global hotkeys
   - [Hotkeys]: Klavesove zkratky -> Horke klavesy
@@ -2444,7 +2444,7 @@ Historie
   - pridano [Create a main menu item]
 
 - (*) WhenWasIt birthday reminder 0.2.0.0
-  - aktualizace p¯ekladu
+  - aktualizace p—àekladu
 
 - (*) Clist modern 0.4.3.40
   - opraveny preklepy + upravy nekterych formulaci
@@ -2493,7 +2493,7 @@ Historie
 
 2006-08-11:
 - (*) Weather Protocol
-  - pridano [Light Drizzle And Windy] (<tapin (zavin·Ë) wo (teËka) cz>)
+  - pridano [Light Drizzle And Windy] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 2006-08-09: 2.14.0
 - upraven installscript, readme a FLID v header.txt
@@ -2516,7 +2516,7 @@ Historie
   - qwerty smaznul hlavicku, doplneno zpet
 
 - (*) Tlen Protocol
-  - opravena chybka Zobrazuovat -> Zobrazovat (<tapin (zavin·Ë) wo (teËka) cz>)
+  - opravena chybka Zobrazuovat -> Zobrazovat (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) MSN Protocol
   - doplnen preklad [Un&block]
@@ -2528,19 +2528,19 @@ Historie
   - prvotni nastrel prekladu
 
 - (*) Avatar service 0.0.2.5
-  - drobn· aktualizace p¯ekladu (sir-qwerty)
+  - drobn–± aktualizace p—àekladu (sir-qwerty)
   
 2006-08-07:
 - (*) Popup-plus 2.0.3.97 RC2
-  - doplnÏnÌ p¯ekladu dle neofici·lnÌho lp (sir-qwerty)
+  - dopln–ºn–Ω p—àekladu dle neofici–±ln–Ωho lp (sir-qwerty)
 
 2006-08-03:
 
 - (*) Updater 0.4.10.6
-  - drobn· aktualizace p¯ekladu (sir-qwerty)
+  - drobn–± aktualizace p—àekladu (sir-qwerty)
 
 - (*) Clist modern 0.4.3.39
-  - drobn· aktualizace p¯ekladu (sir-qwerty)
+  - drobn–± aktualizace p—àekladu (sir-qwerty)
   
 - (*) Database Editor ++ 3.1.3.4
   - puvodne preklad od zakladu predelan
@@ -2549,26 +2549,26 @@ Historie
   - odstranen stary zbytecny preklad
 
 - (*) History++ 0.5.0.105
-  - masivnÌ aktualizace p¯ekladu (sir-qwerty)
+  - masivn–Ω aktualizace p—àekladu (sir-qwerty)
 
 - (*) SecureIM
   - oprava 'status' -> 'stav' (sir-qwerty)
 
 - (*) TabSRMM 1.0.0.0
-  - aktualizace p¯ekladu fin·lnÌ verze (sir-qwerty)
+  - aktualizace p—àekladu fin–±ln–Ω verze (sir-qwerty)
 
 2006-08-02:
 - (*) Tipper
   - zmena [Labels] v navaznosti na Jgmail: Nadpisy -> Popisky
 
 - (*) Scriver (2.3.2.11)
-  - aktualizace p¯ekladu
+  - aktualizace p—àekladu
 
 - (*) Weather Protocol
   - pridano [Light Rain Shower And Windy]
 
 - (*) Avatar service (0.0.2.5)
-  - aktualizace p¯ekladu
+  - aktualizace p—àekladu
 
 - (*) Jabber
   - pridana podpora pro modifikaci Jgmail 0.6.0.1
@@ -2580,27 +2580,27 @@ Historie
 ***** skoncila podpora rady Miranda 0.4.x *****
 
 - (+) Speak (0.0.0.5)
-  - novy preklad (<tapin (zavin·Ë) wo (teËka) cz>)
+  - novy preklad (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (+) AutoReply
-  - min. preklad doplnku AutoReply (<tapin (zavin·Ë) wo (teËka) cz>)
+  - min. preklad doplnku AutoReply (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
   
 - (*) Weather Protocol
-  - pridano [AM Light Rain / Wind], [PM Light Rain / Wind] (<tapin (zavin·Ë) wo (teËka) cz>)
+  - pridano [AM Light Rain / Wind], [PM Light Rain / Wind] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) Tlen Protocol
   - pridano [Log alerts as messages], [Send and receive client version information]
-  [Use Nudge plugin] (<tapin (zavin·Ë) wo (teËka) cz>)
+  [Use Nudge plugin] (<tapin (zavin–±–∏) wo (te–∏ka) cz>)
 
 - (*) SecureIM
-  - doplneno chybejici [days] (<Ludek.Vydra (zavin·Ë) k2atmitec (teËka) cz>)
+  - doplneno chybejici [days] (<Ludek.Vydra (zavin–±–∏) k2atmitec (te–∏ka) cz>)
 
 2006-07-27:
 - (*) WhenWasIt birthday reminder (0.1.2.0)
-  - aktualizace p¯ekladu
+  - aktualizace p—àekladu
 
 - (*) SecureIM (1.0.9.5)
-  - aktualizace p¯ekladu (<Ludek.Vydra (zavin·Ë) k2atmitec (teËka) cz>)
+  - aktualizace p—àekladu (<Ludek.Vydra (zavin–±–∏) k2atmitec (te–∏ka) cz>)
 
 2006-07-21:
 - (*) Clist Nicer (0.7.0.1)
@@ -2667,10 +2667,10 @@ Historie
 
 2006-06-12:
 - (*) File As Message
-  - oprava chybejiciho pismene v [Extra options: Events ª File Transfers, "Receiving files" group]
+  - oprava chybejiciho pismene v [Extra options: Events ¬ª File Transfers, "Receiving files" group]
 
 - (+) mRadio (0.1.0.0)
-  - novy preklad (Richard Niûnik <nizak (zavin·Ë) seznam (teËka) cz>)
+  - novy preklad (Richard Ni—õnik <nizak (zavin–±–∏) seznam (te–∏ka) cz>)
 
 2006-06-11:
 - (*) Merge Contacts
@@ -2742,10 +2742,10 @@ Historie
 
 2006-05-17:
 - (*) UserInfoEx (0.1.2.12)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
 
 - (*) SmileyAdd (0.1.12.4)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
   
 2006-05-16:
 - (*) Ping Plugin
@@ -2774,27 +2774,27 @@ Historie
   - mezi nepublikovane pridano [Contact list local time]
 
 - (*) History++ (1.5.0.102)
-  - aktualizace p¯ekladu, dalöÌ zachycenÈ ¯etÏzce (sir-qwerty)
+  - aktualizace p—àekladu, dal—ô–Ω zachycen–π —àet–ºzce (sir-qwerty)
   
 2006-05-12:
 - (*) History++ (1.5.0.102)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
   
 - (*) MetaContacts (0.0.10.0)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
   
 2006-05-11:
 - (+) Tipper (0.0.4.0)
-  - nov˝ p¯eklad (sir-qwerty)
+  - nov—ç p—àeklad (sir-qwerty)
 
 - (*) Status global hotkeys (0.0.3.1)
   - prelozeno, zbyvaji pouze kosmeticke problemy
 
 - (*) TabSRMM (0.9.99.202)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
   
 - (*) Clist modern layered (0.4.2.30)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
 
 - (*) Nudge (0.0.1.8)
   - pridano [Show as status change]
@@ -2818,13 +2818,13 @@ Historie
   - prelozeno [&Hide users until they ide ... a [Note: The filter gets invo ...
 
 - (*) SecureIM (1.0.8.0)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
 
 - (*) Updater (0.4.9.7)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
 
 - (*) Avatar service (0.0.1.24)
-  - aktualizace p¯ekladu (sir-qwerty)
+  - aktualizace p—àekladu (sir-qwerty)
 
 2006-04-26:
 - (*) Clist Nicer
@@ -2884,7 +2884,7 @@ Historie
   - doplnen preklad [I like it small]
 
 - (+) WATrack (0.0.4.2)
-  - novy preklad: Laslo Gogolak <laslo_gogolak (zavin·Ë) centrum (teËka) cz>
+  - novy preklad: Laslo Gogolak <laslo_gogolak (zavin–±–∏) centrum (te–∏ka) cz>
 
 2006-03-22:
 - (+) TriggerPlugin (0.0.0.12)
@@ -2897,7 +2897,7 @@ Historie
   - doplnen chybejici preklad [Description]
 
 - (*) weather
-  - pridana hromada novych polozek (LubomÌr Jeûek <cz035020 at worldonline dot cz>)
+  - pridana hromada novych polozek (Lubom–Ωr Je—õek <cz035020 at worldonline dot cz>)
 
 2006-03-16:
 - (*) Avatar service
@@ -2988,8 +2988,8 @@ Historie
   - pridan dalsi skript pro automaticke buildovani
 
 - (*) Miranda
-  - oprava [Quicksearch in open groups only]: RychlÈ hled·nÌ pouze v otevren˝ch
-  skupin·ch -> Rychle hledat jen v otevr. skupin·ch
+  - oprava [Quicksearch in open groups only]: Rychl–π hled–±n–Ω pouze v otevren—çch
+  skupin–±ch -> Rychle hledat jen v otevr. skupin–±ch
 
 - (*) Avatar service
   - oprava [Contact pictures]: Avatary kontatu -> Avatary kontaktu
@@ -3054,7 +3054,7 @@ Historie
   - aktualizace prekladu + opravy chyb
 
 - (+) XStatus Notify (0.1.0.6, Build #28)
-  - hruby preklad Petr Hanuö <petrhanu (zavin·Ë) volny (teËka) cz>
+  - hruby preklad Petr Hanu—ô <petrhanu (zavin–±–∏) volny (te–∏ka) cz>
   - dokonceni prekladu, doladeni
 
 2006-01-06: 2.12.0
@@ -3327,8 +3327,8 @@ Historie
   - zmena: zkracen preklad [day(s) before birthday.]
 
 - (*) Tlen Protocol
-  - zmena: doplneno chybejici [<Last message>] (churchyard <churchyard (zavin·Ë)
-  gmail (teËka) com>)
+  - zmena: doplneno chybejici [<Last message>] (churchyard <churchyard (zavin–±–∏)
+  gmail (te–∏ka) com>)
 
 - (*) mTV
   - zmena: zkracen preklad [Download data for:]
@@ -3350,7 +3350,7 @@ Historie
   - pridano chybejici [You were added to this user's contact list.]
 
 - (+) Tlen Protocol (1.0.6.6)
-  - nove prelozeno (churchyard <churchyard (zavin·Ë) gmail (teËka) com>)
+  - nove prelozeno (churchyard <churchyard (zavin–±–∏) gmail (te–∏ka) com>)
 
 2005-09-30:
 - (*) StartupStatus
@@ -3451,7 +3451,7 @@ Historie
 
 2005-09-20:
 - (*) Gmail Multiple Notifier (0.2.3.1)
-  - aktualizovano (churchyard <churchyard (zavin·Ë) gmail (teËka) com>)
+  - aktualizovano (churchyard <churchyard (zavin–±–∏) gmail (te–∏ka) com>)
 
 2005-09-19:
 - (*) Weather
@@ -3479,7 +3479,7 @@ Historie
   - aktualizace prekladu (sir-qwerty <qwerty at moje dot cz>)
 
 - (+) Gmail Notifier (0.2.2.0)
-  - nove prelozeno (churchyard <churchyard (zavin·Ë) gmail (teËka) com>)
+  - nove prelozeno (churchyard <churchyard (zavin–±–∏) gmail (te–∏ka) com>)
 
 2005-09-09:
 - (*) Gmail Multiple Notifier
@@ -3495,7 +3495,7 @@ Historie
 
 2005-09-07:
 - (+) Gmail Multiple Notifier (0.2.2.0)
-  - nove prelozeno (churchyard <churchyard (zavin·Ë) gmail (teËka) com>)
+  - nove prelozeno (churchyard <churchyard (zavin–±–∏) gmail (te–∏ka) com>)
 
 - (+) Skype (0.0.0.18)
   - castecne prelozeno
@@ -3517,10 +3517,10 @@ Historie
 
 2005-08-22:
 - (*) Spam Filter (2.1.0.0)
-  - aktualizace prekladu (madmojo <madmojo (zavin·Ë) kdynenet (teËka) cz>)
+  - aktualizace prekladu (madmojo <madmojo (zavin–±–∏) kdynenet (te–∏ka) cz>)
 
 - (+) ProtoLink (0.2.0.1)
-  - nove prelozeno (madmojo <madmojo (zavin·Ë) kdynenet (teËka) cz>)
+  - nove prelozeno (madmojo <madmojo (zavin–±–∏) kdynenet (te–∏ka) cz>)
 
 - (*) Alarms
   - zkraceni prekladu [Don't steal focus unless idle]
@@ -3757,7 +3757,7 @@ Historie
 
 2005-06-15:
 - (*) Weather
-  - pridano: [Light Rain Mist] (LubomÌr Jeûek <cz035020 at worldonline dot cz>)
+  - pridano: [Light Rain Mist] (Lubom–Ωr Je—õek <cz035020 at worldonline dot cz>)
 
 2005-06-13:
 - (*) msg_export, Popup Plus, StopSpam, tabSRMM
@@ -3837,7 +3837,7 @@ Historie
 2005-05-25:
 - (*) Weather
   - pridano: [Fair And Windy], [Rain And Sleet], [Light Thunderstorm Rain]
-  a [Light Rain Small Hail] (LubomÌr Jeûek <cz035020 at worldonline dot cz>)
+  a [Light Rain Small Hail] (Lubom–Ωr Je—õek <cz035020 at worldonline dot cz>)
 
 2005-05-24:
 - (*) MetaMultiWin Contact List (0.0.2.37)
@@ -3855,7 +3855,7 @@ Historie
 
 2005-05-23:
 - (*) Weather
-  - pridano: [Thunderstorm], [Am Light Rain] a [Pm Light Rain] (LubomÌr Jeûek
+  - pridano: [Thunderstorm], [Am Light Rain] a [Pm Light Rain] (Lubom–Ωr Je—õek
   <cz035020 at worldonline dot cz>)
 
 2005-05-20:
@@ -3869,8 +3869,8 @@ Historie
   - znovu prelozeny faze mesice (dle informaci z moon.astronomy.cz
   a www.earthsky.com/skywatching/moonphases)
   - [PM Rain], [AM Rain]
-  - pridano: [Waxing Gibbous], [Patches Of Fog] a [Drizzle And Windy] (LubomÌr
-  Jeûek <cz035020 at worldonline dot cz>)
+  - pridano: [Waxing Gibbous], [Patches Of Fog] a [Drizzle And Windy] (Lubom–Ωr
+  Je—õek <cz035020 at worldonline dot cz>)
 
 2005-05-16:
 - (*) Weather
@@ -3902,12 +3902,12 @@ Historie
 
 - (*) Weather
   - pridano: [AM Clouds / PM Sun]
-  - pridano: [Rain to Snow], [Waxing Crescent] (LubomÌr Jeûek <cz035020 at
+  - pridano: [Rain to Snow], [Waxing Crescent] (Lubom–Ωr Je—õek <cz035020 at
   worldonline dot cz>)
 
 2005-05-09:
 - (*) Weather
-  - pridano: [Snow To Rain], [Rain And Snow And Windy] (LubomÌr Jeûek
+  - pridano: [Snow To Rain], [Rain And Snow And Windy] (Lubom–Ωr Je—õek
   <cz035020 at worldonline dot cz>)
 
 2005-05-06:
@@ -3931,7 +3931,7 @@ Historie
 - (*) Weather
   - zmena: Shower/Showers (mnozne cislo)
   - pridano: [Am Rain / Snow Showers], [Moderate], [Light Rain Late], [Light
-  Snow And Windy], [Showers Early] (LubomÌr Jeûek <cz035020 at worldonline dot
+  Snow And Windy], [Showers Early] (Lubom–Ωr Je—õek <cz035020 at worldonline dot
   cz>)
 
 2005-05-05:
@@ -3947,7 +3947,7 @@ Historie
   - pridano: [Sticky Notes], [Alerts], [Reminder Notify]
 
 - (*) Weather
-  - pridano: [Light Rain Showers] (LubomÌr Jeûek <cz035020 at worldonline dot
+  - pridano: [Light Rain Showers] (Lubom–Ωr Je—õek <cz035020 at worldonline dot
   cz>)
 
 2005-05-04:
@@ -3967,7 +3967,7 @@ Historie
   - pridano: [Chance Of Rain], [Pm Showers], [Am Showers], [Chance Of T-Storms],
   [Isolated T-Storms], [Scattered Clouds], [Showers In The Vicinity], [Unknown
   Precipitation], [last updated], [Waning Crescent], [Moderate (3) (UV Intensity
-  )] (LubomÌr Jeûek <cz035020 at worldonline dot cz>)
+  )] (Lubom–Ωr Je—õek <cz035020 at worldonline dot cz>)
 
 2005-04-29:
 - (*) History Linklist (0.1.0.4)
@@ -4143,7 +4143,7 @@ Historie
 
 - (*) nConvers++
   - zmena: Pozn. blok -> Poznamkovy blok
-  - zkracena cast prekladu (DÏlit dlouhÈ zpr·vy (DOPORU»ENO) aj.)
+  - zkracena cast prekladu (D–ºlit dlouh–π zpr–±vy (DOPORU–òENO) aj.)
   - zmena: Ano/Ne: tento kontakt -> Ano/Ne (pro tento kontakt)
 
 2005-04-11:
@@ -5415,7 +5415,7 @@ Historie
 2004-06-02:
 - (*) zmena: globalni
   - vsechny retezce "...you must restart Miranda atd..." prelozeny jako
-  "Pozn·mka: Tato zmÏna vyûaduje restart programu Miranda IM."
+  "Pozn–±mka: Tato zm–ºna vy—õaduje restart programu Miranda IM."
 
 - (*) zmena: doplnek PopUp
   - [Transparent] a [Opaque] oznaceny jako "obsolete"
@@ -5529,13 +5529,13 @@ Historie
 - (*) oprava: doplnek AIM
   - doplneni chybejich casti
 - (*) oprava: doplnek IRC
-  - [%s connection]: Spojeni s %s -> %s - spojenÌ se serverem (Options/Network -> drop-down menu)
+  - [%s connection]: Spojeni s %s -> %s - spojen–Ω se serverem (Options/Network -> drop-down menu)
   - konzistence: Options typu "IRC (rozhrani)" nahrazeno "IRC Rozhrani"; spatne, ale s tim se neda moc co delat
 - (*) oprava: doplnek MSN
   - [Login Server:] -> duplicitni
 - (*) oprava: Miranda
   - [sec] -> sek. (konzistence s prekladem v ruznych doplncich) 
-  - Neupozornovat -> Neoznamovat (p¯Ìliö dlouhe i pro standardni nastaveni Win2k)
+  - Neupozornovat -> Neoznamovat (p—à–Ωli—ô dlouhe i pro standardni nastaveni Win2k)
 
 2004-04-28:
 - (*) globalne: Nepublikovane -> NEPUBLIKOVANE
@@ -5676,10 +5676,10 @@ Historie
 - (*) pokracovani v prekladu doplnku IRC
 
 2003-08-29: 1.9.4
-- (*) [Show]: Zobrazit ikonu -> Zobrazit (problÈm v oknÏ Netlib)
-- (*) dokonËenÌ p¯ekladu modulu database.c
-- (*) dokonËenÌ p¯ekladu doplÚku MSN (0.1.5.3)
-- (*) pokraËov·nÌ v p¯ekladu doplÚku Importu
+- (*) [Show]: Zobrazit ikonu -> Zobrazit (probl–πm v okn–º Netlib)
+- (*) dokon–∏en–Ω p—àekladu modulu database.c
+- (*) dokon–∏en–Ω p—àekladu dopl—Çku MSN (0.1.5.3)
+- (*) pokra–∏ov–±n–Ω v p—àekladu dopl—Çku Importu
 - (+) mezi nepublikovane pridano [Send URL to %s (%s)], [Enter URL:], [Enter description:]
 - (*) pokusne ... [Network]: Sit -> Site (+ veskere navazne texty)
 - (+) pridan castecny preklad doplnku IRC (0.3.4.1)
@@ -5786,7 +5786,7 @@ Historie
 - (*) [Find What:]: Text: -> Najit:
 - (*) aktualizace prekladu doplnku SmileyAdd
   - [Enable smiley select button]: Povolit -> Zobrazit
-  - [Only replace isolated smileys (spaces on both sides)]: -> ZamÏnit jen smajlÌky oddÏlenÈ mezerami z obou stran
+  - [Only replace isolated smileys (spaces on both sides)]: -> Zam–ºnit jen smajl–Ωky odd–ºlen–π mezerami z obou stran
 - (+) pridan preklad doplnku Path (1.0.0.1)
 - (*) aktualizace prekladu doplnku NewStatusNotify (1.1.1.9)
 
@@ -5876,15 +5876,15 @@ Historie
 - (*) zmena prekladu doplnku Autorun
   - klasika, Miranda -> Miranda IM 
 - (*) zmena prekladu doplnku HistorySweeper
-  - P¯i spuötÏnÌ Mirandy odstranit historii -> P¯i spuötÏnÌ odstranit historii
-  - P¯ed ukonËenÌm Mirandy odstranit historii -> P¯ed ukonËenÌm odstranit historii
+  - P—ài spu—ôt–ºn–Ω Mirandy odstranit historii -> P—ài spu—ôt–ºn–Ω odstranit historii
+  - P—àed ukon–∏en–Ωm Mirandy odstranit historii -> P—àed ukon–∏en–Ωm odstranit historii
 - (*) zmena prekladu doplnku Weather
-  - [Brief Information]: Kr·tkÈ informace -> StruËn· p¯edpovÏÔ
-  - [Brief Info]: Kr·tkÈ informace -> Bleskovky
-  - DalöÌ informace: -> DalöÌ informace
-  - Mapa poËasÌ: -> Mapa poËasÌ
-  - Z·znam historie: -> Z·znam historie
-  - ExternÌ z·znam: -> ExternÌ z·znam
+  - [Brief Information]: Kr–±tk–π informace -> Stru–∏n–± p—àedpov–º–ø
+  - [Brief Info]: Kr–±tk–π informace -> Bleskovky
+  - Dal—ô–Ω informace: -> Dal—ô–Ω informace
+  - Mapa po–∏as–Ω: -> Mapa po–∏as–Ω
+  - Z–±znam historie: -> Z–±znam historie
+  - Extern–Ω z–±znam: -> Extern–Ω z–±znam
   - AM <neco> -> <neco> (dop.); totez pro PM
   - [Edit Weather Station] pridano do nepublikovanych
 - (*) aktualizace prekladu na zaklade langpack_english.txt (CVS, 1.107)
@@ -5960,7 +5960,7 @@ Historie
 - (*) aktualizace prekladu na zaklade langpack_english.txt (CVS, 1.91)
 - (+) pridano [Are you sure you want to delete this history item?], [No description given],
   [Delete History] a [You cannot enable/disable ... atd.]
-- (+) [Tool style main window]: Zjednoduöen· titulnÌ liöta; pokud nekdo vi o lepsim
+- (+) [Tool style main window]: Zjednodu—ôen–± tituln–Ω li—ôta; pokud nekdo vi o lepsim
   (standardnim?) prekladu, at se ozve
 - (-) z nepublikovanych odebrano "You cannot enable/disable ... atd."
 - (+) do nepublikovanych pridano [Delete]
@@ -5981,7 +5981,7 @@ Historie
   most likely due to changes in Miranda.]
 - (*) aktualizace prekladu doplnku PopUp (1.0.1.7)
   - pridano [Multiline &popups], [Hey, this is a two lined message!\nCool, isn't it?]
-  - [Set &Font]: V&ybrat pÌsmo -> V&ybrat pÌsmo...
+  - [Set &Font]: V&ybrat p–Ωsmo -> V&ybrat p–Ωsmo...
   - mezi nepublikovane (PopUp) pridano [N/A]; bohuzel koliduje se stejnym retezcem
   v micqbirthday, zatim nereseno
 
@@ -6014,7 +6014,7 @@ Historie
   - odebrany odpovidajici retezce z nepublikovanych
 - (*) aktualizace prekladu doplnku NewStatusNotify (1.1.1.5)
   - pridano [Show &previous status too] (a zaroven odebran z nepublikovanych)
-  - [Notify]: Ozn·menÌ -> Ozn·menÌ zmÏny
+  - [Notify]: Ozn–±men–Ω -> Ozn–±men–Ω zm–ºny
 - (-) odstraneny verze u jednotlivych doplnku z radku "Plugins-included"
   
 2002-12-02: 1.3.2
@@ -6045,17 +6045,17 @@ Historie
 
 - (*) oprava
   - IDD_AUTHREQ: [Authorization Request] -> [Authorization request]
-  - IDD_ADDCONTACT: Odeslat û·dost o autorizaci mezi kontakty -> Odeslat û·dost o autorizaci
+  - IDD_ADDCONTACT: Odeslat —õ–±dost o autorizaci mezi kontakty -> Odeslat —õ–±dost o autorizaci
   - [None]: Jednou -> ---
-  - IDD_ADDED: Nekdo si vas ... -> Zpr·va o za¯azenÌ mezi kontakty
-  - msg_export: Tento uzivatel ... -> Uûivatel, kter˝ si v·s p¯idal mezi kontakty:
+  - IDD_ADDED: Nekdo si vas ... -> Zpr–±va o za—àazen–Ω mezi kontakty
+  - msg_export: Tento uzivatel ... -> U—õivatel, kter—ç si v–±s p—àidal mezi kontakty:
   - notes&reminders: OK -> Splneno, Znovu za: -> Po:
 - (+) do nepublikovanych pridano [&Cancel], [(Unknown)]
 
 2002-10-27: 1.2.2
 
 - (*) oprava
-  - globalne (M->Moûnosti->ICQ->SÌù) -> (M->Moûnosti->SÌù->ICQ)
+  - globalne (M->Mo—õnosti->ICQ->S–Ω—ú) -> (M->Mo—õnosti->S–Ω—ú->ICQ)
   - [Login Server:]: ICQ server: -> Server ICQ:
 
 - (*) zmena prekladu doplnku MSN
@@ -6065,9 +6065,9 @@ Historie
 2002-10-26: 1.2.0
 
 - (*) zmeneno nekolik retezcu doplnku NotesAndReminders
-  - [Sample Text Body]: N·hled textu tÏla -> N·hled textu zpr·vy
-  - [Pick Font for Body]: PÌsmo pro tÏlo... -> PÌsmo pro zpr·vu...
-  - [&Dismiss]: &Dobr· -> &OK
+  - [Sample Text Body]: N–±hled textu t–ºla -> N–±hled textu zpr–±vy
+  - [Pick Font for Body]: P–Ωsmo pro t–ºlo... -> P–Ωsmo pro zpr–±vu...
+  - [&Dismiss]: &Dobr–± -> &OK
   - [After :]: Po: -> Znovu za:
   
 - (+) pridano nekolik nepublikovanych retezcu Mirandy
@@ -6089,9 +6089,9 @@ Historie
   connection alive (send a ping packet every minute)], [Automatically get
   your host for file sending to below], [Your host (or router):]
   - zmeneno:
-    - [Hotmail Notify]: Zpr·vy Hotmailu -> Hotmail
-    - [Hotmail Notify - PopUp Options]: Ozn·menÌ ze serveru Hotmail ->
-    Ozn·menÌ serveru Hotmail
+    - [Hotmail Notify]: Zpr–±vy Hotmailu -> Hotmail
+    - [Hotmail Notify - PopUp Options]: Ozn–±men–Ω ze serveru Hotmail ->
+    Ozn–±men–Ω serveru Hotmail
     - [E-mail: Hotmail]: E-mail: Hotmail -> Hotmail
 
 - (+) pridan preklad pro History Sweeper (0.1.0.3)
@@ -6114,7 +6114,7 @@ Historie
 
 - (*) zmenen preklad v modulu IDD_ICQUPLOADLIST v navaznosti na zmeny,
   ktere prinasi GnuPG
-  - [Options]: Skupiny a seznamy -> Moûnosti
+  - [Options]: Skupiny a seznamy -> Mo—õnosti
   - [Contact]: Spojeni -> Kontakt
 
 2002-10-10: 1.0.0

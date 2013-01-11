@@ -1,8 +1,8 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  MSN Protocol 0.9.47.0                                   |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ;
 
 
@@ -23,76 +23,76 @@ Zobrazit &historii
 
 ; msn_commands.cpp
 [Hotmail from %s]
-Zpráva od: %s
+ZprĞ±va od: %s
 [Subject: %s]
-Pøedmìt: %s
+PÑˆedmĞ¼t: %s
 [A new mail has come from %s (title: %s).]
-Pøišla nová zpráva od: %s (pøedmìt: %s).
+PÑˆiÑ™la novĞ± zprĞ±va od: %s (pÑˆedmĞ¼t: %s).
 [Hotmail from %s (%s)]
-Zpráva od %s (%s)
+ZprĞ±va od %s (%s)
 [A new mail has come from %s (%s) (title: %s).]
-Pøišla nová zpráva od: %s (%s) (pøedmìt: %s).
+PÑˆiÑ™la novĞ± zprĞ±va od: %s (%s) (pÑˆedmĞ¼t: %s).
 [Unread mail is available: %d messages (%d junk e-mails).]
-Máte nepreètenou poštu. Poèet zpráv: %d (z toho spam: %d).
+MĞ±te nepreĞ¸tenou poÑ™tu. PoĞ¸et zprĞ±v: %d (z toho spam: %d).
 [Contact tried to open an audio conference (currently not supported)]
-MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítì MSN.
+MirandaIM zatĞ½m nepodporuje hlasovou konferenci v rĞ±mci sĞ½tĞ¼ MSN.
 [typing...]
-píše zprávu...
+pĞ½Ñ™e zprĞ±vu...
 [Contact left channel]
-Kontakt odešel z kanálu
+Kontakt odeÑ™el z kanĞ±lu
 [This conversation has been inactive, participants will be removed.]
-Tato konverzace byla delší dobu neaktivní, úèastníci budou odpojeni.
+Tato konverzace byla delÑ™Ğ½ dobu neaktivnĞ½, ÑŠĞ¸astnĞ½ci budou odpojeni.
 [To resume the conversation, please quit this session and start a new chat session.]
-Chcete-li v konverzaci pokraèovat, ukonèete tuto relaci a vytvoøte novou.
+Chcete-li v konverzaci pokraĞ¸ovat, ukonĞ¸ete tuto relaci a vytvoÑˆte novou.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-Konverzace probíhá jen s jedním èlovìkem. Chcete pøepnout do klasického komunikaèního okna?
+Konverzace probĞ½hĞ± jen s jednĞ½m Ğ¸lovĞ¼kem. Chcete pÑˆepnout do klasickĞ¹ho komunikaĞ¸nĞ½ho okna?
 [MSN Chat]
 MSN :: diskuse
 [%s (%s) has joined the chat with %s]
-%s (%s) si chce povídat s %s
+%s (%s) si chce povĞ½dat s %s
 [First message delivered]
-Zpráva byla doruèena
+ZprĞ±va byla doruĞ¸ena
 
 ; msn_opts.cpp
 [MSN Protocol]
 Protokol MSN
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Zmìny se projeví a pøi pøíštím pøipojení do sítì MSN Messenger.
+ZmĞ¼ny se projevĞ½ aÑ› pÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆipojenĞ½ do sĞ½tĞ¼ MSN Messenger.
 [The changes you have made require you to restart Miranda IM before they take effect]
-Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+PoznĞ±mka: Tato zmĞ¼na vyÑ›aduje restart programu Miranda IM.
 [A New Hotmail has come!]
-Hotmail: nová zpráva!
+Hotmail: novĞ± zprĞ±va!
 [Test: Arrival Hotmail]
-Test: doruèenı e-mail
+Test: doruĞ¸enÑ e-mail
 
 ; msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
-MirandaIM zatím nepodporuje pøíjem obrázkù v webové kamery.
+MirandaIM zatĞ½m nepodporuje pÑˆĞ½jem obrĞ±zkÑ‰ v webovĞ¹ kamery.
 [Contact tried to view our webcam data (currently not supported)]
-MirandaIM zatím nepodporuje posílání obrázkù z webové kamery.
+MirandaIM zatĞ½m nepodporuje posĞ½lĞ±nĞ½ obrĞ±zkÑ‰ z webovĞ¹ kamery.
 
 ; msn_svcs.cpp
 ;(DUP) [E-mail address]
 [No active chat session is found.]
-Nebyla nalezena ádná aktivní konverzace.
+Nebyla nalezena Ñ›Ğ±dnĞ± aktivnĞ½ konverzace.
 [User is already in the chat session.]
-Danı uivatel se ji pøidal do diskuse.
+DanÑ uÑ›ivatel se jiÑ› pÑˆidal do diskuse.
 [MSN protocol allows only one file to be sent at a time]
-Protokol MSN neumoòuje pøenos více souborù najednou.
+Protokol MSN neumoÑ›Ñ‚uje pÑˆenos vĞ½ce souborÑ‰ najednou.
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Zpráva je pøíliš dlouhá. Protokol MSN umoòuje napsat max. 1202 znakù (v kódování UTF8).
+ZprĞ±va je pÑˆĞ½liÑ™ dlouhĞ±. Protokol MSN umoÑ›Ñ‚uje napsat max. 1202 znakÑ‰ (v kÑƒdovĞ±nĞ½ UTF8).
 [MSN protocol does not support offline messages]
-Protokol MSN nepodporuje posílání zpráv kontaktùm ve stavu offline.
+Protokol MSN nepodporuje posĞ½lĞ±nĞ½ zprĞ±v kontaktÑ‰m ve stavu offline.
 [You must be talking to start Netmeeting]
-Zaènìte mluvit, Netmeeting se spustí automaticky.
+ZaĞ¸nĞ¼te mluvit, Netmeeting se spustĞ½ automaticky.
 [Set &Nickname]
-&Nastavit pøezdívku...
+&Nastavit pÑˆezdĞ½vku...
 [Display Hotmail &Inbox]
-Pøeèíst poštu (sluba Hotma&il)
+PÑˆeĞ¸Ğ½st poÑ™tu (sluÑ›ba Hotma&il)
 [Edit MSN &Profile]
 Upravit &profil
 [View MSN Services &Status]
-&Zjistit stav slueb
+&Zjistit stav sluÑ›eb
 [Set &Avatar]
 Nastavit &avatar
 [&Block]
@@ -108,71 +108,71 @@ Zobrazit profi&l
 
 ; msn_useropts.cpp
 [Your png2dib.dll is either obsolete or damaged. Press Ok to download the latest version]
-Doplnìk png2dib.dll chybí nebo je poškozenı. Poslední verzi stáhnete kliknutím na tlaèítko OK.
+DoplnĞ¼k png2dib.dll chybĞ½ nebo je poÑ™kozenÑ. PoslednĞ½ verzi stĞ±hnete kliknutĞ½m na tlaĞ¸Ğ½tko OK.
 ;(DUP) [Error]
 ;(DUP) [Avatar]
 
 ; msn.rc
 [Create a new MSN messenger account using the MSN website]
-Zøídit novı úèet prostøednictvím domovské stránky MSN
+ZÑˆĞ½dit novÑ ÑŠĞ¸et prostÑˆednictvĞ½m domovskĞ¹ strĞ±nky MSN
 [Disable main menu]
-Vypnout poloku menu
+Vypnout poloÑ›ku menu
 [Send message font color/size info inside messages]
-Ke zprávì pøidat informaci o barvì a velikosti písma
+Ke zprĞ±vĞ¼ pÑˆidat informaci o barvĞ¼ a velikosti pĞ½sma
 [Disable all contacts not included into my contact list]
-Vypnout všechny kontakty neuvedené v aktuálním seznamu
+Vypnout vÑ™echny kontakty neuvedenĞ¹ v aktuĞ±lnĞ½m seznamu
 [Never update your nickname from server]
-Neaktualizovat pøezdívku ze serveru
+Neaktualizovat pÑˆezdĞ½vku ze serveru
 [Treat Away status as 'Be Right Back']
-Povaovat stav 'Pryè' za 'Za chvíli zpìt'
+PovaÑ›ovat stav 'PryĞ¸' za 'Za chvĞ½li zpĞ¼t'
 [Manage server groups]
-Zapnout správu skupin na serveru
+Zapnout sprĞ±vu skupin na serveru
 [Run the following application when new Hotmail arrives]
-Spustit vybranou aplikaci (po pøíchodu nové pošty)
+Spustit vybranou aplikaci (po pÑˆĞ½chodu novĞ¹ poÑ™ty)
 [Enable avatars]
 Aktivovat avatary
 [Use HTTP gateway mode (incompatible with MSN Gateway plugin)]
-Pouít bránu HTTP (není kompatibilní s doplòkem MSN Gateway)
+PouÑ›Ğ½t brĞ±nu HTTP (nenĞ½ kompatibilnĞ½ s doplÑ‚kem MSN Gateway)
 [Use IE proxy settings]
-Pouít nastavení proxy ze systému (dle IE)
+PouÑ›Ğ½t nastavenĞ½ proxy ze systĞ¹mu (dle IE)
 [Keep connection alive (send a ping packet every minute)]
-Udrovat spojení (posíláním prázdného paketu kadou minutu)
+UdrÑ›ovat spojenĞ½ (posĞ½lĞ±nĞ½m prĞ±zdnĞ¹ho paketu kaÑ›dou minutu)
 ;(DUP) [Notify me when a message delivery has failed]
 [Use MSN Messenger 7 protocol]
-Pouít protokol programu MSN Messenger 7
+PouÑ›Ğ½t protokol programu MSN Messenger 7
 [Use OpenSSL encryption (requires LIBSSL32.DLL)]
-Šifrovat komunikaci (vyaduje knihovnu LIBSSL32.DLL)
+Ğ‰ifrovat komunikaci (vyÑ›aduje knihovnu LIBSSL32.DLL)
 [Automatically obtain host/port for incoming file transfers]
-Automaticky zjistit adresu a port pro pøenos pøíchozích souborù
+Automaticky zjistit adresu a port pro pÑˆenos pÑˆĞ½chozĞ½ch souborÑ‰
 [&Use Windows colours]
-Po&uít barvy Windows
+Po&uÑ›Ğ½t barvy Windows
 [Disable receiving Hotmail notifications]
-Vypnout upozornìní na nové zprávy ze serveru Hotmail
+Vypnout upozornĞ¼nĞ½ na novĞ¹ zprĞ±vy ze serveru Hotmail
 [Ignore new messages in 'Junk Mail' folder only (at startup)]
-Ignorovat nové zprávy ze sloky 'Junk Mail' (pøi spuštìní)
+Ignorovat novĞ¹ zprĞ±vy ze sloÑ›ky 'Junk Mail' (pÑˆi spuÑ™tĞ¼nĞ½)
 [Display popups when user is typing]
-Zobrazit upozornìní na psaní zprávy
+Zobrazit upozornĞ¼nĞ½ na psanĞ½ zprĞ±vy
 [Display errors using popups]
-Zobrazit chybová hlášení jako oznámení
+Zobrazit chybovĞ± hlĞ±Ñ™enĞ½ jako oznĞ±menĞ½
 [Enable 'First message delivered' popup]
-Zapnout oznámení typu 'Pøišla první zpráva'
+Zapnout oznĞ±menĞ½ typu 'PÑˆiÑ™la prvnĞ½ zprĞ±va'
 [Enable 'User left channel' popup]
-Zapnout oznámení typu 'Odchod z kanálu'
+Zapnout oznĞ±menĞ½ typu 'Odchod z kanĞ±lu'
 [Enable 'Custom Smiley' popup]
-Zapnout oznámení typu 'Speciální smajlík'
+Zapnout oznĞ±menĞ½ typu 'SpeciĞ±lnĞ½ smajlĞ½k'
 [Enable nudge]
 Povolit drc-drc
 [Treat nudge as message]
-Povaovat drc-drc za zprávu
+PovaÑ›ovat drc-drc za zprĞ±vu
 ;(DUP) [Show popup]
 [Shake the clist window]
-Zatøást seznamem kontaktù
+ZatÑˆĞ±st seznamem kontaktÑ‰
 [Shake the chat window]
-Zatøást komunikaèním oknem
+ZatÑˆĞ±st komunikaĞ¸nĞ½m oknem
 [Play a sound]
-Pøehrát zvuk
+PÑˆehrĞ±t zvuk
 [Previe&w]
-&Náhled
+&NĞ±hled
 ;(DUP) [OK]
 ;(DUP) [Set]
 ;(DUP) [Delete]
@@ -185,9 +185,9 @@ Pøehrát zvuk
 Server:
 ;(DUP) [Port:]
 [Your host (or router):]
-Poèítaè (nebo brána):
+PoĞ¸Ğ½taĞ¸ (nebo brĞ±na):
 [Background colour]
-Barva pozadí
+Barva pozadĞ½
 [Text colour]
 Barva textu
 [Timeout (*)]
@@ -195,29 +195,29 @@ Prodleva (*)
 [sec.]
 sek.
 [(*) Timeouts require Popup v. 1.0.1.9 or later]
-(*) Tato funkce vyaduje doplnìk typu Popup
+(*) Tato funkce vyÑ›aduje doplnĞ¼k typu Popup
 [Running on a mobile device]
-mobilní zaøízení
+mobilnĞ½ zaÑˆĞ½zenĞ½
 [Running on a MSN mobile device]
-mobilní zaøízení (Microsoft)
+mobilnĞ½ zaÑˆĞ½zenĞ½ (Microsoft)
 [Using MSN Webmessenger]
-webová aplikace MSN
+webovĞ± aplikace MSN
 [To enable the avatar support, you must obtain the valid copy of the png2dib.dll. Choose one of the following:]
-Podpora pro avatary vyaduje externí knihovnu png2dib.dll. Vyberte jednu z následujících moností:
+Podpora pro avatary vyÑ›aduje externĞ½ knihovnu png2dib.dll. Vyberte jednu z nĞ±sledujĞ½cĞ½ch moÑ›nostĞ½:
 [[Install] - install a png2lib plugin using Miranda Installer]
-[Nainstalovat] - nainstaluje png2dib.dll pomocí programu Miranda Installer
+[Nainstalovat] - nainstaluje png2dib.dll pomocĞ½ programu Miranda Installer
 [[Download] - manually download a zipped DLL and then unzip it to the plugins folder]
-[Stáhnout] - ruèní stáhnutí pøíslušného archívu; poté je tøeba ho rozbalit a png2dib.dll zkopírovat do sloky Plugins
+[StĞ±hnout] - ruĞ¸nĞ½ stĞ±hnutĞ½ pÑˆĞ½sluÑ™nĞ¹ho archĞ½vu; potĞ¹ je tÑˆeba ho rozbalit a png2dib.dll zkopĞ½rovat do sloÑ›ky Plugins
 [[Cancel] - disable the avatar support]
-[Zrušit] - deaktivuje podporu avatarù
+[ZruÑ™it] - deaktivuje podporu avatarÑ‰
 [Contact is included into your server list]
-Kontakt je umístìn v seznamu na serveru
+Kontakt je umĞ½stĞ¼n v seznamu na serveru
 [Somebody included you in his/her server list]
-Kontakt vás má umístìn ve svém seznamu na serveru
+Kontakt vĞ±s mĞ± umĞ½stĞ¼n ve svĞ¹m seznamu na serveru
 [Allowed (active) contact]
-Povolenı kontakt
+PovolenÑ kontakt
 [Blocked contact]
-Zablokovanı kontakt
+ZablokovanÑ kontakt
 [Full e-mail:]
 E-mail:
 ;(DUP) [Password:]
@@ -227,251 +227,251 @@ MSN
 ;(DUP) [Expert]
 ;(DUP) [Connection settings]
 [Incoming file transfers]
-Pøenos pøíchozích souborù
+PÑˆenos pÑˆĞ½chozĞ½ch souborÑ‰
 [Colours]
 Barvy
 ;(DUP) [Other]
 [Server List Manager]
-Správa kontaktù na serveru
+SprĞ±va kontaktÑ‰ na serveru
 [MSN Extras]
-Doplòky MSN
+DoplÑ‚ky MSN
 [Set Nickname]
-Nastavit pøezdívku
+Nastavit pÑˆezdĞ½vku
 [png2lib download]
-Stáhnutí knihovny png2dib
+StĞ±hnutĞ½ knihovny png2dib
 
-; NEPUBLIKOVANÉ
+; NEPUBLIKOVANĞ™
 [MSN Options]
-MSN - monosti
+MSN - moÑ›nosti
 
 [Avatars]
 Avatary
 
 [Valid SSLEAY32.DLL must be installed to perform the SSL login]
-Šifrované pøihlášení k síti MSN vyaduje knihovnu SSLEAY32.DLL.
+Ğ‰ifrovanĞ¹ pÑˆihlĞ±Ñ™enĞ½ k sĞ½ti MSN vyÑ›aduje knihovnu SSLEAY32.DLL.
 
 [You cannot add yourself to the contact list]
-Sebe sama mezi kontakty pøidat nemùete.
+Sebe sama mezi kontakty pÑˆidat nemÑ‰Ñ›ete.
 
 [Server list]
 Seznamy
 [Account]
-Úèet
+ĞªĞ¸et
 [Connection]
-Spojení
+SpojenĞ½
 
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Obrázky ve formátu PNG vyadují doplnìk png2dib 0.1.3.x nebo novìjší.
+ObrĞ±zky ve formĞ±tu PNG vyÑ›adujĞ½ doplnĞ¼k png2dib 0.1.3.x nebo novĞ¼jÑ™Ğ½.
 
 [%s plugin connections]
-%s - spojení se serverem
+%s - spojenĞ½ se serverem
 
 ; Errors
 [Attempt to make the SSL connection resulted to error %d: %s.]
-Chyba pøi pokusu o navázání zabezpeèeného spojení (Chyba è.%d: %s).
+Chyba pÑˆi pokusu o navĞ±zĞ±nĞ½ zabezpeĞ¸enĞ¹ho spojenĞ½ (Chyba Ğ¸.%d: %s).
 [Cannot start the file transfer: no free sockets. Error %d: %s.]
-Chyba pøi inicializaci pøenosu souboru (není volnı soket, chyba è.%d: %s).
+Chyba pÑˆi inicializaci pÑˆenosu souboru (nenĞ½ volnÑ soket, chyba Ğ¸.%d: %s).
 [Cannot start the file transfer due to the lack of free sockets.]
-Chyba pøi inicializaci pøenosu souboru (není volnı soket).
+Chyba pÑˆi inicializaci pÑˆenosu souboru (nenĞ½ volnÑ soket).
 [Cannot start the file transfer: cannot listen on a socket. Error %d: %s.]
-Chyba pøi inicializaci pøenosu souboru (nelze pøijímat data, chyba è.%d: %s).
+Chyba pÑˆi inicializaci pÑˆenosu souboru (nelze pÑˆijĞ½mat data, chyba Ğ¸.%d: %s).
 [file transfer is canceled by remote host]
-pøenos souboru pøerušen druhou stranou
+pÑˆenos souboru pÑˆeruÑ™en druhou stranou
 [file transfer: time out occurred]
-pøenos souboru: vypršel èas
+pÑˆenos souboru: vyprÑ™el Ğ¸as
 [Internet Explorer is in the 'Offline' mode. Switch IE to the 'Online' mode and then try to relogin]
-Internet Explorer je v reimu Offline. Pøepnìte IE do reimu Online a zkuste akci zopakovat.
+Internet Explorer je v reÑ›imu Offline. PÑˆepnĞ¼te IE do reÑ›imu Online a zkuste akci zopakovat.
 [MSN plugin cannot add a new contact because the contact list is full]
-Další kontakt nelze pøidat. Seznam kontaktù je zaplnìn.
+DalÑ™Ğ½ kontakt nelze pÑˆidat. Seznam kontaktÑ‰ je zaplnĞ¼n.
 [MSN protocol does not allow you to communicate with others when you are invisible]
-Protokol MSN neumoòuje komunikovat s ostatními tehdy, jste-li ve stavu 'Neviditelnı'
+Protokol MSN neumoÑ›Ñ‚uje komunikovat s ostatnĞ½mi tehdy, jste-li ve stavu 'NeviditelnÑ'
 [MSN Services are temporarily unavailable, please try to connect later]
-Sluby portálu MSN nejsou doèasnì k dispozici. Zkuste to znovu pozdìji.
+SluÑ›by portĞ±lu MSN nejsou doĞ¸asnĞ¼ k dispozici. Zkuste to znovu pozdĞ¼ji.
 [Server has requested an unknown protocol set (%s)]
-Server vyaduje neznámou verzi protokolu (%s).
+Server vyÑ›aduje neznĞ±mou verzi protokolu (%s).
 [Unknown or invalid host name was specified (%s). Error %d: %s]
-Neznámı nebo neplatnı hostitel (%s). Chyba è.%d: %s
+NeznĞ±mÑ nebo neplatnÑ hostitel (%s). Chyba Ğ¸.%d: %s
 [Unprocessed error: %s]
-Neznámá chyba: %s
+NeznĞ±mĞ± chyba: %s
 [Unrecognised error %d. The server has closed our connection]
-Neznámá chyba (è.%d). Server pøerušil spojení.
+NeznĞ±mĞ± chyba (Ğ¸.%d). Server pÑˆeruÑ™il spojenĞ½.
 [User is already in your contact list]
-Tento uivatel u v seznamu kontaktù je
+Tento uÑ›ivatel uÑ› v seznamu kontaktÑ‰ je
 [You must specify your e-mail in Options/Network/MSN]
-Zadejte prosím svùj e-mail (viz Monosti/Sí/MSN)
+Zadejte prosĞ½m svÑ‰j e-mail (viz MoÑ›nosti/SĞ½Ñœ/MSN)
 [Your username or password is incorrect]
-Uivatelské jméno nebo heslo je neplatné
+UÑ›ivatelskĞ¹ jmĞ¹no nebo heslo je neplatnĞ¹
 [Your MSN account e-mail is unverified. Goto http://www.passport.com and verify the primary e-mail first]
-Váš úèet na portálu MSN není ovìøenı. Pøejdìte na http://www.passport.com a ovìøte svùj primární e-mail.
+VĞ±Ñ™ ÑŠĞ¸et na portĞ±lu MSN nenĞ½ ovĞ¼ÑˆenÑ. PÑˆejdĞ¼te na http://www.passport.com a ovĞ¼Ñˆte svÑ‰j primĞ±rnĞ½ e-mail.
 [MSN Services are too busy, please try to connect later]
-Sluby portálu MSN jsou pøetíené. Zkuste to znovu pozdìji.
+SluÑ›by portĞ±lu MSN jsou pÑˆetĞ½Ñ›enĞ¹. Zkuste to znovu pozdĞ¼ji.
 
 [&Unblock]
 Od&blokovat
 
 [Hotmail Inbox]
-Schránka Hotmail
+SchrĞ±nka Hotmail
 [MSN Services]
-Sluby MSN
+SluÑ›by MSN
 [Set Avatar]
 Definovat avatar
 [Block user]
-Zablokovat uivatele
+Zablokovat uÑ›ivatele
 [Invite to chat]
 Pozvat k diskusi
 [Start Netmeeting]
 Spustit Netmeeting
 [Contact list]
-Seznam kontaktù
+Seznam kontaktÑ‰
 [Allowed list]
-Seznam povolenıch
+Seznam povolenÑch
 [Blocked list]
-Seznam zablokovanıch
+Seznam zablokovanÑch
 [Relative list]
 Seznam protistrany
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Import skupin ze serveru mùe pøi pøíštím pøihlášení ovlivnit seznam\nkontaktù. Opravdu chcete zapnout správu skupin na serveru?
+Import skupin ze serveru mÑ‰Ñ›e pÑˆi pÑˆĞ½Ñ™tĞ½m pÑˆihlĞ±Ñ™enĞ½ ovlivnit seznam\nkontaktÑ‰. Opravdu chcete zapnout sprĞ±vu skupin na serveru?
 
 ; Description
 [Adds support for communicating with users of the MSN Messenger network]
-Implementace protokolu MSN. Umoòuje komunikaci s uivateli této sítì.
+Implementace protokolu MSN. UmoÑ›Ñ‚uje komunikaci s uÑ›ivateli tĞ¹to sĞ½tĞ¼.
 
 ; Popup
 [Valid %s must be installed to perform the SSL login]
-Zabezpeèené pøihlášení do sítì MSN vyaduje knihovnu %s.
+ZabezpeĞ¸enĞ¹ pÑˆihlĞ±Ñ™enĞ½ do sĞ½tĞ¼ MSN vyÑ›aduje knihovnu %s.
 [Unable to contact MS Passport servers check proxy/firewall settings]
-Nelze navázat spojení se servery MS Passport. Zkontrolujte nastavení proxy a firewallu.
+Nelze navĞ±zat spojenĞ½ se servery MS Passport. Zkontrolujte nastavenĞ½ proxy a firewallu.
 [Chat session established by contact request]
-Spojení navázáno (ádost protistrany)
+SpojenĞ½ navĞ±zĞ±no (Ñ›Ğ±dost protistrany)
 [Chat session established by my request]
-Spojení navázáno (vlastní ádost)
+SpojenĞ½ navĞ±zĞ±no (vlastnĞ½ Ñ›Ğ±dost)
 [Chat session established]
-Spojení navázáno
+SpojenĞ½ navĞ±zĞ±no
 [vasya.pupkin@hotmail.com]
 jouda.joudovic@hotmail.com
 [Chat session dropped due to inactivity]
-Spojení ukonèeno (neaktivní)
+SpojenĞ½ ukonĞ¸eno (neaktivnĞ½)
 
 ; Menu
 [My MSN &Space]
-Vlastní prostor (sluba &Spaces)
+VlastnĞ½ prostor (sluÑ›ba &Spaces)
 
 ; Network / MSN / Account
 [Allow people on my contact list send messages to mobile device]
-Lidem ze seznamu kontaktù povolit posílání zpráv na mobil
+Lidem ze seznamu kontaktÑ‰ povolit posĞ½lĞ±nĞ½ zprĞ±v na mobil
 ; Network / MSN / Connection
 [Use OpenSSL (requires LIBEAY32.DLL) ]
-Šifrovat komunikaci (vyaduje knihovnu LIBEAY32.DLL)
+Ğ‰ifrovat komunikaci (vyÑ›aduje knihovnu LIBEAY32.DLL)
 [Automatically obtain host/port]
 Automaticky zjistit kombinaci hostitel/port
 [Manually specify host/port]
-Ruènì zadat kombinaci hostitel/port
+RuĞ¸nĞ¼ zadat kombinaci hostitel/port
 ; Network / MSN / Notification
 [Enable 'Contact left channel' popup]
-Zapnout oznámení typu 'Odchod z kanálu'
+Zapnout oznĞ±menĞ½ typu 'Odchod z kanĞ±lu'
 [Enable 'Chat Session Established' popup]
-Zapnout oznámení typu 'Spojení navázáno'
+Zapnout oznĞ±menĞ½ typu 'SpojenĞ½ navĞ±zĞ±no'
 
 [Chat #]
-Diskuse è.
+Diskuse Ğ¸.
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Pøíliš dlouhá zpráva: Max. poèet znakù je 133 (s diakritikou)
+PÑˆĞ½liÑ™ dlouhĞ± zprĞ±va: Max. poĞ¸et znakÑ‰ je 133 (s diakritikou)
 [Offline messages could not be sent to this contact]
-Vybranému kontaktu nelze poslat zprávu ve stavu offline
+VybranĞ¹mu kontaktu nelze poslat zprĞ±vu ve stavu offline
 [You are not allowed to send offline messages to this user]
-Vybranı kontakt vám neumonil poslat zprávu ve stavu offline
+VybranÑ kontakt vĞ±m neumoÑ›nil poslat zprĞ±vu ve stavu offline
 [You cannot send message to yourself]
-Nemùete poslat zprávu sami sobì.
+NemÑ‰Ñ›ete poslat zprĞ±vu sami sobĞ¼.
 [You sent too many offline messages and have been locked out]
-Pøekroèili jste max. poèet zpráv odeslanıch kontaktùm offline.
+PÑˆekroĞ¸ili jste max. poĞ¸et zprĞ±v odeslanÑch kontaktÑ‰m offline.
 
 [Live Alert]
-Upozornìní (Live)
+UpozornĞ¼nĞ½ (Live)
 [Live Mail]
-Nová pošta (Live)
+NovĞ± poÑ™ta (Live)
 
 [(SSL through Internet Explrer is used when unchecked)]
-(ve vıchozím stavu je spojení zabezpeèeno pomocí IE)
+(ve vÑchozĞ½m stavu je spojenĞ½ zabezpeĞ¸eno pomocĞ½ IE)
 
-; kompatibilita s øadou 0.7.x
+; kompatibilita s Ñˆadou 0.7.x
 [Use OpenSSL encryption (requires LIBEAY32.DLL)]
-Šifrovat komunikaci (vyaduje knihovnu LIBEAY32.DLL)
+Ğ‰ifrovat komunikaci (vyÑ›aduje knihovnu LIBEAY32.DLL)
 
 [Create a new Windows Live account]
-Zøídit novı úèet v síti Windows Live
+ZÑˆĞ½dit novÑ ÑŠĞ¸et v sĞ½ti Windows Live
 [Live ID:]
-Identifikátor:
+IdentifikĞ±tor:
 
 [Live ID]
-Identifikátor
+IdentifikĞ±tor
 
 [My Live &Space]
-Pøejít na Live &Space
+PÑˆejĞ½t na Live &Space
 [Setup Live &Alerts]
-N&astavit upozornìní
+N&astavit upozornĞ¼nĞ½
 
 [%s plugin HTTPS connections]
-%s - spojení pomocí protokolu HTTPS
+%s - spojenĞ½ pomocĞ½ protokolu HTTPS
 [Disable Popup notifications]
-Vypnout standardní upozornìní
+Vypnout standardnĞ½ upozornĞ¼nĞ½
 [Disable Contact List notifications]
-Vypnout upozornìní ze seznamu kontatkù
+Vypnout upozornĞ¼nĞ½ ze seznamu kontatkÑ‰
 [Disable Tray notifications]
-Vypnout upozornìní z oblasti oznámení
+Vypnout upozornĞ¼nĞ½ z oblasti oznĞ±menĞ½
 [Ignore new messages not in Inbox folder]
-Ignorovat nové zprávy z jiné sloky ne Doruèená pošta
+Ignorovat novĞ¹ zprĞ±vy z jinĞ¹ sloÑ›ky neÑ› DoruĞ¸enĞ± poÑ™ta
 [Display &Hotmail Inbox]
-Pøeèíst poštu &Hotmail
+PÑˆeĞ¸Ğ½st poÑ™tu &Hotmail
 [Your avatar not set correctly. Avatar should be set in View/Change My Details | Avatar]
-Avatar není správnì nastavenı. V hlavní nabídce pøejdìte na poloku Informace o sobì a kliknìte na funkci Nastavit avatar.
+Avatar nenĞ½ sprĞ±vnĞ¼ nastavenÑ. V hlavnĞ½ nabĞ½dce pÑˆejdĞ¼te na poloÑ›ku Informace o sobĞ¼ a kliknĞ¼te na funkci Nastavit avatar.
 [Send &Hotmail E-mail]
-E-mail pøes &Hotmail
+E-mail pÑˆes &Hotmail
 [View Live &Space]
 Zobrazit Live &Space
 
 [<nothing playing>]
 <hudba nehraje>
 
-; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+; dodal Robyer <robyer (zavinĞ±Ğ¸) seznam (teĞ¸ka) cz>
 [Contact is on your local list]
-Kontakt je ve vašem lokálním seznamu
+Kontakt je ve vaÑ™em lokĞ±lnĞ½m seznamu
 
 [Open &Hotmail Inbox]
-Pøeèíst poštu &Hotmail
+PÑˆeĞ¸Ğ½st poÑ™tu &Hotmail
 
 [Unread mail is available: %d messages (%d junk e-mails).]
-Máte nepreètenou poštu. Poèet zpráv: %d (z toho spam: %d).
+MĞ±te nepreĞ¸tenou poÑ™tu. PoĞ¸et zprĞ±v: %d (z toho spam: %d).
 [Unread mail is available: %d in Inbox and %d in other folders).]
-Máte nepreètenou poštu. Pøíchozí: %d, ostatní: %d.
+MĞ±te nepreĞ¸tenou poÑ™tu. PÑˆĞ½chozĞ½: %d, ostatnĞ½: %d.
 [Hotmail from %S]
-Zpráva od: %S
+ZprĞ±va od: %S
 [Subject: %S]
-Pøedmìt: %S
+PÑˆedmĞ¼t: %S
 [Hotmail from %S (%s)]
-Zpráva od %S (%s)
+ZprĞ±va od %S (%s)
 [Hotmail from %s (%S)]
-Zpráva od %s (%S)
+ZprĞ±va od %s (%S)
 
 [Direct:]
-Pøímé:
+PÑˆĞ½mĞ¹:
 [Gateway:]
-Brána:
+BrĞ±na:
 
 [Create &Chat]
-Zaèít &diskusi
+ZaĞ¸Ğ½t &diskusi
 [Invite Contact To Chat]
 Pozvat k diskusi
 [Place:]
-Místo:
+MĞ½sto:
 
 [MSN_Error]
 MSN: Chyba
 [MSN_Hotmail]
 MSN: Hotmail
 [MSN_Notify]
-MSN: Upozornìní
+MSN: UpozornĞ¼nĞ½
 
 [Local list]
-Lokální seznam
+LokĞ±lnĞ½ seznam
 
 ; ---

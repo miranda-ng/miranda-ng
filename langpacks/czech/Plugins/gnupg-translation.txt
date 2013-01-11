@@ -1,113 +1,113 @@
-; /----------------------------------------------------------\
+ï»¿; /----------------------------------------------------------\
 ; |  GnuPG 0.0.0.3                                           |
 ; \----------------------------------------------------------/
 ;
-; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; PÑˆeklad: VĞ½t Ğ‰indlĞ±Ñˆ <sindlarv (zavinĞ±Ğ¸) centrum (teĞ¸ka) cz>
 ; Adresa: 
 ;
 
 [Please verify your settings in M->Options->Plugins->GnuPG and GnuPG Advanced.]
-Zkontrolujte prosím nastavení GnuPG (M->Monosti->Doplòky->GnuPG a GnuPG (upøesnìní)).
+Zkontrolujte prosĞ½m nastavenĞ½ GnuPG (M->MoÑ›nosti->DoplÑ‚ky->GnuPG a GnuPG (upÑˆesnĞ¼nĞ½)).
 [The GnuPG Plugin requires the GnuPG executable \"gpg.exe\".]
-Doplnìk GnuPG vyaduje spustitelnı soubor \"gpg.exe\".
+DoplnĞ¼k GnuPG vyÑ›aduje spustitelnÑ soubor \"gpg.exe\".
 [Could not obtain the GnuPG user id.]
-Nelze zjistit informace o uivateli GnuPG.
+Nelze zjistit informace o uÑ›ivateli GnuPG.
 [The export of your public key failed.]
-Chyba pøi exportování veøejného klíèe.
+Chyba pÑˆi exportovĞ±nĞ½ veÑˆejnĞ¹ho klĞ½Ğ¸e.
 [The import of the key failed.]
-Chyba pøi importování klíèe.
+Chyba pÑˆi importovĞ±nĞ½ klĞ½Ğ¸e.
 [Could not generate a list of the public GnuPG keys.]
-Nelze vygenerovat seznam veøejnıch klíèù.
+Nelze vygenerovat seznam veÑˆejnÑch klĞ½Ğ¸Ñ‰.
 [Could not generate a list of the secret GnuPG keys.]
-Nelze vygenerovat seznam privátních klíèù.
+Nelze vygenerovat seznam privĞ±tnĞ½ch klĞ½Ğ¸Ñ‰.
 ;(DUP) [Plugins]
 [GnuPG Plugin]
 GnuPG
 [Select GnuPG Executable]
 Vyberte gpg.exe
 [GnuPG Plugin - Warning]
-Doplnìk GnuPG - upozornìní
+DoplnĞ¼k GnuPG - upozornĞ¼nĞ½
 [GnuPG Plugin - Error]
-Doplnìk GnuPG - chyba
+DoplnĞ¼k GnuPG - chyba
 ;(DUP) [<none>]
 [Use GnuPG Encryption]
-Šifrovat pomocí GnuPG
+Ğ‰ifrovat pomocĞ½ GnuPG
 [Send GnuPG Key]
-Poslat GnuPG klíè
+Poslat GnuPG klĞ½Ğ¸
 [You received a public key.]
-Obdreli jste veøejnı klíè.
+ObdrÑ›eli jste veÑˆejnÑ klĞ½Ğ¸.
 [You received a public key. It was added to your keyring.]
-Obdrenı veøejnı klíè byl automaticky pøidán do seznamu.
+ObdrÑ›enÑ veÑˆejnÑ klĞ½Ğ¸ byl automaticky pÑˆidĞ±n do seznamu.
 [You received an encrypted message. Could not detect the user id of the public key, used to encrypt it.]
-Obdreli jste zašifrovanou zprávu, ale nelze zjistit kım byla zašifrována.
+ObdrÑ›eli jste zaÑ™ifrovanou zprĞ±vu, ale nelze zjistit kÑm byla zaÑ™ifrovĞ±na.
 [Unknown User ID]
-Informace o uivateli neuvedena
+Informace o uÑ›ivateli neuvedena
 [Could not encrypt the message. It wasn't sent.]
-Zprávu nelze zašifrovat a tedy ani odeslat.
+ZprĞ±vu nelze zaÑ™ifrovat a tedy ani odeslat.
 [GnuPG]
 GnuPG
 [GnuPG Advanced]
-GnuPG (upøesnìní)
+GnuPG (upÑˆesnĞ¼nĞ½)
 ;(DUP) [Contact]
 [Key and User ID]
-Klíè a informace o uivateli
+KlĞ½Ğ¸ a informace o uÑ›ivateli
 [User ID:]
-Uivatel:
+UÑ›ivatel:
 [Key ID:]
-Èíslo klíèe:
+Ğ˜Ğ½slo klĞ½Ğ¸e:
 [Key received:]
-Obdren dne:
+ObdrÑ›en dne:
 [&Import]
 &Importovat
 [GnuPG Plugin - Passphrase]
-Doplnìk GnuPG - heslo
+DoplnĞ¼k GnuPG - heslo
 ;(DUP) [Ok]
 ;(DUP) [Cancel]
 [Enter passphrase for the secret key of user:]
-Zadejte heslo pro privatní klíè uivatele
+Zadejte heslo pro privatnĞ½ klĞ½Ğ¸ uÑ›ivatele
 ;(DUP) [User ID]
 [Basic]
-Obecné
+ObecnĞ¹
 [Executable:]
 Program gpg.exe:
 [Home Directory:]
-Dom. adresáø:
+Dom. adresĞ±Ñˆ:
 [Key Assignment]
-Pøiøazení klíèù
+PÑˆiÑˆazenĞ½ klĞ½Ğ¸Ñ‰
 [Your Key]
-Vlastní klíè
+VlastnĞ½ klĞ½Ğ¸
 ;(DUP) [&Refresh]
 [Contact Key]
-Klíè kontaktu
+KlĞ½Ğ¸ kontaktu
 [R&efresh]
 A&ktualizovat
 ;(DUP) [Options]
 [Store Passphrases Temporary]
-Hesla doèasnì zapamatovat
+Hesla doĞ¸asnĞ¼ zapamatovat
 [Import Public Keys Automatically]
-Veø. klíèe importovat automaticky
+VeÑˆ. klĞ½Ğ¸e importovat automaticky
 [Tags]
-Oznaèení zprávy
+OznaĞ¸enĞ½ zprĞ±vy
 [Start Tag]
-Záhlaví
+ZĞ±hlavĞ½
 [End Tag]
-Zápatí
+ZĞ±patĞ½
 [Commandline Arguments]
-Argumenty pøíkazového øádku
+Argumenty pÑˆĞ½kazovĞ¹ho ÑˆĞ±dku
 [List Public Keys:]
-Vıpis veø. klíèù:
+VÑpis veÑˆ. klĞ½Ğ¸Ñ‰:
 [List Secret Keys:]
-Vıpis priv. klíèù
+VÑpis priv. klĞ½Ğ¸Ñ‰
 [Import Public Key:]
-Import veø. klíèe:
+Import veÑˆ. klĞ½Ğ¸e:
 [Export Public Key:]
-Export veø. klíèe:
+Export veÑˆ. klĞ½Ğ¸e:
 [Detect User ID:]
-Zjištìní uiv.:
+ZjiÑ™tĞ¼nĞ½ uÑ›iv.:
 [Encrypt:]
-Šifrování:
+Ğ‰ifrovĞ±nĞ½:
 [Decrypt:]
-Dešifrování:
+DeÑ™ifrovĞ±nĞ½:
 [&Reset]
 O&bnovit
 
