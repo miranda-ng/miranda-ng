@@ -1,0 +1,592 @@
+#muuid {6b612a34-dcf2-4e32-85cf-b6fd006b745e}
+;============================================================
+;  File: Weather.dll
+;  Plugin: Weather
+;  Version: 0.4.0.1
+;  Authors: Miranda NG Team
+;============================================================
+[Retrieves weather information and displays it in your contact list.]
+;file \plugins\Weather\res\resource.rc
+[Update]
+Aktualizovat
+[Brief Info]
+Struèná pø.
+[Webpage]
+-> WWW
+[Close]
+Zavøít
+[Options]
+[Update weather information on startup]
+Pøi spuštìní zaktualizovat informace o poèasí
+[Update weather information every]
+Aktualizovat stav poèasí kadıch
+[minutes]
+min.
+[Consider weather info updated only when condition and temperature are changed]
+Povaovat informace o poèasí za aktualizované pouze zmìní-li se stav i teplota
+[Remove old data when updating]
+Pøi aktualizaci odstranit stará data
+[Make the contact italic when weather alert is issued]
+Zobrazit kurzívou stanici s otevøenımi informacemi o poèasí
+[Modes]
+Reimy
+[Use weather condition as protocol status]
+Zobrazit aktuální situaci jako stav protokolu
+[Avatar only mode]
+Zobrazit pouze avatary (symboly stavu poèasí)
+[Units]
+Jednotky
+[Temperature]
+Teplota
+[Celsius]
+Celsius
+[Fahrenheit]
+Fahrenheit
+[Degree sign:]
+Znaèka stupnì:
+[Wind]
+Vítr
+[km/h]
+km/h
+[m/s]
+m/s
+[mph]
+mph
+[knots]
+uzly
+[Visibility]
+[km]
+km
+[miles]
+míle
+[Pressure]
+Tlak
+[kPa]
+kPa
+[mb (hPa)]
+mb (hPa)
+[inches]
+palce
+[mm Hg (torr)]
+mm Hg (torr)
+[Day/Month]
+Den/mìsíc
+[No change]
+beze zmìny
+[2 chars]
+2 znaky
+[3 chars]
+3 znaky
+[Elevation]
+[ft]
+[m]
+[Do not append units to values]
+Nezobrazovat jednotky
+[Do not display fractional values]
+Nezobrazovat zlomkové hodnoty
+[Frame]
+Okno
+[Avatar size]
+Velikost avatarù
+[Weather Station]
+Meteorologická stanice
+[City name]
+Jméno mìsta
+[ID]
+[Log Information]
+Záznam událostí
+[Use internal history]
+Pouít interní historii
+[Use external file]
+Pouít externí soubor
+[Overwrite file upon update]
+Pøi aktualizaci pøepsat soubor
+[Path:]
+Cesta:
+[6]
+[Link Settings]
+Odkazy
+[More Info URL]
+Další informace
+[Weather Map]
+Mapa poèasí
+[Other Options]
+Ostatní monosti
+[Set as default station]
+Nastavit jako vıchozí stanici
+[Disable automatic update for this station]
+Vypnout automatickou aktualizaci
+[Disable PopUp for this station]
+Vypnout oznámení pro tuto stanici
+[Change]
+Zmìnit
+[Cancel]
+[PopUp Options]
+Monosti oznámení
+[Enable popups]
+Povolit oznámení
+[Popup only when condition changes]
+Oznámit pouze pøi zmìnì situace
+[Colours]
+[Background colour]
+[Text colour]
+[Use Windows colours]
+Pouít barvy Windows
+[Popup Actions]
+Akce pøi oznámení
+[Left Click]
+Levé tlaè.
+[Right Click]
+Pravé tlaè.
+[Popup Delay]
+Doba zobrazení
+[Delay]
+Prodleva
+[seconds]
+[From PopUp plugin]
+Globální nastavení
+[Permanent]
+Trvale
+[Popup Text]
+Samotnı text
+[Popup Title]
+Nadpis
+[Variables]
+[Default]
+[Preview]
+Náhled
+[Updates]
+[Alerts]
+[Errors]
+Chyby
+[Contact List]
+[Brief Info Title]
+Záhlaví okna
+[Note Text]
+Pozn. text
+[Extra Text]
+Extra text
+[External Log]
+Externí soubor
+[History Log]
+Interní historie
+[Variable List]
+Seznam promìnnıch
+[More Variables]
+Další promìnné
+[Reset]
+[Status Message]
+Stavová zpráva
+[Sunset]
+Západ slunce
+[Feel-like]
+Subj. teplota
+[Today's Low]
+Denní minimum
+[Today's High]
+Denní maximum
+[Sunrise]
+Vıchod slunce
+[Dewpoint]
+Rosnı bod
+[Humidity]
+Vlhkost
+[More...]
+[Weather Protocol INI Setup\nInstall and load your weather ini file here]
+[Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
+Nelze najít poadovanı konfiguraèní soubor pro poèasí. Øiïte se prosím následujícími pokyny:
+[Click here to download a weather ini file from Miranda file listing]
+Stáhnout konfiguraèní soubor ze stránek Miranda-IM
+[Extract the weather ini file from archive to this directory]
+Rozbalit konfiguraèní soubor do vybrané sloky
+[Click here to load the data from the new ini file into memory]
+Naèíst data nového konfiguraèního souboru
+[Add new weather station and close this dialog]
+Pøidat novou meteorologickou stanici a zavøít dialog
+[Total INI files]
+[Total memory used]
+[Reload INI]
+[City:]
+Mìsto:
+[Dismiss PopUp]
+Zavøít oznámení
+[Open brief information]
+Zobrazit struènou pøedpovìï
+[Open complete forecast]
+Zobrazit kompletní pøedpovìï
+[Open weather map]
+Zobrazit mapu poèasí
+[View history]
+Zobrazit historii
+[Open log file]
+Zobrazit záznam
+[Show user menu]
+Zobrazit uivatelské menu
+[Show user detail]
+Zobrazit informaci o osobì
+[To old setting]
+Pøedchozí nastavení
+[To default]
+Vıchozí nastavení
+;file \plugins\Weather\src\weather.cpp
+[Weather Condition Changed]
+Poèasí (zmìna poèasí)
+[Weather Alert Issued]
+Poèasí (varování)
+[%s__PopupWindow]
+[static]
+;file \plugins\Weather\src\weather.h
+[N/A]
+[Invalid ID format, missing "/" (10)]
+[Invalid service (11)]
+Neplatná sluba (è.11)
+[Invalid station (12)]
+Neplatná stanice (è.12)
+[Weather service ini for this station is not found (20)]
+Nelze najít konfiguraèní soubor pro stanici (è.20)
+[Netlib error - check your internet connection (30)]
+Chyba pøipojení k síti (è.30)
+[Empty data is retrieved (40)]
+Neplatná data (è.40)
+[Document not found (42)]
+Dokument nebyl nalezen (è.42)
+[Document too short to contain any weather data (43)]
+Dokument neobsahuje data o poèasí (è.43)
+[Unknown error (99)]
+Neznámá chyba (è.99)
+[HTTP Error: No content (204)]
+[HTTP Error: Data moved (301)]
+[HTTP Error: Use proxy (305)]
+[HTTP Error: Temporary redirect (307)]
+[HTTP Error: Bad request (400)]
+[HTTP Error: Unauthorized (401)]
+[HTTP Error: Payment required (402)]
+[HTTP Error: Forbidden (403)]
+[HTTP Error: Not found (404)]
+[HTTP Error: Method not allowed (405)]
+[HTTP Error: Proxy authentication required (407)]
+[HTTP Error: Gone (410)]
+[HTTP Error: Internal server error (500)]
+[HTTP Error: Bad gateway (502)]
+[HTTP Error: Service unavailable (503)]
+[HTTP Error: Gateway timeout (504)]
+[%n  [%t, %c]]
+[%c\nTemperature: %t\nFeel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+[Feel-Like: %f\nPressure: %p\nWind: %i  %w\nHumidity: %m\nDew Point: %e\nVisibility: %v\n\nSun Rise: %r\nSun Set: %y\n\n5 Days Forecast:\n%[Forecast Day 1]\n%[Forecast Day 2]\n%[Forecast Day 3]\n%[Forecast Day 4]\n%[Forecast Day 5]]
+[Weather Condition for %n as of %u]
+Aktuální situace: %n, %u
+[%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[%n at %u:	%c, %t (feel-like %f)	Wind: %i %w	Humidity: %m]
+%n v %u:	%c, %t (subj. %f)	Vítr: %i %w	Vlhkost: %m
+[%n   (%u)]
+[%c, %t\nToday:  High %h, Low %l]
+%c, %t\nDnes:  Max. %h, min. %l
+[Temperature: %[Temperature]]
+;file \plugins\Weather\src\weather_addstn.cpp
+[Current weather information for %s.]
+Aktuální informace o poèasí pro %s.
+[%s is now the default weather station]
+%s je nyní vıchozí meterologická stanice
+[Weather Protocol]
+Protokol Weather
+[Please try again after weather update is completed.]
+Prosím zkuste znovu po aktualizaci pøedpovìdi poèasí.
+[<Enter station name here>]
+<zde zadejte název stanice>
+[%s/%s]
+[<Enter station ID here>]
+<zde zadejte identifikátor stanice>
+[NAME]
+;file \plugins\Weather\src\weather_contacts.cpp
+[open]
+[Weather condition was not logged.]
+Pøedpovìï poèasí nebyla zaznamenána.
+[The URL for complete forcast have not been set. You can set it from the Edit Settings dialog.]
+Není zadána adresa pro kompletní pøedpovìï poèasí. Z menu vyberte poloku 'Upravit nastavení' a v sekci Odkazy doplòte pøíslušnı údaj.
+[The URL for weather map have not been set.  You can set it from the Edit Settings dialog.]
+Není zadána adresa pro mapu poèasí. Z menu vyberte poloku 'Upravit nastavení' a v sekci Odkazy doplòte pøíslušnı údaj.
+[Get city name from ID]
+Zjistit jméno mìsta dle ID
+[Weather INI information]
+Informace o konfiguraci
+[Browse]
+[View webpage]
+Zobrazit stránku
+[Reset to default]
+Obnovit vıchozí
+[Text Files]
+[ (*.txt)]
+[*.txt]
+[All Files]
+[ (*.*)]
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;file \plugins\Weather\src\weather_conv.cpp
+[%i.%i]
+[%s%sC]
+[%s%sF]
+[KPA]
+[HPA]
+[TORR]
+[%i.%i %s]
+[%i %s]
+["\r\nvoid GetSpeed(TCHAR *tempchar, TCHAR *unit, TCHAR *str) \r\n{\r\n	// unit can be km/h, mph, m/s, knots\r\n	double tempunit;\r\n	TCHAR tstr[20];\r\n\r\n	str[0] = 0;\r\n\r\n	// convert the string into an integer (always positive)\r\n	// if the result is 0, then the string is not a number, return _T(""\r\n	tempunit = _ttof(tempchar);\r\n	if (tempunit == 0 && tempchar[0] != '0]
+[KM/H]
+[M/S]
+[MPH]
+[KNOTS]
+[%s %s]
+%s %s
+[MILES]
+[Lightning]
+[Fog]
+hustá mlha
+[Snow Shower]
+snìhová pøeháòka
+[Snow]
+snìení
+[Rain Shower]
+dešová pøeháòka
+[Rain]
+déš
+[Partly Cloudy]
+èásteènì oblaèno
+[Cloudy]
+oblaèno
+[Sunny]
+sluneèno
+[mainy sunny]
+[mainy clear]
+[partly cloudy]
+[mostly]
+[clouds]
+[sunny]
+[clear]
+[fair]
+[thunder]
+[t-storm]
+[cloud]
+[overcast]
+[fog]
+[mist]
+[smoke]
+[sand]
+[dust]
+[haze]
+[shower]
+[snow]
+[flurries]
+[rain shower]
+[ice]
+[freezing]
+[wintry]
+[drizzle]
+[rain]
+[# Weather <condition name> <counter> #"\r\n			mir_sntprintf(LangPackStr, SIZEOF(LangPackStr), _T("# Weather %s %i #]
+[%20"\r\n// dis = original string\r\n// return value = the modified string with space -> _T("%20"\r\nchar *GetSearchStr(char *dis) \r\n{\r\n	char *pstr = dis;\r\n	size_t len = strlen(dis);\r\n	while (*pstr != 0)\r\n	{\r\n		if (*pstr == ' ]
+[%20]
+[\r\n]
+[<unknown time>]
+<neznámı èas>
+[<Error>]
+<chyba>
+[HTTP Error %i]
+;file \plugins\Weather\src\weather_data.cpp
+[<Enter city name here>]
+<zde zadejte mìsto>
+[High]
+Max.
+[Low]
+Min.
+[Feel]
+Subj.
+[Wind Speed]
+Rychlost vìtru
+[COND]
+[DEG]
+[DAY]
+[MONTH]
+[Ignore]
+[Error when obtaining data: %s]
+Chyba pøi stahování dat: %s
+;file \plugins\Weather\src\weather_http.cpp
+[Error occured! HTTP Error: %i\n]
+[NetLib error occurred!!]
+[Weather HTTP connections]
+Weather - spojení pomocí protokolu HTTP
+;file \plugins\Weather\src\weather_icons.cpp
+[Protocol icon]
+[Update Disabled]
+Aktualizace vypnuta
+[View Log]
+Zobrazit záznam
+[Update with Clear]
+Úplná aktualizace
+[View Brief]
+Struèná pøedpovìï
+[View Complete]
+Úplná pøedpovìï
+[Weather Update]
+Aktualizace pøedpovìdi
+[Popup]
+[No Popup]
+Oznámení vypnuto
+[Edit Settings]
+Upravit nastavení...
+;file \plugins\Weather\src\weather_info.cpp
+[1.0]
+[1.1]
+[1.1a]
+[1.2]
+[1.3]
+[1.4]
+[Name]
+[Author]
+[File Version]
+[INI Version]
+[Items]
+[Display Name]
+[File Name]
+[The corresponding INI file for "%s" is not found.]
+[Weather INI information for "%s":]
+[\n\n]
+[Name:]
+[\t\t]
+[Internal Name:]
+Interní název:
+[Author:]
+[Version:]
+[INI Version:]
+Verze INI:
+[File Name:]
+Název souboru:
+[Item Count:]
+Poèet poloek:
+[%s\t%i\n]
+[Memory Used:]
+Alokováno pamìti:
+[%s\t%i ]
+[bytes]
+[Description:]
+[Here is a list of custom variables that are currently available]
+Seznam ostatních promìnnıch, které jsou k dispozici:
+[%c[%s]]
+;file \plugins\Weather\src\weather_ini.cpp
+[ID Search - Station Name]
+[\\Plugins\\Weather\\*.ini]
+[SAMPLE_INI.INI]
+[No update data file is found.  Please check your Plugins\\Weather directory.]
+Nelze najít konfiguraèní soubor. Podívejte se do sloky Plugins\\Weather.
+[Invalid ini format for: %s]
+Neplatnı formát souboru ini: %s
+[Name Search Single Result - Station Name]
+[Name Search Single Result - Station ID]
+[Name Search Multiple Result - Station Name]
+[Name Search Multiple Result - Station ID]
+[http://miranda-ng.org/]
+[\\Plugins\\weather\\]
+[All update data has been reloaded.]
+Aktualizovaná data byla znovu naètena.
+;file \plugins\Weather\src\weather_mwin.cpp
+[Frame Font]
+Písmo v rámeèku
+[Frame Title Font]
+Písmo v záhlaví rámeèku
+[Weather: %s]
+[WeatherFrame]
+[user32.dll]
+[Frame Background]
+Barva pozadí rámeèku
+[Verdana]
+;file \plugins\Weather\src\weather_opt.cpp
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[General]
+[Display]
+Zobrazení
+[PopUps]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+%c\taktuální pøedpovìï\n%d\taktuální datum\n%e\trosnı bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsmìr vìtru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvıchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost vìtru\n%y\tzápad slunce
+[Weather Protocol Text Preview]
+Poèasí - náhled
+;file \plugins\Weather\src\weather_popup.cpp
+[This is the name of the city]
+Jméno mìsta
+[Here is a short weather description]
+Krátkı popis poèasí
+[                                                            \n]
+[%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temperature\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
+[%[..]\tcustom variables]
+;file \plugins\Weather\src\weather_svcs.cpp
+[Station ID]
+Identifikátor
+[Light]
+[SShower]
+[RShower]
+[PCloudy]
+[%s\\Plugins\\Weather\\%s.png]
+[%s\\Plugins\\Weather\\%s.gif]
+[Auto Update Enabled]
+Deaktivovat automatickou aktualizaci
+[Auto Update Disabled]
+Aktivovat automatickou aktualizaci
+[Disable &weather notification]
+Vypnout oznámení &poèasí
+[Enable &weather notification]
+Zapnout oznámení &poèasí
+[Update Weather]
+Aktualizovat pøedpovìï
+[Remove Old Data then Update]
+Aktualizovat vše vèetnì cache
+[Brief Information]
+Zobrazit struènou pøedpovìï
+[Read Complete Forecast]
+Zobrazit kompletní pøedpovìï
+[Weather]
+Poèasí
+[Enable/Disable Weather Update]
+Zapnout/Vypnout aktualizaci poèasí
+[Update All Weather]
+Aktualizovat všechno
+[Remove Old Data then Update All]
+Aktualizovat vše vèetnì cache
+[Weather Notification]
+Pøedpovìï poèasí
+[Display in a frame]
+Zobrazit v rámeèku
+;file \plugins\Weather\src\weather_update.cpp
+[************************************************************************]
+[<-- Start update for station -->]
+[Unable to retrieve weather information for %s]
+Nelze stáhnout pøedpovìï poèasí pro %s
+[Error! Update cannot continue... Start to free memory]
+[<-- Error occurs while updating station: %s -->]
+[Alert for %s%c%s]
+[Update Completed - Start to free memory]
+[<-- Update successful for station -->]
+[Document Not Found]
+[Condition]
+Situace
+[Cond]
+[ & ]
+[Alert]
+Upozornìní
+[#%s Weather]
+;file \plugins\Weather\src\weather_userinfo.cpp
+[Current condition for %n]
+Aktuální pøedpovìï pro %n
+[%c     %t]
+[%i  %w]
+[Last update on:   %u]
+Naposledy aktualizováno %u
+[Variable]
+Promìnná
+[Information]
+[Retrieving new data, please wait...]
+Aktualizace dat, poèkejte prosím...
+[More Info]
+[No information available.\r\nPlease update weather condition first.]
+[%c, %t]
+[%s\n%s]
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}

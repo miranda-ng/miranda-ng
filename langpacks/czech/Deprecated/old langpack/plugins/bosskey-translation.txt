@@ -1,0 +1,89 @@
+; /----------------------------------------------------------\
+; |  BossKey+ 0.4.1.1                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3655
+;
+
+
+[(Previous Status)]
+(pøedchozí stav)
+[...set the status message to:]
+... nastavit zprávu stavu na:
+[and...]
+a ...
+[Disable Popups]
+Vypnout oznámení
+[When I return, change my status to...]
+Po návratu zmìnit stav na ...
+[I'm back!]
+Jsem z5!
+[When I press the hotkey, change status to:]
+Po stisku vybrané klávesy zmìnit stav na:
+[Hotkey:]
+Klávesa:
+[BossKey]
+BossKey
+[(Current Status)]
+(aktuální stav)
+[On the Phone]
+Mám telefon
+[Out to Lunch]
+Jsem na obìdì
+[Be back soon!]
+Brzy budu zpìt
+[Could not get Miranda's window, Aborting...]
+Nelze zamknout okno Mirandy. To je konec...
+
+[Hide Miranda IM]
+Skrýt Mirandu
+[When I press the hotkey:]
+Po stisku vybrané klávesy:
+[Change only if current status is Online]
+Zmìnit pouze když je stávající stav online
+[When I return:]
+Po návratu:
+[Set the status message to:]
+Nastavit zprávu stavu na:
+[Request password:]
+Vyžadovat heslo:
+[Change status to:]
+Zmìnit stav na:
+[Change status back]
+Vrátit pùvodní stav
+[Add menu item in main menu (requires restart)]
+Pøidat položku do hlavního menu (vyžaduje restart programu)
+
+[Miranda IM is locked. Enter password to unlock it.]
+Miranda je uzamèena. Zadejte požadované heslo.
+[Please enter password!]
+Prosím zadejte heslo!
+[Password is not correct!]
+Zadané heslo není správné!
+
+[Hide Miranda if the computer is locked]
+Skrýt Mirandu když je poèítaè uzamèen
+[Change status to]
+Zmìnit stav na
+
+[Go to Customize -> Hotkeys to change the hotkey]
+Zkratky zmìníte v sekci Vlastní úpravy -> Klávesové zkratky
+[Use built in to Miranda hotkey module]
+Použít modul klávesových zkratek Mirandy
+
+; Bosskey+ 0.4.1.1
+[Hide Miranda when:]
+Skrýt Mirandu pøi:
+[Windows is inactive]
+Windows je neaktivní
+[Miranda is inactive]
+Miranda je neaktivní
+[Workstation is Locked (2000/XP+)]
+Pracovní stanice je uzamèena (2000/XP+)
+[Miranda is started]
+Spuštìní Mirandy
+[Restore hiding on startup after failure]
+Obnovit skrývání pøi startu po chybì
+
+; ---

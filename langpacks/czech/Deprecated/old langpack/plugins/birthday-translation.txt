@@ -1,0 +1,120 @@
+; /----------------------------------------------------------\
+; |  Birthday reminder 0.3.1.4                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+;Main menu item
+[Check birthdays]
+Zjistit narozeniny
+
+;Global items
+[Birthday reminder]
+Narozeniny
+[not implemented yet]
+Není implementováno
+
+;Sound
+[Birthday reminder: it's coming]
+Narozeniny (již brzy!)
+
+;Popup text on birthday
+[%s has birthday today]
+%s má dnes narozeniny
+
+;Popup texts before birthday
+[today]
+dnes
+[in %d days]
+za %d dnù
+;(DUP) [He]
+;(DUP) [She]
+;(DUP) [He/She]
+[has birthday %s.\n%s becomes %d years old.]
+bude mít narozeniny\n(%s %s oslaví %d let).
+
+;Messagebox text
+[%s has birthday %s.\n%s becomes %d years old.]
+%s bude mít narozeniny\n(%s %s oslaví %d let).
+
+;Popup text on no birthdays
+[No birthdays]
+---
+[to remind about]
+není co pøipomenout
+
+;Popup options dialog
+[Actions]
+Akce
+[Left click]
+Levé tlaè.
+[Right click]
+Pravé tlaè.
+;(DUP) [Delay]
+;(DUP) [Default]
+;(DUP) [Custom]
+;(DUP) [sec]
+;(DUP) [Permanent]
+;(DUP) [Colors]
+[Default colors]
+Výchozí barvy
+[Windows colors]
+Barvy Windows
+[Custom colors]
+Vlastní barvy
+;(DUP) [Background]
+;(DUP) [Text]
+[Frequency]
+Èetnost
+[Notify me every]
+Upozornit každých
+;(DUP) [hours]
+
+;Actions comboboxes items
+[Hide popup]
+Skrýt oznámení
+[Leave popup]
+Nechat být
+[User details]
+Informace o uživateli
+[Message dialog]
+Napsat zprávu
+
+;Options dialog
+[Choose contact to edit settings:]
+Vyberte požadovaný kontakt:
+;(DUP) [Date of birth:]
+[Remind]
+Pøipomenout
+[days earlier]
+dnù dopø.
+[Show popup]
+Zobrazit oznámení
+[Show messagebox]
+Napsat zprávu
+[Disable (do not notify)]
+Vypnout upozornìní
+[Get from database]
+Zjistit z databáze
+[Default options]
+Výchozí možnosti
+[Source:]
+Zdroj:
+;(DUP) [none]
+[Show main menu item (restart needed)]
+Zobrazit v hlavním menu (vyžad. restart)
+[Remind once a day]
+Pøipomenout jednou dennì
+
+;Contact options when empty
+[Contact options]
+Možnosti
+;Contact options with user selected
+[Contact options (%s)]
+Možnosti (%s)
+
+[Notifies you when your buddy has a birthday. It is activated some days earlier]
+Dopøedu upozorní na blížící se narozeniny.
+
+; ---

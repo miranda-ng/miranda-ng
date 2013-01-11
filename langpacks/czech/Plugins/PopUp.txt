@@ -1,0 +1,388 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: PopUp.dll
+;  Plugin: PopUp
+;  Version: 2.1.1.6
+;  Authors: 
+;============================================================
+;file \plugins\Popup\res\resource.rc
+[Content && Style]
+Chování a vzhled
+[Go to Customize > Fonts && Colors for fonts and colors options]
+[Miscellaneous]
+Ostatní
+[Effects]
+[Live Preview]
+Náhled
+[Size && Position]
+Velikost a umístìní
+[History]
+Historie
+[Enable popup history]
+Povolit historii oznámení
+[Store last]
+Uložit posledních
+[events]
+událostí
+[Use History++ to render log]
+Použít History++ pro záznam
+[Avatars]
+Avatary
+[Draw avatar borders]
+Orámovat avatary
+[Draw borders for semitransparent avatars too]
+Zobrazit rámeèek i u poloprùhledných avatarù
+[Round corners by]
+Zaoblit rohy o
+[pixels]
+pix.
+[Avatar size:]
+Velikost avataru:
+[32]
+[Enable avatar updates]
+Povolit aktualizaci avatarù
+[Multimonitor (98/ME/2000/XP)]
+Více monitorù (98/ME/2000/XP)
+[Start the popups in the monitor with]
+Zobrazovat oznámení na monitoru, kde je
+[Miranda's window]
+okno Mirandy
+[the active window]
+aktivní okno
+[Transparency]
+[Enable Win 9x/Me transparency]
+Povolit prùhlednost ve Win 9x/Me
+[Use transparency (Windows 2000+)]
+Prùhlednost (pouze 2000/XP)
+[opacity:]
+prùhlednost:
+[100%]
+100 %
+[Opaque popups under cursor]
+Zvýraznit oznámení pod kurzorem
+[Slide Popup]
+Posouvat oznámení
+[Effect:]
+Efekt:
+[Time (in):]
+Doba nábìhu:
+[ms]
+[Time (out):]
+Doba dobìhu:
+[Limit window amount to:]
+Omezit poèet oznámení na
+[Skins]
+Skiny
+[R]
+[* - built-in skins]
+* - interní
+[Skin options]
+Možnosti skinu
+[Preview]
+Náhled
+[Download more skins]
+Stáhnout další skiny
+[Desktop]
+Plocha
+[Popup Area]
+Oblast oznámení
+[pixel(s)]
+pix.
+[Distance between popups]
+Odstup jednotlivých položek
+[Configure popup area]
+Konfigurace umístìní
+[Close]
+Zavøít
+[General]
+[Enable popup actions]
+Povolit akce pøi oznámení
+[Popup Actions are those tiny buttons below notification text.]
+Akce pøi oznámení jsou ona malá tlaèítka pod textem oznámení.
+[Common Actions]
+Obecné akce
+[Please choose in what cases default actions should be added:]
+Prosím vyberte, ve kterých pøípadech mají být pøidány výchozí akce:
+[Add info && menu for IM contacts only]
+Pøidat jen info a nabídku po kontakty
+[Add default actions for contacts only]
+Pøidat jen výchozí ikony pro kontakty
+[Don't close popups on default actions]
+Nezavírat oznámení pøi výchozí akci
+[Use large icons]
+Zobrazit velké ikony
+[Popup actions will be displayed as:]
+Akce budou zobrazeny jako:
+[Icons and labels below text]
+Ikony a popisky pod textem
+[Icons on the left]
+Ikony vlevo
+[Icons aligned to the right]
+Ikony vpravo
+[Show Actions: (requires apply)]
+Zobrazit akce: (vyžaduje tlaèítko Použít)
+[Mouse Actions Overwrite]
+Vlastní nastavení myši
+[LeftButton]
+Levé tlaèítko
+[MiddleButton]
+Støední tlaèítko
+[RightButton]
+Pravé tlaèítko
+[Notifications]
+Upozornìní
+[General options]
+Hlavní možnosti
+[Enable this notification]
+Povolit tento druh oznámení
+[Popup timeout:]
+Doba zobrazení:
+[Left click action:]
+Akce na levé tlaèítko:
+[Right click action:]
+Akce na pravé tlaèítko:
+[Disable when global status is...]
+Zakázat, je-li globální stav 
+[Disable when relevant protocol's status is...]
+Zakázat, je-li pøíslušný protokol ve stavu 
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
+[More...]
+[Disable if message window is open]
+[Sec]
+sek.
+[0 = Default]
+0 = výchozí
+[-1 = Infinite]
+-1 = neustále
+[Per-contact settings]
+Lokální nastavení
+[Show always]
+Zobrazit trvale
+[Ignore fullscreen]
+Ignor. celoobraz.
+[Never show]
+Nezobrazit
+[Show default]
+Výchozí stav
+[Default Timeout]
+Doba zobrazení
+[Infinite popup delay]
+Zobrazit trvale
+[Popup delay:]
+Doba zobrazení
+[seconds]
+[Do not close hovered popups]
+Nezavírat po umístìní myši
+[Dynamically resize the popups]
+Mìnit velikost dynamicky
+[Minimum width]
+Minimální šíøka
+[Maximum width]
+Maximální šíøka
+[Position:]
+Postavení:
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Layout:]
+Rozložení:
+[Reorder Popups]
+Obrátit poøadí
+[Disable when:]
+Neaktivní ve stavu
+[Always (has priority)]
+Vždy (má prioritu)
+[Fullscreen mode]
+Celoobrazovkový režim
+[Debug]
+Debug
+;file \plugins\Popup\src\actions.cpp
+[no overwrite]
+---
+[Send message]
+Poslat zprávu
+[Quick reply]
+Rychlá odpovìï
+[User details]
+Informace o uživateli
+[Contact menu]
+[Dismiss popup]
+Zavøít oznámení
+[Pin popup]
+Zobrazit trvale
+[Copy to clipboard]
+Kopírovat do schránky
+[Action]
+Akce
+;file \plugins\Popup\src\avatars.cpp
+[.gif]
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+;file \plugins\Popup\src\bitmap_funcs.cpp
+[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
+Obrázky ve formátu PNG vyžadují doplnìk png2dib 0.1.3.x nebo novìjší.
+;file \plugins\Popup\src\common.h
+[debug]
+;file \plugins\Popup\src\config.cpp
+[The Jabberwocky]
+Žvahlav
+[`Twas brillig, and the slithy toves\r\n]
+[Did gyre and gimble in the wabe:\r\n]
+[All mimsy were the borogoves,\r\n]
+[And the mome raths outgrabe.\r\n]
+[\t[b][i]Lewis Carroll, 1855[/i][/b]]
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Testovací náhled doplòku oznámení. Tento text je snad dost dlouhý na to, aby se nevešel na jeden øádek...
+[This is a special test preview for the popup ]
+[plugin settings. The text and title are quite ]
+[long so you can tweak your skin and plugin ]
+[settings to best fit your needs :)]
+[This is a notification message]
+Toto je oznámení :-)
+[This is a warning message]
+Toto je varovné hlášení :-o
+[This is an error message]
+Toto je chybové hlášení :-(
+;file \plugins\Popup\src\font.cpp
+[Tahoma]
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+[Hovered Action]
+Po najetí myši
+;file \plugins\Popup\src\history.cpp
+[Popup History is disabled]
+[Popup History message]
+[Popup History]
+Historie oznámení
+;file \plugins\Popup\src\main.cpp
+[Classes]
+Tøídy
+[Actions]
+Akce
+[Contacts]
+Kontakty
+[Advanced]
+Extra
+[Toggle Popups]
+Zapnout/vypnout oznámení
+[Enable popups]
+Povolit oznámení
+[Disable popups]
+[Enable &popup module]
+Zapnout oznámení (&globálnì)
+[Disable &popup module]
+Vypnout oznámení (&globálnì)
+[dir]
+[dwmapi.dll]
+[Error: I could not register the PopUp Window class.\r\n]
+[The plugin will not operate.]
+;file \plugins\Popup\src\opt_adv.cpp
+[%d%%]
+[No effect]
+Bez efektu
+[Fade in/out]
+Plynulé pøechody
+;file \plugins\Popup\src\opt_class.cpp
+[%s/%s]
+[CLASS Plugins]
+Doplòky
+[Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
+;file \plugins\Popup\src\opt_gen.cpp
+[/Offline]
+[/Online]
+[/Invisible]
+[/Away]
+[/NA]
+[/Occupied]
+[/DND]
+[/Free for chat]
+[/Out to lunch]
+[/On the phone]
+[Width]
+Šíøka
+[upper left corner]
+Levý horní roh
+[lower left corner]
+Levý dolní roh
+[lower right corner]
+Pravý dolní roh
+[upper right corner]
+Pravý horní roh
+[horizontal]
+vodorovné
+[vertical]
+svislé
+[Global Status]
+Globální stav
+[Protocol Status/%hs]
+[You cannot specify a value lower than %d and higher than %d.]
+Nelze zadat hodnotu nižší než %d a vyšší než %d.
+['Reorder Popups' option is currently diabled.\r\n]
+[This may cause misaligned popups when used with\r\n]
+[avatars and text replacement (mainly NewStatusNotify).\r\n]
+[\r\n]
+[Do you want to enable popup reordering now?\r\n]
+[Popup Plus Warning]
+Varování doplòku Oznámení plus
+[Cancel]
+;file \plugins\Popup\src\opt_skins.cpp
+[Failed to register %s class.]
+[#32770]
+[PopupPlusDlgBox]
+[Skin preview]
+Náhled skinu
+[Just take a look at this skin... ;)]
+Raète se na tento skin podívat
+[%s/%hs]
+[Show clock]
+Zobrazit èas
+[Drop shadow effect (Windows XP+)]
+Zobrazit stín (XP+)
+[Drop shadow effect (Windows XP+)/non rectangular]
+[Enable Aero Glass (Vista+)]
+Povolit Aero Glass (Vista+)
+[Use Windows colours]
+Použít barvy Windows
+[Use advanced text render]
+Použít pokroèilé vykreslování textu
+[Global settings]
+Globální nastavení
+[Refresh List]
+Aktualizovat seznam
+;file \plugins\Popup\src\popup_thread.cpp
+[PopupThreadManagerWnd]
+;file \plugins\Popup\src\popup_wnd2.cpp
+[Failed to GetClassInfoExW from EDIT class.]
+[Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
+[PopupMenuHostWnd]
+[%s\n\n%s]
+;file \plugins\Popup\src\services.cpp
+[WorkerW]
+[Error]
+[Warning]
+Upozornìní
+[Notify]
+Oznámení
+;file \plugins\Popup\src\skin.cpp
+[res:]
+[Skin]
+Vzhled
+[*.popupskin]
+[* Popup Classic]
+[res:classic.popupskin]
+[\\skins\\popup]
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+[The skin you are trying to load is designed\r\n]
+[for newer version of Popup Plus. And will not\r\n]
+[display properly.\r\n]
+[Please choose another skin.]
+;file \plugins\Popup\src\srmm_menu.cpp
+[Popup Mode: Auto]
+[Popup Mode: Favourite]
+[Popup Mode: Ignore fullscreen]
+[Popup Mode: Block contact]
+[Auto]
+Auto
+[Favourite]
+Oblíbené
+[Block]
+Blokovat

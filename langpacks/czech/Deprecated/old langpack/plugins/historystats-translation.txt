@@ -1,0 +1,637 @@
+; /----------------------------------------------------------\
+; |  HistoryStats 0.1.3.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2535
+;
+
+[ (in)]
+ (pøíchozí)
+[ (out)]
+ (odchozí)
+["Split"]
+'Dìliè'
+;["Split" timeline]
+["Split" type]
+Druh 'dìlièe'
+;(LAI) [#]
+;(LAI) [#{amount} #{unit}]
+;(LAI) [#{distict_words} distinct]
+;(LAI) [#{rank}.]
+;(LAI) [#{words} total]
+;(LAI) [#{words} total / #{distict_words} distinct]
+[(default nick)]
+(vých. pøezdívka)
+;[(multiple)]
+;[(none)]
+[(nothing)]
+(nic)
+;[(unknown)]
+;[(Unknown)]
+;(DUP) [** All contacts **]
+[...after date (yyyy-mm-dd, empty=no limit)]
+... po urèitém datu (rrrr-mm-dd; prázdné = bez omezení)
+[...before date (yyyy-mm-dd, empty=no limit)]
+... pøed urèitým datem (rrrr-mm-dd; prázdné = bez omezení)
+[...can be output as: ]
+... výstupem mùže být: 
+[...older than (days, 0=no limit)]
+... starší než (dny; 0 = bez omezení)
+[...on Miranda IM's startup]
+... bìhem spuštìní programu Miranda
+[...via button "Create statistics" in options]
+... po kliknutí na tlaèítko 'Vytvoøit'
+[...via Miranda IM's main menu]
+... po kliknutí na pøíslušnou položku v hlavní nabídce programu
+;[...will be output as: ]
+;[/Options tree]
+;(LAI) [[#{date}] #{amount} #{unit}]
+;(LAI) [[#{date}] #{in_amount} (in) / #{out_amount} (out) #{unit}]
+;(LAI) [[#{day}] #{amount} #{unit}]
+;(LAI) [[#{hour}:00-#{hour}:59] #{amount} #{unit}]
+;(LAI) [[#{start_date}-#{end_date}] #{amount} #{unit}]
+;(LAI) [[#{start_date}-#{end_date}] #{in_amount} (in) / #{out_amount} (out) #{unit}]
+;(LAI) [[First] #{first_time} / [Last] #{last_time}]
+;(LAI) [[Min] #{min_dur} / [Avg] #{avg_dur} / [Max] #{max_dur}]
+;(LAI) [[Out] #{out_amount} (#{out_ratio}) / [In] #{in_amount} (#{in_ratio})]
+;[About sets]
+;[Add]
+[Add column...]
+Pøidat sloupec...
+;[Add set]
+[Additional info in tooltip (depends on type)]
+Další informace v tipu (v závislosti na druhu)
+;[Align on day boundary]
+;[Align on week boundary]
+[All messages]
+Všechny zprávy
+;[All sets are shared between columns. However, only the checked ones will be applied to the current column. Use the right field to specify words putting every word on a separate line.]
+;[Already existing file]
+[Always overwrite already existing files (dangerous!)]
+Vždy pøepsat existující soubory (mùže být nebezpeèné!)
+;[am]
+;[AM]
+;[An internal column configuration error occured. Please contact the author of this plugin.]
+;[Apply]
+[Ascending]
+Vzestupnì
+[Auto open statistics after being generated...]
+Automaticky zobrazit statistiku po vygenerování...
+[Automatically get updates of HistoryStats]
+Automaticky stáhne novou verzi HistoryStats
+;[Available column types:]
+[Bar graph for in/out]
+Graficky (pøíchozí/odchozí data)
+[Bar graph for total chat duration]
+Graficky indikovat celkovou délku diskuse
+[Bar unit]
+Jednotka ukazatele
+[Bars per graph]
+Poèet ukazatelù na graf
+[Block unit]
+Jednotka
+[Blocks per column]
+Blokù na sloupec
+[Both]
+Oboje
+;[Button]
+;[Button (disabled)]
+;[bytes]
+;[Bytes]
+[Bytes (in/out ratio)]
+Bajty (pomìr pøíchozí/odchozí)
+[Bytes (incoming)]
+Bajty (pøíchozí)
+[Bytes (outgoing)]
+Bajty (odchozí)
+[Bytes (total)]
+Bajty (celkem)
+[Calculate maximum per column (not per graph)]
+Vypoèítat maximum na sloupec (ne na graf)
+[Calculating totals]
+Výpoèet celkových výsledkù
+;(DUP) [Cancel]
+[Chat duration]
+Délka diskuse
+[Chat duration (total)]
+Délka diskuse (celkem)
+[Chats]
+Diskuse
+;[chats]
+;[Chats (in/out ratio)]
+;[Chats (incoming)]
+;[Chats (outgoing)]
+;[Chats (total)]
+;[Checkbox]
+;[Checkbox (checked & disabled)]
+;[Checkbox (checked)]
+;[Checkbox (disabled)]
+;[Close]
+;[Column holding a graphical overview of your chatting amount split by day of week or by hour of day. Different chatting amount measures are available.]
+;[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history on an daily basis. Multiple days can be grouped. Different chatting behaviour measures are available.]
+;[Column holding a graphical overview of your chatting behaviour (out, in, total, in/out ratio) from the first to the last day of your history. The information is spread along x- and y-axis and the values are encoded as color values. Different chatting behaviour measures are available.]
+;[Column holding a list of a specified number of most/least common words or longest words used by you, by your contact, or by both of you.]
+;[Column holding event counts for incoming, outgoing or total number of files or URLs.]
+;[Column holding in/out statistics for bytes, messages or chats. Allows textual or graphical representation.]
+;[Column holding the amount of time you have chatted with the given contact.]
+;[Column holding the contact list's group name the contact is in.]
+;[Column holding the contact's nick and first/last message time if selected.]
+;[Column holding the contact's placing according to your sorting criteria.]
+;[Column holding the contact's protocol.]
+;[Column holding the number of (distinct) words used by you, by your contact, or by both of you.]
+;[Column settings]
+[Column setup]
+Nastavení sloupce
+[Column specific settings]
+Zpøesòující nastavení sloupce
+;[Columns]
+;[Combo box]
+;[Combo box (disabled)]
+[Configure HistoryStats]
+Nastavit HistoryStats
+[Configure HistoryStats...]
+Nastavit HistoryStats...
+[Configure...]
+Nastavit...
+[Configure... (main menu)]
+Nastavit... (hlavní nabídka)
+[Contact filtering and totals]
+Filtrování kontaktù a zobrazení výsledkù
+;[Contact menu]
+;[Create]
+[Create statistics]
+Generovat statistiku
+[Create statistics (main menu)]
+Generovat statistiku (hlavní nabídka)
+[Create statistics (there are warnings)]
+Generovat statistiku (s upozornìním)
+[Create statistics for meta-contacts and their subcontacts]
+Umožòuje generování statistiky pro metakontakty
+[Create statistics on Miranda IM's startup]
+Generovat statistiku bìhem spuštìní programu Miranda
+[Created with #{plugin} #{version} on #{date} at #{time}]
+Vygenerováno doplòkem #{plugin} #{version} dne #{date} v #{time}.
+[Creating HTML]
+Generování HTML
+[Custom (for experts only)]
+Vlastní (pouze pro zkušené)
+[Data source]
+Zdroj dat
+;[Days]
+[Days of week]
+Dny v týdnu
+;[Days of week timeline]
+;[Define...]
+[Delete column]
+Odstranit sloupec
+;[Delete set]
+[Descending]
+Sestupnì
+;[Description]
+[Detailed description:]
+Podrobný popis:
+[Details for every bar (tooltip)]
+Podrobnosti ke každému ukazateli (tipy)
+;[Details for every bar (tooltip) are only available with HTML output.]
+[Discard generated]
+Zahodit vygenerované
+;[Distinct word count]
+[Distinct words]
+Shodná zapoèítat pouze jednou
+;[Done]
+[Easily exchange icons in HistoryStats' user interface]
+Snadná zámìna ikon v uživatelském rozhraní HistoryStats
+;[Edit control]
+;[Edit control (disabled)]
+[Enforce PNG output, possibly ignoring some column options]
+Použít výhradnì PNG; ignoruje nìkterá nastavení sloupcù
+;[Error while searching for meta-contact's subcontacts. Please contact the author of this plugin.]
+;[Events]
+[Events to count]
+Požadované události
+[Exclude]
+Výjimky
+;[Exclude contacts]
+[Exclude from statistics]
+Vyjmout ze statistiky
+;[Excluded contacts]
+[Extract words from]
+Extrahovat slova z
+[Fall back to HTML output, if column options require HTML output]
+Vrátit zpìt k HTML, pokud to nastavení sloupcù vyžaduje
+;[Fallback to HTML due to setting.]
+;[Files]
+[Files (incoming)]
+Soubory (pøíchozí)
+[Files (outgoing)]
+Soubor (odchozí)
+[Files (total)]
+Soubor (celkem)
+[Filter messages containing]
+Filtrovat zprávy obsahující
+[Filter messages ending with]
+Filtrovat zprávy konèící
+[Filter messages matching]
+Filtrovat zprávy odpovídající
+[Filter messages starting with]
+Filtrovat zprávy zaèínající
+[Filter URLs/e-mail addresses]
+Filtrovat odkazy a e-maily
+[Filter words containing]
+Filtrovat slova obsahující
+[Filter words ending with]
+Filtrovat slova konèící
+[Filter words matching]
+Filtrovat slova odpovídající
+[Filter words starting with]
+Filtrovat slova zaèínající
+[Filter words/messages]
+Filtrovat slova a zprávy
+[Finally sort by]
+A nakonec øadit dle
+[First sort by]
+Nejdøíve øadit dle
+[First/last message time (tooltip)]
+Èas první a poslední zprávy (tipy)
+;[Folder]
+;[Folder (disabled)]
+[For this config the selected column...]
+Tímto nastavením ovlivníte...
+[General column settings]
+Obecné nastavení sloupce
+[Generate PNG files to represent graphics]
+Pro grafická data generovat obrázky ve formátu PNG
+[Generate statistics in background thread with low priority]
+Generovat statistická data na pozadí s nízkou prioritou
+;[Global]
+;[Global settings]
+[Graph alignment]
+Zarovnání grafu
+[Graphics]
+Grafika
+;[Group]
+[Hide additional column info...]
+Skrýt dodateèné informace o sloupci...
+[History filtering]
+Filtrování historie
+[History interpretation]
+Zpùsob interpretace historie
+[History read mode for MetaContacts]
+Režim práce s historií metakontaktù
+[HistoryStats]
+Statistika historie
+[HistoryStats - Add column]
+HistoryStats :: Pøidat sloupec
+[HistoryStats - Conflicting files]
+HistoryStats :: Seznam konfliktù
+[HistoryStats - Error]
+HistoryStats :: Chyba
+[HistoryStats - Filter words/messages]
+HistoryStats :: Filtrování slov a zpráv
+[HistoryStats - Plugin/extension info]
+HistoryStats :: Informace o doplòku
+[HistoryStats - Warning]
+HistoryStats :: Upozornìní
+[HistoryStats - Working...]
+HistoryStats :: Generování
+;[HistoryStats couldn't create a required folder (#{folder}).\r\n\r\nPlease check the output filename and additional output folder you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+;[HistoryStats couldn't open the output file (#{file}) for write access.\r\n\r\nPlease check the output filename you have chosen for correctness. Additionally, please check whether the file, folder, and/or disk is writable.]
+;[HistoryStats is already generating statistics. Please wait for the already running process to be finished or cancel it and try again.]
+[HistoryStats supports several plugins/extensions. Click to hide info...]
+HistoryStats využívá rùzné doplòky a knihovny. Kliknutím je skryjete...
+[HistoryStats supports several plugins/extensions. Click to learn more...]
+HistoryStats využívá rùzné doplòky a knihovny. Kliknutím zobrazíte více informací...
+;[Hours]
+[Hours of day]
+hod. / den
+;[Hours of day timeline]
+;[HTML]
+;[HTML as fallback]
+[HTML file generation]
+Generování HTML
+;[HTML output unsupported.]
+;[Icons Library Manager]
+[Ignore all contacts with protocol...]
+Ignorovat kontakty používající protokol...
+[Ignore logged status changes from tabSRMM/Scriver]
+Ignorovat zaznamenané zmìny stavu (týká se doplòkù tabSRMM a Scriver)
+[Ignore messages...]
+Ignorovat zprávy...
+[Ignore words longer than (chars, 0=no limit)]
+Ignorovat slova delší než (poèet znakù; 0 = bez omezení)
+[Ignore words shorter than (chars)]
+Ignorovat slova kratší než (poèet znakù)
+[In/out]
+Pøíchozí/odchozí
+[In/out details (tooltip)]
+Zobrazit podrobnosti (tipy)
+[Include omitted contacts in totals]
+Zahrnout vynechané kontakty do celkových výsledkù
+[Include totals in statistics]
+Zahrnout do statistiky celkový souhrn výsledkù
+[Include totals of omitted contacts in additional row]
+Celkový poèet vynechaných kontaktù pøidat do dalšího øádku
+;(DUP) [Incoming]
+;(DUP) [Incoming files]
+;(DUP) [Incoming messages]
+;(DUP) [Incoming URLs]
+[Initializing]
+Inicializace
+[Input]
+Vstup
+;[Input settings]
+;[Installing libpng on your system has the benefit of being able to let HistoryStats write PNG files for the graphs it generates. This can reduce the size of the generated file and improve the rendering speed when viewing your statistics. Additionally, there are columns that are only available with PNG output.\r\n\r\nMost recent systems already have an installation of libpng. Just check if you can enable the PNG output. If not, download and place "libpng13.dll" (see link below, then Current binaries: GnuWin32, download "libpng-x.x.x-bin.zip") and "zlib1.dll" (see links below) in your Miranda IM folder or in its Plugins folder. Having done so and having restarted Miranda IM, you should be able to enable the PNG output option.]
+[Integration]
+Obecné
+[Least common words]
+Nejménì používaná slova
+;(LAI) [libpng|zlib]
+[Limit number of contacts in statistics]
+Omezit poèet zobrazovaných položek
+;[Limiting number of contacts]
+[Longest words]
+Nejdelší slova
+[Merge contacts with same name]
+Slouèit kontakty se stejným jménem
+[Merging similar contacts]
+Sluèování podobných kontaktù
+;[Messages]
+;[messages]
+[Messages (in/out ratio)]
+Zprávy (pomìr pøíchozí/odchozí)
+[Messages (incoming)]
+Zprávy (pøíchozí)
+[Messages (outgoing)]
+Zprávy (odchozí)
+[Messages (total)]
+Zprávy (celkem)
+[MetaContacts Plugin]
+Doplnìk MetaContacts
+[Minimum/average/maximum (tooltip)]
+Minimum/prùmìr/maximum (tipy)
+;[Miscellaneous]
+;(LAI) [month3:Apr]
+;(LAI) [month3:Aug]
+;(LAI) [month3:Dec]
+;(LAI) [month3:Feb]
+;(LAI) [month3:Jan]
+;(LAI) [month3:Jul]
+;(LAI) [month3:Jun]
+;(LAI) [month3:Mar]
+;(LAI) [month3:May]
+;(LAI) [month3:Nov]
+;(LAI) [month3:Oct]
+;(LAI) [month3:Sep]
+;(LAI) [monthF:April]
+;(LAI) [monthF:August]
+;(LAI) [monthF:December]
+;(LAI) [monthF:February]
+;(LAI) [monthF:January]
+;(LAI) [monthF:July]
+;(LAI) [monthF:June]
+;(LAI) [monthF:March]
+;(LAI) [monthF:May]
+;(LAI) [monthF:November]
+;(LAI) [monthF:October]
+;(LAI) [monthF:September]
+[Most common words]
+Nejèastìji používaná slova
+[Move down]
+Pøesunout dolù
+[Move up]
+Pøesunout nahoru
+;[Nick]
+;[Nothing (column will be skipped)]
+[Number of columns to group]
+Poèet sloupcù k seskupení
+[Number of contacts in "Top n"]
+Poèet kontaktù mezi 'nejlepšími x'
+[Number of days to group]
+Poèet dnù k seskupení
+[Number of weeks to group]
+Poèet týdnù k seskupení
+[Number of words]
+Výskyt slov
+;[Number of words to skip in output]
+;(DUP) [OK]
+[Omit all contacts not in "Top n"]
+Vynechat všechny, kteøí nejsou mezi 'nejlepšími x'
+[Omitted]
+Vynechané
+[Omitted contacts]
+Vynechané kontakty
+[Only merge if contacts are in the same group]
+Slouèit pouze kontakty ze stejné skupiny
+[Only use HTML to simulate graphics]
+Simulovat grafická data pomocí HTML
+;(DUP) [Outgoing]
+;(DUP) [Outgoing files]
+;(DUP) [Outgoing messages]
+[Outgoing URLs]
+Odchozí odkazy
+;[Output]
+[Output additional files to subfolder]
+Dodateèné soubory umístit do podsložky
+;[Output file]
+[Output files and folders]
+Výstupní soubory a složky
+[Output graphical columns as PNG files instead of HTML]
+Umožòuje generování obrázkù namísto kódu HTML
+[Output header]
+Výstupní hlavièka
+;[Output settings]
+[Overwrite existing]
+Pøepsat existující
+[Own nick for statistics]
+Vaše pøezdívka pro úèely statistiky
+[Path to browser (leave blank for system default)]
+Cesta k prohlížeèi (prázdné = výchozí prohlížeè)
+[Percentage in bar graph]
+Zobrazit v grafu procentuální pomìr
+[Plugin/extension name:]
+Název doplòku:
+;[Plugins]
+;[pm]
+;[PM]
+;[PNG]
+[PNG (partial)]
+PNG (èásteènì)
+[PNG, ignoring some sttings]
+PNG; ignoruje nìkterá nastavení
+;[Postcollecting column data]
+;[Precollecting column data]
+[Prefer HTML output over PNG output, if available]
+Preferovat HTML pøed obrázky ve formátu PNG
+[Presentation]
+Podání výsledkù
+;[Protocol]
+;[Provided features:]
+[Put in Miranda IM's main menu]
+Pøidat do hlavní nabídky programu
+[Put menu items into submenu]
+Umístit všechny položky do podmenu
+;[Radio button]
+;[Radio button (checked & disabled)]
+;[Radio button (checked)]
+;[Radio button (disabled)]
+[Rank]
+Poøadí
+[Ratio total/distinct words]
+Pomìr všech slov k unikátním
+[Reading database]
+Procházení databáze
+[Remove contacts with empty history]
+Nezahrnovat kontakty bez historie
+[Remove contacts with only incoming chats]
+Nezahrnovat kontakty, které mají pouze pøíchozí zprávy
+[Remove contacts with only outgoing chats]
+Nezahrnovat kontakty, které mají pouze odchozí zprávy
+[Remove only if contact never answered]
+Nezahrnovat kontakty, od kterých nikdy nepøišla odpovìï
+[Remove only if you never answered]
+Nezahrnovat kontakty, kterým jste nikdy neodpovìdìli
+[Removing contacts]
+Odebírání kontaktù
+[Repeat header every n contacts (0=don't repeat)]
+Zobrazit hlavièku každých n kontaktù (0 = vypnout)
+;[Set mode:]
+;[Set name:]
+;[Sets:]
+;[Setting ignored due to PNG output.]
+[Show additional column info...]
+Zobrazit dodateèné informace o sloupci...
+[Show statistics]
+Zobrazit statistiku
+;[Show statistics (main menu)]
+[Show warnings...]
+Zobrazit upozornìní...
+;[Some files were temporarily stored in another location to avoid overwriting already existing files. If you always want to overwrite existing files there is an option for this.]
+[Sorting]
+Øazení
+[Sorting contacts]
+Øazení kontaktù
+[Statistics for #{nick}]
+Statistika: #{nick}
+[Statistics for #{nick} - HistoryStats]
+Statistika: #{nick} - HistoryStats
+[Strip BBCode tags from messages]
+Odstranit ze zpráv znaèky BBCode
+[Subfolder for additional files]
+Název podsložky pro dodateèné soubory
+;[Substitute variables in output file name and subfolder for additional files]
+[Supported plugins/extensions (double-click to learn more):]
+Seznam podporovaných doplòkù (více informací dvojím kliknutím):
+[Table header]
+Záhlaví tabulky
+[Textual sum for in/out]
+Textovì (pøíchozí/odchozí data)
+;[The following files could not be written because files with the same names already existed. Please decide whether to overwrite the existing or to discard the generated files.]
+;[The following information are only relevant if your already use MetaContacts. In case you do please use version 0.9.10.6 or above.\r\n\r\nHistoryStats perfectly integrates with MetaContacts and is able to collect the data from the meta-contact as well as from the subcontacts. It is able to intelligently merge all subcontacts histories and more. You can configure MetContacts integration in the "Input" options.]
+;[The selected set is in use by at least one other column. If you remove it it won't be available to all other columns that use it. Are you sure you want to remove the set?]
+;[The statistics can't be found. Either you never created them or the last created statistics were moved to a different location and can't be found anymore.]
+[Then sort by]
+Dále øadit dle
+;[There are some potential conflicts in your settings. However, this is only a warning and can in general be ignored. The details:]
+[Time a chat session must last to be counted (seconds)]
+Minimální doba trvání diskuse k zahrnutí do statistiky (v sek.)
+;(DUP) [Time between two chat sessions (seconds)]
+[Time of first message to/from contact]
+Èas první odeslané/pøijaté zprávy
+[Time of last message to/from contact]
+Èas poslední odeslané/pøijaté zprávy
+[Timeline]
+Èasová osa
+[Title (default if empty)]
+Záhlaví (prázdné = výchozí)
+[Total word count]
+Celkový poèet slov
+[Total words]
+Celkový poèet slov
+[Totals]
+Celkem
+[Transforming data]
+Transformace dat
+[Treat meta-contacts and subcontacts as normal contacts]
+Považovat meta- a podkontakty za normální kontakty
+;[Unexcluded contacts]
+[Units per bar]
+Poèet jednotek na ukazatel
+[Units per block]
+Poèet jednotek na blok
+;(LAI) [Updater|Updater (Unicode)]
+;(DUP) [URLs]
+[URLs (incoming)]
+URL (pøíchozí)
+[URLs (outgoing)]
+URL (odchozí)
+[URLs (total)]
+URL (celkem)
+[Use meta-contact's history and its subcontacts' histories]
+Použít historii metakontaktu a pøíslušných podkontaktù
+[Use only meta-contact's history]
+Použít pouze historii metakontaktu
+[Use only subcontacts' histories (for one meta-contact)]
+Použít pouze historii pøíslušných podkontaktù (platí pro jeden metakontakt)
+;[Use this plugin if you'd like to be automatically notified when a new version of HistoryStats is published. This plugin can install the updated version, too. As always, be sure to use a recent version though this shouldn't be a big problem with this plugin.]
+;[Use this plugin if you'd like to customize most of the icons HistoryStats' user interface. Please be sure to use version 0.0.1.0 or above. Otherwise HistoryStats won't show up in IcoLib's options.]
+;(LAI) [wday2:Fr]
+;(LAI) [wday2:Mo]
+;(LAI) [wday2:Sa]
+;(LAI) [wday2:Su]
+;(LAI) [wday2:Th]
+;(LAI) [wday2:Tu]
+;(LAI) [wday2:We]
+;(LAI) [wday3:Fri]
+;(LAI) [wday3:Mon]
+;(LAI) [wday3:Sat]
+;(LAI) [wday3:Sun]
+;(LAI) [wday3:Thu]
+;(LAI) [wday3:Tue]
+;(LAI) [wday3:Wed]
+;(LAI) [wdayF:Friday]
+;(LAI) [wdayF:Monday]
+;(LAI) [wdayF:Saturday]
+;(LAI) [wdayF:Sunday]
+;(LAI) [wdayF:Thursday]
+;(LAI) [wdayF:Tuesday]
+;(LAI) [wdayF:Wednesday]
+[Weeks]
+Týdny
+[Word count]
+Poèet slov
+[Word count for each word (tooltip)]
+Poèet výskytù daného slova (tipy)
+[Word count type]
+Druh výsledného poètu slov
+[Word delimiting characters]
+Znaky oddìlující slova
+[Words]
+Slova
+[Words type]
+Druh slov
+[Writing omitted contacts]
+Ukládání vynechaných kontaktù
+[Writing totals]
+Ukládání celkových výsledkù
+;[You can't access the options of HistoryStats as long as the stand-alone configuration dialog of HistoryStats is open. Please close the stand-alone dialog before opening the options dialog of Miranda IM to see the options of HistoryStats here.\r\n\r\nNote that the options offered by both dialogs are the same.]
+;[You can't access the stand-alone configuration dialog of HistoryStats as long as the options dialog of Miranda IM is open. Please close the options dialog and try again.\r\n\r\nNote that the options offered by both dialogs are the same.]
+;[You have unsaved settings. Do you want to save before running HistoryStats?]
+[Characters]
+Znaky
+[Display as]
+Zobrazit jako
+[Absolute]
+Absolutní
+[Average]
+Prùmìrné
+[Units per day]
+Poèet jednotek na den
+[Units per week]
+Poèet jednotek na týden
+[Units per month (30 days)]
+Poèet jednotek na mìsíc (30 dnù)
+[In/out graph]
+Graf (pøíchozí/odchozí data)
+
+; ---

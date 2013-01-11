@@ -1,0 +1,137 @@
+; /----------------------------------------------------------\
+; |  AutoReplacer 0.0.1.6                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=593
+;
+
+
+;AutoReplacer plugin
+;by Angelo Luiz Tartari
+
+; Options group name
+;(DUP) [Events]
+
+; Options page name
+[AutoCorrection]
+Kontrola chyb
+[AutoText]
+Nahrazování textu
+
+; Options page
+[&Enable AutoCorrection]
+&Zapnout kontrolu chyb
+[&Enable AutoText]
+Zapnout nahrazování t&extu
+[Correct TWo INitial &CApitals]
+&Oprava POèáteèních DVou VElkých PÍsmen
+[Capitalize first letter of &sentences]
+První &slovo ve vìtì velkým písmenem
+[Capitalize &names of days]
+&Názvy dnù v týdnu velkým písmenem
+[Correct accidental usage of cAPS &LOCK Key]
+Opravit náhodné zapnutí klávesy cAPS &LOCK
+[AutoText entries]
+Položky k nahrazení
+[Replace]
+Nahradit
+[With]
+Èím
+;(DUP) [&Add]
+;(DUP) [&Delete]
+[E&xceptions...]
+&Výjimky...
+[Exceptions]
+Výjimky
+;(DUP) [OK]
+;(DUP) [Cancel]
+[&Capitalize]
+&První písmeno
+[&TWo INitial CApitals]
+DVì POèá&teèní VElká
+[Do not capitalize sentences beginning with]
+Nemìnit poè. písmeno u vìt zaèínajících na
+[Do not correct words beginning with]
+Neopravovat slova zaèínající na
+
+;(DUP) [Help]
+[Select an item to delete.]
+Vyberte požadovanou položku.
+
+; Capital
+[Change Case]
+Zmìnit malá/VELKÁ
+[lowercase]
+malými
+[UPPERCASE]
+VELKÝMI
+[iNVERTED]
+iNVERZNÌ
+[Sentence case]
+vìta
+[Title Case]
+nadpis
+
+; Import/export
+[&Import/Export...]
+&Import/Export...
+[I want to...]
+ Požadovaná operace 
+[import AutoText entries]
+Importovat položky nahrazení textu
+[import AutoCorrection entries]
+Importovat položky opravy chyb
+[import capitalize exception entries]
+Importovat výjimky poèáteèních velkých písmen
+[import two initial capitals exception entries]
+Importovat výjimky dvou poèáteèních velkých písmen
+[export AutoText entries]
+Exportovat položky nahrazení textu
+[export AutoCorrection entries]
+Exportovat položky opravy chyb
+[export capitalize exception entries]
+Exportovat výjimky poèáteèních velkých písmen
+[export two initial capitals exception entries]
+Exportovat výjimky dvou poèáteèních velkých písmen
+;(DUP) [Path:]
+[Txt File]
+textový soubor
+;(DUP) [Invalid path and/or filename.]
+;(DUP) [Importing sucessfully completed.]
+[Error importing AutoText entries.]
+Chyba pøi importu položek nahrazení textu.
+[Error importing AutoCorrection entries.]
+Chyba pøi importu položek opravy chyb.
+[Error importing exceptions entries.]
+Chyba pøi importu výjimek.
+[Error exporting AutoText entries.]
+Chyba pøi exportu položek nahrazení textu.
+[Error exporting AutoCorrection entries.]
+Chyba pøi exportu položek opravy chyb.
+[Error exporting exception entries.]
+Chyba pøi exportu výjimek.
+[&Do it!]
+&Provést
+;(DUP) [&Close]
+
+; Other
+[monday]
+pondìlí
+[tuesday]
+úterý
+[wednesday]
+støeda
+[thursday]
+ètvrtek
+[friday]
+pátek
+[saturday]
+sobota
+[sunday]
+nedìle
+
+[Please read the readme file for help, there are instructions on how to use and how to configure the plugin.]
+Více informací, návod k použití a jak nastavit doplnìk naleznete v souboru Readme.
+
+; ---

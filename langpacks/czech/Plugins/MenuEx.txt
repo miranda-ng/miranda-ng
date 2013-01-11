@@ -1,0 +1,87 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: MenuEx.dll
+;  Plugin: Menu Item Ext
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\MenuItemEx\res\resource.rc
+[&Send]
+[&Cancel]
+[Shown menu items]
+Viditelné položky v menu
+[Visibility]
+[Show alpha icons]
+Zobrazit prùhledné ikony
+[Hide from list]
+Skrýt
+[Ignore]
+[Copy to Account (Ctrl+click for move to Account)]
+Zkopírovat do úètu (Ctrl+klik pro pøesunutí do úètu)
+[Send 'You were added']
+Odeslat zprávu o zaøazení
+[Request Authorization]
+Požádat o autorizaci
+[Browse Received Files]
+[Copy IP]
+Zkopírovat IP adresu
+[Copy MirVer]
+Zkopírovat klienta
+[Copy Status Message]
+Zkopírovat zprávu stavu
+[Add item name]
+Pøidat název položky
+[Copy ID]
+Zkopírovat ID
+[Add protocol name]
+Pøidat název protokolu
+[Show ID in menu item]
+Zobrazit ID v položce menu
+[Trim too long ID]
+Zkrátit pøíliš dlouhé ID
+[* Use Ctrl+click to see popup with the copied text]
+* Použít Ctrl+klik pro zobrazení oznámení se zkopírovaným textem
+[Hide contact on 'Ignore all']
+[Other options]
+Ostatní možnosti
+[Automatically refresh contact's details after they come online]
+;file \plugins\MenuItemEx\src\main.cpp
+[Status message]
+[XStatus title]
+Název rozšíøeného stavu
+[XStatus message]
+Zpráva rozš.stavu
+[Listening to]
+[Activity title]
+[Activity text]
+[Show in list]
+[Always visible]
+Tento èlovìk mì vždy uvidí
+[Never visible]
+Tento èlovìk mì nikdy neuvidí
+[Request authorization]
+[Copy to Account]
+[Copy xStatus Message]
+[All]
+všechno
+[Messages]
+Zprávy
+[URL]
+[Files]
+Soubory
+[User Online]
+Uživatel online
+[Authorization]
+Autorizace
+[You Were Added]
+Zpráva o zaøazení mezi kontakty
+[Typing Notify]
+[Please authorize me to add you to my contact list.]
+[%s [%s]]
+[\r\n]
+[Do you want to send authorization request\nto new contact?]
+[Miranda NG]
+[Open ignore settings]
+;file \plugins\MenuItemEx\src\options.cpp
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}

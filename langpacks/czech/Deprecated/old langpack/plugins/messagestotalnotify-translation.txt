@@ -1,0 +1,79 @@
+; /----------------------------------------------------------\
+; |  Messages Total Notify 0.0.5.3                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2918
+;
+
+;[Messages Total Notify]
+;Messages Total Notify
+[Message was sent to]
+Zpráva byla odeslána pro
+[total messages]
+zpráv celkem
+;(DUP) [Common]
+;(DUP) [Settings]
+;(DUP) [Show popup]
+;(DUP) [Notify]
+[Show popup notify every]
+Zobrazit oznámení každých
+;(DUP) [messages]
+[Send messages]
+Posílat zprávy
+[Send messages total every]
+Posílat každých
+[Show notify too]
+Zobrazit také oznámení
+[Show information after send]
+Zobrazit informace po odeslání
+[Save to history]
+Uložit do historie
+[Send immediately]
+Odesílat hned
+;(DUP) [Sounds]
+[Play sound at popup notify]
+Pøehrát zvuk pøi oznámení	 
+[Play sound at send messages action]
+Pøehrát zvuk pøi odeslání zprávy
+;(DUP) [Popup mouse click]
+;(DUP) [Left]
+;(DUP) [Right]
+;(DUP) [Dismiss]
+;(DUP) [Contact history]
+;(DUP) [Message window]
+[Send messages total history]
+Poslat poèet zpráv v historii
+[Send messages total to contact]
+Poslat kontaktu poèet zpráv
+Send messages total to contact
+[Contact details window]
+Otevøít informace o kontaktu
+;(DUP) [Nothing]
+[Popup colours]
+Barvy oznámení
+;(DUP) [Background]
+;(DUP) [Text]
+;(DUP) [Timeout]
+[Notify]
+Oznámení
+[Auto send]
+Odeslat automaticky
+;(DUP) [Information]
+[Defaults]
+Výchozí
+;(DUP) [Preview]
+[Menu]
+Menu
+;(DUP) [Enable contact menu item]
+;(DUP) [Variables]
+[%n - messages total]
+%n - zpráv celkem
+[%c - contact name]
+%c - jméno kontaktu
+;(DUP) [Template]
+
+[Show/send the count of all messages from the history to a contact]
+Zobrazí a umožní poslat informaci o poètu zpráv uložených v historii.
+
+; ---

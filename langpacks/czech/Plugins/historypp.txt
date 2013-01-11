@@ -1,0 +1,242 @@
+;#muuid not found, please specify manually!
+;langpack template for historypp
+;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
+[Appearance options]
+Možnosti vzhledu
+[Show event icons]
+Zobrazit ikony událostí
+[Use RTL by default]
+Psát standardnì zprava doleva
+[Open event details by Enter]
+Zobrazit dod. informace klávesou ENTER
+[Show events count in menu]
+Zobrazit poèet událostí v nabídce
+[Show avatars]
+Zobrazit avatary
+[Formatting options]
+Možnosti formátování
+[Enable BBCodes]
+Povolit BBCode
+[Enable SmileyAdd support]
+[Enable MathModule support]
+Podporovat doplnìk MathModule
+[Enable raw RTF support]
+Povolit RTF formátování
+[Display changed avatars]
+Zobrazovat zmìnìné avatary
+[Message log options]
+Možnosti záznamu rozhovoru
+[Imitate IEView API]
+Imitovat IEView API
+[Group messages]
+Seskupovat zprávy
+[Disable border]
+Nezobrazovat rámeèek
+[Disable scroll bar]
+Vypnout posuvník
+[History view options]
+Možnosti zobrazení historie
+[Recent events on top]
+Zobrazit nejnovìjší události nahoøe
+[Visit Wiki page for more options]
+Navštivte Wiki stránku pro více informací
+[Please restart Miranda NG for your changes to take effect.]
+;file \plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
+[New Filter #%d]
+Nový filtr #%d
+[Incoming & Outgoing]
+Pøíchozí a odchozí
+[Events]
+Události
+;file \plugins\HistoryPlusPlus\CustomizeToolbar.pas
+[Event Filters]
+Filtry událostí
+;file \plugins\HistoryPlusPlus\EmptyHistoryForm.pas
+[History of this contact is password protected]
+Historie tohoto kontaktu je chránìná heslem
+[Do you really want to delete ALL items for this contact?]
+Opravdu chcete vymazat VŠECHNY záznamy u vybrané položky?
+[Note: It can take several minutes for large histories]
+Upozornìní: Tato akce mùže trvat u dlouhé historie i nìkolik minut.
+;file \plugins\HistoryPlusPlus\GlobalSearch.pas
+[Search]
+Hledat
+[%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
+%.0n v %d kontaktech nalezeno. Vyhledávání v %0n položkách trvalo %.1f s
+[All Results]
+Všechny výsledky
+[System History]
+Historie systému
+[Searching "%s"...]
+Hledání "%s"...
+[Stop]
+Zastavit
+[Searching... Please wait.]
+Hledání... prosím èekejte
+[Preparing search...]
+Pøíprava hledání...
+[Searching... %.0n items in %d contacts found]
+Hledání... %.0n položek v %d kontaktech nalezeno
+[History is not protected, searching all contacts]
+Historie není chránìná, prohledávám všechny kontakty
+[Searching unprotected contacts only]
+Vyhledávám pouze v nechránìných kontaktech
+[Searching all contacts]
+Prohledávání všech kontaktù
+[You have entered the wrong password.]
+Zadali jste špatné heslo.
+[History++ Password Protection]
+History++: Ochrana heslem
+[Wrong password]
+Nesprávné heslo
+[Please wait while closing the window...]
+Prosím poèkejte, okno se zavírá...
+[Partial History [%s] - [%s]]
+[Remove &Bookmark]
+Odstranit záložku
+[Set &Bookmark]
+Vložit záložku
+[Ready to search]
+Pøipraveno k vyhledávání
+[Click Search button to start]
+Stisknìte tlaèítko Vyhledávání
+[From %s]
+Od %s
+[To %s]
+Pro %s
+[HotSearch: %s (F3 to find next)]
+Vyhledávání: %s (F3 najde další)
+[You have reached the end of the history.]
+Už jste na konci historie.
+[Do you want to continue searching at the beginning?]
+Chcete zaèít hledat od zaèátku?
+[History++ Search]
+History++ hledání
+[Loading...]
+Naèítání...
+[Saving...]
+Ukládání...
+[Searching...]
+Hledání...
+[Deleting...]
+Mazání...
+[Do you really want to delete selected items (%.0f)?]
+Opravdu chcete odstranit vybrané položky? (%.0f)?
+[Delete Selected]
+Smazat vybrané
+[Do you really want to delete selected item?]
+Opravdu chcete odstranit vybranou položku?
+[Delete]
+;file \plugins\HistoryPlusPlus\HistoryForm.pas
+[Unknown codepage %u]
+Neznámá kódová stránka %u
+[%s - History++]
+[Error]
+[&Pseudo-edit]
+&Pseudo-editace
+[&Open]
+&Otevøít
+[%.0n items in history]
+%.0n položek v historii
+[Pseudo-edit mode...]
+Režim pseudo editace...
+[Full History [%s] - [%s]]
+[Phrase not found]
+Výraz nenalezen
+[Continued from the top]
+Pokraèovat odshora
+[Continued from the bottom]
+Pokraèovat odspodu
+[Search: %s (F3 to find next)]
+Hledat: %s (F3 najde další)
+["%s" not found]
+"%s" nenalezeno
+[You have entered the wrong password]
+Zadali jste nesprávné heslo
+[%0.1n h]
+[%d min]
+[%d event]
+%d událost
+[%0.n events (%s)]
+%0.n událostí (%s)
+;file \plugins\HistoryPlusPlus\HistoryGrid.pas
+[Remove Bookmark]
+Odstranìní záložky
+[Set Bookmark]
+Vložení záložky
+[Hide headers]
+Skrytí záhlaví
+[Show headers]
+Zobrazit záhlaví ve slouèených oznámeních
+[Running version of AniSmiley is not supported]
+Vaše verze doplòku AniSmiley není podporována
+[Running version of SmileyAdd is not supported]
+Vaše verze doplòku SmileyAdd není podporována
+[Running version of Emoticons is not supported]
+Vaše verze doplòku Emoticons není podporována
+;file \plugins\HistoryPlusPlus\historypp.dpr
+[History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.]
+Doplnìk History++ nelze použít, chybí modul Richedit 2.0 nebo novìjší.\nPokraèovat ve spouštìní Mirandy lze stiskem tlaèítka OK.
+;file \plugins\HistoryPlusPlus\hpp_contacts.pas
+[Server]
+Server
+[''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n    else\r\n    begin\r\n      ci.cbSize := SizeOf(ci);\r\n      ci.hContact := hContact;\r\n      ci.szProto := PAnsiChar(Proto);\r\n      ci.dwFlag := CNF_DISPLAY + CNF_UNICODE;\r\n      if CallService(MS_CONTACT_GETCONTACTINFO, 0, LPARAM(@ci)) = 0 then\r\n      begin\r\n        RetPWideChar := ci.retval.szVal.w;\r\n        UW := TranslateW('''(Unknown Contact)''' { TRANSLATE-IGNORE } );\r\n        if WideCompareText(RetPWideChar, UW) = 0 then\r\n          Result := AnsiToWideString(GetContactID(hContact, Proto), CP_ACP)\r\n        else\r\n          Result := RetPWideChar;\r\n        mir_free(RetPWideChar);\r\n      end\r\n      else\r\n        Result := String(GetContactID(hContact, Proto));\r\n      if Result = '' then\r\n        Result := TranslateAnsiW(Proto { TRANSLATE-IGNORE } );\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction GetContactID(hContact: THandle; Proto: AnsiString = ''; Contact: boolean = false): AnsiString;\r\nvar\r\n  uid: PAnsiChar;\r\n  dbv: TDBVARIANT;\r\n  cgs: TDBCONTACTGETSETTING;\r\n  tmp: String;\r\nbegin\r\n  Result := '';\r\n  if not((hContact = 0) and Contact) then\r\n  begin\r\n    if Proto = '' then\r\n      Proto := GetContactProto(hContact);\r\n    uid := PAnsiChar(CallProtoService(PAnsiChar(Proto), PS_GETCAPS, PFLAG_UNIQUEIDSETTING, 0));\r\n    if (uint_ptr(uid) <> CALLSERVICE_NOTFOUND) and (uid <> nil) then\r\n    begin\r\n      cgs.szModule := PAnsiChar(Proto);\r\n      cgs.szSetting := uid;\r\n      cgs.pValue := @dbv;\r\n      if CallService(MS_DB_CONTACT_GETSETTING, hContact, LPARAM(@cgs)) = 0 then\r\n      begin\r\n        case dbv._type of\r\n          DBVT_BYTE:\r\n            Result := AnsiString(intToStr(dbv.bVal));\r\n          DBVT_WORD:\r\n            Result := AnsiString(intToStr(dbv.wVal));\r\n          DBVT_DWORD:\r\n            Result := AnsiString(intToStr(dbv.dVal));\r\n          DBVT_ASCIIZ:\r\n            Result := AnsiString(dbv.szVal.a);\r\n          DBVT_UTF8:\r\n            begin\r\n              tmp := AnsiToWideString(dbv.szVal.a, CP_UTF8);\r\n              Result := WideToAnsiString(tmp, hppCodepage);\r\n            end;\r\n          DBVT_WCHAR:\r\n            Result := WideToAnsiString(dbv.szVal.w, hppCodepage);\r\n        end;\r\n        // free variant\r\n        DBFreeVariant(@dbv);\r\n      end;\r\n    end;\r\n  end;\r\nend;\r\n\r\nfunction WriteContactCodePage(hContact: THandle; CodePage: Cardinal; Proto: AnsiString = ']
+;file \plugins\HistoryPlusPlus\hpp_events.pas
+[URL: %s]
+URL: %s
+[Authorisation request by %s (%s%d): %s]
+Žádost o autorizaci od %s (%s%d): %s
+[You were added by %s (%s%d)]
+%s (%s%d) si vás pøidal
+[Webpager message from %s (%s): %s]
+Zpráva pøes webpager od  %s (%s): %s
+[Email express from %s (%s): %s]
+Zpráva pøes Email Express od %s (%s): %s
+[Status change: %s]
+Zmìna stavu: %s
+[''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n  else\r\n    Name := GetContactDisplayName(PDWord(PAnsiChar(EventInfo.pBlob) + BytePos + 4)^, '', true);\r\n  if Boolean(EventInfo.flags and DBEF_UTF) then\r\n    cp := CP_UTF8\r\n  else\r\n    cp := hppCodepage;\r\n  Result := Format(Template, [Name, uin, AnsiToWideString(#13#10 + Body, cp)]);\r\nend;\r\n\r\nprocedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);\r\nbegin\r\n  hi.Text := GetEventTextForICQSystem(EventInfo,\r\n    TranslateW('Authorization request granted by %s (%d): %s]
+[Authorization request denied by %s (%d): %s]
+Žádost o autorizaci zamítl/a %s (%d): %s
+[User %s (%d) removed himself from your contact list: %s]
+Uživatel/ka %s (%d) se odstranil/a z vašeho seznamu kontaktù: %s
+[Authorization future request by %s (%d): %s]
+Požadavek na autorizaci od %s (%d): %s
+[User %s (%d) changed icq client: %s]
+Uživatel %s (%d) zmìnil ICQ klienta na %s
+[Status request by %s (%d):%s]
+Požadavek na zjištìní stavu od  %s (%d):%s
+[Ignored status request by %s (%d):%s]
+Ignorovaný požadavek na zjištìní stavu od  %s (%d):%s
+[Broadcast message from %s (%s): %s]
+Hromadná zpráva od %s (%s): %s
+[closed chat session]
+ukonèil komunikaci
+[WATrack: information request]
+WATrack: požadavek na informaci
+[Artist: %s\r\nTitle: %s\r\nAlbum: %s]
+Interpret: %s\r\nNázev: %s\r\nAlbum: %s
+[WATrack: %s]
+WATrack: %s
+[WATrack: request denied]
+WATrack: požadavek zamítnut
+;file \plugins\HistoryPlusPlus\hpp_externalgrid.pas
+[Save History]
+Uložit historii
+[No such items]
+Žádné takové položky
+[No "%s" items]
+Žádné položky "%s"
+;file \plugins\HistoryPlusPlus\hpp_options.pas
+[Cannot load icon pack (%s) from:\r\n%s\r\nThis can cause no icons will be shown.]
+Nelze naèíst knihovnu ikon (%s) z: \r\n%s\r\nNejspíš nebudou žádné ikony zobrazeny.
+[You are using old icon pack from:\r\n%s\r\nThis can cause missing icons, so update the icon pack.]
+Používáte starou knihovnu ikon (%s) z: \r\n%s\r\nNìkteré ikony nebudou nejspíš zobrazeny, doporuèujeme aktualizaci.
+;file \plugins\HistoryPlusPlus\PassCheckForm.pas
+;file \plugins\HistoryPlusPlus\PassForm.pas
+[Password not set]
+Bez hesla
+[Password set]
+Chránìno heslem
+;file \plugins\HistoryPlusPlus\PassNewForm.pas
+[Password and Confirm fields should be similar]
+Text zadaný do pole Heslo a Potvrzení musí být stejný

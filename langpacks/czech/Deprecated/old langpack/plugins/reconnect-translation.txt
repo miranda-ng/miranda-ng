@@ -1,0 +1,18 @@
+; /----------------------------------------------------------\
+; |  Reconnect 0.0.1.5                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; Adresa: 
+;
+
+; Reconnect
+[Max Attempts:]
+Poèet pokusù:
+;(DUP) [Timeout]
+[msec]
+ms
+[0 - Infinite it is clean attempts]
+(0 nebo prázdné - zkoušet neustále)
+
+; ---

@@ -1,0 +1,287 @@
+#muuid {748f8934-781a-528d-5208-001265404ab3}
+;langpack template for Tlen
+;file \protocols\Tlen\res\tlen.rc
+[Username:]
+[Password:]
+[Save password]
+[Create new account]
+Zøídit nový úèet
+[Tlen]
+[Options]
+[Automatically reconnect after unintentional disconnection]
+Po pøerušení automaticky navázat spojení
+[Leave status message after disconnection]
+Po odpojení zanechat zprávu stavu
+[Ignore advertisements]
+Ignorovat reklamy
+[Automatically delete contacts not in my roster]
+[Show offline users with status messages as invisible in contact list]
+Zobrazovat offline uživatele se stavovou zprávou jako neviditelné
+[Enable avatars]
+Aktivovat avatary
+[Send and receive client version information]
+Odeslat a pøijmout informaci o verzi klienta
+[Alert policy]
+Pravidla pro upozornìní
+[Use Nudge plugin]
+Použít doplnìk Nudge
+[Log alerts as messages]
+Zaznamenat upozornìní jako zprávy
+[Group chat policy]
+Pravidla pro diskuse
+[Image transfer policy]
+Pravidla pro obrázky
+[Voice Chats]
+Hovory
+[Voice chat policy]
+Pravidla pro hovory
+[Recording device:]
+Záznamové zaøízení:
+[Playback device:]
+Pøehrávací zaøízení:
+[Expert Options]
+Možnosti pro experty
+[Login server:]
+[Connection Host:]
+Hostitel pøipojení:
+[Port:]
+[Keep connection alive]
+[Enable encryption]
+Zapnout šifrování
+[Enable Always Visible and Never Visible]
+Povolit vždy viditelní a vždy neviditelní
+[P2P Connections]
+Pøímá spojení
+[Use proxy for incoming connections]
+Pro pøíchozí spojení použít proxy
+[Proxy type:]
+Druh proxy:
+[Proxy server:]
+[Proxy requires authorization]
+[Mail Notification]
+Oznámení nové pošty
+[Enable incoming mail notification]
+Povolit oznámení o došlé poštì
+[Colours]
+[Background]
+Pozadí
+[Text]
+Text
+[Delay]
+Prodleva
+[&From PopUp plugin]
+[&Custom]
+[P&ermanent]
+[Preview]
+Náhled
+[OK]
+[Cancel]
+[Nick name:]
+[First name:]
+Jméno:
+[Last name:]
+Pøíjmení:
+[E-mail:]
+[Gender:]
+Pohlaví:
+[Year of birth:]
+Rok narození:
+[City:]
+Mìsto:
+[School:]
+[Occupation:]
+Povolání:
+[Looking for:]
+[Voice chats]
+[Publicly visible status]
+[Save changes]
+Uložit zmìny
+[Avatar Options]
+Nastavení avataru
+[Public avatar]
+[Tlen login:]
+Tlen login:
+[Subscription:]
+Podepsáno:
+[Software:]
+Software:
+[Version:]
+[System:]
+Systém:
+[Personal Information]
+[Nickname:]
+[Age:]
+Vìk:
+[to]
+[Extra Search Criterias]
+Extra kritéria pro hledání
+[Status:]
+[Plan:]
+Plan:
+[Quality]
+[In]
+V
+[Out]
+[Finish]
+Dokonèit
+[&Accept]
+[From:]
+[The following invitation to join a voice chat is received.]
+Pøišla vám pozvánka k hovoru.
+;file \protocols\Tlen\src\jabber_iqid.cpp
+[Authentication failed for]
+Chyba pøi ovìøování:
+[Tlen Authentication]
+;file \protocols\Tlen\src\jabber_opt.cpp
+[General]
+[Advanced]
+Extra
+[Notifications]
+Upozornìní
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[PopUps]
+[These changes will take effect the next time you connect to the Tlen network.]
+[Tlen Protocol Option]
+[Accept all alerts]
+Pøijmout všechna upozornìní
+[Ignore alerts from unauthorized contacts]
+Ignorovat upozornìní od neautorizovaných kontaktù
+[Ignore all alerts]
+Ignorovat všechna upozornìní
+[Always ask me]
+[Accept invitations from authorized contacts]
+[Accept all invitations]
+[Ignore invitations from unauthorized contacts]
+[Ignore all invitation]
+Ignorovat všechna pozvání
+[Accept all images]
+Pøijmout všechny obrázky
+[Ignore images from unauthorized contacts]
+Ignorovat obrázky od neautorizovaných kontaktù
+[Ignore all images]
+Ignorovat všechny obrázky
+[<Last message>]
+<poslední zpráva>
+[<Ask me>]
+[Online]
+[Away]
+[DND]
+[Free for chat]
+[Invisible]
+[tlen.pl]
+[s1.tlen.pl]
+[Forwarding]
+Pøeposílání
+[SOCKS4]
+[SOCKS5]
+[%s mail]
+;file \protocols\Tlen\src\jabber_svc.cpp
+[Tlen login]
+;file \protocols\Tlen\src\jabber_thread.cpp
+[Enter password for]
+Zadejte heslo pro
+[Jabber Connection Error]
+Jabber :: Chyba spojení
+[%s Web Messages]
+[Web message]
+[From]
+[E-mail]
+[An alert has been received.]
+[Private conference]
+[Subject]
+Pøedmìt
+;file \protocols\Tlen\src\jabber_ws.cpp
+[%s connection]
+%s - spojení se serverem
+[%s SOCKS connection]
+;file \protocols\Tlen\src\tlen.cpp
+[Protocol icon]
+[Tlen inbox]
+[Group chats]
+Skupinové rozhovory
+[Tlen chats]
+[Grant authorization]
+[Request authorization]
+[Voice chat]
+Telefonní hovor
+[Microphone]
+[Speaker]
+[Send image]
+Poslat
+[Incoming mail]
+Nová pošta
+[Alert]
+Upozornìní
+;file \protocols\Tlen\src\tlen_file.cpp
+[1 File]
+[%d Files]
+%d soubory
+;file \protocols\Tlen\src\tlen_muc.cpp
+[You have been kicked. Reason: %s ]
+[You cannot join this chat room, because you are banned.]
+[Chat room not found.]
+[This is a private chat room and you are not one of the members.]
+[You cannot send any message unless you join this chat room.]
+[Chat room with already created.]
+[Nickname '%s' is already registered.]
+[Nickname already in use, please try another one. Hint: '%s' is free.]
+[You cannot register more than %s nicknames.]
+[You cannot create more than %s chat rooms.]
+[You cannot join more than %s chat rooms.]
+[Anonymous nicknames are not allowed in this chat room.]
+[Unknown error code : %d]
+;file \protocols\Tlen\src\tlen_userinfo.cpp
+[Male]
+muž
+[Female]
+žena
+[Somebody to talk]
+[Friendship]
+[Flirt/romance]
+[Love]
+[Nothing]
+[All]
+všechno
+[Available]
+[Student]
+[College student]
+[Farmer]
+[Manager]
+[Specialist]
+[Clerk]
+[Unemployed]
+[Pensioner]
+[Housekeeper]
+[Teacher]
+[Doctor]
+[Other]
+Ostatní
+[I'd like to go downtown]
+[I'd like to go to the cinema]
+[I'd like to take a walk]
+[I'd like to go to the disco]
+[I'd like to go on a blind date]
+[Waiting for suggestion]
+[Account]
+Úèet
+[both]
+oboje
+[from]
+od
+[none]
+---
+[not on roster]
+;file \protocols\Tlen\src\tlen_voice.cpp
+[...Connecting...]
+[...Waiting for connection...]
+[...Finished...]
+[...Error...]
+[...Denied...]
+[DISPLAY]
+[8000 Hz / 13.8 kbps]
+[11025 Hz / 19.1 kbps]
+[22050 Hz / 36.8 kbps]
+[44100 Hz / 72 kbps]
+[...???...]
+[Default]

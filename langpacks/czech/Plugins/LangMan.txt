@@ -1,0 +1,79 @@
+#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+;============================================================
+;  File: LangMan.dll
+;  Plugin: LangMan
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\LangMan\res\resource.rc
+[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
+K dispozici je nová verze pøekladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlaèítko 'Instalovat'.
+[Language:]
+[Current:]
+Aktuální:
+[New:]
+Novı:
+[&Install Now]
+&Instalovat
+[Close]
+Zavøít
+[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+[Download &all languages]
+Stáhnout všechny j&azyky
+[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
+Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovìjší pøeklad v daném jazyce. Nezapomeòte ovšem, e mùe existovat nìkolik variant pøekladù od rùznıch autorù.
+[OK]
+[Cancel]
+[Author(s):]
+[E-mail:]
+[Last modified using:]
+Urèeno pro:
+[Date:]
+[Version:]
+[Locale:]
+Lokalizace:
+[Not included:]
+V pøekladu chybí:
+[Download more Language Packs]
+Stáhnout další pøeklady
+[Please restart Miranda NG for your changes to take effect.]
+[Check for new &versions of Language Packs periodically]
+Pravidelnì zjišovat nové &verze pøekladù
+[&Download Language]
+Stáhnout pøekla&d
+;file \plugins\LangMan\src\langpack.cpp
+[Plugins\\Language\\]
+[English (default)]
+[%s\\Plugins\\%s]
+;file \plugins\LangMan\src\main.cpp
+[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
+[Language Pack Manager Plugin]
+Doplnìk Správa pøekladù
+[Reload langpack]
+[LangMan-Readme.txt]
+[Docs\\]
+[LangMan-License.txt]
+[LangMan-SDK.zip]
+;file \plugins\LangMan\src\options.cpp
+[UXTHEME]
+[%s\\Plugins\\*.dll]
+[%hs (%s)]
+[All installed plugins are included.]
+Všechny nainstalované doplòky jsou pøeloeny.
+[(incompatible)]
+[Unknown]
+[Current]
+aktuální
+[Installed Languages]
+Nainstalované jazyky
+[langpack_*.txt]
+[File]
+Soubor
+[built-in]
+interní
+[&Remove...]
+Odst&ranit...
+[Languages]
+Jazyky
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}

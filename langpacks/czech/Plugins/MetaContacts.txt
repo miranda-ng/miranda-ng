@@ -1,0 +1,221 @@
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+;============================================================
+;  File: MetaContacts.dll
+;  Plugin: MetaContacts
+;  Version: 0.14.0.13
+;  Authors: J. Schaal & S. Ellis
+;============================================================
+;file \plugins\MetaContacts\res\MetaContacts.rc
+[Please select a MetaContact:]
+Prosím vyberte metakontakt:
+[&Ok]
+[&Cancel]
+[Sort Alphabetically]
+Seøadit abecednì
+[&OK]
+[Name:]
+[Information]
+[Contacts]
+Kontakty
+[&Apply]
+&Použít
+[&Remove]
+[&Set as Default]
+&Jako výchozí
+[Move &Up]
+Nahor&u
+[Move &Down]
+&Dolù
+[Force use of default for sending (even if offline)]
+Nastavit jako výchozí pro odesílání (i když je offline)
+[Send &Offline]
+Poslat offline
+[Set default contact on receipt of message]
+Nastavit výchozí kontakt pro pøíjem zpráv
+[Always send to default contact if not offline]
+Vždy odeslat výchozímu kontaktu, pokud není offline
+[Options]
+[Suppress status notification for subcontacts]
+Potlaèit oznámení stavu u podkontaktù
+[Context Menu]
+Kontextová nabídka
+[Use contact's unique id]
+Použít identifikátor kontaktu
+[Use contact's display name]
+Použít zobrazené jméno
+[Contact Labels]
+Popisky kontaktu
+[Function]
+Funkce
+[Set default and open message window]
+Nastavit jako výchozí a otevøít kom. okno
+[Show subcontact context menu]
+Zobrazit kontextovou nabídku kontaktu
+[Show user information]
+Zobrazit informace o uživateli
+[Contact List]
+[Display subcontact nickname]
+Zobrazit pøezdívku podkontaktu
+[Display subcontact display name]
+Zobrazit nastavené jméno podkontaktu
+[Use subcontact message windows]
+Použít komunikaèní okno podkontaktu
+[Copy subcontact data]
+Kopírovat data podkontaktu
+[Lock name to first contact]
+Použít jméno prvního kontaktu
+[but only for the current conversation]
+avšak pouze pro aktuální rozhovor
+[Progress1]
+[Please wait while the contact's history is copied.]
+Prosím èekejte, historie kontaktu se kopíruje.
+[Please wait while the contact's history is removed.]
+Prosím èekejte, historie kontaktu se maže.
+[Subcontact Priorities]
+[Rank:]
+[Status:]
+[Protocol:]
+Protokol:
+[Reset All]
+Vše resetovat
+[Default]
+[(Lower ranks are preferred)]
+[Copy subcontact history to MetaContact when creating or adding]
+Kopírovat historii podkontaktu do metakontaktu pøi vytváøení èi pøidávání
+[Number of days to copy (0=all):]
+Zkopírovat dnù (0 = vše):
+[Keep MetaContact history synchronized with subcontacts]
+Synchronizovat historii metakontaktu s podkontakty
+[Keep subcontact history synchronized with MetaContact]
+Synchronizovat historii podkontaktu s metakontaktem
+[History (** beware - change at your own risk **)]
+Historie (** pozor - pouze na vlastní nebezpeèí! **)
+;file \plugins\MetaContacts\src\addto.cpp
+[This contact is a MetaContact.\nYou can't add a MetaContact to another MetaContact.\n\nPlease choose another.]
+Vybraný kontakt je typu 'meta' a do takového nelze pøidat další metakontakt.\n\nVyberte prosím jiný.
+[MetaContact Conflict]
+Konflikt metakontaktu
+[This contact is already associated to a MetaContact.\nYou cannot add a contact to multiple MetaContacts.]
+Tento kontakt je už asociován s metakontaktem.\nKontakt nelze pøidat k více metakontaktùm najednou.
+[Multiple MetaContacts]
+Více metakontaktù
+[No suitable MetaContact found]
+Nenalezen pøíslušný metakontakt
+[a contact]
+kontakt
+[Adding %s...]
+Pøidávání %s...
+[Please select a MetaContact]
+Prosím vyberte metakontakt
+[No MetaContact selected]
+Nebyl vybrán žádný metakontakt
+[Assignment to the MetaContact failed.]
+Pøiøazení k metakontaktu se nezdaøilo.
+[Assignment failure]
+Chyba pøiøazování
+;file \plugins\MetaContacts\src\edit.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+[Unknown]
+[Yes]
+Ano
+[Contact]
+Kontakt
+[Protocol]
+[Send Offline]
+Poslat offline
+[Delete MetaContact?]
+Smazat metakontakt?
+[None]
+---
+;file \plugins\MetaContacts\src\icons.cpp
+[Toggle Off]
+[Toggle On]
+[Convert to MetaContact]
+Zkonvertovat na metakontakt
+[Add to Existing]
+[Edit]
+[Set to Default]
+[Remove]
+;file \plugins\MetaContacts\src\meta_main.cpp
+[Error - Database corruption.\nPlugin disabled.]
+Chyba - poškozená databáze.\nDoplnìk zakázán.
+[MetaContacts]
+Metakontakty
+;file \plugins\MetaContacts\src\meta_menu.cpp
+[There was a problem in assigning the contact to the MetaContact]
+Bìhem pøiøazování kontaktu k metakontaktu se vyskytly problémy.
+[Error]
+[This will remove the MetaContact permanently.\n\nProceed Anyway?]
+Tímto odstraníte metakontakt natrvalo.\n\nUrèitì chcete pokraèovat?
+[Are you sure?]
+Opravdu chcete pokraèovat?
+[Delete MetaContact]
+Smazat metakontakt
+[Remove from MetaContact]
+Odstranit z metakontaktu
+;file \plugins\MetaContacts\src\meta_options.cpp
+[<default>]
+;file \plugins\MetaContacts\src\meta_services.cpp
+[Meta ID]
+[No online contacts found.]
+Nebyly nalezeny žádné online kontakty
+[Message from %s]
+Zpráva od: %s
+[Context]
+Kontext
+[General]
+[Priorities]
+[History]
+Historie
+;file \plugins\MetaContacts\src\meta_utils.cpp
+[Sender]
+Odesílatel
+[Could not get MetaContact id]
+Nelze zjistit identifikátor metakontaktu
+[Assignment Error]
+Chyba pøiøazování
+[Could not retreive MetaContact contact count]
+Nelze zjistit poèet kontaktù v metakontaktu
+[Could not retreive contact protocol]
+Nelze zjistit protokol kontaktu 
+[Could not get unique id of contact]
+Nelze zjistit identifikátor kontaktu
+[Contact is 'Not on List' - please add the contact to your contact list before assigning.]
+Kontakt není v seznamu - pøed pøiøazením pøidejte prosím kontakt do seznamu.
+[MetaContact is full]
+Metakontakt je plný
+[Could not write contact protocol to MetaContact]
+Nelze zapsat protokol kontaktu do metakontaktu
+[Could not write unique id of contact to MetaContact]
+Nelze zapsat identifikátor kontaktu do metakontaktu
+[Could not write nickname of contact to MetaContact]
+Nelze zapsat pøezdívku kontaktu do metakontaktu
+[meta_id: ]
+[, contact num: ]
+[Subcontact contact number < 0 - deleting MetaContact]
+[Subcontact contact number (%d) > meta num contacts (%d) - deleting MetaContact]
+[Subcontact's MetaContact not found - deleting MetaContact data]
+[MetaContact number of contacts < 0 - deleting MetaContact]
+[MetaContact default contact number out of range - deleting MetaContact]
+[MetaId: ]
+MetaId: 
+[MetaContact corrupted - the number of subcontacts is incorrect.\nDeleting MetaContact.]
+Metakontakt je poškozen - poèet podkontaktù nesouhlasí.\nMazání metakontaktu.
+[MetaContacts Warning]
+Upozornìní metakontaktù
+[Offline]
+[Online]
+[Away]
+[DND]
+[N/A]
+[Occupied]
+[Free to Chat]
+Mám volno
+[Invisible]
+[On the Phone]
+Mám telefon
+[Out to Lunch]
+Jsem na obìdì
+[IDLE]
+Neèinný

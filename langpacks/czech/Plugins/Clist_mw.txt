@@ -1,0 +1,286 @@
+#muuid {2a417ab9-16f2-472d-9ae3-415103c78a64}
+;langpack template for Clist_mw
+;file \plugins\Clist_mw\res\resource.rc
+[Settings]
+Nastavení
+[Background colour:]
+[Selection colour:]
+[Use background bitmap]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Stretch to width]
+Uzpùsobit na šíøku
+[Stretch to height]
+Uzpùsobit na výšku
+[Tile horizontally]
+Vodorovnì vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Scroll with text]
+[Stretch proportionally]
+Uzpùsobit pomìrnì
+[Tile vertically according to Row Height]
+Roztáhnout vertikálnì dle výšky øádku
+[Warning!\r\nThis MenuObject not support user defined options.]
+Upozornìní!\r\nTento objekt menu nepodporuje zmìnu nastavení.
+[MenuObjects]
+Nabídky
+[MenuItems]
+Prvky nabídky
+[InsertSeparator]
++ oddìlovaè
+[Service:]
+Služba:
+[Name:]
+[Set]
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+[Default]
+[No]
+Ne
+[Yes]
+Ano
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+[Use Options->Ignore (expert mode) to unhide contacts.]
+[Are you sure you want to delete %s?]
+[This will erase all history and settings for this contact!]
+[Hide offline users]
+[Hide empty groups]
+[Disable groups]
+[Ask before deleting contacts]
+[Always on top]
+[Hide contact list after it has been idle for]
+[seconds]
+[Sort contacts by name]
+Øadit kontakty dle jména
+[Sort contacts by status]
+Øadit kontakty dle stavu
+[Sort contacts by protocol]
+Øadit kontakty dle protokolu
+[Single click interface]
+[Always show status in tooltip]
+[Disable icon blinking]
+[ms, delay between icon blinking]
+ms (definuje rychlost blikání)
+[Show]
+Zobrazit
+[icon when statuses differ]
+[Cycle icons every]
+[seconds, when statuses differ]
+[Show multiple icons]
+[Only when statuses differ]
+[Contact List]
+[System tray icon]
+Ikona v oznamovací oblasti
+[System tray icon when using multiple protocols]
+[Contact List Sorting]
+[Dont move offline user to bottom]
+Kontakty offline nepøesouvat na konec
+[Pin to desktop]
+[Rows]
+Øádky
+[Row height:]
+Výška øádku:
+[pixels]
+pix.
+[Gamma correction]
+Gama korekce
+[Window]
+[Tool style main window]
+Zjednodušené záhlaví okna
+[Minimize to tray]
+[Automatically resize window to height of list]
+[maximum]
+[% of screen]
+[Size upwards]
+[Title bar text:]
+[Translucency options (Windows 2000/XP only)]
+[Fade contact list in/out]
+[Transparent contact list]
+[Inactive opacity:]
+[Active opacity:]
+[000%]
+[Show menu bar]
+[Easy move]
+[Show title bar]
+Zobrazit záhlaví
+[If window is partially covered, bring to front instead of hiding]
+[Enable drop shadow (restart required)]
+Zobrazit stín (vyžaduje restart)
+[Items]
+[Show divider between online and offline contacts]
+[Hot track items as mouse passes over]
+[Disable drag and drop of items]
+[Disable rename of items by clicking twice]
+[Show selection even when list is not focused]
+[Make selection highlight translucent]
+['Hide Offline' means to hide:]
+'Skrýt offline' znamená skrytí:
+[Groups]
+[Draw a line alongside group names]
+[Show counts of number of contacts in a group]
+Zobrazit poèet kontaktù ve skupinì
+[Hide group counts when there are none online]
+Skrýt poèet kontaktù ve skupinì, jsou-li všichni offline
+[Sort groups alphabetically]
+[Quicksearch in open groups only]
+[Indent groups by:]
+[Visual]
+[Scroll list smoothly]
+[Time:]
+[milliseconds]
+ms
+[Left margin:]
+Levý okraj:
+[Grey out entire list when:]
+[Dim idle contacts]
+[Hide vertical scrollbar]
+Skrýt svislý posuvník
+[Contact List Background]
+[Use 'Meta' protocol icons for Metacontacts]
+Použít ikony protokolu 'Meta' pro metakontakty
+[Avoid doubleclick expand]
+Nerozbalovat dvojím kliknutím
+[Hide all 'Extra icons' for subcontacts]
+Skrýt všechny 'Extra ikony' pro podkontakty
+[MetaContacts supporting]
+Podpora doplòku Metakontakty
+[Ignore Empty Extra icons places (arrange to right).]
+Ignorovat prázdná místa po extra ikonách (posunout >>)
+[Hide offline subcontacts.]
+Skrýt podkontakty offline
+[E&xit]
+[&Offline\tCtrl+0]
+[On&line\tCtrl+1]
+[&Away\tCtrl+2]
+[&NA\tCtrl+3]
+[Occ&upied\tCtrl+4]
+[&DND\tCtrl+5]
+[&Free for chat\tCtrl+6]
+[&Invisible\tCtrl+7]
+[On the &Phone\tCtrl+8]
+[Out to &Lunch\tCtrl+9]
+[&Hide/Show]
+[&New Group]
+[&Hide Offline Users]
+[Hide &Offline Users out here]
+[Hide &Empty Groups]
+[Disable &Groups]
+[Hide Miranda]
+[&New Subgroup]
+[&Hide Offline Users in here]
+[&Rename Group]
+[&Delete Group]
+[Status Bar]
+[Show status bar]
+[Show icons]
+[Show protocol names]
+[Show status text]
+[Right click opens status menu]
+[Right click opens Miranda menu]
+Pravým tlaèítkem nabídku Mirandy
+[Make sections equal width]
+[-]
+-
+[Show size grip]
+Zobrazit oddìlovaè
+[Show bevel effect on panels]
+Zobrazit efekt zkosení panelù
+[Use connecting Icon]
+Zobrazit prùbìh pøipojování
+[Use New Drawer for StatusBar]
+Použít nový systém stav. lišty
+;file \plugins\Clist_mw\src\BkgrCfg.cpp
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+[Backgrounds]
+Pozadí
+;file \plugins\Clist_mw\src\clcfonts.cpp
+[Background]
+Pozadí
+[Selected Text]
+Vybraný text
+[Hottrack Text]
+Zvýraznìný text
+[Quicksearch Text]
+Hledaný text
+;file \plugins\Clist_mw\src\clcopts.cpp
+[List]
+Seznam
+[List Background]
+Pozadí seznamu
+[List MetaContacts]
+Seznam metakontaktù
+[StatusBar Background]
+Pozadí stavové lišty
+[Not focused]
+Neaktivní
+[Offline]
+[Online]
+[Away]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[Out to lunch]
+[On the phone]
+;file \plugins\Clist_mw\src\clistopts.cpp
+[Global]
+Globální
+;file \plugins\Clist_mw\src\clistsettings.cpp
+[_NoProtocol_]
+_žádný-protokol_
+[(Unknown Contact)]
+(neznámý kontakt)
+;file \plugins\Clist_mw\src\clisttray.cpp
+[&Find/Add Contacts...]
+&Vyhledat kontakty...
+[&Main Menu]
+[&Status]
+[&Options...]
+[&About]
+;file \plugins\Clist_mw\src\clui.cpp
+[My Contacts]
+;file \plugins\Clist_mw\src\cluiopts.cpp
+;file \plugins\Clist_mw\src\cluiservices.cpp
+[%s%s]
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+;file \plugins\Clist_mw\src\groupmenu.cpp
+[&New SubGroup]
+;file \plugins\Clist_mw\src\keyboard.cpp
+[Close Miranda]
+Zavøít Mirandu
+[Restore last status]
+Obnovit pøedchozí stav
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
+[&FrameTitle]
+[&Visible]
+[&Show TitleBar]
+[&Locked]
+[&Collapsed]
+[&Floating Mode]
+[&Border]
+[&Align]
+[&Top]
+[&Client]
+[&Bottom]
+[&Position]
+[&Up]
+[&Down]
+[Frames]
+[New Menu System not Found...]
+[Show All Frames]
+[Show All Titlebars]
+[Hide All Titlebars]
+[Lock Frame]
+[Visible]
+[Show TitleBar]
+[Floating]
+[TitleBarFont]
+Záhlaví
+[FramesContainer]
+;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.h
+[CLUIFrameTitleBar]
+;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
+[Statushelper]
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}

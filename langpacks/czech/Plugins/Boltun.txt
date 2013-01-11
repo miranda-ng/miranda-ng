@@ -1,0 +1,81 @@
+#muuid {488c5c84-56da-434f-96f1-b18900def760}
+;============================================================
+;  File: Boltun.dll
+;  Plugin: Boltun
+;  Version: 0.0.3.0
+;  Authors: Alexander S. Kiselev, Valentin Pavlyuchenko
+;============================================================
+[Boltun, the chat bot in the russian language.]
+;file \plugins\Boltun\res\Boltun.rc
+[Boltun]
+[Boltun Autochat everybody]
+[Boltun Autochat everybody not in contact list]
+[Boltun Autochat everybody while away]
+[Warn contacts Boltun is chatting]
+[Mark replied messages as read]
+[sec]
+sek.
+[Warning text]
+[Time before the answer]
+[Typing time depends on message length (in chars)]
+[Typing and thinking time can be much longer]
+[Typing time (for a message of 4 words):]
+[Thinking time:]
+[Engine]
+Rozhraní
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Base of remarks]
+[Reload]
+Naèíst znovu
+[Stay silent, if have no good aswers]
+[Start answers with a lowercase letter]
+[Don't use "I don't understand"-like answers]
+;file \plugins\Boltun\src\boltun.cpp
+[%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1]
+[SMILES]
+;file \plugins\Boltun\src\boltun.h
+[boltun.mindw]
+[Mind Files]
+[All Files]
+[Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
+[Boltun Error]
+[Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]
+[Failed to save base of remarks to %s]
+;file \plugins\Boltun\src\Engine\Mind.cpp
+[QUESTION]
+[IGNORED]
+[ESCAPE]
+[FAILURE]
+[REPEAT]
+[INITIAL]
+[ <QUESTION>]
+[ <IGNORED>]
+[ <ESCAPE>]
+[ <INITIAL>]
+[ <FAILURE>]
+[ <REPEAT>]
+;file \plugins\Boltun\src\Engine\TalkEngine.cpp
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—\1]
+[(study_all) ]
+[(widelyused_sent) ]
+[(study_sent) ]
+[(keywords) ]
+[(keywords_unstrict) ]
+[(otherwords) ]
+[(escape) ]
+[(failure) ]
+[(repeat_norm) ]
+[(repeat_silence)]
+[(widelyused_all) ]
+[.?!]
+[BEST(0)]
+[LOOKSLIKE(1)]
+[BAD(2)]
+[FAIL(3)]
+[NOTHING(4)]
+[>>Availabe:]
+[>>Result:]
+[: - ]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—]
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}

@@ -1,0 +1,145 @@
+; /----------------------------------------------------------\
+; |  WinampNotify 1.7.5.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=305
+;
+
+; Options group name
+;(DUP) [PopUps]
+;(DUP) [Plugins]
+
+; Options page name
+[WinampNotify]
+Winamp
+
+; Plugin options page
+;(DUP) [Only notify if status is]
+;(DUP) [Offline]
+;(DUP) [Online]
+;(DUP) [Away]
+;(DUP) [NA]
+;(DUP) [Occupied]
+;(DUP) [DND]
+;(DUP) [Free for chat]
+;(DUP) [Invisible]
+;(DUP) [On the phone]
+;(DUP) [Out to lunch]
+[Use &hotkey to show popup]
+Použít &klávesovou zkratku
+[Hotkey :]
+Klávesa:
+[Do not notify when a new song begins to play, only notify when the hotkey is pressed]
+Zobrazit oznámení pouze pøi použití klávesové zkratky
+[/music replacement]
+Klíèové slovo /music
+[&Enable replacement]
+Aktivovat nahraz&ení
+[Replace "/music" text in message dialog with]
+Nahradit text '/music' v oknì se zprávou za
+;(DUP) [&Variables]
+[Advanced text options]
+Text (pro experty)
+[Put here the same title formatting from your player (You'll be able to use it on the above text)]
+Zadejte stejný formát zobrazení jako v pøehrávaèi
+
+; Popup options page
+;(DUP) [Colours]
+;(DUP) [Background colour]
+;(DUP) [Text colour]
+;(DUP) [&Use Windows colours]
+;(DUP) [Use default &background colour]
+;(DUP) [Use default &text colour]
+;(DUP) [Timeout]
+[From PopUp plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Icon]
+Ikona
+;(DUP) [Use default &icon]
+;(DUP) [PopUp click]
+;(DUP) [On left click]
+;(DUP) [On right click]
+;(DUP) [&Configure]
+;(DUP) [Text]
+;(DUP) [Previe&w]
+
+; Variables dialog
+;(DUP) [Variables]
+[song title (shown in the playlist)]
+název skladby (jako v seznamu)
+[the song length]
+délka skladby
+[samplerate (ex. 44 kHz)]
+frekvence (napø. 44 kHz)
+[bitrate (ex. 128 kBit/s)]
+datový tok (napø. 128 kbit/s)
+[channels (ex. Mono/Stereo)]
+kanály (mono/stereo)
+[elapsed time]
+uplynulý èas
+[remaining time]
+zbývající èas
+[playlist position]
+poøadí v seznamu
+
+; Configure click dialog
+[Go to previous track]
+Pøejít na pøedchozí skladbu
+[Go to next track]
+Pøejít na následující skladbu
+[Pause/Play]
+Pozastavit/Pøehrávat
+[Stop]
+Zastavit
+[Stop with fadeout]
+Zastavit se ztišením
+[Stop after current track]
+Zastavit po aktuální skladbì
+;(DUP) [Close popup]
+;(DUP) [Icon File]
+[Close Winamp]
+Zavøít Winamp
+[Open file info box]
+Zobrazit informace o souboru
+[Raise volume by 1%]
+Zvýšit hlasitost o 1%
+[Lower volume by 1%]
+Snížit hlasitost o 1%
+[Open jump to time dialog]
+Otevøít okno èasového pøesunu
+[Open jump to file dialog]
+Otevøít seznam souborù
+[Add current track as a bookmark]
+Pøidat skladbu mezi oblíbené
+[Close PopUp immediately after left click]
+Zavøít oznámení okamžitì po kliknutí
+[Close PopUp immediately after right click]
+Zavøít oznámení okamžitì po kliknutí
+;(DUP) [&Ok]
+;(DUP) [&Cancel]
+
+; Other
+[Mono]
+Mono
+[Stereo]
+Stereo
+
+; NEPUBLIKOVANÉ
+;(DUP) [Status message]
+[Append text to status message when status is]
+Pøidat zprávu stavu do oznámení; ve stavu
+
+[Use default &icon]
+Použít výchozí &ikonu
+
+[&Disable WinampNotify popups]
+Vypnout oznámení pro &Winamp
+[&Enable WinampNotify popups]
+Zapnout oznámení pro &Winamp
+
+; ---

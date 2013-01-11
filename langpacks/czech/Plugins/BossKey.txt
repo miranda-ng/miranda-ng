@@ -1,0 +1,95 @@
+#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+;============================================================
+;  File: BossKey.dll
+;  Plugin: BossKey+
+;  Version: 0.5.0.3
+;  Authors: Goblineye Entertainment, Billy_Bons
+;============================================================
+[Anti-Boss plugin.]
+;file \plugins\BossKeyPlus\res\BossKey.rc
+[Trigger when Miranda is hiding]
+[Trigger when Miranda is showing]
+[Pre-conditions]
+[Go to Customize -> Hotkeys to change the hotkey]
+Zkratky zmìníte v sekci Vlastní úpravy -> Klávesové zkratky
+[When I press the hotkey:]
+Po stisku vybrané klávesy:
+[Change status to]
+Zmìnit stav na
+[Change only if current status is Online]
+Zmìnit pouze když je stávající stav online
+[Use default status message]
+Použít výchozí stavovou zprávu
+[Disable Sounds]
+Zakázat zvuky
+[Show the Tray Icon]
+Zobrazit ikonu v oznamovací oblasti
+[When I return:]
+Po návratu:
+[Request password:]
+Vyžadovat heslo:
+[Change status back]
+Vrátit pùvodní stav
+[Hotkey]
+Klávesy
+[Password:]
+[OK]
+[Cancel]
+[EN]
+[Workstation is Locked (2000/XP+)]
+Pracovní stanice je uzamèena (2000/XP+)
+[Screen Saver is running]
+Bìžící spoøiè obrazovky
+[Windows is inactive]
+Windows je neaktivní
+[Hide Miranda when:]
+Skrýt Mirandu pøi:
+[Miranda is inactive]
+Miranda je neaktivní
+[min]
+[Miranda is started]
+Spuštìní Mirandy
+[Others]
+Ostatní
+[Create a main menu item]
+Pøidat položku do hlavní nabídky
+[Restore hiding on startup after failure]
+Obnovit skrývání pøi startu po chybì
+;file \plugins\BossKeyPlus\src\BossKey.cpp
+[Miranda NG is locked.\nEnter password to unlock it.]
+[Password is not correct!\nPlease, enter correct password.]
+[Miranda NG]
+[%s%s%s%s%s]
+[Ctrl + ]
+[Shift + ]
+[Alt + ]
+[Win + ]
+[Hide Miranda NG]
+[%s [%s]]
+[Hide]
+Skrýt
+[Hide/Show Miranda]
+[wtsapi32.dll]
+[dwmapi.dll]
+[bosskeyname]
+[BossKey\tget the BossKey name]
+;file \plugins\BossKeyPlus\src\BossKey.h
+[MY6BossKey_Param]
+;file \plugins\BossKeyPlus\src\Options.cpp
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnných
+[Offline]
+[Online]
+[Away]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[BossKey]
+BossKey
+[Events]
+Události
+[Main]
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+[Advanced]
+Extra

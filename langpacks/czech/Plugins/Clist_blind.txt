@@ -1,0 +1,158 @@
+#muuid {53e095a3-2695-490a-9dad-d20479093831}
+;langpack template for Clist_blind
+;file \plugins\Clist_blind\res\resource.rc
+[Are you sure you want to delete %s?]
+[This will erase all history and settings for this contact!]
+[Yes]
+Ano
+[No]
+Ne
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+[Use Options->Ignore (expert mode) to unhide contacts.]
+[Hotkeys]
+[Show/Hide:]
+[HotKey1]
+[Read Message:]
+Pøeèíst zprávu:
+[Web Search:]
+Hledat na webu:
+[URL:]
+[Open in new browser window]
+[Show Options]
+[Hide offline users]
+[Hide empty groups]
+[Disable groups]
+[Ask before deleting contacts]
+[Sort contacts by name]
+Øadit kontakty dle jména
+[Sort contacts by status]
+Øadit kontakty dle stavu
+[Sort contacts by protocol]
+Øadit kontakty dle protokolu
+[Single click interface]
+[Always show status in tooltip]
+[Disable icon blinking]
+[ms delay]
+ms (prodleva)
+[Show]
+Zobrazit
+[icon when statuses differ]
+[Cycle icons every]
+[seconds, when statuses differ]
+[Show multiple icons]
+[Only when statuses differ]
+[Contact List]
+[System tray icon]
+Ikona v oznamovací oblasti
+[System tray icon when using multiple protocols]
+[Contact List Sorting]
+[Window]
+[Always on top]
+[Tool style main window]
+Zjednodušené záhlaví okna
+[Minimize to tray]
+[Hide contact list after it has been idle for]
+[seconds]
+[Automatically resize window to height of list]
+[maximum]
+[% of screen]
+[Size upwards]
+[Title bar text:]
+[Translucency options (Windows 2000/XP only)]
+[Fade contact list in/out]
+[Transparent contact list]
+[Inactive opacity:]
+[Active opacity:]
+[000%]
+[Show menu bar]
+[Easy move]
+[Show title bar]
+Zobrazit záhlaví
+[If window is partially covered, bring to front instead of hiding]
+[Show drop shadow (restart required)]
+[Pin to desktop]
+[Items]
+['Hide Offline' means to hide:]
+'Skrýt offline' znamená skrytí:
+[Groups]
+[Show counts of number of contacts in a group]
+Zobrazit poèet kontaktù ve skupinì
+[Hide group counts when there are none online]
+Skrýt poèet kontaktù ve skupinì, jsou-li všichni offline
+[Sort groups alphabetically]
+[Quicksearch in open groups only]
+[Templates]
+Šablony
+[Contact:]
+[Group:]
+Skupina:
+[Divider:]
+[Info:]
+[Status Bar]
+[Show status bar]
+[Show icons]
+[Show protocol names]
+[Show status text]
+[Right click opens status menu]
+[Right click opens Miranda IM menu]
+[Make sections equal width]
+[Show bevels on panels]
+[Show resize grip indicator]
+[E&xit]
+[&Offline\tCtrl+0]
+[On&line\tCtrl+1]
+[&Away\tCtrl+2]
+[&NA\tCtrl+3]
+[Occ&upied\tCtrl+4]
+[&DND\tCtrl+5]
+[&Free for chat\tCtrl+6]
+[&Invisible\tCtrl+7]
+[On the &Phone\tCtrl+8]
+[Out to &Lunch\tCtrl+9]
+[&Hide/Show]
+[&New Group]
+[&Hide Offline Users]
+[Hide &Offline Users out here]
+[Hide &Empty Groups]
+[Disable &Groups]
+[Hide Miranda]
+[&New Subgroup]
+[&Hide Offline Users in here]
+[&Rename Group]
+[&Delete Group]
+;file \plugins\Clist_blind\src\clcopts.cpp
+[Not focused]
+Neaktivní
+[Offline]
+[Online]
+[Away]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[Out to lunch]
+[On the phone]
+[%name% [%status% %protocol%] %status_message%]
+[Group: %name% %count% [%mode%]]
+[Divider: %s]
+[Info: %s]
+[List]
+Seznam
+;file \plugins\Clist_blind\src\clistopts.cpp
+[Global]
+Globální
+;file \plugins\Clist_blind\src\cluiopts.cpp
+;file \plugins\Clist_blind\src\init.cpp
+[LISTBOX]
+[Unknown Protocol]
+neznámý protokol
+[%name%]
+[%count%]
+[%mode%]
+[Expanded]
+Rozbalený
+[Colapsed]
+[%status%]
+[%protocol%]
+[%status_message%]
+#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}

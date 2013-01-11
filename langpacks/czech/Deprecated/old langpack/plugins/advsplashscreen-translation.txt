@@ -1,0 +1,58 @@
+; /----------------------------------------------------------\
+; |  Splash Screen 0.1.2.1                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2624
+;
+
+;for Splash Screen v.0.1.1.2
+
+[Splash Options]
+Logo pøi spuštìní
+;(DUP) [Appearance]
+[Splash:]
+Logo:
+;(DUP) [Sound:]
+[Active:]
+Aktivní
+[Show Splash]
+Zobrazit logo
+;(DUP) [Play sound]
+[Preview...]
+Náhled...
+[Fade in:]
+Nábìh:
+[Fade out:]
+Dobìh:
+[Display time:]
+Doba zobrazení:
+[msecs]
+ms
+
+
+; NEPUBLIKOVANÉ
+[Select splash randomly]
+Náhodnì vybírat logo
+[PNG and BMP files]
+obrázky typu PNG a BMP
+[Sound files]
+zvukové soubory
+
+[Splash Screen]
+Logo pøi spuštìní
+[steps]
+krokù
+[Show Miranda Version]
+Zobrazit verzi Mirandy
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Tento doplnìk vyžaduje knihovnu advaimg.dll, potažmo program Miranda IM 0.7 nebo novìjší.
+;[Prefix:]
+[Show random splash]
+Zobrazit náhodné logo
+[Show splash]
+Zobrazit logo
+[Shows a splash at Miranda startup]
+Pøi spuštìní Mirandy umožní zobrazit logo a pøehrát zvuk.
+
+; ---

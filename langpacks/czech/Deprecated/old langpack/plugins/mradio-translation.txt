@@ -1,0 +1,185 @@
+; /----------------------------------------------------------\
+; |  mRadio Mod 0.1.0.0                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Richard Ninik <nizak (zavináè) seznam (teèka) cz>
+; Adresa: http://miranda.kom.pl/dev/bankrut/
+;
+
+[Playing music from:]
+Pøehrávání hudby z:
+[Can't play selected station]
+Vybranou stanici nelze pøehrát
+;(DUP) [Close]
+[mRadio protocol is disabled]
+Protokol mRadio není aktivní
+[There was a problem loading BASS.DLL library]
+Chyba pøi naèítání knihovny BASS.DLL
+[Anything = station list]
+Cokoli = seznam stanic
+[Can''t initialize device]
+Nelze inicializovat zvukové zaøízení
+[Incorrect BASS.DLL]
+Neplatná verze knihovny BASS.DLL
+[BASS version 2.2 was not loaded]
+Systém BASS verze 2.2 nebyl naèten
+[mRadio settings]
+Nastavení mRadio
+[BASS.DLL not found!]
+Nelze najít knihovnu BASS.DLL!
+
+; ******** User information ********
+[Stream info]
+Informace o datovém proudu
+[Station info]
+Informace o stanici
+[Frequency:]
+Frekvence:
+[Channels:]
+Kanály:
+[Bitrate:]
+Datovı tok:
+[Ch. resolution:]
+Bitová hloubka:
+;(DUP) [Format:]
+;(DUP) [URL:]
+[Genre:]
+ánr:
+;(DUP) [Bitrate:]
+[Now playing:]
+Právì hraje:
+[n/a]
+neuvedeno
+[bits]
+bitù
+
+; ******** Options ******** 
+[Volume]
+Hlasitost
+[Equalizer]
+Ekvalizér
+[Equalizer presets]
+Pøedvolby ekvalizéru
+
+[mRadio]
+Rádia
+
+
+; mRadio Mod 0.0.1.4
+;
+; Pøeklad: Vít Peèeòa <wenom64 (zavináè) gmail (teèka) com>
+;
+
+[Add Station]
+Pøidat stanici
+[Station Name]
+Název stanice
+[Station URL (required)]
+Adresa stanice (povinné)
+[Genre]
+ánr
+[Bitrate]
+Datovı tok
+[Add station]
+Pøidat stanici
+[To list]
+Do CL
+[To INI]
+Do INI
+[Shuffle playlist]
+Písnièky v playlistu náhodnì
+[Play from first]
+Hrát od první písnièky
+;(DUP) [Equalizer]
+[Record path]
+Nahrávat do:
+;(DUP) [Volume]
+[Use EAX]
+Pouít EAX
+[Buffer, ms (5000)]
+Vyrovnávací pamì, ms (5000)
+[PreBuf, % (75%)]
+Naplnìní pamìti, % (75%)
+[Timeout, ms (5000)]
+Èasovı limit, ms (5000)
+[Loop single media]
+Pøehrávat samostatné média ve smyèce 
+[Continuous record]
+Nepøetrité nahrávání
+[Offline station as Offline]
+Vypnutá stanice jako offline (jinak neviditelná)
+[Autoconnect last station]
+Automaticky spustit poslední stanici
+
+; módy EAX
+[Generic]
+Obecnı
+[Padded Cell]
+Buòka s vıplní
+[Room]
+Místnost
+[Bathroom]
+Koupelna
+[Living Room]
+Obıvací pokoj
+[Stone Room]
+Kamenná místnost
+[Auditorium]
+Posluchárna
+[Concert Hall]
+Koncertní hala
+[Cave]
+Jeskynì
+[Arena]
+Aréna
+[Hangar]
+Hangár
+[Carpeted Hallway]
+Hala s koberci
+[Hallway]
+Hala
+[Stone Corridor]
+Kamenná chodba
+[Alley]
+Alej
+[Forrest]
+Les
+;(DUP) [City]
+[Mountains]
+Hory
+[Quarry]
+Kamenolom
+[Plain]
+Pláò
+[Parking Lot]
+Parkovací místo
+[Sewer Pipe]
+Odpadová roura
+[Under Water]
+Pod vodou
+[Drugged]
+Zdrogovanı
+[Dizzy]
+Trpící závratìmi
+[Psychotic]
+Psychotickı
+
+[Station]
+Stanice
+[Custom INI file]
+Vlastní INI
+[Station URL]
+Adresa stanice
+[Start record]
+Spustit nahrávání
+[Stop record]
+Ukonèit nahrávání
+
+[Status message template]
+Šablona stavové zprávy
+[Record]
+Nahrávat
+[Export All]
+Exportovat vše
+
+; ---

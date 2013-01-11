@@ -1,0 +1,227 @@
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+;langpack template for SimpleStatusMsg
+;file \plugins\SimpleStatusMsg\res\resource.rc
+[&Cancel]
+[Retrieving %s message...]
+Zjištìní stavové zprávy ve stavu '%s'...
+[Co&py to Clipboard]
+Zko&pírovat
+[OK]
+[%time%]
+[%date%]
+[%winampsong%]
+[%rand(x,y)%]
+[%randmsg%]
+[%randdefmsg%]
+[%fortunemsg%]
+[%protofortunemsg%]
+[%statusfortunemsg%]
+[?cinfo(contact,property)]
+[?contact(string,property)]
+[?mstatus(protocol)]
+[?lsdate(contact,format)]
+[?lsstatus(contact)]
+[?lstime(contact,format)]
+[?dbsetting(contact,module,setting)]
+[?txtfile(file,line)]
+[?if(condition,true,false)]
+[?strcmp(string1,string2)]
+[?stricmp(string1,string2)]
+[?cdate(format)]
+[?ctime(format)]
+[?replace(sub,string1,string2)]
+[?lower(string)]
+[?upper(string)]
+[?scroll(string,numchars,numchars)]
+[More variables...]
+Více promìnnıch...
+[Fortune]
+[Variables]
+[Cut]
+Vyjmout
+[Copy]
+Zkopírovat
+[Paste]
+Vloit
+[Delete]
+[Select All]
+Vybrat vše
+[Behaviour on status change]
+[Apply to all]
+Pouít u všech
+[Max length:]
+Max. délka:
+[Pop up dialog box]
+Zobrazit dialog
+[Do not change status message]
+Nemìnit zprávu stavu
+[Always set the same message]
+Vdy pouít stejnou zprávu
+[Do not set status message]
+Nedefinovat zprávu stavu
+[Status Messages]
+Stavové zprávy
+[Pop up dialog asking for new message]
+Zobrazit dialog a zadat novou zprávu
+[Set an empty message]
+Pouít prázdnou zprávu
+[Use default message]
+Pouít vıchozí zprávu
+[Use last message]
+Pouít poslední zprávu
+[Use last message set for this status]
+Pouít poslední zprávu pro danı stav
+[Set the following message:]
+Pouít následující zprávu:
+[Put default message in message list]
+Pøiøadit vıchozí zprávu do seznamu
+[Update variables in status messages every]
+Aktualizovat promìnné ve zprávì stavu kadıch
+[seconds]
+[Do not update variables during idle]
+[Do not update variables on ICQ status message requests]
+[Leave last played track's title after exiting the player]
+Ponechat název poslední skladby po vypnutí pøehrávaèe
+[Enable status messages parsing by Variables plugin]
+[Exclude %date% token from parsing (restart required)]
+[Layout]
+[Show status list]
+Zobrazit seznam stavù
+[Show status profiles in status list]
+Zobrazit v menu stavù profily
+[Show icons in status list]
+Zobrazit ikony v seznamu stavù
+[Buttons:]
+Tlaèítka:
+[Show icons in message list]
+Zobrazit ikony v seznamu zpráv
+[Other]
+Ostatní
+[Store up to]
+Uloit max.
+[recent messages (0 = disable)]
+posledních zpráv (0 = vypnuto)
+[Automatically close dialog window after]
+Automaticky zavøít okno se zprávou po
+[Remember last dialog window position]
+Zapamatovat poslední pozici dialogu
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Odstranit ze stavovıch zpráv znaky CR (CR = '\\r' = #0D)
+[Show 'Copy Away Message' item in contact menu]
+Zobrazit v menu kontaktu 'Zkopírovat zprávu stavu'
+[Show 'Go to URL in Away Message' item in contact menu]
+Zobrazit v nabídce kontaktu poloku 'Pøejít na URL ve zprávì stavu'
+[Show 'Status Message...' item in status menu]
+Zobrazit v menu stavù 'Zpráva stavu...'
+[Clear History]
+Smazat historii
+[Clear Predefined]
+Smazat pøeddef.
+[* This feature is available only when using StartupStatus plugin.]
+* Tato funkce je dostupná pouze pøi pouítí doplòku StartupStatus.
+[Status on Startup]
+Stav po spuštìní
+[Set status after]
+Nastavit stav po
+[miliseconds]
+milisekund
+[Protocol:]
+Protokol:
+[Status:]
+[Independent setting for each protocol]
+Nastavení pro kadı protokol zvláš
+[Pop up dialog asking for status message]
+;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
+[Failed to retrieve %s message.]
+[&Close]
+&Zavøít
+[Re&ad %s Message]
+Pøeèíst &automatickou odpovìï
+[Copy %s Message]
+Zkopírovat zprávu stavu
+[&Go to URL in %s Message]
+&Pøejít na URL ve zprávì %s stavu
+[Re&ad Away Message]
+Pøeèíst &autom. odpovìï
+[Copy Away Message]
+Zkopírovat zprávu stavu
+[&Go to URL in Away Message]
+;file \plugins\SimpleStatusMsg\src\main.cpp
+[STUDIO]
+[Winamp v1.x]
+[ - Winamp]
+[SimpleStatusMsg]
+[%rand(]
+[,)%%]
+[Change Status Message]
+Zmìnit zprávu stavu
+[Open Status Message Dialog]
+[Status Message]
+Stavová zpráva
+[Status Message...]
+Zpráva stavu...
+[%s (locked)]
+[winampsong]
+[External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
+[date]
+[Miranda Related\tget the date (Simple Status Message compatible)]
+;file \plugins\SimpleStatusMsg\src\msgbox.cpp
+[<startup>]
+[<current>]
+[## %s ##]
+[Add to Predefined]
+Pøidat mezi pøeddefinované
+[Delete Selected]
+Smazat vybrané
+[OK (%d)]
+OK (%d)
+[Global]
+Globální
+[%s Message (%s)]
+[Closing in %d]
+[Are you sure you want to clear status message history?]
+Urèitì chcete smazat celou historii stavovıch zpráv?
+[Confirm clearing history]
+Potvrdit smazání historie
+;file \plugins\SimpleStatusMsg\src\options.cpp
+[Global status change]
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnnıch
+[Hide]
+Skrıt
+[Show next to cancel button]
+Zobrazit vedle tlaèítka Zrušit
+[Flat, next to cancel button]
+Moderní, vedle tlaèítka Zrušit
+[Show in message list]
+Zobrazit v seznamu zpráv
+[%s *]
+[Are you sure you want to clear predefined status messages?]
+Urèitì chcete smazat všechny pøeddefinované stavové zprávy?
+[Confirm clearing predefined]
+Potvrdit smazání pøeddefinovanıch
+[<Last status>]
+<Poslední stav>
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[General]
+[Advanced]
+Extra
+;file \plugins\SimpleStatusMsg\src\utils.cpp
+[Recent Message]
+Poslední zpráva
+[Predefined Message]
+Pøeddefinovaná zpráva
+[Go to URL in Away Message]
+[I've been away since %time%.]
+[Give it up, I'm not in!]
+[Not right now.]
+[Give a guy some peace, would ya?]
+[I'm a chatbot!]
+[Yep, I'm here.]
+[Nope, not here.]
+[I'm hiding from the mafia.]
+[That'll be the phone.]
+[Mmm...food.]
+[idleeeeeeee]
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}

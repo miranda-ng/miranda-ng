@@ -1,0 +1,127 @@
+#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+;============================================================
+;  File: IEView.dll
+;  Plugin: IEView
+;  Version: 1.4.0.0
+;  Authors: Piotr Piastucki, Francois Mean
+;============================================================
+[IE Based Chat Log.]
+;file \plugins\IEView\res\ieview.rc
+[Copy]
+Zkopírovat
+[Copy Link]
+Zkopírovat adresu odkazu
+[Select All]
+Vybrat vše
+[Save Image As...]
+Uložit obrázek jako...
+[Print]
+Tisk
+[Clear Log]
+Vymazat záznam
+[Show source]
+Zobrazit zdrojový kód
+[Options]
+[Enable BBCodes]
+Povolit BBCode
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+[Enable support for Flash files in smileys and BBCodes]
+Povolit smajlíky ve Flashi a formátování pomocí BBCode
+[Enable workaround for PNG transparency]
+Aktivovat opravu pro prùhledné PNG
+[Enable MathModule support]
+Podporovat doplnìk MathModule
+[Replace smileys in user names]
+Nahrazovat i smajlíky ve jménech
+[Hide window border]
+Skrýt okraj okna
+[Embed YouTube videos]
+[Size:]
+[Mode]
+Mód
+[Compatibility Mode]
+Režim kompatibility
+[Use External CSS]
+Použít externí CSS
+[Use Templates]
+Použít šablony
+[Background image]
+[Scroll with text]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Template Options]
+Možnosti šablon
+[Use message grouping]
+Seskupovat zprávy
+[Show nicknames]
+Zobrazit pøezdívky
+[Show time]
+Zobrazit èas
+[Show seconds]
+Zobrazit sek.
+[Show date]
+Zobrazit datum
+[Use long date format]
+Použít dlouhý formát data
+[Use relative timestamp]
+;file \plugins\IEView\src\ChatHTMLBuilder.cpp
+[[%H:%M]]
+;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Odchozí pøenos souboru
+[Incoming File Transfer]
+Žádost o pøenos souboru
+[URL sent]
+Odeslaný odkaz
+[URL received]
+Pøijatý odkaz
+;file \plugins\IEView\src\HTMLBuilder.cpp
+[(Unknown Contact)]
+(neznámý kontakt)
+[ requested authorisation]
+[ was added.]
+;file \plugins\IEView\src\IEView.cpp
+[about:blank]
+;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
+[Error]
+;file \plugins\IEView\src\Options.cpp
+[General]
+[Message Log]
+Záznam komunikace
+[Group Chats]
+Skupinové rozhovory
+[History]
+Historie
+[Default]
+[protocol]
+protokol
+[Message Sessions]
+Komunikace
+[IEView]
+[Skins]
+Skiny
+[320 x 205]
+[480 x 385]
+[560 x 349]
+[640 x 390]
+[Template]
+Šablona
+[All Files]
+[All Images]
+[Style Sheet]
+[uxtheme.dll]
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
+[Today]
+Dnes
+[Yesterday]
+Vèera
+[File sent]
+Odeslaný soubor
+[File received]
+Pøijatý soubor
+;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
+;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
+[.xml]
+[http://]
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}

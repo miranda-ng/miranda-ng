@@ -1,0 +1,34 @@
+; /----------------------------------------------------------\
+; |  Nosound 0.4.2.0                                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+[&Disable all sounds]
+&Deaktivovat všechny zvuky
+[&Enable sounds]
+Aktivovat &zvuky
+[Online mode]
+Online
+[Away mode]
+Na chvíli pryè
+[DND mode]
+Nerušit!
+[NA mode]
+Nejsem tady
+[Occupied mode]
+Nemám èas
+[Free for chat mode]
+Mám volno
+[Invisible mode]
+Neviditelný
+[Enable sounds in]
+Povolit zvuky pro:
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Skrýt položku menu "Pøepnout zvuk" (vyžaduje restart Mirandy)
+[Flash systray icon in]
+Blikat na panelu pro:
+
+; ---

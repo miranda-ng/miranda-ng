@@ -1,0 +1,2 @@
+;[$M$B$M$5$S$D$]
+;[SYSTEM\\CurrentControlSet\\Control\\ProductOptions]

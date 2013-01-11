@@ -1,0 +1,44 @@
+; /----------------------------------------------------------\
+; |  Favourite Contacts 0.0.0.4                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3750
+;
+
+[Favourite Contacts]
+Oblíbené kontakty
+[Favourites]
+Oblíbené
+
+[Hotkey shows menu centered on screen]
+Kl. zkratka zobrazí menu uprostøed obrazovky
+[Hide for transparent avatars]
+Skrýt pro prùhledné avatary
+[Fonts and colors can be configured in Customize > Fonts section.\n\nAlso Modern Contact List users can set up hotkeys in Events > Hotkeys2 page.]
+Písma a barvy lze nastavit v sekci Vlastní úpravy > Písma.\n\nUživatelé doplòku Modern Contact List mohou nastavit kl. zkratky v sekci Události > Klávesové zkratky.
+[Draw avatar border]
+Orámovat avatary
+[Use system colors and fonts]
+Použít systémové písma a barvy
+[Menu item preview:]
+Náhled položky menu:
+
+[Align to the right]
+Zarovnat doprava
+[Dim idle contact icons]
+Zešednout neaktivní kontakty
+[Multicolumn menu]
+Vícesloupcové menu
+[Set up menu hotkey...]
+Nastavit klávesovou zkratku...
+[Enable groups]
+Povolit skupiny
+[Configure fonts and colors...]
+Nastavit písma a barvy...
+
+; Favourite Contacts 0.0.0.4
+[recent contacts]
+posledních kontaktù
+
+; ---

@@ -1,0 +1,206 @@
+;#muuid not found, please specify manually!
+;langpack template for watrack
+;file \plugins\Watrack\kolframe\frm.rc
+[Frame refresh time]
+Obnovování okna
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Picture transform]
+[Cover padding]
+Okraje obalu
+[Alpha]
+Prùhlednost
+[Background color]
+Barva pozadí
+[Choose font...]
+Vybrat písmo...
+[Text effect]
+Efekt textu
+[Text movement]
+Pohyb textu
+[Text rotation speed (1-20)]
+Rychlost rotace textu (1-20)
+[Frame Text]
+Text v oknì
+;file \plugins\Watrack\lastfm\lastfm.rc
+[Password]
+Heslo
+[Attempts]
+[Content language]
+[Get Artist Info]
+[Artist]
+[Album]
+;file \plugins\Watrack\myshows\myshows.rc
+[Timeout, ms]
+Prodleva (ms)
+[Scrobble at]
+[Get Series Info]
+[Show]
+Zobrazit
+[Episode]
+[Genres]
+[Kinopoisk info page]
+;file \plugins\Watrack\popup\popup.rc
+[Colors]
+Barvy
+[Background]
+Pozadí
+[Actions]
+Akce
+[Show player]
+Zobrazit pøehrávaè
+[Left click]
+Levé tlaè.
+[Right click]
+Pravé tlaè.
+[Delay]
+Prodleva
+[sec]
+sek.
+[Test]
+Ovìøit
+[M]
+[Popup Title / Text]
+Záhlaví a text oznámení
+;file \plugins\Watrack\proto\proto.rc
+[Save events in database]
+Ukládat události do databáze
+[Music Info Request]
+Požadavky na info o hudbì
+[User music info text]
+[(%artist%, %title%, %album% and %year% macros can be used only)]
+;file \plugins\Watrack\res\watrack.rc
+[Unicode to Ansi translation codepage:]
+Kódování jazyka, definice skriptu:
+[Refresh time, sec]
+Aktualizace (v sek.)
+[Formats]
+Formáty
+[Players list\n(F1 for note)]
+[Check]
+Kontrola
+[None]
+---
+[Cover filenames]
+Názvy obalù
+[OK]
+[1]
+[2]
+[3]
+[4]
+[5]
+[6]
+[7]
+[8]
+[9]
+[10]
+[11]
+[12]
+[13]
+[14]
+[15]
+[16]
+[Switch ON these modules]
+;file \plugins\Watrack\stat\stat.rc
+[Delete]
+[Statistic log file]
+Soubor se statistickými údaji
+[Sort]
+Seøadit
+[Autosort period, days]
+Perioda autom. tøídìní (dny)
+[Report file]
+Soubor se zápisem
+[Report]
+Zápis
+[Template file]
+Soubor šablony
+[Export default]
+Exportovat
+[Show in report]
+Zobrazit v zápisu
+[Sort log file]
+Seøadit záznam dle
+[Report Items]
+Poèet položek
+;file \plugins\Watrack\status\status.rc
+[Options]
+[Set XStatus when...]
+[Color]
+Barva
+[Format]
+Formát
+[Variables]
+[Protocols]
+Protokoly
+[Statuses]
+Stavy
+[Reset]
+[Default]
+[Template]
+Šablona
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Toto je zjednodušená verze editoru. Tyto šablony budou použity na všechny protokoly, stavy a pøehrávaèe.
+[Chat Template]
+Šablona chatu
+[[X]Status Title / Text]
+Záhlaví a text rozšíøeného stavu
+;file \plugins\Watrack\templates\templates.rc
+[File size]
+Vel. souboru
+[Precision]
+Pøesnost
+[Postfix]
+Pøípona
+[VBR macro]
+[Player name letters]
+Název pøehrávaèe
+[Export text template]
+[V]
+;file \plugins\Watrack\i_gui.inc
+[Disable Plugin]
+Zakázat doplnìk
+;file \plugins\Watrack\i_opt_1.inc
+[System default codepage]
+Výchozí kódování systému
+[All]
+všechno
+;file \plugins\Watrack\kolframe\frm_dlg1.inc
+[All Bitmaps]
+Všechny bitmapy
+;file \plugins\Watrack\lastfm\i_last_api.inc
+[Last.fm error: ]
+[Client is banned]
+[Bad Auth. Check login and password]
+[Bad TimeStamp]
+;file \plugins\Watrack\lastfm\i_last_dlg.inc
+[Similar artists]
+;file \plugins\Watrack\lastfm\i_last_opt.inc
+[Don''t forget to enter Login and Password to use Last.fm service]
+;file \plugins\Watrack\myshows\i_myshows_opt.inc
+[Don''t forget to enter Login and Password to use MyShows service]
+;file \plugins\Watrack\popup\pop_dlg.inc
+[popup test]
+[second line]
+;file \plugins\Watrack\proto\i_proto_dlg.inc
+[** All contacts **]
+** všechny kontakty **
+;file \plugins\Watrack\proto\proto.pas
+[Music Info from ]
+[ answer you]
+[You Get Error]
+;file \plugins\Watrack\stat\statlog.pas
+[Music Statistic]
+Hudební statistiky
+;file \plugins\Watrack\status\i_opt_11.inc
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[XStatus]
+Rozšíøený stav
+[Tunes]
+[Format text Info]
+;file \plugins\Watrack\status\i_opt_12.inc
+;file \plugins\Watrack\status\i_opt_3.inc
+[any XStatus is set]
+[''Music'' status is set]
+[XStatus is empty or ''Music'']

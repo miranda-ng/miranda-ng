@@ -1,0 +1,207 @@
+; /----------------------------------------------------------\
+; |  Alarms 0.2.6.1                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2163
+;
+
+; /frame.cpp
+[%dh %dm]
+%d hod. %d min.
+[%dm]
+%d min.
+[Events]
+Události
+[Alarms]
+Pøipomínky
+[Hide Reminders]
+Skrıt pøipomínky
+[Show Reminders]
+Zobrazit pøipomínky
+;(DUP) [Frames]
+
+[Alarm Reminders]
+Pøipomínky
+
+; /icons.cpp
+[Menu: Set Alarm]
+Menu: Nová pøipomínka
+[Reminder: Soon]
+Pøipomínka: U brzy
+[Reminder: Very Soon]
+Pøipomínka: Za 5 minut a ménì
+[Alarm: System Tray]
+Upozornìní: Oblast pro oznámení
+[Menu: Show/Hide Reminders]
+Menu: Zobrazit/Skrıt pøipomínky
+
+; /options.cpp
+[Sunday]
+nedìle
+[Monday]
+pondìlí
+[Tuesday]
+úterı
+[Wednesday]
+støeda
+[Thursday]
+ètvrtek
+[Friday]
+pátek
+[Saturday]
+sobota
+[Please enter a title for this alarm.]
+Zadejte prosím název pøipomínky.
+[Error]
+Chyba
+[The alarm time you have selected is in the past.]
+Datum a èas musí bıt z budoucnosti. Zadejte je znovu.
+[Set Alarm]
+Nová pøipomínka
+
+; /resource.rc:IDD_OPT1
+[New]
+Novı
+[Delete]
+Smazat
+[Edit]
+Upravit
+[Use popup plugin]
+Pouít oznámení Mirandy
+[Button]
+Tlaèítko
+[Snooze time:]
+Standardnì odloit o:
+[minutes]
+min.
+[Row Height:]
+Vıška øádku:
+[Indent:]
+Odstup:
+[Reminder Frame]
+Okno upomínky
+[Auto hide/show]
+Autom. zobrazit/skrıt
+[Loop sound]
+Opakovanì pøehrávat zvuk
+[Period (hours):]
+S pøedstihem (hod.):
+[Hide/show with clist]
+Dle okna s kontakty
+[Auto size vertically]
+Autom. vıška okna
+[Transparency (%):]
+Prùhlednost (v %):
+[Alert Window]
+Další monosti
+[Round corners]
+Zaoblit rohy
+[Don't steal focus unless idle]
+Okno do popøedí pouze v neèinnosti
+[Preview]
+Náhled
+[Alarm]
+Pøipomínka
+[OK]
+OK
+[Cancel]
+Zrušit
+[Title:]
+Název:
+[Description:]
+Popis:
+[Actions]
+Akce
+[Popup window]
+Zobrazit text
+[Sound:]
+Zvuk:
+[Run command:]
+Spustit pøíkaz:
+[Parameters:]
+Parametry:
+[Alert 1]
+Zvuk è.1
+[Alert 2]
+Zvuk è.2
+[Alert 3]
+Zvuk è.3
+[Speak]
+Pøeèíst
+[Occurrence]
+Opakování
+[Once]
+Jednou
+[Weekly]
+Co tıden
+[Daily]
+Kadı den
+[Weekdays]
+Dny v tıdnu
+[Monthly]
+Co mìsíc
+[Yearly]
+Co rok
+[i'm hiding]
+Nikdo mì nedostane
+[Date and Time]
+Datum a èas
+[Disable next occurence]
+Vypnout pøíští oznámení
+[Don't trigger on startup]
+Neupozoròovat pøi spuštìní
+[...]
+...
+[No reminder]
+Bez upozornìní
+
+; /resource.rc:IDD_ALARM
+[Dismiss]
+Vyøízeno
+[Snooze]
+Odloit
+[Static]
+Statickı
+
+; /resource.rc:IDD_OPTTRIGGER
+[&Suspend]
+&Odloit
+[&Edit...]
+Up&ravit...
+;(DUP) [&Delete]
+[&Options...]
+M&onosti...
+[&New Alarm...]
+&Nová pøipomínka...
+ 
+ 
+
+; /timewindow.cpp
+[Test]
+Ovìøit
+
+; /alarm_win.cpp
+[Example Alarm]
+Ukázka pøipomínky
+[Some example text. Example, example, example.]
+luouèkı kùò úpìl ïábelské ódy.
+[Title]
+Název
+[Window]
+Okno
+[Background]
+Pozadí
+
+; /alarms.cpp
+[Set a new alarm]
+Zadat novou pøipomínku
+
+[Default snooze:]
+Standardnì odloit o:
+
+; Description
+[Set once-off, daily, weekly and weekday alarms.]
+Jednorázové, denní, tıdenní a jiné varianty pøipomínek.
+
+; ---

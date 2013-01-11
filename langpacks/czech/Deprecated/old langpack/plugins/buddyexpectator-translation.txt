@@ -1,0 +1,70 @@
+; /----------------------------------------------------------\
+; |  Buddy Expectator+ 0.0.1.0                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3356
+;
+
+;Translation template for BuddyExpectator+ plugin v0.0.1.0
+;please do NOT change %#x in your translation
+[Buddy Expectator]
+Tak ty žiješ, Karle
+[has gone online for the first time.]
+je poprvé online!
+[has returned after a long absence.]
+je znovu online po delší dobì.
+[has returned after being absent since %#x]
+je znovu online od %#x
+;[has not returned after being absent since %#x]
+;[has not returned after a long absence.]
+;[not detected]
+;[not found]
+[This contact has been absent for an extended period of time.]
+[BuddyExpectator: contact returned]
+Tak ty žiješ, Karle (návrat kontaktu)
+[BuddyExpectator: contact still absent]
+Tak ty žiješ, Karle (kontakt je stále mimo)
+
+;dialogs
+[Last seen online]
+Naposledy online
+;[Last input message]
+[Return notification]
+Návrat po kratší dobì
+[When a contact returns after ]
+Vrátí-li se kontakt po dobì
+[or comes online for the first time]
+nebo se objeví poprvé online
+[Show a popup]
+Zobrazit oznámení
+[Add an event (flashing icon) to the contact]
+Pøidat blikající ikonu ke kontaktu
+[On event action (double click) or popup click:]
+Kliknutím na oznámení nebo dvojím na kontakt:
+[Open User Details]
+Otevøít inf. o kontaktu
+[Open message window]
+Otevøít komunikaèní okno
+[Long time no see]
+Návrat po dlouhé dobì
+[When a contact is absent for]
+Chybí-li kontakt delší dobu než
+;(DUP) [Do nothing]
+[Delete the contact]
+Odstranit kontakt
+
+
+; NEPUBLIKOVANÉ
+[months]
+mìs.
+[weeks]
+týd.
+[years]
+let
+[Use Popups colors]
+Použít výchozí barvy
+[Use Windows colors]
+Použít barvy Windows
+
+; ---

@@ -1,0 +1,144 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: PasteIt.dll
+;  Plugin: Paste It
+;  Version: 1.0.0.3
+;  Authors: Krzysztof Kral
+;============================================================
+[Uploads the text to web page and sends the URL to your friends.]
+;file \plugins\PasteIt\res\PasteIt.rc
+[Settings]
+Nastavení
+[Default web page]
+[Default file encoding]
+[Auto-detect UTF-8]
+[Show confirmation dialog box]
+[Autosend download link to contact]
+Automaticky poslat odkaz na soubor
+[Web page settings]
+[Web page to configure]
+[Configure]
+[Default formatting]
+[Auto-detect format from file extension]
+[Public paste]
+[Login as guest]
+[User key]
+[Get user key]
+[OK]
+[Cancel]
+[Up]
+[Down]
+[Delete]
+[Restore defaults]
+Obnovit pùvodní
+[Download more]
+[User name]
+[Password]
+Heslo
+[Format]
+Formát
+[Encoding]
+[Recode]
+;file \plugins\PasteIt\src\Options.cpp
+[Use default codepage]
+Výchozí kódování
+[UTF-8]
+UTF-8
+[Thai]
+thajština
+[Japanese]
+japonština
+[Simplified Chinese]
+èínština (zjednodušená)
+[Korean]
+korejština
+[Traditional Chinese]
+èínština (tradièní)
+[Central European]
+støedoevropský
+[Cyrillic]
+cyrilika
+[Cyrillic KOI8-R]
+cyrilika KOI8-R
+[Latin I]
+západní
+[Greek]
+øeètina
+[Turkish]
+tureètina
+[Hebrew]
+hebrejština
+[Arabic]
+arabština
+[Baltic]
+pobaltský
+[Vietnamese]
+vietnamština
+[Korean (Johab)]
+korejština (Johab)
+[UTF-7]
+[UTF-16]
+[UTF-16BE]
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+[Invalid codepage]
+[Paste It]
+[Services]
+Služby
+[Main]
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+[Web page]
+Domácí stránka
+;file \plugins\PasteIt\src\PasteIt.cpp
+[All Files (*.*)]
+Všechny soubory (*.*)
+[\0*.*\0]
+[Paste It - Select file]
+[Error]
+[Paste from clipboard]
+[Paste from file]
+[Paste It HTTP connections]
+;file \plugins\PasteIt\src\PasteToWeb.cpp
+[You can only paste 1 file]
+[Cannot get data from clipboard]
+[File size is %dKB, do you realy want to paste such large file?]
+[Are You sure?]
+Opravdu chcete pokraèovat?
+[Cannot read file '%s']
+[File size is larger then 10MB, cannot be send]
+[Cannot open file '%s']
+[File '%s' is empty]
+;file \plugins\PasteIt\src\PasteToWeb1.cpp
+[api_option=paste&api_paste_private=]
+[&api_paste_expire_date=]
+[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=]
+[&api_user_key=]
+[&api_paste_code=]
+[Error during sending text to web page: %s]
+[Error during sending text to web page]
+[api_user_name=]
+[&api_user_password=]
+[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
+[Error during getting user key from web page: %s]
+[Paste expire date]
+[Never]
+Nikdy
+[10 minutes]
+[1 hour]
+[1 day]
+[1 month]
+;file \plugins\PasteIt\src\PasteToWeb1.h
+[pastebin.com]
+;file \plugins\PasteIt\src\PasteToWeb2.cpp
+[<?xml version="1.0"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>]
+[</value></param><param><value>]
+[</value></param><param><value></value></param><param><value>]
+[</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>]
+[methodResponse]
+[params/param/value/array/data/value/int]
+[params/param/value/array/data]
+[value]
+[string]
+[<?xml version="1.0"?>\r\n<methodCall><methodName>types</methodName></methodCall>]
+;file \plugins\PasteIt\src\PasteToWeb2.h
+[wklej.to]
+#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}

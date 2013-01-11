@@ -1,0 +1,92 @@
+#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+;langpack template for Nudge
+;file \plugins\Nudge\res\resource.rc
+[Protocol options]
+Monosti protokolu
+[Specify options for each protocol]
+Definovat pro kadı protokol zvláš
+[Open contact list]
+Zobrazit seznam kontaktù
+[Enable contact list shaking]
+Povolit zatøesení seznamem
+[Open message window]
+Otevøít komunikaèní okno
+[Enable message window shaking]
+Povolit zatøesení oknem
+[Show as status change]
+Zobrazit jako zmìnu stavu
+[Auto resend nudge after]
+Automaticky znovu drcnout po
+[s]
+[Enable popup notification]
+Povolit oznámení
+[Respect ignore settings (status changes)]
+Zohlednit filtrování kontaktù (zmìny stavu)
+[Sending text]
+Text pøi odeslání 
+[Receiving text]
+Text pøi pøijetí 
+[Privacy]
+Soukromí
+[Allow sending* one nudge to the same contact every :]
+Drcnout* do jednoho a tého kontaktu max. jednou za:
+[Allow receiving one nudge from the same contact every :]
+Umonit drcnutí jednomu a tému kontaktu max. jednou za:
+[* Nudge sending delay is hardcoded and cannot be changed.]
+* Prodleva pro drcnutí je pevnì urèena a nemùe bıt zmìnìna.
+[Preview]
+Náhled
+[Text]
+Text
+[Allow nudges when you're:]
+Povolit drcnutí ve stavu:
+[Offline]
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[On the phone]
+[Out to lunch]
+[Shaking Clist Options]
+Monosti seznamu kontaktù
+[Number of moves]
+Poèet posunutí
+[Width of move]
+O kolik posunout
+[Static]
+Statickı
+[Shaking Message Window Options]
+Monosti komunikaèního okna
+[Shake the contact list]
+[Shake the chat window]
+Zatøást komunikaèním oknem
+;file \plugins\Nudge\src\main.cpp
+[You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
+Upozornìní: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbıvá)
+[Nudge]
+Drcnutí
+[Default Nudge]
+Vıchozí drcnutí
+[Nudge : Shake contact list/chat window]
+[Nudge : Send a nudge]
+[Nudge as Default]
+Drcnutí jako vıchozí
+[Send Nudge]
+Drc-drc
+[Show Nudge]
+Drcnutí
+[Nudge for %s]
+Drcnutí v síti %s
+;file \plugins\Nudge\src\nudge.cpp
+[You received a nudge]
+No tak, probuï se!
+[You sent a nudge]
+Snad se probudí...
+;file \plugins\Nudge\src\options.cpp
+[Events]
+Události
+[Window Shaking]
+Zatøesení oknem

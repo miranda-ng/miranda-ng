@@ -1,0 +1,35 @@
+#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+;============================================================
+;  File: AuthState.dll
+;  Plugin: Authorization state
+;  Version: 0.0.2.0
+;  Authors: Thief, idea by snwbrdr
+;============================================================
+[If contact didn't authorized you this plugin puts an icon in front of contacts name.]
+;file \plugins\AuthState\res\authstate.rc
+[Show Auth icon]
+Zobrazit ikonu
+[Show Grant icon]
+Zobrazit ikony udìlení
+[Plugin settings]
+Nastavení doplòku
+[Enable Menu Item (*)]
+Zobrazit položku v nabídce (*)
+[Show icons only for recently added contacts]
+Zobrazit ikony jen pro nedávno pøidané kontakty
+;file \plugins\AuthState\src\main.cpp
+[Disable AuthState icons]
+Zakázat ikony Stavu autorizace
+[Enable AuthState icons]
+Povolit ikony Stavu autorizace
+[Auth]
+Ovìøení
+[Grant]
+Schválení
+[Auth & Grant]
+Autorizace & Schválení
+;file \plugins\AuthState\src\options.cpp
+[Icons]
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+[Auth State]
+Stav autorizace

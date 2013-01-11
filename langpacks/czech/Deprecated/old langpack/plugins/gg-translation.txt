@@ -1,0 +1,368 @@
+; /----------------------------------------------------------\
+; |  Gadu-Gadu 0.9.47.0                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=567
+;
+
+
+; *** Gadu-Gadu
+
+; Info page
+[Public Info]
+Zveøejnìné informace
+[Family name:]
+Pøíjmení:
+[Origin city:]
+Místo narození:
+[Birth year:]
+Datum narození:
+
+; Options
+;(OBS) [Gadu-Gadu] @ deprecated 0.0.1.4
+;(OBS) [&Gadu-Gadu] @ deprecated 0.0.1.4
+;(OBS) [Gadu-Gadu connection] @ deprecated 0.0.1.4
+; Expert short
+[Ex.]
+Expert
+;(DUP) [connection]
+[Friends only]
+Zobrazit pouze pøátele
+[Show offline users with status message as invisible in contact list]
+Zobrazit uživatele offline poskytující stavovou zprávu jako neviditelné
+[Ignore incoming conference messages]
+Ignorovat zprávy pøicházející z konference
+;(OBS) [Automatically pop up the window when a image is received] @ deprecated 0.0.3.4
+[Receive image and after image is received use:]
+Po dokonèení pøenosu obrázku použít:
+;(DUP) [System tray icon]
+;(DUP) [Popup window]
+[Show contacts not on my list having me on their list]
+Zobrazit ty uživatele, kteøí mì mají ve svém seznamu
+[Gadu-Gadu Number:]
+Identifikátor:
+[Gadu-Gadu Number]
+Identifikátor
+[Gadu-Gadu User Details]
+Gadu-Gadu
+;(OBS) [Lost Gadu-Gadu Password?] @ deprecated 0.0.1.3
+[Retrieve password]
+Získat zpìt heslo
+;(DUP) [Create new account]
+[Remove account]
+Smazat úèet
+[Change password]
+Zmìnit heslo
+[Change e-mail]
+Zmìnit e-mail
+;(DUP) [Keep connection alive]
+[Change status safely]
+Zmìnit stav bezpeèným zpùsobem
+[Show connection errors]
+Zobrazit chyby pøi pøipojení
+;(DUP) [Automatically reconnect after unintentional disconnection]
+;(OBS) [Leave last status message after disconnected]  << depreciated in 0.0.1.2
+[After disconnection leave away message of status:]
+Po odpojení ponechat na serveru zprávu stavu:
+;(DUP) [Manually specify connection host]
+[Manually specify connection servers' hosts]
+Urèit hostitele pro pøipojení
+;(OBS) [Use secure SSL connection] @ deprecated 0.0.2.6
+[Use SSL secure connection]
+Použít zabezpeèené spojení (SSL)
+;(DUP) [Host:]
+[* new line is separator\n** hostname:port format]
+* 1 položka = 1 øádek\n** ve formátu hostitel:port
+[Use direct connections]
+Použít pøímé spojení
+[Use forwarding]
+Použít pøesmìrování
+
+; Menu
+[Import List From &Server]
+Importovat seznam ze &serveru
+[Import List From &Text File...]
+Impor&tovat seznam ze souboru...
+[&Remove List From Server]
+Odstranit seznam ze se&rveru
+[Export List To &Server]
+&Exportovat seznam na server
+[Export List To &Text File...]
+E&xportovat seznam do souboru...
+[Text files]
+Textové soubory
+
+; Errors
+;(OBS) [Gadu-Gadu Error] << depreciated in 0.0.1.4
+[Connection cannot be established because of error:\n\t%s]
+Chyba pøi navazování spojení. Popis problému:\n\t%s
+;Connection specific errors
+[Miranda was unable to resolve the name of the Gadu-Gadu server to its numeric address.]
+Nelze pøeložit název serveru Gadu-Gadu na IP adresu.
+[Received invalid server response.]
+Neplatná odezva serveru Gadu-Gadu.
+[Cannot establish secure connection.]
+Nelze navázat zabezpeèené spojení.
+[Your Gadu-Gadu number and password combination was rejected by the Gadu-Gadu server. Please check login details at M->Options->Network->Gadu-Gadu and try again.]
+Server neakceptoval zadanou kombinaci uživatelského jména a hesla. Zkontrolujte správnost pøíslušných údajù v M->Možnosti->Sítì->Gadu-Gadu.
+[Connecting to Gadu-Gadu hub failed.]
+Nelze pøipojit k požadovanému serveru Gadu-Gadu.
+; Token stuff
+[Token retrieval failed because of error:\n\t%s]
+Chyba pøi stahování tokenu. Popis problému:\n\t%s
+[Enter token to continue]
+Pokraèovat po zadání tokenu
+[Token]
+Token
+;Import export errors
+[You have to be connected before you can import/export contacts from/to server.]
+Aktualizovat seznam kontaktù na serveru lze pouze po pøipojení k síti Gadu-Gadu.
+[List cannot be exported because of error:\n\t%s]
+Chyba pøi exportu seznamu. Popis problému:\n\t%s
+[List cannot be exported to file "%s" because of error:\n\t%s]
+Chyba pøi exportu seznamu do souboru '%s'. Popis problému:\n\t%s
+[List cannot be imported because of error:\n\t%s]
+Chyba pøi importu seznamu. Popis problému:\n\t%s
+[List cannot be imported from file "%s" because of error:\n\t%s]
+Chyba pøi importu seznamu do souboru '%s'. Popis problému:\n\t%s
+[List remove successful.]
+Seznam byl úspìšnì odstranìn.
+[List export successful.]
+Seznam byl úspìšnì vyexportován.
+[List import successful.]
+Seznam byl úspìšnì naimportován.
+[contacts]
+kontakty
+[Your password will be sent to your registration e-mail.\nDo you want to continue ?]
+Heslo bude odesláno na Váš e-mail.\nChcete pokraèovat?
+[You need to specify your registration e-mail first.]
+Nejdøíve je nutné zadat registraèní e-mail.
+[Password could not be reminded because of error:\n\t%s]
+Heslo nelze odeslat. Chyba:\n\t%s
+[Password was sent to your e-mail.]
+Heslo bylo odesláno na Váš e-mail.
+[Your info cannot be uploaded because of error:\n\t%s]
+Zadané osobní údaje nelze uložit na server. Chyba:\n\t%s
+[Your info has been uploaded to public catalog.]
+Zadané osobní údaje byly uloženy na server.
+;Password changing
+[Your password cannot be changed because of error:\n\t%s]
+Heslo nelze zmìnit. Chyba:\n\t%s
+[Your password has been changed.]
+Heslo bylo zmìnìno.
+;E-mail changing
+[Your e-mail cannot be changed because of error:\n\t%s]
+E-mail nelze zmìnit. Chyba:\n\t%s
+[Your e-mail has been changed.]
+E-mail byl zmìnìn.
+;Account registration
+[Cannot register new account because of error:\n\t%s]
+Nový úèet nelze založit. Chyba:\n\t%s
+[Registration rejected]
+Registrace odmítnuta
+[You have registered new account.\nPlease fill up your personal details in "M->Change my details..."]
+Nový úèet byl zøízen. Zadejte prosím osobní údaje\nv nastavení, sekci "M->Informace o sobì..."
+;Account removal
+[Your account cannot be removed because of error:\n\t%s]
+Požadovaný úèet nelze zrušit. Chyba:\n\t%s
+[Bad number or password]
+Neplatné èíslo nebo heslo
+[Bad old e-mail or password]
+Neplatný starý e-mail nebo heslo
+[Bad e-mail or password]
+Neplatný e-mail nebo heslo
+[Invalid data entered]
+Byla zadána neplatná data
+[Your account has been removed.]
+Vybraný úèet v síti Gadu-Gadu byl zrušen.
+;User utils messages
+;(OBS) [Passwords do not match.] << depreciated in 0.0.1.3
+[Password too short.]
+Heslo je pøíliš krátké.
+;(OBS) [You should disconnect before making any permanent changes with your account.\nDo you want disconnect now ?] << depreciated in 0.0.1.4
+[You should disconnect before making any permanent changes with your account.\nDo you want to disconnect now ?]
+Pøed zmìnou nastavení úètu doporuèujeme odpojení od sítì.\nChcete se odpojit od sítì Gadu-Gadu?
+[Server hostname %s is invalid. Using default hostname provided by the network.]
+Název serveru (%s) je neplatný. Použit výchozí server zjištìný ze sítì Gadu-Gadu.
+[External direct connections hostname %s is invalid. Disabling external host forwarding.]
+Adresa externího hostitele pro pøipojení (%s) je neplatná. Pøeposílání požadavkù deaktivováno.
+
+; Password dialog
+;(OBS) [Change Gadu-Gadu Password] << depreciated in 0.0.1.3
+[Change Gadu-Gadu password]
+Zmìnit heslo Gadu-Gadu
+[Changes current Gadu-Gadu user password.]
+Zmìní stávající heslo pro sí Gadu-Gadu.
+[Change Gadu-Gadu e-mail]
+Zmìnit e-mail Gadu-Gadu
+[Changes current Gadu-Gadu user e-mail.]
+Zmìní kontaktní e-mail pro Gadu-Gadu.
+[New password:]
+Nové heslo:
+;(DUP) [Password:]
+[Confirm password:]
+Nové heslo znovu:
+[New e-mail:]
+Nový e-mail:
+; Remove account dialog
+[Remove]
+Odebrat
+[Yes, I want to remove my account]
+Ano, opravdu chci svùj úèet zrušit
+[Remove Gadu-Gadu account]
+Zrušit úèet Gadu-Gadu
+[This will remove your Gadu-Gadu account.]
+Zruší váš úèet v síti Gadu-Gadu.
+; Create account dialog
+[Create Gadu-Gadu account]
+Zøídit nový úèet Gadu-Gadu
+[This will create new Gadu-Gadu account.]
+Založení nového úètu v síti Gadu-Gadu.
+
+; Search dialog
+[Age from:]
+Min. vìk:
+[to:]
+do:
+;(DUP) [Search online users only]
+
+; Image recv/send
+[&Image]
+&Obrázek
+[Image saved.]
+Obrázek byl uložen.
+[Image cannot be written to disk.]
+Obrázek nelze uložit na disk.
+[Image from %s]
+Obrázek od %s
+[Image for %s]
+Obrázek pro %s
+[Image files (*.bmp,*.jpg,*.gif)]
+Soubory obrázkù (*.bmp,*.jpg,*.gif)
+[Select picture to send]
+Vybrat obrázek k odeslání
+[Could not load image. Image might have unsupported file format.]
+Obrázek nelze naèíst. Jedním z dùvodù mùže být nepodporovaný formát.
+
+; Conferences
+[Open new conference]
+Založit novou konferenci
+[Select conference participants.]
+Vybrat úèastníky konference.
+[Open &conference...]
+Založit novou konferen&ci...
+[&Clear ignored conferences]
+&Vymazat ignorované konference
+[Me]
+Já
+[%s initiated the conference.]
+%s zahájil konferenci.
+[This is my own conference.]
+Moje vlastní konference.
+[Conference]
+Konference
+[Participants]
+Úèastníci
+[You have to be connected to open new conference.]
+Novou konferenci lze zahájit až po pøipojení.
+[All ignored conferences are now unignored and the conference policy will act again.]
+Seznam ignorovaných konferencí byl vymazán a vše je opìt øízeno stanovenými pravidly.
+[There are no ignored conferences.]
+Seznam ignorovaných konferencí je prázdný.
+[%s has initiated conference with %d participants (%d unknowns).\nDo you want do participate ?]
+%s založil konferenci (poèet úèastníkù: %d, z toho neznámých: %s).\nChcete se pøidat?
+
+; Conference policy
+[Conference policy]
+Pravidla pro konference
+[Ask]
+Zeptat se
+;(DUP) [Ignore]
+[Allow]
+Povolit
+[if total participant count greater than:]
+je-li celkový poèet úèastníkù vìtší než:
+[if unknown participant count greater than:]
+je-li poèet neznámých úèastníkù vìtší než:
+[in other case]
+ve všech ostatních pøípadech
+
+; NEPUBLIKOVANÉ
+; název doplòku
+[Gadu-Gadu Protocol]
+Protokol Gadu-Gadu
+
+[Create]
+Vytvoøit
+[<Last Status>]
+<poslední stav>
+
+[Provides support for Gadu-Gadu protocol]
+Implementace protokolu Gadu-Gadu. Umožòuje komunikaci s uživateli této sítì.
+[&Create]
+&Vytvoøit
+
+; ikony
+[Import list from server]
+Importovat seznam ze serveru
+[Import list from text file]
+Importovat seznam ze souboru
+[Remove list from server]
+Odstranit seznam ze serveru
+[Export list to server]
+Exportovat seznam na server
+[Export list to text file]
+Exportovat seznam do souboru
+[Account settings]
+Možnosti úètu
+[Blocked to this contact]
+Zablokováno
+[Previous image]
+Pøedchozí
+[Next image]
+Další
+[Send image]
+Poslat
+[Save image]
+Uložit
+[Delete image]
+Odstranit
+
+[Show links from unknown contacts]
+Zobrazit odkazy i od neznámých kontaktù
+[Message with [img] BBCode]
+Zpráva s obrázkem (pomocí BBCode)
+[Gadu Gadu connection]
+Gadu Gadu - spojení se serverem
+[Clear ignored conferences]
+Vymazat ignorované konference
+
+[Concurrent &sessions]
+Zobrazit &relace...
+[Concurrent Sessions]
+Pøehled relací
+[Concurrent Gadu Gadu Login Sessions]
+Pøehled pøihlášených relací v síti Gadu Gadu
+[View information on active concurrent sessions]
+Zobrazí informace o pøihlášených relacích.
+[Client Name]
+Klient
+[IP Address]
+IP adresa
+[Login Time]
+Èas pøihlášení
+[You have to logged in to view concurrent sessions.]
+Seznam je prázdný, nejste pøihlášeni.
+[There are no active concurrent sessions for this account.]
+Momentálnì nejste soubìžnì pøihlášení na více místech.
+[Sign out all sessions]
+Odhlásit všechny relace
+[Advanced Configuration]
+Pro pokroèilé
+[This will create new Gadu-Gadu account]
+Založení nového úètu v síti Gadu-Gadu.
+[Concurrent sessions]
+Pøehled relací
+
+; ---

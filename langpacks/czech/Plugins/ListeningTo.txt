@@ -1,0 +1,208 @@
+#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+;langpack template for ListeningTo
+;file \plugins\ListeningTo\res\resource.rc
+[Listening to information]
+[Enable sending listening information to contacts:]
+Povolit posílání informací o poslechu hudby kontaktùm
+[Music]
+Hudba
+[Radio]
+Rádio
+[Video]
+Video
+[Others]
+Ostatní
+[You also have to enable it per protocol in the main menu]
+Poznámka: Musíte povolit i jednotlivé protokoly v hlavní nabídce.
+[XStatus]
+Rozšíøený stav
+[For protocols that don't support listening to but support XStatus:]
+V pøípadì protokolù, které podporují jen tzv. rozšíøený stav (XStatus):
+[Set XStatus to Music and show listening info]
+Zmìnit stav na 'Poslouchám hudbu' a pøidat informaci o skladbì
+[If other XStatus is not set, set XStatus to Music and show listening info]
+Totéž jako výše, ale pouze tehdy, není-li už rozšíøený stav používaný
+[If XStatus is Music, show listening info]
+Je-li už rozšíøený stav 'Poslouchám hudbu', pøidat informaci o skladbì
+[Do nothing]
+Nedìlat nic
+[Contacts]
+Kontakty
+[Apply template for info from contacts (overrides contacts template)]
+Použít šablonu na informace od kontaktu (zmìní šablonu pro kontakt)
+[Get info from WATrack plugin]
+Pøevzít informace z doplòku WATrack
+[Get info from these players:]
+Pøevzít informace z tìchto pøehrávaèù:
+[Winamp (*)]
+[Windows Media Player]
+[iTunes]
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (vyžaduje ruèní instalaci)
+[Other players]
+Jiné pøehrávaèe
+[Ask for new info every]
+Zjistit informace každých
+[seconds]
+[Allow auto-loading plugins into players (affect players with *)]
+Povolit automatické naètení doplòkù do pøehrávaèù (týká se položek s *)
+[mRadio]
+Rádia
+[Listening to]
+[Template:]
+Šablona:
+[Variables:]
+Promìnné:
+[%artist% - Artist name]
+%artist% - jméno interpreta
+[%album% - Album name]
+%album% - název alba
+[%title% - Song title]
+%title% - název skladby
+[%track% - Track number]
+%track% - èíslo skladby
+[%year% - Song year]
+%year% - rok vydání
+[%genre% - Song genre]
+%genre% - žánr
+[%length% - Song length]
+%length% - délka skladby
+[%player% - Player name]
+%player% - pøehrávaè
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - druh média (hudba, rádio, video, atd.)
+[When variable not found, use:]
+Není-li promìnná, vložit text:
+[Title:]
+Název:
+[Message:]
+[Other Variables:]
+Jiné promìnné:
+[%listening% - Listening to info (as set above)]
+%listening% - dle šablony (viz výše)
+[When nothing is playing, replace %listening% with:]
+Pokud nehraje hudba, namísto %listening% použít:
+;file \plugins\ListeningTo\src\listeningto.cpp
+[Send to %s]
+Poslat %s
+[Listening to (enabled)]
+[Listening to (disabled)]
+[Send to all protocols]
+Poslat všem protokolùm
+[listening_info]
+[listening_type]
+[listening_artist]
+[listening_album]
+[listening_title]
+[listening_track]
+[listening_year]
+[listening_genre]
+[listening_length]
+[listening_player]
+[Don't send to any protocols]
+Neposílat žádnému protokolu
+[Toggle send to all protocols]
+Pøepnout stav posílání protokolùm
+[Enable/Disable sending Listening To info (to all protocols)]
+Zapnout/vypnout posílání informací o poslechu hudby (všem protokolùm)
+[Disable ListeningTo (to all protocols)]
+[Enable ListeningTo (to all protocols)]
+[listening]
+[artist]
+umìlec
+[album]
+album
+[title]
+titulek
+[track]
+[year]
+[genre]
+žánr
+[length]
+[player]
+[type]
+typ
+[StartTimer]
+[To be sure that no one was left behind]
+;file \plugins\ListeningTo\src\music.cpp
+[ChangedListeningInfo]
+[Start]
+Zaèít
+[Has : %s : %d]
+[Is equals]
+[Is different]
+;file \plugins\ListeningTo\src\options.cpp
+[%artist% - %title%]
+[<Unknown>]
+<neznámý>
+[%listening%]
+[<Nothing is playing now>]
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Listening info]
+Poslech hudby
+[General]
+[Format]
+Formát
+[Players]
+Pøehrávaèe
+;file \plugins\ListeningTo\src\players\foobar.cpp
+[{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}/1]
+[{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}]
+[{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}]
+[{E7076D1C-A7BF-4f39-B771-BCBE88F2A2A8}]
+[foobar2000]
+;file \plugins\ListeningTo\src\players\generic.cpp
+[[%08u - %08u] [%s] ]
+[c:\\miranda_listeningto.log.txt]
+[%s\r\n]
+[GenericPlayer]
+[Miranda ListeningTo receiver]
+[ProcessReceived]
+[ERROR: Empty text]
+[ERROR: No \\0 found]
+[ERROR: Too little pieces]
+[END: Stoped playing]
+[ERROR: not enought info]
+[%d:%02d:%02d]
+[%d:%02d]
+[END: Success]
+[SendTimerProc]
+[It's time to process]
+[NewData]
+[Processing]
+[ERROR: Text is empty]
+[Got new text, scheduling update]
+[Text: %s]
+[END: Text is the same as last time]
+[ReceiverWndProc]
+[START: Received message]
+[ERROR: COPYDATASTRUCT* is NULL]
+[ERROR: pData->dwData is incorrect]
+[ERROR: pData->cbData is 0]
+[ERROR: pData->lpData is NULL]
+[Going to process]
+;file \plugins\ListeningTo\src\players\itunes.cpp
+;file \plugins\ListeningTo\src\players\mradio.cpp
+;file \plugins\ListeningTo\src\players\player.cpp
+[Player]
+[ExternalPlayer]
+[CodeInjectionPlayer]
+;file \plugins\ListeningTo\src\players\watrack.cpp
+[WATrack]
+;file \plugins\ListeningTo\src\players\winamp.cpp
+[Winamp v1.x]
+[Winamp]
+[.Winamp]
+;file \plugins\ListeningTo\src\players\wmp.cpp
+[MsnMsgrUIManager]
+[WindowsMediaPlayer]
+[Miranda ListeningTo WMP receiver]
+[WMP : New data: [%d] %s]
+;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\helpers\win32_misc.cpp
+[ntdll.dll]
+;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
+[unexpected profiler failure\n]
+;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp
+[Miranda ListeningTo Winamp Plugin]
+[Copyright (C) 2006 Ricardo Pescuma Domenecci]

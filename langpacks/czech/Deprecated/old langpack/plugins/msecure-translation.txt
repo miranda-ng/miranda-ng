@@ -1,0 +1,46 @@
+; /----------------------------------------------------------\
+; |  mSecure 1.0.2.0                                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+;############## mSecure ##############
+;# Translation section for
+;# mSecure Plugin 1.0.2
+;####################################
+; Changes in 1.0.1:
+; - [State]
+; + [Status]
+[Miranda mSecure Protection]
+Miranda-IM (mSecure, ochrana heslem)
+[Enter password to load Miranda]
+Zadejte požadované heslo.
+[Profile:]
+Profil:
+;(DUP) [Password:]
+[Wrong password. Try again.]
+Bylo zadáno neplatné heslo. 
+[Exit]
+Ukonèit
+;#####
+[Protection]
+Ochrana
+[Enter password to enable profile protection]
+Ochranu aktivujete zadáním hesla do textového pole.
+[To disable profile protection leave password field blank]
+Chcete-li zrušit ochranu heslem, vymažte obsah textového pole.
+;(DUP) [Status]
+[Currently protected:]
+Heslem je chránìno:
+;(DUP) [None]
+[Miranda startup]
+Miranda-IM - spuštìní
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[mSecure]
+Ochrana heslem
+
+; ---

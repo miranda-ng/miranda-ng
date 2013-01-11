@@ -1,0 +1,238 @@
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+;============================================================
+;  File: SeenPlugin.dll
+;  Plugin: Last Seen Mod
+;  Version: 5.0.4.7
+;  Authors: Heiko Schillinger, YB
+;============================================================
+[Logs when a user was last seen online and which users were online while you were away.]
+;file \plugins\SeenPlugin\res\resource.rc
+[Last seen options]
+Nastavení
+[Last seen menuitem]
+Položky menu
+[Show icon]
+Zobrazit ikonu
+[Userinfo tab]
+Záložka s informacemi o uživateli
+[Log to file]
+Uložit záznam
+[Log to history]
+Záznam do historie
+[Maximum size]
+Max. velikost
+[Variable list]
+Promìnné
+[Enable Idle support]
+Detekovat stav neèinnosti
+[Ignore contacts going offline]
+Ignorovat pøechod do stavu offline
+[Enable 'Missed Ones' feature]
+Aktivovat funkci 'Zmeškané kontakty'
+[Count times]
+Zaznamenat poèet
+[Protocols to watch:]
+Sledovat protokoly:
+[Popup interoperability missing or disabled. You need Popups plugin]
+[Use popups]
+Použít oznámení
+[Title]
+[Text]
+Text
+[PopUp Colors]
+Barvy oznámení
+[Online]
+[Away]
+[NA]
+[Occupied]
+[DND]
+[On the phone]
+[Out to lunch]
+[Free for chat]
+[Invisible]
+[Offline]
+[Reset colors]
+Výchozí barvy
+[OK]
+[You missed following contacts:]
+Zmeškali jste tyto kontakty:
+[Test\nTest]
+[Alert when user status changes]
+Upozornit pøi zmìnì stavu
+;file \plugins\SeenPlugin\src\history.cpp
+[%s: %s]
+[last seen history]
+Historie zmìn stavu
+[User Menu]
+[View User's Details]
+[Send Instant Message]
+[Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
+;file \plugins\SeenPlugin\src\main.cpp
+[Any to Idle/Not Idle/Unknown]
+[Any to /Idle or empty]
+[LastSeen]
+[User status change]
+[Changed to Online]
+[User Logged Off]
+[User Logged In]
+[Last seen]
+;file \plugins\SeenPlugin\src\menu.cpp
+[<unknown>]
+<neznámý>
+[<none>]
+;file \plugins\SeenPlugin\src\missed.cpp
+[ [%i]]
+;file \plugins\SeenPlugin\src\options.cpp
+[Last Seen Variables]
+Last Seen - seznam promìnných
+[uxtheme.dll]
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+[Contacts]
+Kontakty
+[PopUps]
+;file \plugins\SeenPlugin\src\seen.h
+[Debug]
+Debug
+[%n is %s (%u)]
+[%i(%r)%bWas %o]
+[Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
+[-- Date --]
+-- Datum --
+[year (4 digits)]
+rok (4 èíslice)
+[year (2 digits)]
+rok (2 èíslice)
+[month]
+mìsíc
+[name of month]
+název mìsíce (celý)
+[short name of month]
+název mìsíce (zkrácený)
+[day]
+den
+[weekday (full)]
+název dne (celý)
+[weekday (abbreviated)]
+název dne (zkrácený)
+[-- Time --]
+-- Èas --
+[hours (24)]
+hodiny (24)
+[hours (12)]
+hodiny (12)
+[AM/PM]
+dop./odp.
+[minutes]
+min.
+[seconds]
+[-- User --]
+-- Uživatel --
+[username]
+uživatelské jméno
+[nick]
+pøezdívka
+[UIN/handle]
+UIN (ident. èíslo)
+[Group]
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Status message]
+[Old status]
+pùvodní stav
+[external IP]
+externí IP
+[internal IP]
+interní IP
+[Client info]
+klient
+[Protocol]
+[-- Format --]
+-- Formátování --
+[tabulator]
+tabulátor
+[line break]
+další øádek
+[Note:]
+Pozn.:
+[Use]
+Použít
+[for empty string]
+[instead of]
+;file \plugins\SeenPlugin\src\userinfo.cpp
+;file \plugins\SeenPlugin\src\utils.cpp
+[Sunday]
+[Monday]
+[Tuesday]
+[Wednesday]
+[Thursday]
+[Friday]
+[Saturday]
+[Sun.]
+ne
+[Mon.]
+po
+[Tue.]
+út
+[Wed.]
+st
+[Thu.]
+èt
+[Fri.]
+pá
+[Sat.]
+so
+[January]
+leden
+[February]
+únor
+[March]
+bøezen
+[April]
+duben
+[May]
+kvìten
+[June]
+èerven
+[July]
+èervenec
+[August]
+srpen
+[September]
+záøí
+[October]
+øíjen
+[November]
+listopad
+[December]
+prosinec
+[Jan.]
+led
+[Feb.]
+úno
+[Mar.]
+bøe
+[Apr.]
+dub
+[Jun.]
+èen
+[Jul.]
+èec
+[Aug.]
+srp
+[Sep.]
+záø
+[Oct.]
+øíj
+[Nov.]
+lis
+[Dec.]
+pro
+[<never seen>]
+[%04i]
+[%02i]
+[---]
+[Idle]
+[ProtoUnknown]
+[\x0D\x0A]
+[Unknown]
+[Not Idle]

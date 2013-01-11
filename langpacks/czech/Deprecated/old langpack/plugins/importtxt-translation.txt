@@ -1,0 +1,30 @@
+; /----------------------------------------------------------\
+; |  Import TXT 0.0.1.9                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://miranda-im.de/mediawiki/index.php?title=Plugin:ImportTXT
+;
+
+; Import TXT 0.0.1.9
+
+[Default extension]
+Výchozí pøípona
+[All files (*.*)]
+Všechny soubory (*.*)
+[This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
+Tento prùvodce vám pomùže naimportovat historii ostatních klientù a doplòkù Mirandy, uloženou v textových souborech.
+[Directory...]
+Složka...
+[Import Text Files Wizard]
+Prùvodce importem textových souborù
+[Choose a file for import...]
+Vyberte soubor k importu...
+[Choose type of imported files:]
+Vyberte typ importovaných souborù:
+[Files...]
+Soubory...
+[Select files or the whole directory for import:]
+Vyberte soubory nebo celou složku pro import:
+
+; ---

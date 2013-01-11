@@ -1,0 +1,419 @@
+; /----------------------------------------------------------\
+; |  Wassup 0.3.1.2                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=358
+;
+
+;Translation:
+;===========
+; Important Note: Subcategories are translatable! They're not listed here though.
+
+; In v0.3.1.2 the following strings were removed:
+; Updated development files
+; and the following were added:
+[Always show complete changelog]
+Zobrazit kompletní pøehled zmìn
+[Updated devel files]
+Soub. pro vývojáøe
+
+;(DUP) [Use NTLM authentication]
+[&Download]
+&Stáhnout
+[&Install]
+Na&instalovat
+[&Copy URL to clipboard]
+Z&kopírovat odkaz
+
+; In v0.3.1.0 the following strings were removed:
+; Highlight updates since:, Show Selection..., Check for..., Wassup - Selection,
+; , Wassup - Selection (Not active), Clear List, Download All..., Install All...
+; and the following were added:
+[Plugins Updates]
+Akt. doplòky
+[All Selections]
+Vybrané
+[More Info]
+Informace
+[Web Info]
+WWW
+[Some of your tracked plugins have updates]
+Nové verze nìkterých ze sledovaných doplòkù!
+[Looking up installed plugins...]
+Zjišování nainstalovaných doplòkù...
+[Latest version]
+Nejnovìjší verze
+[Last checked version]
+Naposl. zjištìná verze
+[Installed version]
+Používaná verze
+[Highlight updates...]
+Zvýraznit zmìnìné...
+[Since last time I checked]
+od poslední kontroly
+[Since:]
+od:
+[Current build date:]
+Používaný:
+[Get List from Server]
+Stáhnout seznam ze serveru
+[Plugins Selection]
+Výbìr doplòkù
+[Only select active plugins]
+Vybrat jen aktivní doplòky
+[Select installed plugins]
+Vybrat nainstalované doplòky
+[Select All]
+Vybrat vše
+[Select Updated]
+Vybrat zmìnìné
+
+; In v0.3.0.0 the strings table changed completely, here it is:
+; Note: Subcategories names are translatable!
+; Not all subcategories are listed here, though.
+
+[Updates since:]
+Novinky od:
+[Error!]
+Chyba!
+[Select highlighted]
+Vybrat zvýraznìné
+[Clear All]
+Zrušit výbìr
+;(FIX) [Skip File]
+[Skip file]
+Pøeskoèit
+[Abort]
+Pøerušit
+[Progress]
+Prùbìh
+[Current:]
+Aktuální:
+[Total:]
+Celkovì:
+[Wassup]
+Aktualizace
+[Nightly updates]
+Vývojové verze
+[Latest nightly build:]
+Nejnovìjší betaverze:
+[Querying...]
+Odesílání dotazu ...
+[Changelogs...]
+Pøehled zmìn...
+[Downloads]
+Stahování
+[Select file:]
+Vyberte soubor:
+[Download]
+Stáhnout
+[Install]
+Nainstalovat
+
+; options
+;(DUP) [Auto-Checkups]
+[A new nightly]
+Nové výv. verze
+[Updated plugins]
+Doplòky
+[Customisation files]
+Pozadí, ikony
+[Localisation files]
+Pøeklady
+[Updated tools]
+Nástroje
+[Updated docs]
+Dokumentace
+[Every]
+každých
+[hour/s]
+hod.
+[Check for updates on startup]
+Zkontrolovat pøi spuštìní
+[Network settings]
+Nastavení sítì
+[Use HTTP Proxy Server]
+Použít HTTP Proxy
+;(DUP) [Proxy server:]
+;(DUP) [Port:]
+;(DUP) [Proxy requires authorization]
+;(DUP) [Username:]
+;(DUP) [Password:]
+;(DUP) [Misc]
+[Do not save files to disk]
+Neukládat soubory na disk
+[Open file/directory when download finishes]
+Po stáhnutí otevøít složku/soubor
+[Remember dialog size and position]
+Zapamatovat velikosti a pozice oken
+[Add a TopToolBar button]
+Pøidat do horní lišty (TopToolBar)
+[Miranda Installer path:]
+Miranda Installer:
+[Browse...]
+Procházet...
+[Wassup Updates]
+Wassup
+[There are some updates you should check out]
+Mezi novinkami jsou i takové, které vás mohou zajímat.
+;(DUP) [Name]
+[Subcategory]
+Podskupina
+;(DUP) [Author]
+;(DUP) [Version]
+[Last Update]
+Poslední zmìna
+[Select Miranda Installer's path]
+Vyberte cestu k programu Miranda Installer
+[Miranda Installer (MirInst.exe)]
+Miranda Installer (MirInst.exe)
+[Executables (*.exe)]
+Spustitelné soubory (*.exe)
+[All Files (*.*)]
+Všechny soubory (*.*)
+[Miranda's ChangeLog]
+Seznam zmìn v Mirandì
+[Protocols' changelog]
+Seznam zmìn v protokolu
+[Plugins' changelog]
+Seznam zmìn v doplòku
+[Latest nightly build]
+Nejnovìjší vývoj. verze
+[Latest nightly build (Debug)]
+Nejnovìjší vývoj. verze (ladicí)
+[Latest nightly build (Source)]
+Nejnovìjší vývoj. verze (zdroje)
+[The latest Miranda IM build, should be used with caution.]
+Nejnovìjší verze programu Miranda IM. Pouze pro zkušené!
+[The latest Miranda IM build, built with debugging information. Mostly useful for developers.]
+Ladicí verze nejnovìjší verze programu Miranda IM. Urèeno pro vývojáøe.
+[The latest Miranda IM build's source code]
+Zdrojové kódy nejnovìjší verze programu Miranda IM.
+[>> Resolving...]
+>> Vyhledávání...
+[<< Connecting...]
+<< Navazování spojení...
+[>> Connected!]
+>> Spojení navázáno...
+[<< Waiting for reply...]
+<< Èekání na odpovìï...
+[>> Received %lu/%lu bytes (%d%%)]
+>> Stáhnuto %lu z %lu bajtù (%d %%)
+;(DUP) [Plugins]
+[Customise]
+Vzhled
+[Localisation]
+Pøeklady
+[Tools]
+Nástroje
+[Documentation]
+Dokumentace
+[Development]
+Pro vývojáøe
+;(DUP) [Sounds]
+;(DUP) [Icons]
+[Emoticons]
+Smajlíky
+[Source Code]
+Zdrojové kódy
+;(DUP) [Type]
+[Details]
+Podrobnosti
+[More]
+Další
+[Nightly]
+Vývoj. verze
+[Development files]
+Soubory pro vývojáøe
+[Show me]
+Zobrazit
+[A new nightly version of Miranda IM]
+Nová vývojová verze Miranda IM
+[Some plugins were updated]
+Novinky mezi doplòky
+[Updated customisation files]
+Novinky mezi obrázky, ikonami
+[Updated localisation files]
+Novinky mezi pøeklady
+;(DUP) [Updated tools]
+[Updated documentation]
+Novinky v dokumentaci
+[Using Cache...]
+Použití cache...
+[Source Type (*.%s)]
+Zdrojový soubor (*.%s)
+[Save download to...]
+Uložit do...
+[Resolving %s...]
+Vyhledávání %s ...
+[Connecting to %s...]
+Pøipojování k %s ...
+[Connected!]
+Spojení navázáno!
+[Waiting for reply]
+Èekání na odpovìï
+[Receiving file...]
+Stahování souboru...
+;(DUP) [Size]
+;(DUP) [URL]
+;(DUP) [N/A]
+[/ %lu files]
+/ %lu soubor(ù)
+[%lu MB/sec]
+%lu MB/s
+[%lu KB/sec]
+%lu kB/s
+[%lu bytes/sec]
+%lu bajtù/s
+[Stopped by user]
+Pøerušeno uživatelem
+[Error has occured during transfer!]
+Chyba pøi pøenosu dat!
+;(DUP) [OK]
+[Press OK to continue]
+Pokraèujte zmáèknutím OK
+[Are you sure you would like to abort?]
+Opravdu chcete akci pøerušit?
+[Select directory to save to:]
+Vyberte složku pro uložení:
+
+; this is the plugin description shown in the plugins options page
+[Check for Miranda IM updates]
+Automatické zjištìní novinek týkajících se programu Miranda IM
+[Nightlies]
+Vývoj. verze
+[Components]
+Akt. souèásti
+[Auto-Checkups]
+Automatická kontrola
+[&Wassup]
+Ak&tualizace
+[Could not initialize WinSock! Try restarting Miranda]
+Nelze inicializovat WinSock! Zkuste restartovat Mirandu.
+
+
+; NEPUBLIKOVANÉ
+[Could not resolve host. Try again later.]
+Nelze najít hostitele. Opakujte pozdìji.
+[Updates]
+Aktualizace
+[Remind me later...]
+Pøipomenout pozdìji
+[A new nightly is not available]
+Novìjší verze není k dispozici
+[You have chosen to install one or more plugins, are you sure you would like to continue?]
+Vybrali jste instalaci jednoho nebo více doplòkù. Opravdu chcete pokraèovat?
+[You have chosen to install the latest nightly, are you sure you would like to continue?]
+Vybrali jste instalaci nejnovìjší (beta)verze. Opravdu chcete pokraèovat?
+[Downloading selected]
+Stahování vybraných
+[Previous version]
+Pøedchozí verze
+[The transfer was unsuccessful (%d error code)]
+Chyba pøi stahování (kód chyby: %d)
+[Required data was not received, aborting...]
+Chyba pøi stahování požadovaných dat.
+[List of]
+Seznam
+[A new nightly is available]
+Je k dispozici nová betaverze
+[One or more of your plugins was updated]
+Je k dispozici nová verze nìkterého z používaných doplòkù
+[Ready]
+Pøipraven
+[Download file]
+Stáhnout soubor
+[Copy URL to clipboard]
+Zkopírovat odkaz
+[Enable caching]
+Použít mezipamì
+[Multi-Selection]
+Hromadný výbìr
+[Check for &Nightly Updates]
+Zjistit aktuál&ní betaverzi
+[Check for &Components Updates]
+Zjistit aktualiza&ce komponent
+[Check for &Plugins Updates]
+Zjistit aktualizace do&plòkù
+[Fetching Data...]
+Stahování dat...
+[Before you can check for plugin updates, you will need to select what plugins you would like to track. Go to Options->Wassup->Plugins Updates.]
+Nejdøíve vyberte ty doplòky, o kterých chcete mít stále aktuální informace. Pøejdìte do sekce "Možnosti->Wassup->Aktualizace doplòkù"
+[Retrieving Plugins list]
+Stahování seznamu doplòkù
+[List of Plugins]
+Seznam doplòkù
+[Are you sure you would like to delete settings? If you continue, all of your settings will be deleted!]
+Opravdu chcete smazat nastavení?
+[All settings will be erased after you close the options window!]
+Po zavøení okna budou veškerá nastavení smazána!
+[Before selecting installed plugins, the current list of plugins will be retrieved from the server.]
+Pøed vlastním výbìrem je nutné stáhnout aktuální seznam doplòkù ze serveru.
+[Sending packets]
+Odesílání požadavku
+[Receiving packets]
+Stahování dat
+[Getting the latest Nightly version]
+Stahování nejnovìjší betaverze
+[Latest nightly version]
+Nejnovìjší betaverze
+[Getting the changelog]
+Stahování pøehledu zmìn
+[Retrieving list]
+Stahování seznamu
+[Wassup Error]
+Wassup - chyba
+[Connection to the server has failed. Try again later.]
+Chyba pøi navazování spojení se serverem. Opakujte pozdìji.
+[Cannot send packet to server, aborting...]
+Nelze odeslat požadavek na server.
+[Error has occured while trying to receive packet from server, aborting...]
+Chyba pøi stahování dat ze serveru.
+[Could not create a new socket for the connection]
+Chyba pøi vytváøení nového spojení.
+[Could not save the downloaded file, please make sure that the save path is not being used]
+Nelze uložit stahovaný soubor. Ujistìte se prosím, zda cílový disk není chránìn proti zápisu.
+;(LAI) [Some error has occured while trying to create a new thread]
+[Are you sure you would like to abort? A transfer is in progress!]
+Opravdu chcete pøerušit stahování?
+[Start]
+Zaèít
+[Stop now!]
+Zastavit!
+[Transfer Status (In bytes)]
+Stav pøenosu (v bajtech)
+;(DUP) [Transferred:]
+[Nightly Builds]
+Betaverze
+[Current nightly build:]
+Poslednì zjistìná:
+[Get Changelog]
+Stáhnout pøehled zmìn
+[ChangeLog]
+Pøehled zmìn
+[Thread started]
+Vlákno aktivováno
+[Execution has stopped]
+Proces byl zastaven
+[Analyzing data...]
+Kontrola dat...
+[Error has occured]
+Vyskytla se chyba
+[Connected to server!]
+Server pøipojen!
+[Download Options]
+Možnosti stahování
+;(DUP) [Reset]
+[Delete Settings]
+Smazat nastavení
+[Wassup - Network Settings]
+Wassup - nastavení sítì
+[Wassup - Plugins Updates]
+Wassup - aktualizace doplòkù
+[Components Updates - Wassup]
+Wassup - aktualizace komponent
+[Plugins Updates - Wassup]
+Wassup - aktualizace doplòkù
+
+; ---

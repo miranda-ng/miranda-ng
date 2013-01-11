@@ -1,0 +1,50 @@
+; /----------------------------------------------------------\
+; |  MultiWindow 0.5.0.9                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: 
+;
+
+[My contacts]
+Seznam kontaktù
+
+;(DUP) [Hide All Titlebars]
+;(DUP) [Show All Titlebars]
+;(DUP) [Show All Frames]
+;(DUP) [Frames]
+;(DUP) [New Menu System not Found...]
+
+;(DUP) [&Visible]
+;(DUP) [&Show TitleBar]
+;(DUP) [&Locked]
+;(DUP) [&Collapsed]
+;(DUP) [Floating]
+;(DUP) [&Floating Mode]
+;(DUP) [&Border]
+;(DUP) [&Align]
+;(DUP) [&Top]
+;(DUP) [&Client]
+;(DUP) [&Bottom]
+;(DUP) [&Position]
+;(DUP) [&Up]
+;(DUP) [&Down]
+
+
+[Window(Frames)]
+Okno (MW)
+;(DUP) [Contact List]
+[Status Bar(Frames)]
+Stavová lišta (MW)
+
+
+
+;//legacy menu for titlebar
+
+;(DUP) [Lock Frame]
+;(DUP) [Visible]
+;(DUP) [Show TitleBar]
+
+; NEPUBLIKOVANÉ
+
+; ---

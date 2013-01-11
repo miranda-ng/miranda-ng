@@ -1,0 +1,38 @@
+; /----------------------------------------------------------\
+; |  OTR 0.5.2.0                                             |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2644
+;
+
+; NEPUBLIKOVANÉ
+[Policy]
+Metoda
+[Prefix secure messages]
+Oznaèit šifrované zprávy
+[Default Policy]
+Výchozí metoda
+[Manual]
+Ruènì
+[Opportunistic]
+Na vyžádání
+[New Private Key]
+Vygenerovat soukromý klíè
+[Start OTR]
+Šifrovat spojení (OTR)
+[Stop OTR]
+Zrušit šifrování (OTR)
+
+[OTR]
+Mimo záznam
+[Show start/stop inline]
+Indikovat (de)aktivaci
+[Popups Icon]
+Oznámení
+[Secure]
+Zabezpeèeno
+[Insecure]
+Není zabezpeèeno
+
+; ---

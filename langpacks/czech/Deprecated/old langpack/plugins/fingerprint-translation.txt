@@ -1,0 +1,391 @@
+; /----------------------------------------------------------\
+; |  Fingerprint 0.1.1.0                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2594
+;
+
+[Client Icons/Miranda]
+Klientské programy/Miranda
+[Client Icons/Other]
+Klientské programy/Ostatní
+[Client Icons/ICQ]
+Klientské programy/ICQ
+[Client Icons/Yahoo]
+Klientské programy/Yahoo
+[Client Icons/AIM]
+Klientské programy/AIM
+[Client Icons/Mobile]
+Klientské programy/Mobilní
+[Client Icons/JABBER]
+Klientské programy/Jabber
+[Client Icons/MSN]
+Klientské programy/MSN
+[Client Icons/IRC]
+Klientské programy/IRC
+[Client Icons/C6]
+Klientské programy/C6
+[Client Icons/QQ]
+Klientské programy/QQ
+[Client Icons/SKYPE]
+Klientské programy/Skype
+[Client Icons/Gadu-Gadu]
+Klientské programy/Gadu-Gadu
+[Client Icons/Mail.ru Agent]
+Klientské programy/Mail.ru (agent)
+
+; NEPUBLIKOVANÉ
+;(LAI) [Miranda IM 0.4.x]
+;(LAI) [Miranda IM 0.5.x]
+;(LAI) [Miranda IM 0.6.x]
+[Dev.build]
+vývoj. verze
+[Miranda evil]
+špatná Miranda
+;(LAI) [Miranda IM]
+
+;(LAI) [Adium X]
+;(LAI) [Gaim]
+;(LAI) [Trillian Pro]
+;(LAI) [Trillian]
+;(LAI) [Kopete]
+;(LAI) [GnomeICU]
+;(LAI) [IM2]
+;(LAI) [Licq]
+;(LAI) [SIM]
+;(LAI) [QNext]
+;(LAI) [Easy Message]
+;(LAI) [Fire]
+;(LAI) [Auttm]
+;(LAI) [Proteus]
+;(LAI) [Instan-t]
+;(LAI) [Meebome]
+;(LAI) [Meebo]
+;(LAI) [iChat]
+;(LAI) [virus Win32-Stration]
+;(LAI) [BitlBee]
+
+;(LAI) [Yahoo]
+
+;(LAI) [Aim SMS]
+;(LAI) [AIM Triton]
+;(LAI) [Aim GPRS]
+;(LAI) [AIM Express]
+;(LAI) [naim]
+;(LAI) [TerraIM]
+;(LAI) [AIM]
+
+;(LAI) [Agile Messenger]
+;(LAI) [Jimm]
+;(LAI) [Colibry]
+;(LAI) [stICQ]
+;(LAI) [uIM]
+;(LAI) [IM+]
+;(LAI) [YamiGO]
+;(LAI) [Bombus]
+;(LAI) [mChat]
+;(LAI) [PreludeICQ]
+;(LAI) [wmIRC]
+;(LAI) [Anastasia]
+
+;(LAI) [&RQ]
+;(LAI) [QIP]
+;(LAI) [NICQ]
+;(LAI) [KXicq2]
+
+;(LAI) [TICQ]
+;(LAI) [IC@]
+;(LAI) [R&Q]
+;(LAI) [SmartICQ]
+;(LAI) [ICQ v5 [ABV]]
+;(LAI) [ICQ v5 [Netvigator]]
+;(LAI) [ICQ v5 [Rambler]]
+[ICQ pocket PC]
+ICQ (na PDA)
+;(LAI) [WebICQ]
+;(LAI) [CenterICQ]
+;(LAI) [ICQ 2.X]
+;(LAI) [mICQ]
+;(LAI) [LibICQ/JIT]
+;(LAI) [StrICQ]
+;(LAI) [./vICQ]
+;(LAI) [YSM]
+;(LAI) [NanoICQ]
+;(LAI) [Spam Bot]
+;(LAI) [ICQ]
+;(LAI) [PyICQ]
+;(LAI) [alicq]
+
+;(LAI) [Jabber Messenger]
+;(LAI) [JAJC]
+;(LAI) [TKabber]
+;(LAI) [Gizmo]
+;(LAI) [Exodus]
+;(LAI) [Gush]
+;(LAI) [Pandion]
+;(LAI) [WTW]
+;(LAI) [Tlen.pl]
+;(LAI) [Psi]
+;(LAI) [Gossip]
+;(LAI) [Gabber]
+;(LAI) [Nitro]
+;(LAI) [Neos mt]
+;(LAI) [Jabberwoky]
+;(LAI) [Konnekt]
+;(LAI) [JETI]
+;(LAI) [Coccinella]
+;(LAI) [GAJIM]
+;(LAI) [GTalk]
+;(LAI) [Gmail]
+;(LAI) [Conference bot]
+;(LAI) [Spik]
+;(LAI) [Kadu]
+;(LAI) [Imeem]
+;(LAI) [Jabbin]
+[GTalk on BlackBerry]
+GTalk (v BlackBerry)
+;(LAI) [GCN]
+;(LAI) [Spark]
+;(LAI) [BitWise]
+;(LAI) [Meetro]
+;(LAI) [Wildfire]
+;(LAI) [GOIM]
+
+;(LAI) [Webmessenger]
+;(LAI) [aMSN]
+;(LAI) [MSN]
+
+;(LAI) [SysReset]
+;(LAI) [mIRC]
+;(LAI) [Eggdrop]
+;(LAI) [eMule]
+;(LAI) [Zip Torrent]
+;(LAI) [PJIRC]
+;(LAI) [psyBNC]
+;(LAI) [irssi]
+;(LAI) [macirssi]
+;(LAI) [Klient]
+;(LAI) [KVIrc]
+;(LAI) [Colloquy]
+;(LAI) [HydraIRC]
+;(LAI) [WeeChat]
+[Xchat Gnome]
+Xchat (Gnome)
+[Xchat Aqua]
+Xchat (Aqua)
+;(LAI) [Chatzilla]
+;(LAI) [Opera chat]
+;(LAI) [XChat]
+;(LAI) [pIRC]
+;(LAI) [Bersirc]
+;(LAI) [IrcN]
+;(LAI) [MaxxIM]
+;(LAI) [Mirabel script]
+;(LAI) [Ninjia]
+;(LAI) [iScript]
+;(LAI) [CGI IRC]
+;(LAI) [Icechat]
+;(LAI) [Konversation]
+;(LAI) [Babbel]
+;(LAI) [AmIRC]
+;(LAI) [KSirc]
+;(LAI) [Virc]
+;(LAI) [Snak]
+;(LAI) [Savirc]
+;(LAI) [Nettalk]
+;(LAI) [Conversation]
+;(LAI) [Xirc]
+[eMule mods]
+eMule (modifikace)
+;(LAI) [InetTools]
+;(LAI) [NoNameScript]
+;(LAI) [irc]
+
+;(LAI) [OpenC6]
+;(LAI) [C6 Messenger]
+
+;(LAI) [QQ]
+
+;(LAI) [Skype]
+;(LAI) [Skype 2.x]
+
+[Mail.ru Agent unknown]
+Mail.ru (neznámý agent)
+[Mail.ru Agent]
+Mail.ru (agent)
+
+;(LAI) [Gadu-Gadu]
+
+[Unknown for fingerprint]
+neznámý (Fingeprint)
+[Unknown for protocol]
+neznámý (protokol)
+
+;(LAI) [AimOscar]
+[ICQ evil]
+špatné ICQ
+;(LAI) [ICQ_SSS+S7]
+;(LAI) [ICQ_S7]
+;(LAI) [ICQJ]
+[ICQJ_new dev.cycle]
+ICQJ (vývoj. verze)
+;(LAI) [ICQ_BM]
+[ISee old]
+ISee (staré)
+;(LAI) [ISee]
+[ICQ unknown]
+ICQ (neznámá verze)
+;(LAI) [IRC]
+[IRC mod]
+IRC (modifikace)
+;(LAI) [Jabber]
+;(LAI) [JGmail]
+;(LAI) [JMeebo]
+;(LAI) [QQ]
+;(LAI) [Mail.ru]
+[MSN old]
+MSN (staré)
+;(LAI) [MSN]
+
+[AIM v 4.x]
+AIM 4.x
+[AIM v 5.x]
+AIM 5.x
+;(LAI) [AIM TOC]
+
+[on Java]
+v Javì
+[on Flash]
+ve Flashi
+[on Windows]
+pro Windows
+[on MacOS]
+pro MacOS
+[on Linux]
+pro Linux
+
+;(LAI) [Yahoo 5.x]
+;(LAI) [Yahoo 6.x]
+;(LAI) [Yahoo 7.x]
+;(LAI) [Yahoo 8.x]
+
+;(LAI) [MSN 4.x-5.x]
+;(LAI) [MSN 6.x]
+;(LAI) [MSN 7.x]
+;(LAI) [MSN 8.x]
+
+;(LAI) [ICQ 2000]
+;(LAI) [ICQ 2001]
+;(LAI) [ICQ 2002/2003a]
+;(LAI) [ICQ 2003b]
+;(LAI) [ICQ Lite v4]
+;(LAI) [ICQ v5.1]
+;(LAI) [ICQ v5]
+;(LAI) [ICQ v6]
+
+;(LAI) [QQ2000]
+;(LAI) [QQ2003]
+;(LAI) [QQ2004]
+;(LAI) [QQ2005]
+;(LAI) [QQ2006]
+
+;(LAI) [Gadu-Gadu 4.x.]
+;(LAI) [Gadu-Gadu 5.x]
+[Gadu-Gadu 6.1 build 155 or 7.6 build 1359 ]
+Gadu-Gadu 6.1 build 155 nebo 7.6 build 1359 
+;(LAI) [Gadu-Gadu 6.x]
+;(LAI) [Gadu-Gadu 7.x]
+
+[on mobile]
+v mobilu
+[on PDA]
+v PDA
+;(LAI) [Skype 3.x]
+
+[[Home]]
+(doma)
+[[Work]]
+(práce)
+[[Office]]
+(kanceláø)
+[mobile devices]
+mobilní telefon
+[portable]
+pøenosné PC
+;(LAI) [+SimpPro]
+;(LAI) [+SimpLite]
+;(LAI) [+IMsecure]
+;(LAI) [+SecureIm]
+
+; Fingerprint Plus 1.1.3.0, pøeklad: Soustruh
+[Client Icons]
+Klientské programy
+[Client Icons/Miranda/overlays#1]
+Klientské programy/Miranda/pøekryvné ikony #1
+[Client Icons/Miranda/overlays#2]
+Klientské programy/Miranda/pøekryvné ikony #2
+[Client Icons/Multi-Protocol]
+Klientské programy/Víceprotokolové
+[Client Icons/Multi-Protocol/overlays]
+Klientské programy/Víceprotokolové/pøekryvné ikony
+[Client Icons/Tlen]
+Klientské programy/Tlen
+[Client Icons/Weather]
+Klientské programy/Poèasí
+[Client Icons/Web-based]
+Klientské programy/Webové
+
+[Base Icon]
+Základní ikona
+[Show unknown]
+Zobrazit neznámou
+[Show unicode flag]
+Zobrazit znaèku unicode
+[Show one icon]
+Zobrazit jedinou ikonu
+[Overlay Icon #1]
+Pøekryvná ikona è.1
+[Show pack icon (if available)]
+Zobrazit ikonu balíku (je-li k dispozici)
+[Show protocol]
+Zobrazit protokol
+[Show version]
+Zobrazit verzi
+[Overlay Icon #2]
+Pøekryvná ikona è.2
+[Show Jabber resource]
+Zobrazit prostøedek Jabberu
+[Show Miranda version]
+Zobrazit verzi Mirandy
+[Overlay Icon #3]
+Pøekryvná ikona è.3
+[Show +secure]
+Indikovat zabezpeèení
+[Extra icon slot (restart required):]
+Použít ikonu pro (vyž. restart):
+
+[Show in options icon group:]
+Zobrazit skupiny ikon:
+[Multi-Protocol]
+Víceprotokolové
+[Web-based]
+Webové
+[Icon group options will be fully applied after restart]
+Možnosti skupin ikon budou zobrazeny po restartu
+
+[Show jabber transport]
+Indikovat transport Jabberu
+[Client (default)]
+Klient (výchozí)
+
+[Fingerprint icons]
+Ikony pro Fingerprint
+[bots]
+roboti
+[services]
+služby
+[Pack overlays]
+Pøekryvné ikony
+
+; ---

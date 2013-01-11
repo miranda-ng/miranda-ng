@@ -1,0 +1,136 @@
+; /----------------------------------------------------------\
+; |  LogStatistics 0.1.1.3                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=646
+;
+
+[Log Statistics]
+Statistika
+;Options
+[How many "most common words" should be printed]
+Poèet zobrazených nejèastìji používaných slov
+[Time between two chat sessions (seconds)]
+Doba mezi dvìma rozhovory (v sek.)
+[Your nickname (in the exported history)]
+Vaše pøezdívka (v exportované historii)
+[Time format (in the\nexported history)]
+Formát èasu (v exportované historii)
+[Output]
+Výstup
+[Columns]
+Sloupce
+[LETTERS]
+PÍSMENA
+[letters]
+písmena
+[E&xplanation]
+&Vysvìtlení
+[Ignore these words in the wordlist]
+Ignorovat tato slova ze seznamu
+[A&dd]
+Pøi&dat
+;(DUP) [&Delete]
+[Ignore words with this lenght\nor less (0 to disable)]
+Ignorovat slova s touto délkou\nnebo kratší (0 - vypnuto)
+;(DUP) [Variables]
+[Ignore messages older than n days (0 to disable)]
+Ignorovat zprávy starší než n dnù (0 - vypnuto)
+[Run Log Statistics on startup]
+Spustit statistiku pøi startu
+[Have Log Statistics in the Main Menu (Must restart Miranda to delete menus)]
+Zobrazit položku v hlavním menu (vyžaduje restart Mirandy)
+[Open output after run]
+Otevøít výstup po spuštìní
+[Read history from database (recomnended)]
+Èíst historii z databáze (doporuèeno)
+[Read exported history]
+Èíst exportovanou historii
+[&Run Log Statistics]
+&Spustit statistiku
+[StyleSheet]
+Styl zobrazení
+
+; Option-popups
+[%Y: year (4 digits)\n%y: year (2 digits)\n%m: month\n%d: day\n%H: hours (24h)\n%M: minutes\n%S: seconds\n%p: AM/PM]
+%Y: rok (4 èíslice)\n%y: rok (2 èíslice)\n%m: mìsíc\n%d: den\n%H: hodiny (24h)\n%M: minuty\n%S: sekundy\n%p: dop./odp.
+[Time Variables]
+Promìnné èasu
+[0 Nick\n1 # Bytes\n2 % Bytes sent\n3 % Bytes recieved\n4 # Chats\n5 % Chats started\n6 % Chats not started\n7 Most common words\n8 When]
+0 Pøezdívka\n1 Poèet bajtù\n2 % Bajtù pøijato\n3 % Bajtù odesláno\n4 Poèet rozhovorù\n5 % Zahájené rozhovory\n6 % Nezahájené rozhovory\n7 Nejpoužívanìjší slova\n8 Kdy
+[Column Variables]
+Promìnné sloupcù
+[All letters not in these two lines are considered as whitespaces.\nWrite uppercase letters in the LETTER-line and lowercase in the letter-line.\nIf the first character in the LETTER-line is A, then the first in the letter-line must be a, B->b, ....\nIf you type a number or any other character which doesn't exist as both upper- and lowercase type the same in both lines.]
+Ne všechna písmena v tìchto dvou øádcích jsou považována za prázdné místo.\nVelká písmena pište do øádku "PÍSMENA" a malá do øádku "písmena".\nPokud je první znak na øádku PÍSMENA "A", první znak na øádku písmena musí být "a". Podobnì B->b atd.\nPokud zadáte èíslici nebo jiný znak, který neexistuje v obou variantách, napište tentýž do obou øádkù.
+[Letters]
+Písmena
+[Log Statistics is already running]
+Statistika je již spuštìna
+[You have unsaved settings\nDo you want to save before running Log Statistics?]
+Nastavení doplòku bylo zmìnìno.\nChcete ho uložit pøed spuštìním statistiky?
+[The timeformat can't end with a %-character]
+Formát èasu nemùže konèit znakem %
+
+; Menu
+[&Log Statistics]
+S&tatistika
+[&Create Statistics]
+&Vytvoøit statistiku
+[&Show Statistics]
+Zobrazit &statistiku
+
+; Progress Window
+[Log Statistics - Working...]
+Statistika - generování...
+[Creating %s]
+Vytváøení %s
+
+; Errormessages using exported history
+[Error in %s on line %d.\nCould not separate nickname and time.\nSkipping this file...]
+Chyba v %s na øádku %d.\nNelze oddìlit pøezdívku a èas.\nDaný soubor vynechán...
+[Error in %s on line %d.\nFound a message thas sent at this hour: %d\nMaybe you have wrong time format.\nSkipping this file...]
+Chyba v %s na øádku %d.\nNalezena zpráva, která byla zaslána v tuto hodinu: %d\nMožná špatný formát èasu.\nDaný soubor vynechán...
+[Could not find MsgExportDir in database.]
+V databázi nelze nalézt definici MsgExportDir.
+[Could not find %s]
+Nelze nalézt %s
+[big bug error :-(]
+kritická chyba :-(
+
+; Output
+[<html><head><title>Log Statistics for %s</title><style>%s</style></head><body><h1>Log Statistics for %s's %d friends</h1><hr>]
+<html><head><title>Statistika uživatele %s</title><style>%s</style></head><body><h1>Statistika uživatele %s a jeho %d pøátel</h1><hr>
+[<th>Nick</th>]
+<th>Pøezdívka</th>
+[<th width=65># Bytes</th>]
+<th width=65>Bajtù</th>
+[<th width=55>Sent</th>]
+<th width=55>Odesláno</th>
+[<th width=55>Received</th>]
+<th width=55>Pøijato</th>
+[<th width=65># Chats</th>]
+<th width=65>Rozhovorù</th>
+[<th width=55>Me started</th>]
+<th width=55>Zahájeno mnou</th>
+[<th width=55>Not me</th>]
+<th width=55>Nezahájeno mnou</th>
+[<th>Most common words</th>]
+<th>Nejpoužívanìjší slova</th>
+[<th>When</th>]
+<th>Kdy</th>
+[<td><span title='First message: %sLast message: %s'>%s</span></td>]
+<td><span title='První zpráva: %sPoslední zpráva: %s'>%s</span></td>
+[<th><span title='First message: %s (%s)\nLast message: %s (%s)'>Total</span></th>]
+<th><span title='První zpráva: %s (%s)\nPoslední zpráva: %s (%s)'>Celkem</span></th>
+[</table><br>Created %s</body></html>]
+</table><br>Vytvoøeno %s</body></html>
+[<!This file was generated in %d seconds>]
+<!Tento soubor byl vygenerován za %d s>
+
+; NEPUBLIKOVANÉ
+; pro PluginUninstaller
+[LogStatistics]
+Statistika
+
+; ---

@@ -1,0 +1,164 @@
+#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+;============================================================
+;  File: AVS.dll
+;  Plugin: Avatar service
+;  Version: 0.11.0.1
+;  Authors: Nightwish, Pescuma
+;============================================================
+[Loads and manages contact pictures for other plugins.]
+;file \plugins\AVS\res\avs.rc
+[The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
+Definuje obrázky pro kontakty bez avataru. Zaškrtnutím zobrazení\nvýchozího obrázku zapnete, odškrtnutím vypnete.
+[Set default picture]
+Nastavit výchozí obrázek
+[Delete default picture]
+Odstranit výchozí obrázek
+[CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
+Upozornìní: Váš vlastní avatar urèíte pomocí funkce Nastavit\navatar ze sekce Informace o sobì v hlavní nabídce.
+[Try to draw avatar background transparent (for images without transparency)]
+Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+[Num of points to define bkg:]
+Množství bodù definujících pozadí:
+[Color difference allowed:]
+Povolená odchylka barev:
+[Make transparency proportional to color diff]
+Zprùhlednit dle barevných rozdílù
+[Draw avatars grayscale]
+Zobrazit v odstínech šedi
+[Show warning messages]
+Zobrazit chybová hlášení
+[When setting avatars, always make them square]
+Pøi nastavení avataru vždy zmìnit na ètvercový tvar
+[Try to draw own avatar background transparent (for images without transparency)]
+Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+[This uses the same additional options as in "Contact Avatars" tab]
+[Protect the picture and prevent automatic avatars from overwriting it]
+Zamknout obrázek a zabránit tak automatickému pøepisování
+[Make the avatar square]
+Upravit obrázek na ètvercový tvar
+[Resize the avatar to fit max allowed protocol size]
+[Contact picture]
+Obrázek
+[Change]
+Zmìnit
+[Delete]
+[Reset]
+[Picture options]
+[Protect the picture]
+Zamknout obrázek
+[Set as hidden]
+Nastavit jako skrytý
+[Try to make picture background transparent]
+Pokusit se zprùhlednit pozadí obrázku
+[Use defaults]
+Použít výchozí
+[OK]
+[Cancel]
+[Options]
+[Background]
+Pozadí
+[Transparent]
+Prùhlednost
+[Points:]
+Poèet bodù:
+[Color diff:]
+Rozdíl barev:
+[Set]
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+[Use per protocol avatars]
+Pro každý protokol jiný avatar
+;file \plugins\AVS\src\acc.cpp
+[Protocols have different avatars]
+Jednotlivé protokoly mají definované rùzné avatary.
+;file \plugins\AVS\src\main.cpp
+[%s\\%s]
+%s\\%s
+[AVS-HASH-%x]
+[%s@%s]
+[SHELLDLL_DefView]
+[Grow avatar to fit max allowed protocol size]
+Upravit rozmìry na max. velikost danou protokolem
+[.png]
+[.jpg]
+[.ico]
+[.bmp]
+[.gif]
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+[.swf]
+[.xml]
+[.jpeg]
+[.rle]
+[All Files]
+[ (*.bmp;*.jpg;*.gif;*.png]
+[;*.swf]
+[;*.xml]
+[*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG]
+[;*.SWF]
+[;*.XML]
+[Windows Bitmaps]
+[ (*.bmp;*.rle)]
+[*.BMP;*.RLE]
+[JPEG Bitmaps]
+[ (*.jpg;*.jpeg)]
+[*.JPG;*.JPEG]
+[GIF Bitmaps]
+[ (*.gif)]
+[*.GIF]
+[PNG Bitmaps]
+obrázky typu PNG
+[ (*.png)]
+[*.PNG]
+[Flash Animations]
+animace typu Flash
+[ (*.swf)]
+[*.SWF]
+[XML Files]
+soubory typu XML
+[ (*.xml)]
+[*.XML]
+[GlobalAvatar]
+[%s\\my_global_avatar%s]
+[%s\\my_global_avatar.png]
+[Set My Avatar]
+Nastavit avatar
+[Set My Avatar for %s]
+Nastavit avatar pro %s
+[%s%s]
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+[mir_av_]
+[Global avatar for %s accounts]
+Globální avatar pro úèty na %s
+[avs_loaderthread_%d]
+[\\Avatars]
+[Contacts]
+Kontakty
+[Avatars]
+Avatary
+[Protocols]
+Protokoly
+[Contact Avatars]
+Pro kontakty
+[Own Avatars]
+Pro sebe
+[Avatar]
+[gdi32]
+[msimg32.dll]
+[%miranda_userdata%]
+[Fatal error, image services not found. Avatar services will be disabled.]
+[Avatar Service]
+;file \plugins\AVS\src\options.cpp
+[%%miranda_path%%\\%s]
+[Set avatar options for %s]
+%s: avatar
+[Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
+Chcete odstranit i obrázek z disku (nutno provést pøi vynucené aktualizaci avataru)?
+[Reset contact picture]
+Resetovat obrázek kontaktu
+[Contact has no avatar]
+<avatar není definovaný>
+[No avatar]
+Bez avataru
+[Are you sure you want to remove your avatar?]
+Opravdu chcete odstranit svùj avatar?
+[Global Avatar]
+Globální avatar

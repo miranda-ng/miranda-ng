@@ -1,0 +1,8 @@
+;[Appearance]
+;[Extra options: Events > File Transfers, "Receiving files" group]
+;[File already exists. Overwrite?]
+;[Filename:]
+;[Size:]
+;[Unknown command for "" SERVICE_TITLE "" was received]
+;[bytes]
+;[ms]

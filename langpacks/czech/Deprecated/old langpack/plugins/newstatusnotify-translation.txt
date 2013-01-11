@@ -1,0 +1,281 @@
+; /----------------------------------------------------------\
+; |  NewStatusNotify 1.1.2.5                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=207
+; Vıvoj: http://vasilich.org/blog/category/miranda-im/newstatusnotify/
+;
+
+; /indiv_sounds.c
+[(default sound)]
+(vıchozí zvuk)
+[Status]
+Stavy
+[Sound for the status]
+Zvuky
+[From offline]
+Ze stavu offline
+[** All contacts **]
+** všechny kontakty **
+
+; /main.c
+[(was %s)]
+(pøedtím %s)
+[Enable status &notification]
+Zapnou&t oznámení stavu
+[Disable status &notification]
+Vypnou&t oznámení stavu
+[PopUps]
+Oznámení
+[Status Notify]
+Oznámení stavu
+[User: from offline (has priority!)]
+Uivatel: z offline (má prioritu!)
+[Notify]
+Oznámení
+[Events]
+Události
+[You cannot specify a value lower than %d and higher than %d.]
+Nelze zadat hodnotu niší ne %d a vyšší ne %d.
+[Not a proto. Return!]
+Není protokol. Návrat.
+[<retrieving status message>]
+<zjišování stavové zprávy>
+
+ 
+ 
+[%s is now %s]
+%s je nyní %s
+[%s, %s. %s changed to: %s (was: %s).\r\n]
+%s, %s. %s zmìna na: %s (was: %s).\r\n
+[This is "from offline" status message]
+Toto je stavová zpráva "z offline"
+[(M) is back online!]
+je opìt online
+[(F) is back online!]
+je opìt online
+[(U) is back online!]
+je opìt online
+[Online]
+Online
+[User: Online]
+Stav (online)
+[(M) went offline! :(]
+odešel...
+[(F) went offline! :(]
+odešla...
+[(U) went offline! :(]
+odešel...
+[Offline]
+Offline
+[User: Offline]
+Stav (offline)
+[(M) hides in shadows...]
+je neviditelnı...
+[(F) hides in shadows...]
+je neviditelná...
+[(U) hides in shadows...]
+je neviditelnı...
+[Invisible]
+Neviditelnı
+[User: Invisible]
+Stav (neviditelnı)
+[(M) feels talkative!]
+má volno
+[(F) feels talkative!]
+má volno
+[(U) feels talkative!]
+má volno
+[Free for chat]
+Mám volno
+[User: Free For Chat]
+Stav (mám volno)
+[(M) went Away]
+odbìhl pryè
+[(F) went Away]
+odbìhla pryè
+[(U) went Away]
+odbìhl pryè
+[Away]
+Na chvíli pryè
+[User: Away]
+Stav (na chvíli pryè)
+[(M) isn't there anymore!]
+bude pryè delší dobu
+[(F) isn't there anymore!]
+bude pryè delší dobu
+[(U) isn't there anymore!]
+bude pryè delší dobu
+[NA]
+Nejsem tady
+[User: Not Available]
+Stav (nejsem tady)
+[(M) has something else to do.]
+nemá èas
+[(F) has something else to do.]
+nemá èas
+[(U) has something else to do.]
+nemá èas
+[Occupied]
+Nemám èas
+[User: Occupied]
+Stav (nemám èas)
+[(M) doesn't want to be disturbed!]
+nechce bıt vyrušován!
+[(F) doesn't want to be disturbed!]
+nechce bıt vyrušována!
+[(U) doesn't want to be disturbed!]
+nechce bıt vyrušován!
+[DND]
+Nerušit!
+[User: Do Not Disturb]
+Stav (nerušit!)
+[(M) is eating something]
+je na obìdì
+[(F) is eating something]
+je na obìdì
+[(U) is eating something]
+je na obìdì
+[Out to lunch]
+Jsem na obìdì
+[User: Out To Lunch]
+Stav (na obìdì)
+[(M) had to answer the phone]
+telefonuje
+[(F) had to answer the phone]
+telefonuje
+[(U) had to answer the phone]
+telefonuje
+[On the phone]
+Mám telefon
+[User: On The Phone]
+Stav (mám telefon)
+[<error>]
+<chyba>
+[UserInfo]
+UserInfo
+
+; /resource.rc:IDD_NSN_OPT
+[Notify when a contact changes to one of these statuses]
+Oznámení zmìny stavu ostatních kontaktù
+[Button]
+Tlaèítko
+[N/A]
+<neuvedeno>
+[Always when changing from offline]
+Vdy pøi pøechodu ze stavu offline
+[Plugin activation]
+Aktivace doplòku
+[Automatically turn off PopUps and Sounds on status change]
+Automaticky vypnout oznámení a zvuky pøi zmìnì stavu
+[Configure]
+Nastavit...
+[Temporarily disable NewStatusNotify (disables popups and sounds)]
+Doèasnì deaktivovat NewStatusNotify (vypne oznámení a zvuky)
+[Put an item in the main menu to easily enable/disable the plugin]
+Pøidat do hlavní nabídky poloku vypnutí/zapnutí doplòku
+[Show PopUps when I connect]
+Zobrazit oznámení pøi pøipojení
+[Do not warn me for people not in my Contact List]
+Nehlásit zmìny u lidí, kteøí nejsou v seznamu kontaktù
+[Blink icon in the system tray]
+Blikat v oznamovací èásti lišty
+[Use status icon]
+Pouít ikonu stavu
+[Sound options]
+Zvukovı vıstup
+[Use Internal &Speaker]
+Pouít &interní reproduktor
+[&Avoid clipping]
+Pøede&jít pøebuzení
+[To select the sounds to play, click on "Sounds" in the menu on the left.]
+Pøiøadit zvuky konkrétním událostem lze nalevo v èásti "Události/Zvuky".
+[Use individual sounds]
+Pouít individuální zvuky
+[Log]
+Záznam
+[&Log status changes to file]
+&Zaznamenat informace o zmìnách
+
+; /resource.rc:IDD_INFO_SOUNDS
+[&Change]
+Z&mìnit...
+[&Preview]
+&Pøehrát
+[&Delete]
+&Smazat
+[with sounds]
+se zvuky
+[with popups]
+s oznámeními
+[Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
+Individuální zvuky jsou vypnuty.\n\nChcete-li je zapnout, pøejdìte do nabídky Monosti -> Stavy -> Oznámení\na povolte "Pouít individální zvuky". Poté se vrate na tento dialog.
+
+; /resource.rc:IDD_AUTODISABLE
+[Automatically disable sounds or popups when I change to:]
+Automaticky vypnout oznámení a zvuky pøi zmìnì mého stavu:
+[OK]
+OK
+[Sounds]
+Zvuky
+[Cancel]
+Zrušit
+
+; /resource.rc:IDD_NSN_OPT_EVENTS_ENABLE
+[Enable sound notifications for this contact]
+Povolit zvuková oznámení pro tento kontakt
+[Enable popup notifications for this contact]
+Povolit oznámení pro tento kontakt
+[Contact status change notifications]
+Oznámení zmìny stavu kontatu
+
+; /resource.rc:IDD_NSN_OPT_POPUP
+[Colours]
+Barvy
+[Back]
+Pozadí
+[Text]
+Text
+[Use cus&tom colors]
+Pouít vlastní barvy
+[Use &Windows colours]
+Pouít barvy Windows
+[Use Pop&up colours]
+Pouít barvy Oznámení
+[Use standard &descriptions]
+Pouít stan&dardní popis stavù
+[Read status &message]
+Naèíst auto&matickou odpovìï
+[Show &previous status too]
+Zobrazit i &pøedchozí stav
+[Timeout]
+Doba zobrazení
+[&From PopUp plugin]
+G&lobální nastavení
+[&Custom]
+&Vlastní
+[P&ermanent]
+Trval&e
+[Prev&iew]
+Náhled
+[Popups on contact status change to:]
+Oznamovat tyto zmìny stavu:
+[On left click]
+Levé tlaèítko
+[Dismiss]
+Vyøízeno
+[Open message]
+Otevøít zprávu
+[On right click]
+Pravé tlaèítko
+[Open user menu]
+Otevøít uiv. menu
+[Popup title]
+Popisek oznámení
+[Show contact &group name]
+Zobrazit pøíslušnost ke skupinì
+[Use &alternative descriptions]
+Pouít alternativní popisy
+
+; ---

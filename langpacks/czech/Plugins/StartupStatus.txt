@@ -1,0 +1,50 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: StartupStatus.dll
+;  Plugin: StartupStatus
+;  Version: 0.8.0.44
+;  Authors: P Boon
+;============================================================
+;file \plugins\StatusPlugins\StartupStatus\options.cpp
+[<last>]
+<minulý>
+[<current>]
+[.\\%s]
+[Left]
+[Right]
+Vpravo
+[None]
+---
+[size: %d x %d]
+[loc: %d x %d]
+[Hidden]
+Skrytý
+[Minimized]
+Minimalizované
+[Normal]
+Normální
+[Create a status menu item]
+Vytvoøit položku v hlavní nabídce
+[default]
+výchozí
+[unknown]
+[At least one profile must exist]
+Musí být založen nejménì jeden profil!
+[StartupStatus]
+Stav pøi spuštìní
+[Your default profile will be changed]
+Výchozí profil bude zmìnìn.
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[General]
+[Status Profiles]
+Startovní profily
+;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
+[There is a maximum of 6 menu items]
+Max. poèet položek menu je 6.
+[STATIC]
+Statický
+;file \plugins\StatusPlugins\StartupStatus\startupstatus.cpp
+;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
+[Pressed toolbar icon]
+[Released toolbar icon]

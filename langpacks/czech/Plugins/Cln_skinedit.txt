@@ -1,0 +1,63 @@
+#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+;langpack template for Cln_skinedit
+;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
+[Skin items]
+[General]
+[Gradient]
+Gradient
+[Left to right]
+Zleva doprava
+[Right to left]
+Zprava doleva
+[Top to bottom]
+Shora dolù
+[Bottom to top]
+Zdola nahoru
+[Round corners]
+Zaoblit rohy
+[Top-Left]
+Levý horní
+[Top-Right]
+Pravý horní
+[Bottom-Right]
+Pravý dolní
+[Bottom-Left]
+Levý dolní
+[Item colors]
+Definice barev
+[First color]
+Barva 1
+[Textcolor]
+Barva textu
+[Second color]
+Barva 2
+[Transparent]
+Prùhlednost
+[Alpha (percent)]
+Prùhlednost (v %)
+[Item margins]
+Odstup od okraje
+[Item borders]
+Okraj položky
+[Border style]
+Vzhled okraje
+[3D border (bright / dark)]
+Barvy plastického okraje
+[Item ignored]
+Ignorovat položku
+[Not yet supported]
+<zatím mimo provoz>
+;file \plugins\Clist_nicer\skineditor\src\main.cpp
+[Copy from]
+[<None>]
+Není
+[Raised]
+Vystouplý
+[Sunken]
+Zanoøený
+[Bumped]
+Vystouplý (s rámováním)
+[Etched]
+Zanoøený (s rámováním)
+[Image items]
+Obrázky

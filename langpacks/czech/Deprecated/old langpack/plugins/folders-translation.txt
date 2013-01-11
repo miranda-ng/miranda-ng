@@ -1,0 +1,54 @@
+; /----------------------------------------------------------\
+; |  Custom profile folders 0.1.0.3                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; http://addons.miranda-im.org/details.php?action=viewfile&id=2521
+
+
+
+; /folders/folders.cpp
+[Test folders]
+Testovací složky
+
+; /folders/folders.rc:IDD_OPT_FOLDERS
+[Dialog]
+Dialog
+[Custom folders]
+Vlastní složky
+[Edit]
+Upravit
+[Cancel]
+Zrušit
+[Save]
+Uložit
+[Refresh preview]
+Aktualizovat náhled
+[Preview]
+Náhled
+[Variables help]
+Promìnné
+
+; /folders/folders.rc:IDD_VARIABLES_HELP
+[Custom folders variables help]
+Nápovìda k promìnným
+[Close]
+Zavøít
+
+; /folders/hooked_events.cpp
+[Folders]
+Složky
+[Customize]
+Vlastní úpravy
+[Some changes weren't saved. Apply the changes now ?]
+Nìkteré ze zmìn nejsou uloženy. Chcete je uložit?
+[Changes not saved]
+Zmìny nebyly uloženy
+
+; NEPUBLIKOVANÉ
+[Avatars Cache]
+Úložištì avatarù
+[Output folder]
+Výstupní složka
+
+; ---

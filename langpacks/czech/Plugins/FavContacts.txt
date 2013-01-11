@@ -1,0 +1,61 @@
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}
+;langpack template for FavContacts
+;file \plugins\FavContacts\res\resource.rc
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+[Show second line]
+Zobrazit druhý øádek
+[Show avatars]
+Zobrazit avatary
+[Draw avatar border]
+Orámovat avatary
+[Round corners by]
+Zaoblit rohy o
+[px.]
+[Hide for transparent avatars]
+Skrýt pro prùhledné avatary
+[Use system colors and fonts]
+Použít systémové písma a barvy
+[Hotkey shows menu centered on screen]
+Kl. zkratka zobrazí menu uprostøed obrazovky
+[Menu item preview:]
+Náhled položky menu:
+[Favourite Contacts]
+Oblíbené kontakty
+[Enable groups]
+Povolit skupiny
+[Multicolumn menu]
+Vícesloupcové menu
+[Configure fonts and colors...]
+Nastavit písma a barvy...
+[Align to the right]
+Zarovnat doprava
+[Dim idle contact icons]
+Zešednout neaktivní kontakty
+[Show]
+Zobrazit
+[recent contacts]
+posledních kontaktù
+;file \plugins\FavContacts\src\favlist.h
+[<no group>]
+;file \plugins\FavContacts\src\main.cpp
+[Favourite Contact]
+[Regular Contact]
+[Contact name]
+[Second line]
+Druhý øádek
+[Selected contact name (color)]
+[Selected second line (color)]
+[Background]
+Pozadí
+[Selected background]
+Vybrané pozadí
+[MS Shell Dlg]
+[Contacts]
+Kontakty
+[Favourites]
+Oblíbené
+[FavContactsMenuHostWnd]
+[&Favourite Contacts...]
+[<No group>]
+#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}

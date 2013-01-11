@@ -1,0 +1,196 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: FTPFile.dll
+;  Plugin: FTP File YM
+;  Version: 0.5.0.0
+;  Authors: yaho
+;============================================================
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+;file \plugins\FTPFileYM\res\ftpfile.rc
+[FTP account]
+FTP úèet
+[Host name]
+Adresa
+[User]
+[Password]
+Heslo
+[URL]
+[Directory on server]
+Složka na serveru
+[Port]
+Port
+[Command after upload]
+Pøíkaz po dokonèení
+[Use passive mode]
+Použít pasivní režim
+[Account name]
+Název úètu
+[Protocol]
+[Default FTP server]
+[File download link]
+Odkaz na soubor
+[Close dialog after upload is completed]
+[Copy download link to message log]
+Zkopírovat odkaz na soubor do historie
+[Autosend download link to contact]
+Automaticky poslat odkaz na soubor
+[Menu items]
+Položky menu
+[Use submenu (restart required)]
+Použít podmenu (vyžaduje restart)
+[Hide inactive accounts]
+Skrýt neaktivní úèty
+[Other]
+Ostatní
+[Automatically delete file from FTP server after (experimental):]
+Automaticky smazat soubor z FTP po (experimentální):
+[ZIP support]
+[Enter archive name manually]
+[Compression level:]
+[File:]
+[Completed:]
+[Speed:]
+Rychlost:
+[Remaining:]
+[Summary]
+[To:]
+[Nick]
+[Close]
+Zavøít
+[Clipboard]
+Schránka
+[Options]
+[Pause]
+Pozastavit
+[File Manager]
+[Server:]
+Server:
+[User info]
+[UPLOADING...]
+[Open in Browser]
+Otevøít v prohlížeèi
+[Select All]
+Vybrat vše
+[Deselect All]
+[Delete from list]
+[Delete from FTP]
+[OK]
+[Cancel]
+[Rename]
+Pøejmenovat
+[Overwrite]
+Pøepsat
+[File with the same name already exists on the server.]
+[How to proceed?]
+[Copy URL]
+[Close dialog after upload finishes]
+Po ukonèení pøenosu dat zavøít okno
+[Disabled]
+Vypnuto
+[Delete from List]
+[Copy Link]
+Zkopírovat adresu odkazu
+;file \plugins\FTPFileYM\src\dialog.cpp
+[* %s]
+[User Info]
+Informace o uživateli
+[Copy Link to Clipboard]
+[FTP File Manager]
+[%d minutes]
+%d min.
+[%d hours]
+%d hod.
+[%d days]
+[Do you really want to cancel all running jobs?]
+;file \plugins\FTPFileYM\src\ftpfile.cpp
+[FTP File]
+Soubory pøes FTP
+[FTP Server %d]
+[Upload file(s)]
+[Zip and upload file(s)]
+[Zip and upload folder]
+[FTP File manager]
+[Show FTPFile manager]
+[FTP_ShowManager]
+[Upload file]
+[Zip and upload file]
+[You have to fill FTP server setting before upload a file.]
+[Error has occurred while trying to create a dialog!]
+[File upload complete]
+Upload souboru dokonèen
+[Upload canceled]
+Upload pøerušen
+[FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
+[uxtheme.dll]
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+;file \plugins\FTPFileYM\src\job_generic.cpp
+[All Files (*.*)\0*.*\0]
+[FTP File - Select files]
+Soubory pøes FTP - vyberte soubory
+[FTP File - Select a folder]
+[%s\\%s]
+%s\\%s
+[Folder not found!]
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+[The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
+[CANCELED]
+[COMPLETED]
+[CONNECTING...]
+[CREATED]
+[PACKING...]
+[PAUSED]
+[WAITING...]
+[UNKNOWN]
+;file \plugins\FTPFileYM\src\job_packer.cpp
+[archive]
+[%s%s.zip]
+[Error occured when zipping the file(s).]
+[%0.1f kB/s]
+[%0.1f%% (%d kB/%d kB)]
+[%dd %02d:%02d:%02d]
+[%02d:%02d:%02d]
+[%s (%d kB/%d kB)]
+[Do you really want to cancel this upload?]
+[Status: %s\r\nFile: %s\r\nServer: %s]
+;file \plugins\FTPFileYM\src\job_upload.cpp
+[Resume]
+Navázat
+[File exists - %s]
+[Error occurred when opening local file.\nAborting file upload...]
+[Error occurred when initializing libcurl.\nAborting file upload...]
+[FTP error occurred.\n%s]
+[WAITTING...]
+[Download link:]
+[Do you really want to cancel running upload?]
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
+;file \plugins\FTPFileYM\src\libcurl.cpp
+[libcurl.dll]
+[plugins\\libcurl.dll]
+;file \plugins\FTPFileYM\src\manager.cpp
+[You have to fill and enable at least one FTP server in setting.]
+[Clear All]
+Zrušit výbìr
+;file \plugins\FTPFileYM\src\options.cpp
+[FTP (Standard)]
+FTP (Standardní)
+[FTP+SSL (Explicit)]
+[FTP+SSL (Implicit)]
+[SFTP (Secure FTP over SSH)]
+[minutes]
+min.
+[hours]
+hod.
+[days]
+dnù
+[Services]
+Služby
+[Accounts]
+Úèty
+[Advanced]
+Extra
+;file \plugins\FTPFileYM\src\serverlist.cpp
+;file \plugins\FTPFileYM\src\utils.cpp
+[file.zip]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}

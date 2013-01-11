@@ -1,0 +1,148 @@
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;langpack template for MyDetails
+;file \plugins\MyDetails\res\resource.rc
+[Nickname:]
+[OK]
+[Cancel]
+[General]
+[Cycle through protocols every:]
+Mìnit protokoly každých:
+[seconds]
+[Global on avatar]
+Globální pro avatar
+[RTL]
+Psát zprava doleva
+[Align text to right]
+Zarovnat text doprava
+[Global on nickname]
+Globální pro pøezdívku
+[Auto-resize frame]
+Mìnit velikost okna
+[Use contact list smileys]
+Použít smajlíky pro kontakty
+[Global on status]
+Globální pro stav
+[Replace Smileys]
+Vykreslovat smajlíky
+[Resize Smileys]
+Mìnit velikost smajlíkù
+[Global on status message]
+Globální pro zprávu stavu
+[Frame Options]
+[Top:]
+Nahoøe:
+[Bottom:]
+Dole:
+[Left:]
+Vlevo:
+[Right:]
+Vpravo:
+[Background Color:]
+[Avatar]
+[Custom size:]
+Vlastní velikost:
+[pixels]
+pix.
+[Allow it to grow]
+Povolit zvìtšování
+[Draw border on avatar]
+Orámovat avatary
+[Border Color:]
+Barva rámeèku:
+[Round corners of avatars]
+Zaoblit rohy avatarù
+[Custom corner size:]
+Velikost zakulacení:
+[Use free space (under avatar) to other texts]
+Využít místo pod avatarem pro další texty
+[Protocol]
+[Show protocol name]
+[Show protocol cycle button]
+Umožnit pøepnutí mezi protokoly
+[Status Message:]
+Stavová zpráva:
+[&Offline]
+&Offline
+[On&line]
+On&line
+[&Away]
+N&a chvíli pryè
+[&NA]
+&Nejsem tady
+[Occ&upied]
+N&emám èas
+[&DND]
+Ne&rušit!
+[&Free for chat]
+&Mám volno
+[&Invisible]
+Nev&iditelný
+[On the &Phone]
+Na &telefonu
+[Out to &Lunch]
+Na &obìdì
+[Set My Avatar...]
+Nastavit avatar...
+[Set My Nickname...]
+Nastavit pøezdívku...
+[Set My Status Message...]
+Zmìnit stavovou zprávu...
+[Enable Listening To]
+Povolit doplnìk Listening To
+[Show next protocol]
+Zobrazit další protokol
+[Show previous protocol]
+Zobrazit pøedchozí protokol
+[Cycle through protocols]
+Mìnit pravidelnì protokoly
+[Don't cycle through protocols]
+Nemìnit protokoly
+;file \plugins\MyDetails\src\data.cpp
+[<no status name>]
+<stav není zadaný>
+;file \plugins\MyDetails\src\frame.cpp
+[MyDetailsFrame]
+[MyDetailsFrameContainer]
+[<no nickname>]
+<bez pøezdívky>
+[<no status message>]
+<zpráva není zadaná>
+[<nothing playing>]
+<hudba nehraje>
+[Nickname]
+Pøezdívka
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Status Message]
+Stavová zpráva
+[Listening To]
+Poslech hudby
+[My Details]
+Informace o sobì
+[Tahoma]
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+[Show My Details]
+Zobrazit informace o sobì
+[ ...]
+[Enable Listening To for %s]
+Povolit doplnìk Listening To pro %s
+[Set My Avatar for %s...]
+Nastavit avatar pro %s...
+[Set My Nickname for %s...]
+Nastavit pøezdívku pro %s...
+[Set My Status Message for %s...]
+Zadat stavovou zprávu pro %s...
+[Hide My Details]
+Skrýt informace o sobì
+;file \plugins\MyDetails\src\mydetails.cpp
+[Listening to]
+[Previous protocol]
+Pøedchozí protokol
+[Next protocol]
+Další protokol
+[Contact List]
+[Set My Nickname for %s]
+Nastavit pøezdívku pro %s
+[Set My Status Message for %s]
+Zadat stavovou zprávu pro %s
+;file \plugins\MyDetails\src\options.cpp

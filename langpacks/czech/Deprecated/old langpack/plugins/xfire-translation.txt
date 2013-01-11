@@ -1,0 +1,205 @@
+; /----------------------------------------------------------\
+; |  XFire Protocol 0.1.5.8                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3701
+;
+
+[XFire]
+XFire
+[Never Detect]
+Nezjišovat
+[Setup your Games ...]
+Nastavit moje hry ...
+[LauncherExe:]
+Spouštìcí EXE:
+[Games found:%s%s]
+Her nalezeno:%s%s
+[Loginname:]
+Pøihlaš. jméno:
+[DetectExe:]
+Zjišované EXE:
+[GameId]
+Herní ID
+[Browse ...]
+Procházet ...
+[Installed]
+Nainstalované
+[Automatically Detect]
+Automaticky zjistit
+[Manuel Setup]
+Ruèní nastavení
+;[?]
+;?
+[Gameicon:]
+Ikona hry:
+[Voiceicon:]
+Ikona hlasu:
+;[icons.dll]
+;icons.dll
+[Be sure you put these files in following folder:%s%s]
+Ujistìte se, e jsou tyto soubory ve sloce:%s%s
+[* requires Miranda restart]
+* vyaduje restart Mirandy
+[Switch to Online instead of AFK on non supported Globalstatuses]
+Pøi nepodporovaném globálním stavu pøepnout do Online místo Na chvíli pryè
+[XFire Options]
+Monosti XFire
+[Messagebox]
+Informaèní okno
+[No custom away message]
+Neurèovat zprávu u Na chvíli pryè
+[Setup your Games...]
+Nastavit moje hry...
+[Scan for games on every Miranda start]
+Hledat nainstalované hry pøi kadém startu
+[Display Error and Infomessage:]
+Zobrazovat chyby a informaèní zprávy:
+[Icon Options *]
+Nastavení ikon *
+[No Ip/Port in StatusMsg]
+ádná IP/Port ve zprávì stavu
+[GameServerQuery support]
+Podpora GameServerQuery
+[Dont create automatically Clangroups]
+Nevytváøet automaticky klanové skupiny
+;[xfire_games.ini]
+;xfire_games.ini
+
+; Xfire 0.1.5.8
+[Show nicknames when available]
+Zobrazit pøezdívku pokud je dostupná
+[Game:]
+Hra:
+[Note: You can only change these settings, if you are connected to Xfire.]
+Pozn.: Toto nastavení mùete mìnit pouze pokud jste pøipojeni k Xfire.
+[Dont set status message for other protocols]
+Nenastavovat zprávu stavu pro ostatní protokoly
+[Dont display game search results]
+Nezobrazovat vısledek hledání her
+[Change the status to occupied or dnd]
+Zmìnit stav na 'Nemám èas' nebo 'Nerušit'
+[Account options]
+Nastavení úètu
+[Add a new game ...]
+Pøidat hru...
+[Create a new Xfire account on website]
+Zøídit novı úèet Xfire
+[Main group for clan groups:]
+Hlavní skupina pro klanové skupiny:
+[Automatically scan for games:]
+Automaticky vyhledávat hry:
+[Display popup, if someone start a game]
+Zobrazit oznámení pokud nìkdo spustí hru
+[Main group for Friends of Friends:]
+Hlavní skupina pro pøátele pøátel:
+[Dont display game search status window]
+Nezobrazovat okno s vısledkem hledání her
+[Show my friends]
+Zobrazit seznam pøátel
+[Hide yourself in buddylist]
+Skrıt sebe v seznamu kontaktù
+[Current Protocolversion:]
+Aktuální verze protokolu:
+[On every start]
+Pøi kadém startu
+[This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
+Tento seznam obsahuje všechny blokované uivatele Xfire. Chcete jim povolit ádost o autorizaci, odeberte je z tohoto seznamu.
+[With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
+Bìhem hry pouije uvedenou stavovou zprávu pro všechny ostatní protokoly. Tímto zpùsobem informujete ostatní o tom, co zrovna hrajete. Je-li to povoleno, zároveò dojde ke zmìnì stavu 'Nerušit'.
+[Show my game server data]
+Zobrazit herní data
+[* Variables plugin needed]
+* Vyaduje doplnìk 'Variables'
+[Other Activity]
+Další aktivita
+[Be sure you put these files in following folder:]
+Zkopírujte vıše uvedené soubory do této sloky:
+[Background updating]
+Aktualizace na pozadí
+[This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
+Tento soubor je pouit pro vyhledávání her, jejich detekování a zjišování herních id. Obsahuje všechny xfirem podporované hry.
+[Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
+Jsou dostupné následující promìné: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+[Dont detect this game as running]
+Nedetekovat tuto hru
+[Show my voice chat server to my friends]
+Sdílet s pøáteli server pro hlasovou komunikaci
+[Lost Password?]
+Zapomenuté heslo?
+[Automatically update icons.dll (pro-laming.de)]
+Automaticky aktualizovat icons.dll (pro-laming.de)
+[Don't move friends to clan groups]
+Nepøesouvat pøátele do klanovıch skupin
+[Game Status]
+Herní stav
+[This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
+Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybìjích ikon.
+[Use Online status for unsupported global statuses]
+Pouít stav Online pøi nepodporovanıch globálních stavech
+[No backup on update]
+Neprovádìt zálohu pøi aktualizaci
+[Automatically reconnect on protocol version changes]
+Automaticky pøipojit pøi zmìnì verze protokolu
+[Show on my profile and miniprofile]
+Zobrazit v profilu i miniprofilu
+[Disable avatars]
+Vypnout avatary
+[The status message and status will be reset, if you close the game.]
+Stav a stavová zpráva budou zresetovány pokud zavøete hru.
+[Remove friend of friend buddies from database]
+Smazat pøátele pøátel z databáze
+[Show people when I type to them]
+Upozoròovat pøátele na psaní zprávy
+[Automatically update xfire_games.ini (pro-laming.de)]
+Automaticky aktualizovat xfire_games.ini (pro-laming.de)
+[You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
+Kontakty lze jednoduše filtrovat funkcí Blokovat uivatele, kterou naleznete v kontextové nabídce...
+[Disable popups when ingame]
+Vypnout oznámení pokud je spuštìna hra
+[Disable sound events when ingame]
+Vypnout zvuky pokud je spuštìna hra
+[Use alternate way for Avatar download]
+Pouít alternativní zpùsob stahování avatarù
+[Use TSRemote.dll to get teamspeak server info]
+Pouít TSRemote.dll pro zjištìní informací o teamspeak serveru
+[Disable game detection]
+Vypnout detekci hry
+[Blocked User List]
+Seznam blokovanıch uivatelù
+[Show friends of my friends]
+Zobrazit pøátele mıch pøátel
+[Blocklist / Games]
+Seznam blokovanıch / Hry
+[Download missing game icons from Xfire website]
+Stahovat chybìjící ikony her z webu Xfire
+[Please wait ...]
+Prosím èekejte ...
+[Start game]
+Spustit hru
+[Buddy start a game]
+Pøítel spustil hru
+[XFire does not support offline messaging!]
+XFire nepodporuje odesílání zpráv ve stavu offline!
+[New supported Games:]
+Nové podporované hry:
+[There is a new XFire Gamelist online, do you want to update now?]
+Byla nalezena nová verze seznamu podporovanıch her. Chcete ho zaktualizovat?
+[New xfire_games.ini]
+Novı xfire_games.ini
+[The xfire_games.ini was updated.]
+Soubor xfire_games.ini byl aktualizován.
+[Unable to connect to XFire.]
+Nemohu se pøipojit k XFire.
+[Don't automatically create clan groups]
+Nevytváøet klanové skupiny automaticky
+
+[Add Game]
+Pøidat
+[Add a new game]
+Pøidat novou hru
+[Please choose one game in the list!]
+Vyberte ze seznamu poadovanou hru.
+
+; ---

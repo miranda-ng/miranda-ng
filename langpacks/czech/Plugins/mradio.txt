@@ -1,0 +1,76 @@
+;#muuid not found, please specify manually!
+;langpack template for mradio
+;file \plugins\mRadio\mradio.rc
+[Add Station]
+Pøidat stanici
+[Station Name]
+Název stanice
+[Station URL (required)]
+Adresa stanice (povinné)
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Genre]
+ánr
+[Bitrate]
+Datovı tok
+[Add station]
+Pøidat stanici
+[To list]
+Do CL
+[Record]
+Nahrávat
+[Record path]
+Nahrávat do:
+[Status Message]
+Stavová zpráva
+[V]
+[Status message template]
+Šablona stavové zprávy
+[Import File]
+[Use EAX]
+Pouít EAX
+[min]
+[max]
+[Volume]
+Hlasitost
+[Buffer, ms (5000)]
+Vyrovnávací pamì, ms (5000)
+[PreBuf, % (75%)]
+Naplnìní pamìti, % (75%)
+[Timeout, ms (5000)]
+Èasovı limit, ms (5000)
+[Tries to connect]
+[BASS library path (empty for default)]
+[OFF]
+[-15]
+[+]
+[-]
+-
+[Equalizer presets]
+Pøedvolby ekvalizéru
+[Equalizer]
+[Station]
+Stanice
+[URL]
+[Custom INI file]
+Vlastní INI
+[*]
+;file \plugins\mRadio\i_bass.inc
+[Sorry!]
+[Oops! BASS error]
+[BASS.DLL not found! Choose BASS.dll path manually]
+[Choose BASS.dll path]
+;file \plugins\mRadio\i_frameapi.inc
+[Mute]
+Ztišit
+;file \plugins\mRadio\i_myservice.inc
+[Advanced]
+Extra
+;file \plugins\mRadio\i_optdlg.inc
+[Add]
+[Delete]
+;file \plugins\mRadio\i_service.inc
+[Radio station URL]
+;file \plugins\mRadio\mradio.dpr
+[%s server connection]
+%s - spojení se serverem

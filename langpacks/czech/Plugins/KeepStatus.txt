@@ -1,0 +1,52 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: KeepStatus.dll
+;  Plugin: Keep Status
+;  Version: 0.8.0.97
+;  Authors: P Boon
+;============================================================
+;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
+[Protocol]
+[<from trigger>]
+;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
+[STATIC]
+Statický
+[KeepStatus]
+Udržování stavu
+[%s Connected from another location]
+Pøipojení z jiného místa (%s)
+[%s Login error, cancel reconnecting]
+Chyba pøi pøihlášení (%s), obnovení ukonèeno
+[%s Login error (next retry (%d) in %ds)]
+Chyba pøi pøihlášení (%s), další pokus (è.%d) za %d sek.
+[%s Status error (next retry (%d) in %ds)]
+Chyba stavu (%s), další pokus (è.%d) za %d sek.
+[Status error (next retry (%d) in %ds)]
+Chyba stavu (další pokus (è.%d) za %d sek.)
+[%s\t(will be set to %s)\r\n]
+%s\t(stav bude zmìnìn na '%s')\r\n
+[will be set to]
+[Resetting status... (last try (%d))%s]
+Reset stavu... (poslední pokus (è.%d))%s
+[Resetting status... (next retry (%d) in %ds)%s]
+Reset stavu... (další pokus (è.%d) za %d sek.)%s
+[No internet connection seems available... (last try (%d))]
+Nefunguje pøipojení k internetu... (poslední pokus (è.%d))
+[No internet connection seems available... (next retry (%d) in %ds)]
+Nefunguje pøipojení k internetu... (další pokus (è.%d) za %d sek.)
+[Status was set ok]
+Stav úspìšnì obnoven
+[Giving up]
+Stav nelze obnovit
+;file \plugins\StatusPlugins\KeepStatus\options.cpp
+[Basic]
+Obecné
+[Advanced]
+Extra
+[You broke the Internet!]
+Koleèko se polámalo!
+[uxtheme.dll]
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[PopUps]

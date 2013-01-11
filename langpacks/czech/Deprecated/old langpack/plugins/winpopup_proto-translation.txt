@@ -1,0 +1,77 @@
+; /----------------------------------------------------------\
+; |  WinPopup Protocol 0.0.0.17                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Peèeòa <wenom64 (zavináè) gmail (teèka) com>
+; Adresa: http://www.cherubicsoft.com/miranda/
+;
+
+; Poslední aktualizace: 30.3.2008
+
+[Computer,User,Group]
+Poèítaè, uživatel, skupina
+[Auto-reply to users with your status message while away]
+Automaticky odpovìdìt uživatelùm, pokud jsem ve stavu 'Na chvíli pryè'
+;(DUP) [Filter Duplicate Messages (RECOMMENDED)]
+[Use Mailslot when sending (RECOMMENDED)]
+Pøi odesílání použít Mailslot (DOPORUÈENO)
+[Use NetBIOS when sending]
+Pøi odesílání použít NetBIOS
+[Use Messenger service when sending and receiving]
+Pøi odesílání a pøijmání použít Kurýrní službu
+;(DUP) [Nick]
+;(DUP) [Username]
+[Add contact...]
+Pøidat kontakt...
+[NetBIOS names registration]
+Registrace NetBIOSových jmen
+[Successful names]
+Použitelná jména
+[Failed names]
+Nepoužitelná jména
+[Other names]
+Jiná jména
+;(DUP) [Options]
+;(DUP) [Status:]
+[Legacy online status detection]
+Dìdická detekce online stavu
+[Always Online]
+Vždy online
+[NetBIOS names:]
+NetBIOS jména:
+[Comment:]
+Poznámka:
+[Explore]
+Prozkoumat sdílené:
+[Auto-reply]
+Automatická odpovìï
+;(DUP) [Cancel]
+[Cannot send message]
+Nelze odeslat zprávu
+[Cannot create receiving mailslot]
+Nelze vytvoøit pøíjmací mailslot
+[Cannot operate Messenger service]
+Nelze pracovat s Kurýrní službou
+[Cannot register NetBIOS name]
+Nelze registrovat NetBIOSové jméno
+[Cannot resolve contacts IP-address. Add it anyway?]
+Nelze zjistit IP-adresu kontaktu. Pøesto ho pøidat?
+[Cannot start Messenger service]
+Nelze zapnout Kurýrní službu
+[Cannot stop Messenger service]
+Nelze zastavit Kurýrní službu
+;(DUP) [Error]
+[LAN adapter]
+LAN adaptér
+;(DUP) [Network]
+[No progress]
+Žádný prùbìh
+;(DUP) [OK]
+[Please shutdown any other IM applications and/or Messenger service]
+Prosím vypnìte všechny ostatní IM aplikace a/nebo Kurýrní službu
+;(DUP) [Plugins]
+;(DUP) [Retrieving...]
+[Unexpected service status change]
+Neoèekávaná zmìna stavu služby
+
+; ---

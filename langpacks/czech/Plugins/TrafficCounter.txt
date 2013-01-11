@@ -1,0 +1,132 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: TrafficCounter.dll
+;  Plugin: TrafficCounter
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\TrafficCounter\res\resource.rc
+[Selected totals]
+[Accounts]
+Úèty
+[Units]
+Jednotky
+[0]
+[Clear statistics]
+[Notification]
+[Notify me on every]
+Upozornit každých
+[kilobytes]
+kB
+[minutes]
+min.
+[Background colour:]
+[Text colour:]
+Barva textu:
+[Reset to default]
+Obnovit výchozí
+[Popup timeout]
+Doba zobrazení
+[From PopUp plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Test]
+Ovìøit
+[Show now]
+Zobrazit okno
+[Space between lines:]
+Odstup mezi øádky:
+[Counters format string:]
+[Tooltip format string:]
+[Display traffic for current]
+;file \plugins\TrafficCounter\src\misc.c
+[%c%d]
+[%d.%d]
+[%02d]
+;file \plugins\TrafficCounter\src\statistics.c
+[ListBox]
+[Bytes]
+bajtù
+[Adaptive]
+[Hourly]
+[Daily]
+Každý den
+[Weekly]
+[Monthly]
+[Yearly]
+Co rok
+[Period]
+[Incoming]
+[Outgoing]
+Odchozí
+[Sum]
+[Online]
+[Now traffic statistics for selected accounts will be cleared.\nContinue?]
+[Traffic counter]
+Poèitadlo dat
+[%s %02d:00 - %02d:59]
+[%s - %s]
+[m:ss]
+[h:mm:ss]
+[d hh:mm:ss]
+[%miranda_userdata%\\statistics]
+[%s\\%S.stat]
+[Couldn't read statistics file]
+[Traffic Counter]
+;file \plugins\TrafficCounter\src\TrafficCounter.c
+[TrafficCounterWnd]
+[{I4}\x0D\x0A\x0A\\r\n{R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\\r\n{R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\\r\n{R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\\r\n{L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\\r\n{L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)]
+[Font]
+Písmo
+[Arial]
+[Hide traffic window]
+[Clear the current (Now:) value]
+[Display/]
+[Icon]
+Ikona
+[Account name]
+Název úètu
+[Current traffic]
+[Total traffic]
+[Current online]
+[Total online]
+[General/]
+[Draw frame as skin element]
+[Show tooltip in traffic window]
+["Toggle traffic counter" in main menu]
+[Visible accounts/]
+[Summary traffic for visible accounts]
+[Overall traffic]
+[Visible accounts/%s]
+[Hide now]
+Skrýt okno
+[Day]
+den
+[Week]
+týden
+[Month]
+mìsíc
+[Year]
+rok
+[Services]
+Služby
+[Options]
+[Statistics]
+Statistika
+[PopUps]
+[Toggle traffic counter]
+[Traffic counter notification]
+[%d kilobytes sent]
+[%d kilobytes received]
+;file \plugins\TrafficCounter\src\vars.c
+[overall]
+[summary]
+[now]
+[sent]
+[received]
+[both]
+oboje
+[total]
+[tc_GetTraffic]
+[tc_GetTime]

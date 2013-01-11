@@ -1,0 +1,17 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: ZeroNotify.dll
+;  Plugin: ZeroNotify
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\ZeroNotification\res\ZeroNotifyW.rc
+[Hide the "toggle sound" menu item (requires restart of Miranda)]
+Skrýt položku menu "Pøepnout zvuk" (vyžaduje restart Mirandy)
+[No sounds when:]
+[No SysTray blink when:]
+[No CLIST blink when:]
+;file \plugins\ZeroNotification\src\main.cpp
+[Zero Notifications]
+[Plugins]
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}

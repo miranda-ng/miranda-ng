@@ -1,0 +1,115 @@
+#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+;============================================================
+;  File: BuddyExpectator.dll
+;  Plugin: Buddy Expectator+
+;  Version: 0.1.2.3
+;  Authors: Anar Ibragimoff, sje, Thief
+;============================================================
+[Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
+;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
+[When a contact returns after ]
+Vrátí-li se kontakt po dobì
+[Show a popup]
+Zobrazit oznámení
+[Add an event (flashing icon) to the contact]
+Pøidat blikající ikonu ke kontaktu
+[On event action (double click) or popup click:]
+Kliknutím na oznámení nebo dvojím na kontakt:
+[Open User Details]
+Otevøít inf. o kontaktu
+[Open message window]
+Otevøít komunikaèní okno
+[Return notification]
+Návrat po kratší dobì
+[When a contact is absent for]
+Chybí-li kontakt delší dobu než
+[Long time no see]
+Návrat po dlouhé dobì
+[or comes online for the first time]
+nebo se objeví poprvé online
+[Enable "Miss you" feature]
+[Hide when no messages for]
+[Colors]
+Barvy
+[Background]
+Pozadí
+[Text]
+Text
+[Use Popups colors]
+Použít výchozí barvy
+[Use Windows colors]
+Použít barvy Windows
+[Delay]
+Prodleva
+[Default]
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[sec]
+sek.
+[Preview]
+Náhled
+[Last seen online:]
+[Last input message:]
+[Custom absence period:]
+[days]
+dnù
+[Never hide this contact]
+[Enable Miss You]
+[Notify always]
+Upozornit vždy
+;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
+[Tray/popup icon]
+[Enabled]
+Zapnuto
+[Disabled]
+Vypnuto
+[Hide]
+Skrýt
+[NeverHide]
+[Hiding %s (%S)]
+[%d days since last message]
+[%s %s]
+%s %s
+[Disable Miss You]
+[You awaited this contact!]
+[has gone online for the first time.]
+je poprvé online!
+[has returned after a long absence.]
+je znovu online po delší dobì.
+[has returned after being absent since %#x]
+je znovu online od %#x
+[has not returned after a long absence.]
+[has not returned after being absent since %#x]
+[BuddyExpectator]
+[Contact returned]
+[Contact still absent]
+[Miss you event]
+[Hide contact event]
+[Hide contact]
+Skrýt kontakt
+;file \plugins\BuddyExpectator\src\options.cpp
+[weeks]
+týd.
+[months]
+mìs.
+[years]
+let
+[Do nothing]
+Nedìlat nic
+[Delete the contact]
+Odstranit kontakt
+[Contact name]
+[has returned after being absent since %d days]
+[Contacts]
+Kontakty
+[Buddy Expectator]
+Tak ty žiješ, Karle
+[PopUps]
+[not detected]
+[%#x]
+[not found]
+nenalezeno
+[This contact has been absent for an extended period of time.]
+#muuid {b68a8906-748b-435d-930e-21cc6e8f3b3f}

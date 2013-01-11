@@ -1,0 +1,171 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: SecureIM.dll
+;  Plugin: SecureIM
+;  Version: 1.0.12.4
+;  Authors: 
+;============================================================
+;file \plugins\SecureIM\res\resource.rc
+[User List]
+Seznam uživatelù
+[Enable Secure Offline messages]
+Šifrovat zprávy offline
+[Enable Secure File Transfer]
+Šifrovat pøenos souborù
+[Always show status icons in contact list]
+Ukázat stavovou ikonu v kontaktech
+[Context Menu only for "Miranda" clients]
+[Status in Context Menu]
+Stav v kontextovém menu
+[Disable encryption for game plugins]
+Vypnout šifrování pro herní doplòky
+[Always secured if possible]
+Pokud lze, šifrovat vždy
+[Not secured for NotOnList]
+[Auto accept RSA key (NOT SECURED)]
+[Mode in Context Menu]
+[Key Exchange Timeout :]
+Doba pro výmìnu klíèe:
+[sec]
+sek.
+[Offline Key Timeout :]
+Offline klíè vyprší za:
+[days]
+dnù
+[PGP]
+PGP 
+[GPG]
+[Reset All]
+Vše resetovat
+[Protocols]
+Protokoly
+[Split Messages]
+Rozdìlit zprávy
+[Online:]
+Online:
+[Offline:]
+Offline:
+[RSA Key]
+RSA klíè
+[SHA1:]
+[Public]
+[&Copy SHA1]
+[E&xport]
+[Private]
+Soukromý
+[&Export]
+&Exportovat
+[&Import]
+[Set &keyrings...]
+Nastavit &klíèenku...
+[Disable keyrings use]
+Vypnout použití klíèenky
+[Load &Private key]
+Nahrát &Soukromý klíè
+[Basic]
+Obecné
+[Executable:]
+Program gpg.exe:
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Home Directory:]
+Dom. adresáø:
+[Temp Dir:]
+[Key Assignment]
+Pøiøazení klíèù
+[Debug]
+Debug
+[Log to File]
+Do souboru
+[Save Pass]
+Uložit heslo
+[Back]
+Pozadí
+[Text]
+Text
+[Key agreement colors]
+Potvrzení klíèù
+[Secure connection colors]
+Šifrované spojení
+[Send/Receive encrypted colors]
+Šifrované odesílání a pøíjem
+[SecureIM PopUp Colors]
+Nastavení barev
+[Preview]
+Náhled
+[Events]
+Události
+[PopUp Timeout]
+Doba zobrazení
+[Time in Seconds]
+Èas v sekundách
+[0 = Default PopUp Timeout Value]
+0 = výchozí hodnota
+[Show a popup on established connection]
+Indikovat vytvoøení spojení
+[Show a popup on disabled connection]
+Indikovat zrušení spojení
+[Show a popup on key send]
+Indikovat odesílání klíèe
+[Show a popup on key received]
+Indikovat pøíjem klíèe
+[Show a popup on each secure send]
+Indikovat odesílání šifrované zprávy
+[Show a popup on each secure receive]
+Indikovat pøíjem šifrované zprávy
+[Username:]
+[Password:]
+[OK]
+[Cancel]
+[Enter passphrase for the secret key:]
+[Ok]
+OK
+[Native SecureIM]
+Nativní SecureIM
+[PGP SecureIM]
+[GPG SecureIM]
+[RSA/AES SecureIM]
+[RSA SecureIM]
+[Always Try to Establish Secure IM]
+Vždy se pokusit použít SecureIM
+[Secure IM Enabled]
+Povolit SecureIM
+[Secure IM Disabled]
+Zakázat SecureIM
+[Set key]
+Nastavit klíè
+[Delete key]
+Smazat klíè
+[Set pre-shared key]
+[Delete pre-shared key]
+[Export key]
+[Import key]
+[Export public key]
+[Import public key]
+[Delete public key]
+;file \plugins\SecureIM\src\main.cpp
+[comctl32.dll]
+[Incoming Secure Message]
+[Outgoing Secure Message]
+[SecureIM status]
+[SecureIM [Native]]
+[SecureIM [PGP]]
+[SecureIM [GPG]]
+[SecureIM [RSA/AES]]
+;file \plugins\SecureIM\src\options.cpp
+[ASC files\0*.asc\0All files (*.*)\0*.*\0]
+[Open Key File]
+[rsa_pub.asc]
+[rsa_priv.asc]
+[Save Private Key File]
+[Save Public Key File]
+[Load Private Key File]
+[Load Public Key File]
+[Services]
+Služby
+;file \plugins\SecureIM\src\popupOptions.cpp
+[PopUps]
+;file \plugins\SecureIM\src\rtfconv.cpp
+[rtfconv.dll]
+[plugins\\rtfconv.dll]
+#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}

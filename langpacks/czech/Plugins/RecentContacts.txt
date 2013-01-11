@@ -1,0 +1,20 @@
+#muuid {0e5f3b9d-ebcd-44d7-9374-d8e5d88df4e3}
+;langpack template for RecentContacts
+;file \plugins\RecentContacts\res\resource.rc
+[Plugin settings]
+Nastavení doplòku
+[Number shown contacts:\n (0 to show all)]
+[Format of date and time\n(Look to readme for placeholders help)]
+[Hide offline contacts]
+Skrýt uživatele offline
+;file \plugins\RecentContacts\src\options.cpp
+[Contacts]
+Kontakty
+;file \plugins\RecentContacts\src\RecentContacts.cpp
+[Main icon]
+[Contact]
+Kontakt
+[Ignore Contact]
+Ignorovat kontakt
+[Show Contact]
+[Show Recent Contacts]

@@ -1,0 +1,37 @@
+; /----------------------------------------------------------\
+; |  WebPager 0.0.0.6                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; Adresa: 
+;
+
+;(DUP) [User Menu]
+;(DUP) [View User's Details]
+;(DUP) [View User's History]
+
+[WebPager]
+WebPager
+;(DUP) [From]
+;(DUP) [Nick Name:]
+;(DUP) [EMail:]
+;(DUP) [ICQ # :]
+;(DUP) [Date:]
+;(DUP) [Time:]
+;(DUP) [Message]
+[IP:]
+IP:
+;(DUP) [&Reply]
+;(DUP) [&Close]
+;(DUP) [N/A]
+
+[WebPager message received]
+Obdržena zpráva WebPager
+;(DUP) [User Menu]
+;(DUP) [View User's Details]
+;(DUP) [View User's History]
+
+[Incoming WebPager]
+WebPager (pøíchozí)
+
+; ---

@@ -1,0 +1,342 @@
+; /----------------------------------------------------------\
+; |  AdvancedAutoAway 0.0.2.22                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2205
+;
+
+; /StatusPlugins/commonstatus.c
+[I've been away since %time%.]
+Jsem pryè od %time%
+[Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
+[Not right now.]
+Teï ne, prosím.
+[Give a guy some peace, would ya?]
+Nechte mì prosím chvíli o samotì, ano?
+[I'm a chatbot!]
+Kecám, a se mi od klávesnice práší!
+[Yep, I'm here.]
+Jasnì, jsem tu.
+[Nope, not here.]
+Ne, nejsem tady
+[I'm hiding from the mafia.]
+Skrıvám se pøed mafií.
+[That'll be the phone.]
+Právì telefonuji
+[Mmm...food.]
+Mòam... jídlo
+[idleeeeeeee]
+Chrrrrrrrrrrrr
+
+; /StatusPlugins/confirmdialog.c
+[Protocol]
+Protokol
+[Status]
+Stavy
+[Message]
+Zpráva
+ 
+ 
+[Closing in %d]
+Zavøe se za %d sek.
+[Close]
+Zavøít
+[%s (%s)]
+%s (%s)
+[<last>]
+<minulı>
+[<current>]
+<souèasnı>
+[<n/a>]
+<neuvedeno>
+
+; /StatusPlugins/resource.rc:IDD_OPT_KS_BASIC
+[Check connection]
+Zajistit spojení
+[Button]
+Tlaèítko
+[Max. retries]
+Max. opak.
+[Protocol Connection]
+Stav protokolù
+[Delay between retries (secs)]
+Prodleva mezi obnovením (sek.)
+[Show popups]
+Zobrazovat oznámení
+[General]
+Obecné
+[Protocols to check]
+Vybrané protokoly
+[Dial-Up]
+Vytáèené spojení
+[Don't reconnect if no internet connection seems available]
+Neobnovovat stav pøi odpojení od internetu
+[Continuously check for internet connection]
+Periodicky ovìøovat pøipojení k internetu
+[Do so by pinging host]
+Pomocí pøíkazu ping
+
+; /StatusPlugins/resource.rc:IDD_CONFIRMDIALOG
+[Confirm Status]
+Potvrzení stavu
+[Cancel]
+Zrušit
+[Profile]
+Profil
+
+; /StatusPlugins/resource.rc:IDD_OPT_AUTOAWAY
+[after]
+po
+[minutes of inactivity]
+min. neèinnosti
+[minutes of level 1 mode]
+min. v módu Level 1
+[Confirm resetting status]
+Potvrdit návrat do pùvodního stavu
+[Only set if current status is]
+Nastavit pouze tehdy, je-li stav
+[Monitor Miranda's activity only]
+Monitorovat pouze program Miranda
+[Reset status on return]
+Po návratu obnovit pùvodní stav
+[when screen saver engages]
+pøi aktivaci spoøièe obrazovky
+[Set]
+Nastavit
+[only set when inactive]
+pouze tehdy, je-li neaktivní
+[when workstation is locked]
+pøi zamknutí poèítaèe
+
+; /StatusPlugins/resource.rc:IDD_CMDLOPTIONS
+[Command Line]
+Pøíkazovı øádek
+[OK]
+OK
+[Copy to Clipboard]
+Zkopírovat
+[Command Line:]
+Pøíkazovı øádek:
+[Create Shortcut]
+Vytvoøit zástupce
+[Add new profile]
+Pøidat novı profil
+[Profile name]
+Název profilu
+
+; /StatusPlugins/resource.rc:IDD_OPT_STARTUPSTATUS
+[Set window state]
+Stav okna
+[Show dialog]
+Zobrazit dialog
+[Set status to offline before exit]
+Pøed ukonèením pøejít do 'Offline'
+[Show CMDL]
+Pøíkazovı ø.
+;(DUP) [Activate status profile]
+[Set docked]
+Zadokovat
+[Other]
+Ostatní
+[Status on startup]
+Stav po spuštìní
+[ms]
+ms
+;(DUP) [Set after]
+[Timeout]
+Doba zobrazení
+[s]
+s
+[Set window location]
+Umístit na souøadnice
+[Set window size]
+Velikost okna
+[Allow override]
+Povolit potlaèení
+;(DUP) [Note: status profiles can be created in the 'Status Profiles' options screen]
+[Window on startup]
+Okno po startu
+[Automatically dial on startup]
+Automaticky vytáèet po spuštìní
+[Automatically hang up on exit]
+Automaticky zavìsit po ukonèení
+[Dial-up (experimental)]
+Vytáèené spojení (experimentální)
+
+; /StatusPlugins/resource.rc:IDD_PUOPT_KEEPSTATUS
+[Background colour]
+Barva pozadí
+[Text colour]
+Barva textu
+[Use Windows colours]
+Pouít barvy Windows
+[Use default colours]
+Pouít vıchozí barvy
+[Delay]
+Prodleva
+[On left click]
+Levé tlaèítko
+[On right click]
+Pravé tlaèítko
+[Do nothing]
+Nedìlat nic
+[Close popup]
+Zavøít oznámení
+[Cancel reconnecting]
+Pøerušit pøipojování
+[Colours]
+Barvy
+[Preview]
+Náhled
+[Events]
+Události
+[Show when connection is lost]
+Zobrazit pøi odpojení od sítì
+[Show when a connection attempt is made]
+Zobrazit pøi pokusu o navázání spojení
+[Show when reconnection has finished]
+Zobrazit po úspìšném navázání spojení
+[Show other messages]
+Zobrazit ostatní zprávy
+[From PopUp plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Show additional information in popups]
+Zobrazit i další, podrobnìjší informace 
+
+; /StatusPlugins/resource.rc:IDD_OPT_AUTOAWAYMSG
+[Use Miranda's message setting]
+Pouít vıchozí nastavení Mirandy
+[Use this message:]
+Pouít následující zprávu:
+[Use %time% for the current time, %date% for the current date]
+%time% = aktuální èas, %date% = aktuální datum
+[Variables...]
+Promìnné...
+
+; /StatusPlugins/resource.rc:IDD_OPT_GENAUTOAWAY
+[Specify settings for each protocol]
+Nastavit pro kadı protokol zvláš
+[Use same settings for all protocols]
+Nastavit pro všechny protokoly stejnì
+[Ignore caps-lock, num-lock and scroll-lock keys]
+Ignorovat klávesy CAPS-, NUM- a SCROLL-LOCK
+[Check interval (secs)]
+Interval zjišování stavu (v sek.)
+[Confirm dialog timeout (secs)]
+Dialog zavøít po (v sek.)
+[You enabled "Change my status mode to" in the "Idle" options dialog, AdvancedAutoAway's options are ignored.]
+Po aktivaci monosti 'Zmìnit mùj stav na' na stránce 'Neèinnost' je nastavení doplòku AdvancedAutoAway ignorováno.
+[Monitor keyboard activity]
+Monitorovat psaní na klávesnici
+[Monitor mouse activity]
+Monitorovat pohyb myši
+[Ignore CRTL, ALT, SHIFT, TAB, ESC and Windows keys]
+Ignorovat klávesy CRTL, ALT, SHIFT, TAB, ESC a WIN
+[Ignore any key combination with above keys]
+Ignorovat kombinace s vıše uvedenımi klávesami
+
+; /StatusPlugins/resource.rc:IDD_OPT_KS_ACTION
+[Protocols]
+Protokoly
+[Enable checking]
+Zapnout kontrolu
+[Disable checking]
+Vypnout kontrolu
+[Set status message]
+Nastavit stavové zprávy
+
+; /StatusPlugins/resource.rc:IDD_OPT_KS_TRIGGER
+[connection loss is detected]
+spojení bylo pøerušeno
+[reconnection attempt is made]
+pokus o obnovení spojení
+[successfull reconnected]
+spojení úspìšnì navázáno
+[giving up reconnecting]
+konec obnovování spojení
+[Trigger if...]
+Spustit kdy...
+
+; /StatusPlugins/resource.rc:IDD_OPT_STATUSPROFILES
+[Add...]
+Pøidat
+[Del]
+Smazat
+[Create a TopToolBar button]
+Pøidat tlaèítko do horní lišty
+[Show confirm dialog when loading]
+Po spuštìní potvrzovat stav
+[Create a main menu item]
+Pøidat poloku do hlavní nabídky
+ 
+ 
+[Status Profiles]
+Startovní profily
+[Hotkey]
+Klávesy
+[In submenu]
+V podmenu
+ 
+ 
+
+; /StatusPlugins/resource.rc:IDD_OPT_KS_ADV
+[Max. delay (secs)]
+Max. prodleva (sek.)
+[Increase delay exponential]
+Prodlevu postupnì zvyšovat
+[Cancel all if a protocol connects from another location]
+Pøerušit obnovení pøi pøipojení z jiného místa
+[Reconnect on APM resume]
+Obnovit pøipojení po návratu z úsporného reimu
+[Stop trying to reconnect]
+Pøestat obnovovat pøipojení
+[Set delay to]
+Zmìnit prodlevu na
+[React on login errors]
+Po chybì pøi pøihlášení
+[seconds]
+sek.
+[Set protocol offline before a connection attempt]
+Pøed obnovením pøipojení nastavit protokol offline
+[Max. protocol connecting time (secs)]
+Maximální èas protokolu na pøipojení (sek.)
+[Timers]
+Èasovaèe
+[Reconnecting]
+Obnovení pøipojení
+[Ignore locked status of protocols]
+Ignorovat zamknutı stav protokolù
+[Consider connection lost after]
+Povaovat za odpojeno po
+[failed pings]
+ztrac. pak.
+[Continuously check interval (secs)]
+Interval ovìøování pøipojení (sek.)
+ 
+ 
+
+; /StatusPlugins/AdvancedAutoAway/advancedautoaway.c
+[default]
+vıchozí
+
+; /StatusPlugins/AdvancedAutoAway/options.c
+[minutes of %s mode]
+min. ve stavu '%s'
+[Rules]
+Pravidla
+[Status Messages]
+Stavové zprávy
+[Auto Away Rules]
+Zmìna stavu Pravidla
+[Auto Away]
+Automatické stavy
+[Auto Away General]
+Zmìna stavu Obecné
+
+; ---

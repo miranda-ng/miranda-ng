@@ -1,0 +1,42 @@
+#muuid {6471d451-2fe0-4ee2-850e-9f84f3c0d187}
+;============================================================
+;  File: AddContactPlus.dll
+;  Plugin: Add contact+
+;  Version: 0.9.9.1
+;  Authors: Bartosz 'Dezeath' Bia³ek
+;============================================================
+[Provides the ability to quickly add new contacts.]
+;file \plugins\AddContactPlus\res\resource.rc
+[Add Contact\nAdd a contact to your contact list]
+[Account:]
+Úèet:
+[Contact ID:]
+[Custom name:]
+Vlastní jméno:
+[Group:]
+Skupina:
+[Options]
+[Add temporarily]
+[Send "You were added"]
+Odeslat zprávu o zaøazení
+[Send authorization request]
+Odeslat žádost o autorizaci
+[Authorization Request]
+[&Add]
+[&Cancel]
+;file \plugins\AddContactPlus\src\addcontact.cpp
+[Please authorize my request and add me to your contact list.]
+Autorizujte prosím mùj požadavek a pøidejte si mì do vašeho seznamu.
+[None]
+---
+[The contact cannot be added to your contact list. Please make sure the contact ID is entered correctly.]
+[Add contact]
+Pøidat kontakt
+[The contact cannot be added to your contact list. If you are not logged into the selected account, please try to do so. Also, make sure the contact ID is entered correctly.]
+;file \plugins\AddContactPlus\src\main.cpp
+[&Add contact...]
+[Open add contact dialog]
+[Main]
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+[AddContact+]
+#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}

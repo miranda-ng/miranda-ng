@@ -1,0 +1,110 @@
+#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+;============================================================
+;  File: Dbx_mmap_SA.dll
+;  Plugin: Miranda NG secure database driver
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
+[EN]
+[OK]
+[Cancel]
+[Change]
+Zmìnit
+[Remove]
+[New password]
+[Old password]
+[Yes]
+Ano
+[No]
+Ne
+[A file containing new database settings has been placed in the Miranda NG directory.]
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfiguraèní soubor?
+[No to all]
+Ne všem
+[&View contents]
+Zobrazit o&bsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Upozornìní: Potvrzením se pøedpokládá, že znáte rozsah úprav obsahu své databáze a jste si vìdomi všech možných následkù.
+[Database settings are being imported from]
+Importovaný konfiguraèní soubor
+[This file wishes to change the setting]
+Požadavek na zmìnu položky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit úpravu této položky?
+[&Allow all further changes to this section]
+&Povolit všechny další úpravy v této sekci
+[&Yes]
+[&No]
+[Cancel Import]
+Zrušit import
+[The import has completed from]
+[What do you want to do with the file now?]
+Co chcete udìlat s tímto souborem?
+[&Recycle]
+Pø&esunout do koše
+[&Delete]
+[&Move/Rename]
+Pøesunout/Pøej&menovat
+[&Leave]
+Ode&jít
+[Database encryption]
+Šifrování databáze
+[Info:]
+[Author:]
+[Site:]
+Stránka:
+[Email:]
+[Unique ID:]
+ID:
+;file \plugins\Dbx_mmap_SA\src\dbintf_sa.cpp
+[Database is Secured MMAP database]
+[You are not authorized for access to Database]
+[Secured MMAP: authorization successful]
+[Database is marked as belonging to an unknown version of Miranda]
+Vybraná databáze není kompatibilní s vaší verzí Mirandy
+;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
+[Database Features]
+Funkce databáze
+[Database]
+Databáze
+[Change Password]
+Zmìnit heslo
+[Change password]
+Zmìnit heslo
+[Set password]
+Nastavit heslo
+[Dll]
+[Name]
+[Version]
+[%d.%d.%d.%d]
+[%s\n%s]
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+[Please type in your password for]
+[Too many errors!]
+[Password is not correct!]
+Zadané heslo není správné!
+[Please enter your new password]
+Prosím zadejte nové heslo
+[Password is too short!]
+Heslo je pøíliš krátké!
+[Passwords do not match!]
+Zadaná hesla se neshodují!
+[Wrong password!]
+;file \plugins\Dbx_mmap_SA\src\init.cpp
+[db3x secure mmap database support]
+;file \plugins\Dbx_mmap_SA\src\security.cpp
+[cryptors\\*.dll]
+[cryptors\\%s]
+[Sorry, but your database encrypted with unknown module]
+[Error]
+[Crypto modules not found]
+[Crypto module hasn't been chosen, using first one found]
+[Notice]
+Poznámka
+[DB is already secured!]
+[current database]
+[Set Password]

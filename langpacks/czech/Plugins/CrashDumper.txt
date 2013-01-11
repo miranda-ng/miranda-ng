@@ -1,0 +1,91 @@
+#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+;============================================================
+;  File: CrashDumper.dll
+;  Plugin: CrashDumper
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\CrashDumper\res\crshdmp.rc
+[Close]
+Zavøít
+[Copy To Clipboard]
+Kopírovat do schránky
+[To File]
+Do souboru
+[Support for miranda-vi.org]
+Nastavení pro miranda-vi.org
+[Username]
+[Password]
+Heslo
+[Upload automatically when changed]
+Nahrát na server automaticky pøi zmìnì
+[General]
+[Use classic dates]
+Použít klasický formát data
+[Create reports in subfolders naming as current date]
+[&Copy]
+[Co&py All]
+Zko&pírovat vše
+[Select &All]
+;file \plugins\CrashDumper\src\crshdmp.cpp
+[VersionInfo stored into file %s]
+Informace o verzi ukládat do %s
+[VersionInfo file %s is inaccessible]
+Soubor Informací o verzi %s je nedostupný
+[Services]
+Služby
+[Version Information To Clipboard]
+Informace o verzi do schránky
+[Version Information To File]
+Informace o verzi do souboru
+[Show Version Information]
+Zobrazit info. o verzi
+[Upload Version Information]
+Odeslat info. o verzi
+[%miranda_profilename%.dat]
+[%miranda_userdata%]
+[Version Information]
+Informace o verzi
+[Copy to clipboard]
+Kopírovat do schránky
+[Store to file]
+Uložit do souboru
+[Show]
+Zobrazit
+[Show with DLLs]
+Zobrazit s DLL knihovnami
+[Upload]
+-> server
+[Open crash report directory]
+Otevøít složku s výpisem chyb
+[Open miranda-vi.org]
+Jít na miranda-vi.org
+[Copy Version Info to clipboard]
+[Show Version Info]
+;file \plugins\CrashDumper\src\dumper.cpp
+[Not ]
+;file \plugins\CrashDumper\src\exhndlr.cpp
+[Crash Report write location is inaccesible]
+Crash report: nedostupná lokace zápisu
+[Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
+Miranda spadla. Crash report uložen ve složce:\n %s\n\n Chcete záznam uložit i do schránky?
+;file \plugins\CrashDumper\src\ui.cpp
+[View Version Information (with DLLs)]
+;file \plugins\CrashDumper\src\upload.cpp
+[VersionInfo upload successful,\n %d old plugins]
+Informace o verzi: úspìšnì nahráno\n%d starých pluginù
+[Cannot upload VersionInfo. Incorrect username or password]
+Informace o verzi: Nelze nahrát na server\nŠpatné uživatelské jméno, nebo heslo
+[Cannot upload VersionInfo. User is banned]
+Informace o verzi: nelze nahrát na server\nUživatel zablokován
+[Cannot upload VersionInfo. Daily upload limit exceeded]
+Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání pøekroèen
+[Cannot upload VersionInfo. Unknown error]
+Informace o verzi: nelze nahrát na server\nNeznámá chyba
+[Cannot upload VersionInfo. Host unreachable.]
+Informace o verzi: nelze nahrát na server\nServer nedostupný
+[Crash Dumper HTTP connections]
+Crash Dumper - spojení pomocí protokolu HTTP
+;file \plugins\CrashDumper\src\utils.cpp
+[More then one crash reporting plugin installed. This will result in inability of creating crash reports]
+Máte více než jeden crash report plugin. To povede k nefunkènosti vytváøení záznamù o pádu (crash reportù).

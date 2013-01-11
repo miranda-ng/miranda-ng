@@ -1,0 +1,19 @@
+; /----------------------------------------------------------\
+; |  JustTabs 0.1.2.0                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Stanislav Vágner <vagner (zavináè) nway (teèka) cz>
+; Adresa: http://scottellis.com.au/miranda_plugins
+;
+
+[Messaging Tabs]
+Záložky zpráv
+[Put SRMM windows into a single frame]
+Více zpráv jako záložky v jednom oknì
+[No titlebar]
+Bez záhlaví
+[Show contact icon on tabs]
+Zobrazit ikonu v záložce
+;(DUP) [Always on top]
+
+; ---

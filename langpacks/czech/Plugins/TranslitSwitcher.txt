@@ -1,0 +1,30 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: TranslitSwitcher.dll
+;  Plugin: Switch Layout or Transliterate
+;  Version: 0.0.1.0
+;  Authors: Mataes, tico-tico, Tim
+;============================================================
+[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
+;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
+[sch]
+[Sch]
+[THppRichEdit.UnicodeClass]
+[THistoryGrid.UnicodeClass]
+[TExtHistoryGrid.UnicodeClass]
+[Internet Explorer_Server]
+[TranslitSwitcher]
+[RichEdit20W]
+[%s %s]
+%s %s
+;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
+[Switch Layout and Send]
+[Translit and Send]
+[Invert Case and Send]
+[Convert All / Selected]
+[Convert Last / Selected]
+[Translit All / Selected]
+[Translit Last / Selected]
+[Invert Case All / Selected]
+[Invert Case Last / Selected]
+#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}

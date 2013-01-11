@@ -1,0 +1,2 @@
+;["%s" /restart:%d /profile=%s]
+;[%miranda_profilename%]

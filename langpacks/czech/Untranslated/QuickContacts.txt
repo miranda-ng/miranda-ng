@@ -1,0 +1,8 @@
+;[Ctrl+A]
+;[Ctrl+F]
+;[Ctrl+H]
+;[Ctrl+I]
+;[Ctrl+U]
+;[Ctrl+V]
+;[Last Sent]
+;[Show all contacts (Ctrl+A)]

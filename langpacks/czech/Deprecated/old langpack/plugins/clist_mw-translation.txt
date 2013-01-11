@@ -1,0 +1,527 @@
+; /----------------------------------------------------------\
+; |  MultiWindow Contact List 0.8.0.1                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+
+; c:\worx\miranda_cz\to_parse\CLUIFrames\cluiframes.c
+[&FrameTitle]
+&Záhlaví rámeèku
+[&Visible]
+&Viditelný
+[&Show TitleBar]
+Zo&brazit záhlaví rámeèku
+[&Locked]
+Zamkn&utý
+[&Collapsed]
+&Sbalený
+[&Floating Mode]
+&Plovoucí
+[&Border]
+O&kraj
+[&Align]
+Z&arovnat
+[&Top]
+Na&hoøe
+[&Client]
+&Klient
+[&Bottom]
+Do&le
+[&Position]
+U&místìní
+[&Up]
+Nahor&u
+[&Down]
+&Dolù
+[Frames]
+Rámeèky
+[New Menu System not Found...]
+Nový systém menu nenalezen...
+[Show All Frames]
+Zobrazit všechny rámeèky
+[Show All Titlebars]
+Zobrazit záhlaví rámeèkù
+[Hide All Titlebars]
+Skrýt záhlaví rámeèkù
+[Lock Frame]
+Zamknout rámeèek
+[Visible]
+Viditelné
+[Show TitleBar]
+Zobrazit záhlaví rámeèku
+[Floating]
+Plovoucí
+[TitleBarFont]
+Záhlaví
+
+; c:\worx\miranda_cz\to_parse\CLUIFrames\extraimage.c
+[Email Icon]
+Ikona e-mailu
+[Sms Icon]
+Ikona SMS
+[Web Icon]
+Ikona webu
+
+; c:\worx\miranda_cz\to_parse\CLUIFrames\framesmenu.c
+[FrameMenu]
+Nabídka rámeèkù
+
+; c:\worx\miranda_cz\to_parse\CLUIFrames\statusbar.c
+[Status]
+Stavy
+[Status Bar]
+Stavová lišta
+
+; c:\worx\miranda_cz\to_parse\BkgrCfg.c
+[Customize]
+Vlastní úpravy
+[Backgrounds]
+Pozadí
+
+; c:\worx\miranda_cz\to_parse\clcopts.c
+[Contact List]
+Kontakty
+[List]
+Seznam
+[List Background]
+Pozadí seznamu
+[List Text]
+Text v seznamu
+[List MetaContacts]
+Seznam metakontaktù
+[StatusBar Background]
+Pozadí stavové lišty
+[Not focused]
+Neaktivní
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryè
+[NA]
+Nejsem tady
+[Occupied]
+Nemám èas
+[DND]
+Nerušit!
+[Free for chat]
+Mám volno
+[Invisible]
+Neviditelný
+[Out to lunch]
+Jsem na obìdì
+[On the phone]
+Mám telefon
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vùèi kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Groups]
+Skupiny
+[Group member counts]
+Poèet èlenù ve skupinì
+[Dividers]
+Oddìlovaèe
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vùèi kterým máte nastavenou výjimku v (ne)viditelnosti
+[Status messages]
+Stavové zprávy
+[Group Closed]
+Zavøená skupina
+[Hover Contacts]
+Kontakty po najetí myši
+[as:]
+jako:
+[based on:]
+používá:
+[<none>]
+<žádný>
+
+; c:\worx\miranda_cz\to_parse\clistopts.c
+[Global]
+Globální
+
+; c:\worx\miranda_cz\to_parse\clistsettings.c
+[_NoProtocol_]
+_žádný-protokol_
+['(Unknown Contact)']
+'(neznámý kontakt)'
+
+; c:\worx\miranda_cz\to_parse\clisttray.c
+[Tray Menu]
+Nabídka ikony
+[E&xit]
+U&konèit
+[&Hide/Show]
+Skrýt/Zo&brazit
+[&Find/Add Contacts...]
+&Vyhledat kontakty...
+[&Main Menu]
+Hlavní &menu
+[&Status]
+&Stav
+[&Options...]
+M&ožnosti...
+[&About]
+O progr&amu
+
+; c:\worx\miranda_cz\to_parse\clui.c
+[My Contacts]
+Seznam kontaktù
+
+; c:\worx\miranda_cz\to_parse\cluiopts.c
+[Window]
+Okno
+
+; c:\worx\miranda_cz\to_parse\groupmenu.c
+[Group Menu]
+Nabídka skupiny
+[&New Group]
+&Nová skupina
+[&Hide Offline Users]
+&Skrýt uživatele offline
+[Hide &Offline Users out here]
+Skrýt uživatele &offline mimo skupiny
+[Hide &Empty Groups]
+S&krýt prázdné skupiny
+[Disable &Groups]
+Vypnout zobrazení s&kupin
+[SubGroup Menu]
+Nabídka podskupiny
+[&New SubGroup]
+&Nová podskupina
+;(DUP) [&Hide Offline Users in here]
+[&Rename Group]
+Pø&ejmenovat skupinu
+[&Delete Group]
+&Smazat skupinu
+
+; c:\worx\miranda_cz\to_parse\keyboard.c
+[Close Miranda]
+Zavøít Mirandu
+[Restore last status]
+Obnovit pøedchozí stav
+
+; c:\worx\miranda_cz\to_parse\resource.rc
+[Settings]
+Nastavení
+[Background colour:]
+Barva pozadí:
+[Selection colour:]
+Barva výbìru:
+[Use background bitmap]
+Použít na pozadí obrázek
+[...]
+...
+[Stretch to width]
+Uzpùsobit na šíøku
+[Stretch to height]
+Uzpùsobit na výšku
+[Tile horizontally]
+Vodorovnì vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Scroll with text]
+Rolovat s textem
+[Stretch proportionally]
+Uzpùsobit pomìrnì
+[Tile vertically according to Row Height]
+Roztáhnout vertikálnì dle výšky øádku
+[Warning!\r\nThis MenuObject not support user defined options.]
+Upozornìní!\r\nTento objekt menu nepodporuje zmìnu nastavení.
+[MenuObjects]
+Nabídky
+[MenuItems]
+Prvky nabídky
+[InsertSeparator]
++ oddìlovaè
+[Service:]
+Služba:
+[Name:]
+Název:
+[Set]
+Nastavit
+[Default]
+Výchozí
+[Delete Contact]
+Smazání kontaktu
+[No]
+Ne
+[Yes]
+Ano
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrýt; zùstane tak zachována historie a ostatní nastavení.
+[Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktù zrušíte v nastavení programu.)
+[Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
+[This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
+[Hide offline users]
+Skrýt uživatele offline
+[Hide empty groups]
+Skrýt prázdné skupiny
+[Disable groups]
+Vypnout skupiny
+[Ask before deleting contacts]
+Potvrdit smazání kontaktù
+[Always on top]
+Vždy navrchu
+[Hide contact list after it has been idle for]
+Skrýt seznam kontaktù, byl-li neaktivní po dobu
+[seconds]
+sek.
+[Sort contacts by name]
+Øadit kontakty dle jména
+[Sort contacts by status]
+Øadit kontakty dle stavu
+[Sort contacts by protocol]
+Øadit kontakty dle protokolu
+[Single click interface]
+Zaøídit vše jedním kliknutím myši
+[Always show status in tooltip]
+Vždy zobrazit stav v tipu
+[Disable icon blinking]
+Vypnout blikání ikon
+[ms, delay between icon blinking]
+ms (definuje rychlost blikání)
+[Show]
+Zobrazit
+[icon when statuses differ]
+(v pøípadì, že se stavy liší)
+[Cycle icons every]
+Mìnit ikony co
+[seconds, when statuses differ]
+sek. (v pøípadì, že se stavy liší)
+[Show multiple icons]
+Zobrazit více ikon
+[Only when statuses differ]
+Pouze v pøípadì, že se stavy liší
+[System tray icon]
+Ikona v oznamovací oblasti
+[System tray icon when using multiple protocols]
+Ikona v oznamovací oblasti pøi použití více protokolù
+[Contact List Sorting]
+Øazení seznamu kontaktù
+[Dont move offline user to bottom]
+Kontakty offline nepøesouvat na konec
+[Pin to desktop]
+Pøipíchnout na plochu
+[Tool style main window]
+Zjednodušené záhlaví okna
+[Minimize to tray]
+Minimalizovat na panel
+[Automatically resize window to height of list]
+Podle položek automaticky zmìnit výšku okna
+[maximum]
+max. však
+[% of screen]
+% obrazovky
+[Size upwards]
+Zvìtšovat okno smìrem nahoru
+[Title bar text:]
+Text v záhlaví:
+[Translucency options (Windows 2000/XP only)]
+Prùhlednost (pouze Windows 2000 a XP)
+;(DUP) [Fade contact list in/out]
+[Transparent contact list]
+Nastavit prùhlednost seznamu kontaktù
+[Inactive opacity:]
+Neaktivní okno:
+[Active opacity:]
+Aktivní okno:
+[000%]
+000 %
+[Show menu bar]
+Zobrazit menu
+[Easy move]
+Vylepšené pøesouvání
+[Show title bar]
+Zobrazit záhlaví
+[If window is partially covered, bring to front instead of hiding]
+Je-li okno èásteènì zakryto, zobrazit na popøedí namísto skrytí
+[Enable drop shadow (restart required)]
+Zobrazit stín (vyžaduje restart)
+[Contact List Extra Icons]
+Další ikony v seznamu
+[Protocol Type]
+Druh protokolu
+[E-mail]
+E-mail
+[Cellular]
+Mobil
+[Advanced #2]
+Extra è.2
+[Advanced #1]
+Rozšíøený stav
+[!!! Note: all client icons are made by Angeli-ka, and I have her permission to use them in clist_mw plugin.]
+Pozn.: Všechny klientské ikony vytvoøila Angeli-ka, použito s jejím svolením.
+[Homepage]
+Dom. stránka
+[Items]
+Položky
+[Show divider between online and offline contacts]
+Zobrazit oddìlovaè mezi kontakty online a offline
+[Hot track items as mouse passes over]
+Zvýraznit položky, nad kterými se objeví šipka myši
+[Disable drag and drop of items]
+Zakázat uchopení a pøetáhnutí položek
+[Disable rename of items by clicking twice]
+Zakázat pøejmenování položek dvojím kliknutím
+[Show selection even when list is not focused]
+Zobrazit výbìr i tehdy, není-li seznam aktivní
+[Make selection highlight translucent]
+Zobrazit vybrané položky prùhlednì
+['Hide Offline' means to hide:]
+'Skrýt offline' znamená skrytí:
+[Draw a line alongside group names]
+Zobrazit vedle názvu skupin èáru
+[Show counts of number of contacts in a group]
+Zobrazit poèet kontaktù ve skupinì
+[Hide group counts when there are none online]
+Skrýt poèet kontaktù ve skupinì, jsou-li všichni offline
+[Sort groups alphabetically]
+Seøadit skupiny podle abecedy
+[Quicksearch in open groups only]
+Rychle hledat jen v otevø. skupinách
+[Indent groups by:]
+Rozestup skupin:
+[pixels]
+pix.
+[Visual]
+Zobrazení
+[Scroll list smoothly]
+Rolovat seznam kontaktù plynule
+[Time:]
+Èas:
+[milliseconds]
+ms
+[Left margin:]
+Levý okraj:
+[Grey out entire list when:]
+Zešednout seznam v pøípadì:
+[Dim idle contacts]
+Zešednout neaktivní kontakty
+[Hide vertical scrollbar]
+Skrýt svislý posuvník
+[Fonts]
+Písma
+[same]
+stejné
+[Typeface]
+Typ písma
+[Size]
+Velikost
+;(DUP) [Style]
+[Colour]
+Barva
+[Static]
+Statický
+[Bold]
+Tuèné
+[Italic]
+Kurzíva
+[Underline]
+Podtržené
+[Rows]
+Øádky
+[Row height:]
+Výška øádku:
+[Additional Colours]
+Doplòkové barvy
+[Selected text:]
+Vybraný text:
+[Hottrack text:]
+Zvýraznìný text:
+[Gamma correction]
+Gama korekce
+[Quicksearch text:]
+Hledaný text:
+[Size:]
+Velikost:
+[Colour:]
+Barva:
+[Selection Mode]
+Zpùsob výbìru
+[Less selection]
+Èást øádku
+[Full selection]
+Celý øádek
+[No selection]
+Bez výbìru
+[Contact List Background]
+Pozadí seznamu kontaktù
+[Use 'Meta' protocol icons for Metacontacts]
+Použít ikony protokolu 'Meta' pro metakontakty
+[Avoid doubleclick expand]
+Nerozbalovat dvojím kliknutím
+[Hide all 'Extra icons' for subcontacts]
+Skrýt všechny 'Extra ikony' pro podkontakty
+[MetaContacts supporting]
+Podpora doplòku Metakontakty
+[Ignore Empty Extra icons places (arrange to right).]
+Ignorovat prázdná místa po extra ikonách (posunout >>)
+[Hide offline subcontacts.]
+Skrýt podkontakty offline
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[On&line\tCtrl+1]
+On&line\tCtrl+1
+[&Away\tCtrl+2]
+N&a chvíli pryè\tCtrl+2
+[&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
+[Occ&upied\tCtrl+4]
+Nemám èa&s\tCtrl+4
+[&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
+[&Invisible\tCtrl+7]
+Nev&iditelný\tCtrl+7
+[On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Jsem na o&bìdì\tCtrl+9
+[Hide Miranda]
+Skrýt okno
+[&New Subgroup]
+&Nová podskupina
+[Show status bar]
+Zobrazit stavovou lištu
+[Show icons]
+Zobrazit ikony
+[Show protocol names]
+Zobrazit názvy protokolù
+[Show status text]
+Zobrazit stav
+[Right click opens status menu]
+Pravým tlaèítkem seznam stavù
+[Right click opens Miranda menu]
+Pravým tlaèítkem nabídku Mirandy
+[Make sections equal width]
+Shodná šíøka všech položek
+[-]
+-
+[Show size grip]
+Zobrazit oddìlovaè
+[Show bevel effect on panels]
+Zobrazit efekt zkosení panelù
+[Use connecting Icon]
+Zobrazit prùbìh pøipojování
+[Use New Drawer for StatusBar]
+Použít nový systém stav. lišty
+
+[Contact List/Connection Icons]
+Ikona pøi pøipojování
+[Contact List/Connection Icons %s]
+Ikona pøi pøipojování %s
+
+; ---

@@ -1,0 +1,68 @@
+; /----------------------------------------------------------\
+; |  Atomic 0.6.0.0                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; Adresa: 
+;
+
+[The addressfield is empty!]
+Zadejte prosím adresu serveru!
+;(DUP) [Plugins]
+[Failed to load Winsock!]
+Chyba pøi naèítání modulu Winsock!
+[Atomic requires another version of Winsock!]
+Atomic vyžaduje novìjší verzi modulu Winsock!
+[Time was successfully synchronised!]
+Èas byl úspìšnì synchronizován!
+[Failed to set the local time!]
+Chyba pøi nastavování místního èasu!
+[Time difference was greater was 1 hour, not synchronizing clock!]
+Rozdíl èasu je vìtší než 1 hodina; hodiny nesynchronizovány!
+[Could not connect to any of the servers in the database!]
+Nelze navázat spojení s žádným ze serverù v databázi!
+[Could not find any address in the database!]
+V databázi není definovaná žádná položka!
+;(DUP) [seconds]
+[Synchronization statistics]
+Statistika synchronizace
+[Client originate date and time:]
+Pùvodní datum a èas klienta:
+[Server receive date and time:]
+Datum a èas serveru pøi pøijetí:
+[Server transmit date and time:]
+Datum a èas serveru pøi odeslání:
+[Client destination date and time:]
+Cílové datum a èas klienta:
+[Round trip delay:]
+Odchylka pøi odeslání-pøijetí:
+[Local clock offset was:]
+Rozdíl místního a èasu na serveru:
+[Servers]
+Èasové servery
+[Server A:]
+Server A:
+[Server B:]
+Server B:
+[Server C:]
+Server C:
+[Server D:]
+Server D:
+[Server E:]
+Server E:
+[Test]
+Ovìøit
+[Options for automatic retrievel]
+Automatická synchronizace
+[Retrive time automatically at startup]
+Synchronizovat automaticky pøi startu
+[Wait 25 seconds before connecting]
+Pøed navázáním spojení poèkat 25 s
+[Show a message when time has been set]
+Pøi nastavení èasu zobrazit zprávu
+[Play a soundfile when time has been set]
+Pøi nastavení èasu pøehrát zvuk
+[Update frequency (hours)]
+Èasový interval (v hod.)
+
+; ---

@@ -1,0 +1,34 @@
+; /----------------------------------------------------------\
+; |  ShowUIN 3.1.0.0                                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Soustruh <struzsky (teèka) m (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2846
+;
+
+[ShowUIN options]
+Možnosti doplòku ShowUIN
+[Display format:]
+Formát pro zobrazení:
+[Copy format:]
+Formát pro zkopírování do schránky:
+[Following macroses are available:]
+Jsou k dispozici následující promìnné:
+[Instant messaging protocol]
+Protokol
+[Protocol UIN]
+Identifikátor kontaktu
+[Protocol nickname]
+Výchozí pøezdívka kontaktu
+[Contact-list nickname]
+Pøezdívka zobrazená v seznamu kontaktù
+[Protocol first name]
+Køestní jméno kontaktu
+[Protocol last name]
+Pøíjmení kontaktu
+[First + last name in one string]
+Køestní jméno a pøíjmení kontaktu
+[Protocol e-mail address]
+E-mailová adresa kontaktu
+
+; ---

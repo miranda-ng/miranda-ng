@@ -1,0 +1,163 @@
+#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+;============================================================
+;  File: Alarms.dll
+;  Plugin: Alarms
+;  Version: 0.4.0.5
+;  Authors: Scott Ellis
+;============================================================
+[Sets once-off, daily, weekly and weekday alarms.]
+;file \plugins\Alarms\res\resource.rc
+[New]
+[Delete]
+[Edit]
+[Alarms]
+Pøipomínky
+[Use popup plugin]
+Pouít oznámení Mirandy
+[Default snooze:]
+Standardnì odloit o:
+[minutes]
+min.
+[Row Height:]
+Vıška øádku:
+[Indent:]
+Odstup:
+[Reminder Frame]
+Okno upomínky
+[Auto hide/show]
+Autom. zobrazit/skrıt
+[Loop sound]
+Opakovanì pøehrávat zvuk
+[Period (hours):]
+S pøedstihem (hod.):
+[Hide/show with clist]
+Dle okna s kontakty
+[Auto size vertically]
+Autom. vıška okna
+[Transparency (%):]
+Prùhlednost (v %):
+[Alert Window]
+Další monosti
+[Round corners]
+Zaoblit rohy
+[Don't steal focus unless idle]
+Okno do popøedí pouze v neèinnosti
+[Preview]
+Náhled
+[OK]
+[Cancel]
+[Title:]
+Název:
+[Description:]
+[Actions]
+Akce
+[Popup window]
+[Sound:]
+Zvuk:
+[Run command:]
+Spustit pøíkaz:
+[Parameters:]
+Parametry:
+[Alert 1]
+Zvuk è.1
+[Alert 2]
+Zvuk è.2
+[Alert 3]
+Zvuk è.3
+[Speak]
+Pøeèíst
+[DateTimePicker1]
+[Occurrence]
+Opakování
+[Once]
+[Weekly]
+[Daily]
+Kadı den
+[Weekdays]
+Dny v tıdnu
+[Monthly]
+[Yearly]
+Co rok
+[i'm hiding]
+Nikdo mì nedostane
+[Date and Time]
+Datum a èas
+[Disable next occurence]
+Vypnout pøíští oznámení
+[Don't trigger on startup]
+Neupozoròovat pøi spuštìní
+[No reminder]
+Bez upozornìní
+[Dismiss]
+[Snooze]
+Odloit
+[Static]
+Statickı
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[&Suspend]
+&Odloit
+[&Edit...]
+Up&ravit...
+[&Delete]
+[&Options...]
+[&New Alarm...]
+&Nová pøipomínka...
+;file \plugins\Alarms\src\alarmlist.cpp
+;file \plugins\Alarms\src\alarms.cpp
+[ ffw]
+[Fast forward!]
+[Windows Media Player]
+[Unknown command issued: "%s"]
+[Set Alarm]
+Nová pøipomínka
+;file \plugins\Alarms\src\alarm_win.cpp
+[Example Alarm]
+Ukázka pøipomínky
+[Some example text. Example, example, example.]
+luouèkı kùò úpìl ïábelské ódy.
+[Title]
+[Background]
+Pozadí
+[Window]
+[user32.dll]
+;file \plugins\Alarms\src\frame.cpp
+[LISTBOX]
+[%dh %dm]
+[%dm]
+[Events]
+Události
+[Hide Reminders]
+Skrıt pøipomínky
+[Show Reminders]
+Zobrazit pøipomínky
+[AlarmsFrame]
+[AlarmsFrameContainer]
+[Frames]
+[Alarm Reminders]
+Pøipomínky
+;file \plugins\Alarms\src\icons.cpp
+[Menu: Set Alarm]
+Menu: Nová pøipomínka
+[Reminder: Soon]
+Pøipomínka: U brzy
+[Reminder: Very Soon]
+Pøipomínka: Za 5 minut a ménì
+[Alarm: System Tray]
+Upozornìní: Oblast pro oznámení
+[Menu: Show/Hide Reminders]
+Menu: Zobrazit/Skrıt pøipomínky
+;file \plugins\Alarms\src\options.cpp
+[Sunday]
+[Monday]
+[Tuesday]
+[Wednesday]
+[Thursday]
+[Friday]
+[Saturday]
+[Please enter a title for this alarm.]
+Zadejte prosím název pøipomínky.
+[Error]
+[The alarm time you have selected is in the past.]
+Datum a èas musí bıt z budoucnosti. Zadejte je znovu.
+;file \plugins\Alarms\src\trigger.cpp

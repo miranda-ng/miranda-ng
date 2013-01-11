@@ -1,0 +1,219 @@
+; /----------------------------------------------------------\
+; |  Quick Search Mod 1.4.1.18                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://awkward.mirandaim.ru
+;
+
+;start title
+[Quick Search]
+Rychlé hledání
+;(DUP) [Close]
+[Search on:]
+Vyhledat:
+;(DUP) [UIN]
+;(DUP) [Nickname:]
+;(DUP) [First name:]
+;(DUP) [Last name:]
+[E-mail Address:]
+E-mail:
+;(DUP) [Last seen]
+;(DUP) [%d users found (]
+;(DUP) [Time:]
+;(DUP) [milliseconds]
+;(DUP) [Title]
+;(DUP) [Module]
+;(DUP) [Setting]
+[Quick Search Options]
+Možnosti rychlého hledání
+;(DUP) [&New]
+;(DUP) [&Delete]
+;(DUP) [&Up]
+[D&n]
+\\&/
+;(DUP) [Title:]
+;(DUP) [Module:]
+[Setting:]
+Nastavení:
+[Width:]
+Šíøka:
+;(DUP) [Type:]
+[De&fault]
+&Výchozí
+[&Set Item]
+Nas&tavit
+[At Start Sort by Status]
+Pøi spuštìní seøadit dle stavu
+[Global scope hotkey:]
+Klávesová zkratka (globální):
+[Miranda scope hotkey:]
+Klávesová zkratka (Miranda):
+[Add Item to Main Menu]
+Pøidat položku do menu
+[Show Only Users in List]
+Zobrazit pouze uživ. v seznamu
+[Add Button to TopToolBar]
+Pøidat tlaèítko do horní lišty
+[Additional Options]
+Ostatní možnosti
+;(DUP) [HotKeys]
+[Columns && Data]
+Definice sloupcù
+[Auto Close mode]
+Automaticky zavøít
+[InfoType:]
+Typ inf.:
+
+;multiselect menu
+;(DUP) [Selected]
+;(DUP) [contacts]
+;(DUP) [Delete]
+[MoveToGroup]
+PøesunDoSkupiny
+
+;info types
+[Not Selected]
+Nevybráno
+[FIRSTNAME]
+JMÉNO
+[LASTNAME]
+PØÍJMENÍ
+;(DUP) [NICK]
+[CUSTOMNICK]
+VLASTNÍ PØEZDÍVKA
+[EMAIL]
+E-MAIL
+[CITY]
+MÌSTO
+[STATE]
+STÁT
+[COUNTRY]
+ZEMÌ
+[PHONE]
+TELEFON
+[HOMEPAGE]
+DOM. STRÁNKA
+[ABOUT]
+INFORMACE
+[GENDER]
+POHLAVÍ
+[AGE]
+VÌK
+[FIRSTLAST]
+JMÉNO PØÍJMENÍ
+[UNIQUEID]
+IDENTIFIKÁTOR
+
+; NEPUBLIKOVANÉ
+[Module/InfoType]
+Modul/Typ inf.
+
+
+; Quick Search mod 1.4.0.7
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://awkward.mirandaim.ru
+;
+
+[QuickSearch]
+Rychlé hledání
+
+[Show Offline contacts]
+Zobrazit offline kontakty
+
+[Global scope hotkey]
+Klávesová zkratka (globální):
+[Miranda scope hotkey]
+Klávesová zkratka (Miranda):
+
+[New Column]
+Nový sloupec
+[Save Column]
+Uložit sloupec
+[Delete Column]
+Smazat sloupec
+
+[Column Up]
+Posunout nahoru
+[Column Down]
+Posunout dolù
+
+[Save Item]
+Uložit položku
+
+[Sort by Status]
+Seøadit podle stavu
+[Only Users in List]
+Pouze kontakty v seznamu
+[Draw Grid]
+Vykreslit møížku
+[Show Client Icons]
+Zobrazit ikony klientù
+
+[Item in Main Menu]
+Pøidat položku do menu
+[Button on TopToolBar]
+Tlaèítko do horní lišty
+[Tool Window Style]
+Tool styl okna
+[Copy line to CSV]
+Zkopírovat øádek do CSV
+[CSV with headers]
+CSV s hlavièkou
+[Skip minimized columns]
+Ignorovat skryté sloupce
+
+[Unicode string]
+Unicode øetìzec
+[ANSI string]
+ANSI øetìzec
+[number value]
+èíselná hodnota
+[integer value]
+integer hodnota
+[lParam type:]
+lParam typ:
+[wParam type:]
+wParam typ:
+[current contact]
+souèasný kontakt
+
+;[LastSeen]
+;[Metacontact]
+;[Script]
+;[LastEvent]
+;[TimeStamp]
+;[ContactInfo]
+
+
+; Quick search mod 1.4.0.7
+[Save search pattern]
+Zapamatovat hledaný øetìzec
+
+; Quick Search mod 1.4.0.16
+; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+[%u users found (%u) Online: %u]
+%u kontaktù nalezeno (%u) Online: %u
+[deleted]
+smazáno
+
+; Quick Search mod 1.4.1.17
+[%u users found (%u) Online: %u]
+%u nalezených kontaktù (%u) Online: %u
+[Colorize]
+Obarvit
+
+[Reload]
+Naèíst znovu
+
+[Open main window]
+Otevøít hlavní okno
+[Previous item]
+Pøedchozí položka
+[Next item]
+Další položka
+[off]
+vyp
+
+; ---

@@ -1,0 +1,185 @@
+; /----------------------------------------------------------\
+; |  History Keeper 0.2.1.0                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://pescuma.mirandaim.ru/miranda/historykeeper
+;
+; History Keeper
+; Author: Pescuma
+
+[Client]
+Klient
+[Listening]
+Poslech
+;(DUP) [Nickname]
+;(DUP) [Status]
+;(DUP) [Status Message]
+[X-Status]
+Rozšíøený stav
+[X-Status Message]
+Zpráva rozšíøeného stavu
+
+; Popups
+;(DUP) [Popups]
+[%s Change]
+%s
+;(DUP) [ Tracking ]
+[Show when contacts change their %s]
+Zobrazit, zmìní-li kontakt svùj %s
+;(DUP) [Template:]
+[Show when contacts remove their %s]
+Zobrazit, zruší-li kontakt svùj %s
+;(DUP) [ Colours ]
+;(DUP) [Background colour]
+;(DUP) [Text colour]
+;(DUP) [Use Windows colours]
+;(DUP) [Use default colours]
+;(DUP) [ Delay ]
+;(DUP) [From popup plugin]
+;(DUP) [Custom]
+;(DUP) [Permanent]
+;(DUP) [ Actions ]
+;(DUP) [On right click:]
+;(DUP) [On left click:]
+;(DUP) [Do nothing]
+;(DUP) [Close popup]
+[Show history]
+Zobrazit historii
+;(DUP) [Open message window]
+;(DUP) [Preview]
+
+; Speak
+;(DUP) [Speak]
+;[Announce when contacts change their %s]
+;[Announce when contacts remove their %s]
+
+; Options
+;(DUP) [History]
+;(DUP) [General]
+[ Track ]
+ Sledování 
+;(DUP) [Wait]
+[s before notifying (to avoid duplications)]
+sek. pøed oznámením (zamezí duplicitám)
+[Don't notify on protocol connection]
+Neoznamovat pøipojení do sítì
+;(DUP) [ Protocols ]
+;(DUP) [Enable tracking for these protocols:]
+[ Log to file ]
+ Záznam do souboru 
+;(DUP) [Filename:]
+[Log when contacts change their %s]
+Zaznamenat, zmìní-li kontakt svùj %s
+[Log when contacts remove their %s]
+Zaznamenat, zruší-li kontakt svùj %s
+;(DUP) [Notifications]
+;(DUP) [** All contacts **]
+
+; Notifications
+[Log to History]
+Záznam do historie
+;(DUP) [Log to File]
+[Notify using Popups]
+Vizuální oznámení 
+[Notify using Sounds]
+Zvukové oznámení
+[Notify using Speak plugin]
+Hlasové oznámení
+
+; Menus
+;[Ignore %s changes]
+;[Log %s changes]
+;[Don't log %s changes]
+;[Notify %s changes]
+;[Don't notify %s changes]
+
+; Sounds
+[%s change]
+%s
+;Zmìna » %s
+;[%s removal]
+;Zmìna » %s
+
+;(DUP) [<empty>]
+
+[History Keeper]
+Události v historii
+
+; ---
+
+[Removal]
+Odstranìní
+[Idle Change]
+Zmìna neèinnosti
+[Contact Name]
+Jméno kontaktu
+
+
+; Templates
+[removed his/her nickname (was %old%)]
+odstranil(a) svoji pøezdívku (døíve %old%)
+[[%date%] %contact% changed his/her client to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svého klienta na %new% (døíve %old%)
+[[%date%] %contact% changed his/her x-status message to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svou zprávu rozš. stavu na %new% (døíve %old%)
+[removed his/her client (was %old%)]
+odstranil(a) svého klienta (døíve %old%)
+[[%date%] %contact% changed his/her x-status to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svùj rozš. stav na %new% (døíve %old%)
+[[%date%] %contact% is now idle]
+[%date%] %contact% je nyní v neèinnosti
+[removed his/her x-status message (was %old%)]
+odstranil(a) svou zprávu rozš. stavu (døíve %old%)
+[changed his/her nickname to %new% (was %old%)]
+zmìnil(a) svou pøezdívku na %new% (døíve %old%)
+[[%date%] %contact% changed his/her status to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svùj stav na %new% (døíve %old%)
+[removed his/her status message (was %old%)]
+odstranil(a) svou zprávu stavu (døíve %old%)
+[[%date%] %contact% removed his/her x-status message (was %old%)]
+[%date%] %contact% odstranil(a) svou zprávu rozš. stavu (døíve %old%)
+[changed his/her status message to %new% (was %old%)]
+zmìnil(a) svou zprávu stavu na %new% (døíve %old%)
+[[%date%] %contact% removed his/her nickname (was %old%)]
+[%date%] %contact% odstranil(a) svou pøezdívku (døíve %old%)
+[[%date%] %contact% returned from idle]
+[%date%] %contact% se vrátil(a) z neèinnosti
+[changed his/her status to %new%: %msg% (was %old%)]
+zmìnil(a) svùj stav na %new%: %msg% (døíve %old%)
+[returned from idle]
+se vrátil(a) z neèinnosti
+[[%date%] %contact% removed his/her status message (was %old%)]
+[%date%] %contact% odstranil(a) svou zprávu stavu (døíve %old%)
+[[%date%] %contact% removed his/her status (was %old%)]
+[%date%] %contact% odstranil(a) svùj stav (døíve %old%)
+[[%date%] %contact% is now listening to %new%]
+[%date%] %contact% nyní poslouchá %new%
+[changed his/her x-status message to %new% (was %old%)]
+zmìnil(a) svoji zprávu rozš. stavu na %new% (døíve %old%)
+[changed his/her client to %new% (was %old%)]
+zmìnil(a) svého klienta na %new% (døíve %old%)
+[[%date%] %contact% stopped listening to music]
+[%date%] %contact% pøestal(a) poslouchat hudbu
+[changed his/her x-status to %new%: %msg% (was %old%)]
+zmìnil(a) svùj rozš. stav na %new%: %msg% (døíve %old%)
+[is now listening to %new%]
+nyní poslouchá %new%
+[removed his/her status (was %old%)]
+odstranil(a) svùj stav (døíve %old%)
+[[%date%] %contact% removed his/her x-status (was %old%)]
+[%date%] %contact% odstranil(a) svùj rozš. stav (døíve %old%)
+[removed his/her x-status (was %old%)]
+odstranil(a) svùj rozš. stav (døíve %old%)
+[[%date%] %contact% changed his/her nickname to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svou pøezdívku na %new% (døíve %old%)
+[[%date%] %contact% removed his/her client (was %old%)]
+[%date%] %contact% odstranil(a) svého klienta (døíve %old%)
+[is now idle]
+je v neèinnosti
+[stopped listening to music]
+pøestal(a) poslouchat hudbu
+[[%date%] %contact% changed his/her status message to %new% (was %old%)]
+[%date%] %contact% zmìnil(a) svou zprávu stavu na %new% (døíve %old%)
+
+; ---

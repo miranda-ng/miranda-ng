@@ -1,0 +1,198 @@
+; /----------------------------------------------------------\
+; |  NetAccessNotify 2.6.1.0                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1490
+;
+
+
+[NetAccessNotify]
+Síové prostøedky
+;(DUP) [Cancel]
+;(DUP) [PopUps]
+;(DUP) [Popups]
+[Filters]
+Filtry
+;(DUP) [Logging]
+[Shares]
+Sdílení
+[Network connections]
+Pøehled síovıch spojení
+[Current network connections]
+Aktivní síová spojení
+[Established network sessions]
+Navázaná síová spojení
+;(DUP) [Files]
+;(DUP) [Active]
+;(DUP) [Idle]
+[Connections]
+Spojení
+[Logging options]
+Monosti záznamu
+[Log network activity to file:]
+Zaznamenat provoz do souboru:
+[Log when network connections are established]
+Zaznamenat navázání spojení se sdílením
+[Log when shared files are accessed]
+Zaznamenat pøístup ke sdílenım souborùm
+[Log when shared folders are accessed]
+Zaznamenat pøístup ke sdílenım slokám
+[Log file format]
+Formát záznamu
+[Title format:]
+Formát záhlaví:
+[Line format:]
+Formát øádku:
+[Available variables]
+Pøehled promìnnıch
+[Defaults for HTML format]
+Pøedvolby pro HTML
+[Defaults for CSV format]
+Pøedvolby pro CSV
+[Popup notifications]
+Oznámení
+[Notify when network connections are established]
+Oznámit navázání spojení se sdílením
+[Notify of shared file access]
+Oznámit pøístup ke sdílenım souborùm
+[Notify of shared folder access]
+Oznámit pøístup ke sdílenım slokám
+;(DUP) [Popup colors]
+[Use default popup colors]
+Pouít vıchozí barvy
+;(DUP) [Use windows colors]
+[Choose colors:]
+Vybrat barvy:
+;(DUP) [Background]
+;(DUP) [Text]
+[Popup display and click options]
+Doba zobrazení a ovládání
+[Separate popups for all events]
+Pro kadou událost samostatné oznámení
+[One permanent popup per connection]
+Pro kadé spojení jedno trvalé oznámení
+[One popup per connection on user activity]
+Pro kadé spojení a akci jedno oznámení
+[Popups stay shown for:]
+Zobrazit po dobu:
+;(DUP) [seconds]
+[Left-click:]
+Levé tlaè.
+[Right-click:]
+Pravé tlaè.
+;(DUP) [Do nothing]
+;(DUP) [Close popup]
+[Break the connection]
+Ukonèit spojení
+[Disable all popups]
+Vypnout všechna oznámení
+[No popups for this connection]
+Pro dané spojení vypnout oznámení
+[Network session info]
+Informace o relaci
+[In popup titles:]
+V záhlaví:
+[In popup contents:]
+Obsah:
+[In network window:]
+V oknì:
+[Popup preview]
+Náhled oznámení
+;(DUP) [General options]
+[Show network activity icon in system tray]
+Indikovat provoz ikonou v oblasti oznámení
+[Active network connections]
+Aktivní síové relace
+[Add "Network connections" item to main menu]
+Do nabídky pøidat poloku "Síová spojení"
+[Use hot key to bring up network connections:]
+Pøehled síovıch spojení zobrazit po zmáèknutí:
+["Network connections" window is always on top]
+Okno "Síová spojení" zobrazit vdy navrchu
+[Show network connections]
+Zobrazit síová spojení
+[Update frequency]
+Interval aktualizace
+[Query network state every]
+Procházet sí kadıch
+[ms  (Warning: this can be CPU-intensive)]
+ms  (Upozornìní: Mùe zatìovat procesor)
+[Use NTFS auditing capabilities (should be configured for all shared files && folders)]
+Pouít auditování NTFS (mìlo by bıt nastaveno pro všechny sdílené sobory a sloky)
+[Boost query interval on active connections:]
+Zkrátit interval u aktivního spojení na
+[ms  (Very CPU-intensive)]
+ms  (velmi zatìuje procesor)
+[Shared resources]
+Sdílené prostøedky
+[Resource name]
+Prostøedek
+[Local path]
+Místní cesta
+[Uses]
+Otevøení
+[Comment]
+Poznámka
+[Show administrative shares]
+Zobrazit admin. sdílení
+;(DUP) [Add...]
+;(DUP) [Remove]
+[Refresh]
+Aktualizovat
+[Popup notification filters]
+Filtry pro oznámení událostí
+;(DUP) [Computer]
+;(DUP) [User]
+[Shared resource]
+Sdílenı prostøedek
+;(DUP) [Notify]
+[Add filter...]
+Pøidat filtr...
+;(DUP) [Edit...]
+;(DUP) [Up]
+;(DUP) [Down]
+[Filter settings]
+Monosti filtrování
+[Computer name:]
+Název poèítaèe:
+[User name:]
+Uivatel:
+[Shared resource:]
+Sdíl. prostøedek:
+[If values match:]
+Souhlasí-li zadané:
+[Always notify with popups]
+Vdy oznámit
+[Disable popup notifications]
+Vypnout oznamování
+[Note: Use * and ? wildcard characters to specify multiple values]
+Pozn.: Pøi zadávání hodnot lze pouít masku (znaky * a ?)
+[All popups are now disabled.\nEnable popups in the Popups section of the main menu]
+Veškerá oznámení byla vypnuta.\nZnovu je povolíte v hlavní nabídce, èásti Oznámení.
+[All popups are now disabled.\nEnable popups on the NetAccessNotify/Popups page]
+Veškerá oznámení byla vypnuta.\nZnovu je povolíte v nastavení, èásti Síové\nprostøedky/Oznámení.
+[Are you sure you wish to remove\nthe shared resource '%s'?]
+Opravdu chcete odebrat sdílenı\nprostøedek '%s'?
+[Disable network access notifications]
+Vypnout oznámení pøístupu ke &sdílení
+[Enable network access notifications]
+Zapnout oznámení pøístupu ke &sdílení
+[Error creating/opening specified log file]
+Chyba pøi vytváøení nebo otevírání souboru pro záznam
+[Popup plugin not found.\nPlease install and enable this plugin]
+Nelze nalézt doplnìk 'Popup'.\nNainstalujte ho prosím.
+[Select a folder for sharing]
+Vyberte sloku, kterou chcete sdílet
+[Shared resource '%s' could not be removed\nNetwork error code: %d]
+Sdílenı prostøedek '%s' nelze odpojit.\nChyba sítì è.%d
+[This file has already been closed]
+Vybranı soubor u byl uzavøen
+[This session has already terminated]
+Tato relace u byla ukonèena
+[Sorry, not supported in this version]
+Tato funkce není v souèasné verzi podporována
+;(DUP) [Connected]
+;(DUP) [Disconnected]
+
+; ---

@@ -1,0 +1,52 @@
+; /----------------------------------------------------------\
+; |  Country Flags 0.1.0.0                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3462
+;
+
+; --- Plugin: Country Flags 0.1.0.0 ---
+
+[Country Flags]
+Vlajky zemí
+[Service offering misc country utilities as flag icons and a IP-to-Country database.]
+Doplnìk patøící do kategorie Služby. Umožòuje zobrazení vlajek a zjištìní zemì podle IP adresy.
+[Country Flags Plugin]
+Doplnìk Country Flags
+[The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later.]
+Doplnìk 'Vlajky zemí' nelze naèíst. Vyžaduje program Miranda IM %hs nebo novìjší.
+
+; Countries
+; Most country names are the same as used in miranda32.exe,
+; except the following corrections:
+[Australian Antarctic Territory]
+Australské teritorium v Antarktidì
+[Falkland Islands (Malvinas)]
+Falklandské ostrovy (Malvíny)
+[Faroe Islands]
+Faerské ostrovy
+[Guantanamo Bay]
+Guantanámo
+[Montenegro, Republic of]
+Èerná Hora
+[Saipan Island (Northern Mariana Islands)]
+Ostrov Saipan (Severní Mariany)
+[Samoa]
+Samoa
+[Serbia, Republic of]
+Srbsko
+
+; Options
+;[Contact List]
+;[Country Flags]
+[Show country flag as &status icon on message window]
+Zobrazit vlajku jako &stavovou ikonu v komunikaèním oknì
+[Show country flag as &extra image on contact list]
+Zobrazit vlajku jako ikonu v s&eznamu kontaktù
+[In following contact list &column:]
+Ikonu zobrazit ve sloup&ci:
+[Advanced #%u]
+Extra è.%u
+
+; ---

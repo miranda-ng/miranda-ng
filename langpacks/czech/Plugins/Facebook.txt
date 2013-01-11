@@ -1,0 +1,165 @@
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;============================================================
+;  File: Facebook.dll
+;  Plugin: Facebook RM
+;  Version: 0.0.9.2
+;  Authors: Michal Zelinka, Robert Posel
+;============================================================
+[Facebook protocol plugin for Miranda NG.]
+;file \protocols\FacebookRM\res\facebook.rc
+[E-mail:]
+[Password:]
+[Create a new Facebook account]
+Zøídit novı úèet na Facebooku
+[420]
+[Share]
+Sdílet
+[Cancel]
+[User Details]
+Informace o uivateli
+[Default group:]
+Vıchozí skupina:
+[Automatically set 'Ignore status change' flag]
+Automaticky ignorovat zmìnu stavu
+[Contacts Settings]
+Nastavení kontaktù
+[Use bigger avatars]
+Zobrazit vìtší avatary
+[Load contacts with 'On the Mobile' status]
+Naèíst i kontakty s mobilním pøipojením
+[Event notifications]
+Oznámení události
+[Colors]
+Barvy
+[Back]
+Pozadí
+[Text]
+Text
+[Notifications]
+Upozornìní
+[Default]
+[News feeds]
+Novinky
+[Other events]
+Jiné události
+[Client notifications]
+Upozornìní klienta
+[Timeout (sec.)]
+Doba zobrazení (sek.)
+[(0 = default, -1 = infinite)]
+(0 = vıchozí, -1 = trvale)
+[Preview]
+Náhled
+[Use balloon notifications in system tray instead of popups]
+Místo klasického oznámení pouít bubliny v systémové lištì
+[News Feed types to notify:]
+Na které z novinek upozornit:
+[Advanced Settings]
+Pokroèilé nastavení
+[Force secure (HTTPS) connection]
+Pouít zabezpeèené spojení (HTTPS)
+[Post Miranda statuses to Wall]
+Odesílat stav Mirandy na zeï Facebooku
+[Enable logging for debugging purposes]
+Povolit záznam pro úèely ladìní
+[Use secure connection also for channel requests]
+Zabezpeèit i servisní spojení
+[Also disconnect chat when going to offline]
+Po odpojení zároveò odejít i z diskuse
+[Map non-standard statuses to Invisible (instead of Online)]
+Pro nestandardní stavy pouít Neviditelnı (nikoli Online)
+[Enable support for Custom smileys (EXPERIMENTAL + BUGGY!)]
+;file \protocols\FacebookRM\src\chat.cpp
+[Admin]
+Správce
+[Normal]
+Normální
+;file \protocols\FacebookRM\src\communication.cpp
+[Login error: Some Facebook things are required.]
+[Your account requires HTTPS connection. Activating.]
+Váš úèet vyaduje zabezpeèené spojení. Aktivováno.
+[Login error: Captcha code is required. Bad login credentials?]
+[Unknown login error]
+[Login error: ]
+[Login error, probably bad login credentials.]
+Chyba pøi pøihlašování, moná máte špatné pøihlašovací údaje.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Chyba pøi pøipojování k síti Facebook. Dùvodem mohou bıt vìtší zmìny na stranì serveru, co vyaduje zároveò zmìny na stranì Mirandy.
+[Need confirmation for sending messages to other clients.\nOpen facebook website and try to send message to this contact again!]
+[Timeout when sending message.]
+;file \protocols\FacebookRM\src\connection.cpp
+[Please enter a username.]
+Zadejte uivatelské jméno.
+[Please enter a password.]
+Zadejte heslo.
+;file \protocols\FacebookRM\src\contacts.cpp
+[Contact was removed from your server list.]
+[Error occured when removing contact from server.]
+[Request for friendship was sent.]
+[Error occured when requesting friendship.]
+[Request for friendship was canceled.]
+[Error occured when canceling friendship request.]
+;file \protocols\FacebookRM\src\dialogs.cpp
+[Note: Make sure you have disabled 'Validate SSL certificates' option in Network options to work properly.]
+[Sample event]
+Ukázková událost
+[Sample request]
+Ukázkovı poadavek
+[Sample newsfeed]
+Ukázková novinka
+[Sample notification]
+Ukázkové upozornìní
+;file \protocols\FacebookRM\src\json.cpp
+[Multichat]
+;file \protocols\FacebookRM\src\messages.cpp
+[You cannot send messages when you are offline.]
+Ve stavu offline nelze odesílat zprávy.
+[.jpg]
+;file \protocols\FacebookRM\src\process.cpp
+[Contact is back on server-list.]
+[Contact is no longer on server-list.]
+[Attachments:]
+;file \protocols\FacebookRM\src\proto.cpp
+[%s server connection]
+%s - spojení se serverem
+[Unable to get Netlib connection for Facebook]
+Facebook: Chyba pøi zpracování síové komunikace.
+[%miranda_avatarcache%]
+[%s %s %s]
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[Account]
+Úèet
+[Advanced]
+Extra
+[PopUps]
+[Events]
+Události
+[Loading newsfeeds...]
+[Checking friend requests...]
+[Refreshing buddy list...]
+[Do you want to cancel your friendship with '%s'?]
+;file \protocols\FacebookRM\src\theme.cpp
+[Facebook Icon]
+Ikona
+[Mind]
+Stavová zpráva
+[Cancel friendship]
+Zrušit pøátelství
+[Cancel friendship request]
+[Request friendship]
+Poádat o pøátelství
+[Approve friendship]
+Potvrdit pøátelství
+[Visit Profile]
+Zobrazit profil
+[Mind...]
+Stavová zpráva...
+[Services...]
+Sluby
+[Refresh Buddy List]
+[Services]
+Sluby
+[Check Friends Requests]
+[Check Newsfeeds]
+#muuid {ce2c0401-f9e0-40d7-8e95-1a4197d7ab04}

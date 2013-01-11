@@ -1,0 +1,101 @@
+; /----------------------------------------------------------\
+; |  Custom Status List 0.1.0.4                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Mišáèek <mike.taussick (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3483
+;
+
+[Custom Status History List]
+Historie rozšíøených stavù
+[Custom Status List]
+Seznam rozš. stavù
+[Custom Status List...]
+Seznam rozš. stavù...
+[Import statuses from database]
+Vložit stavy z databáze
+[Add new item]
+Pøidat nový stav
+[Modify selected item]
+Upravit oznaèený stav
+[Delete selected item]
+Smazat oznaèený stav
+[Set/unset current item as favorite]
+Nastavit/zrušit aktuální stav jako oblíbený
+[Whether or not to watch custom status changes and add them into list]
+Sledovat nebo nesledovat zmìny ve stavu a pøidávat je do seznamu
+[Close without changing custom status]
+Zavøít bez zmìny rozšíøeného stavu
+[Clear custom status (reset to None) and close]
+Vyèistit rozšíøené stavy (resetovat) a zavøít
+[Set custom status to selected one and close]
+Nastavit vybraný rozšíøený stav a zavøít
+[Add..]
+Pøidat..
+[Modify...]
+Upravit...
+[Favorite]
+Oblíbené
+[Favourite]
+Oblíbené
+[Set on idle]
+Nastavit pøi neèinnosti
+[Add]
+Pøidat
+[Modify]
+Upravit
+[Cancel]
+Zrušit
+[Idle default]
+Neèinný jako výchozí
+[Icon:]
+Ikona:
+[Main Icon]
+Hlavní ikona
+[Watch]
+Sledovat 
+[Undo changes]
+Vrátit zmìny
+; ---
+
+[I'm High]
+Jsem zhulený
+
+[Hide "Custom status" menu]
+Skrýt menu "Rozšíøený stav"
+[Note: This option requires newest version of ICQ plugin to work properly. Check details at the plugin homepage.]
+Pozn.: Tato volba vyžaduje pro správnou funkènost nejnovìjší verzi ICQ doplòku. Detaily naleznete na domovské stránce pluginu.
+
+[Menu item placement]
+Umístìní menu
+;[Regular statuses]
+[Confirm deletion of items]
+Potvrdit smazání položek
+[No items available in the database.\nClick the Add button to define some.]
+Žádné položky nenalezeny.\nKliknìte na tlaèítko Pøidat pro vytvoøení nové.
+[Delete entries in ICQ Custom status menu after Import]
+Po importu smazat položky v ICQ menu Rozšíøený stav
+[List settings]
+Nastavení seznamu
+[Global Status Menu at the top]
+Globální menu stavu nahoøe
+[Global Status Menu at the bottom]
+Globální menu stavu dole
+[ICQ Status Menu]
+Menu stavu ICQ
+[Filter list]
+Filtrovat seznam
+[Remember last window position]
+Pamatovat poslední pozici okna
+[Allow extra ICQ Custom status items (ICQ Plus only)]
+Povolit další položky Rozšíøeného stavu (Pouze ICQ Plus mod)
+[Note: Menu items are only visible when at least one ICQ account is properly set. Check if you have at least one account with UIN filled in.]
+Pozn.: Položky v menu jsou viditelné pouze pokud je aspoò jeden ICQ úèet správnì nastaven. Zkontrolujte si, zda máte vytvoøený aspoò jeden úèet s vyplnìným UIN.
+
+;[Custom Status List Release Notes]
+;[The 0.1 branch introduces new way of storing data in the database. Please check carefully if the import was successful.]
+;[Twix Fix]
+[Don't show this dialog again]
+Nezobrazovat znovu tento dialog
+
+; ---

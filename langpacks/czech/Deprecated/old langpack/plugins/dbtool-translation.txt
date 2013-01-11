@@ -1,0 +1,281 @@
+; /----------------------------------------------------------\
+; |  Miranda IM Database Tool 0.8.2.0                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+
+; /dbtool/aggressive.cpp
+[Performing aggressive pass]
+Dùkladný prùchod databází
+[Aggressive: random junk at %08X: skipping]
+Dùkladnì; náhodná data na pozici %08X: vynecháno
+[Aggressive: unlinked data at %08X: can't automatically place]
+Dùkladnì; nepropojená data na pozici %08X: nelze automaticky umístit
+
+; /dbtool/contactchain.cpp
+[Contact count marked wrongly: correcting]
+Neplatný poèet kontaktù: opraveno
+[Processing contact chain]
+Procházení seznamem kontaktù
+[Contact chain corrupted, further entries ignored]
+Seznam kontaktù je poškozen; ignorování dalších položek
+
+; /dbtool/disk.cpp
+[Invalid offset found]
+Nalezen neplatný offset
+[Invalid offset found (database truncated?)]
+Nalezen neplatný offset (nekompletní databáze?)
+[Error reading, database truncated? (%u)]
+Chyba pøi ètení databáze; nekompletní soubor? (%u)
+[Can't write to working file, aggressive mode may be too aggressive now (%u)]
+Nelze zapsat do pracovní kopie databáze; dùkladný režim až pøíliš dùkladný? (%u)
+[Can't write to working file, aggressive mode may be too aggressive now]
+Nelze zapsat do pracovní kopie databáze; dùkladný režim až pøíliš dùkladný?
+[Can't write to output file - disk full? (%u)]
+Nelze zapsat do výstupního souboru; nedostatek místa na disku? (%u)
+
+; /dbtool/eventchain.cpp
+[Event count marked wrongly: correcting]
+Neplatný poèet událostí: opraveno
+[Event chain corrupted, trying to recover...]
+Seznam událostí je poškozen; pokus o opravu...
+[Event chain corrupted, further entries ignored]
+Seznam událostí je poškozen; ignorování dalších položek
+[First event not marked as such: correcting]
+První událost nebyla oznaèena jako první: opraveno
+[Event marked as first which is not: correcting]
+Neplatné èíslování události: opraveno
+[Extra flags found in event: removing]
+Neplatná znaèka události: odstranìno
+[First unread event marked wrong: fixing]
+Špatnì oznaèená první nepøeètená zpráva: opraveno
+[Infeasibly large event blob: skipping]
+Pøíliš velký slot pro události: vynecháno
+[Event not backlinked correctly: fixing]
+Nesprávné propojení seznamu událostí: opraveno
+[Duplicate event was found: skipping]
+Duplicitní událost: vynecháno
+[Event position in chain is not correct]
+Neplatná pozice v seznamu událostí
+[Event position in chain is not correct: fixing]
+Neplatná pozice v seznamu událostí: opraveno
+[Event position in chain is not correct: unable to fix]
+Neplatná pozice v seznamu událostí: nelze opravit
+
+; /dbtool/finaltasks.cpp
+[Processing final tasks]
+Dokonèení závìreèných úloh
+[Unable to delete aggressive working file]
+Nelze odstranit pracovní kopii databáze vytvoøenou bìhem dùkladného prùchodu
+[Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
+Byly nalezeny chyby, ale nebylo zvoleno vytvoøení zálohy databáze. Je silnì doporuèeno používat tuto volbu pro pøípad, že by byly vynechány dùležité data. Pøejete si ponechat zálohu originální databáze?
+[Miranda Database Tool]
+Nástroj pro správu databáze Mirandy
+[%s\\Backup of %s]
+%s\\%s (zaloha)
+[%s\\Backup (%d) of %s]
+%s\\(%d) %s (zaloha)
+[Unable to rename original file]
+Pùvodní soubor nelze pøejmenovat.
+[Unable to delete original file]
+Pùvodní soubor nelze odstranit.
+[Unable to rename output file]
+Výstupní soubor nelze pøejmenovat.
+
+; /dbtool/finished.cpp
+[&Finish]
+&Dokonèit
+
+; /dbtool/initialchecks.cpp
+[Database is newly created and has no data to process]
+Vybrali jste novì vytvoøenou databázi, která neobsahuje žádná data.
+[Processing completed successfully]
+Databáze byla úspìšnì zkon
+[Database is corrupted and too small to contain any recoverable data]
+Databáze je poškozena; soubor je pøíliš malý a pravdìpodobnì neobsahuje data
+[Database signature is corrupted, automatic repair is impossible]
+Podpis databáze je poškozen; automatickou opravu nelze provést
+[Database is marked as belonging to an unknown version of Miranda]
+Vybraná databáze není kompatibilní s vaší verzí Mirandy
+[(Working Copy).dat]
+(pracovni kopie).dat
+[ (Output).dat]
+ (výstupní).dat
+[Creating working database (aggressive mode)]
+Vytváøení pracovní kopie databáze (dùkladný režim)
+[Can't create working file (%u)]
+Nelze vytvoøit pracovní soubor (%u)
+[Error writing file, probably disk full - try without aggressive mode (%u)]
+Chyba pøi zápisu do souboru. Zkuste jiný než dùkladný režim (%u).
+[Can't read from working file (%u)]
+Nelze èíst z pracovního souboru (%u)
+[<check only>]
+<pouze ke kontrole>
+[(Output).dat]
+(vystup).dat
+[Can't create output file (%u)]
+Nelze vytvoøit výstupní soubor (%u)
+[Can't create file mapping (%u)]
+Nelze vytvoøit mapování souboru (%u)
+[Can't create map view of file (%u)]
+Nelze vytvoøit mapa pøehledu souboru (%u)
+
+; /dbtool/modulechain.cpp
+[Processing module name chain]
+Procházení seznamu modulù
+[Module chain corrupted, further entries ignored]
+Seznam modulù je poškozen; ignorování dalších položek
+[Unreasonably long module name, skipping]
+Pøíliš dlouhý název modulu; vynecháno
+[Module name '%s' is not unique: %d duplicates found)]
+Název modulu '%s' není jedineèný. Poèet duplicit: %d
+[Invalid module name offset, skipping data]
+Neplatný offset názvu modulu; vynechání pøíslušných dat
+
+; /dbtool/progress.cpp
+[Click Next to continue]
+Pokraèujte kliknutím na tlaèítko 'Další'
+[Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
+Zpracování ještì nebylo dokonèeno. Pokud jej nyní zrušíte, zmìny, které byly aktuálnì provedeny, budou vráceny zpìt a originální databáze bude obnovena. Opravdu si pøejete zpracování zrušit?
+[Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
+Zpracování ještì nebylo dokonèeno. Pokud se nyní vrátíte zpìt, zmìny, které byly aktuálnì provedeny, budou vráceny zpìt a originální databáze bude obnovena. Opravdu si pøejete vrátit se zpìt?
+
+; /dbtool/resource.rc:IDD_WELCOME
+;(DUP) [Static]
+[Welcome to the Miranda Database Wizard]
+Vítá vás prùvodce správou databáze Mirandy!
+[Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
+Tento prùvodce vám jednak umožní proèistit databázi od balastu, který se nasbírá pøi bìžném používání programu, a zároveò také umí opravit celou øadu problémù.
+[To continue, click Next.]
+Pokraèujte kliknutím na tlaèítko 'Další'.
+[This programme is licenced under the terms of the GNU General Public License.]
+Tento program je šíøen v souladu s podmínkami licence GNU General Public License.
+
+; /dbtool/resource.rc:IDD_WIZARD
+;(DUP) [< &Back]
+;(DUP) [&Next >]
+;(DUP) [Cancel]
+
+; /dbtool/resource.rc:IDD_SELECTDB
+[Select Miranda Profile]
+Výbìr požadovaného profilu
+[You can choose the Miranda profile database to compact or repair.]
+V tomto kroku vybíráte profil, který chcete proèistit nebo opravit.
+[Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
+Ze seznamu vyberte požadovaný profil. Pokud ho v seznamu nevidíte, kliknìte na tlaèítko 'Vybrat' a vyhledejte v systému.
+[&File:]
+&Soubor:
+[&Other...]
+&Vybrat...
+
+; /dbtool/resource.rc:IDD_OPENERROR
+[Error Opening Database]
+Chyba pøi otevírání databáze
+[There was an error opening the profile database given.]
+Chyba pøi otevírání požadované databáze.
+[Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
+Kliknutím na tlaèítko 'Další' zkusíte databázi znovu otevøít. Tlaèítkem 'Zpìt' se vrátíte k výbìru profilu.
+[The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
+Vybranou databázi používá jiný program. Ukonèete všechny spuštìné instance programu Miranda a kliknìte na tlaèítko 'Další'.
+
+; /dbtool/resource.rc:IDD_FILEACCESS
+[File Access Options]
+Ètení dat ze souboru
+[You can select low level options to determine how the database is processed.]
+V tomto kroku definujete zpùsob otevøení databáze a zpracování dat v ní obsažených.
+[Create backup]
+Vytvoøit zálohu
+[Creates a backup copy of the database before any of the requested changes are made.]
+Pøed zápisem do databáze vytvoøí záložní kopii.
+[Aggressively find corruption]
+Dùkladnì zkontrolovat všechna data
+[Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
+Vyhledá v databázi taková data, která nejsou propojená s ostatními. Tato operace vyžaduje místo na disku i èas, takže lze doporuèit jen v pøípadì podezøení na poškození databáze.
+[Check consistency only]
+Pouze zkontrolovat konzistenci dat
+[Just checks that the database is valid, without writing anything to the disk.]
+Pouze zkontroluje platnost dat obsažených v databázi.
+
+; /dbtool/resource.rc:IDD_CLEANING
+[Cleaning Options]
+Možnosti vyèištìní
+[You can choose to remove information from the database while it is being processed.]
+V této fázi si vyberete, které informace chcete z databáze odstranit.
+[Erase all histories]
+Vymazat veškerou historii
+[Removes all the saved history for all contacts in the database.]
+Odstraní veškerou uloženou historii od všech kontaktù v databázi.
+[Mark all events read]
+Oznaèit všechny události jako pøeètené
+[Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
+Oznaèí všechny události historie jako pøeètené. To by mìlo pomoci v pøípadech, kdy se v záznamu komunikace stále objevují staré zprávy.
+
+; /dbtool/resource.rc:IDD_PROGRESS
+[Working...]
+Probíhá údržba...
+[Please wait while the requested operations are being performed.]
+Poèkejte prosím, správce provádí požadovanou údržbu databáze.
+
+; /dbtool/resource.rc:IDD_FINISHED
+[Finished!]
+Dokonèeno!
+[All tasks have been completed.]
+Veškeré požadované operace byly dokonèeny.
+[Launch Miranda with this profile]
+Spustit Mirandu s vybranou databází
+[Launches Miranda with the profile that was just worked on.]
+Spustí Mirandu s právì vyèištìnou databází.
+[Backup:]
+Záloha:
+[The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
+Kontrola databáze byla dokonèena. Chcete-li prùvodce spustit znovu, kliknìte na tlaèítko 'Další'. Kliknutím na tlaèítko 'Dokonèit' program ukonèíte.
+
+; /dbtool/selectdb.cpp
+[Database]
+Databáze
+[Total size]
+Celková velikost
+[Wasted]
+Balast
+[Miranda Databases (*.dat)]
+Databáze Mirandy (*.dat)
+;(DUP) [All Files]
+
+; /dbtool/settingschain.cpp
+[Settings chain corrupted, further entries ignored]
+Seznam nastavení je poškozen; ignorování dalších položek
+[Infeasibly large settings blob: skipping]
+Pøíliš velký slot pro nastavení: vynecháno
+[Empty settings group at %08X: skipping]
+Prázdná skupina nastavení (pozice: %08X): vynecháno
+
+; /dbtool/user.cpp
+[Processing user data]
+Procházení uživatelských dat
+[User corrupted, this could cause major problems]
+Data jednoho z kontaktù jsou poškozena; mùže jít o závažný problém
+[More than one user contact: keeping only first]
+Více kontaktù téhož jména: ponechán první výskyt
+
+; /dbtool/worker.cpp
+[Database worker thread activated]
+Aktivace procesu pro práci s databází
+[Processing aborted by user]
+Procházení pøerušeno uživatelem
+[Elapsed time: %d sec]
+Délka kontroly: %d sek.
+[All tasks completed but with errors (%d)]
+Všechny úlohy byly dokonèeny; poèet chyb: %d
+;(DUP) [s]
+
+[All tasks completed successfully]
+Všechny úlohy byly úspìšnì dokonèeny
+
+[Convert old Unicode messages to UTF8]
+Zkonvertovat zprávy do kódování UTF8
+[Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
+Pøevede všechny zprávy v historii z pùvodní kombinace kódování ANSI+UCS2 do UTF8 (doporuèujeme; platí pro Mirandu øady 0.7.x). Ve vìtšinì pøípadù dojde ke zmenšení velikosti databáze.
+
+; ---

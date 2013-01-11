@@ -1,0 +1,8 @@
+;[127.0.0.1]
+;[MPD Host]
+;[Unknown album]
+;[Unknown artist]
+;[Unknown genre]
+;[Unknown track]
+;[Unknown year]
+;[mpd is a nice music player for *nix which have not any gui, just daemon.\nuses very small amount of ram, cpu.]

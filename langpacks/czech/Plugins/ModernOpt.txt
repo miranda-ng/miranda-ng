@@ -1,0 +1,71 @@
+#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+;langpack template for ModernOpt
+;file \plugins\ModernOpt\res\resource.rc
+[Visit official Miranda NG website]
+[`]
+[Sample page]
+[Use arrow keys to choose category]
+Požadovanou kategorii vyberete pomocí šipek
+[Miranda NG Options]
+[OK]
+[Cancel]
+[Apply]
+Použít
+[Switch to classic options]
+Pøepnout do pùvodního zpùsobu konfigurace
+[Advanced]
+Extra
+;file \plugins\ModernOpt\src\modernopt.cpp
+[Home]
+Domov
+[Miranda NG configuration center]
+[Accounts]
+Úèty
+[Setup your account information to start messaging.]
+Zadání a správa informací k úètùm jednotlivých sítí.
+[Style]
+[Change the look of Miranda NG according to your taste.]
+[Contacts]
+Kontakty
+[Configure behaviour of your contact list.]
+Konfigurace funkcí seznamu kontaktù.
+[Chats]
+[Customize look&&feel of your chat windows here.]
+Úprava vzhledu a chování komunikaèních oken.
+[Ignore]
+[Ban those users and events, you are annoyed with.]
+Obtìžuje vás nìkdo nebo nìco pøi komunikaci? Vyzkoušejte náš filtr.
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Set your status messages and idle reporting.]
+Definice stavových zpráv, nálady, automatických odpovìdí apod.
+[Addons]
+Doplòky
+[Miranda NG is all about plugins. Manage all the plugins you have here.]
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+Nìkteré ze zmìn nejsou uloženy.\nChcete je uložit?
+[Miranda NG]
+[Page 1]
+[Page 2]
+[Page 3]
+[Files]
+Soubory
+[Messages]
+Zprávy
+[URL events]
+Pøíchozí odkazy
+[Typing notifications]
+[Added notifications]
+Oznámení o pøidání
+[Auth requests]
+Žádost o autorizaci
+[Configure]
+[Update]
+Aktualizovat
+[Download]
+Stáhnout
+;file \plugins\ModernOpt\src\mopt_selector.cpp
+[%s\\%s]
+%s\\%s
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}

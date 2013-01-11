@@ -1,0 +1,87 @@
+; /----------------------------------------------------------\
+; |  History viewer 0.1.3.0                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Mareman <Mareman (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=529
+;
+
+; Historyviewer Plugin 
+[History]
+Historie
+[Message history [%s]]
+Historie zpráv
+[&Search... ]
+&Najít...
+[Show:]
+Ukázat:
+[last 100]
+jen 100
+[last 200]
+jen 200
+[last 500]
+jen 500
+[All]
+všechno
+;(DUP) [Close]
+;(DUP) [&Copy]
+;(DUP) [Co&py All]
+[Copy to msg]
+Zkopírovat do zprávy
+;(DUP) [Select &All]
+;(DUP) [Delete]
+[Find what:]
+Najít:
+[Whole word]
+Pouze celá slova
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[Backward]
+Pøedchozí
+[Forward]
+Další
+;(DUP) [&Find Next]
+;(DUP) [Cancel]
+[Display items]
+Zobrazení položek
+[Show date/time]
+Zobrazit datum a èas
+[Format:]
+Formát:
+[Scale:]
+Mìøítko:
+;(DUP) [Show names]
+[Display messages]
+Zobrazení zpráv
+[Reverse order (last event on top)]
+Obrátit poøadí
+[Limit number of messages at startup]
+Limit naètení zpráv po spuštìní
+[Colors]
+Barvy
+[Use plain fonts and colors]
+Použít základní písma a barvy
+;(DUP) [Other]
+[Remember window position and size for each contact]
+Pamatovat pozici okna pro každý kontakt
+[Show loading progress indicator]
+Ukázat indikátor prùbìhu naètení
+[Left align message 'body']
+Zarovnat tìla zpráv vlevo
+[Use SmileyAdd to replace smileys]
+Použít doplnìk SmileyAdd
+[Use Textformat to add formatting]
+Použít doplnìk TextFormat
+
+; NEPUBLIKOVANÉ
+[History Viewer (History#)]
+Historie (History Viewer)
+
+[Authorization request by (%s) (%d)]
+Žádost o autorizaci: %s (%d)
+
+; Description
+[Replaces the standard history viewer]
+Nahrazuje standardní (výchozí) prohlížeè historie.
+
+; ---

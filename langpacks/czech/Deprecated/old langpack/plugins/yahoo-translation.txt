@@ -1,0 +1,219 @@
+; /----------------------------------------------------------\
+; |  Yahoo Protocol 0.9.47.0                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+; avatar.c
+[Your png2dib.dll is either obsolete or damaged. ]
+Knihovna png2dib.dll je buï zastaralá nebo poškozená.
+;(DUP) [Error]
+;(DUP) [Avatar]
+
+; main.c
+[Yahoo plugin cannot be loaded. It requires Miranda IM 0.4 or later.]
+Nainstalovaný doplnìk Yahoo vyžaduje program Miranda IM v0.4 nebo novìjší.
+[Yahoo]
+Yahoo
+[mail]
+pošta
+
+; options.c
+;(DUP) [Network]
+[You need to be connected to Yahoo to add to Ignore List.]
+Novou položku lze pøidat až po pøipojení do sítì Yahoo.
+[Yahoo Ignore]
+Yahoo :: Seznam filtrovaných
+[Please enter a valid buddy name to ignore.]
+Zadejte prosím platnou pøezdívku.
+[The buddy is already on your ignore list. ]
+
+[You need to be connected to Yahoo to remove from the Ignore List.]
+Položku ze seznamu lze odebrat až po pøipojení do sítì Yahoo.
+[Please select a buddy on the ignore list to remove.]
+Nejdøíve vyberte požadovanou položku ze seznamu.
+;(DUP) [The changes you have made require you to restart Miranda IM before they take effect]
+[YAHOO Options]
+Možnosti Yahoo
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Zmìny se projeví až pøi pøíštím pøipojení do sítì Yahoo.
+
+; services.c
+;(DUP) [ID]
+[Please enter your yahoo id in Options/Network/Yahoo]
+Zadejte prosím svùj identifikátor v nastavení protokolu.
+[Please enter your yahoo password in Options/Network/Yahoo]
+Zadejte prosím své heslo v nastavení protokolu.
+[Yahoo Login Error]
+Chyba pøihlášení na Yahoo
+[The message send timed out.]
+Pøekroèen èasový limit odeslání zprávy.
+[Message is too long: Yahoo messages are limited by 800 UTF8 chars]
+Zpráva je pøíliš dlouhá. Protokol Yahoo umožòuje napsat max. 800 znakù (v kódování UTF8).
+[Yahoo Error]
+Chyba Yahoo
+[You need to be connected to set the custom message]
+Stav lze zmìnit pouze po pøipojení k síti.
+[You need to be connected to refresh your buddy list]
+Aktualizovat seznam kontaktù lze pouze po pøipojení k síti.
+[Set &Custom Status]
+Zmìnit &stavovou zprávu...
+[&My Profile]
+&Zobrazit profil
+[&Yahoo Mail]
+&Pøeèíst poštu Yahoo
+[&Address Book]
+Sezn&am kontaktù
+[&Calendar]
+&Kalendáø
+;(DUP) [&Refresh]
+[&Show Profile]
+&Zobrazit profil
+
+; yahoo.c
+[[miranda] Got conference invite to room: %s with msg: %s]
+Pøišla pozvánka na konferenci v místnosti %s. Text: %s.
+[I am sorry, but i can't join your conference since this feature is not currently implemented in my client.]
+Do konference se nelze pøidat. Tato funkce zatím není podporovaná lientským softwarem.
+[Calendar Reminder]
+Pøipomínka
+[%s has rejected your request and sent the following message:]
+%s odmítl/odmítla žádost. Text zprávy:
+[New Mail]
+Nová pošta
+[You Have %i unread msgs]
+Nepøeètených zpráv: %i
+[New Mail (%i msgs)]
+Nová pošta (zpráv: %i)
+[From: %s\nSubject: %s]
+Od: %s\nPøedmìt: %s
+[[miranda] Got webcam invite. (not currently supported)]
+Pøišla žádost o video rozhovor (v souèasnosti není podporováno).
+[Yahoo Ping Error]
+Chyba spojení s Yahoo
+[Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
+Chyba pøi pøihlašování do sítì Yahoo; neznámé uživatelské jméno. Zkontrolujte prosím, je-li jméno zadáno správnì.
+[Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
+Chyba pøi pøihlašování do sítì Yahoo; neplatné heslo. Zkontrolujte prosím, jsou-li jméno a heslo zadány správnì.
+[Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
+Chyba pøi pøihlašování do sítì Yahoo. Váš úèet je zamknutý.\nPøejdìte na %s, kde ho mùžete znovu aktivovat.
+[You have been logged out of the yahoo service, possibly due to a duplicate login.]
+Byli jste odpojeni od sítì Yahoo. Jeden z dùvodù mùže být pøihlášení ke stejnému úètu z jiného poèítaèe.
+[Could not connect to the Yahoo service. Check your server/port and proxy settings.]
+Chyba pøi pøihlašování do sítì Yahoo. Zkontrolujte zda, je správnì zadaná adresa serveru a nastavení proxy.
+[Could not log in, unknown reason: %d.]
+Chyba pøi pøihlašování: %d.
+[Unknown error %s]
+Neznámá chyba: %s
+[Custom error %s]
+Neznámá chyba: %s
+[%s is not available for the conference]
+%s se nemùže zúèastnit konference
+[%s is already ignored]
+%s již je v seznamu filtrovaných
+[%s is not in the ignore list]
+%s není v seznamu filtrovaných
+[%s is in buddy list - cannot ignore ]
+%s je v seznamu pøátel - nelze odfiltrovat
+[System Error: %s]
+Chyba systému: %s
+[Server Connection Error: %s]
+Chyba pøi pøipojování: %s
+[Please enter Yahoo server to Connect to in Options.]
+Není zadána adresa serveru Yahoo.
+[Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
+Chyba pøi pøipojování k serveru Yahoo. Ovìøte prosím, zda je funkèní pøipojení k internetu a také položky Server a Port v nastavení.
+
+; Yahoo.rc
+[Create a new Yahoo account using the Yahoo website]
+Zøídit nový úèet prostøednictvím domovské stránky Yahoo
+[Yahoo Japan]
+Yahoo (Japonsko)
+[Disable UTF8 encoding]
+Vypnout kódování zpráv do UTF8
+[Disable main menu (needs restart)]
+Vypnout položku v hlavním menu (vyžaduje restart)
+[Use Yahoo Address Book (YAB)]
+Použít adresáø Yahoo (YAB)
+[Show Avatars]
+Zobrazit avatary
+[AutoLogin to Yahoo ]
+Automaticky pøihlásit k Yahoo
+[Display Yahoo notifications]
+Zobrazit upozornìní serveru
+[Show Errors]
+Zobrazit chyby
+[Show as busy]
+Zobrazit jako 'Nemám èas'
+[Share Avatar]
+Sdílet avatar
+;(DUP) [OK]
+;(DUP) [Reset]
+;(DUP) [Add]
+;(DUP) [Remove]
+;(DUP) [Cancel]
+;(DUP) [Set]
+;(DUP) [Delete]
+;(DUP) [Login server:]
+;(DUP) [Port:]
+[ID:]
+Identifikátor:
+;(DUP) [Password:]
+;(DUP) [Nick:]
+;(DUP) [Expert]
+[Yahoo Ignore List]
+Seznam filtrovaných
+[Set Custom Status]
+Zmìnit stavovou zprávu
+
+; NEPUBLIKOVANÉ
+[YAHOO]
+Yahoo
+;Yahoo
+
+; Události / Zvuky
+[New E-mail available in Inbox]
+Nová pošta
+
+; Chybová hlášení
+[Connection closed by server]
+Server Yahoo ukonèil spojení.
+
+[Address Book]
+Adresáø
+[Set Status]
+Zmìnit stav
+[Calendar]
+Kalendáø
+[Mail]
+E-mail
+[Voice Chat]
+Hovor
+
+[Yahoo plugin requires db3x plugin version 0.5.1.0 or later]
+Protokol Yahoo vyžaduje db3x verze 0.5.1.0 nebo novìjší.
+[You have been logged out of the yahoo service.]
+Byli jste odpojeni od sítì Yahoo.
+
+[Create a new Yahoo account]
+Zøídit nový úèet v síti Yahoo
+[YAHOO plugin HTTP connections]
+Yahoo - spojení pomocí protokolu HTTP
+[Connection Settings]
+Možnosti spojení
+[Ignore list]
+Filtrování
+[Ignore anyone who is not on my Yahoo buddy list ]
+Ignorovat všechny, kdo nejsou v seznamu kontaktù
+[Ignore only the people below: ]
+Ignorovat pouze níže uvedené uživatele:
+[&Edit My Profile]
+&Upravit profil
+
+[AutoLogin to Yahoo Website(s)]
+Automaticky pøihlásit ke službám Yahoo
+[Ignore List]
+Filtrování
+
+; ---

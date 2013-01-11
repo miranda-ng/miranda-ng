@@ -1,0 +1,63 @@
+#muuid {f93ba59c-4f48-4f2e-8a91-77a2801527a3}
+;langpack template for QuickContacts
+;file \plugins\QuickContacts\res\resource.rc
+[Last Sent]
+[Enable last-sent-to]
+Povolit funkci 'Poslední odeslané'
+[recognize all messages sent]
+Vzít všechny poslané zprávy
+[recognize messages sent with hotkey only]
+Vzít jen zprávy odeslané tímto doplòkem
+[Contacts]
+Kontakty
+[Show offline contacts on these protocols:]
+Pro tyto protokoly zobrazit kontakty offline:
+[But hide them if protocol is offline]
+Skrýt kontakty, je-li daný protokol offline
+[Append group name to contact name]
+Ke jménu pøidat pøíslušnou skupinu
+[But show it as a column ...]
+Zobrazit jako samostatný sloupec ...
+[... on left side of name]
+... vlevo od jména
+[Hide subcontacts]
+Skrýt podkontakty
+[But keep subcontacts of protocols in above list if meta is hidden]
+Je-li Meta skryto, ponechat podkontakty vybraných protokolù
+[Show all contacts (Ctrl+A)]
+;file \plugins\QuickContacts\src\options.cpp
+[Quick Contacts]
+Rychlé kontakty
+;file \plugins\QuickContacts\src\quickcontacts.cpp
+[Open dialog]
+Otevøít dialog
+[Make a voice call]
+Zavolat
+[Send file]
+Poslat soubor
+[Send URL]
+Poslat odkaz
+[Open userinfo]
+Otevøít informace o kontaktu
+[Open history]
+Otevøít historii
+[Open contact menu]
+Zobrazit nabídku kontaktu
+[Show all contacts]
+Zobrazit všechny kontakty
+[Quick Contacts...]
+Rychlé kontakty...
+[%s (%s)]
+%s (%s)
+[STATIC]
+Statický
+[Ctrl+A]
+[Send message]
+Poslat zprávu
+[Ctrl+V]
+[Ctrl+F]
+[Ctrl+U]
+[Ctrl+I]
+[Ctrl+H]
+[Ctrl+M]
+#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}

@@ -1,0 +1,134 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: AdvSplashScreen.dll
+;  Plugin: Splash Screen
+;  Version: 0.1.2.3
+;  Authors: nullbie, Thief
+;============================================================
+[Shows a splash at Miranda startup.]
+;file \plugins\SplashScreen\res\splash.rc
+[Splash Options]
+Logo pøi spuštìní
+[Show splash]
+Zobrazit logo
+[Show random splash]
+Zobrazit náhodné logo
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Play sound]
+Pøehrát zvuk
+[Loop sound]
+Opakovanì pøehrávat zvuk
+[Show Miranda Version]
+Zobrazit verzi Mirandy
+[Enable]
+Aktivovat
+[Prefix:]
+Prefix:
+[Appearance]
+[Display time:]
+Doba zobrazení:
+[msec]
+ms
+[Fade in:]
+Nábìh:
+[steps]
+krokù
+[Fade out:]
+Dobìh:
+[Advaimg library not found. Please get it from nigtlies to be able to use images.]
+Tento doplnìk vyžaduje knihovnu advaimg.dll, potažmo program Miranda IM 0.7 nebo novìjší.
+[Preview...]
+Náhled...
+;file \plugins\SplashScreen\src\bitmap_funcs.cpp
+[.png]
+[Loading splash file]
+[done]
+[MyBitmap::loadFromFile]
+[Bitmap load failed]
+;file \plugins\SplashScreen\src\debug.h
+[%s:\t\t%s\n]
+;file \plugins\SplashScreen\src\main.cpp
+[%miranda_path%]
+[%s\\plugins\\advaimg.dll]
+[%s\\%s.log]
+[Miranda version]
+[Dll Name]
+[Advaimg path]
+[user32.dll]
+[Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
+[Error]
+[Loading advaimg]
+[splash\\splash.png]
+[%s\\%s]
+%s\\%s
+[sounds\\startup.wav]
+[SoundFilePath]
+[%s\\*.*]
+[Found file]
+[Extention]
+[.bmp]
+[File has valid ext]
+[final file]
+[Skin]
+Vzhled
+[UseSound]
+[Sounds enabled.]
+[Sounds disabled.]
+[Module]
+[Setting]
+[Value]
+Hodnota
+[PluginDisable]
+[Disabled.]
+[Enabled.]
+[PlugDisableHook]
+[Triggered]
+[Posted WM_LOADED message]
+[Call Splash Service]
+[Loading modules]
+[Unload]
+[Job done]
+;file \plugins\SplashScreen\src\options.cpp
+[%s (*.png, *.bmp)%c*.png;*.bmp%c%c]
+[Graphic files]
+[Set path]
+[%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c]
+[Sound Files]
+Zvukové soubory
+[Set sound path]
+[Skins]
+Skiny
+[Splash Screen]
+Logo pøi spuštìní
+;file \plugins\SplashScreen\src\services.cpp
+[PNG and BMP files\0*.png;*.bmp\0\0]
+;file \plugins\SplashScreen\src\splash.cpp
+[WM_LOADED]
+[called]
+[Timer ID]
+[ShowTime value]
+[Showtime timer]
+[triggered]
+[On Modules Loaded timer]
+[On Modules Loaded workaround]
+[WM_DESTROY]
+[WM_PAINT]
+[painting..]
+[open "%s" type mpegvideo alias song1]
+[play song1]
+[%s%s]
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+[Verdana]
+[Timer TimeToShow]
+[set]
+[Timer Modules loaded]
+[close song1]
+[Thread]
+[start]
+[Preview]
+Náhled
+[yes]
+[Timeout]
+[end]
+#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}

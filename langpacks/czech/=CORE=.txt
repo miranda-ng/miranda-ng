@@ -1,1678 +1,2557 @@
-Ôªø; /----------------------------------------------------------\
-; |  Miranda IM core 0.10.x                                  |
-; \----------------------------------------------------------/
-;
-; P—àeklad: V–Ωt –âindl–±—à <sindlarv (zavin–±–∏) centrum (te–∏ka) cz>
-;
-
-
-; clistmenus.c
-[%s (locked)]
-%s (uzam–∏en—ç)
-[StatusMenu]
-Nab–Ωdka stavu
-[%s Custom Status]
-%s (roz—ô–Ω—àen—ç stav)
-[MainMenu]
-Hlavn–Ω nab–Ωdka
-[E&xit]
-U&kon–∏it
-
-; clistsettings.c
-[(Unknown Contact)]
-(nezn–±m—ç kontakt)
-
-; contacts.c
-['(Unknown Contact)']
-'(nezn–±m—ç kontakt)'
-
-; database.c
-[The profile already exists]
-Profil s t–Ωmto n–±zvem ji—õ existuje
-[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
-Profil '%s' nelze p—àesunout do ko—ôe. Vyberte pros–Ωm jin—ç.
-[Problem moving profile]
-Chyba p—ài p—àesunu profilu
-[Unable to create the profile '%s', the error was %x]
-Profil '%s' nelze vytvo—àit. Chyba: %x
-[Problem creating profile]
-Chyba p—ài vytv–±—àen–Ω profilu
-[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
-Profil '%s' nelze otev—à–Ωt. Nen–Ω nainstalovan—ç odpov–Ωdaj–Ωc–Ω dopln–ºk.\nPou—õijte dbx_3x.dll (pro star–π profily) nebo jin—ç.
-[No profile support installed!]
-Nen–Ω nainstalovan–± podpora pro profily!
-[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
-Profil '%s' nelze otev—à–Ωt. Jedn–Ωm z mo—õn—çch\nprobl–πm—â je nezn–±m—ç datov—ç form–±t. Druhou pak po—ôkozen–Ω\nprofilu. Zkuste pou—õ–Ωt program DBTool.
-[Miranda can't understand that profile]
-Tento profil nen–Ω ve form–±tu Miranda-IM
-
-; profilemanager.c
-[My Profiles]
-Seznam profil—â
-[New Profile]
-Nov—ç profil
-
-; newplugins.c
-['%s' is disabled, re-enable?]
-'%s' nen–Ω aktivn–Ω. Chcete ho aktivovat?
-[Re-enable Miranda plugin?]
-Chcete znovu aktivovat tento dopln–ºk?
-
-; auth.c
-[%s requests authorization]
-%s —õ–±d–± o autorizaci
-[%s added you to their contact list]
-%s si v–±s p—àidal mezi sv–π kontakty
-
-; authdialogs.c
-[Add Contact Permanently to List]
-P—àidat do seznamu natrvalo
-[View User's Details]
-Zobrazit osobn–Ω —ädaje
-[(Unknown)]
-(nezn–±m—ç)
-
-; awaymsg.c
-[Re&ad %s Message]
-P—àe–∏–Ωst &automatickou odpov–º–ø
-
-; sendmsg.c
-;(LAI) [I've been away since %time%.]
-;(LAI) [Give it up, I'm not in!]
-;(LAI) [Not right now.]
-;(LAI) [Give a guy some peace, would ya?]
-;(LAI) [I'm a chatbot!]
-;(LAI) [Yep, I'm here.]
-;(LAI) [Nope, not here.]
-;(LAI) [I'm hiding from the mafia.]
-;(LAI) [That'll be the phone.]
-;(LAI) [Mmm...food.]
-;(LAI) [idleeeeeeee]
-
-; file.c
-[File from %s]
-Soubor od: %s
-[File]
-Soubor
-[Incoming]
-P—à–Ωchoz–Ω
-[Complete]
-Dokon–∏eno
-[Error]
-Chyba
-[Denied]
-Odm–Ωtnuto
-
-; fileexistsdlg.c
-[%s File]
-Soubor %s
-[All Files]
-V—ôechny soubory
-
-; fileopts.c
-[Executable Files]
-Spustiteln–π soubory
-
-; filerecvdlg.c
-[Select Folder]
-Vyberte po—õadovanou slo—õku
-[Received Files]
-P—àijat–π soubory
-[User Menu]
-U—õivatelsk–π menu
-[View User's History]
-Zobrazit historii
-[Cancelled]
-P—àeru—ôeno
-
-; url.c
-[URL from %s]
-Odkaz od: %s
-[URL]
-Odkaz
-
-; urldialogs.c
-[URL from ]
-Odkaz od: 
-[Send URL to]
-Odesl–±n–Ω odkazu:
-
-; updatenotify.c
-[Update notification]
-Upozorn–ºn–Ω na novou verzi
-[Miranda IM %s Now Available]
-Miranda IM %s
-
-; stdinfo.c
-[Unknown]
-nezn–±m—ç
-
-; useronline.c
-[%s is Online]
-%s je online
-[Alerts]
-Upozorn–ºn–Ω
-[Online]
-Online
-
-; bmpfilter.c
-[All Bitmaps]
-V—ôechny bitmapy
-[Windows Bitmaps]
-obr–±zky typu BMP
-[JPEG Bitmaps]
-obr–±zky typu JPEG
-[GIF Bitmaps]
-obr–±zky typu GIF
-[PNG Bitmaps]
-obr–±zky typu PNG
-
-; resource.rc
-[Send ]
-Odeslat 
-[Send authorization request]
-Odeslat —õ–±dost o autorizaci
-[Hide from list only, in order to keep their history and ignore/visibility settings]
-Pouze skr—çt; z—âstane tak zachov–±na historie a ostatn–Ω nastaven–Ω.
-[Are you sure you want to delete %s?]
-Opravdu chcete smazat kontakt %s?
-[E-mail address]
-E-mail
-[Name]
-Jm–πno
-[Advanced]
-Extra
-[Advanced >>]
-Extra >>
-[More options]
-Dal—ô–Ω mo—õnosti
-[Show expert options]
-Zobrazit v—ôechny mo—õnosti
-[Phone can receive SMS text messages]
-Telefon umo—õ—Çuje p—à–Ωjem textovek (SMS)
-[&Allow all further changes to this section]
-&Povolit v—ôechny dal—ô–Ω —äpravy v t–πto sekci
-;(LAI) [Sent bytes]
-;(LAI) [Received bytes]
-;(LAI) [Additional data due to proxy communication]
-;(LAI) [Text dumps where available]
-;(LAI) [Auto-detect text]
-;(LAI) [Calling modules' names]
-;(LAI) [OutputDebugString()]
-;(LAI) [Show this dialog box when Miranda IM starts]
-[Transferred:]
-P—àeneseno:
-[Speed:]
-Rychlost:
-[Open file]
-Otev—à–Ωt soubor
-[&Open URL]
-&Otev—à–Ωt URL
-[Download more sounds]
-St–±hnout dal—ô–Ω zvuky
-[Enable sound events]
-Povolit zvuky
-[Download more icons]
-St–±hnout dal—ô–Ω ikony
-[Do not reply to requests for this message]
-Neodpov–Ωdat na vybranou zpr–±vu automaticky
-[Do not pop up dialog asking for new message]
-Nepo—õadovat zad–±n–Ω nov–π odpov–ºdi
-[By default, use the same message as last time]
-Jako odpov–º–ø pou—õ–Ωt stejnou zpr–±vu jako posledn–º
-[By default, use this message:]
-Jako odpov–º–ø pou—õ–Ωt n–±sleduj–Ωc–Ω zpr–±vu:
-[To main icons]
-Do z–±kladn–Ω sady
-[To]
-Do
-[To default status icons]
-Do sady ikon k zobrazen–Ω stav—â
-[Use proxy server]
-Pou—õ–Ωt proxy server
-[Enable authentication]
-Povolit ov–º—àen–Ω
-[Resolve hostnames through proxy]
-P—àekl–±dat jm–πna hostitel—â pomoc–Ω proxy
-[Port Range:]
-Rozsah port—â:
-[Use NTLM authentication]
-Pou—õ–Ωt ov–º—àen–Ω typu NTLM
-[Enable UPnP port mapping]
-Povolit mapov–±n–Ω port—â dle UPnP
-[Auto-accept incoming files from people on my contact list]
-Automaticky p—àij–Ωmat soubory od lid–Ω v seznamu
-[Minimize the file transfer window]
-Minimalizovat okno s p—àen–±—ôen—çm souborem
-[Close window when transfer completes]
-Zav—à–Ωt okno po dokon–∏en–Ω p—àenosu
-[Never, do not use virus scanning]
-–ã–±dn—ç ze soubor—â
-[When all files have been downloaded]
-Po st–±hnut–Ω v—ôech soubor—â
-[As each file finishes downloading]
-Jeden soubor po druh–πm
-[Warn me before opening a file that has not been scanned]
-Upozornit p—àed otev—àen–Ωm nezkontrolovan–πho souboru
-[Ask me]
-Zeptat se
-[Resume]
-Nav–±zat
-[Overwrite]
-P—àepsat
-[Become idle if the following is left unattended:]
-P—àej–Ωt do stavu ne–∏innosti pokud se nic ned–ºje v:
-[Windows]
-Windows
-[Miranda]
-Miranda
-[Become idle if the screen saver is active]
-P—àej–Ωt do stavu ne–∏innosti pokud b–º—õ–Ω spo—ài–∏ obrazovky
-[Become idle if the computer is locked (2000/XP+ only)]
-P—àej–Ωt do stavu ne–∏innosti pokud je po–∏–Ωta–∏ zam–∏en (2000/XP+)
-[Become idle if a terminal session is disconnected]
-P—àej–Ωt do stavu ne–∏innosti po odpojen–Ω vzd–±len–πho u—õivatele
-[Do not let protocols report any idle information]
-Zak–±zat protokol—âm poskytovat informaci o ne–∏innosti
-[Change my status mode to:]
-Zm–ºnit stav na:
-[Do not set status back to online when returning from idle]
-Po p—à–Ωchodu zp–ºt nem–ºnit stav na 'Online'
-[Stri&keout]
-P—àe—ô&krtnut–π
-[&Underline]
-Pod&tr—õen–π
-[Automatically check for new versions of Miranda IM]
-Automaticky zji—ô—úovat nov–π verze programu Miranda IM
-[A new version of Miranda IM is now available.  Click the download button to download this new update.]
-K dispozici je nov–± verze programu Miranda IM. Dostanete se k n–Ω kliknut–Ωm na tla–∏–Ωtko 'St–±hnout'.
-[&Authorize]
-&Autorizovat
-[&Send]
-Po&slat
-[&Add]
-P—àid&at
+;file \src\resource.rc
+[Enter account name (for example, My Google)]
+Zadejte n·zev ˙Ëtu (nap¯. Google)
+[Choose the protocol type]
+Vyberte poûadovan˝ protokol
+[Specify the internal account name (optional)]
+Zadejte internÌ n·zev ˙Ëtu (nepovinnÈ)
 [OK]
-OK
-[No]
-Ne
-[&Search]
-&Hledat
-[&Cancel]
-&Zru—ôit
-[Closing in %d]
-Zav—àe se za %d sek.
-[Yes]
-Ano
-[&Yes]
-&Ano
-[Close]
-Zav—à–Ωt
-[&Find Next]
-&Naj–Ωt dal—ô–Ω
-[A&ccept]
-&P—àijmout
 [Cancel]
-Zru—ôit
-[&Close]
-&Zav—à–Ωt
-[&Deny]
-O&dm–Ωtnout
-[Credits >]
-Pod–ºkov–±n–Ω >
+[&Add]
+[&Cancel]
+[Send "You were added"]
+Odeslat zpr·vu o za¯azenÌ
+[Send authorization request]
+Odeslat û·dost o autorizaci
+[Custom name:]
+VlastnÌ jmÈno:
+[Group:]
+Skupina:
+[Options]
+[Authorization Request]
+[&Yes]
+[&No]
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+[Use Options->Ignore (expert mode) to unhide contacts.]
+[Are you sure you want to delete %s?]
+[This will erase all history and settings for this contact!]
+[Contact Display Options]
+Moûnosti zobrazenÌ seznamu
+[Instead of displaying contacts by their nickname, drag to choose another order:]
+Chcete-li mÌt v seznamu namÌsto p¯ezdÌvek nÏco jinÈho, p¯et·hnutÌm poloûek zmÏÚte po¯adÌ:
 [&Run]
 &Spustit
 [&Exit]
-U&kon–∏it
-[Add to list]
-P—àidat do seznamu
-[Apply]
-Pou—õ–Ωt
-[Update Now]
-Aktualizovat
-[No to all]
-Ne v—ôem
-[&View contents]
-Zobrazit o&bsah
-[&No]
-&Ne
-[Cancel Import]
-Zru—ôit import
-[&Recycle]
-P—à&esunout do ko—ôe
-[&Delete]
-&Smazat
-[&Move/Rename]
-P—àesunout/P—àej&menovat
-[&Leave]
-Ode&j–Ωt
-[...]
-...
-;(LAI) [Run now]
-[Save as default]
-Ulo—õit jako v—çchoz–Ω
-[&Choose Again...]
-Vyberte &dal—ô–Ω...
-[&Decline]
-O&dm–Ωtnout
-[Open folder]
-Otev—à–Ωt slo—õku
-[Resume all]
-Nav–±zat v—ôe
-[Overwrite all]
-P—àepsat v—ôe
-[Save as...]
-Ulo—õit jako...
-[Skip]
-P—àesko–∏it
-[Cancel transfer]
-P—àeru—ôit p—àenos
-[File properties]
-Vlastnosti souboru
-[&Reply]
-&Odpov–ºd–ºt
-[&Find...]
-&Naj–Ωt...
-[Delete]
-Smazat
-[&Change...]
-&Zm–ºnit...
-[&Preview]
-&P—àehr–±t
-[&Load icon set...]
-&Na–∏–Ωst sadu ikon...
-[&Import icons >>]
-&Importovat ikony >>
-[<< &Import]
-<< &Importovat
-[Logging...]
-Z–±znam...
-[Choose font...]
-Vybrat p–Ωsmo...
-[Reset to Default]
-Obnovit v—çchoz–Ω
-[Undo]
-Zp–ºt
-[Export...]
-Exportovat...
-[&Apply]
-&Pou—õ–Ωt
-[&Help]
-&N–±pov–ºda
-[InsertSeparator]
-+ odd–ºlova–∏
-[Set]
-Nastavit
-[Default]
-V—çchoz–Ω
-[Reset]
-Reset
-[&Download Now]
-&St–±hnout
-[Nick:]
-P—àezd–Ωvka:
-[E-mail:]
-E-mail:
-[Reason:]
-D—âvod:
-[Custom name:]
-Vlastn–Ω jm–πno:
-[Group:]
-Skupina:
-[Miranda IM]
-Miranda IM
-[Version]
-Verze
-[Use Options->Ignore (expert mode) to unhide contacts.]
-(Skryt–Ω kontakt—â zru—ô–Ωte v nastaven–Ω programu.)
-[This will erase all history and settings for this contact!]
-T–Ωmto odstran–Ωte celou historii a nastaven–Ω kontaktu!
-[Instead of displaying contacts by their nickname, drag to choose another order:]
-Chcete-li m–Ωt v seznamu nam–Ωsto p—àezd–Ωvek n–ºco jin–πho, p—àet–±hnut–Ωm polo—õek zm–º—Çte po—àad–Ω:
-[Select and/or create your Miranda IM user profile]
-V—çb–ºr nebo vytvo—àen–Ω nov–πho profilu
+U&konËit
+[Start in Service Mode with]
+Nouzov˝ reûim s doplÚkem
 [Search:]
 Prohledat:
+[E-mail address]
+[Name]
+[Nick:]
 [First:]
-Jm–πno:
+JmÈno:
 [Last:]
-P—à–Ωjmen–Ω:
-[View personal user details and more.]
-P—àehled informac–Ω o vybran–π osob–º
+P¯ÌjmenÌ:
+[Advanced]
+Extra
+[Advanced >>]
+[&Search]
+[More options]
+DalöÌ moûnosti
+[Add to list]
+P¯idat do seznamu
+[Custom]
+VlastnÌ
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+Vyhled·nÌ kontakt˘\nUmoûnÌ vyhledat a p¯idat nalezenÈ do seznamu kontakt˘
+[Options\nConfigure your Miranda NG options]
+[Apply]
+PouûÌt
+[Switch to simple options]
+[Please select a subentry from the list]
+Vyberte prosÌm ze seznamu jednu z dalöÌch poloûek.
+[Yes]
+Ano
+[No]
+Ne
+[A file containing new database settings has been placed in the Miranda NG directory.]
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfiguraËnÌ soubor?
+[No to all]
+Ne vöem
+[&View contents]
+Zobrazit o&bsah
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+UpozornÏnÌ: PotvrzenÌm se p¯edpokl·d·, ûe zn·te rozsah ˙prav obsahu svÈ datab·ze a jste si vÏdomi vöech moûn˝ch n·sledk˘.
+[Database settings are being imported from]
+Importovan˝ konfiguraËnÌ soubor
+[This file wishes to change the setting]
+Poûadavek na zmÏnu poloûky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit ˙pravu tÈto poloûky?
+[&Allow all further changes to this section]
+&Povolit vöechny dalöÌ ˙pravy v tÈto sekci
+[Cancel Import]
+Zruöit import
+[The import has completed from]
+[What do you want to do with the file now?]
+Co chcete udÏlat s tÌmto souborem?
+[&Recycle]
+P¯&esunout do koöe
+[&Delete]
+[&Move/Rename]
+P¯esunout/P¯ej&menovat
+[&Leave]
+Ode&jÌt
+[Show]
+Zobrazit
+[Received bytes]
+P¯ijat· data
+[Sent bytes]
+Odeslan· data
+[Additional data due to proxy communication]
+VËetnÏ komunikace s proxy
+[Text dumps where available]
+P¯ednostnÏ textov˝ v˝pis
+[Auto-detect text]
+Automatick· detekce textu
+[Calling modules' names]
+N·zvy volajÌcÌch modul˘
+[Log to]
+Soubor
+[OutputDebugString()]
+Funkce OutputDebugString()
+[File]
+Soubor
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Run programm when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run now]
+Spustit
+[Show this dialog box when Miranda NG starts]
+[Save as default]
+Uloûit jako v˝chozÌ
+[Ok]
+OK
+[SSL Traffic]
+VËetnÏ dat SSL
+[Sounds]
+[&Change...]
+&ZmÏnit...
+[&Preview]
+&P¯ehr·t
+[Download more sounds]
+St·hnout dalöÌ zvuky
+[Sound Information]
+Informace o zvuku
+[Location:]
+UmÌstÏnÌ:
+[Name:]
+[Enable sound events]
+Povolit zvuky
+[Icons]
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+[Show category:]
+Kategorie:
+[&Load icon set...]
+&NaËÌst sadu ikon...
+[&Import icons >>]
+&Importovat ikony >>
+[Download more icons]
+St·hnout dalöÌ ikony
+[The following events are being ignored:]
+N·sledujÌcÌ ud·losti budou ignorov·ny:
+[Messages]
+Zpr·vy
+[URLs]
+Odkazy
+[Files]
+Soubory
+[Online Notification]
+Ozn·menÌ online
+[Auth Requests]
+é·dosti o autorizaci
+[All Events]
+Vöechny ud·losti
+[None]
+---
+[Only the ticked contacts will be shown on the main contact list]
+V seznamu kontakt˘ se objevÌ pouze ty skupiny nebo uûivatelÈ, kterÈ zaökrtnete.
+[Ignore]
+[Added Notification]
+Ozn·menÌ o p¯id·nÌ
+[Typing]
+PÌöu
+[Visibility]
+[You are visible to this person even when in invisible mode]
+V˘Ëi danÈ osobÏ viditeln˝ i ve stavu 'Neviditeln˝'
+[You are never visible to this person]
+V˘Ëi danÈ osobÏ neviditeln˝ za vöech okolnostÌ
+[Icon library:]
+Soubor s ikonami:
+[Drag icons to main list to assign them:]
+Ikony zmÏnÌte uchopenÌm a p¯et·hnutÌm do hlavnÌho seznamu:
+[Import multiple]
+Importovat hromadnÏ
+[To main icons]
+Do z·kladnÌ sady
+[To]
+[<< &Import]
+<< &Importovat
+[To default status icons]
+Do sady ikon k zobrazenÌ stav˘
+[Logging...]
+Z·znam...
+[Outgoing Connections]
+OdchozÌ spojenÌ
+[Use proxy server]
+[Type:]
+[Host:]
+[Port:]
+[(often %d)]
+(obvykle %d)
+[Use Custom Login (Domain login picked up automatically)]
+PouûÌt vlastnÌ p¯ihl·öenÌ (domÈnovÈ jmÈno doplnÏno automaticky)
+[Username:]
+[Password:]
+[Resolve hostnames through proxy]
+P¯ekl·dat jmÈna hostitel˘ pomocÌ proxy
+[Port Range:]
+Rozsah port˘:
+[Example: 1050-1070, 2000-2010, 2500]
+P¯Ìklad: 1050-1070, 2000-2010, 2500
+[Validate SSL certificates]
+OvÏ¯it platnost certifik·t˘
+[Incoming Connections]
+P¯ÌchozÌ spojenÌ
+[Enable UPnP port mapping]
+Povolit mapov·nÌ port˘ dle UPnP
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Pozn·mka: ProvedenÈ zmÏny se projevÌ aû p¯i dalöÌm p¯ipojenÌ do sÌtÏ.
+[Please complete the following form to create a new user profile]
+Po vyplnÏnÌ n·sledujÌcÌch poloûek bude vytvo¯en nov˝ profil
+[Profile]
+Profil
+[e.g. Workplace]
+nap¯. Pr·ce
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Zde m˘ûete vybrat i jin˝ ovladaË datab·ze s vÏtöÌm mnoûstvÌm funkcÌ a moûnostÌ. Pokud si vöak nejste jisti, ponechte v˝chozÌ.
+[e.g. Miranda Database]
+pro datab·zi Mirandy
+[Driver]
+OvladaË
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_mmap.dll]
+[Download more plugins]
+St·hnout dalöÌ doplÚky
+[Description:]
+[Author(s):]
+[E-mail:]
+[Homepage:]
+WWW:
+[Unique ID:]
+ID:
+[Copyright:]
+[Please restart Miranda NG for your changes to take effect.]
+[Fonts and Colors]
+PÌsma a barvy
+[Undo]
+[Reset]
+[Export...]
+Exportovat...
+[Color/Background]
+Barva pozadÌ
+[Text Effect]
+Textov˝ efekt
+[Text Color]
+Barva textu
+[Choose Font]
+Vybrat pÌsmo
+[&Font:]
+&PÌsmo:
+[Font st&yle:]
+ÿ&ez pÌsma:
+[\nStyles and effects are disabled for this font.]
+\nStyly a efekty nejsou pro tento font dostupnÈ.
+[&Size:]
+Veliko&st:
+[Effects]
+[Stri&keout]
+P¯eö&krtnutÈ
+[&Underline]
+Pod&trûenÈ
+[&Color:]
+&Barva:
+[Sample]
+P¯Ìkladov˝ text
+[AaBbYyZz]
+[Sc&ript:]
+Sk&ript:
+[&Apply]
+&PouûÌt
+[&Help]
+&N·povÏda
+[Menu Objects]
+NabÌdky
+[Menu Items]
+Poloûky nabÌdky
+[Protocol menus]
+NabÌdky ˙Ët˘
+[Move to the main menu]
+P¯esunout do hlavnÌ nabÌdky
+[Move to the status bar]
+P¯esunout do nabÌdky stavu
+[Warning!\r\nThis MenuObject not support user defined options.]
+UpozornÏnÌ!\r\nTento objekt menu nepodporuje zmÏnu nastavenÌ.
+[Insert separator]
+Vloûit oddÏlovaË
+[Service:]
+Sluûba:
+[Default]
+[Set]
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+[Disable icons]
+Vypnout ikony
+[Note: Miranda NG will have to be restarted for changes to take effect.]
+[Account Order && Visibility]
+Po¯adÌ ˙Ët˘ a jejich viditelnost
+[Show protocols in the following order, drag to choose another order:]
+Zobrazit protokoly v tomto po¯adÌ, taûenÌm se zmÏnÌ pozice:
+[Key Bindings]
+Kl·vesovÈ zkratky
+[Shortcut:]
+Kl·vesov· zkratka:
+[Add]
+[Remove]
+[Undo Changes]
+Vr·tit zmÏny
+[Reset To Default]
+Obnovit v˝chozÌ
+[Hotkeys]
+[Accounts\nConfigure your IM accounts]
+⁄Ëty\nKonfigurace nebo zaloûenÌ ˙Ëtu
+[Account information:]
+Informace o ˙Ëtu:
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+[Additional:]
+DalöÌ moûnosti:
+[Configure network...]
+Konfigurovat sÌtÏ...
+[Get more protocols...]
+St·hnout dalöÌ protokoly...
+[&Add...]
+[&Edit]
+[&Options]
+M&oûnosti
+[&Upgrade]
+Aktualizovat
+[&Remove...]
+Odst&ranit...
+[Miranda NG is being restarted.\nPlease wait...]
+[Close]
+Zav¯Ìt
+[Error notifications]
+ChybovÈ ozn·menÌ
+[Headers:]
+Z·hlavÌ:
+[This font is used to display main section titles or text elements.]
+PouûÌv· se k zobrazenÌ textu v z·hlavÌ sekcÌ nebo odstavc˘.
+[Normal text:]
+BÏûn˝ text:
+[This font is used to display most text element or section bodies.]
+PouûÌv· se k zobrazenÌ vÏtöiny text˘ v programu.
+[Minor notes:]
+Pozn·mky:
+[This font is used to display various addtional notes.]
+PouûÌv· se k zobrazenÌ dodatkov˝ch text˘ a pozn·mek.
+[Welcome to Miranda NG's account manager!\nHere you can set up your IM accounts.\n\nSelect an account from the list on the left to see the available options.  Alternatively, just click on the "New" button underneath the list to set up a new IM account.]
+[Event icon legend:]
+Legenda k vybran˝m ikon·m:
+[Choose events you wish to ingonre:]
+Vyberte ud·losti, kterÈ chcete filtrovat:
+[Effect:]
+Efekt:
+[Base colour:]
+Z·kladnÌ barva:
+[opacity:]
+pr˘hlednost:
+[Secondary colour:]
+DoplÚkov· barva:
+[Select the extra icons to be shown in the contact list:]
+Zvolte doplÚkovÈ ikony kterÈ budou zobrazeny v seznamu kontakt˘:
+[* only the first %d icons will be shown]
+* bude zobrazeno pouze prvnÌch %d ikon
+[You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
+[&Hide/Show]
+[E&xit]
+[&New Group]
+[&Hide Offline Users]
+[Hide &Offline Users out here]
+[Hide &Empty Groups]
+[Disable &Groups]
+[Hide Miranda]
+[&New Subgroup]
+[&Hide Offline Users in here]
+[&Rename Group]
+[&Delete Group]
+[&Reset to default]
+O&bnovit v˝chozÌ
+[&Add to List]
+P¯id&at do seznamu
+[User &Details]
+In&formace o kontaktu
+[Send &Message]
+Poslat zp&r·vu
+[&Copy]
+[Co&py All]
+Zko&pÌrovat vöe
+[Select &All]
+[C&lear Log]
+[Open in &new window]
+Otev¯Ìt v &novÈm oknÏ
+[&Open in existing window]
+&Otev¯Ìt v aktu·lnÌm oknÏ
+[&Copy link]
+Z&kopÌrovat odkaz
+[Cancel Change]
+&Obnovit p¯edchozÌ
+[&Reset To Default]
+O&bnovit v˝chozÌ
+[Group]
+[Ungroup]
+;file \src\core\stdauth\resource.rc
+[&Authorize]
+&Autorizovat
+[&Deny]
+[Decide &Later]
+&PozdÏji
+[&I]
+[Reason:]
+[Denial Reason:]
+D˘vod odmÌtnutÌ:
+[Add to contact list if authorized]
+Je-li autorizov·n, p¯idat mezi kontakty
+[&Close]
+&Zav¯Ìt
+[&U]
+;file \src\core\stdaway\resource.rc
+[Retrieving %s message...]
+ZjiötÏnÌ stavovÈ zpr·vy ve stavu '%s'...
+[Status Messages]
+StavovÈ zpr·vy
+[Do not reply to requests for this message]
+[Do not pop up dialog asking for new message]
+Nepoûadovat zad·nÌ novÈ odpovÏdi
+[By default, use the same message as last time]
+Jako odpovÏÔ pouûÌt stejnou zpr·vu jako poslednÏ
+[By default, use this message:]
+Jako odpovÏÔ pouûÌt n·sledujÌcÌ zpr·vu:
+[Use %time% for the current time, %date% for the current date]
+[Status messages:]
+StavovÈ zpr·vy:
+[Closing in %d]
+;file \src\core\stdchat\res\chat.rc
+[&Send]
+[Show these events only:]
+[Actions]
+Akce
+[Nick changes]
+ZmÏny p¯ezdÌvky
+[Users joining]
+P¯Ìch·zejÌcÌ uûivatele
+[Users leaving]
+Odch·zejÌcÌ uûivatele
+[Topic changes]
+ZmÏny tÈmatu
+[Status changes]
+ZmÏny stavu
+[Information]
+[Disconnects]
+OdpojenÌ
+[User kicks]
+VykopnutÌ uûivatele
+[Notices]
+Pozn·mky
+[Log Options]
+Moûnosti z·znamu
+[Log timestamp]
+»asov˝ ˙daj v z·znamu
+[Timestamp]
+»asov˝ ˙daj
+[Other name]
+Ost. jmÈna
+[Your name]
+Vl. jmÈno
+[Enable highlighting]
+Aktivovat zv˝razÚov·nÌ
+[Limit log text to (events):]
+Max. poËet zazn. ud·lostÌ:
+[Trim to (kB)]
+Max. (kB)
+[Words to highlight (wildcards allowed)]
+Zv˝raznÏn· slova (masky jsou povoleny)
+[Enable logging to disk]
+Aktivovat z·znam
+[Log directory]
+Sloûka pro z·znam
+[Other]
+OstatnÌ
+[Add new rooms to group:]
+NovÈ mÌstnosti do skupiny:
+[Userlist row distance (pixels):]
+Odstup uûivatel˘ v seznamu (v pix.):
+[Use same style as in the message log]
+PouûÌt nastavenÌ pro z·znam komunikace
+[Use default colours]
+[Use custom colours]
+PouûÌt vlastnÌ barvy
+[Popups for the Chat plugin]
+OznamovacÌ okna
+[Timeout (s)]
+Prodleva (s)
+[Text]
+Text
+[Background]
+PozadÌ
+[(The timeout require at least PopUp plugin v 1.0.1.9. Setting it to 0 means default setting and -1 means indefinite time)]
+(*) Tato funkce vyûaduje doplnÏk typu Popup (0 = v˝chozÌ nastavenÌ, -1 = vypnutÌ prodlevy)
+[&Message]
+&Zpr·va
+[Clear lo&g]
+Vy&mazat z·znam
+[Co&py all]
+Zko&pÌrovat vöe
+[Word lookup]
+Vyhled·v·nÌ slova
+[Google]
+[Wikipedia]
+Wikipedie
+[Open a &new browser window]
+Otev¯Ìt v &novÈm oknÏ
+[&Open in current browser window]
+&Otev¯Ìt v aktu·lnÌm oknÏ
+[Undo  ]
+ZpÏt 
+[Redo]
+Znovu
+[Copy]
+ZkopÌrovat
+[Cut]
+Vyjmout
+[Paste]
+Vloûit
+[Select All]
+Vybrat vöe
+[Clear]
+Vymazat
+[&Close tab]
+&Zav¯Ìt panel
+[C&lose other tabs]
+Zav¯Ìt ostatnÌ pane&ly
+[&Open at this position]
+&Otev¯Ìt na stejnÈm mÌstÏ
+;file \src\core\stdclist\res\resource.rc
+[Hide offline users]
+[Hide empty groups]
+[Disable groups]
+[Ask before deleting contacts]
+[Sort contacts by name]
+ÿadit kontakty dle jmÈna
+[Sort contacts by status]
+ÿadit kontakty dle stavu
+[Sort contacts by protocol]
+ÿadit kontakty dle protokolu
+[Single click interface]
+[Always show status in tooltip]
+[Disable icon blinking]
+[ms delay]
+ms (prodleva)
+[icon when statuses differ]
+[Cycle icons every]
+[seconds, when statuses differ]
+[Show multiple icons]
+[Only when statuses differ]
+[Contact List]
+[System tray icon]
+Ikona v oznamovacÌ oblasti
+[System tray icon when using multiple protocols]
+[Contact List Sorting]
+[Window]
+[Always on top]
+[Tool style main window]
+ZjednoduöenÈ z·hlavÌ okna
+[Minimize to tray]
+[Show menu bar]
+[Easy move]
+[Show title bar]
+Zobrazit z·hlavÌ
+[Title bar text:]
+[Show drop shadow (restart required)]
+[Pin to desktop]
+[Hide contact list after it has been idle for]
+[seconds]
+[Automatically resize window to height of list]
+[maximum]
+[% of screen]
+[Size upwards]
+[If window is partially covered, bring to front instead of hiding]
+[Enable docking]
+[Translucency options (Windows 2000/XP only)]
+[Fade contact list in/out]
+[Transparent contact list]
+[Inactive opacity:]
+[000%]
+[Active opacity:]
+[Items]
+[Show divider between online and offline contacts]
+[Hot track items as mouse passes over]
+[Disable drag and drop of items]
+[Disable rename of items by clicking twice]
+[Show selection even when list is not focused]
+[Make selection highlight translucent]
+[Dim idle contacts]
+['Hide Offline' means to hide:]
+'Skr˝t offline' znamen· skrytÌ:
+[Groups]
+[Draw a line alongside group names]
+[Show counts of number of contacts in a group]
+Zobrazit poËet kontakt˘ ve skupinÏ
+[Hide group counts when there are none online]
+Skr˝t poËet kontakt˘ ve skupinÏ, jsou-li vöichni offline
+[Sort groups alphabetically]
+[Quicksearch in open groups only]
+[Indent groups by:]
+[pixels]
+pix.
+[Visual]
+[Scroll list smoothly]
+[Time:]
+[milliseconds]
+ms
+[Left margin:]
+Lev˝ okraj:
+[Hide vertical scroll bar]
+[Row height:]
+V˝öka ¯·dku:
+[Gamma correction]
+Gama korekce
+[Grey out entire list when:]
+[Contact List Background]
+[Background colour]
+[Selection colour]
+Barva v˝bÏru
+[Use background image]
+[Stretch to width]
+Uzp˘sobit na öÌ¯ku
+[Stretch to height]
+Uzp˘sobit na v˝öku
+[Tile horizontally]
+VodorovnÏ vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Scroll with text]
+[Stretch proportionally]
+Uzp˘sobit pomÏrnÏ
+[Use Windows colours]
+PouûÌt barvy Windows
+[Status Bar]
+[Show status bar]
+[Show icons]
+[Show protocol names]
+[Show status text]
+[Right click opens status menu]
+[Right click opens Miranda NG menu]
+[Make sections equal width]
+[Show bevels on panels]
+[Show resize grip indicator]
+[Ordering:]
+Zp˘sob ¯azenÌ
+[Contact list:]
+Seznam kontakt˘
+[If window is partially covered, bring iy to front]
+Je-li okno Ë·steËnÏ zakryto, zobrazit na pop¯edÌ
+[Window:]
+Okno
+[Contact list background:]
+PozadÌ seznamu kontakt˘
+[&Offline\tCtrl+0]
+[On&line\tCtrl+1]
+[&Away\tCtrl+2]
+[&NA\tCtrl+3]
+[Occ&upied\tCtrl+4]
+[&DND\tCtrl+5]
+[&Free for chat\tCtrl+6]
+[&Invisible\tCtrl+7]
+[On the &Phone\tCtrl+8]
+[Out to &Lunch\tCtrl+9]
+;file \src\core\stdfile\resource.rc
+[To:]
+[File(s):]
+Soubory:
+[&Choose Again...]
+Vyberte &dalöÌ...
+[Total size:]
+Celkov· velikost:
+[6]
+[&D]
+[&H]
+[A&ccept]
+&P¯ijmout
+[&Decline]
+O&dmÌtnout
+[From:]
+[Date:]
+[Files:]
+Soubory:
+[Save to:]
+Uloûit do:
+[&A]
+[Contact menu]
+[Open...]
+Otev¯Ìt...
+[Open folder]
+Otev¯Ìt sloûku
+[Transfer completed, open file(s).]
+P¯enos dat dokonËen, otev¯Ìt soubor(y).
+[No data transferred]
+P¯enos jeötÏ nezaËal.
+[Resume]
+Nav·zat
+[Resume all]
+Nav·zat vöe
+[Overwrite]
+P¯epsat
+[Overwrite all]
+P¯epsat vöe
+[Save as...]
+Uloûit jako...
+[Auto rename]
+Automaticky p¯ejmenovat
+[Skip]
+P¯eskoËit
+[Cancel transfer]
+P¯eruöit p¯enos
+[You are about to receive the file]
+P¯Ìjem souboru:
+[Existing file]
+ExistujÌcÌ soubor
+[Size:]
+[Last modified:]
+ZmÏnÏno:
+[Open file]
+Otev¯Ìt soubor
+[File properties]
+Vlastnosti souboru
+[File being received]
+P¯ijÌman˝ soubor
+[Clear completed]
+Vymazat dokonËenÈ
+[Receiving files]
+P¯Ìjem soubor˘
+[Received files folder:]
+Sloûka pro soubory:
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+PromÏnnÈ: %userid%, %nick%, %proto%, %miranda_pach%, %userprofile%
+[Auto-accept incoming files from people on my contact list]
+Automaticky p¯ijÌmat soubory od lidÌ v seznamu
+[Minimize the file transfer window]
+Minimalizovat okno s p¯en·öen˝m souborem
+[Close window when transfer completes]
+Zav¯Ìt okno po dokonËenÌ p¯enosu
+[Clear completed transfers on window closing]
+Smazat dokonËenÈ p¯enosy po zav¯enÌ okna
+[Virus scanner]
+Antivirov· ochrana
+[Scan files:]
+Kontrolovat:
+[Never, do not use virus scanning]
+é·dn˝ ze soubor˘
+[When all files have been downloaded]
+Po st·hnutÌ vöech soubor˘
+[As each file finishes downloading]
+Jeden soubor po druhÈm
+[Command line:]
+P¯Ìkazov˝ ¯·dek:
+[%f will be replaced by the file or folder name to be scanned]
+PromÏnn· %f bude nahrazena souborem nebo sloûkou ke kontrole
+[Warn me before opening a file that has not been scanned]
+Upozornit p¯ed otev¯enÌm nezkontrolovanÈho souboru
+[If incoming files already exist]
+V p¯ÌpadÏ, ûe p¯ÌchozÌ soubor jiû existuje
+[Ask me]
+Zeptat se
+[Rename (append " (1)", etc.)]
+P¯ejmenovat (p¯id· " (1)" atd.)
+[You will always be asked about files from people not on your contact list]
+P¯Ìjem soubor˘ od lidÌ, kte¯Ì nejsou mezi kontakty, podlÈh· vûdy dotazu.
+;file \src\core\stdhelp\resource.rc
+[Miranda NG\n%s]
+[Credits >]
+PodÏkov·nÌ >
+;file \src\core\stdidle\resource.rc
+[Become idle if the following is left unattended:]
+P¯ejÌt do stavu neËinnosti pokud se nic nedÏje v:
+[Windows]
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+P¯ejÌt do stavu neËinnosti pokud bÏûÌ spo¯iË obrazovky
+[Become idle if the computer is locked (2000/XP+ only)]
+P¯ejÌt do stavu neËinnosti pokud je poËÌtaË zamËen (2000/XP+)
+[Become idle if a terminal session is disconnected]
+P¯ejÌt do stavu neËinnosti po odpojenÌ vzd·lenÈho uûivatele
+[Do not let protocols report any idle information]
+Zak·zat protokol˘m poskytovat informaci o neËinnosti
+[minute(s)]
+min.
+[for]
+[Change my status mode to:]
+ZmÏnit stav na:
+[Do not set status back to online when returning from idle]
+Po p¯Ìchodu zpÏt nemÏnit stav na 'Online'
+[Idle Options]
+Moûnosti p¯i neËinnosti
+[Become idle if application full screen]
+P¯ejÌt do stavu neËinnosti v celoobrazovkovÈm reûimu
+[Disable sounds on idle]
+[Become idle if computer is left unattended for:]
+P¯ejÌt do stavu neËinnosti pokud se nic nedÏje:
+[Idle (auto-away):]
+Stav neËinnosti:
+;file \src\core\stdmsg\res\resource.rc
+[Automatically popup window when:]
+Automaticky vyvolat okno p¯i:
+[In background]
+Na pozadÌ
+[Close the message window on send]
+Zav¯Ìt okno kliknutÌm na 'Poslat'
+[Minimize the message window on send]
+Minimalizovat okno kliknutÌm na 'Poslat'
+[Use the contact's status icon as the window icon]
+PouûÌt v liötÏ okna ikonu aktu·lnÌho stavu
+[Save the window size and location individually for each contact]
+Uloûit velikost a umÌstÏnÌ okna pro kaûd˝ kontakt zvl·öù
+[Cascade new windows]
+Skl·dat okna kask·dnÏ
+[Show 'Send' button]
+Zobrazit tlaËÌtko 'Poslat'
+[Show username on top row]
+Zobrazit naho¯e p¯ezdÌvku
+[Show toolbar buttons on top row]
+Zobrazit naho¯e liötu s tlaËÌtky
+[Send message on double 'Enter']
+Odeslat zpr·vu dvojit˝m ENTER
+[Send message on 'Enter']
+Odeslat zpr·vu kl·vesou ENTER
+[Show character count]
+Zobrazit poËet napsan˝ch znak˘
+[Show warning when message has not been received after]
+Zobrazit upozornÏnÌ v p¯ÌpadÏ, ûe zpr·va nebyla doruËena do
+[seconds.]
+sek.
+[Support control up/down in message area to show previously sent messages]
+PouûÌt kombinaci kl·ves CTRL+Nahoru/Dol˘ k zobrazenÌ p¯edeöl˝ch zpr·v
+[Delete temporary contacts when closing message window]
+Smazat doËasnÈ kontakty po zav¯enÌ okna pro rozhovor
+[Enable avatar support in the message window]
+Aktivovat zobrazenÌ avatar˘ v oknÏ pro rozhovor
+[Limit avatar height to ]
+Max. v˝öka obr·zku avataru
+[pixels.]
+pixel˘
+[Max Number of Flashes]
+Max. poËet bliknutÌ
+[An error has occured. The protocol reported the following error:]
+Doölo k chybÏ. P¯Ìsluön˝ protokol zahl·sil n·sledujÌcÌ problÈm:
+[while sending the following message:]
+bÏhem odesÌl·nÌ n·sledujÌcÌ zpr·vy:
+[Try again]
+Opakovat
+[Message Window Event Log]
+Z·znam ud·lostÌ
+[Show names]
+Zobrazit jmÈna
+[Show timestamp]
+Zobrazit Ëas
+[Show dates]
+Zobrazit datum
+[Load unread events only]
+Pouze nep¯eËtenÈ ud·losti
+[Load number of previous events]
+KonkrÈtnÌ poËet p¯edchozÌch ud·lostÌ
+[Load previous events less than]
+P¯edchozÌ ud·losti staröÌ mÈnÏ neû
+[minutes old]
+min.
+[Show status changes]
+Zobrazit zmÏny stavu
+[Show seconds]
+Zobrazit sek.
+[Load History Events]
+NaËtenÌ historie
+[Show Formatting]
+Zobrazit form·tov·nÌ
+[Send typing notifications to the following users when you are typing a message to them:]
+Poslat upozornÏnÌ na psanÌ zpr·vy tÏmto vybran˝m kontakt˘m:
+[Show typing notifications when a user is typing a message]
+Zobrazit upozornÏnÌ v p¯ÌpadÏ, ûe protistrana pÌöe zpr·vu
+[Update inactive message window icons when a user is typing]
+Aktualizovat ikony neaktivnÌho okna, je-li otev¯eno
+[Show typing notification when no message dialog is open]
+Zobrazit upozornÏnÌ i v p¯ÌpadÏ, ûe nenÌ otev¯eno okno
+[Flash in the system tray and in the contact list]
+Blikat v oblasti ozn·menÌ a oknÏ s kontakty
+[Show balloon popup]
+Ozn·mit pomocÌ bubliny
+[Save the window position for each contact]
+Uloûit pozici okna pro kaûd˝ kontakt zvl·öù
+[Message window behaviour:]
+Chov·nÌ komunikaËnÌho okna
+[Messaging:]
+Rozhovor
+[&Open link]
+&Otev¯Ìt odkaz
+[Paste && Send]
+Vloûit a poslat
+[Delete]
+;file \src\core\stduihist\resource.rc
+[&Find Next]
+[Find What:]
+NajÌt:
+[&Find...]
+&NajÌt...
+;file \src\core\stduserinfo\resource.rc
+[Enter country, area code and phone number:]
+Zadejte kÛd zemÏ, oblasti a samotnÈ ËÌslo:
+[Or enter a full international number:]
+Nebo ËÌslo zadejte v mezin·rodnÌm form·tu:
+[Phone can receive SMS text messages]
+Telefon umoûÚuje p¯Ìjem textovek (SMS)
+[%s\nView personal user details and more]
+%s\nP¯ehled informacÌ o vybranÈ osobÏ
+[Update Now]
+[Updating]
+Aktualizace
 [Nickname:]
-P—àezd–Ωvka:
 [First name:]
-Jm–πno:
+JmÈno:
 [Gender:]
-Pohlav–Ω:
+PohlavÌ:
 [Last name:]
-P—à–Ωjmen–Ω:
+P¯ÌjmenÌ:
 [Age:]
-V–ºk:
+VÏk:
 [Date of birth:]
-Narozeniny:
+[Marital status:]
+Rodinn˝ stav:
 [Phone:]
-Telefon:
 [Web page:]
 WWW:
 [Past background:]
 Minulost:
 [Interests:]
-Z–±jmy:
+Z·jmy:
 [About:]
-Ostatn–Ω informace:
+OstatnÌ informace:
 [My notes:]
 Vzkazy:
 [Street:]
 Ulice:
 [City:]
-M–ºsto:
+MÏsto:
 [State:]
-St–±t:
 [Postal code:]
-PS–ò:
+PS»:
 [Country:]
-Zem–º:
+ZemÏ:
 [Spoken languages:]
-Ovl–±dan–π jazyky:
+Ovl·danÈ jazyky:
 [Timezone:]
-–òasov–π p–±smo:
+»asovÈ p·smo:
 [Local time:]
-M–Ωstn–Ω –∏as:
+MÌstnÌ Ëas:
+[Set custom time zone]
+Nastavit vlastnÌ ËasovÈ p·smo
 [Company:]
-Spole–∏nost:
+SpoleËnost:
 [Department:]
-Odd–ºlen–Ω:
+OddÏlenÌ:
 [Position:]
-Postaven–Ω:
+PostavenÌ:
 [Website:]
 WWW:
-[Enter country, area code and phone number:]
-Zadejte k—Éd zem–º, oblasti a samotn–π –∏–Ωslo:
-[Or enter a full international number:]
-Nebo –∏–Ωslo zadejte v mezin–±rodn–Ωm form–±tu:
-[A file containing new database settings has been placed in the Miranda IM directory.]
-Do adres–±—àe s programem Miranda byl um–Ωst–ºn soubor ke konfiguraci datab–±ze u—õivatele.
-[Do you want to import the settings now?]
-Chcete naimportovat tento konfigura–∏n–Ω soubor?
-[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Upozorn–ºn–Ω: Potvrzen–Ωm se p—àedpokl–±d–±, —õe zn–±te rozsah —äprav obsahu sv–π datab–±ze a jste si v–ºdomi v—ôech mo—õn—çch n–±sledk—â.
-[Database settings are being imported from]
-Importovan—ç konfigura–∏n–Ω soubor
-[This file wishes to change the setting]
-Po—õadavek na zm–ºnu polo—õky
-[to the value]
-na hodnotu
-[Do you want to allow this change?]
-Chcete povolit —äpravu t–πto polo—õky?
-[The import has completed from]
-Import nastaven–Ω dokon–∏en; z
-[What do you want to do with the file now?]
-Co chcete ud–ºlat s t–Ωmto souborem?
-;(LAI) [Run programme when Miranda IM starts (eg tail -f, dbgview, etc):]
-[Find What:]
-Naj–Ωt:
-[To:]
-Pro:
-[File(s):]
-Soubory:
-[Description:]
-Popis:
-[From:]
-Od:
-[Date:]
-Datum:
-[Files:]
-Soubory:
-[Save to:]
-Ulo—õit do:
-[Status:]
-Stav:
-[You are about to receive the file]
-P—à–Ωjem souboru:
-[Size:]
-Velikost:
-[Type:]
-Typ:
-[Enter URL:]
-Dopl—Çte odkaz:
-[Enter description:]
-Zadejte popis:
-[URL:]
-Odkaz:
-[Location:]
-Um–Ωst–ºn–Ω:
-[Name:]
-N–±zev:
-[Show category:]
-Kategorie:
-[The following events are being ignored:]
-N–±sleduj–Ωc–Ω ud–±losti budou ignorov–±ny:
-[Messages]
-Zpr–±vy
-[URLs]
-Odkazy
-[Files]
-Soubory
-[Auth Requests]
-–ã–±dosti o autorizaci
-[Online Notification]
-Ozn–±men–Ω online
-[All Events]
-V—ôechny ud–±losti
-[None]
----
-[Added Notification]
-Ozn–±men–Ω o p—àid–±n–Ω
-[Typing]
-P–Ω—ôu
-[You are visible to this person even when in invisible mode]
-V—â–∏i dan–π osob–º viditeln—ç i ve stavu 'Neviditeln—ç'
-[You are never visible to this person]
-V—â–∏i dan–π osob–º neviditeln—ç za v—ôech okolnost–Ω
-[Use %time% for the current time, %date% for the current date]
-%time% = aktu–±ln–Ω –∏as, %date% = aktu–±ln–Ω datum
-[Drag icons to main list to assign them:]
-Ikony zm–ºn–Ωte uchopen–Ωm a p—àet–±hnut–Ωm do hlavn–Ωho seznamu:
-[Host:]
-Hostitel:
-[Port:]
-Port:
-[(often %d)]
-(obvykle %d)
-[Username:]
-U—õivatel:
-[Password:]
-Heslo:
-[Example: 1050-1070, 2000-2010, 2500]
-P—à–Ωklad: 1050-1070, 2000-2010, 2500
-[Received files folder:]
-Slo—õka pro soubory:
-[Scan files:]
-Kontrolovat:
-[Command line:]
-P—à–Ωkazov—ç —à–±dek:
-[%f will be replaced by the file or folder name to be scanned]
-Prom–ºnn–± %f bude nahrazena souborem nebo slo—õkou ke kontrole
-[You will always be asked about files from people not on your contact list]
-P—à–Ωjem soubor—â od lid–Ω, kte—à–Ω nejsou mezi kontakty, podl–πh–± v—õdy dotazu.
-[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
-Prom–ºnn–π: %userid%, %nick%, %proto%, %miranda_pach%, %userprofile%
-[minute(s)]
-min.
-[Please complete the following form to create a new user profile]
-Po vypln–ºn–Ω n–±sleduj–Ωc–Ωch polo—õek bude vytvo—àen nov—ç profil
-[Profile]
-Profil
-[e.g. Workplace]
-nap—à. Pr–±ce
-[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
-Zde m—â—õete vybrat i jin—ç ovlada–∏ datab–±ze s v–ºt—ô–Ωm mno—õstv–Ωm funkc–Ω a mo—õnost–Ω. Pokud si v—ôak nejste jisti, ponechte v—çchoz–Ω.
-[e.g. Miranda Database]
-pro datab–±zi Mirandy
-[Driver]
-Ovlada–∏
-[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
-Probl–πm: Nen–Ω nainstalovan—ç —õ–±dn—ç z dopl—Çk—â pro spr–±vu profil—â. Pou—õijte dbx_3x.dll (pro star–π profily) nebo jin—ç.
-[* you may need to restart for the changes to take effect]
-* Pozn–±mka: Tato zm–ºna vy—õaduje restart programu Miranda IM.
-[&Font:]
-&P–Ωsmo:
-[Font st&yle:]
-–®&ez p–Ωsma:
-[&Size:]
-Veliko&st:
-[&Color:]
-&Barva:
-[Sc&ript:]
-Sk&ript:
-[Warning!\r\nThis MenuObject not support user defined options.]
-Upozorn–ºn–Ω!\r\nTento objekt menu nepodporuje zm–ºnu nastaven–Ω.
-[Service:]
-Slu—õba:
-[Show protocols in the following order, drag to choose another order:]
-Zobrazit protokoly v tomto po—àad–Ω, ta—õen–Ωm se zm–ºn–Ω pozice:
-[Total size:]
-Celkov–± velikost:
-[Last modified:]
-Zm–ºn–ºno:
-[Icon library:]
-Soubor s ikonami:
-[for]
-po dobu
-[Author(s):]
-Autor:
-[Copyright:]
-Copyright:
-[Homepage:]
-WWW:
-[Unique ID:]
-ID:
-[Options]
-Mo—õnosti
-[Authorization Request]
-–ã–±dost o autorizaci
-[Contact Display Options]
-Mo—õnosti zobrazen–Ω seznamu
-[Show]
-Zobrazit
-;(LAI) [Log to]
-[Current file]
-Aktu–±ln–Ω stav
-[All files]
-Soubory celkov–º
-[Existing file]
-Existuj–Ωc–Ω soubor
-[File being received]
-P—àij–Ωman—ç soubor
-[Sounds]
-Zvuky
-[Sound Information]
-Informace o zvuku
-[Icons]
-Ikony
-[Ignore]
-Filtrov–±n–Ω
-[Visibility]
-Viditelnost
-[Status Messages]
-Stavov–π zpr–±vy
-[Import multiple]
-Importovat hromadn–º
-[Incoming Connections]
-P—à–Ωchoz–Ω spojen–Ω
-[Outgoing Connections]
-Odchoz–Ω spojen–Ω
-[Receiving files]
-P—à–Ωjem soubor—â
-[Virus scanner]
-Antivirov–± ochrana
-[If incoming files already exist]
-V p—à–Ωpad–º, —õe p—à–Ωchoz–Ω soubor ji—õ existuje
-[Idle Options]
-Mo—õnosti p—ài ne–∏innosti
-[Fonts]
-P–Ωsma
-[Colours]
-Barvy
-[Font Group]
-Definice p–Ωsem
-[Effects]
-Efekty
-[Sample]
-P—à–Ωkladov—ç text
-[MenuObjects]
-Nab–Ωdky
-[MenuItems]
-Prvky nab–Ωdky
-[Update Notification Options]
-Mo—õnosti upozorn–ºn–Ω na novou verzi
-[Check for updates for the following:]
-Zji—ô—úovat tyto nov–π verze:
-[Stable releases]
-Stabiln–Ω vyd–±n–Ω
-[Preview releases (beta)]
-Testovac–Ω vyd–±n–Ω (beta)
-[Development releases (alpha)]
-V—çvojov–± vyd–±n–Ω (alpha)
-[Enter a reason for denial]
-Zadejte d—âvod pro odm–Ωtnut–Ω
-[Add %s]
-Mezi kontakty p—àidat: %s
-[You Were Added]
-Zpr–±va o za—àazen–Ω mezi kontakty
-[About Miranda IM]
-O programu Miranda IM
-[Delete Contact]
-Smaz–±n–Ω kontaktu
-[Miranda IM Profile Manager]
-Miranda IM - spr–±vce profil—â
-[Find/Add Contacts]
-Vyhled–±n–Ω kontakt—â
-[%s Message for %s]
-Stav: '%s', u—õivatel: %s
-[Change %s Message]
-Odpov–º–ø pro stav '%s'
-[%s: User Details]
-%s: informace
-[Add E-Mail Address]
-P—àidat e-mail
-[Add Phone Number]
-P—àidat telefonn–Ω –∏–Ωslo
-[Install Database Settings]
-Konfigurace datab–±ze
-[Database Setting Change]
-Zm–ºna konfigurace datab–±ze
-[Database Import Complete]
-Import datab–±ze dokon–∏en
-;(LAI) [Netlib Log Options]
-[Find]
-Naj–Ωt
-[Send File(s)]
-Poslat soubory
-[Incoming File Transfer]
-–ã–±dost o p—àenos souboru
-[URL Recieved]
-P—àijat odkaz
-[Message History]
-Historie zpr–±v
-[Icon Index]
-P—àehled ikon
-[Font]
-P–Ωsmo
-[Miranda IM v%s Now Available]
-K dispozici je Miranda IM v%s
-[&Offline\tCtrl+0]
-&Offline\tCtrl+0
-[On&line\tCtrl+1]
-On&line\tCtrl+1
-[&Away\tCtrl+2]
-N&a chv–Ωli pry–∏\tCtrl+2
-[&NA\tCtrl+3]
-&Nejsem tady\tCtrl+3
-[Occ&upied\tCtrl+4]
-Nem–±m –∏a&s\tCtrl+4
-[&DND\tCtrl+5]
-Ner&u—ôit!\tCtrl+5
-[&Free for chat\tCtrl+6]
-&M–±m volno\tCtrl+6
-[&Invisible\tCtrl+7]
-Nev&iditeln—ç\tCtrl+7
-[On the &Phone\tCtrl+8]
-M–±m tele&fon\tCtrl+8
-[Out to &Lunch\tCtrl+9]
-Jsem na o&b–ºd–º\tCtrl+9
-[&Hide/Show]
-Skr—çt/Zo&brazit
-[&New Group]
-&Nov–± skupina
-[&Hide Offline Users]
-&Skr—çt u—õivatele offline
-[Hide &Offline Users out here]
-Skr—çt u—õivatele &offline mimo skupiny
-[Hide &Empty Groups]
-S&kr—çt pr–±zdn–π skupiny
-[Disable &Groups]
-Vypnout zobrazen–Ω s&kupin
-[Hide Miranda]
-Skr—çt okno
-[&New Subgroup]
-&Nov–± podskupina
-[&Hide Offline Users in here]
-Skr—çt u—õivatele o&ffline
-[&Rename Group]
-P—à&ejmenovat skupinu
-[&Delete Group]
-&Smazat skupinu
-[&Reset to default]
-O&bnovit v—çchoz–Ω
-[&Add to List]
-P—àid&at do seznamu
-[User &Details]
-In&formace o kontaktu
-[Send &Message]
-Poslat zp&r–±vu
-[&Copy]
-Z&kop–Ωrovat
-[Co&py All]
-Zko&p–Ωrovat v—ôe
-[Select &All]
-Vybr&at v—ôe
-[C&lear Log]
-Vy&mazat z–±znam
-[Open in &new window]
-Otev—à–Ωt v &nov–πm okn–º
-[&Open in existing window]
-&Otev—à–Ωt v aktu–±ln–Ωm okn–º
-[&Copy link]
-Z&kop–Ωrovat odkaz
-[Cancel Change]
-&Obnovit p—àedchoz–Ω
-[&Reset to Default]
-&V—çchoz–Ω stav
-
-
-; NEPUBLIKOVAN–ô
-; options.c
-[Miranda IM Options]
-Miranda - mo—õnosti nastaven–Ω
-
-; newplugins.c
-[Plugin]
-Dopln–ºk
-[Running]
-Spu—ôt–ºno
-
-; ignore.c
-[** All contacts **]
-** v—ôechny kontakty **
+;file \src\core\miranda.cpp
+[restart]
+[memdebug]
+[\\StringFileInfo\\000004b0\\ProductVersion]
+;file \src\core\stdauth\auth.cpp
+[%s requests authorization]
+%s û·d· o autorizaci
+[%u requests authorization]
+[%s added you to their contact list]
+%s si v·s p¯idal mezi svÈ kontakty
+[%u added you to their contact list]
+[Alerts]
+[Authorization request]
+é·dost o autorizaci
+[Added event]
+Nov· ud·lost
+;file \src\core\stdauth\authdialogs.cpp
+[View User's Details]
+[Add Contact Permanently to List]
+[%s %s]
+%s %s
+[ (%s)]
+[<Unknown>]
+<nezn·m˝>
+[%s added you to the contact list\n%u (%s) on %s]
+%s si v·s p¯idal mezi svÈ kontakty\n%u (%s) v sÌti %s
+[%s added you to the contact list\n%u on %s]
+%s si v·s p¯idal mezi svÈ kontakty\n%u v sÌti %s
+[%s added you to the contact list\n%s on %s]
+%s si v·s p¯idal mezi svÈ kontakty\n%s v sÌti %s
+[(Unknown)]
+[View User Details]
+Zobrazit osobnÌ ˙daje
+[%s requested authorization\n%u (%s) on %s]
+%s û·d· o autorizaci\n%u (%s) v sÌti %s
+[%s requested authorization\n%u on %s]
+%s û·d· o autorizaci\n%u v sÌti %s
+[%s requested authorization\n%s on %s]
+%s û·d· o autorizaci\n%s v sÌti %s
+[Feature is not supported by protocol]
+Funkce nenÌ protokolem podporov·na
+;file \src\core\stdaway\awaymsg.cpp
+[Re&ad %s Message]
+P¯eËÌst &automatickou odpovÏÔ
+[Re&ad Status Message]
+P¯eËÌst stavovou zpr·vu
+;file \src\core\stdaway\sendmsg.cpp
+[I've been away since %time%.]
+[Give it up, I'm not in!]
+[Not right now.]
+[Give a guy some peace, would ya?]
+[I'm a chatbot!]
+[Yep, I'm here.]
+[Nope, not here.]
+[I'm hiding from the mafia.]
+[That'll be the phone.]
+[Mmm...food.]
+[idleeeeeeee]
+#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+[%time%]
+[%date%]
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+;file \src\core\stdchat\src\clist.cpp
+[Chat rooms]
+MÌstnosti chatu
+[Join chat]
+P¯idat se do diskuse
+[Open chat window]
+Otev¯Ìt komunikaËnÌ okno
+;file \src\core\stdchat\src\colorchooser.cpp
+[Text colour]
+;file \src\core\stdchat\src\log.cpp
+[%s (%s)]
+%s (%s)
+[%s ]
+[%s has joined]
+P¯Ìchod: %s
+[You have joined %s]
+P¯Ìchod na %s
+[%s has left]
+Odchod: %s
+[: %s]
+[%s has disconnected]
+OdpojenÌ: %s
+[%s is now known as %s]
+ZmÏna p¯ezdÌvky: %s -> %s
+[You are now known as %s]
+ZmÏna vlastnÌ p¯ezdÌvky: %s
+[%s kicked %s]
+VykopnutÌ: %s -> %s
+[Notice from %s: ]
+Pozn·mka od %s:
+[The topic is '%s%s']
+[ (set by %s on %s)]
+ (nastavil %s na %s)
+[ (set by %s)]
+ (nastavil %s)
+[--> %s]
+[%s enables '%s' status for %s]
+[%s disables '%s' status for %s]
+;file \src\core\stdchat\src\main.cpp
+[riched20.dll]
+;file \src\core\stdchat\src\options.cpp
+[Terminal]
+[Others nicknames]
+OstatnÌ p¯ezdÌvky
+[Verdana]
+[Your nickname]
+Vaöe p¯ezdÌvka
+[User has joined]
+P¯Ìchod na kan·l
+[User has left]
+Odchod z kan·lu
+[User has disconnected]
+OdpojenÌ uûivatele
+[User kicked ...]
+VykopnutÌ
+[User is now known as ...]
+ZmÏna p¯ezdÌvky
+[Notice from user]
+Pozn·mka
+[Incoming message]
+P¯ÌchozÌ zpr·va
+[Outgoing message]
+OdchozÌ zpr·va
+[The topic is ...]
+ZobrazenÌ tÈmatu
+[Information messages]
+Informace
+[User enables status for ...]
+Aktivace stavu pro ...
+[User disables status for ...]
+Deaktivace stavu pro ...
+[Action message]
+UpozornÏnÌ
+[Highlighted message]
+Zv˝raznÏn· zpr·va
+[Message typing area]
+Oblast se zpr·vou
+[User list members (Online)]
+Seznam ˙ËastnÌk˘ (online)
+[User list members (away)]
+Seznam ˙ËastnÌk˘ (pryË)
+[Use a tabbed interface]
+PouûÌt systÈm z·loûek
+[Close tab on doubleclick]
+Zav¯Ìt z·loûku dvojÌm kliknutÌm
+[Restore previously open tabs when showing the window]
+Obnovit vöechny z·loûky z poslednÌ relace
+[Show tabs at the bottom]
+Zobrazit z·loûky v dolnÌ Ë·sti okna
+[Send message by pressing the Enter key]
+Odeslat zpr·vu kl·vesou ENTER
+[Send message by pressing the Enter key twice]
+Odeslat zpr·vu dvojit˝m ENTER
+[Flash window when someone speaks]
+Zablikat oknem p¯i naps·nÌ zpr·vy
+[Flash window when a word is highlighted]
+Zablikat oknem p¯i zv˝raznÏnÌ slova
+[Show list of users in the chat room]
+Zobrazit seznam uûivatel˘ v mÌstnosti
+[Show button for sending messages]
+Zobrazit tlaËÌtko pro odesÌl·nÌ zpr·v
+[Show buttons for controlling the chat room]
+Zobrazit tlaËÌtka ¯ÌzenÌ pravidel mÌstnosti
+[Show buttons for formatting the text you are typing]
+Zobrazit tlaËÌtka pro form·tov·nÌ textu p¯i psanÌ
+[Show button menus when right clicking the buttons]
+Zobrazit kontextovÈ menu u tlaËÌtek
+[Show new windows cascaded]
+Skl·dat nov· okna kask·dnÏ nad sebe
+[Save the size and position of chat rooms]
+Uloûit informaci o velikosti a umÌstÏnÌ separ·tnÏ pro kaûdÈ okno
+[Show the topic of the room on your contact list (if supported)]
+ZadanÈ tÈma zobrazit v seznamu kontakt˘ (je-li to podporov·no)
+[Do not play sounds when the chat room is focused]
+Nep¯ehr·vat zvuky, je-li okno mÌstnosti aktivnÌ
+[Do not pop up the window when joining a chat room]
+Neaktivovat okno po p¯Ìchodu do mÌstnosti
+[Toggle the visible state when double clicking in the contact list]
+P¯epnout viditelnost p¯i dvojÌm kliknutÌ na uûivatele v seznamu
+[Show contact statuses if protocol supports them]
+Zobrazit stav kontaktu, pokud je protokol podporuje
+[Display contact status icon before user role icon]
+Zobrazit ikonu stavu kontaktu p¯ed ikonou jeho role
+[Prefix all events with a timestamp]
+P¯ed kaûdou ud·lost p¯idat informaci o Ëase
+[Only prefix with timestamp if it has changed]
+Informaci o Ëase p¯idat pouze pokud se zmÏnÌ
+[Timestamp has same colour as the event]
+Pro informaci o Ëase pouûÌt stejnou barvu jakou m· p¯Ìsluön· ud·lost
+[Indent the second line of a message]
+Odsadit druh˝ ¯·dek dlouhÈ zpr·vy
+[Limit user names in the message log to 20 characters]
+Omezit dÈlku jmen v z·znamu na 20 znak˘
+[Add ':' to auto-completed user names]
+[Strip colors from messages in the log]
+Z·znam ukl·dat bez kÛd˘ definujÌcÌ barvy
+[Enable the 'event filter' for new rooms]
+[Show topic changes]
+Zobrazit informaci o zmÏnÏ tÈmatu
+[Show users joining]
+Zobrazit informaci o p¯Ìchodu uûivatel˘
+[Show users disconnecting]
+Zobrazit informaci o odpojenÌ uûivatel˘
+[Show messages]
+Zobrazit zpr·vy
+[Show actions]
+Zobrazit akce
+[Show users leaving]
+Zobrazit informaci o odchodu uûivatel˘
+[Show users being kicked]
+Zobrazit informaci o vykopnutÌ uûivatel˘
+[Show notices]
+Zobrazit pozn·mky
+[Show users changing name]
+Zobrazit informaci o zmÏnÏ jmÈna
+[Show information messages]
+Zobrazit informativnÌ zpr·vy
+[Show status changes of users]
+Zobrazit informaci o zmÏnÏ stavu uûivatel˘
+[Show icon for topic changes]
+Zobrazit ikonu k informaci o zmÏnÏ tÈmatu
+[Show icon for users joining]
+Zobrazit ikonu k informaci o p¯Ìchodu uûivatel˘
+[Show icon for users disconnecting]
+Zobrazit ikonu k informaci o odpojenÌ uûivatel˘
+[Show icon for messages]
+Zobrazit ikonu k textu zpr·vy
+[Show icon for actions]
+Zobrazit ikonu k textu akce
+[Show icon for highlights]
+Zobrazit ikonu ke zv˝raznÏnÌ
+[Show icon for users leaving]
+Zobrazit ikonu k informaci o odchodu uûivatel˘
+[Show icon for users kicking other user]
+Zobrazit ikonu k informaci o vykopnutÌ
+[Show icon for notices ]
+Zobrazit ikonu k textu pozn·mky
+[Show icon for name changes]
+Zobrazit ikonu k informaci o zmÏnÏ jmÈna
+[Show icon for information messages]
+Zobrazit ikonu k textu informativnÌ zpr·vy
+[Show icon for status changes]
+Zobrazit ikonu k informaci o zmÏnÏ stavu
+[Show icons in tray only when the chat room is not active]
+Zobrazit ikonu v ozn. oblasti pouze p¯i neaktivnÌm oknÏ s diskusÌ
+[Show icon in tray for topic changes]
+Zobrazit ikonu v ozn. oblasti p¯i zmÏnÏ tÈmatu
+[Show icon in tray for users joining]
+Zobrazit ikonu v ozn. oblasti p¯i p¯Ìchodu uûivatel˘
+[Show icon in tray for users disconnecting]
+Zobrazit ikonu v ozn. oblasti p¯i odpojenÌ uûivatel˘
+[Show icon in tray for messages]
+Zobrazit ikonu v ozn. oblasti p¯i p¯ijetÌ zpr·vy
+[Show icon in tray for actions]
+Zobrazit ikonu v ozn. oblasti p¯i akci
+[Show icon in tray for highlights]
+Zobrazit ikonu v ozn. oblasti p¯i zv˝raznÏnÌ
+[Show icon in tray for users leaving]
+Zobrazit ikonu v ozn. oblasti p¯i odchodu uûivatel˘
+[Show icon in tray for users kicking other user]
+Zobrazit ikonu v ozn. oblasti p¯i vykopnutÌ uûivatel˘
+[Show icon in tray for notices ]
+Zobrazit ikonu v ozn. oblasti u pozn·mky
+[Show icon in tray for name changes]
+Zobrazit ikonu v ozn. oblasti p¯i zmÏnÏ jmÈna
+[Show icon in tray for information messages]
+Zobrazit ikonu v ozn. oblasti p¯i p¯ijetÌ informativnÌ zpr·vy
+[Show icon in tray for status changes]
+Zobrazit ikonu v ozn. oblasti p¯i zmÏnÏ stavu
+[Show pop-ups only when the chat room is not active]
+Zobrazit ozn·menÌ pouze p¯i neaktivnÌm oknÏ s diskusÌ
+[Show pop-up for topic changes]
+Zobrazit ozn·menÌ p¯i zmÏnÏ tÈmatu
+[Show pop-up for users joining]
+Zobrazit ozn·menÌ p¯i p¯Ìchodu uûivatel˘
+[Show pop-up for users disconnecting]
+Zobrazit ozn·menÌ p¯i odpojenÌ uûivatel˘
+[Show pop-up for messages]
+Zobrazit ozn·menÌ p¯i p¯ijetÌ zpr·vy
+[Show pop-up for actions]
+Zobrazit ozn·menÌ p¯i akci
+[Show pop-up for highlights]
+Zobrazit ozn·menÌ p¯i zv˝raznÏnÌ
+[Show pop-up for users leaving]
+Zobrazit ozn·menÌ p¯i odchodu uûivatel˘
+[Show pop-up for users kicking other user]
+Zobrazit ozn·menÌ p¯i vykopnutÌ uûivatel˘
+[Show pop-up for notices ]
+Zobrazit ozn·menÌ u pozn·mky
+[Show pop-up for name changes]
+Zobrazit ozn·menÌ p¯i zmÏnÏ jmÈna
+[Show pop-up for information messages]
+Zobrazit ozn·menÌ p¯i p¯ijetÌ informativnÌ zpr·vy
+[Show pop-up for status changes]
+Zobrazit ozn·menÌ p¯i zmÏnÏ stavu
+[Chat Module]
+Skupinov˝ rozhovor
+[Message Background]
+PozadÌ konverzace
+[Userlist Background]
+PozadÌ seznamu kontakt˘
+[Userlist Lines]
+Linky v seznamu kontakt˘
+[Userlist Background (selected)]
+PozadÌ seznamu kontakt˘ (vybran˝)
+[Window Icon]
+Ikona okna
+[Bold]
+TuËnÈ
+[Italics]
+KurzÌva
+[Underlined]
+PodtrûenÈ
+[Smiley button]
+SmajlÌk
+[Room history]
+Historie mÌstnosti
+[Room settings]
+NastavenÌ mÌstnosti
+[Event filter disabled]
+Filtrov·nÌ ud·lostÌ deaktivov·no
+[Event filter enabled]
+Filtrov·nÌ ud·lostÌ aktivov·no
+[Hide userlist]
+Skr˝t seznam ˙ËastnÌk˘ 
+[Show userlist]
+Zobrazit seznam ˙ËastnÌk˘ 
+[Icon overlay]
+P¯ekryvn· ikona
+[Status 1 (10x10)]
+Stav Ë.1 (10x10)
+[Status 2 (10x10)]
+Stav Ë.2 (10x10)
+[Status 3 (10x10)]
+Stav Ë.3 (10x10)
+[Status 4 (10x10)]
+Stav Ë.4 (10x10)
+[Status 5 (10x10)]
+Stav Ë.5 (10x10)
+[Status 6 (10x10)]
+Stav Ë.6 (10x10)
+[Message in (10x10)]
+P¯ÌchozÌ zpr·va (10x10)
+[Message out (10x10)]
+OdchozÌ zpr·va (10x10)
+[Action (10x10)]
+Akce (10x10)
+[Add Status (10x10)]
+P¯idat stav (10x10)
+[Remove status (10x10)]
+Odebrat stav (10x10)
+[Join (10x10)]
+P¯idat (10x10)
+[Leave (10x10)]
+Opustit (10x10)
+[Quit (10x10)]
+UkonËit (10x10)
+[Kick (10x10)]
+Vykopnout (10x10)
+[Nickchange (10x10)]
+ZmÏna p¯ezdÌvky (10x10)
+[Notice (10x10)]
+Pozn·mka (10x10)
+[Topic (10x10)]
+TÈma (10x10)
+[Highlight (10x10)]
+Zv˝raznÏnÌ (10x10)
+[Information (10x10)]
+Informace (10x10)
+[Messaging]
+Rozhovor
+[Group Chats]
+SkupinovÈ rozhovory
+[Group Chats Log]
+Z·znam rozhovor˘
+[Options for using a tabbed interface]
+NastavenÌ funkcÌ systÈmu z·loûek
+[Appearance and functionality of chat room windows]
+NastavenÌ vzhledu a funkcÌ komunikaËnÌch oken
+[Appearance of the message log]
+NastavenÌ vzhledu z·znamu komunikace
+[Default events to show in new chat rooms if the 'event filter' is enabled]
+[Icons to display in the message log]
+Moûnosti zobrazenÌ ikon v z·znamu komunikace
+[Icons to display in the tray]
+Moûnosti zobrazenÌ ikon v oznamovacÌ oblasti
+[Pop-ups to display]
+Moûnosti zobrazenÌ oken s ozn·menÌm
+[Select Folder]
+Vyberte poûadovanou sloûku
+[Logs\\]
+[Message Sessions]
+Komunikace
+[Group chats]
+SkupinovÈ rozhovory
+[General]
+[Chat Log]
+Z·znam diskuse
+[Chat]
+Diskuse
+[Popups]
+[[%H:%M]]
+[[%d %b %y %H:%M]]
+[%n:]
+[%miranda_logpath%\\Chat]
+[MS Shell Dlg]
+[Message is highlighted]
+Zv˝raznÏnÌ zpr·vy
+[User has performed an action]
+ProvedenÌ akce
+[User has kicked some other user]
+VykopnutÌ z kan·lu
+[User's status was changed]
+ZmÏna stavu uûivatele
+[User has changed name]
+ZmÏna p¯ezdÌvky
+[User has sent a notice]
+Odesl·nÌ pozn·mky
+[The topic has been changed]
+ZmÏna tÈmatu diskuse
+;file \src\core\stdchat\src\services.cpp
+[&Join]
+P¯i&jÌt
+[Server: %s]
+;file \src\core\stdchat\src\tools.cpp
+[ - %s]
+[%s wants your attention in %s]
+%s û·d· o pozornost na kan·le %s
+[%s speaks in %s]
+%s pÌöe (na %s)
+[%s has joined %s]
+%s p¯iöel (na %s)
+[%s has left %s]
+%s odeöel (z %s)
+[%s kicked %s from %s]
+%s vykopnul %s (z %s)
+[Notice from %s]
+Pozn·mka (napsal: %s)
+[Topic change in %s]
+ZmÏna tÈmatu na %s
+[Information in %s]
+Informace (na %s)
+[%s enables '%s' status for %s in %s]
+[%s disables '%s' status for %s in %s]
+[%s says: %s]
+%s pÌöe: %s
+[%s has left (%s)]
+%s odeöel (%s)
+[%s has disconnected (%s)]
+%s se odpojil (%s)
+[%s kicked %s (%s)]
+%s vykopnul %s (%s)
+[Notice from %s: %s]
+Pozn·mka od %s: %s
+[The topic is '%s']
+[The topic is '%s' (set by %s)]
+[:,.!?;'>)]
+[%s\\%s]
+%s\\%s
+[%s.log]
+[at+]
+[%s * %s]
+[%s %c %s\n]
+%s %c %s\n
+[%s %s\n]
+%s %s\n
+[Look up '%s':]
+[\\/:*?"<>|]
+;file \src\core\stdchat\src\window.cpp
+[Insert a smiley]
+VloûÌ vybran˝ smajlÌk
+[Make the text bold (CTRL+B)]
+ZmÏnÌ styl pÌsma na tuËnÈ (CTRL+B)
+[Make the text italicized (CTRL+I)]
+ZmÏnÌ styl pÌsma na kurzÌvu (CTRL+I)
+[Make the text underlined (CTRL+U)]
+ZmÏnÌ styl pÌsma na podtrûenÈ (CTRL+U)
+[Select a background color for the text (CTRL+L)]
+ZmÏnÌ barvu pozadÌ textu (CTRL+L)
+[Select a foreground color for the text (CTRL+K)]
+ZmÏnÌ barvu textu (CTRL+K)
+[Show the history (CTRL+H)]
+ZobrazÌ historii (CTRL+H)
+[Show/hide the nicklist (CTRL+N)]
+ZobrazÌ/skryje seznam ˙ËastnÌk˘ (CTRL+N)
+[Control this room (CTRL+O)]
+Moûnosti ¯ÌzenÌ kan·lu (CTRL+O)
+[Enable/disable the event filter (CTRL+F)]
+Aktivuje/deaktivuje filtrov·nÌ ud·lostÌ (CTRL+F)
+[Close current tab (CTRL+F4)]
+Zav¯e vybranou z·loûku (CTRL+F4)
+[AQGglo]
+[%s: Chat Room (%u user)]
+%s: kan·l (˙ËastnÌk˘: %u)
+[%s: Chat Room (%u users)]
+%s: kan·l (˙ËastnÌk˘: %u)
+[%s: Message Session]
+%s: rozhovor
+[%s: Message Session (%u users)]
+%s: rozhovor (˙ËastnÌk˘: %u)
+[%s: Server]
+[AQGgl']
+[AQGg']
+[:;,.!?'"><()[]- \r\n]
+[http://www.google.com/search?q=%s]
+[http://en.wikipedia.org/wiki/%s]
+[%s: %s\r\n%s: %s\r\n%s: %s]
+[%s: ]
+[open]
+;file \src\core\stdclist\src\clcfonts.cpp
+[Selected Text]
+Vybran˝ text
+[Hottrack Text]
+Zv˝raznÏn˝ text
+[Quicksearch Text]
+Hledan˝ text
+;file \src\core\stdclist\src\clcopts.cpp
+[Not focused]
+NeaktivnÌ
+[Offline]
+[Online]
+[Away]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[Out to lunch]
+[On the phone]
+[List]
+Seznam
+[List Background]
+PozadÌ seznamu
+;file \src\core\stdclist\src\clistopts.cpp
+[Global]
+Glob·lnÌ
+;file \src\core\stdclist\src\cluiopts.cpp
+[Progman]
+;file \src\core\stdemail\email.cpp
+[User has not registered an e-mail address]
+Uûivatel nem· zaregistrovanou e-mailovou adresu
+[Send e-mail]
+Poslat e-mail
+[&E-mail]
+&E-mail
+;file \src\core\stdfile\file.cpp
+[File from %s]
+Soubor od: %s
+[%u%s%s]
+[bytes]
+[%.1lf%s]
+[ KB]
+[%u%s]
+[%.3f%s]
+[ GB]
+[%.2lf%s]
+[ MB]
+[&File]
+[File &Transfers...]
+P¯&enos soubor˘...
+[Incoming]
+[Complete]
+DokonËeno
+[Error]
+[Denied]
+OdmÌtnuto
+;file \src\core\stdfile\fileexistsdlg.cpp
+[%s File]
+Soubor %s
+[EXE]
+[Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
+[\\DefaultIcon]
+[All Files]
+[ (*)]
+;file \src\core\stdfile\fileopts.cpp
+[Network Associates/McAfee VirusScan]
+[SOFTWARE\\McAfee\\VirusScan]
+[Scan32EXE]
+["%s" %%f /nosplash /comp /autoscan /autoexit /noboot]
+[Dr Solomon's VirusScan (Network Associates)]
+[SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General]
+[szScannerExe]
+["%s" %%f /uinone /noboot /comp /prompt /autoexit]
+[Norton AntiVirus]
+[SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe]
+["%s" %%f /b- /m- /s+ /noresults]
+[Computer Associates/Inoculate IT]
+[Software\\Antivirus]
+[ImageFilename]
+["%s" %%f /display = progress /exit]
+[Computer Associates eTrust]
+[SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident]
+[VetPath]
+[Kaspersky Anti-Virus]
+[SOFTWARE\\KasperskyLab\\Components\\101]
+[EXEName]
+["%s" /S /Q %%f]
+[SOFTWARE\\KasperskyLab\\SetupFolders]
+[KAV8]
+["%savp.exe" SCAN %%f]
+[KAV9]
+[AntiVir PersonalEdition Classic]
+[SOFTWARE\\Avira\\AntiVir PersonalEdition Classic]
+[Path]
+Cesta
+["%savscan.exe" /GUIMODE = 2 /PATH = "%%f"]
+[ESET NOD32 Antivirus]
+[SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info]
+[InstallDir]
+["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
+[Executable Files]
+SpustitelnÈ soubory
+[ (*.exe)]
+[*.exe]
+[File Transfers]
+P¯enos soubor˘
+[Events]
+Ud·losti
+;file \src\core\stdfile\filerecvdlg.cpp
+[*?"<>|]
+[%%mydocuments%%\\%s\\%%userid%%]
+[My Received Files]
+Moje p¯ijatÈ soubory
+[nick]
+p¯ezdÌvka
+[userid]
+[proto]
+protokol
+[%%mydocuments%%\\%s]
+[View User's History]
+[User Menu]
+[t d]
+[Cancelled]
+P¯eruöeno
+;file \src\core\stdfile\filesenddlg.cpp
+[%s, %s]
+[%d file]
+%d soubor
+[%d files]
+%d soubor˘
+[%d directory]
+[%d directories]
+%d sloûek
+;file \src\core\stdfile\filexferdlg.cpp
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento soubor jeötÏ nebyl zkontrolov·n antivirov˝m programem. Opravdu ho chcete otev¯Ìt?
+[File Received]
+Soubor p¯ijat
+[%s"%s"%s]
+[%s: %s (%d %s %d)]
+[%s: %s]
+[Request sent, waiting for acceptance...]
+é·dost odesl·na, Ëek·nÌ na potvrzenÌ...
+[Waiting for connection...]
+»ek·nÌ na spojenÌ...
+[Unable to initiate transfer.]
+Chyba p¯i inicializaci p¯enosu.
+[??:??:??]
+[%s/%s  (%s %s)]
+[sec]
+sek.
+[remaining]
+zb˝v·
+[%.*s (%u)%s]
+[Decision sent]
+PotvrzenÌ odesl·no
+[Connecting...]
+[Connecting to proxy...]
+P¯ipojov·nÌ k proxy...
+[Connected]
+[Initialising...]
+Inicializace...
+[Moving to next file...]
+DalöÌ soubor...
+[File already exists]
+Soubor jiû existuje
+[Sending...]
+PosÌl·nÌ dat...
+[Receiving...]
+P¯Ìjem dat...
+[%u%%]
+[%s/%s]
+[File transfer denied]
+P¯enos souboru odmÌtnut
+[File transfer failed]
+Chyba p¯i p¯enosu souboru
+[Transfer completed.]
+P¯enos dat dokonËen.
+[Transfer completed, open file.]
+P¯enos dat dokonËen, otev¯enÌ souboru.
+[Transfer completed, open folder.]
+P¯enos dat dokonËen, otev¯enÌ sloûky.
+[Scanning for viruses...]
+Kontrola antivirov˝m programem...
+[Transfer and virus scan complete]
+P¯enos i kontrola dat antivirem dokonËena
+;file \src\core\stdfile\ftmanager.cpp
+[Outgoing]
+OdchozÌ
+;file \src\core\stdhelp\about.cpp
+[\\StringFileInfo\\000004b0\\LegalCopyright]
+[TEXT]
+[< Copyright]
+;file \src\core\stdhelp\help.cpp
+[http://wiki.miranda-im.org/]
+[&About...]
+O progr&amu...
+[&Support]
+&Podpora
+[&Miranda NG Homepage]
+[&Report Bug]
+&Nahl·sit chybu
+;file \src\core\stdidle\idle.cpp
+[WorkerW]
+[Idle]
+;file \src\core\stdmsg\src\cmdlist.cpp
+[The message send timed out.]
+P¯ekroËen Ëasov˝ limit odesl·nÌ zpr·vy.
+;file \src\core\stdmsg\src\globals.cpp
+[Incoming message (10x10)]
+P¯ÌchozÌ zpr·va (10x10)
+[Outgoing message (10x10)]
+OdchozÌ zpr·va (10x10)
+;file \src\core\stdmsg\src\msgdialog.cpp
+[%s\\*]
+[Last message received on %s at %s.]
+PoslednÌ zpr·va p¯ijata %s v %s.
+[Message Session]
+[%s - %s]
+[%s (%s): %s]
+[signed off (was %s)]
+(odhl·öenÌ, p¯edchozÌ stav: %s)
+[signed on (%s)]
+(p¯ihl·öenÌ, souËasn˝ stav: %s)
+[is now %s (was %s)]
+(souËasn˝ stav: %s, p¯edchozÌ stav: %s)
+[%s is typing a message...]
+%s pÌöe zpr·vu...
+[mailto:]
+;file \src\core\stdmsg\src\msglog.cpp
+[[b]]
+[[i]]
+[[u]]
+[[s]]
+[[/b]]
+[[/i]]
+[[/u]]
+[[/s]]
+[[url]
+[[/url]]
+[[/URL]]
+[[color=]
+[[/color]]
+[d s]
+[d t]
+[File sent]
+Odeslan˝ soubor
+[File received]
+P¯ijat˝ soubor
+;file \src\core\stdmsg\src\msgoptions.cpp
+[Outgoing messages]
+OdchozÌ zpr·vy
+[Arial]
+[Incoming messages]
+P¯ÌchozÌ zpr·vy
+[Outgoing name]
+OdchozÌ jmÈno
+[Outgoing time]
+OdchozÌ Ëas
+[Outgoing colon]
+OdchozÌ dvojteËka
+[Incoming name]
+P¯ÌchozÌ jmÈno
+[Incoming time]
+P¯ÌchozÌ Ëas
+[Incoming colon]
+P¯ÌchozÌ dvojteËka
+[Message area]
+Oblast se zpr·vou
+[Message Log]
+Z·znam komunikace
+[** New contacts **]
 [** Unknown contacts **]
-** nezn–±m–π kontakty **
-
-; findadd.c
-[Results]
-Seznam vyhledan—çch osob
-[There are no results to display.]
-Zadejte krit–πria hled–±n–Ω.
-[All Networks]
-V—ôechny s–Ωt–º
-
-[Please select a subentry from the list]
-Vyberte pros–Ωm ze seznamu jednu z dal—ô–Ωch polo—õek.
-
-; Ud–±losti / Filtrov–±n–Ω kontakt—â
-[Only the ticked contacts will be shown on the main contact list]
-V seznamu kontakt—â se objev–Ω pouze ty skupiny nebo u—õivatel–π, kter–π za—ôkrtnete.
-
-; Kontakty / Ikony
-[Group (Open)]
-Skupina (otev—àen–±)
-[Group (Closed)]
-Skupina (zav—àen–±)
-[User Online]
-U—õivatel online
-
-; Autorizace
-[Send "You were added"]
-Odeslat zpr–±vu o za—àazen–Ω
-
-;IDD_READAWAYMSG
-[Retrieving %s message...]
-Zji—ôt–ºn–Ω automatick–π odpov–ºdi ve stavu '%s'...
-
-;IDD_ADDED
-[You were added to this user's contact list.]
-Tento u—õivatel si v–±s p—àidal mezi kontakty.
-
-; Informace o osob–º / Kontakt
-[Custom %d]
-Vlastn–Ω –∏.%d
-[Edit Phone Number]
-Upravit telefonn–Ω –∏–Ωslo
+[Show balloon popup (unsupported system)]
+Zobrazit ozn·menÌ bublinami (nepodporov·no)
+[Messaging Log]
+Z·znam rozhovoru
+[Typing Notify]
+;file \src\core\stdmsg\src\msgs.cpp
+[Message from %s]
+Zpr·va od: %s
+[%s is typing a message]
+[Typing Notification]
+UpozornÏnÌ na psanÌ zpr·vy
+[Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
+ChybÌ knihovna riched20.dll, coû znemoûÚuje pouûitÌ internÌho modulu pro zpr·vy. Pokud pouûÌv·te Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
+[Instant messages]
+Rozhovor
+[Incoming (Focused Window)]
+P¯ÌchozÌ (aktivnÌ okno)
+[Incoming (Unfocused Window)]
+P¯ÌchozÌ (neaktivnÌ okno)
+[Incoming (New Session)]
+P¯ÌchozÌ (nov· konverzace)
+[Message send error]
+Chyba odesl·nÌ zpr·vy
+;file \src\core\stdmsg\src\msgtimedout.cpp
+[An unknown error has occured.]
+Nezn·m· chyba.
+;file \src\core\stduihist\history.cpp
+[Invalid Message]
+Neplatn· zpr·va
+[\r\n]
+[Outgoing Message]
+OdchozÌ zpr·va
+[Incoming Message]
+P¯ÌchozÌ zpr·va
+[Outgoing URL]
+OdchozÌ odkaz
+[Incoming URL]
+P¯ÌchozÌ odkaz
+[Outgoing File]
+OdchozÌ soubor
+[Incoming File]
+P¯ÌchozÌ soubor
+[History for %s]
+[Are you sure you want to delete this history item?]
+Opravdu si p¯ejete odstranit tento z·znam z historie?
+[Delete History]
+Smazat historii
+[View &History]
+;file \src\core\stdurl\url.cpp
+[URL from %s]
+Odkaz od: %s
+[Web Page Address (&URL)]
+[URL]
+;file \src\core\stdurl\urldialogs.cpp
+[Send URL to]
+Odesl·nÌ odkazu:
+[%s %s (%s)]
+[Send timed out]
+Vypröel Ëas na odesl·nÌ
+;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
 Upravit e-mail
+[Edit Phone Number]
+Upravit telefonnÌ ËÌslo
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
-Telefonn–Ω –∏–Ωslo by m–ºlo za–∏–Ωnat znakem + a obsahovat pouze –∏–Ωsla, mezery, z–±vorky a poml–∏ky.
+TelefonnÌ ËÌslo by mÏlo zaËÌnat znakem + a obsahovat pouze ËÌsla, mezery, z·vorky a pomlËky.
 [Invalid Phone Number]
-Neplatn–π tel. –∏–Ωslo
 [Primary]
-Prim–±rn–Ω
+Prim·rnÌ
+[Custom %d]
+VlastnÌ Ë.%d
 [Fax]
 Fax
 [Mobile]
 Mobil
-
-; Hlavn–Ω nab–Ωdka
-[&Miranda IM Website]
-Do&movsk–± str–±nka
-
-[Enable sound events]
-Povolit zvuky
-[Become idle if a terminal session is disconnected]
-P—àej–Ωt do stavu ne–∏innosti po odpojen–Ω vzd–±len–πho u—õivatele
-[Enable authentication]
-Povolit ov–º—àen–Ω
-[Incoming Connections]
-P—à–Ωchoz–Ω spojen–Ω
-[Outgoing Connections]
-Odchoz–Ω spojen–Ω
-[Port Range:]
-Rozsah port—â:
-[Enable UPnP port mapping]
-Povolit mapov–±n–Ω port—â dle UPnP
-[Logging...]
-Z–±znam...
-[You will need to reconnect for the changes you have made on this page to take effect.]
-Pozn–±mka: Proveden–π zm–ºny se projev–Ω a—õ p—ài dal—ô–Ωm p—àipojen–Ω do s–Ωt–º.
-
+[Work Phone]
+Telefon (pr·ce)
+[Work Fax]
+Fax (pr·ce)
+[ SMS]
+[mailto:%s]
+;file \src\core\stduserinfo\stdinfo.cpp
+[Male]
+muû
+[Female]
+ûena
+[<not specified>]
+<neurËeno>
+[Courier New]
+[Summary]
+[Contact]
+Kontakt
+[Location]
+[Work]
+Pr·ce
+[Background info]
+Profil
+[Notes]
+Pozn·mky
+;file \src\core\stduserinfo\userinfo.cpp
+[Owner]
+NÏco o sobÏ
+[%.*s%s%.*s]
+[.........]
+[View/Change My &Details...]
+In&formace o sobÏ...
+;file \src\core\stduseronline\useronline.cpp
+[%s is Online]
+%s je online
+;file \src\mir_core\cmdline.cpp
+[ \t=:]
+[ \t]
+;file \src\mir_core\langpack.cpp
+[%s%s]
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+[static]
+[hyperlink]
+[button]
+[MButtonClass]
+[MHeaderbarCtrl]
+[edit]
+[langpack_*.txt]
+;file \src\mir_core\miranda.cpp
+[ComboLBox]
+[STATIC]
+Statick˝
+;file \src\mir_core\path.cpp
+;file \src\mir_core\threads.cpp
+[ntdll.dll]
+;file \src\modules\addcontact\addcontact.cpp
+[Add %s]
+[Add Contact]
+P¯idat kontakt
+[Please authorize my request and add me to your contact list.]
+Autorizujte prosÌm m˘j poûadavek a p¯idejte si mÏ do vaöeho seznamu.
+;file \src\modules\clist\clc.cpp
+;file \src\modules\clist\clcfiledrop.cpp
+[\\*]
+;file \src\modules\clist\clcitems.cpp
+;file \src\modules\clist\clcutils.cpp
+[EDIT]
+UPRAVIT
+;file \src\modules\clist\clistmenus.cpp
+[Custom status]
+RozöÌ¯en˝ stav
+[%s (locked)]
+[%s\t%s]
+;file \src\modules\clist\clistmod.cpp
+[Connecting]
+P¯ipojov·nÌ
+[Connecting (attempt %d)]
+P¯ipojov·nÌ (pokus Ë.%d)
+[This plugin requires db3x plugin version 0.5.1.0 or later]
+Tento doplnÏk vyûaduje doplnÏk db3x verze 0.5.1.0 nebo novÏjöÌ.
+[CList]
+;file \src\modules\clist\clistsettings.cpp
+[(Unknown Contact)]
+(nezn·m˝ kontakt)
+;file \src\modules\clist\clisttray.cpp
+[ | ]
+[<b>%-12.12s</b>\t%s]
+[%-24.24s\n]
+[%s%s<b>%-12.12s</b>\t%s%s%-24.24s]
+[%s%s<b>%-12.12s</b>\t%s]
+[%s%s%s %s]
+[<b>%-12.12s</b>\t%s\n%-24.24s]
+[TaskbarCreated]
+[TaskbarButtonCreated]
+[&Main Menu]
+[&Status]
+;file \src\modules\clist\clui.cpp
+[This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
+Vybran˝ kontakt danÈho komunikaËnÌho systÈmu je uloûen na centr·lnÌm serveru. P¯i p¯ÌötÌm p¯ipojenÌ bude odstranÏn jak ze serveru, tak z vaöeho seznamu.
+[Delete Contact]
+[Miranda::ProcessProfile]
+[De&lete]
+&Smazat
+[&Rename]
+[&Add permanently to list]
+P¯id&at do seznamu natrvalo
+[%miranda_userdata%\\%miranda_profilename%.dat]
+;file \src\modules\clist\cluiservices.cpp
+;file \src\modules\clist\contacts.cpp
+[My custom name (not moveable)]
+UpravenÈ jmÈno (nelze p¯esunout)
+[Nick]
+[FirstName]
+JmÈno
+[E-mail]
+[LastName]
+P¯ÌjmenÌ
+[Username]
+[FirstName LastName]
+JmÈno P¯ÌjmenÌ
+['(Unknown Contact)' (not moveable)]
+'(nezn·m˝ kontakt)' (nelze p¯esunout)
+['(Unknown Contact)']
+'(nezn·m˝ kontakt)'
+[Contact names]
+JmÈna kontakt˘
+;file \src\modules\clist\genmenu.cpp
+[%s (%d, id %x)]
+[Menu Icons/%s]
+;file \src\modules\clist\genmenuopt.cpp
+[-----------------------------------]
 [Menus]
-Nab–Ωdky
-
-[Update Notify]
-Nov–π verze
-
-[Menu Icons]
-Nab–Ωdky
-[Frames_Menu]
-Nab–Ωdka r–±me–∏ku
-
-[File Transfers]
-P—àenos soubor—â
-[Hotkeys]
-Kl–±vesov–π zkratky
-[Grey out entire list when:]
-Ze—ôednout seznam v p—à–Ωpad–º:
-[If window is partially covered, bring to front instead of hiding]
-Je-li okno –∏–±ste–∏n–º zakryto, zobrazit na pop—àed–Ω nam–Ωsto skryt–Ω
-[Hide contact list after it has been idle for]
-Skr—çt seznam kontakt—â, byl-li neaktivn–Ω po dobu
-[Scroll with text]
-Rolovat s textem
-[Show icons]
-Zobrazit ikony
-[Right click opens Miranda IM menu]
-Prav—çm tla–∏–Ωtkem nab–Ωdku Mirandy
-[Contact List Background]
-Pozad–Ω seznamu kontakt—â
-[Apply last active view mode]
-Pou—õ–Ωt posledn–Ω aktivn–Ω re—õim zobrazen–Ω
-[Main Icons]
-Hlavn–Ω ikony
-[icon when statuses differ]
-(v p—à–Ωpad–º, —õe se stavy li—ô–Ω)
-
-; about.c
-[Version]
-Verze
-[Built %s %s]
-Datum: %s %s
-[Credits >]
-Pod–ºkov–±n–Ω >
-[< About]
-< O programu
-
-; help.c
-[&Help]
-&N–±pov–ºda
-[&About...]
-O progr&amu...
-[&Support\tF1]
-&Podpora\tF1
-[&Miranda IM Homepage]
-Do&movsk–± str–±nka
-[&Report Bug]
-&Nahl–±sit chybu
-
-[Rename (append " (1)", etc.)]
-P—àejmenovat (p—àid–± " (1)" atd.)
-
-[Web Page Address (&URL)]
-Odkaz (&URL)
-[View &History]
-Zobrazit &historii
-
-[Selected Text]
-Vybran—ç text
-[Hottrack Text]
-Zv—çrazn–ºn—ç text
-[Quicksearch Text]
-Hledan—ç text
-
+NabÌdky
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+[Accounts]
+⁄Ëty
+;file \src\modules\clist\groups.cpp
+[New Group]
+nov· skupina
+[%s (%d)]
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vr·tit.
+[Delete Group]
+Smazat skupinu
+[You already have a group with that name. Please enter a unique name for the group.]
+Skupina tÈhoû n·zvu uû existuje. Zadejte prosÌm jin˝ n·zev.
+[Rename Group]
+P¯ejmenovat skupinu
+[This group]
+Tato skupina
+;file \src\modules\clist\keyboard.cpp
+[Show Hide Contact List]
+Zobrazit nebo skr˝t kontakty
+[Main]
+#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+[Read Message]
+P¯eËÌst zpr·vu
+[Open Options Page]
+Okno pro nastavenÌ
+[Open Logging Options]
+Otev¯Ìt z·znam
+[Open Find User Dialog]
+Okno pro vyhled·v·nÌ
+;file \src\modules\clist\movetogroup.cpp
+[&Move to Group]
+P¯esunout do s&kupiny
+[<Root Group>]
+<ko¯enov· skupina>
+;file \src\modules\database\database.cpp
+[%miranda_path%]
+[Database]
+Datab·ze
+[ProfileDir]
+[%miranda_path%\\Profiles]
+[.dat]
+[ShowProfileMgr]
+[never]
+[yes]
+[AutoCreate]
+[DefaultProfile]
+[%s\\%s\\%s%s]
+[%s\\%s\\]
+[profile]
+[%miranda_path%\\*.dat]
+[%s\\*.dat]
+[%s\\%s\\%s]
+[Miranda is trying upgrade your profile structure.\n]
+[It cannot move profile %s to the new location %s\n]
+[Because profile with this name already exist. Please resolve the issue manually.]
+[Miranda NG]
+[It cannot move profile %s to the new location %s automatically\n]
+[Most likely due to insufficient privileges. Please move profile manually.]
+[%s\\*.*]
+[%s\\%s\\%s.dat]
+[Profile cannot be placed into Miranda root folder.\n]
+[Please move Miranda profile to some other location.]
+[ForceShowPM]
+[The profile '%s' already exists. Do you want to move it to the ]
+[Recycle Bin? \n\nWARNING: The profile will be deleted if Recycle Bin is disabled.\n]
+[WARNING: A profile may contain confidential information and should be properly deleted.]
+[The profile already exists]
+Profil s tÌmto n·zvem jiû existuje
+[%s\0]
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Profil '%s' nelze p¯esunout do koöe. Vyberte prosÌm jin˝.
+[Problem moving profile]
+Chyba p¯i p¯esunu profilu
+[Unable to create the profile '%s', the error was %x]
+Profil '%s' nelze vytvo¯it. Chyba: %x
+[Problem creating profile]
+Chyba p¯i vytv·¯enÌ profilu
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Profil '%s' nelze otev¯Ìt. NenÌ nainstalovan˝ odpovÌdajÌcÌ doplnÏk.\nPouûijte dbx_3x.dll (pro starÈ profily) nebo jin˝.
+[No profile support installed!]
+NenÌ nainstalovan· podpora pro profily!
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
+Profil '%s' nelze otev¯Ìt. JednÌm z moûn˝ch\nproblÈm˘ je nezn·m˝ datov˝ form·t. Druhou pak poökozenÌ\nprofilu. Zkuste pouûÌt program DBTool.
+[Miranda can't understand that profile]
+Tento profil nenÌ ve form·tu Miranda-IM
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Profil '%s' nelze otev¯Ìt. Zkontrolujte,\nzda m·te opr·vnÏnÌ ke ËtenÌ dat z adres·¯e s profilem.
+[Miranda can't open that profile]
+Vybran˝ profil nelze otev¯Ìt
+;file \src\modules\database\dbini.cpp
+[AutoExec]
+[Warn]
+[notsafe]
+[all]
+[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+[onlyunsafe]
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+[none]
+---
+[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+[This change is known to be safe.]
+Tato ˙prava se obecnÏ povaûuje za bezpeËnou.
+[This change is known to be potentially hazardous.]
+Tato ˙prava se povaûuje za potenci·lnÏ nebezpeËnou.
+[This change is not known to be safe.]
+[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Neplatn˝ typ nastavenÌ. PrvnÌ znak hodnoty musÌ b˝t b, w, d, l, s, e, u, g, h nebo n.]
+[Install Database Settings]
+Konfigurace datab·ze
+[Use]
+PouûÌt
+[prompt]
+[Safe]
+[CLC Icons CLUI CList SkinSounds]
+[Unsafe]
+[ICQ MSN]
+[OverrideSecurityFilename]
+[OnCreateFilename]
+[Glob]
+[autoexec_*.ini]
+[OnCompletion]
+[recycle]
+[delete]
+[rename]
+[RenamePrefix]
+[done_]
+[ask]
+;file \src\modules\database\profilemanager.cpp
+[%s.dat]
+[.?/\\#' ]
+[&Create]
+&Vytvo¯it
+[0 KB]
+[%.3lf]
+[<In Use>]
+<pouûÌv·no>
+[Are you sure you want to remove profile "%s"?]
+Opravdu si p¯ejete odstranit profil "%s"?
+[%s\\%s%c]
+[Size]
+[Created]
+Vytvo¯eno
+[Modified]
+ZmÏnÏno
+[Run]
+[Check database]
+[%s\\%s.dat]
+[%s: %s\n%s]
+[Miranda Profiles from]
+UmÌstÏnÌ profil˘
+[Select or create your Miranda NG user profile]
+[My Profiles]
+Seznam profil˘
+[New Profile]
+Nov˝ profil
+;file \src\modules\extraicons\ExtraIconGroup.cpp
+[ / ]
+;file \src\modules\extraicons\extraicons.cpp
+[Chat Activity]
+Aktivita na chatu
+;file \src\modules\extraicons\options_ei.cpp
+[Extra icons]
+;file \src\modules\findadd\findadd.cpp
+[You haven't filled in the search field. Please enter a search term and try again.]
+Zadejte hledan˝ v˝raz a zkuste hledat znovu.
+[Search]
+Hledat
+[Results]
+Seznam vyhledan˝ch osob
+[There are no results to display.]
+Zadejte kritÈria hled·nÌ.
+[Searching]
+Hled·m
+[01234567890123456789]
+[All Networks]
+Vöechny sÌtÏ
+[Handle]
+[&Find/Add Contacts...]
+&Vyhledat kontakty...
+;file \src\modules\findadd\searchresults.cpp
+[First Name]
+[Last Name]
+[Could not start a search on '%s', there was a problem - is %s connected?]
+V r·mci %s nelze vyhled·vat. Jste p¯ipojeni k sÌti %s?
+[Could not search on any of the protocols, are you online?]
+Nelze vyhled·vat ani v jednom z protokol˘. Jste p¯ipojeni?
+[Problem with search]
+Chyba p¯i hled·nÌ
+[1 %s user found]
+PoËet nalezen˝ch: 1, sÌù %s
+[%d %s users found]
+PoËet nalezen˝ch: %d, sÌù %s
+[%d users found (]
+[%d %s]
+[No users found]
+PoËet nalezen˝ch: 0
+;file \src\modules\fonts\FontOptions.cpp
+[Failed to create file]
+Chyba p¯i vytv·¯enÌ souboru
+[<none>]
+[Shadow at left]
+StÌn nalevo
+[Shadow at right]
+StÌn napravo
+[Outline]
+Or·movat
+[Outline smooth]
+Or·movat jemnÏ
+[Smooth bump]
+Jemn˝ ˙kos
+[Contour thin]
+Tenk· kontura
+[Contour heavy]
+Siln· kontura
+[abc]
+[%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c]
+[Configuration Files]
+KonfiguraËnÌ soubory
+[Text Files]
+[ini]
+[Error writing file]
+Chyba p¯i zapisov·nÌ do souboru
+[Fonts & Colors]
+PÌsma a barvy
+[Sample Text]
+Uk·zka textu
+[Fonts]
+[Installed Plugins]
+InstalovanÈ doplÚky
+;file \src\modules\fonts\FontService.cpp
+[Headers]
+Z·hlavÌ
+[Generic text]
+BÏûn˝ text
+[Small text]
+Pozn·mky
+;file \src\modules\fonts\FontService.h
+[Incoming nick]
+P¯ÌchozÌ p¯ezdÌvka
+[Outgoing nick]
+OdchozÌ p¯ezdÌvka
+[Incoming timestamp]
+P¯ÌchozÌ Ëasov˝ ˙daj
+[Outgoing timestamp]
+OdchozÌ Ëasov˝ ˙daj
+;file \src\modules\fonts\services.cpp
+;file \src\modules\icolib\skin2icons.cpp
+[*StaticIcon_%d]
+;file \src\modules\icolib\skin2opts.cpp
+[%s,]
 [Icon Sets]
 Sada ikon
+[ (*.dll;*.icl;*.exe;*.ico)]
+[ (*.dll)]
+[*.DLL;*.ICL;*.EXE;*.ICO]
+[*.DLL]
+[dll]
+[icons.dll]
+[%s,%d]
+[%s, %d]
+;file \src\modules\ignore\ignore.cpp
+[** All contacts **]
+** vöechny kontakty **
+[Contacts]
+Kontakty
+;file \src\modules\netlib\netlibhttp.cpp
+[(no user)]
+[(exist)]
+[(no psw)]
+;file \src\modules\netlib\netliblog.cpp
+[No times]
+Bez ËasovÈho ˙daje
+[Standard hh:mm:ss times]
+StandardnÌ hh:mm:ss
+[Times in milliseconds]
+V milisekund·ch
+[Times in microseconds]
+V mikrosekund·ch
+[(Miranda Core Logging)]
+Z·znam j·dra Mirandy
+[Select where log file will be created]
+Zadejte poûadovan˝ soubor pro z·znam
+[Select program to be run]
+Vyberte poûadovan˝ program
+[%miranda_logpath%\\netlog.txt]
+;file \src\modules\netlib\netlibopts.cpp
+[<mixed>]
+[SOCKS4]
+[SOCKS5]
+[HTTP]
+[HTTPS]
+[Internet Explorer]
+[<All connections>]
+<vöechna spojenÌ>
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;file \src\modules\netlib\netlibsecurity.cpp
+[Basic]
+ObecnÈ
+[GSSAPI]
+[Kerberos]
+;file \src\modules\netlib\netlibssl.cpp
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+Klient nem˘ûe dekÛdovat zpr·vu hostitele. MoûnÈ p¯ÌËiny: Hostitel nepodporuje SSL nebo vyûaduje neexistujÌcÌ soubor zabezpeËenÌ
+[Host we are connecting to is not the one certificate was issued for]
+Certifik·t nebyl vyd·n pro hostitele, ke kterÈmu se nynÌ p¯ipojujeme
+[SSL connection failure (%x %u): %s]
+;file \src\modules\options\filter.cpp
+[SysTreeView32]
+[listbox]
+[SysListView32]
+[combobox]
+;file \src\modules\options\headerbar.cpp
+;file \src\modules\options\options.cpp
+[<all modules>]
+1) vöechny moduly
+[<core modules>]
+2) j·dro Mirandy
+[Button]
+TlaËÌtko
+[Loading... %d%%]
+NaËÌt·nÌ... %d%%
+[%s options]
+%s nastavenÌ
+[Miranda NG Options]
+[&Options...]
+;file \src\modules\plugins\newplugins.cpp
+[stduserinfo]
+[stdurl]
+[stdemail]
+[stdauth]
+[stdfile]
+[stdhelp]
+[stduihist]
+[stdidle]
+[stdautoaway]
+[stduseronline]
+[stdaway]
+[stdclist]
+[stdchat]
+[stdmsg]
+[Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
+[Fatal error]
+[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+[autoloadavatars.dll]
+[multiwindow.dll]
+[fontservice.dll]
+[icolib.dll]
+[historyeditor.dll]
+[scriver.dll]
+[nconvers.dll]
+[tabsrmm.dll]
+[nhistory.dll]
+[historypp.dll]
+[help.dll]
+[loadavatars.dll]
+[tabsrmm_unicode.dll]
+[clist_nicer_plus.dll]
+[changeinfo.dll]
+[png2dib.dll]
+[dbx_mmap.dll]
+[dbx_3x.dll]
+[sramm.dll]
+[srmm_mod.dll]
+[srmm_mod (no Unicode).dll]
+[singlemodeSRMM.dll]
+[msg_export.dll]
+[clist_modern.dll]
+[clist_nicer.dll]
+[%s\\Plugins\\*.dll]
+['%s' is disabled, re-enable?]
+'%s' nenÌ aktivnÌ. Chcete ho aktivovat?
+[Re-enable Miranda plugin?]
+Chcete znovu aktivovat tento doplnÏk?
+[\\%s\\%s]
+[Core]
+[Plugins]
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+[%s.dll]
+[\\Plugins\\%s]
+[\\Core\\%s.dll]
+[Unable to load plugin in Service Mode!]
+Nelze naËÌst doplnÏk v nouzovÈm reûimu
+[svc]
+[dbchecker.dll]
+[PluginLoader]
+[AskAboutIgnoredPlugins]
+[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+[advaimg.dll]
+[crashdumper.dll]
+[mirandaboot.ini]
+;file \src\modules\plugins\pluginopts.cpp
+[%s\\Plugins\\%s]
+[%d.%d.%d.%d]
+[Plugin]
+DoplnÏk
+[Version]
+;file \src\modules\protocols\protoopts.cpp
+[Create new account]
+Z¯Ìdit nov˝ ˙Ëet
+[Editing account]
+Upravit ˙Ëet
+[Upgrading account]
+Aktualizace ˙Ëtu
+[%s~]
+[Account is disabled. Please activate it to access options.]
+Vybran˝ ˙Ëet je vypnut˝. Nejd¯Ìve ho musÌte aktivovat.
+[New account]
+Z¯Ìdit ˙Ëet
+[Edit]
+[Remove account]
+Smazat ˙Ëet
+[Configure...]
+Nastavit...
+[Upgrade account]
+Aktualizovat ˙Ëet
+[Protocol]
+[Account ID]
+Identifik·tor ˙Ëtu
+[%s: %d]
+[<unknown>]
+<nezn·m˝>
+[Protocol is not loaded.]
+Protokol nenÌ naËten˝.
+[Rename]
+P¯ejmenovat
+[Configure]
+[Upgrade]
+[Account is online. Disable account?]
+⁄Ëet je p¯ipojen. Deaktivovat ˙Ëet?
+[Account %s is being deleted]
+OdstranÏnÌ ˙Ëtu %s
+[You need to disable plugin to delete this account]
+Pro smaz·nÌ tohoto ˙Ëtu musÌte deaktivovat doplnÏk
+[&Accounts...]
+⁄Ët&y...
+;file \src\modules\skin\hotkeys.cpp
+[MirandaHotkeyHostWnd]
+;file \src\modules\skin\hotkey_opts.cpp
+[%s%s%s%s%s]
+[Ctrl + ]
+[Alt + ]
+[Shift + ]
+[Win + ]
+[Remove shortcut]
+Odstranit zkratku
+[Add another shortcut]
+P¯idat kl·vesovou zkratku
+[Scope:]
+PlatÌ pro:
+[System]
+SystÈm
+[Actions:]
+Akce:
+[Add binding]
+P¯idat
+[Modify]
+Upravit
+[System scope]
+Platnost v systÈmu
+[Miranda scope]
+Platnost v MirandÏ
+;file \src\modules\skin\skinicons.cpp
+[Message]
+[User Online]
+Uûivatel online
+[Group (Open)]
+Skupina (otev¯en·)
+[Group (Closed)]
+Skupina (zav¯en·)
+[User Details]
+Informace o uûivateli
+[History]
+Historie
 [Down Arrow]
-–âipka dol—â
-[Add Contact]
-P—àidat kontakt
+äipka dol˘
 [Find User]
 Vyhledat kontakt
 [Send E-mail]
 Poslat e-mail
+[SMS]
+SMS
 [Search All]
-Prohledat v—ôe
+Prohledat vöe
 [Tick]
-Za—ôkrtnuto
+Zaökrtnuto
 [No Tick]
-Neza—ôkrtnuto
+Nezaökrtnuto
+[Help]
 [Miranda Website]
-Str–±nka o Mirand–º
+Str·nka o MirandÏ
 [Small Dot]
-Te–∏ka uprost—àed
+TeËka uprost¯ed
 [Filled Blob]
-Vypln–ºn—ç slot
+VyplnÏn˝ slot
 [Empty Blob]
-Pr–±zdn—ç slot
-
-[Read Away Message]
-P—àe–∏–Ωst autom. odpov–º–ø
-[Re&ad Away Message]
-P—àe–∏–Ωst &autom. odpov–º–ø
-
-[<All connections>]
-<v—ôechna spojen–Ω>
-
-[&Reset To Default]
-O&bnovit v—çchoz–Ω
-
-; Informace o kontaktu
-[Summary]
-Souhrn
-[Location]
-Um–Ωst–ºn–Ω
-
-[Insert separator]
-Vlo—õit odd–ºlova–∏
-
-; Menu
-[<Root Group>]
-<ko—àenov–± skupina>
-[&Move to Group]
-P—àesunout do s&kupiny
-[ContactMenu]
-Nab–Ωdka kontaktu
-[Custom status]
-Roz—ô–Ω—àen—ç stav
-
-; File Tranfer dialog
-[Sending file]
-Pos–Ωl–±n–Ω souboru
-[Sending files]
-Pos–Ωl–±n–Ω soubor—â
-[Receiving file]
-P—à–Ωjem souboru
-[Request sent, waiting for acceptance...]
-–ã–±dost odesl–±na, –∏ek–±n–Ω na potvrzen–Ω...
-[Waiting for connection...]
-–òek–±n–Ω na spojen–Ω...
-[This file has not yet been scanned for viruses. Are you certain you want to open it?]
-Tento soubor je—ôt–º nebyl zkontrolov–±n antivirov—çm programem. Opravdu ho chcete otev—à–Ωt?
-[File Received]
-Soubor p—àijat
-[Current file (%d of %d)]
-Aktu–±ln–Ω soubor (–∏.%d z %d)
-[Unable to initiate transfer.]
-Chyba p—ài inicializaci p—àenosu.
-[sec]
-sek.
-[remaining]
-zb—çv–±
-[Decision sent]
-Potvrzen–Ω odesl–±no
-[Connecting...]
-Navazov–±n–Ω spojen–Ω...
-[Connecting to proxy...]
-P—àipojov–±n–Ω k proxy...
-[Connected]
-Spojen–Ω nav–±z–±no
-[Initialising...]
-Inicializace...
-[Moving to next file...]
-Dal—ô–Ω soubor...
-[File already exists]
-Soubor ji—õ existuje
-[Sending...]
-Pos–Ωl–±n–Ω dat...
-[Receiving...]
-P—à–Ωjem dat...
-[Transfer completed]
-P—àenos dat dokon–∏en
-[Scanning for viruses...]
-Kontrola antivirov—çm programem...
-[File transfer failed]
-Chyba p—ài p—àenosu souboru
-[File transfer denied]
-P—àenos souboru odm–Ωtnut
-[Transfer and virus scan complete]
-P—àenos a kontrola antivirem dokon–∏ena
-[%d file]
-%d soubor
-[%d files]
-%d soubor—â
-
-; Vlastn–Ω —äpravy / P–Ωsma
-[Color/Background]
-Barva pozad–Ω
-[Choose Font]
-Vybrat p–Ωsmo
-[Configuration Files (*.ini)\0*.ini\0Text Files (*.txt)\0*.TXT\0All Files (*.*)\0*.*\0]
-Konfigura–∏n–Ω soubory (*.ini)\0*.ini\0Textov–π soubory (*.txt)\0*.TXT\0V—ôechny soubory (*.*)\0*.*\0
-
-[Show settings only for module:]
-Zobrazit mo—õnosti pro:
-[<all modules>]
-1) v—ôechny moduly
-[<core modules>]
-2) j–±dro Mirandy
-
-[File Already Exists]
-Soubor ji—õ existuje
-
-; src/modules/findadd/searchresults.c
-[%d %s users found]
-Po–∏et nalezen—çch: %d, s–Ω—ú %s
-[%d users found (]
-Po–∏et nalezen—çch: %d (
-[1 %s user found]
-Po–∏et nalezen—çch: 1, s–Ω—ú %s
-[Could not search on any of the protocols, are you online?]
-Nelze vyhled–±vat ani v jednom z protokol—â. Jste p—àipojeni?
-[Could not start a search on '%s', there was a problem - is %s connected?]
-V r–±mci %s nelze vyhled–±vat. Jste p—àipojeni k s–Ωti %s?
-[No users found]
-Po–∏et nalezen—çch: 0
-[Problem with search]
-Chyba p—ài hled–±n–Ω
-[First Name]
-Jm–πno
-[Last Name]
-P—à–Ωjmen–Ω
-
-; src/modules/database/dbini.c
-[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
-Neplatn—ç typ nastaven–Ω. Prvn–Ω znak hodnoty mus–Ω b—çt b, w, d, l, s, e, u, g, h nebo n.]
-
-; src/modules/database/profilemanager.c
-[<In Use>]
-<pou—õ–Ωv–±no>
-[Accessed]
-Otev—àeno
-[Created]
-Vytvo—àeno
-
-; src/modules/findadd/findadd.c
-;[Handle]
-[Search]
-Hledat
-[You haven't filled in the search field. Please enter a search term and try again.]
-Zadejte hledan—ç v—çraz a zkuste hledat znovu.
-
-; ikony
+Pr·zdn˝ slot
 [Unicode plugin]
-Dopln–ºk Unicode
+DoplnÏk Unicode
 [ANSI plugin]
-Dopln–ºk ANSI
+DoplnÏk ANSI
 [Running plugin]
-Spu—ôt–ºn—ç dopln–ºk
+SpuötÏn˝ doplnÏk
 [Unloaded plugin]
-Nespu—ôt–ºn—ç dopln–ºk
-
-[Your Version:]
-Nainstal. verze:
-[Latest Release:]
-Nejnov–ºj—ô–Ω verze:
-
-[Incoming Message]
-P—à–Ωchoz–Ω zpr–±va
-[Outgoing Message]
-Odchoz–Ω zpr–±va
-[Incoming URL]
-P—à–Ωchoz–Ω odkaz
-[Outgoing URL]
-Odchoz–Ω odkaz
-[Incoming File]
-P—à–Ωchoz–Ω soubor
-[Outgoing File]
-Odchoz–Ω soubor
-
-; ./src/modules/keybindings/keybindings.c
-[Shortcut already assigned to "%s" action.\nIf you click "Add" the shortcut will be reassigned.]
-Tato kl–±vesov–± zkratka je pou—õit–± (akce: "%s").\nKliknut–Ωm na tla–∏–Ωtko "P—àidat" zkratku zm–ºn–Ωte.
-
-; ./src/modules/skin/hotkeys.c
-[Add another shortcut]
-P—àidat kl–±vesovou zkratku
-[Add secondary binding]
-P—àidat druhou zkratku
-[Change binding]
-Zm–ºnit zkratku
-[Miranda local hotkey]
-Lok–±ln–Ω kl–±vesov–± zkratka
-[Remove binding]
-Odstranit zkratku
-[Remove shortcut]
-Odstranit zkratku
-[Revert change]
-Vr–±tit p—âvodn–Ω
-[System global hotkey]
-Glob–±ln–Ω kl–±vesov–± zkratka
-[add secondary hotkey]
-P—àidat druhou zkratku
-[miranda hotkey (click to toggle)]
-Lok–±ln–Ω zkratka (kliknut–Ωm p—àepnete)
-[remove hotkey]
-Odstranit zkratku
-[revert change]
-Vr–±tit p—âvodn–Ω zkratku
-[system global hotkey]
-Glob–±ln–Ω zkratka
-[window hotkey]
-Zkratka pro okno
-
-[&Accounts...]
-–™–∏t&y...
-[Enter account name (for example, My Google)]
-Zadejte n–±zev —ä–∏tu (nap—à. Google)
-[Choose the protocol type]
-Vyberte po—õadovan—ç protokol
-[Specify the internal account name (optional)]
-Zadejte intern–Ω n–±zev —ä–∏tu (nepovinn–π)
-[Editing account]
-Upravit —ä–∏et
-[Account %s is being deleted]
-Odstran–ºn–Ω —ä–∏tu %s
-
-[Start in Service Mode with]
-Nouzov—ç re—õim s dopl—Çkem
-
-[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
-POZOR!!! Vybran—ç —ä–∏et bude smaz–±n. V d—âsledku to znamen–±, —õe bude odstran–ºn seznam kontakt—â dan–πho protokolu, historie i nastaven–Ω.\n\nOpravdu chcete smazat vybran—ç —ä–∏et?
-[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
-Vybran—ç —ä–∏et byl —äsp–º—ôn–º zaktualizov–±n a nyn–Ω ho u—õ zb—çv–± jen aktivovat, co—õ vy—õaduje restart Mirandy.\n\nPomoc–Ω tla–∏–Ωtka 'Ano' provedete restart, kliknut–Ωm na tla–∏–Ωtko 'Ne' lze aktualizovat dal—ô–Ω —ä–∏et.
-[Restart required]
-Vy—õaduje restart
-
-[This account uses legacy protocol plugin. Use Miranda IM options dialogs to change it's preferences.]
-Tento —ä–∏et pou—õ–Ωv–± star—ô–Ω generaci dopl—Çku pro podporu dan–πho protokolu. Konfigurovat ho m—â—õete jen v okn–º s nastaven–Ωm pro celou Mirandu.
-[Account is disabled. Please activate it to access options.]
-Vybran—ç —ä–∏et je vypnut—ç. Nejd—à–Ωve ho mus–Ωte aktivovat.
-[Account ID]
-Identifik–±tor —ä–∏tu
-[Configure your IM accounts]
-Konfigurace nebo zalo—õen–Ω —ä–∏tu
-[Account information:]
-Informace o —ä–∏tu:
-[Additional:]
-Dal—ô–Ω mo—õnosti:
-[Configure network...]
-Konfigurovat s–Ωt–º...
-[Get more protocols...]
-St–±hnout dal—ô–Ω protokoly...
-[New account]
-Z—à–Ωdit —ä–∏et
-[Upgrade account]
-Aktualizovat —ä–∏et
-[Protocol is not loaded.]
-Protokol nen–Ω na–∏ten—ç.
-
+NespuötÏn˝ doplnÏk
 [ShowHide]
-Zobrazit nebo skr—çt
-
-[File &Transfers...]
-P—à&enos soubor—â...
-[Clear completed]
-Vymazat dokon–∏en–π
-[Miranda IM is being restarted.\nPlease wait...]
-Restart programu Miranda.\nPo–∏kejte pros–Ωm...
-[Tranfer completed.]
-P—àenos dat dokon–∏en.
-[No data transferred]
-P—àenos je—ôt–º neza–∏al.
-[Transfer completed, open file.]
-P—àenos dat dokon–∏en, otev—àen–Ω souboru.
-[Transfer completed, open folder.]
-P—àenos dat dokon–∏en, otev—àen–Ω slo—õky.
-
-[Check for Update]
-Zjistit novou verzi
-[No Update Available]
-Nen–Ω nov–ºj—ô–Ω verze
-[You are running the latest version of Miranda IM.  No update is available at this time.]
-Pou—õ–Ωv–±te nejnov–ºj—ô–Ω verzi programu Miranda IM.
-[Configure your Miranda Instant Messenger options]
-Konfigurace programu Miranda IM
-[Options search]
-Hled–±n–Ω v nastaven–Ω
-[Enable keyword search in options dialog]
-Zapnout hled–±n–Ω v nastaven–Ω Mirandy
-[If this option is checked it allows you to search for option pages that contain the search string or plugin name.]
-Tato funkce umo—õn–Ω naj–Ωt hledan–π slovo, funkci nebo dopln–ºk v r–±mci konfigura–∏n–Ωho okna Mirandy.
-
-[Transfer completed.]
-P—àenos dat dokon–∏en.
-[Transfer and virus scan complete]
-P—àenos i kontrola dat antivirem dokon–∏ena
-[of]
-z
-
-[Locked status]
-Zamknuto
-[Add binding]
-P—àidat
-[Text Effect]
-Textov—ç efekt
-[Effect:]
-Efekt:
-[Base colour:]
-Z–±kladn–Ω barva:
-[Secondary colour:]
-Dopl—Çkov–± barva:
-[Font Effect]
-Efekt
-
-[Style]
-Vzhled
-[Addons]
-Dopl—Çky
-
-[Become idle if computer is left unattended for:]
-P—àej–Ωt do stavu ne–∏innosti pokud se nic ned–ºje:
-[Idle (auto-away):]
-Stav ne–∏innosti:
-[Status messages:]
-Stavov–π zpr–±vy:
-[Choose events you wish to ingonre:]
-Vyberte ud–±losti, kter–π chcete filtrovat:
-[Event icon legend:]
-Legenda k vybran—çm ikon–±m:
-[Options\nConfigure your Miranda Instant Messenger options]
-Mo—õnosti\nKonfigurace programu Miranda IM
-[Welcome to Miranda IM's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
-V–Ωtejte ve spr–±vci —ä–∏t—â programu Miranda IM!\nZde si m—â—õete zalo—õit nov—ç —ä–∏et ve vybran–π s–Ωti, upravit st–±vaj–Ωc–Ω nebo naopak n–ºkter—ç smazat.\n\nChcete-li zalo—õit nov—ç —ä–∏et, klikn–ºte na tla–∏–Ωtko \"plus\" v lev–πm doln–Ωm rohu okna. Pokud si p—àejete upravit st–±vaj–Ωc–Ω —ä–∏et, vyberte po—õadovan—ç ze seznamu.
-[Headers:]
-Z–±hlav–Ω:
-[This font is used to display main section titles or text elements.]
-Pou—õ–Ωv–± se k zobrazen–Ω textu v z–±hlav–Ω sekc–Ω nebo odstavc—â.
-[Normal text:]
-B–º—õn—ç text:
-[This font is used to display most text element or section bodies.]
-Pou—õ–Ωv–± se k zobrazen–Ω v–ºt—ôiny text—â v programu.
-[Minor notes:]
-Pozn–±mky:
-[This font is used to display various addtional notes.]
-Pou—õ–Ωv–± se k zobrazen–Ω dodatkov—çch text—â a pozn–±mek.
-[Sample Text]
-Uk–±zka textu
-[Validate SSL certificates]
-Ov–º—àit platnost certifik–±t—â
-[Added event]
-Nov–± ud–±lost
-[Authorization request]
-–ã–±dost o autorizaci
-[Background info]
-Profil
-[%s\nView personal user details and more]
-%s\nP—àehled informac–Ω o vybran–π osob–º
-[Actions:]
-Akce:
-[Scope:]
-Plat–Ω pro:
-[Accounts\nConfigure your IM accounts]
-–™–∏ty\nKonfigurace nebo zalo—õen–Ω —ä–∏tu
-[Work Phone]
-Telefon (pr–±ce)
-[Work Fax]
-Fax (pr–±ce)
-[Find/Add Contacts\nHere you can add contacts to your contact list]
-Vyhled–±n–Ω kontakt—â\nUmo—õn–Ω vyhledat a p—àidat nalezen–π do seznamu kontakt—â
-
-[Headers]
-Z–±hlav–Ω
-[Generic text]
-B–º—õn—ç text
-[Small text]
-Pozn–±mky
-
-[bytes]
-bajt—â
-
-[This change is known to be safe.]
-Tato —äprava se obecn–º pova—õuje za bezpe–∏nou.
-[This change is known to be potentially hazardous.]
-Tato —äprava se pova—õuje za potenci–±ln–º nebezpe–∏nou.
-[This change is not known to be safe.]
-Nezn–±m—ç druh —äpravy; nelze pova—õovat za bezpe–∏n–π.
-
-[Latest Version:]
-Nejnov–ºj—ô–Ω verze:
-
-[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
-Profil '%s' nelze otev—à–Ωt. Zkontrolujte,\nzda m–±te opr–±vn–ºn–Ω ke –∏ten–Ω dat z adres–±—àe s profilem.
-[Miranda can't open that profile]
-Vybran—ç profil nelze otev—à–Ωt
-[Account Order && Visibility]
-Po—àad–Ω —ä–∏t—â a jejich viditelnost
-[Upgrading account]
-Aktualizace —ä–∏tu
-[&Upgrade]
-Aktualizovat
-
-[Open...]
-Otev—à–Ωt...
-
-[Protocol menus]
-Nab–Ωdky —ä–∏t—â
-[Move to the main menu]
-P—àesunout do hlavn–Ω nab–Ωdky
-[Move to the status bar]
-P—àesunout do nab–Ωdky stavu
-
-[Menu Objects]
-Nab–Ωdky
-[Menu Items]
-Polo—õky nab–Ωdky
-
-[Clear completed transfers on window closing]
-Smazat dokon–∏en–π p—àenosy po zav—àen–Ω okna
-
-; ./src/modules/srauth/authdialogs.cpp
-[%s requested authorization\n%u (%s) on %s]
-%s —õ–±d–± o autorizaci\n%u (%s) v s–Ωti %s
-[%s requested authorization\n%u on %s]
-%s —õ–±d–± o autorizaci\n%u v s–Ωti %s
-[%s requested authorization\n%s on %s]
-%s —õ–±d–± o autorizaci\n%s v s–Ωti %s
-
-[Denial Reason:]
-D—âvod odm–Ωtnut–Ω:
-[Decide &Later]
-&Pozd–ºji
-[View User Details]
-Zobrazit osobn–Ω —ädaje
-
-[&Support]
-&Podpora
-
-[Add to contact list if authorized]
-Je-li autorizov–±n, p—àidat mezi kontakty
-
-[Set custom time zone]
-Nastavit vlastn–Ω –∏asov–π p–±smo
-[<unspecified>]
-<neur–∏eno>
-
-[Miranda Profiles from]
-Um–Ωst–ºn–Ω profil—â
-[Select or create your Miranda IM user profile]
-V—çb–ºr nebo vytvo—àen–Ω nov–πho profilu
-[Modified]
-Zm–ºn–ºno
-
-[Become idle if application full screen]
-P—àej–Ωt do stavu ne–∏innosti v celoobrazovkov–πm re—õimu
-[Open Logging Options]
-Otev—à–Ωt z–±znam
-[Use Custom Login (Domain login picked up automatically)]
-Pou—õ–Ωt vlastn–Ω p—àihl–±—ôen–Ω (dom–πnov–π jm–πno dopln–ºno automaticky)
-
-; netlib options
-[Netlib Log Options]
-Z–±znam s–Ω—úov–π komunikace
-[Received bytes]
-P—àijat–± data
-[Sent bytes]
-Odeslan–± data
-[Additional data due to proxy communication]
-V–∏etn–º komunikace s proxy
-[Text dumps where available]
-P—àednostn–º textov—ç v—çpis
-[Auto-detect text]
-Automatick–± detekce textu
-[Calling modules' names]
-N–±zvy volaj–Ωc–Ωch modul—â
-[Run programm when Miranda IM starts (eg tail -f, dbgview, etc):]
-Soub–º—õn–π spu—ôt–ºn–Ω dal—ô–Ωho programu (nap—à. tail -f, dbgview atp.):
-[Run now]
-Spustit
-[Show this dialog box when Miranda IM starts]
-Zobrazit toto okno p—ài spu—ôt–ºn–Ω Mirandy
-[SSL Traffic]
-V–∏etn–º dat SSL
-[No times]
-Bez –∏asov–πho —ädaje
-[Standard hh:mm:ss times]
-Standardn–Ω hh:mm:ss
-[Times in milliseconds]
-V milisekund–±ch
-[Times in microseconds]
-V mikrosekund–±ch
-[Select program to be run]
-Vyberte po—õadovan—ç program
-[Select where log file will be created]
-Zadejte po—õadovan—ç soubor pro z–±znam
-
-[Download more plugins]
-St–±hnout dal—ô–Ω dopl—Çky
-[Re&ad Status Message]
-P—àe–∏–Ωst stavovou zpr–±vu
-[Don't send to any protocols]
-Nepos–Ωlat —õ–±dn–πmu protokolu
-[Toggle send to all protocols]
-P—àepnout stav pos–Ωl–±n–Ω protokol—âm
-
-[Disable icons]
-Vypnout ikony
-
+Zobrazit nebo skr˝t
+[Exit]
+UkonËit
+[Main Menu]
+HlavnÌ nabÌdka
 [Leave chat]
 Opustit diskusi
 [Move to Group]
-P—àesunout do skupiny
-[Expanded]
-Rozbalen—ç
-[Show title]
-Zobrazit z–±hlav–Ω
-
-[Are you sure you want to delete group '%s'?  This operation can not be undone.]
-Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vr–±tit.
-
-[Open mailbox]
-P—àe–∏–Ωst po—ôtu
-
-; ---
-
-[Please authorize my request and add me to your contact list.]
-Autorizujte pros–Ωm m—âj po—õadavek a p—àidejte si m–º do va—ôeho seznamu.
-;[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
-;[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
-;[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
-[Are you sure you want to remove profile "%s"?]
-Opravdu si p—àejete odstranit profil "%s"?
-[Failed to create file]
-Chyba p—ài vytv–±—àen–Ω souboru
-[Configuration Files]
-Konfigura–∏n–Ω soubory
-[Text Files]
-Textov–π soubory
-[Error writing file]
-Chyba p—ài zapisov–±n–Ω do souboru
-[Installed Plugins]
-Instalovan–π dopl—Çky
-;[< Copyright]
-;[http://wiki.miranda-im.org/]
-[Invalid Message]
-Neplatn–± zpr–±va
-[History for %s]
-Historie pro %s
-[Are you sure you want to delete this history item?]
-Opravdu si p—àejete odstranit tento z–±znam z historie?
-[Delete History]
-Smazat historii
-[Key Bindings]
-Kl–±vesov–π zkratky
-[(Miranda Core Logging)]
-Z–±znam j–±dra Mirandy
-[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
-Klient nem—â—õe dek—Édovat zpr–±vu hostitele. Mo—õn–π p—à–Ω–∏iny: Hostitel nepodporuje SSL nebo vy—õaduje neexistuj–Ωc–Ω soubor zabezpe–∏en–Ω
-[Host we are connecting to is not the one certificate was issued for]
-Certifik–±t nebyl vyd–±n pro hostitele, ke kter–πmu se nyn–Ω p—àipojujeme
-[Loading... %d%%]
-Na–∏–Ωt–±n–Ω... %d%%
-[%s options]
-%s nastaven–Ω
-[Load]
-Na–∏–Ωst
-;[dbrw]
-;[svc_crshdmp.dll]
-[Unable to load plugin in Service Mode!]
-Nelze na–∏–Ωst dopln–ºk v nouzov–πm re—õimu
-;[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
-;[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-;[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-[Account is online. Disable account?]
-–™–∏et je p—àipojen. Deaktivovat —ä–∏et?
-[You need to disable plugin to delete this account]
-Pro smaz–±n–Ω tohoto —ä–∏tu mus–Ωte deaktivovat dopln–ºk
-[System scope]
-Platnost v syst–πmu
-[Miranda scope]
-Platnost v Mirand–º
+P¯esunout do skupiny
+[Off]
+Vyp
+[Running core plugin]
+[Non-loadable plugin]
+[Always visible]
+Tento ËlovÏk mÏ vûdy uvidÌ
+[Always invisible]
+[Locked status]
+Zamknuto
 [%s Icons]
 %s ikony
+[%s\\Icons\\proto_]
+[.dll]
+[%s\\Plugins\\]
+;file \src\modules\skin\sounds.cpp
+[%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c]
 [Sound Files]
-Zvukov–π soubory
-;[AuthRequest]
-;[AddedEvent]
-[<Unknown>]
-<nezn–±m—ç>
-[%s added you to the contact list\n%u (%s) on %s]
-%s si v–±s p—àidal mezi sv–π kontakty\n%u (%s) v s–Ωti %s
-[%s added you to the contact list\n%u on %s]
-%s si v–±s p—àidal mezi sv–π kontakty\n%u v s–Ωti %s
-[%s added you to the contact list\n%s on %s]
-%s si v–±s p—àidal mezi sv–π kontakty\n%s v s–Ωti %s
-[Feature is not supported by protocol]
-Funkce nen–Ω protokolem podporov–±na
-[User has not registered an e-mail address]
-U—õivatel nem–± zaregistrovanou e-mailovou adresu
-[My Received Files]
-Moje p—àijat–π soubory
-[%d directories]
-%d slo—õek
-[Send timed out]
-Vypr—ôel –∏as na odesl–±n–Ω
-;[MHeaderbarCtrl]
-;[Miranda IM\n%s]
-[Transfer completed, open file(s).]
-P—àenos dat dokon–∏en, otev—à–Ωt soubor(y).
-[Auto rename]
-Automaticky p—àejmenovat
-[URL Received]
-P—àijata URL
-[\nStyles and effects are disabled for this font.]
-\nStyly a efekty nejsou pro tento font dostupn–π.
-[Shortcut:]
-Kl–±vesov–± zkratka:
-[Undo Changes]
-Vr–±tit zm–ºny
-[Reset To Default]
-Obnovit v—çchoz–Ω
-[Error Console]
-Chybov–± konzole
-[Error notifications]
-Chybov–π ozn–±men–Ω
-;[Webdings]
-;[ChatSent]
-[Rich Edit file]
-Rich Edit soubor
-[Image files]
-Soubory obr–±zk—â
-[JPEG-compressed images]
-JPEG-komprimovan–π obr–±zky
-;[Tahoma]
-[tabSRMM themes]
-tabSRMM t–πmata
-[%s on %s%s]
-%s v s–Ωti %s%s
-[Enable popups if focused]
-Povolit ozn–±men–Ω kdy—õ je okno v pop—àed–Ω
-[Windows Aero settings]
-Nastaven–Ω Windows Aero
-[Use Aero UI elements(only when not using a custom skin)]
-Pou—õ–Ωt Aero UI elementy (pouze pokud nen–Ω pou—õito vlastn–Ω t–πma)
-[Use Windows 7 task bar enhancements (restart required)]
-Pou—õ–Ωt Windows 7 vylep—ôen–Ω li—ôty —äloh (vy—õadov–±n restart)
-;[Unread Menu]
-;[Traycontext]
-;[Dummy]
-;[dummy]
-[Splitter context]
-Kontext odd–ºlova–∏e
-[Hold Selected]
-Podr—õet vybran–π
-[Resume Selected]
-Pokra–∏ovat vybran–π
-[Show Popups if Window is focused]
-Zobrazit ozn–±men–Ω kdy—õ je okno v pop—àed–Ω
-[Display popups for completed jobs]
-Zobrazit ozn–±men–Ω pro dokon–∏en–π —älohy
-
-; ---
+ZvukovÈ soubory
+[wav]
+;file \src\modules\utils\bmpfilter.cpp
+[.bmp]
+[.rle]
+[.png]
+[You need an image services plugin to process PNG images.]
+Pro zpracov·nÌ PNG obr·zk˘ je zapot¯ebÌ doplnÏk Image services
+[All Bitmaps]
+Vöechny bitmapy
+[Windows Bitmaps]
+[JPEG Bitmaps]
+[GIF Bitmaps]
+[PNG Bitmaps]
+obr·zky typu PNG
+[ (*.bmp;*.jpg;*.gif;*.png)]
+[*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG]
+[ (*.bmp;*.rle)]
+[*.BMP;*.RLE]
+[ (*.jpg;*.jpeg)]
+[*.JPG;*.JPEG]
+[ (*.gif)]
+[*.GIF]
+[ (*.png)]
+[*.PNG]
+;file \src\modules\utils\openurl.cpp
+[file:///%s]
+[ftp.]
+[ftp://%s]
+[http://%s]
+;file \src\modules\utils\path.cpp
+[%s\\%s\\AvatarCache]
+[%s\\%s\\Logs]
+;file \src\modules\utils\timeutils.cpp
+[%d-%02d-%02dT%02d:%02d:%02dZ]
+;file \src\modules\utils\timezones.cpp
+[UTC]
+[COMBOBOX]
+[LISTBOX]
+[<unspecified>]
+<neurËeno>
+[MUI_%s]
+[SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones]
+[SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Time Zones]
+[kernel32]
+[shlwapi]
+[user32]
+[TZI]
+[Display]
+ZobrazenÌ
+[Std]
+[Dlt]
+;file \src\modules\utils\utils.cpp
+["%s" /restart:%d]
+;file \src\modules\visibility\visibility.cpp

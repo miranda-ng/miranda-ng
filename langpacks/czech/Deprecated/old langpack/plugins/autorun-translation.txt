@@ -1,0 +1,19 @@
+; /----------------------------------------------------------\
+; |  Autorun 0.1.0.0                                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Dave-Dave
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=285
+;
+
+[Autorun]
+Automatické spuštìní
+[Launch Miranda IM at system startup]
+Spustit Mirandu pøi startu Windows
+[Note: At startup Miranda IM will use current profile]
+Poznámka: Pøi spuštìní Miranda použije aktuální profil.
+
+[This plugin is a simple way to enable/disable to launch Miranda IM with system startup.]
+Jednoduchý zpùsob, jak zajistit spuštìní Mirandy pøi startu Windows.
+
+; ---

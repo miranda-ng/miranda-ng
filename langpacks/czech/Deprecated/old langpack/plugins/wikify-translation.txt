@@ -1,0 +1,32 @@
+; /----------------------------------------------------------\
+; |  Wikify 1.0.1.1                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2611
+;
+
+[Use: [[ ]] => URL0, [[[ ]]] => URL1, ...]
+Použití: [[ ]] => URL0, [[[ ]]] => URL1, ...
+[Convert]
+Nahradit
+[Indents (: at the beginning of a new line to 3 spaces)]
+Odsazení (: na zaèátku nového øádku -> 3 mezery)
+[Tabulator character (\\t)]
+\\t -> tabulátor
+[Standard quotations marks ("") to:]
+Standardní uvozovky (""):
+[Invert ending mark]
+Obrátit ukonèující znak
+[Switch]
+Prohodit
+[-- to —]
+-- -> —
+[I like it small]
+Malé je milé
+[<!> escape tag (disables all following convertions in the message)]
+Znaèka <!> vypne všechny pøípadné následující konverze
+[Template:]
+Šablona:
+
+; ---

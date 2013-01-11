@@ -1,0 +1,151 @@
+#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+;============================================================
+;  File: yapp.dll
+;  Plugin: YAPP
+;  Version: 0.5.0.10
+;  Authors: Scott Ellis
+;============================================================
+;file \plugins\YAPP\res\yapp.rc
+[Close]
+Zavøít
+[Case sensitive]
+Rozlišovat malá a VELKÁ
+[Default Timeout]
+Doba zobrazení
+[Never timeout]
+Zobrazovat trvale
+[Set timeout:]
+Autom. skrıt po:
+[Width:]
+Šíøka:
+[Maximum height:]
+Maximální vıška:
+[Options]
+[Opacity(%):]
+Prùhlednost (%):
+[Border]
+[Round corners (window)]
+Zaoblit rohy oken
+[Preview]
+Náhled
+[Animate]
+Animovat
+[Transparent background]
+Prùhledné pozadí
+[Layout]
+[Avatar size:]
+Velikost avataru:
+[Disable when]
+Neaktivní pøi
+[Global hover]
+Nezavírat po umístìní myši
+[Sidebar width:]
+Šíøka boèn. pruhu:
+[Text indent:]
+Odsazení textu:
+[Padding:]
+Vyplnìní:
+[Round corners (avatar)]
+Zaoblit rohy avatarù
+[Text colour:]
+Barva textu:
+[Background colour:]
+[Set timeout]
+Nastavit dobu zobrazení
+[Timeout value (0 = default):]
+Prodleva (0 = vıchozí):
+;file \plugins\YAPP\src\message_pump.cpp
+[default]
+vıchozí
+[Popup]
+;file \plugins\YAPP\src\notify_imp.cpp
+[YAPP Popups]
+;file \plugins\YAPP\src\options.cpp
+[Example]
+Pøíklad
+[The quick brown fox jumped over the lazy dog.]
+luouèkı kùò úpìl ïábelské ódy.
+[Example With a Long Title]
+Pøíklad dlouhého záhlaví
+[Thequickbrownfoxjumpedoverthelazydog.]
+luouèkıkùòúpìlïábelskéódy.
+[An avatar.]
+avatar
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoøe
+[Top left]
+Vlevo nahoøe
+[Icon on left]
+Ikona vlevo
+[Icon on right]
+Ikona vpravo
+[No time]
+Bez èasu
+[Time on left]
+Èas vlevo
+[Time on right]
+Èas vpravo
+[Time above avatar]
+Èas nad avatarem
+[No avatar]
+Bez avataru
+[Left avatar]
+Avatar vlevo
+[Right avatar]
+Avatar vpravo
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Full-screen app running]
+Celoobrazovkovı reim
+[You cannot set a default timeout of 0.\nValue has been reset.]
+[Error]
+[PopUps]
+[Settings]
+Nastavení
+[Classes]
+Tøídy
+;file \plugins\YAPP\src\popwin.cpp
+[user32.dll]
+;file \plugins\YAPP\src\popwin.h
+[YAPPWindowClass]
+;file \plugins\YAPP\src\services.cpp
+[CreatePopupA]
+[CreatePopupExA]
+[CreatePopupW]
+[Disable Popups]
+Vypnout oznámení
+[Enable Popups]
+[Warning]
+Upozornìní
+[Notification]
+[Popup History]
+Historie oznámení
+;file \plugins\YAPP\src\yapp.cpp
+[Popups]
+[First line]
+První øádek
+[Background]
+Pozadí
+[Second line]
+Druhı øádek
+[Time]
+[Sidebar]
+Boèní pruh
+[Title underline]
+Podtrení záhlaví
+[neweventnotify]
+;file \plugins\YAPP\src\yapp_history_dlg.cpp
+[Title]
+[Message]
+[Timestamp]
+Èasovı údaj
+[Copy title to clipboard]
+Zkopírovat záhlaví
+[Copy message to clipboard]
+Zkopírovat zprávu
+[Copy timestamp to clipboard]
+Zkopírovat èasovı údaj

@@ -1,0 +1,73 @@
+; /----------------------------------------------------------\
+; |  Gmail Multiple Notifier 0.2.3.1                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: churchyard <churchyard (zavináè) gmail (teèka) com>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1988
+;
+
+
+;options
+;(DUP) [Network]
+[GmailMNotifier]
+GmailMNotifier
+[Gmail Account]
+Úèet na Gmailu
+;(DUP) [Name:]
+;(DUP) [Password:]
+;(DUP) [Add]
+;(DUP) [Save]
+;(DUP) [Delete]
+;(DUP) [Configuration]
+[Check Gmail Inbox every]
+Zkontrolovat každých
+;(DUP) [minutes]
+[Notifier on:]
+Oznámení:
+[System Tray]
+Oznam. obl.
+[PopUp Plugin]
+Dopl. PopUp
+[Duration:]
+Doba:
+;(DUP) [sec.]
+[TXT|BG:]
+Txt|Poz:
+[On DBClick:]
+Dvojklikem:
+[Login using default browser]
+Pøihlásit (výchozí prohlížeè)
+[Login using Internet Explorer]
+Pøihlásit (Internet Explorer)
+[Run]
+Spustit
+[custom program]
+libov. program
+[Use online contacts when no new mail]
+Použít online kontakty, když nemáte nový mail
+[Enable icon selection and icon in status bar (restart)]
+Zobrazit ikonu ve stavové lištì (restart)
+[This is a shared computer so disable Auto Login]
+Nepøihlašovat automaticky (veøejný poèítaè)
+[Log unread threads into database (enable history)]
+Zapsat nepøeètené zprávy do databáze (historie)
+
+;menu item
+[&Check All Gmail Inboxes]
+&Zkontrolovat všechny úèty (Gmail)
+[&Check Gmail Inbox]
+&Zkontrolovat úèet (Gmail)
+
+;messages on contact
+[Checking...]
+Kontrolování...
+[Can't open Internet!]
+Chyba pøipojení k internetu!
+[Can't reach server!]
+Chyba pøipojení k serveru!
+[Can't get rss feed!]
+Nelze pøeèíst kanál RSS!
+[Wrong name or password!]
+Neplatné jméno nebo heslo!
+
+; ---

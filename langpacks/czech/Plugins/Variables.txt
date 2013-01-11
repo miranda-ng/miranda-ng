@@ -1,0 +1,112 @@
+;#muuid not found, please specify manually!
+;langpack template for Variables
+;file \plugins\Variables\res\Variables.rc
+[Parse]
+Zpracovat
+[Auto parse]
+Automaticky zpracovat
+[Parse the following string at startup]
+Pøi spuštìní zpracovat níže uvedené
+[Automatically strip "end of line" characters]
+Automaticky odstranit konce øádkù (EOL)
+[Automatically strip white space]
+Automaticky odstranit netisknutelné znaky
+[Test area]
+Místo pro zkoušky
+[Click on the help button to get more information]
+Více informací se dozvíte kliknutím na tlaèítko Nápovìda
+[Parse options]
+Možnosti zpracování
+[Automatically strip all non-parsing characters]
+Automaticky odstranit všechny nezpracovatelné znaky
+[Trigger when the following string changes]
+Spustit pøi zmìnì následujícího øetìzce
+[Please enter your input below]
+Zadejte prosím požadovaný text:
+[Don't set a contact]
+Nenastavovat kontakt
+[Set to the following contact]
+Nastavit následující kontakt
+[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+[Description]
+Popis
+[Setting]
+[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+[Close]
+Zavøít
+[OK]
+[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+[Notes]
+Poznámky
+[Variables...]
+Promìnné...
+;file \plugins\Variables\src\contact.cpp
+[<%s:%s>]
+;file \plugins\Variables\src\help.cpp
+[%c%s%c]
+[%c%s%s]
+[Token]
+Token
+[unknown]
+[Tokens]
+Tokeny
+[Input]
+Vstup
+[Cancel]
+[%subject%]
+%subject%
+[%extratext%]
+%extratext%
+[Help]
+[Variables Help]
+Nápovìda pro doplnìk Variables
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnných
+;file \plugins\Variables\src\options.cpp
+[Services]
+Služby
+[Variables]
+;file \plugins\Variables\src\parse_external.cpp
+[STUDIO]
+[Winamp v1.x]
+[ - Winamp]
+[Stopped]
+Zastaveno
+[[Stopped]]
+[[Paused]]
+[Paused]
+Pauza
+[Playing]
+Hraje
+;file \plugins\Variables\src\parse_metacontacts.cpp
+;file \plugins\Variables\src\parse_miranda.cpp
+[d s]
+[%%%s%%]
+[miranda_path]
+[miranda_profile]
+[miranda_profilename]
+[miranda_userdata]
+[miranda_avatarcache]
+[miranda_logpath]
+[appdata]
+[username]
+uživatelské jméno
+[mydocuments]
+[desktop]
+;file \plugins\Variables\src\parse_str.cpp
+[\r\n]
+[(...)]
+;file \plugins\Variables\src\parse_system.cpp
+[\\Processor(_Total)\\% Processor Time]
+[\\Process(%s)\\%% Processor Time]
+[%.0f]
+[HKEY_CLASSES_ROOT]
+[HKEY_CURRENT_USER]
+[HKEY_LOCAL_MACHINE]
+[HKEY_USERS]
+[\\System\\System Up Time]
+;file \plugins\Variables\src\tokenregister.cpp
+[alias]
+;file \plugins\Variables\src\variables.cpp
+[uxtheme.dll]
+#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}

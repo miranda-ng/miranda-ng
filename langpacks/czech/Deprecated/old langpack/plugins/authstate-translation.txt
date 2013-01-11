@@ -1,0 +1,44 @@
+; /----------------------------------------------------------\
+; |  Authorization State 0.0.2.0                             |
+; \----------------------------------------------------------/
+;
+; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3161
+;
+
+[Auth State]
+Stav autorizace
+;(DUP) [Auth]
+[Grant]
+Schválení
+[Auth & Grant]
+Autorizace & Schválení
+[Use]
+Použít
+[Show Auth icon]
+Zobrazit ikonu
+[Show Grant icon]
+Zobrazit ikony udìlení
+[Plugin settings]
+Nastavení doplòku
+[slot to draw the icon]
+pro vykreslení ikony
+[Enable Menu Item (*)]
+Zobrazit položku v nabídce (*)
+[Show icons only for recently added contacts]
+Zobrazit ikony jen pro nedávno pøidané kontakty
+[* Restart of Miranda required]
+* Tato zmìna vyžaduje restart programu Miranda IM
+[Enable AuthState icons]
+Povolit ikony Stavu autorizace
+[Disable AuthState icons]
+Zakázat ikony Stavu autorizace
+[Note: if you still don't see the icons try changing icon slot. Perhaps its used by some other plugin.]
+Pozn.: Pokud stále nevidíte ikony, zkuste zmìnit slot. Stávající možná používá jiný doplnìk.
+
+; Authorization State 0.0.2.0
+; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+[Extraicons plugin is used, use Contact list > Extraicons for customize.]
+Doplnìk Extraicons je aktivní, pro úpravy použijte Kontakty > Doplòkové ikony.
+
+; ---

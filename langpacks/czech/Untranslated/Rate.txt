@@ -1,0 +1,3 @@
+;[Rate high]
+;[Rate low]
+;[Rate medium]

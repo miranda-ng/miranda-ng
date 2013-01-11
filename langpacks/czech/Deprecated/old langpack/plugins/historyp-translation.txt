@@ -1,0 +1,99 @@
+; /----------------------------------------------------------\
+; |  History+ 2.1.0.0                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+;caption
+[History+ [%s]]
+History+ [%s]
+;system menu
+[Change &Font...]
+Zmìnit &písmo...
+[History+ Plugin &Info...]
+&Informace o doplòku History+...
+;export
+[Export the selected part of the history only?]
+Chcete vyexportovat pouze oznaèenou èást historie?
+[If you click "no" the whole history will be exported.]
+Odpovíte-li "Ne", bude vyexportována celá historie.
+;(DUP) [History for %s]
+;(DUP) [Name]
+[unknown]
+neznámý
+;URL in History
+[URL: %s\nDescription: %s]
+URL: %s\nPopis: %s
+;nick,name,email,uin,reason
+[Authorisation Request by %s (%s%s%d): %s]
+Žádost o autorizaci: %s (%s%s%d): %s
+;nick,name,email,uin
+[You were added by %s (%s%s%d)]
+%s (%s%s%d) si vás zaøadil mezi kontakty
+;filename,description
+[Outgoing file transfer: %s (%s)]
+Odesílání souboru: %s (%s)
+[Incoming file transfer: %s (%s)]
+Pøíjem souboru: %s (%s)
+;interface
+[View &History+]
+Zobrazit &historii+
+[&System History]
+Historie &systému
+;(DUP) [&Delete]
+[&Search...]
+&Najít...
+[Save &as...]
+&Uložit jako...
+;(DUP) [&Close]
+[Save History]
+Uložit historii
+[Text file (*.txt)|*.txt|HTML file (*.htm)|*.htm;*.html]
+textový soubor (*.txt)|*.txt|HTML soubor (*.htm)|*.htm;*.html
+;(DUP) [&Copy]
+[D&etails...]
+Po&drobnosti...
+[Loading full history...]
+Naèítání kompletní historie...
+;EventDetails
+[Event Details]
+Podrobnosti
+[Event Info]
+Informace o události
+[From]
+Od
+;(DUP) [To]
+;Komu
+[Content]
+Obsah
+[Type]
+Typ
+[ICQ #]
+UIN
+[More...]
+Více...
+[<<]
+<<
+[>>]
+>>
+[ICQ Server]
+ICQ server
+[Incoming ]
+Pøíchozí
+[Outgoing ]
+Odchozí
+;(DUP) [File]
+[Authorisation request]
+Žádost o autorizaci
+[Your were added message]
+Zpráva o zaøazení mezi kontakty
+;(DUP) [URL]
+;and finally if not already translated with the convers pluging
+[Date/Time]
+Datum a èas
+[Message]
+Zpráva
+
+; ---

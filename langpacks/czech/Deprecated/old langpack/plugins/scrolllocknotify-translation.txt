@@ -1,0 +1,62 @@
+; /----------------------------------------------------------\
+; |  ScrollLockNotify 1.0.1.3                                |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+;
+
+; NEPUBLIKOVANÉ
+[ScrollLockNotify - properties]
+ScrollLockNotify - nastavení
+[ScrollLockNotify - Properties]
+ScrollLockNotify - nastavení
+[When receiving something while Miranda is inactive:]
+Pokud byla pøijata událost a Miranda je neaktivní:
+[Flash until Miranda gets activated]
+Blikat, dokud není Miranda aktivována
+[Flash for max]
+Blikat max.
+[When receiving something while Miranda is active:]
+Pokud byla pøijata událost a Miranda je aktivní:
+[Don't flash]
+Neblikat
+[Flash for]
+Blikat
+[Interval (time between on / off):]
+Doba rozsvícení (rychlost):
+
+;///////////////////////
+;//  Version 1.0.1.3  //
+;///////////////////////
+[Messages]
+Zprávy
+[URLs]
+Odkazy
+[Files]
+Soubory
+[Auth requests]
+Žádost o autorizaci
+[Added notifications]
+Oznámení o pøidání
+
+[Flash duration]
+Doby blikání
+[Additional LEDs]
+Další LEDky
+[Flash when my status is]
+Blikat, když je mùj stav
+[Flash on]
+Blikat pøi
+[Flash until Miranda gets focused]
+Blikat do aktivace Mirandy
+[Flash interval (speed)]
+Doba rozsvícení (rychlost)
+[Troubleshooting]
+Když jsou problémy
+[Force newer Windows version (only try if flashing doesn't work)]
+Vnutit novìjší verzi Windows (zkuste jen když LEDky neblikají)
+
+[ScrollLockNotify]
+Blikání LED klávesnice
+
+; ---

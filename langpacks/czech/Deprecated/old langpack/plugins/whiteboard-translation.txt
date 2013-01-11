@@ -1,0 +1,78 @@
+; /----------------------------------------------------------\
+; |  Whiteboard 0.1.0.2                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://deathdemon.int.ru
+;
+
+[Whiteboard]
+Kreslení
+
+[%s - Whiteboard]
+%s - Kreslení
+[&Close]
+&Zavøít
+;(DUP) [&Copy]
+;(DUP) [&Delete]
+;(DUP) [&Edit]
+;(DUP) [&File]
+[&Load...]
+N&aèíst...
+[&New]
+&Nový
+[&Paste]
+&Vložit
+[&Redo]
+&Dopøedu
+[&Save As...]
+Uložit j&ako...
+;(DUP) [&Undo]
+;(DUP) [Cu&t]
+;(DUP) [Select &All]
+
+[Whiteboard error]
+Kreslení - chyba
+
+[Whiteboard plugin requires DataAsMessage v0.1.0.2 or above to work properly.]
+Doplnìk 'Kreslení' vyžaduje pro svùj bìh 'DataAsMessage v0.1.0.2' nebo novìjší.
+[Whiteboard: Start of the session]
+Kreslení: Zaèátek relace
+
+[Brush]
+Štìtec
+[Can't save the file]
+Nelze uložit soubor
+[Drag tool]
+Ruka
+[Ellipse]
+Elipsa
+[Eraser]
+Guma
+[File was loaded successfully]
+Soubor byl úspìšnì naèten
+[File was saved successfully]
+Soubor byl úspìšnì uložen
+;(DUP) [Line]
+[Magnifier]
+Lupa
+[Pick color]
+Kapátko
+[Rectangle]
+Ètyøúhelník
+;(DUP) [Select]
+[Text]
+Text
+[There was an error loading the file]
+Chyba pøi naèítání souboru
+[You will lose all unsaved changes. Do you really want to close the window?]
+Všechny neuložené zmìny budou ztraceny. Urèitì chcete zavøít okno?
+[You will lose all unsaved changes. Do you really want to load another drawing?]
+Všechny neuložené zmìny budou ztraceny. Urèitì chcete naèíst jiné kreslení?
+[You will lose all unsaved changes. Do you really want to reset the drawing?]
+Všechny neuložené zmìny budou ztraceny. Urèitì chcete resetovat kreslení?
+
+[PopUps]
+Oznámení
+
+; ---

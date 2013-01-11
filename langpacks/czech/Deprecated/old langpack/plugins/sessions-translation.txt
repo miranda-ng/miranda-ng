@@ -1,0 +1,50 @@
+; /----------------------------------------------------------\
+; |  Sessions 0.1.3.0                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: 
+;
+
+[Restore Session]
+Obnovit relaci
+[&Restore Session]
+Obnovit &relaci
+[Choose session to restore from the list:]
+Zvolit relaci pro obnovení ze seznamu:
+[Save session...]
+Uložit relaci...
+[Load session...]
+Naèíst relaci...
+[Load last session]
+Naèíst poslední relaci
+[Only if last session present]
+Pouze pokud existuje poslední relace
+[Open Sessions Manager dialog]
+Otevøít okno správce relací
+[Restore Last Session]
+Obnovit poslední relaci
+[Startup delay]
+Zpoždìní po startu
+[Crash Recovery mode]
+Mód obnovení po pádu
+[Save Current Session]
+Uložit aktuální relaci
+[Sessions]
+Relace
+[Save only last]
+Uložit pouze poslední
+[Warn, when some of LastSession contacts are hidden]
+Varovat když jsou nìkteré kontakty z poslední relace skryty
+[Exclude hidden contacts from session on exit]
+Pøi ukonèení vylouèit skryté kontakty z relace
+[Show other warnings ("session already opened" etc...)]
+Zobrazovat ostatní varování ("relace je již otevøena", atd...)
+[User Sessions Management]
+Správa uživatelských relací
+[Action on Startup]
+Akce pøi spuštìní
+[Action on Exit]
+Akce pøi ukonèení
+
+; ---

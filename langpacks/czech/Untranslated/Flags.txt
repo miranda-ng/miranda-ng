@@ -1,0 +1,6 @@
+;[BIN]
+;[Bin Converter]
+;[Country Flags]
+;[Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]
+;[Use &IP-to-country database for country detection]
+;[Use &unknown flag if the country can not be determined]

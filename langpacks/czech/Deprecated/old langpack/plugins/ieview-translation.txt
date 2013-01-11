@@ -1,0 +1,137 @@
+; /----------------------------------------------------------\
+; |  IEView 1.0.9.10                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1788
+;
+
+; /ieview/ChatHTMLBuilder.cpp
+[Error]
+Chyba
+
+; /ieview/HistoryHTMLBuilder.cpp
+[Outgoing File Transfer]
+Odchozí pøenos souboru
+[Incoming File Transfer]
+Žádost o pøenos souboru
+[URL sent]
+Odeslaný odkaz
+[URL received]
+Pøijatý odkaz
+
+; /ieview/HTMLBuilder.cpp
+['(Unknown Contact)']
+'(neznámý kontakt)'
+[(Unknown Contact)]
+(neznámý kontakt)
+[requested authorisation]
+požádal/a o autorizaci
+[was added.]
+byl/a pøidán/a.
+
+; /ieview/ieview.rc
+[Copy]
+Zkopírovat
+[Copy Link]
+Zkopírovat adresu odkazu
+[Select All]
+Vybrat vše
+[Save Image As...]
+Uložit obrázek jako...
+[Print]
+Tisk
+[Clear Log]
+Vymazat záznam
+[Show source]
+Zobrazit zdrojový kód
+
+; /ieview/ieview.rc:IDD_GENERAL_OPTIONS
+[Options]
+Možnosti
+[Enable BBCodes]
+Povolit BBCode
+[Button]
+Tlaèítko
+[Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
+K dispozici jsou tyto BBCode znaèky: [b][i][u][s][img][size][color][url]
+[Enable support for Flash files in smileys and BBCodes]
+Povolit smajlíky ve Flashi a formátování pomocí BBCode
+[Enable workaround for PNG transparency]
+Aktivovat opravu pro prùhledné PNG
+ 
+ 
+[Enable MathModule support]
+Podporovat doplnìk MathModule
+[Replace smileys in user names]
+Nahrazovat i smajlíky ve jménech
+[Hide window border]
+Skrýt okraj okna
+
+; /ieview/ieview.rc:IDD_SRMM_OPTIONS
+[Mode]
+Mód
+[Compatibility Mode]
+Režim kompatibility
+[Use External CSS]
+Použít externí CSS
+[Use Templates]
+Použít šablony
+[Background image]
+Obrázek na pozadí
+[Scroll with text]
+Rolovat s textem
+[...]
+...
+[Template Options]
+Možnosti šablon
+[Use message grouping]
+Seskupovat zprávy
+[Show nicknames]
+Zobrazit pøezdívky
+[Show time]
+Zobrazit èas
+[Show seconds]
+Zobrazit sek.
+[Show date]
+Zobrazit datum
+[Use long date format]
+Použít dlouhý formát data
+[Use relative timestamp]
+Použít relativní zápis èasu
+
+; /ieview/MUCCHTMLBuilder.cpp
+[%s has joined.]
+Pøíchod: %s
+[%s has left.]
+Odchod: %s
+[The topic is %s.]
+Téma: %s
+
+; /ieview/Options.cpp
+[General]
+Obecné
+[Message Log]
+Záznam komunikace
+[Group Chats]
+Skupinové rozhovory
+[History]
+Historie
+[Default]
+Výchozí
+[protocol]
+protokol
+[Message Sessions]
+Komunikace
+
+; /ieview/ScriverHTMLBuilder.cpp
+[Today]
+Dnes
+[Yesterday]
+Vèera
+[File sent]
+Odeslaný soubor
+[File received]
+Pøijatý soubor
+
+; ---

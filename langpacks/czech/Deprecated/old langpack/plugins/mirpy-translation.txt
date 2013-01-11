@@ -1,0 +1,34 @@
+; /----------------------------------------------------------\
+; |  MirPy Scripting Plugin 0.1.3.1                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; Adresa: http://fs.obs.utcluj.ro/~cristi.libotean/plugins/miranda/MirPy/
+;
+
+[Extra modules]
+Extra moduly
+[Importing module '%s' (redirecting output buffers to console).]
+Import modulu '%s' (výstup je pøesmìrován do konzole).
+[Scripts]
+Skripty
+[Module '%s%s' will not be loaded]
+Modul '%s%s' nebude naèten
+[Adding script folders to load path:]
+Pøidání adresáøe se skripty do nahrávací cesty:
+[Autoloaded scripts]
+Automaticky naèítané skripty
+[Loading MirPy ...]
+Naèítání MirPy ...
+[MirPy version %d.%d.%d.%d loaded.]
+MirPy verze %d.%d.%d.%d naèten.
+[MirPy console]
+Konzola MirPy
+[Finished autoloading modules ...]
+Dokonèeno automatické naèítání modulù...
+[Importing module '%s' ...]
+Import modulu '%s' ...
+[Loading modules found in autoload folder '%s'.]
+Naèítání modulù ze složky pro automatické naèítání '%s'.
+
+; ---

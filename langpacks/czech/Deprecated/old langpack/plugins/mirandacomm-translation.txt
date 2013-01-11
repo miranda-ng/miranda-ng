@@ -1,0 +1,75 @@
+; /----------------------------------------------------------\
+; |  MirandaComm 1.0.0.0                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; Adresa: 
+;
+
+;
+[MirandaComm - Error]
+MirandaComm - chyba
+[A fatal error has been detected. Try to restart Miranda.\nIf the problem persists, enable debug mode to get detailed error information.]
+Kritická chyba. Nyní je nutno restartovat Mirandu.\nPokud problém nezmizí, aktivujte ladicí reim a získané informace o chybách ulote.
+[The person you are trying to establish an Audio Session with is not using the same audio format. Make sure that both of you have installed and selected the same audio format in the options dialog.]
+Uivatel, se kterım se pokoušíte navázat audio konferenci, nepouívá stejnı formát zvuku. Je tøeba zajistit, aby obì strany mìly nainstalovány a vybrány stejnı formát zvuku.
+[Ok.]
+OK
+[Requesting Audio Session...]
+ádost o audio koferenci...
+;(DUP) [Cancel]
+[Received request for Audio Session from]
+Pøijata ádost o audio konferenci od
+[Deny]
+Zamítnout
+[Waiting for]
+Prosím èekejte na
+[to accept request...]
+na potvrzení ádosti...
+[Establishing UDP-Connection...]
+Navazování UDP spojení...
+[Remote user has cancelled/denied.]
+Uivatel pøerušil/zamítnul poadavek.
+[Remote user has terminated the connection.]
+Uivatel pøerušil spojení.
+[&Audio Session]
+&Audio konference
+[Could not create Main Thread]
+Nelze vytvoøit hlavní vlákno
+;(DUP) [Plugins]
+;(LAI) [Could not create ListenSocket.]
+;(LAI) [Could not bind to Socket.]
+;(LAI) [Could not create SendSocket.]
+;(LAI) [Could not connect to Socket.]
+;(LAI) [Could not receive on Socket.]
+[Could not send jaja.]
+Nelze poslat potvrzení.
+[Could not get the IP-Address of the person you are trying to connect to. Please ask if he/she could configure his/her ICQ client to let other users view the IP.]
+Nelze zjistit IP adresu uivatele, s kterım chcete hovoøit. Poádejte ho prosím o zmìnu nastavení ICQ klienta tak, aby bylo moné zjistit jeho IP adresu.
+[Could not initialize WinSock.]
+Nelze inicializovat WinSock.
+[Could not send data.]
+Nelze poslat data.
+[No recording devices present.]
+Chybí potøebné záznamové zaøízení.
+[Accept]
+Pøijmout
+;(DUP) [To:]
+[Suggested Audio Format: GSM 6.10, 8-12 kHz. Be sure to select an Audio Compression which supports recording! Also consider that the other side needs the Codec too!]
+Doporuèenı formát: GSM 6.10, 8-12 kHz. Ujistìte se, zda je formát podporován záznamovım zaøízením. Navíc je nutno vzít v potaz, e ostatní potøebují tentı kodek!
+[You must restart Miranda for the changes to take effect!]
+Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+[Length of Recording Buffer]
+Vyrovn. pamì pro záznam
+[Compression Format...]
+Kompresní formát...
+[UDP Port To Listen on]
+UDP port pro pøíjem
+[UDP Port To Send to]
+UDP port pro vysílání
+[256 bytes]
+256 bajtù
+[2048 bytes]
+2048 bajtù
+
+; ---

@@ -1,0 +1,150 @@
+; /----------------------------------------------------------\
+; |  Contacts Status Notification 0.1.2.2                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=1702
+;
+
+
+[Contacts Status]
+Stav kontaktu
+
+;(DUP) [Notification mode]
+[Tooltips]
+Tipy
+[Icon blinking]
+Blikání ikonou
+;(DUP) [Popups]
+;(DUP) [Sounds]
+[Individual sounds]
+Zvuky (individuální)
+
+;(DUP) [Options]
+[Don't notify after protocol connection]
+Neupozoròovat ihned po pøipojení
+;(DUP) [for]
+;(DUP) [seconds]
+[Watch selected protocols]
+Sledovat vybrané protokoly
+[Use Events/Ignore/Online settings]
+Použít existující nastavení
+[Notify if protocol disconnected]
+Upozornit pøi odpojení
+
+[Contacts notification]
+Upozornìní na kontakty
+[Any changes]
+Jakékoli zmìny
+[Become from Offline]
+Pøechod ze stavu Offline
+[Go to && become from Offline]
+Pøechod do stavu xyz ze stavu Offline
+[Selected statuses]
+Pøechod do vybraných stavù
+[Everyone becomes from Offline]
+Pøechod do libov. stavu ze stavu Offline
+
+[Popup colors]
+Barvy oznámení
+[Use color:]
+Použít barvu:
+;(DUP) [Background]
+;(DUP) [Text]
+
+[Popup actions]
+Akce pøi oznámení
+;(DUP) [Left click]
+;(DUP) [Right click]
+[Message box]
+Dialogové okno
+[Contact info]
+Info o kontaktu
+;(DUP) [Dismiss popup]
+
+[Popup options]
+Možnosti oznámení
+[Disable popup]
+Vypnout oznámení
+[Custom popup delay]
+Doba zobrazení
+[s]
+s
+[Show protocol name]
+Zobrazit název protokolu
+[Show contact's gender (if available)]
+Texty oznámení dle pohlaví (je-li možno)
+[Show previous status of contact]
+Zobrazit pøedchozí stav kontaktu
+[Show away message (if available)]
+Zobrazit autom. odpovìï (existuje-li)
+;(DUP) [Preview]
+
+[Status: From Offline]
+Stav: Pøechod ze stavu Offline
+[Status: Offline]
+Stav: Offline
+[Status: Online]
+Stav: Online
+[Status: Away]
+Stav: Pryè
+[Status: DND]
+Stav: Nerušit!
+[Status: NA]
+Stav: Nejsem tady
+[Status: Occupied]
+Stav: Nemám èas
+[Status: Free for chat]
+Stav: Mám volno
+[Status: Invisible]
+Stav: Neviditelný
+[Status: On the phone]
+Stav: Mám telefon
+[Status: Out to lunch]
+Stav: Jsem na obìdì
+
+[User is %s]
+Uživatel je ve stavu %s
+[User going to %s]
+Uživatel pøešel do stavu %s
+[%s\nUser has been %s]
+%s\nUživatel byl ve stavu %s
+[%s\nMessage: %s]
+%s\nZpráva: %s
+[Nobody]
+nikdo
+[Some reason]
+<zadejte dùvod>
+[Enable &status change notification]
+Zapnout oznámení zmìny &stavu
+[Disable &status change notification]
+Vypnout oznámení zmìny &stavu
+[Some protocol]
+<protokol>
+
+[Color schema]
+Schéma barev
+;(DUP) [None]
+[Simple]
+Jednoduché
+;(DUP) [Advanced]
+;(DUP) [Custom]
+[Online colors:]
+Stav Online:
+[Away colors:]
+Stav Pryè:
+[Offline colors:]
+Stav Offline:
+
+[Custom color schema]
+Vlastní schéma barev
+[User status:]
+Stav uživatele:
+[User status]
+Stav uživatele
+[Use colors:]
+Použít barvy:
+[Custom colors:]
+Vlastní barvy:
+
+; ---

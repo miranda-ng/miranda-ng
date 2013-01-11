@@ -1,0 +1,122 @@
+; /----------------------------------------------------------\
+; |  SMS+ 0.0.0.10                                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+; Adresa: 
+;
+
+;Miranda Menu
+;--------------------
+[&Send SMS+]
+Odeslat SMS
+
+;Options Menu
+;--------------------
+;(DUP)[Plugins]
+
+;Message Details
+;--------------------
+;(DUP)[Unknown]
+[Source]
+Zdroj
+[Destination_UIN]
+Cílové ICQ èíslo
+[Sender]
+Odesílatel
+;(DUP) [Message]
+[Send At]
+Odeslat v
+[Invalid ACK data!]
+Neplatné potvrzení!
+[Deliver]
+Doruèit
+[Error ID]
+Èíslo chyby
+;(DUP) [Description]
+[Phone]
+Telefon
+[Message ID]
+ID zprávy
+;(DUP) [Network]
+[Messages Left]
+zpráv zbývá
+
+;Options Dialog
+;--------------------
+[Build]
+Build
+[by]
+ 
+[Sent by]
+Od
+[SMS To E-mail Gateway :]
+Brána SMS > Email
+[Always Send Through E-mail Gateway]
+Vždy odesílat pøes Email bránu
+[Insert Signature In Message]
+Pøiložit ke zprávì podpis
+[Signature:]
+Podpis:
+[SMS+ Options]
+Možnosti SMS+
+
+;Receive SMS Dialog
+;--------------------
+[SMS From]
+SMS od
+[From :]
+Od:
+[Phone No :]
+Èíslo telefonu:
+[Received SMS from ICQ network]
+Pøijata SMS ze sítì ICQ
+[Message :]
+Zpráva:
+[&Show details]
+Zo&brazit detaily
+;(DUP) [&Reply]
+;(DUP) [&Close]
+
+;Send SMS Dialog
+;--------------------
+[Send SMS+]
+Poslat SMS+
+;(DUP) [&Close]
+;(DUP) [&Send]
+;(DUP) [Message]
+[0 character(s); 0 part(s)]
+0 znak(ù); 0 èást(í)
+[To :]
+Komu:
+;(DUP) [Phone No :]
+[Phone Number]
+Èíslo telefonu
+[Send In Translit]
+Odeslat hned
+[Send Through E-mail Gateway]
+Odeslat pøes Email bránu
+[Deliver State]
+Prùbìh doruèení
+[Show Details]
+Zobrazit detaily
+[character(s);]
+znak(ù);
+[part(s)]
+èást(í)
+[Request sent through E-mail Gateway!]
+Požadavek odeslán pøes Email bránu!
+[Successfully delivered through E-mail Gateway!]
+Úspìšnì doruèeno pøes Email bránu!
+[Request sent!]
+Požadavek odeslán
+[Invalid ACK Data!]
+Neplatné potvrzení!
+[Undeliverable!]
+Nedoruèitelné
+[SMS To]
+SMS komu
+[Successfully delivered!]
+Úspìšnì doruèeno
+
+; ---

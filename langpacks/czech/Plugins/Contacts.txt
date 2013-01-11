@@ -1,0 +1,39 @@
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+;langpack template for Contacts
+;file \plugins\ContactsPlus\res\contacts.rc
+[&A]
+[6]
+[&D]
+[&H]
+[Choose contacts to be send:]
+Vyberte kontakty k odeslání:
+[&Send]
+[Cancel]
+[&Select All]
+&Vybrat vše
+[Add to &group:]
+Pøidat do &skupiny:
+[&Add]
+[&Details]
+Po&drobnosti
+[Close]
+Zavøít
+[An error has occured. The protocol reported the following error:]
+Došlo k chybì. Pøíslušný protokol zahlásil následující problém:
+[Try again]
+Opakovat
+[Popup]
+[Add to List]
+Pøidat do seznamu
+[User Details]
+Informace o uživateli
+[Send Message]
+Odeslat zprávu
+;file \plugins\ContactsPlus\src\main.cpp
+[Contacts received from]
+Kontakty pøijaty od
+[Contacts]
+Kontakty
+[Incoming Contacts]
+[Outgoing Contacts]
+Kontakty (odchozí)

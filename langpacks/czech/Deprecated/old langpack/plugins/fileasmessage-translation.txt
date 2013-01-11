@@ -1,0 +1,97 @@
+; /----------------------------------------------------------\
+; |  File As Message 0.0.2.4                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1811
+;
+
+[File As Message...]
+Soubor jako zpráva...
+[file As Message]
+Soubor jako zpráva
+;(DUP) [Perform]
+[Pause]
+Pozastavit
+[Revive a transfer]
+Obnovit pøenos
+;(DUP) [Stop]
+[Recv file]
+Pøijmout soubor
+[Send file]
+Poslat soubor
+[Couldn't open a file]
+Nelze otevøít soubor
+[Size: %d bytes]
+Velikost: %d bajtù
+[Request sent. Awaiting of acceptance..]
+Požadavek odeslán. Èekání na odpovìï...
+[Sending...]
+Posílání dat...
+[Received successfully]
+Pøenos dat úspìšnì dokonèen
+[Requesting of missing chunks]
+Žádost o chybìjící bloky
+[Receiving...]
+Pøíjem dat...
+[Sent successfully]
+Pøenos dat úspìšnì dokonèen
+[Unknown command for "file As Message" was received]
+Neznámý pøíkaz v rámci funkce "Soubor jako zpráva"
+[Incoming file request. Do you want proceed?]
+Žádost o pøenos souboru. Chcete pokraèovat?
+[Cancelled by remote user]
+Pøerušeno protistranou
+[New incoming file request. Do you want proceed?]
+Nová žádost o pøenos souboru. Chcete pokraèovat?
+[Paused, 'coz connection dropped]
+Spojení pøerušeno, pøenos byl pozastaven. 
+[Failed on file initialization]
+Chyba pøi inicializaci pøenosu
+[Paused...]
+Pozastaveno...
+[Synchronizing...]
+Synchronizace...
+[Select a file]
+Vyberte soubor
+[Save as]
+Uložit jako
+[Can't get a file size]
+Nelze zjistit velikost souboru
+[Cancelled by user]
+Pøerušeno uživatelem
+[Transfer is in progress. Do you really want to close?]
+Pøenos dat ještì nebyl dokonèen. Opravdu ho chcete pøerušit?
+
+; NEPUBLIKOVANÉ
+[Transfer settings]
+Možnosti pøenosu
+[Appearance]
+Vzhled
+[Delays between sends]
+Prodleva mezi zprávami
+[Chunk size]
+Velikost bloku
+[Use only alphanumeric encoding on transfer]
+Pøi pøenosu použít jen alfanum. kódování
+[Received]
+Pøijato
+[Unsent]
+Neodesláno
+[Sent]
+Odesláno
+[To send]
+K odeslání
+[Send file: %s]
+Poslat soubor: %s
+[Filename:]
+Název souboru:
+;(DUP) [Size:]
+[Extra options: Events » File Transfers, "Receiving files" group]
+Další možnosti -> Události / Pøenos souborù / Pøíjem souborù
+[Incoming file...]
+Pøíchozí soubor...
+[Outgoing file...]
+Odchozí soubor...
+
+; ---

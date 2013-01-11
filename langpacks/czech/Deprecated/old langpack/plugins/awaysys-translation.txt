@@ -1,0 +1,225 @@
+; /----------------------------------------------------------\
+; |  Away System 0.3.1.0                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Tur McDonnel <tur (teèka) mcdonnel (zavináè) seznam (teèka) cz>
+;
+
+; New stuff to translate since v0.3.0.5:
+[When I'm]
+Pro
+[don't send the status message]
+neodesílat zprávu stavu
+
+; In v0.3.0.0 the following strings were removed:
+; "Could not get Miranda's window, Aborting...", "Do not pop up dialog asking for status message"
+; "Disable Miranda's Away Dialog"
+
+; New stuff to translate since v0.3.0.0:
+[Status Message Dialog]
+Zpráva stavu
+[For:]
+Pro:
+[don't pop the status message dialog]
+neotevírat okno pro zadání zprávy stavu
+
+; The following are the same from Miranda's SRAway module (Read Away Message):
+;(DUP) [%s Message for %s]
+;(DUP) [Retrieving %s message...]
+;(DUP) [&Cancel]
+;(DUP) [&Close]
+;(DUP) [Re&ad %s Message]
+
+; In v0.2.8.2 the following strings were removed:
+; "Away System - More Options"
+
+; In v0.2.8.0 the following strings were removed:
+; The short version: ALL strings from the variables list dialog were removed (Except the title of the dialog)
+; The long version:
+; "Dynamic", "Fixed", "%time%        Current Time", "%date%        Current Date", "%day%        Present Day", "%mynick%  Your nickname"
+;, "%statdesc%     Status type", "%yournick%        Requester's nickname", "%yourname%        Requester's first name"
+;, "%winampsong%     Current song playing in Winamp", "%currenttime%               Time of request"
+;, "%timepassed%        Time that has passed until request", "%randomline%     A random line from as_random.txt"
+;, "%yourcnick%    Requester's contact list name", "%messagenum%    Number of messages from contact"
+; New stuff to translate since v0.2.8.0:
+[Enable contact menu item]
+Povolit položku menu v hlavní nabídce
+[Current time]
+Aktuální èas
+[Current date]
+Dnešní datum
+[Present day]
+Den v týdnu
+[Your nickname]
+Vaše pøezdívka
+[Status type]
+Stav
+[Contact's nickname]
+Pøezdívka kontaktu
+[Contact's custom name]
+Pojmenování kontaktu
+[Contact's first name]
+Køestní jméno kontaktu
+[Time of request]
+Èas požadavku
+[Number of messages from contact]
+Poèet zpráv od uživatele
+[Time that has passed until request]
+Uplynulý èas od požadavku
+[A random line from filename]
+Náhodný øádek ze souboru
+[Returns line num from filename]
+Èíslo øádku v souboru
+[Current song playing in Winamp]
+Pøehrávaná skladba ve Winampu
+; these 2 below should be translated so you can translate "filename" and/or "num"
+;(LAI) [%randomline(filename)%]
+;(LAI) [%singleline(filename,num)%]
+
+; In v0.2.7.5 the strings "Change %s Message" and "Message...->" were removed
+; New stuff to translate since v0.2.7.5:
+[Remember last message used for a contact when changing status message]
+Pamatovat si poslední zprávu použitou pro kontakt pøi zmìnì zprávy stavu
+[Send status message on event]
+Poslat zprávu stavu pøi události
+[Only send status message to non-ICQ contacts]
+Poslat zprávu stavu pouze uživatelùm mimo ICQ
+[Once]
+Jednou
+[Every time]
+Pokaždé
+[Send...]
+Poslat...
+[On event...]
+Událost...
+[Change %s Message for %s]
+Zmìnit zprávu stavu %s pro %s
+[Don't send this contact my status message]
+Tomuto kontaktu neodesílat zprávu stavu
+[Send this contact the status message on event]
+Tomuto kontaktu odeslat zprávu stavu pøi události
+[Reset All]
+Vše resetovat
+[Contacts >>]
+Kontakty >>
+[Chars]
+Znakù
+;(DUP) [** All contacts **]
+[(Ungrouped)]
+(nezaøazené)
+[All Contacts]
+Všechny kontakty
+;(DUP) [Apply]
+[(group)]
+(skupina)
+[Set %s message for %s]
+Nastavit %s zprávu pro %s
+
+; New stuff to translate since v0.2.7.2:
+[%d seconds]
+%d sek.
+[%d minutes]
+%d min.
+[%d hours]
+%d hod.
+
+; In v0.2.7.0 the strings "Variables >>" and "Variables <<" were removed. So... you can remove them :)
+; New stuff to translate since v0.2.7.0:
+[Stranger]
+Cizinec
+[Nothing]
+Nic
+[Variables List]
+Seznam...
+
+; New stuff to translate since v0.2.6.0:
+[More Options]
+Další možnosti
+; Dialogs
+[Away System]
+Automatické odpovìdi
+[Message:]
+Zpráva:
+;(DUP) [Save]
+;(DUP) [Delete]
+[Default Message]
+Výchozí zpráva
+;(DUP) [Variables]
+;(DUP) [Reset]
+;(DUP) [Delete Settings]
+;(DUP) [Options]
+[By default...]
+Výchozí stav
+[Use the message from last time]
+Použít poslední odpovìï
+[Use the default message]
+Použít výchozí odpovìï
+[Never close the status message dialog]
+Nezavírat okno s výbìrem zprávy stavu
+[Wait]
+Poèkat
+[second(s) before closing the status message dialog]
+sek. pøed zavøením okna s výbìrem zprávy stavu
+[Remember last message for each status separately]
+Pamatovat si poslední zprávu pro každý stav zvláš
+[Remember the status message dialog's position]
+Pamatovat si pozici okna s výbìrem zprávy stavu
+;(DUP) [Closing in %d]
+;(DUP) [OK]
+[An error has occured while trying to acquire messages]
+Došlo k chybì bìhem pokusu o získání zprávy
+[-> Last%sMessage]
+-> Poslední%szpráva
+;(DUP) [Are you sure you would like to delete settings? If you continue, all of your settings will be deleted!]
+;(DUP) [All settings will be erased after you close the options window!]
+[Please enter a title for the message before saving.]
+Pøed uložením zadejte prosím název zprávy.
+[Please enter a message before saving.]
+Pøed uložením napište zprávu.
+
+; built-in messages
+; note to translators: The 3rd message "Gone since..." is used by default on several occassions:
+; - when the user doesn't enter a message - when a default message is needed but there are no predefined messages available
+; just thought you should know ;)
+[Creepy]
+Královská
+[Your master, %mynick% is %statdesc% since the day that is only known as %day%... When he gets back, I'll tell him you dropped by...]
+Vaše velièenstvo, %mynick% je právì %statdesc% ode dne, známého jako %day%... Až se vrátí, ihned ho upozorním, aby Vás kontaktoval...
+[Gone fragging]
+Fraguji
+[Been fragging since %time%, I'll msg you later when the adrenaline wears off.]
+Lovím fragy od %time%, ozvu se ti hned, jak ze mì vyprchá všechen adrenalin.
+[Not here]
+Nejsem tu
+[Gone since %time%, will be back later.]
+Nejsem tu od %time%, pøijdu pozdìji.
+;(DUP) [On the phone]
+[I'm on the phone since %time%, give me a sec!]
+Telefonuji od %time%, dej mnì vteøinku!
+
+
+; Away System MOD 0.3.4.1
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1494
+;
+
+[Show 5 more recent messages in the list]
+Zobrazit dalších 5 naposledy použitých zpráv v seznamu
+[Log when i send the status message]
+Zapisovat odesílané stavové zprávy
+[Use default nick for %mynick%]
+Použít výchozí pøezdívku pro promìnnou %mynick%
+;zde tlaèítko pro TTB
+[Send Away Msg on/off]
+Odesílat zprávy o nepøítomnosti
+[Expand >>]
+Více >>
+[Reduce <<]
+Ménì <<
+[-- Recent --]
+-- Naposledy použité --
+[You can use variables from "variable" plugin (look miranda-im.org in Files/Services).]
+Je možno použít promìnné z doplòku "Variables" (ke stažení na miranda-im.org v sekci Files/Services).
+
+; ---

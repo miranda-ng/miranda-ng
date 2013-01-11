@@ -1,0 +1,36 @@
+;#muuid not found, please specify manually!
+;langpack template for shlext
+;file \plugins\ShlExt\shldlgs.rc
+[Display contacts in their assigned groups (if any)]
+Zobrazit kontakt v jeho vlastní skupinì (pokud v nìjaké je)
+[Only if/when the contact list is using them]
+Pouze když seznam kontaktù skupiny používá
+[Display hidden, ignored or temporary contacts]
+Zobrazovat skryté, ignorované nebo doèasné kontakty
+[Menus]
+Nabídky
+[Shell Status]
+Stav integrace v prostøedí
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Shell context menus]
+Kontextové nabídky
+[Do not display the profile name in use]
+Nezobrazovat název používaného profilu
+[Show contacts that you have set privacy rules for]
+Zobrazit kontakty pro které existují soukromá práva
+[Remove]
+[Do not show status icons in menus]
+Nezobrazovat v nabídce ikonu stavu
+[Do not show contacts that are offline, even if my contact list does]
+Nezobrazovat offline kontakty 
+;file \plugins\ShlExt\shlcom.pas
+[Miranda]
+Miranda
+[Recently]
+Èasto používané
+[Clear entries]
+Vymazat položky
+;file \plugins\ShlExt\shlext.dpr
+[Disable/Remove shlext]
+Zakázat/odstranit shlext

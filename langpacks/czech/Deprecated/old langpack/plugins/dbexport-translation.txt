@@ -1,0 +1,18 @@
+; /----------------------------------------------------------\
+; |  dbExport 1.0.0.1                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Pavel Svátek
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=429
+;
+
+[I could not open file '%s' for writing.\nCheck disk space and your write privileges.]
+Nelze otevøít soubor '%s'.\nZkontrolujte, máte-li volné místo na disku a oprávnìní k zápisu.
+
+[&Export to autoexec.ini...]
+&Export do autoexec.ini...
+
+[Exports your settings into an autoexec_<yourname>.ini file.]
+Exportuje nastavení do souboru autoexec_<pøezdívka>.ini.
+
+; ---

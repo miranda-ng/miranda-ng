@@ -1,0 +1,482 @@
+#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+;============================================================
+;  File: BasicHistory.dll
+;  Plugin: Basic History
+;  Version: 1.0.1.9
+;  Authors: Krzysztof Kral
+;============================================================
+[History viewer for Miranda NG.]
+;file \plugins\BasicHistory\res\BasicHistory.rc
+[Settings]
+Nastavení
+[Always show contact list]
+[Show groups in contact list]
+[Do not show Find control border]
+[Default Event Filter]
+Výchozí filtr událostí
+[Custom filters]
+[Add filter]
+[Delete filter]
+[Add event]
+[Delete event]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[WinSCP path]
+[WinSCP log path]
+[New messages on top]
+[Show event icons]
+Zobrazit ikony událostí
+[Show timestamps]
+Zobrazit èasové údaje
+[Show names]
+Zobrazit jména
+[Show messages]
+Zobrazit zprávy
+[Truncate message length to:]
+[Delta time to group messages:]
+[hours]
+hod.
+[Limit messages to:]
+[Show date in timestamps]
+Zobrazit datum v èasovém údaji
+[Show seconds in timestamps]
+Zobrazit sekundy v èasovém údaji
+[Enable Smileys]
+Povolit smajlíky
+[Search forward in list group]
+[Search forward in message window]
+[Match Case]
+[Match Whole Word]
+[Only Incomming Messages]
+[Only Outgoing Messages]
+[Only Selected Group]
+[All Contacts]
+Všechny kontakty
+[Export To Txt]
+[File encoding*]
+[Export To Plain Html]
+[Export To Rich Html]
+[External CSS file]
+[* Choose encoding from combo box or enter code page number and name separated by semicolon, name is used in Content-Type header.]
+[Add task]
+[Edit task]
+[Delete task]
+[Display errors using popups]
+Zobrazit chybová hlášení jako oznámení
+[Save errors to system history]
+[Name]
+[Active]
+[Action type]
+[Filter]
+Filtr
+[Events older than*]
+[Triger type]
+[Time]
+[Delta time]
+[Day of week]
+[Day]
+den
+[Export to]
+[Compress output files]
+[Password]
+Heslo
+[Upload to FTP (WinSCP requred)]
+[Session name]
+[Path to file**]
+[Export imported messages]
+[* Use negative values to filter younger events]
+[Execute task for specified contacts]
+[OK]
+[Cancel]
+;file \plugins\BasicHistory\src\BasicHistory.cpp
+[Open History]
+[View &History]
+[Delete All User History]
+[Execute history task]
+[Incoming message]
+Pøíchozí zpráva
+[Outgoing message]
+Odchozí zpráva
+[Status change]
+Zmìna stavu
+[Show Contacts]
+[Hide Contacts]
+[Find Next]
+[Find Previous]
+[Plus in export]
+[Minus in export]
+[\\WinSCP\\WinSCP.exe]
+[%miranda_logpath%\\BasicHistory\\ftplog.txt]
+[History]
+Historie
+;file \plugins\BasicHistory\src\BinaryExport.h
+[bin]
+;file \plugins\BasicHistory\src\DatExport.h
+[dat]
+;file \plugins\BasicHistory\src\EventList.cpp
+[All events]
+Všechny položky
+[Default history events]
+[History for %s]
+[System]
+Systém
+[d t]
+[Invalid Message]
+Neplatná zpráva
+[Authorisation request by %s (%s%d): %s]
+Žádost o autorizaci od %s (%s%d): %s
+[%016llx]
+;file \plugins\BasicHistory\src\ExportManager.cpp
+[%s Files (*.%s)]
+[*.%s]
+[Import]
+Importovat
+[Export]
+Exportovat
+[<ext>]
+[File do not contain selected contact]
+[File is corrupted]
+[d s]
+;file \plugins\BasicHistory\src\HistoryWindow.cpp
+[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
+[Are You sure?]
+Opravdu chcete pokraèovat?
+[Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
+[Open in &new window]
+Otevøít v &novém oknì
+[&Open in existing window]
+&Otevøít v aktuálním oknì
+[&Copy link]
+Z&kopírovat odkaz
+[Copy]
+Zkopírovat
+[Delete]
+[Send Message]
+Odeslat zprávu
+[Reply &Quoted]
+Odpovìdìt s &citací
+[Delete Group]
+Smazat skupinu
+[Options]
+[d s ]
+[d s\n]
+[d t ]
+[d t\n]
+[s\n]
+[t\n]
+[%s\n]
+[Filters]
+Filtry
+[Fonts & Colors]
+Písma a barvy
+[Icons]
+#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+[Hotkeys]
+[Rich Html]
+[Plain Html]
+[Txt]
+[Binary]
+[Dat (mContacts)]
+[Save window position as default]
+[Save window position for all contacts]
+[Do you want save imported messages to local profile?]
+[File contain history for different contact. Do you want to change contact and import?]
+[Error]
+[Number of history items to delete: %d.\nAre you sure you want to do this?]
+[\r\n]
+;file \plugins\BasicHistory\src\Options.cpp
+[Message]
+[File transfer]
+Pøenos souboru
+[Link]
+Adresa
+[Authorization request]
+Žádost o autorizaci
+[You were added]
+[Contacts recieved]
+[SMTP Simple Email]
+Zpráva SMTP
+[SMS message]
+Zpráva SMS
+[UTF-8]
+UTF-8
+[windows-1250]
+[windows-1251]
+[windows-1252]
+[windows-1253]
+[windows-1254]
+[windows-1255]
+[windows-1256]
+[windows-1257]
+[windows-1258]
+[iso-8859-1]
+[iso-8859-2]
+[iso-8859-3]
+[iso-8859-4]
+[iso-8859-5]
+[iso-8859-6]
+[iso-8859-7]
+[iso-8859-8]
+[iso-8859-9]
+[iso-8859-13]
+[iso-8859-15]
+[Group list]
+[Messages]
+Zprávy
+[Searching]
+Hledám
+[Scheduler]
+Plánovaè
+[Advanced]
+Extra
+[>> Outgoing timestamp]
+>> Odchozí èas
+[MS Shell Dlg 2]
+[Outgoing background]
+Pozadí odchozích zpráv
+[<< Incoming timestamp]
+<< Pøíchozí èas
+[Incoming background]
+Pozadí pøíchozích zpráv
+[>> Outgoing name]
+>> Odchozí jméno
+[<< Incoming name]
+<< Pøíchozí jméno
+[>> Outgoing messages]
+>> Odchozí zprávy
+[<< Incoming messages]
+<< Pøíchozí zprávy
+[Group list background]
+[Find window]
+[Find window background]
+[Window background]
+[Contact list background]
+[Open global history]
+[Find]
+Najít
+[Switch Match Case]
+[Switch Match Whole Word]
+[Show/Hide Contacts]
+[Switch Only Incomming Messages]
+[Switch Only Outgoing Messages]
+[Switch Only Selected Group]
+[Switch All Contacts]
+[Export To Binary]
+[Import From Binary]
+[Export To Dat (mContacts)]
+[Import From Dat (mContacts)]
+[Invalid event number]
+[Incoming events]
+Pøíchozí události
+[Outgoing events]
+Odchozí události
+[File do not exist. Enter correct file path.]
+[Invalid file]
+[All Files (*.*)]
+Všechny soubory (*.*)
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+[Enter filter name]
+[Filter name exists]
+[Event already exists]
+[WinSCP.exe]
+[exe]
+[Browse WinSCP file]
+[ftplog.txt]
+[txt]
+#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
+[Save WinSCP log file]
+[%d;%s]
+[You've entered invalid codepage. Select codepage from combo box or enter correct number.]
+[Invalid codepage]
+[css]
+[Browse CSS file]
+[Export and Delete]
+[Import and Marge]
+[Minute]
+[Hour]
+[At Start]
+[At Finish]
+[Daily]
+Každý den
+[Weekly]
+[Monthly]
+[Delta time (minutes)]
+[Delta time (hours)]
+[Monday]
+[Tuesday]
+[Wednesday]
+[Thursday]
+[Friday]
+[Saturday]
+[Sunday]
+[HH%cmm]
+[Invalid '%s' value.]
+[Events older than]
+[Some value is invalid]
+[Invalid '%s' value.\n%s]
+[** Use <ext> to insert extension, <contact> to insert contact name]
+[Input files are compressed]
+[Download from FTP (WinSCP requred)]
+[Import from]
+[** Use <date> to insert date, <ext> to insert extension, <contact> to insert contact name]
+;file \plugins\BasicHistory\src\Options.h
+[_<contact>_<date>.<ext>]
+;file \plugins\BasicHistory\src\PlainHtmlExport.cpp
+[<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">\n]
+[<html><head>\n<meta http-equiv="Content-Type" content="text/html; charset=]
+[">\n]
+[<title>]
+[History Log]
+Interní historie
+[] - []
+[]</title>\n]
+[<style type="text/css"><!--\n]
+[h3 { color: #666666; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 16pt; }\n]
+[h4 { text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 14pt; }\n]
+[h6 { font-weight: normal; color: #000000; text-align: center; font-family: Verdana, Helvetica, Arial, sans-serif; font-size: 8pt; }\n]
+[.mes { border-top-width: 1px; border-right-width: 0px; border-bottom-width: 0px;border-left-width: 0px; border-top-style: solid; border-right-style: solid; border-bottom-style: solid; border-left-style: solid; border-top-color: #666666; border-bottom-color: #666666; padding: 4px; color: #000000; font: normal normal normal 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
+[.text { clear: both; }\n]
+[.nick { float: left; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
+[.date { float: right; clear: right; font: normal normal bold 8pt normal Tahoma, Tahoma, Verdana, Arial, sans-serif; text-decoration: none; }\n]
+[.url { color: #0000FF; }\n]
+[.nick#inc { color: #C83F6B; }\n]
+[.nick#out { color: #0860BD; }\n]
+[.date#inc { color: #000000; }\n]
+[.date#out { color: #000000; }\n]
+[.mes#event0 { background-color: #DBDBDB; }\n]
+[.mes#event1 { background-color: #EEEEEE; }\n]
+[.mes#event2 { background-color: #CCD9F4; }\n]
+[.mes#session { background-color: #FFFDD7; }\n]
+[--></style>\n</head><body>\n<h4>]
+[</h4>\n<h3>]
+[) - ]
+[ - ]
+[)</h3>\n]
+[</h3>\n]
+[<h6>]
+[Filter:]
+Filtr:
+[</h6>\n]
+[<div class=mes></div>\n</body></html>\n]
+[<div class=mes id=session>\n]
+[Conversation started at %s]
+Rozhovor zaèal %s
+[<div class=text>]
+[</div>\n]
+[out]
+[inc]
+[<div class=mes id=event]
+[>\n]
+[<div class=nick id=]
+[:</div>\n]
+[<div class=date id=]
+[<div class=text>\n]
+[\n</div>\n]
+;file \plugins\BasicHistory\src\PlainHtmlExport.h
+[html]
+;file \plugins\BasicHistory\src\RichHtmlExport.cpp
+[&<>\t\r\n]
+[&amp;]
+[&lt;]
+[&gt;]
+[<br>]
+['" []<>\r\n]
+[://]
+[<a class=url target=_blank href="]
+[</a>]
+[_files]
+[\\history.css]
+[\\history.js]
+[\\pnode.ico]
+[\\mnode.ico]
+[\\event0.ico]
+[\\event1.ico]
+[<link rel="Stylesheet" href="]
+[\\history.css" type="text/css">\n]
+[<script type="text/javascript" src="]
+[\\history.js"></script>\n]
+[</head><body>\n]
+[<span id="menubar">\n]
+[<a class=mainmenu onmouseover='this.className="mainmenusel";' href="javascript:void(0)" onClick="ShowMenu(1)" onMouseOut='HideMenu();this.className="mainmenu";'>]
+[Menu]
+Menu
+[</a></span>\n]
+[<span class=floatmenu id=L1 onmouseover=clearTimeout(timer) onmouseout=HideMenu()>\n]
+[<table><tr>\n]
+[<td class=menuitemunsel onmouseover='this.className="menuitemsel"' onmouseout='this.className="menuitemunsel"'>\n]
+[<a class=menuitem onmouseover=ShowMenu(1) href="javascript:void(0)" onclick=OpenAll(1)>]
+[Open all]
+[</a>\n]
+[</td></tr><tr>\n]
+[<a class=menuitem onmouseover=ShowMenu(1) href="javascript:void(0)" onclick=OpenAll(0)>]
+[Close all]
+[</td></tr></table></span>\n]
+[<script language="JavaScript">\n]
+[<!--\n]
+[var menu = document.getElementById("menubar\]
+[if(menu != null)\n]
+[  menu.style.visibility = "visible";\n]
+[// -->\n]
+[</script>\n]
+[<h4>]
+[<div class=mes id=bottom></div>\n</body></html>\n]
+[<span class=eventimg id=]
+[><img src="]
+[\\pnode.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
+[', this)"/>]
+[<img src="]
+[\\event]
+[.ico" class=sessionimage width="16" height="16" onclick="toggleFolder('group]
+[', this)"/></span>\n]
+[<span class=date id=]
+[</span>\n<span class=text>\n]
+[</span>\n</div>\n]
+[<div class=group id=group]
+[<div class=eventimg id=]
+[.ico" class=sessionimage width="16" height="16"/></div>\n]
+[<img class=smiley src="]
+[" alt="]
+["/>]
+;file \plugins\BasicHistory\src\RichHtmlExport.h
+;file \plugins\BasicHistory\src\Scheduler.cpp
+[History task]
+[Contacts]
+Kontakty
+[At least one contact should be selected.]
+[Upload to FTP]
+[Path to output file]
+[To create session open WinSCP, click New Session, enter data and save with specific name. Remember if FTP server using password you should save it in WinSCP.]
+[Path to file]
+[FTP path must contains '/' instead '\' and starts from '/'.]
+[<date>]
+[FTP path cannot contain <date> in import task.]
+[Unknown error]
+Neznámá chyba
+[Cannot get FTP file(s).]
+[Cannot unzip file(s).]
+[Incorrect file format: %s.]
+[Unknown contact in file: %s.]
+[Cannot export history for contact: %s.]
+[Cannot compress file(s).]
+[Cannot send FTP file(s).]
+[<contact>]
+[%d-%02d-%02d %02d%02d]
+[Task finished]
+[Task '%s' execution failed]
+[Task '%s' finished successfully]
+[\\script.sc]
+["%s" /nointeractiveinput /log="%s" /script=script.sc]
+[Task '%s' execution failed:]
+;file \plugins\BasicHistory\src\Searcher.cpp
+["%s" not found]
+"%s" nenalezeno
+[Search]
+Hledat
+[You have reached the end of the group.]
+[You have reached the end of the history.]
+Už jste na konci historie.
+;file \plugins\BasicHistory\src\TxtExport.cpp
+[###]
+[)\n]
+;file \plugins\BasicHistory\src\TxtExport.h

@@ -1,0 +1,146 @@
+; /----------------------------------------------------------\
+; |  NewEventNotify 0.2.1.0                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3637
+;
+
+; obsahuje zaroven NewGenerationEventNotify 1.9.1
+; http://addons.miranda-im.org/details.php?action=viewfile&id=2102
+;
+
+;(DUP) [Message]
+;(DUP) [URL]
+;(DUP) [File]
+;(DUP) [Contacts]
+[You were added!]
+Byl jste pøidán
+[Requests your authorisation]
+Žádost o autorizaci
+[ICQ Web pager]
+ICQ WebPager
+[ICQ Email express]
+ICQ EmailExpress
+[Unknown Event]
+Neznámá událost
+
+[Notify of new events]
+Informovat o událostech
+
+;(DUP) [PopUps]
+[Event Notify]
+Oznámení události
+
+[Popup Colors]
+Barvy oznámení
+[Use default colors]
+Použít výchozí barvy
+[Notify me of ...]
+Upozornìní
+;(DUP) [Message]
+;(DUP) [URL]
+;(DUP) [File]
+[Others]
+Ostatní
+;(DUP) [Background]
+;(DUP) [Text]
+;(DUP) [General Options]
+[Show entry in the main menu]
+Pøidat položku do hlavního menu
+[Temporarily disable Event Popups]
+Doèasnì vypnout oznámení
+[Show Preview of Event in Popup]
+Zobrazit náhled události
+[Left Click Actions]
+Levé tlaèítko myši
+[Right Click Actions]
+Pravé tlaèítko myši
+[Dismiss Popup]
+Zavøít oznámení
+[Open Event]
+Otevøít událost
+[Dismiss Event]
+Zrušit událost
+[Message-Event only]
+Pouze pro zprávy
+[Don't show Popup when Message-Dialog is already open]
+Nezobrazit oznámení, je-li okno se zprávou otevøeno
+[Open Reply-Dialog instead of reading the Message]
+Otevøít okno pro odpovìï namísto ètení zprávy
+;(DUP) [Preview]
+
+; NEPUBLIKOVANÉ
+[Use OSD plugin instead of popups]
+Použít doplnìk OSD namísto oznámení
+[No popups for RSS contacts]
+Nezobrazit oznámení pro zdroje RSS
+
+; NewEventNotify 0190
+; ==  NEW in 0.1.9.0  ==
+[Show entry in the PopUps menu]
+Zobrazit i v nabídce Oznámení
+[Time to expires]
+Expirace
+[Hide Popup when sending new message]
+Skrýt oznámení po odeslání nové zprávy
+[Merge popups from one user]
+Slouèit oznámení jednoho uživatele
+[Number of begin shown messages]
+Poèet zobrazených zpráv
+[Show newer messeges]
+Zobrazit novìjší zprávy
+[Show older messeges]
+Zobrazit starší zprávy
+[Plugin Test]
+Zkouška doplòku
+;(DUP) [Popup notification]
+[Popup text format]
+Formát textu oznámení
+[Only notify when:]
+Oznamovat jen pøi stavu
+[Use default]
+Výchozí
+[0 =  Default\n-1 = Infinite]
+0 = výchozí\n-1 = nekoneèná
+[Sec]
+sek.
+[Click action]
+Pøi kliknutí myší
+[Open contact details window]
+Zobrazit okno s detaily kontaktu
+[Open contact menu]
+Zobrazit nabídku kontaktu
+[Open contact history]
+Zobrazit historii kontaktu
+[Time Expires Actions]
+Pøi èasové expiraci
+[Show Time]
+Zobrazit èas
+[Show Headers]
+Zobrazit záhlaví
+
+[Last message display first]
+Poslední zprávu zobrazit první
+[Last message display last]
+Poslední zprávu zobrazit poslední
+[Enable new event notification]
+Zapnout oznámení nové události
+[Disable new event notification]
+Vypnout oznámení nové události
+
+[No popups for read messages]
+Neoznamovat pøeètené zprávy
+[Number of new message: ]
+Poèet nových zpráv: 
+[ requested authorization]
+ žádá o autorizaci
+[ added you to the contact list]
+ si vás pøidal do seznamu kontaktù
+
+; doplnìní pøekladu
+; NewEventNotify 0.2.1.0
+[Show Date]
+Zobrazit datum
+
+; ---

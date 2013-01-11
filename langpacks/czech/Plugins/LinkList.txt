@@ -1,0 +1,161 @@
+#muuid {DA0B09F5-9C66-488C-AE37-8A5F191C9079}
+;langpack template for LinkList
+;file \plugins\HistoryLinkListPlus\res\linklist.rc
+[Close]
+Zavøít
+[Search for:]
+Hledat:
+[Search]
+Hledat
+[Message direction]
+Smìr posílanıch zpráv
+[Message types]
+Druh zpráv
+[All directions]
+Pøijaté i odeslané
+[Incoming only]
+Pouze pøíchozí
+[Outgoing only]
+Pouze odchozí
+[All types]
+Všechny druhy
+[Mail addresses only]
+Jen e-mailové adresy
+[Web addresses only]
+Jen odkazy na stránky
+[Deep search]
+Hledat i ve zprávách
+[Static]
+Statickı
+[Colour Select]
+Vıbìr barev
+[Incoming messages]
+Pøíchozí zprávy
+[Plugin Default]
+Vıchozí
+[Preview]
+Náhled
+[Outgoing messages]
+Odchozí zprávy
+[Backgroundcolour]
+Barva pozadí
+[Use Miranda Settings]
+Pouít nastavení Mirandy
+[Textcolour]
+Barva textu
+[General Settings]
+Obecná nastavení
+[Open links always in a new window]
+Otevøít vdy v novém oknì prohlíeèe
+[Update list on new events]
+Aktualizovat seznam v reálném èase
+[Show whole Message on 'mouse over' event]
+Zobrazit zprávu po najetí myší nad odkaz
+[Save window position individually for each contact]
+Uloit informace o umístìní okna pro kadı kontakt zvláš
+[Show...]
+Zobrazit...
+[Date]
+Datum
+[Parting line]
+Dìlicí linka
+[Timestamp]
+Èasovı údaj
+[Direction]
+Smìr
+[Type]
+[&Save]
+&Uloit
+[&Close]
+&Zavøít
+[&Outgoing Messages Only]
+Pouze &odchozí zprávy
+[&Incoming Messages Only]
+Pouze &pøíchozí zprávy
+[&Webaddresses Only]
+Pouze &odkazy na stránky
+[&Mail-Addresses Only]
+Pouze e-&mailové adresy
+[&Clear Search Results]
+&Vymazat seznam nalezenıch
+[&Search]
+[Open]
+[Open in new Window]
+Otevøít v novém oknì
+[Copy to Clipboard]
+Zkopírovat
+[Show Message]
+Zobrazit zprávu
+;file \plugins\HistoryLinkListPlus\src\linklist.cpp
+[RICHED32.DLL]
+[Unable to load the Rich Edit control!]
+Nelze naèíst tøídu Rich Edit!
+[Error]
+[&Create Linklist]
+&Vytvoøit seznam odkazù
+[Progressbar]
+[History]
+Historie
+[History Linklist]
+Odkazy v historii
+[Processing history...]
+Zpracování historie...
+[Could not create window!]
+Nelze sestavit a otevøít okno!
+[Could not allocate memory!]
+Nelze alokovat poadovanou pamì!
+[There are no links in history!]
+Historie vybraného kontaktu neobsahuje odkazy!
+;file \plugins\HistoryLinkListPlus\src\linklist_dlg.cpp
+[%s [%s]]
+[Linklist Plugin]
+Doplnìk 'Linklist'
+[mailto:]
+[%s: %s]
+;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
+[http://]
+#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
+[ftp://]
+[https://]
+[www.]
+[ftp.]
+[icq#]
+[gopher://]
+[news://]
+[file://]
+[\\\\]
+[.com/]
+[.net/]
+[.org/]
+[.co.uk]
+[.ru]
+[d-t]
+[Arial]
+[%s '%s': %d\n\n]
+[Matches for searchtext]
+Poèet poloek odpovídajících zadanému
+[Courier]
+[Processing list...]
+Zpracování seznamu...
+[\n\n]
+[[mail]]
+[[URL ]]
+[[file]]
+[[UNK ]]
+[%s%s%s%s%s%s%s\n]
+[[in ]]
+[[out]]
+[No messages found!\nPlease change current filter options.]
+Hledanı øetìzec nebyl nalezen!\nPodle potøeby zmìòte kritéria hledání.
+[___________________________________________\n]
+[\n[in ] ]
+[URL   ]
+[08:15 http://miranda-ng.org\n]
+[http://miranda-ng.org\n]
+[[out] ]
+[08:16 http://miranda-ng.org\n]
+[%s: %s %s]
+[*.rtf]
+[RTF File\0*.rtf\0All Files\0*.*\0\0]
+[Save RTF File]
+Uloit soubor ve formátu RTF

@@ -1,0 +1,51 @@
+; /----------------------------------------------------------\
+; |  PluginUninstaller 1.1.2.1                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+[PluginUninstaller]
+Odinstalování doplòkù
+[Extends the plugin options and offers the possibility to directly remove plugins and delete all associated settings and files.]
+Rozšiøuje práci s doplòky o možnost je odebrat a smazat pøíslušná nastavení z databáze s profilem.
+
+; Options (all other strings are from default plugin options dialog)
+[Plugins: active %d/%d, size %d KB/%d KB]
+Doplòky: aktivních %d z %d; velikost %d kB, celkovì %d kB
+[%s (Original: %s)]
+%s (%s)
+[%d KB]
+%d kB
+[(%s)]
+(%s)
+[More Information]
+Další informace
+[License]
+Licenèní ujednání
+;(DUP) [%s (%s)]
+[&Remove Plugin...]
+Odeb&rat
+[&Enable Plugin]
+&Aktivovat
+[&Disable Plugin]
+De&aktivovat
+[&More Plugins...]
+&Další doplòky...
+[Remove Plugin]
+Odebrání doplòku
+[Are you sure that the plugin \"%s\" shall be removed?]
+Opravdu chcete odebrat doplnìk \"%s\"?
+[Delete &settings (recommended)]
+&Smazat pøíslušná nastavení
+[&Restart Miranda IM]
+&Restartovat program Miranda IM
+
+; Uninstalling
+[Miranda IM is going to be restarted...]
+Program Miranda IM bude restartován...
+[The plugin file \"%s\" could not be removed!]
+Doplnìk, resp. soubor \"%s\" nelze smazat!
+
+; ---

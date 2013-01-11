@@ -1,0 +1,6 @@
+;["%s" "%s"]
+;[Launch Miranda NG at system startup]
+;[MirandaNG]
+;[Note: At startup Miranda NG will use current profile]
+;[Software\\Microsoft\\Windows\\CurrentVersion\\Run]
+;[This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]

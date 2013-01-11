@@ -1,0 +1,164 @@
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+;============================================================
+;  File: MRA.dll
+;  Plugin: MRA
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \protocols\MRA\res\resource.rc
+[E-mail:]
+[Password:]
+[Create a new account]
+Vytvoøit nový úèet
+[Configuration]
+[Login Server:]
+Server:
+[Port:]
+[(2042, 443, 110, 25)]
+[Default]
+[Automatically request authorization on logon]
+[Automatically add contacts to server list on logon]
+[Automatically grant authorization to users in contact list]
+[Automatically grant authorization to new users]
+[Disable spam check]
+[Notify me when a message delivery has failed]
+[Notify about new mail if increment]
+[Notify about new mail tray icon]
+[Click to Inbox]
+[Show received formatted text (receive RTF)]
+[Send formatted text (send RTF)]
+[Background colour]
+[Font]
+Písmo
+[Summary]
+[Nickname:]
+[First name:]
+Jméno:
+[Last name:]
+Pøíjmení:
+[@]
+[Gender:]
+Pohlaví:
+[Age:]
+Vìk:
+[from:]
+[to:]
+do:
+[Birthday:]
+Narozeniny:
+[Zodiak:]
+[Location]
+[Country:]
+Zemì:
+[State:]
+[Search online users only]
+Hledat pouze mezi uživateli online
+[City:]
+Mìsto:
+[Remember]
+[Enable avatars support (loading)]
+[Server:]
+Server:
+[(80, 443, 2041)]
+[Updates check interval, min]
+[Return absolute path]
+[Delete avatar file with contact]
+[Use keep-alive connections]
+[Files exchange]
+[No out connection on send]
+[No out connection on receive]
+[Out connections: ignory additional ports (443, 2041)]
+[Hide my IP addresses]
+[Add extra address]
+[Your host (or router):]
+Poèítaè (nebo brána):
+[File send block size:]
+[512 - 65536 bytes]
+[Enable direct connections]
+[Enable MRIM proxy connections]
+[Mail.ru Agent]
+Mail.ru (agent)
+[Full e-mail:]
+E-mail:
+[Example: Petrov_Ivan@mail.ru]
+[Create a new Mail.ru account using the Mail.ru website]
+[Retrieve a lost password]
+[Leave empty if you dont want change password]
+[PopUp type]
+[Popup settings]
+[Enable]
+Aktivovat
+[&Use Windows colors]
+Po&užít barvy Windows
+[Back Color]
+Barva pozadí
+[Text Color]
+Barva textu
+[Timeout]
+[Previe&w]
+[Closing in %d]
+[Title:]
+Název:
+[Message:]
+[Enable Anti Spam]
+[Check temp contacts]
+[Delete spam bot contacts]
+[Max. language changes in message (0 - disabled)]
+[Show pop up]
+[Write to system history]
+[Send spam report to server]
+[Bad words list]
+[Add]
+[Remove]
+[Ignory non AlphaNumeric characters]
+[OK]
+[Cancel]
+[Notify]
+Oznámení
+[Writed:]
+[0/500]
+;file \protocols\MRA\src\MraAvatars.cpp
+[.dat]
+[.png]
+[.jpg]
+[.ico]
+[.bmp]
+[.gif]
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+[.swf]
+[.xml]
+[Avatars]
+Avatary
+[plugin connections]
+[%%miranda_avatarcache%%\\%s]
+[%miranda_avatarcache%]
+[%s\\%s\\]
+;file \protocols\MRA\src\MraChat.cpp
+[get]
+;file \protocols\MRA\src\MraConstans.h
+[_default.jpg]
+;file \protocols\MRA\src\MraFilesQueue_mod.cpp
+[No description given]
+Bez popisu
+;file \protocols\MRA\src\MraPopUp.cpp
+[PopUps]
+;file \protocols\MRA\src\MraProto.cpp
+[%s connection]
+%s - spojení se serverem
+[E-mail address]
+[%04ld.%02ld.%02ld %02ld:%02ld: ]
+[%s%s]
+#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
+;file \protocols\MRA\src\Mra_options.cpp
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[Account]
+Úèet
+[Connections]
+Spojení
+[Anti spam]
+[Files]
+Soubory
+;file \protocols\MRA\src\Mra_svcs.cpp
+[Are you sure?]
+Opravdu chcete pokraèovat?

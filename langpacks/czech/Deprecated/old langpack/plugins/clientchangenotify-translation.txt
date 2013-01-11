@@ -1,0 +1,85 @@
+; /----------------------------------------------------------\
+; |  ClientChangeNotify 0.1.1.2                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://deathdemon.int.ru/projects.php
+;
+
+; /OptDlg.cpp
+[ClientChangeNotify]
+Zmìna klienta
+;(DUP) [PopUps]
+
+; /ClientChangeNotify.cpp
+[changed client to ]
+zmìna klienta: 
+[\r\n(was ]
+\r\n(pøedtím: 
+[) changed client to ]
+) zmìna klienta na 
+[ClientChangeNotify: Client changed]
+Zmìna klienta
+[ClientChangeNotify error]
+ClientChangeNotify :: chyba
+[Fingerprint plugin not found. Please make sure that you have the latest version installed. ClientChangeNotify requires it to work properly.]
+ClientChangeNotify vyžaduje doplnìk Fingerprint. Nainstalujte ho prosím.
+;(LAI) [ClientChangeNotify (Unicode)]
+[The unicode version of ClientChangeNotify plugin requires db3x plugin version 0.5.1.0 or later]
+ClientChangeNotify Unicode vyžaduje doplnìk db3x verze 0.5.1.0 nebo novìjší.
+
+; /Misc.h
+[Error #%d]
+Chyba è.%d
+[Can't open the log file]
+Nelze otevøít soubor se záznamem
+
+; /Resources.rc:IDD_POPUPOPTDLG
+;(DUP) [Enable notification]
+[Show previous client name]
+Zobrazit název pøedchozího klienta
+[Notify also when just client version changes]
+Upozornit i pøi zmìnì verze klienta
+[Show client version]
+Zobrazit verzi klienta
+[Don't notify for hidden contacts and for contacts with disabled status notification]
+Neupozoròovat na skryté kontakty a kontakty s vypnutým upozornìním na zmìnu stavu
+;(DUP) [Preview]
+;(DUP) [Click action]
+;(DUP) [On left click]
+;(DUP) [On right click]
+;(DUP) [Delay]
+;(DUP) [Sec]
+;(DUP) [0 = Default]
+;(DUP) [-1 = Infinite]
+;(DUP) [Colours]
+;(DUP) [Background]
+;(DUP) [Use default]
+;(DUP) [Text]
+;(DUP) [Log to file]
+;(DUP) [View]
+
+[%s (was %s)]
+%s (pøedtím %s)
+
+[Disable c&lient change notification]
+Vypnout oznámení o zmìnì klienta
+[Enable c&lient change notification]
+Zapnout oznámení o zmìnì klienta
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) zmìnil klienta na %extratext%
+[changed client to %s]
+zmìnil klienta na %s
+[changed client to %s (was %s)]
+zmìnil klienta na %s (pøedtím %s)
+
+[(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
+(potøebujete mít pcre.dll nebo pcre3.dll pro použití regulérních výrazù)
+[Don't notify for contacts with disabled status notification]
+Neoznamovat pro kontakty s vypnutým oznamováním stavu
+[Enable notification]
+Povolit oznámení
+[Ignore these clients (separated by semicolons):]
+Ignorovat tyto klienty (oddìlené støedníkem):
+
+; ---

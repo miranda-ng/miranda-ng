@@ -1,0 +1,8 @@
+;[&Next >]
+;[< &Back]
+;[All previous chosen files will try to import to this protocol.]
+;[Cancel]
+;[Choose a file...]
+;[Progress1]
+;[Select folder for import...]
+;[Select protocol or account:]

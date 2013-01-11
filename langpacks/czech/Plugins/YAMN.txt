@@ -1,0 +1,308 @@
+#muuid {b047a7e5-027a-4cfc-8b18-eda8345d2790}
+;============================================================
+;  File: YAMN.dll
+;  Plugin: YAMN
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\YAMN\res\YAMN.rc
+[List4]
+[List5]
+[OK]
+[Installed plugins]
+Nainstalované doplòky
+[Version:]
+[Description:]
+[Copyright:]
+[Contact:]
+[WWW:]
+WWW:
+[Check this account]
+Aktivovat vybraný úèet
+[Check interval [min]:]
+Interval vybírání pošty (min):
+[Notifications]
+Upozornìní
+[Sound]
+[Message]
+[Tray Icon]
+[Keyboard Flash]
+[Execute Application]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Use contact notification for this account]
+Použít nastavení z filtrování kontaktù
+[Replace nick name]
+Nahradit pøezdívku
+[Disable Events]
+Vypnout události
+[Server:]
+Server:
+[User Name:]
+[Password:]
+[Codepage:]
+[Port:]
+[SSL]
+SSL
+[Disable STLS]
+Vypnout STLS
+[Startup check]
+Vybrat pøi spuštìní
+[Auto retrieve body]
+Stáhnout celý text
+[Check from menu]
+Vybrat poštu z menu
+[Only check when ...]
+[Sound notification if failed]
+Upozornit zvukem
+[Message notification if failed]
+Upozornit zprávou
+[Tray icon notification if failed]
+Zobrazit ikonu v oblasti oznámení
+[Reset counter]
+Vynulovat èítaè
+[-]
+-
+[Default]
+[Status:]
+[+]
+[Account]
+Úèet
+[APOP]
+[Name:]
+[Options]
+[New Mail]
+[Errors]
+Chyby
+[Cancel]
+[Choose modes]
+Výbìr stavù
+[Offline]
+[Online]
+[Away]
+[N/A]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[On the phone]
+[Out to lunch]
+[YAMN General Options]
+Obecné možnosti
+[TopToolBar button "Check mail"]
+Do horní lišty tlaèítko 'Vybrat poštu'
+[Enable YAMN Main Menu]
+[Show YAMN as a Protocol  (Require Restart)]
+Zobrazit YAMN jako protokol (vyžaduje restart)
+[MailBrowser Options]
+Prohlížeè pošty
+[Enable Close on Delete Button]
+Po smazání zpráv autom. zavøít okno
+[Show long localised date]
+Zobrazit datum ve dlouhém formátu
+[Don't show today's date]
+Nezobrazovat dnešní datum
+[Date/Time Representation]
+Zobrazení data a èasu
+[Don't show seconds]
+Nezobrazovat sekundy
+[Mail Notifications]
+[Popup]
+[Single popup]
+Vše v jednom
+[Multi popup]
+Více za sebou
+[Use custom colour]
+[No new mail notifications]
+Žádné nové zprávy
+[Popup if no mail]
+Upozornit oznámením
+[Persistant message]
+Zobrazit zadanou dobu
+[Connection failure notifications]
+Chyba pøipojení
+[Popup notification if failed]
+Upozornit oznámením
+[..s Popup duration]
+[Preview]
+Náhled
+[Background colour]
+[Text colour]
+;file \plugins\YAMN\src\account.cpp
+[%s: %s,length is %d, remaining %d chars]
+[debug]
+[NFlags: %04x, remaining %d chars]
+[PopUpB: %04x, remaining %d chars]
+[PopUpT: %04x, remaining %d chars]
+[PopUpTime: %04x, remaining %d chars]
+[going to read messages, if any...]
+[Name]
+[Value]
+Hodnota
+[Server]
+Server
+[Port: %d, remaining %d chars]
+[Login]
+Pøihlášení
+[Password]
+Heslo
+[Flags: %04x, remaining %d chars]
+[STFlags: %04x, remaining %d chars]
+[PFlags: %04x, remaining %d chars]
+[Interval: %d, remaining %d chars]
+[LastChecked: %04x, remaining %d chars]
+[LastSChecked: %04x, remaining %d chars]
+[LastSynchronised: %04x, remaining %d chars]
+[LastMail: %04x, remaining %d chars]
+[Browsing account %s]
+[(null)]
+[debug- WriteAccount...]
+;file \plugins\YAMN\src\debug.cpp
+[%s\\yamn-debug.synchro.log]
+[%s\\yamn-debug.comm.log]
+[%s\\yamn-debug.decode.log]
+;file \plugins\YAMN\src\main.cpp
+[\\*.book]
+[%miranda_userdata%]
+[Check mail]
+Vybrat poštu
+[Launch application]
+[Connect Fail]
+Chyba pøi pøipojování
+[\\Plugins\\YAMN\\*.dll]
+[dll]
+[\\Plugins\\YAMN\\]
+;file \plugins\YAMN\src\protoplugin.cpp
+[%s\\yamn-accounts.%s.%s.book]
+;file \plugins\YAMN\src\services.cpp
+[Nick]
+[No new mail message]
+;file \plugins\YAMN\src\browser\badconnect.cpp
+[Unknown error]
+Neznámá chyba
+[ - connection error]
+ - chyba pøipojení
+;file \plugins\YAMN\src\browser\mailbrowser.cpp
+[- new mail message(s)]
+[%s : %d new mail message(s), %d total]
+[%d new mail message(s), %d total]
+[No new mail message, %d spam(s)]
+[Header]
+Hlavièka
+[Copy Selected]
+[Copy All]
+Kopírovat vše
+[%s:\t%s\r\n]
+[\t%s\r\n]
+[Do you really want to delete %d selected mails?]
+Poèet vybraných zpráv: %d. Opravdu je chcete smazat?
+[Delete confirmation]
+Potvrzení smazání
+[%s\t%s\t%s\t%s\r\n]
+;file \plugins\YAMN\src\mails\mime.cpp
+[Translate header error]
+[Part]
+;file \plugins\YAMN\src\proto\netlib.cpp
+[%s connection]
+%s - spojení se serverem
+;file \plugins\YAMN\src\proto\pop3\pop3comm.cpp
+[Disconnected]
+Odpojen od serveru
+[POP3 protocol (internal)]
+[Mail notifier and browser for Miranda NG. Included POP3 protocol.]
+[pop3]
+[Found new version of account book, not compatible with this version of YAMN.]
+Vybraný uživatelský úèet není kompatibilní s touto verzí doplòku YAMN.
+[YAMN (internal POP3) read error]
+Chyba pøi ètení dat (interní chyba POP3)
+[Error reading account file. Account file corrupted.]
+Chyba pøi ètení dat z úètu.
+[Memory allocation error while data reading]
+Chyba alokace pamìti pøi ètení dat
+[%s\n%s]
+#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
+[Reading file error. File already in use?]
+Chyba pøi ètení ze souboru. Nepoužívá soubor jiná aplikace?
+[Error while copying data to disk occured. File in use?]
+Chyba pøi zápisu dat na disk. Nepoužívá soubor jiná aplikace?
+[POP3 plugin- write file error]
+Chyba pøi zápisu dat (interní chyba POP3)
+[CodePage: %d, remaining %d chars]
+[Connecting to server]
+Pøipojování k serveru
+[Entering POP3 account]
+Pøihlašování k úètu
+[Searching for new mail message]
+[Reading body %s]
+[Reading new mail messages (%d%% done)]
+[Deleting requested mails]
+Mazání vybraných zpráv
+[Deleting spam]
+Mazání spamu
+[Memory allocation error.]
+[Account is about to be stopped.]
+[Cannot connect to POP3 server.]
+[Cannot allocate memory for received data.]
+[Cannot login to POP3 server.]
+[Bad user or password.]
+[Server does not support APOP authorization.]
+[Error while executing POP3 command.]
+[Cannot connect to server with NetLib.]
+[Cannot send data.]
+[Cannot receive data.]
+[OpenSSL not loaded.]
+[Windows socket 2.0 init failed.]
+[DNS lookup error.]
+[Error while creating base socket.]
+[Error connecting to server with socket.]
+[Error while creating SSL structure.]
+[Error connecting socket with SSL.]
+[Server rejected connection with SSL.]
+[Cannot write SSL data.]
+[Cannot read SSL data.]
+[Error %d-%d-%d-%d:]
+Chyba %d-%d-%d-%d:
+;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[YAMN]
+YAMN
+[Accounts]
+Úèty
+[General]
+[Plugins]
+#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+[PopUps]
+[No account selected]
+Není vybraný úèet
+[Time left to next check [s]: %d]
+Další vybírání pošty za (sek.): %d
+[New Account]
+[%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c]
+[Executables]
+[All Files]
+[Select executable used for notification]
+Vyberte požadovanou aplikaci
+[Dialog box error]
+[Failed]
+Selhání
+[Do you really want to delete this account?]
+Opravdu chcete odstranit vybraný úèet?
+[Delete account confirmation]
+Potvrzení odstranìní úètu
+[Please wait while no account is in use.]
+Prosím èekejte dokud není úèet používán.
+[This is not a valid number value]
+Zadaný údaj není èíslo
+[Input error]
+Vstupní chyba
+[Please select application to run]
+[Cannot allocate memory space for new account]
+[Memory error]
+[Account Test]
+Vyzkoušení úètu
+[Account Test (failed)]
+Vyzkoušení úètu (chyba)
+[You have N new mail messages]
+[Connection failed message]
+Chyba pøipojení k úètu

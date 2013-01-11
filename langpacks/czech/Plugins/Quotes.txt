@@ -1,0 +1,285 @@
+#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
+;============================================================
+;  File: Quotes.dll
+;  Plugin: Quotes
+;  Version: 0.0.24.0
+;  Authors: Dioksin
+;============================================================
+[Shows currency rates and economic quotes.]
+;file \plugins\Quotes\res\Forex.rc
+[OK]
+[Use contact specific settings]
+[Log]
+Záznam
+[Use &Internal History]
+[&Format:]
+[&Variables...]
+[&Add to History only if Value Changed]
+[Use &External File]
+[&Select File:]
+[&Browse...]
+[Variables Allowed: %miranda_userdata%,%quotename%]
+[F&ormat:]
+[V&ariables...]
+[Add to &Log only if Value Changed]
+[Show &Popup Window]
+[Show Popup Window Only if Value &Changed]
+[Cancel]
+[Popup settings...]
+[&to:]
+[&Swap]
+[Convert]
+Nahradit
+[Info provided by <a href="http://www.google.com">Google</a>]
+[Close]
+Zavøít
+[Info provided by <a href="http://www.dukascopy.com">Dukascopy Swiss Forex Group</a>]
+[Get data from:]
+[Filter:]
+Filtr:
+[Colours]
+[Use default colours]
+[Use user-defined colours]
+[Background colour]
+[Text colour]
+[Delay]
+Prodleva
+[From PopUp plugin]
+Globální nastavení
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Do not add to popup's history]
+[Preview]
+Náhled
+[&Choose Quotes to watch in contact list:]
+[&Refresh Quotes Every:]
+[&Display in Contact List as:]
+[&Status Message:]
+[&Tendency:]
+[&Advanced Settings...]
+[Static]
+Statický
+[<a>SysLink1</a>]
+[Current Rate:]
+[Rate Fetch Time:]
+[Previous Rate:]
+[&Convert:]
+[&Add]
+[&Watched currency rates:]
+[&Remove]
+[&Refresh Rates Every:]
+[Type &Stock Name or Symbol:]
+[&Watched Quotes:]
+[Status &Message:]
+;file \plugins\Quotes\src\Chart.h
+[There is no to show]
+;file \plugins\Quotes\src\CommonOptionDlg.cpp
+[Seconds]
+sek.
+[Minutes]
+min.
+[Hours]
+[Enter integer value between 1 and 60.]
+[Enter integer value between 1 and 24.]
+[Enter text to display in contact list.]
+;file \plugins\Quotes\src\CreateFilePath.cpp
+[\\Quotes\\]
+;file \plugins\Quotes\src\CurrencyConverter.cpp
+[Info provided by]
+[ <a href="]
+[</a>]
+[Enter positive number.]
+[open]
+;file \plugins\Quotes\src\Forex.cpp
+[Quotes]
+[Refresh All Quotes\\Rates]
+[Currency Converter...]
+[Export All Quotes]
+[Import All Quotes]
+[Refresh]
+Aktualizovat
+[Open Log File...]
+[Chart...]
+[Edit Settings...]
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+;file \plugins\Quotes\src\HTTPSession.cpp
+[Dioksin]
+[Quotes HTTP connections]
+;file \plugins\Quotes\src\IconLib.cpp
+[Protocol icon]
+[Quote/Rate up]
+[Quote/Rate down]
+[Quote/Rate not changed]
+[Quote Section]
+[Quote]
+Citovat
+[Currency Converter]
+[Export]
+Exportovat
+[Swap button]
+[Import]
+Importovat
+;file \plugins\Quotes\src\ImportExport.cpp
+[Value]
+Hodnota
+[Name]
+[Setting]
+[Module]
+[Contact]
+Kontakt
+[Contacts]
+Kontakty
+[type]
+typ
+[byte]
+[word]
+[dword]
+[asciiz]
+[wchar]
+[utf8]
+[blob]
+[Xml File (*.xml)]
+[*.xml]
+[All files (*.*)]
+Všechny soubory (*.*)
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+[xml]
+[CList]
+[Group]
+;file \plugins\Quotes\src\Locale.cpp
+[Control Panel\\International]
+[%d.%m.%y]
+[dd/MM/yy]
+[%d/%m/%y]
+[yyyy-MM-dd]
+[%y-%m-%d]
+[%H:%M:%S]
+[H:mm]
+[HH:mm]
+[%H:%M]
+[sShortDate]
+[sLongDate]
+[sShortTime]
+[sTimeFormat]
+;file \plugins\Quotes\src\Log.cpp
+[Quotes.log]
+[ ================================>\n]
+[\n\n]
+;file \plugins\Quotes\src\ModuleInfo.cpp
+[Miranda could not load Quotes plugin. XML parser is missing.]
+[Miranda could not load Quotes plugin. Microsoft HTML parser is missing.]
+;file \plugins\Quotes\src\OptionDukasCopy.cpp
+[ - ]
+;file \plugins\Quotes\src\QuoteChart.cpp
+[DioksinChart]
+[%d/%m/%y %H:%M:%S]
+[%d.%m.%y %H:%M:%S]
+[Log File]
+Záznamový soubor
+[Miranda's History]
+[All]
+všechno
+[Last Day]
+[Last Week]
+[Last Month]
+[Last Year]
+[User-Defined]
+;file \plugins\Quotes\src\QuoteInfoDlg.cpp
+;file \plugins\Quotes\src\QuotesProviderBase.cpp
+[Unknown]
+[symbol]
+[description]
+[section]
+[quote]
+[name]
+[Provider]
+[ref]
+[url]
+[Begin contacts refreshing]
+[End contacts refreshing]
+;file \plugins\Quotes\src\QuotesProviderDukasCopy.cpp
+[sid]
+[stock]
+[oldPrice]
+;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
+[?a=]
+[&from=]
+[&to=]
+[currency_converter_result]
+[Error occurred during html parsing.]
+[Error occurred during site access.]
+;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
+[?q=]
+[ref_]
+[_ecp]
+[_cp]
+[setCompanyId(]
+[var _companyName = ]
+[Open]
+[snap-data]
+;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
+[%r>%p]
+[%s\\t%t\\t%r\\n]
+[%s %r]
+[\\nCurrent = %r\\nPrevious = %p]
+[Dukascopy.xml]
+[1 %f = %r %i]
+[Google.xml]
+[GoogleFinance.xml]
+[Yahoo.xml]
+;file \plugins\Quotes\src\QuotesProviderVisitorFormater.cpp
+;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
+[Quote Symbol]
+[Quote Name]
+[From Currency Full Name]
+[From Currency Short Name]
+[Into Currency Full Name]
+[Into Currency Short Name]
+[Short notation for "%f/%i"]
+[Source of Information]
+[Rate Value]
+[Previous Rate Value]
+[Fetch Time]
+[Fetch Date]
+[Fetch Time and Date]
+[\\%]
+[Percentage Character (%)]
+[\\t]
+[Tabulation]
+[\\\\]
+[Left slash (\\)]
+[Open Price]
+[Percent Change to After Hours]
+[Percent Change to Yesterday Close]
+[Day's High]
+[Day's Low]
+[Previous Close]
+[Change]
+Zmìnit
+;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
+[dioksin.txt?s=]
+[&f=snl1ohgpc1]
+;file \plugins\Quotes\src\SettingsDlg.cpp
+[%quotename%]
+[%miranda_userdata%]
+[Log Files (*.txt,*.log)]
+[*.txt;*.log]
+[log]
+[Enter integer value]
+[Enter log file name.]
+[Enter log file format.]
+[Enter history format.]
+[Enter popup window format.]
+[.log]
+;file \plugins\Quotes\src\WinCtrlHelper.cpp
+[\r\n]
+;file \plugins\Quotes\src\XMLEngineMI.cpp
+[version]
+[1.0]
+[encoding]
+[UTF-8]
+UTF-8

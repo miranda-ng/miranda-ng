@@ -1,0 +1,120 @@
+;#muuid not found, please specify manually!
+;langpack template for quicksearch
+;file \plugins\QuickSearch\qs.rc
+[*]
+[<]
+[>]
+[C&ancel]
+[Default]
+[Settings]
+Nastavení
+[Title:]
+Název:
+[Type:]
+[InfoType:]
+Typ inf.:
+[Script]
+[Service:]
+Služba:
+[wParam:]
+[Setting:]
+Nastavení:
+[wParam type:]
+wParam typ:
+[lParam:]
+[lParam type:]
+lParam typ:
+[Sort by Status]
+Seøadit podle stavu
+[Only Users in List]
+Pouze kontakty v seznamu
+[Auto Close mode]
+Automaticky zavøít
+[Draw Grid]
+Vykreslit møížku
+[Show Client Icons]
+Zobrazit ikony klientù
+[Save search pattern]
+Zapamatovat hledaný øetìzec
+[Item in Main Menu]
+Pøidat položku do menu
+[Button on TopToolBar]
+Tlaèítko do horní lišty
+[Tool Window Style]
+Tool styl okna
+[Copy line to CSV]
+Zkopírovat øádek do CSV
+[CSV with headers]
+CSV s hlavièkou
+[Skip minimized columns]
+Ignorovat skryté sloupce
+[Additional Options]
+Ostatní možnosti
+[Refresh]
+Aktualizovat
+[Show Offline contacts]
+Zobrazit offline kontakty
+[Colorize]
+Obarvit
+[Search for:]
+Hledat:
+;file \plugins\QuickSearch\sr_frame.pas
+[Previous item]
+Pøedchozí položka
+[Next item]
+Další položka
+[Open main window]
+Otevøít hlavní okno
+;file \plugins\QuickSearch\sr_optdialog.pas
+[Metacontact]
+[Service]
+Služba
+[number value]
+èíselná hodnota
+[integer value]
+integer hodnota
+[ANSI string]
+ANSI øetìzec
+[Unicode string]
+Unicode øetìzec
+[current contact]
+souèasný kontakt
+[New]
+[Save Item]
+Uložit položku
+[Down]
+[Delete]
+[Reload]
+Naèíst znovu
+;file \plugins\QuickSearch\sr_window.pas
+[ users found (]
+[) Online: ]
+[Online]
+[deleted]
+smazáno
+[off]
+vyp
+[active]
+Aktivní
+[Do you really want to delete selected contacts?]
+[Warning]
+Upozornìní
+[Some of selected contacts in different metacontacts already]
+[One or more contacts in same Meta already. Try to convert anyway?]
+[Selected]
+Vybráno
+[contacts]
+[&Delete]
+[&Copy]
+[C&onvert to Meta]
+[&Move to Group]
+Pøesunout do s&kupiny
+[Male]
+muž
+[Female]
+žena
+[Unknown]
+[All]
+všechno
+[Stay on Top]
+Vždy navrchu

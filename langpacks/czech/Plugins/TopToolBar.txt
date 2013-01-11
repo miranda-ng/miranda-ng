@@ -1,0 +1,50 @@
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}
+;============================================================
+;  File: TopToolBar.dll
+;  Plugin: TopToolBar
+;  Version: 0.8.0.1
+;  Authors: 
+;============================================================
+;file \plugins\TopToolBar\res\main.rc
+[Buttons Order && Visibility]
+Poøadí tlaèítek a jejich viditelnost
+[Button height]
+[Button width]
+Šíøka tlaèítka
+[Interval between buttons]
+[Use flat mode]
+[Auto resize]
+[Single line]
+[Buttons order:]
+Poøadí tlaèítek:
+[Add Separator]
++ oddìlovaè
+[Add Launch]
++ tlaèítko spuštìní
+[Del Sep/Launch Button]
+[Name: ]
+Název
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Path:]
+Cesta:
+[Set]
+#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+;file \plugins\TopToolBar\src\common.h
+[TopToolbarButtonClass]
+;file \plugins\TopToolBar\src\toolbar.cpp
+[Default]
+[Execute Path]
+[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
+[TopToolBar]
+Horní lišta
+;file \plugins\TopToolBar\src\toolbarwnd.cpp
+[Toolbar]
+Lišta tlaèítek
+;file \plugins\TopToolBar\src\topbutton.cpp
+[STATIC]
+Statický
+;file \plugins\TopToolBar\src\ttbopt.cpp
+[------------------]
+[exe]
+[Contact List]

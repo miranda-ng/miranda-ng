@@ -1,0 +1,107 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: FltContacts.dll
+;  Plugin: Floating Contacts
+;  Version: x.x.x.x
+;  Authors: Iavor Vajarov, Kosh&chka, Victor Pavlychko
+;============================================================
+;file \plugins\FloatingContacts\res\fltcnt.rc
+[Hiding contacts]
+[Hide offline contacts]
+Skrýt uživatele offline
+[Stick together]
+Lepit k sobì
+[Use fixed width]
+[pixels]
+pix.
+[Hide all contacts]
+[Hide when a fulscreen app is active]
+[Show tooltips]
+Zobrazovat tipy
+[ms]
+[Tooltips]
+[Miscellaneous]
+Ostatní
+[0 = Default]
+0 = výchozí
+[requires mToolTip or Tipper plugin]
+[Bring to front]
+[Bring to front every]
+[seconds]
+[Hide when contact list is shown]
+[Single click interface]
+[Dim idle contacts]
+[Fonts]
+[same]
+stejné
+[Typeface]
+Typ písma
+[Size]
+[Style]
+[Colour]
+Barva
+[as:]
+jako:
+[Bold]
+Tuèné
+[Italic]
+Kurzíva
+[Underline]
+Podtržené
+[100 %]
+[Border]
+[Draw border]
+[Left-top edges color:]
+[Right-bottom eges color:]
+[Background]
+Pozadí
+[Background colour:]
+[Use background bitmap]
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Stretch to width]
+Uzpùsobit na šíøku
+[Stretch to height]
+Uzpùsobit na výšku
+[Tile horizontally]
+Vodorovnì vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Stretch proportionally]
+Uzpùsobit pomìrnì
+[Opacity:]
+Neprùhlednost:
+;file \plugins\FloatingContacts\src\bitmap_funcs.cpp
+[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
+Obrázky ve formátu PNG vyžadují doplnìk png2dib 0.1.3.x nebo novìjší.
+[Error]
+;file \plugins\FloatingContacts\src\fltcont.h
+[MirandaThumbsWnd]
+;file \plugins\FloatingContacts\src\main.cpp
+[user32.dll]
+[Remove thumb]
+[Show all thumbs]
+[Hide all thumbs]
+[Show/Hide all thumbs]
+;file \plugins\FloatingContacts\src\options.cpp
+[Standard contacts]
+Standardní kontakty
+[Online contacts to whom you have a different visibility]
+Kontakty online, vùèi kterým máte nastavenou výjimku v (ne)viditelnosti
+[Offline contacts]
+Kontakty offline
+[Offline contacts to whom you have a different visibility]
+Kontakty offline, vùèi kterým máte nastavenou výjimku v (ne)viditelnosti
+[Contacts which are 'not on list']
+Kontakty, které "nejsou v seznamu"
+[Floating Contacts]
+[Contact List]
+[Main Features]
+Hlavní vlastnosti
+[Appearance]
+[shlwapi]
+[Sample]
+Pøíkladový text
+[<none>]
+[<Contact List Text>]
+#muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}

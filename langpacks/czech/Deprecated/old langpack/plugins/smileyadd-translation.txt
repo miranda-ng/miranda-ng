@@ -1,0 +1,165 @@
+; /----------------------------------------------------------\
+; |  SmileyAdd 0.2.3.16                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2152
+;
+
+; /customsmiley.cpp
+
+; /dlgboxsubclass.cpp
+[Edit]
+Upravit
+[S]
+J
+[Show Smiley Selection Window]
+Zobrazit okno s výbìrem smajlíkù
+
+; /download.cpp
+[SmileyAdd HTTP connections]
+SmileyAdd - spojení pomocí protokolu HTTP
+
+; /general.cpp
+[GDI+ not installed.\n]
+GDI+ není nainstalované.\n
+[GDI+ can be downloaded here: http://www.microsoft.com/downloads]
+GDI+ lze stáhnout na adrese http://www.microsoft.com/downloads
+[Miranda SmileyAdd]
+Smajlíky
+
+; /main.cpp
+[Button Smiley]
+Tlaèítko smajlíkù
+[Assign Smiley Category]
+Pøiøazení kategorie smajlíkù
+[Only one instance of SmileyAdd could be executed.\n]
+Spustit lze jen jednu instanci doplòku Smajlíky.\n
+[Remove duplicate instances from 'Plugins' directory]
+Odstraòte duplicitní kopie tohoto doplòku ze složky 'Plugins'.
+
+; /options.cpp
+[Smileys]
+Smajlíky
+[Customize]
+Vlastní úpravy
+[Standard]
+Standardní
+[Smiley Packs]
+Sady smajlíkù
+[All Files]
+Všechny soubory
+
+; /resource.rc:IDD_OPT_SMILEYS
+[Smiley Categories]
+Knihovny smajlíkù
+[Specify Smiley Pack for each category]
+Pro každý protokol definovat jinou sadu
+[Button]
+Tlaèítko
+[...]
+...
+[Name:]
+Název:
+[Author:]
+Autor:
+[Version:]
+Verze:
+[Preview]
+Náhled
+[Display]
+Zobrazení
+[Replace isolated smileys (spaces on both sides)]
+Nahradit jen oddìlené smajlíky (mezery z obou stran)
+[Scale smiley to textheight]
+Sjednotit velikost smajlíkù s textem
+[Built-In Message Dialog Support]
+Vestavìná podpora
+[Disable]
+Vypnout
+[Smiley Button]
+Tlaèítko se smajlíky
+[Off]
+Vyp
+[Top]
+Nahoøe
+[Bottom]
+Dole
+[Smiley Selector]
+Použití smajlíku
+[Surround inserted smiley with spaces]
+Pøidat mezeru z každé strany smajlíku
+[Use first smiley for selection size]
+Velikost smajlíku definovat dle prvního
+[IEView style window]
+Vzhled okna nastavit dle IEView
+[Animate]
+Animovat
+;(LAI) [-]
+[Enable Smileys]
+Povolit smajlíky
+[Input Area]
+Oblast psaní zprávy
+[Don't replace at cursor]
+Nenahrazovat bìhem psaní
+[Disable custom smileys]
+Zakázat vlastní sady smajlíkù
+
+; /services.cpp
+[default]
+výchozí
+
+; /smileyroutines.cpp
+[Time elapsed: %u]
+Uplynulý èas: %u
+
+; /smileys.cpp
+[Nothing loaded]
+Nic se nenaèetlo
+[Smiley Pack %s not found.\n]
+Knihovna smajlíkù %s nebyla nalezena.\n
+[Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Vyberte platnou knihovnu smajlíkù v Možnosti | Vlastní úpravy | Smajlíky
+[Smiley Pack %s not found.\nSelect correct Smiley Pack in the Miranda Options | Customize | Smileys.]
+Knihovna smajlíkù %s nebyla nalezena.\nVyberte platnou knihovnu smajlíkù v Možnosti | Vlastní úpravy | Smajlíky.
+[There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
+Nepodaøilo se naèíst požadovanou knihovnu smajlíkù.\nDalší informace naleznete v záznamu komunikace po síti.
+[Name]
+Jméno
+[Author]
+Autor
+[Date]
+Datum
+[Version]
+Verze
+[Selection]
+Výbìr
+[Window]
+Okno
+[Smiley #%u in file %s for Smiley Pack %s not found.]
+Smajlík è.%u v souboru %s knihovny smajlíkù %s nebyl nalezen.
+[Test String]
+Testovací øetìzec
+[Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
+Regulární výraz "%s" v knihovnì smajlíkù "%s" mùže vracet "prázdné výsledky".
+[Regular Expression "%s" in smiley pack "%s" malformed.]
+Regulární výraz "%s" v knihovnì smajlíkù "%s" je neplatný.
+
+; /smileys.h
+
+; /smltool.cpp
+[d'Oh!]
+A sakra!
+ 
+; SmileyAdd 0.2.3.15
+; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+[Replace only smileys surrounded by spaces]
+Nahradit pouze smajlíky ohranièené mezerami
+[Max "Custom Smiley" height]
+Max. velikost vlastních smajlíkù
+[High Quality smiley scaling]
+Zapnout kvalitní pøepoèet velikosti
+[Min smiley height]
+Min. velikost smajlíkù
+
+; ---

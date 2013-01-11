@@ -1,0 +1,776 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: Tipper.dll
+;  Plugin: Tipper
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\TipperYM\res\resource.rc
+[Options]
+[Layout]
+[Text indent:]
+Odsazení textu:
+[Window]
+[Max width:]
+[Max height:]
+Max. vıška:
+[Avatar size:]
+Velikost avataru:
+[Show if list not focused]
+I neaktivní seznam
+[General padding:]
+Obecné odsazení
+[Hover time:]
+Prodleva:
+[Status bar tips]
+Tipy stavové lišty
+[Alignment]
+[Labels:]
+Titulky:
+[Values:]
+Hodnoty:
+[Min width:]
+Min. šíøka:
+[Min height:]
+Min. vıška:
+[Sidebar width:]
+Šíøka boèn. pruhu:
+[Text padding:]
+Odsazení textu:
+[Outer avatar padding:]
+Vnìjší okraj avataru:
+[Round corners (avatar)]
+Zaoblit rohy avatarù
+[Keep original avatar size]
+[Avatar border]
+Orámovat avatary
+[Title indent:]
+Odsazení titulku:
+[Value indent:]
+Odsazení obsahu:
+[Inner avatar padding:]
+Vnitøní okraj avataru:
+[Label:]
+[Contact protocol module]
+Modul protokolu
+[Module:]
+Modul:
+[Setting or prefix:]
+Volba nebo prefix:
+[Translation:]
+Pøeklad:
+[OK]
+[Cancel]
+[Value:]
+Hodnota:
+[Draw a line above]
+Nad polokou vykreslit èáru 
+[Value on a new line]
+Odsadit na novı øádek
+[Preset items:]
+Pøeddefinované poloky:
+[Variables]
+[Parse Tipper variables first]
+[Items]
+[Substitutions]
+Substituce
+[Add]
+[Remove]
+[Up]
+[Down]
+[Edit]
+[Separator]
+[Advanced options]
+Pokroèilé monosti
+[Retrieve XStatus details if auto-retrieve is disabled]
+Zjišovat rozšíøenı stav i kdy je automatika vypnuta
+[Extra icons]
+[Smileys support]
+Podpora smajlíkù
+[Enable SmileyAdd support]
+[Resize smileys]
+Mìnit velikost smajlíkù
+[Use protocol smileys]
+[Replace only isolated smileys]
+Nahradit jen oddìlené smajlíky
+[Retrieve new status message]
+[Show tooltip after all content is ready (avatar && status message)]
+Zobrazit tip a po naètení celého obsahu (avatar && zpráva stavu)
+[Status bar and tray tooltip]
+Tipy stavového øádku a oznamovací oblasti
+[Limit status messages in status bar and tray tooltips to:]
+Omezit délku zprávy stavu v tipech stavového øádku a oznamovací oblasti na:
+[characters]
+znakù
+[Disable in invisible status]
+[Skins]
+Skiny
+[Opacity(%):]
+Prùhlednost (%):
+[Transparency]
+[Effects]
+[Border]
+[Shadow]
+Stín
+[Round corners (window)]
+Zaoblit rohy oken
+[Aero Glass (Vista+)]
+[Animation speed:]
+Rychlost animace:
+[Preview]
+Náhled
+[No preview]
+ádnı náhled
+[Skin option]
+Nastavení skinu
+[Load fonts and colors]
+Naèíst písma a barvy
+[Enable skin coloring]
+Povolit obarvení skinu
+[Reload skin list]
+Obnovit seznam skinù
+[Apply skin]
+Pouít skin
+[Load tooltip proportions]
+Naèíst velikosti tipu
+[Get more skins]
+Získat více skinù
+[Enable tray tooltips]
+Povolit tipy oznamovací oblasti
+[Handle tray tooltips by Tipper]
+Tipy oznamovací oblasti skrz Tipper
+[Favourite contacts]
+Oblíbené kontakty
+[Expand to second level after:]
+Rozšíøit na druhou úrovìò po:
+[ms]
+[First level tooltip]
+Tip první úrovnì
+[Second level tooltip]
+Tip druhé úrovnì
+[Hide offline protocols]
+Skrıt offline protokoly
+[Hide offline]
+Skrıt offline
+[Append protocol name]
+Pøipojit název protokolu
+;file \plugins\TipperYM\src\message_pump.cpp
+[user32.dll]
+[dwmapi.dll]
+;file \plugins\TipperYM\src\mir_smileys.cpp
+[Tipper smileys]
+Smajlíky v tipech
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+;file \plugins\TipperYM\src\options.cpp
+[sys:status_msg]
+[Last message: (%sys:last_msg_reltime% ago)]
+Poslední zpráva: (pøed %sys:last_msg_reltime%)
+[%sys:last_msg%]
+[Status message:]
+Zpráva stavu:
+[%sys:status_msg%]
+[You must enter a label]
+Musíte zadat titulek
+[Invalid Substitution]
+Neplatná substituce
+[--------------------------------------]
+[<No Label>]
+<bez titulku>
+[Add item]
+Pøidat poloku
+[Add separator]
+Pøidat oddìlovaè
+[Move up]
+[Move down]
+[---------------------------------]
+[Icon on left]
+Ikona vlevo
+[Icon on right]
+Ikona vpravo
+[No icon]
+Bez ikony
+[No title]
+Bez titulku
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoøe
+[Top left]
+Vlevo nahoøe
+[Top]
+[Centre]
+Centrovat
+[Bottom]
+Dole
+[Left]
+[Right]
+Vpravo
+[No avatar]
+Bez avataru
+[Left avatar]
+Avatar vlevo
+[Right avatar]
+Avatar vpravo
+[Max avatar size:]
+Maximální rozmìr avatara:
+[None]
+---
+[Animation]
+Animace
+[Fade]
+Slábnutí
+[Appearance]
+[Tooltips]
+[Customize]
+#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+[Content]
+[Tray tooltip]
+Oznamovací oblast
+[Extra]
+Další
+;file \plugins\TipperYM\src\options.h
+[Number of contacts]
+Poèet kontaktù
+[Protocol lock status]
+Stav uzamèení protokolu
+[Logon time]
+Èas pøihlášení
+[Unread emails]
+Nepøeètené e-maily
+[Status]
+#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+[Status message]
+[Extra status]
+Rozšíøenı stav
+[Listening to]
+[Miranda uptime]
+Doba bìhu Mirandy
+[Clist event]
+Událost v seznamu kontaktù
+[Jabber activity]
+Jabber aktivita
+[Gender]
+[Country flag]
+Vlajka státu
+[Client]
+Klient
+;file \plugins\TipperYM\src\popwin.cpp
+[Tipper]
+Tipy
+[%s (locked)]
+[ ago]
+[Log on:]
+Pøihlášení:
+[Log off:]
+[Unread emails:]
+Nepøeètené e-maily:
+[Status:]
+[Mood:]
+Nálada:
+[XStatus:]
+[Activity:]
+Èinnost:
+[Listening to:]
+Poslech hudby:
+[Copy all items with labels]
+Zkopírovat všechny poloky s názvy
+[Copy all items]
+Zkopírovat všechny poloky
+[Copy avatar]
+Zkopírovat avatar
+[<No Label>: ]
+[<No Value>]
+[\r\n]
+[(%d/%d)]
+[Fav. contacts]
+Oblíbené kontakty
+[%s (%s)]
+%s (%s)
+[Other]
+Ostatní
+[Miranda uptime:]
+Doba bìhu Mirandy:
+[<b>]
+;file \plugins\TipperYM\src\popwin.h
+[MimTTClass]
+;file \plugins\TipperYM\src\preset_items.cpp
+[Birthday]
+Narozeniny
+[Birthday:]
+Narozeniny:
+[%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
+[Client:]
+[%raw:/MirVer%]
+[Email]
+[Email:]
+[%raw:/e-mail%]
+[Gender:]
+Pohlaví:
+[%gender%]
+[Homepage]
+Dom. stránka
+[Homepage:]
+WWW:
+[%raw:/Homepage%]
+[Identifier]
+Identifikátor
+[%sys:uidname|UID^!MetaContacts%:]
+[%sys:uid%]
+[Idle]
+[Idle:]
+Neèinnost:
+[%idle% (%idle_diff% ago)]
+[IP:]
+IP:
+[%ip%]
+[IP internal]
+IP interní
+[IP internal:]
+IP interní:
+[%ip_internal%]
+[Last message]
+Poslední zpráva
+[%raw:/ListeningTo%]
+[Name]
+[Name:]
+[%raw:/FirstName|% %raw:/LastName%]
+[Number of received messages]
+Poèet pøijatıch zpráv
+[Number of msg [IN]:]
+[%sys:msg_count_in%]
+[Number of sended messages]
+Poèet odeslanıch zpráv
+[Number of msg [OUT]:]
+[%sys:msg_count_out%]
+[%Status%]
+[Contact time]
+Èas
+[Time:]
+[%sys:time%]
+[XStatus title]
+Název rozšíøeného stavu
+[XStatus title:]
+Název rozšíøeného stavu:
+[%xsname%]
+[XStatus text]
+Zpráva rozšíøeného stavu
+[XStatus text:]
+Zpráva rozšíøeného stavu:
+[%raw:/XStatusMsg%]
+[[jabber.dll] Activity title]
+[Activity title:]
+Název aktivity:
+[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/title%]
+[[jabber.dll] Activity text]
+[Activity text:]
+Zpráva aktivity:
+[%raw:AdvStatus/?dbsetting(%subject%,Protocol,p)/activity/text%]
+[[menuex.dll] Logon time]
+[Logon time:]
+[%logon_date% @ %logon_time% (%logon_ago%)]
+[[menuex.dll] Logoff time]
+[Logoff time:]
+[%logoff_date% @ %logoff_time% (%logoff_ago%)]
+[[seenplugin.dll] Last seen time]
+[Last seen time:]
+Naposledy spatøen:
+[%lastseen_date% @ %lastseen_time%]
+[[seenplugin.dll] Last seen status]
+[Last seen status:]
+Naposledy spatøenı stav:
+[%lastseen_status% (%lastseen_ago% ago)]
+[[weather.dll] Condition]
+[Condition:]
+Situace:
+[%raw:Current/Condition%]
+[[weather.dll] Humidity]
+[Humidity:]
+Vlhkost:
+[%raw:Current/Humidity%]
+[[weather.dll] Max/Min temperature]
+[Max/Min:]
+[%raw:Current/High%/%raw:Current/Low%]
+[[weather.dll] Moon]
+[Moon:]
+Mìsíc:
+[%raw:Current/Moon%]
+[[weather.dll] Pressure]
+[Pressure:]
+Tlak:
+[%raw:Current/Pressure% (%raw:Current/Pressure Tendency%)]
+[[weather.dll] Sunrise]
+[Sunrise:]
+Vıchod slunce:
+[%raw:Current/Sunrise%]
+[[weather.dll] Sunset]
+[Sunset:]
+Západ slunce:
+[%raw:Current/Sunset%]
+[[weather.dll] Temperature]
+[Temperature:]
+Teplota:
+[%raw:Current/Temperature%]
+[[weather.dll] Update time]
+[Update time:]
+Èas aktualizace:
+[%raw:Current/Update%]
+[[weather.dll] UV Index]
+[UV Index:]
+UV Index:
+[%raw:Current/UV% - %raw:Current/UVI%]
+[[weather.dll] Visibility]
+[Visibility:]
+Viditelnost:
+[%raw:Current/Visibility%]
+[[weather.dll] Wind]
+[Wind:]
+Vítr:
+[%raw:Current/Wind Direction% (%raw:Current/Wind Direction DEG%)/%raw:Current/Wind Speed%]
+[gender]
+[ip_internal]
+[idle]
+[idle_diff]
+[xsname]
+[lastseen_date]
+[lastseen_time]
+[lastseen_status]
+[lastseen_ago]
+[birthday_date]
+[birthday_age]
+[birthday_next]
+[logon_date]
+[logon_time]
+[logon_ago]
+[logoff_date]
+[logoff_time]
+[logoff_ago]
+;file \plugins\TipperYM\src\skin_parser.cpp
+[# Solid color fill]
+# Celkové Vyplnìní barvou
+[*.*]
+#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+[*.tsf]
+[author]
+[preview]
+[%s\\%s\\%s]
+[image]
+[TM_NONE]
+[TM_CENTRE]
+[TM_STRECH_ALL]
+[TM_STRECH_HORIZONTAL]
+[TM_STRECH_VERTICAL]
+[TM_TILE_ALL]
+[TM_TILE_HORIZONTAL]
+[TM_TILE_VERTICAL]
+[left]
+[top]
+[right]
+[bottom]
+[traytitle]
+[title]
+titulek
+[label]
+[value]
+[divider]
+[face]
+[color]
+[size]
+[effect]
+[font_bold]
+[font_italic]
+[font_underline]
+[general-padding]
+[title-indent]
+[text-indent]
+[value-indent]
+[text-padding]
+[outer-avatar-padding]
+[inner-avatar-padding]
+[sidebar-width]
+[opacity]
+[enable-coloring]
+[false]
+[[about]]
+[[other]]
+[[background]]
+[[sidebar]]
+[[fonts]]
+[[appearance]]
+;file \plugins\TipperYM\src\subst.cpp
+[[b]]
+[[i]]
+[[/b]]
+[[/i]]
+[[color]
+[[/color]]
+[[size]
+[[/size]]
+[uid]
+[proto]
+protokol
+[account]
+[time]
+[uidname]
+[status_msg]
+[last_msg]
+[meta_subname]
+[meta_subuid]
+[meta_subproto]
+[last_msg_time]
+[last_msg_date]
+[last_msg_reltime]
+[%dd %dh %dm]
+[%dh %dm]
+[%dm]
+[msg_count_all]
+[msg_count_out]
+[msg_count_in]
+[raw:]
+[sys:]
+;file \plugins\TipperYM\src\tipper.cpp
+[Background]
+Pozadí
+[Dividers]
+[Sidebar]
+Boèní pruh
+[Title]
+[Labels]
+Popisky
+[Values]
+Hodnoty
+[Tray title]
+Titulek oznam.oblasti
+;file \plugins\TipperYM\src\translations.cpp
+[[No translation]]
+(bez pøekladu)
+[Yes]
+Ano
+[Female]
+ena
+[Male]
+mu
+[%u.%u.%u.%u]
+[%dy %dd %dh %dm]
+[%dd]
+%d dní
+[WORD to status description]
+popis stavu (WORD)
+[DWORD timestamp to time]
+èasovı údaj pro èas (DWORD)
+[DWORD timestamp to time difference]
+èasovı údaj pro èasovı rozdíl (DWORD)
+[BYTE to Yes/No]
+definice ano/ne (BYTE)
+[BYTE to Male/Female (ICQ)]
+rozlišení pohlaví v síti ICQ (BYTE)
+[WORD to country name]
+název zemì (WORD)
+[DWORD to ip address]
+IP adresa (DWORD)
+[<prefix>Day|Month|Year to date]
+<prefix>den|mìsíc|rok pro datum
+[<prefix>Day|Month|Year to age]
+<prefix>den|mìsíc|rok pro datum narození
+[<prefix>Hours|Minutes|Seconds to time]
+<prefix>hodiny|minuty|sekundy pro èas
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefix>den|mìsíc|rok|hodiny|minuty|sekundy pro èasovı rozdíl
+[<prefix>Day|Month to days to next birthday]
+<prefix>den|mìsíc pro poèet dnù do pøíštích narozenin
+[DWORD timestamp to time (no seconds)]
+èasovı údaj pro èas, bez sekund (DWORD)
+[<prefix>Hours|Minutes to time]
+<prefix>hodiny|minuty pro èas
+[DWORD timestamp to date (short)]
+èasovı údaj pro datum, zkrácenı (DWORD)
+[DWORD timestamp to date (long)]
+èasovı údaj pro datum, dlouhı (DWORD)
+[xStatus: empty xStatus name to default name]
+xStatus: pouze název rozšíøeného stavu
+[DWORD seconds to time difference]
+poèet sekund pro èasovı rozdíl (DWORD)
+[BYTE timezone to time]
+èasová zóna (BYTE)
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD na název dne (0..6, 0 je nedìle)
+[WORD to name of a month (1..12, 1 is January)]
+WORD na název mìsíce (1..12, 1 je leden)
+[BYTE to language (ICQ)]
+BYTE na jazyk (ICQ)
+;file \plugins\TipperYM\src\translations.h
+[Afrikaans]
+afrikánština
+[Albanian]
+albánština
+[Arabic]
+arabština
+[Armenian]
+arménština
+[Azerbaijani]
+ázerbajdánština
+[Belorussian]
+bìloruština
+[Bhojpuri]
+bhodpuri
+[Bosnian]
+bosenština
+[Bulgarian]
+bulharština
+[Burmese]
+barmština
+[Cantonese]
+kantonština
+[Catalan]
+katalánština
+[Chamorro]
+èamoro
+[Chinese]
+èínština
+[Croatian]
+chorvatština
+[Czech]
+èeština
+[Danish]
+dánština
+[Dutch]
+holandština
+[English]
+angliètina
+[Esperanto]
+esperanto
+[Estonian]
+estonština
+[Farsi]
+[Finnish]
+finština
+[French]
+francouzština
+[Gaelic]
+gaelština
+[German]
+nìmèina
+[Greek]
+øeètina
+[Gujarati]
+gudarátština
+[Hebrew]
+hebrejština
+[Hindi]
+hindština
+[Hungarian]
+maïarština
+[Icelandic]
+islandština
+[Indonesian]
+indonézština
+[Italian]
+italština
+[Japanese]
+japonština
+[Khmer]
+khmerština
+[Korean]
+korejština
+[Kurdish]
+kurdština
+[Lao]
+laoština
+[Latvian]
+lotyšština
+[Lithuanian]
+litevština
+[Macedonian]
+makedonština
+[Malay]
+malajština
+[Mandarin]
+mandarínština
+[Mongolian]
+mongolština
+[Norwegian]
+norština
+[Persian]
+perština
+[Polish]
+polština
+[Portuguese]
+portugalština
+[Punjabi]
+pandábština
+[Romanian]
+rumunština
+[Russian]
+ruština
+[Serbo-Croatian]
+srbochorvatština
+[Sindhi]
+sindhština
+[Slovak]
+slovenština
+[Slovenian]
+slovinština
+[Somali]
+somálština
+[Spanish]
+španìlština
+[Swahili]
+svahilština
+[Swedish]
+švédština
+[Tagalog]
+tagalština
+[Taiwanese]
+[Tamil]
+tamilština
+[Tatar]
+tatarština
+[Thai]
+thajština
+[Turkish]
+tureètina
+[Ukrainian]
+ukrajinština
+[Urdu]
+urdu
+[Vietnamese]
+vietnamština
+[Welsh]
+velština
+[Yiddish]
+jidiš
+[Yoruba]
+jorubština
+[Sunday]
+[Monday]
+[Tuesday]
+[Wednesday]
+[Thursday]
+[Friday]
+[Saturday]
+[January]
+leden
+[February]
+únor
+[March]
+bøezen
+[April]
+duben
+[May]
+kvìten
+[June]
+èerven
+[July]
+èervenec
+[August]
+srpen
+[September]
+záøí
+[October]
+øíjen
+[November]
+listopad
+[December]
+prosinec

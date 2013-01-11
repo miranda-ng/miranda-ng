@@ -1,0 +1,170 @@
+; /----------------------------------------------------------\
+; |  HotKeys Plus 0.1.5.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2932
+;
+
+
+;(DUP) [Service]
+;(DUP) [Description]
+[1st argument]
+1. argument
+[Hotkey item #%d]
+Klávesová zkratka è.%d
+[For Win9x use other plugin version.]
+Tato verze doplòku Hotkeys+ není urèena pro Windows 9x.
+[Win9x plugin version can work incorrect on newer Windows versions!\nUse Win2k/XP version instead.]
+Tato verze doplòku Hotkeys+ je urèena pro zastaralé\nWindows øady 9x. Nainstalujte si odpovídající verzi\npro Window 2000 nebo novìjší.
+;(DUP) [System]
+;(DUP) [Miranda]
+[2nd argument]
+2. argument
+[You should select any item!]
+Vyberte prosím požadovanou položku.
+[goes]
+->
+[Starts]
+Spustí
+;(DUP) [List]
+[Check]
+Kontrola
+;(DUP) [Edit]
+;(DUP) [Protocols]
+;(DUP) [Menus]
+;(DUP) [Status]
+[Use \"Add hotkey\" item in Contact Menu]
+Nabídka 'Pøidat klávesovou zkratku'
+[XStatus]
+Rozšíøený stav
+[Do something]
+<bez popisu>
+;(DUP) [Custom]
+
+[Service with such name is not registered within Miranda IM workspace!]
+Služba s tímto názvem není v rámci programu Miranda IM zaregistrována!
+[Show Miranda About Window]
+Zobrazit informace o programu Miranda
+[Key pressing]
+Stisknutí klávesy
+[Add hotkey]
+Pøidat klávesovou zkratku
+;[Single hotkey can be associated with more than one function.\nPrevious hotkey for this item - [%s] - was bound with %d items except this.\n\nPress \"Yes\" to change hotkeys also for other items that have [%s] as hotkey.\nPress \"No\" to change hotkey only for current item.]
+[This hotkey already in use!\nChoose any other one.]
+Zadaná klávesová zkratka je již použitá.\nDefinujte prosím jinou.
+[Fill the service line!]
+Zadejte název požadované služby.
+[The service line is empty!]
+Definujte název požadované služby.
+[Start the service \'%s\']
+Spustit službu \'%s\'
+[You're trying to add the item equal to already existed!]
+Tato položka již existuje.
+;[You have added the hotkey to the hotkey group]
+[You have not closed any conversation window\nafter Miranda was started.]
+Dosud jste ještì nezavøeli ani jedno konverzaèní okno.
+;[Show menu\nto select item from the list\nof predefined services\nor to enter custom data\nShortcut: [Menu], [Right Click]]
+[Add new hotkey]
+Pøidat klávesovou zkratku
+[Invoke dialog with possibility to change\nservice name, hotkey description,\nkeys' combination and other data\nShortcut: [Double Click]]
+Úprava vybrané položky, tj. názvu\nslužby, popisu, klávesové zkratky\na jiných.\nAktivace: [dvojí kliknutí myší]
+[Edit selected item in the list]
+Upravit vybranou položku
+[After the pressing \'Apply\' button,\nthe hotkey will be removed\nfrom the processing procedure\nShortcut: [Del]]
+Odstranìní vybrané položky. Akci\ndokonèíte až potvrzením pomocí\ntlaèítka \'Použít\'.\nKlávesová zkratka: [Del]
+[Delete selected item in the list]
+Odstranit vybranou položku
+[So you can see what do the service\nShortcut: [Backspace]]
+Umožní vyzkoušení vybrané služby.\nKlávesová zkratka: [Backspace]
+[Run selected item in the list]
+Spustit vybranou položku seznamu
+;[For functions having character string as second argument:\nstatus message, URL, words to paste.\nIf function does not support text parameters,\nthe text just will be not saved.]
+[You can input text here...]
+Zde zadejte požadovaný text...
+
+; Resource.rc
+
+
+[Hotkeys+]
+Klávesové zkratky+
+;(DUP) [Run]
+;(DUP) [Edit]
+[Service]
+Služba
+[Fill]
+Vyplnit
+[&Clear]
+&Vymazat
+[Associated key]
+Pøiøazená klávesa
+[Remove items with unexisting services]
+Odebrat položky neexistujících služeb
+[Set hot key]
+Nastavit klávesovou zkratku
+[Allow multiple services on single hotkey]
+Povolit více funkcí pro jednu klávesovou zkratku
+[Remove same items]
+Odebrat duplicitní položky
+[Disable items]
+Vypnout odpovídající položky
+[Drop repeated hotkeys]
+Zrušit shodné klávesové zkratky
+[In private chat only]
+Pouze pøi soukromém rozhovoru
+[Enable Contact Menu item]
+Pøidat položku do nabídky kontaktu
+[<< List]
+<< seznam
+;(DUP) [Perform]
+;(DUP) [Delete]
+;(DUP) [Add...]
+;(FIX) [Add custom...]
+[&Add custom...]
+Pøid&at vlastní...
+;(DUP) [Hotkey]
+;(DUP) [Group]
+[Variable name for selected text]
+Název promìnné pro vybraný text
+[Scope]
+Platí v rámci
+[Checking]
+Kontrola
+[Items associated with the same hotkey]
+Položky se stejnou klávesovou zkratkou
+[Sounds of Typing]
+Zvuk pøi psaní zprávy
+;(DUP) [Properties]
+
+
+; NEPUBLIKOVANÉ
+[Show Miranda Support page]
+Pøejít na fórum projektu Miranda
+[Show System History]
+Zobrazit historii systému
+[Start VersionInfo]
+Spustit doplnìk VersionInfo
+[Show user info window]
+Zobrazit okno 'Informace o kontaktu'
+[Open 'Find User' dialog]
+Otevøít okno 'Vyhledat kontakty'
+[Open Options]
+Otevøít okno 'Možnosti programu'
+[Activate Contact List]
+Aktivovat seznam kontaktù
+[Show or hide Contact List]
+Zobrazit nebo skrýt seznam kontaktù
+[Open site]
+Otevøít stránku
+[Paste text]
+Vložit text
+[Report a bug]
+Nahlásit chybu
+[Show last closed conversation window]
+Otevøít naposledy použité konverzaèní okno
+[Go to Miranda web-site]
+Pøejít na stránky projektu Miranda
+[Show window 'About Miranda IM']
+Zobrazit okno 'O programu'
+
+; ---

@@ -1,0 +1,297 @@
+#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+;============================================================
+;  File: MSN.dll
+;  Plugin: MSN
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \protocols\MSN\res\msn.rc
+[MSN]
+MSN
+[Live ID:]
+Identifikátor:
+[Password:]
+[Nickname:]
+[Create a new Windows Live account]
+Zøídit nový úèet v síti Windows Live
+[Expert]
+[Send message font color/size info inside messages]
+Ke zprávì pøidat informaci o barvì a velikosti písma
+[Disable all contacts not included into my contact list]
+Vypnout všechny kontakty neuvedené v aktuálním seznamu
+[Manage server groups]
+Zapnout správu skupin na serveru
+[Run the following application when new Hotmail arrives]
+Spustit vybranou aplikaci (po pøíchodu nové pošty)
+[...]
+#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+[Allow people on my contact list send messages to mobile device]
+Lidem ze seznamu kontaktù povolit posílání zpráv na mobil
+[Connection settings]
+[Direct:]
+Pøímé:
+[ 1863]
+[Gateway:]
+Brána:
+[ 80]
+[Reset]
+[Notify me when a message delivery has failed]
+[Incoming file transfers]
+Pøenos pøíchozích souborù
+[Your host (or router):]
+Poèítaè (nebo brána):
+[Server List Manager]
+Správa kontaktù na serveru
+[Contact is on your local list]
+Kontakt je ve vašem lokálním seznamu
+[Contact is included into your server list]
+Kontakt je umístìn v seznamu na serveru
+[Allowed (active) contact]
+Povolený kontakt
+[Blocked contact]
+Zablokovaný kontakt
+[Somebody included you in his/her server list]
+Kontakt vás má umístìn ve svém seznamu na serveru
+[Refresh]
+Aktualizovat
+[Hotmail]
+Hotmail
+[Disable Popup notifications]
+Vypnout standardní upozornìní
+[Disable Tray notifications]
+Vypnout upozornìní z oblasti oznámení
+[Ignore new messages not in Inbox folder]
+Ignorovat nové zprávy z jiné složky než Doruèená pošta
+[Other]
+Ostatní
+[Display errors using popups]
+Zobrazit chybová hlášení jako oznámení
+[Enable 'Chat Session Established' popup]
+Zapnout oznámení typu 'Spojení navázáno'
+[Enable 'Contact left channel' popup]
+Zapnout oznámení typu 'Odchod z kanálu'
+[Disable Contact List notifications]
+Vypnout upozornìní ze seznamu kontatkù
+[OK]
+[Cancel]
+[Mobile Device (used for SMS)]
+[Spouse/Partner]
+[Middle Name]
+[First Name]
+[Last Name]
+[Anniversary]
+Výroèí
+[Birthday]
+Narozeniny
+[Nickname]
+Pøezdívka
+[Place:]
+Místo:
+[Remove from Hotmail Address book]
+[Block Contact]
+[Live ID]
+Identifikátor
+[&Invite]
+&Pozvat
+[&Cancel]
+[Add]
+;file \protocols\MSN\src\msn_chat.cpp
+[%s %s%s]
+[Chat #]
+Diskuse è.
+[Others]
+Ostatní
+[&Invite user...]
+[&Leave chat session]
+[User &details]
+[User &history]
+;file \protocols\MSN\src\msn_commands.cpp
+[Contact tried to open an audio conference (currently not supported)]
+MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítì MSN.
+[%I64u bytes]
+[Accept NetMeeting request from %s?]
+[MSN Protocol]
+Protokol MSN
+[%title% - %artist%]
+[MSN Alert]
+[Chat session established by my request]
+Spojení navázáno (vlastní žádost)
+[Chat session established by contact request]
+Spojení navázáno (žádost protistrany)
+[Contact left channel]
+Kontakt odešel z kanálu
+[This conversation has been inactive, participants will be removed.]
+Tato konverzace byla delší dobu neaktivní, úèastníci budou odpojeni.
+[To resume the conversation, please quit this session and start a new chat session.]
+Chcete-li v konverzaci pokraèovat, ukonèete tuto relaci a vytvoøte novou.
+[There is only 1 person left in the chat, do you want to switch back to standard message window?]
+Konverzace probíhá jen s jedním èlovìkem. Chcete pøepnout do klasického komunikaèního okna?
+[MSN Chat]
+MSN :: diskuse
+[Message delivery failed]
+;file \protocols\MSN\src\msn_errors.cpp
+[User not online]
+;file \protocols\MSN\src\msn_links.cpp
+[contact=]
+[add?]
+[chat?]
+[voice?]
+[video?]
+[MSN Link Protocol]
+;file \protocols\MSN\src\msn_lists.cpp
+[Contact %s has been removed from the server.\nWould you like to keep it as "Local Only" contact to preserve history?]
+[%s protocol]
+;file \protocols\MSN\src\msn_mail.cpp
+[Subject: %s]
+Pøedmìt: %s
+[Hotmail from %s (%S)]
+Zpráva od %s (%S)
+[Hotmail from %s]
+Zpráva od: %s
+[Unread mail is available: %d in Inbox and %d in other folders).]
+Máte nepreètenou poštu. Pøíchozí: %d, ostatní: %d.
+[%s [%d]]
+[%s [%d][%d]]
+;file \protocols\MSN\src\msn_menu.cpp
+[Open &Hotmail Inbox]
+Pøeèíst poštu &Hotmail
+[Send &Hotmail E-mail]
+E-mail pøes &Hotmail
+[You must be talking to start Netmeeting]
+Zaènìte mluvit, Netmeeting se spustí automaticky.
+[Set &Nickname]
+&Nastavit pøezdívku...
+[Create &Chat]
+Zaèít &diskusi
+[Display &Hotmail Inbox]
+Pøeèíst poštu &Hotmail
+[View &Profile]
+Zobrazit profil
+[Setup Live &Alerts]
+N&astavit upozornìní
+[&Block]
+Za&blokovat
+[&Start Netmeeting]
+Spustit Netmeetin&g
+;file \protocols\MSN\src\msn_misc.cpp
+[%%miranda_userdata%%\\Avatars\\%s]
+[%miranda_userdata%]
+[%s\\Avatars\\%s]
+[\\%s.]
+[\\%s avatar.]
+[\\%s]
+[jpg]
+[bmp]
+[png]
+[gif]
+[unk]
+[.gif]
+#muuid {60558872-2aab-45aa-888d-097691c9b683}
+[.bmp]
+[.png]
+[%s\\%s\\CustomSmiley]
+[\\%s.%s]
+[{0}]
+[{1}]
+[{2}]
+[{3}]
+[{4}]
+[{5}]
+[{6}]
+[{7}]
+[{8}]
+[{0} - {1}]
+[Miranda]
+Miranda
+[%s/%s]
+[Notify]
+Oznámení
+[Error]
+[%s:\n%s]
+;file \protocols\MSN\src\msn_msgqueue.cpp
+;file \protocols\MSN\src\msn_opts.cpp
+[Protocol icon]
+[Hotmail Inbox]
+Schránka Hotmail
+[Profile]
+Profil
+[MSN Services]
+Služby MSN
+[Block user]
+Zablokovat uživatele
+[Invite to chat]
+Pozvat k diskusi
+[Start Netmeeting]
+Spustit Netmeeting
+[Contact list]
+Seznam kontaktù
+[Allowed list]
+Seznam povolených
+[Blocked list]
+Seznam zablokovaných
+[Relative list]
+Seznam protistrany
+[Local list]
+Lokální seznam
+[Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
+Import skupin ze serveru mùže pøi pøíštím pøihlášení ovlivnit seznam\nkontaktù. Opravdu chcete zapnout správu skupin na serveru?
+[The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
+Zmìny se projeví až pøi pøíštím pøipojení do sítì MSN Messenger.
+[MSN Options]
+MSN - možnosti
+[Automatically obtain host/port]
+Automaticky zjistit kombinaci hostitel/port
+[Manually specify host/port]
+Ruènì zadat kombinaci hostitel/port
+[Disable]
+Vypnout
+[IP info available only after login]
+[MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
+[Network]
+#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+[Account]
+Úèet
+[Connection]
+Spojení
+[Server list]
+Seznamy
+[Notifications]
+Upozornìní
+;file \protocols\MSN\src\msn_p2p.cpp
+[Contact tried to send its webcam data (currently not supported)]
+MirandaIM zatím nepodporuje pøíjem obrázkù v webové kamery.
+[Contact tried to view our webcam data (currently not supported)]
+MirandaIM zatím nepodporuje posílání obrázkù z webové kamery.
+[Contact tried to share media with us (currently not supported)]
+;file \protocols\MSN\src\msn_proto.cpp
+[Live Mail]
+Nová pošta (Live)
+[Live Alert]
+Upozornìní (Live)
+[%s plugin HTTPS connections]
+%s - spojení pomocí protokolu HTTPS
+[%s plugin connections]
+%s - spojení se serverem
+[Contact already in your contact list]
+[%s\\%s]
+%s\\%s
+[Protocol is offline]
+[You cannot send message to yourself]
+Nemùžete poslat zprávu sami sobì.
+[Message is too long: SMS page limited to 133 UTF8 chars]
+Pøíliš dlouhá zpráva: Max. poèet znakù je 133 (s diakritikou)
+[Message is too long: MSN messages are limited by 1202 UTF8 chars]
+Zpráva je pøíliš dlouhá. Protokol MSN umožòuje napsat max. 1202 znakù (v kódování UTF8).
+[Offline messaging is not allowed for LCS contacts]
+;file \protocols\MSN\src\msn_soapstore.cpp
+[miranda_avatar.tmp]
+;file \protocols\MSN\src\msn_svcs.cpp
+[Music]
+Hudba
+[No Title]
+[%s - %s]
+[MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
+[Convert to Chat]
+;file \protocols\MSN\src\msn_ws.cpp
+[Chat session dropped due to inactivity]
+Spojení ukonèeno (neaktivní)

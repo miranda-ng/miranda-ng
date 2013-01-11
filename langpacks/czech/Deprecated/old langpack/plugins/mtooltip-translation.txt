@@ -1,0 +1,193 @@
+; /----------------------------------------------------------\
+; |  mToolTip 0.0.1.4                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: 
+;
+
+; this is a template for translation of mToolTip v0.0.1.3
+; last updated 16-07-2004 for v0.0.1.3
+
+;New v0.0.0.8
+
+[Show various contact infos as tooltip]
+Zobrazuje souhrn informací o kontaktu
+
+; ******** User information ******** 
+[Photo]
+Fotka
+;(DUP) [Delete]
+;(DUP) [Change]
+[Choose image file]
+Vyberte fotku
+
+;New v0.0.0.3
+
+;(DUP) [All Bitmaps]
+;(DUP) [Windows Bitmaps]
+;(DUP) [JPEG Bitmaps]
+;(DUP) [GIF Bitmaps]
+
+
+; ******** Options ******** 
+[mToolTip info]
+Monosti zobrazení
+;(DUP) [Show tooltip even if list is not focused]
+;(DUP) [Show tooltip over groups]
+[Show: Retrieving mode message... (%smsg)]
+Zobrazit informaci o naèítání zprávy stavu
+[Remove empty lines]
+Odstranit prázdné øádky
+[Tooltip message]
+Text tipu
+[Variable not available]
+Nedefin. promìnná:
+;(FIX) [Tooltip delay]
+[Tooltip delay:]
+Zpozdit tip:
+[mToolTip look]
+Nastavení vzhledu
+[Background color]
+Barva pozadí
+[Text color]
+Barva textu
+[Max width]
+Max.šíøka
+[Transparency]
+Prùhlednost
+
+;New v0.0.0.3
+
+[Fixed width]
+Pevná šíøka
+
+;New v0.0.0.4
+
+[Show tooltip over statusbar]
+Zobrazit tip na stavové lištì
+
+;New v0.0.0.6
+
+;(DUP) [Tooltip delay]
+
+;New v0.0.0.7
+
+[Auto-resize tooltip photo]
+Autom. velikost fotky
+
+;New v0.0.0.8
+
+[DefaultToolTipTxt]
+
+;Default tooltip text, can be multiline.
+;Built-in default is:
+%sicon%photo
+%%%lsstatus|%%%%| %lsday|%%%%|-%lsmonth|%%%%|-%lsyear|%%%%| @ %lsHours|%%%%|:%lsminutes|%%%%|:%lsseconds|%%%%|%lsp| %%%%|%lssince| (%%%% ago)|
+%%<b>ID:</b>%tab%tab%id|%%%%|
+%#<b>IP:</b>%tab%tab%ip|%%%% |%realip|(%%%%)|
+%%<b>Mobil:</b>%tab%cell|%%%%|
+%#<b>Narozeniny:</b>%tab%bday|%%??%%-|%bmonth|%%??%%|-%byear|%%????%%|%age| (%%%%)|%dtb|, do dalších: <b>%%%%</b>|
+%%%iuser||%inetwork||%ilog||%line%
+%%<b>ICQ uivatel:</b>%tab%iuser|%%%%|
+%%<b>ICQ sí:</b>%tab%inetwork|%%%%|%icount| (<b>%%%%</b> user(s))|
+%%<b>Reim kanálu:</b>%tab%imode|%%%%|
+%%<b>Záznam:</b>%tab%ilog|%%%%|
+%%%ihost||%line%
+%%%ihost||<b>Maska:</b>
+%%%ihost|%%%%|
+%%%itopic||%line%
+%%%itopic||<b>Téma kanálu:</b>
+%%%itopic|%%%%|
+%#%logondate||%logontime||%idledate||%idletime||%mver||%line%
+%%<b>Pøihlášení:</b>%tab%logondate|%%%%|%logonTime| @ %%%%|%logonsince| (pøed %%%%)|
+%%<b>Neèinnı od:</b>%tab%idledate|%%%%|%idleTime| @ %%%%|%idlesince| (pøed %%%%)|
+%%<b>Klient:</b>%tab%tab%mver|%%%%|
+%#%lastmsg||%lastmsgdate||%lastmsgtime||%line%
+%#<b>Poslední zpráva</b> (%lastmsgdate|%%%%| @ %lastmsgtime|%%%%|):%lastmsg||
+%#%lastmsg|%%%%|%lastmsgdate||%lastmsgtime||
+%%%smsg||%line%
+%%<b>Zpráva stavu:</b>%smsg||
+%%%smsg|%%%%|
+%%Poèasí pro %iname|<b>%%%%</b>|%wUpdate| aktualizováno %%%%|:
+%#%wcon|%%%%|%wvisibility|, viditelnost: %%%%|
+%#<b>Teplota:</b> %wtemp|%%%%|%wfltemp| (%%%%)|%wlow|, min: %%%%|%whigh|, max: %%%%|
+%#<b>Vítr:</b> %wwindspeed|%%%%|%wwdirection| (smìr: %%%%)|
+%%<b>Tlak:</b> %wpressure|%%%%|
+%%<b>Vlhkost vzduchu:</b> %whumidity|%%%%|
+%%Vıchod slunce v %wSunrise|%%%%|
+%%Západ slunce v %wSunset|%%%%|
+
+;New v0.0.0.9
+
+;(DUP) [Advanced Options]
+[Font & Text color]
+Písmo a text
+[Border light color]
+Svìtlı okraj
+[Border dark color]
+Tmavı okraj
+[Line]
+Øádek
+[%smsg timeout:]
+Zpozdit %smsg:
+[Round corners]
+Zaoblit rohy
+[Text to border space]
+Odst. textu od okraje:
+[mToolTip advanced]
+Monosti pro experty
+[mToolTip protocol]
+Definice dle protokolu
+[mToolTip text]
+Zobrazenı text
+[<Default>]
+<vıchozí>
+;(DUP) [Default]
+;(DUP) [Variables]
+;(DUP) [Save]
+[mToolTip - Variables]
+mToolTip - promìnné
+;(DUP) [Close]
+[mToolTip - Font & Text color selection]
+mToolTip - vıbìr písma a barvy textu
+[Font name]
+Název písma
+[Font size]
+Velikost
+;(DUP) [Text color]
+;(DUP) [Preview]
+;(DUP) [Cancel]
+;(DUP) [OK]
+
+;New v0.0.1.0
+
+;(DUP) [Link]
+[Photo selection]
+Vıbìr fotky
+;(DUP) [Border]
+[ICQ web photo]
+Fotka (ICQ)
+;(DUP) [day]
+;(DUP) [days]
+
+;New v0.0.1.1
+
+[Bar color]
+Barva lišty
+[Photo border (default)]
+Okraj fotky (vıchozí)
+[Birthday!]
+Narozeniny!
+
+;New v0.0.1.3
+[PNG Bitmaps]
+obrázky typu PNG
+
+; NEPUBLIKOVANÉ
+; název doplòku
+;(LAI) [mToolTip]
+[Line color]
+Barva øádku
+
+; ---

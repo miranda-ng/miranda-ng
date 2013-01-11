@@ -1,0 +1,94 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: TooltipNotify.dll
+;  Plugin: TooltipNotify
+;  Version: x.x.x.x
+;  Authors: 
+;============================================================
+;file \plugins\TooltipNotify\res\main.rc
+[OK]
+[Allow tooltip notifications for the following users:]
+U vybraných kontaktù povolit upozornìní na zmìnu stavu:
+[Cancel]
+[Notify upon the following events]
+Upozornìní na události
+[Online]
+[Offline]
+[All other]
+Ostatní
+[Typing]
+Píšu
+[Protocols]
+Protokoly
+[Suppress notifications upon connection for]
+Zpozdit upozornìní na pøipojení o
+[sec]
+sek.
+[Prefix proto name]
+Indik. protokol
+[Duration]
+Doba trvání
+[Show tooltip for]
+Zobrazit na
+[ms]
+[Duration x2 upon online event]
+Pøi pøechodu do online 2× déle
+[Double click on tooltip]
+Dvojím kliknutím
+[Shows/Hides CList]
+Zobrazit/skrýt seznam
+[Opens message dialog]
+Otevøít okno a psát
+[Behavior]
+Chování
+[Misc]
+[Obey 'Suppress online notification' settings]
+Zohlednit stav 'Neoznamovat pøechod do online'
+[Auto positioning]
+Autom. umístìní
+[Transparent input]
+Prùhledný vstup
+[Preview]
+Náhled
+[Translucency options (Windows 2000/XP only)]
+[Transparent tooltip]
+Míra prùhlednosti
+[000%]
+[Contacts]
+Kontakty
+[Idle]
+;file \plugins\TooltipNotify\src\Settings.h
+[Tahoma]
+#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+;file \plugins\TooltipNotify\src\Tooltip.cpp
+[MimTooltipNotify]
+[user32.dll]
+;file \plugins\TooltipNotify\src\TooltipNotify.cpp
+[Tooltip Notify]
+Zmìna stavu
+[Other Status]
+Ostatní stavy
+[Tooltip Notify: Online]
+Zmìna stavu (pøechod online)
+[Tooltip Notify: Offline]
+Zmìna stavu (pøechod offline)
+[Tooltip Notify: Other]
+Zmìna stavu (ostatní)
+[Tooltip Notify: Typing]
+Zmìna stavu (psaní zprávy)
+[PopUps]
+[%d%%]
+[** New contacts **]
+[** Unknown contacts **]
+[Away]
+[N/A]
+[Occupied]
+[DND]
+[Free for chat]
+[Invisible]
+[Not Idle]
+[Unknown]
+[%s%s%s]
+[%.0s%.0s%s]
+[ %s %s]
+#muuid {f593c752-51d8-4d46-ba27-37577953f55c}

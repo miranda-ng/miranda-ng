@@ -1,0 +1,532 @@
+; /----------------------------------------------------------\
+; |  New Away System 0.3.8.2                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://forums.miranda-im.org/showthread.php?t=2179
+;
+
+; /CommonLibs/m_ContactSettings.h
+[Notifications]
+Upozornìní
+[XStatus change notifications:]
+Oznámení o zmìnì rozšøíøeného stavu:
+;(DUP) [Ignore]
+[Notify always]
+Upozornit vdy
+[Use global settings]
+Pouít globální nastavení
+[Tooltip text]
+Text tipu
+[Other setting]
+Další nastavení
+[Some group]
+Nìjaká skupina
+
+; /CommonLibs/m_LogService.h
+[Test message]
+Testovací zpráva
+;(DUP) [ClientChangeNotify]
+;(DUP) [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+[%s changed his client to %s]
+%s zmìnil 
+
+; /CommonLibs/m_NewAwaySys.h
+[New global status message.]
+Nová globální zpráva stavu.
+
+; /NewAwaySys/AwayOpt.cpp
+[Open Variables help dialog]
+Otevøít nápovìdu o promìnnıch
+[Other (XStatus)]
+Jinı (rozšíøenı stav)
+[Open message window]
+Otevøít komunikaèní okno
+[Close popup]
+Zavøít oznámení
+[Open contact details window]
+Zobrazit okno s detaily kontaktu
+[Open contact menu]
+Zobrazit nabídku kontaktu
+[Open contact history]
+Zobrazit historii kontaktu
+[Open log file]
+Zobrazit záznam
+[Do nothing]
+Nedìlat nic
+[Create new message]
+Vytvoøit novou zprávu
+[Create new category]
+Vytvoøit novou kategorii
+[Delete]
+Smazat
+[Your most recent status messages are placed in this category. It's not recommended to put your messages manually here, as they'll be replaced by your recent messages.]
+Do této kategorie jsou ukládány nejèastìji pouívané stavové zprávy. Sem není vhodné ukládat zprávy ruènì, nebo budou nahrazeny tìmi, které pouíváte nejèastìji.
+[You can put your frequently used and favorite messages in this category.]
+Do této kategorie mùete zadat èasto pouívané a oblíbené odpovìdi.
+[Windows]
+Windows
+[Miranda]
+Miranda
+[When this checkbox is ticked, NewAwaySys counts "send times" starting from the last status message change, even if status mode didn't change.\nWhen the checkbox isn't ticked, "send times" are counted from last status mode change (i.e. disabled state is more restrictive).]
+Pokud zaškrtnete tuto volbu, NewAwaySys bude poèítat poèet odeslání od poslední zmìny stavové zprávy, i kdy se nezmìnil stav.\nPokud tato volba není zaškrtnutá, bere se poèet odeslání od poslední zmìny stavu (tzn. více restriktivní nastavení).
+[Message]
+Zpráva
+ 
+ 
+[URL]
+Odkaz
+[File]
+Soubor
+[** All contacts **]
+** všechny kontakty **
+[** Not-on-list contacts **]
+** Kontakty mimo seznam **
+[Edit status messages]
+Úprava stavovıch zpráv
+[Main options]
+Hlavní monosti
+[Autoreply]
+Automatické odpovìdi
+[Contacts]
+Kontakty
+[Predefined messages]
+Pøeddefinované
+[Recent messages]
+Naposledy pouité
+[Gone fragging]
+Fraguji
+[Been fragging since %]
+¨Fraguji od %
+[%, I'll msg you later when the adrenaline wears off.]
+%, ozvu se hned, jak mi vyprchá adrenalin.
+[Creepy]
+Královská
+[Your master, %nas_mynick%, has been %nas_statdesc% since the day that is only known as ?nas_awaysince_date(dddd)... When he gets back, I'll tell him you dropped by...]
+Vaše Vısosti, %nas_mynick% je %nas_statusdesc% ode dne známého jako ?nas_awaysince_date(dddd)... Jakmile se vrátí, poádám ho, aby se Vám ozval.
+[Default messages]
+Vıchozí zprávy
+[Online]
+Online
+[Yep, I'm here.]
+Jasnì, jsem tu.
+[Away]
+Na chvíli pryè
+[Been gone since %nas_awaysince_time%, will be back later.]
+Jsem pryè od %nas_awaysince_time%, vrátím se pozdìji.
+[NA]
+Nejsem tady
+[Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
+[Occupied]
+Nemám èas
+[Not right now.]
+Teï ne, prosím.
+[DND]
+Nerušit!
+[Give a guy some peace, would ya?]
+Nechte mì prosím chvíli o samotì, ano?
+[Free for chat]
+Mám volno
+[I'm a chatbot!]
+Kecám, a se mi od klávesnice práší!
+[Invisible]
+Neviditelnı
+[I'm hiding from the mafia.]
+Skrıvám se pøed mafií.
+[On the phone]
+Mám telefon
+[I've been on the phone since %nas_awaysince_time%, give me a sec!]
+Telefonuji od %nas_awaysince_time%, dejte mi vteøinku!
+[Out to lunch]
+Jsem na obìdì
+[Been having ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,supper,dinner),breakfast),supper) since %nas_awaysince_time%.]
+Od %nas_awaysince_time% ?ifgreater(?ctime(H),2,?ifgreater(?ctime(H),10,?ifgreater(?ctime(H),16,obìdvám,veèeøím),snídám),obìdvám).
+
+; /NewAwaySys/AwaySys.cpp
+[) read your ]
+) èetl vaši zprávu ve stavu '
+[message:\r\n]
+':\r\n
+[Set %s message for the contact]
+Nastavit %s (zprávu stavu) pro kontakt
+[Re&ad %s Message]
+Pøeèíst &automatickou odpovìï
+[Toggle autoreply on/off]
+Zapnout/vypnout autom. odpovìdi
+[New Away System: Status message request notifications]
+New Away System: oznámení o poadavku na zjištìní stavové zprávy
+[Enable autoreply when you are %s]
+Povolit automatickou odpovìï ve stavu %s
+["Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+"Ukládat nastavení autom./odpovìdi èi ignorování pro kadı stav zvláš" je povoleno, take toto nastavení platí "na kontakt" A ZÁROVEÒ "na stav".
+[Enable autoreply]
+Povolit automatickou odpovìï
+[Don't send status message when you are %s]
+Neposílat zprávu stavu, pokud jste %s
+[Ignore status message requests from this contact and don't send an autoreply.\r\n"Store contact autoreply/ignore settings for each status separately" is enabled, so this setting is per-contact AND per-status.]
+Ignorovat poadavky na zjištìní stavové zprávy od tohoto kontaktu a neposílat autom. odpovìï.\r\n"Ukládat nastavení autom. odpovìdi èi ignorování pro kadı kontakt zvláš" je povoleno, take toto nastavení platí "na kontakt" A ZÁROVEÒ "na stav".
+[Don't send status message]
+Neposílat zprávu stavu
+[Ignore status message requests from this contact and don't send an autoreply]
+Ignorovat poadavky na zjištìní zprávy stavu od tohoto kontaktu a neposílat autom. odpovìï
+[Stranger]
+Cizinec
+[%d hours]
+%d hod.
+[%d minutes]
+%d min.
+[%d seconds]
+%d sek.
+[Read status message]
+Pøeèíst zprávu stavu
+[Set status message]
+Nastavit stavové zprávy
+[On]
+Zap
+[Off]
+Vyp
+[Use the default setting]
+Pouít vıchozí nastavení
+[NewAwaySys: Incoming status message request]
+NewAwaySys: Pøíchozí poadavek na pøeètení stavové zprávy
+[New Away System\t(x)\tAway since time in format x (x is optional)]
+New Away System\t(x)\t'Pryè od' èas ve formátu x (x je volitelné)
+[New Away System\t(x)\tAway since date in format x (x is optional)]
+New Away System\t(x)\t'Pryè od' datum ve formátu x (x je volitelné)
+[New Away System\tStatus description]
+New Away System\tPopis stavu
+[New Away System\tYour nick for current protocol]
+New Away System\tVaše pøezdívka pro danı protokol
+[New Away System\tNumber of status message requests from the contact]
+New Away System\tPoèet poadavkù na zjištìní stavové zprávy od kontaktu
+[New Away System\tNumber of messages from the contact]
+New Away System\tPoèet zpráv od kontaktu
+[New Away System\tTime passed until request]
+New Away System\tÈas uplynulı od poadavku
+[New Away System\t(x)\tReturns one of your predefined messages by its title: ?nas_predefinedmessage(creepy)]
+New Away System\t(x)\tVrací jednu z vašich pøednastavenıch zpráv dle názvu: ?nas_predefinedmessage
+[New Away System\tCurrent protocol name]
+New Away System\tNázev daného protokolu
+[New Away System plugin requires Miranda version 0.6.0.0 or above.]
+Doplnìk New Away System vyaduje Mirandu 0.6.0.0 èi novìjší
+[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) read your %]
+`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) ète vaši %
+[% message:\r\n%extratext%\r\n\r\n]
+% zpráva:\r\n%extratext%\r\n\r\n
+
+; /NewAwaySys/Client.cpp
+
+; /NewAwaySys/Common.h
+[?cinfo(%subject%,display) (?cinfo(%subject%,id)) is reading your %nas_statdesc% message:\r\n%extratext%]
+?cinfo(%subject%,display) (?cinfo(%subject%,id)) ète vaši %nas_statdesc% zprávu:\r\n%extratext%
+[Miranda IM autoreply >\r\n%extratext%]
+Miranda IM automatická odpovìï >\r\n%extratext%
+[Toggle autoreply off]
+Vypnout automatické odpovìdi
+[Toggle autoreply on]
+Zapnout automatické odpovìdi
+[extended status]
+rozšíøenı stav
+[Other]
+Ostatní
+[Away System]
+Automatické odpovìdi
+[Status]
+Stavy
+[PopUps]
+Oznámení
+[Variables plugin is not installed]
+Doplnìk Variables není nainstalován
+
+; /NewAwaySys/ContactList.cpp
+
+; /NewAwaySys/MsgTree.cpp
+[You've made changes to multiple Message trees at a time.\r\nDo you want to leave changes in "]
+Zmìnili jste zprávy v nìkolika seznamech najednou.\r\nChcete ponechat zmìny v dialogu '
+[" dialog?\r\nPress Yes to leave changes in this dialog, or No to discard its changes and save changes of the other Message tree instead.]
+'?\r\nKlávesou 'Ano' zmìny potvrdíte, 'Ne' znamená zrušení a uloení do jiného seznamu.
+[Do you really want to delete this ]
+Chcete opravdu smazat vybranou 
+[category with its messages?]
+kategorii zpráv?
+[message?]
+zprávu?
+[New category]
+Nová kategorie
+[New message]
+Nová zpráva
+
+; /NewAwaySys/m_popup.h
+[Default]
+Vıchozí
+[Warning]
+Upozornìní
+[Notify]
+Oznámení
+[PopUp 1.0.1.x compatability]
+Kompatibilita s doplòkem PopUp 1.0.1x
+
+; /NewAwaySys/m_variables.h
+[Button]
+Tlaèítko
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnnıch
+
+; /NewAwaySys/Notification.cpp
+[) is reading your ]
+) ète vaši zprávu stavu '
+[Error #%d]
+Chyba è.%d
+[Can't open log file ]
+Nepodaøilo se otevøít soubor záznamu
+
+; /NewAwaySys/Properties.cpp
+[...]
+...
+
+; /NewAwaySys/ReadAwayMsg.cpp
+[&Close]
+&Zavøít
+
+; /NewAwaySys/Resources.rc:IDD_POPUPOPTDLG
+[Popup notification]
+Upozornit oznámením
+[Popup text format]
+Formát textu oznámení
+[Preview]
+Náhled
+[%extratext% is your status message]
+%extratext% je vaše stavová zpráva
+[Click action]
+Pøi kliknutí myší
+[On left click]
+Levé tlaèítko
+[On right click]
+Pravé tlaèítko
+[Delay]
+Prodleva
+[Sec]
+sek.
+[0 = Default]
+0 = vıchozí
+[-1 = Infinite]
+-1 = neustále
+[Colours]
+Barvy
+[Background]
+Pozadí
+[Use default]
+Vıchozí
+[Text]
+Text
+[Only notify when:]
+Oznamovat jen pøi stavu
+[On&line]
+On&line
+[&Away]
+N&a chvíli pryè
+[&NA]
+&Nejsem tady
+[Occ&upied]
+N&emám èas
+[&DND]
+Ne&rušit!
+[&Free for chat]
+&Mám volno
+[&Other]
+&Jiné
+[Log to a file only when popup notification for a contact is enabled]
+Zaznamenat do souboru, pokud je oznámení pro kontakt povoleno
+
+; /NewAwaySys/Resources.rc:IDD_AUTOREPLY
+[On event...]
+Událost...
+[Don't reply to ICQ contacts]
+Neodpovídat kontaktùm sítì ICQ
+[Don't reply when I'm invisible to the contact]
+Neodpovídat, pokud jsem vùèi kontaktu neviditelnı
+[Save autoreply to the history]
+Ukládat automatické odpovìdi do historie
+[Reply only when Idle]
+Odpovídat pouze pokud jsem neèinnı
+[Reply only when contact's message window is closed]
+Odpovídat pouze pokud je komunikaèní okno zavøené
+[Send maximum]
+Poslat maximálnì
+[times (-1=infinite)]
+×  (-1 = neustále)
+[Reset this counter also when I just change my status text\n(when status icon remains the same)]
+Vynulovat toto poèítadlo i kdy jen zmìním zprávu stavu\n(kdy ikona stavu zùstane stejná)
+[Disable autoreply when...]
+Neposílat automatickou odpovìï ve stavu:
+[&Invisible]
+Nev&iditelnı
+[On the &Phone]
+Na &telefonu
+[Out to &Lunch]
+Na &obìdì
+[Autoreply format:]
+Formát automatické odpovìdi:
+
+; /NewAwaySys/Resources.rc:IDD_SETAWAYMSG
+[OK]
+OK
+[&Variables]
+&Promìnné
+[Se&ttings]
+Nas&tavení
+[Ignore requests]
+&Ignorovat ádosti
+[Send an autoreply]
+&Poslat aut. odpovìï
+[&Delete]
+&Smazat
+[New &Category]
+Nová &kategorie
+[Save As &New]
+Uloit jako &novı
+
+ 
+ 
+[&Save]
+&Uloit
+[Static]
+Statickı
+
+; /NewAwaySys/Resources.rc:IDD_MESSAGES
+[Title:]
+Název:
+[Use this message as default for]
+Pouít tuto zprávu jako vıchozí pro
+
+; /NewAwaySys/Resources.rc:IDD_MOREOPTDIALOG
+[Wait]
+Poèkat
+[seconds before closing the status message dialog (-1=don't close)]
+sek. pøed zavøením dialogu s vıbìrem stavové zprávy (-1 = nezavírat)
+[Store]
+Uloit
+[most recent messages (0=disable)]
+posledních zpráv (0 = vypnout)
+[...for each status separately]
+... pro kadı stav zvláš
+[By default...]
+Vıchozí stav
+[Use the most recent message]
+Pouít nejposlednìjší zprávu
+[Use the default message]
+Pouít vıchozí odpovìï
+[Reset per-protocol messages when changing global status]
+Pøi zmìnì globálního stavu obnovit zprávy pøíslušné danému protokolu
+[Store protocol messages for each status separately]
+Ukládat zprávy daného protokolu pro kadı stav zvláš
+[Store protocol autoreply settings for each status separately]
+Ukládat nastavení autom. odpovìdi protokolu pro kadı stav zvláš
+[Remember last message used for a contact...]
+Pamatovat poslední zprávu pro kadı kontakt zvláš
+[Store contact autoreply/ignore settings for each status separately]
+Ukládat nastavení autom. odpovìdi èi ignorování pro kadı kontakt zvláš
+[Enable contact menu items]
+Povolit poloky v menu kontaktu
+[Use protocol specific nick for %nas_mynick%]
+Pro %nas_mynick% pouít pøezdívku nastavenou pro protokol
+[Update status messages for non-ICQ protocols every]
+Aktualizovat stavové zprávy pro protokoly jiné ne ICQ co
+[seconds]
+sek.
+[Don't show the message dialog for]
+Nezobrazovat vıbìr zprávy, je-li stav
+
+; /NewAwaySys/Resources.rc:IDD_READAWAYMSG
+[%s Message for %s]
+Stav: '%s', uivatel: %s
+[Retrieving %s message...]
+Zjištìní automatické odpovìdi ve stavu '%s'...
+[&Cancel]
+&Zrušit
+
+; /NewAwaySys/Resources.rc:IDD_CONTACTSOPTDLG
+[Notify of requests]
+Oznamovat poadavky
+[Don't notify of requests]
+Neoznamovat poadavky
+[Autoreply on]
+Aut. odp. zap.
+[Autoreply off]
+Aut. odp. vyp.
+[Note: these settings are applied to all status modes at once.]
+Pozn.: Všechna tato nastavení jsou aplikována na všechny stavy najednou.
+[Means the setting is different for different status modes / contacts]
+znamená, e nastavení se liší pro rùzné stavy / kontakty
+[Set away message window options]
+Monosti nastavení okna s odpovìdí
+[Show predefined &messages]
+&Zobrazit pøeddefinované zprávy
+[Show &contacts]
+Zobrazit &kontakty
+[Save default window settings &automatically]
+Ukládat nastavení okna &automaticky
+[&Save current window settings as default]
+Uloit na&stavení okna jako vıchozí
+[Disable parsing of status messages by Variables plugin]
+&Vypnout zpracování doplòkem Promìnné
+[Message tree menu]
+Nabídka zpráv
+[Create new &message]
+&Vytvoøit novou zprávu
+[Create new &category]
+V&ytvoøit novou kategorii
+;(DUP) [&Rename]
+[Message tree category menu]
+Nabídka kategorií
+[Set as &default for]
+&Nastavit jako vıchozí pro
+
+; /NewAwaySys/SetAwayMsg.cpp
+[Save, replacing the selected message]
+Uloit a nahradit vybranou zprávu
+[Save as a new message]
+Uloit jako novou zprávu
+[Show settings menu]
+Nabídka nastavení
+[Don't send the status message to selected contact(s)]
+Neposílat zprávu stavu vybranım kontaktùm
+Don't send the status message to selected contact(s)
+[Send an autoreply to selected contact(s)]
+Posílat zprávu stavu vybranım kontaktùm
+[Apply]
+Pouít
+[Do you want to apply the message?]
+Chcete pouít zadanou zprávu?
+[Set ]
+Nastavit 
+[status]
+stav
+[message]
+ zpráva 
+[for ]
+pro 
+[(autoreply only)]
+(pouze autom.odpovìï)
+[all contacts]
+všechny kontakty
+[protocol]
+protokol
+[Closing in %d]
+Zavøe se za %d sek.
+[* ]
+* 
+[contacts *]
+kontakty *
+
+; AwaySystemEx 0.0.1.2
+; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+[Do not change status message]
+Nemìnit zprávu stavu
+[Enable Auto Status Change]
+Povolit automatickou zmìnu stavu
+[Disable auto status change]
+Zakázat automatickou zmìnu stavu
+
+; ---

@@ -1,0 +1,109 @@
+; /----------------------------------------------------------\
+; |  mContacts 0.0.1.0                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+; this is a template for translation of mContacts v0.0.0.9
+; last updated 03-06-2004 for v0.0.0.9
+
+[&Export contact list]
+&Exportovat seznam kontaktù
+[&Import contact list]
+&Importovat seznam kontaktù
+[Export contact list]
+Exportovat seznam kontatkù
+[While exporting MIM will be completely blocked until finished.]
+Pøi exportu budou zablokovány všechny funkce Mirandy.
+[Are You sure?]
+Opravdu chcete pokraèovat?
+[Select export file name]
+Zadejte název souboru pro export
+[INI Files]
+Soubory INI
+;(DUP) [All files]
+[Export history (if available)?]
+Chcete exportovat i historii?
+[Contact list is empty.\nNothing to export.]
+Seznam kontaktù je prázdný. Není co exportovat.
+[Nothing was exported.]
+Nic nebylo vyexportováno.
+[Exported:]
+Pøehled vyexportovaných:
+[contact(s).]
+kontaktù.
+['Export contact list' is busy.]
+Pøi exportu seznamu je tato funkce neaktivní.
+[Import contact list]
+Importovat seznam kontaktù
+[While importing MIM will be completely blocked until finished.]
+Pøi importu budou zablokovány všechny funkce Mirandy.
+[Select import file name]
+Vyberte soubor pro import
+[Import history (if available, can take a while)?]
+Chcete naimportovat i historii?
+[To import:]
+K naimportování:
+[Nothing was imported.]
+Nic nebylo naimportováno.
+[Imported:]
+Pøehled naimportovaných:
+['Import contact list' is busy.]
+Pøi importu seznamu je tato funkce neaktivní.
+
+;New v0.0.0.2
+
+[DAT Files]
+Soubory DAT
+[Export contact history]
+Exportovat historii kontaktù
+[There was an error during contact history export.]
+Chyba pøi exportu historie kontatkù.
+[history event(s).]
+položek historie.
+['Export contact history' is busy.]
+Pøi exportu historie je tato funkce neaktivní.
+[Import contact history]
+Importovat historii kontaktù
+[There was an error during contact history import.]
+Chyba pøi importu historie kontatkù.
+
+;New v0.0.0.3
+
+[Delete whole history from selected contact, are you realy sure?]
+Tímto odstraníte historii vybraného kontaktu. Opravdu chcete pokraèovat?
+[Delete contact history]
+Odstranit historii kontaktu
+[Whole history from selected contact has been deleted.]
+Historie vybraného kontaktu byla odstranìna.
+[Protocol independent contact list/history import/export.]
+Import a export seznamu kontaktù a historie. Funguje nezávisle na použitém protokolu.
+
+;New v0.0.0.5
+
+[&Delete whole history from all contacts]
+O&dstranit historii všech kontaktù
+[Delete whole history from all contacts (including system history), are you realy sure?]
+Tímto odstraníte historii všech kontaktù a systému. Opravdu chcete pokraèovat?
+[Delete whole history]
+Odstranit celou historii
+[Whole history from all contacts has been deleted.]
+Historie všech kontaktù a systému byla odstranìna.
+
+;New v0.0.0.7
+
+[Only merge history (don't add new contacts)?]
+Chcete pøidat pouze historii (bez nových kontaktù)?
+[Merge history if contact already on list?]
+Chcete pøidat historii i tehdy, je-li kontakt v seznamu?
+
+;New v0.0.0.9
+[Check for history events duplicates?]
+Zkontrolovat výskyt duplicitních položek v historii?
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+;(LAI) [mContacts]
+
+; ---
