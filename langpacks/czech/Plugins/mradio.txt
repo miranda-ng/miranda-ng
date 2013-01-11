@@ -8,7 +8,7 @@ Název stanice
 [Station URL (required)]
 Adresa stanice (povinné)
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Genre]
 Žánr
 [Bitrate]
@@ -49,9 +49,11 @@ Naplnění paměti, % (75%)
 [Equalizer presets]
 Předvolby ekvalizéru
 [Equalizer]
+Ekvalizér
 [Station]
 Stanice
 [URL]
+Odkaz
 [Custom INI file]
 Vlastní INI
 [*]
@@ -68,7 +70,9 @@ Ztišit
 Extra
 ;file \plugins\mRadio\i_optdlg.inc
 [Add]
+Přidat
 [Delete]
+Smazat
 ;file \plugins\mRadio\i_service.inc
 [Radio station URL]
 ;file \plugins\mRadio\mradio.dpr

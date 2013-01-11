@@ -30,6 +30,6 @@ Schválení
 Autorizace & Schválení
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 [Auth State]
 Stav autorizace

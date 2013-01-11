@@ -4,7 +4,7 @@
 [Frame refresh time]
 Obnovování okna
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Picture transform]
 [Cover padding]
 Okraje obalu
@@ -84,6 +84,7 @@ Kontrola
 [Cover filenames]
 Názvy obalů
 [OK]
+OK
 [1]
 [2]
 [3]
@@ -103,6 +104,7 @@ Názvy obalů
 [Switch ON these modules]
 ;file \plugins\Watrack\stat\stat.rc
 [Delete]
+Smazat
 [Statistic log file]
 Soubor se statistickými údaji
 [Sort]
@@ -125,18 +127,22 @@ Seřadit záznam dle
 Počet položek
 ;file \plugins\Watrack\status\status.rc
 [Options]
+Možnosti
 [Set XStatus when...]
 [Color]
 Barva
 [Format]
 Formát
 [Variables]
+Proměnné
 [Protocols]
 Protokoly
 [Statuses]
 Stavy
 [Reset]
+Reset
 [Default]
+Výchozí
 [Template]
 Šablona
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
@@ -194,7 +200,7 @@ Všechny bitmapy
 Hudební statistiky
 ;file \plugins\Watrack\status\i_opt_11.inc
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [XStatus]
 Rozšířený stav
 [Tunes]

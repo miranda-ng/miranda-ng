@@ -2,6 +2,7 @@
 ;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
+Procházet
 [Use internal viewer]
 Interní prohlížeč
 [Replace miranda history]
@@ -16,6 +17,7 @@ Autom. název
 [Clear all]
 Odstranit vše
 [Help]
+Nápověda
 [Export all history]
 Exportovat vše
 [Export directory]
@@ -96,6 +98,7 @@ Chyba při vytváření souboru
 [Failed to HookEvent ME_DB_CONTACT_DELETED]
 [Failed to HookEvent ME_OPT_INITIALISE]
 [View &History]
+Zobrazit &historii
 [Open E&xported History]
 Otevřít vye&xportovanou historii
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
@@ -123,6 +126,7 @@ Neplatná cesta ke knihovně Msg_Export.dll
 [File]
 Soubor
 [Nick]
+Přezdívka
 [Proto]
 Protokol
 [UIN]
@@ -254,7 +258,9 @@ Důvod     :
 [Invalid Database event received. Type %d, size %d]
 [Failed to write Invalid Database event the file :\n]
 [The following user made an authorization request:]
+Tento uživatel vás požádal o autorizaci:
 [The following user added you to their contact list:]
+Uživatel, který si vás přidal mezi kontakty:
 [UIN       :]
 [Failed to write AUTHREQUEST or ADDED to the file :\n]
 [EmailExpress from:]
@@ -273,5 +279,6 @@ Chyba při zápisu položky SMS do souboru:\n
 [Programming error on line __LINE__ please report this]
 [%s\r\n%s]
 [User has been deleted do you want to delete the file ?]
+Jeden z uživatelů byl odebrán ze seznamu.\nChcete smazat příslušný soubor?
 [Failed to delete the file]
 Chyba při mazání souboru

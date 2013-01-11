@@ -18,6 +18,7 @@ Zobrazit jako změnu stavu
 [Auto resend nudge after]
 Automaticky znovu drcnout po
 [s]
+s
 [Enable popup notification]
 Povolit oznámení
 [Respect ignore settings (status changes)]
@@ -41,15 +42,25 @@ Text
 [Allow nudges when you're:]
 Povolit drcnutí ve stavu:
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [NA]
+Nejsem tady
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [On the phone]
+Mám telefon
 [Out to lunch]
+Jsem na obědě
 [Shaking Clist Options]
 Možnosti seznamu kontaktů
 [Number of moves]

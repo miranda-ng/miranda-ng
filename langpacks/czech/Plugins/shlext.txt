@@ -12,7 +12,7 @@ Nabídky
 [Shell Status]
 Stav integrace v prostředí
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Shell context menus]
 Kontextové nabídky
 [Do not display the profile name in use]
@@ -20,6 +20,7 @@ Nezobrazovat název používaného profilu
 [Show contacts that you have set privacy rules for]
 Zobrazit kontakty pro které existují soukromá práva
 [Remove]
+Odebrat
 [Do not show status icons in menus]
 Nezobrazovat v nabídce ikonu stavu
 [Do not show contacts that are offline, even if my contact list does]

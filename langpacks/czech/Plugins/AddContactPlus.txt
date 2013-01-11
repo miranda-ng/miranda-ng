@@ -16,14 +16,18 @@ Vlastní jméno:
 [Group:]
 Skupina:
 [Options]
+Možnosti
 [Add temporarily]
 [Send "You were added"]
 Odeslat zprávu o zařazení
 [Send authorization request]
 Odeslat žádost o autorizaci
 [Authorization Request]
+Žádost o autorizaci
 [&Add]
+Přid&at
 [&Cancel]
+&Zrušit
 ;file \plugins\AddContactPlus\src\addcontact.cpp
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
@@ -37,6 +41,6 @@ Přidat kontakt
 [&Add contact...]
 [Open add contact dialog]
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [AddContact+]
 #muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}

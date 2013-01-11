@@ -8,13 +8,16 @@
 [Facebook protocol plugin for Miranda NG.]
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
+E-mail:
 [Password:]
+Heslo:
 [Create a new Facebook account]
 Zřídit nový účet na Facebooku
 [420]
 [Share]
 Sdílet
 [Cancel]
+Zrušit
 [User Details]
 Informace o uživateli
 [Default group:]
@@ -38,6 +41,7 @@ Text
 [Notifications]
 Upozornění
 [Default]
+Výchozí
 [News feeds]
 Novinky
 [Other events]
@@ -127,12 +131,13 @@ Facebook: Chyba při zpracování síťové komunikace.
 [%miranda_avatarcache%]
 [%s %s %s]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 [Advanced]
 Extra
 [PopUps]
+Oznámení
 [Events]
 Události
 [Loading newsfeeds...]

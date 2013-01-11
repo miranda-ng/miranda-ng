@@ -1,7 +1,5 @@
 ﻿;[Always start...]
-;[Contact List]
 ;[Contact List Window Start Position]
-;[Left]
 ;[Minimized to System Tray]
 ;[Opened]
 ;[Pixels from Bottom]

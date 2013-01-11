@@ -16,9 +16,11 @@ Aktualizace
 [Ok]
 OK
 [Cancel]
+Zrušit
 [Apply]
 Použít
 [Nick:]
+Přezdívka:
 [Display Name:]
 Zobr. jméno:
 [Title:]
@@ -122,10 +124,13 @@ Použít seznam filtrování kontaktů
 Barvy upozornění na narozeniny
 [r]
 [Background colour]
+Barva pozadí
 [Text colour]
+Barva textu
 [Use Windows colours]
 Použít barvy Windows
 [Use default colours]
+Použít výchozí barvy
 [Delay]
 Prodleva
 [From PopUp plugin]
@@ -153,6 +158,7 @@ Přidat minulost
 [Add Interest]
 Přidat zájem
 [Delete]
+Smazat
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 [Enter a name for the anniversary here please:]
 Sem prosím vložte název výročí:
@@ -181,7 +187,7 @@ Připomínka
 [Popup this dialog on a contact's anniversary]
 Zobrazit tento dialog při výročí kontaktu
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 [Check file version of default IconPack to prevent wrong icon display]
 Kontrolovat verzi knihovny ikon (zabrání špatnému zobrazování)
 [Display icons on each dialog button]
@@ -217,6 +223,7 @@ Seřadit položky v menu dle abecedy
 [Info of a MetaContact's SubContact]
 Informace o podkontaktu z metakontaktu
 [Colours]
+Barvy
 [Common]
 Obecné
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
@@ -230,6 +237,7 @@ Vykreslit stránky vlastností skrz aero.
 [Progress1]
 [John Doe (1/10)]
 [OK]
+OK
 [All]
 všechno
 [None]
@@ -247,7 +255,9 @@ Export/import položek
 [ContactMenu]
 Nabídka kontaktu
 [GroupMenu]
+Nabídka skupiny
 [SubGroupMenu]
+Nabídka podskupiny
 [AccountMenu]
 Nabídka účtu
 [Extra Icons]
@@ -263,12 +273,15 @@ Telefon
 [E-Mail]
 E-mail
 [Gender]
+Pohlaví
 [Misc]
+Různé
 [Show 'Restart' menu item]
 Zobrazit v nabídce položku 'Restart'
 [Use Zodiac as default avatar]
 Použít znamení zvěrokruhu jako výchozí avatar
 [Country Flags]
+Vlajky zemí
 [Use &unknown flag if country can not be determined]
 [Show country flag as &status icon on message window]
 Zobrazit vlajku jako &stavovou ikonu v komunikačním okně
@@ -327,6 +340,7 @@ Vodnář
 [Pisces]
 Ryby
 [Unknown]
+Neznámý
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
 %s hlásí nové narozeniny přes protokol.\nJedná se o %s. Staré byly %s.\n\nPřejete si použít nový údaj jako narozeniny kontaktu?
 [Update custom birthday]
@@ -379,6 +393,7 @@ Telefonní číslo by mělo začínat znaménkem + a smí obsahovat\nčísla, me
 [none]
 ---
 [Edit]
+Upravit
 [Choose the item to display.]
 Vyberte požadovanou položku
 [Edit the currently displayed item.]
@@ -435,8 +450,10 @@ Znovu
 Ano
 [Abord]
 [Ignore]
+Filtrování
 [%s - %s]
 [Error]
+Chyba
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
 Protokol '%s' je offline
@@ -457,6 +474,7 @@ Nepodařilo se vytvořit dialog detailů. Návratový kód je %d
 [The Page to add has invalid size %d bytes!]
 Přidávaná stránka má nesprávnou velikost %d bajtů!
 [General]
+Obecné
 [Contact (private)]
 Kontakt (soukromý)
 [Anniversaries]
@@ -506,6 +524,7 @@ Export/Import kontaktů
 In&formace o kontaktu
 [&Export User Details]
 [&Import]
+&Importovat
 [&Import User Details]
 [View/Change My &Details...]
 In&formace o sobě...
@@ -586,6 +605,7 @@ Extra
 [Details Dialog]
 Detaily
 [PopUps]
+Oznámení
 ;file \plugins\UserInfoEx\src\psp_origin.cpp
 [ - ]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp

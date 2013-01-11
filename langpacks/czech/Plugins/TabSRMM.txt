@@ -9,7 +9,9 @@
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
 Můžete přidat uživatelské jméno nebo ID. Zástupné znaky jsou povoleny a doporučeny.
 [OK]
+OK
 [Cancel]
+Zrušit
 [  Show these events]
    Zobrazit tyto události
 [Actions]
@@ -27,6 +29,7 @@ Změny tématu
 [Status changes]
 Změny stavu
 [Information]
+Informace
 [Disconnects]
 Odpojení
 [User kicks]
@@ -34,9 +37,11 @@ Vykopnutí uživatele
 [Notices]
 Poznámky
 [Popup]
+Oznámení
 [Tray]
 Lišta
 [Options]
+Možnosti
 [Add new rooms to group:]
 Nové místnosti do skupiny:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
@@ -48,7 +53,7 @@ Aktivovat záznam
 [Log directory]
 Složka pro záznam
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Maximum size for log files (in kB)]
 Maximální velikost souboru záznamu (v kB)
 [Group chat log formatting]
@@ -204,6 +209,7 @@ Pozadí
 [Timeout (seconds, 0 = default, -1 = no timeout)]
 Časový limit (sekundy, 0 = výchozí, -1 = bez limitu)
 [Message]
+Zpráva
 [Default colors]
 Výchozí barvy
 [Others]
@@ -419,6 +425,7 @@ Chování klávesy ESC
 [Available containers]
 Seznam kontejnerů
 [Delete]
+Smazat
 [Rename]
 Přejmenovat
 [Create a new container]
@@ -434,6 +441,7 @@ Mezera mezi tlačítky:
 [Hide if there isn't enough space]
 Skrýt pokud není dost místa
 [Reset]
+Reset
 [Insert Separator]
 Vložit oddělovač
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
@@ -467,6 +475,7 @@ Použít Aero UI elementy (pouze pokud není použito vlastní téma)
 [Use Windows 7 task bar enhancements (restart required)]
 Použít Windows 7 vylepšení lišty úloh (vyžadován restart)
 [PopUps]
+Oznámení
 [...is &typing]
 ... píše zprá&vu
 [...stopped t&yping]
@@ -474,7 +483,9 @@ Použít Windows 7 vylepšení lišty úloh (vyžadován restart)
 [Back]
 Pozadí
 [U&se Popup colours]
+Použít globální na&stavení
 [&Use Windows colours]
+Po&užít barvy Windows
 [Only &one popup for each contact]
 Pouze jedn&o oznámení na kontakt
 [Show &entry in the main menu]
@@ -565,7 +576,7 @@ Importovat ze souboru...
 [Ok]
 OK
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 [Event type icons in the message log]
 Ikona typu události v záznamu komunikace
 [Text symbols as event markers]
@@ -593,6 +604,7 @@ Seskupovat zprávy
 [Support BBCODE]
 Podporovat BBCODE
 [Misc]
+Různé
 [RTL is default text direction]
 Zprava doleva je výchozí směr psaní
 [Log status changes (in open message windows only)]
@@ -604,11 +616,13 @@ Zde si můžete nastavit záznam rozhovoru pro konkrétní kontakt. Předvyplně
 [Use normal templates (uncheck to use simple templates)]
 Použít normální šablony (odznačením se použijí jednoduché)
 [&Copy]
+Z&kopírovat
 [&Quote]
 &Citovat
 [Co&py All]
 Zko&pírovat vše
 [Select &All]
+Vybr&at vše
 [Clear Log]
 Vymazat záznam
 [Freeze Log]
@@ -642,6 +656,7 @@ Možnosti kontejneru...
 [Close Container]
 Zavřít kontejner
 [Default]
+Výchozí
 [Hidden for this Contact]
 Skrytý pro tento kontakt
 [Visible for this Contact]
@@ -741,7 +756,9 @@ Označit vybrané pro vyjmutí
 [Reset Selected]
 Obnovit vybrané
 [Hold Selected]
+Podržet vybrané
 [Resume Selected]
+Pokračovat vybrané
 [Cancel all Multisend Jobs]
 Zrušit mnohonásobné odesílání
 [Copy Message to Clipboard]
@@ -874,6 +891,7 @@ Citovat poslední zprávu NEBO vybraný text
 [Message Log Options]
 Možnosti záznamu komunikace
 [View User's History]
+Zobrazit historii
 [Edit user notes]
 Editovat poznámky uživatele
 [Change background color]
@@ -906,6 +924,7 @@ Parametry nesouhlasí
 [TSStatusBarClass]
 [%%%d.%ds...]
 [Message Session]
+Rozhovor
 [Default container]
 Výchozí kontejner
 [Attach to]
@@ -943,6 +962,7 @@ Velikost okna a vzhled
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
 Můžete vybrat vlastní téma (soubor .tabsrmm) pro tento kontejner, které přepíše výchozí téma záznamu komunikace. Po této změně bude nutné zavřít a znovu otevřít všechna komunikační okna.
 [Transparency]
+Průhlednost
 [This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
 Tato funkce vyžaduje Windows 2000 nebo novější a může být nedostupná při použití skinu kontejneru.
 [Contact avatars]
@@ -976,6 +996,7 @@ Nezobrazovat
 [&Main]
 &Soubor
 [&File]
+&Soubor
 [&View]
 &Zobrazit
 [&User]
@@ -987,6 +1008,7 @@ Záz&nam hovoru
 [&Container]
 &Kontejner
 [Help]
+Nápověda
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
 Zvuky jsou %s. Kliknutím stav změníte, kliknutím se SHIFTem nastavíte pro všechny otevřené kontejnery.
 [disabled]
@@ -1046,6 +1068,7 @@ Automatické posouvání je vypnuto, %d zpráva/y) ve frontě (stiskněte F12 pr
 [%s (%s)]
 %s (%s)
 [Forward]
+Další
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
 UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nKliknout pravým pro správu metakontaktů\nTáhnout pro přidání nebo odebrání uživatele z oblíbených.
 [No UID]
@@ -1358,12 +1381,19 @@ vietnamština
 [Korean (Johab)]
 korejština (Johab)
 [Sunday]
+neděle
 [Monday]
+pondělí
 [Tuesday]
+úterý
 [Wednesday]
+středa
 [Thursday]
+čtvrtek
 [Friday]
+pátek
 [Saturday]
+sobota
 [January]
 leden
 [February]
@@ -1399,6 +1429,7 @@ Výchozí kódování
 [%s*.*]
 [.tsk]
 [Name]
+Jméno
 [None]
 ---
 [<no skin>]
@@ -1414,7 +1445,9 @@ Doplněk History++
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
 Vybrali jste externí plugin pro zobrazení záznamu zpráv v komunikačním okně. Mnoho nastavení v tomto okně je pouze pro standardní zobrazení záznamu komunikace, a proto nebude mít žádný vliv. Pro změnu vhledu záznamu komunikačního okna musíte nastavit IEView nebo History++.
 [** New contacts **]
+** nové kontakty **
 [** Unknown contacts **]
+** neznámé kontakty **
 [Show balloon popup (unsupported system)]
 Zobrazit oznámení bublinami (nepodporováno)
 [Always]
@@ -1432,6 +1465,7 @@ Zavřít či schovat okno, záleží na nastavení uzavíracího tlačítka
 [Message Sessions]
 Komunikace
 [General]
+Obecné
 [Tabs and layout]
 Panely a rozvržení
 [Containers]
@@ -1441,6 +1475,7 @@ Záznam komunikace
 [Tool bar]
 Tlačítková lišta
 [Typing Notify]
+Psaní zprávy
 [Event notifications]
 Oznámení události
 [Message window]
@@ -1494,6 +1529,7 @@ Barva písma
 [Format strike-through]
 Přeškrtnutý text
 [Background colour]
+Barva pozadí
 [Room settings]
 Nastavení místnosti
 [Event filter]
@@ -1538,6 +1574,7 @@ Vyberte kontejner pro %s
 [You cannot delete the default container]
 Nelze smazat výchozí kontejner
 [Error]
+Chyba
 [You cannot rename the default container]
 Nelze přejmenovat výchozí kontejner
 [This name is already in use]
@@ -1573,7 +1610,7 @@ Původní čas
 [Message text]
 Text zprávy
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Last send info]
 Informace o posledním odeslání
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
@@ -1617,6 +1654,7 @@ tabSRMM
 tabSRMM zpráva (%s)
 [TabSRMM\n%s %d.%d.%d.%d (Unicode) %s]
 [Version]
+Verze
 ;file \plugins\TabSRMM\src\tabctrl.cpp
 [msctls_updown32]
 ;file \plugins\TabSRMM\src\taskbar.cpp
@@ -1626,6 +1664,7 @@ tabSRMM zpráva (%s)
 [create proxy object for: %s]
 [destroy proxy object for: %s]
 [Previews not availble when using History++ plugin for message log display.]
+Náhled není dostupný při použití pluginu History++ pro zobrazení záznamu zpráv.
 [create proxy WINDOW for: %s]
 [destroy proxy WINDOW for: %s]
 [refresh base (background) with %d, %d]
@@ -1639,6 +1678,7 @@ Chatovací místnost %s
 [Server window]
 Okno serveru
 [%s on %s%s]
+%s v síti %s%s
 ;file \plugins\TabSRMM\src\templates.cpp
 [%I %S %N  %?&D%\\&E%\\!, %\\T%\\!: %?n%?S %?T%?|%M]
 [%S %T%|%M]
@@ -1703,9 +1743,11 @@ Okno
 [SbarHeight]
 [ClientArea]
 [Left]
+Vlevo
 [Right]
 Vpravo
 [Top]
+Nahoře
 [Bottom]
 Dole
 [Inner]
@@ -2262,6 +2304,7 @@ Přezdívka
 [UIN]
 UIN
 [Protocol]
+Protokol
 [Contacts local time]
 Místní čas kontaktu
 [Window caption (skinned mode)]
@@ -2463,8 +2506,10 @@ zkrácené jméno dne v týdnu
 [full weekday name]
 plné jméno dne v týdnu
 [Variables]
+Proměnné
 [%s%c*.*%c%c]
 [All Files]
+Všechny soubory
 [log]
 [Select Folder]
 Vyberte požadovanou složku
@@ -2568,6 +2613,7 @@ Přezdívka
 Inikátní Id
 [<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s]
 [Nick]
+Přezdívka
 [Unique id]
 Identifikátor
 [%s: Chat Room (%u user%s)]

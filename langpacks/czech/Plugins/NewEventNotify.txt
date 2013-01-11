@@ -12,7 +12,9 @@ Zobrazit náhled události
 [Popup Options]
 Možnosti oznámení
 [Message]
+Zpráva
 [URL]
+Odkaz
 [File]
 Soubor
 [Others]
@@ -62,6 +64,7 @@ Poslední zprávu zobrazit první
 [Last message display last]
 Poslední zprávu zobrazit poslední
 [Edit]
+Upravit
 [No popups for RSS contacts]
 Nezobrazit oznámení pro zdroje RSS
 [No popups for read messages]
@@ -73,10 +76,12 @@ Neoznamovat přečtené zprávy
 [TfrmContainer]
 [%s (%s): %s]
 [Message Session]
+Rozhovor
 [#32770]
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
+Oznámení
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
 Oznámení události

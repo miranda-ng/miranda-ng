@@ -44,11 +44,13 @@ Jiné přehrávače
 [Ask for new info every]
 Zjistit informace každých
 [seconds]
+sek.
 [Allow auto-loading plugins into players (affect players with *)]
 Povolit automatické načtení doplňků do přehrávačů (týká se položek s *)
 [mRadio]
 Rádia
 [Listening to]
+Poslech hudby
 [Template:]
 Šablona:
 [Variables:]
@@ -76,6 +78,7 @@ Není-li proměnná, vložit text:
 [Title:]
 Název:
 [Message:]
+Zpráva:
 [Other Variables:]
 Jiné proměnné:
 [%listening% - Listening to info (as set above)]
@@ -138,10 +141,11 @@ Začít
 [%listening%]
 [<Nothing is playing now>]
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Listening info]
 Poslech hudby
 [General]
+Obecné
 [Format]
 Formát
 [Players]

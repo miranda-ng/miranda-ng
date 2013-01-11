@@ -2,6 +2,7 @@
 ;langpack template for Dbx_tree
 ;file \plugins\Dbx_tree\res\dbConfig.rc
 [Cancel]
+Zrušit
 [Next >]
 [< Prev]
 ;file \plugins\Dbx_tree\src\BlockManager.cpp

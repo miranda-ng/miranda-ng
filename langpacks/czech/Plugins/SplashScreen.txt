@@ -14,7 +14,7 @@ Zobrazit logo
 [Show random splash]
 Zobrazit náhodné logo
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Play sound]
 Přehrát zvuk
 [Loop sound]
@@ -26,6 +26,7 @@ Aktivovat
 [Prefix:]
 Prefix:
 [Appearance]
+Vzhled
 [Display time:]
 Doba zobrazení:
 [msec]
@@ -58,6 +59,7 @@ Náhled...
 [user32.dll]
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 [Error]
+Chyba
 [Loading advaimg]
 [splash\\splash.png]
 [%s\\%s]
@@ -76,7 +78,9 @@ Vzhled
 [Sounds enabled.]
 [Sounds disabled.]
 [Module]
+Modul
 [Setting]
+Nastavení
 [Value]
 Hodnota
 [PluginDisable]
@@ -130,5 +134,6 @@ Logo při spuštění
 Náhled
 [yes]
 [Timeout]
+Doba zobrazení
 [end]
 #muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}

@@ -21,6 +21,7 @@ Barva pozadí
 [Text color]
 Barva textu
 [Timeout]
+Doba zobrazení
 [If both colors set to the same value, default colors will be used]
 [0 means default timeout]
 [Test]
@@ -88,8 +89,9 @@ Přečíst poštu
 [{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}]
 [{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}]
 [PopUps]
+Oznámení
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Why C sucks]
 [brickstrace@gmail.com [1]]
 [    bems <bems@vingrad.ru>\n]

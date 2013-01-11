@@ -7,13 +7,17 @@
 ;============================================================
 ;file \plugins\TooltipNotify\res\main.rc
 [OK]
+OK
 [Allow tooltip notifications for the following users:]
 U vybraných kontaktů povolit upozornění na změnu stavu:
 [Cancel]
+Zrušit
 [Notify upon the following events]
 Upozornění na události
 [Online]
+Online
 [Offline]
+Offline
 [All other]
 Ostatní
 [Typing]
@@ -31,6 +35,7 @@ Doba trvání
 [Show tooltip for]
 Zobrazit na
 [ms]
+ms
 [Duration x2 upon online event]
 Při přechodu do online 2× déle
 [Double click on tooltip]
@@ -42,6 +47,7 @@ Otevřít okno a psát
 [Behavior]
 Chování
 [Misc]
+Různé
 [Obey 'Suppress online notification' settings]
 Zohlednit stav 'Neoznamovat přechod do online'
 [Auto positioning]
@@ -51,12 +57,15 @@ Průhledný vstup
 [Preview]
 Náhled
 [Translucency options (Windows 2000/XP only)]
+Průhlednost (pouze Windows 2000 a XP)
 [Transparent tooltip]
 Míra průhlednosti
 [000%]
+000 %
 [Contacts]
 Kontakty
 [Idle]
+Nečinnost
 ;file \plugins\TooltipNotify\src\Settings.h
 [Tahoma]
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
@@ -77,17 +86,27 @@ Změna stavu (ostatní)
 [Tooltip Notify: Typing]
 Změna stavu (psaní zprávy)
 [PopUps]
+Oznámení
 [%d%%]
 [** New contacts **]
+** nové kontakty **
 [** Unknown contacts **]
+** neznámé kontakty **
 [Away]
+Na chvíli pryč
 [N/A]
+<neuvedeno>
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Not Idle]
 [Unknown]
+Neznámý
 [%s%s%s]
 [%.0s%.0s%s]
 [ %s %s]

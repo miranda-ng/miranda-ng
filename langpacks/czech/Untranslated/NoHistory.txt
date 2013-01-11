@@ -4,6 +4,5 @@
 ;[History Disabled]
 ;[History Enabled]
 ;[Keep history for this contact]
-;[Logging]
 ;[No History]
 ;[This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]

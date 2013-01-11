@@ -11,7 +11,9 @@ Yahoo
 [ID:]
 Identifikátor:
 [Password:]
+Heslo:
 [Nick:]
+Přezdívka:
 [Create a new Yahoo account using the Yahoo website]
 Zřídit nový účet prostřednictvím domovské stránky Yahoo
 [Expert]
@@ -32,8 +34,11 @@ Zřídit nový účet v síti Yahoo
 [Connection Settings]
 Možnosti spojení
 [Login server:]
+Server:
 [Port:]
+Port:
 [Reset]
+Reset
 [Yahoo Ignore List]
 Seznam filtrovaných
 [Ignore anyone who is not on my Yahoo buddy list ]
@@ -41,17 +46,23 @@ Ignorovat všechny, kdo nejsou v seznamu kontaktů
 [Ignore only the people below: ]
 Ignorovat pouze níže uvedené uživatele:
 [&Add]
+Přid&at
 [&Remove]
+Odst&ranit
 [Show as busy]
 Zobrazit jako 'Nemám čas'
 [OK]
+OK
 [Cancel]
+Zrušit
 [Protocol:]
 Protokol:
 [Client:]
+Klient:
 [&Join]
 Při&jít
 [&Deny]
+O&dmítnout
 [Denial Message]
 [Invitation Message]
 [Host]
@@ -60,8 +71,10 @@ Identifikátor
 [&Invite]
 &Pozvat
 [&Cancel]
+&Zrušit
 [Invitation reason]
 [Add]
+Přidat
 ;file \protocols\Yahoo\src\avatar.cpp
 [Yahoo Error]
 Chyba Yahoo
@@ -80,9 +93,13 @@ Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [Others]
 Ostatní
 [&Invite user...]
+Pozvat k d&iskusi...
 [&Leave chat session]
+&Opustit diskusi
 [User &details]
+&Detaily uživatele
 [User &history]
+Zobrazit &historii
 [Join My Conference...]
 [No, thank you...]
 ;file \protocols\Yahoo\src\file_transfer.cpp
@@ -90,7 +107,7 @@ Ostatní
 %s\\%s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Mail]
 E-mail
 [Profile]
@@ -131,7 +148,7 @@ Položku ze seznamu lze odebrat až po připojení do sítě Yahoo.
 [Please select a buddy on the ignore list to remove.]
 Nejdříve vyberte požadovanou položku ze seznamu.
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 [Connection]
@@ -167,6 +184,7 @@ Připomínka
 [%s has rejected your request and sent the following message:]
 %s odmítl/odmítla žádost. Text zprávy:
 [New Mail]
+Nová pošta
 [You Have %i unread msgs]
 Nepřečtených zpráv: %i
 [New Mail (%i msgs)]

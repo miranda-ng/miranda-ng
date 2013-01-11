@@ -30,7 +30,9 @@ Chcete povolit úpravu této položky?
 [&Allow all further changes to this section]
 &Povolit všechny další úpravy v této sekci
 [&Yes]
+&Ano
 [&No]
+&Ne
 [Cancel Import]
 Zrušit import
 [The import has completed from]
@@ -39,6 +41,7 @@ Co chcete udělat s tímto souborem?
 [&Recycle]
 Př&esunout do koše
 [&Delete]
+&Smazat
 [&Move/Rename]
 Přesunout/Přej&menovat
 [&Leave]

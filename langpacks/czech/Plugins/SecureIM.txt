@@ -56,6 +56,7 @@ Soukromý
 [&Export]
 &Exportovat
 [&Import]
+&Importovat
 [Set &keyrings...]
 Nastavit &klíčenku...
 [Disable keyrings use]
@@ -67,7 +68,7 @@ Obecné
 [Executable:]
 Program gpg.exe:
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Home Directory:]
 Dom. adresář:
 [Temp Dir:]
@@ -114,9 +115,13 @@ Indikovat odesílání šifrované zprávy
 [Show a popup on each secure receive]
 Indikovat příjem šifrované zprávy
 [Username:]
+Uživatel:
 [Password:]
+Heslo:
 [OK]
+OK
 [Cancel]
+Zrušit
 [Enter passphrase for the secret key:]
 [Ok]
 OK
@@ -165,6 +170,7 @@ Smazat klíč
 Služby
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [PopUps]
+Oznámení
 ;file \plugins\SecureIM\src\rtfconv.cpp
 [rtfconv.dll]
 [plugins\\rtfconv.dll]

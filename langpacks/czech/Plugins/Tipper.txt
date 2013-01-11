@@ -7,11 +7,15 @@
 ;============================================================
 ;file \plugins\TipperYM\res\resource.rc
 [Options]
+Možnosti
 [Layout]
+Rozvržení
 [Text indent:]
 Odsazení textu:
 [Window]
+Okno
 [Max width:]
+Max. šířka:
 [Max height:]
 Max. výška:
 [Avatar size:]
@@ -25,6 +29,7 @@ Prodleva:
 [Status bar tips]
 Tipy stavové lišty
 [Alignment]
+Zarovnání
 [Labels:]
 Titulky:
 [Values:]
@@ -42,6 +47,7 @@ Vnější okraj avataru:
 [Round corners (avatar)]
 Zaoblit rohy avatarů
 [Keep original avatar size]
+Neměnit velikost avataru
 [Avatar border]
 Orámovat avatary
 [Title indent:]
@@ -51,6 +57,7 @@ Odsazení obsahu:
 [Inner avatar padding:]
 Vnitřní okraj avataru:
 [Label:]
+Popis:
 [Contact protocol module]
 Modul protokolu
 [Module:]
@@ -60,7 +67,9 @@ Volba nebo prefix:
 [Translation:]
 Překlad:
 [OK]
+OK
 [Cancel]
+Zrušit
 [Value:]
 Hodnota:
 [Draw a line above]
@@ -70,27 +79,38 @@ Odsadit na nový řádek
 [Preset items:]
 Předdefinované položky:
 [Variables]
+Proměnné
 [Parse Tipper variables first]
 [Items]
+Položky
 [Substitutions]
 Substituce
 [Add]
+Přidat
 [Remove]
+Odebrat
 [Up]
+Nahoru
 [Down]
+Dolů
 [Edit]
+Upravit
 [Separator]
+Oddělovač
 [Advanced options]
 Pokročilé možnosti
 [Retrieve XStatus details if auto-retrieve is disabled]
 Zjišťovat rozšířený stav i když je automatika vypnuta
 [Extra icons]
+Doplňkové ikony
 [Smileys support]
 Podpora smajlíků
 [Enable SmileyAdd support]
+Podporovat doplněk SmileyAdd
 [Resize smileys]
 Měnit velikost smajlíků
 [Use protocol smileys]
+Použít smajlíky protokolu
 [Replace only isolated smileys]
 Nahradit jen oddělené smajlíky
 [Retrieve new status message]
@@ -108,8 +128,11 @@ Skiny
 [Opacity(%):]
 Průhlednost (%):
 [Transparency]
+Průhlednost
 [Effects]
+Efekty
 [Border]
+Okraj
 [Shadow]
 Stín
 [Round corners (window)]
@@ -144,6 +167,7 @@ Oblíbené kontakty
 [Expand to second level after:]
 Rozšířit na druhou úrověň po:
 [ms]
+ms
 [First level tooltip]
 Tip první úrovně
 [Second level tooltip]
@@ -161,7 +185,7 @@ Připojit název protokolu
 [Tipper smileys]
 Smajlíky v tipech
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 ;file \plugins\TipperYM\src\options.cpp
 [sys:status_msg]
 [Last message: (%sys:last_msg_reltime% ago)]
@@ -182,7 +206,9 @@ Přidat položku
 [Add separator]
 Přidat oddělovač
 [Move up]
+Přesunout nahoru
 [Move down]
+Přesunout dolů
 [---------------------------------]
 [Icon on left]
 Ikona vlevo
@@ -201,11 +227,13 @@ Vpravo nahoře
 [Top left]
 Vlevo nahoře
 [Top]
+Nahoře
 [Centre]
 Centrovat
 [Bottom]
 Dole
 [Left]
+Vlevo
 [Right]
 Vpravo
 [No avatar]
@@ -223,10 +251,13 @@ Animace
 [Fade]
 Slábnutí
 [Appearance]
+Vzhled
 [Tooltips]
+Tipy
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Content]
+Obsah
 [Tray tooltip]
 Oznamovací oblast
 [Extra]
@@ -241,11 +272,13 @@ Stav uzamčení protokolu
 [Unread emails]
 Nepřečtené e-maily
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Status message]
+Zpráva stavu
 [Extra status]
 Rozšířený stav
 [Listening to]
+Poslech hudby
 [Miranda uptime]
 Doba běhu Mirandy
 [Clist event]
@@ -253,6 +286,7 @@ Událost v seznamu kontaktů
 [Jabber activity]
 Jabber aktivita
 [Gender]
+Pohlaví
 [Country flag]
 Vlajka státu
 [Client]
@@ -261,6 +295,7 @@ Klient
 [Tipper]
 Tipy
 [%s (locked)]
+%s (uzamčený)
 [ ago]
 [Log on:]
 Přihlášení:
@@ -268,9 +303,11 @@ Přihlášení:
 [Unread emails:]
 Nepřečtené e-maily:
 [Status:]
+Stav:
 [Mood:]
 Nálada:
 [XStatus:]
+Rozšířený stav:
 [Activity:]
 Činnost:
 [Listening to:]
@@ -303,6 +340,7 @@ Narozeniny
 Narozeniny:
 [%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
 [Client:]
+Klient:
 [%raw:/MirVer%]
 [Email]
 [Email:]
@@ -320,6 +358,7 @@ Identifikátor
 [%sys:uidname|UID^!MetaContacts%:]
 [%sys:uid%]
 [Idle]
+Nečinnost
 [Idle:]
 Nečinnost:
 [%idle% (%idle_diff% ago)]
@@ -335,7 +374,9 @@ IP interní:
 Poslední zpráva
 [%raw:/ListeningTo%]
 [Name]
+Jméno
 [Name:]
+Název:
 [%raw:/FirstName|% %raw:/LastName%]
 [Number of received messages]
 Počet přijatých zpráv
@@ -349,6 +390,7 @@ Počet odeslaných zpráv
 [Contact time]
 Čas
 [Time:]
+Čas:
 [%sys:time%]
 [XStatus title]
 Název rozšířeného stavu
@@ -524,7 +566,9 @@ protokol
 [last_msg_reltime]
 [%dd %dh %dm]
 [%dh %dm]
+%d hod. %d min.
 [%dm]
+%d min.
 [msg_count_all]
 [msg_count_out]
 [msg_count_in]
@@ -534,9 +578,11 @@ protokol
 [Background]
 Pozadí
 [Dividers]
+Oddělovače
 [Sidebar]
 Boční pruh
 [Title]
+Název
 [Labels]
 Popisky
 [Values]
@@ -744,12 +790,19 @@ jidiš
 [Yoruba]
 jorubština
 [Sunday]
+neděle
 [Monday]
+pondělí
 [Tuesday]
+úterý
 [Wednesday]
+středa
 [Thursday]
+čtvrtek
 [Friday]
+pátek
 [Saturday]
+sobota
 [January]
 leden
 [February]

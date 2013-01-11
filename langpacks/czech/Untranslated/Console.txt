@@ -6,7 +6,6 @@
 ;[*** Console resumed ***]
 ;[*** Console started ***]
 ;[*.TXT]
-;[All Files]
 ;[Always show at start]
 ;[Close tab (Ctrl+W)]
 ;[Console]

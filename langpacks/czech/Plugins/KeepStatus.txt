@@ -7,7 +7,9 @@
 ;============================================================
 ;file \plugins\StatusPlugins\KeepStatus\action_keepstatus.cpp
 [Protocol]
+Protokol
 [<from trigger>]
+<ze spouštěče>
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [STATIC]
 Statický
@@ -48,5 +50,6 @@ Kolečko se polámalo!
 [uxtheme.dll]
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [PopUps]
+Oznámení

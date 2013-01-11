@@ -11,7 +11,9 @@ Gadu-Gadu
 [Gadu-Gadu Number:]
 Identifikátor:
 [Password:]
+Heslo:
 [E-mail:]
+E-mail:
 [Create new account]
 Zřídit nový účet
 [Remove account]
@@ -23,6 +25,7 @@ Získat zpět heslo
 [Change e-mail]
 Změnit e-mail
 [Options]
+Možnosti
 [Friends only]
 Zobrazit pouze přátele
 [Show offline users with status message as invisible in contact list]
@@ -50,6 +53,7 @@ ve všech ostatních případech
 [Advanced Configuration]
 Pro pokročilé
 [Keep connection alive]
+Udržovat spojení
 [Show connection errors]
 Zobrazit chyby při připojení
 [Automatically reconnect after unintentional disconnection]
@@ -59,7 +63,9 @@ Odeslat zprávy pomaleji, ale s úplným potvrzením
 [Manually specify connection servers' hosts]
 Určit hostitele pro připojení
 [Host:]
+Hostitel:
 [Port:]
+Port:
 [* new line is separator\n** hostname:port format]
 * 1 položka = 1 řádek\n** ve formátu hostitel:port
 [Use SSL secure connection]
@@ -71,7 +77,9 @@ Použít přímé spojení
 [Use forwarding]
 Použít přesměrování
 [Number:]
+Číslo:
 [Version:]
+Verze:
 [Internal IP:]
 Interní IP:
 [First name:]
@@ -81,6 +89,7 @@ Příjmení:
 [Family name:]
 Příjmení:
 [Nickname:]
+Přezdívka:
 [Gender:]
 Pohlaví:
 [City:]
@@ -90,9 +99,13 @@ Místo narození:
 [Birth year:]
 Datum narození:
 [Description:]
+Popis:
 [&Save changes]
+&Uložit změny
 [OK]
+OK
 [Cancel]
+Zrušit
 [Create Gadu-Gadu account\nThis will create new Gadu-Gadu account]
 [New password:]
 Nové heslo:
@@ -106,6 +119,7 @@ Nový e-mail:
 [Yes, I want to remove my account]
 Ano, opravdu chci svůj účet zrušit
 [Remove]
+Odebrat
 [Change Gadu-Gadu password\nChanges current Gadu-Gadu user password]
 [Change Gadu-Gadu e-mail\nChanges current Gadu-Gadu user e-mail]
 [Age from:]
@@ -117,8 +131,10 @@ Hledat pouze mezi uživateli online
 [&Close]
 &Zavřít
 [&Send]
+Po&slat
 [Open new conference\nSelect conference participants]
 [Open]
+Otevřít
 [Concurrent %s Login Sessions\nView information on active concurrent sessions]
 [Sign out all sessions]
 Odhlásit všechny relace
@@ -153,9 +169,11 @@ Nelze navázat zabezpečené spojení.
 [Too many login attempts with invalid password.]
 [Gadu-Gadu servers are now down. Try again later.]
 [Unknown]
+Neznámý
 [External direct connections hostname %s is invalid. Disabling external host forwarding.]
 Adresa externího hostitele pro připojení (%s) je neplatná. Přeposílání požadavků deaktivováno.
 [<none>]
+<žádný>
 [Server hostname %s is invalid. Using default hostname provided by the network.]
 Název serveru (%s) je neplatný. Použit výchozí server zjištěný ze sítě Gadu-Gadu.
 [Connection cannot be established. errno=%d: %s]
@@ -187,8 +205,9 @@ muž
 [<not specified>]
 <neurčeno>
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [General]
+Obecné
 [Conference]
 Konference
 [Advanced]
@@ -196,13 +215,19 @@ Extra
 [<Last Status>]
 <poslední stav>
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [System tray icon]
 Ikona v oznamovací oblasti
 [Popup window]
+Zobrazit text
 [Message with [img] BBCode]
 Zpráva s obrázkem (pomocí BBCode)
 [You need to specify your registration e-mail first.]
@@ -216,6 +241,7 @@ Povolit
 [Ask]
 Zeptat se
 [Ignore]
+Filtrování
 [Your details has been uploaded to the public directory.]
 [You have to be logged in before you can change your details.]
 ;file \protocols\Gadu-Gadu\src\filetransfer.cpp
@@ -267,6 +293,7 @@ Seznam ignorovaných konferencí byl vymazán a vše je opět řízeno stanoven�
 Seznam ignorovaných konferencí je prázdný.
 ;file \protocols\Gadu-Gadu\src\icolib.cpp
 [Protocol icon]
+Ikona protokolu
 [Import list from server]
 Importovat seznam ze serveru
 [Import list from text file]
@@ -338,11 +365,13 @@ Textové soubory
 [ (*.txt)]
 [*.TXT]
 [All Files]
+Všechny soubory
 [ (*)]
 [txt]
 #muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [contacts]
+kontakty
 [.txt]
 [List cannot be exported to file "%s" because of error:\n\t%s (Error: %d)]
 [List cannot be exported because of error:\n\t%s (Error: %d)]
@@ -367,6 +396,7 @@ Heslo bylo odesláno na Váš e-mail.
 [Notify]
 Oznámení
 [Error]
+Chyba
 ;file \protocols\Gadu-Gadu\src\services.cpp
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 ;file \protocols\Gadu-Gadu\src\sessions.cpp

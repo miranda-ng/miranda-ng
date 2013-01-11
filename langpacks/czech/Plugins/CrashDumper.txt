@@ -15,18 +15,22 @@ Do souboru
 [Support for miranda-vi.org]
 Nastavení pro miranda-vi.org
 [Username]
+Uživatelské jméno
 [Password]
 Heslo
 [Upload automatically when changed]
 Nahrát na server automaticky při změně
 [General]
+Obecné
 [Use classic dates]
 Použít klasický formát data
 [Create reports in subfolders naming as current date]
 [&Copy]
+Z&kopírovat
 [Co&py All]
 Zko&pírovat vše
 [Select &All]
+Vybr&at vše
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
 Informace o verzi ukládat do %s

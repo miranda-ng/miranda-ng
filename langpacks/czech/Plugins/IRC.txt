@@ -7,7 +7,9 @@
 ;============================================================
 ;file \protocols\IRCG\res\IRC.rc
 [&Add]
+Přid&at
 [&Edit]
+Up&ravit
 [&Del]
 &Smaz
 [Enable]
@@ -29,6 +31,7 @@ Použít okno serveru
 [Show server window on startup]
 Zobrazit okno serveru při spuštění
 [Keep connection alive]
+Udržovat spojení
 [Automatically join on invite]
 Autom. se přidat po pozvání
 ['Old style' mode changes]
@@ -42,6 +45,7 @@ Adresa
 [Port range]
 Rozsah portů
 [Nick]
+Přezdívka
 [User ID (Ident)]
 Identifikátor
 [Full name (e-mail)]
@@ -80,15 +84,19 @@ SSL
 Nezjišťovat, překročí-li počet:
 [Ping]
 [Version]
+Verze
 [Time]
+Čas
 [Userinfo]
 O uživateli
 [&Refresh]
+A&ktualizovat
 [&Query]
 &Psát soukromě
 [&Close]
 &Zavřít
 [Name]
+Jméno
 [Address]
 Adresa
 [Channels]
@@ -98,6 +106,7 @@ Ověření
 [Server]
 Server
 [User]
+Uživatel
 [Away Info]
 Zpráva stavu 'Pryč'
 [The server returned the following information. Please note that this information might be misleading and/or falsified]
@@ -107,7 +116,9 @@ Informace CTCP
 [-]
 -
 [&OK]
+&OK
 [&Cancel]
+&Zrušit
 [Perform]
 Akce
 [&Set]
@@ -133,7 +144,7 @@ Vyp
 [Host address]
 [Server description]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [&Join]
 Při&jít
 [Filter by]
@@ -222,7 +233,9 @@ Automaticky přijímat od:
 [Send notice]
 Poslat oznámení
 [&Accept]
+&Přijmout
 [&Deny]
+O&dmítnout
 [Enable (*)]
 Aktivovat (*)
 [Ignore channel messages by default]
@@ -258,6 +271,7 @@ Události
 [Server:]
 Server:
 [Password:]
+Heslo:
 [Alternate nick]
 Alt. přezdívka
 ;file \protocols\IRCG\src\clist.cpp
@@ -378,6 +392,7 @@ Chyba sítě IRC
 Zadejte masku (přezdívka!uživ_jméno@hostitel)\nPozn. Nelze ignorovat uživatele uvedené v seznamu kontaktů
 [","]
 [Ignore]
+Filtrování
 [","*!*@]
 [ +qnidcm]
 [ +qnidc]
@@ -536,6 +551,7 @@ Miranda
 %s - přímé spojení mezi klienty
 [The IRC protocol depends on another plugin called 'Chat'\n\nDo you want to download it from the Miranda NG web site now?]
 [Information]
+Informace
 [%%miranda_path%%\\Plugins\\]
 [_perform.ini]
 [%s%u]
@@ -565,14 +581,17 @@ Do stavu online přejdete po výběru sítě serverů IRC. Tato síť bude nasta
 [WHOIS ]
 ;file \protocols\IRCG\src\options.cpp
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Add]
+Přidat
 [Apply]
 Použít
 [Rename]
 Přejmenovat
 [Edit]
+Upravit
 [Cancel]
+Zrušit
 [Channel list]
 Seznam kanálů
 [Channel manager]
@@ -791,6 +810,7 @@ Prosím zadejte nové heslo
 [/KICK %s %s]
 [/KICK %s %s %%question="%s","%s","%s"]
 [Kick]
+Vykopnout
 [/DCC CHAT %s]
 [/DCC SEND %s]
 [/MODE %s +h %s]
@@ -875,6 +895,7 @@ Požádat o &diskusi
 [Send &File]
 Poslat sou&bor
 [Add to &ignore list]
+Přidat mezi &ignorované
 [&Add User]
 Přid&at mezi kontakty
 [\0033%s \002%s\002 (]
@@ -888,11 +909,14 @@ Obnovování připojení k
 [\r\n\r\n]
 [%02u]
 [Offline]
+Offline
 [Unknown]
+Neznámý
 [%s - %s]
 ;file \protocols\IRCG\src\userinfo.cpp
 ;file \protocols\IRCG\src\windows.cpp
 [Please wait...]
+Počkejte prosím...
 [/PRIVMSG %s \001PING %u\001]
 [/PRIVMSG %s \001USERINFO\001]
 [/PRIVMSG %s \001TIME\001]

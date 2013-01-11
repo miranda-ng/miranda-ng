@@ -8,8 +8,11 @@
 [Sets once-off, daily, weekly and weekday alarms.]
 ;file \plugins\Alarms\res\resource.rc
 [New]
+Nový
 [Delete]
+Smazat
 [Edit]
+Upravit
 [Alarms]
 Připomínky
 [Use popup plugin]
@@ -45,13 +48,17 @@ Okno do popředí pouze v nečinnosti
 [Preview]
 Náhled
 [OK]
+OK
 [Cancel]
+Zrušit
 [Title:]
 Název:
 [Description:]
+Popis:
 [Actions]
 Akce
 [Popup window]
+Zobrazit text
 [Sound:]
 Zvuk:
 [Run command:]
@@ -70,12 +77,15 @@ Přečíst
 [Occurrence]
 Opakování
 [Once]
+Jednou
 [Weekly]
+Co týden
 [Daily]
 Každý den
 [Weekdays]
 Dny v týdnu
 [Monthly]
+Co měsíc
 [Yearly]
 Co rok
 [i'm hiding]
@@ -89,18 +99,21 @@ Neupozorňovat při spuštění
 [No reminder]
 Bez upozornění
 [Dismiss]
+Vyřízeno
 [Snooze]
 Odložit
 [Static]
 Statický
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [&Suspend]
 &Odložit
 [&Edit...]
 Up&ravit...
 [&Delete]
+&Smazat
 [&Options...]
+M&ožnosti...
 [&New Alarm...]
 &Nová připomínka...
 ;file \plugins\Alarms\src\alarmlist.cpp
@@ -117,14 +130,18 @@ Ukázka připomínky
 [Some example text. Example, example, example.]
 Žluťoučký kůň úpěl ďábelské ódy.
 [Title]
+Název
 [Background]
 Pozadí
 [Window]
+Okno
 [user32.dll]
 ;file \plugins\Alarms\src\frame.cpp
 [LISTBOX]
 [%dh %dm]
+%d hod. %d min.
 [%dm]
+%d min.
 [Events]
 Události
 [Hide Reminders]
@@ -134,6 +151,7 @@ Zobrazit připomínky
 [AlarmsFrame]
 [AlarmsFrameContainer]
 [Frames]
+Rámečky
 [Alarm Reminders]
 Připomínky
 ;file \plugins\Alarms\src\icons.cpp
@@ -149,15 +167,23 @@ Upozornění: Oblast pro oznámení
 Menu: Zobrazit/Skrýt připomínky
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
+neděle
 [Monday]
+pondělí
 [Tuesday]
+úterý
 [Wednesday]
+středa
 [Thursday]
+čtvrtek
 [Friday]
+pátek
 [Saturday]
+sobota
 [Please enter a title for this alarm.]
 Zadejte prosím název připomínky.
 [Error]
+Chyba
 [The alarm time you have selected is in the past.]
 Datum a čas musí být z budoucnosti. Zadejte je znovu.
 ;file \plugins\Alarms\src\trigger.cpp

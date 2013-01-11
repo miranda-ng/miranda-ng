@@ -7,6 +7,7 @@
 ;============================================================
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
+Zrušit
 [Automatic Backups]
 Automatické zálohování
 [Number of backups to keep:]
@@ -36,6 +37,7 @@ Vypnout oznámení
 [*.dat]
 [%s (*.*)]
 [All Files]
+Všechny soubory
 [dat]
 [%s\\*]
 [.bak]
@@ -90,9 +92,11 @@ složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [Variables]
+Proměnné
 [Days]
 Dnů
 [Hours]
+hod.
 [Minutes]
 min.
 [Select Backup Folder]

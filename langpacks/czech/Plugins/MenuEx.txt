@@ -7,15 +7,19 @@
 ;============================================================
 ;file \plugins\MenuItemEx\res\resource.rc
 [&Send]
+Po&slat
 [&Cancel]
+&Zrušit
 [Shown menu items]
 Viditelné položky v menu
 [Visibility]
+Viditelnost
 [Show alpha icons]
 Zobrazit průhledné ikony
 [Hide from list]
 Skrýt
 [Ignore]
+Filtrování
 [Copy to Account (Ctrl+click for move to Account)]
 Zkopírovat do účtu (Ctrl+klik pro přesunutí do účtu)
 [Send 'You were added']
@@ -23,6 +27,7 @@ Odeslat zprávu o zařazení
 [Request Authorization]
 Požádat o autorizaci
 [Browse Received Files]
+Procházet přijatými soubory
 [Copy IP]
 Zkopírovat IP adresu
 [Copy MirVer]
@@ -47,11 +52,13 @@ Ostatní možnosti
 [Automatically refresh contact's details after they come online]
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
+Zpráva stavu
 [XStatus title]
 Název rozšířeného stavu
 [XStatus message]
 Zpráva rozš.stavu
 [Listening to]
+Poslech hudby
 [Activity title]
 [Activity text]
 [Show in list]
@@ -60,6 +67,7 @@ Tento člověk mě vždy uvidí
 [Never visible]
 Tento člověk mě nikdy neuvidí
 [Request authorization]
+Požádat o autorizaci
 [Copy to Account]
 [Copy xStatus Message]
 [All]
@@ -67,6 +75,7 @@ všechno
 [Messages]
 Zprávy
 [URL]
+Odkaz
 [Files]
 Soubory
 [User Online]
@@ -76,6 +85,7 @@ Autorizace
 [You Were Added]
 Zpráva o zařazení mezi kontakty
 [Typing Notify]
+Psaní zprávy
 [Please authorize me to add you to my contact list.]
 [%s [%s]]
 [\r\n]
@@ -84,4 +94,4 @@ Zpráva o zařazení mezi kontakty
 [Open ignore settings]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy

@@ -9,8 +9,10 @@
 [<last>]
 <minulý>
 [<current>]
+<současný>
 [.\\%s]
 [Left]
+Vlevo
 [Right]
 Vpravo
 [None]
@@ -28,6 +30,7 @@ Vytvořit položku v hlavní nabídce
 [default]
 výchozí
 [unknown]
+neznámý
 [At least one profile must exist]
 Musí být založen nejméně jeden profil!
 [StartupStatus]
@@ -35,8 +38,9 @@ Stav při spuštění
 [Your default profile will be changed]
 Výchozí profil bude změněn.
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [General]
+Obecné
 [Status Profiles]
 Startovní profily
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp

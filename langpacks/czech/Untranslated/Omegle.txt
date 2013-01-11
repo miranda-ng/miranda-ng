@@ -5,7 +5,6 @@
 ;[Connected to server %s.]
 ;[Connected to server %s. There are %s users online now.]
 ;[Connecting canceled.]
-;[Connecting...]
 ;[Connection error.]
 ;[Disconnecting...]
 ;[Don't clear chat before connecting to new stranger]

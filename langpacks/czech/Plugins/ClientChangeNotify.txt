@@ -8,6 +8,7 @@
 [ClientChangeNotify plugin for Miranda NG.]
 ;file \plugins\ClientChangeNotify\res\Resources.rc
 [OK]
+OK
 [Fingerprint plugin not found.]
 [ClientChangeNotify requires it to work properly.]
 [Don't remind me anymore]
@@ -24,7 +25,9 @@ Neoznamovat pro kontakty s vypnutým oznamováním stavu
 [Click action]
 Při kliknutí myší
 [On left click]
+Levé tlačítko
 [On right click]
+Pravé tlačítko
 [Delay]
 Prodleva
 [Sec]
@@ -34,6 +37,7 @@ sek.
 [-1 = Infinite]
 -1 = neustále
 [Colours]
+Barvy
 [Background]
 Pozadí
 [Use default]
@@ -68,9 +72,11 @@ Vypnout oznámení o změně klienta
 [Enable c&lient change notification]
 Zapnout oznámení o změně klienta
 [PopUps]
+Oznámení
 [ClientChangeNotify: Client changed]
 Změna klienta
 [ClientChangeNotify]
+Změna klienta
 [ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
 [/Miranda[0-9A-F]{8}/]

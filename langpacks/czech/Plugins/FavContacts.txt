@@ -2,7 +2,7 @@
 ;langpack template for FavContacts
 ;file \plugins\FavContacts\res\resource.rc
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Show second line]
 Zobrazit druhý řádek
 [Show avatars]

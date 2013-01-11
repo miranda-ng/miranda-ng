@@ -21,7 +21,6 @@
 ;[: - ]
 ;[>>Availabe:]
 ;[>>Result:]
-;[All Files]
 ;[BAD(2)]
 ;[BEST(0)]
 ;[Base of remarks]

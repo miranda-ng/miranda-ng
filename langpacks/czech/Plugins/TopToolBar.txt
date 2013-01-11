@@ -25,15 +25,16 @@ Pořadí tlačítek:
 [Name: ]
 Název
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Path:]
 Cesta:
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+Nastavit
 ;file \plugins\TopToolBar\src\common.h
 [TopToolbarButtonClass]
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
+Výchozí
 [Execute Path]
 [Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 [TopToolBar]
@@ -48,3 +49,4 @@ Statický
 [------------------]
 [exe]
 [Contact List]
+Kontakty

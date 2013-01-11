@@ -8,6 +8,7 @@
 [Shows currency rates and economic quotes.]
 ;file \plugins\Quotes\res\Forex.rc
 [OK]
+OK
 [Use contact specific settings]
 [Log]
 Záznam
@@ -25,6 +26,7 @@ Záznam
 [Show &Popup Window]
 [Show Popup Window Only if Value &Changed]
 [Cancel]
+Zrušit
 [Popup settings...]
 [&to:]
 [&Swap]
@@ -38,10 +40,14 @@ Zavřít
 [Filter:]
 Filtr:
 [Colours]
+Barvy
 [Use default colours]
+Použít výchozí barvy
 [Use user-defined colours]
 [Background colour]
+Barva pozadí
 [Text colour]
+Barva textu
 [Delay]
 Prodleva
 [From PopUp plugin]
@@ -67,8 +73,10 @@ Statický
 [Previous Rate:]
 [&Convert:]
 [&Add]
+Přid&at
 [&Watched currency rates:]
 [&Remove]
+Odst&ranit
 [&Refresh Rates Every:]
 [Type &Stock Name or Symbol:]
 [&Watched Quotes:]
@@ -81,6 +89,7 @@ sek.
 [Minutes]
 min.
 [Hours]
+hod.
 [Enter integer value between 1 and 60.]
 [Enter integer value between 1 and 24.]
 [Enter text to display in contact list.]
@@ -104,12 +113,13 @@ Aktualizovat
 [Chart...]
 [Edit Settings...]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 ;file \plugins\Quotes\src\HTTPSession.cpp
 [Dioksin]
 [Quotes HTTP connections]
 ;file \plugins\Quotes\src\IconLib.cpp
 [Protocol icon]
+Ikona protokolu
 [Quote/Rate up]
 [Quote/Rate down]
 [Quote/Rate not changed]
@@ -126,8 +136,11 @@ Importovat
 [Value]
 Hodnota
 [Name]
+Jméno
 [Setting]
+Nastavení
 [Module]
+Modul
 [Contact]
 Kontakt
 [Contacts]
@@ -150,6 +163,7 @@ Všechny soubory (*.*)
 [xml]
 [CList]
 [Group]
+Skupina
 ;file \plugins\Quotes\src\Locale.cpp
 [Control Panel\\International]
 [%d.%m.%y]
@@ -191,6 +205,7 @@ všechno
 ;file \plugins\Quotes\src\QuoteInfoDlg.cpp
 ;file \plugins\Quotes\src\QuotesProviderBase.cpp
 [Unknown]
+Neznámý
 [symbol]
 [description]
 [section]
@@ -220,6 +235,7 @@ všechno
 [setCompanyId(]
 [var _companyName = ]
 [Open]
+Otevřít
 [snap-data]
 ;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
 [%r>%p]

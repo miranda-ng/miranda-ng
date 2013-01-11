@@ -11,10 +11,13 @@ Knihovny smajlíků
 [Specify Smiley Pack for each category]
 Pro každý protokol definovat jinou sadu
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Name:]
+Název:
 [Author:]
+Autor:
 [Version:]
+Verze:
 [Preview]
 Náhled
 [+]
@@ -64,6 +67,7 @@ Min. velikost smajlíků
 [RichEdit20W]
 [RICHEDIT50W]
 [Edit]
+Upravit
 [Show Smiley Selection Window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
@@ -103,10 +107,11 @@ Odstraňte duplicitní kopie tohoto doplňku ze složky 'Plugins'.
 [Smileys]
 Smajlíky
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Off]
 Vyp
 [Top]
+Nahoře
 [Bottom]
 Dole
 [Smiley Packs]
@@ -114,6 +119,7 @@ Sady smajlíků
 [ (*.msl;*.asl;*.xep)]
 [*.msl;*.asl;*.xep]
 [All Files]
+Všechny soubory
 [ (*.*)]
 [*.*]
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
@@ -150,15 +156,19 @@ Nepodařilo se načíst požadovanou knihovnu smajlíků.\nDalší informace nal
 [(.*\\\\)(.*)\\.|$]
 [^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
 [Name]
+Jméno
 [Author]
+Autor
 [Date]
 Datum
 [Version]
+Verze
 [ButtonSmiley]
 [^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)]
 [Selection]
 Výběr
 [Window]
+Okno
 [^\\s*Smiley(\\*)?\\s*=]
 [(?:\\s*"(.*)\]
 [(?:[\\s,]+(\\-?\\d+))]

@@ -12,6 +12,7 @@ Chování a vzhled
 [Miscellaneous]
 Ostatní
 [Effects]
+Efekty
 [Live Preview]
 Náhled
 [Size && Position]
@@ -50,6 +51,7 @@ okno Mirandy
 [the active window]
 aktivní okno
 [Transparency]
+Průhlednost
 [Enable Win 9x/Me transparency]
 Povolit průhlednost ve Win 9x/Me
 [Use transparency (Windows 2000+)]
@@ -67,6 +69,7 @@ Efekt:
 [Time (in):]
 Doba náběhu:
 [ms]
+ms
 [Time (out):]
 Doba doběhu:
 [Limit window amount to:]
@@ -95,6 +98,7 @@ Konfigurace umístění
 [Close]
 Zavřít
 [General]
+Obecné
 [Enable popup actions]
 Povolit akce při oznámení
 [Popup Actions are those tiny buttons below notification text.]
@@ -148,6 +152,7 @@ Zakázat, je-li příslušný protokol ve stavu
 [Colors can be configured in\r\nCustomize > Fonts && Colors]
 Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
 [More...]
+Více...
 [Disable if message window is open]
 [Sec]
 sek.
@@ -172,6 +177,7 @@ Zobrazit trvale
 [Popup delay:]
 Doba zobrazení
 [seconds]
+sek.
 [Do not close hovered popups]
 Nezavírat po umístění myši
 [Dynamically resize the popups]
@@ -183,7 +189,7 @@ Maximální šířka
 [Position:]
 Postavení:
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Layout:]
 Rozložení:
 [Reorder Popups]
@@ -206,6 +212,7 @@ Rychlá odpověď
 [User details]
 Informace o uživateli
 [Contact menu]
+Menu kontaktu
 [Dismiss popup]
 Zavřít oznámení
 [Pin popup]
@@ -323,6 +330,7 @@ Nelze zadat hodnotu nižší než %d a vyšší než %d.
 [Popup Plus Warning]
 Varování doplňku Oznámení plus
 [Cancel]
+Zrušit
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
 [#32770]
@@ -357,6 +365,7 @@ Aktualizovat seznam
 ;file \plugins\Popup\src\services.cpp
 [WorkerW]
 [Error]
+Chyba
 [Warning]
 Upozornění
 [Notify]

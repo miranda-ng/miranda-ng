@@ -53,6 +53,7 @@ Cizinec
 [Disconnecting...]
 [We are already waiting for new stranger...]
 [Connecting...]
+Navazování spojení...
 [Waiting for Stranger...]
 [We are disconnecting now, wait...]
 ;file \protocols\Omegle\src\proto.cpp
@@ -61,7 +62,7 @@ Cizinec
 [Unable to get Netlib connection for Omegle]
 [Visible name]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 ;file \protocols\Omegle\src\theme.cpp

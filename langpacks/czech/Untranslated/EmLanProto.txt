@@ -1,6 +1,5 @@
 ﻿;[E-mage LAN protocol]
 ;[LAN Settings]
-;[OK]
 ;[Select your IP address]
 ;[Select your name]
 ;[This window is shown only once]

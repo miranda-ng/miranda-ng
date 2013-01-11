@@ -7,7 +7,9 @@
 ;============================================================
 ;file \plugins\VersionInfo\res\resource.rc
 [OK]
+OK
 [Cancel]
+Zrušit
 [Text file]
 Textový soubor
 [MessageBox]
@@ -37,6 +39,7 @@ Zároveň zkopírovat do schránky
 [Upload site settings]
 Úložiště dat
 [Username]
+Uživatelské jméno
 [Password]
 Heslo
 [Highlight version number using]
@@ -87,6 +90,7 @@ Identifikátor
 [<name N/A>]
 [Software\\Microsoft\\Windows\\CurrentVersion]
 [Version]
+Verze
 [Software\\Microsoft\\Windows NT\\CurrentVersion]
 [ProductName]
 [RegOpenKeyEx()]
@@ -114,6 +118,7 @@ Identifikátor
 [ | ]
 [langpack_*.txt]
 [N/A]
+<neuvedeno>
 [<unknown>]
 <neznámý>
 [ v. ]

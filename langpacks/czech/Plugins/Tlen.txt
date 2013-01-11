@@ -2,12 +2,16 @@
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
+Uživatel:
 [Password:]
+Heslo:
 [Save password]
+Uložit heslo
 [Create new account]
 Zřídit nový účet
 [Tlen]
 [Options]
+Možnosti
 [Automatically reconnect after unintentional disconnection]
 Po přerušení automaticky navázat spojení
 [Leave status message after disconnection]
@@ -15,6 +19,7 @@ Po odpojení zanechat zprávu stavu
 [Ignore advertisements]
 Ignorovat reklamy
 [Automatically delete contacts not in my roster]
+Automaticky mazat kontakty mimo vlastní seznam
 [Show offline users with status messages as invisible in contact list]
 Zobrazovat offline uživatele se stavovou zprávou jako neviditelné
 [Enable avatars]
@@ -42,10 +47,13 @@ Přehrávací zařízení:
 [Expert Options]
 Možnosti pro experty
 [Login server:]
+Server:
 [Connection Host:]
 Hostitel připojení:
 [Port:]
+Port:
 [Keep connection alive]
+Udržovat spojení
 [Enable encryption]
 Zapnout šifrování
 [Enable Always Visible and Never Visible]
@@ -58,11 +66,13 @@ Pro příchozí spojení použít proxy
 Druh proxy:
 [Proxy server:]
 [Proxy requires authorization]
+Proxy vyžaduje autorizaci
 [Mail Notification]
 Oznámení nové pošty
 [Enable incoming mail notification]
 Povolit oznámení o došlé poště
 [Colours]
+Barvy
 [Background]
 Pozadí
 [Text]
@@ -70,18 +80,25 @@ Text
 [Delay]
 Prodleva
 [&From PopUp plugin]
+G&lobální nastavení
 [&Custom]
+&Vlastní
 [P&ermanent]
+Trval&e
 [Preview]
 Náhled
 [OK]
+OK
 [Cancel]
+Zrušit
 [Nick name:]
+Přezdívka:
 [First name:]
 Jméno:
 [Last name:]
 Příjmení:
 [E-mail:]
+E-mail:
 [Gender:]
 Pohlaví:
 [Year of birth:]
@@ -89,9 +106,11 @@ Rok narození:
 [City:]
 Město:
 [School:]
+Škola:
 [Occupation:]
 Povolání:
 [Looking for:]
+Hledá:
 [Voice chats]
 [Publicly visible status]
 [Save changes]
@@ -106,16 +125,20 @@ Podepsáno:
 [Software:]
 Software:
 [Version:]
+Verze:
 [System:]
 Systém:
 [Personal Information]
 [Nickname:]
+Přezdívka:
 [Age:]
 Věk:
 [to]
+do
 [Extra Search Criterias]
 Extra kritéria pro hledání
 [Status:]
+Stav:
 [Plan:]
 Plan:
 [Quality]
@@ -125,7 +148,9 @@ V
 [Finish]
 Dokončit
 [&Accept]
+&Přijmout
 [From:]
+Od:
 [The following invitation to join a voice chat is received.]
 Přišla vám pozvánka k hovoru.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
@@ -134,13 +159,15 @@ Chyba při ověřování:
 [Tlen Authentication]
 ;file \protocols\Tlen\src\jabber_opt.cpp
 [General]
+Obecné
 [Advanced]
 Extra
 [Notifications]
 Upozornění
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [PopUps]
+Oznámení
 [These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
 [Accept all alerts]
@@ -150,9 +177,13 @@ Ignorovat upozornění od neautorizovaných kontaktů
 [Ignore all alerts]
 Ignorovat všechna upozornění
 [Always ask me]
+Vždy se zeptat
 [Accept invitations from authorized contacts]
+Přijmout pozvání od autorizovaných kontaktů
 [Accept all invitations]
+Přijmout všechny pozvání
 [Ignore invitations from unauthorized contacts]
+Ignorovat pozvání od neautorizovaných kontaktů
 [Ignore all invitation]
 Ignorovat všechna pozvání
 [Accept all images]
@@ -165,10 +196,15 @@ Ignorovat všechny obrázky
 <poslední zpráva>
 [<Ask me>]
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [tlen.pl]
 [s1.tlen.pl]
 [Forwarding]
@@ -186,7 +222,9 @@ Jabber :: Chyba spojení
 [%s Web Messages]
 [Web message]
 [From]
+Od
 [E-mail]
+E-mail
 [An alert has been received.]
 [Private conference]
 [Subject]
@@ -197,12 +235,15 @@ Předmět
 [%s SOCKS connection]
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
+Ikona protokolu
 [Tlen inbox]
 [Group chats]
 Skupinové rozhovory
 [Tlen chats]
 [Grant authorization]
+Udělit autorizaci
 [Request authorization]
+Požádat o autorizaci
 [Voice chat]
 Telefonní hovor
 [Microphone]
@@ -237,24 +278,39 @@ muž
 [Female]
 žena
 [Somebody to talk]
+Pokec
 [Friendship]
+Přátelství
 [Flirt/romance]
+Flirt/romantika
 [Love]
+Láska
 [Nothing]
+Nic
 [All]
 všechno
 [Available]
 [Student]
+Student
 [College student]
 [Farmer]
+Farmář
 [Manager]
+Manager
 [Specialist]
+Specialista
 [Clerk]
+Úředník
 [Unemployed]
+nezaměstnaný
 [Pensioner]
+Penzista
 [Housekeeper]
+V domácnosti
 [Teacher]
+Učitel
 [Doctor]
+Doktor
 [Other]
 Ostatní
 [I'd like to go downtown]
@@ -285,3 +341,4 @@ od
 [44100 Hz / 72 kbps]
 [...???...]
 [Default]
+Výchozí

@@ -14,6 +14,7 @@ Jednotky
 [0]
 [Clear statistics]
 [Notification]
+Oznámení
 [Notify me on every]
 Upozornit každých
 [kilobytes]
@@ -21,6 +22,7 @@ kB
 [minutes]
 min.
 [Background colour:]
+Barva pozadí:
 [Text colour:]
 Barva textu:
 [Reset to default]
@@ -53,15 +55,19 @@ bajtů
 [Daily]
 Každý den
 [Weekly]
+Co týden
 [Monthly]
+Co měsíc
 [Yearly]
 Co rok
 [Period]
 [Incoming]
+Příchozí
 [Outgoing]
 Odchozí
 [Sum]
 [Online]
+Online
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 [Traffic counter]
 Počitadlo dat
@@ -112,9 +118,11 @@ rok
 [Services]
 Služby
 [Options]
+Možnosti
 [Statistics]
 Statistika
 [PopUps]
+Oznámení
 [Toggle traffic counter]
 [Traffic counter notification]
 [%d kilobytes sent]

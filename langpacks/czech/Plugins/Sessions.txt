@@ -20,11 +20,15 @@ Pouze pokud existuje poslední relace
 [Startup delay]
 Zpoždění po startu
 [ms]
+ms
 [User Sessions Management]
 Správa uživatelských relací
 [Edit]
+Upravit
 [Delete]
+Smazat
 [Save]
+Uložit
 [Action on Exit]
 Akce při ukončení
 [Ask]
@@ -36,6 +40,7 @@ Uložit pouze poslední
 [Sessions]
 Relace
 [Misc]
+Různé
 [Exclude hidden contacts from session on exit]
 Při ukončení vyloučit skryté kontakty z relace
 [Warn, when some of LastSession contacts are hidden]
@@ -47,15 +52,19 @@ Mód obnovení po pádu
 [&Restore Session]
 Obnovit &relaci
 [&Cancel]
+&Zrušit
 [Choose session to restore from the list:]
 Zvolit relaci pro obnovení ze seznamu:
 [Del]
+Smazat
 [&Save Session]
 [Enter session name:]
 [Save and Close]
 [adv.]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Save your current session?]
 ;file \plugins\Sessions\Src\Main.cpp
 [Favorite Session]

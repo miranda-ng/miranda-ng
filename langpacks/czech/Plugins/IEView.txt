@@ -22,6 +22,7 @@ Vymazat záznam
 [Show source]
 Zobrazit zdrojový kód
 [Options]
+Možnosti
 [Enable BBCodes]
 Povolit BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
@@ -37,6 +38,7 @@ Nahrazovat i smajlíky ve jménech
 Skrýt okraj okna
 [Embed YouTube videos]
 [Size:]
+Velikost:
 [Mode]
 Mód
 [Compatibility Mode]
@@ -46,9 +48,11 @@ Použít externí CSS
 [Use Templates]
 Použít šablony
 [Background image]
+Obrázek na pozadí
 [Scroll with text]
+Rolovat s textem
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Template Options]
 Možnosti šablon
 [Use message grouping]
@@ -64,6 +68,7 @@ Zobrazit datum
 [Use long date format]
 Použít dlouhý formát data
 [Use relative timestamp]
+Použít relativní zápis času
 ;file \plugins\IEView\src\ChatHTMLBuilder.cpp
 [[%H:%M]]
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
@@ -84,8 +89,10 @@ Přijatý odkaz
 [about:blank]
 ;file \plugins\IEView\src\MUCCHTMLBuilder.cpp
 [Error]
+Chyba
 ;file \plugins\IEView\src\Options.cpp
 [General]
+Obecné
 [Message Log]
 Záznam komunikace
 [Group Chats]
@@ -93,6 +100,7 @@ Skupinové rozhovory
 [History]
 Historie
 [Default]
+Výchozí
 [protocol]
 protokol
 [Message Sessions]
@@ -107,6 +115,7 @@ Skiny
 [Template]
 Šablona
 [All Files]
+Všechny soubory
 [All Images]
 [Style Sheet]
 [uxtheme.dll]

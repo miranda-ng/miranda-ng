@@ -7,11 +7,13 @@
 ;============================================================
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
+OK
 [All]
 všechno
 [None]
 ---
 [Cancel]
+Zrušit
 [Send screenshot to\n<unknown>]
 [Ti&med capture]
 Časované snímání
@@ -22,6 +24,7 @@ Zpoždění (sec.):
 [Send B&y :]
 &Metoda:
 [?]
+?
 [E&xplore]
 &Procházet
 [&Fill description textbox.]
@@ -51,11 +54,13 @@ Chyba při inicializaci přenosu.
 [Initialising...]
 Inicializace...
 [Connecting...]
+Navazování spojení...
 [Connecting to proxy...]
 Připojování k proxy...
 [Waiting for connection...]
 Čekání na spojení...
 [Connected]
+Spojení navázáno
 [Decision sent]
 Potvrzení odesláno
 [Moving to next file...]
@@ -69,6 +74,7 @@ Další soubor...
 Neznámá chyba.
 [%s - %s]
 [Error]
+Chyba
 ;file \plugins\SendScreenshotPlus\src\CSend.h
 [Unable to initiate %s.]
 [MAPI error (%i):\n%s.]
@@ -110,6 +116,7 @@ Znovu
 Ano
 [Abord]
 [Ignore]
+Filtrování
 ;file \plugins\SendScreenshotPlus\src\global.h
 [SendSS]
 [SendScreenshot - Error]
@@ -152,6 +159,7 @@ Upozornění: Nebyla nalezena žádná knihovna ikon v žádné z těchto slože
 Umístěte kříž na požadované okno.
 [Send screenshot to\n]
 [Window]
+Okno
 [Desktop]
 Plocha
 [<entire desktop>]
@@ -167,15 +175,17 @@ Plocha
 [File Transfer]
 Přenos souborů
 [E-mail]
+E-mail
 [HTTP Server]
 [FTP File]
 Soubory přes FTP
 [ImageShack]
 [Information]
+Informace
 [Open Folder]
 Otevřít složku
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Fill description textbox.]
 [Delete after send]
 [Capture]

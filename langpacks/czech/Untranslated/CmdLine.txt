@@ -23,7 +23,6 @@
 ;[Could not retrieve setting '%s/%s': %s.]
 ;[Could not send message to '%s'.]
 ;[Current global status: %s.%s]
-;[Error]
 ;[Error setting nickname to '%s' for protocol '%s']
 ;[Exchange plugin is not running.]
 ;[Failed to change status for account '%s' to '%s'.]

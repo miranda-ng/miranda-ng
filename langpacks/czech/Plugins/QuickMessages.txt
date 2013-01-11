@@ -17,6 +17,7 @@ Tlačítka
 [Consider as ServiceName]
 [You have changed the plugin settings via database.\nThis requires restart!]
 [?]
+?
 [- Selected text]
 [List of variables:]
 [- Text from Clipboard]

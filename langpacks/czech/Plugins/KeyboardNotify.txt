@@ -2,6 +2,7 @@
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
+Vybrané protokoly
 [Events to react on]
 Reagovat při událostech
 [Incoming messages]
@@ -25,6 +26,7 @@ ti sek.
 [Flash until]
 Doba blikání
 [seconds]
+sek.
 [is re-attended]
 - povšimnutí
 [Events are opened]
@@ -42,19 +44,29 @@ Uzamčená stanice (2000/XP)
 [Defined programs are running]
 Běží vybrané programy
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [All other situations]
 Všechny ostatní situace
 [Only notify if status is]
+Upozornit pouze ve stavu
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [NA]
+Nejsem tady
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [On the phone]
+Mám telefon
 [Out to lunch]
+Jsem na obědě
 [Pending Events]
 Trvající události
 [Remind me every]
@@ -62,6 +74,7 @@ Blikat každých
 [minutes]
 min.
 [Offline]
+Offline
 [xStatuses]
 xStatus
 [Keys to flash]
@@ -103,9 +116,11 @@ Sekvence
 [Test]
 Ověřit
 [Add]
+Přidat
 [Update]
 Aktualizovat
 [Delete]
+Smazat
 [Import/Export]
 Import a export
 [Export...]
@@ -116,7 +131,9 @@ Importovat...
 Přepsat existující
 [Program]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Num]
 [Caps]
 [Scroll]
@@ -145,10 +162,12 @@ Ignorovat vše
 [Ignore none]
 Neignorovat
 [Ignore]
+Filtrování
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
 ** všechny kontakty **
 [** Unknown contacts **]
+** neznámé kontakty **
 ;file \plugins\KeyboardNotify\src\keyboard.cpp
 [Kbd%d]
 [\\Device\\KeyboardClass%d]
@@ -162,6 +181,7 @@ Neignorovat
 [Miranda]
 Miranda
 [Windows]
+Windows
 [left->right]
 zleva doprava
 [right->left]
@@ -169,6 +189,7 @@ zprava doleva
 [left<->right]
 Knight Rider
 [Keyboard Flash]
+Blikání klávesnicí
 [Events]
 Události
 [Protocols]
@@ -180,11 +201,13 @@ Blikání
 [Themes]
 Vlastní sekvence
 [Protocol]
+Protokol
 [Keyboard Notify Theme]
 Sekvence blikání klávesnicí
 [ (*.knt)]
 [*.knt]
 [All Files]
+Všechny soubory
 [*.*]
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [knt]

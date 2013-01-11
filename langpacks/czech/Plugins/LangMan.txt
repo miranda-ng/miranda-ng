@@ -9,6 +9,7 @@
 [A new version of a Language Pack is now available. Click the install button to download and install this new update.]
 K dispozici je nová verze překladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlačítko 'Instalovat'.
 [Language:]
+Jazyk:
 [Current:]
 Aktuální:
 [New:]
@@ -23,13 +24,19 @@ Stáhnout všechny j&azyky
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
 Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovější překlad v daném jazyce. Nezapomeňte ovšem, že může existovat několik variant překladů od různých autorů.
 [OK]
+OK
 [Cancel]
+Zrušit
 [Author(s):]
+Autor:
 [E-mail:]
+E-mail:
 [Last modified using:]
 Určeno pro:
 [Date:]
+Datum:
 [Version:]
+Verze:
 [Locale:]
 Lokalizace:
 [Not included:]
@@ -44,6 +51,7 @@ Stáhnout překla&d
 ;file \plugins\LangMan\src\langpack.cpp
 [Plugins\\Language\\]
 [English (default)]
+Angličtina (standardní)
 [%s\\Plugins\\%s]
 ;file \plugins\LangMan\src\main.cpp
 [The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
@@ -62,6 +70,7 @@ Doplněk Správa překladů
 Všechny nainstalované doplňky jsou přeloženy.
 [(incompatible)]
 [Unknown]
+Neznámý
 [Current]
 aktuální
 [Installed Languages]
@@ -76,4 +85,4 @@ Odst&ranit...
 [Languages]
 Jazyky
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy

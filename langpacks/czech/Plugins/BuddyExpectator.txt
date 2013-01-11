@@ -42,6 +42,7 @@ Použít barvy Windows
 [Delay]
 Prodleva
 [Default]
+Výchozí
 [Custom]
 Vlastní
 [Permanent]
@@ -107,6 +108,7 @@ Kontakty
 [Buddy Expectator]
 Tak ty žiješ, Karle
 [PopUps]
+Oznámení
 [not detected]
 [%#x]
 [not found]

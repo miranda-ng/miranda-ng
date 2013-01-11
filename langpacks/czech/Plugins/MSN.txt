@@ -11,7 +11,9 @@ MSN
 [Live ID:]
 Identifikátor:
 [Password:]
+Heslo:
 [Nickname:]
+Přezdívka:
 [Create a new Windows Live account]
 Zřídit nový účet v síti Windows Live
 [Expert]
@@ -24,10 +26,11 @@ Zapnout správu skupin na serveru
 [Run the following application when new Hotmail arrives]
 Spustit vybranou aplikaci (po příchodu nové pošty)
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Allow people on my contact list send messages to mobile device]
 Lidem ze seznamu kontaktů povolit posílání zpráv na mobil
 [Connection settings]
+Možnosti připojení
 [Direct:]
 Přímé:
 [ 1863]
@@ -35,7 +38,9 @@ Přímé:
 Brána:
 [ 80]
 [Reset]
+Reset
 [Notify me when a message delivery has failed]
+Upozornit při nedoručení odeslané zprávy
 [Incoming file transfers]
 Přenos příchozích souborů
 [Your host (or router):]
@@ -73,12 +78,16 @@ Zapnout oznámení typu 'Odchod z kanálu'
 [Disable Contact List notifications]
 Vypnout upozornění ze seznamu kontatků
 [OK]
+OK
 [Cancel]
+Zrušit
 [Mobile Device (used for SMS)]
 [Spouse/Partner]
 [Middle Name]
 [First Name]
+Jméno
 [Last Name]
+Příjmení
 [Anniversary]
 Výročí
 [Birthday]
@@ -94,7 +103,9 @@ Identifikátor
 [&Invite]
 &Pozvat
 [&Cancel]
+&Zrušit
 [Add]
+Přidat
 ;file \protocols\MSN\src\msn_chat.cpp
 [%s %s%s]
 [Chat #]
@@ -102,9 +113,13 @@ Diskuse č.
 [Others]
 Ostatní
 [&Invite user...]
+Pozvat k d&iskusi...
 [&Leave chat session]
+&Opustit diskusi
 [User &details]
+&Detaily uživatele
 [User &history]
+Zobrazit &historii
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
 MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítě MSN.
@@ -207,10 +222,12 @@ Miranda
 [Notify]
 Oznámení
 [Error]
+Chyba
 [%s:\n%s]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
+Ikona protokolu
 [Hotmail Inbox]
 Schránka Hotmail
 [Profile]
@@ -248,7 +265,7 @@ Vypnout
 [IP info available only after login]
 [MSN Protocol requires message timeout to be not less then 60 sec. Correct the timeout value.]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 [Connection]

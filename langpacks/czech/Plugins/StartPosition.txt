@@ -9,6 +9,7 @@
 ;file \plugins\StartPosition\res\resource.rc
 [Contact List Window Start Position]
 [Left]
+Vlevo
 [Right]
 Vpravo
 [Pixels from Top]
@@ -21,4 +22,5 @@ Vpravo
 [Opened]
 ;file \plugins\StartPosition\src\main.cpp
 [Contact List]
+Kontakty
 [Start position]

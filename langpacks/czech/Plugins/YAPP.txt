@@ -21,9 +21,11 @@ Autom. skrýt po:
 [Maximum height:]
 Maximální výška:
 [Options]
+Možnosti
 [Opacity(%):]
 Průhlednost (%):
 [Border]
+Okraj
 [Round corners (window)]
 Zaoblit rohy oken
 [Preview]
@@ -33,6 +35,7 @@ Animovat
 [Transparent background]
 Průhledné pozadí
 [Layout]
+Rozvržení
 [Avatar size:]
 Velikost avataru:
 [Disable when]
@@ -50,6 +53,7 @@ Zaoblit rohy avatarů
 [Text colour:]
 Barva textu:
 [Background colour:]
+Barva pozadí:
 [Set timeout]
 Nastavit dobu zobrazení
 [Timeout value (0 = default):]
@@ -58,6 +62,7 @@ Prodleva (0 = výchozí):
 [default]
 výchozí
 [Popup]
+Oznámení
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 ;file \plugins\YAPP\src\options.cpp
@@ -98,12 +103,14 @@ Avatar vlevo
 [Right avatar]
 Avatar vpravo
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Full-screen app running]
 Celoobrazovkový režim
 [You cannot set a default timeout of 0.\nValue has been reset.]
 [Error]
+Chyba
 [PopUps]
+Oznámení
 [Settings]
 Nastavení
 [Classes]
@@ -122,10 +129,12 @@ Vypnout oznámení
 [Warning]
 Upozornění
 [Notification]
+Oznámení
 [Popup History]
 Historie oznámení
 ;file \plugins\YAPP\src\yapp.cpp
 [Popups]
+Oznámení
 [First line]
 První řádek
 [Background]
@@ -133,6 +142,7 @@ Pozadí
 [Second line]
 Druhý řádek
 [Time]
+Čas
 [Sidebar]
 Boční pruh
 [Title underline]
@@ -140,7 +150,9 @@ Podtržení záhlaví
 [neweventnotify]
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Title]
+Název
 [Message]
+Zpráva
 [Timestamp]
 Časový údaj
 [Copy title to clipboard]

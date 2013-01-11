@@ -31,7 +31,7 @@ Přidat položky menu do seznamu kontaktů
 Odeslat přípomínky e-mailem nebo sms:
 [Open links with this program instead:]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Reset to defaults]
 Obnovit výchozí
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
@@ -41,6 +41,7 @@ Da&tum a čas vyvolání
 Datum
 [DateTimePicker1]
 [Time]
+Čas
 [Reminder Note:]
 Obsah připomínky
 [None]
@@ -48,7 +49,9 @@ Obsah připomínky
 [Daily]
 Každý den
 [Weekly]
+Co týden
 [Monthly]
+Co měsíc
 [Repeat Alert Sound]
 [Use Sound]
 [&Add Reminder]
@@ -77,10 +80,13 @@ Přidat novou
 [&Delete Note]
 [Custom...]
 [Reset]
+Reset
 [Paste Title]
 [Reset Title]
 [Undo]
+Zpět
 [&Copy]
+Z&kopírovat
 [&Paste]
 &Vložit
 [C&ut]
@@ -91,6 +97,7 @@ Vyjmou&t
 [&Bring All To Front]
 [Edi&t Note]
 [&Visible]
+&Viditelný
 [Always &On Top]
 [Delete &All Notes]
 [&Show / Hide Notes]
@@ -119,12 +126,13 @@ Smazat všechny
 [Play Sound Icon]
 [View Notes]
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky
 [Add New Note]
 Přidat novou poznámku
 [Add New Reminder]
 Přidat novou připomínku
 [Alerts]
+Upozornění
 [Reminder triggered]
 [Reminder triggered (Alternative 1)]
 [Reminder triggered (Alternative 2)]
@@ -169,6 +177,7 @@ Bílá
 [ctrldata]
 [MNU_NOTEPOPUP]
 [Appearance]
+Vzhled
 [Background Color]
 Barva pozadí
 [Text Color]
@@ -198,6 +207,7 @@ Připomínka
 [Minutes]
 min.
 [Hours]
+hod.
 [Hour]
 [Day]
 den
@@ -216,6 +226,7 @@ sek.
 [Never]
 Nikdy
 [Default]
+Výchozí
 [Alternative 1]
 [Alternative 2]
 [MNU_REMINDERPOPUP]

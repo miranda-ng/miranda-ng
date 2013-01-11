@@ -43,10 +43,14 @@ Zapomenout
 [&Verify Fingerprint]
 [Socialist Millionaires Protocol\r\nVerification progress]
 [&Cancel]
+&Zrušit
 [&OK]
+&OK
 [Socialist Millionaires Protocol\r\nVerification]
 [&No]
+&Ne
 [&Yes]
+&Ano
 ;file \plugins\MirOTR\MirOTR\src\dialogs.cpp
 [SMP failed]
 [SMP successful]
@@ -87,6 +91,7 @@ Ano
 [Authentication from %s]
 [Authenticae %s]
 [Unknown]
+Neznámý
 [OTR: %s (%s)]
 [OTR %s (%s)]
 [OTR New Fingerprint]
@@ -102,6 +107,7 @@ Ano
 Mimo záznam
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 [General]
+Obecné
 [Protocols]
 Protokoly
 [Contacts]
@@ -110,14 +116,17 @@ Kontakty
 [Contact]
 Kontakt
 [Protocol]
+Protokol
 [Policy]
 Metoda
 [Verified]
 [Active]
+Aktivní
 [Fingerprint]
 #muuid {68c36842-3d95-4f4a-ab81-014d6593863b}
 [Conv. HTML]
 [Default]
+Výchozí
 [Generating new key for '%s'. Continue?]
 [Removing key for '%s'. Continue?]
 [OTR Fingerprint Verification]

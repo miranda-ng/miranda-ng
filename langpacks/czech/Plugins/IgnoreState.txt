@@ -17,6 +17,7 @@ všechno
 [Messages]
 Zprávy
 [URL]
+Odkaz
 [Files]
 Soubory
 [User Online]
@@ -26,9 +27,10 @@ Autorizace
 [You Were Added]
 Zpráva o zařazení mezi kontakty
 [Typing Notify]
+Psaní zprávy
 [Full Ignore]
 [Partial Ignore]
 [Message Ignore]
 ;file \plugins\IgnoreState\src\options.cpp
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony

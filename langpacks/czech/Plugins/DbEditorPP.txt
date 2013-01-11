@@ -18,11 +18,13 @@ Název nastavení
 [Setting Value]
 Hodnota
 [&Search]
+&Hledat
 [Found field]
 Nalezeno pole
 [&Replace]
 Nah&radit
 [&Cancel]
+&Zrušit
 [Search For]
 Hledat
 [Text:]
@@ -60,7 +62,9 @@ Název nového modulu
 [Add to all contacts (Includes Settings)]
 Přidat všem kontaktům (včetně nastavení)
 [OK]
+OK
 [Cancel]
+Zrušit
 [Value Name:]
 Název hodnoty:
 [Value Data:]
@@ -83,6 +87,7 @@ Zde vložte požadovaný text:
 [Refresh &Settings]
 Aktualizovat na&stavení
 [E&xit]
+U&končit
 [&Search and Replace]
 Najít a nah&radit...
 [&Delete Module]
@@ -143,7 +148,9 @@ Zašifrovat řetězec
 [&Watch]
 Sl&edovat
 [&Delete]
+&Smazat
 [&Rename]
+Př&ejmenovat
 [Copy To Contact]
 &Zkopírovat do kontaktu...
 [Export Module]
@@ -208,6 +215,7 @@ Mazání modulu z databáze... načítání
 [INI Files]
 Soubory INI
 [All Files]
+Všechny soubory
 [Export to file]
 Exportovat...
 [Error Loading Module List]
@@ -292,10 +300,13 @@ Přidat modul ke kontaktu '%s'
 Databáze
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
+Jméno
 [Data]
 Obsah
 [Type]
+Typ
 [Size]
+Velikost
 [BLOB]
 BLOB
 [BYTE]
@@ -320,7 +331,9 @@ Zakódovaný řetězec..
 [Contact]
 Kontakt
 [Module]
+Modul
 [Setting]
+Nastavení
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
 Změna v databázi: \nModul: '%s' , položka: '%s'\nNová hodnota (BYTE): %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]

@@ -8,12 +8,15 @@
 [Choose contacts to be send:]
 Vyberte kontakty k odeslání:
 [&Send]
+Po&slat
 [Cancel]
+Zrušit
 [&Select All]
 &Vybrat vše
 [Add to &group:]
 Přidat do &skupiny:
 [&Add]
+Přid&at
 [&Details]
 Po&drobnosti
 [Close]
@@ -23,6 +26,7 @@ Došlo k chybě. Příslušný protokol zahlásil následující problém:
 [Try again]
 Opakovat
 [Popup]
+Oznámení
 [Add to List]
 Přidat do seznamu
 [User Details]
@@ -35,5 +39,6 @@ Kontakty přijaty od
 [Contacts]
 Kontakty
 [Incoming Contacts]
+Kontakty (příchozí)
 [Outgoing Contacts]
 Kontakty (odchozí)

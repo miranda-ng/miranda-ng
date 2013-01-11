@@ -18,6 +18,7 @@ Automaticky poslat odkaz na soubor
 [Web page settings]
 [Web page to configure]
 [Configure]
+Nastavit...
 [Default formatting]
 [Auto-detect format from file extension]
 [Public paste]
@@ -25,10 +26,15 @@ Automaticky poslat odkaz na soubor
 [User key]
 [Get user key]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Up]
+Nahoru
 [Down]
+Dolů
 [Delete]
+Smazat
 [Restore defaults]
 Obnovit původní
 [Download more]
@@ -85,7 +91,7 @@ korejština (Johab)
 [Services]
 Služby
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Web page]
 Domácí stránka
 ;file \plugins\PasteIt\src\PasteIt.cpp
@@ -94,6 +100,7 @@ Všechny soubory (*.*)
 [\0*.*\0]
 [Paste It - Select file]
 [Error]
+Chyba
 [Paste from clipboard]
 [Paste from file]
 [Paste It HTTP connections]

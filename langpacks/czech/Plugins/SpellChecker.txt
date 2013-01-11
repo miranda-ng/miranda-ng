@@ -10,11 +10,13 @@
 [Replacements]
 [Enable auto-replacements]
 [Language:]
+Jazyk:
 [Add...]
 Přidat
 [Edit...]
 Upravit...
 [Remove]
+Odebrat
 [Wrong word:]
 Chybné slovo:
 [No separators and all lowercase chars]
@@ -22,7 +24,9 @@ Chybné slovo:
 Oprava:
 [Use variables in correction]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Spell Checker]
 Kontrola pravopisu
 [Default language:]
@@ -94,6 +98,7 @@ Cesta
 Komunikace
 [Auto-replacements]
 [Line]
+Řádek
 [Dotted]
 Tečkovaně
 [Dash]

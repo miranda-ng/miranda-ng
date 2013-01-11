@@ -11,6 +11,7 @@ Vlastní složky
 [Preview]
 Náhled
 [Edit]
+Upravit
 [Refresh preview]
 Aktualizovat náhled
 [Variables help]
@@ -29,7 +30,7 @@ Změny nebyly uloženy
 [Folders]
 Složky
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 ;file \plugins\Folders\src\services.cpp
 [\t \\]
 [%miranda_userdata%]

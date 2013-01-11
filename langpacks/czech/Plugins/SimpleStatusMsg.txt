@@ -2,11 +2,13 @@
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [&Cancel]
+&Zrušit
 [Retrieving %s message...]
 Zjištění stavové zprávy ve stavu '%s'...
 [Co&py to Clipboard]
 Zko&pírovat
 [OK]
+OK
 [%time%]
 [%date%]
 [%winampsong%]
@@ -37,6 +39,7 @@ Zko&pírovat
 Více proměnných...
 [Fortune]
 [Variables]
+Proměnné
 [Cut]
 Vyjmout
 [Copy]
@@ -44,6 +47,7 @@ Zkopírovat
 [Paste]
 Vložit
 [Delete]
+Smazat
 [Select All]
 Vybrat vše
 [Behaviour on status change]
@@ -78,6 +82,7 @@ Přiřadit výchozí zprávu do seznamu
 [Update variables in status messages every]
 Aktualizovat proměnné ve zprávě stavu každých
 [seconds]
+sek.
 [Do not update variables during idle]
 [Do not update variables on ICQ status message requests]
 [Leave last played track's title after exiting the player]
@@ -85,6 +90,7 @@ Ponechat název poslední skladby po vypnutí přehrávače
 [Enable status messages parsing by Variables plugin]
 [Exclude %date% token from parsing (restart required)]
 [Layout]
+Rozvržení
 [Show status list]
 Zobrazit seznam stavů
 [Show status profiles in status list]
@@ -128,6 +134,7 @@ milisekund
 [Protocol:]
 Protokol:
 [Status:]
+Stav:
 [Independent setting for each protocol]
 Nastavení pro každý protokol zvlášť
 [Pop up dialog asking for status message]
@@ -161,6 +168,7 @@ Stavová zpráva
 [Status Message...]
 Zpráva stavu...
 [%s (locked)]
+%s (uzamčený)
 [winampsong]
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
 [date]
@@ -168,6 +176,7 @@ Zpráva stavu...
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 [<current>]
+<současný>
 [## %s ##]
 [Add to Predefined]
 Přidat mezi předdefinované
@@ -179,6 +188,7 @@ OK (%d)
 Globální
 [%s Message (%s)]
 [Closing in %d]
+Zavře se za %d sek.
 [Are you sure you want to clear status message history?]
 Určitě chcete smazat celou historii stavových zpráv?
 [Confirm clearing history]
@@ -203,8 +213,9 @@ Potvrdit smazání předdefinovaných
 [<Last status>]
 <Poslední stav>
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [General]
+Obecné
 [Advanced]
 Extra
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
@@ -214,14 +225,24 @@ Poslední zpráva
 Předdefinovaná zpráva
 [Go to URL in Away Message]
 [I've been away since %time%.]
+Jsem pryč od %time%
 [Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
 [Not right now.]
+Teď ne, prosím.
 [Give a guy some peace, would ya?]
+Nechte mě prosím chvíli o samotě, ano?
 [I'm a chatbot!]
+Kecám, až se mi od klávesnice práší!
 [Yep, I'm here.]
+Jasně, jsem tu.
 [Nope, not here.]
+Ne, nejsem tady
 [I'm hiding from the mafia.]
+Skrývám se před mafií.
 [That'll be the phone.]
+Právě telefonuji
 [Mmm...food.]
+Mňam... jídlo
 [idleeeeeeee]
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+Chrrrrrrrrrrrr

@@ -9,21 +9,32 @@
 [Notify when a contact changes to one of these statuses]
 Oznámení změny stavu ostatních kontaktů
 [Online]
+Online
 [Offline]
+Offline
 [Invisible]
+Neviditelný
 [Free for chat]
+Mám volno
 [Away]
+Na chvíli pryč
 [NA]
+Nejsem tady
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Out to lunch]
+Jsem na obědě
 [On the phone]
+Mám telefon
 [Always when changing from offline]
 Vždy při přechodu ze stavu offline
 [Plugin activation]
 Aktivace doplňku
 [Automatically turn off Popups and Sounds on status change]
 [Configure]
+Nastavit...
 [Notify me for people not in my Contact List]
 [Blink icon in the system tray]
 Blikat v oznamovací části lišty
@@ -39,15 +50,18 @@ Aktivovat
 [Extra status]
 Rozšířený stav
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Open]
+Otevřít
 [Status message]
+Zpráva stavu
 [IndSndList]
 [Change]
 Změnit
 [Preview]
 Náhled
 [Delete]
+Smazat
 [Enable sounds]
 Povolit zvuky
 [Enable popups]
@@ -57,7 +71,9 @@ Oznámení stavu
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
 Individuální zvuky jsou vypnuty.\n\nChcete-li je zapnout, přejděte do nabídky Možnosti -> Stavy -> Oznámení\na povolte "Použít individální zvuky". Poté se vraťte na tento dialog.
 [Sounds]
+Zvuky
 [Popups]
+Oznámení
 [Extra status notify]
 [Extra status logging]
 [Disable all]
@@ -67,6 +83,7 @@ Pozadí
 [Text]
 Text
 [Colours]
+Barvy
 [Use custom colours]
 Použít vlastní barvy
 [Use Windows colours]
@@ -78,6 +95,7 @@ Přečíst zprávu stavu
 [Show previous status too]
 Zobrazit i předchozí stav
 [Timeout]
+Doba zobrazení
 [Popups on contact status change to:]
 Oznamovat tyto změny stavu:
 [Click action]
@@ -91,9 +109,12 @@ Při kliknutí myší
 [Sec]
 sek.
 [On left click]
+Levé tlačítko
 [On right click]
+Pravé tlačítko
 [Show status description]
 [Notification]
+Oznámení
 [Disable for extra status 'Music']
 [Truncate message length to:]
 [characters]
@@ -105,9 +126,13 @@ znaků
 [New message:]
 [New status:]
 [Variables]
+Proměnné
 [Reset]
+Reset
 [OK]
+OK
 [Cancel]
+Zrušit
 [Disable globally]
 [Disable only if I change global status]
 [Disable when my status is:]
@@ -117,6 +142,7 @@ znaků
 [Prevent identical logs]
 [On opening ML:]
 [General]
+Obecné
 [Show PopUps when I connect]
 Zobrazit oznámení při připojení
 [Ignore empty status messages]
@@ -127,9 +153,10 @@ Protokoly
 [%s (*.wav)%c*.WAV%c%s (*.*)%c*%c]
 [Wave Files]
 [All Files]
+Všechny soubory
 [wav]
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Sound for the status]
 Zvuky
 [From offline]
@@ -245,6 +272,7 @@ Stav (mám telefon)
 [Enable status notification]
 [Disable status notification]
 [PopUps]
+Oznámení
 [User: from offline (has priority!)]
 Uživatel: z offline (má prioritu!)
 [Extra status changed]
@@ -265,6 +293,7 @@ Záznam
 [Show available variables]
 [Reset all templates to default]
 [Protocol]
+Protokol
 [Filtering]
 Filtrování
 [Message log]

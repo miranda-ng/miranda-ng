@@ -33,7 +33,7 @@ Automaticky přidat kontakt po správné odpovědi
 [Message Sessions]
 Komunikace
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Messages]
 Zprávy
 [Protocols]

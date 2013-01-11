@@ -1,4 +1,5 @@
-﻿;file \src\resource.rc
+﻿Miranda Language Pack Version 1
+;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Zadejte název účtu (např. Google)
 [Choose the protocol type]
@@ -6,9 +7,13 @@ Vyberte požadovaný protokol
 [Specify the internal account name (optional)]
 Zadejte interní název účtu (nepovinné)
 [OK]
+OK
 [Cancel]
+Zrušit
 [&Add]
+Přid&at
 [&Cancel]
+&Zrušit
 [Send "You were added"]
 Odeslat zprávu o zařazení
 [Send authorization request]
@@ -18,13 +23,20 @@ Vlastní jméno:
 [Group:]
 Skupina:
 [Options]
+Možnosti
 [Authorization Request]
+Žádost o autorizaci
 [&Yes]
+&Ano
 [&No]
+&Ne
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 [Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
 [Contact Display Options]
 Možnosti zobrazení seznamu
 [Instead of displaying contacts by their nickname, drag to choose another order:]
@@ -38,8 +50,11 @@ Nouzový režim s doplňkem
 [Search:]
 Prohledat:
 [E-mail address]
+E-mail
 [Name]
+Jméno
 [Nick:]
+Přezdívka:
 [First:]
 Jméno:
 [Last:]
@@ -47,7 +62,9 @@ Příjmení:
 [Advanced]
 Extra
 [Advanced >>]
+Extra >>
 [&Search]
+&Hledat
 [More options]
 Další možnosti
 [Add to list]
@@ -93,6 +110,7 @@ Co chcete udělat s tímto souborem?
 [&Recycle]
 Př&esunout do koše
 [&Delete]
+&Smazat
 [&Move/Rename]
 Přesunout/Přej&menovat
 [&Leave]
@@ -118,7 +136,7 @@ Funkce OutputDebugString()
 [File]
 Soubor
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Run programm when Miranda NG starts (eg tail -f, dbgview, etc):]
 [Run now]
 Spustit
@@ -130,6 +148,7 @@ OK
 [SSL Traffic]
 Včetně dat SSL
 [Sounds]
+Zvuky
 [&Change...]
 &Změnit...
 [&Preview]
@@ -141,10 +160,11 @@ Informace o zvuku
 [Location:]
 Umístění:
 [Name:]
+Název:
 [Enable sound events]
 Povolit zvuky
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 [Show category:]
 Kategorie:
 [&Load icon set...]
@@ -172,11 +192,13 @@ Všechny události
 [Only the ticked contacts will be shown on the main contact list]
 V seznamu kontaktů se objeví pouze ty skupiny nebo uživatelé, které zaškrtnete.
 [Ignore]
+Filtrování
 [Added Notification]
 Oznámení o přidání
 [Typing]
 Píšu
 [Visibility]
+Viditelnost
 [You are visible to this person even when in invisible mode]
 Vůči dané osobě viditelný i ve stavu 'Neviditelný'
 [You are never visible to this person]
@@ -190,6 +212,7 @@ Importovat hromadně
 [To main icons]
 Do základní sady
 [To]
+Do
 [<< &Import]
 << &Importovat
 [To default status icons]
@@ -199,15 +222,21 @@ Záznam...
 [Outgoing Connections]
 Odchozí spojení
 [Use proxy server]
+Použít proxy server
 [Type:]
+Typ:
 [Host:]
+Hostitel:
 [Port:]
+Port:
 [(often %d)]
 (obvykle %d)
 [Use Custom Login (Domain login picked up automatically)]
 Použít vlastní přihlášení (doménové jméno doplněno automaticky)
 [Username:]
+Uživatel:
 [Password:]
+Heslo:
 [Resolve hostnames through proxy]
 Překládat jména hostitelů pomocí proxy
 [Port Range:]
@@ -238,18 +267,24 @@ Ovladač
 [Download more plugins]
 Stáhnout další doplňky
 [Description:]
+Popis:
 [Author(s):]
+Autor:
 [E-mail:]
+E-mail:
 [Homepage:]
 WWW:
 [Unique ID:]
 ID:
 [Copyright:]
+Copyright:
 [Please restart Miranda NG for your changes to take effect.]
 [Fonts and Colors]
 Písma a barvy
 [Undo]
+Zpět
 [Reset]
+Reset
 [Export...]
 Exportovat...
 [Color/Background]
@@ -269,6 +304,7 @@ Vybrat písmo
 [&Size:]
 Veliko&st:
 [Effects]
+Efekty
 [Stri&keout]
 Přeš&krtnuté
 [&Underline]
@@ -301,8 +337,9 @@ Vložit oddělovač
 [Service:]
 Služba:
 [Default]
+Výchozí
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+Nastavit
 [Disable icons]
 Vypnout ikony
 [Note: Miranda NG will have to be restarted for changes to take effect.]
@@ -315,12 +352,15 @@ Klávesové zkratky
 [Shortcut:]
 Klávesová zkratka:
 [Add]
+Přidat
 [Remove]
+Odebrat
 [Undo Changes]
 Vrátit změny
 [Reset To Default]
 Obnovit výchozí
 [Hotkeys]
+Klávesové zkratky
 [Accounts\nConfigure your IM accounts]
 Účty\nKonfigurace nebo založení účtu
 [Account information:]
@@ -333,7 +373,9 @@ Konfigurovat sítě...
 [Get more protocols...]
 Stáhnout další protokoly...
 [&Add...]
+Přid&at...
 [&Edit]
+Up&ravit
 [&Options]
 M&ožnosti
 [&Upgrade]
@@ -376,17 +418,29 @@ Zvolte doplňkové ikony které budou zobrazeny v seznamu kontaktů:
 * bude zobrazeno pouze prvních %d ikon
 [You can group/ungroup icons by selecting them (CTRL+left click) and using the popup menu (right click)]
 [&Hide/Show]
+Skrýt/Zo&brazit
 [E&xit]
+U&končit
 [&New Group]
+&Nová skupina
 [&Hide Offline Users]
+&Skrýt uživatele offline
 [Hide &Offline Users out here]
+Skrýt uživatele &offline mimo skupiny
 [Hide &Empty Groups]
+S&krýt prázdné skupiny
 [Disable &Groups]
+Vypnout zobrazení s&kupin
 [Hide Miranda]
+Skrýt okno
 [&New Subgroup]
+&Nová podskupina
 [&Hide Offline Users in here]
+Skrýt uživatele o&ffline
 [&Rename Group]
+Př&ejmenovat skupinu
 [&Delete Group]
+&Smazat skupinu
 [&Reset to default]
 O&bnovit výchozí
 [&Add to List]
@@ -396,10 +450,13 @@ In&formace o kontaktu
 [Send &Message]
 Poslat zp&rávu
 [&Copy]
+Z&kopírovat
 [Co&py All]
 Zko&pírovat vše
 [Select &All]
+Vybr&at vše
 [C&lear Log]
+Vy&mazat záznam
 [Open in &new window]
 Otevřít v &novém okně
 [&Open in existing window]
@@ -411,15 +468,18 @@ Z&kopírovat odkaz
 [&Reset To Default]
 O&bnovit výchozí
 [Group]
+Skupina
 [Ungroup]
 ;file \src\core\stdauth\resource.rc
 [&Authorize]
 &Autorizovat
 [&Deny]
+O&dmítnout
 [Decide &Later]
 &Později
 [&I]
 [Reason:]
+Důvod:
 [Denial Reason:]
 Důvod odmítnutí:
 [Add to contact list if authorized]
@@ -433,6 +493,7 @@ Zjištění stavové zprávy ve stavu '%s'...
 [Status Messages]
 Stavové zprávy
 [Do not reply to requests for this message]
+Neodpovídat na vybranou zprávu automaticky
 [Do not pop up dialog asking for new message]
 Nepožadovat zadání nové odpovědi
 [By default, use the same message as last time]
@@ -440,11 +501,14 @@ Jako odpověď použít stejnou zprávu jako posledně
 [By default, use this message:]
 Jako odpověď použít následující zprávu:
 [Use %time% for the current time, %date% for the current date]
+%time% = aktuální čas, %date% = aktuální datum
 [Status messages:]
 Stavové zprávy:
 [Closing in %d]
+Zavře se za %d sek.
 ;file \src\core\stdchat\res\chat.rc
 [&Send]
+Po&slat
 [Show these events only:]
 [Actions]
 Akce
@@ -459,6 +523,7 @@ Změny tématu
 [Status changes]
 Změny stavu
 [Information]
+Informace
 [Disconnects]
 Odpojení
 [User kicks]
@@ -496,6 +561,7 @@ Odstup uživatelů v seznamu (v pix.):
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
 [Use default colours]
+Použít výchozí barvy
 [Use custom colours]
 Použít vlastní barvy
 [Popups for the Chat plugin]
@@ -545,9 +611,13 @@ Zavřít ostatní pane&ly
 &Otevřít na stejném místě
 ;file \src\core\stdclist\res\resource.rc
 [Hide offline users]
+Skrýt uživatele offline
 [Hide empty groups]
+Skrýt prázdné skupiny
 [Disable groups]
+Vypnout skupiny
 [Ask before deleting contacts]
+Potvrdit smazání kontaktů
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -555,85 +625,138 @@ Zavřít ostatní pane&ly
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
 [Single click interface]
+Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
+Vždy zobrazit stav v tipu
 [Disable icon blinking]
+Vypnout blikání ikon
 [ms delay]
 ms (prodleva)
 [icon when statuses differ]
+(v případě, že se stavy liší)
 [Cycle icons every]
+Měnit ikony co
 [seconds, when statuses differ]
+sek. (v případě, že se stavy liší)
 [Show multiple icons]
+Zobrazit více ikon
 [Only when statuses differ]
+Pouze v případě, že se stavy liší
 [Contact List]
+Kontakty
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
+Ikona v oznamovací oblasti při použití více protokolů
 [Contact List Sorting]
+Řazení seznamu kontaktů
 [Window]
+Okno
 [Always on top]
+Vždy navrchu
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
+Minimalizovat na panel
 [Show menu bar]
+Zobrazit menu
 [Easy move]
+Vylepšené přesouvání
 [Show title bar]
 Zobrazit záhlaví
 [Title bar text:]
+Text v záhlaví:
 [Show drop shadow (restart required)]
+Zobrazit stín (vyžaduje restart)
 [Pin to desktop]
+Připíchnout na plochu
 [Hide contact list after it has been idle for]
+Skrýt seznam kontaktů, byl-li neaktivní po dobu
 [seconds]
+sek.
 [Automatically resize window to height of list]
+Podle položek automaticky změnit výšku okna
 [maximum]
+max. však
 [% of screen]
+% obrazovky
 [Size upwards]
+Zvětšovat okno směrem nahoru
 [If window is partially covered, bring to front instead of hiding]
+Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable docking]
 [Translucency options (Windows 2000/XP only)]
+Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
+Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
+Nastavit průhlednost seznamu kontaktů
 [Inactive opacity:]
+Neaktivní okno:
 [000%]
+000 %
 [Active opacity:]
+Aktivní okno:
 [Items]
+Položky
 [Show divider between online and offline contacts]
+Zobrazit oddělovač mezi kontakty online a offline
 [Hot track items as mouse passes over]
+Zvýraznit položky, nad kterými se objeví šipka myši
 [Disable drag and drop of items]
+Zakázat uchopení a přetáhnutí položek
 [Disable rename of items by clicking twice]
+Zakázat přejmenování položek dvojím kliknutím
 [Show selection even when list is not focused]
+Zobrazit výběr i tehdy, není-li seznam aktivní
 [Make selection highlight translucent]
+Zobrazit vybrané položky průhledně
 [Dim idle contacts]
+Zešednout neaktivní kontakty
 ['Hide Offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Groups]
+Skupiny
 [Draw a line alongside group names]
+Zobrazit vedle názvu skupin čáru
 [Show counts of number of contacts in a group]
 Zobrazit počet kontaktů ve skupině
 [Hide group counts when there are none online]
 Skrýt počet kontaktů ve skupině, jsou-li všichni offline
 [Sort groups alphabetically]
+Seřadit skupiny podle abecedy
 [Quicksearch in open groups only]
+Rychle hledat jen v otevř. skupinách
 [Indent groups by:]
+Rozestup skupin:
 [pixels]
 pix.
 [Visual]
+Zobrazení
 [Scroll list smoothly]
+Rolovat seznam kontaktů plynule
 [Time:]
+Čas:
 [milliseconds]
 ms
 [Left margin:]
 Levý okraj:
 [Hide vertical scroll bar]
+Skrýt svislý posuvník
 [Row height:]
 Výška řádku:
 [Gamma correction]
 Gama korekce
 [Grey out entire list when:]
+Zešednout seznam v případě:
 [Contact List Background]
+Pozadí seznamu kontaktů
 [Background colour]
+Barva pozadí
 [Selection colour]
 Barva výběru
 [Use background image]
+Použít na pozadí obrázek
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -643,20 +766,30 @@ Vodorovně vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Scroll with text]
+Rolovat s textem
 [Stretch proportionally]
 Uzpůsobit poměrně
 [Use Windows colours]
 Použít barvy Windows
 [Status Bar]
+Stavová lišta
 [Show status bar]
+Zobrazit stavovou lištu
 [Show icons]
+Zobrazit ikony
 [Show protocol names]
+Zobrazit názvy protokolů
 [Show status text]
+Zobrazit stav
 [Right click opens status menu]
+Pravým tlačítkem seznam stavů
 [Right click opens Miranda NG menu]
 [Make sections equal width]
+Shodná šířka všech položek
 [Show bevels on panels]
+Zobrazit efekt zkosení panelů
 [Show resize grip indicator]
+Zobrazit tlač. změny velik.
 [Ordering:]
 Způsob řazení
 [Contact list:]
@@ -668,17 +801,28 @@ Okno
 [Contact list background:]
 Pozadí seznamu kontaktů
 [&Offline\tCtrl+0]
+&Offline\tCtrl+0
 [On&line\tCtrl+1]
+On&line\tCtrl+1
 [&Away\tCtrl+2]
+N&a chvíli pryč\tCtrl+2
 [&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
+Nemám ča&s\tCtrl+4
 [&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
 [&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
+Nev&iditelný\tCtrl+7
 [On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
+Jsem na o&bědě\tCtrl+9
 ;file \src\core\stdfile\resource.rc
 [To:]
+Pro:
 [File(s):]
 Soubory:
 [&Choose Again...]
@@ -693,13 +837,16 @@ Celková velikost:
 [&Decline]
 O&dmítnout
 [From:]
+Od:
 [Date:]
+Datum:
 [Files:]
 Soubory:
 [Save to:]
 Uložit do:
 [&A]
 [Contact menu]
+Menu kontaktu
 [Open...]
 Otevřít...
 [Open folder]
@@ -729,6 +876,7 @@ Příjem souboru:
 [Existing file]
 Existující soubor
 [Size:]
+Velikost:
 [Last modified:]
 Změněno:
 [Open file]
@@ -785,6 +933,7 @@ Poděkování >
 [Become idle if the following is left unattended:]
 Přejít do stavu nečinnosti pokud se nic neděje v:
 [Windows]
+Windows
 [Miranda]
 Miranda
 [Become idle if the screen saver is active]
@@ -798,6 +947,7 @@ Zakázat protokolům poskytovat informaci o nečinnosti
 [minute(s)]
 min.
 [for]
+po dobu
 [Change my status mode to:]
 Změnit stav na:
 [Do not set status back to online when returning from idle]
@@ -907,8 +1057,10 @@ Rozhovor
 [Paste && Send]
 Vložit a poslat
 [Delete]
+Smazat
 ;file \src\core\stduihist\resource.rc
 [&Find Next]
+&Najít další
 [Find What:]
 Najít:
 [&Find...]
@@ -923,9 +1075,11 @@ Telefon umožňuje příjem textovek (SMS)
 [%s\nView personal user details and more]
 %s\nPřehled informací o vybrané osobě
 [Update Now]
+Aktualizovat
 [Updating]
 Aktualizace
 [Nickname:]
+Přezdívka:
 [First name:]
 Jméno:
 [Gender:]
@@ -935,9 +1089,11 @@ Příjmení:
 [Age:]
 Věk:
 [Date of birth:]
+Narozeniny:
 [Marital status:]
 Rodinný stav:
 [Phone:]
+Telefon:
 [Web page:]
 WWW:
 [Past background:]
@@ -953,6 +1109,7 @@ Ulice:
 [City:]
 Město:
 [State:]
+Stát:
 [Postal code:]
 PSČ:
 [Country:]
@@ -985,13 +1142,16 @@ WWW:
 %s si vás přidal mezi své kontakty
 [%u added you to their contact list]
 [Alerts]
+Upozornění
 [Authorization request]
 Žádost o autorizaci
 [Added event]
 Nová událost
 ;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
+Zobrazit osobní údaje
 [Add Contact Permanently to List]
+Přidat do seznamu natrvalo
 [%s %s]
 %s %s
 [ (%s)]
@@ -1004,6 +1164,7 @@ Nová událost
 [%s added you to the contact list\n%s on %s]
 %s si vás přidal mezi své kontakty\n%s v síti %s
 [(Unknown)]
+(neznámý)
 [View User Details]
 Zobrazit osobní údaje
 [%s requested authorization\n%u (%s) on %s]
@@ -1021,21 +1182,31 @@ Přečíst &automatickou odpověď
 Přečíst stavovou zprávu
 ;file \src\core\stdaway\sendmsg.cpp
 [I've been away since %time%.]
+Jsem pryč od %time%
 [Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
 [Not right now.]
+Teď ne, prosím.
 [Give a guy some peace, would ya?]
+Nechte mě prosím chvíli o samotě, ano?
 [I'm a chatbot!]
+Kecám, až se mi od klávesnice práší!
 [Yep, I'm here.]
+Jasně, jsem tu.
 [Nope, not here.]
+Ne, nejsem tady
 [I'm hiding from the mafia.]
+Skrývám se před mafií.
 [That'll be the phone.]
+Právě telefonuji
 [Mmm...food.]
+Mňam... jídlo
 [idleeeeeeee]
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+Chrrrrrrrrrrrr
 [%time%]
 [%date%]
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 ;file \src\core\stdchat\src\clist.cpp
 [Chat rooms]
 Místnosti chatu
@@ -1045,6 +1216,7 @@ Přidat se do diskuse
 Otevřít komunikační okno
 ;file \src\core\stdchat\src\colorchooser.cpp
 [Text colour]
+Barva textu
 ;file \src\core\stdchat\src\log.cpp
 [%s (%s)]
 %s (%s)
@@ -1372,11 +1544,13 @@ Komunikace
 [Group chats]
 Skupinové rozhovory
 [General]
+Obecné
 [Chat Log]
 Záznam diskuse
 [Chat]
 Diskuse
 [Popups]
+Oznámení
 [[%H:%M]]
 [[%d %b %y %H:%M]]
 [%n:]
@@ -1496,14 +1670,23 @@ Hledaný text
 [Not focused]
 Neaktivní
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Out to lunch]
+Jsem na obědě
 [On the phone]
+Mám telefon
 [List]
 Seznam
 [List Background]
@@ -1525,6 +1708,7 @@ Poslat e-mail
 Soubor od: %s
 [%u%s%s]
 [bytes]
+bajtů
 [%.1lf%s]
 [ KB]
 [%u%s]
@@ -1533,12 +1717,15 @@ Soubor od: %s
 [%.2lf%s]
 [ MB]
 [&File]
+&Soubor
 [File &Transfers...]
 Př&enos souborů...
 [Incoming]
+Příchozí
 [Complete]
 Dokončeno
 [Error]
+Chyba
 [Denied]
 Odmítnuto
 ;file \src\core\stdfile\fileexistsdlg.cpp
@@ -1548,6 +1735,7 @@ Soubor %s
 [Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
 [\\DefaultIcon]
 [All Files]
+Všechny soubory
 [ (*)]
 ;file \src\core\stdfile\fileopts.cpp
 [Network Associates/McAfee VirusScan]
@@ -1605,7 +1793,9 @@ přezdívka
 protokol
 [%%mydocuments%%\\%s]
 [View User's History]
+Zobrazit historii
 [User Menu]
+Uživatelské menu
 [t d]
 [Cancelled]
 Přerušeno
@@ -1642,9 +1832,11 @@ zbývá
 [Decision sent]
 Potvrzení odesláno
 [Connecting...]
+Navazování spojení...
 [Connecting to proxy...]
 Připojování k proxy...
 [Connected]
+Spojení navázáno
 [Initialising...]
 Inicializace...
 [Moving to next file...]
@@ -1690,6 +1882,7 @@ O progr&amu...
 ;file \src\core\stdidle\idle.cpp
 [WorkerW]
 [Idle]
+Nečinnost
 ;file \src\core\stdmsg\src\cmdlist.cpp
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
@@ -1703,6 +1896,7 @@ Odchozí zpráva (10x10)
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
 [Message Session]
+Rozhovor
 [%s - %s]
 [%s (%s): %s]
 [signed off (was %s)]
@@ -1757,16 +1951,20 @@ Oblast se zprávou
 [Message Log]
 Záznam komunikace
 [** New contacts **]
+** nové kontakty **
 [** Unknown contacts **]
+** neznámé kontakty **
 [Show balloon popup (unsupported system)]
 Zobrazit oznámení bublinami (nepodporováno)
 [Messaging Log]
 Záznam rozhovoru
 [Typing Notify]
+Psaní zprávy
 ;file \src\core\stdmsg\src\msgs.cpp
 [Message from %s]
 Zpráva od: %s
 [%s is typing a message]
+%s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -1801,16 +1999,20 @@ Odchozí soubor
 [Incoming File]
 Příchozí soubor
 [History for %s]
+Historie pro %s
 [Are you sure you want to delete this history item?]
 Opravdu si přejete odstranit tento záznam z historie?
 [Delete History]
 Smazat historii
 [View &History]
+Zobrazit &historii
 ;file \src\core\stdurl\url.cpp
 [URL from %s]
 Odkaz od: %s
 [Web Page Address (&URL)]
+Odkaz (&URL)
 [URL]
+Odkaz
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
 Odeslání odkazu:
@@ -1825,6 +2027,7 @@ Upravit telefonní číslo
 [The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
 Telefonní číslo by mělo začínat znakem + a obsahovat pouze čísla, mezery, závorky a pomlčky.
 [Invalid Phone Number]
+Neplatné tel. číslo
 [Primary]
 Primární
 [Custom %d]
@@ -1848,9 +2051,11 @@ muž
 <neurčeno>
 [Courier New]
 [Summary]
+Souhrn
 [Contact]
 Kontakt
 [Location]
+Umístění
 [Work]
 Práce
 [Background info]
@@ -1889,6 +2094,7 @@ Statický
 [ntdll.dll]
 ;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
+Mezi kontakty přidat: %s
 [Add Contact]
 Přidat kontakt
 [Please authorize my request and add me to your contact list.]
@@ -1904,6 +2110,7 @@ UPRAVIT
 [Custom status]
 Rozšířený stav
 [%s (locked)]
+%s (uzamčený)
 [%s\t%s]
 ;file \src\modules\clist\clistmod.cpp
 [Connecting]
@@ -1927,15 +2134,19 @@ Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
 [TaskbarCreated]
 [TaskbarButtonCreated]
 [&Main Menu]
+Hlavní &menu
 [&Status]
+&Stav
 ;file \src\modules\clist\clui.cpp
 [This contact is on an instant messaging system which stores its contact list on a central server. The contact will be removed from the server and from your contact list when you next connect to that network.]
 Vybraný kontakt daného komunikačního systému je uložen na centrálním serveru. Při příštím připojení bude odstraněn jak ze serveru, tak z vašeho seznamu.
 [Delete Contact]
+Smazání kontaktu
 [Miranda::ProcessProfile]
 [De&lete]
 &Smazat
 [&Rename]
+Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
 [%miranda_userdata%\\%miranda_profilename%.dat]
@@ -1944,12 +2155,15 @@ Přid&at do seznamu natrvalo
 [My custom name (not moveable)]
 Upravené jméno (nelze přesunout)
 [Nick]
+Přezdívka
 [FirstName]
 Jméno
 [E-mail]
+E-mail
 [LastName]
 Příjmení
 [Username]
+Uživatelské jméno
 [FirstName LastName]
 Jméno Příjmení
 ['(Unknown Contact)' (not moveable)]
@@ -1966,7 +2180,7 @@ Jména kontaktů
 [Menus]
 Nabídky
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Accounts]
 Účty
 ;file \src\modules\clist\groups.cpp
@@ -1987,7 +2201,7 @@ Tato skupina
 [Show Hide Contact List]
 Zobrazit nebo skrýt kontakty
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Read Message]
 Přečíst zprávu
 [Open Options Page]
@@ -2107,11 +2321,13 @@ Použít
 Opravdu si přejete odstranit profil "%s"?
 [%s\\%s%c]
 [Size]
+Velikost
 [Created]
 Vytvořeno
 [Modified]
 Změněno
 [Run]
+Spustit
 [Check database]
 [%s\\%s.dat]
 [%s: %s\n%s]
@@ -2129,6 +2345,7 @@ Nový profil
 Aktivita na chatu
 ;file \src\modules\extraicons\options_ei.cpp
 [Extra icons]
+Doplňkové ikony
 ;file \src\modules\findadd\findadd.cpp
 [You haven't filled in the search field. Please enter a search term and try again.]
 Zadejte hledaný výraz a zkuste hledat znovu.
@@ -2148,7 +2365,9 @@ Všechny sítě
 &Vyhledat kontakty...
 ;file \src\modules\findadd\searchresults.cpp
 [First Name]
+Jméno
 [Last Name]
+Příjmení
 [Could not start a search on '%s', there was a problem - is %s connected?]
 V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 [Could not search on any of the protocols, are you online?]
@@ -2160,6 +2379,7 @@ Počet nalezených: 1, síť %s
 [%d %s users found]
 Počet nalezených: %d, síť %s
 [%d users found (]
+Počet nalezených: %d (
 [%d %s]
 [No users found]
 Počet nalezených: 0
@@ -2167,6 +2387,7 @@ Počet nalezených: 0
 [Failed to create file]
 Chyba při vytváření souboru
 [<none>]
+<žádný>
 [Shadow at left]
 Stín nalevo
 [Shadow at right]
@@ -2186,6 +2407,7 @@ Silná kontura
 [Configuration Files]
 Konfigurační soubory
 [Text Files]
+Textové soubory
 [ini]
 [Error writing file]
 Chyba při zapisování do souboru
@@ -2194,6 +2416,7 @@ Písma a barvy
 [Sample Text]
 Ukázka textu
 [Fonts]
+Písma
 [Installed Plugins]
 Instalované doplňky
 ;file \src\modules\fonts\FontService.cpp
@@ -2262,7 +2485,7 @@ Vyberte požadovaný program
 [<All connections>]
 <všechna spojení>
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 ;file \src\modules\netlib\netlibsecurity.cpp
 [Basic]
 Obecné
@@ -2293,6 +2516,7 @@ Načítání... %d%%
 %s nastavení
 [Miranda NG Options]
 [&Options...]
+M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp
 [stduserinfo]
 [stdurl]
@@ -2344,7 +2568,7 @@ Chcete znovu aktivovat tento doplněk?
 [\\%s\\%s]
 [Core]
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky
 [%s.dll]
 [\\Plugins\\%s]
 [\\Core\\%s.dll]
@@ -2365,6 +2589,7 @@ Nelze načíst doplněk v nouzovém režimu
 [Plugin]
 Doplněk
 [Version]
+Verze
 ;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 Zřídit nový účet
@@ -2378,6 +2603,7 @@ Vybraný účet je vypnutý. Nejdříve ho musíte aktivovat.
 [New account]
 Zřídit účet
 [Edit]
+Upravit
 [Remove account]
 Smazat účet
 [Configure...]
@@ -2385,6 +2611,7 @@ Nastavit...
 [Upgrade account]
 Aktualizovat účet
 [Protocol]
+Protokol
 [Account ID]
 Identifikátor účtu
 [%s: %d]
@@ -2395,6 +2622,7 @@ Protokol není načtený.
 [Rename]
 Přejmenovat
 [Configure]
+Nastavit...
 [Upgrade]
 [Account is online. Disable account?]
 Účet je připojen. Deaktivovat účet?
@@ -2432,6 +2660,7 @@ Platnost v systému
 Platnost v Mirandě
 ;file \src\modules\skin\skinicons.cpp
 [Message]
+Zpráva
 [User Online]
 Uživatel online
 [Group (Open)]
@@ -2457,6 +2686,7 @@ Zaškrtnuto
 [No Tick]
 Nezaškrtnuto
 [Help]
+Nápověda
 [Miranda Website]
 Stránka o Mirandě
 [Small Dot]
@@ -2511,8 +2741,11 @@ Pro zpracování PNG obrázků je zapotřebí doplněk Image services
 [All Bitmaps]
 Všechny bitmapy
 [Windows Bitmaps]
+obrázky typu BMP
 [JPEG Bitmaps]
+obrázky typu JPEG
 [GIF Bitmaps]
+obrázky typu GIF
 [PNG Bitmaps]
 obrázky typu PNG
 [ (*.bmp;*.jpg;*.gif;*.png)]

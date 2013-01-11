@@ -12,9 +12,11 @@ FTP účet
 [Host name]
 Adresa
 [User]
+Uživatel
 [Password]
 Heslo
 [URL]
+Odkaz
 [Directory on server]
 Složka na serveru
 [Port]
@@ -26,6 +28,7 @@ Použít pasivní režim
 [Account name]
 Název účtu
 [Protocol]
+Protokol
 [Default FTP server]
 [File download link]
 Odkaz na soubor
@@ -53,13 +56,17 @@ Automaticky smazat soubor z FTP po (experimentální):
 Rychlost:
 [Remaining:]
 [Summary]
+Souhrn
 [To:]
+Pro:
 [Nick]
+Přezdívka
 [Close]
 Zavřít
 [Clipboard]
 Schránka
 [Options]
+Možnosti
 [Pause]
 Pozastavit
 [File Manager]
@@ -75,7 +82,9 @@ Vybrat vše
 [Delete from list]
 [Delete from FTP]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Rename]
 Přejmenovat
 [Overwrite]
@@ -193,4 +202,4 @@ Extra
 ;file \plugins\FTPFileYM\src\utils.cpp
 [file.zip]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...

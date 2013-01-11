@@ -10,6 +10,7 @@
 [Send replies immediately]
 [- Add your replies, one per line.]
 [Variables]
+Proměnné
 [Hints:]
 [- Add "---" for separator.]
 [- Press [v] button for variable's help.]

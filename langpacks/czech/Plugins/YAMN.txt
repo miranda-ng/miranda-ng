@@ -9,12 +9,17 @@
 [List4]
 [List5]
 [OK]
+OK
 [Installed plugins]
 Nainstalované doplňky
 [Version:]
+Verze:
 [Description:]
+Popis:
 [Copyright:]
+Copyright:
 [Contact:]
+Kontakt:
 [WWW:]
 WWW:
 [Check this account]
@@ -25,11 +30,13 @@ Interval vybírání pošty (min):
 Upozornění
 [Sound]
 [Message]
+Zpráva
 [Tray Icon]
 [Keyboard Flash]
+Blikání klávesnicí
 [Execute Application]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Use contact notification for this account]
 Použít nastavení z filtrování kontaktů
 [Replace nick name]
@@ -40,8 +47,10 @@ Vypnout události
 Server:
 [User Name:]
 [Password:]
+Heslo:
 [Codepage:]
 [Port:]
+Port:
 [SSL]
 SSL
 [Disable STLS]
@@ -64,29 +73,45 @@ Vynulovat čítač
 [-]
 -
 [Default]
+Výchozí
 [Status:]
+Stav:
 [+]
 [Account]
 Účet
 [APOP]
 [Name:]
+Název:
 [Options]
+Možnosti
 [New Mail]
+Nová pošta
 [Errors]
 Chyby
 [Cancel]
+Zrušit
 [Choose modes]
 Výběr stavů
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [N/A]
+<neuvedeno>
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [On the phone]
+Mám telefon
 [Out to lunch]
+Jsem na obědě
 [YAMN General Options]
 Obecné možnosti
 [TopToolBar button "Check mail"]
@@ -108,6 +133,7 @@ Zobrazení data a času
 Nezobrazovat sekundy
 [Mail Notifications]
 [Popup]
+Oznámení
 [Single popup]
 Vše v jednom
 [Multi popup]
@@ -127,7 +153,9 @@ Upozornit oznámením
 [Preview]
 Náhled
 [Background colour]
+Barva pozadí
 [Text colour]
+Barva textu
 ;file \plugins\YAMN\src\account.cpp
 [%s: %s,length is %d, remaining %d chars]
 [debug]
@@ -137,6 +165,7 @@ Náhled
 [PopUpTime: %04x, remaining %d chars]
 [going to read messages, if any...]
 [Name]
+Jméno
 [Value]
 Hodnota
 [Server]
@@ -176,6 +205,7 @@ Chyba při připojování
 [%s\\yamn-accounts.%s.%s.book]
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
+Přezdívka
 [No new mail message]
 ;file \plugins\YAMN\src\browser\badconnect.cpp
 [Unknown error]
@@ -264,15 +294,17 @@ Mazání spamu
 Chyba %d-%d-%d-%d:
 ;file \plugins\YAMN\src\proto\pop3\pop3opt.cpp
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [YAMN]
 YAMN
 [Accounts]
 Účty
 [General]
+Obecné
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky
 [PopUps]
+Oznámení
 [No account selected]
 Není vybraný účet
 [Time left to next check [s]: %d]
@@ -281,6 +313,7 @@ Další vybírání pošty za (sek.): %d
 [%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c]
 [Executables]
 [All Files]
+Všechny soubory
 [Select executable used for notification]
 Vyberte požadovanou aplikaci
 [Dialog box error]

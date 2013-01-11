@@ -18,6 +18,7 @@ Možnosti formátování
 [Enable BBCodes]
 Povolit BBCode
 [Enable SmileyAdd support]
+Podporovat doplněk SmileyAdd
 [Enable MathModule support]
 Podporovat doplněk MathModule
 [Enable raw RTF support]
@@ -127,11 +128,13 @@ Smazat vybrané
 [Do you really want to delete selected item?]
 Opravdu chcete odstranit vybranou položku?
 [Delete]
+Smazat
 ;file \plugins\HistoryPlusPlus\HistoryForm.pas
 [Unknown codepage %u]
 Neznámá kódová stránka %u
 [%s - History++]
 [Error]
+Chyba
 [&Pseudo-edit]
 &Pseudo-editace
 [&Open]

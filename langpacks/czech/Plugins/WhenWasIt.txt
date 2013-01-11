@@ -10,6 +10,7 @@
 Upozornění na narozeniny
 [  ]
 [Popups]
+Oznámení
 [Popup timeout:]
 Doba zobrazení:
 [Preview]
@@ -21,9 +22,11 @@ Zobrazit oznámení i tehdy, nejsou-li v dohledu narozeniny
 [Popup mouse click]
 Po kliknutí myší
 [Left]
+Vlevo
 [Right]
 Vpravo
 [Sounds]
+Zvuky
 [Play sounds when there are]
 Přehrát zvuk, když zbývá
 [days or less to birthday.]
@@ -60,12 +63,17 @@ Zavřít
 [Show all contacts]
 Zobrazit všechny kontakty
 [OK]
+OK
 [Title:]
 Název:
 [Description:]
+Popis:
 [Date:]
+Datum:
 [Save]
+Uložit
 [Delete]
+Smazat
 ;file \plugins\WhenWasIt\src\dlg_handlers.cpp
 [Upcoming age]
 budoucí věk
@@ -78,7 +86,9 @@ protokolu
 [mBirthday module]
 mBirthday
 [Nothing]
+Nic
 [Dismiss]
+Vyřízeno
 [Message window]
 Komunikační okno
 [All contacts]
@@ -100,10 +110,12 @@ Narozeniny
 UserInfo
 [mICQBirthday]
 [N/A]
+<neuvedeno>
 [%04d-%02d-%02d]
 [Birthday list (%d)]
 Seznam narozenin (%d)
 [Protocol]
+Protokol
 [Contact]
 Kontakt
 [DTB]
@@ -113,6 +125,7 @@ Narozeniny
 [Age]
 Věk
 [Module]
+Modul
 [Closing in %d seconds]
 [Closing in %d second]
 ;file \plugins\WhenWasIt\src\hooked_events.cpp
@@ -120,6 +133,7 @@ Věk
 [Birthday near]
 Narozeniny (brzy)
 [Birthday today]
+Narozeniny (dnes)
 [Birthdays]
 [Birthday list]
 Seznam narozenin
@@ -156,6 +170,7 @@ Probíhá aktualizace informací o kontaktech
 Konec aktualizace informací o kontaktech
 [Could not create worker thread. Error#%d - threadID %d]
 [Error]
+Chyba
 [%s (*]
 [)%c*]
 [Birthdays files]
@@ -167,6 +182,7 @@ Import seznamu narozenin ze souboru %s.
 Import seznamu narozenin úspěšně dokončen.
 [%c%s (*.*)%c*.*%c]
 [All Files]
+Všechny soubory
 [Please select a file to export birthdays to ...]
 Vyberte prosím soubor k uložení seznamu narozenin
 [Exporting birthdays to file: %s]

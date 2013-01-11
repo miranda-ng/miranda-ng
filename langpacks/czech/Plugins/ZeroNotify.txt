@@ -14,4 +14,4 @@ Skrýt položku menu "Přepnout zvuk" (vyžaduje restart Mirandy)
 ;file \plugins\ZeroNotification\src\main.cpp
 [Zero Notifications]
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky

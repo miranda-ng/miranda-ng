@@ -9,17 +9,23 @@
 [Please select a MetaContact:]
 Prosím vyberte metakontakt:
 [&Ok]
+&OK
 [&Cancel]
+&Zrušit
 [Sort Alphabetically]
 Seřadit abecedně
 [&OK]
+&OK
 [Name:]
+Název:
 [Information]
+Informace
 [Contacts]
 Kontakty
 [&Apply]
 &Použít
 [&Remove]
+Odst&ranit
 [&Set as Default]
 &Jako výchozí
 [Move &Up]
@@ -35,6 +41,7 @@ Nastavit výchozí kontakt pro příjem zpráv
 [Always send to default contact if not offline]
 Vždy odeslat výchozímu kontaktu, pokud není offline
 [Options]
+Možnosti
 [Suppress status notification for subcontacts]
 Potlačit oznámení stavu u podkontaktů
 [Context Menu]
@@ -54,6 +61,7 @@ Zobrazit kontextovou nabídku kontaktu
 [Show user information]
 Zobrazit informace o uživateli
 [Contact List]
+Kontakty
 [Display subcontact nickname]
 Zobrazit přezdívku podkontaktu
 [Display subcontact display name]
@@ -74,11 +82,13 @@ Prosím čekejte, historie kontaktu se maže.
 [Subcontact Priorities]
 [Rank:]
 [Status:]
+Stav:
 [Protocol:]
 Protokol:
 [Reset All]
 Vše resetovat
 [Default]
+Výchozí
 [(Lower ranks are preferred)]
 [Copy subcontact history to MetaContact when creating or adding]
 Kopírovat historii podkontaktu do metakontaktu při vytváření či přidávání
@@ -117,11 +127,13 @@ Chyba přiřazování
 [(Unknown Contact)]
 (neznámý kontakt)
 [Unknown]
+Neznámý
 [Yes]
 Ano
 [Contact]
 Kontakt
 [Protocol]
+Protokol
 [Send Offline]
 Poslat offline
 [Delete MetaContact?]
@@ -135,8 +147,10 @@ Smazat metakontakt?
 Zkonvertovat na metakontakt
 [Add to Existing]
 [Edit]
+Upravit
 [Set to Default]
 [Remove]
+Odebrat
 ;file \plugins\MetaContacts\src\meta_main.cpp
 [Error - Database corruption.\nPlugin disabled.]
 Chyba - poškozená databáze.\nDoplněk zakázán.
@@ -146,6 +160,7 @@ Metakontakty
 [There was a problem in assigning the contact to the MetaContact]
 Během přiřazování kontaktu k metakontaktu se vyskytly problémy.
 [Error]
+Chyba
 [This will remove the MetaContact permanently.\n\nProceed Anyway?]
 Tímto odstraníte metakontakt natrvalo.\n\nUrčitě chcete pokračovat?
 [Are you sure?]
@@ -165,6 +180,7 @@ Zpráva od: %s
 [Context]
 Kontext
 [General]
+Obecné
 [Priorities]
 [History]
 Historie
@@ -205,14 +221,21 @@ Metakontakt je poškozen - počet podkontaktů nesouhlasí.\nMazání metakontak
 [MetaContacts Warning]
 Upozornění metakontaktů
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [DND]
+Nerušit!
 [N/A]
+<neuvedeno>
 [Occupied]
+Nemám čas
 [Free to Chat]
 Mám volno
 [Invisible]
+Neviditelný
 [On the Phone]
 Mám telefon
 [Out to Lunch]

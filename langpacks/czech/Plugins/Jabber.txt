@@ -9,14 +9,19 @@
 [Tags:]
 Štítky:
 [OK]
+OK
 [Cancel]
+Zrušit
 [Type:]
+Typ:
 [User:]
 Uživatel:
 [Domain/Server:]
 Server:
 [Password:]
+Heslo:
 [Save password]
+Uložit heslo
 [Resource:]
 Prostředek:
 [Register new user]
@@ -43,6 +48,7 @@ Exportovat...
 [Jabber]
 Jabber
 [Username:]
+Uživatel:
 [Change password]
 Změnit heslo
 [Priority:]
@@ -52,7 +58,9 @@ Jako prostředek použít název počítače
 [List of public servers]
 Seznam veř. serverů
 [Port:]
+Port:
 [Use SSL]
+Použít SSL
 [Use TLS]
 Použít TLS
 [Unregister]
@@ -61,8 +69,11 @@ Zrušit reg.
 [Manually specify connection host]
 Určit hostitele pro připojení
 [Host:]
+Hostitel:
 [Keep connection alive]
+Udržovat spojení
 [Automatically delete contacts not in my roster]
+Automaticky mazat kontakty mimo vlastní seznam
 [User directory:]
 Adresářová služba:
 [Language for human-readable resources:]
@@ -87,6 +98,7 @@ Registrovat služby
 [Jabber server:]
 Server Jabber:
 [Browse]
+Procházet
 [Register...]
 Registrovat...
 [Browse/Join chat room...]
@@ -124,6 +136,7 @@ Adresa:
 [City:]
 Město:
 [State:]
+Stát:
 [ZIP:]
 PSČ:
 [Country:]
@@ -131,6 +144,7 @@ Země:
 [Full name:]
 Celé jméno:
 [Nick name:]
+Přezdívka:
 [First name:]
 Jméno:
 [Middle:]
@@ -138,6 +152,7 @@ Prostř.:
 [Last name:]
 Příjmení:
 [Date of birth:]
+Narozeniny:
 [YYYY-MM-DD]
 RRRR-MM-DD
 [Gender:]
@@ -153,7 +168,9 @@ Oddělení:
 [Title:]
 Název:
 [E-mail:]
+E-mail:
 [Phone:]
+Telefon:
 [Email address:]
 E-mail:
 [Home]
@@ -189,8 +206,11 @@ PCS
 [Load]
 Načíst
 [Save]
+Uložit
 [Delete]
+Smazat
 [Description:]
+Popis:
 [Current Password:]
 Původní heslo:
 [New Password:]
@@ -219,6 +239,7 @@ Registrovat
 [Other JID:]
 Ostatní JID:
 [Add]
+Přidat
 [Invitation reason:]
 [&Invite]
 &Pozvat
@@ -226,17 +247,22 @@ Ostatní JID:
 [You are invited to conference room by]
 [with following reason:]
 [Nickname:]
+Přezdívka:
 [&Accept]
+&Přijmout
 [Server side bookmarks\nStore conference rooms and web links on server.]
 Záložky na serveru\nUložení diskusí a odkazů do seznamu na serveru
 [Remove]
+Odebrat
 [Edit]
+Upravit
 [Bookmark Type]
 Druh záložky
 [Conference]
 Konference
 [Transport]
 [URL]
+Odkaz
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
 Automaticky připojit (vyžaduje zapnutí funkce 'Po přihlášení automaticky připojit záložky')
 [Room JID/ URL:]
@@ -289,8 +315,10 @@ Aktualizovat
 [Node:]
 Uzel:
 [Closing in %d]
+Zavře se za %d sek.
 [Account type:]
 [Login server:]
+Server:
 [Register account now]
 [Jabber Account Information:]
 [Member Information\n<user id>]
@@ -353,6 +381,7 @@ Vyberte příkaz
 [Not supported]
 Není podporováno
 [status]
+stav
 [completed]
 [executing]
 [Done]
@@ -381,6 +410,7 @@ Zjišťování seznamu příkazů. Počkejte prosím...
 [Jabber Agent Registration]
 Jabber :: Registrace služby
 [Please wait...]
+Počkejte prosím...
 [instructions]
 [key]
 [registered]
@@ -632,10 +662,15 @@ Zkopírovat &JID místnosti
 Zkopírovat téma místnosti
 [&Send presence]
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [&Leave chat session]
+&Opustit diskusi
 [&Slap]
 Pohlavek
 [&User details]
@@ -643,6 +678,7 @@ Informace o &uživateli
 [Member &info]
 Členské &informace
 [User &details]
+&Detaily uživatele
 [&Add to roster]
 Přid&at do seznamu
 [&Copy to clipboard]
@@ -858,6 +894,7 @@ Identity
 [ %c %s: %s, %s: %s\r\n]
 [Category]
 [Type]
+Typ
 [Supported features]
 Podporované funkce
 [ %c %s\r\n]
@@ -954,8 +991,10 @@ Podporované funkce
 [A list of entities with whom communication is allowed]
 [muc#register_first]
 [First Name]
+Jméno
 [muc#register_last]
 [Last Name]
+Příjmení
 [muc#register_roomnick]
 [Desired Nickname]
 [muc#register_url]
@@ -1171,6 +1210,7 @@ uživatelské jméno
 ;file \protocols\JabberG\src\jabber_frame.cpp
 [JabberInfoFrameClass]
 [Offline]
+Offline
 ;file \protocols\JabberG\src\jabber_ft.cpp
 [mime-type]
 [binary/octet-stream]
@@ -1251,6 +1291,7 @@ Filtrování kontaktů
 [Notes]
 Poznámky
 [Multi-User Conference]
+Diskusní skupina
 [Agents list]
 Seznam transportů
 [Transports]
@@ -1258,8 +1299,11 @@ Transporty
 [Personal vCard]
 Osobní karta (vCard)
 [Request authorization]
+Požádat o autorizaci
 [Grant authorization]
+Udělit autorizaci
 [Revoke authorization]
+Odvolat autorizaci
 [Convert to room]
 Změnit na místnost
 [Login/logout]
@@ -1307,7 +1351,9 @@ Aktivní seznam
 [Default privacy list]
 Výchozí seznam
 [Move up]
+Přesunout nahoru
 [Move down]
+Přesunout dolů
 [Allow Messages]
 Povolit zprávy
 [Allow Presences (in)]
@@ -1404,6 +1450,7 @@ Odebírání
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Miranda NG Jabber]
 [seconds]
+sek.
 [%+03d:%02d]
 [utc]
 [tzo]
@@ -1504,6 +1551,7 @@ Miranda IM
 [Miranda NG]
 [ [%s]]
 [From]
+Od
 [Both]
 Oboje
 [Errors]
@@ -1849,6 +1897,7 @@ Povolit přenos dat pouze přes server (pomalejší, ale anonymní)
 [Accept HTTP Authentication requests (XEP-0070)]
 Povolit ověření pomocí HTTP a XMPP (XEP-0070)
 [General]
+Obecné
 [Autoaccept multiuser chat invitations]
 Automaticky přijímat pozvánky do diskuse
 [Automatically join bookmarks on login]
@@ -1875,6 +1924,7 @@ Změny stavu
 [Nick Name]
 Přezdívka
 [Group]
+Skupina
 [Subscription]
 Autorizace
 [Uploading...]
@@ -1905,9 +1955,11 @@ Stahování...
 Obsah
 [ss:Type]
 [String]
+String
 [Connecting...]
+Navazování spojení...
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 [Advanced]
@@ -1992,7 +2044,9 @@ Odebrat
 [** Subsription: none **]
 ** autorizace: žádná **
 [<none>]
+<žádný>
 [Message]
+Zpráva
 [Presence (in)]
 Stav (příchozí)
 [Presence (out)]
@@ -2090,15 +2144,17 @@ Změnit stav
 [Choose the status and status message]
 Vyberte požadovaný stav a zadejte zprávu
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [required]
 [invisible]
 [online]
 [Extended Away (N/A)]
 [Do Not Disturb]
 [Invisible]
+Neviditelný
 [Priority]
 [Status message]
+Zpráva stavu
 [Change global status]
 [status-global]
 [Set Options]
@@ -2174,16 +2230,22 @@ ukončil komunikaci
 [sent error presence]
 [sent unknown presence type]
 [Occupied]
+Nemám čas
 [On the phone]
+Mám telefon
 [Out to lunch]
+Jsem na obědě
 [Idle]
+Nečinnost
 [ | ]
 [%s%s%s%s]
 [<b>]
 [</b>\t]
 [%s%s\t%s]
 [Nick:]
+Přezdívka:
 [Status:]
+Stav:
 [Status text:]
 [Real JID:]
 [body=]
@@ -2279,9 +2341,11 @@ Zdroj
 <neurčeno>
 [Software]
 [Version]
+Verze
 [System]
 Systém
 [unknown]
+neznámý
 [Idle since]
 Nečinnost od
 [Client capabilities]
@@ -2360,6 +2424,7 @@ Prozatím nefunguje
 Neznámá chyba
 [%s -1: %s]
 [Error]
+Chyba
 [Unknown error message]
 Neznámé chybové hlášení
 [%s %d: %s\r\n%s]
@@ -2649,6 +2714,7 @@ sprchuji se
 [Having appointment]
 na schůzce
 [Inactive]
+Neaktivní
 [day off]
 den volna
 [hanging out]

@@ -49,6 +49,7 @@ Pozadí
 [Text Files (*.txt)]
 Textové soubory (*.txt)
 [All Files]
+Všechny soubory
 [*.TXT]
 [Save selection to file]
 [Save log to file]

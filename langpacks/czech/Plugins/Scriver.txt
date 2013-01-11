@@ -2,6 +2,7 @@
 ;langpack template for Scriver
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
+Chování
 [Automatically pop up the window when]
 Automaticky vyvolat okno ve stavu
 [and stay minimized]
@@ -27,6 +28,7 @@ Zobrazit upozornění v případě, že zpráva nebyla doručena do
 [seconds.]
 sek.
 [Tabs]
+Panely
 [Enable tabs]
 Zapnout panely
 [Always show tab bar]
@@ -48,9 +50,11 @@ Pro skupinové rozhovory použít jiné okno
 [Limit number of group chats tabs per window to]
 Omezit počet panelů v jednom okně na
 [Layout]
+Rozvržení
 [Show titlebar]
 Zobrazit záhlaví
 [Show status bar]
+Zobrazit stavovou lištu
 [Show toolbar]
 Zobrazit lištu
 [Show infobar]
@@ -80,6 +84,7 @@ Použít doplněk IEView
 [Log status changes]
 Zaznamenávat změny stavu
 [Show icons]
+Zobrazit ikony
 [Show time]
 Zobrazit čas
 [Show seconds]
@@ -139,6 +144,7 @@ během odesílání následující zprávy:
 [Try again]
 Opakovat
 [Cancel]
+Zrušit
 [&U]
 [&D]
 [&E]
@@ -166,6 +172,7 @@ Změny tématu
 [Status changes]
 Změny stavu
 [Information]
+Informace
 [Disconnects]
 Odpojení
 [User kicks]
@@ -173,6 +180,7 @@ Vykopnutí uživatele
 [Notices]
 Poznámky
 [Options]
+Možnosti
 [Other]
 Ostatní
 [Add new rooms to group:]
@@ -200,8 +208,9 @@ Zvýrazněná slova (masky jsou povoleny)
 [Save logs]
 Uložit do souboru
 [Location]
+Umístění
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Trim to]
 Max.
 [kB]
@@ -210,6 +219,7 @@ Skupinový rozhovor
 [Use same style as in the message log]
 Použít nastavení pro záznam komunikace
 [Use default colours]
+Použít výchozí barvy
 [Use custom colours]
 Použít vlastní barvy
 [Text]
@@ -221,10 +231,13 @@ Prodleva (s)
 [(0 means default setting, -1 means indefinite time)]
 (0 = výchozí nastavení, -1 = vypnutí prodlevy)
 [OK]
+OK
 [&Copy]
+Z&kopírovat
 [Co&py All]
 Zko&pírovat vše
 [Select &All]
+Vybr&at vše
 [Word lookup]
 Vyhledávání slova
 [Google]
@@ -236,11 +249,13 @@ Vyhledávání slova
 Yahoo
 [Foodnetwork]
 [C&lear Log]
+Vy&mazat záznam
 [&Open link]
 &Otevřít odkaz
 [&Copy link]
 Z&kopírovat odkaz
 [Undo]
+Zpět
 [Redo]
 Znovu
 [Cut]
@@ -252,6 +267,7 @@ Vložit
 [Paste && Send]
 Vložit a poslat
 [Delete]
+Smazat
 [Clear]
 Vymazat
 [Close Other Tabs]
@@ -300,7 +316,9 @@ Poznámka (10x10)
 [Window Icon]
 Ikona okna
 [Text colour]
+Barva textu
 [Background colour]
+Barva pozadí
 [Bold]
 Tučné
 [Italics]
@@ -403,6 +421,7 @@ Smajlík
 [Add Contact]
 Přidat kontakt
 [User Menu]
+Uživatelské menu
 [User Details]
 Informace o uživateli
 [History]
@@ -412,8 +431,11 @@ Poslat
 [\\*]
 [Look up '%s':]
 [Add Contact Permanently to List]
+Přidat do seznamu natrvalo
 [View User's Details]
+Zobrazit osobní údaje
 [View User's History]
+Zobrazit historii
 [Quote Text]
 Citovat text
 [Insert Emoticon]
@@ -457,6 +479,7 @@ Odeslaný odkaz
 Přijatý odkaz
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
+Obecné
 [Event Log]
 Záznam událostí
 [Group Chat Log]
@@ -547,25 +570,38 @@ Linky v seznamu kontaktů
 [User list background (selected)]
 Pozadí seznamu kontaktů (vybraný)
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Out to lunch]
+Jsem na obědě
 [On the phone]
+Mám telefon
 [** New contacts **]
+** nové kontakty **
 [** Unknown contacts **]
+** neznámé kontakty **
 [Show balloon popup (unsupported system)]
 Zobrazit oznámení bublinami (nepodporováno)
 [Message Sessions]
 Komunikace
 [Typing Notify]
+Psaní zprávy
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
 Zpráva od: %s
 [%s is typing a message]
+%s píše zprávu
 [Typing Notification]
 Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -593,6 +629,7 @@ Chyba při odesílání
 [%statusmsg%]
 [%account%]
 [Message Session]
+Rozhovor
 [%name% - ]
 [%name% (%status%) : ]
 [Always On Top]
@@ -828,11 +865,14 @@ zkrácené jméno dne v týdnu
 [full weekday name]
 plné jméno dne v týdnu
 [Variables]
+Proměnné
 [Appearance]
+Vzhled
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select Folder]
 Vyberte požadovanou složku
 [PopUps]
+Oznámení
 [[%H:%M]]
 [[%d %b %y %H:%M]]
 [%n:]
@@ -915,6 +955,7 @@ Velikost
 [Filter]
 Filtr
 [Manager]
+Manager
 [Nick list]
 Seznam přezdívek
 [Insert a smiley]

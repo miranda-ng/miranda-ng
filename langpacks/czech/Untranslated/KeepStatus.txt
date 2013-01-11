@@ -1,4 +1,1 @@
-﻿;[<from trigger>]
-;[PopUps]
-;[Protocol]
-;[will be set to]
+﻿;[will be set to]

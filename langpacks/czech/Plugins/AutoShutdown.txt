@@ -15,6 +15,7 @@ Ukončení
 [&Countdown starts at:]
 &Začátek odpočítávání:
 [seconds]
+sek.
 [Shutdown Events]
 Události pro ukončení
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
@@ -42,6 +43,7 @@ Ukonč&it za:
 Ukončit po přijetí zprávy obsahující &následující text:
 [Shutdown when Miranda NG becomes &idle]
 [Configure]
+Nastavit...
 [Shutdown when &prozessor usage drops below:]
 Ukončit pokud vytížení &procesoru klesne pod:
 [%]
@@ -54,7 +56,9 @@ Ukončit po dokončení přenosu sou&borů
 [&Action:]
 &Akce:
 [OK]
+OK
 [Cancel]
+Zrušit
 [Unsaved data in open applications except Miranda NG might get lost.]
 [Please click "Cancel" if you would like to abort the process.]
 Chcete-li přerušit spuštěnou akci, klikněte na tlačítko "Zrušit".
@@ -95,7 +99,9 @@ Automatické ukončení
 [Header]
 Hlavička
 [Active]
+Aktivní
 [Inactive]
+Neaktivní
 ;file \plugins\AutoShutdown\src\options.cpp
 [Events]
 Události
@@ -144,6 +150,7 @@ Chyba při automatickém ukončení
 [The shutdown process failed!\nReason: %s]
 Chyba při pokusu o automatické ukončení!\nDůvod: %s
 [Unknown]
+Neznámý
 [Miranda NG is going to be automatically closed in %u second(s).]
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
 [You will be logged off automatically in %u second(s).]
@@ -194,6 +201,7 @@ Zamkne počítač. Odemknete ho pouze tak, že se znovu přihlásíte.
 [Sets all protocols to offline and closes all RAS connections.]
 Přepne všechny protokoly do stavu offline a ukončí vzdálená připojení.
 [Alerts]
+Upozornění
 [Automatic Shutdown Countdown]
 Automatické ukončení (odpočítávání)
 ;file \plugins\AutoShutdown\src\utils.cpp
@@ -201,4 +209,4 @@ Automatické ukončení (odpočítávání)
 [Toggle Automatic Shutdown]
 Aktivovat automatické ukončení
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní

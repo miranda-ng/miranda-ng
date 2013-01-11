@@ -26,6 +26,7 @@ Zapisovat změny avataru do historie
 [Show popups for this user]
 Zobrazit oznámení pro tento kontakt
 [OK]
+OK
 [Protocols]
 Protokoly
 [Enable tracking for these protocols:]
@@ -35,11 +36,15 @@ Upozornění pro metakontakty: Informace o změně avataru pocházejí od jednot
 [Show popup when a contact change his avatar]
 Zobrazit oznámení, když kontakt změní svůj avatar
 [Colours]
+Barvy
 [Background colour]
+Barva pozadí
 [Text colour]
+Barva textu
 [Use Windows colours]
 Použít barvy Windows
 [Use default colours]
+Použít výchozí barvy
 [Delay]
 Prodleva
 [From popup plugin]
@@ -164,7 +169,9 @@ Historie
 Překrytí avataru
 ;file \plugins\AvatarHistory\src\options.cpp
 [Avatar]
+Avatar
 [PopUps]
+Oznámení
 [Avatar Change]
 Změna avataru
 [Do nothing]

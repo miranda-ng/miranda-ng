@@ -7,5 +7,4 @@
 ;[Quick Replies]
 ;[Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 ;[Send replies immediately]
-;[Variables]
 ;[\r\n]

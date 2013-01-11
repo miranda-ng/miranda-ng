@@ -4,10 +4,13 @@
 [Settings]
 Nastavení
 [Background colour:]
+Barva pozadí:
 [Selection colour:]
+Barva výběru:
 [Use background bitmap]
+Použít na pozadí obrázek
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -17,6 +20,7 @@ Vodorovně vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Scroll with text]
+Rolovat s textem
 [Stretch proportionally]
 Uzpůsobit poměrně
 [Tile vertically according to Row Height]
@@ -32,24 +36,36 @@ Prvky nabídky
 [Service:]
 Služba:
 [Name:]
+Název:
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+Nastavit
 [Default]
+Výchozí
 [No]
 Ne
 [Yes]
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 [Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
 [Hide offline users]
+Skrýt uživatele offline
 [Hide empty groups]
+Skrýt prázdné skupiny
 [Disable groups]
+Vypnout skupiny
 [Ask before deleting contacts]
+Potvrdit smazání kontaktů
 [Always on top]
+Vždy navrchu
 [Hide contact list after it has been idle for]
+Skrýt seznam kontaktů, byl-li neaktivní po dobu
 [seconds]
+sek.
 [Sort contacts by name]
 Řadit kontakty dle jména
 [Sort contacts by status]
@@ -57,25 +73,37 @@ Ano
 [Sort contacts by protocol]
 Řadit kontakty dle protokolu
 [Single click interface]
+Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
+Vždy zobrazit stav v tipu
 [Disable icon blinking]
+Vypnout blikání ikon
 [ms, delay between icon blinking]
 ms (definuje rychlost blikání)
 [Show]
 Zobrazit
 [icon when statuses differ]
+(v případě, že se stavy liší)
 [Cycle icons every]
+Měnit ikony co
 [seconds, when statuses differ]
+sek. (v případě, že se stavy liší)
 [Show multiple icons]
+Zobrazit více ikon
 [Only when statuses differ]
+Pouze v případě, že se stavy liší
 [Contact List]
+Kontakty
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon when using multiple protocols]
+Ikona v oznamovací oblasti při použití více protokolů
 [Contact List Sorting]
+Řazení seznamu kontaktů
 [Dont move offline user to bottom]
 Kontakty offline nepřesouvat na konec
 [Pin to desktop]
+Připíchnout na plochu
 [Rows]
 Řádky
 [Row height:]
@@ -85,57 +113,91 @@ pix.
 [Gamma correction]
 Gama korekce
 [Window]
+Okno
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
+Minimalizovat na panel
 [Automatically resize window to height of list]
+Podle položek automaticky změnit výšku okna
 [maximum]
+max. však
 [% of screen]
+% obrazovky
 [Size upwards]
+Zvětšovat okno směrem nahoru
 [Title bar text:]
+Text v záhlaví:
 [Translucency options (Windows 2000/XP only)]
+Průhlednost (pouze Windows 2000 a XP)
 [Fade contact list in/out]
+Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
+Nastavit průhlednost seznamu kontaktů
 [Inactive opacity:]
+Neaktivní okno:
 [Active opacity:]
+Aktivní okno:
 [000%]
+000 %
 [Show menu bar]
+Zobrazit menu
 [Easy move]
+Vylepšené přesouvání
 [Show title bar]
 Zobrazit záhlaví
 [If window is partially covered, bring to front instead of hiding]
+Je-li okno částečně zakryto, zobrazit na popředí namísto skrytí
 [Enable drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Items]
+Položky
 [Show divider between online and offline contacts]
+Zobrazit oddělovač mezi kontakty online a offline
 [Hot track items as mouse passes over]
+Zvýraznit položky, nad kterými se objeví šipka myši
 [Disable drag and drop of items]
+Zakázat uchopení a přetáhnutí položek
 [Disable rename of items by clicking twice]
+Zakázat přejmenování položek dvojím kliknutím
 [Show selection even when list is not focused]
+Zobrazit výběr i tehdy, není-li seznam aktivní
 [Make selection highlight translucent]
+Zobrazit vybrané položky průhledně
 ['Hide Offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Groups]
+Skupiny
 [Draw a line alongside group names]
+Zobrazit vedle názvu skupin čáru
 [Show counts of number of contacts in a group]
 Zobrazit počet kontaktů ve skupině
 [Hide group counts when there are none online]
 Skrýt počet kontaktů ve skupině, jsou-li všichni offline
 [Sort groups alphabetically]
+Seřadit skupiny podle abecedy
 [Quicksearch in open groups only]
+Rychle hledat jen v otevř. skupinách
 [Indent groups by:]
+Rozestup skupin:
 [Visual]
+Zobrazení
 [Scroll list smoothly]
+Rolovat seznam kontaktů plynule
 [Time:]
+Čas:
 [milliseconds]
 ms
 [Left margin:]
 Levý okraj:
 [Grey out entire list when:]
+Zešednout seznam v případě:
 [Dim idle contacts]
+Zešednout neaktivní kontakty
 [Hide vertical scrollbar]
 Skrýt svislý posuvník
 [Contact List Background]
+Pozadí seznamu kontaktů
 [Use 'Meta' protocol icons for Metacontacts]
 Použít ikony protokolu 'Meta' pro metakontakty
 [Avoid doubleclick expand]
@@ -149,36 +211,65 @@ Ignorovat prázdná místa po extra ikonách (posunout >>)
 [Hide offline subcontacts.]
 Skrýt podkontakty offline
 [E&xit]
+U&končit
 [&Offline\tCtrl+0]
+&Offline\tCtrl+0
 [On&line\tCtrl+1]
+On&line\tCtrl+1
 [&Away\tCtrl+2]
+N&a chvíli pryč\tCtrl+2
 [&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
+Nemám ča&s\tCtrl+4
 [&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
 [&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
+Nev&iditelný\tCtrl+7
 [On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
+Jsem na o&bědě\tCtrl+9
 [&Hide/Show]
+Skrýt/Zo&brazit
 [&New Group]
+&Nová skupina
 [&Hide Offline Users]
+&Skrýt uživatele offline
 [Hide &Offline Users out here]
+Skrýt uživatele &offline mimo skupiny
 [Hide &Empty Groups]
+S&krýt prázdné skupiny
 [Disable &Groups]
+Vypnout zobrazení s&kupin
 [Hide Miranda]
+Skrýt okno
 [&New Subgroup]
+&Nová podskupina
 [&Hide Offline Users in here]
+Skrýt uživatele o&ffline
 [&Rename Group]
+Př&ejmenovat skupinu
 [&Delete Group]
+&Smazat skupinu
 [Status Bar]
+Stavová lišta
 [Show status bar]
+Zobrazit stavovou lištu
 [Show icons]
+Zobrazit ikony
 [Show protocol names]
+Zobrazit názvy protokolů
 [Show status text]
+Zobrazit stav
 [Right click opens status menu]
+Pravým tlačítkem seznam stavů
 [Right click opens Miranda menu]
 Pravým tlačítkem nabídku Mirandy
 [Make sections equal width]
+Shodná šířka všech položek
 [-]
 -
 [Show size grip]
@@ -191,7 +282,7 @@ Zobrazit průběh připojování
 Použít nový systém stav. lišty
 ;file \plugins\Clist_mw\src\BkgrCfg.cpp
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Backgrounds]
 Pozadí
 ;file \plugins\Clist_mw\src\clcfonts.cpp
@@ -215,14 +306,23 @@ Pozadí stavové lišty
 [Not focused]
 Neaktivní
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Out to lunch]
+Jsem na obědě
 [On the phone]
+Mám telefon
 ;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 Globální
@@ -235,17 +335,23 @@ _žádný-protokol_
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Main Menu]
+Hlavní &menu
 [&Status]
+&Stav
 [&Options...]
+M&ožnosti...
 [&About]
+O progr&amu
 ;file \plugins\Clist_mw\src\clui.cpp
 [My Contacts]
+Seznam kontaktů
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\cluiservices.cpp
 [%s%s]
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
+&Nová podskupina
 ;file \plugins\Clist_mw\src\keyboard.cpp
 [Close Miranda]
 Zavřít Mirandu
@@ -253,28 +359,51 @@ Zavřít Mirandu
 Obnovit předchozí stav
 ;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
+&Záhlaví rámečku
 [&Visible]
+&Viditelný
 [&Show TitleBar]
+Zo&brazit záhlaví rámečku
 [&Locked]
+Zamkn&utý
 [&Collapsed]
+&Sbalený
 [&Floating Mode]
+&Plovoucí
 [&Border]
+O&kraj
 [&Align]
+Z&arovnat
 [&Top]
+Na&hoře
 [&Client]
+&Klient
 [&Bottom]
+Do&le
 [&Position]
+U&místění
 [&Up]
+Nahor&u
 [&Down]
+&Dolů
 [Frames]
+Rámečky
 [New Menu System not Found...]
+Nový systém menu nenalezen...
 [Show All Frames]
+Zobrazit všechny rámečky
 [Show All Titlebars]
+Zobrazit záhlaví rámečků
 [Hide All Titlebars]
+Skrýt záhlaví rámečků
 [Lock Frame]
+Zamknout rámeček
 [Visible]
+Viditelné
 [Show TitleBar]
+Zobrazit záhlaví rámečku
 [Floating]
+Plovoucí
 [TitleBarFont]
 Záhlaví
 [FramesContainer]
@@ -283,4 +412,4 @@ Záhlaví
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 [Statushelper]
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy

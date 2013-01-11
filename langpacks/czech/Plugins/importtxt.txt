@@ -7,11 +7,14 @@ Začít
 Zavřít
 [Choose a file...]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 ;file \plugins\ImportTXT\ImpTxtWiz.rc
 [&Next >]
+&Další >
 [Cancel]
+Zrušit
 [< &Back]
+< &Zpět
 [This wizard will help you import message history from some other clients and Miranda plugins, stored in text files.]
 Tento průvodce vám pomůže naimportovat historii ostatních klientů a doplňků Mirandy, uloženou v textových souborech.
 [It is recommended that you create a backup of your current Miranda profile before importing.]

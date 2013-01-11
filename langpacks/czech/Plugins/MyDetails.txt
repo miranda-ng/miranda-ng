@@ -2,12 +2,17 @@
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
+Přezdívka:
 [OK]
+OK
 [Cancel]
+Zrušit
 [General]
+Obecné
 [Cycle through protocols every:]
 Měnit protokoly každých:
 [seconds]
+sek.
 [Global on avatar]
 Globální pro avatar
 [RTL]
@@ -38,7 +43,9 @@ Vlevo:
 [Right:]
 Vpravo:
 [Background Color:]
+Barva pozadí:
 [Avatar]
+Avatar
 [Custom size:]
 Vlastní velikost:
 [pixels]
@@ -56,7 +63,9 @@ Velikost zakulacení:
 [Use free space (under avatar) to other texts]
 Využít místo pod avatarem pro další texty
 [Protocol]
+Protokol
 [Show protocol name]
+Zobrazit název protokolu
 [Show protocol cycle button]
 Umožnit přepnutí mezi protokoly
 [Status Message:]
@@ -112,7 +121,7 @@ Neměnit protokoly
 [Nickname]
 Přezdívka
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Status Message]
 Stavová zpráva
 [Listening To]
@@ -136,11 +145,13 @@ Zadat stavovou zprávu pro %s...
 Skrýt informace o sobě
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Listening to]
+Poslech hudby
 [Previous protocol]
 Předchozí protokol
 [Next protocol]
 Další protokol
 [Contact List]
+Kontakty
 [Set My Nickname for %s]
 Nastavit přezdívku pro %s
 [Set My Status Message for %s]

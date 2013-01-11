@@ -42,8 +42,11 @@ Obrázek
 [Change]
 Změnit
 [Delete]
+Smazat
 [Reset]
+Reset
 [Picture options]
+Možnosti obrázku
 [Protect the picture]
 Zamknout obrázek
 [Set as hidden]
@@ -53,8 +56,11 @@ Pokusit se zprůhlednit pozadí obrázku
 [Use defaults]
 Použít výchozí
 [OK]
+OK
 [Cancel]
+Zrušit
 [Options]
+Možnosti
 [Background]
 Pozadí
 [Transparent]
@@ -64,7 +70,7 @@ Počet bodů:
 [Color diff:]
 Rozdíl barev:
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+Nastavit
 [Use per protocol avatars]
 Pro každý protokol jiný avatar
 ;file \plugins\AVS\src\acc.cpp
@@ -89,6 +95,7 @@ Upravit rozměry na max. velikost danou protokolem
 [.jpeg]
 [.rle]
 [All Files]
+Všechny soubory
 [ (*.bmp;*.jpg;*.gif;*.png]
 [;*.swf]
 [;*.xml]
@@ -96,12 +103,15 @@ Upravit rozměry na max. velikost danou protokolem
 [;*.SWF]
 [;*.XML]
 [Windows Bitmaps]
+obrázky typu BMP
 [ (*.bmp;*.rle)]
 [*.BMP;*.RLE]
 [JPEG Bitmaps]
+obrázky typu JPEG
 [ (*.jpg;*.jpeg)]
 [*.JPG;*.JPEG]
 [GIF Bitmaps]
+obrázky typu GIF
 [ (*.gif)]
 [*.GIF]
 [PNG Bitmaps]
@@ -141,6 +151,7 @@ Pro kontakty
 [Own Avatars]
 Pro sebe
 [Avatar]
+Avatar
 [gdi32]
 [msimg32.dll]
 [%miranda_userdata%]

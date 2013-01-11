@@ -30,4 +30,4 @@
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky

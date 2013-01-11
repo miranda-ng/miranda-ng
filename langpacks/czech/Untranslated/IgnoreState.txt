@@ -3,6 +3,4 @@
 ;[Message Ignore]
 ;[Partial Ignore]
 ;[Shows ignore state of contact in contacts list.]
-;[Typing Notify]
-;[URL]
 ;[Use Miranda ignore settings for All Contacts]

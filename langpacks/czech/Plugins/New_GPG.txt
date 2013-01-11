@@ -21,13 +21,17 @@ Pokračovat
 [Home directory:]
 [GnuPG binary:]
 [Browse]
+Procházet
 [Turn on key autoexchange]
 [Import key]
 [Accept and enable encryption]
 [Ignore]
+Filtrování
 [Ńňŕňč÷ĺńęčé]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Key type:]
 [Key length:]
 [Real name:]
@@ -40,6 +44,7 @@ Poznámka:
 [It can take a long time, be patient]
 [0 - does not expire]
 [Password:]
+Heslo:
 [Save password to database]
 [Default password]
 [Import]
@@ -88,12 +93,14 @@ Importovat
 ID klíče
 [Email]
 [Name]
+Jméno
 [Creation date]
 [Key length]
 [Accounts]
 Účty
 [--batch --list-secret-keys]
 [Default]
+Výchozí
 [key id]
 [not set]
 [--batch -a --export ]
@@ -103,6 +110,7 @@ ID klíče
 [\\new_key]
 [Failed to open file]
 [Error]
+Chyba
 [--batch --yes --gen-key "]
 [Generating new random key, please wait]
 [\\GnuPG\\gpg.exe]
@@ -208,7 +216,7 @@ Přijmout
 [Services]
 Služby
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [GnuPG Variables]
 [Messages]
 Zprávy
@@ -217,6 +225,7 @@ Extra
 [Contact]
 Kontakt
 [Protocol]
+Protokol
 [c:\\GPGdebug.log]
 [This key not used by any contact, do you want to remove it from public keyring ?]
 [Key info]
@@ -264,6 +273,7 @@ Kontakt
 XMLNS
 [jabber:x:encrypted]
 [status]
+stav
 [--local-user ]
 [ --default-key ]
 [ --batch --yes -a -b -s "]

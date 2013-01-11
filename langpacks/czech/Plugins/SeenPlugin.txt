@@ -37,23 +37,35 @@ Sledovat protokoly:
 [Use popups]
 Použít oznámení
 [Title]
+Název
 [Text]
 Text
 [PopUp Colors]
 Barvy oznámení
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [NA]
+Nejsem tady
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [On the phone]
+Mám telefon
 [Out to lunch]
+Jsem na obědě
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Offline]
+Offline
 [Reset colors]
 Výchozí barvy
 [OK]
+OK
 [You missed following contacts:]
 Zmeškali jste tyto kontakty:
 [Test\nTest]
@@ -64,8 +76,11 @@ Upozornit při změně stavu
 [last seen history]
 Historie změn stavu
 [User Menu]
+Uživatelské menu
 [View User's Details]
+Zobrazit osobní údaje
 [Send Instant Message]
+Odeslat zprávu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
 ;file \plugins\SeenPlugin\src\main.cpp
 [Any to Idle/Not Idle/Unknown]
@@ -76,10 +91,12 @@ Historie změn stavu
 [User Logged Off]
 [User Logged In]
 [Last seen]
+Naposledy spatřen
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 <neznámý>
 [<none>]
+<žádný>
 ;file \plugins\SeenPlugin\src\missed.cpp
 [ [%i]]
 ;file \plugins\SeenPlugin\src\options.cpp
@@ -90,6 +107,7 @@ Last Seen - seznam proměnných
 [Contacts]
 Kontakty
 [PopUps]
+Oznámení
 ;file \plugins\SeenPlugin\src\seen.h
 [Debug]
 Debug
@@ -125,6 +143,7 @@ dop./odp.
 [minutes]
 min.
 [seconds]
+sek.
 [-- User --]
 -- Uživatel --
 [username]
@@ -134,9 +153,11 @@ přezdívka
 [UIN/handle]
 UIN (ident. číslo)
 [Group]
+Skupina
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Status message]
+Zpráva stavu
 [Old status]
 původní stav
 [external IP]
@@ -146,6 +167,7 @@ interní IP
 [Client info]
 klient
 [Protocol]
+Protokol
 [-- Format --]
 -- Formátování --
 [tabulator]
@@ -161,12 +183,19 @@ Použít
 ;file \plugins\SeenPlugin\src\userinfo.cpp
 ;file \plugins\SeenPlugin\src\utils.cpp
 [Sunday]
+neděle
 [Monday]
+pondělí
 [Tuesday]
+úterý
 [Wednesday]
+středa
 [Thursday]
+čtvrtek
 [Friday]
+pátek
 [Saturday]
+sobota
 [Sun.]
 ne
 [Mon.]
@@ -232,7 +261,9 @@ pro
 [%02i]
 [---]
 [Idle]
+Nečinnost
 [ProtoUnknown]
 [\x0D\x0A]
 [Unknown]
+Neznámý
 [Not Idle]

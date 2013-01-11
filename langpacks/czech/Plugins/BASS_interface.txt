@@ -24,7 +24,7 @@
 [Audio device is opened]
 [Audio device is closed]
 [Customize]
-#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
+Vlastní úpravy
 [Open/close audio device]
 [Plugins\\Bass\\Bass.dll]
 #muuid {488c5c84-56da-434f-96f1-b18900def760}

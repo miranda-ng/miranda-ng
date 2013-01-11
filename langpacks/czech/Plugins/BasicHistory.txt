@@ -20,7 +20,7 @@ Výchozí filtr událostí
 [Add event]
 [Delete event]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [WinSCP path]
 [WinSCP log path]
 [New messages on top]
@@ -65,13 +65,16 @@ Všechny kontakty
 Zobrazit chybová hlášení jako oznámení
 [Save errors to system history]
 [Name]
+Jméno
 [Active]
+Aktivní
 [Action type]
 [Filter]
 Filtr
 [Events older than*]
 [Triger type]
 [Time]
+Čas
 [Delta time]
 [Day of week]
 [Day]
@@ -87,10 +90,13 @@ Heslo
 [* Use negative values to filter younger events]
 [Execute task for specified contacts]
 [OK]
+OK
 [Cancel]
+Zrušit
 ;file \plugins\BasicHistory\src\BasicHistory.cpp
 [Open History]
 [View &History]
+Zobrazit &historii
 [Delete All User History]
 [Execute history task]
 [Incoming message]
@@ -118,6 +124,7 @@ Historie
 Všechny položky
 [Default history events]
 [History for %s]
+Historie pro %s
 [System]
 Systém
 [d t]
@@ -151,6 +158,7 @@ Z&kopírovat odkaz
 [Copy]
 Zkopírovat
 [Delete]
+Smazat
 [Send Message]
 Odeslat zprávu
 [Reply &Quoted]
@@ -158,6 +166,7 @@ Odpovědět s &citací
 [Delete Group]
 Smazat skupinu
 [Options]
+Možnosti
 [d s ]
 [d s\n]
 [d t ]
@@ -170,8 +179,9 @@ Filtry
 [Fonts & Colors]
 Písma a barvy
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 [Hotkeys]
+Klávesové zkratky
 [Rich Html]
 [Plain Html]
 [Txt]
@@ -182,10 +192,12 @@ Písma a barvy
 [Do you want save imported messages to local profile?]
 [File contain history for different contact. Do you want to change contact and import?]
 [Error]
+Chyba
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 [\r\n]
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
+Zpráva
 [File transfer]
 Přenos souboru
 [Link]
@@ -300,16 +312,25 @@ Všechny soubory (*.*)
 [Daily]
 Každý den
 [Weekly]
+Co týden
 [Monthly]
+Co měsíc
 [Delta time (minutes)]
 [Delta time (hours)]
 [Monday]
+pondělí
 [Tuesday]
+úterý
 [Wednesday]
+středa
 [Thursday]
+čtvrtek
 [Friday]
+pátek
 [Saturday]
+sobota
 [Sunday]
+neděle
 [HH%cmm]
 [Invalid '%s' value.]
 [Events older than]

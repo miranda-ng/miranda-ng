@@ -7,6 +7,7 @@
 ;============================================================
 ;file \plugins\CountryFlags\res\resource.rc
 [Country Flags]
+Vlajky zemí
 [Show country flag as &status icon on message window]
 Zobrazit vlajku jako &stavovou ikonu v komunikačním okně
 [Show country flag as &extra image on contact list]
@@ -17,7 +18,7 @@ Ikonu zobrazit ve sloup&ci:
 [Use &IP-to-country database for country detection]
 ;file \plugins\CountryFlags\src\extraimg.cpp
 [Icons]
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+Ikony
 ;file \plugins\CountryFlags\src\ip2country.cpp
 [BIN]
 [Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]

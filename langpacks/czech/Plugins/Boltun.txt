@@ -24,7 +24,7 @@ sek.
 [Engine]
 Rozhraní
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Base of remarks]
 [Reload]
 Načíst znovu
@@ -38,6 +38,7 @@ Načíst znovu
 [boltun.mindw]
 [Mind Files]
 [All Files]
+Všechny soubory
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
 [Boltun Error]
 [Failed to load base of remarks. Error at line %d of %s. (Or few lines before).]

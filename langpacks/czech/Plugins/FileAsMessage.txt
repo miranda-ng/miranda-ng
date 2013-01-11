@@ -2,18 +2,23 @@
 ;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
+Název souboru:
 [Size:]
+Velikost:
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Chunk size]
 Velikost bloku
 [ms]
+ms
 [Delays between sends]
 Prodleva mezi zprávami
 [bytes]
+bajtů
 [Transfer settings]
 Možnosti přenosu
 [Appearance]
+Vzhled
 [Unsent]
 Neodesláno
 [Sent]
@@ -70,6 +75,6 @@ Přerušeno uživatelem
 Přenos dat ještě nebyl dokončen. Opravdu ho chcete přerušit?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+Doplňky
 [File As Message...]
 Soubor jako zpráva...

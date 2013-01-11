@@ -5,7 +5,6 @@
 ;[.pri]
 ;[< Prev]
 ;[Block-structure of file is corrupt!]
-;[Cancel]
 ;[Cannot Merge with global settings!\nSource %d Dest %d]
 ;[Cannot set end of file]
 ;[Couldn't flush the journal because ReadFile failed!]

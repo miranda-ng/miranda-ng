@@ -2,6 +2,7 @@
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
+OK
 [Popup delay settings]
 [PopUp Delay (seconds)]
 [Background color]
@@ -9,6 +10,7 @@ Barva pozadí
 [Text color]
 Barva textu
 [Previe&w]
+&Náhled
 [Show infinitely]
 [Default PopUp delay]
 [Choose delay time]
@@ -20,7 +22,7 @@ Použít barvy Windows
 [File access filter && logging settings]
 [Please note that this settings has effect only with PopUps Interoperability plugin version 1.0.1.9 or higher]
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Log into text file]
 [Log folders access]
 [Alerts on folders access]
@@ -38,4 +40,5 @@ Použít barvy Windows
 [Services]
 Služby
 [PopUps]
+Oznámení
 [WUMF: Show connections]

@@ -25,3 +25,4 @@ Vymazat
 [History]
 Historie
 [Logging]
+Záznam

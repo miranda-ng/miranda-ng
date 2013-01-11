@@ -17,8 +17,11 @@ Pokračujte kliknutím na tlačítko 'Další'.
 [This programme is licenced under the terms of the GNU General Public License.]
 Tento program je šířen v souladu s podmínkami licence GNU General Public License.
 [< &Back]
+< &Zpět
 [&Next >]
+&Další >
 [Cancel]
+Zrušit
 [Select Miranda Profile]
 Výběr požadovaného profilu
 [You can choose the Miranda profile database to compact or repair.]
@@ -100,6 +103,7 @@ Zpracování ještě nebylo dokončeno. Pokud se nyní vrátíte zpět, změny, 
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 [Error]
+Chyba
 [Database driver '%s' doesn't support checking.]
 [\\mirandaboot.ini]
 [Database]
@@ -128,6 +132,7 @@ Cesta
 [Miranda Databases (*.dat)]
 Databáze Mirandy (*.dat)
 [All Files]
+Všechny soubory
 [*.DAT]
 [dat]
 ;file \plugins\DbChecker\src\wizard.cpp

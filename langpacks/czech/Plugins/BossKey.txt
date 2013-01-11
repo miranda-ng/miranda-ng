@@ -33,8 +33,11 @@ Vrátit původní stav
 [Hotkey]
 Klávesy
 [Password:]
+Heslo:
 [OK]
+OK
 [Cancel]
+Zrušit
 [EN]
 [Workstation is Locked (2000/XP+)]
 Pracovní stanice je uzamčena (2000/XP+)
@@ -79,17 +82,24 @@ Skrýt
 [Open String Formatting Help]
 Otevřít nápovědu o proměnných
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [BossKey]
 BossKey
 [Events]
 Události
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Advanced]
 Extra

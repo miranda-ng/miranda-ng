@@ -16,6 +16,7 @@ Stručná př.
 [Close]
 Zavřít
 [Options]
+Možnosti
 [Update weather information on startup]
 Při spuštění zaktualizovat informace o počasí
 [Update weather information every]
@@ -55,6 +56,7 @@ mph
 [knots]
 uzly
 [Visibility]
+Viditelnost
 [km]
 km
 [miles]
@@ -93,6 +95,7 @@ Meteorologická stanice
 [City name]
 Jméno města
 [ID]
+ID
 [Log Information]
 Záznam událostí
 [Use internal history]
@@ -121,6 +124,7 @@ Vypnout oznámení pro tuto stanici
 [Change]
 Změnit
 [Cancel]
+Zrušit
 [PopUp Options]
 Možnosti oznámení
 [Enable popups]
@@ -128,8 +132,11 @@ Povolit oznámení
 [Popup only when condition changes]
 Oznámit pouze při změně situace
 [Colours]
+Barvy
 [Background colour]
+Barva pozadí
 [Text colour]
+Barva textu
 [Use Windows colours]
 Použít barvy Windows
 [Popup Actions]
@@ -143,6 +150,7 @@ Doba zobrazení
 [Delay]
 Prodleva
 [seconds]
+sek.
 [From PopUp plugin]
 Globální nastavení
 [Permanent]
@@ -152,14 +160,19 @@ Samotný text
 [Popup Title]
 Nadpis
 [Variables]
+Proměnné
 [Default]
+Výchozí
 [Preview]
 Náhled
 [Updates]
+Aktualizace
 [Alerts]
+Upozornění
 [Errors]
 Chyby
 [Contact List]
+Kontakty
 [Brief Info Title]
 Záhlaví okna
 [Note Text]
@@ -175,6 +188,7 @@ Seznam proměnných
 [More Variables]
 Další proměnné
 [Reset]
+Reset
 [Status Message]
 Stavová zpráva
 [Sunset]
@@ -192,6 +206,7 @@ Rosný bod
 [Humidity]
 Vlhkost
 [More...]
+Více...
 [Weather Protocol INI Setup\nInstall and load your weather ini file here]
 [Weather Protocol cannot find any weather INI file stored in your computer.  To setup weather INI and add weather stations, please follow the steps:]
 Nelze najít požadovaný konfigurační soubor pro počasí. Řiďte se prosím následujícími pokyny:
@@ -237,6 +252,7 @@ Počasí (varování)
 [static]
 ;file \plugins\Weather\src\weather.h
 [N/A]
+<neuvedeno>
 [Invalid ID format, missing "/" (10)]
 [Invalid service (11)]
 Neplatná služba (č.11)
@@ -311,14 +327,17 @@ Zjistit jméno města dle ID
 [Weather INI information]
 Informace o konfiguraci
 [Browse]
+Procházet
 [View webpage]
 Zobrazit stránku
 [Reset to default]
 Obnovit výchozí
 [Text Files]
+Textové soubory
 [ (*.txt)]
 [*.txt]
 [All Files]
+Všechny soubory
 [ (*.*)]
 [*.*]
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
@@ -408,6 +427,7 @@ Rychlost větru
 [DAY]
 [MONTH]
 [Ignore]
+Filtrování
 [Error when obtaining data: %s]
 Chyba při stahování dat: %s
 ;file \plugins\Weather\src\weather_http.cpp
@@ -417,6 +437,7 @@ Chyba při stahování dat: %s
 Weather - spojení pomocí protokolu HTTP
 ;file \plugins\Weather\src\weather_icons.cpp
 [Protocol icon]
+Ikona protokolu
 [Update Disabled]
 Aktualizace vypnuta
 [View Log]
@@ -430,6 +451,7 @@ Stručná předpověď
 [Weather Update]
 Aktualizace předpovědi
 [Popup]
+Oznámení
 [No Popup]
 Oznámení vypnuto
 [Edit Settings]
@@ -442,21 +464,27 @@ Upravit nastavení...
 [1.3]
 [1.4]
 [Name]
+Jméno
 [Author]
+Autor
 [File Version]
 [INI Version]
 [Items]
+Položky
 [Display Name]
 [File Name]
 [The corresponding INI file for "%s" is not found.]
 [Weather INI information for "%s":]
 [\n\n]
 [Name:]
+Název:
 [\t\t]
 [Internal Name:]
 Interní název:
 [Author:]
+Autor:
 [Version:]
+Verze:
 [INI Version:]
 Verze INI:
 [File Name:]
@@ -468,7 +496,9 @@ Počet položek:
 Alokováno paměti:
 [%s\t%i ]
 [bytes]
+bajtů
 [Description:]
+Popis:
 [Here is a list of custom variables that are currently available]
 Seznam ostatních proměnných, které jsou k dispozici:
 [%c[%s]]
@@ -501,11 +531,13 @@ Barva pozadí rámečku
 [Verdana]
 ;file \plugins\Weather\src\weather_opt.cpp
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [General]
+Obecné
 [Display]
 Zobrazení
 [PopUps]
+Oznámení
 [%c\tcurrent condition\n%d\tcurrent date\n%e\tdewpoint\n%f\tfeel-like temp\n%h\ttoday's high\n%i\twind direction\n%l\ttoday's low\n%m\thumidity\n%n\tstation name\n%p\tpressure\n%r\tsunrise time\n%s\tstation ID\n%t\ttemperature\n%u\tupdate time\n%v\tvisibility\n%w\twind speed\n%y\tsun set]
 %c\taktuální předpověď\n%d\taktuální datum\n%e\trosný bod\n%f\tsubj. teplota\n%h\tdenní maximum\n%i\tsměr větru\n%l\tdenní minimum\n%m\tvlhkost\n%n\tnázev stanice\n%p\ttlak\n%r\tvýchod slunce\n%s\tIdentifikátor\n%t\tteplota\n%u\tposl. aktualizace\n%v\tviditelnost\n%w\trychlost větru\n%y\tzápad slunce
 [Weather Protocol Text Preview]
@@ -583,9 +615,11 @@ Naposledy aktualizováno %u
 [Variable]
 Proměnná
 [Information]
+Informace
 [Retrieving new data, please wait...]
 Aktualizace dat, počkejte prosím...
 [More Info]
+Informace
 [No information available.\r\nPlease update weather condition first.]
 [%c, %t]
 [%s\n%s]

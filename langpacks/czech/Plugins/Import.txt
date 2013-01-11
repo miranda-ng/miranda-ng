@@ -17,7 +17,9 @@ Je pravděpodobné, že Průvodce importem dat již nebudete potřebovat, a prot
 [Do not load the import plugin at startup again]
 Nadále již doplněk Import nespouštět
 [Import completed]
+Import dat dokončen
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
+Pokud byste v budoucnu přece jen chtěli Průvodce importem dat použít, stačí aktivovat příslušný doplněk (Import) v Nastavení, sekci Doplňky.
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
 Průvodce našel níže uvedené profily programu Miranda. Vyberte požadovaný profil nebo klikněte na tlačítko "Jiný profil" a vyberte vlastní.
 [&Other Profile...]
@@ -28,8 +30,11 @@ Jiný pr&ofil...
 Import dat...
 [Progress1]
 [&Next >]
+&Další >
 [Cancel]
+Zrušit
 [< &Back]
+< &Zpět
 [Import all contacts and all messages]
 Importovat všechny kontakty a zprávy
 [Only import contacts]
@@ -44,6 +49,7 @@ Vyberte tehdy, chcete-li naimportovat jen kontakty bez historie zpráv.
 [System history]
 [Select items to import:]
 [Incoming]
+Příchozí
 [Outgoing]
 Odchozí
 [Only since:]
@@ -90,6 +96,7 @@ Ostatní
 [Import...]
 Importovat...
 [&Import...]
+&Importovat...
 ;file \plugins\Import\src\miranda.cpp
 [%s\\*.*]
 [%s\\%s\\%s.dat]
@@ -105,6 +112,7 @@ Miranda - import dat
 [%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c]
 [Miranda NG database]
 [All Files]
+Všechny soubory
 [dat]
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]

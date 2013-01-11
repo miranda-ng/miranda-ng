@@ -6,11 +6,13 @@
 [>]
 [C&ancel]
 [Default]
+Výchozí
 [Settings]
 Nastavení
 [Title:]
 Název:
 [Type:]
+Typ:
 [InfoType:]
 Typ inf.:
 [Script]
@@ -80,16 +82,20 @@ Unicode řetězec
 [current contact]
 současný kontakt
 [New]
+Nový
 [Save Item]
 Uložit položku
 [Down]
+Dolů
 [Delete]
+Smazat
 [Reload]
 Načíst znovu
 ;file \plugins\QuickSearch\sr_window.pas
 [ users found (]
 [) Online: ]
 [Online]
+Online
 [deleted]
 smazáno
 [off]
@@ -104,8 +110,11 @@ Upozornění
 [Selected]
 Vybráno
 [contacts]
+kontakty
 [&Delete]
+&Smazat
 [&Copy]
+Z&kopírovat
 [C&onvert to Meta]
 [&Move to Group]
 Přesunout do s&kupiny
@@ -114,6 +123,7 @@ muž
 [Female]
 žena
 [Unknown]
+Neznámý
 [All]
 všechno
 [Stay on Top]

@@ -8,7 +8,9 @@
 Požadovanou kategorii vyberete pomocí šipek
 [Miranda NG Options]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Apply]
 Použít
 [Switch to classic options]
@@ -24,19 +26,22 @@ Domov
 [Setup your account information to start messaging.]
 Zadání a správa informací k účtům jednotlivých sítí.
 [Style]
+Vzhled
 [Change the look of Miranda NG according to your taste.]
 [Contacts]
 Kontakty
 [Configure behaviour of your contact list.]
 Konfigurace funkcí seznamu kontaktů.
 [Chats]
+Diskuse
 [Customize look&&feel of your chat windows here.]
 Úprava vzhledu a chování komunikačních oken.
 [Ignore]
+Filtrování
 [Ban those users and events, you are annoyed with.]
 Obtěžuje vás někdo nebo něco při komunikaci? Vyzkoušejte náš filtr.
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Set your status messages and idle reporting.]
 Definice stavových zpráv, nálady, automatických odpovědí apod.
 [Addons]
@@ -60,6 +65,7 @@ Oznámení o přidání
 [Auth requests]
 Žádost o autorizaci
 [Configure]
+Nastavit...
 [Update]
 Aktualizovat
 [Download]

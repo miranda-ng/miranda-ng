@@ -8,10 +8,13 @@
 ;file \plugins\Dbx_mmap_SA\res\db3x_mmap.rc
 [EN]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Change]
 Změnit
 [Remove]
+Odebrat
 [New password]
 [Old password]
 [Yes]
@@ -38,7 +41,9 @@ Chcete povolit úpravu této položky?
 [&Allow all further changes to this section]
 &Povolit všechny další úpravy v této sekci
 [&Yes]
+&Ano
 [&No]
+&Ne
 [Cancel Import]
 Zrušit import
 [The import has completed from]
@@ -47,6 +52,7 @@ Co chcete udělat s tímto souborem?
 [&Recycle]
 Př&esunout do koše
 [&Delete]
+&Smazat
 [&Move/Rename]
 Přesunout/Přej&menovat
 [&Leave]
@@ -55,6 +61,7 @@ Ode&jít
 Šifrování databáze
 [Info:]
 [Author:]
+Autor:
 [Site:]
 Stránka:
 [Email:]
@@ -79,7 +86,9 @@ Změnit heslo
 Nastavit heslo
 [Dll]
 [Name]
+Jméno
 [Version]
+Verze
 [%d.%d.%d.%d]
 [%s\n%s]
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
@@ -101,6 +110,7 @@ Zadaná hesla se neshodují!
 [cryptors\\%s]
 [Sorry, but your database encrypted with unknown module]
 [Error]
+Chyba
 [Crypto modules not found]
 [Crypto module hasn't been chosen, using first one found]
 [Notice]

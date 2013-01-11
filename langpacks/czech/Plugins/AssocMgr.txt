@@ -16,12 +16,14 @@ Ostatní
 [%hs:]
 [%hs files]
 [Type]
+Typ
 [Description]
 Popis
 [MirandaNG]
 [File Association Error]
 [There was an error writing to the registry to modify the file/url associations.\nReason: %s]
 [Unknown]
+Neznámý
 [Autostart Error]
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 [Services]
@@ -73,11 +75,13 @@ Systém
 [1,0,]
 [File Types Section Info]
 [Version]
+Verze
 [4,,,,%.15hs,|%.128s (%.16hs)]
 [File Types]
 [File Types Extension]
 [Software\\Classes]
 [URL:]
+Odkaz:
 [DefaultIcon]
 [URL Protocol]
 [CLSID]

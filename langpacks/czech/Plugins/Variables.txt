@@ -31,10 +31,12 @@ Nastavit následující kontakt
 [Description]
 Popis
 [Setting]
+Nastavení
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 [Close]
 Zavřít
 [OK]
+OK
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 [Notes]
 Poznámky
@@ -48,16 +50,19 @@ Proměnné...
 [Token]
 Token
 [unknown]
+neznámý
 [Tokens]
 Tokeny
 [Input]
 Vstup
 [Cancel]
+Zrušit
 [%subject%]
 %subject%
 [%extratext%]
 %extratext%
 [Help]
+Nápověda
 [Variables Help]
 Nápověda pro doplněk Variables
 [Open String Formatting Help]
@@ -66,6 +71,7 @@ Otevřít nápovědu o proměnných
 [Services]
 Služby
 [Variables]
+Proměnné
 ;file \plugins\Variables\src\parse_external.cpp
 [STUDIO]
 [Winamp v1.x]

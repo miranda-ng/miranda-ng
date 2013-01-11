@@ -7,31 +7,40 @@
 ;============================================================
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
+E-mail:
 [Password:]
+Heslo:
 [Create a new account]
 Vytvořit nový účet
 [Configuration]
+Nastavení
 [Login Server:]
 Server:
 [Port:]
+Port:
 [(2042, 443, 110, 25)]
 [Default]
+Výchozí
 [Automatically request authorization on logon]
 [Automatically add contacts to server list on logon]
 [Automatically grant authorization to users in contact list]
 [Automatically grant authorization to new users]
 [Disable spam check]
 [Notify me when a message delivery has failed]
+Upozornit při nedoručení odeslané zprávy
 [Notify about new mail if increment]
 [Notify about new mail tray icon]
 [Click to Inbox]
 [Show received formatted text (receive RTF)]
 [Send formatted text (send RTF)]
 [Background colour]
+Barva pozadí
 [Font]
 Písmo
 [Summary]
+Souhrn
 [Nickname:]
+Přezdívka:
 [First name:]
 Jméno:
 [Last name:]
@@ -48,9 +57,11 @@ do:
 Narozeniny:
 [Zodiak:]
 [Location]
+Umístění
 [Country:]
 Země:
 [State:]
+Stát:
 [Search online users only]
 Hledat pouze mezi uživateli online
 [City:]
@@ -95,11 +106,15 @@ Barva pozadí
 [Text Color]
 Barva textu
 [Timeout]
+Doba zobrazení
 [Previe&w]
+&Náhled
 [Closing in %d]
+Zavře se za %d sek.
 [Title:]
 Název:
 [Message:]
+Zpráva:
 [Enable Anti Spam]
 [Check temp contacts]
 [Delete spam bot contacts]
@@ -109,10 +124,14 @@ Název:
 [Send spam report to server]
 [Bad words list]
 [Add]
+Přidat
 [Remove]
+Odebrat
 [Ignory non AlphaNumeric characters]
 [OK]
+OK
 [Cancel]
+Zrušit
 [Notify]
 Oznámení
 [Writed:]
@@ -142,16 +161,18 @@ Avatary
 Bez popisu
 ;file \protocols\MRA\src\MraPopUp.cpp
 [PopUps]
+Oznámení
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 %s - spojení se serverem
 [E-mail address]
+E-mail
 [%04ld.%02ld.%02ld %02ld:%02ld: ]
 [%s%s]
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 [Account]
 Účet
 [Connections]

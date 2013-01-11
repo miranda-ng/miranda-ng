@@ -11,6 +11,7 @@
 Aktualizovat
 [View info]
 [Cancel]
+Zrušit
 [PackUpdater has detected updated versions\nof the following Miranda components:]
 [Description]
 Popis
@@ -39,6 +40,7 @@ Pozadí
 [Text]
 Text
 [Colours]
+Barvy
 [Use cus&tom colors]
 Použít vlastní barvy
 [Use &Windows colours]
@@ -50,8 +52,11 @@ Náhled
 [Click action]
 Při kliknutí myší
 [On left click]
+Levé tlačítko
 [On right click]
+Pravé tlačítko
 [Timeout]
+Doba zobrazení
 [0 = Default]
 0 = výchozí
 [-1 = Infinite]
@@ -62,6 +67,7 @@ sek.
 [Not sets for "Message boxes"]
 [Boxes]
 [PopUps]
+Oznámení
 ;file \plugins\PackUpdater\Src\Events.cpp
 [Check for pack updates]
 [Pack Updater]
@@ -119,6 +125,7 @@ Služby
 [FileInfo_%d]
 [FileVersion]
 [Message]
+Zpráva
 [DownloadURL]
 [AdvFolder]
 [Descr]

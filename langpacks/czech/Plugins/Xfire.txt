@@ -2,11 +2,13 @@
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
+Heslo:
 [Loginname:]
 Přihlaš. jméno:
 [XFire]
 XFire
 [Nick:]
+Přezdívka:
 [Current Protocolversion:]
 Aktuální verze protokolu:
 [Note: You can only change these settings, if you are connected to Xfire.]
@@ -36,6 +38,7 @@ Zobrazit přezdívku pokud je dostupná
 [Show friends of my friends]
 Zobrazit přátele mých přátel
 [Options]
+Možnosti
 [More options]
 Další možnosti
 [Gameicon:]
@@ -93,19 +96,24 @@ Použít
 Nenastavovat zprávu stavu pro ostatní protokoly
 [Add new game]
 [Remove]
+Odebrat
 [Dont show in start menu]
 [(manual added)]
 [Extra Command Line Parameters:]
 [Edit ...]
 [Username:]
+Uživatel:
 [Game]
+Hra
 [Voicechat]
 [Name:]
+Název:
 [Unreal Tournament 2004]
 [IP:]
 IP:
 [255.255.255.255]
 [Port:]
+Port:
 [27770]
 [Userdetails]
 [dufte]
@@ -114,7 +122,9 @@ Zkopírovat
 [Join]
 Připojit
 [OK]
+OK
 [Cancel]
+Zrušit
 [There is a new XFire Gamelist online, do you want to update now?]
 Byla nalezena nová verze seznamu podporovaných her. Chcete ho zaktualizovat?
 [New supported Games:]
@@ -133,6 +143,7 @@ Procházet ...
 [Launcher exe (optional):]
 [Game id:]
 [?]
+?
 [Send game id:]
 [Statusmessage for Xfire, if this game will be started:]
 [Parameter:]
@@ -140,6 +151,7 @@ Procházet ...
 ;file \protocols\Xfire\res\resource.rc
 ;file \protocols\Xfire\src\addgamedialog.cpp
 [All Files]
+Všechny soubory
 [Please wait, gameini will be currently parsed ...]
 [XFire Options]
 Možnosti XFire
@@ -156,13 +168,20 @@ Vyberte ze seznamu požadovanou hru.
 [Custom game]
 ;file \protocols\Xfire\src\all_statusmsg.cpp
 [Yep, I'm here.]
+Jasně, jsem tu.
 [I've been away since %time%.]
+Jsem pryč od %time%
 [Give it up, I'm not in!]
+Vzdejte to, nejsem tu!
 [Not right now.]
+Teď ne, prosím.
 [Give a guy some peace, would ya?]
+Nechte mě prosím chvíli o samotě, ano?
 [Well, I would talk to you if Miranda ICQ supported chat]
 [That'll be the phone.]
+Právě telefonuji
 [Mmm...food.]
+Mňam... jídlo
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
 Soubor xfire_games.ini byl aktualizován.
@@ -172,6 +191,7 @@ Soubor xfire_games.ini byl aktualizován.
 [Error during Icons.dll Update.]
 ;file \protocols\Xfire\src\main.cpp
 [Protocol icon]
+Ikona protokolu
 [%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 [Login failed.]
 [The protocol version is too old. Changed current version from %d to %d. You can reconnect now.]
@@ -210,6 +230,7 @@ Přítel spustil hru
 [XFire does not support offline messaging!]
 XFire nepodporuje odesílání zpráv ve stavu offline!
 [Username]
+Uživatelské jméno
 [Unable to connect to XFire.]
 Nemohu se připojit k XFire.
 [No Loginname is set!]
@@ -231,6 +252,7 @@ Skrytý
 [Messagebox]
 Informační okno
 [Popup]
+Oznámení
 [On every start]
 Při každém startu
 [Daily]
@@ -252,7 +274,7 @@ Možnosti
 Seznam blokovaných / Hry
 [StatusMsg]
 [Network]
-#muuid {8432b009-ff32-4727-aae6-a9035038fd58}
+Sítě
 ;file \protocols\Xfire\src\searching4games.cpp
 [Write to database ...]
 [Games found:%s%s]

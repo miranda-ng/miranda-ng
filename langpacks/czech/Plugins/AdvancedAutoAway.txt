@@ -7,10 +7,11 @@
 ;============================================================
 ;file \plugins\StatusPlugins\AdvancedAutoAway\options.cpp
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [minutes of %s mode]
 min. ve stavu '%s'
 [General]
+Obecné
 [Rules]
 Pravidla
 [Status Messages]

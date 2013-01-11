@@ -64,6 +64,7 @@ Dělicí linka
 [Direction]
 Směr
 [Type]
+Typ
 [&Save]
 &Uložit
 [&Close]
@@ -79,7 +80,9 @@ Pouze e-&mailové adresy
 [&Clear Search Results]
 &Vymazat seznam nalezených
 [&Search]
+&Hledat
 [Open]
+Otevřít
 [Open in new Window]
 Otevřít v novém okně
 [Copy to Clipboard]
@@ -91,6 +94,7 @@ Zobrazit zprávu
 [Unable to load the Rich Edit control!]
 Nelze načíst třídu Rich Edit!
 [Error]
+Chyba
 [&Create Linklist]
 &Vytvořit seznam odkazů
 [Progressbar]

@@ -2,7 +2,9 @@
 ;langpack template for Cln_skinedit
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
+Položky skinu
 [General]
+Obecné
 [Gradient]
 Gradient
 [Left to right]

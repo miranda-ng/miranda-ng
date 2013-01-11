@@ -27,14 +27,21 @@ Skrýt počet kontaktů ve skupině, jsou-li všichni offline
 [3rd:]
 3)
 [Always on top]
+Vždy navrchu
 [Hide contact list after ]
 Skrýt seznam kontaktů po
 [seconds]
+sek.
 [Fade contact list in/out]
+Plynule přejít mezi zobrazením a skrytím
 [Transparent contact list]
+Nastavit průhlednost seznamu kontaktů
 [Inactive opacity:]
+Neaktivní okno:
 [000%]
+000 %
 [Active opacity:]
+Aktivní okno:
 [Show Avatars]
 Zobrazit avatary
 [Animate Avatars]
@@ -44,14 +51,19 @@ Zobrazit čas kontaktu
 [Compact mode]
 Kompaktní režim
 [Show protocol names]
+Zobrazit názvy protokolů
 [Show status text]
+Zobrazit stav
 [Settings]
 Nastavení
 [Background colour:]
+Barva pozadí:
 [Selection colour:]
+Barva výběru:
 [Use background bitmap]
+Použít na pozadí obrázek
 [...]
-#muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
+...
 [Stretch to width]
 Uzpůsobit na šířku
 [Stretch to height]
@@ -61,6 +73,7 @@ Vodorovně vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Scroll with text]
+Rolovat s textem
 [Stretch proportionally]
 Uzpůsobit poměrně
 [Tile vertically according to Row Height]
@@ -70,6 +83,7 @@ Použít barvy Windows
 [Available skins]
 Dostupné skiny
 [Browse]
+Procházet
 [Apply]
 Použít
 [Info]
@@ -91,6 +105,7 @@ Vložit
 [Object properties]
 Vlastnosti objektu
 [Type]
+Typ
 [Colour]
 Barva
 [Alpha]
@@ -108,11 +123,15 @@ Umístění fragmentu
 [Position:]
 Postavení:
 [Left]
+Vlevo
 [Top]
+Nahoře
 [Size:]
+Velikost:
 [Width]
 Šířka
 [Height]
+Výška
 [W x H: 0 x 0 pixels]
 Š x V: 0 x 0 pixelů
 [Available view modes]
@@ -123,6 +142,7 @@ Včetně protokolů
 [-]
 -
 [New]
+Nový
 [Include groups]
 Včetně skupin
 [Show contacts in groups]
@@ -132,6 +152,7 @@ Včetně stavu
 [Ok]
 OK
 [Cancel]
+Zrušit
 [Sticky contacts]
 Trvalé kontakty
 [Clear all]
@@ -139,7 +160,9 @@ Odstranit vše
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
 Za použití seznamu kontaktů po levé straně můžete vybrat ty kontakty, které budou 'přilepené'. Na tyto kontakty nebude platit žádné ze standardních filtrovacích pravidel, kromě filtrování dle stavu níže.
 [Protocol]
+Protokol
 [Group]
+Skupina
 [Status mode]
 Stav
 [Automatically clear this view mode after]
@@ -151,8 +174,11 @@ Možnosti režimu zobrazení
 [Last message ]
 Poslední zpráva 
 [Status Bar]
+Stavová lišta
 [Show status bar]
+Zobrazit stavovou lištu
 [Make sections equal width]
+Shodná šířka všech položek
 [Space between]
 Rozestupy
 [Vertical Align]
@@ -190,6 +216,7 @@ Zprůhlednit překryv na 75%
 [Show unread emails (if supported)]
 Zobrazit nepřečtené maily (je-li podporováno)
 [Right click opens status menu]
+Pravým tlačítkem seznam stavů
 [Right click opens Miranda menu]
 Pravým tlačítkem nabídku Mirandy
 [Space on Left]
@@ -202,21 +229,31 @@ Ne
 Ano
 [Hide from list only, in order to keep their history and ignore/visibility settings]
 [Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktů zrušíte v nastavení programu.)
 [Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
 [This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
 [Hide offline users]
+Skrýt uživatele offline
 [Hide empty groups]
+Skrýt prázdné skupiny
 [Disable groups]
+Vypnout skupiny
 [Ask before deleting contacts]
+Potvrdit smazání kontaktů
 [Dont move offline user to bottom]
 Kontakty offline nepřesouvat na konec
 [Contact List]
+Kontakty
 [Contact List Sorting]
+Řazení seznamu kontaktů
 [Place offline users out of groups]
 Kontakty offline umístit mimo skupiny
 [Gamma correction]
 Gama korekce
 [Default]
+Výchozí
 [Full selection]
 Celý řádek
 [Less selection]
@@ -228,10 +265,15 @@ Způsob výběru
 [Bring to front if covered]
 Při překrytí přenést do popředí
 [Automatically resize window to height of list]
+Podle položek automaticky změnit výšku okna
 [maximum]
+max. však
 [% of screen]
+% obrazovky
 [Size upwards]
+Zvětšovat okno směrem nahoru
 [Behaviour]
+Chování
 [Lock manual resize]
 Zamezit ruční změně velikosti
 [Drag to ]
@@ -239,6 +281,7 @@ Táhnutí myši
 [Easy Scroll]
 Vylepšené rolování
 [Easy move]
+Vylepšené přesouvání
 [x100 msec]
 x100 ms
 [show delay]
@@ -266,23 +309,39 @@ Dokovat u okrajů
 [and minimum]
 a minimálně
 [Items]
+Položky
 [Show divider between online and offline contacts]
+Zobrazit oddělovač mezi kontakty online a offline
 [Hot track items as mouse passes over]
+Zvýraznit položky, nad kterými se objeví šipka myši
 [Disable drag and drop of items]
+Zakázat uchopení a přetáhnutí položek
 [Disable rename of items by clicking twice]
+Zakázat přejmenování položek dvojím kliknutím
 [Show selection even when list is not focused]
+Zobrazit výběr i tehdy, není-li seznam aktivní
 [Make selection highlight translucent]
+Zobrazit vybrané položky průhledně
 [Dim idle contacts]
+Zešednout neaktivní kontakty
 ['Hide Offline' means to hide:]
 'Skrýt offline' znamená skrytí:
 [Groups]
+Skupiny
 [Draw a line alongside group names]
+Zobrazit vedle názvu skupin čáru
 [Sort groups alphabetically]
+Seřadit skupiny podle abecedy
 [Quicksearch in open groups only]
+Rychle hledat jen v otevř. skupinách
 [Indent groups by:]
+Rozestup skupin:
 [Visual]
+Zobrazení
 [Scroll list smoothly]
+Rolovat seznam kontaktů plynule
 [Time:]
+Čas:
 [milliseconds]
 ms
 [Hide vertical scrollbar]
@@ -290,16 +349,23 @@ Skrýt svislý posuvník
 [Fade out entire list when:]
 Zprůhlednit celý seznam při:
 [Single click interface]
+Zařídit vše jedním kliknutím myši
 [Always show status in tooltip]
+Vždy zobrazit stav v tipu
 [Disable icon blinking]
+Vypnout blikání ikon
 [ms, delay between icon blinking]
 ms (definuje rychlost blikání)
 [Show]
 Zobrazit
 [Cycle icons every]
+Měnit ikony co
 [seconds, when statuses differ]
+sek. (v případě, že se stavy liší)
 [Show multiple icons]
+Zobrazit více ikon
 [Only when statuses differ]
+Pouze v případě, že se stavy liší
 [System tray icon]
 Ikona v oznamovací oblasti
 [System tray icon mode]
@@ -337,7 +403,9 @@ Zobrazit čas pouze když se liší od místního
 [Show contact time as row item]
 Zobrazit čas kontaktu jako položku řádku
 [Appearance]
+Vzhled
 [Pin to desktop]
+Připíchnout na plochu
 [Client area margins]
 Vnitřní okraje okna
 [Thin border main window]
@@ -345,16 +413,20 @@ Hlavní okno s tenkým rámečkem
 [Borderless main window]
 Hlavní okno bez rámečku
 [Show menu bar]
+Zobrazit menu
 [Show title bar]
 Zobrazit záhlaví
 [Title bar text:]
+Text v záhlaví:
 [Tool style main window]
 Zjednodušené záhlaví okna
 [Minimize to tray]
+Minimalizovat na panel
 [Translucency options (Windows 2000/XP+)]
 [Enable drop shadow (restart required)]
 Zobrazit stín (vyžaduje restart)
 [Frames]
+Rámečky
 [Between frames:]
 Mezi okny:
 [After captions:]
@@ -384,7 +456,9 @@ Prvky vlevo zarovnat doleva
 [Align right items to right]
 Prvky vpravo zarovnat doprava
 [Up]
+Nahoru
 [Down]
+Dolů
 [Left margin:]
 Levý okraj:
 [Right margin:]
@@ -431,6 +505,7 @@ Režim Zprava doleva (zrcadlová šablona)
 [Replace smileys in clist]
 Grafické smajlíky v seznamu
 [Use protocol smileys]
+Použít smajlíky protokolu
 [Draw smileys on first line]
 Vykreslit smajlíky na prvním řádku
 [Resize smileys and 'Listining to' icon]
@@ -450,12 +525,13 @@ Vykreslit smajlíky na druhém řádku
 [Text:]
 Text:
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Nickname]
 Přezdívka
 [Away Message]
 Autom. odpověď
 [Listening to]
+Poslech hudby
 [Contact time]
 Čas
 [Show status if there isn't away message]
@@ -483,13 +559,17 @@ Umístění (svislé)
 [Align]
 Zarovnání
 [Options]
+Možnosti
 [Visible]
+Viditelné
 [Show Title]
 Zobrazit záhlaví
 [Locked]
 Uzamknout
 [Border]
+Okraj
 [Floating]
+Plovoucí
 [Frames Order]
 Pořadí rámečků
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
@@ -513,32 +593,56 @@ Výška kontejneru:
 [Layered]
 Se skinem
 [Move up]
+Přesunout nahoru
 [Move down]
+Přesunout dolů
 [OPTION PAGE IS UNDER CONSTRUCTION Please DO NOT notice about any issues here.\n Only high-level design comments are applicable.]
 [E&xit]
+U&končit
 [&Offline\tCtrl+0]
+&Offline\tCtrl+0
 [On&line\tCtrl+1]
+On&line\tCtrl+1
 [&Away\tCtrl+2]
+N&a chvíli pryč\tCtrl+2
 [&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
 [Occ&upied\tCtrl+4]
+Nemám ča&s\tCtrl+4
 [&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
 [&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
 [&Invisible\tCtrl+7]
+Nev&iditelný\tCtrl+7
 [On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
 [Out to &Lunch\tCtrl+9]
+Jsem na o&bědě\tCtrl+9
 [&Hide/Show]
+Skrýt/Zo&brazit
 [&New Group]
+&Nová skupina
 [&Hide Offline Users]
+&Skrýt uživatele offline
 [Hide &Offline Users out here]
+Skrýt uživatele &offline mimo skupiny
 [Hide &Empty Groups]
+S&krýt prázdné skupiny
 [Disable &Groups]
+Vypnout zobrazení s&kupin
 [Hide Miranda]
+Skrýt okno
 [&New Subgroup]
+&Nová podskupina
 [&Hide Offline Users in here]
+Skrýt uživatele o&ffline
 [&Show Offline Users in here]
 Zobrazit &uživatele offline
 [&Rename Group]
+Př&ejmenovat skupinu
 [&Delete Group]
+&Smazat skupinu
 ;file \plugins\Clist_modern\src\modern_aniavatars.cpp
 [MirandaModernAniAvatar]
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
@@ -572,6 +676,7 @@ Kontakty/Překrytí avataru
 [Contact List/Status Overlay]
 Kontakty/Překrytí stavu
 [Contact List smileys]
+Smajlíky pro kontakty
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
 Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k němu přidat?
 [Converting to MetaContact]
@@ -610,11 +715,13 @@ Seznam kontaktů/Texty rámečků
 Seznam kontaktů/Speciální barvy
 [Arial]
 [General]
+Obecné
 [Tray]
 Lišta
 [List]
 Seznam
 [Window]
+Okno
 [Skins]
 Skiny
 [List Background]
@@ -622,16 +729,26 @@ Pozadí seznamu
 [Not focused]
 Neaktivní
 [Offline]
+Offline
 [Online]
+Online
 [Away]
+Na chvíli pryč
 [Occupied]
+Nemám čas
 [DND]
+Nerušit!
 [Free for chat]
+Mám volno
 [Invisible]
+Neviditelný
 [Out to lunch]
+Jsem na obědě
 [On the phone]
+Mám telefon
 [shlwapi]
 [Name]
+Jméno
 [Name (use locale settings)]
 Jméno (použít místní nastavení)
 [Last message time]
@@ -639,6 +756,7 @@ Jméno (použít místní nastavení)
 [Account Name]
 Název účtu
 [Rate]
+Priorita
 [-Nothing-]
 ---
 [Global]
@@ -651,6 +769,7 @@ Za levý okraj
 Za pravý okraj
 [Progman]
 [Fonts]
+Písma
 ;file \plugins\Clist_modern\src\modern_clcutils.cpp
 [EDIT]
 UPRAVIT
@@ -673,11 +792,13 @@ Zobrazit i když je offline
 [kernel32]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
+Avatar
 [Icon]
 Ikona
 [Text]
 Text
 [Extra icons]
+Doplňkové ikony
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
 Animovat avatary (je zapotřebí GDI+ a modul Avatar Service (avs.dll))
 [Left align group names]
@@ -691,6 +812,7 @@ Názvy skupin vpravo
 [Row design]
 Vzhled řádku
 [Second Line]
+Druhý řádek
 [Third Line]
 Třetí řádek
 [Row items]
@@ -702,9 +824,13 @@ Třetí řádek
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
 [&Main Menu]
+Hlavní &menu
 [&Status]
+&Stav
 [&Options...]
+M&ožnosti...
 [&About]
+O progr&amu
 ;file \plugins\Clist_modern\src\modern_clui.cpp
 [user32.dll]
 [dwmapi.dll]
@@ -713,26 +839,43 @@ Zobrazit a&vatara
 [Hide Contact &Avatar]
 Skrýt a&vatara
 [My Contacts]
+Seznam kontaktů
 [Miranda::GetProfile]
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
 [&Visible]
+&Viditelný
 [&Show title]
 [&Locked]
+Zamkn&utý
 [&Expanded]
 [&Floating Mode]
+&Plovoucí
 [&Border]
+O&kraj
 [&Align]
+Z&arovnat
 [&Top]
+Na&hoře
 [&Client]
+&Klient
 [&Bottom]
+Do&le
 [&Position]
+U&místění
 [&Up]
+Nahor&u
 [&Down]
+&Dolů
 [Show All Frames]
+Zobrazit všechny rámečky
 [Show All Titlebars]
+Zobrazit záhlaví rámečků
 [Hide All Titlebars]
+Skrýt záhlaví rámečků
 [Lock Frame]
+Zamknout rámeček
 [Show TitleBar]
+Zobrazit záhlaví rámečku
 [SubContainerWindow]
 [FramesContainer]
 [Shell_TrayWnd]
@@ -740,13 +883,16 @@ Skrýt a&vatara
 [user32]
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
+Nabídka skupiny
 [SubGroupMenu]
+Nabídka podskupiny
 [&New SubGroup]
+&Nová podskupina
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
 Zavřít Mirandu
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Restore last status]
 Obnovit předchozí stav
 [Show/Hide Offline Users]
@@ -761,6 +907,7 @@ Oznámení
 [text2]
 [text3]
 [status]
+stav
 [avatar]
 [extra]
 [extra1]
@@ -776,6 +923,7 @@ Oznámení
 [space]
 [fspace]
 [Line]
+Řádek
 [Column]
 [Empty %s cell]
 [column]
@@ -847,6 +995,7 @@ Lišta tlačítek
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_utils.cpp
 [Error]
+Chyba
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
 Nesdružené kontakty
@@ -859,6 +1008,7 @@ novější než
 [Minutes]
 min.
 [Hours]
+hod.
 [Days]
 Dnů
 [Configuring view mode: %s]

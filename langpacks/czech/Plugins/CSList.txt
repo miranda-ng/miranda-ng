@@ -21,6 +21,7 @@ S
 Žádné položky nenalezeny.\nKlikněte na tlačítko Přidat pro vytvoření nové.
 [Add/Modify]
 [Cancel]
+Zrušit
 [List settings]
 Nastavení seznamu
 [Confirm deletion of items]
@@ -31,12 +32,13 @@ Pamatovat poslední pozici okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
-#muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
+Stavy
 [Custom Status List]
 Seznam rozš. stavů
 [Add new item]
 Přidat nový stav
 [Add]
+Přidat
 [Modify item]
 [Modify]
 Upravit
@@ -47,7 +49,9 @@ Upozornění
 Oblíbené
 [Regular statuses]
 [Title]
+Název
 [Message]
+Zpráva
 [Do you really want to delete selected item?]
 Opravdu chcete odstranit vybranou položku?
 [Do you want old database entries to be deleted after Import?]
@@ -61,6 +65,7 @@ Upravit označený stav
 [Delete selected item]
 Smazat označený stav
 [Remove]
+Odebrat
 [Set/unset current item as favorite]
 Nastavit/zrušit aktuální stav jako oblíbený
 [Favourite]
@@ -86,4 +91,4 @@ Vymazat
 [Set custom status to selected one and close]
 Nastavit vybraný rozšířený stav a zavřít
 [Set]
-#muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
+Nastavit

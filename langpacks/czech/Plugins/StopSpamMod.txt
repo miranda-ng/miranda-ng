@@ -19,7 +19,9 @@ Po úspěšné odpovědi:
 [Available accounts:]
 [>>>>]
 [>>]
+>>
 [<<]
+<<
 [<<<<]
 [Filtered accounts:]
 [Do not send more than ]
@@ -71,7 +73,7 @@ Info
 [Message Sessions]
 Komunikace
 [Main]
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+Hlavní
 [Messages]
 Zprávy
 [Protocols]
