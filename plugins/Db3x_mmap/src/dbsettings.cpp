@@ -26,8 +26,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 DWORD GetModuleNameOfs(const char *szName);
 DBCachedContact* AddToCachedContactList(HANDLE hContact, int index);
 
-int DBPreset_QuerySetting(const char *szModule, const char *szSetting, DBVARIANT *dbv, BOOL isStatic);
-
 DWORD __forceinline GetSettingValueLength(PBYTE pSetting)
 {
 	if (pSetting[0] & DBVTF_VARIABLELENGTH)
@@ -181,19 +179,6 @@ int CDb3Base::GetContactSettingWorker(HANDLE hContact,DBCONTACTGETSETTING *dbcgs
 			MoveAlong(1+GetSettingValueLength(pBlob));
 			NeedBytes(1);
 	}	}
-
-	#ifndef DB3X_EXPORTS
-		/**** nullbie: query info from preset **********************/
-		if (!hContact && DBPreset_QuerySetting(dbcgs->szModule, dbcgs->szSetting, dbcgs->pValue, isStatic)) {
-			/**** add to cache **********************/
-			if ( dbcgs->pValue->type != DBVT_BLOB ) {
-				DBVARIANT* pCachedValue = m_cache->GetCachedValuePtr( hContact, szCachedSettingName, 1 );
-				if ( pCachedValue != NULL )
-					m_cache->SetCachedVariant(dbcgs->pValue,pCachedValue);
-			}
-			return 0;
-		}
-	#endif
 
 	/**** add missing setting to cache **********************/
 	if ( dbcgs->pValue->type != DBVT_BLOB )
