@@ -358,16 +358,14 @@ INT_PTR CALLBACK DlgStdInProc(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 
 	case WM_COMMAND:
 		switch( LOWORD(wParam)) {
-		case IDOK:
-			if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
-				CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-				p_Db->encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, p_Db->encryptKey, 254);
-				EndDialog(hDlg,IDOK);
-			}
-			break;
-
 		case IDCANCEL:
 			EndDialog(hDlg,IDCANCEL);
+			break;
+
+		case IDOK:
+			CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+			p_Db->encryptKeyLength = GetDlgItemTextA(hDlg, IDC_USERPASS, p_Db->encryptKey, 254);
+			EndDialog(hDlg,IDOK);
 		}
 		break;
 
@@ -408,36 +406,34 @@ INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 		return FALSE;
 
 	case WM_COMMAND:
-		{
-			UINT uid = LOWORD(wParam);
-			if (uid == IDOK) {
-				if (!GetWindowLongPtr(hDlg,GWLP_USERDATA)) {
-					CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
-					char pass1[255], pass2[255];
-					if (GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
-						SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
-						SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-						SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
-						SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
-					}
-					else {
-						GetDlgItemTextA(hDlg, IDC_USERPASS2, pass2, 254);
-						if (!strcmp(pass1, pass2)) {
-							p_Db->encryptKeyLength = strlen(pass1);
-							strcpy(p_Db->encryptKey, pass1);
-							EndDialog(hDlg,IDOK);
-						}
-						else {
-							SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
-							SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-							SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
-							SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
-						}
-					}
+		switch( LOWORD(wParam)) {
+		case IDCANCEL:
+			EndDialog(hDlg,IDCANCEL);
+			break;
+
+		case IDOK:
+			CDbxMmapSA *p_Db = (CDbxMmapSA*)GetWindowLongPtr(hDlg, GWLP_USERDATA);
+			char pass1[255], pass2[255];
+			if (GetDlgItemTextA(hDlg, IDC_USERPASS1, pass1, 254) < 3){
+				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
+				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+				SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
+				SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
+			}
+			else {
+				GetDlgItemTextA(hDlg, IDC_USERPASS2, pass2, 254);
+				if (!strcmp(pass1, pass2)) {
+					p_Db->encryptKeyLength = strlen(pass1);
+					strcpy(p_Db->encryptKey, pass1);
+					EndDialog(hDlg,IDOK);
+				}
+				else {
+					SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Passwords do not match!"));
+					SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
+					SetDlgItemTextA(hDlg,IDC_USERPASS1,"");
+					SetDlgItemTextA(hDlg,IDC_USERPASS2,"");
 				}
 			}
-			else if (uid == IDCANCEL)
-				EndDialog(hDlg,IDCANCEL);
 		}
 		break;
 
@@ -493,10 +489,10 @@ INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam)
 				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
 				break;
 			}
+
 			if (GetDlgItemTextA(hDlg, IDC_NEWPASS1, pass1, 254) < 3){
 				SetWindowText(GetDlgItem(hDlg, IDC_HEADERBAR), TranslateT("Password is too short!"));
 				SendMessage(GetDlgItem(hDlg, IDC_HEADERBAR), WM_NCPAINT, 0, 0);
-
 			}
 			else {
 				GetDlgItemTextA(hDlg, IDC_NEWPASS2, pass2, 254);
