@@ -1,0 +1,144 @@
+; /----------------------------------------------------------\
+; |  Send Screenshot 0.2.6.5                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1428
+;
+
+;================
+; Capture Window
+;================
+[Send screenshot to <Unknow Contact> - Capture Options]
+Odeslat obrázek (možnosti snímání)
+[JPG &Quality :]
+&Kvalita JPEG:
+[Ti&med capture]
+Èasované snímání
+[Time (secs) :]
+Zpoždìní (sec.):
+[&Emulate Send button click.]
+&Emulovat funkci tlaèítka Odeslat
+[Delete &after send]
+Po odeslání obrázek sm&azat
+[&Fill description textbox.]
+V&yplnit pole pro popis
+[&Desktop]
+Celá ploc&ha
+[Single &Window]
+Pouze o&kno
+[C&lient Area]
+Bez okraje okna
+[Drag&&Drop the target on the desired window.]
+Umístìte køíž na požadované okno.
+[Caption :]
+Záhlaví okna:
+[Size (HxW) :]
+Velikost (v×š):
+[&Format :]
+&Formát:
+[Send B&y :]
+&Metoda:
+[E&xplore]
+&Procházet
+[A&bout]
+O pro&gramu
+[Open again]
+Nezavírat
+[&Just save it]
+Pou&ze uložit
+[Use Edit&or]
+Použít edit&or
+[Send Screenshot]
+Odeslat obrázek
+; Messages
+[Select a target window.]
+Vyberte prosím požadované okno.
+[Could not start the HTTP Server plugin.]
+Nelze spustit doplnìk HTTP Server.
+[Could not add a share to the HTTP Server plugin.]
+Nelze pøidat další sdílení webového serveru.
+
+[<Unknown Contact>]
+<Neznámý kontakt>
+[Area]
+Oblast
+
+;================
+; Preview Window
+;================
+
+;Action Menu
+[&Action]
+&Akce
+[&Capture]
+&Sejmout
+[&Capture Again]
+&Sejmout znovu
+[Clo&se]
+Z&avøít
+[Close&&S&end]
+Zavøít a od&eslat
+[Close&&Sa&ve]
+Za&vøít a uložit
+
+;Tool Menu
+[&Tools]
+Nás&troje
+[&Crop tool]
+&Oøíznutí
+[&Ellipse tool]
+&Elipsa
+[&Pen tool]
+&Volné kreslení
+[&Rectangle tool]
+O&bdélník
+[&Line tool]
+&Kreslení èar
+[&Text tool]
+Psaní &textu
+[Selection Tool]
+Nástoj výbìru
+
+;Tool options menu
+[Tool &Options]
+Nastavení nástr&oje
+[Fille&d]
+&S vyplnìním
+[Transparent &Background]
+Prùhledné poza&dí
+[Set &Width]
+&Nastavení šíøky
+[Set C&olor]
+N&astavení barvy
+
+; Messages
+[Set Width]
+Nastavení šíøky
+[New width?]
+Zadejte šíøku èáry vybraného nástroje:
+[Type the text to be draw:]
+Zadejte požadovaný text:
+[Send the screenshot?]
+Chcete vybraný obrázek odeslat?
+
+; nepouzivane(?)
+[Print&Screen Emulation]
+Emulovat funkci Print&Screen
+[Des&tination Folder :]
+&Cílová složka:
+[C&hoose]
+V&ybrat...
+[<unknow>]
+<neznámý>
+[Destination for the image file(s):]
+Složka k uložení snímaných obrázkù:
+[The content of the clipboard will be not saved. (This warning appear only one time.)]
+Obrázek uložený do schránky nelze uložit.
+
+[Starting upload!]
+Zaèátek uploadu!
+[Upload completed!]
+Upload dokonèen!
+
+; ---

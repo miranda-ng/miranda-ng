@@ -1,0 +1,310 @@
+; /----------------------------------------------------------\
+; |  SecureIM 1.0.11.0                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2445
+;
+
+
+; c:\worx\miranda_cz\to_parse\SecureIM\language.cpp
+[SecureIM established...]
+Šifrované spojení navázáno...
+[Key exchange failed...]
+Chyba pøi výmìnì klíèù...
+[Key from disabled...]
+Deaktivován cizí klíè...
+[Sended back message received...]
+Pøijata odpovìï...
+[Sending back secure message...]
+Odesílání šifrované odpovìdi...
+[SecureIM disabled...]
+Šifrování vypnuto...
+[Sending Key...]
+Odesílání klíèe...
+[Key Received...]
+Klíè pøijat...
+[Sending Message...]
+Odesílání zprávy...
+[Message Received...]
+Pøijata zpráva...
+[Encrypting File:]
+Šifrování souboru:
+[Decrypting File:]
+Dešifrování souboru:
+[Bad key received...]
+Obdržen špatný klíè...
+[SecureIM: Error while decrypting the message.]
+Chyba pøi dešifrování zprávy.
+[SecureIM: Error while decrypting the message, bad message length.]
+Chyba pøi dešifrování zprávy, špatná délka.
+[SecureIM: Error while decrypting the message, bad message CRC.]
+Chyba pøi dešifrování zprávy, chyba CRC.
+[User has not answered to key exchange !\nYour messages are still in SecureIM queue, do you want to send them Unencrypted now ?]
+Uživatel neodpovídá na výmìnu klíèù!\r\nChcete zprávu odeslat nešifrovanou?
+[SecureIM not enabled! You Must Enable SecureIM with this user...]
+SecureIM není povoleno! S tímto uživatelem musíte SecureIM povolit!
+[Can't Send Encrypted Message !\nUser is offline now and his secure key has been expired, Do you want to send your message ?\nIt will be unencrypted !]
+Nemohu poslat šifrovanou zprávu!\nUživatel je ve stavu offline a platnost klíèe vypršela.\nChcete poslat zprávu bez šifrování?
+[SecureIM won't be loaded because cryptopp.dll is missing or wrong version !]
+SecureIM nebyl nahrán. Knihovna cryptopp.dll chybí/špatná verze!
+[SecureIM can't load PGP/GPG key! Check PGP/GPG settings!]
+SecureIM nemùže naèíst PGP/GPG klíè! Zkontrolujte PGP/GPG nastavení!
+[SecureIM can't encrypt message! Check trust of PGP/GPG key!]
+SecureIM nemùež zašifrovat zprávu! Zkontrolujte dùvìryhodnost PGP/GPG klíèe!
+[Can't Send Encrypted Message !\nDo you want to send your message ?\nIt will be unencrypted !]
+Nelze poslat šifrovanou zprávu!\nChcete poslat vaší zpráv nešifrovanou?
+[General]
+Obecné
+[Protocols]
+Protokoly
+[Nickname]
+Pøezdívka
+[UIN/Email/Jid/...]
+UIN/Email/Jid/...
+[Status]
+Stavy
+[PSK]
+PSK
+[Name]
+Jméno
+[Password is too short!]
+Heslo je pøíliš krátké!
+[Off]
+Vyp
+[PGP]
+PGP 
+[Key ID]
+ID klíèe
+[Keyrings loaded.]
+Klíèenka naètena.
+[Keyrings not loaded!]
+Klíèenka nebyla naètena!
+[PGP SDK v%i.%i.%i found.]
+Nalezen PGP SDK v.%i.%i.%i
+[PGP SDK not found!]
+PGP SDK nenalezen!
+[This version not supported!]
+Tato verze není podporována!
+[(none)]
+(není)
+[Private key loaded.]
+Osobní klíèe nahrány.
+[Private key not loaded!]
+Osobní klíèe nenahrány!
+[The new settings will become valid when you restart MirandaIM!]
+Nové nastavení se projeví až po restartu Mirandy!
+[Keyrings disabled!]
+Klíèenka vypnuta!
+[UTF8]
+UTF8
+[Mode]
+Mód
+[Native]
+Nativní
+[Disabled]
+Vypnuto
+[Create SecureIM connection]
+Navázat šifrované spojení
+[Disable SecureIM connection]
+Zrušit šifrované spojení
+[SecureIM status (disabled)]
+Stav SecureIM (vypnuto)
+[SecureIM status (enabled)]
+Stav SecureIM (zapnuto)
+[SecureIM status (always try)]
+Stav SecureIM (zkus vždy)
+[Load PGP Key]
+Naèíst PGP klíè
+[Unload PGP Key]
+Odstranit PGP klíè
+[Load GPG Key]
+Nahrát GPG klíè
+[Unload GPG Key]
+Opustit GPG klíè
+[Delete RSA Key]
+Smazat RSA klíè
+[SecureIM: Sorry, unable to decrypt this message due you have no PGP/GPG installed. Visit www.pgp.com or www.gnupg.org for more info.]
+Nemohu dešifrovat tuto zprávu - namáte instalován PGP. Více informací na www.pgp.com nebo na www.gnupg.org
+[SecureIM received unencryped message:\n]
+SecureIM pøijal nešifrovanou zprávu:\n
+[SecureIM received encryped message:\n]
+SecureIM pøijal šifrovanou zprávu:\n
+[SecureIM received RSA Public Key from "%s"\n\nSHA1: %s\n\nDo you Accept this Key ?]
+SecureIM pøijal RSA veøejný klíèod "%s"\n\nSHA1: %s\n\nChcete pøijmout tento klíè??
+
+; c:\worx\miranda_cz\to_parse\SecureIM\options.cpp
+[-----BEGIN PGP PRIVATE KEY BLOCK-----]
+-----ZAÈÁTEK BLOKU SOUKROMÉHO PGP KLÍÈE-----
+[-----END PGP PRIVATE KEY BLOCK-----]
+-----KONEC BLOKU SOUKROMÉHO PGP KLÍÈE-----
+[-----BEGIN PGP PUBLIC KEY BLOCK-----]
+-----ZAÈÁTEK BLOKU VEØEJNÉHO PGP KLÍÈE-----
+[-----END PGP PUBLIC KEY BLOCK-----]
+-----KONEC BLOKU VEØEJNÉHO PGP KLÍÈE-----
+[Services]
+Služby
+
+; c:\worx\miranda_cz\to_parse\SecureIM\popupOptions.cpp
+[Popups]
+Oznámení
+
+; c:\worx\miranda_cz\to_parse\SecureIM\resource.rc
+[User List]
+Seznam uživatelù
+[Enable Secure Offline messages]
+Šifrovat zprávy offline
+[Enable Secure File Transfer]
+Šifrovat pøenos souborù
+[Always show status icons in contact list]
+Ukázat stavovou ikonu v kontaktech
+[Miranda Client Detection]
+Detekovat Mirandu          
+[Status in Context Menu]
+Stav v kontextovém menu
+[Disable encryption for game plugins]
+Vypnout šifrování pro herní doplòky
+[Always secured if possible]
+Pokud lze, šifrovat vždy
+[Contact List Icon slot]
+Pozice pro ikonu
+[Key Exchange Timeout :]
+Doba pro výmìnu klíèe:
+[sec]
+sek.
+[Offline Key Timeout :]
+Offline klíè vyprší za:
+[days]
+dnù
+[Reset All]
+Vše resetovat
+[Split Messages]
+Rozdìlit zprávy
+[Online:]
+Online:
+[Offline:]
+Offline:
+[RSA Key]
+RSA klíè
+[Set &keyrings...]
+Nastavit &klíèenku...
+[Disable keyrings use]
+Vypnout použití klíèenky
+[Load &Private key]
+Nahrát &Soukromý klíè
+[Basic]
+Obecné
+[Executable:]
+Program gpg.exe:
+[...]
+...
+[Home Directory:]
+Dom. adresáø:
+[Key Assignment]
+Pøiøazení klíèù
+[Debug]
+Debug
+[Log to File]
+Do souboru
+[Save Pass]
+Uložit heslo
+[Back]
+Pozadí
+[Text]
+Text
+[Key agreement colors]
+Potvrzení klíèù
+[Secure connection colors]
+Šifrované spojení
+[Send/Receive encrypted colors]
+Šifrované odesílání a pøíjem
+[SecureIM PopUp Colors]
+Nastavení barev
+[Preview]
+Náhled
+[Events]
+Události
+[PopUp Timeout]
+Doba zobrazení
+[Time in Seconds]
+Èas v sekundách
+[0 = Default PopUp Timeout Value]
+0 = výchozí hodnota
+[Show a popup on established connection]
+Indikovat vytvoøení spojení
+[Show a popup on disabled connection]
+Indikovat zrušení spojení
+[Show a popup on key send]
+Indikovat odesílání klíèe
+[Show a popup on key received]
+Indikovat pøíjem klíèe
+[Show a popup on each secure send]
+Indikovat odesílání šifrované zprávy
+[Show a popup on each secure receive]
+Indikovat pøíjem šifrované zprávy
+[Please type in your password]
+Zadejte prosím své heslo
+[OK]
+OK
+[Cancel]
+Zrušit
+[Username:]
+Uživatel:
+[Password:]
+Heslo:
+[Native SecureIM]
+Nativní SecureIM
+[Always Try to Establish Secure IM]
+Vždy se pokusit použít SecureIM
+[Secure IM Enabled]
+Povolit SecureIM
+[Secure IM Disabled]
+Zakázat SecureIM
+[Pre-shared key]
+Pøedsdílený klíè (PSK)
+[Set key]
+Nastavit klíè
+[Delete key]
+Smazat klíè
+
+; c:\worx\miranda_cz\to_parse\SecureIM\secureim.h
+[Connection Disabled]
+Bez šifrování
+[Connection Established (valid prime)]
+Šifrované spojení navázáno
+[Establishe Secure Connection]
+Šifrované spojení navázáno
+[Key Exchange]
+Výmìna klíèe
+[Connection Established (ver <= 1.0.4.4c)]
+Šifrované spojení navázáno (ver <= 1.0.4.4c)
+[Connection Established (ver >= 1.0.5.0)]
+Šifrované spojení navázáno (ver >= 1.0.5.0)
+[PGP Key]
+PGP klíè
+[GPG Key]
+GPG klíè
+[flag Disabled]
+pøíznak Vypnuto
+[flag Enabled]
+pøíznak Zapnuto
+[flag Always Try]
+pøíznak Vždy zkusit
+[flag PGP Key]
+pøíznak PGP klíè
+[flag GPG Key]
+pøíznak GPG klíè
+[Recv Secured MSG (popup)]
+Pøíjem šifrované zprávy (oznámení)
+[Send Secured MSG (popup)]
+Poslání šifrované zprávy (oznámení)
+[Recv Key (popup)]
+Pøíjem klíèe (oznámení)
+[Send Key (popup)]
+Vyslání klíèe (oznámení)
+[Connection Established (popup)]
+Šifrované spojení navázáno (oznámení)
+[Connection Disabled (popup)]
+Šifrované spojení zrušeno (oznámení)
+
+; ---

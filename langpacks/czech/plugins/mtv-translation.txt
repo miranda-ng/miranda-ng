@@ -1,0 +1,222 @@
+; /----------------------------------------------------------\
+; |  mTV 0.1.0.1                                             |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda.kom.pl/dev/bankrut
+;
+
+
+[Anything = channel list]
+Cokoli = seznam kanálù
+[TV review]
+Pøehled poøadù v TV
+[mTV protocol is disabled]
+Protokol mTV není aktivní.
+[Can't find any active mTV contact]
+Není definovaný ani jeden kanál TV!
+[TV program for]
+Program kanálu
+[No program available for selected contact]
+Program pro vybraný kanál TV není k dispozici.
+[There was an error reading progID value!]
+Chyba pøi ètení hodnoty progID!
+;(DUP) [mTV protocol is disabled]
+[Show TV guide]
+Zobrazit program
+[Re-download guide for all days]
+Aktualizovat všechno
+[Re-download guide for current day]
+Aktualizovat dnešní den
+
+; Main Window
+
+[Program not available!]
+Program není k dispozici!
+[Nothing scheduled!]
+Není naplánovaný žádný poøad.
+[program info]
+informace o programu
+[day]
+den
+;(DUP) [days]
+[Program length]
+Délka poøadu
+[Time left]
+Zbývá
+[End of program]
+Konec poøadu
+[Channel list]
+Seznam kanálù
+;(DUP) [Close]
+[Now in TV]
+Právì teï dávají
+[Scheduled shows]
+Naplánované poøady
+
+; Config Window
+
+;(DUP) [General]
+[Proxy server]
+Server proxy
+;(DUP) [Host:]
+;(DUP) [Port:]
+;(DUP) [User:]
+[Pass:]
+Heslo:
+;(DUP) [Use proxy server]
+[Download program for newly added channels from:]
+Program novì pøidaných kanálù TV stahovat z:
+[Update check every:]
+Aktualizovat každých:
+;(DUP) [sec.]
+[Download timeout:]
+Èas. limit stahování:
+[Download data for:]
+Stáhnout data na:
+[day(s) ahead]
+dnù dopøedu
+[Use one mouse click in TV Review to change channel]
+Program v pøehledu poøadù zmìnit jedním kliknutím
+;(DUP) [Favorites]
+[Keywords (words separated with '|' char)]
+Klíèová slova (jednotlivá slova oddìlte znakem '|')
+[Mark favorites with different color]
+Oblíbené poøady oznaèit jinou barvou
+[Auto add favorites to schedule (works only for newly downloaded)]
+Oblíbené poøady pøidávat mezi plánované automaticky (pouze pro nové)
+[Show current TV program as status msg]
+Aktuální poøad zobrazit ve formì zprávy stavu
+;(FIX) [Show mTV icon in status bar]
+[Show mTV icon in status bar (need MIM restart)]
+Zobrazit ikonu mTV ve stavové lištì (vyžaduje restart MIM)
+[TV Review hotkey]
+Klávesa pro pøehled
+;(FIX) [Scheduled list sorting]
+[Schedule list sorting]
+Øazení plánovaných poøadù
+[by channel name]
+dle názvu kanálu
+[by time]
+dle èasu
+[Rules: word=word, *word=xxxword, word*=wordxxx, *word*=xxxwordxxx]
+Pravidla: slovo=slovo, *slovo=xyzslovo, slovo*=slovoxyz, *slovo*=xyzslovoxyz
+[Show additional program info in TV review]
+V pøehledu poøadù zobrazit dodateèné informace
+
+;(DUP) [Copy]
+[&Select all]
+&Vybrat vše
+[&Add to favorites]
+Pøid&at mezi oblíbené
+[Added to favorites:]
+Pøidáno mezi oblíbené:
+[Can't add to favorites]
+Nelze pøidat mezi oblíbené
+[There is nothing to add]
+Není co pøidat
+
+[Look && feel]
+Vzhled
+[TV Program list]
+Seznam programù
+;(DUP) [Green]
+;(DUP) [Yellow]
+;(DUP) [Red]
+;(DUP) [Black]
+[Light Gray]
+Svìtle šedá
+[Dark Gray]
+Tmavì šedá
+[Light Blue]
+Svìtle modrá
+[Dark Blue]
+Tmavì modrá
+[Fav mark color]
+Oblíbený poøad
+[List sel. color]
+Vybraná položka
+[Stat. name color]
+Název kanálu
+[Time left green]
+Èas (zbývá)
+[Time left red]
+Èas (uplynulý)
+[Font name]
+Název písma
+[Colorize titles]
+Obarvit titulky
+[Tooltip]
+Tip
+[Tooltip timeout:]
+Doba zobrazení:
+[Max width:]
+Max. šíøka:
+;(DUP) [Font name]
+;(DUP) [Text color]
+[Back color]
+Barva pozadí
+;(DUP) [Border color]
+;(DUP) [Transparency]
+;(DUP) [Popup]
+[Fore color]
+Barva popøedí
+;(DUP) [Back color]
+;(DUP) [Show popups]
+[Show popup/Launch event]
+Informace o poøadu/Spustit akci
+[min. before program start (0 = disable)]
+min. pøed zaèátkem (0 = vypnout)
+[Popup timeout:]
+Doba zobrazení:
+[sek. (0 = stay forever)]
+s (0 = trvale)
+;(DUP) [Preview]
+[mTV popup test]
+Zkušební oznámení mTV
+;(DUP) [Test]
+[Short info]
+Struèný popis
+[Extended info]
+Podrobné informace
+;(DUP) [On left click]
+;(DUP) [On right click]
+;(DUP) [Do nothing]
+;(DUP) [Close popup]
+[Show info]
+Zobrazit info
+
+;(DUP) [Events]
+[Launch list]
+Seznam akcí
+[Command line]
+Pøíkazový øádek
+[Parameters]
+Argumenty
+;(DUP) [Change]
+;(DUP) [Add]
+;(DUP) [Remove]
+[Use events]
+Definovat akce
+
+; NEPUBLIKOVANÉ
+; název doplòku
+[mTV]
+Program TV
+
+; Doplòky/mTV/Vzhled
+[msek.]
+ms
+
+; Pøehled poøadù v TV
+[Nothing scheduled!]
+
+; Události/Zvuky/Ostatní
+[mTV notification]
+Program TV (upozornìní)
+[About...]
+O programu...
+[Simple pseudo protocol with TV listing]
+Pseudo-protokol pro výpis televizních programù
+
+; ---

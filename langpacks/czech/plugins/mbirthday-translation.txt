@@ -1,0 +1,74 @@
+; /----------------------------------------------------------\
+; |  mBirthday 0.0.0.4                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+; this is a template for translation of mBirthday v0.0.0.3
+; last updated 21-04-2004 for v0.0.0.3
+
+[Add a mark to contact with birthday near]
+Pøidat znaèku ke kontaktu s blížícími se narozeninami
+
+; ******** Options ******** 
+[Mark with]
+Znaèka:
+[Mark contacts with birthday near]
+Zvýraznit blížící se narozeniny
+[Use a char mark]
+Použít znaèku
+[Add char mark before contact name]
+Pøidat znaèku pøed jméno
+[Use MultiWindow icon]
+Použít ikonu
+;(DUP) [Advanced #1]
+;(DUP) [Advanced #2]
+[Use PopUp]
+Použít oznámení
+[Timeout:]
+Prodleva:
+;(DUP) [Notify]
+[day(s) before birthday.]
+dnù pøedem
+[Set contact status to Invisible if birthday near]
+Zmìnit stav kontaktu na 'Neviditelný'
+
+[Set birthday date:]
+Zmìnit datum narození
+[Use found birthday date]
+Použít definované datum
+[Use mBirthday date]
+Použít datum dle mBirthday
+[Do not use any birthday date]
+Ponechat bez data narození
+[Year:]
+Rok:
+[Month:]
+Mìsíc:
+[Day:]
+Den:
+;(DUP) [Cancel]
+;(DUP) [OK]
+
+[day to]
+den do
+[days to]
+dnù do
+[birthday...]
+. narozenin
+[year(s) old]
+let
+[Has birthday]
+má narozeniny
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[mBirthday]
+Narozeniny
+
+[&User birthday]
+&Datum narození
+
+; ---

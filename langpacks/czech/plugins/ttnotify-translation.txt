@@ -1,0 +1,106 @@
+; /----------------------------------------------------------\
+; |  Tooltip Notify 0.6.0.46                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1290
+;
+
+; ******** Plugin ******** 
+[Tooltip Notify]
+Zmìna stavu
+;(FIX) [Shows a small tooltip above system tray area when a contact status is changed]
+[Shows a small tooltip above system tray area when a contact status is changed.]
+Pøi pøechodu do vybraného stavu zobrazí v oznamovací oblasti pøíslušnou informaci.
+
+
+; ******** Options ******** 
+
+[Notify upon the following contact status changes]
+Upozornìní pøi pøechodu do vybraného stavu
+;(DUP) [Online]
+;(DUP) [Offline]
+;(DUP) [Away]
+;(DUP) [N/A]
+;(DUP) [Occupied]
+;(DUP) [DND]
+;(DUP) [Free for chat]
+;(DUP) [Invisible]
+[All other]
+Ostatní
+;(DUP) [Unknown]
+[Select protocols]
+Vybrat protokoly
+
+[Duration]
+Doba trvání
+[Show tooltip for]
+Zobrazit na
+;(DUP) [ms]
+[Duration x2 upon online event]
+Pøi pøechodu do online 2× déle
+
+;(DUP) [Misc]
+[Obey 'Suppress online notification' settings]
+Zohlednit stav 'Neoznamovat pøechod do online'
+[Default positioning]
+Výchozí umístìní
+[[Hint: right-click on the tooltip to move it when in custom placement mode]]
+Tip: Kliknete-li pravým tlaèítkem nad oknem, lze zmìnit jeho umístìní
+
+;(DUP) [Translucency options (Windows 2000/XP only)]
+[Transparent tooltip]
+Míra prùhlednosti
+
+
+[%s is %s]
+%s je %s
+
+; NEPUBLIKOVANÉ
+[Auto positioning]
+Autom. umístìní
+[Double click on tooltip]
+Dvojím kliknutím
+[Shows/Hides CList]
+Zobrazit/skrýt seznam
+[Opens message dialog]
+Otevøít okno a psát
+[Contact is Online]
+XYZ je online
+[Choose]
+Vybrat
+[Background color:]
+Barva pozadí:
+[Text color:]
+Barva txt:
+[Notify upon the following events]
+Upozornìní na události
+[Suppress notifications upon connection for]
+Zpozdit upozornìní na pøipojení o
+[Prefix proto name]
+Indik. protokol
+[Transparent input]
+Prùhledný vstup
+[Font:]
+Písmo:
+
+[Tooltip Notify: Online]
+Zmìna stavu (pøechod online)
+[Tooltip Notify: Offline]
+Zmìna stavu (pøechod offline)
+[Tooltip Notify: Other]
+Zmìna stavu (ostatní)
+[Tooltip Notify: Typing]
+Zmìna stavu (psaní zprávy)
+
+[Choose contacts...]
+Vyberte kontakty...
+[Allow tooltip notifications for the following users:]
+U vybraných kontaktù povolit upozornìní na zmìnu stavu:
+[Proto: %s is %s]
+Proto: %s je %s
+
+[Behavior]
+Chování
+
+; ---

@@ -1,0 +1,133 @@
+; /----------------------------------------------------------\
+; |  Traffic/Time Counter 0.0.3.8                            |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=844
+;
+
+; prefs tree items
+[Time counter options]
+Poèitadlo èasu
+[Traffic counter options]
+Poèitadlo dat
+[Traffic counter expert options]
+Poèitadlo dat (pro experty)
+[Traffic counter]
+Poèitadlo dat
+
+; time counter options
+[Time counter]
+Poèitadlo èasu
+[Options just as Traffic counter]
+Pøevzít nastavení z poèitadla pøenesených dat
+[Show/Hide time window:]
+Zobrazení a skrytí okna s èasem:
+[Show now]
+Zobrazit okno
+[Hide now]
+Skrýt okno
+[Time window background color:]
+Barva pozadí okna s èasem:
+[Time window font color:]
+Barva písma pro okno s èasem:
+[Draw border around window]
+Vykreslovat okraj okna
+[Transparency options (Windows 2000/XP only)]
+Prùhlednost (pouze pro Windows 2000 a XP)
+[Transparent time window]
+Míra prùhlednosti
+[Always on top (only if multiwindow is off)]
+Vždy navrchu (doplnìk MultiWindow musí být vypnutý)
+[Use multiwindow]
+Využít doplnìk MultiWindow
+[Show/hide time window together with contact list (only if multiwindow is off)]
+Zobrazit/skrýt dle okna s kontakty (doplnìk MultiWindow musí být vypnutý)
+[Show protocol icon]
+Zobrazit ikonu protokolu
+
+; traffic counter options
+[Show/Hide traffic window:]
+Zobrazení a skrytí okna s daty:
+[Traffic statistics]
+Statistika pøenesených dat
+[Last clear date:]
+Posl. nulování:
+[(unknown)]
+(není známo)
+[Clear traffic now]
+Vynulovat poèitadlo
+[Show on traffic window last clear date]
+Zobrazit datum posledního vynulování
+[Automaticaly clear traffic every:]
+Automaticky vynulovat každý:
+[Week]
+týden
+[Month]
+mìsíc
+[Don't show clear question]
+Nepotvrzovat vynulování
+[Traffic window background color:]
+Barva pozadí okna s daty:
+[Traffic window font color:]
+Barva písma pro okno s daty:
+[Transparent traffic window]
+Míra prùhlednosti
+[Show size in:]
+Použité jednotky:
+[kbytes]
+kB
+[mbytes]
+MB
+[dynamic]
+dynamicky
+[Show/hide traffic window together with contact list (only if multiwindow is off)]
+Zobrazit/skrýt dle okna s kontakty (doplnìk MultiWindow musí být vypnutý)
+[Minimize traffic window size (only if multiwindow is on)]
+Minimalizovat velikost okna (doplnìk MultiWindow musí být zapnutý)
+
+; traffic counter expert options
+["Show/Hide traffic" in main menu]
+Do nabídby pøidat 'Zobrazit/Skrýt data'
+["Show/Hide time" in main menu]
+Do nabídby pøidat 'Zobrazit/Skrýt èas'
+;[Show tooltip in traffic window]
+[Last clear date format]
+Formát data vynulování:
+[Fixed line height]
+Pevná výška øádku
+[Line height:]
+Výška øádku:
+[Space between lines:]
+Odstup mezi øádky:
+[Last clear date alignment:]
+Datum nulování zarovnat:
+[Center]
+Na støed
+[Draw line above last clear date]
+Zobrazit dìlicí èáru nad datem vynulování
+[You will need to restart miranda for the changes you have made to take effect.]
+Poznámka: Tato zmìna vyžaduje restart programu Miranda IM.
+
+; traffic counter
+;(DUP) [Notification]
+[Notify me on every]
+Upozornit každých
+[kilobytes]
+kB
+[Text colour:]
+Barva textu:
+[Popup timeout]
+Doba zobrazení
+
+; traffic/time toolbox window
+[Now:]
+Aktuálnì:
+
+; confirmation dialog
+[Auto clear traffic]
+Vynulování poèitadla
+[Now traffic will be cleared.]
+Poèitadlo pøenesených dat bude vynulováno.
+
+; ---

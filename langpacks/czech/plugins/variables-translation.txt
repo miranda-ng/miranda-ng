@@ -1,0 +1,304 @@
+; /----------------------------------------------------------\
+; |  Variables 0.2.2.0                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2834
+;
+
+; options.c
+;[Plugins]
+;[Variables]
+
+; resource.rc
+[Auto parse]
+Automaticky zpracovat
+[Parse the following string at startup]
+Pøi spuštìní zpracovat níže uvedené
+[Automatically strip "end of line" characters]
+Automaticky odstranit konce øádkù (EOL)
+[Don't set a contact]
+Nenastavovat kontakt
+[Set to the following contact]
+Nastavit následující kontakt
+[Parse]
+Zpracovat
+[Help...]
+Nápovìda...
+[Close]
+Zavøít
+[OK]
+OK
+[Trigger when the following string changes]
+Spustit pøi zmìnì následujícího øetìzce
+[Please enter your input below]
+Zadejte prosím požadovaný text:
+;[The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
+;[The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
+;[The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
+[Description]
+Popis
+;[Setting]
+;[Notes]
+
+; help.c
+[Tokens]
+Tokeny
+[Input]
+Vstup
+[Cacnel]
+Zrušit
+[%subject%]
+%subject%
+[%extratext%]
+%extratext%
+;[Help]
+[Variables Help]
+Nápovìda pro doplnìk Variables
+
+; parse_alias.c
+[stores y as alias named x]
+uloží y jako alias s názvem x
+[user defined]
+definováno uživatelem
+
+; parse_external.c
+[External Applications]
+Externí programy
+[retrieves song name of the song currently playing in Winamp]
+Zjistí název skladby právì pøehrávané programem Winamp
+[retrieves current Winamp state (Playing/Paused/Stopped)]
+Zjistí aktuální stav pøehrávaèe Winamp (pøehrává/pauza/zastaveno)
+[Playing]
+Hraje
+[Paused]
+Pauza
+[Stopped]
+Zastaveno
+
+; parse_inet.c
+[Internet Related]
+Internet
+;[converts each non-html character into hex format]
+;[converts each hex value into non-html character]
+[converts a 32-bit number to IPv4 dotted notation]
+zkonvertuje 32bitové èíslo do formátu IP(v4) adresy
+[converts a 32-bit number (in host byte order) to IPv4 dotted notation]
+zkonvertuje 32bitové èíslo do formátu IP(v4) adresy (zohlední poøadí bajtù)
+
+; parse_logic.c
+[Logical Expressions]
+Logické výrazy
+[performs logical AND (x && y && ...)]
+logické AND (x && y && ...)
+[boolean FALSE]
+FALSE
+[performs w, then shows z and performs y while x is TRUE]
+smyèka FOR (provede w, pak zobrazí z a provádí y dokud je x TRUE)
+[y if x is TRUE, else z]
+je-li x TRUE, pak y; jinak z
+[x if x is TRUE, else z]
+je-li x TRUE, pak x; jinak z
+;[the first argument parsed successfully]
+[y if w > x, else z]
+je-li w > x, pak y; jinak z
+[y if string length of w > x, else z]
+je-li délka øetìzce w > x, pak y; jinak z
+[TRUE if x > y]
+je-li x > y, pak TRUE
+[TRUE if x is longer than y]
+je-li x delší než y, pak TRUE
+[performs logical NOT (!x)]
+logické NOT (!x)
+[performs logical OR (x || y || ...)]
+logické OR (x || y || ...)
+[boolean TRUE]
+TRUE
+[performs logical XOR (x ^ y)]
+logické XOR (x ^ y)
+
+; parse_math.c
+[Mathematical Functions]
+Matematické funkce
+[x + y + ...]
+x + y + ...
+[x divided by y]
+x dìleno y
+[converts decimal value x to hex value and padds to length y]
+zkonvertuje (dekadické) èíslo x na hexadecimální a vyplní zbytek do délky y
+[x modulo y (remainder of x divided by y)]
+x modulo y (zbytek po dìlení)
+[x times y]
+x krát y
+[x times y divided by z]
+x krát y dìleno z
+[minimum value of (decimal) arguments]
+minimální hodnota ze zadaných (dekadických) argumentù
+[maximum value of (decimal) arguments]
+maximální hodnota ze zadaných (dekadických) argumentù
+;[pads decimal value x to length y with zeros]
+[random number]
+náhodné èíslo
+[x - y - ...]
+x - y - ...
+
+; parse_miranda.c
+[Miranda Related]
+Miranda
+[translates status code x into a status description]
+pøevede stavový kód x na popis stavu
+;[zth contact with property y described by x, example: (unregistered,nick) (z is optional)]
+[number of contacts with property y described by x, example: (unregistered,nick)]
+poèet kontaktù s vlastností y blíže urèenou pomocí x; pøíklad: (<uživ. jméno>,<pøezdívka>)
+[info property y of contact x]
+informace y kontaktu x
+[db profile name]
+název profilu (databáze)
+[db profile path]
+cesta k profilu (databázi)
+[db setting z of module y of contact x]
+pøeète z databáze hodnotu položky z modulu y kontaktu x
+;[get event for contact x (optional), according to y,z,w, see documentation]
+;[get last seen time of contact x in format y (y is optional)]
+;[get last seen date of contact x in format y (y is optional)]
+;[get last seen status of contact x]
+[path to the Miranda-IM executable]
+cesta ke spustitelnému souboru Mirandy
+[current status description of protocol x (without x, the global status is retrieved)]
+aktuální stav protokolu x (nezadáte-li x, pøeète globální stav)
+;[retrieves the subject, depending on situation]
+[get the version of miranda]
+zjistí verzi Mirandy
+
+; parse_regexp.c
+[Regular Expressions]
+Regulární výrazy
+[(ANSI input only) the number of substring matches found in y with pattern x]
+(pouze pro ANSI) poèet nalezených øetìzcù v textu y pøi použití masky x
+;[(ANSI input only) substring match number z found in subject y with pattern x]
+[the number of substring matches found in y with pattern x]
+poèet nalezených øetìzcù v textu y pøi použití masky x
+;[substring match number z found in subject y with pattern x]
+
+; parse_str.c
+[Regular Expressions]
+Regulární výrazy
+[converts each first letter of a word to uppercase, all others to lowercase]
+zkonvertuje první písmeno slova na VELKÉ; vše ostatní zmìní na MALÉ
+[converts each first letter of a word to uppercase]
+zkonvertuje první písmeno slova na VELKÉ
+[inserts 'end of line' character]
+vloží znak konce øádku (EOL)
+[depends on calling plugin]
+závislost na doplòku
+;[cuts x after the first line and appends y (y is optional)]
+[replaces all end of line characters by y (y is optional)]
+nahradí všechny znaky konce øádku znakem y (y není povinné)
+[inserts string y at position z in string x]
+vloží øetìzec y na pozici z øetìzce x
+[trims x to length y, keeping first y characters]
+oøízne x na délku y, pøièemž ponechá prvních y znakù
+[length of x]
+délka x
+[the number of lines in string x]
+poèet øádkù v øetìzci x
+[the longest string of the arguments]
+nejdelší øetìzec ze zadaných argumentù
+[converts x to lowercase]
+zkonvertuje x na malá písmena
+;[padds x to length y prepending character z (z is optional)]
+;[padds x to length y appending character z (z is optional)]
+;[padds x to length y prepending character z, or cut if x is longer (z is optional)]
+;[padds x to length y appending character z, or cut if x is longer (z is optional)]
+[repeats x y times]
+x zopakuje y-krát
+[replace all occurenses of y in x with z, multiple y and z arguments allowed]
+nahradí všechny výskyty y v x øetìzcem z; argumenty y a z mohou být vícenásobné
+[trims x to length y, keeping last y characters]
+oøízne x na délku y, pøièemž ponechá posledních y znakù
+;[moves x z charcters to the left and trims it to y characters]
+[TRUE if x equals y]
+je-li x rovno y, pak TRUE
+[TRUE if x equals y, ingnoring case]
+je-li x rovno y, pak TRUE; ignoruje rozdíly mezi malými a velkými písmeny
+[the shortest string of the arguments]
+nejkratší øetìzec ze zadaných argumentù
+;[location of first occurence of character y in string x]
+;[location of last occurence of character y in string x]
+;[location of first occurence of string y in x]
+;[substring of x starting from position y to z]
+[the xth string of the arguments]
+x-tý øetìzec ze zadaných argumentù
+[z if y equals x, multple y and z arguments allowed]
+je-li y rovno x, pak z; argumenty y a z mohou být vícenásobné
+[removes white spaces in before and after x]
+odstraní netisknutelné znaky pøed a za x
+[inserts x tab characters (x is optional)]
+vloží x tabulátorù (x není povinné)
+[converts x to upper case]
+zkonvertuje x na VELKÁ písmena
+;[words (seperated by white spaces) number y to z from string x (z is optional)]
+
+; parse_system.c
+[System Functions]
+Systémové funkce
+[computer name]
+název poèítaèe
+[cpu load of process x (without extension) (x is optional)]
+indikuje vytížení CPU procesem x (bez pøípony) (x není povinné)
+[current date in format y (y is optional)]
+aktuální datum ve formátu y (y není povinné)
+[current time in format y (y is optional)]
+aktuální èas ve formátu y (y není povinné)
+[the directory y directories above x]
+vypíše adresáø umístìný ve struktuøe y adresáøù nad x
+[strips y directories from x]
+odstraní y adresáøù z x
+[number of seconds between date x and y (x and y in format: M/d/yy H:m:s)]
+poèet sekund mezi daty x a y (x a y musí být ve formátu M/d/rr H:m:s)
+[expand environment variable x]
+vypíše obsah promìnné x
+[TRUE if file x exists]
+nastaví TRUE, jestliže existuje soubor x
+[window title of first window of class x]
+záhlaví prvního okna tøídy x
+[TRUE if process x is running]
+nastaví TRUE, jestliže je spuštìný process x
+[value y from registry key x (REG_SZ (string) values only]
+hodnota y klíèe x (pouze hodnoty REG_SZ (string))
+[formats timestamp x (seconds since 1/1/1970) in date format y]
+upraví x (poèet sekund od 1.1.1970) na datum dle formátu y
+[formats timestamp x (seconds since 1/1/1970) in time format y]
+upraví x (poèet sekund od 1.1.1970) na èas dle formátu y
+;[(File content ANSI only) y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+;[y > 0: line number y from file x, y = 0: the whole file, y < 0: line y counted from the end, y = r: random line]
+[uptime in seconds]
+doba od spuštìní poèítaèe (v sek.)
+[user name]
+uživatelské jméno
+;[variable set by put(s) with name x]
+;[x, and stores y as variable named x]
+[only stores y as variables x]
+pouze uloží y jako promìnnou x
+
+; NEPUBLIKOVANÉ
+[String Functions]
+Práce s øetezci
+[Token]
+Token
+
+[Parse options]
+Možnosti zpracování
+[Automatically strip white space]
+Automaticky odstranit netisknutelné znaky
+[Automatically strip all non-parsing characters]
+Automaticky odstranit všechny nezpracovatelné znaky
+[Test area]
+Místo pro zkoušky
+[Click on the help button to get more information]
+Více informací se dozvíte kliknutím na tlaèítko Nápovìda
+
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnných
+
+; ---

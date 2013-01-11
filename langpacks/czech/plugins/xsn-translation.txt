@@ -1,0 +1,285 @@
+; /----------------------------------------------------------\
+; |  XStatus Notify 0.3.1.5                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://deathdemon.int.ru/projects.php
+;
+
+; /CommonLibs/m_ContactSettings.h
+[Notifications]
+Upozornìní
+[XStatus change notifications:]
+Oznámení o zmìnì rozšøíøeného stavu:
+;(DUP) [Ignore]
+[Notify always]
+Upozornit vždy
+[Use global settings]
+Použít globální nastavení
+;[Tooltip text]
+;[Other setting]
+;[Some group]
+
+; /CommonLibs/m_LogService.h
+;[My plugin - log title]
+[Test message]
+Testovací zpráva
+;(DUP) [ClientChangeNotify]
+;(LAI) [ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
+;(DUP) [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+[%s changed his client to %s]
+%s zmìnil 
+
+; /CommonLibs/m_NewAwaySys.h
+[New global status message.]
+Nová globální zpráva stavu.
+
+; /XStatusNotify/Heuristics.cpp
+;[[%s]  ]
+[Warning=]
+Varování=
+;[%.2f. %s (%s]
+[) changed XStatus ]
+) zmìna rozš. stavu na 
+[to ]
+: 
+;[:   ]
+;[\\pard ]
+;[\\cf3 ]
+;[\\cf2 ]
+;[\\par ]
+;[xsn_reset]
+;[.!?]
+;[music]
+;[listen]
+;[winamp]
+;[foobar]
+;[(wtq)]
+[artist]
+umìlec
+;[track]
+;[\r\nWarning = %.4f (%.4f);  WarningMask = 0x%.2x;  CapWeight = %.4f;  WeightsVer = 8]
+
+; /XStatusNotify/Misc.cpp
+;[{\\uc1 ]
+;[\\tab ]
+;[\\u%d ?]
+;[}]
+
+; /XStatusNotify/Misc.h
+;[open]
+[Error #%d]
+Chyba è.%d
+[Can't open log file ]
+Nepodaøilo se otevøít soubor záznamu
+
+; /XStatusNotify/m_popup.h
+[PopUps]
+Oznámení
+[Default]
+Výchozí
+[Warning]
+Upozornìní
+[Notify]
+Oznámení
+[PopUp 1.0.1.x compatability]
+Kompatibilita s doplòkem PopUp 1.0.1x
+
+; /XStatusNotify/OptDlg.cpp
+;[{\\rtf1\\ansi\\deff0{\\colortbl;\\red0\\green0\\blue0;\\red128\\green0\\blue0;\\red0\\green100\\blue0;}]
+[<no recent events>]
+<žádné aktuální události>
+[You have to enable heuristic filtering for popups and/or for message log to see results here.]
+Výsledky heuristické analýzy filtrování zde uvidíte až poté, co tuto funkci povolíte pro oznámení a/nebo záznam.
+[This log shows results of heuristic analysis of recent xstatus change events. Notifications\r\nare filtered out if their Warning value is more than filtering threshold. Using this info, you\r\ncan tune filtering threshold to suit your preferences.]
+Tento záznam zobrazuje výsledky heuristické analýzy nejaktuálnìjších zmìn rozšíøeného stavu.\r\nUdálosti jsou odfiltrovány tehdy, když je jejich pøíznak Varování vyšší, než nastavený práh.\r\nPomocí tohoto záznamu mùžete pøizpùsobit filtrování svým požadavkùm.
+[Technical info (log of filtered notifications)]
+Technické informace (záznam odfiltrovaných oznámení)
+[Very aggressive filtering level. You won't ever see "Listening to" popups (perhaps with very rare exceptions), but the plugin will also filter a lot of usual xstatus notifications.]
+Velmi agresivní filtrování. Nikdy neuvidíte oznámení o poslechu hudby (kromì nìkterých výjimek), bude však odfiltrována i vìtšina jiných, pomìrnì bìžných oznámení rozšíøeného stavu.
+[Aggressive filtering level. Filters more, sacrificing some of the most suspicious usual notifications that may turn out to be not a flood.]
+Agresivní filtrování. Odfiltruje více, obìtována jsou nìkterá podezøelá oznámení, která nemusí být ve skuteènosti tzv. záplavami.
+[Normal filtering level. It's the recommended setting. It tries to leave most of usual xstatus notifications and at the same time it offers reasonable level of flood filtering, leaving only first "Listening to" notification for a contact and filtering any subsequent ones.]
+Normální filtrování. Toto je doporuèené nastavení. Pøi nìm se doplnìk pokusí zachovat bìžná oznámení, ale zároveò odstraòuje urèité množství záplav napøíklad tím, že zobrazí u jednoho kontaktu jen první oznámení o poslechu hudby a ostatní odfiltruje.
+[Weak filtering level. Leaves more notifications, so it may accidentally skip some flood. Advantage of this setting is that the plugin will be more tolerant to cases when contact changes his xstatus message several times but leaves the same icon.]
+Slabé filtrování. Ponechává více oznámení, takže se obèas nìjaké záplavy vyskytnou. Výhodou tohoto nastavení je, že doplnìk bude tolerantnìjší k tìm pøípadùm, kdy uživatel mìní èasto svou zprávu rozšíøeného stavu, avšak ponechává stejnou ikonu.
+[Very weak filtering level. Usually still sufficient to filter a lot of flooding notifications, but fails to filter them if their "flood" features are indistinct.]
+Velmi slabé filtrování. Èasto úspìšnì odstraní záplavu oznámení, avšak selhává tehdy, když jsou zmìny jen nepatrné.
+;[%.2f]
+[Open message window]
+Otevøít komunikaèní okno
+[Close popup]
+Zavøít oznámení
+[Open contact details window]
+Zobrazit okno s detaily kontaktu
+[Open contact menu]
+Zobrazit nabídku kontaktu
+[Open contact history]
+Zobrazit historii kontaktu
+[Open log file]
+Zobrazit záznam
+[Do nothing]
+Nedìlat nic
+[XStatus name]
+Název rozš.stavu
+[XStatus message]
+Zpráva rozš.stavu
+[XStatus Notify]
+Rozšíøený stav
+[Events]
+Události
+
+; /XStatusNotify/Resources.rc
+;[#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n]
+;[LANGUAGE 9, 1\r\n]
+;[#pragma code_page(1252)\r\n]
+
+; /XStatusNotify/Resources.rc:IDD_POPUPOPTDLG
+[Enable popup notification]
+Povolit oznámení
+[Button]
+Tlaèítko
+[Show previous status too]
+Zobrazit i pøedchozí stav
+[Show new status message]
+Zobrazit novou stavovou zprávu
+[Preview]
+Náhled
+[Left click action:]
+Akce na levé tlaèítko:
+[Right click action:]
+Akce na pravé tlaèítko:
+[Delay]
+Prodleva
+[Sec]
+sek.
+[0 = Default]
+0 = výchozí
+[-1 = Infinite]
+-1 = neustále
+[Colors]
+Barvy
+[Background]
+Pozadí
+[Use default]
+Výchozí
+[Text]
+Text
+[Filter settings for popups]
+Nastavení filtru oznámení
+[Don't notify for contacts with disabled online notification]
+Neoznamovat u kontaktù s vypnutým oznamováním stavu
+[Don't notify on connect]
+Neoznamovat po startu
+[Use heuristic algorithms to filter out flood]
+Použít heuristiku k odfiltrování mnoha oznámení
+[Notify only when icon changes]
+Upozornit pouze pøi zmìnì ikony
+[Don't take any special measures to filter notifications]
+Nepoužívat žádné speciální metody filtrování oznámení
+
+; /XStatusNotify/Resources.rc:IDD_MAINOPTDLG
+[Logging to message window]
+Záznam komunikace
+[Enable logging to message window]
+Zobrazit události v záznamu komunikace
+[Log previous status too]
+Zobrazit i pøedchozí stav
+[Log new status message]
+Zobrazit novou zprávu stavu
+[Log on opening message window]
+Zobrazit pøi otevøení komunikaèního okna
+[Save to history]
+Uložit do historie
+[Filter settings for message log]
+Nastavení filtru záznamu
+[Log only when icon changes]
+Zobrazit pouze pøi zmìnì ikony
+[Don't filter notifications]
+Nefiltrovat oznámení
+[Heuristic algorithm settings]
+Nastavení heuristické analýzy
+[Filtering threshold:]
+Práh filtru:
+;[1.00]
+
+; /XStatusNotify/Resources.rc:IDD_TECHINFODLG
+[XStatusNotify info]
+Informace Oznámení rozšíøeného stavu
+[Close]
+Zavøít
+;[Images\\techinfo.ico]
+
+; /XStatusNotify/TestingArea.cpp
+[None]
+---
+;[\\XStatusNotify.csv]
+[XStatusNotify]
+Oznámení rozšíøeného stavu
+[Can't open file ]
+Nepodaøilo se otevøít soubor
+;[\t]
+;[\\n]
+[message (]
+zpráva (
+;[:]
+[message]
+ zpráva 
+;[(]
+;[:\r\n]
+;[[%02d.%02d.%d-%d:%02d:%02d]  ]
+[XStatusNotify Testing Area]
+Testovací oblast Oznámení rozš. stavu
+[Done]
+Dokonèeno
+
+; /XStatusNotify/XStatusNotify.cpp
+[<unknown>]
+<neznámý>
+;[static]
+;[_MenuWindow]
+[removed XStatus (was %s)]
+Rozšíøený stav "%s" zmìnìn na bìžný
+[removed XStatus]
+Rozšíøený stav zmìnìn na bìžný
+[changed XStatus to %s (was %s)]
+Zmìna rozšíøeného stavu na "%s" (pøedchozí byl "%s")
+[changed XStatus to %s]
+Zmìna rozšíøeného stavu na "%s"
+[changed XStatus message]
+Zmìna zprávy rozšíøeného stavu
+[has XStatus %s]
+má rozšíøený stav "%s"
+;[THistoryGrid.UnicodeClass]
+;[message (%s)]
+;[to %s]
+[Never, ignore XStatus changes for this contact]
+Nikdy, ignorovat zmìny rozšíøeného stavu u tohoto kontaktu
+[Always except when XStatus notifications are disabled globally]
+Vždy, kromì pøípadu, že jsou oznámení rozšíøeného stavu vypnuty globálnì
+[Always, even when XStatus notifications are disabled globally]
+Vždy, kromì pøípadu, i když jsou oznámení rozšíøeného stavu vypnuty globálnì
+[Use global filtering settings (default)]
+Použít globální nastavení filtru (výchozí)
+[XStatus Notify: XStatus changed]
+Rozšíøený stav - ICQ (zmìna stavu)
+;[XStatusNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
+;[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed XStatus %extratext%\r\n\r\n]
+[XStatusNotify Testing Area (low warning)]
+Testovací oblast rozš. stavù (nízký práh)
+;[XStatusNotify_test_lw.log]
+;[`[`!cdate()-!ctime()`]`  %extratext%\r\n\r\n]
+[XStatusNotify Testing Area (medium warning)]
+Testovací oblast rozš. stavù (støední práh)
+;[XStatusNotify_test_mw.log]
+[XStatusNotify Testing Area (high warning)]
+Testovací oblast rozš. stavù (vysoký práh)
+;[XStatusNotify_test_hw.log]
+[XSN heuristics testing area]
+Textovací oblast heuristiky
+[XStatus Notify plugin requires Miranda version 0.6.0.3 or later]
+Doplnìk Oznámení rozšíøeného stavu vyžaduje Mirandu 0.6.0.3 èi novìjší.
+[XStatus Notify requires riched20.dll to work correctly. If you are using Windows 95 or WINE please make sure you have riched20.dll installed.]
+Doplnìk Oznámení rozšíøeného stavu vyžaduje pro svùj bìh riched20.dll. Pokud používáte Windows95 nebo WINE, zkontrolujte, zda máte riched20.dll nainstalován.
+
+; ---

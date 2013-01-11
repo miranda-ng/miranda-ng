@@ -1,0 +1,138 @@
+; /----------------------------------------------------------\
+; |  Spam-o-tron 0.0.4.3                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Cree <michal.tomasek (zavináè) gmail (teèka) com>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=4286
+;
+
+[Do not send more than]
+Neposílat více než
+[times a day]
+krát dennì
+[Contact approved]
+Kontakt schválen
+[Preview]
+Náhled
+[messages to one contact per day]
+zpráv jednomu kontaktu za den
+[Settings]
+Nastavení
+[Default timeout]
+Výchozí doba zobrazení
+[Background]
+Pozadí
+[Foreground]
+Popøedí
+[Add permanently to list on verified]
+Po schválení pøidat do seznamu na trvalo
+[Flood protection]
+Ochrana proti zahlcení
+[Do not reply to messages with words in this list:]
+Neodpovídat na zprávy obsahující slova z tohoto seznamu:
+[Windows colors]
+Barvy Windows
+[Log actions to system history]
+Zaznamenat události do historie systému
+[Contact blocked]
+Kontakt zablokován
+[Outgoing message]
+Odchozí zpráva
+[Hide contact until verified]
+Skrýt kontakt dokud není schválen
+[Challenge sent]
+Výzva odeslána
+[Appearance]
+Vzhled
+[Enabled accounts:]
+Povolené úèty:
+[Do not reply to the same message more than]
+Neodpovídat na stejnou zprávu více než
+[Default colors]
+Výchozí barvy
+[Enable popup notifications]
+Povolit oznámení
+[Timeout]
+Doba zobrazení
+[Auto approve on:]
+Automaticky schválit pøi:
+[Analyze]
+Analyzovat
+[Response: (saved in %response% variable)]
+Odpovìï: (uloženo v promìné %response%)
+[Reply on success:]
+Odpovìï pøi schválení:
+[Incoming message with any word from list:]
+Pøíchozí zpráva obsahující slovo z tohoto seznamu:
+[Send challenge on authorization request:]
+Odeslat výzvu pøi požadavku o autorizaci:
+[Keep blocked messages in contact history]
+Ponechat blokované zprávy v historii kontaktu
+[and mark them unread after approval]
+a po schválení je oznaèit jako nepøeètené
+[Send challenge on incoming message:]
+Odeslat výzvu pøi pøíchozí zprávì:
+[Case-sensitive]
+Rozlišovat velikost písmen
+[Mode:]
+Mód:
+[Math expression]
+Matematický výraz
+[Filtering options]
+Možnosti filtrování
+
+;[Ham]
+;Ham
+;[Spam]
+;Spam
+
+[Will be automatically evaluated from %mathexpr%]
+Bude automaticky vyhodnocen z %mathexpr%
+[Learned ham messages:]
+Nauèených ham zpráv:
+
+;[Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.]
+;Spam-o-tron delayed authorization request. First reply with a result of expression %mathexpr%.
+;[Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.]
+;Spam-o-tron delayed authorization request. First reply with "%response%" without quotes.
+;[Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.]
+;Spam-o-tron needs to verify you're not a bot. Reply with a result of expression %mathexpr%.
+;[Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.]
+;Spam-o-tron needs to verify you're not a bot. Reply with "%response%" without quotes.
+
+[Do not send challenge request if message score above]
+Neodesílat výzvu pokud má zpráva index nad
+[Auto-learn messages from contacts if not approved in]
+Automaticky brát zprávy od kontaktù nepotvrzených do
+[days as spam]
+dnù jako spam
+[Auto approve contact if message score below]
+Schválit kontakt pokud má zpráva index pod
+[Learn message:]
+Learn message:
+[Do not enable any of these options until Spam-o-tron have learned at least 20 of ham and 50 of spam messages.]
+Nezapínejte žádnou z tìchto voleb dokud Spam-o-tron nepozná alespoò 20 zpráv jako ham a 50 zpráv jako spam.
+[Verified.]
+Schválen.
+[Auto-learn messages from approved contacts as ham]
+Automaticky urèovat zprávy od schválených kontaktù jako ham
+[and learn as ham]
+a urèit jako ham
+
+[Learned spam messages:]
+Nauèených spam zpráv:
+
+[Auto-learn outgoing messages as ham]
+Automaticky urèovat odchozí zprávy jako ham
+[will be saved in %mathexpr%]
+bude uložen v %mathexpr%
+[Learning options]
+Nastavení uèení
+[Their message was]
+Pøíchozí zpráva byla
+[Sending plain challenge to %s.]
+Odesílám jednoduchou výzvu pro %s.
+[Sending math expression challenge to %s.]
+Odesílám matematický výraz pro %s.
+
+; ---

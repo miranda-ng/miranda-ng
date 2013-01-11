@@ -1,0 +1,61 @@
+; /----------------------------------------------------------\
+; |  HostFile 1.0.0.0                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Martin Koníèek <konicekmartin (zavináè) seznam (teèka) cz>
+; Adresa: 
+;
+
+;----Menu Item
+[Host &File]
+Sdílet &soubor
+
+;----(M)\Services  menu item
+[Enable HostFile HTTP Server]
+Povolit sdílení souborù pøes HTTP
+[Disable HostFile HTTP Server]
+Zakázat sdílení souborù pøes HTTP
+
+;----Options
+[HTTP file publishing]
+Publikování souborù pøes HTTP
+[HTTP Server folder]
+Složka serveru HTTP
+[Run server on port:]
+Port služby HTTP:
+;-keep spaces bellow
+[Manual IP selection]
+Ruèní výbìr IP adresy
+[select Connection]
+Výbìr pøipojení
+[set fixed IP]
+Nastavit vlastní IP
+[URL substitution (i.e. http://myserver.org:2222/my_directory/)]
+Nahrazování URL (napø. http://mujserver.cz:2222/moje_slozka/)
+[Show Enable/Disable Server item in (M) menu]
+Zobrazovat položku Aktivovat/Deaktivovat server v menu
+[Start server when "HostFile" clicked in contact menu]
+Spustit server po prvním použití sdílení souborù
+[Enable HTTP Server]
+Aktivovat HTTP server
+[Disable HTTP Server]
+Deaktivovat HTTP server
+;-status report line "HTTP Server: running on "+ "port"
+[HTTP Server:]
+HTTP server:
+[running on]
+spuštìn na
+[port]
+portu
+[disabled]
+deaktivován
+
+; NEPUBLIKOVANÉ
+[Services ]
+Služby
+[HTTP Server root path]
+Koøenový adresáø HTTP serveru
+[Host File]
+Sdílení po HTTP
+
+; ---

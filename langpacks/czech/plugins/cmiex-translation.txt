@@ -1,0 +1,47 @@
+; /----------------------------------------------------------\
+; |  ContactsMenuItemEx 1.3.0.3                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3818
+;
+
+;(DUP) [Protocol...]
+;(DUP) [Request authorization]
+;(DUP) [Always visible]
+;(DUP) [Last Online]
+;(DUP) [Hide from list]
+;(DUP) [Ignore...]
+;(DUP) [ContactsMenuItemEx]
+;(DUP) [Send 'You were added']
+;(DUP) [Copy ID]
+;(DUP) [Copy IP]
+;(DUP) [Never visible]
+;(DUP) [Browse Received Files]
+;(DUP) [Copy MirVer]
+;(DUP) [Group...]
+;(DUP) [Copy Status Message]
+[Show Last Online Time]
+Zobrazit 'Naposledy spatøen'
+[Copy Info]
+Kopírování informací
+[Last Online Format]
+Formát data
+[ContactsMenuItemEx]
+Rozšíøení menu kontaktu
+[Authorization]
+Autorizace
+[Useful stuff]
+Užiteèné vìci
+[Place and Ignoration]
+Umístìní a filtrování
+[Note: plugin retrieving status message is needed]
+Pozn.: Tato funkce vyžaduje doplnìk pro zjištìní stavové zprávy.
+
+;jen doplnìní
+;contactsmenuitemex
+[Extended Contacts Menu]
+Rozšíøení menu kontaktu
+;(DUP) [X-Status Message]
+
+; ---

@@ -1,0 +1,60 @@
+; /----------------------------------------------------------\
+; |  MenuItemEx 1.3.0.7                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2883
+;
+
+[Always visible]
+Tento èlovìk mì vždy uvidí
+[Never visible]
+Tento èlovìk mì nikdy neuvidí
+[Hide from list]
+Skrýt
+[Shown menu items]
+Viditelné položky v menu
+[Ignore...]
+Ignorovat...
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[MenuItemEx]
+Rozšíøení menu
+
+[Protocol...]
+Protokol...
+[Group...]
+Skupina...
+[Send 'You were added']
+Odeslat zprávu o zaøazení
+[Request Authorization]
+Požádat o autorizaci
+
+[Copy ID]
+Zkopírovat ID
+[Copy MirVer]
+Zkopírovat klienta
+[Copy Status Message]
+Zkopírovat zprávu stavu
+[Add protocol name]
+Pøidat název protokolu
+[Copy Status Message (SMR needed)]
+Zkopírovat zprávu stavu (vyžaduje SMR)
+[Show alpha icons]
+Zobrazit prùhledné ikony
+[Show alpha icon]
+Zobrazit prùhlednou ikonu
+
+[Trim too long ID]
+Zkrátit pøíliš dlouhé ID
+[* Use Ctrl+click to see popup with the copied text]
+* Použít Ctrl+klik pro zobrazení oznámení se zkopírovaným textem
+[Add item name]
+Pøidat název položky
+[Copy to Account (Ctrl+click for move to Account)]
+Zkopírovat do úètu (Ctrl+klik pro pøesunutí do úètu)
+[Show ID in menu item]
+Zobrazit ID v položce menu
+
+; ---

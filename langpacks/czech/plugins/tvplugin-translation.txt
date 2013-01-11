@@ -1,0 +1,182 @@
+; /----------------------------------------------------------\
+; |  TV plugin YM 0.1.0.8                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://miranda-easy.net/addons/plugins/tvplugin.zip
+;
+
+; This is a template for translation of TV plugin
+; Last updated 18-07-2008 for 0.0.0.1
+; -----------------------------------------------
+
+; General
+[TV plugin]
+TV doplnìk
+[Program ID]
+ID programu
+;(DUP) [Redownload TV guide]
+;(DUP) [Show TV overview]
+;(DUP) [Show TV guide]
+[TV overview]
+Pøehled TV programù
+[Tv program for %s]
+TV program pro %s
+[No info available...]
+Žádné informace...
+[No program is available!]
+Data programù nejsou k dispozici!
+;(DUP) [Backward]
+;(DUP) [Forward]
+;(DUP) [Close]
+[Scheduled]
+Naplánovat
+[will start in %d minutes...]
+zaène za %d min...
+[TV plugin HTTP connections]
+TV doplnìk - spojení pomocí protokolu HTTP
+[Failed to connect to \"%s\" - Invalid response, code %d]
+Chyba pøi pøipojení k \"%s\" - neplatná odezva, kód %d
+[Failed to connect to \"%s\" - Error code %d]
+Chyba pøi pøipojení k \"%s\" - chybový kód %d
+
+; Options
+;(DUP) [General]
+[Window options]
+Možnosti okna
+[Use single window mode (one window for all channels)]
+Použít jedno okno pro všechny programy
+[Use multi window mode (separate window for each channel)]
+Použít samostatné okno pro každý program
+[Save window size and position]
+Uložit velikost a pozici okna
+[Hide scrollbar]
+Skrýt posuvník
+[Auto scroll to current program]
+Automaticky posunout na aktuální poøad
+[TV guide options]
+Možnosti TV programu
+[Show original title]
+Zobrazit originální název
+[Show program info]
+Zobrazit informace o poøadu
+[Scheduled programs]
+Naplánované poøady
+[Auto mark programs as scheduled]
+Automaticky naplánovat poøady
+[Search keywords also in program info]
+Hledat klíèová slova i v informacích o poøadu
+[Keywords (separated by '|' char)]
+Klíèové slova (oddìlené znakem '|')
+;(DUP) [Notification]
+;(DUP) [Main options]
+[Notify all programs by popups]
+Upozornit na všechny poøady oznámením
+[Notify scheduled programs by:]
+Upozornit na naplánované poøady:
+;(DUP) [Popup]
+[Dialog window]
+Dialogové okno
+[Show notification]
+Zobrazit oznámení
+[min. before program start]
+min. pøed zaèátkem poøadu
+;(DUP) [Popup options]
+;(DUP) [Colours]
+;(DUP) [Background colour]
+;(DUP) [Text colour]
+;(DUP) [Delay]
+;(DUP) [Default]
+;(DUP) [Custom]
+;(DUP) [sec.]
+[Dialog options]
+Možnosti dialogového okna
+[Drop shadow effect]
+Zobrazit stín
+[Opacity:]
+Neprùhlednost:
+
+; Fonts setting
+;(DUP) [Background]
+[Even items background]
+Pozadí sudých øádkù
+[Current program background]
+Pozadí aktuálního poøadu
+[Scheduled program background]
+Pozadí naplánovaného poøadu
+;(DUP) [Separator]
+[Time label]
+Èasový popisek
+[Channel name]
+Název programu
+;(DUP) [Time]
+;(DUP) [Title]
+[Original title]
+Originální název
+[Subtitle]
+Titulky
+[Program info]
+Informace poøadu
+
+; Icons setting
+;(DUP) [Protocol icon]
+[Redownload TV guide]
+Stáhnout znovu TV program
+[Show TV overview]
+Zobrazit pøehled TV programù
+[Show TV guide]
+Zobrazit TV program
+[Shift time backward]
+Posunout v èase zpìt
+[Shift time forward]
+Posunout v èase dopøedu
+;(DUP) [Close]
+
+; Sounds setting
+[Scheduled program (popup)]
+Naplánovaný program (oznámení)
+[Scheduled program (dialog)]
+Naplánovaný program (dialogové okno)
+
+; Custom folders setting
+[TV guide data]
+Data TV programu
+
+[Sort channels in alphabetical order (TV overview)]
+Seøadit kanály dle abecedy (pro pøehled poøadù)
+[keyword^t = search only in title, keyword^i = search only in info]
+klíè_slovo^t = pouze v názvu, klíè_slovo^i = pouze v informacích
+[TV tuner application]
+Program pro televizní tuner
+[Path to executable:]
+Cesta ke spustitelnému souboru:
+
+
+[Show TV schedule]
+Zobrazit naplánované poøady
+[Quick guide]
+Rychlý program
+[Run TV application]
+Spustit TV aplikaci
+[Auto schedule programs by mean of keywords]
+Automaticky naplánovat programy dle klíèových slov
+[About plugin]
+O doplòku
+[Search in title]
+Hledat v titulku
+[Search in info]
+Hledat v informacích
+[Licence]
+Licence
+[Add keyword]
+Pøidat klíèové slovo
+[Data for TV plugin are provided by]
+Data pro TV doplòek poskytuje
+[Delete keyword]
+Smazat klíèové slovo
+[URI s.r.o.]
+URI s.r.o.
+[Keywords]
+Klíèové slova
+
+; ---

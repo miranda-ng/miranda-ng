@@ -1,0 +1,100 @@
+; /----------------------------------------------------------\
+; |  Miranda database drivers                                |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+
+; backup.c
+[Rotating backup files...]
+Rotování zálohovanıch souborù...
+[Copying database file...]
+Kopírování souborù s profilem...
+
+; database.c
+[Miranda has detected corruption in your database. This corruption maybe fixed by DBTool.  Please download it from http://www.miranda-im.org. Miranda will now shutdown.]
+Bylo zjištìno poškození databáze. Tuto chybu se mùete pokusit opravit programem DBTool, kterı je k dispozici na stránkách http://www.miranda-im.org. Miranda bude ukonèena.
+[Database Panic]
+Poškození databáze
+
+; options.c
+[Select Backup Folder]
+Vyberte sloku pro zálohování profilù:
+[Error Creating Backup Folder]
+Chyba pøi vytváøení sloky pro zálohování
+[Database Backups]
+Zálohování databáze
+[Backup Profile]
+Zazálohovat profil
+
+; resource.rc
+[Hours]
+hod.
+[Disable progress bar]
+Vypnout ukazatel prùbìhu
+[Disabled]
+Vypnuto
+[When Miranda starts]
+Pøi spuštìní Mirandy
+[When Miranda exits]
+Pøi ukonèení Mirandy
+[Periodically:]
+Periodicky
+[Backup NOW]
+Zazálohovat
+[Backup to folder:]
+Sloka pro zálohování profilù:
+[Every:]
+Kadé:
+[Number of backups to keep:]
+Poèet uloenıch kopií:
+[Automatic Backups]
+Automatické zálohování
+[Backup in Progress]
+Stav zálohování
+
+; Description
+[Provides Miranda database support: global settings, contacts, history, settings per contact.]
+Umoòuje ètení a zápis dat do uivatelského profilu: globální nastavení, kontakty, historii a další poloky.
+
+; Memory-Mapped Secured Database - 0.7.5.3
+; http://addons.miranda-im.org/details.php?action=viewfile&id=3667
+[Database Features]
+Funkce databáze
+[Database encryption]
+Šifrování databáze
+[Enable encryption]
+Zapnout šifrování
+[Site:]
+Stránka:
+
+[Set password]
+Nastavit heslo
+[Change password]
+Zmìnit heslo
+
+[Please enter your new password]
+Prosím zadejte nové heslo
+[Passwords do not match!]
+Zadaná hesla se neshodují!
+[Please enter password for]
+Prosím zadejte heslo pro
+[Password is not correct!]
+Zadané heslo není správné!
+
+;db_autobackup.txt
+[Database AutoBackups]
+Záloha databáze
+
+[Backup progress]
+Prùbìh zálohování
+[Backup Folder]
+Sloka pro zálohování profilù
+[Folders plugin installed.\nGo to the Customize -> Folders to change settings]
+Doplnìk Folders je nainstalován.\nNastavení zmìníte v oknì Monosti, sekci 'Vlastní úpravy' -> Sloky.
+[Database backuped]
+Databáze zálohována
+
+
+; ---

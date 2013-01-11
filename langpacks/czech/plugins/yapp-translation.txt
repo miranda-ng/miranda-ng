@@ -1,0 +1,101 @@
+; /----------------------------------------------------------\
+; |  YAPP 0.5.0.4                                            |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2759
+;
+
+; NEPUBLIKOVANÉ
+[Default Timeout]
+Doba zobrazení
+[Never timeout]
+Zobrazovat trvale
+[Set timeout:]
+Autom. skrıt po:
+[Disable when]
+Neaktivní pøi
+[Full-screen app running]
+Celoobrazovkovı reim
+;(PRB) [Windows]
+[Maximum height:]
+Maximální vıška:
+[Avatar size:]
+Velikost avataru:
+[Transparency% (XP):]
+Prùhlednost v % (XP):
+[Global hover]
+Nezavírat po umístìní myši
+[Placement]
+Umístìní
+[Bottom right]
+Vpravo dole
+[Bottom left]
+Vlevo dole
+[Top right]
+Vpravo nahoøe
+[Top left]
+Vlevo nahoøe
+[Icon on right]
+Ikona vpravo
+[Icon on left]
+Ikona vlevo
+[Right avatar]
+Avatar vpravo
+[Left avatar]
+Avatar vlevo
+[No avatar]
+Bez avataru
+[Text indent:]
+Odsazení textu:
+[Time on right]
+Èas vpravo
+[Time on left]
+Èas vlevo
+[No time]
+Bez èasu
+[Time above avatar]
+Èas nad avatarem
+[Example With a Long Title]
+Pøíklad dlouhého záhlaví
+[The quick brown fox jumped over the lazy dog.]
+luouèkı kùò úpìl ïábelské ódy.
+[Thequickbrownfoxjumpedoverthelazydog.]
+luouèkıkùòúpìlïábelskéódy.
+[An avatar.]
+avatar
+[Opacity(%):]
+Prùhlednost (%):
+[Popup History]
+Historie oznámení
+[Popup history]
+Historie oznámení
+[Round corners (window)]
+Zaoblit rohy oken
+[Round corners (avatar)]
+Zaoblit rohy avatarù
+[Sidebar width:]
+Šíøka boèn. pruhu:
+
+[Padding:]
+Vyplnìní:
+
+[Sidebar]
+Boèní pruh
+
+[Copy title to clipboard]
+Zkopírovat záhlaví
+[Copy message to clipboard]
+Zkopírovat zprávu
+[Copy timestamp to clipboard]
+Zkopírovat èasovı údaj
+
+[Title underline]
+Podtrení záhlaví
+
+[Set timeout]
+Nastavit dobu zobrazení
+[Timeout value (0 = default):]
+Prodleva (0 = vıchozí):
+
+;---

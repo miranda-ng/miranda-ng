@@ -1,0 +1,134 @@
+; /----------------------------------------------------------\
+; |  Voice Service 0.0.0.8                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; Adresa: http://pescuma.mirandaim.ru/miranda/voiceservice
+;
+
+;--------------- VS Test
+; Voice Service
+; Author: Pescuma
+
+[Voice Calls]
+Hovory
+; Dialog
+[New Voice Call]
+Nový hovor
+[%s wants to start a voice call with you. What you want to do?]
+%s vám volá.
+;(DUP) [Answer]
+[Drop]
+Odmítnout
+[From now on, repeat this action for this contact]
+Pamatovat si volbu pro tento kontakt
+
+; Options
+;(DUP) [Background]
+
+;(DUP) [Popups]
+;(DUP) [Enable popups]
+[ Colours ]
+ Barvy 
+;(DUP) [Background colour]
+;(DUP) [Text colour]
+;(DUP) [Use Windows colours]
+;(DUP) [Use default colours]
+[ Delay ]
+ Prodleva 
+[From popup plugin]
+Globální nastavení
+;(DUP) [Custom]
+;(DUP) [Permanent]
+[ Actions ]
+ Akce 
+[On right click:]
+Pravé tlaèítko
+[On left click:]
+Levé tlaèítko
+;(DUP) [Do nothing]
+;(DUP) [Close popup]
+;(DUP) [Preview]
+
+
+[Auto actions]
+Akce
+[ Automatic Actions ]
+ Pøehled akcí 
+[Auto accept this contact calls]
+Automaticky pøijmout volání
+[Auto drop this contacts calls]
+Automaticky odmítnout volání
+
+[ Frame ]
+ Rámeèek 
+[Auto-size frame]
+Automatická velikost
+
+; Test popup
+[Test Contact]
+Testovací kontakt
+[Test description]
+Testovací popis
+
+; Status
+[Talking]
+Mluvím
+[Calling]
+Volám
+[Ended]
+Zavìšeno
+[On Hold]
+Pøidrženo
+[Ringing]
+Vyzvánìní
+
+; Actions
+[Voice Call]
+Hovor
+[Answer Voice Call]
+Zvednout
+[Hold Voice Call]
+Pøidržet
+[Drop Voice Call]
+Zavìsit
+
+; Icons
+;(DUP) [Main]
+
+; Popups
+[Calling %s]
+Volám %s
+[Ringing call from %s]
+%s vám volá
+[Voice call ended]
+Hovor ukonèen
+[Call from %s has ended]
+Hovor s %s skonèil
+[Call from %s started]
+Hovor s %s zaèal
+[Voice call started]
+Hovor zaèal
+[Call from %s is on hold]
+Hovor s %s je pøidržen
+[Voice call on hold]
+Hovor je pøidržen
+
+; Frame popup menu
+[Answer call]
+Zvednout
+[Drop call]
+Zavìsit
+;(DUP) [Hold call]
+
+; Sound
+[Calling a contact]
+Volání
+[Started talking]
+Zaèátek hovoru
+[Put a call on Hold]
+Pøidržení hovoru
+[End of a Call]
+Konec hovoru
+
+; ---

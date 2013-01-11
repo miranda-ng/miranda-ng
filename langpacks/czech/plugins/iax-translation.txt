@@ -1,0 +1,65 @@
+; /----------------------------------------------------------\
+; |  IAX 0.0.3.0                                             |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3198
+;
+
+; Sítì / IAX / Nastavení
+[Login]
+Pøihlášení
+[*Source port:]
+*Zdroj. port:
+[Caller ID]
+Identifikátor
+[Devices]
+Zaøízení
+[Input:]
+Vstup:
+[Output:]
+Výstup:
+[Mic boost]
+Zesílit mikrofon
+[Call Window]
+Okno pro volání
+[Popup on incoming call]
+Oznámit pøíchozí hovor
+[Popup on outgoing call]
+Oznámit odchozí hovor
+
+; Sítì / IAX / Kodeky
+[Codecs]
+Kodeky
+[Allowed]
+Povolené
+[Preferred]
+Pøednostnì
+[(*Changes will take effect after restart)]
+* Poznámka: Zmìna položky vyžaduje restart.
+[Changes will take effect after restart]
+* Poznámka: Veškeré zmìny vyžadují restart.
+
+; nabídka
+[Answer Call]
+Zvednout telefon
+[Dial Number]
+Vytoèit èíslo
+
+; Okno pro volání
+[Keypad]
+Klávesnice
+[Hang Up]
+Zavìsit
+[Answer]
+Zvednout
+
+; Vlastní úpravy / Zvuky
+[Key Press]
+Stisk klávesy
+[Ring (Inbound)]
+Vyzvánìní (pøíchozí)
+[Ring (Outbound)]
+Vyzvánìní (odchozí)
+
+; ---

@@ -1,0 +1,87 @@
+; /----------------------------------------------------------\
+; |  micqBirthday 0.2.9.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+[&Birthday List]
+Pø&ehled narozenin
+[Days]
+Dnù
+[UNI]
+UIN
+[Full name]
+Celé jméno
+[Nickname]
+Pøezdívka
+[Birthday]
+Narozeniny
+[Age]
+Vìk
+[Views]
+Seznam narozenin
+[Show &all birthday dates]
+Zobr&azit všechny narozeniny
+[Show only d&isabled birthday dates]
+Zobrazit pouze skryté narozen&iny
+[Show &during the next]
+Zobrazit &bìhem pøíštích
+[day(s)]
+dnù
+[&Never pops up automatically on startup]
+&Nezobrazovat upozornìní automaticky pøi spuštìní
+[Never pops up automatically on &midnight]
+Nezobrazovat upozornìní auto&maticky o pùlnoci
+[&Font]
+&Písmo...
+;(DUP) [&Message]
+;(DUP) [Web Page Address (&URL)]
+;(DUP) [&File]
+[&e-mail]
+&E-mail
+;(DUP) [User &Details]
+;&Další informace
+;(DUP)[View &History]
+[User &Birthday]
+Da&tum narození
+[D&isable Birthday]
+Skrýt narozen&iny
+[N/A]
+<neuvedeno>
+[%s birthday]
+%s : narozeniny
+[Use &standard birthday (from contact list data)]
+Použít definované (&standardní zpùsob)
+[Set c&ustom birthday (if standard is not available)]
+Nastavit narozeniny (nejso&u-li definované)
+[D&isabled birthday (do not show it in birthday list)]
+Zakázat zobrazení (neuv&idíte je v seznamu)
+[Notify &during the next]
+Upozornit &bìhem pøíštích
+[&Year]
+&Rok
+[&Month]
+&Mìsíc
+[&Day]
+&Den
+[&OK]
+&OK
+;(DUP) [Close]
+[%s has birthday]
+%s má narozeniny
+[Birthday alert]
+Narozeniny (upozornìní)
+[Birthday reminder...]
+Upozornìní na narozeniny...
+[Disable &birthday notification]
+Vypnout oznámení &narozenin
+[Enable &birthday notification]
+Zapnout oznámení &narozenin
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[micqBirthday]
+Narozeniny
+
+; ---

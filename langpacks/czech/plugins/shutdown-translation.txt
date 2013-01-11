@@ -1,0 +1,222 @@
+; /----------------------------------------------------------\
+; |  AutoShutdown 1.4.0.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3056
+;
+
+[AutoShutdown]
+Automatické ukonèení
+[Adds the possibility to shutdown the computer when a specified event occurs.]
+Na základì urèité události umožòuje vypnout, restartovat poèítaè nebo podobnì.
+[AutoShutdown Plugin]
+Doplnìk AutoShutdown
+[The AutoShutdown plugin can not be loaded. It requires Miranda IM %s or later.]
+Použitý doplnìk Automatické ukonèení vyžaduje program Miranda IM %s nebo novìjší.
+
+; Menu item
+[Automatic &shutdown...]
+Automatické &ukonèení...
+[Stop automatic &shutdown]
+Zrušit automatické &ukonèení
+; TopToolBar button
+[Start/Stop automatic shutdown]
+Spustí nebo zastaví automatické vypnutí
+[Start automatic shutdown]
+Aktivuje automatické ukonèení
+[Stop automatic shutdown]
+Deaktivuje automatické ukonèení
+
+; Sound
+;(DUP) [Alerts]
+[Automatic Shutdown Countdown]
+Automatické ukonèení (odpoèítávání)
+
+; Hotkey
+[Toggle Automatic Shutdown]
+Aktivovat automatické ukonèení
+
+; Icons
+;(DUP) [Active]
+;(DUP) [Inactive]
+[Header]
+Hlavièka
+; Fonts and Colors
+[Countdown on Frame]
+Rámeèek: Odpoèítávání
+;(DUP) [Background]
+[Progress Bar]
+Ukazatel prùbìhu
+
+; Settings Dialog
+[Automatic Shutdown]
+Automatické ukonèení
+[Select the automatic shutdown event]
+Vyberte požadovanou událost pro ukonèení
+[Shutdown at &specific time]
+Ukonèi&t po urèité dobì
+[Shutdown a&t:]
+Ukonèit &v:
+[Shutdown i&n:]
+Ukonè&it za:
+[Second(s)]
+sek.
+[Minute(s)]
+min.
+[Hour(s)]
+hod.
+[Day(s)]
+dnù
+[Week(s)]
+týdnù
+[Month(s)]
+mìs.
+[Shutdown when a &message is received containing the following text:]
+Ukonèit po pøijetí zprávy obsahující &následující text:
+[Shutdown when all &file transfers are finished]
+Ukonèit po dokonèení pøenosu sou&borù
+[Shutdown when &prozessor usage drops below:]
+Ukonèit pokud vytížení &procesoru klesne pod:
+[(current: %u%%)]
+(aktuálnì: %u %%)
+;(LAI) [%]
+[Shutdown when Miranda IM becomes &idle]
+Ukonèit po pøechodu do neè&innosti
+;(DUP) [Configure]
+[Shutdown when all contacts are &offline]
+Ukonèit po pøechodu všech kontaktù &offline
+;(FIX) [&Action]
+[&Action:]
+&Akce:
+[Close Miranda IM]
+Ukonèit program Miranda IM
+[Sets all Miranda IM protocols to offline and closes Miranda IM.]
+Pøepne všechny protokoly do stavu offline a ukonèí program Miranda IM.
+[Set Miranda IM offline]
+Pøejít do stavu offline
+[Sets all Miranda IM protocols to offline.]
+Pøepne všechny protokoly do stavu offline.
+[Log off user]
+Odhlásit uživatele
+[Logs the current Windows user off so that another user can log in.]
+Odhlásí uživatele a tím umožní pøihlášení jinému.
+[Restart computer]
+Restartovat poèítaè
+[Shuts down Windows and then restarts Windows.]
+Ukonèí systém Windows a restartuje poèítaè.
+[Shutdown computer]
+Vypnout poèítaè
+[Closes all running programs and shuts down Windows to a point at which it is safe to turn off the power.]
+Ukonèí všechny spuštìné programy a následnì systém Windows.
+[Standby mode]
+Úsporný režim
+[Saves the current Windows session in memory and sets the system to suspend mode.]
+Uloží rozdìlanou práci do pamìti a pøepne poèítaè do úsporného režimu.
+[Hibernate mode]
+Režim spánku
+[Saves the current Windows session on harddisc, so that the power can be turned off.]
+Uloží rozdìlanou práci na pevný disk, což umožní vypnout poèítaè.
+[Lock workstation]
+Zamknout poèítaè
+[Locks the computer. To unlock the computer, you must log in.]
+Zamkne poèítaè. Odemknete ho pouze tak, že se znovu pøihlásíte.
+[Hang up dialup connections]
+Odpojit modem od sítì
+[Sets all protocols to offline and closes all RAS connections.]
+Pøepne všechny protokoly do stavu offline a ukonèí vzdálená pøipojení.
+
+; Options
+[Shutdown]
+Ukonèení
+[&Show confirmation dialog before shutdown]
+&Pøed ukonèením potvrdit vybranou akci
+;(FIX) [Countdown starts at:]
+[&Countdown starts at:]
+&Zaèátek odpoèítávání:
+;(DUP) [seconds]
+[Shutdown Events]
+Události pro ukonèení
+[&Activate automatic shutdown with the same settings again if Miranda IM was closed with automatic shutdown enabled]
+&Aktivovat znovu stejné nastavení v pøípadì, že program Miranda IM byl už pøedtím automaticky ukonèen
+[&Ignore hidden or temporary contacts when watching for all contacts being offline]
+&Ignorovat skryté nebo doèasné kontakty pøi sledování pøechodu do stavu offline
+[Critical Shutdown Events]
+Závažné události pro ukonèení
+[&Thunderstorm warning is issued  (Weather)]
+Varování pøed bouøkou (Wea&ther)
+[&Harddrive overheats (HDD Info)]
+Pøehøívání pevného disku (&HDD Info)
+
+; Trigger plugin
+[Shutdown: Close Miranda IM]
+Ukonèení: Ukonèit program Miranda IM
+[Shutdown: Set Miranda IM offline]
+Ukonèení: Pøejít do stavu offline
+[Shutdown: Log off user]
+Ukonèení: Odhlásit uživatele
+[Shutdown: Restart computer]
+Ukonèení: Restartovat poèítaè
+[Shutdown: Shutdown computer]
+Ukonèení: Vypnout poèítaè
+[Shutdown: Standby mode]
+Ukonèení: Úsporný režim
+[Shutdown: Hibernate mode]
+Ukonèení: Režim spánku
+[Shutdown: Lock workstation]
+Ukonèení: Zamknout poèítaè
+[Shutdown: Hang up dialup connections]
+Ukonèení: Odpojit modem od sítì
+
+; Shutdown dialog
+[Automatic Shutdown]
+Automatické ukonèení
+[Miranda IM is going to be automatically closed in %u second(s).]
+Program Miranda IM bude za %u sek. automaticky ukonèen.
+[You will be logged off automatically in %u second(s).]
+Za %u sek. budete automaticky odhlášeni.
+[The computer will automatically be restarted in %u second(s).]
+Tento poèítaè bude za %u sek. automaticky restartován.
+[The computer will automatically be set to standby mode in %u second(s).]
+Tento poèítaè bude za %u sek. automaticky pøepnut do úsporného režimu.
+[The computer will automatically be set to hibernate mode in %u second(s).]
+Tento poèítaè bude za %u sek. automaticky pøepnut do režimu spánku.
+[The workstation will automatically get locked in %u second(s).]
+Tento poèítaè bude za %u sek. automaticky zamknut.
+[The computer will automatically be shut down in %u second(s).]
+Tento poèítaè bude za %u sek. automaticky vypnut.
+[All dialup connections will be closed in %u second(s).]
+Všechna modemová pøipojení budou za %u sek. automaticky ukonèena.
+[Unsaved data in open applications except Miranda IM might get lost.]
+Všechna neuložená data mimo program Miranda IM budou ztracena.
+[Please click "Cancel" if you would like to abort the process.]
+Chcete-li pøerušit spuštìnou akci, kliknìte na tlaèítko "Zrušit".
+[&Now!]
+H&ned!
+
+; Countdown frame
+[Time left:]
+Zbývající èas:
+[Shutdown at:]
+Ukonèit v:
+;(DUP) [Paused]
+[&Cancel Countdown]
+&Zrušit odpoèítávání
+[&Pause Countdown]
+&Pozastavit odpoèítávání
+[&Unpause Countdown]
+&Pokraèovat v odpoèítávání
+
+; Error
+[Automatic Shutdown Error]
+Chyba pøi automatickém ukonèení
+[The shutdown process failed!\nReason: %s]
+Chyba pøi pokusu o automatické ukonèení!\nDùvod: %s
+
+; NEPUBLIKOVANÉ
+[Automatically shutdown the computer and turn the power off when one of the following occurs:]
+Automaticky ukonèit operaèní systém a vypnout poèítaè, nastane-li jedna z následujících variant:
+[All Miranda IM protocols are going to be set to offline in %u second(s).]
+Všechny protokoly programu Miranda IM budou za %u sek. pøepnuty do stavu offline.
+
+; ---

@@ -1,0 +1,535 @@
+; /----------------------------------------------------------\
+; |  Winamp Track 0.0.6.10                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://awkward.mirandaim.ru
+;
+; c:\worx\miranda_cz\to_parse\frame\frameunit.pas
+
+
+; c:\worx\miranda_cz\to_parse\frame\frameunit.pas
+[All Bitmaps]
+Všechny bitmapy
+[Frame]
+Okno
+
+; c:\worx\miranda_cz\to_parse\frame\frm.rc
+[Use frame]
+Pouít okno
+[Show info in the frame]
+Zobrazit v oknì informace
+[Show controls in the frame]
+Zobrazit v oknì ovl.prvky
+[Show volume controls]
+Zobrazit v oknì hlasitost
+[Alpha]
+Prùhlednost
+[Background color]
+Barva pozadí
+[Use Picture]
+Vloit obrázek
+[...]
+...
+[Use cover instead of picture]
+Namísto obrázku vkládat obal
+[STATIC]
+Statickı
+[Center horizontally]
+Centrovat vodorovnì
+[Center vertically]
+Centrovat svisle
+[Bottom]
+Dole
+[Tile horizontally]
+Vodorovnì vedle sebe
+[Tile vertically]
+Svisle vedle sebe
+[Right]
+Vpravo
+[Stretch to width]
+Uzpùsobit na šíøku
+[Stretch to height]
+Uzpùsobit na vıšku
+[Stretch proportionally]
+Uzpùsobit pomìrnì
+[Use styled trackbar]
+Stylovat posuvník pøehrávání
+[Show trackbar]
+Zobrazit posuvník pøehrávání
+[Frame refresh time]
+Obnovování okna
+[Use buttons gap]
+Rozestoupit ovládací prvky
+[Hide frame when player not found]
+Skrıt okno, pokud není pøehrávaè nalezen
+[Hide frame when no music played]
+Skrıt okno, kdy nic nehraje
+[Cover padding]
+Okraje obalu
+[Choose font...]
+Vybrat písmo...
+[Text effect]
+Efekt textu
+[Cut]
+Vyjmout
+[Wrap]
+Zalomit
+[Roll]
+Rolovat
+[PingPong]
+Ping pong
+[Align text to center]
+Centrovat text
+[Text movement]
+Pohyb textu
+[Text rotation speed (1-20)]
+Rychlost rotace textu (1-20)
+[Scroll step]
+Krokování
+[Scroll gap]
+Prodleva
+[Minimum scroll tail]
+Minimální pøesah pro rolování
+
+; c:\worx\miranda_cz\to_parse\popup\popup.rc
+[Show popup]
+Zobrazit oznámení
+[Show file name in info]
+Zobrazit v oznámení název souboru
+[Delay]
+Prodleva
+[sec]
+sek.
+[Default]
+Vıchozí
+[Custom]
+Vlastní
+[Permanent]
+Trvale
+[Actions]
+Akce
+[Close]
+Zavøít
+[Info]
+Info
+[Show player]
+Zobrazit pøehrávaè
+[Next track]
+Další stopa
+[Left click]
+Levé tlaè.
+[Right click]
+Pravé tlaè.
+[Colors]
+Barvy
+[Background]
+Pozadí
+[Default colors]
+Vıchozí barvy
+[Windows colors]
+Barvy Windows
+[Custom colors]
+Vlastní barvy
+[Text]
+Text
+[Test]
+Ovìøit
+[Show by request only]
+Zobrazit jen na vyádání
+[Hotkey]
+Klávesy
+[Global hotkey]
+Globální klávesová zkratka
+
+; c:\worx\miranda_cz\to_parse\popup\popups.pas
+[WATrack/Controls]
+Tlaèítka
+[Music Info]
+Informace o hudbì
+
+; c:\worx\miranda_cz\to_parse\res\dlgopt.rc
+[Refresh time, sec]
+Aktualizace (v sek.)
+[Unicode to Ansi translation codepage:]
+Kódování jazyka, definice skriptu:
+[Options]
+Monosti
+[Insert in messages]
+Vloit do zprávy
+[Use status messages]
+Pouít zprávu stavu
+[Use XStatus]
+Pouít rozšíøenı stav
+[Independed XStatus]
+Nezávislı rozšíøenı stav
+[Use process implantation]
+Implantovat proces
+[Simple Template mode]
+Reim zjednodušenıch šablon
+[Clear xStatus before set new one]
+Pøed nastavením rozšíøeného stavu nastavit prázdnı
+[Use existing XStatus]
+Pouít existující rozš. stav
+[Only if 'Music' status was set]
+Pouze pro rozšíøenı stav 'Hudba'
+[Keep 'Music' XStatus]
+Ponechat rozšíøenı stav 'Hudba' i po vypnutí pøehrávaèe
+[Replace underlines with spaces]
+Nahradit podtrítka mezerami
+[Check file time]
+Zjišovat èas ze souboru
+[Other thread handle check]
+Zjištìní handle v jiném vláknì
+[Keep old file]
+Ponechat starı soubor
+[Notes]
+Poznámky
+[Color]
+Barva
+[Format]
+Formát
+[Variables]
+Promìnné
+[Normal]
+Normální
+[No Music]
+ádná hudba
+[No Player]
+ádnı pøehrávaè
+[Protocols]
+Protokoly
+[Statuses]
+Stavy
+[User message]
+Zpráva uivateli
+[Channel message]
+Zpráva na kanál
+[Reset]
+Reset
+[Template]
+Šablona
+[[X]Status Title / Text]
+Záhlaví a text rozšíøeného stavu
+[Video]
+Video
+[This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
+Toto je zjednodušená verze editoru. Tyto šablony budou pouity na všechny protokoly, stavy a pøehrávaèe.
+[Chat Template]
+Šablona chatu
+[Popup Title / Text]
+Záhlaví a text oznámení
+[Frame Text]
+Text v oknì
+[Export Text]
+Text k exportu
+[FileSize text format]
+Zobrazení velikosti souboru
+[File size]
+Vel. souboru
+[Bytes]
+bajtù
+[Kilobytes]
+kilobajtù
+[Megabytes]
+megabajtù
+[Precision]
+Pøesnost
+[Postfix]
+Pøípona
+[none]
+---
+[lowercase %type%]
+%type% malımi písmeny
+[Formats]
+Formáty
+[VBR or empty]
+VBR nebo prázdné
+[VBR or CBR]
+VBR nebo CBR
+[Players list]
+Seznam pøehrávaèù
+[Player name letters]
+Název pøehrávaèe
+[All uppercase]
+Vše velkımi písmeny
+[Do not change]
+Nemìnit
+[All lowercase]
+Vše malımi písmeny
+[Emulate Multimedia keys]
+Emulovat multimediální klávesy
+[Check]
+Kontrola
+[None]
+---
+[OK]
+OK
+[WATrack Macro Info]
+Informace o makru WATrack 
+[Text insertion to other Apps]
+Vkládání textu do dalších aplikací
+[Cover filenames]
+Názvy obalù
+[Share music list]
+Sdílet seznam hudby
+[Save events in database]
+Ukládat události do databáze
+[Input]
+Vstup
+[Output]
+Vıstup
+[Music Info Request]
+Poadavky na info o hudbì
+[Request Error]
+Chyby poadavkù
+[Save ignored requests]
+Ukládat ignorované poadavky
+[Answer to ignored requests]
+Odpovídat na ignorované poadavky
+
+; c:\worx\miranda_cz\to_parse\stat\stat.rc
+[Disable Log]
+Vypnout záznam
+[Delete]
+Smazat
+[Statistic log file]
+Soubor se statistickımi údaji
+[Sort]
+Seøadit
+[Autosort period, days]
+Perioda autom. tøídìní (dny)
+[Report file]
+Soubor se zápisem
+[Report]
+Zápis
+[Template file]
+Soubor šablony
+[Export default]
+Exportovat
+[Show in report]
+Zobrazit v zápisu
+[Freq. songs]
+Poèet opakování písní
+[Freq. artists]
+Poèet opakování interpretù
+[Freq. album]
+Poèet opakování alba
+[Freq. paths]
+Poèet opakování adresáøù
+[Last played songs]
+Naposledy hrané písnì
+[Song time]
+Èas písnì
+[Sort log file]
+Seøadit záznam dle
+[by Title]
+názvu
+[by Date]
+data
+[by Count]
+poètu
+[by Path]
+adresáøe
+[by Length]
+délky
+[Reverse order]
+Obrátit poøadí
+[Report Items]
+Poèet poloek
+[Open report]
+Otevøít zápis
+[Add report file ext.]
+Pøidat externí zápis
+
+; c:\worx\miranda_cz\to_parse\stat\statlog.pas
+[Music Statistic]
+Hudební statistiky
+[Create Report]
+Vytvoøit zápis
+[Statistics]
+Statistika
+
+; c:\worx\miranda_cz\to_parse\HlpDlg.pas
+[Text format codes]
+Kódy formátù textu
+
+; c:\worx\miranda_cz\to_parse\macros.pas
+[player window title]
+záhlaví okna pøehrávaèe
+[artist]
+umìlec
+[song title]
+název písnì
+[album]
+album
+[genre]
+ánr
+[media file name]
+název souboru
+[track number]
+èíslo stopy
+[number of channels]
+poèet kanálù
+[samplerate]
+vzorkovací frekvence
+[total song length (sec)]
+celková délka (sek.)
+[song year (date)]
+rok písnì (datum)
+[current song position (sec)]
+aktuální pozice (sek.)
+[time/length * 100%]
+èas/délka * 100%
+[comment from tag]
+komentáø z tagu
+[player name]
+název pøehrávaèe
+[player version]
+verze pøehrávaèe
+[media file size]
+velikost souboru
+[media file type]
+typ souboru
+[VBR or not (empty)]
+VBR (pokud je, jinak nic)
+[player status (stopped,playing,paused)]
+stav pøehrávaèe (zastaveno, pøehrávání, pozastaveno)
+[FPS (frames per second), video only]
+FPS (snímkù za sekundu), pouze pro video
+[codec, video only]
+kodek, pouze pro video
+[width, video only]
+šíøka, pouze pro video
+[height, video only]
+vıška, pouze pro video
+[player version in text format]
+verze pøehrávaèe v textovém formátu
+[Lyric from ID3v2 tag]
+slova z ID3v2 tagu
+[Cover file path]
+cesta k souboru obalu
+[Player volume (0-15)]
+hlasitost pøehrávaèe (0-15)
+[Player homepage URL]
+domovská stránka pøehrávaèe
+[player status (not translated)]
+stav pøehrávaèe (nepøekládán)
+
+; c:\worx\miranda_cz\to_parse\waticons.pas
+[Prev]
+Pøedchozí
+[Play]
+Pøehrát
+[Pause]
+Pozastavit
+[Stop]
+Zastavit
+[Next]
+Další
+[Prev Hovered]
+Pøedchozí (myš)
+[Play Hovered]
+Pøehrát (myš)
+[Pause Hovered]
+Pozastavit (myš)
+[Stop Hovered]
+Zastavit (myš)
+[Next Hovered]
+Další (myš)
+[Prev Pushed]
+Pøedchozí (stisknuto)
+[Play Pushed]
+Pøehrát (stisknuto)
+[Pause Pushed]
+Pozastasvit  (stisknuto)
+[Stop Pushed]
+Zastavit (stisknuto)
+[Next Pushed]
+Další (stisknuto)
+[Volume Down]
+Hlasitost -
+[Volume Up]
+Hlasitost +
+[Volume Down Hovered]
+Hlasitost - (myš)
+[Volume Up Hovered]
+Hlasitost + (myš)
+[Slider]
+Posuvník
+[Volume Down Pushed]
+Hlasitost - (stisknuto)
+[Volume Up Pushed]
+Hlasitost + (stisknuto)
+[WATrack/Frame Controls]
+Ovládací prvky
+
+
+
+; untranslated
+[Refresh time (sec) is time to refresh music info, statistic and status messages. If zero, automatic refresh is disabled. If value greater than 499, time signify as milliseconds.]
+Rychlost aktualizace (sekundy) je doba, po které se zaktualizují informace o hudbì, statistiky a zprávy stavu. Je-li nataveno na nulu, je auktualizace vypnuta. Je-li hodnota vyšší ne 499, pak jsou èasovımi jednotkami milisekundy.
+[If this option is "ON", XStatus doesn't depend of protocol status.]
+Jestlie je tato monost zapnuta, nezávisí rozšíøenı stav na stavu protokolu.
+[Use "Variables" plugin or not. If plugin used, you can use some transform, data and math functions. If plugin not used, work will be faster.]
+Jestlie je tato monost zapnuta, je moné pouívat transformaèní, datové a matematické funkce. Je-li podpora neaktivní, bude pracovat WATrack rychleji.
+[Use player process injection to obtain info easier. Can provoke antivirus or firewall alarm.]
+Umoòuje infiltraci do procesu pøehrávaèe, díky èemu lze získávat snáze informace, ale nemusí se líbit vašemu antiviru èi osobnímu firewallu.
+[Replaces "_" (underscores) globally in pasted os status text, sometimes may be useful]
+Nahrazuje "_" podtrítka ve vkládaném textu èi zprávì stavu, nìkdy se mùe hodit.
+[Check file date and time to tag updates while playing.]
+Zjišuje datum a èas souboru, snáze pak aktualizuje èas pøi pøehrávání.
+[Report on some errors.]
+Hlásí urèité chyby.
+[Try to use OLE interface to obtain more information from players. If this option is "OFF", plugin works little faster.]
+Pokusí se pouít OLE rozhraní pro získání více informací z pøehrávaèe. Je-li monost vypnuta, bude WATrack fungovat rychleji.
+[If this option is "ON", all plugin settings saved in ini-file.]
+Jestlie je tato monost zapnuta, bude doplnìk ukládat svá nastavení do INI souboru.
+[If this option is "ON", you can paste music info to your message window pressing hotkey.]
+Jestlie je tato monost zapnuta, mùete vloit informaci o hudbì do zprávy pomocí klávesové zkratky
+[If this option is "ON", status text will be replaced by music info.]
+Jestlie je tato monost zapnuta, bude hláška stavu nahrazena informací o hudbì
+[If this option is "ON", XStatus will be changed to "Music" and status text will be replaced by music info.]
+Jestlie je tato monost zapnuta, bude rozšíøenı stav zmìnìn na "Poslouchám hudbu" a hláška stavu bude nahrazena informací o hudbì
+[If this option is "ON", plugin will try to obtain unknown music format info from player (not all players works!)]
+Jestlie je tato monost zapnuta, pokusí se doplnìk získat informace o neznámém hudebním formátu z pøehrávaèe (ne všechny pøehrávaèe fungují!)
+[If this option is "ON", XStatus changes only if "Music" XStatus was set already.]
+Jestlie je tato monost zapnuta, bude rozšíøenı stav zmìnìn na "Poslouchám hudbu" pouze tehdy, byl-li takto zmìnìn u pøedtím ruènì.
+[If this option is "ON", XStatus not changed when player shutdowned.]
+Jestlie je tato monost zapnuta, bude rozšíøenı stav ponechán i po vypnutí pøehrávaèe
+[If this option is "ON", one templates will be used with all protocols, protocol and player (media) statuses. Template option page will be changed next time.]
+Jestlie je tato monost zapnuta, bude pouita na všechny protokoly, pøehrávaèe a stavy jedna šablona. Záloka se šablonami se zmìní po restartu.
+[xStatus will cleared before text changing and restored with new text later.]
+Rozšíøenı stav bude na chvilku zmìnìn na bìnı a poté se zpìt zmìní na "Poslouchám hudbu". Donutíte tak nìkteré klienty pøeèíst si váš rozšíøenı stav, ale zpùsobuje záplavy.
+[Keep opened file as active, not newly founded.]
+Ponechat otevøenı soubor jako aktivní, ne novì vytvoøenı.
+[Use this option if WATrack freeze while player running. Slower processing.]
+Pouijte tuto volbu, pokud Sledování hudby zmrzne zatímco pøehrávaè bìí. Pomalejší zpracování.
+[If this option is "ON", XStatus number will not be changed, only message will be replaced by WATrack templates]
+Jestlie je tato monost zapnuta, nezmìní se typ rozšíøeného stavu, ale jen zpráva daná šablonou.
+[Frame]
+Okno
+[Frame 2]
+Okno 2
+
+[Enable Plugin]
+Povolit doplnìk
+[Disable Plugin]
+Zakázat doplnìk
+[Get user's Music Info]
+Zjistit zde informace o hudbì
+[Plugin Enabled]
+Doplnìk povolen
+[Plugin Disabled]
+Doplnìk zakázán
+[Text format codes\n{b}text{/b}\tbold\n{i}text{/i}\titalic\n{u}text{/u}\tundeline\n{cf##}text{/cf}\ttext color\n{bg##}text{/bg}\tbackground color\ntext - user text\n## - color number (1-16)\nColor 0 is background color\nColor 17 is default text color]
+Kódy formátù textu\n{b}text{/b}\ttuèné\n{i}text{/i}\tkurzíva\n{u}text{/u}\tpodtrené\n{cf##}text{/cf}\tbarva textu\n{bg##}text{/bg}\tbarva pozadí\ntext - user text\n## - barva èíslo (1-16)\nBarva èíslo 0 je pozadí\nBarva èíslo 17 je vıchozí barva textu
+;názvy vìtví options, nelze se spolehnout na lomítkované cesty, pøekládají se jen koneèné vìtve
+[Frame Controls]
+Ovládací prvky
+[Controls]
+Tlaèítka
+[Winamp Track]
+Sledování hudby
+
+; ---

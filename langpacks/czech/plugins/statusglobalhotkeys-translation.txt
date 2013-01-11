@@ -1,0 +1,58 @@
+; /----------------------------------------------------------\
+; |  Status global hotkeys 0.0.3.1                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2629
+;
+
+[Global Hotkeys]
+Globální klávesové zkratky
+[Keys]
+Klávesy
+[Offline:]
+Offline:
+[Online:]
+Online:
+[Away:]
+Pryè:
+[NA:]
+Nejsem tady:
+[Occupied:]
+Nemám èas:
+[DND:]
+Nerušit!:
+[Free for chat:]
+Mám volno:
+[Invisible:]
+Neviditelný:
+[On the phone:]
+Mám telefon:
+[Out to lunch:]
+Jsem na obìdì:
+[Modifiers]
+Pøeøaïovaèe
+[Ctrl]
+CTRL
+[Alt]
+ALT
+[Shift]
+SHIFT
+[Win]
+WIN
+[Apply same settings to all protocols]
+Nastavit pro všechny protokoly najednou
+[ICQ Custom status]
+Rozšíøený stav ICQ
+[Status and key assignments]
+Stav a pøiøazené klávesy
+[Assignments:]
+Pøiøazené klávesy:
+[Add  >>]
+Pøidat >>
+[<<  Remove]
+<< Odebrat
+[XStatus:]
+Rozšíøený stav:
+
+; ---

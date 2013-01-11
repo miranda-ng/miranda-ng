@@ -1,0 +1,57 @@
+; /----------------------------------------------------------\
+; |  Translator 0.1.2.3                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3144
+;
+
+[Translator]
+Pøekladaè
+[Translator options]
+Monosti pøekladaèe
+[General settings]
+Hlavní monosti
+[Flush on exit]
+Zapsat pøi ukonèení
+[Flush to disk now]
+Zapsat na disk nyní
+[Custom code page]
+Vlastní kódová stránka
+[Strings in memory: %d / %d]
+Øetìzce v pamìti: %d / %d
+
+[Normal mode]
+Normální mód
+[Number of strings to keep in memory before writing to disk:]
+Poèet øetìzcù ponechanıch v pamìti pøed zápisem na disk:
+[This value is used as a minimum, the actual number might be bigger.\nWarning: setting a big number will increase memory requirements considerably.]
+Tato hodnota je pouita jako minimální, stávající hodnota mùe bıt vyšší.\nVarování: nastavením vyšší hodnoty zvıšíte poadavky na pamì.
+
+[Log the following strings:]
+Ukládat následující øetìzce:
+[All strings]
+1. Všechny øetìzce
+[Only translated strings]
+2. Pouze pøeloené øetìzce
+[Only untranslated strings]
+3. Pouze nepøeloené øetìzce
+
+[Translation mode]
+Pøekládací mód
+[Translations window]
+Pøekladové okno
+[Enable dynamic translation]
+Povolit dynamické pøekládání
+[Ignore double translations]
+Ignorovat zdvojené pøeklady
+[Ignore untranslated strings when building language pack]
+Ignorovat nepøeloené øetìzce pøi vytváøení jazykového balíèku
+
+[Filter entries automatically after]
+Filtrovat záznamy automaticky po
+
+[Warning: Translation mode will increase memory requirements further.\nYou should only enable this mode if you plan to write Miranda translations.\nYou need to restart Miranda for the setting to take effect.]
+Varování: Pøekládací mód velice zvıší nároky na pamì.\nTento mód mìjte zapnutı pouze kdy plánujete pøekládat Mirandu.\nMusíte restartovat Mirandu pro uvedení této volby v platnost.
+
+; ---

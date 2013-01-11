@@ -1,0 +1,48 @@
+; /----------------------------------------------------------\
+; |  shlext 2.0.0.9                                          |
+; \----------------------------------------------------------/
+;
+; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=534
+;
+
+[Problem, registration missing/deleted.]
+Nalezen problém, registrace byla ztracena/smazána.
+[Successfully created shell registration.]
+Integrace do prostøedí byla provedena úspìšnì.
+[Not Approved]
+Nebylo odsouhlaseno
+[Approved]
+Odsouhlaseno
+[Are you sure? this will remove all the settings stored in your database and all registry entries created for shlext to work with Explorer]
+Opravdu chcete smazat všechna nastavení ve vašem profilu a všechny položky registru vytvoøené pro spolupráci s Explorerem?
+[Disable/Remove shlext]
+Zakázat/odstranit shlext
+[Shell context menus]
+Kontextové nabídky
+
+[Clear entries]
+Vymazat položky
+[Recently]
+Èasto používané
+
+[Display contacts in their assigned groups (if any)]
+Zobrazit kontakt v jeho vlastní skupinì (pokud v nìjaké je)
+[Only if/when the contact list is using them]
+Pouze když seznam kontaktù skupiny používá
+[Display hidden, ignored or temporary contacts]
+Zobrazovat skryté, ignorované nebo doèasné kontakty
+[Shell Status]
+Stav integrace v prostøedí
+[Do not display the profile name in use]
+Nezobrazovat název používaného profilu
+[Contact Status]
+Stav kontaktu
+[Show contacts that you have set privacy rules for]
+Zobrazit kontakty pro které existují soukromá práva
+[Do not show status icons in menus]
+Nezobrazovat v nabídce ikonu stavu
+[Do not show contacts that are offline, even if my contact list does]
+Nezobrazovat offline kontakty 
+
+; ---

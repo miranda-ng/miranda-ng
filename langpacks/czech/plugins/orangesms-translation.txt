@@ -1,0 +1,90 @@
+; /----------------------------------------------------------\
+; |  OrangeSMS  0.1.0.0                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Maros Jabloncik <marosjabloncik (zavináè) gmail (teèka) com>
+; Adresa: http://www.prophet.ic.cz/download/
+
+
+
+;Error messages
+;--------------
+[You are not connected to the Internet.]
+Nejste pøipojený k síti Internet.
+[An error occured while attempting to log in.]
+Nastala chyba pøi pøihlašování.
+[Could not log in (check account settings - login and password).]
+Nebylo možné se pøihlásit (zadali jste špatné jméno nebo heslo).
+[Could not retrieve SMS count. It is possible, that the main page has changed. Sending of message may also not work correctly. Please contact the author of this plugin.]
+Nebylo možné zjistit poèet SMS. Je možné, že se zmìnila stránka, takže nemusí fungovat ani posílání SMS. Kontaktujte prosím autora doplòku.
+[An error occured while sending the message.]
+Nastala chyba pøi posílání zprávy.
+[Orangeportal refused the number.]
+Orangeportal odmítl èíslo.
+[You did not enter the number.]
+Nezadali jste èíslo.
+[You did not enter the message body.]
+Nezadali jste text zprávy.
+[You did not enter a nick in options.]
+Nevyplnili jste jméno v nastavení.
+[You did not enter a password in options.]
+Nevyplnili jste heslo v nastavení.
+[Error]
+Chyba
+
+;SendSMS Dialog 
+;--------------
+[Send SMS]
+Poslat SMS
+[Account:]
+Úèet:
+[Choose your account]
+Vyberte úèet
+[Unknown]
+Neznámý
+[Send]
+Poslat
+[Cancel]
+Zrušit
+[Message: (type without national characters!)]
+Zpráva: (zadávejte bez diakritiky!)
+[Remaining SMS:]
+Poèet zbývajících SMS:
+[Remaining characters:]
+Poèet zbývajících znakù:
+
+
+;Sending Dialog
+;--------------
+[Message successfully sent.]
+Zpráva byla úspìšnì odeslána.
+[Message not delivered!]
+Zpráva nebyla odeslána!
+[Sending message...]
+Odesílám zprávu...
+[Logging to OrangePortal.sk...]
+Pøihlašuji se na OrangePortal.sk...
+[Signing off from OrangePortal.sk...]
+Odhlašuji se od OrangePortal.sk...
+
+;Icons
+;-----
+[Send SMS]
+Poslat SMS
+
+[Account]
+Úèet
+[Account %d]
+Úèet %d
+[Account Name]
+Název úètu
+[Account Name:]
+Název úètu:
+[Nick:]
+Jméno:
+[Password:]
+Heslo:
+[Create a new Orangeportal account]
+Založit nový úèet na Orangeportal.sk
+
+; ---

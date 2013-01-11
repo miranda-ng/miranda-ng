@@ -1,0 +1,65 @@
+; /----------------------------------------------------------\
+; |  Gmail Notifier 0.2.2.0.0                                |
+; \----------------------------------------------------------/
+;
+; Pøeklad: churchyard <churchyard (zavináè) gmail (teèka) com>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=1473
+;
+
+
+;options
+;(DUP) [Network]
+[Gmail Notifier]
+Gmail Notifier
+;(DUP) [Gmail Account]
+;(DUP) [Name:]
+;(DUP) [Password:]
+;(DUP) [Configuration]
+;(DUP) [Check Gmail Inbox every]
+;(DUP) [minutes]
+;(DUP) [Notifier on:]
+;(DUP) [System Tray]
+;(DUP) [PopUp Plugin]
+;(DUP) [Duration:]
+;(DUP) [sec.]
+;(DUP) [TXT|BG:]
+;(DUP) [On DBClick:]
+;(DUP) [Login using default browser]
+;(DUP) [Login using Internet Explorer]
+;(DUP) [Run]
+;(DUP) [custom program]
+[Monitor all labels when using filters]
+Kontrolovat všechny štítky (používám filtry)
+;(DUP) [Enable icon selection and icon in status bar (restart)]
+[Suppress animate error notifications]
+Vypnout animované oznámení o chybách
+;(DUP) [This is a shared computer so disable Auto Login]
+;(DUP) [Log unread threads into database (enable history)]
+
+;menu item
+;(DUP) [&Check Gmail Inbox]
+
+;messages on contact
+;(DUP) [Checking...]
+;(DUP) [Can't open Internet!]
+;(DUP) [Can't reach server!]
+[Can't send account data!]
+Nelze zaslat data o úètu!
+[Can't get variable AUTH!]
+Neplatné jméno/heslo!
+[Login failed!]
+Chyba pøi pøihlášení!
+[Can't load inbox page!]
+Nelze naèíst schránku!
+[Can't parse page!]
+Nelze zpracovat obsah stránky!
+[No user name or password!]
+Zadejte prosím jméno a heslo!
+[No new messages!]
+Žádné nové zprávy!
+[ new/ ]
+ nové/ 
+[ unread thread(s)]
+ nepøeètená/é konverzace
+
+; ---

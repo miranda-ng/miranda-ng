@@ -1,0 +1,1678 @@
+; /----------------------------------------------------------\
+; |  Miranda IM core 0.10.x                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+
+; clistmenus.c
+[%s (locked)]
+%s (uzamèenı)
+[StatusMenu]
+Nabídka stavu
+[%s Custom Status]
+%s (rozšíøenı stav)
+[MainMenu]
+Hlavní nabídka
+[E&xit]
+U&konèit
+
+; clistsettings.c
+[(Unknown Contact)]
+(neznámı kontakt)
+
+; contacts.c
+['(Unknown Contact)']
+'(neznámı kontakt)'
+
+; database.c
+[The profile already exists]
+Profil s tímto názvem ji existuje
+[Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
+Profil '%s' nelze pøesunout do koše. Vyberte prosím jinı.
+[Problem moving profile]
+Chyba pøi pøesunu profilu
+[Unable to create the profile '%s', the error was %x]
+Profil '%s' nelze vytvoøit. Chyba: %x
+[Problem creating profile]
+Chyba pøi vytváøení profilu
+[Miranda is unable to open '%s' because you do not have any profile plugins installed.\nYou need to install dbx_3x.dll or equivalent.]
+Profil '%s' nelze otevøít. Není nainstalovanı odpovídající doplnìk.\nPouijte dbx_3x.dll (pro staré profily) nebo jinı.
+[No profile support installed!]
+Není nainstalovaná podpora pro profily!
+[Miranda was unable to open '%s', it's in an unknown format.\nThis profile might also be damaged, please run DB-tool which should be installed.]
+Profil '%s' nelze otevøít. Jedním z monıch\nproblémù je neznámı datovı formát. Druhou pak poškození\nprofilu. Zkuste pouít program DBTool.
+[Miranda can't understand that profile]
+Tento profil není ve formátu Miranda-IM
+
+; profilemanager.c
+[My Profiles]
+Seznam profilù
+[New Profile]
+Novı profil
+
+; newplugins.c
+['%s' is disabled, re-enable?]
+'%s' není aktivní. Chcete ho aktivovat?
+[Re-enable Miranda plugin?]
+Chcete znovu aktivovat tento doplnìk?
+
+; auth.c
+[%s requests authorization]
+%s ádá o autorizaci
+[%s added you to their contact list]
+%s si vás pøidal mezi své kontakty
+
+; authdialogs.c
+[Add Contact Permanently to List]
+Pøidat do seznamu natrvalo
+[View User's Details]
+Zobrazit osobní údaje
+[(Unknown)]
+(neznámı)
+
+; awaymsg.c
+[Re&ad %s Message]
+Pøeèíst &automatickou odpovìï
+
+; sendmsg.c
+;(LAI) [I've been away since %time%.]
+;(LAI) [Give it up, I'm not in!]
+;(LAI) [Not right now.]
+;(LAI) [Give a guy some peace, would ya?]
+;(LAI) [I'm a chatbot!]
+;(LAI) [Yep, I'm here.]
+;(LAI) [Nope, not here.]
+;(LAI) [I'm hiding from the mafia.]
+;(LAI) [That'll be the phone.]
+;(LAI) [Mmm...food.]
+;(LAI) [idleeeeeeee]
+
+; file.c
+[File from %s]
+Soubor od: %s
+[File]
+Soubor
+[Incoming]
+Pøíchozí
+[Complete]
+Dokonèeno
+[Error]
+Chyba
+[Denied]
+Odmítnuto
+
+; fileexistsdlg.c
+[%s File]
+Soubor %s
+[All Files]
+Všechny soubory
+
+; fileopts.c
+[Executable Files]
+Spustitelné soubory
+
+; filerecvdlg.c
+[Select Folder]
+Vyberte poadovanou sloku
+[Received Files]
+Pøijaté soubory
+[User Menu]
+Uivatelské menu
+[View User's History]
+Zobrazit historii
+[Cancelled]
+Pøerušeno
+
+; url.c
+[URL from %s]
+Odkaz od: %s
+[URL]
+Odkaz
+
+; urldialogs.c
+[URL from ]
+Odkaz od: 
+[Send URL to]
+Odeslání odkazu:
+
+; updatenotify.c
+[Update notification]
+Upozornìní na novou verzi
+[Miranda IM %s Now Available]
+Miranda IM %s
+
+; stdinfo.c
+[Unknown]
+neznámı
+
+; useronline.c
+[%s is Online]
+%s je online
+[Alerts]
+Upozornìní
+[Online]
+Online
+
+; bmpfilter.c
+[All Bitmaps]
+Všechny bitmapy
+[Windows Bitmaps]
+obrázky typu BMP
+[JPEG Bitmaps]
+obrázky typu JPEG
+[GIF Bitmaps]
+obrázky typu GIF
+[PNG Bitmaps]
+obrázky typu PNG
+
+; resource.rc
+[Send ]
+Odeslat 
+[Send authorization request]
+Odeslat ádost o autorizaci
+[Hide from list only, in order to keep their history and ignore/visibility settings]
+Pouze skrıt; zùstane tak zachována historie a ostatní nastavení.
+[Are you sure you want to delete %s?]
+Opravdu chcete smazat kontakt %s?
+[E-mail address]
+E-mail
+[Name]
+Jméno
+[Advanced]
+Extra
+[Advanced >>]
+Extra >>
+[More options]
+Další monosti
+[Show expert options]
+Zobrazit všechny monosti
+[Phone can receive SMS text messages]
+Telefon umoòuje pøíjem textovek (SMS)
+[&Allow all further changes to this section]
+&Povolit všechny další úpravy v této sekci
+;(LAI) [Sent bytes]
+;(LAI) [Received bytes]
+;(LAI) [Additional data due to proxy communication]
+;(LAI) [Text dumps where available]
+;(LAI) [Auto-detect text]
+;(LAI) [Calling modules' names]
+;(LAI) [OutputDebugString()]
+;(LAI) [Show this dialog box when Miranda IM starts]
+[Transferred:]
+Pøeneseno:
+[Speed:]
+Rychlost:
+[Open file]
+Otevøít soubor
+[&Open URL]
+&Otevøít URL
+[Download more sounds]
+Stáhnout další zvuky
+[Enable sound events]
+Povolit zvuky
+[Download more icons]
+Stáhnout další ikony
+[Do not reply to requests for this message]
+Neodpovídat na vybranou zprávu automaticky
+[Do not pop up dialog asking for new message]
+Nepoadovat zadání nové odpovìdi
+[By default, use the same message as last time]
+Jako odpovìï pouít stejnou zprávu jako poslednì
+[By default, use this message:]
+Jako odpovìï pouít následující zprávu:
+[To main icons]
+Do základní sady
+[To]
+Do
+[To default status icons]
+Do sady ikon k zobrazení stavù
+[Use proxy server]
+Pouít proxy server
+[Enable authentication]
+Povolit ovìøení
+[Resolve hostnames through proxy]
+Pøekládat jména hostitelù pomocí proxy
+[Port Range:]
+Rozsah portù:
+[Use NTLM authentication]
+Pouít ovìøení typu NTLM
+[Enable UPnP port mapping]
+Povolit mapování portù dle UPnP
+[Auto-accept incoming files from people on my contact list]
+Automaticky pøijímat soubory od lidí v seznamu
+[Minimize the file transfer window]
+Minimalizovat okno s pøenášenım souborem
+[Close window when transfer completes]
+Zavøít okno po dokonèení pøenosu
+[Never, do not use virus scanning]
+ádnı ze souborù
+[When all files have been downloaded]
+Po stáhnutí všech souborù
+[As each file finishes downloading]
+Jeden soubor po druhém
+[Warn me before opening a file that has not been scanned]
+Upozornit pøed otevøením nezkontrolovaného souboru
+[Ask me]
+Zeptat se
+[Resume]
+Navázat
+[Overwrite]
+Pøepsat
+[Become idle if the following is left unattended:]
+Pøejít do stavu neèinnosti pokud se nic nedìje v:
+[Windows]
+Windows
+[Miranda]
+Miranda
+[Become idle if the screen saver is active]
+Pøejít do stavu neèinnosti pokud bìí spoøiè obrazovky
+[Become idle if the computer is locked (2000/XP+ only)]
+Pøejít do stavu neèinnosti pokud je poèítaè zamèen (2000/XP+)
+[Become idle if a terminal session is disconnected]
+Pøejít do stavu neèinnosti po odpojení vzdáleného uivatele
+[Do not let protocols report any idle information]
+Zakázat protokolùm poskytovat informaci o neèinnosti
+[Change my status mode to:]
+Zmìnit stav na:
+[Do not set status back to online when returning from idle]
+Po pøíchodu zpìt nemìnit stav na 'Online'
+[Stri&keout]
+Pøeš&krtnuté
+[&Underline]
+Pod&trené
+[Automatically check for new versions of Miranda IM]
+Automaticky zjišovat nové verze programu Miranda IM
+[A new version of Miranda IM is now available.  Click the download button to download this new update.]
+K dispozici je nová verze programu Miranda IM. Dostanete se k ní kliknutím na tlaèítko 'Stáhnout'.
+[&Authorize]
+&Autorizovat
+[&Send]
+Po&slat
+[&Add]
+Pøid&at
+[OK]
+OK
+[No]
+Ne
+[&Search]
+&Hledat
+[&Cancel]
+&Zrušit
+[Closing in %d]
+Zavøe se za %d sek.
+[Yes]
+Ano
+[&Yes]
+&Ano
+[Close]
+Zavøít
+[&Find Next]
+&Najít další
+[A&ccept]
+&Pøijmout
+[Cancel]
+Zrušit
+[&Close]
+&Zavøít
+[&Deny]
+O&dmítnout
+[Credits >]
+Podìkování >
+[&Run]
+&Spustit
+[&Exit]
+U&konèit
+[Add to list]
+Pøidat do seznamu
+[Apply]
+Pouít
+[Update Now]
+Aktualizovat
+[No to all]
+Ne všem
+[&View contents]
+Zobrazit o&bsah
+[&No]
+&Ne
+[Cancel Import]
+Zrušit import
+[&Recycle]
+Pø&esunout do koše
+[&Delete]
+&Smazat
+[&Move/Rename]
+Pøesunout/Pøej&menovat
+[&Leave]
+Ode&jít
+[...]
+...
+;(LAI) [Run now]
+[Save as default]
+Uloit jako vıchozí
+[&Choose Again...]
+Vyberte &další...
+[&Decline]
+O&dmítnout
+[Open folder]
+Otevøít sloku
+[Resume all]
+Navázat vše
+[Overwrite all]
+Pøepsat vše
+[Save as...]
+Uloit jako...
+[Skip]
+Pøeskoèit
+[Cancel transfer]
+Pøerušit pøenos
+[File properties]
+Vlastnosti souboru
+[&Reply]
+&Odpovìdìt
+[&Find...]
+&Najít...
+[Delete]
+Smazat
+[&Change...]
+&Zmìnit...
+[&Preview]
+&Pøehrát
+[&Load icon set...]
+&Naèíst sadu ikon...
+[&Import icons >>]
+&Importovat ikony >>
+[<< &Import]
+<< &Importovat
+[Logging...]
+Záznam...
+[Choose font...]
+Vybrat písmo...
+[Reset to Default]
+Obnovit vıchozí
+[Undo]
+Zpìt
+[Export...]
+Exportovat...
+[&Apply]
+&Pouít
+[&Help]
+&Nápovìda
+[InsertSeparator]
++ oddìlovaè
+[Set]
+Nastavit
+[Default]
+Vıchozí
+[Reset]
+Reset
+[&Download Now]
+&Stáhnout
+[Nick:]
+Pøezdívka:
+[E-mail:]
+E-mail:
+[Reason:]
+Dùvod:
+[Custom name:]
+Vlastní jméno:
+[Group:]
+Skupina:
+[Miranda IM]
+Miranda IM
+[Version]
+Verze
+[Use Options->Ignore (expert mode) to unhide contacts.]
+(Skrytí kontaktù zrušíte v nastavení programu.)
+[This will erase all history and settings for this contact!]
+Tímto odstraníte celou historii a nastavení kontaktu!
+[Instead of displaying contacts by their nickname, drag to choose another order:]
+Chcete-li mít v seznamu namísto pøezdívek nìco jiného, pøetáhnutím poloek zmìòte poøadí:
+[Select and/or create your Miranda IM user profile]
+Vıbìr nebo vytvoøení nového profilu
+[Search:]
+Prohledat:
+[First:]
+Jméno:
+[Last:]
+Pøíjmení:
+[View personal user details and more.]
+Pøehled informací o vybrané osobì
+[Nickname:]
+Pøezdívka:
+[First name:]
+Jméno:
+[Gender:]
+Pohlaví:
+[Last name:]
+Pøíjmení:
+[Age:]
+Vìk:
+[Date of birth:]
+Narozeniny:
+[Phone:]
+Telefon:
+[Web page:]
+WWW:
+[Past background:]
+Minulost:
+[Interests:]
+Zájmy:
+[About:]
+Ostatní informace:
+[My notes:]
+Vzkazy:
+[Street:]
+Ulice:
+[City:]
+Mìsto:
+[State:]
+Stát:
+[Postal code:]
+PSÈ:
+[Country:]
+Zemì:
+[Spoken languages:]
+Ovládané jazyky:
+[Timezone:]
+Èasové pásmo:
+[Local time:]
+Místní èas:
+[Company:]
+Spoleènost:
+[Department:]
+Oddìlení:
+[Position:]
+Postavení:
+[Website:]
+WWW:
+[Enter country, area code and phone number:]
+Zadejte kód zemì, oblasti a samotné èíslo:
+[Or enter a full international number:]
+Nebo èíslo zadejte v mezinárodním formátu:
+[A file containing new database settings has been placed in the Miranda IM directory.]
+Do adresáøe s programem Miranda byl umístìn soubor ke konfiguraci databáze uivatele.
+[Do you want to import the settings now?]
+Chcete naimportovat tento konfiguraèní soubor?
+[Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
+Upozornìní: Potvrzením se pøedpokládá, e znáte rozsah úprav obsahu své databáze a jste si vìdomi všech monıch následkù.
+[Database settings are being imported from]
+Importovanı konfiguraèní soubor
+[This file wishes to change the setting]
+Poadavek na zmìnu poloky
+[to the value]
+na hodnotu
+[Do you want to allow this change?]
+Chcete povolit úpravu této poloky?
+[The import has completed from]
+Import nastavení dokonèen; z
+[What do you want to do with the file now?]
+Co chcete udìlat s tímto souborem?
+;(LAI) [Run programme when Miranda IM starts (eg tail -f, dbgview, etc):]
+[Find What:]
+Najít:
+[To:]
+Pro:
+[File(s):]
+Soubory:
+[Description:]
+Popis:
+[From:]
+Od:
+[Date:]
+Datum:
+[Files:]
+Soubory:
+[Save to:]
+Uloit do:
+[Status:]
+Stav:
+[You are about to receive the file]
+Pøíjem souboru:
+[Size:]
+Velikost:
+[Type:]
+Typ:
+[Enter URL:]
+Doplòte odkaz:
+[Enter description:]
+Zadejte popis:
+[URL:]
+Odkaz:
+[Location:]
+Umístìní:
+[Name:]
+Název:
+[Show category:]
+Kategorie:
+[The following events are being ignored:]
+Následující události budou ignorovány:
+[Messages]
+Zprávy
+[URLs]
+Odkazy
+[Files]
+Soubory
+[Auth Requests]
+ádosti o autorizaci
+[Online Notification]
+Oznámení online
+[All Events]
+Všechny události
+[None]
+---
+[Added Notification]
+Oznámení o pøidání
+[Typing]
+Píšu
+[You are visible to this person even when in invisible mode]
+Vùèi dané osobì viditelnı i ve stavu 'Neviditelnı'
+[You are never visible to this person]
+Vùèi dané osobì neviditelnı za všech okolností
+[Use %time% for the current time, %date% for the current date]
+%time% = aktuální èas, %date% = aktuální datum
+[Drag icons to main list to assign them:]
+Ikony zmìníte uchopením a pøetáhnutím do hlavního seznamu:
+[Host:]
+Hostitel:
+[Port:]
+Port:
+[(often %d)]
+(obvykle %d)
+[Username:]
+Uivatel:
+[Password:]
+Heslo:
+[Example: 1050-1070, 2000-2010, 2500]
+Pøíklad: 1050-1070, 2000-2010, 2500
+[Received files folder:]
+Sloka pro soubory:
+[Scan files:]
+Kontrolovat:
+[Command line:]
+Pøíkazovı øádek:
+[%f will be replaced by the file or folder name to be scanned]
+Promìnná %f bude nahrazena souborem nebo slokou ke kontrole
+[You will always be asked about files from people not on your contact list]
+Pøíjem souborù od lidí, kteøí nejsou mezi kontakty, podléhá vdy dotazu.
+[Variables Allowed: %userid%, %nick%, %proto%, %miranda_path%, %userprofile%]
+Promìnné: %userid%, %nick%, %proto%, %miranda_pach%, %userprofile%
+[minute(s)]
+min.
+[Please complete the following form to create a new user profile]
+Po vyplnìní následujících poloek bude vytvoøen novı profil
+[Profile]
+Profil
+[e.g. Workplace]
+napø. Práce
+[You can select a different profile driver from the default, it may offer more features or abilities, if in doubt use the default.]
+Zde mùete vybrat i jinı ovladaè databáze s vìtším mnostvím funkcí a moností. Pokud si však nejste jisti, ponechte vıchozí.
+[e.g. Miranda Database]
+pro databázi Mirandy
+[Driver]
+Ovladaè
+[Problem: Unable to find any database drivers, this means you can not create a new profile, you need to get dbx_3x.dll]
+Problém: Není nainstalovanı ádnı z doplòkù pro správu profilù. Pouijte dbx_3x.dll (pro staré profily) nebo jinı.
+[* you may need to restart for the changes to take effect]
+* Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+[&Font:]
+&Písmo:
+[Font st&yle:]
+Ø&ez písma:
+[&Size:]
+Veliko&st:
+[&Color:]
+&Barva:
+[Sc&ript:]
+Sk&ript:
+[Warning!\r\nThis MenuObject not support user defined options.]
+Upozornìní!\r\nTento objekt menu nepodporuje zmìnu nastavení.
+[Service:]
+Sluba:
+[Show protocols in the following order, drag to choose another order:]
+Zobrazit protokoly v tomto poøadí, taením se zmìní pozice:
+[Total size:]
+Celková velikost:
+[Last modified:]
+Zmìnìno:
+[Icon library:]
+Soubor s ikonami:
+[for]
+po dobu
+[Author(s):]
+Autor:
+[Copyright:]
+Copyright:
+[Homepage:]
+WWW:
+[Unique ID:]
+ID:
+[Options]
+Monosti
+[Authorization Request]
+ádost o autorizaci
+[Contact Display Options]
+Monosti zobrazení seznamu
+[Show]
+Zobrazit
+;(LAI) [Log to]
+[Current file]
+Aktuální stav
+[All files]
+Soubory celkovì
+[Existing file]
+Existující soubor
+[File being received]
+Pøijímanı soubor
+[Sounds]
+Zvuky
+[Sound Information]
+Informace o zvuku
+[Icons]
+Ikony
+[Ignore]
+Filtrování
+[Visibility]
+Viditelnost
+[Status Messages]
+Stavové zprávy
+[Import multiple]
+Importovat hromadnì
+[Incoming Connections]
+Pøíchozí spojení
+[Outgoing Connections]
+Odchozí spojení
+[Receiving files]
+Pøíjem souborù
+[Virus scanner]
+Antivirová ochrana
+[If incoming files already exist]
+V pøípadì, e pøíchozí soubor ji existuje
+[Idle Options]
+Monosti pøi neèinnosti
+[Fonts]
+Písma
+[Colours]
+Barvy
+[Font Group]
+Definice písem
+[Effects]
+Efekty
+[Sample]
+Pøíkladovı text
+[MenuObjects]
+Nabídky
+[MenuItems]
+Prvky nabídky
+[Update Notification Options]
+Monosti upozornìní na novou verzi
+[Check for updates for the following:]
+Zjišovat tyto nové verze:
+[Stable releases]
+Stabilní vydání
+[Preview releases (beta)]
+Testovací vydání (beta)
+[Development releases (alpha)]
+Vıvojová vydání (alpha)
+[Enter a reason for denial]
+Zadejte dùvod pro odmítnutí
+[Add %s]
+Mezi kontakty pøidat: %s
+[You Were Added]
+Zpráva o zaøazení mezi kontakty
+[About Miranda IM]
+O programu Miranda IM
+[Delete Contact]
+Smazání kontaktu
+[Miranda IM Profile Manager]
+Miranda IM - správce profilù
+[Find/Add Contacts]
+Vyhledání kontaktù
+[%s Message for %s]
+Stav: '%s', uivatel: %s
+[Change %s Message]
+Odpovìï pro stav '%s'
+[%s: User Details]
+%s: informace
+[Add E-Mail Address]
+Pøidat e-mail
+[Add Phone Number]
+Pøidat telefonní èíslo
+[Install Database Settings]
+Konfigurace databáze
+[Database Setting Change]
+Zmìna konfigurace databáze
+[Database Import Complete]
+Import databáze dokonèen
+;(LAI) [Netlib Log Options]
+[Find]
+Najít
+[Send File(s)]
+Poslat soubory
+[Incoming File Transfer]
+ádost o pøenos souboru
+[URL Recieved]
+Pøijat odkaz
+[Message History]
+Historie zpráv
+[Icon Index]
+Pøehled ikon
+[Font]
+Písmo
+[Miranda IM v%s Now Available]
+K dispozici je Miranda IM v%s
+[&Offline\tCtrl+0]
+&Offline\tCtrl+0
+[On&line\tCtrl+1]
+On&line\tCtrl+1
+[&Away\tCtrl+2]
+N&a chvíli pryè\tCtrl+2
+[&NA\tCtrl+3]
+&Nejsem tady\tCtrl+3
+[Occ&upied\tCtrl+4]
+Nemám èa&s\tCtrl+4
+[&DND\tCtrl+5]
+Ner&ušit!\tCtrl+5
+[&Free for chat\tCtrl+6]
+&Mám volno\tCtrl+6
+[&Invisible\tCtrl+7]
+Nev&iditelnı\tCtrl+7
+[On the &Phone\tCtrl+8]
+Mám tele&fon\tCtrl+8
+[Out to &Lunch\tCtrl+9]
+Jsem na o&bìdì\tCtrl+9
+[&Hide/Show]
+Skrıt/Zo&brazit
+[&New Group]
+&Nová skupina
+[&Hide Offline Users]
+&Skrıt uivatele offline
+[Hide &Offline Users out here]
+Skrıt uivatele &offline mimo skupiny
+[Hide &Empty Groups]
+S&krıt prázdné skupiny
+[Disable &Groups]
+Vypnout zobrazení s&kupin
+[Hide Miranda]
+Skrıt okno
+[&New Subgroup]
+&Nová podskupina
+[&Hide Offline Users in here]
+Skrıt uivatele o&ffline
+[&Rename Group]
+Pø&ejmenovat skupinu
+[&Delete Group]
+&Smazat skupinu
+[&Reset to default]
+O&bnovit vıchozí
+[&Add to List]
+Pøid&at do seznamu
+[User &Details]
+In&formace o kontaktu
+[Send &Message]
+Poslat zp&rávu
+[&Copy]
+Z&kopírovat
+[Co&py All]
+Zko&pírovat vše
+[Select &All]
+Vybr&at vše
+[C&lear Log]
+Vy&mazat záznam
+[Open in &new window]
+Otevøít v &novém oknì
+[&Open in existing window]
+&Otevøít v aktuálním oknì
+[&Copy link]
+Z&kopírovat odkaz
+[Cancel Change]
+&Obnovit pøedchozí
+[&Reset to Default]
+&Vıchozí stav
+
+
+; NEPUBLIKOVANÉ
+; options.c
+[Miranda IM Options]
+Miranda - monosti nastavení
+
+; newplugins.c
+[Plugin]
+Doplnìk
+[Running]
+Spuštìno
+
+; ignore.c
+[** All contacts **]
+** všechny kontakty **
+[** Unknown contacts **]
+** neznámé kontakty **
+
+; findadd.c
+[Results]
+Seznam vyhledanıch osob
+[There are no results to display.]
+Zadejte kritéria hledání.
+[All Networks]
+Všechny sítì
+
+[Please select a subentry from the list]
+Vyberte prosím ze seznamu jednu z dalších poloek.
+
+; Události / Filtrování kontaktù
+[Only the ticked contacts will be shown on the main contact list]
+V seznamu kontaktù se objeví pouze ty skupiny nebo uivatelé, které zaškrtnete.
+
+; Kontakty / Ikony
+[Group (Open)]
+Skupina (otevøená)
+[Group (Closed)]
+Skupina (zavøená)
+[User Online]
+Uivatel online
+
+; Autorizace
+[Send "You were added"]
+Odeslat zprávu o zaøazení
+
+;IDD_READAWAYMSG
+[Retrieving %s message...]
+Zjištìní automatické odpovìdi ve stavu '%s'...
+
+;IDD_ADDED
+[You were added to this user's contact list.]
+Tento uivatel si vás pøidal mezi kontakty.
+
+; Informace o osobì / Kontakt
+[Custom %d]
+Vlastní è.%d
+[Edit Phone Number]
+Upravit telefonní èíslo
+[Edit E-Mail Address]
+Upravit e-mail
+[The phone number should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefonní èíslo by mìlo zaèínat znakem + a obsahovat pouze èísla, mezery, závorky a pomlèky.
+[Invalid Phone Number]
+Neplatné tel. èíslo
+[Primary]
+Primární
+[Fax]
+Fax
+[Mobile]
+Mobil
+
+; Hlavní nabídka
+[&Miranda IM Website]
+Do&movská stránka
+
+[Enable sound events]
+Povolit zvuky
+[Become idle if a terminal session is disconnected]
+Pøejít do stavu neèinnosti po odpojení vzdáleného uivatele
+[Enable authentication]
+Povolit ovìøení
+[Incoming Connections]
+Pøíchozí spojení
+[Outgoing Connections]
+Odchozí spojení
+[Port Range:]
+Rozsah portù:
+[Enable UPnP port mapping]
+Povolit mapování portù dle UPnP
+[Logging...]
+Záznam...
+[You will need to reconnect for the changes you have made on this page to take effect.]
+Poznámka: Provedené zmìny se projeví a pøi dalším pøipojení do sítì.
+
+[Menus]
+Nabídky
+
+[Update Notify]
+Nové verze
+
+[Menu Icons]
+Nabídky
+[Frames_Menu]
+Nabídka rámeèku
+
+[File Transfers]
+Pøenos souborù
+[Hotkeys]
+Klávesové zkratky
+[Grey out entire list when:]
+Zešednout seznam v pøípadì:
+[If window is partially covered, bring to front instead of hiding]
+Je-li okno èásteènì zakryto, zobrazit na popøedí namísto skrytí
+[Hide contact list after it has been idle for]
+Skrıt seznam kontaktù, byl-li neaktivní po dobu
+[Scroll with text]
+Rolovat s textem
+[Show icons]
+Zobrazit ikony
+[Right click opens Miranda IM menu]
+Pravım tlaèítkem nabídku Mirandy
+[Contact List Background]
+Pozadí seznamu kontaktù
+[Apply last active view mode]
+Pouít poslední aktivní reim zobrazení
+[Main Icons]
+Hlavní ikony
+[icon when statuses differ]
+(v pøípadì, e se stavy liší)
+
+; about.c
+[Version]
+Verze
+[Built %s %s]
+Datum: %s %s
+[Credits >]
+Podìkování >
+[< About]
+< O programu
+
+; help.c
+[&Help]
+&Nápovìda
+[&About...]
+O progr&amu...
+[&Support\tF1]
+&Podpora\tF1
+[&Miranda IM Homepage]
+Do&movská stránka
+[&Report Bug]
+&Nahlásit chybu
+
+[Rename (append " (1)", etc.)]
+Pøejmenovat (pøidá " (1)" atd.)
+
+[Web Page Address (&URL)]
+Odkaz (&URL)
+[View &History]
+Zobrazit &historii
+
+[Selected Text]
+Vybranı text
+[Hottrack Text]
+Zvıraznìnı text
+[Quicksearch Text]
+Hledanı text
+
+[Icon Sets]
+Sada ikon
+[Down Arrow]
+Šipka dolù
+[Add Contact]
+Pøidat kontakt
+[Find User]
+Vyhledat kontakt
+[Send E-mail]
+Poslat e-mail
+[Search All]
+Prohledat vše
+[Tick]
+Zaškrtnuto
+[No Tick]
+Nezaškrtnuto
+[Miranda Website]
+Stránka o Mirandì
+[Small Dot]
+Teèka uprostøed
+[Filled Blob]
+Vyplnìnı slot
+[Empty Blob]
+Prázdnı slot
+
+[Read Away Message]
+Pøeèíst autom. odpovìï
+[Re&ad Away Message]
+Pøeèíst &autom. odpovìï
+
+[<All connections>]
+<všechna spojení>
+
+[&Reset To Default]
+O&bnovit vıchozí
+
+; Informace o kontaktu
+[Summary]
+Souhrn
+[Location]
+Umístìní
+
+[Insert separator]
+Vloit oddìlovaè
+
+; Menu
+[<Root Group>]
+<koøenová skupina>
+[&Move to Group]
+Pøesunout do s&kupiny
+[ContactMenu]
+Nabídka kontaktu
+[Custom status]
+Rozšíøenı stav
+
+; File Tranfer dialog
+[Sending file]
+Posílání souboru
+[Sending files]
+Posílání souborù
+[Receiving file]
+Pøíjem souboru
+[Request sent, waiting for acceptance...]
+ádost odeslána, èekání na potvrzení...
+[Waiting for connection...]
+Èekání na spojení...
+[This file has not yet been scanned for viruses. Are you certain you want to open it?]
+Tento soubor ještì nebyl zkontrolován antivirovım programem. Opravdu ho chcete otevøít?
+[File Received]
+Soubor pøijat
+[Current file (%d of %d)]
+Aktuální soubor (è.%d z %d)
+[Unable to initiate transfer.]
+Chyba pøi inicializaci pøenosu.
+[sec]
+sek.
+[remaining]
+zbıvá
+[Decision sent]
+Potvrzení odesláno
+[Connecting...]
+Navazování spojení...
+[Connecting to proxy...]
+Pøipojování k proxy...
+[Connected]
+Spojení navázáno
+[Initialising...]
+Inicializace...
+[Moving to next file...]
+Další soubor...
+[File already exists]
+Soubor ji existuje
+[Sending...]
+Posílání dat...
+[Receiving...]
+Pøíjem dat...
+[Transfer completed]
+Pøenos dat dokonèen
+[Scanning for viruses...]
+Kontrola antivirovım programem...
+[File transfer failed]
+Chyba pøi pøenosu souboru
+[File transfer denied]
+Pøenos souboru odmítnut
+[Transfer and virus scan complete]
+Pøenos a kontrola antivirem dokonèena
+[%d file]
+%d soubor
+[%d files]
+%d souborù
+
+; Vlastní úpravy / Písma
+[Color/Background]
+Barva pozadí
+[Choose Font]
+Vybrat písmo
+[Configuration Files (*.ini)\0*.ini\0Text Files (*.txt)\0*.TXT\0All Files (*.*)\0*.*\0]
+Konfiguraèní soubory (*.ini)\0*.ini\0Textové soubory (*.txt)\0*.TXT\0Všechny soubory (*.*)\0*.*\0
+
+[Show settings only for module:]
+Zobrazit monosti pro:
+[<all modules>]
+1) všechny moduly
+[<core modules>]
+2) jádro Mirandy
+
+[File Already Exists]
+Soubor ji existuje
+
+; src/modules/findadd/searchresults.c
+[%d %s users found]
+Poèet nalezenıch: %d, sí %s
+[%d users found (]
+Poèet nalezenıch: %d (
+[1 %s user found]
+Poèet nalezenıch: 1, sí %s
+[Could not search on any of the protocols, are you online?]
+Nelze vyhledávat ani v jednom z protokolù. Jste pøipojeni?
+[Could not start a search on '%s', there was a problem - is %s connected?]
+V rámci %s nelze vyhledávat. Jste pøipojeni k síti %s?
+[No users found]
+Poèet nalezenıch: 0
+[Problem with search]
+Chyba pøi hledání
+[First Name]
+Jméno
+[Last Name]
+Pøíjmení
+
+; src/modules/database/dbini.c
+[Invalid setting type. The first character of every value must be b, w, d, l, s, e, u, g, h or n.]
+Neplatnı typ nastavení. První znak hodnoty musí bıt b, w, d, l, s, e, u, g, h nebo n.]
+
+; src/modules/database/profilemanager.c
+[<In Use>]
+<pouíváno>
+[Accessed]
+Otevøeno
+[Created]
+Vytvoøeno
+
+; src/modules/findadd/findadd.c
+;[Handle]
+[Search]
+Hledat
+[You haven't filled in the search field. Please enter a search term and try again.]
+Zadejte hledanı vıraz a zkuste hledat znovu.
+
+; ikony
+[Unicode plugin]
+Doplnìk Unicode
+[ANSI plugin]
+Doplnìk ANSI
+[Running plugin]
+Spuštìnı doplnìk
+[Unloaded plugin]
+Nespuštìnı doplnìk
+
+[Your Version:]
+Nainstal. verze:
+[Latest Release:]
+Nejnovìjší verze:
+
+[Incoming Message]
+Pøíchozí zpráva
+[Outgoing Message]
+Odchozí zpráva
+[Incoming URL]
+Pøíchozí odkaz
+[Outgoing URL]
+Odchozí odkaz
+[Incoming File]
+Pøíchozí soubor
+[Outgoing File]
+Odchozí soubor
+
+; ./src/modules/keybindings/keybindings.c
+[Shortcut already assigned to "%s" action.\nIf you click "Add" the shortcut will be reassigned.]
+Tato klávesová zkratka je pouitá (akce: "%s").\nKliknutím na tlaèítko "Pøidat" zkratku zmìníte.
+
+; ./src/modules/skin/hotkeys.c
+[Add another shortcut]
+Pøidat klávesovou zkratku
+[Add secondary binding]
+Pøidat druhou zkratku
+[Change binding]
+Zmìnit zkratku
+[Miranda local hotkey]
+Lokální klávesová zkratka
+[Remove binding]
+Odstranit zkratku
+[Remove shortcut]
+Odstranit zkratku
+[Revert change]
+Vrátit pùvodní
+[System global hotkey]
+Globální klávesová zkratka
+[add secondary hotkey]
+Pøidat druhou zkratku
+[miranda hotkey (click to toggle)]
+Lokální zkratka (kliknutím pøepnete)
+[remove hotkey]
+Odstranit zkratku
+[revert change]
+Vrátit pùvodní zkratku
+[system global hotkey]
+Globální zkratka
+[window hotkey]
+Zkratka pro okno
+
+[&Accounts...]
+Úèt&y...
+[Enter account name (for example, My Google)]
+Zadejte název úètu (napø. Google)
+[Choose the protocol type]
+Vyberte poadovanı protokol
+[Specify the internal account name (optional)]
+Zadejte interní název úètu (nepovinné)
+[Editing account]
+Upravit úèet
+[Account %s is being deleted]
+Odstranìní úètu %s
+
+[Start in Service Mode with]
+Nouzovı reim s doplòkem
+
+[WARNING! The account is going to be deleted. It means that all its settings, contacts and histories will be also erased.\n\nAre you absolutely sure?]
+POZOR!!! Vybranı úèet bude smazán. V dùsledku to znamená, e bude odstranìn seznam kontaktù daného protokolu, historie i nastavení.\n\nOpravdu chcete smazat vybranı úèet?
+[Your account was successfully upgraded. To activate it, restart of Miranda is needed.\n\nIf you want to restart Miranda now, press Yes, if you want to upgrade another account, press No]
+Vybranı úèet byl úspìšnì zaktualizován a nyní ho u zbıvá jen aktivovat, co vyaduje restart Mirandy.\n\nPomocí tlaèítka 'Ano' provedete restart, kliknutím na tlaèítko 'Ne' lze aktualizovat další úèet.
+[Restart required]
+Vyaduje restart
+
+[This account uses legacy protocol plugin. Use Miranda IM options dialogs to change it's preferences.]
+Tento úèet pouívá starší generaci doplòku pro podporu daného protokolu. Konfigurovat ho mùete jen v oknì s nastavením pro celou Mirandu.
+[Account is disabled. Please activate it to access options.]
+Vybranı úèet je vypnutı. Nejdøíve ho musíte aktivovat.
+[Account ID]
+Identifikátor úètu
+[Configure your IM accounts]
+Konfigurace nebo zaloení úètu
+[Account information:]
+Informace o úètu:
+[Additional:]
+Další monosti:
+[Configure network...]
+Konfigurovat sítì...
+[Get more protocols...]
+Stáhnout další protokoly...
+[New account]
+Zøídit úèet
+[Upgrade account]
+Aktualizovat úèet
+[Protocol is not loaded.]
+Protokol není naètenı.
+
+[ShowHide]
+Zobrazit nebo skrıt
+
+[File &Transfers...]
+Pø&enos souborù...
+[Clear completed]
+Vymazat dokonèené
+[Miranda IM is being restarted.\nPlease wait...]
+Restart programu Miranda.\nPoèkejte prosím...
+[Tranfer completed.]
+Pøenos dat dokonèen.
+[No data transferred]
+Pøenos ještì nezaèal.
+[Transfer completed, open file.]
+Pøenos dat dokonèen, otevøení souboru.
+[Transfer completed, open folder.]
+Pøenos dat dokonèen, otevøení sloky.
+
+[Check for Update]
+Zjistit novou verzi
+[No Update Available]
+Není novìjší verze
+[You are running the latest version of Miranda IM.  No update is available at this time.]
+Pouíváte nejnovìjší verzi programu Miranda IM.
+[Configure your Miranda Instant Messenger options]
+Konfigurace programu Miranda IM
+[Options search]
+Hledání v nastavení
+[Enable keyword search in options dialog]
+Zapnout hledání v nastavení Mirandy
+[If this option is checked it allows you to search for option pages that contain the search string or plugin name.]
+Tato funkce umoní najít hledané slovo, funkci nebo doplnìk v rámci konfiguraèního okna Mirandy.
+
+[Transfer completed.]
+Pøenos dat dokonèen.
+[Transfer and virus scan complete]
+Pøenos i kontrola dat antivirem dokonèena
+[of]
+z
+
+[Locked status]
+Zamknuto
+[Add binding]
+Pøidat
+[Text Effect]
+Textovı efekt
+[Effect:]
+Efekt:
+[Base colour:]
+Základní barva:
+[Secondary colour:]
+Doplòková barva:
+[Font Effect]
+Efekt
+
+[Style]
+Vzhled
+[Addons]
+Doplòky
+
+[Become idle if computer is left unattended for:]
+Pøejít do stavu neèinnosti pokud se nic nedìje:
+[Idle (auto-away):]
+Stav neèinnosti:
+[Status messages:]
+Stavové zprávy:
+[Choose events you wish to ingonre:]
+Vyberte události, které chcete filtrovat:
+[Event icon legend:]
+Legenda k vybranım ikonám:
+[Options\nConfigure your Miranda Instant Messenger options]
+Monosti\nKonfigurace programu Miranda IM
+[Welcome to Miranda IM's account manager!\n Here you can set up your IM accounts.\n\n Select an account from the list on the left to see the available options. Alternatively, just click on the Plus sign underneath the list to set up a new IM account.]
+Vítejte ve správci úètù programu Miranda IM!\nZde si mùete zaloit novı úèet ve vybrané síti, upravit stávající nebo naopak nìkterı smazat.\n\nChcete-li zaloit novı úèet, kliknìte na tlaèítko \"plus\" v levém dolním rohu okna. Pokud si pøejete upravit stávající úèet, vyberte poadovanı ze seznamu.
+[Headers:]
+Záhlaví:
+[This font is used to display main section titles or text elements.]
+Pouívá se k zobrazení textu v záhlaví sekcí nebo odstavcù.
+[Normal text:]
+Bìnı text:
+[This font is used to display most text element or section bodies.]
+Pouívá se k zobrazení vìtšiny textù v programu.
+[Minor notes:]
+Poznámky:
+[This font is used to display various addtional notes.]
+Pouívá se k zobrazení dodatkovıch textù a poznámek.
+[Sample Text]
+Ukázka textu
+[Validate SSL certificates]
+Ovìøit platnost certifikátù
+[Added event]
+Nová událost
+[Authorization request]
+ádost o autorizaci
+[Background info]
+Profil
+[%s\nView personal user details and more]
+%s\nPøehled informací o vybrané osobì
+[Actions:]
+Akce:
+[Scope:]
+Platí pro:
+[Accounts\nConfigure your IM accounts]
+Úèty\nKonfigurace nebo zaloení úètu
+[Work Phone]
+Telefon (práce)
+[Work Fax]
+Fax (práce)
+[Find/Add Contacts\nHere you can add contacts to your contact list]
+Vyhledání kontaktù\nUmoní vyhledat a pøidat nalezené do seznamu kontaktù
+
+[Headers]
+Záhlaví
+[Generic text]
+Bìnı text
+[Small text]
+Poznámky
+
+[bytes]
+bajtù
+
+[This change is known to be safe.]
+Tato úprava se obecnì povauje za bezpeènou.
+[This change is known to be potentially hazardous.]
+Tato úprava se povauje za potenciálnì nebezpeènou.
+[This change is not known to be safe.]
+Neznámı druh úpravy; nelze povaovat za bezpeèné.
+
+[Latest Version:]
+Nejnovìjší verze:
+
+[Miranda was unable to open '%s'\nIt's inaccessible or used by other application or Miranda instance]
+Profil '%s' nelze otevøít. Zkontrolujte,\nzda máte oprávnìní ke ètení dat z adresáøe s profilem.
+[Miranda can't open that profile]
+Vybranı profil nelze otevøít
+[Account Order && Visibility]
+Poøadí úètù a jejich viditelnost
+[Upgrading account]
+Aktualizace úètu
+[&Upgrade]
+Aktualizovat
+
+[Open...]
+Otevøít...
+
+[Protocol menus]
+Nabídky úètù
+[Move to the main menu]
+Pøesunout do hlavní nabídky
+[Move to the status bar]
+Pøesunout do nabídky stavu
+
+[Menu Objects]
+Nabídky
+[Menu Items]
+Poloky nabídky
+
+[Clear completed transfers on window closing]
+Smazat dokonèené pøenosy po zavøení okna
+
+; ./src/modules/srauth/authdialogs.cpp
+[%s requested authorization\n%u (%s) on %s]
+%s ádá o autorizaci\n%u (%s) v síti %s
+[%s requested authorization\n%u on %s]
+%s ádá o autorizaci\n%u v síti %s
+[%s requested authorization\n%s on %s]
+%s ádá o autorizaci\n%s v síti %s
+
+[Denial Reason:]
+Dùvod odmítnutí:
+[Decide &Later]
+&Pozdìji
+[View User Details]
+Zobrazit osobní údaje
+
+[&Support]
+&Podpora
+
+[Add to contact list if authorized]
+Je-li autorizován, pøidat mezi kontakty
+
+[Set custom time zone]
+Nastavit vlastní èasové pásmo
+[<unspecified>]
+<neurèeno>
+
+[Miranda Profiles from]
+Umístìní profilù
+[Select or create your Miranda IM user profile]
+Vıbìr nebo vytvoøení nového profilu
+[Modified]
+Zmìnìno
+
+[Become idle if application full screen]
+Pøejít do stavu neèinnosti v celoobrazovkovém reimu
+[Open Logging Options]
+Otevøít záznam
+[Use Custom Login (Domain login picked up automatically)]
+Pouít vlastní pøihlášení (doménové jméno doplnìno automaticky)
+
+; netlib options
+[Netlib Log Options]
+Záznam síové komunikace
+[Received bytes]
+Pøijatá data
+[Sent bytes]
+Odeslaná data
+[Additional data due to proxy communication]
+Vèetnì komunikace s proxy
+[Text dumps where available]
+Pøednostnì textovı vıpis
+[Auto-detect text]
+Automatická detekce textu
+[Calling modules' names]
+Názvy volajících modulù
+[Run programm when Miranda IM starts (eg tail -f, dbgview, etc):]
+Soubìné spuštìní dalšího programu (napø. tail -f, dbgview atp.):
+[Run now]
+Spustit
+[Show this dialog box when Miranda IM starts]
+Zobrazit toto okno pøi spuštìní Mirandy
+[SSL Traffic]
+Vèetnì dat SSL
+[No times]
+Bez èasového údaje
+[Standard hh:mm:ss times]
+Standardní hh:mm:ss
+[Times in milliseconds]
+V milisekundách
+[Times in microseconds]
+V mikrosekundách
+[Select program to be run]
+Vyberte poadovanı program
+[Select where log file will be created]
+Zadejte poadovanı soubor pro záznam
+
+[Download more plugins]
+Stáhnout další doplòky
+[Re&ad Status Message]
+Pøeèíst stavovou zprávu
+[Don't send to any protocols]
+Neposílat ádnému protokolu
+[Toggle send to all protocols]
+Pøepnout stav posílání protokolùm
+
+[Disable icons]
+Vypnout ikony
+
+[Leave chat]
+Opustit diskusi
+[Move to Group]
+Pøesunout do skupiny
+[Expanded]
+Rozbalenı
+[Show title]
+Zobrazit záhlaví
+
+[Are you sure you want to delete group '%s'?  This operation can not be undone.]
+Opravdu chcete smazat skupinu '%s'? Tuto operaci nelze vrátit.
+
+[Open mailbox]
+Pøeèíst poštu
+
+; ---
+
+[Please authorize my request and add me to your contact list.]
+Autorizujte prosím mùj poadavek a pøidejte si mì do vašeho seznamu.
+;[Security systems to prevent malicious changes are in place and you will be warned before every change that is made.]
+;[Security systems to prevent malicious changes are in place and you will be warned before changes that are known to be unsafe.]
+;[Security systems to prevent malicious changes have been disabled. You will receive no further warnings.]
+[Are you sure you want to remove profile "%s"?]
+Opravdu si pøejete odstranit profil "%s"?
+[Failed to create file]
+Chyba pøi vytváøení souboru
+[Configuration Files]
+Konfiguraèní soubory
+[Text Files]
+Textové soubory
+[Error writing file]
+Chyba pøi zapisování do souboru
+[Installed Plugins]
+Instalované doplòky
+;[< Copyright]
+;[http://wiki.miranda-im.org/]
+[Invalid Message]
+Neplatná zpráva
+[History for %s]
+Historie pro %s
+[Are you sure you want to delete this history item?]
+Opravdu si pøejete odstranit tento záznam z historie?
+[Delete History]
+Smazat historii
+[Key Bindings]
+Klávesové zkratky
+[(Miranda Core Logging)]
+Záznam jádra Mirandy
+[Client cannot decode host message. Possible causes: Host does not support SSL or requires not existing security package]
+Klient nemùe dekódovat zprávu hostitele. Moné pøíèiny: Hostitel nepodporuje SSL nebo vyaduje neexistující soubor zabezpeèení
+[Host we are connecting to is not the one certificate was issued for]
+Certifikát nebyl vydán pro hostitele, ke kterému se nyní pøipojujeme
+[Loading... %d%%]
+Naèítání... %d%%
+[%s options]
+%s nastavení
+[Load]
+Naèíst
+;[dbrw]
+;[svc_crshdmp.dll]
+[Unable to load plugin in Service Mode!]
+Nelze naèíst doplnìk v nouzovém reimu
+;[Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
+;[Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
+;[No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+[Account is online. Disable account?]
+Úèet je pøipojen. Deaktivovat úèet?
+[You need to disable plugin to delete this account]
+Pro smazání tohoto úètu musíte deaktivovat doplnìk
+[System scope]
+Platnost v systému
+[Miranda scope]
+Platnost v Mirandì
+[%s Icons]
+%s ikony
+[Sound Files]
+Zvukové soubory
+;[AuthRequest]
+;[AddedEvent]
+[<Unknown>]
+<neznámı>
+[%s added you to the contact list\n%u (%s) on %s]
+%s si vás pøidal mezi své kontakty\n%u (%s) v síti %s
+[%s added you to the contact list\n%u on %s]
+%s si vás pøidal mezi své kontakty\n%u v síti %s
+[%s added you to the contact list\n%s on %s]
+%s si vás pøidal mezi své kontakty\n%s v síti %s
+[Feature is not supported by protocol]
+Funkce není protokolem podporována
+[User has not registered an e-mail address]
+Uivatel nemá zaregistrovanou e-mailovou adresu
+[My Received Files]
+Moje pøijaté soubory
+[%d directories]
+%d sloek
+[Send timed out]
+Vypršel èas na odeslání
+;[MHeaderbarCtrl]
+;[Miranda IM\n%s]
+[Transfer completed, open file(s).]
+Pøenos dat dokonèen, otevøít soubor(y).
+[Auto rename]
+Automaticky pøejmenovat
+[URL Received]
+Pøijata URL
+[\nStyles and effects are disabled for this font.]
+\nStyly a efekty nejsou pro tento font dostupné.
+[Shortcut:]
+Klávesová zkratka:
+[Undo Changes]
+Vrátit zmìny
+[Reset To Default]
+Obnovit vıchozí
+[Error Console]
+Chybová konzole
+[Error notifications]
+Chybové oznámení
+;[Webdings]
+;[ChatSent]
+[Rich Edit file]
+Rich Edit soubor
+[Image files]
+Soubory obrázkù
+[JPEG-compressed images]
+JPEG-komprimované obrázky
+;[Tahoma]
+[tabSRMM themes]
+tabSRMM témata
+[%s on %s%s]
+%s v síti %s%s
+[Enable popups if focused]
+Povolit oznámení kdy je okno v popøedí
+[Windows Aero settings]
+Nastavení Windows Aero
+[Use Aero UI elements(only when not using a custom skin)]
+Pouít Aero UI elementy (pouze pokud není pouito vlastní téma)
+[Use Windows 7 task bar enhancements (restart required)]
+Pouít Windows 7 vylepšení lišty úloh (vyadován restart)
+;[Unread Menu]
+;[Traycontext]
+;[Dummy]
+;[dummy]
+[Splitter context]
+Kontext oddìlovaèe
+[Hold Selected]
+Podret vybrané
+[Resume Selected]
+Pokraèovat vybrané
+[Show Popups if Window is focused]
+Zobrazit oznámení kdy je okno v popøedí
+[Display popups for completed jobs]
+Zobrazit oznámení pro dokonèené úlohy
+
+; ---

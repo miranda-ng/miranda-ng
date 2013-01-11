@@ -1,0 +1,103 @@
+; /----------------------------------------------------------\
+; |  NickChangeNotify 0.0.2.6                                |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+; ==  NEW in 0.0.2.5  ==
+[PopUp text]
+Samotný text
+; new popup preview
+[My Custom Name]
+Vlastní jméno
+[Old Nickame]
+Stará pøezdívka
+[New Nickame]
+Nová pøezdívka
+
+; ==  NEW in 0.0.2.2  ==
+[Nickname Changed]
+Zmìna pøezdívky
+
+; ==  NEW in 0.0.2.0  ==
+[Enable/Disable internal logging for this contact]
+Zapnout/vypnout interní záznam pro daný kontakt
+[Enable/Disable external logging]
+Zapnout/vypnout interní záznam
+[Enable/Disable popups for this contact]
+Zapnout/vypnout oznámení pro daný kontakt
+[View nickname history]
+Zobrazit historii zmìn pøezdívek
+
+; the following can be found some popup plugins
+;(DUP) [Left Click Actions]  (neweventnotify)
+;(DUP) [Right Click Actions]  (neweventnotify)
+;(DUP) [Dismiss PopUp]  (weather proto)
+;(DUP) [Open message window]  (whoisreadingmyawaymsg notify)
+;(DUP) [Show user detail]  (weather proto)
+;(DUP) [Show user menu]  (weather proto)
+;(DUP) [Background colours]  (weather proto)
+;(DUP) [Text colours]  (weather proto)
+;(DUP) [Use Windows colours]  (newstatusnotify)
+
+; ==  NEW in 0.0.1.0  ==
+;(DUP) [Logging]
+[Log to]
+Soubor
+[History format]
+Formát historie
+[Log format]
+Form. zázn.
+
+; ==  NEW in 0.0.0.3  ==
+[Use contact's custom nickname to display popup]
+Použít vlastní jméno v oznámení o zmìnì pøezdívky
+
+; == ORIGINAL STRINGS ==
+; texts in option pages
+[PopUp display time]
+Doba zobrazení
+;(FIX) [Maximun history entry]
+[Maximun entries]
+Max. položek
+
+; menu items
+[Disable ni&ckname change notification]
+Vypnout oznámení o zmìnì pøezdívk&y
+[Enable ni&ckname change notification]
+Zapnout oznámení o zmìnì pøezdívk&y
+[View Nickname History]
+Zobrazit historii zmìn pøezdívek
+[Nickname History]
+Historie zmìn pøezdívek
+
+; popup messages
+[changes his/her nickname to:]
+zmìnil/zmìnila pøezdívku na
+
+;===========================
+
+; the following are the same for most notification plugins (ie. neweventnotify, newstatusnotify)
+;(DUP) [General Options]
+[Temporarily disable Popups]
+Doèasnì vypnout oznámení
+;(DUP) [seconds]
+;(DUP) [Preview]
+;(DUP) [PopUp]
+
+; the following are the same as some text in SRMM plugin
+;(DUP) [User Menu]
+;(DUP) [View User's Details]
+;(DUP) [View User's History]
+
+; this string can also be found in last seen plugin
+;(DUP) [Send Instant Message]
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[NickChangeNotify]
+Zmìna pøezdívky
+
+; ---

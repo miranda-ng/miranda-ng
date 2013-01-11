@@ -1,0 +1,163 @@
+; /----------------------------------------------------------\
+; |  History Linklist 0.1.1.1                                |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1762
+;
+
+
+; History Linklist strings
+; History Linklist Plugin for Miranda-IM
+; Date: 16/01/2006
+;
+; Language: German
+; Plugin Version: 0.1.1.1
+
+
+;(DUP) [Error]
+[Unable to load the Rich Edit control!]
+Nelze naèíst tøídu Rich Edit!
+[&Create Linklist]
+&Vytvoøit seznam odkazù
+[Linklist Plugin]
+Doplnìk 'Linklist'
+[History is empty!]
+Historie vybraného kontaktu je prázdná!
+[Processing history...]
+Zpracování historie...
+[Processing list...]
+Zpracování seznamu...
+[Could not create window!]
+Nelze sestavit a otevøít okno!
+[Could not allocate memory!]
+Nelze alokovat poadovanou pamì!
+[There are no links in history!]
+Historie vybraného kontaktu neobsahuje odkazy!
+[Matches for searchtext]
+Poèet poloek odpovídajících zadanému
+[No messages found!\nPlease change current filter options.]
+Hledanı øetìzec nebyl nalezen!\nPodle potøeby zmìòte kritéria hledání.
+;(DUP) [Date]
+[Miranda Linklist]
+Seznam odkazù v historii
+;(DUP) [Filter]
+;(DUP) [none]
+[mailaddresses]
+e-mailové adresy
+;(DUP) [URLs]
+[incoming]
+pøíchozí
+[outgoing]
+odchozí
+[search options]
+monosti hledání
+
+;Menu
+;----
+;(DUP) [&About]
+;(DUP) [&Search]
+;(DUP) [&File]
+[&Options]
+M&onosti
+[&Clear Search Results]
+&Vymazat seznam nalezenıch
+[Message &Direction]
+&Smìr posílanıch zpráv
+[&Incoming Messages Only]
+Pouze &pøíchozí zprávy
+[&Outgoing Messages Only]
+Pouze &odchozí zprávy
+[Message &Type]
+&Druh zpráv
+[&Webaddresses Only]
+Pouze &odkazy na stránky
+[&Mail-Addresses Only]
+Pouze e-&mailové adresy
+;(DUP) [&Save]
+;(DUP) [&Close]
+
+;Popup Menu
+;----------
+;(DUP) [Copy to Clipboard]
+[Open]
+Otevøít
+[Open in new Window]
+Otevøít v novém oknì
+[Show Message]
+Zobrazit zprávu
+
+;Search Dialog
+;-------------
+[Search for:]
+Hledat:
+[Message direction]
+Smìr posílanıch zpráv
+[Message types]
+Druh zpráv
+[All directions]
+Pøijaté i odeslané
+[Incoming only]
+Pouze pøíchozí
+[Outgoing only]
+Pouze odchozí
+[All types]
+Všechny druhy
+[Mail addresses only]
+Jen e-mailové adresy
+[Web addresses only]
+Jen odkazy na stránky
+[Deep search]
+Hledat i ve zprávách
+;(DUP) [Search]
+;(DUP) [Close]
+
+;Options Dialog
+;--------------
+[Colour Select]
+Vıbìr barev
+;(DUP) [Preview]
+[Use Miranda Settings]
+Pouít nastavení Mirandy
+[Plugin Default]
+Vıchozí
+;(DUP) [Incoming messages]
+;(DUP) [Outgoing messages]
+[Backgroundcolour]
+Barva pozadí
+[Textcolour]
+Barva textu
+[No Miranda Settings specified!]
+Nastavení Mirandy není k dispozici!
+[General Settings]
+Obecná nastavení
+[Open links always in a new window]
+Otevøít vdy v novém oknì prohlíeèe
+[Update list on new events]
+Aktualizovat seznam v reálném èase
+[Show whole Message on 'mouse over' event]
+Zobrazit zprávu po najetí myší nad odkaz
+[Save window position individually for each contact]
+Uloit informace o umístìní okna pro kadı kontakt zvláš
+[Show...]
+Zobrazit...
+[Parting line]
+Dìlicí linka
+[Timestamp]
+Èasovı údaj
+[Direction]
+Smìr
+[Type]
+Typ
+
+; NEPUBLIKOVANÉ
+; název doplòku
+[History Linklist]
+Odkazy v historii
+
+[Save RTF File]
+Uloit soubor ve formátu RTF
+[RTF File]
+Formát RTF (*.rtf)
+
+; ---

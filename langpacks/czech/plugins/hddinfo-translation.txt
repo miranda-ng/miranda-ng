@@ -1,0 +1,59 @@
+; /----------------------------------------------------------\
+; |  Hard disc drive info 0.1.2.0                            |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2570
+;
+
+;plugin name
+[HDD Info]
+Informace o HDD
+
+;options
+[HDD Tracking]
+Sledování HDD
+[HDD Temperature Tracking]
+Sledování teploty diskù
+[Show standard popup]
+Zobrazit oznámení
+[for all drives]
+všechny disky
+[only for]
+jen pro è.
+[Show warning popup if temperature is higher than]
+Zobrazit varování, pøekroèí-li teplota
+[Show item in the Main menu]
+Zobrazit v hlavní nabídce
+[Print temperature data to log-file]
+Zaznamenat informace o teplotì do souboru
+[Time-out]
+Prodleva
+[Add hot key ('Hotkey+' plugin)]
+Klávesová zkratka (vyžaduje 'Hotkey+')
+
+[InfoPopup]
+Další informace
+[Popup customizable by variables]
+Text oznámení
+[Add to variable postfix of unit]
+Pøidat za promìnnou jednotky
+[Default text]
+Výchozí text
+[Restore]
+Obnovit
+
+;dialog
+[Hotkey is successfully added!]
+
+
+;menu
+[HDD &Temperature]
+&Teplota HDD
+[HDD &Information]
+&Informace o HDD
+
+;(LAI) [Debugging]
+;(LAI) [Create debug log]
+
+; ---

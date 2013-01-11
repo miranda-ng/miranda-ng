@@ -1,0 +1,46 @@
+; /----------------------------------------------------------\
+; |  RePosition 0.1.0.5                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: waclaw <waclaw (zavináè) cmail (teèka) cz>
+; Adresa: 
+;
+
+[RePosition]
+Obnova pozice
+[&RePosition Miranda]
+&Obnovit pozici Mirandy
+[&Save Miranda Position]
+&Uložit pozici Mirandy
+[Miranda's visible again.\nEnjoy youself!]
+Miranda je znovu vidìt. Užijte si to!
+[Miranda's position has been restored!]
+Pozice Mirandy byla obnovena!
+[Miranda is outside the visible area.\nIts position won't be stored.]
+Miranda je mimo viditelnou oblast.\nPozici není možné obnovit.
+[Miranda's actual position has been saved!]
+Souèasná pozice Mirandy byla uložena!
+;0.1.0.3
+;The following were changed due to mistypes and bad memory. :-)
+[Show &Messages]
+Zobrazit ko&mentáøe
+[Save on &exit]
+Uložit pozici pøi ukonè&ení
+[Re&Position on start]
+Obnovit &pozici pøi startu
+[&Save position]
+&Uložit pozici
+[You can save Miranda's actual position by clicking here.]
+Kliknutím sem lze uložit souèasnou pozici Mirandy.
+[&Save position now]
+U&ložit pozici nyní
+[&RePosition now]
+&Obnovit pozici nyní
+;0.1.0.4
+;It's ages that this can be translated, but I never put the sentence here. :-)
+;Note: *every* plugin's description can be translated even if the author
+;doesn't write the string in the langpack! It's automatic.
+[Wanna RePosition Miranda inside the visible screen area? Just do it!]
+Chcete mít umístìnou Mirandu ve viditelné èásti obrazovky? Tak použijte tohle!
+
+; ---

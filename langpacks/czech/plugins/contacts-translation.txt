@@ -1,0 +1,97 @@
+; /----------------------------------------------------------\
+; |  Contacts+ 1.5.1.0                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1253
+;
+
+[Incoming Contacts]
+Kontakty (pøíchozí)
+[Outgoing Contacts]
+Kontakty (odchozí)
+;(DUP) [Error]
+
+; receive dlg
+[Contacts from]
+Kontakty od
+;(DUP) [UIN]
+;(DUP) [Nick]
+;(DUP) [First Name]
+;(DUP) [Last Name]
+;(DUP) [Mailformed Receive Contacts Packet.]
+;(DUP) [Add to &group:]
+;(DUP) [&Add]
+;(DUP) [&Details]
+;(DUP) [Close]
+[Add to List]
+Pøidat do seznamu
+[User Details]
+Informace o uživateli
+;(DUP) [Send Message]
+
+;send dlg
+[Send Contacts to]
+Odeslání kontaktních informací; pøíjemce:
+[The contacts send timed out.]
+Pøekroèen èasový limit pøi odesílání kontaktù.
+[Contacts transfer failed!]
+Chyba pøi pøenosu kontaktù!
+;(DUP) [Choose contacts to be send:]
+;(DUP) [&Send]
+;(DUP) [Cancel]
+;(FIX) [Select All]
+[&Select All]
+&Vybrat vše
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[Send/Receive Contacts+]
+Odesílání a pøíjem kontaktù
+
+[Contacts Send Error]
+Chyba pøi odesílání kontaktù
+[Contacts send error]
+Chyba pøi odesílání kontaktù
+[Contacts from different protocols cannot be send!]
+Kontakty nelze posílat mezi dvìma rùznými protokoly!
+
+;(DUP) [Incoming Contacts]
+[Contacts received from %s]
+Seznam pøijatých kontaktù (odesílatel: %s)
+[Send contacts to %s]
+Odeslání kontaktních informací (pøíjemce: %s)
+[Send contacts...]
+Poslat &kontakty...
+;(DUP) [Error]
+
+; receive dlg
+;(DUP) [Nick]
+;(DUP) [UIN]
+[Mailformed Receive Contacts Packet.]
+Obdržená zpráva s kontakty je poškozena.
+[Add to &group:]
+Pøidat do &skupiny:
+[&Add selected]
+Pøid&at vybrané
+;(DUP) [Close]
+
+;send dlg
+[Choose contacts to be send:]
+Vyberte kontakty k odeslání:
+;(DUP) [&Send]
+;(DUP) [Cancel]
+
+[&Details]
+Po&drobnosti
+
+[Contacts]
+Kontakty
+[Send contacts]
+Poslat kontakty
+[Contacts received from]
+Kontakty pøijaty od
+[Received contacts]
+Pøijaté kontakty
+
+; ---

@@ -1,0 +1,174 @@
+; /----------------------------------------------------------\
+; |  SMS++ 0.2.5.2                                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://www.miranda.cz/forum/viewtopic.php?t=4966
+;
+
+[%d/160]
+%d/160
+[SMS &Balance]
+&Zùstatek SMS
+[SMS Message Sent]
+Zpráva SMS odeslána
+[Sample: ICQ (SomeNick)]
+Pøíklad: ICQ (pøezdívka)
+[Sample: ICQ (Nick [999999])]
+Pøíklad: ICQ (pøezdívka [999999])
+[Sample: ICQ (Nick [990099])]
+Pøíklad: ICQ (pøezdívka [990099])
+[Add MRA to protocols list]
+Pøidat MRA do seznamu protokolù
+
+[Your SMS]
+Vaše SMS
+;(DUP) [Received SMS]
+[Send &SMS...]
+Poslat &SMS
+[&SMS Message]
+Zpráva &SMS
+;[Services]
+;Služby
+[SMS Plugin]
+SMS
+[Sample: ICQ]
+Pøíklad: ICQ
+[Sample: ICQ (%d)]
+Pøíklad: ICQ (%d)
+[Sample: ICQ (%s)]
+Pøíklad: ICQ (%s)
+[Sample: ICQ (%s[%s])]
+Pøíklad: ICQ (%s[%S])
+[SomeNick]
+Pøezdívka
+[Sample: MRA (nick@mail.ru)]
+Pøíklad: MRA (pøezdívka@mail.ru)
+[Sample: MRA]
+Pøíklad: MRA
+[SMS From %s (%s)]
+SMS od %s (%s)
+[SMS From %s]
+SMS od %s
+[SMS message didn't send by %s to %s because: %s]
+Zpráva SMS nebyla odeslána od %s pro %s z dùvodu: %s
+[SMS Message from %s]
+Zpráva SMS od %s
+[SMS Confirmation from %s]
+Potvrzení SMS od %s
+;(DUP) [Incoming SMS Message]
+[Incoming SMS Confirmation]
+Pøíchozí potvrzení SMS
+[Received SMS]
+Pøijatá SMS
+[Received SMS Confirmation]
+Pøijaté potvrzení SMS
+;(DUP) [View User's History]
+[Add Number To The Multiple List]
+Pøidat èíslo do hromadného seznamu
+[Save Number To The User's Details Phonebook]
+Uložit èíslo do informací o kontaktu
+[Show/Hide Multiple List]
+Zobrazit/Skrýt hromadný seznam
+[Shows How Much Chars You've Typed]
+Zobrazit poèet napsaných znakù
+[The SMS message send to %s timed out.]
+Vypršela platnost zprávy SMS pro %s.
+[The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.]
+Telefonní èíslo musí zaèínat + a obsahovat pouze èísla, mezery, závorky a pomlèky.
+;(DUP) [Invalid Phone Number]
+[Message is too long, press OK to continue.]
+Zpráva je pøíliš dlouhá, pokraèujte stisknutím OK.
+[Error - Message too long]
+Chyba - zpráva je pøíliš dlouhá
+[There must be numbers in the list first.]
+V seznamu musí být nejprve èísla.
+[No Numbers]
+Žádné èísla
+[Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.]
+Správný tvar celého èísla je '+(kód zemì)(telefonní èíslo)'. Zápis samotného telefonního èísla se liší podle zemí, ale èasto se udává bez poèáteèní nuly.
+[Invalid phone number]
+Neplatné telefonní èíslo
+[Send SMS]
+Poslat SMS
+[(Other)]
+(Jiné)
+[<< Single]
+<< Jednotlivì
+[Multiple >>]
+Hromadnì >>
+
+;SMS Options
+[Begining]
+Zaèátek
+[End]
+Konec
+[Use Signature?]
+Pøidat podpis?
+[Use Signature]
+Pøidat podpis
+[Put signature at the:]
+Vložit podpis na:
+[Show server notifications:]
+Zobrazovat oznámení serveru:
+[Show server notifications]
+Zobrazovat oznámení serveru
+;(DUP) [Show popups]
+[Auto open events]
+Auto-otvírání událostí
+[Add ICQ to protocols list]
+Pøidat ICQ do seznamu protokolù
+[Show UIN]
+Zobrazit UIN
+[Show Nick]
+Zobrazit pøezdívku
+[Show e-mail]
+Zobrazit e-mail
+;(DUP) [To:]
+;(DUP) [Number:]
+[Enter message:]
+Zadejte zprávu:
+;(DUP) [&Send]
+;(DUP) [&Close]
+[Chars:]
+Znakù:
+[Save number]
+Uložit èíslo
+[Add number to list]
+Pøidat èíslo do seznamu
+;(DUP) [From:]
+[Message received:]
+Zpráva pøijata:
+;(DUP) [&Reply]
+[Message ID:]
+Identifikátor:
+[Network:]
+Sítì:
+;(DUP) [Source:]
+[&Try again]
+Zkusi&t znovu
+;(DUP) [&Cancel]
+
+; SMS++
+; dodal Robyer <robyer (zavináè) seznam (teèka) cz>
+[SMS received event]
+pøíchozí SMS
+[SMS succesfully sent]
+SMS úspìšnì odeslána
+[SMS sent failed]
+chyba pøi odesílání SMS
+[Read Next]
+Pøeèíst další
+
+[Defatult SMS Account:]
+Výchozí úèet pro posílání sms:
+[Save window position per contact:]
+Uložit pozici okna pro každý kontakt:
+[Auto popup on new message:]
+Automaticky zobrazit pøíchozí zprávu:
+[SMS Messages]
+Zprávy SMS
+[By:]
+Pøes:
+
+; ---

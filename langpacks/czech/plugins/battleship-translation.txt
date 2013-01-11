@@ -1,0 +1,150 @@
+; /----------------------------------------------------------\
+; |  BattleShip 0.0.1.2                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1100
+;
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Battleship game
+
+["Battleship" game]
+Lodì
+[Play "Battleship" game]
+Zahrát si hru &Lodì
+[&New game]
+&Nová hra
+[&Ready!]
+Pøip&raven!
+[Just start a new game...]
+Nová hra mùe zaèít...
+[Arrange your ships]
+Rozmístìní lodí
+[Your opponent is tired of playing]
+Protivník se pøi høe nudí
+[You win!]
+Vyhráli jste!
+[Sorry, You lose...]
+Prohráli jste...
+[Your move!]
+Jste na tahu!
+[Opponent's move...]
+Táhne protivník...
+[Wait for answer...]
+Èekání na odpovìï...
+[Opponent is not ready. Waiting...]
+Protivník není pøipravenı. Poèkejte...
+[Hurry up! Opponent is ready to fight.]
+Pošpìšte si! Protivník je pøipraven.
+[Game in progress. Do you really want to terminate?]
+Hra ještì neskonèila. Opravdu ji chcete ukonèit?
+[Your opponent want to restart. Do you agree?]
+Protivník chce zaèít hru znovu od zaèátku. Souhlasíte?
+;(DUP) [Do you really want to reset the game statistics?]
+[Empty]
+Prázdné
+[Injured]
+Poškození
+[Sunk]
+Potopení
+[Miss]
+Støela mimo
+[Horiz. ship: Beginning]
+Loï vodorovnì: pøíï
+[Horiz. ship: Middle]
+Loï vodorovnì: støed
+[Horiz. ship: Ending]
+Loï vodorovnì: záï
+[Horiz. ship: Alone]
+Loï vodorovnì: celá loï
+[Vert. ship: Beginning]
+Loï svisle: pøíï
+[Vert. ship: Middle]
+Loï svisle: støed
+[Vert. ship: Ending]
+Loï svisle: záï
+[Vert. ship: Alone]
+Loï svisle: celá loï
+[Unknown command for "Battleship" game received]
+Pøišel neznámı pøíkaz pro hru "Lodì".
+[*Battleship* There's someone who wants to play the game with you!]
+Haló! Nìkdo by si s vámi rád zahrál hru Lodì!
+[The cool game from my childhood]
+Skvìlá hra mého dìtství
+[Battleship: New game]
+Lodì (nová hra)
+[Battleship: Defeat]
+Lodì (poráka)
+[Battleship: Victory]
+Lodì (vítìzství)
+[Battleship: Game is started]
+Lodì (zaèátek hry)
+[Battleship: Your move]
+Lodì (vlastní tah)
+[Battleship: You miss]
+Lodì (støela mimo)
+[Battleship: You hit]
+Lodì (zásah lodì)
+[Battleship: You destroyed enemy's ship]
+Lodì (znièení lodì protivníka)
+[Battleship: Opp. move]
+Lodì (tah protivníka)
+[Battleship: Opp. miss]
+Lodì (støela mimo protivníka)
+[Battleship: Opp. hit]
+Lodì (zásah lodì protivníkem)
+[Battleship: Opp. destroyed your ship]
+Lodì (znièení vlastní lodì)
+[Battleship: Take the ship]
+Lodì (uchopení lodì)
+[Battleship: Drop the ship]
+Lodì (poloení lodì)
+;(DUP) [Do you really want to reset the game statistics?]
+[Game]
+Hra
+;(DUP) [Games]
+[Have fun online!]
+Uijte si zábavy online!
+[Load &skin...]
+Naèí&st téma vzhledu...
+[Select a skin file]
+Vybrat téma vzhledu
+;(DUP) [&Change]
+;(DUP) [C&lear]
+[Timeout, ms]
+Prodleva (ms)
+[Shot speed, ms]
+Rychlost støely (ms)
+[Response delay, ms]
+Zpodìní reakce (ms)
+[Here's a next sequence to play:]
+Struèná nápovìda ke høe:
+[1. You have to make the handshake. For this you have to press "New game" button. This one sends a request to your opponent. When you got his answer the game will start.\n2. The game will start with ship arrangement. You must move all available ships from a right side into a left. Use a left-click to take/drop a ship. A right mouse button is toggle a direction of a ship.\n3. When you will finish your arrangement you have to press the "Ready!" button. If your opponent isn't ready the appropriate message will shown in the status bar.\n4. Current state of the game is reflected in the status bar.\nGood luck and have fun!]
+1. Nejdøíve je tøeba se domluvit s vybranım soupeøem. Zmáèknìte tlaèítko "Nová hra", èím dáte najevo zájem o hru. Jakmile soupeø odpoví, mùete zaèít.\n2. Dalším krokem je rozmístìní lodí. Podle libosti pøesuòte všechny zobrazené lodì po herní ploše. Levım tlaèítkem myši lodì pøesouváte, pravım mìníte jejich orientaci.\n3. Poté u zbıvá jen zmáèknutí tlaèítka "Pøipraven!". V pøípadì, e soupeø ještì nedokonèil rozmisování lodí, zobrazí se ve stavové lištì odpovídající informace.\n4. Informace o prùbìhu hry jsou zobrazovány ve stavové lištì.\n\nHodnì štìstí a radosti ze hry!
+[Score %d:%d]
+Skóre %d:%d
+[Legend:]
+Legenda:
+[Quick Help]
+Struèná nápovìda
+[Clear Score]
+Vymazat skóre
+[An offer of new game]
+Pozvánka k nové høe
+[Arrangement is finished]
+Rozmisování dokonèeno
+[User Status Icon]
+Informace o stavu
+[Your pal must have a same version of the game as you. Check it up!]
+Oba dva hráèi musí mít shodnou verzi hry. Zkontrolujte to prosím!
+
+; NEPUBLIKOVANÉ
+[Show buttons in the top]
+Zobrazit tlaèítka nahoøe
+[BattleShip skin file (*.BSskin)]
+Téma vzhledu hry Lodì (*.BSskin)
+[There's no response... Try again]
+Bez odezvy. Zkuste to znovu.
+
+; ---

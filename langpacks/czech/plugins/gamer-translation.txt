@@ -1,0 +1,123 @@
+; /----------------------------------------------------------\
+; |  Gamer Plugin 0.0.3.1                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: MiSHAK <imishak (zavináè) gmail (teèka) com>
+; Adresa: http://exitus.redio.de/gamer/unicode/gamerW.zip
+;
+
+[Gamer Plugin]
+Hráèskı doplòek
+[Network interface used by games:]
+Síové rozhraní pouívané hrami:
+[       Enable process checking]
+       Povolit kontrolování procesù
+[Check running processes every]
+Kontrolovat bìící procesy kadıch
+[Group name]
+Jméno skupiny
+[Process count]
+Poèet procesù
+[Change Status?]
+Zmìnit stav?
+[Only Message?]
+Jen zpráva?
+[Don't change when]
+Nemìnit kdy
+[Set status back?]
+Navrátit pùvodní stav?
+[will be enabled]
+budou povoleny
+[will be disabled]
+budou zakázány
+[Processlist]
+Procesy
+[.exe name]
+jméno .exe
+[Application name]
+Jméno aplikace
+[While process is running:]
+Pokud je proces spuštìn:
+[Popups should]
+Oznámení by mìly
+[Sound should]
+Zvuky by mìly
+[be disabled]
+bıt zakázány
+[be enabled]
+bıt povoleny
+[stay as they are]
+zùstat tak jak jsou
+[Profile name:]
+Jméno profilu:
+[       Change status when running process is found]
+       Zmìnit stav pokud proces je spuštìn
+[Change status mode to:]
+Zmìnit stav na:
+[Dont change status, only set new message]
+Nemìnit stav, jen nastavit novou zprávu
+[Dont change when]
+Nemìnit status kdy jsem
+[Restore old status and message when application is closed]
+Navrátit pùvodní stav a zprávu po ukonèení aplikace
+[If an defined application (.exe) is running, it shows the associated 'Application' string]
+Pokud je spuštena definovaná aplikace (.exe), zobrazí pøiøazenı øetìzec 'Jméno aplikace'
+[Shows the current server ip playing on]
+Zobrazí IP adresu a port serveru na kterém hrajete
+[Shows the map name]
+Zobrazí název mapy
+[Shows the mod name]
+Zobrazí jméno modifikace hry
+[Shows the number of players on the server]
+Zobrazí poèet hráèù na serveru
+[Querys the given server]
+Zjistí informace o daném serveru
+[Shows the server name]
+Zobrazí jméno serveru
+[Shows the number of slots]
+Zobrazí poèet slotù
+
+[The network interface which was used previously wasn't found.\nTrying to find another one...]
+Døíve pouívané síové zaøízení nelze nalézt.\nProbíhá hledání jiného...
+
+; aktualizace na novou verzi
+; gamer plugin 0.0.3.1
+[The status of "pushed-down" protocols won't be changed]
+Stav "zamáèknutıch" protokolù nebude mìnìn
+[You can use different settings for every protocol.]
+Mùete pouít rùzné nastavení pro kadı protokol.
+[Use per-protocol settings?]
+Nastavení pro kadı protokol zvláš?
+
+;jen doplnìní
+[Profile Name:]
+Název profilu:
+[Add empty profile]
+Pøidat prázdnı profil
+[Process List]
+Seznam procesù
+[Copy this profile]
+Zkopírovat vybranı profil
+[       Use per-protocol settings]
+       Pouít nastavení pro kadı protokol zvláš
+[Popups should ... while process is running]
+Oznámení by mìlo ... dokud je proces spuštìn
+[Sounds should ... while process is running]
+Zvuky by mìly ... dokud je proces spuštìn
+[Hint: Enter complete path to make sure the correct process is recognized.]
+Pozn.: Enter complete path to make sure the correct process is recognized.
+[Only message?]
+Pouze zprávu?
+;[The status of "pushed-down" protocols won't be changed]
+;[You can use different settings for every protocol.]
+;[Use per-protocol settings?]
+[Change status?]
+Zmìnit stav?
+[Change Status]
+Zmìnit stav
+[Add new process to list]
+Pøidat novı proces do seznamu
+[.exe name/path]
+.exe název/cesta
+
+; ---

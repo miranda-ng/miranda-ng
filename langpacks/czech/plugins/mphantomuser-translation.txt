@@ -1,0 +1,65 @@
+; /----------------------------------------------------------\
+; |  mPhantomUser 0.3.7.0                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: madmojo <madmojo (zavináè) kdynenet (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=468
+;
+
+
+[&Phantom Users]
+&Virtuální uživatelé
+[&Add Phantom User]
+Pøid&at virtuálního uživatele
+[&Edit Phantom User]
+&Upravit virtuálního uživatele
+[&Export Phantom Users]
+&Exportovat virtuální uživatele
+[&Import Phantom Users]
+&Importovat virtuální uživatele
+[&Full Name]
+&Celé jméno
+[&Nick Name]
+&Pøezdívka
+[Contact &Type]
+Druh kon&taktu
+[Cellular &Phone]
+Mobilní &telefon
+;(DUP) [&E-mail]
+[&Home Page]
+&Domovská stránka
+[&IP]
+&IP adresa
+;(DUP) [&OK]
+;(DUP) [Close]
+;(DUP) [Error]
+[Invalid or empty full user name.]
+Neplatné nebo chybìjící jméno.
+;(DUP) [Open]
+;(DUP) [Save]
+[Comma Separated Values (*.csv)]
+Položky oddìlené èárkou (*.csv)
+[Import process has not completed]
+Import dat nebyl dokonèen.
+[Import process has completed.]
+Import dat byl úspìšnì dokonèen.
+[Export process has completed.]
+Export dat byl úspìšnì dokonèen.
+;(DUP) [Unspecified]
+[Family]
+Rodina
+;(DUP) [Friends]
+;(DUP) [Business]
+[VIP]
+VIP
+;(DUP) [Other]
+
+; NEPUBLIKOVANÉ
+[Add Phantom User]
+Nový virtuální uživatel
+[Edit Phantom User]
+Upravit virtuálního uživatele
+[PhantomUser]
+Virtuální uživatelé
+
+; ---

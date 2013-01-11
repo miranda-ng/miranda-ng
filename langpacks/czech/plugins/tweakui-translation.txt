@@ -1,0 +1,38 @@
+; /----------------------------------------------------------\
+; |  TweakUI 0.0.0.5 beta                                    |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Stanislav Vágner <vagner (zavináè) nway (teèka) cz>
+; Adresa: http://www.volumna.com.br/pessoal/angelo/
+;
+
+[TweakUI]
+Vylepšení
+[Tweaks for user interface.]
+Vylepšení uživatelského rozhraní.
+;(DUP) [Border]
+[Use default border]
+Použít výchozí okraj
+;(DUP) [No border]
+[Thin-line border]
+Slabý okraj
+[Double border]
+Dvojitý okraj
+[Static edge]
+Pevný okraj
+[Sunken edge]
+Spodní okraj
+[All border's changes will hide the titlebar.]
+Všechny okraje záhlaví oken budou zmìnìna.
+[Translucency]
+Prùhlednost
+[Make main window transparent, but let contacts opaque]
+Nastavit prùhlednost hlavního okna kromì kontaktù
+[Contact's opacity:]
+Úroveò neprùhlednosti
+[Disable background picture]
+Vypnout obrázek na pozadí
+[Some changes need a Miranda restart to take effect]
+Zmìny se projeví až po restartu Mirandy
+
+; ---

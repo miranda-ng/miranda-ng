@@ -1,0 +1,46 @@
+; /----------------------------------------------------------\
+; |  Support for new options design 0.1.0.0                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+;
+
+;[Accounts]
+[Setup your account information to start messaging.]
+Zadání a správa informací k úètùm jednotlivých sítí.
+[Style]
+Vzhled
+[Change the look of Miranda IM according to your taste.]
+V této sekci lze zmìnit vzhled Mirandy.
+[Contacts]
+Kontakty
+[Configure behaviour of your contact list.]
+Konfigurace funkcí seznamu kontaktù.
+;[Chats]
+[Customize look&&feel of your chat windows here.]
+Úprava vzhledu a chování komunikaèních oken.
+;[Ignore]
+[Ban those users and events, you are annoyed with.]
+Obtìžuje vás nìkdo nebo nìco pøi komunikaci? Vyzkoušejte náš filtr.
+[Status]
+Stavy
+[Set your status messages and idle reporting.]
+Definice stavových zpráv, nálady, automatických odpovìdí apod.
+;[Advanced]
+[Addons]
+Doplòky
+[Miranda IM is all about plugins. Manage all the plugins you have here.]
+Miranda IM je postavena na možnosti vše mìnit a rozšiøovat pomocí doplòkù.
+
+[Visit official Miranda IM website]
+Pøejít na domovskou stránku projektu
+[Switch to classic options]
+Pøepnout do pùvodního zpùsobu konfigurace
+[Use arrow keys to choose category]
+Požadovanou kategorii vyberete pomocí šipek
+[View help online]
+Zobrazit nápovìdu online
+[You have some unsaved changes here.\n Do you wish to apply settings before switching?]
+Nìkteré ze zmìn nejsou uloženy.\nChcete je uložit?
+
+; ---

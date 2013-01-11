@@ -1,0 +1,166 @@
+; /----------------------------------------------------------\
+; |  Sticky Notes & Reminders 0.0.4.5                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://miranda-im.org/download/details.php?action=viewfile&id=2047
+;
+
+
+;(DUP) [&Close]
+
+;Name In Options Page
+;--------------------
+[Notes & Reminders]
+Poznámky a pøipomínky
+;(DUP) [Plugins]
+;(DUP) [Alerts]
+[Reminder Notify]
+Pøipomínky
+
+;Menu Strings
+;------------
+[Notes && Reminders]
+Poznámky &a pøipomínky
+[&New Note]
+&Nová poznámka...
+[&Show / Hide Notes]
+Zobrazit/skrýt poznám&ky
+[&Delete All Notes]
+S&mazat všechny poznámky
+[&New Reminder]
+N&ová pøipomínka...
+[&View Reminders]
+Zobrazit pøipomínk&y...
+[&Delete All Reminders]
+Sm&azat všechny pøipomínky
+
+;Note Window Popup Menu
+;----------------------
+[Sticky Notes]
+Poznámky na ploše
+[Remove Note]
+Smazat poznámku
+[Hide Note]
+Skrýt poznámku
+[Togle On Top]
+Vždy navrchu
+;(DUP) [Undo]
+;(DUP) [&Copy]
+[&Paste]
+&Vložit
+[C&ut]
+Vyjmou&t
+[C&lear]
+&Odstranit
+
+;New Reminder Dialog
+;-------------------
+[&Add Reminder]
+Pøid&at pøipomínku
+[Add Reminder]
+Pøidat pøipomínku
+[Trigger On Time && Date:]
+Da&tum a èas vyvolání
+[Date]
+Datum
+[Time]
+Èas
+[Reminder Note:]
+Obsah pøipomínky
+[Reoccurence]
+Možnosti opakování
+;(DUP) [None]
+[Daily]
+Každý den
+[Weekly]
+Co týden
+[Monthly]
+Co mìsíc
+
+;Reminder List Dialog
+;--------------------
+[Reminders List]
+Seznam pøipomínek
+[Date of activation]
+Datum vyvolání
+[Reminder text]
+Obsah pøipomínky
+[Add New]
+Pøidat novou
+[Add New Reminder]
+Pøidat novou pøipomínku
+[Delete Reminder]
+Smazat pøipomínku
+[Delete All Reminders]
+Smazat všechny
+
+;Reminder Notify Dialog
+;----------------------
+[&Dismiss]
+&Splnìno
+[Notify me Again in]
+Pøipomenout znovu
+[Reminder]
+Pøipomínka
+[min.]
+min.
+[After :]
+Po:
+
+;Options Dialog
+;--------------
+[Note Colors]
+Barvy poznámek
+[Note Caption Color]
+Barva záhlaví poznámky
+[Note Body Color]
+Barva tìla poznámky
+[Note Fonts]
+Písma pro poznámky
+[Sample Text Caption]
+Náhled hlavièky
+[Sample Text Body]
+Náhled textu zprávy
+[Pick Font for Caption]
+Písmo pro hlavièku...
+[Pick Font for Body]
+Písmo pro zprávu...
+[Hot Keys]
+Klávesové zkratky
+[New note Hot Key]
+Pro novou poznámku
+[Show/Hide Notes Hot Key]
+Zobrazení/skrytí poznámek
+[New Reminder Hot Key]
+Pro novou pøipomínku
+[Note Transparency (Windows 2K && XP)]
+Prùhlednost poznámek (pouze Windows 2000 &a XP)
+[Default Note Size]
+Velikost poznámky
+[Width (Pixels)]
+Šíøka (v pixelech)
+[Height (Pixels)]
+Výška (v pixelech)
+[Startup options]
+Možnosti pøi spuštìní
+[Reset to defaults]
+Obnovit výchozí
+[Show notes at startup]
+Zobrazit poznámky pøi spuštìní
+[Add Contact list menu items]
+Pøidat položky menu do seznamu kontaktù
+[(Require Miranda restart)]
+(vyžaduje restart Mirandy)
+[Send Reminders through E-mail / SMS :]
+Odeslat pøípomínky e-mailem nebo sms:
+[Show Scrollbars]
+Zobrazit posuvníky
+
+; NEPUBLIKOVANÉ
+[Miranda Sticky Notes & Reminders]
+Poznámky na ploše a pøipomínky
+[Add New Note]
+Pøidat novou poznámku
+
+; ---

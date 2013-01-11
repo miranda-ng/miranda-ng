@@ -1,0 +1,117 @@
+; /----------------------------------------------------------\
+; |  Fast Messages 0.1.2.1                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3019
+;
+
+; Last updated: March, 2007
+; FastMsg 0.1.2.1
+
+; *** FastMsg - Main ***
+; FMPLUGINTITLE
+[Fast Messages]
+Bleskové zprávy
+; FMBUTTONTOOLTIP
+[Fast Messages...]
+Bleskové zprávy...
+
+; *** FastMsg - Options - Buttons ***
+; MSGBOXTEXT
+;(DUP) [Message]
+; MSGADDBUTTONTEXT, GROUPADDBUTTONTEXT
+;(DUP) [Add]
+; MSGEDITBUTTONTEXT, GROUPEDITBUTTONTEXT
+;(DUP) [Edit]
+; MSGDELBUTTONTEXT, GROUPDELBUTTONTEXT
+;(DUP) [Delete]
+; MSGMOVEBUTTONTEXT
+[Move]
+Pøesunout
+; MSGUPBUTTONTEXT, GROUPUPBUTTONTEXT
+;(DUP) [Up]
+; MSGDOWNBUTTONTEXT, GROUPDOWNBUTTONTEXT
+;(DUP) [Down]
+; MSGTEXTLABLE
+[Message Text]
+Text zprávy
+; MSGLISTLABLE
+[Message List]
+Seznam zpráv
+; MSGNOTELABLE
+[* Double click to edit message text]
+* Zprávu lze upravit dvojím kliknutím
+; GROUPBOXTEXT
+;(DUP) [Group]
+; GROUPTEXTLABLE
+[Group Name]
+Název skupiny
+; GROUPLISTLABLE
+[Group List]
+Seznam skupin
+; GROUPNOTELABLE
+[* Double click to edit group name]
+* Název skupiny lze upravit dvojím kliknutím
+; GROUPSDOWNLABLE
+[Groups down]
+Skupiny umístit pod zprávy
+; MSGSENDLABLE
+[Send messages automatically]
+Zprávy odesílat automaticky
+; SCRIVEROLDBTNPOSLABLE
+[Old button position (Scriver)]
+Pùvodní umístìní tlaèítka (Scriver)
+
+; *** FastMsg - Options - ToolTips ***
+; MSGADDBUTTONTOOLTIP
+[Add message to list]
+Pøidat zprávu do seznamu
+; MSGDELBUTTONTOOLTIP
+[Delete message from list]
+Odebrat zprávu ze seznamu
+; MSGMOVEBUTTONTOOLTIP
+[Move message]
+Pøesunout zprávu
+; MSGUPBUTTONTOOLTIP
+[Up message]
+Posunout zprávu v seznamu nahoru
+; MSGDOWNBUTTONTOOLTIP
+[Down message]
+Posunout zprávu v seznamu dolù
+; MSGEDITBUTTONTOOLTIP
+[Edit message]
+Upravit zprávu
+; GROUPADDBUTTONTOOLTIP
+[Add group]
+Pøidat skupinu
+; GROUPEDITBUTTONTOOLTIP
+[Edit group name]
+Upravit název skupiny
+; GROUPDELBUTTONTOOLTIP
+[Delete group]
+Odstranit skupinu
+; GROUPUPBUTTONTOOLTIP
+[Up group]
+Posunout skupinu v seznamu nahoru
+; GROUPDOWNBUTTONTOOLTIP
+[Down group]
+Posunout skupinu v seznamu dolù
+
+; *** FastMsg - MessageBox - Text ***
+; MSGBOX_NOMSG
+[No messages in list]
+Seznam zpráv je prázdný.
+; MSGBOX_GROUPDELQUESTION
+[Delete group with all messages?]
+Opravdu chcete smazat vybranou skupinu zpráv?
+
+; *** FastMsg - IcoLib - Description ***
+; FMICODESCRIPTION_MAIN
+;(DUP) [Main]
+
+; Description
+[Fast messages built-in message dialog support for Miranda IM]
+Do nabídky komunikaèního okna pøidá položku pro odesílání krátkých, pøedem pøipravených zpráv.
+
+; ---

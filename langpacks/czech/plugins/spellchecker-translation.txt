@@ -1,0 +1,136 @@
+; /----------------------------------------------------------\
+; |  Spell Checker plugin 0.1.0.2                            |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://forums.miranda-im.org/showthread.php?t=11555
+;
+
+
+
+; /dictionary.cpp
+[Tagalog (Philippines)]
+Tagalog (Filipíny)
+[German (Germany)]
+Nìmèina (Nìmecko)
+[%s\\%s]
+%s\\%s
+ 
+ 
+[Path]
+Cesta
+
+; /options.cpp
+[Message Sessions]
+Komunikace
+[Spell Checker]
+Kontrola pravopisu
+[Line]
+Øádek
+[Dotted]
+Teèkovanì
+[Dash]
+Èerchovanì
+[Dash dot]
+Èárka teèka
+[Dash dot dot]
+Èárka teèka teèka
+[Wave]
+Vlnka
+[Thick]
+Tuènì
+
+; /resource.rc:IDD_OPTIONS
+[ Spell Checker ]
+Kontrola pravopisu
+[Default language:]
+Výchozí jazyk:
+[Auto-replace words with dictionary suggestions]
+Automaticky nahrazovat slova navrženými výskyty ze slovníku
+[Button]
+Tlaèítko
+[Auto-replace words with user defined replacements]
+Automaticky nahrazovat slova uživatelsky definovanými
+[Ignore words in UPPER CASE]
+Ignorovat slova KAPITÁLKAMI
+[Download more dictionaries]
+Stáhnout další slovníky
+[Hyperlink]
+Odkaz
+[ Advanced ]
+Pokroèilé
+[Underline type:]
+Styl podtržení:
+[Show corrections in submenu]
+Zobrazovat nabízená slova v podmenu
+[Show all corrections in context menu (takes more time to show)]
+Zobrazit všechny odhadnuté opravy v nabídce (zabere více èasu)
+[Show wrong word]
+Zobrazit nenalezené slovo
+[Use flags]
+Používat vlajky
+[Use input language to select dictionary]
+Urèit jazyk slovníku dle zvolené klávesnice
+[Use dictionaries from other programs]
+Použít slovníky jiných programù
+[Add auto-replace word]
+Pøidat slovo automatické náhrady
+[Wrong word:]
+Chybné slovo:
+[OLD WORD]
+Staré slovo
+[Correction:]
+Oprava:
+[OK]
+OK
+[Cancel]
+Zrušit
+
+; /spellchecker.cpp
+[Enabled]
+Zapnuto
+[Disabled]
+Vypnuto
+[Unknown Flag]
+Neznámá vlajka
+[Dictionaries]
+Slovníky
+[\\Dictionaries]
+\\Slovníky
+[Custom Dictionaries]
+Vlastní slovníky
+[Flags DLL]
+Knihovna vlajek
+[Other...]
+Jiné...
+[Always replace with]
+Vždy nahrazovat slovem
+[Ignore all]
+Ignorovat vše
+[Add to dictionary]
+Pøidat do slovníku
+[Corrections]
+Nabízená slova
+[Wrong word: %s]
+Nenalezené slovo: %s
+[Language]
+Jazyk
+[Enable spell checking]
+Povolit kontrolu pravopisu
+[Wrong words]
+Nesprávná slova
+ 
+ 
+[Could not find the message dialog. This usually means one of two things:\n- In tabSRMM the checkbox 'Enable event API' is disabled or\n- You are using SRMM (which don't support Spell Checker)]
+Nebyl nalezen záznam komunikace. To se mùže stát ze dvou dùvodù:\n- V TabSRMM je vypnutá volba 'Aktivovat API pro události'\n - Používáte komunikaèní modul SRMM, který nepodporuje doplnìk Kontrola pravopisu
+[The correction can't be an empty word!]
+Oprava nemùže být prázdné slovo!
+[Wrong Correction]
+Špatná oprava
+[The correction can't be the equal to the wrong word!]
+Slovo opravy nemùže být shodné se chybným slovem
+ 
+[Languages]
+Jazyky
+
+; ---

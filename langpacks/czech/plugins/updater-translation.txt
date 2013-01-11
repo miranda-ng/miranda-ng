@@ -1,0 +1,348 @@
+; /----------------------------------------------------------\
+; |  Updater 0.6.1.4                                         |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=2254
+;
+
+[Component Name]
+Název doplòku
+
+; /conf_dialog.cpp
+[New Version]
+Nová verze
+[Current Version]
+Souèasná verze
+; [LVN_GETDISPINFO (0)]
+; [msg]
+[Download]
+Stáhnout
+[Update]
+Aktualizovat
+
+; /extern.cpp
+; [\\ud_data.txt]
+[Could not create data file for restart.]
+Nelze vytvoøit datovı soubor pro restart
+[Error]
+Chyba
+[Could not create data file for restart]
+Nelze vytvoøit datovı soubor pro restart
+; [\\Plugins]
+; [no backups]
+[Miranda's not 'OK TO EXIT'.]
+Miranda není pøipravena na restart
+; [\\plugins\\updater.dll]
+; [\\updater.dll]
+; [RUNDLL32.EXE .\\updater.dll,_ExternalUpdate@16 %s]
+; [RUNDLL32.EXE .\\updater.dll,ExternalUpdate@16 %s]
+[Error code: %d]
+Kód chyby: %d
+[Your 'temporary files' folder is set to NULL. Install aborted.]
+Adresáø pro doèasné soubory není nastaven. Instalace zrušena.
+[Updater Error]
+Chyba aktualizace
+; [dbtool.exe]
+; [langpack_]
+; [Read Unicode text line]
+[Miranda did not exit - cannot install or restart.\n]
+Miranda nebyla ukonèena - nelze instalovat nebo restartovat.\n
+[Press OK to kill the process, ]
+Stisknutím OK ukonèíte proces,
+[or press Cancel to abort.]
+tlaèítkem Storno akci zrušíte.
+[It seems Miranda is still running. Aborting update.]
+Zdá se, e Miranda stále bìí. Aktualizace zrušena.
+; ["%s" "%s"]
+[Failed to restart Miranda]
+Nepodaøilo se restartovat Mirandu
+
+; /extern.h
+; [root_files]
+
+; /icons.cpp
+[Updater]
+Aktualizace
+[Check for Updates]
+Zkontrolovat aktualizace
+[Restart]
+Restart
+[Update and Exit]
+Aktualizovat a ukonèit
+
+; /options.cpp
+[FORCED]
+VYNUCENO
+[N/A]
+<neuvedeno>
+[TRUE]
+ZAP
+[FALSE]
+VYP
+[Update on major version change.]
+Stahovat zásadní aktualizace
+[Update on minor version change.]
+Stahovat menší aktualizace
+[Update on release number change.]
+Stahovat malé aktualizace
+[Update on build number change.]
+Stahovat kadé sestavení
+[Use Beta?]
+Betaverze?
+[Select Updates Folder]
+Vyberte sloku pro aktualizace
+[The folder you have chosen for temporary files is not empty.\nALL FILES in this folder will be REMOVED during the update process.]
+Vybraná sloka pro doèasné soubory není prázdná.\nVŠECHNY SOUBORY v této sloce budou ODSTRANÌNY v prùbìhu aktualizace.
+[Updater Warning]
+Upozornìní Aktualizací
+[Settings]
+Nastavení
+[Updates]
+Aktualizace
+[Plugins]
+Doplòky
+[Folders]
+Sloky
+[Temporary Files]
+Doèasné soubory
+; [\\updater\\temp]
+[Backups]
+Zálohy
+; [\\updater\\backups]
+[Data]
+Obsah
+; [\\updater\\data]
+[Saved Archives]
+Uloené archivy
+; [\\updater\\archives]
+; [\\Updater]
+; [\\Temp]
+; [\\Backups]
+; [\\Data]
+; [\\Archives]
+
+; /popups.cpp
+[%s Message]
+%s zpráva
+[%s Warning]
+%s upozornìní
+[%s Error]
+%s chyba
+
+; /progress_dialog.cpp
+; [.]
+[Progress - %d%%]
+Stav - %d %%
+ 
+ 
+
+; /scan.cpp
+; [\\*.dll]
+; [; FLID:]
+; [\\langpack_*.txt]
+[Library does not contain Miranda PluginInfo function]
+Knihovna neobsahuje funkci Miranda PluginInfo
+[File not loadable as library]
+Soubor nelze naèíst jako knihovnu
+; [\\Plugins\\*.dll]
+
+; /services.cpp
+[Downloading Updates]
+Stahování aktualizací
+[Progress - Downloading updates...]
+Stahování aktualizací...
+[Downloading]
+Stahuji
+[Downloading plugin: %s]
+Stahování doplòku %s
+[Skipping plugin: %s]
+Pøeskoèení doplòku %s
+[No network - aborting update check]
+Není spojení - kontrola aktualizací zrušena
+[Checking for Updates]
+Kontrola aktualizací
+[Progress - Checking for updates...]
+Prùbìh aktualizace...
+[Downloading XML data]
+Stahování XML
+[Checking for updates]
+Hledání aktualizací
+[Scanning plugins folder]
+Prohledávání sloky s doplòky
+[Updating component file listing ids]
+Aktualizace seznamu komponent
+[Scanning language packs]
+Kontrola jazykového balíèku
+[Checking plugin: %s]
+Kontrola doplòku %s
+[Updates Available]
+Dostupné aktualizace
+[Click here to install]
+Kliknutím spustíte instalaci
+[Could not create backup folder]
+Nelze vytvoøit sloku záloh
+[Check for updates]
+Zjistit aktualizace
+
+; /socket.cpp
+; [.zip]
+[Failed to download "%s" - Invalid response, code %d]
+Nezdaøilo se stáhnout "%s" - nesprávná odezva, kód %d
+[Failed to download "%s": ]
+Nezdaøilo se stáhnout "%s":
+[Yes]
+Ano
+
+; /unzip.cpp
+; [\\../]
+; [/../]
+; [%s%s]
+; [%s%s%s]
+[unknown zip result code]
+neznámı vısledek ZIPu
+[Success]
+Úspìch
+[Culdn't duplicate handle]
+Nelze duplikovat proces
+[Couldn't create/open file]
+Nelze vytvoøit/otevøít soubor
+[Failed to allocate memory]
+Nezdaøila se alokace pamìti
+[Error writing to file]
+Chyba pøi zápisu do souboru
+[File not found in the zipfile]
+Soubor v ZIPu nenalezen
+[Still more data to unzip]
+Stále zbıvají vyzipovat data
+[Zipfile is corrupt or not a zipfile]
+Soubor ZIP je poškozenı nebo není platnı 
+[Error reading file]
+Chyba pøi ètení souboru
+[Correct password required]
+Vyadováno heslo
+; [Caller: faulty arguments]
+; [Caller: the file had already been partially unzipped]
+; [Caller: can only get memory of a memory zipfile]
+; [Caller: not enough space allocated for memory zipfile]
+; [Caller: there was a previous error]
+; [Caller: additions to the zip have already been ended]
+; [Caller: mixing creation and opening of zip]
+; [Zip-bug: internal initialisation not completed]
+; [Zip-bug: trying to seek the unseekable]
+; [Zip-bug: the anticipated size turned out wrong]
+; [Zip-bug: tried to change mind, but not allowed]
+; [Zip-bug: an internal error during flation]
+
+; /updater.rc:IDD_CONFIRMCOMPONENTS
+[Confirm Files]
+Potvrzení souborù
+[OK]
+OK
+[Cancel]
+Zrušit
+[Uncheck the files that you do not want installed:]
+Vyberte soubory, které chcete instalovat:
+[Select DLLs]
+Vybrat jen DLL
+[Invert Selection]
+Invertovat vıbìr
+[Select All]
+Vybrat vše
+
+; /updater.rc:IDD_OPT1
+[Check for updates on startup]
+Zkontrolovat pøi spuštìní
+[Button]
+Tlaèítko
+[(But only once per day)]
+Pouze jednou dennì
+[Check daily]
+Kontrolovat kadı den
+[Install without confirmation if idle]
+Instalovat bez potvrzení (pøi neèinnosti)
+[Backup updated files]
+Zálohovat pøedchozí verze
+[General Settings]
+Obecná nastavení
+[Global Status Control]
+Globální stav
+[Start offline, restore after update check]
+Spustit jako offline, po aktualizaci obnovit
+[Use popups for progress info]
+Pro informaci o prùbìhu pouít oznámení
+[Show 'Restart' menu item]
+Zobrazit v nabídce poloku 'Restart'
+[Show 'Update and Exit' menu item]
+Zobrazit v nabídce poloku 'Aktualizovat a ukonèit'
+[Static]
+Statickı
+[Keep downloaded archives]
+Zachovat staené archivy
+[Only install DLLs automatically]
+Instalovat automaticky pouze DLL
+
+; /updater.rc:IDD_CONFIRMUPDATES
+[Confirm Updates]
+Potvrzení aktualizací
+[Updates are available for the following components:]
+Na svìtì jsou novìjší verze tìchto doplòkù:
+[Confirm install for individual files]
+Potvrdit instalaci jednotlivıch souborù
+[Download but do not install]
+Stáhnout, ale neinstalovat
+[Changelog]
+Seznam zmìn
+
+; /updater.rc:IDD_PROGRESS
+[Progress]
+Prùbìh
+[Initialising...]
+Inicializace...
+
+; /updater.rc:IDD_OPT2
+[Updates:]
+Aktualizace:
+[Data:]
+Data:
+[Backups:]
+Zálohy:
+ 
+ 
+[Browse...]
+Procházet...
+[WARNING: Updater will move or delete everything in the 'Updates' folder when installing - so do not point it at anything important (e.g. your plugins folder) or put anything other than updates in there!]
+UPOZORNÌNÍ: Veškerı obsah adresáøe 'Updates' bude pøi instalaci vymazán - neumisujte sem ádné dùleité soubory!
+[Saved archives:]
+Uloené archivy:
+
+; /utils.cpp
+[Could not create temporary folder.]
+Nelze vytvoøit doèasnou sloku
+; [..]
+
+; /xmldata.cpp
+; [.xml]
+[BZ2 Decompression, configuration error]
+Rozbalování dat; chyba konfigurace
+[BZ2 Decompression, parameter error]
+Rozbalování dat; chyba parametru
+[DB2 Decompression, memory error]
+Rozbalování dat; chyba pamìti
+[Failed to download XML data: ]
+Nepodaøilo se stáhnout XML data: 
+[Updater: Error Downloading XML Data]
+Aktualizace: Chyba pøi stahování XML dat
+[Failed to download XML data - Response is NULL]
+Nepodaøilo se stáhnout XML data; odpovìï je NULL
+[Error downloading XML data...\nResponse is NULL]
+Nepodaøilo se stáhnout XML data...\nOdpovìï je NULL
+[Failed to download XML data - Invalid response, code %d]
+Nepodaøilo se stáhnout XML data; neplatná odpovìï, kód è.%d
+[Failed to decompress XML data]
+Nepodaøilo se rozbalit XML data
+
+[Don't unzip]
+Nerozbalovat archivy
+
+; ---

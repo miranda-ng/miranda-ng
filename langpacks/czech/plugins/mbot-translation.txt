@@ -1,0 +1,46 @@
+; /----------------------------------------------------------\
+; |  MSP - Miranda Scripting Plugin 0.0.3.2                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1584
+;
+
+; NEPUBLIKOVANÉ
+[Enable MBot]
+Aktivovat MBot
+[Disable all events]
+Deaktivovat všechny události
+[Disable file caching (overwrites script settings)]
+Zakázat kešování souborù (má vyšší prioritu než skript)
+[Disable scheduler]
+Deaktivovat plánovaè
+[Show MBot console on startup]
+Zobrazit konzolu pøi spuštìní
+[Show MBot console on error]
+Zobrazit konzolu pøi chybì
+;[Wrap console output]
+[Enable WWW Server]
+Aktivovat WWW server
+[Enable WWW Log]
+Poøizovat záznam o WWW serveru
+[Show advanced script configuration (requires options restart);]
+Umožnit pokroèilejší konfiguraci skriptù (vyžaduje restart)
+[Command Tags]
+Znaèky pøíkazù
+[Script tag (default: "?>")]
+pro skript (výchozí: "?>")
+[Command tag (default: "m>")]
+pro pøíkaz (výchozí: "m>")
+[Installed scripts (double click to configure)]
+Nainstalované skripty (dvojím kliknutím lze konfigurovat)
+[no description]
+bez popisu
+[Are you sure you want to unload selected script?]
+Opravdu chcete odinstalovat vybraný skript?
+[Uninstall]
+Odinstalovat
+[Show MBot Console]
+Zobrazit konzolu
+
+; ---

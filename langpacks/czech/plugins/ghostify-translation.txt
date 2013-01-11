@@ -1,0 +1,65 @@
+; /----------------------------------------------------------\
+; |  Ghostify 1.2.0.0                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://www.miranda-im.org/download/details.php?action=viewfile&id=1557
+;
+
+
+;Ghostify plugin
+;by Karl Einholz
+
+; Ghostify Options Dialog
+[Ghostify]
+Ghostify
+
+[Note: You must have contact list transparency enabled to use this plugin]
+Poznámka: Doplnìk Ghostify funguje pouze tehdy, je-li okno s kontakty prùhledné.
+
+[&Enable Ghostify]
+A&ktivovat Ghostify
+
+[&Unghostify on mouse hover]
+Po definované dobì zr&ušit funkci 
+
+[Track mouse &actions]
+Sledov&at pohyby myši
+
+[Pass &right mouse button to Miranda]
+Pøedat p&ravé tlaèítko myši Mirandì
+
+[Testfield]
+Zkušební pole
+
+[&Ghost delay]
+&Zp. prokliknutí
+
+[&Hover delay]
+Zpožd. &detekce
+
+[&Sensitivity]
+Citlivo&st
+
+[low]
+nízká
+
+[high]
+vysoká
+
+; Propably allready translated somewhere else
+;(DUP) [second]
+;(DUP) [seconds]
+
+;(DUP) [pixel]
+
+; Sounds
+; window becomes unclickable
+[Ghostify Window]
+Okno lze prokliknout
+
+;window becomes clickable
+[Unghostify Window]
+Okno nelze prokliknout
+
+; ---

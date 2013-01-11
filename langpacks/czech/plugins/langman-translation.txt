@@ -1,0 +1,131 @@
+; /----------------------------------------------------------\
+; |  Language Pack Manager 1.0.2.0                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3003
+;
+
+[Language Pack Manager]
+Správa pøekladù
+[Helps you manage Language Packs of different languages.]
+Usnadòuje správu souborù s pøeklady v rùznıch jazycích.
+[Language Pack Manager Plugin]
+Doplnìk Správa pøekladù
+[The Language Pack Manager plugin can not be loaded. It requires Miranda IM %s or later.]
+Doplnìk Správa pøekladù nelze naèíst. Vyaduje program Miranda IM %s nebo novìjší.
+[Language Pack Update HTTP connection]
+Pøeklady - spojení pomocí protokolu HTTP
+
+; Options
+;(DUP) [Customize]
+;(DUP) [Language]
+[&Remove...]
+Odst&ranit...
+[Installed Languages]
+Nainstalované jazyky
+;(DUP) [File]
+[built-in]
+interní
+;(DUP) [Author(s):]
+;(DUP) [E-mail:]
+[Last modified using:]
+Urèeno pro:
+;(DUP) [Date:]
+;(DUP) [Version:]
+[Locale:]
+Lokalizace:
+[Incompatible]
+nekompatibilní
+[Current]
+aktuální
+[Not included:]
+V pøekladu chybí:
+;(LAI) [%hs (%s)]
+[All installed plugins are included.]
+Všechny nainstalované doplòky jsou pøeloeny.
+[Download more Language Packs]
+Stáhnout další pøeklady
+;(DUP) [Please restart Miranda IM for your changes to take effect.]
+[Check for new &versions of Language Packs periodically]
+Pravidelnì zjišovat nové &verze pøekladù
+[&Download Language]
+Stáhnout pøekla&d
+
+; All names of the Language Packs can be translated
+[English (default)]
+Angliètina (standardní)
+
+; Update Notify
+[Language Pack Update Now Available]
+Nová verze pøekladu
+[A new version of a Language Pack is now available. Click the install button to download and install this new update.]
+K dispozici je nová verze pøekladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlaèítko 'Instalovat'.
+;(DUP) [Language:]
+;(DUP) [Current:]
+[New:]
+Novı:
+[&Install Now]
+&Instalovat
+;(DUP) [Close]
+[Language Pack Update succeeded]
+Aktualizace pøekladu dokonèena
+[The language pack "%s" has been sucessfully downloaded and installed.]
+Pøeklad '%s' byl úspìšnì zaktualizován.
+[Language Pack Update failed]
+Chyba pøi aktualizaci pøekladu
+[The language pack "%s" could not be downloaded or extracted.]
+Pøeklad '%s' nelze stáhnout nebo rozbalit.
+
+; Download Language
+[Select your language]
+Vyberte poadovanı jazyk
+[Miranda IM is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Program Miranda IM je pøe&loen do mnoha jazykù.\nVyberte si prosím ze seznamu váš mateøskı jazyk:
+[Download &all languages]
+Stáhnout všechny j&azyky
+[Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
+Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovìjší pøeklad v daném jazyce. Nezapomeòte ovšem, e mùe existovat nìkolik variant pøekladù od rùznıch autorù.
+[downloading]
+stahování dat
+;(DUP) [OK]
+;(DUP) [Cancel]
+[Language Pack Download finished]
+Stahování vybraného jazyka dokonèeno
+[The download succeeded!]
+Stahování dat dokonèeno!
+[The download failed!\n\nThe language pack could not be downloaded or extracted.]
+Chyba pøi stahování dat!\n\nSoubor s pøekladem nelze stáhnout nebo rozbalit.
+
+; All language subcategory names on the website can be translated
+;(DUP) [English (default)]
+;(DUP) [Chinese]
+;(DUP) [Portuguese]
+;(DUP) [French]
+;(DUP) [Hebrew]
+;(DUP) [Hungarian]
+;(DUP) [Italian]
+;(DUP) [Spanish]
+;(DUP) [Ukrainian]
+;(DUP) [Russian]
+;(DUP) [German]
+;(DUP) [Dutch]
+;(DUP) [Bulgarian]
+;(DUP) [Czech]
+;(DUP) [Korean]
+;(DUP) [Polish]
+;(DUP) [Turkish]
+;(DUP) [Swedish]
+;(DUP) [Japanese]
+[Belarusian]
+bìloruština
+;(DUP) [Danish]
+;(DUP) [Finnish]
+;(DUP) [Croatian]
+
+; NEPUBLIKOVANÉ
+[Czech (CZ)]
+Èeština (http://miranda.kvalitne.cz)
+;(LAI) [Nederlands]
+
+; ---

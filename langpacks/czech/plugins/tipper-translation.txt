@@ -1,0 +1,527 @@
+; /----------------------------------------------------------\
+; |  Tipper YM 2.0.4.14                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3717
+;
+
+
+; c:\worx\miranda_cz\to_parse\tipper\sdk\m_newawaysys.h
+;(DUP) [New global status message.]
+
+; c:\worx\miranda_cz\to_parse\tipper\sdk\m_variables.h
+;(DUP) [Button]
+;(DUP) [Open String Formatting Help]
+
+; c:\worx\miranda_cz\to_parse\tipper\mir_smileys.cpp
+[Tipper smileys]
+Smajlíky v tipech
+;(DUP) [...]
+
+; c:\worx\miranda_cz\to_parse\tipper\options.cpp
+[Do you want to import selected skin setting? Current setting will be overwritten.]
+Pøejete si importovat vybrané nastavení skinu? Stávající nastavení budou pøepsána.
+[Tipper skin import]
+Import skinu rychlé tipù
+[Select image]
+Vybrat obrázek
+[Last message: (%sys:last_msg_reltime% ago)]
+Poslední zpráva: (pøed %sys:last_msg_reltime%)
+[Status message:]
+Zpráva stavu:
+;(DUP) [status]
+;(DUP) [Status:]
+;(DUP) [Client:]
+[Idle:]
+Neèinnost:
+;(DUP) [Name:]
+[You must enter a label]
+Musíte zadat titulek
+[Invalid Substitution]
+Neplatná substituce
+;(DUP) [Add]
+;(DUP) [Remove]
+;(DUP) [Edit]
+;(DUP) [Move up]
+;(DUP) [Move down]
+[<No Label>]
+<bez titulku>
+;(DUP) [Icon on left]
+;(DUP) [Icon on right]
+[No icon]
+Bez ikony
+[No title]
+Bez titulku
+;(DUP) [Bottom right]
+;(DUP) [Bottom left]
+;(DUP) [Top right]
+;(DUP) [Top left]
+;(DUP) [Top]
+[Centre]
+Centrovat
+;(DUP) [Bottom]
+;(DUP) [Left]
+;(DUP) [Right]
+;(DUP) [No avatar]
+;(DUP) [Left avatar]
+;(DUP) [Right avatar]
+[Max avatar size:]
+Maximální rozmìr avatara:
+;(DUP) [Avatar size:]
+;(DUP) [Background]
+;(DUP) [Sidebar]
+;(DUP) [None]
+[Animation]
+Animace
+[Fade]
+Slábnutí
+;(DUP) [Appearance]
+;(DUP) [Tooltips]
+;(DUP) [Customize]
+[Tooltip skin]
+Skin tipù
+;(DUP) [Content]
+[Tray tooltip]
+Oznamovací oblast
+[Extra]
+Další
+
+; c:\worx\miranda_cz\to_parse\tipper\options.h
+[Stretch both directions]
+Roztáhnout v obou smìrech
+;(DUP) [Stretch to width]
+;(DUP) [Stretch to height]
+[Tile both directions]
+Opakovat v obou smìrech
+;(DUP) [Tile horizontally]
+;(DUP) [Tile vertically]
+[Number of contacts]
+Poèet kontaktù
+[Protocol lock status]
+Stav uzamèení protokolu
+[Logon time]
+Èas pøihlášení
+[Unread emails]
+Nepøeètené e-maily
+[Status]
+Stavy
+[Status message]
+Zpráva stavu
+[Extra status]
+Rozšíøenı stav
+;(DUP) [Listening to]
+[Favourite contacts]
+Oblíbené kontakty
+[Miranda uptime]
+Doba bìhu Mirandy
+[Clist event]
+Událost v seznamu kontaktù
+[Jabber activity]
+Jabber aktivita
+;(DUP) [Gender]
+[Country flag]
+Vlajka státu
+;(DUP) [Client]
+
+; c:\worx\miranda_cz\to_parse\tipper\popwin.cpp
+[Tipper]
+Tipy
+;(DUP) [%s (locked)]
+[ ago]
+ 
+[Log on:]
+Pøihlášení:
+[Unread emails:]
+Nepøeètené e-maily:
+;(DUP) [XStatus:]
+[title]
+titulek
+[Mood:]
+Nálada:
+[Activity:]
+Èinnost:
+[Listening to:]
+Poslech hudby:
+[Copy all items with labels]
+Zkopírovat všechny poloky s názvy
+[Copy all items]
+Zkopírovat všechny poloky
+[Copy avatar]
+Zkopírovat avatar
+[Fav. contacts]
+Oblíbené kontakty
+;(DUP) [%s (%s)]
+;(DUP) [Other]
+[Miranda uptime:]
+Doba bìhu Mirandy:
+
+; c:\worx\miranda_cz\to_parse\tipper\predef_items.cpp
+;(DUP) [Birthday]
+[Birthday:]
+Narozeniny:
+;(DUP) [Gender:]
+;(DUP) [Homepage]
+;(DUP) [Homepage:]
+;(DUP) [Idle]
+;(DUP) [IP:]
+[IP internal]
+IP interní
+[IP internal:]
+IP interní:
+[Last message]
+Poslední zpráva
+;(DUP) [Name]
+[Number of received messages]
+Poèet pøijatıch zpráv
+[Number of msg [IN]:]
+Poèet zpráv [pøijatıch]:
+[Number of sended messages]
+Poèet odeslanıch zpráv
+[Number of msg [OUT]:]
+Poèet zpráv [odeslanıch]:
+[XStatus title]
+Název rozšíøeného stavu
+[XStatus title:]
+Název rozšíøeného stavu:
+[XStatus text]
+Zpráva rozšíøeného stavu
+[XStatus text:]
+Zpráva rozšíøeného stavu:
+[[jabber.dll] Activity title]
+[jabber.dll] Název aktivity
+[Activity title:]
+Název aktivity:
+[[jabber.dll] Activity text]
+[jabber.dll] Zpráva aktivity
+[Activity text:]
+Zpráva aktivity:
+[[seenplugin.dll] Last seen time]
+[seenplugin.dll] Naposledy spatøen
+[Last seen time:]
+Naposledy spatøen:
+[[seenplugin.dll] Last seen status]
+[seenplugin.dll] Naposledy spatøenı stav
+[Last seen status:]
+Naposledy spatøenı stav:
+[[weather.dll] Condition]
+[weather.dll] Situace
+[Condition:]
+Situace:
+[[weather.dll] Humidity]
+[weather.dll] Vlhkost
+[Humidity:]
+Vlhkost:
+[[weather.dll] Max/Min temperature]
+[weather.dll] Max/min teplota
+[[weather.dll] Moon]
+[weather.dll] Mìsíc
+[Moon:]
+Mìsíc:
+[[weather.dll] Pressure]
+[weather.dll] Tlak
+[Pressure:]
+Tlak:
+[[weather.dll] Sunrise]
+[weather.dll] Vıchod slunce
+[Sunrise:]
+Vıchod slunce:
+[[weather.dll] Sunset]
+[weather.dll] Západ slunce
+[Sunset:]
+Západ slunce:
+[[weather.dll] Temperature]
+[weather.dll] Teplota
+[Temperature:]
+Teplota:
+[[weather.dll] Update time]
+[weather.dll] Èas aktualizace
+[Update time:]
+Èas aktualizace:
+[[weather.dll] Visibility]
+[weather.dll] Viditelnost
+[Visibility:]
+Viditelnost:
+[[weather.dll] Wind]
+[weather.dll] Vítr
+[Wind:]
+Vítr:
+
+; c:\worx\miranda_cz\to_parse\tipper\resource.rc
+;(DUP) [Options]
+;(DUP) [Layout]
+;(DUP) [Text indent:]
+;(DUP) [Window]
+;(DUP) [Max width:]
+[Max height:]
+Max. vıška:
+[Show if list not focused]
+I neaktivní seznam
+[General padding:]
+Obecné odsazení
+[Hover time:]
+Prodleva:
+[Status bar tips]
+Tipy stavové lišty
+;(DUP) [Alignment]
+[Labels:]
+Titulky:
+[Values:]
+Hodnoty:
+[Min width:]
+Min. šíøka:
+[Min height:]
+Min. vıška:
+;(DUP) [Sidebar width:]
+[Text padding:]
+Odsazení textu:
+[Outer avatar padding:]
+Vnìjší okraj avataru:
+;(DUP) [Round corners (avatar)]
+;(DUP) [Keep original avatar size]
+[Avatar border]
+Orámovat avatary
+[Title indent:]
+Odsazení titulku:
+[Value indent:]
+Odsazení obsahu:
+[Inner avatar padding:]
+Vnitøní okraj avataru:
+[Substitution]
+Substituce
+;(DUP) [Label:]
+[Contact protocol module]
+Modul protokolu
+[Module:]
+Modul:
+[Setting or prefix:]
+Volba nebo prefix:
+[Translation:]
+Pøeklad:
+;(DUP) [OK]
+;(DUP) [Cancel]
+[Item]
+Poloka
+[Value:]
+Hodnota:
+[Draw a line above]
+Nad polokou vykreslit èáru 
+[Value on a new line]
+Odsadit na novı øádek
+[Predefined items:]
+Pøeddefinované poloky:
+;(DUP) [Items]
+[Substitutions]
+Substituce
+;(DUP) [Up]
+;(DUP) [Down]
+[Advanced options]
+Pokroèilé monosti
+[Disable status message retrieve in invisible status]
+Nezjišovat zprávu stavu ve stavu Neviditelnı
+[Retrieve XStatus details if auto-retrieve is disabled]
+Zjišovat rozšíøenı stav i kdy je automatika vypnuta
+;(DUP) [Extra icons]
+[Smileys support]
+Podpora smajlíkù
+;(DUP) [Enable SmileyAdd support]
+[Resize smileys]
+Mìnit velikost smajlíkù
+;(DUP) [Use protocol smileys]
+[Replace only isolated smileys]
+Nahradit jen oddìlené smajlíky
+;(DUP) [Use background image]
+;(DUP) [Picture options]
+[Use glyph transformation]
+Nastavit okraje
+;(DUP) [Skin items]
+;(DUP) [Export to skin file]
+;(DUP) [Load from skin file]
+;(DUP) [Opacity(%):]
+;(DUP) [Transparency]
+;(DUP) [Effects]
+;(DUP) [Border]
+[Shadow]
+Stín
+;(DUP) [Round corners (window)]
+;(DUP) [Background image]
+[Margins]
+Okraje
+[Show effect]
+Efekt zobrazení
+;(DUP) [Type]
+[Effect speed:]
+Rychlost efektu:
+[Enable tray tooltip]
+Povolit tipy v oznam.oblasti
+[Enable extended tray tooltip]
+Povolit rozš. tipy oznam.oblasti
+[Expand tooltip after:]
+Zobrazit tipy po:
+;(DUP) [ms]
+[Use status bar setting]
+Pøevzít nastavení stavové lišty
+[Basic tooltip]
+Základní tip
+[Expanded tooltip]
+Rozšíøenı tip
+[Hide offline protocols]
+Skrıt offline protokoly
+[Hide offline]
+Skrıt offline
+[Append protocol name]
+Pøipojit název protokolu
+
+; c:\worx\miranda_cz\to_parse\tipper\subst.cpp
+;(DUP) [proto]
+;(DUP) [%dh %dm]
+;(DUP) [%dm]
+[%dd]
+%d dní
+
+; c:\worx\miranda_cz\to_parse\tipper\tipper.cpp
+;(DUP) [Dividers]
+;(DUP) [Title]
+[Labels]
+Popisky
+[Values]
+Hodnoty
+[Tray title]
+Titulek oznam.oblasti
+[You need advaimg.dll plugin for advanced skin features. Get latest from Miranda alpha builds.]
+Pro správné zobrazení pokroèilıch prvkù ve skinu potøebujete doplnìk advaimg.dll, kterı získáte z experimentálních sestavení Mirandy.
+[Tipper error]
+Chyba tipù
+
+; c:\worx\miranda_cz\to_parse\tipper\translations.cpp
+[[No translation]]
+(bez pøekladu)
+;(DUP) [s]
+;(DUP) [Yes]
+;(DUP) [No]
+;(DUP) [Female]
+;(DUP) [Male]
+[BYTE to Yes/No]
+definice ano/ne (BYTE)
+[BYTE to Male/Female (ICQ)]
+rozlišení pohlaví v síti ICQ (BYTE)
+[BYTE timezone to time]
+èasová zóna (BYTE)
+[WORD to status description]
+popis stavu (WORD)
+[WORD to country name]
+název zemì (WORD)
+[DWORD to ip address]
+IP adresa (DWORD)
+[DWORD timestamp to date (short)]
+èasovı údaj pro datum, zkrácenı (DWORD)
+[DWORD timestamp to date (long)]
+èasovı údaj pro datum, dlouhı (DWORD)
+[DWORD timestamp to time]
+èasovı údaj pro èas (DWORD)
+[DWORD timestamp to time (no seconds)]
+èasovı údaj pro èas, bez sekund (DWORD)
+[DWORD timestamp to time difference]
+èasovı údaj pro èasovı rozdíl (DWORD)
+[DWORD seconds to time difference]
+poèet sekund pro èasovı rozdíl (DWORD)
+[<prefix>Day|Month|Year to date]
+<prefix>den|mìsíc|rok pro datum
+[<prefix>Day|Month|Year|Hours|Minutes|Seconds to time difference]
+<prefix>den|mìsíc|rok|hodiny|minuty|sekundy pro èasovı rozdíl
+[<prefix>Day|Month|Year to age]
+<prefix>den|mìsíc|rok pro datum narození
+[<prefix>Day|Month to days to next birthday]
+<prefix>den|mìsíc pro poèet dnù do pøíštích narozenin
+[<prefix>Hours|Minutes to time]
+<prefix>hodiny|minuty pro èas
+[<prefix>Hours|Minutes|Seconds to time]
+<prefix>hodiny|minuty|sekundy pro èas
+[xStatus: empty xStatus name to default name]
+xStatus: pouze název rozšíøeného stavu
+
+; 2.0.4.14
+[# Solid color fill]
+# Celkové Vyplnìní barvou
+
+[Reload skin list]
+Obnovit seznam skinù
+[Apply skin]
+Pouít skin
+[Get more skins]
+Získat více skinù
+
+[No preview]
+ádnı náhled
+
+[Skin option]
+Nastavení skinu
+[Enable skin coloring]
+Povolit obarvení skinu
+[Load tooltip proportions]
+Naèíst velikosti tipu
+[Load fonts and colors]
+Naèíst písma a barvy
+
+[Animation speed:]
+Rychlost animace:
+
+[Add item]
+Pøidat poloku
+[Add separator]
+Pøidat oddìlovaè
+
+[Preset items:]
+Pøeddefinované poloky:
+
+[Identifier]
+Identifikátor
+[UV Index:]
+UV Index:
+[[weather.dll] UV Index]
+[weather.dll] UV Index
+
+[WORD to name of a day (0..6, 0 is Sunday)]
+WORD na název dne (0..6, 0 je nedìle)
+[WORD to name of a month (1..12, 1 is January)]
+WORD na název mìsíce (1..12, 1 je leden)
+[BYTE to language (ICQ)]
+BYTE na jazyk (ICQ)
+
+
+[Enable tray tooltips]
+Povolit tipy oznamovací oblasti
+[Handle tray tooltips by Tipper]
+Tipy oznamovací oblasti skrz Tipper
+[Expand to second level after:]
+Rozšíøit na druhou úrovìò po:
+
+[First level tooltip]
+Tip první úrovnì
+[Second level tooltip]
+Tip druhé úrovnì
+
+
+[Show tooltip after all content is ready (avatar && status message)]
+Zobrazit tip a po naètení celého obsahu (avatar && zpráva stavu)
+[Disable status message retrieve in all statuses]
+Vypnout naèítání zprávy stavu ve všech stavech
+
+[Status bar and tray tooltip]
+Tipy stavového øádku a oznamovací oblasti
+[Limit status messages in status bar and tray tooltips to:]
+Omezit délku zprávy stavu v tipech stavového øádku a oznamovací oblasti na:
+
+; Tipper 0.4.1.9
+[Dimensions]
+Rozmìry
+[Avatar padding:]
+Vıplò u avatarù:
+[Background image:]
+Obrázek na pozadí:
+[Stretch]
+Upravit velikost
+[XP+]
+Windows XP nebo novìjší
+
+; ---

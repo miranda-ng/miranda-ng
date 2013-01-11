@@ -1,0 +1,127 @@
+; /----------------------------------------------------------\
+; |  Speak 0.0.0.5                                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Tapin <tapin (zavináè) wo (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=214
+;
+
+[Read message if less characters than]
+Pøeèíst pøíchozí zprávu, je-li kratší než
+[Ignore event if message dialog is open]
+Ignorovat událost, je-li konverzaèní okno otevøené
+[Ignore event if message dialog is focused]
+Ignorovat událost, je-li konverzaèní okno aktivní
+[Announce status changes on connect]
+Oznamovat zmìnu stavu pøi pøipojení
+;-------------------------------------------------------------------------------
+;
+; Status changes
+;----------------
+[%u is now offline]
+%u je offline
+[%u is now online]
+%u je online
+[%u is away]
+%u je na chvíli pryè
+[%u is invisible]
+%u je neviditelný
+[%u is not available]
+%u tady není
+[%u does not want to be disturbed]
+%u nechce být rušen
+[%u is occupied]
+%u nemá èas
+[%u is free for chat]
+%u má volno
+;
+; Events
+;--------
+[incoming message from %u]
+pøíchozí zpráva od %u
+[incoming U R L from %u]
+pøíchozí url adresa od %u
+[you have been added to %u's contact list]
+%u si vás pøidal do seznamu uživatelù
+[there is an incoming file from %u]
+%u pøíchozí soubor od
+[%u says]
+%u píše
+;
+; Dialog text
+;-------------
+[Speak]
+Pøeèíst
+;
+; Engine/Voice Dialog
+;---------------------
+[Engine/Voice]
+Rozhraní a hlas
+[Engine Settings]
+Nastavení rozhraní
+[Engine]
+Rozhraní
+[Voice]
+Hlas
+[Volume]
+Hlasitost
+;[Rate]
+;Rychlost
+[Pitch]
+Výška
+[Test]
+Ovìøit
+[testing testing 1 2 3]
+Zkouška zkouška 1 2 3
+[Welcome Message]
+Uvítací zpráva
+;
+; Active Modes Dialog
+;---------------------
+[Active Modes]
+Aktivní stavy
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryè
+[Do not Disturb]
+Nerušit
+[Not Available]
+Nejsem tady
+[Occupied]
+Nemám èas
+[Free for Chat]
+Mám volno
+[Invisible]
+Neviditelný
+[Active Users]
+oznamovat zmìnu uživatelù
+;(DUP) [All]
+;(DUP) [None]
+;
+; Announce Dialog
+;-----------------
+[Announce]
+Oznámení
+[Status Changes]
+Zmìny stavu
+[Status Messages]
+Stavové zprávy
+[Occuring Events]
+Události
+[Incoming Message]
+Pøíchozí zpráva
+[Incoming URL]
+Pøíchozí odkaz
+[Incoming File]
+Pøíchozí soubor
+[Authorisation Request]
+Žádost o autorizaci
+[Added to Contact List]
+Pøidaný mezi kontakty
+[Message Events]
+Události zpráv
+
+; ---

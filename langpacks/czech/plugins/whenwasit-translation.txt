@@ -1,0 +1,156 @@
+; /----------------------------------------------------------\
+; |  WhenWasIt birthday reminder 0.2.2.3                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2878
+;
+
+[When Was It]
+Kdy to bylo?
+; menu
+[Birthdays (When Was It)]
+Narozeniny (Kdy to bylo?)
+[Check for birthdays]
+Zjistit narozeniny
+[Birthday list]
+Seznam narozenin
+[Refresh user details]
+Aktualizovat informace o kontaktu
+[Starting to refresh user details]
+Probíhá aktualizace informací o kontaktech
+[Done refreshing user details]
+Konec aktualizace informací o kontaktech
+[Import birthdays]
+Importovat narozeniny...
+[Please select a file to import birthdays from ...]
+Vyberte prosím soubor obsahující seznam narozenin
+[Importing birthdays from file: %s]
+Import seznamu narozenin ze souboru %s.
+[Done importing birthdays]
+Import seznamu narozenin úspìšnì dokonèen.
+[Export birthdays]
+Exportovat narozeniny...
+[Please select a file to export birthdays to ...]
+Vyberte prosím soubor k uložení seznamu narozenin
+[Exporting birthdays to file: %s]
+Export seznamu narozenin do souboru %s.
+[Done exporting birthdays]
+Export seznamu narozenin úspìšnì dokonèen.
+[Add/change user &birthday]
+Zmìnit narozenin&y...
+; seznam narozenin
+[Show all contacts]
+Zobrazit všechny kontakty
+[DTB]
+DDN
+; dialog
+[Set birthday for %s:]
+Narozeniny: %s
+[mBirthday compatibility]
+Kompatibilní s mBirthday
+; options
+[Birthay notification]
+Narozeniny (upozornìní)
+[Notify of birthdays using:]
+Upozornìní na narozeniny
+[Don't show popups for subcontacts]
+Nezobrazovat oznámení pro podkontakty
+[Show popup when no birthdays are near]
+Zobrazit oznámení i tehdy, nejsou-li v dohledu narozeniny
+[Message window]
+Komunikaèní okno
+;(DUP) [Nothing]
+;(DUP) [Dismiss]
+[Contact list icon]
+Indikace v seznamu
+[Use slot]
+Slot
+[to draw icon.]
+(ikona)
+[Start notifying ]
+Poprvé upozornit
+[days in advance.]
+dnù dopøedu
+[hours.]
+hod.
+[Advanced 2]
+Extra è.2
+[Advanced 3]
+Extra è.3
+[Advanced 4]
+Extra è.4
+[Advanced 5]
+Extra è.5
+;(DUP) [Web]
+[Client]
+Klient
+[UserInfo module]
+UserInfo
+[Protocol module]
+protokolu
+[mBirthday module]
+mBirthday
+[Upcoming age]
+budoucí vìk
+[Current age]
+souèasný vìk
+[Play sounds when there are]
+Pøehrát zvuk, když zbývá
+[days or less to birthday.]
+dnù do oslavy narozenin
+[By default use]
+Použít modul
+[to save birthday data.]
+k uložení data narození
+[in birthday list window]
+v oknì se seznamem narozenin
+[Birthday list (%d)]
+Seznam narozenin (%d)
+[%s has birthday in %d days.]
+Pøezdívka: %s, zbývá dnù: %d
+[%s has birthday tomorrow.]
+%s bude mít zítra narozeniny.
+[%s has birthday today.]
+%s má dnes narozeniny!
+[%s\n%s will be %d years old.]
+%s\nVìk (%s): %d let
+[%s\n%s just turned %d.]
+%s\nVìk (%s): %d let
+[No upcoming birthdays.]
+V dohledné dobì nemá narozeniny žádný známý.
+[Birthday - %s]
+Narozeniny: %s
+
+; ANSI version - please don't mix
+;[Could not find UID '%s [%s]' in current database, skipping]
+; UNICODE version - please don't mix
+;[Could not find UID '%s [%S]' in current database, skipping]
+; ANSI version - please don't mix
+;[%s protocol]
+; UNICODE version - please don't mix
+[%S protocol]
+%S protokol
+[Please select the module where you want the date of birth to be saved.\n"UserInfo" is the default location.\nUse "Protocol module" to make the data visible in User Details.\n"mBirthday module" uses the same module as mBirthday plugin.]
+Prosím zvolte modul k uložení data narození.\n"UserInfo" je výchozí umístìní.\nPoužijte umístìní "Protokolu" aby bylo datum narození vidìt v detailech uživatele.\n"mBirthday module" použije stejný modul jako doplnìk mBirthday.
+
+[Popup mouse click]
+Po kliknutí myší
+[Advanced 1]
+Rozšíøený stav
+[Only notify once per day.]
+Upozornit jen jednou za den
+[Birthday near]
+Narozeniny (brzy)
+;(DUP) [Birthday today]
+
+[Notifies you of upcoming birthdays.]
+Pøidává možnost upozornìní na narozeniny.
+
+[Set popup delay when notifying of upcoming birthdays.\nFormat: default delay [ | delay for birthdays occuring today]]
+Nastavit prodlevu oznámení pøi oznamování nadcházejících narozenin.\nFormát: výchozí prodleva [ | prodleva pro dnešní narozeniny]
+
+[Set birthday:]
+Nastavit narozeniny:
+
+; ---

@@ -1,0 +1,119 @@
+; /----------------------------------------------------------\
+; |  ContactsEx 1.1.2.0                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+[<unknown>]
+<neznámý>
+[AM]
+dop.
+[PM]
+odp.
+;(DUP) [Browse Received Files]
+[View Homepage]
+Zobrazit domovskou stránku
+[Browse Files]
+Procházet soubory
+[ContactsEx]
+ContactsEx
+[Folder View]
+Standardní okno
+[Explorer View]
+Prùzkumník Windows
+[Show Menu Item]
+Zobrazit položku menu
+[Hide Menu Item]
+Skrýt položku menu
+[Disable Menu Item]
+Deaktivovat položku menu
+[Last Online]
+Naposledy online
+[Last Online Options]
+Možnosti
+[Adds a context menu item to your contacts showing the time the contact was last online.]
+Do kontextového menu kontaktu pøidá položku s èasem posledního pøipojení.
+[Enable Last Online]
+Povolit funkci 'Naposledy online'
+[Menu item text:]
+Definice položky menu:
+[If last online is unknown:]
+Èas posledního pøipojení neznámý:
+[If contact is currently online:]
+Je-li vybraný kontakt právì online:
+[Last Online Variables]
+Promìnné
+[Year]
+rok
+[Month (01-12)]
+mìsíc (1-12)
+[Day (01-31)]
+den (1-31)
+[Hour (01-24)]
+hodina (1-24)
+[Hour (1-12)]
+hodina (1-12)
+[Minutes (00-60)]
+minuta (0-60)
+;(DUP) [AM/PM]
+[Seconds (00-60)]
+sekunda (0-60)
+[Browse Files Options]
+Možnosti
+[Adds a "Browse Files" context menu item to your contacts.]
+Do kontextového menu kontaktu pøidá položku 'Procházet soubory'.
+[Enable Browse Files]
+Povolit funkci 'Procházet soubory'
+[Folder view type:]
+Typ zobrazení souborù:
+[If contacts directory is empty:]
+Je-li složka se soubory prázdná:
+[If contacts directory does not exist:]
+Není-li složka se soubory vytvoøena:
+[View Homepage Options]
+Možnosti
+[Adds a "View Homepage" context menu item to your contacts.]
+Do kontextového menu kontaktu pøidá položku 'Zobrazit domovskou stránku'.
+[Enable View Homepage]
+Povolit funkci 'Zobrazit dom. stránku'
+[If contact is missing a homepage:]
+Není-li domovská stránka uvedena:
+[Month Name]
+název mìsíce
+[Month Name Short]
+zkrácený název mìsíce
+[Day of Week]
+název dne
+[Day of Week Short]
+zkrácený název dne
+[Icon in menu item:]
+Ikona vedle položky menu:
+[Show Icon]
+Zobrazit
+[Hide Icon]
+Skrýt
+[Copy IP]
+Zkopírovat IP adresu
+[Copy IP Address]
+Zkopírovat IP adresu
+[Copy IP Address Options]
+Možnosti
+[Adds a "Copy IP Adress" context menu item to your contacts.]
+Do kontextového menu kontaktu pøidá položku 'Zkopírovat IP adresu'.
+[Enable Copy IP Address]
+Povolit funkci 'Zkopírovat IP adresu'
+[If contact's IP address is unknown:]
+V pøípadì, že IP adresu nelze zjistit:
+
+; NEPUBLIKOVANÉ
+[Last Status]
+poslední stav
+;(PRB) [ContactsEx]
+;Kontakty Extra
+; Description
+[Adds contact specific options: Browse Files, View Website, Last Online, and Copy IP Address]
+Do nabídky kontaktu pøidá možnost procházení pøijatých souborù, zobrazení domovské stránky, zjištìní informace o tom, kdy byl naposledy online, a zkopírování IP adresy.
+
+; ---

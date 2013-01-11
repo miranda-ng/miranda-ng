@@ -1,0 +1,206 @@
+; /----------------------------------------------------------\
+; |  Last Seen 5.0.1.1 + Last seen plugin mod 5.0.4.7        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+[Last seen]
+Naposledy spatøen
+[Last seen options]
+Nastavení
+[Last seen menuitem]
+Položky menu
+[Userinfo tab]
+Záložka s informacemi o uživateli
+[Log to file]
+Uložit záznam
+[year (4 digits)]
+rok (4 èíslice)
+[year (2 digits)]
+rok (2 èíslice)
+[month]
+mìsíc
+;(DUP) [day]
+;(DUP) [minutes]
+;(DUP) [seconds]
+[username]
+uživatelské jméno
+[UIN/handle]
+UIN (ident. èíslo)
+[status]
+stav
+[external IP]
+externí IP
+[internal IP]
+interní IP
+[line break]
+další øádek
+[tabulator]
+tabulátor
+;(DUP) [<unknown>]
+;New 4.0.2
+;--------------------
+[Ignore contacts going offline]
+Ignorovat pøechod do stavu offline
+;New 4.0.3
+;--------------------
+[Enable 'Missed Ones' feature]
+Aktivovat funkci 'Zmeškané kontakty'
+[You missed following contacts:]
+Zmeškali jste tyto kontakty:
+;New 4.0.4
+;--------------------
+[Show icon]
+Zobrazit ikonu
+;Modified 4.0.5
+;--------------------
+; [hours]
+[hours (24)]
+hodiny (24)
+;New 4.0.5
+;--------------------
+[hours (12)]
+hodiny (12)
+;(DUP) [AM/PM]
+;New 4.0.6
+;--------------------
+[weekday (full)]
+název dne (celý)
+[weekday (abbreviated)]
+název dne (zkrácený)
+[Monday]
+pondìlí
+[Tuesday]
+úterý
+[Wednesday]
+støeda
+[Thursday]
+ètvrtek
+[Friday]
+pátek
+[Saturday]
+sobota
+[Sunday]
+nedìle
+[Mon.]
+po
+[Tue.]
+út
+[Wed.]
+st
+[Thu.]
+èt
+[Fri.]
+pá
+[Sat.]
+so
+[Sun.]
+ne
+;New 4.0.7
+;--------------------
+[name of month]
+název mìsíce (celý)
+[short name of month]
+název mìsíce (zkrácený)
+;(DUP) [January]
+;(DUP) [February]
+;(DUP) [March]
+;(DUP) [April]
+;(DUP) [May]
+;(DUP) [June]
+;(DUP) [July]
+;(DUP) [August]
+;(DUP) [September]
+;(DUP) [October]
+;(DUP) [November]
+;(DUP) [December]
+[Jan.]
+led
+[Feb.]
+úno
+[Mar.]
+bøe
+[Apr.]
+dub
+;(DUP) [May]
+[Jun.]
+èen
+[Jul.]
+èec
+[Aug.]
+srp
+[Sep.]
+záø
+[Oct.]
+øíj
+[Nov.]
+lis
+[Dec.]
+pro
+;New 4.1.1
+;--------------------
+[Count times]
+Zaznamenat poèet
+;New 5.0.0.0
+;--------------------
+[last seen history]
+Historie zmìn stavu
+[Log to history]
+Záznam do historie
+[Maximum size]
+Max. velikost
+[Variable list]
+Promìnné
+[Protocols to watch:]
+Sledovat protokoly:
+[Alert when user status changes]
+Upozornit pøi zmìnì stavu
+;New 5.0.1.1
+;--------------------
+[Send Instant Message]
+Odeslat zprávu
+
+; NEPUBLIKOVANÉ
+[Last seen plugin]
+Sledování zmìny stavu
+[-- Date --]
+-- Datum --
+[-- Time --]
+-- Èas --
+[-- User --]
+-- Uživatel --
+[-- Format --]
+-- Formátování --
+[Last Seen Variables]
+Last Seen - seznam promìnných
+[LastSeen: User status change]
+Naposledy spatøen: Zmìna stavu
+
+[Enable Idle support]
+Detekovat stav neèinnosti
+[Use popups]
+Použít oznámení
+[PopUp Colors]
+Barvy oznámení
+[Reset colors]
+Výchozí barvy
+[Disable CList Notifications]
+Vypnout oznámení seznamu kontaktù
+[For watched protocols]
+Pro sledované protokoly
+[For non-watched protocols]
+Pro nesledované protokoly
+[nick]
+pøezdívka
+[Old status]
+pùvodní stav
+[Client info]
+klient
+[Note:]
+Pozn.:
+[for empty string instead of]
+pro prázdný øetìzec namísto
+
+; ---

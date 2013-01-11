@@ -1,0 +1,103 @@
+; /----------------------------------------------------------\
+; |  FTP File YM 0.3.0.3                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3797
+;
+
+[Upload canceled]
+Upload pøerušen
+[File upload complete]
+Upload souboru dokonèen
+[FTP File]
+Soubory pøes FTP
+[User]
+Uživatel
+[Port]
+Port
+[Command after upload]
+Pøíkaz po dokonèení
+[FTP server]
+Server FTP
+[Automatically send URL to the contact]
+Automaticky odeslat odkaz kontaktu
+[Copy URL to message log]
+Zkopírovat odkaz do okna se zprávou
+[File URL options]
+Odkaz na soubor
+[Host name]
+Adresa
+[Use passive mode]
+Použít pasivní režim
+[Directory on server]
+Složka na serveru
+
+[FTP File Error]
+Soubory pøes FTP - chyba
+[Error connecting to server]
+Chyba pøi pøipojování k serveru
+[FTP Server name]
+Název FTP serveru
+[FTP File - Select files]
+Soubory pøes FTP - vyberte soubory
+[Progress info]
+Informace o prùbìhu
+[Aborting all files...]
+Rušení všech souborù...
+[%s (%d, %d)\n\nMore info:\n%s\n\n%s]
+%s (%d, %d)\n\nVíce info:\n%s\n\n%s
+[Cancel all]
+Zrušit vše
+[FTP File - %s]
+Soubory pøes FTP - %s
+
+[Send file]
+Poslat soubor
+[File upload complete]
+Upload souboru dokonèen
+
+; aktualizace na novou verzi
+; FTP File YM 0.1.0.2
+
+;[FTP Server %d]
+;FTP Server %d
+[FTP account]
+FTP úèet
+[Account name]
+Název úètu
+
+[Menu items options]
+Nastavení položek v menu
+[Use submenu in contact menu:]
+Používat podmenu v menu kontaktu:
+[Always (use submenu in any situation)]
+Vždy (použít podmenu v jakékoli situaci)
+[When more than one account is set]
+Když je nastaven více než jeden úèet
+[Never (place items directly into contact menu)]
+Nikdy (umístit položky rovnou do menu kontaktu)
+[Remove national characters from filename]
+Odebrat národní znaky z názvu souboru
+[Hide inactive accounts]
+Skrýt neaktivní úèty
+
+[File download link]
+Odkaz na soubor
+[Autosend download link to contact]
+Automaticky poslat odkaz na soubor
+[Copy download link to message log]
+Zkopírovat odkaz na soubor do historie
+[Menu items]
+Položky menu
+[Use submenu (restart required)]
+Použít podmenu (vyžaduje restart)
+[Close dialog after upload finishes]
+Po ukonèení pøenosu dat zavøít okno
+
+[Automatically delete file from FTP server after (experimental):]
+Automaticky smazat soubor z FTP po (experimentální):
+[FTP (Standard)]
+FTP (Standardní)
+
+; ---

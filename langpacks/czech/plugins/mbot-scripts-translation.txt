@@ -1,0 +1,50 @@
+; /----------------------------------------------------------\
+; |  mbot scripts 1.0.0.0                                    |
+; \----------------------------------------------------------/
+;
+; Import Gaim History 0.0.2.1
+;
+; Pøeklad: Libor Polèák <e1ko.gm (zavináè) gmail (teèka) com>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3117
+;
+
+[Import Gaim history]
+Import Gaim history
+[Unexpected format]
+Neoèekávaný formát
+[Text files(*.txt)|*.txt|]
+Textové soubory(*.txt)|*.txt|
+[If you want to import history for %uin, you have to add them to your contact list first!]
+Pokud chcete importovat zprávy uživatele %uin, musíte jej pøidat!
+[Error]
+Chyba
+[Unknown error.]
+Neznámá chyba.
+[This script is in early phase, it can harm your computer!]
+Toto je raná verze skriptu, mùže zpùsobit vážné potíže!
+[%n events were imported.]
+Bylo importováno %n událostí.
+[Total]
+Celkem
+[Configuration file for this script is corupted or missing!]
+Chybí konfiguraèní soubor pro tento skript!
+[Missing file]
+Chybí soubor
+
+
+; Name Day script 1.0.0.0
+;
+; Pøeklad: Libor Polèák <e1ko.gm (zavináè) gmail (teèka) com>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3117
+;
+
+[Name day]
+Svátek
+[has name day today]
+dnes slaví svátek
+[Today]
+Dnes
+[%n has name day]
+Svátek má %n
+
+; ---

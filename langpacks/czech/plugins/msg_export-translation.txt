@@ -1,0 +1,384 @@
+; /----------------------------------------------------------\
+; |  Message Export 2.14.0.0                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+;; ====== Message Export ===========
+; This file contains all the strings used in the Message Export
+; plugin.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Contact menu item
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Open E&xported History]
+Otevøít vye&xportovanou historii
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options Tree
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(DUP) [Plugins]
+[Message export]
+Export zpráv
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Static
+[Export directory]
+Složka pro export
+;(DUP) [Browse]
+[Default file]
+Soubor
+[Export format]
+Výstupní formát
+[Max column width]
+Šíøka sloupce
+[Time format]
+Datum, èas
+
+; ListCtrl
+[File]
+Soubor
+;(DUP) [Nick]
+[UIN]
+UIN
+
+; Buttons
+[Auto filename]
+Autom. název
+[Clear all]
+Odstranit vše
+;(DUP) [Help]
+[Export all history]
+Exportovat vše
+
+; Errors / Questions
+[You have unapplyed changes do you wish to apply these first ?]
+Nìkteré ze zmìn nebyly potvrzeny. Chcete je potvrdit?
+[No contacts found to export]
+Nenalezeny žádné kontakty
+[Failed to export at least one contact]
+Chyba pøi exportu; nenalezeny žádné kontakty.
+[Max line width must be at least %d]
+Šíøka sloupce musí být nejménì %d znakù!
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Dialog Export all, Progress bar
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Exporting old messages]
+Export starých zpráv
+[Reading database information ( Phase 1 of 2 )]
+Naèítání informací z databáze (fáze è.1)
+[Sorting and writing database information ( Phase 2 of 2 )]
+Tøídìní a zápis do databáze (fáze è.2)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Folder Browse dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Select Destination Directory]
+Vyberte cílovou složku
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Strings written to export file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[The following user added you to their contact list:]
+Uživatel, který si vás pøidal mezi kontakty:
+[The following user made an authorization request:]
+Tento uživatel vás požádal o autorizaci:
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Error dialogs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Message has not been saved !]
+Zpráva nebyla uložena!
+[Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
+Neplatná cesta ke knihovnì Msg_Export.dll
+[Failed to move to the end of the file :\n]
+Chyba pøi pøesunu na konec souboru\n
+[Failed to open or create file :\n]
+Chyba pøi otevírání nebo vytváøení souboru:\n
+
+;/////////////////////
+;//  Version 1.4.0  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Strings written to export file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(DUP) [The following user added you to their contact list:]
+;(DUP) [The following user made an authorization request:]
+[Nick      :]
+Pøezdívka :
+[FirstName :]
+Jméno     :
+[LastName  :]
+Pøíjmení  :
+[e-mail    :]
+E-mail    :
+[Reason    :]
+Dùvod     :
+
+; Errors
+
+;/////////////////////
+;//  Version 1.4.1  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Error dialogs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Failed to write message to the file :\n]
+Chyba pøi zápisu zprávy do souboru:\n
+[Failed to write URL/File to the file :\n]
+Chyba pøi zápisu adresy nebo souboru do souboru:\n
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Strings written to export file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[URL: ]
+Adresa: 
+[File: ]
+Soubor: 
+[Description: ]
+Popis: 
+
+
+;/////////////////////
+;//  Version 1.5.0  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Strings written to export file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[EmailExpress from:]
+EmailExpress od:
+[No from address]
+Adresa nespecifikována
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Error dialogs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Failed to write EmailExpress to the file :\n]
+Chyba pøi zápisu položky EmailExpress do souboru:\n
+
+
+;/////////////////////
+;//  Version 1.6.0  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Error dialogs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Failed to write SMS to the file :\n]
+Chyba pøi zápisu položky SMS do souboru:\n
+
+
+
+;/////////////////////
+;//  Version 1.7.0  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[Replace miranda history]
+Nahradit historii Mirandy
+[Use internal viewer]
+Interní prohlížeè
+[You need to restart miranda to change the history function]
+Nahrazení historie vyžaduje restart Mirandy.
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; File Viewer dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[History file for %s (%s)]
+Historie: %s (soubor: %s)
+[Find...]
+Najít...
+;(DUP) [Close]
+;(FIX) [External]
+[&External]
+&Externí
+[Search string was not found !]
+Hledaný øetìzec nebyl nalezen!
+
+
+;/////////////////////
+;//  Version 1.8.0  //
+;/////////////////////
+
+[File name for the user \"%s\" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
+Jméno kontaktu bylo zmìnìno (na \"%s\").\n\nPùvodní název:\t%s\nNový název:\t%s\n\nChcete tento soubor pøejmenovat?
+[Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
+Chyba pøi pøejmenování souboru.\n\nPùvodní název:\t%s\nNový název:\t%s\n\nPopis chyby: %s
+;(DUP) [&Yes]
+[Yes to &All]
+&Ano všem
+;(DUP) [&No]
+[No to A&ll]
+Ne vš&em
+
+;/////////////////////
+;//  Version 1.9.0  //
+;/////////////////////
+
+; File Viewer menu item
+[Color...]
+Barva...
+
+;/////////////////////
+;//  Version 1.9.1  //
+;/////////////////////
+
+; File Viewer menu item
+[Font...]
+Písmo...
+
+;/////////////////////
+;//  Version 1.9.5  //
+;/////////////////////
+
+; Errors / Questions
+[Failed to delete the file]
+Chyba pøi mazání souboru
+
+;/////////////////////
+;//  Version 1.9.6  //
+;/////////////////////
+
+;Removed : [Failed to read ProfileDir from mirandaboot.ini]
+;Removed : [Failed to get path to Miranda.exe]
+
+;/////////////////////
+;//  Version 1.9.7  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Prompt to delete file]
+Potvrdit smazání
+
+;/////////////////////
+;//  Version 1.9.8  //
+;/////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; General Error dialogs
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
+Funkci Historie Mirandy nelze nahradit.\r\nDùvodem jsou pravdìpodobnì interní zmìny v programu.
+
+;/////////////////////
+;//  Version 2.0.1  //
+;/////////////////////
+
+;Removed : [Unknowen event type %d, size %d]
+;Removed : [Invalid Database event received. Type %d, size %d]
+;Removed : [User has been deleted do you want to delete the file ?\r\n%s]
+;(FIX) Proc to odstranil, kdyz se pouziva?
+[User has been deleted do you want to delete the file ?\r\n%s]
+Opravdu chcete smazat historii odstranìného kontaktu?\r\n%s
+;Removed : [Failed to HookEvent ME_DB_EVENT_ADDED]
+;Removed : [Failed to HookEvent ME_OPT_INITIALISE]
+;Removed : [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
+;Removed : [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+;Removed : [Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY]
+;Removed : [Failed to get the shells allocator !]
+;Removed : [Failed to Allocate buffer space]
+
+; Errors / Questions
+[User has been deleted do you want to delete the file ?]
+Jeden z uživatelù byl odebrán ze seznamu.\nChcete smazat pøíslušný soubor?
+
+;///////////////////////
+;//  Version 2.03.00  //
+;///////////////////////
+
+; File Viewer menu item
+[Syntax highlight]
+Zvýraznìní klíèových slov
+
+;///////////////////////
+;//  Version 2.04.00  //
+;///////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+[File viewer]
+Prohlížeè souborù
+[Append extra new line]
+Pøidat 1 nový øádek
+
+;///////////////////////
+;//  Version 2.05.00  //
+;///////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Strings written to export file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[WebPager from:]
+WebPager od:
+
+;///////////////////////
+;//  Version 2.06.00  //
+;///////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+; ListCtrl right click menu
+;(DUP) [User &Details]
+; These were not added in 2.06.00 but were forgotten in previous versions.
+[Export selected]
+Exportovat vybrané
+[Set to default filename]
+Výchozí název souboru
+
+;///////////////////////
+;//  Version 2.09.00  //
+;///////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+[Use << and >>]
+Použít << a >>
+
+;///////////////////////
+;//  Version 2.12.00  //
+;///////////////////////
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Main options dialog
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;Removed : [User has been deleted do you want to delete the file ?]
+
+[When filename changes]
+Po zmìnì názvu souboru
+[When user is deleted]
+Po odebrání kontaktu
+[Prompt for action]
+Dotázat se
+[Rename file]
+Pøejmenovat soubor
+[Do nothing]
+Nedìlat nic
+[Delete file]
+Smazat soubor
+
+; NEPUBLIKOVANÉ
+[Message export2]
+Export zpráv 2
+
+; ---

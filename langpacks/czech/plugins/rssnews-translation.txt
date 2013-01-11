@@ -1,0 +1,157 @@
+; /----------------------------------------------------------\
+; |  RSSNews 0.0.3.12                                        |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=409
+;
+
+
+; Dialogs
+[Adding new feed]
+Pøidání zdroje
+[Manage feed]
+Úprava zdroje
+[Main options]
+Hlavní možnosti
+[Title:]
+Název:
+;(DUP) [URL:]
+[Auto &discovery]
+Autom. vyhle&dat
+[Use &authentication]
+Použít &autorizaci
+;(DUP) [Username]
+;(DUP) [Password]
+[Check every]
+Projít každých
+[minutes]
+min.
+[Maximum displayed items]
+Max. poèet zobrazených
+[(0 = no limit)]
+(0 = neomezenì)
+[Visualization]
+Vizualizace
+;(DUP) [&Reset]
+[Display news using the following format:]
+Zprávy zobrazit v následujícím formátu:
+[All item's tags are valid. Put them between #. Example: #<author>#]
+Znaèky je tøeba umístit mezi #. Pøíklad: #<autor>#
+;(DUP) [&Ok]
+;(DUP) [&Cancel]
+
+;(DUP) [Help]
+[Example]
+Pøíklad
+
+[Feed]
+Zdroj
+[Link]
+Adresa
+[&Add...]
+Pøid&at...
+[&Edit...]
+Up&ravit...
+;(DUP) [&Delete]
+[Retrieve news at &startup]
+Pøijímat zprávy pøi &startu
+;(DUP) [&Import...]
+[&Export...]
+&Exportovat...
+
+[RSSNews - Import]
+RSSNews - importování zdrojù
+[Import from:]
+Importovat z:
+[&Go]
+&Provést
+;(FIX) [Available feeds:]
+[Avaliable feeds:]
+Zdroje k dispozici:
+[Feeds to be imported:]
+Zdroje k importu:
+;(DUP) [&Import]
+;(DUP) [&Close]
+
+[RSSNews - Export]
+RSSNews - exportování zdrojù
+[Available feeds:]
+Zdroje k dispozici:
+[Feeds to be exported:]
+Zdroje k exportu:
+[Export to file:]
+Exportovat do:
+[&Export]
+&Exportovat
+
+; UI Help
+[Enter a value in Title field.]
+Zadejte název zdroje.
+[Enter a value in URL field.]
+Zadejte adresu serveru.
+[Enter a value in Username field.]
+Zadejte uživatelské jméno.
+[Enter a value in Password field.]
+Zadejte heslo.
+[Select a feed to manage.]
+Vyberte ze seznamu zdroj.
+[Select a feed to delete.]
+Vyberte zdroj ke smazání.
+;(DUP) [Warning]
+[Invalid path and/or filename.]
+Neplatná cesta nebo název souboru.
+[Exporting sucessfully completed.]
+Export dat úspìšnì dokonèen.
+[There are no items to be exported.]
+Pøed exportováním vyberte požadované zdroje.
+[RSSNews plugin did not find any feed.]
+Doplnìk RSSNews nenalezl žádný zdroj.
+[Importing sucessfully completed.]
+Import dat úspìšnì dokonèen.
+[There are no items to be imported.]
+Pøed importováním vyberte požadované zdroje.
+[Wait...]
+Poèkejte...
+[%s\nis a valid feed's address.]
+%s\nje platná adresa zdroje.
+[RSSNews found a new feed's address]
+Doplnìk RSSNews nalezl adresu zdroje:
+[Do you want to use it?]
+Chcete tento zdroj použít?
+
+
+; Options pages
+;(DUP) [Plugins]
+[RSSNews]
+Novinky (RSS)
+
+; Menu item
+[&Add new feed...]
+Pøid&at nový zdroj...
+[&Check all feeds]
+Projít vše&chny zdroje
+
+; Other
+[MyFeeds]
+Zdroje
+[OPML File]
+Soubor OPML
+[Feed ID]
+ID zdroje
+[connection]
+spojení
+
+; NEPUBLIKOVANÉ
+; Sítì
+[RSSNews connection]
+RSSNews - spojení se serverem
+
+; Doplòky / Novinky (RSS)
+[E&xport...]
+E&xportovat...
+
+[Please read the readme file for help, there instructions on how to use and how to configure the plugin.]
+Informace o tom, jak nastavit a používat doplnìk RSSNews naleznete v souboru Readme.
+
+; ---

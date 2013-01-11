@@ -1,0 +1,580 @@
+; /----------------------------------------------------------\
+; |  nConvers++ 0.0.0.30                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1497
+;
+
+;;;; ===========================================================================
+;;;; Module: nconvers++.dll
+;;;; Plugin: Messaging Style Conversation
+;;;; Versions: 0.0.0.26
+;;;; ===========================================================================
+
+;==nConvers::MainForm
+;-Buttons
+;(DUP) [&Send]
+;Hints
+[Hide Buttons]
+Skrıt tlaèítka
+[User Menu (Alt+U)]
+Uivatelské menu (ALT+U)
+[User Info]
+Informace o uivateli
+[Show History (Ctrl+H)]
+Zobrazit historii (Ctrl+H)
+[Show Internal History (Ctrl+H)]
+Zobrazit interní historii (Ctrl+H)
+[Select Emotion]
+Vybrat smajlík
+;(DUP) [Undock]
+[Notepad]
+Poznámkovı blok
+[Send Message (Ctrl+Enter)]
+Odeslat zprávu (CTRL+ENTER)
+[Close (Esc)]
+Zavøít (ESC)
+;
+[There are Some Text in Notepad]
+Poznámkovı blok obsahuje text
+;-Popup Menus
+;mnuHistoryItem
+[&As Memo]
+J&ako poznámka
+[&Copy to clipboard]
+Z&kopírovat
+[&Quote to memo]
+&Citované jako poznámka
+[Quote Message for Editing]
+Citované do odpovìdi
+[&Links]
+Od&kazy
+[To &Memo]
+Do pozná&mky
+[&Bounce]
+&Vrátit zpìt
+;(DUP) [&Copy]
+[To &Clipboard]
+Do s&chránky
+;(DUP) [&Quote]
+[&Delete Selected]
+O&dstranit vybrané
+[&Load 10 more recent]
+Naèíst 10 novì&jších
+[&Log]
+&Záznam
+[Clear Half]
+Vymazat polovinu
+;(DUP) [Clear]
+;mnuMemoMenu
+[&Emotions]
+&Smajlíci
+[Last 5 Messages]
+Posledních 5 zpráv
+[&Undo]
+&Zpìt
+;(DUP) [Undo]
+[Reverts the last action]
+Vrátí zpìt poslední krok
+[Quote Selection]
+Komentovat vybrané
+[Cu&t]
+Vyjmou&t
+;(DUP) [Cut]
+[Cuts the selection and puts it on the Clipboard]
+Vyjme vybranı text a vloí do schránky
+;(DUP) [&Copy]
+;(DUP) [Copy]
+[Copies the selection and puts it on the Clipboard]
+Zkopíruje vybranı text a vloí do schránky
+;(DUP) [&Paste]
+;(DUP) [Paste]
+[Inserts Clipboard contents]
+Vloí obsah schránky
+;(DUP) [Select &All]
+[&Settings]
+Na&stavení
+[Show Notepad]
+Zobrazit poznámkovı blok
+;mnuQuickOptions
+[SendMode]
+Zpùsob odesílání
+;(DUP) [Default]
+[Direct]
+Pøímo
+[through Server]
+Pøes server
+[Show Buttons]
+Zobrazit tlaèítka
+[Stay on top]
+Vdy navrchu
+[Close on send]
+Zavøít po odeslání
+;(DUP) [Use global setting]
+;(DUP) [YES: this contact]
+;(DUP) [NO: this contact]
+;(DUP) [Minimize on send]
+[Use global setting]
+Pouít vıchozí nastavení
+[YES: this contact]
+Ano (pro tento kontakt)
+[NO: this contact]
+Ne (tento kontakt)
+[Undock]
+Vyjmout z doku
+;nConvers++ Notepad
+[Close NotePad]
+Zavøít poznámkovı blok
+[Clear Memo]
+Vymazat poznámku
+[Save Memo]
+Uloit poznámku
+[Take Text From Main Edit]
+Pøevzít z hlavního textového pole
+[Send Text To Main Edit]
+Pøedat do hlavního textového pole
+
+;===nConvers::UMain
+[is now]
+je
+[is typing a message...]
+píše zprávu...
+[has stopped typing]
+pøestal psát
+[Message from]
+Zpráva od
+[&Message...]
+Z&práva...
+;(DUP) [View &History]
+;(DUP) [&System History]
+;(DUP) [Message: Queued Incoming]
+;(DUP) [Message: Incoming]
+;(DUP) [Message: Outgoing]
+
+;;===nConvers::MessageWindow
+;==Main module
+;(FIX) [Timeout]
+[There is still a message in the message queue. This message wont be send if you close the message window.]
+Ve frontì k odeslání je ještì stále jedna zpráva. Pokud okno komunikace zavøete, nebude odeslána.
+[Close message window nevertheless?]
+Chcete komunikaèní okno pøesto zavøít?
+[There are still %d messages in the message queue. These messages wont be send if you close the message window.]
+Ve frontì k odeslání je ještì stále %d zpráv. Pokud okno zavøete, nebudou odeslány.
+[Unsent Messages]
+Neodeslané zprávy
+[There are still unsent text in the message window.]
+Komunikaèní okno obsahuje rozepsanı text. Chcete ho odeslat?
+[Close message window?]
+Chcete zavøít kom. okno?
+;(DUP) [Retry]
+[Discard Message]
+Odstranit zprávu
+[Sending Message ...]
+Odesílání zprávy...
+[nConvers++ Notepad]
+Poznámkovı blok
+
+;===nConvers::ThemesForm
+[Confirm]
+Potvrdit
+[Delete Message(s)?]
+Chcete odstranit vybrané zprávy?
+[Open URL in New Window]
+Otevøít odkaz v novém oknì
+[Open URL]
+Otevøít odkaz
+[Copy URL to Clipboard]
+Zkopírovat odkaz
+[wrote]
+napsal
+
+;===Options::Layout
+;;
+[Store layout info]
+Informace o uspoøádání oken
+[Global: for all contacts]
+Uloit globálnì pro všechny kontakty
+[Speciffic: for every contact]
+Uloit zvláš pro kadı kontakt
+;
+[Messaging window layout]
+Uspoøádání konverzaèního okna
+[Straight: memo below history (messages added at bottom of log)]
+Psát pod rozhovor (zprávy se pøidávají na konec záznamu)
+[Reverse: memo above history (messages added at top of log)]
+Psát nad rozhovor (zprávy se pøidávají nahoru nad záznam)
+;
+[Other UI elements]
+Ostatní prvky rozhraní
+[Show message length metter (in splitter between memo and log)]
+Zobrazit indikátor délky zprávy (mezi polem pro psaní a záznamem)
+;;
+[Toolbar buttons]
+Nástrojová lišta
+["Hide ToolBar" button]
+Tl. "Skrıt nástr. lištu"
+["Contact Menu" button]
+Tl. "Menu kontaktu"
+["User Info" button]
+Tl. "Inf. o uiv."
+["History" button]
+Tl. "Historie"
+["nHistory" button]
+Tl. "nHistory"
+["Select Emotion" button]
+Tl. "Vybrat smajlík"
+["Undock" button]
+Tl. "Vyjmout z doku"
+["Notepad" button]
+Tl. "Pozn. blok"
+;;
+[nConvers++ features]
+Funkce nConvers++
+[Show lang. indicator]
+Zobrazit indikátor jazyka
+["Fade" enabled]
+Aktivovat plynulé pøechody
+["Flat" enabled]
+Aktivovat "moderní" vzhled
+["Dictionary" enabled]
+Aktivovat "Slovník"
+["Joined Smilies" enabled]
+Aktivovat "Spojené smajlíky"
+[Show spaces in history log]
+Zrušit zalamování textu v historii
+["Text Formatting" enabled]
+Aktivovat formátování textu
+["MS Spell Checking" enabled]
+Aktivovat kontrolu pravopisu
+
+;===Options::Emotion Package
+;;
+[Emotion Package]
+Balík smajlíkù
+[Emotion packages]
+Balíky smajlíkù
+;(DUP) [All Files]
+[Package Info]
+Informace o balíku
+[Title]
+Název
+;(DUP) [Author]
+;(DUP) [Notes]
+[NOTE! You need to restart miranda for changes on this page to take place!!!]
+Poznámka: Tato zmìna vyaduje restart programu Miranda IM.
+
+;===Options::Fonts & Colors
+[Fonts & Colors]
+Písma a barvy
+;;
+[Fonts and Colors]
+Písma a barvy
+[Select Font]
+Vybrat písmo
+;(DUP) [Fore color]
+;(DUP) [Back color]
+[History Background]
+Pozadí záznamu zpráv
+[Incoming message]
+Pøíchozí zpráva
+[Outgoing message]
+Odchozí zpráva
+[http://www.blag.org]
+http://miranda-im.org
+[System message]
+Zpráva systému
+[Nick <<]
+Pøezdívka <<
+[Own nick >>]
+Vlastní pøezdívka >>
+[Memo text]
+Text psaní
+
+;===Options::Log
+;(DUP) [Log]
+;;
+[message Log display]
+Zobrazení záznamu komunikace
+;(DUP) [Messages Drop Shadow]
+[Notification in message log on contact Status Change]
+Upozornit v záznamu komunikace na zmìnu stavu
+;;
+[      Show Contact's "NICK" in log]
+Zobrazit pøezdívku v záznamu hovoru
+;(DUP) [>>]
+[NICK]
+PØEZDÍVKA
+[NICK >>]
+PØEZD. >>
+;(DUP) [Custom]
+;;
+[Window Caption Elements]
+Prvky záhlaví okna
+;(DUP) [Username]
+;(DUP) [UIN]
+;(DUP) [Status]
+;;
+[      Substitute Emotions with Images]
+Nahradit smajlíky obrázky
+[Hints on emotions]
+Zobrazit nad smajlíky nápovìdu
+;;
+[Quick / Cascaded Links in Context Menu]
+Rychlé / kaskád. odkazy v kontext. menu
+;;
+[      URL Clicking]
+Otevøení odkazu
+;(DUP) [Allways In New Browser]
+[Allways copy link]
+Vdy zkopírovat odkaz
+;;
+[Load recent history]
+Naèíst posledních
+[messages]
+zpráv
+[Filter Duplicate Messages (RECOMMENDED)]
+Filtrovat zdvojené zprávy (DOPORUÈENO)
+[Gray Recent Messages]
+Zobrazit aktuální zprávy šedivì
+[Max.]
+Max.
+[messages shown (blank or 0 means no restriction)]
+zpráv (bez èísla nebo 0 znamená bez omezení)
+
+;===Options::Notifications
+[Notifications]
+Upozornìní
+;;
+[Notification mode]
+Zpùsob upozornìní
+[Aggressive: Bring to front steal focus from other apps]
+Agresivnì: Pøenést okno do popøedí
+[Flash taskbar tab (nonaggressive mode only)]
+Zablikat na hlavním panelu (vše mimo agresivního reimu)
+[Normal: Open Window Don't Steal Focus]
+Normálnì: Otevøít okno, ale nepøenést do popøedí
+[Timid: Show Minimized and Flash Taskbar]
+Nevtíravì: Otevøít minimalizované okno a blikat
+[Discreet: Flash icon on contactlist only]
+Diskrétnì: Blikat ikonou v oblasti oznámení
+[Popup messaging window when flashing tray clicked]
+Otevøít konverzaèní okno po kliknutí na blikající ikonu
+;;
+;(DUP) [Typing Notification Options]
+[Send Typing notification]
+Poslat upozornìní na psaní zprávy
+;(DUP) [Show typing notifications when a user is typing a message]
+;(DUP) [Update inactive message window icons when a user is typing]
+;(DUP) [Show typing notification when no message dialog is open]
+;(DUP) [Flash in the system tray and in the contact list]
+;(DUP) [Show balloon popup]
+[Display change typing notification on log]
+Uloit do záznamu informaci o zmìnì nastavení
+
+
+;===Options::Send
+;(DUP) [Send]
+;;
+[      Split messages (RECOMENDED)]
+Dìlit dlouhé zprávy
+[Longer than]
+Delší ne
+[characters]
+znakù
+[when sending "default way"]
+pøi odes. "vıch. zpùsobem"
+[when sending "Direct"]
+pøi odes. "pøímo"
+[when sending "trough server"]
+pøi odesílání "pøes server"
+;;
+[When sending]
+Odesílání zpráv
+[Wait for confirmation]
+Poèkat na potvrzení
+[timeout]
+prodleva
+;(DUP) [sec]
+[Close window after send]
+Zavøít okno po odeslání
+[Minimize on send]
+Minimalizovat po odeslání
+[Send multiple messages interval]
+Interval odesílání více zpráv
+;;
+[Memo customization]
+Oblast pro psaní textu
+[Vertical scrollbar]
+Svislı posuvník
+[Wordwrap]
+Zalam. text
+[Horisontal scrollbar]
+Vodorovnı posuvník
+;;
+[Special send shortcuts]
+Vlastní zkratky pro odeslání
+[Double Enter Sends]
+Odeslat dvoj. ENTER
+[Single Enter Sends Ctrl+Enter adds NewLine]
+Odeslat klávesou ENTER; CTRL+ENTER = novı øádek
+
+;===Options::Timestamp display
+[Timestamp display]
+Zobrazení èasu
+;;
+[Message timestamp display]
+Zobrazení èasu ve zprávì
+[Dynamic]
+Dynamicky
+[Show Hints On Hover]
+Tipy pod kurzorem
+[      Show Time]
+Èas
+;(DUP) [Transparent background]
+;(DUP) [Has border]
+[As text (nondigital)]
+Jako text (neèíselnì)
+[Format]
+Formát
+[Time color]
+Barva èasu
+;(DUP) [Background color]
+;(DUP) [Border color]
+;;
+[      Show Date]
+Datum
+;
+[Fixed format]
+Formát
+[Tiny]
+Drobnı
+[Medium]
+Støední
+[Full date]
+Úplné datum
+[As text]
+Jako text
+;(DUP) [Display]
+[Text line1 color]
+Barva 1. øádku textu
+[Text line2 color]
+Barva 2. øádku textu
+;(DUP) [Background color]
+[Border color]
+Barva rámeèku
+[Use bigger font]
+Pouít vìtší písmo
+[Has border]
+S rámeèkem
+[Transparent background]
+Prùhledné pozadí
+
+;===Options::Window docking
+[Window docking]
+Dokování oken
+;;
+[      Enable Docking]
+Povolit dokování
+[Dock when dragging over another window if Ctrl is down]
+Dokovat pøetahované okno, je-li zmáèknuta klávesa CTRL
+[Dock when dragging over another window if Ctrl is _NOT_ down]
+Dokovat pøetahované okno, není-li zmáèknuta klávesa CTRL
+[Allways Popup as Docked]
+Nové okno vdy zadokovat
+[Remember Docked Windows]
+Zapamatovat dokovaná okna
+[Max together]
+max.
+
+;***************************************************************
+;***** Internal nHistory (use only with nConvers++ translation)
+;===Options::nHistory
+;;
+[nHistory startup]
+Spuštìní nHistory
+[Add "System history" Item to miranda menu]
+Pøidat do hlavního menu "Historie systému"
+[Add "Global history" Item to miranda menu]
+Pøidat do hlavního menu "Globální historie"
+[Apply last filter on startup]
+Aplikovat posl. pouitı filtr
+
+;===Options::Log
+[nHistory Log display]
+Zobrazení záznamu
+[Messages Drop Shadow]
+Zobrazit pod zprávami stín
+[Show Contact's "NICK" in log]
+Zobrazit pøezdívku v záznamu hovoru
+[Substitute Emotions with Images]
+Nahradit smajlíky pomocí obrázkù
+[URL Clicking]
+Otevøení odkazu
+[Allways In New Browser]
+Vdy v novém oknì
+[Reverse message order]
+Obrátit poøadí zpráv
+
+;===nHistory window
+[nHistory]
+nHistory
+[events]
+událostí
+[selected ot of]
+vybráno z
+;mnuHistoryItem
+[To &Message Window]
+&Do komunikaèního okna
+;Hints
+[Import]
+Importovat
+[Export]
+Exportovat
+[Find (Ctrl+F)]
+Najít (Ctrl+F)
+[Find Next (F3)]
+Najít další (F3)
+[Filter]
+Filtr
+[Remove Filter]
+Odebrat filtr
+[Break Loading]
+Pøerušit naèítání
+
+; NEPUBLIKOVANÉ
+["Dictionary" (Ctrl+Space)]
+Aktivovat Slovník (CTRL+Mezerník)
+[Minimal Style]
+Úspornı styl
+
+[Transparency (winXP+)]
+Prùhlednost (Windows XP)
+[Active]
+Aktivní
+[Inactive]
+Neaktivní
+[Enable Docking]
+Povolit dokování
+[Enable Sticking]
+Povolit pøichycení
+[      Enable Sticking]
+Povolit pøichycení
+[Check Top]
+Aktivní shora
+[Check Left]
+Aktivní zleva
+[Check Right]
+Aktivní zprava
+[Check Bottom]
+Aktivní zdola
+[Stick At:]
+Tolerance:
+[Pixels]
+pix.
+[Split messages (RECOMENDED)]
+Dìlit dlouhé zprávy
+[Notification in message log on user Typing]
+Upozornit v záznamu komunikace na psaní zprávy
+
+; ---

@@ -1,0 +1,34 @@
+; /----------------------------------------------------------\
+; |  SOMWO 0.1.0.2                                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Jiøí Kocman <jirka (zavináè) iis (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3083
+;
+
+[SOMWO]
+SOMWO
+[Url Event]
+Jako odkaz (URL)
+[Message Event]
+Jako zprávu
+[Receive Status Message (ICQ)]
+Pøijímat stavovou zprávu (ICQ)
+[Status Message Type:]
+Typ pøijetí:
+[Show X-Status-Symbol Tags (for Smileyadd)]
+Zobrazit symboly rozš. stavu (vyžaduje Smileyadd)
+[Delete DB entries]
+Smazat záznamy z historie
+[X Status: ]
+Rozš. stav: 
+[Statusmessage: ]
+Autom. odpovìï: 
+
+[SOMWO Options]
+Možnosti SOMWO
+
+[Show new Statusmsg on change]
+Zobrazit novou zprávu stavu pøi zmìnì
+
+; ---

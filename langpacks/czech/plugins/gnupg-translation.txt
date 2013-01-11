@@ -1,0 +1,114 @@
+; /----------------------------------------------------------\
+; |  GnuPG 0.0.0.3                                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+[Please verify your settings in M->Options->Plugins->GnuPG and GnuPG Advanced.]
+Zkontrolujte prosím nastavení GnuPG (M->Možnosti->Doplòky->GnuPG a GnuPG (upøesnìní)).
+[The GnuPG Plugin requires the GnuPG executable \"gpg.exe\".]
+Doplnìk GnuPG vyžaduje spustitelný soubor \"gpg.exe\".
+[Could not obtain the GnuPG user id.]
+Nelze zjistit informace o uživateli GnuPG.
+[The export of your public key failed.]
+Chyba pøi exportování veøejného klíèe.
+[The import of the key failed.]
+Chyba pøi importování klíèe.
+[Could not generate a list of the public GnuPG keys.]
+Nelze vygenerovat seznam veøejných klíèù.
+[Could not generate a list of the secret GnuPG keys.]
+Nelze vygenerovat seznam privátních klíèù.
+;(DUP) [Plugins]
+[GnuPG Plugin]
+GnuPG
+[Select GnuPG Executable]
+Vyberte gpg.exe
+[GnuPG Plugin - Warning]
+Doplnìk GnuPG - upozornìní
+[GnuPG Plugin - Error]
+Doplnìk GnuPG - chyba
+;(DUP) [<none>]
+[Use GnuPG Encryption]
+Šifrovat pomocí GnuPG
+[Send GnuPG Key]
+Poslat GnuPG klíè
+[You received a public key.]
+Obdrželi jste veøejný klíè.
+[You received a public key. It was added to your keyring.]
+Obdržený veøejný klíè byl automaticky pøidán do seznamu.
+[You received an encrypted message. Could not detect the user id of the public key, used to encrypt it.]
+Obdrželi jste zašifrovanou zprávu, ale nelze zjistit kým byla zašifrována.
+[Unknown User ID]
+Informace o uživateli neuvedena
+[Could not encrypt the message. It wasn't sent.]
+Zprávu nelze zašifrovat a tedy ani odeslat.
+[GnuPG]
+GnuPG
+[GnuPG Advanced]
+GnuPG (upøesnìní)
+;(DUP) [Contact]
+[Key and User ID]
+Klíè a informace o uživateli
+[User ID:]
+Uživatel:
+[Key ID:]
+Èíslo klíèe:
+[Key received:]
+Obdržen dne:
+[&Import]
+&Importovat
+[GnuPG Plugin - Passphrase]
+Doplnìk GnuPG - heslo
+;(DUP) [Ok]
+;(DUP) [Cancel]
+[Enter passphrase for the secret key of user:]
+Zadejte heslo pro privatní klíè uživatele
+;(DUP) [User ID]
+[Basic]
+Obecné
+[Executable:]
+Program gpg.exe:
+[Home Directory:]
+Dom. adresáø:
+[Key Assignment]
+Pøiøazení klíèù
+[Your Key]
+Vlastní klíè
+;(DUP) [&Refresh]
+[Contact Key]
+Klíè kontaktu
+[R&efresh]
+A&ktualizovat
+;(DUP) [Options]
+[Store Passphrases Temporary]
+Hesla doèasnì zapamatovat
+[Import Public Keys Automatically]
+Veø. klíèe importovat automaticky
+[Tags]
+Oznaèení zprávy
+[Start Tag]
+Záhlaví
+[End Tag]
+Zápatí
+[Commandline Arguments]
+Argumenty pøíkazového øádku
+[List Public Keys:]
+Výpis veø. klíèù:
+[List Secret Keys:]
+Výpis priv. klíèù
+[Import Public Key:]
+Import veø. klíèe:
+[Export Public Key:]
+Export veø. klíèe:
+[Detect User ID:]
+Zjištìní uživ.:
+[Encrypt:]
+Šifrování:
+[Decrypt:]
+Dešifrování:
+[&Reset]
+O&bnovit
+
+; ---

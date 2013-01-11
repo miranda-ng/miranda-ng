@@ -1,0 +1,218 @@
+; /----------------------------------------------------------\
+; |  SimpleStatusMessage 1.9.0.0                             |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://dezhq.rogacz.com/miranda/
+;
+
+; This is a template for translation of SimpleAway plugin
+; Last updated 26-11-2007 for 1.7.5.0
+
+[OK]
+OK
+[OK (%d)]
+OK (%d)
+[Closing in %d]
+Zavøe se za %d sek.
+[&Cancel]
+&Zrušit
+[&Close]
+&Zavøít
+[<current>]
+<souèasnı>
+[Global]
+Globální
+[%s Status Message: %s]
+Zpráva ve stavu %s: %s
+[%s Message for %s]
+Stav: '%s', uivatel: %s
+[Retrieving %s message...]
+Zjištìní stavové zprávy ve stavu '%s'...
+[Co&py to Clipboard]
+Zko&pírovat
+[Retrieving status message for %s...]
+Zjišování stavové zprávy pro '%s'...
+[Re&ad %s Message]
+Pøeèíst &automatickou odpovìï
+[Re&ad Away Message]
+Pøeèíst &autom. odpovìï
+[Copy %s Message]
+Zkopírovat zprávu stavu
+[Copy Away Message]
+Zkopírovat zprávu stavu
+[Delete Selected]
+Smazat vybrané
+[Recent Message]
+Poslední zpráva
+[Predefined Message]
+Pøeddefinovaná zpráva
+[Add to Predefined]
+Pøidat mezi pøeddefinované
+[Clear History]
+Smazat historii
+[Change Status Message]
+Zmìnit zprávu stavu
+[Status Message...]
+Zpráva stavu...
+
+; Popup Menu
+[Cut]
+Vyjmout
+[Copy]
+Zkopírovat
+[Paste]
+Vloit
+[Delete]
+Smazat
+[Select All]
+Vybrat vše
+[Variables]
+Promìnné
+[More variables...]
+Více promìnnıch...
+;[?cinfo(contact,property)]
+;[?contact(string,property)]
+;[?mstatus(protocol)]
+;[?lsdate(contact,format)]
+;[?lsstatus(contact)]
+;[?lstime(contact,format)]
+;[?dbsetting(contact,module,setting)]
+;[?txtfile(file,line)]
+;[?if(condition,true,false)]
+;[?strcmp(string1,string2)]
+;[?stricmp(string1,string2)]
+;[?replace(sub,string1,string2)]
+;[?lower(string)]
+;[?upper(string)]
+;[?scroll(string,numchars,numchars)]
+
+; Status Options
+;(DUP) [Status]
+[Status on Startup]
+Stav po spuštìní
+[Set status after]
+Nastavit stav po
+[miliseconds]
+milisekund
+[Protocol:]
+Protokol:
+[Status:]
+Stav:
+[<Last status>]
+<Poslední stav>
+[Independent setting for each protocol]
+Nastavení pro kadı protokol zvláš
+
+; Status Messages General Options
+[Status Messages]
+Stavové zprávy
+[General]
+Obecné
+[Protocols]
+Protokoly
+[Apply to all]
+Pouít u všech
+[Max length:]
+Max. délka:
+[Pop up dialog box]
+Zobrazit dialog
+[Do not set status message]
+Nedefinovat zprávu stavu
+[Always set the same message]
+Vdy pouít stejnou zprávu
+[Pop up dialog asking for new message]
+Zobrazit dialog a zadat novou zprávu
+[Set an empty message]
+Pouít prázdnou zprávu
+[Use default message]
+Pouít vıchozí zprávu
+[Use last message]
+Pouít poslední zprávu
+[Use last message set for this status]
+Pouít poslední zprávu pro danı stav
+[Set the following message:]
+Pouít následující zprávu:
+[Put default message in message list]
+Pøiøadit vıchozí zprávu do seznamu
+
+[Open String Formatting Help]
+Otevøít nápovìdu o promìnnıch
+
+; Status Messages Advanced Options
+[Advanced]
+Extra
+[Layout]
+Rozvrení
+[Show status list]
+Zobrazit seznam stavù
+[Show status profiles in status list]
+Zobrazit v menu stavù profily
+[Show icons in status list]
+Zobrazit ikony v seznamu stavù
+[Show icons in message list]
+Zobrazit ikony v seznamu zpráv
+[Buttons:]
+Tlaèítka:
+[Hide]
+Skrıt
+[Show next to cancel button]
+Zobrazit vedle tlaèítka Zrušit
+[Flat, next to cancel button]
+Moderní, vedle tlaèítka Zrušit
+[Show in message list]
+Zobrazit v seznamu zpráv
+[Other]
+Ostatní
+[Store up to]
+Uloit max.
+[recent messages (0 = disable)]
+posledních zpráv (0 = vypnuto)
+[Automatically close dialog window after]
+Automaticky zavøít okno se zprávou po
+[seconds]
+sek.
+[Check for winamp song change every]
+Zjišovat skladbu ve Winampu kadıch
+[Leave last played track's title after exiting the player]
+Ponechat název poslední skladby po vypnutí pøehrávaèe
+[Set random status message every]
+Nastavit náhodnou zprávu stavu kadıch
+[minutes]
+min.
+[Remember last dialog window position]
+Zapamatovat poslední pozici dialogu
+[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
+Odstranit ze stavovıch zpráv znaky CR (CR = '\\r' = #0D)
+[Show 'Copy Away Message' item in contact menu]
+Zobrazit v menu kontaktu 'Zkopírovat zprávu stavu'
+[Show 'Status Message...' item in status menu]
+Zobrazit v menu stavù 'Zpráva stavu...'
+[Clear History]
+Smazat historii
+[Clear Predefined]
+Smazat pøeddef.
+[Are you sure you want to clear status message history?]
+Urèitì chcete smazat celou historii stavovıch zpráv?
+[Confirm clearing history]
+Potvrdit smazání historie
+[Are you sure you want to clear predefined status messages?]
+Urèitì chcete smazat všechny pøeddefinované stavové zprávy?
+[Confirm clearing predefined]
+Potvrdit smazání pøeddefinovanıch
+[* This feature is only available when using StartupStatus.]
+* Tato funkce je dostupná pouze pøi pouití doplòku StartupStatus.
+[* Your contact list plugin doesn't support this feature. Try another one.]
+* Pouitı doplnìk pro seznam kontaktù nepodporuje tuto funkci. Zkuste jinı.
+
+; 1.9.0.0
+[* This feature is available only when using StartupStatus plugin.]
+* Tato funkce je dostupná pouze pøi pouítí doplòku StartupStatus.
+[Update variables in status messages every]
+Aktualizovat promìnné ve zprávì stavu kadıch
+[Show 'Go to URL in Away Message' item in contact menu]
+Zobrazit v nabídce kontaktu poloku 'Pøejít na URL ve zprávì stavu'
+[&Go to URL in %s Message]
+&Pøejít na URL ve zprávì %s stavu
+
+; ---

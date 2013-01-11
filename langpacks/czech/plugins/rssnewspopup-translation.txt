@@ -1,0 +1,38 @@
+; /----------------------------------------------------------\
+; |  RSS News Popup 0.0.1.2                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1942
+;
+
+; NEPUBLIKOVANÉ
+; Název doplòku
+[RSS news]
+Novinky (RSS)
+
+[Show news every]
+Zobrazit každých
+[Download  news every]
+Stáhnout každých
+[Initial timeout:]
+Pøi spuštìní poèkat
+[characters per line]
+znakù na øádek
+[lines per news]
+øádkù na zprávu
+[Do not show news when computer is idle]
+Nezobrazovat novinky pøi neèinnosti
+[Show up to ]
+Zobrazit max.
+[Popup background colour:]
+Barva pozadí:
+[Popup text colour:]
+Barva textu:
+[Verbose]
+Podrobný výpis
+
+[Please restart Miranda IM for your changes to take effect.]
+Poznámka: Tato zmìna vyžaduje restart programu Miranda IM.
+
+; ---

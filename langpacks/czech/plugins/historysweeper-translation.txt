@@ -1,0 +1,91 @@
+; /----------------------------------------------------------\
+; |  History Sweeper 0.2.0.2                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+;Name of plugin, message box caption, ...
+[History Sweeper]
+Èistiè historie
+
+;Questions and notifications
+[Sweep history messages?]
+Opravdu chcete odstranit historii?
+[Sweep system history?]
+Opravdu chcete odstranit historii systému?
+[Sweep whole history?]
+Opravdu chcete odstranit CELOU historii?
+[Sweep history from selected contacts?]
+Opravdu chcete odstranit historii vybraných kontaktù?
+
+;Contact menu item
+;(FIX) Sweep history [%d]
+[Sweep history [%d]]
+Odstranit historii [%d]
+
+;Main menu & options items
+[Sweep system history]
+Odstranit historii systému
+[Sweep whole history]
+Odstranit celou historii
+[Sweep history from selected contacts]
+Odstranit historii vybraných kontaktù
+
+;Options page items
+[Sweep history for this contacts:]
+Odstranit historii vybraným kontaktùm:
+;(FIX) [Sweep history at Miranda IM startup]
+[Sweep history at Miranda startup]
+Pøi spuštìní odstranit historii
+;(FIX) [Sweep history at Miranda IM shutdown]
+[Sweep history at Miranda shutdown]
+Pøed ukonèením odstranit historii
+[Put an item in the main menu*]
+Pøidat položku do hlavního menu *
+[Put an item in the contact menu*]
+Pøidat položku menu kontaktùm *
+[Main menu action:]
+Položky hlavního menu:
+[At Startup/Shutdown:]
+Pøi spuštìní a ukonèení:
+[Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
+Použít ZRYCHLENÉ mazání (v nìkterých pøípadech mùže mít nežádoucí úèinky)
+[* Note: Miranda IM will have to be restarted for changes to take effect.]
+* Poznámka: Tato zmìna vyžaduje restart programu Miranda IM.
+
+;Time intervals
+[All events]
+Všechny položky
+[Older than 1 Day]
+Starší než 1 den
+[Older than 3 Days]
+Starší než 3 dny
+[Older than 7 Days]
+Starší než 1 týden
+[Older than 2 Weeks (14 days)]
+Starší než 2 týdny (14 dnù)
+[Older than 1 Month (30 days)]
+Starší než 1 mìsíc (30 dnù)
+[Older than 3 Months (90 days)]
+Starší než 3 mìsíce (90 dnù)
+[Older than 6 Months (180 days)]
+Starší než 6 mìsícù (180 dnù)
+[Older than 1 Year (364 days)]
+Starší než 1 rok (364 dnù)
+
+[*** System History ***]
+*** historie systému ***
+[Perform custom action on entry/exit]
+Provést pøeddefinovanou akci
+[Do not preserve any history]
+Neukládat historii
+[Custom Action:]
+Pøeddefinovaná akce:
+[Sweep on closing message window]
+Vymazat po zavøení komunikaèního okna
+[Change History Policy]
+Zmìnit zpùsob ukládání historie
+
+; ---

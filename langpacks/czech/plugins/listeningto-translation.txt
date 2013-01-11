@@ -1,0 +1,118 @@
+; /----------------------------------------------------------\
+; |  ListeningTo 0.1.2.1                                     |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://pescuma.mirandaim.ru/miranda/listeningto
+;
+; ListeningTo
+; Author: Pescuma
+; http://forums.miranda-im.org/showthread.php?t=10912
+
+;(DUP) [Listening to]
+
+; Menu item
+[Send to all protocols]
+Poslat všem protokolùm
+[Send to %s]
+Poslat %s
+
+; Toptoolbar
+[Enable/Disable sending Listening To info (to all protocols)]
+Zapnout/vypnout posílání informací o poslechu hudby (všem protokolùm)
+
+; Options
+;(DUP) [Contact List]
+
+;(DUP) [Status]
+[Listening info]
+Poslech hudby
+
+;(DUP) [General]
+[ Listening to information ]
+ Informace o pøehrávané skladbì 
+[Enable sending listening information to contacts:]
+Povolit posílání informací o poslechu hudby kontaktùm
+[You also have to enable it per protocol in the main menu]
+Poznámka: Musíte povolit i jednotlivé protokoly v hlavní nabídce.
+[ XStatus ]
+ Rozšíøený stav 
+[For protocols that don't support listening to but support XStatus:]
+V pøípadì protokolù, které podporují jen tzv. rozšíøený stav (XStatus):
+[Set XStatus to Music and show listening info]
+Zmìnit stav na 'Poslouchám hudbu' a pøidat informaci o skladbì
+[If other XStatus is not set, set XStatus to Music and show listening info]
+Totéž jako výše, ale pouze tehdy, není-li už rozšíøený stav používaný
+[If XStatus is Music, show listening info]
+Je-li už rozšíøený stav 'Poslouchám hudbu', pøidat informaci o skladbì
+;(DUP) [Do nothing]
+;(DUP) [ Contacts ]
+[Apply template for info from contacts (overrides contacts template)]
+Použít šablonu na informace od kontaktu (zmìní šablonu pro kontakt)
+[Show advanced icon in slot]
+Použít doplòkovou ikonu è.
+
+;(DUP) [Format]
+[ Listening to ]
+ Poslech hudby 
+;(DUP) [Template:]
+[Variables:]
+Promìnné:
+[%artist% - Artist name]
+%artist% - jméno interpreta
+[%album% - Album name]
+%album% - název alba
+[%title% - Song title]
+%title% - název skladby
+[%track% - Track number]
+%track% - èíslo skladby
+[%year% - Song year]
+%year% - rok vydání
+[%genre% - Song genre]
+%genre% - žánr
+[%length% - Song length]
+%length% - délka skladby
+[%player% - Player name]
+%player% - pøehrávaè
+[%type% - Media type (Music, Video, etc)]
+%type% - druh média (hudba, video atd.)
+[When variable not found, use:]
+Není-li promìnná, vložit text:
+;(DUP) [Title:]
+;(DUP) [Message:]
+[Variable:]
+Promìnná:
+[%listening% - Listening to info (as set above)]
+%listening% - dle šablony (viz výše)
+[When nothing is playing, replace %listening% with:]
+Pokud nehraje hudba, namísto %listening% použít:
+
+[Players]
+Pøehrávaèe
+[Get info from WATrack plugin]
+Pøevzít informace z doplòku WATrack
+[Get info from these players:]
+Pøevzít informace z tìchto pøehrávaèù:
+;(LAI) [Winamp (*)]
+;(LAI) [Windows Media Player]
+;(LAI) [iTunes]
+[Other players]
+Jiné pøehrávaèe
+[Ask for new info every]
+Zjistit informace každých
+;(DUP) [seconds]
+[Allow auto-loading plugins into players (affect players with *)]
+Povolit automatické naètení doplòkù do pøehrávaèù (týká se položek s *)
+
+[foobar2000 (need to install the plugin manually)]
+foobar2000 (vyžaduje ruèní instalaci)
+[%type% - Media type (Music, Radio, Video, etc)]
+%type% - druh média (hudba, rádio, video, atd.)
+[Other Variables:]
+Jiné promìnné:
+[Radio]
+Rádio
+[Video]
+Video
+
+; ---

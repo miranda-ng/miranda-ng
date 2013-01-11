@@ -1,0 +1,33 @@
+; /----------------------------------------------------------\
+; |  Miranda Text Control 0.0.1.10                           |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: 
+;
+
+; plugin: mTextControl
+[Text Display]
+Zobrazení textu
+[In-text objects]
+Objekty v textu
+[Autodetect]
+Zjistit automaticky
+[Display technique]
+Metoda zobrazení
+[Simple text renderer (faster, RTL, no fancy stuff)]
+Základní vykreslování textu (rychlé, bez parádièek, RTL)
+[Advanced text renderer (smilies, bbcodes, no RTL)]
+Vylepšené vykreslování textu (smajlíci, BBCodes, bez RTL)
+[Left-To-Right]
+Zleva doprava
+[Right-To-Left]
+Zprava doleva (RTL)
+[SmileyAdd Smilies]
+Smajlíci (SmileyAdd)
+[BBCodes]
+BBCodes
+[MathModule Formulas]
+Matematické vzorce (MathModule)
+
+; ---

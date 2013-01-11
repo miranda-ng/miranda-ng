@@ -1,0 +1,119 @@
+; /----------------------------------------------------------\
+; |  SIP Protocol 0.1.6.11                                   |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3046
+;
+
+[Sign-in name:]
+Pøihl. jméno:
+[Example: someone@example.com]
+Pøíklad: nìkdo@nìkde.cz
+[Authentication settings]
+Možnosti autorizace
+[Automatic configuration]
+Automatická konfigurace
+[Account:]
+Úèet:
+[Server name or IP address:]
+Server nebo IP adresa:
+[Connect using:]
+Transp. protokol:
+[Note: You have to reconnect to the SIP network before the changes take effect]
+Poznámka: Zmìny se projeví až pøi pøíštím pøipojení do sítì SIP.
+[SIP Address]
+Adresa SIP
+
+;Sip 0.1.6.9
+[SiP Options]
+Možnosti SIP
+[You need to reconnect SiP to apply some changes]
+Zmìny se projeví až pøi dalším pøipojení do sítì SIP
+[Connection settings:]
+Možnosti pøipojení
+[URI*:]
+URI:
+[login*:]
+Jméno:
+[password:]
+Heslo:
+[Use logon credentials]
+Použít pøihlaš. údaje Windows
+[server:]
+Server:
+[transport:]
+Transport:
+[*usually URI and login are same.]
+*URI a jméno jsou obvykle stejné
+;[Roaming (leave it checked if possible)]
+[Media:]
+Ostatní možnosti
+[SiP]
+SIP
+[Play ring on incoming calls]
+Zvonit u pøíchozích hovorù
+[Play ring on outgoing calls]
+Zvonit u odchozích hovorù
+[Allow audio]
+Povolit zvuk
+[Allow video]
+Povolit video
+[Audio / Video Tuning Wizard]
+Optimalizace zvuku a videa
+[Tuning Wizard]
+Optimalizace zvuku a videa
+[Sessions Manager]
+Správce relací
+[Add buddy]
+Pøidat kontakt...
+[Resync contactlist]
+Sesynchronizovat seznam kontaktù
+[Download contacts from server]
+Stáhnout kontakty ze serveru
+[Upload contacts to server]
+Uložit kontakty na server
+[Import contacts from file]
+Importovat kontakty ze souboru
+[Export contacts to file]
+Exportovat kontakty do souboru
+;(DUP) [Answer]
+[Terminate]
+Ukonèit
+[Call]
+Volat
+[Hold]
+Pøidržet
+;[Refer]
+[Mute]
+Ztišit
+[Speakers:]
+Reproduktory:
+[Microphone:]
+Mikrofon:
+[Max A/V bitrate:]
+Max. dat. tok:
+[Speed/Quality:]
+Pásmo/kvalita:
+[balanced]
+vyváženo
+[Acoustic Echo Cancelation]
+Potlaèit echo
+[SiP :: Add New Buddy]
+SIP :: Nový kontakt
+[Type user name you want to add (e.g. user@domain.com):]
+Zadejte identifikaèní údaje (napø. nìkdo@nìkde.cz):
+[SiP Control Panel]
+Panel protokolu SIP
+[Type URI you want to call to.]
+Zadejte prosím identifikaèní údaje volané osoby.
+[Open session manager on incoming calls]
+Otevøít správce u pøíchozích hovorù
+[Open session manager on outgoing calls]
+Otevøít správce u odchozích hovorù
+[Automatically download server contacts on logon]
+Bìhem pøihlášení ze serveru stáhnout kontakty
+[Append my domain to callee's URI if no domain specified]
+Není-li u volaného uvedena doména, pøiøadit vlastní
+
+; ---

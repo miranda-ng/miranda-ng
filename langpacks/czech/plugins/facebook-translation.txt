@@ -1,0 +1,172 @@
+; /----------------------------------------------------------\
+; |  Facebook Protocol 0.1.3.11                              |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=4172
+;
+
+[New notification]
+Nové upozornìní
+[Default group for newly added contacts:]
+Vıchozí skupina pro novì pøidané kontakty:
+[Show cookies]
+Zobrazit cookies
+[User-Agent:]
+Identifikace:
+[Create a new Facebook account]
+Zøídit novı úèet na Facebooku
+[Enable logging for debugging purposes]
+Povolit záznam pro úèely ladìní
+[E-mail:]
+E-mail:
+[Enable notifications]
+Povolit upozornìní
+[Enable feeds]
+Povolit novinky
+[Advanced Settings]
+Pokroèilé nastavení
+[Share]
+Sdílet
+[What's on your mind?]
+Co se vám honí hlavou?
+[Set Facebook "What's on my mind" status through Miranda status]
+Nastavit "Co se vám honí hlavou" skrz stav Mirandy
+[Note: This option requires restart of Miranda IM to work properly.]
+Pozn.: Tato volba vyaduje restart programu Miranda IM.
+
+[%s server connection]
+%s - spojení se serverem
+[Unable to get Netlib connection for Facebook]
+Facebook: Chyba pøi zpracování síové komunikace.
+
+[You have %d unseen messages]
+Máte %d nepøeètenıch zpráv
+[Unseen messages]
+Nepøeètené zprávy
+
+[Sample event]
+Ukázková událost
+
+[Please enter a username.]
+Zadejte uivatelské jméno.
+[Please enter a password.]
+Zadejte heslo.
+
+[Probably wrong password entered, please try again.]
+Nejspíše jste zadali špatné heslo, zkuste jej zadat znovu.
+[Login error, probably bad login credentials.]
+Chyba pøi pøihlašování, moná máte špatné pøihlašovací údaje.
+[Got new friend requests: ]
+Novıch ádostí o pøátelství: 
+[Got new messages: ]
+Novıch zpráv: 
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update, or you have Facebook Lite set as default.]
+Chyba pøi pøipojování k síti Facebook. Dùvodem mohou bıt vìtší zmìny na stranì serveru, co vyaduje zároveò zmìny na stranì Mirandy, nebo také to, e máte jako vıchozí úèet Facebook Lite.
+
+[Automatically close chat windows (on website)]
+Automaticky zavírat okna se zprávou (na webu)
+[Other information]
+Ostatní informace
+[Timeout (sec.)]
+Doba zobrazení (sek.)
+[News feeds]
+Novinky
+[(0 = default, -1 = infinity)]
+(0 = vıchozí, -1 = trvale)
+[Client popups]
+Oznámení klienta
+[Notify events]
+Oznamovat události
+
+[Sample newsfeed]
+Ukázková novinka
+[Sample request]
+Ukázkovı poadavek
+[Sample notification]
+Ukázkové upozornìní
+
+[Contacts Settings]
+Nastavení kontaktù
+[Default group:]
+Vıchozí skupina:
+[(0 = default, -1 = infinite)]
+(0 = vıchozí, -1 = trvale)
+[Use balloon notifications in system tray instead of popups]
+Místo klasického oznámení pouít bubliny v systémové lištì
+[Post Miranda statuses to Wall]
+Odesílat stav Mirandy na zeï Facebooku
+[Miranda IM (default)]
+Miranda IM (vıchozí)
+[Automatically close chat windows on website]
+Automaticky zavøít komunikaèní okno na webu
+[Info Dialog]
+Informace
+[Request following type of News Feed items]
+Na které z novinek upozornit:
+[Most recent]
+Nejnovìjší
+[Your account settings require use of secure HTTP connection. This will be enabled in Options automatically.]
+Váš úèet vyaduje zabezpeèené spojení. Aktivováno.
+[Something happened to Facebook. Maybe there was some major update so you should wait for an update.]
+Chyba pøi pøipojování k síti Facebook. Dùvodem mohou bıt vìtší zmìny na stranì serveru, co vyaduje zároveò zmìny na stranì Mirandy.
+
+; Facebook Protocol RM 0.0.8.0
+[Automatically set 'Ignore status change' flag]
+Automaticky ignorovat zmìnu stavu
+[Use bigger avatars]
+Zobrazit vìtší avatary
+[Load contacts with 'On the Mobile' status]
+Naèíst i kontakty s mobilním pøipojením
+[Force secure (HTTPS) connection]
+Pouít zabezpeèené spojení (HTTPS)
+[Use secure connection also for channel requests]
+Zabezpeèit i servisní spojení
+[Post Miranda status to Wall]
+Odesílat stav Mirandy na zeï Facebooku
+[Also disconnect chat when going to offline]
+Po odpojení zároveò odejít i z diskuse
+[Automatically close chat windows (on website) (NOT WORKING)]
+Automaticky zavøít komunikaèní okno na webu (NEFUNKÈNÍ)
+[Map non-standard statuses to Invisible (instead of Online)]
+Pro nestandardní stavy pouít Neviditelnı (nikoli Online)
+[Get unread messages on login (EXPERIMENTAL)]
+Po pøipojení stáhnout nepøeètené zprávy (EXPERIMENTÁLNÍ)
+[Enable groupchats support (EXPERIMENTAL)]
+Povolit skupinové diskuse (EXPERIMENTÁLNÍ)
+[Visit Profile]
+Zobrazit profil
+[Request friendship]
+Poádat o pøátelství
+[Cancel friendship]
+Zrušit pøátelství
+[Approve friendship]
+Potvrdit pøátelství
+[View &Profile]
+Zobrazit profil
+[News Feed]
+Novinky
+[Other Event]
+Ostatní
+[Client notifications]
+Upozornìní klienta
+[News Feed types to notify:]
+Na které z novinek upozornit:
+[Most Recent]
+Nejnovìjší
+[Status Updates]
+Zmìny stavu
+[Top News]
+Hlavní zprávy
+[Photos]
+Fotografie
+[Your account requires HTTPS connection. Activating.]
+Váš úèet vyaduje zabezpeèené spojení. Aktivováno.
+[Facebook Icon]
+Ikona
+[Mind]
+Stavová zpráva
+[Mind...]
+Stavová zpráva...
+
+; ---

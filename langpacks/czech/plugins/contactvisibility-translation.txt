@@ -1,0 +1,13 @@
+; /----------------------------------------------------------\
+; |  ContactVisibility 0.1.0.0                               |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+;
+
+[&Always Online]
+&Vždy viditelný
+[&Always Offline]
+&Vždy neviditelný
+
+;---

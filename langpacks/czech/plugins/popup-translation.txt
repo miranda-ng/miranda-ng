@@ -1,0 +1,555 @@
+; /----------------------------------------------------------\
+; |  PopUp Plus 2.1.1.6                                      |
+; \----------------------------------------------------------/
+;
+; Pøeklad: sir-qwerty <info (zavináè) qwerty (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=3400
+;
+
+
+; /resource.rc:IDD_OPT_POPUP
+[Content && Style]
+Chování a vzhled
+[Display time]
+Zobrazit èas
+[Button]
+Tlaèítko
+[Infinite popup delay]
+Zobrazit trvale
+[Popup delay:]
+Doba zobrazení
+[seconds]
+sek.
+[Use Windows colours]
+Použít barvy Windows
+[Go to Customize > Fonts section for fonts and colors options]
+Písma a barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy
+[Draw avatar borders]
+Orámovat avatary
+[Draw borders for semitransparent avatars too]
+Zobrazit rámeèek i u poloprùhledných avatarù
+[Round corners by]
+Zaoblit rohy o
+[pixels]
+pix.
+[Avatar size:]
+Velikost avataru:
+[Miscellaneous]
+Ostatní
+[Disable popups in fullscreen mode]
+Vypnout v celoobrazovkovém režimu
+[Do not close hovered popups]
+Nezavírat po umístìní myši
+[Size && Position]
+Velikost a umístìní
+[Dynamically resize the popups]
+Mìnit velikost dynamicky
+[Minimum width]
+Minimální šíøka
+[Maximum width]
+Maximální šíøka
+[Position:]
+Postavení:
+[...]
+...
+[Layout:]
+Rozložení:
+[Effects]
+Efekty
+[Use transparency (Windows 2000+)]
+Prùhlednost (pouze 2000/XP)
+[opacity:]
+prùhlednost:
+[100%]
+100 %
+[Opaque popups under cursor]
+Zvýraznit oznámení pod kurzorem
+[Window sliding]
+Animovaná oznámení
+[Window fading (Windows 2000+)]
+Plynulé pøechody (2000/XP)
+[Display time:]
+Doba zobrazení:
+[ms]
+ms
+[Vanish time:]
+Doba skrývání:
+[Reorder Popups]
+Obrátit poøadí
+[Live Preview]
+Náhled
+[Default color]
+Výchozí barva
+[Default text color]
+Výchozí barva textu
+[Debug]
+Debug
+[Slide popups while reordering]
+Posouvat oznámení bìhem zmìny poøadí
+
+; /resource.rc:IDD_OPT_POPUP_ADVANCED
+[Performance && Tweaks]
+Výkon a ladìní
+[Use advanced text render]
+Použít pokroèilé vykreslování textu
+[Enable popup history]
+Povolit historii oznámení
+[Store last]
+Uložit posledních
+[events]
+událostí
+[Use History++ to render log]
+Použít History++ pro záznam
+[Limit window amount to:]
+Omezit poèet oznámení na
+[Enable Win 9x/Me transparency]
+Povolit prùhlednost ve Win 9x/Me
+[Enable freeform shadows (XP+)]
+Povolit stíny (XP+)
+[Enable Aero Glass (Vista+)]
+Povolit Aero Glass (Vista+)
+[Enable avatar updates]
+Povolit aktualizaci avatarù
+[Make action icons customizable*]
+Povolit vlastní úpravy ikon akcí
+[Make OK/Cancel icons customizable*]
+Povolit vlastní úpravy ikon OK/Zrušit
+[Multimonitor (98/ME/2000/XP)]
+Více monitorù (98/ME/2000/XP)
+[Start the popups in the monitor with]
+Zobrazovat oznámení na monitoru, kde je
+[Miranda's window]
+okno Mirandy
+[the active window]
+aktivní okno
+[Disable when:]
+Neaktivní ve stavu
+[Always (has priority)]
+Vždy (má prioritu)
+[Options marked with asterisk will be applied after restart]
+Možnosti oznaèené (*) vejdou v platnost po restartu Mirandy
+[Open history]
+Otevøít historii
+
+; /resource.rc:IDD_OPT_POPUPS
+[Left Click:]
+Levé tlaèítko:
+[Right Click:]
+Pravé tlaèítko:
+[Preview]
+Náhled
+;(DUP) [Style]
+[Background:]
+Pozadí:
+[Text:]
+Text:
+[Use Default]
+Použít výchozí
+[Timeout:]
+Prodleva:
+[Interaction]
+Interakce
+[Display when]
+Zobrazit když
+
+; /resource.rc:IDD_OPT_SKIN2
+[Skins]
+Skiny
+[* - built-in skins]
+* - interní
+;(DUP) [Skin options]
+[Drop shadow effect (Windows XP+)]
+Zobrazit stín (XP+)
+ 
+ 
+[Static]
+Statický
+[Popup History]
+Historie oznámení
+[Popup Plus]
+Oznámení plus
+[Ok]
+OK
+[Reset]
+Reset
+[Never show news]
+Nikdy nezobrazovat novinky
+
+; /resource.rc:IDD_POSITION
+[Whole Screen]
+Celá obrazovka
+[Popup Area]
+Oblast oznámení
+[pixel(s)]
+pix.
+[Spacing:]
+Rozestupy:
+[Configure popup area]
+Konfigurace umístìní
+[Close]
+Zavøít
+
+; /resource.rc:IDD_OPT_ACTIONS
+[General]
+Obecné
+[Enable popup actions]
+Povolit akce pøi oznámení
+[Popup Actions are those tiny buttons below notification text.]
+Akce pøi oznámení jsou ona malá tlaèítka pod textem oznámení.
+[Common Actions]
+Obecné akce
+[Please choose in what cases default actions should be added:]
+Prosím vyberte, ve kterých pøípadech mají být pøidány výchozí akce:
+[Add info && menu for IM contacts only]
+Pøidat jen info a nabídku po kontakty
+[Add default actions for contacts only]
+Pøidat jen výchozí ikony pro kontakty
+[Don't close popups on default actions]
+Nezavírat oznámení pøi výchozí akci
+[Use large icons]
+Zobrazit velké ikony
+[Popup actions will be displayed as:]
+Akce budou zobrazeny jako:
+[Icons and labels below text]
+Ikony a popisky pod textem
+[Icons on the left]
+Ikony vlevo
+[Icons aligned to the right]
+Ikony vpravo
+[Show Actions: (requires apply)]
+Zobrazit akce: (vyžaduje tlaèítko Použít)
+
+; /resource.rc:IDD_OPT_NOTIFICATIONS
+[Notifications]
+Upozornìní
+[Popup timeout]
+Doba zobrazení
+[Use default]
+Výchozí
+[Custom value:]
+Vlastní hodnota:
+[Left click action:]
+Levým tlaèítkem:
+[Right click action:]
+Pravým tlaèítkem:
+[Disable when global status is...]
+Zakázat, je-li globální stav 
+[Disable when relevant protocol's status is...]
+Zakázat, je-li pøíslušný protokol ve stavu 
+[More...]
+Více...
+[Popup Queue]
+Fronta oznámení
+[Use internal queue (classic behaviour)]
+Povolit interní frontu (klasické chování)
+[Host queue (provide interface for other applications to put popups in our queue)]
+Založit vlastní frontu (poskytne rozhraní pro zaøazování jiným doplòkùm)
+[Use external queue (store our notifications in popup queue of other application)]
+Použít externí frontu (ukládá oznámení do fronty jinému doplòku)
+[Queue name:]
+Název fronty:
+
+; /api/m_popup.h
+[PopUps]
+Oznámení
+
+; /api/m_popup.old.h
+[Default]
+Výchozí
+[Warning]
+Upozornìní
+[Notify]
+Oznámení
+[PopUp 1.0.1.x compatability]
+Kompatibilita s doplòkem PopUp 1.0.1x
+
+; /src/actions.cpp
+[Action]
+Akce
+
+; /src/bitmap_funcs.cpp
+[You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
+Obrázky ve formátu PNG vyžadují doplnìk png2dib 0.1.3.x nebo novìjší.
+[Error]
+Chyba
+
+; /src/common.h
+[Thai]
+thajština
+[Japanese]
+japonština
+[Simplified Chinese]
+èínština (zjednodušená)
+[Korean]
+korejština
+[Traditional Chinese]
+èínština (tradièní)
+[Central European]
+støedoevropský
+[Cyrillic]
+cyrilika
+[Latin I]
+západní
+[Greek]
+øeètina
+[Turkish]
+tureètina
+[Hebrew]
+hebrejština
+[Arabic]
+arabština
+[Baltic]
+pobaltský
+[Vietnamese]
+vietnamština
+[Korean (Johab)]
+korejština (Johab)
+
+; /src/config.cpp
+[Popup Plus Warning]
+Varování doplòku Oznámení plus
+[The Jabberwocky]
+Žvahlav
+[Test preview for the popup plugin settings. This is supposed to be long enough not to fit in one line...]
+Testovací náhled doplòku oznámení. Tento text je snad dost dlouhý na to, aby se nevešel na jeden øádek...
+[This is a notification message]
+Toto je oznámení :-)
+[This is a warning message]
+Toto je varovné hlášení :-o
+[This is an error message]
+Toto je chybové hlášení :-(
+
+; /src/icons.cpp
+[Popups are enabled]
+Oznámení jsou zapnuta
+[Popups are disabled]
+Oznámení jsou vypnuta
+[Refresh skin list]
+Obnovit seznam skinù
+[Popup Placement]
+Umístìní oznámení
+[OK]
+OK
+[Cancel]
+Zrušit
+[Notification]
+Oznámení
+[Send Message]
+Odeslat zprávu
+[User Details]
+Informace o uživateli
+[Contact Menu]
+Menu kontaktu
+[Add Contact Permanently]
+Pøidat kontakt natrvalo
+[Pin Popup]
+Pøipíchnout oznámení
+[Pinned Popup]
+Pøipíchnuté oznámení
+[Dismiss Popup]
+Zavøít oznámení
+
+; /src/main.cpp
+[Customize]
+Vlastní úpravy
+[Actions]
+Akce
+[Advanced]
+Extra
+[Toggle Popups]
+Zapnout/vypnout oznámení
+[Enable &popup module]
+Zapnout oznámení (&globálnì)
+[Disable &popup module]
+Vypnout oznámení (&globálnì)
+[Error: I could not register the PopUp Window class.\nThe plugin will not operate.]
+Chyba: Nezdaøila se registrace tøídy okna oznámení.\nDoplnìk nebude funkèní.
+
+; /src/notifications.cpp
+[Offline]
+Offline
+[Online]
+Online
+[Away]
+Na chvíli pryè
+[N/A]
+<neuvedeno>
+[Occupied]
+Nemám èas
+[DND]
+Nerušit!
+[Free for chat]
+Mám volno
+[Invisible]
+Neviditelný
+[On the phone]
+Mám telefon
+[Out to lunch]
+Jsem na obìdì
+
+; /src/notify_imp.cpp
+[<empty>]
+<neuvedeno>
+
+; /src/opt_notify.cpp
+[Infinite]
+Trvale
+[1 second]
+1 sek.
+[2 seconds]
+2 sek.
+[3 seconds]
+3 sek.
+[4 seconds]
+4 sek.
+[5 seconds]
+5 sek.
+[7 seconds]
+7 sek.
+[10 seconds]
+10 sek.
+[15 seconds]
+15 sek.
+
+; /src/opt_old.cpp
+[upper left corner]
+Levý horní roh
+[lower left corner]
+Levý dolní roh
+[lower right corner]
+Pravý dolní roh
+[upper right corner]
+Pravý horní roh
+[horizontal]
+vodorovné
+[vertical]
+svislé
+[You cannot specify a value lower than %d and higher than %d.]
+Nelze zadat hodnotu nižší než %d a vyšší než %d.
+
+; /src/opt_skins.cpp
+[Skin preview]
+Náhled skinu
+[Just take a look at this skin... ;)]
+Raète se na tento skin podívat
+[Refresh List]
+Aktualizovat seznam
+
+; /src/services.cpp
+[default]
+výchozí
+
+[`Twas brillig, and the slithy toves\r\nDid gyre and gimble in the wabe:\r\nAll mimsy were the borogoves,\r\nAnd the mome raths outgrabe.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]]
+Bylo smažno, lepì svihlí tlové\r\n se batoumali v dálnici,\r\n chrudošní byli borolové,\r\n na mamné krsy žárnící.\r\n\t[b][i]Lewis Carroll, 1855[/i][/b]
+
+[This is a special test preview for the popup plugin settings. The text and title are quite long so you can tweak your skin and plugin settings to best fit your needs :)]
+Toto je speciální testovací náhled nastavení doplòku oznámení. Text a titulek jsou docela dlouhé, takže si mùžete se skinem a doplòkem pohrát tak, aby vám plnì vyhovoval :)
+
+[Popup Plus/Test action]
+Popup Plus/Testovací akce
+[Popup Plus/Second test action]
+Popup Plus/Druhá testovací akce
+[Popup Plus/One more action]
+Popup Plus/Další akce
+
+[Process Miranda IM tray notifications]
+Povolit oznamovací okna Miranda IM
+
+['Reorder Popups' option is currently diabled.\r\nThis may cause misaligned popups when used with\r\navatars and text replacement (mainly NewStatusNotify).\r\n\r\nDo you want to enable popup reordering now?\r\n]
+Upozoròujeme, že volba 'Obrátit poøadí' není zapnutá.\r\nTento fakt mùže zpùsobit nekorektní zarovnávání oznámení,\r\nkteré obsahují avatary zároveò s doplòkem NewStatusNotify.\r\nNechcete zapnout uvedenou funkci pro obrácení poøadí?\r\n
+
+[Enable this notification]
+Povolit tento druh oznámení
+[Mouse Actions Overwrite]
+Vlastní nastavení myši
+[LeftButton]
+Levé tlaèítko
+[MiddleButton]
+Støední tlaèítko
+[RightButton]
+Pravé tlaèítko
+[no overwrite]
+---
+[Quick reply]
+Rychlá odpovìï
+[Pin popup]
+Zobrazit trvale
+[Copy to clipboard]
+Zkopírovat do schránky
+[Per-contact settings]
+Lokální nastavení
+[Show default]
+Výchozí stav
+[Show always]
+Zobrazit trvale
+[Ignore fullscreen]
+Ignor. celoobraz.
+[Never show]
+Nezobrazit
+[Slide Popup]
+Posouvat oznámení
+[No effect]
+Bez efektu
+[Fade in/out]
+Plynulé pøechody
+[Square fading]
+Pøechod s kostièkováním
+[Time (in):]
+Doba nábìhu:
+[Time (out):]
+Doba dobìhu:
+[Global Status]
+Globální stav
+[Protocol Status]
+Stav protokolu
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Barvy lze nastavit v nabídce Vlastní úpravy -> Písma a barvy.
+[CLASS Plugins]
+Doplòky
+[Distance between popups]
+Odstup jednotlivých položek
+[Desktop]
+Plocha
+[Show clock]
+Zobrazit èas
+[non rectangular]
+realistiètìjší
+[Enable Aero Glass (Vista+)]
+Povolit Aero Glass (Vista+)
+[Global settings]
+Globální nastavení
+[Draw gradient background]
+Zapnout pøechody pozadí
+[Flat borders]
+Pøidat rámeèek
+[Download more skins]
+Stáhnout další skiny
+
+[Clock]
+Èas
+[Hovered Action]
+Po najetí myši
+[Avatar Border]
+Rámeèek avataru
+[Error (colors only)]
+Chyba (pouze barvy)
+[Notification (colors only)]
+Oznámení (pouze barvy)
+[Warning (colors only)]
+Upozornìní (pouze barvy)
+[With "favourite" overlay]
+Pøekrytí pro oblíbené
+[With "fullscreen" overlay]
+Pøekrytí pro celoobraz. režim
+[Popup Group]
+Skupina oznámení
+[Favorite Contact]
+Oblíbený kontakt
+[Show in Fullscreen]
+Celoobraz. režim
+[Blocked Contact]
+Blokovaný kontakt
+[Quick Reply]
+Rychlá odpovìï
+
+; ---

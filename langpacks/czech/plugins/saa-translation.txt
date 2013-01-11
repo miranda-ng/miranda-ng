@@ -1,0 +1,244 @@
+; /----------------------------------------------------------\
+; |  Smart Auto Away 0.0.2.5                                 |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=1704
+;
+
+; /aa_utils.c
+[Reconnect after ]
+Obnovit spojení po
+; [%s%d min ]
+; [%s%d sec]
+; [%s (Too fast!)]
+[PM]
+odp.
+[AM]
+dop.
+
+; /autoaway.c
+[Smart Auto Away]
+Zmìna stavu (vylepšená)
+[Status]
+Stavy
+; [%s WakeningUp: %s]
+; [%s: Reconnect conditions before change status to %s(%d) are: FatalError did%s happen; DontReconnectOnFatalError is %sabled and we are going to %s.]
+; [%s: we will not change the status to %s(%d).]
+; [%s: we will change the status to %s(%d).]
+; [%s: %s already set]
+; [%s: Specific Status Message is %s]
+; [%s: Going to %s (%d); StatusMessage is: %s]
+; [%s: Cleaning after MS_AWAYMSG_GETSTATUSMSG: %s]
+; [%s: Scheduling "ResetDefaultStatusMessage" after %d seconds]
+[%s]
+%s
+; [null]
+; [%d(%s)]
+
+; /dlgproc.c
+[Statuses]
+Stavy
+[Idle]
+Neèinnost
+[Status Messages]
+Stavové zprávy
+[Reconnect]
+Obnovení spojení
+
+; /globals.h
+[-- Date --]
+-- Datum --
+[year (4 digits)]
+rok (4 èíslice)
+[year (2 digits)]
+rok (2 èíslice)
+[month]
+mìsíc
+[name of month]
+název mìsíce (celý)
+[short name of month]
+název mìsíce (zkrácený)
+[day]
+den
+[weekday (full)]
+název dne (celý)
+[weekday (abbreviated)]
+název dne (zkrácený)
+[-- Time --]
+-- Èas --
+[hours (24)]
+hodiny (24)
+[hours (12)]
+hodiny (12)
+[AM/PM]
+dop./odp.
+[minutes]
+min.
+[seconds]
+sek.
+[-- Time Zone --]
+-- Èasové pásmo --
+[total bias]
+rozdíl mezi pásmy
+[time zone name]
+název èasového pásma
+[-- Format --]
+-- Formátování --
+[tabulator]
+tabulátor
+[line break]
+další øádek
+
+; /idle.c
+; [%s: Restoring the default "StatusMessage": %s]
+[none]
+---
+
+; /idleMenu.c
+[&Idle]
+Neè&innost
+
+; /idleMessages.c
+[Set the default status message after ]
+Nastavit výchozí zprávu stavu po 
+
+ 
+[I am here: %s]
+Bìžná práce: %s
+[Short Idle: %s]
+Krátká nepøítomnost: %s
+[Long Idle: %s]
+Delší nepøítomnost: %s
+; [%s cannot set status messages]
+
+; /reconnect.c
+; [ReconnForbiddden: %s reconnection is forced.]
+; [ReconnForbiddden: %s is Offline and counting: %d to %d]
+; [ReconnForbiddden: %s has ReconnectEnabled]
+; [ReconnForbiddden: %s has FatalError; ProtoStatus: %d]
+; [ReconnForbiddden: %s has DontReconnectOnFatalError]
+; [ReconnForbiddden: %s has FatalError but DontReconnectOnFatalError disabled]
+; [ReconnForbiddden: %s Reconnect permitted]
+; [ReconnForbiddden: %s Reconnecting to %s(%d) was not permited by %d]
+; [TimerProc: %s is a proto]
+; [TimerProc: %s is Counting: AwayStatus: %s; reqStatus: %s;]
+; [TimerProc: %s Counting Cancelled: AwayStatus: %s; reqStatus: %s;]
+; [IsReconnectForbidden: %s is not counting or is not offline]
+; [IsReconnectForbidden: %s it is too early to reconnect]
+; [IsReconnectForbidden: %s has reconnect disabled]
+; [IsReconnectForbidden: %s fatal error and DontReconnect enabled]
+; [IsReconnectForbidden: %s current AAStatus should not be reconnected]
+; [IsReconnectForbidden: %s is permited to reconnect]
+; [IsReconnectForbidden: %s Surprising answer]
+
+; /saa-res.rc:IDD_OPT_SMARTAUTOAWAY
+[Static]
+Statický
+[Requested Status:]
+Požadovaný stav:
+[Current Status:]
+Souèasný stav:
+[Apply to all protocols]
+Pro všechny protokoly
+
+; /saa-res.rc:IDD_OPT_SAA_AA
+[Short Idle]
+Krátká nepøítomnost
+[Change my status mode to:]
+Zmìnit stav na:
+[Button]
+Tlaèítko
+[Only if my requested status is:]
+Pouze tehdy, je-li požadovaný stav
+[Online]
+Online
+[Away]
+Na chvíli pryè
+[N/A]
+<neuvedeno>
+[Invisible]
+Neviditelný
+[Occupied]
+Nemám èas
+[DND]
+Nerušit!
+[On the phone]
+Mám telefon
+[Out to lunch]
+Jsem na obìdì
+[Free for chat]
+Mám volno
+[Offline]
+Offline
+[Long Idle]
+Delší nepøítomnost
+
+; /saa-res.rc:IDD_OPT_SAA_RECONNECT
+[reconnect after]
+znovu pøipojit po
+[If my current status is:]
+Pouze tehdy, je-li souèasný stav
+[Too Fast!]
+Pøíliš rychle!
+[Do not reconnect after fatal error]
+Neobnovovat spojení po závažné chybì
+[Keep main status offline*]
+Udržovat globální stav offline*
+[* Setting this option may confuse other plugins]
+* Tato možnost nemusí fungovat správnì se všemi doplòky
+
+; /saa-res.rc:IDD_OPT_SAA_IDLE
+[Enable]
+Aktivovat
+[If Windows is inactive]
+Pokud jsou neaktivní Windows
+[If Miranda is inactive]
+Pokud je neaktivní Miranda
+[Use GetLastInputInfo()]
+Fce GetLastInputInfo()
+[Force short idle if:]
+Stav 'Na chvíli pryè'
+[Screen Saver is running]
+Bìžící spoøiè obrazovky
+[Workstation is Locked (2K/XP)]
+Poèítaè je zamèen (2000/XP)
+[Inactivity times:]
+Doba neèinnosti
+[Short idle after]
+Krátká nepøítomnost po
+[Long idle after]
+Delší nepøítomnost po
+[min.]
+min.
+[Do not share my idle info.]
+Nezveøejòovat informace o neèinnosti
+[Do not set "Not Idle" automaticaly]
+Nepøecházet z režimu neèinnosti automaticky
+[Set "Not Idle" on manual status change]
+Nenastavovat nepøítomnost pøi manuální zmìnì
+[Simulate Idle]
+Simulace neèinnosti
+[Be Not Idle]
+Bìžná práce
+[Be Short Idle]
+Krátká nepøít.
+[Be Long Idle]
+Delší nepøít.
+[Disable Idle menu. (restart is required)]
+Vypnout položku menu (vyžaduje restart)
+
+; /saa-res.rc:IDD_OPT_SAA_IDLEMESSAGES
+[Use:]
+Použít:
+[?]
+?
+
+; /saamain.c
+[Smart Auto Away Module]
+Vylepšená zmìna stavu
+; [%s\n%s Type:%d\nLastReqStatus: %s\n]
+; [%s  %d. %s\n]
+; [%d\t%d\t%s]
+
+; ---

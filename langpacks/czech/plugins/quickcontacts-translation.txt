@@ -1,0 +1,73 @@
+; /----------------------------------------------------------\
+; |  Quick Contacts 0.0.3.0                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=2904
+;
+
+; Quick Contacts
+; Author: micron-x, Pescuma
+; http://pescuma.mirandaim.ru/miranda/quickcontacts
+
+[Quick Contacts]
+Rychlé kontakty
+
+; Hotkey description
+[Open dialog]
+Otevøít dialog
+[Open Quick Contacts dialog]
+Otevøít dialog s kontakty
+
+; Menu item
+[Quick Contacts...]
+Rychlé kontakty...
+
+; Main dialog
+;(FIX) [Enter Username:]
+[Enter username:]
+Zadejte uživatele:
+[Show all contacts]
+Zobrazit všechny kontakty
+
+; Tooltips
+;(DUP) [Send message]
+[Make a voice call]
+Zavolat
+[Send file]
+Poslat soubor
+[Send URL]
+Poslat odkaz
+[Open userinfo]
+Otevøít informace o kontaktu
+[Open history]
+Otevøít historii
+;(DUP) [Open contact menu]
+
+; Options
+[ Last Sent ]
+ Poslední odeslané 
+[Enable last-sent-to]
+Povolit funkci 'Poslední odeslané'
+[recognize all messages sent]
+Vzít všechny poslané zprávy
+[recognize messages sent with hotkey only]
+Vzít jen zprávy odeslané tímto doplòkem
+[ Contacts ]
+ Kontakty 
+[Show offline contacts on these protocols:]
+Pro tyto protokoly zobrazit kontakty offline:
+[But hide them if protocol is offline]
+Skrýt kontakty, je-li daný protokol offline
+[Append group name to contact name]
+Ke jménu pøidat pøíslušnou skupinu
+[But show it as a column ...]
+Zobrazit jako samostatný sloupec ...
+[... on left side of name]
+... vlevo od jména
+[Hide subcontacts]
+Skrýt podkontakty
+[But keep subcontacts of protocols in above list if meta is hidden]
+Je-li Meta skryto, ponechat podkontakty vybraných protokolù
+
+; ---

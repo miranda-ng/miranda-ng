@@ -1,0 +1,223 @@
+; /----------------------------------------------------------\
+; |  Avatar History 0.0.2.8                                  |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Robyer <robyer (zavináè) seznam (teèka) cz>
+; Adresa: http://pescuma.mirandaim.ru/miranda/avatarhist
+;
+
+[Avatar History]
+Historie avatarù
+
+[View Avatar History]
+Zobrazit historii avatarù
+
+;(DUP) [Avatars]
+
+;(DUP) [History]
+;(LAI) [Avatar]
+
+[ Logging options ]
+ Nastavení ukládání 
+[Store old avatars on disk]
+Ukládat staré avatary na disk
+[Also create per contact folders with shortcuts]
+Také vytvoøit pro každý kontakt složku se zástupci
+[Log avatar changes to history]
+Zapisovat zmìny do historie
+
+[ History templates ]
+ Historie 
+[Avatar change:]
+Zmìna avataru:
+[Track when contacts remove their avatars too]
+Oznámit i odstranìní avataru kontaktu
+[Avatar removal:]
+Odstranìní avataru:
+
+;(DUP) [ Protocols ]
+;(DUP) [Enable tracking for these protocols:]
+[Keep all in same folder]
+Nechat vše ve stejné složce
+
+;(DUP) [Popups]
+[Avatar Change]
+Zmìna avataru
+
+[Show popup when a contact change his avatar]
+Zobrazit oznámení, když kontakt zmìní svùj avatar
+
+;(DUP) [ Colours ]
+;(DUP) [Background colour]
+;(DUP) [Text colour]
+;(DUP) [Use Windows colours]
+;(DUP) [Use default colours]
+
+;(DUP) [ Delay ]
+;(DUP) [From popup plugin]
+;(DUP) [Custom]
+;(DUP) [Permanent]
+
+;(DUP) [ Actions ]
+;(DUP) [On right click:]
+;(DUP) [On left click:]
+;(DUP) [Do nothing]
+;(DUP) [Close popup]
+[Show avatar history]
+Zobrazit historii avatarù
+[Show contact history]
+Zobrazit historii kontaktu
+
+;(DUP) [Preview]
+
+;(DUP) [Test Contact]
+;(DUP) [Test description]
+
+[Avatar History: Select how to store history avatars]
+Historie avatarù: Vyberte zpùsob ukládání historie avatarù
+[Please select how the avatar history should be stored. This setting can NOT be changed in future, because it would cause all previous history to be lost.]
+Prosím vyberte zpùsob ukládání historie avatarù. Toto nastavení NELZE v budoucnu mìnit, protože by to zpùsobilo ztrátu celé historie avatarù.
+[Store history in miranda history and all history avatars in same folder]
+Ukládat záznamy do historie Mirandy a všechny avatary do stejné složky
+[History is stored inside miranda db. It can be seen by History++ or Avatar History internal viewer.]
+Uloží historii do databáze Mirandy. Zobrazíte ji pomocí History++ nebo interním prohlížeèem.
+[All avatars are stored as <Profile>\\Avatars History\\<Avatar Hash>]
+Umístìní na disku: <profil>\\Avatars History\\<hash_avataru>
+[Store history in miranda history and history avatars in per protocol folders]
+Ukládat záznamy do historie Mirandy a avatary do složek jednotlivých protokolù
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash>]
+Umístìní na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>
+[Store history in miranda history and history avatars in per contact folders using shortcuts]
+Ukládat záznamy do historie Mirandy a avatary do složek jednotlivých kontaktù pomocí zástupcù
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Avatar Hash> and have a shortcut per history entry in <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp>]
+Umístìní na disku: <profil>\\Avatars History\\<protokol>\\<hash_avataru>, pøièemž zástupce najdete v <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<èas>
+[Store history avatars in per contact folders using shortcuts]
+Ukládat avatary do složek jednotlivých kontaktù pomocí zástupcù
+[History is stored only in disk. It can be seen by Avatar History internal viewer.]
+Uloží historii avatarù pouze na disk. Zobrazíte ji interním prohlížeèem.
+[Store history avatars in per contact folders]
+Ukládat avatary do složek jednotlivých kontaktù
+[All avatars are stored as <Profile>\\Avatars History\\<Protocol>\\<Contact ID>\\<Timestamp> (the same image can be stored lot of times)]
+Umístìní na disku: <profil>\\Avatars History\\<protokol>\\<identifikátor_kontaktu>\\<èas> (stejný obrázek mùže být uložen víckrát!)
+;(DUP) [OK]
+
+[Open Folder]
+Otevøít složku
+;(DUP) [Save]
+;(DUP) [Delete]
+;(LAI) [<]
+;(LAI) [>]
+
+[Store this user's old avatars in disk]
+Ukládat avatary kontaktu na disk
+[Log this user's avatars changes to history]
+Zapisovat zmìny avataru do historie
+[Show popups for this user]
+Zobrazit oznámení pro tento kontakt
+;(DUP) [OK]
+[Save As...]
+Uložit jako...
+[Delete this entry]
+Odstranit vybraný záznam
+[Delete this entry and the bitmap file]
+Odstranit vybraný záznam i s obrázkem
+
+[Please select an avatar from the list]
+Prosím vyberte avatar ze seznamu
+[No avatar selected]
+Není zvolen avatar
+
+[Delete avatar log?]
+Odstranit záznam?
+[Are you sure you wish to delete this history entry?\nOnly the entry in history will be deleted, bitmap file will be kept!]
+Opravdu chcete odstranit vybraný záznam v historii?\nTímto odstraníte pouze položku v historii, obrázek zùstane na disku!
+[Are you sure you wish to delete this avatar shortcut?\nOnly shortcut will be deleted, bitmap file will be kept!]
+Opravdu chcete odstranit vybraného zástupce?\nTímto odstraníte pouze zástupce, obrázek zùstane na disku!
+
+[Delete avatar?]
+Odstranit avatar?
+[Are you sure you wish to delete this archived avatar?\nThis will delete the history entry and the bitmap file.\nWARNING:This can affect more than one entry in history!]
+Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte záznam z historie i s obrázkem.\nVAROVÁNÍ: Tato operace mùže ovlivnit více položek v historii!
+[Are you sure you wish to delete this archived avatar?\nThis will delete the shortcut and the bitmap file.\nWARNING:This can affect more than one shortcut!]
+Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte zástupce i s obrázkem.\nVAROVÁNÍ: Tato operace mùže ovlivnit více zástupcù!
+
+[Unknown Protocol]
+neznámý protokol
+[Unknown UIN]
+neznámé UIN
+
+
+; øetìzce které jsou jinak/navíc ve verzi 0.0.1.5
+
+[Avatar history...]
+Historie avatarù...
+[changed his/her avatar]
+zmìnil(a) svùj avatar
+[removed his/her avatar]
+odstranil(a) svùj avatar
+
+[Show 'Avatar History' on contacts' menus (takes effect after restart)]
+Zobrazit položku 'Historie avatarù' v menu kontaktu (vyžaduje restart)
+
+[Log changes to disk]
+Ukládat zmìny na disk
+;(DUP) [Log changes to history]
+
+;(DUP) [ Tracking ]
+[Track when contacts change their avatars]
+Oznámit zmìnu avataru kontaktu
+[Track when contacts remove their avatars]
+Oznámit odstranìní avataru kontaktu
+;(DUP) [Template:]
+
+[Log this user's avatars to disk]
+Ukládat avatary tohoto kontaktu na disk
+[Log this user's avatars to history]
+Ukládat avatary tohoto kontaktu do historie
+
+[Are you sure you wish to delete this archived avatar?]
+Urèitì chcete odstranit vybraný avatar?
+
+[This plugin keeps backups of all your contacts' avatar changes and/or shows popups]
+Zaznamenává a informuje o zmìnách avataru.
+
+[MetaContacts have special handling: the info is always copied from subcontacts (notifications from a meta are ignored)]
+Upozornìní pro metakontakty: Informace o zmìnì avataru pocházejí od jednotlivých kontaktù.
+
+; Avatar History [ALA Style Mod] - 0.2.0.2
+; http://addons.miranda-im.org/details.php?action=viewfile&id=3687
+[Enable avatar history for these protocols:]
+Povolit historii avatarù pro tyto protokoly:
+
+[Show Popups and/or Log to History]
+Zobrazit oznámení a zapsat do historie
+[Log changes to history (save event in profile history)]
+Zapisovat zmìny do historie (uložit událost v historii profilu)
+[Log changes to disk (save avatar picture)]
+Zapisovat zmìny na disk (uložit obrázek)
+
+[When a contact has a new avatar (not in history)]
+Když má kontakt nový avatar (není v historii)
+[When a contact changes his/her avatar]
+Když kontakt zmìní avatar
+[When a contact removes his/her avatar]
+Když kontakt odstraní avatar
+
+[has a new avatar]
+má nový avatar
+
+[Delete Avatar]
+Odstranit avatar
+[Delete Forever]
+Odstranit trvale
+[Are you sure you want to delete this avatar?]
+Urèitì chcete odstranit vybraný avatar?
+[Delete Avatar FOREVER]
+Odstranit avatar trvale
+[When you delete an avatar forever it won't be logged by Avatar History ever again (just for this contact).\nIf at some point you wish to revert this action, you must use Database Editor.\n\nAre you sure you want to delete this avatar forever?]
+Odstraníte-li avatar tímto zpùsobem, nebude už nadále zaznamenáván do historie (platí pouze pro daný kontakt).\nOperaci lze vrátit, ale musíte k tomu použít doplnìk Editor databáze.\n\nUrèitì chcete odstranit vybraný avatar trvale?
+
+[Avatar Overlay]
+Pøekrytí avataru
+
+; ---

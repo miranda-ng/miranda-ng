@@ -1,0 +1,78 @@
+; /----------------------------------------------------------\
+; |  UINBackup 0.4.2.1                                       |
+; \----------------------------------------------------------/
+;
+; Pøeklad: Vít Šindláø <sindlarv (zavináè) centrum (teèka) cz>
+; Adresa: http://addons.miranda-im.org/details.php?action=viewfile&id=197
+;
+
+[Export contacts]
+Exportovat kontakty
+[Import contacts]
+Importovat kontakty
+[Show the export menuitem (requires restart of Miranda)]
+Zobrazit položku Exportovat (vyžaduje restart Mirandy)
+[Show the import menuitem (requires restart of Miranda)]
+Zobrazit položku Importovat (vyžaduje restart Mirandy)
+[Browse]
+Procházet
+[Autoimport a clb file on startup]
+Pøi spuštìní autom. importovat
+[Error writing to the file. Is the disk full?]
+Chyba pøi zápisu do souboru. Zaplnìný disk?
+;(DUP) [Error]
+[One contact had too long nickname or groupname.\nThe contact was not saved.]
+Pøíliš dlouhá pøezdívka nebo název skupiny.\nDaný kontakt nebyl uložen.
+[No contacts found]
+Nebyly nalezeny žádné kontakty
+[%d contact saved\nThere are %d contacts in the database]
+Poèet uložených kontatkù: %d\nCelkový poèet kontaktù v databázi: %d
+[%d contacts saved\nThere are %d contacts in the database]
+Poèet uložených kontatkù: %d\nCelkový poèet kontaktù v databázi: %d
+[Backup done]
+Zálohování dokonèeno
+[Done]
+Dokonèeno
+;(DUP) [No contacts found]
+[%s on line %d]
+%s na øádku è.%d
+[Too many errors, no more error messages will be shown.]
+Pøíliš mnoho chyb; zastavení jejich výpisu.
+[Warning]
+Upozornìní
+[Insufficient memory available]
+Nedostatek pamìti
+[A critical error occured.\nTry to do the operation one more time.]
+Došlo k závažné chybì.\nZkuste akci zopakovat.
+[Critical error]
+Závažná chyba
+[Warning, strange sequence]
+Upozornìní; neplatná posloupnost
+[Syntax error, early line break]
+Chyba syntaxe; neplatný znak ukonèení øádku
+[Syntax error, too many \";\" characters]
+Chyba syntaxe; pøíliš mnoho znakù ';' za sebou
+[Warning, strange character sequence]
+Upozornìní; neplatná posloupnost znakù
+[Error, too many characters]
+Chyba; pøíliš mnoho znakù
+[Too long UIN]
+Pøíliš dlouhé UIN
+[%d contact imported\nThere are %d contacts in the database]
+Poèet importovaných kontatkù: %d\nCelkový poèet kontaktù v databázi: %d
+[%d contacts imported\nThere are %d contacts in the database]
+Poèet importovaných kontatkù: %d\nCelkový poèet kontaktù v databázi: %d
+[Import successfull]
+Import úspìšnì dokonèen
+[No contacts imported]
+Nebyly importovány žádné kontakty
+
+; NEPUBLIKOVANÉ
+[Use ICQ style linebreaks (CRCRLF, default is CRLF)]
+Použít ukonèení øádkù ICQ (CRCRLF, standardnì CRLF)
+[UINBackup]
+Záloha UIN
+[Contactlist backup (*.clb)\0*.clb\0All files (*.*)\0*.*\0]
+Záloha kontaktù (*.clb)\0*.clb\0Všechny soubory (*.*)\0*.*\0
+
+; ---
