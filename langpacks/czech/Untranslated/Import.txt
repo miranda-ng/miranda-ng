@@ -1,4 +1,4 @@
-;[%miranda_path%]
+﻿;[%miranda_path%]
 ;[%miranda_path%\\Profiles]
 ;[%miranda_profile%]
 ;[%miranda_profilename%]

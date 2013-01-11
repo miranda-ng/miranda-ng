@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;============================================================
 ;  File: AdvancedAutoAway.dll
 ;  Plugin: Advanced Auto Away
@@ -14,8 +14,8 @@ min. ve stavu '%s'
 [Rules]
 Pravidla
 [Status Messages]
-StavovÈ zpr·vy
+Stavov√© zpr√°vy
 [uxtheme.dll]
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 [Auto Away]
-AutomatickÈ stavy
+Automatick√© stavy

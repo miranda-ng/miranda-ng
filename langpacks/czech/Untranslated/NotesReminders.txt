@@ -1,4 +1,4 @@
-;[&Always On Top]
+﻿;[&Always On Top]
 ;[&Bring All To Front]
 ;[&Bring All to Front]
 ;[&Copy]

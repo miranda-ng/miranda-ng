@@ -1,4 +1,4 @@
-;[&Copy SHA1]
+﻿;[&Copy SHA1]
 ;[&Import]
 ;[ASC files\0*.asc\0All files (*.*)\0*.*\0]
 ;[Auto accept RSA key (NOT SECURED)]

@@ -1,4 +1,4 @@
-;[ \r\n\t]
+﻿;[ \r\n\t]
 ;[&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
 ;[(current: 0%)]
 ;[.DLL]

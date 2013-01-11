@@ -1,4 +1,4 @@
-;[%miranda_avatarcache%]
+﻿;[%miranda_avatarcache%]
 ;[%s Protocol]
 ;[%s avatar connection]
 ;[***** Avatar already up-to-date: %s]

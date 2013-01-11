@@ -1,4 +1,4 @@
-#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
+ï»¿#muuid {d4bdd1eb-56f1-4a87-a187-67246ee919a2}
 ;============================================================
 ;  File: LangMan.dll
 ;  Plugin: LangMan
@@ -7,40 +7,40 @@
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
 [A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-K dispozici je nová verze pøekladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlaèítko 'Instalovat'.
+K dispozici je novÃ¡ verze pÅ™ekladu programu Miranda IM. StÃ¡hnete a nainstalujete ji kliknutÃ­m na tlaÄÃ­tko 'Instalovat'.
 [Language:]
 [Current:]
-Aktuální:
+AktuÃ¡lnÃ­:
 [New:]
-Novı:
+NovÃ½:
 [&Install Now]
 &Instalovat
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
 [Download &all languages]
-Stáhnout všechny j&azyky
+StÃ¡hnout vÅ¡echny j&azyky
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
-Poznámka: Pomocí této funkce stáhnete a nainstalujete nejnovìjší pøeklad v daném jazyce. Nezapomeòte ovšem, e mùe existovat nìkolik variant pøekladù od rùznıch autorù.
+PoznÃ¡mka: PomocÃ­ tÃ©to funkce stÃ¡hnete a nainstalujete nejnovÄ›jÅ¡Ã­ pÅ™eklad v danÃ©m jazyce. NezapomeÅˆte ovÅ¡em, Å¾e mÅ¯Å¾e existovat nÄ›kolik variant pÅ™ekladÅ¯ od rÅ¯znÃ½ch autorÅ¯.
 [OK]
 [Cancel]
 [Author(s):]
 [E-mail:]
 [Last modified using:]
-Urèeno pro:
+UrÄeno pro:
 [Date:]
 [Version:]
 [Locale:]
 Lokalizace:
 [Not included:]
-V pøekladu chybí:
+V pÅ™ekladu chybÃ­:
 [Download more Language Packs]
-Stáhnout další pøeklady
+StÃ¡hnout dalÅ¡Ã­ pÅ™eklady
 [Please restart Miranda NG for your changes to take effect.]
 [Check for new &versions of Language Packs periodically]
-Pravidelnì zjišovat nové &verze pøekladù
+PravidelnÄ› zjiÅ¡Å¥ovat novÃ© &verze pÅ™ekladÅ¯
 [&Download Language]
-Stáhnout pøekla&d
+StÃ¡hnout pÅ™ekla&d
 ;file \plugins\LangMan\src\langpack.cpp
 [Plugins\\Language\\]
 [English (default)]
@@ -48,7 +48,7 @@ Stáhnout pøekla&d
 ;file \plugins\LangMan\src\main.cpp
 [The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
 [Language Pack Manager Plugin]
-Doplnìk Správa pøekladù
+DoplnÄ›k SprÃ¡va pÅ™ekladÅ¯
 [Reload langpack]
 [LangMan-Readme.txt]
 [Docs\\]
@@ -59,18 +59,18 @@ Doplnìk Správa pøekladù
 [%s\\Plugins\\*.dll]
 [%hs (%s)]
 [All installed plugins are included.]
-Všechny nainstalované doplòky jsou pøeloeny.
+VÅ¡echny nainstalovanÃ© doplÅˆky jsou pÅ™eloÅ¾eny.
 [(incompatible)]
 [Unknown]
 [Current]
-aktuální
+aktuÃ¡lnÃ­
 [Installed Languages]
-Nainstalované jazyky
+NainstalovanÃ© jazyky
 [langpack_*.txt]
 [File]
 Soubor
 [built-in]
-interní
+internÃ­
 [&Remove...]
 Odst&ranit...
 [Languages]

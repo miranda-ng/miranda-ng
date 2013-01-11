@@ -1,4 +1,4 @@
-#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
+ï»¿#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}
 ;============================================================
 ;  File: Jabber.dll
 ;  Plugin: Jabber
@@ -7,33 +7,33 @@
 ;============================================================
 ;file \protocols\JabberG\res\jabber.rc
 [Tags:]
-Štítky:
+Å tÃ­tky:
 [OK]
 [Cancel]
 [Type:]
 [User:]
-Uivatel:
+UÅ¾ivatel:
 [Domain/Server:]
 Server:
 [Password:]
 [Save password]
 [Resource:]
-Prostøedek:
+ProstÅ™edek:
 [Register new user]
-Zøídit novı úèet
+ZÅ™Ã­dit novÃ½ ÃºÄet
 [Use custom connection host and port:]
-Urèit hostitele (a port) pro pøipojení:
+UrÄit hostitele (a port) pro pÅ™ipojenÃ­:
 [:]
 [Use Domain Login]
-Pouít doménové jméno
+PouÅ¾Ã­t domÃ©novÃ© jmÃ©no
 [Go]
 ->
 [Search service]
-Vyhledávací sluba
+VyhledÃ¡vacÃ­ sluÅ¾ba
 [Roster editor\nView and modify your server-side contact list.]
-Seznamy na serveru\nZobrazení a úpravy seznamu kontaktù na serveru
+Seznamy na serveru\nZobrazenÃ­ a Ãºpravy seznamu kontaktÅ¯ na serveru
 [Download]
-Stáhnout
+StÃ¡hnout
 [Upload]
 -> server
 [Import from file]
@@ -44,77 +44,77 @@ Exportovat...
 Jabber
 [Username:]
 [Change password]
-Zmìnit heslo
+ZmÄ›nit heslo
 [Priority:]
 Priorita:
 [Use hostname as resource]
-Jako prostøedek pouít název poèítaèe
+Jako prostÅ™edek pouÅ¾Ã­t nÃ¡zev poÄÃ­taÄe
 [List of public servers]
-Seznam veø. serverù
+Seznam veÅ™. serverÅ¯
 [Port:]
 [Use SSL]
 [Use TLS]
-Pouít TLS
+PouÅ¾Ã­t TLS
 [Unregister]
-Zrušit reg.
+ZruÅ¡it reg.
 [Expert]
 [Manually specify connection host]
-Urèit hostitele pro pøipojení
+UrÄit hostitele pro pÅ™ipojenÃ­
 [Host:]
 [Keep connection alive]
 [Automatically delete contacts not in my roster]
 [User directory:]
-Adresáøová sluba:
+AdresÃ¡Å™ovÃ¡ sluÅ¾ba:
 [Language for human-readable resources:]
-Definice jazyka pro textové sluby:
+Definice jazyka pro textovÃ© sluÅ¾by:
 [File Transfer]
-Pøenos souborù
+PÅ™enos souborÅ¯
 [Allow file sending through direct peer-to-peer connection]
-Povolit odesílání souborù pøímım spojením mezi klienty
+Povolit odesÃ­lÃ¡nÃ­ souborÅ¯ pÅ™Ã­mÃ½m spojenÃ­m mezi klienty
 [Specify external address:]
-Zadat externí adresu:
+Zadat externÃ­ adresu:
 [Allow file sending through bytestream proxy server:]
-Povolit odesílání souborù pøes proxy server:
+Povolit odesÃ­lÃ¡nÃ­ souborÅ¯ pÅ™es proxy server:
 [Miscellaneous]
-Ostatní
+OstatnÃ­
 [Hint:]
 Tip:
 [Try to uncheck all checkmarks above if you're experiencing troubles with sending files. But it can cause problems with transfer of large files.]
-Máte-li problémy s pøenosem souborù, vypnìte všechny vıše uvedené monosti. Na druhou stranu to mùe zamezit pøenosu velkıch souborù.
+MÃ¡te-li problÃ©my s pÅ™enosem souborÅ¯, vypnÄ›te vÅ¡echny vÃ½Å¡e uvedenÃ© moÅ¾nosti. Na druhou stranu to mÅ¯Å¾e zamezit pÅ™enosu velkÃ½ch souborÅ¯.
 [Progress1]
 [Register/Search Jabber Agents]
-Registrovat sluby
+Registrovat sluÅ¾by
 [Jabber server:]
 Server Jabber:
 [Browse]
 [Register...]
 Registrovat...
 [Browse/Join chat room...]
-Procházet/Pøipojit...
+ProchÃ¡zet/PÅ™ipojit...
 [Search...]
 Hledat...
 [Registered Jabber Transports]
-Registrované sluby
+RegistrovanÃ© sluÅ¾by
 [Log on]
-Pøihlásit
+PÅ™ihlÃ¡sit
 [Log off]
-Odhlásit
+OdhlÃ¡sit
 [Register with a new service...]
-Registrovat novou slubu...
+Registrovat novou sluÅ¾bu...
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Command]
-Pøíkaz
+PÅ™Ã­kaz
 [Instruction:]
 Instrukce:
 [Submit]
 Potvrdit
 [Next]
-Další
+DalÅ¡Ã­
 [Back]
-Pozadí
+PozadÃ­
 [Complete]
-Dokonèeno
+DokonÄeno
 [Remember password for this session]
 [Save password permanently]
 [Address1:]
@@ -122,36 +122,36 @@ Adresa:
 [Address2:]
 Adresa:
 [City:]
-Mìsto:
+MÄ›sto:
 [State:]
 [ZIP:]
-PSÈ:
+PSÄŒ:
 [Country:]
-Zemì:
+ZemÄ›:
 [Full name:]
-Celé jméno:
+CelÃ© jmÃ©no:
 [Nick name:]
 [First name:]
-Jméno:
+JmÃ©no:
 [Middle:]
-Prostø.:
+ProstÅ™.:
 [Last name:]
-Pøíjmení:
+PÅ™Ã­jmenÃ­:
 [Date of birth:]
 [YYYY-MM-DD]
 RRRR-MM-DD
 [Gender:]
-Pohlaví:
+PohlavÃ­:
 [Occupation:]
-Povolání:
+PovolÃ¡nÃ­:
 [Homepage:]
 WWW:
 [Company:]
-Spoleènost:
+SpoleÄnost:
 [Department:]
-Oddìlení:
+OddÄ›lenÃ­:
 [Title:]
-Název:
+NÃ¡zev:
 [E-mail:]
 [Phone:]
 [Email address:]
@@ -159,7 +159,7 @@ E-mail:
 [Home]
 Domov
 [Work]
-Práce
+PrÃ¡ce
 [Internet]
 Internet
 [X400]
@@ -187,37 +187,37 @@ ISDN
 [PCS]
 PCS
 [Load]
-Naèíst
+NaÄÃ­st
 [Save]
 [Delete]
 [Description:]
 [Current Password:]
-Pùvodní heslo:
+PÅ¯vodnÃ­ heslo:
 [New Password:]
-Nové heslo:
+NovÃ© heslo:
 [Confirm New Password:]
-Nové heslo znovu:
+NovÃ© heslo znovu:
 [Conference server:]
-Diskusní server:
+DiskusnÃ­ server:
 [Jabber Multi-User Conference\nCreate or join existing conference room.]
-Diskusní skupina\nZaloení nebo pøipojení se do existující diskusní skupiny
+DiskusnÃ­ skupina\nZaloÅ¾enÃ­ nebo pÅ™ipojenÃ­ se do existujÃ­cÃ­ diskusnÃ­ skupiny
 [Room:]
-Místnost:
+MÃ­stnost:
 [Recently visited chatrooms:]
 [Bookmarks]
-Záloky
+ZÃ¡loÅ¾ky
 [List4]
 [Apply Filter]
-Pouít filtr
+PouÅ¾Ã­t filtr
 [Reset Filter]
-Zrušit filtr
+ZruÅ¡it filtr
 [JID:]
-Identifikátor:
+IdentifikÃ¡tor:
 [Register]
 Registrovat
 [<room jid>\nSend groupchat invitation.]
 [Other JID:]
-Ostatní JID:
+OstatnÃ­ JID:
 [Add]
 [Invitation reason:]
 [&Invite]
@@ -228,31 +228,31 @@ Ostatní JID:
 [Nickname:]
 [&Accept]
 [Server side bookmarks\nStore conference rooms and web links on server.]
-Záloky na serveru\nUloení diskusí a odkazù do seznamu na serveru
+ZÃ¡loÅ¾ky na serveru\nUloÅ¾enÃ­ diskusÃ­ a odkazÅ¯ do seznamu na serveru
 [Remove]
 [Edit]
 [Bookmark Type]
-Druh záloky
+Druh zÃ¡loÅ¾ky
 [Conference]
 Konference
 [Transport]
 [URL]
 [Auto-join (Automatically join Bookmarks must be enabled in Miranda options)]
-Automaticky pøipojit (vyaduje zapnutí funkce 'Po pøihlášení automaticky pøipojit záloky')
+Automaticky pÅ™ipojit (vyÅ¾aduje zapnutÃ­ funkce 'Po pÅ™ihlÃ¡Å¡enÃ­ automaticky pÅ™ipojit zÃ¡loÅ¾ky')
 [Room JID/ URL:]
 JID / URL:
 [Bookmark Name:]
-Název záloky:
+NÃ¡zev zÃ¡loÅ¾ky:
 [Privacy Lists\nFlexible way to configure visibility and more.]
-Filtrování kontaktù\nFlexibilní zpùsob definice viditelnosti
+FiltrovÃ¡nÃ­ kontaktÅ¯\nFlexibilnÃ­ zpÅ¯sob definice viditelnosti
 [Lists:]
 Seznamy:
 [Rules:]
 Pravidla:
 [Simple Mode]
-Základní reim
+ZÃ¡kladnÃ­ reÅ¾im
 [Advanced Mode]
-Pro pokroèilé
+Pro pokroÄilÃ©
 [Add list... (Ins)]
 [Activate (Space)]
 [Set as default (Ctrl+Space)]
@@ -267,23 +267,23 @@ Pokud:
 [Then:]
 Pak:
 [following stanza types:]
-následující druhy událostí:
+nÃ¡sledujÃ­cÃ­ druhy udÃ¡lostÃ­:
 [Messages]
-Zprávy
+ZprÃ¡vy
 [Queries]
-Soukr. zprávy
+Soukr. zprÃ¡vy
 [Incoming presence]
-Zmìna stavu (pøích.)
+ZmÄ›na stavu (pÅ™Ã­ch.)
 [Outgoing presence]
-Zmìna stavu (odch.)
+ZmÄ›na stavu (odch.)
 [Enter the name of the new list:]
-Zadejte název seznamu:
+Zadejte nÃ¡zev seznamu:
 [View as tree]
 Zobrazit jako stromovou strukturu
 [View as list]
 Zobrazit jako seznam
 [Favourites]
-Oblíbené
+OblÃ­benÃ©
 [Refresh]
 Aktualizovat
 [Node:]
@@ -299,12 +299,12 @@ Uzel:
 [Affiliation:]
 [Set affiliation]
 [Status message:]
-Zpráva stavu:
+ZprÃ¡va stavu:
 [Chat options]
-Monosti diskuse
+MoÅ¾nosti diskuse
 [Alternate nick:]
 [Custom messages]
-Vlastní zprávy
+VlastnÃ­ zprÃ¡vy
 [Quit:]
 Odchod:
 [Slap:]
@@ -317,9 +317,9 @@ Pohlavek:
 [If you wish to confirm this request, please click authorize. Otherwise, press deny to reject it.]
 [Authorize]
 [Deny]
-Zamítnout
+ZamÃ­tnout
 [Jabber notebook\nStore notes on server and access them from anywhere.]
-Poznámky\nUloené poznámky budete mít poøád pøi ruce
+PoznÃ¡mky\nUloÅ¾enÃ© poznÃ¡mky budete mÃ­t poÅ™Ã¡d pÅ™i ruce
 [Reset log]
 [Send]
 Poslat
@@ -343,30 +343,30 @@ typ
 [error]
 [code]
 [Error %s %s]
-Chyba è.%s %s
+Chyba Ä.%s %s
 [result]
 [xmlns]
 XMLNS
 [name]
 [Select Command]
-Vyberte pøíkaz
+Vyberte pÅ™Ã­kaz
 [Not supported]
-Není podporováno
+NenÃ­ podporovÃ¡no
 [status]
 [completed]
 [executing]
 [Done]
-Dokonèeno
+DokonÄeno
 [from]
 od
 [sessionid]
 [In progress. Please Wait...]
-Èekejte prosím...
+ÄŒekejte prosÃ­m...
 [button]
 [Execute]
 Spustit
 [Requesting command list. Please wait...]
-Zjišování seznamu pøíkazù. Poèkejte prosím...
+ZjiÅ¡Å¥ovÃ¡nÃ­ seznamu pÅ™Ã­kazÅ¯. PoÄkejte prosÃ­m...
 [%s %s]
 %s %s
 [Jabber Ad-Hoc commands at]
@@ -377,9 +377,9 @@ Zjišování seznamu pøíkazù. Poèkejte prosím...
 [PopupMenuHost]
 ;file \protocols\JabberG\src\jabber_agent.cpp
 [No message]
-ádná zpráva
+Å½Ã¡dnÃ¡ zprÃ¡va
 [Jabber Agent Registration]
-Jabber :: Registrace sluby
+Jabber :: Registrace sluÅ¾by
 [Please wait...]
 [instructions]
 [key]
@@ -388,14 +388,14 @@ Jabber :: Registrace sluby
 ;file \protocols\JabberG\src\jabber_archive.cpp
 [auto]
 [save]
-Uloit
+UloÅ¾it
 [true]
 [false]
 [list]
 [with]
 [start]
 [chat]
-Kecám
+KecÃ¡m
 [retrieve]
 [secs]
 ;file \protocols\JabberG\src\jabber_bookmarks.cpp
@@ -404,13 +404,13 @@ Kecám
 [storage]
 [storage:bookmarks]
 [Bookmark Name]
-Název záloky
+NÃ¡zev zÃ¡loÅ¾ky
 [Address (JID or URL)]
 Adresa (JID nebo odkaz)
 [Nickname]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Conferences]
-Diskusní skupiny
+DiskusnÃ­ skupiny
 [Links]
 Odkazy
 ;file \protocols\JabberG\src\jabber_byte.cpp
@@ -431,80 +431,80 @@ portu
 [streamhost-used]
 ;file \protocols\JabberG\src\jabber_caps.cpp
 [Supports Service Discovery info]
-Podporuje vyhledání slueb
+Podporuje vyhledÃ¡nÃ­ sluÅ¾eb
 [Supports Service Discovery items list]
-Podporuje vıpis vyhledanıch slueb
+Podporuje vÃ½pis vyhledanÃ½ch sluÅ¾eb
 [Can inform about its Jabber capabilities]
-Poskytuje informace o monostech klienta
+Poskytuje informace o moÅ¾nostech klienta
 [Supports stream initiation (for filetransfers for ex.)]
-Podporuje zahájení relace (napø. pro pøenos souborù)
+Podporuje zahÃ¡jenÃ­ relace (napÅ™. pro pÅ™enos souborÅ¯)
 [Supports stream initiation for file transfers]
-Podporuje zahájení relace pro pøenos souborù
+Podporuje zahÃ¡jenÃ­ relace pro pÅ™enos souborÅ¯
 [Supports file transfers via SOCKS5 Bytestreams]
-Podporuje pøenos souborù pomocí SOCKS5
+Podporuje pÅ™enos souborÅ¯ pomocÃ­ SOCKS5
 [Supports file transfers via In-Band Bytestreams]
-Podporuje pøenos souborù typu In-Band
+Podporuje pÅ™enos souborÅ¯ typu In-Band
 [Supports file transfers via Out-of-Band Bytestreams]
-Podporuje pøenos souborù typu Out-of-Band
+Podporuje pÅ™enos souborÅ¯ typu Out-of-Band
 [Supports execution of Ad-Hoc commands]
-Podporuje pøíkazy Ad-Hoc
+Podporuje pÅ™Ã­kazy Ad-Hoc
 [Supports in-band registration]
 Podporuje registraci In-Band
 [Supports multi-user chat]
-Podporuje diskuse ve více lidech
+Podporuje diskuse ve vÃ­ce lidech
 [Can report chat state in a chat session]
 Poskytuje informace o stavu diskuse
 [Can report information about the last activity of the user]
-Poskytuje informace posledních akcích uivatele
+Poskytuje informace poslednÃ­ch akcÃ­ch uÅ¾ivatele
 [Can report own version information]
 Poskytuje informace o verzi klienta
 [Can report local time of the user]
-Poskytuje informace o místním èasu
+Poskytuje informace o mÃ­stnÃ­m Äasu
 [Can send and receive ping requests]
-Umoòuje poslat a pøijmout ping
+UmoÅ¾Åˆuje poslat a pÅ™ijmout ping
 [Supports data forms]
-Podporuje formuláøové prvky
+Podporuje formulÃ¡Å™ovÃ© prvky
 [Can request and respond to events relating to the delivery, display, and composition of messages]
-Umoòuje zpracovávat a reagovat na události typu doruèení, zobrazení a psaní zprávy
+UmoÅ¾Åˆuje zpracovÃ¡vat a reagovat na udÃ¡losti typu doruÄenÃ­, zobrazenÃ­ a psanÃ­ zprÃ¡vy
 [Supports vCard]
 Podporuje vCard
 [Supports iq-based avatars]
 Podporuje avatary dle IQ
 [Supports XHTML formatting of chat messages]
 [Supports Jabber Browsing]
-Podporuje katalogizaci slueb
+Podporuje katalogizaci sluÅ¾eb
 [Can negotiate options for specific features]
 [Can request advanced processing of message stanzas]
 [Can report information about user moods]
-Poskytuje informace o náladì
+Poskytuje informace o nÃ¡ladÄ›
 [Receives information about user moods]
-Pøijímá informace o náladì
+PÅ™ijÃ­mÃ¡ informace o nÃ¡ladÄ›
 [Supports generic publish-subscribe functionality]
 [Supports SecureIM plugin for Miranda NG]
 [Can block communications from particular other users using Privacy lists]
-Umoòuje blokovat komunikaci na základì definovanıch filtrù
+UmoÅ¾Åˆuje blokovat komunikaci na zÃ¡kladÄ› definovanÃ½ch filtrÅ¯
 [Supports Message Receipts]
-Podporuje potvrzenky o doruèení
+Podporuje potvrzenky o doruÄenÃ­
 [Can report information about the music to which a user is listening]
-Poskytuje informace o poslouchané hudbì
+Poskytuje informace o poslouchanÃ© hudbÄ›
 [Receives information about the music to which a user is listening]
-Pøijímá informace o poslouchané hudbì
+PÅ™ijÃ­mÃ¡ informace o poslouchanÃ© hudbÄ›
 [Supports private XML Storage (for bookmakrs and other)]
-Podporuje ukládání soukromıch dat (pro záloky aj.)
+Podporuje uklÃ¡dÃ¡nÃ­ soukromÃ½ch dat (pro zÃ¡loÅ¾ky aj.)
 [Supports attention requests ('nudge]
 [Supports chat history retrieving]
 [Supports chat history management]
 [Can report information about user activity]
-Umoòuje odesílat informace o aktivitì uivatele
+UmoÅ¾Åˆuje odesÃ­lat informace o aktivitÄ› uÅ¾ivatele
 [Receives information about user activity]
-Pøijímá informace o aktivitì uivatele
+PÅ™ijÃ­mÃ¡ informace o aktivitÄ› uÅ¾ivatele
 [Supports Miranda NG notes extension]
 [Supports Jingle]
 Podporuje Jingle
 [Supports Roster Exchange]
-Podporuje vımìnu seznamù na serveru
+Podporuje vÃ½mÄ›nu seznamÅ¯ na serveru
 [Supports GTalk private multi-user chat]
-Podporuje dùvìrnı reim
+Podporuje dÅ¯vÄ›rnÃ½ reÅ¾im
 [field[@var='FORM_TYPE']/value]
 [urn:xmpp:dataforms:softwareinfo]
 [field[@var='os']/value]
@@ -556,7 +556,7 @@ Miranda
 [submit]
 [challenge]
 [message]
- zpráva 
+ zprÃ¡va 
 [modify]
 ;file \protocols\JabberG\src\jabber_chat.cpp
 [http://jabber.org/protocol/muc#admin]
@@ -564,25 +564,25 @@ Miranda
 [None]
 ---
 [Member]
-Èlen
+ÄŒlen
 [Admin]
-Správce
+SprÃ¡vce
 [Owner]
-Nìco o sobì
+NÄ›co o sobÄ›
 [Visitor]
-Pøihlíející
+PÅ™ihlÃ­Å¾ejÃ­cÃ­
 [Participant]
-Úèastník
+ÃšÄastnÃ­k
 [Moderator]
-Moderátor
+ModerÃ¡tor
 [Visitors]
-Pøihlíející
+PÅ™ihlÃ­Å¾ejÃ­cÃ­
 [Participants]
-Úèastníci
+ÃšÄastnÃ­ci
 [Moderators]
-Moderátoøi
+ModerÃ¡toÅ™i
 [Owners]
-Vlastníci
+VlastnÃ­ci
 [User %s in now banned.]
 [User %s changed status to %s with message: %s]
 [User %s changed status to %s]
@@ -595,41 +595,41 @@ Vlastníci
 [presence]
 [unavailable]
 [Change &nickname]
-Zmì&nit pøezdívku
+ZmÄ›&nit pÅ™ezdÃ­vku
 [&Invite a user]
-Pozvat u&ivatele
+Pozvat uÅ¾&ivatele
 [&Roles]
 &Role
 [&Participant list]
-Seznam úèastní&kù
+Seznam ÃºÄastnÃ­&kÅ¯
 [&Moderator list]
-Seznam &moderátorù
+Seznam &moderÃ¡torÅ¯
 [&Affiliations]
 Vzt&ahy
 [&Member list]
-Sezna&m èlenù
+Sezna&m ÄlenÅ¯
 [&Admin list]
-Sezn&am správcù
+Sezn&am sprÃ¡vcÅ¯
 [&Owner list]
-Seznam &vlastníkù
+Seznam &vlastnÃ­kÅ¯
 [Outcast list (&ban)]
-Seznam zakázanıch (&ban)
+Seznam zakÃ¡zanÃ½ch (&ban)
 [&Room options]
-Na&stavení místnosti
+Na&stavenÃ­ mÃ­stnosti
 [View/change &topic]
-Zobrazit/zmìnit &téma
+Zobrazit/zmÄ›nit &tÃ©ma
 [Add to &bookmarks]
-Pøi&dat do záloek
+PÅ™i&dat do zÃ¡loÅ¾ek
 [&Configure...]
 &Nastavit...
 [&Destroy room]
-Zruši&t místnost
+ZruÅ¡i&t mÃ­stnost
 [Lin&ks]
 Od&kazy
 [Copy room &JID]
-Zkopírovat &JID místnosti
+ZkopÃ­rovat &JID mÃ­stnosti
 [Copy room topic]
-Zkopírovat téma místnosti
+ZkopÃ­rovat tÃ©ma mÃ­stnosti
 [&Send presence]
 [Online]
 [Away]
@@ -639,41 +639,41 @@ Zkopírovat téma místnosti
 [&Slap]
 Pohlavek
 [&User details]
-Informace o &uivateli
+Informace o &uÅ¾ivateli
 [Member &info]
-Èlenské &informace
+ÄŒlenskÃ© &informace
 [User &details]
 [&Add to roster]
-Pøid&at do seznamu
+PÅ™id&at do seznamu
 [&Copy to clipboard]
-Z&kopírovat
+Z&kopÃ­rovat
 [Invite to room]
 [Set &role]
-Urèit &roli
+UrÄit &roli
 [&Visitor]
-Pøi&hlíející
+PÅ™i&hlÃ­Å¾ejÃ­cÃ­
 [&Participant]
-Úèastní&k
+ÃšÄastnÃ­&k
 [&Moderator]
-&Moderátor
+&ModerÃ¡tor
 [Set &affiliation]
 Nastavit vzt&ah
 [&None]
 &Nic
 [&Member]
-È&len
+ÄŒ&len
 [&Admin]
-&Správce
+&SprÃ¡vce
 [&Owner]
-&Vlastník
+&VlastnÃ­k
 [Outcast (&ban)]
-Zakázanı (&ban)
+ZakÃ¡zanÃ½ (&ban)
 [&Kick]
 Vy&kopnout
 [Copy &nickname]
-Zkopírovat &pøezdívku
+ZkopÃ­rovat &pÅ™ezdÃ­vku
 [Copy real &JID]
-Zkopírovat &JID
+ZkopÃ­rovat &JID
 [Copy in-room JID]
 [http://]
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
@@ -695,7 +695,7 @@ Skut. &JID: %s
 [none]
 ---
 [nick]
-pøezdívka
+pÅ™ezdÃ­vka
 [member]
 [admin]
 [owner]
@@ -707,27 +707,27 @@ pøezdívka
 [body]
 [%s: ]
 [Reason to kick]
-Dùvod k vykopnutí
+DÅ¯vod k vykopnutÃ­
 [Reason to ban]
-Dùvod k zákazu
+DÅ¯vod k zÃ¡kazu
 [outcast]
 [Invite %s to %s]
 [jabber:x:conference]
 [Set topic for]
-Stanovit téma pro
+Stanovit tÃ©ma pro
 [subject]
 [Change nickname in]
-Zmìnit pøezdívku na
+ZmÄ›nit pÅ™ezdÃ­vku na
 [Reason to destroy]
-Dùvod k uzavøení
+DÅ¯vod k uzavÅ™enÃ­
 [destroy]
 ;file \protocols\JabberG\src\jabber_console.cpp
 [JID]
-Identifikátor
+IdentifikÃ¡tor
 [all attributes]
-Všechny atributy
+VÅ¡echny atributy
 [disabled]
-deaktivován
+deaktivovÃ¡n
 [Can't send data while you are offline.]
 [Jabber Error]
 [Outgoing XML parsing error]
@@ -806,46 +806,46 @@ hierarchie
 [jabber:iq:search]
 [request timeout.]
 [Node hierarchy]
-Hierarchie uzlù
+Hierarchie uzlÅ¯
 [Node]
 Uzel
 [Navigate]
 [Browse all favorites]
 [Remove all favorites]
 [Registered transports]
-Registrované sluby
+RegistrovanÃ© sluÅ¾by
 [Browse local transports]
-Procházet lokální sluby
+ProchÃ¡zet lokÃ¡lnÃ­ sluÅ¾by
 [Browse chatrooms]
-Procházet diskuse
+ProchÃ¡zet diskuse
 [Contact Menu...]
-Uivatelské menu...
+UÅ¾ivatelskÃ© menu...
 [View vCard]
 Zobrazit vCard...
 [Join chatroom]
-Pøipojit se do diskuse...
+PÅ™ipojit se do diskuse...
 [Refresh Info]
 Aktualizovat informace
 [Refresh Children]
 Aktualizovat potomka
 [Add to favorites]
-Pøidat mezi oblíbené
+PÅ™idat mezi oblÃ­benÃ©
 [Add to roster]
-Pøidat do seznamu
+PÅ™idat do seznamu
 [Bookmark chatroom]
-Pøidat mezi záloky...
+PÅ™idat mezi zÃ¡loÅ¾ky...
 [Add search directory]
 [Use this proxy]
 [Commands...]
-Pøíkazy...
+PÅ™Ã­kazy...
 [Logon]
 [Logoff]
 [Copy JID]
-Zkopírovat JID
+ZkopÃ­rovat JID
 [Copy node name]
-Zkopírovat název uzlu
+ZkopÃ­rovat nÃ¡zev uzlu
 [Copy node information]
-Zkopírovat informace o uzlu
+ZkopÃ­rovat informace o uzlu
 [remove]
 [subscription]
 ;file \protocols\JabberG\src\jabber_disco.h
@@ -859,7 +859,7 @@ Identity
 [Category]
 [Type]
 [Supported features]
-Podporované funkce
+PodporovanÃ© funkce
 [ %c %s\r\n]
 [\r\n%s: %s\r\n]
 [Info request error]
@@ -1111,7 +1111,7 @@ Podporované funkce
 [status-priority]
 [The new priority for the client]
 [username]
-uivatelské jméno
+uÅ¾ivatelskÃ© jmÃ©no
 [Account name associated with the user]
 [Familiar name of the user]
 [Password or secret for the user]
@@ -1200,11 +1200,11 @@ uivatelské jméno
 [%s@%s (%s)]
 [<no nick>]
 [Loading...]
-Naèítání...
+NaÄÃ­tÃ¡nÃ­...
 [Please wait for room list to download.]
 [Please specify groupchat directory first.]
 [Bookmarks...]
-Záloky...
+ZÃ¡loÅ¾ky...
 [%s <%s>]
 [available]
 [away]
@@ -1247,83 +1247,83 @@ Záloky...
 [ %s]
 [transport]
 [Privacy Lists]
-Filtrování kontaktù
+FiltrovÃ¡nÃ­ kontaktÅ¯
 [Notes]
-Poznámky
+PoznÃ¡mky
 [Multi-User Conference]
 [Agents list]
-Seznam transportù
+Seznam transportÅ¯
 [Transports]
 Transporty
 [Personal vCard]
-Osobní karta (vCard)
+OsobnÃ­ karta (vCard)
 [Request authorization]
 [Grant authorization]
 [Revoke authorization]
 [Convert to room]
-Zmìnit na místnost
+ZmÄ›nit na mÃ­stnost
 [Login/logout]
-Pøihlásit/odhlásit
+PÅ™ihlÃ¡sit/odhlÃ¡sit
 [Resolve nicks]
-Zjistit pøezdívku
+Zjistit pÅ™ezdÃ­vku
 [Send note]
-Poslat poznámku
+Poslat poznÃ¡mku
 [Service Discovery]
-Zjistit nabízené sluby
+Zjistit nabÃ­zenÃ© sluÅ¾by
 [AdHoc Command]
-Pøíkaz
+PÅ™Ã­kaz
 [XML Console]
 Konzola XML
 [OpenID Request]
-ádost OpenID
+Å½Ã¡dost OpenID
 [Discovery succeeded]
-Vyhledávání dokonèeno
+VyhledÃ¡vÃ¡nÃ­ dokonÄeno
 [Discovery failed]
-Chyba pøi vyhledávání
+Chyba pÅ™i vyhledÃ¡vÃ¡nÃ­
 [Discovery in progress]
-Vyhledávání slueb
+VyhledÃ¡vÃ¡nÃ­ sluÅ¾eb
 [Apply filter]
-Pouít filtr
+PouÅ¾Ã­t filtr
 [Reset filter]
-Zrušit filtr
+ZruÅ¡it filtr
 [Navigate home]
-Pøejít na domovskı server
+PÅ™ejÃ­t na domovskÃ½ server
 [Refresh node]
 Aktualizovat uzel
 [Browse node]
-Procházet uzel
+ProchÃ¡zet uzel
 [RSS service]
-Sluba RSS
+SluÅ¾ba RSS
 [Server]
 Server
 [Storage service]
-Úloištì dat
+ÃšloÅ¾iÅ¡tÄ› dat
 [Weather service]
-Pøehled poèasí
+PÅ™ehled poÄasÃ­
 [Generic privacy list]
-Obecnı seznam
+ObecnÃ½ seznam
 [Active privacy list]
-Aktivní seznam
+AktivnÃ­ seznam
 [Default privacy list]
-Vıchozí seznam
+VÃ½chozÃ­ seznam
 [Move up]
 [Move down]
 [Allow Messages]
-Povolit zprávy
+Povolit zprÃ¡vy
 [Allow Presences (in)]
-Povolit stavy (pøích.)
+Povolit stavy (pÅ™Ã­ch.)
 [Allow Presences (out)]
 Povolit stavy (odch.)
 [Allow Queries]
-Povolit ádosti
+Povolit Å¾Ã¡dosti
 [Deny Messages]
-Zakázat zprávy
+ZakÃ¡zat zprÃ¡vy
 [Deny Presences (in)]
-Zakázat stavy (pøích.)
+ZakÃ¡zat stavy (pÅ™Ã­ch.)
 [Deny Presences (out)]
-Zakázat stavy (odch.)
+ZakÃ¡zat stavy (odch.)
 [Deny Queries]
-Zakázat ádosti
+ZakÃ¡zat Å¾Ã¡dosti
 ;file \protocols\JabberG\src\jabber_iq.cpp
 [google:shared-status]
 [query]
@@ -1341,23 +1341,23 @@ Zakázat ádosti
 [resource]
 [%s %s.]
 [Authentication failed for]
-Chyba pøi ovìøování:
+Chyba pÅ™i ovÄ›Å™ovÃ¡nÃ­:
 [Jabber Authentication]
-Jabber :: Ovìøení
+Jabber :: OvÄ›Å™enÃ­
 [session]
 [urn:ietf:params:xml:ns:xmpp-session]
 [both]
 oboje
 [vz:img]
 [Registration successful]
-Registrace probìhla úspìšnì
+Registrace probÄ›hla ÃºspÄ›Å¡nÄ›
 [NICKNAME]
 [EMAIL]
 E-MAIL
 [BDAY]
 [%d-%d-%d]
 [GENDER]
-POHLAVÍ
+POHLAVÃ
 [ADR]
 [%s\r\n%s]
 [TEL]
@@ -1370,11 +1370,11 @@ POHLAVÍ
 [given]
 [family]
 [Password is successfully changed. Don't forget to update your password in the Jabber protocol option.]
-Heslo bylo úspìšnì zmìnìno. Nezapomeòte tento údaj zaktualizovat v nastavení protokolu Jabber.
+Heslo bylo ÃºspÄ›Å¡nÄ› zmÄ›nÄ›no. NezapomeÅˆte tento Ãºdaj zaktualizovat v nastavenÃ­ protokolu Jabber.
 [Change Password]
-Zmìnit heslo
+ZmÄ›nit heslo
 [Password cannot be changed.]
-Heslo nelze zmìnit.
+Heslo nelze zmÄ›nit.
 [mimetype]
 [vCard]
 [autojoin]
@@ -1384,23 +1384,23 @@ Heslo nelze zmìnit.
 ;file \protocols\JabberG\src\jabber_iqid_muc.cpp
 [Jabber Conference Room Configuration]
 [JID List]
-Seznam identifikátorù
+Seznam identifikÃ¡torÅ¯
 [%s, %d items (%s)]
 [Voice List]
-Seznam lidí s udìlenım hlasem
+Seznam lidÃ­ s udÄ›lenÃ½m hlasem
 [Member List]
-Seznam èlenù
+Seznam ÄlenÅ¯
 [Moderator List]
-Seznam moderátorù
+Seznam moderÃ¡torÅ¯
 [Ban List]
-Seznam zakázanıch
+Seznam zakÃ¡zanÃ½ch
 [Admin List]
-Seznam správcù
+Seznam sprÃ¡vcÅ¯
 [Owner List]
-Seznam vlastníkù
+Seznam vlastnÃ­kÅ¯
 [%s %s?]
 [Removing]
-Odebírání
+OdebÃ­rÃ¡nÃ­
 ;file \protocols\JabberG\src\jabber_iq_handlers.cpp
 [Miranda NG Jabber]
 [seconds]
@@ -1417,61 +1417,61 @@ Odebírání
 [Convert]
 Nahradit
 [Add to Bookmarks]
-Pøidat mezi záloky
+PÅ™idat mezi zÃ¡loÅ¾ky
 [Commands]
-Pøíkazy
+PÅ™Ã­kazy
 [Send Note]
-Poslat poznámku
+Poslat poznÃ¡mku
 [Send Presence]
 Poslat stav
 [Jabber Resource]
-Umístìní
+UmÃ­stÄ›nÃ­
 [Last Active]
-Naposledy aktivní
+Naposledy aktivnÃ­
 [Server's Choice]
 Podle serveru
 [&Convert to Contact]
-Z&mìnit na kontakt
+Z&mÄ›nit na kontakt
 [&Convert to Chat Room]
-Z&mìnit na místnost
+Z&mÄ›nit na mÃ­stnost
 [%s [%s, %d]]
 [subscribed]
 [unsubscribed]
 [Options...]
-Monosti...
+MoÅ¾nosti...
 [Services...]
-Sluby
+SluÅ¾by
 [Registered Transports]
-Registrované sluby
+RegistrovanÃ© sluÅ¾by
 [Local Server Transports]
-Zjistit lokální sluby
+Zjistit lokÃ¡lnÃ­ sluÅ¾by
 [Browse Chatrooms]
-Procházet diskuse
+ProchÃ¡zet diskuse
 [Create/Join groupchat]
-Zaloit/pøipojit k diskusi
+ZaloÅ¾it/pÅ™ipojit k diskusi
 [Roster editor]
 Seznamy na serveru
 [Resource priority]
 Priorita
 [Resource priority [%d]]
-Priorita umístìní (%d)
+Priorita umÃ­stÄ›nÃ­ (%d)
 [Join conference]
-Pøipojit se do diskuse
+PÅ™ipojit se do diskuse
 [Open bookmarks]
-Otevøít záloky
+OtevÅ™Ã­t zÃ¡loÅ¾ky
 [Privacy lists]
-Filtrování kontaktù
+FiltrovÃ¡nÃ­ kontaktÅ¯
 [Service discovery]
-Vyhledání slueb
+VyhledÃ¡nÃ­ sluÅ¾eb
 [gone]
 [Last active]
-Naposledy aktivní
+Naposledy aktivnÃ­
 [No activity yet, use server's choice]
-ádná komunikace, dle serveru
+Å¾Ã¡dnÃ¡ komunikace, dle serveru
 [Highest priority (server's choice)]
-Nejvyšší priorita (dle serveru)
+NejvyÅ¡Å¡Ã­ priorita (dle serveru)
 [Status Message]
-Stavová zpráva
+StavovÃ¡ zprÃ¡va
 ;file \protocols\JabberG\src\jabber_message_handlers.cpp
 [%s:\n%s\n%s]
 [%s:\n%s]
@@ -1480,7 +1480,7 @@ Stavová zpráva
 [normal]
 ;file \protocols\JabberG\src\jabber_misc.cpp
 [CHAT plugin is required for conferences. Install it before chatting]
-Tato funkce vyaduje doplnìk 'Chat'. Pøed pouitím je tøeba nainstalovat.
+Tato funkce vyÅ¾aduje doplnÄ›k 'Chat'. PÅ™ed pouÅ¾itÃ­m je tÅ™eba nainstalovat.
 [%%miranda_avatarcache%%\\Jabber]
 [%miranda_avatarcache%]
 [%s\\Jabber]
@@ -1514,17 +1514,17 @@ Chyby
 [title]
 titulek
 [Incoming note from %s]
-Pøíchozí poznámka: %s
+PÅ™Ã­chozÃ­ poznÃ¡mka: %s
 [Send note to %s]
-Poslat poznámku: %s
+Poslat poznÃ¡mku: %s
 [From: %s]
 [All tags]
-Všechny štítky
+VÅ¡echny Å¡tÃ­tky
 [Notes are not saved, close this window without uploading data to server?]
 [Are you sure?]
-Opravdu chcete pokraèovat?
+Opravdu chcete pokraÄovat?
 [Incoming note: %s\n\n%s\nTags: %s]
-Pøíchozí poznámka: %s\n\n%s\nŠtítky: %s
+PÅ™Ã­chozÃ­ poznÃ¡mka: %s\n\n%s\nÅ tÃ­tky: %s
 [request]
 [delivered]
 [offline]
@@ -1534,73 +1534,73 @@ Pøíchozí poznámka: %s\n\n%s\nŠtítky: %s
 [Afar]
 [Abkhazian]
 [Afrikaans]
-afrikánština
+afrikÃ¡nÅ¡tina
 [Akan]
 [Albanian]
-albánština
+albÃ¡nÅ¡tina
 [Amharic]
 [Arabic]
-arabština
+arabÅ¡tina
 [Aragonese]
 [Armenian]
-arménština
+armÃ©nÅ¡tina
 [Assamese]
 [Avaric]
 [Avestan]
 [Aymara]
 [Azerbaijani]
-ázerbajdánština
+Ã¡zerbajdÅ¾Ã¡nÅ¡tina
 [Bashkir]
 [Bambara]
 [Basque]
 [Belarusian]
-bìloruština
+bÄ›loruÅ¡tina
 [Bengali]
 [Bihari]
 [Bislama]
 [Bosnian]
-bosenština
+bosenÅ¡tina
 [Breton]
 [Bulgarian]
-bulharština
+bulharÅ¡tina
 [Burmese]
-barmština
+barmÅ¡tina
 [Catalan; Valencian]
 [Chamorro]
-èamoro
+Äamoro
 [Chechen]
 [Chinese]
-èínština
+ÄÃ­nÅ¡tina
 [Church Slavic; Old Slavonic]
 [Chuvash]
 [Cornish]
 [Corsican]
 [Cree]
 [Czech]
-èeština
+ÄeÅ¡tina
 [Danish]
-dánština
+dÃ¡nÅ¡tina
 [Divehi; Dhivehi; Maldivian]
 [Dutch; Flemish]
 [Dzongkha]
 [English]
-angliètina
+angliÄtina
 [Esperanto]
 esperanto
 [Estonian]
-estonština
+estonÅ¡tina
 [Ewe]
 [Faroese]
 [Fijian]
 [Finnish]
-finština
+finÅ¡tina
 [French]
-francouzština
+francouzÅ¡tina
 [Western Frisian]
 [Fulah]
 [Georgian]
 [German]
-nìmèina
+nÄ›mÄina
 [Gaelic; Scottish Gaelic]
 [Irish]
 [Galician]
@@ -1608,33 +1608,33 @@ nìmèina
 [Greek, Modern (1453-)]
 [Guarani]
 [Gujarati]
-gudarátština
+gudÅ¾arÃ¡tÅ¡tina
 [Haitian; Haitian Creole]
 [Hausa]
 [Hebrew]
-hebrejština
+hebrejÅ¡tina
 [Herero]
 [Hindi]
-hindština
+hindÅ¡tina
 [Hiri Motu]
 [Hungarian]
-maïarština
+maÄarÅ¡tina
 [Igbo]
 [Icelandic]
-islandština
+islandÅ¡tina
 [Ido]
 [Sichuan Yi]
 [Inuktitut]
 [Interlingue]
 [Interlingua (International Auxiliary Language Association)]
 [Indonesian]
-indonézština
+indonÃ©zÅ¡tina
 [Inupiaq]
 [Italian]
-italština
+italÅ¡tina
 [Javanese]
 [Japanese]
-japonština
+japonÅ¡tina
 [Kalaallisut; Greenlandic]
 [Kannada]
 [Kashmiri]
@@ -1647,35 +1647,35 @@ japonština
 [Komi]
 [Kongo]
 [Korean]
-korejština
+korejÅ¡tina
 [Kuanyama; Kwanyama]
 [Kurdish]
-kurdština
+kurdÅ¡tina
 [Lao]
-laoština
+laoÅ¡tina
 [Latin]
 [Latvian]
-lotyšština
+lotyÅ¡Å¡tina
 [Limburgan; Limburger; Limburgish]
 [Lingala]
 [Lithuanian]
-litevština
+litevÅ¡tina
 [Luxembourgish; Letzeburgesch]
 [Luba-Katanga]
 [Ganda]
 [Macedonian]
-makedonština
+makedonÅ¡tina
 [Marshallese]
 [Malayalam]
 [Maori]
 [Marathi]
 [Malay]
-malajština
+malajÅ¡tina
 [Malagasy]
 [Maltese]
 [Moldavian]
 [Mongolian]
-mongolština
+mongolÅ¡tina
 [Nauru]
 Nauru
 [Navajo; Navaho]
@@ -1686,7 +1686,7 @@ Nauru
 [Norwegian Nynorsk; Nynorsk, Norwegian]
 [Bokmaal, Norwegian; Norwegian Bokmaal]
 [Norwegian]
-norština
+norÅ¡tina
 [Chichewa; Chewa; Nyanja]
 [Occitan (post 1500); Provencal]
 [Ojibwa]
@@ -1695,57 +1695,57 @@ norština
 [Ossetian; Ossetic]
 [Panjabi; Punjabi]
 [Persian]
-perština
+perÅ¡tina
 [Pali]
 [Polish]
-polština
+polÅ¡tina
 [Portuguese]
-portugalština
+portugalÅ¡tina
 [Pushto]
 [Quechua]
 [Romansh]
 [Romanian]
-rumunština
+rumunÅ¡tina
 [Rundi]
 [Russian]
-ruština
+ruÅ¡tina
 [Sango]
 [Sanskrit]
 [Serbian]
 [Croatian]
-chorvatština
+chorvatÅ¡tina
 [Sinhala; Sinhalese]
 [Slovak]
-slovenština
+slovenÅ¡tina
 [Slovenian]
-slovinština
+slovinÅ¡tina
 [Northern Sami]
 [Samoan]
 [Shona]
 [Sindhi]
-sindhština
+sindhÅ¡tina
 [Somali]
-somálština
+somÃ¡lÅ¡tina
 [Sotho, Southern]
 [Spanish; Castilian]
 [Sardinian]
 [Swati]
 [Sundanese]
 [Swahili]
-svahilština
+svahilÅ¡tina
 [Swedish]
-švédština
+Å¡vÃ©dÅ¡tina
 [Tahitian]
 [Tamil]
-tamilština
+tamilÅ¡tina
 [Tatar]
-tatarština
+tatarÅ¡tina
 [Telugu]
 [Tajik]
 [Tagalog]
-tagalština
+tagalÅ¡tina
 [Thai]
-thajština
+thajÅ¡tina
 [Tibetan]
 [Tigrinya]
 [Tonga (Tonga Islands)]
@@ -1753,134 +1753,134 @@ thajština
 [Tsonga]
 [Turkmen]
 [Turkish]
-tureètina
+tureÄtina
 [Twi]
 [Uighur; Uyghur]
 [Ukrainian]
-ukrajinština
+ukrajinÅ¡tina
 [Urdu]
 urdu
 [Uzbek]
 [Venda]
 [Vietnamese]
-vietnamština
+vietnamÅ¡tina
 [Volapuk]
 [Welsh]
-velština
+velÅ¡tina
 [Walloon]
 [Wolof]
 [Xhosa]
 [Yiddish]
-jidiš
+jidiÅ¡
 [Yoruba]
-jorubština
+jorubÅ¡tina
 [Zhuang; Chuang]
 [Zulu]
 [%s@%s]
 [jabber.org]
 [Office]
 [These changes will take effect the next time you connect to the Jabber network.]
-Zmìny se projeví a pøi pøíštím pøipojení do sítì Jabber.
+ZmÄ›ny se projevÃ­ aÅ¾ pÅ™i pÅ™Ã­Å¡tÃ­m pÅ™ipojenÃ­ do sÃ­tÄ› Jabber.
 [Jabber Protocol Option]
-Monost protokolu Jabber
+MoÅ¾nost protokolu Jabber
 [Confirm password]
 [Passwords do not match.]
 [This operation will kill your account, roster and all another information stored at the server. Are you ready to do that?]
-Opravdu chcete odstranit vybranı úèet, tj. seznam kontaktù umístìnı na serveru a všechny ostatní související informace?
+Opravdu chcete odstranit vybranÃ½ ÃºÄet, tj. seznam kontaktÅ¯ umÃ­stÄ›nÃ½ na serveru a vÅ¡echny ostatnÃ­ souvisejÃ­cÃ­ informace?
 [Account removal warning]
-Upozornìní: Odstranìní úètu
+UpozornÄ›nÃ­: OdstranÄ›nÃ­ ÃºÄtu
 [You can change your password only when you are online]
 [You must be online]
 [Messaging]
 Rozhovor
 [Send messages slower, but with full acknowledgement]
-Odeslat zprávy pomaleji, ale s úplnım potvrzením
+Odeslat zprÃ¡vy pomaleji, ale s ÃºplnÃ½m potvrzenÃ­m
 [Enable avatars]
 Aktivovat avatary
 [Log chat state changes]
-Zaznamenat zmìny stavu bìhem diskuse
+Zaznamenat zmÄ›ny stavu bÄ›hem diskuse
 [Log presence subscription state changes]
-Zaznamenat zmìny stavu autorizace
+Zaznamenat zmÄ›ny stavu autorizace
 [Log presence errors]
 Zaznamenat chyby informace o stavu
 [Enable user moods receiving]
-Zobrazit informace o náladì
+Zobrazit informace o nÃ¡ladÄ›
 [Enable user tunes receiving]
 Zobrazit informace o poslechu hudby
 [Enable user activity receiving]
-Sledovat aktivity uivatelù
+Sledovat aktivity uÅ¾ivatelÅ¯
 [Receive notes]
-Pøijímat poznámky
+PÅ™ijÃ­mat poznÃ¡mky
 [Automatically save received notes]
-Automaticky uloit obdrené poznámky
+Automaticky uloÅ¾it obdrÅ¾enÃ© poznÃ¡mky
 [Enable server-side history]
 [Server options]
-Monosti serveru
+MoÅ¾nosti serveru
 [Disable SASL authentication (for old servers)]
-Vypnout ovìøení pøes SASL (pro zastaralé servery)
+Vypnout ovÄ›Å™enÃ­ pÅ™es SASL (pro zastaralÃ© servery)
 [Enable stream compression (if possible)]
-Povolit kompresi pøenášenıch dat
+Povolit kompresi pÅ™enÃ¡Å¡enÃ½ch dat
 [Other]
-Ostatní
+OstatnÃ­
 [Enable remote controlling (from another resource of same JID only)]
-Povolit dálkové øízení (platí pouze v rámci jednoho JID)
+Povolit dÃ¡lkovÃ© Å™Ã­zenÃ­ (platÃ­ pouze v rÃ¡mci jednoho JID)
 [Show transport agents on contact list]
-Zobrazit transporty v seznamu kontaktù
+Zobrazit transporty v seznamu kontaktÅ¯
 [Automatically add contact when accept authorization]
-Automaticky pøidat kontakt po úspìšné autorizaci
+Automaticky pÅ™idat kontakt po ÃºspÄ›Å¡nÃ© autorizaci
 [Automatically accept authorization requests]
-Automaticky pøijímat ádosti o autorizaci
+Automaticky pÅ™ijÃ­mat Å¾Ã¡dosti o autorizaci
 [Fix incorrect timestamps in incoming messages]
-Opravovat neplatné datum pøíchozích zpráv
+Opravovat neplatnÃ© datum pÅ™Ã­chozÃ­ch zprÃ¡v
 [Disable frame]
-Vypnout zobrazení rámeèku
+Vypnout zobrazenÃ­ rÃ¡meÄku
 [Enable XMPP link processing (requires Association Manager)]
-Povolit práci s odkazy (vyaduje doplnìk Association Manager)
+Povolit prÃ¡ci s odkazy (vyÅ¾aduje doplnÄ›k Association Manager)
 [Keep contacts assigned to local groups (ignore roster group)]
-Nemìnit rozmístìní kontaktù ve skupinách (ignorovat stav na serveru)
+NemÄ›nit rozmÃ­stÄ›nÃ­ kontaktÅ¯ ve skupinÃ¡ch (ignorovat stav na serveru)
 [Security]
-Zabezpeèení
+ZabezpeÄenÃ­
 [Allow servers to request version (XEP-0092)]
-Povolit ádosti serveru o verzi (XEP-0092)
+Povolit Å¾Ã¡dosti serveru o verzi (XEP-0092)
 [Show information about operating system in version replies]
-S verzí zobrazit zároveò i informace o operaèním systému
+S verzÃ­ zobrazit zÃ¡roveÅˆ i informace o operaÄnÃ­m systÃ©mu
 [Accept only in band incoming filetransfers (don't disclose own IP)]
-Povolit pøenos dat pouze pøes server (pomalejší, ale anonymní)
+Povolit pÅ™enos dat pouze pÅ™es server (pomalejÅ¡Ã­, ale anonymnÃ­)
 [Accept HTTP Authentication requests (XEP-0070)]
-Povolit ovìøení pomocí HTTP a XMPP (XEP-0070)
+Povolit ovÄ›Å™enÃ­ pomocÃ­ HTTP a XMPP (XEP-0070)
 [General]
 [Autoaccept multiuser chat invitations]
-Automaticky pøijímat pozvánky do diskuse
+Automaticky pÅ™ijÃ­mat pozvÃ¡nky do diskuse
 [Automatically join bookmarks on login]
-Po pøihlášení automaticky pøipojit záloky
+Po pÅ™ihlÃ¡Å¡enÃ­ automaticky pÅ™ipojit zÃ¡loÅ¾ky
 [Automatically join conferences on login]
-Po pøihlášení se automaticky pøipojit do diskuse
+Po pÅ™ihlÃ¡Å¡enÃ­ se automaticky pÅ™ipojit do diskuse
 [Hide conference windows at startup]
-Pøi spuštìní skrıt diskusní skupiny
+PÅ™i spuÅ¡tÄ›nÃ­ skrÃ½t diskusnÃ­ skupiny
 [Do not show multiuser chat invitations]
-Ignorovat pozvánky do diskuse ve více lidech
+Ignorovat pozvÃ¡nky do diskuse ve vÃ­ce lidech
 [Log events]
-Záznam událostí
+ZÃ¡znam udÃ¡lostÃ­
 [Ban notifications]
-Zákazy
+ZÃ¡kazy
 [Room configuration changes]
-Zmìna nastavení místnosti
+ZmÄ›na nastavenÃ­ mÃ­stnosti
 [Affiliation changes]
-Zmìny vztahu
+ZmÄ›ny vztahu
 [Role changes]
-Zmìny funkce
+ZmÄ›ny funkce
 [Status changes]
-Zmìny stavu
+ZmÄ›ny stavu
 [Filter history messages]
 [Nick Name]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Group]
 [Subscription]
 Autorizace
 [Uploading...]
 Data->server...
 [Downloading...]
-Stahování...
+StahovÃ¡nÃ­...
 [%s (*.xml)%c*.xml%c%c]
 [XML for MS Excel (UTF-8 encoded)]
 [xml]
@@ -1899,7 +1899,7 @@ Stahování...
 [Exported roster]
 [Table]
 [Row]
-Øádek
+Å˜Ã¡dek
 [Cell]
 [Data]
 Obsah
@@ -1909,15 +1909,15 @@ Obsah
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Account]
-Úèet
+ÃšÄet
 [Advanced]
 Extra
 [Public XMPP Network]
-XMPP (veøejná sí)
+XMPP (veÅ™ejnÃ¡ sÃ­Å¥)
 [Secure XMPP Network]
-XMPP (zabezpeèená sí)
+XMPP (zabezpeÄenÃ¡ sÃ­Å¥)
 [Secure XMPP Network (old style)]
-XMPP (zabezpeèená sí, starší typ)
+XMPP (zabezpeÄenÃ¡ sÃ­Å¥, starÅ¡Ã­ typ)
 [Google Talk!]
 Google Talk!
 [LiveJournal Talk]
@@ -1926,63 +1926,63 @@ LiveJournal Talk
 [Vkontakte]
 [S.ms]
 [Some changes will take effect the next time you connect to the Jabber network.]
-Nìkteré zmìny se projeví a pøi pøíštím pøihlášení do vybrané sítì Jabber.
+NÄ›kterÃ© zmÄ›ny se projevÃ­ aÅ¾ pÅ™i pÅ™Ã­Å¡tÃ­m pÅ™ihlÃ¡Å¡enÃ­ do vybranÃ© sÃ­tÄ› Jabber.
 ;file \protocols\JabberG\src\jabber_password.cpp
 [%s %s@]
 [Set New Password for]
-Nové heslo pro
+NovÃ© heslo pro
 [New password does not match.]
-Zadaná hesla si neodpovídají.
+ZadanÃ¡ hesla si neodpovÃ­dajÃ­.
 [Current password is incorrect.]
-Zadané heslo je neplatné.
+ZadanÃ© heslo je neplatnÃ©.
 ;file \protocols\JabberG\src\jabber_privacy.cpp
 [Warning: privacy lists were changed on server.]
 [Error occurred while applying changes]
 [Privacy lists successfully saved]
-Seznamy úspìšnì uloeny
+Seznamy ÃºspÄ›Å¡nÄ› uloÅ¾eny
 [deny]
 [order]
 [Privacy list %s set as active]
-Seznam %s je aktivní
+Seznam %s je aktivnÃ­
 [Active privacy list successfully declined]
-Aktivní seznam úspìšnì pøepnut
+AktivnÃ­ seznam ÃºspÄ›Å¡nÄ› pÅ™epnut
 [Error occurred while setting active list]
-Chyba pøi aktivaci seznamu
+Chyba pÅ™i aktivaci seznamu
 [Privacy list %s set as default]
-Seznam %s je vıchozí
+Seznam %s je vÃ½chozÃ­
 [Default privacy list successfully declined]
-Vıchozí seznam úspìšnì pøepnut
+VÃ½chozÃ­ seznam ÃºspÄ›Å¡nÄ› pÅ™epnut
 [Error occurred while setting default list]
 [Any]
-Jakıkoli
+JakÃ½koli
 [Allow]
 Povolit
 [Simple mode]
-Základní reim
+ZÃ¡kladnÃ­ reÅ¾im
 [Advanced mode]
-Pro pokroèilé
+Pro pokroÄilÃ©
 [Add JID]
-Pøidat JID
+PÅ™idat JID
 [Activate]
 Aktivovat
 [Set default]
-Nastavit jako vıchozí
+Nastavit jako vÃ½chozÃ­
 [Edit rule]
 Upravit pravidlo
 [Add rule]
-Pøidat pravidlo
+PÅ™idat pravidlo
 [Delete rule]
 Odstranit pravidlo
 [Move rule up]
-Pøesunout nahoru
+PÅ™esunout nahoru
 [Move rule down]
-Pøesunout dolù
+PÅ™esunout dolÅ¯
 [Add list...]
-Pøidat seznam
+PÅ™idat seznam
 [Remove list]
 Odebrat
 [** Default **]
-** vıchozí **
+** vÃ½chozÃ­ **
 [** Subsription: both **]
 ** autorizace: <-> **
 [** Subsription: to **]
@@ -1990,13 +1990,13 @@ Odebrat
 [** Subsription: from **]
 ** autorizace: <- **
 [** Subsription: none **]
-** autorizace: ádná **
+** autorizace: Å¾Ã¡dnÃ¡ **
 [<none>]
 [Message]
 [Presence (in)]
-Stav (pøíchozí)
+Stav (pÅ™Ã­chozÃ­)
 [Presence (out)]
-Stav (odchozí)
+Stav (odchozÃ­)
 [Query]
 Dotaz
 [If jabber id is '%s' then]
@@ -2005,7 +2005,7 @@ Dotaz
 [Else]
 [all]
 [messages]
-zpráv
+zprÃ¡v
 [presence-in]
 [presence-out]
 [queries]
@@ -2025,30 +2025,30 @@ zpráv
 [If subscription is ']
 [then ]
 [ (act., def.)]
- (akt., vıch.)
+ (akt., vÃ½ch.)
 [ (active)]
- (aktivní)
+ (aktivnÃ­)
 [ (default)]
- (vıchozí)
+ (vÃ½chozÃ­)
 [Ready.]
-Pøipraveno
+PÅ™ipraveno
 [Privacy lists are not saved, discard any changes and exit?]
-V seznamu jste udìlali zmìny. Opravdu chcete editor ukonèit?
+V seznamu jste udÄ›lali zmÄ›ny. Opravdu chcete editor ukonÄit?
 [Please save list before activating]
-Nejprve prosím ulote vytvoøenı seznam.
+Nejprve prosÃ­m uloÅ¾te vytvoÅ™enÃ½ seznam.
 [First, save the list]
-Uloit seznam
+UloÅ¾it seznam
 [active]
-Aktivní
+AktivnÃ­
 [Please save list before you make it the default list]
 [default]
-vıchozí
+vÃ½chozÃ­
 [No list selected]
-Vyberte poadovanı seznam.
+Vyberte poÅ¾adovanÃ½ seznam.
 [Can't remove active or default list]
-Aktivní ani vıchozí seznam nelze odstranit.
+AktivnÃ­ ani vÃ½chozÃ­ seznam nelze odstranit.
 [Sorry]
-Bohuel
+BohuÅ¾el
 [Unable to save list because you are currently offline.]
 [List Editor...]
 Editor...
@@ -2074,21 +2074,21 @@ Editor...
 [info]
 [canceled]
 [Error occured during processing command]
-Chyba pøi zpracování pøíkazu
+Chyba pÅ™i zpracovÃ¡nÃ­ pÅ™Ã­kazu
 [Set status]
-Zmìnit stav
+ZmÄ›nit stav
 [Set options]
-Zmìnit nastavení
+ZmÄ›nit nastavenÃ­
 [Forward unread messages]
-Pøeposlat nepøeètené zprávy
+PÅ™eposlat nepÅ™eÄtenÃ© zprÃ¡vy
 [Leave groupchats]
 [Lock workstation]
-Zamknout poèítaè
+Zamknout poÄÃ­taÄ
 [Quit Miranda NG]
 [Change Status]
-Zmìnit stav
+ZmÄ›nit stav
 [Choose the status and status message]
-Vyberte poadovanı stav a zadejte zprávu
+Vyberte poÅ¾adovanÃ½ stav a zadejte zprÃ¡vu
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [required]
@@ -2103,18 +2103,18 @@ Vyberte poadovanı stav a zadejte zprávu
 [status-global]
 [Set Options]
 [Set the desired options]
-Vyberte poadovanou monost
+Vyberte poÅ¾adovanou moÅ¾nost
 [Automatically Accept File Transfers]
-Automaticky pøijímat soubory
+Automaticky pÅ™ijÃ­mat soubory
 [Play sounds]
-Pøehrát zvuky
+PÅ™ehrÃ¡t zvuky
 [Disable remote controlling (check twice what you are doing)]
 [enable-rc]
 [There is no messages to forward]
-Poèet pøeposlanıch zpráv: 0
+PoÄet pÅ™eposlanÃ½ch zprÃ¡v: 0
 [Forward options]
 [%d message(s) to be forwarded]
-Poèet zpráv k pøeposlání: %d
+PoÄet zprÃ¡v k pÅ™eposlÃ¡nÃ­: %d
 [Mark messages as read]
 [remove-clist-events]
 [addresses]
@@ -2123,12 +2123,12 @@ Poèet zpráv k pøeposlání: %d
 [%.4i-%.2i-%.2iT%.2i:%.2i:%.2iZ]
 [urn:xmpp:delay]
 [%d message(s) forwarded]
-Poèet pøeposlanıch zpráv: %d
+PoÄet pÅ™eposlanÃ½ch zprÃ¡v: %d
 [user32.dll]
 [Workstation successfully locked]
-Poèítaè byl zamknut
+PoÄÃ­taÄ byl zamknut
 [Error %d occured during workstation lock]
-Chyba è.%d pøi zamykání poèítaèe
+Chyba Ä.%d pÅ™i zamykÃ¡nÃ­ poÄÃ­taÄe
 [Confirmation needed]
 [Please confirm Miranda NG shutdown]
 [I agree]
@@ -2137,25 +2137,25 @@ Chyba è.%d pøi zamykání poèítaèe
 [Choose the groupchats you want to leave]
 ;file \protocols\JabberG\src\jabber_search.cpp
 [STATIC]
-Statickı
+StatickÃ½
 [EDIT]
 UPRAVIT
 [Error %s %s\r\nPlease select other server]
-Chyba: %s %s\r\nVyberte prosím jinı server.
+Chyba: %s %s\r\nVyberte prosÃ­m jinÃ½ server.
 [Error Unknown reply recieved\r\nPlease select other server]
-Chyba: Neznámá odpovìï\r\nVyberte prosím jinı server.
+Chyba: NeznÃ¡mÃ¡ odpovÄ›Ä\r\nVyberte prosÃ­m jinÃ½ server.
 [fullname]
 [reported]
 [Error %s %s\r\nTry to specify more detailed]
-Chyba: %s %s\r\nZadejte pøesnìjší údaje.
+Chyba: %s %s\r\nZadejte pÅ™esnÄ›jÅ¡Ã­ Ãºdaje.
 [Search error]
-Chyba pøi vyhledávání
+Chyba pÅ™i vyhledÃ¡vÃ¡nÃ­
 [Select/type search service URL above and press <Go>]
-Vyberte nebo zadejte adresu serveru a kliknìte na '->'
+Vyberte nebo zadejte adresu serveru a kliknÄ›te na '->'
 [Please wait...\r\nConnecting search server...]
-Poèkejte prosím...\r\nPøipojování k vyhledávacímu serveru...
+PoÄkejte prosÃ­m...\r\nPÅ™ipojovÃ¡nÃ­ k vyhledÃ¡vacÃ­mu serveru...
 [You have to be connected to server]
-Funkce vyaduje pøipojení k serveru
+Funkce vyÅ¾aduje pÅ™ipojenÃ­ k serveru
 ;file \protocols\JabberG\src\jabber_secur.cpp
 [Negotiate]
 [GSSAPI]
@@ -2165,11 +2165,11 @@ Funkce vyaduje pøipojení k serveru
 [xmpp/%s@%s]
 ;file \protocols\JabberG\src\jabber_svc.cpp
 [closed chat session]
-ukonèil komunikaci
+ukonÄil komunikaci
 [sent subscription request]
-ádost o autorizaci odeslána
+Å¾Ã¡dost o autorizaci odeslÃ¡na
 [approved subscription request]
-ádost o autorizaci schválena
+Å¾Ã¡dost o autorizaci schvÃ¡lena
 [declined subscription]
 [sent error presence]
 [sent unknown presence type]
@@ -2209,13 +2209,13 @@ UTF-8
 [http://etherx.jabber.org/streams]
 [/%s]
 [Error: Not enough memory]
-Chyba: Nedostatek pamìti
+Chyba: Nedostatek pamÄ›ti
 [Error: Cannot connect to the server]
-Chyba: Nelze navázat spojení se serverem
+Chyba: Nelze navÃ¡zat spojenÃ­ se serverem
 [Error: Connection lost]
-Chyba: Spojení neèekanì ukonèeno
+Chyba: SpojenÃ­ neÄekanÄ› ukonÄeno
 [Requesting registration instruction...]
-Poadavek na instrukce k registraci...
+PoÅ¾adavek na instrukce k registraci...
 [urn:ietf:params:xml:ns:xmpp-sasl]
 [mechanism]
 [starttls]
@@ -2241,7 +2241,7 @@ Poadavek na instrukce k registraci...
 [compressed]
 [stream:features]
 [success]
-úspìšnì obnoveno
+ÃºspÄ›Å¡nÄ› obnoveno
 [failure]
 [stream:error]
 [item/tune[@xmlns=']
@@ -2270,22 +2270,22 @@ Poadavek na instrukce k registraci...
 [urn:xmpp:jingle:errors:1]
 [service-unavailable]
 [Sending registration information...]
-Odesílání registraèních údajù...
+OdesÃ­lÃ¡nÃ­ registraÄnÃ­ch ÃºdajÅ¯...
 ;file \protocols\JabberG\src\jabber_userinfo.cpp
 [%s: %s]
 [Resource]
 Zdroj
 [<not specified>]
-<neurèeno>
+<neurÄeno>
 [Software]
 [Version]
 [System]
-Systém
+SystÃ©m
 [unknown]
 [Idle since]
-Neèinnost od
+NeÄinnost od
 [Client capabilities]
-Monosti klientského softwaru
+MoÅ¾nosti klientskÃ©ho softwaru
 [Software information]
 [Operating system]
 [Operating system version]
@@ -2297,28 +2297,28 @@ Ano
 [Alpha build]
 [Debug build]
 [Mood]
-Nálada
+NÃ¡lada
 [Activity]
-Èinnost
+ÄŒinnost
 [Tune]
 Hudba
 [Last logoff time]
-Doba posledního odhlášení
+Doba poslednÃ­ho odhlÃ¡Å¡enÃ­
 [Uptime]
 [Logoff message]
-Zpráva pøi odhlášení
+ZprÃ¡va pÅ™i odhlÃ¡Å¡enÃ­
 [<no information available>]
 <neuvedeno>
 [Last active resource]
-Naposledy aktivní umístìní
+Naposledy aktivnÃ­ umÃ­stÄ›nÃ­
 [Please switch online to see more details.]
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Copy only this value]
-Zkopírovat jen hodnotu
+ZkopÃ­rovat jen hodnotu
 [BMP %s (*.bmp)]
 [format]
-formát
+formÃ¡t
 [*.BMP]
 [GIF %s (*.gif)]
 [*.GIF]
@@ -2326,13 +2326,13 @@ formát
 [*.JPG;*.JPEG]
 [%s (*.*)]
 [Unknown format]
-neznámı formát
+neznÃ¡mÃ½ formÃ¡t
 [*.*]
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [<Photo not available while offline>]
-<foto není ve stavu offline>
+<foto nenÃ­ ve stavu offline>
 [<No photo>]
-<foto není>
+<foto nenÃ­>
 [Photo]
 Fotka
 ;file \protocols\JabberG\src\jabber_util.cpp
@@ -2352,16 +2352,16 @@ Nenalezeno
 [Conflict]
 [Internal server error]
 [Not implemented]
-Prozatím nefunguje
+ProzatÃ­m nefunguje
 [Remote server error]
 [Service unavailable]
 [Remote server timeout]
 [Unknown error]
-Neznámá chyba
+NeznÃ¡mÃ¡ chyba
 [%s -1: %s]
 [Error]
 [Unknown error message]
-Neznámé chybové hlášení
+NeznÃ¡mÃ© chybovÃ© hlÃ¡Å¡enÃ­
 [%s %d: %s\r\n%s]
 [%s %d: %s]
 [%d:%d:%d]
@@ -2371,9 +2371,9 @@ Neznámé chybové hlášení
 [http://talk.google.com/xmpp/bot/caps]
 [Advanced Status]
 [Set mood...]
-Zadat náladu...
+Zadat nÃ¡ladu...
 [Set activity...]
-Zadat èinnost...
+Zadat Äinnost...
 [%04d-%02d-%02dT%02d:%02d:%02dZ]
 [%04d-%02d-%02dT%02d:%02d:%02d.%dZ]
 [%s (%d)]
@@ -2382,19 +2382,19 @@ Zadat èinnost...
 [-//HandGen//NONSGML vGen v1.0//EN]
 [2.0]
 [Male]
-mu
+muÅ¾
 [Female]
-ena
+Å¾ena
 [.\\]
 [jab]
 [Only JPG, GIF, and BMP image files smaller than 40 KB are supported.]
-Povoleny jsou pouze obrázky typu JPG, GIF a BMP menší ne 40 kB.
+Povoleny jsou pouze obrÃ¡zky typu JPG, GIF a BMP menÅ¡Ã­ neÅ¾ 40 kB.
 [Jabber vCard]
 Jabber vCard
 [Jabber vCard: Edit Email Address]
 Jabber vCard: Upravit e-mail
 [Jabber vCard: Edit Phone Number]
-Jabber vCard: Upravit telefonní èíslo
+Jabber vCard: Upravit telefonnÃ­ ÄÃ­slo
 [HOME]
 [WORK]
 [INTERNET]
@@ -2410,10 +2410,10 @@ Jabber vCard: Upravit telefonní èíslo
 [Contacts]
 Kontakty
 [Note]
-Poznámka
+PoznÃ¡mka
 ;file \protocols\JabberG\src\jabber_ws.cpp
 [%s connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 ;file \protocols\JabberG\src\jabber_xml.cpp
 [mir_%d]
 ;file \protocols\JabberG\src\jabber_xml.h
@@ -2427,16 +2427,16 @@ Poznámka
 [Afraid]
 obavy
 [Amazed]
-úas
+ÃºÅ¾as
 [Amorous]
 [Angry]
 Zlost
 [Annoyed]
-rozhoøèení
+rozhoÅ™ÄenÃ­
 [Anxious]
 starosti
 [Aroused]
-vzrùšo
+vzrÅ¯Å¡o
 [Ashamed]
 hanba
 [Bored]
@@ -2459,23 +2459,23 @@ marod
 [Crazy]
 [Creative]
 [Curious]
-zvìdavost
+zvÄ›davost
 [Dejected]
 [Depressed]
 deprese
 [Disappointed]
-rozèarování
+rozÄarovÃ¡nÃ­
 [Disgusted]
-znechucení
+znechucenÃ­
 [Dismayed]
 [Distracted]
-roztritost
+roztrÅ¾itost
 [Embarrassed]
 trapas
 [Envious]
-závist
+zÃ¡vist
 [Excited]
-rozjaøenost
+rozjaÅ™enost
 [Flirtatious]
 flirt
 [Frustrated]
@@ -2487,7 +2487,7 @@ nevrlost
 [Guilty]
 vina
 [Happy]
-štìstí
+Å¡tÄ›stÃ­
 [Hopeful]
 [Hot]
 horko
@@ -2500,33 +2500,33 @@ hlad
 [Hurt]
 bolest
 [Impressed]
-valím oèi
+valÃ­m oÄi
 [In awe]
 [In love]
-láska
+lÃ¡ska
 [Indignant]
-Rozhoøèení
+RozhoÅ™ÄenÃ­
 [Interested]
-zájem
+zÃ¡jem
 [Intoxicated]
-je mi blbì
+je mi blbÄ›
 [Invincible]
-na mì nemáš
+na mÄ› nemÃ¡Å¡
 [Jealous]
-závist
+zÃ¡vist
 [Lonely]
-osamìlost
+osamÄ›lost
 [Lost]
 [Lucky]
 [Mean]
 [Moody]
-rozladìnost
+rozladÄ›nost
 [Nervous]
 nervozita
 [Neutral]
-Neutrální
+NeutrÃ¡lnÃ­
 [Offended]
-uraenost
+uraÅ¾enost
 [Outraged]
 [Playful]
 hravost
@@ -2534,9 +2534,9 @@ hravost
 hrdost
 [Relaxed]
 [Relieved]
-úleva
+Ãºleva
 [Remorseful]
-lítost
+lÃ­tost
 [Restless]
 [Sad]
 smutek
@@ -2545,11 +2545,11 @@ sarkasmus
 [Satisfied]
 [Serious]
 [Shocked]
-šok
+Å¡ok
 [Shy]
-nesmìlost
+nesmÄ›lost
 [Sick]
-Není mi dobøe
+NenÃ­ mi dobÅ™e
 [Sleepy]
 ospalost
 [Spontaneous]
@@ -2557,12 +2557,12 @@ ospalost
 stres
 [Strong]
 [Surprised]
-pøekvapení
+pÅ™ekvapenÃ­
 [Thankful]
 [Thirsty]
-ízeò
+Å¾Ã­zeÅˆ
 [Tired]
-Únava
+Ãšnava
 [Undefined]
 [Weak]
 [Worried]
@@ -2571,27 +2571,27 @@ obavy
 [item/mood[@xmlns=']
 [mood]
 [Mood: %s]
-Nálada: %s
+NÃ¡lada: %s
 [Set Mood]
-Zadání nalády
+ZadÃ¡nÃ­ nalÃ¡dy
 [Doing chores]
-bìné povinnosti
+bÄ›Å¾nÃ© povinnosti
 [buying groceries]
 nakupuji
 [cleaning]
-uklízím
+uklÃ­zÃ­m
 [cooking]
-vaøím
+vaÅ™Ã­m
 [doing maintenance]
-dìlám údrbu
+dÄ›lÃ¡m ÃºdrÅ¾bu
 [doing the dishes]
-umıvám nádobí
+umÃ½vÃ¡m nÃ¡dobÃ­
 [doing the laundry]
-peru prádlo
+peru prÃ¡dlo
 [gardening]
-na zahrádce
+na zahrÃ¡dce
 [running an errand]
-vyøizování
+vyÅ™izovÃ¡nÃ­
 [walking the dog]
 venku se psem
 [Drinking]
@@ -2601,112 +2601,112 @@ pivo
 [having coffee]
 kafe
 [having tea]
-èaj
+Äaj
 [Eating]
-Jím
+JÃ­m
 [having a snack]
-svaèím
+svaÄÃ­m
 [having breakfast]
-snídám
+snÃ­dÃ¡m
 [having dinner]
-veèeøím
+veÄeÅ™Ã­m
 [having lunch]
-obìdvám
+obÄ›dvÃ¡m
 [Exercising]
-cvièím
+cviÄÃ­m
 [cycling]
 na kole
 [dancing]
 tancuju
 [hiking]
-na vıletì
+na vÃ½letÄ›
 [jogging]
 jogging
 [playing sports]
 sportuju
 [running]
-bìhám
+bÄ›hÃ¡m
 [skiing]
-lyuju
+lyÅ¾uju
 [swimming]
 plavu
 [working out]
 posiluju
 [Grooming]
-peèuju o sebe
+peÄuju o sebe
 [at the spa]
-v lázních
+v lÃ¡znÃ­ch
 [brushing teeth]
-èistím si zuby
+ÄistÃ­m si zuby
 [getting a haircut]
-u holièe/kadeøníka
+u holiÄe/kadeÅ™nÃ­ka
 [shaving]
-holím se
+holÃ­m se
 [taking a bath]
 koupu se
 [taking a shower]
 sprchuji se
 [Having appointment]
-na schùzce
+na schÅ¯zce
 [Inactive]
 [day off]
 den volna
 [hanging out]
-flákám se
+flÃ¡kÃ¡m se
 [hiding]
-skrıvám se
+skrÃ½vÃ¡m se
 [on vacation]
-na dovolené
+na dovolenÃ©
 [praying]
-modlím se
+modlÃ­m se
 [scheduled holiday]
-plánovaná dovolená
+plÃ¡novanÃ¡ dovolenÃ¡
 [sleeping]
-spím
+spÃ­m
 [thinking]
-pøemıšlím
+pÅ™emÃ½Å¡lÃ­m
 [Relaxing]
-odpoèinek
+odpoÄinek
 [fishing]
-rybaøím
+rybaÅ™Ã­m
 [gaming]
 hraju hry
 [going out]
 venku
 [partying]
-na párty
+na pÃ¡rty
 [reading]
-ètu si
+Ätu si
 [rehearsing]
-nacvièuju
+nacviÄuju
 [shopping]
-na nákupu
+na nÃ¡kupu
 [smoking]
-kouøím
+kouÅ™Ã­m
 [socializing]
-ve spoleènosti
+ve spoleÄnosti
 [sunbathing]
 opaluju se
 [watching TV]
-koukám na TV
+koukÃ¡m na TV
 [watching a movie]
-koukám na film
+koukÃ¡m na film
 [Talking]
-Mluvím
+MluvÃ­m
 [in real life]
-osobnì
+osobnÄ›
 [on the phone]
 po telefonu
 [on video phone]
 videohovor
 [Traveling]
-na cestì
+na cestÄ›
 [commuting]
-dojídím
+dojÃ­Å¾dÃ­m
 [driving]
-øídím
+Å™Ã­dÃ­m
 [in a car]
-v autì
+v autÄ›
 [on a bus]
 v autobusu
 [on a plane]
@@ -2714,28 +2714,28 @@ v letadle
 [on a train]
 ve vlaku
 [on a trip]
-na vıletì
+na vÃ½letÄ›
 [walking]
-na procházce
+na prochÃ¡zce
 [Working]
 pracuju
 [coding]
 programuju
 [in a meeting]
-na poradì
+na poradÄ›
 [studying]
 studuji
 [writing]
-píšu
+pÃ­Å¡u
 [item/activity[@xmlns=']
 [activity]
 [Activity: %s]
-Èinnost: %s
+ÄŒinnost: %s
 [Set Activity]
-Zadání èinnosti
+ZadÃ¡nÃ­ Äinnosti
 [tune]
 [artist]
-umìlec
+umÄ›lec
 [length]
 [source]
 [track]

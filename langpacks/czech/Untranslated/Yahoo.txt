@@ -1,4 +1,4 @@
-;[ avatar]
+﻿;[ avatar]
 ;[%%miranda_avatarcache%%\\]
 ;[%miranda_avatarcache%]
 ;[%s denied invitation with message: %s]

@@ -1,4 +1,4 @@
-;[  menu.style.visibility = "visible";\n]
+﻿;[  menu.style.visibility = "visible";\n]
 ;[ - ]
 ;[" alt="]
 ;["%s" /nointeractiveinput /log="%s" /script=script.sc]

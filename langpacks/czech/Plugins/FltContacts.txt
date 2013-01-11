@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: FltContacts.dll
 ;  Plugin: Floating Contacts
@@ -8,9 +8,9 @@
 ;file \plugins\FloatingContacts\res\fltcnt.rc
 [Hiding contacts]
 [Hide offline contacts]
-Skrıt uivatele offline
+SkrÃ½t uÅ¾ivatele offline
 [Stick together]
-Lepit k sobì
+Lepit k sobÄ›
 [Use fixed width]
 [pixels]
 pix.
@@ -21,9 +21,9 @@ Zobrazovat tipy
 [ms]
 [Tooltips]
 [Miscellaneous]
-Ostatní
+OstatnÃ­
 [0 = Default]
-0 = vıchozí
+0 = vÃ½chozÃ­
 [requires mToolTip or Tipper plugin]
 [Bring to front]
 [Bring to front every]
@@ -33,9 +33,9 @@ Ostatní
 [Dim idle contacts]
 [Fonts]
 [same]
-stejné
+stejnÃ©
 [Typeface]
-Typ písma
+Typ pÃ­sma
 [Size]
 [Style]
 [Colour]
@@ -43,37 +43,37 @@ Barva
 [as:]
 jako:
 [Bold]
-Tuèné
+TuÄnÃ©
 [Italic]
-Kurzíva
+KurzÃ­va
 [Underline]
-Podtrené
+PodtrÅ¾enÃ©
 [100 %]
 [Border]
 [Draw border]
 [Left-top edges color:]
 [Right-bottom eges color:]
 [Background]
-Pozadí
+PozadÃ­
 [Background colour:]
 [Use background bitmap]
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Stretch to width]
-Uzpùsobit na šíøku
+UzpÅ¯sobit na Å¡Ã­Å™ku
 [Stretch to height]
-Uzpùsobit na vıšku
+UzpÅ¯sobit na vÃ½Å¡ku
 [Tile horizontally]
-Vodorovnì vedle sebe
+VodorovnÄ› vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Stretch proportionally]
-Uzpùsobit pomìrnì
+UzpÅ¯sobit pomÄ›rnÄ›
 [Opacity:]
-Neprùhlednost:
+NeprÅ¯hlednost:
 ;file \plugins\FloatingContacts\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
-Obrázky ve formátu PNG vyadují doplnìk png2dib 0.1.3.x nebo novìjší.
+ObrÃ¡zky ve formÃ¡tu PNG vyÅ¾adujÃ­ doplnÄ›k png2dib 0.1.3.x nebo novÄ›jÅ¡Ã­.
 [Error]
 ;file \plugins\FloatingContacts\src\fltcont.h
 [MirandaThumbsWnd]
@@ -85,23 +85,23 @@ Obrázky ve formátu PNG vyadují doplnìk png2dib 0.1.3.x nebo novìjší.
 [Show/Hide all thumbs]
 ;file \plugins\FloatingContacts\src\options.cpp
 [Standard contacts]
-Standardní kontakty
+StandardnÃ­ kontakty
 [Online contacts to whom you have a different visibility]
-Kontakty online, vùèi kterım máte nastavenou vıjimku v (ne)viditelnosti
+Kontakty online, vÅ¯Äi kterÃ½m mÃ¡te nastavenou vÃ½jimku v (ne)viditelnosti
 [Offline contacts]
 Kontakty offline
 [Offline contacts to whom you have a different visibility]
-Kontakty offline, vùèi kterım máte nastavenou vıjimku v (ne)viditelnosti
+Kontakty offline, vÅ¯Äi kterÃ½m mÃ¡te nastavenou vÃ½jimku v (ne)viditelnosti
 [Contacts which are 'not on list']
-Kontakty, které "nejsou v seznamu"
+Kontakty, kterÃ© "nejsou v seznamu"
 [Floating Contacts]
 [Contact List]
 [Main Features]
-Hlavní vlastnosti
+HlavnÃ­ vlastnosti
 [Appearance]
 [shlwapi]
 [Sample]
-Pøíkladovı text
+PÅ™Ã­kladovÃ½ text
 [<none>]
 [<Contact List Text>]
 #muuid {2f129563-2c7d-4a9a-b948-97dfcc0afdd7}

@@ -1,4 +1,4 @@
-;[%d new mail message(s), %d total]
+﻿;[%d new mail message(s), %d total]
 ;[%miranda_userdata%]
 ;[%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c]
 ;[%s : %d new mail message(s), %d total]

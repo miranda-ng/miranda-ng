@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: Console.dll
 ;  Plugin: Console
@@ -37,17 +37,17 @@
 [%s - %s\\%s]
 [Miranda Console]
 [Services]
-Služby
+SluÅ¾by
 [Console]
 [Text]
 Text
 [Background]
-Pozadí
+PozadÃ­
 [Courier]
 [&Help]
-&Nápovìda
+&NÃ¡povÄ›da
 [Text Files (*.txt)]
-Textové soubory (*.txt)
+TextovÃ© soubory (*.txt)
 [All Files]
 [*.TXT]
 [Save selection to file]

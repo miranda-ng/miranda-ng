@@ -1,4 +1,4 @@
-;[    Error %ld - %s]
+﻿;[    Error %ld - %s]
 ;[    Plugin does not have an UUID and will not work with Miranda 0.8.\r\n]
 ;[    Plugin refuses to load. Miranda version too old.]
 ;[    Plugin statically links to missing dll file: ]

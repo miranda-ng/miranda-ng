@@ -1,4 +1,4 @@
-;[ ffw]
+﻿;[ ffw]
 ;[%dh %dm]
 ;[%dm]
 ;[&Delete]

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;langpack template for Watrack_MPD
 ;file \plugins\Watrack_MPD\res\watrack_mpd.rc
 [MPD Host]
@@ -17,7 +17,7 @@ Heslo
 [Unknown year]
 ;file \plugins\Watrack_MPD\src\options.c
 [Winamp Track]
-Sledov·nÌ hudby
+Sledov√°n√≠ hudby
 [Plugins]
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 [Watrack MPD]

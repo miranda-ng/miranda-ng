@@ -1,11 +1,11 @@
-#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
+ï»¿#muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 ;langpack template for SimpleStatusMsg
 ;file \plugins\SimpleStatusMsg\res\resource.rc
 [&Cancel]
 [Retrieving %s message...]
-Zjištìní stavové zprávy ve stavu '%s'...
+ZjiÅ¡tÄ›nÃ­ stavovÃ© zprÃ¡vy ve stavu '%s'...
 [Co&py to Clipboard]
-Zko&pírovat
+Zko&pÃ­rovat
 [OK]
 [%time%]
 [%date%]
@@ -34,93 +34,93 @@ Zko&pírovat
 [?upper(string)]
 [?scroll(string,numchars,numchars)]
 [More variables...]
-Více promìnnıch...
+VÃ­ce promÄ›nnÃ½ch...
 [Fortune]
 [Variables]
 [Cut]
 Vyjmout
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Paste]
-Vloit
+VloÅ¾it
 [Delete]
 [Select All]
-Vybrat vše
+Vybrat vÅ¡e
 [Behaviour on status change]
 [Apply to all]
-Pouít u všech
+PouÅ¾Ã­t u vÅ¡ech
 [Max length:]
-Max. délka:
+Max. dÃ©lka:
 [Pop up dialog box]
 Zobrazit dialog
 [Do not change status message]
-Nemìnit zprávu stavu
+NemÄ›nit zprÃ¡vu stavu
 [Always set the same message]
-Vdy pouít stejnou zprávu
+VÅ¾dy pouÅ¾Ã­t stejnou zprÃ¡vu
 [Do not set status message]
-Nedefinovat zprávu stavu
+Nedefinovat zprÃ¡vu stavu
 [Status Messages]
-Stavové zprávy
+StavovÃ© zprÃ¡vy
 [Pop up dialog asking for new message]
-Zobrazit dialog a zadat novou zprávu
+Zobrazit dialog a zadat novou zprÃ¡vu
 [Set an empty message]
-Pouít prázdnou zprávu
+PouÅ¾Ã­t prÃ¡zdnou zprÃ¡vu
 [Use default message]
-Pouít vıchozí zprávu
+PouÅ¾Ã­t vÃ½chozÃ­ zprÃ¡vu
 [Use last message]
-Pouít poslední zprávu
+PouÅ¾Ã­t poslednÃ­ zprÃ¡vu
 [Use last message set for this status]
-Pouít poslední zprávu pro danı stav
+PouÅ¾Ã­t poslednÃ­ zprÃ¡vu pro danÃ½ stav
 [Set the following message:]
-Pouít následující zprávu:
+PouÅ¾Ã­t nÃ¡sledujÃ­cÃ­ zprÃ¡vu:
 [Put default message in message list]
-Pøiøadit vıchozí zprávu do seznamu
+PÅ™iÅ™adit vÃ½chozÃ­ zprÃ¡vu do seznamu
 [Update variables in status messages every]
-Aktualizovat promìnné ve zprávì stavu kadıch
+Aktualizovat promÄ›nnÃ© ve zprÃ¡vÄ› stavu kaÅ¾dÃ½ch
 [seconds]
 [Do not update variables during idle]
 [Do not update variables on ICQ status message requests]
 [Leave last played track's title after exiting the player]
-Ponechat název poslední skladby po vypnutí pøehrávaèe
+Ponechat nÃ¡zev poslednÃ­ skladby po vypnutÃ­ pÅ™ehrÃ¡vaÄe
 [Enable status messages parsing by Variables plugin]
 [Exclude %date% token from parsing (restart required)]
 [Layout]
 [Show status list]
-Zobrazit seznam stavù
+Zobrazit seznam stavÅ¯
 [Show status profiles in status list]
-Zobrazit v menu stavù profily
+Zobrazit v menu stavÅ¯ profily
 [Show icons in status list]
-Zobrazit ikony v seznamu stavù
+Zobrazit ikony v seznamu stavÅ¯
 [Buttons:]
-Tlaèítka:
+TlaÄÃ­tka:
 [Show icons in message list]
-Zobrazit ikony v seznamu zpráv
+Zobrazit ikony v seznamu zprÃ¡v
 [Other]
-Ostatní
+OstatnÃ­
 [Store up to]
-Uloit max.
+UloÅ¾it max.
 [recent messages (0 = disable)]
-posledních zpráv (0 = vypnuto)
+poslednÃ­ch zprÃ¡v (0 = vypnuto)
 [Automatically close dialog window after]
-Automaticky zavøít okno se zprávou po
+Automaticky zavÅ™Ã­t okno se zprÃ¡vou po
 [Remember last dialog window position]
-Zapamatovat poslední pozici dialogu
+Zapamatovat poslednÃ­ pozici dialogu
 [Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
-Odstranit ze stavovıch zpráv znaky CR (CR = '\\r' = #0D)
+Odstranit ze stavovÃ½ch zprÃ¡v znaky CR (CR = '\\r' = #0D)
 [Show 'Copy Away Message' item in contact menu]
-Zobrazit v menu kontaktu 'Zkopírovat zprávu stavu'
+Zobrazit v menu kontaktu 'ZkopÃ­rovat zprÃ¡vu stavu'
 [Show 'Go to URL in Away Message' item in contact menu]
-Zobrazit v nabídce kontaktu poloku 'Pøejít na URL ve zprávì stavu'
+Zobrazit v nabÃ­dce kontaktu poloÅ¾ku 'PÅ™ejÃ­t na URL ve zprÃ¡vÄ› stavu'
 [Show 'Status Message...' item in status menu]
-Zobrazit v menu stavù 'Zpráva stavu...'
+Zobrazit v menu stavÅ¯ 'ZprÃ¡va stavu...'
 [Clear History]
 Smazat historii
 [Clear Predefined]
-Smazat pøeddef.
+Smazat pÅ™eddef.
 [* This feature is available only when using StartupStatus plugin.]
-* Tato funkce je dostupná pouze pøi pouítí doplòku StartupStatus.
+* Tato funkce je dostupnÃ¡ pouze pÅ™i pouÅ¾Ã­tÃ­ doplÅˆku StartupStatus.
 [Status on Startup]
-Stav po spuštìní
+Stav po spuÅ¡tÄ›nÃ­
 [Set status after]
 Nastavit stav po
 [miliseconds]
@@ -129,22 +129,22 @@ milisekund
 Protokol:
 [Status:]
 [Independent setting for each protocol]
-Nastavení pro kadı protokol zvláš
+NastavenÃ­ pro kaÅ¾dÃ½ protokol zvlÃ¡Å¡Å¥
 [Pop up dialog asking for status message]
 ;file \plugins\SimpleStatusMsg\src\awaymsg.cpp
 [Failed to retrieve %s message.]
 [&Close]
-&Zavøít
+&ZavÅ™Ã­t
 [Re&ad %s Message]
-Pøeèíst &automatickou odpovìï
+PÅ™eÄÃ­st &automatickou odpovÄ›Ä
 [Copy %s Message]
-Zkopírovat zprávu stavu
+ZkopÃ­rovat zprÃ¡vu stavu
 [&Go to URL in %s Message]
-&Pøejít na URL ve zprávì %s stavu
+&PÅ™ejÃ­t na URL ve zprÃ¡vÄ› %s stavu
 [Re&ad Away Message]
-Pøeèíst &autom. odpovìï
+PÅ™eÄÃ­st &autom. odpovÄ›Ä
 [Copy Away Message]
-Zkopírovat zprávu stavu
+ZkopÃ­rovat zprÃ¡vu stavu
 [&Go to URL in Away Message]
 ;file \plugins\SimpleStatusMsg\src\main.cpp
 [STUDIO]
@@ -154,12 +154,12 @@ Zkopírovat zprávu stavu
 [%rand(]
 [,)%%]
 [Change Status Message]
-Zmìnit zprávu stavu
+ZmÄ›nit zprÃ¡vu stavu
 [Open Status Message Dialog]
 [Status Message]
-Stavová zpráva
+StavovÃ¡ zprÃ¡va
 [Status Message...]
-Zpráva stavu...
+ZprÃ¡va stavu...
 [%s (locked)]
 [winampsong]
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
@@ -170,38 +170,38 @@ Zpráva stavu...
 [<current>]
 [## %s ##]
 [Add to Predefined]
-Pøidat mezi pøeddefinované
+PÅ™idat mezi pÅ™eddefinovanÃ©
 [Delete Selected]
-Smazat vybrané
+Smazat vybranÃ©
 [OK (%d)]
 OK (%d)
 [Global]
-Globální
+GlobÃ¡lnÃ­
 [%s Message (%s)]
 [Closing in %d]
 [Are you sure you want to clear status message history?]
-Urèitì chcete smazat celou historii stavovıch zpráv?
+UrÄitÄ› chcete smazat celou historii stavovÃ½ch zprÃ¡v?
 [Confirm clearing history]
-Potvrdit smazání historie
+Potvrdit smazÃ¡nÃ­ historie
 ;file \plugins\SimpleStatusMsg\src\options.cpp
 [Global status change]
 [Open String Formatting Help]
-Otevøít nápovìdu o promìnnıch
+OtevÅ™Ã­t nÃ¡povÄ›du o promÄ›nnÃ½ch
 [Hide]
-Skrıt
+SkrÃ½t
 [Show next to cancel button]
-Zobrazit vedle tlaèítka Zrušit
+Zobrazit vedle tlaÄÃ­tka ZruÅ¡it
 [Flat, next to cancel button]
-Moderní, vedle tlaèítka Zrušit
+ModernÃ­, vedle tlaÄÃ­tka ZruÅ¡it
 [Show in message list]
-Zobrazit v seznamu zpráv
+Zobrazit v seznamu zprÃ¡v
 [%s *]
 [Are you sure you want to clear predefined status messages?]
-Urèitì chcete smazat všechny pøeddefinované stavové zprávy?
+UrÄitÄ› chcete smazat vÅ¡echny pÅ™eddefinovanÃ© stavovÃ© zprÃ¡vy?
 [Confirm clearing predefined]
-Potvrdit smazání pøeddefinovanıch
+Potvrdit smazÃ¡nÃ­ pÅ™eddefinovanÃ½ch
 [<Last status>]
-<Poslední stav>
+<PoslednÃ­ stav>
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [General]
@@ -209,9 +209,9 @@ Potvrdit smazání pøeddefinovanıch
 Extra
 ;file \plugins\SimpleStatusMsg\src\utils.cpp
 [Recent Message]
-Poslední zpráva
+PoslednÃ­ zprÃ¡va
 [Predefined Message]
-Pøeddefinovaná zpráva
+PÅ™eddefinovanÃ¡ zprÃ¡va
 [Go to URL in Away Message]
 [I've been away since %time%.]
 [Give it up, I'm not in!]

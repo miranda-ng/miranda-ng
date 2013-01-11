@@ -1,4 +1,4 @@
-#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
+ï»¿#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}
 ;============================================================
 ;  File: SeenPlugin.dll
 ;  Plugin: Last Seen Mod
@@ -8,39 +8,39 @@
 [Logs when a user was last seen online and which users were online while you were away.]
 ;file \plugins\SeenPlugin\res\resource.rc
 [Last seen options]
-Nastavení
+NastavenÃ­
 [Last seen menuitem]
-Poloky menu
+PoloÅ¾ky menu
 [Show icon]
 Zobrazit ikonu
 [Userinfo tab]
-Záloka s informacemi o uivateli
+ZÃ¡loÅ¾ka s informacemi o uÅ¾ivateli
 [Log to file]
-Uloit záznam
+UloÅ¾it zÃ¡znam
 [Log to history]
-Záznam do historie
+ZÃ¡znam do historie
 [Maximum size]
 Max. velikost
 [Variable list]
-Promìnné
+PromÄ›nnÃ©
 [Enable Idle support]
-Detekovat stav neèinnosti
+Detekovat stav neÄinnosti
 [Ignore contacts going offline]
-Ignorovat pøechod do stavu offline
+Ignorovat pÅ™echod do stavu offline
 [Enable 'Missed Ones' feature]
-Aktivovat funkci 'Zmeškané kontakty'
+Aktivovat funkci 'ZmeÅ¡kanÃ© kontakty'
 [Count times]
-Zaznamenat poèet
+Zaznamenat poÄet
 [Protocols to watch:]
 Sledovat protokoly:
 [Popup interoperability missing or disabled. You need Popups plugin]
 [Use popups]
-Pouít oznámení
+PouÅ¾Ã­t oznÃ¡menÃ­
 [Title]
 [Text]
 Text
 [PopUp Colors]
-Barvy oznámení
+Barvy oznÃ¡menÃ­
 [Online]
 [Away]
 [NA]
@@ -52,17 +52,17 @@ Barvy oznámení
 [Invisible]
 [Offline]
 [Reset colors]
-Vıchozí barvy
+VÃ½chozÃ­ barvy
 [OK]
 [You missed following contacts:]
-Zmeškali jste tyto kontakty:
+ZmeÅ¡kali jste tyto kontakty:
 [Test\nTest]
 [Alert when user status changes]
-Upozornit pøi zmìnì stavu
+Upozornit pÅ™i zmÄ›nÄ› stavu
 ;file \plugins\SeenPlugin\src\history.cpp
 [%s: %s]
 [last seen history]
-Historie zmìn stavu
+Historie zmÄ›n stavu
 [User Menu]
 [View User's Details]
 [Send Instant Message]
@@ -78,13 +78,13 @@ Historie zmìn stavu
 [Last seen]
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
-<neznámı>
+<neznÃ¡mÃ½>
 [<none>]
 ;file \plugins\SeenPlugin\src\missed.cpp
 [ [%i]]
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
-Last Seen - seznam promìnnıch
+Last Seen - seznam promÄ›nnÃ½ch
 [uxtheme.dll]
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 [Contacts]
@@ -99,23 +99,23 @@ Debug
 [-- Date --]
 -- Datum --
 [year (4 digits)]
-rok (4 èíslice)
+rok (4 ÄÃ­slice)
 [year (2 digits)]
-rok (2 èíslice)
+rok (2 ÄÃ­slice)
 [month]
-mìsíc
+mÄ›sÃ­c
 [name of month]
-název mìsíce (celı)
+nÃ¡zev mÄ›sÃ­ce (celÃ½)
 [short name of month]
-název mìsíce (zkrácenı)
+nÃ¡zev mÄ›sÃ­ce (zkrÃ¡cenÃ½)
 [day]
 den
 [weekday (full)]
-název dne (celı)
+nÃ¡zev dne (celÃ½)
 [weekday (abbreviated)]
-název dne (zkrácenı)
+nÃ¡zev dne (zkrÃ¡cenÃ½)
 [-- Time --]
--- Èas --
+-- ÄŒas --
 [hours (24)]
 hodiny (24)
 [hours (12)]
@@ -126,36 +126,36 @@ dop./odp.
 min.
 [seconds]
 [-- User --]
--- Uivatel --
+-- UÅ¾ivatel --
 [username]
-uivatelské jméno
+uÅ¾ivatelskÃ© jmÃ©no
 [nick]
-pøezdívka
+pÅ™ezdÃ­vka
 [UIN/handle]
-UIN (ident. èíslo)
+UIN (ident. ÄÃ­slo)
 [Group]
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Status message]
 [Old status]
-pùvodní stav
+pÅ¯vodnÃ­ stav
 [external IP]
-externí IP
+externÃ­ IP
 [internal IP]
-interní IP
+internÃ­ IP
 [Client info]
 klient
 [Protocol]
 [-- Format --]
--- Formátování --
+-- FormÃ¡tovÃ¡nÃ­ --
 [tabulator]
-tabulátor
+tabulÃ¡tor
 [line break]
-další øádek
+dalÅ¡Ã­ Å™Ã¡dek
 [Note:]
 Pozn.:
 [Use]
-Pouít
+PouÅ¾Ã­t
 [for empty string]
 [instead of]
 ;file \plugins\SeenPlugin\src\userinfo.cpp
@@ -172,35 +172,35 @@ ne
 [Mon.]
 po
 [Tue.]
-út
+Ãºt
 [Wed.]
 st
 [Thu.]
-èt
+Ät
 [Fri.]
-pá
+pÃ¡
 [Sat.]
 so
 [January]
 leden
 [February]
-únor
+Ãºnor
 [March]
-bøezen
+bÅ™ezen
 [April]
 duben
 [May]
-kvìten
+kvÄ›ten
 [June]
-èerven
+Äerven
 [July]
-èervenec
+Äervenec
 [August]
 srpen
 [September]
-záøí
+zÃ¡Å™Ã­
 [October]
-øíjen
+Å™Ã­jen
 [November]
 listopad
 [December]
@@ -208,21 +208,21 @@ prosinec
 [Jan.]
 led
 [Feb.]
-úno
+Ãºno
 [Mar.]
-bøe
+bÅ™e
 [Apr.]
 dub
 [Jun.]
-èen
+Äen
 [Jul.]
-èec
+Äec
 [Aug.]
 srp
 [Sep.]
-záø
+zÃ¡Å™
 [Oct.]
-øíj
+Å™Ã­j
 [Nov.]
 lis
 [Dec.]

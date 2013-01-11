@@ -1,4 +1,4 @@
-;[No CLIST blink when:]
+﻿;[No CLIST blink when:]
 ;[No SysTray blink when:]
 ;[No sounds when:]
 ;[Zero Notifications]

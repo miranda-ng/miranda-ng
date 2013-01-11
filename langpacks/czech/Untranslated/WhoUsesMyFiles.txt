@@ -1,4 +1,4 @@
-;[Alert computer name with username]
+﻿;[Alert computer name with username]
 ;[Alert files && folders in UNC format]
 ;[Alerts on folders access]
 ;[Choose colors]

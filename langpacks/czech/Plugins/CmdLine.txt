@@ -1,4 +1,4 @@
-#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
+ï»¿#muuid {2f1a117c-3c1b-4c01-89ea-6d8fd85a9b4c}
 ;============================================================
 ;  File: CmdLine.dll
 ;  Plugin: CmdLine
@@ -64,8 +64,8 @@
 [Error]
 ;file \plugins\CmdLine\src\utils.cpp
 [Notify]
-Oznámení
+OznÃ¡menÃ­
 [Warning]
-Upozornìní
+UpozornÄ›nÃ­
 [%ld]
 #muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}

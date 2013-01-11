@@ -1,4 +1,4 @@
-;[%s (Write error)]
+﻿;[%s (Write error)]
 ;[&Delete]
 ;[&No]
 ;[&Yes]

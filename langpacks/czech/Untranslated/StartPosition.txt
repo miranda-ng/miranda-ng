@@ -1,4 +1,4 @@
-;[Always start...]
+﻿;[Always start...]
 ;[Contact List]
 ;[Contact List Window Start Position]
 ;[Left]

@@ -1,4 +1,4 @@
-#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
+ï»¿#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}
 ;============================================================
 ;  File: NewsAggregator.dll
 ;  Plugin: News Aggregator
@@ -9,7 +9,7 @@
 ;file \plugins\NewsAggregator\Res\Resource.rc
 [Add]
 [Change]
-Zmìnit
+ZmÄ›nit
 [Remove]
 [Import]
 Importovat
@@ -18,27 +18,27 @@ Exportovat
 [OK]
 [Cancel]
 [General Settings]
-Obecná nastavení
+ObecnÃ¡ nastavenÃ­
 [Title]
 [URL]
 [Check every]
-Projít kadıch
+ProjÃ­t kaÅ¾dÃ½ch
 [minutes]
 min.
 [Check Feed]
 [Authentication]
 [Use &authentication]
-Pouít &autorizaci
+PouÅ¾Ã­t &autorizaci
 [Login]
-Pøihlášení
+PÅ™ihlÃ¡Å¡enÃ­
 [Password]
 Heslo
 [Visualization]
 Vizualizace
 [Display news using the following format:]
-Zprávy zobrazit v následujícím formátu:
+ZprÃ¡vy zobrazit v nÃ¡sledujÃ­cÃ­m formÃ¡tu:
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Znaèky je tøeba umístit mezi #. Pøíklad: #<autor>#
+ZnaÄky je tÅ™eba umÃ­stit mezi #. PÅ™Ã­klad: #<autor>#
 [Reset]
 [?]
 [0 - check manually]
@@ -79,10 +79,10 @@ Znaèky je tøeba umístit mezi #. Pøíklad: #<autor>#
 [Specify one or more categories that the item belongs to.]
 [Feed Tag Help]
 [Are you sure?]
-Opravdu chcete pokraèovat?
+Opravdu chcete pokraÄovat?
 [Tags Mask Reset]
 [Wait...]
-Poèkejte...
+PoÄkejte...
 [Change Feed]
 [Contact deleting]
 [Network]
@@ -99,9 +99,9 @@ Poèkejte...
 [.swf]
 [.xml]
 [Cannot upload VersionInfo. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uivatelské jméno, nebo heslo
+Informace o verzi: Nelze nahrÃ¡t na server\nÅ patnÃ© uÅ¾ivatelskÃ© jmÃ©no, nebo heslo
 [Cannot upload VersionInfo. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
+Informace o verzi: nelze nahrÃ¡t na server\nNeznÃ¡mÃ¡ chyba
 [Feed]
 Zdroj
 [%3s, %d %3s %d %d:%d:%d %1s%02d%02d]
@@ -110,7 +110,7 @@ Zdroj
 [Mar]
 [Apr]
 [May]
-kvìten
+kvÄ›ten
 [Jun]
 [Jul]
 [Aug]
@@ -126,7 +126,7 @@ kvìten
 [title]
 titulek
 [%s\nis a valid feed's address.]
-%s\nje platná adresa zdroje.
+%s\nje platnÃ¡ adresa zdroje.
 [New Aggregator]
 [feed]
 [%s\nis a not valid feed's address.]

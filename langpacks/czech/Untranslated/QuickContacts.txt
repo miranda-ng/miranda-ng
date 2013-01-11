@@ -1,4 +1,4 @@
-;[Ctrl+A]
+﻿;[Ctrl+A]
 ;[Ctrl+F]
 ;[Ctrl+H]
 ;[Ctrl+I]

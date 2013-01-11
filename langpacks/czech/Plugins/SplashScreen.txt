@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: AdvSplashScreen.dll
 ;  Plugin: Splash Screen
@@ -8,17 +8,17 @@
 [Shows a splash at Miranda startup.]
 ;file \plugins\SplashScreen\res\splash.rc
 [Splash Options]
-Logo pøi spuštìní
+Logo pÅ™i spuÅ¡tÄ›nÃ­
 [Show splash]
 Zobrazit logo
 [Show random splash]
-Zobrazit náhodné logo
+Zobrazit nÃ¡hodnÃ© logo
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Play sound]
-Pøehrát zvuk
+PÅ™ehrÃ¡t zvuk
 [Loop sound]
-Opakovanì pøehrávat zvuk
+OpakovanÄ› pÅ™ehrÃ¡vat zvuk
 [Show Miranda Version]
 Zobrazit verzi Mirandy
 [Enable]
@@ -27,19 +27,19 @@ Aktivovat
 Prefix:
 [Appearance]
 [Display time:]
-Doba zobrazení:
+Doba zobrazenÃ­:
 [msec]
 ms
 [Fade in:]
-Nábìh:
+NÃ¡bÄ›h:
 [steps]
-krokù
+krokÅ¯
 [Fade out:]
-Dobìh:
+DobÄ›h:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Tento doplnìk vyaduje knihovnu advaimg.dll, potamo program Miranda IM 0.7 nebo novìjší.
+Tento doplnÄ›k vyÅ¾aduje knihovnu advaimg.dll, potaÅ¾mo program Miranda IM 0.7 nebo novÄ›jÅ¡Ã­.
 [Preview...]
-Náhled...
+NÃ¡hled...
 ;file \plugins\SplashScreen\src\bitmap_funcs.cpp
 [.png]
 [Loading splash file]
@@ -95,12 +95,12 @@ Hodnota
 [Set path]
 [%s (*.wav, *.mp3)%c*.wav;*.mp3%c%c]
 [Sound Files]
-Zvukové soubory
+ZvukovÃ© soubory
 [Set sound path]
 [Skins]
 Skiny
 [Splash Screen]
-Logo pøi spuštìní
+Logo pÅ™i spuÅ¡tÄ›nÃ­
 ;file \plugins\SplashScreen\src\services.cpp
 [PNG and BMP files\0*.png;*.bmp\0\0]
 ;file \plugins\SplashScreen\src\splash.cpp
@@ -127,7 +127,7 @@ Logo pøi spuštìní
 [Thread]
 [start]
 [Preview]
-Náhled
+NÃ¡hled
 [yes]
 [Timeout]
 [end]

@@ -1,4 +1,4 @@
-;[%miranda_path%\\Plugins]
+﻿;[%miranda_path%\\Plugins]
 ;[User Guide]
 ;[UserGuide.chm]
 ;[open]

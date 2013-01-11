@@ -1,4 +1,4 @@
-#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
+ï»¿#muuid {c8cc7414-6507-4af6-925a-83c1d2f7be8c}
 ;============================================================
 ;  File: CSList.dll
 ;  Plugin: Custom Status List mod
@@ -18,57 +18,57 @@ S
 [C]
 [O]
 [No items available in the database.\nClick the Add button to define some.]
-ádné poloky nenalezeny.\nKliknìte na tlaèítko Pøidat pro vytvoøení nové.
+Å½Ã¡dnÃ© poloÅ¾ky nenalezeny.\nKliknÄ›te na tlaÄÃ­tko PÅ™idat pro vytvoÅ™enÃ­ novÃ©.
 [Add/Modify]
 [Cancel]
 [List settings]
-Nastavení seznamu
+NastavenÃ­ seznamu
 [Confirm deletion of items]
-Potvrdit smazání poloek
+Potvrdit smazÃ¡nÃ­ poloÅ¾ek
 [Delete entries in Custom status menu after Import]
 [Remember last window position]
-Pamatovat poslední pozici okna
+Pamatovat poslednÃ­ pozici okna
 [Note: Menu items are only visible when at least one account is properly set. Check if you have at least one account with UIN filled in.]
 ;file \plugins\CSList\src\cslist.cpp
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Custom Status List]
-Seznam rozš. stavù
+Seznam rozÅ¡. stavÅ¯
 [Add new item]
-Pøidat novı stav
+PÅ™idat novÃ½ stav
 [Add]
 [Modify item]
 [Modify]
 Upravit
 [Warning]
-Upozornìní
+UpozornÄ›nÃ­
 [This field doesn't accept string longer than %d characters. The string will be truncated.]
 [Favourites]
-Oblíbené
+OblÃ­benÃ©
 [Regular statuses]
 [Title]
 [Message]
 [Do you really want to delete selected item?]
-Opravdu chcete odstranit vybranou poloku?
+Opravdu chcete odstranit vybranou poloÅ¾ku?
 [Do you want old database entries to be deleted after Import?]
 ;file \plugins\CSList\src\cslist.h
 [Main Menu]
-Hlavní nabídka
+HlavnÃ­ nabÃ­dka
 [Main Icon]
-Hlavní ikona
+HlavnÃ­ ikona
 [Modify selected item]
-Upravit oznaèenı stav
+Upravit oznaÄenÃ½ stav
 [Delete selected item]
-Smazat oznaèenı stav
+Smazat oznaÄenÃ½ stav
 [Remove]
 [Set/unset current item as favorite]
-Nastavit/zrušit aktuální stav jako oblíbenı
+Nastavit/zruÅ¡it aktuÃ¡lnÃ­ stav jako oblÃ­benÃ½
 [Favourite]
-Oblíbené
+OblÃ­benÃ©
 [Undo changes]
-Vrátit zmìny
+VrÃ¡tit zmÄ›ny
 [Import statuses from database]
-Vloit stavy z databáze
+VloÅ¾it stavy z databÃ¡ze
 [Import]
 Importovat
 [Filter list]
@@ -76,14 +76,14 @@ Filtrovat seznam
 [Filter]
 Filtr
 [Close without changing custom status]
-Zavøít bez zmìny rozšíøeného stavu
+ZavÅ™Ã­t bez zmÄ›ny rozÅ¡Ã­Å™enÃ©ho stavu
 [No change]
-beze zmìny
+beze zmÄ›ny
 [Clear custom status (reset to None) and close]
-Vyèistit rozšíøené stavy (resetovat) a zavøít
+VyÄistit rozÅ¡Ã­Å™enÃ© stavy (resetovat) a zavÅ™Ã­t
 [Clear]
 Vymazat
 [Set custom status to selected one and close]
-Nastavit vybranı rozšíøenı stav a zavøít
+Nastavit vybranÃ½ rozÅ¡Ã­Å™enÃ½ stav a zavÅ™Ã­t
 [Set]
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}

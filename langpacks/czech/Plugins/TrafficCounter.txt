@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: TrafficCounter.dll
 ;  Plugin: TrafficCounter
@@ -8,14 +8,14 @@
 ;file \plugins\TrafficCounter\res\resource.rc
 [Selected totals]
 [Accounts]
-Úèty
+ÃšÄty
 [Units]
 Jednotky
 [0]
 [Clear statistics]
 [Notification]
 [Notify me on every]
-Upozornit kadıch
+Upozornit kaÅ¾dÃ½ch
 [kilobytes]
 kB
 [minutes]
@@ -24,19 +24,19 @@ min.
 [Text colour:]
 Barva textu:
 [Reset to default]
-Obnovit vıchozí
+Obnovit vÃ½chozÃ­
 [Popup timeout]
-Doba zobrazení
+Doba zobrazenÃ­
 [From PopUp plugin]
-Globální nastavení
+GlobÃ¡lnÃ­ nastavenÃ­
 [Custom]
-Vlastní
+VlastnÃ­
 [Test]
-Ovìøit
+OvÄ›Å™it
 [Show now]
 Zobrazit okno
 [Space between lines:]
-Odstup mezi øádky:
+Odstup mezi Å™Ã¡dky:
 [Counters format string:]
 [Tooltip format string:]
 [Display traffic for current]
@@ -47,11 +47,11 @@ Odstup mezi øádky:
 ;file \plugins\TrafficCounter\src\statistics.c
 [ListBox]
 [Bytes]
-bajtù
+bajtÅ¯
 [Adaptive]
 [Hourly]
 [Daily]
-Kadı den
+KaÅ¾dÃ½ den
 [Weekly]
 [Monthly]
 [Yearly]
@@ -59,12 +59,12 @@ Co rok
 [Period]
 [Incoming]
 [Outgoing]
-Odchozí
+OdchozÃ­
 [Sum]
 [Online]
 [Now traffic statistics for selected accounts will be cleared.\nContinue?]
 [Traffic counter]
-Poèitadlo dat
+PoÄitadlo dat
 [%s %02d:00 - %02d:59]
 [%s - %s]
 [m:ss]
@@ -78,7 +78,7 @@ Poèitadlo dat
 [TrafficCounterWnd]
 [{I4}\x0D\x0A\x0A\\r\n{R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\\r\n{R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\\r\n{R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\\r\n{L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\\r\n{L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)]
 [Font]
-Písmo
+PÃ­smo
 [Arial]
 [Hide traffic window]
 [Clear the current (Now:) value]
@@ -86,7 +86,7 @@ Písmo
 [Icon]
 Ikona
 [Account name]
-Název úètu
+NÃ¡zev ÃºÄtu
 [Current traffic]
 [Total traffic]
 [Current online]
@@ -100,17 +100,17 @@ Název úètu
 [Overall traffic]
 [Visible accounts/%s]
 [Hide now]
-Skrıt okno
+SkrÃ½t okno
 [Day]
 den
 [Week]
-tıden
+tÃ½den
 [Month]
-mìsíc
+mÄ›sÃ­c
 [Year]
 rok
 [Services]
-Sluby
+SluÅ¾by
 [Options]
 [Statistics]
 Statistika

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: HistorySweeperLight.dll
 ;  Plugin: HistorySweeperLight
@@ -8,7 +8,7 @@
 ;file \plugins\HistorySweeperLight\res\historysweeperlight.rc
 [History Sweeper Light]
 [Sweep history for this contacts:]
-Odstranit historii vybraným kontaktùm:
+Odstranit historii vybranÃ½m kontaktÅ¯m:
 [Action 1]
 [Action 2]
 ;file \plugins\HistorySweeperLight\src\main.cpp
@@ -17,6 +17,6 @@ Odstranit historii vybraným kontaktùm:
 ;file \plugins\HistorySweeperLight\src\options.cpp
 [*** Defaut Action ***]
 [*** System History ***]
-*** historie systému ***
+*** historie systÃ©mu ***
 [History]
 Historie

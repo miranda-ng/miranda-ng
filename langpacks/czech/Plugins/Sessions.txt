@@ -1,4 +1,4 @@
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
+ï»¿#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;============================================================
 ;  File: Sessions.dll
 ;  Plugin: Sessions
@@ -8,47 +8,47 @@
 [Sessions Manager for Miranda NG.]
 ;file \plugins\Sessions\res\Sessions.rc
 [Action on Startup]
-Akce pøi spuštìní
+Akce pÅ™i spuÅ¡tÄ›nÃ­
 [Open Sessions Manager dialog]
-Otevøít okno správce relací
+OtevÅ™Ã­t okno sprÃ¡vce relacÃ­
 [Restore Last Session]
-Obnovit poslední relaci
+Obnovit poslednÃ­ relaci
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 [Only if last session present]
-Pouze pokud existuje poslední relace
+Pouze pokud existuje poslednÃ­ relace
 [Startup delay]
-Zpodìní po startu
+ZpoÅ¾dÄ›nÃ­ po startu
 [ms]
 [User Sessions Management]
-Správa uivatelskıch relací
+SprÃ¡va uÅ¾ivatelskÃ½ch relacÃ­
 [Edit]
 [Delete]
 [Save]
 [Action on Exit]
-Akce pøi ukonèení
+Akce pÅ™i ukonÄenÃ­
 [Ask]
 Zeptat se
 [Save Current Session]
-Uloit aktuální relaci
+UloÅ¾it aktuÃ¡lnÃ­ relaci
 [Save only last]
-Uloit pouze poslední
+UloÅ¾it pouze poslednÃ­
 [Sessions]
 Relace
 [Misc]
 [Exclude hidden contacts from session on exit]
-Pøi ukonèení vylouèit skryté kontakty z relace
+PÅ™i ukonÄenÃ­ vylouÄit skrytÃ© kontakty z relace
 [Warn, when some of LastSession contacts are hidden]
-Varovat kdy jsou nìkteré kontakty z poslední relace skryty
+Varovat kdyÅ¾ jsou nÄ›kterÃ© kontakty z poslednÃ­ relace skryty
 [Show other warnings ("session already opened" etc...)]
-Zobrazovat ostatní varování ("relace je ji otevøena", atd...)
+Zobrazovat ostatnÃ­ varovÃ¡nÃ­ ("relace je jiÅ¾ otevÅ™ena", atd...)
 [Crash Recovery mode]
-Mód obnovení po pádu
+MÃ³d obnovenÃ­ po pÃ¡du
 [&Restore Session]
 Obnovit &relaci
 [&Cancel]
 [Choose session to restore from the list:]
-Zvolit relaci pro obnovení ze seznamu:
+Zvolit relaci pro obnovenÃ­ ze seznamu:
 [Del]
 [&Save Session]
 [Enter session name:]
@@ -65,7 +65,7 @@ Zvolit relaci pro obnovení ze seznamu:
 [Load last Session]
 [Current session is empty!]
 [Sessions Manager]
-Správce relací
+SprÃ¡vce relacÃ­
 [Session name is empty, enter the name and try again]
 [No sessions to open]
 [%s - %s]
@@ -77,15 +77,15 @@ Správce relací
 [Show Favorite Sessions Menu]
 [Restore last Session]
 [Close Session]
-Zavøít rozhovor
+ZavÅ™Ã­t rozhovor
 [Save session...]
-Uloit relaci...
+UloÅ¾it relaci...
 [Load session...]
-Naèíst relaci...
+NaÄÃ­st relaci...
 [Close session]
-Zavøít rozhovor
+ZavÅ™Ã­t rozhovor
 [Load last session]
-Naèíst poslední relaci
+NaÄÃ­st poslednÃ­ relaci
 ;file \plugins\Sessions\Src\Options.cpp
 [View]
 Zobrazit

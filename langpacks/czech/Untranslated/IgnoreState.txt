@@ -1,4 +1,4 @@
-;[Filtered events:]
+﻿;[Filtered events:]
 ;[Full Ignore]
 ;[Message Ignore]
 ;[Partial Ignore]

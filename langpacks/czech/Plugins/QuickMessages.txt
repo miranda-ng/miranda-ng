@@ -1,4 +1,4 @@
-#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
+ï»¿#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}
 ;langpack template for QuickMessages
 ;file \plugins\QuickMessages\res\quickmessages.rc
 [+]
@@ -7,7 +7,7 @@
 [Button Right-Click value]
 [Button Left-Click menu]
 [Buttons]
-Tlaèítka
+TlaÄÃ­tka
 [Menu entry value:]
 [Misc.]
 [Auto-send on Left-Click]
@@ -40,7 +40,7 @@ Tlaèítka
 [---]
 [Congratulation!\n\\r\n								   You have clicked this button 100 times!\n\\r\n								   There was access violation at this point...\n\\r\n								   And now function for freeing resources must be called...\n\\r\n								   But no! there's only break :D]
 [You win!]
-Vyhráli jste!
+VyhrÃ¡li jste!
 [New Button]
 [New Menu Entry]
 [Message Sessions]

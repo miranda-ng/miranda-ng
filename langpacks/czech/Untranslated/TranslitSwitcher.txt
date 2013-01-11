@@ -1,4 +1,4 @@
-;[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
+﻿;[Allows to switch a layout or transliterate or invert case of the entered text in the message window with SmileyAdd support.]
 ;[Convert All / Selected]
 ;[Convert Last / Selected]
 ;[Internet Explorer_Server]

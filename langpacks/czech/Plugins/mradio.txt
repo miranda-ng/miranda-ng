@@ -1,44 +1,44 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for mradio
 ;file \plugins\mRadio\mradio.rc
 [Add Station]
-Pøidat stanici
+PÅ™idat stanici
 [Station Name]
-Název stanice
+NÃ¡zev stanice
 [Station URL (required)]
-Adresa stanice (povinné)
+Adresa stanice (povinnÃ©)
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Genre]
-ánr
+Å½Ã¡nr
 [Bitrate]
-Datovı tok
+DatovÃ½ tok
 [Add station]
-Pøidat stanici
+PÅ™idat stanici
 [To list]
 Do CL
 [Record]
-Nahrávat
+NahrÃ¡vat
 [Record path]
-Nahrávat do:
+NahrÃ¡vat do:
 [Status Message]
-Stavová zpráva
+StavovÃ¡ zprÃ¡va
 [V]
 [Status message template]
-Šablona stavové zprávy
+Å ablona stavovÃ© zprÃ¡vy
 [Import File]
 [Use EAX]
-Pouít EAX
+PouÅ¾Ã­t EAX
 [min]
 [max]
 [Volume]
 Hlasitost
 [Buffer, ms (5000)]
-Vyrovnávací pamì, ms (5000)
+VyrovnÃ¡vacÃ­ pamÄ›Å¥, ms (5000)
 [PreBuf, % (75%)]
-Naplnìní pamìti, % (75%)
+NaplnÄ›nÃ­ pamÄ›ti, % (75%)
 [Timeout, ms (5000)]
-Èasovı limit, ms (5000)
+ÄŒasovÃ½ limit, ms (5000)
 [Tries to connect]
 [BASS library path (empty for default)]
 [OFF]
@@ -47,13 +47,13 @@ Naplnìní pamìti, % (75%)
 [-]
 -
 [Equalizer presets]
-Pøedvolby ekvalizéru
+PÅ™edvolby ekvalizÃ©ru
 [Equalizer]
 [Station]
 Stanice
 [URL]
 [Custom INI file]
-Vlastní INI
+VlastnÃ­ INI
 [*]
 ;file \plugins\mRadio\i_bass.inc
 [Sorry!]
@@ -62,7 +62,7 @@ Vlastní INI
 [Choose BASS.dll path]
 ;file \plugins\mRadio\i_frameapi.inc
 [Mute]
-Ztišit
+ZtiÅ¡it
 ;file \plugins\mRadio\i_myservice.inc
 [Advanced]
 Extra
@@ -73,4 +73,4 @@ Extra
 [Radio station URL]
 ;file \plugins\mRadio\mradio.dpr
 [%s server connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem

@@ -1,4 +1,4 @@
-;[ ago]
+﻿;[ ago]
 ;[%Status%]
 ;[%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
 ;[%dd %dh %dm]

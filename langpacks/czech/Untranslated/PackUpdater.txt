@@ -1,4 +1,4 @@
-;[%ProgramFiles%]
+﻿;[%ProgramFiles%]
 ;[%SystemRoot%]
 ;[%d.%d.%d.%d]
 ;[%miranda_path%]

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: KeepStatus.dll
 ;  Plugin: Keep Status
@@ -10,41 +10,41 @@
 [<from trigger>]
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
 [STATIC]
-Statickı
+StatickÃ½
 [KeepStatus]
-Udrování stavu
+UdrÅ¾ovÃ¡nÃ­ stavu
 [%s Connected from another location]
-Pøipojení z jiného místa (%s)
+PÅ™ipojenÃ­ z jinÃ©ho mÃ­sta (%s)
 [%s Login error, cancel reconnecting]
-Chyba pøi pøihlášení (%s), obnovení ukonèeno
+Chyba pÅ™i pÅ™ihlÃ¡Å¡enÃ­ (%s), obnovenÃ­ ukonÄeno
 [%s Login error (next retry (%d) in %ds)]
-Chyba pøi pøihlášení (%s), další pokus (è.%d) za %d sek.
+Chyba pÅ™i pÅ™ihlÃ¡Å¡enÃ­ (%s), dalÅ¡Ã­ pokus (Ä.%d) za %d sek.
 [%s Status error (next retry (%d) in %ds)]
-Chyba stavu (%s), další pokus (è.%d) za %d sek.
+Chyba stavu (%s), dalÅ¡Ã­ pokus (Ä.%d) za %d sek.
 [Status error (next retry (%d) in %ds)]
-Chyba stavu (další pokus (è.%d) za %d sek.)
+Chyba stavu (dalÅ¡Ã­ pokus (Ä.%d) za %d sek.)
 [%s\t(will be set to %s)\r\n]
-%s\t(stav bude zmìnìn na '%s')\r\n
+%s\t(stav bude zmÄ›nÄ›n na '%s')\r\n
 [will be set to]
 [Resetting status... (last try (%d))%s]
-Reset stavu... (poslední pokus (è.%d))%s
+Reset stavu... (poslednÃ­ pokus (Ä.%d))%s
 [Resetting status... (next retry (%d) in %ds)%s]
-Reset stavu... (další pokus (è.%d) za %d sek.)%s
+Reset stavu... (dalÅ¡Ã­ pokus (Ä.%d) za %d sek.)%s
 [No internet connection seems available... (last try (%d))]
-Nefunguje pøipojení k internetu... (poslední pokus (è.%d))
+Nefunguje pÅ™ipojenÃ­ k internetu... (poslednÃ­ pokus (Ä.%d))
 [No internet connection seems available... (next retry (%d) in %ds)]
-Nefunguje pøipojení k internetu... (další pokus (è.%d) za %d sek.)
+Nefunguje pÅ™ipojenÃ­ k internetu... (dalÅ¡Ã­ pokus (Ä.%d) za %d sek.)
 [Status was set ok]
-Stav úspìšnì obnoven
+Stav ÃºspÄ›Å¡nÄ› obnoven
 [Giving up]
 Stav nelze obnovit
 ;file \plugins\StatusPlugins\KeepStatus\options.cpp
 [Basic]
-Obecné
+ObecnÃ©
 [Advanced]
 Extra
 [You broke the Internet!]
-Koleèko se polámalo!
+KoleÄko se polÃ¡malo!
 [uxtheme.dll]
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 [Status]

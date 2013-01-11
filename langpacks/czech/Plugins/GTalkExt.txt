@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;langpack template for GTalkExt
 ;file \protocols\GTalkExt\res\settings.rc
 [NOTE\n\nThis will work only if this Jabber account is actually GTalk]
@@ -17,14 +17,14 @@
 [Standard view]
 [Basic HTML]
 [Background color]
-Barva pozadÌ
+Barva pozad√≠
 [Text color]
 Barva textu
 [Timeout]
 [If both colors set to the same value, default colors will be used]
 [0 means default timeout]
 [Test]
-OvÏ¯it
+Ovƒõ≈ôit
 ;file \protocols\GTalkExt\src\avatar.cpp
 [PNG]
 ;file \protocols\GTalkExt\src\handlers.cpp
@@ -71,10 +71,10 @@ XMLNS
 [googlemail.com]
 [https://mail.google.com/%s%s/#inbox]
 [mail]
-poöta
+po≈°ta
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
-P¯eËÌst poötu
+P≈ôeƒç√≠st po≈°tu
 ;file \protocols\GTalkExt\src\notifications.cpp
 [AntiShittyFullscreenDetectionWindowClass]
 [You've received an e-mail\n%s unread threads]

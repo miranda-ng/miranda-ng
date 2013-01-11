@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for Variables
 ;file \plugins\Variables\res\Variables.rc
 [Parse]
@@ -6,40 +6,40 @@ Zpracovat
 [Auto parse]
 Automaticky zpracovat
 [Parse the following string at startup]
-Pøi spuštìní zpracovat níe uvedené
+PÅ™i spuÅ¡tÄ›nÃ­ zpracovat nÃ­Å¾e uvedenÃ©
 [Automatically strip "end of line" characters]
-Automaticky odstranit konce øádkù (EOL)
+Automaticky odstranit konce Å™Ã¡dkÅ¯ (EOL)
 [Automatically strip white space]
-Automaticky odstranit netisknutelné znaky
+Automaticky odstranit netisknutelnÃ© znaky
 [Test area]
-Místo pro zkoušky
+MÃ­sto pro zkouÅ¡ky
 [Click on the help button to get more information]
-Více informací se dozvíte kliknutím na tlaèítko Nápovìda
+VÃ­ce informacÃ­ se dozvÃ­te kliknutÃ­m na tlaÄÃ­tko NÃ¡povÄ›da
 [Parse options]
-Monosti zpracování
+MoÅ¾nosti zpracovÃ¡nÃ­
 [Automatically strip all non-parsing characters]
-Automaticky odstranit všechny nezpracovatelné znaky
+Automaticky odstranit vÅ¡echny nezpracovatelnÃ© znaky
 [Trigger when the following string changes]
-Spustit pøi zmìnì následujícího øetìzce
+Spustit pÅ™i zmÄ›nÄ› nÃ¡sledujÃ­cÃ­ho Å™etÄ›zce
 [Please enter your input below]
-Zadejte prosím poadovanı text:
+Zadejte prosÃ­m poÅ¾adovanÃ½ text:
 [Don't set a contact]
 Nenastavovat kontakt
 [Set to the following contact]
-Nastavit následující kontakt
+Nastavit nÃ¡sledujÃ­cÃ­ kontakt
 [The token %subject% is translated into a special contact, which depends on the situation in which the string is parsed. Use this dialog to simulate the contact to which %subject% translates. An example for using this token is: !cinfo(%subject%,display).]
 [Description]
 Popis
 [Setting]
 [The token %extratext% is translated into a string which depends on the situation in which the string is parsed. Use this dialog to simulate the string to which %extratext% translates.]
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [OK]
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 [Notes]
-Poznámky
+PoznÃ¡mky
 [Variables...]
-Promìnné...
+PromÄ›nnÃ©...
 ;file \plugins\Variables\src\contact.cpp
 [<%s:%s>]
 ;file \plugins\Variables\src\help.cpp
@@ -59,12 +59,12 @@ Vstup
 %extratext%
 [Help]
 [Variables Help]
-Nápovìda pro doplnìk Variables
+NÃ¡povÄ›da pro doplnÄ›k Variables
 [Open String Formatting Help]
-Otevøít nápovìdu o promìnnıch
+OtevÅ™Ã­t nÃ¡povÄ›du o promÄ›nnÃ½ch
 ;file \plugins\Variables\src\options.cpp
 [Services]
-Sluby
+SluÅ¾by
 [Variables]
 ;file \plugins\Variables\src\parse_external.cpp
 [STUDIO]
@@ -90,7 +90,7 @@ Hraje
 [miranda_logpath]
 [appdata]
 [username]
-uivatelské jméno
+uÅ¾ivatelskÃ© jmÃ©no
 [mydocuments]
 [desktop]
 ;file \plugins\Variables\src\parse_str.cpp

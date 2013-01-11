@@ -1,4 +1,4 @@
-;[<from trigger>]
+﻿;[<from trigger>]
 ;[PopUps]
 ;[Protocol]
 ;[will be set to]

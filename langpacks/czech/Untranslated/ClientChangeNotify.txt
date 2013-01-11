@@ -1,4 +1,4 @@
-;[(you can use regular expressions here)]
+﻿;[(you can use regular expressions here)]
 ;[/Miranda[0-9A-F]{8}/]
 ;[/[0-9A-F]{8}(\\W|$)/]
 ;[Always except when client change notifications are disabled globally]

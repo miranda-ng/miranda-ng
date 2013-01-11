@@ -1,4 +1,4 @@
-#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
+ï»¿#muuid {81c220a6-0226-4ad6-bfca-217b17a16053}
 ;============================================================
 ;  File: Db_autobackups.dll
 ;  Plugin: Db_autobackups
@@ -8,28 +8,28 @@
 ;file \plugins\Db_autobackups\res\db_autobackups.rc
 [Cancel]
 [Automatic Backups]
-Automatické zálohování
+AutomatickÃ© zÃ¡lohovÃ¡nÃ­
 [Number of backups to keep:]
-Poèet uloenıch kopií:
+PoÄet uloÅ¾enÃ½ch kopiÃ­:
 [Backup NOW]
-Zazálohovat
+ZazÃ¡lohovat
 [Disabled]
 Vypnuto
 [When Miranda starts]
-Pøi spuštìní Mirandy
+PÅ™i spuÅ¡tÄ›nÃ­ Mirandy
 [When Miranda exits]
-Pøi ukonèení Mirandy
+PÅ™i ukonÄenÃ­ Mirandy
 [Every:]
-Kadé:
+KaÅ¾dÃ©:
 [Backup to folder:]
-Sloka pro zálohování profilù:
+SloÅ¾ka pro zÃ¡lohovÃ¡nÃ­ profilÅ¯:
 [Browse...]
-Procházet...
+ProchÃ¡zet...
 [Go to the "Customize -> Folders" to change settings]
 [Disable progress bar]
-Vypnout ukazatel prùbìhu
+Vypnout ukazatel prÅ¯bÄ›hu
 [Disable Popups]
-Vypnout oznámení
+Vypnout oznÃ¡menÃ­
 ;file \plugins\Db_autobackups\src\backup.cpp
 [%s (*.dat)]
 [Miranda Databases]
@@ -43,19 +43,19 @@ Vypnout oznámení
 %s\\%s
 [%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.bak]
 [Backup in Progress]
-Stav zálohování
+Stav zÃ¡lohovÃ¡nÃ­
 [Rotating backup files...]
-Rotování zálohovanıch souborù...
+RotovÃ¡nÃ­ zÃ¡lohovanÃ½ch souborÅ¯...
 [Copying database file...]
-Kopírování souborù s profilem...
+KopÃ­rovÃ¡nÃ­ souborÅ¯ s profilem...
 [Database backuped]
-Databáze zálohována
+DatabÃ¡ze zÃ¡lohovÃ¡na
 ;file \plugins\Db_autobackups\src\main.cpp
 [Backup Profile]
-Zazálohovat profil
+ZazÃ¡lohovat profil
 [Save Profile As...]
 [Database]
-Databáze
+DatabÃ¡ze
 [%miranda_userdata%]
 [Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
@@ -65,39 +65,39 @@ Databáze
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [%miranda_path%]
 [path to root miranda folder]
-cesta ke koøenové sloce Mirandy
+cesta ke koÅ™enovÃ© sloÅ¾ce Mirandy
 [%miranda_profile%]
 [path to current miranda profile]
-cesta k aktuálnímu profilu Mirandy
+cesta k aktuÃ¡lnÃ­mu profilu Mirandy
 [%miranda_profilename%]
 [name of current miranda profile (filename, without extension)]
-jméno aktuálního profilu Mirandy (jméno souboru bez pøípony)
+jmÃ©no aktuÃ¡lnÃ­ho profilu Mirandy (jmÃ©no souboru bez pÅ™Ã­pony)
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí øetìzec %miranda_profile%\\Profiles\\%miranda_profilename%
+navrÃ¡tÃ­ Å™etÄ›zec %miranda_profile%\\Profiles\\%miranda_profilename%
 [%appdata%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-stejné jako systémová promìnná %APPDATA% pro aktuálnì pøihlášeného uivatele Windows
+stejnÃ© jako systÃ©movÃ¡ promÄ›nnÃ¡ %APPDATA% pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%username%]
 [username for currently logged-on Windows user]
-jméno pro aktuálnì pøihlášeného uivatele Windows
+jmÃ©no pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%mydocuments%]
 ["My Documents" folder for currently logged-on Windows user]
-sloka "Dokumenty" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Dokumenty" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%desktop%]
 ["Desktop" folder for currently logged-on Windows user]
-sloka "Plocha" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Plocha" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-nìjaká systémová promìnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
+nÄ›jakÃ¡ systÃ©movÃ¡ promÄ›nnÃ¡ definovanÃ¡ v aktuÃ¡lnÃ­ relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [Variables]
 [Days]
-Dnù
+DnÅ¯
 [Hours]
 [Minutes]
 min.
 [Select Backup Folder]
-Vyberte sloku pro zálohování profilù:
+Vyberte sloÅ¾ku pro zÃ¡lohovÃ¡nÃ­ profilÅ¯:
 [Error Creating Backup Folder]
-Chyba pøi vytváøení sloky pro zálohování
+Chyba pÅ™i vytvÃ¡Å™enÃ­ sloÅ¾ky pro zÃ¡lohovÃ¡nÃ­
 [Database AutoBackups]
-Záloha databáze
+ZÃ¡loha databÃ¡ze

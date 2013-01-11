@@ -1,4 +1,4 @@
-;[Disable History]
+﻿;[Disable History]
 ;[Disable history for this contact]
 ;[Enable History]
 ;[History Disabled]

@@ -1,4 +1,4 @@
-#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
+﻿#muuid {687364af-58b0-4af2-a4ee-20f40a8d9afb}
 ;============================================================
 ;  File: Fingerprint.dll
 ;  Plugin: Fingerprint NG
@@ -351,7 +351,7 @@ Vybrat protokoly
 [CRoom]
 [*Candy*]
 [Candy]
-Bonb�n
+Bonbón
 [*Chatopus*]
 [Chatopus]
 [*Chikka*]
@@ -520,7 +520,7 @@ Interakce
 [Fire]
 [*Paltalk*]
 [Paltalk]
-[|*Pandion*|*Пандион*]
+[|*Pandion*|*ĐźĐ°Đ˝Đ´Đ¸ĐľĐ˝*]
 [Pandion]
 [*Papla*]
 [Papla]
@@ -699,7 +699,7 @@ Interakce
 [*xeus*]
 [xeus]
 [|*yandex*|*yaonline*]
-[|*Я.Онлайн*|*Яндекс*]
+[|*ĐŻ.ĐžĐ˝Đ»Đ°ĐąĐ˝*|*ĐŻĐ˝Đ´ĐµĐşŃ*]
 [Ya.Online]
 [*yaxim*]
 [yaxim]
@@ -914,7 +914,7 @@ MSN
 [Weather CN]
 [*weather*]
 [Weather]
-Po�as�
+Počasí
 [*RSS*0.9*]
 [RSS 0.9x]
 [*RSS*2.*]
@@ -953,7 +953,7 @@ Po�as�
 [Facebook]
 [|*Pidgin*|*libpurple*|Purple*]
 [Pidgin (libpurple)]
-[|*Python*|Py*|*ταλιςμαη*]
+[|*Python*|Py*|*Ď„Î±Î»ÎąĎ‚ÎĽÎ±Î·*]
 [Python-based clients]
 [*Jabber*client*]
 [Jabber client]
@@ -971,7 +971,7 @@ Po�as�
 [Client not found]
 [|*Unknown*|...]
 [Unknown client]
-nezn�m� klient
+neznámý klient
 [Undetected client]
 [*AF*Pack*]
 [*AlfaMaR*]
@@ -1000,7 +1000,7 @@ nezn�m� klient
 [HierOS]
 [|*miranda*[ice*]|*induction*]
 [iCE / Induction]
-[|*KDL*|*КДЛ*]
+[|*KDL*|*ĐšĐ”Đ›*]
 [KDL]
 [*Kolich*]
 [Kolich]
@@ -1020,7 +1020,7 @@ nezn�m� klient
 [Miranda ME]
 [*Native*]
 [Native]
-Nativn�
+Nativní
 [*New*Style*]
 [New Style]
 [*Pilot*]
@@ -1156,19 +1156,19 @@ Nativn�
 [*Amiga*]
 [Amiga overlay]
 [Android overlay]
-[|*[*debug*]*|*test*|*тест*]
+[|*[*debug*]*|*test*|*Ń‚ĐµŃŃ‚*]
 [debug overlay]
-[|*[*office*]*|*[*офис*]*]
+[|*[*office*]*|*[*ĐľŃ„Đ¸Ń*]*]
 [office overlay]
 [|*[*mobile*]*|*[*pda*]*]
 [mobile overlay]
-[|*[*home*]*|*[*дом*]*|*[*хоме*]*]
+[|*[*home*]*|*[*Đ´ĐľĐĽ*]*|*[*Ń…ĐľĐĽĐµ*]*]
 [home overlay]
 [|*[*work*]*|*wrk*]
-[|*[*работа*]*|*ворк*]
+[|*[*Ń€Đ°Đ±ĐľŃ‚Đ°*]*|*Đ˛ĐľŃ€Đş*]
 [work overlay]
-[|*[*note*]*|*[*laptop*]*|*ноут*]
-[|*[*кирпич*]*|*[*portable*]*]
+[|*[*note*]*|*[*laptop*]*|*Đ˝ĐľŃŃ‚*]
+[|*[*ĐşĐ¸Ń€ĐżĐ¸Ń‡*]*|*[*portable*]*]
 [|*[*flash*]*|*[*usb*]*]
 [notebook overlay]
 [*Miranda*NG*\?.\?\?.9.*]

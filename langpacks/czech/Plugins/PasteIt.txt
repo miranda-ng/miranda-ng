@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: PasteIt.dll
 ;  Plugin: Paste It
@@ -8,7 +8,7 @@
 [Uploads the text to web page and sends the URL to your friends.]
 ;file \plugins\PasteIt\res\PasteIt.rc
 [Settings]
-Nastavení
+NastavenÃ­
 [Default web page]
 [Default file encoding]
 [Auto-detect UTF-8]
@@ -30,52 +30,52 @@ Automaticky poslat odkaz na soubor
 [Down]
 [Delete]
 [Restore defaults]
-Obnovit pùvodní
+Obnovit pÅ¯vodnÃ­
 [Download more]
 [User name]
 [Password]
 Heslo
 [Format]
-Formát
+FormÃ¡t
 [Encoding]
 [Recode]
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
-Vıchozí kódování
+VÃ½chozÃ­ kÃ³dovÃ¡nÃ­
 [UTF-8]
 UTF-8
 [Thai]
-thajština
+thajÅ¡tina
 [Japanese]
-japonština
+japonÅ¡tina
 [Simplified Chinese]
-èínština (zjednodušená)
+ÄÃ­nÅ¡tina (zjednoduÅ¡enÃ¡)
 [Korean]
-korejština
+korejÅ¡tina
 [Traditional Chinese]
-èínština (tradièní)
+ÄÃ­nÅ¡tina (tradiÄnÃ­)
 [Central European]
-støedoevropskı
+stÅ™edoevropskÃ½
 [Cyrillic]
 cyrilika
 [Cyrillic KOI8-R]
 cyrilika KOI8-R
 [Latin I]
-západní
+zÃ¡padnÃ­
 [Greek]
-øeètina
+Å™eÄtina
 [Turkish]
-tureètina
+tureÄtina
 [Hebrew]
-hebrejština
+hebrejÅ¡tina
 [Arabic]
-arabština
+arabÅ¡tina
 [Baltic]
-pobaltskı
+pobaltskÃ½
 [Vietnamese]
-vietnamština
+vietnamÅ¡tina
 [Korean (Johab)]
-korejština (Johab)
+korejÅ¡tina (Johab)
 [UTF-7]
 [UTF-16]
 [UTF-16BE]
@@ -83,14 +83,14 @@ korejština (Johab)
 [Invalid codepage]
 [Paste It]
 [Services]
-Sluby
+SluÅ¾by
 [Main]
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 [Web page]
-Domácí stránka
+DomÃ¡cÃ­ strÃ¡nka
 ;file \plugins\PasteIt\src\PasteIt.cpp
 [All Files (*.*)]
-Všechny soubory (*.*)
+VÅ¡echny soubory (*.*)
 [\0*.*\0]
 [Paste It - Select file]
 [Error]
@@ -102,7 +102,7 @@ Všechny soubory (*.*)
 [Cannot get data from clipboard]
 [File size is %dKB, do you realy want to paste such large file?]
 [Are You sure?]
-Opravdu chcete pokraèovat?
+Opravdu chcete pokraÄovat?
 [Cannot read file '%s']
 [File size is larger then 10MB, cannot be send]
 [Cannot open file '%s']

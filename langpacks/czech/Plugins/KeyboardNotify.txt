@@ -1,50 +1,50 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for KeyboardNotify
 ;file \plugins\KeyboardNotify\res\resources.rc
 [Protocols to check]
 [Events to react on]
-Reagovat pøi událostech
+Reagovat pÅ™i udÃ¡lostech
 [Incoming messages]
-Pøíchozí zprávy
+PÅ™Ã­chozÃ­ zprÃ¡vy
 [Incoming files]
-Pøíchozí soubory
+PÅ™Ã­chozÃ­ soubory
 [Incoming URLs]
-Pøíchozí - URL
+PÅ™Ã­chozÃ­ - URL
 [Everything else]
-Všechno ostatní
+VÅ¡echno ostatnÃ­
 [Message-Event only]
-Pouze pro zprávy
+Pouze pro zprÃ¡vy
 [Blink if message window is open]
-Blikat pøi otevøeném kom. oknì
+Blikat pÅ™i otevÅ™enÃ©m kom. oknÄ›
 [     ... and not in foreground]
-      ... které není v popøedí
+      ... kterÃ© nenÃ­ v popÅ™edÃ­
 [Only if last is]
-Jen starší
+Jen starÅ¡Ã­
 [sec. old]
 ti sek.
 [Flash until]
-Doba blikání
+Doba blikÃ¡nÃ­
 [seconds]
 [is re-attended]
-- povšimnutí
+- povÅ¡imnutÃ­
 [Events are opened]
-Do vyøešení událostí
+Do vyÅ™eÅ¡enÃ­ udÃ¡lostÃ­
 [End of 'notify when' conditions]
-Do skonèení 'Okolnosti pro oznámení'
+Do skonÄenÃ­ 'Okolnosti pro oznÃ¡menÃ­'
 [Notify when]
-Okolnosti pro oznámení
+Okolnosti pro oznÃ¡menÃ­
 [Full Screen mode]
-Celoobrazovkovı reim
+CeloobrazovkovÃ½ reÅ¾im
 [Screen Saver is running]
-Bìící spoøiè obrazovky
+BÄ›Å¾Ã­cÃ­ spoÅ™iÄ obrazovky
 [Workstation is Locked (2000/XP)]
-Uzamèená stanice (2000/XP)
+UzamÄenÃ¡ stanice (2000/XP)
 [Defined programs are running]
-Bìí vybrané programy
+BÄ›Å¾Ã­ vybranÃ© programy
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [All other situations]
-Všechny ostatní situace
+VÅ¡echny ostatnÃ­ situace
 [Only notify if status is]
 [Online]
 [Away]
@@ -56,16 +56,16 @@ Všechny ostatní situace
 [On the phone]
 [Out to lunch]
 [Pending Events]
-Trvající události
+TrvajÃ­cÃ­ udÃ¡losti
 [Remind me every]
-Blikat kadıch
+Blikat kaÅ¾dÃ½ch
 [minutes]
 min.
 [Offline]
 [xStatuses]
 xStatus
 [Keys to flash]
-Rozsvítit LEDky
+RozsvÃ­tit LEDky
 [Num Lock]
 Num Lock
 [Caps Lock]
@@ -73,35 +73,35 @@ Caps Lock
 [Scroll Lock]
 Scroll Lock
 [Flashing effects]
-Efekty blikání
+Efekty blikÃ¡nÃ­
 [All at the same time]
-Všechny LEDky najednou
+VÅ¡echny LEDky najednou
 [In turn]
-Na støídaèku
+Na stÅ™Ã­daÄku
 [In sequence]
-íalka
+Å½Ã­Å¾alka
 [Custom theme]
-Vlastní sekvence
+VlastnÃ­ sekvence
 [Accordingly to events' count]
-Podle poètu událostí
+Podle poÄtu udÃ¡lostÃ­
 [Wait before starting flashing]
-Prodleva pøed zaèátkem blikání
+Prodleva pÅ™ed zaÄÃ¡tkem blikÃ¡nÃ­
 [Flash speed]
-Rychlost blikání
+Rychlost blikÃ¡nÃ­
 [Fast]
 Rychle
 [Slow]
 Pomalu
 [&Preview]
-&Pøehrát
+&PÅ™ehrÃ¡t
 [Emulate keypresses (Use this option if you are using an USB keyboard)]
-Emulovat zmáèknutí kláves (vyadováno pro klávesnice typu USB)
+Emulovat zmÃ¡ÄknutÃ­ klÃ¡ves (vyÅ¾adovÃ¡no pro klÃ¡vesnice typu USB)
 [Create/Edit Themes]
-Tvorba a úprava sekvence
+Tvorba a Ãºprava sekvence
 [Theme]
 Sekvence
 [Test]
-Ovìøit
+OvÄ›Å™it
 [Add]
 [Update]
 Aktualizovat
@@ -113,7 +113,7 @@ Exportovat...
 [Import...]
 Importovat...
 [Override existing]
-Pøepsat existující
+PÅ™epsat existujÃ­cÃ­
 [Program]
 [OK]
 [Cancel]
@@ -121,33 +121,33 @@ Pøepsat existující
 [Caps]
 [Scroll]
 [Message events]
-Zprávy
+ZprÃ¡vy
 [File events]
-Pøenos souborù
+PÅ™enos souborÅ¯
 [URL events]
-Pøíchozí odkazy
+PÅ™Ã­chozÃ­ odkazy
 [Other events]
-Jiné události
+JinÃ© udÃ¡losti
 [Consider event opened after]
 [Use custom theme]
 [The following events are being ignored:]
-Následující události budou ignorovány:
+NÃ¡sledujÃ­cÃ­ udÃ¡losti budou ignorovÃ¡ny:
 [Ignore messages]
-Ignorovat zprávy
+Ignorovat zprÃ¡vy
 [Ignore URLs]
 Ignorovat adresy
 [Ignore files]
 Ignorovat soubory
 [Ignore others]
-Ignorovat ostatní
+Ignorovat ostatnÃ­
 [Ignore all]
-Ignorovat vše
+Ignorovat vÅ¡e
 [Ignore none]
 Neignorovat
 [Ignore]
 ;file \plugins\KeyboardNotify\src\ignore.cpp
 [** All contacts **]
-** všechny kontakty **
+** vÅ¡echny kontakty **
 [** Unknown contacts **]
 ;file \plugins\KeyboardNotify\src\keyboard.cpp
 [Kbd%d]
@@ -170,18 +170,18 @@ zprava doleva
 Knight Rider
 [Keyboard Flash]
 [Events]
-Události
+UdÃ¡losti
 [Protocols]
 Protokoly
 [Rules]
 Pravidla
 [Flashing]
-Blikání
+BlikÃ¡nÃ­
 [Themes]
-Vlastní sekvence
+VlastnÃ­ sekvence
 [Protocol]
 [Keyboard Notify Theme]
-Sekvence blikání klávesnicí
+Sekvence blikÃ¡nÃ­ klÃ¡vesnicÃ­
 [ (*.knt)]
 [*.knt]
 [All Files]

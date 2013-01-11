@@ -1,4 +1,4 @@
-;[%s <command> [<param> [, <param> ..]]\n]
+﻿;[%s <command> [<param> [, <param> ..]]\n]
 ;[%s The port or the proxy type parameter is invalid.]
 ;[%s proxy server: %s %s:%d.]
 ;[%s proxy set to %s %s:%d.]

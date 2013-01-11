@@ -1,4 +1,4 @@
-;[%appdata%]
+﻿;[%appdata%]
 ;[%desktop%]
 ;[%miranda_path%]
 ;[%miranda_profile%]

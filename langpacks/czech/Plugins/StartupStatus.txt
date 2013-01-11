@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: StartupStatus.dll
 ;  Plugin: StartupStatus
@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
-<minulı>
+<minulÃ½>
 [<current>]
 [.\\%s]
 [Left]
@@ -18,32 +18,32 @@ Vpravo
 [size: %d x %d]
 [loc: %d x %d]
 [Hidden]
-Skrytı
+SkrytÃ½
 [Minimized]
-Minimalizované
+MinimalizovanÃ©
 [Normal]
-Normální
+NormÃ¡lnÃ­
 [Create a status menu item]
-Vytvoøit poloku v hlavní nabídce
+VytvoÅ™it poloÅ¾ku v hlavnÃ­ nabÃ­dce
 [default]
-vıchozí
+vÃ½chozÃ­
 [unknown]
 [At least one profile must exist]
-Musí bıt zaloen nejménì jeden profil!
+MusÃ­ bÃ½t zaloÅ¾en nejmÃ©nÄ› jeden profil!
 [StartupStatus]
-Stav pøi spuštìní
+Stav pÅ™i spuÅ¡tÄ›nÃ­
 [Your default profile will be changed]
-Vıchozí profil bude zmìnìn.
+VÃ½chozÃ­ profil bude zmÄ›nÄ›n.
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [General]
 [Status Profiles]
-Startovní profily
+StartovnÃ­ profily
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
-Max. poèet poloek menu je 6.
+Max. poÄet poloÅ¾ek menu je 6.
 [STATIC]
-Statickı
+StatickÃ½
 ;file \plugins\StatusPlugins\StartupStatus\startupstatus.cpp
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]

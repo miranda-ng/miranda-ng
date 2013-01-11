@@ -1,4 +1,4 @@
-;[%s SOCKS connection]
+﻿;[%s SOCKS connection]
 ;[%s Web Messages]
 ;[%s mail]
 ;[&Accept]

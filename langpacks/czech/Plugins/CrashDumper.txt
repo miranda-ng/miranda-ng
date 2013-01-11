@@ -1,4 +1,4 @@
-#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
+ï»¿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;============================================================
 ;  File: CrashDumper.dll
 ;  Plugin: CrashDumper
@@ -7,35 +7,35 @@
 ;============================================================
 ;file \plugins\CrashDumper\res\crshdmp.rc
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Copy To Clipboard]
-Kopírovat do schránky
+KopÃ­rovat do schrÃ¡nky
 [To File]
 Do souboru
 [Support for miranda-vi.org]
-Nastavení pro miranda-vi.org
+NastavenÃ­ pro miranda-vi.org
 [Username]
 [Password]
 Heslo
 [Upload automatically when changed]
-Nahrát na server automaticky pøi zmìnì
+NahrÃ¡t na server automaticky pÅ™i zmÄ›nÄ›
 [General]
 [Use classic dates]
-Pouít klasickı formát data
+PouÅ¾Ã­t klasickÃ½ formÃ¡t data
 [Create reports in subfolders naming as current date]
 [&Copy]
 [Co&py All]
-Zko&pírovat vše
+Zko&pÃ­rovat vÅ¡e
 [Select &All]
 ;file \plugins\CrashDumper\src\crshdmp.cpp
 [VersionInfo stored into file %s]
-Informace o verzi ukládat do %s
+Informace o verzi uklÃ¡dat do %s
 [VersionInfo file %s is inaccessible]
-Soubor Informací o verzi %s je nedostupnı
+Soubor InformacÃ­ o verzi %s je nedostupnÃ½
 [Services]
-Sluby
+SluÅ¾by
 [Version Information To Clipboard]
-Informace o verzi do schránky
+Informace o verzi do schrÃ¡nky
 [Version Information To File]
 Informace o verzi do souboru
 [Show Version Information]
@@ -47,9 +47,9 @@ Odeslat info. o verzi
 [Version Information]
 Informace o verzi
 [Copy to clipboard]
-Kopírovat do schránky
+KopÃ­rovat do schrÃ¡nky
 [Store to file]
-Uloit do souboru
+UloÅ¾it do souboru
 [Show]
 Zobrazit
 [Show with DLLs]
@@ -57,35 +57,35 @@ Zobrazit s DLL knihovnami
 [Upload]
 -> server
 [Open crash report directory]
-Otevøít sloku s vıpisem chyb
+OtevÅ™Ã­t sloÅ¾ku s vÃ½pisem chyb
 [Open miranda-vi.org]
-Jít na miranda-vi.org
+JÃ­t na miranda-vi.org
 [Copy Version Info to clipboard]
 [Show Version Info]
 ;file \plugins\CrashDumper\src\dumper.cpp
 [Not ]
 ;file \plugins\CrashDumper\src\exhndlr.cpp
 [Crash Report write location is inaccesible]
-Crash report: nedostupná lokace zápisu
+Crash report: nedostupnÃ¡ lokace zÃ¡pisu
 [Miranda crashed. Crash report stored in the folder:\n %s\n\n Would you like store it in the clipboard as well?]
-Miranda spadla. Crash report uloen ve sloce:\n %s\n\n Chcete záznam uloit i do schránky?
+Miranda spadla. Crash report uloÅ¾en ve sloÅ¾ce:\n %s\n\n Chcete zÃ¡znam uloÅ¾it i do schrÃ¡nky?
 ;file \plugins\CrashDumper\src\ui.cpp
 [View Version Information (with DLLs)]
 ;file \plugins\CrashDumper\src\upload.cpp
 [VersionInfo upload successful,\n %d old plugins]
-Informace o verzi: úspìšnì nahráno\n%d starıch pluginù
+Informace o verzi: ÃºspÄ›Å¡nÄ› nahrÃ¡no\n%d starÃ½ch pluginÅ¯
 [Cannot upload VersionInfo. Incorrect username or password]
-Informace o verzi: Nelze nahrát na server\nŠpatné uivatelské jméno, nebo heslo
+Informace o verzi: Nelze nahrÃ¡t na server\nÅ patnÃ© uÅ¾ivatelskÃ© jmÃ©no, nebo heslo
 [Cannot upload VersionInfo. User is banned]
-Informace o verzi: nelze nahrát na server\nUivatel zablokován
+Informace o verzi: nelze nahrÃ¡t na server\nUÅ¾ivatel zablokovÃ¡n
 [Cannot upload VersionInfo. Daily upload limit exceeded]
-Informace o verzi: nelze nahrát na server\nDenní limit pro nahrávání pøekroèen
+Informace o verzi: nelze nahrÃ¡t na server\nDennÃ­ limit pro nahrÃ¡vÃ¡nÃ­ pÅ™ekroÄen
 [Cannot upload VersionInfo. Unknown error]
-Informace o verzi: nelze nahrát na server\nNeznámá chyba
+Informace o verzi: nelze nahrÃ¡t na server\nNeznÃ¡mÃ¡ chyba
 [Cannot upload VersionInfo. Host unreachable.]
-Informace o verzi: nelze nahrát na server\nServer nedostupnı
+Informace o verzi: nelze nahrÃ¡t na server\nServer nedostupnÃ½
 [Crash Dumper HTTP connections]
-Crash Dumper - spojení pomocí protokolu HTTP
+Crash Dumper - spojenÃ­ pomocÃ­ protokolu HTTP
 ;file \plugins\CrashDumper\src\utils.cpp
 [More then one crash reporting plugin installed. This will result in inability of creating crash reports]
-Máte více ne jeden crash report plugin. To povede k nefunkènosti vytváøení záznamù o pádu (crash reportù).
+MÃ¡te vÃ­ce neÅ¾ jeden crash report plugin. To povede k nefunkÄnosti vytvÃ¡Å™enÃ­ zÃ¡znamÅ¯ o pÃ¡du (crash reportÅ¯).

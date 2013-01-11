@@ -1,4 +1,4 @@
-;[&Next >]
+﻿;[&Next >]
 ;[< &Back]
 ;[All previous chosen files will try to import to this protocol.]
 ;[Cancel]

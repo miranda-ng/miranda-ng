@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: TooltipNotify.dll
 ;  Plugin: TooltipNotify
@@ -8,51 +8,51 @@
 ;file \plugins\TooltipNotify\res\main.rc
 [OK]
 [Allow tooltip notifications for the following users:]
-U vybranıch kontaktù povolit upozornìní na zmìnu stavu:
+U vybranÃ½ch kontaktÅ¯ povolit upozornÄ›nÃ­ na zmÄ›nu stavu:
 [Cancel]
 [Notify upon the following events]
-Upozornìní na události
+UpozornÄ›nÃ­ na udÃ¡losti
 [Online]
 [Offline]
 [All other]
-Ostatní
+OstatnÃ­
 [Typing]
-Píšu
+PÃ­Å¡u
 [Protocols]
 Protokoly
 [Suppress notifications upon connection for]
-Zpozdit upozornìní na pøipojení o
+Zpozdit upozornÄ›nÃ­ na pÅ™ipojenÃ­ o
 [sec]
 sek.
 [Prefix proto name]
 Indik. protokol
 [Duration]
-Doba trvání
+Doba trvÃ¡nÃ­
 [Show tooltip for]
 Zobrazit na
 [ms]
 [Duration x2 upon online event]
-Pøi pøechodu do online 2× déle
+PÅ™i pÅ™echodu do online 2Ã— dÃ©le
 [Double click on tooltip]
-Dvojím kliknutím
+DvojÃ­m kliknutÃ­m
 [Shows/Hides CList]
-Zobrazit/skrıt seznam
+Zobrazit/skrÃ½t seznam
 [Opens message dialog]
-Otevøít okno a psát
+OtevÅ™Ã­t okno a psÃ¡t
 [Behavior]
-Chování
+ChovÃ¡nÃ­
 [Misc]
 [Obey 'Suppress online notification' settings]
-Zohlednit stav 'Neoznamovat pøechod do online'
+Zohlednit stav 'Neoznamovat pÅ™echod do online'
 [Auto positioning]
-Autom. umístìní
+Autom. umÃ­stÄ›nÃ­
 [Transparent input]
-Prùhlednı vstup
+PrÅ¯hlednÃ½ vstup
 [Preview]
-Náhled
+NÃ¡hled
 [Translucency options (Windows 2000/XP only)]
 [Transparent tooltip]
-Míra prùhlednosti
+MÃ­ra prÅ¯hlednosti
 [000%]
 [Contacts]
 Kontakty
@@ -65,17 +65,17 @@ Kontakty
 [user32.dll]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
-Zmìna stavu
+ZmÄ›na stavu
 [Other Status]
-Ostatní stavy
+OstatnÃ­ stavy
 [Tooltip Notify: Online]
-Zmìna stavu (pøechod online)
+ZmÄ›na stavu (pÅ™echod online)
 [Tooltip Notify: Offline]
-Zmìna stavu (pøechod offline)
+ZmÄ›na stavu (pÅ™echod offline)
 [Tooltip Notify: Other]
-Zmìna stavu (ostatní)
+ZmÄ›na stavu (ostatnÃ­)
 [Tooltip Notify: Typing]
-Zmìna stavu (psaní zprávy)
+ZmÄ›na stavu (psanÃ­ zprÃ¡vy)
 [PopUps]
 [%d%%]
 [** New contacts **]

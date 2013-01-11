@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;============================================================
 ;  File: CryptoPP.dll
 ;  Plugin: CryptoPP
@@ -7,9 +7,9 @@
 ;============================================================
 ;file \plugins\CryptoPP\src\GPGw\resource.rc
 [Enter passphrase for the secret key of user:]
-Zadejte heslo pro privatnÌ klÌË uûivatele
+Zadejte heslo pro privatn√≠ kl√≠ƒç u≈æivatele
 [User ID]
-Identifik·tor
+Identifik√°tor
 [Ok]
 OK
 [Cancel]

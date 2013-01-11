@@ -1,4 +1,4 @@
-;[#%s]
+﻿;[#%s]
 ;[% of screen]
 ;[%s (*.msf)%c*.MSF%c%c]
 ;[%s - %s]

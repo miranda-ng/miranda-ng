@@ -1,4 +1,4 @@
-;[%miranda_avatarcache%]
+﻿;[%miranda_avatarcache%]
 ;[%s\\%s.swf]
 ;[%s\\%s\\]
 ;[.xml]

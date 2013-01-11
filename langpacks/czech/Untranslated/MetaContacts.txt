@@ -1,4 +1,4 @@
-;[&Cancel]
+﻿;[&Cancel]
 ;[&OK]
 ;[&Ok]
 ;[&Remove]

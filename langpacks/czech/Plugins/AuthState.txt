@@ -1,4 +1,4 @@
-#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
+ï»¿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;============================================================
 ;  File: AuthState.dll
 ;  Plugin: Authorization state
@@ -10,24 +10,24 @@
 [Show Auth icon]
 Zobrazit ikonu
 [Show Grant icon]
-Zobrazit ikony udìlení
+Zobrazit ikony udÄ›lenÃ­
 [Plugin settings]
-Nastavení doplòku
+NastavenÃ­ doplÅˆku
 [Enable Menu Item (*)]
-Zobrazit poloku v nabídce (*)
+Zobrazit poloÅ¾ku v nabÃ­dce (*)
 [Show icons only for recently added contacts]
-Zobrazit ikony jen pro nedávno pøidané kontakty
+Zobrazit ikony jen pro nedÃ¡vno pÅ™idanÃ© kontakty
 ;file \plugins\AuthState\src\main.cpp
 [Disable AuthState icons]
-Zakázat ikony Stavu autorizace
+ZakÃ¡zat ikony Stavu autorizace
 [Enable AuthState icons]
 Povolit ikony Stavu autorizace
 [Auth]
-Ovìøení
+OvÄ›Å™enÃ­
 [Grant]
-Schválení
+SchvÃ¡lenÃ­
 [Auth & Grant]
-Autorizace & Schválení
+Autorizace & SchvÃ¡lenÃ­
 ;file \plugins\AuthState\src\options.cpp
 [Icons]
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}

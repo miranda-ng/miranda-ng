@@ -1,4 +1,4 @@
-#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
+ï»¿#muuid {eb0465e2-ceee-11db-83ef-c1bf55d89593}
 ;============================================================
 ;  File: AutoRun.dll
 ;  Plugin: AutoRun
@@ -8,7 +8,7 @@
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
 ;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
-Automatické spuštìní
+AutomatickÃ© spuÅ¡tÄ›nÃ­
 [Launch Miranda NG at system startup]
 [Note: At startup Miranda NG will use current profile]
 ;file \plugins\AutoRun\src\autorun.h
@@ -17,4 +17,4 @@ Automatické spuštìní
 ["%s" "%s"]
 [MirandaNG]
 [Services]
-Služby
+SluÅ¾by

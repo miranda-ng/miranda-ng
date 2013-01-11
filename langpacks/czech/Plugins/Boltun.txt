@@ -1,4 +1,4 @@
-#muuid {488c5c84-56da-434f-96f1-b18900def760}
+ï»¿#muuid {488c5c84-56da-434f-96f1-b18900def760}
 ;============================================================
 ;  File: Boltun.dll
 ;  Plugin: Boltun
@@ -22,12 +22,12 @@ sek.
 [Typing time (for a message of 4 words):]
 [Thinking time:]
 [Engine]
-Rozhraní
+RozhranÃ­
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Base of remarks]
 [Reload]
-Naèíst znovu
+NaÄÃ­st znovu
 [Stay silent, if have no good aswers]
 [Start answers with a lowercase letter]
 [Don't use "I don't understand"-like answers]
@@ -56,7 +56,7 @@ Naèíst znovu
 [ <FAILURE>]
 [ <REPEAT>]
 ;file \plugins\Boltun\src\Engine\TalkEngine.cpp
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—\1]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}â€”\1]
 [(study_all) ]
 [(widelyused_sent) ]
 [(study_sent) ]
@@ -77,5 +77,5 @@ Naèíst znovu
 [>>Availabe:]
 [>>Result:]
 [: - ]
-[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—]
+[ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}â€”]
 #muuid {4fac353d-0a36-44a4-9064-6759c53ae782}

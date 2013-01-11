@@ -1,4 +1,4 @@
-#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
+ï»¿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;============================================================
 ;  File: IEView.dll
 ;  Plugin: IEView
@@ -8,76 +8,76 @@
 [IE Based Chat Log.]
 ;file \plugins\IEView\res\ieview.rc
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Copy Link]
-Zkopírovat adresu odkazu
+ZkopÃ­rovat adresu odkazu
 [Select All]
-Vybrat vše
+Vybrat vÅ¡e
 [Save Image As...]
-Uloit obrázek jako...
+UloÅ¾it obrÃ¡zek jako...
 [Print]
 Tisk
 [Clear Log]
-Vymazat záznam
+Vymazat zÃ¡znam
 [Show source]
-Zobrazit zdrojovı kód
+Zobrazit zdrojovÃ½ kÃ³d
 [Options]
 [Enable BBCodes]
 Povolit BBCode
 [Currently the following BBCodes are supported: [b][i][u][s][img][size][color][url]]
 [Enable support for Flash files in smileys and BBCodes]
-Povolit smajlíky ve Flashi a formátování pomocí BBCode
+Povolit smajlÃ­ky ve Flashi a formÃ¡tovÃ¡nÃ­ pomocÃ­ BBCode
 [Enable workaround for PNG transparency]
-Aktivovat opravu pro prùhledné PNG
+Aktivovat opravu pro prÅ¯hlednÃ© PNG
 [Enable MathModule support]
-Podporovat doplnìk MathModule
+Podporovat doplnÄ›k MathModule
 [Replace smileys in user names]
-Nahrazovat i smajlíky ve jménech
+Nahrazovat i smajlÃ­ky ve jmÃ©nech
 [Hide window border]
-Skrıt okraj okna
+SkrÃ½t okraj okna
 [Embed YouTube videos]
 [Size:]
 [Mode]
-Mód
+MÃ³d
 [Compatibility Mode]
-Reim kompatibility
+ReÅ¾im kompatibility
 [Use External CSS]
-Pouít externí CSS
+PouÅ¾Ã­t externÃ­ CSS
 [Use Templates]
-Pouít šablony
+PouÅ¾Ã­t Å¡ablony
 [Background image]
 [Scroll with text]
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Template Options]
-Monosti šablon
+MoÅ¾nosti Å¡ablon
 [Use message grouping]
-Seskupovat zprávy
+Seskupovat zprÃ¡vy
 [Show nicknames]
-Zobrazit pøezdívky
+Zobrazit pÅ™ezdÃ­vky
 [Show time]
-Zobrazit èas
+Zobrazit Äas
 [Show seconds]
 Zobrazit sek.
 [Show date]
 Zobrazit datum
 [Use long date format]
-Pouít dlouhı formát data
+PouÅ¾Ã­t dlouhÃ½ formÃ¡t data
 [Use relative timestamp]
 ;file \plugins\IEView\src\ChatHTMLBuilder.cpp
 [[%H:%M]]
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
-Odchozí pøenos souboru
+OdchozÃ­ pÅ™enos souboru
 [Incoming File Transfer]
-ádost o pøenos souboru
+Å½Ã¡dost o pÅ™enos souboru
 [URL sent]
-Odeslanı odkaz
+OdeslanÃ½ odkaz
 [URL received]
-Pøijatı odkaz
+PÅ™ijatÃ½ odkaz
 ;file \plugins\IEView\src\HTMLBuilder.cpp
 [(Unknown Contact)]
-(neznámı kontakt)
+(neznÃ¡mÃ½ kontakt)
 [ requested authorisation]
 [ was added.]
 ;file \plugins\IEView\src\IEView.cpp
@@ -87,9 +87,9 @@ Pøijatı odkaz
 ;file \plugins\IEView\src\Options.cpp
 [General]
 [Message Log]
-Záznam komunikace
+ZÃ¡znam komunikace
 [Group Chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [History]
 Historie
 [Default]
@@ -105,7 +105,7 @@ Skiny
 [560 x 349]
 [640 x 390]
 [Template]
-Šablona
+Å ablona
 [All Files]
 [All Images]
 [Style Sheet]
@@ -115,11 +115,11 @@ Skiny
 [Today]
 Dnes
 [Yesterday]
-Vèera
+VÄera
 [File sent]
-Odeslanı soubor
+OdeslanÃ½ soubor
 [File received]
-Pøijatı soubor
+PÅ™ijatÃ½ soubor
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
 [.xml]

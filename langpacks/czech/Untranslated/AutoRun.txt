@@ -1,4 +1,4 @@
-;["%s" "%s"]
+﻿;["%s" "%s"]
 ;[Launch Miranda NG at system startup]
 ;[MirandaNG]
 ;[Note: At startup Miranda NG will use current profile]

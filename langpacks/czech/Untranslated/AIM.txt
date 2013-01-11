@@ -1,4 +1,4 @@
-;[ %s]
+﻿;[ %s]
 ;[%%miranda_avatarcache%%\\%s]
 ;[%S@%S (%d)\r\n%s ]
 ;[%miranda_avatarcache%]

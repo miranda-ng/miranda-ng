@@ -1,4 +1,4 @@
-;[%s disconnected.]
+﻿;[%s disconnected.]
 ;[Automatically connect to another stranger when current disconnects]
 ;[Automatically send this message to stranger after connection:]
 ;[Chosing server: ]

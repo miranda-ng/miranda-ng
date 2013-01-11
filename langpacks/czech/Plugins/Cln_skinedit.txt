@@ -1,4 +1,4 @@
-#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
+ï»¿#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}
 ;langpack template for Cln_skinedit
 ;file \plugins\Clist_nicer\skineditor\res\skinedit.rc
 [Skin items]
@@ -10,19 +10,19 @@ Zleva doprava
 [Right to left]
 Zprava doleva
 [Top to bottom]
-Shora dolù
+Shora dolÅ¯
 [Bottom to top]
 Zdola nahoru
 [Round corners]
 Zaoblit rohy
 [Top-Left]
-Levı horní
+LevÃ½ hornÃ­
 [Top-Right]
-Pravı horní
+PravÃ½ hornÃ­
 [Bottom-Right]
-Pravı dolní
+PravÃ½ dolnÃ­
 [Bottom-Left]
-Levı dolní
+LevÃ½ dolnÃ­
 [Item colors]
 Definice barev
 [First color]
@@ -32,32 +32,32 @@ Barva textu
 [Second color]
 Barva 2
 [Transparent]
-Prùhlednost
+PrÅ¯hlednost
 [Alpha (percent)]
-Prùhlednost (v %)
+PrÅ¯hlednost (v %)
 [Item margins]
 Odstup od okraje
 [Item borders]
-Okraj poloky
+Okraj poloÅ¾ky
 [Border style]
 Vzhled okraje
 [3D border (bright / dark)]
-Barvy plastického okraje
+Barvy plastickÃ©ho okraje
 [Item ignored]
-Ignorovat poloku
+Ignorovat poloÅ¾ku
 [Not yet supported]
-<zatím mimo provoz>
+<zatÃ­m mimo provoz>
 ;file \plugins\Clist_nicer\skineditor\src\main.cpp
 [Copy from]
 [<None>]
-Není
+NenÃ­
 [Raised]
-Vystouplı
+VystouplÃ½
 [Sunken]
-Zanoøenı
+ZanoÅ™enÃ½
 [Bumped]
-Vystouplı (s rámováním)
+VystouplÃ½ (s rÃ¡movÃ¡nÃ­m)
 [Etched]
-Zanoøenı (s rámováním)
+ZanoÅ™enÃ½ (s rÃ¡movÃ¡nÃ­m)
 [Image items]
-Obrázky
+ObrÃ¡zky

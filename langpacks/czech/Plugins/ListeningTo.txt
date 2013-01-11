@@ -1,94 +1,94 @@
-#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
+ï»¿#muuid {f981f3f5-035a-444f-9892-ca722c195ada}
 ;langpack template for ListeningTo
 ;file \plugins\ListeningTo\res\resource.rc
 [Listening to information]
 [Enable sending listening information to contacts:]
-Povolit posílání informací o poslechu hudby kontaktùm
+Povolit posÃ­lÃ¡nÃ­ informacÃ­ o poslechu hudby kontaktÅ¯m
 [Music]
 Hudba
 [Radio]
-Rádio
+RÃ¡dio
 [Video]
 Video
 [Others]
-Ostatní
+OstatnÃ­
 [You also have to enable it per protocol in the main menu]
-Poznámka: Musíte povolit i jednotlivé protokoly v hlavní nabídce.
+PoznÃ¡mka: MusÃ­te povolit i jednotlivÃ© protokoly v hlavnÃ­ nabÃ­dce.
 [XStatus]
-Rozšíøenı stav
+RozÅ¡Ã­Å™enÃ½ stav
 [For protocols that don't support listening to but support XStatus:]
-V pøípadì protokolù, které podporují jen tzv. rozšíøenı stav (XStatus):
+V pÅ™Ã­padÄ› protokolÅ¯, kterÃ© podporujÃ­ jen tzv. rozÅ¡Ã­Å™enÃ½ stav (XStatus):
 [Set XStatus to Music and show listening info]
-Zmìnit stav na 'Poslouchám hudbu' a pøidat informaci o skladbì
+ZmÄ›nit stav na 'PoslouchÃ¡m hudbu' a pÅ™idat informaci o skladbÄ›
 [If other XStatus is not set, set XStatus to Music and show listening info]
-Toté jako vıše, ale pouze tehdy, není-li u rozšíøenı stav pouívanı
+TotÃ©Å¾ jako vÃ½Å¡e, ale pouze tehdy, nenÃ­-li uÅ¾ rozÅ¡Ã­Å™enÃ½ stav pouÅ¾Ã­vanÃ½
 [If XStatus is Music, show listening info]
-Je-li u rozšíøenı stav 'Poslouchám hudbu', pøidat informaci o skladbì
+Je-li uÅ¾ rozÅ¡Ã­Å™enÃ½ stav 'PoslouchÃ¡m hudbu', pÅ™idat informaci o skladbÄ›
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 [Contacts]
 Kontakty
 [Apply template for info from contacts (overrides contacts template)]
-Pouít šablonu na informace od kontaktu (zmìní šablonu pro kontakt)
+PouÅ¾Ã­t Å¡ablonu na informace od kontaktu (zmÄ›nÃ­ Å¡ablonu pro kontakt)
 [Get info from WATrack plugin]
-Pøevzít informace z doplòku WATrack
+PÅ™evzÃ­t informace z doplÅˆku WATrack
 [Get info from these players:]
-Pøevzít informace z tìchto pøehrávaèù:
+PÅ™evzÃ­t informace z tÄ›chto pÅ™ehrÃ¡vaÄÅ¯:
 [Winamp (*)]
 [Windows Media Player]
 [iTunes]
 [foobar2000 (need to install the plugin manually)]
-foobar2000 (vyaduje ruèní instalaci)
+foobar2000 (vyÅ¾aduje ruÄnÃ­ instalaci)
 [Other players]
-Jiné pøehrávaèe
+JinÃ© pÅ™ehrÃ¡vaÄe
 [Ask for new info every]
-Zjistit informace kadıch
+Zjistit informace kaÅ¾dÃ½ch
 [seconds]
 [Allow auto-loading plugins into players (affect players with *)]
-Povolit automatické naètení doplòkù do pøehrávaèù (tıká se poloek s *)
+Povolit automatickÃ© naÄtenÃ­ doplÅˆkÅ¯ do pÅ™ehrÃ¡vaÄÅ¯ (tÃ½kÃ¡ se poloÅ¾ek s *)
 [mRadio]
-Rádia
+RÃ¡dia
 [Listening to]
 [Template:]
-Šablona:
+Å ablona:
 [Variables:]
-Promìnné:
+PromÄ›nnÃ©:
 [%artist% - Artist name]
-%artist% - jméno interpreta
+%artist% - jmÃ©no interpreta
 [%album% - Album name]
-%album% - název alba
+%album% - nÃ¡zev alba
 [%title% - Song title]
-%title% - název skladby
+%title% - nÃ¡zev skladby
 [%track% - Track number]
-%track% - èíslo skladby
+%track% - ÄÃ­slo skladby
 [%year% - Song year]
-%year% - rok vydání
+%year% - rok vydÃ¡nÃ­
 [%genre% - Song genre]
-%genre% - ánr
+%genre% - Å¾Ã¡nr
 [%length% - Song length]
-%length% - délka skladby
+%length% - dÃ©lka skladby
 [%player% - Player name]
-%player% - pøehrávaè
+%player% - pÅ™ehrÃ¡vaÄ
 [%type% - Media type (Music, Radio, Video, etc)]
-%type% - druh média (hudba, rádio, video, atd.)
+%type% - druh mÃ©dia (hudba, rÃ¡dio, video, atd.)
 [When variable not found, use:]
-Není-li promìnná, vloit text:
+NenÃ­-li promÄ›nnÃ¡, vloÅ¾it text:
 [Title:]
-Název:
+NÃ¡zev:
 [Message:]
 [Other Variables:]
-Jiné promìnné:
+JinÃ© promÄ›nnÃ©:
 [%listening% - Listening to info (as set above)]
-%listening% - dle šablony (viz vıše)
+%listening% - dle Å¡ablony (viz vÃ½Å¡e)
 [When nothing is playing, replace %listening% with:]
-Pokud nehraje hudba, namísto %listening% pouít:
+Pokud nehraje hudba, namÃ­sto %listening% pouÅ¾Ã­t:
 ;file \plugins\ListeningTo\src\listeningto.cpp
 [Send to %s]
 Poslat %s
 [Listening to (enabled)]
 [Listening to (disabled)]
 [Send to all protocols]
-Poslat všem protokolùm
+Poslat vÅ¡em protokolÅ¯m
 [listening_info]
 [listening_type]
 [listening_artist]
@@ -100,16 +100,16 @@ Poslat všem protokolùm
 [listening_length]
 [listening_player]
 [Don't send to any protocols]
-Neposílat ádnému protokolu
+NeposÃ­lat Å¾Ã¡dnÃ©mu protokolu
 [Toggle send to all protocols]
-Pøepnout stav posílání protokolùm
+PÅ™epnout stav posÃ­lÃ¡nÃ­ protokolÅ¯m
 [Enable/Disable sending Listening To info (to all protocols)]
-Zapnout/vypnout posílání informací o poslechu hudby (všem protokolùm)
+Zapnout/vypnout posÃ­lÃ¡nÃ­ informacÃ­ o poslechu hudby (vÅ¡em protokolÅ¯m)
 [Disable ListeningTo (to all protocols)]
 [Enable ListeningTo (to all protocols)]
 [listening]
 [artist]
-umìlec
+umÄ›lec
 [album]
 album
 [title]
@@ -117,7 +117,7 @@ titulek
 [track]
 [year]
 [genre]
-ánr
+Å¾Ã¡nr
 [length]
 [player]
 [type]
@@ -127,14 +127,14 @@ typ
 ;file \plugins\ListeningTo\src\music.cpp
 [ChangedListeningInfo]
 [Start]
-Zaèít
+ZaÄÃ­t
 [Has : %s : %d]
 [Is equals]
 [Is different]
 ;file \plugins\ListeningTo\src\options.cpp
 [%artist% - %title%]
 [<Unknown>]
-<neznámı>
+<neznÃ¡mÃ½>
 [%listening%]
 [<Nothing is playing now>]
 [Status]
@@ -143,9 +143,9 @@ Zaèít
 Poslech hudby
 [General]
 [Format]
-Formát
+FormÃ¡t
 [Players]
-Pøehrávaèe
+PÅ™ehrÃ¡vaÄe
 ;file \plugins\ListeningTo\src\players\foobar.cpp
 [{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}/1]
 [{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}]

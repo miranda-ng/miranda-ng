@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+Ôªø;#muuid not found, please specify manually!
 ;============================================================
 ;  File: MirOTR.dll
 ;  Plugin: MirOTR
@@ -8,13 +8,13 @@
 ;file \plugins\MirOTR\MirOTR\res\resource.rc
 [Generating new private key - please wait.]
 [Default Policy]
-V˝chozÌ metoda
+V√Ωchoz√≠ metoda
 [Always]
-Vûdy
+V≈ædy
 [Opportunistic]
-Na vyû·d·nÌ
+Na vy≈æ√°d√°n√≠
 [Manual]
-RuËnÏ
+Ruƒçnƒõ
 [Never]
 Nikdy
 [End sessions on window close]
@@ -59,9 +59,9 @@ Zapomenout
 [UNLOAD MIROTR]
 ;file \plugins\MirOTR\MirOTR\src\language.h
 [Start OTR]
-äifrovat spojenÌ (OTR)
+≈†ifrovat spojen√≠ (OTR)
 [Stop OTR]
-Zruöit öifrov·nÌ (OTR)
+Zru≈°it ≈°ifrov√°n√≠ (OTR)
 [Yes]
 Ano
 [OTR status (Click for more options)]
@@ -99,7 +99,7 @@ Ano
 [OTR private]
 [OTR not secure]
 [OTR]
-Mimo z·znam
+Mimo z√°znam
 [Generating new private key for protocol '%s'.\nPlease Wait...]
 [General]
 [Protocols]
@@ -131,7 +131,7 @@ Metoda
 [Manual fingerprint comparison]
 [Secret Answer]
 [Question]
-Ot·zka
+Ot√°zka
 [Password]
 Heslo
 [Authentication sucessful.]
@@ -157,7 +157,7 @@ Heslo
 [OTR Status]
 ;file \plugins\MirOTR\MirOTR\src\options.cpp
 [Services]
-Sluûby
+Slu≈æby
 [READ privkey]
 ;file \plugins\MirOTR\MirOTR\src\otr.cpp
 [OTR_GUI_POLICY]
@@ -187,10 +187,10 @@ Sluûby
 ;file \plugins\MirOTR\MirOTR\src\utils.cpp
 [%02X]
 [%s Message]
-%s zpr·va
+%s zpr√°va
 [%s\r\n%s]
 [%s Warning]
-%s upozornÏnÌ
+%s upozornƒõn√≠
 [%s Error]
 %s chyba
 [%s%s]

@@ -1,4 +1,4 @@
-;[Appearance]
+﻿;[Appearance]
 ;[Extra options: Events > File Transfers, "Receiving files" group]
 ;[File already exists. Overwrite?]
 ;[Filename:]

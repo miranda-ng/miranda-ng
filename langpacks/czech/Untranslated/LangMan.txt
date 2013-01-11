@@ -1,4 +1,4 @@
-;[%hs (%s)]
+﻿;[%hs (%s)]
 ;[%s\\Plugins\\%s]
 ;[%s\\Plugins\\*.dll]
 ;[(incompatible)]

@@ -1,4 +1,4 @@
-#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
+ï»¿#muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 ;============================================================
 ;  File: PackUpdater.dll
 ;  Plugin: Pack Updater
@@ -15,47 +15,47 @@ Aktualizovat
 [Description]
 Popis
 [Downloading...]
-Stahování...
+StahovÃ¡nÃ­...
 [Pack update options]
 [On startup]
 [Remind about not installed pack update]
 [Hotkey]
-Klávesy
+KlÃ¡vesy
 [Go to Customize -> Hotkeys to change the hotkey]
-Zkratky zmìníte v sekci Vlastní úpravy -> Klávesové zkratky
+Zkratky zmÄ›nÃ­te v sekci VlastnÃ­ Ãºpravy -> KlÃ¡vesovÃ© zkratky
 [Notifications]
-Upozornìní
+UpozornÄ›nÃ­
 [Message boxes]
 [Errors]
 Chyby
 [Info messages]
 [Progress dialogs]
 [Every]
-kadıch
+kaÅ¾dÃ½ch
 [(but only once a day)]
 [Message boxes (*)]
 [Back]
-Pozadí
+PozadÃ­
 [Text]
 Text
 [Colours]
 [Use cus&tom colors]
-Pouít vlastní barvy
+PouÅ¾Ã­t vlastnÃ­ barvy
 [Use &Windows colours]
-Pouít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Use Pop&up colours]
-Pouít barvy Oznámení
+PouÅ¾Ã­t barvy OznÃ¡menÃ­
 [Preview]
-Náhled
+NÃ¡hled
 [Click action]
-Pøi kliknutí myší
+PÅ™i kliknutÃ­ myÅ¡Ã­
 [On left click]
 [On right click]
 [Timeout]
 [0 = Default]
-0 = vıchozí
+0 = vÃ½chozÃ­
 [-1 = Infinite]
--1 = neustále
+-1 = neustÃ¡le
 [Sec]
 sek.
 [* Needs popup actions to be enabled]
@@ -68,11 +68,11 @@ sek.
 ;file \plugins\PackUpdater\Src\Notifications.cpp
 [An error occured while downloading the update.]
 [Component Name]
-Název doplòku
+NÃ¡zev doplÅˆku
 [Current Version]
-Souèasná verze
+SouÄasnÃ¡ verze
 [New Version]
-Nová verze
+NovÃ¡ verze
 [%s\\Pack]
 [%s\\Plugins]
 [%s\\Icons]
@@ -93,18 +93,18 @@ Nová verze
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 ;file \plugins\PackUpdater\Src\Notifications.h
 [Close popup]
-Zavøít oznámení
+ZavÅ™Ã­t oznÃ¡menÃ­
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 ;file \plugins\PackUpdater\Src\Options.cpp
 [hours]
 hod.
 [days]
-dnù
+dnÅ¯
 [Test]
-Ovìøit
+OvÄ›Å™it
 [Services]
-Sluby
+SluÅ¾by
 ;file \plugins\PackUpdater\Src\PackUpdater.cpp
 [%miranda_userdata%\"DEFAULT_UPDATES_FOLDER));\r\n	lstrcpyn(tszRoot, tszFolder, SIZEOF(tszRoot));\r\n	if (ServiceExists(MS_FOLDERS_REGISTER_PATH))\r\n	{\r\n		hPackUpdaterFolder = FoldersRegisterCustomPathT(MODULEA, "Pack Updater", MIRANDA_USERDATAT _T("\\]
 [Clear pack updates folder]

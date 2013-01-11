@@ -1,4 +1,4 @@
-;[------------------]
+﻿;[------------------]
 ;[Auto resize]
 ;[Button height]
 ;[Contact List]

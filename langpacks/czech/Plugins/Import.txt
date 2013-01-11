@@ -1,4 +1,4 @@
-#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
+ï»¿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;============================================================
 ;  File: Import.dll
 ;  Plugin: Import
@@ -7,21 +7,21 @@
 ;============================================================
 ;file \plugins\Import\res\resource.rc
 [Choose how you would like to import:]
-Vyberte jeden ze zpùsobù importu dat:
+Vyberte jeden ze zpÅ¯sobÅ¯ importu dat:
 [From a Miranda NG database.]
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 [It is recommended that you create a backup of your current Miranda profile before importing.]
-Pøedtím ne budete pokraèovat, doporuèujeme vám zazálohovat stávající profil.
+PÅ™edtÃ­m neÅ¾ budete pokraÄovat, doporuÄujeme vÃ¡m zazÃ¡lohovat stÃ¡vajÃ­cÃ­ profil.
 [You will probably never need to use this wizard again, so you can save memory by not loading it every time you start Miranda. This will mean that the import menu item will no longer be available.]
-Je pravdìpodobné, e Prùvodce importem dat ji nebudete potøebovat, a proto doporuèujeme pøíslušnı doplnìk (Import) deaktivovat.
+Je pravdÄ›podobnÃ©, Å¾e PrÅ¯vodce importem dat jiÅ¾ nebudete potÅ™ebovat, a proto doporuÄujeme pÅ™Ã­sluÅ¡nÃ½ doplnÄ›k (Import) deaktivovat.
 [Do not load the import plugin at startup again]
-Nadále ji doplnìk Import nespouštìt
+NadÃ¡le jiÅ¾ doplnÄ›k Import nespouÅ¡tÄ›t
 [Import completed]
 [If at a future date you wish to use the wizard again, you can make it load again by going to the Plugins section of the Options dialog box.]
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or click "Other Profile" if your profile is not listed, or if the list is empty.]
-Prùvodce našel níe uvedené profily programu Miranda. Vyberte poadovanı profil nebo kliknìte na tlaèítko "Jinı profil" a vyberte vlastní.
+PrÅ¯vodce naÅ¡el nÃ­Å¾e uvedenÃ© profily programu Miranda. Vyberte poÅ¾adovanÃ½ profil nebo kliknÄ›te na tlaÄÃ­tko "JinÃ½ profil" a vyberte vlastnÃ­.
 [&Other Profile...]
-Jinı pr&ofil...
+JinÃ½ pr&ofil...
 [&Filename:]
 &Soubor:
 [Now importing...]
@@ -31,30 +31,30 @@ Import dat...
 [Cancel]
 [< &Back]
 [Import all contacts and all messages]
-Importovat všechny kontakty a zprávy
+Importovat vÅ¡echny kontakty a zprÃ¡vy
 [Only import contacts]
 Importovat pouze kontakty
 [Custom import]
 [Select this if you want to import as much data as possible. This is the recommended option.]
-Vyberte tehdy, chcete-li naimportovat všechno. Tuto monost doporuèujeme.
+Vyberte tehdy, chcete-li naimportovat vÅ¡echno. Tuto moÅ¾nost doporuÄujeme.
 [Select this if you want to import contacts but don't want to import any message history.]
-Vyberte tehdy, chcete-li naimportovat jen kontakty bez historie zpráv.
+Vyberte tehdy, chcete-li naimportovat jen kontakty bez historie zprÃ¡v.
 [Select this if you want to customize what to import.]
 [New contacts && groups]
 [System history]
 [Select items to import:]
 [Incoming]
 [Outgoing]
-Odchozí
+OdchozÃ­
 [Only since:]
 [Messages]
-Zprávy
+ZprÃ¡vy
 [URLs]
 Odkazy
 [File Transfers]
-Pøenos souborù
+PÅ™enos souborÅ¯
 [Other]
-Ostatní
+OstatnÃ­
 ;file \plugins\Import\src\import.cpp
 [Ignored event from/to self]
 [Added contact %u (found in history)]
@@ -99,7 +99,7 @@ Importovat...
 [%miranda_profile%]
 [%miranda_profilename%]
 [The given file does not exist. Please check that you have entered the name correctly.]
-Poadovanı soubor neexistuje. Zkontrolujte prosím, zda je zadanı název v poøádku.
+PoÅ¾adovanÃ½ soubor neexistuje. Zkontrolujte prosÃ­m, zda je zadanÃ½ nÃ¡zev v poÅ™Ã¡dku.
 [Miranda Import]
 Miranda - import dat
 [%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c]
@@ -110,4 +110,4 @@ Miranda - import dat
 [Skipping duplicate group %s.]
 ;file \plugins\Import\src\wizard.cpp
 [Finish]
-Dokonèit
+DokonÄit

@@ -1,4 +1,4 @@
-;[&Cancel]
+﻿;[&Cancel]
 ;[&Delete]
 ;[&Open Options]
 ;[&Rename]

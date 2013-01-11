@@ -1,141 +1,141 @@
-#muuid {84636f78-2057-4302-8a65-23a16d46844c}
+ï»¿#muuid {84636f78-2057-4302-8a65-23a16d46844c}
 ;langpack template for Scriver
 ;file \plugins\Scriver\res\resource.rc
 [Behaviour]
 [Automatically pop up the window when]
 Automaticky vyvolat okno ve stavu
 [and stay minimized]
-a zároveò minimalizovat
+a zÃ¡roveÅˆ minimalizovat
 [Cascade new windows]
-Skládat okna kaskádnì
+SklÃ¡dat okna kaskÃ¡dnÄ›
 [Save size and location for each contact]
-Uloit velikost a umístìní okna pro kadı kontakt zvláš
+UloÅ¾it velikost a umÃ­stÄ›nÃ­ okna pro kaÅ¾dÃ½ kontakt zvlÃ¡Å¡Å¥
 [Minimize on send]
-Minimalizovat po odeslání
+Minimalizovat po odeslÃ¡nÃ­
 [Hide windows on close]
-Pøi zavøení okno pouze skrıt
+PÅ™i zavÅ™enÃ­ okno pouze skrÃ½t
 [Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
+Odeslat zprÃ¡vu klÃ¡vesou ENTER
 [Send message on double 'Enter']
-Odeslat zprávu dvojitım ENTER
+Odeslat zprÃ¡vu dvojitÃ½m ENTER
 [Remember unsent messages]
-Uloit neodeslané zprávy
+UloÅ¾it neodeslanÃ© zprÃ¡vy
 [Delete temporary contacts on closing]
-Pøi zavøení smazat doèasné kontakty
+PÅ™i zavÅ™enÃ­ smazat doÄasnÃ© kontakty
 [Show warning when message has not been received after]
-Zobrazit upozornìní v pøípadì, e zpráva nebyla doruèena do
+Zobrazit upozornÄ›nÃ­ v pÅ™Ã­padÄ›, Å¾e zprÃ¡va nebyla doruÄena do
 [seconds.]
 sek.
 [Tabs]
 [Enable tabs]
 Zapnout panely
 [Always show tab bar]
-Trvale zobrazit lištu s panely
+Trvale zobrazit liÅ¡tu s panely
 [Tabs at bottom]
-Panely v dolní èásti
+Panely v dolnÃ­ ÄÃ¡sti
 [Limit names on tabs to]
-Omezit délku jména na panelu na
+Omezit dÃ©lku jmÃ©na na panelu na
 [characters]
-znakù
+znakÅ¯
 [Show close button on each tab ]
-Zobrazit tlaèítko "Zavøít" na všech panelech
+Zobrazit tlaÄÃ­tko "ZavÅ™Ã­t" na vÅ¡ech panelech
 [Switch to active tab]
-Pøepínat na aktivní panel
+PÅ™epÃ­nat na aktivnÃ­ panel
 [Limit number of tabs per window to]
-Omezit poèet panelù v jednom oknì na
+Omezit poÄet panelÅ¯ v jednom oknÄ› na
 [Use separate windows for group chats]
-Pro skupinové rozhovory pouít jiné okno
+Pro skupinovÃ© rozhovory pouÅ¾Ã­t jinÃ© okno
 [Limit number of group chats tabs per window to]
-Omezit poèet panelù v jednom oknì na
+Omezit poÄet panelÅ¯ v jednom oknÄ› na
 [Layout]
 [Show titlebar]
-Zobrazit záhlaví
+Zobrazit zÃ¡hlavÃ­
 [Show status bar]
 [Show toolbar]
-Zobrazit lištu
+Zobrazit liÅ¡tu
 [Show infobar]
-Zobrazit informaèní lištu
+Zobrazit informaÄnÃ­ liÅ¡tu
 [Show avatars]
 Zobrazit avatary
 [Use the contact's status icon as the window icon]
-Pouít v lištì okna ikonu aktuálního stavu
+PouÅ¾Ã­t v liÅ¡tÄ› okna ikonu aktuÃ¡lnÃ­ho stavu
 [Show progress indicator]
-Zobrazit indikátor prùbìhu pøenosu
+Zobrazit indikÃ¡tor prÅ¯bÄ›hu pÅ™enosu
 [Enable transparency]
-Povolit prùhlednost
+Povolit prÅ¯hlednost
 [active]
-Aktivní
+AktivnÃ­
 [100%]
 100 %
 [inactive]
 Neakt.
 [Min input area size]
-Min. velikost pole pro zadávání textu:
+Min. velikost pole pro zadÃ¡vÃ¡nÃ­ textu:
 [lines]
-øádky
+Å™Ã¡dky
 [Message Window Event Log]
-Záznam událostí
+ZÃ¡znam udÃ¡lostÃ­
 [Enable IEView]
-Pouít doplnìk IEView
+PouÅ¾Ã­t doplnÄ›k IEView
 [Log status changes]
-Zaznamenávat zmìny stavu
+ZaznamenÃ¡vat zmÄ›ny stavu
 [Show icons]
 [Show time]
-Zobrazit èas
+Zobrazit Äas
 [Show seconds]
 Zobrazit sek.
 [Show date]
 Zobrazit datum
 [Long date format]
-Pouít dlouhı formát data
+PouÅ¾Ã­t dlouhÃ½ formÃ¡t data
 [Relative date]
-Pouít relativní zápis data
+PouÅ¾Ã­t relativnÃ­ zÃ¡pis data
 [Show names]
-Zobrazit jména
+Zobrazit jmÃ©na
 [Enable message grouping]
-Seskupovat zprávy
+Seskupovat zprÃ¡vy
 [Mark follow-up msgs with timestamp]
-Oznaèit seskupené zprávy èasem
+OznaÄit seskupenÃ© zprÃ¡vy Äasem
 [Start message text on a new line]
-Zaèít psát text na novém øádku
+ZaÄÃ­t psÃ¡t text na novÃ©m Å™Ã¡dku
 [Show lines between messages]
-Jednotlivé zprávy oddìlit linkou
+JednotlivÃ© zprÃ¡vy oddÄ›lit linkou
 [Indent text]
 Odsadit text o
 [Customize fonts and colors]
-Upravit písmo a barvy
+Upravit pÃ­smo a barvy
 [Preload]
 Cache
 [Unread events only]
-Pouze nepøeètené události
+Pouze nepÅ™eÄtenÃ© udÃ¡losti
 [Last]
-Poslední
+PoslednÃ­
 [Events in the last]
-Pøedchozí události starší ménì ne
+PÅ™edchozÃ­ udÃ¡losti starÅ¡Ã­ mÃ©nÄ› neÅ¾
 [events]
-událostí
+udÃ¡lostÃ­
 [minutes]
 min.
 [Typing Notification Options]
-Upozornìní na psaní zprávy
+UpozornÄ›nÃ­ na psanÃ­ zprÃ¡vy
 [Send typing notifications to the following users when you are typing a message to them:]
-Poslat upozornìní na psaní zprávy tìmto vybranım kontaktùm:
+Poslat upozornÄ›nÃ­ na psanÃ­ zprÃ¡vy tÄ›mto vybranÃ½m kontaktÅ¯m:
 [Show typing notification switch in the status bar]
-Pøidat do stavové lišty pøepínaè indikace psaní zprávy
+PÅ™idat do stavovÃ© liÅ¡ty pÅ™epÃ­naÄ indikace psanÃ­ zprÃ¡vy
 [Show typing notifications when a user is typing a message]
-Zobrazit upozornìní v pøípadì, e protistrana píše zprávu
+Zobrazit upozornÄ›nÃ­ v pÅ™Ã­padÄ›, Å¾e protistrana pÃ­Å¡e zprÃ¡vu
 [Update message window icons when a user is typing]
-Indikovat psaní zprávy zmìnou ikony okna
+Indikovat psanÃ­ zprÃ¡vy zmÄ›nou ikony okna
 [Show typing notification when no message dialog is open]
-Zobrazit upozornìní i v pøípadì, e není otevøeno okno
+Zobrazit upozornÄ›nÃ­ i v pÅ™Ã­padÄ›, Å¾e nenÃ­ otevÅ™eno okno
 [Flash in the system tray and in the contact list]
-Blikat v oblasti oznámení a oknì s kontakty
+Blikat v oblasti oznÃ¡menÃ­ a oknÄ› s kontakty
 [Show balloon popup]
-Oznámit pomocí bubliny
+OznÃ¡mit pomocÃ­ bubliny
 [An error has occured. The protocol reported the following error:]
-Došlo k chybì. Pøíslušnı protokol zahlásil následující problém:
+DoÅ¡lo k chybÄ›. PÅ™Ã­sluÅ¡nÃ½ protokol zahlÃ¡sil nÃ¡sledujÃ­cÃ­ problÃ©m:
 [while sending the following message:]
-bìhem odesílání následující zprávy:
+bÄ›hem odesÃ­lÃ¡nÃ­ nÃ¡sledujÃ­cÃ­ zprÃ¡vy:
 [Try again]
 Opakovat
 [Cancel]
@@ -154,51 +154,51 @@ Ne
 [Actions]
 Akce
 [Messages]
-Zprávy
+ZprÃ¡vy
 [Nick changes]
-Zmìny pøezdívky
+ZmÄ›ny pÅ™ezdÃ­vky
 [Users joining]
-Pøícházející uivatele
+PÅ™Ã­chÃ¡zejÃ­cÃ­ uÅ¾ivatele
 [Users leaving]
-Odcházející uivatele
+OdchÃ¡zejÃ­cÃ­ uÅ¾ivatele
 [Topic changes]
-Zmìny tématu
+ZmÄ›ny tÃ©matu
 [Status changes]
-Zmìny stavu
+ZmÄ›ny stavu
 [Information]
 [Disconnects]
-Odpojení
+OdpojenÃ­
 [User kicks]
-Vykopnutí uivatele
+VykopnutÃ­ uÅ¾ivatele
 [Notices]
-Poznámky
+PoznÃ¡mky
 [Options]
 [Other]
-Ostatní
+OstatnÃ­
 [Add new rooms to group:]
-Nové místnosti do skupiny:
+NovÃ© mÃ­stnosti do skupiny:
 [User list row height]
-Vıška øádku v seznamu
+VÃ½Å¡ka Å™Ã¡dku v seznamu
 [pixels]
 pix.
 [Log Options]
-Monosti záznamu
+MoÅ¾nosti zÃ¡znamu
 [Your name]
-Vl. jméno
+Vl. jmÃ©no
 [Other name]
-Ost. jména
+Ost. jmÃ©na
 [Timestamp]
-Èasovı údaj
+ÄŒasovÃ½ Ãºdaj
 [Log timestamp]
-Èasovı údaj v záznamu
+ÄŒasovÃ½ Ãºdaj v zÃ¡znamu
 [Limit log text to (events):]
-Max. poèet zazn. událostí:
+Max. poÄet zazn. udÃ¡lostÃ­:
 [Enable highlighting]
-Aktivovat zvırazòování
+Aktivovat zvÃ½razÅˆovÃ¡nÃ­
 [Words to highlight (wildcards allowed)]
-Zvıraznìná slova (masky jsou povoleny)
+ZvÃ½raznÄ›nÃ¡ slova (masky jsou povoleny)
 [Save logs]
-Uloit do souboru
+UloÅ¾it do souboru
 [Location]
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
@@ -206,27 +206,27 @@ Uloit do souboru
 Max.
 [kB]
 [Group Chat]
-Skupinovı rozhovor
+SkupinovÃ½ rozhovor
 [Use same style as in the message log]
-Pouít nastavení pro záznam komunikace
+PouÅ¾Ã­t nastavenÃ­ pro zÃ¡znam komunikace
 [Use default colours]
 [Use custom colours]
-Pouít vlastní barvy
+PouÅ¾Ã­t vlastnÃ­ barvy
 [Text]
 Text
 [Background]
-Pozadí
+PozadÃ­
 [Timeout (s)]
 Prodleva (s)
 [(0 means default setting, -1 means indefinite time)]
-(0 = vıchozí nastavení, -1 = vypnutí prodlevy)
+(0 = vÃ½chozÃ­ nastavenÃ­, -1 = vypnutÃ­ prodlevy)
 [OK]
 [&Copy]
 [Co&py All]
-Zko&pírovat vše
+Zko&pÃ­rovat vÅ¡e
 [Select &All]
 [Word lookup]
-Vyhledávání slova
+VyhledÃ¡vÃ¡nÃ­ slova
 [Google]
 [Bing]
 [Wikipedia (en)]
@@ -237,159 +237,159 @@ Yahoo
 [Foodnetwork]
 [C&lear Log]
 [&Open link]
-&Otevøít odkaz
+&OtevÅ™Ã­t odkaz
 [&Copy link]
-Z&kopírovat odkaz
+Z&kopÃ­rovat odkaz
 [Undo]
 [Redo]
 Znovu
 [Cut]
 Vyjmout
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Paste]
-Vloit
+VloÅ¾it
 [Paste && Send]
-Vloit a poslat
+VloÅ¾it a poslat
 [Delete]
 [Clear]
 Vymazat
 [Close Other Tabs]
-Zavøít ostatní panely
+ZavÅ™Ã­t ostatnÃ­ panely
 [Close Tab]
-Zavøít panel
+ZavÅ™Ã­t panel
 [&Message]
-&Zpráva
+&ZprÃ¡va
 [Clear lo&g]
-Vy&mazat záznam
+Vy&mazat zÃ¡znam
 [Co&py all]
-Zko&pírovat vše
+Zko&pÃ­rovat vÅ¡e
 ;file \plugins\Scriver\src\globals.cpp
 [Add contact]
-Pøidat kontakt
+PÅ™idat kontakt
 [User's details]
-Osobní údaje
+OsobnÃ­ Ãºdaje
 [User's history]
 Historie komunikace
 [Send message]
-Poslat zprávu
+Poslat zprÃ¡vu
 [Smiley button]
-Smajlík
+SmajlÃ­k
 [User is typing]
-Indikace psaní zprávy
+Indikace psanÃ­ zprÃ¡vy
 [Typing notification off]
-Indikace psaní vypnuta
+Indikace psanÃ­ vypnuta
 [Unicode is on]
 Unicode: zapnuto
 [Unicode is off]
 Unicode: vypnuto
 [Sending]
-Odesílání
+OdesÃ­lÃ¡nÃ­
 [Quote button]
 Citovat text
 [Close button]
-Tlaèítko Zavøít
+TlaÄÃ­tko ZavÅ™Ã­t
 [Icon overlay]
-Pøekryvná ikona
+PÅ™ekryvnÃ¡ ikona
 [Incoming message (10x10)]
-Pøíchozí zpráva (10x10)
+PÅ™Ã­chozÃ­ zprÃ¡va (10x10)
 [Outgoing message (10x10)]
-Odchozí zpráva (10x10)
+OdchozÃ­ zprÃ¡va (10x10)
 [Notice (10x10)]
-Poznámka (10x10)
+PoznÃ¡mka (10x10)
 [Window Icon]
 Ikona okna
 [Text colour]
 [Background colour]
 [Bold]
-Tuèné
+TuÄnÃ©
 [Italics]
-Kurzíva
+KurzÃ­va
 [Underlined]
-Podtrené
+PodtrÅ¾enÃ©
 [Room history]
-Historie místnosti
+Historie mÃ­stnosti
 [Room settings]
-Nastavení místnosti
+NastavenÃ­ mÃ­stnosti
 [Event filter disabled]
-Filtrování událostí deaktivováno
+FiltrovÃ¡nÃ­ udÃ¡lostÃ­ deaktivovÃ¡no
 [Event filter enabled]
-Filtrování událostí aktivováno
+FiltrovÃ¡nÃ­ udÃ¡lostÃ­ aktivovÃ¡no
 [Hide userlist]
-Skrıt seznam úèastníkù 
+SkrÃ½t seznam ÃºÄastnÃ­kÅ¯ 
 [Show userlist]
-Zobrazit seznam úèastníkù 
+Zobrazit seznam ÃºÄastnÃ­kÅ¯ 
 [Status 1 (10x10)]
-Stav è.1 (10x10)
+Stav Ä.1 (10x10)
 [Status 2 (10x10]
 [Status 3 (10x10)]
-Stav è.3 (10x10)
+Stav Ä.3 (10x10)
 [Status 4 (10x10)]
-Stav è.4 (10x10)
+Stav Ä.4 (10x10)
 [Status 5 (10x10)]
-Stav è.5 (10x10)
+Stav Ä.5 (10x10)
 [Status 6 (10x10)]
-Stav è.6 (10x10)
+Stav Ä.6 (10x10)
 [Message in (10x10)]
-Pøíchozí zpráva (10x10)
+PÅ™Ã­chozÃ­ zprÃ¡va (10x10)
 [Message out (10x10)]
-Odchozí zpráva (10x10)
+OdchozÃ­ zprÃ¡va (10x10)
 [Action (10x10)]
 Akce (10x10)
 [Add Status (10x10)]
-Pøidat stav (10x10)
+PÅ™idat stav (10x10)
 [Remove status (10x10)]
 Odebrat stav (10x10)
 [Join (10x10)]
-Pøidat (10x10)
+PÅ™idat (10x10)
 [Leave (10x10)]
 Opustit (10x10)
 [Quit (10x10)]
-Ukonèit (10x10)
+UkonÄit (10x10)
 [Kick (10x10)]
 Vykopnout (10x10)
 [Nickchange (10x10)]
-Zmìna pøezdívky (10x10)
+ZmÄ›na pÅ™ezdÃ­vky (10x10)
 [Topic (10x10)]
-Téma (10x10)
+TÃ©ma (10x10)
 [Highlight (10x10)]
-Zvıraznìní (10x10)
+ZvÃ½raznÄ›nÃ­ (10x10)
 [Information (10x10)]
 Informace (10x10)
 [Single Messaging]
-Bìnı rozhovor
+BÄ›Å¾nÃ½ rozhovor
 [Group Chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [Thai]
-thajština
+thajÅ¡tina
 [Japanese]
-japonština
+japonÅ¡tina
 [Simplified Chinese]
-èínština (zjednodušená)
+ÄÃ­nÅ¡tina (zjednoduÅ¡enÃ¡)
 [Korean]
-korejština
+korejÅ¡tina
 [Traditional Chinese]
-èínština (tradièní)
+ÄÃ­nÅ¡tina (tradiÄnÃ­)
 [Central European]
-støedoevropskı
+stÅ™edoevropskÃ½
 [Cyrillic]
 cyrilika
 [Latin I]
-západní
+zÃ¡padnÃ­
 [Greek]
-øeètina
+Å™eÄtina
 [Turkish]
-tureètina
+tureÄtina
 [Hebrew]
-hebrejština
+hebrejÅ¡tina
 [Arabic]
-arabština
+arabÅ¡tina
 [Baltic]
-pobaltskı
+pobaltskÃ½
 [Vietnamese]
-vietnamština
+vietnamÅ¡tina
 [Korean (Johab)]
-korejština (Johab)
+korejÅ¡tina (Johab)
 ;file \plugins\Scriver\src\infobar.cpp
 [%s (%s)]
 %s (%s)
@@ -399,12 +399,12 @@ korejština (Johab)
 [Quote]
 Citovat
 [Smiley]
-Smajlík
+SmajlÃ­k
 [Add Contact]
-Pøidat kontakt
+PÅ™idat kontakt
 [User Menu]
 [User Details]
-Informace o uivateli
+Informace o uÅ¾ivateli
 [History]
 Historie
 [Send]
@@ -417,27 +417,27 @@ Poslat
 [Quote Text]
 Citovat text
 [Insert Emoticon]
-Vloit smajlík 
+VloÅ¾it smajlÃ­k 
 [Send Message]
-Odeslat zprávu
+Odeslat zprÃ¡vu
 [User Menu - %s]
-Uivatelské menu - %s
+UÅ¾ivatelskÃ© menu - %s
 [signed off (was %s)]
-(odhlášení, pøedchozí stav: %s)
+(odhlÃ¡Å¡enÃ­, pÅ™edchozÃ­ stav: %s)
 [signed on (%s)]
-(pøihlášení, souèasnı stav: %s)
+(pÅ™ihlÃ¡Å¡enÃ­, souÄasnÃ½ stav: %s)
 [is now %s (was %s)]
-(souèasnı stav: %s, pøedchozí stav: %s)
+(souÄasnÃ½ stav: %s, pÅ™edchozÃ­ stav: %s)
 [Sending in progress: %d message(s) left...]
 [%s is typing a message...]
-%s píše zprávu...
+%s pÃ­Å¡e zprÃ¡vu...
 [Last message received on %s at %s.]
-Poslední zpráva pøijata %s v %s.
+PoslednÃ­ zprÃ¡va pÅ™ijata %s v %s.
 ;file \plugins\Scriver\src\msglog.cpp
 ['(Unknown Contact)']
-'(neznámı kontakt)'
+'(neznÃ¡mÃ½ kontakt)'
 [Unknown Contact]
-Neznámı kontakt
+NeznÃ¡mÃ½ kontakt
 [O Lord, bless this Thy hand grenade that with it Thou mayest blow Thine enemies]
 [to tiny bits, in Thy mercy]
 [My Contact]
@@ -446,79 +446,79 @@ Neznámı kontakt
 [Today]
 Dnes
 [Yesterday]
-Vèera
+VÄera
 [File sent]
-Odeslanı soubor
+OdeslanÃ½ soubor
 [File received]
-Pøijatı soubor
+PÅ™ijatÃ½ soubor
 [URL sent]
-Odeslanı odkaz
+OdeslanÃ½ odkaz
 [URL received]
-Pøijatı odkaz
+PÅ™ijatÃ½ odkaz
 ;file \plugins\Scriver\src\msgoptions.cpp
 [General]
 [Event Log]
-Záznam událostí
+ZÃ¡znam udÃ¡lostÃ­
 [Group Chat Log]
-Záznam rozhovorù
+ZÃ¡znam rozhovorÅ¯
 [Outgoing messages]
-Odchozí zprávy
+OdchozÃ­ zprÃ¡vy
 [Arial]
 [Outgoing background]
-Pozadí odchozích zpráv
+PozadÃ­ odchozÃ­ch zprÃ¡v
 [Incoming messages]
-Pøíchozí zprávy
+PÅ™Ã­chozÃ­ zprÃ¡vy
 [Incoming background]
-Pozadí pøíchozích zpráv
+PozadÃ­ pÅ™Ã­chozÃ­ch zprÃ¡v
 [Outgoing name]
-Odchozí jméno
+OdchozÃ­ jmÃ©no
 [Outgoing time]
-Odchozí èas
+OdchozÃ­ Äas
 [Terminal]
 [Outgoing colon]
-Odchozí dvojteèka
+OdchozÃ­ dvojteÄka
 [Incoming name]
-Pøíchozí jméno
+PÅ™Ã­chozÃ­ jmÃ©no
 [Incoming time]
-Pøíchozí èas
+PÅ™Ã­chozÃ­ Äas
 [Incoming colon]
-Pøíchozí dvojteèka
+PÅ™Ã­chozÃ­ dvojteÄka
 [Message area]
-Oblast se zprávou
+Oblast se zprÃ¡vou
 [Input area background]
-Pozadí psaní zprávy
+PozadÃ­ psanÃ­ zprÃ¡vy
 [Outgoing URL]
-Odchozí odkaz
+OdchozÃ­ odkaz
 [Incoming URL]
-Pøíchozí odkaz
+PÅ™Ã­chozÃ­ odkaz
 [Infobar contact name]
-Jméno v informaèní lištì
+JmÃ©no v informaÄnÃ­ liÅ¡tÄ›
 [Infobar background]
 [Infobar status message]
-Stav v informaèní lištì
+Stav v informaÄnÃ­ liÅ¡tÄ›
 [Others nicknames]
-Ostatní pøezdívky
+OstatnÃ­ pÅ™ezdÃ­vky
 [Verdana]
 [Your nickname]
-Vaše pøezdívka
+VaÅ¡e pÅ™ezdÃ­vka
 [User has joined]
-Pøíchod na kanál
+PÅ™Ã­chod na kanÃ¡l
 [User has left]
-Odchod z kanálu
+Odchod z kanÃ¡lu
 [User has disconnected]
-Odpojení uivatele
+OdpojenÃ­ uÅ¾ivatele
 [User kicked ...]
-Vykopnutí
+VykopnutÃ­
 [User is now known as ...]
-Zmìna pøezdívky
+ZmÄ›na pÅ™ezdÃ­vky
 [Notice from user]
-Poznámka
+PoznÃ¡mka
 [Incoming message]
-Pøíchozí zpráva
+PÅ™Ã­chozÃ­ zprÃ¡va
 [Outgoing message]
-Odchozí zpráva
+OdchozÃ­ zprÃ¡va
 [The topic is ...]
-Zobrazení tématu
+ZobrazenÃ­ tÃ©matu
 [Information messages]
 Informace
 [User enables status for ...]
@@ -526,26 +526,26 @@ Aktivace stavu pro ...
 [User disables status for ...]
 Deaktivace stavu pro ...
 [Action message]
-Upozornìní
+UpozornÄ›nÃ­
 [Highlighted message]
-Zvıraznìná zpráva
+ZvÃ½raznÄ›nÃ¡ zprÃ¡va
 [Message typing area]
-Oblast se zprávou
+Oblast se zprÃ¡vou
 [Message background]
-Pozadí konverzace
+PozadÃ­ konverzace
 [User list members (online)]
-Seznam úèastníkù (online)
+Seznam ÃºÄastnÃ­kÅ¯ (online)
 [User list background]
-Pozadí seznamu kontaktù
+PozadÃ­ seznamu kontaktÅ¯
 [User list members (away)]
-Seznam úèastníkù (pryè)
+Seznam ÃºÄastnÃ­kÅ¯ (pryÄ)
 [Messaging]
 Rozhovor
 [%s/%s]
 [User list lines]
-Linky v seznamu kontaktù
+Linky v seznamu kontaktÅ¯
 [User list background (selected)]
-Pozadí seznamu kontaktù (vybranı)
+PozadÃ­ seznamu kontaktÅ¯ (vybranÃ½)
 [Offline]
 [Online]
 [Away]
@@ -558,35 +558,35 @@ Pozadí seznamu kontaktù (vybranı)
 [** New contacts **]
 [** Unknown contacts **]
 [Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
+Zobrazit oznÃ¡menÃ­ bublinami (nepodporovÃ¡no)
 [Message Sessions]
 Komunikace
 [Typing Notify]
 ;file \plugins\Scriver\src\msgs.cpp
 [Message from %s]
-Zpráva od: %s
+ZprÃ¡va od: %s
 [%s is typing a message]
 [Typing Notification]
-Upozornìní na psaní zprávy
+UpozornÄ›nÃ­ na psanÃ­ zprÃ¡vy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-Chybí knihovna riched20.dll, co znemoòuje pouití interního modulu pro zprávy. Pokud pouíváte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
+ChybÃ­ knihovna riched20.dll, coÅ¾ znemoÅ¾Åˆuje pouÅ¾itÃ­ internÃ­ho modulu pro zprÃ¡vy. Pokud pouÅ¾Ã­vÃ¡te Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
 [user32]
 [Instant messages]
 Rozhovor
 [Incoming (Focused Window)]
-Pøíchozí (aktivní okno)
+PÅ™Ã­chozÃ­ (aktivnÃ­ okno)
 [Incoming (Unfocused Window)]
-Pøíchozí (neaktivní okno)
+PÅ™Ã­chozÃ­ (neaktivnÃ­ okno)
 [Incoming (New Session)]
-Pøíchozí (nová konverzace)
+PÅ™Ã­chozÃ­ (novÃ¡ konverzace)
 [Outgoing]
-Odchozí
+OdchozÃ­
 ;file \plugins\Scriver\src\msgtimedout.cpp
 [An unknown error has occured.]
-Neznámá chyba.
+NeznÃ¡mÃ¡ chyba.
 [%s - %s]
 [Send Error]
-Chyba pøi odesílání
+Chyba pÅ™i odesÃ­lÃ¡nÃ­
 ;file \plugins\Scriver\src\msgwindow.cpp
 [%name%]
 [%status%]
@@ -596,21 +596,21 @@ Chyba pøi odesílání
 [%name% - ]
 [%name% (%status%) : ]
 [Always On Top]
-Vdy navrchu
+VÅ¾dy navrchu
 ;file \plugins\Scriver\src\sendqueue.cpp
 [The message send timed out.]
-Pøekroèen èasovı limit odeslání zprávy.
+PÅ™ekroÄen ÄasovÃ½ limit odeslÃ¡nÃ­ zprÃ¡vy.
 ;file \plugins\Scriver\src\utils.cpp
 [:;,.!?'"><()[]- \r\n]
 ;file \plugins\Scriver\src\chat\chat.h
 [%miranda_logpath%\\%proto%\\%userid%.log]
 ;file \plugins\Scriver\src\chat\clist.cpp
 [Chat rooms]
-Místnosti chatu
+MÃ­stnosti chatu
 [Join chat]
-Pøidat se do diskuse
+PÅ™idat se do diskuse
 [Open chat window]
-Otevøít komunikaèní okno
+OtevÅ™Ã­t komunikaÄnÃ­ okno
 ;file \plugins\Scriver\src\chat\colorchooser.cpp
 ;file \plugins\Scriver\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
@@ -618,21 +618,21 @@ Otevøít komunikaèní okno
 [: %s]
 [%s ]
 [%s has joined]
-Pøíchod: %s
+PÅ™Ã­chod: %s
 [You have joined %s]
-Pøíchod na %s
+PÅ™Ã­chod na %s
 [%s has left]
 Odchod: %s
 [%s has disconnected]
-Odpojení: %s
+OdpojenÃ­: %s
 [%s is now known as %s]
-Zmìna pøezdívky: %s -> %s
+ZmÄ›na pÅ™ezdÃ­vky: %s -> %s
 [You are now known as %s]
-Zmìna vlastní pøezdívky: %s
+ZmÄ›na vlastnÃ­ pÅ™ezdÃ­vky: %s
 [%s kicked %s]
-Vykopnutí: %s -> %s
+VykopnutÃ­: %s -> %s
 [Notice from %s]
-Poznámka (napsal: %s)
+PoznÃ¡mka (napsal: %s)
 [The topic is '%s%s']
 [ (set by %s on %s)]
  (nastavil %s na %s)
@@ -643,248 +643,248 @@ Poznámka (napsal: %s)
 [%s disables '%s' status for %s]
 ;file \plugins\Scriver\src\chat\main.cpp
 [&Join]
-Pøi&jít
+PÅ™i&jÃ­t
 [&Leave]
-Ode&jít
+Ode&jÃ­t
 ;file \plugins\Scriver\src\chat\options.cpp
 [Flash when someone speaks]
-Zablikat oknem pøi napsání zprávy
+Zablikat oknem pÅ™i napsÃ¡nÃ­ zprÃ¡vy
 [Flash when a word is highlighted]
-Zablikat oknem pøi zvıraznìní slova
+Zablikat oknem pÅ™i zvÃ½raznÄ›nÃ­ slova
 [Show chat user list]
-Zobrazit seznam uivatelù v místnosti
+Zobrazit seznam uÅ¾ivatelÅ¯ v mÃ­stnosti
 [Enable button context menus]
-Zobrazit kontextové menu u tlaèítek
+Zobrazit kontextovÃ© menu u tlaÄÃ­tek
 [Show topic on your contact list (if supported)]
-Zadané téma zobrazit v seznamu kontaktù (je-li to podporováno)
+ZadanÃ© tÃ©ma zobrazit v seznamu kontaktÅ¯ (je-li to podporovÃ¡no)
 [Do not play sounds when focused]
-Nepøehrávat zvuky, je-li okno místnosti aktivní
+NepÅ™ehrÃ¡vat zvuky, je-li okno mÃ­stnosti aktivnÃ­
 [Do not pop up when joining]
-Neaktivovat okno po pøíchodu do místnosti
+Neaktivovat okno po pÅ™Ã­chodu do mÃ­stnosti
 [Show and hide by double clicking in the contact list]
-Pøepnout viditelnost pøi dvojím kliknutí na uivatele v seznamu
+PÅ™epnout viditelnost pÅ™i dvojÃ­m kliknutÃ­ na uÅ¾ivatele v seznamu
 [Show contact statuses (if supported)]
-Zobrazit stav úèastníkù (je-li to podporováno)
+Zobrazit stav ÃºÄastnÃ­kÅ¯ (je-li to podporovÃ¡no)
 [Display contact status icon before role icon]
-Zobrazit ikonu stavu kontaktu pøed ikonou jeho role
+Zobrazit ikonu stavu kontaktu pÅ™ed ikonou jeho role
 [Add ':' to auto-completed names]
 [Prefix all events with a timestamp]
-Pøed kadou událost pøidat informaci o èase
+PÅ™ed kaÅ¾dou udÃ¡lost pÅ™idat informaci o Äase
 [Only prefix with timestamp if it has changed]
-Informaci o èase pøidat pouze pokud se zmìní
+Informaci o Äase pÅ™idat pouze pokud se zmÄ›nÃ­
 [Timestamp has same colour as event]
-Pro informaci o èase pouít stejnou barvu jakou má pøíslušná událost
+Pro informaci o Äase pouÅ¾Ã­t stejnou barvu jakou mÃ¡ pÅ™Ã­sluÅ¡nÃ¡ udÃ¡lost
 [Indent the second line of a message]
-Odsadit druhı øádek dlouhé zprávy
+Odsadit druhÃ½ Å™Ã¡dek dlouhÃ© zprÃ¡vy
 [Limit user names to 20 characters]
-Omezit délku jmen v záznamu na 20 znakù
+Omezit dÃ©lku jmen v zÃ¡znamu na 20 znakÅ¯
 [Strip colors from messages]
-Záznam ukládat bez kódù definující barvy
+ZÃ¡znam uklÃ¡dat bez kÃ³dÅ¯ definujÃ­cÃ­ barvy
 [Enable 'event filter' for new rooms]
 [Show topic changes]
-Zobrazit informaci o zmìnì tématu
+Zobrazit informaci o zmÄ›nÄ› tÃ©matu
 [Show users joining]
-Zobrazit informaci o pøíchodu uivatelù
+Zobrazit informaci o pÅ™Ã­chodu uÅ¾ivatelÅ¯
 [Show users disconnecting]
-Zobrazit informaci o odpojení uivatelù
+Zobrazit informaci o odpojenÃ­ uÅ¾ivatelÅ¯
 [Show messages]
-Zobrazit zprávy
+Zobrazit zprÃ¡vy
 [Show actions]
 Zobrazit akce
 [Show users leaving]
-Zobrazit informaci o odchodu uivatelù
+Zobrazit informaci o odchodu uÅ¾ivatelÅ¯
 [Show users being kicked]
-Zobrazit informaci o vykopnutí uivatelù
+Zobrazit informaci o vykopnutÃ­ uÅ¾ivatelÅ¯
 [Show notices]
-Zobrazit poznámky
+Zobrazit poznÃ¡mky
 [Show users changing name]
-Zobrazit informaci o zmìnì jména
+Zobrazit informaci o zmÄ›nÄ› jmÃ©na
 [Show information messages]
-Zobrazit informativní zprávy
+Zobrazit informativnÃ­ zprÃ¡vy
 [Show status changes of users]
-Zobrazit informaci o zmìnì stavu uivatelù
+Zobrazit informaci o zmÄ›nÄ› stavu uÅ¾ivatelÅ¯
 [Show icons in tray only when the chat room is not active]
-Zobrazit ikonu v ozn. oblasti pouze pøi neaktivním oknì s diskusí
+Zobrazit ikonu v ozn. oblasti pouze pÅ™i neaktivnÃ­m oknÄ› s diskusÃ­
 [Show icon in tray for topic changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì tématu
+Zobrazit ikonu v ozn. oblasti pÅ™i zmÄ›nÄ› tÃ©matu
 [Show icon in tray for users joining]
-Zobrazit ikonu v ozn. oblasti pøi pøíchodu uivatelù
+Zobrazit ikonu v ozn. oblasti pÅ™i pÅ™Ã­chodu uÅ¾ivatelÅ¯
 [Show icon in tray for users disconnecting]
-Zobrazit ikonu v ozn. oblasti pøi odpojení uivatelù
+Zobrazit ikonu v ozn. oblasti pÅ™i odpojenÃ­ uÅ¾ivatelÅ¯
 [Show icon in tray for messages]
-Zobrazit ikonu v ozn. oblasti pøi pøijetí zprávy
+Zobrazit ikonu v ozn. oblasti pÅ™i pÅ™ijetÃ­ zprÃ¡vy
 [Show icon in tray for actions]
-Zobrazit ikonu v ozn. oblasti pøi akci
+Zobrazit ikonu v ozn. oblasti pÅ™i akci
 [Show icon in tray for highlights]
-Zobrazit ikonu v ozn. oblasti pøi zvıraznìní
+Zobrazit ikonu v ozn. oblasti pÅ™i zvÃ½raznÄ›nÃ­
 [Show icon in tray for users leaving]
-Zobrazit ikonu v ozn. oblasti pøi odchodu uivatelù
+Zobrazit ikonu v ozn. oblasti pÅ™i odchodu uÅ¾ivatelÅ¯
 [Show icon in tray for users kicking other user]
-Zobrazit ikonu v ozn. oblasti pøi vykopnutí uivatelù
+Zobrazit ikonu v ozn. oblasti pÅ™i vykopnutÃ­ uÅ¾ivatelÅ¯
 [Show icon in tray for notices ]
-Zobrazit ikonu v ozn. oblasti u poznámky
+Zobrazit ikonu v ozn. oblasti u poznÃ¡mky
 [Show icon in tray for name changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì jména
+Zobrazit ikonu v ozn. oblasti pÅ™i zmÄ›nÄ› jmÃ©na
 [Show icon in tray for information messages]
-Zobrazit ikonu v ozn. oblasti pøi pøijetí informativní zprávy
+Zobrazit ikonu v ozn. oblasti pÅ™i pÅ™ijetÃ­ informativnÃ­ zprÃ¡vy
 [Show icon in tray for status changes]
-Zobrazit ikonu v ozn. oblasti pøi zmìnì stavu
+Zobrazit ikonu v ozn. oblasti pÅ™i zmÄ›nÄ› stavu
 [Show pop-ups only when the chat room is not active]
-Zobrazit oznámení pouze pøi neaktivním oknì s diskusí
+Zobrazit oznÃ¡menÃ­ pouze pÅ™i neaktivnÃ­m oknÄ› s diskusÃ­
 [Show pop-up for topic changes]
-Zobrazit oznámení pøi zmìnì tématu
+Zobrazit oznÃ¡menÃ­ pÅ™i zmÄ›nÄ› tÃ©matu
 [Show pop-up for users joining]
-Zobrazit oznámení pøi pøíchodu uivatelù
+Zobrazit oznÃ¡menÃ­ pÅ™i pÅ™Ã­chodu uÅ¾ivatelÅ¯
 [Show pop-up for users disconnecting]
-Zobrazit oznámení pøi odpojení uivatelù
+Zobrazit oznÃ¡menÃ­ pÅ™i odpojenÃ­ uÅ¾ivatelÅ¯
 [Show pop-up for messages]
-Zobrazit oznámení pøi pøijetí zprávy
+Zobrazit oznÃ¡menÃ­ pÅ™i pÅ™ijetÃ­ zprÃ¡vy
 [Show pop-up for actions]
-Zobrazit oznámení pøi akci
+Zobrazit oznÃ¡menÃ­ pÅ™i akci
 [Show pop-up for highlights]
-Zobrazit oznámení pøi zvıraznìní
+Zobrazit oznÃ¡menÃ­ pÅ™i zvÃ½raznÄ›nÃ­
 [Show pop-up for users leaving]
-Zobrazit oznámení pøi odchodu uivatelù
+Zobrazit oznÃ¡menÃ­ pÅ™i odchodu uÅ¾ivatelÅ¯
 [Show pop-up for users kicking other user]
-Zobrazit oznámení pøi vykopnutí uivatelù
+Zobrazit oznÃ¡menÃ­ pÅ™i vykopnutÃ­ uÅ¾ivatelÅ¯
 [Show pop-up for notices ]
-Zobrazit oznámení u poznámky
+Zobrazit oznÃ¡menÃ­ u poznÃ¡mky
 [Show pop-up for name changes]
-Zobrazit oznámení pøi zmìnì jména
+Zobrazit oznÃ¡menÃ­ pÅ™i zmÄ›nÄ› jmÃ©na
 [Show pop-up for information messages]
-Zobrazit oznámení pøi pøijetí informativní zprávy
+Zobrazit oznÃ¡menÃ­ pÅ™i pÅ™ijetÃ­ informativnÃ­ zprÃ¡vy
 [Show pop-up for status changes]
-Zobrazit oznámení pøi zmìnì stavu
+Zobrazit oznÃ¡menÃ­ pÅ™i zmÄ›nÄ› stavu
 [Appearance and functionality of chat windows]
-Nastavení vzhledu a funkcí komunikaèních oken
+NastavenÃ­ vzhledu a funkcÃ­ komunikaÄnÃ­ch oken
 [Icons to display in the tray]
-Monosti zobrazení ikon v oznamovací oblasti
+MoÅ¾nosti zobrazenÃ­ ikon v oznamovacÃ­ oblasti
 [%s - %s\n%s - %s\n%s - %s\n\n]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [%nick%]
 [nick of current contact (if defined)]
-pøezdívka stávajícího kontaktu (pokud je definováno)
+pÅ™ezdÃ­vka stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡no)
 [%proto%]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-název protokolu stávajícího kontaktu (pokud je definován). Název úètu je pouit pokud protokol podporuje monost více úètù
+nÃ¡zev protokolu stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡n). NÃ¡zev ÃºÄtu je pouÅ¾it pokud protokol podporuje moÅ¾nost vÃ­ce ÃºÄtÅ¯
 [%userid%]
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-UID stávajícího kontaktu (pokud je definováno). To je jako UIN pro ICQ, JID pro Jabber atd.
+UID stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡no). To je jako UIN pro ICQ, JID pro Jabber atd.
 [%miranda_path%]
 [path to root miranda folder]
-cesta ke koøenové sloce Mirandy
+cesta ke koÅ™enovÃ© sloÅ¾ce Mirandy
 [%miranda_profile%]
 [path to current miranda profile]
-cesta k aktuálnímu profilu Mirandy
+cesta k aktuÃ¡lnÃ­mu profilu Mirandy
 [%miranda_profilename%]
 [name of current miranda profile (filename, without extension)]
-jméno aktuálního profilu Mirandy (jméno souboru bez pøípony)
+jmÃ©no aktuÃ¡lnÃ­ho profilu Mirandy (jmÃ©no souboru bez pÅ™Ã­pony)
 [%miranda_userdata%]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí øetìzec %miranda_profile%\\Profiles\\%miranda_profilename%
+navrÃ¡tÃ­ Å™etÄ›zec %miranda_profile%\\Profiles\\%miranda_profilename%
 [%appdata%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-stejné jako systémová promìnná %APPDATA% pro aktuálnì pøihlášeného uivatele Windows
+stejnÃ© jako systÃ©movÃ¡ promÄ›nnÃ¡ %APPDATA% pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%username%]
 [username for currently logged-on Windows user]
-jméno pro aktuálnì pøihlášeného uivatele Windows
+jmÃ©no pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%mydocuments%]
 ["My Documents" folder for currently logged-on Windows user]
-sloka "Dokumenty" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Dokumenty" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%desktop%]
 ["Desktop" folder for currently logged-on Windows user]
-sloka "Plocha" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Plocha" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-nìjaká systémová promìnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
+nÄ›jakÃ¡ systÃ©movÃ¡ promÄ›nnÃ¡ definovanÃ¡ v aktuÃ¡lnÃ­ relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [%d%]
 [day of month, 1-31]
-den mìsíce, 1-31
+den mÄ›sÃ­ce, 1-31
 [%dd%]
 [day of month, 01-31]
-den mìsíce, 01-31
+den mÄ›sÃ­ce, 01-31
 [%m%]
 [month number, 1-12]
-èíslo mìsíce, 1-12
+ÄÃ­slo mÄ›sÃ­ce, 1-12
 [%mm%]
 [month number, 01-12]
-èíslo mìsíce, 01-12
+ÄÃ­slo mÄ›sÃ­ce, 01-12
 [%mon%]
 [abbreviated month name]
-zkrácené jméno mìsíce
+zkrÃ¡cenÃ© jmÃ©no mÄ›sÃ­ce
 [%month%]
 [full month name]
-celé jméno mesíce
+celÃ© jmÃ©no mesÃ­ce
 [%yy%]
 [year without century, 01-  99]
 [%yyyy%]
 [year with century, 1901-9999]
-rok vèetnì století, 1901-9999
+rok vÄetnÄ› stoletÃ­, 1901-9999
 [%wday%]
 [abbreviated weekday name]
-zkrácené jméno dne v tıdnu
+zkrÃ¡cenÃ© jmÃ©no dne v tÃ½dnu
 [%weekday%]
 [full weekday name]
-plné jméno dne v tıdnu
+plnÃ© jmÃ©no dne v tÃ½dnu
 [Variables]
 [Appearance]
 [Default events to show in new chat rooms if the 'event filter' is enabled]
 [Select Folder]
-Vyberte poadovanou sloku
+Vyberte poÅ¾adovanou sloÅ¾ku
 [PopUps]
 [[%H:%M]]
 [[%d %b %y %H:%M]]
 [%n:]
 [MS Shell Dlg]
 [Group chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [Message is highlighted]
-Zvıraznìní zprávy
+ZvÃ½raznÄ›nÃ­ zprÃ¡vy
 [User has performed an action]
-Provedení akce
+ProvedenÃ­ akce
 [User has kicked some other user]
-Vykopnutí z kanálu
+VykopnutÃ­ z kanÃ¡lu
 [User's status was changed]
-Zmìna stavu uivatele
+ZmÄ›na stavu uÅ¾ivatele
 [User has changed name]
-Zmìna pøezdívky
+ZmÄ›na pÅ™ezdÃ­vky
 [User has sent a notice]
-Odeslání poznámky
+OdeslÃ¡nÃ­ poznÃ¡mky
 [The topic has been changed]
-Zmìna tématu diskuse
+ZmÄ›na tÃ©matu diskuse
 ;file \plugins\Scriver\src\chat\services.cpp
 [Server: %s]
 ;file \plugins\Scriver\src\chat\tools.cpp
 [ - %s]
 [%s wants your attention in %s]
-%s ádá o pozornost na kanále %s
+%s Å¾Ã¡dÃ¡ o pozornost na kanÃ¡le %s
 [%s speaks in %s]
-%s píše (na %s)
+%s pÃ­Å¡e (na %s)
 [%s has joined %s]
-%s pøišel (na %s)
+%s pÅ™iÅ¡el (na %s)
 [%s has left %s]
-%s odešel (z %s)
+%s odeÅ¡el (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
 [Topic change in %s]
-Zmìna tématu na %s
+ZmÄ›na tÃ©matu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
 [%s says: %s]
-%s píše: %s
+%s pÃ­Å¡e: %s
 [%s %s]
 %s %s
 [%s has left (%s)]
-%s odešel (%s)
+%s odeÅ¡el (%s)
 [%s has disconnected (%s)]
 %s se odpojil (%s)
 [%s kicked %s (%s)]
 %s vykopnul %s (%s)
 [Notice from %s: %s]
-Poznámka od %s: %s
+PoznÃ¡mka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [:,.!?;'>)]
@@ -897,57 +897,57 @@ Poznámka od %s: %s
 [%#m]
 [mon]
 [month]
-mìsíc
+mÄ›sÃ­c
 [yyyy]
 [wday]
 [weekday]
 ;file \plugins\Scriver\src\chat\window.cpp
 [Italic]
-Kurzíva
+KurzÃ­va
 [Underline]
-Podtrené
+PodtrÅ¾enÃ©
 [Text color]
 Barva textu
 [Background color]
-Barva pozadí
+Barva pozadÃ­
 [Font size]
 Velikost
 [Filter]
 Filtr
 [Manager]
 [Nick list]
-Seznam pøezdívek
+Seznam pÅ™ezdÃ­vek
 [Insert a smiley]
-Vloí vybranı smajlík
+VloÅ¾Ã­ vybranÃ½ smajlÃ­k
 [Make the text bold (CTRL+B)]
-Zmìní styl písma na tuèné (CTRL+B)
+ZmÄ›nÃ­ styl pÃ­sma na tuÄnÃ© (CTRL+B)
 [Make the text italicized (CTRL+I)]
-Zmìní styl písma na kurzívu (CTRL+I)
+ZmÄ›nÃ­ styl pÃ­sma na kurzÃ­vu (CTRL+I)
 [Make the text underlined (CTRL+U)]
-Zmìní styl písma na podtrené (CTRL+U)
+ZmÄ›nÃ­ styl pÃ­sma na podtrÅ¾enÃ© (CTRL+U)
 [Select a background color for the text (CTRL+L)]
-Zmìní barvu pozadí textu (CTRL+L)
+ZmÄ›nÃ­ barvu pozadÃ­ textu (CTRL+L)
 [Select a foreground color for the text (CTRL+K)]
-Zmìní barvu textu (CTRL+K)
+ZmÄ›nÃ­ barvu textu (CTRL+K)
 [Show the history (CTRL+H)]
-Zobrazí historii (CTRL+H)
+ZobrazÃ­ historii (CTRL+H)
 [Show/hide the nicklist (CTRL+N)]
-Zobrazí/skryje seznam úèastníkù (CTRL+N)
+ZobrazÃ­/skryje seznam ÃºÄastnÃ­kÅ¯ (CTRL+N)
 [Control this room (CTRL+O)]
-Monosti øízení kanálu (CTRL+O)
+MoÅ¾nosti Å™Ã­zenÃ­ kanÃ¡lu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
-Aktivuje/deaktivuje filtrování událostí (CTRL+F)
+Aktivuje/deaktivuje filtrovÃ¡nÃ­ udÃ¡lostÃ­ (CTRL+F)
 [/topic]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [AQG_glo']
 [%s: Chat Room (%u user)]
-%s: kanál (úèastníkù: %u)
+%s: kanÃ¡l (ÃºÄastnÃ­kÅ¯: %u)
 [%s: Chat Room (%u users)]
-%s: kanál (úèastníkù: %u)
+%s: kanÃ¡l (ÃºÄastnÃ­kÅ¯: %u)
 [%s: Message Session]
 %s: rozhovor
 [%s: Message Session (%u users)]
-%s: rozhovor (úèastníkù: %u)
+%s: rozhovor (ÃºÄastnÃ­kÅ¯: %u)
 [%s: Server]
 [%s : %s]
 [AQGgl']

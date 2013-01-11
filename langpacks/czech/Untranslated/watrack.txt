@@ -1,4 +1,4 @@
-;[ answer you]
+﻿;[ answer you]
 ;[''Music'' status is set]
 ;[(%artist%, %title%, %album% and %year% macros can be used only)]
 ;[Album]

@@ -1,1 +1,1 @@
-;[General]
+﻿;[General]

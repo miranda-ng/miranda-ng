@@ -1,4 +1,4 @@
-#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
+Ôªø#muuid {e25367a2-51ae-4044-be28-131bc18b71a4}
 ;============================================================
 ;  File: BasicHistory.dll
 ;  Plugin: Basic History
@@ -8,12 +8,12 @@
 [History viewer for Miranda NG.]
 ;file \plugins\BasicHistory\res\BasicHistory.rc
 [Settings]
-NastavenÌ
+Nastaven√≠
 [Always show contact list]
 [Show groups in contact list]
 [Do not show Find control border]
 [Default Event Filter]
-V˝chozÌ filtr ud·lostÌ
+V√Ωchoz√≠ filtr ud√°lost√≠
 [Custom filters]
 [Add filter]
 [Delete filter]
@@ -25,24 +25,24 @@ V˝chozÌ filtr ud·lostÌ
 [WinSCP log path]
 [New messages on top]
 [Show event icons]
-Zobrazit ikony ud·lostÌ
+Zobrazit ikony ud√°lost√≠
 [Show timestamps]
-Zobrazit ËasovÈ ˙daje
+Zobrazit ƒçasov√© √∫daje
 [Show names]
-Zobrazit jmÈna
+Zobrazit jm√©na
 [Show messages]
-Zobrazit zpr·vy
+Zobrazit zpr√°vy
 [Truncate message length to:]
 [Delta time to group messages:]
 [hours]
 hod.
 [Limit messages to:]
 [Show date in timestamps]
-Zobrazit datum v ËasovÈm ˙daji
+Zobrazit datum v ƒçasov√©m √∫daji
 [Show seconds in timestamps]
-Zobrazit sekundy v ËasovÈm ˙daji
+Zobrazit sekundy v ƒçasov√©m √∫daji
 [Enable Smileys]
-Povolit smajlÌky
+Povolit smajl√≠ky
 [Search forward in list group]
 [Search forward in message window]
 [Match Case]
@@ -51,7 +51,7 @@ Povolit smajlÌky
 [Only Outgoing Messages]
 [Only Selected Group]
 [All Contacts]
-Vöechny kontakty
+V≈°echny kontakty
 [Export To Txt]
 [File encoding*]
 [Export To Plain Html]
@@ -62,7 +62,7 @@ Vöechny kontakty
 [Edit task]
 [Delete task]
 [Display errors using popups]
-Zobrazit chybov· hl·öenÌ jako ozn·menÌ
+Zobrazit chybov√° hl√°≈°en√≠ jako ozn√°men√≠
 [Save errors to system history]
 [Name]
 [Active]
@@ -94,11 +94,11 @@ Heslo
 [Delete All User History]
 [Execute history task]
 [Incoming message]
-P¯ÌchozÌ zpr·va
+P≈ô√≠choz√≠ zpr√°va
 [Outgoing message]
-OdchozÌ zpr·va
+Odchoz√≠ zpr√°va
 [Status change]
-ZmÏna stavu
+Zmƒõna stavu
 [Show Contacts]
 [Hide Contacts]
 [Find Next]
@@ -115,16 +115,16 @@ Historie
 [dat]
 ;file \plugins\BasicHistory\src\EventList.cpp
 [All events]
-Vöechny poloûky
+V≈°echny polo≈æky
 [Default history events]
 [History for %s]
 [System]
-SystÈm
+Syst√©m
 [d t]
 [Invalid Message]
-Neplatn· zpr·va
+Neplatn√° zpr√°va
 [Authorisation request by %s (%s%d): %s]
-é·dost o autorizaci od %s (%s%d): %s
+≈Ω√°dost o autorizaci od %s (%s%d): %s
 [%016llx]
 ;file \plugins\BasicHistory\src\ExportManager.cpp
 [%s Files (*.%s)]
@@ -140,21 +140,21 @@ Exportovat
 ;file \plugins\BasicHistory\src\HistoryWindow.cpp
 [This operation will PERMANENTLY REMOVE all history for this contact.\nAre you sure you want to do this?]
 [Are You sure?]
-Opravdu chcete pokraËovat?
+Opravdu chcete pokraƒçovat?
 [Do you want delete all imported messages for this contact?\nNote that next scheduler task import this messages again.]
 [Open in &new window]
-Otev¯Ìt v &novÈm oknÏ
+Otev≈ô√≠t v &nov√©m oknƒõ
 [&Open in existing window]
-&Otev¯Ìt v aktu·lnÌm oknÏ
+&Otev≈ô√≠t v aktu√°ln√≠m oknƒõ
 [&Copy link]
-Z&kopÌrovat odkaz
+Z&kop√≠rovat odkaz
 [Copy]
-ZkopÌrovat
+Zkop√≠rovat
 [Delete]
 [Send Message]
-Odeslat zpr·vu
+Odeslat zpr√°vu
 [Reply &Quoted]
-OdpovÏdÏt s &citacÌ
+Odpovƒõdƒõt s &citac√≠
 [Delete Group]
 Smazat skupinu
 [Options]
@@ -168,7 +168,7 @@ Smazat skupinu
 [Filters]
 Filtry
 [Fonts & Colors]
-PÌsma a barvy
+P√≠sma a barvy
 [Icons]
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 [Hotkeys]
@@ -187,17 +187,17 @@ PÌsma a barvy
 ;file \plugins\BasicHistory\src\Options.cpp
 [Message]
 [File transfer]
-P¯enos souboru
+P≈ôenos souboru
 [Link]
 Adresa
 [Authorization request]
-é·dost o autorizaci
+≈Ω√°dost o autorizaci
 [You were added]
 [Contacts recieved]
 [SMTP Simple Email]
-Zpr·va SMTP
+Zpr√°va SMTP
 [SMS message]
-Zpr·va SMS
+Zpr√°va SMS
 [UTF-8]
 UTF-8
 [windows-1250]
@@ -222,30 +222,30 @@ UTF-8
 [iso-8859-15]
 [Group list]
 [Messages]
-Zpr·vy
+Zpr√°vy
 [Searching]
-Hled·m
+Hled√°m
 [Scheduler]
-Pl·novaË
+Pl√°novaƒç
 [Advanced]
 Extra
 [>> Outgoing timestamp]
->> OdchozÌ Ëas
+>> Odchoz√≠ ƒças
 [MS Shell Dlg 2]
 [Outgoing background]
-PozadÌ odchozÌch zpr·v
+Pozad√≠ odchoz√≠ch zpr√°v
 [<< Incoming timestamp]
-<< P¯ÌchozÌ Ëas
+<< P≈ô√≠choz√≠ ƒças
 [Incoming background]
-PozadÌ p¯ÌchozÌch zpr·v
+Pozad√≠ p≈ô√≠choz√≠ch zpr√°v
 [>> Outgoing name]
->> OdchozÌ jmÈno
+>> Odchoz√≠ jm√©no
 [<< Incoming name]
-<< P¯ÌchozÌ jmÈno
+<< P≈ô√≠choz√≠ jm√©no
 [>> Outgoing messages]
->> OdchozÌ zpr·vy
+>> Odchoz√≠ zpr√°vy
 [<< Incoming messages]
-<< P¯ÌchozÌ zpr·vy
+<< P≈ô√≠choz√≠ zpr√°vy
 [Group list background]
 [Find window]
 [Find window background]
@@ -253,7 +253,7 @@ PozadÌ p¯ÌchozÌch zpr·v
 [Contact list background]
 [Open global history]
 [Find]
-NajÌt
+Naj√≠t
 [Switch Match Case]
 [Switch Match Whole Word]
 [Show/Hide Contacts]
@@ -267,13 +267,13 @@ NajÌt
 [Import From Dat (mContacts)]
 [Invalid event number]
 [Incoming events]
-P¯ÌchozÌ ud·losti
+P≈ô√≠choz√≠ ud√°losti
 [Outgoing events]
-OdchozÌ ud·losti
+Odchoz√≠ ud√°losti
 [File do not exist. Enter correct file path.]
 [Invalid file]
 [All Files (*.*)]
-Vöechny soubory (*.*)
+V≈°echny soubory (*.*)
 [*.*]
 #muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [Enter filter name]
@@ -298,7 +298,7 @@ Vöechny soubory (*.*)
 [At Start]
 [At Finish]
 [Daily]
-Kaûd˝ den
+Ka≈æd√Ω den
 [Weekly]
 [Monthly]
 [Delta time (minutes)]
@@ -328,7 +328,7 @@ Kaûd˝ den
 [">\n]
 [<title>]
 [History Log]
-InternÌ historie
+Intern√≠ historie
 [] - []
 []</title>\n]
 [<style type="text/css"><!--\n]
@@ -361,7 +361,7 @@ Filtr:
 [<div class=mes></div>\n</body></html>\n]
 [<div class=mes id=session>\n]
 [Conversation started at %s]
-Rozhovor zaËal %s
+Rozhovor zaƒçal %s
 [<div class=text>]
 [</div>\n]
 [out]
@@ -452,7 +452,7 @@ Kontakty
 [<date>]
 [FTP path cannot contain <date> in import task.]
 [Unknown error]
-Nezn·m· chyba
+Nezn√°m√° chyba
 [Cannot get FTP file(s).]
 [Cannot unzip file(s).]
 [Incorrect file format: %s.]
@@ -475,7 +475,7 @@ Nezn·m· chyba
 Hledat
 [You have reached the end of the group.]
 [You have reached the end of the history.]
-Uû jste na konci historie.
+U≈æ jste na konci historie.
 ;file \plugins\BasicHistory\src\TxtExport.cpp
 [###]
 [)\n]

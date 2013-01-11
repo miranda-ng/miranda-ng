@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: SecureIM.dll
 ;  Plugin: SecureIM
@@ -7,112 +7,112 @@
 ;============================================================
 ;file \plugins\SecureIM\res\resource.rc
 [User List]
-Seznam uivatelù
+Seznam uÅ¾ivatelÅ¯
 [Enable Secure Offline messages]
-Šifrovat zprávy offline
+Å ifrovat zprÃ¡vy offline
 [Enable Secure File Transfer]
-Šifrovat pøenos souborù
+Å ifrovat pÅ™enos souborÅ¯
 [Always show status icons in contact list]
-Ukázat stavovou ikonu v kontaktech
+UkÃ¡zat stavovou ikonu v kontaktech
 [Context Menu only for "Miranda" clients]
 [Status in Context Menu]
-Stav v kontextovém menu
+Stav v kontextovÃ©m menu
 [Disable encryption for game plugins]
-Vypnout šifrování pro herní doplòky
+Vypnout Å¡ifrovÃ¡nÃ­ pro hernÃ­ doplÅˆky
 [Always secured if possible]
-Pokud lze, šifrovat vdy
+Pokud lze, Å¡ifrovat vÅ¾dy
 [Not secured for NotOnList]
 [Auto accept RSA key (NOT SECURED)]
 [Mode in Context Menu]
 [Key Exchange Timeout :]
-Doba pro vımìnu klíèe:
+Doba pro vÃ½mÄ›nu klÃ­Äe:
 [sec]
 sek.
 [Offline Key Timeout :]
-Offline klíè vyprší za:
+Offline klÃ­Ä vyprÅ¡Ã­ za:
 [days]
-dnù
+dnÅ¯
 [PGP]
 PGP 
 [GPG]
 [Reset All]
-Vše resetovat
+VÅ¡e resetovat
 [Protocols]
 Protokoly
 [Split Messages]
-Rozdìlit zprávy
+RozdÄ›lit zprÃ¡vy
 [Online:]
 Online:
 [Offline:]
 Offline:
 [RSA Key]
-RSA klíè
+RSA klÃ­Ä
 [SHA1:]
 [Public]
 [&Copy SHA1]
 [E&xport]
 [Private]
-Soukromı
+SoukromÃ½
 [&Export]
 &Exportovat
 [&Import]
 [Set &keyrings...]
-Nastavit &klíèenku...
+Nastavit &klÃ­Äenku...
 [Disable keyrings use]
-Vypnout pouití klíèenky
+Vypnout pouÅ¾itÃ­ klÃ­Äenky
 [Load &Private key]
-Nahrát &Soukromı klíè
+NahrÃ¡t &SoukromÃ½ klÃ­Ä
 [Basic]
-Obecné
+ObecnÃ©
 [Executable:]
 Program gpg.exe:
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Home Directory:]
-Dom. adresáø:
+Dom. adresÃ¡Å™:
 [Temp Dir:]
 [Key Assignment]
-Pøiøazení klíèù
+PÅ™iÅ™azenÃ­ klÃ­ÄÅ¯
 [Debug]
 Debug
 [Log to File]
 Do souboru
 [Save Pass]
-Uloit heslo
+UloÅ¾it heslo
 [Back]
-Pozadí
+PozadÃ­
 [Text]
 Text
 [Key agreement colors]
-Potvrzení klíèù
+PotvrzenÃ­ klÃ­ÄÅ¯
 [Secure connection colors]
-Šifrované spojení
+Å ifrovanÃ© spojenÃ­
 [Send/Receive encrypted colors]
-Šifrované odesílání a pøíjem
+Å ifrovanÃ© odesÃ­lÃ¡nÃ­ a pÅ™Ã­jem
 [SecureIM PopUp Colors]
-Nastavení barev
+NastavenÃ­ barev
 [Preview]
-Náhled
+NÃ¡hled
 [Events]
-Události
+UdÃ¡losti
 [PopUp Timeout]
-Doba zobrazení
+Doba zobrazenÃ­
 [Time in Seconds]
-Èas v sekundách
+ÄŒas v sekundÃ¡ch
 [0 = Default PopUp Timeout Value]
-0 = vıchozí hodnota
+0 = vÃ½chozÃ­ hodnota
 [Show a popup on established connection]
-Indikovat vytvoøení spojení
+Indikovat vytvoÅ™enÃ­ spojenÃ­
 [Show a popup on disabled connection]
-Indikovat zrušení spojení
+Indikovat zruÅ¡enÃ­ spojenÃ­
 [Show a popup on key send]
-Indikovat odesílání klíèe
+Indikovat odesÃ­lÃ¡nÃ­ klÃ­Äe
 [Show a popup on key received]
-Indikovat pøíjem klíèe
+Indikovat pÅ™Ã­jem klÃ­Äe
 [Show a popup on each secure send]
-Indikovat odesílání šifrované zprávy
+Indikovat odesÃ­lÃ¡nÃ­ Å¡ifrovanÃ© zprÃ¡vy
 [Show a popup on each secure receive]
-Indikovat pøíjem šifrované zprávy
+Indikovat pÅ™Ã­jem Å¡ifrovanÃ© zprÃ¡vy
 [Username:]
 [Password:]
 [OK]
@@ -121,21 +121,21 @@ Indikovat pøíjem šifrované zprávy
 [Ok]
 OK
 [Native SecureIM]
-Nativní SecureIM
+NativnÃ­ SecureIM
 [PGP SecureIM]
 [GPG SecureIM]
 [RSA/AES SecureIM]
 [RSA SecureIM]
 [Always Try to Establish Secure IM]
-Vdy se pokusit pouít SecureIM
+VÅ¾dy se pokusit pouÅ¾Ã­t SecureIM
 [Secure IM Enabled]
 Povolit SecureIM
 [Secure IM Disabled]
-Zakázat SecureIM
+ZakÃ¡zat SecureIM
 [Set key]
-Nastavit klíè
+Nastavit klÃ­Ä
 [Delete key]
-Smazat klíè
+Smazat klÃ­Ä
 [Set pre-shared key]
 [Delete pre-shared key]
 [Export key]
@@ -162,7 +162,7 @@ Smazat klíè
 [Load Private Key File]
 [Load Public Key File]
 [Services]
-Sluby
+SluÅ¾by
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [PopUps]
 ;file \plugins\SecureIM\src\rtfconv.cpp

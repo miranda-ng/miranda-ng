@@ -1,4 +1,4 @@
-;[ (DC Established)]
+﻿;[ (DC Established)]
 ;[%%miranda_avatarcache%%\\]
 ;[%miranda_avatarcache%]
 ;[%s\\]

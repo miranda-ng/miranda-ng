@@ -1,4 +1,4 @@
-;[100 %]
+﻿;[100 %]
 ;[<none>]
 ;[Appearance]
 ;[Background colour:]

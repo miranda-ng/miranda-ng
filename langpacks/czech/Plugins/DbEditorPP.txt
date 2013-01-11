@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: Svc_dbepp.dll
 ;  Plugin: Database Editor++
@@ -8,13 +8,13 @@
 [Advanced Database Editor.]
 ;file \plugins\DbEditorPP\res\resource.rc
 [Case Sensitive]
-Rozlišit malá/VELKÁ
+RozliÅ¡it malÃ¡/VELKÃ
 [Module Name]
-Název modulu
+NÃ¡zev modulu
 [Exact Match]
-Pøesnı vıraz
+PÅ™esnÃ½ vÃ½raz
 [Setting Name]
-Název nastavení
+NÃ¡zev nastavenÃ­
 [Setting Value]
 Hodnota
 [&Search]
@@ -32,83 +32,83 @@ V:
 [Replace With]
 Nahradit
 [Entirely]
-Kompletnì
+KompletnÄ›
 [Restore last opened position]
 Zapamatovat pozici okna
 [Automatically expand "settings" when Database Editor ++ starts]
-Pøi spuštìní automaticky rozbalit vìtev 'Nastavení'
+PÅ™i spuÅ¡tÄ›nÃ­ automaticky rozbalit vÄ›tev 'NastavenÃ­'
 [Use known modules list]
-Pouít seznam známıch modulù
+PouÅ¾Ã­t seznam znÃ¡mÃ½ch modulÅ¯
 [Warn when deleting modules]
-Upozornit pøed smazáním modulu
+Upozornit pÅ™ed smazÃ¡nÃ­m modulu
 [Use popups when watched settings change values]
-Oznámit zmìnu sledované hodnoty
+OznÃ¡mit zmÄ›nu sledovanÃ© hodnoty
 [Modules to ALWAYS mark as known (e.g core modules)]
-Známé moduly (napø. moduly jádra)
+ZnÃ¡mÃ© moduly (napÅ™. moduly jÃ¡dra)
 [Put a space or comma between each module name]
-- názvy modulù oddìlte èárkou èi mezerou
+- nÃ¡zvy modulÅ¯ oddÄ›lte ÄÃ¡rkou Äi mezerou
 [Changes to this list will take effect next time miranda starts]
-Pozn.: Provedené zmìny se projeví a po restartu Mirandy
+Pozn.: ProvedenÃ© zmÄ›ny se projevÃ­ aÅ¾ po restartu Mirandy
 [Popup timeout (0 for infinite)]
-Doba zobrazení (0 = stále)
+Doba zobrazenÃ­ (0 = stÃ¡le)
 [Background Colour]
-Barva pozadí
+Barva pozadÃ­
 [If the module name has a space in it, put a \\ before the space. eg "aaa\\ bbb"]
-- je-li v názvu modulu mezera, pøed mezeru zadejte znak '\\' (napø. 'aaa\\ bbb')
+- je-li v nÃ¡zvu modulu mezera, pÅ™ed mezeru zadejte znak '\\' (napÅ™. 'aaa\\ bbb')
 [Add a module named]
-Název nového modulu
+NÃ¡zev novÃ©ho modulu
 [Add to all contacts (Includes Settings)]
-Pøidat všem kontaktùm (vèetnì nastavení)
+PÅ™idat vÅ¡em kontaktÅ¯m (vÄetnÄ› nastavenÃ­)
 [OK]
 [Cancel]
 [Value Name:]
-Název hodnoty:
+NÃ¡zev hodnoty:
 [Value Data:]
 Obsah hodnoty:
 [Base]
-Èíselná soustava
+ÄŒÃ­selnÃ¡ soustava
 [Save Value as:]
 Definice hodnoty
 [Copy to all contacts (Includes Settings)]
-Zkopírovat všem kontaktùm (vèetnì nastavení)
+ZkopÃ­rovat vÅ¡em kontaktÅ¯m (vÄetnÄ› nastavenÃ­)
 [Contact to copy module and settings to]
 [Import]
 Importovat
 [Insert &CR/LF]
-Vloit &CR/LF
+VloÅ¾it &CR/LF
 [Paste the Settings to import here.]
-Zde vlote poadovanı text:
+Zde vloÅ¾te poÅ¾adovanÃ½ text:
 [&Refresh Modules]
 &Aktualizovat moduly
 [Refresh &Settings]
-Aktualizovat na&stavení
+Aktualizovat na&stavenÃ­
 [E&xit]
 [&Search and Replace]
-Najít a nah&radit...
+NajÃ­t a nah&radit...
 [&Delete Module]
 &Smazat modul...
 [&View all]
-Zobrazit &vše
+Zobrazit &vÅ¡e
 [&Delete all]
-&Smazat vše
+&Smazat vÅ¡e
 [Entire &Database]
-Celá &databáze...
+CelÃ¡ &databÃ¡ze...
 [All &Settings]
-Všechna na&stavení...
+VÅ¡echna na&stavenÃ­...
 [All &Contacts]
-Vše&chny kontakty...
+VÅ¡e&chny kontakty...
 [From a &file]
 Ze sou&boru...
 [From pasted &text]
-Ze sc&hránky...
+Ze sc&hrÃ¡nky...
 [&Sort by protocol]
-&Seøadit dle protokolu
+&SeÅ™adit dle protokolu
 [Show &All]
-Zobrazit &vše
+Zobrazit &vÅ¡e
 [Show only &Loaded]
-Zobrazit jen &aktivní
+Zobrazit jen &aktivnÃ­
 [Show only &Unloaded]
-Zobrazit jen &neaktivní
+Zobrazit jen &neaktivnÃ­
 [Edit &Bytes in Hex]
 Upravovat &Bytes v hexa
 [Edit &Words in Hex]
@@ -133,23 +133,23 @@ Upravovat &Dwords v hexa
 [BL&OB]
 BL&OB
 [View Decrypted String]
-Zobrazit dešifrovanı øetìzec
+Zobrazit deÅ¡ifrovanÃ½ Å™etÄ›zec
 [View Encrypted String]
-Zobrazit zašifrovanı øetìzec
+Zobrazit zaÅ¡ifrovanÃ½ Å™etÄ›zec
 [Decrypt String]
-Dešifrovat øetìzec
+DeÅ¡ifrovat Å™etÄ›zec
 [Encrypt String]
-Zašifrovat øetìzec
+ZaÅ¡ifrovat Å™etÄ›zec
 [&Watch]
 Sl&edovat
 [&Delete]
 [&Rename]
 [Copy To Contact]
-&Zkopírovat do kontaktu...
+&ZkopÃ­rovat do kontaktu...
 [Export Module]
 &Exportovat modul...
 [Add To Known Modules]
-Pøidat mezi známé moduly
+PÅ™idat mezi znÃ¡mÃ© moduly
 [&Clone]
 Dup&likovat
 [Export Contact]
@@ -157,53 +157,53 @@ Dup&likovat
 [From a file]
 &Ze souboru...
 [From pasted text]
-Z&e schránky...
+Z&e schrÃ¡nky...
 [&Add Module]
-Pøid&at modul...
+PÅ™id&at modul...
 [Export Settings]
-&Exportovat nastavení
+&Exportovat nastavenÃ­
 [Export Contacts]
 &Exportovat kontakty
 [Export Module from all contacts]
-&Exportovat modul ze všech kontaktù...
+&Exportovat modul ze vÅ¡ech kontaktÅ¯...
 [Reload Watch List]
-Aktualizovat seznam sledovanıch
+Aktualizovat seznam sledovanÃ½ch
 ;file \plugins\DbEditorPP\src\addeditsettingsdlg.cpp
 [Cannot Convert!]
-Vybranou poloku nelze zkonvertovat.
+Vybranou poloÅ¾ku nelze zkonvertovat.
 [New BYTE value]
 [Edit BYTE value]
-Zmìnit hodnotu typu BYTE
+ZmÄ›nit hodnotu typu BYTE
 [New WORD value]
 [Edit WORD value]
-Zmìnit hodnotu typu WORD
+ZmÄ›nit hodnotu typu WORD
 [New DWORD value]
 [Edit DWORD value]
-Zmìnit hodnotu typu DWORD
+ZmÄ›nit hodnotu typu DWORD
 [New STRING value]
 [Edit STRING value]
-Zmìnit hodnotu typu STRING
+ZmÄ›nit hodnotu typu STRING
 [New UNICODE value]
-Nová hodnota UNICODE
+NovÃ¡ hodnota UNICODE
 [Edit UNICODE value]
 Upravit hodnotu UNICODE
 [New BLOB value]
-Nová hodnota BLOB
+NovÃ¡ hodnota BLOB
 [Edit BLOB value]
 Upravit hodnotu BLOB
 [Couldnt allocate enough memory!]
 ;file \plugins\DbEditorPP\src\copymodule.cpp
 [Settings]
-Nastavení
+NastavenÃ­
 ;file \plugins\DbEditorPP\src\deletemodule.cpp
 [Are you sure you want to delete module "%s"?]
 Opravdu chcete smazat modul '%s'?
 [Confirm Module Deletion]
-Potvrzení smazání modulu
+PotvrzenÃ­ smazÃ¡nÃ­ modulu
 [Delete module from Database]
-Smazat modul z databáze
+Smazat modul z databÃ¡ze
 [Delete module from Database... Loading]
-Mazání modulu z databáze... naèítání
+MazÃ¡nÃ­ modulu z databÃ¡ze... naÄÃ­tÃ¡nÃ­
 ;file \plugins\DbEditorPP\src\exportimport.cpp
 [INI Files]
 Soubory INI
@@ -212,84 +212,84 @@ Soubory INI
 Exportovat...
 [Error Loading Module List]
 [Couldn't open file for writing]
-Nelze otevøít soubor pro zápis
+Nelze otevÅ™Ã­t soubor pro zÃ¡pis
 [Do you want to overwrite it "%s"?]
-Opravdu chcete pøepsat poloku '%s'?
+Opravdu chcete pÅ™epsat poloÅ¾ku '%s'?
 [Contact already exists]
-Tento kontakt ji existuje.
+Tento kontakt jiÅ¾ existuje.
 [Import from files]
 Importovat ze souboru
 ;file \plugins\DbEditorPP\src\findwindow.cpp
 [Enter a string to search the DB for]
-Zadejte prosím poadovanı øetìzec
+Zadejte prosÃ­m poÅ¾adovanÃ½ Å™etÄ›zec
 [Stop]
 Zastavit
 [Replaced with]
 Nahrazeno
 [Deleted]
-Smazáno
+SmazÃ¡no
 [Found]
 Nalezeno
 [%s Module "%s" in contact "%s"]
 %s: modul '%s' v kontaktu '%s'
 [%s Setting "%s" in module "%s" in contact "%s" - "%s"]
-%s: poloka '%s' v modulu '%s' kontaktu '%s' -> '%s'
+%s: poloÅ¾ka '%s' v modulu '%s' kontaktu '%s' -> '%s'
 [%s Setting "%s" in module "%s" in contact "%s"]
-%s: poloka '%s' v modulu '%s' kontaktu '%s'
+%s: poloÅ¾ka '%s' v modulu '%s' kontaktu '%s'
 [%s "%s" in Setting "%s" in module "%s" in contact "%s"]
-%s: '%s' v poloce '%s' modulu '%s' kontaktu '%s'
+%s: '%s' v poloÅ¾ce '%s' modulu '%s' kontaktu '%s'
 [Searching...]
-Hledání...
+HledÃ¡nÃ­...
 [Error Loading Setting List]
-Chyba pøi naèítání seznamu nastavení
+Chyba pÅ™i naÄÃ­tÃ¡nÃ­ seznamu nastavenÃ­
 [Finished. %d items were found, %d items were deleted.]
-Dokonèeno. Poèet nalezenıch: %d, poèet odstranìnıch: %d
+DokonÄeno. PoÄet nalezenÃ½ch: %d, poÄet odstranÄ›nÃ½ch: %d
 [Finished. %d items were found, %d items were replaced.]
-Dokonèeno. Poèet nalezenıch: %d, poèet nahrazenıch: %d
+DokonÄeno. PoÄet nalezenÃ½ch: %d, poÄet nahrazenÃ½ch: %d
 [Finished. %d items were found.]
-Dokonèeno. Poèet nalezenıch poloek: %d
+DokonÄeno. PoÄet nalezenÃ½ch poloÅ¾ek: %d
 ;file \plugins\DbEditorPP\src\icons.cpp
 [Closed Known Module]
-Známı modul (zavøenı)
+ZnÃ¡mÃ½ modul (zavÅ™enÃ½)
 [Open Known Module]
-Známı modul (otevøenı)
+ZnÃ¡mÃ½ modul (otevÅ™enÃ½)
 [Closed Unknown Module]
-Neznámı modul (zavøenı)
+NeznÃ¡mÃ½ modul (zavÅ™enÃ½)
 [Open Unknown Module]
-Neznámı modul (otevøenı)
+NeznÃ¡mÃ½ modul (otevÅ™enÃ½)
 [Contacts Group]
-Skupina kontaktù
+Skupina kontaktÅ¯
 [Unknown Contact]
-Neznámı kontakt
+NeznÃ¡mÃ½ kontakt
 [Known Contact]
-Známı kontakt
+ZnÃ¡mÃ½ kontakt
 ;file \plugins\DbEditorPP\src\main.cpp
 [Database Editor++]
-Editor databáze ++
+Editor databÃ¡ze ++
 [Open Database Editor]
 [Open user tree in DBE++]
-Upravit poloky v DBE++
+Upravit poloÅ¾ky v DBE++
 ;file \plugins\DbEditorPP\src\main_window.cpp
 [Are you sure you want to delete contact "%s"?]
 Opravdu chcete smazat kontakt '%s'?
 [Confirm Contact Delete]
-Potvrzení smazání kontaktu
+PotvrzenÃ­ smazÃ¡nÃ­ kontaktu
 ;file \plugins\DbEditorPP\src\modules.cpp
 ;file \plugins\DbEditorPP\src\moduletree.cpp
 [Loading contacts...]
-Naèítání seznamu kontaktù...
+NaÄÃ­tÃ¡nÃ­ seznamu kontaktÅ¯...
 [Loading modules...]
-Naèítání modulù...
+NaÄÃ­tÃ¡nÃ­ modulÅ¯...
 [Module tree not found]
 [Contacts]
 Kontakty
 [HANDLE]
 HANDLE
 [Add module to contact "%s"]
-Pøidat modul ke kontaktu '%s'
+PÅ™idat modul ke kontaktu '%s'
 ;file \plugins\DbEditorPP\src\options.cpp
 [Database]
-Databáze
+DatabÃ¡ze
 ;file \plugins\DbEditorPP\src\settinglist.cpp
 [Name]
 [Data]
@@ -309,25 +309,25 @@ STRING
 [UNICODE]
 UNICODE
 [<unsupported>]
-<nepodporováno>
+<nepodporovÃ¡no>
 [<unknown>]
-<neznámı>
+<neznÃ¡mÃ½>
 [Decoded string..]
-Dekódovanı øetìzec..
+DekÃ³dovanÃ½ Å™etÄ›zec..
 [Encoded string..]
-Zakódovanı øetìzec..
+ZakÃ³dovanÃ½ Å™etÄ›zec..
 ;file \plugins\DbEditorPP\src\watchedvars.cpp
 [Contact]
 Kontakt
 [Module]
 [Setting]
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (BYTE) %d]
-Zmìna v databázi: \nModul: '%s' , poloka: '%s'\nNová hodnota (BYTE): %d
+ZmÄ›na v databÃ¡zi: \nModul: '%s' , poloÅ¾ka: '%s'\nNovÃ¡ hodnota (BYTE): %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (WORD) %d]
-Zmìna v databázi: \nModul: '%s' , poloka: '%s'\nNová hodnota (WORD): %d
+ZmÄ›na v databÃ¡zi: \nModul: '%s' , poloÅ¾ka: '%s'\nNovÃ¡ hodnota (WORD): %d
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: (DWORD) 0x%X]
-Zmìna v databázi: \nModul: '%s' , poloka: '%s'\nNová hodnota (DWORD): 0x%X
+ZmÄ›na v databÃ¡zi: \nModul: '%s' , poloÅ¾ka: '%s'\nNovÃ¡ hodnota (DWORD): 0x%X
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value: "%s"]
-Zmìna v databázi: \nModul: '%s' , poloka: '%s'\nNová hodnota: '%s'
+ZmÄ›na v databÃ¡zi: \nModul: '%s' , poloÅ¾ka: '%s'\nNovÃ¡ hodnota: '%s'
 [Database Setting Changed: \nModule: "%s" , Setting: "%s"\nNew Value (UTF8): "%s"]
-Zmìna v databázi: \nModul: '%s' , poloka: '%s'\nNová hodnota (UTF8): '%s'
+ZmÄ›na v databÃ¡zi: \nModul: '%s' , poloÅ¾ka: '%s'\nNovÃ¡ hodnota (UTF8): '%s'

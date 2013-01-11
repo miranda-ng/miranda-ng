@@ -1,4 +1,4 @@
-;[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
+﻿;[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
 ;[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=]
 ;[&api_paste_code=]
 ;[&api_paste_expire_date=]

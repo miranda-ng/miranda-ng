@@ -1,4 +1,4 @@
-;[- Add "---" for separator.]
+﻿;[- Add "---" for separator.]
 ;[- Add your replies, one per line.]
 ;[- Press [v] button for variable's help.]
 ;[---]

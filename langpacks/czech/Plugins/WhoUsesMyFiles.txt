@@ -1,11 +1,11 @@
-#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
+ï»¿#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}
 ;langpack template for WhoUsesMyFiles
 ;file \plugins\WhoUsesMyFiles\res\resource.rc
 [OK]
 [Popup delay settings]
 [PopUp Delay (seconds)]
 [Background color]
-Barva pozadí
+Barva pozadÃ­
 [Text color]
 Barva textu
 [Previe&w]
@@ -14,7 +14,7 @@ Barva textu
 [Choose delay time]
 [Popup color settings]
 [Use windows colors]
-Použít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Use default PopUp colors]
 [Choose colors]
 [File access filter && logging settings]
@@ -36,6 +36,6 @@ Použít barvy Windows
 [Show connections list]
 [Wumf]
 [Services]
-Služby
+SluÅ¾by
 [PopUps]
 [WUMF: Show connections]

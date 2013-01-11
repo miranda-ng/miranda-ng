@@ -1,4 +1,4 @@
-;["%s" /restart:%d /profile=%s]
+﻿;["%s" /restart:%d /profile=%s]
 ;["%s" /restart:%d /svc:dbchecker]
 ;[%miranda_profilename%]
 ;[/ForceShowPM]

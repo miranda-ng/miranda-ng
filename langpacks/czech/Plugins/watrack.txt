@@ -1,19 +1,19 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for watrack
 ;file \plugins\Watrack\kolframe\frm.rc
 [Frame refresh time]
-Obnovování okna
+ObnovovÃ¡nÃ­ okna
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Picture transform]
 [Cover padding]
 Okraje obalu
 [Alpha]
-Prùhlednost
+PrÅ¯hlednost
 [Background color]
-Barva pozadí
+Barva pozadÃ­
 [Choose font...]
-Vybrat písmo...
+Vybrat pÃ­smo...
 [Text effect]
 Efekt textu
 [Text movement]
@@ -21,7 +21,7 @@ Pohyb textu
 [Text rotation speed (1-20)]
 Rychlost rotace textu (1-20)
 [Frame Text]
-Text v oknì
+Text v oknÄ›
 ;file \plugins\Watrack\lastfm\lastfm.rc
 [Password]
 Heslo
@@ -44,45 +44,45 @@ Zobrazit
 [Colors]
 Barvy
 [Background]
-Pozadí
+PozadÃ­
 [Actions]
 Akce
 [Show player]
-Zobrazit pøehrávaè
+Zobrazit pÅ™ehrÃ¡vaÄ
 [Left click]
-Levé tlaè.
+LevÃ© tlaÄ.
 [Right click]
-Pravé tlaè.
+PravÃ© tlaÄ.
 [Delay]
 Prodleva
 [sec]
 sek.
 [Test]
-Ovìøit
+OvÄ›Å™it
 [M]
 [Popup Title / Text]
-Záhlaví a text oznámení
+ZÃ¡hlavÃ­ a text oznÃ¡menÃ­
 ;file \plugins\Watrack\proto\proto.rc
 [Save events in database]
-Ukládat události do databáze
+UklÃ¡dat udÃ¡losti do databÃ¡ze
 [Music Info Request]
-Poadavky na info o hudbì
+PoÅ¾adavky na info o hudbÄ›
 [User music info text]
 [(%artist%, %title%, %album% and %year% macros can be used only)]
 ;file \plugins\Watrack\res\watrack.rc
 [Unicode to Ansi translation codepage:]
-Kódování jazyka, definice skriptu:
+KÃ³dovÃ¡nÃ­ jazyka, definice skriptu:
 [Refresh time, sec]
 Aktualizace (v sek.)
 [Formats]
-Formáty
+FormÃ¡ty
 [Players list\n(F1 for note)]
 [Check]
 Kontrola
 [None]
 ---
 [Cover filenames]
-Názvy obalù
+NÃ¡zvy obalÅ¯
 [OK]
 [1]
 [2]
@@ -104,32 +104,32 @@ Názvy obalù
 ;file \plugins\Watrack\stat\stat.rc
 [Delete]
 [Statistic log file]
-Soubor se statistickımi údaji
+Soubor se statistickÃ½mi Ãºdaji
 [Sort]
-Seøadit
+SeÅ™adit
 [Autosort period, days]
-Perioda autom. tøídìní (dny)
+Perioda autom. tÅ™Ã­dÄ›nÃ­ (dny)
 [Report file]
-Soubor se zápisem
+Soubor se zÃ¡pisem
 [Report]
-Zápis
+ZÃ¡pis
 [Template file]
-Soubor šablony
+Soubor Å¡ablony
 [Export default]
 Exportovat
 [Show in report]
-Zobrazit v zápisu
+Zobrazit v zÃ¡pisu
 [Sort log file]
-Seøadit záznam dle
+SeÅ™adit zÃ¡znam dle
 [Report Items]
-Poèet poloek
+PoÄet poloÅ¾ek
 ;file \plugins\Watrack\status\status.rc
 [Options]
 [Set XStatus when...]
 [Color]
 Barva
 [Format]
-Formát
+FormÃ¡t
 [Variables]
 [Protocols]
 Protokoly
@@ -138,36 +138,36 @@ Stavy
 [Reset]
 [Default]
 [Template]
-Šablona
+Å ablona
 [This is simplified version of template editor. This templates will be used with all protocols, protocol and player (media) statuses]
-Toto je zjednodušená verze editoru. Tyto šablony budou pouity na všechny protokoly, stavy a pøehrávaèe.
+Toto je zjednoduÅ¡enÃ¡ verze editoru. Tyto Å¡ablony budou pouÅ¾ity na vÅ¡echny protokoly, stavy a pÅ™ehrÃ¡vaÄe.
 [Chat Template]
-Šablona chatu
+Å ablona chatu
 [[X]Status Title / Text]
-Záhlaví a text rozšíøeného stavu
+ZÃ¡hlavÃ­ a text rozÅ¡Ã­Å™enÃ©ho stavu
 ;file \plugins\Watrack\templates\templates.rc
 [File size]
 Vel. souboru
 [Precision]
-Pøesnost
+PÅ™esnost
 [Postfix]
-Pøípona
+PÅ™Ã­pona
 [VBR macro]
 [Player name letters]
-Název pøehrávaèe
+NÃ¡zev pÅ™ehrÃ¡vaÄe
 [Export text template]
 [V]
 ;file \plugins\Watrack\i_gui.inc
 [Disable Plugin]
-Zakázat doplnìk
+ZakÃ¡zat doplnÄ›k
 ;file \plugins\Watrack\i_opt_1.inc
 [System default codepage]
-Vıchozí kódování systému
+VÃ½chozÃ­ kÃ³dovÃ¡nÃ­ systÃ©mu
 [All]
-všechno
+vÅ¡echno
 ;file \plugins\Watrack\kolframe\frm_dlg1.inc
 [All Bitmaps]
-Všechny bitmapy
+VÅ¡echny bitmapy
 ;file \plugins\Watrack\lastfm\i_last_api.inc
 [Last.fm error: ]
 [Client is banned]
@@ -184,19 +184,19 @@ Všechny bitmapy
 [second line]
 ;file \plugins\Watrack\proto\i_proto_dlg.inc
 [** All contacts **]
-** všechny kontakty **
+** vÅ¡echny kontakty **
 ;file \plugins\Watrack\proto\proto.pas
 [Music Info from ]
 [ answer you]
 [You Get Error]
 ;file \plugins\Watrack\stat\statlog.pas
 [Music Statistic]
-Hudební statistiky
+HudebnÃ­ statistiky
 ;file \plugins\Watrack\status\i_opt_11.inc
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [XStatus]
-Rozšíøenı stav
+RozÅ¡Ã­Å™enÃ½ stav
 [Tunes]
 [Format text Info]
 ;file \plugins\Watrack\status\i_opt_12.inc

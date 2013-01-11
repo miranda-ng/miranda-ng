@@ -1,4 +1,4 @@
-#muuid {53e095a3-2695-490a-9dad-d20479093831}
+ï»¿#muuid {53e095a3-2695-490a-9dad-d20479093831}
 ;langpack template for Clist_blind
 ;file \plugins\Clist_blind\res\resource.rc
 [Are you sure you want to delete %s?]
@@ -13,7 +13,7 @@ Ne
 [Show/Hide:]
 [HotKey1]
 [Read Message:]
-Pøeèíst zprávu:
+PÅ™eÄÃ­st zprÃ¡vu:
 [Web Search:]
 Hledat na webu:
 [URL:]
@@ -24,11 +24,11 @@ Hledat na webu:
 [Disable groups]
 [Ask before deleting contacts]
 [Sort contacts by name]
-Øadit kontakty dle jména
+Å˜adit kontakty dle jmÃ©na
 [Sort contacts by status]
-Øadit kontakty dle stavu
+Å˜adit kontakty dle stavu
 [Sort contacts by protocol]
-Øadit kontakty dle protokolu
+Å˜adit kontakty dle protokolu
 [Single click interface]
 [Always show status in tooltip]
 [Disable icon blinking]
@@ -43,13 +43,13 @@ Zobrazit
 [Only when statuses differ]
 [Contact List]
 [System tray icon]
-Ikona v oznamovací oblasti
+Ikona v oznamovacÃ­ oblasti
 [System tray icon when using multiple protocols]
 [Contact List Sorting]
 [Window]
 [Always on top]
 [Tool style main window]
-Zjednodušené záhlaví okna
+ZjednoduÅ¡enÃ© zÃ¡hlavÃ­ okna
 [Minimize to tray]
 [Hide contact list after it has been idle for]
 [seconds]
@@ -67,22 +67,22 @@ Zjednodušené záhlaví okna
 [Show menu bar]
 [Easy move]
 [Show title bar]
-Zobrazit záhlaví
+Zobrazit zÃ¡hlavÃ­
 [If window is partially covered, bring to front instead of hiding]
 [Show drop shadow (restart required)]
 [Pin to desktop]
 [Items]
 ['Hide Offline' means to hide:]
-'Skrıt offline' znamená skrytí:
+'SkrÃ½t offline' znamenÃ¡ skrytÃ­:
 [Groups]
 [Show counts of number of contacts in a group]
-Zobrazit poèet kontaktù ve skupinì
+Zobrazit poÄet kontaktÅ¯ ve skupinÄ›
 [Hide group counts when there are none online]
-Skrıt poèet kontaktù ve skupinì, jsou-li všichni offline
+SkrÃ½t poÄet kontaktÅ¯ ve skupinÄ›, jsou-li vÅ¡ichni offline
 [Sort groups alphabetically]
 [Quicksearch in open groups only]
 [Templates]
-Šablony
+Å ablony
 [Contact:]
 [Group:]
 Skupina:
@@ -122,7 +122,7 @@ Skupina:
 [&Delete Group]
 ;file \plugins\Clist_blind\src\clcopts.cpp
 [Not focused]
-Neaktivní
+NeaktivnÃ­
 [Offline]
 [Online]
 [Away]
@@ -140,17 +140,17 @@ Neaktivní
 Seznam
 ;file \plugins\Clist_blind\src\clistopts.cpp
 [Global]
-Globální
+GlobÃ¡lnÃ­
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [LISTBOX]
 [Unknown Protocol]
-neznámı protokol
+neznÃ¡mÃ½ protokol
 [%name%]
 [%count%]
 [%mode%]
 [Expanded]
-Rozbalenı
+RozbalenÃ½
 [Colapsed]
 [%status%]
 [%protocol%]

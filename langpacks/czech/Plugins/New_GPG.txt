@@ -1,7 +1,7 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for New_GPG
 ;file \plugins\New_GPG\res\new_gpg.rc
-[ÎÊ]
+[ÃÄ˜]
 [Load from file]
 [Select existing]
 [Turn on encryption]
@@ -11,13 +11,13 @@
 [Key password:]
 [Load other]
 [Delete key]
-Smazat klíè
+Smazat klÃ­Ä
 [Generate and use random key]
 [Account:]
-Úèet:
+ÃšÄet:
 [key id: ]
 [Continue]
-Pokraèovat
+PokraÄovat
 [Home directory:]
 [GnuPG binary:]
 [Browse]
@@ -25,7 +25,7 @@ Pokraèovat
 [Import key]
 [Accept and enable encryption]
 [Ignore]
-[Ñòàòè÷åñêèé]
+[ÅƒÅˆÅ•ÅˆÄÃ·ÄºÅ„Ä™ÄÃ©]
 [OK]
 [Cancel]
 [Key type:]
@@ -33,7 +33,7 @@ Pokraèovat
 [Real name:]
 [Email:]
 [Comment:]
-Poznámka:
+PoznÃ¡mka:
 [Expire date:]
 [ex.: 2010-08-15]
 [From 1024 to 4096]
@@ -85,13 +85,13 @@ Importovat
 ;file \plugins\New_GPG\src\main.cpp
 [Set own key]
 [Key ID]
-ID klíèe
+ID klÃ­Äe
 [Email]
 [Name]
 [Creation date]
 [Key length]
 [Accounts]
-Úèty
+ÃšÄty
 [--batch --list-secret-keys]
 [Default]
 [key id]
@@ -110,7 +110,7 @@ ID klíèe
 [GnuPG\\gpg.exe]
 [gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned.]
 [Warning]
-Upozornìní
+UpozornÄ›nÃ­
 [Software\\GNU\\GnuPG]
 [gpgProgram]
 [wrong gpg binary location found in system.\nplease choose another location]
@@ -136,7 +136,7 @@ Info
 [Replace]
 Nahradit
 [Accept]
-Pøijmout
+PÅ™ijmout
 [Received key from ]
 [Key Generation dialog]
 [RSA]
@@ -189,14 +189,14 @@ Pøijmout
 [ -d -a "]
 [-----PGP KEY RESPONSE-----]
 [-----END PGP PUBLIC KEY BLOCK-----]
------KONEC BLOKU VEØEJNÉHO PGP KLÍÈE-----
+-----KONEC BLOKU VEÅ˜EJNÃ‰HO PGP KLÃÄŒE-----
 [-----BEGIN PGP PUBLIC KEY BLOCK-----]
------ZAÈÁTEK BLOKU VEØEJNÉHO PGP KLÍÈE-----
+-----ZAÄŒÃTEK BLOKU VEÅ˜EJNÃ‰HO PGP KLÃÄŒE-----
 [.asc]
 [-----BEGIN PGP PRIVATE KEY BLOCK-----]
------ZAÈÁTEK BLOKU SOUKROMÉHO PGP KLÍÈE-----
+-----ZAÄŒÃTEK BLOKU SOUKROMÃ‰HO PGP KLÃÄŒE-----
 [-----END PGP PRIVATE KEY BLOCK-----]
------KONEC BLOKU SOUKROMÉHO PGP KLÍÈE-----
+-----KONEC BLOKU SOUKROMÃ‰HO PGP KLÃÄŒE-----
 [GPG_Key_Auto_Exchange:0]
 [\r\n]
 [--comment "" --no-version ]
@@ -206,12 +206,12 @@ Pøijmout
 [Something wrong, gpg does not understand us, aborting encryption.]
 ;file \plugins\New_GPG\src\options.cpp
 [Services]
-Sluby
+SluÅ¾by
 [Main]
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 [GnuPG Variables]
 [Messages]
-Zprávy
+ZprÃ¡vy
 [Advanced]
 Extra
 [Contact]

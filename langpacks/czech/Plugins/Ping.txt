@@ -1,11 +1,11 @@
-#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
+ï»¿#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}
 ;langpack template for Ping
 ;file \plugins\Ping\res\ping.rc
 [Delay between pings (secs):]
 Doba mezi dotazy (sek.):
 [Timeout]
 [Ping timeout (secs):]
-Dotaz vyprší po (sek.):
+Dotaz vyprÅ¡Ã­ po (sek.):
 [Logging]
 [Log to File]
 Do souboru
@@ -16,17 +16,17 @@ Do souboru
 [Reply]
 [Block Repetitions]
 [View Log]
-Zobrazit záznam
+Zobrazit zÃ¡znam
 [Browse...]
-Procházet...
+ProchÃ¡zet...
 [Interface]
-Rozhraní
+RozhranÃ­
 [Do not change icon when testing]
 [Use the Customize/Fonts options to change text size and colour.]
 [Indent:]
 Odstup:
 [Row height:]
-Vıška øádku:
+VÃ½Å¡ka Å™Ã¡dku:
 [Spin3]
 [Repeats for success/failure:]
 [Attach to contact list]
@@ -44,29 +44,29 @@ Vıška øádku:
 TCP Connect
 [Port:]
 [Control Protocol:]
-Ovládanı protokol:
+OvlÃ¡danÃ½ protokol:
 [Set my status to:]
-Zmìnit stav na:
+ZmÄ›nit stav na:
 [On success, if my status is:]
-Je-li vše v poøádku a stav:
+Je-li vÅ¡e v poÅ™Ã¡dku a stav:
 [Execute the following command on double-click:]
-Dvojím kliknutím spustit následující pøíkaz:
+DvojÃ­m kliknutÃ­m spustit nÃ¡sledujÃ­cÃ­ pÅ™Ã­kaz:
 [Contact]
 Kontakt
 [Protocols]
 Protokoly
 [(Optional) Command Parameters:]
-Argumenty pøíkazu:
+Argumenty pÅ™Ã­kazu:
 [Graph]
 Graf
 [Enable]
 Aktivovat
 [Disable all pings]
-Deaktivovat všechny pingy
+Deaktivovat vÅ¡echny pingy
 [Enable all pings]
-Deaktivovat všechny pingy
+Deaktivovat vÅ¡echny pingy
 [Options...]
-Monosti...
+MoÅ¾nosti...
 [Hosts...]
 ;file \plugins\Ping\src\icmp.cpp
 [IPHLPAPI.DLL]
@@ -83,7 +83,7 @@ Ping
 [<none>]
 [<all>]
 [Settings]
-Nastavení
+NastavenÃ­
 [Hosts]
 ;file \plugins\Ping\src\ping.cpp
 [Ping Plugin]
@@ -113,10 +113,10 @@ zapnuto
 [List]
 Seznam
 [Background]
-Pozadí
+PozadÃ­
 ;file \plugins\Ping\src\rawping.cpp
 [Host %s requests that you reduce the amount of traffic you are sending.]
-Upozornìní! Zahlcujete hostitele %s\npøíliš velkım mnostvím dat. Zvyšte dobu mezi\njednotlivımi dotazy (=pingy).
+UpozornÄ›nÃ­! Zahlcujete hostitele %s\npÅ™Ã­liÅ¡ velkÃ½m mnoÅ¾stvÃ­m dat. ZvyÅ¡te dobu mezi\njednotlivÃ½mi dotazy (=pingy).
 ;file \plugins\Ping\src\utils.cpp
 [Unknown Address]
 [Unknown]

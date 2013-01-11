@@ -1,4 +1,4 @@
-#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
+ï»¿#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}
 ;============================================================
 ;  File: StartPosition.dll
 ;  Plugin: Start Position
@@ -15,7 +15,7 @@ Vpravo
 [Pixels from Bottom]
 [Pixels from Side]
 [Width]
-Šíøka
+Å Ã­Å™ka
 [Always start...]
 [Minimized to System Tray]
 [Opened]

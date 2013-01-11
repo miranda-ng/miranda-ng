@@ -1,24 +1,24 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for NotesReminders
 ;file \plugins\NotesAndReminders\res\resource.rc
 [Default Note Size]
-Velikost poznámky
+Velikost poznÃ¡mky
 [Width (Pixels)]
-Šíøka (v pixelech)
+Å Ã­Å™ka (v pixelech)
 [Height (Pixels)]
-Vıška (v pixelech)
+VÃ½Å¡ka (v pixelech)
 [Notes Appearance]
 [Show Scrollbars]
-Zobrazit posuvníky
+Zobrazit posuvnÃ­ky
 [Show Buttons]
-Zobrazit tlaèítka
+Zobrazit tlaÄÃ­tka
 [Title Date]
 [Title Time]
 [Startup options]
-Monosti pøi spuštìní
+MoÅ¾nosti pÅ™i spuÅ¡tÄ›nÃ­
 [Hide notes at startup]
 [Add Contact list menu items]
-Pøidat poloky menu do seznamu kontaktù
+PÅ™idat poloÅ¾ky menu do seznamu kontaktÅ¯
 [(Requires Miranda restart)]
 [Reminder options]
 [Add Reminder closes dialog]
@@ -28,44 +28,44 @@ Pøidat poloky menu do seznamu kontaktù
 [100%]
 100 %
 [Send Reminders through E-mail / SMS :]
-Odeslat pøípomínky e-mailem nebo sms:
+Odeslat pÅ™Ã­pomÃ­nky e-mailem nebo sms:
 [Open links with this program instead:]
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Reset to defaults]
-Obnovit vıchozí
+Obnovit vÃ½chozÃ­
 [(Using MCI allows different sounds to be played simultaneously, may not be needed or desired when a custom sound plugin is installed.)]
 [Trigger On Time && Date:]
-Da&tum a èas vyvolání
+Da&tum a Äas vyvolÃ¡nÃ­
 [Date]
 Datum
 [DateTimePicker1]
 [Time]
 [Reminder Note:]
-Obsah pøipomínky
+Obsah pÅ™ipomÃ­nky
 [None]
 ---
 [Daily]
-Kadı den
+KaÅ¾dÃ½ den
 [Weekly]
 [Monthly]
 [Repeat Alert Sound]
 [Use Sound]
 [&Add Reminder]
-Pøid&at pøipomínku
+PÅ™id&at pÅ™ipomÃ­nku
 [&Close]
-&Zavøít
+&ZavÅ™Ã­t
 [&View Reminders]
-Zobrazit pøipomínk&y...
+Zobrazit pÅ™ipomÃ­nk&y...
 [reftime]
 [After:]
 [On Time && Date:]
 [&Remind Again]
 [&Create Note]
 [&Dismiss]
-&Splnìno
+&SplnÄ›no
 [Add New]
-Pøidat novou
+PÅ™idat novou
 [Edi&t Reminder]
 [New &Reminder]
 [&Delete Reminder]
@@ -73,7 +73,7 @@ Pøidat novou
 [&Hide Note]
 [&Always On Top]
 [&New Note]
-&Nová poznámka...
+&NovÃ¡ poznÃ¡mka...
 [&Delete Note]
 [Custom...]
 [Reset]
@@ -82,7 +82,7 @@ Pøidat novou
 [Undo]
 [&Copy]
 [&Paste]
-&Vloit
+&VloÅ¾it
 [C&ut]
 Vyjmou&t
 [C&lear]
@@ -94,7 +94,7 @@ Vyjmou&t
 [Always &On Top]
 [Delete &All Notes]
 [&Show / Hide Notes]
-Zobrazit/skrıt poznám&ky
+Zobrazit/skrÃ½t poznÃ¡m&ky
 ;file \plugins\NotesAndReminders\src\hotkeys.cpp
 [MIM_SNMsgWindow]
 [New Note]
@@ -109,7 +109,7 @@ Zobrazit/skrıt poznám&ky
 [Show/Hide Notes]
 [On Top Caption Icon]
 [Delete All Reminders]
-Smazat všechny
+Smazat vÅ¡echny
 [View Reminders]
 [Not on Top Caption Icon]
 [Hide Note Icon]
@@ -121,19 +121,19 @@ Smazat všechny
 [Plugins]
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 [Add New Note]
-Pøidat novou poznámku
+PÅ™idat novou poznÃ¡mku
 [Add New Reminder]
-Pøidat novou pøipomínku
+PÅ™idat novou pÅ™ipomÃ­nku
 [Alerts]
 [Reminder triggered]
 [Reminder triggered (Alternative 1)]
 [Reminder triggered (Alternative 2)]
 [Notes && Reminders]
-Poznámky &a pøipomínky
+PoznÃ¡mky &a pÅ™ipomÃ­nky
 [New &Note]
 [Vie&w Notes]
 [&Delete All Notes]
-S&mazat všechny poznámky
+S&mazat vÅ¡echny poznÃ¡mky
 [&Bring All to Front]
 [RICHED20.DLL]
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
@@ -142,10 +142,10 @@ S&mazat všechny poznámky
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [MIM_StickyNote]
 [Black]
-Èerná
+ÄŒernÃ¡
 [Maroon]
 [Green]
-Zelená
+ZelenÃ¡
 [Olive]
 [Navy]
 [Purple]
@@ -153,30 +153,30 @@ Zelená
 [Gray]
 [Silver]
 [Red]
-Èervená
+ÄŒervenÃ¡
 [Orange]
 [Lime]
 [Yellow]
-lutá
+Å½lutÃ¡
 [Blue]
-Modrá
+ModrÃ¡
 [Fuchsia]
 [Aqua]
 [White]
-Bílá
+BÃ­lÃ¡
 [StickyNote]
 [Are you sure you want to delete this note?]
 [ctrldata]
 [MNU_NOTEPOPUP]
 [Appearance]
 [Background Color]
-Barva pozadí
+Barva pozadÃ­
 [Text Color]
 Barva textu
 [open]
 [iexplore]
 [Notes]
-Poznámky
+PoznÃ¡mky
 [Note text]
 [Date/Title]
 ;file \plugins\NotesAndReminders\src\options.cpp
@@ -189,12 +189,12 @@ Poznámky
 [Tahoma]
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 [System]
-Systém
+SystÃ©m
 [Executable Files\0*.exe\0All Files\0*.*\0\0]
 [Select Executable]
 ;file \plugins\NotesAndReminders\src\reminders.cpp
 [Reminder]
-Pøipomínka
+PÅ™ipomÃ­nka
 [Minutes]
 min.
 [Hours]
@@ -202,15 +202,15 @@ min.
 [Day]
 den
 [Days]
-Dnù
+DnÅ¯
 [Week]
-tıden
+tÃ½den
 [The specified time is invalid due to begin of daylight saving (summer time).]
 [The specified time is invalid.]
 [The specified time offset is invalid.]
 [&Update Reminder]
 [Every]
-kadıch
+kaÅ¾dÃ½ch
 [Seconds]
 sek.
 [Never]
@@ -220,8 +220,8 @@ Nikdy
 [Alternative 2]
 [MNU_REMINDERPOPUP]
 [Reminder text]
-Obsah pøipomínky
+Obsah pÅ™ipomÃ­nky
 [Date of activation]
-Datum vyvolání
+Datum vyvolÃ¡nÃ­
 [Are you sure you want to delete this reminder?]
 #muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}

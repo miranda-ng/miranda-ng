@@ -1,4 +1,4 @@
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
+ï»¿#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;langpack template for MyDetails
 ;file \plugins\MyDetails\res\resource.rc
 [Nickname:]
@@ -6,31 +6,31 @@
 [Cancel]
 [General]
 [Cycle through protocols every:]
-Mìnit protokoly kadıch:
+MÄ›nit protokoly kaÅ¾dÃ½ch:
 [seconds]
 [Global on avatar]
-Globální pro avatar
+GlobÃ¡lnÃ­ pro avatar
 [RTL]
-Psát zprava doleva
+PsÃ¡t zprava doleva
 [Align text to right]
 Zarovnat text doprava
 [Global on nickname]
-Globální pro pøezdívku
+GlobÃ¡lnÃ­ pro pÅ™ezdÃ­vku
 [Auto-resize frame]
-Mìnit velikost okna
+MÄ›nit velikost okna
 [Use contact list smileys]
-Pouít smajlíky pro kontakty
+PouÅ¾Ã­t smajlÃ­ky pro kontakty
 [Global on status]
-Globální pro stav
+GlobÃ¡lnÃ­ pro stav
 [Replace Smileys]
-Vykreslovat smajlíky
+Vykreslovat smajlÃ­ky
 [Resize Smileys]
-Mìnit velikost smajlíkù
+MÄ›nit velikost smajlÃ­kÅ¯
 [Global on status message]
-Globální pro zprávu stavu
+GlobÃ¡lnÃ­ pro zprÃ¡vu stavu
 [Frame Options]
 [Top:]
-Nahoøe:
+NahoÅ™e:
 [Bottom:]
 Dole:
 [Left:]
@@ -40,109 +40,109 @@ Vpravo:
 [Background Color:]
 [Avatar]
 [Custom size:]
-Vlastní velikost:
+VlastnÃ­ velikost:
 [pixels]
 pix.
 [Allow it to grow]
-Povolit zvìtšování
+Povolit zvÄ›tÅ¡ovÃ¡nÃ­
 [Draw border on avatar]
-Orámovat avatary
+OrÃ¡movat avatary
 [Border Color:]
-Barva rámeèku:
+Barva rÃ¡meÄku:
 [Round corners of avatars]
-Zaoblit rohy avatarù
+Zaoblit rohy avatarÅ¯
 [Custom corner size:]
-Velikost zakulacení:
+Velikost zakulacenÃ­:
 [Use free space (under avatar) to other texts]
-Vyuít místo pod avatarem pro další texty
+VyuÅ¾Ã­t mÃ­sto pod avatarem pro dalÅ¡Ã­ texty
 [Protocol]
 [Show protocol name]
 [Show protocol cycle button]
-Umonit pøepnutí mezi protokoly
+UmoÅ¾nit pÅ™epnutÃ­ mezi protokoly
 [Status Message:]
-Stavová zpráva:
+StavovÃ¡ zprÃ¡va:
 [&Offline]
 &Offline
 [On&line]
 On&line
 [&Away]
-N&a chvíli pryè
+N&a chvÃ­li pryÄ
 [&NA]
 &Nejsem tady
 [Occ&upied]
-N&emám èas
+N&emÃ¡m Äas
 [&DND]
-Ne&rušit!
+Ne&ruÅ¡it!
 [&Free for chat]
-&Mám volno
+&MÃ¡m volno
 [&Invisible]
-Nev&iditelnı
+Nev&iditelnÃ½
 [On the &Phone]
 Na &telefonu
 [Out to &Lunch]
-Na &obìdì
+Na &obÄ›dÄ›
 [Set My Avatar...]
 Nastavit avatar...
 [Set My Nickname...]
-Nastavit pøezdívku...
+Nastavit pÅ™ezdÃ­vku...
 [Set My Status Message...]
-Zmìnit stavovou zprávu...
+ZmÄ›nit stavovou zprÃ¡vu...
 [Enable Listening To]
-Povolit doplnìk Listening To
+Povolit doplnÄ›k Listening To
 [Show next protocol]
-Zobrazit další protokol
+Zobrazit dalÅ¡Ã­ protokol
 [Show previous protocol]
-Zobrazit pøedchozí protokol
+Zobrazit pÅ™edchozÃ­ protokol
 [Cycle through protocols]
-Mìnit pravidelnì protokoly
+MÄ›nit pravidelnÄ› protokoly
 [Don't cycle through protocols]
-Nemìnit protokoly
+NemÄ›nit protokoly
 ;file \plugins\MyDetails\src\data.cpp
 [<no status name>]
-<stav není zadanı>
+<stav nenÃ­ zadanÃ½>
 ;file \plugins\MyDetails\src\frame.cpp
 [MyDetailsFrame]
 [MyDetailsFrameContainer]
 [<no nickname>]
-<bez pøezdívky>
+<bez pÅ™ezdÃ­vky>
 [<no status message>]
-<zpráva není zadaná>
+<zprÃ¡va nenÃ­ zadanÃ¡>
 [<nothing playing>]
 <hudba nehraje>
 [Nickname]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Status Message]
-Stavová zpráva
+StavovÃ¡ zprÃ¡va
 [Listening To]
 Poslech hudby
 [My Details]
-Informace o sobì
+Informace o sobÄ›
 [Tahoma]
 #muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 [Show My Details]
-Zobrazit informace o sobì
+Zobrazit informace o sobÄ›
 [ ...]
 [Enable Listening To for %s]
-Povolit doplnìk Listening To pro %s
+Povolit doplnÄ›k Listening To pro %s
 [Set My Avatar for %s...]
 Nastavit avatar pro %s...
 [Set My Nickname for %s...]
-Nastavit pøezdívku pro %s...
+Nastavit pÅ™ezdÃ­vku pro %s...
 [Set My Status Message for %s...]
-Zadat stavovou zprávu pro %s...
+Zadat stavovou zprÃ¡vu pro %s...
 [Hide My Details]
-Skrıt informace o sobì
+SkrÃ½t informace o sobÄ›
 ;file \plugins\MyDetails\src\mydetails.cpp
 [Listening to]
 [Previous protocol]
-Pøedchozí protokol
+PÅ™edchozÃ­ protokol
 [Next protocol]
-Další protokol
+DalÅ¡Ã­ protokol
 [Contact List]
 [Set My Nickname for %s]
-Nastavit pøezdívku pro %s
+Nastavit pÅ™ezdÃ­vku pro %s
 [Set My Status Message for %s]
-Zadat stavovou zprávu pro %s
+Zadat stavovou zprÃ¡vu pro %s
 ;file \plugins\MyDetails\src\options.cpp

@@ -1,85 +1,85 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for Xfire
 ;file \protocols\Xfire\res\Kopie von resource.rc
 [Password:]
 [Loginname:]
-Pøihlaš. jméno:
+PÅ™ihlaÅ¡. jmÃ©no:
 [XFire]
 XFire
 [Nick:]
 [Current Protocolversion:]
-Aktuální verze protokolu:
+AktuÃ¡lnÃ­ verze protokolu:
 [Note: You can only change these settings, if you are connected to Xfire.]
-Pozn.: Toto nastavení mùete mìnit pouze pokud jste pøipojeni k Xfire.
+Pozn.: Toto nastavenÃ­ mÅ¯Å¾ete mÄ›nit pouze pokud jste pÅ™ipojeni k Xfire.
 [Create a new Xfire account on website]
-Zøídit novı úèet Xfire
+ZÅ™Ã­dit novÃ½ ÃºÄet Xfire
 [Lost Password?]
-Zapomenuté heslo?
+ZapomenutÃ© heslo?
 [Account options]
-Nastavení úètu
+NastavenÃ­ ÃºÄtu
 [Show my friends]
-Zobrazit seznam pøátel
+Zobrazit seznam pÅ™Ã¡tel
 [Game Status]
-Herní stav
+HernÃ­ stav
 [Show on my profile and miniprofile]
 Zobrazit v profilu i miniprofilu
 [Show my game server data]
-Zobrazit herní data
+Zobrazit hernÃ­ data
 [Other Activity]
-Další aktivita
+DalÅ¡Ã­ aktivita
 [Show my voice chat server to my friends]
-Sdílet s pøáteli server pro hlasovou komunikaci
+SdÃ­let s pÅ™Ã¡teli server pro hlasovou komunikaci
 [Show people when I type to them]
-Upozoròovat pøátele na psaní zprávy
+UpozorÅˆovat pÅ™Ã¡tele na psanÃ­ zprÃ¡vy
 [Show nicknames when available]
-Zobrazit pøezdívku pokud je dostupná
+Zobrazit pÅ™ezdÃ­vku pokud je dostupnÃ¡
 [Show friends of my friends]
-Zobrazit pøátele mıch pøátel
+Zobrazit pÅ™Ã¡tele mÃ½ch pÅ™Ã¡tel
 [Options]
 [More options]
-Další monosti
+DalÅ¡Ã­ moÅ¾nosti
 [Gameicon:]
 Ikona hry:
 [Voiceicon:]
 Ikona hlasu:
 [Display Error and Infomessage:]
-Zobrazovat chyby a informaèní zprávy:
+Zobrazovat chyby a informaÄnÃ­ zprÃ¡vy:
 [Main group for clan groups:]
-Hlavní skupina pro klanové skupiny:
+HlavnÃ­ skupina pro klanovÃ© skupiny:
 [Automatically scan for games:]
-Automaticky vyhledávat hry:
+Automaticky vyhledÃ¡vat hry:
 [Main group for Friends of Friends:]
-Hlavní skupina pro pøátele pøátel:
+HlavnÃ­ skupina pro pÅ™Ã¡tele pÅ™Ã¡tel:
 [Files]
 Soubory
 [xfire_games.ini]
 [icons.dll]
 [Blocked User List]
-Seznam blokovanıch uivatelù
+Seznam blokovanÃ½ch uÅ¾ivatelÅ¯
 [This list contains all your blocked Xfire users. You can remove one, if you wanna allow him to send you a friend request.]
-Tento seznam obsahuje všechny blokované uivatele Xfire. Chcete jim povolit ádost o autorizaci, odeberte je z tohoto seznamu.
+Tento seznam obsahuje vÅ¡echny blokovanÃ© uÅ¾ivatele Xfire. Chcete jim povolit Å¾Ã¡dost o autorizaci, odeberte je z tohoto seznamu.
 [You can simply block someone, if you right click on his friend request in clist and choose Block User ...]
-Kontakty lze jednoduše filtrovat funkcí Blokovat uivatele, kterou naleznete v kontextové nabídce...
+Kontakty lze jednoduÅ¡e filtrovat funkcÃ­ Blokovat uÅ¾ivatele, kterou naleznete v kontextovÃ© nabÃ­dce...
 [This file is used for the game search, game detection and gameid resolving. It contains all xfire supported games.]
-Tento soubor je pouit pro vyhledávání her, jejich detekování a zjišování herních id. Obsahuje všechny xfirem podporované hry.
+Tento soubor je pouÅ¾it pro vyhledÃ¡vÃ¡nÃ­ her, jejich detekovÃ¡nÃ­ a zjiÅ¡Å¥ovÃ¡nÃ­ hernÃ­ch id. Obsahuje vÅ¡echny xfirem podporovanÃ© hry.
 [This file contains all original game icons. You can also activate the option for icon downloading, if you dont have it.]
-Tento soubor obsahuje všechny oficiální ikony her. Lze nastavit i stahování chybìjích ikon.
+Tento soubor obsahuje vÅ¡echny oficiÃ¡lnÃ­ ikony her. Lze nastavit i stahovÃ¡nÃ­ chybÄ›jÃ­ch ikon.
 [Be sure you put these files in following folder:]
-Zkopírujte vıše uvedené soubory do této sloky:
+ZkopÃ­rujte vÃ½Å¡e uvedenÃ© soubory do tÃ©to sloÅ¾ky:
 [Status Message]
-Stavová zpráva
+StavovÃ¡ zprÃ¡va
 [Enable]
 Aktivovat
 [With this feature, following status message will be set on your other protocol plugins, if you are ingame. So your other buddy's can also see what you play. It will also change the status to occupied, if this option is enabled.]
-Bìhem hry pouije uvedenou stavovou zprávu pro všechny ostatní protokoly. Tímto zpùsobem informujete ostatní o tom, co zrovna hrajete. Je-li to povoleno, zároveò dojde ke zmìnì stavu 'Nerušit'.
+BÄ›hem hry pouÅ¾ije uvedenou stavovou zprÃ¡vu pro vÅ¡echny ostatnÃ­ protokoly. TÃ­mto zpÅ¯sobem informujete ostatnÃ­ o tom, co zrovna hrajete. Je-li to povoleno, zÃ¡roveÅˆ dojde ke zmÄ›nÄ› stavu 'NeruÅ¡it'.
 [Following Variables are available: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%]
-Jsou dostupné následující promìné: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
+Jsou dostupnÃ© nÃ¡sledujÃ­cÃ­ promÄ›nÃ©: %myxfiregame%, %myxfirevoice%, %myxfireserverip%, %myxfirevoiceip%
 [Status message:]
-Zpráva stavu:
+ZprÃ¡va stavu:
 [Change the status to occupied or dnd]
-Zmìnit stav na 'Nemám èas' nebo 'Nerušit'
+ZmÄ›nit stav na 'NemÃ¡m Äas' nebo 'NeruÅ¡it'
 [The status message and status will be reset, if you close the game.]
-Stav a stavová zpráva budou zresetovány pokud zavøete hru.
+Stav a stavovÃ¡ zprÃ¡va budou zresetovÃ¡ny pokud zavÅ™ete hru.
 [Prefer dnd when it is available]
 [Games]
 Hry
@@ -88,9 +88,9 @@ Hra:
 [Dont detect this game as running]
 Nedetekovat tuto hru
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [Dont set status message for other protocols]
-Nenastavovat zprávu stavu pro ostatní protokoly
+Nenastavovat zprÃ¡vu stavu pro ostatnÃ­ protokoly
 [Add new game]
 [Remove]
 [Dont show in start menu]
@@ -110,26 +110,26 @@ IP:
 [Userdetails]
 [dufte]
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Join]
-Pøipojit
+PÅ™ipojit
 [OK]
 [Cancel]
 [There is a new XFire Gamelist online, do you want to update now?]
-Byla nalezena nová verze seznamu podporovanıch her. Chcete ho zaktualizovat?
+Byla nalezena novÃ¡ verze seznamu podporovanÃ½ch her. Chcete ho zaktualizovat?
 [New supported Games:]
-Nové podporované hry:
+NovÃ© podporovanÃ© hry:
 [Update]
 Aktualizovat
 [Add Game]
-Pøidat
+PÅ™idat
 [Search:]
 Prohledat:
 [Custom ...]
 [Game name:]
 [Game exe:]
 [Browse ...]
-Procházet ...
+ProchÃ¡zet ...
 [Launcher exe (optional):]
 [Game id:]
 [?]
@@ -142,9 +142,9 @@ Procházet ...
 [All Files]
 [Please wait, gameini will be currently parsed ...]
 [XFire Options]
-Monosti XFire
+MoÅ¾nosti XFire
 [Please choose one game in the list!]
-Vyberte ze seznamu poadovanou hru.
+Vyberte ze seznamu poÅ¾adovanou hru.
 [If you add a mod of a Xfire supported game, then you can specify what gameid will be sent to Xfire. So if you add a Half-Life mod, you can set the Half-Life game id and if you start the game, your Xfire buddies will see the Half-Life game icon next to your name and the game time will be tracked.]
 [Every game in Xfire needs an id. Use a number above the last used id to avoid problems with used ids. Every number above 10000 should be save. This id will not be sent to Xfire, when you start a game.]
 [Please enter a game name.]
@@ -165,7 +165,7 @@ Vyberte ze seznamu poadovanou hru.
 [Mmm...food.]
 ;file \protocols\Xfire\src\iniupdater.cpp
 [The xfire_games.ini was updated.]
-Soubor xfire_games.ini byl aktualizován.
+Soubor xfire_games.ini byl aktualizovÃ¡n.
 [Error during xfire_games Update.]
 [There is a new Icons.dll online, do you want to update now?]
 [The Icons.dll was updated.]
@@ -191,7 +191,7 @@ Soubor xfire_games.ini byl aktualizován.
 [Xfire Link Protocol]
 [xfirebstartgame]
 [Buddy start a game]
-Pøítel spustil hru
+PÅ™Ã­tel spustil hru
 [It seems that is the first time you use this plugin. Do you want to automatically download the latest available xfire_games.ini und icons.dll?\r\nWithout the ini xfire cant detect any games on your computer.]
 [&XFire Online Profile]
 [XFire &Clan Site]
@@ -205,13 +205,13 @@ Pøítel spustil hru
 [&Activity Report]
 [&Rescan my Games ...]
 [Set &Nickname]
-&Nastavit pøezdívku...
+&Nastavit pÅ™ezdÃ­vku...
 [Protocols/XFire]
 [XFire does not support offline messaging!]
-XFire nepodporuje odesílání zpráv ve stavu offline!
+XFire nepodporuje odesÃ­lÃ¡nÃ­ zprÃ¡v ve stavu offline!
 [Username]
 [Unable to connect to XFire.]
-Nemohu se pøipojit k XFire.
+Nemohu se pÅ™ipojit k XFire.
 [No Loginname is set!]
 [No Password is set!]
 [Last game: %s playtime: %.2d:%.2d:%.2d]
@@ -227,29 +227,29 @@ Hraje
 [The username must be lowercase, so it will be lowercased saved.]
 [The changes you have made require you to reconnect to the XFire network before they take effect]
 [Hidden]
-Skrytı
+SkrytÃ½
 [Messagebox]
-Informaèní okno
+InformaÄnÃ­ okno
 [Popup]
 [On every start]
-Pøi kadém startu
+PÅ™i kaÅ¾dÃ©m startu
 [Daily]
-Kadı den
+KaÅ¾dÃ½ den
 [<Root Group>]
-<koøenová skupina>
+<koÅ™enovÃ¡ skupina>
 [Are you sure you want to remove this game?]
 [Please select a game.]
 [Error unknown game id.]
 [Not supported]
-Není podporováno
+NenÃ­ podporovÃ¡no
 [Configuration saved!]
 [Game not found?!]
 [Account]
-Úèet
+ÃšÄet
 [Features]
-Monosti
+MoÅ¾nosti
 [Blocklist / Games]
-Seznam blokovanıch / Hry
+Seznam blokovanÃ½ch / Hry
 [StatusMsg]
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
@@ -259,10 +259,10 @@ Seznam blokovanıch / Hry
 Her nalezeno:%s%s
 ;file \protocols\Xfire\src\userdetails.cpp
 [<not specified>]
-<neurèeno>
+<neurÄeno>
 ;file \protocols\Xfire\src\Xfire_game.cpp
 [Start game]
 Spustit hru
 ;file \protocols\Xfire\src\Xfire_gamelist.cpp
 [Please wait ...]
-Prosím èekejte ...
+ProsÃ­m Äekejte ...

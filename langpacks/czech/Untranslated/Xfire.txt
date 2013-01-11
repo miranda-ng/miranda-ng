@@ -1,4 +1,4 @@
-;[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
+﻿;[%s (Nickname: %s) has invited you to join the %s clan. Message: %s%sPlease go to the XFireclan-Site to accept the Invitation.]
 ;[%s is playing %s on server %d.%d.%d.%d:%d.]
 ;[%s is playing %s.]
 ;[&Activity Report]

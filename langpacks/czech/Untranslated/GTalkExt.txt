@@ -1,4 +1,4 @@
-;[    %s <%s>\n]
+﻿;[    %s <%s>\n]
 ;[    bems <bems@vingrad.ru>\n]
 ;[%raw:]
 ;[%s [%s]]

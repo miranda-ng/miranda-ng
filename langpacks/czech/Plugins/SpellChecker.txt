@@ -1,4 +1,4 @@
-#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
+ï»¿#muuid {36753ae3-840b-4797-94a5-fd9f5852b942}
 ;============================================================
 ;  File: SpellChecker.dll
 ;  Plugin: Spell Checker
@@ -11,12 +11,12 @@
 [Enable auto-replacements]
 [Language:]
 [Add...]
-Pøidat
+PÅ™idat
 [Edit...]
 Upravit...
 [Remove]
 [Wrong word:]
-Chybné slovo:
+ChybnÃ© slovo:
 [No separators and all lowercase chars]
 [Correction:]
 Oprava:
@@ -26,36 +26,36 @@ Oprava:
 [Spell Checker]
 Kontrola pravopisu
 [Default language:]
-Vıchozí jazyk:
+VÃ½chozÃ­ jazyk:
 [Auto-replace words with dictionary suggestions]
-Automaticky nahrazovat slova navrenımi vıskyty ze slovníku
+Automaticky nahrazovat slova navrÅ¾enÃ½mi vÃ½skyty ze slovnÃ­ku
 [Ignore words with numbers]
 [Ignore words in UPPER CASE]
-Ignorovat slova KAPITÁLKAMI
+Ignorovat slova KAPITÃLKAMI
 [Ask before sending a message with spelling errors]
 [Download more dictionaries]
-Stáhnout další slovníky
+StÃ¡hnout dalÅ¡Ã­ slovnÃ­ky
 [Advanced]
 Extra
 [Underline type:]
-Styl podtrení:
+Styl podtrÅ¾enÃ­:
 [Show corrections in submenu]
-Zobrazovat nabízená slova v podmenu
+Zobrazovat nabÃ­zenÃ¡ slova v podmenu
 [Show all corrections in context menu (takes more time to show)]
-Zobrazit všechny odhadnuté opravy v nabídce (zabere více èasu)
+Zobrazit vÅ¡echny odhadnutÃ© opravy v nabÃ­dce (zabere vÃ­ce Äasu)
 [Show wrong word]
-Zobrazit nenalezené slovo
+Zobrazit nenalezenÃ© slovo
 [Use flags]
-Pouívat vlajky
+PouÅ¾Ã­vat vlajky
 [Use input language to select dictionary]
-Urèit jazyk slovníku dle zvolené klávesnice
+UrÄit jazyk slovnÃ­ku dle zvolenÃ© klÃ¡vesnice
 [Use dictionaries from other programs]
-Pouít slovníky jinıch programù
+PouÅ¾Ã­t slovnÃ­ky jinÃ½ch programÅ¯
 [Avoid removing underscores (slows down checking of long texts)]
 ;file \plugins\SpellChecker\src\ardialog.cpp
 [The wrong word can't be empty!]
 [Wrong Correction]
-Špatná oprava
+Å patnÃ¡ oprava
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
 ;file \plugins\SpellChecker\src\autoreplace.cpp
@@ -67,10 +67,10 @@ Pouít slovníky jinıch programù
 ;file \plugins\SpellChecker\src\dictionary.cpp
 [tl_PH]
 [Tagalog (Philippines)]
-Tagalog (Filipíny)
+Tagalog (FilipÃ­ny)
 [de_frami_neu]
 [German (Germany)]
-Nìmèina (Nìmecko)
+NÄ›mÄina (NÄ›mecko)
 [%s\\%s.cdic]
 [%s_%s]
 [%s (%s)]
@@ -95,24 +95,24 @@ Komunikace
 [Auto-replacements]
 [Line]
 [Dotted]
-Teèkovanì
+TeÄkovanÄ›
 [Dash]
-Èerchovanì
+ÄŒerchovanÄ›
 [Dash dot]
-Èárka teèka
+ÄŒÃ¡rka teÄka
 [Dash dot dot]
-Èárka teèka teèka
+ÄŒÃ¡rka teÄka teÄka
 [Wave]
 Vlnka
 [Thick]
-Tuènì
+TuÄnÄ›
 [Wrong word]
 [Correction]
 ;file \plugins\SpellChecker\src\spellchecker.cpp
 [Dictionaries]
-Slovníky
+SlovnÃ­ky
 [Custom Dictionaries]
-Vlastní slovníky
+VlastnÃ­ slovnÃ­ky
 [Flags DLL]
 Knihovna vlajek
 [%s\\flags_icons.dll]
@@ -127,20 +127,20 @@ Vypnuto
 [There are %d spelling errors. Are you sure you want to send this message?]
 [Your message window does not support SpellChecker Plugin.\nIf you use SRMM, tabSRMM or Scriver, please update them to the latest version,\notherwise ask the author of your message window plugin to add support for Spell Checker.]
 [Other...]
-Jiné...
+JinÃ©...
 [Always replace with]
-Vdy nahrazovat slovem
+VÅ¾dy nahrazovat slovem
 [Ignore all]
-Ignorovat vše
+Ignorovat vÅ¡e
 [Add to dictionary]
-Pøidat do slovníku
+PÅ™idat do slovnÃ­ku
 [Corrections]
-Nabízená slova
+NabÃ­zenÃ¡ slova
 [Wrong word: %s]
-Nenalezené slovo: %s
+NenalezenÃ© slovo: %s
 [Language]
 Jazyk
 [Enable spell checking]
 Povolit kontrolu pravopisu
 [Wrong words]
-Nesprávná slova
+NesprÃ¡vnÃ¡ slova

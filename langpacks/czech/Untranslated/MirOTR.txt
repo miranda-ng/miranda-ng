@@ -1,4 +1,4 @@
-;[%02X]
+﻿;[%02X]
 ;[%s\r\n%s]
 ;[&Cancel]
 ;[&Convert HTML (for Pidgin)]

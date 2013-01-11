@@ -1,4 +1,4 @@
-;[ /restart:%d /profile=%s]
+﻿;[ /restart:%d /profile=%s]
 ;["%s" /restart:%d /profile=%s]
 ;[%miranda_path%]
 ;[%miranda_profilename%]

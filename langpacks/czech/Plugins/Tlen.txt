@@ -1,70 +1,70 @@
-#muuid {748f8934-781a-528d-5208-001265404ab3}
+ï»¿#muuid {748f8934-781a-528d-5208-001265404ab3}
 ;langpack template for Tlen
 ;file \protocols\Tlen\res\tlen.rc
 [Username:]
 [Password:]
 [Save password]
 [Create new account]
-Zøídit novı úèet
+ZÅ™Ã­dit novÃ½ ÃºÄet
 [Tlen]
 [Options]
 [Automatically reconnect after unintentional disconnection]
-Po pøerušení automaticky navázat spojení
+Po pÅ™eruÅ¡enÃ­ automaticky navÃ¡zat spojenÃ­
 [Leave status message after disconnection]
-Po odpojení zanechat zprávu stavu
+Po odpojenÃ­ zanechat zprÃ¡vu stavu
 [Ignore advertisements]
 Ignorovat reklamy
 [Automatically delete contacts not in my roster]
 [Show offline users with status messages as invisible in contact list]
-Zobrazovat offline uivatele se stavovou zprávou jako neviditelné
+Zobrazovat offline uÅ¾ivatele se stavovou zprÃ¡vou jako neviditelnÃ©
 [Enable avatars]
 Aktivovat avatary
 [Send and receive client version information]
-Odeslat a pøijmout informaci o verzi klienta
+Odeslat a pÅ™ijmout informaci o verzi klienta
 [Alert policy]
-Pravidla pro upozornìní
+Pravidla pro upozornÄ›nÃ­
 [Use Nudge plugin]
-Pouít doplnìk Nudge
+PouÅ¾Ã­t doplnÄ›k Nudge
 [Log alerts as messages]
-Zaznamenat upozornìní jako zprávy
+Zaznamenat upozornÄ›nÃ­ jako zprÃ¡vy
 [Group chat policy]
 Pravidla pro diskuse
 [Image transfer policy]
-Pravidla pro obrázky
+Pravidla pro obrÃ¡zky
 [Voice Chats]
 Hovory
 [Voice chat policy]
 Pravidla pro hovory
 [Recording device:]
-Záznamové zaøízení:
+ZÃ¡znamovÃ© zaÅ™Ã­zenÃ­:
 [Playback device:]
-Pøehrávací zaøízení:
+PÅ™ehrÃ¡vacÃ­ zaÅ™Ã­zenÃ­:
 [Expert Options]
-Monosti pro experty
+MoÅ¾nosti pro experty
 [Login server:]
 [Connection Host:]
-Hostitel pøipojení:
+Hostitel pÅ™ipojenÃ­:
 [Port:]
 [Keep connection alive]
 [Enable encryption]
-Zapnout šifrování
+Zapnout Å¡ifrovÃ¡nÃ­
 [Enable Always Visible and Never Visible]
-Povolit vdy viditelní a vdy neviditelní
+Povolit vÅ¾dy viditelnÃ­ a vÅ¾dy neviditelnÃ­
 [P2P Connections]
-Pøímá spojení
+PÅ™Ã­mÃ¡ spojenÃ­
 [Use proxy for incoming connections]
-Pro pøíchozí spojení pouít proxy
+Pro pÅ™Ã­chozÃ­ spojenÃ­ pouÅ¾Ã­t proxy
 [Proxy type:]
 Druh proxy:
 [Proxy server:]
 [Proxy requires authorization]
 [Mail Notification]
-Oznámení nové pošty
+OznÃ¡menÃ­ novÃ© poÅ¡ty
 [Enable incoming mail notification]
-Povolit oznámení o došlé poštì
+Povolit oznÃ¡menÃ­ o doÅ¡lÃ© poÅ¡tÄ›
 [Colours]
 [Background]
-Pozadí
+PozadÃ­
 [Text]
 Text
 [Delay]
@@ -73,48 +73,48 @@ Prodleva
 [&Custom]
 [P&ermanent]
 [Preview]
-Náhled
+NÃ¡hled
 [OK]
 [Cancel]
 [Nick name:]
 [First name:]
-Jméno:
+JmÃ©no:
 [Last name:]
-Pøíjmení:
+PÅ™Ã­jmenÃ­:
 [E-mail:]
 [Gender:]
-Pohlaví:
+PohlavÃ­:
 [Year of birth:]
-Rok narození:
+Rok narozenÃ­:
 [City:]
-Mìsto:
+MÄ›sto:
 [School:]
 [Occupation:]
-Povolání:
+PovolÃ¡nÃ­:
 [Looking for:]
 [Voice chats]
 [Publicly visible status]
 [Save changes]
-Uloit zmìny
+UloÅ¾it zmÄ›ny
 [Avatar Options]
-Nastavení avataru
+NastavenÃ­ avataru
 [Public avatar]
 [Tlen login:]
 Tlen login:
 [Subscription:]
-Podepsáno:
+PodepsÃ¡no:
 [Software:]
 Software:
 [Version:]
 [System:]
-Systém:
+SystÃ©m:
 [Personal Information]
 [Nickname:]
 [Age:]
-Vìk:
+VÄ›k:
 [to]
 [Extra Search Criterias]
-Extra kritéria pro hledání
+Extra kritÃ©ria pro hledÃ¡nÃ­
 [Status:]
 [Plan:]
 Plan:
@@ -123,46 +123,46 @@ Plan:
 V
 [Out]
 [Finish]
-Dokonèit
+DokonÄit
 [&Accept]
 [From:]
 [The following invitation to join a voice chat is received.]
-Pøišla vám pozvánka k hovoru.
+PÅ™iÅ¡la vÃ¡m pozvÃ¡nka k hovoru.
 ;file \protocols\Tlen\src\jabber_iqid.cpp
 [Authentication failed for]
-Chyba pøi ovìøování:
+Chyba pÅ™i ovÄ›Å™ovÃ¡nÃ­:
 [Tlen Authentication]
 ;file \protocols\Tlen\src\jabber_opt.cpp
 [General]
 [Advanced]
 Extra
 [Notifications]
-Upozornìní
+UpozornÄ›nÃ­
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [PopUps]
 [These changes will take effect the next time you connect to the Tlen network.]
 [Tlen Protocol Option]
 [Accept all alerts]
-Pøijmout všechna upozornìní
+PÅ™ijmout vÅ¡echna upozornÄ›nÃ­
 [Ignore alerts from unauthorized contacts]
-Ignorovat upozornìní od neautorizovanıch kontaktù
+Ignorovat upozornÄ›nÃ­ od neautorizovanÃ½ch kontaktÅ¯
 [Ignore all alerts]
-Ignorovat všechna upozornìní
+Ignorovat vÅ¡echna upozornÄ›nÃ­
 [Always ask me]
 [Accept invitations from authorized contacts]
 [Accept all invitations]
 [Ignore invitations from unauthorized contacts]
 [Ignore all invitation]
-Ignorovat všechna pozvání
+Ignorovat vÅ¡echna pozvÃ¡nÃ­
 [Accept all images]
-Pøijmout všechny obrázky
+PÅ™ijmout vÅ¡echny obrÃ¡zky
 [Ignore images from unauthorized contacts]
-Ignorovat obrázky od neautorizovanıch kontaktù
+Ignorovat obrÃ¡zky od neautorizovanÃ½ch kontaktÅ¯
 [Ignore all images]
-Ignorovat všechny obrázky
+Ignorovat vÅ¡echny obrÃ¡zky
 [<Last message>]
-<poslední zpráva>
+<poslednÃ­ zprÃ¡va>
 [<Ask me>]
 [Online]
 [Away]
@@ -172,7 +172,7 @@ Ignorovat všechny obrázky
 [tlen.pl]
 [s1.tlen.pl]
 [Forwarding]
-Pøeposílání
+PÅ™eposÃ­lÃ¡nÃ­
 [SOCKS4]
 [SOCKS5]
 [%s mail]
@@ -182,7 +182,7 @@ Pøeposílání
 [Enter password for]
 Zadejte heslo pro
 [Jabber Connection Error]
-Jabber :: Chyba spojení
+Jabber :: Chyba spojenÃ­
 [%s Web Messages]
 [Web message]
 [From]
@@ -190,29 +190,29 @@ Jabber :: Chyba spojení
 [An alert has been received.]
 [Private conference]
 [Subject]
-Pøedmìt
+PÅ™edmÄ›t
 ;file \protocols\Tlen\src\jabber_ws.cpp
 [%s connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 [%s SOCKS connection]
 ;file \protocols\Tlen\src\tlen.cpp
 [Protocol icon]
 [Tlen inbox]
 [Group chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [Tlen chats]
 [Grant authorization]
 [Request authorization]
 [Voice chat]
-Telefonní hovor
+TelefonnÃ­ hovor
 [Microphone]
 [Speaker]
 [Send image]
 Poslat
 [Incoming mail]
-Nová pošta
+NovÃ¡ poÅ¡ta
 [Alert]
-Upozornìní
+UpozornÄ›nÃ­
 ;file \protocols\Tlen\src\tlen_file.cpp
 [1 File]
 [%d Files]
@@ -233,16 +233,16 @@ Upozornìní
 [Unknown error code : %d]
 ;file \protocols\Tlen\src\tlen_userinfo.cpp
 [Male]
-mu
+muÅ¾
 [Female]
-ena
+Å¾ena
 [Somebody to talk]
 [Friendship]
 [Flirt/romance]
 [Love]
 [Nothing]
 [All]
-všechno
+vÅ¡echno
 [Available]
 [Student]
 [College student]
@@ -256,7 +256,7 @@ všechno
 [Teacher]
 [Doctor]
 [Other]
-Ostatní
+OstatnÃ­
 [I'd like to go downtown]
 [I'd like to go to the cinema]
 [I'd like to take a walk]
@@ -264,7 +264,7 @@ Ostatní
 [I'd like to go on a blind date]
 [Waiting for suggestion]
 [Account]
-Úèet
+ÃšÄet
 [both]
 oboje
 [from]

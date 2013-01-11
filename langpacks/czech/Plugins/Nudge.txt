@@ -1,45 +1,45 @@
-#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
+ï»¿#muuid {e47cc215-0d28-462d-a0f6-3ae4443d2926}
 ;langpack template for Nudge
 ;file \plugins\Nudge\res\resource.rc
 [Protocol options]
-Monosti protokolu
+MoÅ¾nosti protokolu
 [Specify options for each protocol]
-Definovat pro kadı protokol zvláš
+Definovat pro kaÅ¾dÃ½ protokol zvlÃ¡Å¡Å¥
 [Open contact list]
-Zobrazit seznam kontaktù
+Zobrazit seznam kontaktÅ¯
 [Enable contact list shaking]
-Povolit zatøesení seznamem
+Povolit zatÅ™esenÃ­ seznamem
 [Open message window]
-Otevøít komunikaèní okno
+OtevÅ™Ã­t komunikaÄnÃ­ okno
 [Enable message window shaking]
-Povolit zatøesení oknem
+Povolit zatÅ™esenÃ­ oknem
 [Show as status change]
-Zobrazit jako zmìnu stavu
+Zobrazit jako zmÄ›nu stavu
 [Auto resend nudge after]
 Automaticky znovu drcnout po
 [s]
 [Enable popup notification]
-Povolit oznámení
+Povolit oznÃ¡menÃ­
 [Respect ignore settings (status changes)]
-Zohlednit filtrování kontaktù (zmìny stavu)
+Zohlednit filtrovÃ¡nÃ­ kontaktÅ¯ (zmÄ›ny stavu)
 [Sending text]
-Text pøi odeslání 
+Text pÅ™i odeslÃ¡nÃ­ 
 [Receiving text]
-Text pøi pøijetí 
+Text pÅ™i pÅ™ijetÃ­ 
 [Privacy]
-Soukromí
+SoukromÃ­
 [Allow sending* one nudge to the same contact every :]
-Drcnout* do jednoho a tého kontaktu max. jednou za:
+Drcnout* do jednoho a tÃ©hoÅ¾ kontaktu max. jednou za:
 [Allow receiving one nudge from the same contact every :]
-Umonit drcnutí jednomu a tému kontaktu max. jednou za:
+UmoÅ¾nit drcnutÃ­ jednomu a tÃ©muÅ¾ kontaktu max. jednou za:
 [* Nudge sending delay is hardcoded and cannot be changed.]
-* Prodleva pro drcnutí je pevnì urèena a nemùe bıt zmìnìna.
+* Prodleva pro drcnutÃ­ je pevnÄ› urÄena a nemÅ¯Å¾e bÃ½t zmÄ›nÄ›na.
 [Preview]
-Náhled
+NÃ¡hled
 [Text]
 Text
 [Allow nudges when you're:]
-Povolit drcnutí ve stavu:
+Povolit drcnutÃ­ ve stavu:
 [Offline]
 [Online]
 [Away]
@@ -51,42 +51,42 @@ Povolit drcnutí ve stavu:
 [On the phone]
 [Out to lunch]
 [Shaking Clist Options]
-Monosti seznamu kontaktù
+MoÅ¾nosti seznamu kontaktÅ¯
 [Number of moves]
-Poèet posunutí
+PoÄet posunutÃ­
 [Width of move]
 O kolik posunout
 [Static]
-Statickı
+StatickÃ½
 [Shaking Message Window Options]
-Monosti komunikaèního okna
+MoÅ¾nosti komunikaÄnÃ­ho okna
 [Shake the contact list]
 [Shake the chat window]
-Zatøást komunikaèním oknem
+ZatÅ™Ã¡st komunikaÄnÃ­m oknem
 ;file \plugins\Nudge\src\main.cpp
 [You are not allowed to send too much nudge (only 1 each %d sec, %d sec left)]
-Upozornìní: Drcnutí lze opakovat jen jednou za %d sek. (%d sek. zbıvá)
+UpozornÄ›nÃ­: DrcnutÃ­ lze opakovat jen jednou za %d sek. (%d sek. zbÃ½vÃ¡)
 [Nudge]
-Drcnutí
+DrcnutÃ­
 [Default Nudge]
-Vıchozí drcnutí
+VÃ½chozÃ­ drcnutÃ­
 [Nudge : Shake contact list/chat window]
 [Nudge : Send a nudge]
 [Nudge as Default]
-Drcnutí jako vıchozí
+DrcnutÃ­ jako vÃ½chozÃ­
 [Send Nudge]
 Drc-drc
 [Show Nudge]
-Drcnutí
+DrcnutÃ­
 [Nudge for %s]
-Drcnutí v síti %s
+DrcnutÃ­ v sÃ­ti %s
 ;file \plugins\Nudge\src\nudge.cpp
 [You received a nudge]
-No tak, probuï se!
+No tak, probuÄ se!
 [You sent a nudge]
-Snad se probudí...
+Snad se probudÃ­...
 ;file \plugins\Nudge\src\options.cpp
 [Events]
-Události
+UdÃ¡losti
 [Window Shaking]
-Zatøesení oknem
+ZatÅ™esenÃ­ oknem

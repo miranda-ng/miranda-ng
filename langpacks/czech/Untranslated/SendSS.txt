@@ -1,4 +1,4 @@
-;[ (primary)]
+﻿;[ (primary)]
 ;[" Window]
 ;[%i. %s%s]
 ;[%miranda_userdata%\\Screenshots]

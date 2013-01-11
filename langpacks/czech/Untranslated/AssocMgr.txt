@@ -1,4 +1,4 @@
-;["%s" "%hs"]
+﻿;["%s" "%hs"]
 ;[%APPDATA%\\Opera]
 ;[%hs files]
 ;[%hs:]

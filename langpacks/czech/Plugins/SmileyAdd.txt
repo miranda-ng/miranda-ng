@@ -1,4 +1,4 @@
-#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
+ï»¿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;============================================================
 ;  File: SmileyAdd.dll
 ;  Plugin: SmileyAdd
@@ -7,55 +7,55 @@
 ;============================================================
 ;file \plugins\SmileyAdd\res\resource.rc
 [Smiley Categories]
-Knihovny smajlíkù
+Knihovny smajlÃ­kÅ¯
 [Specify Smiley Pack for each category]
-Pro kadı protokol definovat jinou sadu
+Pro kaÅ¾dÃ½ protokol definovat jinou sadu
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Name:]
 [Author:]
 [Version:]
 [Preview]
-Náhled
+NÃ¡hled
 [+]
 [-]
 -
 [Display]
-Zobrazení
+ZobrazenÃ­
 [Replace only smileys surrounded by spaces]
-Nahradit pouze smajlíky ohranièené mezerami
+Nahradit pouze smajlÃ­ky ohraniÄenÃ© mezerami
 [Scale smiley to textheight]
-Sjednotit velikost smajlíkù s textem
+Sjednotit velikost smajlÃ­kÅ¯ s textem
 [Animate]
 Animovat
 [Disable custom smileys]
-Zakázat vlastní sady smajlíkù
+ZakÃ¡zat vlastnÃ­ sady smajlÃ­kÅ¯
 [Smiley Selector]
-Pouití smajlíku
+PouÅ¾itÃ­ smajlÃ­ku
 [Surround inserted smiley with spaces]
-Pøidat mezeru z kadé strany smajlíku
+PÅ™idat mezeru z kaÅ¾dÃ© strany smajlÃ­ku
 [Use first smiley for selection size]
-Velikost smajlíku definovat dle prvního
+Velikost smajlÃ­ku definovat dle prvnÃ­ho
 [IEView style window]
 Vzhled okna nastavit dle IEView
 [Input Area]
-Oblast psaní zprávy
+Oblast psanÃ­ zprÃ¡vy
 [Enable Smileys]
-Povolit smajlíky
+Povolit smajlÃ­ky
 [Don't replace at cursor]
-Nenahrazovat bìhem psaní
+Nenahrazovat bÄ›hem psanÃ­
 [Built-In Message Dialog Support]
-Vestavìná podpora
+VestavÄ›nÃ¡ podpora
 [Disable]
 Vypnout
 [Smiley Button]
-Tlaèítko se smajlíky
+TlaÄÃ­tko se smajlÃ­ky
 [Max "Custom Smiley" height]
-Max. velikost vlastních smajlíkù
+Max. velikost vlastnÃ­ch smajlÃ­kÅ¯
 [High Quality smiley scaling]
-Zapnout kvalitní pøepoèet velikosti
+Zapnout kvalitnÃ­ pÅ™epoÄet velikosti
 [Min smiley height]
-Min. velikost smajlíkù
+Min. velikost smajlÃ­kÅ¯
 ;file \plugins\SmileyAdd\src\customsmiley.cpp
 [\\*.*]
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
@@ -65,25 +65,25 @@ Min. velikost smajlíkù
 [RICHEDIT50W]
 [Edit]
 [Show Smiley Selection Window]
-Zobrazit okno s vıbìrem smajlíkù
+Zobrazit okno s vÃ½bÄ›rem smajlÃ­kÅ¯
 ;file \plugins\SmileyAdd\src\download.cpp
 [.*/(.*)]
 [%s\\%s\\]
 [\\SmileyCache]
 [%miranda_userdata%\\SmileyCache]
 [SmileyAdd HTTP connections]
-SmileyAdd - spojení pomocí protokolu HTTP
+SmileyAdd - spojenÃ­ pomocÃ­ protokolu HTTP
 ;file \plugins\SmileyAdd\src\general.cpp
 [jpg]
 [bmp]
 [png]
 [gif]
 [GDI+ not installed.\n]
-GDI+ není nainstalované.\n
+GDI+ nenÃ­ nainstalovanÃ©.\n
 [GDI+ can be downloaded here: http://www.microsoft.com/downloads]
-GDI+ lze stáhnout na adrese http://www.microsoft.com/downloads
+GDI+ lze stÃ¡hnout na adrese http://www.microsoft.com/downloads
 [Miranda SmileyAdd]
-Smajlíky
+SmajlÃ­ky
 ;file \plugins\SmileyAdd\src\imagecache.cpp
 [#%d]
 [dll]
@@ -94,14 +94,14 @@ Smajlíky
 [tiff]
 ;file \plugins\SmileyAdd\src\main.cpp
 [Button Smiley]
-Tlaèítko smajlíkù
+TlaÄÃ­tko smajlÃ­kÅ¯
 [Only one instance of SmileyAdd could be executed.\n]
-Spustit lze jen jednu instanci doplòku Smajlíky.\n
+Spustit lze jen jednu instanci doplÅˆku SmajlÃ­ky.\n
 [Remove duplicate instances from 'Plugins' directory]
-Odstraòte duplicitní kopie tohoto doplòku ze sloky 'Plugins'.
+OdstraÅˆte duplicitnÃ­ kopie tohoto doplÅˆku ze sloÅ¾ky 'Plugins'.
 ;file \plugins\SmileyAdd\src\options.cpp
 [Smileys]
-Smajlíky
+SmajlÃ­ky
 [Customize]
 #muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 [Off]
@@ -110,7 +110,7 @@ Vyp
 [Bottom]
 Dole
 [Smiley Packs]
-Sady smajlíkù
+Sady smajlÃ­kÅ¯
 [ (*.msl;*.asl;*.xep)]
 [*.msl;*.asl;*.xep]
 [All Files]
@@ -121,14 +121,14 @@ Sady smajlíkù
 [-filename]
 ;file \plugins\SmileyAdd\src\services.cpp
 [<None>]
-Není
+NenÃ­
 [Standard]
-Standardní
+StandardnÃ­
 [Protocol specific]
 ;file \plugins\SmileyAdd\src\smileyroutines.cpp
 [THppRichEdit]
 [Time elapsed: %u]
-Uplynulı èas: %u
+UplynulÃ½ Äas: %u
 ;file \plugins\SmileyAdd\src\smileys.cpp
 [hContact]
 [(.*)\\|(.*)\\|(.*)]
@@ -139,14 +139,14 @@ Uplynulı èas: %u
 [%%_{1,2}%%]
 [%%''%%]
 [Nothing loaded]
-Nic se nenaèetlo
+Nic se nenaÄetlo
 [Smiley Pack %s not found.\n]
-Knihovna smajlíkù %s nebyla nalezena.\n
+Knihovna smajlÃ­kÅ¯ %s nebyla nalezena.\n
 [Select correct Smiley Pack in the Miranda Options | Customize | Smileys.]
-Vyberte platnou knihovnu smajlíkù v Monosti | Vlastní úpravy | Smajlíky
+Vyberte platnou knihovnu smajlÃ­kÅ¯ v MoÅ¾nosti | VlastnÃ­ Ãºpravy | SmajlÃ­ky
 [.xep]
 [There were problems loading smiley pack (it should be corrected).\nSee Network Log for details.]
-Nepodaøilo se naèíst poadovanou knihovnu smajlíkù.\nDalší informace naleznete v záznamu komunikace po síti.
+NepodaÅ™ilo se naÄÃ­st poÅ¾adovanou knihovnu smajlÃ­kÅ¯.\nDalÅ¡Ã­ informace naleznete v zÃ¡znamu komunikace po sÃ­ti.
 [(.*\\\\)(.*)\\.|$]
 [^\\s*(Name|Author|Date|Version|ButtonSmiley)\\s*=\\s*"(.*)"]
 [Name]
@@ -157,7 +157,7 @@ Datum
 [ButtonSmiley]
 [^\\s*(Selection|Window)Size\\s*=\\s*(\\d+)\\s*,\\s*(\\d+)]
 [Selection]
-Vıbìr
+VÃ½bÄ›r
 [Window]
 [^\\s*Smiley(\\*)?\\s*=]
 [(?:\\s*"(.*)\]
@@ -167,7 +167,7 @@ Vıbìr
 [http://]
 #muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 [Smiley #%u in file %s for Smiley Pack %s not found.]
-Smajlík è.%u v souboru %s knihovny smajlíkù %s nebyl nalezen.
+SmajlÃ­k Ä.%u v souboru %s knihovny smajlÃ­kÅ¯ %s nebyl nalezen.
 [&lt;]
 [&gt;]
 [<DataBaseName>\\s*"(.*?)"\\s*</DataBaseName>]
@@ -180,11 +180,11 @@ Smajlík è.%u v souboru %s knihovny smajlíkù %s nebyl nalezen.
 [<Image>(.*?)</Image>]
 [<!\\[CDATA\\[(.*?)\\]\\]>]
 [Test String]
-Testovací øetìzec
+TestovacÃ­ Å™etÄ›zec
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
-Regulární vıraz "%s" v knihovnì smajlíkù "%s" mùe vracet "prázdné vısledky".
+RegulÃ¡rnÃ­ vÃ½raz "%s" v knihovnÄ› smajlÃ­kÅ¯ "%s" mÅ¯Å¾e vracet "prÃ¡zdnÃ© vÃ½sledky".
 [Regular Expression "%s" in smiley pack "%s" malformed.]
-Regulární vıraz "%s" v knihovnì smajlíkù "%s" je neplatnı.
+RegulÃ¡rnÃ­ vÃ½raz "%s" v knihovnÄ› smajlÃ­kÅ¯ "%s" je neplatnÃ½.
 ;file \plugins\SmileyAdd\src\smileys.h
 [Smileys\\nova\\default.msl]
 ;file \plugins\SmileyAdd\src\smltool.cpp

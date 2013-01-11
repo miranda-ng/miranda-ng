@@ -1,4 +1,4 @@
-;[Away]
+﻿;[Away]
 ;[DND]
 ;[Free for chat]
 ;[Invisible]

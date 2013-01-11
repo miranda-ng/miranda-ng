@@ -1,4 +1,4 @@
-;[MS Shell Dlg]
+﻿;[MS Shell Dlg]
 ;[NBRichEditProxyWndClass]
 ;[[$hicon=]
 ;[[/b]]

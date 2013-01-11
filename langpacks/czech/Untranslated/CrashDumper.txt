@@ -1,4 +1,4 @@
-;[%miranda_profilename%.dat]
+﻿;[%miranda_profilename%.dat]
 ;[%miranda_userdata%]
 ;[&Copy]
 ;[Copy Version Info to clipboard]

@@ -1,4 +1,4 @@
-;[%s [%s]]
+﻿;[%s [%s]]
 ;[%s%s%s%s%s]
 ;[Alt + ]
 ;[Anti-Boss plugin.]

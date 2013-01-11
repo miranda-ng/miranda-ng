@@ -1,4 +1,4 @@
-;[%s - %s\\%s]
+﻿;[%s - %s\\%s]
 ;[%s\n]
 ;[* Restart needed]
 ;[*** Console cleared ***]

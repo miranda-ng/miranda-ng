@@ -1,4 +1,4 @@
-;[ \t\n\r]
+﻿;[ \t\n\r]
 ;[+]
 ;[Change active keyboard layout in system]
 ;[Changing Case]

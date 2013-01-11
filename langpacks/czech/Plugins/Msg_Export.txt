@@ -1,52 +1,52 @@
-#muuid {46102b07-c215-4162-9c83-d377881da7cc}
+ï»¿#muuid {46102b07-c215-4162-9c83-d377881da7cc}
 ;langpack template for Msg_Export
 ;file \plugins\Msg_Export\res\resource.rc
 [Browse]
 [Use internal viewer]
-Interní prohlíeè
+InternÃ­ prohlÃ­Å¾eÄ
 [Replace miranda history]
 Nahradit historii Mirandy
 [Use UTF8 in new files]
 [Append extra new line]
-Pøidat 1 novı øádek
+PÅ™idat 1 novÃ½ Å™Ã¡dek
 [Use << and >>]
-Pouít << a >>
+PouÅ¾Ã­t << a >>
 [Auto filename]
-Autom. název
+Autom. nÃ¡zev
 [Clear all]
-Odstranit vše
+Odstranit vÅ¡e
 [Help]
 [Export all history]
-Exportovat vše
+Exportovat vÅ¡e
 [Export directory]
-Sloka pro export
+SloÅ¾ka pro export
 [Max column width]
-Šíøka sloupce
+Å Ã­Å™ka sloupce
 [Time format]
-Datum, èas
+Datum, Äas
 [Export format]
-Vıstupní formát
+VÃ½stupnÃ­ formÃ¡t
 [Default file]
 Soubor
 [File viewer]
-Prohlíeè souborù
+ProhlÃ­Å¾eÄ souborÅ¯
 [Progress1]
 [&Find...]
-&Najít...
+&NajÃ­t...
 [&External]
-&Externí
+&ExternÃ­
 [&Close]
-&Zavøít
+&ZavÅ™Ã­t
 [Prompt for action]
-Dotázat se
+DotÃ¡zat se
 [When filename changes]
-Po zmìnì názvu souboru
+Po zmÄ›nÄ› nÃ¡zvu souboru
 [Rename file]
-Pøejmenovat soubor
+PÅ™ejmenovat soubor
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 [When user is deleted]
-Po odebrání kontaktu
+Po odebrÃ¡nÃ­ kontaktu
 [Delete file]
 Smazat soubor
 [Debug]
@@ -54,11 +54,11 @@ Debug
 [User &Details]
 In&formace o kontaktu
 [Export selected]
-Exportovat vybrané
+Exportovat vybranÃ©
 [Set to default filename]
-Vıchozí název souboru
+VÃ½chozÃ­ nÃ¡zev souboru
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 ;file \plugins\Msg_Export\src\FileViewer.cpp
 [Failed to write to the RichEdit the buffer was to small.]
 [Error: Optimal buffer size decrecied to a to low size !!]
@@ -71,21 +71,21 @@ Zkopírovat
 [File open time %d\n]
 [With scroll to bottom %d\n]
 [Search string was not found !]
-Hledanı øetìzec nebyl nalezen!
+HledanÃ½ Å™etÄ›zec nebyl nalezen!
 [Courier New]
 [Save as RTF]
 [Color...]
 Barva...
 [Font...]
-Písmo...
+PÃ­smo...
 [Syntax highlight]
-Zvıraznìní klíèovıch slov
+ZvÃ½raznÄ›nÃ­ klÃ­ÄovÃ½ch slov
 [UTF8]
 UTF8
 [ANSI]
 [.rtf]
 [Failed to create file]
-Chyba pøi vytváøení souboru
+Chyba pÅ™i vytvÃ¡Å™enÃ­ souboru
 [Failed to save file]
 [History was saved successfully in file\r\n]
 [Failed to create history dialog]
@@ -97,29 +97,29 @@ Chyba pøi vytváøení souboru
 [Failed to HookEvent ME_OPT_INITIALISE]
 [View &History]
 [Open E&xported History]
-Otevøít vye&xportovanou historii
+OtevÅ™Ã­t vye&xportovanou historii
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
 [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
 [%dbpath%\\MsgExport\\]
 [%nick%.txt]
 [d s]
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
-Funkci Historie Mirandy nelze nahradit.\r\nDùvodem jsou pravdìpodobnì interní zmìny v programu.
+Funkci Historie Mirandy nelze nahradit.\r\nDÅ¯vodem jsou pravdÄ›podobnÄ› internÃ­ zmÄ›ny v programu.
 [Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY]
 ;file \plugins\Msg_Export\src\options.cpp
 [No contacts found to export]
-Nenalezeny ádné kontakty
+Nenalezeny Å¾Ã¡dnÃ© kontakty
 [Reading database information ( Phase 1 of 2 )]
-Naèítání informací z databáze (fáze è.1)
+NaÄÃ­tÃ¡nÃ­ informacÃ­ z databÃ¡ze (fÃ¡ze Ä.1)
 [Failed to export at least one contact]
 [Sorting and writing database information ( Phase 2 of 2 )]
-Tøídìní a zápis do databáze (fáze è.2)
+TÅ™Ã­dÄ›nÃ­ a zÃ¡pis do databÃ¡ze (fÃ¡ze Ä.2)
 [Max line width must be at least %d]
-Šíøka sloupce musí bıt nejménì %d znakù!
+Å Ã­Å™ka sloupce musÃ­ bÃ½t nejmÃ©nÄ› %d znakÅ¯!
 [You need to restart miranda to change the history function]
-Nahrazení historie vyaduje restart Mirandy.
+NahrazenÃ­ historie vyÅ¾aduje restart Mirandy.
 [Failed to get the path to Msg_Export.dll\nPlease locate Msg_Export.txt your self]
-Neplatná cesta ke knihovnì Msg_Export.dll
+NeplatnÃ¡ cesta ke knihovnÄ› Msg_Export.dll
 [File]
 Soubor
 [Nick]
@@ -147,19 +147,19 @@ UIN
 [C:\\Windows\\Notepad.exe]
 [C:\\WinNT\\Notepad.exe]
 [You have unapplyed changes do you wish to apply these first ?]
-Nìkteré ze zmìn nebyly potvrzeny. Chcete je potvrdit?
+NÄ›kterÃ© ze zmÄ›n nebyly potvrzeny. Chcete je potvrdit?
 [Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
 [Failed to get the shells allocator !]
 [Failed to Allocate buffer space]
 [Select Destination Directory]
-Vyberte cílovou sloku
+Vyberte cÃ­lovou sloÅ¾ku
 [Export Protocols]
 [Message export]
-Export zpráv
+Export zprÃ¡v
 [History]
 Historie
 [Message export2]
-Export zpráv 2
+Export zprÃ¡v 2
 ;file \plugins\Msg_Export\src\utils.cpp
 [No_Nick]
 [No_Group]
@@ -183,10 +183,10 @@ Export zpráv 2
 [%dbpath%]
 [%nick%]
 [(Unknown Contact)]
-(neznámı kontakt)
+(neznÃ¡mÃ½ kontakt)
 [File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
-Chyba pøi pøejmenování souboru.\n\nPùvodní název:\t%s\nNovı název:\t%s\n\nPopis chyby: %s
+Chyba pÅ™i pÅ™ejmenovÃ¡nÃ­ souboru.\n\nPÅ¯vodnÃ­ nÃ¡zev:\t%s\nNovÃ½ nÃ¡zev:\t%s\n\nPopis chyby: %s
 [:\\]
 [%UIN%]
 [%protocol%]
@@ -204,9 +204,9 @@ Chyba pøi pøejmenování souboru.\n\nPùvodní název:\t%s\nNovı název:\t%s\n\nPopis 
 [All\0*.*\0Text\0*.TXT\0\0]
 [TXT]
 [Failed to open or create file :\n]
-Chyba pøi otevírání nebo vytváøení souboru:\n
+Chyba pÅ™i otevÃ­rÃ¡nÃ­ nebo vytvÃ¡Å™enÃ­ souboru:\n
 [Failed to move to the end of the file :\n]
-Chyba pøi pøesunu na konec souboru\n
+Chyba pÅ™i pÅ™esunu na konec souboru\n
 [Failed to UTF8 byte order code to file :\n]
 [------------------------------------------------\r\n]
 [      History for\r\n]
@@ -232,7 +232,7 @@ Chyba pøi pøesunu na konec souboru\n
 [%-*s]
 [Failed to write timestamp and username to file :\n]
 [Failed to write message to the file :\n]
-Chyba pøi zápisu zprávy do souboru:\n
+Chyba pÅ™i zÃ¡pisu zprÃ¡vy do souboru:\n
 [URL: ]
 Adresa: 
 [File: ]
@@ -240,17 +240,17 @@ Soubor:
 [Description: ]
 Popis: 
 [Failed to write URL/File to the file :\n]
-Chyba pøi zápisu adresy nebo souboru do souboru:\n
+Chyba pÅ™i zÃ¡pisu adresy nebo souboru do souboru:\n
 [Nick      :]
-Pøezdívka :
+PÅ™ezdÃ­vka :
 [FirstName :]
-Jméno     :
+JmÃ©no     :
 [LastName  :]
-Pøíjmení  :
+PÅ™Ã­jmenÃ­  :
 [e-mail    :]
 E-mail    :
 [Reason    :]
-Dùvod     :
+DÅ¯vod     :
 [Invalid Database event received. Type %d, size %d]
 [Failed to write Invalid Database event the file :\n]
 [The following user made an authorization request:]
@@ -262,11 +262,11 @@ EmailExpress od:
 [WebPager from:]
 WebPager od:
 [No from address]
-Adresa nespecifikována
+Adresa nespecifikovÃ¡na
 [Failed to write EmailExpress to the file :\n]
-Chyba pøi zápisu poloky EmailExpress do souboru:\n
+Chyba pÅ™i zÃ¡pisu poloÅ¾ky EmailExpress do souboru:\n
 [Failed to write SMS to the file :\n]
-Chyba pøi zápisu poloky SMS do souboru:\n
+Chyba pÅ™i zÃ¡pisu poloÅ¾ky SMS do souboru:\n
 [Unknown event type %d, size %d]
 [Failed to write Unknown event to the file :\n]
 [Programming error writing UTF8 string to ansi file]
@@ -274,4 +274,4 @@ Chyba pøi zápisu poloky SMS do souboru:\n
 [%s\r\n%s]
 [User has been deleted do you want to delete the file ?]
 [Failed to delete the file]
-Chyba pøi mazání souboru
+Chyba pÅ™i mazÃ¡nÃ­ souboru

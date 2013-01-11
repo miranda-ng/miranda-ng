@@ -1,4 +1,4 @@
-;[.\\%s]
+﻿;[.\\%s]
 ;[<current>]
 ;[General]
 ;[Left]

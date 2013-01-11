@@ -1,4 +1,4 @@
-;[*** Defaut Action ***]
+﻿;[*** Defaut Action ***]
 ;[Action 1]
 ;[Action 2]
 ;[Delete all events]

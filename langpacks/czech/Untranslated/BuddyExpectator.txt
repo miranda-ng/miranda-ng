@@ -1,4 +1,4 @@
-;[%#x]
+﻿;[%#x]
 ;[%d days since last message]
 ;[BuddyExpectator]
 ;[Contact name]

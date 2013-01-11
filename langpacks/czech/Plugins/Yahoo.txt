@@ -1,4 +1,4 @@
-#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
+ï»¿#muuid {0aa7bfea-1fc7-45f0-906e-2a46b6e119cf}
 ;============================================================
 ;  File: Yahoo.dll
 ;  Plugin: Yahoo
@@ -9,54 +9,54 @@
 [Yahoo]
 Yahoo
 [ID:]
-Identifikátor:
+IdentifikÃ¡tor:
 [Password:]
 [Nick:]
 [Create a new Yahoo account using the Yahoo website]
-Zøídit novı úèet prostøednictvím domovské stránky Yahoo
+ZÅ™Ã­dit novÃ½ ÃºÄet prostÅ™ednictvÃ­m domovskÃ© strÃ¡nky Yahoo
 [Expert]
 [Use Yahoo Address Book (YAB)]
-Pouít adresáø Yahoo (YAB)
+PouÅ¾Ã­t adresÃ¡Å™ Yahoo (YAB)
 [Show Avatars]
 Zobrazit avatary
 [AutoLogin to Yahoo Website(s)]
-Automaticky pøihlásit ke slubám Yahoo
+Automaticky pÅ™ihlÃ¡sit ke sluÅ¾bÃ¡m Yahoo
 [Display Yahoo notifications]
-Zobrazit upozornìní serveru
+Zobrazit upozornÄ›nÃ­ serveru
 [Show Errors]
 Zobrazit chyby
 [Yahoo Japan]
 Yahoo (Japonsko)
 [Create a new Yahoo account]
-Zøídit novı úèet v síti Yahoo
+ZÅ™Ã­dit novÃ½ ÃºÄet v sÃ­ti Yahoo
 [Connection Settings]
-Monosti spojení
+MoÅ¾nosti spojenÃ­
 [Login server:]
 [Port:]
 [Reset]
 [Yahoo Ignore List]
-Seznam filtrovanıch
+Seznam filtrovanÃ½ch
 [Ignore anyone who is not on my Yahoo buddy list ]
-Ignorovat všechny, kdo nejsou v seznamu kontaktù
+Ignorovat vÅ¡echny, kdo nejsou v seznamu kontaktÅ¯
 [Ignore only the people below: ]
-Ignorovat pouze níe uvedené uivatele:
+Ignorovat pouze nÃ­Å¾e uvedenÃ© uÅ¾ivatele:
 [&Add]
 [&Remove]
 [Show as busy]
-Zobrazit jako 'Nemám èas'
+Zobrazit jako 'NemÃ¡m Äas'
 [OK]
 [Cancel]
 [Protocol:]
 Protokol:
 [Client:]
 [&Join]
-Pøi&jít
+PÅ™i&jÃ­t
 [&Deny]
 [Denial Message]
 [Invitation Message]
 [Host]
 [Screen Name]
-Identifikátor
+IdentifikÃ¡tor
 [&Invite]
 &Pozvat
 [&Cancel]
@@ -75,10 +75,10 @@ Chyba Yahoo
 [.png]
 ;file \protocols\Yahoo\src\chat.cpp
 [[miranda] Got conference invite to room: %s with msg: %s]
-Pøišla pozvánka na konferenci v místnosti %s. Text: %s.
+PÅ™iÅ¡la pozvÃ¡nka na konferenci v mÃ­stnosti %s. Text: %s.
 [%s denied invitation with message: %s]
 [Others]
-Ostatní
+OstatnÃ­
 [&Invite user...]
 [&Leave chat session]
 [User &details]
@@ -98,16 +98,16 @@ Profil
 [Refresh]
 Aktualizovat
 [Address Book]
-Adresáø
+AdresÃ¡Å™
 [Set Status]
-Zmìnit stav
+ZmÄ›nit stav
 [Calendar]
-Kalendáø
+KalendÃ¡Å™
 ;file \protocols\Yahoo\src\im.cpp
 [The message send timed out.]
-Pøekroèen èasovı limit odeslání zprávy.
+PÅ™ekroÄen ÄasovÃ½ limit odeslÃ¡nÃ­ zprÃ¡vy.
 [Message is too long: Yahoo messages are limited by 800 UTF8 chars]
-Zpráva je pøíliš dlouhá. Protokol Yahoo umoòuje napsat max. 800 znakù (v kódování UTF8).
+ZprÃ¡va je pÅ™Ã­liÅ¡ dlouhÃ¡. Protokol Yahoo umoÅ¾Åˆuje napsat max. 800 znakÅ¯ (v kÃ³dovÃ¡nÃ­ UTF8).
 ;file \protocols\Yahoo\src\links.cpp
 [addfriend?]
 [sendim?]
@@ -115,38 +115,38 @@ Zpráva je pøíliš dlouhá. Protokol Yahoo umoòuje napsat max. 800 znakù (v kódová
 [YAHOO Link Protocol]
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
-Yahoo - spojení pomocí protokolu HTTP
+Yahoo - spojenÃ­ pomocÃ­ protokolu HTTP
 ;file \protocols\Yahoo\src\options.cpp
 [YAHOO Options]
-Monosti Yahoo
+MoÅ¾nosti Yahoo
 [You need to be connected to Yahoo to add to Ignore List.]
-Novou poloku lze pøidat a po pøipojení do sítì Yahoo.
+Novou poloÅ¾ku lze pÅ™idat aÅ¾ po pÅ™ipojenÃ­ do sÃ­tÄ› Yahoo.
 [Yahoo Ignore]
-Yahoo :: Seznam filtrovanıch
+Yahoo :: Seznam filtrovanÃ½ch
 [Please enter a valid buddy name to ignore.]
-Zadejte prosím platnou pøezdívku.
+Zadejte prosÃ­m platnou pÅ™ezdÃ­vku.
 [The buddy is already on your ignore list. ]
 [You need to be connected to Yahoo to remove from the Ignore List.]
-Poloku ze seznamu lze odebrat a po pøipojení do sítì Yahoo.
+PoloÅ¾ku ze seznamu lze odebrat aÅ¾ po pÅ™ipojenÃ­ do sÃ­tÄ› Yahoo.
 [Please select a buddy on the ignore list to remove.]
-Nejdøíve vyberte poadovanou poloku ze seznamu.
+NejdÅ™Ã­ve vyberte poÅ¾adovanou poloÅ¾ku ze seznamu.
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Account]
-Úèet
+ÃšÄet
 [Connection]
-Spojení
+SpojenÃ­
 [Ignore List]
-Filtrování
+FiltrovÃ¡nÃ­
 ;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
-Nová pošta
+NovÃ¡ poÅ¡ta
 [Please enter your yahoo id in Options/Network/Yahoo]
-Zadejte prosím svùj identifikátor v nastavení protokolu.
+Zadejte prosÃ­m svÅ¯j identifikÃ¡tor v nastavenÃ­ protokolu.
 [Please enter your yahoo password in Options/Network/Yahoo]
-Zadejte prosím své heslo v nastavení protokolu.
+Zadejte prosÃ­m svÃ© heslo v nastavenÃ­ protokolu.
 [Yahoo Login Error]
-Chyba pøihlášení na Yahoo
+Chyba pÅ™ihlÃ¡Å¡enÃ­ na Yahoo
 ;file \protocols\Yahoo\src\search.cpp
 [<Yahoo >]
 [<Lotus Sametime>]
@@ -154,54 +154,54 @@ Chyba pøihlášení na Yahoo
 [<Windows Live (MSN)>]
 ;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
-Stav lze zmìnit pouze po pøipojení k síti.
+Stav lze zmÄ›nit pouze po pÅ™ipojenÃ­ k sÃ­ti.
 [You need to be connected to refresh your buddy list]
-Aktualizovat seznam kontaktù lze pouze po pøipojení k síti.
+Aktualizovat seznam kontaktÅ¯ lze pouze po pÅ™ipojenÃ­ k sÃ­ti.
 [Create Conference]
 ;file \protocols\Yahoo\src\webcam.cpp
 [[miranda] Got webcam invite. (not currently supported)]
-Pøišla ádost o video rozhovor (v souèasnosti není podporováno).
+PÅ™iÅ¡la Å¾Ã¡dost o video rozhovor (v souÄasnosti nenÃ­ podporovÃ¡no).
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
-Pøipomínka
+PÅ™ipomÃ­nka
 [%s has rejected your request and sent the following message:]
-%s odmítl/odmítla ádost. Text zprávy:
+%s odmÃ­tl/odmÃ­tla Å¾Ã¡dost. Text zprÃ¡vy:
 [New Mail]
 [You Have %i unread msgs]
-Nepøeètenıch zpráv: %i
+NepÅ™eÄtenÃ½ch zprÃ¡v: %i
 [New Mail (%i msgs)]
-Nová pošta (zpráv: %i)
+NovÃ¡ poÅ¡ta (zprÃ¡v: %i)
 [From: %s\nSubject: %s]
-Od: %s\nPøedmìt: %s
+Od: %s\nPÅ™edmÄ›t: %s
 [Yahoo Ping Error]
-Chyba spojení s Yahoo
+Chyba spojenÃ­ s Yahoo
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
 [Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]
 [Could not log into Yahoo service.  Your account has been locked.\nVisit %s to reactivate it.]
-Chyba pøi pøihlašování do sítì Yahoo. Váš úèet je zamknutı.\nPøejdìte na %s, kde ho mùete znovu aktivovat.
+Chyba pÅ™i pÅ™ihlaÅ¡ovÃ¡nÃ­ do sÃ­tÄ› Yahoo. VÃ¡Å¡ ÃºÄet je zamknutÃ½.\nPÅ™ejdÄ›te na %s, kde ho mÅ¯Å¾ete znovu aktivovat.
 [You have been logged out of the yahoo service, possibly due to a duplicate login.]
-Byli jste odpojeni od sítì Yahoo. Jeden z dùvodù mùe bıt pøihlášení ke stejnému úètu z jiného poèítaèe.
+Byli jste odpojeni od sÃ­tÄ› Yahoo. Jeden z dÅ¯vodÅ¯ mÅ¯Å¾e bÃ½t pÅ™ihlÃ¡Å¡enÃ­ ke stejnÃ©mu ÃºÄtu z jinÃ©ho poÄÃ­taÄe.
 [You have been logged out of the yahoo service.]
-Byli jste odpojeni od sítì Yahoo.
+Byli jste odpojeni od sÃ­tÄ› Yahoo.
 [Could not connect to the Yahoo service. Check your server/port and proxy settings.]
-Chyba pøi pøihlašování do sítì Yahoo. Zkontrolujte zda, je správnì zadaná adresa serveru a nastavení proxy.
+Chyba pÅ™i pÅ™ihlaÅ¡ovÃ¡nÃ­ do sÃ­tÄ› Yahoo. Zkontrolujte zda, je sprÃ¡vnÄ› zadanÃ¡ adresa serveru a nastavenÃ­ proxy.
 [Could not log in, unknown reason: %d.]
-Chyba pøi pøihlašování: %d.
+Chyba pÅ™i pÅ™ihlaÅ¡ovÃ¡nÃ­: %d.
 [Unknown error %s]
-Neznámá chyba: %s
+NeznÃ¡mÃ¡ chyba: %s
 [Custom error %s]
-Neznámá chyba: %s
+NeznÃ¡mÃ¡ chyba: %s
 [%s is not available for the conference]
-%s se nemùe zúèastnit konference
+%s se nemÅ¯Å¾e zÃºÄastnit konference
 [%s is already ignored]
-%s ji je v seznamu filtrovanıch
+%s jiÅ¾ je v seznamu filtrovanÃ½ch
 [%s is not in the ignore list]
-%s není v seznamu filtrovanıch
+%s nenÃ­ v seznamu filtrovanÃ½ch
 [%s is in buddy list - cannot ignore ]
-%s je v seznamu pøátel - nelze odfiltrovat
+%s je v seznamu pÅ™Ã¡tel - nelze odfiltrovat
 [System Error: %s]
-Chyba systému: %s
+Chyba systÃ©mu: %s
 [Server Connection Error: %s]
-Chyba pøi pøipojování: %s
+Chyba pÅ™i pÅ™ipojovÃ¡nÃ­: %s
 [Could not connect to Yahoo server.  Please verify that you are connected to the net and the pager host and port are correctly entered.]
-Chyba pøi pøipojování k serveru Yahoo. Ovìøte prosím, zda je funkèní pøipojení k internetu a také poloky Server a Port v nastavení.
+Chyba pÅ™i pÅ™ipojovÃ¡nÃ­ k serveru Yahoo. OvÄ›Å™te prosÃ­m, zda je funkÄnÃ­ pÅ™ipojenÃ­ k internetu a takÃ© poloÅ¾ky Server a Port v nastavenÃ­.

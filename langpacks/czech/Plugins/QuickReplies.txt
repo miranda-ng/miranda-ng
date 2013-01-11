@@ -1,4 +1,4 @@
-#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
+Ôªø#muuid {a6a031b6-d32f-4842-98c6-ec716c576b77}
 ;============================================================
 ;  File: quickreplies.dll
 ;  Plugin: Quick Replies
@@ -15,7 +15,7 @@
 [- Press [v] button for variable's help.]
 ;file \plugins\QuickReplies\src\events.cpp
 [Button]
-TlaËÌtko
+Tlaƒç√≠tko
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
 [---]
 ;file \plugins\QuickReplies\src\options.cpp

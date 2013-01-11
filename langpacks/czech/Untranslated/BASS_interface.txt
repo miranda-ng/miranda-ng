@@ -1,4 +1,4 @@
-;[--default device--]
+﻿;[--default device--]
 ;[Audio device is closed]
 ;[Audio device is opened]
 ;[Current bass.dll path:]

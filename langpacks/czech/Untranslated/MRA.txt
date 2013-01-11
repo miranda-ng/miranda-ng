@@ -1,4 +1,4 @@
-;[%%miranda_avatarcache%%\\%s]
+﻿;[%%miranda_avatarcache%%\\%s]
 ;[%04ld.%02ld.%02ld %02ld:%02ld: ]
 ;[%miranda_avatarcache%]
 ;[%s\\%s\\]

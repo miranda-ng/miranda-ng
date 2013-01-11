@@ -1,18 +1,18 @@
-#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
+ï»¿#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}
 ;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
 [`]
 [Sample page]
 [Use arrow keys to choose category]
-Poadovanou kategorii vyberete pomocí šipek
+PoÅ¾adovanou kategorii vyberete pomocÃ­ Å¡ipek
 [Miranda NG Options]
 [OK]
 [Cancel]
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [Switch to classic options]
-Pøepnout do pùvodního zpùsobu konfigurace
+PÅ™epnout do pÅ¯vodnÃ­ho zpÅ¯sobu konfigurace
 [Advanced]
 Extra
 ;file \plugins\ModernOpt\src\modernopt.cpp
@@ -20,30 +20,30 @@ Extra
 Domov
 [Miranda NG configuration center]
 [Accounts]
-Úèty
+ÃšÄty
 [Setup your account information to start messaging.]
-Zadání a správa informací k úètùm jednotlivıch sítí.
+ZadÃ¡nÃ­ a sprÃ¡va informacÃ­ k ÃºÄtÅ¯m jednotlivÃ½ch sÃ­tÃ­.
 [Style]
 [Change the look of Miranda NG according to your taste.]
 [Contacts]
 Kontakty
 [Configure behaviour of your contact list.]
-Konfigurace funkcí seznamu kontaktù.
+Konfigurace funkcÃ­ seznamu kontaktÅ¯.
 [Chats]
 [Customize look&&feel of your chat windows here.]
-Úprava vzhledu a chování komunikaèních oken.
+Ãšprava vzhledu a chovÃ¡nÃ­ komunikaÄnÃ­ch oken.
 [Ignore]
 [Ban those users and events, you are annoyed with.]
-Obtìuje vás nìkdo nebo nìco pøi komunikaci? Vyzkoušejte náš filtr.
+ObtÄ›Å¾uje vÃ¡s nÄ›kdo nebo nÄ›co pÅ™i komunikaci? VyzkouÅ¡ejte nÃ¡Å¡ filtr.
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Set your status messages and idle reporting.]
-Definice stavovıch zpráv, nálady, automatickıch odpovìdí apod.
+Definice stavovÃ½ch zprÃ¡v, nÃ¡lady, automatickÃ½ch odpovÄ›dÃ­ apod.
 [Addons]
-Doplòky
+DoplÅˆky
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
-Nìkteré ze zmìn nejsou uloeny.\nChcete je uloit?
+NÄ›kterÃ© ze zmÄ›n nejsou uloÅ¾eny.\nChcete je uloÅ¾it?
 [Miranda NG]
 [Page 1]
 [Page 2]
@@ -51,19 +51,19 @@ Nìkteré ze zmìn nejsou uloeny.\nChcete je uloit?
 [Files]
 Soubory
 [Messages]
-Zprávy
+ZprÃ¡vy
 [URL events]
-Pøíchozí odkazy
+PÅ™Ã­chozÃ­ odkazy
 [Typing notifications]
 [Added notifications]
-Oznámení o pøidání
+OznÃ¡menÃ­ o pÅ™idÃ¡nÃ­
 [Auth requests]
-ádost o autorizaci
+Å½Ã¡dost o autorizaci
 [Configure]
 [Update]
 Aktualizovat
 [Download]
-Stáhnout
+StÃ¡hnout
 ;file \plugins\ModernOpt\src\mopt_selector.cpp
 [%s\\%s]
 %s\\%s

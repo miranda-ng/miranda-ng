@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: SendSS.dll
 ;  Plugin: Send Screenshot+
@@ -8,65 +8,65 @@
 ;file \plugins\SendScreenshotPlus\res\resource.rc
 [OK]
 [All]
-všechno
+vÅ¡echno
 [None]
 ---
 [Cancel]
 [Send screenshot to\n<unknown>]
 [Ti&med capture]
-Èasované snímání
+ÄŒasovanÃ© snÃ­mÃ¡nÃ­
 [Time (secs) :]
-Zpodìní (sec.):
+ZpoÅ¾dÄ›nÃ­ (sec.):
 [&Format :]
-&Formát:
+&FormÃ¡t:
 [Send B&y :]
 &Metoda:
 [?]
 [E&xplore]
-&Procházet
+&ProchÃ¡zet
 [&Fill description textbox.]
 V&yplnit pole pro popis
 [Delete &after send]
-Po odeslání obrázek sm&azat
+Po odeslÃ¡nÃ­ obrÃ¡zek sm&azat
 [Open again]
-Nezavírat
+NezavÃ­rat
 [&Capture]
 &Sejmout
 [%s\nv%s]
 [Credits >]
-Podìkování >
+PodÄ›kovÃ¡nÃ­ >
 [&Close]
-&Zavøít
+&ZavÅ™Ã­t
 [C&lient Area]
 Bez okraje okna
 [Caption :]
-Záhlaví okna:
+ZÃ¡hlavÃ­ okna:
 [Size (HxW) :]
-Velikost (v×š):
+Velikost (vÃ—Å¡):
 [Target Tool]
 ;file \plugins\SendScreenshotPlus\src\CSend.cpp
 [Unable to initiate transfer.]
-Chyba pøi inicializaci pøenosu.
+Chyba pÅ™i inicializaci pÅ™enosu.
 [\r\n]
 [Initialising...]
 Inicializace...
 [Connecting...]
 [Connecting to proxy...]
-Pøipojování k proxy...
+PÅ™ipojovÃ¡nÃ­ k proxy...
 [Waiting for connection...]
-Èekání na spojení...
+ÄŒekÃ¡nÃ­ na spojenÃ­...
 [Connected]
 [Decision sent]
-Potvrzení odesláno
+PotvrzenÃ­ odeslÃ¡no
 [Moving to next file...]
-Další soubor...
+DalÅ¡Ã­ soubor...
 [%s (%i):\nFile transfer denied.]
 [%s (%i):\nYou appear to be using the wrong version of GC API]
 [GCHAT error]
 [%s (%i):\nAn internal GC error occurred.]
 [%s (%i):\nContact has no open GC session.]
 [An unknown error has occured.]
-Neznámá chyba.
+NeznÃ¡mÃ¡ chyba.
 [%s - %s]
 [Error]
 ;file \plugins\SendScreenshotPlus\src\CSend.h
@@ -91,14 +91,14 @@ Neznámá chyba.
 [Unknown Error]
 ;file \plugins\SendScreenshotPlus\src\CSendFile.cpp
 [File transfer]
-Pøenos souboru
+PÅ™enos souboru
 ;file \plugins\SendScreenshotPlus\src\CSendFTPFile.cpp
 [FTPFile transfer]
 [%s (%i):\nCould not add a share to the FTP File plugin.]
 ;file \plugins\SendScreenshotPlus\src\CSendHTTPServer.cpp
 [HTTPServer transfer]
 [Could not start the HTTP Server plugin.]
-Nelze spustit doplnìk HTTP Server.
+Nelze spustit doplnÄ›k HTTP Server.
 [%s (%i):\nCould not add a share to the HTTP Server plugin.]
 ;file \plugins\SendScreenshotPlus\src\CSendImageShack.cpp
 [Image upload]
@@ -121,7 +121,7 @@ Ano
 [SendSS HTTP connections]
 [Could not create main dialog.]
 [Send Screenshot]
-Odeslat obrázek
+Odeslat obrÃ¡zek
 [Send desktop screenshot]
 [Take a screenshot]
 [Could not register miranda service.]
@@ -137,9 +137,9 @@ Odeslat obrázek
 [Plugins\\uinfoex_icons.dll]
 [Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Upozornìní: Váše souèasná verze knihovny ikon pro Detaily uivatele se liší od verze, pro kterou byl tento doplnìk vytvoøen.\n Nìkteré ikony se nemusí zobrazit správnì.
+UpozornÄ›nÃ­: VÃ¡Å¡e souÄasnÃ¡ verze knihovny ikon pro Detaily uÅ¾ivatele se liÅ¡Ã­ od verze, pro kterou byl tento doplnÄ›k vytvoÅ™en.\n NÄ›kterÃ© ikony se nemusÃ­ zobrazit sprÃ¡vnÄ›.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-Upozornìní: Nebyla nalezena ádná knihovna ikon v ádné z tìchto sloek: 'customize\\icons', 'icons' or 'plugins'!
+UpozornÄ›nÃ­: Nebyla nalezena Å¾Ã¡dnÃ¡ knihovna ikon v Å¾Ã¡dnÃ© z tÄ›chto sloÅ¾ek: 'customize\\icons', 'icons' or 'plugins'!
 [Plugins\\]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [\r\n\r\n]
@@ -149,7 +149,7 @@ Upozornìní: Nebyla nalezena ádná knihovna ikon v ádné z tìchto sloek: 'custom
 [Copyright]
 ;file \plugins\SendScreenshotPlus\src\UMainForm.cpp
 [Drag&&Drop the target on the desired window.]
-Umístìte køí na poadované okno.
+UmÃ­stÄ›te kÅ™Ã­Å¾ na poÅ¾adovanÃ© okno.
 [Send screenshot to\n]
 [Window]
 [Desktop]
@@ -165,15 +165,15 @@ Plocha
 [GIF]
 [<Only save>]
 [File Transfer]
-Pøenos souborù
+PÅ™enos souborÅ¯
 [E-mail]
 [HTTP Server]
 [FTP File]
-Soubory pøes FTP
+Soubory pÅ™es FTP
 [ImageShack]
 [Information]
 [Open Folder]
-Otevøít sloku
+OtevÅ™Ã­t sloÅ¾ku
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Fill description textbox.]
@@ -181,7 +181,7 @@ Otevøít sloku
 [Capture]
 [Cant create a Screenshot]
 [Select a target window.]
-Vyberte prosím poadované okno.
+Vyberte prosÃ­m poÅ¾adovanÃ© okno.
 [explore]
 [shot%.5ld]
 [Screenshot ]

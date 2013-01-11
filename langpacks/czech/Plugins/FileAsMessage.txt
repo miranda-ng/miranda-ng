@@ -1,4 +1,4 @@
-#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
+ï»¿#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}
 ;langpack template for FileAsMessage
 ;file \plugins\FileAsMessage\res\resources.rc
 [Filename:]
@@ -9,51 +9,51 @@
 Velikost bloku
 [ms]
 [Delays between sends]
-Prodleva mezi zprávami
+Prodleva mezi zprÃ¡vami
 [bytes]
 [Transfer settings]
-Monosti pøenosu
+MoÅ¾nosti pÅ™enosu
 [Appearance]
 [Unsent]
-Neodesláno
+NeodeslÃ¡no
 [Sent]
-Odesláno
+OdeslÃ¡no
 [To send]
-K odeslání
+K odeslÃ¡nÃ­
 [Received]
-Pøijato
+PÅ™ijato
 [Use only alphanumeric encoding on transfer]
-Pøi pøenosu pouít jen alfanum. kódování
+PÅ™i pÅ™enosu pouÅ¾Ã­t jen alfanum. kÃ³dovÃ¡nÃ­
 [Extra options: Events > File Transfers, "Receiving files" group]
 ;file \plugins\FileAsMessage\src\dialog.cpp
 [File already exists. Overwrite?]
 [Couldn't open a file]
-Nelze otevøít soubor
+Nelze otevÅ™Ã­t soubor
 [Size: %d bytes]
-Velikost: %d bajtù
+Velikost: %d bajtÅ¯
 [Request sent. Awaiting of acceptance..]
-Poadavek odeslán. Èekání na odpovìï...
+PoÅ¾adavek odeslÃ¡n. ÄŒekÃ¡nÃ­ na odpovÄ›Ä...
 [Sending...]
-Posílání dat...
+PosÃ­lÃ¡nÃ­ dat...
 [Received successfully]
-Pøenos dat úspìšnì dokonèen
+PÅ™enos dat ÃºspÄ›Å¡nÄ› dokonÄen
 [Requesting of missing chunks]
-ádost o chybìjící bloky
+Å½Ã¡dost o chybÄ›jÃ­cÃ­ bloky
 [Receiving...]
-Pøíjem dat...
+PÅ™Ã­jem dat...
 [Sent successfully]
-Pøenos dat úspìšnì dokonèen
+PÅ™enos dat ÃºspÄ›Å¡nÄ› dokonÄen
 [Unknown command for "" SERVICE_TITLE "" was received]
 [Incoming file request. Do you want proceed?]
-ádost o pøenos souboru. Chcete pokraèovat?
+Å½Ã¡dost o pÅ™enos souboru. Chcete pokraÄovat?
 [Cancelled by remote user]
-Pøerušeno protistranou
+PÅ™eruÅ¡eno protistranou
 [New incoming file request. Do you want proceed?]
-Nová ádost o pøenos souboru. Chcete pokraèovat?
+NovÃ¡ Å¾Ã¡dost o pÅ™enos souboru. Chcete pokraÄovat?
 [Paused, 'coz connection dropped]
-Spojení pøerušeno, pøenos byl pozastaven. 
+SpojenÃ­ pÅ™eruÅ¡eno, pÅ™enos byl pozastaven. 
 [Failed on file initialization]
-Chyba pøi inicializaci pøenosu
+Chyba pÅ™i inicializaci pÅ™enosu
 [Paused...]
 Pozastaveno...
 [Synchronizing...]
@@ -61,15 +61,15 @@ Synchronizace...
 [Select a file]
 Vyberte soubor
 [Save as]
-Uloit jako
+UloÅ¾it jako
 [Can't get a file size]
 Nelze zjistit velikost souboru
 [Cancelled by user]
-Pøerušeno uivatelem
+PÅ™eruÅ¡eno uÅ¾ivatelem
 [Transfer is in progress. Do you really want to close?]
-Pøenos dat ještì nebyl dokonèen. Opravdu ho chcete pøerušit?
+PÅ™enos dat jeÅ¡tÄ› nebyl dokonÄen. Opravdu ho chcete pÅ™eruÅ¡it?
 ;file \plugins\FileAsMessage\src\main.cpp
 [Plugins]
 #muuid {768ce156-34ac-45a3-b53b-0083c47615c4}
 [File As Message...]
-Soubor jako zpráva...
+Soubor jako zprÃ¡va...

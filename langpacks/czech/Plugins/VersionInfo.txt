@@ -1,4 +1,4 @@
-#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
+ï»¿#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;============================================================
 ;  File: VersionInfo.dll
 ;  Plugin: VersionInfo
@@ -9,54 +9,54 @@
 [OK]
 [Cancel]
 [Text file]
-Textovı soubor
+TextovÃ½ soubor
 [MessageBox]
 [DialogBox]
-Dialogové okno
+DialogovÃ© okno
 [Output Debug String]
 [Clipboard]
-Schránka
+SchrÃ¡nka
 [Select output:]
-Vyberte vıstup
+Vyberte vÃ½stup
 [Upload to site]
 Poslat na server
 [Forum style formatting]
-Zformátovat vıstup pomocí BBCode
+ZformÃ¡tovat vÃ½stup pomocÃ­ BBCode
 [Aditional options:]
-Ostatní monosti
+OstatnÃ­ moÅ¾nosti
 [Do it now]
-Provést nyní
+ProvÃ©st nynÃ­
 [Output to:]
-Vıstup do:
+VÃ½stup do:
 [Show window in taskbar]
-Zobrazit na hlavním panelu
+Zobrazit na hlavnÃ­m panelu
 [Ask every time]
-Pokadé se zeptat
+PokaÅ¾dÃ© se zeptat
 [Also copy info to clipboard]
-Zároveò zkopírovat do schránky
+ZÃ¡roveÅˆ zkopÃ­rovat do schrÃ¡nky
 [Upload site settings]
-Úloištì dat
+ÃšloÅ¾iÅ¡tÄ› dat
 [Username]
 [Password]
 Heslo
 [Highlight version number using]
-Zvıraznit èíslo verze pomocí
+ZvÃ½raznit ÄÃ­slo verze pomocÃ­
 [Show disabled plugins too]
-Vypsat i neaktivní doplòky
+Vypsat i neaktivnÃ­ doplÅˆky
 [Attempt to find unloadable plugins (doesn't work on Windows 98)]
-Pokusit se najít nefunkèní doplòky (nefunguje ve Windows 98)
+Pokusit se najÃ­t nefunkÄnÃ­ doplÅˆky (nefunguje ve Windows 98)
 [Suppress header information]
-Nevypisovat informace o doplòku a autorech
+Nevypisovat informace o doplÅˆku a autorech
 [Enable debug messages]
-Povolit ladicí informace
+Povolit ladicÃ­ informace
 [Show plugin UUIDs]
-Vypsat identifikátory doplòkù
+Vypsat identifikÃ¡tory doplÅˆkÅ¯
 [Show installed languages]
-Zobrazit nainstalované pøeklady
+Zobrazit nainstalovanÃ© pÅ™eklady
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [&Copy text]
-Z&kopírovat
+Z&kopÃ­rovat
 [Upload]
 -> server
 [&Save to file]
@@ -80,7 +80,7 @@ Ano
 [%d.%d.%d %s]
 [Hardware\\Description\\System\\CentralProcessor\\0]
 [Identifier]
-Identifikátor
+IdentifikÃ¡tor
 [RegQueryValueEx()]
 [<Error in RegQueryValueEx()>]
 [ProcessorNameString]
@@ -115,7 +115,7 @@ Identifikátor
 [langpack_*.txt]
 [N/A]
 [<unknown>]
-<neznámı>
+<neznÃ¡mÃ½>
 [ v. ]
 [<error> Could not open file " + std::tstring(data.cFileName));\r\n			}\r\n			FindClose(hLangpack);\r\n		}\r\n		else lpzLangpackInfo = _T("No language pack installed]
 [\\Plugins\\*.dll]
@@ -171,7 +171,7 @@ Identifikátor
 [</blockquote>]
 [\r\nEnd of report.\r\n]
 [If you are going to use this report to submit a bug, remember to check the website for questions or help the developers may need.\r\nIf you don't check your bug report and give feedback, it will not be fixed!]
-V pøípadì, e ohlásíte chybu pomocí tohoto formuláøe, nezapomeòte se obèas podívat na webovou stránku doplòku.\nJe velmi pravdìpodobné, e programátoøi vás budou ádat o upøesnìní nebo jinou pomoc.\nV mnoha pøípadech se bez vaší asistence chybu nepodaøí opravit.
+V pÅ™Ã­padÄ›, Å¾e ohlÃ¡sÃ­te chybu pomocÃ­ tohoto formulÃ¡Å™e, nezapomeÅˆte se obÄas podÃ­vat na webovou strÃ¡nku doplÅˆku.\nJe velmi pravdÄ›podobnÃ©, Å¾e programÃ¡toÅ™i vÃ¡s budou Å¾Ã¡dat o upÅ™esnÄ›nÃ­ nebo jinou pomoc.\nV mnoha pÅ™Ã­padech se bez vaÅ¡Ã­ asistence chybu nepodaÅ™Ã­ opravit.
 [[/size]]
 [[/quote]]
 [ (%u)]
@@ -191,13 +191,13 @@ V pøípadì, e ohlásíte chybu pomocí tohoto formuláøe, nezapomeòte se obèas podív
 [Error during the creation of file "%s". Disk may be full or write protected.]
 [VersionInfo]
 [The clipboard is not available, retry.]
-Chyba pøi práci se schránkou. Zkuste pozdìji.
+Chyba pÅ™i prÃ¡ci se schrÃ¡nkou. Zkuste pozdÄ›ji.
 [Information successfully copied into clipboard.]
-Poadované informace byly zkopírovány do schránky.
+PoÅ¾adovanÃ© informace byly zkopÃ­rovÃ¡ny do schrÃ¡nky.
 ;file \plugins\VersionInfo\src\dlgHandlers.cpp
 [%s | %s]
 [Customize using folders plugin]
-Urèit pomocí doplòku Folders
+UrÄit pomocÃ­ doplÅˆku Folders
 [vi.cass.cz]
 [Are you sure you want to enable this option ?\nPlease only enable this option if you really know what you're doing and what the option is for or if someone asked you to do it.]
 [Show plugin UUIDs ?]
@@ -205,7 +205,7 @@ Urèit pomocí doplòku Folders
 [Version Information]
 Informace o verzi
 [Services]
-Sluby
+SluÅ¾by
 ;file \plugins\VersionInfo\src\main.cpp
 ;file \plugins\VersionInfo\src\utils.cpp
 [Ok, something went wrong in the "%s" setting. Report back the following values:\nFacility: %X\nError code: %X\nLine number: %d]

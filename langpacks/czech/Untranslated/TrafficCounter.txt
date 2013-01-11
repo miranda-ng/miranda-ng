@@ -1,4 +1,4 @@
-;["Toggle traffic counter" in main menu]
+﻿;["Toggle traffic counter" in main menu]
 ;[%02d]
 ;[%c%d]
 ;[%d kilobytes received]

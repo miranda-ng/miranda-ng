@@ -1,4 +1,4 @@
-#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
+ï»¿#muuid {97724af9-f3fb-47d3-a3bf-eaa935c74e6d}
 ;============================================================
 ;  File: MSN.dll
 ;  Plugin: MSN
@@ -9,69 +9,69 @@
 [MSN]
 MSN
 [Live ID:]
-Identifikátor:
+IdentifikÃ¡tor:
 [Password:]
 [Nickname:]
 [Create a new Windows Live account]
-Zøídit novı úèet v síti Windows Live
+ZÅ™Ã­dit novÃ½ ÃºÄet v sÃ­ti Windows Live
 [Expert]
 [Send message font color/size info inside messages]
-Ke zprávì pøidat informaci o barvì a velikosti písma
+Ke zprÃ¡vÄ› pÅ™idat informaci o barvÄ› a velikosti pÃ­sma
 [Disable all contacts not included into my contact list]
-Vypnout všechny kontakty neuvedené v aktuálním seznamu
+Vypnout vÅ¡echny kontakty neuvedenÃ© v aktuÃ¡lnÃ­m seznamu
 [Manage server groups]
-Zapnout správu skupin na serveru
+Zapnout sprÃ¡vu skupin na serveru
 [Run the following application when new Hotmail arrives]
-Spustit vybranou aplikaci (po pøíchodu nové pošty)
+Spustit vybranou aplikaci (po pÅ™Ã­chodu novÃ© poÅ¡ty)
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Allow people on my contact list send messages to mobile device]
-Lidem ze seznamu kontaktù povolit posílání zpráv na mobil
+Lidem ze seznamu kontaktÅ¯ povolit posÃ­lÃ¡nÃ­ zprÃ¡v na mobil
 [Connection settings]
 [Direct:]
-Pøímé:
+PÅ™Ã­mÃ©:
 [ 1863]
 [Gateway:]
-Brána:
+BrÃ¡na:
 [ 80]
 [Reset]
 [Notify me when a message delivery has failed]
 [Incoming file transfers]
-Pøenos pøíchozích souborù
+PÅ™enos pÅ™Ã­chozÃ­ch souborÅ¯
 [Your host (or router):]
-Poèítaè (nebo brána):
+PoÄÃ­taÄ (nebo brÃ¡na):
 [Server List Manager]
-Správa kontaktù na serveru
+SprÃ¡va kontaktÅ¯ na serveru
 [Contact is on your local list]
-Kontakt je ve vašem lokálním seznamu
+Kontakt je ve vaÅ¡em lokÃ¡lnÃ­m seznamu
 [Contact is included into your server list]
-Kontakt je umístìn v seznamu na serveru
+Kontakt je umÃ­stÄ›n v seznamu na serveru
 [Allowed (active) contact]
-Povolenı kontakt
+PovolenÃ½ kontakt
 [Blocked contact]
-Zablokovanı kontakt
+ZablokovanÃ½ kontakt
 [Somebody included you in his/her server list]
-Kontakt vás má umístìn ve svém seznamu na serveru
+Kontakt vÃ¡s mÃ¡ umÃ­stÄ›n ve svÃ©m seznamu na serveru
 [Refresh]
 Aktualizovat
 [Hotmail]
 Hotmail
 [Disable Popup notifications]
-Vypnout standardní upozornìní
+Vypnout standardnÃ­ upozornÄ›nÃ­
 [Disable Tray notifications]
-Vypnout upozornìní z oblasti oznámení
+Vypnout upozornÄ›nÃ­ z oblasti oznÃ¡menÃ­
 [Ignore new messages not in Inbox folder]
-Ignorovat nové zprávy z jiné sloky ne Doruèená pošta
+Ignorovat novÃ© zprÃ¡vy z jinÃ© sloÅ¾ky neÅ¾ DoruÄenÃ¡ poÅ¡ta
 [Other]
-Ostatní
+OstatnÃ­
 [Display errors using popups]
-Zobrazit chybová hlášení jako oznámení
+Zobrazit chybovÃ¡ hlÃ¡Å¡enÃ­ jako oznÃ¡menÃ­
 [Enable 'Chat Session Established' popup]
-Zapnout oznámení typu 'Spojení navázáno'
+Zapnout oznÃ¡menÃ­ typu 'SpojenÃ­ navÃ¡zÃ¡no'
 [Enable 'Contact left channel' popup]
-Zapnout oznámení typu 'Odchod z kanálu'
+Zapnout oznÃ¡menÃ­ typu 'Odchod z kanÃ¡lu'
 [Disable Contact List notifications]
-Vypnout upozornìní ze seznamu kontatkù
+Vypnout upozornÄ›nÃ­ ze seznamu kontatkÅ¯
 [OK]
 [Cancel]
 [Mobile Device (used for SMS)]
@@ -80,17 +80,17 @@ Vypnout upozornìní ze seznamu kontatkù
 [First Name]
 [Last Name]
 [Anniversary]
-Vıroèí
+VÃ½roÄÃ­
 [Birthday]
 Narozeniny
 [Nickname]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Place:]
-Místo:
+MÃ­sto:
 [Remove from Hotmail Address book]
 [Block Contact]
 [Live ID]
-Identifikátor
+IdentifikÃ¡tor
 [&Invite]
 &Pozvat
 [&Cancel]
@@ -98,16 +98,16 @@ Identifikátor
 ;file \protocols\MSN\src\msn_chat.cpp
 [%s %s%s]
 [Chat #]
-Diskuse è.
+Diskuse Ä.
 [Others]
-Ostatní
+OstatnÃ­
 [&Invite user...]
 [&Leave chat session]
 [User &details]
 [User &history]
 ;file \protocols\MSN\src\msn_commands.cpp
 [Contact tried to open an audio conference (currently not supported)]
-MirandaIM zatím nepodporuje hlasovou konferenci v rámci sítì MSN.
+MirandaIM zatÃ­m nepodporuje hlasovou konferenci v rÃ¡mci sÃ­tÄ› MSN.
 [%I64u bytes]
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
@@ -115,17 +115,17 @@ Protokol MSN
 [%title% - %artist%]
 [MSN Alert]
 [Chat session established by my request]
-Spojení navázáno (vlastní ádost)
+SpojenÃ­ navÃ¡zÃ¡no (vlastnÃ­ Å¾Ã¡dost)
 [Chat session established by contact request]
-Spojení navázáno (ádost protistrany)
+SpojenÃ­ navÃ¡zÃ¡no (Å¾Ã¡dost protistrany)
 [Contact left channel]
-Kontakt odešel z kanálu
+Kontakt odeÅ¡el z kanÃ¡lu
 [This conversation has been inactive, participants will be removed.]
-Tato konverzace byla delší dobu neaktivní, úèastníci budou odpojeni.
+Tato konverzace byla delÅ¡Ã­ dobu neaktivnÃ­, ÃºÄastnÃ­ci budou odpojeni.
 [To resume the conversation, please quit this session and start a new chat session.]
-Chcete-li v konverzaci pokraèovat, ukonèete tuto relaci a vytvoøte novou.
+Chcete-li v konverzaci pokraÄovat, ukonÄete tuto relaci a vytvoÅ™te novou.
 [There is only 1 person left in the chat, do you want to switch back to standard message window?]
-Konverzace probíhá jen s jedním èlovìkem. Chcete pøepnout do klasického komunikaèního okna?
+Konverzace probÃ­hÃ¡ jen s jednÃ­m ÄlovÄ›kem. Chcete pÅ™epnout do klasickÃ©ho komunikaÄnÃ­ho okna?
 [MSN Chat]
 MSN :: diskuse
 [Message delivery failed]
@@ -143,32 +143,32 @@ MSN :: diskuse
 [%s protocol]
 ;file \protocols\MSN\src\msn_mail.cpp
 [Subject: %s]
-Pøedmìt: %s
+PÅ™edmÄ›t: %s
 [Hotmail from %s (%S)]
-Zpráva od %s (%S)
+ZprÃ¡va od %s (%S)
 [Hotmail from %s]
-Zpráva od: %s
+ZprÃ¡va od: %s
 [Unread mail is available: %d in Inbox and %d in other folders).]
-Máte nepreètenou poštu. Pøíchozí: %d, ostatní: %d.
+MÃ¡te nepreÄtenou poÅ¡tu. PÅ™Ã­chozÃ­: %d, ostatnÃ­: %d.
 [%s [%d]]
 [%s [%d][%d]]
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
-Pøeèíst poštu &Hotmail
+PÅ™eÄÃ­st poÅ¡tu &Hotmail
 [Send &Hotmail E-mail]
-E-mail pøes &Hotmail
+E-mail pÅ™es &Hotmail
 [You must be talking to start Netmeeting]
-Zaènìte mluvit, Netmeeting se spustí automaticky.
+ZaÄnÄ›te mluvit, Netmeeting se spustÃ­ automaticky.
 [Set &Nickname]
-&Nastavit pøezdívku...
+&Nastavit pÅ™ezdÃ­vku...
 [Create &Chat]
-Zaèít &diskusi
+ZaÄÃ­t &diskusi
 [Display &Hotmail Inbox]
-Pøeèíst poštu &Hotmail
+PÅ™eÄÃ­st poÅ¡tu &Hotmail
 [View &Profile]
 Zobrazit profil
 [Setup Live &Alerts]
-N&astavit upozornìní
+N&astavit upozornÄ›nÃ­
 [&Block]
 Za&blokovat
 [&Start Netmeeting]
@@ -205,44 +205,44 @@ Spustit Netmeetin&g
 Miranda
 [%s/%s]
 [Notify]
-Oznámení
+OznÃ¡menÃ­
 [Error]
 [%s:\n%s]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
 [Hotmail Inbox]
-Schránka Hotmail
+SchrÃ¡nka Hotmail
 [Profile]
 Profil
 [MSN Services]
-Sluby MSN
+SluÅ¾by MSN
 [Block user]
-Zablokovat uivatele
+Zablokovat uÅ¾ivatele
 [Invite to chat]
 Pozvat k diskusi
 [Start Netmeeting]
 Spustit Netmeeting
 [Contact list]
-Seznam kontaktù
+Seznam kontaktÅ¯
 [Allowed list]
-Seznam povolenıch
+Seznam povolenÃ½ch
 [Blocked list]
-Seznam zablokovanıch
+Seznam zablokovanÃ½ch
 [Relative list]
 Seznam protistrany
 [Local list]
-Lokální seznam
+LokÃ¡lnÃ­ seznam
 [Server groups import may change your contact list layout after next login. Do you want to upload your groups to the server?]
-Import skupin ze serveru mùe pøi pøíštím pøihlášení ovlivnit seznam\nkontaktù. Opravdu chcete zapnout správu skupin na serveru?
+Import skupin ze serveru mÅ¯Å¾e pÅ™i pÅ™Ã­Å¡tÃ­m pÅ™ihlÃ¡Å¡enÃ­ ovlivnit seznam\nkontaktÅ¯. Opravdu chcete zapnout sprÃ¡vu skupin na serveru?
 [The changes you have made require you to reconnect to the MSN Messenger network before they take effect]
-Zmìny se projeví a pøi pøíštím pøipojení do sítì MSN Messenger.
+ZmÄ›ny se projevÃ­ aÅ¾ pÅ™i pÅ™Ã­Å¡tÃ­m pÅ™ipojenÃ­ do sÃ­tÄ› MSN Messenger.
 [MSN Options]
-MSN - monosti
+MSN - moÅ¾nosti
 [Automatically obtain host/port]
 Automaticky zjistit kombinaci hostitel/port
 [Manually specify host/port]
-Ruènì zadat kombinaci hostitel/port
+RuÄnÄ› zadat kombinaci hostitel/port
 [Disable]
 Vypnout
 [IP info available only after login]
@@ -250,38 +250,38 @@ Vypnout
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Account]
-Úèet
+ÃšÄet
 [Connection]
-Spojení
+SpojenÃ­
 [Server list]
 Seznamy
 [Notifications]
-Upozornìní
+UpozornÄ›nÃ­
 ;file \protocols\MSN\src\msn_p2p.cpp
 [Contact tried to send its webcam data (currently not supported)]
-MirandaIM zatím nepodporuje pøíjem obrázkù v webové kamery.
+MirandaIM zatÃ­m nepodporuje pÅ™Ã­jem obrÃ¡zkÅ¯ v webovÃ© kamery.
 [Contact tried to view our webcam data (currently not supported)]
-MirandaIM zatím nepodporuje posílání obrázkù z webové kamery.
+MirandaIM zatÃ­m nepodporuje posÃ­lÃ¡nÃ­ obrÃ¡zkÅ¯ z webovÃ© kamery.
 [Contact tried to share media with us (currently not supported)]
 ;file \protocols\MSN\src\msn_proto.cpp
 [Live Mail]
-Nová pošta (Live)
+NovÃ¡ poÅ¡ta (Live)
 [Live Alert]
-Upozornìní (Live)
+UpozornÄ›nÃ­ (Live)
 [%s plugin HTTPS connections]
-%s - spojení pomocí protokolu HTTPS
+%s - spojenÃ­ pomocÃ­ protokolu HTTPS
 [%s plugin connections]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 [Contact already in your contact list]
 [%s\\%s]
 %s\\%s
 [Protocol is offline]
 [You cannot send message to yourself]
-Nemùete poslat zprávu sami sobì.
+NemÅ¯Å¾ete poslat zprÃ¡vu sami sobÄ›.
 [Message is too long: SMS page limited to 133 UTF8 chars]
-Pøíliš dlouhá zpráva: Max. poèet znakù je 133 (s diakritikou)
+PÅ™Ã­liÅ¡ dlouhÃ¡ zprÃ¡va: Max. poÄet znakÅ¯ je 133 (s diakritikou)
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
-Zpráva je pøíliš dlouhá. Protokol MSN umoòuje napsat max. 1202 znakù (v kódování UTF8).
+ZprÃ¡va je pÅ™Ã­liÅ¡ dlouhÃ¡. Protokol MSN umoÅ¾Åˆuje napsat max. 1202 znakÅ¯ (v kÃ³dovÃ¡nÃ­ UTF8).
 [Offline messaging is not allowed for LCS contacts]
 ;file \protocols\MSN\src\msn_soapstore.cpp
 [miranda_avatar.tmp]
@@ -294,4 +294,4 @@ Hudba
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp
 [Chat session dropped due to inactivity]
-Spojení ukonèeno (neaktivní)
+SpojenÃ­ ukonÄeno (neaktivnÃ­)

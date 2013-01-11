@@ -1,4 +1,4 @@
-;[%miranda_path%\\Dictionaries]
+﻿;[%miranda_path%\\Dictionaries]
 ;[%miranda_path%\\Icons]
 ;[%miranda_userdata%\\Dictionaries]
 ;[%s [%s]]

@@ -1,4 +1,4 @@
-#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
+ï»¿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;============================================================
 ;  File: Clist_modern.dll
 ;  Plugin: Clist_modern
@@ -7,19 +7,19 @@
 ;============================================================
 ;file \plugins\Clist_modern\res\resource.rc
 [Transparency:]
-Prùhlednost:
+PrÅ¯hlednost:
 [Window behaviour:]
-Chování okna:
+ChovÃ¡nÃ­ okna:
 [List sorting:]
-Øazení seznamu:
+Å˜azenÃ­ seznamu:
 [Status bar:]
-Stavová lišta:
+StavovÃ¡ liÅ¡ta:
 [List content:]
-Poloky seznamu:
+PoloÅ¾ky seznamu:
 [Show counts of number of contacts in a group]
-Zobrazit poèet kontaktù ve skupinì
+Zobrazit poÄet kontaktÅ¯ ve skupinÄ›
 [Hide group counts when there are none online]
-Skrıt poèet kontaktù ve skupinì, jsou-li všichni offline
+SkrÃ½t poÄet kontaktÅ¯ ve skupinÄ›, jsou-li vÅ¡ichni offline
 [1st:]
 1)
 [2nd:]
@@ -28,7 +28,7 @@ Skrıt poèet kontaktù ve skupinì, jsou-li všichni offline
 3)
 [Always on top]
 [Hide contact list after ]
-Skrıt seznam kontaktù po
+SkrÃ½t seznam kontaktÅ¯ po
 [seconds]
 [Fade contact list in/out]
 [Transparent contact list]
@@ -40,158 +40,158 @@ Zobrazit avatary
 [Animate Avatars]
 Animovat avatary
 [Show contact time in list]
-Zobrazit èas kontaktu
+Zobrazit Äas kontaktu
 [Compact mode]
-Kompaktní reim
+KompaktnÃ­ reÅ¾im
 [Show protocol names]
 [Show status text]
 [Settings]
-Nastavení
+NastavenÃ­
 [Background colour:]
 [Selection colour:]
 [Use background bitmap]
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Stretch to width]
-Uzpùsobit na šíøku
+UzpÅ¯sobit na Å¡Ã­Å™ku
 [Stretch to height]
-Uzpùsobit na vıšku
+UzpÅ¯sobit na vÃ½Å¡ku
 [Tile horizontally]
-Vodorovnì vedle sebe
+VodorovnÄ› vedle sebe
 [Tile vertically]
 Svisle vedle sebe
 [Scroll with text]
 [Stretch proportionally]
-Uzpùsobit pomìrnì
+UzpÅ¯sobit pomÄ›rnÄ›
 [Tile vertically according to Row Height]
-Roztáhnout vertikálnì dle vıšky øádku
+RoztÃ¡hnout vertikÃ¡lnÄ› dle vÃ½Å¡ky Å™Ã¡dku
 [Use Windows Colors]
-Pouít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Available skins]
-Dostupné skiny
+DostupnÃ© skiny
 [Browse]
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [Info]
 Info
 [\n\n\nPlease select one of available skins. \n\nOr browse for skin not in list.]
-\n\nProsím vyberte jeden ze skinù, pøípadnì tlaèítkem Procházet najdìte skin, kterı se v seznamu nenachází
+\n\nProsÃ­m vyberte jeden ze skinÅ¯, pÅ™Ã­padnÄ› tlaÄÃ­tkem ProchÃ¡zet najdÄ›te skin, kterÃ½ se v seznamu nenachÃ¡zÃ­
 [Skin Preview]
-Náhled
+NÃ¡hled
 [WARNING: \tSkins can modify your current profile. Rollback is not possible. \n\t\tPlease BACKUP your database before applying skin.]
-UPOZORNÌNÍ:\tSkiny mohou pozmìnit váš datovı profil, návrat není monı. \n\t\tPøed nastavením si prosím vdy ZAZÁLOHUJTE svou databázi.
+UPOZORNÄšNÃ:\tSkiny mohou pozmÄ›nit vÃ¡Å¡ datovÃ½ profil, nÃ¡vrat nenÃ­ moÅ¾nÃ½. \n\t\tPÅ™ed nastavenÃ­m si prosÃ­m vÅ¾dy ZAZÃLOHUJTE svou databÃ¡zi.
 [* Restart may be required for all changes to take effect]
-* Nìkteré ze zmìn mohou vyadovat restart programu.
+* NÄ›kterÃ© ze zmÄ›n mohou vyÅ¾adovat restart programu.
 [Available objects]
-Dostupné objekty
+DostupnÃ© objekty
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Paste]
-Vloit
+VloÅ¾it
 [Object properties]
 Vlastnosti objektu
 [Type]
 [Colour]
 Barva
 [Alpha]
-Prùhlednost
+PrÅ¯hlednost
 [Image file and fitting mode]
-Soubor obrázku a umístìní
+Soubor obrÃ¡zku a umÃ­stÄ›nÃ­
 [File]
 Soubor
 [Borders]
-Rámeèky
+RÃ¡meÄky
 [Fit mode]
-Rozloení
+RozloÅ¾enÃ­
 [Fragment location]
-Umístìní fragmentu
+UmÃ­stÄ›nÃ­ fragmentu
 [Position:]
-Postavení:
+PostavenÃ­:
 [Left]
 [Top]
 [Size:]
 [Width]
-Šíøka
+Å Ã­Å™ka
 [Height]
 [W x H: 0 x 0 pixels]
-Š x V: 0 x 0 pixelù
+Å  x V: 0 x 0 pixelÅ¯
 [Available view modes]
-Pøehled reimù zobrazení
+PÅ™ehled reÅ¾imÅ¯ zobrazenÃ­
 [Include protocols]
-Vèetnì protokolù
+VÄetnÄ› protokolÅ¯
 [+]
 [-]
 -
 [New]
 [Include groups]
-Vèetnì skupin
+VÄetnÄ› skupin
 [Show contacts in groups]
-Zobrazit kontakty ve skupinách
+Zobrazit kontakty ve skupinÃ¡ch
 [Include status modes]
-Vèetnì stavu
+VÄetnÄ› stavu
 [Ok]
 OK
 [Cancel]
 [Sticky contacts]
-Trvalé kontakty
+TrvalÃ© kontakty
 [Clear all]
-Odstranit vše
+Odstranit vÅ¡e
 [Using the contact list on the left side, you can select contacts which will be "sticky" for this view mode. These contacts will ignore the standard filter rules and only use the status mode filter below.]
-Za pouití seznamu kontaktù po levé stranì mùete vybrat ty kontakty, které budou 'pøilepené'. Na tyto kontakty nebude platit ádné ze standardních filtrovacích pravidel, kromì filtrování dle stavu níe.
+Za pouÅ¾itÃ­ seznamu kontaktÅ¯ po levÃ© stranÄ› mÅ¯Å¾ete vybrat ty kontakty, kterÃ© budou 'pÅ™ilepenÃ©'. Na tyto kontakty nebude platit Å¾Ã¡dnÃ© ze standardnÃ­ch filtrovacÃ­ch pravidel, kromÄ› filtrovÃ¡nÃ­ dle stavu nÃ­Å¾e.
 [Protocol]
 [Group]
 [Status mode]
 Stav
 [Automatically clear this view mode after]
-Automaticky vymazat vybranı reim zobrazení po
+Automaticky vymazat vybranÃ½ reÅ¾im zobrazenÃ­ po
 [View mode options]
-Monosti reimu zobrazení
+MoÅ¾nosti reÅ¾imu zobrazenÃ­
 [Editing view mode]
-Úprava pohledu
+Ãšprava pohledu
 [Last message ]
-Poslední zpráva 
+PoslednÃ­ zprÃ¡va 
 [Status Bar]
 [Show status bar]
 [Make sections equal width]
 [Space between]
 Rozestupy
 [Vertical Align]
-Svislé zarovnání
+SvislÃ© zarovnÃ¡nÃ­
 [Horizontal Align]
-Vodorovné zarovnání
+VodorovnÃ© zarovnÃ¡nÃ­
 [Multiline status bar:]
-Víceøádková stavová lišta
+VÃ­ceÅ™Ã¡dkovÃ¡ stavovÃ¡ liÅ¡ta
 [Accounts per line]
-Úèty na øádku
+ÃšÄty na Å™Ã¡dku
 [* To increase Status Bar height:\nSet in Main menu: Frames->Status Bar->Show TitleBar then pull appeared title of status bar up or down.]
-* Stavovı øádek zvıšíte takto:\nHl.nabídka: Rámeèky->Stavová lišta->Zobrazit záhlaví a roztáhnìte zobrazenou lištu myší.
+* StavovÃ½ Å™Ã¡dek zvÃ½Å¡Ã­te takto:\nHl.nabÃ­dka: RÃ¡meÄky->StavovÃ¡ liÅ¡ta->Zobrazit zÃ¡hlavÃ­ a roztÃ¡hnÄ›te zobrazenou liÅ¡tu myÅ¡Ã­.
 [Hold [Shift] to inverse [Right Click] behaviour]
 [[Ctrl]+[Left Click] to filter only  protocol. Click on empty space to show all]
 [Set options per account]
-Nastavit pro kadı úèet zvláš
+Nastavit pro kaÅ¾dÃ½ ÃºÄet zvlÃ¡Å¡Å¥
 [Enable custom account settings]
-Povolit vlastní nastavení úètu
+Povolit vlastnÃ­ nastavenÃ­ ÃºÄtu
 [Hide account completely]
-Skıt úèet úplnì
+SkÃ½t ÃºÄet ÃºplnÄ›
 [Show xStatus Name]
-Zobrazit název rozš.stavu
+Zobrazit nÃ¡zev rozÅ¡.stavu
 [Show protocol icon]
 Zobrazit ikonu protokolu
 [Use connecting Icon]
-Zobrazit prùbìh pøipojování
+Zobrazit prÅ¯bÄ›h pÅ™ipojovÃ¡nÃ­
 [Show xStatus icon]
-Zobrazit ikonu rozš. stavu
+Zobrazit ikonu rozÅ¡. stavu
 [Show both icons]
-Zobrazit obì ikony
+Zobrazit obÄ› ikony
 [Show normal status as overlay]
-Zobrazit stav pøekryvnou ikonou
+Zobrazit stav pÅ™ekryvnou ikonou
 [Status overlay opacity is 75% ]
-Zprùhlednit pøekryv na 75%
+ZprÅ¯hlednit pÅ™ekryv na 75%
 [Show unread emails (if supported)]
-Zobrazit nepøeètené maily (je-li podporováno)
+Zobrazit nepÅ™eÄtenÃ© maily (je-li podporovÃ¡no)
 [Right click opens status menu]
 [Right click opens Miranda menu]
-Pravım tlaèítkem nabídku Mirandy
+PravÃ½m tlaÄÃ­tkem nabÃ­dku Mirandy
 [Space on Left]
 Mezera vlevo
 [Space on right]
@@ -209,62 +209,62 @@ Ano
 [Disable groups]
 [Ask before deleting contacts]
 [Dont move offline user to bottom]
-Kontakty offline nepøesouvat na konec
+Kontakty offline nepÅ™esouvat na konec
 [Contact List]
 [Contact List Sorting]
 [Place offline users out of groups]
-Kontakty offline umístit mimo skupiny
+Kontakty offline umÃ­stit mimo skupiny
 [Gamma correction]
 Gama korekce
 [Default]
 [Full selection]
-Celı øádek
+CelÃ½ Å™Ã¡dek
 [Less selection]
-Èást øádku
+ÄŒÃ¡st Å™Ã¡dku
 [No selection]
-Bez vıbìru
+Bez vÃ½bÄ›ru
 [Selection Mode]
-Zpùsob vıbìru
+ZpÅ¯sob vÃ½bÄ›ru
 [Bring to front if covered]
-Pøi pøekrytí pøenést do popøedí
+PÅ™i pÅ™ekrytÃ­ pÅ™enÃ©st do popÅ™edÃ­
 [Automatically resize window to height of list]
 [maximum]
 [% of screen]
 [Size upwards]
 [Behaviour]
 [Lock manual resize]
-Zamezit ruèní zmìnì velikosti
+Zamezit ruÄnÃ­ zmÄ›nÄ› velikosti
 [Drag to ]
-Táhnutí myši
+TÃ¡hnutÃ­ myÅ¡i
 [Easy Scroll]
-Vylepšené rolování
+VylepÅ¡enÃ© rolovÃ¡nÃ­
 [Easy move]
 [x100 msec]
 x100 ms
 [show delay]
-prodleva zobrazení
+prodleva zobrazenÃ­
 [hide delay]
-prodleva skrytí
+prodleva skrytÃ­
 [Hide method]
-Metoda skrytí
+Metoda skrytÃ­
 [pixels]
 pix.
 [keep on screen]
 ponechat na obrazovce
 [Snap to edges]
-Pøichytávat k okrajùm
+PÅ™ichytÃ¡vat k okrajÅ¯m
 [Event notify area]
-Oblast oznamování událostí
+Oblast oznamovÃ¡nÃ­ udÃ¡lostÃ­
 [Disabled]
 Vypnuto
 [Show automaticaly]
 Zobrazovat automaticky
 [Always Visible]
-Vdy viditelnı
+VÅ¾dy viditelnÃ½
 [Dock to sides]
-Dokovat u okrajù
+Dokovat u okrajÅ¯
 [and minimum]
-a minimálnì
+a minimÃ¡lnÄ›
 [Items]
 [Show divider between online and offline contacts]
 [Hot track items as mouse passes over]
@@ -274,7 +274,7 @@ a minimálnì
 [Make selection highlight translucent]
 [Dim idle contacts]
 ['Hide Offline' means to hide:]
-'Skrıt offline' znamená skrytí:
+'SkrÃ½t offline' znamenÃ¡ skrytÃ­:
 [Groups]
 [Draw a line alongside group names]
 [Sort groups alphabetically]
@@ -286,14 +286,14 @@ a minimálnì
 [milliseconds]
 ms
 [Hide vertical scrollbar]
-Skrıt svislı posuvník
+SkrÃ½t svislÃ½ posuvnÃ­k
 [Fade out entire list when:]
-Zprùhlednit celı seznam pøi:
+ZprÅ¯hlednit celÃ½ seznam pÅ™i:
 [Single click interface]
 [Always show status in tooltip]
 [Disable icon blinking]
 [ms, delay between icon blinking]
-ms (definuje rychlost blikání)
+ms (definuje rychlost blikÃ¡nÃ­)
 [Show]
 Zobrazit
 [Cycle icons every]
@@ -301,84 +301,84 @@ Zobrazit
 [Show multiple icons]
 [Only when statuses differ]
 [System tray icon]
-Ikona v oznamovací oblasti
+Ikona v oznamovacÃ­ oblasti
 [System tray icon mode]
-Chování v oznamovací oblasti
+ChovÃ¡nÃ­ v oznamovacÃ­ oblasti
 [Use xStatus icon]
-Zobrazit ikonu rozšíøeného stavu
+Zobrazit ikonu rozÅ¡Ã­Å™enÃ©ho stavu
 [only when statuses differ]
-pouze pokud se stavy liší
+pouze pokud se stavy liÅ¡Ã­
 [Ignore Empty Extra icons places (arrange to right).]
-Ignorovat prázdná místa po extra ikonách (posunout >>)
+Ignorovat prÃ¡zdnÃ¡ mÃ­sta po extra ikonÃ¡ch (posunout >>)
 [Use 'Meta' protocol icons for Metacontacts]
-Pouít ikony protokolu 'Meta' pro metakontakty
+PouÅ¾Ã­t ikony protokolu 'Meta' pro metakontakty
 [Expand metacontacts]
 Rozbalit metakontakty
 [Avoid doubleclick expand]
-Nerozbalovat dvojím kliknutím
+Nerozbalovat dvojÃ­m kliknutÃ­m
 [Hide all 'Extra icons' for subcontacts]
-Skrıt všechny 'Extra ikony' pro podkontakty
+SkrÃ½t vÅ¡echny 'Extra ikony' pro podkontakty
 [Hide offline subcontacts.]
-Skrıt podkontakty offline
+SkrÃ½t podkontakty offline
 [MetaContacts stuff]
-Další monosti metakontaktù
+DalÅ¡Ã­ moÅ¾nosti metakontaktÅ¯
 [Additional stuff]
-Další monosti
+DalÅ¡Ã­ moÅ¾nosti
 [For other stuff MetaContacts plugin should be loaded.\n\nhttp://miranda-ng.org]
 [Allow internal requesting of away message text]
-Povolit interní ádosti o automatickou odpovìï
+Povolit internÃ­ Å¾Ã¡dosti o automatickou odpovÄ›Ä
 [Subcontacts indent:]
-Odsazení podkontaktù:
+OdsazenÃ­ podkontaktÅ¯:
 [Remove away message if contact became offline]
-Po odchodu kontaktu odstranit autom. odpovìï
+Po odchodu kontaktu odstranit autom. odpovÄ›Ä
 [Use improved search method in contactlist]
 [Show time only if it is different from current time]
-Zobrazit èas pouze kdy se liší od místního
+Zobrazit Äas pouze kdyÅ¾ se liÅ¡Ã­ od mÃ­stnÃ­ho
 [Show contact time as row item]
-Zobrazit èas kontaktu jako poloku øádku
+Zobrazit Äas kontaktu jako poloÅ¾ku Å™Ã¡dku
 [Appearance]
 [Pin to desktop]
 [Client area margins]
-Vnitøní okraje okna
+VnitÅ™nÃ­ okraje okna
 [Thin border main window]
-Hlavní okno s tenkım rámeèkem
+HlavnÃ­ okno s tenkÃ½m rÃ¡meÄkem
 [Borderless main window]
-Hlavní okno bez rámeèku
+HlavnÃ­ okno bez rÃ¡meÄku
 [Show menu bar]
 [Show title bar]
-Zobrazit záhlaví
+Zobrazit zÃ¡hlavÃ­
 [Title bar text:]
 [Tool style main window]
-Zjednodušené záhlaví okna
+ZjednoduÅ¡enÃ© zÃ¡hlavÃ­ okna
 [Minimize to tray]
 [Translucency options (Windows 2000/XP+)]
 [Enable drop shadow (restart required)]
-Zobrazit stín (vyaduje restart)
+Zobrazit stÃ­n (vyÅ¾aduje restart)
 [Frames]
 [Between frames:]
 Mezi okny:
 [After captions:]
-Pod záhlavím:
+Pod zÃ¡hlavÃ­m:
 [Gaps]
 Mezery
 [Use Non-Layered mode]
-Pouít reim bez skinu
+PouÅ¾Ã­t reÅ¾im bez skinu
 [Round corners]
 Zaoblit rohy
 [Non-layered mode]
-Reim bez skinu
+ReÅ¾im bez skinu
 [Disable Skin Engine]
-Vypnout skinovací aparát
+Vypnout skinovacÃ­ aparÃ¡t
 [Enable Aero Glass (Vista)]
 Povolit Aero Glass (Vista)
 [Order of items:]
-Poøadí prvkù:
+PoÅ™adÃ­ prvkÅ¯:
 [Min row height:]
-Min. vıška øádku:
+Min. vÃ½Å¡ka Å™Ã¡dku:
 [Row border:]
-Rámeèek øádku:
+RÃ¡meÄek Å™Ã¡dku:
 [Variable row height]
-Dynamicky mìnit vıšku øádku
+Dynamicky mÄ›nit vÃ½Å¡ku Å™Ã¡dku
 [Align left items to left]
 Prvky vlevo zarovnat doleva
 [Align right items to right]
@@ -386,130 +386,130 @@ Prvky vpravo zarovnat doprava
 [Up]
 [Down]
 [Left margin:]
-Levı okraj:
+LevÃ½ okraj:
 [Right margin:]
-Pravı okraj:
+PravÃ½ okraj:
 [Compact mode\n(Show avatars and additional text on selected contacts only)]
 [Draw border on avatar]
-Orámovat avatary
+OrÃ¡movat avatary
 [Draw overlay icons]
-Pøekrıvat upøesòujícími ikonami
+PÅ™ekrÃ½vat upÅ™esÅˆujÃ­cÃ­mi ikonami
 [Round corners of avatars]
-Zaoblit rohy avatarù
+Zaoblit rohy avatarÅ¯
 [Ignore size for row height calcs]
-Ignorovat vypoètenou vıšku øádku
+Ignorovat vypoÄtenou vÃ½Å¡ku Å™Ã¡dku
 [Border Color:]
-Barva rámeèku:
+Barva rÃ¡meÄku:
 [Custom corner size:]
-Velikost zakulacení:
+Velikost zakulacenÃ­:
 [Normal overlay icon]
-Pøekryvná ikona
+PÅ™ekryvnÃ¡ ikona
 [Protocol status icon]
 Ikona stavu protokolu
 [Contact icon]
 Ikona kontaktu
 [height]
-vıška
+vÃ½Å¡ka
 [Max width]
-Max.šíøka
+Max.Å¡Ã­Å™ka
 [Use old render method (Fast, but has artefacts)]
-Pouít staré vykreslování (rychlé, ale zanechává stopy)
+PouÅ¾Ã­t starÃ© vykreslovÃ¡nÃ­ (rychlÃ©, ale zanechÃ¡vÃ¡ stopy)
 [Hide icon when showing avatar]
-Skrıt ikonu pøi zobrazeném avataru
+SkrÃ½t ikonu pÅ™i zobrazenÃ©m avataru
 [Draw icon in avatar space]
-Umístit ikonu do prostoru avataru
+UmÃ­stit ikonu do prostoru avataru
 [Hide groups icon]
-Skrıt ikonu skupin
+SkrÃ½t ikonu skupin
 [Always show "Always visibile" icon]
-Vdy zobrazit ikonu 'Vdy viditelnı'
+VÅ¾dy zobrazit ikonu 'VÅ¾dy viditelnÃ½'
 [Use extra status icon instead protocol]
-Zobrazit rozšíøenı stav místo ikony protokolu
+Zobrazit rozÅ¡Ã­Å™enÃ½ stav mÃ­sto ikony protokolu
 [Draw normal status as overlay]
-Vykreslit normální stav jako pøekryvnou ikonu
+Vykreslit normÃ¡lnÃ­ stav jako pÅ™ekryvnou ikonu
 [Right-To-Left reading mode (mirror template)]
-Reim Zprava doleva (zrcadlová šablona)
+ReÅ¾im Zprava doleva (zrcadlovÃ¡ Å¡ablona)
 [Replace smileys in clist]
-Grafické smajlíky v seznamu
+GrafickÃ© smajlÃ­ky v seznamu
 [Use protocol smileys]
 [Draw smileys on first line]
-Vykreslit smajlíky na prvním øádku
+Vykreslit smajlÃ­ky na prvnÃ­m Å™Ã¡dku
 [Resize smileys and 'Listining to' icon]
-Mìnit velikost smajlíkù a ikony 'Poslech hudby'
+MÄ›nit velikost smajlÃ­kÅ¯ a ikony 'Poslech hudby'
 [Align to right]
 Zarovnat doprava
 [Append nick if different from custom name]
-Pøipojit pøezdívku, liší-li se od vlastního jména
+PÅ™ipojit pÅ™ezdÃ­vku, liÅ¡Ã­-li se od vlastnÃ­ho jmÃ©na
 [Trim long text with ellipsis]
-Zkrátit dlouhı text trojteèkou
+ZkrÃ¡tit dlouhÃ½ text trojteÄkou
 [Show second line]
-Zobrazit druhı øádek
+Zobrazit druhÃ½ Å™Ã¡dek
 [Top space:]
-Horní okraj:
+HornÃ­ okraj:
 [Draw smileys on second line]
-Vykreslit smajlíky na druhém øádku
+Vykreslit smajlÃ­ky na druhÃ©m Å™Ã¡dku
 [Text:]
 Text:
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Nickname]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Away Message]
-Autom. odpovìï
+Autom. odpovÄ›Ä
 [Listening to]
 [Contact time]
-Èas
+ÄŒas
 [Show status if there isn't away message]
-Zobrazit stav, pokud není autom. odpovìï
+Zobrazit stav, pokud nenÃ­ autom. odpovÄ›Ä
 [Show listening to if there isn't away message]
-Zobrazit informaci o hudbì, není-li nastavena zpráva nepøítomnosti
+Zobrazit informaci o hudbÄ›, nenÃ­-li nastavena zprÃ¡va nepÅ™Ã­tomnosti
 [XStatus has priority]
-Preferovat rozšíøenı stav
+Preferovat rozÅ¡Ã­Å™enÃ½ stav
 [Use 'XStatus: XMessage']
-Rozšíøená autom. odpovìï
+RozÅ¡Ã­Å™enÃ¡ autom. odpovÄ›Ä
 [(Variables will be replaced)]
-(Promìnné budou nahrazeny)
+(PromÄ›nnÃ© budou nahrazeny)
 [Show third line]
-Zobrazit tøetí øádek
+Zobrazit tÅ™etÃ­ Å™Ã¡dek
 [Draw smileys on third line]
-Vykreslit smajlíky na tøetím øádku
+Vykreslit smajlÃ­ky na tÅ™etÃ­m Å™Ã¡dku
 [Preview]
-Náhled
+NÃ¡hled
 [Top/Left]
-Vlevo nahoøe
+Vlevo nahoÅ™e
 [Bottom/Right]
 Vpravo dole
 [Position (vertical)]
-Umístìní (svislé)
+UmÃ­stÄ›nÃ­ (svislÃ©)
 [Align]
-Zarovnání
+ZarovnÃ¡nÃ­
 [Options]
 [Visible]
 [Show Title]
-Zobrazit záhlaví
+Zobrazit zÃ¡hlavÃ­
 [Locked]
 Uzamknout
 [Border]
 [Floating]
 [Frames Order]
-Poøadí rámeèkù
+PoÅ™adÃ­ rÃ¡meÄkÅ¯
 [UNDER CONSTRUCTION!!!           IT DOES NOT WORK]
-VE VİSTAVBÌ!!!            NEFUNGUJE
+VE VÃSTAVBÄš!!!            NEFUNGUJE
 [Row template]
-Šablony øádkù
+Å ablony Å™Ã¡dkÅ¯
 [Add container]
-Pøidat kontejner
+PÅ™idat kontejner
 [Remove container]
 Odstranit kontejner
 [Vertical align:]
-Svislé zarovnání:
+SvislÃ© zarovnÃ¡nÃ­:
 [Horizontal align:]
-Vodorovné zarovnání:
+VodorovnÃ© zarovnÃ¡nÃ­:
 [Container type:]
 Typ kontejneru:
 [Container width:]
-Šíøka kontejneru:
+Å Ã­Å™ka kontejneru:
 [Container height:]
-Vıška kontejneru:
+VÃ½Å¡ka kontejneru:
 [Layered]
 Se skinem
 [Move up]
@@ -536,7 +536,7 @@ Se skinem
 [&New Subgroup]
 [&Hide Offline Users in here]
 [&Show Offline Users in here]
-Zobrazit &uivatele offline
+Zobrazit &uÅ¾ivatele offline
 [&Rename Group]
 [&Delete Group]
 ;file \plugins\Clist_modern\src\modern_aniavatars.cpp
@@ -568,31 +568,31 @@ Zobrazit &uivatele offline
 [*.gif]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
-Kontakty/Pøekrytí avataru
+Kontakty/PÅ™ekrytÃ­ avataru
 [Contact List/Status Overlay]
-Kontakty/Pøekrytí stavu
+Kontakty/PÅ™ekrytÃ­ stavu
 [Contact List smileys]
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it?]
-Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k nìmu pøidat?
+Chcete zkonvertovat kontakt '%s' na metakontakt a '%s' k nÄ›mu pÅ™idat?
 [Converting to MetaContact]
 Konverze na metakontakt
 [Do You want contact '%s' to be converted to MetaContact and '%s' be added to it (remove it from '%s]
 [Converting to MetaContact (Moving)]
-Konverze na metakontakt (pøesun)
+Konverze na metakontakt (pÅ™esun)
 [Do you want to contact '%s' be added to metacontact '%s'?]
-Chcete pøidat kontakt '%s' k metakontaktu '%s'?
+Chcete pÅ™idat kontakt '%s' k metakontaktu '%s'?
 [Adding contact to MetaContact]
-Pøidávání k metakontaktu
+PÅ™idÃ¡vÃ¡nÃ­ k metakontaktu
 [Do You want contact '%s' to be default ?]
-Chcete, aby kontakt '%s' byl vıchozí?
+Chcete, aby kontakt '%s' byl vÃ½chozÃ­?
 [Set default contact]
-Nastavení vıchozího kontaktu
+NastavenÃ­ vÃ½chozÃ­ho kontaktu
 [Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
-Chcete odstranit kontakt '%s' z metakontaktu '%s' a pøidat jej do '%s'?
+Chcete odstranit kontakt '%s' z metakontaktu '%s' a pÅ™idat jej do '%s'?
 [Changing MetaContacts (Moving)]
-Zmìna metakontaktu (pøesun)
+ZmÄ›na metakontaktu (pÅ™esun)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
-Chcete pøidat kontakt '%s' do metakontaktu '%s'?
+Chcete pÅ™idat kontakt '%s' do metakontaktu '%s'?
 [%s\\%s]
 %s\\%s
 ;file \plugins\Clist_modern\src\modern_clcitems.cpp
@@ -601,26 +601,26 @@ Chcete pøidat kontakt '%s' do metakontaktu '%s'?
 [%s|]
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
-Seznam kontaktù/Jména kontaktù
+Seznam kontaktÅ¯/JmÃ©na kontaktÅ¯
 [Contact List/Row Items]
-Seznam kontaktù/Poloky øádkù
+Seznam kontaktÅ¯/PoloÅ¾ky Å™Ã¡dkÅ¯
 [Contact List/Frame texts]
-Seznam kontaktù/Texty rámeèkù
+Seznam kontaktÅ¯/Texty rÃ¡meÄkÅ¯
 [Contact List/Special colours]
-Seznam kontaktù/Speciální barvy
+Seznam kontaktÅ¯/SpeciÃ¡lnÃ­ barvy
 [Arial]
 [General]
 [Tray]
-Lišta
+LiÅ¡ta
 [List]
 Seznam
 [Window]
 [Skins]
 Skiny
 [List Background]
-Pozadí seznamu
+PozadÃ­ seznamu
 [Not focused]
-Neaktivní
+NeaktivnÃ­
 [Offline]
 [Online]
 [Away]
@@ -633,22 +633,22 @@ Neaktivní
 [shlwapi]
 [Name]
 [Name (use locale settings)]
-Jméno (pouít místní nastavení)
+JmÃ©no (pouÅ¾Ã­t mÃ­stnÃ­ nastavenÃ­)
 [Last message time]
-Èas poslední zprávy
+ÄŒas poslednÃ­ zprÃ¡vy
 [Account Name]
-Název úètu
+NÃ¡zev ÃºÄtu
 [Rate]
 [-Nothing-]
 ---
 [Global]
-Globální
+GlobÃ¡lnÃ­
 [Hide to tray]
 Do oznam. oblasti
 [Behind left edge]
-Za levı okraj
+Za levÃ½ okraj
 [Behind right edge]
-Za pravı okraj
+Za pravÃ½ okraj
 [Progman]
 [Fonts]
 ;file \plugins\Clist_modern\src\modern_clcutils.cpp
@@ -657,18 +657,18 @@ UPRAVIT
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [%s: %s (%s)]
 [EventArea]
-Oblast pro události
+Oblast pro udÃ¡losti
 [Event Area]
-Oblast pro události
+Oblast pro udÃ¡losti
 [No Events]
-ádné události
+Å½Ã¡dnÃ© udÃ¡losti
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
 P&riorita kontaktu
 [%s (%s)]
 %s (%s)
 [Show even if offline]
-Zobrazit i kdy je offline
+Zobrazit i kdyÅ¾ je offline
 ;file \plugins\Clist_modern\src\modern_clistmod.cpp
 [kernel32]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
@@ -679,25 +679,25 @@ Ikona
 Text
 [Extra icons]
 [Animate Avatars (GDI+ and Avatar Service module (avs.dll) are required)]
-Animovat avatary (je zapotøebí GDI+ a modul Avatar Service (avs.dll))
+Animovat avatary (je zapotÅ™ebÃ­ GDI+ a modul Avatar Service (avs.dll))
 [Left align group names]
-Názvy skupiny vlevo
+NÃ¡zvy skupiny vlevo
 [Center group names]
-Názvy skupin uprostøed
+NÃ¡zvy skupin uprostÅ™ed
 [Right align group names]
-Názvy skupin vpravo
+NÃ¡zvy skupin vpravo
 [Row]
-Øádek
+Å˜Ã¡dek
 [Row design]
-Vzhled øádku
+Vzhled Å™Ã¡dku
 [Second Line]
 [Third Line]
-Tøetí øádek
+TÅ™etÃ­ Å™Ã¡dek
 [Row items]
-Øádky
+Å˜Ã¡dky
 ;file \plugins\Clist_modern\src\modern_clistsettings.cpp
 [(Unknown Contact)]
-(neznámı kontakt)
+(neznÃ¡mÃ½ kontakt)
 ;file \plugins\Clist_modern\src\modern_clisttray.cpp
 [&Find/Add Contacts...]
 &Vyhledat kontakty...
@@ -711,7 +711,7 @@ Tøetí øádek
 [Show Contact &Avatar]
 Zobrazit a&vatara
 [Hide Contact &Avatar]
-Skrıt a&vatara
+SkrÃ½t a&vatara
 [My Contacts]
 [Miranda::GetProfile]
 ;file \plugins\Clist_modern\src\modern_cluiframes.cpp
@@ -744,16 +744,16 @@ Skrıt a&vatara
 [&New SubGroup]
 ;file \plugins\Clist_modern\src\modern_keyboard.cpp
 [Close Miranda]
-Zavøít Mirandu
+ZavÅ™Ã­t Mirandu
 [Main]
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 [Restore last status]
-Obnovit pøedchozí stav
+Obnovit pÅ™edchozÃ­ stav
 [Show/Hide Offline Users]
 ;file \plugins\Clist_modern\src\modern_newrowopts.cpp
 [Init NewRow Dialog]
 [Notify]
-Oznámení
+OznÃ¡menÃ­
 ;file \plugins\Clist_modern\src\modern_rowtemplateopt.cpp
 [none]
 ---
@@ -780,13 +780,13 @@ Oznámení
 [Empty %s cell]
 [column]
 [line]
-øádek
+Å™Ã¡dek
 [columns]
 [lines]
-øádky
+Å™Ã¡dky
 [%s, contain %s]
 [ layered]
- moderní
+ modernÃ­
 [left]
 [hCenter]
 [right]
@@ -795,23 +795,23 @@ Oznámení
 [bottom]
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
 [- Empty - (do not draw this object)]
-- Prázdnı - (nevykreslovat tento objekt)
+- PrÃ¡zdnÃ½ - (nevykreslovat tento objekt)
 [Solid fill object]
 Vyplnit barvou
 [Image (draw image)]
-Obrázek (vykreslit obr.)
+ObrÃ¡zek (vykreslit obr.)
 [Fragment (draw portion of image)]
-Fragment (vykreslit èást obrázku)
+Fragment (vykreslit ÄÃ¡st obrÃ¡zku)
 [Stretch Both directions]
-Roztáhnout obìma smìry
+RoztÃ¡hnout obÄ›ma smÄ›ry
 [Stretch Vertical, Tile Horizontal]
-Roztáhnout svisle, opakovat vodorovnì
+RoztÃ¡hnout svisle, opakovat vodorovnÄ›
 [Tile Vertical, Stretch Horizontal]
-Opakovat svisle, roztáhnout vodorovnì
+Opakovat svisle, roztÃ¡hnout vodorovnÄ›
 [Tile Both directions]
-Opakovat obìma smìry
+Opakovat obÄ›ma smÄ›ry
 [Image size is]
-Rozmìry obrázku jsou
+RozmÄ›ry obrÃ¡zku jsou
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Skin_Description_Section]
 [SkinFolder]
@@ -822,19 +822,19 @@ Profil
 [fyr.mirandaim.ru]
 [%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
-Skin seznamu kontaktù pro Mirandu
+Skin seznamu kontaktÅ¯ pro Mirandu
 [JID: fyr@jabber.ru]
 [%s\\*.msf]
 [%s\\*]
 [%Default Skin%]
-%Vıchozí skin%
+%VÃ½chozÃ­ skin%
 [%%Default Skin%%]
-%%Vıchozí skin%%
+%%VÃ½chozÃ­ skin%%
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
 [ModernStatusBar]
 ;file \plugins\Clist_modern\src\modern_statusbar_options.cpp
 [Center]
-Na støed
+Na stÅ™ed
 [Right]
 Vpravo
 [Bottom]
@@ -842,59 +842,59 @@ Dole
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
 [icons\\toolbar_icons.dll]
 [Toolbar]
-Lišta tlaèítek
+LiÅ¡ta tlaÄÃ­tek
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
 ;file \plugins\Clist_modern\src\modern_utils.cpp
 [Error]
 ;file \plugins\Clist_modern\src\modern_viewmodebar.cpp
 [Ungrouped contacts]
-Nesdruené kontakty
+NesdruÅ¾enÃ© kontakty
 [And]
 AND
 [Older than]
-starší ne
+starÅ¡Ã­ neÅ¾
 [Newer than]
-novìjší ne
+novÄ›jÅ¡Ã­ neÅ¾
 [Minutes]
 min.
 [Hours]
 [Days]
-Dnù
+DnÅ¯
 [Configuring view mode: %s]
 Konfigurace pohledu: %s
 [All contacts]
-Všechny kontakty
+VÅ¡echny kontakty
 [Filtering]
-Filtrování
+FiltrovÃ¡nÃ­
 [*** All contacts ***]
-*** všechny kontakty ***
+*** vÅ¡echny kontakty ***
 [Configure view modes]
-Konfigurace reimu zobrazení
+Konfigurace reÅ¾imu zobrazenÃ­
 [Really delete this view mode? This cannot be undone]
-Opravdu chcete odstranit reim zobrazení? Tuto akci nelze vzít zpìt.
+Opravdu chcete odstranit reÅ¾im zobrazenÃ­? Tuto akci nelze vzÃ­t zpÄ›t.
 [Delete a view mode]
-Odstranit reim zobrazení
+Odstranit reÅ¾im zobrazenÃ­
 [A view mode with this name does alredy exist]
-Reim zobrazení s tímto názvem ji existuje
+ReÅ¾im zobrazenÃ­ s tÃ­mto nÃ¡zvem jiÅ¾ existuje
 [Duplicate name]
-Duplicitní jméno
+DuplicitnÃ­ jmÃ©no
 [All Contacts]
-Všechny kontakty
+VÅ¡echny kontakty
 [Setup View Modes...]
-Nastavit reim zobrazení...
+Nastavit reÅ¾im zobrazenÃ­...
 [Select a view mode]
-Vıbìr reim zobrazení
+VÃ½bÄ›r reÅ¾im zobrazenÃ­
 [Setup view modes]
-Nastavení reimù zobrazení
+NastavenÃ­ reÅ¾imÅ¯ zobrazenÃ­
 [Clear view mode and return to default display]
-Vrátí zpìt vıchozí reim zobrazení
+VrÃ¡tÃ­ zpÄ›t vÃ½chozÃ­ reÅ¾im zobrazenÃ­
 [Reset view mode]
-Vıchozí reim zobrazení
+VÃ½chozÃ­ reÅ¾im zobrazenÃ­
 [clisticons.dll]
 [CLVMFrameWindow]
 [View modes]
-Reimy zobrazení
+ReÅ¾imy zobrazenÃ­
 [View Modes]
 Pohledy
 ;file \plugins\Clist_modern\src\hdr\modern_cluiframes.h
@@ -902,17 +902,17 @@ Pohledy
 [CLUIFrameTitleBar]
 ;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
 [Shadow at left]
-Stín nalevo
+StÃ­n nalevo
 [Shadow at right]
-Stín napravo
+StÃ­n napravo
 [Outline]
-Orámovat
+OrÃ¡movat
 [Outline smooth]
-Orámovat jemnì
+OrÃ¡movat jemnÄ›
 [Smooth bump]
-Jemnı úkos
+JemnÃ½ Ãºkos
 [Contour thin]
-Tenká kontura
+TenkÃ¡ kontura
 [Contour heavy]
-Silná kontura
+SilnÃ¡ kontura
 ;file \plugins\Clist_modern\src\hdr\modern_static_clui.h

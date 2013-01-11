@@ -1,4 +1,4 @@
-;[% of screen]
+﻿;[% of screen]
 ;[&About]
 ;[&Align]
 ;[&Away\tCtrl+2]

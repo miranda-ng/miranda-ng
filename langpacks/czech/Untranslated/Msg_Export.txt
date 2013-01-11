@@ -1,4 +1,4 @@
-;[      History for\r\n]
+﻿;[      History for\r\n]
 ;[%-*s]
 ;[%.2d]
 ;[%About%]

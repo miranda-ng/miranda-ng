@@ -1,4 +1,4 @@
-#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
+ï»¿#muuid {9e1d9244-606c-4ef4-99a0-1d7d23cb7601}
 ;langpack template for Omegle
 ;file \protocols\Omegle\res\omegle.rc
 [Server:]
@@ -13,7 +13,7 @@ Server:
 [Automatically connect to another stranger when current disconnects]
 [Load count of users on actual server after connection]
 [Enable logging for debugging purposes]
-Povolit záznam pro úèely ladìní
+Povolit zÃ¡znam pro ÃºÄely ladÄ›nÃ­
 [Meet strangers with common interests]
 [Your interests (separated by commas):]
 ;file \protocols\Omegle\src\chat.cpp
@@ -28,9 +28,9 @@ Server
 [You aren't connected to any stranger. Send '/help' or '/commands' for help.]
 [You can't send messages in question mode.]
 [Admin]
-Správce
+SprÃ¡vce
 [Normal]
-Normální
+NormÃ¡lnÃ­
 [Omegle is a great way of meeting new friends!]
 [You]
 ;file \protocols\Omegle\src\communication.cpp
@@ -57,12 +57,12 @@ Cizinec
 [We are disconnecting now, wait...]
 ;file \protocols\Omegle\src\proto.cpp
 [%s server connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 [Unable to get Netlib connection for Omegle]
 [Visible name]
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Account]
-Úèet
+ÃšÄet
 ;file \protocols\Omegle\src\theme.cpp
 [Omegle Icon]

@@ -1,4 +1,4 @@
-;[Action "$" exists, do you want to rewrite it?]
+﻿;[Action "$" exists, do you want to rewrite it?]
 ;[Action list]
 ;[Append data to file]
 ;[Apply format]

@@ -1,12 +1,12 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for actman
 ;file \plugins\Actman\options.rc
 [Delete]
 [&Change]
-Z&mìnit...
+Z&mÄ›nit...
 [C&ancel]
 [Reload]
-Naèíst znovu
+NaÄÃ­st znovu
 [Export]
 Exportovat
 [Import]
@@ -17,7 +17,7 @@ Akce
 [Choose Contact]
 [Dropdown list format]
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [You can use %name%, %uid%, %account% and %group% macros]
 [wParam type]
 [lParam type]
@@ -30,13 +30,13 @@ Pouít
 [Other Action groups]
 [Message title]
 [Yes to &All]
-&Ano všem
+&Ano vÅ¡em
 ;file \plugins\Actman\hooks\hooks.rc
 ;file \plugins\Actman\tasks\tasks.rc
 [Date]
 Datum
 [Days]
-Dnù
+DnÅ¯
 [Time]
 [Repeat, times]
 [Interval]
@@ -58,7 +58,7 @@ Dnù
 [New]
 [Down]
 [Test]
-Ovìøit
+OvÄ›Å™it
 [Apply format]
 [Use Variables]
 [Select contact to open it''s window]

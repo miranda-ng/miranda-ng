@@ -1,71 +1,71 @@
-#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
+ï»¿#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 ;langpack template for NewEventNotify
 ;file \plugins\NewEventNotify\res\resource.rc
 [General Options]
-Obecné monosti
+ObecnÃ© moÅ¾nosti
 [Show entry in the PopUps menu]
-Zobrazit i v nabídce Oznámení
+Zobrazit i v nabÃ­dce OznÃ¡menÃ­
 [Temporarily disable Event Popups]
-Doèasnì vypnout oznámení
+DoÄasnÄ› vypnout oznÃ¡menÃ­
 [Show Preview of Event in Popup]
-Zobrazit náhled události
+Zobrazit nÃ¡hled udÃ¡losti
 [Popup Options]
-Monosti oznámení
+MoÅ¾nosti oznÃ¡menÃ­
 [Message]
 [URL]
 [File]
 Soubor
 [Others]
-Ostatní
+OstatnÃ­
 [Text]
 Text
 [Background]
-Pozadí
+PozadÃ­
 [Time to expires]
 Expirace
 [Notify me of ...]
-Upozornìní
+UpozornÄ›nÃ­
 [Left Click Actions]
-Levé tlaèítko myši
+LevÃ© tlaÄÃ­tko myÅ¡i
 [Dismiss Popup]
-Zavøít oznámení
+ZavÅ™Ã­t oznÃ¡menÃ­
 [Open Event]
-Otevøít událost
+OtevÅ™Ã­t udÃ¡lost
 [Dismiss Event]
-Zrušit událost
+ZruÅ¡it udÃ¡lost
 [Right Click Actions]
-Pravé tlaèítko myši
+PravÃ© tlaÄÃ­tko myÅ¡i
 [Time Expires Actions]
-Pøi èasové expiraci
+PÅ™i ÄasovÃ© expiraci
 [Message-Event only]
-Pouze pro zprávy
+Pouze pro zprÃ¡vy
 [Don't show Popup when Message-Dialog is already open]
-Nezobrazit oznámení, je-li okno se zprávou otevøeno
+Nezobrazit oznÃ¡menÃ­, je-li okno se zprÃ¡vou otevÅ™eno
 [Hide Popup when sending new message]
-Skrıt oznámení po odeslání nové zprávy
+SkrÃ½t oznÃ¡menÃ­ po odeslÃ¡nÃ­ novÃ© zprÃ¡vy
 [Open Reply-Dialog instead of reading the Message]
-Otevøít okno pro odpovìï namísto ètení zprávy
+OtevÅ™Ã­t okno pro odpovÄ›Ä namÃ­sto ÄtenÃ­ zprÃ¡vy
 [Merge popups from one user]
-Slouèit oznámení jednoho uivatele
+SlouÄit oznÃ¡menÃ­ jednoho uÅ¾ivatele
 [Preview]
-Náhled
+NÃ¡hled
 [Show Date]
 Zobrazit datum
 [Show Time]
-Zobrazit èas
+Zobrazit Äas
 [Show Headers]
-Zobrazit záhlaví
+Zobrazit zÃ¡hlavÃ­
 [Number of begin shown messages]
-Poèet zobrazenıch zpráv
+PoÄet zobrazenÃ½ch zprÃ¡v
 [Last message display first]
-Poslední zprávu zobrazit první
+PoslednÃ­ zprÃ¡vu zobrazit prvnÃ­
 [Last message display last]
-Poslední zprávu zobrazit poslední
+PoslednÃ­ zprÃ¡vu zobrazit poslednÃ­
 [Edit]
 [No popups for RSS contacts]
-Nezobrazit oznámení pro zdroje RSS
+Nezobrazit oznÃ¡menÃ­ pro zdroje RSS
 [No popups for read messages]
-Neoznamovat pøeètené zprávy
+Neoznamovat pÅ™eÄtenÃ© zprÃ¡vy
 ;file \plugins\NewEventNotify\src\main.cpp
 [%s  (%s)]
 [TMsgWindow]
@@ -79,25 +79,25 @@ Neoznamovat pøeètené zprávy
 [PopUps]
 ;file \plugins\NewEventNotify\src\options.cpp
 [Event Notify]
-Oznámení události
+OznÃ¡menÃ­ udÃ¡losti
 ;file \plugins\NewEventNotify\src\popup.cpp
 [Received %d contacts.]
 [ added you to the contact list]
- si vás pøidal do seznamu kontaktù
+ si vÃ¡s pÅ™idal do seznamu kontaktÅ¯
 [ requested authorization]
- ádá o autorizaci
+ Å¾Ã¡dÃ¡ o autorizaci
 [This is a sample message event :-)]
-Zkouška události Zpráva :-)
+ZkouÅ¡ka udÃ¡losti ZprÃ¡va :-)
 [This is a sample URL event ;-)]
 [This is a sample file event :-D]
-Zkouška události Soubor :-D
+ZkouÅ¡ka udÃ¡losti Soubor :-D
 [This is a sample other event ;-D]
 [Plugin Test]
-Zkouška doplòku
+ZkouÅ¡ka doplÅˆku
 [\0\0]
 [[b]%s %d[/b]\n]
 [Number of new message: ]
-Poèet novıch zpráv: 
+PoÄet novÃ½ch zprÃ¡v: 
 [%s...\n]
 [%Y.%m.%d]
 [ %H:%M]

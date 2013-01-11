@@ -1,4 +1,4 @@
-#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
+ï»¿#muuid {efd15f16-7ae4-40d7-a8e3-a411ed747bd5}
 ;============================================================
 ;  File: yapp.dll
 ;  Plugin: YAPP
@@ -7,68 +7,68 @@
 ;============================================================
 ;file \plugins\YAPP\res\yapp.rc
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Case sensitive]
-Rozlišovat malá a VELKÁ
+RozliÅ¡ovat malÃ¡ a VELKÃ
 [Default Timeout]
-Doba zobrazení
+Doba zobrazenÃ­
 [Never timeout]
 Zobrazovat trvale
 [Set timeout:]
-Autom. skrıt po:
+Autom. skrÃ½t po:
 [Width:]
-Šíøka:
+Å Ã­Å™ka:
 [Maximum height:]
-Maximální vıška:
+MaximÃ¡lnÃ­ vÃ½Å¡ka:
 [Options]
 [Opacity(%):]
-Prùhlednost (%):
+PrÅ¯hlednost (%):
 [Border]
 [Round corners (window)]
 Zaoblit rohy oken
 [Preview]
-Náhled
+NÃ¡hled
 [Animate]
 Animovat
 [Transparent background]
-Prùhledné pozadí
+PrÅ¯hlednÃ© pozadÃ­
 [Layout]
 [Avatar size:]
 Velikost avataru:
 [Disable when]
-Neaktivní pøi
+NeaktivnÃ­ pÅ™i
 [Global hover]
-Nezavírat po umístìní myši
+NezavÃ­rat po umÃ­stÄ›nÃ­ myÅ¡i
 [Sidebar width:]
-Šíøka boèn. pruhu:
+Å Ã­Å™ka boÄn. pruhu:
 [Text indent:]
-Odsazení textu:
+OdsazenÃ­ textu:
 [Padding:]
-Vyplnìní:
+VyplnÄ›nÃ­:
 [Round corners (avatar)]
-Zaoblit rohy avatarù
+Zaoblit rohy avatarÅ¯
 [Text colour:]
 Barva textu:
 [Background colour:]
 [Set timeout]
-Nastavit dobu zobrazení
+Nastavit dobu zobrazenÃ­
 [Timeout value (0 = default):]
-Prodleva (0 = vıchozí):
+Prodleva (0 = vÃ½chozÃ­):
 ;file \plugins\YAPP\src\message_pump.cpp
 [default]
-vıchozí
+vÃ½chozÃ­
 [Popup]
 ;file \plugins\YAPP\src\notify_imp.cpp
 [YAPP Popups]
 ;file \plugins\YAPP\src\options.cpp
 [Example]
-Pøíklad
+PÅ™Ã­klad
 [The quick brown fox jumped over the lazy dog.]
-luouèkı kùò úpìl ïábelské ódy.
+Å½luÅ¥ouÄkÃ½ kÅ¯Åˆ ÃºpÄ›l ÄÃ¡belskÃ© Ã³dy.
 [Example With a Long Title]
-Pøíklad dlouhého záhlaví
+PÅ™Ã­klad dlouhÃ©ho zÃ¡hlavÃ­
 [Thequickbrownfoxjumpedoverthelazydog.]
-luouèkıkùòúpìlïábelskéódy.
+Å½luÅ¥ouÄkÃ½kÅ¯ÅˆÃºpÄ›lÄÃ¡belskÃ©Ã³dy.
 [An avatar.]
 avatar
 [Bottom right]
@@ -76,21 +76,21 @@ Vpravo dole
 [Bottom left]
 Vlevo dole
 [Top right]
-Vpravo nahoøe
+Vpravo nahoÅ™e
 [Top left]
-Vlevo nahoøe
+Vlevo nahoÅ™e
 [Icon on left]
 Ikona vlevo
 [Icon on right]
 Ikona vpravo
 [No time]
-Bez èasu
+Bez Äasu
 [Time on left]
-Èas vlevo
+ÄŒas vlevo
 [Time on right]
-Èas vpravo
+ÄŒas vpravo
 [Time above avatar]
-Èas nad avatarem
+ÄŒas nad avatarem
 [No avatar]
 Bez avataru
 [Left avatar]
@@ -100,14 +100,14 @@ Avatar vpravo
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Full-screen app running]
-Celoobrazovkovı reim
+CeloobrazovkovÃ½ reÅ¾im
 [You cannot set a default timeout of 0.\nValue has been reset.]
 [Error]
 [PopUps]
 [Settings]
-Nastavení
+NastavenÃ­
 [Classes]
-Tøídy
+TÅ™Ã­dy
 ;file \plugins\YAPP\src\popwin.cpp
 [user32.dll]
 ;file \plugins\YAPP\src\popwin.h
@@ -117,35 +117,35 @@ Tøídy
 [CreatePopupExA]
 [CreatePopupW]
 [Disable Popups]
-Vypnout oznámení
+Vypnout oznÃ¡menÃ­
 [Enable Popups]
 [Warning]
-Upozornìní
+UpozornÄ›nÃ­
 [Notification]
 [Popup History]
-Historie oznámení
+Historie oznÃ¡menÃ­
 ;file \plugins\YAPP\src\yapp.cpp
 [Popups]
 [First line]
-První øádek
+PrvnÃ­ Å™Ã¡dek
 [Background]
-Pozadí
+PozadÃ­
 [Second line]
-Druhı øádek
+DruhÃ½ Å™Ã¡dek
 [Time]
 [Sidebar]
-Boèní pruh
+BoÄnÃ­ pruh
 [Title underline]
-Podtrení záhlaví
+PodtrÅ¾enÃ­ zÃ¡hlavÃ­
 [neweventnotify]
 ;file \plugins\YAPP\src\yapp_history_dlg.cpp
 [Title]
 [Message]
 [Timestamp]
-Èasovı údaj
+ÄŒasovÃ½ Ãºdaj
 [Copy title to clipboard]
-Zkopírovat záhlaví
+ZkopÃ­rovat zÃ¡hlavÃ­
 [Copy message to clipboard]
-Zkopírovat zprávu
+ZkopÃ­rovat zprÃ¡vu
 [Copy timestamp to clipboard]
-Zkopírovat èasovı údaj
+ZkopÃ­rovat ÄasovÃ½ Ãºdaj

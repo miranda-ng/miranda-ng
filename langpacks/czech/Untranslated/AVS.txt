@@ -1,4 +1,4 @@
-;[ (*.bmp;*.jpg;*.gif;*.png]
+﻿;[ (*.bmp;*.jpg;*.gif;*.png]
 ;[ (*.bmp;*.rle)]
 ;[ (*.gif)]
 ;[ (*.jpg;*.jpeg)]

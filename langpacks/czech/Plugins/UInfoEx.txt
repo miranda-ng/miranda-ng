@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: UInfoEx.dll
 ;  Plugin: UInfoEx
@@ -8,7 +8,7 @@
 ;file \plugins\UserInfoEx\res\resource.rc
 [Edit Contact Information\nThis list gives you some overview about all your contact's anniversaries.]
 [Origin]
-Pùvod
+PÅ¯vod
 [&Update]
 Akt&ualizovat
 [Updating]
@@ -17,145 +17,145 @@ Aktualizace
 OK
 [Cancel]
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [Nick:]
 [Display Name:]
-Zobr. jméno:
+Zobr. jmÃ©no:
 [Title:]
-Název:
+NÃ¡zev:
 [First name:]
-Jméno:
+JmÃ©no:
 [Second name:]
-Druhé jméno:
+DruhÃ© jmÃ©no:
 [Last name:]
-Pøíjmení:
+PÅ™Ã­jmenÃ­:
 [Prefix:]
 Prefix:
 [Female]
-ena
+Å¾ena
 [Male]
-mu
+muÅ¾
 [Marital status:]
-Rodinnı stav:
+RodinnÃ½ stav:
 [Partner:]
 Partner:
 [Language skills]
-Jazykové dovednosti
+JazykovÃ© dovednosti
 [1.:]
 [2.:]
 [3.:]
 [Street:]
 Ulice:
 [Postal code:]
-PSÈ:
+PSÄŒ:
 [City:]
-Mìsto:
+MÄ›sto:
 [County/State:]
 Okres/Kraj:
 [Country:]
-Zemì:
+ZemÄ›:
 [Contact added to ContactList:]
-Kontakt pøidanı do seznamu:
+Kontakt pÅ™idanÃ½ do seznamu:
 [Just from the beginning.]
-Od zaèátku.
+Od zaÄÃ¡tku.
 [Your contact's local time is:]
-Èas u uivatele je:
+ÄŒas u uÅ¾ivatele je:
 [00:00]
 00:00
 [Timezone:]
-Èasové pásmo:
+ÄŒasovÃ© pÃ¡smo:
 [Company:]
-Spoleènost:
+SpoleÄnost:
 [Department:]
-Oddìlení:
+OddÄ›lenÃ­:
 [Office:]
-Kanceláø:
+KancelÃ¡Å™:
 [Position:]
-Postavení:
+PostavenÃ­:
 [Occupation:]
-Povolání:
+PovolÃ¡nÃ­:
 [Superior:]
-Nadøízenı:
+NadÅ™Ã­zenÃ½:
 [Assistant:]
 Asistent:
 [Enter your phone number\nand don't worry about formating.]
 [Enter a category for this number:]
-Urèete kategorii pro toto èíslo:
+UrÄete kategorii pro toto ÄÃ­slo:
 [Enter country, area code and phone number:]
-Zadejte kód zemì, oblasti a samotné èíslo:
+Zadejte kÃ³d zemÄ›, oblasti a samotnÃ© ÄÃ­slo:
 [Or enter a full international number:]
-Nebo èíslo zadejte v mezinárodním formátu:
+Nebo ÄÃ­slo zadejte v mezinÃ¡rodnÃ­m formÃ¡tu:
 [Phone can receive SMS text messages]
-Telefon umoòuje pøíjem textovek (SMS)
+Telefon umoÅ¾Åˆuje pÅ™Ã­jem textovek (SMS)
 [Enter your full e-mail address.\n(e.g.: john.doe@provider.com)]
 [Enter a representitive name for the e-mail address here.]
-Sem zadejte opravdové jméno majitele adresy
+Sem zadejte opravdovÃ© jmÃ©no majitele adresy
 [Enter the e-mail address here.]
 Sem zadejte e-mailovou adresu
 [Show menu items]
-Zobrazovat poloky v nabídce
+Zobrazovat poloÅ¾ky v nabÃ­dce
 [Remind me]
 Upozornit
 [days before.]
-dní pøedem
+dnÃ­ pÅ™edem
 [Check every]
-Projít kadıch
+ProjÃ­t kaÅ¾dÃ½ch
 [hours]
 hod.
 [Icon flashing on event]
-Blikat ikonou pøi události
+Blikat ikonou pÅ™i udÃ¡losti
 [Enabled]
 Zapnuto
 [Perform check on each startup]
-Kontrolovat pøi spuštìní
+Kontrolovat pÅ™i spuÅ¡tÄ›nÃ­
 [Time of last check:]
-Naposledy zkontrolováno:
+Naposledy zkontrolovÃ¡no:
 [Birthday compatibility mode:]
-Reim kompatibility narozenin:
+ReÅ¾im kompatibility narozenin:
 [Automatically backup and keep protocol based birthdays up to date]
-Automaticky zálohovat a udrovat informace o narozeninách aktuální
+Automaticky zÃ¡lohovat a udrÅ¾ovat informace o narozeninÃ¡ch aktuÃ¡lnÃ­
 [Play sound]
-Pøehrát zvuk
+PÅ™ehrÃ¡t zvuk
 [Use ignore list]
-Pouít seznam filtrování kontaktù
+PouÅ¾Ã­t seznam filtrovÃ¡nÃ­ kontaktÅ¯
 [Birthday popup colours]
-Barvy upozornìní na narozeniny
+Barvy upozornÄ›nÃ­ na narozeniny
 [r]
 [Background colour]
 [Text colour]
 [Use Windows colours]
-Pouít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Use default colours]
 [Delay]
 Prodleva
 [From PopUp plugin]
-Globální nastavení
+GlobÃ¡lnÃ­ nastavenÃ­
 [Custom]
-Vlastní
+VlastnÃ­
 [Permanent]
 Trvale
 [Show reminder messages as popups (if reminder is enabled)]
-Upozoròovat na pøipomínky (jsou-li pøipomínky zapnuty)
+UpozorÅˆovat na pÅ™ipomÃ­nky (jsou-li pÅ™ipomÃ­nky zapnuty)
 [Anniversary popup colours]
-Barvy upozornìní na vıroèí
+Barvy upozornÄ›nÃ­ na vÃ½roÄÃ­
 [Replace progress dialogs with popups]
-Zobrazovat oznámení místo oken prùbìhu
+Zobrazovat oznÃ¡menÃ­ mÃ­sto oken prÅ¯bÄ›hu
 [Replace message boxes with popups]
-Zobrazovat oznámení místo oken s oznámeními
+Zobrazovat oznÃ¡menÃ­ mÃ­sto oken s oznÃ¡menÃ­mi
 [Preview]
-Náhled
+NÃ¡hled
 [Homepage:]
 WWW:
 [Add Affiliation]
-Pøidat èlenství
+PÅ™idat ÄlenstvÃ­
 [Add Past]
-Pøidat minulost
+PÅ™idat minulost
 [Add Interest]
-Pøidat zájem
+PÅ™idat zÃ¡jem
 [Delete]
 [Anniversary Editor\nAdd/Edit your anniversary here.]
 [Enter a name for the anniversary here please:]
-Sem prosím vlote název vıroèí:
+Sem prosÃ­m vloÅ¾te nÃ¡zev vÃ½roÄÃ­:
 [Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 [Statistics:]
 Statistiky:
@@ -163,101 +163,101 @@ Statistiky:
 s narozeninami:
 [0]
 [female:]
-eny:
+Å¾eny:
 [male:]
-mui:
+muÅ¾i:
 [number of contacts:]
-Poèet kontaktù:
+PoÄet kontaktÅ¯:
 [average age:]
-Prùmìrnı vìk:
+PrÅ¯mÄ›rnÃ½ vÄ›k:
 [View]
 Zobrazit
 [Show &during the next]
-Zobrazit &bìhem pøíštích
+Zobrazit &bÄ›hem pÅ™Ã­Å¡tÃ­ch
 [day(s)]
-dnù
+dnÅ¯
 [Reminder]
-Pøipomínka
+PÅ™ipomÃ­nka
 [Popup this dialog on a contact's anniversary]
-Zobrazit tento dialog pøi vıroèí kontaktu
+Zobrazit tento dialog pÅ™i vÃ½roÄÃ­ kontaktu
 [Icons]
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 [Check file version of default IconPack to prevent wrong icon display]
-Kontrolovat verzi knihovny ikon (zabrání špatnému zobrazování)
+Kontrolovat verzi knihovny ikon (zabrÃ¡nÃ­ Å¡patnÃ©mu zobrazovÃ¡nÃ­)
 [Display icons on each dialog button]
-Zobrazit ikony na kadém tlaèítku dialogù
+Zobrazit ikony na kaÅ¾dÃ©m tlaÄÃ­tku dialogÅ¯
 [MetaContacts]
 Metakontakty
 [Scan SubContacts for missing information]
-Vyhledat chybìjící informace v podkontaktech
+Vyhledat chybÄ›jÃ­cÃ­ informace v podkontaktech
 [Enable extended 'send/receive email' service (*)]
-Povolit rozšíøenou slubu 'poslat/pøijmout mail' (*)
+Povolit rozÅ¡Ã­Å™enou sluÅ¾bu 'poslat/pÅ™ijmout mail' (*)
 [Use Windows Timezone]
-Pouít èasové pásmo z Windows
+PouÅ¾Ã­t ÄasovÃ© pÃ¡smo z Windows
 [(*) Requires Miranda to be restarted.]
-(*) Vyaduje restart Mirandy
+(*) VyÅ¾aduje restart Mirandy
 [Reset factory defaults]
-Obnovit pùvodní nastavení
+Obnovit pÅ¯vodnÃ­ nastavenÃ­
 [Protocol's information]
 Informace z protokolu
 [Custom information]
-Vlastní informace
+VlastnÃ­ informace
 [Overwritten information]
-Vlastní protokolové informace
+VlastnÃ­ protokolovÃ© informace
 [Changed information]
-Zmìnìné informace
+ZmÄ›nÄ›nÃ© informace
 [Enable colours to give information about information's status.]
-Zpøehlednit informace o stavu obarvováním textu
+ZpÅ™ehlednit informace o stavu obarvovÃ¡nÃ­m textu
 [Make protocol based contact information readonly.]
-Nemìnit osobní informace definované protokolem
+NemÄ›nit osobnÃ­ informace definovanÃ© protokolem
 [Enable groups in details dialog's treeview.]
-Povolit skupiny ve stromovém zobrazení detailù
+Povolit skupiny ve stromovÃ©m zobrazenÃ­ detailÅ¯
 [Sort all tree items alphabetically.]
-Seøadit poloky v menu dle abecedy
+SeÅ™adit poloÅ¾ky v menu dle abecedy
 [Info of a MetaContact's SubContact]
 Informace o podkontaktu z metakontaktu
 [Colours]
 [Common]
-Obecné
+ObecnÃ©
 [Change my ICQ details with UserInfoEx. (Disabled if ICQ doesn't support it)]
-Mìnit osobní informace pomocí UserInfoEx (vypnuto, nepodporuje-li funkci ICQ)
+MÄ›nit osobnÃ­ informace pomocÃ­ UserInfoEx (vypnuto, nepodporuje-li funkci ICQ)
 [TreeView]
-Stromové zobrazení
+StromovÃ© zobrazenÃ­
 [Adapt propertysheet pages to aero mode.]
-Vykreslit stránky vlastností skrz aero.
+Vykreslit strÃ¡nky vlastnostÃ­ skrz aero.
 [Importing...\nPlease wait!]
 [Setting/Event (20/100)]
 [Progress1]
 [John Doe (1/10)]
 [OK]
 [All]
-všechno
+vÅ¡echno
 [None]
 ---
 [Show Menu Item]
-Zobrazit poloku menu
+Zobrazit poloÅ¾ku menu
 [MainMenu]
-Hlavní nabídka
+HlavnÃ­ nabÃ­dka
 [Cascade:]
-Kaskádovı styl:
+KaskÃ¡dovÃ½ styl:
 [Off]
 Vyp
 [Ex-/Import items]
-Export/import poloek
+Export/import poloÅ¾ek
 [ContactMenu]
-Nabídka kontaktu
+NabÃ­dka kontaktu
 [GroupMenu]
 [SubGroupMenu]
 [AccountMenu]
-Nabídka úètu
+NabÃ­dka ÃºÄtu
 [Extra Icons]
-Další ikony
+DalÅ¡Ã­ ikony
 [Gender:]
-Pohlaví:
+PohlavÃ­:
 [Replace the following default icons:]
-Nahradit následující vıchozí ikony:
+Nahradit nÃ¡sledujÃ­cÃ­ vÃ½chozÃ­ ikony:
 [Homepage]
-Dom. stránka
+Dom. strÃ¡nka
 [Phone]
 Telefon
 [E-Mail]
@@ -265,49 +265,49 @@ E-mail
 [Gender]
 [Misc]
 [Show 'Restart' menu item]
-Zobrazit v nabídce poloku 'Restart'
+Zobrazit v nabÃ­dce poloÅ¾ku 'Restart'
 [Use Zodiac as default avatar]
-Pouít znamení zvìrokruhu jako vıchozí avatar
+PouÅ¾Ã­t znamenÃ­ zvÄ›rokruhu jako vÃ½chozÃ­ avatar
 [Country Flags]
 [Use &unknown flag if country can not be determined]
 [Show country flag as &status icon on message window]
-Zobrazit vlajku jako &stavovou ikonu v komunikaèním oknì
+Zobrazit vlajku jako &stavovou ikonu v komunikaÄnÃ­m oknÄ›
 [Birthday]
 Narozeniny
 [Age:]
-Vìk:
+VÄ›k:
 [Zodiac:]
-Zvìrokruh:
+ZvÄ›rokruh:
 [not found]
 nenalezeno
 [Use global reminder settings.]
-Pouít globální nastavení upozornìní.
+PouÅ¾Ã­t globÃ¡lnÃ­ nastavenÃ­ upozornÄ›nÃ­.
 [Don't remind me of this anniversary.]
-Neupozoròovat mì na toto vıroèí.
+NeupozorÅˆovat mÄ› na toto vÃ½roÄÃ­.
 [Preparing...]
-Pøíprava...
+PÅ™Ã­prava...
 [Hide]
-Skrıt
+SkrÃ½t
 [What do you want to export?]
-Co byste chtìli exportovat
+Co byste chtÄ›li exportovat
 [Contact Information]
 Informace o kontaktu
 [Contact History]
 Historie kontaktu
 [Check the Modules in the TreeView which you want to export for the contact. To add    the file as a new list entry later you need to export at least the protocol module.]
 [Check all]
-Oznaèit všechny
+OznaÄit vÅ¡echny
 [Uncheck all]
-Odznaèit všechny
+OdznaÄit vÅ¡echny
 [&Export]
 &Exportovat
 ;file \plugins\UserInfoEx\src\classMAnnivDate.cpp
 [Aries]
 Beran
 [Taurus]
-Bık
+BÃ½k
 [Gemini]
-Blíenci
+BlÃ­Å¾enci
 [Cancer]
 Rak
 [Leo]
@@ -315,55 +315,55 @@ Lev
 [Virgo]
 Panna
 [Libra]
-Váhy
+VÃ¡hy
 [Scorpio]
-Štír
+Å tÃ­r
 [Sagittarius]
-Støelec
+StÅ™elec
 [Capricorn]
 Kozoroh
 [Aquarius]
-Vodnáø
+VodnÃ¡Å™
 [Pisces]
 Ryby
 [Unknown]
 [%s provides a new birthday via protocol.\nIt is %s. The old one was %s.\n\nDo you want to use this as the new birthday for this contact?]
-%s hlásí nové narozeniny pøes protokol.\nJedná se o %s. Staré byly %s.\n\nPøejete si pouít novı údaj jako narozeniny kontaktu?
+%s hlÃ¡sÃ­ novÃ© narozeniny pÅ™es protokol.\nJednÃ¡ se o %s. StarÃ© byly %s.\n\nPÅ™ejete si pouÅ¾Ã­t novÃ½ Ãºdaj jako narozeniny kontaktu?
 [Update custom birthday]
 Aktualizace narozenin
 [Keeps your custom birthday up to date.]
-Udruje vaše vlastní informace o narozeninách aktuální.
+UdrÅ¾uje vaÅ¡e vlastnÃ­ informace o narozeninÃ¡ch aktuÃ¡lnÃ­.
 ;file \plugins\UserInfoEx\src\classPsTree.cpp
 [Due to a parameter error, one of the treeitems can't be added!]
-Kvùli chybì parametru nemohla bıt pøidána jedna z poloek nabídky!
+KvÅ¯li chybÄ› parametru nemohla bÃ½t pÅ™idÃ¡na jedna z poloÅ¾ek nabÃ­dky!
 [An fatal error occured on adding a property sheet page!\nDialog creation aborted!]
-Nastalo katastrofální selhání pøi pøidávání záloky detailù!\nAkce zrušena!
+Nastalo katastrofÃ¡lnÃ­ selhÃ¡nÃ­ pÅ™i pÅ™idÃ¡vÃ¡nÃ­ zÃ¡loÅ¾ky detailÅ¯!\nAkce zruÅ¡ena!
 [Rename Item]
-Pøejmenovat poloku
+PÅ™ejmenovat poloÅ¾ku
 [Hide Item]
-Skrıt poloku
+SkrÃ½t poloÅ¾ku
 [Show Items:]
-Zobrazit poloky:
+Zobrazit poloÅ¾ky:
 [Reset to defaults]
-Obnovit vıchozí
+Obnovit vÃ½chozÃ­
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Button]
-Tlaèítko
+TlaÄÃ­tko
 [%s %d\\%s]
 [%s %d]
 [%s\\%s]
 %s\\%s
 [Creating unique name for a page failed with %d and error code %d]
-Nepodaøilo se vytvoøit unikátní název stránky %d (chyba %d)
+NepodaÅ™ilo se vytvoÅ™it unikÃ¡tnÃ­ nÃ¡zev strÃ¡nky %d (chyba %d)
 [Creating the label for a page failed with %d and error code %d]
-Nepodaøilo se vytvoøit unikátní popisek stránky %d (chyba %d)
+NepodaÅ™ilo se vytvoÅ™it unikÃ¡tnÃ­ popisek strÃ¡nky %d (chyba %d)
 [The dialog template type is no longer supported]
-Typ dialogovıch šablon ji není podporován
+Typ dialogovÃ½ch Å¡ablon jiÅ¾ nenÃ­ podporovÃ¡n
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
-Pøidat nové vıroèí
+PÅ™idat novÃ© vÃ½roÄÃ­
 [Delete an existing anniversary]
-Smazat existující vıroèí
+Smazat existujÃ­cÃ­ vÃ½roÄÃ­
 ['%s']
 [Unspecified]
 <neuvedeno>
@@ -371,28 +371,28 @@ Smazat existující vıroèí
 [Edit E-Mail]
 Upravit e-mail
 [Edit Phone Number]
-Upravit telefonní èíslo
+Upravit telefonnÃ­ ÄÃ­slo
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
-Telefonní èíslo by mìlo zaèínat znaménkem + a smí obsahovat\nèísla, mezery, závorky a pomlèky.
+TelefonnÃ­ ÄÃ­slo by mÄ›lo zaÄÃ­nat znamÃ©nkem + a smÃ­ obsahovat\nÄÃ­sla, mezery, zÃ¡vorky a pomlÄky.
 [+%u (%s) %s]
 [0123456789]
 [none]
 ---
 [Edit]
 [Choose the item to display.]
-Vyberte poadovanou poloku
+Vyberte poÅ¾adovanou poloÅ¾ku
 [Edit the currently displayed item.]
-Upravit právì zobrazenou poloku
+Upravit prÃ¡vÄ› zobrazenou poloÅ¾ku
 [Add a new custom item.]
-Pøidat novou poloku
+PÅ™idat novou poloÅ¾ku
 [Delete the selected item.]
-Smazat vybranou poloku
+Smazat vybranou poloÅ¾ku
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
-CHYBA: nelze upravit tento záznam!\nTo by se dít nemìlo!
+CHYBA: nelze upravit tento zÃ¡znam!\nTo by se dÃ­t nemÄ›lo!
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
-Chcete opravdu smazat vybranı záznam?\n\t%s\n\t%s
+Chcete opravdu smazat vybranÃ½ zÃ¡znam?\n\t%s\n\t%s
 [Other]
-Ostatní
+OstatnÃ­
 [%s %d\0]
 [ SMS\0]
 [ SMS]
@@ -402,7 +402,7 @@ Ostatní
 [mailto:]
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
-<Nespecifikováno>
+<NespecifikovÃ¡no>
 [--:--]
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
@@ -411,23 +411,23 @@ Kontakt
 [Proto]
 Protokol
 [Age/Nr.]
-Vìk/È.
+VÄ›k/ÄŒ.
 [Anniversary]
-Vıroèí
+VÃ½roÄÃ­
 [Date]
 Datum
 [All contacts]
-Všechny kontakty
+VÅ¡echny kontakty
 [Birthdays only]
 Pouze narozeniny
 [Anniversaries only]
-Pouze vıroèí
+Pouze vÃ½roÄÃ­
 [Disabled reminder]
-Zakázané pøipomínání
+ZakÃ¡zanÃ© pÅ™ipomÃ­nÃ¡nÃ­
 [Anniversary list]
-Seznam vıroèí
+Seznam vÃ½roÄÃ­
 [Popup Anniversary list]
-Zobrazit seznam vıroèí
+Zobrazit seznam vÃ½roÄÃ­
 ;file \plugins\UserInfoEx\src\dlg_msgbox.cpp
 [Retry]
 Znovu
@@ -441,53 +441,53 @@ Ano
 [Protocol '%s' is offline]
 Protokol '%s' je offline
 [Upload Details]
-Uloit zmìny
+UloÅ¾it zmÄ›ny
 [You are not currently connected to the ICQ network.\nYou must be online in order to update your information on the server.\n\nYour changes will be saved to database only.]
-Informace na serveru lze aktualizovat a po pøipojení\nk síti ICQ. Do té doby budou provedené zmìny uloeny\npouze lokálnì, do databáze Mirandy.
+Informace na serveru lze aktualizovat aÅ¾ po pÅ™ipojenÃ­\nk sÃ­ti ICQ. Do tÃ© doby budou provedenÃ© zmÄ›ny uloÅ¾eny\npouze lokÃ¡lnÄ›, do databÃ¡ze Mirandy.
 [Uploading]
-Nahrávám
+NahrÃ¡vÃ¡m
 [Creating the imagelist failed!]
-Nepodaøilo se vytvoøit seznam obrázkù!
+NepodaÅ™ilo se vytvoÅ™it seznam obrÃ¡zkÅ¯!
 [Could not find contact's protocol. Maybe it is not active!]
-Nepodaøilo se najít protokol kontaktu. Moná není aktivní.
+NepodaÅ™ilo se najÃ­t protokol kontaktu. MoÅ¾nÃ¡ nenÃ­ aktivnÃ­.
 [No pages have been added. Canceling dialog creation!]
-Nebyly pøidány ádné stránky. Tvorba dialogu zrušena!
+Nebyly pÅ™idÃ¡ny Å¾Ã¡dnÃ© strÃ¡nky. Tvorba dialogu zruÅ¡ena!
 [Details dialog failed to be created. Returning error is %d.]
-Nepodaøilo se vytvoøit dialog detailù. Návratovı kód je %d
+NepodaÅ™ilo se vytvoÅ™it dialog detailÅ¯. NÃ¡vratovÃ½ kÃ³d je %d
 [The Page to add has invalid size %d bytes!]
-Pøidávaná stránka má nesprávnou velikost %d bajtù!
+PÅ™idÃ¡vanÃ¡ strÃ¡nka mÃ¡ nesprÃ¡vnou velikost %d bajtÅ¯!
 [General]
 [Contact (private)]
-Kontakt (soukromı)
+Kontakt (soukromÃ½)
 [Anniversaries]
-Vıroèí
+VÃ½roÄÃ­
 [Work]
-Práce
+PrÃ¡ce
 [Contact (Work)]
-Kontakt (pracovní)
+Kontakt (pracovnÃ­)
 [About]
 Informace
 [Profile]
 Profil
 [Notes]
-Poznámky
+PoznÃ¡mky
 [Export to file]
 Exportovat...
 [Import from file]
 Importovat...
 [Segoe UI]
 [Owner]
-Nìco o sobì
+NÄ›co o sobÄ›
 [Edit Contact Information]
-Úprava informací o uivateli
+Ãšprava informacÃ­ o uÅ¾ivateli
 [%s\n%s]
 #muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 [Upload ICQ Details]
-Nahrát detaily ICQ na server
+NahrÃ¡t detaily ICQ na server
 [Upload failed]
-Aktualizace se nezdaøila
+Aktualizace se nezdaÅ™ila
 [Your details were not uploaded successfully.\nThey were written to database only.]
-Vaše údaje nebyly úspìšnì aktualizovány\nByly pouze zapsány do databáze.
+VaÅ¡e Ãºdaje nebyly ÃºspÄ›Å¡nÄ› aktualizovÃ¡ny\nByly pouze zapsÃ¡ny do databÃ¡ze.
 ;file \plugins\UserInfoEx\src\init.cpp
 [miranda]
 [Fatal error, image services not found. Flags Module will be disabled.]
@@ -496,27 +496,27 @@ Vaše údaje nebyly úspìšnì aktualizovány\nByly pouze zapsány do databáze.
 [Plugins\\uinfoex_icons.dll]
 [Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
-Upozornìní: Váše souèasná verze knihovny ikon pro Detaily uivatele se liší od verze, pro kterou byl tento doplnìk vytvoøen.\n Nìkteré ikony se nemusí zobrazit správnì.
+UpozornÄ›nÃ­: VÃ¡Å¡e souÄasnÃ¡ verze knihovny ikon pro Detaily uÅ¾ivatele se liÅ¡Ã­ od verze, pro kterou byl tento doplnÄ›k vytvoÅ™en.\n NÄ›kterÃ© ikony se nemusÃ­ zobrazit sprÃ¡vnÄ›.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
-Upozornìní: Nebyla nalezena ádná knihovna ikon v ádné z tìchto sloek: 'customize\\icons', 'icons' or 'plugins'!
+UpozornÄ›nÃ­: Nebyla nalezena Å¾Ã¡dnÃ¡ knihovna ikon v Å¾Ã¡dnÃ© z tÄ›chto sloÅ¾ek: 'customize\\icons', 'icons' or 'plugins'!
 ;file \plugins\UserInfoEx\src\mir_menuitems.cpp
 [Ex-/Import contact]
-Export/Import kontaktù
+Export/Import kontaktÅ¯
 [User &Details]
 In&formace o kontaktu
 [&Export User Details]
 [&Import]
 [&Import User Details]
 [View/Change My &Details...]
-In&formace o sobì...
+In&formace o sobÄ›...
 [Export all contacts]
-Exportovat všechny kontakty
+Exportovat vÅ¡echny kontakty
 [Import all contacts]
-Importovat všechny kontakty
+Importovat vÅ¡echny kontakty
 [Backup birthdays]
-Zazálohovat narozeniny
+ZazÃ¡lohovat narozeniny
 [Check anniversaries]
-Zkontrolovat vıroèí
+Zkontrolovat vÃ½roÄÃ­
 [Refresh Contact Details]
 Aktualizovat detaily kontaktu
 [Ex-/Import Group]
@@ -528,14 +528,14 @@ Aktualizovat detaily kontaktu
 Export/Import
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
-Poznámky:
+PoznÃ¡mky:
 [About:]
-Ostatní informace:
+OstatnÃ­ informace:
 ;file \plugins\UserInfoEx\src\psp_anniversary.cpp
 [Please enter a valid Description first!]
-Prosím zadejte nejdøíve platnı popis!
+ProsÃ­m zadejte nejdÅ™Ã­ve platnÃ½ popis!
 [No valid date selected for editing!]
-Nebylo vybráno platné datum pro úpravy!
+Nebylo vybrÃ¡no platnÃ© datum pro Ãºpravy!
 [Do you really want to delete the %s?]
 Opravdu chcete smazat %s?
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
@@ -546,38 +546,38 @@ Adresa
 [Home]
 Domov
 [Open in Browser]
-Otevøít v prohlíeèi
+OtevÅ™Ã­t v prohlÃ­Å¾eÄi
 [Primary e-mail]
-Primární e-mail
+PrimÃ¡rnÃ­ e-mail
 [Secondary e-mail]
-Druhı e-mail
+DruhÃ½ e-mail
 [Tertiary e-mail]
-Tøetí e-mail
+TÅ™etÃ­ e-mail
 [Address & Contact]
 Adresa & kontakt
 [Company]
-Spoleènost:
+SpoleÄnost:
 ;file \plugins\UserInfoEx\src\psp_options.cpp
 [Question]
-Otázka
+OtÃ¡zka
 [This will delete all settings, you've made!\nAll TreeView settings, window positions and any other settings!\n\nAre you sure to procceed?]
-Tato akce smae všechna nastavení, která jste provedli!\nVšechna nastavení nabídky, pozic okna atd.\n\nOpravdu chcete pokraèovat?
+Tato akce smaÅ¾e vÅ¡echna nastavenÃ­, kterÃ¡ jste provedli!\nVÅ¡echna nastavenÃ­ nabÃ­dky, pozic okna atd.\n\nOpravdu chcete pokraÄovat?
 [Ready]
-Pøipraven
+PÅ™ipraven
 [Everything is done!]
-Vše hotovo!
+VÅ¡e hotovo!
 [All settings are reset to default values now!]
-Všechna nastavení byla vynulována na vıchozí hodnoty.
+VÅ¡echna nastavenÃ­ byla vynulovÃ¡na na vÃ½chozÃ­ hodnoty.
 [Reminder disabled]
-Pøipomínky vypnuty
+PÅ™ipomÃ­nky vypnuty
 [Bithdays only]
 Pouze narozeniny
 [everything]
-Vše
+VÅ¡e
 [mBirthday]
 Narozeniny
 [UserInfo (default)]
-Detaily uivatele (vıchozí)
+Detaily uÅ¾ivatele (vÃ½chozÃ­)
 [This is the reminder message]
 [Contacts]
 Kontakty
@@ -592,234 +592,234 @@ Detaily
 [Past]
 Minulost
 [Affiliation]
-Èlenství
+ÄŒlenstvÃ­
 [Interest]
-Zájem
+ZÃ¡jem
 [EDIT]
 UPRAVIT
 [Sorry, but there is a problem with adding a new item of type "%s"]
-Upozornìní: vyskytl se problém s pøidáváním nové poloky "%s"
+UpozornÄ›nÃ­: vyskytl se problÃ©m s pÅ™idÃ¡vÃ¡nÃ­m novÃ© poloÅ¾ky "%s"
 [<empty>]
 <neuvedeno>
 [LISTBOX]
 [Add Affliation]
-Pøidat èlenství
+PÅ™idat ÄlenstvÃ­
 [Edit Category]
 Upravit kategorii
 [Edit Value]
 Upravit hodnotu
 [Delete an entry]
-Smazat záznam
+Smazat zÃ¡znam
 [Do you really want to delete this entry?]
-Chcete opravdu smazat tuto poloku
+Chcete opravdu smazat tuto poloÅ¾ku
 ;file \plugins\UserInfoEx\src\svc_constants.cpp
 [Afrikaans]
-afrikánština
+afrikÃ¡nÅ¡tina
 [Albanian]
-albánština
+albÃ¡nÅ¡tina
 [Arabic]
-arabština
+arabÅ¡tina
 [Armenian]
-arménština
+armÃ©nÅ¡tina
 [Azerbaijani]
-ázerbajdánština
+Ã¡zerbajdÅ¾Ã¡nÅ¡tina
 [Belorussian]
-bìloruština
+bÄ›loruÅ¡tina
 [Bhojpuri]
-bhodpuri
+bhodÅ¾puri
 [Bosnian]
-bosenština
+bosenÅ¡tina
 [Bulgarian]
-bulharština
+bulharÅ¡tina
 [Burmese]
-barmština
+barmÅ¡tina
 [Cantonese]
-kantonština
+kantonÅ¡tina
 [Catalan]
-katalánština
+katalÃ¡nÅ¡tina
 [Chamorro]
-èamoro
+Äamoro
 [Chinese]
-èínština
+ÄÃ­nÅ¡tina
 [Croatian]
-chorvatština
+chorvatÅ¡tina
 [Czech]
-èeština
+ÄeÅ¡tina
 [Danish]
-dánština
+dÃ¡nÅ¡tina
 [Dutch]
-holandština
+holandÅ¡tina
 [English]
-angliètina
+angliÄtina
 [Esperanto]
 esperanto
 [Estonian]
-estonština
+estonÅ¡tina
 [Farsi]
 [Finnish]
-finština
+finÅ¡tina
 [French]
-francouzština
+francouzÅ¡tina
 [Gaelic]
-gaelština
+gaelÅ¡tina
 [German]
-nìmèina
+nÄ›mÄina
 [Greek]
-øeètina
+Å™eÄtina
 [Gujarati]
-gudarátština
+gudÅ¾arÃ¡tÅ¡tina
 [Hebrew]
-hebrejština
+hebrejÅ¡tina
 [Hindi]
-hindština
+hindÅ¡tina
 [Hungarian]
-maïarština
+maÄarÅ¡tina
 [Icelandic]
-islandština
+islandÅ¡tina
 [Indonesian]
-indonézština
+indonÃ©zÅ¡tina
 [Italian]
-italština
+italÅ¡tina
 [Japanese]
-japonština
+japonÅ¡tina
 [Khmer]
-khmerština
+khmerÅ¡tina
 [Korean]
-korejština
+korejÅ¡tina
 [Kurdish]
-kurdština
+kurdÅ¡tina
 [Lao]
-laoština
+laoÅ¡tina
 [Latvian]
-lotyšština
+lotyÅ¡Å¡tina
 [Lithuanian]
-litevština
+litevÅ¡tina
 [Macedonian]
-makedonština
+makedonÅ¡tina
 [Malay]
-malajština
+malajÅ¡tina
 [Mandarin]
-mandarínština
+mandarÃ­nÅ¡tina
 [Mongolian]
-mongolština
+mongolÅ¡tina
 [Norwegian]
-norština
+norÅ¡tina
 [Persian]
-perština
+perÅ¡tina
 [Polish]
-polština
+polÅ¡tina
 [Portuguese]
-portugalština
+portugalÅ¡tina
 [Punjabi]
-pandábština
+pandÅ¾Ã¡bÅ¡tina
 [Romanian]
-rumunština
+rumunÅ¡tina
 [Russian]
-ruština
+ruÅ¡tina
 [Serbo-Croatian]
-srbochorvatština
+srbochorvatÅ¡tina
 [Sindhi]
-sindhština
+sindhÅ¡tina
 [Slovak]
-slovenština
+slovenÅ¡tina
 [Slovenian]
-slovinština
+slovinÅ¡tina
 [Somali]
-somálština
+somÃ¡lÅ¡tina
 [Spanish]
-španìlština
+Å¡panÄ›lÅ¡tina
 [Swahili]
-svahilština
+svahilÅ¡tina
 [Swedish]
-švédština
+Å¡vÃ©dÅ¡tina
 [Tagalog]
-tagalština
+tagalÅ¡tina
 [Taiwanese]
 [Tamil]
-tamilština
+tamilÅ¡tina
 [Tatar]
-tatarština
+tatarÅ¡tina
 [Thai]
-thajština
+thajÅ¡tina
 [Turkish]
-tureètina
+tureÄtina
 [Ukrainian]
-ukrajinština
+ukrajinÅ¡tina
 [Urdu]
 urdu
 [Vietnamese]
-vietnamština
+vietnamÅ¡tina
 [Welsh]
-velština
+velÅ¡tina
 [Yiddish]
-jidiš
+jidiÅ¡
 [Yoruba]
-jorubština
+jorubÅ¡tina
 [Academic]
-Vızkum
+VÃ½zkum
 [Administrative]
 Administrativa
 [Art/Entertainment]
-Umìní a zábava
+UmÄ›nÃ­ a zÃ¡bava
 [College Student]
-Škola (VŠ)
+Å kola (VÅ )
 [Computers]
-Poèítaèe
+PoÄÃ­taÄe
 [Community & Social]
-Spoleèenství
+SpoleÄenstvÃ­
 [Education]
-Vzdìlávání
+VzdÄ›lÃ¡vÃ¡nÃ­
 [Engineering]
-Strojírenství
+StrojÃ­renstvÃ­
 [Financial Services]
-Penìní sluby
+PenÄ›Å¾nÃ­ sluÅ¾by
 [Government]
-Státní správa
+StÃ¡tnÃ­ sprÃ¡va
 [High School Student]
-Škola (SŠ)
+Å kola (SÅ )
 [ICQ - Providing Help]
-Pomoc uivatelùm ICQ
+Pomoc uÅ¾ivatelÅ¯m ICQ
 [Law]
-Právo
+PrÃ¡vo
 [Managerial]
 Management
 [Manufacturing]
-Vıroba
+VÃ½roba
 [Medical/Health]
-Zdravotnictví
+ZdravotnictvÃ­
 [Military]
-Vojenská sluba
+VojenskÃ¡ sluÅ¾ba
 [Non-Government Organization]
-Nestátní organizace
+NestÃ¡tnÃ­ organizace
 [Professional]
-Profesní organizace
+ProfesnÃ­ organizace
 [Retail]
 Prodej
 [Retired]
-V dùchodu
+V dÅ¯chodu
 [Science & Research]
-Vìda a vızkum
+VÄ›da a vÃ½zkum
 [Sports]
 Sport
 [Technical]
-Technickı obor
+TechnickÃ½ obor
 [University Student]
-Škola (VŠ)
+Å kola (VÅ )
 [Web Building]
 [Other Services]
-Ostatní
+OstatnÃ­
 [Art]
-Umìní
+UmÄ›nÃ­
 [Cars]
 Auta
 [Celebrity Fans]
 Osobnosti
 [Collections]
-Sbìratelství
+SbÄ›ratelstvÃ­
 [Culture & Literature]
 Kultura a literatura
 [Fitness]
-Péèe o zdraví
+PÃ©Äe o zdravÃ­
 [Games]
 Hry
 [Hobbies]
@@ -827,173 +827,173 @@ Hobby
 [Internet]
 Internet
 [Lifestyle]
-ivotní styl
+Å½ivotnÃ­ styl
 [Movies/TV]
 Filmy a televize
 [Music]
 Hudba
 [Outdoor Activities]
-Vılety, turistika
+VÃ½lety, turistika
 [Parenting]
-Rodièovství
+RodiÄovstvÃ­
 [Pets/Animals]
-Zvíøata
+ZvÃ­Å™ata
 [Religion]
-Náboenství
+NÃ¡boÅ¾enstvÃ­
 [Science/Technology]
-Vìda a technologie
+VÄ›da a technologie
 [Skills]
-Øemesla
+Å˜emesla
 [Web Design]
-Návrh webovıch stránek
+NÃ¡vrh webovÃ½ch strÃ¡nek
 [Nature and Environment]
-Pøíroda a ivotní prostøedí
+PÅ™Ã­roda a Å¾ivotnÃ­ prostÅ™edÃ­
 [News & Media]
-Noviny a èasopisy
+Noviny a Äasopisy
 [Business & Economy]
 Obchod a ekonomika
 [Mystics]
 Mysticismus
 [Travel]
-Cestování
+CestovÃ¡nÃ­
 [Astronomy]
 Astronomie
 [Space]
-Vesmír
+VesmÃ­r
 [Clothing]
-Obleèení
+ObleÄenÃ­
 [Parties]
-Veèírky
+VeÄÃ­rky
 [Women]
-eny
+Å½eny
 [Social science]
-Sociální vìdy
+SociÃ¡lnÃ­ vÄ›dy
 [60's]
-60tá léta
+60tÃ¡ lÃ©ta
 [70's]
-70tá léta
+70tÃ¡ lÃ©ta
 [80's]
-80tá léta
+80tÃ¡ lÃ©ta
 [50's]
-50tá léta
+50tÃ¡ lÃ©ta
 [Finance and corporate]
-Finanènictví a obchod
+FinanÄnictvÃ­ a obchod
 [Entertainment]
-Zábava
+ZÃ¡bava
 [Consumer electronics]
-Spotøební elektronika
+SpotÅ™ebnÃ­ elektronika
 [Retail stores]
-Obchodní øetìzce
+ObchodnÃ­ Å™etÄ›zce
 [Health and beauty]
-Zdraví a krása
+ZdravÃ­ a krÃ¡sa
 [Media]
-Média
+MÃ©dia
 [Household products]
-Potøeby pro domácnost
+PotÅ™eby pro domÃ¡cnost
 [Mail order catalog]
-Objednávkové katalogy
+ObjednÃ¡vkovÃ© katalogy
 [Business services]
-Sluby pro podnikání
+SluÅ¾by pro podnikÃ¡nÃ­
 [Audio and visual]
 Audio a video
 [Sporting and athletic]
 Atletika
 [Publishing]
-Vydávání
+VydÃ¡vÃ¡nÃ­
 [Home automation]
-Pomocníci v domácnosti
+PomocnÃ­ci v domÃ¡cnosti
 [Alumni Org.]
-absolventské
+absolventskÃ©
 [Charity Org.]
-charitativní
+charitativnÃ­
 [Club/Social Org.]
-krouky
+krouÅ¾ky
 [Community Org.]
-spoleèenství
+spoleÄenstvÃ­
 [Cultural Org.]
-kulturní
+kulturnÃ­
 [Fan Clubs]
 fankluby
 [Fraternity/Sorority]
-bratrské
+bratrskÃ©
 [Hobbyists Org.]
-zájmové
+zÃ¡jmovÃ©
 [International Org.]
-mezinárodní
+mezinÃ¡rodnÃ­
 [Nature and Environment Org.]
-ochrana pøírody
+ochrana pÅ™Ã­rody
 [Professional Org.]
-profesní
+profesnÃ­
 [Scientific/Technical Org.]
-vìdeckotechnické
+vÄ›deckotechnickÃ©
 [Self Improvement Group]
-sebezdokonalovací
+sebezdokonalovacÃ­
 [Spiritual/Religious Org.]
-duchovní a náboenské
+duchovnÃ­ a nÃ¡boÅ¾enskÃ©
 [Sports Org.]
-sportovní
+sportovnÃ­
 [Support Org.]
-pøíspìvkové
+pÅ™Ã­spÄ›vkovÃ©
 [Trade and Business Org.]
-obchodní
+obchodnÃ­
 [Union]
-odborové
+odborovÃ©
 [Volunteer Org.]
-dobrovolnické
+dobrovolnickÃ©
 [Elementary School]
-Základní škola
+ZÃ¡kladnÃ­ Å¡kola
 [High School]
-Støední škola
+StÅ™ednÃ­ Å¡kola
 [College]
-Vysoká škola
+VysokÃ¡ Å¡kola
 [University]
 Univerzita
 [TmplPast Work Place]
 [TmplPast Organization]
 [Single]
-svobodnı/á
+svobodnÃ½/Ã¡
 [Close relationships]
-ve spoleèné domácnosti
+ve spoleÄnÃ© domÃ¡cnosti
 [Engaged]
-zadanı/á
+zadanÃ½/Ã¡
 [Married]
-enatı/vdaná
+Å¾enatÃ½/vdanÃ¡
 [Divorced]
-rozvedenı/á
+rozvedenÃ½/Ã¡
 [Separated]
-odlouèenı/á
+odlouÄenÃ½/Ã¡
 [Widowed]
-ovdovìlı/á
+ovdovÄ›lÃ½/Ã¡
 [jun.]
 [sen.]
 ;file \plugins\UserInfoEx\src\svc_contactinfo.cpp
 ['(Unknown Contact)']
-'(neznámı kontakt)'
+'(neznÃ¡mÃ½ kontakt)'
 ;file \plugins\UserInfoEx\src\svc_email.cpp
 [Send e-mail]
 Poslat e-mail
 [Memory allocation error!]
-Chyba pøi alokování pamìti!
+Chyba pÅ™i alokovÃ¡nÃ­ pamÄ›ti!
 ;file \plugins\UserInfoEx\src\svc_homepage.cpp
 [User has no valid homepage]
-Uivatel nemá uvedenou platnou domácí stránku
+UÅ¾ivatel nemÃ¡ uvedenou platnou domÃ¡cÃ­ strÃ¡nku
 [View Homepage]
-Zobrazit domovskou stránku
+Zobrazit domovskou strÃ¡nku
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
 [[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
-Pøerušit proces obèerstvování detailù
+PÅ™eruÅ¡it proces obÄerstvovÃ¡nÃ­ detailÅ¯
 [Do you want to cancel the current refresh procedure?]
-Chcete pøerušit probíhající proceduru obèerstvování?
+Chcete pÅ™eruÅ¡it probÃ­hajÃ­cÃ­ proceduru obÄerstvovÃ¡nÃ­?
 [Miranda must be online for refreshing contact information!]
-Pro obèerstvení detailù kontaktù je potøeba bıt online!
+Pro obÄerstvenÃ­ detailÅ¯ kontaktÅ¯ je potÅ™eba bÃ½t online!
 [The function caused an exception!]
-Tato akce zpùsobila vıjimku!
+Tato akce zpÅ¯sobila vÃ½jimku!
 ;file \plugins\UserInfoEx\src\svc_reminder.cpp
 [%s has %s today.]
-%s má dnes %s.
+%s mÃ¡ dnes %s.
 [an anniversary]
-vıroèí
+vÃ½roÄÃ­
 [She]
 Ona
 [He/She]
@@ -1005,26 +1005,26 @@ On/ona
 [\n...\0]
 [\n- \0]
 [%s has birthday today.]
-%s má dnes narozeniny!
+%s mÃ¡ dnes narozeniny!
 [%s has birthday tomorrow.]
-%s bude mít zítra narozeniny.
+%s bude mÃ­t zÃ­tra narozeniny.
 [%s has birthday in %d days.]
-Pøezdívka: %s, zbıvá dnù: %d
+PÅ™ezdÃ­vka: %s, zbÃ½vÃ¡ dnÅ¯: %d
 [\n%s becomes %d years old.]
-\n%s oslaví %d. narozeniny.
+\n%s oslavÃ­ %d. narozeniny.
 [No anniversaries to remind of]
-Není co pøipomenout z vıroèí
+NenÃ­ co pÅ™ipomenout z vÃ½roÄÃ­
 [Backing up and syncing all birthdays complete!]
-Zálohování a synchronizace všech narozenin hotova!
+ZÃ¡lohovÃ¡nÃ­ a synchronizace vÅ¡ech narozenin hotova!
 [Birthday reminder]
 Narozeniny
 [Birthday reminder: it's coming]
-Narozeniny (ji brzy!)
+Narozeniny (jiÅ¾ brzy!)
 [Anniversary Reminder]
-Upozoròování na vıroèí
+UpozorÅˆovÃ¡nÃ­ na vÃ½roÄÃ­
 ;file \plugins\UserInfoEx\src\svc_timezone_old.cpp
 [Display]
-Zobrazení
+ZobrazenÃ­
 [TZI]
 [Index]
 [Dateline Standard Time]
@@ -1064,25 +1064,25 @@ identifikace kontaktu
 [The contact %s(%s) has no unique id in the vCard,\nbut there is a contact in your clist with the same nick and protocol.\nDo you wish to use this contact?]
 ;file \plugins\UserInfoEx\src\ex_import\classExImContactXML.cpp
 [Importing a new contact was aborted!]
-Importování nového kontaktu bylo zrušeno!
+ImportovÃ¡nÃ­ novÃ©ho kontaktu bylo zruÅ¡eno!
 [You aborted import of a new contact.\nSome information may be missing for this contact.\n\nDo you want to delete the incomplete contact?]
-Zrušili jste import nového kontaktu.\nNìkteré informace mohou u tohoto kontaktu chybì.\n\nPøejete si kontakt smazat úplnì?
+ZruÅ¡ili jste import novÃ©ho kontaktu.\nNÄ›kterÃ© informace mohou u tohoto kontaktu chybÄ›.\n\nPÅ™ejete si kontakt smazat ÃºplnÄ›?
 [Sub Contact: %s (]
 [Importing a new meta subcontact failed!]
-Nezdaøil se import nového podkontaktu!
+NezdaÅ™il se import novÃ©ho podkontaktu!
 [The newly created MetaSubContact '%s'\ncould not be added to MetaContact '%s'!\n\nDo you want to delete this contact?]
-Novì vytvoøenı podkontakt '%s'\nnemohl bıt pøidán do metakontaktu '%s'!\n\nPøejete si smazat tento kontakt úplnì?
+NovÄ› vytvoÅ™enÃ½ podkontakt '%s'\nnemohl bÃ½t pÅ™idÃ¡n do metakontaktu '%s'!\n\nPÅ™ejete si smazat tento kontakt ÃºplnÄ›?
 [Settings: %S]
-Nastavení: %S
+NastavenÃ­: %S
 [Events: %S]
-Události: %S
+UdÃ¡losti: %S
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImModules.cpp
 [All Contacts]
-Všechny kontakty
+VÅ¡echny kontakty
 [Required modules]
-Poadované moduly
+PoÅ¾adovanÃ© moduly
 [Optional modules]
-Volitelné moduly
+VolitelnÃ© moduly
 ;file \plugins\UserInfoEx\src\ex_import\dlg_ExImOpenSaveFile.cpp
 [Software\\Miranda NG\\PlacesBar]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\ComDlg32\\PlacesBar]
@@ -1091,64 +1091,64 @@ Volitelné moduly
 [Place2]
 [Miranda NG]
 [Shows Miranda's installation directory.]
-Zobrazí adresáø s Mirandou.
+ZobrazÃ­ adresÃ¡Å™ s Mirandou.
 [Shows the directory with all your Miranda's profiles.]
-Zobrazí adresáø se všemi vašimi profily Mirandy.
+ZobrazÃ­ adresÃ¡Å™ se vÅ¡emi vaÅ¡imi profily Mirandy.
 [The OpenFileDialog returned an error: %d!]
-Dialog otevøení souboru vrátil chybu: %d!
+Dialog otevÅ™enÃ­ souboru vrÃ¡til chybu: %d!
 [The SaveFileDialog returned an error: %d!]
-Dialog uloení souboru vrátil chybu: %d!
+Dialog uloÅ¾enÃ­ souboru vrÃ¡til chybu: %d!
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImINI.cpp
 [The ini-file "%s"\nfor saving contact information could not be opened.]
-INI soubor "%s"\nnemohl bıt otevøen pro uloení informací o kontaktu.
+INI soubor "%s"\nnemohl bÃ½t otevÅ™en pro uloÅ¾enÃ­ informacÃ­ o kontaktu.
 [None of the %d contacts, stored in the ini-file, match the selected contact!\nNothing will be imported]
-ádnı z %d kontaktù uloenıch v INI souboru neodpovídal vybranému kontaktu!\nNic nebude importováno.
+Å½Ã¡dnÃ½ z %d kontaktÅ¯ uloÅ¾enÃ½ch v INI souboru neodpovÃ­dal vybranÃ©mu kontaktu!\nNic nebude importovÃ¡no.
 [Import complete]
 Import hotov
 [Some basic statistics]
-Základní statistiky
+ZÃ¡kladnÃ­ statistiky
 [Added %d of %d contacts stored in the ini-file.]
-Pøidáno %d z %d kontaktù uloenıch v INI souboru.
+PÅ™idÃ¡no %d z %d kontaktÅ¯ uloÅ¾enÃ½ch v INI souboru.
 [The ini-file "%s"\nfor reading contact information could not be opened.]
-INI soubor "%s"\nnemohl bıt otevøen pro naètení informací o kontaktu.
+INI soubor "%s"\nnemohl bÃ½t otevÅ™en pro naÄtenÃ­ informacÃ­ o kontaktu.
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImport.cpp
 [all Contacts]
-všechny kontakty
+vÅ¡echny kontakty
 [Select a destination file...]
-Vyberte cílovı soubor...
+Vyberte cÃ­lovÃ½ soubor...
 [Import User Details from VCard]
-Importovat detaily uivatele z VCard
+Importovat detaily uÅ¾ivatele z VCard
 [%s%s%s]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
-Nelze vytvoøit xml soubor!\n%S
+Nelze vytvoÅ™it xml soubor!\n%S
 [Export took %f msec]
 Export zabral %f ms
 [Contact: %s (%S)]
 Kontakt: %s (%S)
 [Importing %s caused error %d]
-Import %s zpùsobil chybu %d
+Import %s zpÅ¯sobil chybu %d
 [Loading contact %s from xml failed with error %d]
-Naèítání kontaktu %s z XML skonèilo chybou %d
+NaÄÃ­tÃ¡nÃ­ kontaktu %s z XML skonÄilo chybou %d
 [Importing Owner caused error %d]
-Import Vlastníka zpùsobil chybu %d
+Import VlastnÃ­ka zpÅ¯sobil chybu %d
 [Parser is unable to load XMLCard "%s"\nError: %d\nDescription: %s]
-Parser nemùe naèíst XMLCard "%s"\nChyba: %d\nPopis: %s
+Parser nemÅ¯Å¾e naÄÃ­st XMLCard "%s"\nChyba: %d\nPopis: %s
 [The selected file is no valid XMLCard]
-Vybranı soubor není platnı XMLCard
+VybranÃ½ soubor nenÃ­ platnÃ½ XMLCard
 [The version of the XMLCard is not supported by UserInfoEx]
-Tato verze XMLCard není podporována doplòkem Detaily uivatele
+Tato verze XMLCard nenÃ­ podporovÃ¡na doplÅˆkem Detaily uÅ¾ivatele
 [Complete]
-Dokonèeno
+DokonÄeno
 [Owner contact successfully imported.]
-Kontakt vlastníka byl úspìšnì naimportován.
+Kontakt vlastnÃ­ka byl ÃºspÄ›Å¡nÄ› naimportovÃ¡n.
 [Selected XMLCard does not contain an owner contact!]
-Vybranı XMLCard neobsahuje kontakt vlastníka
+VybranÃ½ XMLCard neobsahuje kontakt vlastnÃ­ka
 [Import took %f msec]
 Import zabral %f msec
 [added contacts: %u / %u\nadded settings: %u / %u\nadded events %u / %u\nduplicated events: %u]
-pøidané kontakty: %u / %u\npøidaná nastavení: %u / %u\npøidané události %u / %u\nzdvojené události: %u
+pÅ™idanÃ© kontakty: %u / %u\npÅ™idanÃ¡ nastavenÃ­: %u / %u\npÅ™idanÃ© udÃ¡losti %u / %u\nzdvojenÃ© udÃ¡losti: %u
 [FATAL: An exception was thrown while importing contacts from xmlCard!]
-CHYBA: vznikla vıjimka pøi importu kontaktù z XMLCard!
+CHYBA: vznikla vÃ½jimka pÅ™i importu kontaktÅ¯ z XMLCard!
 ;file \plugins\UserInfoEx\src\Flags\svc_flagsicons.cpp
 [PNG]

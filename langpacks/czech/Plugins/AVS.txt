@@ -1,4 +1,4 @@
-#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
+ï»¿#muuid {e00f1643-263c-4599-b84b-053e5c511d29}
 ;============================================================
 ;  File: AVS.dll
 ;  Plugin: Avatar service
@@ -8,68 +8,68 @@
 [Loads and manages contact pictures for other plugins.]
 ;file \plugins\AVS\res\avs.rc
 [The pictures you can set here are used as default avatars\nfor contacts that don't have their own.\nUse the checkboxes to enable/disable showing avatars for the protocols.]
-Definuje obrázky pro kontakty bez avataru. Zaškrtnutím zobrazení\nvıchozího obrázku zapnete, odškrtnutím vypnete.
+Definuje obrÃ¡zky pro kontakty bez avataru. ZaÅ¡krtnutÃ­m zobrazenÃ­\nvÃ½chozÃ­ho obrÃ¡zku zapnete, odÅ¡krtnutÃ­m vypnete.
 [Set default picture]
-Nastavit vıchozí obrázek
+Nastavit vÃ½chozÃ­ obrÃ¡zek
 [Delete default picture]
-Odstranit vıchozí obrázek
+Odstranit vÃ½chozÃ­ obrÃ¡zek
 [CAUTION: These pictures are NOT your own avatars.\nTo set your own Avatar goto Main Menu | View/Change My Details | Avatars]
-Upozornìní: Váš vlastní avatar urèíte pomocí funkce Nastavit\navatar ze sekce Informace o sobì v hlavní nabídce.
+UpozornÄ›nÃ­: VÃ¡Å¡ vlastnÃ­ avatar urÄÃ­te pomocÃ­ funkce Nastavit\navatar ze sekce Informace o sobÄ› v hlavnÃ­ nabÃ­dce.
 [Try to draw avatar background transparent (for images without transparency)]
-Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+Pokusit se zprÅ¯hlednit pozadÃ­ avataru (platÃ­ pro obrÃ¡zky bez transparence)
 [Num of points to define bkg:]
-Mnoství bodù definujících pozadí:
+MnoÅ¾stvÃ­ bodÅ¯ definujÃ­cÃ­ch pozadÃ­:
 [Color difference allowed:]
-Povolená odchylka barev:
+PovolenÃ¡ odchylka barev:
 [Make transparency proportional to color diff]
-Zprùhlednit dle barevnıch rozdílù
+ZprÅ¯hlednit dle barevnÃ½ch rozdÃ­lÅ¯
 [Draw avatars grayscale]
-Zobrazit v odstínech šedi
+Zobrazit v odstÃ­nech Å¡edi
 [Show warning messages]
-Zobrazit chybová hlášení
+Zobrazit chybovÃ¡ hlÃ¡Å¡enÃ­
 [When setting avatars, always make them square]
-Pøi nastavení avataru vdy zmìnit na ètvercovı tvar
+PÅ™i nastavenÃ­ avataru vÅ¾dy zmÄ›nit na ÄtvercovÃ½ tvar
 [Try to draw own avatar background transparent (for images without transparency)]
-Pokusit se zprùhlednit pozadí avataru (platí pro obrázky bez transparence)
+Pokusit se zprÅ¯hlednit pozadÃ­ avataru (platÃ­ pro obrÃ¡zky bez transparence)
 [This uses the same additional options as in "Contact Avatars" tab]
 [Protect the picture and prevent automatic avatars from overwriting it]
-Zamknout obrázek a zabránit tak automatickému pøepisování
+Zamknout obrÃ¡zek a zabrÃ¡nit tak automatickÃ©mu pÅ™episovÃ¡nÃ­
 [Make the avatar square]
-Upravit obrázek na ètvercovı tvar
+Upravit obrÃ¡zek na ÄtvercovÃ½ tvar
 [Resize the avatar to fit max allowed protocol size]
 [Contact picture]
-Obrázek
+ObrÃ¡zek
 [Change]
-Zmìnit
+ZmÄ›nit
 [Delete]
 [Reset]
 [Picture options]
 [Protect the picture]
-Zamknout obrázek
+Zamknout obrÃ¡zek
 [Set as hidden]
-Nastavit jako skrytı
+Nastavit jako skrytÃ½
 [Try to make picture background transparent]
-Pokusit se zprùhlednit pozadí obrázku
+Pokusit se zprÅ¯hlednit pozadÃ­ obrÃ¡zku
 [Use defaults]
-Pouít vıchozí
+PouÅ¾Ã­t vÃ½chozÃ­
 [OK]
 [Cancel]
 [Options]
 [Background]
-Pozadí
+PozadÃ­
 [Transparent]
-Prùhlednost
+PrÅ¯hlednost
 [Points:]
-Poèet bodù:
+PoÄet bodÅ¯:
 [Color diff:]
-Rozdíl barev:
+RozdÃ­l barev:
 [Set]
 #muuid {bcec0bd7-ca59-44b2-9a14-3a14980f524a}
 [Use per protocol avatars]
-Pro kadı protokol jinı avatar
+Pro kaÅ¾dÃ½ protokol jinÃ½ avatar
 ;file \plugins\AVS\src\acc.cpp
 [Protocols have different avatars]
-Jednotlivé protokoly mají definované rùzné avatary.
+JednotlivÃ© protokoly majÃ­ definovanÃ© rÅ¯znÃ© avatary.
 ;file \plugins\AVS\src\main.cpp
 [%s\\%s]
 %s\\%s
@@ -77,7 +77,7 @@ Jednotlivé protokoly mají definované rùzné avatary.
 [%s@%s]
 [SHELLDLL_DefView]
 [Grow avatar to fit max allowed protocol size]
-Upravit rozmìry na max. velikost danou protokolem
+Upravit rozmÄ›ry na max. velikost danou protokolem
 [.png]
 [.jpg]
 [.ico]
@@ -105,7 +105,7 @@ Upravit rozmìry na max. velikost danou protokolem
 [ (*.gif)]
 [*.GIF]
 [PNG Bitmaps]
-obrázky typu PNG
+obrÃ¡zky typu PNG
 [ (*.png)]
 [*.PNG]
 [Flash Animations]
@@ -127,7 +127,7 @@ Nastavit avatar pro %s
 #muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 [mir_av_]
 [Global avatar for %s accounts]
-Globální avatar pro úèty na %s
+GlobÃ¡lnÃ­ avatar pro ÃºÄty na %s
 [avs_loaderthread_%d]
 [\\Avatars]
 [Contacts]
@@ -151,14 +151,14 @@ Pro sebe
 [Set avatar options for %s]
 %s: avatar
 [Delete picture file from disk (may be necessary to force a reload, but will delete local pictures)?]
-Chcete odstranit i obrázek z disku (nutno provést pøi vynucené aktualizaci avataru)?
+Chcete odstranit i obrÃ¡zek z disku (nutno provÃ©st pÅ™i vynucenÃ© aktualizaci avataru)?
 [Reset contact picture]
-Resetovat obrázek kontaktu
+Resetovat obrÃ¡zek kontaktu
 [Contact has no avatar]
-<avatar není definovanı>
+<avatar nenÃ­ definovanÃ½>
 [No avatar]
 Bez avataru
 [Are you sure you want to remove your avatar?]
-Opravdu chcete odstranit svùj avatar?
+Opravdu chcete odstranit svÅ¯j avatar?
 [Global Avatar]
-Globální avatar
+GlobÃ¡lnÃ­ avatar

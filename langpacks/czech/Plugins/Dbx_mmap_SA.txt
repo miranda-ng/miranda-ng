@@ -1,4 +1,4 @@
-#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
+ï»¿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;============================================================
 ;  File: Dbx_mmap_SA.dll
 ;  Plugin: Miranda NG secure database driver
@@ -10,7 +10,7 @@
 [OK]
 [Cancel]
 [Change]
-Zmìnit
+ZmÄ›nit
 [Remove]
 [New password]
 [Old password]
@@ -20,43 +20,43 @@ Ano
 Ne
 [A file containing new database settings has been placed in the Miranda NG directory.]
 [Do you want to import the settings now?]
-Chcete naimportovat tento konfiguraèní soubor?
+Chcete naimportovat tento konfiguraÄnÃ­ soubor?
 [No to all]
-Ne všem
+Ne vÅ¡em
 [&View contents]
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Upozornìní: Potvrzením se pøedpokládá, e znáte rozsah úprav obsahu své databáze a jste si vìdomi všech monıch následkù.
+UpozornÄ›nÃ­: PotvrzenÃ­m se pÅ™edpoklÃ¡dÃ¡, Å¾e znÃ¡te rozsah Ãºprav obsahu svÃ© databÃ¡ze a jste si vÄ›domi vÅ¡ech moÅ¾nÃ½ch nÃ¡sledkÅ¯.
 [Database settings are being imported from]
-Importovanı konfiguraèní soubor
+ImportovanÃ½ konfiguraÄnÃ­ soubor
 [This file wishes to change the setting]
-Poadavek na zmìnu poloky
+PoÅ¾adavek na zmÄ›nu poloÅ¾ky
 [to the value]
 na hodnotu
 [Do you want to allow this change?]
-Chcete povolit úpravu této poloky?
+Chcete povolit Ãºpravu tÃ©to poloÅ¾ky?
 [&Allow all further changes to this section]
-&Povolit všechny další úpravy v této sekci
+&Povolit vÅ¡echny dalÅ¡Ã­ Ãºpravy v tÃ©to sekci
 [&Yes]
 [&No]
 [Cancel Import]
-Zrušit import
+ZruÅ¡it import
 [The import has completed from]
 [What do you want to do with the file now?]
-Co chcete udìlat s tímto souborem?
+Co chcete udÄ›lat s tÃ­mto souborem?
 [&Recycle]
-Pø&esunout do koše
+PÅ™&esunout do koÅ¡e
 [&Delete]
 [&Move/Rename]
-Pøesunout/Pøej&menovat
+PÅ™esunout/PÅ™ej&menovat
 [&Leave]
-Ode&jít
+Ode&jÃ­t
 [Database encryption]
-Šifrování databáze
+Å ifrovÃ¡nÃ­ databÃ¡ze
 [Info:]
 [Author:]
 [Site:]
-Stránka:
+StrÃ¡nka:
 [Email:]
 [Unique ID:]
 ID:
@@ -65,16 +65,16 @@ ID:
 [You are not authorized for access to Database]
 [Secured MMAP: authorization successful]
 [Database is marked as belonging to an unknown version of Miranda]
-Vybraná databáze není kompatibilní s vaší verzí Mirandy
+VybranÃ¡ databÃ¡ze nenÃ­ kompatibilnÃ­ s vaÅ¡Ã­ verzÃ­ Mirandy
 ;file \plugins\Dbx_mmap_SA\src\dialogs.cpp
 [Database Features]
-Funkce databáze
+Funkce databÃ¡ze
 [Database]
-Databáze
+DatabÃ¡ze
 [Change Password]
-Zmìnit heslo
+ZmÄ›nit heslo
 [Change password]
-Zmìnit heslo
+ZmÄ›nit heslo
 [Set password]
 Nastavit heslo
 [Dll]
@@ -86,13 +86,13 @@ Nastavit heslo
 [Please type in your password for]
 [Too many errors!]
 [Password is not correct!]
-Zadané heslo není správné!
+ZadanÃ© heslo nenÃ­ sprÃ¡vnÃ©!
 [Please enter your new password]
-Prosím zadejte nové heslo
+ProsÃ­m zadejte novÃ© heslo
 [Password is too short!]
-Heslo je pøíliš krátké!
+Heslo je pÅ™Ã­liÅ¡ krÃ¡tkÃ©!
 [Passwords do not match!]
-Zadaná hesla se neshodují!
+ZadanÃ¡ hesla se neshodujÃ­!
 [Wrong password!]
 ;file \plugins\Dbx_mmap_SA\src\init.cpp
 [db3x secure mmap database support]
@@ -104,7 +104,7 @@ Zadaná hesla se neshodují!
 [Crypto modules not found]
 [Crypto module hasn't been chosen, using first one found]
 [Notice]
-Poznámka
+PoznÃ¡mka
 [DB is already secured!]
 [current database]
 [Set Password]

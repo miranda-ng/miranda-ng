@@ -1,4 +1,4 @@
-;[%artist% - %title%]
+﻿;[%artist% - %title%]
 ;[%d:%02d]
 ;[%d:%02d:%02d]
 ;[%listening%]

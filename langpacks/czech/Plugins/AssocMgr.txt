@@ -1,4 +1,4 @@
-#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
+Ôªø#muuid {52685cd7-0ec7-44c1-a1a6-381612418202}
 ;============================================================
 ;  File: AssocMgr.dll
 ;  Plugin: File Association Manager
@@ -9,7 +9,7 @@
 ;file \plugins\AssocMgr\res\resource.rc
 [Registered associations for Miranda NG:]
 [Miscellaneous]
-OstatnÌ
+Ostatn√≠
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
 ;file \plugins\AssocMgr\src\assoclist.cpp
@@ -25,7 +25,7 @@ Popis
 [Autostart Error]
 [There was an error writing to the registry to modify the autostart list.\n\nReason: %s]
 [Services]
-Sluûby
+Slu≈æby
 [Associations]
 [Miranda NG Database]
 ;file \plugins\AssocMgr\src\dde.cpp
@@ -65,7 +65,7 @@ Miranda
 Cesta
 [\\operadef6.ini]
 [System]
-SystÈm
+Syst√©m
 [Multi User]
 [%APPDATA%\\Opera]
 [\\profile\\opera6.ini]

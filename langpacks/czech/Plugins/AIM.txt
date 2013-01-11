@@ -1,4 +1,4 @@
-#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
+ï»¿#muuid {3750a5a3-bf0d-490e-b65d-41ac4d29aeb3}
 ;============================================================
 ;  File: AIM.dll
 ;  Plugin: AIM protocol
@@ -10,40 +10,40 @@
 [AIM User Details]
 Informace o kontaktu
 [Screen Name:]
-Identifikátor:
+IdentifikÃ¡tor:
 [Display Name:]
-Zobr. jméno:
+Zobr. jmÃ©no:
 [Password:]
 [Login Server:]
 Server:
 [AIM Options]
-Monosti AIM
+MoÅ¾nosti AIM
 [Message Delivery Confirmation]
-Potvrdit doruèení zprávy
+Potvrdit doruÄenÃ­ zprÃ¡vy
 [Do Not Autoreply When Away]
-Vypnout automatické odpovìdi
+Vypnout automatickÃ© odpovÄ›di
 [Convert Incoming Messages to BBCode]
-Konvertovat pøíchozí zprávy do BBCode
+Konvertovat pÅ™Ã­chozÃ­ zprÃ¡vy do BBCode
 [Convert Outgoing Messages to HTML]
-Konvertovat odchozí zprávy do HTML
+Konvertovat odchozÃ­ zprÃ¡vy do HTML
 [Disable Avatars]
 Vypnout avatary
 [Disable Account Type Icons]
-Vypnout informace o typu úètu
+Vypnout informace o typu ÃºÄtu
 [Disable Extended Status Icons]
-Vypnout rozšíøené stavové ikony
+Vypnout rozÅ¡Ã­Å™enÃ© stavovÃ© ikony
 [Notify about new mail]
-Upozornit na novou poštu
+Upozornit na novou poÅ¡tu
 [Advanced Options]
 [Instant Idle on Login]
-Po pøihlášení neèinnost
+Po pÅ™ihlÃ¡Å¡enÃ­ neÄinnost
 [Force Proxy File Transfers]
-Data pøenášet jen pøes proxy server
+Data pÅ™enÃ¡Å¡et jen pÅ™es proxy server
 [Masquerade as a Sidekick/Hiptop User]
-Vydávat se za uivatele Sidekick/Hiptop
+VydÃ¡vat se za uÅ¾ivatele Sidekick/Hiptop
 [*Aim must be reconnected  for some option to take effect.]
 [Connection]
-Spojení
+SpojenÃ­
 [Port:]
 [Reset]
 [Disable SSL]
@@ -51,62 +51,62 @@ Vypnout SSL
 [Manage Server Groups]
 Spravovat skupiny na serveru
 [Force Single Client]
-Vynutit jediného klienta
+Vynutit jedinÃ©ho klienta
 [Save Profile]
-Uloit profil
+UloÅ¾it profil
 [Create a new AIM account]
-Zøídit novı úèet v síti AIM
+ZÅ™Ã­dit novÃ½ ÃºÄet v sÃ­ti AIM
 [Number of Hours:]
-Poèet hodin:
+PoÄet hodin:
 [Number of Minutes:]
-Poèet minut:
+PoÄet minut:
 [Set Idle]
 Nastavit
 [Unset Idle]
-Zrušit
+ZruÅ¡it
 [Users who can contact me:]
 Pravidla pro komunikaci:
 [Allow all users]
-Povolit všechny uivatele
+Povolit vÅ¡echny uÅ¾ivatele
 [Allow only users on contact list]
-Pouze uivatelé v seznamu kontaktù
+Pouze uÅ¾ivatelÃ© v seznamu kontaktÅ¯
 [Allow only users below]
-Povolit pouze níe uvedené
+Povolit pouze nÃ­Å¾e uvedenÃ©
 [Block all users]
-Blokovat všechny uivatele
+Blokovat vÅ¡echny uÅ¾ivatele
 [Block only users below]
-Blokovat pouze níe uvedené
+Blokovat pouze nÃ­Å¾e uvedenÃ©
 [Add]
 [Remove]
 [Idle]
 [Allow contacts to be notified of:]
-Povolit kontaktùm upozornìní na:
+Povolit kontaktÅ¯m upozornÄ›nÃ­ na:
 [Chat Room]
-Diskusní místnost
+DiskusnÃ­ mÃ­stnost
 [&Join]
-Pøi&jít
+PÅ™i&jÃ­t
 [&Cancel]
 [This allows access to user defined chat rooms. To access predefined chat rooms use web links]
 [Change Password]
-Zmìnit heslo
+ZmÄ›nit heslo
 [Original]
 [New]
 [Repeat]
 [*Passwords don't match.]
 [Screen Name]
-Identifikátor
+IdentifikÃ¡tor
 [E-mail]
 [Confirm Account]
 [*Applied upon reconnect]
 [Save Changes]
-Uloit zmìny
+UloÅ¾it zmÄ›ny
 [&Invite]
 &Pozvat
 [Invitation reason]
 [&Deny]
 [Message]
 [Room]
-Místnost
+MÃ­stnost
 ;file \protocols\AimOscar\src\avatars.cpp
 [.gif]
 #muuid {60558872-2aab-45aa-888d-097691c9b683}
@@ -120,7 +120,7 @@ Místnost
 [\\%s]
 ;file \protocols\AimOscar\src\chat.cpp
 [Others]
-Ostatní
+OstatnÃ­
 [&Invite user...]
 [&Leave chat session]
 [User &details]
@@ -208,15 +208,15 @@ Ostatní
 [Open mail account?]
 ;file \protocols\AimOscar\src\proto.cpp
 [%s server connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 [%s Client-to-client connection]
-%s - pøímé spojení mezi klienty
+%s - pÅ™Ã­mÃ© spojenÃ­ mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
 [[Auto-Response]:]
-Autom. odpovìï: 
+Autom. odpovÄ›Ä: 
 [Contact tried to open an audio/video conference (currently not supported)]
 [No information has been provided by the server.]
-Server nedodal poadované informace.
+Server nedodal poÅ¾adovanÃ© informace.
 [Successfully removed buddy from list.]
 [Item you want to delete not found in list.]
 [Failed to add buddy to list: Item already exist.]
@@ -248,74 +248,74 @@ Blokovat
 [Profile]
 Profil
 [AOL Mail]
-Pošta AOL
+PoÅ¡ta AOL
 [AIM Icon]
 Ikona AIM
 [Hiptop]
 [AOL Bot]
 Robot AOL
 [Admin]
-Správce
+SprÃ¡vce
 [Confirmed]
 Potvrzeno
 [Not Confirmed]
 Nepotvrzeno
 [Blocked list]
-Seznam zablokovanıch
+Seznam zablokovanÃ½ch
 [AOL]
 [Foreground Color]
-Barva popøedí
+Barva popÅ™edÃ­
 [Background Color]
-Barva pozadí
+Barva pozadÃ­
 [Bold]
-Tuèné
+TuÄnÃ©
 [Not Bold]
-Tuèné ne
+TuÄnÃ© ne
 [Italic]
-Kurzíva
+KurzÃ­va
 [Not Italic]
-Kurzíva ne
+KurzÃ­va ne
 [Underline]
-Podtrené
+PodtrÅ¾enÃ©
 [Not Underline]
-Podtrené ne
+PodtrÅ¾enÃ© ne
 [Subscript]
-Dolní index
+DolnÃ­ index
 [Not Subscript]
-Dolní index ne
+DolnÃ­ index ne
 [Superscript]
-Horní index
+HornÃ­ index
 [Not Superscript]
-Horní index ne
+HornÃ­ index ne
 [Normal Script]
-Normální písmo
+NormÃ¡lnÃ­ pÃ­smo
 [Not Normal Script]
-Normální písmo ne
+NormÃ¡lnÃ­ pÃ­smo ne
 [AIM Account Type]
-Typ AIM úètu
+Typ AIM ÃºÄtu
 [AIM Extended Status]
-AIM rozšíøenı stav
+AIM rozÅ¡Ã­Å™enÃ½ stav
 [&Block]
 Za&blokovat
 [&Unblock]
 Od&blokovat
 [Manage Account]
-Upravit úèet
+Upravit ÃºÄet
 [Instant Idle]
-Pøejít do neèinnosti
+PÅ™ejÃ­t do neÄinnosti
 [Read &HTML Away Message]
-&Pøeèíst autom. odpovìï
+&PÅ™eÄÃ­st autom. odpovÄ›Ä
 [Read Profile]
-Pøeèíst profil
+PÅ™eÄÃ­st profil
 [Add To Server List]
-Pøidat do seznamu na serveru
+PÅ™idat do seznamu na serveru
 ;file \protocols\AimOscar\src\ui.cpp
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Basic]
-Obecné
+ObecnÃ©
 [Privacy]
-Soukromí
+SoukromÃ­
 [Join me in this buddy chat!]
 ;file \protocols\AimOscar\src\utility.cpp
 [Please, enter a username in the options dialog.]

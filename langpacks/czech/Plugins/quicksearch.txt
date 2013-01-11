@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for quicksearch
 ;file \plugins\QuickSearch\qs.rc
 [*]
@@ -7,49 +7,49 @@
 [C&ancel]
 [Default]
 [Settings]
-Nastavení
+NastavenÃ­
 [Title:]
-Název:
+NÃ¡zev:
 [Type:]
 [InfoType:]
 Typ inf.:
 [Script]
 [Service:]
-Sluba:
+SluÅ¾ba:
 [wParam:]
 [Setting:]
-Nastavení:
+NastavenÃ­:
 [wParam type:]
 wParam typ:
 [lParam:]
 [lParam type:]
 lParam typ:
 [Sort by Status]
-Seøadit podle stavu
+SeÅ™adit podle stavu
 [Only Users in List]
 Pouze kontakty v seznamu
 [Auto Close mode]
-Automaticky zavøít
+Automaticky zavÅ™Ã­t
 [Draw Grid]
-Vykreslit møíku
+Vykreslit mÅ™Ã­Å¾ku
 [Show Client Icons]
-Zobrazit ikony klientù
+Zobrazit ikony klientÅ¯
 [Save search pattern]
-Zapamatovat hledanı øetìzec
+Zapamatovat hledanÃ½ Å™etÄ›zec
 [Item in Main Menu]
-Pøidat poloku do menu
+PÅ™idat poloÅ¾ku do menu
 [Button on TopToolBar]
-Tlaèítko do horní lišty
+TlaÄÃ­tko do hornÃ­ liÅ¡ty
 [Tool Window Style]
 Tool styl okna
 [Copy line to CSV]
-Zkopírovat øádek do CSV
+ZkopÃ­rovat Å™Ã¡dek do CSV
 [CSV with headers]
-CSV s hlavièkou
+CSV s hlaviÄkou
 [Skip minimized columns]
-Ignorovat skryté sloupce
+Ignorovat skrytÃ© sloupce
 [Additional Options]
-Ostatní monosti
+OstatnÃ­ moÅ¾nosti
 [Refresh]
 Aktualizovat
 [Show Offline contacts]
@@ -60,61 +60,61 @@ Obarvit
 Hledat:
 ;file \plugins\QuickSearch\sr_frame.pas
 [Previous item]
-Pøedchozí poloka
+PÅ™edchozÃ­ poloÅ¾ka
 [Next item]
-Další poloka
+DalÅ¡Ã­ poloÅ¾ka
 [Open main window]
-Otevøít hlavní okno
+OtevÅ™Ã­t hlavnÃ­ okno
 ;file \plugins\QuickSearch\sr_optdialog.pas
 [Metacontact]
 [Service]
-Sluba
+SluÅ¾ba
 [number value]
-èíselná hodnota
+ÄÃ­selnÃ¡ hodnota
 [integer value]
 integer hodnota
 [ANSI string]
-ANSI øetìzec
+ANSI Å™etÄ›zec
 [Unicode string]
-Unicode øetìzec
+Unicode Å™etÄ›zec
 [current contact]
-souèasnı kontakt
+souÄasnÃ½ kontakt
 [New]
 [Save Item]
-Uloit poloku
+UloÅ¾it poloÅ¾ku
 [Down]
 [Delete]
 [Reload]
-Naèíst znovu
+NaÄÃ­st znovu
 ;file \plugins\QuickSearch\sr_window.pas
 [ users found (]
 [) Online: ]
 [Online]
 [deleted]
-smazáno
+smazÃ¡no
 [off]
 vyp
 [active]
-Aktivní
+AktivnÃ­
 [Do you really want to delete selected contacts?]
 [Warning]
-Upozornìní
+UpozornÄ›nÃ­
 [Some of selected contacts in different metacontacts already]
 [One or more contacts in same Meta already. Try to convert anyway?]
 [Selected]
-Vybráno
+VybrÃ¡no
 [contacts]
 [&Delete]
 [&Copy]
 [C&onvert to Meta]
 [&Move to Group]
-Pøesunout do s&kupiny
+PÅ™esunout do s&kupiny
 [Male]
-mu
+muÅ¾
 [Female]
-ena
+Å¾ena
 [Unknown]
 [All]
-všechno
+vÅ¡echno
 [Stay on Top]
-Vdy navrchu
+VÅ¾dy navrchu

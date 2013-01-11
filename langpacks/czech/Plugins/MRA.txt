@@ -1,4 +1,4 @@
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
+ï»¿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;============================================================
 ;  File: MRA.dll
 ;  Plugin: MRA
@@ -9,7 +9,7 @@
 [E-mail:]
 [Password:]
 [Create a new account]
-Vytvoøit novı úèet
+VytvoÅ™it novÃ½ ÃºÄet
 [Configuration]
 [Login Server:]
 Server:
@@ -29,18 +29,18 @@ Server:
 [Send formatted text (send RTF)]
 [Background colour]
 [Font]
-Písmo
+PÃ­smo
 [Summary]
 [Nickname:]
 [First name:]
-Jméno:
+JmÃ©no:
 [Last name:]
-Pøíjmení:
+PÅ™Ã­jmenÃ­:
 [@]
 [Gender:]
-Pohlaví:
+PohlavÃ­:
 [Age:]
-Vìk:
+VÄ›k:
 [from:]
 [to:]
 do:
@@ -49,12 +49,12 @@ Narozeniny:
 [Zodiak:]
 [Location]
 [Country:]
-Zemì:
+ZemÄ›:
 [State:]
 [Search online users only]
-Hledat pouze mezi uivateli online
+Hledat pouze mezi uÅ¾ivateli online
 [City:]
-Mìsto:
+MÄ›sto:
 [Remember]
 [Enable avatars support (loading)]
 [Server:]
@@ -71,7 +71,7 @@ Server:
 [Hide my IP addresses]
 [Add extra address]
 [Your host (or router):]
-Poèítaè (nebo brána):
+PoÄÃ­taÄ (nebo brÃ¡na):
 [File send block size:]
 [512 - 65536 bytes]
 [Enable direct connections]
@@ -89,16 +89,16 @@ E-mail:
 [Enable]
 Aktivovat
 [&Use Windows colors]
-Po&uít barvy Windows
+Po&uÅ¾Ã­t barvy Windows
 [Back Color]
-Barva pozadí
+Barva pozadÃ­
 [Text Color]
 Barva textu
 [Timeout]
 [Previe&w]
 [Closing in %d]
 [Title:]
-Název:
+NÃ¡zev:
 [Message:]
 [Enable Anti Spam]
 [Check temp contacts]
@@ -114,7 +114,7 @@ Název:
 [OK]
 [Cancel]
 [Notify]
-Oznámení
+OznÃ¡menÃ­
 [Writed:]
 [0/500]
 ;file \protocols\MRA\src\MraAvatars.cpp
@@ -144,7 +144,7 @@ Bez popisu
 [PopUps]
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
-%s - spojení se serverem
+%s - spojenÃ­ se serverem
 [E-mail address]
 [%04ld.%02ld.%02ld %02ld:%02ld: ]
 [%s%s]
@@ -153,12 +153,12 @@ Bez popisu
 [Network]
 #muuid {8432b009-ff32-4727-aae6-a9035038fd58}
 [Account]
-Úèet
+ÃšÄet
 [Connections]
-Spojení
+SpojenÃ­
 [Anti spam]
 [Files]
 Soubory
 ;file \protocols\MRA\src\Mra_svcs.cpp
 [Are you sure?]
-Opravdu chcete pokraèovat?
+Opravdu chcete pokraÄovat?

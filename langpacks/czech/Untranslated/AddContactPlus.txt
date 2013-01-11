@@ -1,4 +1,4 @@
-;[&Add]
+﻿;[&Add]
 ;[&Add contact...]
 ;[&Cancel]
 ;[Add Contact\nAdd a contact to your contact list]

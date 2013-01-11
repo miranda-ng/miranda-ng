@@ -1,4 +1,4 @@
-#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
+ï»¿#muuid {a0138fc6-4c52-4501-af93-7d3e20bcae5b}
 ;============================================================
 ;  File: dbchecker.dll
 ;  Plugin: Database Checker
@@ -9,101 +9,101 @@
 ;file \plugins\DbChecker\res\resource.rc
 [whiterect]
 [Welcome to the Miranda Database Wizard]
-Vítá vás prùvodce správou databáze Mirandy!
+VÃ­tÃ¡ vÃ¡s prÅ¯vodce sprÃ¡vou databÃ¡ze Mirandy!
 [Using this Wizard you can compact your Miranda profile database to remove dead space created during normal usage, as well as repair a large number of issues that could affect the database.]
-Tento prùvodce vám jednak umoní proèistit databázi od balastu, kterı se nasbírá pøi bìném pouívání programu, a zároveò také umí opravit celou øadu problémù.
+Tento prÅ¯vodce vÃ¡m jednak umoÅ¾nÃ­ proÄistit databÃ¡zi od balastu, kterÃ½ se nasbÃ­rÃ¡ pÅ™i bÄ›Å¾nÃ©m pouÅ¾Ã­vÃ¡nÃ­ programu, a zÃ¡roveÅˆ takÃ© umÃ­ opravit celou Å™adu problÃ©mÅ¯.
 [To continue, click Next.]
-Pokraèujte kliknutím na tlaèítko 'Další'.
+PokraÄujte kliknutÃ­m na tlaÄÃ­tko 'DalÅ¡Ã­'.
 [This programme is licenced under the terms of the GNU General Public License.]
-Tento program je šíøen v souladu s podmínkami licence GNU General Public License.
+Tento program je Å¡Ã­Å™en v souladu s podmÃ­nkami licence GNU General Public License.
 [< &Back]
 [&Next >]
 [Cancel]
 [Select Miranda Profile]
-Vıbìr poadovaného profilu
+VÃ½bÄ›r poÅ¾adovanÃ©ho profilu
 [You can choose the Miranda profile database to compact or repair.]
-V tomto kroku vybíráte profil, kterı chcete proèistit nebo opravit.
+V tomto kroku vybÃ­rÃ¡te profil, kterÃ½ chcete proÄistit nebo opravit.
 [Select the &profile database from the list below. If the database you wish to use is not listed here then click Other to browse your computer.]
-Ze seznamu vyberte poadovanı profil. Pokud ho v seznamu nevidíte, kliknìte na tlaèítko 'Vybrat' a vyhledejte v systému.
+Ze seznamu vyberte poÅ¾adovanÃ½ profil. Pokud ho v seznamu nevidÃ­te, kliknÄ›te na tlaÄÃ­tko 'Vybrat' a vyhledejte v systÃ©mu.
 [&File:]
 &Soubor:
 [&Other...]
 &Vybrat...
 [Error Opening Database]
-Chyba pøi otevírání databáze
+Chyba pÅ™i otevÃ­rÃ¡nÃ­ databÃ¡ze
 [There was an error opening the profile database given.]
-Chyba pøi otevírání poadované databáze.
+Chyba pÅ™i otevÃ­rÃ¡nÃ­ poÅ¾adovanÃ© databÃ¡ze.
 [Click Next to try opening the file again, or click Back to select a new profile database to manipulate.]
-Kliknutím na tlaèítko 'Další' zkusíte databázi znovu otevøít. Tlaèítkem 'Zpìt' se vrátíte k vıbìru profilu.
+KliknutÃ­m na tlaÄÃ­tko 'DalÅ¡Ã­' zkusÃ­te databÃ¡zi znovu otevÅ™Ã­t. TlaÄÃ­tkem 'ZpÄ›t' se vrÃ¡tÃ­te k vÃ½bÄ›ru profilu.
 [The file may be in use by a currently running copy of Miranda. Exit any running Mirandas and click Next to retry.]
-Vybranou databázi pouívá jinı program. Ukonèete všechny spuštìné instance programu Miranda a kliknìte na tlaèítko 'Další'.
+Vybranou databÃ¡zi pouÅ¾Ã­vÃ¡ jinÃ½ program. UkonÄete vÅ¡echny spuÅ¡tÄ›nÃ© instance programu Miranda a kliknÄ›te na tlaÄÃ­tko 'DalÅ¡Ã­'.
 [File Access Options]
-Ètení dat ze souboru
+ÄŒtenÃ­ dat ze souboru
 [You can select low level options to determine how the database is processed.]
-V tomto kroku definujete zpùsob otevøení databáze a zpracování dat v ní obsaenıch.
+V tomto kroku definujete zpÅ¯sob otevÅ™enÃ­ databÃ¡ze a zpracovÃ¡nÃ­ dat v nÃ­ obsaÅ¾enÃ½ch.
 [Create backup]
-Vytvoøit zálohu
+VytvoÅ™it zÃ¡lohu
 [Creates a backup copy of the database before any of the requested changes are made.]
-Pøed zápisem do databáze vytvoøí záloní kopii.
+PÅ™ed zÃ¡pisem do databÃ¡ze vytvoÅ™Ã­ zÃ¡loÅ¾nÃ­ kopii.
 [Aggressively find corruption]
-Dùkladnì zkontrolovat všechna data
+DÅ¯kladnÄ› zkontrolovat vÅ¡echna data
 [Scans the database for data that is not linked to any other data. This requires more disk space and more time, so is only required if you suspect corruption.]
-Vyhledá v databázi taková data, která nejsou propojená s ostatními. Tato operace vyaduje místo na disku i èas, take lze doporuèit jen v pøípadì podezøení na poškození databáze.
+VyhledÃ¡ v databÃ¡zi takovÃ¡ data, kterÃ¡ nejsou propojenÃ¡ s ostatnÃ­mi. Tato operace vyÅ¾aduje mÃ­sto na disku i Äas, takÅ¾e lze doporuÄit jen v pÅ™Ã­padÄ› podezÅ™enÃ­ na poÅ¡kozenÃ­ databÃ¡ze.
 [Check consistency only]
 Pouze zkontrolovat konzistenci dat
 [Just checks that the database is valid, without writing anything to the disk.]
-Pouze zkontroluje platnost dat obsaenıch v databázi.
+Pouze zkontroluje platnost dat obsaÅ¾enÃ½ch v databÃ¡zi.
 [Cleaning Options]
-Monosti vyèištìní
+MoÅ¾nosti vyÄiÅ¡tÄ›nÃ­
 [You can choose to remove information from the database while it is being processed.]
-V této fázi si vyberete, které informace chcete z databáze odstranit.
+V tÃ©to fÃ¡zi si vyberete, kterÃ© informace chcete z databÃ¡ze odstranit.
 [Erase all histories]
-Vymazat veškerou historii
+Vymazat veÅ¡kerou historii
 [Removes all the saved history for all contacts in the database.]
-Odstraní veškerou uloenou historii od všech kontaktù v databázi.
+OdstranÃ­ veÅ¡kerou uloÅ¾enou historii od vÅ¡ech kontaktÅ¯ v databÃ¡zi.
 [Mark all events read]
-Oznaèit všechny události jako pøeètené
+OznaÄit vÅ¡echny udÃ¡losti jako pÅ™eÄtenÃ©
 [Marks all the history events as read. This will rectify any problems with old messages always appearing in the message window log box.]
-Oznaèí všechny události historie jako pøeètené. To by mìlo pomoci v pøípadech, kdy se v záznamu komunikace stále objevují staré zprávy.
+OznaÄÃ­ vÅ¡echny udÃ¡losti historie jako pÅ™eÄtenÃ©. To by mÄ›lo pomoci v pÅ™Ã­padech, kdy se v zÃ¡znamu komunikace stÃ¡le objevujÃ­ starÃ© zprÃ¡vy.
 [Convert old Unicode messages to UTF8]
-Zkonvertovat zprávy do kódování UTF8
+Zkonvertovat zprÃ¡vy do kÃ³dovÃ¡nÃ­ UTF8
 [Converts history messages in pre-0.7 format (ANSI+UCS2) to the new UTF8 format supported by 0.7. Saves the database space in most cases (recommended).]
 [Working...]
-Probíhá údrba...
+ProbÃ­hÃ¡ ÃºdrÅ¾ba...
 [Please wait while the requested operations are being performed.]
-Poèkejte prosím, správce provádí poadovanou údrbu databáze.
+PoÄkejte prosÃ­m, sprÃ¡vce provÃ¡dÃ­ poÅ¾adovanou ÃºdrÅ¾bu databÃ¡ze.
 [Progress1]
 [Finished!]
-Dokonèeno!
+DokonÄeno!
 [All tasks have been completed.]
-Veškeré poadované operace byly dokonèeny.
+VeÅ¡kerÃ© poÅ¾adovanÃ© operace byly dokonÄeny.
 [Launch Miranda with this profile]
-Spustit Mirandu s vybranou databází
+Spustit Mirandu s vybranou databÃ¡zÃ­
 [Launches Miranda with the profile that was just worked on.]
-Spustí Mirandu s právì vyèištìnou databází.
+SpustÃ­ Mirandu s prÃ¡vÄ› vyÄiÅ¡tÄ›nou databÃ¡zÃ­.
 [Backup:]
-Záloha:
+ZÃ¡loha:
 [The processing of the database has been completed. Click Next to return to the start of the wizard to select another database to check, or click Finish to exit the wizard.]
-Kontrola databáze byla dokonèena. Chcete-li prùvodce spustit znovu, kliknìte na tlaèítko 'Další'. Kliknutím na tlaèítko 'Dokonèit' program ukonèíte.
+Kontrola databÃ¡ze byla dokonÄena. Chcete-li prÅ¯vodce spustit znovu, kliknÄ›te na tlaÄÃ­tko 'DalÅ¡Ã­'. KliknutÃ­m na tlaÄÃ­tko 'DokonÄit' program ukonÄÃ­te.
 ;file \plugins\DbChecker\src\finished.cpp
 [&Finish]
-&Dokonèit
+&DokonÄit
 ;file \plugins\DbChecker\src\progress.cpp
 [Click Next to continue]
-Pokraèujte kliknutím na tlaèítko 'Další'
+PokraÄujte kliknutÃ­m na tlaÄÃ­tko 'DalÅ¡Ã­'
 [Processing has not yet completed, if you cancel now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to cancel?]
-Zpracování ještì nebylo dokonèeno. Pokud jej nyní zrušíte, zmìny, které byly aktuálnì provedeny, budou vráceny zpìt a originální databáze bude obnovena. Opravdu si pøejete zpracování zrušit?
+ZpracovÃ¡nÃ­ jeÅ¡tÄ› nebylo dokonÄeno. Pokud jej nynÃ­ zruÅ¡Ã­te, zmÄ›ny, kterÃ© byly aktuÃ¡lnÄ› provedeny, budou vrÃ¡ceny zpÄ›t a originÃ¡lnÃ­ databÃ¡ze bude obnovena. Opravdu si pÅ™ejete zpracovÃ¡nÃ­ zruÅ¡it?
 [Miranda Database Tool]
-Nástroj pro správu databáze Mirandy
+NÃ¡stroj pro sprÃ¡vu databÃ¡ze Mirandy
 [Processing has not yet completed, if you go back now then the changes that have currently been made will be rolled back and the original database will be restored. Do you still want to go back?]
-Zpracování ještì nebylo dokonèeno. Pokud se nyní vrátíte zpìt, zmìny, které byly aktuálnì provedeny, budou vráceny zpìt a originální databáze bude obnovena. Opravdu si pøejete vrátit se zpìt?
+ZpracovÃ¡nÃ­ jeÅ¡tÄ› nebylo dokonÄeno. Pokud se nynÃ­ vrÃ¡tÃ­te zpÄ›t, zmÄ›ny, kterÃ© byly aktuÃ¡lnÄ› provedeny, budou vrÃ¡ceny zpÄ›t a originÃ¡lnÃ­ databÃ¡ze bude obnovena. Opravdu si pÅ™ejete vrÃ¡tit se zpÄ›t?
 ;file \plugins\DbChecker\src\selectdb.cpp
 [Database Checker cannot find a suitable database plugin to open '%s'.]
 [Error]
 [Database driver '%s' doesn't support checking.]
 [\\mirandaboot.ini]
 [Database]
-Databáze
+DatabÃ¡ze
 [ProfileDir]
 [./Profiles]
 [%s%s]
@@ -113,7 +113,7 @@ Databáze
 [\\*.*]
 [%s\\%s\\%s.dat]
 [Total size]
-Celková velikost
+CelkovÃ¡ velikost
 [Wasted]
 Balast
 [\\Profiles]
@@ -126,36 +126,36 @@ Cesta
 [[reg]\\]
 [Miranda Databases (*.dat)\0*.DAT\0All Files (*)\0*\0]
 [Miranda Databases (*.dat)]
-Databáze Mirandy (*.dat)
+DatabÃ¡ze Mirandy (*.dat)
 [All Files]
 [*.DAT]
 [dat]
 ;file \plugins\DbChecker\src\wizard.cpp
 ;file \plugins\DbChecker\src\worker.cpp
 [Errors were encountered, however you selected not to backup the original database. It is strongly recommended that you do so in case important data was omitted. Do you wish to keep a backup of the original database?]
-Byly nalezeny chyby, ale nebylo zvoleno vytvoøení zálohy databáze. Je silnì doporuèeno pouívat tuto volbu pro pøípad, e by byly vynechány dùleité data. Pøejete si ponechat zálohu originální databáze?
+Byly nalezeny chyby, ale nebylo zvoleno vytvoÅ™enÃ­ zÃ¡lohy databÃ¡ze. Je silnÄ› doporuÄeno pouÅ¾Ã­vat tuto volbu pro pÅ™Ã­pad, Å¾e by byly vynechÃ¡ny dÅ¯leÅ¾itÃ© data. PÅ™ejete si ponechat zÃ¡lohu originÃ¡lnÃ­ databÃ¡ze?
 [%s\\Backup of %s]
 %s\\%s (zaloha)
 [%s\\Backup (%d) of %s]
 %s\\(%d) %s (zaloha)
 [Unable to rename original file]
-Pùvodní soubor nelze pøejmenovat.
+PÅ¯vodnÃ­ soubor nelze pÅ™ejmenovat.
 [Unable to delete original file]
-Pùvodní soubor nelze odstranit.
+PÅ¯vodnÃ­ soubor nelze odstranit.
 [Unable to rename output file]
-Vıstupní soubor nelze pøejmenovat.
+VÃ½stupnÃ­ soubor nelze pÅ™ejmenovat.
 [Database worker thread activated]
-Aktivace procesu pro práci s databází
+Aktivace procesu pro prÃ¡ci s databÃ¡zÃ­
 [<check only>]
 <pouze ke kontrole>
 [ (Output).dat]
- (vıstupní).dat
+ (vÃ½stupnÃ­).dat
 [Can't create output file (%u)]
-Nelze vytvoøit vıstupní soubor (%u)
+Nelze vytvoÅ™it vÃ½stupnÃ­ soubor (%u)
 [Processing aborted by user]
-Procházení pøerušeno uivatelem
+ProchÃ¡zenÃ­ pÅ™eruÅ¡eno uÅ¾ivatelem
 [Elapsed time: %d sec]
-Délka kontroly: %d sek.
+DÃ©lka kontroly: %d sek.
 [All tasks completed but with errors (%d)]
 [All tasks completed successfully]
-Všechny úlohy byly úspìšnì dokonèeny
+VÅ¡echny Ãºlohy byly ÃºspÄ›Å¡nÄ› dokonÄeny

@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: MenuEx.dll
 ;  Plugin: Menu Item Ext
@@ -9,72 +9,72 @@
 [&Send]
 [&Cancel]
 [Shown menu items]
-Viditelné poloky v menu
+ViditelnÃ© poloÅ¾ky v menu
 [Visibility]
 [Show alpha icons]
-Zobrazit prùhledné ikony
+Zobrazit prÅ¯hlednÃ© ikony
 [Hide from list]
-Skrıt
+SkrÃ½t
 [Ignore]
 [Copy to Account (Ctrl+click for move to Account)]
-Zkopírovat do úètu (Ctrl+klik pro pøesunutí do úètu)
+ZkopÃ­rovat do ÃºÄtu (Ctrl+klik pro pÅ™esunutÃ­ do ÃºÄtu)
 [Send 'You were added']
-Odeslat zprávu o zaøazení
+Odeslat zprÃ¡vu o zaÅ™azenÃ­
 [Request Authorization]
-Poádat o autorizaci
+PoÅ¾Ã¡dat o autorizaci
 [Browse Received Files]
 [Copy IP]
-Zkopírovat IP adresu
+ZkopÃ­rovat IP adresu
 [Copy MirVer]
-Zkopírovat klienta
+ZkopÃ­rovat klienta
 [Copy Status Message]
-Zkopírovat zprávu stavu
+ZkopÃ­rovat zprÃ¡vu stavu
 [Add item name]
-Pøidat název poloky
+PÅ™idat nÃ¡zev poloÅ¾ky
 [Copy ID]
-Zkopírovat ID
+ZkopÃ­rovat ID
 [Add protocol name]
-Pøidat název protokolu
+PÅ™idat nÃ¡zev protokolu
 [Show ID in menu item]
-Zobrazit ID v poloce menu
+Zobrazit ID v poloÅ¾ce menu
 [Trim too long ID]
-Zkrátit pøíliš dlouhé ID
+ZkrÃ¡tit pÅ™Ã­liÅ¡ dlouhÃ© ID
 [* Use Ctrl+click to see popup with the copied text]
-* Pouít Ctrl+klik pro zobrazení oznámení se zkopírovanım textem
+* PouÅ¾Ã­t Ctrl+klik pro zobrazenÃ­ oznÃ¡menÃ­ se zkopÃ­rovanÃ½m textem
 [Hide contact on 'Ignore all']
 [Other options]
-Ostatní monosti
+OstatnÃ­ moÅ¾nosti
 [Automatically refresh contact's details after they come online]
 ;file \plugins\MenuItemEx\src\main.cpp
 [Status message]
 [XStatus title]
-Název rozšíøeného stavu
+NÃ¡zev rozÅ¡Ã­Å™enÃ©ho stavu
 [XStatus message]
-Zpráva rozš.stavu
+ZprÃ¡va rozÅ¡.stavu
 [Listening to]
 [Activity title]
 [Activity text]
 [Show in list]
 [Always visible]
-Tento èlovìk mì vdy uvidí
+Tento ÄlovÄ›k mÄ› vÅ¾dy uvidÃ­
 [Never visible]
-Tento èlovìk mì nikdy neuvidí
+Tento ÄlovÄ›k mÄ› nikdy neuvidÃ­
 [Request authorization]
 [Copy to Account]
 [Copy xStatus Message]
 [All]
-všechno
+vÅ¡echno
 [Messages]
-Zprávy
+ZprÃ¡vy
 [URL]
 [Files]
 Soubory
 [User Online]
-Uivatel online
+UÅ¾ivatel online
 [Authorization]
 Autorizace
 [You Were Added]
-Zpráva o zaøazení mezi kontakty
+ZprÃ¡va o zaÅ™azenÃ­ mezi kontakty
 [Typing Notify]
 [Please authorize me to add you to my contact list.]
 [%s [%s]]

@@ -1,4 +1,4 @@
-;[ 80]
+﻿;[ 80]
 ;[ 1863]
 ;[%%miranda_userdata%%\\Avatars\\%s]
 ;[%I64u bytes]

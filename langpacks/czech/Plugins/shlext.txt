@@ -1,36 +1,36 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for shlext
 ;file \plugins\ShlExt\shldlgs.rc
 [Display contacts in their assigned groups (if any)]
-Zobrazit kontakt v jeho vlastní skupinì (pokud v nìjaké je)
+Zobrazit kontakt v jeho vlastnÃ­ skupinÄ› (pokud v nÄ›jakÃ© je)
 [Only if/when the contact list is using them]
-Pouze kdy seznam kontaktù skupiny pouívá
+Pouze kdyÅ¾ seznam kontaktÅ¯ skupiny pouÅ¾Ã­vÃ¡
 [Display hidden, ignored or temporary contacts]
-Zobrazovat skryté, ignorované nebo doèasné kontakty
+Zobrazovat skrytÃ©, ignorovanÃ© nebo doÄasnÃ© kontakty
 [Menus]
-Nabídky
+NabÃ­dky
 [Shell Status]
-Stav integrace v prostøedí
+Stav integrace v prostÅ™edÃ­
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Shell context menus]
-Kontextové nabídky
+KontextovÃ© nabÃ­dky
 [Do not display the profile name in use]
-Nezobrazovat název pouívaného profilu
+Nezobrazovat nÃ¡zev pouÅ¾Ã­vanÃ©ho profilu
 [Show contacts that you have set privacy rules for]
-Zobrazit kontakty pro které existují soukromá práva
+Zobrazit kontakty pro kterÃ© existujÃ­ soukromÃ¡ prÃ¡va
 [Remove]
 [Do not show status icons in menus]
-Nezobrazovat v nabídce ikonu stavu
+Nezobrazovat v nabÃ­dce ikonu stavu
 [Do not show contacts that are offline, even if my contact list does]
 Nezobrazovat offline kontakty 
 ;file \plugins\ShlExt\shlcom.pas
 [Miranda]
 Miranda
 [Recently]
-Èasto pouívané
+ÄŒasto pouÅ¾Ã­vanÃ©
 [Clear entries]
-Vymazat poloky
+Vymazat poloÅ¾ky
 ;file \plugins\ShlExt\shlext.dpr
 [Disable/Remove shlext]
-Zakázat/odstranit shlext
+ZakÃ¡zat/odstranit shlext

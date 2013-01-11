@@ -1,4 +1,4 @@
-;[&Favourite Contacts...]
+﻿;[&Favourite Contacts...]
 ;[<no group>]
 ;[Contact name]
 ;[FavContactsMenuHostWnd]

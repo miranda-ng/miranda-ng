@@ -1,4 +1,4 @@
-#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
+ï»¿#muuid {4fac353d-0a36-44a4-9064-6759c53ae782}
 ;============================================================
 ;  File: BossKey.dll
 ;  Plugin: BossKey+
@@ -11,50 +11,50 @@
 [Trigger when Miranda is showing]
 [Pre-conditions]
 [Go to Customize -> Hotkeys to change the hotkey]
-Zkratky zmìníte v sekci Vlastní úpravy -> Klávesové zkratky
+Zkratky zmÄ›nÃ­te v sekci VlastnÃ­ Ãºpravy -> KlÃ¡vesovÃ© zkratky
 [When I press the hotkey:]
-Po stisku vybrané klávesy:
+Po stisku vybranÃ© klÃ¡vesy:
 [Change status to]
-Zmìnit stav na
+ZmÄ›nit stav na
 [Change only if current status is Online]
-Zmìnit pouze kdy je stávající stav online
+ZmÄ›nit pouze kdyÅ¾ je stÃ¡vajÃ­cÃ­ stav online
 [Use default status message]
-Pouít vıchozí stavovou zprávu
+PouÅ¾Ã­t vÃ½chozÃ­ stavovou zprÃ¡vu
 [Disable Sounds]
-Zakázat zvuky
+ZakÃ¡zat zvuky
 [Show the Tray Icon]
-Zobrazit ikonu v oznamovací oblasti
+Zobrazit ikonu v oznamovacÃ­ oblasti
 [When I return:]
-Po návratu:
+Po nÃ¡vratu:
 [Request password:]
-Vyadovat heslo:
+VyÅ¾adovat heslo:
 [Change status back]
-Vrátit pùvodní stav
+VrÃ¡tit pÅ¯vodnÃ­ stav
 [Hotkey]
-Klávesy
+KlÃ¡vesy
 [Password:]
 [OK]
 [Cancel]
 [EN]
 [Workstation is Locked (2000/XP+)]
-Pracovní stanice je uzamèena (2000/XP+)
+PracovnÃ­ stanice je uzamÄena (2000/XP+)
 [Screen Saver is running]
-Bìící spoøiè obrazovky
+BÄ›Å¾Ã­cÃ­ spoÅ™iÄ obrazovky
 [Windows is inactive]
-Windows je neaktivní
+Windows je neaktivnÃ­
 [Hide Miranda when:]
-Skrıt Mirandu pøi:
+SkrÃ½t Mirandu pÅ™i:
 [Miranda is inactive]
-Miranda je neaktivní
+Miranda je neaktivnÃ­
 [min]
 [Miranda is started]
-Spuštìní Mirandy
+SpuÅ¡tÄ›nÃ­ Mirandy
 [Others]
-Ostatní
+OstatnÃ­
 [Create a main menu item]
-Pøidat poloku do hlavní nabídky
+PÅ™idat poloÅ¾ku do hlavnÃ­ nabÃ­dky
 [Restore hiding on startup after failure]
-Obnovit skrıvání pøi startu po chybì
+Obnovit skrÃ½vÃ¡nÃ­ pÅ™i startu po chybÄ›
 ;file \plugins\BossKeyPlus\src\BossKey.cpp
 [Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
@@ -67,7 +67,7 @@ Obnovit skrıvání pøi startu po chybì
 [Hide Miranda NG]
 [%s [%s]]
 [Hide]
-Skrıt
+SkrÃ½t
 [Hide/Show Miranda]
 [wtsapi32.dll]
 [dwmapi.dll]
@@ -77,7 +77,7 @@ Skrıt
 [MY6BossKey_Param]
 ;file \plugins\BossKeyPlus\src\Options.cpp
 [Open String Formatting Help]
-Otevøít nápovìdu o promìnnıch
+OtevÅ™Ã­t nÃ¡povÄ›du o promÄ›nnÃ½ch
 [Offline]
 [Online]
 [Away]
@@ -88,7 +88,7 @@ Otevøít nápovìdu o promìnnıch
 [BossKey]
 BossKey
 [Events]
-Události
+UdÃ¡losti
 [Main]
 #muuid {29517be5-779a-48e5-8950-cb4de1d43172}
 [Advanced]

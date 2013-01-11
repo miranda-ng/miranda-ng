@@ -1,4 +1,4 @@
-;[ (*.knt)]
+﻿;[ (*.knt)]
 ;[%s/ExitEvent]
 ;[%s/FlashEvent]
 ;[%s\n\n]

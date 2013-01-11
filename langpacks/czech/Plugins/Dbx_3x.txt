@@ -1,4 +1,4 @@
-#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
+ï»¿#muuid {1394a3ab-2585-4196-8f72-0eaec2450e11}
 ;============================================================
 ;  File: Dbx_3x.dll
 ;  Plugin: Dbx_3x
@@ -12,37 +12,37 @@ Ano
 Ne
 [A file containing new database settings has been placed in the Miranda NG directory.]
 [Do you want to import the settings now?]
-Chcete naimportovat tento konfiguraèní soubor?
+Chcete naimportovat tento konfiguraÄnÃ­ soubor?
 [No to all]
-Ne všem
+Ne vÅ¡em
 [&View contents]
 Zobrazit o&bsah
 [Security systems to prevent malicious changes are in place and you will be warned before changes that are not known to be safe.]
-Upozornìní: Potvrzením se pøedpokládá, e znáte rozsah úprav obsahu své databáze a jste si vìdomi všech monıch následkù.
+UpozornÄ›nÃ­: PotvrzenÃ­m se pÅ™edpoklÃ¡dÃ¡, Å¾e znÃ¡te rozsah Ãºprav obsahu svÃ© databÃ¡ze a jste si vÄ›domi vÅ¡ech moÅ¾nÃ½ch nÃ¡sledkÅ¯.
 [Database settings are being imported from]
-Importovanı konfiguraèní soubor
+ImportovanÃ½ konfiguraÄnÃ­ soubor
 [This file wishes to change the setting]
-Poadavek na zmìnu poloky
+PoÅ¾adavek na zmÄ›nu poloÅ¾ky
 [to the value]
 na hodnotu
 [Do you want to allow this change?]
-Chcete povolit úpravu této poloky?
+Chcete povolit Ãºpravu tÃ©to poloÅ¾ky?
 [&Allow all further changes to this section]
-&Povolit všechny další úpravy v této sekci
+&Povolit vÅ¡echny dalÅ¡Ã­ Ãºpravy v tÃ©to sekci
 [&Yes]
 [&No]
 [Cancel Import]
-Zrušit import
+ZruÅ¡it import
 [The import has completed from]
 [What do you want to do with the file now?]
-Co chcete udìlat s tímto souborem?
+Co chcete udÄ›lat s tÃ­mto souborem?
 [&Recycle]
-Pø&esunout do koše
+PÅ™&esunout do koÅ¡e
 [&Delete]
 [&Move/Rename]
-Pøesunout/Pøej&menovat
+PÅ™esunout/PÅ™ej&menovat
 [&Leave]
-Ode&jít
+Ode&jÃ­t
 ;file \plugins\Db3x\src\dbcache3x.cpp
 [%s (Write error)]
 ;file \plugins\Db3x\src\dbintf3x.cpp

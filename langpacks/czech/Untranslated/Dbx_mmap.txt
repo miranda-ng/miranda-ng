@@ -1,4 +1,4 @@
-;[%s (CreateFileMapping failed. Code: %d)]
+﻿;[%s (CreateFileMapping failed. Code: %d)]
 ;[%s (MapViewOfFile failed. Code: %d)]
 ;[%s (Module Name not unique)]
 ;[%s (Module Offset not unique)]

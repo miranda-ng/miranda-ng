@@ -1,4 +1,4 @@
-#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
+ï»¿#muuid {6ca5f042-7a7f-47cc-a715-fc8c46fbf434}
 ;============================================================
 ;  File: TabSRMM.dll
 ;  Plugin: TabSRMM
@@ -7,557 +7,557 @@
 ;============================================================
 ;file \plugins\TabSRMM\res\chat.rc
 [You can add the user by user name or his id. Wildcards are allowed and recommended.]
-Mùete pøidat uivatelské jméno nebo ID. Zástupné znaky jsou povoleny a doporuèeny.
+MÅ¯Å¾ete pÅ™idat uÅ¾ivatelskÃ© jmÃ©no nebo ID. ZÃ¡stupnÃ© znaky jsou povoleny a doporuÄeny.
 [OK]
 [Cancel]
 [  Show these events]
-   Zobrazit tyto události
+   Zobrazit tyto udÃ¡losti
 [Actions]
 Akce
 [Messages]
-Zprávy
+ZprÃ¡vy
 [Nick changes]
-Zmìny pøezdívky
+ZmÄ›ny pÅ™ezdÃ­vky
 [Users joining]
-Pøícházející uivatele
+PÅ™Ã­chÃ¡zejÃ­cÃ­ uÅ¾ivatele
 [Users leaving]
-Odcházející uivatele
+OdchÃ¡zejÃ­cÃ­ uÅ¾ivatele
 [Topic changes]
-Zmìny tématu
+ZmÄ›ny tÃ©matu
 [Status changes]
-Zmìny stavu
+ZmÄ›ny stavu
 [Information]
 [Disconnects]
-Odpojení
+OdpojenÃ­
 [User kicks]
-Vykopnutí uivatele
+VykopnutÃ­ uÅ¾ivatele
 [Notices]
-Poznámky
+PoznÃ¡mky
 [Popup]
 [Tray]
-Lišta
+LiÅ¡ta
 [Options]
 [Add new rooms to group:]
-Nové místnosti do skupiny:
+NovÃ© mÃ­stnosti do skupiny:
 [Chat integration is disabled. You can enable it here, and then you to NEED RESTART Miranda after making this change.\n\nYou MUST disable the standard chat plugin when you enable the group chat support here. Otherwise no group chat at all may work.]
-Integrace chatu je nyní vypnutá, zde jí mùete zapnout (poté je NUTNÉ RESTARTOVAT Mirandu, aby nastavení vešlo v platnost).\n\nTaké prosím vypnìte standardní modul pro chat, pokud se rozhodnete pouívat integrovanı. Pokud tak neuèiníte, chat nejspíš nebude fungovat vùbec.
+Integrace chatu je nynÃ­ vypnutÃ¡, zde jÃ­ mÅ¯Å¾ete zapnout (potÃ© je NUTNÃ‰ RESTARTOVAT Mirandu, aby nastavenÃ­ veÅ¡lo v platnost).\n\nTakÃ© prosÃ­m vypnÄ›te standardnÃ­ modul pro chat, pokud se rozhodnete pouÅ¾Ã­vat integrovanÃ½. Pokud tak neuÄinÃ­te, chat nejspÃ­Å¡ nebude fungovat vÅ¯bec.
 [Log files]
-Soubory záznamù
+Soubory zÃ¡znamÅ¯
 [Enable logging to disk]
-Aktivovat záznam
+Aktivovat zÃ¡znam
 [Log directory]
-Sloka pro záznam
+SloÅ¾ka pro zÃ¡znam
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Maximum size for log files (in kB)]
-Maximální velikost souboru záznamu (v kB)
+MaximÃ¡lnÃ­ velikost souboru zÃ¡znamu (v kB)
 [Group chat log formatting]
-Formátování záznamu chatu
+FormÃ¡tovÃ¡nÃ­ zÃ¡znamu chatu
 [Your name]
-Vl. jméno
+Vl. jmÃ©no
 [Other name]
-Ost. jména
+Ost. jmÃ©na
 [Timestamp (window)]
-Èasovı údaj (okno)
+ÄŒasovÃ½ Ãºdaj (okno)
 [Timestamp (logfile)]
-Èasovı údaj (záznam)
+ÄŒasovÃ½ Ãºdaj (zÃ¡znam)
 [Maximum number of events in the message window]
-Maximální poèet událostí v záznamu komunikace
+MaximÃ¡lnÃ­ poÄet udÃ¡lostÃ­ v zÃ¡znamu komunikace
 [Groupchat userlist row height (pixels)]
-Vıška seznamu uivatelù skupinového rozhovoru (px)
+VÃ½Å¡ka seznamu uÅ¾ivatelÅ¯ skupinovÃ©ho rozhovoru (px)
 [Open log file base folder]
-Otevøít koøenovou sloku záznamù
+OtevÅ™Ã­t koÅ™enovou sloÅ¾ku zÃ¡znamÅ¯
 [Default settings for known event types]
-Vıchozí nastavení pro známé typy událostí
+VÃ½chozÃ­ nastavenÃ­ pro znÃ¡mÃ© typy udÃ¡lostÃ­
 [Show when filter is active]
-Zobrazit pøi aktivním filtru
+Zobrazit pÅ™i aktivnÃ­m filtru
 [Log to file]
-Uloit záznam
+UloÅ¾it zÃ¡znam
 [Show Popup]
-Zobraz oznámení
+Zobraz oznÃ¡menÃ­
 [Notify in tray]
 Oznam. oblast
 [Suppress tray notifications for focused channel windows]
-Potlaèit upozornìní v oznamovací oblasti pro aktivní okna
+PotlaÄit upozornÄ›nÃ­ v oznamovacÃ­ oblasti pro aktivnÃ­ okna
 [Do not show popups when the channel window is not open]
-Nezobrazovat oznámení pokud okno není otevøeno
+Nezobrazovat oznÃ¡menÃ­ pokud okno nenÃ­ otevÅ™eno
 [Highlight event]
-Zvıraznit událost
+ZvÃ½raznit udÃ¡lost
 [Line markers in the message log]
-Oddìlovaèe øádkù v záznamu komunikace
+OddÄ›lovaÄe Å™Ã¡dkÅ¯ v zÃ¡znamu komunikace
 [Highlight user names]
-Zvıraznìní uivatelskıch jmen
+ZvÃ½raznÄ›nÃ­ uÅ¾ivatelskÃ½ch jmen
 [Enable highlighting for user names]
-Povolit zvıraznìní uivatelskıch jmen
+Povolit zvÃ½raznÄ›nÃ­ uÅ¾ivatelskÃ½ch jmen
 [Also look in user ids]
-Hledat také v identifikátoru uivatele
+Hledat takÃ© v identifikÃ¡toru uÅ¾ivatele
 [Names to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces]
-Jména ke zvıraznìní, zástupné znaky jako * a ? jsou povoleny, jednotlivé poloky se oddìlují mezerami
+JmÃ©na ke zvÃ½raznÄ›nÃ­, zÃ¡stupnÃ© znaky jako * a ? jsou povoleny, jednotlivÃ© poloÅ¾ky se oddÄ›lujÃ­ mezerami
 [Highlight message text]
-Zvıraznìní textu zprávy
+ZvÃ½raznÄ›nÃ­ textu zprÃ¡vy
 [Enable highlighting for message text]
-Povolit zvıraznìní textu zprávy
+Povolit zvÃ½raznÄ›nÃ­ textu zprÃ¡vy
 [Words to highlight, wildcards like * and ? are allowed, separate multiple entries with spaces. Leave it empty if you only want to highlight your own nick name.]
-Slova ke zvıraznìní, zástupné znaky jako * a ? jsou povoleny, jednotlivé poloky se oddìlují mezerami. Ponechte prázdné pokud chcete zvıraznit pouze vaši vlastní pøezdívku.
+Slova ke zvÃ½raznÄ›nÃ­, zÃ¡stupnÃ© znaky jako * a ? jsou povoleny, jednotlivÃ© poloÅ¾ky se oddÄ›lujÃ­ mezerami. Ponechte prÃ¡zdnÃ© pokud chcete zvÃ½raznit pouze vaÅ¡i vlastnÃ­ pÅ™ezdÃ­vku.
 [Highlight messages containing my own nick name]
-Zvıraznit zprávy obsahující vlastní pøezdívku
+ZvÃ½raznit zprÃ¡vy obsahujÃ­cÃ­ vlastnÃ­ pÅ™ezdÃ­vku
 [&Message]
-&Zpráva
+&ZprÃ¡va
 [Clear lo&g]
-Vy&mazat záznam
+Vy&mazat zÃ¡znam
 [Co&py all]
-Zko&pírovat vše
+Zko&pÃ­rovat vÅ¡e
 [Word lookup]
-Vyhledávání slova
+VyhledÃ¡vÃ¡nÃ­ slova
 [Google]
 [Wikipedia]
 Wikipedie
 [Open a &new browser window]
-Otevøít v &novém oknì
+OtevÅ™Ã­t v &novÃ©m oknÄ›
 [&Open in current browser window]
-&Otevøít v aktuálním oknì
+&OtevÅ™Ã­t v aktuÃ¡lnÃ­m oknÄ›
 [&Copy link]
-Z&kopírovat odkaz
+Z&kopÃ­rovat odkaz
 [Undo  ]
-Zpìt 
+ZpÄ›t 
 [Redo]
 Znovu
 [Copy]
-Zkopírovat
+ZkopÃ­rovat
 [Cut]
 Vyjmout
 [Paste]
-Vloit
+VloÅ¾it
 [Select All]
-Vybrat vše
+Vybrat vÅ¡e
 [Clear]
 Vymazat
 [&Close tab]
-&Zavøít panel
+&ZavÅ™Ã­t panel
 [C&lose other tabs]
-Zavøít ostatní pane&ly
+ZavÅ™Ã­t ostatnÃ­ pane&ly
 [&Open at this position]
-&Otevøít na stejném místì
+&OtevÅ™Ã­t na stejnÃ©m mÃ­stÄ›
 ;file \plugins\TabSRMM\res\resource.rc
 [Copy to clipboard]
-Kopírovat do schránky
+KopÃ­rovat do schrÃ¡nky
 [Continue]
-Pokraèovat
+PokraÄovat
 [Exit Miranda]
-Ukonèit Mirandu
+UkonÄit Mirandu
 [Although the exception was caught and you may continue working with Miranda, you should restart the program as soon as possible. The exception may have damaged internal data structures and can have a serious impact on stability.]
-Aèkoliv byla vıjimka zachycena a vy mùete pokraèovat v práci s Mirandou, mìli byste ji restartovat jakmile to bude moné. Vıjimka mùe poškodit vnitøní datové struktury a a mùe mít zásadní vliv na stabilitu.
+AÄkoliv byla vÃ½jimka zachycena a vy mÅ¯Å¾ete pokraÄovat v prÃ¡ci s Mirandou, mÄ›li byste ji restartovat jakmile to bude moÅ¾nÃ©. VÃ½jimka mÅ¯Å¾e poÅ¡kodit vnitÅ™nÃ­ datovÃ© struktury a a mÅ¯Å¾e mÃ­t zÃ¡sadnÃ­ vliv na stabilitu.
 [Customize the panel]
-Pøizpùsobit panel
+PÅ™izpÅ¯sobit panel
 [Scope of settings]
-Monosti nastavení
+MoÅ¾nosti nastavenÃ­
 [Use global or private panel height]
-Pouít globální nebo vlastní vıšku panelu
+PouÅ¾Ã­t globÃ¡lnÃ­ nebo vlastnÃ­ vÃ½Å¡ku panelu
 [Set size to]
 Nastavit velikost na
 [Compact (1 Line)]
-Kompaktní (1 øádek)
+KompaktnÃ­ (1 Å™Ã¡dek)
 [Normal (2 Lines)]
-Normální (2 øádky)
+NormÃ¡lnÃ­ (2 Å™Ã¡dky)
 [Large]
-Velké
+VelkÃ©
 [Tip: To use a custom size you can always drag the bottom edge of the panel]
-Tip: Pro nastavení vlastní velikosti táhnìte za dolní okraj panelu
+Tip: Pro nastavenÃ­ vlastnÃ­ velikosti tÃ¡hnÄ›te za dolnÃ­ okraj panelu
 [Other options]
-Ostatní monosti
+OstatnÃ­ moÅ¾nosti
 [Note: All settings are applied immediately]
-Poznámka: Všechno nastavení bude pouito okmaitì
+PoznÃ¡mka: VÅ¡echno nastavenÃ­ bude pouÅ¾ito okmaÅ¾itÄ›
 [The container is using private settings. The panel  height  will not be shared with other containers.]
-Kontejner pouívá vlastní nastavení. Vıška panelu nebude stejná s ostatními kontejnery.
+Kontejner pouÅ¾Ã­vÃ¡ vlastnÃ­ nastavenÃ­. VÃ½Å¡ka panelu nebude stejnÃ¡ s ostatnÃ­mi kontejnery.
 [Show picture for this contact]
-Zobrazit obrázek pro tento kontakt
+Zobrazit obrÃ¡zek pro tento kontakt
 [Advanced tweaks]
-Pokroèilé úpravy
+PokroÄilÃ© Ãºpravy
 [Message send timeout]
-Èasovı limit na odeslání
+ÄŒasovÃ½ limit na odeslÃ¡nÃ­
 [seconds.]
 sek.
 [Input history size]
-Uchovat v historii odesílání
+Uchovat v historii odesÃ­lÃ¡nÃ­
 [entries]
-poloek
+poloÅ¾ek
 [Options marked with an asterisk (*) will only take effect after Miranda has been restarted.]
-Monosti oznaèené (*) vejdou v platnost po restartu Mirandy
+MoÅ¾nosti oznaÄenÃ© (*) vejdou v platnost po restartu Mirandy
 [More about advanced tweaks]
-Více o pokroèilıch úpravách
+VÃ­ce o pokroÄilÃ½ch ÃºpravÃ¡ch
 [Revert to (safe) defaults]
-Obnovit vıchozí hodnoty
+Obnovit vÃ½chozÃ­ hodnoty
 [Event notify options]
-Nastavení oznámení události
+NastavenÃ­ oznÃ¡menÃ­ udÃ¡losti
 [Limit message preview to]
-Omezit náhled zprávy na
+Omezit nÃ¡hled zprÃ¡vy na
 [characters]
-znakù
+znakÅ¯
 [Only show event notifications when my status is...]
-Oznamovat události pouze ve stavu...
+Oznamovat udÃ¡losti pouze ve stavu...
 [Popup Options]
-Monosti oznámení
+MoÅ¾nosti oznÃ¡menÃ­
 [Text]
 Text
 [Background]
-Pozadí
+PozadÃ­
 [Timeout (seconds, 0 = default, -1 = no timeout)]
-Èasovı limit (sekundy, 0 = vıchozí, -1 = bez limitu)
+ÄŒasovÃ½ limit (sekundy, 0 = vÃ½chozÃ­, -1 = bez limitu)
 [Message]
 [Default colors]
-Vıchozí barvy
+VÃ½chozÃ­ barvy
 [Others]
-Ostatní
+OstatnÃ­
 [Preview]
-Náhled
+NÃ¡hled
 [Group chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [Errors]
 Chyby
 [Use the message log color theme for group chat popups]
-Pouít barevné schéma záznamu komunikace pro skupinovı chat
+PouÅ¾Ã­t barevnÃ© schÃ©ma zÃ¡znamu komunikace pro skupinovÃ½ chat
 [No compatible popup plugin was found. The event notification\nsystem is not available.]
-Nebyl nalezen ádnı podporovanı popup plugin. Oznámení událostí\nnení dostupné.
+Nebyl nalezen Å¾Ã¡dnÃ½ podporovanÃ½ popup plugin. OznÃ¡menÃ­ udÃ¡lostÃ­\nnenÃ­ dostupnÃ©.
 [All modes]
-Všechny stavy
+VÅ¡echny stavy
 [Choose modes]
-Vıbìr stavù
+VÃ½bÄ›r stavÅ¯
 [Message log view mode (does not affect open windows)]
-Styl záznamu komunikace (nemá vliv na otevøené okna)
+Styl zÃ¡znamu komunikace (nemÃ¡ vliv na otevÅ™enÃ© okna)
 [Select how to display the message log. This setting can be ignored when one of the listed plugins is not installed.]
-Vyberte, jak zobrazit záznam komunikace. Toto nastavení nebude zohlednìno, pokud není nìkterı z následujících doplòkù nainstalován.
+Vyberte, jak zobrazit zÃ¡znam komunikace. Toto nastavenÃ­ nebude zohlednÄ›no, pokud nenÃ­ nÄ›kterÃ½ z nÃ¡sledujÃ­cÃ­ch doplÅˆkÅ¯ nainstalovÃ¡n.
 [Send text formatting method]
-Formátování odesílaného textu
+FormÃ¡tovÃ¡nÃ­ odesÃ­lanÃ©ho textu
 [You can override the global setting for text formatting here. Use "Force Off" to never send formatting info for this contact.]
-Zde je mono zvolit jiné formátování textu, ne je v globálních nastaveních. Zvolíte-li "Vdy vypnout", nebude se tomuto kontaktu odesílat formátování nikdy.
+Zde je moÅ¾no zvolit jinÃ© formÃ¡tovÃ¡nÃ­ textu, neÅ¾ je v globÃ¡lnÃ­ch nastavenÃ­ch. ZvolÃ­te-li "VÅ¾dy vypnout", nebude se tomuto kontaktu odesÃ­lat formÃ¡tovÃ¡nÃ­ nikdy.
 [ANSI codepage]
-Kódová stránka ANSI
+KÃ³dovÃ¡ strÃ¡nka ANSI
 [Codepage for ANSI encoding/decoding when sending or receiving non-unicode messages.]
-Kódová stránka pro ANSI kódování/dekódování pøi komunikaci bez unicode. 
+KÃ³dovÃ¡ strÃ¡nka pro ANSI kÃ³dovÃ¡nÃ­/dekÃ³dovÃ¡nÃ­ pÅ™i komunikaci bez unicode. 
 [Info panel mode]
-Reim info panel
+ReÅ¾im info panel
 [Show avatar in message window]
-Zobrazit avatar v komunikaèním oknì
+Zobrazit avatar v komunikaÄnÃ­m oknÄ›
 [Use private splitter position]
-Pouít soukromı oddìlovaè
+PouÅ¾Ã­t soukromÃ½ oddÄ›lovaÄ
 [Contact is a favorite contact]
-Kontakt je mezi oblíbenımi
+Kontakt je mezi oblÃ­benÃ½mi
 [Force ANSI send / receive]
-Vdy odesílat/pøijímat v ANSI
+VÅ¾dy odesÃ­lat/pÅ™ijÃ­mat v ANSI
 [Ignore sending timeouts]
-Neupozoròovat na vypršení èasu doruèení
+NeupozorÅˆovat na vyprÅ¡enÃ­ Äasu doruÄenÃ­
 [Load only actual history]
-Naèíst pouze aktuální historii
+NaÄÃ­st pouze aktuÃ¡lnÃ­ historii
 [Always trim message log to]
-Max. poèet událostí v záznamu
+Max. poÄet udÃ¡lostÃ­ v zÃ¡znamu
 [Events]
-Události
+UdÃ¡losti
 [Only show tab bar when it's needed]
-Skrıt lištu s panely, je-li jen jeden
+SkrÃ½t liÅ¡tu s panely, je-li jen jeden
 [Container stays on top]
-Kontejner vdy navrchu
+Kontejner vÅ¾dy navrchu
 [Vertical maximize]
-Maximální vıška
+MaximÃ¡lnÃ­ vÃ½Å¡ka
 [Close or hide inactive container after]
-Zobrazit nebo schovat neaktivní kontejner
+Zobrazit nebo schovat neaktivnÃ­ kontejner
 [sec. (0=never)]
 s (0=nikdy)
 [Automatically size input area (*)]
-Automatická velikost vstupního pole (*)
+AutomatickÃ¡ velikost vstupnÃ­ho pole (*)
 [Use default setting]
-Pouít vıchozí stav
+PouÅ¾Ã­t vÃ½chozÃ­ stav
 [Flash until focused]
-Blikat do povšimnutí
+Blikat do povÅ¡imnutÃ­
 [Disable flashing]
-Vypnout blikání
+Vypnout blikÃ¡nÃ­
 [Enable popups if minimized]
-Oznamovat pøi minim. oknì
+Oznamovat pÅ™i minim. oknÄ›
 [Enable popups if unfocused]
-Oznamovat pøi neaktivním oknì
+Oznamovat pÅ™i neaktivnÃ­m oknÄ›
 [Enable popups if focused]
-Povolit oznámení kdy je okno v popøedí
+Povolit oznÃ¡menÃ­ kdyÅ¾ je okno v popÅ™edÃ­
 [Show popups for inactive tabs in active containers]
-Zobrazit upozornìní pro neaktivní panely v aktivních kontejnerech
+Zobrazit upozornÄ›nÃ­ pro neaktivnÃ­ panely v aktivnÃ­ch kontejnerech
 [Hide the status bar]
-Skrıt stavovou lištu
+SkrÃ½t stavovou liÅ¡tu
 [Hide the menu bar]
-Skrıt hlavní nabídku
+SkrÃ½t hlavnÃ­ nabÃ­dku
 [User ID in status bar]
-ID uivatele ve stavové lištì
+ID uÅ¾ivatele ve stavovÃ© liÅ¡tÄ›
 [Hide the tool bar]
-Skrıt lištu s tlaèítky
+SkrÃ½t liÅ¡tu s tlaÄÃ­tky
 [Place the tool bar at the bottom (*)]
-Umístit tlaèítkovou lištu dole (*)
+UmÃ­stit tlaÄÃ­tkovou liÅ¡tu dole (*)
 [Show the info panel]
 Zobrazit info panel
 [Hide title bar]
-Skrıt záhlaví okna
+SkrÃ½t zÃ¡hlavÃ­ okna
 [Title bar format]
-Formát záhlaví okna
+FormÃ¡t zÃ¡hlavÃ­ okna
 [Available formats]
-Dostupné formáty
+DostupnÃ© formÃ¡ty
 [Use this to specify a private message log theme for this container. This will have no effect when using IEView or another message log viewer and should NOT be confused with skins.]
-Pouijte pro specifikaci vlastního tématu záznamu komunikace pro tento kontejner. Nemá vliv pøi pouití IEView nebo jiného zobrazovaèe záznamu komunikace a nemìlo by bıt v rozporu se skiny.
+PouÅ¾ijte pro specifikaci vlastnÃ­ho tÃ©matu zÃ¡znamu komunikace pro tento kontejner. NemÃ¡ vliv pÅ™i pouÅ¾itÃ­ IEView nebo jinÃ©ho zobrazovaÄe zÃ¡znamu komunikace a nemÄ›lo by bÃ½t v rozporu se skiny.
 [Use global container size and position]
-Pouít globální velikost a umístìní kontejneru
+PouÅ¾Ã­t globÃ¡lnÃ­ velikost a umÃ­stÄ›nÃ­ kontejneru
 [Save current as global]
-Uloit nastavení jako globální
+UloÅ¾it nastavenÃ­ jako globÃ¡lnÃ­
 [Enable transparency]
-Povolit prùhlednost
+Povolit prÅ¯hlednost
 [active]
-Aktivní
+AktivnÃ­
 [inactive]
 Neakt.
 [When checked, this container will use private settings, otherwise settings are shared among containers.]
-Je-li zaškrtnuto, tento kontejner bude pouívat vlastní nastavení, jinak bude nastavení sdíleno mezi kontejnery.
+Je-li zaÅ¡krtnuto, tento kontejner bude pouÅ¾Ã­vat vlastnÃ­ nastavenÃ­, jinak bude nastavenÃ­ sdÃ­leno mezi kontejnery.
 [Apply]
-Pouít
+PouÅ¾Ã­t
 [Static]
-Statickı
+StatickÃ½
 [Tab location]
-Umístìní panelu
+UmÃ­stÄ›nÃ­ panelu
 [When using the switch bar, use the following layout]
-Pøi pouití pøepínací lišty pouít následující rozvrení
+PÅ™i pouÅ¾itÃ­ pÅ™epÃ­nacÃ­ liÅ¡ty pouÅ¾Ã­t nÃ¡sledujÃ­cÃ­ rozvrÅ¾enÃ­
 [Flash event icon on tab]
-Blikat ikonou události v záloce
+Blikat ikonou udÃ¡losti v zÃ¡loÅ¾ce
 [Flash text label on tabs]
-Blikat textem v záloce
+Blikat textem v zÃ¡loÅ¾ce
 [Single row tab control (*)]
-Panely v jednom øádku (*)
+Panely v jednom Å™Ã¡dku (*)
 [Close button on tabs]
-Zavírací tlaèítko na záloce
+ZavÃ­racÃ­ tlaÄÃ­tko na zÃ¡loÅ¾ce
 [Use button tabs (*)]
-Pouít tlaèíkové panely (*)
+PouÅ¾Ã­t tlaÄÃ­kovÃ© panely (*)
 [You have chosen to disable all event notifications for open message windows.]
-Zakázali jste všechna oznámení událostí pro otevøená komunikaèní okna.
+ZakÃ¡zali jste vÅ¡echna oznÃ¡menÃ­ udÃ¡lostÃ­ pro otevÅ™enÃ¡ komunikaÄnÃ­ okna.
 [Show contact avatars]
-Zobrazit avatary kontaktù
+Zobrazit avatary kontaktÅ¯
 [Show my own avatars]
-Zobrazit mé avatary
+Zobrazit mÃ© avatary
 [Show avatars on task bar (Win 7, large task bar required)]
-Zobrazit avatary v hlavním panelu (Win 7, vyaduje velké ikony na hlavním panelu)
+Zobrazit avatary v hlavnÃ­m panelu (Win 7, vyÅ¾aduje velkÃ© ikony na hlavnÃ­m panelu)
 [Enable sound effects]
-Povolit zvukové efekty
+Povolit zvukovÃ© efekty
 [Play sounds when minimized]
-Pøehrávat zvuky pøi minimalizovaném oknì
+PÅ™ehrÃ¡vat zvuky pÅ™i minimalizovanÃ©m oknÄ›
 [Play sounds when not focused]
-Pøehrávat zvuky pøi neaktivním oknì
+PÅ™ehrÃ¡vat zvuky pÅ™i neaktivnÃ­m oknÄ›
 [Play sounds for inactive tabs in active containers]
-Pøehrávat zvuky pro neaktivní panely v aktivním kontejneru
+PÅ™ehrÃ¡vat zvuky pro neaktivnÃ­ panely v aktivnÃ­m kontejneru
 [Play sounds for the active tab / window]
-Pøehrávat zvuky pro aktivní panely/okna
+PÅ™ehrÃ¡vat zvuky pro aktivnÃ­ panely/okna
 [Options marked with an asterisk (*) do not affect open message windows.]
-Nastavení oznaèené pomocí (*) se projeví a po uzavøení a opìtovném otevøení komunikaèního okna.
+NastavenÃ­ oznaÄenÃ© pomocÃ­ (*) se projevÃ­ aÅ¾ po uzavÅ™enÃ­ a opÄ›tovnÃ©m otevÅ™enÃ­ komunikaÄnÃ­ho okna.
 [Message window options]
-Monosti komunikaèního okna
+MoÅ¾nosti komunikaÄnÃ­ho okna
 [Size and scaling options for the bottom avatar display]
-Velikost avataru umístìného dole
+Velikost avataru umÃ­stÄ›nÃ©ho dole
 [Maximum display height (pixels)]
-Maximální vıška (v pixelech)
+MaximÃ¡lnÃ­ vÃ½Å¡ka (v pixelech)
 [(0 = no limit)]
-(0 = neomezenì)
+(0 = neomezenÄ›)
 [Try to keep original size]
-Udrovat pùvodní velikost
+UdrÅ¾ovat pÅ¯vodnÃ­ velikost
 [Help on this]
-Nápovìda
+NÃ¡povÄ›da
 [Reset all hidden warnings]
-Resetovat všechna skrytá upozornìní
+Resetovat vÅ¡echna skrytÃ¡ upozornÄ›nÃ­
 [Indent values]
-Velikost odsazení
+Velikost odsazenÃ­
 [Left/Right]
 Vlevo/Vpravo
 [px]
 px
 [Template sets]
-Sady šablon
+Sady Å¡ablon
 [Standard templates...]
-Standardní šablony...
+StandardnÃ­ Å¡ablony...
 [RTL templates...]
-Šablony Zprava doleva...
+Å ablony Zprava doleva...
 [Load History Events]
-Naètení historie
+NaÄtenÃ­ historie
 [Load unread events only]
-Pouze nepøeètené události
+Pouze nepÅ™eÄtenÃ© udÃ¡losti
 [Load number of previous events]
-Konkrétní poèet pøedchozích událostí
+KonkrÃ©tnÃ­ poÄet pÅ™edchozÃ­ch udÃ¡lostÃ­
 [Load previous events less than]
-Pøedchozí události starší ménì ne
+PÅ™edchozÃ­ udÃ¡losti starÅ¡Ã­ mÃ©nÄ› neÅ¾
 [minutes old]
 min.
 [Global message log display]
-Zobrazení globálního záznamu komunikace
+ZobrazenÃ­ globÃ¡lnÃ­ho zÃ¡znamu komunikace
 [Typing Notification]
-Upozornìní na psaní zprávy
+UpozornÄ›nÃ­ na psanÃ­ zprÃ¡vy
 [Send typing notifications to the following users when you are typing a message to the them:]
-Poslat upozornìní na psaní zprávy tìmto vybranım kontaktùm:
+Poslat upozornÄ›nÃ­ na psanÃ­ zprÃ¡vy tÄ›mto vybranÃ½m kontaktÅ¯m:
 [          Show typing notifications in the message window]
-          Zobrazit oznámení o psaní v komunikaèním oknì
+          Zobrazit oznÃ¡menÃ­ o psanÃ­ v komunikaÄnÃ­m oknÄ›
 [Flash window once on typing events (only if flashing enabled)]
-Zablikat jednou oknem jako upozornìní na psaní (pøi povoleném blikání)
+Zablikat jednou oknem jako upozornÄ›nÃ­ na psanÃ­ (pÅ™i povolenÃ©m blikÃ¡nÃ­)
 [          Show typing notifications in the contact list and tray]
-          Zobrazit oznámení o psaní v seznamu kontaktù a oznam.oblasti
+          Zobrazit oznÃ¡menÃ­ o psanÃ­ v seznamu kontaktÅ¯ a oznam.oblasti
 [Show typing notification when message dialog is open]
-Upozoròovat na psaní kdy je komunikaèní okno otevøené
+UpozorÅˆovat na psanÃ­ kdyÅ¾ je komunikaÄnÃ­ okno otevÅ™enÃ©
 [Show typing notification when no message dialog is open]
-Zobrazit upozornìní i v pøípadì, e není otevøeno okno
+Zobrazit upozornÄ›nÃ­ i v pÅ™Ã­padÄ›, Å¾e nenÃ­ otevÅ™eno okno
 [Show balloon tooltip in the system tray]
-Zobrazit bublinovou nápovìdu v oznamovací oblasti
+Zobrazit bublinovou nÃ¡povÄ›du v oznamovacÃ­ oblasti
 [          Show popups when a user is typing]
-          Zobrazit oznámení pokud uivatel píše
+          Zobrazit oznÃ¡menÃ­ pokud uÅ¾ivatel pÃ­Å¡e
 [More about typing notifications]
-Více o oznamování psaní
+VÃ­ce o oznamovÃ¡nÃ­ psanÃ­
 [Tab options]
-Monosti panelù
+MoÅ¾nosti panelÅ¯
 [Miscellaneous options]
-Ostatní monosti
+OstatnÃ­ moÅ¾nosti
 [Setup status modes for automatic tab creation...]
-Vybrat stavy pro automatické vytváøení panelù...
+Vybrat stavy pro automatickÃ© vytvÃ¡Å™enÃ­ panelÅ¯...
 [Limit nicknames on tabs to]
-Omezit délku pøezdívky na panelu na
+Omezit dÃ©lku pÅ™ezdÃ­vky na panelu na
 [ESC key behavior]
-Chování klávesy ESC
+ChovÃ¡nÃ­ klÃ¡vesy ESC
 [Available containers]
-Seznam kontejnerù
+Seznam kontejnerÅ¯
 [Delete]
 [Rename]
-Pøejmenovat
+PÅ™ejmenovat
 [Create a new container]
-Novı kontejner
+NovÃ½ kontejner
 [Create new]
-Vytvoøit
+VytvoÅ™it
 [Show in IM chats]
-Zobrazit v bìné komunikaci
+Zobrazit v bÄ›Å¾nÃ© komunikaci
 [Show in chat rooms]
-Zobrazit v chatovacích místnostech
+Zobrazit v chatovacÃ­ch mÃ­stnostech
 [Gap between buttons:]
-Mezera mezi tlaèítky:
+Mezera mezi tlaÄÃ­tky:
 [Hide if there isn't enough space]
-Skrıt pokud není dost místa
+SkrÃ½t pokud nenÃ­ dost mÃ­sta
 [Reset]
 [Insert Separator]
-Vloit oddìlovaè
+VloÅ¾it oddÄ›lovaÄ
 [To set container options, please use the container settings dialog. It is available by:\n1. choosing "container settings" from the system menu of a container.\n2. right clicking the tab or the button bar in any message window.]
-Okno s monostmi nastavení kontejneru lze zobrazit dvìma zpùsoby:\n1. Vyberte poloku 'Monosti kontejneru' z nabídky kontejneru.\n2. V komunikaèním oknì kliknìte pravım tlaèítkem na panel èi tlaèítkovou lištu.
+Okno s moÅ¾nostmi nastavenÃ­ kontejneru lze zobrazit dvÄ›ma zpÅ¯soby:\n1. Vyberte poloÅ¾ku 'MoÅ¾nosti kontejneru' z nabÃ­dky kontejneru.\n2. V komunikaÄnÃ­m oknÄ› kliknÄ›te pravÃ½m tlaÄÃ­tkem na panel Äi tlaÄÃ­tkovou liÅ¡tu.
 [Tabs should be used in the following way]
-Panely by mìly bıt pouity následujícím zpùsobem
+Panely by mÄ›ly bÃ½t pouÅ¾ity nÃ¡sledujÃ­cÃ­m zpÅ¯sobem
 [Use contact list groups for organizing tabs (one window per group)]
-Pouít skupiny kontaktù pro organizaci záloek (jedno okno pro kadou skupinu)
+PouÅ¾Ã­t skupiny kontaktÅ¯ pro organizaci zÃ¡loÅ¾ek (jedno okno pro kaÅ¾dou skupinu)
 [Tabbed interface, limit the maximum number of tabs per window to:]
-Rozhraní se panely, maximální poèet panelù v oknì:
+RozhranÃ­ se panely, maximÃ¡lnÃ­ poÄet panelÅ¯ v oknÄ›:
 [No tabs at all, each session has its own top level window]
-ádné panely, kadı rozhovor má své vlastní okno
+Å½Ã¡dnÃ© panely, kaÅ¾dÃ½ rozhovor mÃ¡ svÃ© vlastnÃ­ okno
 [Default mode (tabbed interface, manual assignments)]
-Vıchozí nastavení (rozhraní s panely, ruèní pøiøazování)
+VÃ½chozÃ­ nastavenÃ­ (rozhranÃ­ s panely, ruÄnÃ­ pÅ™iÅ™azovÃ¡nÃ­)
 [Container flashing]
-Blikání kontejneru
+BlikÃ¡nÃ­ kontejneru
 [Flash containers]
-Poèet zablikání
+PoÄet zablikÃ¡nÃ­
 [times]
-krát
+krÃ¡t
 [Flash interval]
-Interval blikání
+Interval blikÃ¡nÃ­
 [milliseconds]
 ms
 [Help on containers]
-Nápovìda ke kontejnerùm
+NÃ¡povÄ›da ke kontejnerÅ¯m
 [Windows Aero settings]
-Nastavení Windows Aero
+NastavenÃ­ Windows Aero
 [Use Aero UI elements(only when not using a custom skin)]
-Pouít Aero UI elementy (pouze pokud není pouito vlastní téma)
+PouÅ¾Ã­t Aero UI elementy (pouze pokud nenÃ­ pouÅ¾ito vlastnÃ­ tÃ©ma)
 [Use Windows 7 task bar enhancements (restart required)]
-Pouít Windows 7 vylepšení lišty úloh (vyadován restart)
+PouÅ¾Ã­t Windows 7 vylepÅ¡enÃ­ liÅ¡ty Ãºloh (vyÅ¾adovÃ¡n restart)
 [PopUps]
 [...is &typing]
-... píše zprá&vu
+... pÃ­Å¡e zprÃ¡&vu
 [...stopped t&yping]
-... &dopsal zprávu
+... &dopsal zprÃ¡vu
 [Back]
-Pozadí
+PozadÃ­
 [U&se Popup colours]
 [&Use Windows colours]
 [Only &one popup for each contact]
-Pouze jedn&o oznámení na kontakt
+Pouze jedn&o oznÃ¡menÃ­ na kontakt
 [Show &entry in the main menu]
-Zobrazit poloku v hlavním m&enu
+Zobrazit poloÅ¾ku v hlavnÃ­m m&enu
 [PopUp timeout (is typing)]
-Doba zobrazení (pøi psaní)
+Doba zobrazenÃ­ (pÅ™i psanÃ­)
 [From PopUp plugin]
-Globální nastavení
+GlobÃ¡lnÃ­ nastavenÃ­
 [From protocol]
 Dle protokolu
 [Permanent]
 Trvale
 [Custom]
-Vlastní
+VlastnÃ­
 [PopUp timeout (stopped typing)]
-Doba zobrazení (po dopsání)
+Doba zobrazenÃ­ (po dopsÃ¡nÃ­)
 [Templates]
-Šablony
+Å ablony
 [Edit template]
-Editace šablony
+Editace Å¡ablony
 [Double click a template to edit it. Select a template from the list box and click "Update Preview" to show a preview message.]
-Šablonu lze zaèít upravovat dvojím kliknutím. Náhled zobrazíte kliknutím na tlaèítko 'Obnovit náhled'.
+Å ablonu lze zaÄÃ­t upravovat dvojÃ­m kliknutÃ­m. NÃ¡hled zobrazÃ­te kliknutÃ­m na tlaÄÃ­tko 'Obnovit nÃ¡hled'.
 [Get more help on variables]
-Podrobnìjší nápovìda pro promìnné
+PodrobnÄ›jÅ¡Ã­ nÃ¡povÄ›da pro promÄ›nnÃ©
 [Define up to 5 colors which you can use with some variables]
-Zde je mono nastavit a 5 barev pro nìkteré promìnné
+Zde je moÅ¾no nastavit aÅ¾ 5 barev pro nÄ›kterÃ© promÄ›nnÃ©
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Update Preview]
-Obnovit náhled
+Obnovit nÃ¡hled
 [Save Template]
-Uloit šablonu
+UloÅ¾it Å¡ablonu
 [Forget]
 Zapomenout
 [Revert to Default]
-Obnovit vıchozí
+Obnovit vÃ½chozÃ­
 [Reset all templates...]
-Reset všech šablon...
+Reset vÅ¡ech Å¡ablon...
 [Default width for fixed (single row) tabs]
-Vıchozí šíøka pro panely (pro panely v jednom øádku)
+VÃ½chozÃ­ Å¡Ã­Å™ka pro panely (pro panely v jednom Å™Ã¡dku)
 [Tab text label padding vertical]
-Odstazení textu v panelu svislé
+OdstazenÃ­ textu v panelu svislÃ©
 [horizontal]
-vodorovné
+vodorovnÃ©
 [Tab page padding:]
-Odsazení panelù:
+OdsazenÃ­ panelÅ¯:
 [inner]
-vnitøní
+vnitÅ™nÃ­
 [outer]
-vnìjší
+vnÄ›jÅ¡Ã­
 [Bottom tabs vertical adjustment:]
-Svislé odsazení panelù vespod:
+SvislÃ© odsazenÃ­ panelÅ¯ vespod:
 [NOTE: some settings will not affect open containers.]
-Pozn.: Nìkterá nastavení hned neovlivní otevøené kontejnery.
+Pozn.: NÄ›kterÃ¡ nastavenÃ­ hned neovlivnÃ­ otevÅ™enÃ© kontejnery.
 [Tab layout tweaks]
-Rozvrení záloek
-[Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+RozvrÅ¾enÃ­ zÃ¡loÅ¾ek
+[Copyright Â© 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Support and latest version information]
-Podpora, hlášení chyb a informace o novıch verzích
+Podpora, hlÃ¡Å¡enÃ­ chyb a informace o novÃ½ch verzÃ­ch
 [Selected skin]
-Vybranı skin
+VybranÃ½ skin
 [Rescan]
 Obnovit
 [Load this skin on startup]
-Naèíst vybranı skin pøi spuštìní
+NaÄÃ­st vybranÃ½ skin pÅ™i spuÅ¡tÄ›nÃ­
 [Reload active skin]
-Obnovit aktivní skin
+Obnovit aktivnÃ­ skin
 [Skin options]
-Monosti skinu
+MoÅ¾nosti skinu
 [Load fonts and colors provided by skin]
-Nahrát se skinem i písma a barvy
+NahrÃ¡t se skinem i pÃ­sma a barvy
 [Load templates provided by skin (use with care, will overwrite your templates)]
-Nahrát se skinem i vzhled záznamu (tato volba pøepíše vaše šablony)
+NahrÃ¡t se skinem i vzhled zÃ¡znamu (tato volba pÅ™epÃ­Å¡e vaÅ¡e Å¡ablony)
 [Skin root folder]
-Koøenová sloka skinu
+KoÅ™enovÃ¡ sloÅ¾ka skinu
 [Before you can load or unload a skin, you must close all message windows.]
-Pøed tím, ne mùete nahrát èi zrušit skin, musíte zavøít všechna komunikaèní okna.
+PÅ™ed tÃ­m, neÅ¾ mÅ¯Å¾ete nahrÃ¡t Äi zruÅ¡it skin, musÃ­te zavÅ™Ã­t vÅ¡echna komunikaÄnÃ­ okna.
 [Close open message windows now]
-Zavøít všechna komunikaèní okna nyní
+ZavÅ™Ã­t vÅ¡echna komunikaÄnÃ­ okna nynÃ­
 [Theme support]
-Podpora témat
+Podpora tÃ©mat
 [You can export and import all your color and font settings here. This allows you to create a Theme file which can be shared between different profiles or with your buddies.]
-Zde mùete exportovat èi nahrát všechna vaše nastavení barev a písem. Umoòuje vytvoøit soubor tématu, kterı mùete sdílet mezi rùznımi profily nebo s vašimi pøáteli.
+Zde mÅ¯Å¾ete exportovat Äi nahrÃ¡t vÅ¡echna vaÅ¡e nastavenÃ­ barev a pÃ­sem. UmoÅ¾Åˆuje vytvoÅ™it soubor tÃ©matu, kterÃ½ mÅ¯Å¾ete sdÃ­let mezi rÅ¯znÃ½mi profily nebo s vaÅ¡imi pÅ™Ã¡teli.
 [Export to a file...]
 Exportovat do souboru...
 [Import from a file...]
@@ -567,408 +567,408 @@ OK
 [Icons]
 #muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 [Event type icons in the message log]
-Ikona typu události v záznamu komunikace
+Ikona typu udÃ¡losti v zÃ¡znamu komunikace
 [Text symbols as event markers]
-Znaky jako oznaèení události
+Znaky jako oznaÄenÃ­ udÃ¡losti
 [Use different icons to mark incoming and outgoing messages]
-Pouít rùzné ikony pro oznaèení pøíchozích a odchozích zpráv
+PouÅ¾Ã­t rÅ¯znÃ© ikony pro oznaÄenÃ­ pÅ™Ã­chozÃ­ch a odchozÃ­ch zprÃ¡v
 [Date and time]
-Datum a èas
+Datum a Äas
 [Show timestamps]
-Zobrazit èasové údaje
+Zobrazit ÄasovÃ© Ãºdaje
 [Show seconds in timestamp]
-Zobrazit sekundy v èasovém údaji
+Zobrazit sekundy v ÄasovÃ©m Ãºdaji
 [Show date in timestamps]
-Zobrazit datum v èasovém údaji
+Zobrazit datum v ÄasovÃ©m Ãºdaji
 [Use contacts local time]
-Pouít lokální èas kontaktu
+PouÅ¾Ã­t lokÃ¡lnÃ­ Äas kontaktu
 [Format]
-Formát
+FormÃ¡t
 [Indent message body]
-Odsadit tìlo zprávy
+Odsadit tÄ›lo zprÃ¡vy
 [Display grid lines]
-Zobrazit møíku
+Zobrazit mÅ™Ã­Å¾ku
 [Message grouping]
-Seskupovat zprávy
+Seskupovat zprÃ¡vy
 [Support BBCODE]
 Podporovat BBCODE
 [Misc]
 [RTL is default text direction]
-Zprava doleva je vıchozí smìr psaní
+Zprava doleva je vÃ½chozÃ­ smÄ›r psanÃ­
 [Log status changes (in open message windows only)]
-Zaznamenávat zmìny stavu (pouze pøi otevøeném oknì)
+ZaznamenÃ¡vat zmÄ›ny stavu (pouze pÅ™i otevÅ™enÃ©m oknÄ›)
 [Revert to global options]
-Resetovat nastavení
+Resetovat nastavenÃ­
 [You can set private message log options for this contact here. Filled boxes are inherited from the global settings which can be found on Message Sessions->Message Log]
-Zde si mùete nastavit záznam rozhovoru pro konkrétní kontakt. Pøedvyplnìné hodnoty jsou pøevzaty z globálního nastavení, které se nachází v Komunikace -> Záznam komunikace
+Zde si mÅ¯Å¾ete nastavit zÃ¡znam rozhovoru pro konkrÃ©tnÃ­ kontakt. PÅ™edvyplnÄ›nÃ© hodnoty jsou pÅ™evzaty z globÃ¡lnÃ­ho nastavenÃ­, kterÃ© se nachÃ¡zÃ­ v Komunikace -> ZÃ¡znam komunikace
 [Use normal templates (uncheck to use simple templates)]
-Pouít normální šablony (odznaèením se pouijí jednoduché)
+PouÅ¾Ã­t normÃ¡lnÃ­ Å¡ablony (odznaÄenÃ­m se pouÅ¾ijÃ­ jednoduchÃ©)
 [&Copy]
 [&Quote]
 &Citovat
 [Co&py All]
-Zko&pírovat vše
+Zko&pÃ­rovat vÅ¡e
 [Select &All]
 [Clear Log]
-Vymazat záznam
+Vymazat zÃ¡znam
 [Freeze Log]
-Pozastavit záznam
+Pozastavit zÃ¡znam
 [Open in &new window]
-Otevøít v &novém oknì
+OtevÅ™Ã­t v &novÃ©m oknÄ›
 [&Open in existing window]
-&Otevøít v aktuálním oknì
+&OtevÅ™Ã­t v aktuÃ¡lnÃ­m oknÄ›
 [Paste formatted Text]
-Vloit formátovanı text
+VloÅ¾it formÃ¡tovanÃ½ text
 [Paste and Send immediately]
-Vloit a Poslat ihned
+VloÅ¾it a Poslat ihned
 [Copy all]
-Zkopírovat vše
+ZkopÃ­rovat vÅ¡e
 [Select all]
-Vybrat vše
+Vybrat vÅ¡e
 [Show Message Length Indicator]
-Zobrazit indikátor délky zprávy
+Zobrazit indikÃ¡tor dÃ©lky zprÃ¡vy
 [Close Tab]
-Zavøít panel
+ZavÅ™Ã­t panel
 [Leave Chat Room]
-Opustit místnost
+Opustit mÃ­stnost
 [Save Tab Position]
-Uloit rozmístìní panelù
+UloÅ¾it rozmÃ­stÄ›nÃ­ panelÅ¯
 [Clear saved Tab Position]
-Vymazat uloené rozmístìní panelù
+Vymazat uloÅ¾enÃ© rozmÃ­stÄ›nÃ­ panelÅ¯
 [Attach to Container...]
-Pøipojit ke kontejneru...
+PÅ™ipojit ke kontejneru...
 [Container Options...]
-Monosti kontejneru...
+MoÅ¾nosti kontejneru...
 [Close Container]
-Zavøít kontejner
+ZavÅ™Ã­t kontejner
 [Default]
 [Hidden for this Contact]
-Skrytı pro tento kontakt
+SkrytÃ½ pro tento kontakt
 [Visible for this Contact]
-Viditelnı pro tento kontakt
+ViditelnÃ½ pro tento kontakt
 [Contact Picture Settings...]
-Monosti obrázku...
+MoÅ¾nosti obrÃ¡zku...
 [Always keep the button bar at full width]
-Udrovat lištu s tlaèítky v plné šíøi
+UdrÅ¾ovat liÅ¡tu s tlaÄÃ­tky v plnÃ© Å¡Ã­Å™i
 [Save this Picture As...]
-Uloit tento obrázek jako.. 
+UloÅ¾it tento obrÃ¡zek jako.. 
 [&Global...]
-&Globální...
+&GlobÃ¡lnÃ­...
 [&For this Contact...]
 &Pro tento kontakt...
 [Send &Default]
 Poslat &kontaktu
 [Send to &multiple Users]
-Poslat více uivatelù&m
+Poslat vÃ­ce uÅ¾ivatelÅ¯&m
 [Send to &Container]
-Poslat &všem v kontejneru
+Poslat &vÅ¡em v kontejneru
 [Send &Later]
-Pos&lat pozdìji
+Pos&lat pozdÄ›ji
 [Force &ANSI]
-Vdy poslat jako &ANSI
+VÅ¾dy poslat jako &ANSI
 [Send unsafe (ignore Timeouts)]
-Poslat bez ovìøení (ignorovat chyby doruèení)
+Poslat bez ovÄ›Å™enÃ­ (ignorovat chyby doruÄenÃ­)
 [Send Nudge]
 Drc-drc
 [Global]
-Globální
+GlobÃ¡lnÃ­
 [Private]
-Soukromı
+SoukromÃ½
 [BBCode]
 BBCode
 [Off]
 Vyp
 [Global Setting]
-Globální nastavení
+GlobÃ¡lnÃ­ nastavenÃ­
 [Force Off]
-Vdy vypnout
+VÅ¾dy vypnout
 [Recent Sessions]
-Poslední rozhovory
+PoslednÃ­ rozhovory
 [Favorites]
-Oblíbené
+OblÃ­benÃ©
 [Show the Tray Icon]
-Zobrazit ikonu v oznamovací oblasti
+Zobrazit ikonu v oznamovacÃ­ oblasti
 [Disable All Event Notifications]
-Vypnout všechna oznámení události
+Vypnout vÅ¡echna oznÃ¡menÃ­ udÃ¡losti
 [Don't create Windows automatically]
-Nevytváøet okna automaticky
+NevytvÃ¡Å™et okna automaticky
 [Hide all Message Containers]
-Skrıt všechny kontejnery
+SkrÃ½t vÅ¡echny kontejnery
 [Restore all Message Containers]
-Obnovit všechny kontejnery
+Obnovit vÅ¡echny kontejnery
 [Don't play Sounds]
-Nepøehrávat zvuky
+NepÅ™ehrÃ¡vat zvuky
 [Be "Super Quiet"]
-Supertichı reim
+SupertichÃ½ reÅ¾im
 [Default Color]
-Vıchozí barva
+VÃ½chozÃ­ barva
 [Red]
-Èervená
+ÄŒervenÃ¡
 [Green]
-Zelená
+ZelenÃ¡
 [Blue]
-Modrá
+ModrÃ¡
 [Magenta]
-Fialová
+FialovÃ¡
 [Yellow]
-lutá
+Å½lutÃ¡
 [Cyan]
-Azurová
+AzurovÃ¡
 [Black]
-Èerná
+ÄŒernÃ¡
 [White]
-Bílá
+BÃ­lÃ¡
 [Clear all Formatting]
-Vyèistit všechna formátování
+VyÄistit vÅ¡echna formÃ¡tovÃ¡nÃ­
 [Dummy]
 [No Message Sessions opened]
-Není otevøen ádnı rozhovor
+NenÃ­ otevÅ™en Å¾Ã¡dnÃ½ rozhovor
 [Add Contact to Favorites]
-Pøidat kontakt do oblíbenıch
+PÅ™idat kontakt do oblÃ­benÃ½ch
 [Remove Contact from Favorites]
-Ostranit kontakt z oblíbenıch
+Ostranit kontakt z oblÃ­benÃ½ch
 [dummy]
 [Set Position for this Session]
 Nastavit pozici pro tento rozhovor
 [Set and Save for all Sessions]
-Nastavit a uloit pro všechny rozhovory
+Nastavit a uloÅ¾it pro vÅ¡echny rozhovory
 [Set and Save for this Contact only]
-Nastavit a uloit pro tento kontakt
+Nastavit a uloÅ¾it pro tento kontakt
 [Revert to old Position]
-Vrátit pùvodní pozici
+VrÃ¡tit pÅ¯vodnÃ­ pozici
 [Mark Selected for Removal]
-Oznaèit vybrané pro vyjmutí
+OznaÄit vybranÃ© pro vyjmutÃ­
 [Reset Selected]
-Obnovit vybrané
+Obnovit vybranÃ©
 [Hold Selected]
 [Resume Selected]
 [Cancel all Multisend Jobs]
-Zrušit mnohonásobné odesílání
+ZruÅ¡it mnohonÃ¡sobnÃ© odesÃ­lÃ¡nÃ­
 [Copy Message to Clipboard]
-Kopírovat zprávu do schránky
+KopÃ­rovat zprÃ¡vu do schrÃ¡nky
 [Save Message Log As...]
-Uloit záznam jako...
+UloÅ¾it zÃ¡znam jako...
 [Close Message Session\tCtrl-W]
-Ukonèit konverzaci\tCtrl-W
+UkonÄit konverzaci\tCtrl-W
 [Close Container\tAlt-F4]
-Zavøít kontejner\tAlt-F4
+ZavÅ™Ã­t kontejner\tAlt-F4
 [Show Menu Bar]
-Zobrazit hlavní nabídku
+Zobrazit hlavnÃ­ nabÃ­dku
 [Show Status Bar]
-Zobrazit stavovou lištu
+Zobrazit stavovou liÅ¡tu
 [Info Panel...]
-Informaèní panel...
+InformaÄnÃ­ panel...
 [Show Tool Bar]
-Zobrazit lištu s tlaèítky
+Zobrazit liÅ¡tu s tlaÄÃ­tky
 [Place ToolBar at bottom]
-Tlaèítková lišta v dolní èásti okna
+TlaÄÃ­tkovÃ¡ liÅ¡ta v dolnÃ­ ÄÃ¡sti okna
 [Title Bar]
-Záhlaví okna
+ZÃ¡hlavÃ­ okna
 [Tabs at Bottom]
 Panely vespod okna
 [Use default Value]
-Pouít vıchozí
+PouÅ¾Ã­t vÃ½chozÃ­
 [Disable Flashing]
-Zakázat blikání
+ZakÃ¡zat blikÃ¡nÃ­
 [Show Multisend Contact List]
-Zobrazit seznam hromadného odeslání
+Zobrazit seznam hromadnÃ©ho odeslÃ¡nÃ­
 [Stay on Top]
-Vdy navrchu
+VÅ¾dy navrchu
 [Disable all Event Popups]
-Zakázat oznámení všech událostí
+ZakÃ¡zat oznÃ¡menÃ­ vÅ¡ech udÃ¡lostÃ­
 [Show Popups if Window is minimized]
-Zobrazit oznámení, je-li okno minimalizované
+Zobrazit oznÃ¡menÃ­, je-li okno minimalizovanÃ©
 [Show Popups if Window is unfocused]
-Zobrazit oznámení, je-li okno neaktivní
+Zobrazit oznÃ¡menÃ­, je-li okno neaktivnÃ­
 [Show Popups if Window is focused]
-Zobrazit oznámení kdy je okno v popøedí
+Zobrazit oznÃ¡menÃ­ kdyÅ¾ je okno v popÅ™edÃ­
 [Show Popups for all inactive sessions]
-Zobrazit oznámení pro neaktivní rozhovory
+Zobrazit oznÃ¡menÃ­ pro neaktivnÃ­ rozhovory
 [Save current Window Position as Default]
-Pouít umístìní okna jako vıchozí
+PouÅ¾Ã­t umÃ­stÄ›nÃ­ okna jako vÃ½chozÃ­
 [About tabSRMM...]
 O tabSRMM...
 [Queued jobs]
-Fronta akcí
+Fronta akcÃ­
 [Filter by contact:]
 Filtrovat podle kontaktu:
 [Display popups for failed jobs]
-Zobrazit oznámení pøi neúspìšné akci
+Zobrazit oznÃ¡menÃ­ pÅ™i neÃºspÄ›Å¡nÃ© akci
 [Display popups for completed jobs]
-Zobrazit oznámení pro dokonèené úlohy
+Zobrazit oznÃ¡menÃ­ pro dokonÄenÃ© Ãºlohy
 [Do not show this message again]
-Tuto zprávu ji nezobrazovat
+Tuto zprÃ¡vu jiÅ¾ nezobrazovat
 [Yes]
 Ano
 [No]
 Ne
 [Message sending:]
-Posílání zpráv
+PosÃ­lÃ¡nÃ­ zprÃ¡v
 [Window:]
 Okno
 [Esc closes sessions (minimizes window, if disabled)]
-Zavøít klávesou ESC (jinak minimalizuje okno)
+ZavÅ™Ã­t klÃ¡vesou ESC (jinak minimalizuje okno)
 [Always pop up and activate new windows]
-Vdy vyvolat a aktivovat nové komunikaèní okno
+VÅ¾dy vyvolat a aktivovat novÃ© komunikaÄnÃ­ okno
 [Create new windows in minimized state]
-Vytváøet nová okna minimalizovanì
+VytvÃ¡Å™et novÃ¡ okna minimalizovanÄ›
 [Check1]
 [Send on Shift+Enter]
-Odeslat zprávu pomocí SHIFT+ENTER
+Odeslat zprÃ¡vu pomocÃ­ SHIFT+ENTER
 [Send message on Enter]
-Odeslat zprávu klávesou ENTER
+Odeslat zprÃ¡vu klÃ¡vesou ENTER
 [Send message on double Enter]
-Odeslat zprávu dvojitım ENTER
+Odeslat zprÃ¡vu dvojitÃ½m ENTER
 [Minimize the message window on send]
-Minimalizovat okno kliknutím na 'Poslat'
+Minimalizovat okno kliknutÃ­m na 'Poslat'
 [Tabs:]
 Panely
 [Use tabbed interface]
-Pouít systém panelù
+PouÅ¾Ã­t systÃ©m panelÅ¯
 [Create new tabs without activating them]
-Otevøít novı panel jako neaktivní
+OtevÅ™Ã­t novÃ½ panel jako neaktivnÃ­
 [Pop up minimized window when a new tab is created]
-Vyvolat minimal. okno pøi otevøení nového panelu
+Vyvolat minimal. okno pÅ™i otevÅ™enÃ­ novÃ©ho panelu
 [Automatically switch tabs in minimized windows]
-Automaticky pøepnout panely v minimal. oknech
+Automaticky pÅ™epnout panely v minimal. oknech
 [History:]
 Historie
 [Notifications:]
-Oznámení
+OznÃ¡menÃ­
 [Don't announce when dialog is open]
-Neoznamovat, je-li konverzaèní okno otevøeno
+Neoznamovat, je-li konverzaÄnÃ­ okno otevÅ™eno
 [Message events]
-Zprávy
+ZprÃ¡vy
 [File events]
-Pøenos souborù
+PÅ™enos souborÅ¯
 [URL events]
-Pøíchozí odkazy
+PÅ™Ã­chozÃ­ odkazy
 [Other events]
-Jiné události
+JinÃ© udÃ¡losti
 [Send message on Ctrl+Enter (always enabled)]
-Odeslat zprávu pomocí CTRL+ENTER (interní)
+Odeslat zprÃ¡vu pomocÃ­ CTRL+ENTER (internÃ­)
 ;file \plugins\TabSRMM\src\buttonsbar.cpp
 [TSButtonClass]
 [Protocol Button]
-Tlaèítko protokolu
+TlaÄÃ­tko protokolu
 [Info button]
-Tlaèítko Informace
+TlaÄÃ­tko Informace
 [Insert Emoticon]
-Vloit smajlík 
+VloÅ¾it smajlÃ­k 
 [Bold text]
-Tuènı text
+TuÄnÃ½ text
 [Italic text]
-Kurzíva
+KurzÃ­va
 [Underlined text]
-Podtrenı text
+PodtrÅ¾enÃ½ text
 [Strike-through text]
-Pøeškrtnutı text
+PÅ™eÅ¡krtnutÃ½ text
 [Select font color]
-Vıbìr barvy textu
+VÃ½bÄ›r barvy textu
 [Send message\nClick dropdown arrow for sending options]
-Poslat zprávu\nKliknutím na šipku zobrazíte monosti odeslání
+Poslat zprÃ¡vu\nKliknutÃ­m na Å¡ipku zobrazÃ­te moÅ¾nosti odeslÃ¡nÃ­
 [Close session]
-Zavøít rozhovor
+ZavÅ™Ã­t rozhovor
 [Quote last message OR selected text]
-Citovat poslední zprávu NEBO vybranı text
+Citovat poslednÃ­ zprÃ¡vu NEBO vybranÃ½ text
 [Message Log Options]
-Monosti záznamu komunikace
+MoÅ¾nosti zÃ¡znamu komunikace
 [View User's History]
 [Edit user notes]
-Editovat poznámky uivatele
+Editovat poznÃ¡mky uÅ¾ivatele
 [Change background color]
-Zmìnit barvu pozadí
+ZmÄ›nit barvu pozadÃ­
 [Toggle nick list]
-Pøepnout seznam pøezdívek
+PÅ™epnout seznam pÅ™ezdÃ­vek
 [Event filter - right click to setup, left click to activate/deactivate]
-Filtr událostí - pravım tlaèítkem nastavíte, levım aktivujete/deaktivujete
+Filtr udÃ¡lostÃ­ - pravÃ½m tlaÄÃ­tkem nastavÃ­te, levÃ½m aktivujete/deaktivujete
 [Channel manager]
-Správa kanálù
+SprÃ¡va kanÃ¡lÅ¯
 [>-------M-------<]
 [<Separator>]
-<oddìlovaè>
+<oddÄ›lovaÄ>
 ;file \plugins\TabSRMM\src\contactcache.cpp
 [<undef>]
 ;file \plugins\TabSRMM\src\container.cpp
 [default]
-vıchozí
+vÃ½chozÃ­
 [**free**]
 [Hide titlebar]
-Skrıt záhlaví okna
+SkrÃ½t zÃ¡hlavÃ­ okna
 [Container options...]
-Monosti kontejneru...
+MoÅ¾nosti kontejneru...
 [Message Session...]
 Rozhovor...
 [The requested action requires a valid contact selection. Please select a contact from the contact list and repeat]
-Poadovanou operaci lze provést a po vıbìru osoby ze seznamu kontaktù.
+PoÅ¾adovanou operaci lze provÃ©st aÅ¾ po vÃ½bÄ›ru osoby ze seznamu kontaktÅ¯.
 [Parameter mismatch]
-Parametry nesouhlasí
+Parametry nesouhlasÃ­
 [TSStatusBarClass]
 [%%%d.%ds...]
 [Message Session]
 [Default container]
-Vıchozí kontejner
+VÃ½chozÃ­ kontejner
 [Attach to]
-Pøipojit k
+PÅ™ipojit k
 [Meta Contact]
 Meta kontakt
 [%s: %s [%s] %s]
 [(Forced)]
-(Vynucenı)
+(VynucenÃ½)
 [Autoselect]
-Automatickı vıbìr
+AutomatickÃ½ vÃ½bÄ›r
 [Use Protocol]
-Pouít protokol
+PouÅ¾Ã­t protokol
 [Set Default Protocol]
-Nastavit vıchozí protokol
+Nastavit vÃ½chozÃ­ protokol
 ;file \plugins\TabSRMM\src\containeroptions.cpp
 [General options]
-Hlavní monosti
+HlavnÃ­ moÅ¾nosti
 [Window layout]
 Vzhled okna
 [Tabs and switch bar]
-Panely a pøepínací lišta
+Panely a pÅ™epÃ­nacÃ­ liÅ¡ta
 [Choose your options for the tabbed user interface. Not all options can be applied to open windows. You may need to close and re-open them.]
-Zvolte své nastavení pro panely. Ne všechna nastavení mohou bıt pouita na otevøená okna. Moná je bude potøeba zavøít a znovu otevøít.
+Zvolte svÃ© nastavenÃ­ pro panely. Ne vÅ¡echna nastavenÃ­ mohou bÃ½t pouÅ¾ita na otevÅ™enÃ¡ okna. MoÅ¾nÃ¡ je bude potÅ™eba zavÅ™Ã­t a znovu otevÅ™Ã­t.
 [Notifications]
-Upozornìní
+UpozornÄ›nÃ­
 [Select, when you want to see event notifications (popups) for this window. The settings apply to all tabs within this window.]
-Vyberte, pokud chcete vidìt upozornìní na události (popup) pro toto okno. Nastavení bude pouito na všechny panely uvnitø tohoto okna.
+Vyberte, pokud chcete vidÄ›t upozornÄ›nÃ­ na udÃ¡losti (popup) pro toto okno. NastavenÃ­ bude pouÅ¾ito na vÅ¡echny panely uvnitÅ™ tohoto okna.
 [Flashing]
-Blikání
+BlikÃ¡nÃ­
 [Title bar]
-Záhlaví okna
+ZÃ¡hlavÃ­ okna
 [Window size and theme]
 Velikost okna a vzhled
 [You can select a private theme (.tabsrmm file) for this container which will then override the default message log theme. You will have to close and re-open all message windows after changing this option.]
-Mùete vybrat vlastní téma (soubor .tabsrmm) pro tento kontejner, které pøepíše vıchozí téma záznamu komunikace. Po této zmìnì bude nutné zavøít a znovu otevøít všechna komunikaèní okna.
+MÅ¯Å¾ete vybrat vlastnÃ­ tÃ©ma (soubor .tabsrmm) pro tento kontejner, kterÃ© pÅ™epÃ­Å¡e vÃ½chozÃ­ tÃ©ma zÃ¡znamu komunikace. Po tÃ©to zmÄ›nÄ› bude nutnÃ© zavÅ™Ã­t a znovu otevÅ™Ã­t vÅ¡echna komunikaÄnÃ­ okna.
 [Transparency]
 [This feature requires Windows 2000 or later and may be unavailable when using a container skin.]
-Tato funkce vyaduje Windows 2000 nebo novìjší a mùe bıt nedostupná pøi pouití skinu kontejneru.
+Tato funkce vyÅ¾aduje Windows 2000 nebo novÄ›jÅ¡Ã­ a mÅ¯Å¾e bÃ½t nedostupnÃ¡ pÅ™i pouÅ¾itÃ­ skinu kontejneru.
 [Contact avatars]
 Avatary kontaktu
 [Sound notifications]
-Zvukové upozornìní
+ZvukovÃ© upozornÄ›nÃ­
 [Container options]
-Monosti kontejneru
+MoÅ¾nosti kontejneru
 [Configure container options for\n%s]
-Nastavit monosti kontejneru pro\n%s
+Nastavit moÅ¾nosti kontejneru pro\n%s
 [Tabs at the top]
-Panely nahoøe
+Panely nahoÅ™e
 [Tabs at the bottom]
-Panely v dolní èásti okna
+Panely v dolnÃ­ ÄÃ¡sti okna
 [Switch bar on the left side]
-Pøepínací lišta vlevo
+PÅ™epÃ­nacÃ­ liÅ¡ta vlevo
 [Switch bar on the right side]
-Pøepínací lišta vpravo
+PÅ™epÃ­nacÃ­ liÅ¡ta vpravo
 [Globally on]
-Globálnì zapnuto
+GlobÃ¡lnÄ› zapnuto
 [On, if present]
-Jen kdy je definovanı
+Jen kdyÅ¾ je definovanÃ½
 [Globally OFF]
-Globálnì vypnuto
+GlobÃ¡lnÄ› vypnuto
 [On, if present, always in bottom display]
-Zapnuto, je-li uvedeno, vdy zobrazit dole
+Zapnuto, je-li uvedeno, vÅ¾dy zobrazit dole
 [Don't show them]
 Nezobrazovat
 [http://miranda.or.at/TabSRMM/TitleBarFormatting]
@@ -979,46 +979,46 @@ Nezobrazovat
 [&View]
 &Zobrazit
 [&User]
-&Uivatel
+&UÅ¾ivatel
 [&Room]
-Místnost
+MÃ­stnost
 [Message &Log]
-Záz&nam hovoru
+ZÃ¡z&nam hovoru
 [&Container]
 &Kontejner
 [Help]
 [Sounds are %s. Click to toggle status, hold SHIFT and click to set for all open containers]
-Zvuky jsou %s. Kliknutím stav zmìníte, kliknutím se SHIFTem nastavíte pro všechny otevøené kontejnery.
+Zvuky jsou %s. KliknutÃ­m stav zmÄ›nÃ­te, kliknutÃ­m se SHIFTem nastavÃ­te pro vÅ¡echny otevÅ™enÃ© kontejnery.
 [disabled]
-deaktivován
+deaktivovÃ¡n
 [enabled]
 zapnuto
 [Sending typing notifications is %s.]
-Odesílání oznámení o psaní je %s.
+OdesÃ­lÃ¡nÃ­ oznÃ¡menÃ­ o psanÃ­ je %s.
 [Session list.\nClick left for a list of open sessions.\nClick right to access favorites and quickly configure message window behavior]
-Seznam rozhovorù.\nKliknìte levım pro zobrazení seznamu otevøenıch rozhovorù.\nKliknìte pravım pro pøístup k oblíbenım a rychlému nastavení chování komunikaèního okna.
+Seznam rozhovorÅ¯.\nKliknÄ›te levÃ½m pro zobrazenÃ­ seznamu otevÅ™enÃ½ch rozhovorÅ¯.\nKliknÄ›te pravÃ½m pro pÅ™Ã­stup k oblÃ­benÃ½m a rychlÃ©mu nastavenÃ­ chovÃ¡nÃ­ komunikaÄnÃ­ho okna.
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes\n\n%d messages are queued for later delivery]
-Poèet zahájenıch odeslání: %d\nDélka zprávy: %d bytù\nLimit délky zprávy: %d bytù\nPoèet zpráv zaøazenıch k pozdìjšímu doruèení: %d
+PoÄet zahÃ¡jenÃ½ch odeslÃ¡nÃ­: %d\nDÃ©lka zprÃ¡vy: %d bytÅ¯\nLimit dÃ©lky zprÃ¡vy: %d bytÅ¯\nPoÄet zprÃ¡v zaÅ™azenÃ½ch k pozdÄ›jÅ¡Ã­mu doruÄenÃ­: %d
 ;file \plugins\TabSRMM\src\eventpopups.cpp
 [found stale popup %s]
 [One of your popup actions is set to DISMISS EVENT.\nNote that this options may have unwanted side effects as it REMOVES the event from the unread queue.\nThis may lead to events not showing up as "new". If you don't want this behaviour, please review the Event Notifications settings page.]
-Jedna z akcí pro oznámení je nastavena na ZAVØÍT UDÁLOST.\nToto nastavení mùe mít nechtìné vedlejší úèinky, nebo odstraòuje nepøeètené události z fronty.\nDíky tomu se nemusí zobrazovat události jako \"nové\". Pokud chcete zamezit tomuto chování, zkontrolujte nastavení v hlavní nabídce -> Monosti -> Komunikace -> Oznámení události.
+Jedna z akcÃ­ pro oznÃ¡menÃ­ je nastavena na ZAVÅ˜ÃT UDÃLOST.\nToto nastavenÃ­ mÅ¯Å¾e mÃ­t nechtÄ›nÃ© vedlejÅ¡Ã­ ÃºÄinky, neboÅ¥ odstraÅˆuje nepÅ™eÄtenÃ© udÃ¡losti z fronty.\nDÃ­ky tomu se nemusÃ­ zobrazovat udÃ¡losti jako \"novÃ©\". Pokud chcete zamezit tomuto chovÃ¡nÃ­, zkontrolujte nastavenÃ­ v hlavnÃ­ nabÃ­dce -> MoÅ¾nosti -> Komunikace -> OznÃ¡menÃ­ udÃ¡losti.
 [Incoming file]
-Pøíchozí soubor
+PÅ™Ã­chozÃ­ soubor
 [%s: %s (%s)]
 [No description given]
 Bez popisu
 [Incoming file (invalid format]
-Pøíchozí soubor (neplatnı formát
+PÅ™Ã­chozÃ­ soubor (neplatnÃ½ formÃ¡t
 [Unknown event]
-Neznámá událost
+NeznÃ¡mÃ¡ udÃ¡lost
 [%s %d\n]
 [New messages: ]
-Nové zprávy: 
+NovÃ© zprÃ¡vy: 
 [%Y.%m.%d %H:%M]
 [\n\n%s\n]
 [Unknown module or contact]
-Neznámı modul nebo uivatel
+NeznÃ¡mÃ½ modul nebo uÅ¾ivatel
 [%s: %s (%s) [%d]]
 [(undef)]
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
@@ -1030,28 +1030,28 @@ Rich Edit soubor
 [\\Saved message logs]
 [rtf]
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
-Problém v nastavení|Funkce bezobsluného odesílání je zakázána. Funkce \\b1 zpodìné odesílání\\b0  a \\b1 poslat více kontaktùm\\b0  ji však vyadují.\n\nNutno povolit v \\b1Monosti->Komunikace->Pokroèilé úpravy\\b0. Zmìna tohoto nastavení vyaduje restart.
+ProblÃ©m v nastavenÃ­|Funkce bezobsluÅ¾nÃ©ho odesÃ­lÃ¡nÃ­ je zakÃ¡zÃ¡na. Funkce \\b1 zpoÅ¾dÄ›nÃ© odesÃ­lÃ¡nÃ­\\b0  a \\b1 poslat vÃ­ce kontaktÅ¯m\\b0  ji vÅ¡ak vyÅ¾adujÃ­.\n\nNutno povolit v \\b1MoÅ¾nosti->Komunikace->PokroÄilÃ© Ãºpravy\\b0. ZmÄ›na tohoto nastavenÃ­ vyÅ¾aduje restart.
 [You cannot edit user notes when there are unsent messages]
-Nemùete upravovat poznámky k uivateli pokud existují neodeslané zprávy.
+NemÅ¯Å¾ete upravovat poznÃ¡mky k uÅ¾ivateli pokud existujÃ­ neodeslanÃ© zprÃ¡vy.
 [0000%s]
 [%s is typing a message.]
-%s píše zprávu.
+%s pÃ­Å¡e zprÃ¡vu.
 [UID: %s]
 [Last received: %s at %s]
-Poslední zpráva pøijata %s v %s
+PoslednÃ­ zprÃ¡va pÅ™ijata %s v %s
 [%s has entered text.]
-%s napsal text zprávy.
+%s napsal text zprÃ¡vy.
 [Autoscrolling is disabled, %d message(s) queued (press F12 to enable it)]
-Automatické posouvání je vypnuto, %d zpráva/y) ve frontì (stisknìte F12 pro zapnutí)
+AutomatickÃ© posouvÃ¡nÃ­ je vypnuto, %d zprÃ¡va/y) ve frontÄ› (stisknÄ›te F12 pro zapnutÃ­)
 [%s (%s)]
 %s (%s)
 [Forward]
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nRight click for MetaContact control\nClick dropdown to add or remove user from your favorites.]
-UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailù uivatele\nKliknout pravım pro správu metakontaktù\nTáhnout pro pøidání nebo odebrání uivatele z oblíbenıch.
+UID: %s (SHIFT klik -> kopÃ­rovat do schrÃ¡nky)\nKliknout pro zobrazenÃ­ detailÅ¯ uÅ¾ivatele\nKliknout pravÃ½m pro sprÃ¡vu metakontaktÅ¯\nTÃ¡hnout pro pÅ™idÃ¡nÃ­ nebo odebrÃ¡nÃ­ uÅ¾ivatele z oblÃ­benÃ½ch.
 [No UID]
-ádné UID
+Å½Ã¡dnÃ© UID
 [UID: %s (SHIFT click -> copy to clipboard)\nClick for User's Details\nClick dropdown to change this contact's favorite status.]
-UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailù uivatele\nTáhnout pro zmìnu oblíbenosti tohoto uivatele.
+UID: %s (SHIFT klik -> kopÃ­rovat do schrÃ¡nky)\nKliknout pro zobrazenÃ­ detailÅ¯ uÅ¾ivatele\nTÃ¡hnout pro zmÄ›nu oblÃ­benosti tohoto uÅ¾ivatele.
 ;file \plugins\TabSRMM\src\globals.cpp
 [%n (%s)]
 [%s\n\n(%s)]
@@ -1059,116 +1059,116 @@ UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailù u
 [Instant messages]
 Rozhovor
 [Incoming (Focused Window)]
-Pøíchozí (aktivní okno)
+PÅ™Ã­chozÃ­ (aktivnÃ­ okno)
 [Incoming (Unfocused Window)]
-Pøíchozí (neaktivní okno)
+PÅ™Ã­chozÃ­ (neaktivnÃ­ okno)
 [Incoming (New Session)]
-Pøíchozí (nová konverzace)
+PÅ™Ã­chozÃ­ (novÃ¡ konverzace)
 [Outgoing]
-Odchozí
+OdchozÃ­
 [Message send error]
-Chyba odeslání zprávy
+Chyba odeslÃ¡nÃ­ zprÃ¡vy
 [No status message]
-ádná zpráva stavu
+Å½Ã¡dnÃ¡ zprÃ¡va stavu
 [Other]
-Ostatní
+OstatnÃ­
 [TABSRMM: Typing]
-TabSRMM: psaní
+TabSRMM: psanÃ­
 [TSHK]
 [&Messaging settings...]
-&Nastavení komunikace...
+&NastavenÃ­ komunikace...
 [&Send later job list...]
-Fronta zpodìnıch zpráv...
+Fronta zpoÅ¾dÄ›nÃ½ch zprÃ¡v...
 [SideBarClass]
 [RichEditTipClass]
 [Message from %s]
-Zpráva od: %s
+ZprÃ¡va od: %s
 [signed off.]
-se odhlásil/a.
+se odhlÃ¡sil/a.
 [signed on and is now %s.]
-se pøihlásil/a a je nyní %s
+se pÅ™ihlÃ¡sil/a a je nynÃ­ %s
 [changed status from %s to %s.]
-zmìnil/a stav z %s na %s.
+zmÄ›nil/a stav z %s na %s.
 ;file \plugins\TabSRMM\src\infopanel.cpp
 [Angry]
 Zlost
 [Duck]
-Koupání
+KoupÃ¡nÃ­
 [Tired]
-Únava
+Ãšnava
 [Party]
-Na párty
+Na pÃ¡rty
 [Beer]
 Na pivku
 [Thinking]
-Pøemıšlím
+PÅ™emÃ½Å¡lÃ­m
 [Eating]
-Jím
+JÃ­m
 [Friends]
-S kamarády
+S kamarÃ¡dy
 [Coffee]
-Dávám si kafe
+DÃ¡vÃ¡m si kafe
 [Music]
 Hudba
 [Business]
 Za obchodem
 [Camera]
-Natáèím
+NatÃ¡ÄÃ­m
 [Funny]
-Dobrá nálada
+DobrÃ¡ nÃ¡lada
 [Phone]
 Telefon
 [Games]
 Hry
 [College]
-Vysoká škola
+VysokÃ¡ Å¡kola
 [Shopping]
 Nakupuji
 [Sick]
-Není mi dobøe
+NenÃ­ mi dobÅ™e
 [Sleeping]
-Spím
+SpÃ­m
 [Surfing]
 Surfuji
 [@Internet]
 [Engineering]
-Strojírenství
+StrojÃ­renstvÃ­
 [Typing]
-Píšu
+PÃ­Å¡u
 [Eating... yummy]
-Jídlo... mòamka
+JÃ­dlo... mÅˆamka
 [Having fun]
-Dobøe se bavím
+DobÅ™e se bavÃ­m
 [Chit chatting]
 Na pokecu
 [Crashing]
-Pád
+PÃ¡d
 [Going to toilet]
-Jde na záchod
+Jde na zÃ¡chod
 [  Client: %s]
 [  Client not cached yet]
 [%s    Idle: %dh,%02dm]
-%s    Neèinnı: %dh,%02dm
+%s    NeÄinnÃ½: %dh,%02dm
 [Topic is: %s]
-Téma je: %s
+TÃ©ma je: %s
 [no topic set.]
-ádné téma nezvoleno.
+Å¾Ã¡dnÃ© tÃ©ma nezvoleno.
 [Open User Details...]
-Otevøít detaily uivatele
+OtevÅ™Ã­t detaily uÅ¾ivatele
 [Open History...]
-Otevøít historii...
+OtevÅ™Ã­t historii...
 [Messaging Settings...]
-Nastavení komunikace...
+NastavenÃ­ komunikace...
 [Room Settings...]
-Nastavení místnosti...
+NastavenÃ­ mÃ­stnosti...
 [Close Session]
-Zavøít rozhovor
+ZavÅ™Ã­t rozhovor
 [Copy To Clipboard]
-Kopírovat do schránky
+KopÃ­rovat do schrÃ¡nky
 [\\tab \\ul\\b Status message:\\ul0\\b0 \\par %s]
-\\tab \\ul\\b Zpráva stavu:\\ul0\\b0 \\par %s
+\\tab \\ul\\b ZprÃ¡va stavu:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
-\\par\\par\\tab \\ul\\b Zpráva rozšíøeného stavu:\\ul0\\b0 \\par
+\\par\\par\\tab \\ul\\b ZprÃ¡va rozÅ¡Ã­Å™enÃ©ho stavu:\\ul0\\b0 \\par
 [%s%s%s]
 [ / ]
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
@@ -1181,27 +1181,27 @@ tabSRMM informace
 [Set panel visibility for this %s]
 Nastavit viditelnost panelu pro %s
 [chat room]
-chatovací místnost
+chatovacÃ­ mÃ­stnost
 [contact]
 kontakt
 [Do not synchronize the panel height with IM windows]
-Nesynchronizovat vıšku panelu s komunikaèními okny
+Nesynchronizovat vÃ½Å¡ku panelu s komunikaÄnÃ­mi okny
 [Do not synchronize the panel height with group chat windows]
-Nesynchronizovat vıšku panelu s okny skupinového chatu
+Nesynchronizovat vÃ½Å¡ku panelu s okny skupinovÃ©ho chatu
 [Inherit from container setting]
-Odvodit z nastavení kontejneru
+Odvodit z nastavenÃ­ kontejneru
 [Always off]
-Vdy vypnuto
+VÅ¾dy vypnuto
 [Always on]
-Vdy zapnuto
+VÅ¾dy zapnuto
 [Use default size]
-Pouít vıchozí velikost
+PouÅ¾Ã­t vÃ½chozÃ­ velikost
 [Use private size]
-Pouít vlastní velikost
+PouÅ¾Ã­t vlastnÃ­ velikost
 [Use Global Setting]
-Pouít globální nastavení
+PouÅ¾Ã­t globÃ¡lnÃ­ nastavenÃ­
 [Show always (if present)]
-Zobrazit vdy (je-li k dispozici)
+Zobrazit vÅ¾dy (je-li k dispozici)
 [Never show it at all]
 Nezobrazovat nikdy
 [%s%s]
@@ -1220,66 +1220,66 @@ Nezobrazovat nikdy
 [[/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
-Pøidat tento kontakt do seznamu natrvalo
+PÅ™idat tento kontakt do seznamu natrvalo
 [Do not add this contact permanently]
-Nepøidávat tento kontakt do seznamu
+NepÅ™idÃ¡vat tento kontakt do seznamu
 [Expand or collapse the side bar]
-Zobrazit èi skrıt boèní lištu
+Zobrazit Äi skrÃ½t boÄnÃ­ liÅ¡tu
 [Character Encoding]
-Kódová stránka
+KÃ³dovÃ¡ strÃ¡nka
 [Contact not on list. You may add it...]
-Kontakt není v seznamu. Mùete ho pøidat...
+Kontakt nenÃ­ v seznamu. MÅ¯Å¾ete ho pÅ™idat...
 [A message failed to send successfully.]
-Chyba pøi odesílání zprávy
+Chyba pÅ™i odesÃ­lÃ¡nÃ­ zprÃ¡vy
 [WARNING: The message you are trying to paste exceeds the message size limit for the active protocol. It will be sent in chunks of max %d characters]
-UPOZORNÌNÍ: Zpráva, kterou se pokoušíte vloit, je delší, ne povolenı limit pro tento protokol. Zpráva bude odeslána po èástech o maximální délce %d znakù
+UPOZORNÄšNÃ: ZprÃ¡va, kterou se pokouÅ¡Ã­te vloÅ¾it, je delÅ¡Ã­, neÅ¾ povolenÃ½ limit pro tento protokol. ZprÃ¡va bude odeslÃ¡na po ÄÃ¡stech o maximÃ¡lnÃ­ dÃ©lce %d znakÅ¯
 [The message you are trying to paste exceeds the message size limit for the active protocol. Only the first %d characters will be sent.]
-UPOZORNÌNÍ: Zpráva, kterou se pokoušíte vloit, je delší, ne povolenı limit pro tento protokol. Bude odesláno prvních %d znakù
+UPOZORNÄšNÃ: ZprÃ¡va, kterou se pokouÅ¡Ã­te vloÅ¾it, je delÅ¡Ã­, neÅ¾ povolenÃ½ limit pro tento protokol. Bude odeslÃ¡no prvnÃ­ch %d znakÅ¯
 [Save and close session]
-Uloit a zavøít rozhovor
+UloÅ¾it a zavÅ™Ã­t rozhovor
 [Autoscrolling is disabled (press F12 to enable it)]
-Automatické posouvání je vypnuto (stisknìte F12 pro zapnutí)
+AutomatickÃ© posouvÃ¡nÃ­ je vypnuto (stisknÄ›te F12 pro zapnutÃ­)
 [Click for contact menu\nClick dropdown for window settings]
-Kliknutím zobrazíte uivatelské menu\nKliknutím na šipku monosti okna
+KliknutÃ­m zobrazÃ­te uÅ¾ivatelskÃ© menu\nKliknutÃ­m na Å¡ipku moÅ¾nosti okna
 [Retry]
 Znovu
 [Send later]
-Poslat pozdìji
+Poslat pozdÄ›ji
 [Selection copied to clipboard]
-Vıbìr zkopírován do schránky
+VÃ½bÄ›r zkopÃ­rovÃ¡n do schrÃ¡nky
 [mailto:]
 [Delivery failure: %s]
-Chyba pøi odesílání: %s
+Chyba pÅ™i odesÃ­lÃ¡nÃ­: %s
 [The message send timed out]
-Èas na odeslání vypršel
+ÄŒas na odeslÃ¡nÃ­ vyprÅ¡el
 [You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Editujete poznámky k uivateli. Stisknìte tlaèítko znovu nebo pouijte klávesovou zkratku (vıchozí: Alt-N) pro uloení poznámek a návrat do normálního reimu
+Editujete poznÃ¡mky k uÅ¾ivateli. StisknÄ›te tlaÄÃ­tko znovu nebo pouÅ¾ijte klÃ¡vesovou zkratku (vÃ½chozÃ­: Alt-N) pro uloÅ¾enÃ­ poznÃ¡mek a nÃ¡vrat do normÃ¡lnÃ­ho reÅ¾imu
 [Unforce failed]
-Chyba pøi rušení vynuceného
+Chyba pÅ™i ruÅ¡enÃ­ vynucenÃ©ho
 [The selected protocol cannot be forced at this time]
-Vybranı protokol nelze právì teï vynutit
+VybranÃ½ protokol nelze prÃ¡vÄ› teÄ vynutit
 [Warning: you have selected a subprotocol for sending the following messages which is currently offline]
-Upozornìní: vybrali jste offline protokol pro odeslání následujících zpráv
+UpozornÄ›nÃ­: vybrali jste offline protokol pro odeslÃ¡nÃ­ nÃ¡sledujÃ­cÃ­ch zprÃ¡v
 [Contact is offline and this protocol does not support sending files to offline users.]
-Kontakt je offline a tento protokol nepodporuje posílání souborù offline uivatelùm
+Kontakt je offline a tento protokol nepodporuje posÃ­lÃ¡nÃ­ souborÅ¯ offline uÅ¾ivatelÅ¯m
 ;file \plugins\TabSRMM\src\msgdlgutils.cpp
 [SHELLDLL_DefView]
 [%04u %02u %02u_%02u%02u]
 [Error creating destination directory]
-Chyba pøi vytváøení cílového adresáøe
+Chyba pÅ™i vytvÃ¡Å™enÃ­ cÃ­lovÃ©ho adresÃ¡Å™e
 [Save contact picture]
-Uloit obrázek kontaktu
+UloÅ¾it obrÃ¡zek kontaktu
 [My Avatar_%s]
 [%s_%s]
 [%s.png]
 [png]
 [%s%c*.bmp;*.png;*.jpg;*.gif%c%c]
 [Image files]
-Soubory obrázkù
+Soubory obrÃ¡zkÅ¯
 [The file exists. Do you want to overwrite it?]
-Soubor existuje. Chcete jej pøepsat?
+Soubor existuje. Chcete jej pÅ™epsat?
 [Set Your Avatar...]
-Nastavit svùj avatar...
+Nastavit svÅ¯j avatar...
 [ | ]
 [%s%s %d/%d]
 [\\pard]
@@ -1311,52 +1311,52 @@ Nastavit svùj avatar...
 [[/u]]
 [\\tab]
 [ !$%()#*"']
-[ !§$%&()#*]
+[ !Â§$%&()#*]
 [%04.04x]
 [MIME\\Database\\Rfc1766]
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
-Funkce 'vloit a poslat' je vypnutá. Mùete ji zapnout v nabídce Monosti -> Komunikace -> Obecné.
+Funkce 'vloÅ¾it a poslat' je vypnutÃ¡. MÅ¯Å¾ete ji zapnout v nabÃ­dce MoÅ¾nosti -> Komunikace -> ObecnÃ©.
 [Either the nudge plugin is not installed or the contact's protocol does not support sending a nudge event.]
-ádnı plugin pro šouchání není nainstalován nebo protokol kontaktu nepodporuje zasílání souchnutí.
+Å½Ã¡dnÃ½ plugin pro Å¡Å¥ouchÃ¡nÃ­ nenÃ­ nainstalovÃ¡n nebo protokol kontaktu nepodporuje zasÃ­lÃ¡nÃ­ sÅ¥ouchnutÃ­.
 ['(Unknown Contact)']
-'(neznámı kontakt)'
+'(neznÃ¡mÃ½ kontakt)'
 [%s%c*.jpg%c%c]
 [JPEG-compressed images]
-JPEG-komprimované obrázky
+JPEG-komprimovanÃ© obrÃ¡zky
 [jpg]
 ;file \plugins\TabSRMM\src\msglog.cpp
 [Thai]
-thajština
+thajÅ¡tina
 [Japanese]
-japonština
+japonÅ¡tina
 [Simplified Chinese]
-èínština (zjednodušená)
+ÄÃ­nÅ¡tina (zjednoduÅ¡enÃ¡)
 [Korean]
-korejština
+korejÅ¡tina
 [Traditional Chinese]
-èínština (tradièní)
+ÄÃ­nÅ¡tina (tradiÄnÃ­)
 [Central European]
-støedoevropskı
+stÅ™edoevropskÃ½
 [Cyrillic]
 cyrilika
 [Cyrillic KOI8-R]
 cyrilika KOI8-R
 [Latin I]
-západní
+zÃ¡padnÃ­
 [Greek]
-øeètina
+Å™eÄtina
 [Turkish]
-tureètina
+tureÄtina
 [Hebrew]
-hebrejština
+hebrejÅ¡tina
 [Arabic]
-arabština
+arabÅ¡tina
 [Baltic]
-pobaltskı
+pobaltskÃ½
 [Vietnamese]
-vietnamština
+vietnamÅ¡tina
 [Korean (Johab)]
-korejština (Johab)
+korejÅ¡tina (Johab)
 [Sunday]
 [Monday]
 [Tuesday]
@@ -1367,23 +1367,23 @@ korejština (Johab)
 [January]
 leden
 [February]
-únor
+Ãºnor
 [March]
-bøezen
+bÅ™ezen
 [April]
 duben
 [May]
-kvìten
+kvÄ›ten
 [June]
-èerven
+Äerven
 [July]
-èervenec
+Äervenec
 [August]
 srpen
 [September]
-záøí
+zÃ¡Å™Ã­
 [October]
-øíjen
+Å™Ã­jen
 [November]
 listopad
 [December]
@@ -1391,10 +1391,10 @@ prosinec
 [Today]
 Dnes
 [Yesterday]
-Vèera
+VÄera
 [WMA]
 [Use default codepage]
-Vıchozí kódování
+VÃ½chozÃ­ kÃ³dovÃ¡nÃ­
 ;file \plugins\TabSRMM\src\msgoptions.cpp
 [%s*.*]
 [.tsk]
@@ -1402,126 +1402,126 @@ Vıchozí kódování
 [None]
 ---
 [<no skin>]
-<ádnı skin>
+<Å¾Ã¡dnÃ½ skin>
 [Do you want to also read message templates from the theme?\nCaution: This will overwrite the stored template set which may affect the look of your message window significantly.\nSelect cancel to not load anything at all.]
-Chcete se vzhledem nahrát také šablony záznamu?\nUPOZORNÌNÍ: Tato volba pøepíše uloenou sadu šablon, co mùe vıznamì ovlivnit vzhled záznamu komunikace.\nPokud zvolíte Storno, nenahraje se vùbec nic.
+Chcete se vzhledem nahrÃ¡t takÃ© Å¡ablony zÃ¡znamu?\nUPOZORNÄšNÃ: Tato volba pÅ™epÃ­Å¡e uloÅ¾enou sadu Å¡ablon, coÅ¾ mÅ¯Å¾e vÃ½znamÄ› ovlivnit vzhled zÃ¡znamu komunikace.\nPokud zvolÃ­te Storno, nenahraje se vÅ¯bec nic.
 [Load theme]
-Nahrát vzhled
+NahrÃ¡t vzhled
 [IEView plugin]
 Styly (IEView)
 [History++ plugin]
-Doplnìk History++
+DoplnÄ›k History++
 [You have chosen to use an external plugin for displaying the message history in the chat window. Most of the settings on this page are for the standard message log viewer only and will have no effect. To change the appearance of the message log, you must configure either IEView or History++.]
-Vybrali jste externí plugin pro zobrazení záznamu zpráv v komunikaèním oknì. Mnoho nastavení v tomto oknì je pouze pro standardní zobrazení záznamu komunikace, a proto nebude mít ádnı vliv. Pro zmìnu vhledu záznamu komunikaèního okna musíte nastavit IEView nebo History++.
+Vybrali jste externÃ­ plugin pro zobrazenÃ­ zÃ¡znamu zprÃ¡v v komunikaÄnÃ­m oknÄ›. Mnoho nastavenÃ­ v tomto oknÄ› je pouze pro standardnÃ­ zobrazenÃ­ zÃ¡znamu komunikace, a proto nebude mÃ­t Å¾Ã¡dnÃ½ vliv. Pro zmÄ›nu vhledu zÃ¡znamu komunikaÄnÃ­ho okna musÃ­te nastavit IEView nebo History++.
 [** New contacts **]
 [** Unknown contacts **]
 [Show balloon popup (unsupported system)]
-Zobrazit oznámení bublinami (nepodporováno)
+Zobrazit oznÃ¡menÃ­ bublinami (nepodporovÃ¡no)
 [Always]
-Vdy
+VÅ¾dy
 [Always, but no popup when window is focused]
-Pokadé, kromì otevøeného okna ve vıhledu
+PokaÅ¾dÃ©, kromÄ› otevÅ™enÃ©ho okna ve vÃ½hledu
 [Only when no message window is open]
-Jen kdy není ádné komunikaèní okno otevøené
+Jen kdyÅ¾ nenÃ­ Å¾Ã¡dnÃ© komunikaÄnÃ­ okno otevÅ™enÃ©
 [Normal - close tab, if last tab is closed also close the window]
-Normální - zavøít panel, pokud je uzavøen poslední panel, zavøít i okno
+NormÃ¡lnÃ­ - zavÅ™Ã­t panel, pokud je uzavÅ™en poslednÃ­ panel, zavÅ™Ã­t i okno
 [Minimize the window to the task bar]
 Minimalizovat okno
 [Close or hide window, depends on the close button setting above]
-Zavøít èi schovat okno, záleí na nastavení uzavíracího tlaèítka
+ZavÅ™Ã­t Äi schovat okno, zÃ¡leÅ¾Ã­ na nastavenÃ­ uzavÃ­racÃ­ho tlaÄÃ­tka
 [Message Sessions]
 Komunikace
 [General]
 [Tabs and layout]
-Panely a rozvrení
+Panely a rozvrÅ¾enÃ­
 [Containers]
 Kontejnery
 [Message log]
-Záznam komunikace
+ZÃ¡znam komunikace
 [Tool bar]
-Tlaèítková lišta
+TlaÄÃ­tkovÃ¡ liÅ¡ta
 [Typing Notify]
 [Event notifications]
-Oznámení události
+OznÃ¡menÃ­ udÃ¡losti
 [Message window]
-Komunikaèní okno
+KomunikaÄnÃ­ okno
 [Load and apply]
-Pouití
+PouÅ¾itÃ­
 [Skins]
 Skiny
 [Window layout tweaks]
-Rozvrení okna
+RozvrÅ¾enÃ­ okna
 [Group Chats]
-Skupinové rozhovory
+SkupinovÃ© rozhovory
 [Settings]
-Nastavení
+NastavenÃ­
 [Log formatting]
-Formátování záznamu
+FormÃ¡tovÃ¡nÃ­ zÃ¡znamu
 [Events and filters]
-Události a filtry
+UdÃ¡losti a filtry
 [Highlighting]
-Zvırazòování
+ZvÃ½razÅˆovÃ¡nÃ­
 [Choose status modes]
 Vyberte stavy
 ;file \plugins\TabSRMM\src\msgs.cpp
 [The image service plugin (advaimg.dll) is not properly installed.\n\nTabSRMM is disabled.]
 [TabSRMM fatal error]
 [Warning: trying to create duplicate window]
-Upozornìní: pokus o vytvoøení totoného okna
+UpozornÄ›nÃ­: pokus o vytvoÅ™enÃ­ totoÅ¾nÃ©ho okna
 [_U_]
 [%s (%s)  ]
 [%s   ]
 [Image tag]
-Tag obrázku
+Tag obrÃ¡zku
 [Quote text]
 Citovat text
 [Save and close]
-Uloit a zavøít
+UloÅ¾it a zavÅ™Ã­t
 [Send message]
-Poslat zprávu
+Poslat zprÃ¡vu
 [Smiley button]
-Smajlík
+SmajlÃ­k
 [Format bold]
-Tuènì
+TuÄnÄ›
 [Format italic]
-Kurzíva
+KurzÃ­va
 [Format underline]
 Podtrhnout
 [Font face]
-Písmo
+PÃ­smo
 [Font color]
-Barva písma
+Barva pÃ­sma
 [Format strike-through]
-Pøeškrtnutı text
+PÅ™eÅ¡krtnutÃ½ text
 [Background colour]
 [Room settings]
-Nastavení místnosti
+NastavenÃ­ mÃ­stnosti
 [Event filter]
-Filtr událostí
+Filtr udÃ¡lostÃ­
 [Nick list]
-Seznam pøezdívek
+Seznam pÅ™ezdÃ­vek
 [Message delivery error]
-Chyba pøi doruèování zprávy
+Chyba pÅ™i doruÄovÃ¡nÃ­ zprÃ¡vy
 [Incoming message]
-Pøíchozí zpráva
+PÅ™Ã­chozÃ­ zprÃ¡va
 [Outgoing message]
-Odchozí zpráva
+OdchozÃ­ zprÃ¡va
 [Statuschange]
-Zmìna stavu
+ZmÄ›na stavu
 [Static container icon]
-Pouít pro kontejner statickou ikonu
+PouÅ¾Ã­t pro kontejner statickou ikonu
 [Sounds (status bar)]
-Zvyky (stavová lišta)
+Zvyky (stavovÃ¡ liÅ¡ta)
 [Pulldown Arrow]
-Rozbalovací šipka
+RozbalovacÃ­ Å¡ipka
 [Left Arrow]
-Šipka doleva
+Å ipka doleva
 [Right Arrow]
-Šipka doprava
+Å ipka doprava
 [Up Arrow]
-Šipka nahoru
+Å ipka nahoru
 [Session List]
-Seznam rozhovorù
+Seznam rozhovorÅ¯
 [Frame 1]
 Okno 1
 [Frame 2]
@@ -1536,85 +1536,85 @@ Okno 4
 [Select container for %s]
 Vyberte kontejner pro %s
 [You cannot delete the default container]
-Nelze smazat vıchozí kontejner
+Nelze smazat vÃ½chozÃ­ kontejner
 [Error]
 [You cannot rename the default container]
-Nelze pøejmenovat vıchozí kontejner
+Nelze pÅ™ejmenovat vÃ½chozÃ­ kontejner
 [This name is already in use]
-Tento název ji byl pouit
+Tento nÃ¡zev jiÅ¾ byl pouÅ¾it
 ;file \plugins\TabSRMM\src\sendlater.cpp
 [A send later job completed successfully.\nThe original message: %s]
-Zpodìné odesílání probìhlo úspìšnì.\nPùvodní zpráva: %s
+ZpoÅ¾dÄ›nÃ© odesÃ­lÃ¡nÃ­ probÄ›hlo ÃºspÄ›Å¡nÄ›.\nPÅ¯vodnÃ­ zprÃ¡va: %s
 [A send later job failed to complete.\nThe original message: %s]
-Zpodìné odesílání selhalo.\nPùvodní zpráva: %s
+ZpoÅ¾dÄ›nÃ© odesÃ­lÃ¡nÃ­ selhalo.\nPÅ¯vodnÃ­ zprÃ¡va: %s
 [%Y.%m.%d - %H:%M]
 [<All contacts>]
-<Všechny kontakty>
+<VÅ¡echny kontakty>
 [%s [%s]]
 [Removed]
-Odstranìno
+OdstranÄ›no
 [Failed]
-Selhání
+SelhÃ¡nÃ­
 [Sent OK]
-Odesláno
+OdeslÃ¡no
 [Deferred]
-Odloeno
+OdloÅ¾eno
 [Suspended]
 Pozastaveno
 [Pending]
-Èekající
+ÄŒekajÃ­cÃ­
 [X/%s[%c] (%d)]
 [Never]
 Nikdy
 [Contact]
 Kontakt
 [Original timestamp]
-Pùvodní èas
+PÅ¯vodnÃ­ Äas
 [Message text]
-Text zprávy
+Text zprÃ¡vy
 [Status]
 #muuid {8f79b4ee-eb48-4a03-873e-27be6b7e9a25}
 [Last send info]
-Informace o posledním odeslání
+Informace o poslednÃ­m odeslÃ¡nÃ­
 [You are about to modify the state of one or more items in the\nunattended send queue. The requested action(s) will be executed at the next scheduled queue processing.\n\nThis action cannot be made undone.]
-Upravujete jednu nebo více poloek ve frontì bezobsluného odesílání. Poadované akce budou provedeny pøi dalším naplánovaném zpracování fronty.\n\nTato akce nemùe bıt vrácena zpìt.
+Upravujete jednu nebo vÃ­ce poloÅ¾ek ve frontÄ› bezobsluÅ¾nÃ©ho odesÃ­lÃ¡nÃ­. PoÅ¾adovanÃ© akce budou provedeny pÅ™i dalÅ¡Ã­m naplÃ¡novanÃ©m zpracovÃ¡nÃ­ fronty.\n\nTato akce nemÅ¯Å¾e bÃ½t vrÃ¡cena zpÄ›t.
 [Queue manager]
-Manaer fronty
+ManaÅ¾er fronty
 ;file \plugins\TabSRMM\src\sendqueue.cpp
 [Send queue full]
 [The message cannot be sent delayed or to multiple contacts, because it exceeds the maximum allowed message length of %d bytes]
-Zpráva nemùe bıt odeslána, protoe pøekraèuje maximální povolenou délku %d bytù
+ZprÃ¡va nemÅ¯Å¾e bÃ½t odeslÃ¡na, protoÅ¾e pÅ™ekraÄuje maximÃ¡lnÃ­ povolenou dÃ©lku %d bytÅ¯
 [A message delivery has failed.\nClick to open the message window.]
-Zprávu se nepodaøilo odeslat.\nKliknutím otevøete komunikaèní okno.
+ZprÃ¡vu se nepodaÅ™ilo odeslat.\nKliknutÃ­m otevÅ™ete komunikaÄnÃ­ okno.
 [A message delivery has failed after the contacts chat window was closed. You may want to resend the last message]
-Nezdaøilo se doruèení zprávy poté, co kontakt zavøel okno. Pošlete zprávu znovu
+NezdaÅ™ilo se doruÄenÃ­ zprÃ¡vy potÃ©, co kontakt zavÅ™el okno. PoÅ¡lete zprÃ¡vu znovu
 [There are unsent messages waiting for confirmation.\nWhen you close the window now, Miranda will try to send them but may be unable to inform you about possible delivery errors.\nDo you really want to close the Window(s)?]
-Nìkteré neodeslané zprávy èekají na potvrzení.\nPokud nyní zavøete komunikaèní okno, Miranda se je pokusí poslat, avšak pokud se jí to nepodaøí, moná vás nebude moci informovat o chybách.\nOpravdu chcete zavøít toto okno?
+NÄ›kterÃ© neodeslanÃ© zprÃ¡vy ÄekajÃ­ na potvrzenÃ­.\nPokud nynÃ­ zavÅ™ete komunikaÄnÃ­ okno, Miranda se je pokusÃ­ poslat, avÅ¡ak pokud se jÃ­ to nepodaÅ™Ã­, moÅ¾nÃ¡ vÃ¡s nebude moci informovat o chybÃ¡ch.\nOpravdu chcete zavÅ™Ã­t toto okno?
 [Message window warning]
-Varování komunikaèního okna
+VarovÃ¡nÃ­ komunikaÄnÃ­ho okna
 [Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
-Zpráva úspìšnì zaøazena pro pozdìjší doruèení.\nZpráva bude odeslána jakmile to bude moné a oznámení vás bude informovat o vısledku.
+ZprÃ¡va ÃºspÄ›Å¡nÄ› zaÅ™azena pro pozdÄ›jÅ¡Ã­ doruÄenÃ­.\nZprÃ¡va bude odeslÃ¡na jakmile to bude moÅ¾nÃ© a oznÃ¡menÃ­ vÃ¡s bude informovat o vÃ½sledku.
 [The send later feature is not available on this protocol.]
-Tento protokol nepodporuje zpodìné odesílání.
+Tento protokol nepodporuje zpoÅ¾dÄ›nÃ© odesÃ­lÃ¡nÃ­.
 [\n(Sent delayed. Original timestamp %s)]
-\n(Odesláno opodìnì. Pùvodní èas %s)
+\n(OdeslÃ¡no opoÅ¾dÄ›nÄ›. PÅ¯vodnÃ­ Äas %s)
 [M%d|]
 ;file \plugins\TabSRMM\src\sidebar.cpp
 [Like tabs, vertical text orientation]
-Jako panely, vertikální orientace
+Jako panely, vertikÃ¡lnÃ­ orientace
 [Compact layout, horizontal buttons]
-Kompaktní rozvrení, horizontální orientace
+KompaktnÃ­ rozvrÅ¾enÃ­, horizontÃ¡lnÃ­ orientace
 [Advanced layout with avatars]
-Rozšíøené rozvrení s avatary, horizontální orientace
+RozÅ¡Ã­Å™enÃ© rozvrÅ¾enÃ­ s avatary, horizontÃ¡lnÃ­ orientace
 [Advanced with avatars, vertical orientation]
-Rozšíøené rozvrení s avatary, vertikální orientace
+RozÅ¡Ã­Å™enÃ© rozvrÅ¾enÃ­ s avatary, vertikÃ¡lnÃ­ orientace
 [TS_SideBarClass]
 ;file \plugins\TabSRMM\src\srmm.cpp
 [This version of tabSRMM requires Windows 2000 or later.]
 [tabSRMM]
 tabSRMM
 [tabSRMM Message (%s)]
-tabSRMM zpráva (%s)
+tabSRMM zprÃ¡va (%s)
 [TabSRMM\n%s %d.%d.%d.%d (Unicode) %s]
 [Version]
 ;file \plugins\TabSRMM\src\tabctrl.cpp
@@ -1630,12 +1630,12 @@ tabSRMM zpráva (%s)
 [destroy proxy WINDOW for: %s]
 [refresh base (background) with %d, %d]
 [%d Unread]
-%d nepøeèteno
+%d nepÅ™eÄteno
 [destroy CThumbBase]
 [Chat room %s]
-Chatovací místnost %s
+ChatovacÃ­ mÃ­stnost %s
 [%d User(s)]
-%d Uivatel/é
+%d UÅ¾ivatel/Ã©
 [Server window]
 Okno serveru
 [%s on %s%s]
@@ -1647,18 +1647,18 @@ Okno serveru
 [%I %S %N  %D%n%S %T%|%M]
 [%I%S %D, %T, %N %M%! ]
 [Template Set Editor]
-Editor sady šablon
+Editor sady Å¡ablon
 [This will reset the template set to the default built-in templates. Are you sure you want to do this?]
-Tato volba obnoví všechny šablony do pùvodního stavu. Opravdu chcete pokraèovat?
+Tato volba obnovÃ­ vÅ¡echny Å¡ablony do pÅ¯vodnÃ­ho stavu. Opravdu chcete pokraÄovat?
 [Template set was successfully reset, please close and reopen all message windows. This template editor window will now close.]
-Sada šablon byla úspìšnì obnovena do pùvodního stavu, nyní zavøete a otevøete všechna komunikaèní okna. Editor šablon bude nyní ukonèen. 
+Sada Å¡ablon byla ÃºspÄ›Å¡nÄ› obnovena do pÅ¯vodnÃ­ho stavu, nynÃ­ zavÅ™ete a otevÅ™ete vÅ¡echna komunikaÄnÃ­ okna. Editor Å¡ablon bude nynÃ­ ukonÄen. 
 [My Nickname]
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM Theme]
 [Cookie]
 [%s%c*.tabsrmm%c%c]
 [tabSRMM themes]
-tabSRMM témata
+tabSRMM tÃ©mata
 [tabsrmm]
 ;file \plugins\TabSRMM\src\themes.cpp
 [tabskin_aero.png]
@@ -1675,7 +1675,7 @@ Bez efektu
 [Container]
 Kontejner
 [Toolbar]
-Lišta tlaèítek
+LiÅ¡ta tlaÄÃ­tek
 [{-}Buttonpressed]
 [Buttonnotpressed]
 [Buttonmouseover]
@@ -1718,16 +1718,16 @@ Dole
 [Image]
 [%s\\%s%s]
 [Alpha]
-Prùhlednost
+PrÅ¯hlednost
 [Fillcolor]
 [Colorkey]
 [Stretch]
 Upravit velikost
 [Perpixel]
 [All message containers need to close before the skin can be changed\nProceed?]
-Všechny kontejnery se zprávami musí bıt pøed aplikací skinu zavøeny\nPokraèovat?
+VÅ¡echny kontejnery se zprÃ¡vami musÃ­ bÃ½t pÅ™ed aplikacÃ­ skinu zavÅ™eny\nPokraÄovat?
 [Change skin]
-Zmìnit skin
+ZmÄ›nit skin
 [none]
 ---
 [%s\\%s\\%s]
@@ -1742,20 +1742,20 @@ Gradient
 [right]
 [down]
 [Radius]
-Rádius
+RÃ¡dius
 [Textcolor]
 Barva textu
 [ffffffff]
 [$glyphs]
 [Item%d]
 [Width]
-Šíøka
+Å Ã­Å™ka
 [xoff]
 [yoff]
 [toggle]
 [Pressed]
 [Normal]
-Normální
+NormÃ¡lnÃ­
 [Hover]
 [Action]
 Akce
@@ -1819,162 +1819,162 @@ Soubor
 [SKIN_GLYPH]
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
-Komunikaèní okno
+KomunikaÄnÃ­ okno
 [Error feedback]
-Hlášení o chybách
+HlÃ¡Å¡enÃ­ o chybÃ¡ch
 [Show client icon in status bar (fingerprint plugin required)]
-Zobrazit ikonu klienta ve stavové lištì (vyaduje plugin fingerprint)
+Zobrazit ikonu klienta ve stavovÃ© liÅ¡tÄ› (vyÅ¾aduje plugin fingerprint)
 [Show skinnable tooltip in chat (tipper plugin required)]
 [Enable typing sounds]
-Povolit zvuky psaní
+Povolit zvuky psanÃ­
 [Disable animated GIF avatars (will not affect already open message windows)]
-Zakázat animované GIF avatary (nebude mít vliv na právì otevøená komunikaèní okna)
+ZakÃ¡zat animovanÃ© GIF avatary (nebude mÃ­t vliv na prÃ¡vÄ› otevÅ™enÃ¡ komunikaÄnÃ­ okna)
 [Close current tab on send]
-Zavøít panel po odeslání
+ZavÅ™Ã­t panel po odeslÃ¡nÃ­
 [Disable error popups on sending failures]
-Zakázat oznámení chyby pøi nedoruèení zprávy
+ZakÃ¡zat oznÃ¡menÃ­ chyby pÅ™i nedoruÄenÃ­ zprÃ¡vy
 [Automatic keyboard layout: Do not load the system default for new contacts]
-Automatické rozloení klávesnice: Nenahrávat vıchozí rozloení systému pro novı kontakt
+AutomatickÃ© rozloÅ¾enÃ­ klÃ¡vesnice: NenahrÃ¡vat vÃ½chozÃ­ rozloÅ¾enÃ­ systÃ©mu pro novÃ½ kontakt
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
-Povolit bezobsluné odesílání (experimentální funkce vyadovaná pro mnohonásobné èi zpodìné odesílání) (*)
+Povolit bezobsluÅ¾nÃ© odesÃ­lÃ¡nÃ­ (experimentÃ¡lnÃ­ funkce vyÅ¾adovanÃ¡ pro mnohonÃ¡sobnÃ© Äi zpoÅ¾dÄ›nÃ© odesÃ­lÃ¡nÃ­) (*)
 [Show a preview of the event]
-Zobrazit náhled události
+Zobrazit nÃ¡hled udÃ¡losti
 [Don't announce event when message dialog is open]
-Neoznamovat, je-li konverzaèní okno otevøeno
+Neoznamovat, je-li konverzaÄnÃ­ okno otevÅ™eno
 [Don't announce events from RSS protocols]
-Neoznamovat události z RSS èteèky
+Neoznamovat udÃ¡losti z RSS ÄteÄky
 [Enable the system tray icon]
-Zobrazit ikonu v oznamovací oblasti
+Zobrazit ikonu v oznamovacÃ­ oblasti
 [Merge new events for the same contact into existing popup]
-Spojit nové události pro jeden kontakt do existujícího oznámení
+Spojit novÃ© udÃ¡losti pro jeden kontakt do existujÃ­cÃ­ho oznÃ¡menÃ­
 [Show headers]
-Zobrazit záhlaví ve slouèenıch oznámeních
+Zobrazit zÃ¡hlavÃ­ ve slouÄenÃ½ch oznÃ¡menÃ­ch
 [Dismiss popup]
-Zavøít oznámení
+ZavÅ™Ã­t oznÃ¡menÃ­
 [Open event]
-Otevøít událost
+OtevÅ™Ã­t udÃ¡lost
 [Dismiss event]
-Oznaèit událost jako zhlédnutou
+OznaÄit udÃ¡lost jako zhlÃ©dnutou
 [Disable event notifications for instant messages]
-Zakázat oznámení událostí pro bìnou komunikaci
+ZakÃ¡zat oznÃ¡menÃ­ udÃ¡lostÃ­ pro bÄ›Å¾nou komunikaci
 [Disable event notifications for group chats]
-Zakázat oznámení událostí pro skupinovı chat
+ZakÃ¡zat oznÃ¡menÃ­ udÃ¡lostÃ­ pro skupinovÃ½ chat
 [Disable notifications for non-message events]
-Zakázat oznámení pro události nesouvisející se zprávami
+ZakÃ¡zat oznÃ¡menÃ­ pro udÃ¡losti nesouvisejÃ­cÃ­ se zprÃ¡vami
 [Remove popups for a contact when the message window is focused]
-Odstranit oznámení kontaktu pokud je komunikaèní okno aktivní
+Odstranit oznÃ¡menÃ­ kontaktu pokud je komunikaÄnÃ­ okno aktivnÃ­
 [Remove popups for a contact when I start typing a reply]
-Odstranit oznámení kontaktu jakmile zaènu psát odpovìï
+Odstranit oznÃ¡menÃ­ kontaktu jakmile zaÄnu psÃ¡t odpovÄ›Ä
 [Remove popups for a contact when I send a reply]
-Odstranit oznámení kontaktu jakmile pošlu odpovìï
+Odstranit oznÃ¡menÃ­ kontaktu jakmile poÅ¡lu odpovÄ›Ä
 [Disable notifications]
-Vypnout oznámení
+Vypnout oznÃ¡menÃ­
 [System tray icon]
-Ikona v oznamovací oblasti
+Ikona v oznamovacÃ­ oblasti
 [Left click actions (popups only)]
-Kliknutí levého tlaèítka myši na oznámení
+KliknutÃ­ levÃ©ho tlaÄÃ­tka myÅ¡i na oznÃ¡menÃ­
 [Right click actions (popups only)]
-Kliknutí pravého tlaèítka myši na oznámení
+KliknutÃ­ pravÃ©ho tlaÄÃ­tka myÅ¡i na oznÃ¡menÃ­
 [Timeout actions (popups only)]
-Vypršení èasového limitu oznámení
+VyprÅ¡enÃ­ ÄasovÃ©ho limitu oznÃ¡menÃ­
 [Combine notifications for the same contact]
-Kombinovat oznámení pro jeden kontakt
+Kombinovat oznÃ¡menÃ­ pro jeden kontakt
 [Remove popups under following conditions]
-Zavírat upozornìní pøi tìchto podmínkách:
+ZavÃ­rat upozornÄ›nÃ­ pÅ™i tÄ›chto podmÃ­nkÃ¡ch:
 [Message window behaviour]
-Chování komunikaèního okna
+ChovÃ¡nÃ­ komunikaÄnÃ­ho okna
 [Sending messages]
-Odesílání zpráv
+OdesÃ­lÃ¡nÃ­ zprÃ¡v
 [Send on SHIFT - Enter]
-Odeslat zprávu pomocí SHIFT+ENTER
+Odeslat zprÃ¡vu pomocÃ­ SHIFT+ENTER
 [Send message on 'Enter']
-Odeslat zprávu klávesou ENTER
+Odeslat zprÃ¡vu klÃ¡vesou ENTER
 [Send message on double 'Enter']
-Odeslat zprávu dvojitım ENTER
+Odeslat zprÃ¡vu dvojitÃ½m ENTER
 [Close the message window on send]
-Zavøít okno kliknutím na 'Poslat'
+ZavÅ™Ã­t okno kliknutÃ­m na 'Poslat'
 [Always flash contact list and tray icon for new messages]
-Vdy blikat v seznamu kontaktù a v oznam. oblasti pøi nové zprávì
+VÅ¾dy blikat v seznamu kontaktÅ¯ a v oznam. oblasti pÅ™i novÃ© zprÃ¡vÄ›
 [Delete temporary contacts on close]
-Smazat doèasné kontakty po zavøení okna
+Smazat doÄasnÃ© kontakty po zavÅ™enÃ­ okna
 [Enable "Paste and send" feature]
-Povolit funkci 'vloit a poslat'
+Povolit funkci 'vloÅ¾it a poslat'
 [Allow BBCode formatting in outgoing messages]
-Povolit formátování typu BBCode v odchozích zprávách
+Povolit formÃ¡tovÃ¡nÃ­ typu BBCode v odchozÃ­ch zprÃ¡vÃ¡ch
 [Automatically split long messages (experimental, use with care)]
-Automaticky rozdìlovat pøíliš dlouhé zprávy (experimentální fce)
+Automaticky rozdÄ›lovat pÅ™Ã­liÅ¡ dlouhÃ© zprÃ¡vy (experimentÃ¡lnÃ­ fce)
 [Message log appearance]
-Vzhled záznamu komunikace
+Vzhled zÃ¡znamu komunikace
 [Support for external plugins]
-Podpora externích doplòkù
+Podpora externÃ­ch doplÅˆkÅ¯
 [Additional events to show]
-Zobrazení dalších událostí
+ZobrazenÃ­ dalÅ¡Ã­ch udÃ¡lostÃ­
 [Timestamp settings (note: timstamps also depend on your templates)]
-Nastavení èasovıch údajù (pozn.: rovnì závisí na vašich šablonách)
+NastavenÃ­ ÄasovÃ½ch ÃºdajÅ¯ (pozn.: rovnÄ›Å¾ zÃ¡visÃ­ na vaÅ¡ich Å¡ablonÃ¡ch)
 [Message log icons]
-Ikony v záznamu komunikace
+Ikony v zÃ¡znamu komunikace
 [Show file events]
-Zobrazit informace o pøenosu souborù
+Zobrazit informace o pÅ™enosu souborÅ¯
 [Show dates in timestamps]
-Zobrazit datum v èasovém údaji
+Zobrazit datum v ÄasovÃ©m Ãºdaji
 [Show seconds in timestamps]
-Zobrazit sekundy v èasovém údaji
+Zobrazit sekundy v ÄasovÃ©m Ãºdaji
 [Use contacts local time (if timezone info available)]
-Pouít lokální èas kontaktu (je-li dostupná informace o zónì)
+PouÅ¾Ã­t lokÃ¡lnÃ­ Äas kontaktu (je-li dostupnÃ¡ informace o zÃ³nÄ›)
 [Draw grid lines]
-Zobrazit møíku
+Zobrazit mÅ™Ã­Å¾ku
 [Use Incoming/Outgoing Icons]
-Pouít pøíchozí a odchozí ikony
+PouÅ¾Ã­t pÅ™Ã­chozÃ­ a odchozÃ­ ikony
 [Use Message Grouping]
-Seskupovat zprávy
+Seskupovat zprÃ¡vy
 [Simple text formatting (*bold* etc.)]
-Prosté formátování textu (*tuènı* atd.)
+ProstÃ© formÃ¡tovÃ¡nÃ­ textu (*tuÄnÃ½* atd.)
 [Support BBCode formatting]
-Formátovat text pomocí BBCode
+FormÃ¡tovat text pomocÃ­ BBCode
 [Place a separator in the log after a window lost its foreground status]
-Umístit oddìlovaè do záznamu jakmile okno pøestane bıt v popøedí
+UmÃ­stit oddÄ›lovaÄ do zÃ¡znamu jakmile okno pÅ™estane bÃ½t v popÅ™edÃ­
 [Only place a separator when an incoming event is announced with a popup]
-Umístit oddìlovaè pouze pokud je pøíchozí událost uvozena oznámením
+UmÃ­stit oddÄ›lovaÄ pouze pokud je pÅ™Ã­chozÃ­ udÃ¡lost uvozena oznÃ¡menÃ­m
 [Support Math Module plugin]
-Zapnout podporu matematickıch symbolù
+Zapnout podporu matematickÃ½ch symbolÅ¯
 [Show events at the new line (IEView Compatibility Mode)]
-Zobrazit události na novém øádku (reim kompatibility s IEView)
+Zobrazit udÃ¡losti na novÃ©m Å™Ã¡dku (reÅ¾im kompatibility s IEView)
 [Underline timestamp/nickname (IEView Compatibility Mode)]
-Podtrhnout èas/pøezdívku (reim kompatibility s IEView)
+Podtrhnout Äas/pÅ™ezdÃ­vku (reÅ¾im kompatibility s IEView)
 [Show timestamp after nickname (IEView Compatibility Mode)]
-Zobrazit èas za pøezdívkou (reim kompatibility s IEView)
+Zobrazit Äas za pÅ™ezdÃ­vkou (reÅ¾im kompatibility s IEView)
 [Log status changes]
-Zaznamenávat zmìny stavu
+ZaznamenÃ¡vat zmÄ›ny stavu
 [Automatically copy selected text]
-Automaticky kopírovat vybranı text
+Automaticky kopÃ­rovat vybranÃ½ text
 [Use normal templates (uncheck to use simple templates if your template set supports them)]
-Pouít normální šablony (po odznaèení se pouijí jednoduché šablony, pokud to sada dovoluje)
+PouÅ¾Ã­t normÃ¡lnÃ­ Å¡ablony (po odznaÄenÃ­ se pouÅ¾ijÃ­ jednoduchÃ© Å¡ablony, pokud to sada dovoluje)
 [How to create tabs and windows for incoming messages]
-Vytváøení záloek a oken pro pøíchozí zprávy
+VytvÃ¡Å™enÃ­ zÃ¡loÅ¾ek a oken pro pÅ™Ã­chozÃ­ zprÃ¡vy
 [Show status text on tabs]
 Zobrazit text stavu na panelu
 [Prefer xStatus icons when available]
-Preferovat ikonu rozšíøeného stavu
+Preferovat ikonu rozÅ¡Ã­Å™enÃ©ho stavu
 [Detailed tooltip on tabs (requires mToolTip or Tipper plugin)]
-Zobrazit tipy nad panely (vyaduje mToolTip èi Tipper)
+Zobrazit tipy nad panely (vyÅ¾aduje mToolTip Äi Tipper)
 [ALWAYS activate new message sessions (has PRIORITY over the options below)]
-VDY aktivovat panel/okno s novou zprávou (má PRIORITU pøed nastavením uvedeném dále)
+VÅ½DY aktivovat panel/okno s novou zprÃ¡vou (mÃ¡ PRIORITU pÅ™ed nastavenÃ­m uvedenÃ©m dÃ¡le)
 [Automatically create new message sessions without activating them]
-Automaticky (bez nutnosti aktivování) vytvoøit panel/okno pøi pøijetí nové zprávy
+Automaticky (bez nutnosti aktivovÃ¡nÃ­) vytvoÅ™it panel/okno pÅ™i pÅ™ijetÃ­ novÃ© zprÃ¡vy
 [New windows are minimized (the option above MUST be active)]
-Nová okna jsou minimalizována (pouze pokud je povoleno nastavení nad tímto nastavením)
+NovÃ¡ okna jsou minimalizovÃ¡na (pouze pokud je povoleno nastavenÃ­ nad tÃ­mto nastavenÃ­m)
 [Activate a minimized window when a new tab is created inside it]
-Aktivovat minimalizované okno pokud je v nìm vytvoøen novı panel
+Aktivovat minimalizovanÃ© okno pokud je v nÄ›m vytvoÅ™en novÃ½ panel
 [Automatically switch existing tabs in minimized windows on incoming messages (ignored when using Aero Peek task bar features)]
-Automaticky pøepínat existující panely v minimalizovaném oknì pøi pøíchozích zprávách (ignorováno pøi pouití Aero náhledu v hlavním panelu)
+Automaticky pÅ™epÃ­nat existujÃ­cÃ­ panely v minimalizovanÃ©m oknÄ› pÅ™i pÅ™Ã­chozÃ­ch zprÃ¡vÃ¡ch (ignorovÃ¡no pÅ™i pouÅ¾itÃ­ Aero nÃ¡hledu v hlavnÃ­m panelu)
 [Remember and set keyboard layout per contact]
-Zapamatovat a nastavit rozloení klávesnice pro kadı kontakt zvláš
+Zapamatovat a nastavit rozloÅ¾enÃ­ klÃ¡vesnice pro kaÅ¾dÃ½ kontakt zvlÃ¡Å¡Å¥
 [Close button only hides message windows]
-Zavírací tlaèítko pouze skryje komunikaèní okno
+ZavÃ­racÃ­ tlaÄÃ­tko pouze skryje komunikaÄnÃ­ okno
 [Allow TAB key in typing area (this will disable focus selection by TAB key)]
-Povolit klávesu TAB v èásti psaní zprávy (vypne oznaèování dalšího prvku okna pomocí klávesy TAB)
+Povolit klÃ¡vesu TAB v ÄÃ¡sti psanÃ­ zprÃ¡vy (vypne oznaÄovÃ¡nÃ­ dalÅ¡Ã­ho prvku okna pomocÃ­ klÃ¡vesy TAB)
 [Add offline contacts to multisend list]
-Pøidávat offline kontakty do seznamu více pøíjemcù
+PÅ™idÃ¡vat offline kontakty do seznamu vÃ­ce pÅ™Ã­jemcÅ¯
 ;file \plugins\TabSRMM\src\trayicon.cpp
 [tsr_evt_%d]
 [TrayNotifyWnd]
@@ -1983,36 +1983,36 @@ Pøidávat offline kontakty do seznamu více pøíjemcù
 ;file \plugins\TabSRMM\src\TSButton.cpp
 ;file \plugins\TabSRMM\src\typingnotify.cpp
 [Disable &typing notification]
-Vypnout &upozornìní na psaní
+Vypnout &upozornÄ›nÃ­ na psanÃ­
 [Enable &typing notification]
-Zapnout &upozornìní na psaní
+Zapnout &upozornÄ›nÃ­ na psanÃ­
 [Warning: Popup plugin not found.]
-Varování: Popup plugin nenalezen.
+VarovÃ¡nÃ­: Popup plugin nenalezen.
 [Warning: Current Popup plugin version is not supported.]
-Varování: Stávající verze Popup pluginu není podporována.
+VarovÃ¡nÃ­: StÃ¡vajÃ­cÃ­ verze Popup pluginu nenÃ­ podporovÃ¡na.
 [...is typing a message.]
-... píše zprávu.
+... pÃ­Å¡e zprÃ¡vu.
 [...has stopped typing.]
-... dopsal zprávu.
+... dopsal zprÃ¡vu.
 [Contact started typing]
-Kontakt píše (zaèal)
+Kontakt pÃ­Å¡e (zaÄal)
 [Contact stopped typing]
-Kontakt píše (pøestal)
+Kontakt pÃ­Å¡e (pÅ™estal)
 ;file \plugins\TabSRMM\src\userprefs.cpp
 [Always On]
-Vdy zapnuto
+VÅ¾dy zapnuto
 [Always Off]
-Vdy vypnuto
+VÅ¾dy vypnuto
 [Force Default Message Log]
-Vdy pouít vestavìnı záznam
+VÅ¾dy pouÅ¾Ã­t vestavÄ›nÃ½ zÃ¡znam
 [Force History++]
-Vdy pouít History++
+VÅ¾dy pouÅ¾Ã­t History++
 [Force IEView]
-Vdy pouít IEView
+VÅ¾dy pouÅ¾Ã­t IEView
 [Set messaging options for %s]
-Nastavení komunikace pro kontakt %s
+NastavenÃ­ komunikace pro kontakt %s
 [Message Log]
-Záznam komunikace
+ZÃ¡znam komunikace
 ;file \plugins\TabSRMM\src\utils.cpp
 [[color=]
 [b1 ]
@@ -2040,60 +2040,60 @@ Záznam komunikace
 [\\colortbl]
 [\\red]
 [Important release notes|A test warning message]
-Dùleitá poznámka|Testovací varovná zpráva
+DÅ¯leÅ¾itÃ¡ poznÃ¡mka|TestovacÃ­ varovnÃ¡ zprÃ¡va
 [Icon pack version check|The installed icon pack is outdated and might be incompatible with TabSRMM version 3.\n\n\\b1Missing or misplaced icons are possible issues with the currently installed icon pack.\\b0]
 [Edit user notes|You are editing the user notes. Click the button again or use the hotkey (default: Alt-N) to save the notes and return to normal messaging mode]
-Editovat poznámky k uivateli|Editujete poznámky k uivateli. Kliknìte na tlaèítko znovu nebo pouijte klávesovou zkratku (vıchozí: Alt-N) pro uloení poznámek a návrat do normálního reimu
+Editovat poznÃ¡mky k uÅ¾ivateli|Editujete poznÃ¡mky k uÅ¾ivateli. KliknÄ›te na tlaÄÃ­tko znovu nebo pouÅ¾ijte klÃ¡vesovou zkratku (vÃ½chozÃ­: Alt-N) pro uloÅ¾enÃ­ poznÃ¡mek a nÃ¡vrat do normÃ¡lnÃ­ho reÅ¾imu
 [Missing component|The icon pack is missing. Please install it to the default icons folder.\n\nNo icons will be available]
 [Aero peek warning|You have enabled Aero Peek features and loaded a custom container window skin\n\nThis can result in minor visual anomalies in the live preview feature.]
-Aero náhled - varování|Máte povolen Aero náhled a nahrán vlastní styl kontejneru\n\nTo mùe vést k vedlejším vizuálním anomáliím.
+Aero nÃ¡hled - varovÃ¡nÃ­|MÃ¡te povolen Aero nÃ¡hled a nahrÃ¡n vlastnÃ­ styl kontejneru\n\nTo mÅ¯Å¾e vÃ©st k vedlejÅ¡Ã­m vizuÃ¡lnÃ­m anomÃ¡liÃ­m.
 [TabSRMM group chat module|TabSRMM could not enable its group chat module. The most likely cause is that you have installed and enabled \\b1chat.dll\\b0  or another plugin that provides groupchat services.\n\nShould I try to fix this now \\b1(a restart of Miranda is required to apply these changes)?\\b0]
 [Filetransfer problem|Sending the image by file transfer failed.\n\nPossible reasons: File transfers not supported, either you or the target contact is offline, or you are invisible and the target contact is not on your visibilty list.]
 [Settings problem|The option \\b1 History->Imitate IEView API\\b0  is enabled and the History++ plugin is active. This can cause problems when using IEView as message log viewer.\n\nShould I correct the option (a restart is required)?]
-Problém v nastavení|Monost \\b1 History->Imitate IEView API\\b0 je povolena a plugin History++ je aktivní. To mùe vést k problémùm pøi pouití IEView jako prohlíeèe záznamu komunikace.\n\nMohu napravit nastavení (vyaduje restart)?
+ProblÃ©m v nastavenÃ­|MoÅ¾nost \\b1 History->Imitate IEView API\\b0 je povolena a plugin History++ je aktivnÃ­. To mÅ¯Å¾e vÃ©st k problÃ©mÅ¯m pÅ™i pouÅ¾itÃ­ IEView jako prohlÃ­Å¾eÄe zÃ¡znamu komunikace.\n\nMohu napravit nastavenÃ­ (vyÅ¾aduje restart)?
 [Closing Window|You are about to close a window with multiple tabs open.\n\nProceed?]
-Zavírání okna|Pokoušíte se zavøít okno s nìkolika otevøenımi panely.\n\nPokraèovat?
+ZavÃ­rÃ¡nÃ­ okna|PokouÅ¡Ã­te se zavÅ™Ã­t okno s nÄ›kolika otevÅ™enÃ½mi panely.\n\nPokraÄovat?
 [Closing options dialog|To reflect the changes done by importing a theme in the options dialog, the dialog must be closed after loading a theme \\b1 and unsaved changes might be lost\\b0 .\n\nDo you want to continue?]
-Zavøení okna|Pro projevení zmìn nahraného tématu v oknì moností, musí bıt po nahrání tématu toto okno zavøeno\\b1 a neuloené zmìny mohou bıt ztraceny\\b0 .\n\nPøejete si pokraèovat?
+ZavÅ™enÃ­ okna|Pro projevenÃ­ zmÄ›n nahranÃ©ho tÃ©matu v oknÄ› moÅ¾nostÃ­, musÃ­ bÃ½t po nahrÃ¡nÃ­ tÃ©matu toto okno zavÅ™eno\\b1 a neuloÅ¾enÃ© zmÄ›ny mohou bÃ½t ztraceny\\b0 .\n\nPÅ™ejete si pokraÄovat?
 [Loading a theme|Loading a color and font theme can overwrite the settings defined by your skin.\n\nDo you want to continue?]
-Nahrání tématu|Nahrání barev a písma tématu mùe pøepsat nastavení definované vaším skinem.\n\nPøejete si pokraèovat?
+NahrÃ¡nÃ­ tÃ©matu|NahrÃ¡nÃ­ barev a pÃ­sma tÃ©matu mÅ¯Å¾e pÅ™epsat nastavenÃ­ definovanÃ© vaÅ¡Ã­m skinem.\n\nPÅ™ejete si pokraÄovat?
 [TabSRMM warning message]
-Upozornìní doplòku TabSRMM
+UpozornÄ›nÃ­ doplÅˆku TabSRMM
 ;file \plugins\TabSRMM\src\chat\chat.h
 [%miranda_logpath%\\%proto%\\%userid%.log]
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 [Chat rooms]
-Místnosti chatu
+MÃ­stnosti chatu
 [Join chat]
-Pøidat se do diskuse
+PÅ™idat se do diskuse
 [Open chat window]
-Otevøít komunikaèní okno
+OtevÅ™Ã­t komunikaÄnÃ­ okno
 ;file \plugins\TabSRMM\src\chat\colorchooser.cpp
 [Text color]
 Barva textu
 [Background color]
-Barva pozadí
+Barva pozadÃ­
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
 [%%%c]
 [: %s]
 [%s ]
 [%s has joined]
-Pøíchod: %s
+PÅ™Ã­chod: %s
 [You have joined %s]
-Pøíchod na %s
+PÅ™Ã­chod na %s
 [%s has left]
 Odchod: %s
 [%s has disconnected]
-Odpojení: %s
+OdpojenÃ­: %s
 [%s is now known as %s]
-Zmìna pøezdívky: %s -> %s
+ZmÄ›na pÅ™ezdÃ­vky: %s -> %s
 [You are now known as %s]
-Zmìna vlastní pøezdívky: %s
+ZmÄ›na vlastnÃ­ pÅ™ezdÃ­vky: %s
 [%s kicked %s]
-Vykopnutí: %s -> %s
+VykopnutÃ­: %s -> %s
 [Notice from %s]
-Poznámka (napsal: %s)
+PoznÃ¡mka (napsal: %s)
 [The topic is '%s%s']
 [ (set by %s on %s)]
  (nastavil %s na %s)
@@ -2104,98 +2104,98 @@ Poznámka (napsal: %s)
 [%s disables '%s' status for %s]
 [~~++#%s#++~~]
 [Notice from %s: ]
-Poznámka od %s:
+PoznÃ¡mka od %s:
 [#++~~]
 [~~++#]
 [~-+%d+-~]
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [PERF text match: %d ticks = %f msec (%d words, %d patterns)]
 [Add user to highlight list]
-Pøidat uivatele do do seznamu oznaèenıch
+PÅ™idat uÅ¾ivatele do do seznamu oznaÄenÃ½ch
 [Edit user highlight list]
-Upravit seznam oznaèenıch uivatelù
+Upravit seznam oznaÄenÃ½ch uÅ¾ivatelÅ¯
 ;file \plugins\TabSRMM\src\chat\options.cpp
 [TabSRMM/Group Chats]
 TabSRMM/Rozhovory
 [Group chat log background]
-Pozadí skupinového rozhovoru
+PozadÃ­ skupinovÃ©ho rozhovoru
 [TabSRMM]
 [Input area background]
-Pozadí psaní zprávy
+PozadÃ­ psanÃ­ zprÃ¡vy
 [Log background]
-Pozadí záznamu
+PozadÃ­ zÃ¡znamu
 [TabSRMM/Single Messaging]
-TabSRMM/Psaní zprávy
+TabSRMM/PsanÃ­ zprÃ¡vy
 [Outgoing background]
-Pozadí odchozích zpráv
+PozadÃ­ odchozÃ­ch zprÃ¡v
 [Incoming background]
-Pozadí pøíchozích zpráv
+PozadÃ­ pÅ™Ã­chozÃ­ch zprÃ¡v
 [Status background]
-Pozadí stavu
+PozadÃ­ stavu
 [Incoming background(old)]
-Pøíchozí pozadí (staré)
+PÅ™Ã­chozÃ­ pozadÃ­ (starÃ©)
 [Outgoing background(old)]
-Odchozí pozadí (staré)
+OdchozÃ­ pozadÃ­ (starÃ©)
 [Horizontal Grid Lines]
-Vodorovné linky møíky
+VodorovnÃ© linky mÅ™Ã­Å¾ky
 [TabSRMM/Info Panel]
-TabSRMM/Informaèní panel
+TabSRMM/InformaÄnÃ­ panel
 [Panel background low]
-Pozadí panelu (dolní)
+PozadÃ­ panelu (dolnÃ­)
 [Panel background high]
-Pozadí panelu (horní)
+PozadÃ­ panelu (hornÃ­)
 [TabSRMM/Common colors]
-TabSRMM/Obecné barvy
+TabSRMM/ObecnÃ© barvy
 [Toolbar background high]
-Pozadí tlaèítkové lišty (horní)
+PozadÃ­ tlaÄÃ­tkovÃ© liÅ¡ty (hornÃ­)
 [Toolbar background low]
-Pozadí tlaèítkové lišty (dolní)
+PozadÃ­ tlaÄÃ­tkovÃ© liÅ¡ty (dolnÃ­)
 [Window fill color]
-Barva vıplnì okna
+Barva vÃ½plnÄ› okna
 [Text area borders]
-Okraje textovıch polí
+Okraje textovÃ½ch polÃ­
 [Aero glow effect]
 Aero efekt
 [Generic text color (only when fill color is set)]
-Obecná barva textu (pouze je-li nastavena vıplò)
+ObecnÃ¡ barva textu (pouze je-li nastavena vÃ½plÅˆ)
 [TabSRMM/Tabs]
 TabSRMM/Panely
 [Normal text]
-Bìnı text
+BÄ›Å¾nÃ½ text
 [Active text]
-Aktivní text
+AktivnÃ­ text
 [Hovered text]
-Oznaèenı text
+OznaÄenÃ½ text
 [Unread text]
-Nepøeètenı text
+NepÅ™eÄtenÃ½ text
 [Normal background]
-Pozadí bìného textu
+PozadÃ­ bÄ›Å¾nÃ©ho textu
 [Active background]
-Pozadí aktivního textu
+PozadÃ­ aktivnÃ­ho textu
 [Hovered background]
-Pozadí oznaèeného textu
+PozadÃ­ oznaÄenÃ©ho textu
 [Unread background]
-Pozadí nepøeèteného textu
+PozadÃ­ nepÅ™eÄtenÃ©ho textu
 [Timestamp]
-Èasovı údaj
+ÄŒasovÃ½ Ãºdaj
 [Others nicknames]
-Ostatní pøezdívky
+OstatnÃ­ pÅ™ezdÃ­vky
 [Your nickname]
-Vaše pøezdívka
+VaÅ¡e pÅ™ezdÃ­vka
 [User has joined]
-Pøíchod na kanál
+PÅ™Ã­chod na kanÃ¡l
 [User has left]
-Odchod z kanálu
+Odchod z kanÃ¡lu
 [User has disconnected]
-Odpojení uivatele
+OdpojenÃ­ uÅ¾ivatele
 [User kicked ...]
-Vykopnutí
+VykopnutÃ­
 [User is now known as ...]
-Zmìna pøezdívky
+ZmÄ›na pÅ™ezdÃ­vky
 [Notice from user]
-Poznámka
+PoznÃ¡mka
 [The topic is ...]
-Zobrazení tématu
+ZobrazenÃ­ tÃ©matu
 [Information messages]
 Informace
 [User enables status for ...]
@@ -2203,334 +2203,334 @@ Aktivace stavu pro ...
 [User disables status for ...]
 Deaktivace stavu pro ...
 [Action message]
-Upozornìní
+UpozornÄ›nÃ­
 [Highlighted message]
-Zvıraznìná zpráva
+ZvÃ½raznÄ›nÃ¡ zprÃ¡va
 [Chat log symbols (Webdings)]
-Symboly v záznamu chatu (Webdings)
+Symboly v zÃ¡znamu chatu (Webdings)
 [User list members (Online)]
-Seznam úèastníkù (online)
+Seznam ÃºÄastnÃ­kÅ¯ (online)
 [User list members (away)]
-Seznam úèastníkù (pryè)
+Seznam ÃºÄastnÃ­kÅ¯ (pryÄ)
 [>> Outgoing messages]
->> Odchozí zprávy
+>> OdchozÃ­ zprÃ¡vy
 [>> Outgoing misc events]
->> Odchozí události
+>> OdchozÃ­ udÃ¡losti
 [<< Incoming messages]
-<< Pøíchozí zprávy
+<< PÅ™Ã­chozÃ­ zprÃ¡vy
 [<< Incoming misc events]
-<< Pøíchozí události
+<< PÅ™Ã­chozÃ­ udÃ¡losti
 [>> Outgoing name]
->> Odchozí jméno
+>> OdchozÃ­ jmÃ©no
 [>> Outgoing timestamp]
->> Odchozí èas
+>> OdchozÃ­ Äas
 [<< Incoming name]
-<< Pøíchozí jméno
+<< PÅ™Ã­chozÃ­ jmÃ©no
 [<< Incoming timestamp]
-<< Pøíchozí èas
+<< PÅ™Ã­chozÃ­ Äas
 [>> Outgoing messages (old)]
->> Odchozí zprávy (staré)
+>> OdchozÃ­ zprÃ¡vy (starÃ©)
 [>> Outgoing misc events (old)]
->> Odchozí události (staré)
+>> OdchozÃ­ udÃ¡losti (starÃ©)
 [<< Incoming messages (old)]
-<< Pøíchozí zprávy (staré)
+<< PÅ™Ã­chozÃ­ zprÃ¡vy (starÃ©)
 [<< Incoming misc events (old)]
-<< Pøíchozí události (staré)
+<< PÅ™Ã­chozÃ­ udÃ¡losti (starÃ©)
 [>> Outgoing name (old)]
->> Odchozí jméno (staré)
+>> OdchozÃ­ jmÃ©no (starÃ©)
 [>> Outgoing timestamp (old)]
-Odchozí èasovı údaj (starı)
+OdchozÃ­ ÄasovÃ½ Ãºdaj (starÃ½)
 [<< Incoming name (old)]
-<< Pøíchozí jméno (staré)
+<< PÅ™Ã­chozÃ­ jmÃ©no (starÃ©)
 [<< Incoming timestamp (old)]
-Pøíchozí èasovı údaj (starı)
+PÅ™Ã­chozÃ­ ÄasovÃ½ Ãºdaj (starÃ½)
 [* Message Input Area]
-* Psaní zpráv
+* PsanÃ­ zprÃ¡v
 [* Status changes]
-* Zmìny stavu
+* ZmÄ›ny stavu
 [* Dividers]
-* Oddìlovaèe
+* OddÄ›lovaÄe
 [* Error and warning Messages]
-* Chyby a upozornìní
+* Chyby a upozornÄ›nÃ­
 [* Symbols (incoming)]
-* Symboly (pøíchozí)
+* Symboly (pÅ™Ã­chozÃ­)
 [Webdings]
 [* Symbols (outgoing)]
-* Symboly (odchozí)
+* Symboly (odchozÃ­)
 [Nickname]
-Pøezdívka
+PÅ™ezdÃ­vka
 [UIN]
 UIN
 [Protocol]
 [Contacts local time]
-Místní èas kontaktu
+MÃ­stnÃ­ Äas kontaktu
 [Window caption (skinned mode)]
 Titulek okna (se skinem)
 [Open new chat rooms in the default container]
-Otevírat nové místnosti ve vıchozím kontejneru
+OtevÃ­rat novÃ© mÃ­stnosti ve vÃ½chozÃ­m kontejneru
 [Flash window when someone speaks]
-Zablikat oknem pøi napsání zprávy
+Zablikat oknem pÅ™i napsÃ¡nÃ­ zprÃ¡vy
 [Flash window when a word is highlighted]
-Zablikat oknem pøi zvıraznìní slova
+Zablikat oknem pÅ™i zvÃ½raznÄ›nÃ­ slova
 [Create tabs or windows for highlight events]
-Vytvoøit panely nebo okna pøi zvıraznìní
+VytvoÅ™it panely nebo okna pÅ™i zvÃ½raznÄ›nÃ­
 [Activate chat window on highlight]
-Aktivovat okno chatu pøi zvıraznìní
+Aktivovat okno chatu pÅ™i zvÃ½raznÄ›nÃ­
 [Show list of users in the chat room]
-Zobrazit seznam uivatelù v místnosti
+Zobrazit seznam uÅ¾ivatelÅ¯ v mÃ­stnosti
 [Colorize nicknames in member list]
-Obarvovat pøezdívky v seznamu èlenù
+Obarvovat pÅ™ezdÃ­vky v seznamu ÄlenÅ¯
 [Show button menus when right clicking the buttons]
-Zobrazit kontextové menu u tlaèítek
+Zobrazit kontextovÃ© menu u tlaÄÃ­tek
 [Show topic as status message on the contact list]
-Zobrazit téma jako zprávu stavu v seznamu kontaktù
+Zobrazit tÃ©ma jako zprÃ¡vu stavu v seznamu kontaktÅ¯
 [Do not pop up the window when joining a chat room]
-Neaktivovat okno po pøíchodu do místnosti
+Neaktivovat okno po pÅ™Ã­chodu do mÃ­stnosti
 [Hide or show the window by double click in the contact list]
-Zobrazit nebo skrıt okno dvojím kliknutím v seznamu kontaktù
+Zobrazit nebo skrÃ½t okno dvojÃ­m kliknutÃ­m v seznamu kontaktÅ¯
 [Sync splitter position with standard IM sessions]
-Nastavit pozici oddìlovaèe dle ostatních rozhovorù
+Nastavit pozici oddÄ›lovaÄe dle ostatnÃ­ch rozhovorÅ¯
 [Show contact's status modes if supported by the protocol]
 Zobrazit stav kontaktu, pokud je protokol podporuje
 [Display contact's status icon before user role icon]
-Zobrazit ikonu stavu kontaktu pøed ikonou jeho role
+Zobrazit ikonu stavu kontaktu pÅ™ed ikonou jeho role
 [Use IRC style status indicators in the user list]
-Pouít IRC indikátory stavu v seznamu uivatelù
+PouÅ¾Ã­t IRC indikÃ¡tory stavu v seznamu uÅ¾ivatelÅ¯
 [Use alternative sorting method in member list]
-Pouít alternativní metodu tøídìní v seznamu èlenù
+PouÅ¾Ã­t alternativnÃ­ metodu tÅ™Ã­dÄ›nÃ­ v seznamu ÄlenÅ¯
 [Prefix all events with a timestamp]
-Pøed kadou událost pøidat informaci o èase
+PÅ™ed kaÅ¾dou udÃ¡lost pÅ™idat informaci o Äase
 [Timestamp only when event time differs]
-Zobrazit èasovı údaj pouze pokud se liší
+Zobrazit ÄasovÃ½ Ãºdaj pouze pokud se liÅ¡Ã­
 [Timestamp has same color as the event]
-Pro èasovı údaj pouít stejnou barvu jakou má pøíslušná událost
+Pro ÄasovÃ½ Ãºdaj pouÅ¾Ã­t stejnou barvu jakou mÃ¡ pÅ™Ã­sluÅ¡nÃ¡ udÃ¡lost
 [Indent the second line of a message]
-Odsadit druhı øádek dlouhé zprávy
+Odsadit druhÃ½ Å™Ã¡dek dlouhÃ© zprÃ¡vy
 [Limit user names in the message log to 20 characters]
-Omezit délku jmen v záznamu na 20 znakù
+Omezit dÃ©lku jmen v zÃ¡znamu na 20 znakÅ¯
 [Add a colon (:) to auto-completed user names]
-Pøidat dvojteèku za automaticky doplnìné jméno
+PÅ™idat dvojteÄku za automaticky doplnÄ›nÃ© jmÃ©no
 [Start private conversation on doubleclick in nick list (insert nick if unchecked)]
-Soukromı rozhovor zahájíte dvojklikem v seznamu pøezdívek (chybí-li pøezdívka, zadejte ji)
+SoukromÃ½ rozhovor zahÃ¡jÃ­te dvojklikem v seznamu pÅ™ezdÃ­vek (chybÃ­-li pÅ™ezdÃ­vka, zadejte ji)
 [Strip colors from messages in the log]
-Záznam ukládat bez kódù definující barvy
+ZÃ¡znam uklÃ¡dat bez kÃ³dÅ¯ definujÃ­cÃ­ barvy
 [Enable the 'event filter' for new rooms]
 [Use IRC style status indicators in the log]
-Pouívat IRC indikátory stavu v záznamu
+PouÅ¾Ã­vat IRC indikÃ¡tory stavu v zÃ¡znamu
 [Allow clickable user names in the message log]
-Povolit klikatelné uivatelské jména v záznamu komunikace
+Povolit klikatelnÃ© uÅ¾ivatelskÃ© jmÃ©na v zÃ¡znamu komunikace
 [Colorize user names in message log]
-Obarvit uivatelské jména v záznamu komunikace
+Obarvit uÅ¾ivatelskÃ© jmÃ©na v zÃ¡znamu komunikace
 [Scale down icons to 10x10 pixels in the chat log]
-Zmìnit velikost ikon na 10x10 pixelù v záznamu chatu
+ZmÄ›nit velikost ikon na 10x10 pixelÅ¯ v zÃ¡znamu chatu
 [Support the math module plugin]
-Zapnout podporu matematickıch symbolù
+Zapnout podporu matematickÃ½ch symbolÅ¯
 [Window Icon]
 Ikona okna
 [Icon overlay]
-Pøekryvná ikona
+PÅ™ekryvnÃ¡ ikona
 [Status 1 (10x10)]
-Stav è.1 (10x10)
+Stav Ä.1 (10x10)
 [Status 2 (10x10)]
-Stav è.2 (10x10)
+Stav Ä.2 (10x10)
 [Status 3 (10x10)]
-Stav è.3 (10x10)
+Stav Ä.3 (10x10)
 [Status 4 (10x10)]
-Stav è.4 (10x10)
+Stav Ä.4 (10x10)
 [Status 5 (10x10)]
-Stav è.5 (10x10)
+Stav Ä.5 (10x10)
 [Status 6 (10x10)]
-Stav è.6 (10x10)
+Stav Ä.6 (10x10)
 [Message in (10x10)]
-Pøíchozí zpráva (10x10)
+PÅ™Ã­chozÃ­ zprÃ¡va (10x10)
 [Message out (10x10)]
-Odchozí zpráva (10x10)
+OdchozÃ­ zprÃ¡va (10x10)
 [Action (10x10)]
 Akce (10x10)
 [Add Status (10x10)]
-Pøidat stav (10x10)
+PÅ™idat stav (10x10)
 [Remove Status (10x10)]
 Odstranit stav (10x10)
 [Join (10x10)]
-Pøidat (10x10)
+PÅ™idat (10x10)
 [Leave (10x10)]
 Opustit (10x10)
 [Quit (10x10)]
-Ukonèit (10x10)
+UkonÄit (10x10)
 [Kick (10x10)]
 Vykopnout (10x10)
 [Notice (10x10)]
-Poznámka (10x10)
+PoznÃ¡mka (10x10)
 [Nickchange (10x10)]
-Zmìna pøezdívky (10x10)
+ZmÄ›na pÅ™ezdÃ­vky (10x10)
 [Topic (10x10)]
-Téma (10x10)
+TÃ©ma (10x10)
 [Highlight (10x10)]
-Zvıraznìní (10x10)
+ZvÃ½raznÄ›nÃ­ (10x10)
 [Information (10x10)]
 Informace (10x10)
 [Appearance and functionality of chat room windows]
-Nastavení vzhledu a funkcí komunikaèních oken
+NastavenÃ­ vzhledu a funkcÃ­ komunikaÄnÃ­ch oken
 [Appearance of the message log]
-Nastavení vzhledu záznamu komunikace
+NastavenÃ­ vzhledu zÃ¡znamu komunikace
 [Channel operators]
-Správci místností
+SprÃ¡vci mÃ­stnostÃ­
 [Half operators]
-Polovièní správci
+PoloviÄnÃ­ sprÃ¡vci
 [Voiced]
-Zvıraznìnı
+ZvÃ½raznÄ›nÃ½
 [Extended mode 1]
-Rozšíøenı mód 1
+RozÅ¡Ã­Å™enÃ½ mÃ³d 1
 [Extended mode 2]
-Rozšíøenı mód 1
+RozÅ¡Ã­Å™enÃ½ mÃ³d 1
 [Selection background]
-Pozadí vıbìru
+PozadÃ­ vÃ½bÄ›ru
 [Selected text]
-Vybranı text
+VybranÃ½ text
 [Incremental search highlight]
-Zvıraznìní inkrementálního vyhledávání
+ZvÃ½raznÄ›nÃ­ inkrementÃ¡lnÃ­ho vyhledÃ¡vÃ¡nÃ­
 [Fields background]
-Pozadí polí
+PozadÃ­ polÃ­
 [Userlist background]
-Pozadí seznamu kontaktù
+PozadÃ­ seznamu kontaktÅ¯
 [%s - %s\n%s - %s\n%s - %s\n\n]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n\n]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [%nick%]
 [nick of current contact (if defined)]
-pøezdívka stávajícího kontaktu (pokud je definováno)
+pÅ™ezdÃ­vka stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡no)
 [%proto%]
 [protocol name of current contact (if defined). Account name is used when protocol supports multiaccounts]
-název protokolu stávajícího kontaktu (pokud je definován). Název úètu je pouit pokud protokol podporuje monost více úètù
+nÃ¡zev protokolu stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡n). NÃ¡zev ÃºÄtu je pouÅ¾it pokud protokol podporuje moÅ¾nost vÃ­ce ÃºÄtÅ¯
 [%userid%]
 [UserID of current contact (if defined). It is like UIN Number for ICQ, JID for Jabber, etc.]
-UID stávajícího kontaktu (pokud je definováno). To je jako UIN pro ICQ, JID pro Jabber atd.
+UID stÃ¡vajÃ­cÃ­ho kontaktu (pokud je definovÃ¡no). To je jako UIN pro ICQ, JID pro Jabber atd.
 [%miranda_path%]
 [path to root miranda folder]
-cesta ke koøenové sloce Mirandy
+cesta ke koÅ™enovÃ© sloÅ¾ce Mirandy
 [%miranda_profile%]
 [path to current miranda profile]
-cesta k aktuálnímu profilu Mirandy
+cesta k aktuÃ¡lnÃ­mu profilu Mirandy
 [%miranda_profilename%]
 [name of current miranda profile (filename, without extension)]
-jméno aktuálního profilu Mirandy (jméno souboru bez pøípony)
+jmÃ©no aktuÃ¡lnÃ­ho profilu Mirandy (jmÃ©no souboru bez pÅ™Ã­pony)
 [%miranda_userdata%]
 [will return parsed string %miranda_profile%\\Profiles\\%miranda_profilename%]
-navrátí øetìzec %miranda_profile%\\Profiles\\%miranda_profilename%
+navrÃ¡tÃ­ Å™etÄ›zec %miranda_profile%\\Profiles\\%miranda_profilename%
 [%appdata%]
 [same as environment variable %APPDATA% for currently logged-on Windows user]
-stejné jako systémová promìnná %APPDATA% pro aktuálnì pøihlášeného uivatele Windows
+stejnÃ© jako systÃ©movÃ¡ promÄ›nnÃ¡ %APPDATA% pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%username%]
 [username for currently logged-on Windows user]
-jméno pro aktuálnì pøihlášeného uivatele Windows
+jmÃ©no pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%mydocuments%]
 ["My Documents" folder for currently logged-on Windows user]
-sloka "Dokumenty" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Dokumenty" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%desktop%]
 ["Desktop" folder for currently logged-on Windows user]
-sloka "Plocha" pro aktuálnì pøihlášeného uivatele Windows
+sloÅ¾ka "Plocha" pro aktuÃ¡lnÄ› pÅ™ihlÃ¡Å¡enÃ©ho uÅ¾ivatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
-nìjaká systémová promìnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
+nÄ›jakÃ¡ systÃ©movÃ¡ promÄ›nnÃ¡ definovanÃ¡ v aktuÃ¡lnÃ­ relaci Windows (jako %systemroot%, %allusersprofile% atd.)
 [%d%]
 [day of month, 1-31]
-den mìsíce, 1-31
+den mÄ›sÃ­ce, 1-31
 [%dd%]
 [day of month, 01-31]
-den mìsíce, 01-31
+den mÄ›sÃ­ce, 01-31
 [%m%]
 [month number, 1-12]
-èíslo mìsíce, 1-12
+ÄÃ­slo mÄ›sÃ­ce, 1-12
 [%mm%]
 [month number, 01-12]
-èíslo mìsíce, 01-12
+ÄÃ­slo mÄ›sÃ­ce, 01-12
 [%mon%]
 [abbreviated month name]
-zkrácené jméno mìsíce
+zkrÃ¡cenÃ© jmÃ©no mÄ›sÃ­ce
 [%month%]
 [full month name]
-celé jméno mesíce
+celÃ© jmÃ©no mesÃ­ce
 [%yy%]
 [year without century, 01-99]
-rok bez století, 01-99
+rok bez stoletÃ­, 01-99
 [%yyyy%]
 [year with century, 1901-9999]
-rok vèetnì století, 1901-9999
+rok vÄetnÄ› stoletÃ­, 1901-9999
 [%wday%]
 [abbreviated weekday name]
-zkrácené jméno dne v tıdnu
+zkrÃ¡cenÃ© jmÃ©no dne v tÃ½dnu
 [%weekday%]
 [full weekday name]
-plné jméno dne v tıdnu
+plnÃ© jmÃ©no dne v tÃ½dnu
 [Variables]
 [%s%c*.*%c%c]
 [All Files]
 [log]
 [Select Folder]
-Vyberte poadovanou sloku
+Vyberte poÅ¾adovanou sloÅ¾ku
 [No markers]
-Bez oddìlovaèù
+Bez oddÄ›lovaÄÅ¯
 [Show as icons]
 Zobrazit jako ikony
 [Show as text symbols]
-Zobrazit jako textové symboly
+Zobrazit jako textovÃ© symboly
 [[%H:%M]]
 [[%d %b %y %H:%M]]
 [%n:]
 [AQGglo]
 [MS Shell Dlg]
 [Message is highlighted]
-Zvıraznìní zprávy
+ZvÃ½raznÄ›nÃ­ zprÃ¡vy
 [User has performed an action]
-Provedení akce
+ProvedenÃ­ akce
 [User has kicked some other user]
-Vykopnutí z kanálu
+VykopnutÃ­ z kanÃ¡lu
 [User's status was changed]
-Zmìna stavu uivatele
+ZmÄ›na stavu uÅ¾ivatele
 [User has changed name]
-Zmìna pøezdívky
+ZmÄ›na pÅ™ezdÃ­vky
 [User has sent a notice]
-Odeslání poznámky
+OdeslÃ¡nÃ­ poznÃ¡mky
 [The topic has been changed]
-Zmìna tématu diskuse
+ZmÄ›na tÃ©matu diskuse
 ;file \plugins\TabSRMM\src\chat\services.cpp
 [&Join]
-Pøi&jít
+PÅ™i&jÃ­t
 [&Leave]
-Ode&jít
+Ode&jÃ­t
 [Server: %s]
 [Chat Rooms]
-Místnosti chatu
+MÃ­stnosti chatu
 ;file \plugins\TabSRMM\src\chat\tools.cpp
 [ - %s]
 [%s wants your attention in %s]
-%s ádá o pozornost na kanále %s
+%s Å¾Ã¡dÃ¡ o pozornost na kanÃ¡le %s
 [%s speaks in %s]
-%s píše (na %s)
+%s pÃ­Å¡e (na %s)
 [%s has joined %s]
-%s pøišel (na %s)
+%s pÅ™iÅ¡el (na %s)
 [%s has left %s]
-%s odešel (z %s)
+%s odeÅ¡el (z %s)
 [%s kicked %s from %s]
 %s vykopnul %s (z %s)
 [Topic change in %s]
-Zmìna tématu na %s
+ZmÄ›na tÃ©matu na %s
 [Information in %s]
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
 [%s%s says:%s %s]
-%s%s øíká:%s %s
+%s%s Å™Ã­kÃ¡:%s %s
 [%s %s]
 %s %s
 [%s has left (%s)]
-%s odešel (%s)
+%s odeÅ¡el (%s)
 [%s has disconnected (%s)]
 %s se odpojil (%s)
 [%s kicked %s (%s)]
 %s vykopnul %s (%s)
 [Notice from %s: %s]
-Poznámka od %s: %s
+PoznÃ¡mka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [ab+]
@@ -2542,11 +2542,11 @@ Poznámka od %s: %s
 [%s%s-%s%s]
 [Look up '%s':]
 [No word to look up]
-Není co vyhledat
+NenÃ­ co vyhledat
 [Highlight User...]
-Oznaèit uivatele...
+OznaÄit uÅ¾ivatele...
 [Edit Highlight List...]
-Upravit seznam oznaèenıch uivatelù...
+Upravit seznam oznaÄenÃ½ch uÅ¾ivatelÅ¯...
 [UTF-8]
 UTF-8
 [%a%d%m%Y]
@@ -2554,7 +2554,7 @@ UTF-8
 [%#m]
 [mon]
 [month]
-mìsíc
+mÄ›sÃ­c
 [yyyy]
 [wday]
 [weekday]
@@ -2563,26 +2563,26 @@ mìsíc
 [/topic]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [Nick name]
-Pøezdívka
+PÅ™ezdÃ­vka
 [Unique Id]
-Inikátní Id
+InikÃ¡tnÃ­ Id
 [<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s]
 [Nick]
 [Unique id]
-Identifikátor
+IdentifikÃ¡tor
 [%s: Chat Room (%u user%s)]
-%s: místnost (úèastníkù: %u)
+%s: mÃ­stnost (ÃºÄastnÃ­kÅ¯: %u)
 [%s: Chat Room (%u users%s)]
-%s: místnost (úèastníkù: %u)
+%s: mÃ­stnost (ÃºÄastnÃ­kÅ¯: %u)
 [, event filter active]
-, filtr událostí aktivní
+, filtr udÃ¡lostÃ­ aktivnÃ­
 [%s: Message Session]
 %s: rozhovor
 [%s: Message Session (%u users)]
-%s: rozhovor (úèastníkù: %u)
+%s: rozhovor (ÃºÄastnÃ­kÅ¯: %u)
 [%s: Server]
 [, %d %s, %d %s idle]
-, %d %s, %d %s neèinnı
+, %d %s, %d %s neÄinnÃ½
 [hours]
 hod.
 [hour]
@@ -2592,15 +2592,15 @@ min.
 [minute]
 Minuta
 [, %d %s idle]
-, %d %s neèinnı
+, %d %s neÄinnÃ½
 [http://www.google.com/search?q=%s]
 [http://en.wikipedia.org/wiki/%s]
 [%s:]
 [%s: ]
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
-Filtr nelze povolit, nebo nejsou vybrány ádné typy událostí, a u globální, nebo pro tuto místnost.
+Filtr nelze povolit, neboÅ¥ nejsou vybrÃ¡ny Å¾Ã¡dnÃ© typy udÃ¡lostÃ­, aÅ¥ uÅ¾ globÃ¡lnÃ­, nebo pro tuto mÃ­stnost.
 [Event filter error]
-Chyba filtru událostí
+Chyba filtru udÃ¡lostÃ­
 ;file \plugins\TabSRMM\src\include\contactcache.h
 [<account error>]
 [<proto error>]
@@ -2609,19 +2609,19 @@ Chyba filtru událostí
 ;file \plugins\TabSRMM\src\include\utils.h
 [{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u]
 [red]
-èervená
+ÄervenÃ¡
 [blue]
-modrá
+modrÃ¡
 [green]
-zelená
+zelenÃ¡
 [magenta]
-fialová
+fialovÃ¡
 [yellow]
-lutá
+Å¾lutÃ¡
 [cyan]
-azurová
+azurovÃ¡
 [black]
-èerná
+ÄernÃ¡
 [white]
-bílá
+bÃ­lÃ¡
 [\\*]

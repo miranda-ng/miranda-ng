@@ -1,4 +1,4 @@
-;[%s - %s]
+﻿;[%s - %s]
 ;[&Cancel]
 ;[&Save Session]
 ;[Cancel]

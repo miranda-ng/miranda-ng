@@ -1,4 +1,4 @@
-;[ (%s)]
+﻿;[ (%s)]
 ;[%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c]
 ;[%s (*.wav)%c*.WAV%c%s (*.*)%c*%c]
 ;[%s, %s. %s changed %s to: %s.\r\n]

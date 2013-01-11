@@ -1,4 +1,4 @@
-;[ - Winamp]
+﻿;[ - Winamp]
 ;[## %s ##]
 ;[%date%]
 ;[%fortunemsg%]

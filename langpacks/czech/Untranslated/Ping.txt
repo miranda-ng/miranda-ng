@@ -1,4 +1,4 @@
-;[%d ms]
+﻿;[%d ms]
 ;[%s - reply, %d]
 ;[%s - setting status of protocol '%s' (%d)]
 ;[%s - timeout]

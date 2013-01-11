@@ -1,4 +1,4 @@
-;[Cancel]
+﻿;[Cancel]
 ;[Change the look of Miranda NG according to your taste.]
 ;[Chats]
 ;[Configure]

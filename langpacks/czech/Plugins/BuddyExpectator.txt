@@ -1,4 +1,4 @@
-#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
+ï»¿#muuid {ddf8aec9-7d37-49af-9d22-bbbc920e6f05}
 ;============================================================
 ;  File: BuddyExpectator.dll
 ;  Plugin: Buddy Expectator+
@@ -8,57 +8,57 @@
 [Reacts to the return of contacts, or the the extended absence of contacts, with notifications and other actions.]
 ;file \plugins\BuddyExpectator\res\BuddyExpectator.rc
 [When a contact returns after ]
-Vrátí-li se kontakt po dobì
+VrÃ¡tÃ­-li se kontakt po dobÄ›
 [Show a popup]
-Zobrazit oznámení
+Zobrazit oznÃ¡menÃ­
 [Add an event (flashing icon) to the contact]
-Pøidat blikající ikonu ke kontaktu
+PÅ™idat blikajÃ­cÃ­ ikonu ke kontaktu
 [On event action (double click) or popup click:]
-Kliknutím na oznámení nebo dvojím na kontakt:
+KliknutÃ­m na oznÃ¡menÃ­ nebo dvojÃ­m na kontakt:
 [Open User Details]
-Otevøít inf. o kontaktu
+OtevÅ™Ã­t inf. o kontaktu
 [Open message window]
-Otevøít komunikaèní okno
+OtevÅ™Ã­t komunikaÄnÃ­ okno
 [Return notification]
-Návrat po kratší dobì
+NÃ¡vrat po kratÅ¡Ã­ dobÄ›
 [When a contact is absent for]
-Chybí-li kontakt delší dobu ne
+ChybÃ­-li kontakt delÅ¡Ã­ dobu neÅ¾
 [Long time no see]
-Návrat po dlouhé dobì
+NÃ¡vrat po dlouhÃ© dobÄ›
 [or comes online for the first time]
-nebo se objeví poprvé online
+nebo se objevÃ­ poprvÃ© online
 [Enable "Miss you" feature]
 [Hide when no messages for]
 [Colors]
 Barvy
 [Background]
-Pozadí
+PozadÃ­
 [Text]
 Text
 [Use Popups colors]
-Pouít vıchozí barvy
+PouÅ¾Ã­t vÃ½chozÃ­ barvy
 [Use Windows colors]
-Pouít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Delay]
 Prodleva
 [Default]
 [Custom]
-Vlastní
+VlastnÃ­
 [Permanent]
 Trvale
 [sec]
 sek.
 [Preview]
-Náhled
+NÃ¡hled
 [Last seen online:]
 [Last input message:]
 [Custom absence period:]
 [days]
-dnù
+dnÅ¯
 [Never hide this contact]
 [Enable Miss You]
 [Notify always]
-Upozornit vdy
+Upozornit vÅ¾dy
 ;file \plugins\BuddyExpectator\src\BuddyExpectator.cpp
 [Tray/popup icon]
 [Enabled]
@@ -66,7 +66,7 @@ Zapnuto
 [Disabled]
 Vypnuto
 [Hide]
-Skrıt
+SkrÃ½t
 [NeverHide]
 [Hiding %s (%S)]
 [%d days since last message]
@@ -75,9 +75,9 @@ Skrıt
 [Disable Miss You]
 [You awaited this contact!]
 [has gone online for the first time.]
-je poprvé online!
+je poprvÃ© online!
 [has returned after a long absence.]
-je znovu online po delší dobì.
+je znovu online po delÅ¡Ã­ dobÄ›.
 [has returned after being absent since %#x]
 je znovu online od %#x
 [has not returned after a long absence.]
@@ -88,16 +88,16 @@ je znovu online od %#x
 [Miss you event]
 [Hide contact event]
 [Hide contact]
-Skrıt kontakt
+SkrÃ½t kontakt
 ;file \plugins\BuddyExpectator\src\options.cpp
 [weeks]
-tıd.
+tÃ½d.
 [months]
-mìs.
+mÄ›s.
 [years]
 let
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 [Delete the contact]
 Odstranit kontakt
 [Contact name]
@@ -105,7 +105,7 @@ Odstranit kontakt
 [Contacts]
 Kontakty
 [Buddy Expectator]
-Tak ty iješ, Karle
+Tak ty Å¾ijeÅ¡, Karle
 [PopUps]
 [not detected]
 [%#x]

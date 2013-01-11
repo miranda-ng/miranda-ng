@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: FTPFile.dll
 ;  Plugin: FTP File YM
@@ -8,7 +8,7 @@
 [FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
 ;file \plugins\FTPFileYM\res\ftpfile.rc
 [FTP account]
-FTP úèet
+FTP ÃºÄet
 [Host name]
 Adresa
 [User]
@@ -16,34 +16,34 @@ Adresa
 Heslo
 [URL]
 [Directory on server]
-Sloka na serveru
+SloÅ¾ka na serveru
 [Port]
 Port
 [Command after upload]
-Pøíkaz po dokonèení
+PÅ™Ã­kaz po dokonÄenÃ­
 [Use passive mode]
-Pouít pasivní reim
+PouÅ¾Ã­t pasivnÃ­ reÅ¾im
 [Account name]
-Název úètu
+NÃ¡zev ÃºÄtu
 [Protocol]
 [Default FTP server]
 [File download link]
 Odkaz na soubor
 [Close dialog after upload is completed]
 [Copy download link to message log]
-Zkopírovat odkaz na soubor do historie
+ZkopÃ­rovat odkaz na soubor do historie
 [Autosend download link to contact]
 Automaticky poslat odkaz na soubor
 [Menu items]
-Poloky menu
+PoloÅ¾ky menu
 [Use submenu (restart required)]
-Pouít podmenu (vyaduje restart)
+PouÅ¾Ã­t podmenu (vyÅ¾aduje restart)
 [Hide inactive accounts]
-Skrıt neaktivní úèty
+SkrÃ½t neaktivnÃ­ ÃºÄty
 [Other]
-Ostatní
+OstatnÃ­
 [Automatically delete file from FTP server after (experimental):]
-Automaticky smazat soubor z FTP po (experimentální):
+Automaticky smazat soubor z FTP po (experimentÃ¡lnÃ­):
 [ZIP support]
 [Enter archive name manually]
 [Compression level:]
@@ -56,9 +56,9 @@ Rychlost:
 [To:]
 [Nick]
 [Close]
-Zavøít
+ZavÅ™Ã­t
 [Clipboard]
-Schránka
+SchrÃ¡nka
 [Options]
 [Pause]
 Pozastavit
@@ -68,32 +68,32 @@ Server:
 [User info]
 [UPLOADING...]
 [Open in Browser]
-Otevøít v prohlíeèi
+OtevÅ™Ã­t v prohlÃ­Å¾eÄi
 [Select All]
-Vybrat vše
+Vybrat vÅ¡e
 [Deselect All]
 [Delete from list]
 [Delete from FTP]
 [OK]
 [Cancel]
 [Rename]
-Pøejmenovat
+PÅ™ejmenovat
 [Overwrite]
-Pøepsat
+PÅ™epsat
 [File with the same name already exists on the server.]
 [How to proceed?]
 [Copy URL]
 [Close dialog after upload finishes]
-Po ukonèení pøenosu dat zavøít okno
+Po ukonÄenÃ­ pÅ™enosu dat zavÅ™Ã­t okno
 [Disabled]
 Vypnuto
 [Delete from List]
 [Copy Link]
-Zkopírovat adresu odkazu
+ZkopÃ­rovat adresu odkazu
 ;file \plugins\FTPFileYM\src\dialog.cpp
 [* %s]
 [User Info]
-Informace o uivateli
+Informace o uÅ¾ivateli
 [Copy Link to Clipboard]
 [FTP File Manager]
 [%d minutes]
@@ -104,7 +104,7 @@ Informace o uivateli
 [Do you really want to cancel all running jobs?]
 ;file \plugins\FTPFileYM\src\ftpfile.cpp
 [FTP File]
-Soubory pøes FTP
+Soubory pÅ™es FTP
 [FTP Server %d]
 [Upload file(s)]
 [Zip and upload file(s)]
@@ -117,16 +117,16 @@ Soubory pøes FTP
 [You have to fill FTP server setting before upload a file.]
 [Error has occurred while trying to create a dialog!]
 [File upload complete]
-Upload souboru dokonèen
+Upload souboru dokonÄen
 [Upload canceled]
-Upload pøerušen
+Upload pÅ™eruÅ¡en
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 [uxtheme.dll]
 #muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)\0*.*\0]
 [FTP File - Select files]
-Soubory pøes FTP - vyberte soubory
+Soubory pÅ™es FTP - vyberte soubory
 [FTP File - Select a folder]
 [%s\\%s]
 %s\\%s
@@ -155,7 +155,7 @@ Soubory pøes FTP - vyberte soubory
 [Status: %s\r\nFile: %s\r\nServer: %s]
 ;file \plugins\FTPFileYM\src\job_upload.cpp
 [Resume]
-Navázat
+NavÃ¡zat
 [File exists - %s]
 [Error occurred when opening local file.\nAborting file upload...]
 [Error occurred when initializing libcurl.\nAborting file upload...]
@@ -170,10 +170,10 @@ Navázat
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 [Clear All]
-Zrušit vıbìr
+ZruÅ¡it vÃ½bÄ›r
 ;file \plugins\FTPFileYM\src\options.cpp
 [FTP (Standard)]
-FTP (Standardní)
+FTP (StandardnÃ­)
 [FTP+SSL (Explicit)]
 [FTP+SSL (Implicit)]
 [SFTP (Secure FTP over SSH)]
@@ -182,11 +182,11 @@ min.
 [hours]
 hod.
 [days]
-dnù
+dnÅ¯
 [Services]
-Sluby
+SluÅ¾by
 [Accounts]
-Úèty
+ÃšÄty
 [Advanced]
 Extra
 ;file \plugins\FTPFileYM\src\serverlist.cpp

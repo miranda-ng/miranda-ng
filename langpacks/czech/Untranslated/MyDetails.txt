@@ -1,4 +1,4 @@
-;[ ...]
+﻿;[ ...]
 ;[Avatar]
 ;[Background Color:]
 ;[Cancel]

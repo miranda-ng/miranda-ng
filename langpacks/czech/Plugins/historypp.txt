@@ -1,182 +1,182 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;langpack template for historypp
 ;file \plugins\HistoryPlusPlus\hpp_opt_dialog.rc
 [Appearance options]
-Monosti vzhledu
+MoÅ¾nosti vzhledu
 [Show event icons]
-Zobrazit ikony událostí
+Zobrazit ikony udÃ¡lostÃ­
 [Use RTL by default]
-Psát standardnì zprava doleva
+PsÃ¡t standardnÄ› zprava doleva
 [Open event details by Enter]
-Zobrazit dod. informace klávesou ENTER
+Zobrazit dod. informace klÃ¡vesou ENTER
 [Show events count in menu]
-Zobrazit poèet událostí v nabídce
+Zobrazit poÄet udÃ¡lostÃ­ v nabÃ­dce
 [Show avatars]
 Zobrazit avatary
 [Formatting options]
-Monosti formátování
+MoÅ¾nosti formÃ¡tovÃ¡nÃ­
 [Enable BBCodes]
 Povolit BBCode
 [Enable SmileyAdd support]
 [Enable MathModule support]
-Podporovat doplnìk MathModule
+Podporovat doplnÄ›k MathModule
 [Enable raw RTF support]
-Povolit RTF formátování
+Povolit RTF formÃ¡tovÃ¡nÃ­
 [Display changed avatars]
-Zobrazovat zmìnìné avatary
+Zobrazovat zmÄ›nÄ›nÃ© avatary
 [Message log options]
-Monosti záznamu rozhovoru
+MoÅ¾nosti zÃ¡znamu rozhovoru
 [Imitate IEView API]
 Imitovat IEView API
 [Group messages]
-Seskupovat zprávy
+Seskupovat zprÃ¡vy
 [Disable border]
-Nezobrazovat rámeèek
+Nezobrazovat rÃ¡meÄek
 [Disable scroll bar]
-Vypnout posuvník
+Vypnout posuvnÃ­k
 [History view options]
-Monosti zobrazení historie
+MoÅ¾nosti zobrazenÃ­ historie
 [Recent events on top]
-Zobrazit nejnovìjší události nahoøe
+Zobrazit nejnovÄ›jÅ¡Ã­ udÃ¡losti nahoÅ™e
 [Visit Wiki page for more options]
-Navštivte Wiki stránku pro více informací
+NavÅ¡tivte Wiki strÃ¡nku pro vÃ­ce informacÃ­
 [Please restart Miranda NG for your changes to take effect.]
 ;file \plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
 [New Filter #%d]
-Novı filtr #%d
+NovÃ½ filtr #%d
 [Incoming & Outgoing]
-Pøíchozí a odchozí
+PÅ™Ã­chozÃ­ a odchozÃ­
 [Events]
-Události
+UdÃ¡losti
 ;file \plugins\HistoryPlusPlus\CustomizeToolbar.pas
 [Event Filters]
-Filtry událostí
+Filtry udÃ¡lostÃ­
 ;file \plugins\HistoryPlusPlus\EmptyHistoryForm.pas
 [History of this contact is password protected]
-Historie tohoto kontaktu je chránìná heslem
+Historie tohoto kontaktu je chrÃ¡nÄ›nÃ¡ heslem
 [Do you really want to delete ALL items for this contact?]
-Opravdu chcete vymazat VŠECHNY záznamy u vybrané poloky?
+Opravdu chcete vymazat VÅ ECHNY zÃ¡znamy u vybranÃ© poloÅ¾ky?
 [Note: It can take several minutes for large histories]
-Upozornìní: Tato akce mùe trvat u dlouhé historie i nìkolik minut.
+UpozornÄ›nÃ­: Tato akce mÅ¯Å¾e trvat u dlouhÃ© historie i nÄ›kolik minut.
 ;file \plugins\HistoryPlusPlus\GlobalSearch.pas
 [Search]
 Hledat
 [%.0n items in %d contacts found. Searched for %.1f sec in %.0n items.]
-%.0n v %d kontaktech nalezeno. Vyhledávání v %0n polokách trvalo %.1f s
+%.0n v %d kontaktech nalezeno. VyhledÃ¡vÃ¡nÃ­ v %0n poloÅ¾kÃ¡ch trvalo %.1f s
 [All Results]
-Všechny vısledky
+VÅ¡echny vÃ½sledky
 [System History]
-Historie systému
+Historie systÃ©mu
 [Searching "%s"...]
-Hledání "%s"...
+HledÃ¡nÃ­ "%s"...
 [Stop]
 Zastavit
 [Searching... Please wait.]
-Hledání... prosím èekejte
+HledÃ¡nÃ­... prosÃ­m Äekejte
 [Preparing search...]
-Pøíprava hledání...
+PÅ™Ã­prava hledÃ¡nÃ­...
 [Searching... %.0n items in %d contacts found]
-Hledání... %.0n poloek v %d kontaktech nalezeno
+HledÃ¡nÃ­... %.0n poloÅ¾ek v %d kontaktech nalezeno
 [History is not protected, searching all contacts]
-Historie není chránìná, prohledávám všechny kontakty
+Historie nenÃ­ chrÃ¡nÄ›nÃ¡, prohledÃ¡vÃ¡m vÅ¡echny kontakty
 [Searching unprotected contacts only]
-Vyhledávám pouze v nechránìnıch kontaktech
+VyhledÃ¡vÃ¡m pouze v nechrÃ¡nÄ›nÃ½ch kontaktech
 [Searching all contacts]
-Prohledávání všech kontaktù
+ProhledÃ¡vÃ¡nÃ­ vÅ¡ech kontaktÅ¯
 [You have entered the wrong password.]
-Zadali jste špatné heslo.
+Zadali jste Å¡patnÃ© heslo.
 [History++ Password Protection]
 History++: Ochrana heslem
 [Wrong password]
-Nesprávné heslo
+NesprÃ¡vnÃ© heslo
 [Please wait while closing the window...]
-Prosím poèkejte, okno se zavírá...
+ProsÃ­m poÄkejte, okno se zavÃ­rÃ¡...
 [Partial History [%s] - [%s]]
 [Remove &Bookmark]
-Odstranit záloku
+Odstranit zÃ¡loÅ¾ku
 [Set &Bookmark]
-Vloit záloku
+VloÅ¾it zÃ¡loÅ¾ku
 [Ready to search]
-Pøipraveno k vyhledávání
+PÅ™ipraveno k vyhledÃ¡vÃ¡nÃ­
 [Click Search button to start]
-Stisknìte tlaèítko Vyhledávání
+StisknÄ›te tlaÄÃ­tko VyhledÃ¡vÃ¡nÃ­
 [From %s]
 Od %s
 [To %s]
 Pro %s
 [HotSearch: %s (F3 to find next)]
-Vyhledávání: %s (F3 najde další)
+VyhledÃ¡vÃ¡nÃ­: %s (F3 najde dalÅ¡Ã­)
 [You have reached the end of the history.]
-U jste na konci historie.
+UÅ¾ jste na konci historie.
 [Do you want to continue searching at the beginning?]
-Chcete zaèít hledat od zaèátku?
+Chcete zaÄÃ­t hledat od zaÄÃ¡tku?
 [History++ Search]
-History++ hledání
+History++ hledÃ¡nÃ­
 [Loading...]
-Naèítání...
+NaÄÃ­tÃ¡nÃ­...
 [Saving...]
-Ukládání...
+UklÃ¡dÃ¡nÃ­...
 [Searching...]
-Hledání...
+HledÃ¡nÃ­...
 [Deleting...]
-Mazání...
+MazÃ¡nÃ­...
 [Do you really want to delete selected items (%.0f)?]
-Opravdu chcete odstranit vybrané poloky? (%.0f)?
+Opravdu chcete odstranit vybranÃ© poloÅ¾ky? (%.0f)?
 [Delete Selected]
-Smazat vybrané
+Smazat vybranÃ©
 [Do you really want to delete selected item?]
-Opravdu chcete odstranit vybranou poloku?
+Opravdu chcete odstranit vybranou poloÅ¾ku?
 [Delete]
 ;file \plugins\HistoryPlusPlus\HistoryForm.pas
 [Unknown codepage %u]
-Neznámá kódová stránka %u
+NeznÃ¡mÃ¡ kÃ³dovÃ¡ strÃ¡nka %u
 [%s - History++]
 [Error]
 [&Pseudo-edit]
 &Pseudo-editace
 [&Open]
-&Otevøít
+&OtevÅ™Ã­t
 [%.0n items in history]
-%.0n poloek v historii
+%.0n poloÅ¾ek v historii
 [Pseudo-edit mode...]
-Reim pseudo editace...
+ReÅ¾im pseudo editace...
 [Full History [%s] - [%s]]
 [Phrase not found]
-Vıraz nenalezen
+VÃ½raz nenalezen
 [Continued from the top]
-Pokraèovat odshora
+PokraÄovat odshora
 [Continued from the bottom]
-Pokraèovat odspodu
+PokraÄovat odspodu
 [Search: %s (F3 to find next)]
-Hledat: %s (F3 najde další)
+Hledat: %s (F3 najde dalÅ¡Ã­)
 ["%s" not found]
 "%s" nenalezeno
 [You have entered the wrong password]
-Zadali jste nesprávné heslo
+Zadali jste nesprÃ¡vnÃ© heslo
 [%0.1n h]
 [%d min]
 [%d event]
-%d událost
+%d udÃ¡lost
 [%0.n events (%s)]
-%0.n událostí (%s)
+%0.n udÃ¡lostÃ­ (%s)
 ;file \plugins\HistoryPlusPlus\HistoryGrid.pas
 [Remove Bookmark]
-Odstranìní záloky
+OdstranÄ›nÃ­ zÃ¡loÅ¾ky
 [Set Bookmark]
-Vloení záloky
+VloÅ¾enÃ­ zÃ¡loÅ¾ky
 [Hide headers]
-Skrytí záhlaví
+SkrytÃ­ zÃ¡hlavÃ­
 [Show headers]
-Zobrazit záhlaví ve slouèenıch oznámeních
+Zobrazit zÃ¡hlavÃ­ ve slouÄenÃ½ch oznÃ¡menÃ­ch
 [Running version of AniSmiley is not supported]
-Vaše verze doplòku AniSmiley není podporována
+VaÅ¡e verze doplÅˆku AniSmiley nenÃ­ podporovÃ¡na
 [Running version of SmileyAdd is not supported]
-Vaše verze doplòku SmileyAdd není podporována
+VaÅ¡e verze doplÅˆku SmileyAdd nenÃ­ podporovÃ¡na
 [Running version of Emoticons is not supported]
-Vaše verze doplòku Emoticons není podporována
+VaÅ¡e verze doplÅˆku Emoticons nenÃ­ podporovÃ¡na
 ;file \plugins\HistoryPlusPlus\historypp.dpr
 [History++ module could not be loaded, richedit 2.0+ module is missing.\nPress OK to continue loading Miranda.]
-Doplnìk History++ nelze pouít, chybí modul Richedit 2.0 nebo novìjší.\nPokraèovat ve spouštìní Mirandy lze stiskem tlaèítka OK.
+DoplnÄ›k History++ nelze pouÅ¾Ã­t, chybÃ­ modul Richedit 2.0 nebo novÄ›jÅ¡Ã­.\nPokraÄovat ve spouÅ¡tÄ›nÃ­ Mirandy lze stiskem tlaÄÃ­tka OK.
 ;file \plugins\HistoryPlusPlus\hpp_contacts.pas
 [Server]
 Server
@@ -185,58 +185,58 @@ Server
 [URL: %s]
 URL: %s
 [Authorisation request by %s (%s%d): %s]
-ádost o autorizaci od %s (%s%d): %s
+Å½Ã¡dost o autorizaci od %s (%s%d): %s
 [You were added by %s (%s%d)]
-%s (%s%d) si vás pøidal
+%s (%s%d) si vÃ¡s pÅ™idal
 [Webpager message from %s (%s): %s]
-Zpráva pøes webpager od  %s (%s): %s
+ZprÃ¡va pÅ™es webpager od  %s (%s): %s
 [Email express from %s (%s): %s]
-Zpráva pøes Email Express od %s (%s): %s
+ZprÃ¡va pÅ™es Email Express od %s (%s): %s
 [Status change: %s]
-Zmìna stavu: %s
+ZmÄ›na stavu: %s
 [''(Unknown Contact)''' { TRANSLATE-IGNORE } )\r\n  else\r\n    Name := GetContactDisplayName(PDWord(PAnsiChar(EventInfo.pBlob) + BytePos + 4)^, '', true);\r\n  if Boolean(EventInfo.flags and DBEF_UTF) then\r\n    cp := CP_UTF8\r\n  else\r\n    cp := hppCodepage;\r\n  Result := Format(Template, [Name, uin, AnsiToWideString(#13#10 + Body, cp)]);\r\nend;\r\n\r\nprocedure GetEventTextForICQAuthGranted(EventInfo: TDBEventInfo; var Hi: THistoryItem);\r\nbegin\r\n  hi.Text := GetEventTextForICQSystem(EventInfo,\r\n    TranslateW('Authorization request granted by %s (%d): %s]
 [Authorization request denied by %s (%d): %s]
-ádost o autorizaci zamítl/a %s (%d): %s
+Å½Ã¡dost o autorizaci zamÃ­tl/a %s (%d): %s
 [User %s (%d) removed himself from your contact list: %s]
-Uivatel/ka %s (%d) se odstranil/a z vašeho seznamu kontaktù: %s
+UÅ¾ivatel/ka %s (%d) se odstranil/a z vaÅ¡eho seznamu kontaktÅ¯: %s
 [Authorization future request by %s (%d): %s]
-Poadavek na autorizaci od %s (%d): %s
+PoÅ¾adavek na autorizaci od %s (%d): %s
 [User %s (%d) changed icq client: %s]
-Uivatel %s (%d) zmìnil ICQ klienta na %s
+UÅ¾ivatel %s (%d) zmÄ›nil ICQ klienta na %s
 [Status request by %s (%d):%s]
-Poadavek na zjištìní stavu od  %s (%d):%s
+PoÅ¾adavek na zjiÅ¡tÄ›nÃ­ stavu od  %s (%d):%s
 [Ignored status request by %s (%d):%s]
-Ignorovanı poadavek na zjištìní stavu od  %s (%d):%s
+IgnorovanÃ½ poÅ¾adavek na zjiÅ¡tÄ›nÃ­ stavu od  %s (%d):%s
 [Broadcast message from %s (%s): %s]
-Hromadná zpráva od %s (%s): %s
+HromadnÃ¡ zprÃ¡va od %s (%s): %s
 [closed chat session]
-ukonèil komunikaci
+ukonÄil komunikaci
 [WATrack: information request]
-WATrack: poadavek na informaci
+WATrack: poÅ¾adavek na informaci
 [Artist: %s\r\nTitle: %s\r\nAlbum: %s]
-Interpret: %s\r\nNázev: %s\r\nAlbum: %s
+Interpret: %s\r\nNÃ¡zev: %s\r\nAlbum: %s
 [WATrack: %s]
 WATrack: %s
 [WATrack: request denied]
-WATrack: poadavek zamítnut
+WATrack: poÅ¾adavek zamÃ­tnut
 ;file \plugins\HistoryPlusPlus\hpp_externalgrid.pas
 [Save History]
-Uloit historii
+UloÅ¾it historii
 [No such items]
-ádné takové poloky
+Å½Ã¡dnÃ© takovÃ© poloÅ¾ky
 [No "%s" items]
-ádné poloky "%s"
+Å½Ã¡dnÃ© poloÅ¾ky "%s"
 ;file \plugins\HistoryPlusPlus\hpp_options.pas
 [Cannot load icon pack (%s) from:\r\n%s\r\nThis can cause no icons will be shown.]
-Nelze naèíst knihovnu ikon (%s) z: \r\n%s\r\nNejspíš nebudou ádné ikony zobrazeny.
+Nelze naÄÃ­st knihovnu ikon (%s) z: \r\n%s\r\nNejspÃ­Å¡ nebudou Å¾Ã¡dnÃ© ikony zobrazeny.
 [You are using old icon pack from:\r\n%s\r\nThis can cause missing icons, so update the icon pack.]
-Pouíváte starou knihovnu ikon (%s) z: \r\n%s\r\nNìkteré ikony nebudou nejspíš zobrazeny, doporuèujeme aktualizaci.
+PouÅ¾Ã­vÃ¡te starou knihovnu ikon (%s) z: \r\n%s\r\nNÄ›kterÃ© ikony nebudou nejspÃ­Å¡ zobrazeny, doporuÄujeme aktualizaci.
 ;file \plugins\HistoryPlusPlus\PassCheckForm.pas
 ;file \plugins\HistoryPlusPlus\PassForm.pas
 [Password not set]
 Bez hesla
 [Password set]
-Chránìno heslem
+ChrÃ¡nÄ›no heslem
 ;file \plugins\HistoryPlusPlus\PassNewForm.pas
 [Password and Confirm fields should be similar]
-Text zadanı do pole Heslo a Potvrzení musí bıt stejnı
+Text zadanÃ½ do pole Heslo a PotvrzenÃ­ musÃ­ bÃ½t stejnÃ½

@@ -1,4 +1,4 @@
-;[%s <command> [<param> [, <param> ..]]\n]
+﻿;[%s <command> [<param> [, <param> ..]]\n]
 ;[%s usage:\n]
 ;[%s version %s]
 ;[Available commands: ]

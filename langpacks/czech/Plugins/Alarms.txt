@@ -1,4 +1,4 @@
-#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
+ï»¿#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}
 ;============================================================
 ;  File: Alarms.dll
 ;  Plugin: Alarms
@@ -11,43 +11,43 @@
 [Delete]
 [Edit]
 [Alarms]
-Pøipomínky
+PÅ™ipomÃ­nky
 [Use popup plugin]
-Pouít oznámení Mirandy
+PouÅ¾Ã­t oznÃ¡menÃ­ Mirandy
 [Default snooze:]
-Standardnì odloit o:
+StandardnÄ› odloÅ¾it o:
 [minutes]
 min.
 [Row Height:]
-Vıška øádku:
+VÃ½Å¡ka Å™Ã¡dku:
 [Indent:]
 Odstup:
 [Reminder Frame]
-Okno upomínky
+Okno upomÃ­nky
 [Auto hide/show]
-Autom. zobrazit/skrıt
+Autom. zobrazit/skrÃ½t
 [Loop sound]
-Opakovanì pøehrávat zvuk
+OpakovanÄ› pÅ™ehrÃ¡vat zvuk
 [Period (hours):]
-S pøedstihem (hod.):
+S pÅ™edstihem (hod.):
 [Hide/show with clist]
 Dle okna s kontakty
 [Auto size vertically]
-Autom. vıška okna
+Autom. vÃ½Å¡ka okna
 [Transparency (%):]
-Prùhlednost (v %):
+PrÅ¯hlednost (v %):
 [Alert Window]
-Další monosti
+DalÅ¡Ã­ moÅ¾nosti
 [Round corners]
 Zaoblit rohy
 [Don't steal focus unless idle]
-Okno do popøedí pouze v neèinnosti
+Okno do popÅ™edÃ­ pouze v neÄinnosti
 [Preview]
-Náhled
+NÃ¡hled
 [OK]
 [Cancel]
 [Title:]
-Název:
+NÃ¡zev:
 [Description:]
 [Actions]
 Akce
@@ -55,54 +55,54 @@ Akce
 [Sound:]
 Zvuk:
 [Run command:]
-Spustit pøíkaz:
+Spustit pÅ™Ã­kaz:
 [Parameters:]
 Parametry:
 [Alert 1]
-Zvuk è.1
+Zvuk Ä.1
 [Alert 2]
-Zvuk è.2
+Zvuk Ä.2
 [Alert 3]
-Zvuk è.3
+Zvuk Ä.3
 [Speak]
-Pøeèíst
+PÅ™eÄÃ­st
 [DateTimePicker1]
 [Occurrence]
-Opakování
+OpakovÃ¡nÃ­
 [Once]
 [Weekly]
 [Daily]
-Kadı den
+KaÅ¾dÃ½ den
 [Weekdays]
-Dny v tıdnu
+Dny v tÃ½dnu
 [Monthly]
 [Yearly]
 Co rok
 [i'm hiding]
-Nikdo mì nedostane
+Nikdo mÄ› nedostane
 [Date and Time]
-Datum a èas
+Datum a Äas
 [Disable next occurence]
-Vypnout pøíští oznámení
+Vypnout pÅ™Ã­Å¡tÃ­ oznÃ¡menÃ­
 [Don't trigger on startup]
-Neupozoròovat pøi spuštìní
+NeupozorÅˆovat pÅ™i spuÅ¡tÄ›nÃ­
 [No reminder]
-Bez upozornìní
+Bez upozornÄ›nÃ­
 [Dismiss]
 [Snooze]
-Odloit
+OdloÅ¾it
 [Static]
-Statickı
+StatickÃ½
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [&Suspend]
-&Odloit
+&OdloÅ¾it
 [&Edit...]
 Up&ravit...
 [&Delete]
 [&Options...]
 [&New Alarm...]
-&Nová pøipomínka...
+&NovÃ¡ pÅ™ipomÃ­nka...
 ;file \plugins\Alarms\src\alarmlist.cpp
 ;file \plugins\Alarms\src\alarms.cpp
 [ ffw]
@@ -110,15 +110,15 @@ Up&ravit...
 [Windows Media Player]
 [Unknown command issued: "%s"]
 [Set Alarm]
-Nová pøipomínka
+NovÃ¡ pÅ™ipomÃ­nka
 ;file \plugins\Alarms\src\alarm_win.cpp
 [Example Alarm]
-Ukázka pøipomínky
+UkÃ¡zka pÅ™ipomÃ­nky
 [Some example text. Example, example, example.]
-luouèkı kùò úpìl ïábelské ódy.
+Å½luÅ¥ouÄkÃ½ kÅ¯Åˆ ÃºpÄ›l ÄÃ¡belskÃ© Ã³dy.
 [Title]
 [Background]
-Pozadí
+PozadÃ­
 [Window]
 [user32.dll]
 ;file \plugins\Alarms\src\frame.cpp
@@ -126,27 +126,27 @@ Pozadí
 [%dh %dm]
 [%dm]
 [Events]
-Události
+UdÃ¡losti
 [Hide Reminders]
-Skrıt pøipomínky
+SkrÃ½t pÅ™ipomÃ­nky
 [Show Reminders]
-Zobrazit pøipomínky
+Zobrazit pÅ™ipomÃ­nky
 [AlarmsFrame]
 [AlarmsFrameContainer]
 [Frames]
 [Alarm Reminders]
-Pøipomínky
+PÅ™ipomÃ­nky
 ;file \plugins\Alarms\src\icons.cpp
 [Menu: Set Alarm]
-Menu: Nová pøipomínka
+Menu: NovÃ¡ pÅ™ipomÃ­nka
 [Reminder: Soon]
-Pøipomínka: U brzy
+PÅ™ipomÃ­nka: UÅ¾ brzy
 [Reminder: Very Soon]
-Pøipomínka: Za 5 minut a ménì
+PÅ™ipomÃ­nka: Za 5 minut a mÃ©nÄ›
 [Alarm: System Tray]
-Upozornìní: Oblast pro oznámení
+UpozornÄ›nÃ­: Oblast pro oznÃ¡menÃ­
 [Menu: Show/Hide Reminders]
-Menu: Zobrazit/Skrıt pøipomínky
+Menu: Zobrazit/SkrÃ½t pÅ™ipomÃ­nky
 ;file \plugins\Alarms\src\options.cpp
 [Sunday]
 [Monday]
@@ -156,8 +156,8 @@ Menu: Zobrazit/Skrıt pøipomínky
 [Friday]
 [Saturday]
 [Please enter a title for this alarm.]
-Zadejte prosím název pøipomínky.
+Zadejte prosÃ­m nÃ¡zev pÅ™ipomÃ­nky.
 [Error]
 [The alarm time you have selected is in the past.]
-Datum a èas musí bıt z budoucnosti. Zadejte je znovu.
+Datum a Äas musÃ­ bÃ½t z budoucnosti. Zadejte je znovu.
 ;file \plugins\Alarms\src\trigger.cpp

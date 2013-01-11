@@ -1,4 +1,4 @@
-;#muuid not found, please specify manually!
+ï»¿;#muuid not found, please specify manually!
 ;============================================================
 ;  File: NewXstatusNotify.dll
 ;  Plugin: NewXstatusNotify
@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\NewXstatusNotify\res\resource.rc
 [Notify when a contact changes to one of these statuses]
-Oznámení zmìny stavu ostatních kontaktù
+OznÃ¡menÃ­ zmÄ›ny stavu ostatnÃ­ch kontaktÅ¯
 [Online]
 [Offline]
 [Invisible]
@@ -19,43 +19,43 @@ Oznámení zmìny stavu ostatních kontaktù
 [Out to lunch]
 [On the phone]
 [Always when changing from offline]
-Vdy pøi pøechodu ze stavu offline
+VÅ¾dy pÅ™i pÅ™echodu ze stavu offline
 [Plugin activation]
-Aktivace doplòku
+Aktivace doplÅˆku
 [Automatically turn off Popups and Sounds on status change]
 [Configure]
 [Notify me for people not in my Contact List]
 [Blink icon in the system tray]
-Blikat v oznamovací èásti lišty
+Blikat v oznamovacÃ­ ÄÃ¡sti liÅ¡ty
 [Use status icon]
-Pouít ikonu stavu
+PouÅ¾Ã­t ikonu stavu
 [Use individual sounds]
-Pouít individuální zvuky
+PouÅ¾Ã­t individuÃ¡lnÃ­ zvuky
 [Log to file]
-Uloit záznam
+UloÅ¾it zÃ¡znam
 [Enable]
 Aktivovat
 [Go to Customize -> Sound to select the sounds]
 [Extra status]
-Rozšíøenı stav
+RozÅ¡Ã­Å™enÃ½ stav
 [...]
 #muuid {f3ff65f3-250e-416a-bee9-58c93f85ab33}
 [Open]
 [Status message]
 [IndSndList]
 [Change]
-Zmìnit
+ZmÄ›nit
 [Preview]
-Náhled
+NÃ¡hled
 [Delete]
 [Enable sounds]
 Povolit zvuky
 [Enable popups]
-Povolit oznámení
+Povolit oznÃ¡menÃ­
 [Status Notify]
-Oznámení stavu
+OznÃ¡menÃ­ stavu
 [Individual sounds are disabled.\n\nTo enable them, go to Options -  Status - Notify, enable \n"Use individual sounds" checkbox, and then reopen this dialog.]
-Individuální zvuky jsou vypnuty.\n\nChcete-li je zapnout, pøejdìte do nabídky Monosti -> Stavy -> Oznámení\na povolte "Pouít individální zvuky". Poté se vrate na tento dialog.
+IndividuÃ¡lnÃ­ zvuky jsou vypnuty.\n\nChcete-li je zapnout, pÅ™ejdÄ›te do nabÃ­dky MoÅ¾nosti -> Stavy -> OznÃ¡menÃ­\na povolte "PouÅ¾Ã­t individÃ¡lnÃ­ zvuky". PotÃ© se vraÅ¥te na tento dialog.
 [Sounds]
 [Popups]
 [Extra status notify]
@@ -63,31 +63,31 @@ Individuální zvuky jsou vypnuty.\n\nChcete-li je zapnout, pøejdìte do nabídky Mo
 [Disable all]
 [Enable all]
 [Background]
-Pozadí
+PozadÃ­
 [Text]
 Text
 [Colours]
 [Use custom colours]
-Pouít vlastní barvy
+PouÅ¾Ã­t vlastnÃ­ barvy
 [Use Windows colours]
-Pouít barvy Windows
+PouÅ¾Ã­t barvy Windows
 [Use Popup colours]
 [Popup text]
 [Read status message]
-Pøeèíst zprávu stavu
+PÅ™eÄÃ­st zprÃ¡vu stavu
 [Show previous status too]
-Zobrazit i pøedchozí stav
+Zobrazit i pÅ™edchozÃ­ stav
 [Timeout]
 [Popups on contact status change to:]
-Oznamovat tyto zmìny stavu:
+Oznamovat tyto zmÄ›ny stavu:
 [Click action]
-Pøi kliknutí myší
+PÅ™i kliknutÃ­ myÅ¡Ã­
 [Show contact group name]
 [Use alternative descriptions]
 [0 = Default]
-0 = vıchozí
+0 = vÃ½chozÃ­
 [-1 = Infinite]
--1 = neustále
+-1 = neustÃ¡le
 [Sec]
 sek.
 [On left click]
@@ -97,9 +97,9 @@ sek.
 [Disable for extra status 'Music']
 [Truncate message length to:]
 [characters]
-znakù
+znakÅ¯
 [Templates]
-Šablony
+Å ablony
 [Title - text delimiter:]
 [Remove:]
 [New message:]
@@ -118,7 +118,7 @@ znakù
 [On opening ML:]
 [General]
 [Show PopUps when I connect]
-Zobrazit oznámení pøi pøipojení
+Zobrazit oznÃ¡menÃ­ pÅ™i pÅ™ipojenÃ­
 [Ignore empty status messages]
 [Protocols]
 Protokoly
@@ -135,10 +135,10 @@ Zvuky
 [From offline]
 Ze stavu offline
 [** All contacts **]
-** všechny kontakty **
+** vÅ¡echny kontakty **
 ;file \plugins\NewXstatusNotify\src\main.cpp
 [<no status message>]
-<zpráva není zadaná>
+<zprÃ¡va nenÃ­ zadanÃ¡>
 [Contact]
 Kontakt
 [\r\n]
@@ -147,91 +147,91 @@ Kontakt
 [aborting]
 [playing]
 [%s is now %s]
-%s je nyní %s
+%s je nynÃ­ %s
 [HH':'mm]
 [dd/MM/yyyy]
 [%s, %s. %s changed to: %s (was: %s).\r\n]
-%s, %s. %s zmìna na: %s (was: %s).\r\n
+%s, %s. %s zmÄ›na na: %s (was: %s).\r\n
 [(M) is back online!]
-je opìt online
+je opÄ›t online
 [(F) is back online!]
-je opìt online
+je opÄ›t online
 [(U) is back online!]
-je opìt online
+je opÄ›t online
 [User: Online]
 Stav (online)
 [global.wav]
 [(M) went offline! :(]
-odešel...
+odeÅ¡el...
 [(F) went offline! :(]
-odešla...
+odeÅ¡la...
 [(U) went offline! :(]
-odešel...
+odeÅ¡el...
 [User: Offline]
 Stav (offline)
 [offline.wav]
 [(M) hides in shadows...]
-je neviditelnı...
+je neviditelnÃ½...
 [(F) hides in shadows...]
-je neviditelná...
+je neviditelnÃ¡...
 [(U) hides in shadows...]
-je neviditelnı...
+je neviditelnÃ½...
 [User: Invisible]
-Stav (neviditelnı)
+Stav (neviditelnÃ½)
 [invisible.wav]
 [(M) feels talkative!]
-má volno
+mÃ¡ volno
 [(F) feels talkative!]
-má volno
+mÃ¡ volno
 [(U) feels talkative!]
-má volno
+mÃ¡ volno
 [User: Free For Chat]
-Stav (mám volno)
+Stav (mÃ¡m volno)
 [free4chat.wav]
 [(M) went Away]
-odbìhl pryè
+odbÄ›hl pryÄ
 [(F) went Away]
-odbìhla pryè
+odbÄ›hla pryÄ
 [(U) went Away]
-odbìhl pryè
+odbÄ›hl pryÄ
 [User: Away]
-Stav (na chvíli pryè)
+Stav (na chvÃ­li pryÄ)
 [away.wav]
 [(M) isn't there anymore!]
-bude pryè delší dobu
+bude pryÄ delÅ¡Ã­ dobu
 [(F) isn't there anymore!]
-bude pryè delší dobu
+bude pryÄ delÅ¡Ã­ dobu
 [(U) isn't there anymore!]
-bude pryè delší dobu
+bude pryÄ delÅ¡Ã­ dobu
 [User: Not Available]
 Stav (nejsem tady)
 [na.wav]
 [(M) has something else to do.]
-nemá èas
+nemÃ¡ Äas
 [(F) has something else to do.]
-nemá èas
+nemÃ¡ Äas
 [(U) has something else to do.]
-nemá èas
+nemÃ¡ Äas
 [User: Occupied]
-Stav (nemám èas)
+Stav (nemÃ¡m Äas)
 [occupied.wav]
 [(M) doesn't want to be disturbed!]
-nechce bıt vyrušován!
+nechce bÃ½t vyruÅ¡ovÃ¡n!
 [(F) doesn't want to be disturbed!]
-nechce bıt vyrušována!
+nechce bÃ½t vyruÅ¡ovÃ¡na!
 [(U) doesn't want to be disturbed!]
-nechce bıt vyrušován!
+nechce bÃ½t vyruÅ¡ovÃ¡n!
 [User: Do Not Disturb]
-Stav (nerušit!)
+Stav (neruÅ¡it!)
 [dnd.wav]
 [(M) is eating something]
-je na obìdì
+je na obÄ›dÄ›
 [(F) is eating something]
-je na obìdì
+je na obÄ›dÄ›
 [(U) is eating something]
-je na obìdì
+je na obÄ›dÄ›
 [User: Out To Lunch]
-Stav (na obìdì)
+Stav (na obÄ›dÄ›)
 [lunch.wav]
 [(M) had to answer the phone]
 telefonuje
@@ -240,13 +240,13 @@ telefonuje
 [(U) had to answer the phone]
 telefonuje
 [User: On The Phone]
-Stav (mám telefon)
+Stav (mÃ¡m telefon)
 [phone.wav]
 [Enable status notification]
 [Disable status notification]
 [PopUps]
 [User: from offline (has priority!)]
-Uivatel: z offline (má prioritu!)
+UÅ¾ivatel: z offline (mÃ¡ prioritu!)
 [Extra status changed]
 [Extra status message changed]
 [Extra status removed]
@@ -255,7 +255,7 @@ Uivatel: z offline (má prioritu!)
 [%s_TSMChange]
 [%s (*.*)%c*.*%c%s (*.log)%c*.log%c%s (*.txt)%c*.txt%c]
 [Log]
-Záznam
+ZÃ¡znam
 [log]
 [%s %s]
 %s %s
@@ -266,39 +266,39 @@ Záznam
 [Reset all templates to default]
 [Protocol]
 [Filtering]
-Filtrování
+FiltrovÃ¡nÃ­
 [Message log]
-Záznam komunikace
+ZÃ¡znam komunikace
 ;file \plugins\NewXstatusNotify\src\popup.h
 [(was %s)]
-(pøedtím %s)
+(pÅ™edtÃ­m %s)
 [Open message window]
-Otevøít komunikaèní okno
+OtevÅ™Ã­t komunikaÄnÃ­ okno
 [Close popup]
-Zavøít oznámení
+ZavÅ™Ã­t oznÃ¡menÃ­
 [Open contact details window]
 Zobrazit okno s detaily kontaktu
 [Open contact menu]
-Zobrazit nabídku kontaktu
+Zobrazit nabÃ­dku kontaktu
 [Open contact history]
 Zobrazit historii kontaktu
 [Do nothing]
-Nedìlat nic
+NedÄ›lat nic
 ;file \plugins\NewXstatusNotify\src\utils.cpp
 [You cannot specify a value lower than %d and higher than %d.]
-Nelze zadat hodnotu niší ne %d a vyšší ne %d.
+Nelze zadat hodnotu niÅ¾Å¡Ã­ neÅ¾ %d a vyÅ¡Å¡Ã­ neÅ¾ %d.
 [open]
 [Can't open the log file!]
 [NewXstatusNotify]
 [a+b, ccs=UTF-8]
 ;file \plugins\NewXstatusNotify\src\xstatus.cpp
 [Mood]
-Nálada
+NÃ¡lada
 [Activity]
-Èinnost
+ÄŒinnost
 [Xstatus]
 [<unknown>]
-<neznámı>
+<neznÃ¡mÃ½>
 [%s (%s)]
 %s (%s)
 [%s, %s. %s removed %s.\r\n]

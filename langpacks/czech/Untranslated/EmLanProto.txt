@@ -1,4 +1,4 @@
-;[E-mage LAN protocol]
+﻿;[E-mage LAN protocol]
 ;[LAN Settings]
 ;[OK]
 ;[Select your IP address]

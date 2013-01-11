@@ -1,4 +1,4 @@
-#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
+Ôªø#muuid {c5ef53a8-80d4-4ce9-b341-ec90d3ec9156}
 ;============================================================
 ;  File: ChangeKeyboardLayout.dll
 ;  Plugin: Change Keyboard Layout
@@ -30,23 +30,23 @@
 [Windows colours]
 [Custom colours]
 [Back]
-PozadÌ
+Pozad√≠
 [Text]
 Text
 [Timeout]
 [From PopUp plugin]
-Glob·lnÌ nastavenÌ
+Glob√°ln√≠ nastaven√≠
 [Permanent]
 Trvale
 [Custom]
-VlastnÌ
+Vlastn√≠
 [On left click]
 [Copy to clipboard]
-KopÌrovat do schr·nky
+Kop√≠rovat do schr√°nky
 [Dismiss]
 [On right click]
 [Preview]
-N·hled
+N√°hled
 ;file \plugins\ChangeKeyboardLayout\src\hook_events.cpp
 [Popup]
 [Changing Layout]
