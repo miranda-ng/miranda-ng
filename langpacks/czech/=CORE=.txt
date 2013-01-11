@@ -1,5 +1,4 @@
-﻿Miranda Language Pack Version 1
-;file \src\resource.rc
+﻿;file \src\resource.rc
 [Enter account name (for example, My Google)]
 Zadejte název účtu (např. Google)
 [Choose the protocol type]
