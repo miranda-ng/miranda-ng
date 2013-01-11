@@ -93,7 +93,7 @@ int OptInitialise(WPARAM wParam,LPARAM lParam)
 	odp.pszGroup = "Events";
 	odp.flags = ODPF_BOLDGROUPS;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_SMSPLUGIN);
-	odp.ptszTitle = PROTOCOL_DISPLAY_NAME_ORIGW;
+	odp.pszTitle = PROTOCOL_DISPLAY_NAME_ORIG;
 	odp.pfnDlgProc = DlgProcEditorOptions;
 	Options_AddPage(wParam, &odp);	
 	return 0;
