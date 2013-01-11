@@ -31,4 +31,3 @@
 [NBRichEditProxyWndClass]
 ;file \plugins\mTextControl\src\textcontrol.cpp
 [Tahoma]
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}

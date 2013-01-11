@@ -129,7 +129,6 @@ Poslech hudby
 [My Details]
 Informace o sobě
 [Tahoma]
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 [Show My Details]
 Zobrazit informace o sobě
 [ ...]

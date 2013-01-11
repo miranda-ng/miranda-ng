@@ -27,4 +27,3 @@
 Vlastní úpravy
 [Open/close audio device]
 [Plugins\\Bass\\Bass.dll]
-#muuid {488c5c84-56da-434f-96f1-b18900def760}

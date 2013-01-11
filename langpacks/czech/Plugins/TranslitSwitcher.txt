@@ -27,4 +27,3 @@
 [Translit Last / Selected]
 [Invert Case All / Selected]
 [Invert Case Last / Selected]
-#muuid {bc09a71b-b86e-4d33-b18d-82d30451dd3c}

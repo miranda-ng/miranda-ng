@@ -250,7 +250,6 @@ Chyba při čtení dat z účtu.
 [Memory allocation error while data reading]
 Chyba alokace paměti při čtení dat
 [%s\n%s]
-#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}
 [Reading file error. File already in use?]
 Chyba při čtení ze souboru. Nepoužívá soubor jiná aplikace?
 [Error while copying data to disk occured. File in use?]

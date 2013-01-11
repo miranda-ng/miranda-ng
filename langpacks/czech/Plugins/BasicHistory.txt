@@ -287,7 +287,6 @@ Odchozí události
 [All Files (*.*)]
 Všechny soubory (*.*)
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [Enter filter name]
 [Filter name exists]
 [Event already exists]
@@ -296,7 +295,6 @@ Všechny soubory (*.*)
 [Browse WinSCP file]
 [ftplog.txt]
 [txt]
-#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 [Save WinSCP log file]
 [%d;%s]
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]

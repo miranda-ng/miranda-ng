@@ -52,4 +52,3 @@ Ode&jít
 [Invalid database module]
 ;file \plugins\Db3x\src\init.cpp
 [db3x database support]
-#muuid {f7a6b27c-9d9c-4a42-be86-a448ae109161}

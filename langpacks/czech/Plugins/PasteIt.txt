@@ -148,4 +148,3 @@ Nikdy
 [<?xml version="1.0"?>\r\n<methodCall><methodName>types</methodName></methodCall>]
 ;file \plugins\PasteIt\src\PasteToWeb2.h
 [wklej.to]
-#muuid {760ea901-c0c2-446c-8029-94c3bc47c45e}

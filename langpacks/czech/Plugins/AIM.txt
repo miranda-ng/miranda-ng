@@ -121,7 +121,6 @@ Zpráva
 Místnost
 ;file \protocols\AimOscar\src\avatars.cpp
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.png]
 [.bmp]
 [.jpg]
@@ -207,7 +206,6 @@ Zobrazit &historii
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;file \protocols\AimOscar\src\links.cpp
 [addbuddy?]
 [screenname=]
@@ -341,4 +339,3 @@ Soukromí
 [away.html]
 [open]
 [profile.html]
-#muuid {4dd7762b-d612-4f84-aa86-068f17859b6d}

@@ -24,4 +24,3 @@ Ikony
 [Looking for 'ip-to-country.csv' in current directory.\n"\r\n		"It will be converted into 'ip-to-country.bin'.\n"\r\n		"See debug output for more details.\n"\r\n		"This process may take very long.]
 [Bin Converter]
 [Done!\n'ip-to-country.bin' has been created in current directory.]
-#muuid {72765a6f-b017-42f1-b30f-5e0941273a3f}

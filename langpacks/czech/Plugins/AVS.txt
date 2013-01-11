@@ -89,7 +89,6 @@ Upravit rozměry na max. velikost danou protokolem
 [.ico]
 [.bmp]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.swf]
 [.xml]
 [.jpeg]
@@ -134,7 +133,6 @@ Nastavit avatar
 [Set My Avatar for %s]
 Nastavit avatar pro %s
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 [mir_av_]
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s

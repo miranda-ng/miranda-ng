@@ -119,7 +119,6 @@ Všechny soubory
 [All Images]
 [Style Sheet]
 [uxtheme.dll]
-#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Dnes
@@ -133,4 +132,3 @@ Přijatý soubor
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
 [.xml]
 [http://]
-#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}

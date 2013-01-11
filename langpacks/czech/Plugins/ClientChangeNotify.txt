@@ -104,4 +104,3 @@ Zobrazit záznam
 [Do nothing]
 Nedělat nic
 [gmail;skype;/Miranda[0-9A-F]{8}/]
-#muuid {53e095a3-2695-490a-9dad-d20479093831}

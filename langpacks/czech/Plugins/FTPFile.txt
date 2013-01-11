@@ -131,7 +131,6 @@ Upload souboru dokončen
 Upload přerušen
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
 [uxtheme.dll]
-#muuid {2f174488-489c-4fe1-940d-596cf0f35e65}
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)\0*.*\0]
 [FTP File - Select files]
@@ -141,7 +140,6 @@ Soubory přes FTP - vyberte soubory
 %s\\%s
 [Folder not found!]
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
 [CANCELED]
 [COMPLETED]

@@ -927,4 +927,3 @@ O sezn&amu kontaktů...
 P&lovoucí kontakt
 ;file \plugins\Clist_nicer\src\Coolsb\coolsblib.cpp
 [CoolSBSubclassPtr]
-#muuid {21948c89-b549-4c9d-8b4f-3f3726ec6b4b}

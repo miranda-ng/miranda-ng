@@ -73,4 +73,3 @@ Oznámení
 [RICHEDIT]
 [\n\n]
 [:\n]
-#muuid {73a9615c-7d4e-4555-badb-ee05dc928eff}

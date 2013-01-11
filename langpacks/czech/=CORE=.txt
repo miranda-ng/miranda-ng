@@ -2077,7 +2077,6 @@ In&formace o sobě...
 [ \t]
 ;file \src\mir_core\langpack.cpp
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 [static]
 [hyperlink]
 [button]

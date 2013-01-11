@@ -174,4 +174,3 @@ Oznámení
 ;file \plugins\SecureIM\src\rtfconv.cpp
 [rtfconv.dll]
 [plugins\\rtfconv.dll]
-#muuid {2d506d46-c94e-4ef8-8537-f11233a80381}

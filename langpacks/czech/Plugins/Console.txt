@@ -54,4 +54,3 @@ Všechny soubory
 [Save selection to file]
 [Save log to file]
 [txt]
-#muuid {0324785E-74CE-4600-B781-851773B3EFC5}

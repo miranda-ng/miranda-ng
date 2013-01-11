@@ -58,4 +58,3 @@ Oblíbené
 [FavContactsMenuHostWnd]
 [&Favourite Contacts...]
 [<No group>]
-#muuid {34b5a402-1b79-4246-b041-43d0b590ae2c}

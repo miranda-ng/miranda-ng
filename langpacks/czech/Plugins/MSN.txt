@@ -201,7 +201,6 @@ Spustit Netmeetin&g
 [gif]
 [unk]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.bmp]
 [.png]
 [%s\\%s\\CustomSmiley]

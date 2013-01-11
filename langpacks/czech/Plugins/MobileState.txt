@@ -27,4 +27,3 @@
 [bayan]
 ;file \plugins\MobileState\src\main.cpp
 [Mobile State]
-#muuid {621f886b-a7f6-457f-9d62-8ee84c275993}

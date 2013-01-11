@@ -209,7 +209,6 @@ Sekvence blikání klávesnicí
 [All Files]
 Všechny soubory
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [knt]
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
 [[%s]\n]

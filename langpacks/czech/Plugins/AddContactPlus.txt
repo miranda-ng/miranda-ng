@@ -43,4 +43,3 @@ Přidat kontakt
 [Main]
 Hlavní
 [AddContact+]
-#muuid {7c070f7c-459e-46b7-8e6d-bc6efaa22f78}

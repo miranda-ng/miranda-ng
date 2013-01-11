@@ -141,7 +141,6 @@ Avatary
 [.png]
 [.bmp]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.jpg]
 [.jpeg]
 [Unknown UIN]
@@ -190,4 +189,3 @@ Testovací popis
 [static]
 [_PopupWindow]
 [ Error]
-#muuid {e00f1643-263c-4599-b84b-053e5c511d29}

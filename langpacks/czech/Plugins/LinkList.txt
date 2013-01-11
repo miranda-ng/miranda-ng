@@ -118,7 +118,6 @@ Doplněk 'Linklist'
 [%s: %s]
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
 [http://]
-#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 [ftp://]
 [https://]
 [www.]

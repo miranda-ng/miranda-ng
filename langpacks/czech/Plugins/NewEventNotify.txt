@@ -108,7 +108,5 @@ Počet nových zpráv:
 [ %H:%M]
 [%s[b][i]%s[/i][/b]\n]
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 [%s\n]
 [%s\n...]
-#muuid {56cc3f29-ccbf-4546-a8ba-9856248a412a}

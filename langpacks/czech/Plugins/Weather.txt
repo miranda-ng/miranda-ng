@@ -340,7 +340,6 @@ Textové soubory
 Všechny soubory
 [ (*.*)]
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;file \plugins\Weather\src\weather_conv.cpp
 [%i.%i]
 [%s%sC]
@@ -623,4 +622,3 @@ Informace
 [No information available.\r\nPlease update weather condition first.]
 [%c, %t]
 [%s\n%s]
-#muuid {2ff96c84-b0b5-470e-bbf9-907b9f3f5d2f}

@@ -60,4 +60,3 @@ Poslat zprávu
 [Ctrl+I]
 [Ctrl+H]
 [Ctrl+M]
-#muuid {37ed754b-6cf9-40ed-9eb6-0fef8e822475}

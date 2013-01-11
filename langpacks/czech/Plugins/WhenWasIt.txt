@@ -201,4 +201,3 @@ Upozornění
 [This file was exported with a Unicode version of WhenWasIt. Please only use a Unicode version of the plugin to import the birthdays.\n]
 ;file \plugins\WhenWasIt\src\utils.cpp
 [%ld]
-#muuid {80dca515-973a-4a7e-8b85-5d8ec88fc5a7}

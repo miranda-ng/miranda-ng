@@ -122,7 +122,6 @@ Logo při spuštění
 [open "%s" type mpegvideo alias song1]
 [play song1]
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 [Verdana]
 [Timer TimeToShow]
 [set]
@@ -136,4 +135,3 @@ Náhled
 [Timeout]
 Doba zobrazení
 [end]
-#muuid {211f6277-6f9b-4b77-a939-84d04b26b38c}

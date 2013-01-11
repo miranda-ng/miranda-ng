@@ -493,7 +493,6 @@ Vítr:
 [# Solid color fill]
 # Celkové Vyplnění barvou
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [*.tsf]
 [author]
 [preview]

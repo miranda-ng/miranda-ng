@@ -68,7 +68,6 @@ Kontakty
 Nečinnost
 ;file \plugins\TooltipNotify\src\Settings.h
 [Tahoma]
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 ;file \plugins\TooltipNotify\src\Tooltip.cpp
 [MimTooltipNotify]
 [user32.dll]
@@ -110,4 +109,3 @@ Neznámý
 [%s%s%s]
 [%.0s%.0s%s]
 [ %s %s]
-#muuid {f593c752-51d8-4d46-ba27-37577953f55c}

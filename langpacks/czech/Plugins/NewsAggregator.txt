@@ -65,7 +65,6 @@ Ikona protokolu
 [\\Avatars\\]
 ;file \plugins\NewsAggregator\Src\Options.cpp
 [http://]
-#muuid {a6872bcd-f2a1-41b8-b2f1-dd7cec055734}
 [Enter Feed name]
 [Error]
 Chyba
@@ -103,7 +102,6 @@ Sítě
 [.jpeg]
 [.png]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.ico]
 [.bmp]
 [.swf]

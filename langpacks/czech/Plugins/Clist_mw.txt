@@ -348,7 +348,6 @@ Seznam kontaktů
 ;file \plugins\Clist_mw\src\cluiopts.cpp
 ;file \plugins\Clist_mw\src\cluiservices.cpp
 [%s%s]
-#muuid {f0ba32d0-cd07-4a9c-926b-5a1ff21c3c10}
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
 &Nová podskupina

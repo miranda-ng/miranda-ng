@@ -430,7 +430,6 @@ Chyba sítě IRC
 [/nick]
 [\r\n]
 [\r\r]
-#muuid {3503D584-6234-4BEF-A553-6C1B9CD471F2}
 [%question]
 [#$%u]
 [$%u-]
@@ -966,4 +965,3 @@ Zadejte masku (přezdívka!uživ_jméno@hostitel)
 [%s %s %s]
 [/MODE]
 [/MODE %s +b]
-#muuid {144e80a2-d198-428b-acbe-9d55dacc7fde}

@@ -374,7 +374,6 @@ Potvrzení
 [_avt]
 [.jpg]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.png]
 [.bmp]
 [.xml]

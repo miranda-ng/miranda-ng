@@ -350,7 +350,6 @@ Vybrat obrázek k odeslání
 [[img]%s[/img]]
 [.bmp]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 [.jpg]
 [.png]
 [Can not open image file. ERROR: %d: %s\n%s]
@@ -368,7 +367,6 @@ Textové soubory
 Všechny soubory
 [ (*)]
 [txt]
-#muuid {0324785E-74CE-4600-B781-851773B3EFC5}
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [contacts]
 kontakty

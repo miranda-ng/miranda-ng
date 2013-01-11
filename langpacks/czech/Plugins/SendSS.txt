@@ -204,4 +204,3 @@ Vyberte prosím požadované okno.
 [.tif]
 [gif]
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}

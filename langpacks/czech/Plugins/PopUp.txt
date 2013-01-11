@@ -223,7 +223,6 @@ Kopírovat do schránky
 Akce
 ;file \plugins\Popup\src\avatars.cpp
 [.gif]
-#muuid {60558872-2aab-45aa-888d-097691c9b683}
 ;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 Obrázky ve formátu PNG vyžadují doplněk png2dib 0.1.3.x nebo novější.
@@ -251,7 +250,6 @@ Toto je varovné hlášení :-o
 Toto je chybové hlášení :-(
 ;file \plugins\Popup\src\font.cpp
 [Tahoma]
-#muuid {a82baeb3-a33c-4036-b837-7803a5b6c2ab}
 [Hovered Action]
 Po najetí myši
 ;file \plugins\Popup\src\history.cpp
@@ -379,7 +377,6 @@ Vzhled
 [res:classic.popupskin]
 [\\skins\\popup]
 [*.*]
-#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 [The skin you are trying to load is designed\r\n]
 [for newer version of Popup Plus. And will not\r\n]
 [display properly.\r\n]
