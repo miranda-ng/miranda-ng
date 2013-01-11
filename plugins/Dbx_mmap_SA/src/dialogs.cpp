@@ -10,7 +10,6 @@ extern LIST<CryptoModule> arCryptors;
 
 HANDLE hSetPwdMenu;
 
-INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 BOOL ShowDlgItem(HWND hwndDlg, int iIDCtrl, BOOL bShow)
 {
 	HWND hwndCtrl = GetDlgItem(hwndDlg, iIDCtrl);
@@ -165,7 +164,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 		ListView_SetExtendedListViewStyleEx(hwndList, 0, LVS_EX_CHECKBOXES | LVS_EX_FULLROWSELECT | LVS_EX_SUBITEMIMAGES);
 
-		uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
+		uid = db_get_w(NULL, "SecureMMAP", "CryptoModule", 0);
 
 		for (i = 0; i < arCryptors.getCount(); i++) {
 			TCHAR buf[100];
@@ -261,12 +260,12 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 
 			if (alg > -1){
 				if (!p_Db->m_bEncoding){
-					DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
+					db_set_w(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
 					p_Db->EncryptDB();
 				}
 				else {
-					if (arCryptors[alg]->cryptor->uid != DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", -1)) {
-						DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
+					if (arCryptors[alg]->cryptor->uid != db_get_w(NULL, "SecureMMAP", "CryptoModule", -1)) {
+						db_set_w(NULL, "SecureMMAP", "CryptoModule", arCryptors[alg]->cryptor->uid);
 						p_Db->RecryptDB();
 					}
 				}
@@ -274,7 +273,7 @@ INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lP
 			else if (p_Db->m_bEncoding)
 				p_Db->DecryptDB();
 
-			uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
+			uid = db_get_w(NULL, "SecureMMAP", "CryptoModule", 0);
 
 			for (i = 0; i < arCryptors.getCount(); i++) {
 				if (uid == arCryptors[i]->cryptor->uid && p_Db->m_bEncoding)

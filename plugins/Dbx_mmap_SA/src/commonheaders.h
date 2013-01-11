@@ -96,14 +96,13 @@ struct DlgChangePassParam
 INT_PTR CALLBACK DlgChangePass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
 
 INT_PTR CALLBACK DlgStdNewPass(HWND hDlg, UINT uMsg,WPARAM wParam,LPARAM lParam);
+INT_PTR CALLBACK DlgProcOptions(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+
 void xModifyMenu(HANDLE hMenu,long flags,const TCHAR* name, HICON hIcon);
 
 extern DBSignature dbSignature, dbSignatureSecured, dbSignatureNonSecured;
 
 extern LIST<CDbxMmapSA> g_Dbs;
-
-int InitPreset();
-void UninitPreset();
 
 typedef struct{
 	void* (__stdcall *GenerateKey)(char* pwd);

@@ -228,7 +228,6 @@
       <PrecompiledHeaderFile>..\commonheaders.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\dbintf_sa.cpp" />
-    <ClCompile Include="src\dbpreset.cpp" />
     <ClCompile Include="src\dialogs.cpp" />
     <ClCompile Include="src\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

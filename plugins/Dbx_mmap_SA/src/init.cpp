@@ -133,7 +133,6 @@ extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = {MIID_DATABAS
 extern "C" __declspec(dllexport) int Load(void)
 {
 	InitSecurity();
-	InitPreset();
 
 	RegisterDatabasePlugin(&dblink);
 	return 0;
@@ -143,7 +142,6 @@ extern "C" __declspec(dllexport) int Unload(void)
 {
 	g_Dbs.destroy();
 	UnloadSecurity();
-	UninitPreset();
 	return 0;
 }
 

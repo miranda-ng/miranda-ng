@@ -164,37 +164,23 @@ int CDbxMmapSA::CheckPassword(WORD checkWord, TCHAR *szDBName)
 
 int SelectEncoder()
 {
-	WORD uid;
-	int i;
-
 	if (arCryptors.getCount() == 0){
 		MessageBox(0, TranslateT("Crypto modules not found"), TranslateT("Error"), MB_OK | MB_ICONERROR);
 		return 1;
 	}
 
-	uid = DBGetContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
-
-	if (uid == 0){
-		MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK | MB_ICONINFORMATION);
-		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
-		CryptoEngine = arCryptors[0]->cryptor;
-	}
-	else{
-		int Found = 0;
-		for (i = 0; i < arCryptors.getCount(); i++) {
-			if (arCryptors[i]->cryptor->uid == uid){
+	WORD uid = db_get_w(NULL, "SecureMMAP", "CryptoModule", 0);
+	if (uid != 0) {
+		for (int i = 0; i < arCryptors.getCount(); i++) {
+			if (arCryptors[i]->cryptor->uid == uid) {
 				CryptoEngine = arCryptors[i]->cryptor;
-				Found = 1;
-				break;
+				return 0;
 			}
 		}
-		if (!Found){
-			MessageBox(0, TranslateT("Crypto module hasn't been chosen, using first one found"), TranslateT("Notice"), MB_OK | MB_ICONINFORMATION);
-			DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
-			CryptoEngine = arCryptors[0]->cryptor;
-		}
 	}
 
+	db_set_w(NULL, "SecureMMAP", "CryptoModule", arCryptors[0]->cryptor->uid);
+	CryptoEngine = arCryptors[0]->cryptor;
 	return 0;
 }
 
@@ -319,7 +305,7 @@ void CDbxMmapSA::DecryptDB()
 
 	xModifyMenu(hSetPwdMenu, 0, LPGENT("Set Password"), 0);
 
-	DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
+	db_set_w(NULL, "SecureMMAP", "CryptoModule", 0);
 
 	CryptoEngine->FreeKey(key);
 
@@ -368,7 +354,7 @@ void CDbxMmapSA::ChangePwd()
 
 		m_bEncoding = 0;
 		CryptoEngine = NULL;
-		DBWriteContactSettingWord(NULL, "SecureMMAP", "CryptoModule", 0);
+		db_set_w(NULL, "SecureMMAP", "CryptoModule", 0);
 
 		zero_fill((BYTE *)encryptKey, sizeof encryptKey);
 
