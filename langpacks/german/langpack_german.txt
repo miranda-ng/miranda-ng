@@ -6748,6 +6748,8 @@ Wiederholen, Abbrechen
 Öffne 'Kontakt hinzufügen' Dialog
 [&Add Contact...]
 &Kontakt hinzufügen...
+[&Add contact...]
+&Kontakt hinzufügen...
 [Provides the ability to add contacts manually (without searching for them)]
 Erlaubt Kontakte manuell hinzuzufügen (ohne die Kontaktsuche dafür zu starten)
 ;Neue Beschreibung AddContact+
@@ -6763,7 +6765,7 @@ Stellt die Möglichkeit zur Verfügung, Kontakte ohne vorheriges Suchen zur Kont
 Dieser Kontakt konnte nicht hinzugefügt werden. Stellen Sie sicher, dass Sie mit dem entsprechenden Netzwerk verbunden sind. Überprüfen Sie ebenso, ob die Nutzer-ID korrekt eingegeben ist.
 
 [Add Contact\nAdd a contact to your contact list]
-Füge Kontakt hinzu\nFügt einen Kontakt in ihre Liste hinzu
+Kontakt hinzufügen\nFügt einen Kontakt in ihre Liste hinzu
 [Account:]
 Konto:
 [Add temporarily]
@@ -14033,14 +14035,12 @@ Benutzerdef. Aktion
 ; ##############################################
 ; End of langpack: History_Linklist_Plus
 ; ##############################################
-; Start of langpack: History_Sweeper (Letzte Änderung: 23:50, 5. Apr. 2011 )
-
-; Pluginname: History Sweeper
-; Version: 0.2.0.2
-; Dateiname: historysweeper.dll
-#muuid {4aa5eacc-ce9d-11db-b131-5e9956d89593}
-; Autor: Sergey V. Gershovich a.k.a. Jazzy$, borkra
-; Link: http://addons.miranda-im.org/details.php?action=viewfile&id=3291
+; Pluginname: History Sweeper Light
+; Version: 0.0.0.7
+; Dateiname: histyorysweeperlight.dll
+; Autor: tico-tico
+#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
+; Übersetzung: CHEF-KOCH 23.04.2011
 
 [History Sweeper]
 Verlauf löschen
@@ -14070,67 +14070,57 @@ Verlauf der ausgewählten Kontakte löschen:
 Verlauf beim Start löschen
 [Sweep history at Miranda shutdown]
 Verlauf beim Beenden löschen
-[Put an item in the main menu*]
-Menüpunkt im Hauptmenü einfügen*
-[Put an item in the contact menu*]
-Menüpunkt im Kontaktmenü einfügen*
-[Main menu action:]
-Eintrag im Hauptmenü:
-[At Startup/Shutdown:]
-Aktion beim Start/Beenden von Miranda NG:
+[Action 1]
+Aktion 1
+[Action 2]
+Aktion 2
+[Sweep on closing message window]
+Nach dem Schließen des Nachrichtenfenster löschen
+[Clicking on the icon in the status bar will change settings]
+Klick auf das Icon in der Statusleiste ändert die Einstellungen
 [Use UNSAFE mode (sweep fastest as possible, but dangerous for DB)]
 Schnellen Löschmodus aktivieren (hierbei können Schäden am Profil entstehen!)
-[* Note: Miranda NG will have to be restarted for changes to take effect.]
-* Hinweis: Bei Änderungen ist der Neustart von Miranda NG erforderlich.
 ; Time intervals
 [All events]
 Alle Ereignisse
-[Older than 1 Day]
-Älter als einen Tag
-[Older than 7 Days]
-Älter als eine Woche (7 Tage)
-[Older than 2 Weeks (14 days)]
-Älter als zwei Wochen (14 Tage)
-[Older than 1 Month (30 days)]
-Älter als einen Monat (30 Tage)
-[Older than 3 Months (90 days)]
-Älter als drei Monate (90 Tage)
-[Older than 6 Months (180 days)]
-Älter als sechs Monate (180 Tage)
-[Older than 1 Year (364 days)]
-Älter als ein Jahr (364 Tage)
-; strings found in translation_historysweeper.txt and auto added to lp
-[Older than 3 Days]
-Älter als 3 Tage
+[Delete older than 1 day]
+Älter als einen Tag löschen
+[Delete older than 3 days]
+Älter als 3 Tage löschen
+[Delete older than 7 days]
+Älter als eine Woche (7 Tage) löschen
+[Delete older than 2 weeks (14 days)]
+Älter als zwei Wochen (14 Tage) löschen
+[Delete older than 1 month (30 days)]
+Älter als einen Monat (30 Tage) löschen
+[Delete older than 3 months (90 days)]
+Älter als drei Monate (90 Tage) löschen
+[Delete older than 6 months (180 days)]
+Älter als sechs Monate (180 Tage) löschen
+[Delete older than 1 year (365 days)]
+Älter als ein Jahr (365 Tage) löschen
+[Keep 1 last event]
+1 letztes Ereignis behalten
+[Keep 2 last events]
+2 letzte Ereignisse behalten
+[Keep 5 last events]
+5 letzte Ereignisse behalten
+[Keep 10 last events]
+10 letzte Ereignisse behalten
+[Keep 20 last events]
+20 letzte Ereignisse behalten
+[Keep 50 last events]
+50 letzte Ereignisse behalten
 ; Plugin Infos History Sweeper
 [This plugin can sweep system history, history from all contacts or only from chosen; also it may sweep history older than certain time; and may do it at Miranda NG startup/shutdown.]
-Diese Plugin kann den Systemverlauf, den Verlauf aller Kontakte oder eines Kontakte löschen. Der Verlauf älter als ein Datum kann gelöscht werden. Der Verlauf kann beim Start/Beenden von Miranda NG gelöscht werden.
-[Sweep on closing message window]
-Nach dem schließen des Nachrichtenfenster löschen
-[Perform custom action on entry/exit]
-Eigene Aktion ausführen beim betreten/schließen
-[Custom Action:]
-Eigene Aktion:
-[Do not preserve any history]
-Keinen Verlauf aufbewahren
+Diese Plugin kann den Systemverlauf, den Verlauf aller Kontakte oder eines Kontaktes löschen. Der Verlauf älter als ein Datum kann gelöscht werden. Der Verlauf kann beim Start/Beenden von Miranda NG gelöscht werden.
 
-; ##############################################
-; End of langpack: History_Sweeper
-; ##############################################
-; Start of langpack: History_Sweeper_Light (Letzte Änderung: 11:46, 20. Nov. 2011 )
-
-; Pluginname: History Sweeper Light
-; Version: 0.0.0.7
-; Dateiname: histyorysweeperlight.dll
-; Autor: tico-tico
-#muuid {1d9bf74a-44a8-4b3f-a6e5-73069d3a8979}
-; Übersetzung: CHEF-KOCH 23.04.2011
 
 ;Tabsrmm Button
 [Keep all events]
-Behalte alle Ereignisse
-[keep all events]
-Behalte alle Ereignisse
+Alle Ereignisse behalten
+[Delete all events]
+Alle Ereignisse löschen
 
 ; ##############################################
 ; End of langpack: History_Sweeper_Light
@@ -30499,6 +30489,8 @@ Aktuellen Tab nach dem Senden schließen
 Automatisches Tastaturlayout: Lade nicht das Systemstandard-Layout für neue Kontakte
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Unbeaufsichtigtes Senden aktivieren (experimentell, benötigt für multisend und 'später senden' (*)
+[Show client description in info panel]
+Client-Beschreibung im Infobereich anzeigen
 
 [Error feedback]
 Fehlermeldung
