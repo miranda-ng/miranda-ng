@@ -243,7 +243,7 @@ static TCHAR tszMessage[] = _T("\
 Don\'t forget to click on Apply to save the changes. If you don\'t then the changes won\'t\r\n\
 be saved to the database, they will only be valid for this session.\r\n\r\n\
 Variable string\t\tWhat it expands to:\r\n\
-%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda im).\r\n\
+%miranda_path%\tExpands to your miranda path (e.g: c:\\program files\\miranda ng).\r\n\
 %profile_path%\t\tExpands to your profile path - the value found in mirandaboot.ini,\r\n\
 \t\t\tProfileDir section (usually inside miranda\'s folder).\r\n\
 %current_profile%\tExpands to your current profile name without the extenstion.\r\n\
@@ -256,15 +256,15 @@ example, %profile_path% defined as a system variable then it will be expanded to
 instead of expanding to Miranda’s profile path.\r\n\r\n\
 Examples:\r\n\
 If the value for the ProfileDir inside mirandaboot.ini, ProfileDir section is \'.\\profiles\\', current\r\n\
-profile is \'default.dat\' and miranda\'s path is \'c:\\program files\\miranda im\\' then:\r\n\
-%miranda_path%\t\t\twill expand to \'c:\\program files\\miranda im\\'\r\n\
-%profile_path%\t\t\twill expand to \'c:\\program files\\miranda im\\profiles\\'\r\n\
+profile is \'default.dat\' and miranda\'s path is \'c:\\program files\\miranda ng\\' then:\r\n\
+%miranda_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\'\r\n\
+%profile_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\profiles\\'\r\n\
 %current_profile%\t\t\twill expand to \'default\'\r\n\
 %temp%\t\t\t\twill expand to the temp folder of the current user.\r\n\
-%profile_path%\\%current_profile%\twill expand to \'c:\\program files\\miranda im\\profiles\\default\\'\r\n\
-%miranda_path%\\plugins\\config\twill expand to \'c:\\program files\\miranda im\\plugins\\config\\'\r\n\
-\'   %miranda_path%\\\\\\\\     \'\t\twill expand to \'c:\\program files\\miranda im\\'\r\n\
-notice that the spaces at the beginning and the end of the string are trimmed, as well as the last");
+%profile_path%\\%current_profile%\twill expand to \'c:\\program files\\miranda ng\\profiles\\default\\'\r\n\
+%miranda_path%\\plugins\\config\twill expand to \'c:\\program files\\miranda ng\\plugins\\config\\'\r\n\
+%miranda_path%\t\t\twill expand to \'c:\\program files\\miranda ng\\'\r\n\r\n\
+Notice that the spaces at the beginning and the end of the string are trimmed, as well as the last.");
 
 INT_PTR CALLBACK DlgProcVariables(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
