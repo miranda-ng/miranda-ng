@@ -167,7 +167,7 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 									else if(month == now.date().month())
 									{
 										mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
-										int day = _ttoi(buf);
+										unsigned day = _ttoi(buf);
 										if(day <= now.date().day_number())
 											expired = true;
 									}
@@ -784,7 +784,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			}
 			if(_waccess(gpg_lang_path, 0) != -1)
 				lang_exists = true;
-			if(gpg_exists && !lang_exists) //TODO: check gpg version
+			if(gpg_exists && !lang_exists)
 				MessageBox(0, TranslateT("gpg binary found in miranda folder, but english locale does not exists.\nit's highly recommended to place \\gnupg.nls\\en@quot.mo in gnupg folder under miranda root.\nwithout this file you may expirense many problem with gpg output on non english systems.\nand plugin may completely do not work.\nyou have beed warned."), TranslateT("Warning"), MB_OK);
 			mir_free(gpg_path);
 			mir_free(gpg_lang_path);
@@ -795,15 +795,15 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szGpgBinPath", (SHGetValue(HKEY_CURRENT_USER, _T("Software\\GNU\\GnuPG"), _T("gpgProgram"), 0, path, &len) == ERROR_SUCCESS)?path:_T(""));
 			if(tmp[0])
 			{
-				char *mir_path = new char [MAX_PATH];
-				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
-				SetCurrentDirectoryA(mir_path);
-				delete [] mir_path;
 				if(_waccess(tmp, 0) == -1)
 				{
 					if(errno == ENOENT)
 						MessageBox(0, TranslateT("wrong gpg binary location found in system.\nplease choose another location"), TranslateT("Warning"), MB_OK);
 				}
+/*				char *mir_path = (char*)mir_alloc(MAX_PATH);
+				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+				SetCurrentDirectoryA(mir_path);
+				mir_free(mir_path); */
 			}
 		}
 		else
@@ -811,7 +811,7 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 		mir_free(path);
 		SetDlgItemText(hwndDlg, IDC_BIN_PATH, tmp);
 		bool bad_version = false;
-		if(gpg_exists && lang_exists)
+		if(gpg_exists/* && lang_exists*/)
 		{
 			DBWriteContactSettingTString(NULL, szGPGModuleName, "szGpgBinPath", tmp);
 			string out;
@@ -846,20 +846,36 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 			else
 			{
 				bad_version = false;
-				MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
+				MessageBox(0, TranslateT("This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Error"), MB_OK);
 			}
 			if(bad_version)
 				MessageBox(0, TranslateT("Unsupported gnupg version found, use at you own risk!\nrecommended to use GnuPG v1.x.x with this plugn."), TranslateT("Warning"), MB_OK);
 		}
 		mir_free(tmp);
-		if(!gpg_exists)
 		{
-			wstring path_ = _wgetenv(_T("APPDATA"));
-			path_ += _T("\\GnuPG");
-			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", (TCHAR*)path_.c_str());
+			tmp = UniGetContactSettingUtf(NULL, szGPGModuleName, "szHomePath", _T(""));
+			if(!tmp[0])
+			{
+				mir_free(tmp);
+				char *mir_path = (char*)mir_alloc(sizeof(char) * MAX_PATH);
+				CallService(MS_UTILS_PATHTOABSOLUTE, (WPARAM)"\\", (LPARAM)mir_path);
+				strcat(mir_path, "\\gpg");
+				if(_access(mir_path, 0) != -1)
+				{
+					tmp = mir_wstrdup(toUTF16(mir_path).c_str());
+					MessageBox(0, TranslateT("found \"gpg\" directory in MIranda root.\nassuming it's gpg home directory.\ngpg home directory set."), TranslateT("Info"), MB_OK);
+				}
+				else
+				{
+					wstring path_ = _wgetenv(_T("APPDATA"));
+					path_ += _T("\\GnuPG");
+					tmp = mir_wstrdup(path_.c_str());
+				}
+			}
 			SetDlgItemText(hwndDlg, IDC_HOME_DIR, !gpg_exists?tmp:_T("gpg"));
 			mir_free(tmp);
 		}
+		//TODO: additional check for write access
 		if(gpg_exists && lang_exists && !bad_version)
 			MessageBox(0, TranslateT("Your GPG version is supported. The language file was found.\nGPG plugin should work fine.\nPress OK to continue."), TranslateT("Info"), MB_OK);
 		extern bool bIsMiranda09;
@@ -2174,7 +2190,7 @@ void InitCheck()
 							else if(month == now.date().month())
 							{
 								mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
-								int day = _ttoi(buf);
+								unsigned day = _ttoi(buf);
 								if(day <= now.date().day_number())
 									expired = true;
 							}
@@ -2238,7 +2254,7 @@ void InitCheck()
 					else if(month == now.date().month())
 					{
 						mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
-						int day = _ttoi(buf);
+						unsigned day = _ttoi(buf);
 						if(day <= now.date().day_number())
 							expired = true;
 					}
