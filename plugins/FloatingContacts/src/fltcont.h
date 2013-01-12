@@ -152,7 +152,7 @@ static __forceinline BOOL ImageList_GetIconSize_my(HIMAGELIST himl, SIZE &sz)
 void RegHotkey				( HANDLE hContact, HWND hwnd );
 BOOL IsStatusVisible		( int status );
 BOOL HideOnFullScreen		();
-void SendMsgDialog			( HWND hwnd, char *pText );
+void SendMsgDialog			( HWND hwnd, TCHAR *pText );
 void SaveContactsPos		( void );
 
 /////////////////////////////////////////////////////////////////////////////

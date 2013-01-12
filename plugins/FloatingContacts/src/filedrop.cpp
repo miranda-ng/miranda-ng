@@ -49,21 +49,20 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragOver( DWORD fKeyState, POINTL pt, DWO
 
 HRESULT STDMETHODCALLTYPE CDropTarget::DragEnter( IDataObject *pData, DWORD fKeyState, POINTL pt, DWORD *pdwEffect)
 {
-	HWND		hwnd	 =  NULL;
-	POINT		shortPt;
 	FORMATETC	feFile	 =  { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 	FORMATETC	feText	 =  { CF_TEXT, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-	ThumbInfo *pThumb;
 
 	if ( S_OK == pData->QueryGetData( &feFile ) ||
 		 S_OK == pData->QueryGetData( &feText ))
 	{
-		shortPt.x	 =  pt.x; 
-		shortPt.y	 =  pt.y;
+		POINT shortPt;
+		shortPt.x = pt.x; 
+		shortPt.y = pt.y;
 		
-		hwnd = WindowFromPoint( shortPt );
+		HWND hwnd = WindowFromPoint( shortPt );
 		
-		if ( pThumb = thumbList.FindThumb( hwnd ))
+		ThumbInfo *pThumb = thumbList.FindThumb(hwnd);
+		if (pThumb)
 		{
 			hwndCurDrag = hwnd;
 			pThumb->ThumbSelect( TRUE );
@@ -91,67 +90,61 @@ HRESULT STDMETHODCALLTYPE CDropTarget::DragLeave( )
 
 HRESULT STDMETHODCALLTYPE CDropTarget::Drop( IDataObject *pData,DWORD fKeyState,POINTL pt,DWORD *pdwEffect)
 {
-	FORMATETC	fe		 =  { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
-	STGMEDIUM	stg;
-	HDROP		hDrop		 =  NULL;
-	ThumbInfo	*pThumb		 =  NULL;
-	char		*pText		 =  NULL;
-	BOOL		bFormatText = FALSE;
+	FORMATETC fe = { CF_HDROP, NULL, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
 
 	*pdwEffect = DROPEFFECT_NONE;
 	
+	if (hwndCurDrag == NULL)
+		return S_OK;
 
-	if ( hwndCurDrag == NULL ) return( S_OK );
+	ThumbInfo *pThumb = (ThumbInfo*) GetWindowLongPtr( hwndCurDrag, GWLP_USERDATA );
+	if (pThumb == NULL)
+		return S_OK;
 
-	pThumb	 =  (ThumbInfo*)GetWindowLongPtr( hwndCurDrag, GWLP_USERDATA );
-	if ( pThumb == NULL ) return( S_OK );
-
-	if ( S_OK != pData->GetData( &fe,&stg ))
+	STGMEDIUM stg;
+	bool bFormatText = false;
+	if ( S_OK != pData->GetData(&fe,&stg))
 	{
-		fe.cfFormat = CF_TEXT;
+		fe.cfFormat = CF_UNICODETEXT;
 
-		if ( S_OK != pData->GetData( &fe,&stg ))
+		if ( S_OK != pData->GetData(&fe,&stg))
 		{
-			return( S_OK );
+			return S_OK;
 		}
 		else
 		{
-			bFormatText = TRUE;
+			bFormatText = true;
 		}
 	}
-		
 	
-
-	if ( !bFormatText )
+	if (!bFormatText)
 	{
-		hDrop	 =  (HDROP)stg.hGlobal;
-		
-		if ( hDrop != NULL )
+		HDROP hDrop = (HDROP) stg.hGlobal;
+		if (hDrop != NULL)
 		{
-			OnDropFiles( hDrop, pThumb );
+			OnDropFiles(hDrop, pThumb);
 		}
 	}
 	else
 	{
-		pText = (char*)GlobalLock( stg.hGlobal );
-
-		if ( pText != NULL  )
+		TCHAR *pText = (TCHAR*) GlobalLock(stg.hGlobal);
+		if (pText != NULL)
 		{
-			SendMsgDialog( hwndCurDrag, pText );
-			GlobalUnlock( stg.hGlobal );
+			SendMsgDialog(hwndCurDrag, pText);
+			GlobalUnlock(stg.hGlobal);
 		}
 	}
 
-	if ( stg.pUnkForRelease != NULL )
+	if (stg.pUnkForRelease != NULL)
 	{
-		stg.pUnkForRelease->Release( );
+		stg.pUnkForRelease->Release();
 	}
 	else 
 	{
-		GlobalFree( stg.hGlobal );
+		GlobalFree(stg.hGlobal);
 	}
 
-	DragLeave( );
+	DragLeave();
 	
 	return S_OK;
 }
@@ -161,63 +154,55 @@ HRESULT STDMETHODCALLTYPE CDropTarget::Drop( IDataObject *pData,DWORD fKeyState,
 
 BOOL OnDropFiles( HDROP hDrop, ThumbInfo *pThumb )
 {
-	BOOL	bSuccess			 =  FALSE;
-	UINT	nFilesCount			 =  0;
-	UINT	iItem				 =  0;
-	char	**ppFiles			 =  NULL;	
-	char	**ppDroppedItems	 =  NULL;
-	UINT	nDroppedItemsCount	 =  0;
-	char	szFilename[ MAX_PATH ];
-	
+	UINT nDroppedItemsCount = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, 0 );
 
-	nDroppedItemsCount = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, 0 );
-
-	ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1 ));
+	char **ppDroppedItems = ( char** )malloc( sizeof(char*)*( nDroppedItemsCount + 1 ));
 	
 	if ( ppDroppedItems == NULL )
 	{
-		return( FALSE );
+		return FALSE;
 	}
 
 	ppDroppedItems[ nDroppedItemsCount ] = NULL;
 	
-	for ( iItem = 0; iItem < nDroppedItemsCount; ++iItem ) 
+	char  szFilename[ MAX_PATH ];
+	for (UINT iItem = 0; iItem < nDroppedItemsCount; ++iItem ) 
 	{
 		DragQueryFileA( hDrop, iItem, szFilename, sizeof( szFilename ));
 		ppDroppedItems[ iItem ] = _strdup( szFilename );
 	}
 	
-	nFilesCount = CountDroppedFiles( ppDroppedItems, nDroppedItemsCount );
+	UINT nFilesCount = CountDroppedFiles( ppDroppedItems, nDroppedItemsCount );
 	
-	ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1 ));
+	char **ppFiles = ( char** )malloc( sizeof( char *)* ( nFilesCount+1 ));
 	
 	if ( ppFiles == NULL )
 	{
-		return( FALSE );
+		return FALSE;
 	}
 	
 	ppFiles[ nFilesCount] = NULL;
 
 	ProcessDroppedItems( ppDroppedItems, nDroppedItemsCount, ppFiles );
 
-	bSuccess = (BOOL)CallService( MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles ); 
+	BOOL bSuccess = (BOOL)CallService( MS_CLIST_CONTACTFILESDROPPED, (WPARAM)pThumb->hContact, (LPARAM)ppFiles ); 
 
 	// Cleanup
-	for ( iItem = 0; ppDroppedItems[ iItem ]; ++iItem ) 
+	for (UINT iItem = 0; ppDroppedItems[ iItem ]; ++iItem ) 
 	{
 		free( ppDroppedItems[ iItem ] );
 	}
 
 	free( ppDroppedItems );
 
-	for ( iItem = 0; iItem < nFilesCount ; ++iItem ) 
+	for (UINT iItem = 0; iItem < nFilesCount ; ++iItem ) 
 	{
 		free( ppFiles[ iItem ] );
 	}
 
 	free( ppFiles );
 
-	return( bSuccess );
+	return bSuccess;
 }
 
 
@@ -259,16 +244,14 @@ static int CountFiles( char *szItem )
 		while( FALSE != FindNextFileA( hFind, &fd ));
 	}
 
-	return( nCount );
+	return nCount;
 }
 
 
 
 static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 {
-	
-	WIN32_FIND_DATAA	fd;
-
+	WIN32_FIND_DATAA fd;
 	HANDLE hFind = FindFirstFileA( szItem, &fd );
 
 	if ( hFind != INVALID_HANDLE_VALUE )
@@ -321,10 +304,9 @@ static void SaveFiles( char *szItem, char **ppFiles, int *pnCount )
 
 static void ProcessDroppedItems( char **ppDroppedItems, int nCount, char **ppFiles  )
 {
-	int i;
 	int fileCount = 0;
 
-	for ( i = 0; i < nCount; ++i )
+	for (int i = 0; i < nCount; ++i )
 	{
 		SaveFiles( ppDroppedItems[ i ], ppFiles, &fileCount );
 	}
@@ -334,14 +316,13 @@ static void ProcessDroppedItems( char **ppDroppedItems, int nCount, char **ppFil
 static int CountDroppedFiles( char **ppDroppedItems, int nCount  )
 {
 	int fileCount = 0;
-	int i;
 	
-	for ( i = 0; i < nCount; ++i )
+	for (int i = 0; i < nCount; ++i )
 	{
 		fileCount += CountFiles( ppDroppedItems[ i ] );
 	}
 
-	return( fileCount );
+	return fileCount;
 }
 
 

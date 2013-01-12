@@ -554,19 +554,18 @@ static void LoadDBSettings()
 		bIsCListShow = (DBGetContactSettingByte(NULL, "CList", "State", 0) == 2);
 }
 
-void SendMsgDialog( HWND hwnd, char *pText )
+void SendMsgDialog( HWND hwnd, TCHAR *pText )
 {
 	ThumbInfo *pThumb = thumbList.FindThumb( hwnd );
 
 	if ( pThumb != NULL )
-		CallService( MS_MSG_SENDMESSAGE, (WPARAM)pThumb->hContact, (LPARAM)pText );
+		CallService( MS_MSG_SENDMESSAGET, (WPARAM)pThumb->hContact, (LPARAM)pText );
 }
 
 
 static void ShowContactMenu( HWND hwnd, POINT pt )
 {
 	ThumbInfo	*pThumb		 =  thumbList.FindThumb( hwnd );
-	int			idCommand	 =  0;
 
 	if ( pThumb != NULL )
 	{
@@ -574,7 +573,7 @@ static void ShowContactMenu( HWND hwnd, POINT pt )
 
 		if ( hContactMenu == NULL ) return;
 
-		idCommand = TrackPopupMenu( hContactMenu, TPM_RIGHTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0 , hwnd, NULL );
+		int idCommand = TrackPopupMenu( hContactMenu, TPM_RIGHTALIGN | TPM_TOPALIGN | TPM_RETURNCMD, pt.x, pt.y, 0 , hwnd, NULL );
 		CallService( MS_CLIST_MENUPROCESSCOMMAND, MAKEWPARAM( idCommand , MPCF_CONTACTMENU), (LPARAM)pThumb->hContact );
 	}
 }
