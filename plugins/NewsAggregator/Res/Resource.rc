@@ -13,13 +13,6 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// Русский (Россия) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
-LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
-#pragma code_page(1251)
-
-/////////////////////////////////////////////////////////////////////////////
 //
 // Icon
 //
@@ -44,7 +37,7 @@ STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD
 EXSTYLE WS_EX_CONTROLPARENT
 FONT 8, "MS Shell Dlg", 0, 0, 0x1
 BEGIN
-    CONTROL         "",IDC_FEEDLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_TABSTOP,9,8,294,174
+    CONTROL         "",IDC_FEEDLIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,9,8,294,174
     PUSHBUTTON      "Add",IDC_ADD,79,187,50,14
     PUSHBUTTON      "Change",IDC_CHANGE,133,187,50,14
     PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
@@ -132,11 +125,6 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
-
-#endif    // Русский (Россия) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

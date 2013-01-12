@@ -256,7 +256,7 @@ VOID CreateList(HWND hwndList)
 
 	lvc.iSubItem = 1;
 	lvc.pszText = TranslateT("URL");	
-	lvc.cx = 280;     // width of column in pixels
+	lvc.cx = 276;     // width of column in pixels
 	ListView_InsertColumn(hwndList, 1, &lvc);
 }
 
