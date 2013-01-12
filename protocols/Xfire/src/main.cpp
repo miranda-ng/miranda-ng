@@ -132,7 +132,7 @@ PLUGININFOEX pluginInfoEx={
 		sizeof(PLUGININFOEX),
 		"Xfire protocol",
 		PLUGIN_MAKE_VERSION(0,1,8,4),
-		"Xfire Protocol Plugin by dufte",
+		"Xfire protocol support for Miranda NG.",
 		"dufte",
 		"dufte@justmail.de",
 		"(c) 2012 Xfirelib by Herbert Poul, Xfire Miranda protocol plugin by dufte",

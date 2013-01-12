@@ -7,7 +7,7 @@
 
 #define __PLUGIN_NAME				"AIM protocol"
 #define __FILENAME					"AIM.dll"
-#define __DESCRIPTION 				"Provides support for AOL Instant Messenger (AIM) protocol."
+#define __DESCRIPTION 				"AOL Instant Messenger (AIM) protocol support for Miranda NG."
 #define __AUTHOR					"Boris Krasnovskiy, Aaron Myles Landwehr"
 #define __AUTHOREMAIL				"borkra@miranda-im.org"
 #define __AUTHORWEB					"http://miranda-ng.org/"

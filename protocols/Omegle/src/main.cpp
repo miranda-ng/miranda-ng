@@ -35,7 +35,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Omegle Protocol",
 	__VERSION_DWORD,
-	"Provides basic support for Omegle Chat protocol.",
+	"Omegle protocol support for Miranda NG.",
 	"Robert Posel",
 	"robyer@seznam.cz",
 	"(c) 2011-12 Robert Posel",

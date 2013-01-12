@@ -4,8 +4,8 @@
 ;  Module: mail.ru Agent
 ;  Versions: 1.14.1.0
 ;============================================================
-[Provides support for Mail.ru agent Instant Messenger protocol.]
-Модуль протокола Mail.ru Агент.
+[Mail.ru Агент (MRA) protocol support for Miranda NG.]
+Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
 [Display &Inbox]
 Открыть входящие
 [Display &Inbox status]

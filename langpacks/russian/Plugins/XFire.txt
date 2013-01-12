@@ -5,6 +5,8 @@
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3701
 ;  URL: http://addons.miranda-im.org/details.php?action=viewfile&id=3741  (icons)
 ;============================================================
+[Xfire protocol support for Miranda NG.]
+Поддержка протокола XFire в Miranda NG.
 [XFire Protocol]
 Протокол XFire
 [Loginname:]

@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Skype Protocol"
 #define __INTERNAL_NAME				"Skype"
 #define __FILENAME					"Skype.dll"
-#define __DESCRIPTION 				"Provides basic support for Skype protocol."
+#define __DESCRIPTION 				"Skype protocol support for Miranda NG."
 #define __AUTHOR					"Unsane, Mataes"
 #define __AUTHOREMAIL				"mataes2007@gmail.com"
 #define __AUTHORWEB					"http://miranda-ng.org/"

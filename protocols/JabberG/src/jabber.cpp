@@ -49,7 +49,7 @@ PLUGININFOEX pluginInfo = {
 	sizeof(PLUGININFOEX),
 	"Jabber Protocol",
 	__VERSION_DWORD,
-	"Jabber protocol plugin for Miranda NG.",
+	"Jabber protocol support for Miranda NG.",
 	"George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
 	"ghazan@miranda-im.org",
 	"(c) 2005-2012 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",

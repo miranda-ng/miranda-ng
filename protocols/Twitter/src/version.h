@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Twitter"
 #define __INTERNAL_NAME				"Twitter"
 #define __FILENAME					"Twitter.dll"
-#define __DESCRIPTION 				"Twitter protocol plugin for Miranda NG."
+#define __DESCRIPTION 				"Twitter protocol support for Miranda NG."
 #define __AUTHOR					"dentist, omniwolf, Thief"
 #define __AUTHOREMAIL				""
 #define __AUTHORWEB					"http://miranda-ng.org/"

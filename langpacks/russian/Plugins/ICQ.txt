@@ -174,8 +174,8 @@
 
 ;-МОДУЛИ-
 
-[Support for ICQ network, enhanced.]
-Расширенная поддержка сети ICQ.
+[ICQ protocol support for Miranda NG.]
+Поддержка протокола ICQ в Miranda NG.
 
 ;  -СПИСОК КОНТАКТОВ-ЭКСТРАЗНАЧКИ-
 

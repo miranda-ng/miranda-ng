@@ -7,7 +7,7 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	PROTOCOL_DISPLAY_NAME_ORIGA,
 	__VERSION_DWORD,
-	"Provides support for Mail.ru agent Instant Messenger protocol.",
+	"Mail.ru Агент (MRA) protocol support for Miranda NG.",
 	"Rozhuk Ivan",
 	"Rozhuk_I@mail.ru",
 	"© 2006-2011 Rozhuk Ivan",

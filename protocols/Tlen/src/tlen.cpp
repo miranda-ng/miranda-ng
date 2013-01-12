@@ -45,7 +45,7 @@ PLUGININFOEX pluginInfoEx = {
 	sizeof(PLUGININFOEX),
 	"Tlen Protocol",
 	PLUGIN_MAKE_VERSION(TLEN_MAJOR_VERSION,TLEN_MINOR_VERSION,TLEN_RELEASE_NUM,TLEN_BUILD_NUM),
-	"Tlen protocol plugin for Miranda NG.",
+	"Tlen protocol support for Miranda NG.",
 	"Santithorn Bunchua, Adam Strzelecki, Piotr Piastucki",
 	"the_leech@users.berlios.de",
 	"(c) 2002-2012 Santithorn Bunchua, Piotr Piastucki",

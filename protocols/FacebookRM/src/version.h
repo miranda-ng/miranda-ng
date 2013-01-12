@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Facebook RM"
 #define __INTERNAL_NAME				"Facebook RM"
 #define __FILENAME					"Facebook.dll"
-#define __DESCRIPTION 				"Facebook protocol plugin for Miranda NG."
+#define __DESCRIPTION 				"Facebook protocol support for Miranda NG."
 #define __AUTHOR					"Michal Zelinka, Robert Posel"
 #define __AUTHOREMAIL				"robyer@seznam.cz"
 #define __AUTHORWEB					"http://miranda-ng.org/"

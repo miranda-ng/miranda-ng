@@ -4,7 +4,7 @@
 ;  Module: Yahoo Protocol
 ;  Versions: 0.3.0.9, 0.8.2.0
 ;============================================================
-[Yahoo Protocol support via libyahoo2 library.]
+[Yahoo Protocol support for Miranda NG.]
 Поддержка протокола Yahoo в Miranda NG.
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
 Изменения вступят при следующем входе в сеть Yahoo.

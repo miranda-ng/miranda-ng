@@ -11,7 +11,7 @@ PLUGININFOEX pluginInfo={
 	sizeof(PLUGININFOEX),
 	"E-mage LAN Protocol",
 	VER,
-	"Communicating over LAN using UDP protocol",
+	"E-mage LAN protocol support for Miranda NG.",
 	"kva",
 	"kva@fromru.com",
 	"Viktor Kuzmin of e-mage",

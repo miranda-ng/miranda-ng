@@ -7,13 +7,12 @@
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/AimOscar/
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-; protocols/AimOscar/aim.rc
 [(seconds)]
 (секунды)
 [*Aim must be reconnected  for some option to take effect.]
 *AIM должен быть переподключён, чтобы изменения вступили в силу.
-[Provides support for AOL Instant Messenger (AIM) protocol.]
-Поддержка протокола AIM в Miranda NG.
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
+Поддержка протокола AOL Instant Messenger (AIM) в Miranda NG.
 [AIM Account Setup]
 Настройки учётной записи AIM
 [AIM Instant Idler]

@@ -90,6 +90,9 @@
     <ClInclude Include="src\ui_utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\version.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Docs\IRC_servers.ini">

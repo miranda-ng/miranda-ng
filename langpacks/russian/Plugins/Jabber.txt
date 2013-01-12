@@ -9,8 +9,8 @@
 ;============================================================
 
 ;  Страницы опций
-[Jabber protocol plugin for Miranda NG.]
-Модуль протокола Jabber.
+[Jabber protocol support for Miranda NG.]
+Поддержка протокола Jabber в Miranda NG.
 
 ;  СЕТЬ
 ;  Название учетной записи Jabber

@@ -7,7 +7,7 @@
 ;  Source: http://miranda-plugins.googlecode.com/svn/trunk/FacebookRM/
 ;  Authors: Robyer
 ;============================================================
-[Facebook protocol plugin for Miranda NG.]
+[Facebook protocol support for Miranda NG.]
 Поддержка протокола Facebook в Miranda NG.
 [Default group for newly added contacts:]
 Добавлять контакты в группу:

@@ -30,7 +30,7 @@ PLUGININFOEX pluginInfo={
 		sizeof(PLUGININFOEX),
 		"Yahoo Protocol",
 		__VERSION_DWORD,
-		"Yahoo Protocol support via libyahoo2 library.",
+		"Yahoo Protocol support for Miranda NG.",
 		"Gennady Feldman",
 		"gena01@miranda-im.org",
 		"© 2003-2010 Gennady Feldman, Laurent Marechal",

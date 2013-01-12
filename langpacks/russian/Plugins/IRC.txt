@@ -7,8 +7,8 @@
 ;  Source: http://miranda.googlecode.com/svn/trunk/miranda/protocols/IRCG/
 ;  Authors: Miranda team
 ;============================================================
-[IRC protocol for Miranda NG.]
-Поддержка протокола IRC для Miranda NG.
+[Internet Relay Chat (IRC) protocol support for Miranda NG.]
+Поддержка протокола Internet Relay Chat (IRC) в Miranda NG.
 [CTCP chat request from %s]
 Запрос СТСР-чата от %s
 [CTCP ERROR: Malformed CTCP command received from %s!%s@%s. Possible attempt to take control of your irc client registered]
