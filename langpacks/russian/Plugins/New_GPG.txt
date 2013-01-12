@@ -1,4 +1,5 @@
-﻿;============================================================ 
+﻿#muuid {4227c050-8d97-48d2-91ec-6a952b3dab94}
+;============================================================ 
 ;  File: New_GPG.dll 
 ;  Plugin: New GPG encryption support plugin, based on code from old GPG plugin and SecureIM 
 ;  Versions: 0.9.0.0 
@@ -144,3 +145,7 @@
 Включить подпись сообщений присутствия (Jabber)
 [GPG encryption status]
 Статус шифрования GPG
+[Continue]
+Продолжить
+[Key Generation dialog]
+Создание приватного ключа
