@@ -356,13 +356,13 @@ int onProtoAck(WPARAM w, LPARAM l)
 								dbsetting += keyid;
 								dbsetting += "_Password";
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-								if(_tcslen(pass) > 0)
+								if(_tcslen(pass) > 0 && bDebugLog)
 									debuglog<<std::string(time_str()+": info: found password in database for key id: "+keyid+", trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 							}
 							else
 							{
 								pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-								if(_tcslen(pass) > 0)
+								if(_tcslen(pass) > 0 && bDebugLog)
 									debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 							}
 							if(_tcslen(pass) > 0)
@@ -373,12 +373,13 @@ int onProtoAck(WPARAM w, LPARAM l)
 							}
 							else if(password)
 							{
-								debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with password");
 								cmd += _T("--passphrase \"");
 								cmd += password;
 								cmd += _T("\" ");
 							}
-							else
+							else if (bDebugLog)
 								debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" with out password");
 							mir_free(pass);
 							mir_free(keyid);
@@ -398,7 +399,8 @@ int onProtoAck(WPARAM w, LPARAM l)
 							delete gpg_thread;
 							TerminateProcess(params.hProcess, 1);
 							params.hProcess = NULL;
-							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 							return 0;
 						}
 						while(out.find("public key decryption failed: bad passphrase") != string::npos)
@@ -406,7 +408,8 @@ int onProtoAck(WPARAM w, LPARAM l)
 							extern bool _terminate;
 							extern HANDLE new_key_hcnt;
 							extern boost::mutex new_key_hcnt_mutex;
-							debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" password needed, trying to get one");
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": info: failed to decrypt messaage from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR))+" password needed, trying to get one");
 							if(_terminate)
 								break;
 							{ //save inkey id
@@ -426,7 +429,8 @@ int onProtoAck(WPARAM w, LPARAM l)
 							wstring cmd2 = cmd;
 							if(password)
 							{
-								debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)));
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": info: found password in memory, trying to decrypt message from "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)ack->hContact, GCDNF_TCHAR)));
 								wstring tmp = _T("--passphrase \"");
 								tmp += password;
 								tmp += _T("\" ");
@@ -446,7 +450,8 @@ int onProtoAck(WPARAM w, LPARAM l)
 								delete gpg_thread;
 								TerminateProcess(params.hProcess, 1);
 								params.hProcess = NULL;
-								debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 								//DeleteFile(filename);
 								return 0;
 							}
@@ -537,7 +542,8 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 		delete gpg_thread;
 		TerminateProcess(params.hProcess, 1);
 		params.hProcess = NULL;
-		debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+		if(bDebugLog)
+			debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 		return 0;
 	}
 	if(out.find("There is no assurance this key belongs to the named user") != string::npos)
@@ -553,7 +559,8 @@ std::wstring encrypt_file(HANDLE hContact, TCHAR *filename)
 				delete gpg_thread;
 				TerminateProcess(params.hProcess, 1);
 				params.hProcess = NULL;
-				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				if(bDebugLog)
+					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				return 0;
 			}
 		}
@@ -769,7 +776,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 				{
 					if(errno == ENOENT)
 					{
-						debuglog<<std::string(time_str()+": info: Failed to write prescense in file");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": info: Failed to write prescense in file");
 						return FALSE;
 					}
 				}
@@ -799,13 +807,13 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 							dbsetting += inkeyid;
 							dbsetting += "_Password";
 							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, dbsetting.c_str(), _T(""));
-							if(pass[0])
+							if(pass[0] && bDebugLog)
 								debuglog<<std::string(time_str()+": info: found password in database for key id: "+inkeyid+", trying to encrypt message from self with password");
 						}
 						else
 						{
 							pass = UniGetContactSettingUtf(NULL, szGPGModuleName, "szKeyPassword", _T(""));
-							if(pass[0])
+							if(pass[0] && bDebugLog)
 								debuglog<<std::string(time_str()+": info: found password for all keys in database, trying to encrypt message from self with password");
 						}
 						if(pass[0])
@@ -816,12 +824,13 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						}
 						else if(password)
 						{
-							debuglog<<std::string(time_str()+": info: found password in memory, trying to encrypt message from self with password");
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": info: found password in memory, trying to encrypt message from self with password");
 							cmd += _T("--passphrase \"");
 							cmd += password;
 							cmd += _T("\" ");
 						}
-						else
+						else if (bDebugLog)
 							debuglog<<std::string(time_str()+": info: passwords not found in database or memory, trying to encrypt message from self with out password");
 						mir_free(pass);
 						mir_free(inkeyid);
@@ -848,7 +857,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
 					}
 					DeleteFile(path_out.c_str());
 					path_out += _T(".asc");
@@ -868,7 +878,8 @@ static JABBER_HANDLER_FUNC SendHandler(IJabberInterface *ji, HXML node, void *pU
 					}
 					if(data.empty())
 					{
-						debuglog<<std::string(time_str()+": info: Failed to read prescense sign from file");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": info: Failed to read prescense sign from file");
 						return FALSE;
 					}
 					if(data.find(_T("-----BEGIN PGP SIGNATURE-----")) != wstring::npos && data.find(_T("-----END PGP SIGNATURE-----")) != wstring::npos)
@@ -983,7 +994,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 							if(errno == ENOENT)
 							{
 //								sign_file_mutex.unlock();
-								debuglog<<std::string(time_str()+": info: Failed to write sign in file");
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": info: Failed to write sign in file");
 								return FALSE;
 							}
 						}
@@ -1009,7 +1021,8 @@ static JABBER_HANDLER_FUNC PrescenseHandler(IJabberInterface *ji, HXML node, voi
 								gpg_thread.~thread();
 								TerminateProcess(params.hProcess, 1);
 								params.hProcess = NULL;
-								debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+								if(bDebugLog)
+									debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 								return FALSE;
 							}
 							if(result == pxNotFound)
@@ -1086,7 +1099,8 @@ bool isContactSecured(HANDLE hContact)
 	BYTE gpg_enc = DBGetContactSettingByte(hContact, szGPGModuleName, "GPGEncryption", 0);
 	if(!gpg_enc)
 	{
-		debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+		if(bDebugLog)
+			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 		return false;
 	}
 	if(!metaIsProtoMetaContacts(hContact))
@@ -1095,12 +1109,14 @@ bool isContactSecured(HANDLE hContact)
 		if(!key[0])
 		{
 			mir_free(key);
-			debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": encryption is turned off for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 			return false;
 		}
 		mir_free(key);
 	}
-	debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
+	if(bDebugLog)
+		debuglog<<std::string(time_str()+": encryption is turned on for "+toUTF8((TCHAR*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, GCDNF_TCHAR)));
 	return true;
 }
 
@@ -1181,7 +1197,8 @@ bool isGPGValid()
 			gpg_thread.~thread();
 			TerminateProcess(params.hProcess, 1);
 			params.hProcess = NULL;
-			debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 		}
 		gpg_valid = false;
 		string::size_type p1 = out.find("(GnuPG) ");
@@ -1296,7 +1313,8 @@ string toUTF8(wstring str)
 	}
 	catch(const utf8::exception& e)
 	{
-		debuglog<<std::string("utf8cpp encoding exception: ")+(char*)e.what();
+		if(bDebugLog)
+			debuglog<<std::string("utf8cpp encoding exception: ")+(char*)e.what();
 	    //TODO
 	}
 	return ustr;
@@ -1314,7 +1332,8 @@ wstring toUTF16(string str) //convert as much as possible
 	}
 	catch(const utf8::exception& e)
 	{
-		debuglog<<std::string("utf8cpp decoding exception: ")+(char*)e.what();
+		if(bDebugLog)
+			debuglog<<std::string("utf8cpp decoding exception: ")+(char*)e.what();
 	    //TODO
 	}
 	return ustr;
@@ -1780,7 +1799,8 @@ INT_PTR ImportGpGKeys(WPARAM w, LPARAM l)
 							gpg_thread.~thread();
 							TerminateProcess(params.hProcess, 1);
 							params.hProcess = NULL;
-							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+							if(bDebugLog)
+								debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 							break;
 						}
 						if(result == pxNotFound)
@@ -1899,27 +1919,10 @@ void strip_line_term(std::string &s)
 
 void strip_tags(std::wstring &str)
 {
-	std::wstring::size_type p;
-	if(_tcslen(inopentag))
-	{
-		for(p = str.find(inopentag); p != std::wstring::npos; p = str.find(inopentag))
-			str.erase(p, _tcslen(inopentag));
-	}
-	if(_tcslen(inclosetag))
-	{
-		for(p = str.find(inclosetag); p != std::wstring::npos; p = str.find(inclosetag))
-			str.erase(p, _tcslen(inclosetag));
-	}
-	if(_tcslen(outopentag))
-	{
-		for(p = str.find(outopentag); p != std::wstring::npos; p = str.find(outopentag))
-			str.erase(p, _tcslen(outopentag));
-	}
-	if(_tcslen(outclosetag))
-	{
-		for(p = str.find(outclosetag); p != std::wstring::npos; p = str.find(outclosetag))
-			str.erase(p, _tcslen(outclosetag));
-	}
+	boost::algorithm::erase_all(str, inopentag);
+	boost::algorithm::erase_all(str, inclosetag);
+	boost::algorithm::erase_all(str, outopentag);
+	boost::algorithm::erase_all(str, outclosetag);
 }
 
 

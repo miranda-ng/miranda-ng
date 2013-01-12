@@ -30,6 +30,7 @@ private:
 	fstream log;
 	TCHAR *path;
 	boost::mutex log_mutex;
+	bool _bDebugLog;
 };
 
 #endif

@@ -278,7 +278,8 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 						  gpg_thread.~thread();
 						  TerminateProcess(params.hProcess, 1);
 						  params.hProcess = NULL;
-						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						  if(bDebugLog)
+							  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						  mir_free(tmp);
 						  break;
 					  }
@@ -458,7 +459,7 @@ static INT_PTR CALLBACK DlgProcGpgOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
         
       case PSN_APPLY:
         {
-			extern bool bDebugLog, bJabberAPI, bFileTransfers;
+			extern bool bJabberAPI, bFileTransfers;
 			bDebugLog = CheckStateStoreDB(hwndDlg, IDC_DEBUG_LOG, "bDebugLog");
 			if(bDebugLog)
 				debuglog.init();
@@ -843,7 +844,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					}
 					if((out.find("-----BEGIN PGP PUBLIC KEY BLOCK-----") != string::npos) && (out.find("-----END PGP PUBLIC KEY BLOCK-----") != string::npos))
 					{
@@ -996,7 +998,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					  break;
 				  }
 				  if(result == pxNotFound)
@@ -1243,7 +1246,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 							  gpg_thread.~thread();
 							  TerminateProcess(params.hProcess, 1);
 							  params.hProcess = NULL;
-							  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+							  if(bDebugLog)
+								  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 							  break;
 						  }
 						  if(result == pxNotFound)
@@ -1330,7 +1334,8 @@ static INT_PTR CALLBACK DlgProcLoadPublicKey(HWND hwndDlg,UINT msg,WPARAM wParam
 			  if(key_buf.empty())
 			  {
 				  key_buf.clear();
-				  debuglog<<std::string(time_str()+": info: Failed to read key file");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": info: Failed to read key file");
 				  break;
 			  }
 			  ws2 = key_buf.find(_T("-----END PGP PUBLIC KEY BLOCK-----"));

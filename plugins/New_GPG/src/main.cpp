@@ -109,7 +109,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						break;
 					}
 					if(result == pxNotFound)
@@ -313,7 +314,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  gpg_thread.~thread();
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				  break;
 			  }
 			  if(result == pxNotFound)
@@ -405,7 +407,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 							  gpg_thread.~thread();
 							  TerminateProcess(params.hProcess, 1);
 							  params.hProcess = NULL;
-							  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+							  if(bDebugLog)
+								  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 							  break;
 						  }
 						  if(result == pxNotFound)
@@ -478,7 +481,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  delete gpg_thread;
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				  break;
 			  }
 			  if(result == pxNotFound)
@@ -507,7 +511,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 				  delete gpg_thread;
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				  break;
 			  }
 			  if(result == pxNotFound)
@@ -609,7 +614,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					  break;
 				  }
 				  if(result == pxNotFound)
@@ -641,7 +647,8 @@ static INT_PTR CALLBACK DlgProcFirstRun(HWND hwndDlg,UINT msg,WPARAM wParam,LPAR
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
 					  break;
 				  }
 				  if(result == pxNotFound)
@@ -824,7 +831,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				gpg_thread.~thread();
 				TerminateProcess(params.hProcess, 1);
 				params.hProcess = NULL;
-				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				if(bDebugLog)
+					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 			}
 			gpg_valid = false;
 			DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
@@ -944,7 +952,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
 				  gpg_thread.~thread();
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 			  }
 			  gpg_valid = false;
 			  DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
@@ -1033,7 +1042,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					TerminateProcess(params.hProcess, 1);
 					params.hProcess = NULL;
 					gpg_thread.~thread();
-					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					if(bDebugLog)
+						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				}
 				gpg_valid = false;
 				DBDeleteContactSetting(NULL, szGPGModuleName, "szGpgBinPath");
@@ -1125,7 +1135,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					  gpg_valid = false;
 					  break;
 				  }
@@ -1159,7 +1170,8 @@ static INT_PTR CALLBACK DlgProcGpgBinOpts(HWND hwndDlg, UINT msg, WPARAM wParam,
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+"GPG execution timed out, aborted");
 					  gpg_valid = false;
 					  break;
 				  }
@@ -1493,7 +1505,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 					  gpg_thread.~thread();
 					  TerminateProcess(params.hProcess, 1);
 					  params.hProcess = NULL;
-					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+					  if(bDebugLog)
+						  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 					  break;
 				  }
 				  if(result == pxNotFound)
@@ -1526,7 +1539,8 @@ static INT_PTR CALLBACK DlgProcKeyGenDialog(HWND hwndDlg, UINT msg, WPARAM wPara
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						break;
 					}
 					if(result == pxNotFound)
@@ -1688,7 +1702,8 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 						gpg_thread.~thread();
 						TerminateProcess(params.hProcess, 1);
 						params.hProcess = NULL;
-						debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+						if(bDebugLog)
+							debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 						break;
 					}
 					if(result == pxNotFound)
@@ -1797,7 +1812,8 @@ static INT_PTR CALLBACK DlgProcLoadExistingKey(HWND hwndDlg,UINT msg,WPARAM wPar
 				  gpg_thread.~thread();
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				  break;
 			  }
 			  if(result == pxNotFound)
@@ -1924,7 +1940,8 @@ static INT_PTR CALLBACK DlgProcImportKeyDialog(HWND hwndDlg, UINT msg, WPARAM wP
 				  gpg_thread.~thread();
 				  TerminateProcess(params.hProcess, 1);
 				  params.hProcess = NULL;
-				  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				  if(bDebugLog)
+					  debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 			  }
 			  MessageBoxA(0, out.c_str(), "GPG output", MB_OK);
 		  }
@@ -2086,7 +2103,8 @@ void InitCheck()
 				gpg_thread.~thread();
 				TerminateProcess(params.hProcess, 1);
 				params.hProcess = NULL;
-				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+				if(bDebugLog)
+					debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 				return;
 			}
 			if(result == pxNotFound)
@@ -2097,9 +2115,88 @@ void InitCheck()
 		mir_free(home_dir);
 		tmp_dir += _T("\\tmp");
 		_wmkdir(tmp_dir.c_str());
-		string question = Translate("Your secret key whith id: ");
-		char *keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
-		char *key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
+		int count = 0;
+		PROTOACCOUNT **accounts;
+		ProtoEnumAccounts(&count, &accounts);
+		string question;
+		char *keyid, *key;
+		for(int i = 0; i < count; i++)
+		{
+			if(StriStr(accounts[i]->szModuleName, "metacontacts"))
+				continue;
+			if(StriStr(accounts[i]->szModuleName, "weather"))
+				continue;
+			std::string acc = toUTF8(accounts[i]->tszAccountName);
+			acc += "(";
+			acc += accounts[i]->szModuleName;
+			acc += ")";
+			acc += "_KeyID";
+			keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, acc.c_str(), "");
+			if(keyid[0])
+			{
+				question = Translate("Your secret key whith id: ");
+				keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+				key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
+				void ShowFirstRunDialog();
+				if((p = out.find(keyid)) == string::npos)
+				{
+					question += keyid;
+					question += Translate(" for account ");
+					question += toUTF8(accounts[i]->tszAccountName);
+					question += Translate(" deleted from gpg secret keyring\nDo you want to set another key ?");
+					if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+						ShowFirstRunDialog();
+				}
+				p2 = p;
+				p = out.find("[", p);
+				p2 = out.find("\n", p2);
+				if((p != std::string::npos) && (p < p2))
+				{
+					p = out.find("expires:", p);
+					p += strlen("expires:");
+					p++;
+					p2 = out.find("]", p);
+					TCHAR *expire_date = mir_wstrdup(toUTF16(out.substr(p,p2-p)).c_str());
+					bool expired = false;
+					{
+						boost::posix_time::ptime now = boost::posix_time::second_clock::local_time();
+						TCHAR buf[5];
+						mir_sntprintf(buf, 5, _T("%s"), expire_date);
+						int year = _ttoi(buf);
+						if(year < now.date().year())
+							expired = true;
+						else if(year == now.date().year())
+						{
+							mir_sntprintf(buf, 3, _T("%s"), expire_date+5);
+							int month = _ttoi(buf);
+							if(month < now.date().month())
+								expired = true;
+							else if(month == now.date().month())
+							{
+								mir_sntprintf(buf, 3, _T("%s"), expire_date+8);
+								int day = _ttoi(buf);
+								if(day <= now.date().day_number())
+									expired = true;
+							}
+						}
+					}
+					if(expired)
+					{
+						question += keyid;
+						question += Translate(" for account ");
+						question += toUTF8(accounts[i]->tszAccountName);
+						question += Translate(" expired and will not work\nDo you want to set another key ?");
+						if(MessageBoxA(0, question.c_str(), Translate("Own secret key warning"), MB_YESNO) == IDYES)
+							ShowFirstRunDialog();
+					}
+					mir_free(expire_date);
+				}
+			}
+			mir_free(keyid);
+		}
+		question = Translate("Your secret key whith id: ");
+		keyid = UniGetContactSettingUtf(NULL, szGPGModuleName, "KeyID", "");
+		key = UniGetContactSettingUtf(NULL, szGPGModuleName, "GPGPubKey", "");
 		void ShowFirstRunDialog();
 		if(!DBGetContactSettingByte(NULL, szGPGModuleName, "FirstRun", 1) && (!keyid[0] || !key[0]))
 		{
@@ -2263,7 +2360,8 @@ void ImportKey()
 			gpg_thread.~thread();
 			TerminateProcess(params.hProcess, 1);
 			params.hProcess = NULL;
-			debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
+			if(bDebugLog)
+				debuglog<<std::string(time_str()+": GPG execution timed out, aborted");
 			return;
 		}
 		if(result == pxNotFound)

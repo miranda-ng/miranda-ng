@@ -80,7 +80,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 			if(errno == ENOENT)
 			{
 				mir_free(bin_path);
-				debuglog<<std::string(time_str()+": GPG executable not found");
+				if(bDebugLog)
+					debuglog<<std::string(time_str()+": GPG executable not found");
 				*result = pxNotFound;
 				return pxNotFound;
 			}
@@ -100,7 +101,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 		mir_free(home_dir);
 	}
 
-	debuglog<<std::string(time_str()+": gpg in: "+toUTF8(commandline));
+	if(bDebugLog)
+		debuglog<<std::string(time_str()+": gpg in: "+toUTF8(commandline));
 
 	success = CreateProcess(NULL, (TCHAR*)commandline.c_str(), NULL, NULL, TRUE, CREATE_NEW_CONSOLE | CREATE_UNICODE_ENVIRONMENT, (void*)_T("LANGUAGE=en@quot\0LC_ALL=English\0"), NULL, &sinfo, &pri);
 
@@ -110,7 +112,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 		CloseHandle(writestdin);
 		CloseHandle(newstdout);
 		CloseHandle(readstdout);
-		debuglog<<time_str()<<": Failed to create process\n";
+		if(bDebugLog)
+			debuglog<<time_str()<<": Failed to create process\n";
 //		gpg_mutex.unlock();
 		*result = pxCreateProcessFailed;
 		return pxCreateProcessFailed;
@@ -142,7 +145,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 
 	fix_line_term(*aoutput);
 
-	debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
+	if(bDebugLog)
+		debuglog<<std::string(time_str()+": gpg out: "+*aoutput);
 
 	WaitForSingleObject(pri.hProcess,INFINITE);
 
@@ -157,7 +161,8 @@ pxResult pxExecute(wstring *acommandline, char *ainput, string *aoutput, LPDWORD
 //	gpg_mutex.unlock();
 	if(*aexitcode)
 	{
-		debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
+		if(bDebugLog)
+			debuglog<<std::string(time_str()+": warning: wrong gpg exit status, gpg output: "+*aoutput);
 		return pxSuccessExitCodeInvalid;
 	}
 	return pxSuccess;

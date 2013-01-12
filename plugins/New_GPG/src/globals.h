@@ -16,7 +16,7 @@
 
 #ifndef GLOBALS_H
 #define GLOBALS_H
-extern bool bAppendTags, bPresenceSigning, bStripTags, gpg_valid, gpg_keyexist, tabsrmm_used, bSameAction, bFileTransfers;
+extern bool bAppendTags, bPresenceSigning, bStripTags, gpg_valid, gpg_keyexist, tabsrmm_used, bSameAction, bFileTransfers, bDebugLog;
 extern TCHAR *inopentag, *inclosetag, *outopentag, *outclosetag;
 extern logtofile debuglog;
 #endif

@@ -19,71 +19,63 @@
 
 logtofile& logtofile::operator<<(TCHAR *buf)
 {
-	extern bool bDebugLog;
-	if(bDebugLog)
-	{
-		log_mutex.lock();
-		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
-		log<<toUTF8(buf);
-		log<<"\n";
-		log.close();
-		log_mutex.unlock();
-	}
+	if(_bDebugLog != bDebugLog)
+		init();
+	log_mutex.lock();
+	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
+	log<<toUTF8(buf);
+	log<<"\n";
+	log.close();
+	log_mutex.unlock();
 	return *this;
 }
 logtofile& logtofile::operator<<(char *buf)
 {
-	extern bool bDebugLog;
-	if(bDebugLog)
-	{
-		log_mutex.lock();
-		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
-		log<<buf;
-		log<<"\n";
-		log.close();
-		log_mutex.unlock();
-	}
+	if(_bDebugLog != bDebugLog)
+		init();
+	log_mutex.lock();
+	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
+	log<<buf;
+	log<<"\n";
+	log.close();
+	log_mutex.unlock();
 	return *this;
 }
 logtofile& logtofile::operator<<(string buf)
 {
-	extern bool bDebugLog;
-	if(bDebugLog)
-	{
-		log_mutex.lock();
-		char *tmp = mir_utf8encode(buf.c_str());
-		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
-		log<<tmp;
-		log<<"\n";
-		log.close();
-		log_mutex.unlock();
-		mir_free(tmp);
-	}
+	if(_bDebugLog != bDebugLog)
+		init();
+	log_mutex.lock();
+	char *tmp = mir_utf8encode(buf.c_str());
+	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
+	log<<tmp;
+	log<<"\n";
+	log.close();
+	log_mutex.unlock();
+	mir_free(tmp);
 	return *this;
 }
 logtofile& logtofile::operator<<(wstring buf)
 {
-	extern bool bDebugLog;
-	if(bDebugLog)
-	{
-		log_mutex.lock();
-		log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
-		log<<toUTF8(buf);
-		log<<"\n";
-		log.close();
-		log_mutex.unlock();
-	}
+	if(_bDebugLog != bDebugLog)
+		init();
+	log_mutex.lock();
+	log.open(toUTF8(path).c_str(), std::ios::app |std::ios::ate);
+	log<<toUTF8(buf);
+	log<<"\n";
+	log.close();
+	log_mutex.unlock();
 	return *this;
 }
 void logtofile::init()
 {
-	extern bool bDebugLog;
 	if(bDebugLog)
 	{
 		if(path)
 			mir_free(path);
 		path = UniGetContactSettingUtf(NULL, szGPGModuleName, "szLogFilePath", _T("C:\\GPGdebug.log"));
 	}
+	_bDebugLog = bDebugLog;
 }
 logtofile::logtofile()
 {
