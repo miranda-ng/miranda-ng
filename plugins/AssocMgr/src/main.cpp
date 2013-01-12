@@ -47,28 +47,30 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 static void InstallFile(const TCHAR *pszFileName,const TCHAR *pszDestSubDir)
 {
-	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1],*p;
-	HANDLE hFile;
-
-	if (!GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
+	TCHAR szFileFrom[MAX_PATH+1],szFileTo[MAX_PATH+1];
+	if ( !GetModuleFileName(hInst,szFileFrom,SIZEOF(szFileFrom)-lstrlen(pszFileName)))
 		return;
-	p=_tcsrchr(szFileFrom,_T('\\'));
-	if(p!=NULL) *(++p)=0;
+
+	TCHAR *p = _tcsrchr(szFileFrom,_T('\\'));
+	if (p != NULL)
+		*(++p) = 0;
 	lstrcat(szFileFrom,pszFileName); /* buffer safe */
 
-	hFile=CreateFile(szFileFrom,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
-	if(hFile==INVALID_HANDLE_VALUE) return;
+	HANDLE hFile = CreateFile(szFileFrom,0,FILE_SHARE_READ,0,OPEN_EXISTING,0,0);
+	if (hFile == INVALID_HANDLE_VALUE)
+		return;
 	CloseHandle(hFile);
 
-	if (!GetModuleFileNameWorkaround(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
+	if ( !GetModuleFileName(NULL,szFileTo,SIZEOF(szFileTo)-lstrlen(pszDestSubDir)-lstrlen(pszFileName)))
 		return;
-	p=_tcsrchr(szFileTo,_T('\\'));
-	if(p!=NULL) *(++p)=0;
+	p = _tcsrchr(szFileTo,_T('\\'));
+	if (p)
+		*(++p)=0;
 	lstrcat(szFileTo,pszDestSubDir); /* buffer safe */
 	CreateDirectory(szFileTo,NULL);
 	lstrcat(szFileTo,pszFileName);  /* buffer safe */
 
-	if (!MoveFile(szFileFrom,szFileTo) && GetLastError()==ERROR_ALREADY_EXISTS) {
+	if ( !MoveFile(szFileFrom,szFileTo) && GetLastError() == ERROR_ALREADY_EXISTS) {
 		DeleteFile(szFileTo);
 		MoveFile(szFileFrom,szFileTo);
 	}

@@ -21,15 +21,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 #include "common.h"
 
-DWORD WINAPI GetModuleFileNameWorkaround(HMODULE hModule,TCHAR *pszFileName,DWORD nSize)
-{
-	/* GetModuleFileName() commonly crashes when hModule=NULL and
-	 * miranda32.exe was compiled without version resource */
-	if(hModule==NULL) hModule=GetModuleHandle(NULL);
-	if(hModule==NULL) return 0;
-	return GetModuleFileName(hModule,pszFileName,nSize);
-}
-
 /************************* String Conv ****************************/
 
 // mir_free() the return value

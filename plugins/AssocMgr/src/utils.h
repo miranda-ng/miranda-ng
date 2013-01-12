@@ -19,8 +19,6 @@ along with this program (AssocMgr-License.txt); if not, write to the Free Softwa
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-DWORD WINAPI GetModuleFileNameWorkaround(HMODULE hModule,TCHAR *pszFileName,DWORD nSize);
-
 /* String Conv */
 WCHAR* a2u(const char *pszAnsi,BOOL fMirCp);
 char* u2a(const WCHAR *pszUnicode,BOOL fMirCp);
