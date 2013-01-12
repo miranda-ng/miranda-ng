@@ -25,15 +25,14 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 
 void GetProfilePath(TCHAR *res, size_t resLen)
 {
-	TCHAR dbname[MAX_PATH], dbpath[MAX_PATH], exename[MAX_PATH];
-	CallService(MS_DB_GETPROFILENAMET, SIZEOF(dbname), (LPARAM)(TCHAR*) dbname);
-	CallService(MS_DB_GETPROFILEPATHT, SIZEOF(dbpath), (LPARAM)(TCHAR*) dbpath);
-	GetModuleFileName(NULL,exename, SIZEOF(exename));
-	lstrcat(dbpath, _T("\\"));		
-	lstrcpyn(dbpath + lstrlen(dbpath), dbname, lstrlen(dbname)-3);
-	lstrcat(dbpath, _T("\\"));
-	lstrcat(dbpath, dbname);		// path + profile name
-	mir_sntprintf(res, resLen, _T("\"%s\" \"%s\""), exename, dbpath);
+	TCHAR dbname[MAX_PATH], exename[MAX_PATH];
+	CallService(MS_DB_GETPROFILENAMET, SIZEOF(dbname), (LPARAM)dbname);
+	GetModuleFileName(NULL, exename, SIZEOF(exename));
+
+	TCHAR *p = _tcsrchr(dbname, '.');
+	if (p) *p = 0;
+
+	mir_sntprintf(res, resLen, _T("\"%s\" \"/profile:%s\""), exename, dbname);
 }
 
 static void SetAutorun(BOOL autorun)
