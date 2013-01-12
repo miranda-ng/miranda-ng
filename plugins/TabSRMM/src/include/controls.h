@@ -65,6 +65,7 @@ public:
 	bool			TSAPI isContactMenu() const { return(m_isContactMenu); }
 	bool			TSAPI isMainMenu() const { return(m_isMainMenu); }
 	void			TSAPI configureMenu(void) const;
+	void        TSAPI resetLP(void);
 	void			TSAPI setActive(HMENU hMenu)
 	{
 		m_activeSubMenu = hMenu;
@@ -92,35 +93,36 @@ public:
 		return(-1);
 	}
 public:
-	static 		HHOOK	  m_hHook;
-	static		HBITMAP   m_MimIcon;
+	static   HHOOK   m_hHook;
+   static   HBITMAP m_MimIcon;
 
 private:
-	HWND		m_hwndToolbar;
-	RECT		m_rcClient;
-	TContainerData *m_pContainer;
-	HMENU		m_activeMenu, m_activeSubMenu;;
-	int			m_activeID;
-	bool		m_fTracking;
-	bool		m_isContactMenu;
-	bool		m_isMainMenu;
-	bool		m_isAero;
-	bool		m_mustAutoHide;
-	LONG		m_size_y;
-	WNDPROC		m_oldWndProc;
-	/*
-	 * for custom drawing
-	 */
-	RECT		m_rcItem;
-	HDC			m_hdcDraw;
-	HBITMAP		m_hbmDraw, m_hbmOld;
-	HANDLE		m_hTheme;
-	HFONT		m_hOldFont;
+   HWND     m_hwndToolbar;
+   RECT     m_rcClient;
+   TContainerData *m_pContainer;
+   HMENU    m_activeMenu, m_activeSubMenu;;
+   int      m_activeID;
+   bool     m_fTracking;
+   bool     m_isContactMenu;
+   bool     m_isMainMenu;
+   bool     m_isAero;
+   bool     m_mustAutoHide;
+   LONG     m_size_y;
+   WNDPROC  m_oldWndProc;
+   HANDLE   m_hevHook;
+   /*
+    * for custom drawing
+    */
+   RECT     m_rcItem;
+   HDC      m_hdcDraw;
+   HBITMAP  m_hbmDraw, m_hbmOld;
+   HANDLE   m_hTheme;
+   HFONT    m_hOldFont;
 
-	static 		TBBUTTON m_TbButtons[8];
-	static		bool m_buttonsInit;
-	static		CMenuBar *m_Owner;
-	static		int		  m_MimIconRefCount;
+   static   TBBUTTON m_TbButtons[8];
+   static   bool m_buttonsInit;
+   static   CMenuBar *m_Owner;
+   static   int m_MimIconRefCount;
 private:
 	LONG_PTR	TSAPI customDrawWorker(NMCUSTOMDRAW *nm);
 	void		TSAPI updateState(const HMENU hMenu) const;
@@ -128,6 +130,7 @@ private:
 	void		TSAPI cancel(const int id);
 	void 		TSAPI obtainHook();
 	void		TSAPI releaseHook();
+	void     TSAPI checkButtons();
 
 	static 		LRESULT CALLBACK wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);		// subclassing for the toolbar control
 	static 		LRESULT CALLBACK MessageHook(int nCode, WPARAM wParam, LPARAM lParam);				// message hook (only active when modal menus are active)

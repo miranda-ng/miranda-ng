@@ -45,6 +45,12 @@ CMenuBar*	CMenuBar::m_Owner = 0;
 HBITMAP		CMenuBar::m_MimIcon = 0;
 int			CMenuBar::m_MimIconRefCount = 0;
 
+static int resetLP(WPARAM, LPARAM, LPARAM obj)
+{
+	((CMenuBar*)obj)->resetLP();
+	return 0;
+}
+
 CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 {
 	m_pContainer = const_cast<TContainerData *>(pContainer);
@@ -72,77 +78,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 
 	::SendMessage(m_hwndToolbar, TB_BUTTONSTRUCTSIZE, (WPARAM)sizeof(TBBUTTON), 0);
 
-	if (m_buttonsInit == false) {
-		::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
-
-		m_TbButtons[0].iBitmap = 0;//I_IMAGENONE;
-		m_TbButtons[0].iString = 0;//(INT_PTR)TranslateT("&Main");
-		m_TbButtons[0].fsState = TBSTATE_ENABLED;
-		m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[0].idCommand = 100;
-		m_TbButtons[0].dwData = 0;
-
-		m_TbButtons[1].iBitmap = I_IMAGENONE;
-		m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
-		m_TbButtons[1].fsState = TBSTATE_ENABLED;
-		m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[1].idCommand = 101;
-		m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
-
-		m_TbButtons[2].iBitmap = I_IMAGENONE;
-		m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
-		m_TbButtons[2].fsState = TBSTATE_ENABLED;
-		m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[2].idCommand = 102;
-		m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
-
-		m_TbButtons[3].iBitmap = I_IMAGENONE;
-		m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
-		m_TbButtons[3].fsState = TBSTATE_ENABLED;
-		m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[3].idCommand = 103;
-		m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
-
-		m_TbButtons[4].iBitmap = I_IMAGENONE;
-		m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
-		m_TbButtons[4].fsState = TBSTATE_ENABLED;
-		m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[4].idCommand = 104;
-		m_TbButtons[4].dwData = 0;
-
-		m_TbButtons[5].iBitmap = I_IMAGENONE;
-		m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
-		m_TbButtons[5].fsState = TBSTATE_ENABLED;
-		m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[5].idCommand = 105;
-		m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
-
-		m_TbButtons[6].iBitmap = I_IMAGENONE;
-		m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
-		m_TbButtons[6].fsState = TBSTATE_ENABLED;
-		m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[6].idCommand = 106;
-		m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
-
-		m_TbButtons[7].iBitmap = I_IMAGENONE;
-		m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
-		m_TbButtons[7].fsState = TBSTATE_ENABLED;
-		m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
-		m_TbButtons[7].idCommand = 107;
-		m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
-
-		m_buttonsInit = true;
-	}
-
-	::SendMessage(m_hwndToolbar, TB_ADDBUTTONS, sizeof(m_TbButtons)/sizeof(TBBUTTON), (LPARAM)m_TbButtons);
-
-	m_size_y = HIWORD(::SendMessage(m_hwndToolbar, TB_GETBUTTONSIZE, 0, 0));
-
-	TBADDBITMAP tb;
-	tb.nID = (UINT_PTR)m_MimIcon;
-	tb.hInst = 0;
-
-	::SendMessage(m_hwndToolbar, TB_ADDBITMAP, 1, (LPARAM)&tb);
+	checkButtons();
 
 	m_activeMenu = 0;
 	m_activeID = 0;
@@ -151,6 +87,7 @@ CMenuBar::CMenuBar(HWND hwndParent, const TContainerData *pContainer)
 	m_activeSubMenu = 0;
 	m_fTracking = false;
 	m_isContactMenu = m_isMainMenu = false;
+	m_hevHook = HookEventParam(ME_LANGPACK_CHANGED, &::resetLP, (LPARAM)this);
 
 	m_oldWndProc = (WNDPROC)::GetWindowLongPtr(m_hwndToolbar, GWLP_WNDPROC);
 	::SetWindowLongPtr(m_hwndToolbar, GWLP_USERDATA, (UINT_PTR)this);
@@ -304,140 +241,134 @@ LONG_PTR CMenuBar::customDrawWorker(NMCUSTOMDRAW *nm)
 		NMTBCUSTOMDRAW *nmtb = (NMTBCUSTOMDRAW *)(nm);
 
 		switch(nmtb->nmcd.dwDrawStage) {
-			case CDDS_PREPAINT:
-				if (fMustDraw) {
-					if (nmtb->nmcd.dwItemSpec == 0) {
-						m_hdcDraw = ::CreateCompatibleDC(nmtb->nmcd.hdc);
-						//m_rcItem = nmtb->nmcd.rc;
-						::GetClientRect(m_hwndToolbar, &m_rcItem);
-						m_rcItem.bottom -= 4;
-						m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
-						m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
-						m_hTheme = M->isAero() || M->isVSThemed() ? CMimAPI::m_pfnOpenThemeData(m_hwndToolbar, L"REBAR") : 0;
-						m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
-						if (m_isAero) {
-							nm->rc.bottom--;
-							CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
-							nm->rc.bottom++;
-						}
-						else if ((PluginConfig.m_fillColor || M->isVSThemed()) && !CSkin::m_skinEnabled) {
-							if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
-								::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
-										GRADIENT_TB, 0, 0, 0);
-							}
-							else {
-								m_rcItem.bottom--;
-								if (PluginConfig.m_fillColor)
-									CSkin::FillBack(m_hdcDraw, &m_rcItem);
-								else if (M->isVSThemed())
-									M->m_pfnDrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
-								else
-									FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
-							}
-						}
-						else if (CSkin::m_MenuBGBrush)
-							::FillRect(m_hdcDraw, &nm->rc, CSkin::m_MenuBGBrush);
-						else
-							::FillRect(m_hdcDraw, &nm->rc, GetSysColorBrush(COLOR_3DFACE));
+		case CDDS_PREPAINT:
+			if (fMustDraw) {
+				if (nmtb->nmcd.dwItemSpec == 0) {
+					m_hdcDraw = ::CreateCompatibleDC(nmtb->nmcd.hdc);
+					//m_rcItem = nmtb->nmcd.rc;
+					::GetClientRect(m_hwndToolbar, &m_rcItem);
+					m_rcItem.bottom -= 4;
+					m_hbmDraw = CSkin::CreateAeroCompatibleBitmap(m_rcItem, nmtb->nmcd.hdc);
+					m_hbmOld = reinterpret_cast<HBITMAP>(::SelectObject(m_hdcDraw, m_hbmDraw));
+					m_hTheme = M->isAero() || M->isVSThemed() ? CMimAPI::m_pfnOpenThemeData(m_hwndToolbar, L"REBAR") : 0;
+					m_hOldFont = reinterpret_cast<HFONT>(::SelectObject(m_hdcDraw, reinterpret_cast<HFONT>(::GetStockObject(DEFAULT_GUI_FONT))));
+					if (m_isAero) {
+						nm->rc.bottom--;
+						CSkin::ApplyAeroEffect(m_hdcDraw, &m_rcItem, CSkin::AERO_EFFECT_AREA_MENUBAR);
+						nm->rc.bottom++;
 					}
-					return(CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE);
+					else if ((PluginConfig.m_fillColor || M->isVSThemed()) && !CSkin::m_skinEnabled) {
+						if (PluginConfig.m_fillColor && PluginConfig.m_tbBackgroundHigh && PluginConfig.m_tbBackgroundLow) {
+							::DrawAlpha(m_hdcDraw, &m_rcItem, PluginConfig.m_tbBackgroundHigh, 100, PluginConfig.m_tbBackgroundLow, 0,
+								GRADIENT_TB, 0, 0, 0);
+						}
+						else {
+							m_rcItem.bottom--;
+							if (PluginConfig.m_fillColor)
+								CSkin::FillBack(m_hdcDraw, &m_rcItem);
+							else if (M->isVSThemed())
+								M->m_pfnDrawThemeBackground(m_hTheme, m_hdcDraw, 6, 1, &m_rcItem, &m_rcItem);
+							else
+								FillRect(m_hdcDraw, &m_rcItem, GetSysColorBrush(COLOR_3DFACE));
+						}
+					}
+					else if (CSkin::m_MenuBGBrush)
+						::FillRect(m_hdcDraw, &nm->rc, CSkin::m_MenuBGBrush);
+					else
+						::FillRect(m_hdcDraw, &nm->rc, GetSysColorBrush(COLOR_3DFACE));
 				}
-				else {
-					m_hdcDraw = 0;
-					return(CDRF_DODEFAULT);
-				}
-
-			case CDDS_ITEMPREPAINT:
-				if (fMustDraw) {
-					TCHAR	*szText = 0;
-					bool	fDraw = true;
-
-					int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
-
-					if (iIndex >= 0 && iIndex < NR_BUTTONS)
-						szText = reinterpret_cast<TCHAR *>(m_TbButtons[iIndex].iString);
-
-					UINT	uState = nmtb->nmcd.uItemState;
-
-					nmtb->nmcd.rc.bottom--;
-					if (CSkin::m_skinEnabled) {
-						CSkinItem *item = 0;
-
-						::FillRect(m_hdcDraw, &nmtb->nmcd.rc, CSkin::m_MenuBGBrush);
-
-						if (uState & CDIS_MARKED || uState & CDIS_CHECKED || uState & CDIS_SELECTED)
-							item = &SkinItems[ID_EXTBKBUTTONSPRESSED];
-						else if (uState & CDIS_HOT)
-							item = &SkinItems[ID_EXTBKBUTTONSMOUSEOVER];
-
-						if (item)
-							fDraw = !CSkin::DrawItem(m_hdcDraw, &nmtb->nmcd.rc, item);
-						else
-							fDraw = false;
-					}
-					if (fDraw) {
-						COLORREF clr = ::GetSysColor(COLOR_HOTLIGHT);
-						COLORREF clrRev = clr;
-						if (uState & CDIS_MARKED || uState & CDIS_CHECKED) {
-							::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9,
-										31, 4, 0);
-						}
-						if (uState & CDIS_SELECTED) {
-							::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9,
-										31, 4, 0);
-						}
-						if (uState & CDIS_HOT) {
-							::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9,
-										31, 4, 0);
-						}
-					}
-
-					if (szText) {
-						COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor :
-									 (PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : 
-									 (uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
-
-						::SetBkMode(m_hdcDraw, TRANSPARENT);
-						CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER,
-										  CSkin::m_glowSize, clr);
-					}
-					if (iIndex == 0) {
-						::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
-									 (nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
-									 16, 16, 0, 0, DI_NORMAL);
-					}
-					return(CDRF_SKIPDEFAULT);
-				}
-				else
-					return(CDRF_DODEFAULT);
-
-			case CDDS_PREERASE:
-			case CDDS_ITEMPOSTERASE:
-			case CDDS_ITEMPOSTPAINT:
-			case CDDS_ITEMPREERASE:
-				return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
-
-			case CDDS_POSTERASE:
-				return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
-
-			case CDDS_POSTPAINT:
-				if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
-					::BitBlt(nmtb->nmcd.hdc, 0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top,
-							 m_hdcDraw, 0, 0, SRCCOPY);
-					::SelectObject(m_hdcDraw, m_hbmOld);
-					::DeleteObject(m_hbmDraw);
-					::SelectObject(m_hdcDraw, m_hOldFont);
-					::DeleteDC(m_hdcDraw);
-					m_hdcDraw = 0;
-					if (m_hTheme)
-						CMimAPI::m_pfnCloseThemeData(m_hTheme);
-					return(CDRF_SKIPDEFAULT);
-				}
-				else
-					return(CDRF_DODEFAULT);
-
-			default:
+				return(CDRF_NOTIFYITEMDRAW | CDRF_NOTIFYPOSTPAINT | CDRF_NOTIFYPOSTERASE);
+			}
+			else {
+				m_hdcDraw = 0;
 				return(CDRF_DODEFAULT);
+			}
+
+		case CDDS_ITEMPREPAINT:
+			if (fMustDraw) {
+				TCHAR	*szText = 0;
+				bool	fDraw = true;
+
+				int iIndex = idToIndex(nmtb->nmcd.dwItemSpec);
+
+				if (iIndex >= 0 && iIndex < NR_BUTTONS)
+					szText = (TCHAR*)m_TbButtons[iIndex].iString;
+
+				UINT	uState = nmtb->nmcd.uItemState;
+
+				nmtb->nmcd.rc.bottom--;
+				if (CSkin::m_skinEnabled) {
+					CSkinItem *item = 0;
+
+					::FillRect(m_hdcDraw, &nmtb->nmcd.rc, CSkin::m_MenuBGBrush);
+
+					if (uState & CDIS_MARKED || uState & CDIS_CHECKED || uState & CDIS_SELECTED)
+						item = &SkinItems[ID_EXTBKBUTTONSPRESSED];
+					else if (uState & CDIS_HOT)
+						item = &SkinItems[ID_EXTBKBUTTONSMOUSEOVER];
+
+					if (item)
+						fDraw = !CSkin::DrawItem(m_hdcDraw, &nmtb->nmcd.rc, item);
+					else
+						fDraw = false;
+				}
+				if (fDraw) {
+					COLORREF clr = ::GetSysColor(COLOR_HOTLIGHT);
+					COLORREF clrRev = clr;
+					if (uState & CDIS_MARKED || uState & CDIS_CHECKED)
+						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+
+					if (uState & CDIS_SELECTED)
+						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+
+					if (uState & CDIS_HOT)
+						::DrawAlpha(m_hdcDraw, &nmtb->nmcd.rc, clrRev, 80, clrRev, 0, 9, 31, 4, 0);
+				}
+
+				if (szText) {
+					COLORREF clr = CSkin::m_skinEnabled ? CSkin::m_DefaultFontColor :
+						(PluginConfig.m_fillColor ? PluginConfig.m_genericTxtColor : 
+						(uState & (CDIS_SELECTED | CDIS_HOT | CDIS_MARKED)) ? ::GetSysColor(COLOR_HIGHLIGHTTEXT) : ::GetSysColor(COLOR_BTNTEXT));
+
+					::SetBkMode(m_hdcDraw, TRANSPARENT);
+					CSkin::RenderText(m_hdcDraw, m_hTheme, szText, &nmtb->nmcd.rc, DT_SINGLELINE | DT_VCENTER | DT_CENTER, CSkin::m_glowSize, clr);
+				}
+				if (iIndex == 0) 
+					::DrawIconEx(m_hdcDraw, (nmtb->nmcd.rc.left + nmtb->nmcd.rc.right) / 2 - 8,
+						(nmtb->nmcd.rc.top + nmtb->nmcd.rc.bottom) / 2 - 8, LoadSkinnedIcon(SKINICON_OTHER_MIRANDA),
+						16, 16, 0, 0, DI_NORMAL);
+
+				return(CDRF_SKIPDEFAULT);
+			}
+			else return(CDRF_DODEFAULT);
+
+		case CDDS_PREERASE:
+		case CDDS_ITEMPOSTERASE:
+		case CDDS_ITEMPOSTPAINT:
+		case CDDS_ITEMPREERASE:
+			return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
+
+		case CDDS_POSTERASE:
+			return(fMustDraw ? CDRF_SKIPDEFAULT : CDRF_DODEFAULT);
+
+		case CDDS_POSTPAINT:
+			if (nmtb->nmcd.dwItemSpec == 0 && m_hdcDraw) {
+				::BitBlt(nmtb->nmcd.hdc, 0, 0, m_rcItem.right - m_rcItem.left, m_rcItem.bottom - m_rcItem.top,
+					m_hdcDraw, 0, 0, SRCCOPY);
+				::SelectObject(m_hdcDraw, m_hbmOld);
+				::DeleteObject(m_hbmDraw);
+				::SelectObject(m_hdcDraw, m_hOldFont);
+				::DeleteDC(m_hdcDraw);
+				m_hdcDraw = 0;
+				if (m_hTheme)
+					CMimAPI::m_pfnCloseThemeData(m_hTheme);
+				return(CDRF_SKIPDEFAULT);
+			}
+			else
+				return(CDRF_DODEFAULT);
+
+		default:
+			return(CDRF_DODEFAULT);
 		}
 
 		return 0;
@@ -617,6 +548,89 @@ void CMenuBar::autoShow(const int showcmd)
 	//obtainHook();
 	::SetFocus(m_hwndToolbar);
 	//::SendMessage(m_hwndToolbar, TB_SETHOTITEM, 0, HICF_ACCELERATOR);
+}
+
+void CMenuBar::checkButtons()
+{
+	if (m_buttonsInit)
+		return;
+
+	::ZeroMemory(m_TbButtons, sizeof(m_TbButtons));
+
+	m_TbButtons[0].iBitmap = 0;//I_IMAGENONE;
+	m_TbButtons[0].iString = 0;//(INT_PTR)TranslateT("&Main");
+	m_TbButtons[0].fsState = TBSTATE_ENABLED;
+	m_TbButtons[0].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[0].idCommand = 100;
+	m_TbButtons[0].dwData = 0;
+
+	m_TbButtons[1].iBitmap = I_IMAGENONE;
+	m_TbButtons[1].iString = (INT_PTR)TranslateT("&File");
+	m_TbButtons[1].fsState = TBSTATE_ENABLED;
+	m_TbButtons[1].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[1].idCommand = 101;
+	m_TbButtons[1].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 0));
+
+	m_TbButtons[2].iBitmap = I_IMAGENONE;
+	m_TbButtons[2].iString = (INT_PTR)TranslateT("&View");
+	m_TbButtons[2].fsState = TBSTATE_ENABLED;
+	m_TbButtons[2].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[2].idCommand = 102;
+	m_TbButtons[2].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 1));
+
+	m_TbButtons[3].iBitmap = I_IMAGENONE;
+	m_TbButtons[3].iString = (INT_PTR)TranslateT("&User");
+	m_TbButtons[3].fsState = TBSTATE_ENABLED;
+	m_TbButtons[3].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[3].idCommand = 103;
+	m_TbButtons[3].dwData = 0;								// dynamically built by Clist service
+
+	m_TbButtons[4].iBitmap = I_IMAGENONE;
+	m_TbButtons[4].iString = (INT_PTR)TranslateT("&Room");
+	m_TbButtons[4].fsState = TBSTATE_ENABLED;
+	m_TbButtons[4].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[4].idCommand = 104;
+	m_TbButtons[4].dwData = 0;
+
+	m_TbButtons[5].iBitmap = I_IMAGENONE;
+	m_TbButtons[5].iString = (INT_PTR)TranslateT("Message &Log");
+	m_TbButtons[5].fsState = TBSTATE_ENABLED;
+	m_TbButtons[5].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[5].idCommand = 105;
+	m_TbButtons[5].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 2));
+
+	m_TbButtons[6].iBitmap = I_IMAGENONE;
+	m_TbButtons[6].iString = (INT_PTR)TranslateT("&Container");
+	m_TbButtons[6].fsState = TBSTATE_ENABLED;
+	m_TbButtons[6].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[6].idCommand = 106;
+	m_TbButtons[6].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 3));
+
+	m_TbButtons[7].iBitmap = I_IMAGENONE;
+	m_TbButtons[7].iString = (INT_PTR)TranslateT("Help");
+	m_TbButtons[7].fsState = TBSTATE_ENABLED;
+	m_TbButtons[7].fsStyle = BTNS_DROPDOWN|BTNS_AUTOSIZE;
+	m_TbButtons[7].idCommand = 107;
+	m_TbButtons[7].dwData = reinterpret_cast<DWORD_PTR>(::GetSubMenu(PluginConfig.getMenuBar(), 4));
+
+	m_buttonsInit = true;
+	::SendMessage(m_hwndToolbar, TB_ADDBUTTONS, SIZEOF(m_TbButtons), (LPARAM)m_TbButtons);
+
+	m_size_y = HIWORD(::SendMessage(m_hwndToolbar, TB_GETBUTTONSIZE, 0, 0));
+
+	TBADDBITMAP tb;
+	tb.nID = (UINT_PTR)m_MimIcon;
+	tb.hInst = 0;
+
+	::SendMessage(m_hwndToolbar, TB_ADDBITMAP, 1, (LPARAM)&tb);
+}
+
+void CMenuBar::resetLP()
+{
+	while ( SendMessage(m_hwndToolbar, TB_DELETEBUTTON, 0, 0));
+
+	m_buttonsInit = false;
+	checkButtons();
 }
 
 /**
