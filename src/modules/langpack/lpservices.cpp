@@ -109,6 +109,5 @@ int LoadLangpackModule(void)
 	CreateServiceFunction(MS_LANGPACK_REGISTER, srvRegisterLP);
 	CreateServiceFunction(MS_LANGPACK_RELOAD, srvReloadLangpack);
 	CreateServiceFunction(MS_LANGPACK_LOOKUPHANDLE, srvGetPluginLangpack);
-
 	return 0;
 }

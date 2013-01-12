@@ -113,6 +113,8 @@ __forceinline void mir_getLP(const PLUGININFOEX* pInfo)
 //always returns 0
 #define MS_LANGPACK_RELOAD "LangPack/Reload"
 
+#define ME_LANGPACK_CHANGED "LangPack/Changed"
+
 //retrieves the hLangpack of a plugin by its HINSTANCE
 //wParam = 0 (ignored)
 //lParam = (LPARAM)(HINSTANCE)plugin's base address

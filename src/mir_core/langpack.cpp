@@ -31,6 +31,7 @@ static int CompareMuuids(const MUUID* p1, const MUUID* p2)
 
 static LIST<MUUID> lMuuids(10, CompareMuuids);
 static MUUID* pCurrentMuuid = NULL;
+static HANDLE hevChanged = 0;
 
 static BOOL bModuleInitialized = FALSE;
 
@@ -576,6 +577,8 @@ MIR_CORE_DLL(int) LoadLangPackModule(void)
 
 	ZeroMemory(&langPack, sizeof(langPack));
 
+	hevChanged = CreateHookableEvent(ME_LANGPACK_CHANGED);
+
 	TCHAR szSearch[MAX_PATH];
 	PathToAbsoluteT(_T("langpack_*.txt"), szSearch, NULL);
 
@@ -628,4 +631,6 @@ MIR_CORE_DLL(void) ReloadLangpack(TCHAR *pszStr)
 	UnloadLangPackModule();
 	LoadLangPack(pszStr);
 	Langpack_SortDuplicates();
+
+	NotifyEventHooks(hevChanged, 0, 0);
 }
