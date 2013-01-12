@@ -32,11 +32,10 @@ void SetContactStatus(HANDLE hContact, int nNewStatus)
 static void __cdecl WorkingThread(void* param)
 {
 	int nStatus = (int)param;
-//	UpdateAll(FALSE, FALSE);
 	HANDLE hContact= db_find_first();
-	while (hContact != NULL) 
+	while (hContact != NULL)
 	{
-		if(IsMyContact(hContact)) 
+		if(IsMyContact(hContact))
 		{
 			SetContactStatus(hContact, nStatus);
 		}
@@ -47,10 +46,12 @@ static void __cdecl WorkingThread(void* param)
 int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL) 
+	while (hContact != NULL)
 	{
-		if(IsMyContact(hContact)) 
+		if(IsMyContact(hContact))
 		{
+			if (!db_get_b(NULL, MODULE, "StartupRetrieve", 1))
+				db_set_dw(hContact, MODULE, "LastCheck", time(NULL));
 			SetContactStatus(hContact, ID_STATUS_ONLINE);
 		}
 		hContact = db_find_next(hContact);
@@ -62,7 +63,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 5000, timerProc2);  // first update is 5 sec after load
+	timerId = SetTimer(NULL, 0, 10000, timerProc2);  // first update is 5 sec after load
 
 	return 0;
 }
@@ -92,12 +93,12 @@ INT_PTR NewsAggrGetName(WPARAM wParam, LPARAM lParam)
 	{
 		return 1;
 	}
-}	
+}
 
 INT_PTR NewsAggrGetCaps(WPARAM wp,LPARAM lp)
 {
 	switch(wp)
-	{        
+	{
 	case PFLAGNUM_1:
 		return PF1_IM | PF1_PEER2PEER;
 	case PFLAGNUM_3:
@@ -142,7 +143,7 @@ INT_PTR NewsAggrLoadIcon(WPARAM wParam,LPARAM lParam)
 	return (LOWORD(wParam) == PLI_PROTOCOL) ? (INT_PTR)CopyIcon(LoadIconEx("main", FALSE)) : 0;
 }
 
-static void __cdecl AckThreadProc(HANDLE param) 
+static void __cdecl AckThreadProc(HANDLE param)
 {
 	Sleep(100);
 	ProtoBroadcastAck(MODULE, param, ACKTYPE_GETINFO, ACKRESULT_SUCCESS, (HANDLE) 1, 0);
@@ -158,17 +159,16 @@ INT_PTR NewsAggrGetInfo(WPARAM wParam,LPARAM lParam)
 INT_PTR CheckAllFeeds(WPARAM wParam,LPARAM lParam)
 {
 	HANDLE hContact = db_find_first();
-	while (hContact != NULL) 
+	while (hContact != NULL)
 	{
-		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60)) 
+		if (IsMyContact(hContact) && lParam && DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60))
 			UpdateListAdd(hContact);
 		else if (IsMyContact(hContact) && !lParam)
 			UpdateListAdd(hContact);
 		hContact = db_find_next(hContact);
 	}
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, NULL);
-
+		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
 
 	return 0;
 }
@@ -213,7 +213,7 @@ INT_PTR CheckFeed(WPARAM wParam, LPARAM lParam)
 	if(IsMyContact(hContact))
 		UpdateListAdd(hContact);
 	if (!ThreadRunning)
-		mir_forkthread(UpdateThreadProc, NULL);
+		mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
 	return 0;
 }
 
@@ -229,7 +229,7 @@ INT_PTR NewsAggrGetAvatarInfo(WPARAM wParam, LPARAM lParam)
 	if (wParam & GAIF_FORCE && DBGetContactSettingDword(pai->hContact, MODULE, "UpdateTime", 60))
 		UpdateListAdd(pai->hContact);
 	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !ThreadRunning)
-		mir_forkthread(UpdateThreadProc, NULL);
+		mir_forkthread(UpdateThreadProc, (LPVOID)TRUE);
 
 	DBVARIANT dbv = {0};
 	if(DBGetContactSettingTString(pai->hContact, MODULE, "ImageURL", &dbv))

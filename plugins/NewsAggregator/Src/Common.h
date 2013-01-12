@@ -79,7 +79,7 @@ extern UPDATELIST *UpdateListHead;
 extern UPDATELIST *UpdateListTail;
 
 void UpdateListAdd(HANDLE hContact);
-void UpdateThreadProc(LPVOID hWnd);
+void UpdateThreadProc(LPVOID AvatarCheck);
 void DestroyUpdateList(void);
 
 extern HANDLE hUpdateMutex;
@@ -119,11 +119,12 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime);
 
 BOOL IsMyContact(HANDLE hContact);
 VOID GetNewsData(TCHAR *szUrl, char** szData, HANDLE hContact, HWND hwndDlg);
-VOID CreateList (HWND hwndList);
-VOID UpdateList (HWND hwndList);
+VOID CreateList(HWND hwndList);
+VOID UpdateList(HWND hwndList);
 VOID DeleteAllItems(HWND hwndList);
 time_t __stdcall DateToUnixTime(TCHAR *stamp, BOOL FeedType);
-VOID CheckCurrentFeed (HANDLE hContact);
+VOID CheckCurrentFeed(HANDLE hContact);
+VOID CheckCurrentFeedAvatar(HANDLE hContact);
 TCHAR* CheckFeed(TCHAR* tszURL, HWND hwndDlg);
 void UpdateMenu(BOOL State);
 

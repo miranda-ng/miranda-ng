@@ -13,19 +13,26 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
+// Русский (Россия) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+
+/////////////////////////////////////////////////////////////////////////////
 //
 // Icon
 //
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON				ICON					"Main.ico"
-IDI_CHECKALL			ICON					"CheckAll.ico"
-IDI_ADDFEED				ICON					"AddFeed.ico"
-IDI_IMPORTFEEDS			ICON					"Import.ico"
-IDI_EXPORTFEEDS			ICON					"Export.ico"
-IDI_ENABLED				ICON					"Enabled.ico"
-IDI_DISABLED			ICON					"Disabled.ico"
+IDI_ICON                ICON                    "Main.ico"
+IDI_CHECKALL            ICON                    "CheckAll.ico"
+IDI_ADDFEED             ICON                    "AddFeed.ico"
+IDI_IMPORTFEEDS         ICON                    "Import.ico"
+IDI_EXPORTFEEDS         ICON                    "Export.ico"
+IDI_ENABLED             ICON                    "Enabled.ico"
+IDI_DISABLED            ICON                    "Disabled.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -43,6 +50,7 @@ BEGIN
     PUSHBUTTON      "Remove",IDC_REMOVE,187,187,50,14
     PUSHBUTTON      "Import",IDC_IMORT,252,204,50,14
     PUSHBUTTON      "Export",IDC_EXORT,252,219,50,14
+    CONTROL         "Retrieve news at startup",IDC_STARTUPRETRIEVE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,9,205,203,10
 END
 
 IDD_ADDFEED DIALOGEX 0, 0, 250, 228
@@ -114,7 +122,7 @@ GUIDELINES DESIGNINFO
 BEGIN
     IDD_OPTIONS, DIALOG
     BEGIN
-        BOTTOMMARGIN, 189
+        BOTTOMMARGIN, 233
     END
 
     IDD_ADDFEED, DIALOG
@@ -125,6 +133,11 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+#endif    // Русский (Россия) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
 
 #ifndef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////

@@ -34,7 +34,7 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 		HANDLE hContact = db_find_first();
 		while (hContact != NULL) 
 		{
-			if(IsMyContact(hContact)) 
+			if(IsMyContact(hContact))
 			{
 				if (DBGetContactSettingDword(hContact, MODULE, "UpdateTime", 60))
 				{
@@ -49,7 +49,7 @@ VOID CALLBACK timerProc(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 			hContact = db_find_next(hContact);
 		}
 		if (!ThreadRunning && HaveUpdates)
-			mir_forkthread(UpdateThreadProc, NULL);
+			mir_forkthread(UpdateThreadProc, (LPVOID)FALSE);
 	}
 }
 
@@ -60,7 +60,7 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) != 0 && !Miranda_Terminated())
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated() && db_get_b(NULL, MODULE, "StartupRetrieve", 1))
 	{
 		CheckAllFeeds(0, 1);
 		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
@@ -77,28 +77,30 @@ void UpdateListAdd(HANDLE hContact)
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListTail == NULL) UpdateListHead = newItem;
+	if (UpdateListTail == NULL)
+		UpdateListHead = newItem;
 	else UpdateListTail->next = newItem;
 	UpdateListTail = newItem;
 
 	ReleaseMutex(hUpdateMutex);
 }
 
-HANDLE UpdateGetFirst() 
+HANDLE UpdateGetFirst()
 {
 	HANDLE hContact = NULL;
 
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 
-	if (UpdateListHead != NULL) 
+	if (UpdateListHead != NULL)
 	{
-		UPDATELIST* Item = UpdateListHead; 
+		UPDATELIST* Item = UpdateListHead;
 
 		hContact = Item->hContact;
 		UpdateListHead = Item->next;
 		mir_free(Item);
 
-		if (UpdateListHead == NULL) UpdateListTail = NULL; 
+		if (UpdateListHead == NULL)
+			UpdateListTail = NULL;
 	}
 
 	ReleaseMutex(hUpdateMutex);
@@ -106,7 +108,7 @@ HANDLE UpdateGetFirst()
 	return hContact;
 }
 
-void DestroyUpdateList(void) 
+void DestroyUpdateList(void)
 {
 	UPDATELIST *temp;
 
@@ -115,7 +117,7 @@ void DestroyUpdateList(void)
 	temp = UpdateListHead;
 
 	// free the list one by one
-	while (temp != NULL) 
+	while (temp != NULL)
 	{
 		UpdateListHead = temp->next;
 		mir_free(temp);
@@ -127,7 +129,7 @@ void DestroyUpdateList(void)
 	ReleaseMutex(hUpdateMutex);
 }
 
-void UpdateThreadProc(LPVOID hWnd)
+void UpdateThreadProc(LPVOID AvatarCheck)
 {
 	WaitForSingleObject(hUpdateMutex, INFINITE);
 	if (ThreadRunning)
@@ -138,9 +140,12 @@ void UpdateThreadProc(LPVOID hWnd)
 	ThreadRunning = TRUE;	// prevent 2 instance of this thread running
 	ReleaseMutex(hUpdateMutex);
 
-	// update weather by getting the first station from the queue until the queue is empty
-	while (UpdateListHead != NULL && !Miranda_Terminated())	
-		CheckCurrentFeed(UpdateGetFirst());
+	// update news by getting the first station from the queue until the queue is empty
+	while (UpdateListHead != NULL && !Miranda_Terminated())
+		if ((BOOL)AvatarCheck)
+			CheckCurrentFeedAvatar(UpdateGetFirst());
+		else
+			CheckCurrentFeed(UpdateGetFirst());
 
 	// exit the update thread
 	ThreadRunning = FALSE;

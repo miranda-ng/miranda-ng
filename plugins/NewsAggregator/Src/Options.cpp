@@ -21,7 +21,7 @@ Boston, MA 02111-1307, USA.
 
 INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -38,7 +38,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 		}
 		case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 				case IDOK:
 					{
@@ -163,7 +163,7 @@ INT_PTR CALLBACK DlgProcAddFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARA
 
 INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -172,12 +172,12 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 			ItemInfo *nSelItem = new ItemInfo(SelItem);
 			SetWindowText(hwndDlg, TranslateT("Change Feed"));
 			SendDlgItemMessage(hwndDlg, IDC_CHECKTIME, EM_LIMITTEXT, 3, 0);
-			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);	
+			SendDlgItemMessage(hwndDlg, IDC_TIMEOUT_VALUE_SPIN, UDM_SETRANGE32, 0, 999);
 
 			HANDLE hContact = db_find_first();
-			while (hContact != NULL) 
+			while (hContact != NULL)
 			{
-				if (IsMyContact(hContact)) 
+				if (IsMyContact(hContact))
 				{
 					DBVARIANT dbNick = {0};
 					if (DBGetContactSettingTString(hContact, MODULE, "Nick", &dbNick))
@@ -234,7 +234,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 				case IDOK:
 					{
@@ -364,7 +364,7 @@ INT_PTR CALLBACK DlgProcChangeFeedOpts(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 
 INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-	switch (msg) 
+	switch (msg)
 	{
 		case WM_INITDIALOG:
 		{
@@ -418,7 +418,7 @@ INT_PTR CALLBACK DlgProcChangeFeedMenu(HWND hwndDlg, UINT msg, WPARAM wParam, LP
 		}
 		case WM_COMMAND:
 		{
-			switch (LOWORD(wParam)) 
+			switch (LOWORD(wParam))
 			{
 				case IDOK:
 					{
@@ -551,12 +551,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			SetWindowLongPtr(hwndDlg, GWLP_USERDATA, 0);
 			CreateList(hwndList);
 			UpdateList(hwndList);
+			CheckDlgButton(hwndDlg, IDC_STARTUPRETRIEVE, db_get_b(NULL, MODULE, "StartupRetrieve", 1));
 			return TRUE;
 		}
 
 	case WM_COMMAND:
 	{
-		switch (LOWORD(wParam)) 
+		switch (LOWORD(wParam))
 		{
 			case IDC_ADD:
 				{
@@ -567,7 +568,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 				{
 					ItemInfo SelItem = {0};
 					int sel = ListView_GetSelectionMark(hwndList);
-					ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);								
+					ListView_GetItemText(hwndList, sel, 0, SelItem.nick, MAX_PATH);
 					ListView_GetItemText(hwndList, sel, 1, SelItem.url, MAX_PATH);
 					SelItem.hwndList = hwndList;
 					SelItem.SelNumber = sel;
@@ -580,13 +581,13 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					{
 						TCHAR nick[MAX_PATH], url[MAX_PATH];
 						int sel = ListView_GetSelectionMark(hwndList);
-						ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);								
-						ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);								
+						ListView_GetItemText(hwndList, sel, 0, nick, MAX_PATH);
+						ListView_GetItemText(hwndList, sel, 1, url, MAX_PATH);
 
 						HANDLE hContact = db_find_first();
-						while (hContact != NULL) 
+						while (hContact != NULL)
 						{
-							if(IsMyContact(hContact)) 
+							if(IsMyContact(hContact))
 							{
 								DBVARIANT dbNick = {0};
 								if (DBGetContactSettingTString(hContact, MODULE, "Nick", &dbNick))
@@ -613,6 +614,10 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 					}
 					return FALSE;
 				}
+
+			case IDC_STARTUPRETRIEVE:
+				SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
+				break;
 		}
 		break;
 	}
@@ -623,11 +628,12 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 			{
 				case PSN_APPLY:
 					{
+						db_set_b(NULL, MODULE, "StartupRetrieve", IsDlgButtonChecked(hwndDlg, IDC_STARTUPRETRIEVE));
 						HANDLE hContact = db_find_first();
 						int i = 0;
-						while (hContact != NULL) 
+						while (hContact != NULL)
 						{
-							if(IsMyContact(hContact)) 
+							if(IsMyContact(hContact))
 							{
 								DBWriteContactSettingByte(hContact, MODULE, "CheckState", ListView_GetCheckState(hwndList, i));
 								if (!ListView_GetCheckState(hwndList, i))
@@ -673,7 +679,7 @@ INT_PTR CALLBACK UpdateNotifyOptsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 INT OptInit(WPARAM wParam, LPARAM lParam)
 {
- 	OPTIONSDIALOGPAGE odp = {0};
+	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
 	odp.position = 100000000;
 	odp.hInstance = hInst;

@@ -1395,3 +1395,122 @@ VOID CheckCurrentFeed(HANDLE hContact)
 		DBWriteContactSettingDword(hContact, MODULE, "LastCheck", time(NULL));
 	}
 }
+
+VOID CheckCurrentFeedAvatar(HANDLE hContact)
+{
+	char *szData = NULL;
+	DBVARIANT dbURL = {0};
+	if (DBGetContactSettingTString(hContact, MODULE, "URL", &dbURL))
+		return;
+	else if (db_get_b(hContact, MODULE, "CheckState", 1) != 0)
+	{
+		GetNewsData(dbURL.ptszVal, &szData, hContact, NULL);
+		DBFreeVariant(&dbURL);
+		if (szData)
+		{
+			TCHAR *tszData = mir_utf8decodeT(szData);
+			if (!tszData)
+				tszData = mir_a2t(szData);
+			int bytesParsed = 0;
+			HXML hXml = xi.parseString(tszData, &bytesParsed, NULL);
+			mir_free(tszData);
+			mir_free(szData);
+			if(hXml != NULL)
+			{
+				int childcount = 0;
+				HXML node = xi.getChild(hXml, childcount);
+				while (node)
+				{
+					if (!lstrcmpi(xi.getName(node), _T("rss")) || !lstrcmpi(xi.getName(node), _T("rdf")))
+					{
+						HXML chan = xi.getChild(node, 0);
+						for (int j = 0; j < xi.getChildCount(chan); j++)
+						{
+							HXML child = xi.getChild(chan, j);
+							if (!lstrcmpi(xi.getName(child), _T("image")))
+							{
+								for (int x = 0; x < xi.getChildCount(child); x++)
+								{
+									HXML imageval = xi.getChild(child, x);
+									if (!lstrcmpi(xi.getName(imageval), _T("url")))
+									{
+										LPCTSTR url = xi.getText(imageval);
+										DBWriteContactSettingTString(hContact, MODULE, "ImageURL", url);
+
+										PROTO_AVATAR_INFORMATIONT pai = {NULL};
+										pai.cbSize = sizeof(pai);
+										pai.hContact = hContact;
+										DBVARIANT dbVar = {0};
+
+										if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
+										{
+											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											pai.format = GetImageFormat(ext);
+
+											TCHAR *filename = dbVar.ptszVal;
+											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+											if (DownloadFile(url, pai.filename))
+											{
+												DBWriteContactSettingTString(hContact, MODULE, "ImagePath", pai.filename);
+												ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE) &pai, NULL);
+											}
+											else
+												ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE) &pai, NULL);
+											DBFreeVariant(&dbVar);
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+					else if (!lstrcmpi(xi.getName(node), _T("feed")))
+					{
+						for (int j = 0; j < xi.getChildCount(node); j++)
+						{
+							HXML child = xi.getChild(node, j);
+							if (!lstrcmpi(xi.getName(child), _T("icon")))
+							{
+								for (int x = 0; x < xi.getChildCount(child); x++)
+								{
+									HXML imageval = xi.getChild(child, x);
+									if (!lstrcmpi(xi.getName(imageval), _T("url")))
+									{
+										LPCTSTR url = xi.getText(imageval);
+										DBWriteContactSettingTString(hContact, MODULE, "ImageURL", url);
+
+										PROTO_AVATAR_INFORMATIONT pai = {NULL};
+										pai.cbSize = sizeof(pai);
+										pai.hContact = hContact;
+										DBVARIANT dbVar = {0};
+
+										if (!DBGetContactSettingTString(hContact, MODULE, "Nick", &dbVar))
+										{
+											TCHAR *ext = _tcsrchr((TCHAR*)url, _T('.')) + 1;
+											pai.format = GetImageFormat(ext);
+
+											TCHAR *filename = dbVar.ptszVal;
+											mir_sntprintf(pai.filename, SIZEOF(pai.filename), _T("%s\\%s.%s"), tszRoot, filename, ext);
+											if (DownloadFile(url, pai.filename))
+											{
+												DBWriteContactSettingTString(hContact, MODULE, "ImagePath", pai.filename);
+												ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE) &pai, NULL);
+											}
+											else
+												ProtoBroadcastAck(MODULE, hContact, ACKTYPE_AVATAR, ACKRESULT_FAILED, (HANDLE) &pai, NULL);
+											DBFreeVariant(&dbVar);
+											break;
+										}
+									}
+								}
+							}
+						}
+					}
+					childcount +=1;
+					node = xi.getChild(hXml, childcount);
+				}
+				xi.destroyNode(hXml);
+			}
+		}
+	}
+}
