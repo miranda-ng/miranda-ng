@@ -1007,7 +1007,7 @@ UID: %s (SHIFT+клик -> копировать в буфер)\nКлик - Ин�
 [Remove Contact from Favorites]
 Удалить контакт из избранных
 [Copyright © 2004-2010 by the Miranda IM project. More  \ndetailed copyright information can be found in the included README file.\n\nThis software is distributed and licensed under the terms of the GNU General Public License V2 or any later version.]
-Авторские права © 2004-2010 проект Miranda IM. Детальная  \nинформация находится в файле Readme.\n\nЭто программное обеспечение предоставляется под лицензией GNU General Public License V2 или новее.
+Авторские права © 2004-2013 проект Miranda NG. Детальная  \nинформация находится в файле Readme.\n\nЭто программное обеспечение предоставляется под лицензией GNU General Public License V2 или новее.
 [Click for contact menu\nClick dropdown for window settings]
 Меню контакта\nСтрелка вниз - настройки окна
 [Splitter Position]
