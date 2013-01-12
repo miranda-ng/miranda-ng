@@ -1,6 +1,6 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include "..\src\resource.h"
+#include "resource.h"
 
 #define APSTUDIO_READONLY_SYMBOLS
 /////////////////////////////////////////////////////////////////////////////
@@ -95,7 +95,7 @@ BEGIN
     PUSHBUTTON      "Browse",IDC_SET_HOME_DIR,293,44,54,14
     EDITTEXT        IDC_HOME_DIR,7,44,277,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_BIN_PATH,7,17,277,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,166,87,118,14
+    PUSHBUTTON      "Generate and use random key",IDC_GENERATE_RANDOM,132,87,152,14
     CONTROL         "Turn on key autoexchange",IDC_AUTO_EXCHANGE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,64,277,10
 END
 
