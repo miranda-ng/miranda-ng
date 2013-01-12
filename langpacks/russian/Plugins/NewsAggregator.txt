@@ -197,3 +197,5 @@ URL страницы с комментариями к новости.
 идентификатор новости.
 [Specify one or more categories that the item belongs to.]
 категории новости.
+[Retrieve news at startup]
+Получать новости при запуске
