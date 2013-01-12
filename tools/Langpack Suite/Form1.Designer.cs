@@ -470,7 +470,8 @@
             "English",
             "Русский",
             "Українська",
-            "Беларускі"});
+            "Беларускі",
+            "Deutsch"});
             this.LanguageComboBox.Location = new System.Drawing.Point(204, 348);
             this.LanguageComboBox.Name = "LanguageComboBox";
             this.LanguageComboBox.Size = new System.Drawing.Size(121, 21);

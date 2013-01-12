@@ -106,6 +106,10 @@ namespace Langpack_Suite
             {
                 LanguageComboBox.SelectedIndex = 3;
             }
+            else if (culture.ToString() == "de-DE")
+            {
+                LanguageComboBox.SelectedIndex = 4;
+            }
             else
             {
                 culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -815,6 +819,8 @@ namespace Langpack_Suite
                 culture = CultureInfo.CreateSpecificCulture("uk-UA");
             if (LanguageComboBox.SelectedIndex == 3)
                 culture = CultureInfo.CreateSpecificCulture("be-BY");
+            if (LanguageComboBox.SelectedIndex == 4)
+                culture = CultureInfo.CreateSpecificCulture("de-DE");
             adjustCulture();
 
         }

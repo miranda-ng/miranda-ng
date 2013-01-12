@@ -118,199 +118,194 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AssignLang" xml:space="preserve">
-    <value>Ленгпак вибрано...</value>
+    <value>Sprachdatei zugeordnet...</value>
   </data>
   <data name="AssignLangBtn" xml:space="preserve">
-    <value>Вибрати</value>
+    <value>Zuordnung</value>
   </data>
   <data name="AutoModeBtn" xml:space="preserve">
-    <value>Автоматичний</value>
+    <value>Automatisch</value>
   </data>
   <data name="ComFound" xml:space="preserve">
-    <value>Знайдені закоментовані рядки...</value>
+    <value>Kommentare gefunden...</value>
   </data>
   <data name="CommentFindBtn" xml:space="preserve">
-    <value>Пошук закоментованного</value>
+    <value>Kommentare finden</value>
   </data>
   <data name="ComNotFound" xml:space="preserve">
-    <value>Закоментовані рядки не знайдені!</value>
+    <value>Kommentare nicht gefunden!</value>
   </data>
   <data name="CoreNotFound" xml:space="preserve">
-    <value>Файл =CORE=.txt не знайден...</value>
+    <value>Datei =CORE=.txt nicht gefunden...</value>
   </data>
   <data name="CreateLangpackBtn" xml:space="preserve">
-    <value>Генорувати ленгпак</value>
+    <value>Sprachdatei erstellen</value>
   </data>
   <data name="Done" xml:space="preserve">
-    <value>Виконано!</value>
+    <value>Beendet!</value>
   </data>
   <data name="DupesFindBtn" xml:space="preserve">
-    <value>Пошук дублів</value>
+    <value>Duplikate finden</value>
   </data>
   <data name="DupesNotFound" xml:space="preserve">
-    <value>Файл =DUPES=.txt не знайдено...</value>
+    <value>Datei =DUPES=.txt nicht gefunden...</value>
   </data>
   <data name="DupFound" xml:space="preserve">
-    <value>Дублі знайдені...</value>
+    <value>Duplikate gefunden...</value>
   </data>
   <data name="DupNotFound" xml:space="preserve">
-    <value>Дублі не знайдені!</value>
+    <value>Duplikate nicht gefunden!</value>
   </data>
   <data name="DupStop" xml:space="preserve">
-    <value>Робота зупинина.</value>
+    <value>Arbeit beendet.</value>
   </data>
   <data name="Error" xml:space="preserve">
-    <value>Помилка</value>
+    <value>Fehler</value>
   </data>
   <data name="File2NotFound" xml:space="preserve">
-    <value>.txt не знайдено...</value>
+    <value>.txt nicht gefunden...</value>
   </data>
   <data name="FileNotFound" xml:space="preserve">
-    <value> не знайдено...</value>
+    <value> nicht gefunden...</value>
   </data>
   <data name="FileText" xml:space="preserve">
-    <value>Файл </value>
+    <value>Datei </value>
   </data>
   <data name="FindLang" xml:space="preserve">
-    <value>Пошук ленгпака...</value>
+    <value>Finde Sprachdatei...</value>
   </data>
   <data name="GenStop" xml:space="preserve">
-    <value>Генерація зупинина.</value>
+    <value>Generierung gestoppt.</value>
   </data>
   <data name="GenText" xml:space="preserve">
-    <value>Генерація ленгпака...</value>
+    <value>Sprachdatei erstellen...</value>
   </data>
   <data name="groupBox1" xml:space="preserve">
-    <value>Вибір файлу ленгпака</value>
+    <value>Sprachdatei zuordnen</value>
   </data>
   <data name="groupBox2" xml:space="preserve">
-    <value>Файл результату</value>
+    <value>Ausgabedatei</value>
   </data>
   <data name="groupBox5" xml:space="preserve">
-    <value>Режим роботи</value>
+    <value>Arbeitsmodus</value>
   </data>
   <data name="HeadNotFound" xml:space="preserve">
-    <value>Файл =HEAD=.txt не знайдено...</value>
+    <value>Datei =HEAD=.txt nicht gefunden...</value>
   </data>
   <data name="Inf" xml:space="preserve">
-    <value>Інформація</value>
+    <value>Informationen</value>
   </data>
   <data name="label1" xml:space="preserve">
-    <value>Назва ленгпака:</value>
+    <value>Sprachdatei Dateiname:</value>
   </data>
   <data name="label2" xml:space="preserve">
-    <value>Ім'я:</value>
+    <value>Name:</value>
   </data>
   <data name="label3" xml:space="preserve">
-    <value>Файл LinkList.txt містить посилання на окремі файли
-локалізації і може бути використаний в будь-якій програмі
-для завантаження файлів з мережі. Завантажені файли можуть
-бути використані для створення повної локалізації або
-складається тільки з використовуваних Вами модулів
-(інформація взята з version info файлу, при його
-наявності).</value>
+    <value>LinkList.txt Datei beinhaltet Links zu den Übersetzungsdateien
+verschiedener Plugins und kann in jedem Download-Manager
+verwendet werden. Aus den heruntergeladenen Dateien kann einer
+Übersetzung aller, oder nur der von Ihnen verwendeten Plugins
+erstellt werden (Informationen werden aus Ihrer Versionsinfo-Datei
+ausgelesen, falls verfügbar).</value>
   </data>
   <data name="label4" xml:space="preserve">
-    <value>URL сайту з першоджерелами:</value>
+    <value>URL des SVNs:</value>
   </data>
   <data name="LangNotFound" xml:space="preserve">
-    <value>Ленгпак не знайдено...</value>
+    <value>Sprachdatei nicht gefunden...</value>
   </data>
   <data name="LangPathLbl" xml:space="preserve">
-    <value>не выбран</value>
+    <value>nicht belegt</value>
   </data>
   <data name="LanguageLbl" xml:space="preserve">
-    <value>Мова інтерфейсу:</value>
+    <value>Sprache:</value>
   </data>
   <data name="LinkListGen" xml:space="preserve">
-    <value>Генерація LinkList...</value>
+    <value>LinkList erstellen...</value>
   </data>
   <data name="LinkListGenBtn" xml:space="preserve">
-    <value>Створити файл</value>
+    <value>Datei erstellen</value>
   </data>
   <data name="ManualModeBtn" xml:space="preserve">
-    <value>Ручний</value>
+    <value>Manuell</value>
   </data>
   <data name="NotOpen" xml:space="preserve">
-    <value>Неможливо відкрити файл.</value>
+    <value>Kann Datei nicht öffnen.</value>
   </data>
   <data name="NotTransFound" xml:space="preserve">
-    <value>Знайдені неперекладені рядки...</value>
+    <value>Not Translated lines founded...</value>
   </data>
   <data name="NotTranslFindBtn" xml:space="preserve">
-    <value>Пошук неперекладеного</value>
+    <value>Find Not Translated</value>
   </data>
   <data name="NotTransNotFound" xml:space="preserve">
-    <value>Неперекладені рядки не знайдені!</value>
+    <value>Not translated lines not found!</value>
   </data>
   <data name="NotWrite" xml:space="preserve">
-    <value>Неможливо записати файл.</value>
+    <value>Kann Datei nicht schreiben.</value>
   </data>
   <data name="OwnFileCheckBox" xml:space="preserve">
-    <value>Додати свій файл до ленгпаку</value>
+    <value>Eigene Datei zur Sprachdatei hinzufügen</value>
   </data>
   <data name="PlugLink" xml:space="preserve">
-    <value>Запис файлів з папки Plugins...</value>
-  </data>
-  <data name="RootLink" xml:space="preserve">
-    <value>Запис файлів з кореневої папки...</value>
-  </data>
-  <data name="SelectOwnFileBtn" xml:space="preserve">
-    <value>Вибрати</value>
-  </data>
-  <data name="tabPage1" xml:space="preserve">
-    <value>Генератор</value>
-  </data>
-  <data name="tabPage2" xml:space="preserve">
-    <value>Список файлів</value>
-  </data>
-  <data name="tabPage3" xml:space="preserve">
-    <value>Пошук дублів</value>
-  </data>
-  <data name="VersionNotFound" xml:space="preserve">
-    <value>Файл =VERSION=.txt не знайден...</value>
-  </data>
-  <data name="VIGen" xml:space="preserve">
-    <value>Знайдено файл VersionInfo.txt, буде сгенеровано короткий ленгпак...</value>
-  </data>
-  <data name="WeatherLink" xml:space="preserve">
-    <value>Запис файлів з папки Weather...</value>
-  </data>
-  <data name="WOVIGen" xml:space="preserve">
-    <value>VersionInfo.txt не знайдено, буде згенерировано повний ленгпак...</value>
-  </data>
-  <data name="WrongSelect" xml:space="preserve">
-    <value>Папка обрана неправильно...</value>
+    <value>Writing files from Plugins folder...</value>
   </data>
   <data name="PlugLinkNotFound" xml:space="preserve">
-    <value>Підпапка Plugins не знайдена...</value>
+    <value>Unterverzeichnis Plugins nicht gefunden...</value>
+  </data>
+  <data name="RootLink" xml:space="preserve">
+    <value>Schreiben von Dateien aus Root Ordner ...</value>
+  </data>
+  <data name="SelectOwnFileBtn" xml:space="preserve">
+    <value>Auswählen</value>
+  </data>
+  <data name="tabPage1" xml:space="preserve">
+    <value>Generator</value>
+  </data>
+  <data name="tabPage2" xml:space="preserve">
+    <value>Liste der Dateien</value>
+  </data>
+  <data name="tabPage3" xml:space="preserve">
+    <value>Duplikate suchen</value>
+  </data>
+  <data name="VersionNotFound" xml:space="preserve">
+    <value>Datei =VERSION=.txt nicht gefunden...</value>
+  </data>
+  <data name="VIGen" xml:space="preserve">
+    <value>Datei VersionInfo.txt gefunden, making shot langpack...</value>
+  </data>
+  <data name="WeatherLink" xml:space="preserve">
+    <value>Schreibe Dateien aus Weather Verzeichnis...</value>
   </data>
   <data name="WeatherLinkNotFound" xml:space="preserve">
-    <value>Підпапка Weather не знайдена...</value>
+    <value>Unterverzeichnis Weather nicht gefunden...</value>
+  </data>
+  <data name="WOVIGen" xml:space="preserve">
+    <value>VersionInfo.txt nicht gefunden, so dass volle langpack ...</value>
+  </data>
+  <data name="WrongSelect" xml:space="preserve">
+    <value>Falsches Verzeichnis ausgewählt...</value>
   </data>
   <data name="GetVICheckBox" xml:space="preserve">
-    <value>Завантажити файл ВІ з Інтернету або повніий шлях</value>
+    <value>VersionInfo aus Internet oder vollen lokalen Pfad</value>
   </data>
   <data name="label6" xml:space="preserve">
-    <value>наприклад,  http://www.miranda-vi.org/report/mataes</value>
+    <value>bspw. http://www.miranda-vi.org/report/mataes</value>
   </data>
   <data name="tipper" xml:space="preserve">
-    <value>Список параметрів командного рядка</value>
+    <value>Kommandozeilen-Argumente</value>
   </data>
   <data name="VarHead" xml:space="preserve">
-    <value>Аргументи</value>
+    <value>Argumente</value>
   </data>
   <data name="VarText" xml:space="preserve">
-    <value>\q - тиха генерація
-\n - ім'я файла ленгпака
-\o - шлях до файлу для включення у ленгпак
-\u - Посилання на ВІ с miranda-vi.org або повний локальний шлях
-\l - шлях вихідного файлу ленгпаку
-\p - доступний мовний пакет
+    <value>\q - stille Erzeugung
+\n - Dateiname der Sprachdatei
+\o - Pfad zu Hinzufügen eigener Datei
+\u - Link zu VI von miranda-vi.org oder voller lokaler Pfad
+\l - Sprachdatei Ausgabepfad
 
-Приклад, LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt \prussian</value>
-  </data>
-  <data name="AvailLangpacks" xml:space="preserve">
-    <value>Доступні пакети:</value>
+Beispiel LangpackSuite.exe \q \nLang_Test \o"My Strings.txt" \uD:\Miranda\VersionInfo.txt</value>
   </data>
 </root>
