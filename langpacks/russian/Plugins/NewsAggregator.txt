@@ -187,6 +187,8 @@ RSS не смог найти IP-адрес, соответствующий им�
 текст новости.
 [The URL of the item.]
 URL новости.
+[URL]
+Ссылка
 [Email address of the author of the item.]
 E-mail автора новости.
 [URL of a page for comments relating to the item.]
