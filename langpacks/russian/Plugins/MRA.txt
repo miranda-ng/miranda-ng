@@ -4,7 +4,7 @@
 ;  Module: mail.ru Agent
 ;  Versions: 1.14.1.0
 ;============================================================
-[Mail.ru Агент (MRA) protocol support for Miranda NG.]
+[Mail.ru Agent (MRA) protocol support for Miranda NG.]
 Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
 [Display &Inbox]
 Открыть входящие
