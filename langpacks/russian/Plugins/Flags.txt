@@ -21,8 +21,6 @@
 В следующем слоте:
 [Use &unknown flag if the country can not be determined]
 Показ. неизв. флаг, если страну нельзя определить
-[The Country Flags Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль национальных флагов не может быть загружен. Для его работы необходима Miranda IM %hs или выше.
 [Faroe Islands]
 О-ва Фаро
 [Saipan Island (Northern Mariana Islands)]

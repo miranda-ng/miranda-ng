@@ -13,7 +13,7 @@
 #define __PLUGIN_NAME				"Pack Updater"
 #define __INTERNAL_NAME				"PackUpdater"
 #define __FILENAME					"PackUpdater.dll"
-#define __DESCRIPTION 				"Simple updater for Miranda IM premodified packs."
+#define __DESCRIPTION 				"Simple updater for Miranda NG premodified packs."
 #define __AUTHOR					"Mataes, ZERO_BiT"
 #define __AUTHOREMAIL				"mataes2007@gmail.com, zero-bit@mail.ru"
 #define __AUTHORWEB					"http://miranda-ng.org/"

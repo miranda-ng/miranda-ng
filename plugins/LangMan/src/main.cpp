@@ -115,12 +115,6 @@ __declspec(dllexport) int Load(void)
 	 * is checked in MirandaPluginInfo().
 	 * Not placed in MirandaPluginInfo() to avoid MessageBoxes on plugin options. 
 	 * Using ANSI as LANG_UNICODE might not be supported. */
-	if ( CallService(MS_SYSTEM_GETVERSION, 0, 0) < NEEDED_MIRANDA_VERSION ) {
-		char szText[256];
-		mir_snprintf(szText, sizeof(szText), Translate("The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later."), NEEDED_MIRANDA_VERSION_STR);
-		MessageBoxA(NULL, szText, Translate("Language Pack Manager Plugin"), MB_OK|MB_ICONERROR|MB_SETFOREGROUND|MB_TOPMOST|MB_TASKMODAL);
-		return 1;
-	}
 
 	INITCOMMONCONTROLSEX icc;
 	icc.dwSize = sizeof(icc);

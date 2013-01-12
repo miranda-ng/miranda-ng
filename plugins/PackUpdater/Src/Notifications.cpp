@@ -526,9 +526,9 @@ INT_PTR CALLBACK DlgUpdate(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam
 								}
 
 								if (UpdatesCount > 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
-									lstrcpyn(tszBuff, TranslateT("Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed."), SIZEOF(tszBuff));
+									lstrcpyn(tszBuff, TranslateT("Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
 								else if (UpdatesCount == 1 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
-									lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda IM will be closed."), SIZEOF(tszBuff));
+									lstrcpyn(tszBuff, TranslateT("Download complete. Start updating? All your data will be saved and Miranda NG will be closed."), SIZEOF(tszBuff));
 								if (UpdatesCount > 0 && lstrcmp(arExt[0].c_str(), _T(".html")) != 0)
 								{
 									INT rc = -1;

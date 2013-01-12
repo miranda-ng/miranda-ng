@@ -178,7 +178,6 @@ P2P Подключения
 [Microphone]
 [Public avatar]
 [Publicly visible status]
-[The Tlen protocol plugin cannot be loaded. It requires Miranda IM 0.7 or later.]
 [Tlen Chats]
 [Tlen chats]
 [Tlen Inbox]

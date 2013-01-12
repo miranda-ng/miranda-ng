@@ -182,8 +182,6 @@ AIM Предупреждение
 (%s) Получение %s
 [A message has been dropped. You are exceeding the server speed limit.]
 Все сообщения сброшены. Вы превысили ограничение скорости сервера.
-[A restart of Miranda IM is required for changes to take effect.]
-Изменения вступят в силу после перезапуска программы.
 [Administrator]
 Администратор
 [An unknown signon error has occurred.  Please try again later.]

@@ -23,8 +23,6 @@
 Модуль управления локализациями
 [Language Pack Manager Plugin]
 Модуль управления локализациями
-[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
-Модуль управления локализациями не может быть загружен. Требуется версия Miranda IM %hs или выше.
 [Language Pack Update HTTP connection]
 Подключения модуля локализаций (HTTP)
 [Installed Languages]

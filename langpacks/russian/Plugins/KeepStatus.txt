@@ -33,8 +33,6 @@
 Статус установлен
 [Giving up]
 Прекращаю
-[KeepStatus requires at least v0.3.1 (final) of Miranda IM, get it at www.miranda-im.org]
-KeepStatus требует как минимум Miranda IM версии 0.3.1 (финал)
 [connection lost]
 соединение потеряно
 [each retry]

@@ -435,8 +435,6 @@ xСтатус
 Скачать скины
 [Parse Tipper variables first]
 Обрабатывать переменные подсказок первыми
-[Cannot obtain required interfaces!\nTooltips will not be available until you upgrade Miranda IM to the newest version.]
-Не удалось получить необходимые интерфейсы!\nПодсказки не будут доступны до обновления Miranda IM до последней версии.
 [Meta contact:]
 Мета контакт:
 [Cellular:]

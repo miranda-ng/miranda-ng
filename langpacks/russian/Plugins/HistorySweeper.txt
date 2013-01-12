@@ -32,10 +32,6 @@
 Очистить истории выбранных контактов
 [Sweep history for this contacts:]
 Очистить историю для этих контактов:
-[Sweep history at Miranda IM startup]
-Очищать историю при загрузке
-[Sweep history at Miranda IM shutdown]
-Очищать историю при выходе
 [Put an item in the main menu*]
 Добавить пункт в главное меню*
 [Put an item in the contact menu*]

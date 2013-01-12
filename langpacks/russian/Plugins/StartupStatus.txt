@@ -18,8 +18,6 @@
 Начальный статус
 [Your default profile will be changed]
 Профиль по умолчанию будет изменен
-[Some changes you made require a restart of Miranda-IM]
-Некоторые изменения требуют перезапуска Miranda IM
 [Status Profiles]
 Профили статусов
 [StatusProfiles]

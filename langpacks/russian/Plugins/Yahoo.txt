@@ -195,8 +195,6 @@ Yahoo
 Создать новую учётную запись Yahoo
 [mail]
 почта
-[Yahoo plugin cannot be loaded. It requires Miranda IM 0.8.0.24 or later.]
-Модуль Yahoo не может быть загружен. Требуется Miranda IM версии 0.8.0.24 или выше.
 [AutoLogin to Yahoo Website(s)]
 Автоматически подключаться к Yahoo сайту(ам)
 [Create Conference]

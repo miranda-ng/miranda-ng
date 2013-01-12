@@ -351,8 +351,6 @@ INI файл погоды для этой станции не найден (20)
 Внимание! Если эта опция включена, вы не сможете поменять значок
 [Disable internal icon selection]
 Отключить выбор значка
-[Miranda IM has to be restarted for the changes to take effect.]
-Изменения вступят в силу после перезапуска Miranda IM.
 [Note Text]
 Текст
 [Weather HTTP connections]

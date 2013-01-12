@@ -1,7 +1,7 @@
 ﻿#muuid {7eeeb55e-9d83-4e1a-a12f-8f13f1a124fb}
 ;============================================================
 ;  File: pmanager.dll
-;  Module: Miranda IM Profile Changer by Roman Gemini
+;  Module: Miranda NG Profile Changer by Roman Gemini
 ;  Versions: 0.0.0.2
 ;  URL: http://woobind.org.ua/forum/index.php?board=13.0
 ;============================================================

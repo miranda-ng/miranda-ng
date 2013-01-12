@@ -111,8 +111,6 @@ Jerk
 Ввод команды
 [Please enter the reply]
 Введите ответ
-[The IRC protocol could not be loaded as it is dependant on Miranda IM version %s or later.\n\nDo you want to download an update from the Miranda website now?]
-IRC протокол не загружен, т.к. требуется Miranda IM версии %s или позднее.\n\nЗагрузить обновление с сайта программы?
 [Please complete all fields]
 Заполните все поля
 [<Resolved IP: ]
@@ -249,8 +247,6 @@ DCC-запрос на передачу файла послан %s [%s]
 Игнорировать ->
 [Connecting to]
 Соединение с
-[This protocol is dependent on another plugin named 'Chat'\nPlease download it from the Miranda IM website!]
-Этот протокол требует наличия модуля chat.\nПожалуйста, загрузите его с сайта Miranda IM.
 [Please choose an IRC-network to go online. This network will be the default.]
 Выберите IRC сеть. Эта сеть будет выбрана по умолчанию.
 [Default network]
@@ -431,8 +427,6 @@ ID пользователя
 Сообщение выхода
 [Use the options to set modes for this channel. You are usually required to be op. or higher to modify.]
 Опции настройки чат-комнаты. Для настройки чат-комнаты нужны права администратора.
-[for choosing the IRC protocol for Miranda IM. Please enter your nickname and real name]
-за выбор IRC протокола для Miranda IM. Введите ваш ник и настоящее имя
 [Thank You...]
 Спасибо
 [Full name]
@@ -503,8 +497,6 @@ ID пользователя
 Ошибка DCC: Невозможно открыть локальный порт для пассивной передачи файлов
 [IRC Protocol Plugin]
 Модуль протокола IRC
-[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Невозможно загрузить IRC протокол. Требуется Miranda IM версии 0.7.0.0 и выше.
 [Cyrillic (KOI8R)]
 Кириллица KOI8-R
 [Cyrillic (Windows)]
@@ -677,8 +669,6 @@ Nickserv убить фантома
 Отцепить ник от текущего
 [Type new server address here]
 Новый адрес сервера
-[The IRC protocol plugin cannot be loaded. It requires Miranda IM 0.8.0.9 or later.]
-Невозможно загрузить модуль протокола IRC. Требуется Miranda IM версии 0.8.0.9 или выше.
 [Connection can not be established! You have not completed all necessary fields (Nickname, User ID and m_name).]
 Невозможно установить подключение. Вы не ввели все необходимые данные (ник, User ID и имя)
 [Alternate nick]
@@ -699,12 +689,6 @@ Nickserv убить фантома
 Настройки не сохранены.\n\nПоле "Псевдоним" должно содержать как минимум четыре знака (включая маски), и совпадать с псевдонимом по умолчанию для этого контакта.
 [Automatically accept chat requsts from...]
 Автоматически принимать входящие запросы от...
-[The IRC protocol can not connect as this version requires features in newer versions of Miranda IM.\nPlease download an upgradeded version from the Miranda IM website!]
-Протокол IRC не может подключиться, потому что эта версия использует возможности из новых версий Miranda IM.\n\nПожалуйста, обновите программу с сайта.
-[The IRC protocol could not be loaded as it is dependant on features in newer versions of Miranda IM.\n\nDo you want to download an update of Miranda IM now?.]
-Протокол IRC не может быть загружен, потому что он зависит от возможностей новых версий Miranda IM.\n\nЗагрузить новую версию Miranda IM?
-[The IRC protocol requires features found in newer versions of Miranda IM.\n\nDo you want to download it from the Miranda IM web site now?]
-Протокол IRC нуждается в функциях новых версий Miranda IM.\n\nЗагрузить новую версию с сайта программы?
 [IRC protocol]
 Протокол IRC
 [Failed to connect to]

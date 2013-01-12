@@ -13,8 +13,6 @@
 ;============================================================
 [Imports contacts and messages from another Miranda profile or from an external program.]
 Импортирует контакты и сообщения из других профилей Miranda NG или из сторонних программ.
-[Imports contacts and messages from Mirabilis ICQ and Miranda IM. Modified & Compiled by Bio. Enjoy! 8-)]
-Импорт контактов и сообщений из ICQ и Miranda IM. Изменено и скомпилированно Bio. Наслаждайтесь!
 [The given file does not exist. Please check that you have entered the name correctly.]
 Данный файл не существует. Проверьте имя файла.
 [Mirabilis Import]
@@ -96,7 +94,7 @@ Miranda теперь настроена на автоматическую заг
 [Miranda has found Miranda profiles with the following names. Please select the one you wish to import, or browse to it.]
 Miranda нашла следующие профили. Пожалуйста, выберите один для импорта или выберите другой.
 [This looks like a Miranda database, version 0.1.0.0 or above.]
-Обнаружено сходство с базой Miranda IM, версия 0.1.0.0 или выше.
+Обнаружено сходство с базой Miranda, версия 0.1.0.0 или выше.
 [Number of contacts in database: %d]
 Количество контактов в базе: %d
 [Could not open file.]
@@ -279,8 +277,6 @@ ICQ Контакты и история не будут импортирован�
 Эта база не содержит ни одной группы.
 [This database is an unknown version.]
 База неизвестной версии.
-[This is not a valid Miranda IM database.]
-База не является базой Miranda IM.
 [This looks like a ICQ 2000a database.]
 Обнаружено сходство с базой ICQ 2000a
 [This looks like a ICQ 2000b database.]

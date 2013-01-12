@@ -61,8 +61,8 @@
 Выбрать открытый ключ из списка
 [Encrypt file transfers]
 Шифрованная передача файлов
-[Use jabber api on Miranda IM >= 0.9 (recomended)]
-Использовать jabber api если Miranda IM >= 0.9 (Рекомендуется)
+[Use jabber api on Miranda NG (recomended)]
+Использовать jabber api Miranda NG (Рекомендуется)
 [Current private key id]
 Закрытый ключ
 [This is not gnupg binary !\nrecommended to use GnuPG v1.x.x with this plugn.]

@@ -9,8 +9,6 @@
 ;============================================================
 [db3x Plugin]
 Модуль db3x
-[The db3x plugin cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Невозможно загрузить модуль db3x. Необходима Miranda IM версии 0.7.0.0 или позднее.
 [Provides Miranda database support: global settings, contacts, history, settings per contact.]
 Поддержка базы Miranda NG: глобальные настройки, контакты, история, настройки контактов и т.п.
 [Backup periodically:]

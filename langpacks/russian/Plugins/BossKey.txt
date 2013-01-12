@@ -59,8 +59,6 @@ Windows не активен
 Miranda NG заблокирована!\nВведите пароль для разблокировки.
 [Use default status message]
 Статусное сообщение по умолчанию
-[The BossKey+ cannot be loaded. It requires Miranda IM 0.7.0.0 or later.]
-Невозможно загрузить Антибосс. Необходима Miranda IM версии 0.7.0.0 и выше.
 [Hide Miranda NG]
 Спрятать Miranda NG
 [get the BossKey name]

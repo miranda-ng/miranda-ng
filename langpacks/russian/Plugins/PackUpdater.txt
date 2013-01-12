@@ -4,8 +4,8 @@
 ;  Module: PackUpdater
 ;  Versions: 	0.0.6
 ;============================================================
-[Simple updater for Miranda IM premodified packs.]
-Простой модуль для обновлений сборок Miranda IM.
+[Simple updater for Miranda NG premodified packs.]
+Простой модуль для обновлений сборок Miranda NG.
 [Pack Updater]
 Обновление сборки
 [Check for pack updates]
@@ -24,8 +24,8 @@
 Загрузка информации о версиях...
 [Name of Update's file is not supported.]
 Имя файла обновления не поддерживается.
-[Download complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Загрузка завершена. Приступить к обновлению? Все данные будут сохранены, а Miranda IM закрыта.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузка завершена. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Вы отказались от немедленной установки обновления сборки.\nВы можете установить это обновление вручную отсюда:\n\n%s
 [No files for update.]
@@ -48,14 +48,14 @@
 * Необходимы включённые действия вспл. окон
 [Not sets for "Message boxes"]
 Не устанавливает для "Диалоги"
-[Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Загрузки завершены. Приступить к обновлению? Все данные будут сохранены, а Miranda IM закрыта.
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузки завершены. Приступить к обновлению? Все данные будут сохранены, а Miranda NG закрыта.
 [Clear pack updates folder]
 Очистить папку с обновлениями сборки
 [Downloading update...]
 Загрузка обновления...
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda IM with Administrator's rights.]
-Обновление не возможно!\nВы не имеете администраторских прав.\nПожалуйста, запустите Miranda IM с правами администратора.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Обновление не возможно!\nВы не имеете администраторских прав.\nПожалуйста, запустите Miranda NG с правами администратора.
 [Boxes]
 Окна
 [Message boxes]
