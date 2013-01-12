@@ -120,13 +120,14 @@ int __cdecl CYahooProto::OnUserInfoInit( WPARAM wParam, LPARAM lParam )
 	odp.cbSize = sizeof( odp );
 	odp.hInstance = hInstance;
 	odp.dwInitParam = (LPARAM)this;
+	odp.flags = ODPF_TCHAR | ODPF_DONTTRANSLATE;
 
 	HANDLE hContact = ( HANDLE )lParam;
 	if ( IsMyContact(hContact)) {
 		odp.pfnDlgProc = YahooUserInfoDlgProc;
 		odp.position = -1900000000;
 		odp.pszTemplate = MAKEINTRESOURCEA( IDD_USER_INFO );
-		odp.pszTitle = m_szModuleName;
+		odp.ptszTitle = m_tszUserName;
 		UserInfo_AddPage(wParam, &odp);
 	} 
 

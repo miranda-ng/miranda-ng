@@ -128,7 +128,6 @@ int GetStatus(WPARAM wParam,LPARAM lParam);
 yahoo_status miranda_to_yahoo(int myyahooStatus);
 
 void register_callbacks();
-char* YAHOO_GetContactName(HANDLE hContact);
 
 #ifdef __GNUC__
 	int DebugLog( const char *fmt, ... ) __attribute__ ((format (printf, 1, 2)));

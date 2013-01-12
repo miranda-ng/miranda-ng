@@ -196,7 +196,7 @@ DWORD CYahooProto::SetStringUtf(HANDLE hContact, const char* valueName, const ch
 /////////////////////////////////////////////////////////////////////////////////////////
 // Popups
 
-static int CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
+static LRESULT CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
 	switch(message) {
 	case WM_COMMAND:
@@ -232,11 +232,11 @@ static int CALLBACK PopupWindowProc( HWND hWnd, UINT message, WPARAM wParam, LPA
 
 int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *szURL)
 {
-	if ( !ServiceExists(MS_POPUP_ADDPOPUPEX)) 
+	if ( !ServiceExists(MS_POPUP_ADDPOPUPT)) 
 		return 0;
 
 	POPUPDATAT ppd = { 0 };
-	ppd.PluginWindowProc = (WNDPROC)PopupWindowProc;
+	ppd.PluginWindowProc = PopupWindowProc;
 	lstrcpyn(ppd.lptzContactName, nickname, SIZEOF(ppd.lptzContactName));
 	lstrcpyn(ppd.lptzText, msg, SIZEOF(ppd.lptzText));
 
@@ -248,7 +248,7 @@ int CYahooProto::ShowPopup(const TCHAR* nickname, const TCHAR* msg, const char *
 	
 	DebugLog("[MS_POPUP_ADDPOPUPEX] Generating a popup for [%S] %S", nickname, msg);
 	
-	CallService(MS_POPUP_ADDPOPUPT, (WPARAM)&ppd, 0);
+	PUAddPopUpT(&ppd);
 	return 1;
 }
 
@@ -262,7 +262,7 @@ int CYahooProto::ShowNotification(const TCHAR *title, const TCHAR *info, DWORD f
 		err.tszInfo = (TCHAR*)info;
 		err.dwInfoFlags = flags | NIIF_INTERN_UNICODE;
 		err.uTimeout = 1000 * 3;
-		int ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err);
+		INT_PTR ret = CallService(MS_CLIST_SYSTRAY_NOTIFY, 0, (LPARAM) & err);
 		if (ret == 0)
 			return 1;
 	} 
@@ -304,11 +304,6 @@ bool CYahooProto::IsMyContact(HANDLE hContact)
 
 	char* szProto = GetContactProto(hContact);
 	return szProto && !strcmp(szProto, m_szModuleName);
-}
-
-char* YAHOO_GetContactName(HANDLE hContact)
-{
-	return (char*)CallService(MS_CLIST_GETCONTACTDISPLAYNAME, (WPARAM)hContact, 0);
 }
 
 extern PLUGININFOEX pluginInfo;
