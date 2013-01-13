@@ -343,6 +343,8 @@ namespace Langpack_Suite
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
                     LocaleText = rm.GetString("GenStop", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
+                    LangPack.Close();
+                    ReadFile.Close();
                     return;
                 }
 
@@ -558,6 +560,7 @@ namespace Langpack_Suite
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
                     LocaleText = rm.GetString("GenStop", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
+                    LangPack.Close();
                     return;
                 }
 
