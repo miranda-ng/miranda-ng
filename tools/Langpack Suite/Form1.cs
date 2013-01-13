@@ -360,9 +360,6 @@ namespace Langpack_Suite
                 {
                     LocaleText = rm.GetString("DupesNotFound", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
-                    LocaleText = rm.GetString("GenStop", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
-                    return;
                 }
 
                 rf = new FileStream(vipath, FileMode.Open, FileAccess.Read);
