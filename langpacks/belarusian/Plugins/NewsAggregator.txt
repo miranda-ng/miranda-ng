@@ -191,3 +191,5 @@ URL старонкі з коментарыями да навіны.
 ID навіны.
 [Specify one or more categories that the item belongs to.]
 Катэгорыі навіны.
+[Retrieve news at startup]
+Атрымліваць пры запуску

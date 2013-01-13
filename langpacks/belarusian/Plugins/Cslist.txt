@@ -3,13 +3,13 @@
 ;  Module: Custom Status List
 [Custom Status List]
 Карыстацкі спіс статусаў
-[Keep your ICQ Custom statuses in an integrated, easy to use manager. This plugin offers simple management functions to keep your extra statuses on one place.]
+[This plugin offers simple management functions to keep your extra statuses on one place.]
 Гэты модуль падае просты ў выкарыстанні мэнэджар хстатусу ICQ і магчымасць захоўвання хстатусаў у адным месцы.
 [List settings]
 Налады
 [Confirm deletion of items]
 Пацвярджаць выдаленне пунктаў
-[Delete entries in ICQ Custom status menu after Import]
+[Delete entries in Custom status menu after Import]
 Пасля імпарту, выдаляць тэксты статутаў у спісе ICQ
 [Add new item]
 Дадаць новы пункт

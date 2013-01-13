@@ -3,7 +3,7 @@
 ;  Module: Weather
 [Weather Protocol]
 Пратакол надвор'я
-[Retrieve weather information and display them in your contact list.]
+[Retrieves weather information and displays it in your contact list.]
 Запыт і адлюстраванне інфармацыі пра надвор'е ў вашым спісе кантактаў.
 [Disable support for automatic station icon assignment]
 Адмяніць падтрымку аўтавызначэння значкоў станцый
@@ -347,8 +347,6 @@ INI файл надвор'я для гэтай станцыі не знойдз�
 Увага! Калі гэта опцыя ўключана, вы не зможаце памяняць значок
 [Disable internal icon selection]
 Адключыць выбар значка
-[Miranda IM has to be restarted for the changes to take effect.]
-Змены набудуць моц пасля перазапуску Miranda IM.
 [Note Text]
 Тэкст
 [Weather HTTP connections]

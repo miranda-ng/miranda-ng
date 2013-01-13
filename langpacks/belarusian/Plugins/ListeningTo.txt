@@ -7,6 +7,8 @@
 Адпраўляць усім пратаколам
 [Send to %s]
 Адпраўляць у %s
+[ListeningTo]
+Слухаю
 [Enable/Disable sending Listening To info (to all protocols)]
 Вкл/Выкл адпраўку інфармацыі пра музыку (усе пратаколы)
 [Listening info]
@@ -81,3 +83,7 @@ foobar2000 (усталюйце модуль уручную)
 Вкл./выкл. адпраўляць усім пратаколам
 [Don't send to any protocols]
 Не адпраўляць усім пратаколам
+[Listening to (enabled)]
+Слухаю (укл.)
+[Listening to (disabled)]
+Слухаю (адкл.)

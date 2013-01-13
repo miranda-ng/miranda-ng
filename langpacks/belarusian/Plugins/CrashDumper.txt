@@ -1,4 +1,4 @@
-﻿#muuid {f62c1d7a-ffa4-4065-a2514c9dd9101cc8}
+﻿#muuid {f62c1d7a-ffa4-4065-a251-4c9dd9101cc8}
 ;  File: crashdumper.dll
 ;  Module: Crash Dumper for Miranda NG by borkra
 [Crash Dumper]

@@ -959,9 +959,9 @@ XML для MS Excel (кадзіроўка UTF-8)
 [in real life]
 у рэальным жыцці
 [on the phone]
-па тэлефоне
+па тэлефону
 [on video phone]
-па відэа тэлефону
+па відэа фону
 [Traveling]
 У дарозе
 [commuting]
@@ -983,7 +983,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 [coding]
 праграмую
 [in a meeting]
-на мітыгнгу
+на нарадзе
 [studying]
 вучуся
 [writing]
@@ -1135,7 +1135,7 @@ XML для MS Excel (кадзіроўка UTF-8)
 [Grieving]
 У смутку
 [Hopeful]
-Што спадзяецца
+Спадзяюся
 [Lost]
 Страчаны
 [Lucky]

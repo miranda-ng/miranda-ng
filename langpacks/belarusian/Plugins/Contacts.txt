@@ -21,8 +21,8 @@
 &Дадаць
 [Choose contacts to be send:]
 Абраць кантакты для адпраўкі:
-[Allows you to send and receive contacts]
-Дазваляе вам пасылаць і атрымліваць кантакты
+[Allows you to send and receive contacts.]
+Дазваляе вам пасылаць і атрымліваць кантакты.
 [Send Contacts to]
 Адправіць кантакты
 [Contacts from]

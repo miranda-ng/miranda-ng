@@ -1,8 +1,8 @@
-﻿#muuid {bd542bb4-5ae4-4d0e-a435ba8dbe39607f}
+﻿#muuid {bd542bb4-5ae4-4d0e-a435-ba8dbe39607f}
 ;  File: SmileyAdd.dll
 ;  Module: SmileyAdd
-[Smiley support for Miranda Instant Messanger]
-Падтрымка смайлаў у Miranda NG
+[Smiley support for Miranda NG.]
+Падтрымка смайлаў у Miranda NG.
 [Specify library for each category]
 Розныя для розных катэгорый
 [(Leave blank to disable for this category)]
@@ -46,6 +46,7 @@
 Уключыць смайлы
 [Don't replace at cursor]
 Не замяняць пад курсорам
+
 [Max "Custom Smiley" height]
 Макс. вышыня загруж. смайлаў
 [Min smiley height]

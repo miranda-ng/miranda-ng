@@ -1,6 +1,8 @@
 ﻿#muuid {863bfce7-31ed-4a81-af95-da2685ce1bc2}
 ;  File: FTPFile.dll
 ;  Module: FTPFile YM
+[FTP a file to a server and send the URL to your friend. Supported automatic zipping before upload and encryption via SFTP and FTPS.]
+Дадатак дазваляе загрузіць файл на FTP сервер з дапамогай Miranda NG і паслаць спасылку сваім кантактам.
 [FTP File]
 Файл на FTP
 [FTP File - Select files]

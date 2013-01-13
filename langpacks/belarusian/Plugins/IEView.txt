@@ -1,4 +1,4 @@
-﻿#muuid {0495171b-7137-4ded-97f8ce6fed67d691}
+﻿#muuid {0495171b-7137-4ded-97f8-ce6fed67d691}
 ;  File: ieview.dll
 ;  Module: IEview provides IE engine to display message log.
 [IEView]

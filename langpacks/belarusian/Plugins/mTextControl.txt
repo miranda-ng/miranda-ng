@@ -1,7 +1,7 @@
-﻿#muuid {69b9443b-dc58-4876-ad39e3f418a133c5}
+﻿#muuid {69b9443b-dc58-4876-ad39-e3f418a133c5}
 ;  File: mtextcontrol.dll
 [Provides text render API for different plugins.]
-API прамалёўкі тэксту для усялякіх модуляў.
+API прамалёўкі тэксту для іншых дадаткаў.
 [Text Display]
 Тэкст
 [Display technique]

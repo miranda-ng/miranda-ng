@@ -1,4 +1,4 @@
-﻿#muuid {9584da04-fb4f-40c1-9325e4f9caafcb5d}
+﻿#muuid {9584da04-fb4f-40c1-9325-e4f9caafcb5d}
 ;  Module: actman.dll
 ;  Plugin: ActionManager
 [Contact window]

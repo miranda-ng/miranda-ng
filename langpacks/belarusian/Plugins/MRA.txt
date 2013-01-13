@@ -1,8 +1,8 @@
 ﻿#muuid {e7c48bab-8ace-4cb3-8446-d4b73481f497}
 ;  File: mra.dll
 ;  Module: mail.ru Agent
-[Provides support for Mail.ru agent Instant Messenger protocol.]
-Модуль пратаколу Mail.ru Агент
+[Mail.ru Agent (MRA) protocol support for Miranda NG.]
+Модуль пратаколу Mail.ru Агент (MRA).
 [Display &Inbox]
 Адкрыць уваходныя
 [Display &Inbox status]

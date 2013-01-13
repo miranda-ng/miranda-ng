@@ -431,8 +431,6 @@
 Запампаваць скіны
 [Parse Tipper variables first]
 Апрацоўваць зменныя падказак першымі
-[Cannot obtain required interfaces!\nTooltips will not be available until you upgrade Miranda IM to the newest version.]
-Не атрымалася атрымаць неабходныя інтэрфейсы!\nПадказкіне будуць даступныя да абнаўлення Miranda IM да апошняй версіі.
 [Meta contact:]
 Мета кантакт:
 [Cellular:]

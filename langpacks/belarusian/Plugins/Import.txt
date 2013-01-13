@@ -1,10 +1,9 @@
 ﻿#muuid {2d77a746-00a6-4343-bfc5-f808cdd772ea}
 ;  File: import.dll, import_sa.dll
 ;  Module: Import contacts and messages
-[Imports contacts and messages from Mirabilis ICQ and Miranda IM.]
-Імпартуе кантакты і паведамленні з Mirabilis ICQ і Miranda IM.
-[Imports contacts and messages from Mirabilis ICQ and Miranda IM. Modified & Compiled by Bio. Enjoy! 8-)]
-Імпарт кантактаў і паведамленняў з ICQ і Miranda IM. Перайначанае Bio. Цешцеся!
+
+[Imports contacts and messages from another Miranda profile or from an external program.]
+Імпарт кантактаў і паведамленняў з іншых профіляў Miranda і іншых праграм.
 [The given file does not exist. Please check that you have entered the name correctly.]
 Дадзены файл не існуе. Праверце імя файла.
 [Mirabilis Import]
@@ -269,8 +268,6 @@ ICQ Кантакты і гісторыя не будуць імпартаван�
 Гэта база не ўтрымоўвае ніводнай групы.
 [This database is an unknown version.]
 База невядомай версіі.
-[This is not a valid Miranda IM database.]
-База не з'яўляецца базай Miranda IM.
 [This looks like a ICQ 2000a database.]
 Выяўлена падабенства з базай ICQ 2000a
 [This looks like a ICQ 2000b database.]

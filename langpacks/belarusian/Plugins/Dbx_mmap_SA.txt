@@ -1,4 +1,4 @@
-﻿#muuid {28ff9b91-3e4d-4f1c-b47cc641b037ff40}
+﻿#muuid {28ff9b91-3e4d-4f1c-b47c-c641b037ff40}
 ;  File: dbx_mmap_sa.dll
 ;  Module: Miranda SecuredMMAP database driver
 [Disk is full. Miranda will now shutdown.]

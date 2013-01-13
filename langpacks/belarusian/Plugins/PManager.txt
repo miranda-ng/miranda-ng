@@ -3,8 +3,8 @@
 ;  Module: Miranda NG Profile Changer by Roman Gemini
 [Closes Miranda NG and starts Profile Manager]
 Зачыняе Miranda NG і запускае мэнэджар профіляў
-[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker..]
-Дадае пункт меню, для змены ці загрузкі іншага профіля Miranda NG.
+[Adds a menu item to change or load a different profile of Miranda NG, restart or run a dbchecker.]
+Дадае пункт меню, для змены ці загрузкі іншага профіля Miranda NG, перазагрузкі і праверкі базы.
 [&Change Profile...]
 &Змяніць профіль...
 [Are you sure want to change your profile? Miranda will be closed.]

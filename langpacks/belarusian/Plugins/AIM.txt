@@ -5,8 +5,8 @@
 (секунды)
 [*Aim must be reconnected  for some option to take effect.]
 *AIM павінен быць перадалучаны, каб змены набылі моц.
-[Provides support for AOL Instant Messenger (AIM) protocol.]
-Модуль пратаколу AIM
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
+Модуль пратаколу AOL Instant Messenger (AIM).
 [AIM Account Setup]
 Налады конта AIM
 [AIM Instant Idler]
@@ -114,6 +114,10 @@ AIM Змена пароля
 AIM Пратакол
 [AIM Support]
 Падтрымка AIM
+[AIM Account Tupe]
+Тып конта AIM
+[AIM Extended Status]
+Пашыраны статус AIM
 [AIM User Details]
 AIM Дэталі карыстача
 [AIM Warning Level Change]
@@ -168,8 +172,6 @@ AIM Папярэджанне
 (%s) Атрыманне %s
 [A message has been dropped. You are exceeding the server speed limit.]
 Усе паведамленні скінуты. Вы перавысілі абмежаванне хуткасці сервера.
-[A restart of Miranda NG is required for changes to take effect.]
-Змены набудуць моц пасля перазапуску праграмы.
 [Administrator]
 Адміністратар
 [An unknown signon error has occurred.  Please try again later.]

@@ -2,7 +2,7 @@
 ;  File: yapp.dll
 ;  Module: Yet Another Popup Plugin
 [Yet Another Popup Plugin - Provides popup notification window services to other plugins.]
-Yet Another Popup Plugin - Падае службу ўсплывальных паведамленняў іншым модулям
+Yet Another Popup Plugin - Падае службу ўсплывальных паведамленняў іншым модулям.
 [Set timeout:]
 Працягласць:
 [Never timeout]

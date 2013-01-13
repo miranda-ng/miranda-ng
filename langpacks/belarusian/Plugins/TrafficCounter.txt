@@ -177,8 +177,6 @@
 "Паказаць/Схаваць час" у меню
 [Auto clear traffic]
 Аўтаачыстка трафіку
-[Show console when Miranda IM starts]
-Паказаць кансоль пры запуску
 [Incoming connections]
 Уваходныя падлучэнні
 [Outgoing connections]

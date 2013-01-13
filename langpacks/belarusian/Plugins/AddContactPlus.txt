@@ -3,7 +3,7 @@
 ;  Plugin: AddContact+
 [Add Contact\nAdd a contact to your contact list]
 Дадаць кантакт\nДадаць кантакт у спіс кантактаў
-[&Add Contact...]
+[&Add contact...]
 &Дадаць кантакт...
 [Provides the ability to quickly add new contacts.]
 Дадае магчымасць хутка дадаць кантакт
@@ -11,7 +11,7 @@
 Кантакт не можа быць дададзены ў ваш спіс кантактаў. Калі вы не далучаны, паспрабуйце гэта зрабіць. Таксама, пераканайцеся, што вы ўпісалі дакладны ID карыстача.
 [Add temporarily]
 Дадаць часова
-[Open Add Contact Dialog]
+[Open add contact dialog]
 Вакно дадання кнтакта
 [Add contact]
 Дадаць кантакт

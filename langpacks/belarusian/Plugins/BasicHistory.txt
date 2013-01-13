@@ -2,7 +2,7 @@
 ;  File: BasicHistory.dll
 ;  Plugin: Basic History
 [History viewer for Miranda NG.]
-Праглядчык гісторыі для Miranda NG
+Праглядчык гісторыі для Miranda NG.
 [Number of history items to delete: %d.\nAre you sure you want to do this?]
 Колькасць выдаляных пунктаў гісторыі: %d.\n Вы сапраўды гэтага жадаеце?
 [You have reached the end of the group.]

@@ -1978,7 +1978,7 @@ ID карыстача:
 [Do you really want delete selected rule ?]
 Вы сапраўды жадаеце выдаліць абранае правіла?
 [Free for chat mode]
-Гатовы балбатаць
+Свабодны
 [NA mode]
 Недаступны
 [Occupied mode]
@@ -3302,7 +3302,7 @@ Web Дызайн
 [&DND]
 &Не турбаваць
 [&Free for chat]
-&Гатовы балбатаць
+&Свабодны
 [&Invisible]
 &Нябачны
 [&NA]
@@ -3500,7 +3500,7 @@ Web Дызайн
 [User: Do Not Disturb]
 Карыстач: не турбаваць
 [User: Free For Chat]
-Карыстач: гатовы балбатаць
+Карыстач: Свабодны
 [User: Invisible]
 Карыстач: нябачны
 [User: Out To Lunch]
@@ -4018,7 +4018,7 @@ INI файлы
 [Laughing]
 Смяюся
 [Free for Chat]
-Гатовы балбатаць
+Свабодны
 [Ask]
 Спытаць
 [Use]
@@ -4026,7 +4026,7 @@ INI файлы
 [Ignore empty status messages]
 Ігнараваць пустыя паведамленні
 [Use background bitmap]
-Фонавы малюнак
+Фонавая выява
 [>> Outgoing timestamp]
 Выходны час
 [<< Incoming timestamp]
@@ -4084,7 +4084,7 @@ INI файлы
 [Tuesday]
 Аўторак
 [Wednesday]
-Асяроддзе
+Серада
 [Thursday]
 Чацвер
 [Friday]

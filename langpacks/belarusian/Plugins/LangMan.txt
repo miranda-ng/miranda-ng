@@ -17,7 +17,6 @@
 Модуль кіравання лакалізацыямі
 [Language Pack Manager Plugin]
 Модуль кіравання лакалізацыямі
-
 [Language Pack Update HTTP connection]
 Падлучэнне модуля лакалізацый (HTTP)
 [Installed Languages]

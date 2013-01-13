@@ -205,8 +205,8 @@ SecureIM: атрымана шыфраванае паведамленне:\n
 SecureIM: Выбачыце, немагчыма расшыфраваць паведамленне, таму што PGP/GPG не ўсталяваны. Наведаеце www.pgp.com ці www.gnupg.org для атрымання падрабязных звестак.
 [Keyrings disabled!]
 Keyrings адключаны!
-[The new settings will become valid when you restart MirandaIM!]
-Змены набудуць моц пасля перазагрузкі Miranda IM!
+[The new settings will become valid when you restart MirandaNG!]
+Змены набудуць моц пасля перазагрузкі Miranda NG!
 [Private key not loaded!]
 Сакрэтны ключ не загружаны!
 [Private key loaded.]

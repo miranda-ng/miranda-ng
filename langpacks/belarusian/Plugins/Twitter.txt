@@ -1,8 +1,8 @@
 ﻿#muuid {82181510-5dfa-49d7-b469-33871e2ae8b5}
 ;  File: twitter.dll
 ;  Module: Provides basic support for Twitter protocol.
-[Twitter protocol plugin for Miranda NG.]
-Падтрымка пратакола Twitter ў Miranda NG.
+[Twitter protocol support for Miranda NG.]
+Падтрымка пратакола Twitter.
 [Base URL:]
 URL:
 [Once every]

@@ -3,7 +3,7 @@
 ;  Module: Show ignore state of contact in contacts list
 [IgnoreState]
 Стан ігнаравання
-[Show ignore state of contact in contacts list.]
+[Shows ignore state of contact in contacts list.]
 Паказвае стан ігнаравання ў кантакту ў спісе кантактаў.
 [Filtered events:]
 Фільтр падзей:

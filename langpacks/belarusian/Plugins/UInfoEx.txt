@@ -347,7 +347,7 @@
 Няма свят, пра якія трэба апавяшчаць
 [\n%s becomes %d years old.]
 \n%s выканаецца %d.
-[Upcomming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
+[Upcoming anniversaries\nThis list gives you some overview about all your contact's anniversaries.]
 Хуткія святы\nСпіс утрымоўвае ўсе святы Вашых кантактаў.
 [Statistics:]
 Статыстыка:

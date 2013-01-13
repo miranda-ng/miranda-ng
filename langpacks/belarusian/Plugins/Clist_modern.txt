@@ -1,4 +1,4 @@
-﻿#muuid {043909b6-aad8-4d82-8eb59f64cfe867cd}
+﻿#muuid {043909b6-aad8-4d82-8eb5-9f64cfe867cd}
 ;  File: clist_modern.dll
 ;  Module: Modern Contact List
 [Displays contacts, event notifications, protocol status with advantage visual modifications. Supported MW modifications, enchanced metacontact cooperation.]
@@ -65,6 +65,8 @@
 Пасля загалоўка
 [Client area margins]
 Межы спісу кантактаў
+[Translucency options (Windows 2000/XP+)]
+Налады празрыстасці
 [Enable drop shadow (restart required)]
 Уключыць цень (патрэбен перазапуск)
 [Enable Aero Glass (Vista)]
@@ -203,8 +205,8 @@
 Выраўноўваць значкі злева
 [Align right items to right]
 Выраўноўваць значкі справа
-[Compact mode\n(Show avatars and additional text\non selected contacts only)]
-Кампактны рэжым\n(Паказваць аватары і дадатковы тэкст толькі на абраных кантактах)
+[Compact mode\n(Show avatars and additional text on selected contacts only)]
+Кампактны рэжым\n(Аватары і дадатковы тэкст толькі ў абраных кантактаў)
 [Animate Avatars]
 Анімацыя аватараў
 [Use old render method (Fast, but has artefacts)]
@@ -353,6 +355,10 @@
 Уключыць сартаванне па групах
 [Show offline contacts]
 Паказаць адключаных
+[Toolbar upgrade]
+Аднаўленне тулбара
+[To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
+Для панэлі кнопак ў Clist Modern неабходны дадатак TopToolBar. Каб спампаваць яго, нажміце "Да"
 [Available skins]
 Даступныя скіны
 [Default Skin]

@@ -476,3 +476,5 @@
 Завея
 [Snow Freezing Rain Mist]
 Снег з дажджом, смуга
+[Patches Fog Mist]
+Месцамі туман, смуга

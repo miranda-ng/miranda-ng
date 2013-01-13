@@ -1,8 +1,8 @@
-﻿#muuid {4c4a27cf-5e64-4242-a332b98b08243e89}
+﻿#muuid {4c4a27cf-5e64-4242-a332-b98b08243e89}
 ;  File: metacontacts.dll
 ;  Module: MetaContacts
-[Merges contacts from the same or different protocols into one]
-Аб'ядноўвае кантакты аднолькавых і/ці розных контаў у адзін.
+[Merges contacts from the same or different protocols into one.]
+Аб'ядноўвае кантакты ў адзін.
 [Toggle Off]
 Выключыць
 [Toggle On]
@@ -212,3 +212,13 @@ Meta ID
 Паведамленне (мета)
 [Reset All]
 Скід
+[Subcontact's MetaContact not found - deleting MetaContact data]
+Субкантакты ў метакантакце не знойдзены - выдаленне дадзеных метакантакта
+[MetaContact number of contacts <0 - deleting MetaContact]
+Колькасць кантактаў у метакантакте <0 - выдаленне метакантакта
+[MetaContact default contact number out of range - deleting MetaContact]
+Нумар кантакту па змаўчанні за межамі метакантакта - метакантакт будзе выдалены
+[Subcontact contact number (% d)> meta num contacts (% d) - deleting MetaContact]
+Нумар субкантакта (% d)> нумара ў метаконтакте (% d) - выдаленна метакантакта
+[Subcontact contact number <0 - deleting MetaContact]
+Нумар субкантакта <0 - выдаленне метакантакта

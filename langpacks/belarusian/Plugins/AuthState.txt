@@ -1,8 +1,8 @@
-﻿#muuid {dace7d41-dfa9-4772-89aea59a6153e6b2}
+﻿#muuid {dace7d41-dfa9-4772-89ae-a59a6153e6b2}
 ;  Module: AuthState.dll
 ;  Plugin: Shows authorisation state icon
 [If contact didn't authorized you this plugin puts an icon in front of contacts name.]
-Гэты модуль змесціць значок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы не аўтарызавалі яго.
+Гэты модуль змесціць абразок насупраць імя, калі кантакт не аўтарызаваў вас, ці вы яго.
 [Auth State]
 Стан аўтарызацыі
 [Grant]

@@ -1,6 +1,8 @@
-﻿;#muuid {29517BE5-779A-48E5-8950CB4DE1D43172}
+﻿#muuid {29517BE5-779A-48E5-8950-CB4DE1D43172}
 ;  File: PackUpdater.dll
 ;  Module: PackUpdater
+[Simple updater for Miranda NG premodified packs.]
+Дадатак для абнаўлення зборак Miranda NG.
 [Pack Updater]
 Абнаўленне зборкі
 [Check for pack updates]
@@ -19,8 +21,8 @@
 Загрузка інфармацыі пра версіі...
 [Name of Update's file is not supported.]
 Імя файла абнаўлення не падтрымліваецца.
-[Download complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda IM зачынена.
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузка завершана. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
 Вы адмовіліся ад неадкладнай усталёўкі абнаўлення зборкі.\n Вы можаце ўсталяваць гэта абнаўленне ўручную адгэтуль:\n\n%s
 [No files for update.]
@@ -43,14 +45,14 @@
 * Неабходны ўключаныя дзеянні успл. вокнаў
 [Not sets for "Message boxes"]
 Не ўсталёўвае для "Дыялогі"
-[Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-Загрузкі завершаны. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda IM зачынена.
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+Загрузкі завершаны. Прыступіць да абнаўлення? Усе дадзеныя будуць захаваны, а Miranda зачынена.
 [Clear pack updates folder]
 Ачысціць тэчку з абнаўленнямі зборкі
 [Downloading update...]
 Загрузка абнаўлення...
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda IM with Administrator's rights.]
-Абнаўленне не магчыма!\n Вы не маеце адміністратарскіх правоў.\n Калі ласка, запусціце Miranda IM з правамі адміністратара.
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
+Абнаўленне не магчыма!\n Вы не маеце адміністратарскіх правоў.\nКалі ласка, запусціце Miranda з правамі адміністратара.
 [Boxes]
 Вокны
 [Message boxes]
@@ -65,3 +67,11 @@ HTTP падлучэнне Pack Updater
 Кнопка 'Так'
 ['No' Button]
 Кнопка 'Не'
+[On startup]
+Пры запуску
+[(but only once a day)]
+(1 раз у дзень)
+[Every]
+Кожныя
+[days]
+дзён

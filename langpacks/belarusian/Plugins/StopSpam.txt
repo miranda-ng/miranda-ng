@@ -1,4 +1,4 @@
-﻿#muuid {553811ee-deb6-48b8-8902a8a00c1fd679}
+﻿#muuid {553811ee-deb6-48b8-8902-a8a00c1fd679}
 ;  File: stopspam.dll
 ;  Module: StopSpam, StopSpam+, StopSpam Mod
 [Automatically delete contacts from "Not In List" group]
@@ -19,6 +19,7 @@
 Уключыць інтэграцыю з DOS модулем
 [No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.]
 Няма больш спаму! Робаты адпачываюць!\r\n\r\nГэты модуль працуе проста:\r\nУ той час як паведамленні ад карыстачоў у Вашым спісе прыходзяць без праверкі на спам, паведамленні ад невядомых карыстачоў вам не дастаўляюцца. Але яны не ігнаруюцца, модуль адказвае простым пытаннем, і калі карыстач дае правільны адказ, модуль дадае яго ў спіс, для таго каб ён мог звязацца з Вамі.
+
 [Enable StopSpam-StopSpam infinite talk protection]
 Выключэнне антыспаму пры спробе адказу іншаму антыспаму
 [Add contact permanently]

@@ -15,8 +15,6 @@
 Пачатковы статус
 [Your default profile will be changed]
 Профіль па змаўчанні будзе зменены
-[Some changes you made require a restart of Miranda-IM]
-Некаторыя змены патрабуюць перазапуску Miranda IM
 [Status Profiles]
 Профілі статусаў
 [StatusProfiles]

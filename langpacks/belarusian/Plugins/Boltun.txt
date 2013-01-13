@@ -51,7 +51,3 @@
 Балбатун, чат-бот для рускай мовы.
 [Boltun, the chat bot in russian languages, Using SmartBot engine by ProVirus.]
 Балбатун, чат-бот для рускай мовы, выкарыстоўваецца рухавічок SmartBot ад ProVirus.
-[Engine Settings]
-Налады рухавічка
-[Message sessions]
-Гутаркі

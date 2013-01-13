@@ -1,8 +1,9 @@
 ﻿#muuid {3503d584-6234-4bef-a553-6c1b9cd471f2}
 ;  File: NewEventNotify.dll
 ;  Module: NewEventNotify
-[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk]
-Апавяшчае пра атрыманне паведамлення, URL, файла ці іншай падзеі, адлюстроўваючы інфармацыю ва ўсплывальных вокнах. Для працы неабходзен PopUp ад Luca Santarelli ці аналагічны. Пераклад Denn
+
+[Notifies you when you receive a message, url, file or any other event by displaying a popup. Uses the PopUp-Plugin by hrk. Original plugin was written by icebreaker, modified by Prezes and some bugfixes were made by vj, vlko, Nightwish, TheLeech and others. More fixes & updates by Joe @ Whale.]
+Апавяшчае пра атрыманне паведамлення, URL, файла ці іншай падзеі, адлюстроўваючы інфармацыю ва ўсплывальных вокнах. Для працы неабходзен PopUp ад Luca Santarelli ці аналагічны.
 [You were added!]
 Вас дадалі
 [Requests your authorisation]

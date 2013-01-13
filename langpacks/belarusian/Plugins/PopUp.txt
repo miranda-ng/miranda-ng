@@ -1,4 +1,4 @@
-﻿#muuid {26a9125d-7863-4e01-af0ed14ef95c5054}
+﻿#muuid {26a9125d-7863-4e01-af0e-d14ef95c5054}
 ;  File: popup.dll
 ;  Module: Popup Interoperability, PopUp Plus
 [Popup Mode: Auto]
@@ -59,8 +59,6 @@
 Месца і памер
 [Live Preview]
 Прадпрагляд
-[You may set up custom fonts and colors in Customize > Fonts section in Miranda IM options.]
-Налада шрыфтоў і кветак вырабляецца па адрасе: "Тонкая налада" > "Шрыфты і колеры"
 [Window sliding]
 Слізгаценне
 [Window fading (Windows 2000+)]
@@ -495,10 +493,12 @@ SmileyAdd пераважней з-за дэфектаў ва ўнутраным 
 Правая кнопка
 [no overwrite]
 няма дзеяння
+[Colors can be configured in\r\nCustomize > Fonts && Colors]
+Настроіць колеры ў\r\nТонкая налада > Шрыфты і колеры
 [Popups On/Off]
-Успл. акна вкл/выкл
+Успл. вакны укл/адкл
 [Toggle Popups]
-Вкл/Выкл успл. акна
+Вкл/Выкл успл. вакна
 [non rectangular]
 не прастакутныя
 [Slide Popup]

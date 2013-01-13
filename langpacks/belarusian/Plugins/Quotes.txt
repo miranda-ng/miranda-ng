@@ -1,8 +1,8 @@
-﻿#muuid {e882056d-0d1d-4131-9a98404cbaea6a9c}
+﻿#muuid {e882056d-0d1d-4131-9a98-404cbaea6a9c}
 ;  File: quotes.dll
 ;  Module: Quotes
-[Show currency rates and economic quotes.]
-Модуль адлюстравання курсаў валют і катыровак.
+[Shows currency rates and economic quotes.]
+Дадатак адлюстроўвае курсывалют і каціровак.
 [&Choose Quotes to watch in contact list:]
 &Абярыце катыроўкі для назірання ў спісе кантактаў:
 [&Refresh Quotes Every:]

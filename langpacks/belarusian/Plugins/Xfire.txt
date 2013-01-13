@@ -1,5 +1,7 @@
 ﻿;  File: XFire.dll
 ;  Module: XFire protocol
+[Xfire protocol support for Miranda NG.]
+Падтрымка пратакола XFire.
 [XFire Protocol]
 Пратакол XFire
 [Loginname:]
@@ -56,7 +58,8 @@
 Выкарыстоўваць альтэрнатыўны шлях спампоўкі аватараў
 [Dialog / Icon Options *]
 Зносіны / Налады значкоў *
-
+[Display Error and Infomessage:]
+Памылка і паведамленне:
 [Messagebox]
 Акно паведамленняў
 [Blocklist / Games]
@@ -221,3 +224,7 @@
 Тэчка абразкоў гульняў
 [Buddy start a game]
 Пачатак гульні
+[XFire game icon]
+Абразок гульні XFire
+[XFire voice icon]
+Абразок голаса XFire

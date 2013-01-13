@@ -1,7 +1,7 @@
 ﻿#muuid {119d7288-2050-448d-9900-d86ac70426bf}
 ;  File: KeyboardNotify.dll
 ;  Module: Keyboard Notify
-[Flashes your keyboard LEDs when a message has arrived]
+[Flashes your keyboard LEDs when a message has arrived.]
 Дадае мігценне святлодыёдаў клавіятуры пры прыбылых паведамленнях.
 [Keyboard Notify]
 Апавяшчэнне клавіятуры
