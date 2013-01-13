@@ -664,7 +664,7 @@ protected:
 
 	void EnableEditorControls();
 	BOOL CanExit();
-	
+
 	static LRESULT CALLBACK LstListsSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK LstRulesSubclassProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -995,7 +995,7 @@ BOOL CJabberDlgPrivacyLists::OnWmDrawItem(UINT, WPARAM, LPARAM lParam)
 		for (i = 0; i < SIZEOF(items); ++i)
 		{
 			SIZE sz = {0};
-			if ( !items[i].text) items[i].text = TranslateTS(items[i].textEng);
+			items[i].text = TranslateTS(items[i].textEng);
 			GetTextExtentPoint32(lpdis->hDC, items[i].text, lstrlen(items[i].text), &sz);
 			totalWidth += sz.cx + 18 + 5; // 18 pixels for icon, 5 pixel spacing
 		}
