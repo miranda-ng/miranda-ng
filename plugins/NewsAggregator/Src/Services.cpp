@@ -63,7 +63,7 @@ int NewsAggrInit(WPARAM wParam, LPARAM lParam)
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 
 	// timer for the first update
-	timerId = SetTimer(NULL, 0, 10000, timerProc2);  // first update is 5 sec after load
+	timerId = SetTimer(NULL, 0, 10000, timerProc2);  // first update is 10 sec after load
 
 	return 0;
 }
