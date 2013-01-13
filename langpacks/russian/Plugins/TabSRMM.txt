@@ -1443,10 +1443,8 @@ ID пользователя в панели статуса
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт\n\n%d cообщений в очереди для последующей доставки
 [There are %d pending send jobs. Message length: %d bytes, message length limit: %d bytes]
 Отправляется %d сообщений. Длина сообщения: %d байт, ограничение длины: %d байт.
-[Message successfully queued for later delivery.
-It will be sent as soon as possible and a popup will inform you about the result.]
-Сообщение помещено в очередь для последующей доставки.
-Оно будет доставлено как можно раньше и Вы убдете уведомлены всплывающим окном.
+[Message successfully queued for later delivery.\nIt will be sent as soon as possible and a popup will inform you about the result.]
+Сообщение помещено в очередь для последующей доставки.\nОно будет доставлено как можно раньше и вы будете уведомлены всплывающим окном.
 [A send later job completed successfully.\nThe original message: %s]
 Задача отправки с задержкой успешно выполнена. \nОригинальное сообщение: %s
 [Pending]
