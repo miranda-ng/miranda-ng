@@ -60,9 +60,10 @@ VOID CALLBACK timerProc2(HWND hwnd, UINT uMsg, UINT_PTR idEvent, DWORD dwTime)
 	KillTimer(NULL, timerId);
 	ThreadRunning = FALSE;
 
-	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated() && db_get_b(NULL, MODULE, "StartupRetrieve", 1))
+	if (db_get_b(NULL, MODULE, "AutoUpdate", 1) && !Miranda_Terminated())
 	{
-		CheckAllFeeds(0, 1);
+		if (db_get_b(NULL, MODULE, "StartupRetrieve", 1))
+			CheckAllFeeds(0, 1);
 		timerId = SetTimer(NULL, 0, 30000, (TIMERPROC)timerProc);
 	}
 }
