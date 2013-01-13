@@ -575,9 +575,6 @@ namespace Langpack_Suite
                 {
                     LocaleText = rm.GetString("DupesNotFound", culture);
                     InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
-                    LocaleText = rm.GetString("GenStop", culture);
-                    InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText;
-                    return;
                 }
 
                 DirectoryInfo PluginsDir = new DirectoryInfo(FolderName + "\\Plugins");
@@ -595,15 +592,23 @@ namespace Langpack_Suite
                         ReadFile.Close();
 
                         DirectoryInfo WeatherDir = new DirectoryInfo(FolderName + "\\Weather");
-                        foreach (FileInfo wi in WeatherDir.GetFiles())
+                        if (Directory.Exists(WeatherDir.ToString()))
                         {
-                            LangPack.WriteLine("");
-                            ReadFile = new StreamReader(wi.FullName);
-                            while ((s = ReadFile.ReadLine()) != null)
+                            foreach (FileInfo wi in WeatherDir.GetFiles())
                             {
-                                LangPack.WriteLine(s);
+                                LangPack.WriteLine("");
+                                ReadFile = new StreamReader(wi.FullName);
+                                while ((s = ReadFile.ReadLine()) != null)
+                                {
+                                    LangPack.WriteLine(s);
+                                }
+                                ReadFile.Close();
                             }
-                            ReadFile.Close();
+                        }
+                        else
+                        {
+                            LocaleText = rm.GetString("WeatherLinkNotFound", culture);
+                            InfMessageLangBox.Text = InfMessageLangBox.Text + LocaleText + "\r\n";
                         }
                         continue;
                     }
