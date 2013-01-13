@@ -487,7 +487,7 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 	switch (msg) {
 	case WM_INITDIALOG:
 		TranslateDialogDefault(hwndDlg);
-		CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, cfg::dat.dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_XSTATUSASSTATUS, (cfg::dat.dwFlags & CLUI_FRAME_USEXSTATUSASSTATUS) ? BST_CHECKED : BST_UNCHECKED);
 
 		CheckDlgButton(hwndDlg, IDC_SHOWSTATUSICONS, (cfg::dat.dwFlags & CLUI_FRAME_STATUSICONS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SHOWMETA, (cfg::dat.dwFlags & CLUI_USEMETAICONS) ? BST_CHECKED : BST_UNCHECKED);
@@ -495,7 +495,7 @@ static INT_PTR CALLBACK DlgProcIcons(HWND hwndDlg, UINT msg, WPARAM wParam, LPAR
 		CheckDlgButton(hwndDlg, IDC_OVERLAYICONS, (cfg::dat.dwFlags & CLUI_FRAME_OVERLAYICONS) ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_SELECTIVEICONS, (cfg::dat.dwFlags & CLUI_FRAME_SELECTIVEICONS) ? BST_CHECKED : BST_UNCHECKED);
 
-		CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, cfg::dat.bCenterStatusIcons ? 1 : 0);
+		CheckDlgButton(hwndDlg, IDC_STATUSICONSCENTERED, cfg::dat.bCenterStatusIcons ? BST_CHECKED : BST_UNCHECKED);
 		CheckDlgButton(hwndDlg, IDC_IDLE, cfg::getByte("CLC", "ShowIdle", CLCDEFAULT_SHOWIDLE) ? BST_CHECKED : BST_UNCHECKED);
 		return TRUE;
 
@@ -582,6 +582,11 @@ int ClcOptInit(WPARAM wParam, LPARAM lParam)
 	odp.pszTab = LPGEN("Advanced");
 	odp.pfnDlgProc = DlgProcDspAdvanced;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_DSPADVANCED);
+	Options_AddPage(wParam, &odp);
+
+	odp.pszTab = LPGEN("Icons");
+	odp.pfnDlgProc = DlgProcIcons;
+	odp.pszTemplate = MAKEINTRESOURCEA(IDD_OPT_ICONS);
 	Options_AddPage(wParam, &odp);
 
 	////////////////////////////////////////////////////////////////////////////

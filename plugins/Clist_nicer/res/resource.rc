@@ -269,21 +269,21 @@ BEGIN
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,19,155,201,10
 END
 
-IDD_OPT_ICONS DIALOGEX 0, 0, 305, 205
+IDD_OPT_ICONS DIALOGEX 0, 0, 305, 110
 STYLE DS_SETFONT | DS_FIXEDSYS | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
-    GROUPBOX        "Icons",IDC_STATIC,1,0,224,99
-    CONTROL         "Show status icons",IDC_SHOWSTATUSICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,10,106,10
-    CONTROL         "Centered when possible",IDC_STATUSICONSCENTERED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,122,10,100,11
+    GROUPBOX        "Icons",IDC_STATIC,5,3,293,99
+    CONTROL         "Show status icons",IDC_SHOWSTATUSICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,14,277,10
+    CONTROL         "Centered when possible",IDC_STATUSICONSCENTERED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,27,268,11
     CONTROL         "When possible, draw status icons in avatar space",IDC_SELECTIVEICONS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,22,214,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,40,277,10
     CONTROL         "Use metacontact protocol icons instead of subcontacts",IDC_SHOWMETA,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,34,214,10
-    CONTROL         "Use Overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,46,214,10
-    CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,58,214,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,52,277,10
+    CONTROL         "Use Overlay icons on avatars",IDC_OVERLAYICONS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,64,277,10
+    CONTROL         "Dim idle contacts",IDC_IDLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,76,277,10
     CONTROL         "Replace status icons with xStatus",IDC_XSTATUSASSTATUS,
-                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,8,70,214,10
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,11,88,277,10
 END
 
 IDD_OPT_CLUI DIALOGEX 0, 0, 305, 226
@@ -716,6 +716,15 @@ BEGIN
 
     IDD_OPT_DSPADVANCED, DIALOG
     BEGIN
+    END
+
+    IDD_OPT_ICONS, DIALOG
+    BEGIN
+        VERTGUIDE, 5
+        VERTGUIDE, 11
+        VERTGUIDE, 20
+        VERTGUIDE, 288
+        VERTGUIDE, 298
     END
 
     IDD_OPT_CLUI, DIALOG

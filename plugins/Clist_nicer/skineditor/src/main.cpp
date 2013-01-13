@@ -635,7 +635,7 @@ static void FillItemList(HWND hwndDlg)
 	}
 }
 
-static BOOL CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
+static INT_PTR CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     SKINDESCRIPTION *psd = (SKINDESCRIPTION *)GetWindowLongPtr(hwndDlg, GWLP_USERDATA);
 
@@ -829,8 +829,8 @@ static BOOL CALLBACK SkinEdit_ExtBkDlgProc(HWND hwndDlg, UINT msg, WPARAM wParam
                 // save struct to DB
 							if(psd->pfnSaveCompleteStruct)
 								psd->pfnSaveCompleteStruct();
-                            DBWriteContactSettingDword(NULL, "CLCExt", "3dbright", SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_GETCOLOUR, 0, 0));
-                            DBWriteContactSettingDword(NULL, "CLCExt", "3ddark", SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_GETCOLOUR, 0, 0));
+                            db_set_dw(NULL, "CLCExt", "3dbright", SendDlgItemMessage(hwndDlg, IDC_3DLIGHTCOLOR, CPM_GETCOLOUR, 0, 0));
+                            db_set_dw(NULL, "CLCExt", "3ddark", SendDlgItemMessage(hwndDlg, IDC_3DDARKCOLOR, CPM_GETCOLOUR, 0, 0));
 
                             if(psd->pfnClcOptionsChanged)
 								psd->pfnClcOptionsChanged();
@@ -889,7 +889,7 @@ static INT_PTR SkinEdit_Invoke(WPARAM wParam, LPARAM lParam)
     GetClientRect(psd->hWndParent, &rcClient);
 
     tci.mask = TCIF_PARAM|TCIF_TEXT;
-    tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hWndParent, (DLGPROC)SkinEdit_ExtBkDlgProc, (LPARAM)psd);
+    tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_SKINITEMEDIT), psd->hWndParent, SkinEdit_ExtBkDlgProc, (LPARAM)psd);
 
     tci.pszText = TranslateT("Skin items");
     TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
@@ -897,7 +897,7 @@ static INT_PTR SkinEdit_Invoke(WPARAM wParam, LPARAM lParam)
     psd->hwndSkinEdit = (HWND)tci.lParam;
 
     /*
-    tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_IMAGEITEMEDIT), psd->hWndParent, (DLGPROC)SkinEdit_ImageItemEditProc, (LPARAM)psd);
+    tci.lParam = (LPARAM)CreateDialogParam(g_hInst, MAKEINTRESOURCE(IDD_IMAGEITEMEDIT), psd->hWndParent, SkinEdit_ImageItemEditProc, (LPARAM)psd);
     tci.pszText = TranslateT("Image items");
     TabCtrl_InsertItem(psd->hWndTab, iTabs++, &tci);
     MoveWindow((HWND)tci.lParam, 5, 25, rcClient.right - 9, rcClient.bottom - 60, 1);
@@ -911,8 +911,8 @@ static HANDLE hSvc_invoke = 0, hSvc_fillby = 0;
 
 static int LoadModule()
 {
-    hSvc_invoke = CreateServiceFunction(MS_CLNSE_INVOKE, (MIRANDASERVICE)SkinEdit_Invoke);
-    hSvc_fillby = CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, (MIRANDASERVICE)SkinEdit_FillByCurrentSel);
+    hSvc_invoke = CreateServiceFunction(MS_CLNSE_INVOKE, SkinEdit_Invoke);
+    hSvc_fillby = CreateServiceFunction(MS_CLNSE_FILLBYCURRENTSEL, SkinEdit_FillByCurrentSel);
     return 0;
 }
 
@@ -920,17 +920,6 @@ extern "C" __declspec(dllexport) PLUGININFOEX * MirandaPluginInfoEx(DWORD mirand
 {
 	return &pluginInfo;
 }
-
-/*
- * define our own MUUID, since this is a special plugin...
- */
-
-extern "C" extern "C" __declspec(dllexport) const MUUID MirandaInterfaces[] = 
-{
-	MIID_TESTPLUGIN, 
-	{ 0x70ff4eef, 0xcb7b, 0x4d88, { 0x85, 0x60, 0x7d, 0xe3, 0xa6, 0x68, 0x5c, 0xe3 }}, 
-	MIID_LAST
-};
 
 static int ModulesLoaded(WPARAM wParam, LPARAM lParam)
 {

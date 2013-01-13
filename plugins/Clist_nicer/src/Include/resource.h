@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by .\plugins\clist_nicer\res\resource.rc
+// Used by C:\Users\xx\Documents\Visual Studio 2010\Projects\miranda-ng\plugins\Clist_nicer\res\resource.rc
 //
 #define IDD_OPT_VIEWMODES               1
 #define IDD_OPT_FLOATING                3
