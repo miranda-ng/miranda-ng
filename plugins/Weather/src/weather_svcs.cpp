@@ -225,21 +225,25 @@ void UpdateMenu(BOOL State)
 {
 	// update option setting
 	opt.CAutoUpdate = State;
-	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)opt.AutoUpdate);
+	db_set_b(NULL, WEATHERPROTONAME, "AutoUpdate", (BYTE)State);
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 
 	if (State) { // to enable auto-update
 		mi.pszName = LPGEN("Auto Update Enabled");
 		mi.icolibItem = GetIconHandle("main");
+		opt.AutoUpdate = 1;
 	}
 	else { // to disable auto-update
 		mi.pszName = LPGEN("Auto Update Disabled");
 		mi.icolibItem = GetIconHandle("disabled");
+		opt.AutoUpdate = 0;
 	}
 
 	mi.flags = CMIM_ICON | CMIM_NAME | CMIF_ICONFROMICOLIB;
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hEnableDisableMenu, (LPARAM)&mi);
+	CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, !State ? TTBST_PUSHED : TTBST_RELEASED);
+
 }
 
 void UpdatePopupMenu(BOOL State)

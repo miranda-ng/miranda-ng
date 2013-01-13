@@ -56,6 +56,8 @@ BOOL ThreadRunning;
 // variable to determine if module loaded
 BOOL ModuleLoaded;
 
+HANDLE hTBButton = NULL;
+
 // plugin info
 static const PLUGININFOEX pluginInfoEx =
 {
@@ -69,7 +71,7 @@ static const PLUGININFOEX pluginInfoEx =
 	__AUTHORWEB,
 	UNICODE_AWARE,
 	// {6B612A34-DCF2-4e32-85CF-B6FD006B745E}
-	{0x6b612a34, 0xdcf2, 0x4e32, { 0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
+	{0x6b612a34, 0xdcf2, 0x4e32, {0x85, 0xcf, 0xb6, 0xfd, 0x0, 0x6b, 0x74, 0x5e}}
 };
 
 extern "C" __declspec(dllexport) const PLUGININFOEX* MirandaPluginInfoEx(DWORD mirandaVersion) 
@@ -102,6 +104,21 @@ int WeatherShutdown(WPARAM wParam,LPARAM lParam)
 	return 0;
 }
 
+int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
+{
+	TTBButton tbb = {0};
+	tbb.cbSize = sizeof(TTBButton);
+	tbb.name = LPGEN("Enable/disable auto update");
+	tbb.pszService = MS_WEATHER_ENABLED;
+	tbb.pszTooltipUp = LPGEN("Auto Update Enabled");
+	tbb.pszTooltipDn = LPGEN("Auto Update Disabled");
+	tbb.hIconHandleUp = GetIconHandle("main");
+	tbb.hIconHandleDn = GetIconHandle("disabled");
+	tbb.dwFlags = (db_get_b(NULL, WEATHERPROTONAME, "AutoUpdate", 1) ? 0 : TTBBF_PUSHED) | TTBBF_ASPUSHBUTTON | TTBBF_VISIBLE;
+	hTBButton = TopToolbar_AddButton(&tbb);
+	return 0;
+}
+
 // weather protocol initialization function
 // run after the event ME_SYSTEM_MODULESLOADED occurs
 int WeatherInit(WPARAM wParam,LPARAM lParam) 
@@ -120,6 +137,8 @@ int WeatherInit(WPARAM wParam,LPARAM lParam)
 
 	// weather user detail
 	HookEvent(ME_USERINFO_INITIALISE, UserInfoInit);
+
+	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
 
 	hDataWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
 	hWindowList = (HANDLE)CallService(MS_UTILS_ALLOCWINDOWLIST,0,0);
