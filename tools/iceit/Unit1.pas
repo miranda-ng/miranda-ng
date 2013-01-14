@@ -117,7 +117,7 @@ begin
   else
     List.Add(Format('  #%d', [LoWord(Cardinal(ResName))]));
 }
-  List.Add(Format('%d', [LoWord(Cardinal(ResName))]));    
+  List.Add(Format('%d', [LoWord(Cardinal(ResName))]));
   Result := 1;
 end;
 
@@ -246,7 +246,7 @@ function IsValidIcon(P: Pointer; Size: Cardinal): Boolean;
 {
 var
   ItemCount: Cardinal;
-}  
+}
 begin
   {
   Result := False;
@@ -425,7 +425,7 @@ begin
       S := LowerCase(S);
       if n < PluginsItem then F := '\icons' else F := '\plugins';
       StatusBar1.Panels[0].Text := ' Processing: ' + S;
-      if (S = 'miranda32') or (S = 'dbtool') then
+      if (S = 'miranda32') or (S = 'miranda64') then
       begin
         xFilePath := MirandaPath + '\' + S + '.exe';
         xIcoPath := IcePath + F + '\' + S + '\' + S;
@@ -455,14 +455,14 @@ begin
       if FileExists(xTemp) then DeleteFile(xTemp);
     end;
   end else begin
-    Edit1.Text := 'Enter path to Mirenda32.exe here or click this button ------>';
+    Edit1.Text := 'Enter path to Miranda*.exe here or click this button ------>';
     Edit1.SelectAll;
     Edit1.SetFocus;
   end;
   ProgressBar1.Position := 0;
   StatusBar1.Panels[0].Text := ' Ready';
   if FileSize(Log) = 0 then DeleteFile('iceit.log');
-  
+
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);

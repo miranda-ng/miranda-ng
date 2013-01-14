@@ -1,6 +1,6 @@
 object Form1: TForm1
-  Left = 0
-  Top = 0
+  Left = 242
+  Top = 134
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
   Caption = 'Miranda ICE Icon pack patcher | v.0.2.b'
@@ -199,9 +199,9 @@ object Form1: TForm1
   object Label2: TLabel
     Left = 8
     Top = 8
-    Width = 114
+    Width = 202
     Height = 13
-    Caption = 'Path to Miranda32.exe:'
+    Caption = 'Path to Miranda32.exe or Miranda64.exe:'
   end
   object CheckListBox1: TCheckListBox
     Left = 8
@@ -688,9 +688,9 @@ object Form1: TForm1
       000000000000}
   end
   object OpenDialog1: TOpenDialog
-    Filter = 'Miranda32.exe|Miranda32.exe'
+    Filter = 'Miranda*.exe|Miranda*.exe'
     InitialDir = '.'
-    Title = 'Path to Miranda32.exe'
+    Title = 'Path to Miranda32.exe or Miranda64.exe'
     Left = 86
     Top = 226
   end
