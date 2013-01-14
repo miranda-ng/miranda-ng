@@ -1,12 +1,20 @@
-//**********************************************************************************//
-//* Name:         translate.js                                                     *//
-//* Language:     JScript                                                          *//
-//* Function:     Parse Miranda-NG translation templates and get translated strings*//
-//* Usage:        cscript /nologo translate.js  to run generation in batches       *//
-//* Usage:        cscript /nologo translate.js /log:"yes" to enable console logging*//
-//* Usage:        cscript /nologo translate.js /path:"path\file" for one template  *//
-//* Author:       BasiL                                                            *//
-//**********************************************************************************//
+//*************************************************************************************//
+//* Name:      translate.js                                                           *//
+//* Language:  JScript                                                                *//
+//* Function:  Parse Miranda-NG translation templates and get translated strings      *//
+//* Author:       BasiL                                                               *//
+//* Usage:     cscript /nologo translate.js  to run generation in batches             *//
+//* Usage:     cscript /nologo translate.js /log:"yes" to enable console logging      *//
+//* Usage:     cscript /nologo translate.js /plugin:"path\file" for one template      *//
+//* Usage:     cscript /nologo translate.js /path:"path\folder" - translate folder    *//
+//* Usage:     cscript /nologo translate.js /core:"path\=core=.txt" use core file     *//
+//* Usage:     cscript /nologo translate.js /dupes:"path\=dupes=.txt" use dupes file  *//
+//* Example1:  cscript /nologo translate.js /core:"path\lang.txt" /path:"path/german" *//
+//* will translate english templates using plugins translation from path\german and if*//
+//* translation not found, try to find translation in path\lang.txt                   *//
+//* Example2:  cscript /nologo translate.js /plugin:"path\file" /core:"path\lang.txt" *//
+//* will translate path\file using translation from path\lang.txt                     *//
+//*************************************************************************************//
 
 //Init Variables
 //Create FileSystemObject FSO
@@ -23,7 +31,7 @@ var scriptpath=FSO.GetParentFolderName(WScript.ScriptFullName);
 //crazy way to get path two layers upper "\tools\lpgen\"
 var trunk=FSO.GetFolder(FSO.GetParentFolderName(FSO.GetParentFolderName(scriptpath)));
 //plugins path
-var plugins=FSO.BuildPath(trunk,"langpacks\\ru\\Plugins\\");
+//var plugins=FSO.BuildPath(trunk,"langpacks\\russian\\Plugins\\");
 //init translate dictionaries
 CoreTranslateDict=WScript.CreateObject("Scripting.Dictionary");
 DupesTranslateDict=WScript.CreateObject("Scripting.Dictionary");
@@ -42,18 +50,19 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 }
 
 //when /plugin: specified, parse only this path and quit
-if (WScript.Arguments.Named.Item("path")) {
+if (WScript.Arguments.Named.Item("plugin")) {
     //First, generate DB of translations from Core and Dupes files
+    checkparams();
     DupesAndCoreTranslation();
-    //Path from command line:
-    var cmdline_file=new String(WScript.Arguments.Named.Item("path"));
+    //plugin from command line:
+    var cmdline_file=new String(WScript.Arguments.Named.Item("plugin"));
     //init array for our file translation
     var cmdline_file_array=new Array;
     //Output filename variable
     var traslated_cmdline_file=new String(FSO.BuildPath(scriptpath,FSO.GetFileName(cmdline_file)));
     if (log=="yes") WScript.Echo("translating "+cmdline_file);
     //Call TranslateTemplateFile for path specified in command line argument /path:"path/to/template", output result to "scriptpath"
-    TranslateTemplateFile(WScript.Arguments.Named.Item("path"),cmdline_file_array);
+    TranslateTemplateFile(WScript.Arguments.Named.Item("plugin"),cmdline_file_array);
     //Output result to scriptpath folder.
     WriteToFile(cmdline_file_array,traslated_cmdline_file);
     if (log=="yes") WScript.Echo("translated file here: "+traslated_cmdline_file);
@@ -61,29 +70,32 @@ if (WScript.Arguments.Named.Item("path")) {
     WScript.Quit();
 }
 
+
 //*********************************************************************************//
 //                                    Main part                                   *//
 //*********************************************************************************//
-
+//first, check we have files with translated stirngs specified.
+checkparams();
 if (log=="yes") WScript.Echo("Translation begin");
 //Generate Translation DB as two-dimensional array of Dupes and Core translations.
 DupesAndCoreTranslation ();
 
 //Array for translated core
+
 Traslate_Core=new Array;
 if (log=="yes") WScript.Echo("Translating Core");
 //Call function for translate core template
-TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\en\\=CORE=.txt"),Traslate_Core);
+TranslateTemplateFile(FSO.BuildPath(trunk,"langpacks\\english\\=CORE=.txt"),Traslate_Core);
 //var with translated core template file path
-Translated_Core=trunk+"\\langpacks\\en\\translated_=CORE=.txt"
-if (log=="yes") WScript.Echo("Output to: "+Translated_Core);
+Translated_Core=trunk+"\\langpacks\\english\\translated_=CORE=.txt"
 //output traslated core into file
 WriteToFile(Traslate_Core,Translated_Core);
+if (log=="yes") WScript.Echo("Output to: "+Translated_Core);
 
 //Init array of template files
 TemplateFilesArray=new Array;
 //Find all template files and put them to array
-FindFiles(FSO.BuildPath(trunk,"langpacks\\en\\plugins\\"),"\\.txt$",TemplateFilesArray)
+FindFiles(FSO.BuildPath(trunk,"langpacks\\english\\plugins\\"),"\\.txt$",TemplateFilesArray)
 //create enumerator filesenum from filelist
 filesenum=new Enumerator(TemplateFilesArray);
 //cycle through file list
@@ -95,7 +107,7 @@ filesenum=new Enumerator(TemplateFilesArray);
      //Log output to console
      if (log=="yes") WScript.Echo("translating "+curfile);
      //path to result file
-     traslatedtemplatefile=trunk+"\\langpacks\\en\\plugins\\translated_"+FSO.GetFileName(curfile);
+     traslatedtemplatefile=trunk+"\\langpacks\\english\\plugins\\translated_"+FSO.GetFileName(curfile);
      //now put strings from template and translations into array
      TranslateTemplateFile(curfile,TranslatedTemplate);
      //Write array into file;
@@ -112,14 +124,34 @@ if (log=="yes") WScript.Echo("Translation end");
 //                                    Functions                                   *//
 //*********************************************************************************//
 
+//when /core: and /path: are NOT specified, thus we don't have any langpack file(s) to get translated strings. Thus all other job are uselessg
+function checkparams() { 
+if (!WScript.Arguments.Named.Item("core") && !WScript.Arguments.Named.Item("path"))  {
+    WScript.Echo("you didn't specify /core: or /path: parameter, there is no files with translated strings!");
+    WScript.Quit();
+    };
+}
+
+//Check file existense. If file not found, quit.
+function CheckFileExist(file) {
+    if (!FSO.FileExists(file)) {
+        WScript.Echo("Can't find "+file)
+        };
+}
+
 //Generate DB with translations from Core and Dupes files
 function DupesAndCoreTranslation () {
 //path variables
-var CoreTranslateFile=FSO.BuildPath(trunk,"langpacks\\ru\\=CORE=.txt");
-var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\ru\\=DUPES=.txt");
-//Generate Core and Dupes translate dictionaries
-GenerateTransalteDict(CoreTranslateFile,CoreTranslateDict);
-GenerateTransalteDict(DupesTranslateFile,DupesTranslateDict);
+if (WScript.Arguments.Named.Item("core")) {
+    CheckFileExist(WScript.Arguments.Named.Item("core"));
+    //var CoreTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=CORE=.txt");
+    GenerateTransalteDict(WScript.Arguments.Named.Item("core"),CoreTranslateDict);
+    }
+if (WScript.Arguments.Named.Item("dupes")) {
+    CheckFileExist(WScript.Arguments.Named.Item("dupes"));
+    //var DupesTranslateFile=FSO.BuildPath(trunk,"langpacks\\russian\\=DUPES=.txt");
+    GenerateTransalteDict(WScript.Arguments.Named.Item("dupes"),DupesTranslateDict);
+    }
 }
 
 //Generate Dictionary with english sting + translated string from file
@@ -150,8 +182,11 @@ translatefile.Close();
 function TranslateTemplateFile(Template_file,array) {
  //Init PluginTranslate Dictionary from plugins translate file
  var PluginTranslateDict=WScript.CreateObject("Scripting.Dictionary");
- //Generate PluginTranslate Dictionary
- GenerateTransalteDict(FSO.BuildPath(plugins,FSO.GetFileName(Template_file)),PluginTranslateDict);
+ // if /path:"" specified, this is a folder with plugin translations, use it to find out our translation.
+ if (WScript.Arguments.Named.Item("path")) {
+    //Generate PluginTranslate Dictionary
+    GenerateTransalteDict(FSO.BuildPath(WScript.Arguments.Named.Item("path"),FSO.GetFileName(Template_file)),PluginTranslateDict);
+ }
  //If file zero size, return;
  if (FSO.GetFile(Template_file).Size==0) return;  
  //access file
