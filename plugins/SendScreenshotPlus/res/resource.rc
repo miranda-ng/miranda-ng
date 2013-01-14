@@ -169,6 +169,15 @@ IDI_PLUG_DELON          ICON                    "ssDelOn.ico"
 IDB_Bmp1                BITMAP                  "UEditForm_nvr_1.bmp"
 IDB_Bmp2                BITMAP                  "UEditForm_nvr_2.bmp"
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXT
+//
+
+IDR_CREDIT TEXT "..\docs\credits.txt"
+IDR_LICENSE TEXT "..\docs\license.txt"
+
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
