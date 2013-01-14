@@ -1,6 +1,6 @@
-#include "AggressiveOptimize.h"
 #include <windows.h>
 #include <commctrl.h>
+#include <stdio.h>
 #include "../../include/newpluginapi.h"
 #include "../../include/m_system.h"
 #include "../../include/m_database.h"
@@ -26,8 +26,10 @@ extern HICON hSoundOn, hSoundOff;
 extern int autoPreview;
 
 #define SLIDER_MIN  1
-#define SLIDER_MAX  90
+#define SLIDER_MAX  100
 #define SLIDER_DIV	6
+
+#define MS_RADIO_SETVOL "mRadio/SetVol"
 
 #ifdef __cplusplus
 extern "C" {

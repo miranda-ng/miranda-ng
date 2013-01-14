@@ -32,7 +32,7 @@ void Destroy()
 // Name: LoadSegmentFile()
 // Desc: 
 //-----------------------------------------------------------------------------
-HRESULT LoadSegmentFile( char* strFileName )
+HRESULT LoadSegmentFile( TCHAR *strFileName )
 {
 	HRESULT hr;
 
@@ -57,21 +57,21 @@ HRESULT LoadSegmentFile( char* strFileName )
 	}
 	else
 	{
-		if( FAILED( hr = g_pMusicManager->SetSearchDirectory( "" ) ) )
+		if( FAILED( hr = g_pMusicManager->SetSearchDirectory( _T("") ) ) )
 			return DXTRACE_ERR( TEXT("SetSearchDirectory"), hr );
 	}
 
 	// For DirectMusic must know if the file is a standard MIDI file or not
 	// in order to load the correct instruments.
 	BOOL bMidiFile = FALSE;
-	if( strstr( strFileName, ".mid" ) != NULL ||
-		strstr( strFileName, ".rmi" ) != NULL ) 
+	if( _tcsstr( strFileName, _T(".mid") ) != NULL ||
+		_tcsstr( strFileName, _T(".rmi") ) != NULL ) 
 	{
 		bMidiFile = TRUE;
 	}
 
 	BOOL bWavFile = FALSE;
-	if( strstr( strFileName, ".wav" ) != NULL )
+	if( _tcsstr( strFileName, _T(".wav") ) != NULL )
 	{
 		bWavFile = TRUE;
 	}        
@@ -89,26 +89,25 @@ HRESULT LoadSegmentFile( char* strFileName )
 
 BOOL WINAPI PlaySound(char* pszSound, HMODULE hmod, DWORD fdwSound)
 {
-	/*
-	if(!g_bInOption)
-	{
-		DWORD volume = (DWORD)DBGetContactSettingDword(NULL, SERVICENAME, "Volume", 100);
-			
-		if(volume != g_dwVolume)
-		{
-			g_dwVolume = volume;
-			playSnd::SetVolume(g_dwVolume);
-		}
-	}
-	*/
     HRESULT hr;
+#if defined(UNICODE)
+	TCHAR   ptszSound[MAX_PATH];
+	DWORD   cpSys = CP_ACP;
+
+	MultiByteToWideChar(cpSys, 0, pszSound, -1, ptszSound, MAX_PATH);
+	ptszSound[MAX_PATH - 1] = 0;
+    if( FAILED( hr = LoadSegmentFile(ptszSound) ) )
+        return FALSE;
 	
+	if( FAILED( hr = g_pMusicSegment->SetRepeats( 0 ) ) )
+		return FALSE;
+#else
     if( FAILED( hr = LoadSegmentFile(pszSound) ) )
         return FALSE;
 	
 	if( FAILED( hr = g_pMusicSegment->SetRepeats( 0 ) ) )
 		return FALSE;
-	
+#endif	
     // Play the segment and wait. The DMUS_SEGF_BEAT indicates to play on the 
     // next beat if there is a segment currently playing. 
     if( FAILED( hr = g_pMusicSegment->Play( DMUS_SEGF_BEAT ) ) )
@@ -120,7 +119,7 @@ BOOL WINAPI PlaySound(char* pszSound, HMODULE hmod, DWORD fdwSound)
 
 BOOL SetVolume(long Value)
 {
-	long value = (int)(log10(Value)/2.0*5000.0-4000.0);
+	long value = (int)(log10((float)Value)/2.0*5000.0-4000.0);
 	IDirectMusicPerformance* pPerf = NULL;               
 	if( g_pMusicManager )
 		pPerf = g_pMusicManager->GetPerformance();
