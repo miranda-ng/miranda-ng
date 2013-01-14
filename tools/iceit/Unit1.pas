@@ -85,7 +85,7 @@ type
 
 var
   Form1: TForm1;
-  IconsItem, PluginsItem: Integer;
+  IconsItem, PluginsItem, CoreItem: Integer;
   IcePath: String;
   MirandaPath: String;
 
@@ -423,7 +423,8 @@ begin
       ProgressBar1.Position := n;
       S := GetValue(CheckListBox1.Items[n], 0);
       S := LowerCase(S);
-      if n < PluginsItem then F := '\icons' else F := '\plugins';
+      if n < PluginsItem then F := '\icons' else
+      if n < coreitem then F := '\plugins' else  F := '\core';
       StatusBar1.Panels[0].Text := ' Processing: ' + S;
       if (S = 'miranda32') or (S = 'miranda64') then
       begin
@@ -552,6 +553,26 @@ begin
   CheckListBox1.Header[PluginsItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
   FilePath := IcePath + '\plugins\*.*';
+  FindHandle := FindFirstFile(PChar(FilePath), FindData);
+  if FindHandle <> INVALID_HANDLE_VALUE then
+  begin
+    FindNext := True;
+    while FindNext do
+    begin
+      FileName := FindData.cFileName;
+      if (FileName <> '..') and (FileName <> '.') then
+        if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
+         CheckListBox1.Items.Add(LowerCase(FileName)+'|NONE|');
+      FindNext := FindNextFile(FindHandle, FindData);
+    end;
+  end;
+  Windows.FindClose(FindHandle);
+   // core
+  CheckListBox1.Items.Add('core|NONE|');
+  PluginsItem := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[PluginsItem] := True;
+  FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
+  FilePath := IcePath + '\core\*.*';
   FindHandle := FindFirstFile(PChar(FilePath), FindData);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
