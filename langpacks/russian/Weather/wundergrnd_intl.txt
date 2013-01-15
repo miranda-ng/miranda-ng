@@ -512,3 +512,5 @@
 Снег с дождём, дымка
 [Patches Fog Mist]
 Местами туман, дымка
+[Snow 60% Chance Of Precipitation]
+Снег, 60% вероятность осадков
