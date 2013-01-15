@@ -569,7 +569,7 @@ begin
   Windows.FindClose(FindHandle);
    // core
   CheckListBox1.Items.Add('core|NONE|');
-  PluginsItem := CheckListBox1.Items.Count-1;
+  CoreItem := CheckListBox1.Items.Count-1;
   CheckListBox1.Header[PluginsItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
   FilePath := IcePath + '\core\*.*';
