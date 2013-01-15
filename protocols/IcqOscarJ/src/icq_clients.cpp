@@ -972,7 +972,9 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 				{	// capability footprint based detection - not really reliable
 					if (!dwFT1 && !dwFT2 && !dwFT3 && !dwWebPort && !dwDirectCookie)
 					{ // DC info is empty
-						if (CheckContactCapabilities(hContact, CAPF_TYPING) && MatchCapability(caps, wLen, &capIs2001) &&
+						if (CheckContactCapabilities(hContact, CAPF_UTF | CAPF_CONTACTS | CAPF_XTRAZ | CAPF_OSCAR_FILE | CAPF_STATUS_MOOD))
+							szClient = "ICQ 8";
+						else if (CheckContactCapabilities(hContact, CAPF_TYPING) && MatchCapability(caps, wLen, &capIs2001) &&
 							MatchCapability(caps, wLen, &capIs2002) && MatchCapability(caps, wLen, &capComm20012))
 							szClient = cliSpamBot;
 						else if (MatchShortCapability(caps, wLen, &capAimIcon) && MatchShortCapability(caps, wLen, &capAimDirect) &&
