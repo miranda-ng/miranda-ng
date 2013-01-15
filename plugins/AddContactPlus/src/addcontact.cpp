@@ -255,8 +255,6 @@ INT_PTR CALLBACK AddContactDlgProc(HWND hdlg, UINT msg, WPARAM wparam, LPARAM lp
 						// TODO remember last setting for each proto?
 						AddContactDlgOpts(hdlg, acs->szProto);
 					}
-					if (HIWORD(wparam) == CBN_CLOSEUP)
-						SetFocus(GetDlgItem(hdlg, IDC_USERID));
 					break;
 
 				case IDC_ADDTEMP:
