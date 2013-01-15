@@ -415,44 +415,13 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 	}
 	int nOldXStatusID = getContactXStatus(hContact);
 
-	if (m_bXStatusEnabled) {
-		 // detect custom status capabilities
-		if (caps) {
-			if (capsize > 0)
-				for (int i = 0; i < XSTATUS_COUNT; i++) {
-					if (MatchCapability(caps, capsize, (const capstr*)capXStatus[i], BINARY_CAP_SIZE)) {
-						BYTE bXStatusId = (BYTE)(i+1);
-						char str[MAX_PATH];
-
-						SetContactCapabilities(hContact, CAPF_XSTATUS);
-
-						 // only write default name when it is really needed, i.e. on Custom Status change
-						if (nOldXStatusID != bXStatusId) {
-							setSettingByte(hContact, DBSETTING_XSTATUS_ID, bXStatusId);
-							setSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-							deleteSetting(hContact, DBSETTING_XSTATUS_MSG);
-
-							NetLog_Server("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
-							bChanged = TRUE;
-						}
-
-						if (getSettingByte(NULL, "XStatusAuto", DEFAULT_XSTATUS_AUTO))
-							requestXStatusDetails(hContact, TRUE);
-
-						nCustomStatusID = bXStatusId;
-						break;
-					}
-			}
-
-			if (nCustomStatusID == 0)
-				ClearContactCapabilities(hContact, CAPF_XSTATUS);
-		}
-	}
-
 	if (m_bMoodsEnabled) {
 		 // process custom statuses (moods) from ICQ6
-		if (moods && moodsize < 32) {
+		if (moods) {
 			if (moodsize > 0)
+				if (moodsize >= 32)
+					moods[32] = '\0';
+
 				for (int i = 0; i < XSTATUS_COUNT; i++) {
 					char szMoodId[32], szMoodData[32];
 
@@ -467,7 +436,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 						SetContactCapabilities(hContact, CAPF_STATUS_MOOD);
 
 						 // only write default name when it is really needed, i.e. on Custom Status change
-						if (nCustomStatusID == 0 && nOldXStatusID != bXStatusId) {
+						if (nOldXStatusID != bXStatusId) {
 							setSettingByte(hContact, DBSETTING_XSTATUS_ID, bXStatusId);
 							setSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
 							deleteSetting(hContact, DBSETTING_XSTATUS_MSG);
@@ -488,8 +457,42 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 		}
 	}
 
+	if (m_bXStatusEnabled) {
+		 // detect custom status capabilities
+		if (caps) {
+			if (capsize > 0)
+				for (int i = 0; i < XSTATUS_COUNT; i++) {
+					if (MatchCapability(caps, capsize, (const capstr*)capXStatus[i], BINARY_CAP_SIZE)) {
+						BYTE bXStatusId = (BYTE)(i+1);
+						char str[MAX_PATH];
+
+						SetContactCapabilities(hContact, CAPF_XSTATUS);
+
+						 // only write default name when it is really needed, i.e. on Custom Status change
+						if (nMoodID == 0 && nOldXStatusID != bXStatusId) {
+							setSettingByte(hContact, DBSETTING_XSTATUS_ID, bXStatusId);
+							setSettingStringUtf(hContact, DBSETTING_XSTATUS_NAME, ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
+							deleteSetting(hContact, DBSETTING_XSTATUS_MSG);
+
+							NetLog_Server("%s changed custom status to %s.", strUID(dwUIN, szUID), ICQTranslateUtfStatic(nameXStatus[i], str, MAX_PATH));
+							bChanged = TRUE;
+						}
+
+						if (getSettingByte(NULL, "XStatusAuto", DEFAULT_XSTATUS_AUTO))
+							requestXStatusDetails(hContact, TRUE);
+
+						nCustomStatusID = bXStatusId;
+						break;
+					}
+				}
+
+			if (nCustomStatusID == 0)
+				ClearContactCapabilities(hContact, CAPF_XSTATUS);
+		}
+	}
+
 	if (nCustomStatusID != 0 && nMoodID != 0 && nCustomStatusID != nMoodID)
-		NetLog_Server("Warning: Diverse custom statuses detected, using custom status.");
+		NetLog_Server("Warning: Diverse custom statuses detected, using mood status.");
 
 	if ((nCustomStatusID == 0 && (caps || !m_bXStatusEnabled)) && (nMoodID == 0 && (moods || !m_bMoodsEnabled))) {
 		if (getSettingByte(hContact, DBSETTING_XSTATUS_ID, -1) != -1)
@@ -500,7 +503,7 @@ void CIcqProto::handleXStatusCaps(DWORD dwUIN, char *szUID, HANDLE hContact, BYT
 	}
 
 	if (m_bXStatusEnabled != 10 && m_bMoodsEnabled != 10)
-		setContactExtraIcon(hContact, nCustomStatusID ? nCustomStatusID : (nMoodID ? nMoodID : (moods ? 0 : nOldXStatusID)));
+		setContactExtraIcon(hContact, nMoodID ? nMoodID : (moods ? 0 : (nCustomStatusID ? nCustomStatusID : nOldXStatusID)));
 }
 
 
