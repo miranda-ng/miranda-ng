@@ -37,5 +37,6 @@ static const TCHAR *clients[] = {
 	_T("iphone"),
 	_T("ipad"),
 	_T("im+"),
-	_T("bayan")
+	_T("bayan"),
+	_T("imo.im")
 };
