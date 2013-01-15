@@ -972,7 +972,7 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 				{	// capability footprint based detection - not really reliable
 					if (!dwFT1 && !dwFT2 && !dwFT3 && !dwWebPort && !dwDirectCookie)
 					{ // DC info is empty
-						if (CheckContactCapabilities(hContact, CAPF_UTF | CAPF_CONTACTS | CAPF_XTRAZ | CAPF_OSCAR_FILE | CAPF_STATUS_MOOD))
+						if (CheckContactCapabilities(hContact, CAPF_UTF | CAPF_CONTACTS | CAPF_XTRAZ | CAPF_OSCAR_FILE))
 							szClient = "ICQ 8";
 						else if (CheckContactCapabilities(hContact, CAPF_TYPING) && MatchCapability(caps, wLen, &capIs2001) &&
 							MatchCapability(caps, wLen, &capIs2002) && MatchCapability(caps, wLen, &capComm20012))
@@ -1007,7 +1007,12 @@ const char* CIcqProto::detectUserClient(HANDLE hContact, int nIsICQ, WORD wUserC
 						else if (CheckContactCapabilities(hContact, CAPF_UTF | CAPF_SRV_RELAY | CAPF_CONTACTS) && MatchShortCapability(caps, wLen, &capAimIcon) && MatchCapability(caps, wLen, &capFakeHtml))
 							szClient = "mundu IM"; // http://messenger.mundu.com
 						else if (CheckContactCapabilities(hContact, CAPF_UTF | CAPF_OSCAR_FILE) && MatchCapability(caps, wLen, &capOscarChat))
-							szClient = "eBuddy"; //http://www.ebuddy.com
+						{
+							if (CheckContactCapabilities(hContact, CAPF_TYPING))
+								szClient = "eBuddy"; // http://www.ebuddy.com
+							else
+								szClient = "eBuddy (Mobile)";
+						}
 						else if (CheckContactCapabilities(hContact, CAPF_CONTACTS | CAPF_OSCAR_FILE) && MatchShortCapability(caps, wLen, &capAimIcon) && MatchShortCapability(caps, wLen, &capAimDirect) && MatchCapability(caps, wLen, &capOscarChat))
 							szClient = "IloveIM"; //http://www.iloveim.com/
 
