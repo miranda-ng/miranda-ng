@@ -17,7 +17,7 @@ PLUGININFOEX pluginInfo = {
 	__COPYRIGHT,
 	__AUTHORWEB,
 	UNICODE_AWARE,
-	//2f07ea05-05b5-4ff0-875d-c590da2ddac1
+	// 2f07ea05-05b5-4ff0-875d-c590da2ddac1
 	{0x2f07ea05, 0x05b5, 0x4ff0, {0x87, 0x5d, 0xc5, 0x90, 0xda, 0x2d, 0xda, 0xc1}}
 };
 
@@ -358,6 +358,41 @@ int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
+LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	return TRUE;
+}
+
+void CreateFrame()
+{
+	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
+		return;
+
+	WNDCLASS wndclass;
+	wndclass.style = 0;
+	wndclass.lpfnWndProc = FrameWindowProc;
+	wndclass.cbClsExtra = 0;
+	wndclass.cbWndExtra = 0;
+	wndclass.hInstance = hInst;
+	wndclass.hIcon = NULL;
+	wndclass.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wndclass.hbrBackground = 0;
+	wndclass.lpszMenuName = NULL;
+	wndclass.lpszClassName = _T("BassInterfaceFrame");
+	RegisterClass(&wndclass);
+
+	HWND hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"), 
+		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
+
+	CLISTFrame Frame = { sizeof(CLISTFrame) };
+	Frame.tname = TranslateT("Bass Interface");
+	Frame.hWnd = hwnd_plugin;
+	Frame.align = alBottom;
+	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
+	Frame.height = 30;
+	DWORD frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+}
+
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
 {
 	DBVARIANT dbv = {0};
@@ -414,6 +449,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			Volume = DBGetContactSettingByte(NULL, ModuleName, OPT_VOLUME, 33);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
 			HookEvent(ME_SKIN_PLAYINGSOUND, OnPlaySnd);
+			CreateFrame();
 		}
 		else
 		{
