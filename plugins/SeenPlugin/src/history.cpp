@@ -184,9 +184,9 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 		SendDlgItemMessage(hwndDlg, IDC_SENDMSG,  BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 
 		//set-up tooltips
-		SendDlgItemMessage(hwndDlg, IDC_DETAILS,  BUTTONADDTOOLTIP, (WPARAM)LPGEN("User Menu"), 0);
-		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View User's Details"), 0);
-		SendDlgItemMessage(hwndDlg, IDC_SENDMSG,  BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send Instant Message"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_DETAILS,  BUTTONADDTOOLTIP, (WPARAM)TranslateT("View User's Details"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)TranslateT("User Menu"), BATF_TCHAR);
+		SendDlgItemMessage(hwndDlg, IDC_SENDMSG,  BUTTONADDTOOLTIP, (WPARAM)TranslateT("Send Instant Message"), BATF_TCHAR);
 
 		Utils_RestoreWindowPositionNoMove(hwndDlg,NULL,S_MOD,"History_");
 		ShowWindow(hwndDlg, SW_SHOW);
