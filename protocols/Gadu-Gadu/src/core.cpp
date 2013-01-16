@@ -593,7 +593,7 @@ retry:
 						e->event.notify60[i].time, e->event.notify60[i].remote_ip, e->event.notify60[i].remote_port,
 						e->event.notify60[i].version);
 					mir_free(descrT);
-					requestAvatar(getcontact(e->event.notify60[i].uin, 0, 0, NULL), 0);
+					requestAvatarInfo(getcontact(e->event.notify60[i].uin, 0, 0, NULL), 0);
 				}
 				break;
 			}
@@ -804,7 +804,7 @@ retry:
 					mir_free(descrT);
 
 					if (oldstatus == ID_STATUS_OFFLINE && db_get_w(hContact, m_szModuleName, GG_KEY_STATUS, (WORD)ID_STATUS_OFFLINE) != ID_STATUS_OFFLINE)
-						requestAvatar(hContact, 0);
+						requestAvatarInfo(hContact, 0);
 				}
 				break;
 
@@ -1197,7 +1197,7 @@ retry:
 						// Avatar change notify
 						if (type != NULL && !strcmp(type, "28")) {
 							netlog("mainthread() (%x): Client %s changed his avatar.", this, sender);
-							requestAvatar(getcontact(atoi(sender), 0, 0, NULL), 0);
+							requestAvatarInfo(getcontact(atoi(sender), 0, 0, NULL), 0);
 						}
 						mir_free(type);
 						mir_free(sender);

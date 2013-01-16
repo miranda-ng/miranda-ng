@@ -150,21 +150,21 @@ typedef struct
 	char *AvatarURL;
 } GGGETAVATARDATA;
 
-void GGPROTO::getAvatar(HANDLE hContact, char *szAvatarURL)
+void GGPROTO::requestAvatarTransfer(HANDLE hContact, char *szAvatarURL)
 {
 #ifdef DEBUGMODE
-	netlog("getAvatar(): start");
+	netlog("requestAvatarTransfer(): start");
 #endif
 
 	if (pth_avatar.dwThreadId) {
 		GGGETAVATARDATA *data = (GGGETAVATARDATA*)mir_alloc(sizeof(GGGETAVATARDATA));
 		data->hContact = hContact;
 		data->AvatarURL = mir_strdup(szAvatarURL);
-		gg_EnterCriticalSection(&avatar_mutex, "getAvatar", 1, "avatar_mutex", 1);
+		gg_EnterCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, "avatar_mutex", 1);
 		list_add(&avatar_transfers, data, 0);
-		gg_LeaveCriticalSection(&avatar_mutex, "getAvatar", 1, 1, "avatar_mutex", 1);
+		gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarTransfer", 1, 1, "avatar_mutex", 1);
 	} else {
-		netlog("getAvatar(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
+		netlog("requestAvatarTransfer(): Can not list_add element to avatar_transfers list. No pth_avatar.dwThreadId");
 	}
 }
 
@@ -174,10 +174,10 @@ typedef struct
 	int iWaitFor;
 } GGREQUESTAVATARDATA;
 
-void GGPROTO::requestAvatar(HANDLE hContact, int iWaitFor)
+void GGPROTO::requestAvatarInfo(HANDLE hContact, int iWaitFor)
 {
 #ifdef DEBUGMODE
-	netlog("requestAvatar(): start");
+	netlog("requestAvatarInfo(): start");
 #endif
 
 	if (pth_avatar.dwThreadId) {
@@ -185,12 +185,12 @@ void GGPROTO::requestAvatar(HANDLE hContact, int iWaitFor)
 			GGREQUESTAVATARDATA *data = (GGREQUESTAVATARDATA*)mir_alloc(sizeof(GGREQUESTAVATARDATA));
 			data->hContact = hContact;
 			data->iWaitFor = iWaitFor;
-			gg_EnterCriticalSection(&avatar_mutex, "requestAvatar", 2, "avatar_mutex", 1);
+			gg_EnterCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, "avatar_mutex", 1);
 			list_add(&avatar_requests, data, 0);
-			gg_LeaveCriticalSection(&avatar_mutex, "requestAvatar", 2, 1, "avatar_mutex", 1);
+			gg_LeaveCriticalSection(&avatar_mutex, "requestAvatarInfo", 2, 1, "avatar_mutex", 1);
 		}
 	} else {
-		netlog("requestAvatar(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
+		netlog("requestAvatarInfo(): Can not list_add element to avatar_requests list. No pth_avatar.dwThreadId");
 	}
 }
 
@@ -230,10 +230,15 @@ void __cdecl GGPROTO::avatarrequestthread(void*)
 				PROTO_AVATAR_INFORMATIONT pai = {0};
 				pai.cbSize = sizeof(pai);
 				pai.hContact = hContact;
-				if (getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai) != GAIR_WAITFOR)
+				INT_PTR res = getavatarinfo((WPARAM)GAIF_FORCE, (LPARAM)&pai);
+				if (res == GAIR_NOAVATAR){
+					ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, NULL, 0);
+				} else if (res == GAIR_SUCCESS) {
 					ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_SUCCESS, (HANDLE)&pai, 0);
+				} //if GAIR_WAITFOR -> ignore
+			} else {
+				ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
 			}
-			else ProtoBroadcastAck(m_szModuleName, hContact, ACKTYPE_AVATAR, ACKRESULT_STATUS, 0, 0);
 		} else {
 			gg_LeaveCriticalSection(&avatar_mutex, "avatarrequestthread", 3, 2, "avatar_mutex", 1);
 		}

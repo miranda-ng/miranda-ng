@@ -828,9 +828,9 @@ int GGPROTO::img_displayasmsg(HANDLE hContact, void *img)
 	if ( _taccess(szPath, 0)){
 		int ret = CallService(MS_UTILS_CREATEDIRTREET, 0, (LPARAM)szPath);
 		if (ret == 0){
-			netlog("getAvatarFilename(): Created new directory for image cache: %S.", szPath);
+			netlog("img_displayasmsg(): Created new directory for image cache: %S.", szPath);
 		} else {
-			netlog("getAvatarFilename(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
+			netlog("img_displayasmsg(): Can not create directory for image cache: %S. errno=%d: %s", szPath, errno, strerror(errno));
 			TCHAR error[512];
 			mir_sntprintf(error, SIZEOF(error), TranslateT("Can not create image cache directory. ERROR: %d: %s\n%s"), errno, _tcserror(errno), szPath);
 			showpopup(m_tszUserName, error, GG_POPUP_ERROR | GG_POPUP_ALLOW_MSGBOX | GG_POPUP_ONCE);
