@@ -140,7 +140,7 @@ INT_PTR CALLBACK DlgProcOptStatistics(HWND hwndDlg, UINT msg, WPARAM wParam, LPA
 
 						if (IDOK != MessageBox(hwndDlg,
 												TranslateT("Now traffic statistics for selected accounts will be cleared.\nContinue?"),
-												_T("Traffic counter"),
+												TranslateT("Traffic counter"),
 												MB_OKCANCEL | MB_ICONWARNING))
 							break;
 						GetLocalTime(&stNow);
@@ -336,7 +336,7 @@ void Stat_ReadFile(BYTE n)
 		ReadFile(ProtoList[n].hFile, &ProtoList[n].AllStatistics[0], sizeof(HOURLYSTATS)*ProtoList[n].NumberOfRecords, &BytesRead, NULL);
 		if (!BytesRead)
 		{
-			MessageBox(TrafficHwnd, TranslateT("Couldn't read statistics file"), _T("Traffic Counter"), MB_OK);
+			MessageBox(TrafficHwnd, TranslateT("Couldn't read statistics file"), TranslateT("Traffic Counter"), MB_OK);
 			return;
 		}
 	}

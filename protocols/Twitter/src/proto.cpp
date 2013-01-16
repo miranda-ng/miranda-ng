@@ -395,7 +395,7 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nlu.ptszDescriptiveName = descr;
 	hNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 	if(hNetlib_ == 0)
-		MessageBox(0,_T("Unable to get Netlib connection for Twitter"),_T("Twitter"),0);
+		MessageBox(0, TranslateT("Unable to get Netlib connection for Twitter"), TranslateT("Twitter"), 0);
 
 	// Create avatar network connection (TODO: probably remove this)
 	char module[512];
@@ -405,7 +405,7 @@ int TwitterProto::OnModulesLoaded(WPARAM wParam,LPARAM lParam)
 	nlu.ptszDescriptiveName = descr;
 	hAvatarNetlib_ = (HANDLE)CallService(MS_NETLIB_REGISTERUSER,0,(LPARAM)&nlu);
 	if(hAvatarNetlib_ == 0)
-		MessageBox(0,_T("Unable to get avatar Netlib connection for Twitter"),_T("Twitter"),0);
+		MessageBox(0, TranslateT("Unable to get avatar Netlib connection for Twitter"), TranslateT("Twitter"), 0);
 
 	twit_.set_handle(hNetlib_);
 

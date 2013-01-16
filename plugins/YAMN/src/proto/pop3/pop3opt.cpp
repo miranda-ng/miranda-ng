@@ -884,7 +884,7 @@ INT_PTR CALLBACK DlgProcPOP3AccOpt(HWND hDlg,UINT msg,WPARAM wParam,LPARAM lPara
 					if (!GetOpenFileName(&OFNStruct))
 					{
 						if (CommDlgExtendedError())
-							MessageBox(hDlg,_T("Dialog box error"),_T("Failed"),MB_OK);
+							MessageBox(hDlg, TranslateT("Dialog box error"), TranslateT("Failed"), MB_OK);
 					}
 					else DlgSetItemTextT(hDlg, IDC_EDITAPP, OFNStruct.lpstrFile);
 					delete[] OFNStruct.lpstrFile;
