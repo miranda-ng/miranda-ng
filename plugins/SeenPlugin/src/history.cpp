@@ -163,7 +163,6 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 {
 	HANDLE hContact;
 	TCHAR sztemp[1024];
-	static HIMAGELIST hIml=NULL;
 
 	switch(Message) {
 	case WM_INITDIALOG:
@@ -174,40 +173,24 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			CallService(MS_CLIST_GETCONTACTDISPLAYNAME,(WPARAM)hContact,GCDNF_TCHAR),
 			TranslateT("last seen history"));
 		SendMessage(hwndDlg, WM_SETTEXT, 0, (LPARAM)sztemp);
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
-		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM) LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_BIG, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
+		SendMessage(hwndDlg, WM_SETICON, (WPARAM) ICON_SMALL, (LPARAM)LoadSkinnedIcon(SKINICON_OTHER_MIRANDA));
 
 		if ( db_get_b(hContact,S_MOD,"OnlineAlert",0))
 			SendDlgItemMessage(hwndDlg, IDC_STATUSCHANGE, BM_SETCHECK, (WPARAM)BST_CHECKED, 0);
 		
-		hIml = ImageList_Create(GetSystemMetrics(SM_CXSMICON),GetSystemMetrics(SM_CYSMICON),ILC_COLOR32|ILC_MASK,3,3);
-		ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_USERDETAILS)));
-		ImageList_AddIcon(hIml,LoadIcon(GetModuleHandle(NULL),MAKEINTRESOURCE(IDI_DOWNARROW)));
-		ImageList_AddIcon(hIml,LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
-		SendDlgItemMessage(hwndDlg,IDC_DETAILS,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,0,ILD_NORMAL));
-		SendDlgItemMessage(hwndDlg,IDC_USERMENU,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,1,ILD_NORMAL));
-		SendDlgItemMessage(hwndDlg,IDC_SENDMSG,BM_SETIMAGE,IMAGE_ICON,(WPARAM)ImageList_GetIcon(hIml,2,ILD_NORMAL));
+		SendDlgItemMessage(hwndDlg, IDC_DETAILS,  BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_USERDETAILS));
+		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_OTHER_DOWNARROW));
+		SendDlgItemMessage(hwndDlg, IDC_SENDMSG,  BM_SETIMAGE, IMAGE_ICON, (WPARAM)LoadSkinnedIcon(SKINICON_EVENT_MESSAGE));
 
 		//set-up tooltips
-		{
-			HWND hwndDlgToolTips = CreateWindowEx(WS_EX_TOPMOST, TOOLTIPS_CLASS, _T(""), WS_POPUP, 0, 0, 0, 0, NULL, NULL, GetModuleHandle(NULL), NULL);
-
-			TOOLINFO ti = { sizeof(ti) };
-			ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS;
-			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_USERMENU);
-			ti.lpszText = TranslateT("User Menu");
-			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_DETAILS);
-			ti.lpszText = TranslateT("View User's Details");
-			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-			ti.uId = (UINT)GetDlgItem(hwndDlg,IDC_SENDMSG);
-			ti.lpszText = TranslateT("Send Instant Message");
-			SendMessage(hwndDlgToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
-		}
+		SendDlgItemMessage(hwndDlg, IDC_DETAILS,  BUTTONADDTOOLTIP, (WPARAM)LPGEN("User Menu"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_USERMENU, BUTTONADDTOOLTIP, (WPARAM)LPGEN("View User's Details"), 0);
+		SendDlgItemMessage(hwndDlg, IDC_SENDMSG,  BUTTONADDTOOLTIP, (WPARAM)LPGEN("Send Instant Message"), 0);
 
 		Utils_RestoreWindowPositionNoMove(hwndDlg,NULL,S_MOD,"History_");
 		ShowWindow(hwndDlg, SW_SHOW);
-		break;
+		return TRUE;
 
 	case WM_MEASUREITEM:
 		return CallService(MS_CLIST_MENUMEASUREITEM,wparam,lparam);
@@ -251,26 +234,18 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 			break;
 		}
 		break;
+
 	case WM_SIZE:
 		{
 			int dx, dy;
-			HDWP hDwp;
-
-			hDwp = BeginDeferWindowPos(6);
-			MyResizeGetOffset(hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
-				LOWORD(lparam)-15, HIWORD(lparam)-99, &dx, &dy);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_USERMENU), 
-				dx, 0, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_DETAILS), 
-				dx, 0, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_SENDMSG), 
-				dx, 0, 0, 0);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 
-				0, 0, dx, dy);
-			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_STATUSCHANGE), 
-				0, dy, dx, 0);
-			hDwp = MyHorizCenterWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDOK), 
-				LOWORD(lparam), dy, 0);
+			HDWP hDwp = BeginDeferWindowPos(6);
+			MyResizeGetOffset(hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), LOWORD(lparam)-15, HIWORD(lparam)-99, &dx, &dy);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_USERMENU), dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_DETAILS), dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_SENDMSG), dx, 0, 0, 0);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_HISTORYLIST), 0, 0, dx, dy);
+			hDwp = MyResizeWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDC_STATUSCHANGE), 0, dy, dx, 0);
+			hDwp = MyHorizCenterWindow(hDwp, hwndDlg, GetDlgItem(hwndDlg, IDOK), LOWORD(lparam), dy, 0);
 			EndDeferWindowPos(hDwp);
 		}				
 		break;
@@ -296,13 +271,11 @@ INT_PTR CALLBACK HistoryDlgProc(HWND hwndDlg, UINT Message, WPARAM wparam, LPARA
 
 	case WM_DESTROY:
 		Utils_SaveWindowPosition(hwndDlg,NULL,S_MOD,"History_");
-		ImageList_Destroy(hIml);
+		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_BIG, 0));
+		DestroyIcon((HICON)SendMessage(hwndDlg, WM_GETICON, ICON_SMALL, 0));
 		break;
-
-	default:
-		return FALSE;
 	}
-	return TRUE;
+	return FALSE;
 }
 
 void ShowHistory(HANDLE hContact, BYTE isAlert)
