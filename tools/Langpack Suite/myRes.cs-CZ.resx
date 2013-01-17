@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="AssignLang" xml:space="preserve">
-    <value>Langpack přiřazen...</value>
+    <value>Překlad načten...</value>
   </data>
   <data name="AssignLangBtn" xml:space="preserve">
-    <value>Přiřadit</value>
+    <value>Načíst</value>
   </data>
   <data name="AutoModeBtn" xml:space="preserve">
     <value>Automaticky</value>
@@ -139,7 +139,7 @@
     <value>Soubor =CORE=.txt nebyl nalezen...</value>
   </data>
   <data name="CreateLangpackBtn" xml:space="preserve">
-    <value>Vytvořit langpack</value>
+    <value>Vygenerovat překlad</value>
   </data>
   <data name="Done" xml:space="preserve">
     <value>Hotovo!</value>
@@ -157,7 +157,7 @@
     <value>Duplikáty nenalezeny!</value>
   </data>
   <data name="DupStop" xml:space="preserve">
-    <value>Činnost zastavena.</value>
+    <value>Zpracování ukončeno.</value>
   </data>
   <data name="Error" xml:space="preserve">
     <value>Chyba</value>
@@ -172,22 +172,22 @@
     <value>Soubor </value>
   </data>
   <data name="FindLang" xml:space="preserve">
-    <value>Hledání langpacku...</value>
+    <value>Hledání překladu...</value>
   </data>
   <data name="GenStop" xml:space="preserve">
     <value>Generování zastaveno.</value>
   </data>
   <data name="GenText" xml:space="preserve">
-    <value>Generování langpacku...</value>
+    <value>Generování překladu...</value>
   </data>
   <data name="groupBox1" xml:space="preserve">
-    <value>Přiřadit langpack soubor</value>
+    <value>Načíst soubor s překladem</value>
   </data>
   <data name="groupBox2" xml:space="preserve">
-    <value>Výstupní soubor</value>
+    <value>Výsledný překlad</value>
   </data>
   <data name="groupBox5" xml:space="preserve">
-    <value>Režim činnosti</value>
+    <value>Režim zpracování</value>
   </data>
   <data name="HeadNotFound" xml:space="preserve">
     <value>Soubor =HEAD=.txt nenalezen...</value>
@@ -196,26 +196,22 @@
     <value>Informace</value>
   </data>
   <data name="label1" xml:space="preserve">
-    <value>Název langpack souboru:</value>
+    <value>Název souboru:</value>
   </data>
   <data name="label2" xml:space="preserve">
     <value>Název:</value>
   </data>
   <data name="label3" xml:space="preserve">
-    <value>Soubor LinkList.txt obsahuje odkazy na soubory s překlady jednotlivých
-doplňků a může být použit v jakémkoli download manažeru. Stažené
-soubory mohou být použity pro vygenerování kompletního překladu nebo může obsahovat
-překlady pouze těch doplňků, které používáte (informace je získána
-ze souboru version info, je-li dostupný).</value>
+    <value>Soubor LinkList.txt obsahuje odkazy na soubory s překlady jednotlivých doplňků a může být použit v jakémkoli download manažeru. Stažené soubory mohou být použity pro vygenerování kompletního překladu nebo také překladu pouze těch doplňků, které používáte (tato informace je získána ze souboru VersionInfo, pokud existuje).</value>
   </data>
   <data name="label4" xml:space="preserve">
     <value>URL k SVN:</value>
   </data>
   <data name="LangNotFound" xml:space="preserve">
-    <value>Langpack nebyl nalezen...</value>
+    <value>Překlad nebyl nalezen...</value>
   </data>
   <data name="LangPathLbl" xml:space="preserve">
-    <value>nepřiřazen</value>
+    <value>soubor není načten</value>
   </data>
   <data name="LanguageLbl" xml:space="preserve">
     <value>Jazyk:</value>
@@ -224,10 +220,10 @@ ze souboru version info, je-li dostupný).</value>
     <value>Generování LinkListu...</value>
   </data>
   <data name="LinkListGenBtn" xml:space="preserve">
-    <value>Vytvořit soubor</value>
+    <value>Vygenerovat soubor</value>
   </data>
   <data name="ManualModeBtn" xml:space="preserve">
-    <value>Manuální</value>
+    <value>Manuálně</value>
   </data>
   <data name="NotOpen" xml:space="preserve">
     <value>Nelze otevřít soubor.</value>
@@ -245,7 +241,7 @@ ze souboru version info, je-li dostupný).</value>
     <value>Nelze zapisovat do souboru.</value>
   </data>
   <data name="OwnFileCheckBox" xml:space="preserve">
-    <value>Přidat váš vlastní soubor do langpacku</value>
+    <value>Připojit vlastní soubor k překladu</value>
   </data>
   <data name="PlugLink" xml:space="preserve">
     <value>Zapisování souborů ze složky Plugins...</value>
@@ -260,10 +256,10 @@ ze souboru version info, je-li dostupný).</value>
     <value>Vybrat</value>
   </data>
   <data name="tabPage1" xml:space="preserve">
-    <value>Generátor</value>
+    <value>Generátor překladu</value>
   </data>
   <data name="tabPage2" xml:space="preserve">
-    <value>LinkListGen</value>
+    <value>Generátor odkazů</value>
   </data>
   <data name="tabPage3" xml:space="preserve">
     <value>Hledání duplikátů</value>
@@ -287,7 +283,7 @@ ze souboru version info, je-li dostupný).</value>
     <value>Vybrána neplatná složka...</value>
   </data>
   <data name="GetVICheckBox" xml:space="preserve">
-    <value>Získat VersionInfo z internetu nebo zadejte úplnou cestu k souboru</value>
+    <value>Načíst VersionInfo z internetu nebo z lokálního souboru</value>
   </data>
   <data name="label6" xml:space="preserve">
     <value>např. http://www.miranda-vi.org/report/mataes</value>
@@ -299,16 +295,16 @@ ze souboru version info, je-li dostupný).</value>
     <value>Argumenty</value>
   </data>
   <data name="VarText" xml:space="preserve">
-    <value>\q - tiché generování
-\n - Název langpack souboru
+    <value>\q - Tiché generování
+\n - Název souboru s překladem
 \o - Cesta pro přidání vlastního souboru
 \u - Odkaz na VI z miranda-vi.org nebo úplná cesta k souboru
-\l - Cesta pro výstup langpacku
-\p - Název složky s dostupným langpackem
+\l - Cesta pro výstup překladu
+\p - Název složky s dostupným překladem
 
-Například: LangpackSuite.exe \q \nLang_Test \o"Moje řetězce.txt" \uD:\Miranda\VersionInfo.txt \pczech</value>
+Např.: LangpackSuite.exe \q \nLang_Test \o"Moje řetězce.txt" \uD:\Miranda\VersionInfo.txt \pczech</value>
   </data>
   <data name="AvailLangpacks" xml:space="preserve">
-    <value>Dostupné langpacky:</value>
+    <value>Dostupné překlady:</value>
   </data>
 </root>

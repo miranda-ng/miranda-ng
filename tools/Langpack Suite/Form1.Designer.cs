@@ -106,26 +106,26 @@
             // 
             this.LangpacksComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.LangpacksComboBox.FormattingEnabled = true;
-            this.LangpacksComboBox.Location = new System.Drawing.Point(129, 13);
+            this.LangpacksComboBox.Location = new System.Drawing.Point(137, 17);
             this.LangpacksComboBox.Name = "LangpacksComboBox";
-            this.LangpacksComboBox.Size = new System.Drawing.Size(168, 21);
+            this.LangpacksComboBox.Size = new System.Drawing.Size(160, 21);
             this.LangpacksComboBox.TabIndex = 11;
             this.LangpacksComboBox.SelectedIndexChanged += new System.EventHandler(this.LangpacksComboBox_SelectedIndexChanged);
             // 
             // label7
             // 
-            this.label7.Location = new System.Drawing.Point(6, 16);
+            this.label7.Location = new System.Drawing.Point(6, 20);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(125, 18);
+            this.label7.Size = new System.Drawing.Size(130, 18);
             this.label7.TabIndex = 10;
             this.label7.Text = "Available Langpacks:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.TopRight;
             // 
             // LangpackNameEdit
             // 
-            this.LangpackNameEdit.Location = new System.Drawing.Point(129, 44);
+            this.LangpackNameEdit.Location = new System.Drawing.Point(137, 44);
             this.LangpackNameEdit.Name = "LangpackNameEdit";
-            this.LangpackNameEdit.Size = new System.Drawing.Size(168, 20);
+            this.LangpackNameEdit.Size = new System.Drawing.Size(160, 20);
             this.LangpackNameEdit.TabIndex = 1;
             this.LangpackNameEdit.Text = "Langpack_";
             // 
@@ -133,7 +133,7 @@
             // 
             this.label1.Location = new System.Drawing.Point(6, 47);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(125, 13);
+            this.label1.Size = new System.Drawing.Size(130, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Langpack File Name:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.TopRight;
@@ -141,7 +141,7 @@
             // InfMessageLangBox
             // 
             this.InfMessageLangBox.BackColor = System.Drawing.SystemColors.Control;
-            this.InfMessageLangBox.Location = new System.Drawing.Point(7, 245);
+            this.InfMessageLangBox.Location = new System.Drawing.Point(6, 242);
             this.InfMessageLangBox.Multiline = true;
             this.InfMessageLangBox.Name = "InfMessageLangBox";
             this.InfMessageLangBox.ReadOnly = true;
@@ -189,7 +189,7 @@
             // OwnFileCheckBox
             // 
             this.OwnFileCheckBox.AutoSize = true;
-            this.OwnFileCheckBox.Location = new System.Drawing.Point(6, -1);
+            this.OwnFileCheckBox.Location = new System.Drawing.Point(6, 1);
             this.OwnFileCheckBox.Name = "OwnFileCheckBox";
             this.OwnFileCheckBox.Size = new System.Drawing.Size(170, 17);
             this.OwnFileCheckBox.TabIndex = 4;
@@ -282,28 +282,28 @@
             // 
             // SVNURLEditBox
             // 
-            this.SVNURLEditBox.Location = new System.Drawing.Point(11, 137);
+            this.SVNURLEditBox.Location = new System.Drawing.Point(7, 137);
             this.SVNURLEditBox.Name = "SVNURLEditBox";
-            this.SVNURLEditBox.Size = new System.Drawing.Size(315, 20);
+            this.SVNURLEditBox.Size = new System.Drawing.Size(317, 20);
             this.SVNURLEditBox.TabIndex = 5;
-            this.SVNURLEditBox.Text = "http://svn.miranda-ng.org/main/trunk/langpacks/ru";
+            this.SVNURLEditBox.Text = "http://svn.miranda-ng.org/main/trunk/langpacks/english";
             // 
             // InfMessageLinkBox
             // 
             this.InfMessageLinkBox.BackColor = System.Drawing.SystemColors.Control;
-            this.InfMessageLinkBox.Location = new System.Drawing.Point(7, 232);
+            this.InfMessageLinkBox.Location = new System.Drawing.Point(6, 242);
             this.InfMessageLinkBox.Multiline = true;
             this.InfMessageLinkBox.Name = "InfMessageLinkBox";
             this.InfMessageLinkBox.ReadOnly = true;
             this.InfMessageLinkBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.InfMessageLinkBox.Size = new System.Drawing.Size(317, 62);
+            this.InfMessageLinkBox.Size = new System.Drawing.Size(317, 70);
             this.InfMessageLinkBox.TabIndex = 4;
             // 
             // LinkListGenBtn
             // 
-            this.LinkListGenBtn.Location = new System.Drawing.Point(111, 178);
+            this.LinkListGenBtn.Location = new System.Drawing.Point(101, 178);
             this.LinkListGenBtn.Name = "LinkListGenBtn";
-            this.LinkListGenBtn.Size = new System.Drawing.Size(102, 41);
+            this.LinkListGenBtn.Size = new System.Drawing.Size(122, 41);
             this.LinkListGenBtn.TabIndex = 1;
             this.LinkListGenBtn.Text = "Create File";
             this.LinkListGenBtn.UseVisualStyleBackColor = true;
@@ -311,10 +311,9 @@
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 26);
+            this.label3.Location = new System.Drawing.Point(6, 15);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(316, 65);
+            this.label3.Size = new System.Drawing.Size(316, 97);
             this.label3.TabIndex = 0;
             this.label3.Text = resources.GetString("label3.Text");
             // 
@@ -337,12 +336,12 @@
             // InfMessageFindBox
             // 
             this.InfMessageFindBox.BackColor = System.Drawing.SystemColors.Control;
-            this.InfMessageFindBox.Location = new System.Drawing.Point(7, 232);
+            this.InfMessageFindBox.Location = new System.Drawing.Point(6, 242);
             this.InfMessageFindBox.Multiline = true;
             this.InfMessageFindBox.Name = "InfMessageFindBox";
             this.InfMessageFindBox.ReadOnly = true;
             this.InfMessageFindBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.InfMessageFindBox.Size = new System.Drawing.Size(317, 62);
+            this.InfMessageFindBox.Size = new System.Drawing.Size(317, 70);
             this.InfMessageFindBox.TabIndex = 6;
             // 
             // CommentFindBtn
@@ -472,7 +471,7 @@
             "Українська",
             "Беларускі",
             "Deutsch",
-			"Čeština"});
+            "Čeština"});
             this.LanguageComboBox.Location = new System.Drawing.Point(204, 348);
             this.LanguageComboBox.Name = "LanguageComboBox";
             this.LanguageComboBox.Size = new System.Drawing.Size(121, 21);
