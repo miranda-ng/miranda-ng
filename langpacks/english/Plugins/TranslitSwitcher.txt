@@ -14,7 +14,6 @@
 [TExtHistoryGrid.UnicodeClass]
 [Internet Explorer_Server]
 [TranslitSwitcher]
-[RichEdit20W]
 [%s %s]
 ;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]

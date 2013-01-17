@@ -48,13 +48,11 @@
 [Avatar upload failed!?!]
 [%%miranda_avatarcache%%\\]
 [%miranda_avatarcache%]
-[%s\\]
 [\\%lX]
 [ avatar]
 [.swf]
 [.png]
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
 [Others]
 [&Invite user...]
@@ -63,8 +61,6 @@
 [User &history]
 [Join My Conference...]
 [No, thank you...]
-;file \protocols\Yahoo\src\file_transfer.cpp
-[%s\\%s]
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 [Mail]
@@ -84,7 +80,9 @@
 ;file \protocols\Yahoo\src\main.cpp
 [YAHOO plugin HTTP connections]
 ;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to restart Miranda NG before they take effect]
 [YAHOO Options]
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
 [You need to be connected to Yahoo to add to Ignore List.]
 [Yahoo Ignore]
 [Please enter a valid buddy name to ignore.]
@@ -97,6 +95,7 @@
 [Ignore List]
 ;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
+[%s plugin connections]
 [Please enter your yahoo id in Options/Network/Yahoo]
 [Please enter your yahoo password in Options/Network/Yahoo]
 [Yahoo Login Error]
@@ -108,16 +107,27 @@
 ;file \protocols\Yahoo\src\services.cpp
 [You need to be connected to set the custom message]
 [You need to be connected to refresh your buddy list]
+[Set &Custom Status]
+[&Edit My Profile]
+[&My Profile]
+[&Yahoo Mail]
+[&Address Book]
+[&Calendar]
 [Create Conference]
-;file \protocols\Yahoo\src\webcam.cpp
-[[miranda] Got webcam invite. (not currently supported)]
+[&Refresh]
+[&Show Profile]
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 [%s has rejected your request and sent the following message:]
+[Invalid Contact]
+[The id you tried to add is invalid.]
+[Unknown Error??.]
+[%s: %s]
 [New Mail]
 [You Have %i unread msgs]
 [New Mail (%i msgs)]
 [From: %s\nSubject: %s]
+[Yahoo System Message]
 [Yahoo Ping Error]
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]
 [Could not log into Yahoo service - password incorrect.  Please verify that your username and password are correctly typed.]

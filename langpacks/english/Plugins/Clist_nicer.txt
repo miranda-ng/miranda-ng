@@ -33,7 +33,7 @@
 [ms]
 [OK]
 [Clist Nicer+]
-[Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright © 2004-2010 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Version]
 [Support and latest version information]
 [No]
@@ -357,12 +357,7 @@
 [Floating contacts]
 [Skins]
 [Contact list]
-;file \plugins\Clist_nicer\src\clcutils.cpp
-[%s\\%s]
-[RichEdit20W]
-[EDIT]
 ;file \plugins\Clist_nicer\src\clistmenus.cpp
-[CLCButtonClass]
 [FOO]
 [Add permanently]
 [Revert to default]
@@ -388,10 +383,7 @@
 [EventArea]
 [Event Area]
 [My Contacts]
-[CList - Nicer/Default]
-[CList - Nicer/Overlay Icons]
 [%s Connecting]
-[CList - Nicer/Connecting Icons]
 [Menu]
 [Open main menu]
 [Set status modes]
@@ -409,10 +401,7 @@
 [Thin border]
 [No border]
 ;file \plugins\Clist_nicer\src\config.cpp
-[\\uxtheme.dll]
-[\\dwmapi.dll]
 [An application error has occured: %s]
-[%s\n\n(%s)]
 [TabSRMM runtime error]
 ;file \plugins\Clist_nicer\src\Docking.cpp
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
@@ -447,10 +436,8 @@
 [Clear current View Mode]
 [Select a view mode]
 [Clear view mode and return to default display]
-[CLVMFrameWindow]
 [View modes]
 [View Modes]
-[CLVM]
 ;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.cpp
 [&FrameTitle]
 [&Visible]
@@ -478,8 +465,6 @@
 [Floating]
 [mf_update_evt_%d]
 [FramesContainer]
-;file \plugins\Clist_nicer\src\CLUIFrames\cluiframes.h
-[CLUIFrameTitleBar]
 ;file \plugins\Clist_nicer\src\CLUIFrames\groupmenu.cpp
 [&Find/Add Contacts...]
 [&Main Menu]

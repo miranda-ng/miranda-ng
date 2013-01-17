@@ -334,28 +334,6 @@
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [%s: %s]
 [%s - %s]
-[[b]]
-[[/b]]
-[[u]]
-[[/u]]
-[[i]]
-[[/i]]
-[<b>]
-[</b>]
-[<u>]
-[</u>]
-[<i>]
-[</i>]
-[[B]]
-[[U]]
-[[I]]
-[<B>]
-[</B>]
-[<U>]
-[</U>]
-[<I>]
-[</I>]
-[*.gif]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 [Contact List/Status Overlay]
@@ -371,10 +349,7 @@
 [Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 [Changing MetaContacts (Moving)]
 [Do You want contact '%s' to be added to MetaContact '%s'?]
-[%s\\%s]
 ;file \plugins\Clist_modern\src\modern_clcitems.cpp
-[-@-HIDDEN-GROUP-@-]
-[#%s]
 [%s|]
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
@@ -398,21 +373,17 @@
 [Invisible]
 [Out to lunch]
 [On the phone]
-[shlwapi]
 [Name]
 [Name (use locale settings)]
 [Last message time]
 [Account Name]
 [Rate]
-[-Nothing-]
 [Global]
 [Hide to tray]
 [Behind left edge]
 [Behind right edge]
 [Progman]
 [Fonts]
-;file \plugins\Clist_modern\src\modern_clcutils.cpp
-[EDIT]
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [%s: %s (%s)]
 [EventArea]
@@ -422,8 +393,6 @@
 [&Contact rate]
 [%s (%s)]
 [Show even if offline]
-;file \plugins\Clist_modern\src\modern_clistmod.cpp
-[kernel32]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 [Icon]
@@ -447,8 +416,6 @@
 [&Options...]
 [&About]
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[user32.dll]
-[dwmapi.dll]
 [Show Contact &Avatar]
 [Hide Contact &Avatar]
 [My Contacts]
@@ -475,8 +442,6 @@
 [SubContainerWindow]
 [FramesContainer]
 [Shell_TrayWnd]
-;file \plugins\Clist_modern\src\modern_docking.cpp
-[user32]
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 [SubGroupMenu]
@@ -525,7 +490,6 @@
 [vCenter]
 [bottom]
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
 [Solid fill object]
 [Image (draw image)]
 [Fragment (draw portion of image)]
@@ -537,15 +501,10 @@
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Skin_Description_Section]
 [SkinFolder]
-[ImgDecoder.dll]
 [Profile]
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[fyr.mirandaim.ru]
 [%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
-[JID: fyr@jabber.ru]
-[%s\\*.msf]
-[%s\\*]
 [%Default Skin%]
 [%%Default Skin%%]
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp
@@ -555,7 +514,6 @@
 [Right]
 [Bottom]
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[icons\\toolbar_icons.dll]
 [Toolbar]
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
 [Toolbar upgrade]
@@ -584,13 +542,8 @@
 [Setup view modes]
 [Clear view mode and return to default display]
 [Reset view mode]
-[clisticons.dll]
-[CLVMFrameWindow]
 [View modes]
 [View Modes]
-;file \plugins\Clist_modern\src\hdr\modern_cluiframes.h
-[CLUIFrameSubContainer]
-[CLUIFrameTitleBar]
 ;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
 [Shadow at left]
 [Shadow at right]

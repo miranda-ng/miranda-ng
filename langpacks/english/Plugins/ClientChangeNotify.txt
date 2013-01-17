@@ -32,10 +32,8 @@
 [(you have to install pcre.dll or pcre3.dll to use regular expressions here)]
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [static]
-[_MenuWindow]
 [changed client to %s (was %s)]
 [changed client to %s]
-[Miranda IM 0.6.0.1 (ICQ v0.3.7 alpha)]
 [%s (was %s)]
 [) changed client to ]
 [Client change notifications:]
@@ -48,10 +46,7 @@
 [PopUps]
 [ClientChangeNotify: Client changed]
 [ClientChangeNotify]
-[ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-[/Miranda[0-9A-F]{8}/]
-[/[0-9A-F]{8}(\\W|$)/]
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [open]
 [Error #%d]

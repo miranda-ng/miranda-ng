@@ -1,7 +1,5 @@
 ;#muuid not found, please specify manually!
 ;langpack template for Libgcrypt
 ;file \plugins\MirOTR\libgcrypt-1.4.6\random\rndw32.c
-[$M$B$M$5$S$D$]
 [Global]
-[SYSTEM\\CurrentControlSet\\Control\\ProductOptions]
 [ProductType]

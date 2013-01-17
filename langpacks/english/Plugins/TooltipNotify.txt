@@ -36,11 +36,8 @@
 [000%]
 [Contacts]
 [Idle]
-;file \plugins\TooltipNotify\src\Settings.h
-[Tahoma]
 ;file \plugins\TooltipNotify\src\Tooltip.cpp
 [MimTooltipNotify]
-[user32.dll]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 [Other Status]
@@ -60,6 +57,5 @@
 [Invisible]
 [Not Idle]
 [Unknown]
-[%s%s%s]
 [%.0s%.0s%s]
 [ %s %s]

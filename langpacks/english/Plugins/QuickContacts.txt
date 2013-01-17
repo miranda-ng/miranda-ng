@@ -27,7 +27,6 @@
 [Show all contacts]
 [Quick Contacts...]
 [%s (%s)]
-[STATIC]
 [Ctrl+A]
 [Send message]
 [Ctrl+V]

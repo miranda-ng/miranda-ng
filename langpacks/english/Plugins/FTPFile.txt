@@ -87,12 +87,10 @@
 [File upload complete]
 [Upload canceled]
 [FTP File YM won't be loaded because libcurl.dll is missing or wrong version!]
-[uxtheme.dll]
 ;file \plugins\FTPFileYM\src\job_generic.cpp
 [All Files (*.*)\0*.*\0]
 [FTP File - Select files]
 [FTP File - Select a folder]
-[%s\\%s]
 [Folder not found!]
 [*.*]
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
@@ -106,7 +104,6 @@
 [UNKNOWN]
 ;file \plugins\FTPFileYM\src\job_packer.cpp
 [archive]
-[%s%s.zip]
 [Error occured when zipping the file(s).]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
@@ -124,10 +121,6 @@
 [WAITTING...]
 [Download link:]
 [Do you really want to cancel running upload?]
-[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
-;file \plugins\FTPFileYM\src\libcurl.cpp
-[libcurl.dll]
-[plugins\\libcurl.dll]
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 [Clear All]
@@ -144,5 +137,4 @@
 [Advanced]
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp
-[file.zip]
 [...]

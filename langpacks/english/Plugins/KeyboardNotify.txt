@@ -94,7 +94,6 @@
 [\\\\.\\Kbd%d]
 ;file \plugins\KeyboardNotify\src\main.cpp
 [screen-saver]
-[user32]
 [%s/FlashEvent]
 [%s/ExitEvent]
 ;file \plugins\KeyboardNotify\src\options.cpp
@@ -112,15 +111,9 @@
 [Protocol]
 [Keyboard Notify Theme]
 [ (*.knt)]
-[*.knt]
 [All Files]
 [*.*]
 [knt]
 [\n; Automatically generated Keyboard Notify Theme file\n\n\n]
-[[%s]\n]
-[0\n\n]
-[%s\n\n]
 [\n; End of automatically generated Keyboard Notify Theme file\n]
 [None]
-;file \plugins\KeyboardNotify\src\utils.cpp
-[%s\\%s]

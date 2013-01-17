@@ -67,7 +67,6 @@
 [Status Message]
 [Listening To]
 [My Details]
-[Tahoma]
 [Show My Details]
 [ ...]
 [Enable Listening To for %s]

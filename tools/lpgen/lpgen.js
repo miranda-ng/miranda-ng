@@ -427,11 +427,31 @@ function ParseSourceFile (SourceFile,array) {
     stringtolangpack=onestring.replace(/\\(['"])/g,"$1");
     //if our string still exist, and length more than 2 symbol (nothing to translate if only two symbols, well, except No and OK, but they are in core. But dozens crap with variables are filtered)
     if (stringtolangpack.length>2) {
+		//brand new _T() crap filtering engine :)
+		clearstring=filter_T(stringtolangpack);
         //finally put string into array including cover []
-        array.push("["+stringtolangpack+"]")};
+        if (clearstring) {array.push("["+clearstring+"]")}};
     }
  //close file, we've finish.
  sourcefile_stream.Close();
+};
+
+//filter _T() function results
+function filter_T(string) {
+//filter not begin with symbols :.-[]"?;#~{!/_+$
+var filter1=/^[^\:\-\[\]\"\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
+//filter string starting from following words
+var filter2=/^(?:(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|d\x20|HKEY_|DWORD|WORD|BYTE|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|%s[%\-\\]|\.!\.)).*$/g;
+//filter string ending with following words
+var filter3=/^.+(\.\w{2,4}|001|\/value|\*!\*|=)$/g;
+test1=filter1.test(string);
+test2=filter2.test(string);
+test3=filter3.test(string);
+//WScript.Echo(string+" 1:     "+test1);
+//WScript.Echo(string+" 2:     "+test2);
+if (test1 && !test2 && !test3) {
+	return string;
+	} else return;
 };
 
 //Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.

@@ -77,7 +77,7 @@
 [Show protocol names]
 [Show status text]
 [Right click opens status menu]
-[Right click opens Miranda IM menu]
+[Right click opens Miranda NG menu]
 [Make sections equal width]
 [Show bevels on panels]
 [Show resize grip indicator]
@@ -123,7 +123,6 @@
 [Global]
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[LISTBOX]
 [Unknown Protocol]
 [%name%]
 [%count%]

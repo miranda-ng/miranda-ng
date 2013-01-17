@@ -75,9 +75,7 @@
 [Title]
 [Background]
 [Window]
-[user32.dll]
 ;file \plugins\Alarms\src\frame.cpp
-[LISTBOX]
 [%dh %dm]
 [%dm]
 [Events]

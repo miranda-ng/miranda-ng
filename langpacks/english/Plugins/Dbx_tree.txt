@@ -22,8 +22,6 @@
 [WriteFile failed]
 [SetEndOfFile failed]
 [FlushFileBuffers failed]
-;file \plugins\Dbx_tree\src\EncryptionManager.cpp
-[\\plugins\\encryption\\*.dll]
 ;file \plugins\Dbx_tree\src\FileAccess.cpp
 [.jrn]
 [Couldn't flush the journal because ReadFile failed!]
@@ -36,9 +34,6 @@
 [Journal "%s" was found on start.\nBackups "%s"and "%s" could not be created in "%s".]
 ;file \plugins\Dbx_tree\src\FileBTree.h
 [Signature check failed]
-;file \plugins\Dbx_tree\src\Logger.cpp
-[[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n]
-[[%s - %s]\n%s\n\n]
 ;file \plugins\Dbx_tree\src\MappedMemory.cpp
 [Cannot set end of file]
 [CreateFileMapping failed]

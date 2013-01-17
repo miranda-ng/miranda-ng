@@ -113,21 +113,13 @@
 [Browsing account %s]
 [(null)]
 [debug- WriteAccount...]
-;file \plugins\YAMN\src\debug.cpp
-[%s\\yamn-debug.synchro.log]
-[%s\\yamn-debug.comm.log]
-[%s\\yamn-debug.decode.log]
 ;file \plugins\YAMN\src\main.cpp
-[\\*.book]
 [%miranda_userdata%]
 [Check mail]
 [Launch application]
 [Connect Fail]
-[\\Plugins\\YAMN\\*.dll]
 [dll]
 [\\Plugins\\YAMN\\]
-;file \plugins\YAMN\src\protoplugin.cpp
-[%s\\yamn-accounts.%s.%s.book]
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 [No new mail message]
@@ -135,7 +127,6 @@
 [Unknown error]
 [ - connection error]
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
-[- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
 [No new mail message, %d spam(s)]
@@ -146,7 +137,6 @@
 [\t%s\r\n]
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]
-[%s\t%s\t%s\t%s\r\n]
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 [Part]
@@ -161,7 +151,6 @@
 [YAMN (internal POP3) read error]
 [Error reading account file. Account file corrupted.]
 [Memory allocation error while data reading]
-[%s\n%s]
 [Reading file error. File already in use?]
 [Error while copying data to disk occured. File in use?]
 [POP3 plugin- write file error]

@@ -27,7 +27,6 @@
 [Version Information To File]
 [Show Version Information]
 [Upload Version Information]
-[%miranda_profilename%.dat]
 [%miranda_userdata%]
 [Version Information]
 [Copy to clipboard]
@@ -36,7 +35,6 @@
 [Show with DLLs]
 [Upload]
 [Open crash report directory]
-[Open miranda-vi.org]
 [Copy Version Info to clipboard]
 [Show Version Info]
 ;file \plugins\CrashDumper\src\dumper.cpp

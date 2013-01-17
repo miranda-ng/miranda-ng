@@ -51,7 +51,6 @@
 [MAPI error (%i):\n%s.]
 ;file \plugins\SendScreenshotPlus\src\CSendEmail.cpp
 [Email transfer]
-[MAPI32.DLL]
 [A recipient matched more than one of the recipient descriptor structures and MAPI_DIALOG was not set]
 [The specified attachment was not found]
 [The specified attachment could not be opened]
@@ -88,7 +87,6 @@
 [SendScreenshot - Error]
 [UInfoButtonClass]
 ;file \plugins\SendScreenshotPlus\src\Main.cpp
-[sendss.dll]
 [Fatal error, image services not found. Send Screenshot will be disabled.]
 [\\Screenshots]
 [SendSS HTTP connections]
@@ -105,15 +103,11 @@
 [Can not retrieve Screenshot path.]
 [Could not create Screenshot folder (error code: %d):\n%s\nDo you have write permissions?]
 ;file \plugins\SendScreenshotPlus\src\mir_icolib.cpp
-[Icons\\uinfoex_icons.dll]
-[Plugins\\uinfoex_icons.dll]
-[Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
 [Plugins\\]
 ;file \plugins\SendScreenshotPlus\src\UAboutForm.cpp
 [\r\n\r\n]
-[TEXT]
 [Credits]
 [< Copyright]
 [Copyright]
@@ -146,11 +140,9 @@
 [Cant create a Screenshot]
 [Select a target window.]
 [explore]
-[shot%.5ld]
 [Screenshot ]
 [for Client area ]
 [of "]
-[" Window]
 [png]
 [jpg]
 [bmp]

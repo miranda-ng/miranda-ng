@@ -63,14 +63,9 @@
 [PopUps]
 [Settings]
 [Classes]
-;file \plugins\YAPP\src\popwin.cpp
-[user32.dll]
 ;file \plugins\YAPP\src\popwin.h
 [YAPPWindowClass]
 ;file \plugins\YAPP\src\services.cpp
-[CreatePopupA]
-[CreatePopupExA]
-[CreatePopupW]
 [Disable Popups]
 [Enable Popups]
 [Warning]

@@ -89,7 +89,6 @@
 [Import public key]
 [Delete public key]
 ;file \plugins\SecureIM\src\main.cpp
-[comctl32.dll]
 [Incoming Secure Message]
 [Outgoing Secure Message]
 [SecureIM status]
@@ -100,8 +99,6 @@
 ;file \plugins\SecureIM\src\options.cpp
 [ASC files\0*.asc\0All files (*.*)\0*.*\0]
 [Open Key File]
-[rsa_pub.asc]
-[rsa_priv.asc]
 [Save Private Key File]
 [Save Public Key File]
 [Load Private Key File]
@@ -109,6 +106,3 @@
 [Services]
 ;file \plugins\SecureIM\src\popupOptions.cpp
 [PopUps]
-;file \plugins\SecureIM\src\rtfconv.cpp
-[rtfconv.dll]
-[plugins\\rtfconv.dll]

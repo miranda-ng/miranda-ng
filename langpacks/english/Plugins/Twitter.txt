@@ -5,7 +5,7 @@
 ;  Version: 1.1.0.0
 ;  Authors: dentist, omniwolf, Thief
 ;============================================================
-[Twitter protocol plugin for Miranda NG.]
+[Twitter protocol support for Miranda NG.]
 ;file \protocols\Twitter\res\twitter.rc
 [Server:]
 [Create a new Twitter account]
@@ -95,10 +95,8 @@
 [***** Error searching for contacts: %s]
 ;file \protocols\Twitter\src\Debug.c
 [\r\n]
-[_DEBUG FORMATTING ERROR\r\n]
 ;file \protocols\Twitter\src\proto.cpp
 [%miranda_avatarcache%]
-[http://api.twitter.com/oauth/authorize?oauth_token=%s]
 [Send Tweet...]
 [Network]
 [Basic]
@@ -116,9 +114,6 @@
 [Visit Homepage]
 [Reply...]
 ;file \protocols\Twitter\src\ui.cpp
-[https://api.twitter.com/]
-[https://identi.ca/api/]
-[140]
 [Send Tweet for %s]
 [Dorothy Parker]
 [If, with the literate, I am\n]

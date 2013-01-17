@@ -13,6 +13,5 @@
 ;file \plugins\AutoRun\src\autorun.h
 [Software\\Microsoft\\Windows\\CurrentVersion\\Run]
 ;file \plugins\AutoRun\src\main.cpp
-["%s" "%s"]
 [MirandaNG]
 [Services]

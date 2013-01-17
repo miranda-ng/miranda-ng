@@ -46,9 +46,6 @@
 [Enable all pings]
 [Options...]
 [Hosts...]
-;file \plugins\Ping\src\icmp.cpp
-[IPHLPAPI.DLL]
-[ICMP.DLL]
 ;file \plugins\Ping\src\log.cpp
 [edit]
 ;file \plugins\Ping\src\menu.cpp
@@ -66,7 +63,6 @@
 [Failed to initialize. Plugin disabled.]
 [Local\\ThreadWaitEvent]
 ;file \plugins\Ping\src\pinggraph.cpp
-[BUTTON]
 [Show grid lines]
 [Show stats]
 [%d ms]
@@ -81,8 +77,6 @@
 [Disable]
 [enabled]
 [double clicked]
-[user32.dll]
-[WindowClass]
 [Ping]
 [List]
 [Background]

@@ -46,20 +46,11 @@
 [Winamp v1.x]
 [ - Winamp]
 [Stopped]
-[[Stopped]]
-[[Paused]]
 [Paused]
 [Playing]
 ;file \plugins\Variables\src\parse_metacontacts.cpp
 ;file \plugins\Variables\src\parse_miranda.cpp
-[d s]
 [%%%s%%]
-[miranda_path]
-[miranda_profile]
-[miranda_profilename]
-[miranda_userdata]
-[miranda_avatarcache]
-[miranda_logpath]
 [appdata]
 [username]
 [mydocuments]
@@ -70,13 +61,7 @@
 ;file \plugins\Variables\src\parse_system.cpp
 [\\Processor(_Total)\\% Processor Time]
 [\\Process(%s)\\%% Processor Time]
-[%.0f]
-[HKEY_CLASSES_ROOT]
-[HKEY_CURRENT_USER]
-[HKEY_LOCAL_MACHINE]
-[HKEY_USERS]
 [\\System\\System Up Time]
 ;file \plugins\Variables\src\tokenregister.cpp
 [alias]
 ;file \plugins\Variables\src\variables.cpp
-[uxtheme.dll]

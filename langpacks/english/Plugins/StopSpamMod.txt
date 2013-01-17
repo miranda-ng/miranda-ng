@@ -64,12 +64,10 @@
 ;file \plugins\StopSpamMod\src\stopspam.cpp
 [ICQ]
 [X+-/*]
-[+-/*]
 ;file \plugins\StopSpamMod\src\utilities.cpp
 [Mark for delete]
 [Deleted]
 [Not In List]
-[http]
 [www]
 [.ru]
 [.com]

@@ -167,7 +167,6 @@
 ;file \plugins\Clist_mw\src\clistopts.cpp
 [Global]
 ;file \plugins\Clist_mw\src\clistsettings.cpp
-[_NoProtocol_]
 [(Unknown Contact)]
 ;file \plugins\Clist_mw\src\clisttray.cpp
 [&Find/Add Contacts...]
@@ -178,8 +177,6 @@
 ;file \plugins\Clist_mw\src\clui.cpp
 [My Contacts]
 ;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\cluiservices.cpp
-[%s%s]
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
 ;file \plugins\Clist_mw\src\keyboard.cpp
@@ -209,10 +206,7 @@
 [Visible]
 [Show TitleBar]
 [Floating]
-[TitleBarFont]
 [FramesContainer]
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.h
-[CLUIFrameTitleBar]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 [Statushelper]
 [Status]

@@ -52,6 +52,4 @@
 ;file \plugins\ChangeKeyboardLayout\src\options.cpp
 [Ghbdtn? rfr ltkf&]
 ;file \plugins\ChangeKeyboardLayout\src\text_operations.cpp
-[RICHEDIT]
 [\n\n]
-[:\n]

@@ -19,9 +19,9 @@
 ;file \plugins\BASS_interface\src\Main.cpp
 [HH:mm]
 [un4seen's bass version: %d.%d.%d.%d]
-[--default device--]
 [Audio device is opened]
 [Audio device is closed]
 [Customize]
 [Open/close audio device]
-[Plugins\\Bass\\Bass.dll]
+[BassInterfaceFrame]
+[Bass Interface]

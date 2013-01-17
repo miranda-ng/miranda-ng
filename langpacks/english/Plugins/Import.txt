@@ -73,9 +73,6 @@
 [Import...]
 [&Import...]
 ;file \plugins\Import\src\miranda.cpp
-[%s\\*.*]
-[%s\\%s\\%s.dat]
-[%s.dat]
 [%miranda_path%\\Profiles]
 [%miranda_path%]
 [%miranda_profile%]
@@ -85,7 +82,6 @@
 [%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c]
 [Miranda NG database]
 [All Files]
-[dat]
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 ;file \plugins\Import\src\wizard.cpp

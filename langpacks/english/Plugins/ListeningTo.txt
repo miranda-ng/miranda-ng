@@ -94,15 +94,8 @@
 [Format]
 [Players]
 ;file \plugins\ListeningTo\src\players\foobar.cpp
-[{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}/1]
-[{DA7CD0DE-1602-45e6-89A1-C2CA151E008E}]
-[{97E27FAA-C0B3-4b8e-A693-ED7881E99FC1}]
-[{E7076D1C-A7BF-4f39-B771-BCBE88F2A2A8}]
 [foobar2000]
 ;file \plugins\ListeningTo\src\players\generic.cpp
-[[%08u - %08u] [%s] ]
-[c:\\miranda_listeningto.log.txt]
-[%s\r\n]
 [GenericPlayer]
 [Miranda ListeningTo receiver]
 [ProcessReceived]
@@ -146,8 +139,6 @@
 [WindowsMediaPlayer]
 [Miranda ListeningTo WMP receiver]
 [WMP : New data: [%d] %s]
-;file \plugins\ListeningTo\src\players\foo_mlt\foobar2000\helpers\win32_misc.cpp
-[ntdll.dll]
 ;file \plugins\ListeningTo\src\players\foo_mlt\pfc\profiler.cpp
 [unexpected profiler failure\n]
 ;file \plugins\ListeningTo\src\players\winamp_mlt\mlt_winamp.cpp

@@ -26,13 +26,8 @@
 ;file \plugins\TopToolBar\src\toolbar.cpp
 [Default]
 [Execute Path]
-[Frames service has not been found, so plugin will be disabled.\nTo run it you need to install and / or enable contact list plugin that supports it:\n- Modern contact list\n- MultiWindow (MW)\n- Nicer+\nYou can get them at http://miranda-ng.org]
 [TopToolBar]
 ;file \plugins\TopToolBar\src\toolbarwnd.cpp
 [Toolbar]
-;file \plugins\TopToolBar\src\topbutton.cpp
-[STATIC]
 ;file \plugins\TopToolBar\src\ttbopt.cpp
-[------------------]
-[exe]
 [Contact List]

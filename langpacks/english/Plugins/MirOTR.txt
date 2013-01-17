@@ -74,7 +74,6 @@
 [OTR encrypted session with '%s' could not be started]
 [OTR could not encrypt when sending message]
 [OTR Information]
-[[OTR INFO] ]
 [Authentication from %s]
 [Authenticae %s]
 [Unknown]
@@ -169,7 +168,5 @@
 ;file \plugins\MirOTR\MirOTR\src\utils.cpp
 [%02X]
 [%s Message]
-[%s\r\n%s]
 [%s Warning]
 [%s Error]
-[%s%s]

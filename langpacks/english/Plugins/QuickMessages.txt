@@ -35,7 +35,6 @@
 [Quick Messages]
 ;file \plugins\QuickMessages\src\options.cpp
 [Enter Value]
-[---]
 [Congratulation!\n\\r\n								   You have clicked this button 100 times!\n\\r\n								   There was access violation at this point...\n\\r\n								   And now function for freeing resources must be called...\n\\r\n								   But no! there's only break :D]
 [You win!]
 [New Button]

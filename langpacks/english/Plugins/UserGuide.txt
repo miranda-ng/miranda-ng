@@ -2,6 +2,5 @@
 ;langpack template for UserGuide
 ;file \plugins\UserGuide\src\main.cpp
 [%miranda_path%\\Plugins]
-[UserGuide.chm]
 [open]
 [User Guide]

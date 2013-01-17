@@ -20,7 +20,7 @@
 [Text color]
 [Timeout]
 [If both colors set to the same value, default colors will be used]
-[0 means default timeout]
+[0 means default timeout,\n-1 means no timeout]
 [Test]
 ;file \protocols\GTalkExt\src\avatar.cpp
 [PNG]
@@ -29,7 +29,6 @@
 [mir_%d]
 [google:mail:notify]
 [google:setting]
-[http://jabber.org/protocol/disco#info]
 [%s/#inbox/%x%08x]
 [%s/h/?v=c&th=%x%08x]
 [type]
@@ -61,24 +60,15 @@
 [true]
 [%x%08x]
 ;file \protocols\GTalkExt\src\inbox.cpp
-[gmail.com]
-[googlemail.com]
-[https://mail.google.com/%s%s/#inbox]
 [mail]
 ;file \protocols\GTalkExt\src\menu.cpp
 [Open mailbox]
 ;file \protocols\GTalkExt\src\notifications.cpp
 [AntiShittyFullscreenDetectionWindowClass]
 [You've received an e-mail\n%s unread threads]
-[{DB5CE833-C3AC-4851-831C-DDEBD9FA0508}]
-[{87CBD2BC-8806-413C-8FD5-1D61ABCA4AF8}]
-[{B9B00536-86A0-4BCE-B2FE-4ABD409C22AE}]
-[{7A60EA87-3E77-41DF-8A69-59B147F0C9C6}]
 [%s [%s]]
 [    %s <%s>\n]
 ;file \protocols\GTalkExt\src\options.cpp
-[{BF447EBA-27AE-4DB7-893C-FC42A3F74D75}]
-[{5EE59FE5-679A-4A29-B0A1-03092E7AC20E}]
 [PopUps]
 [Network]
 [Why C sucks]
@@ -100,5 +90,4 @@
 [ColourPicker]
 ;file \protocols\GTalkExt\src\tipper_items.cpp
 [%raw:]
-[/UnreadThreads%]
 [Unread threads:]

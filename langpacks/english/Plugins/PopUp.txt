@@ -138,7 +138,6 @@
 [This is a warning message]
 [This is an error message]
 ;file \plugins\Popup\src\font.cpp
-[Tahoma]
 [Hovered Action]
 ;file \plugins\Popup\src\history.cpp
 [Popup History is disabled]
@@ -155,7 +154,6 @@
 [Enable &popup module]
 [Disable &popup module]
 [dir]
-[dwmapi.dll]
 [Error: I could not register the PopUp Window class.\r\n]
 [The plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
@@ -167,16 +165,6 @@
 [CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ;file \plugins\Popup\src\opt_gen.cpp
-[/Offline]
-[/Online]
-[/Invisible]
-[/Away]
-[/NA]
-[/Occupied]
-[/DND]
-[/Free for chat]
-[/Out to lunch]
-[/On the phone]
 [Width]
 [upper left corner]
 [lower left corner]
@@ -196,7 +184,6 @@
 [Cancel]
 ;file \plugins\Popup\src\opt_skins.cpp
 [Failed to register %s class.]
-[#32770]
 [PopupPlusDlgBox]
 [Skin preview]
 [Just take a look at this skin... ;)]
@@ -215,7 +202,6 @@
 [Failed to GetClassInfoExW from EDIT class.]
 [Failed to register custom edit box window class.\r\n\r\ncbSize: %i\r\nstyle: %p\r\nlpfnWndProc: %i\r\ncbClsExtra: %i\r\ncbWndExtra: %i\r\nhInstance: %i\r\nhIcon: %i\r\nhCursor: %i\r\nhbrBackground: %i\r\nlpszMenuName: %s\r\nlpszClassName: %s\r\nhIconSm: %i\r\n]
 [PopupMenuHostWnd]
-[%s\n\n%s]
 ;file \plugins\Popup\src\services.cpp
 [WorkerW]
 [Error]

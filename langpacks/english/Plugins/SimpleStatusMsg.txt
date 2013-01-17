@@ -109,12 +109,10 @@
 [%s (locked)]
 [winampsong]
 [External Applications\tretrieves song name of the song currently playing in Winamp (Simple Status Message compatible)]
-[date]
 [Miranda Related\tget the date (Simple Status Message compatible)]
 ;file \plugins\SimpleStatusMsg\src\msgbox.cpp
 [<startup>]
 [<current>]
-[## %s ##]
 [Add to Predefined]
 [Delete Selected]
 [OK (%d)]

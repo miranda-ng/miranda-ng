@@ -156,7 +156,6 @@
 [Unable to connect to XFire.]
 [No Loginname is set!]
 [No Password is set!]
-[Last game: %s playtime: %.2d:%.2d:%.2d]
 [%s is playing %s.]
 [%s is playing %s on server %d.%d.%d.%d:%d.]
 [Playing]

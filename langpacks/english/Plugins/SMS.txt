@@ -1,0 +1,44 @@
+;#muuid not found, please specify manually!
+;============================================================
+;  File: sms.dll
+;  Plugin: SMS plugin
+;  Version: 0.2.5.3
+;  Authors: Richard Hughes, Improved by Ariel Shulman, rewritten by Rozhuk Ivan
+;============================================================
+[Send SMS text messages to mobile phones through the IM networks.]
+;file \plugins\SMS\res\resource.rc
+[&Reply]
+[&Close]
+[Read Next]
+[From:]
+[Message received:]
+[Number:]
+[To:]
+[Add number to list]
+[&H]
+[Save number]
+[Multiple >>]
+[Enter message:]
+[Chars:]
+[%d/160]
+[&Send]
+[&Try again]
+[&Cancel]
+[The SMS message send timed out]
+[SMS Plugin]
+[Begining]
+[End]
+[Put signature at the:]
+[Use Signature]
+[Show server notifications]
+[Auto popup on new message]
+[Save window position per contact]
+[&OK]
+[Message ID:]
+[Source:]
+[Network:]
+;file \plugins\SMS\src\SMSConstans.h
+[Arial]
+;file \plugins\SMS\src\SMS_svc.cpp
+[Incoming SMS Message]
+[Incoming SMS Confirmation]

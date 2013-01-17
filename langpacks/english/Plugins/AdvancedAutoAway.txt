@@ -11,5 +11,4 @@
 [General]
 [Rules]
 [Status Messages]
-[uxtheme.dll]
 [Auto Away]

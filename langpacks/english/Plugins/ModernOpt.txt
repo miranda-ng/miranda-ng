@@ -43,5 +43,4 @@
 [Update]
 [Download]
 ;file \plugins\ModernOpt\src\mopt_selector.cpp
-[%s\\%s]
 [*.*]

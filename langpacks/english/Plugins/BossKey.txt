@@ -39,7 +39,6 @@
 [Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
 [Miranda NG]
-[%s%s%s%s%s]
 [Ctrl + ]
 [Shift + ]
 [Alt + ]
@@ -48,8 +47,6 @@
 [%s [%s]]
 [Hide]
 [Hide/Show Miranda]
-[wtsapi32.dll]
-[dwmapi.dll]
 [bosskeyname]
 [BossKey\tget the BossKey name]
 ;file \plugins\BossKeyPlus\src\BossKey.h

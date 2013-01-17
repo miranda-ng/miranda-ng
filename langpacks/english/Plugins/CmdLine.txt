@@ -53,7 +53,6 @@
 [%s proxy server: %s %s:%d.]
 [%s proxy set to %s %s:%d.]
 [%s The port or the proxy type parameter is invalid.]
-[[me]]
 [No unread messages found.]
 [%s:%s - %d unread events.]
 [Contact '%s' has '%d' events in history.]

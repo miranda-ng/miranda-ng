@@ -94,8 +94,6 @@
 [Birthday - %s]
 [She]
 [He/She]
-[%s\n%s will be %d years old.]
-[%s\n%s just turned %d.]
 ;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 [Done refreshing user details]

@@ -39,8 +39,6 @@
 [Show date]
 [Use long date format]
 [Use relative timestamp]
-;file \plugins\IEView\src\ChatHTMLBuilder.cpp
-[[%H:%M]]
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 [Incoming File Transfer]
@@ -64,15 +62,10 @@
 [Message Sessions]
 [IEView]
 [Skins]
-[320 x 205]
-[480 x 385]
-[560 x 349]
-[640 x 390]
 [Template]
 [All Files]
 [All Images]
 [Style Sheet]
-[uxtheme.dll]
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 [Yesterday]
@@ -81,4 +74,3 @@
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
 [.xml]
-[http://]

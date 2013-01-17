@@ -55,7 +55,6 @@
 [Name]
 [Version]
 [%d.%d.%d.%d]
-[%s\n%s]
 [Please type in your password for]
 [Too many errors!]
 [Password is not correct!]
@@ -66,13 +65,10 @@
 ;file \plugins\Dbx_mmap_SA\src\init.cpp
 [db3x secure mmap database support]
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[cryptors\\*.dll]
 [cryptors\\%s]
 [Sorry, but your database encrypted with unknown module]
 [Error]
 [Crypto modules not found]
-[Crypto module hasn't been chosen, using first one found]
-[Notice]
 [DB is already secured!]
 [current database]
 [Set Password]

@@ -56,7 +56,6 @@
 ;file \plugins\FloatingContacts\src\fltcont.h
 [MirandaThumbsWnd]
 ;file \plugins\FloatingContacts\src\main.cpp
-[user32.dll]
 [Remove thumb]
 [Show all thumbs]
 [Hide all thumbs]
@@ -71,7 +70,6 @@
 [Contact List]
 [Main Features]
 [Appearance]
-[shlwapi]
 [Sample]
 [<none>]
 [<Contact List Text>]

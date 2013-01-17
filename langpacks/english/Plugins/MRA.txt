@@ -108,11 +108,8 @@
 [plugin connections]
 [%%miranda_avatarcache%%\\%s]
 [%miranda_avatarcache%]
-[%s\\%s\\]
 ;file \protocols\MRA\src\MraChat.cpp
 [get]
-;file \protocols\MRA\src\MraConstans.h
-[_default.jpg]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
 [No description given]
 ;file \protocols\MRA\src\MraPopUp.cpp
@@ -121,7 +118,6 @@
 [%s connection]
 [E-mail address]
 [%04ld.%02ld.%02ld %02ld:%02ld: ]
-[%s%s]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]
