@@ -1,4 +1,4 @@
 ﻿;[%s (Write error)]
-;[A file containing new database settings has been placed in the Miranda NG directory.]
 ;[Invalid database module]
 ;[The import has completed from]
+;[db3x database support]

@@ -1,4 +1,5 @@
 ﻿;[100 %]
+;[<Contact List Text>]
 ;[Bring to front]
 ;[Bring to front every]
 ;[Draw border]

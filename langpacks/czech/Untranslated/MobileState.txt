@@ -1,4 +1,5 @@
-﻿;[Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
+﻿;[Mobile State]
+;[Plugin shows mobile icon in contact list next to contacts which are using mobile client.]
 ;[android]
 ;[bayan]
 ;[berry]

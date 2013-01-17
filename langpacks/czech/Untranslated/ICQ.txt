@@ -5,6 +5,7 @@
 ;[** Unknown missed message event.]
 ;[.bmp]
 ;[.dat]
+;[.gif]
 ;[.jpg]
 ;[.png]
 ;[.swf]

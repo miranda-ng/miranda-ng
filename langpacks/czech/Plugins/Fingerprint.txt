@@ -34,6 +34,7 @@ Vybrat protokoly
 [Other (rare) protocols]
 [Other icons]
 [Note: Miranda NG will have to be restarted for changes to take effect.]
+Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
 ;file \plugins\FingerprintNG\src\finger_groups.h
 [Client icons/Miranda clients]
 [Client icons/Miranda clients/Pack overlays]

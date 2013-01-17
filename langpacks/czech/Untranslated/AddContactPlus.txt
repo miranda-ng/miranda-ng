@@ -1,6 +1,7 @@
 ﻿;[&Add contact...]
 ;[Add Contact\nAdd a contact to your contact list]
 ;[Add temporarily]
+;[AddContact+]
 ;[Contact ID:]
 ;[Open add contact dialog]
 ;[Provides the ability to quickly add new contacts.]

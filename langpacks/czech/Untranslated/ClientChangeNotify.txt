@@ -14,5 +14,6 @@
 ;[Use global settings (default)]
 ;[_MenuWindow]
 ;[`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
+;[gmail;skype;/Miranda[0-9A-F]{8}/]
 ;[open]
 ;[static]

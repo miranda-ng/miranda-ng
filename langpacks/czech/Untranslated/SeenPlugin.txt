@@ -23,3 +23,4 @@
 ;[\x0D\x0A]
 ;[for empty string]
 ;[instead of]
+;[uxtheme.dll]

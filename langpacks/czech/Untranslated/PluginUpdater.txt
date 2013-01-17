@@ -104,6 +104,7 @@
 ;[import_sa.dll]
 ;[newnr.dll]
 ;[platform]
+;[r+b]
 ;[srmm.dll]
 ;[svc_crshdmp.dll]
 ;[svc_dbepp.dll]

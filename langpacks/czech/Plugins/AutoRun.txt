@@ -6,11 +6,14 @@
 ;  Authors: Sergey V. Gershovich a.k.a. Jazzy$ (fixed by Wolfram3D)
 ;============================================================
 [This plugin is a simple way to enable/disable to launch Miranda NG with system startup.]
+Jednoduchý způsob, jak zajistit spuštění Mirandy při startu Windows.
 ;file \plugins\AutoRun\res\autorun.rc
 [Autorun]
 Automatické spuštění
 [Launch Miranda NG at system startup]
+Spustit Mirandu při startu Windows
 [Note: At startup Miranda NG will use current profile]
+Poznámka: Při spuštění Miranda použije aktuální profil.
 ;file \plugins\AutoRun\src\autorun.h
 [Software\\Microsoft\\Windows\\CurrentVersion\\Run]
 ;file \plugins\AutoRun\src\main.cpp

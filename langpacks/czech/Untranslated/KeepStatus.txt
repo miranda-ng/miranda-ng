@@ -1,1 +1,2 @@
-﻿;[will be set to]
+﻿;[uxtheme.dll]
+;[will be set to]

@@ -16,7 +16,6 @@
 ;[Error retrieving current profile, exiting.]
 ;[Failed to add %S contact %s]
 ;[Failed to add message]
-;[From a Miranda NG database.]
 ;[Group import failed.]
 ;[Ignored event from/to self]
 ;[Import completed in %d seconds.]

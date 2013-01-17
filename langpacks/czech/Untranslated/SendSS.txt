@@ -10,6 +10,7 @@
 ;[%s (%i):\nYou appear to be using the wrong version of GC API]
 ;[%s - %s]
 ;[%s\nv%s]
+;[.gif]
 ;[.tif]
 ;[< Copyright]
 ;[<Only save>]

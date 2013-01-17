@@ -2,11 +2,13 @@
 ;langpack template for ModernOpt
 ;file \plugins\ModernOpt\res\resource.rc
 [Visit official Miranda NG website]
+Přejít na domovskou stránku projektu
 [`]
 [Sample page]
 [Use arrow keys to choose category]
 Požadovanou kategorii vyberete pomocí šipek
 [Miranda NG Options]
+Miranda - možnosti nastavení
 [OK]
 OK
 [Cancel]
@@ -28,6 +30,7 @@ Zadání a správa informací k účtům jednotlivých sítí.
 [Style]
 Vzhled
 [Change the look of Miranda NG according to your taste.]
+V této sekci lze změnit vzhled Mirandy.
 [Contacts]
 Kontakty
 [Configure behaviour of your contact list.]
@@ -47,9 +50,11 @@ Definice stavových zpráv, nálady, automatických odpovědí apod.
 [Addons]
 Doplňky
 [Miranda NG is all about plugins. Manage all the plugins you have here.]
+Miranda NG je postavena na možnosti vše měnit a rozšiřovat pomocí doplňků.
 [You have some unsaved changes here.\n Do you wish to apply settings before switching?]
 Některé ze změn nejsou uloženy.\nChcete je uložit?
 [Miranda NG]
+Miranda NG
 [Page 1]
 [Page 2]
 [Page 3]

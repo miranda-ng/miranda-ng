@@ -38,7 +38,7 @@ kroků
 [Fade out:]
 Doběh:
 [Advaimg library not found. Please get it from nigtlies to be able to use images.]
-Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda IM 0.7 nebo novější.
+Tento doplněk vyžaduje knihovnu advaimg.dll, potažmo program Miranda NG 0.7 nebo novější.
 [Preview...]
 Náhled...
 ;file \plugins\SplashScreen\src\bitmap_funcs.cpp

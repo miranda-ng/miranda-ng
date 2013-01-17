@@ -31,3 +31,4 @@
 ;[miranda_profilename]
 ;[miranda_userdata]
 ;[mydocuments]
+;[uxtheme.dll]

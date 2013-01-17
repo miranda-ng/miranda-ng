@@ -83,6 +83,7 @@ Ano
 [No]
 Ne
 [A file containing new database settings has been placed in the Miranda NG directory.]
+Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
 [Do you want to import the settings now?]
 Chcete naimportovat tento konfigurační soubor?
 [No to all]
@@ -136,10 +137,11 @@ Funkce OutputDebugString()
 Soubor
 [...]
 ...
-[Run programm when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
 [Run now]
 Spustit
 [Show this dialog box when Miranda NG starts]
+Zobrazit toto okno při spuštění Mirandy
 [Save as default]
 Uložit jako výchozí
 [Ok]
@@ -278,6 +280,7 @@ ID:
 [Copyright:]
 Copyright:
 [Please restart Miranda NG for your changes to take effect.]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 [Fonts and Colors]
 Písma a barvy
 [Undo]
@@ -342,6 +345,7 @@ Nastavit
 [Disable icons]
 Vypnout ikony
 [Note: Miranda NG will have to be restarted for changes to take effect.]
+Pozn.: Je potřeba restartovat Mirandu pro uvedení změn v platnost.
 [Account Order && Visibility]
 Pořadí účtů a jejich viditelnost
 [Show protocols in the following order, drag to choose another order:]
@@ -382,6 +386,7 @@ Aktualizovat
 [&Remove...]
 Odst&ranit...
 [Miranda NG is being restarted.\nPlease wait...]
+Restart programu Miranda.\nPočkejte prosím...
 [Close]
 Zavřít
 [Error notifications]
@@ -783,6 +788,7 @@ Zobrazit stav
 [Right click opens status menu]
 Pravým tlačítkem seznam stavů
 [Right click opens Miranda NG menu]
+Pravým tlačítkem nabídku Mirandy
 [Make sections equal width]
 Shodná šířka všech položek
 [Show bevels on panels]
@@ -1876,6 +1882,7 @@ O progr&amu...
 [&Support]
 &Podpora
 [&Miranda NG Homepage]
+Do&movská stránka
 [&Report Bug]
 &Nahlásit chybu
 ;file \src\core\stdidle\idle.cpp
@@ -2235,6 +2242,7 @@ Databáze
 [It cannot move profile %s to the new location %s\n]
 [Because profile with this name already exist. Please resolve the issue manually.]
 [Miranda NG]
+Miranda NG
 [It cannot move profile %s to the new location %s automatically\n]
 [Most likely due to insufficient privileges. Please move profile manually.]
 [%s\\*.*]
@@ -2332,6 +2340,7 @@ Spustit
 [Miranda Profiles from]
 Umístění profilů
 [Select or create your Miranda NG user profile]
+Výběr nebo vytvoření nového profilu
 [My Profiles]
 Seznam profilů
 [New Profile]
@@ -2513,6 +2522,7 @@ Načítání... %d%%
 [%s options]
 %s nastavení
 [Miranda NG Options]
+Miranda - možnosti nastavení
 [&Options...]
 M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp

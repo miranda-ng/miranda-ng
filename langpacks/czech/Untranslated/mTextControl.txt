@@ -1,5 +1,6 @@
 ﻿;[MS Shell Dlg]
 ;[NBRichEditProxyWndClass]
+;[Tahoma]
 ;[[$hicon=]
 ;[[/b]]
 ;[[/color]]

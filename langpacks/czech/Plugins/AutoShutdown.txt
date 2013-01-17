@@ -19,6 +19,7 @@ sek.
 [Shutdown Events]
 Události pro ukončení
 [&Activate automatic shutdown with the same settings again if Miranda NG was closed with automatic shutdown enabled]
+&Aktivovat znovu stejné nastavení v případě, že program Miranda NG byl už předtím automaticky ukončen
 [&Ignore hidden or temporary contacts when watching for all contacts being offline]
 &Ignorovat skryté nebo dočasné kontakty při sledování přechodu do stavu offline
 [Critical Shutdown Events]
@@ -42,6 +43,7 @@ Ukonč&it za:
 [Shutdown when a &message is received containing the following text:]
 Ukončit po přijetí zprávy obsahující &následující text:
 [Shutdown when Miranda NG becomes &idle]
+Ukončit po přechodu do neč&innosti
 [Configure]
 Nastavit...
 [Shutdown when &prozessor usage drops below:]
@@ -60,6 +62,7 @@ OK
 [Cancel]
 Zrušit
 [Unsaved data in open applications except Miranda NG might get lost.]
+Všechna neuložená data mimo program Miranda NG budou ztracena.
 [Please click "Cancel" if you would like to abort the process.]
 Chcete-li přerušit spuštěnou akci, klikněte na tlačítko "Zrušit".
 [&Now!]
@@ -152,7 +155,9 @@ Chyba při pokusu o automatické ukončení!\nDůvod: %s
 [Unknown]
 Neznámý
 [Miranda NG is going to be automatically closed in %u second(s).]
+Program Miranda NG bude za %u sek. automaticky ukončen.
 [All Miranda NG protocols are going to be set to offline in %u second(s).]
+Všechny protokoly programu Miranda NG budou za %u sek. přepnuty do stavu offline.
 [You will be logged off automatically in %u second(s).]
 Za %u sek. budete automaticky odhlášeni.
 [The computer will automatically be restarted in %u second(s).]
@@ -169,7 +174,9 @@ Všechna modemová připojení budou za %u sek. automaticky ukončena.
 Tento počítač bude za %u sek. automaticky vypnut.
 [Inititiating the shutdown process failed!\nReason: %s]
 [Close Miranda NG]
+Ukončit program Miranda NG
 [Set Miranda NG offline]
+Přejít do stavu offline
 [Log off user]
 Odhlásit uživatele
 [Restart computer]
@@ -186,6 +193,7 @@ Zamknout počítač
 Odpojit modem od sítě
 [Sets all Miranda NG protocols to offline and closes Miranda IM.]
 [Sets all Miranda NG protocols to offline.]
+Přepne všechny protokoly do stavu offline.
 [Logs the current Windows user off so that another user can log in.]
 Odhlásí uživatele a tím umožní přihlášení jinému.
 [Shuts down Windows and then restarts Windows.]

@@ -2,6 +2,7 @@
 ;[Ctrl+F]
 ;[Ctrl+H]
 ;[Ctrl+I]
+;[Ctrl+M]
 ;[Ctrl+U]
 ;[Ctrl+V]
 ;[Last Sent]

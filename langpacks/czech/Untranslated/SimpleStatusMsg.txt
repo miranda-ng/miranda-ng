@@ -45,6 +45,7 @@
 ;[Miranda Related\tget the date (Simple Status Message compatible)]
 ;[Open Status Message Dialog]
 ;[Pop up dialog asking for status message]
+;[Remove Carriage Return (CR = '\\r' = #0D) chars from status messages]
 ;[STUDIO]
 ;[SimpleStatusMsg]
 ;[Winamp v1.x]

@@ -5,6 +5,7 @@
 ;[%c%s]
 ;[%c%s (*.*)%c*.*%c]
 ;[%d|%d]
+;[%ld]
 ;[%s (*]
 ;[%s had birthday %d days ago.]
 ;[%s had birthday yesterday.]

@@ -67,6 +67,7 @@
 ;[%s%c*.jpg%c%c]
 ;[%s%c*.rtf%c%c]
 ;[%s%c*.tabsrmm%c%c]
+;[%s%s]
 ;[%s%s %d/%d]
 ;[%s%s%s]
 ;[%s%s-%s%s]

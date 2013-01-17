@@ -22,6 +22,7 @@
 ;[Select contact to open it''s window]
 ;[Service name]
 ;[Show only if variables return 1]
+;[Start immediately]
 ;[Starting after]
 ;[Starting from]
 ;[Task sample]

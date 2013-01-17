@@ -11,6 +11,7 @@ Ano
 [No]
 Ne
 [A file containing new database settings has been placed in the Miranda NG directory.]
+Do adresáře s programem Miranda byl umístěn soubor ke konfiguraci databáze uživatele.
 [Do you want to import the settings now?]
 Chcete naimportovat tento konfigurační soubor?
 [No to all]

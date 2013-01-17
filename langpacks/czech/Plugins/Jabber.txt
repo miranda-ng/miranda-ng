@@ -511,6 +511,7 @@ Poskytuje informace o náladě
 Přijímá informace o náladě
 [Supports generic publish-subscribe functionality]
 [Supports SecureIM plugin for Miranda NG]
+Podporuje doplněk SecureIM pro Mirandu
 [Can block communications from particular other users using Privacy lists]
 Umožňuje blokovat komunikaci na základě definovaných filtrů
 [Supports Message Receipts]
@@ -529,6 +530,7 @@ Umožňuje odesílat informace o aktivitě uživatele
 [Receives information about user activity]
 Přijímá informace o aktivitě uživatele
 [Supports Miranda NG notes extension]
+Podporuje rozšíření poznámky Miranda NG
 [Supports Jingle]
 Podporuje Jingle
 [Supports Roster Exchange]
@@ -717,7 +719,6 @@ Skut. &JID: %s
 [invite]
 [reason]
 [%s\n%s]
-
 [Send groupchat invitation.]
 [%s (%s)]
 %s (%s)
@@ -1546,8 +1547,8 @@ Tato funkce vyžaduje doplněk 'Chat'. Před použitím je třeba nainstalovat.
 [(SecureIM)]
 [ (SecureIM)]
 [Miranda IM]
-Miranda IM
 [Miranda NG]
+Miranda NG
 [ [%s]]
 [From]
 Od
@@ -2137,6 +2138,7 @@ Přeposlat nepřečtené zprávy
 [Lock workstation]
 Zamknout počítač
 [Quit Miranda NG]
+Ukončit program Miranda NG
 [Change Status]
 Změnit stav
 [Choose the status and status message]
@@ -2185,6 +2187,7 @@ Počítač byl zamknut
 Chyba č.%d při zamykání počítače
 [Confirmation needed]
 [Please confirm Miranda NG shutdown]
+Potvrďte prosím ukončení Mirandy
 [I agree]
 [allow-shutdown]
 [There is no groupchats to leave]

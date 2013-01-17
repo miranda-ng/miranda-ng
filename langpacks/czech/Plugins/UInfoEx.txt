@@ -1109,6 +1109,7 @@ Volitelné moduly
 [Place1]
 [Place2]
 [Miranda NG]
+Miranda NG
 [Shows Miranda's installation directory.]
 Zobrazí adresář s Mirandou.
 [Shows the directory with all your Miranda's profiles.]

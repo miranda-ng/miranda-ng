@@ -33,6 +33,7 @@
 ;[ftp.]
 ;[ftp://]
 ;[gopher://]
+;[http://]
 ;[http://miranda-ng.org\n]
 ;[https://]
 ;[icq#]

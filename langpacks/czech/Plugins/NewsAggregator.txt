@@ -44,7 +44,6 @@ Vizualizace
 [Display news using the following format:]
 Zprávy zobrazit v následujícím formátu:
 [All item's tags are valid. Put them between #. Example: #<author>#]
-Značky je třeba umístit mezi #. Příklad: #<autor>#
 [Reset]
 Reset
 [?]

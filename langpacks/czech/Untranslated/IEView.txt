@@ -13,3 +13,5 @@
 ;[Style Sheet]
 ;[[%H:%M]]
 ;[about:blank]
+;[http://]
+;[uxtheme.dll]

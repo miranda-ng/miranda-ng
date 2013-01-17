@@ -1,4 +1,5 @@
-﻿;[CLUIFrameTitleBar]
+﻿;[%s%s]
+;[CLUIFrameTitleBar]
 ;[FramesContainer]
 ;[Hide from list only, in order to keep their history and ignore/visibility settings]
 ;[Statushelper]

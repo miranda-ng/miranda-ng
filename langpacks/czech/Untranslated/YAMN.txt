@@ -8,6 +8,7 @@
 ;[%s\\yamn-debug.comm.log]
 ;[%s\\yamn-debug.decode.log]
 ;[%s\\yamn-debug.synchro.log]
+;[%s\n%s]
 ;[%s\t%s\t%s\t%s\r\n]
 ;[(null)]
 ;[+]

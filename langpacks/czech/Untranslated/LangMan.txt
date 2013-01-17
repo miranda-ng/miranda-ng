@@ -6,8 +6,6 @@
 ;[LangMan-License.txt]
 ;[LangMan-Readme.txt]
 ;[LangMan-SDK.zip]
-;[Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
-;[Please restart Miranda NG for your changes to take effect.]
 ;[Plugins\\Language\\]
 ;[Reload langpack]
 ;[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]

@@ -1,4 +1,5 @@
 ﻿;[%02X]
+;[%s%s]
 ;[%s\r\n%s]
 ;[&Convert HTML (for Pidgin)]
 ;[&Refresh OTR session]
@@ -22,6 +23,7 @@
 ;[End sessions on window close]
 ;[End sessions when contacts go offline]
 ;[Error during authentication.]
+;[Fingerprint]
 ;[Fingerprint '%s' in use in conversation with '%s' (%s). It could not be deleted!]
 ;[Fingerprint '%s' still in use in conversation with '%s' (%s). You cannot delete it!]
 ;[Fingerprints]

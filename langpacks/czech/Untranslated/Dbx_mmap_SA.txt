@@ -1,5 +1,5 @@
 ﻿;[%d.%d.%d.%d]
-;[A file containing new database settings has been placed in the Miranda NG directory.]
+;[%s\n%s]
 ;[Crypto module hasn't been chosen, using first one found]
 ;[Crypto modules not found]
 ;[DB is already secured!]

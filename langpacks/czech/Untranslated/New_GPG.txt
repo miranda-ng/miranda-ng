@@ -193,6 +193,7 @@
 ;[\n-----END PGP SIGNATURE-----\n]
 ;[\nGPG will be disabled until you solve this problems]
 ;[\r\n]
+;[\r\r]
 ;[access_test\n]
 ;[c:\\GPGdebug.log]
 ;[encrypting file for transfer]

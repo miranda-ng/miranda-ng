@@ -42,9 +42,9 @@ Zobrazit nejnovější události nahoře
 [Visit Wiki page for more options]
 Navštivte Wiki stránku pro více informací
 [Please restart Miranda NG for your changes to take effect.]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 ;file \plugins\HistoryPlusPlus\CustomizeFiltersForm.pas
 [New Filter #%d]
-Nový filtr #%d
 [Incoming & Outgoing]
 Příchozí a odchozí
 [Events]

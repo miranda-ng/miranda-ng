@@ -62,12 +62,14 @@ Obnovit skrývání při startu po chybě
 [Miranda NG is locked.\nEnter password to unlock it.]
 [Password is not correct!\nPlease, enter correct password.]
 [Miranda NG]
+Miranda NG
 [%s%s%s%s%s]
 [Ctrl + ]
 [Shift + ]
 [Alt + ]
 [Win + ]
 [Hide Miranda NG]
+Skrýt Mirandu
 [%s [%s]]
 [Hide]
 Skrýt

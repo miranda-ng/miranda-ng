@@ -4,6 +4,7 @@
 ;[Attachments:]
 ;[Cancel friendship request]
 ;[Check Friends Requests]
+;[Check Newsfeeds]
 ;[Checking friend requests...]
 ;[Contact is back on server-list.]
 ;[Contact is no longer on server-list.]

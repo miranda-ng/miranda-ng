@@ -1,4 +1,5 @@
 ﻿;[ ago]
+;[# Solid color fill]
 ;[%Status%]
 ;[%birthday_date% (%birthday_age%) @ Next: %birthday_next%]
 ;[%dd %dh %dm]
@@ -42,6 +43,7 @@
 ;[%u.%u.%u.%u]
 ;[%xsname%]
 ;[(%d/%d)]
+;[*.*]
 ;[*.tsf]
 ;[---------------------------------]
 ;[--------------------------------------]

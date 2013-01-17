@@ -1,5 +1,6 @@
 ﻿;[ \t\n\r]
 ;[+]
+;[:\n]
 ;[Change active keyboard layout in system]
 ;[Changing Case]
 ;[Changing Layout]

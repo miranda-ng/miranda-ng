@@ -9,6 +9,7 @@
 [Choose how you would like to import:]
 Vyberte jeden ze způsobů importu dat:
 [From a Miranda NG database.]
+Z databáze klienta Miranda NG
 [This wizard will help you import contacts and message history from another Miranda profile or from an external program.]
 [It is recommended that you create a backup of your current Miranda profile before importing.]
 Předtím než budete pokračovat, doporučujeme vám zazálohovat stávající profil.

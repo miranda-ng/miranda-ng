@@ -6,7 +6,6 @@
 ;[Copy xStatus Message]
 ;[Do you want to send authorization request\nto new contact?]
 ;[Hide contact on 'Ignore all']
-;[Miranda NG]
 ;[Open ignore settings]
 ;[Please authorize me to add you to my contact list.]
 ;[Show in list]

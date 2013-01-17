@@ -7,7 +7,7 @@
 ;============================================================
 ;file \plugins\LangMan\res\resource.rc
 [A new version of a Language Pack is now available. Click the install button to download and install this new update.]
-K dispozici je nová verze překladu programu Miranda IM. Stáhnete a nainstalujete ji kliknutím na tlačítko 'Instalovat'.
+K dispozici je nová verze překladu programu Miranda NG. Stáhnete a nainstalujete ji kliknutím na tlačítko 'Instalovat'.
 [Language:]
 Jazyk:
 [Current:]
@@ -19,6 +19,7 @@ Nový:
 [Close]
 Zavřít
 [Miranda NG is available in many languages.\nHere is a list of all available languages of the file listing, please select your native &language:]
+Program Miranda NG je pře&ložen do mnoha jazyků.\nVyberte si prosím ze seznamu váš mateřský jazyk:
 [Download &all languages]
 Stáhnout všechny j&azyky
 [Note: This will download and install the newest language pack available for the selected language. There might be language packs from other authors available on the file listing.]
@@ -44,6 +45,7 @@ V překladu chybí:
 [Download more Language Packs]
 Stáhnout další překlady
 [Please restart Miranda NG for your changes to take effect.]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 [Check for new &versions of Language Packs periodically]
 Pravidelně zjišťovat nové &verze překladů
 [&Download Language]

@@ -91,6 +91,7 @@ Psaní zprávy
 [\r\n]
 [Do you want to send authorization request\nto new contact?]
 [Miranda NG]
+Miranda NG
 [Open ignore settings]
 ;file \plugins\MenuItemEx\src\options.cpp
 [Customize]

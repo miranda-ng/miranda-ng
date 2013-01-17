@@ -150,7 +150,6 @@ Zobrazit stav
 [Right click opens status menu]
 Pravým tlačítkem seznam stavů
 [Right click opens Miranda IM menu]
-Pravým tlačítkem nabídku Mirandy
 [Make sections equal width]
 Shodná šířka všech položek
 [Show bevels on panels]

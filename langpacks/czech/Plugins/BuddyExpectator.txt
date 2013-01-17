@@ -80,7 +80,6 @@ je poprvé online!
 [has returned after a long absence.]
 je znovu online po delší době.
 [has returned after being absent since %#x]
-je znovu online od %#x
 [has not returned after a long absence.]
 [has not returned after being absent since %#x]
 [BuddyExpectator]

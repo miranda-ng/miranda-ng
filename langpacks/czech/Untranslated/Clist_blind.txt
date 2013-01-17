@@ -4,6 +4,7 @@
 ;[%name% [%status% %protocol%] %status_message%]
 ;[%protocol%]
 ;[%status%]
+;[%status_message%]
 ;[Colapsed]
 ;[Divider:]
 ;[Divider: %s]
@@ -13,3 +14,4 @@
 ;[Info:]
 ;[Info: %s]
 ;[LISTBOX]
+;[Right click opens Miranda IM menu]

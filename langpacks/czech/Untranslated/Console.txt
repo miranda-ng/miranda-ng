@@ -32,3 +32,4 @@
 ;[Show/Hide Console]
 ;[Single window mode*]
 ;[Start logging in all tabs]
+;[txt]

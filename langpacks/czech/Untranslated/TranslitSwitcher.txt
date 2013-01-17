@@ -3,6 +3,7 @@
 ;[Convert Last / Selected]
 ;[Internet Explorer_Server]
 ;[Invert Case All / Selected]
+;[Invert Case Last / Selected]
 ;[Invert Case and Send]
 ;[RichEdit20W]
 ;[Sch]

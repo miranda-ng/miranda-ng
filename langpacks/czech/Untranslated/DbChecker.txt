@@ -1,4 +1,5 @@
 ﻿;[%.2lf MB]
+;[%s%s]
 ;[%s\\%s\\%s.dat]
 ;[*.DAT]
 ;[./Profiles]

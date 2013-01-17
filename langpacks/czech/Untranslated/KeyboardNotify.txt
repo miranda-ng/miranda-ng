@@ -2,6 +2,7 @@
 ;[%s/ExitEvent]
 ;[%s/FlashEvent]
 ;[%s\n\n]
+;[*.*]
 ;[*.knt]
 ;[0\n\n]
 ;[Caps]

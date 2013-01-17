@@ -491,7 +491,6 @@ Vítr:
 [logoff_ago]
 ;file \plugins\TipperYM\src\skin_parser.cpp
 [# Solid color fill]
-# Celkové Vyplnění barvou
 [*.*]
 [*.tsf]
 [author]

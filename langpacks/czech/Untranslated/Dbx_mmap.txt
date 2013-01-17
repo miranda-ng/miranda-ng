@@ -3,7 +3,6 @@
 ;[%s (Module Name not unique)]
 ;[%s (Module Offset not unique)]
 ;[%s (Too large increment)]
-;[A file containing new database settings has been placed in the Miranda NG directory.]
 ;[Aggressive: random junk at %08X: skipping]
 ;[Aggressive: unlinked data at %08X: can't automatically place]
 ;[Can't write to output file - disk full? (%u)]

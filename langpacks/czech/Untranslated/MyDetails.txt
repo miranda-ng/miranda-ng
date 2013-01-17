@@ -2,3 +2,4 @@
 ;[Frame Options]
 ;[MyDetailsFrame]
 ;[MyDetailsFrameContainer]
+;[Tahoma]
