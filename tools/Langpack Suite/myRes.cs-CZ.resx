@@ -268,7 +268,7 @@
     <value>Soubor =VERSION=.txt nenalezen...</value>
   </data>
   <data name="VIGen" xml:space="preserve">
-    <value>Soubor VersionInfo.txt nalezen, vytváření zkráceného langpacku...</value>
+    <value>Soubor VersionInfo.txt nalezen, vytváření zkráceného překladu...</value>
   </data>
   <data name="WeatherLink" xml:space="preserve">
     <value>Zapisování souborů ze složky Weather...</value>
@@ -277,7 +277,7 @@
     <value>Podsložka Weather nenalezena...</value>
   </data>
   <data name="WOVIGen" xml:space="preserve">
-    <value>Soubor VersionInfo.txt nenalezen, vytváření úplného langpacku...</value>
+    <value>Soubor VersionInfo.txt nenalezen, vytváření kompletního překladu...</value>
   </data>
   <data name="WrongSelect" xml:space="preserve">
     <value>Vybrána neplatná složka...</value>
