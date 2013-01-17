@@ -522,7 +522,7 @@ INT_PTR ServiceGetTypeDescription(WPARAM wParam,LPARAM lParam)
 	                          _T("Lock workstation"),_T("Hang up dialup connections"),_T("Close Miranda NG"),
 	                          _T("Set Miranda NG offline"),_T("Log off user"),_T("Restart computer"),_T("Shutdown computer"),
 	                          _T("Standby mode"),_T("Hibernate mode"),_T("Lock workstation"),_T("Hang up dialup connections")};
-	const TCHAR *apszLong[]={_T("Sets all Miranda NG protocols to offline and closes Miranda IM."),
+	const TCHAR *apszLong[]={_T("Sets all Miranda NG protocols to offline and closes Miranda NG."),
 	                         _T("Sets all Miranda NG protocols to offline."),
 	                         _T("Logs the current Windows user off so that another user can log in."),
 	                         _T("Shuts down Windows and then restarts Windows."),

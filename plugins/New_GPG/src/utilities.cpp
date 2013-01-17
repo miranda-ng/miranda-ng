@@ -1088,7 +1088,7 @@ void AddHandlers()
 //			(*p)->setMessageHandler((*p)->getJabberInterface()->Net()->AddMessageHandler((JABBER_HANDLER_FUNC)MessageHandler, JABBER_MESSAGE_TYPE_ANY ,NULL,NULL));
 		if(bAutoExchange)
 		{
-			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Key_Auto_Exchange:0"), _T("Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg Miranda IM plugin)"));
+			(*p)->getJabberInterface()->Net()->RegisterFeature(_T("GPG_Key_Auto_Exchange:0"), _T("Indicates that gpg installed and configured to public key auto exchange (currently implemented in new_gpg plugin for Miranda IM and Miranda NG)"));
 			(*p)->getJabberInterface()->Net()->AddFeatures(_T("GPG_Key_Auto_Exchange:0\0\0"));
 		}
 	}

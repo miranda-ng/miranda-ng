@@ -304,7 +304,7 @@ void twitter::set_status(const std::string &text)
 	{
 /*		slurp(base_url_+"statuses/update.json",http::post,
 			"status="+http::url_encode(text)+
-			"&source=mirandaim");*/
+			"&source=mirandang");*/
 
 		//MessageBox(NULL, UTF8ToWide(text).c_str(), NULL, MB_OK);
 		std::wstring wTweet = UTF8ToWide(text);

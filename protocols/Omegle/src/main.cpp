@@ -110,7 +110,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	// Init native User-Agent
 	{
 		std::stringstream agent;
-		agent << "Miranda IM/";
+		agent << "Miranda NG/";
 		agent << (( g_mirandaVersion >> 24) & 0xFF);
 		agent << ".";
 		agent << (( g_mirandaVersion >> 16) & 0xFF);

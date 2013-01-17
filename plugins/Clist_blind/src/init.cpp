@@ -83,7 +83,7 @@ PLUGININFOEX pluginInfo = {
 	"A contact list for blind folks.",
 	"Ricardo Pescuma Domenecci, based on previous work from Miranda IM project",
 	"",
-	"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013 Mitanda NG project, George Hazan",
+	"Copyright 2000-2009 Miranda IM project, Ricardo Pescuma Domenecci, 2013 Miranda NG project, George Hazan",
 	"http://pescuma.org/miranda/bclist",
 	UNICODE_AWARE,
 	// {53E095A3-2695-490a-9DAD-D20479093831}

@@ -82,7 +82,7 @@ http::response mir_twitter::slurp(const std::string &url,http::method meth,
 		//std::copy(post_data.begin(), post_data.end(), pdata_WSTR.begin());
 
 		//postParams[L"status"] = UrlEncode(pdata_WSTR);
-		//postParams[L"source"] = L"mirandaim";
+		//postParams[L"source"] = L"mirandang";
 
 		pdata_WSTR = BuildQueryString(postParams);
 
