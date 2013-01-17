@@ -31,6 +31,7 @@ type
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
+    function FillCombo(typ:string):integer;
   public
     { Public declarations }
     procedure Error(const Msg: String);
@@ -406,6 +407,7 @@ var
   xIcoPath: String;
   xTemp: String;
   MaxCount: Integer;
+  res:String;
 begin
   if FileExists(Edit1.Text) then
   begin
@@ -418,56 +420,60 @@ begin
     ProgressBar1.Min := 0;
     ProgressBar1.Max := MaxCount;
     for n := 0 to CheckListBox1.Items.Count - 1 do
-    if (CheckListBox1.Checked[n]) and not (CheckListBox1.Header[n]) then
     begin
-      ProgressBar1.Position := n;
-      S := GetValue(CheckListBox1.Items[n], 0);
-      S := LowerCase(S);
-      if n < IconsItem then F := '\core' else
-      if n < PluginsItem then F := '\icons' else  F := '\plugins';
-      StatusBar1.Panels[0].Text := ' Processing: ' + S;
-      if (S = 'miranda32') or (S = 'miranda64') then
+      if (CheckListBox1.Checked[n]) and not (CheckListBox1.Header[n]) then
       begin
-        xFilePath := MirandaPath + '\' + S + '.exe';
-         //in order not to duplicate existing packages of icons (miranda32) for miranda 64
-        // will not work if there are two files  (miranda32.exe and miranda64.exe)
-        if not FileExists(mirandapath+'\miranda32.exe') then
-            xFilePath := MirandaPath + '\Miranda64.exe';
-        xIcoPath := IcePath + F + '\' + S + '\' + S;
-        end else begin
-        xFilePath := MirandaPath + F + '\' + S + '.dll';
-        xIcoPath := IcePath + F + '\' + S + '\' + S;
-      end;
-      CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'PROGRESS');
-      CheckListBox1.ItemIndex := n;
-      if not FileExists(xFilePath) then
-        CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'PASS')
-      else begin
-        xTemp := xFilePath + '.temp';
-        CopyFile(PChar(xFilePath), Pchar(xTemp), False);
-        if not ProgressUpdate(xTemp, xIcoPath) <> True then
+        ProgressBar1.Position := n;
+        S := GetValue(CheckListBox1.Items[n], 0);
+        S := LowerCase(S);
+        if n < PluginsItem then F := '\icons' else
+        if n < CoreItem then F := '\plugins' else  F := '\core';
+        StatusBar1.Panels[0].Text := ' Processing: ' + S;
+        if (S = 'miranda32') or (S = 'miranda64') then
         begin
-          CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'ERROR')
-        end else begin
-          CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'SUCCESS');
-        end;
-        if GetValue(CheckListBox1.Items[n], 1) = 'SUCCESS' then
+          xFilePath := MirandaPath + '\' + S + '.exe';
+           //in order not to duplicate existing packages of icons (miranda32) for miranda 64
+          // will not work if there are two files  (miranda32.exe and miranda64.exe)
+          if not FileExists(mirandapath+'\miranda32.exe') then
+              xFilePath := MirandaPath + '\Miranda64.exe';
+          xIcoPath := IcePath + F + '\' + S + '\' + S;
+        end
+        else
         begin
-          DeleteFile(xFilePath);
-          MoveFile(PChar(xTemp), PChar(xFilePath));
+          xFilePath := MirandaPath + F + '\' + S + '.dll';
+          xIcoPath := IcePath + F + '\' + S + '\' + S;
         end;
+        CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'PROGRESS');
+        CheckListBox1.ItemIndex := n;
+        if not FileExists(xFilePath) then
+          CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'PASS')
+        else
+        begin
+          xTemp := xFilePath + '.temp';
+          CopyFile(PChar(xFilePath), Pchar(xTemp), False);
+
+          if ProgressUpdate(xTemp, xIcoPath) then
+            res := 'ERROR'
+          else
+          begin
+            res := 'SUCCESS';
+            DeleteFile(xFilePath);
+            MoveFile(PChar(xTemp), PChar(xFilePath));
+          end;
+          CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, res);
+        end;
+        if FileExists(xTemp) then DeleteFile(xTemp);
       end;
-      if FileExists(xTemp) then DeleteFile(xTemp);
-    end;
-  end else begin
+    end // for
+  end
+  else
+  begin
     Edit1.Text := 'Enter path to Miranda*.exe here or click this button ------>';
     Edit1.SelectAll;
     Edit1.SetFocus;
   end;
   ProgressBar1.Position := 0;
   StatusBar1.Panels[0].Text := ' Ready';
-  if FileSize(Log) = 0 then DeleteFile('iceit.log');
-
 end;
 
 procedure TForm1.Button4Click(Sender: TObject);
@@ -491,7 +497,9 @@ begin
     ImageList1.Draw(CheckListBox1.Canvas, Rect.Left+17, Rect.Top+1, 3);
     CheckListBox1.Canvas.Font.Style := [];
     CheckListBox1.Canvas.Font.Size := 8;
-  end else begin
+  end
+  else
+  begin
     ImageList1.Draw(CheckListBox1.Canvas, Rect.Left+17, Rect.Top+1, 0);
     CheckListBox1.Canvas.Font.Style := [];
     CheckListBox1.Canvas.Font.Size := 7;
@@ -499,7 +507,9 @@ begin
   if CheckListBox1.Checked[Index] then
   begin
     ImageList1.Draw(CheckListBox1.Canvas, Rect.Left+1, Rect.Top+1, 1);
-  end else begin
+  end
+  else
+  begin
     ImageList1.Draw(CheckListBox1.Canvas, Rect.Left+1, Rect.Top+1, 2);
   end;
   CheckListBox1.Canvas.Brush.Style := bsClear;
@@ -508,94 +518,57 @@ begin
   S2 := GetValue(CheckListBox1.Items[Index], 1);
   n := CheckListBox1.Canvas.TextWidth(S2);
   CheckListBox1.Canvas.TextOut(Rect.Left+36, Rect.Top+2, S1);
-  if S2 = 'NONE' then CheckListBox1.Canvas.Font.Color := clWindow;
-  if S2 = 'PROGRESS' then CheckListBox1.Canvas.Font.Color := $007E7E7E;
-  if S2 = 'SUCCESS' then CheckListBox1.Canvas.Font.Color := $00129D02;
-  if S2 = 'PASS' then CheckListBox1.Canvas.Font.Color := $00168FAD;
-  if S2 = 'ERROR' then CheckListBox1.Canvas.Font.Color := $001232C7;
+  if      S2 = 'NONE'     then CheckListBox1.Canvas.Font.Color := clWindow
+  else if S2 = 'PROGRESS' then CheckListBox1.Canvas.Font.Color := $007E7E7E
+  else if S2 = 'SUCCESS'  then CheckListBox1.Canvas.Font.Color := $00129D02
+  else if S2 = 'PASS'     then CheckListBox1.Canvas.Font.Color := $00168FAD
+  else if S2 = 'ERROR'    then CheckListBox1.Canvas.Font.Color := $001232C7;
   CheckListBox1.Canvas.TextOut(Rect.Right-(n+4), Rect.Top+2, S2);
 end;
 
-procedure TForm1.FormCreate(Sender: TObject);
+function TForm1.FillCombo(typ:String):integer;
 var
   FindHandle: THandle;
   FindData: TWin32FindData;
-  FindNext: Boolean;
   FileName: String;
   FilePath: String;
+begin
+  CheckListBox1.Items.Add(typ+'|NONE|');
+  result := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[result] := True;
+  FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
+  FilePath := IcePath + '\' + typ + '\*.*';
+  FindHandle := FindFirstFile(PChar(FilePath), FindData);
+  if FindHandle <> INVALID_HANDLE_VALUE then
+  begin
+    repeat
+      FileName := FindData.cFileName;
+      if (FileName <> '..') and (FileName <> '.') then
+        if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
+         CheckListBox1.Items.Add(LowerCase(FileName)+'|NONE|');
+    until not FindNextFile(FindHandle, FindData);
+  end;
+  Windows.FindClose(FindHandle);
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
 begin
   AssignFile(Log, 'iceit.log');
   Rewrite(Log);
   IcePath := ExtractFilePath(ParamStr(0));
-   // Core
-  CheckListBox1.Items.Add('core|NONE|');
-  CoreItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[CoreItem] := True;
-  FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\core\*.*';
-  FindHandle := FindFirstFile(PChar(FilePath), FindData);
-  if FindHandle <> INVALID_HANDLE_VALUE then
-  begin
-    FindNext := True;
-    while FindNext do
-    begin
-      FileName := FindData.cFileName;
-      if (FileName <> '..') and (FileName <> '.') then
-        if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-         CheckListBox1.Items.Add(LowerCase(FileName)+'|NONE|');
-      FindNext := FindNextFile(FindHandle, FindData);
-    end;
-  end;
-  Windows.FindClose(FindHandle);
-  // Icons
-  CheckListBox1.Items.Add('icons|NONE|');
-  IconsItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[IconsItem] := True;
-  FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\icons\*.*';
-  FindHandle := FindFirstFile(PChar(FilePath), FindData);
-  if FindHandle <> INVALID_HANDLE_VALUE then
-  begin
-    FindNext := True;
-    while FindNext do
-    begin
-      FileName := FindData.cFileName;
-      if (FileName <> '..') and (FileName <> '.') then
-        if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-         CheckListBox1.Items.Add(LowerCase(FileName)+'|NONE|');
-      FindNext := FindNextFile(FindHandle, FindData);
-    end;
-  end;
-  Windows.FindClose(FindHandle);
-  // Plugins
-  CheckListBox1.Items.Add('plugins|NONE|');
-  PluginsItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[PluginsItem] := True;
-  FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\plugins\*.*';
-  FindHandle := FindFirstFile(PChar(FilePath), FindData);
-  if FindHandle <> INVALID_HANDLE_VALUE then
-  begin
-    FindNext := True;
-    while FindNext do
-    begin
-      FileName := FindData.cFileName;
-      if (FileName <> '..') and (FileName <> '.') then
-        if (FindData.dwFileAttributes and FILE_ATTRIBUTE_DIRECTORY) <> 0 then
-         CheckListBox1.Items.Add(LowerCase(FileName)+'|NONE|');
-      FindNext := FindNextFile(FindHandle, FindData);
-    end;
-  end;
-  Windows.FindClose(FindHandle);
+
+  CoreItem    := FillCombo('core');
+  PluginsItem := FillCombo('icons');
+  IconsItem   := FillCombo('plugins');
 end;
 
 procedure TForm1.FormDestroy(Sender: TObject);
-var  
-  size:integer;  
-begin  
-  size:=FileSize(Log);  
+var
+  size:integer;
+begin
+  size:=FileSize(Log);
   CloseFile(Log);
-  if size = 0 then DeleteFile('iceit.log'); 
+  if size = 0 then DeleteFile('iceit.log');
 end;
 
 function TForm1.ProgressUpdate(const FileName, IcoName: String): Boolean;
