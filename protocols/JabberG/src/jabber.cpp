@@ -51,7 +51,7 @@ PLUGININFOEX pluginInfo = {
 	__VERSION_DWORD,
 	"Jabber protocol support for Miranda NG.",
 	"George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
-	"ghazan@miranda-im.org",
+	"ghazan@miranda.im",
 	"(c) 2005-2012 George Hazan, Maxim Mluhov, Victor Pavlychko, Artem Shpynov, Michael Stepura",
 	"http://miranda-ng.org/",
 	UNICODE_AWARE,
