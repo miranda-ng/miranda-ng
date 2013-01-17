@@ -129,9 +129,11 @@ Zpráva je příliš dlouhá. Protokol Yahoo umožňuje napsat max. 800 znaků (
 Yahoo - spojení pomocí protokolu HTTP
 ;file \protocols\Yahoo\src\options.cpp
 [The changes you have made require you to restart Miranda NG before they take effect]
+Poznámka: Tato změna vyžaduje restart programu Miranda NG.
 [YAHOO Options]
 Možnosti Yahoo
 [The changes you have made require you to reconnect to the Yahoo network before they take effect]
+Změny se projeví až při příštím připojení do sítě Yahoo.
 [You need to be connected to Yahoo to add to Ignore List.]
 Novou položku lze přidat až po připojení do sítě Yahoo.
 [Yahoo Ignore]
@@ -173,15 +175,22 @@ Stav lze změnit pouze po připojení k síti.
 [You need to be connected to refresh your buddy list]
 Aktualizovat seznam kontaktů lze pouze po připojení k síti.
 [Set &Custom Status]
+Změnit &stavovou zprávu...
 [&Edit My Profile]
+&Upravit profil
 [&My Profile]
+&Zobrazit profil
 [&Yahoo Mail]
+&Přečíst poštu Yahoo
 [&Address Book]
+Sezn&am kontaktů
 [&Calendar]
+&Kalendář
 [Create Conference]
 [&Refresh]
 A&ktualizovat
 [&Show Profile]
+&Zobrazit profil
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Připomínka

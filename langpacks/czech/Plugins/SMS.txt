@@ -8,44 +8,65 @@
 [Send SMS text messages to mobile phones through the IM networks.]
 ;file \plugins\SMS\res\resource.rc
 [&Reply]
+&Odpovědět
 [&Close]
 &Zavřít
 [Read Next]
+Přečíst další
 [From:]
 Od:
 [Message received:]
+Zpráva přijata:
 [Number:]
 Číslo:
 [To:]
 Pro:
 [Add number to list]
+Přidat číslo do seznamu
 [&H]
 [Save number]
+Uložit číslo
 [Multiple >>]
+Hromadně >>
 [Enter message:]
+Zadejte zprávu:
 [Chars:]
+Znaků:
 [%d/160]
+%d/160
 [&Send]
 Po&slat
 [&Try again]
+Zkusi&t znovu
 [&Cancel]
 &Zrušit
 [The SMS message send timed out]
 [SMS Plugin]
+SMS
 [Begining]
+Začátek
 [End]
+Konec
 [Put signature at the:]
+Vložit podpis na:
 [Use Signature]
+Přidat podpis
 [Show server notifications]
+Zobrazovat oznámení serveru
 [Auto popup on new message]
 [Save window position per contact]
 [&OK]
 &OK
 [Message ID:]
+Identifikátor:
 [Source:]
+Zdroj:
 [Network:]
+Sítě:
 ;file \plugins\SMS\src\SMSConstans.h
 [Arial]
 ;file \plugins\SMS\src\SMS_svc.cpp
 [Incoming SMS Message]
+Příchozí SMS
 [Incoming SMS Confirmation]
+Příchozí potvrzení SMS

@@ -190,6 +190,7 @@ Zamknout počítač
 [Hang up dialup connections]
 Odpojit modem od sítě
 [Sets all Miranda NG protocols to offline and closes Miranda NG.]
+Přepne všechny protokoly do stavu offline a ukončí program Miranda NG.
 [Sets all Miranda NG protocols to offline.]
 Přepne všechny protokoly do stavu offline.
 [Logs the current Windows user off so that another user can log in.]
