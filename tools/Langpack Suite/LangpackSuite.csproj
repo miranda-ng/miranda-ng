@@ -86,6 +86,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="myRes.be-BY.resx" />
     <EmbeddedResource Include="myRes.de-DE.resx" />
+    <EmbeddedResource Include="myRes.cs-CZ.resx" />
     <EmbeddedResource Include="myRes.uk-UA.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>myRes.uk-UA.Designer.cs</LastGenOutput>

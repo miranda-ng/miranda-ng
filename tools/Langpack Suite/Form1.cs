@@ -110,6 +110,10 @@ namespace Langpack_Suite
             {
                 LanguageComboBox.SelectedIndex = 4;
             }
+			else if (culture.ToString() == "cs-CZ")
+            {
+                LanguageComboBox.SelectedIndex = 5;
+            }
             else
             {
                 culture = CultureInfo.CreateSpecificCulture("en-US");
@@ -826,6 +830,8 @@ namespace Langpack_Suite
                 culture = CultureInfo.CreateSpecificCulture("be-BY");
             if (LanguageComboBox.SelectedIndex == 4)
                 culture = CultureInfo.CreateSpecificCulture("de-DE");
+			if (LanguageComboBox.SelectedIndex == 5)
+                culture = CultureInfo.CreateSpecificCulture("cs-CZ");
             adjustCulture();
 
         }
