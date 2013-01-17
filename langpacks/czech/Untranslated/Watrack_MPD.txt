@@ -1,5 +1,4 @@
-﻿;[127.0.0.1]
-;[MPD Host]
+﻿;[MPD Host]
 ;[Unknown album]
 ;[Unknown artist]
 ;[Unknown genre]

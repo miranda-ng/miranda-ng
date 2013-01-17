@@ -16,6 +16,5 @@ Obecné
 Pravidla
 [Status Messages]
 Stavové zprávy
-[uxtheme.dll]
 [Auto Away]
 Automatické stavy

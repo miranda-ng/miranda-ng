@@ -14,7 +14,7 @@
 ;[Error occured when canceling friendship request.]
 ;[Error occured when removing contact from server.]
 ;[Error occured when requesting friendship.]
-;[Facebook protocol plugin for Miranda NG.]
+;[Facebook protocol support for Miranda NG.]
 ;[Loading newsfeeds...]
 ;[Login error: ]
 ;[Login error: Captcha code is required. Bad login credentials?]

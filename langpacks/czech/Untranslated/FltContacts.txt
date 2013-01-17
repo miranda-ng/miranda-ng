@@ -17,5 +17,3 @@
 ;[Show/Hide all thumbs]
 ;[Use fixed width]
 ;[requires mToolTip or Tipper plugin]
-;[shlwapi]
-;[user32.dll]

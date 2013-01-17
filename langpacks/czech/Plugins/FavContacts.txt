@@ -50,7 +50,6 @@ Druhý řádek
 Pozadí
 [Selected background]
 Vybrané pozadí
-[MS Shell Dlg]
 [Contacts]
 Kontakty
 [Favourites]

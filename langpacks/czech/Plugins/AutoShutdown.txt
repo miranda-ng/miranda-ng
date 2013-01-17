@@ -1,7 +1,7 @@
 ﻿#muuid {9de24579-5c5c-49aa-80e8-4d38e4344e63}
 ;============================================================
 ;  File: AutoShutdown.dll
-;  Plugin: AutoShutdown
+;  Plugin: Auto shutdown
 ;  Version: 1.4.0.2
 ;  Authors: H. Herkenrath
 ;============================================================
@@ -141,13 +141,11 @@ výchozí
 [NoLogOff]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System]
 [DisableLockWorkstation]
-[LOGIN.SCR]
 [RASAPI32]
 [.DLL]
 [Control Panel\\Desktop]
 [ScreenSaveActive]
 [ScreenSaverIsSecure]
-[SCRNSAVE.EXE]
 [Automatic Shutdown Error]
 Chyba při automatickém ukončení
 [The shutdown process failed!\nReason: %s]
@@ -191,7 +189,7 @@ Režim spánku
 Zamknout počítač
 [Hang up dialup connections]
 Odpojit modem od sítě
-[Sets all Miranda NG protocols to offline and closes Miranda IM.]
+[Sets all Miranda NG protocols to offline and closes Miranda NG.]
 [Sets all Miranda NG protocols to offline.]
 Přepne všechny protokoly do stavu offline.
 [Logs the current Windows user off so that another user can log in.]

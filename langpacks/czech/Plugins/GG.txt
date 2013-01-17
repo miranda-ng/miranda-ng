@@ -140,8 +140,6 @@ Otevřít
 Odhlásit všechny relace
 ;file \protocols\Gadu-Gadu\src\avatar.cpp
 [%miranda_avatarcache%]
-[%s\\%s]
-%s\\%s
 [Can not create avatars cache directory. ERROR: %d: %s\n%s]
 [jpg]
 [gif]
@@ -201,7 +199,6 @@ muž
 žena
 [GMT%+d:%02d]
 [GMT]
-[???]
 [<not specified>]
 <neurčeno>
 [Network]
@@ -256,7 +253,6 @@ Filtrování
 [HTTP failed reading]
 [HTTP failed writing]
 [Unknown HTTP error]
-[%s\\*.(null)]
 [&Unblock]
 Od&blokovat
 [&Block]
@@ -267,7 +263,6 @@ Seznam kontaktů
 [%s connection]
 %s - spojení se serverem
 [%miranda_userdata%]
-[%s\\%s\\ImageCache]
 [Gadu-Gadu Number]
 Identifikátor
 [%d %d]
@@ -328,7 +323,6 @@ Přehled relací
 [&Image]
 &Obrázek
 [Image files (*.bmp,*.gif,*.jpeg,*.jpg,*.png)]
-[*.bmp;*.gif;*.jpeg;*.jpg;*.png]
 [w+b]
 [Image cannot be written to disk.]
 Obrázek nelze uložit na disk.
@@ -347,7 +341,6 @@ Vybrat obrázek k odeslání
 [\\%s]
 [%.*s (%u)%s]
 [Cannot save received image to file. ERROR: %d: %s\n%s]
-[[img]%s[/img]]
 [.bmp]
 [.gif]
 [.jpg]
@@ -362,11 +355,9 @@ Aktualizovat seznam kontaktů na serveru lze pouze po připojení k síti Gadu-G
 [Text files]
 Textové soubory
 [ (*.txt)]
-[*.TXT]
 [All Files]
 Všechny soubory
 [ (*)]
-[txt]
 [List cannot be imported from file "%s" because of error:\n\t%s (Error: %d)]
 [contacts]
 kontakty
@@ -396,6 +387,13 @@ Oznámení
 [Error]
 Chyba
 ;file \protocols\Gadu-Gadu\src\services.cpp
+[.jpeg]
+[.ico]
+[.rle]
+[.swf]
+[.xml]
+[Can not remove old avatar file before refresh. ERROR: %d: %s\n%s]
+[Can not remove old avatar file. ERROR: %d: %s\n%s]
 [To remove your Gadu-Gadu avatar, you must use the gg.pl website.]
 ;file \protocols\Gadu-Gadu\src\sessions.cpp
 [Client Name]
@@ -412,8 +410,6 @@ Momentálně nejste souběžně přihlášení na více místech.
 [You have to be logged in to view concurrent sessions.]
 [Copy Text]
 [Whois]
-[%s\t%s\t%s]
-[http://whois.domaintools.com/%s]
 [Concurrent &sessions]
 Zobrazit &relace...
 ;file \protocols\Gadu-Gadu\src\token.cpp

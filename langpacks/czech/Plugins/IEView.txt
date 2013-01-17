@@ -69,8 +69,6 @@ Zobrazit datum
 Použít dlouhý formát data
 [Use relative timestamp]
 Použít relativní zápis času
-;file \plugins\IEView\src\ChatHTMLBuilder.cpp
-[[%H:%M]]
 ;file \plugins\IEView\src\HistoryHTMLBuilder.cpp
 [Outgoing File Transfer]
 Odchozí přenos souboru
@@ -108,17 +106,12 @@ Komunikace
 [IEView]
 [Skins]
 Skiny
-[320 x 205]
-[480 x 385]
-[560 x 349]
-[640 x 390]
 [Template]
 Šablona
 [All Files]
 Všechny soubory
 [All Images]
 [Style Sheet]
-[uxtheme.dll]
 ;file \plugins\IEView\src\ScriverHTMLBuilder.cpp
 [Today]
 Dnes
@@ -131,4 +124,3 @@ Přijatý soubor
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
 [.xml]
-[http://]

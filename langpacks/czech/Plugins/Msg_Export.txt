@@ -39,10 +39,10 @@ Prohlížeč souborů
 &Externí
 [&Close]
 &Zavřít
-[Prompt for action]
-Dotázat se
 [When filename changes]
 Po změně názvu souboru
+[Prompt for action]
+Dotázat se
 [Rename file]
 Přejmenovat soubor
 [Do nothing]
@@ -97,15 +97,12 @@ Chyba při vytváření souboru
 [Failed to HookEvent ME_DB_EVENT_ADDED]
 [Failed to HookEvent ME_DB_CONTACT_DELETED]
 [Failed to HookEvent ME_OPT_INITIALISE]
-[View &History]
-Zobrazit &historii
 [Open E&xported History]
 Otevřít vye&xportovanou historii
 [Failed to add menu item Open Exported History\nCallService(MS_CLIST_ADDCONTACTMENUITEM,...)]
+[Failed to HookEvent ME_SYSTEM_SHUTDOWN]
 [Failed to HookEvent ME_SYSTEM_MODULESLOADED]
 [%dbpath%\\MsgExport\\]
-[%nick%.txt]
-[d s]
 [Failed to replace Miranda History.\r\nThis is most likely due to changes in Miranda.]
 Funkci Historie Mirandy nelze nahradit.\r\nDůvodem jsou pravděpodobně interní změny v programu.
 [Failed to CreateServiceFunction MS_SHOW_EXPORT_HISTORY]
@@ -134,22 +131,8 @@ UIN
 [C:\\Backup\\MsgExport\\]
 [%dbpath%\\MsgExport\\%group% - ]
 [%dbpath%\\MsgExport\\%group%\\]
-[%UIN%.txt]
-[%group%.txt]
-[%e-mail%.txt]
-[%identifier%.txt]
-[%year%-%month%-%day%.txt]
-[%group%\\%nick%.txt]
-[%group%\\%UIN%.txt]
-[%group%\\%identifier%.txt]
-[%protocol%\\%nick%.txt]
-[History.txt]
-[d t]
-[d m]
 [D s]
 [D m :]
-[C:\\Windows\\Notepad.exe]
-[C:\\WinNT\\Notepad.exe]
 [You have unapplyed changes do you wish to apply these first ?]
 Některé ze změn nebyly potvrzeny. Chcete je potvrdit?
 [Executable files (*.exe;*.com;*.bat;*.cmd)\0*.exe;*.com;*.bat;*.cmd\0All files(*.*)\0*.*\0]
@@ -191,20 +174,16 @@ Export zpráv 2
 [File name for the user "%s" has changed !\n\nfrom:\t%s\nto:\t%s\n\nDo you wish to rename file ?]
 [Failed to rename file\n\nfrom:\t%s\nto:\t%s\n\nFailed with error: %s]
 Chyba při přejmenování souboru.\n\nPůvodní název:\t%s\nNový název:\t%s\n\nPopis chyby: %s
-[:\\]
 [%UIN%]
 [%protocol%]
 [%identifier%]
 [%group%]
-[/*?<>|"]
 [%year%]
 [%month%]
 [%day%]
-[%.2d]
 [\nError :]
 [Message has not been saved !\n]
 [Do you wish to save debug information ?]
-[DebugInfo.txt]
 [All\0*.*\0Text\0*.TXT\0\0]
 [TXT]
 [Failed to open or create file :\n]
@@ -212,7 +191,6 @@ Chyba při otevírání nebo vytváření souboru:\n
 [Failed to move to the end of the file :\n]
 Chyba při přesunu na konec souboru\n
 [Failed to UTF8 byte order code to file :\n]
-[------------------------------------------------\r\n]
 [      History for\r\n]
 [User      : %User%\r\n]
 [Protocol  : %Proto%\r\n]
@@ -227,7 +205,6 @@ Chyba při přesunu na konec souboru\n
 [State     : %State%\r\n]
 [Phone     : %Phone%\r\n]
 [Homepage  : %Homepage%\r\n]
-[- About -\r\n%About%\r\n]
 [%User%]
 [%Proto%]
 [%Age%]
@@ -277,7 +254,6 @@ Chyba při zápisu položky SMS do souboru:\n
 [Failed to write Unknown event to the file :\n]
 [Programming error writing UTF8 string to ansi file]
 [Programming error on line __LINE__ please report this]
-[%s\r\n%s]
 [User has been deleted do you want to delete the file ?]
 Jeden z uživatelů byl odebrán ze seznamu.\nChcete smazat příslušný soubor?
 [Failed to delete the file]

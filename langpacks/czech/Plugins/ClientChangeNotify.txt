@@ -52,12 +52,10 @@ Ignorovat tyto klienty (oddělené středníkem):
 (potřebujete mít pcre.dll nebo pcre3.dll pro použití regulérních výrazů)
 ;file \plugins\ClientChangeNotify\src\ClientChangeNotify.cpp
 [static]
-[_MenuWindow]
 [changed client to %s (was %s)]
 změnil klienta na %s (předtím %s)
 [changed client to %s]
 změnil klienta na %s
-[Miranda IM 0.6.0.1 (ICQ v0.3.7 alpha)]
 [%s (was %s)]
 %s (předtím %s)
 [) changed client to ]
@@ -77,10 +75,7 @@ Oznámení
 Změna klienta
 [ClientChangeNotify]
 Změna klienta
-[ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
-[/Miranda[0-9A-F]{8}/]
-[/[0-9A-F]{8}(\\W|$)/]
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [open]
 [Error #%d]

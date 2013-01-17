@@ -34,16 +34,10 @@ Vypnout oznámení
 ;file \plugins\Db_autobackups\src\backup.cpp
 [%s (*.dat)]
 [Miranda Databases]
-[*.dat]
 [%s (*.*)]
 [All Files]
 Všechny soubory
-[dat]
-[%s\\*]
 [.bak]
-[%s\\%s]
-%s\\%s
-[%s\\%s_%02d.%02d.%02d@%02d-%02d-%02d_%s.bak]
 [Backup in Progress]
 Stav zálohování
 [Rotating backup files...]
@@ -61,8 +55,6 @@ Databáze
 [%miranda_userdata%]
 [Database/Database Backups]
 ;file \plugins\Db_autobackups\src\options.cpp
-[%s%s]
-[%s\\]
 [%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s\n%s - %s]
 [%miranda_path%]
 [path to root miranda folder]
@@ -82,11 +74,7 @@ stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného u�
 [username for currently logged-on Windows user]
 jméno pro aktuálně přihlášeného uživatele Windows
 [%mydocuments%]
-["My Documents" folder for currently logged-on Windows user]
-složka "Dokumenty" pro aktuálně přihlášeného uživatele Windows
 [%desktop%]
-["Desktop" folder for currently logged-on Windows user]
-složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)

@@ -606,7 +606,6 @@ Zpráva od: %s
 Upozornění na psaní zprávy
 [Miranda could not load the built-in message module, riched20.dll is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
 Chybí knihovna riched20.dll, což znemožňuje použití interního modulu pro zprávy. Pokud používáte Windows 95 nebo emulaci WINE, doinstalujte si tuto knihovnu.
-[user32]
 [Instant messages]
 Rozhovor
 [Incoming (Focused Window)]
@@ -638,9 +637,6 @@ Vždy navrchu
 [The message send timed out.]
 Překročen časový limit odeslání zprávy.
 ;file \plugins\Scriver\src\utils.cpp
-[:;,.!?'"><()[]- \r\n]
-;file \plugins\Scriver\src\chat\chat.h
-[%miranda_logpath%\\%proto%\\%userid%.log]
 ;file \plugins\Scriver\src\chat\clist.cpp
 [Chat rooms]
 Místnosti chatu
@@ -652,7 +648,6 @@ Otevřít komunikační okno
 ;file \plugins\Scriver\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
 [%%%c]
-[: %s]
 [%s ]
 [%s has joined]
 Příchod: %s
@@ -675,7 +670,6 @@ Poznámka (napsal: %s)
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
-[--> %s]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
 ;file \plugins\Scriver\src\chat\main.cpp
@@ -827,11 +821,7 @@ stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného u�
 [username for currently logged-on Windows user]
 jméno pro aktuálně přihlášeného uživatele Windows
 [%mydocuments%]
-["My Documents" folder for currently logged-on Windows user]
-složka "Dokumenty" pro aktuálně přihlášeného uživatele Windows
 [%desktop%]
-["Desktop" folder for currently logged-on Windows user]
-složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
@@ -873,10 +863,7 @@ Vzhled
 Vyberte požadovanou složku
 [PopUps]
 Oznámení
-[[%H:%M]]
-[[%d %b %y %H:%M]]
 [%n:]
-[MS Shell Dlg]
 [Group chats]
 Skupinové rozhovory
 [Message is highlighted]
@@ -927,12 +914,10 @@ Informace (na %s)
 Poznámka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
-[:,.!?;'>)]
 [ab+]
 [%s * %s]
 [%s %c %s\r\n]
 [%s %s\r\n]
-[%userid%.log]
 [%#d]
 [%#m]
 [mon]
@@ -978,7 +963,6 @@ Zobrazí/skryje seznam účastníků (CTRL+N)
 Možnosti řízení kanálu (CTRL+O)
 [Enable/disable the event filter (CTRL+F)]
 Aktivuje/deaktivuje filtrování událostí (CTRL+F)
-[/topic]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [AQG_glo']
 [%s: Chat Room (%u user)]

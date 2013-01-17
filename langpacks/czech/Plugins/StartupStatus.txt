@@ -46,9 +46,6 @@ Startovní profily
 ;file \plugins\StatusPlugins\StartupStatus\profiles.cpp
 [There is a maximum of 6 menu items]
 Max. počet položek menu je 6.
-[STATIC]
-Statický
-;file \plugins\StatusPlugins\StartupStatus\startupstatus.cpp
 ;file \plugins\StatusPlugins\StartupStatus\toolbars.cpp
 [Pressed toolbar icon]
 [Released toolbar icon]

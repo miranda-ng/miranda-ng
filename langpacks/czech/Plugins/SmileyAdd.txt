@@ -62,17 +62,12 @@ Min. velikost smajlíků
 ;file \plugins\SmileyAdd\src\customsmiley.cpp
 [\\*.*]
 ;file \plugins\SmileyAdd\src\dlgboxsubclass.cpp
-[#32770]
-[RichEdit20A]
-[RichEdit20W]
-[RICHEDIT50W]
 [Edit]
 Upravit
 [Show Smiley Selection Window]
 Zobrazit okno s výběrem smajlíků
 ;file \plugins\SmileyAdd\src\download.cpp
 [.*/(.*)]
-[%s\\%s\\]
 [\\SmileyCache]
 [%miranda_userdata%\\SmileyCache]
 [SmileyAdd HTTP connections]
@@ -89,9 +84,7 @@ GDI+ lze stáhnout na adrese http://www.microsoft.com/downloads
 [Miranda SmileyAdd]
 Smajlíky
 ;file \plugins\SmileyAdd\src\imagecache.cpp
-[#%d]
 [dll]
-[exe]
 [ico]
 [icl]
 [tif]
@@ -117,13 +110,11 @@ Dole
 [Smiley Packs]
 Sady smajlíků
 [ (*.msl;*.asl;*.xep)]
-[*.msl;*.asl;*.xep]
 [All Files]
 Všechny soubory
 [ (*.*)]
 [*.*]
 [msl]
-[-filename]
 ;file \plugins\SmileyAdd\src\services.cpp
 [<None>]
 Není
@@ -138,7 +129,6 @@ Uplynulý čas: %u
 [hContact]
 [(.*)\\|(.*)\\|(.*)]
 [(?:ftp|https|http|file|aim|webcal|irc|msnim|xmpp|gopher|mailto|news|nntp|telnet|wais|prospero)://?[\\w.?%:/$+;]*]
-[[\\s"][a-zA-Z]:[\\\\/][\\w.\\-\\\\/]*]
 [\\d{1,2}:\\d{2}:\\d{2}|\\d{1,2}:\\d{2}]
 [\\s+]
 [%%_{1,2}%%]
@@ -168,12 +158,10 @@ Verze
 Výběr
 [Window]
 Okno
-[^\\s*Smiley(\\*)?\\s*=]
 [(?:\\s*"(.*)\]
 [(?:[\\s,]+(\\-?\\d+))]
 [(?:[\\s,]+(R|S)?"(.*?)\]
 [(?:[\\s,]+"(.*?)\]
-[http://]
 [Smiley #%u in file %s for Smiley Pack %s not found.]
 Smajlík č.%u v souboru %s knihovny smajlíků %s nebyl nalezen.
 [&lt;]
@@ -186,15 +174,12 @@ Smajlík č.%u v souboru %s knihovny smajlíků %s nebyl nalezen.
 [<PasteText>\\s*"(.*?)"\\s*</PasteText>]
 [<images>(.*?)</images>]
 [<Image>(.*?)</Image>]
-[<!\\[CDATA\\[(.*?)\\]\\]>]
 [Test String]
 Testovací řetězec
 [Regular Expression "%s" in smiley pack "%s" could produce "empty matches".]
 Regulární výraz "%s" v knihovně smajlíků "%s" může vracet "prázdné výsledky".
 [Regular Expression "%s" in smiley pack "%s" malformed.]
 Regulární výraz "%s" v knihovně smajlíků "%s" je neplatný.
-;file \plugins\SmileyAdd\src\smileys.h
-[Smileys\\nova\\default.msl]
 ;file \plugins\SmileyAdd\src\smltool.cpp
 [d'Oh!]
 A sakra!

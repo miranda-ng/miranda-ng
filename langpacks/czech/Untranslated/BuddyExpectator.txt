@@ -22,6 +22,5 @@
 ;[You awaited this contact!]
 ;[has not returned after a long absence.]
 ;[has not returned after being absent since %#x]
-;[has returned after being absent since %#x]
 ;[has returned after being absent since %d days]
 ;[not detected]

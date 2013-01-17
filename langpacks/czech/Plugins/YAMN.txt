@@ -186,23 +186,15 @@ Heslo
 [Browsing account %s]
 [(null)]
 [debug- WriteAccount...]
-;file \plugins\YAMN\src\debug.cpp
-[%s\\yamn-debug.synchro.log]
-[%s\\yamn-debug.comm.log]
-[%s\\yamn-debug.decode.log]
 ;file \plugins\YAMN\src\main.cpp
-[\\*.book]
 [%miranda_userdata%]
 [Check mail]
 Vybrat poštu
 [Launch application]
 [Connect Fail]
 Chyba při připojování
-[\\Plugins\\YAMN\\*.dll]
 [dll]
 [\\Plugins\\YAMN\\]
-;file \plugins\YAMN\src\protoplugin.cpp
-[%s\\yamn-accounts.%s.%s.book]
 ;file \plugins\YAMN\src\services.cpp
 [Nick]
 Přezdívka
@@ -213,7 +205,6 @@ Neznámá chyba
 [ - connection error]
  - chyba připojení
 ;file \plugins\YAMN\src\browser\mailbrowser.cpp
-[- new mail message(s)]
 [%s : %d new mail message(s), %d total]
 [%d new mail message(s), %d total]
 [No new mail message, %d spam(s)]
@@ -228,7 +219,6 @@ Kopírovat vše
 Počet vybraných zpráv: %d. Opravdu je chcete smazat?
 [Delete confirmation]
 Potvrzení smazání
-[%s\t%s\t%s\t%s\r\n]
 ;file \plugins\YAMN\src\mails\mime.cpp
 [Translate header error]
 [Part]
@@ -249,7 +239,6 @@ Chyba při čtení dat (interní chyba POP3)
 Chyba při čtení dat z účtu.
 [Memory allocation error while data reading]
 Chyba alokace paměti při čtení dat
-[%s\n%s]
 [Reading file error. File already in use?]
 Chyba při čtení ze souboru. Nepoužívá soubor jiná aplikace?
 [Error while copying data to disk occured. File in use?]

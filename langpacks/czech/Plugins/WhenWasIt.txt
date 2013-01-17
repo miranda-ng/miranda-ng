@@ -159,10 +159,6 @@ Narozeniny: %s
 Ona
 [He/She]
 On/ona
-[%s\n%s will be %d years old.]
-%s\nVěk (%s): %d let
-[%s\n%s just turned %d.]
-%s\nVěk (%s): %d let
 ;file \plugins\WhenWasIt\src\services.cpp
 [Starting to refresh user details]
 Probíhá aktualizace informací o kontaktech

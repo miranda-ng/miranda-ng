@@ -135,9 +135,7 @@ Název
 Pozadí
 [Window]
 Okno
-[user32.dll]
 ;file \plugins\Alarms\src\frame.cpp
-[LISTBOX]
 [%dh %dm]
 %d hod. %d min.
 [%dm]

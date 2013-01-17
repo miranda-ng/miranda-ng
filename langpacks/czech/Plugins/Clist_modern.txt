@@ -648,28 +648,6 @@ Př&ejmenovat skupinu
 ;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
 [%s: %s]
 [%s - %s]
-[[b]]
-[[/b]]
-[[u]]
-[[/u]]
-[[i]]
-[[/i]]
-[<b>]
-[</b>]
-[<u>]
-[</u>]
-[<i>]
-[</i>]
-[[B]]
-[[U]]
-[[I]]
-[<B>]
-[</B>]
-[<U>]
-[</U>]
-[<I>]
-[</I>]
-[*.gif]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 Kontakty/Překrytí avataru
@@ -698,11 +676,7 @@ Chcete odstranit kontakt '%s' z metakontaktu '%s' a přidat jej do '%s'?
 Změna metakontaktu (přesun)
 [Do You want contact '%s' to be added to MetaContact '%s'?]
 Chcete přidat kontakt '%s' do metakontaktu '%s'?
-[%s\\%s]
-%s\\%s
 ;file \plugins\Clist_modern\src\modern_clcitems.cpp
-[-@-HIDDEN-GROUP-@-]
-[#%s]
 [%s|]
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
@@ -746,7 +720,6 @@ Neviditelný
 Jsem na obědě
 [On the phone]
 Mám telefon
-[shlwapi]
 [Name]
 Jméno
 [Name (use locale settings)]
@@ -757,8 +730,6 @@ Jméno (použít místní nastavení)
 Název účtu
 [Rate]
 Priorita
-[-Nothing-]
----
 [Global]
 Globální
 [Hide to tray]
@@ -770,9 +741,6 @@ Za pravý okraj
 [Progman]
 [Fonts]
 Písma
-;file \plugins\Clist_modern\src\modern_clcutils.cpp
-[EDIT]
-UPRAVIT
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
 [%s: %s (%s)]
 [EventArea]
@@ -788,8 +756,6 @@ P&riorita kontaktu
 %s (%s)
 [Show even if offline]
 Zobrazit i když je offline
-;file \plugins\Clist_modern\src\modern_clistmod.cpp
-[kernel32]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
 Avatar
@@ -832,8 +798,6 @@ M&ožnosti...
 [&About]
 O progr&amu
 ;file \plugins\Clist_modern\src\modern_clui.cpp
-[user32.dll]
-[dwmapi.dll]
 [Show Contact &Avatar]
 Zobrazit a&vatara
 [Hide Contact &Avatar]
@@ -879,8 +843,6 @@ Zobrazit záhlaví rámečku
 [SubContainerWindow]
 [FramesContainer]
 [Shell_TrayWnd]
-;file \plugins\Clist_modern\src\modern_docking.cpp
-[user32]
 ;file \plugins\Clist_modern\src\modern_groupmenu.cpp
 [GroupMenu]
 Nabídka skupiny
@@ -942,8 +904,6 @@ stav
 [vCenter]
 [bottom]
 ;file \plugins\Clist_modern\src\modern_skineditor.cpp
-[- Empty - (do not draw this object)]
-- Prázdný - (nevykreslovat tento objekt)
 [Solid fill object]
 Vyplnit barvou
 [Image (draw image)]
@@ -963,17 +923,12 @@ Rozměry obrázku jsou
 ;file \plugins\Clist_modern\src\modern_skinengine.cpp
 [Skin_Description_Section]
 [SkinFolder]
-[ImgDecoder.dll]
 [Profile]
 Profil
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[fyr.mirandaim.ru]
 [%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
 Skin seznamu kontaktů pro Mirandu
-[JID: fyr@jabber.ru]
-[%s\\*.msf]
-[%s\\*]
 [%Default Skin%]
 %Výchozí skin%
 [%%Default Skin%%]
@@ -988,7 +943,6 @@ Vpravo
 [Bottom]
 Dole
 ;file \plugins\Clist_modern\src\modern_toolbar.cpp
-[icons\\toolbar_icons.dll]
 [Toolbar]
 Lišta tlačítek
 [To view a toolbar in Clist Modern you need the TopToolBar plugin. Click Yes to download it or Cancel to continue]
@@ -1041,15 +995,10 @@ Nastavení režimů zobrazení
 Vrátí zpět výchozí režim zobrazení
 [Reset view mode]
 Výchozí režim zobrazení
-[clisticons.dll]
-[CLVMFrameWindow]
 [View modes]
 Režimy zobrazení
 [View Modes]
 Pohledy
-;file \plugins\Clist_modern\src\hdr\modern_cluiframes.h
-[CLUIFrameSubContainer]
-[CLUIFrameTitleBar]
 ;file \plugins\Clist_modern\src\hdr\modern_effectenum.h
 [Shadow at left]
 Stín nalevo

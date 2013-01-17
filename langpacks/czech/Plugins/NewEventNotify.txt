@@ -72,12 +72,10 @@ Neoznamovat přečtené zprávy
 ;file \plugins\NewEventNotify\src\main.cpp
 [%s  (%s)]
 [TMsgWindow]
-[[%s  (%s)]]
 [TfrmContainer]
 [%s (%s): %s]
 [Message Session]
 Rozhovor
-[#32770]
 [Message Received]
 ;file \plugins\NewEventNotify\src\menuitem.cpp
 [PopUps]
@@ -100,13 +98,9 @@ Zkouška události Soubor :-D
 [Plugin Test]
 Zkouška doplňku
 [\0\0]
-[[b]%s %d[/b]\n]
 [Number of new message: ]
 Počet nových zpráv: 
 [%s...\n]
 [%Y.%m.%d]
 [ %H:%M]
 [%s[b][i]%s[/i][/b]\n]
-[%s%s]
-[%s\n]
-[%s\n...]

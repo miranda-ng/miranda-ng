@@ -1,3 +1,2 @@
-﻿;["%s" "%s"]
-;[MirandaNG]
+﻿;[MirandaNG]
 ;[Software\\Microsoft\\Windows\\CurrentVersion\\Run]

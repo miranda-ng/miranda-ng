@@ -1,5 +1,4 @@
-﻿;[%s\r\n\r\n%s]
-;[%user%]
+﻿;[%user%]
 ;[&Default]
 ;[Dear %user%, the owner left the following message:]
 ;[Disable Auto&reply]

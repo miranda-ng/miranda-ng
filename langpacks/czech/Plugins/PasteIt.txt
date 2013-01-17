@@ -48,8 +48,6 @@ Formát
 ;file \plugins\PasteIt\src\Options.cpp
 [Use default codepage]
 Výchozí kódování
-[UTF-8]
-UTF-8
 [Thai]
 thajština
 [Japanese]
@@ -82,9 +80,6 @@ pobaltský
 vietnamština
 [Korean (Johab)]
 korejština (Johab)
-[UTF-7]
-[UTF-16]
-[UTF-16BE]
 [You've entered invalid codepage. Select codepage from combo box or enter correct number.]
 [Invalid codepage]
 [Paste It]
@@ -115,36 +110,16 @@ Opravdu chcete pokračovat?
 [Cannot open file '%s']
 [File '%s' is empty]
 ;file \plugins\PasteIt\src\PasteToWeb1.cpp
-[api_option=paste&api_paste_private=]
-[&api_paste_expire_date=]
-[&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd&api_paste_format=]
-[&api_user_key=]
-[&api_paste_code=]
 [Error during sending text to web page: %s]
 [Error during sending text to web page]
-[api_user_name=]
-[&api_user_password=]
 [&api_dev_key=dcba056bf9cc71729fdad76dddcb0dcd]
 [Error during getting user key from web page: %s]
 [Paste expire date]
 [Never]
 Nikdy
-[10 minutes]
-[1 hour]
-[1 day]
-[1 month]
-;file \plugins\PasteIt\src\PasteToWeb1.h
-[pastebin.com]
 ;file \plugins\PasteIt\src\PasteToWeb2.cpp
-[<?xml version="1.0"?>\r\n<methodCall><methodName>create_paste</methodName><params><param><value>]
-[</value></param><param><value>]
-[</value></param><param><value></value></param><param><value>]
-[</value></param><param><value></value></param><param><value><double>1.5</double></value></param></params></methodCall>]
 [methodResponse]
 [params/param/value/array/data/value/int]
 [params/param/value/array/data]
 [value]
 [string]
-[<?xml version="1.0"?>\r\n<methodCall><methodName>types</methodName></methodCall>]
-;file \plugins\PasteIt\src\PasteToWeb2.h
-[wklej.to]

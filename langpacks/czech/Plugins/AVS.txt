@@ -77,8 +77,6 @@ Pro každý protokol jiný avatar
 [Protocols have different avatars]
 Jednotlivé protokoly mají definované různé avatary.
 ;file \plugins\AVS\src\main.cpp
-[%s\\%s]
-%s\\%s
 [AVS-HASH-%x]
 [%s@%s]
 [SHELLDLL_DefView]
@@ -95,44 +93,29 @@ Upravit rozměry na max. velikost danou protokolem
 [.rle]
 [All Files]
 Všechny soubory
-[ (*.bmp;*.jpg;*.gif;*.png]
-[;*.swf]
-[;*.xml]
-[*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG]
-[;*.SWF]
-[;*.XML]
 [Windows Bitmaps]
 obrázky typu BMP
 [ (*.bmp;*.rle)]
-[*.BMP;*.RLE]
 [JPEG Bitmaps]
 obrázky typu JPEG
 [ (*.jpg;*.jpeg)]
-[*.JPG;*.JPEG]
 [GIF Bitmaps]
 obrázky typu GIF
 [ (*.gif)]
-[*.GIF]
 [PNG Bitmaps]
 obrázky typu PNG
 [ (*.png)]
-[*.PNG]
 [Flash Animations]
 animace typu Flash
 [ (*.swf)]
-[*.SWF]
 [XML Files]
 soubory typu XML
 [ (*.xml)]
-[*.XML]
 [GlobalAvatar]
-[%s\\my_global_avatar%s]
-[%s\\my_global_avatar.png]
 [Set My Avatar]
 Nastavit avatar
 [Set My Avatar for %s]
 Nastavit avatar pro %s
-[%s%s]
 [mir_av_]
 [Global avatar for %s accounts]
 Globální avatar pro účty na %s
@@ -151,7 +134,6 @@ Pro sebe
 [Avatar]
 Avatar
 [gdi32]
-[msimg32.dll]
 [%miranda_userdata%]
 [Fatal error, image services not found. Avatar services will be disabled.]
 [Avatar Service]

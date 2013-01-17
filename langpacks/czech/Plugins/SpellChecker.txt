@@ -62,8 +62,6 @@ Použít slovníky jiných programů
 Špatná oprava
 [The correction can't be empty!]
 [The correction can't be equal to the wrong word!]
-;file \plugins\SpellChecker\src\autoreplace.cpp
-[-_.!@#$%&*()[]{}<>:?/\\=+]
 ;file \plugins\SpellChecker\src\commons.h
 [%miranda_path%\\Icons]
 [%miranda_userdata%\\Dictionaries]
@@ -75,24 +73,16 @@ Tagalog (Filipíny)
 [de_frami_neu]
 [German (Germany)]
 Němčina (Německo)
-[%s\\%s.cdic]
 [%s_%s]
 [%s (%s)]
 %s (%s)
 [%s [%s]]
-[%s\\*.dic]
-[%s\\%s]
-%s\\%s
 [.aff]
 [Thunderbird]
-[thunderbird.exe]
 [Firefox]
-[firefox.exe]
-[SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\%s]
 [Software\\Microsoft\\Windows\\ShellNoRoam\\MUICache]
 [Path]
 Cesta
-[%s\\Dictionaries]
 ;file \plugins\SpellChecker\src\options.cpp
 [Message Sessions]
 Komunikace
@@ -120,9 +110,7 @@ Slovníky
 Vlastní slovníky
 [Flags DLL]
 Knihovna vlajek
-[%s\\flags_icons.dll]
 [Spell Checker/Flags]
-[%s\\%s.ar]
 [Enable/disable spell checker]
 [Enabled]
 Zapnuto

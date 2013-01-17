@@ -13,7 +13,6 @@
 ;[- Contacts Protocol name (upper case)]
 ;[- Selected text]
 ;[- Text from Clipboard]
-;[---]
 ;[Add to QuickMenu]
 ;[Auto-send on Left-Click]
 ;[Auto-send on Right-Click]

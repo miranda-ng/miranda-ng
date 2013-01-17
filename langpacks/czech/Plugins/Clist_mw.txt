@@ -327,8 +327,6 @@ Mám telefon
 [Global]
 Globální
 ;file \plugins\Clist_mw\src\clistsettings.cpp
-[_NoProtocol_]
-_žádný-protokol_
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \plugins\Clist_mw\src\clisttray.cpp
@@ -346,8 +344,6 @@ O progr&amu
 [My Contacts]
 Seznam kontaktů
 ;file \plugins\Clist_mw\src\cluiopts.cpp
-;file \plugins\Clist_mw\src\cluiservices.cpp
-[%s%s]
 ;file \plugins\Clist_mw\src\groupmenu.cpp
 [&New SubGroup]
 &Nová podskupina
@@ -403,11 +399,7 @@ Viditelné
 Zobrazit záhlaví rámečku
 [Floating]
 Plovoucí
-[TitleBarFont]
-Záhlaví
 [FramesContainer]
-;file \plugins\Clist_mw\src\CLUIFrames\cluiframes.h
-[CLUIFrameTitleBar]
 ;file \plugins\Clist_mw\src\CLUIFrames\statusbar.cpp
 [Statushelper]
 [Status]

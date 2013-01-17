@@ -187,7 +187,6 @@ je opět online
 je opět online
 [User: Online]
 Stav (online)
-[global.wav]
 [(M) went offline! :(]
 odešel...
 [(F) went offline! :(]
@@ -196,7 +195,6 @@ odešla...
 odešel...
 [User: Offline]
 Stav (offline)
-[offline.wav]
 [(M) hides in shadows...]
 je neviditelný...
 [(F) hides in shadows...]
@@ -205,7 +203,6 @@ je neviditelná...
 je neviditelný...
 [User: Invisible]
 Stav (neviditelný)
-[invisible.wav]
 [(M) feels talkative!]
 má volno
 [(F) feels talkative!]
@@ -214,7 +211,6 @@ má volno
 má volno
 [User: Free For Chat]
 Stav (mám volno)
-[free4chat.wav]
 [(M) went Away]
 odběhl pryč
 [(F) went Away]
@@ -223,7 +219,6 @@ odběhla pryč
 odběhl pryč
 [User: Away]
 Stav (na chvíli pryč)
-[away.wav]
 [(M) isn't there anymore!]
 bude pryč delší dobu
 [(F) isn't there anymore!]
@@ -232,7 +227,6 @@ bude pryč delší dobu
 bude pryč delší dobu
 [User: Not Available]
 Stav (nejsem tady)
-[na.wav]
 [(M) has something else to do.]
 nemá čas
 [(F) has something else to do.]
@@ -241,7 +235,6 @@ nemá čas
 nemá čas
 [User: Occupied]
 Stav (nemám čas)
-[occupied.wav]
 [(M) doesn't want to be disturbed!]
 nechce být vyrušován!
 [(F) doesn't want to be disturbed!]
@@ -250,7 +243,6 @@ nechce být vyrušována!
 nechce být vyrušován!
 [User: Do Not Disturb]
 Stav (nerušit!)
-[dnd.wav]
 [(M) is eating something]
 je na obědě
 [(F) is eating something]
@@ -259,7 +251,6 @@ je na obědě
 je na obědě
 [User: Out To Lunch]
 Stav (na obědě)
-[lunch.wav]
 [(M) had to answer the phone]
 telefonuje
 [(F) had to answer the phone]
@@ -268,7 +259,6 @@ telefonuje
 telefonuje
 [User: On The Phone]
 Stav (mám telefon)
-[phone.wav]
 [Enable status notification]
 [Disable status notification]
 [PopUps]

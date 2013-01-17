@@ -4,7 +4,6 @@
 ;[%i(%r)%bWas %o]
 ;[%n is %s (%u)]
 ;[%s: %s]
-;[---]
 ;[<never seen>]
 ;[Any to /Idle or empty]
 ;[Any to Idle/Not Idle/Unknown]
@@ -23,4 +22,3 @@
 ;[\x0D\x0A]
 ;[for empty string]
 ;[instead of]
-;[uxtheme.dll]

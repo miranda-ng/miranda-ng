@@ -4,7 +4,6 @@
 ;[Contact name]
 ;[FavContactsMenuHostWnd]
 ;[Favourite Contact]
-;[MS Shell Dlg]
 ;[Regular Contact]
 ;[Selected contact name (color)]
 ;[Selected second line (color)]

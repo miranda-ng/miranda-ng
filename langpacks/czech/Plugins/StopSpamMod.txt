@@ -84,13 +84,11 @@ Extra
 [ICQ]
 ICQ
 [X+-/*]
-[+-/*]
 ;file \plugins\StopSpamMod\src\utilities.cpp
 [Mark for delete]
 [Deleted]
 Smazáno
 [Not In List]
-[http]
 [www]
 [.ru]
 [.com]

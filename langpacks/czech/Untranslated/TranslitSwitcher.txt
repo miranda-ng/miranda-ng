@@ -5,7 +5,6 @@
 ;[Invert Case All / Selected]
 ;[Invert Case Last / Selected]
 ;[Invert Case and Send]
-;[RichEdit20W]
 ;[Sch]
 ;[Switch Layout and Send]
 ;[TExtHistoryGrid.UnicodeClass]

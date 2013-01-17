@@ -66,11 +66,8 @@ Míra průhlednosti
 Kontakty
 [Idle]
 Nečinnost
-;file \plugins\TooltipNotify\src\Settings.h
-[Tahoma]
 ;file \plugins\TooltipNotify\src\Tooltip.cpp
 [MimTooltipNotify]
-[user32.dll]
 ;file \plugins\TooltipNotify\src\TooltipNotify.cpp
 [Tooltip Notify]
 Změna stavu
@@ -106,6 +103,5 @@ Neviditelný
 [Not Idle]
 [Unknown]
 Neznámý
-[%s%s%s]
 [%.0s%.0s%s]
 [ %s %s]

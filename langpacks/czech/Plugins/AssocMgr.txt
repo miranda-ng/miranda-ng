@@ -40,7 +40,6 @@ Služby
 [MirandaDdeMsgWindow]
 [file]
 [url]
-[miranda32.exe]
 ;file \plugins\AssocMgr\src\dde.h
 [Miranda]
 Miranda
@@ -48,35 +47,24 @@ Miranda
 [url,"%l"]
 [file,"%1"]
 ;file \plugins\AssocMgr\src\main.cpp
-[AssocMgr-Readme.txt]
 [Docs\\]
-[AssocMgr-License.txt]
-[AssocMgr-SDK.zip]
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry Warning]
-["%s" "%hs"]
-[rundll32.exe %s,WaitForDDE "%hs"]
+[rundll32.exe %s,WaitForDDE "/profile:%s"]
 [.exe]
-[rundll32.exe]
-[rundll.exe]
 [.dll]
 [%s,%i]
-[Opera.exe]
 [Path]
 Cesta
-[\\operadef6.ini]
 [System]
 Systém
 [Multi User]
 [%APPDATA%\\Opera]
-[\\profile\\opera6.ini]
 [Trusted Protocols]
-[1,0,]
 [File Types Section Info]
 [Version]
 Verze
-[4,,,,%.15hs,|%.128s (%.16hs)]
 [File Types]
 [File Types Extension]
 [Software\\Classes]
@@ -84,7 +72,6 @@ Verze
 Odkaz:
 [DefaultIcon]
 [URL Protocol]
-[CLSID]
 [EditFlags]
 [shell]
 [open]

@@ -1,6 +1,5 @@
 ﻿;[ - ]
 ;[): ]
-;[+-/*]
 ;[.com]
 ;[.cz]
 ;[.de]
@@ -45,6 +44,5 @@
 ;[Use regex for answers checking]
 ;[Vars]
 ;[X+-/*]
-;[http]
 ;[nospam]
 ;[www]

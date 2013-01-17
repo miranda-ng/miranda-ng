@@ -1,6 +1,4 @@
 ﻿;[%miranda_avatarcache%]
-;[%s\\%s.swf]
-;[%s\\%s\\]
 ;[.xml]
 ;[ABCDEFGHIJKLMNOPQRSTUVWXYZ234567]
 ;[AtlAxWin]

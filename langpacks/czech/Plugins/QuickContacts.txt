@@ -49,8 +49,6 @@ Zobrazit všechny kontakty
 Rychlé kontakty...
 [%s (%s)]
 %s (%s)
-[STATIC]
-Statický
 [Ctrl+A]
 [Send message]
 Poslat zprávu

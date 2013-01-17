@@ -2,6 +2,5 @@
 ;langpack template for Restart
 ;file \plugins\Restart\src\restart.cpp
 [%miranda_profilename%]
-["%s" /restart:%d /profile=%s]
 [Restart]
 Restart

@@ -76,6 +76,4 @@ Aktualizovat
 [Download]
 Stáhnout
 ;file \plugins\ModernOpt\src\mopt_selector.cpp
-[%s\\%s]
-%s\\%s
 [*.*]

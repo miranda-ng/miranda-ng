@@ -54,19 +54,11 @@ Stáhnout překla&d
 [Plugins\\Language\\]
 [English (default)]
 Angličtina (standardní)
-[%s\\Plugins\\%s]
 ;file \plugins\LangMan\src\main.cpp
-[The Language Pack Manager Plugin can not be loaded. It requires Miranda IM %hs or later.]
-[Language Pack Manager Plugin]
-Doplněk Správa překladů
 [Reload langpack]
-[LangMan-Readme.txt]
 [Docs\\]
-[LangMan-License.txt]
-[LangMan-SDK.zip]
 ;file \plugins\LangMan\src\options.cpp
 [UXTHEME]
-[%s\\Plugins\\*.dll]
 [%hs (%s)]
 [All installed plugins are included.]
 Všechny nainstalované doplňky jsou přeloženy.
@@ -77,7 +69,6 @@ Neznámý
 aktuální
 [Installed Languages]
 Nainstalované jazyky
-[langpack_*.txt]
 [File]
 Soubor
 [built-in]

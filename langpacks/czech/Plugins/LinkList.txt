@@ -90,7 +90,6 @@ Zkopírovat
 [Show Message]
 Zobrazit zprávu
 ;file \plugins\HistoryLinkListPlus\src\linklist.cpp
-[RICHED32.DLL]
 [Unable to load the Rich Edit control!]
 Nelze načíst třídu Rich Edit!
 [Error]
@@ -117,11 +116,7 @@ Doplněk 'Linklist'
 [mailto:]
 [%s: %s]
 ;file \plugins\HistoryLinkListPlus\src\linklist_fct.cpp
-[http://]
-[ftp://]
-[https://]
 [www.]
-[ftp.]
 [icq#]
 [gopher://]
 [news://]
@@ -130,7 +125,6 @@ Doplněk 'Linklist'
 [.com/]
 [.net/]
 [.org/]
-[.co.uk]
 [.ru]
 [d-t]
 [Arial]
@@ -141,24 +135,11 @@ Počet položek odpovídajících zadanému
 [Processing list...]
 Zpracování seznamu...
 [\n\n]
-[[mail]]
-[[URL ]]
-[[file]]
-[[UNK ]]
-[%s%s%s%s%s%s%s\n]
-[[in ]]
-[[out]]
 [No messages found!\nPlease change current filter options.]
 Hledaný řetězec nebyl nalezen!\nPodle potřeby změňte kritéria hledání.
-[___________________________________________\n]
 [\n[in ] ]
 [URL   ]
-[08:15 http://miranda-ng.org\n]
-[http://miranda-ng.org\n]
-[[out] ]
-[08:16 http://miranda-ng.org\n]
 [%s: %s %s]
-[*.rtf]
 [RTF File\0*.rtf\0All Files\0*.*\0\0]
 [Save RTF File]
 Uložit soubor ve formátu RTF

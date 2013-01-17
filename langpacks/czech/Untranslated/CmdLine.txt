@@ -50,4 +50,3 @@
 ;[Wrote '%s:%s' to database entry '%s/%s'.]
 ;[YAMN plugin is not running.]
 ;[You can only run one instance of CmdLine plugin.]
-;[[me]]

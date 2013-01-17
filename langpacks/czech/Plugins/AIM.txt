@@ -5,7 +5,7 @@
 ;  Version: 0.11.0.1
 ;  Authors: Boris Krasnovskiy, Aaron Myles Landwehr
 ;============================================================
-[Provides support for AOL Instant Messenger (AIM) protocol.]
+[AOL Instant Messenger (AIM) protocol support for Miranda NG.]
 ;file \protocols\AimOscar\res\aim.rc
 [AIM User Details]
 Informace o kontaktu
@@ -126,8 +126,6 @@ Místnost
 [.jpg]
 [%%miranda_avatarcache%%\\%s]
 [%miranda_avatarcache%]
-[%s\\%s]
-%s\\%s
 [\\%s]
 ;file \protocols\AimOscar\src\chat.cpp
 [Others]
@@ -205,16 +203,10 @@ Zobrazit &historii
 [DNS Fail.]
 ;file \protocols\AimOscar\src\file.cpp
 [Failed to open file: %s : %s]
-[%s%s]
 ;file \protocols\AimOscar\src\links.cpp
 [addbuddy?]
-[screenname=]
-[groupname=]
 [goim?]
-[message=]
 [gochat?]
-[roomname=]
-[exchange=]
 [AIM Link Protocol]
 ;file \protocols\AimOscar\src\popup.cpp
 [%s Protocol]
@@ -226,8 +218,6 @@ Zobrazit &historii
 [%s Client-to-client connection]
 %s - přímé spojení mezi klienty
 ;file \protocols\AimOscar\src\server.cpp
-[[Auto-Response]:]
-Autom. odpověď: 
 [Contact tried to open an audio/video conference (currently not supported)]
 [No information has been provided by the server.]
 Server nedodal požadované informace.
@@ -336,6 +326,4 @@ Soukromí
 [Please, enter a password in the options dialog.]
 [%miranda_userdata%]
 [Failed to open file: %s %s]
-[away.html]
 [open]
-[profile.html]

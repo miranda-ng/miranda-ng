@@ -5,7 +5,7 @@
 ;  Version: 0.0.1.1
 ;  Authors: Mataes, ZERO_BiT
 ;============================================================
-[Simple updater for Miranda IM premodified packs.]
+[Simple updater for Miranda NG premodified packs.]
 ;file \plugins\PackUpdater\Res\Resource.rc
 [Update]
 Aktualizovat
@@ -79,21 +79,12 @@ Název doplňku
 Současná verze
 [New Version]
 Nová verze
-[%s\\Pack]
-[%s\\Plugins]
-[%s\\Icons]
-[%s\\Others]
-[%s\\Backups]
-[%s\\%s]
-%s\\%s
 [.html]
 [Downloading pack updates...]
 [Downloading update...]
-[Downloads complete. Start updating? All your data will be saved and Miranda IM will be closed.]
-[Download complete. Start updating? All your data will be saved and Miranda IM will be closed.]
+[Downloads complete. Start updating? All your data will be saved and Miranda NG will be closed.]
+[Download complete. Start updating? All your data will be saved and Miranda NG will be closed.]
 [%miranda_path%\\Plugins]
-[%s\\%s\\%s]
-[%s\\Backups\\%s]
 [%miranda_path%\\Icons]
 [%miranda_path%]
 [You have chosen not to install the pack update immediately.\nYou can install it manually from this location:\n\n%s]
@@ -120,7 +111,6 @@ Služby
 [Pack Updater HTTP connection]
 [%d.%d.%d.%d]
 [URL for checking updates not found.]
-[%s\\tmp.ini]
 [Downloading version info...]
 [FileInfo_%d]
 [FileVersion]
@@ -138,7 +128,7 @@ Zpráva
 [Plugins\\%s\\%s]
 [%SystemRoot%]
 [%ProgramFiles%]
-[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda IM with Administrator's rights.]
+[Update is not possible!\nYou have no Administrator's rights.\nPlease run Miranda NG with Administrator's rights.]
 [No updates found.]
 [No files for update.]
 [Update checking already started!]

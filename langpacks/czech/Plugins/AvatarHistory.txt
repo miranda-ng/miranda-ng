@@ -106,10 +106,6 @@ Odstranit avatar?
 Opravdu chcete odstranit vybraný avatar?\nTímto odstraníte zástupce i s obrázkem.\nVAROVÁNÍ: Tato operace může ovlivnit více zástupců!
 [explore]
 [open]
-[%s\\*.lnk]
-[%s\\%s]
-%s\\%s
-[d s]
 [avatar path is null.]
 [View Avatar History]
 Zobrazit historii avatarů
@@ -120,11 +116,9 @@ Zobrazit historii avatarů
 Historie avatarů
 [Contact changed avatar]
 [Contact removed avatar]
-[%s\\Avatars History]
 [Avatars]
 Avatary
 [\\Avatars History]
-[%s.%s.lnk]
 [Avatar History: Unable to create shortcut]
 [AVH Debug: Shortcut created successfully]
 [%s.%s]
@@ -137,7 +131,6 @@ Avatary
 [Hashes are the same... skipping]
 [Avatar History: Unable to save avatar]
 [AVH Debug: File copied successfully]
-[%s\\%s.*]
 [.png]
 [.bmp]
 [.gif]
@@ -148,12 +141,10 @@ neznámé UIN
 [GetHistoryFolder]
 [Unknown Protocol]
 neznámý protokol
-[%s\\]
 [CreateDirectory]
 [Path: %s\nProto: ]
 [\nUIN: %s]
 [AVH Debug: GetContactFolder]
-[%s\\%04d-%02d-%02d %02dh%02dm%02ds]
 [AVH Debug: GetOldStyleAvatarName]
 [CreateShortcut]
 ;file \plugins\AvatarHistory\src\AvatarHistory.h
@@ -187,5 +178,4 @@ Testovací kontakt
 Testovací popis
 ;file \plugins\AvatarHistory\src\popup.cpp
 [static]
-[_PopupWindow]
 [ Error]

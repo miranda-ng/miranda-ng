@@ -90,7 +90,6 @@ Chyba
 ;file \plugins\FloatingContacts\src\fltcont.h
 [MirandaThumbsWnd]
 ;file \plugins\FloatingContacts\src\main.cpp
-[user32.dll]
 [Remove thumb]
 [Show all thumbs]
 [Hide all thumbs]
@@ -113,7 +112,6 @@ Kontakty
 Hlavní vlastnosti
 [Appearance]
 Vzhled
-[shlwapi]
 [Sample]
 Příkladový text
 [<none>]

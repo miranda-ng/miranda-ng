@@ -1,6 +1,4 @@
 ﻿;[%d.%d.%d.%d]
-;[%s\n%s]
-;[Crypto module hasn't been chosen, using first one found]
 ;[Crypto modules not found]
 ;[DB is already secured!]
 ;[Database is Secured MMAP database]
@@ -19,6 +17,5 @@
 ;[Wrong password!]
 ;[You are not authorized for access to Database]
 ;[cryptors\\%s]
-;[cryptors\\*.dll]
 ;[current database]
 ;[db3x secure mmap database support]

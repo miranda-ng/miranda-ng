@@ -110,6 +110,7 @@ http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/shlext.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SimpleAR.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SimpleStatusMsg.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SmileyAdd.txt
+http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SMS.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SpellChecker.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/SplashScreen.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/StartPosition.txt

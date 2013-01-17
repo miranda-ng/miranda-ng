@@ -26,7 +26,6 @@
 [Turn on Autoanswer]
 [Dear %user%, the owner left the following message:]
 [%user%]
-[%s\r\n\r\n%s]
 ;file \plugins\SimpleAR\src\Options.cpp
 [Simple Auto Replier]
 [Plugins]

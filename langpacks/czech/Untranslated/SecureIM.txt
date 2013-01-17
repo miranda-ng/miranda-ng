@@ -33,8 +33,3 @@
 ;[SecureIM status]
 ;[Set pre-shared key]
 ;[Temp Dir:]
-;[comctl32.dll]
-;[plugins\\rtfconv.dll]
-;[rsa_priv.asc]
-;[rsa_pub.asc]
-;[rtfconv.dll]

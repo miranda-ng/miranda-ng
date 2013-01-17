@@ -1,5 +1,4 @@
-﻿;[%miranda_profilename%.dat]
-;[%miranda_userdata%]
+﻿;[%miranda_userdata%]
 ;[Copy Version Info to clipboard]
 ;[Create reports in subfolders naming as current date]
 ;[Not ]

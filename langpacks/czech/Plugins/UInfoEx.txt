@@ -365,8 +365,6 @@ Obnovit výchozí
 Tlačítko
 [%s %d\\%s]
 [%s %d]
-[%s\\%s]
-%s\\%s
 [Creating unique name for a page failed with %d and error code %d]
 Nepodařilo se vytvořit unikátní název stránky %d (chyba %d)
 [Creating the label for a page failed with %d and error code %d]
@@ -388,8 +386,6 @@ Upravit e-mail
 Upravit telefonní číslo
 [The phone number should start with a + and consist of\nnumbers, spaces, brackets and hyphens only.]
 Telefonní číslo by mělo začínat znaménkem + a smí obsahovat\nčísla, mezery, závorky a pomlčky.
-[+%u (%s) %s]
-[0123456789]
 [none]
 ---
 [Edit]
@@ -418,7 +414,6 @@ Ostatní
 ;file \plugins\UserInfoEx\src\ctrl_tzcombo.cpp
 [<Unspecified>]
 <Nespecifikováno>
-[--:--]
 ;file \plugins\UserInfoEx\src\dlg_anniversarylist.cpp
 [ETA]
 [Contact]
@@ -498,7 +493,6 @@ Importovat...
 Něco o sobě
 [Edit Contact Information]
 Úprava informací o uživateli
-[%s\n%s]
 [Upload ICQ Details]
 Nahrát detaily ICQ na server
 [Upload failed]
@@ -509,9 +503,6 @@ Vaše údaje nebyly úspěšně aktualizovány\nByly pouze zapsány do databáze
 [miranda]
 [Fatal error, image services not found. Flags Module will be disabled.]
 ;file \plugins\UserInfoEx\src\mir_icolib.cpp
-[Icons\\uinfoex_icons.dll]
-[Plugins\\uinfoex_icons.dll]
-[Customize\\Icons\\uinfoex_icons.dll]
 [Warning: Your current IconPack's version differs from the one UserInfoEx is designed for.\nSome icons may not be displayed correctly]
 Upozornění: Váše současná verze knihovny ikon pro Detaily uživatele se liší od verze, pro kterou byl tento doplněk vytvořen.\n Některé ikony se nemusí zobrazit správně.
 [Warning: No IconPack found in one of the following directories: 'customize\\icons', 'icons' or 'plugins'!]
@@ -614,13 +605,10 @@ Minulost
 Členství
 [Interest]
 Zájem
-[EDIT]
-UPRAVIT
 [Sorry, but there is a problem with adding a new item of type "%s"]
 Upozornění: vyskytl se problém s přidáváním nové položky "%s"
 [<empty>]
 <neuvedeno>
-[LISTBOX]
 [Add Affliation]
 Přidat členství
 [Edit Category]
@@ -887,14 +875,6 @@ Večírky
 Ženy
 [Social science]
 Sociální vědy
-[60's]
-60tá léta
-[70's]
-70tá léta
-[80's]
-80tá léta
-[50's]
-50tá léta
 [Finance and corporate]
 Finančnictví a obchod
 [Entertainment]
@@ -999,7 +979,6 @@ Uživatel nemá uvedenou platnou domácí stránku
 [View Homepage]
 Zobrazit domovskou stránku
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
-[[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
 Přerušit proces občerstvování detailů
 [Do you want to cancel the current refresh procedure?]
@@ -1138,7 +1117,6 @@ všechny kontakty
 Vyberte cílový soubor...
 [Import User Details from VCard]
 Importovat detaily uživatele z VCard
-[%s%s%s]
 ;file \plugins\UserInfoEx\src\ex_import\svc_ExImXML.cpp
 [Can't create xml file!\n%S]
 Nelze vytvořit xml soubor!\n%S

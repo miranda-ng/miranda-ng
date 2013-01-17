@@ -75,14 +75,11 @@ Počitadlo dat
 [%s - %s]
 [m:ss]
 [h:mm:ss]
-[d hh:mm:ss]
 [%miranda_userdata%\\statistics]
-[%s\\%S.stat]
 [Couldn't read statistics file]
 [Traffic Counter]
 ;file \plugins\TrafficCounter\src\TrafficCounter.c
 [TrafficCounterWnd]
-[{I4}\x0D\x0A\x0A\\r\n{R65}?tc_GetTraffic(%extratext%,now,sent,d)\x0D\x0A\x0A\\r\n{R115}?tc_GetTraffic(%extratext%,now,received,d)\x0D\x0A\x0A\\r\n{R165}?tc_GetTraffic(%extratext%,total,both,d)\x0D\x0A\x0A\\r\n{L180}?if3(?tc_GetTime(%extratext%,now,hh:mm:ss),)\x0D\x0A\x0A\\r\n{L230}?if3(?tc_GetTime(%extratext%,total,d hh:mm),)]
 [Font]
 Písmo
 [Arial]
@@ -100,7 +97,6 @@ Název účtu
 [General/]
 [Draw frame as skin element]
 [Show tooltip in traffic window]
-["Toggle traffic counter" in main menu]
 [Visible accounts/]
 [Summary traffic for visible accounts]
 [Overall traffic]

@@ -91,7 +91,6 @@ Jméno
 [Version]
 Verze
 [%d.%d.%d.%d]
-[%s\n%s]
 [Please type in your password for]
 [Too many errors!]
 [Password is not correct!]
@@ -106,15 +105,11 @@ Zadaná hesla se neshodují!
 ;file \plugins\Dbx_mmap_SA\src\init.cpp
 [db3x secure mmap database support]
 ;file \plugins\Dbx_mmap_SA\src\security.cpp
-[cryptors\\*.dll]
 [cryptors\\%s]
 [Sorry, but your database encrypted with unknown module]
 [Error]
 Chyba
 [Crypto modules not found]
-[Crypto module hasn't been chosen, using first one found]
-[Notice]
-Poznámka
 [DB is already secured!]
 [current database]
 [Set Password]

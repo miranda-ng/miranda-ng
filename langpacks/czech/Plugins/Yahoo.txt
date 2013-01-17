@@ -81,14 +81,11 @@ Chyba Yahoo
 [Avatar upload failed!?!]
 [%%miranda_avatarcache%%\\]
 [%miranda_avatarcache%]
-[%s\\]
 [\\%lX]
 [ avatar]
 [.swf]
 [.png]
 ;file \protocols\Yahoo\src\chat.cpp
-[[miranda] Got conference invite to room: %s with msg: %s]
-Přišla pozvánka na konferenci v místnosti %s. Text: %s.
 [%s denied invitation with message: %s]
 [Others]
 Ostatní
@@ -102,9 +99,6 @@ Pozvat k d&iskusi...
 Zobrazit &historii
 [Join My Conference...]
 [No, thank you...]
-;file \protocols\Yahoo\src\file_transfer.cpp
-[%s\\%s]
-%s\\%s
 ;file \protocols\Yahoo\src\icolib.cpp
 [Main]
 Hlavní
@@ -134,8 +128,10 @@ Zpráva je příliš dlouhá. Protokol Yahoo umožňuje napsat max. 800 znaků (
 [YAHOO plugin HTTP connections]
 Yahoo - spojení pomocí protokolu HTTP
 ;file \protocols\Yahoo\src\options.cpp
+[The changes you have made require you to restart Miranda NG before they take effect]
 [YAHOO Options]
 Možnosti Yahoo
+[The changes you have made require you to reconnect to the Yahoo network before they take effect]
 [You need to be connected to Yahoo to add to Ignore List.]
 Novou položku lze přidat až po připojení do sítě Yahoo.
 [Yahoo Ignore]
@@ -158,6 +154,8 @@ Filtrování
 ;file \protocols\Yahoo\src\proto.cpp
 [New E-mail available in Inbox]
 Nová pošta
+[%s plugin connections]
+%s - spojení se serverem
 [Please enter your yahoo id in Options/Network/Yahoo]
 Zadejte prosím svůj identifikátor v nastavení protokolu.
 [Please enter your yahoo password in Options/Network/Yahoo]
@@ -174,15 +172,25 @@ Chyba přihlášení na Yahoo
 Stav lze změnit pouze po připojení k síti.
 [You need to be connected to refresh your buddy list]
 Aktualizovat seznam kontaktů lze pouze po připojení k síti.
+[Set &Custom Status]
+[&Edit My Profile]
+[&My Profile]
+[&Yahoo Mail]
+[&Address Book]
+[&Calendar]
 [Create Conference]
-;file \protocols\Yahoo\src\webcam.cpp
-[[miranda] Got webcam invite. (not currently supported)]
-Přišla žádost o video rozhovor (v současnosti není podporováno).
+[&Refresh]
+A&ktualizovat
+[&Show Profile]
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 Připomínka
 [%s has rejected your request and sent the following message:]
 %s odmítl/odmítla žádost. Text zprávy:
+[Invalid Contact]
+[The id you tried to add is invalid.]
+[Unknown Error??.]
+[%s: %s]
 [New Mail]
 Nová pošta
 [You Have %i unread msgs]
@@ -191,6 +199,7 @@ Nepřečtených zpráv: %i
 Nová pošta (zpráv: %i)
 [From: %s\nSubject: %s]
 Od: %s\nPředmět: %s
+[Yahoo System Message]
 [Yahoo Ping Error]
 Chyba spojení s Yahoo
 [Could not log into Yahoo service - username not recognised.  Please verify that your username is correctly typed.]

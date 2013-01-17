@@ -19,7 +19,6 @@
 ;[(widelyused_all) ]
 ;[(widelyused_sent) ]
 ;[.?!]
-;[: - ]
 ;[>>Availabe:]
 ;[>>Result:]
 ;[BAD(2)]

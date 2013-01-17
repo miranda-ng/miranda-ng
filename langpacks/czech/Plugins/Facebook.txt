@@ -5,7 +5,7 @@
 ;  Version: 0.0.9.2
 ;  Authors: Michal Zelinka, Robert Posel
 ;============================================================
-[Facebook protocol plugin for Miranda NG.]
+[Facebook protocol support for Miranda NG.]
 ;file \protocols\FacebookRM\res\facebook.rc
 [E-mail:]
 E-mail:

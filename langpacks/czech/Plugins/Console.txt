@@ -33,7 +33,6 @@
 [*** Console paused ***]
 [*** Console resumed ***]
 [*** Console cleared ***]
-[%s\n]
 [%s - %s\\%s]
 [Miranda Console]
 [Services]
@@ -50,7 +49,5 @@ Pozadí
 Textové soubory (*.txt)
 [All Files]
 Všechny soubory
-[*.TXT]
 [Save selection to file]
 [Save log to file]
-[txt]

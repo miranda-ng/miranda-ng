@@ -1,8 +1,5 @@
 ﻿;[ %s %s]
 ;[%.0s%.0s%s]
 ;[%d%%]
-;[%s%s%s]
 ;[MimTooltipNotify]
 ;[Not Idle]
-;[Tahoma]
-;[user32.dll]

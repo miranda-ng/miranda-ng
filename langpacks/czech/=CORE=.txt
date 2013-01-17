@@ -1232,7 +1232,6 @@ Příchod: %s
 Příchod na %s
 [%s has left]
 Odchod: %s
-[: %s]
 [%s has disconnected]
 Odpojení: %s
 [%s is now known as %s]
@@ -1248,11 +1247,8 @@ Poznámka od %s:
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
-[--> %s]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
-;file \src\core\stdchat\src\main.cpp
-[riched20.dll]
 ;file \src\core\stdchat\src\options.cpp
 [Terminal]
 [Others nicknames]
@@ -1556,11 +1552,8 @@ Záznam diskuse
 Diskuse
 [Popups]
 Oznámení
-[[%H:%M]]
-[[%d %b %y %H:%M]]
 [%n:]
 [%miranda_logpath%\\Chat]
-[MS Shell Dlg]
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -1611,10 +1604,6 @@ Informace (na %s)
 Poznámka od %s: %s
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
-[:,.!?;'>)]
-[%s\\%s]
-%s\\%s
-[%s.log]
 [at+]
 [%s * %s]
 [%s %c %s\n]
@@ -1658,9 +1647,6 @@ Zavře vybranou záložku (CTRL+F4)
 [%s: Server]
 [AQGgl']
 [AQGg']
-[:;,.!?'"><()[]- \r\n]
-[http://www.google.com/search?q=%s]
-[http://en.wikipedia.org/wiki/%s]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [%s: ]
 [open]
@@ -1736,7 +1722,6 @@ Odmítnuto
 ;file \src\core\stdfile\fileexistsdlg.cpp
 [%s File]
 Soubor %s
-[EXE]
 [Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
 [\\DefaultIcon]
 [All Files]
@@ -1744,44 +1729,26 @@ Všechny soubory
 [ (*)]
 ;file \src\core\stdfile\fileopts.cpp
 [Network Associates/McAfee VirusScan]
-[SOFTWARE\\McAfee\\VirusScan]
 [Scan32EXE]
-["%s" %%f /nosplash /comp /autoscan /autoexit /noboot]
 [Dr Solomon's VirusScan (Network Associates)]
-[SOFTWARE\\Network Associates\\TVD\\VirusScan\\AVConsol\\General]
 [szScannerExe]
-["%s" %%f /uinone /noboot /comp /prompt /autoexit]
 [Norton AntiVirus]
-[SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\App Paths\\Navw32.exe]
-["%s" %%f /b- /m- /s+ /noresults]
 [Computer Associates/Inoculate IT]
 [Software\\Antivirus]
 [ImageFilename]
-["%s" %%f /display = progress /exit]
 [Computer Associates eTrust]
-[SOFTWARE\\ComputerAssociates\\Anti-Virus\\Resident]
 [VetPath]
 [Kaspersky Anti-Virus]
-[SOFTWARE\\KasperskyLab\\Components\\101]
-[EXEName]
-["%s" /S /Q %%f]
-[SOFTWARE\\KasperskyLab\\SetupFolders]
 [KAV8]
-["%savp.exe" SCAN %%f]
 [KAV9]
 [AntiVir PersonalEdition Classic]
-[SOFTWARE\\Avira\\AntiVir PersonalEdition Classic]
 [Path]
 Cesta
-["%savscan.exe" /GUIMODE = 2 /PATH = "%%f"]
 [ESET NOD32 Antivirus]
-[SOFTWARE\\ESET\\ESET Security\\CurrentVersion\\Info]
 [InstallDir]
-["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
 [Executable Files]
 Spustitelné soubory
 [ (*.exe)]
-[*.exe]
 [File Transfers]
 Přenos souborů
 [Events]
@@ -1827,7 +1794,6 @@ Soubor přijat
 Čekání na spojení...
 [Unable to initiate transfer.]
 Chyba při inicializaci přenosu.
-[??:??:??]
 [%s/%s  (%s %s)]
 [sec]
 sek.
@@ -1873,10 +1839,8 @@ Přenos i kontrola dat antivirem dokončena
 Odchozí
 ;file \src\core\stdhelp\about.cpp
 [\\StringFileInfo\\000004b0\\LegalCopyright]
-[TEXT]
 [< Copyright]
 ;file \src\core\stdhelp\help.cpp
-[http://wiki.miranda-im.org/]
 [&About...]
 O progr&amu...
 [&Support]
@@ -1898,7 +1862,6 @@ Příchozí zpráva (10x10)
 [Outgoing message (10x10)]
 Odchozí zpráva (10x10)
 ;file \src\core\stdmsg\src\msgdialog.cpp
-[%s\\*]
 [Last message received on %s at %s.]
 Poslední zpráva přijata %s v %s.
 [Message Session]
@@ -1915,21 +1878,6 @@ Rozhovor
 %s píše zprávu...
 [mailto:]
 ;file \src\core\stdmsg\src\msglog.cpp
-[[b]]
-[[i]]
-[[u]]
-[[s]]
-[[/b]]
-[[/i]]
-[[/u]]
-[[/s]]
-[[url]
-[[/url]]
-[[/URL]]
-[[color=]
-[[/color]]
-[d s]
-[d t]
 [File sent]
 Odeslaný soubor
 [File received]
@@ -2082,21 +2030,12 @@ In&formace o sobě...
 [ \t=:]
 [ \t]
 ;file \src\mir_core\langpack.cpp
-[%s%s]
 [static]
 [hyperlink]
 [button]
-[MButtonClass]
-[MHeaderbarCtrl]
 [edit]
-[langpack_*.txt]
 ;file \src\mir_core\miranda.cpp
 [ComboLBox]
-[STATIC]
-Statický
-;file \src\mir_core\path.cpp
-;file \src\mir_core\threads.cpp
-[ntdll.dll]
 ;file \src\modules\addcontact\addcontact.cpp
 [Add %s]
 Mezi kontakty přidat: %s
@@ -2104,19 +2043,14 @@ Mezi kontakty přidat: %s
 Přidat kontakt
 [Please authorize my request and add me to your contact list.]
 Autorizujte prosím můj požadavek a přidejte si mě do vašeho seznamu.
-;file \src\modules\clist\clc.cpp
 ;file \src\modules\clist\clcfiledrop.cpp
 [\\*]
 ;file \src\modules\clist\clcitems.cpp
-;file \src\modules\clist\clcutils.cpp
-[EDIT]
-UPRAVIT
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
 Rozšířený stav
 [%s (locked)]
 %s (uzamčený)
-[%s\t%s]
 ;file \src\modules\clist\clistmod.cpp
 [Connecting]
 Připojování
@@ -2124,18 +2058,12 @@ Připojování
 Připojování (pokus č.%d)
 [This plugin requires db3x plugin version 0.5.1.0 or later]
 Tento doplněk vyžaduje doplněk db3x verze 0.5.1.0 nebo novější.
-[CList]
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 (neznámý kontakt)
 ;file \src\modules\clist\clisttray.cpp
 [ | ]
-[<b>%-12.12s</b>\t%s]
 [%-24.24s\n]
-[%s%s<b>%-12.12s</b>\t%s%s%-24.24s]
-[%s%s<b>%-12.12s</b>\t%s]
-[%s%s%s %s]
-[<b>%-12.12s</b>\t%s\n%-24.24s]
 [TaskbarCreated]
 [TaskbarButtonCreated]
 [&Main Menu]
@@ -2154,7 +2082,6 @@ Smazání kontaktu
 Př&ejmenovat
 [&Add permanently to list]
 Přid&at do seznamu natrvalo
-[%miranda_userdata%\\%miranda_profilename%.dat]
 ;file \src\modules\clist\cluiservices.cpp
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
@@ -2181,7 +2108,6 @@ Jména kontaktů
 [%s (%d, id %x)]
 [Menu Icons/%s]
 ;file \src\modules\clist\genmenuopt.cpp
-[-----------------------------------]
 [Menus]
 Nabídky
 [Customize]
@@ -2232,12 +2158,7 @@ Databáze
 [yes]
 [AutoCreate]
 [DefaultProfile]
-[%s\\%s\\%s%s]
-[%s\\%s\\]
 [profile]
-[%miranda_path%\\*.dat]
-[%s\\*.dat]
-[%s\\%s\\%s]
 [Miranda is trying upgrade your profile structure.\n]
 [It cannot move profile %s to the new location %s\n]
 [Because profile with this name already exist. Please resolve the issue manually.]
@@ -2245,8 +2166,6 @@ Databáze
 Miranda NG
 [It cannot move profile %s to the new location %s automatically\n]
 [Most likely due to insufficient privileges. Please move profile manually.]
-[%s\\*.*]
-[%s\\%s\\%s.dat]
 [Profile cannot be placed into Miranda root folder.\n]
 [Please move Miranda profile to some other location.]
 [ForceShowPM]
@@ -2255,7 +2174,6 @@ Miranda NG
 [WARNING: A profile may contain confidential information and should be properly deleted.]
 [The profile already exists]
 Profil s tímto názvem již existuje
-[%s\0]
 [Couldn't move '%s' to the Recycle Bin, Please select another profile name.]
 Profil '%s' nelze přesunout do koše. Vyberte prosím jiný.
 [Problem moving profile]
@@ -2306,7 +2224,6 @@ Použít
 [OverrideSecurityFilename]
 [OnCreateFilename]
 [Glob]
-[autoexec_*.ini]
 [OnCompletion]
 [recycle]
 [delete]
@@ -2315,17 +2232,13 @@ Použít
 [done_]
 [ask]
 ;file \src\modules\database\profilemanager.cpp
-[%s.dat]
 [.?/\\#' ]
 [&Create]
 &Vytvořit
-[0 KB]
-[%.3lf]
 [<In Use>]
 <používáno>
 [Are you sure you want to remove profile "%s"?]
 Opravdu si přejete odstranit profil "%s"?
-[%s\\%s%c]
 [Size]
 Velikost
 [Created]
@@ -2335,7 +2248,6 @@ Změněno
 [Run]
 Spustit
 [Check database]
-[%s\\%s.dat]
 [%s: %s\n%s]
 [Miranda Profiles from]
 Umístění profilů
@@ -2364,7 +2276,6 @@ Seznam vyhledaných osob
 Zadejte kritéria hledání.
 [Searching]
 Hledám
-[01234567890123456789]
 [All Networks]
 Všechny sítě
 [Handle]
@@ -2381,8 +2292,6 @@ V rámci %s nelze vyhledávat. Jste připojeni k síti %s?
 Nelze vyhledávat ani v jednom z protokolů. Jste připojeni?
 [Problem with search]
 Chyba při hledání
-[1 %s user found]
-Počet nalezených: 1, síť %s
 [%d %s users found]
 Počet nalezených: %d, síť %s
 [%d users found (]
@@ -2442,7 +2351,6 @@ Odchozí přezdívka
 Příchozí časový údaj
 [Outgoing timestamp]
 Odchozí časový údaj
-;file \src\modules\fonts\services.cpp
 ;file \src\modules\icolib\skin2icons.cpp
 [*StaticIcon_%d]
 ;file \src\modules\icolib\skin2opts.cpp
@@ -2451,10 +2359,7 @@ Odchozí časový údaj
 Sada ikon
 [ (*.dll;*.icl;*.exe;*.ico)]
 [ (*.dll)]
-[*.DLL;*.ICL;*.EXE;*.ICO]
-[*.DLL]
 [dll]
-[icons.dll]
 [%s,%d]
 [%s, %d]
 ;file \src\modules\ignore\ignore.cpp
@@ -2481,7 +2386,6 @@ Záznam jádra Mirandy
 Zadejte požadovaný soubor pro záznam
 [Select program to be run]
 Vyberte požadovaný program
-[%miranda_logpath%\\netlog.txt]
 ;file \src\modules\netlib\netlibopts.cpp
 [<mixed>]
 [SOCKS4]
@@ -2506,10 +2410,7 @@ Certifikát nebyl vydán pro hostitele, ke kterému se nyní připojujeme
 [SSL connection failure (%x %u): %s]
 ;file \src\modules\options\filter.cpp
 [SysTreeView32]
-[listbox]
 [SysListView32]
-[combobox]
-;file \src\modules\options\headerbar.cpp
 ;file \src\modules\options\options.cpp
 [<all modules>]
 1) všechny moduly
@@ -2526,49 +2427,9 @@ Miranda - možnosti nastavení
 [&Options...]
 M&ožnosti...
 ;file \src\modules\plugins\newplugins.cpp
-[stduserinfo]
-[stdurl]
-[stdemail]
-[stdauth]
-[stdfile]
-[stdhelp]
-[stduihist]
-[stdidle]
-[stdautoaway]
-[stduseronline]
-[stdaway]
-[stdclist]
-[stdchat]
-[stdmsg]
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Fatal error]
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
-[autoloadavatars.dll]
-[multiwindow.dll]
-[fontservice.dll]
-[icolib.dll]
-[historyeditor.dll]
-[scriver.dll]
-[nconvers.dll]
-[tabsrmm.dll]
-[nhistory.dll]
-[historypp.dll]
-[help.dll]
-[loadavatars.dll]
-[tabsrmm_unicode.dll]
-[clist_nicer_plus.dll]
-[changeinfo.dll]
-[png2dib.dll]
-[dbx_mmap.dll]
-[dbx_3x.dll]
-[sramm.dll]
-[srmm_mod.dll]
-[srmm_mod (no Unicode).dll]
-[singlemodeSRMM.dll]
-[msg_export.dll]
-[clist_modern.dll]
-[clist_nicer.dll]
-[%s\\Plugins\\*.dll]
 ['%s' is disabled, re-enable?]
 '%s' není aktivní. Chcete ho aktivovat?
 [Re-enable Miranda plugin?]
@@ -2577,22 +2438,15 @@ Chcete znovu aktivovat tento doplněk?
 [Core]
 [Plugins]
 Doplňky
-[%s.dll]
 [\\Plugins\\%s]
-[\\Core\\%s.dll]
 [Unable to load plugin in Service Mode!]
 Nelze načíst doplněk v nouzovém režimu
 [svc]
-[dbchecker.dll]
 [PluginLoader]
 [AskAboutIgnoredPlugins]
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
-[advaimg.dll]
-[crashdumper.dll]
-[mirandaboot.ini]
 ;file \src\modules\plugins\pluginopts.cpp
-[%s\\Plugins\\%s]
 [%d.%d.%d.%d]
 [Plugin]
 Doplněk
@@ -2643,7 +2497,6 @@ Pro smazání tohoto účtu musíte deaktivovat doplněk
 ;file \src\modules\skin\hotkeys.cpp
 [MirandaHotkeyHostWnd]
 ;file \src\modules\skin\hotkey_opts.cpp
-[%s%s%s%s%s]
 [Ctrl + ]
 [Alt + ]
 [Shift + ]
@@ -2732,9 +2585,7 @@ Tento člověk mě vždy uvidí
 Zamknuto
 [%s Icons]
 %s ikony
-[%s\\Icons\\proto_]
 [.dll]
-[%s\\Plugins\\]
 ;file \src\modules\skin\sounds.cpp
 [%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c]
 [Sound Files]
@@ -2757,42 +2608,23 @@ obrázky typu GIF
 [PNG Bitmaps]
 obrázky typu PNG
 [ (*.bmp;*.jpg;*.gif;*.png)]
-[*.BMP;*.RLE;*.JPG;*.JPEG;*.GIF;*.PNG]
 [ (*.bmp;*.rle)]
-[*.BMP;*.RLE]
 [ (*.jpg;*.jpeg)]
-[*.JPG;*.JPEG]
 [ (*.gif)]
-[*.GIF]
 [ (*.png)]
-[*.PNG]
 ;file \src\modules\utils\openurl.cpp
 [file:///%s]
-[ftp.]
-[ftp://%s]
-[http://%s]
 ;file \src\modules\utils\path.cpp
-[%s\\%s\\AvatarCache]
-[%s\\%s\\Logs]
 ;file \src\modules\utils\timeutils.cpp
 [%d-%02d-%02dT%02d:%02d:%02dZ]
 ;file \src\modules\utils\timezones.cpp
 [UTC]
-[COMBOBOX]
-[LISTBOX]
 [<unspecified>]
 <neurčeno>
 [MUI_%s]
-[SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Time Zones]
-[SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Time Zones]
-[kernel32]
-[shlwapi]
-[user32]
 [TZI]
 [Display]
 Zobrazení
 [Std]
 [Dlt]
-;file \src\modules\utils\utils.cpp
-["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp

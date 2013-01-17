@@ -11,8 +11,6 @@ Protokol
 [<from trigger>]
 <ze spouštěče>
 ;file \plugins\StatusPlugins\KeepStatus\keepstatus.cpp
-[STATIC]
-Statický
 [KeepStatus]
 Udržování stavu
 [%s Connected from another location]
@@ -25,8 +23,6 @@ Chyba při přihlášení (%s), další pokus (č.%d) za %d sek.
 Chyba stavu (%s), další pokus (č.%d) za %d sek.
 [Status error (next retry (%d) in %ds)]
 Chyba stavu (další pokus (č.%d) za %d sek.)
-[%s\t(will be set to %s)\r\n]
-%s\t(stav bude změněn na '%s')\r\n
 [will be set to]
 [Resetting status... (last try (%d))%s]
 Reset stavu... (poslední pokus (č.%d))%s
@@ -47,7 +43,6 @@ Obecné
 Extra
 [You broke the Internet!]
 Kolečko se polámalo!
-[uxtheme.dll]
 [Status]
 Stavy
 [PopUps]

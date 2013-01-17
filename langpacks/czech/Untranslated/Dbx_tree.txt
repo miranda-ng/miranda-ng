@@ -27,6 +27,3 @@
 ;[Trying to write malformed UTF8 setting "%hs" in module "%hs"]
 ;[WriteFile failed]
 ;[Your database journal wasn't completely written to disk.]
-;[[%s - %s]\n%s\n\n]
-;[[%s - %s]\n%s\n\nSystem Error Code: %d\n%s\n\n]
-;[\\plugins\\encryption\\*.dll]

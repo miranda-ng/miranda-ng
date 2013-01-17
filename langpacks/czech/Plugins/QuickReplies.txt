@@ -18,7 +18,6 @@ Proměnné
 [Button]
 Tlačítko
 [Quick Replies\r\nLeft button - open menu\r\nRight button - options page]
-[---]
 ;file \plugins\QuickReplies\src\options.cpp
 [\r\n]
 [Message Sessions]

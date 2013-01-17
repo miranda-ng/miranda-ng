@@ -77,5 +77,4 @@ Všechny soubory
 [NOTHING(4)]
 [>>Availabe:]
 [>>Result:]
-[: - ]
 [ \t\n\r,./?\\|;:'"~!#^&*()_-+=[{]}—]

@@ -542,7 +542,7 @@ Svislé odsazení panelů vespod:
 Pozn.: Některá nastavení hned neovlivní otevřené kontejnery.
 [Tab layout tweaks]
 Rozvržení záložek
-[Copyright © 2004-2010 by the Miranda IM project, 2012 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
+[Copyright 2004-2011 by the Miranda IM project, 2012-2013 by the Miranda NG project. More detailed copyright information can be found in the included README file.]
 [Support and latest version information]
 Podpora, hlášení chyb a informace o nových verzích
 [Selected skin]
@@ -991,7 +991,6 @@ Globálně vypnuto
 Zapnuto, je-li uvedeno, vždy zobrazit dole
 [Don't show them]
 Nezobrazovat
-[http://miranda.or.at/TabSRMM/TitleBarFormatting]
 ;file \plugins\TabSRMM\src\controls.cpp
 [&Main]
 &Soubor
@@ -1044,18 +1043,14 @@ Neznámý modul nebo uživatel
 [%s: %s (%s) [%d]]
 [(undef)]
 ;file \plugins\TabSRMM\src\generic_msghandlers.cpp
-[%s%c*.rtf%c%c]
 [Rich Edit file]
 Rich Edit soubor
-[%s.rtf]
-[%s%s\\]
 [\\Saved message logs]
 [rtf]
 [Configuration issue|The unattended send feature is disabled. The \\b1 send later\\b0  and \\b1 send to multiple contacts\\b0  features depend on it.\n\nYou must enable it under \\b1Options->Message Sessions->Advanced tweaks\\b0. Changing this option requires a restart.]
 Problém v nastavení|Funkce bezobslužného odesílání je zakázána. Funkce \\b1 zpožděné odesílání\\b0  a \\b1 poslat více kontaktům\\b0  ji však vyžadují.\n\nNutno povolit v \\b1Možnosti->Komunikace->Pokročilé úpravy\\b0. Změna tohoto nastavení vyžaduje restart.
 [You cannot edit user notes when there are unsent messages]
 Nemůžete upravovat poznámky k uživateli pokud existují neodeslané zprávy.
-[0000%s]
 [%s is typing a message.]
 %s píše zprávu.
 [UID: %s]
@@ -1077,7 +1072,6 @@ UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detail�
 UID: %s (SHIFT klik -> kopírovat do schránky)\nKliknout pro zobrazení detailů uživatele\nTáhnout pro změnu oblíbenosti tohoto uživatele.
 ;file \plugins\TabSRMM\src\globals.cpp
 [%n (%s)]
-[%s\n\n(%s)]
 [TabSRMM runtime error]
 [Instant messages]
 Rozhovor
@@ -1103,7 +1097,6 @@ TabSRMM: psaní
 [&Send later job list...]
 Fronta zpožděných zpráv...
 [SideBarClass]
-[RichEditTipClass]
 [Message from %s]
 Zpráva od: %s
 [signed off.]
@@ -1168,10 +1161,10 @@ Na pokecu
 Pád
 [Going to toilet]
 Jde na záchod
-[  Client: %s]
-[  Client not cached yet]
 [%s    Idle: %dh,%02dm]
 %s    Nečinný: %dh,%02dm
+[  Client: %s]
+[  Client not cached yet]
 [Topic is: %s]
 Téma je: %s
 [no topic set.]
@@ -1192,7 +1185,6 @@ Kopírovat do schránky
 \\tab \\ul\\b Zpráva stavu:\\ul0\\b0 \\par %s
 [\\par\\par\\tab \\ul\\b Extended status information:\\ul0\\b0 \\par ]
 \\par\\par\\tab \\ul\\b Zpráva rozšířeného stavu:\\ul0\\b0 \\par
-[%s%s%s]
 [ / ]
 [\\par\\par\\tab \\ul\\b Listening to:\\ul0\\b0 \\par %s]
 [\\par\\par\\ul\\b Client:\\ul0\\b0  %s]
@@ -1227,19 +1219,11 @@ Použít globální nastavení
 Zobrazit vždy (je-li k dispozici)
 [Never show it at all]
 Nezobrazovat nikdy
-[%s%s]
 ;file \plugins\TabSRMM\src\mim.cpp
-[%s\\%s]
-%s\\%s
 [%stabSRMM]
 [%sLogs\\]
-[%s\\skins\\]
-[%s\\Saved Contact Pictures]
 ;file \plugins\TabSRMM\src\modplus.cpp
 [Insert [img] tag / surround selected text with [img][/img]]
-[[img]%s[/img]]
-[[img]]
-[[/img]]
 ;file \plugins\TabSRMM\src\msgdialog.cpp
 [Add this contact permanently to your contact list]
 Přidat tento kontakt do seznamu natrvalo
@@ -1293,9 +1277,7 @@ Chyba při vytváření cílového adresáře
 Uložit obrázek kontaktu
 [My Avatar_%s]
 [%s_%s]
-[%s.png]
 [png]
-[%s%c*.bmp;*.png;*.jpg;*.gif%c%c]
 [Image files]
 Soubory obrázků
 [The file exists. Do you want to overwrite it?]
@@ -1303,12 +1285,8 @@ Soubor existuje. Chcete jej přepsat?
 [Set Your Avatar...]
 Nastavit svůj avatar...
 [ | ]
-[%s%s %d/%d]
 [\\pard]
 [\\cf]
-[[/color][color=%s]]
-[[color=%s]]
-[[/color]]
 [\\highlight]
 [\\par]
 [\\line]
@@ -1320,21 +1298,12 @@ Nastavit svůj avatar...
 [\\lquote]
 [\\rquote]
 [\\b]
-[[b]]
-[[/b]]
 [\\i]
-[[i]]
-[[/i]]
 [\\strike]
-[[s]]
-[[/s]]
 [\\ul]
-[[u]]
-[[/u]]
 [\\tab]
 [ !$%()#*"']
 [ !§$%&()#*]
-[%04.04x]
 [MIME\\Database\\Rfc1766]
 [The 'paste and send' feature is disabled. You can enable it on the 'General' options page in the 'Sending Messages' section]
 Funkce 'vložit a poslat' je vypnutá. Můžete ji zapnout v nabídce Možnosti -> Komunikace -> Obecné.
@@ -1342,7 +1311,6 @@ Funkce 'vložit a poslat' je vypnutá. Můžete ji zapnout v nabídce Možnosti 
 Žádný plugin pro šťouchání není nainstalován nebo protokol kontaktu nepodporuje zasílání sťouchnutí.
 ['(Unknown Contact)']
 '(neznámý kontakt)'
-[%s%c*.jpg%c%c]
 [JPEG-compressed images]
 JPEG-komprimované obrázky
 [jpg]
@@ -1502,7 +1470,6 @@ Vyberte stavy
 [TabSRMM fatal error]
 [Warning: trying to create duplicate window]
 Upozornění: pokus o vytvoření totožného okna
-[_U_]
 [%s (%s)  ]
 [%s   ]
 [Image tag]
@@ -1565,8 +1532,6 @@ Okno 2
 Okno 3
 [Frame 4]
 Okno 4
-[icons\\tabsrmm_icons.dll]
-[plugins\\tabsrmm.dll]
 ;file \plugins\TabSRMM\src\selectcontainer.cpp
 [Select container for %s]
 Vyberte kontejner pro %s
@@ -1695,15 +1660,10 @@ Sada šablon byla úspěšně obnovena do původního stavu, nyní zavřete a ot
 ;file \plugins\TabSRMM\src\themeio.cpp
 [TabSRMM Theme]
 [Cookie]
-[%s%c*.tabsrmm%c%c]
 [tabSRMM themes]
 tabSRMM témata
 [tabsrmm]
 ;file \plugins\TabSRMM\src\themes.cpp
-[tabskin_aero.png]
-[tabskin_aero_glow.png]
-[tabskin_aero_button.png]
-[unknown.png]
 [No effect]
 Bez efektu
 [Milky Glass]
@@ -1715,7 +1675,6 @@ Bez efektu
 Kontejner
 [Toolbar]
 Lišta tlačítek
-[{-}Buttonpressed]
 [Buttonnotpressed]
 [Buttonmouseover]
 [Infopanelfield]
@@ -1757,7 +1716,6 @@ Dole
 [Glyph]
 [%d,%d,%d,%d]
 [Image]
-[%s\\%s%s]
 [Alpha]
 Průhlednost
 [Fillcolor]
@@ -1771,8 +1729,6 @@ Všechny kontejnery se zprávami musí být před aplikací skinu zavřeny\nPokr
 Změnit skin
 [none]
 ---
-[%s\\%s\\%s]
-[%6.6x]
 [Color1]
 [Color2]
 [COLOR2_TRANSPARENT]
@@ -1787,7 +1743,6 @@ Rádius
 [Textcolor]
 Barva textu
 [ffffffff]
-[$glyphs]
 [Item%d]
 [Width]
 Šířka
@@ -1802,16 +1757,13 @@ Normální
 Akce
 [service]
 [protoservice]
-[database]
 [PassContact]
 [Tip]
 [Label]
 [NormalGlyph]
-[0, 0, 0, 0]
 [PressedGlyph]
 [HoverGlyph]
 [Signature]
-[000000]
 [Avatars]
 Avatary
 [BorderColor]
@@ -1825,11 +1777,6 @@ Avatary
 [WindowFrame]
 [Caption]
 [bottom]
-[TitleButtonWidth]
-[TitleButtonHeight]
-[TitleButtonTopOffset]
-[TitleBarRightOffset]
-[TitleBarLeftOffset]
 [CaptionOffset]
 [CaptionPadding]
 [SidebarTop]
@@ -1849,14 +1796,6 @@ Soubor
 [FontColor]
 [ButtonArea]
 [top]
-[%scustom_unknown.png]
-[%sunknown.png]
-[%scustom_tabskin_aero.png]
-[%stabskin_aero.png]
-[%scustom_tabskin_aero_glow.png]
-[%stabskin_aero_glow.png]
-[%scustom_tabskin_aero_button.png]
-[%stabskin_aero_button.png]
 [SKIN_GLYPH]
 ;file \plugins\TabSRMM\src\translator.cpp
 [Message window tweaks]
@@ -1878,6 +1817,7 @@ Zakázat oznámení chyby při nedoručení zprávy
 Automatické rozložení klávesnice: Nenahrávat výchozí rozložení systému pro nový kontakt
 [Enable unattended send (experimental feature, required for multisend and send later) (*)]
 Povolit bezobslužné odesílání (experimentální funkce vyžadovaná pro mnohonásobné či zpožděné odesílání) (*)
+[Show client description in info panel]
 [Show a preview of the event]
 Zobrazit náhled události
 [Don't announce event when message dialog is open]
@@ -2055,24 +1995,8 @@ Nastavení komunikace pro kontakt %s
 [Message Log]
 Záznam komunikace
 ;file \plugins\TabSRMM\src\utils.cpp
-[[color=]
-[b1 ]
-[i1 ]
-[u1 ]
-[s1 ]
-[c1 ]
-[b0 ]
-[i0 ]
-[u0 ]
-[s0 ]
-[c0 ]
-[~-+]
-[+-~]
 [\xAA]
-[cxxx ]
 [%02d]
-[##col##%06u:%04u]
-[://]
 [*/_]
 [%%%]
 [%s...]
@@ -2100,8 +2024,6 @@ Zavření okna|Pro projevení změn nahraného tématu v okně možností, musí
 Nahrání tématu|Nahrání barev a písma tématu může přepsat nastavení definované vaším skinem.\n\nPřejete si pokračovat?
 [TabSRMM warning message]
 Upozornění doplňku TabSRMM
-;file \plugins\TabSRMM\src\chat\chat.h
-[%miranda_logpath%\\%proto%\\%userid%.log]
 ;file \plugins\TabSRMM\src\chat\clist.cpp
 [Chat rooms]
 Místnosti chatu
@@ -2117,7 +2039,6 @@ Barva pozadí
 ;file \plugins\TabSRMM\src\chat\log.cpp
 [%%%c#%02X%02X%02X]
 [%%%c]
-[: %s]
 [%s ]
 [%s has joined]
 Příchod: %s
@@ -2140,15 +2061,10 @@ Poznámka (napsal: %s)
  (nastavil %s na %s)
 [ (set by %s)]
  (nastavil %s)
-[--> %s]
 [%s enables '%s' status for %s]
 [%s disables '%s' status for %s]
-[~~++#%s#++~~]
 [Notice from %s: ]
 Poznámka od %s:
-[#++~~]
-[~~++#]
-[~-+%d+-~]
 ;file \plugins\TabSRMM\src\chat\muchighlight.cpp
 [PERF text match: %d ticks = %f msec (%d words, %d patterns)]
 [Add user to highlight list]
@@ -2466,11 +2382,7 @@ stejné jako systémová proměnná %APPDATA% pro aktuálně přihlášeného u�
 [username for currently logged-on Windows user]
 jméno pro aktuálně přihlášeného uživatele Windows
 [%mydocuments%]
-["My Documents" folder for currently logged-on Windows user]
-složka "Dokumenty" pro aktuálně přihlášeného uživatele Windows
 [%desktop%]
-["Desktop" folder for currently logged-on Windows user]
-složka "Plocha" pro aktuálně přihlášeného uživatele Windows
 [%xxxxxxx%]
 [any environment variable defined in current Windows session (like %systemroot%, %allusersprofile%, etc.)]
 nějaká systémová proměnná definovaná v aktuální relaci Windows (jako %systemroot%, %allusersprofile% atd.)
@@ -2506,7 +2418,6 @@ zkrácené jméno dne v týdnu
 plné jméno dne v týdnu
 [Variables]
 Proměnné
-[%s%c*.*%c%c]
 [All Files]
 Všechny soubory
 [log]
@@ -2518,11 +2429,8 @@ Bez oddělovačů
 Zobrazit jako ikony
 [Show as text symbols]
 Zobrazit jako textové symboly
-[[%H:%M]]
-[[%d %b %y %H:%M]]
 [%n:]
 [AQGglo]
-[MS Shell Dlg]
 [Message is highlighted]
 Zvýraznění zprávy
 [User has performed an action]
@@ -2563,8 +2471,6 @@ Změna tématu na %s
 Informace (na %s)
 [%s enables '%s' status for %s in %s]
 [%s disables '%s' status for %s in %s]
-[%s%s says:%s %s]
-%s%s říká:%s %s
 [%s %s]
 %s %s
 [%s has left (%s)]
@@ -2582,8 +2488,6 @@ Poznámka od %s: %s
 [%s %c %s\r\n]
 [%s %s\r\n]
 [%Y%m%d-%H%M%S]
-[%s%sarchived\\]
-[%s%s-%s%s]
 [Look up '%s':]
 [No word to look up]
 Není co vyhledat
@@ -2591,8 +2495,6 @@ Není co vyhledat
 Označit uživatele...
 [Edit Highlight List...]
 Upravit seznam označených uživatelů...
-[UTF-8]
-UTF-8
 [%a%d%m%Y]
 [%#d]
 [%#m]
@@ -2602,15 +2504,12 @@ měsíc
 [yyyy]
 [wday]
 [weekday]
-[%userid%.log]
 ;file \plugins\TabSRMM\src\chat\window.cpp
-[/topic]
 [%s: %s\r\n%s: %s\r\n%s: %s]
 [Nick name]
 Přezdívka
 [Unique Id]
 Inikátní Id
-[<b>%s:</b>\t%s\n<b>%s:</b>\t%s\n<b>%s:</b>\t%s]
 [Nick]
 Přezdívka
 [Unique id]
@@ -2638,8 +2537,6 @@ min.
 Minuta
 [, %d %s idle]
 , %d %s nečinný
-[http://www.google.com/search?q=%s]
-[http://en.wikipedia.org/wiki/%s]
 [%s:]
 [%s: ]
 [The filter canoot be enabled, because there are no event types selected either global or for this chat room]
@@ -2652,7 +2549,6 @@ Chyba filtru událostí
 ;file \plugins\TabSRMM\src\include\taskbar.h
 [TabSRMM_DWMProxy]
 ;file \plugins\TabSRMM\src\include\utils.h
-[{\\rtf1\\ansi\\deff0\\pard\\li%u\\fi-%u\\ri%u\\tx%u]
 [red]
 červená
 [blue]

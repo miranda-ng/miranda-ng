@@ -1,6 +1,6 @@
-﻿;#muuid not found, please specify manually!
+﻿#muuid {c64cc8e0-cf03-474a-8b11-8bd4565ccf04}
 ;============================================================
-;  File: AdvSplashScreen.dll
+;  File: SplashScreen.dll
 ;  Plugin: Splash Screen
 ;  Version: 0.1.2.3
 ;  Authors: nullbie, Thief
@@ -51,22 +51,14 @@ Náhled...
 [%s:\t\t%s\n]
 ;file \plugins\SplashScreen\src\main.cpp
 [%miranda_path%]
-[%s\\plugins\\advaimg.dll]
-[%s\\%s.log]
 [Miranda version]
 [Dll Name]
 [Advaimg path]
-[user32.dll]
 [Your advaimg.dll is either obsolete or damaged. Get latest from Miranda alpha builds.]
 [Error]
 Chyba
 [Loading advaimg]
-[splash\\splash.png]
-[%s\\%s]
-%s\\%s
-[sounds\\startup.wav]
 [SoundFilePath]
-[%s\\*.*]
 [Found file]
 [Extention]
 [.bmp]
@@ -117,16 +109,10 @@ Logo při spuštění
 [On Modules Loaded timer]
 [On Modules Loaded workaround]
 [WM_DESTROY]
-[WM_PAINT]
-[painting..]
-[open "%s" type mpegvideo alias song1]
-[play song1]
-[%s%s]
 [Verdana]
 [Timer TimeToShow]
 [set]
 [Timer Modules loaded]
-[close song1]
 [Thread]
 [start]
 [Preview]

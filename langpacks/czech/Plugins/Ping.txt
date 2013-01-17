@@ -84,9 +84,6 @@ Deaktivovat všechny pingy
 [Options...]
 Možnosti...
 [Hosts...]
-;file \plugins\Ping\src\icmp.cpp
-[IPHLPAPI.DLL]
-[ICMP.DLL]
 ;file \plugins\Ping\src\log.cpp
 [edit]
 ;file \plugins\Ping\src\menu.cpp
@@ -109,7 +106,6 @@ Nastavení
 [Failed to initialize. Plugin disabled.]
 [Local\\ThreadWaitEvent]
 ;file \plugins\Ping\src\pinggraph.cpp
-[BUTTON]
 [Show grid lines]
 [Show stats]
 [%d ms]
@@ -126,8 +122,6 @@ Vypnout
 [enabled]
 zapnuto
 [double clicked]
-[user32.dll]
-[WindowClass]
 [Ping]
 [List]
 Seznam

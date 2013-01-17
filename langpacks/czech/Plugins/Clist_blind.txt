@@ -149,7 +149,8 @@ Zobrazit názvy protokolů
 Zobrazit stav
 [Right click opens status menu]
 Pravým tlačítkem seznam stavů
-[Right click opens Miranda IM menu]
+[Right click opens Miranda NG menu]
+Pravým tlačítkem nabídku Mirandy
 [Make sections equal width]
 Shodná šířka všech položek
 [Show bevels on panels]
@@ -232,7 +233,6 @@ Seznam
 Globální
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
-[LISTBOX]
 [Unknown Protocol]
 neznámý protokol
 [%name%]

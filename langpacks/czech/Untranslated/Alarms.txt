@@ -3,8 +3,6 @@
 ;[AlarmsFrameContainer]
 ;[DateTimePicker1]
 ;[Fast forward!]
-;[LISTBOX]
 ;[Sets once-off, daily, weekly and weekday alarms.]
 ;[Unknown command issued: "%s"]
 ;[Windows Media Player]
-;[user32.dll]

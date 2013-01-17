@@ -147,7 +147,6 @@ MSN :: diskuse
 ;file \protocols\MSN\src\msn_errors.cpp
 [User not online]
 ;file \protocols\MSN\src\msn_links.cpp
-[contact=]
 [add?]
 [chat?]
 [voice?]
@@ -191,7 +190,6 @@ Spustit Netmeetin&g
 ;file \protocols\MSN\src\msn_misc.cpp
 [%%miranda_userdata%%\\Avatars\\%s]
 [%miranda_userdata%]
-[%s\\Avatars\\%s]
 [\\%s.]
 [\\%s avatar.]
 [\\%s]
@@ -203,18 +201,7 @@ Spustit Netmeetin&g
 [.gif]
 [.bmp]
 [.png]
-[%s\\%s\\CustomSmiley]
 [\\%s.%s]
-[{0}]
-[{1}]
-[{2}]
-[{3}]
-[{4}]
-[{5}]
-[{6}]
-[{7}]
-[{8}]
-[{0} - {1}]
 [Miranda]
 Miranda
 [%s/%s]
@@ -289,8 +276,6 @@ Upozornění (Live)
 [%s plugin connections]
 %s - spojení se serverem
 [Contact already in your contact list]
-[%s\\%s]
-%s\\%s
 [Protocol is offline]
 [You cannot send message to yourself]
 Nemůžete poslat zprávu sami sobě.
@@ -299,8 +284,6 @@ Příliš dlouhá zpráva: Max. počet znaků je 133 (s diakritikou)
 [Message is too long: MSN messages are limited by 1202 UTF8 chars]
 Zpráva je příliš dlouhá. Protokol MSN umožňuje napsat max. 1202 znaků (v kódování UTF8).
 [Offline messaging is not allowed for LCS contacts]
-;file \protocols\MSN\src\msn_soapstore.cpp
-[miranda_avatar.tmp]
 ;file \protocols\MSN\src\msn_svcs.cpp
 [Music]
 Hudba

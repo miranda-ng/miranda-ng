@@ -369,9 +369,7 @@ Potvrzení
 ;file \protocols\IcqOscarJ\src\icq_avatar.cpp
 [%%miranda_avatarcache%%\\]
 [%miranda_avatarcache%]
-[%s\\]
 [avatar]
-[_avt]
 [.jpg]
 [.gif]
 [.png]
@@ -873,14 +871,6 @@ Srbsko
 Zambie
 [Zimbabwe]
 Zimbabwe
-[50's]
-50tá léta
-[60's]
-60tá léta
-[70's]
-70tá léta
-[80's]
-80tá léta
 [Art]
 Umění
 [Astronomy]
@@ -1232,14 +1222,6 @@ obchodní
 odborové
 [Volunteer Org.]
 dobrovolnické
-[13-17]
-[18-22]
-[23-29]
-[30-39]
-[40-49]
-[50-59]
-[60-above]
-přes šedesát
 [Single]
 svobodný/á
 [Close relationships]
@@ -1386,8 +1368,6 @@ Seznam kontaktů lze synchronizovat pouze ve stavu online!
 [** All contacts **]
 ** všechny kontakty **
 ;file \protocols\IcqOscarJ\src\icq_xstatus.cpp
-[\\xstatus_ICQ.dll]
-[\\xstatus_icons.dll]
 [\\Icons]
 [\\Plugins]
 [Angry]
@@ -1838,11 +1818,6 @@ Aktualizace dat na serveru...
 Aktualizace dat dokončena
 [Upload FAILED]
 Chyba při aktualizaci dat.
-;file \protocols\IcqOscarJ\src\changeinfo\editlist.cpp
-[LISTBOX]
-;file \protocols\IcqOscarJ\src\changeinfo\editstring.cpp
-[EDIT]
-UPRAVIT
 ;file \protocols\IcqOscarJ\src\changeinfo\upload.cpp
 [You are not currently connected to the ICQ network. You must be online in order to update your information on the server.]
 Momentálně nejste připojeni k síti ICQ. Chcete-li zaktualizovat informace na serveru, musíte být online.

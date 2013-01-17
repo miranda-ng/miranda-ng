@@ -1,5 +1,4 @@
 ﻿;[%s [%s]]
-;[%s%s%s%s%s]
 ;[Alt + ]
 ;[Anti-Boss plugin.]
 ;[BossKey\tget the BossKey name]
@@ -15,6 +14,4 @@
 ;[Trigger when Miranda is showing]
 ;[Win + ]
 ;[bosskeyname]
-;[dwmapi.dll]
 ;[min]
-;[wtsapi32.dll]

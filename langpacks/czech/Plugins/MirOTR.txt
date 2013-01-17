@@ -87,7 +87,6 @@ Ano
 [OTR encrypted session with '%s' could not be started]
 [OTR could not encrypt when sending message]
 [OTR Information]
-[[OTR INFO] ]
 [Authentication from %s]
 [Authenticae %s]
 [Unknown]
@@ -196,9 +195,7 @@ Služby
 [%02X]
 [%s Message]
 %s zpráva
-[%s\r\n%s]
 [%s Warning]
 %s upozornění
 [%s Error]
 %s chyba
-[%s%s]

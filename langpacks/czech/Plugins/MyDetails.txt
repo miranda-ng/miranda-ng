@@ -128,7 +128,6 @@ Stavová zpráva
 Poslech hudby
 [My Details]
 Informace o sobě
-[Tahoma]
 [Show My Details]
 Zobrazit informace o sobě
 [ ...]

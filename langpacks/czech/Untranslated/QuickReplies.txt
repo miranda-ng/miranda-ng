@@ -1,7 +1,6 @@
 ﻿;[- Add "---" for separator.]
 ;[- Add your replies, one per line.]
 ;[- Press [v] button for variable's help.]
-;[---]
 ;[Hints:]
 ;[Plugin for quick insert (or sending) pre-defined messages in message input area.]
 ;[Quick Replies]

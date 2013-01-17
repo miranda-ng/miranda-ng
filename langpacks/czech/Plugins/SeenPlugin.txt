@@ -75,10 +75,10 @@ Upozornit při změně stavu
 [%s: %s]
 [last seen history]
 Historie změn stavu
-[User Menu]
-Uživatelské menu
 [View User's Details]
 Zobrazit osobní údaje
+[User Menu]
+Uživatelské menu
 [Send Instant Message]
 Odeslat zprávu
 [Date: %d.%m.%y(%Y) \n Date desc: %W - %w - %E - %e \n Time: %H:%M:%S (%h-%p) \n user: %n - %u \n Status: %s \n IP: %i - %r]
@@ -102,7 +102,6 @@ Naposledy spatřen
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 Last Seen - seznam proměnných
-[uxtheme.dll]
 [Contacts]
 Kontakty
 [PopUps]
@@ -113,8 +112,6 @@ Debug
 [%n is %s (%u)]
 [%i(%r)%bWas %o]
 [Name:%t%N%bStatus:%t%s%bDay:%t%d.%m.%Y%bTime:%t%H:%M:%S%bPrevious Status:%t%o%b%b%P ID:%t%u%bExternal IP:%t%i%bInternal IP:%t%r%bClientID: %t%C%b%bStatus Message:%t%T]
-[-- Date --]
--- Datum --
 [year (4 digits)]
 rok (4 číslice)
 [year (2 digits)]
@@ -131,8 +128,6 @@ den
 název dne (celý)
 [weekday (abbreviated)]
 název dne (zkrácený)
-[-- Time --]
--- Čas --
 [hours (24)]
 hodiny (24)
 [hours (12)]
@@ -143,8 +138,6 @@ dop./odp.
 min.
 [seconds]
 sek.
-[-- User --]
--- Uživatel --
 [username]
 uživatelské jméno
 [nick]
@@ -167,8 +160,6 @@ interní IP
 klient
 [Protocol]
 Protokol
-[-- Format --]
--- Formátování --
 [tabulator]
 tabulátor
 [line break]
@@ -258,7 +249,6 @@ pro
 [<never seen>]
 [%04i]
 [%02i]
-[---]
 [Idle]
 Nečinnost
 [ProtoUnknown]

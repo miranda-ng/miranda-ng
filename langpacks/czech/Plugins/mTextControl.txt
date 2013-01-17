@@ -7,27 +7,4 @@
 ;============================================================
 ;file \plugins\mTextControl\src\fancy_rtf.cpp
 [icon]
-[[b]]
-[[/b]]
-[[i]]
-[[/i]]
-[[u]]
-[[/u]]
-[[s]]
-[[/s]]
-[[color=]
-[[/color]]
-[[$hicon=]
-[[url]]
-[[/url]]
-[[url=]
-;file \plugins\mTextControl\src\FormattedTextDraw.cpp
-[MS Shell Dlg]
 ;file \plugins\mTextControl\src\ImageDataObjectHlp.cpp
-[riched20.dll]
-;file \plugins\mTextControl\src\main.cpp
-[msftedit.dll]
-;file \plugins\mTextControl\src\richeditutils.cpp
-[NBRichEditProxyWndClass]
-;file \plugins\mTextControl\src\textcontrol.cpp
-[Tahoma]

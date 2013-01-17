@@ -99,9 +99,6 @@ Importovat...
 [&Import...]
 &Importovat...
 ;file \plugins\Import\src\miranda.cpp
-[%s\\*.*]
-[%s\\%s\\%s.dat]
-[%s.dat]
 [%miranda_path%\\Profiles]
 [%miranda_path%]
 [%miranda_profile%]
@@ -114,7 +111,6 @@ Miranda - import dat
 [Miranda NG database]
 [All Files]
 Všechny soubory
-[dat]
 ;file \plugins\Import\src\utils.cpp
 [Skipping duplicate group %s.]
 ;file \plugins\Import\src\wizard.cpp

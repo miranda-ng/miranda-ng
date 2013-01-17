@@ -143,10 +143,7 @@ Poznámky &a připomínky
 [&Delete All Notes]
 S&mazat všechny poznámky
 [&Bring All to Front]
-[RICHED20.DLL]
 [Miranda could not load the Note & Reminders plugin, RICHED20.DLL is missing. If you are using Windows 95 or WINE please make sure you have riched20.dll installed. Press 'Yes' to continue loading Miranda.]
-[user32.dll]
-[kernel32.dll]
 ;file \plugins\NotesAndReminders\src\notes.cpp
 [MIM_StickyNote]
 [Black]
@@ -193,9 +190,7 @@ Poznámky
 [Small Fonts]
 [Sticky Note Background Color]
 [Terminal]
-[MS Serif]
 [Sticky Note Body]
-[Tahoma]
 [System]
 Systém
 [Executable Files\0*.exe\0All Files\0*.*\0\0]

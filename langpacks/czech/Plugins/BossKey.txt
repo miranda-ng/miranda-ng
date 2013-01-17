@@ -63,7 +63,6 @@ Obnovit skrývání při startu po chybě
 [Password is not correct!\nPlease, enter correct password.]
 [Miranda NG]
 Miranda NG
-[%s%s%s%s%s]
 [Ctrl + ]
 [Shift + ]
 [Alt + ]
@@ -74,8 +73,6 @@ Skrýt Mirandu
 [Hide]
 Skrýt
 [Hide/Show Miranda]
-[wtsapi32.dll]
-[dwmapi.dll]
 [bosskeyname]
 [BossKey\tget the BossKey name]
 ;file \plugins\BossKeyPlus\src\BossKey.h

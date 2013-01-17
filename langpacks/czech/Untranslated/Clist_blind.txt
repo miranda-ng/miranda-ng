@@ -13,5 +13,3 @@
 ;[HotKey1]
 ;[Info:]
 ;[Info: %s]
-;[LISTBOX]
-;[Right click opens Miranda IM menu]

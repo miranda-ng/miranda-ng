@@ -98,7 +98,6 @@ hod.
 ;file \plugins\Quotes\src\CurrencyConverter.cpp
 [Info provided by]
 [ <a href="]
-[</a>]
 [Enter positive number.]
 [open]
 ;file \plugins\Quotes\src\Forex.cpp
@@ -155,12 +154,10 @@ typ
 [utf8]
 [blob]
 [Xml File (*.xml)]
-[*.xml]
 [All files (*.*)]
 Všechny soubory (*.*)
 [*.*]
 [xml]
-[CList]
 [Group]
 Skupina
 ;file \plugins\Quotes\src\Locale.cpp
@@ -179,7 +176,6 @@ Skupina
 [sShortTime]
 [sTimeFormat]
 ;file \plugins\Quotes\src\Log.cpp
-[Quotes.log]
 [ ================================>\n]
 [\n\n]
 ;file \plugins\Quotes\src\ModuleInfo.cpp
@@ -220,17 +216,11 @@ Neznámý
 [stock]
 [oldPrice]
 ;file \plugins\Quotes\src\QuotesProviderGoogle.cpp
-[?a=]
-[&from=]
-[&to=]
 [currency_converter_result]
 [Error occurred during html parsing.]
 [Error occurred during site access.]
 ;file \plugins\Quotes\src\QuotesProviderGoogleFinance.cpp
-[?q=]
 [ref_]
-[_ecp]
-[_cp]
 [setCompanyId(]
 [var _companyName = ]
 [Open]
@@ -238,14 +228,8 @@ Otevřít
 [snap-data]
 ;file \plugins\Quotes\src\QuotesProviderVisitorDbSettings.cpp
 [%r>%p]
-[%s\\t%t\\t%r\\n]
 [%s %r]
 [\\nCurrent = %r\\nPrevious = %p]
-[Dukascopy.xml]
-[1 %f = %r %i]
-[Google.xml]
-[GoogleFinance.xml]
-[Yahoo.xml]
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormater.cpp
 ;file \plugins\Quotes\src\QuotesProviderVisitorFormatSpecificator.cpp
 [Quote Symbol]
@@ -276,13 +260,11 @@ Otevřít
 [Change]
 Změnit
 ;file \plugins\Quotes\src\QuotesProviderYahoo.cpp
-[dioksin.txt?s=]
 [&f=snl1ohgpc1]
 ;file \plugins\Quotes\src\SettingsDlg.cpp
 [%quotename%]
 [%miranda_userdata%]
 [Log Files (*.txt,*.log)]
-[*.txt;*.log]
 [log]
 [Enter integer value]
 [Enter log file name.]
@@ -294,7 +276,4 @@ Změnit
 [\r\n]
 ;file \plugins\Quotes\src\XMLEngineMI.cpp
 [version]
-[1.0]
 [encoding]
-[UTF-8]
-UTF-8
