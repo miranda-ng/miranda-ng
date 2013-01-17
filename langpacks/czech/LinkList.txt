@@ -1,5 +1,4 @@
 ﻿http://svn.miranda-ng.org/main/trunk/langpacks/czech/=CORE=.txt
-http://svn.miranda-ng.org/main/trunk/langpacks/czech/=DUPES=.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/=HEAD=.txt
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/LangpackSuite.exe
 http://svn.miranda-ng.org/main/trunk/langpacks/czech/Plugins/actman.txt
