@@ -698,7 +698,7 @@ BEGIN
             VALUE "FileDescription", "Scriver - send and receive instant messages"
             VALUE "FileVersion", "2.10.0.2"
             VALUE "InternalName", "scriver"
-            VALUE "LegalCopyright", "Copyright (c) 2000-2012 Miranda NG Project"
+            VALUE "LegalCopyright", "Copyright (c) 2000-2012 Miranda IM Project, 2012-2013 Miranda NG Project"
             VALUE "OriginalFilename", "scriver.dll"
             VALUE "ProductName", "Scriver"
             VALUE "ProductVersion", "2.10.0.2"
