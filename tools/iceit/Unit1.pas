@@ -547,12 +547,12 @@ begin
     end;
   end;
   Windows.FindClose(FindHandle);
-  // Plugins
-  CheckListBox1.Items.Add('plugins|NONE|');
-  PluginsItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[PluginsItem] := True;
+  // Icons
+  CheckListBox1.Items.Add('icons|NONE|');
+  IconsItem := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[IconsItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\plugins\*.*';
+  FilePath := IcePath + '\icons\*.*';
   FindHandle := FindFirstFile(PChar(FilePath), FindData);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
@@ -567,12 +567,12 @@ begin
     end;
   end;
   Windows.FindClose(FindHandle);
-  // Icons
-  CheckListBox1.Items.Add('icons|NONE|');
-  IconsItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[IconsItem] := True;
+  // Plugins
+  CheckListBox1.Items.Add('plugins|NONE|');
+  PluginsItem := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[PluginsItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\icons\*.*';
+  FilePath := IcePath + '\plugins\*.*';
   FindHandle := FindFirstFile(PChar(FilePath), FindData);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
