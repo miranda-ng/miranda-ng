@@ -1043,7 +1043,7 @@ Miranda NG не может открыть '%s'\nОн недоступен или
 Загрузка сообщения "%s"...
 [Run now]
 Зап. сейчас
-[Run programm when Miranda NG starts (eg tail -f, dbgview, etc):]
+[Run program when Miranda NG starts (eg tail -f, dbgview, etc):]
 Запустить программу при запуске (например, tail -f, dbgview, etc):
 [Running plugin]
 Запущенный модуль
