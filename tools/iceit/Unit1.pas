@@ -423,8 +423,8 @@ begin
       ProgressBar1.Position := n;
       S := GetValue(CheckListBox1.Items[n], 0);
       S := LowerCase(S);
-      if n < PluginsItem then F := '\icons' else
-      if n < coreitem then F := '\plugins' else  F := '\core';
+      if n < IconsItem then F := '\core' else
+      if n < PluginsItem then F := '\icons' else  F := '\plugins';
       StatusBar1.Panels[0].Text := ' Processing: ' + S;
       if (S = 'miranda32') or (S = 'miranda64') then
       begin
@@ -527,12 +527,12 @@ begin
   AssignFile(Log, 'iceit.log');
   Rewrite(Log);
   IcePath := ExtractFilePath(ParamStr(0));
-  // Icons
-  CheckListBox1.Items.Add('icons|NONE|');
-  IconsItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[IconsItem] := True;
+   // Core
+  CheckListBox1.Items.Add('core|NONE|');
+  CoreItem := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[CoreItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\icons\*.*';
+  FilePath := IcePath + '\core\*.*';
   FindHandle := FindFirstFile(PChar(FilePath), FindData);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
@@ -567,12 +567,12 @@ begin
     end;
   end;
   Windows.FindClose(FindHandle);
-   // core
-  CheckListBox1.Items.Add('core|NONE|');
-  CoreItem := CheckListBox1.Items.Count-1;
-  CheckListBox1.Header[PluginsItem] := True;
+  // Icons
+  CheckListBox1.Items.Add('icons|NONE|');
+  IconsItem := CheckListBox1.Items.Count-1;
+  CheckListBox1.Header[IconsItem] := True;
   FindData.dwFileAttributes := FILE_ATTRIBUTE_NORMAL;
-  FilePath := IcePath + '\core\*.*';
+  FilePath := IcePath + '\icons\*.*';
   FindHandle := FindFirstFile(PChar(FilePath), FindData);
   if FindHandle <> INVALID_HANDLE_VALUE then
   begin
