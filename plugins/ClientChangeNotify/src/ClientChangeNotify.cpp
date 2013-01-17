@@ -206,7 +206,7 @@ int ContactSettingChanged(WPARAM wParam, LPARAM lParam)
 		SHOWPOPUP_DATA sd = {0};
 		char *szProto = GetContactProto(hContact);
 		if (g_PreviewOptPage)
-			sd.MirVer = _T(Miranda NG ICQ 0.93.5.3007);
+			sd.MirVer = _T("Miranda NG ICQ 0.93.5.3007");
 		else {
 			if (!hContact) // exit if hContact == NULL and it's not a popup preview
 				return 0;
