@@ -1,4 +1,4 @@
-program Project1;
+program IceIt;
 
 uses
   Forms,

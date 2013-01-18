@@ -12,22 +12,22 @@ type
     ImageList1: TImageList;
     CheckListBox1: TCheckListBox;
     Label1: TLabel;
-    Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
+    btnSelectAll: TButton;
+    btnSelectNone: TButton;
+    btnIceIt: TButton;
+    btnMirandaPath: TButton;
     StatusBar1: TStatusBar;
     ProgressBar1: TProgressBar;
     Edit1: TEdit;
     Label2: TLabel;
-    Button4: TButton;
     OpenDialog1: TOpenDialog;
     procedure CheckListBox1DrawItem(Control: TWinControl; Index: Integer;
       Rect: TRect; State: TOwnerDrawState);
     procedure FormCreate(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button4Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure SelectAllClick(Sender: TObject);
+    procedure SelectNoneClick(Sender: TObject);
+    procedure IceItClick(Sender: TObject);
+    procedure MirandaPathClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
@@ -380,25 +380,27 @@ begin
   end;
 end;
 
-procedure TForm1.Button1Click(Sender: TObject);
+procedure TForm1.SelectAllClick(Sender: TObject);
 var n: Integer;
 begin
   for n := 0 to CheckListBox1.Items.Count - 1 do
+  begin
     CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'NONE');
-  for n := 0 to CheckListBox1.Items.Count - 1 do
-  CheckListBox1.Checked[n] := True;
+    CheckListBox1.Checked[n] := True;
+  end;
 end;
 
-procedure TForm1.Button2Click(Sender: TObject);
+procedure TForm1.SelectNoneClick(Sender: TObject);
 var n: Integer;
 begin
   for n := 0 to CheckListBox1.Items.Count - 1 do
+  begin
     CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'NONE');
-  for n := 0 to CheckListBox1.Items.Count - 1 do
     CheckListBox1.Checked[n] := False;
+  end;
 end;
 
-procedure TForm1.Button3Click(Sender: TObject);
+procedure TForm1.IceItClick(Sender: TObject);
 var
   n: Integer;
   S: String;
@@ -426,8 +428,11 @@ begin
         ProgressBar1.Position := n;
         S := GetValue(CheckListBox1.Items[n], 0);
         S := LowerCase(S);
-        if n < PluginsItem then F := '\icons' else
-        if n < CoreItem then F := '\plugins' else  F := '\core';
+        // keep the order as for FillCombo function (atm Core<Plugins<Icons)
+        if      n < PluginsItem then F := '\core'
+        else if n < IconsItem   then F := '\plugins'
+        else                         F := '\icons';
+
         StatusBar1.Panels[0].Text := ' Processing: ' + S;
         if (S = 'miranda32') or (S = 'miranda64') then
         begin
@@ -452,7 +457,7 @@ begin
           xTemp := xFilePath + '.temp';
           CopyFile(PChar(xFilePath), Pchar(xTemp), False);
 
-          if ProgressUpdate(xTemp, xIcoPath) then
+          if not ProgressUpdate(xTemp, xIcoPath) then
             res := 'ERROR'
           else
           begin
@@ -476,7 +481,7 @@ begin
   StatusBar1.Panels[0].Text := ' Ready';
 end;
 
-procedure TForm1.Button4Click(Sender: TObject);
+procedure TForm1.MirandaPathClick(Sender: TObject);
 begin
   if OpenDialog1.Execute then Edit1.Text := OpenDialog1.FileName;
 end;

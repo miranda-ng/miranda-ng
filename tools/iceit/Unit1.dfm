@@ -215,32 +215,32 @@ object Form1: TForm1
     TabOrder = 0
     OnDrawItem = CheckListBox1DrawItem
   end
-  object Button1: TButton
+  object btnSelectAll: TButton
     Left = 8
     Top = 270
     Width = 75
     Height = 25
     Caption = 'Select All'
     TabOrder = 1
-    OnClick = Button1Click
+    OnClick = SelectAllClick
   end
-  object Button2: TButton
+  object btnSelectNone: TButton
     Left = 89
     Top = 270
     Width = 75
     Height = 25
     Caption = 'Nothing'
     TabOrder = 2
-    OnClick = Button2Click
+    OnClick = SelectNoneClick
   end
-  object Button3: TButton
+  object btnIceIt: TButton
     Left = 253
     Top = 270
     Width = 75
     Height = 25
     Caption = 'ICE It...'
     TabOrder = 3
-    OnClick = Button3Click
+    OnClick = IceItClick
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -267,14 +267,14 @@ object Form1: TForm1
     Height = 21
     TabOrder = 6
   end
-  object Button4: TButton
+  object btnMirandaPath: TButton
     Left = 307
     Top = 23
     Width = 20
     Height = 22
     Caption = '...'
     TabOrder = 7
-    OnClick = Button4Click
+    OnClick = MirandaPathClick
   end
   object XPManifest1: TXPManifest
     Left = 54
