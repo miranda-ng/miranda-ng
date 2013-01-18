@@ -242,7 +242,7 @@ void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer)
 		DB_CONTACT_WARNED, FALSE) == FALSE)
 	{
 		DoAnswer(hContact, new TalkBot::MessageInfo((const TCHAR*)Config.WarnText), true);
-		DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, TRUE);
+		db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, TRUE);
 	}
 	else
 		DoAnswer(hContact, bot->Reply(hContact, messageToAnswer, false));
