@@ -1,15 +1,16 @@
-//**********************************************************************************//
-//* Name:         lpgen.js                                                         *//
-//* Language:     JScript                                                          *//
-//* Function:     Parse Miranda-NG source for generate translation templates       *//
-//* Usage:        Generate translation templates for Miranda-NG plugins and Core   *//
-//* Usage:        "cscript /nologo lpgen.js"  to run generation in batches         *//
-//* Usage:        "cscript /nologo lpgen.js /log:"yes"" to enable console logging  *//
-//* Usage:        "cscript /nologo lpgen.js /path:"path_to_folder"" for one plugin *//
-//* Usage:        Double click to choose folder for one plugin template generation *//
-//* Requirements: for batch mode: create folder ..\..\langpacks\english\Plugins         *//
-//* Author:       BasiL                                                            *//
-//**********************************************************************************//
+//***********************************************************************************//
+//* Name:         lpgen.js                                                          *//
+//* Language:     JScript                                                           *//
+//* Function:     Parse Miranda-NG source for generate translation templates        *//
+//* Usage:        Generate translation templates for Miranda-NG plugins and Core    *//
+//* Usage:        "cscript /nologo lpgen.js"  to run generation in batches          *//
+//* Usage:        "cscript /nologo lpgen.js /log:"yes"" to enable console logging   *//
+//* Usage:        "cscript /nologo lpgen.js /path:"path_to_folder"" for one plugin  *//
+//* Usage:        "cscript /nologo lpgen.js /crap:"yes"" filtered srings in Crap.txt*//
+//* Usage:        Double click to choose folder for one plugin template generation  *//
+//* Requirements: for batch mode: create folder ..\..\langpacks\english\Plugins     *//
+//* Author:       BasiL                                                             *//
+//***********************************************************************************//
 
 //Init Variables
 //Create FileSystemObject FSO
@@ -36,7 +37,10 @@ var protocols=FSO.BuildPath(trunk,"Protocols");
 var plugins=FSO.BuildPath(trunk,"Plugins");
 //langpack folder "\langpacks\english\" in trunk folder
 var langpack_en=FSO.BuildPath(trunk,"langpacks\\english");
-
+//Crap.txt will contain strings, which are removed by filtering engine as a garbage, in case if this string are not garbage :)
+var crapfile="Crap.txt"
+//crap array
+var crap=new Array;
 //*********************************************************************************//
 //                         Checking command line parameters                       *//
 //*********************************************************************************//
@@ -62,6 +66,8 @@ if (WScript.FullName.toLowerCase().charAt(WScript.FullName.length - 11)=="w") {
 if (WScript.Arguments.Named.Item("path")) {
     //Call GeneratePluginTranslate for path specified in command line argument /path:"path/to/plugin", output result to "scriptpath"
     GeneratePluginTranslate(WScript.Arguments.Named.Item("path"),scriptpath);
+    //Write gargage crap array into crap file
+	WriteToFile(crap,crapfile);
     //We are done, quit.
     WScript.Quit();
 }
@@ -117,6 +123,8 @@ while (!files.atEnd()) {
     //next project file
     files.moveNext();
 };
+//Write Crap to file.
+if (WScript.Arguments.Named.Item("crap")) WriteToFile(crap,crapfile);
 
 //*********************************************************************************//
 //                                    Functions                                   *//
@@ -347,6 +355,7 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
  while (!filesenum.atEnd()) {
      //record into current_strings current length of stringsarray
      var current_strings=stringsarray.length;
+     var crap_strings=crap.length;
      //curfile is our current file in files enumerator
      curfile=filesenum.item();
      //now apply a parsing function to current file, and put result into stringsarray
@@ -355,6 +364,7 @@ function ParseFiles (filelist,stringsarray, parsefunction) {
      curfilepath=new String(curfile);
      //if after parsing file our stringsarray length greater then var "current_strings", so parsed file return some strings. Thus, we need add a comment with filename
      if (stringsarray.length>current_strings) stringsarray.splice(current_strings,0,";file "+curfilepath.substring(trunkPath.length));
+     if (crap.length>crap_strings) crap.splice(crap_strings,0,";file "+curfilepath.substring(trunkPath.length));
      //move to next file
      filesenum.moveNext();
      };
@@ -438,20 +448,40 @@ function ParseSourceFile (SourceFile,array) {
 
 //filter _T() function results
 function filter_T(string) {
-//filter not begin with symbols :.-[]"?;#~{!/_+$
-var filter1=/^[^\:\-\[\]\"\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
+//filter not begin with symbols :.-]?;#~{!/_+$
+var filter1=/^[^\:\-\]\?\;\#\~\|\{\!\/\_\+\\$].+$/g;
 //filter string starting from following words
-var filter2=/^(?:(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|d\x20|HKEY_|DWORD|WORD|BYTE|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|%s[%\-\\]|\.!\.)).*$/g;
+var filter2=/^(SOFTWARE\\|SYSTEM\\|http|ftp|UTF-|utf-|TEXT|EXE|exe|txt|css|html|dat|txt|MS\x20|CLVM|TM_|CLCB|CLSID|CLUI|HKEY_|MButton|BUTTON|WindowClass|MHeader|RichEdit|RICHEDIT|STATIC|EDIT|CList|\d|listbox|LISTBOX|combobox|COMBOBOX|TitleB|std\w|iso-|windows-|<div|<html|<img|<span|<hr|<a\x20|<table|<td|miranda_|kernel32|user32|muc|pubsub|shlwapi|Tahoma|NBRichEdit|CreatePopup|<\/|<\w>|\w\\\w|urn\:|<\?xml|<\!|h\d|\.!\.).*$/g;
 //filter string ending with following words
-var filter3=/^.+(\.\w{2,4}|001|\/value|\*!\*|=)$/g;
+var filter3=/^.+(001|\/value|\*!\*|=)$/g;
+//filter from ÉàËèñ, different versinos.
+//var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|\.(\w{2,4}|travel|museum|xn--\w+)|\W|\s|\d+)+$/g;
+//var filter4=/^((%(\d+)?\w\w?)|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
+//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|color|)=\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
+//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d+)+$/g;
+//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W+|\s+|\d+)+$/gi;
+//var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
+var filter4=/^((%(\d+)?\w\w?)|(d\s\w)|\[\/?(\w|url|img|size|quote|color)(=\w*)?\]?|(\\\w)|(%\w+%)|(([\w-]+\.)*\.(\w{2,4}|travel|museum|xn--\w+))|\W|\s|\d)+$/gi;
+//filter from ÉàËèñ for remove filenames and pathes.
+//var filter5=/^[\w-*]+\.\w+$/g;
+//var filter5=/^[\w_:%.\\*-]+\.\w+$/g;
+var filter5=/^[\w_:%.\\\/*-]+\.\w+$/g;
+
+//apply filters to our string
 test1=filter1.test(string);
 test2=filter2.test(string);
 test3=filter3.test(string);
-//WScript.Echo(string+" 1:     "+test1);
-//WScript.Echo(string+" 2:     "+test2);
-if (test1 && !test2 && !test3) {
+test4=filter4.test(string);
+test5=filter5.test(string);
+
+//if match (test1) first filter and NOT match other tests, thus string are good, return this string back.
+if (test1 && !test2 && !test3 && !test4 && !test5) {
 	return string;
-	} else return;
+	} else {
+		//in other case, string is a garbage, put into crap array.
+		crap.push(string);
+		return;
+		}
 };
 
 //Parse Version.h file to get one translated stirng from "Description" and make a pluging template header.
