@@ -6,8 +6,8 @@
 ;============================================================
 [Mail.ru Agent (MRA) protocol support for Miranda NG.]
 Поддержка протокола Mail.ru Агент (MRA) в Miranda NG.
-[Create a new account]
-Создавать учётную запись
+[Create a new Mail.ru account]
+Создать новую учётную запись Mail.ru
 [Display &Inbox]
 Открыть входящие
 [Display &Inbox status]
