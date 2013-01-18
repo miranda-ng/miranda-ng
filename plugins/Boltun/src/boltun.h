@@ -38,7 +38,7 @@
 #define DB_CONTACT_WARNED "Warned"
 
 //Plugin group in settings
-#define BOLTUN_GROUP Translate("Message sessions")
+#define BOLTUN_GROUP LPGEN("Message sessions")
 
 //Filename depends on UNICODE
 #define DEFAULT_MIND_FILE _T("boltun.mindw")
@@ -49,6 +49,7 @@
 
 //Plugin name
 #define BOLTUN_NAME  "Boltun"
+#define BOLTUN_NAME_OPT  LPGEN("Boltun")
 
 #define MIND_FILE_DESC TranslateT("Mind Files")
 #define ALL_FILES_DESC TranslateT("All Files")
@@ -66,7 +67,7 @@
 #define FAILED_TO_SAVE_BASE  TranslateT("Failed to save base of remarks to %s")
 
 //Settings tab names
-#define TAB_GENERAL Translate("General Settings")
-#define TAB_ENGINE Translate("Engine Settings")
+#define TAB_GENERAL LPGEN("General Settings")
+#define TAB_ENGINE LPGEN("Engine Settings")
 
 #endif /*_BOLTUN_H*/

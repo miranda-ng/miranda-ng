@@ -522,7 +522,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	odp.position    = 910000000;
 	odp.hInstance   = hInst;
 	odp.pszGroup    = BOLTUN_GROUP;
-	odp.pszTitle    = Translate(BOLTUN_NAME);
+	odp.pszTitle    = BOLTUN_NAME_OPT;
 	odp.pfnDlgProc  = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pszTab      = TAB_GENERAL;
