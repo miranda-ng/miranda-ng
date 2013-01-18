@@ -514,3 +514,5 @@
 Местами туман, дымка
 [Snow 60% Chance Of Precipitation]
 Снег, 60% вероятность осадков
+[Light Low Drifting Snow]
+Слабый снег, позёмка
