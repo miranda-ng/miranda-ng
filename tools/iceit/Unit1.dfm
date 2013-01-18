@@ -3,7 +3,7 @@ object Form1: TForm1
   Top = 134
   BorderIcons = [biSystemMenu, biMinimize]
   BorderStyle = bsSingle
-  Caption = 'Miranda ICE Icon pack patcher | v.0.2.b'
+  Caption = 'Miranda ICE Icon pack patcher | v.0.3.b'
   ClientHeight = 320
   ClientWidth = 336
   Color = clBtnFace

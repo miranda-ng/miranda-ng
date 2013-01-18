@@ -28,7 +28,6 @@ type
     procedure SelectNoneClick(Sender: TObject);
     procedure IceItClick(Sender: TObject);
     procedure MirandaPathClick(Sender: TObject);
-    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     function FillCombo(typ:string):integer;
@@ -360,7 +359,7 @@ begin
         raise;
       end;
       if not EndUpdateResource(H, False) then
-      ErrorWithLastError('EndUpdateResource failed');
+        ErrorWithLastError('EndUpdateResource failed');
       Result := False;
     finally
       FreeMem(Ico);
@@ -410,14 +409,19 @@ var
   xTemp: String;
   MaxCount: Integer;
   res:String;
+  size:Integer;
 begin
   if FileExists(Edit1.Text) then
   begin
+    AssignFile(Log, 'iceit.log');
+    Rewrite(Log);
+
     MaxCount := 0;
     for n := 0 to CheckListBox1.Items.Count - 1 do
+    begin
       if CheckListBox1.Checked[n] then inc(MaxCount);
-    for n := 0 to CheckListBox1.Items.Count - 1 do
       CheckListBox1.Items[n] := SetValue(CheckListBox1.Items[n], 1, 'NONE');
+    end;
     MirandaPath := ExtractFileDir(Edit1.Text);
     ProgressBar1.Min := 0;
     ProgressBar1.Max := MaxCount;
@@ -430,8 +434,8 @@ begin
         S := LowerCase(S);
         // keep the order as for FillCombo function (atm Core<Plugins<Icons)
         if      n < PluginsItem then F := '\core'
-        else if n < IconsItem   then F := '\plugins'
-        else                         F := '\icons';
+        else if n < IconsItem   then F := '\icons'
+        else                         F := '\plugins';
 
         StatusBar1.Panels[0].Text := ' Processing: ' + S;
         if (S = 'miranda32') or (S = 'miranda64') then
@@ -457,7 +461,7 @@ begin
           xTemp := xFilePath + '.temp';
           CopyFile(PChar(xFilePath), Pchar(xTemp), False);
 
-          if not ProgressUpdate(xTemp, xIcoPath) then
+          if ProgressUpdate(xTemp, xIcoPath) then
             res := 'ERROR'
           else
           begin
@@ -469,7 +473,11 @@ begin
         end;
         if FileExists(xTemp) then DeleteFile(xTemp);
       end;
-    end // for
+    end; // for
+
+    size:=FileSize(Log);
+    CloseFile(Log);
+    if size = 0 then DeleteFile('iceit.log');
   end
   else
   begin
@@ -558,22 +566,11 @@ end;
 
 procedure TForm1.FormCreate(Sender: TObject);
 begin
-  AssignFile(Log, 'iceit.log');
-  Rewrite(Log);
   IcePath := ExtractFilePath(ParamStr(0));
 
   CoreItem    := FillCombo('core');
   PluginsItem := FillCombo('icons');
   IconsItem   := FillCombo('plugins');
-end;
-
-procedure TForm1.FormDestroy(Sender: TObject);
-var
-  size:integer;
-begin
-  size:=FileSize(Log);
-  CloseFile(Log);
-  if size = 0 then DeleteFile('iceit.log');
 end;
 
 function TForm1.ProgressUpdate(const FileName, IcoName: String): Boolean;
