@@ -87,9 +87,9 @@ void UpdateTimer()
 
 static bool NotifyTyping(HANDLE hContact)
 {
-	int res = db_get_b(hContact, "SRMsg", "SupportTyping", 2);
+	int res = DBGetContactSettingByte(hContact, "SRMsg", "SupportTyping", 2);
 	if (res == 2)
-		res = db_get_b(NULL, "SRMsg", "DefaultTyping", 1);
+		res = DBGetContactSettingByte(NULL, "SRMsg", "DefaultTyping", 1);
 	return res != 0;
 }
 
@@ -238,10 +238,11 @@ void DoAnswer(HANDLE hContact, const TalkBot::MessageInfo *info, bool sticky = f
 
 void AnswerToContact(HANDLE hContact, const TCHAR* messageToAnswer)
 {
-	if (Config.TalkWarnContacts && db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE) == FALSE)
+	if (Config.TalkWarnContacts && DBGetContactSettingByte(hContact, BOLTUN_KEY, 
+		DB_CONTACT_WARNED, FALSE) == FALSE)
 	{
 		DoAnswer(hContact, new TalkBot::MessageInfo((const TCHAR*)Config.WarnText), true);
-		db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, TRUE);
+		DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, TRUE);
 	}
 	else
 		DoAnswer(hContact, bot->Reply(hContact, messageToAnswer, false));

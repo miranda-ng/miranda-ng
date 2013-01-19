@@ -213,7 +213,7 @@ static bool LoadMind(const TCHAR* filename, int &line)
 
 static bool BoltunAutoChat(HANDLE hContact)
 {
-	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
+	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT
 		, FALSE) == TRUE)
 		return false;
 
@@ -232,11 +232,11 @@ static bool BoltunAutoChat(HANDLE hContact)
 			return true;
 	}
 
-	if ((db_get_b(hContact,"CList","NotOnList",0) == 1) &&
+	if ((DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1) &&
 		Config.TalkWithNotInList)
 		return true;
 
-	if (db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
+	if (DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT,
 		FALSE) == TRUE)
 		return true;
 
@@ -366,7 +366,7 @@ static INT_PTR CALLBACK MainDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPAR
 					if(bTranslated)
 						Config.WarnText = c;
 					else
-						Config.WarnText = DEFAULT_WARN_TEXT;
+						Config.WarnText = TranslateTS(DEFAULT_WARN_TEXT);
 				}
 	            return TRUE;
 			}
@@ -424,8 +424,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 						ofn.lStructSize = sizeof(OPENFILENAME);
 						ofn.hwndOwner = GetParent(hwndDlg);
 
-						TCHAR* mind = MIND_FILE_DESC;
-						TCHAR* anyfile = ALL_FILES_DESC;
+						TCHAR* mind = TranslateTS(MIND_FILE_DESC);
+						TCHAR* anyfile = TranslateTS(ALL_FILES_DESC);
 						size_t l = _tcslen(MIND_DIALOG_FILTER)
 							+ _tcslen(mind) + _tcslen(anyfile);
 						TCHAR *filt = new TCHAR[l];
@@ -470,8 +470,8 @@ static INT_PTR CALLBACK EngineDlgProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LP
 					if (!bTranslated)
 					{
 						TCHAR* message = new TCHAR[5000];
-						wsprintf(message, FAILED_TO_LOAD_BASE, line, c);
-						MessageBox(NULL, message, BOLTUN_ERROR, MB_ICONERROR|MB_TASKMODAL|MB_OK);
+						wsprintf(message, TranslateTS(FAILED_TO_LOAD_BASE), line, c);
+						MessageBox(NULL, message, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 						delete[] message;
 					}
 					break;
@@ -522,7 +522,7 @@ static int MessageOptInit(WPARAM wParam, LPARAM lParam)
 	odp.position    = 910000000;
 	odp.hInstance   = hInst;
 	odp.pszGroup    = BOLTUN_GROUP;
-	odp.pszTitle    = BOLTUN_NAME_OPT;
+	odp.pszTitle    = BOLTUN_NAME;
 	odp.pfnDlgProc  = MainDlgProc;
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pszTab      = TAB_GENERAL;
@@ -538,8 +538,8 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 {
 	HANDLE hContact = (HANDLE)wParam;
 
-	BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-	BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+	BOOL boltunautochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
+	BOOL boltunnottochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
 	if (clickNotToChat)
 	{
@@ -558,12 +558,12 @@ static int ContactClick(WPARAM wParam, LPARAM lParam, BOOL clickNotToChat)
 		}
 		else
 		{
-			db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE);
+			DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_WARNED, FALSE);
 		}
 	}
 
-	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
-	db_set_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
+	DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, (BYTE)boltunautochat);
+	DBWriteContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, (BYTE)boltunnottochat);
 
 	return 0;
 }
@@ -590,7 +590,7 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	CLISTMENUITEM clmi = { sizeof(clmi) };
 
 	HANDLE hContact = (HANDLE)wParam;
-	if (!blInit || (db_get_b(hContact,"CList","NotOnList",0) == 1))
+	if (!blInit || (DBGetContactSettingByte(hContact,"CList","NotOnList",0) == 1))
 	{
 		clmi.flags = CMIM_FLAGS | CMIF_GRAYED;
 
@@ -599,8 +599,8 @@ static int MessagePrebuild(WPARAM wParam, LPARAM lParam)
 	}
 	else
 	{
-		BOOL boltunautochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
-		BOOL boltunnottochat = db_get_b(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
+		BOOL boltunautochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_AUTO_CHAT, FALSE);
+		BOOL boltunnottochat = DBGetContactSettingByte(hContact, BOLTUN_KEY, DB_CONTACT_BOLTUN_NOT_TO_CHAT, FALSE);
 
 		clmi.flags  = CMIM_FLAGS | CMIM_ICON | (boltunautochat ? CMIF_CHECKED : 0);
 		clmi.hIcon = LoadIcon( GetModuleHandle(NULL), MAKEINTRESOURCE((boltunautochat ? IDI_TICK : IDI_NOTICK)));
@@ -671,10 +671,11 @@ extern "C" int __declspec(dllexport) Load(void)
 	if (!blInit)
 	{
 		TCHAR path[2000];
-		wsprintf(path, FAILED_TO_LOAD_BASE, line, (const TCHAR*)Config.MindFileName);
-		MessageBox(NULL, path, BOLTUN_ERROR, MB_ICONERROR|MB_TASKMODAL|MB_OK);
+		wsprintf(path, TranslateTS(FAILED_TO_LOAD_BASE), line, (const TCHAR*)Config.MindFileName);
+		MessageBox(NULL, path, TranslateTS(BOLTUN_ERROR), MB_ICONERROR|MB_TASKMODAL|MB_OK);
 	}
-
+	/*record for Uninstall plugin*/
+	DBWriteContactSettingString(NULL, "Uninstall", BOLTUN_NAME, BOLTUN_KEY);
 	return 0;
 }
 
@@ -692,8 +693,8 @@ extern "C" int __declspec(dllexport) Unload(void)
 //So in case of saving error we will remain silent
 #if 0
 			TCHAR path[MAX_PATH];
-			wsprintf(path, FAILED_TO_SAVE_BASE, (const TCHAR*)Config.MindFileName);
-			TCHAR* err = BOLTUN_ERROR;
+			wsprintf(path, TranslateTS(FAILED_TO_SAVE_BASE), (const TCHAR*)Config.MindFileName);
+			TCHAR* err = TranslateTS(BOLTUN_ERROR);
 			MessageBox(NULL, path, err, MB_ICONERROR|MB_TASKMODAL|MB_OK);*/
 #endif
 		}

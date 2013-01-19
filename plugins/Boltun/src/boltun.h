@@ -38,7 +38,7 @@
 #define DB_CONTACT_WARNED "Warned"
 
 //Plugin group in settings
-#define BOLTUN_GROUP LPGEN("Message sessions")
+#define BOLTUN_GROUP "Message sessions"
 
 //Filename depends on UNICODE
 #define DEFAULT_MIND_FILE _T("boltun.mindw")
@@ -49,25 +49,24 @@
 
 //Plugin name
 #define BOLTUN_NAME  "Boltun"
-#define BOLTUN_NAME_OPT  LPGEN("Boltun")
 
-#define MIND_FILE_DESC TranslateT("Mind Files")
-#define ALL_FILES_DESC TranslateT("All Files")
+#define MIND_FILE_DESC _T("Mind Files")
+#define ALL_FILES_DESC _T("All Files")
 
 //UI strings
-#define BOLTUN_AUTO_CHAT   LPGEN("Boltun/Auto Chat")
-#define BOLTUN_NOT_TO_CHAT LPGEN("Boltun/Not to Chat")
-#define BOLTUN_START_CHATTING LPGEN("Boltun/Start Chatting")
+#define BOLTUN_AUTO_CHAT   "Boltun/Auto Chat"
+#define BOLTUN_NOT_TO_CHAT "Boltun/Not to Chat"
+#define BOLTUN_START_CHATTING "Boltun/Start Chatting"
 
-#define DEFAULT_WARN_TEXT TranslateT("Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!")
+#define DEFAULT_WARN_TEXT _T("Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!")
 
 // Error messages
-#define BOLTUN_ERROR         TranslateT("Boltun Error")
-#define FAILED_TO_LOAD_BASE  TranslateT("Failed to load base of remarks. Error at line %d of %s. (Or few lines before).")
-#define FAILED_TO_SAVE_BASE  TranslateT("Failed to save base of remarks to %s")
+#define BOLTUN_ERROR         _T("Boltun Error")
+#define FAILED_TO_LOAD_BASE  _T("Failed to load base of remarks. Error at line %d of %s. (Or few lines before).")
+#define FAILED_TO_SAVE_BASE  _T("Failed to save base of remarks to %s")
 
 //Settings tab names
-#define TAB_GENERAL LPGEN("General Settings")
-#define TAB_ENGINE LPGEN("Engine Settings")
+#define TAB_GENERAL "General Settings"
+#define TAB_ENGINE "Engine Settings"
 
 #endif /*_BOLTUN_H*/

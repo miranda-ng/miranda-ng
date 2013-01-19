@@ -49,7 +49,7 @@ inline TCHAR* GetString(char* key, const TCHAR* def)
 {
 	DBVARIANT dbv;
 	TCHAR* val;
-	if (!db_get_s(NULL, BOLTUN_KEY, key, &dbv))
+	if (!DBGetContactSettingTString(NULL, BOLTUN_KEY, key, &dbv))
 	{
 		size_t len = wcslen(dbv.ptszVal) + 1;
 		val = new TCHAR[len];
@@ -70,7 +70,7 @@ inline const TCHAR* SetString(char* key, const TCHAR* value)
 	size_t len = _tcslen(value) + 1;
 	TCHAR* val = new TCHAR[len];
 	_tcscpy_s(val, len, value);
-	db_set_ws(NULL, BOLTUN_KEY, key, val);
+	DBWriteContactSettingTString(NULL, BOLTUN_KEY, key, val);
 	return val;
 }
 
@@ -78,14 +78,14 @@ inline const TCHAR* SetString(char* key, const TCHAR* value)
 	const bool BoltunConfig::Get##x() { \
 	return DBGetContactSettingDword(NULL, BOLTUN_KEY, str, def) != 0; } \
 	const bool BoltunConfig::Set##x(const bool value) { \
-	db_set_dw(NULL, BOLTUN_KEY, str, value); \
+	DBWriteContactSettingDword(NULL, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDINTETTERS(x, str, def) \
 	const int BoltunConfig::Get##x() { \
 	return DBGetContactSettingDword(NULL, BOLTUN_KEY, str, def); } \
 	const int BoltunConfig::Set##x(const int value) { \
-	db_set_dw(NULL, BOLTUN_KEY, str, value); \
+	DBWriteContactSettingDword(NULL, BOLTUN_KEY, str, value); \
 	return value; }
 
 #define BUILDSTRETTERS(x, str, def) \
@@ -106,7 +106,7 @@ BUILDINTETTERS(AnswerPauseTime, DB_WAIT_TIME, 2);
 BUILDINTETTERS(AnswerThinkTime, DB_THINK_TIME, 4);
 BUILDETTERS(PauseDepends, DB_PAUSE_DEPENDS, TRUE);
 BUILDETTERS(PauseRandom, DB_PAUSE_RANDOM, TRUE);
-BUILDSTRETTERS(WarnText, DB_WARN_TEXT, DEFAULT_WARN_TEXT);
+BUILDSTRETTERS(WarnText, DB_WARN_TEXT, TranslateTS(DEFAULT_WARN_TEXT));
 BUILDSTRETTERS(MindFileName, DB_MIND_FILE_NAME, DEFAULT_MIND_FILE);
 BUILDETTERS(EngineStaySilent, DB_ENGINE_SILENT, FALSE);
 BUILDETTERS(EngineMakeLowerCase, DB_ENGINE_LOWERCASE, FALSE);
