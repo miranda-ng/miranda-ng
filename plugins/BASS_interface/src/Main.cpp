@@ -302,8 +302,8 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 static IconItem iconList[] =
 {
-	{ LPGEN("Audio device is opened"), "BASSSoundOnOffUp",   IDI_BASSSoundOnOffUp },
-	{ LPGEN("Audio device is closed"), "BASSSoundOnOffDown", IDI_BASSSoundOnOffDown }
+	{LPGEN("Sounds enabled"), "BASSSoundOn", IDI_BASSSoundOn},
+	{LPGEN("Sounds disabled"), "BASSSoundOff", IDI_BASSSoundOff}
 };
 
 void InitIcons(void)
@@ -335,7 +335,13 @@ int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 	if(!strcmp(dbcws->szModule, "Skin")) {
 		if(!strcmp(dbcws->szSetting, "UseSound")) {
 			int useSound = dbcws->value.bVal;
-			SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
+			if (useSound) {
+				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
+				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
+			} else {
+				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
+				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
+			}
 			return 0;
 		}
 	}
@@ -360,15 +366,20 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			{
 				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
 										20,	20,	hwnd, 0, (HINSTANCE) GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
-				SendMessage(hwndMute, BUTTONSETASFLATBTN,0,0);				
-				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(db_get_b(NULL, "Skin", "UseSound", 1) ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
+				SendMessage(hwndMute, BUTTONSETASFLATBTN,0,0);
+				if (db_get_b(NULL, "Skin", "UseSound", 1)) {
+					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
+					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
+				} else {
+					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
+					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
+				}
 
 				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
 					hwnd, (HMENU)0, (HINSTANCE) GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
 				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
 				OldSliderWndProc = (WNDPROC)SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)SliderWndProc);
-				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Click to toggle all sounds"), 0);
 				break;
 			}
 
@@ -376,7 +387,13 @@ static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPAR
 			if((HWND)lParam == hwndMute) {
 				int useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
 				db_set_b(NULL, "Skin", "UseSound", useSound);
-				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
+				if (useSound) {
+					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOn"));
+					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Disable sounds"), 0);
+				} else {
+					SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)Skin_GetIcon("BASSSoundOff"));
+					SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Enable sounds"), 0);
+				}
 			}
 			break;
 

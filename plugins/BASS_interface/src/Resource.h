@@ -27,5 +27,5 @@
 #define IDC_CHECKBOX9                           1108
 #define IDC_CHECKBOX10                          1109
 #define IDC_PREVIEW                             1110
-#define IDI_BASSSoundOnOffUp			200
-#define IDI_BASSSoundOnOffDown			201
+#define IDI_BASSSoundOn							1111
+#define IDI_BASSSoundOff						1112
