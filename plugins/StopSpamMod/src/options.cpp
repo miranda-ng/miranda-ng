@@ -19,15 +19,8 @@
 #define MIRANDA_VER 0x0800
 #include "headers.h"
 
-char * pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\n"
-"This plugin works pretty simple:\r\n"
-"While messages from users on your contact list go as there is no any anti-spam software, "
-"messages from unknown users are not delivered to you. "
-"But also they are not ignored, this plugin replies with a simple question, "
-"and if user gives the right answer plugin adds him to your contact list "
-"so that he can contact you.");
-TCHAR const * defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\n"
-"Please reply \"nospam\" without quotes and spaces if you want to contact me.");
+char * pluginDescription = LPGEN("No more spam! Robots can't go! Only human beings invited!\r\n\r\nThis plugin works pretty simple:\r\nWhile messages from users on your contact list go as there is no any anti-spam software, messages from unknown users are not delivered to you. But also they are not ignored, this plugin replies with a simple question, and if user gives the right answer plugin adds him to your contact list so that he can contact you.");
+TCHAR const * defQuestion = TranslateT("Spammers made me to install small anti-spam system you are now speaking with.\r\nPlease reply \"nospam\" without quotes and spaces if you want to contact me.");
 
 
 INT_PTR CALLBACK MainDlgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -394,29 +387,29 @@ MIRANDA_HOOK_EVENT(ME_OPT_INITIALISE, w, l)
 {
 	OPTIONSDIALOGPAGE odp = {0};
 	odp.cbSize = sizeof(odp);
-	odp.pszGroup = LPGEN("Message Sessions");
-	odp.pszTitle = LPGEN("StopSpam");
+	odp.ptszGroup = LPGENT("Message Sessions");
+	odp.ptszTitle = LPGENT("StopSpam");
 	odp.position = -1;
 	odp.hInstance = hInst;
 	odp.flags = ODPF_TCHAR;
 
-	odp.pszTab = LPGEN("Main");
+	odp.ptszTab = LPGENT("Main");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MAIN);
 	odp.pfnDlgProc = MainDlgProc;
 	Options_AddPage(w, &odp);
 
 
-	odp.pszTab = LPGEN("Messages");
+	odp.ptszTab = LPGENT("Messages");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_MESSAGES);
 	odp.pfnDlgProc = MessagesDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pszTab = LPGEN("Protocols");
+	odp.ptszTab = LPGENT("Protocols");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_PROTO);
 	odp.pfnDlgProc = ProtoDlgProc;
 	Options_AddPage(w, &odp);
 
-	odp.pszTab = LPGEN("Advanced");
+	odp.ptszTab = LPGENT("Advanced");
 	odp.pszTemplate = MAKEINTRESOURCEA(IDD_ADVANCED);
 	odp.pfnDlgProc = AdvancedDlgProc;
 	Options_AddPage(w, &odp);

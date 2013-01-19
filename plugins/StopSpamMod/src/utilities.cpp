@@ -276,17 +276,17 @@ BOOL IsUrlContains(TCHAR * Str)
 	const int CountUrl=11;
 	const TCHAR  URL[CountUrl][5]=
 	{
-		_T("http"),
-		_T("www"),
-		_T(".ru"),
-		_T(".com"),
-		_T(".de"),
-		_T(".cz"),
-		_T(".org"),
-		_T(".net"),
-		_T(".su"),
-		_T(".ua"),
-		_T(".tv")
+		L"http",
+		L"www",
+		L".ru",
+		L".com",
+		L".de",
+		L".cz",
+		L".org",
+		L".net",
+		L".su",
+		L".ua",
+		L".tv"
 	};
 
 	if(Str && _tcslen(Str)>0) {
