@@ -48,7 +48,9 @@ static int device = -1;
 static int newBass = 0;
 static HWND ClistHWND;
 
-HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL;
+HWND hwndSlider = NULL, hwndMute = NULL, hwndOptSlider = NULL, hwnd_plugin = NULL;
+COLORREF clBack = 0;
+HBRUSH hBkgBrush = 0;
 
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
@@ -242,13 +244,10 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						DBWriteContactSettingWord(NULL, ModuleName, OPT_STATUS, StatMask);
 
 						device = SendDlgItemMessage(hwndDlg, IDC_OUTDEVICE, CB_GETCURSEL, 0, 0);
-						if (device == 0)	device = -1;
-						else				device += newBass;
-						if (CallService(MS_TTB_GETBUTTONSTATE, (WPARAM)hTBButton, 0) == TTBST_RELEASED) {
-							BASS_Free();
-							BASS_Init(device, 44100, 0, ClistHWND, NULL);
-							BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
-						}
+						if (device == 0)
+							device = -1;
+						else
+							device += newBass;
 					}
 					return 1;
 
@@ -327,57 +326,48 @@ int OptionsInit(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-INT_PTR BASSSoundOnOff(WPARAM wParam, LPARAM lParam)
+int OnSettingChanged(WPARAM wParam, LPARAM lParam)
 {
-	if (hBass != NULL) {
-		BOOL opened = CallService(MS_TTB_GETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", 0) == TTBST_RELEASED;
+	if(wParam != 0 || lParam == NULL) 
+		return 0;
 
-		if (opened)
-		{
-			BASS_Free(); // Close Device
+	DBCONTACTWRITESETTING *dbcws=(DBCONTACTWRITESETTING*)lParam;
+	if(!strcmp(dbcws->szModule, "Skin")) {
+		if(!strcmp(dbcws->szSetting, "UseSound")) {
+			int useSound = dbcws->value.bVal;
+			SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
+			return 0;
 		}
-		else
-		{
-			BASS_Init(device, 44100, 0, ClistHWND, NULL);
-			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
-		}
-
-		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", opened ? TTBST_PUSHED : TTBST_RELEASED);
-		DBWriteContactSettingByte(NULL, ModuleName, OPT_DEVOPEN, !opened);
 	}
 	return 0;
 }
 
-int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
-{
-	TTBButton tbb = {0};
-	tbb.cbSize = sizeof(TTBButton);
-	tbb.name = LPGEN("Open/close audio device");
-	tbb.pszService = "BASSinterface/BASSSoundOnOff";
-	tbb.pszTooltipUp = LPGEN("Audio device is opened");
-	tbb.pszTooltipDn = LPGEN("Audio device is closed");
-	tbb.hIconHandleUp = iconList[0].hIcolib;
-	tbb.hIconHandleDn = iconList[1].hIcolib;
-	tbb.dwFlags = TTBBF_SHOWTOOLTIP;
-	hTBButton = TopToolbar_AddButton(&tbb);
-	return 0;
-}
+static WNDPROC OldSliderWndProc = 0;
 
-LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+static LRESULT CALLBACK SliderWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+{
+	switch(msg)	{
+		case WM_ERASEBKGND:
+			return TRUE;
+	}
+	return(CallWindowProc(OldSliderWndProc, hwnd, msg, wParam, lParam));
+}
+static LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg) 
 	{
 		case WM_CREATE:
 			{
-				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1,	1,
-										20,	20,	hwnd, (HMENU)0,	(HINSTANCE) GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
+				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1, 1,
+										20,	20,	hwnd, 0, (HINSTANCE) GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
 				SendMessage(hwndMute, BUTTONSETASFLATBTN,0,0);				
-				SendMessage(hwndMute, BM_SETIMAGE,IMAGE_ICON,(LPARAM)iconList[0].hIcolib);
+				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(db_get_b(NULL, "Skin", "UseSound", 1) ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
 
 				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
 					hwnd, (HMENU)0, (HINSTANCE) GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
 				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
 				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
+				OldSliderWndProc = (WNDPROC)SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)SliderWndProc);
 				SendMessage(hwndMute, BUTTONADDTOOLTIP, (WPARAM)Translate("Click to toggle all sounds"), 0);
 				break;
 			}
@@ -386,7 +376,7 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 			if((HWND)lParam == hwndMute) {
 				int useSound = !db_get_b(NULL, "Skin", "UseSound", 1);
 				db_set_b(NULL, "Skin", "UseSound", useSound);
-				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? iconList[0].hIcolib : iconList[1].hIcolib));
+				SendMessage(hwndMute, BM_SETIMAGE, IMAGE_ICON, (LPARAM)(useSound ? Skin_GetIcon("BASSSoundOnOffUp") : Skin_GetIcon("BASSSoundOnOffDown")));
 			}
 			break;
 
@@ -407,37 +397,39 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 		{
 			RECT rect;
 
-			GetClientRect(hwnd,&rect);
+			GetClientRect(hwnd, &rect);
 			if(hwndMute)
 				MoveWindow(hwndMute, 1, 1, 20, 20, FALSE);
-			SetWindowPos(hwndSlider, 0,
-				rect.left+20+1, rect.top+1+ (20-18)/2, rect.right-rect.left-3-20, 18,
-				SWP_NOZORDER);
+			SetWindowPos(hwndSlider, 0, rect.left+20+1, rect.top+1+ (20-18)/2, rect.right-rect.left-3-20, 18, SWP_NOZORDER);
 			InvalidateRect(hwnd, &rect, FALSE);
 			return 0;
 		}
 
-		case WM_PAINT:
+		case WM_ERASEBKGND:
 			{
-				RECT r;
+				HDC dc = (HDC)wParam;
+				RECT rc;
 
-				if (GetUpdateRect(hwnd, &r, FALSE))
-				{
-					RECT rc;
-					PAINTSTRUCT ps;
-					COLORREF clr = db_get_dw(NULL, ModuleName, "ColorFrame", GetSysColor(COLOR_3DFACE));
-					GetClientRect(hwnd, &rc);
-					HDC hdc = BeginPaint(hwnd, &ps);
-					if (clr != 0xFFFFFFFF) {
-						HBRUSH hBkgBrush = CreateSolidBrush(clr);
-						FillRect(hdc, &rc, hBkgBrush);
-						DeleteObject(hBkgBrush);
-					}
-					SetBkMode(hdc, TRANSPARENT);
-					EndPaint(hwnd, &ps);
+				GetClientRect(hwnd, &rc);
+				FillRect(dc, &rc, hBkgBrush);
+				return TRUE;
+			}
+
+		case WM_CTLCOLORSTATIC:
+			{
+				if((HANDLE)lParam == hwndSlider) {
+					HDC dc = (HDC)wParam;
+
+					SetBkColor(dc, clBack);
+					return((BOOL)hBkgBrush);
 				}
 				break;
 			}
+
+		case WM_DESTROY:
+			if(hwndSlider && IsWindow(hwndSlider) && OldSliderWndProc != 0)
+				SetWindowLong(hwndSlider, GWL_WNDPROC, (LONG)OldSliderWndProc);
+			break;
 
 		default:
 			return DefWindowProc(hwnd, msg, wParam, lParam);
@@ -445,12 +437,32 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 	return TRUE;
 }
 
+int ReloadColors(WPARAM wParam, LPARAM lParam)
+{
+	ColourIDT colourid = {0};
+	colourid.cbSize = sizeof(colourid);
+	lstrcpy(colourid.group, _T(ModuleName));
+
+	lstrcpy(colourid.name, LPGENT("Frame Background"));
+	clBack = CallService(MS_COLOUR_GETT, (WPARAM)&colourid, 0);
+
+	if(hBkgBrush)
+		DeleteObject(hBkgBrush);
+	hBkgBrush = CreateSolidBrush(clBack);
+	HWND hwnd = GetFocus();
+	InvalidateRect(hwndSlider, NULL, TRUE);
+	SetFocus(hwndSlider);
+	RedrawWindow(hwnd_plugin, NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN | RDW_ERASE);
+	SetFocus(hwnd);
+	return 0;
+}
+
 void CreateFrame()
 {
 	if ( !ServiceExists(MS_CLIST_FRAMES_ADDFRAME))
 		return;
 
-	WNDCLASS wndclass;
+	WNDCLASS wndclass = {0};
 	wndclass.style = 0;
 	wndclass.lpfnWndProc = FrameWindowProc;
 	wndclass.cbClsExtra = 0;
@@ -463,7 +475,7 @@ void CreateFrame()
 	wndclass.lpszClassName = _T("BassInterfaceFrame");
 	RegisterClass(&wndclass);
 
-	HWND hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"), 
+	hwnd_plugin = CreateWindow(_T("BassInterfaceFrame"), TranslateT("Bass Interface"), 
 		WS_CHILD | WS_CLIPCHILDREN, 0, 0, 10, 10, (HWND)CallService(MS_CLUI_GETHWND, 0, 0), NULL, hInst, NULL);
 
 	CLISTFrame Frame = { sizeof(CLISTFrame) };
@@ -482,6 +494,9 @@ void CreateFrame()
 	_tcscpy(colourid.group, _T(ModuleName));
 	colourid.defcolour = GetSysColor(COLOR_3DFACE);
 	ColourRegisterT(&colourid);
+
+	HookEvent(ME_COLOUR_RELOAD, ReloadColors);
+	ReloadColors(0, 0);
 }
 
 int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
@@ -532,10 +547,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 			StatMask = DBGetContactSettingWord(NULL, ModuleName, OPT_STATUS, 0x3ff);
 
 			ClistHWND = (HWND)CallService("CLUI/GetHwnd", 0, 0);
-			if (DBGetContactSettingByte(NULL, ModuleName, OPT_DEVOPEN, 1))
-				BASS_Init(device, 44100, 0, ClistHWND, NULL);
-			else
-				CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)hTBButton, TTBST_PUSHED);
+			BASS_Init(device, 44100, 0, ClistHWND, NULL);
 
 			Volume = DBGetContactSettingByte(NULL, ModuleName, OPT_VOLUME, 33);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
@@ -570,9 +582,7 @@ extern "C" int __declspec(dllexport) Load(void)
 
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
-	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
-
-	hService = CreateServiceFunction("BASSinterface/BASSSoundOnOff", BASSSoundOnOff);
+	HookEvent(ME_DB_CONTACT_SETTINGCHANGED, OnSettingChanged);
 
 	InitIcons();
 

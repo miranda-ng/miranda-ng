@@ -18,8 +18,7 @@ Copyright (C) 2010, 2011 tico-tico
 #include <m_clui.h>
 #include <m_fontservice.h>
 #include <m_button.h>
-
-#include "m_toptoolbar.h"
+#include <m_icolib.h>
 
 #include "resource.h"
 #include "version.h"
@@ -42,6 +41,5 @@ Copyright (C) 2010, 2011 tico-tico
 #define OPT_TIME2		"Time2"
 #define OPT_STATUS		"StatMask"
 #define OPT_PREVIEW		"Preview"
-#define OPT_DEVOPEN		"DevOpen"
 
 #endif
