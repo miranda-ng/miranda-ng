@@ -411,10 +411,10 @@ return(bRet);
 	va_start(va,tag1);
 	while (TRUE)
 	{
-		lpwszTagStart=(LPWSTR)MemoryFind((lpwszTagEnd-lpwszXML),lpwszXML,dwXMLSize,L"<",2);
+		lpwszTagStart=(LPWSTR)MemoryFind((lpwszTagEnd-lpwszXML),lpwszXML,dwXMLSize,_T("<"),2);
 		if (lpwszTagStart)
 		{
-			lpwszTagEnd=(LPWSTR)MemoryFind((lpwszTagStart-lpwszXML),lpwszXML,dwXMLSize,L">",2);
+			lpwszTagEnd=(LPWSTR)MemoryFind((lpwszTagStart-lpwszXML),lpwszXML,dwXMLSize,_T(">"),2);
 			if (lpwszTagEnd)
 			{
 				lpwszTagStart++;

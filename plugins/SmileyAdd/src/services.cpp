@@ -43,7 +43,7 @@ SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCTyp
 	if (hContact != NULL)
 	{
 		opt.ReadContactCategory(hContact, categoryName);
-		if (categoryName == L"<None>") return NULL;
+		if (categoryName == _T("<None>")) return NULL;
 		if (!categoryName.empty() && 
 			g_SmileyCategories.GetSmileyCategory(categoryName) == NULL)
 		{
@@ -72,7 +72,7 @@ SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCTyp
 	{
 		if (proto == NULL || proto[0] == 0)
 		{
-			categoryName = L"Standard";
+			categoryName = _T("Standard");
 		}
 		else 
 		{
@@ -80,7 +80,7 @@ SmileyPackType* GetSmileyPack(const char* proto, HANDLE hContact, SmileyPackCTyp
 			if (opt.UseOneForAll) 
 			{
 				SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(categoryName);
-				if (smc == NULL || smc->IsProto()) categoryName = L"Standard";
+				if (smc == NULL || smc->IsProto()) categoryName = _T("Standard");
 			}
 		}
 	}
@@ -386,7 +386,7 @@ INT_PTR CustomCatMenu(WPARAM wParam, LPARAM lParam)
 		else
 		{
 			bkstring empty;
-			if (lParam == 1) empty = L"<None>";
+			if (lParam == 1) empty = _T("<None>");
 			opt.WriteContactCategory(hContact, empty);
 		}
 		NotifyEventHooks(hEvent1, (WPARAM)hContact, 0);
@@ -457,8 +457,8 @@ int RebuildContactMenu(WPARAM wParam, LPARAM)
 
 		mi.position      = 1;
 		mi.popupPosition = 1;
-		mi.ptszName      = L"<None>";
-		if (cat == L"<None>") {
+		mi.ptszName      = _T("<None>");
+		if (cat == _T("<None>")) {
 			mi.flags |= CMIF_CHECKED; 
 			nonecheck = false;
 		}
@@ -523,7 +523,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 	case PRAC_ADDED:
 		if (acc != NULL)
 		{
-			bkstring catname(L"Standard");
+			bkstring catname(_T("Standard"));
 			const bkstring& defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
 			g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 		}
@@ -551,7 +551,7 @@ int AccountListChanged(WPARAM wParam, LPARAM lParam)
 		{
 			if (acc->bIsEnabled)
 			{
-				bkstring catname(L"Standard");
+				bkstring catname(_T("Standard"));
 				const bkstring& defaultFile = g_SmileyCategories.GetSmileyCategory(catname)->GetFilename();
 				g_SmileyCategories.AddAccountAsCategory(acc, defaultFile);
 			}
@@ -575,7 +575,7 @@ int DbSettingChanged(WPARAM wParam, LPARAM lParam)
 
 	if (strcmp(cws->szSetting, "Transport") == 0) 
 	{
-		bkstring catname(L"Standard");
+		bkstring catname(_T("Standard"));
 		SmileyCategoryType *smc = g_SmileyCategories.GetSmileyCategory(catname);
 		if (smc != NULL)
 			g_SmileyCategories.AddContactTransportAsCategory(hContact, smc->GetFilename());

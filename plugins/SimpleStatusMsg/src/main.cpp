@@ -1612,8 +1612,8 @@ void RegisterHotkey(void)
 	hkd.cbSize = sizeof(hkd);
 	hkd.dwFlags = HKD_TCHAR;
 	hkd.pszName = "SimpleStatusMsg_OpenDialog";
-	hkd.ptszDescription = _T("Open Status Message Dialog");
-	hkd.ptszSection = _T("Status Message");
+	hkd.ptszDescription = LPGENT("Open Status Message Dialog");
+	hkd.ptszSection = LPGENT("Status Message");
 	hkd.pszService = MS_SIMPLESTATUSMSG_SHOWDIALOGINT;
 	hkd.DefHotKey = HOTKEYCODE(HOTKEYF_CONTROL, VK_OEM_3);
 	Hotkey_Register(&hkd);

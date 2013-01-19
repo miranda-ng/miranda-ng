@@ -199,16 +199,16 @@ HWND RecvSMSWindowAdd(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T
 
 					switch(dwEventType){
 					case ICQEVENTTYPE_SMS:
-						lpwszTitlepart=TranslateW(L"Received SMS");
+						lpwszTitlepart=TranslateW(_T("Received SMS"));
 						hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 						break;
 					case ICQEVENTTYPE_SMSCONFIRMATION:
-						lpwszTitlepart=TranslateW(L"Received SMS Confirmation");
+						lpwszTitlepart=TranslateW(_T("Received SMS Confirmation"));
 						GetDataFromMessage(lpszMessage,dwMessageSize,NULL,NULL,0,NULL,&iIcon);
 						hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
 						break;
 					default:
-						lpwszTitlepart=L"Unknown event type";
+						lpwszTitlepart=_T("Unknown event type");
 					}
 
 					wszPhoneLocal[0]='+';
@@ -221,7 +221,7 @@ HWND RecvSMSWindowAdd(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T
 					}
 
 					lpwszContactDisplayName=GetContactNameW(hContact);
-					mir_sntprintf(wszTitle,SIZEOF(wszTitle),L"%s - %s",lpwszContactDisplayName,lpwszTitlepart);
+					mir_sntprintf(wszTitle,SIZEOF(wszTitle),_T("%s - %s"),lpwszContactDisplayName,lpwszTitlepart);
 					MultiByteToWideChar(CP_UTF8,0,lpszMessage,dwMessageSize,lpwszMessage,(dwMessageSize+MAX_PATH));
 
 					SendMessageW(prswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);

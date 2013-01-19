@@ -43,7 +43,7 @@ int inline _DebugPopup(HANDLE hContact, TCHAR *fmt, ...)
 
 int inline initLog()
 {
-	fclose(_tfopen(szLogFile, L"w"));
+	fclose(_tfopen(szLogFile, _T("w")));
 	return 0;
 }
 
@@ -53,8 +53,8 @@ int inline initLog()
 
 void inline logMessage(TCHAR *func, TCHAR *msg)
 {
-	FILE *f = _tfopen(szLogFile, L"a");
-	_ftprintf(f, L"%s:\t\t%s\n", func, msg);
+	FILE *f = _tfopen(szLogFile, _T("a"));
+	_ftprintf(f, _T("%s:\t\t%s\n"), func, msg);
 	fclose(f);
 }
 

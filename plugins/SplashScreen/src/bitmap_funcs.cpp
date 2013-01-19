@@ -210,7 +210,7 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 	TCHAR *ext;
 	ext = &fn[lstrlen(fn)-4];
 
-	if (!lstrcmpi(ext, L".png"))
+	if (!lstrcmpi(ext, _T(".png")))
 	{
 		HANDLE hFile, hMap = NULL;
 		BYTE* ppMap = NULL;
@@ -238,7 +238,7 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 			else
 				cbFileSize = 0;
 			#ifdef _DEBUG
-				logMessage(L"Loading splash file", L"done");
+				logMessage(_T("Loading splash file"), _T("done"));
 			#endif
 		}
 
@@ -301,7 +301,7 @@ bool MyBitmap::loadFromFile(TCHAR *fn, TCHAR *fnAlpha)
 		if (!hBmpLoaded)
 		{
 			#ifdef _DEBUG
-				logMessage(L"MyBitmap::loadFromFile", L"Bitmap load failed");
+				logMessage(_T("MyBitmap::loadFromFile"), _T("Bitmap load failed"));
 			#endif
 			return false;
 		}

@@ -46,7 +46,7 @@ int CalculateTextHeight(HDC hdc, CHARFORMAT2* chf)
 	SelectObject(hcdc, hFont);
 
 	SIZE fontSize;
-	GetTextExtentPoint32(hcdc, L")", 1, &fontSize);
+	GetTextExtentPoint32(hcdc, _T(")"), 1, &fontSize);
 
 	DeleteObject(hFont);
 	DeleteDC(hcdc);
@@ -78,7 +78,7 @@ HICON GetDefaultIcon(bool copy)
 
 const TCHAR* GetImageExt(bkstring &fname)
 {
-	const TCHAR* ext = L"";
+	const TCHAR* ext = _T("");
 
 	int fileId = _topen(fname.c_str(), O_RDONLY | _O_BINARY);
 	if (fileId != -1)
@@ -89,13 +89,13 @@ const TCHAR* GetImageExt(bkstring &fname)
 		if (bytes > 4)
 		{
 			if ( *(unsigned short*)buf == 0xd8ff )
-				ext = L"jpg";
+				ext = _T("jpg");
 			else if ( *(unsigned short*)buf == 0x4d42 )
-				ext = L"bmp";
+				ext = _T("bmp");
 			else if ( *(unsigned*)buf == 0x474e5089 )
-				ext = L"png";
+				ext = _T("png");
 			else if ( *(unsigned*)buf == 0x38464947 )
-				ext = L"gif";
+				ext = _T("gif");
 		}
 		_close(fileId);
 	}
@@ -216,8 +216,8 @@ bool InitGdiPlus(void)
 {
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 
-	static const TCHAR errmsg[] = L"GDI+ not installed.\n"
-		L"GDI+ can be downloaded here: http://www.microsoft.com/downloads";
+	static const TCHAR errmsg[] = _T("GDI+ not installed.\n")
+		_T("GDI+ can be downloaded here: http://www.microsoft.com/downloads");
 
 #ifdef _MSC_VER
 	__try 
@@ -273,7 +273,7 @@ bool IsSmileyProto(char* proto)
 
 void ReportError(const TCHAR* errmsg)
 {
-	static const TCHAR title[] = L"Miranda SmileyAdd";
+	static const TCHAR title[] = _T("Miranda SmileyAdd");
 /*
 
 	POPUPDATAW pd = {0};

@@ -25,12 +25,12 @@ INT interval;
 int hLangpack;
 
 TCHAR* ptszDefaultMsg[]={
-	_T("I am currently away. I will reply to you when I am back."),
-	_T("I am currently very busy and can't spare any time to talk with you. Sorry..."),
-	_T("I am not available right now."),
-	_T("I am now doing something, I will talk to you later."),
-	_T("I am on the phone right now. I will get back to you very soon."),
-	_T("I am having meal right now. I will get back to you very soon.")
+	TranslateT("I am currently away. I will reply to you when I am back."),
+	TranslateT("I am currently very busy and can't spare any time to talk with you. Sorry..."),
+	TranslateT("I am not available right now."),
+	TranslateT("I am now doing something, I will talk to you later."),
+	TranslateT("I am on the phone right now. I will get back to you very soon."),
+	TranslateT("I am having meal right now. I will get back to you very soon.")
 };
 
 PLUGININFOEX pluginInfoEx = {
@@ -64,11 +64,11 @@ INT_PTR ToggleEnable(WPARAM wParam, LPARAM lParam)
 	mi.flags = CMIM_NAME|CMIM_ICON|CMIF_TCHAR;
 	fEnabled = !fEnabled;
 	if (fEnabled) {
-		mi.ptszName = _T("Disable Auto&reply");
+		mi.ptszName = LPGENT("Disable Auto&reply");
 		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	}
 	else {
-		mi.ptszName = _T("Enable Auto&reply");
+		mi.ptszName = LPGENT("Enable Auto&reply");
 		mi.hIcon = LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF));
 	}
 	CallService(MS_CLIST_MODIFYMENUITEM,(WPARAM)hEnableMenu,(LPARAM)&mi);
@@ -80,13 +80,13 @@ INT_PTR Toggle(WPARAM w, LPARAM l)
 	HANDLE hContact = (HANDLE)w;
 	BOOL on = 0;
 	on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
-	DBWriteContactSettingByte(hContact, protocolname, "TurnedOn", on?1:0);
+	DBWriteContactSettingByte(hContact, protocolname, "TurnedOn", on ? 1 : 0);
 	on = on?0:1;
 
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME |CMIM_ICON | CMIF_TCHAR;
-	mi.ptszName=on?_T("Turn off Autoanswer"):_T("Turn on Autoanswer");
-	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
+	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
+	mi.hIcon = on ? LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)) : LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggle, (LPARAM)&mi);
 	return 0;
 }
@@ -98,7 +98,7 @@ INT OnPreBuildContactMenu(WPARAM w, LPARAM l)
 	CLISTMENUITEM mi = { sizeof(mi) };
 	mi.flags = CMIM_NAME | CMIM_ICON | CMIF_TCHAR;
 	BOOL  on = !DBGetContactSettingByte(hContact, protocolname, "TurnedOn", 0);
-	mi.ptszName = on?_T("Turn off Autoanswer"):_T("Turn on Autoanswer");
+	mi.ptszName = on ? LPGENT("Turn off Autoanswer") : LPGENT("Turn on Autoanswer");
 	mi.hIcon = on?LoadIcon(hinstance, MAKEINTRESOURCE(IDI_OFF)):LoadIcon(hinstance, MAKEINTRESOURCE(IDI_ON));
 	CallService(MS_CLIST_MODIFYMENUITEM, (WPARAM)hToggle, (LPARAM)&mi);
 	return 0;
@@ -132,9 +132,9 @@ INT CheckDefaults(WPARAM, LPARAM)
 			{
 				if (c < 40077)
 					// This mode does not have a preset message
-					ptszDefault=TranslateTS(ptszDefaultMsg[c-ID_STATUS_ONLINE-1]);
+					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-1];
 				else if(c > 40078)
-					ptszDefault=TranslateTS(ptszDefaultMsg[c-ID_STATUS_ONLINE-3]);
+					ptszDefault=ptszDefaultMsg[c-ID_STATUS_ONLINE-3];
 				if (ptszDefault)
 					DBWriteContactSettingTString(NULL,protocolname,szStatus,ptszDefault);
 			}

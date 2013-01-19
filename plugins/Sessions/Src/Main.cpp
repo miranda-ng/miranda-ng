@@ -937,7 +937,7 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	// Hotkeys
 	HOTKEYDESC hkd = { sizeof(hkd) };
 	hkd.dwFlags = HKD_TCHAR;
-	hkd.ptszSection = _T("Sessions");
+	hkd.ptszSection = LPGENT("Sessions");
 	hkd.pszName = "OpenSessionsManager";
 	hkd.ptszDescription = LPGENT("Open Sessions Manager");
 	hkd.pszService = MS_SESSIONS_OPENMANAGER;
@@ -966,23 +966,23 @@ static int PluginInit(WPARAM wparam,LPARAM lparam)
 	cl.position = 1000000000;
 	cl.flags = CMIM_ALL | CMIF_TCHAR | CMIF_ICONFROMICOLIB;
 
-	cl.ptszName = _T("Save session...");
-	cl.ptszPopupName = _T("Sessions Manager");
+	cl.ptszName = LPGENT("Save session...");
+	cl.ptszPopupName = LPGENT("Sessions Manager");
 	cl.icolibItem = iconList[0].hIcolib;
 	cl.pszService = MS_SESSIONS_SAVEUSERSESSION;
 	hmSaveCurrentSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = _T("Load session...");
+	cl.ptszName = LPGENT("Load session...");
 	cl.pszService = MS_SESSIONS_OPENMANAGER;
 	cl.icolibItem = iconList[3].hIcolib;
 	hmLoadLastSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = _T("Close session");
+	cl.ptszName = LPGENT("Close session");
 	cl.pszService = MS_SESSIONS_CLOSESESSION;
 	cl.icolibItem = 0;
 	hmLoadSession = Menu_AddMainMenuItem(&cl);
 
-	cl.ptszName = _T("Load last session");
+	cl.ptszName = LPGENT("Load last session");
 	cl.pszService = MS_SESSIONS_RESTORELASTSESSION;
 	cl.icolibItem = iconList[5].hIcolib;
 	cl.position = 10100000;
