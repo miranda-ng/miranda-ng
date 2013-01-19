@@ -22,7 +22,7 @@ tstring DBGetContactSettingStringPAN(HANDLE hContact, char const * szModule, cha
 {
 	DBVARIANT dbv;
 	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
-	if(db_get_s(hContact, szModule, szSetting, &dbv))
+	if(DBGetContactSettingTString(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_TCHAR == dbv.type )
 		errorValue = dbv.ptszVal;
@@ -34,7 +34,7 @@ std::string DBGetContactSettingStringPAN_A(HANDLE hContact, char const * szModul
 {
 	DBVARIANT dbv;
 	//if(DBGetContactSetting(hContact, szModule, szSetting, &dbv))
-	if(db_get_s(hContact, szModule, szSetting, &dbv))
+	if(DBGetContactSettingString(hContact, szModule, szSetting, &dbv))
 		return errorValue;
 //	if(DBVT_ASCIIZ == dbv.type )
 		errorValue = dbv.pszVal;
