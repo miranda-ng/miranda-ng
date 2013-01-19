@@ -38,18 +38,18 @@ int LoadModules(void)
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 	mi.ptszName=SMS_SEND_STR;
 	mi.pszService=szServiceFunction;
-	mi.flags=(CMIF_UNICODE);
+	mi.flags=CMIF_TCHAR;
 	Menu_AddMainMenuItem(&mi);
 
 	mi.position=-2000070000;
 	mi.hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 	mi.ptszName=SMS_SEND_CM_STR;
 	mi.pszService=szServiceFunction;
-	mi.flags=(CMIF_UNICODE);	
+	mi.flags=CMIF_TCHAR;	
 	ssSMSSettings.hContactMenuItems[0]=Menu_AddContactMenuItem(&mi);
 
-	SkinAddNewSoundEx("RecvSMSMsg",PROTOCOL_NAMEA,Translate("Incoming SMS Message"));
-	SkinAddNewSoundEx("RecvSMSConfirmation",PROTOCOL_NAMEA,Translate("Incoming SMS Confirmation"));
+	SkinAddNewSoundEx("RecvSMSMsg",PROTOCOL_NAMEA,LPGEN("Incoming SMS Message"));
+	SkinAddNewSoundEx("RecvSMSConfirmation",PROTOCOL_NAMEA,LPGEN("Incoming SMS Confirmation"));
 
 
 	RefreshAccountList(NULL,NULL);
@@ -172,18 +172,19 @@ int ReadAckSMS(WPARAM wParam,LPARAM lParam)
 	DBEVENTINFO dbei={0};
 
 	dbei.cbSize=sizeof(dbei);
-	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)((CLISTEVENT*)lParam)->hDbEvent,0))!=-1)
+	CLISTEVENT *cle = ((CLISTEVENT*)lParam);
+	if ((dbei.cbBlob=CallService(MS_DB_EVENT_GETBLOBSIZE,(WPARAM)cle->hDbEvent,0))!=-1)
 	{
 		dbei.pBlob=(PBYTE)MEMALLOC(dbei.cbBlob);
 		if (dbei.pBlob)
 		{
-			if (CallService(MS_DB_EVENT_GET,(WPARAM)((CLISTEVENT*)lParam)->hDbEvent,(LPARAM)&dbei)==0)
+			if (CallService(MS_DB_EVENT_GET,(WPARAM)cle->hDbEvent,(LPARAM)&dbei)==0)
 			if (dbei.eventType==ICQEVENTTYPE_SMS || dbei.eventType==ICQEVENTTYPE_SMSCONFIRMATION)
 			if (dbei.cbBlob>MIN_SMS_DBEVENT_LEN)
 			{
-				if (RecvSMSWindowAdd(((CLISTEVENT*)lParam)->hContact,ICQEVENTTYPE_SMSCONFIRMATION,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
+				if (RecvSMSWindowAdd(cle->hContact,ICQEVENTTYPE_SMSCONFIRMATION,NULL,0,(LPSTR)dbei.pBlob,dbei.cbBlob))
 				{
-					CallService(MS_DB_EVENT_DELETE,(WPARAM)((CLISTEVENT*)lParam)->hContact,(LPARAM)((CLISTEVENT*)lParam)->hDbEvent);
+					CallService(MS_DB_EVENT_DELETE,(WPARAM)cle->hContact,(LPARAM)cle->hDbEvent);
 					iRet=0;
 				}
 			}

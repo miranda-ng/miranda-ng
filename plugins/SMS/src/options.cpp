@@ -37,7 +37,7 @@ INT_PTR CALLBACK DlgProcEditorOptions(HWND hWndDlg, UINT msg, WPARAM wParam, LPA
 		TranslateDialogDefault(hWndDlg);
 
 		if (DB_SMS_GetStaticStringW(NULL,"Signature",wszSign,SIZEOF(wszSign),NULL)==FALSE)
-			mir_sntprintf(wszSign,SIZEOF(wszSign),TranslateW(_T("From %s:\r\n\r\n")),GetContactNameW(NULL));
+			mir_sntprintf(wszSign,SIZEOF(wszSign),TranslateT("From %s:\r\n\r\n"),GetContactNameW(NULL));
 
 		SET_DLG_ITEM_TEXTW(hWndDlg,IDC_SIGNATURE,wszSign);
 		{

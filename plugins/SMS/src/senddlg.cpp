@@ -112,26 +112,25 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			psswdWindowData->hBkgBrush=CreateSolidBrush(colour);
 		}
 		{
+			HWND hwndToolTips=CreateWindowEx(WS_EX_TOPMOST,TOOLTIPS_CLASS,TEXT(""),WS_POPUP,0,0,0,0,NULL,NULL,GetModuleHandle(NULL),NULL);
 			TOOLINFO ti;
-			HWND hwndToolTips;
-			hwndToolTips=CreateWindowEx(WS_EX_TOPMOST,TOOLTIPS_CLASS,TEXT(""),WS_POPUP,0,0,0,0,NULL,NULL,GetModuleHandle(NULL),NULL);
 			ZeroMemory(&ti,sizeof(ti));
 			ti.cbSize=sizeof(ti);
 			ti.uFlags=TTF_IDISHWND|TTF_SUBCLASS;
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_HISTORY);
-			ti.lpszText=TranslateW(_T("View User's History"));
+			ti.lpszText=TranslateT("View User's History");
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_ADDNUMBER);
-			ti.lpszText=TranslateW(_T("Add Number To The Multiple List"));
+			ti.lpszText=TranslateT("Add Number To The Multiple List");
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_SAVENUMBER);
-			ti.lpszText=TranslateW(_T("Save Number To The User's Details Phonebook"));
+			ti.lpszText=TranslateT("Save Number To The User's Details Phonebook");
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_MULTIPLE);
-			ti.lpszText=TranslateW(_T("Show/Hide Multiple List"));
+			ti.lpszText=TranslateT("Show/Hide Multiple List");
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 			ti.uId=(UINT)GetDlgItem(hWndDlg,IDC_COUNT);
-			ti.lpszText=TranslateW(_T("Shows How Much Chars You've Typed"));
+			ti.lpszText=TranslateT("Shows How Much Chars You've Typed");
 			SendMessage(hwndToolTips,TTM_ADDTOOL,0,(LPARAM)&ti);
 		}
 		{
@@ -211,7 +210,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		if (wParam==TIMERID_MSGSEND)
 		{
 			HWND hwndTimeOut;
-			WCHAR wszMessage[1028],wszPhone[MAX_PHONE_LEN];
+			TCHAR wszMessage[1028],wszPhone[MAX_PHONE_LEN];
 
 			if (psswdWindowData->bMultiple)
 			{
@@ -224,7 +223,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 			}else{
 				GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(wszPhone));
 			}
-			mir_sntprintf(wszMessage,SIZEOF(wszMessage),TranslateW(_T("The SMS message send to %s timed out.")),wszPhone);
+			mir_sntprintf(wszMessage,SIZEOF(wszMessage),TranslateT("The SMS message send to %s timed out."),wszPhone);
 			KillTimer(hWndDlg,wParam);
 			ShowWindow(hWndDlg,SW_SHOWNORMAL);
 			EnableWindow(hWndDlg,FALSE);
@@ -317,7 +316,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 					tvis.item.pszText = wszPhone;
 					TreeView_InsertItem( GetDlgItem(hWndDlg,IDC_NUMBERSLIST), &tvis);
 				}
-				else MessageBox(hWndDlg,TranslateW(_T("The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.")),TranslateW(_T("Invalid Phone Number")),MB_OK);
+				else MessageBox(hWndDlg,TranslateT("The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only."),TranslateT("Invalid Phone Number"),MB_OK);
 			}
 			break;
 
@@ -328,7 +327,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 		case IDOK:
 			if ((SIZE_T)GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE) > GetSMSMessageLenMax(hWndDlg))
 			{
-				MessageBox(hWndDlg,TranslateW(_T("Message is too long, press OK to continue.")),TranslateW(_T("Error - Message too long")),MB_OK);
+				MessageBox(hWndDlg,TranslateT("Message is too long, press OK to continue."),TranslateT("Error - Message too long"),MB_OK);
 			}else{
 				if (psswdWindowData->bMultiple)
 				{
@@ -348,20 +347,15 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 						EnableWindow(GetDlgItem(hWndDlg,IDC_ADDRESS),FALSE);
 						SendSMSWindowNext(hWndDlg);
 					}else{
-						MessageBox(hWndDlg,TranslateW(_T("There must be numbers in the list first.")),TranslateW(_T("No Numbers")),MB_OK);
+						MessageBox(hWndDlg,TranslateT("There must be numbers in the list first."),TranslateT("No Numbers"),MB_OK);
 					}
 				}else{
 					WCHAR wszPhone[MAX_PHONE_LEN];
-					SIZE_T dwPhoneSize;
-
-					dwPhoneSize=GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(wszPhone));
+					SIZE_T dwPhoneSize=GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,SIZEOF(wszPhone));
 					if (IsPhoneW(wszPhone,dwPhoneSize))
 					{
-						LPWSTR lpwszMessage;
-						SIZE_T dwMessageSize;
-
-						dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
-						lpwszMessage=(LPWSTR)MEMALLOC((dwMessageSize+4)*sizeof(WCHAR));
+						SIZE_T dwMessageSize=GET_DLG_ITEM_TEXT_LENGTH(hWndDlg,IDC_MESSAGE);
+						LPWSTR lpwszMessage=(LPWSTR)MEMALLOC((dwMessageSize+4)*sizeof(WCHAR));
 						if (lpwszMessage)
 						{
 							dwMessageSize=GET_DLG_ITEM_TEXTW(hWndDlg,IDC_MESSAGE,lpwszMessage,(dwMessageSize+2));
@@ -380,7 +374,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 							MEMFREE(lpwszMessage);
 						}
 					}else{
-						MessageBox(hWndDlg,TranslateW(_T("Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero.")),TranslateW(_T("Invalid phone number")),MB_OK);
+						MessageBox(hWndDlg,TranslateT("Valid phone numbers are of the form '+(country code)(phone szPhone)'. The contents of the phone szPhone portion is dependent on the national layout of phone numbers, but often omits the leading zero."),TranslateT("Invalid phone number"),MB_OK);
 						SetFocus(GetDlgItem(hWndDlg,IDC_ADDRESS));
 						SEND_DLG_ITEM_MESSAGE(hWndDlg,IDC_ADDRESS,CB_SETEDITSEL,0,MAKELPARAM(0,-1));
 					}
@@ -408,10 +402,9 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 				BOOL bCont=TRUE;
 				char szBuff[MAX_PATH];
 				WCHAR wszPhone[MAX_PHONE_LEN];
-				SIZE_T dwPhoneSize;
 				DBVARIANT dbv;
 
-				dwPhoneSize=GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,(SIZEOF(wszPhone)-4));
+				SIZE_T dwPhoneSize=GET_DLG_ITEM_TEXTW(hWndDlg,IDC_ADDRESS,wszPhone,(SIZEOF(wszPhone)-4));
 				if (IsPhoneW(wszPhone,dwPhoneSize))
 				{
 					if (IsContactPhone(psswdWindowData->hMyContact,wszPhone,dwPhoneSize)==FALSE)
@@ -426,7 +419,7 @@ INT_PTR CALLBACK SendSmsDlgProc(HWND hWndDlg,UINT message,WPARAM wParam,LPARAM l
 						DB_SetStringW(psswdWindowData->hMyContact,"UserInfo",szBuff,wszPhone);
 					}
 				}else{
-					MessageBox(hWndDlg, TranslateW(_T("The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only.")),TranslateW(_T("Invalid Phone Number")),MB_OK);
+					MessageBox(hWndDlg, TranslateT("The phone szPhone should start with a + and consist of numbers, spaces, brackets and hyphens only."),TranslateT("Invalid Phone Number"),MB_OK);
 				}
 			}
 			break;
@@ -569,9 +562,7 @@ INT_PTR CALLBACK SMSAcceptedDlgProc(HWND hWndDlg,UINT msg,WPARAM wParam,LPARAM l
 HWND SendSMSWindowAdd(HANDLE hContact)
 {
 	HWND hRet=NULL;
-	SEND_SMS_WINDOW_DATA *psswdWindowData;
-
-	psswdWindowData=(SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
+	SEND_SMS_WINDOW_DATA *psswdWindowData=(SEND_SMS_WINDOW_DATA*)MEMALLOC(sizeof(SEND_SMS_WINDOW_DATA));
 	if (psswdWindowData) {
 		psswdWindowData->hMyContact = hContact;
 		psswdWindowData->hWnd = CreateDialogParam(ssSMSSettings.hInstance, MAKEINTRESOURCE(IDD_SENDSMS), NULL, SendSmsDlgProc, (LPARAM)psswdWindowData);
@@ -584,7 +575,7 @@ HWND SendSMSWindowAdd(HANDLE hContact)
 			ListMTUnLock(&ssSMSSettings.lmtSendSMSWindowsListMT);
 
 			lpwszContactDisplayName=GetContactNameW(hContact);
-			mir_sntprintf(wszTitle, SIZEOF(wszTitle), _T("%s - %s"), lpwszContactDisplayName, TranslateW(_T("Send SMS")));
+			mir_sntprintf(wszTitle, SIZEOF(wszTitle), _T("%s - %s"), lpwszContactDisplayName, TranslateT("Send SMS"));
 			SendMessageW(psswdWindowData->hWnd,WM_SETTEXT,NULL,(LPARAM)wszTitle);
 			SEND_DLG_ITEM_MESSAGEW(psswdWindowData->hWnd,IDC_NAME,CB_ADDSTRING,0,(LPARAM)lpwszContactDisplayName);
 			SEND_DLG_ITEM_MESSAGE(psswdWindowData->hWnd,IDC_NAME,CB_SETCURSEL,0,0);
@@ -702,14 +693,14 @@ void SendSMSWindowMultipleSet(HWND hWndDlg,BOOL bMultiple)
 			SendSMSWindowFillTreeView(hWndDlg);
 
 			EnableWindow(GetDlgItem(hWndDlg,IDC_SAVENUMBER),FALSE);
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_MULTIPLE, TranslateW(_T("<< Single")));
+			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_MULTIPLE, TranslateT("<< Single"));
 			if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left - (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 			SetWindowPos(hWndDlg, 0 ,rcWin.left, rcWin.top, rcWin.right - rcWin.left + (rcList.right-rcList.left) + 11, rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 		}else{
 			if (psswdWindowData->hMyContact) AddContactPhonesToCombo(hWndDlg,psswdWindowData->hMyContact);
 
 			EnableWindow(GetDlgItem(hWndDlg, IDC_SAVENUMBER), TRUE);
-			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_MULTIPLE, TranslateW(_T("Multiple >>")));
+			SET_DLG_ITEM_TEXTW(hWndDlg, IDC_MULTIPLE, TranslateT("Multiple >>"));
 			SetWindowPos(hWndDlg, 0, rcWin.left, rcWin.top, rcWin.right-rcWin.left - (rcList.right-rcList.left) - 11, rcWin.bottom - rcWin.top,SWP_NOZORDER | SWP_NOMOVE);
 			if (wp.showCmd==SW_MAXIMIZE) SetWindowPos(hWndDlg, 0, 0, 0, rcWin.right - rcWin.left + (rcList.right - rcList.left + 11), rcWin.bottom - rcWin.top, SWP_NOZORDER | SWP_NOMOVE);
 		}

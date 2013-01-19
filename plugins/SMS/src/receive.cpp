@@ -170,7 +170,7 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 						GetXMLFieldExBuff(lpszXML,dwXMLSize,szBuff,sizeof(szBuff),NULL,"sms_response","error","params","param",NULL);
 					}
 
-					mir_sntprintf(wszErrorMessage,SIZEOF(wszErrorMessage),TranslateW(_T("SMS message didn't send by %S to %s because: %S")),szNetwork,wszPhone,lpszErrorDescription);
+					mir_sntprintf(wszErrorMessage,SIZEOF(wszErrorMessage),TranslateT("SMS message didn't send by %S to %s because: %S"),szNetwork,wszPhone,lpszErrorDescription);
 					ShowWindow(hWndDlg,SW_SHOWNORMAL);
 					EnableWindow(hWndDlg,FALSE);
 					hwndTimeOut=CreateDialog(ssSMSSettings.hInstance,MAKEINTRESOURCE(IDD_SENDSMSTIMEDOUT),hWndDlg,SMSTimedOutDlgProc);
@@ -198,8 +198,8 @@ int handleAckSMS(WPARAM wParam,LPARAM lParam)
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szMessageID,sizeof(szMessageID),NULL,"sms_response","message_id",NULL);
 								}
 								else {
-									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_SOURCE,TranslateW(_T("From:")));
-									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_MESSAGEID,TranslateW(_T("To:")));
+									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_SOURCE,TranslateT("From:"));
+									SET_DLG_ITEM_TEXTW(hwndAccepted,IDC_ST_MESSAGEID,TranslateT("To:"));
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szSource,sizeof(szSource),NULL,"sms_response","from",NULL);
 									GetXMLFieldExBuff(lpszXML,dwXMLSize,szMessageID,sizeof(szMessageID),NULL,"sms_response","to",NULL);
 								}
@@ -253,12 +253,12 @@ int handleNewMessage(WPARAM wParam,LPARAM lParam)
 						CopyMemory(pszServiceFunctionName,SMS_READ,sizeof(SMS_READ));
 
 						cle.cbSize=sizeof(cle);
-						cle.flags=CLEF_UNICODE;
+						cle.flags=CLEF_TCHAR;
 						cle.hContact=hContact;
 						cle.hDbEvent=hDbEvent;
 						cle.hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 						cle.pszService=szServiceFunction;
-						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateW(_T("SMS Message from %s")),GetContactNameW(hContact));
+						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Message from %s"),GetContactNameW(hContact));
 						cle.ptszTooltip=szToolTip;
 						CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
 					}
@@ -281,12 +281,12 @@ int handleNewMessage(WPARAM wParam,LPARAM lParam)
 						CopyMemory(pszServiceFunctionName,SMS_READ_ACK,sizeof(SMS_READ_ACK));
 
 						cle.cbSize=sizeof(cle);
-						cle.flags=(CLEF_UNICODE);
+						cle.flags=CLEF_TCHAR;
 						cle.hContact=hContact;
 						cle.hDbEvent=hDbEvent;
 						cle.hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
 						cle.pszService=szServiceFunction;
-						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateW(_T("SMS Confirmation from %s")),GetContactNameW(hContact));
+						mir_sntprintf(szToolTip,SIZEOF(szToolTip),TranslateT("SMS Confirmation from %s"),GetContactNameW(hContact));
 						cle.ptszTooltip=szToolTip;
 						CallService(MS_CLIST_ADDEVENT,0,(LPARAM)&cle);
 					}

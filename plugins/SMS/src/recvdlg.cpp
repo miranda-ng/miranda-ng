@@ -199,11 +199,11 @@ HWND RecvSMSWindowAdd(HANDLE hContact,DWORD dwEventType,LPWSTR lpwszPhone,SIZE_T
 
 					switch(dwEventType){
 					case ICQEVENTTYPE_SMS:
-						lpwszTitlepart=TranslateW(_T("Received SMS"));
+						lpwszTitlepart=TranslateT("Received SMS");
 						hIcon=LoadSkinnedIcon(SKINICON_OTHER_SMS);
 						break;
 					case ICQEVENTTYPE_SMSCONFIRMATION:
-						lpwszTitlepart=TranslateW(_T("Received SMS Confirmation"));
+						lpwszTitlepart=TranslateT("Received SMS Confirmation");
 						GetDataFromMessage(lpszMessage,dwMessageSize,NULL,NULL,0,NULL,&iIcon);
 						hIcon=(HICON)LoadImage(ssSMSSettings.hInstance,MAKEINTRESOURCE(iIcon),IMAGE_ICON,0,0,LR_SHARED);
 						break;
