@@ -17,6 +17,7 @@ Copyright (C) 2010, 2011 tico-tico
 #include <m_cluiframes.h>
 #include <m_clui.h>
 #include <m_fontservice.h>
+#include <m_button.h>
 
 #include "m_toptoolbar.h"
 

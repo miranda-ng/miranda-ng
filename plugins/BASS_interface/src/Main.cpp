@@ -48,6 +48,8 @@ static int device = -1;
 static int newBass = 0;
 static HWND ClistHWND;
 
+HWND hwndSlider = NULL, hwndMute = NULL;
+
 static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 {
 	TCHAR* ptszFile = (TCHAR*) lParam; SYSTEMTIME systime; WORD currtime, currstat; BOOL doPlay = TRUE;
@@ -362,6 +364,45 @@ LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPar
 {
 	switch(msg) 
 	{
+		case WM_CREATE:
+			{
+				hwndMute = CreateWindow(MIRANDABUTTONCLASS,	_T(""),	WS_CHILD | WS_VISIBLE, 1,	1,
+										20,	20,	hwnd, (HMENU)0,	(HINSTANCE) GetWindowLong(hwnd, GWL_HINSTANCE), NULL);
+				SendMessage(hwndMute, BUTTONSETASFLATBTN,0,0);				
+				SendMessage(hwndMute, BM_SETIMAGE,IMAGE_ICON,(LPARAM)iconList[0].hIcolib);
+
+				hwndSlider = CreateWindow(TRACKBAR_CLASS, _T(""), WS_CHILD | WS_VISIBLE | TBS_NOTICKS | TBS_TOOLTIPS, 21, 1, 100, 20,
+					hwnd, (HMENU)0, (HINSTANCE) GetWindowLongPtr(hwnd, GWL_HINSTANCE), NULL);
+				SendMessage(hwndSlider, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN, SLIDER_MAX));
+				SendMessage(hwndSlider, TBM_SETPOS, TRUE, Volume);
+				//SendMessage(hwndSlider, TBM_SETPAGESIZE, 0, 5);
+				break;
+			}
+
+		case WM_HSCROLL:
+			{
+				if (hBass != NULL)
+					if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
+					{
+						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, SendMessage(hwndSlider, TBM_GETPOS, 0, 0) * 100);
+					}
+				break;
+			}
+
+		case WM_SIZE:
+		{
+			RECT rect;
+
+			GetClientRect(hwnd,&rect);
+			if(hwndMute)
+				MoveWindow(hwndMute, 1, 1, 20, 20, FALSE);
+			SetWindowPos(hwndSlider, 0,
+				rect.left+20+1, rect.top+1+ (20-18)/2, rect.right-rect.left-3-20, 18,
+				SWP_NOZORDER);
+			InvalidateRect(hwnd, &rect, FALSE);
+			return 0;
+		}
+
 		case WM_PAINT:
 			{
 				RECT r;
@@ -416,7 +457,7 @@ void CreateFrame()
 	Frame.hWnd = hwnd_plugin;
 	Frame.align = alBottom;
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
-	Frame.height = 30;
+	Frame.height = 22;
 	DWORD frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
 
 	ColourIDT colourid = {0};
