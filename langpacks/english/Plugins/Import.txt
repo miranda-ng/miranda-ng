@@ -74,12 +74,8 @@
 [&Import...]
 ;file \plugins\Import\src\miranda.cpp
 [%miranda_path%\\Profiles]
-[%miranda_path%]
-[%miranda_profile%]
-[%miranda_profilename%]
 [The given file does not exist. Please check that you have entered the name correctly.]
 [Miranda Import]
-[%s (*.dat, *.bak)%c*.dat;*.bak%c%s (*.*)%c*.*%c%c]
 [Miranda NG database]
 [All Files]
 ;file \plugins\Import\src\utils.cpp

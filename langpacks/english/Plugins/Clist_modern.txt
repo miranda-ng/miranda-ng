@@ -331,9 +331,6 @@
 [&Delete Group]
 ;file \plugins\Clist_modern\src\modern_aniavatars.cpp
 [MirandaModernAniAvatar]
-;file \plugins\Clist_modern\src\modern_cachefuncs.cpp
-[%s: %s]
-[%s - %s]
 ;file \plugins\Clist_modern\src\modern_clc.cpp
 [Contact List/Avatar Overlay]
 [Contact List/Status Overlay]
@@ -349,8 +346,6 @@
 [Do You want contact '%s' to be removed from MetaContact '%s' and added to '%s'?]
 [Changing MetaContacts (Moving)]
 [Do You want contact '%s' to be added to MetaContact '%s'?]
-;file \plugins\Clist_modern\src\modern_clcitems.cpp
-[%s|]
 ;file \plugins\Clist_modern\src\modern_clcopts.cpp
 [Contact List/Contact names]
 [Contact List/Row Items]
@@ -385,13 +380,11 @@
 [Progman]
 [Fonts]
 ;file \plugins\Clist_modern\src\modern_clistevents.cpp
-[%s: %s (%s)]
 [EventArea]
 [Event Area]
 [No Events]
 ;file \plugins\Clist_modern\src\modern_clistmenus.cpp
 [&Contact rate]
-[%s (%s)]
 [Show even if offline]
 ;file \plugins\Clist_modern\src\modern_clistopts.cpp
 [Avatar]
@@ -503,8 +496,8 @@
 [SkinFolder]
 [Profile]
 ;file \plugins\Clist_modern\src\modern_skinopt.cpp
-[%s (*.msf)%c*.MSF%c%c]
 [Miranda skin file]
+[JID: fyr@jabber.ru]
 [%Default Skin%]
 [%%Default Skin%%]
 ;file \plugins\Clist_modern\src\modern_statusbar.cpp

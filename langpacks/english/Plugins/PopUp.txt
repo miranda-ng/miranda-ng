@@ -116,8 +116,6 @@
 [Pin popup]
 [Copy to clipboard]
 [Action]
-;file \plugins\Popup\src\avatars.cpp
-[.gif]
 ;file \plugins\Popup\src\bitmap_funcs.cpp
 [You need the png2dib plugin v. 0.1.3.x or later to process PNG images]
 ;file \plugins\Popup\src\common.h
@@ -157,11 +155,9 @@
 [Error: I could not register the PopUp Window class.\r\n]
 [The plugin will not operate.]
 ;file \plugins\Popup\src\opt_adv.cpp
-[%d%%]
 [No effect]
 [Fade in/out]
 ;file \plugins\Popup\src\opt_class.cpp
-[%s/%s]
 [CLASS Plugins]
 [Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn!]
 ;file \plugins\Popup\src\opt_gen.cpp
@@ -178,7 +174,6 @@
 ['Reorder Popups' option is currently diabled.\r\n]
 [This may cause misaligned popups when used with\r\n]
 [avatars and text replacement (mainly NewStatusNotify).\r\n]
-[\r\n]
 [Do you want to enable popup reordering now?\r\n]
 [Popup Plus Warning]
 [Cancel]
@@ -187,7 +182,6 @@
 [PopupPlusDlgBox]
 [Skin preview]
 [Just take a look at this skin... ;)]
-[%s/%hs]
 [Show clock]
 [Drop shadow effect (Windows XP+)]
 [Drop shadow effect (Windows XP+)/non rectangular]
@@ -210,11 +204,8 @@
 ;file \plugins\Popup\src\skin.cpp
 [res:]
 [Skin]
-[*.popupskin]
 [* Popup Classic]
-[res:classic.popupskin]
 [\\skins\\popup]
-[*.*]
 [The skin you are trying to load is designed\r\n]
 [for newer version of Popup Plus. And will not\r\n]
 [display properly.\r\n]

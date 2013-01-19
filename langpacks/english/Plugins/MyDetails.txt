@@ -68,7 +68,6 @@
 [Listening To]
 [My Details]
 [Show My Details]
-[ ...]
 [Enable Listening To for %s]
 [Set My Avatar for %s...]
 [Set My Nickname for %s...]

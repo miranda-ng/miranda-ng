@@ -73,4 +73,3 @@
 [File received]
 ;file \plugins\IEView\src\TabSRMMHTMLBuilder.cpp
 ;file \plugins\IEView\src\TemplateHTMLBuilder.cpp
-[.xml]

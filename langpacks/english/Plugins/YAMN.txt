@@ -114,7 +114,6 @@
 [(null)]
 [debug- WriteAccount...]
 ;file \plugins\YAMN\src\main.cpp
-[%miranda_userdata%]
 [Check mail]
 [Launch application]
 [Connect Fail]
@@ -133,8 +132,6 @@
 [Header]
 [Copy Selected]
 [Copy All]
-[%s:\t%s\r\n]
-[\t%s\r\n]
 [Do you really want to delete %d selected mails?]
 [Delete confirmation]
 ;file \plugins\YAMN\src\mails\mime.cpp
@@ -194,7 +191,6 @@
 [No account selected]
 [Time left to next check [s]: %d]
 [New Account]
-[%s (*.exe;*.bat;*.cmd;*.com)%c*.exe;*.bat;*.cmd;*.com%c%s (*.*)%c*.*%c]
 [Executables]
 [All Files]
 [Select executable used for notification]

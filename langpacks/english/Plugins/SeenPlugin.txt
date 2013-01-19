@@ -41,7 +41,6 @@
 [Test\nTest]
 [Alert when user status changes]
 ;file \plugins\SeenPlugin\src\history.cpp
-[%s: %s]
 [last seen history]
 [View User's Details]
 [User Menu]
@@ -59,8 +58,6 @@
 ;file \plugins\SeenPlugin\src\menu.cpp
 [<unknown>]
 [<none>]
-;file \plugins\SeenPlugin\src\missed.cpp
-[ [%i]]
 ;file \plugins\SeenPlugin\src\options.cpp
 [Last Seen Variables]
 [Contacts]
@@ -140,8 +137,6 @@
 [Nov.]
 [Dec.]
 [<never seen>]
-[%04i]
-[%02i]
 [Idle]
 [ProtoUnknown]
 [\x0D\x0A]

@@ -23,18 +23,12 @@
 [The Variables plugin translates various tokens into a certain value. An example is: I'm running Miranda %mirandaversion%. The substring %mirandaversion% will be translated into the correct version number. The following list shows all available tokens.]
 [Notes]
 [Variables...]
-;file \plugins\Variables\src\contact.cpp
-[<%s:%s>]
 ;file \plugins\Variables\src\help.cpp
-[%c%s%c]
-[%c%s%s]
 [Token]
 [unknown]
 [Tokens]
 [Input]
 [Cancel]
-[%subject%]
-[%extratext%]
 [Help]
 [Variables Help]
 [Open String Formatting Help]
@@ -46,18 +40,15 @@
 [Winamp v1.x]
 [ - Winamp]
 [Stopped]
+[[Stopped]]
+[[Paused]]
 [Paused]
 [Playing]
-;file \plugins\Variables\src\parse_metacontacts.cpp
 ;file \plugins\Variables\src\parse_miranda.cpp
-[%%%s%%]
 [appdata]
 [username]
 [mydocuments]
 [desktop]
-;file \plugins\Variables\src\parse_str.cpp
-[\r\n]
-[(...)]
 ;file \plugins\Variables\src\parse_system.cpp
 [\\Processor(_Total)\\% Processor Time]
 [\\Process(%s)\\%% Processor Time]

@@ -8,7 +8,6 @@
 ;file \plugins\StatusPlugins\StartupStatus\options.cpp
 [<last>]
 [<current>]
-[.\\%s]
 [Left]
 [Right]
 [None]

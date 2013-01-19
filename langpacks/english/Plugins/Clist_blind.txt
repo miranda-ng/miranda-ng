@@ -114,7 +114,6 @@
 [Invisible]
 [Out to lunch]
 [On the phone]
-[%name% [%status% %protocol%] %status_message%]
 [Group: %name% %count% [%mode%]]
 [Divider: %s]
 [Info: %s]
@@ -124,11 +123,5 @@
 ;file \plugins\Clist_blind\src\cluiopts.cpp
 ;file \plugins\Clist_blind\src\init.cpp
 [Unknown Protocol]
-[%name%]
-[%count%]
-[%mode%]
 [Expanded]
 [Colapsed]
-[%status%]
-[%protocol%]
-[%status_message%]

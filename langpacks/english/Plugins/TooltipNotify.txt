@@ -46,7 +46,6 @@
 [Tooltip Notify: Other]
 [Tooltip Notify: Typing]
 [PopUps]
-[%d%%]
 [** New contacts **]
 [** Unknown contacts **]
 [Away]
@@ -57,5 +56,3 @@
 [Invisible]
 [Not Idle]
 [Unknown]
-[%.0s%.0s%s]
-[ %s %s]

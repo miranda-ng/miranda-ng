@@ -51,8 +51,6 @@
 [You Were Added]
 [Typing Notify]
 [Please authorize me to add you to my contact list.]
-[%s [%s]]
-[\r\n]
 [Do you want to send authorization request\nto new contact?]
 [Miranda NG]
 [Open ignore settings]

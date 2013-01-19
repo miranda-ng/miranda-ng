@@ -63,7 +63,6 @@
 [Delete from List]
 [Copy Link]
 ;file \plugins\FTPFileYM\src\dialog.cpp
-[* %s]
 [User Info]
 [Copy Link to Clipboard]
 [FTP File Manager]
@@ -92,7 +91,6 @@
 [FTP File - Select files]
 [FTP File - Select a folder]
 [Folder not found!]
-[*.*]
 [The selected folder does not contain any files.\nFTP File sends files only from the selected folder, not from subfolders.]
 [CANCELED]
 [COMPLETED]
@@ -107,8 +105,6 @@
 [Error occured when zipping the file(s).]
 [%0.1f kB/s]
 [%0.1f%% (%d kB/%d kB)]
-[%dd %02d:%02d:%02d]
-[%02d:%02d:%02d]
 [%s (%d kB/%d kB)]
 [Do you really want to cancel this upload?]
 [Status: %s\r\nFile: %s\r\nServer: %s]
@@ -121,6 +117,7 @@
 [WAITTING...]
 [Download link:]
 [Do you really want to cancel running upload?]
+[%s\r\nSpeed: %s\r\nCompleted: %s\r\nRemaining: %s]
 ;file \plugins\FTPFileYM\src\manager.cpp
 [You have to fill and enable at least one FTP server in setting.]
 [Clear All]
@@ -137,4 +134,3 @@
 [Advanced]
 ;file \plugins\FTPFileYM\src\serverlist.cpp
 ;file \plugins\FTPFileYM\src\utils.cpp
-[...]

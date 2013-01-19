@@ -49,7 +49,6 @@
 [Sessions Manager]
 [Session name is empty, enter the name and try again]
 [No sessions to open]
-[%s - %s]
 [Last Sessions is empty]
 [No contacts to open]
 [This Session already opened]

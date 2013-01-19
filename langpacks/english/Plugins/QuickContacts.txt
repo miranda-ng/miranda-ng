@@ -26,7 +26,6 @@
 [Open contact menu]
 [Show all contacts]
 [Quick Contacts...]
-[%s (%s)]
 [Ctrl+A]
 [Send message]
 [Ctrl+V]

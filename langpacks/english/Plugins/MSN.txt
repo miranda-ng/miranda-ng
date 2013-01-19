@@ -61,7 +61,6 @@
 [&Cancel]
 [Add]
 ;file \protocols\MSN\src\msn_chat.cpp
-[%s %s%s]
 [Chat #]
 [Others]
 [&Invite user...]
@@ -73,7 +72,6 @@
 [%I64u bytes]
 [Accept NetMeeting request from %s?]
 [MSN Protocol]
-[%title% - %artist%]
 [MSN Alert]
 [Chat session established by my request]
 [Chat session established by contact request]
@@ -99,8 +97,6 @@
 [Hotmail from %s (%S)]
 [Hotmail from %s]
 [Unread mail is available: %d in Inbox and %d in other folders).]
-[%s [%d]]
-[%s [%d][%d]]
 ;file \protocols\MSN\src\msn_menu.cpp
 [Open &Hotmail Inbox]
 [Send &Hotmail E-mail]
@@ -114,24 +110,17 @@
 [&Start Netmeeting]
 ;file \protocols\MSN\src\msn_misc.cpp
 [%%miranda_userdata%%\\Avatars\\%s]
-[%miranda_userdata%]
-[\\%s.]
+[%s\\Avatars\\%s]
 [\\%s avatar.]
-[\\%s]
 [jpg]
 [bmp]
 [png]
 [gif]
 [unk]
-[.gif]
-[.bmp]
-[.png]
-[\\%s.%s]
+[%s\\%s\\CustomSmiley]
 [Miranda]
-[%s/%s]
 [Notify]
 [Error]
-[%s:\n%s]
 ;file \protocols\MSN\src\msn_msgqueue.cpp
 ;file \protocols\MSN\src\msn_opts.cpp
 [Protocol icon]
@@ -177,7 +166,6 @@
 ;file \protocols\MSN\src\msn_svcs.cpp
 [Music]
 [No Title]
-[%s - %s]
 [MSN requires message send timeout in your Message window plugin to be not less then 60 sec. Please correct the timeout value.]
 [Convert to Chat]
 ;file \protocols\MSN\src\msn_ws.cpp

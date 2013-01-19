@@ -21,6 +21,3 @@
 ;file \plugins\Folders\src\hooked_events.cpp
 [Folders]
 [Customize]
-;file \plugins\Folders\src\services.cpp
-[\t \\]
-[%miranda_userdata%]

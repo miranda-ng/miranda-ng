@@ -60,7 +60,6 @@
 [Web page]
 ;file \plugins\PasteIt\src\PasteIt.cpp
 [All Files (*.*)]
-[\0*.*\0]
 [Paste It - Select file]
 [Error]
 [Paste from clipboard]

@@ -9,12 +9,8 @@
 ;file \plugins\TranslitSwitcher\src\Layoutproc.cpp
 [sch]
 [Sch]
-[THppRichEdit.UnicodeClass]
-[THistoryGrid.UnicodeClass]
-[TExtHistoryGrid.UnicodeClass]
 [Internet Explorer_Server]
 [TranslitSwitcher]
-[%s %s]
 ;file \plugins\TranslitSwitcher\src\TranslitSwitcher.cpp
 [Switch Layout and Send]
 [Translit and Send]

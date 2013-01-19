@@ -44,7 +44,6 @@
 [Alt + ]
 [Win + ]
 [Hide Miranda NG]
-[%s [%s]]
 [Hide]
 [Hide/Show Miranda]
 [bosskeyname]

@@ -46,13 +46,9 @@
 ;file \protocols\Yahoo\src\avatar.cpp
 [Yahoo Error]
 [Avatar upload failed!?!]
-[%%miranda_avatarcache%%\\]
-[%miranda_avatarcache%]
-[\\%lX]
 [ avatar]
-[.swf]
-[.png]
 ;file \protocols\Yahoo\src\chat.cpp
+[[miranda] Got conference invite to room: %s with msg: %s]
 [%s denied invitation with message: %s]
 [Others]
 [&Invite user...]
@@ -116,13 +112,14 @@
 [Create Conference]
 [&Refresh]
 [&Show Profile]
+;file \protocols\Yahoo\src\webcam.cpp
+[[miranda] Got webcam invite. (not currently supported)]
 ;file \protocols\Yahoo\src\yahoo.cpp
 [Calendar Reminder]
 [%s has rejected your request and sent the following message:]
 [Invalid Contact]
 [The id you tried to add is invalid.]
 [Unknown Error??.]
-[%s: %s]
 [New Mail]
 [You Have %i unread msgs]
 [New Mail (%i msgs)]

@@ -8,7 +8,7 @@
 ;file \protocols\MRA\res\resource.rc
 [E-mail:]
 [Password:]
-[Create a new account]
+[Create a new Mail.ru account]
 [Configuration]
 [Login Server:]
 [Port:]
@@ -96,18 +96,8 @@
 [Writed:]
 [0/500]
 ;file \protocols\MRA\src\MraAvatars.cpp
-[.dat]
-[.png]
-[.jpg]
-[.ico]
-[.bmp]
-[.gif]
-[.swf]
-[.xml]
 [Avatars]
 [plugin connections]
-[%%miranda_avatarcache%%\\%s]
-[%miranda_avatarcache%]
 ;file \protocols\MRA\src\MraChat.cpp
 [get]
 ;file \protocols\MRA\src\MraFilesQueue_mod.cpp
@@ -117,7 +107,6 @@
 ;file \protocols\MRA\src\MraProto.cpp
 [%s connection]
 [E-mail address]
-[%04ld.%02ld.%02ld %02ld:%02ld: ]
 ;file \protocols\MRA\src\Mra_options.cpp
 [Network]
 [Account]

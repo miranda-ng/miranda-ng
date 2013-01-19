@@ -599,8 +599,6 @@ Miranda Language Pack Version 1
 ;file \src\core\stdauth\authdialogs.cpp
 [View User's Details]
 [Add Contact Permanently to List]
-[%s %s]
-[ (%s)]
 [<Unknown>]
 [%s added you to the contact list\n%u (%s) on %s]
 [%s added you to the contact list\n%u on %s]
@@ -626,8 +624,6 @@ Miranda Language Pack Version 1
 [That'll be the phone.]
 [Mmm...food.]
 [idleeeeeeee]
-[%time%]
-[%date%]
 [Status]
 ;file \src\core\stdchat\src\clist.cpp
 [Chat rooms]
@@ -636,8 +632,6 @@ Miranda Language Pack Version 1
 ;file \src\core\stdchat\src\colorchooser.cpp
 [Text colour]
 ;file \src\core\stdchat\src\log.cpp
-[%s (%s)]
-[%s ]
 [%s has joined]
 [You have joined %s]
 [%s has left]
@@ -806,7 +800,6 @@ Miranda Language Pack Version 1
 [Chat Log]
 [Chat]
 [Popups]
-[%n:]
 [%miranda_logpath%\\Chat]
 [Message is highlighted]
 [User has performed an action]
@@ -819,7 +812,6 @@ Miranda Language Pack Version 1
 [&Join]
 [Server: %s]
 ;file \src\core\stdchat\src\tools.cpp
-[ - %s]
 [%s wants your attention in %s]
 [%s speaks in %s]
 [%s has joined %s]
@@ -838,11 +830,7 @@ Miranda Language Pack Version 1
 [The topic is '%s']
 [The topic is '%s' (set by %s)]
 [at+]
-[%s * %s]
-[%s %c %s\n]
-[%s %s\n]
 [Look up '%s':]
-[\\/:*?"<>|]
 ;file \src\core\stdchat\src\window.cpp
 [Insert a smiley]
 [Make the text bold (CTRL+B)]
@@ -863,8 +851,6 @@ Miranda Language Pack Version 1
 [%s: Server]
 [AQGgl']
 [AQGg']
-[%s: %s\r\n%s: %s\r\n%s: %s]
-[%s: ]
 [open]
 ;file \src\core\stdclist\src\clcfonts.cpp
 [Selected Text]
@@ -893,14 +879,9 @@ Miranda Language Pack Version 1
 [&E-mail]
 ;file \src\core\stdfile\file.cpp
 [File from %s]
-[%u%s%s]
 [bytes]
-[%.1lf%s]
 [ KB]
-[%u%s]
-[%.3f%s]
 [ GB]
-[%.2lf%s]
 [ MB]
 [&File]
 [File &Transfers...]
@@ -913,43 +894,45 @@ Miranda Language Pack Version 1
 [Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Icons]
 [\\DefaultIcon]
 [All Files]
-[ (*)]
 ;file \src\core\stdfile\fileopts.cpp
 [Network Associates/McAfee VirusScan]
 [Scan32EXE]
+["%s" %%f /nosplash /comp /autoscan /autoexit /noboot]
 [Dr Solomon's VirusScan (Network Associates)]
 [szScannerExe]
+["%s" %%f /uinone /noboot /comp /prompt /autoexit]
 [Norton AntiVirus]
+["%s" %%f /b- /m- /s+ /noresults]
 [Computer Associates/Inoculate IT]
 [Software\\Antivirus]
 [ImageFilename]
+["%s" %%f /display = progress /exit]
 [Computer Associates eTrust]
 [VetPath]
 [Kaspersky Anti-Virus]
+["%s" /S /Q %%f]
 [KAV8]
+["%savp.exe" SCAN %%f]
 [KAV9]
 [AntiVir PersonalEdition Classic]
 [Path]
+["%savscan.exe" /GUIMODE = 2 /PATH = "%%f"]
 [ESET NOD32 Antivirus]
 [InstallDir]
+["%secls.exe" /log-all /aind /no-boots /adware /sfx /unsafe /unwanted /heur /adv-heur /action = clean "%%f"]
 [Executable Files]
-[ (*.exe)]
 [File Transfers]
 [Events]
 ;file \src\core\stdfile\filerecvdlg.cpp
-[*?"<>|]
-[%%mydocuments%%\\%s\\%%userid%%]
 [My Received Files]
 [nick]
 [userid]
 [proto]
-[%%mydocuments%%\\%s]
 [View User's History]
 [User Menu]
 [t d]
 [Cancelled]
 ;file \src\core\stdfile\filesenddlg.cpp
-[%s, %s]
 [%d file]
 [%d files]
 [%d directory]
@@ -957,13 +940,9 @@ Miranda Language Pack Version 1
 ;file \src\core\stdfile\filexferdlg.cpp
 [This file has not yet been scanned for viruses. Are you certain you want to open it?]
 [File Received]
-[%s"%s"%s]
-[%s: %s (%d %s %d)]
-[%s: %s]
 [Request sent, waiting for acceptance...]
 [Waiting for connection...]
 [Unable to initiate transfer.]
-[%s/%s  (%s %s)]
 [sec]
 [remaining]
 [%.*s (%u)%s]
@@ -976,8 +955,6 @@ Miranda Language Pack Version 1
 [File already exists]
 [Sending...]
 [Receiving...]
-[%u%%]
-[%s/%s]
 [File transfer denied]
 [File transfer failed]
 [Transfer completed.]
@@ -1006,8 +983,6 @@ Miranda Language Pack Version 1
 ;file \src\core\stdmsg\src\msgdialog.cpp
 [Last message received on %s at %s.]
 [Message Session]
-[%s - %s]
-[%s (%s): %s]
 [signed off (was %s)]
 [signed on (%s)]
 [is now %s (was %s)]
@@ -1047,7 +1022,6 @@ Miranda Language Pack Version 1
 [An unknown error has occured.]
 ;file \src\core\stduihist\history.cpp
 [Invalid Message]
-[\r\n]
 [Outgoing Message]
 [Incoming Message]
 [Outgoing URL]
@@ -1064,7 +1038,6 @@ Miranda Language Pack Version 1
 [URL]
 ;file \src\core\stdurl\urldialogs.cpp
 [Send URL to]
-[%s %s (%s)]
 [Send timed out]
 ;file \src\core\stduserinfo\contactinfo.cpp
 [Edit E-Mail Address]
@@ -1093,13 +1066,9 @@ Miranda Language Pack Version 1
 ;file \src\core\stduserinfo\userinfo.cpp
 [Owner]
 [%.*s%s%.*s]
-[.........]
 [View/Change My &Details...]
 ;file \src\core\stduseronline\useronline.cpp
 [%s is Online]
-;file \src\mir_core\cmdline.cpp
-[ \t=:]
-[ \t]
 ;file \src\mir_core\langpack.cpp
 [static]
 [hyperlink]
@@ -1111,8 +1080,6 @@ Miranda Language Pack Version 1
 [Add %s]
 [Add Contact]
 [Please authorize my request and add me to your contact list.]
-;file \src\modules\clist\clcfiledrop.cpp
-[\\*]
 ;file \src\modules\clist\clcitems.cpp
 ;file \src\modules\clist\clistmenus.cpp
 [Custom status]
@@ -1124,8 +1091,8 @@ Miranda Language Pack Version 1
 ;file \src\modules\clist\clistsettings.cpp
 [(Unknown Contact)]
 ;file \src\modules\clist\clisttray.cpp
-[ | ]
-[%-24.24s\n]
+[%s%s<b>%-12.12s</b>\t%s%s%-24.24s]
+[%s%s<b>%-12.12s</b>\t%s]
 [TaskbarCreated]
 [TaskbarButtonCreated]
 [&Main Menu]
@@ -1137,7 +1104,6 @@ Miranda Language Pack Version 1
 [De&lete]
 [&Rename]
 [&Add permanently to list]
-;file \src\modules\clist\cluiservices.cpp
 ;file \src\modules\clist\contacts.cpp
 [My custom name (not moveable)]
 [Nick]
@@ -1158,7 +1124,6 @@ Miranda Language Pack Version 1
 [Accounts]
 ;file \src\modules\clist\groups.cpp
 [New Group]
-[%s (%d)]
 [Are you sure you want to delete group '%s'?  This operation can not be undone.]
 [Delete Group]
 [You already have a group with that name. Please enter a unique name for the group.]
@@ -1175,11 +1140,9 @@ Miranda Language Pack Version 1
 [&Move to Group]
 [<Root Group>]
 ;file \src\modules\database\database.cpp
-[%miranda_path%]
 [Database]
 [ProfileDir]
 [%miranda_path%\\Profiles]
-[.dat]
 [ShowProfileMgr]
 [never]
 [yes]
@@ -1241,7 +1204,6 @@ Miranda Language Pack Version 1
 [done_]
 [ask]
 ;file \src\modules\database\profilemanager.cpp
-[.?/\\#' ]
 [&Create]
 [<In Use>]
 [Are you sure you want to remove profile "%s"?]
@@ -1250,13 +1212,10 @@ Miranda Language Pack Version 1
 [Modified]
 [Run]
 [Check database]
-[%s: %s\n%s]
 [Miranda Profiles from]
 [Select or create your Miranda NG user profile]
 [My Profiles]
 [New Profile]
-;file \src\modules\extraicons\ExtraIconGroup.cpp
-[ / ]
 ;file \src\modules\extraicons\extraicons.cpp
 [Chat Activity]
 ;file \src\modules\extraicons\options_ei.cpp
@@ -1278,7 +1237,6 @@ Miranda Language Pack Version 1
 [Problem with search]
 [%d %s users found]
 [%d users found (]
-[%d %s]
 [No users found]
 ;file \src\modules\fonts\FontOptions.cpp
 [Failed to create file]
@@ -1291,7 +1249,6 @@ Miranda Language Pack Version 1
 [Contour thin]
 [Contour heavy]
 [abc]
-[%s (*.ini)%c*.ini%c%s (*.txt)%c*.TXT%c%s (*.*)%c*.*%c]
 [Configuration Files]
 [Text Files]
 [ini]
@@ -1312,13 +1269,8 @@ Miranda Language Pack Version 1
 ;file \src\modules\icolib\skin2icons.cpp
 [*StaticIcon_%d]
 ;file \src\modules\icolib\skin2opts.cpp
-[%s,]
 [Icon Sets]
-[ (*.dll;*.icl;*.exe;*.ico)]
-[ (*.dll)]
 [dll]
-[%s,%d]
-[%s, %d]
 ;file \src\modules\ignore\ignore.cpp
 [** All contacts **]
 [Contacts]
@@ -1366,9 +1318,9 @@ Miranda Language Pack Version 1
 [Core plugin '%s' cannot be loaded or missing. Miranda will exit now]
 [Fatal error]
 [No messaging plugins loaded. Please install/enable one of the messaging plugins, for instance, "srmm.dll"]
+[srmm_mod (no Unicode).dll]
 ['%s' is disabled, re-enable?]
 [Re-enable Miranda plugin?]
-[\\%s\\%s]
 [Core]
 [Plugins]
 [\\Plugins\\%s]
@@ -1379,14 +1331,13 @@ Miranda Language Pack Version 1
 [Unable to start any of the installed contact list plugins, I even ignored your preferences for which contact list couldn't load any.]
 [Can't find a contact list plugin! you need clist_classic or any other clist plugin.]
 ;file \src\modules\plugins\pluginopts.cpp
-[%d.%d.%d.%d]
+[%s\\Plugins\\%s]
 [Plugin]
 [Version]
 ;file \src\modules\protocols\protoopts.cpp
 [Create new account]
 [Editing account]
 [Upgrading account]
-[%s~]
 [Account is disabled. Please activate it to access options.]
 [New account]
 [Edit]
@@ -1395,7 +1346,6 @@ Miranda Language Pack Version 1
 [Upgrade account]
 [Protocol]
 [Account ID]
-[%s: %d]
 [<unknown>]
 [Protocol is not loaded.]
 [Rename]
@@ -1456,31 +1406,23 @@ Miranda Language Pack Version 1
 [Always invisible]
 [Locked status]
 [%s Icons]
-[.dll]
+[%s\\Icons\\proto_]
+[%s\\Plugins\\]
 ;file \src\modules\skin\sounds.cpp
-[%s (*.wav; *.mp3; *.ogg; *.flac)%c*.WAV; *.MP3; *.OGG; *.FLAC%c%s (*)%c*%c]
 [Sound Files]
 [wav]
 ;file \src\modules\utils\bmpfilter.cpp
-[.bmp]
-[.rle]
-[.png]
 [You need an image services plugin to process PNG images.]
 [All Bitmaps]
 [Windows Bitmaps]
 [JPEG Bitmaps]
 [GIF Bitmaps]
 [PNG Bitmaps]
-[ (*.bmp;*.jpg;*.gif;*.png)]
-[ (*.bmp;*.rle)]
-[ (*.jpg;*.jpeg)]
-[ (*.gif)]
-[ (*.png)]
 ;file \src\modules\utils\openurl.cpp
 [file:///%s]
 ;file \src\modules\utils\path.cpp
-;file \src\modules\utils\timeutils.cpp
-[%d-%02d-%02dT%02d:%02d:%02dZ]
+[%s\\%s\\AvatarCache]
+[%s\\%s\\Logs]
 ;file \src\modules\utils\timezones.cpp
 [UTC]
 [<unspecified>]
@@ -1489,4 +1431,6 @@ Miranda Language Pack Version 1
 [Display]
 [Std]
 [Dlt]
+;file \src\modules\utils\utils.cpp
+["%s" /restart:%d]
 ;file \src\modules\visibility\visibility.cpp

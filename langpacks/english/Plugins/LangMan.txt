@@ -31,12 +31,12 @@
 ;file \plugins\LangMan\src\langpack.cpp
 [Plugins\\Language\\]
 [English (default)]
+[%s\\Plugins\\%s]
 ;file \plugins\LangMan\src\main.cpp
 [Reload langpack]
 [Docs\\]
 ;file \plugins\LangMan\src\options.cpp
 [UXTHEME]
-[%hs (%s)]
 [All installed plugins are included.]
 [(incompatible)]
 [Unknown]

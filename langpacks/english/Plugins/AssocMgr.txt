@@ -12,7 +12,6 @@
 [&Start Miranda NG automatically when the Computer starts (using current profile)]
 [Only associate with Miranda NG while it is &running]
 ;file \plugins\AssocMgr\src\assoclist.cpp
-[%hs:]
 [%hs files]
 [Type]
 [Description]
@@ -45,10 +44,8 @@
 ;file \plugins\AssocMgr\src\reg.cpp
 [Access failed:\n%.64hs(%.128s)\n%.250hs(%u)\n%.256hs (%u)]
 [Registry Warning]
+["%s" "/profile:%s"]
 [rundll32.exe %s,WaitForDDE "/profile:%s"]
-[.exe]
-[.dll]
-[%s,%i]
 [Path]
 [System]
 [Multi User]

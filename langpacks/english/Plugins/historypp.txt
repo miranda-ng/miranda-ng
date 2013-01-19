@@ -81,6 +81,7 @@
 [Continued from the top]
 [Continued from the bottom]
 [Search: %s (F3 to find next)]
+["%s" not found]
 [You have entered the wrong password]
 [%0.1n h]
 [%d min]

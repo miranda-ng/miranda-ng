@@ -194,15 +194,12 @@
 [Reset to defaults]
 ;file \plugins\UserInfoEx\src\classPsTreeItem.cpp
 [Button]
-[%s %d\\%s]
-[%s %d]
 [Creating unique name for a page failed with %d and error code %d]
 [Creating the label for a page failed with %d and error code %d]
 [The dialog template type is no longer supported]
 ;file \plugins\UserInfoEx\src\ctrl_annivedit.cpp
 [Add a new anniversary]
 [Delete an existing anniversary]
-['%s']
 [Unspecified]
 ;file \plugins\UserInfoEx\src\ctrl_contact.cpp
 [Edit E-Mail]
@@ -217,7 +214,6 @@
 [CRITICAL: Unable to edit current entry!\nThis should not happen!]
 [Do you really want to delete the current selected item?\n\t%s\n\t%s]
 [Other]
-[%s %d\0]
 [ SMS\0]
 [ SMS]
 ;file \plugins\UserInfoEx\src\ctrl_contact.h
@@ -244,7 +240,6 @@
 [Yes]
 [Abord]
 [Ignore]
-[%s - %s]
 [Error]
 ;file \plugins\UserInfoEx\src\dlg_propsheet.cpp
 [Protocol '%s' is offline]
@@ -293,7 +288,6 @@
 [Ex-/Import Group]
 [&Export Group]
 [&Import Group]
-[%s %s]
 [Ex-/Import]
 ;file \plugins\UserInfoEx\src\psp_about.cpp
 [My Notes:]
@@ -303,7 +297,6 @@
 [No valid date selected for editing!]
 [Do you really want to delete the %s?]
 ;file \plugins\UserInfoEx\src\psp_contact.cpp
-[%s (%s)]
 [Address]
 [Home]
 [Open in Browser]
@@ -328,8 +321,6 @@
 [Advanced]
 [Details Dialog]
 [PopUps]
-;file \plugins\UserInfoEx\src\psp_origin.cpp
-[ - ]
 ;file \plugins\UserInfoEx\src\psp_profile.cpp
 [Past]
 [Affiliation]
@@ -527,6 +518,7 @@
 [User has no valid homepage]
 [View Homepage]
 ;file \plugins\UserInfoEx\src\svc_refreshci.cpp
+[[b]%s (%S)...[/b]\n%d Contacts remaning]
 [Abort Refreshing Contact Details]
 [Do you want to cancel the current refresh procedure?]
 [Miranda must be online for refreshing contact information!]
@@ -540,8 +532,6 @@
 [%d. %s today\0]
 [%d. %s tomorrow\0]
 [%d. %s in %d days\0]
-[\n...\0]
-[\n- \0]
 [%s has birthday today.]
 [%s has birthday tomorrow.]
 [%s has birthday in %d days.]

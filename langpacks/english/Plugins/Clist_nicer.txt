@@ -317,8 +317,6 @@
 [Select view mode]
 [Setup view modes]
 [Clear view mode]
-;file \plugins\Clist_nicer\src\clcitems.cpp
-[%s|]
 ;file \plugins\Clist_nicer\src\clcopts.cpp
 [Not focused]
 [Offline]
@@ -407,7 +405,6 @@
 [The clist cannot be docked when using the default title bar and border. Use a toolwindow or borderless style instead.]
 [Clist docking]
 ;file \plugins\Clist_nicer\src\extBackg.cpp
-[*.clist]
 [*.clist\0]
 [Load and apply]
 ;file \plugins\Clist_nicer\src\init.cpp

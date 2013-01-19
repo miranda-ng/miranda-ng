@@ -76,8 +76,6 @@
 [Background]
 [Window]
 ;file \plugins\Alarms\src\frame.cpp
-[%dh %dm]
-[%dm]
 [Events]
 [Hide Reminders]
 [Show Reminders]

@@ -54,7 +54,6 @@
 [&Unpause Countdown]
 [&Pause Countdown]
 [&Cancel Countdown]
-[%s %s]
 [AutoShutdown]
 ;file \plugins\AutoShutdown\src\main.cpp
 [Header]
@@ -83,7 +82,6 @@
 [Software\\Microsoft\\Windows\\CurrentVersion\\Policies\\System]
 [DisableLockWorkstation]
 [RASAPI32]
-[.DLL]
 [Control Panel\\Desktop]
 [ScreenSaveActive]
 [ScreenSaverIsSecure]
@@ -121,6 +119,5 @@
 [Alerts]
 [Automatic Shutdown Countdown]
 ;file \plugins\AutoShutdown\src\utils.cpp
-[ \r\n\t]
 [Toggle Automatic Shutdown]
 [Main]

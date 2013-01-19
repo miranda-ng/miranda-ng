@@ -34,6 +34,7 @@
 [static]
 [changed client to %s (was %s)]
 [changed client to %s]
+[Miranda NG ICQ 0.93.5.3007]
 [%s (was %s)]
 [) changed client to ]
 [Client change notifications:]
@@ -46,6 +47,7 @@
 [PopUps]
 [ClientChangeNotify: Client changed]
 [ClientChangeNotify]
+[ClientChangeNotify?puts(p,?dbsetting(%subject%,Protocol,p))?if2(_?dbsetting(,?get(p),?pinfo(?get(p),uidsetting)),).log]
 [`[`!cdate()-!ctime()`]`  ?cinfo(%subject%,display) (?cinfo(%subject%,id)) changed client to %extratext%]
 ;file \plugins\ClientChangeNotify\src\Misc.h
 [open]

@@ -54,7 +54,6 @@
 [Dll]
 [Name]
 [Version]
-[%d.%d.%d.%d]
 [Please type in your password for]
 [Too many errors!]
 [Password is not correct!]

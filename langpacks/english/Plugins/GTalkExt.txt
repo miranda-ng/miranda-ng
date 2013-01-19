@@ -58,7 +58,6 @@
 [feature]
 [new-mail]
 [true]
-[%x%08x]
 ;file \protocols\GTalkExt\src\inbox.cpp
 [mail]
 ;file \protocols\GTalkExt\src\menu.cpp
@@ -66,8 +65,6 @@
 ;file \protocols\GTalkExt\src\notifications.cpp
 [AntiShittyFullscreenDetectionWindowClass]
 [You've received an e-mail\n%s unread threads]
-[%s [%s]]
-[    %s <%s>\n]
 ;file \protocols\GTalkExt\src\options.cpp
 [PopUps]
 [Network]

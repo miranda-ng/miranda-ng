@@ -31,7 +31,6 @@
 [%s (*.mindw)\1*.mindw\1%s (*.*)\1*.*\1]
 [SMILES]
 ;file \plugins\Boltun\src\boltun.h
-[boltun.mindw]
 [Mind Files]
 [All Files]
 [Hello. I'm Boltun! I'll talk to you, while my owner is away. Please write without mistakes!]
@@ -64,7 +63,6 @@
 [(repeat_norm) ]
 [(repeat_silence)]
 [(widelyused_all) ]
-[.?!]
 [BEST(0)]
 [LOOKSLIKE(1)]
 [BAD(2)]
