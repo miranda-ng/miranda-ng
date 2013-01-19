@@ -36,7 +36,7 @@ extern "C" __declspec(dllexport) PLUGININFOEX* MirandaPluginInfoEx(DWORD miranda
 	return &pluginInfo;
 }
 
-#define MAXCHAN	5
+#define MAXCHAN 5
 static TCHAR CurrBassPath[MAX_PATH], tmp[MAX_PATH];
 static int sndNSnd = 0, sndLimSnd;
 static HSTREAM sndSSnd[MAXCHAN] = {0};
@@ -71,19 +71,19 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 
 	if ( !DBGetContactSettingByte(NULL,"Skin","UseSound",0)) doPlay = FALSE;
 
-	if ( QuietTime )
+	if (QuietTime)
 		if (
 			((TimeWrd1 < TimeWrd2) && (TimeWrd1 <= currtime && currtime < TimeWrd2)) ||
 			((TimeWrd2 < TimeWrd1) && (TimeWrd1 <= currtime || currtime < TimeWrd2))
 				) doPlay = FALSE;
-		
+
 	if ( !(currstat & StatMask)) doPlay = FALSE;
 
-	if ( Preview || (int)wParam==1 ) doPlay = TRUE;
+	if (Preview || (int)wParam==1) doPlay = TRUE;
 
-	if ( !ptszFile ) doPlay = FALSE;
+	if ( !ptszFile) doPlay = FALSE;
 
-	if ( doPlay )
+	if (doPlay)
 	{
 		BASS_StreamFree(sndSSnd[sndNSnd]);
 		sndSSnd[sndNSnd] = BASS_StreamCreateFile(FALSE, ptszFile, 0, 0, BASS_TCHAR | BASS_STREAM_AUTOFREE);
@@ -96,8 +96,8 @@ static int OnPlaySnd(WPARAM wParam, LPARAM lParam)
 	return 1;
 }
 
-#define SLIDER_MIN  0
-#define SLIDER_MAX  100
+#define SLIDER_MIN 0
+#define SLIDER_MAX 100
 
 INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -114,7 +114,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_ADDSTRING, 0, (LPARAM)_itot(i, tmp, 10));
 
 				SendDlgItemMessage(hwndDlg, IDC_MAXCHANNEL, CB_SETCURSEL, sndLimSnd - 1, 0);
-				
+
 				SendDlgItemMessage(hwndDlg, IDC_CURRPATH, WM_SETTEXT, 0, (LPARAM)CurrBassPath);
 
 				SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_SETRANGE, FALSE, MAKELONG(SLIDER_MIN,SLIDER_MAX));
@@ -132,12 +132,12 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 				systime.wMinute = LOBYTE(TimeWrd2);
 				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETFORMAT, 0, (LPARAM)_T("HH:mm"));
 				SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_SETSYSTEMTIME, GDT_VALID, (LPARAM)&systime);
-				
+
 				CheckDlgButton(hwndDlg, IDC_PREVIEW, EnPreview ? BST_CHECKED : BST_UNCHECKED);
 
 				for(i = IDC_CHECKBOX1; i < IDC_CHECKBOX10+1; i++)
 				{
-					if (StatMask & (1 << (i-IDC_CHECKBOX1))) 
+					if (StatMask & (1 << (i-IDC_CHECKBOX1)))
 						CheckDlgButton(hwndDlg, i, BST_CHECKED);
 				}
 
@@ -184,7 +184,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			}
 
 		case WM_HSCROLL:
-			if (hBass != NULL)				
+			if (hBass != NULL)
 				if (LOWORD(wParam) == SB_ENDSCROLL || LOWORD(wParam) == SB_THUMBTRACK)
 				{
 					BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0) * 100);
@@ -204,7 +204,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 						SendDlgItemMessageA(hwndDlg, IDC_OUTDEVICE, WM_GETTEXT, sizeof(tmp), (LPARAM)tmp);
 						DBWriteContactSettingString(NULL, ModuleName, OPT_OUTDEVICE, (char *)tmp);
-						
+
 						Volume = (DWORD)SendDlgItemMessage(hwndDlg, IDC_VOLUME, TBM_GETPOS, 0, 0);
 						DBWriteContactSettingByte(NULL, ModuleName, OPT_VOLUME, Volume);
 
@@ -214,15 +214,15 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 
 						QuietTime = IsDlgButtonChecked(hwndDlg, IDC_QUIETTIME) == BST_CHECKED;
 						DBWriteContactSettingByte(NULL, ModuleName, OPT_QUIETTIME, QuietTime);
-						
+
 						SendDlgItemMessage(hwndDlg, IDC_TIME1, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 						TimeWrd1 = MAKEWORD(systime.wMinute, systime.wHour);
 						DBWriteContactSettingWord(NULL, ModuleName, OPT_TIME1, TimeWrd1);
-						
+
 						SendDlgItemMessage(hwndDlg, IDC_TIME2, DTM_GETSYSTEMTIME, 0, (LPARAM)&systime);
 						TimeWrd2 = MAKEWORD(systime.wMinute, systime.wHour);
 						DBWriteContactSettingWord(NULL, ModuleName, OPT_TIME2, TimeWrd2);
-						
+
 						EnPreview = IsDlgButtonChecked(hwndDlg, IDC_PREVIEW) == BST_CHECKED;
 						DBWriteContactSettingByte(NULL, ModuleName, OPT_PREVIEW, EnPreview);
 
@@ -253,7 +253,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 						BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100);
 					}
 					return 1;
-					
+
 				case DTN_DATETIMECHANGE:
 					SendMessage(GetParent(hwndDlg), PSM_CHANGED, 0, 0);
 					return 1;
@@ -261,7 +261,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 			break;
 
 		case WM_COMMAND:
-			switch(LOWORD(wParam)) 
+			switch(LOWORD(wParam))
 			{
 				case IDC_QUIETTIME:
 					{
@@ -289,7 +289,7 @@ INT_PTR CALLBACK OptionsProc(HWND hwndDlg, UINT msg, WPARAM wParam, LPARAM lPara
 					break;
 			}
 			break;
-		
+
 		//case WM_CLOSE:
 		//	EndDialog(hwndDlg, 0);
 	}
@@ -327,23 +327,23 @@ INT_PTR BASSSoundOnOff(WPARAM wParam, LPARAM lParam)
 	if (hBass != NULL) {
 		BOOL opened = CallService(MS_TTB_GETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", 0) == TTBST_RELEASED;
 
-		if ( opened )		
+		if (opened)
 		{
-			BASS_Free();				// Close Device
+			BASS_Free(); // Close Device
 		}
 		else
 		{
 			BASS_Init(device, 44100, 0, ClistHWND, NULL);
 			BASS_SetConfig(BASS_CONFIG_GVOL_STREAM, Volume * 100 );
 		}
-		
+
 		CallService(MS_TTB_SETBUTTONSTATE, (WPARAM)"BASSSoundOnOff", opened ? TTBST_PUSHED : TTBST_RELEASED);
 		DBWriteContactSettingByte(NULL, ModuleName, OPT_DEVOPEN, !opened);
 	}
 	return 0;
 }
 
-int OnToolbarLoaded(WPARAM wParam, LPARAM lParam) 
+int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 {
 	TTBButton tbb = {0};
 	tbb.cbSize = sizeof(TTBButton);
@@ -360,6 +360,33 @@ int OnToolbarLoaded(WPARAM wParam, LPARAM lParam)
 
 LRESULT CALLBACK FrameWindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	switch(msg) 
+	{
+		case WM_PAINT:
+			{
+				RECT r;
+
+				if (GetUpdateRect(hwnd, &r, FALSE))
+				{
+					RECT rc;
+					PAINTSTRUCT ps;
+					COLORREF clr = db_get_dw(NULL, ModuleName, "ColorFrame", GetSysColor(COLOR_3DFACE));
+					GetClientRect(hwnd, &rc);
+					HDC hdc = BeginPaint(hwnd, &ps);
+					if (clr != 0xFFFFFFFF) {
+						HBRUSH hBkgBrush = CreateSolidBrush(clr);
+						FillRect(hdc, &rc, hBkgBrush);
+						DeleteObject(hBkgBrush);
+					}
+					SetBkMode(hdc, TRANSPARENT);
+					EndPaint(hwnd, &ps);
+				}
+				break;
+			}
+
+		default:
+			return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
 	return TRUE;
 }
 
@@ -391,13 +418,22 @@ void CreateFrame()
 	Frame.Flags = F_TCHAR | F_VISIBLE | F_SHOWTB | F_SHOWTBTIP;
 	Frame.height = 30;
 	DWORD frame_id = CallService(MS_CLIST_FRAMES_ADDFRAME, (WPARAM)&Frame, 0);
+
+	ColourIDT colourid = {0};
+	colourid.cbSize = sizeof(ColourIDT);
+	strcpy(colourid.dbSettingsGroup, ModuleName);
+	strcpy(colourid.setting, "ColorFrame");
+	_tcscpy(colourid.name, LPGENT("Frame Background"));
+	_tcscpy(colourid.group, _T(ModuleName));
+	colourid.defcolour = GetSysColor(COLOR_3DFACE);
+	ColourRegisterT(&colourid);
 }
 
-int OnModulesLoaded(WPARAM wParam, LPARAM lParam) 
+int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 {
 	DBVARIANT dbv = {0};
 
-	if (DBGetContactSettingTString(NULL, ModuleName, OPT_BASSPATH, &dbv)) 
+	if (DBGetContactSettingTString(NULL, ModuleName, OPT_BASSPATH, &dbv))
 	{
 		DBWriteContactSettingTString(NULL, ModuleName, OPT_BASSPATH, _T("Plugins\\Bass\\Bass.dll"));
 		lstrcpy(tmp, _T("Plugins\\Bass\\Bass.dll"));
@@ -406,9 +442,9 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	{
 		lstrcpy(tmp, dbv.ptszVal);
 	}
-	
+
 	DBFreeVariant(&dbv);
-	
+
 	CallService(MS_UTILS_PATHTOABSOLUTET, (WPARAM)tmp, (LPARAM)CurrBassPath);
 	hBass = LoadLibrary(CurrBassPath);
 
@@ -421,7 +457,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 		{
 			int i; BASS_DEVICEINFO info;
 
-			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device			
+			newBass = (BASS_SetConfig(BASS_CONFIG_DEV_DEFAULT, TRUE) != 0); // will use new "Default" device
 
 			if (!DBGetContactSettingString(NULL, ModuleName, OPT_OUTDEVICE, &dbv))
 			{
@@ -462,7 +498,7 @@ int OnModulesLoaded(WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int OnShutdown(WPARAM wParam, LPARAM lParam) 
+int OnShutdown(WPARAM wParam, LPARAM lParam)
 {
 	if(hBass != NULL)
 	{
@@ -480,7 +516,7 @@ extern "C" int __declspec(dllexport) Load(void)
 	HookEvent(ME_SYSTEM_MODULESLOADED, OnModulesLoaded);
 	HookEvent(ME_SYSTEM_SHUTDOWN, OnShutdown);
 	HookEvent(ME_TTB_MODULELOADED, OnToolbarLoaded);
-	
+
 	hService = CreateServiceFunction("BASSinterface/BASSSoundOnOff", BASSSoundOnOff);
 
 	InitIcons();

@@ -1,6 +1,5 @@
 // Microsoft Visual C++ generated resource script.
 //
-#include <windows.h>
 #include <commctrl.h>
 #include "..\src\resource.h"
 
